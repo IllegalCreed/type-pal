@@ -115,7 +115,9 @@ interface EditorMode {
   undo/redo 栈引用的文档固定驻留；hydrate 不进入撤销历史。
 - 保存、clone 与 ZIP 对未加载地图按原始字节 copy-through，不为输出而全量解析；修改过的地图使用
   content 公共包的确定性格式化器。运行时同样只按当前 `mapId` 懒加载。
-- 图层列表与图层尺共享一个 currentLayerId；高度尺的值既是聚焦条件，也是下一笔的实例高度。
+- 图层列表与图层尺共享一个 currentLayerId；高度尺的值既是聚焦条件，也是下一笔的实例高度。图层作者顺序由
+  公共排序手柄、键盘与精确移动按钮共同维护；领域 adapter 保留顶部优先的显示语义，锁定层不可移动，一次落位
+  只产生一条地图 command 或一条组合 draft-history 更新。
   当前层/高度正常显示，其余瓦片变暗；吸管同时读取 tileId 与实例高度，聚焦状态不写入内容文件。
 
 ### 5.2.1 地图内容选择、Inspector 与可逆变换（W8，2026-07-18）
@@ -178,7 +180,8 @@ interface EditorMode {
 - 视频支持 MP4/WebM 导入、改名、保持 AssetId 替换与引用安全删除。编辑器播放器留在中间面板；游戏运行时
   仍使用 Cinematic Layer。
 - 帧动画导入 PNG/JPEG/WebP 序列，初始自然排序，导入前可逐张上移、下移或排除；时间轴支持播放、帧率/
-  单帧时长、插入、替换、多选、复制、删除、拖动重排和局部撤销/重做。
+  单帧时长、插入、替换、多选、复制、删除、公共手柄重排和局部撤销/重做。手柄位于帧卡片内左上角，选择区与
+  排序命中区分离；拖动、键盘和前后移动按钮共用一次 draft-history commit，并按稳定 frame id 保持多选与活动帧。
 - 作者始终编辑完整 RGBA8 画布；时间轴只渲染可见缩略图。批量量化与 TPFS 重编码在 Worker 中完成，
   未修改旧帧保持惰性来源引用，保存时才恢复完整帧并自动压缩。
 - “保留原色 / 工程标准色彩”只决定完整帧像素；不显示 palette 编号。标准色彩来自
@@ -229,8 +232,8 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
   三张人话卡说明队伍、金钱、库存、入口、视频与资源健康，并只提供“入口与开局”“全局资源与启动”两个编辑
   目的地；不得常驻显示 scene / role / query 等机器路径。默认入口的场景健康必须消费统一 diagnostics，不能在
   卡片里另写一套场景存在性判断。
-- 开局队伍是有序列表，通过可搜索角色添加器加入并可原位上移、下移、移出；初始库存也通过可搜索道具添加器明确
-  选择，不得使用 checkbox 墙或默认添加第一项。队伍、库存、世界资源和当前 HP/MP 每个离散动作只提交一条
+- 开局队伍是有序列表，通过可搜索角色添加器加入并可用 item 内公共手柄、键盘或精确按钮调整顺序、原位移出；
+  初始库存也通过可搜索道具添加器明确选择和排序，不得使用 checkbox 墙或默认添加第一项。队伍、库存、世界资源和当前 HP/MP 每个离散动作只提交一条
   `SetStartupEntriesCommand`，字段草稿继续服从共享 draft / validate / commit / cancel / resync 合同。角色
   初始技能仍由 `ActorDef.initialMagic` 唯一持有，入口页不得恢复技能快照。
 - `?module=project&page=entrypoint` 无 object 时定位 `defaultEntryId` 命中的入口；附
@@ -241,6 +244,17 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
   也不保留任何 contentVersion 1..17 upgrader 或 fallback。
 - “问题”页只消费统一 diagnostics，并按严重度、问题类型与资源类型分组；项目身份和版本信息归“概览”，
   不在问题页重复。locale 编辑与状态归未来独立本地化工作台，问题页不建立第二个入口。
+
+### 5.7 有序作者集合与效果链（ED-REORDER-DRAG-1，2026-08-26）
+
+- 物品使用/投掷/装备效果、技能基础/执行效果、毒回合、敌人 AI、商店货单与角色伤亡分支都是作者有序数据；
+  它们统一使用 item 内公共 grip、键盘排序和公共精确移动按钮。领域页面只能适配 insert/swap/反向 stack/同父级
+  等既有语义，不能再写私有上下箭头、`≡`、整行 native draggable 或 pointer 状态机。
+- 普通效果链按 occurrence token 区分重复值，固定敌队槽使用 swap 且保留空槽，脚本命令只在同父级移动，
+  behavior/hook/action 的显式 `order` 每次重排归一化为 `0..n-1`。一次落位只产生一条领域 command；原位、取消、
+  revision/对象变化产生零命令，undo/redo 对称。
+- 资源帧拖入动作槽仍是 copy transfer，不属于排序；地图实体坐标、面板 resize、视口 pan/zoom、成员归属和按等级
+  派生顺序同样排除。生产采用矩阵与证据型 allowlist 是边界真源，不能从“底层恰好是数组”推导新交互能力。
 
 ## 6. 校验层(第四根)—— 编辑器的核心价值
 

@@ -235,6 +235,24 @@ export function moveDraftFrame(
   return { ...draft, frames }
 }
 
+export function frameSelectionAfterReorder(
+  frames: readonly FrameAnimationDraftFrame[],
+  sourceId: string,
+  selectedFrameIds: ReadonlySet<string>,
+): {
+  selectedFrameIds: ReadonlySet<string>
+  selectedIndex: number
+  selectionAnchor: number
+} {
+  const sourceIndex = frames.findIndex((frame) => frame.id === sourceId)
+  if (sourceIndex < 0) throw new Error(`重排来源帧 ${sourceId} 不存在`)
+  return {
+    selectedFrameIds: selectedFrameIds.has(sourceId) ? selectedFrameIds : new Set([sourceId]),
+    selectedIndex: sourceIndex,
+    selectionAnchor: sourceIndex,
+  }
+}
+
 export function createDraftHistory(draft: FrameAnimationDraft): FrameAnimationDraftHistory {
   return { past: [], present: draft, future: [] }
 }

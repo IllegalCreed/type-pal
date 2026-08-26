@@ -24,6 +24,8 @@ import {
   presentSelection,
   RenameEntityBehaviorCommand,
   RenameSceneHookCommand,
+  ReorderEntityBehaviorSchemesCommand,
+  ReorderSceneHookVariantsCommand,
   resolveCanonicalScriptCommand,
   SaveSceneHookDetailsCommand,
   type ScriptEditorState,
@@ -227,6 +229,56 @@ describe('canonical script editor commands', () => {
         new AddEntityBehaviorCommand(target, 'trigger', 'alternate', behavior('alternate')),
       ),
     ).toThrow(/BehaviorId 已存在/)
+  })
+
+  test('appends and atomically reorders behavior schemes as one exact permutation', () => {
+    const session = new ScriptEditSession(editorState())
+    session.dispatch(
+      new AddEntityBehaviorCommand(target, 'trigger', 'alternate', {
+        ...behavior('alternate'),
+        order: -99,
+      }),
+    )
+    session.dispatch(
+      new AddEntityBehaviorCommand(target, 'trigger', 'third', {
+        ...behavior('third'),
+        order: 80,
+      }),
+    )
+    expect(triggerRegistry(session.getState())).toMatchObject({
+      talk: { order: 0 },
+      alternate: { order: 1 },
+      third: { order: 2 },
+    })
+
+    const beforeReorderVersion = session.getHistoryVersion()
+    session.dispatch(
+      new ReorderEntityBehaviorSchemesCommand(target, 'trigger', ['third', 'talk', 'alternate']),
+    )
+    expect(session.getHistoryVersion()).toBe(beforeReorderVersion + 1)
+    expect(triggerRegistry(session.getState())).toMatchObject({
+      third: { order: 0 },
+      talk: { order: 1 },
+      alternate: { order: 2 },
+    })
+    expect(session.undo()).toBe(true)
+    expect(triggerRegistry(session.getState())).toMatchObject({
+      talk: { order: 0 },
+      alternate: { order: 1 },
+      third: { order: 2 },
+    })
+    expect(session.redo()).toBe(true)
+    expect(triggerRegistry(session.getState()).third?.order).toBe(0)
+
+    for (const invalid of [
+      ['talk', 'alternate'],
+      ['talk', 'talk', 'third'],
+      ['talk', 'alternate', 'missing'],
+    ]) {
+      expect(() =>
+        session.dispatch(new ReorderEntityBehaviorSchemesCommand(target, 'trigger', invalid)),
+      ).toThrow(/精确排列/)
+    }
   })
 
   test('renames a behavior immutably and rewrites page plus nested project references', () => {
@@ -702,6 +754,36 @@ describe('canonical script editor commands', () => {
     expect(() =>
       session.dispatch(new DeleteSceneHookCommand('s001', 'onEnter', 'story-entry')),
     ).toThrow(/仍有 .*引用/)
+  })
+
+  test('appends and atomically reorders hook variants without changing the initial hook', () => {
+    const session = new ScriptEditSession(editorState())
+    session.dispatch(new AddSceneHookCommand('s001', 'onEnter', 'default', hook('默认进场')))
+    session.dispatch(new AddSceneHookCommand('s001', 'onEnter', 'alternate', hook('备用进场')))
+    session.dispatch(new SetSceneHookInitialCommand('s001', 'onEnter', 'alternate'))
+    const variants = session.getState().scenes[0]!.hooks!.onEnter!.variants
+    expect(variants.default?.order).toBe(0)
+    expect(variants.alternate?.order).toBe(1)
+
+    const beforeReorderVersion = session.getHistoryVersion()
+    session.dispatch(
+      new ReorderSceneHookVariantsCommand('s001', 'onEnter', ['alternate', 'default']),
+    )
+    expect(session.getHistoryVersion()).toBe(beforeReorderVersion + 1)
+    expect(session.getState().scenes[0]!.hooks!.onEnter).toMatchObject({
+      initial: 'alternate',
+      variants: { alternate: { order: 0 }, default: { order: 1 } },
+    })
+    expect(session.undo()).toBe(true)
+    expect(session.getState().scenes[0]!.hooks!.onEnter).toMatchObject({
+      initial: 'alternate',
+      variants: { default: { order: 0 }, alternate: { order: 1 } },
+    })
+    expect(session.redo()).toBe(true)
+    expect(session.getState().scenes[0]!.hooks!.onEnter!.initial).toBe('alternate')
+    expect(() =>
+      session.dispatch(new ReorderSceneHookVariantsCommand('s001', 'onEnter', ['alternate'])),
+    ).toThrow(/精确排列/)
   })
 
   test('saves a scene Hook name and default state as one undo unit', () => {

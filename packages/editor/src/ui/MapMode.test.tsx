@@ -17,7 +17,7 @@ import { UpdateProjectMapLayerCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
-import { MapMode } from './MapMode.js'
+import { mapLayerVisualToStorageIndex, MapMode } from './MapMode.js'
 
 const stampMiniPreviewRender = vi.hoisted(() => vi.fn())
 
@@ -481,6 +481,11 @@ afterEach(async () => {
 })
 
 describe('MapMode 地图内容选择交互', () => {
+  test('顶部优先的可视图层索引严格映射到反向 canonical 存储索引', () => {
+    expect([0, 1, 2].map((visualIndex) => mapLayerVisualToStorageIndex(3, visualIndex))).toEqual([
+      2, 1, 0,
+    ])
+  })
   test('地图目录搜索覆盖命中、空结果与清空恢复，且不会偷换当前地图', async () => {
     const mounted = await mountMapMode()
     const nextState = editorState(fixtureMap())
@@ -867,6 +872,58 @@ describe('MapMode 地图内容选择交互', () => {
     expect(layerPanel.textContent).not.toContain('高度层')
     expect(layerPanel.textContent).not.toContain('平面层')
     expect(host.querySelector('.map-layer-panel__header .ds-tag')?.textContent).toBe('2 层')
+  })
+
+  test('[reorder-family:layer-stack] 反向图层栈经 handle 单命令排序并可 undo/redo', async () => {
+    const { host, session } = await mountMapMode()
+    const collection = host.querySelector<HTMLElement>(
+      '[data-ds-reorder-adoption="map/layer-stack"]',
+    )!
+    const visualOrder = () =>
+      [...collection.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')].map(
+        (item) => item.dataset.itemKey,
+      )
+    expect(session.getState().maps['map-a']!.layers.map((layer) => layer.id)).toEqual([
+      'floor',
+      'objects',
+    ])
+    expect(visualOrder()).toEqual(['objects', 'floor'])
+
+    const dispatch = vi.spyOn(session, 'dispatch')
+    const handle = collection.querySelector<HTMLButtonElement>(
+      '[data-ds-reorder-handle][data-reorder-key="objects"]',
+    )!
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(dispatch).not.toHaveBeenCalled()
+
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(dispatch).toHaveBeenCalledOnce()
+    expect(session.getState().maps['map-a']!.layers.map((layer) => layer.id)).toEqual([
+      'objects',
+      'floor',
+    ])
+    expect(visualOrder()).toEqual(['floor', 'objects'])
+
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().maps['map-a']!.layers.map((layer) => layer.id)).toEqual([
+      'floor',
+      'objects',
+    ])
+    expect(visualOrder()).toEqual(['objects', 'floor'])
+    expect(session.undo()).toBe(false)
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(session.getState().maps['map-a']!.layers.map((layer) => layer.id)).toEqual([
+      'objects',
+      'floor',
+    ])
+    expect(visualOrder()).toEqual(['floor', 'objects'])
   })
 
   test('600 个组合只挂载首批 60 个，真实画布 hover 不重渲染缩略图', async () => {

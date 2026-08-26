@@ -140,17 +140,16 @@ describe('editor design-system static boundary', () => {
     const projectCardRule = businessCss.match(/\.project-card\s*\{([^}]*)\}/)?.[1]
     expect(projectCardRule).toBeDefined()
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
-    expect(businessCss).not.toMatch(
-      /\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/,
-    )
+    expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
     const startup = adoption.pages.find((page) => page.registry === 'project/startup')
     expect(startup?.owners.field).toContain('DsInlineComposer')
     expect(startup?.owners.field).toContain('DsRepeatRow')
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.11.0'")
-    expect(tokens).toContain('--ds-version: "2.11.0";')
-    expect(specification).toContain('Status: implemented v2.11.0')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.12.0'")
+    expect(tokens).toContain('--ds-version: "2.12.0";')
+    expect(specification).toContain('Status: implemented v2.12.0')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
+    expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
   })
 
   test('keeps the scene shell checkboxes on the shared component', () => {
@@ -177,8 +176,9 @@ describe('editor design-system static boundary', () => {
       /export function DsTooltip[\s\S]*?<DsFloatingLayer[\s\S]*?className="ds-tooltip__bubble"[\s\S]*?width="content"[\s\S]*?align="center"/,
     )
     expect(floatingLayer).toMatch(
-      /anchorRef\.current\?\.closest\('dialog\[open\]'\) \?\? document\.body/,
+      /export function resolveDsPortalHost\(anchor: HTMLElement \| null\): Element \{[\s\S]*?dialog\[open\][\s\S]*?role="dialog"[\s\S]*?aria-modal="true"[\s\S]*?document\.body/,
     )
+    expect(floatingLayer).toContain('const portalHost = resolveDsPortalHost(anchorRef.current)')
     expect(businessCss).not.toContain('.ds-tooltip__bubble')
   })
 

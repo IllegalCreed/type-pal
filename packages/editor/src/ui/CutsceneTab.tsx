@@ -51,11 +51,17 @@ import {
   DsObjectHero,
   DsPropertyGrid,
   DsPropertyRow,
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
   DsTag,
+  reorderDsItems,
+  type DsReorderIntent,
+  useDsReorderKeys,
 } from './design-system/index.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from './FrameAnimationEditor.js'
 import { MediaAssetConfirmDialog, MediaAssetNameField } from './MediaAssetLifecycle.js'
@@ -197,9 +203,7 @@ function AssetList(props: {
             <DsCatalogRow
               key={entry.id}
               selected={props.selectedId === entry.id}
-              leading={
-                <span aria-hidden="true">{entry.record.kind === 'video' ? '▶' : '▦'}</span>
-              }
+              leading={<span aria-hidden="true">{entry.record.kind === 'video' ? '▶' : '▦'}</span>}
               title={entry.record.label || entry.id}
               meta={entry.id}
               trailing={<DsTag tone="neutral">{ORIGIN_LABELS[entry.record.origin.kind]}</DsTag>}
@@ -384,6 +388,7 @@ export function CutsceneTab(props: {
   const [lifecycleRequest, setLifecycleRequest] = useState<CutsceneLifecycleRequest>()
   const [deleteBusy, setDeleteBusy] = useState(false)
   const [pendingFrames, setPendingFrames] = useState<PendingFrameImport>()
+  const pendingFrameReorderKeys = useDsReorderKeys(pendingFrames?.files ?? [])
   const [importTreatment, setImportTreatment] = useState<'preserve' | 'project-standard'>(
     'preserve',
   )
@@ -596,17 +601,13 @@ export function CutsceneTab(props: {
     event.target.value = ''
   }
 
-  const movePendingFrame = (index: number, delta: -1 | 1): void => {
-    setPendingFrames((current) => {
-      if (!current) return current
-      const target = index + delta
-      if (target < 0 || target >= current.files.length) return current
-      const files = [...current.files]
-      const [file] = files.splice(index, 1)
-      if (!file) return current
-      files.splice(target, 0, file)
-      return { ...current, files }
-    })
+  const reorderPendingFrames = (intent: DsReorderIntent): boolean => {
+    if (!pendingFrames) return false
+    const files = reorderDsItems(pendingFrames.files, intent)
+    if (files === pendingFrames.files) return false
+    pendingFrameReorderKeys.move(intent)
+    setPendingFrames({ ...pendingFrames, files: [...files] })
+    return true
   }
 
   const removePendingFrame = (index: number): void => {
@@ -1061,40 +1062,52 @@ export function CutsceneTab(props: {
               {pendingFrames.replaceId ? '替换帧动画' : '新建帧动画'}
             </div>
             <p>{pendingFrames.files.length} 张图片。当前清单顺序就是动画帧顺序。</p>
-            <ol className="cutscene-import-files" aria-label="图片序列顺序">
-              {pendingFrames.files.map((file, index) => (
-                <li className="cutscene-import-file" key={`${file.name}-${file.size}-${index}`}>
-                  <span>{index + 1}</span>
-                  <code title={file.name}>{file.name}</code>
-                  <DsButton
-                    title="上移"
-                    disabled={index === 0}
-                    onClick={() => movePendingFrame(index, -1)}
-                    size="compact"
-                    variant="secondary"
-                  >
-                    ↑
-                  </DsButton>
-                  <DsButton
-                    title="下移"
-                    disabled={index === pendingFrames.files.length - 1}
-                    onClick={() => movePendingFrame(index, 1)}
-                    size="compact"
-                    variant="secondary"
-                  >
-                    ↓
-                  </DsButton>
-                  <DsButton
-                    title="排除此帧"
-                    onClick={() => removePendingFrame(index)}
-                    size="compact"
-                    variant="danger"
-                  >
-                    ×
-                  </DsButton>
-                </li>
-              ))}
-            </ol>
+            <DsReorderCollection
+              adoptionId="asset/cutscene-import-frames"
+              scopeKey={`cutscene-import:${pendingFrames.replaceId ?? 'new'}`}
+              entries={pendingFrames.files.map((file, index) => ({
+                key: pendingFrameReorderKeys.keys[index]!,
+                label: file.name,
+              }))}
+              revision={pendingFrames.files}
+              onReorder={reorderPendingFrames}
+            >
+              <ol className="cutscene-import-files" aria-label="图片序列顺序">
+                {pendingFrames.files.map((file, index) => {
+                  const reorderKey = pendingFrameReorderKeys.keys[index]!
+                  return (
+                    <DsReorderItem
+                      as="li"
+                      className="cutscene-import-file"
+                      contentClassName="cutscene-import-file-content"
+                      itemKey={reorderKey}
+                      key={reorderKey}
+                    >
+                      <span>{index + 1}</span>
+                      <code title={file.name}>{file.name}</code>
+                      <DsReorderMoveButton
+                        itemKey={reorderKey}
+                        direction="backward"
+                        label={`上移 ${file.name}`}
+                      />
+                      <DsReorderMoveButton
+                        itemKey={reorderKey}
+                        direction="forward"
+                        label={`下移 ${file.name}`}
+                      />
+                      <DsButton
+                        title="排除此帧"
+                        onClick={() => removePendingFrame(index)}
+                        size="compact"
+                        variant="danger"
+                      >
+                        ×
+                      </DsButton>
+                    </DsReorderItem>
+                  )
+                })}
+              </ol>
+            </DsReorderCollection>
             <label>
               默认帧率
               <DsNumberInput

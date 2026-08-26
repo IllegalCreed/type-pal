@@ -136,4 +136,61 @@ describe('ShopTab shared object workspace', () => {
     await act(async () => secondShop.click())
     expect(trigger.textContent).toContain('选择物品…')
   })
+
+  test('[reorder-family:shop-stock] 重复货物按 occurrence handle 重排，一次命令可 undo/redo，同值为零命令', async () => {
+    const session = new EditSession({
+      shops: [{ id: 0, items: ['item-a', 'item-b', 'item-a'] }],
+      maps: {},
+      mapIndex: { version: 1, maps: [] },
+      assetCatalog: { version: 1, assets: {} },
+      assetBlobs: {},
+    } as unknown as EditorState)
+    const items = [
+      { id: 'item-a', name: '金创药', buyPrice: 80, sellPrice: 40 },
+      { id: 'item-b', name: '还神丹', buyPrice: 120, sellPrice: 60 },
+    ] as never
+    const renderCurrent = async (): Promise<void> => {
+      await act(async () =>
+        root.render(
+          <ShopTab shops={session.getState().shops ?? []} items={items} session={session} />,
+        ),
+      )
+    }
+
+    await renderCurrent()
+    const firstRow = host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')[0]!
+    const firstToken = firstRow.dataset.itemKey
+    const handle = firstRow.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(0)
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().shops?.[0]?.items).toEqual(['item-b', 'item-a', 'item-a'])
+    await renderCurrent()
+    expect(host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')[1]?.dataset.itemKey).toBe(
+      firstToken,
+    )
+
+    const history = session.getHistoryVersion()
+    await act(async () =>
+      host
+        .querySelectorAll<HTMLElement>('[data-ds-reorder-item]')[1]!
+        .querySelector<HTMLButtonElement>('[aria-label="下移 金创药"]')!
+        .click(),
+    )
+    expect(session.getHistoryVersion()).toBe(history)
+    expect(session.getState().shops?.[0]?.items).toEqual(['item-b', 'item-a', 'item-a'])
+
+    expect(session.undo()).toBe(true)
+    expect(session.getState().shops?.[0]?.items).toEqual(['item-a', 'item-b', 'item-a'])
+    expect(session.redo()).toBe(true)
+    expect(session.getState().shops?.[0]?.items).toEqual(['item-b', 'item-a', 'item-a'])
+  })
 })

@@ -23,6 +23,15 @@ import {
   DsReadonlyValue,
   DsSelect,
 } from './design-system/controls.js'
+import {
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
+  reorderDsItems,
+  sameDsSerializableValue,
+  type DsReorderIntent,
+  useDsReorderKeys,
+} from './design-system/reorder.js'
 import { CanonicalScriptBodyEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 
 const STATUSES: { value: StatusId; label: string }[] = [
@@ -74,7 +83,10 @@ const SCENE_EFFECTS = new Set<ItemUseEffect['kind']>([
   'placeEntityInFront',
 ])
 
-const ItemEffectDraftContext = createContext({ scope: 'item-effect', syncToken: 0 as string | number })
+const ItemEffectDraftContext = createContext({
+  scope: 'item-effect',
+  syncToken: 0 as string | number,
+})
 
 function ItemEffectDraftScope(props: {
   scope: string
@@ -84,7 +96,10 @@ function ItemEffectDraftScope(props: {
   const parent = useContext(ItemEffectDraftContext)
   return (
     <ItemEffectDraftContext.Provider
-      value={{ scope: `${parent.scope}:${props.scope}`, syncToken: props.syncToken ?? parent.syncToken }}
+      value={{
+        scope: `${parent.scope}:${props.scope}`,
+        syncToken: props.syncToken ?? parent.syncToken,
+      }}
     >
       {props.children}
     </ItemEffectDraftContext.Provider>
@@ -284,6 +299,91 @@ function ItemAmountList(props: {
   const draft = useContext(ItemEffectDraftContext)
   const { entries, items, onChange } = props
   const minimum = props.minimum ?? 1
+  const reorderKeys = useDsReorderKeys(entries)
+  const reorder = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(entries, intent, 'insert', sameDsSerializableValue)
+    if (next === entries) return false
+    reorderKeys.move(intent)
+    onChange([...next])
+    return true
+  }
+  const rows = entries.map((entry, index) => {
+    const reorderKey = reorderKeys.keys[index]!
+    const row = (
+      <div
+        className={`item-amount-row${props.ordered ? ' ordered' : ''}`}
+        key={props.ordered ? undefined : `${entry.itemId}-${index}`}
+      >
+        <DsSelect
+          size="compact"
+          aria-label={`${props.label}物品 ${index + 1}`}
+          value={entry.itemId}
+          options={[
+            ...(!items.some((item) => item.id === entry.itemId)
+              ? [{ value: entry.itemId, label: `⚠ ${entry.itemId}` }]
+              : []),
+            ...items.map((item) => ({
+              value: item.id,
+              label: item.name,
+              description: item.id,
+            })),
+          ]}
+          onValueChange={(value) => {
+            const next = [...entries]
+            next[index] = { ...entry, itemId: value }
+            onChange(next)
+          }}
+        />
+        <span className="item-amount-count">
+          <DsDraftNumberInput
+            draftKey={`${draft.scope}:amount:${props.label}:${props.ordered ? reorderKey : index}`}
+            syncToken={draft.syncToken}
+            min={1}
+            enforceRange={false}
+            integer
+            aria-label={`${props.label}数量 ${index + 1}`}
+            value={entry.count}
+            onWheel={(event) => event.currentTarget.blur()}
+            onCommit={(value) => {
+              if (value === undefined) return
+              const next = [...entries]
+              next[index] = { ...entry, count: positive(value) }
+              onChange(next)
+            }}
+          />
+        </span>
+        {props.ordered ? (
+          <>
+            <DsReorderMoveButton
+              itemKey={reorderKey}
+              direction="backward"
+              label={`上移${props.label} ${index + 1}`}
+            />
+            <DsReorderMoveButton
+              itemKey={reorderKey}
+              direction="forward"
+              label={`下移${props.label} ${index + 1}`}
+            />
+          </>
+        ) : null}
+        <DsIconButton
+          size="compact"
+          variant="danger"
+          icon="delete"
+          label={`删除${props.label} ${index + 1}`}
+          disabled={entries.length <= minimum}
+          onClick={() => onChange(entries.filter((_, current) => current !== index))}
+        />
+      </div>
+    )
+    return props.ordered ? (
+      <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+        {row}
+      </DsReorderItem>
+    ) : (
+      row
+    )
+  })
   return (
     <div className="item-amount-list">
       <div className="item-effect-subhead">
@@ -300,87 +400,22 @@ function ItemAmountList(props: {
           }}
         />
       </div>
-      {entries.map((entry, index) => (
-        <div
-          className={`item-amount-row${props.ordered ? ' ordered' : ''}`}
-          key={`${entry.itemId}-${index}`}
+      {props.ordered ? (
+        <DsReorderCollection
+          adoptionId="item/resource-reward-tiers"
+          scopeKey={`${draft.scope}:ordered-amounts:${props.label}`}
+          entries={entries.map((entry, index) => ({
+            key: reorderKeys.keys[index]!,
+            label: items.find((item) => item.id === entry.itemId)?.name ?? entry.itemId,
+          }))}
+          revision={draft.syncToken}
+          onReorder={reorder}
         >
-          <DsSelect
-            size="compact"
-            aria-label={`${props.label}物品 ${index + 1}`}
-            value={entry.itemId}
-            options={[
-              ...(!items.some((item) => item.id === entry.itemId)
-                ? [{ value: entry.itemId, label: `⚠ ${entry.itemId}` }]
-                : []),
-              ...items.map((item) => ({
-                value: item.id,
-                label: item.name,
-                description: item.id,
-              })),
-            ]}
-            onValueChange={(value) => {
-              const next = [...entries]
-              next[index] = { ...entry, itemId: value }
-              onChange(next)
-            }}
-          />
-          <span className="item-amount-count">
-            <DsDraftNumberInput
-              draftKey={`${draft.scope}:amount:${props.label}:${index}`}
-              syncToken={draft.syncToken}
-              min={1}
-              enforceRange={false}
-              integer
-              aria-label={`${props.label}数量 ${index + 1}`}
-              value={entry.count}
-              onWheel={(event) => event.currentTarget.blur()}
-              onCommit={(value) => {
-                if (value === undefined) return
-                const next = [...entries]
-                next[index] = { ...entry, count: positive(value) }
-                onChange(next)
-              }}
-            />
-          </span>
-          {props.ordered ? (
-            <>
-              <DsIconButton
-                size="compact"
-                variant="secondary"
-                icon="chevron-up"
-                label={`上移${props.label} ${index + 1}`}
-                disabled={index === 0}
-                onClick={() => {
-                  const next = [...entries]
-                  ;[next[index - 1], next[index]] = [next[index]!, next[index - 1]!]
-                  onChange(next)
-                }}
-              />
-              <DsIconButton
-                size="compact"
-                variant="secondary"
-                icon="chevron-down"
-                label={`下移${props.label} ${index + 1}`}
-                disabled={index === entries.length - 1}
-                onClick={() => {
-                  const next = [...entries]
-                  ;[next[index], next[index + 1]] = [next[index + 1]!, next[index]!]
-                  onChange(next)
-                }}
-              />
-            </>
-          ) : null}
-          <DsIconButton
-            size="compact"
-            variant="danger"
-            icon="delete"
-            label={`删除${props.label} ${index + 1}`}
-            disabled={entries.length <= minimum}
-            onClick={() => onChange(entries.filter((_, current) => current !== index))}
-          />
-        </div>
-      ))}
+          {rows}
+        </DsReorderCollection>
+      ) : (
+        rows
+      )}
     </div>
   )
 }
@@ -391,76 +426,87 @@ function RecipeEditor(props: {
   excludedIngredientItemId?: string
   onChange: (recipes: ItemRecipe[]) => void
 }) {
+  const draft = useContext(ItemEffectDraftContext)
   const { recipes, items, onChange } = props
+  const reorderKeys = useDsReorderKeys(recipes)
   const ingredientItems = items.filter((item) => item.id !== props.excludedIngredientItemId)
   const patch = (index: number, next: ItemRecipe): void => {
     const result = [...recipes]
     result[index] = next
     onChange(result)
   }
+  const reorder = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(recipes, intent, 'insert', sameDsSerializableValue)
+    if (next === recipes) return false
+    reorderKeys.move(intent)
+    onChange([...next])
+    return true
+  }
   return (
     <div className="item-recipe-list">
-      {recipes.map((recipe, index) => (
-        <ItemEffectDraftScope scope={`recipe:${index}`} key={`recipe-${index}`}>
-          <div className="item-recipe">
-          <div className="item-effect-subhead">
-            <strong>配方 {index + 1}</strong>
-            <span
-              className="item-effect-order-actions ds-control-group__actions"
-              role="group"
-              aria-label={`配方 ${index + 1} 排序与删除`}
-            >
-              <DsIconButton
-                size="compact"
-                variant="secondary"
-                icon="chevron-up"
-                label={`上移配方 ${index + 1}`}
-                disabled={index === 0}
-                onClick={() => {
-                  const next = [...recipes]
-                  ;[next[index - 1], next[index]] = [next[index]!, next[index - 1]!]
-                  onChange(next)
-                }}
-              />
-              <DsIconButton
-                size="compact"
-                variant="secondary"
-                icon="chevron-down"
-                label={`下移配方 ${index + 1}`}
-                disabled={index === recipes.length - 1}
-                onClick={() => {
-                  const next = [...recipes]
-                  ;[next[index], next[index + 1]] = [next[index + 1]!, next[index]!]
-                  onChange(next)
-                }}
-              />
-              <DsButton
-                size="compact"
-                variant="danger"
-                icon="delete"
-                className="item-recipe-delete"
-                disabled={recipes.length <= 1}
-                onClick={() => onChange(recipes.filter((_, current) => current !== index))}
-              >
-                删除配方
-              </DsButton>
-            </span>
-          </div>
-          <ItemAmountList
-            label="材料"
-            entries={recipe.ingredients}
-            items={ingredientItems}
-            onChange={(ingredients) => patch(index, { ...recipe, ingredients })}
-          />
-          <ItemAmountList
-            label="产物"
-            entries={recipe.products}
-            items={items}
-            onChange={(products) => patch(index, { ...recipe, products })}
-          />
-          </div>
-        </ItemEffectDraftScope>
-      ))}
+      <DsReorderCollection
+        adoptionId="item/craft-recipes"
+        scopeKey={`${draft.scope}:recipes`}
+        entries={recipes.map((_recipe, index) => ({
+          key: reorderKeys.keys[index]!,
+          label: `配方 ${index + 1}`,
+        }))}
+        revision={draft.syncToken}
+        onReorder={reorder}
+      >
+        {recipes.map((recipe, index) => {
+          const reorderKey = reorderKeys.keys[index]!
+          return (
+            <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+              <ItemEffectDraftScope scope={`recipe:${reorderKey}`}>
+                <div className="item-recipe">
+                  <div className="item-effect-subhead">
+                    <strong>配方 {index + 1}</strong>
+                    <span
+                      className="item-effect-order-actions ds-control-group__actions"
+                      role="group"
+                      aria-label={`配方 ${index + 1} 排序与删除`}
+                    >
+                      <DsReorderMoveButton
+                        itemKey={reorderKey}
+                        direction="backward"
+                        label={`上移配方 ${index + 1}`}
+                      />
+                      <DsReorderMoveButton
+                        itemKey={reorderKey}
+                        direction="forward"
+                        label={`下移配方 ${index + 1}`}
+                      />
+                      <DsButton
+                        size="compact"
+                        variant="danger"
+                        icon="delete"
+                        className="item-recipe-delete"
+                        disabled={recipes.length <= 1}
+                        onClick={() => onChange(recipes.filter((_, current) => current !== index))}
+                      >
+                        删除配方
+                      </DsButton>
+                    </span>
+                  </div>
+                  <ItemAmountList
+                    label="材料"
+                    entries={recipe.ingredients}
+                    items={ingredientItems}
+                    onChange={(ingredients) => patch(index, { ...recipe, ingredients })}
+                  />
+                  <ItemAmountList
+                    label="产物"
+                    entries={recipe.products}
+                    items={items}
+                    onChange={(products) => patch(index, { ...recipe, products })}
+                  />
+                </div>
+              </ItemEffectDraftScope>
+            </DsReorderItem>
+          )
+        })}
+      </DsReorderCollection>
       <DsButton
         size="compact"
         variant="primary"
@@ -779,9 +825,7 @@ function EffectFields(props: {
               draftKey={`${draft.scope}:recipeUnavailableMessage`}
               syncToken={draft.syncToken}
               value={effect.unavailableMessage ?? ''}
-              onCommit={(value) =>
-                onChange({ ...effect, unavailableMessage: value || undefined })
-              }
+              onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
             />
           </label>
         </div>
@@ -833,9 +877,7 @@ function EffectFields(props: {
               draftKey={`${draft.scope}:poolUnavailableMessage`}
               syncToken={draft.syncToken}
               value={effect.unavailableMessage ?? ''}
-              onCommit={(value) =>
-                onChange({ ...effect, unavailableMessage: value || undefined })
-              }
+              onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
             />
           </label>
         </div>
@@ -987,9 +1029,7 @@ function EffectFields(props: {
               draftKey={`${draft.scope}:placementUnavailableMessage`}
               syncToken={draft.syncToken}
               value={effect.unavailableMessage ?? ''}
-              onCommit={(value) =>
-                onChange({ ...effect, unavailableMessage: value || undefined })
-              }
+              onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
             />
           </label>
         </>
@@ -1021,6 +1061,9 @@ interface ItemUseEffectChainEditorProps {
 
 function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
   const { spec: use, items, poisons, scripts, onChange } = props
+  const reorderKeys = useDsReorderKeys(use.effects)
+  const reorderScope = props.draftScope ?? `item:${props.itemId ?? 'unknown'}:use`
+  const reorderRevision = props.syncToken ?? 0
   const excludedIngredientItemId = use.consuming ? props.itemId : undefined
   const isPrivateScriptEffect = (effect: ItemUseEffect): boolean =>
     effect.kind === 'runScript' &&
@@ -1073,6 +1116,13 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
       delete next.battleOnly
     onChange(next)
   }
+  const reorderEffects = (intent: DsReorderIntent): boolean => {
+    const effects = reorderDsItems(use.effects, intent, 'insert', sameDsSerializableValue)
+    if (effects === use.effects) return false
+    reorderKeys.move(intent)
+    patchEffects([...effects])
+    return true
+  }
   const replaceAt = (index: number, effect: ItemUseEffect): void => {
     const effects = [...use.effects]
     effects[index] = effect
@@ -1113,223 +1163,232 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
   return (
     <ItemEffectDraftContext.Provider
       value={{
-        scope: props.draftScope ?? `item:${props.itemId ?? 'unknown'}:use`,
-        syncToken: props.syncToken ?? 0,
+        scope: reorderScope,
+        syncToken: reorderRevision,
       }}
     >
       <div className="item-effect-chain">
-      <div className="item-use-options">
-        <div className="item-effect-field">
-          <span>目标</span>
-          <DsSelect
-            size="compact"
-            aria-label="使用目标"
-            value={use.target}
-            disabled={use.effects.some(
-              (effect) =>
-                isSceneEffect(effect) ||
-                (isPrivateScriptEffect(effect) &&
-                  !use.effects.some(
-                    (candidate) =>
-                      !isSceneEffect(candidate) &&
-                      !isPrivateScriptEffect(candidate) &&
-                      candidate.kind !== 'gate',
-                  )) ||
-                effect.kind === 'hideParty',
-            )}
-            options={[
-              { value: 'oneAlly', label: '一名队友' },
-              { value: 'allAllies', label: '全体队友' },
-              { value: 'self', label: '使用者' },
-              { value: 'scene', label: '当前场景' },
-            ]}
-            onValueChange={(value) =>
-              onChange({ ...use, target: value as NonNullable<UseSpec['target']> })
-            }
-          />
-        </div>
-        <DsCheckbox
-          className="item-inline-check"
-          label="成功后消耗"
-          checked={use.consuming}
-          onChange={(event) => {
-            const consuming = event.target.checked
-            const selfIsIngredient =
-              consuming &&
-              use.effects.some(
+        <div className="item-use-options">
+          <div className="item-effect-field">
+            <span>目标</span>
+            <DsSelect
+              size="compact"
+              aria-label="使用目标"
+              value={use.target}
+              disabled={use.effects.some(
                 (effect) =>
-                  effect.kind === 'craftRecipe' &&
-                  effect.recipes.some((recipe) =>
-                    recipe.ingredients.some((entry) => entry.itemId === props.itemId),
-                  ),
-              )
-            if (selfIsIngredient) {
-              props.onError?.('先从配方材料中移除当前工具，再开启“成功后消耗”。')
-              return
+                  isSceneEffect(effect) ||
+                  (isPrivateScriptEffect(effect) &&
+                    !use.effects.some(
+                      (candidate) =>
+                        !isSceneEffect(candidate) &&
+                        !isPrivateScriptEffect(candidate) &&
+                        candidate.kind !== 'gate',
+                    )) ||
+                  effect.kind === 'hideParty',
+              )}
+              options={[
+                { value: 'oneAlly', label: '一名队友' },
+                { value: 'allAllies', label: '全体队友' },
+                { value: 'self', label: '使用者' },
+                { value: 'scene', label: '当前场景' },
+              ]}
+              onValueChange={(value) =>
+                onChange({ ...use, target: value as NonNullable<UseSpec['target']> })
+              }
+            />
+          </div>
+          <DsCheckbox
+            className="item-inline-check"
+            label="成功后消耗"
+            checked={use.consuming}
+            onChange={(event) => {
+              const consuming = event.target.checked
+              const selfIsIngredient =
+                consuming &&
+                use.effects.some(
+                  (effect) =>
+                    effect.kind === 'craftRecipe' &&
+                    effect.recipes.some((recipe) =>
+                      recipe.ingredients.some((entry) => entry.itemId === props.itemId),
+                    ),
+                )
+              if (selfIsIngredient) {
+                props.onError?.('先从配方材料中移除当前工具，再开启“成功后消耗”。')
+                return
+              }
+              onChange({ ...use, consuming })
+            }}
+          />
+          <DsCheckbox
+            className="item-inline-check"
+            label="仅战斗可用"
+            checked={use.battleOnly === true}
+            disabled={
+              !use.effects.length ||
+              !use.effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
             }
-            onChange({ ...use, consuming })
-          }}
-        />
-        <DsCheckbox
-          className="item-inline-check"
-          label="仅战斗可用"
-          checked={use.battleOnly === true}
-          disabled={
-            !use.effects.length ||
-            !use.effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
-          }
-          onChange={(event) => onChange({ ...use, battleOnly: event.target.checked || undefined })}
-        />
-        <div className="item-effect-field">
-          <span>成功后菜单</span>
-          <DsSelect
-            size="compact"
-            aria-label="使用成功后菜单"
-            value={use.menuAfterUse ?? 'keep'}
-            options={[
-              { value: 'keep', label: '保留物品菜单' },
-              { value: 'close', label: '关闭菜单' },
-            ]}
-            onValueChange={(value) =>
-              onChange({
-                ...use,
-                menuAfterUse: value as NonNullable<UseSpec['menuAfterUse']>,
-              })
+            onChange={(event) =>
+              onChange({ ...use, battleOnly: event.target.checked || undefined })
             }
           />
-        </div>
-      </div>
-
-      {use.effects.map((effect, index) => (
-        <div className="item-effect-row" key={`${effect.kind}-${index}`}>
-          <div className="item-effect-row-head">
-            <span className="item-effect-index">效果 {index + 1}</span>
-            {props.privateScripts?.[index] ? (
-              <DsReadonlyValue className="item-effect-kind item-private-script-kind">
-                物品私有脚本
-              </DsReadonlyValue>
-            ) : (
-              <span className="item-effect-kind">
-                <DsSelect
-                  size="compact"
-                  aria-label={`效果 ${index + 1} 类型`}
-                  value={effect.kind}
-                  options={compatibleKindsAt(index)}
-                  onValueChange={(value) => changeKind(index, value as ItemUseEffect['kind'])}
-                />
-              </span>
-            )}
-            <span className="spacer" />
-            <span
-              className="item-effect-order-actions ds-control-group__actions"
-              role="group"
-              aria-label={`效果 ${index + 1} 排序与删除`}
-            >
-              <DsIconButton
-                size="compact"
-                variant="secondary"
-                icon="chevron-up"
-                label={`上移效果 ${index + 1}`}
-                disabled={index === 0 || isExclusiveEffect(effect)}
-                onClick={() => {
-                  const effects = [...use.effects]
-                  ;[effects[index - 1], effects[index]] = [effects[index]!, effects[index - 1]!]
-                  patchEffects(effects)
-                }}
-              />
-              <DsIconButton
-                size="compact"
-                variant="secondary"
-                icon="chevron-down"
-                label={`下移效果 ${index + 1}`}
-                disabled={index === use.effects.length - 1 || isExclusiveEffect(effect)}
-                onClick={() => {
-                  const effects = [...use.effects]
-                  ;[effects[index], effects[index + 1]] = [effects[index + 1]!, effects[index]!]
-                  patchEffects(effects)
-                }}
-              />
-              <DsIconButton
-                size="compact"
-                variant="danger"
-                icon="delete"
-                label={`删除效果 ${index + 1}`}
-                onClick={() => patchEffects(use.effects.filter((_, at) => at !== index))}
-              />
-            </span>
-          </div>
-          <div className="item-effect-grid">
-            {props.privateScripts?.[index] ? (
-              <ItemPrivateScriptBodyEditor
-                binding={props.privateScripts[index]}
-                onError={props.onError}
-              />
-            ) : (
-              <ItemEffectDraftScope scope={`effect:${index}:${effect.kind}`}>
-                <EffectFields
-                  effect={effect}
-                  items={items}
-                  poisons={poisons}
-                  scripts={scripts}
-                  onChange={(next) => replaceAt(index, next)}
-                  onOpenScript={props.onOpenScript}
-                  onCreateAndBindScript={props.onCreateAndBindScript}
-                  subjectItemId={props.itemId}
-                  consuming={use.consuming}
-                  scenes={props.scenes}
-                />
-              </ItemEffectDraftScope>
-            )}
+          <div className="item-effect-field">
+            <span>成功后菜单</span>
+            <DsSelect
+              size="compact"
+              aria-label="使用成功后菜单"
+              value={use.menuAfterUse ?? 'keep'}
+              options={[
+                { value: 'keep', label: '保留物品菜单' },
+                { value: 'close', label: '关闭菜单' },
+              ]}
+              onValueChange={(value) =>
+                onChange({
+                  ...use,
+                  menuAfterUse: value as NonNullable<UseSpec['menuAfterUse']>,
+                })
+              }
+            />
           </div>
         </div>
-      ))}
 
-      {!use.effects.length ? (
-        <div className="item-capability-note">当前没有效果，可继续添加或保留为空。</div>
-      ) : null}
+        <DsReorderCollection
+          adoptionId="item/use-effects"
+          scopeKey={`${reorderScope}:effects`}
+          entries={use.effects.map((effect, index) => ({
+            key: reorderKeys.keys[index]!,
+            label: props.privateScripts?.[index]
+              ? '物品私有脚本'
+              : (EFFECT_KINDS.find((entry) => entry.value === effect.kind)?.label ?? effect.kind),
+            disabled: isExclusiveEffect(effect),
+          }))}
+          revision={reorderRevision}
+          onReorder={reorderEffects}
+        >
+          {use.effects.map((effect, index) => {
+            const reorderKey = reorderKeys.keys[index]!
+            return (
+              <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                <div className="item-effect-row">
+                  <div className="item-effect-row-head">
+                    <span className="item-effect-index">效果 {index + 1}</span>
+                    {props.privateScripts?.[index] ? (
+                      <DsReadonlyValue className="item-effect-kind item-private-script-kind">
+                        物品私有脚本
+                      </DsReadonlyValue>
+                    ) : (
+                      <span className="item-effect-kind">
+                        <DsSelect
+                          size="compact"
+                          aria-label={`效果 ${index + 1} 类型`}
+                          value={effect.kind}
+                          options={compatibleKindsAt(index)}
+                          onValueChange={(value) =>
+                            changeKind(index, value as ItemUseEffect['kind'])
+                          }
+                        />
+                      </span>
+                    )}
+                    <span className="spacer" />
+                    <span
+                      className="item-effect-order-actions ds-control-group__actions"
+                      role="group"
+                      aria-label={`效果 ${index + 1} 排序与删除`}
+                    >
+                      <DsReorderMoveButton
+                        itemKey={reorderKey}
+                        direction="backward"
+                        label={`上移效果 ${index + 1}`}
+                      />
+                      <DsReorderMoveButton
+                        itemKey={reorderKey}
+                        direction="forward"
+                        label={`下移效果 ${index + 1}`}
+                      />
+                      <DsIconButton
+                        size="compact"
+                        variant="danger"
+                        icon="delete"
+                        label={`删除效果 ${index + 1}`}
+                        onClick={() => patchEffects(use.effects.filter((_, at) => at !== index))}
+                      />
+                    </span>
+                  </div>
+                  <div className="item-effect-grid">
+                    {props.privateScripts?.[index] ? (
+                      <ItemPrivateScriptBodyEditor
+                        binding={props.privateScripts[index]}
+                        onError={props.onError}
+                      />
+                    ) : (
+                      <ItemEffectDraftScope scope={`effect:${reorderKey}:${effect.kind}`}>
+                        <EffectFields
+                          effect={effect}
+                          items={items}
+                          poisons={poisons}
+                          scripts={scripts}
+                          onChange={(next) => replaceAt(index, next)}
+                          onOpenScript={props.onOpenScript}
+                          onCreateAndBindScript={props.onCreateAndBindScript}
+                          subjectItemId={props.itemId}
+                          consuming={use.consuming}
+                          scenes={props.scenes}
+                        />
+                      </ItemEffectDraftScope>
+                    )}
+                  </div>
+                </div>
+              </DsReorderItem>
+            )
+          })}
+        </DsReorderCollection>
 
-      <DsButton
-        size="compact"
-        variant="primary"
-        icon="add"
-        className="item-add-effect"
-        disabled={use.effects.some(isExclusiveEffect) || firstAppendableKind() === undefined}
-        onClick={() => {
-          try {
-            const kind = firstAppendableKind()
-            if (!kind) return
-            patchEffects([...use.effects, createDefaultEffect(kind)])
-          } catch (cause) {
-            props.onError?.(cause instanceof Error ? cause.message : String(cause))
-          }
-        }}
-      >
-        添加效果
-      </DsButton>
-      {props.onAddPrivateScript ? (
+        {!use.effects.length ? (
+          <div className="item-capability-note">当前没有效果，可继续添加或保留为空。</div>
+        ) : null}
+
         <DsButton
           size="compact"
-          variant="secondary"
+          variant="primary"
           icon="add"
-          className="item-add-effect item-add-private-script"
-          disabled={
-            use.effects.some(isPrivateScriptEffect) ||
-            !compatibleChain([
-              ...use.effects,
-              {
-                kind: 'runScript',
-                script: {
-                  chunk: '__author-script-runtime',
-                  id: `item:${props.itemId ?? ''}:__probe__`,
-                },
-              },
-            ])
-          }
-          onClick={() => props.onAddPrivateScript?.()}
+          className="item-add-effect"
+          disabled={use.effects.some(isExclusiveEffect) || firstAppendableKind() === undefined}
+          onClick={() => {
+            try {
+              const kind = firstAppendableKind()
+              if (!kind) return
+              patchEffects([...use.effects, createDefaultEffect(kind)])
+            } catch (cause) {
+              props.onError?.(cause instanceof Error ? cause.message : String(cause))
+            }
+          }}
         >
-          添加脚本
+          添加效果
         </DsButton>
-      ) : null}
+        {props.onAddPrivateScript ? (
+          <DsButton
+            size="compact"
+            variant="secondary"
+            icon="add"
+            className="item-add-effect item-add-private-script"
+            disabled={
+              use.effects.some(isPrivateScriptEffect) ||
+              !compatibleChain([
+                ...use.effects,
+                {
+                  kind: 'runScript',
+                  script: {
+                    chunk: '__author-script-runtime',
+                    id: `item:${props.itemId ?? ''}:__probe__`,
+                  },
+                },
+              ])
+            }
+            onClick={() => props.onAddPrivateScript?.()}
+          >
+            添加脚本
+          </DsButton>
+        ) : null}
       </div>
     </ItemEffectDraftContext.Provider>
   )
@@ -1638,7 +1697,17 @@ export interface ThrowEffectChainEditorProps {
 
 export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
   const { spec, poisons, onChange } = props
+  const reorderKeys = useDsReorderKeys(spec.effects)
+  const reorderScope = props.draftScope ?? 'item:throw'
+  const reorderRevision = props.syncToken ?? 0
   const patchEffects = (effects: ThrowEffect[]): void => onChange({ ...spec, effects })
+  const reorderEffects = (intent: DsReorderIntent): boolean => {
+    const effects = reorderDsItems(spec.effects, intent, 'insert', sameDsSerializableValue)
+    if (effects === spec.effects) return false
+    reorderKeys.move(intent)
+    patchEffects([...effects])
+    return true
+  }
   const replaceAt = (index: number, effect: ThrowEffect): void => {
     const effects = [...spec.effects]
     effects[index] = effect
@@ -1652,111 +1721,114 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
     }
   }
   return (
-    <ItemEffectDraftContext.Provider
-      value={{ scope: props.draftScope ?? 'item:throw', syncToken: props.syncToken ?? 0 }}
-    >
+    <ItemEffectDraftContext.Provider value={{ scope: reorderScope, syncToken: reorderRevision }}>
       <div className="item-effect-chain item-throw-effect-chain">
-      <div className="item-use-options">
-        <div className="item-effect-field">
-          <span>投掷目标</span>
-          <DsSelect
-            size="compact"
-            aria-label="投掷目标"
-            value={spec.target}
-            options={[
-              { value: 'oneEnemy', label: '单个敌人' },
-              { value: 'allEnemies', label: '全体敌人' },
-            ]}
-            onValueChange={(value) =>
-              onChange({
-                ...spec,
-                target: value as ThrowSpec['target'],
-              })
-            }
-          />
-        </div>
-      </div>
-
-      {spec.effects.map((effect, index) => (
-        <div className="item-effect-row" key={`${effect.kind}-${index}`}>
-          <div className="item-effect-row-head">
-            <span className="item-effect-index">效果 {index + 1}</span>
-            <span className="item-effect-kind">
-              <DsSelect
-                size="compact"
-                aria-label={`效果 ${index + 1} 类型`}
-                value={effect.kind}
-                options={THROW_EFFECT_KINDS}
-                onValueChange={(value) => changeKind(index, value as ThrowEffect['kind'])}
-              />
-            </span>
-            <span className="spacer" />
-            <span
-              className="item-effect-order-actions ds-control-group__actions"
-              role="group"
-              aria-label={`效果 ${index + 1} 排序与删除`}
-            >
-              <DsIconButton
-                size="compact"
-                variant="secondary"
-                icon="chevron-up"
-                label={`上移效果 ${index + 1}`}
-                disabled={index === 0}
-                onClick={() => {
-                  const effects = [...spec.effects]
-                  ;[effects[index - 1], effects[index]] = [effects[index]!, effects[index - 1]!]
-                  patchEffects(effects)
-                }}
-              />
-              <DsIconButton
-                size="compact"
-                variant="secondary"
-                icon="chevron-down"
-                label={`下移效果 ${index + 1}`}
-                disabled={index === spec.effects.length - 1}
-                onClick={() => {
-                  const effects = [...spec.effects]
-                  ;[effects[index], effects[index + 1]] = [effects[index + 1]!, effects[index]!]
-                  patchEffects(effects)
-                }}
-              />
-              <DsIconButton
-                size="compact"
-                variant="danger"
-                icon="delete"
-                label={`删除效果 ${index + 1}`}
-                title={spec.effects.length === 1 ? '投掷能力至少保留一个效果' : undefined}
-                disabled={spec.effects.length === 1}
-                onClick={() => patchEffects(spec.effects.filter((_, at) => at !== index))}
-              />
-            </span>
-          </div>
-          <div className="item-effect-grid">
-            <ItemEffectDraftScope scope={`effect:${index}:${effect.kind}`}>
-              <ThrowEffectFields
-                effect={effect}
-                poisons={poisons}
-                onChange={(next) => replaceAt(index, next)}
-              />
-            </ItemEffectDraftScope>
+        <div className="item-use-options">
+          <div className="item-effect-field">
+            <span>投掷目标</span>
+            <DsSelect
+              size="compact"
+              aria-label="投掷目标"
+              value={spec.target}
+              options={[
+                { value: 'oneEnemy', label: '单个敌人' },
+                { value: 'allEnemies', label: '全体敌人' },
+              ]}
+              onValueChange={(value) =>
+                onChange({
+                  ...spec,
+                  target: value as ThrowSpec['target'],
+                })
+              }
+            />
           </div>
         </div>
-      ))}
 
-      {!spec.effects.length ? (
-        <div className="item-effect-validation" role="alert">
-          投掷能力至少需要一个效果，请添加后再保存。
-        </div>
-      ) : null}
-      <DsButton
-        size="compact"
-        variant="primary"
-        icon="add"
-        className="item-add-effect"
-        onClick={() => patchEffects([...spec.effects, defaultThrowEffect('fixedDamage', poisons)])}
-      >
-        添加效果
-      </DsButton>
+        <DsReorderCollection
+          adoptionId="item/throw-effects"
+          scopeKey={`${reorderScope}:effects`}
+          entries={spec.effects.map((effect, index) => ({
+            key: reorderKeys.keys[index]!,
+            label:
+              THROW_EFFECT_KINDS.find((entry) => entry.value === effect.kind)?.label ?? effect.kind,
+          }))}
+          revision={reorderRevision}
+          onReorder={reorderEffects}
+        >
+          {spec.effects.map((effect, index) => {
+            const reorderKey = reorderKeys.keys[index]!
+            return (
+              <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                <div className="item-effect-row">
+                  <div className="item-effect-row-head">
+                    <span className="item-effect-index">效果 {index + 1}</span>
+                    <span className="item-effect-kind">
+                      <DsSelect
+                        size="compact"
+                        aria-label={`效果 ${index + 1} 类型`}
+                        value={effect.kind}
+                        options={THROW_EFFECT_KINDS}
+                        onValueChange={(value) => changeKind(index, value as ThrowEffect['kind'])}
+                      />
+                    </span>
+                    <span className="spacer" />
+                    <span
+                      className="item-effect-order-actions ds-control-group__actions"
+                      role="group"
+                      aria-label={`效果 ${index + 1} 排序与删除`}
+                    >
+                      <DsReorderMoveButton
+                        itemKey={reorderKey}
+                        direction="backward"
+                        label={`上移效果 ${index + 1}`}
+                      />
+                      <DsReorderMoveButton
+                        itemKey={reorderKey}
+                        direction="forward"
+                        label={`下移效果 ${index + 1}`}
+                      />
+                      <DsIconButton
+                        size="compact"
+                        variant="danger"
+                        icon="delete"
+                        label={`删除效果 ${index + 1}`}
+                        title={spec.effects.length === 1 ? '投掷能力至少保留一个效果' : undefined}
+                        disabled={spec.effects.length === 1}
+                        onClick={() => patchEffects(spec.effects.filter((_, at) => at !== index))}
+                      />
+                    </span>
+                  </div>
+                  <div className="item-effect-grid">
+                    <ItemEffectDraftScope scope={`effect:${reorderKey}:${effect.kind}`}>
+                      <ThrowEffectFields
+                        effect={effect}
+                        poisons={poisons}
+                        onChange={(next) => replaceAt(index, next)}
+                      />
+                    </ItemEffectDraftScope>
+                  </div>
+                </div>
+              </DsReorderItem>
+            )
+          })}
+        </DsReorderCollection>
+
+        {!spec.effects.length ? (
+          <div className="item-effect-validation" role="alert">
+            投掷能力至少需要一个效果，请添加后再保存。
+          </div>
+        ) : null}
+        <DsButton
+          size="compact"
+          variant="primary"
+          icon="add"
+          className="item-add-effect"
+          onClick={() =>
+            patchEffects([...spec.effects, defaultThrowEffect('fixedDamage', poisons)])
+          }
+        >
+          添加效果
+        </DsButton>
       </div>
     </ItemEffectDraftContext.Provider>
   )
@@ -1796,9 +1868,7 @@ function ItemEffectChainEditorView(props: ItemEffectChainEditorProps) {
 function sameItemChoiceRows(left: readonly ItemData[], right: readonly ItemData[]): boolean {
   return (
     left.length === right.length &&
-    left.every(
-      (item, index) => item.id === right[index]?.id && item.name === right[index]?.name,
-    )
+    left.every((item, index) => item.id === right[index]?.id && item.name === right[index]?.name)
   )
 }
 
@@ -1829,7 +1899,12 @@ function sameItemEffectChainProps(
   left: ItemEffectChainEditorProps,
   right: ItemEffectChainEditorProps,
 ): boolean {
-  if (left.ability !== right.ability || left.spec !== right.spec) return false
+  if (
+    left.ability !== right.ability ||
+    left.spec !== right.spec ||
+    left.syncToken !== right.syncToken
+  )
+    return false
   if (left.ability === 'throw' || right.ability === 'throw')
     return (
       left.ability === 'throw' &&

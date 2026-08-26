@@ -28,7 +28,7 @@ import {
   formatAuthorCommandPath,
   getAuthorCommandAt,
   insertAuthorCommandAfter,
-  moveAuthorCommandAt,
+  moveAuthorCommandToIndex,
   parseAuthorCommandPath,
   removeAuthorCommandAt,
   updateAuthorCommandAt,
@@ -52,9 +52,14 @@ import {
   DsHelpTip,
   DsIconButton,
   DsNumberInput,
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
   DsSelect,
   DsTextArea,
   DsTextInput,
+  type DsReorderIntent,
+  useDsReorderKeys,
 } from './design-system/index.js'
 import { EntityStateSelect } from './EntityStateSelect.js'
 import { musicAssets } from './MusicPicker.js'
@@ -165,28 +170,18 @@ export function ScriptSchemeStrip(props: {
   onSelect: (id: string) => void
   onDetails: (id: string) => void
   onCreate: () => void
+  reorder: {
+    kind: 'behavior' | 'hook'
+    scopeKey: string
+    revision: unknown
+    onReorder: (intent: DsReorderIntent) => void
+  }
 }) {
-  return (
-    <section className="script-scheme-strip" aria-label={`${props.title}方案`}>
-      <header>
-        <div className="script-section-heading">
-          <strong className="script-section-title">脚本方案</strong>
-          <span className="script-section-count">{props.options.length} 个方案</span>
-          <DsHelpTip label="脚本方案">
-            同一脚本入口可以有多套方案。每套方案拥有独立的执行步骤和正文；剧情指令切换方案时，
-            会整套切换。
-          </DsHelpTip>
-        </div>
-        <DsButton size="compact" variant="secondary" icon="add" onClick={props.onCreate}>
-          新建方案
-        </DsButton>
-      </header>
-      <nav aria-label="脚本方案列表">
-        {props.options.map((option) => (
-          <div
-            key={option.id}
-            className={`script-scheme-card${option.id === props.selectedId ? ' active' : ''}`}
-          >
+  const cards = (
+    <nav aria-label="脚本方案列表">
+      {props.options.map((option) => (
+        <DsReorderItem itemKey={option.id} key={option.id}>
+          <div className={`script-scheme-card${option.id === props.selectedId ? ' active' : ''}`}>
             <DsButton
               size="compact"
               variant={option.id === props.selectedId ? 'primary' : 'secondary'}
@@ -202,18 +197,62 @@ export function ScriptSchemeStrip(props: {
               </span>
               {option.isDefault ? <small>默认方案</small> : null}
             </DsButton>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              className="script-scheme-card-details"
-              aria-label={`打开“${option.label}”的方案详情`}
-              onClick={() => props.onDetails(option.id)}
-            >
-              方案详情
-            </DsButton>
+            <span className="script-scheme-card-actions">
+              <DsReorderMoveButton itemKey={option.id} direction="backward" />
+              <DsReorderMoveButton itemKey={option.id} direction="forward" />
+              <DsButton
+                size="compact"
+                variant="quiet"
+                className="script-scheme-card-details"
+                aria-label={`打开“${option.label}”的方案详情`}
+                onClick={() => props.onDetails(option.id)}
+              >
+                方案详情
+              </DsButton>
+            </span>
           </div>
-        ))}
-      </nav>
+        </DsReorderItem>
+      ))}
+    </nav>
+  )
+  return (
+    <section className="script-scheme-strip" aria-label={`${props.title}方案`}>
+      <header>
+        <div className="script-section-heading">
+          <strong className="script-section-title">脚本方案</strong>
+          <span className="script-section-count">{props.options.length} 个方案</span>
+          <DsHelpTip label="脚本方案">
+            同一脚本入口可以有多套方案。每套方案拥有独立的执行步骤和正文；剧情指令切换方案时，
+            会整套切换。
+          </DsHelpTip>
+        </div>
+        <DsButton size="compact" variant="secondary" icon="add" onClick={props.onCreate}>
+          新建方案
+        </DsButton>
+      </header>
+      {props.reorder.kind === 'behavior' ? (
+        <DsReorderCollection
+          adoptionId="story/entity-behavior-schemes"
+          scopeKey={props.reorder.scopeKey}
+          entries={props.options.map((option) => ({ key: option.id, label: option.label }))}
+          revision={props.reorder.revision}
+          orientation="horizontal"
+          onReorder={props.reorder.onReorder}
+        >
+          {cards}
+        </DsReorderCollection>
+      ) : (
+        <DsReorderCollection
+          adoptionId="story/scene-hook-variants"
+          scopeKey={props.reorder.scopeKey}
+          entries={props.options.map((option) => ({ key: option.id, label: option.label }))}
+          revision={props.reorder.revision}
+          orientation="horizontal"
+          onReorder={props.reorder.onReorder}
+        >
+          {cards}
+        </DsReorderCollection>
+      )}
     </section>
   )
 }
@@ -854,13 +893,16 @@ function CommandRows(props: {
   selectedPath?: string
   referenceFocusPath?: string
   referenceFocusRevision?: number
+  reorderScopeKey: string
+  reorderDisabled?: boolean
   onSelect: (path: string) => void
   onEdit: (path: string) => void
   onInsert: (path: string) => void
   onCopy: (path: string) => void
-  onMove: (path: string, direction: -1 | 1) => void
+  onReorder: (parentPath: AuthorCommandPath, intent: DsReorderIntent) => boolean
   onRemove: (path: string) => void
 }) {
+  const reorderKeys = useDsReorderKeys(props.body)
   if (!props.body.length)
     return (
       <DsButton
@@ -874,107 +916,149 @@ function CommandRows(props: {
       </DsButton>
     )
   return (
-    <div className="canonical-command-list" role="tree">
-      {props.body.map((command, index) => {
-        const path = formatAuthorCommandPath([...props.parentPath, index])
-        const description = describeCommand(command, props.context)
-        const referenceFocusClass =
-          props.referenceFocusPath === path && props.referenceFocusRevision !== undefined
-            ? ` reference-focus-${Math.abs(props.referenceFocusRevision) % 2 === 0 ? 'even' : 'odd'}`
-            : ''
-        return (
-          <div className="canonical-command-node" key={path}>
-            <div
-              role="treeitem"
-              className={`cmd-row${props.selectedPath === path ? ' sel' : ''}${referenceFocusClass}`}
-              data-command-path={path}
-              tabIndex={0}
-              onClick={() => props.onSelect(path)}
-              onDoubleClick={() => props.onEdit(path)}
-              onKeyDown={(event) => {
-                if (event.currentTarget !== event.target) return
-                if (event.key !== 'Enter' && event.key !== ' ') return
-                event.preventDefault()
-                props.onSelect(path)
-              }}
-            >
-              <span className="cmd-ico">{description.icon}</span>
-              <span className="cmd-label">{description.label}</span>
-              {description.detail ? <span className="cmd-detail">{description.detail}</span> : null}
-              {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 只挡住行选择，内部按钮可键盘操作。 */}
-              <span
-                className="canonical-script-row-actions"
-                onClick={(event) => event.stopPropagation()}
-                onDoubleClick={(event) => event.stopPropagation()}
-              >
-                <DsIconButton
-                  label="编辑"
-                  icon="edit"
-                  size="compact"
-                  onClick={() => props.onEdit(path)}
-                />
-                <DsIconButton
-                  label="在此后插入"
-                  icon="add"
-                  size="compact"
-                  onClick={() => props.onInsert(path)}
-                />
-                <DsIconButton
-                  label="复制"
-                  icon="copy"
-                  size="compact"
-                  onClick={() => props.onCopy(path)}
-                />
-                <DsIconButton
-                  label="上移"
-                  icon="chevron-up"
-                  size="compact"
-                  disabled={index === 0}
-                  onClick={() => props.onMove(path, -1)}
-                />
-                <DsIconButton
-                  label="下移"
-                  icon="chevron-down"
-                  size="compact"
-                  disabled={index === props.body.length - 1}
-                  onClick={() => props.onMove(path, 1)}
-                />
-                <DsIconButton
-                  label="删除"
-                  icon="delete"
-                  size="compact"
-                  variant="danger"
-                  onClick={() => props.onRemove(path)}
-                />
-              </span>
+    <DsReorderCollection
+      adoptionId="script/canonical-siblings"
+      scopeKey={`${props.reorderScopeKey}:${formatAuthorCommandPath(props.parentPath) || 'root'}`}
+      entries={props.body.map((command, index) => ({
+        key: reorderKeys.keys[index]!,
+        label: describeCommand(command, props.context).label,
+      }))}
+      revision={props.body}
+      disabled={props.reorderDisabled}
+      onReorder={(intent) => {
+        const changed = props.onReorder(props.parentPath, intent)
+        if (changed) reorderKeys.move(intent)
+        return changed
+      }}
+    >
+      <div className="canonical-command-list" role="tree">
+        {props.body.map((command, index) => {
+          const path = formatAuthorCommandPath([...props.parentPath, index])
+          const reorderKey = reorderKeys.keys[index]!
+          const description = describeCommand(command, props.context)
+          const referenceFocusClass =
+            props.referenceFocusPath === path && props.referenceFocusRevision !== undefined
+              ? ` reference-focus-${Math.abs(props.referenceFocusRevision) % 2 === 0 ? 'even' : 'odd'}`
+              : ''
+          return (
+            <div className="canonical-command-node" key={reorderKey}>
+              <DsReorderItem itemKey={reorderKey} role="none">
+                <div
+                  role="treeitem"
+                  className={`cmd-row${props.selectedPath === path ? ' sel' : ''}${referenceFocusClass}`}
+                  data-command-path={path}
+                  tabIndex={0}
+                  onClick={() => props.onSelect(path)}
+                  onDoubleClick={() => props.onEdit(path)}
+                  onKeyDown={(event) => {
+                    if (event.currentTarget !== event.target) return
+                    if (event.key !== 'Enter' && event.key !== ' ') return
+                    event.preventDefault()
+                    props.onSelect(path)
+                  }}
+                >
+                  <span className="cmd-ico">{description.icon}</span>
+                  <span className="cmd-label">{description.label}</span>
+                  {description.detail ? (
+                    <span className="cmd-detail">{description.detail}</span>
+                  ) : null}
+                  {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 只挡住行选择，内部按钮可键盘操作。 */}
+                  <span
+                    className="canonical-script-row-actions"
+                    onClick={(event) => event.stopPropagation()}
+                    onDoubleClick={(event) => event.stopPropagation()}
+                  >
+                    <DsIconButton
+                      label="编辑"
+                      icon="edit"
+                      size="compact"
+                      onClick={() => props.onEdit(path)}
+                    />
+                    <DsIconButton
+                      label="在此后插入"
+                      icon="add"
+                      size="compact"
+                      onClick={() => props.onInsert(path)}
+                    />
+                    <DsIconButton
+                      label="复制"
+                      icon="copy"
+                      size="compact"
+                      onClick={() => props.onCopy(path)}
+                    />
+                    <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
+                    <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
+                    <DsIconButton
+                      label="删除"
+                      icon="delete"
+                      size="compact"
+                      variant="danger"
+                      onClick={() => props.onRemove(path)}
+                    />
+                  </span>
+                </div>
+              </DsReorderItem>
+              {description.children.map((child) => (
+                <section className="canonical-command-child" key={child.key}>
+                  <header>
+                    <span>{child.label}</span>
+                    <small>{child.body.length} 条</small>
+                  </header>
+                  <CommandRows
+                    body={child.body}
+                    parentPath={[...props.parentPath, index, child.key]}
+                    context={props.context}
+                    selectedPath={props.selectedPath}
+                    referenceFocusPath={props.referenceFocusPath}
+                    referenceFocusRevision={props.referenceFocusRevision}
+                    reorderScopeKey={props.reorderScopeKey}
+                    reorderDisabled={props.reorderDisabled}
+                    onSelect={props.onSelect}
+                    onEdit={props.onEdit}
+                    onInsert={props.onInsert}
+                    onCopy={props.onCopy}
+                    onReorder={props.onReorder}
+                    onRemove={props.onRemove}
+                  />
+                </section>
+              ))}
             </div>
-            {description.children.map((child) => (
-              <section className="canonical-command-child" key={child.key}>
-                <header>
-                  <span>{child.label}</span>
-                  <small>{child.body.length} 条</small>
-                </header>
-                <CommandRows
-                  body={child.body}
-                  parentPath={[...props.parentPath, index, child.key]}
-                  context={props.context}
-                  selectedPath={props.selectedPath}
-                  referenceFocusPath={props.referenceFocusPath}
-                  referenceFocusRevision={props.referenceFocusRevision}
-                  onSelect={props.onSelect}
-                  onEdit={props.onEdit}
-                  onInsert={props.onInsert}
-                  onCopy={props.onCopy}
-                  onMove={props.onMove}
-                  onRemove={props.onRemove}
-                />
-              </section>
-            ))}
-          </div>
-        )
-      })}
-    </div>
+          )
+        })}
+      </div>
+    </DsReorderCollection>
   )
+}
+
+function remapSiblingPath(
+  path: string | undefined,
+  parentPath: AuthorCommandPath,
+  fromIndex: number,
+  toIndex: number,
+): string | undefined {
+  if (!path) return path
+  const parsed = parseAuthorCommandPath(path)
+  if (
+    parsed.length <= parentPath.length ||
+    !parentPath.every((segment, index) => parsed[index] === segment)
+  )
+    return path
+  const siblingIndex = parsed[parentPath.length]
+  if (typeof siblingIndex !== 'number') return path
+  const nextIndex =
+    siblingIndex === fromIndex
+      ? toIndex
+      : fromIndex < toIndex && siblingIndex > fromIndex && siblingIndex <= toIndex
+        ? siblingIndex - 1
+        : fromIndex > toIndex && siblingIndex >= toIndex && siblingIndex < fromIndex
+          ? siblingIndex + 1
+          : siblingIndex
+  if (nextIndex === siblingIndex) return path
+  return formatAuthorCommandPath([
+    ...parsed.slice(0, parentPath.length),
+    nextIndex,
+    ...parsed.slice(parentPath.length + 1),
+  ])
 }
 
 function defaultCondition(kind: AuthorCondition['kind'], target?: EntityAddress): AuthorCondition {
@@ -1571,6 +1655,7 @@ function stripCursorHandoff(command: AuthorCommand): AuthorCommand {
 function CanonicalCommandForm(props: {
   command: AuthorCommand
   context?: CanonicalScriptEditorContext
+  reorderScopeKey?: string
   onChange: (command: AuthorCommand) => void
 }) {
   const command = props.command
@@ -1582,6 +1667,7 @@ function CanonicalCommandForm(props: {
     if (scene)
       return (
         <CommandForm
+          reorderScopeKey={props.reorderScopeKey}
           cmd={command as Command}
           scene={scene}
           locale={context.locale}
@@ -2964,10 +3050,16 @@ export function CanonicalScriptBodyEditor(props: {
   label?: string
   focusCommandPath?: string
   focusRevision?: number
+  reorderScopeKey?: string
 }) {
+  const fallbackReorderScope = useId()
   const editorRef = useRef<HTMLElement>(null)
   const lastAppliedFocusRevisionRef = useRef<number | undefined>(undefined)
+  const lastSeenBodyRef = useRef(props.body)
+  const lastSeenBodyFingerprintRef = useRef(JSON.stringify(props.body))
+  const locallyExpectedBodyFingerprintRef = useRef<string | undefined>(undefined)
   const [selectedPath, setSelectedPath] = useState<string>()
+  const [externalIdentityEpoch, setExternalIdentityEpoch] = useState(0)
   const [editingDraft, setEditingDraft] = useState<{
     path: string
     sourceBody: readonly AuthorCommand[]
@@ -2990,6 +3082,33 @@ export function CanonicalScriptBodyEditor(props: {
   }, [groups, insertSearch])
 
   useEffect(() => {
+    if (lastSeenBodyRef.current !== props.body) {
+      const fingerprint = JSON.stringify(props.body)
+      const bodyChanged = lastSeenBodyFingerprintRef.current !== fingerprint
+      const locallyOwned = locallyExpectedBodyFingerprintRef.current === fingerprint
+      const previousSelected = selectedPath
+        ? getAuthorCommandAt(lastSeenBodyRef.current, parseAuthorCommandPath(selectedPath))
+        : undefined
+      const nextSelected = selectedPath
+        ? getAuthorCommandAt(props.body, parseAuthorCommandPath(selectedPath))
+        : undefined
+      const selectedIdentityChanged =
+        selectedPath !== undefined &&
+        JSON.stringify(previousSelected) !== JSON.stringify(nextSelected)
+      lastSeenBodyRef.current = props.body
+      lastSeenBodyFingerprintRef.current = fingerprint
+      if (locallyOwned) locallyExpectedBodyFingerprintRef.current = undefined
+      if (bodyChanged && !locallyOwned) {
+        if (selectedIdentityChanged) setSelectedPath(undefined)
+        setEditingDraft(undefined)
+        setInsertPath(undefined)
+        const explicitFocusPending =
+          props.focusRevision !== undefined &&
+          lastAppliedFocusRevisionRef.current !== props.focusRevision
+        if (!explicitFocusPending) setExternalIdentityEpoch((epoch) => epoch + 1)
+        return
+      }
+    }
     if (selectedPath && !getAuthorCommandAt(props.body, parseAuthorCommandPath(selectedPath)))
       setSelectedPath(undefined)
     if (
@@ -3029,9 +3148,11 @@ export function CanonicalScriptBodyEditor(props: {
 
   const commit = (body: AuthorCommand[]): boolean => {
     try {
+      locallyExpectedBodyFingerprintRef.current = JSON.stringify(body)
       props.onChange(body)
       return true
     } catch (error) {
+      locallyExpectedBodyFingerprintRef.current = undefined
       props.onError?.(error instanceof Error ? error.message : String(error))
       return false
     }
@@ -3066,12 +3187,15 @@ export function CanonicalScriptBodyEditor(props: {
       <div className="canonical-script-editor-layout">
         <div className="canonical-script-tree">
           <CommandRows
+            key={externalIdentityEpoch}
             body={props.body}
             parentPath={[]}
             context={props.context}
             selectedPath={selectedPath}
             referenceFocusPath={props.focusCommandPath}
             referenceFocusRevision={props.focusRevision}
+            reorderScopeKey={props.reorderScopeKey ?? `canonical:${fallbackReorderScope}`}
+            reorderDisabled={Boolean(editingDraft || insertPath)}
             onSelect={(path) => {
               setSelectedPath(path)
             }}
@@ -3096,15 +3220,14 @@ export function CanonicalScriptBodyEditor(props: {
               if (commit(copyAuthorCommandAt(props.body, parsed)))
                 setSelectedPath(commandPathAfterInsert(parsed))
             }}
-            onMove={(path, direction) => {
-              const parsed = parseAuthorCommandPath(path)
-              if (commit(moveAuthorCommandAt(props.body, parsed, direction))) {
-                const last = parsed.at(-1)
-                if (typeof last === 'number')
-                  setSelectedPath(
-                    formatAuthorCommandPath([...parsed.slice(0, -1), last + direction]),
-                  )
-              }
+            onReorder={(parentPath, intent) => {
+              const path = [...parentPath, intent.fromIndex]
+              const next = moveAuthorCommandToIndex(props.body, path, intent.toIndex)
+              if (next === props.body || !commit(next)) return false
+              setSelectedPath((current) =>
+                remapSiblingPath(current, parentPath, intent.fromIndex, intent.toIndex),
+              )
+              return true
             }}
             onRemove={(path) => {
               if (commit(removeAuthorCommandAt(props.body, parseAuthorCommandPath(path)))) {
@@ -3198,6 +3321,7 @@ export function CanonicalScriptBodyEditor(props: {
           <CanonicalCommandForm
             command={editing}
             context={props.context}
+            reorderScopeKey={`canonical:${editingPath}`}
             onChange={(command) =>
               setEditingDraft((current) =>
                 current && current.path === editingPath ? { ...current, command } : current,

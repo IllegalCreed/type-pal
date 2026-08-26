@@ -422,9 +422,10 @@ describe('SkillTab · 动画布局', () => {
 })
 
 describe('SkillTab · 效果卡片', () => {
-  test('预览归属对应卡片，排序与删除同步保留结构', async () => {
+  test('[reorder-family:skill-effects] 预览跟随 handle 单命令排序，undo/redo 与删除保持结构', async () => {
     const value = skill()
     value.effects = [
+      { kind: 'trance', battleSprite: 'player-fighter-5' },
       { kind: 'trance', battleSprite: 'player-fighter-5' },
       { kind: 'buffStat', stat: 'attack', percent: 100, duration: 'battle' },
       { kind: 'summon', battleSprite: 'summon-1' },
@@ -434,39 +435,90 @@ describe('SkillTab · 效果卡片', () => {
 
     const chain = host.querySelector<HTMLOListElement>('[data-skill-effect-chain="base"]')!
     const cards = () => [...chain.querySelectorAll<HTMLElement>('.skill-effect-card')]
-    expect(cards().map((card) => card.dataset.effectKind)).toEqual(['trance', 'buffStat', 'summon'])
+    expect(cards().map((card) => card.dataset.effectKind)).toEqual([
+      'trance',
+      'trance',
+      'buffStat',
+      'summon',
+    ])
     expect(cards()[0]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
     expect(cards()[0]!.querySelector('[data-effect-preview]')?.textContent).toContain(
       '变身形象预览',
     )
-    expect(cards()[1]!.querySelector('[data-effect-preview]')).toBeNull()
-    expect(cards()[2]!.querySelector('[data-testid="summon-preview"]')).not.toBeNull()
-    expect(cards()[2]!.querySelector('[data-effect-preview]')?.textContent).toContain(
+    expect(cards()[1]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
+    expect(cards()[2]!.querySelector('[data-effect-preview]')).toBeNull()
+    expect(cards()[3]!.querySelector('[data-testid="summon-preview"]')).not.toBeNull()
+    expect(cards()[3]!.querySelector('[data-effect-preview]')?.textContent).toContain(
       '召唤形象预览',
     )
 
-    await act(async () =>
-      chain.querySelector<HTMLButtonElement>('button[aria-label="下移效果 1"]')!.click(),
-    )
+    const collection = host.querySelector<HTMLElement>(
+      '[data-ds-reorder-adoption="skill/base-effects"][data-ds-reorder-scope="skill:352:effects"]',
+    )!
+    const handle = collection.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
+    const sourceToken = handle.dataset.reorderKey
+    const rows = () => collection.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(rows()[0]?.dataset.itemKey).toBe(sourceToken)
+
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(1)
     expect(session.getState().skills[0]!.effects.map((effect) => effect.kind)).toEqual([
-      'buffStat',
       'trance',
+      'buffStat',
+      'summon',
+      'trance',
+    ])
+    expect(rows()[3]?.dataset.itemKey).toBe(sourceToken)
+    expect(cards().map((card) => card.dataset.effectKind)).toEqual([
+      'trance',
+      'buffStat',
+      'summon',
+      'trance',
+    ])
+    expect(cards()[0]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
+    expect(cards()[1]!.querySelector('[data-effect-preview]')).toBeNull()
+    expect(cards()[2]!.querySelector('[data-testid="summon-preview"]')).not.toBeNull()
+    expect(cards()[3]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
+
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().skills[0]!.effects.map((effect) => effect.kind)).toEqual([
+      'trance',
+      'trance',
+      'buffStat',
       'summon',
     ])
-    expect(cards().map((card) => card.dataset.effectKind)).toEqual(['buffStat', 'trance', 'summon'])
-    expect(cards()[0]!.querySelector('[data-effect-preview]')).toBeNull()
-    expect(cards()[1]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(session.getState().skills[0]!.effects.map((effect) => effect.kind)).toEqual([
+      'trance',
+      'buffStat',
+      'summon',
+      'trance',
+    ])
 
     await act(async () =>
-      chain.querySelector<HTMLButtonElement>('button[aria-label="删除效果 2"]')!.click(),
+      chain.querySelector<HTMLButtonElement>('button[aria-label="删除效果 4"]')!.click(),
     )
     expect(session.getState().skills[0]!.effects.map((effect) => effect.kind)).toEqual([
+      'trance',
       'buffStat',
       'summon',
     ])
-    expect(cards()).toHaveLength(2)
-    expect(cards()[0]!.querySelector('[data-effect-preview]')).toBeNull()
-    expect(cards()[1]!.querySelector('[data-testid="summon-preview"]')).not.toBeNull()
+    expect(cards()).toHaveLength(3)
+    expect(cards()[0]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
+    expect(cards()[1]!.querySelector('[data-effect-preview]')).toBeNull()
+    expect(cards()[2]!.querySelector('[data-testid="summon-preview"]')).not.toBeNull()
   })
 })
 

@@ -169,4 +169,50 @@ describe('EnemyTeamTab authoring closure', () => {
     expect(session.getState().enemyTeams?.at(-1)).toEqual({ id: 'boss.final', slots: [] })
     expect(host.querySelector('h1')?.textContent).toBe('boss.final')
   })
+
+  test('[reorder-family:enemy-team-fixed-slots] handle swaps with an empty slot without compression in one command', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} />))
+    const first = host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')[0]!
+    const handle = first.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(0)
+    await act(async () => {
+      handle.focus()
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+    })
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().enemyTeams?.[0]?.slots).toEqual([null, 'enemy-a', 'enemy-a'])
+    expect(host.querySelectorAll('.enemy-team-slot')).toHaveLength(5)
+    const reorderedItems = [...host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')]
+    const committedKeys = reorderedItems.map((item) => item.dataset.itemKey)
+    expect(document.activeElement).toBe(handle)
+    expect(reorderedItems.indexOf(handle.closest<HTMLElement>('[data-ds-reorder-item]')!)).toBe(1)
+    expect(handle.closest<HTMLElement>('[data-ds-reorder-item]')?.textContent).toContain('赤鬼')
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().enemyTeams?.[0]?.slots).toEqual(['enemy-a', null, 'enemy-a'])
+    const undoKeys = [...host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')].map(
+      (item) => item.dataset.itemKey,
+    )
+    expect(undoKeys.some((key) => committedKeys.includes(key))).toBe(false)
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(session.getState().enemyTeams?.[0]?.slots).toEqual([null, 'enemy-a', 'enemy-a'])
+    const redoKeys = [...host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')].map(
+      (item) => item.dataset.itemKey,
+    )
+    expect(redoKeys.some((key) => undoKeys.includes(key))).toBe(false)
+
+    const history = session.getHistoryVersion()
+    const fourth = host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')[3]!
+    await act(async () =>
+      fourth.querySelector<HTMLButtonElement>('[aria-label="槽 4 下移"]')!.click(),
+    )
+    expect(session.getHistoryVersion()).toBe(history)
+  })
 })

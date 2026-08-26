@@ -114,6 +114,9 @@ describe('insertAfterAt / removeAt / moveAt', () => {
       't1',
       't0',
     ])
+
+    const duplicate: ScriptStage[] = [{ body: [dlg('same'), dlg('same')] }]
+    expect(moveAt(duplicate, [0, 0], 1)).toBe(duplicate)
   })
 })
 

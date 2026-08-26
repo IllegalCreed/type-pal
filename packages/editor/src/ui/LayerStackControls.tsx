@@ -1,5 +1,6 @@
 import { type ReactNode, useId } from 'react'
 import { DsButton, DsIconButton, DsRangeInput, DsTag, DsPressable } from './design-system/index.js'
+import { DsReorderCollection, DsReorderItem, DsReorderMoveButton } from './design-system/reorder.js'
 
 export interface LayerStackControlItem {
   id: string
@@ -7,6 +8,7 @@ export interface LayerStackControlItem {
   detail?: ReactNode
   hidden?: boolean
   locked?: boolean
+  reorderDisabled?: boolean
   canMoveUp?: boolean
   canMoveDown?: boolean
 }
@@ -72,7 +74,10 @@ export function LayerStackControls(props: {
   onDelete: () => void
   onToggleVisible: (id: string) => void
   onToggleLocked: (id: string) => void
-  onMove: (id: string, direction: 'up' | 'down') => void
+  reorderScopeKey: string
+  reorderRevision: unknown
+  stackOrder: 'top-first' | 'bottom-first'
+  onReorder: (id: string, visualToIndex: number) => boolean | void
   addDisabled?: boolean
   deleteDisabled?: boolean
   footer?: ReactNode
@@ -100,61 +105,70 @@ export function LayerStackControls(props: {
           label="删除选中图层"
         />
       </div>
-      <div className="map-layer-list">
-        {props.items.map((layer) => (
-          <div
-            key={layer.id}
-            className={`map-layer-row${layer.id === props.activeId ? ' sel' : ''}`}
-          >
-            <DsIconButton
-              size="compact"
-              variant="quiet"
-              icon={layer.hidden ? 'eye-off' : 'eye'}
-              onClick={() => props.onToggleVisible(layer.id)}
-              label={layer.hidden ? '显示图层' : '隐藏图层'}
-              aria-pressed={!layer.hidden}
-            />
-            <DsIconButton
-              size="compact"
-              variant="quiet"
-              icon={layer.locked ? 'lock' : 'unlock'}
-              onClick={() => props.onToggleLocked(layer.id)}
-              label={layer.locked ? '解锁图层' : '锁定图层'}
-              aria-pressed={layer.locked}
-            />
-            <DsPressable
-              type="button"
-              className="layer-name"
-              onClick={() => props.onSelect(layer.id)}
-              title={`${layer.name} (${layer.id})`}
-              aria-pressed={layer.id === props.activeId}
-            >
-              <span>{layer.name}</span>
-              {layer.detail ? <small>{layer.detail}</small> : null}
-            </DsPressable>
-            {layer.id === props.activeId ? (
-              <span className="layer-order">
+      <DsReorderCollection
+        adoptionId="map/layer-stack"
+        scopeKey={props.reorderScopeKey}
+        entries={props.items.map((layer) => ({
+          key: layer.id,
+          label: layer.name,
+          disabled: layer.reorderDisabled ?? layer.locked,
+        }))}
+        revision={props.reorderRevision}
+        onReorder={(intent) => {
+          const source = props.items[intent.fromIndex]
+          if (!source) return false
+          return props.onReorder(source.id, intent.toIndex)
+        }}
+      >
+        <div className="map-layer-list">
+          {props.items.map((layer) => (
+            <DsReorderItem itemKey={layer.id} key={layer.id}>
+              <div className={`map-layer-row${layer.id === props.activeId ? ' sel' : ''}`}>
                 <DsIconButton
                   size="compact"
-                  variant="secondary"
-                  icon="chevron-up"
-                  onClick={() => props.onMove(layer.id, 'up')}
-                  disabled={!layer.canMoveUp || layer.locked}
-                  label="上移图层"
+                  variant="quiet"
+                  icon={layer.hidden ? 'eye-off' : 'eye'}
+                  onClick={() => props.onToggleVisible(layer.id)}
+                  label={layer.hidden ? '显示图层' : '隐藏图层'}
+                  aria-pressed={!layer.hidden}
                 />
                 <DsIconButton
                   size="compact"
-                  variant="secondary"
-                  icon="chevron-down"
-                  onClick={() => props.onMove(layer.id, 'down')}
-                  disabled={!layer.canMoveDown || layer.locked}
-                  label="下移图层"
+                  variant="quiet"
+                  icon={layer.locked ? 'lock' : 'unlock'}
+                  onClick={() => props.onToggleLocked(layer.id)}
+                  label={layer.locked ? '解锁图层' : '锁定图层'}
+                  aria-pressed={layer.locked}
                 />
-              </span>
-            ) : null}
-          </div>
-        ))}
-      </div>
+                <DsPressable
+                  type="button"
+                  className="layer-name"
+                  onClick={() => props.onSelect(layer.id)}
+                  title={`${layer.name} (${layer.id})`}
+                  aria-pressed={layer.id === props.activeId}
+                >
+                  <span>{layer.name}</span>
+                  {layer.detail ? <small>{layer.detail}</small> : null}
+                </DsPressable>
+                {layer.id === props.activeId ? (
+                  <span className="layer-order">
+                    <DsReorderMoveButton
+                      itemKey={layer.id}
+                      direction={props.stackOrder === 'top-first' ? 'backward' : 'forward'}
+                      label="上移图层"
+                    />
+                    <DsReorderMoveButton
+                      itemKey={layer.id}
+                      direction={props.stackOrder === 'top-first' ? 'forward' : 'backward'}
+                      label="下移图层"
+                    />
+                  </span>
+                ) : null}
+              </div>
+            </DsReorderItem>
+          ))}
+        </div>
+      </DsReorderCollection>
       {props.footer}
     </section>
   )

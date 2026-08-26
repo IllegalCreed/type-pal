@@ -11,6 +11,7 @@ import {
   deleteDraftFrames,
   draftDurationMs,
   draftFrameMetadata,
+  frameSelectionAfterReorder,
   duplicateDraftFrame,
   insertDraftFrames,
   moveDraftFrame,
@@ -61,6 +62,33 @@ describe('frame animation draft', () => {
     history = commitDraftHistory(history, changed)
     expect(undoDraftHistory(history).present).toBe(base)
     expect(redoDraftHistory(undoDraftHistory(history)).present).toBe(changed)
+  })
+
+  it('一次重排历史让 active/anchor 跟随来源帧，且 undo/redo 对称', () => {
+    const base = duplicateDraftFrame(draft(), 1, 'c')
+    const moved = moveDraftFrame(base, 0, 2)
+    const multi = new Set(['a', 'c'])
+    const followed = frameSelectionAfterReorder(moved.frames, 'a', multi)
+    expect(followed).toEqual({
+      selectedFrameIds: multi,
+      selectedIndex: 2,
+      selectionAnchor: 2,
+    })
+    const collapsed = frameSelectionAfterReorder(moved.frames, 'b', new Set(['a']))
+    expect([...collapsed.selectedFrameIds]).toEqual(['b'])
+    expect(collapsed.selectedIndex).toBe(0)
+    expect(collapsed.selectionAnchor).toBe(0)
+
+    const history = commitDraftHistory(createDraftHistory(base), moved)
+    expect(history.past).toHaveLength(1)
+    expect(undoDraftHistory(history).present.frames.map((frame) => frame.id)).toEqual([
+      'a',
+      'b',
+      'c',
+    ])
+    expect(
+      redoDraftHistory(undoDraftHistory(history)).present.frames.map((frame) => frame.id),
+    ).toEqual(['b', 'c', 'a'])
   })
 
   it('拒绝尺寸错误、重复 id 和删除全部帧', () => {

@@ -320,7 +320,9 @@ describe('入口开局世界资源', () => {
     expect(selectedRow.querySelector('.ds-catalog-row__trailing .ds-tag')?.textContent).toBe(
       '直接启动',
     )
-    expect(selectedRow.querySelector('.ds-catalog-row__leading [aria-hidden="true"]')).not.toBeNull()
+    expect(
+      selectedRow.querySelector('.ds-catalog-row__leading [aria-hidden="true"]'),
+    ).not.toBeNull()
 
     await act(async () => root.render(projectTab('entrypoint', session, 'main')))
     expect(host.querySelector('.project-center h1')?.textContent).toBe('主要入口')
@@ -369,7 +371,7 @@ describe('入口开局世界资源', () => {
     expect(button(host, '删除当前入口').disabled).toBe(true)
   })
 
-  test('入口重排一次动作只写一条命令，并保持直接启动 ID 不变', async () => {
+  test('[reorder-family:project-entry-party] 入口 handle 重排一次只写一条命令，并保持直接启动 ID 不变', async () => {
     const state = projectState()
     state.manifest.entryPoints.push(
       {
@@ -388,7 +390,20 @@ describe('入口开局世界资源', () => {
     const session = new EditSession(state)
     await act(async () => root.render(projectTab('entrypoint', session, 'alternate')))
 
-    await act(async () => button(host, '上移当前入口').click())
+    const handle = [...host.querySelectorAll<HTMLButtonElement>('[data-ds-reorder-handle]')].find(
+      (candidate) => candidate.getAttribute('aria-label')?.includes('备用入口'),
+    )!
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(0)
+    await act(async () => {
+      handle.focus()
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
     expect(session.getHistoryVersion()).toBe(1)
     expect(session.getState().manifest.entryPoints.map((entry) => entry.id)).toEqual([
       'alternate',
@@ -512,17 +527,30 @@ describe('入口开局世界资源', () => {
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(host.querySelector('[role="status"]')?.textContent).toContain('伙伴加入初始队伍')
+    expect(host.querySelector('[role="status"]')?.classList.contains('ds-visually-hidden')).toBe(
+      true,
+    )
     expect(document.activeElement?.getAttribute('aria-label')).toBe('移出伙伴')
 
-    const moveFriend = host.querySelector<HTMLButtonElement>('[aria-label="上移伙伴"]')!
+    const moveFriend = [
+      ...host.querySelectorAll<HTMLButtonElement>('[data-ds-reorder-handle]'),
+    ].find((candidate) => candidate.getAttribute('aria-label')?.includes('伙伴'))!
     await act(async () => {
       moveFriend.focus()
-      moveFriend.click()
+      moveFriend.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      moveFriend.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }))
+      moveFriend.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
     })
     expect(session.getHistoryVersion()).toBe(2)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['friend', 'hero'])
     await act(async () => root.render(projectTab('entrypoint', session)))
-    expect(document.activeElement?.getAttribute('aria-label')).toBe('上移伙伴')
+    expect(document.activeElement?.getAttribute('aria-label')).toBe(
+      '调整伙伴顺序，第 1 项，共 2 项',
+    )
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
+    expect(session.redo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['friend', 'hero'])
     expect(session.undo()).toBe(true)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
 
@@ -651,6 +679,46 @@ describe('入口开局世界资源', () => {
     expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
       { itemId: 'pill', count: 6 },
     ])
+  })
+
+  test('[reorder-family:startup-inventory] 初始库存 handle 重排只提交一次并可单步 undo/redo', async () => {
+    const state = projectState()
+    state.items = [
+      { id: 'herb', name: '止血草', desc: [], buyPrice: 0, sellPrice: 0, sellable: false },
+      { id: 'pill', name: '还神丹', desc: [], buyPrice: 0, sellPrice: 0, sellable: false },
+    ]
+    state.manifest.entryPoints[0]!.startWorld.inventory = [
+      { itemId: 'herb', count: 2 },
+      { itemId: 'pill', count: 3 },
+    ]
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    const handle = [...host.querySelectorAll<HTMLButtonElement>('[data-ds-reorder-handle]')].find(
+      (candidate) => candidate.getAttribute('aria-label')?.includes('还神丹'),
+    )!
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(0)
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
+      { itemId: 'pill', count: 3 },
+      { itemId: 'herb', count: 2 },
+    ])
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory?.[0]?.itemId).toBe(
+      'herb',
+    )
+    expect(session.redo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory?.[0]?.itemId).toBe(
+      'pill',
+    )
   })
 
   test('初始队伍合并当前状态，不暴露独立 schema 面板', async () => {

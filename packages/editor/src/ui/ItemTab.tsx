@@ -82,11 +82,18 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
   DsSelect,
   DsTag,
   DsTextInput,
   DsWorkbenchSection,
   DsPressable,
+  reorderDsItems,
+  sameDsSerializableValue,
+  type DsReorderIntent,
+  useDsReorderKeys,
 } from './design-system/index.js'
 import { ImageAssetThumbnail, imageAssetLabel, imageAssets } from './ImageAssetPicker.js'
 import {
@@ -997,12 +1004,21 @@ export function ItemTab(props: {
     patch({ throw: next })
   }
   const equip = item?.equip
+  const equipEffectReorderKeys = useDsReorderKeys(equip?.effects ?? [])
   const patchEquip = (next: EquipSpec | undefined): void => patch({ equip: next })
   const setEquipEffect = (index: number, next: EquipEffect): void => {
     if (!equip) return
     const effects = [...equip.effects]
     effects[index] = next
     patchEquip({ ...equip, effects })
+  }
+  const reorderEquipEffects = (intent: DsReorderIntent): boolean => {
+    if (!equip) return false
+    const effects = reorderDsItems(equip.effects, intent, 'insert', sameDsSerializableValue)
+    if (effects === equip.effects) return false
+    equipEffectReorderKeys.move(intent)
+    patchEquip({ ...equip, effects: [...effects] })
+    return true
   }
   const derived = equip
     ? describeEquipEffects(equip.effects, { skillName, battleSpriteName, actorName })
@@ -1628,110 +1644,108 @@ export function ItemTab(props: {
                           添加效果
                         </DsButton>
                       </div>
-                      {equip.effects.map((effect, index) => (
-                        <div
-                          className={`ef-row item-equip-effect-row${
-                            effect.kind === 'battleSprite'
-                              ? ' item-equip-effect-row-battle-sprite'
-                              : ''
-                          }`}
-                          key={`${item.id}-equip-${index}`}
-                        >
-                          <div className="ef-kind">
-                            <DsSelect
-                              size="compact"
-                              aria-label={`装备效果 ${index + 1} 类型`}
-                              value={effect.kind}
-                              options={EFFECT_KINDS.map((kind) => ({
-                                value: kind.v,
-                                label: kind.label,
-                                disabled:
-                                  kind.v === 'battleSprite' &&
-                                  effect.kind !== 'battleSprite' &&
-                                  equip.effects.some(
-                                    (candidate) => candidate.kind === 'battleSprite',
-                                  ),
-                              }))}
-                              onValueChange={(value) => {
-                                try {
-                                  setEquipEffect(
-                                    index,
-                                    defaultEquipEffect(value as EquipEffect['kind']),
-                                  )
-                                  onStatusNotice?.(undefined)
-                                } catch (cause) {
-                                  onStatusNotice?.({
-                                    kind: 'error',
-                                    message: cause instanceof Error ? cause.message : String(cause),
-                                  })
-                                }
-                              }}
-                            />
-                          </div>
-                          <div className="ef-fields">
-                            <EquipEffectFields
-                              e={effect}
-                              draftKey={`item:${item.id}:equip.effects.${index}`}
-                              syncToken={session.getHistoryVersion()}
-                              skills={skills}
-                              battleSprites={battleSprites}
-                              actors={actors}
-                              equipableBy={equip.equipableBy}
-                              locale={locale}
-                              on={(next) => setEquipEffect(index, next)}
-                              onOpenBattleSprite={onOpenBattleSprite}
-                            />
-                          </div>
-                          <span
-                            className="ef-ops ds-control-group__actions"
-                            role="group"
-                            aria-label={`装备效果 ${index + 1} 排序与删除`}
-                          >
-                            <DsIconButton
-                              size="compact"
-                              variant="secondary"
-                              icon="chevron-up"
-                              label={`上移装备效果 ${index + 1}`}
-                              disabled={index === 0}
-                              onClick={() => {
-                                const effects = [...equip.effects]
-                                ;[effects[index - 1], effects[index]] = [
-                                  effects[index]!,
-                                  effects[index - 1]!,
-                                ]
-                                patchEquip({ ...equip, effects })
-                              }}
-                            />
-                            <DsIconButton
-                              size="compact"
-                              variant="secondary"
-                              icon="chevron-down"
-                              label={`下移装备效果 ${index + 1}`}
-                              disabled={index === equip.effects.length - 1}
-                              onClick={() => {
-                                const effects = [...equip.effects]
-                                ;[effects[index], effects[index + 1]] = [
-                                  effects[index + 1]!,
-                                  effects[index]!,
-                                ]
-                                patchEquip({ ...equip, effects })
-                              }}
-                            />
-                            <DsIconButton
-                              size="compact"
-                              variant="danger"
-                              icon="delete"
-                              label={`删除装备效果 ${index + 1}`}
-                              onClick={() =>
-                                patchEquip({
-                                  ...equip,
-                                  effects: equip.effects.filter((_, at) => at !== index),
-                                })
-                              }
-                            />
-                          </span>
-                        </div>
-                      ))}
+                      <DsReorderCollection
+                        adoptionId="item/equipment-effects"
+                        scopeKey={`item:${item.id}:equip.effects`}
+                        entries={equip.effects.map((effect, index) => ({
+                          key: equipEffectReorderKeys.keys[index]!,
+                          label:
+                            EFFECT_KINDS.find((kind) => kind.v === effect.kind)?.label ??
+                            effect.kind,
+                        }))}
+                        revision={session.getHistoryVersion()}
+                        onReorder={reorderEquipEffects}
+                      >
+                        {equip.effects.map((effect, index) => {
+                          const reorderKey = equipEffectReorderKeys.keys[index]!
+                          return (
+                            <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                              <div
+                                className={`ef-row item-equip-effect-row${
+                                  effect.kind === 'battleSprite'
+                                    ? ' item-equip-effect-row-battle-sprite'
+                                    : ''
+                                }`}
+                              >
+                                <div className="ef-kind">
+                                  <DsSelect
+                                    size="compact"
+                                    aria-label={`装备效果 ${index + 1} 类型`}
+                                    value={effect.kind}
+                                    options={EFFECT_KINDS.map((kind) => ({
+                                      value: kind.v,
+                                      label: kind.label,
+                                      disabled:
+                                        kind.v === 'battleSprite' &&
+                                        effect.kind !== 'battleSprite' &&
+                                        equip.effects.some(
+                                          (candidate) => candidate.kind === 'battleSprite',
+                                        ),
+                                    }))}
+                                    onValueChange={(value) => {
+                                      try {
+                                        setEquipEffect(
+                                          index,
+                                          defaultEquipEffect(value as EquipEffect['kind']),
+                                        )
+                                        onStatusNotice?.(undefined)
+                                      } catch (cause) {
+                                        onStatusNotice?.({
+                                          kind: 'error',
+                                          message:
+                                            cause instanceof Error ? cause.message : String(cause),
+                                        })
+                                      }
+                                    }}
+                                  />
+                                </div>
+                                <div className="ef-fields">
+                                  <EquipEffectFields
+                                    e={effect}
+                                    draftKey={`item:${item.id}:equip.effects.${reorderKey}`}
+                                    syncToken={session.getHistoryVersion()}
+                                    skills={skills}
+                                    battleSprites={battleSprites}
+                                    actors={actors}
+                                    equipableBy={equip.equipableBy}
+                                    locale={locale}
+                                    on={(next) => setEquipEffect(index, next)}
+                                    onOpenBattleSprite={onOpenBattleSprite}
+                                  />
+                                </div>
+                                <span
+                                  className="ef-ops ds-control-group__actions"
+                                  role="group"
+                                  aria-label={`装备效果 ${index + 1} 排序与删除`}
+                                >
+                                  <DsReorderMoveButton
+                                    itemKey={reorderKey}
+                                    direction="backward"
+                                    label={`上移装备效果 ${index + 1}`}
+                                  />
+                                  <DsReorderMoveButton
+                                    itemKey={reorderKey}
+                                    direction="forward"
+                                    label={`下移装备效果 ${index + 1}`}
+                                  />
+                                  <DsIconButton
+                                    size="compact"
+                                    variant="danger"
+                                    icon="delete"
+                                    label={`删除装备效果 ${index + 1}`}
+                                    onClick={() =>
+                                      patchEquip({
+                                        ...equip,
+                                        effects: equip.effects.filter((_, at) => at !== index),
+                                      })
+                                    }
+                                  />
+                                </span>
+                              </div>
+                            </DsReorderItem>
+                          )
+                        })}
+                      </DsReorderCollection>
                       {!equip.effects.length ? (
                         <div className="item-capability-note">
                           当前是纯剧情/风味装备，没有数值效果。

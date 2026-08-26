@@ -8,6 +8,7 @@ import {
   eraseStampDraftCollision,
   eraseStampDraftVisual,
   moveStampDraftLayer,
+  moveStampDraftLayerTo,
   moveStampDraftSelection,
   openStampDraft,
   reanchorStampDraft,
@@ -89,6 +90,11 @@ describe('canonical stamp draft', () => {
     draft = updateStampDraftLayer(draft, 'decor', { name: '前景装饰' })
     expect(draft.layers.map(({ id }) => id)).toEqual(['base', 'decor', 'roof'])
     expect(draft.layers[1]?.heights?.[8]?.[8]).toBe(4)
+    const same = draft
+    draft = moveStampDraftLayerTo(draft, 'decor', 2)
+    expect(draft.layers.map(({ id }) => id)).toEqual(['base', 'roof', 'decor'])
+    expect(moveStampDraftLayerTo(draft, 'decor', 2)).toBe(draft)
+    expect(same).not.toBe(draft)
     draft = deleteStampDraftLayer(draft, 'decor')
     expect(draft.layers.map(({ id }) => id)).toEqual(['base', 'roof'])
   })

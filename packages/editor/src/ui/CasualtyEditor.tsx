@@ -10,21 +10,28 @@
  */
 import type { ActorDef, CasualtyBranch, CasualtyScript, Locale } from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import {
   DsButton,
   DsDraftNumberInput,
   DsDraftTextInput,
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
   DsSelect,
   DsSequenceIndex,
   DsPressable,
+  reorderDsItems,
+  sameDsSerializableValue,
+  type DsReorderIntent,
+  useDsReorderKeys,
 } from './design-system/index.js'
 
 export type CasualtySlot = 'friendDeath' | 'dying'
 
-type BranchTarget = { kind: 'gate'; index: number } | { kind: 'fallback' }
+type BranchTarget = { kind: 'gate'; key: string } | { kind: 'fallback' }
 
 const STYLE_OPTIONS = [
   { value: 'bottom', label: '底部对话' },
@@ -65,7 +72,23 @@ export function CasualtyEditor(props: {
   const syncToken = session.getHistoryVersion()
   const [slot, setSlot] = useState<CasualtySlot>('friendDeath')
   const [target, setTarget] = useState<BranchTarget>({ kind: 'fallback' })
+  const [externalIdentityEpoch, setExternalIdentityEpoch] = useState(0)
   const script = actor.battler.casualty?.[slot]
+  const gateReorderKeys = useDsReorderKeys(script?.gates ?? [], (gate) => JSON.stringify(gate))
+  const targetIndex = target.kind === 'gate' ? gateReorderKeys.keys.indexOf(target.key) : -1
+  const lastSeenHistoryVersionRef = useRef(syncToken)
+  const locallyOwnedHistoryVersionRef = useRef<number | undefined>(undefined)
+
+  useEffect(() => {
+    if (lastSeenHistoryVersionRef.current === syncToken) return
+    const locallyOwned = locallyOwnedHistoryVersionRef.current === syncToken
+    lastSeenHistoryVersionRef.current = syncToken
+    locallyOwnedHistoryVersionRef.current = undefined
+    if (locallyOwned) return
+    gateReorderKeys.reset()
+    setTarget({ kind: 'fallback' })
+    setExternalIdentityEpoch((epoch) => epoch + 1)
+  }, [gateReorderKeys.reset, syncToken])
 
   const emptyBranch = (): CasualtyBranch => ({ lines: [], effects: [] })
 
@@ -76,17 +99,21 @@ export function CasualtyEditor(props: {
       : {}
     if (next === undefined) delete nextCasualty[slot]
     else nextCasualty[slot] = next
-    session.dispatch(
-      new UpdateActorCommand(actor.id, {
-        battler: {
-          ...actor.battler,
-          casualty:
-            nextCasualty.friendDeath !== undefined || nextCasualty.dying !== undefined
-              ? nextCasualty
-              : undefined,
-        },
-      }),
-    )
+    if (
+      session.dispatch(
+        new UpdateActorCommand(actor.id, {
+          battler: {
+            ...actor.battler,
+            casualty:
+              nextCasualty.friendDeath !== undefined || nextCasualty.dying !== undefined
+                ? nextCasualty
+                : undefined,
+          },
+        }),
+      )
+    ) {
+      locallyOwnedHistoryVersionRef.current = session.getHistoryVersion()
+    }
   }
 
   const setScript = (fn: (s: CasualtyScript) => CasualtyScript): void =>
@@ -99,15 +126,22 @@ export function CasualtyEditor(props: {
     }))
 
   const removeGate = (index: number): void => {
+    const removedKey = gateReorderKeys.keys[index]
+    const selectedGate = target.kind === 'gate' ? script?.gates[targetIndex] : undefined
+    const removedGate = script?.gates[index]
+    const selectedOccurrenceBecomesAmbiguous =
+      targetIndex > index &&
+      selectedGate !== undefined &&
+      removedGate !== undefined &&
+      JSON.stringify(selectedGate) === JSON.stringify(removedGate)
+    gateReorderKeys.remove(index)
     setScript((s) => ({ ...s, gates: s.gates.filter((_, i) => i !== index) }))
-    // K1:gates 删除后选中态 clamp/回退 fallback。
-    setTarget((t) =>
-      t.kind === 'gate' && t.index === index
-        ? { kind: 'fallback' }
-        : t.kind === 'gate' && t.index > index
-          ? { kind: 'gate', index: t.index - 1 }
-          : t,
-    )
+    if (
+      (target.kind === 'gate' && target.key === removedKey) ||
+      selectedOccurrenceBecomesAmbiguous
+    ) {
+      setTarget({ kind: 'fallback' })
+    }
   }
 
   const setGateChance = (index: number, chance: number): void =>
@@ -116,7 +150,16 @@ export function CasualtyEditor(props: {
       gates: s.gates.map((g, i) => (i === index ? { ...g, chance } : g)),
     }))
 
-  const branch = target.kind === 'fallback' ? script?.fallback : script?.gates[target.index]?.branch
+  const reorderGates = (intent: DsReorderIntent): boolean => {
+    if (!script) return false
+    const gates = reorderDsItems(script.gates, intent, 'insert', sameDsSerializableValue)
+    if (gates === script.gates) return false
+    gateReorderKeys.move(intent)
+    dispatchCasualty({ ...script, gates: [...gates] })
+    return true
+  }
+
+  const branch = target.kind === 'fallback' ? script?.fallback : script?.gates[targetIndex]?.branch
   const selectSlot = (next: CasualtySlot): void => {
     setSlot(next)
     setTarget({ kind: 'fallback' })
@@ -128,7 +171,7 @@ export function CasualtyEditor(props: {
         ? { ...s, fallback: next }
         : {
             ...s,
-            gates: s.gates.map((g, i) => (i === target.index ? { ...g, branch: next } : g)),
+            gates: s.gates.map((g, i) => (i === targetIndex ? { ...g, branch: next } : g)),
           },
     )
 
@@ -205,64 +248,89 @@ export function CasualtyEditor(props: {
             <p className="casualty-probability-note">
               从上到下判定；随机数达到阈值时执行该分支并停止。
             </p>
-            <div className="casualty-branch-list">
-              {script.gates.map((gate, index) => {
-                const selected = target.kind === 'gate' && target.index === index
-                return (
-                  <div key={index} className={`arow casualty-gate-row${selected ? ' sel' : ''}`}>
-                    <DsPressable
-                      type="button"
-                      className="casualty-branch-select"
-                      data-gate-select="true"
-                      aria-pressed={selected}
-                      onClick={() => setTarget({ kind: 'gate', index })}
-                    >
-                      <DsSequenceIndex
-                        value={index + 1}
-                        accessibleLabel={`第 ${index + 1} 个概率分支`}
-                      />
-                      <span>
-                        <strong>概率分支</strong>
-                        <small>
-                          {gate.branch.lines.length} 条台词 · {gate.branch.effects.length} 个效果
-                        </small>
-                      </span>
-                    </DsPressable>
-                    <label className="casualty-chance-field">
-                      <span>阈值</span>
-                      <DsDraftNumberInput
-                        draftKey={`actor:${actor.id}:casualty:${slot}:gate:${index}:chance`}
-                        syncToken={syncToken}
-                        min={1}
-                        max={100}
-                        step={1}
-                        integer
-                        normalize={(value) =>
-                          Math.max(1, Math.min(100, Math.trunc(value)))
-                        }
-                        aria-label={`第 ${index + 1} 个概率分支阈值`}
-                        value={gate.chance}
-                        onCommit={(value) => {
-                          const chance = Math.max(1, Math.min(100, value ?? 1))
-                          if (chance !== gate.chance) setGateChance(index, chance)
-                        }}
-                      />
-                      <span>%</span>
-                    </label>
-                    <DsButton
-                      className="casualty-delete-branch"
-                      aria-label={`删除第 ${index + 1} 个概率分支`}
-                      title="删除概率分支"
-                      onClick={() => removeGate(index)}
-                      size="compact"
-                      variant="secondary"
-                    >
-                      ✕
-                    </DsButton>
-                  </div>
-                )
-              })}
-            </div>
+            <DsReorderCollection
+              adoptionId="actor/casualty-gates"
+              scopeKey={`actor:${actor.id}:casualty:${slot}:gates`}
+              entries={script.gates.map((_gate, index) => ({
+                key: gateReorderKeys.keys[index]!,
+                label: `概率分支 ${index + 1}`,
+              }))}
+              revision={syncToken}
+              onReorder={reorderGates}
+            >
+              <div className="casualty-branch-list">
+                {script.gates.map((gate, index) => {
+                  const reorderKey = gateReorderKeys.keys[index]!
+                  const selected = target.kind === 'gate' && target.key === reorderKey
+                  return (
+                    <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                      <div className={`arow casualty-gate-row${selected ? ' sel' : ''}`}>
+                        <DsPressable
+                          type="button"
+                          className="casualty-branch-select"
+                          data-gate-select="true"
+                          aria-pressed={selected}
+                          onClick={() => setTarget({ kind: 'gate', key: reorderKey })}
+                        >
+                          <DsSequenceIndex
+                            value={index + 1}
+                            accessibleLabel={`第 ${index + 1} 个概率分支`}
+                          />
+                          <span>
+                            <strong>概率分支</strong>
+                            <small>
+                              {gate.branch.lines.length} 条台词 · {gate.branch.effects.length}{' '}
+                              个效果
+                            </small>
+                          </span>
+                        </DsPressable>
+                        <label className="casualty-chance-field">
+                          <span>阈值</span>
+                          <DsDraftNumberInput
+                            draftKey={`actor:${actor.id}:casualty:${slot}:gate:${reorderKey}:chance`}
+                            syncToken={syncToken}
+                            min={1}
+                            max={100}
+                            step={1}
+                            integer
+                            normalize={(value) => Math.max(1, Math.min(100, Math.trunc(value)))}
+                            aria-label={`第 ${index + 1} 个概率分支阈值`}
+                            value={gate.chance}
+                            onCommit={(value) => {
+                              const chance = Math.max(1, Math.min(100, value ?? 1))
+                              if (chance !== gate.chance) setGateChance(index, chance)
+                            }}
+                          />
+                          <span>%</span>
+                        </label>
+                        <span className="casualty-gate-actions">
+                          <DsReorderMoveButton
+                            itemKey={reorderKey}
+                            direction="backward"
+                            label={`上移第 ${index + 1} 个概率分支`}
+                          />
+                          <DsReorderMoveButton
+                            itemKey={reorderKey}
+                            direction="forward"
+                            label={`下移第 ${index + 1} 个概率分支`}
+                          />
+                          <DsButton
+                            className="casualty-delete-branch"
+                            aria-label={`删除第 ${index + 1} 个概率分支`}
+                            title="删除概率分支"
+                            onClick={() => removeGate(index)}
+                            size="compact"
+                            variant="secondary"
+                          >
+                            ✕
+                          </DsButton>
+                        </span>
+                      </div>
+                    </DsReorderItem>
+                  )
+                })}
+              </div>
+            </DsReorderCollection>
             <DsButton
               className="casualty-add-branch"
               onClick={addGate}
@@ -291,12 +359,13 @@ export function CasualtyEditor(props: {
           <main className="casualty-branch-editor">
             {branch ? (
               <BranchEditor
+                key={`${slot}:${target.kind === 'fallback' ? 'fallback' : target.key}:${externalIdentityEpoch}`}
                 branch={branch}
                 locale={locale}
                 onChange={setBranch}
-                header={target.kind === 'fallback' ? '兜底分支' : `概率分支 ${target.index + 1}`}
+                header={target.kind === 'fallback' ? '兜底分支' : `概率分支 ${targetIndex + 1}`}
                 draftScope={`actor:${actor.id}:casualty:${slot}:${
-                  target.kind === 'fallback' ? 'fallback' : `gate:${target.index}`
+                  target.kind === 'fallback' ? 'fallback' : `gate:${target.key}`
                 }`}
                 syncToken={syncToken}
               />
@@ -319,8 +388,24 @@ function BranchEditor(props: {
   onChange: (next: CasualtyBranch) => void
 }) {
   const { branch, locale, header, draftScope, syncToken, onChange } = props
+  const lineReorderKeys = useDsReorderKeys(branch.lines, (line) => `${line.text}\0${line.style}`)
+  const effectReorderKeys = useDsReorderKeys(branch.effects, (effect) => JSON.stringify(effect))
   const setLines = (lines: CasualtyBranch['lines']): void => onChange({ ...branch, lines })
   const setEffects = (effects: CasualtyBranch['effects']): void => onChange({ ...branch, effects })
+  const reorderLines = (intent: DsReorderIntent): boolean => {
+    const lines = reorderDsItems(branch.lines, intent, 'insert', sameDsSerializableValue)
+    if (lines === branch.lines) return false
+    lineReorderKeys.move(intent)
+    setLines([...lines])
+    return true
+  }
+  const reorderEffects = (intent: DsReorderIntent): boolean => {
+    const effects = reorderDsItems(branch.effects, intent, 'insert', sameDsSerializableValue)
+    if (effects === branch.effects) return false
+    effectReorderKeys.move(intent)
+    setEffects([...effects])
+    return true
+  }
 
   return (
     <div className="casualty-branch-content">
@@ -348,70 +433,90 @@ function BranchEditor(props: {
             ＋ 台词
           </DsButton>
         </header>
-        <div className="casualty-item-list">
-          {branch.lines.map((line, index) => (
-            <article key={index} className="casualty-item-card">
-              <header>
-                <strong>台词 {index + 1}</strong>
-                <DsButton
-                  aria-label={`删除台词 ${index + 1}`}
-                  onClick={() => setLines(branch.lines.filter((_, i) => i !== index))}
-                  size="compact"
-                  variant="secondary"
-                >
-                  ✕
-                </DsButton>
-              </header>
-              <div className="casualty-line-fields">
-                <label>
-                  <span>文本 ID</span>
-                  <DsDraftTextInput
-                    placeholder="文本 id（如 dlg.1208）"
-                    draftKey={`${draftScope}:line:${index}:text`}
-                    syncToken={syncToken}
-                    value={line.text}
-                    onCommit={(text) =>
-                      setLines(
-                        branch.lines.map((item, i) =>
-                          i === index ? { ...item, text } : item,
-                        ),
-                      )
-                    }
-                    monospace
-                  />
-                </label>
-                <div className="casualty-field">
-                  <span>显示方式</span>
-                  <DsSelect
-                    size="compact"
-                    aria-label={`第 ${index + 1} 条台词样式`}
-                    value={line.style}
-                    options={STYLE_OPTIONS}
-                    onValueChange={(value) =>
-                      setLines(
-                        branch.lines.map((item, i) =>
-                          i === index
-                            ? {
-                                ...item,
-                                style: value as CasualtyBranch['lines'][number]['style'],
-                              }
-                            : item,
-                        ),
-                      )
-                    }
-                  />
-                </div>
-              </div>
-              <div className="casualty-dialog-preview">
-                <span>预览</span>
-                <p>{line.text ? previewText(line.text, locale) : '尚未选择文本'}</p>
-              </div>
-            </article>
-          ))}
-          {branch.lines.length === 0 ? (
-            <div className="casualty-empty-state">这个分支没有台词。</div>
-          ) : null}
-        </div>
+        <DsReorderCollection
+          adoptionId="actor/casualty-lines"
+          scopeKey={`${draftScope}:lines`}
+          entries={branch.lines.map((_line, index) => ({
+            key: lineReorderKeys.keys[index]!,
+            label: `台词 ${index + 1}`,
+          }))}
+          revision={syncToken}
+          onReorder={reorderLines}
+        >
+          <div className="casualty-item-list">
+            {branch.lines.map((line, index) => {
+              const reorderKey = lineReorderKeys.keys[index]!
+              return (
+                <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                  <article className="casualty-item-card">
+                    <header>
+                      <strong>台词 {index + 1}</strong>
+                      <span className="casualty-item-actions">
+                        <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
+                        <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
+                        <DsButton
+                          aria-label={`删除台词 ${index + 1}`}
+                          onClick={() => setLines(branch.lines.filter((_, i) => i !== index))}
+                          size="compact"
+                          variant="secondary"
+                        >
+                          ✕
+                        </DsButton>
+                      </span>
+                    </header>
+                    <div className="casualty-line-fields">
+                      <label>
+                        <span>文本 ID</span>
+                        <DsDraftTextInput
+                          placeholder="文本 id（如 dlg.1208）"
+                          draftKey={`${draftScope}:line:${reorderKey}:text`}
+                          syncToken={syncToken}
+                          value={line.text}
+                          onCommit={(text) =>
+                            setLines(
+                              branch.lines.map((item, i) =>
+                                i === index ? { ...item, text } : item,
+                              ),
+                            )
+                          }
+                          monospace
+                        />
+                      </label>
+                      <div className="casualty-field">
+                        <span>显示方式</span>
+                        <DsSelect
+                          size="compact"
+                          aria-label={`第 ${index + 1} 条台词样式`}
+                          value={line.style}
+                          options={STYLE_OPTIONS}
+                          onValueChange={(value) =>
+                            setLines(
+                              branch.lines.map((item, i) =>
+                                i === index
+                                  ? {
+                                      ...item,
+                                      style: value as CasualtyBranch['lines'][number]['style'],
+                                    }
+                                  : item,
+                              ),
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="casualty-dialog-preview">
+                      <span>预览</span>
+                      <p>{line.text ? previewText(line.text, locale) : '尚未选择文本'}</p>
+                    </div>
+                  </article>
+                </DsReorderItem>
+              )
+            })}
+            {branch.lines.length === 0 ? (
+              <div className="casualty-empty-state">这个分支没有台词。</div>
+            ) : null}
+          </div>
+        </DsReorderCollection>
       </section>
 
       <section className="casualty-content-section">
@@ -428,125 +533,145 @@ function BranchEditor(props: {
             ＋ 效果
           </DsButton>
         </header>
-        <div className="casualty-item-list">
-          {branch.effects.map((effect, index) => (
-            <article key={index} className="casualty-item-card casualty-effect-card">
-              <header>
-                <strong>效果 {index + 1}</strong>
-                <DsButton
-                  aria-label={`删除效果 ${index + 1}`}
-                  onClick={() => setEffects(branch.effects.filter((_, i) => i !== index))}
-                  size="compact"
-                  variant="secondary"
-                >
-                  ✕
-                </DsButton>
-              </header>
-              <div className="casualty-effect-fields">
-                <div className="casualty-field">
-                  <span>效果类型</span>
-                  <DsSelect
-                    size="compact"
-                    aria-label={`第 ${index + 1} 个效果类型`}
-                    value={effect.kind}
-                    options={[
-                      { value: 'heal', label: '恢复资源' },
-                      { value: 'tempStatBuff', label: '临时属性增益' },
-                    ]}
-                    onValueChange={(kind) => {
-                      setEffects(
-                        branch.effects.map((item, i) =>
-                          i === index
-                            ? kind === 'heal'
-                              ? { kind: 'heal', resource: 'hp' }
-                              : { kind: 'tempStatBuff', stat: 'attack', percent: 10 }
-                            : item,
-                        ),
-                      )
-                    }}
-                  />
-                </div>
-                {effect.kind === 'heal' ? (
-                  <div className="casualty-field">
-                    <span>恢复对象</span>
-                    <DsSelect
-                      size="compact"
-                      aria-label={`第 ${index + 1} 个效果恢复资源`}
-                      value={effect.resource}
-                      options={[
-                        { value: 'hp', label: '体力' },
-                        { value: 'mp', label: '真气' },
-                      ]}
-                      onValueChange={(value) =>
-                        setEffects(
-                          branch.effects.map((item, i) =>
-                            i === index ? { ...item, resource: value as 'hp' | 'mp' } : item,
-                          ),
-                        )
-                      }
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <div className="casualty-field">
-                      <span>增益属性</span>
-                      <DsSelect
-                        size="compact"
-                        aria-label={`第 ${index + 1} 个效果增益属性`}
-                        value={effect.stat}
-                        options={STAT_OPTIONS}
-                        onValueChange={(value) =>
-                          setEffects(
-                            branch.effects.map((item, i) =>
-                              i === index
-                                ? {
-                                    ...item,
-                                    stat: value as (typeof STAT_OPTIONS)[number]['value'],
-                                  }
-                                : item,
-                            ),
-                          )
-                        }
-                      />
-                    </div>
-                    <label>
-                      <span>提升比例</span>
-                      <span className="casualty-percent-input">
-                        <DsDraftNumberInput
-                          draftKey={`${draftScope}:effect:${index}:percent`}
-                          syncToken={syncToken}
-                          min={1}
-                          step={1}
-                          integer
-                          normalize={(value) => Math.max(1, Math.trunc(value))}
-                          value={effect.percent}
-                          onCommit={(percent) => {
-                            const nextPercent = Math.max(1, percent ?? 1)
-                            if (nextPercent === effect.percent) return
+        <DsReorderCollection
+          adoptionId="actor/casualty-effects"
+          scopeKey={`${draftScope}:effects`}
+          entries={branch.effects.map((_effect, index) => ({
+            key: effectReorderKeys.keys[index]!,
+            label: `效果 ${index + 1}`,
+          }))}
+          revision={syncToken}
+          onReorder={reorderEffects}
+        >
+          <div className="casualty-item-list">
+            {branch.effects.map((effect, index) => {
+              const reorderKey = effectReorderKeys.keys[index]!
+              return (
+                <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                  <article className="casualty-item-card casualty-effect-card">
+                    <header>
+                      <strong>效果 {index + 1}</strong>
+                      <span className="casualty-item-actions">
+                        <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
+                        <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
+                        <DsButton
+                          aria-label={`删除效果 ${index + 1}`}
+                          onClick={() => setEffects(branch.effects.filter((_, i) => i !== index))}
+                          size="compact"
+                          variant="secondary"
+                        >
+                          ✕
+                        </DsButton>
+                      </span>
+                    </header>
+                    <div className="casualty-effect-fields">
+                      <div className="casualty-field">
+                        <span>效果类型</span>
+                        <DsSelect
+                          size="compact"
+                          aria-label={`第 ${index + 1} 个效果类型`}
+                          value={effect.kind}
+                          options={[
+                            { value: 'heal', label: '恢复资源' },
+                            { value: 'tempStatBuff', label: '临时属性增益' },
+                          ]}
+                          onValueChange={(kind) => {
                             setEffects(
                               branch.effects.map((item, i) =>
                                 i === index
-                                  ? {
-                                      ...item,
-                                      percent: nextPercent,
-                                    }
+                                  ? kind === 'heal'
+                                    ? { kind: 'heal', resource: 'hp' }
+                                    : { kind: 'tempStatBuff', stat: 'attack', percent: 10 }
                                   : item,
                               ),
                             )
                           }}
                         />
-                        <span>%</span>
-                      </span>
-                    </label>
-                  </>
-                )}
-              </div>
-            </article>
-          ))}
-          {branch.effects.length === 0 ? (
-            <div className="casualty-empty-state">这个分支没有附加效果。</div>
-          ) : null}
-        </div>
+                      </div>
+                      {effect.kind === 'heal' ? (
+                        <div className="casualty-field">
+                          <span>恢复对象</span>
+                          <DsSelect
+                            size="compact"
+                            aria-label={`第 ${index + 1} 个效果恢复资源`}
+                            value={effect.resource}
+                            options={[
+                              { value: 'hp', label: '体力' },
+                              { value: 'mp', label: '真气' },
+                            ]}
+                            onValueChange={(value) =>
+                              setEffects(
+                                branch.effects.map((item, i) =>
+                                  i === index ? { ...item, resource: value as 'hp' | 'mp' } : item,
+                                ),
+                              )
+                            }
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          <div className="casualty-field">
+                            <span>增益属性</span>
+                            <DsSelect
+                              size="compact"
+                              aria-label={`第 ${index + 1} 个效果增益属性`}
+                              value={effect.stat}
+                              options={STAT_OPTIONS}
+                              onValueChange={(value) =>
+                                setEffects(
+                                  branch.effects.map((item, i) =>
+                                    i === index
+                                      ? {
+                                          ...item,
+                                          stat: value as (typeof STAT_OPTIONS)[number]['value'],
+                                        }
+                                      : item,
+                                  ),
+                                )
+                              }
+                            />
+                          </div>
+                          <label>
+                            <span>提升比例</span>
+                            <span className="casualty-percent-input">
+                              <DsDraftNumberInput
+                                draftKey={`${draftScope}:effect:${reorderKey}:percent`}
+                                syncToken={syncToken}
+                                min={1}
+                                step={1}
+                                integer
+                                normalize={(value) => Math.max(1, Math.trunc(value))}
+                                value={effect.percent}
+                                onCommit={(percent) => {
+                                  const nextPercent = Math.max(1, percent ?? 1)
+                                  if (nextPercent === effect.percent) return
+                                  setEffects(
+                                    branch.effects.map((item, i) =>
+                                      i === index
+                                        ? {
+                                            ...item,
+                                            percent: nextPercent,
+                                          }
+                                        : item,
+                                    ),
+                                  )
+                                }}
+                              />
+                              <span>%</span>
+                            </span>
+                          </label>
+                        </>
+                      )}
+                    </div>
+                  </article>
+                </DsReorderItem>
+              )
+            })}
+            {branch.effects.length === 0 ? (
+              <div className="casualty-empty-state">这个分支没有附加效果。</div>
+            ) : null}
+          </div>
+        </DsReorderCollection>
       </section>
     </div>
   )

@@ -185,6 +185,60 @@ describe('ScriptBehaviorInspector', () => {
     })
   })
 
+  test('[reorder-family:entity-behavior-schemes] 方案 handle 横向重排单命令并可 undo/redo', async () => {
+    const initial = editorState()
+    initial.scenes[0]!.entities[0]!.behaviors!.trigger!.after = {
+      label: '交出天书后',
+      order: 1,
+      flow: { kind: 'stages', initial: 'start', stages: [{ id: 'start', body: [] }] },
+    }
+    const session = new ScriptEditSession(initial)
+    const dispatched = vi.fn()
+    function Harness() {
+      const [current, setCurrent] = useState(session.getState())
+      return (
+        <ScriptBehaviorInspector
+          state={current}
+          target={target}
+          channel="trigger"
+          onDispatch={(command) => {
+            dispatched(command)
+            session.dispatch(command)
+            setCurrent(session.getState())
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    const handle = host.querySelector<HTMLButtonElement>(
+      '[data-ds-reorder-adoption="story/entity-behavior-schemes"] [data-ds-reorder-handle]',
+    )!
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(dispatched).not.toHaveBeenCalled()
+    expect(session.getHistoryVersion()).toBe(0)
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(dispatched).toHaveBeenCalledOnce()
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger).toMatchObject({
+      after: { order: 0 },
+      talk: { order: 1 },
+    })
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.order).toBe(0)
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.order).toBe(1)
+  })
+
   test('shows a useful source location and returns a structured reference when opened', async () => {
     const onOpenReference = vi.fn()
     await act(async () =>

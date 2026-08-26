@@ -26,7 +26,7 @@ import {
   deleteStampDraftLayer,
   eraseStampDraftCollision,
   eraseStampDraftVisual,
-  moveStampDraftLayer,
+  moveStampDraftLayerTo,
   nextStampLayerSlotId,
   openStampDraft,
   reanchorStampDraft,
@@ -134,8 +134,7 @@ export function StampContentEditor(props: {
   const maxViewHeight = useMemo(() => {
     let max = 0
     for (const layer of draft.layers)
-      for (const row of layer.heights ?? [])
-        for (const height of row) max = Math.max(max, height)
+      for (const row of layer.heights ?? []) for (const height of row) max = Math.max(max, height)
     return Math.max(15, max + 1, viewHeight)
   }, [draft.layers, viewHeight])
   const tilesetLoads = useMemo(
@@ -288,24 +287,26 @@ export function StampContentEditor(props: {
       if (paintedRef.current.has(key)) return
       paintedRef.current.add(key)
       if (tool === 'collision')
-        updateDraft((current) =>
-          collisionPaint === 'set'
-            ? setStampDraftCollision(current, point, 1)
-            : eraseStampDraftCollision(current, point),
+        updateDraft(
+          (current) =>
+            collisionPaint === 'set'
+              ? setStampDraftCollision(current, point, 1)
+              : eraseStampDraftCollision(current, point),
           false,
         )
       else if (tool === 'erase')
         updateDraft((current) => eraseStampDraftVisual(current, activeLayer.id, point), false)
       else
-        updateDraft((current) =>
-          setStampDraftVisual(
-            current,
-            activeLayer.id,
-            point,
-            selectedTileId,
-            selectedTilesetId,
-            paintHeight,
-          ),
+        updateDraft(
+          (current) =>
+            setStampDraftVisual(
+              current,
+              activeLayer.id,
+              point,
+              selectedTileId,
+              selectedTilesetId,
+              paintHeight,
+            ),
           false,
         )
     },
@@ -435,6 +436,8 @@ export function StampContentEditor(props: {
         detail: `${layerTileCount(layer)} 格`,
         hidden: hiddenLayerIds.has(layer.id),
         locked: lockedLayerIds.has(layer.id),
+        reorderDisabled:
+          !editingAllowed || hiddenLayerIds.has(layer.id) || lockedLayerIds.has(layer.id),
         canMoveUp: editingAllowed && index < draft.layers.length - 1,
         canMoveDown: editingAllowed && index > 0,
       }))}
@@ -466,8 +469,11 @@ export function StampContentEditor(props: {
           return next
         })
       }
-      onMove={(id, direction) =>
-        updateDraft((current) => moveStampDraftLayer(current, id, direction === 'up' ? 1 : -1))
+      reorderScopeKey={`stamp:${draft.id}:layers`}
+      reorderRevision={draft.layers}
+      stackOrder="bottom-first"
+      onReorder={(id, toIndex) =>
+        updateDraft((current) => moveStampDraftLayerTo(current, id, toIndex))
       }
       footer={
         activeLayer ? (

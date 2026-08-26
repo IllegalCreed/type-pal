@@ -759,21 +759,21 @@ export function buildCanonicalSchemeReferenceIndexesFromVisits(
         )
       const sourceId = command.cursorHandoff?.fromBehavior
       if (sourceId && sourceId !== selectionId)
-        push(
-          behavior,
-          canonicalBehaviorReferenceKey(command.target, command.channel, sourceId),
-          { kind: 'command', path: `${path}.cursorHandoff.fromBehavior`, locator },
-        )
+        push(behavior, canonicalBehaviorReferenceKey(command.target, command.channel, sourceId), {
+          kind: 'command',
+          path: `${path}.cursorHandoff.fromBehavior`,
+          locator,
+        })
     }
     if (command.kind !== 'selectSceneHooks') continue
     for (const slot of ['onEnter', 'onTeleport'] as const) {
       const selection = command.selection[slot]
       if (selection?.kind !== 'use') continue
-      push(
-        sceneHook,
-        canonicalSceneHookReferenceKey(command.scene, slot, selection.value),
-        { kind: 'command', path, locator },
-      )
+      push(sceneHook, canonicalSceneHookReferenceKey(command.scene, slot, selection.value), {
+        kind: 'command',
+        path,
+        locator,
+      })
     }
   }
   return { behavior, sceneHook }
@@ -1249,7 +1249,41 @@ export class AddEntityBehaviorCommand extends SnapshotCommand {
       entity.behaviors[this.channel] = registry
     }
     if (registry[this.behaviorId]) throw new Error(`BehaviorId 已存在 ${this.behaviorId}`)
-    registry[this.behaviorId] = clone(this.value)
+    registry[this.behaviorId] = {
+      ...clone(this.value),
+      order: Math.max(-1, ...Object.values(registry).map((candidate) => candidate.order)) + 1,
+    }
+  }
+}
+
+export class ReorderEntityBehaviorSchemesCommand extends SnapshotCommand {
+  readonly label = '调整具名行为顺序'
+  get affectedRecords() {
+    return { scenes: [this.target.scene] }
+  }
+
+  constructor(
+    private readonly target: EntityAddress,
+    private readonly channel: 'trigger' | 'auto',
+    private readonly orderedIds: readonly string[],
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorState): void {
+    const registry = behaviorRegistry(state, this.target, this.channel)
+    if (!registry) throw new Error('behavior registry 缺失')
+    const currentIds = Object.keys(registry)
+    const ordered = new Set(this.orderedIds)
+    if (
+      ordered.size !== this.orderedIds.length ||
+      this.orderedIds.length !== currentIds.length ||
+      currentIds.some((id) => !ordered.has(id))
+    )
+      throw new Error('具名行为顺序必须是当前 registry 的精确排列')
+    this.orderedIds.forEach((id, order) => {
+      registry[id]!.order = order
+    })
   }
 }
 
@@ -1412,12 +1446,47 @@ export class AddSceneHookCommand extends SnapshotCommand {
     if (!existing) {
       scene.hooks[this.slot] = {
         initial: this.hookId,
-        variants: { [this.hookId]: clone(this.value) },
+        variants: { [this.hookId]: { ...clone(this.value), order: 0 } },
       }
       return
     }
     if (existing.variants[this.hookId]) throw new Error(`HookId 已存在 ${this.hookId}`)
-    existing.variants[this.hookId] = clone(this.value)
+    existing.variants[this.hookId] = {
+      ...clone(this.value),
+      order:
+        Math.max(-1, ...Object.values(existing.variants).map((candidate) => candidate.order)) + 1,
+    }
+  }
+}
+
+export class ReorderSceneHookVariantsCommand extends SnapshotCommand {
+  readonly label = '调整场景 Hook 顺序'
+  get affectedRecords() {
+    return { scenes: [this.sceneId] }
+  }
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly slot: SceneHookSlot,
+    private readonly orderedIds: readonly string[],
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorState): void {
+    const variants = sceneById(state, this.sceneId).hooks?.[this.slot]?.variants
+    if (!variants) throw new Error('hook registry 缺失')
+    const currentIds = Object.keys(variants)
+    const ordered = new Set(this.orderedIds)
+    if (
+      ordered.size !== this.orderedIds.length ||
+      this.orderedIds.length !== currentIds.length ||
+      currentIds.some((id) => !ordered.has(id))
+    )
+      throw new Error('场景 Hook 顺序必须是当前 registry 的精确排列')
+    this.orderedIds.forEach((id, order) => {
+      variants[id]!.order = order
+    })
   }
 }
 
@@ -1727,8 +1796,7 @@ const SHARED_SCRIPT_METADATA_KEYS = new Set(['name', 'description', 'self'])
 
 function validateSharedScriptMetadataPatch(patch: SharedScriptMetadataPatch): void {
   for (const key of Object.keys(patch))
-    if (!SHARED_SCRIPT_METADATA_KEYS.has(key))
-      throw new Error(`共享脚本元数据不允许修改 ${key}`)
+    if (!SHARED_SCRIPT_METADATA_KEYS.has(key)) throw new Error(`共享脚本元数据不允许修改 ${key}`)
   if ('name' in patch && (typeof patch.name !== 'string' || !patch.name.trim()))
     throw new Error('共享脚本显示名不能为空')
   if (

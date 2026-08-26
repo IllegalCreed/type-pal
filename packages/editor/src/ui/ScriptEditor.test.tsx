@@ -170,6 +170,7 @@ describe('CanonicalScriptEditor author presentation', () => {
   })
 
   test('copies, reorders and removes an entity-state command through shared row actions', async () => {
+    const changes = vi.fn()
     function Harness() {
       const [body, setBody] = useState<AuthorCommand[]>([
         {
@@ -183,7 +184,15 @@ describe('CanonicalScriptEditor author presentation', () => {
           ticks: 8,
         },
       ])
-      return <CanonicalScriptBodyEditor body={body} onChange={setBody} />
+      return (
+        <CanonicalScriptBodyEditor
+          body={body}
+          onChange={(next) => {
+            changes(next)
+            setBody(next)
+          }}
+        />
+      )
     }
 
     await act(async () => root.render(<Harness />))
@@ -197,13 +206,67 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(rows[1]!.textContent).toContain('暂停')
     expect(rows[2]!.textContent).toContain('隐藏')
 
-    await act(async () => rows[1]!.querySelector<HTMLButtonElement>('[aria-label="下移"]')!.click())
+    await act(async () => rows[1]!.click())
+    changes.mockClear()
+    await act(async () =>
+      rows[1]!.querySelector<HTMLButtonElement>('[aria-label^="下移"]')!.click(),
+    )
+    expect(changes).toHaveBeenCalledOnce()
     rows = host.querySelectorAll<HTMLElement>('.cmd-row')
     expect(rows[1]!.textContent).toContain('隐藏')
     expect(rows[2]!.textContent).toContain('暂停')
+    expect(rows[2]!.classList.contains('sel')).toBe(true)
 
     await act(async () => rows[2]!.querySelector<HTMLButtonElement>('[aria-label="删除"]')!.click())
     expect(host.querySelectorAll<HTMLElement>('.cmd-row')).toHaveLength(2)
+  })
+
+  test('[reorder-family:script-siblings] nested reorder follows locally, then external undo/redo clears path identity', async () => {
+    const initial: AuthorCommand[] = [
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'open', is: true },
+        then: [
+          { kind: 'wait', ms: 100 },
+          { kind: 'wait', ms: 200 },
+        ],
+      },
+    ]
+    let restoreInitial = (): void => undefined
+    let restoreMoved = (): void => undefined
+    let movedSnapshot: AuthorCommand[] | undefined
+    const changes = vi.fn()
+    function Harness() {
+      const [body, setBody] = useState<AuthorCommand[]>(() => structuredClone(initial))
+      restoreInitial = () => setBody(structuredClone(initial))
+      restoreMoved = () => {
+        if (movedSnapshot) setBody(structuredClone(movedSnapshot))
+      }
+      return (
+        <CanonicalScriptBodyEditor
+          body={body}
+          onChange={(next) => {
+            movedSnapshot = next
+            changes(next)
+            setBody(next)
+          }}
+        />
+      )
+    }
+
+    await act(async () => root.render(<Harness />))
+    const first = host.querySelector<HTMLElement>('[data-command-path="0/then/0"]')!
+    await act(async () => first.click())
+    await act(async () => first.querySelector<HTMLButtonElement>('[aria-label^="下移"]')!.click())
+    expect(changes).toHaveBeenCalledOnce()
+    expect(host.querySelector('[data-command-path="0/then/1"]')?.classList.contains('sel')).toBe(
+      true,
+    )
+
+    await act(async () => restoreInitial())
+    expect(host.querySelector('.cmd-row.sel')).toBeNull()
+    await act(async () => restoreMoved())
+    expect(host.querySelector('.cmd-row.sel')).toBeNull()
   })
 
   test('inserts and edits an entity-state command with the shared localized form', async () => {

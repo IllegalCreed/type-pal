@@ -57,6 +57,15 @@ import {
   DsReferenceRow,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
+import {
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
+  reorderDsItems,
+  sameDsSerializableValue,
+  type DsReorderIntent,
+  useDsReorderKeys,
+} from './design-system/reorder.js'
 import { NamedIdPicker } from './NamedIdPicker.js'
 import { SkillAnimationEditor } from './SkillAnimationEditor.js'
 import { SoundPicker } from './SoundPicker.js'
@@ -694,19 +703,17 @@ function effectPreview(props: {
 
 function SkillEffectCard(props: {
   index: number
-  total: number
   effect: SkillEffect
   kindOptions: readonly { v: SkillEffect['kind']; label: string }[]
   preview?: SkillEffectPreview
+  reorderKey: string
   children: ReactNode
   onKindChange: (kind: SkillEffect['kind']) => void
-  onMoveUp: () => void
-  onMoveDown: () => void
   onRemove: () => void
 }) {
   const effectNumber = props.index + 1
   return (
-    <li
+    <div
       className={`skill-effect-card${props.preview ? ' skill-effect-card--with-preview' : ''}`}
       data-effect-kind={props.effect.kind}
       data-has-preview={props.preview ? 'true' : 'false'}
@@ -728,21 +735,15 @@ function SkillEffectCard(props: {
             role="group"
             aria-label={`效果 ${effectNumber} 排序与删除`}
           >
-            <DsIconButton
-              size="compact"
-              variant="secondary"
-              icon="chevron-up"
+            <DsReorderMoveButton
+              itemKey={props.reorderKey}
+              direction="backward"
               label={`上移效果 ${effectNumber}`}
-              disabled={props.index === 0}
-              onClick={props.onMoveUp}
             />
-            <DsIconButton
-              size="compact"
-              variant="secondary"
-              icon="chevron-down"
+            <DsReorderMoveButton
+              itemKey={props.reorderKey}
+              direction="forward"
               label={`下移效果 ${effectNumber}`}
-              disabled={props.index === props.total - 1}
-              onClick={props.onMoveDown}
             />
             <DsIconButton
               size="compact"
@@ -761,7 +762,7 @@ function SkillEffectCard(props: {
           {props.preview.content}
         </figure>
       )}
-    </li>
+    </div>
   )
 }
 
@@ -798,12 +799,20 @@ function ExecutionOverrideEditor(props: {
       ? EFFECT_KINDS.filter((kind) => ENEMY_RUNTIME_SKILL_EFFECT_KINDS.includes(kind.v as never))
       : EFFECT_KINDS
   const effects = override.effects ?? []
+  const reorderKeys = useDsReorderKeys(effects)
   const setEffects = (next: SkillEffect[]): void =>
     onChange({ ...override, effects: next.length ? next : undefined })
   const setEffect = (index: number, next: SkillEffect): void => {
     const updated = [...effects]
     updated[index] = next
     setEffects(updated)
+  }
+  const reorderEffects = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(effects, intent, 'insert', sameDsSerializableValue)
+    if (next === effects) return false
+    reorderKeys.move(intent)
+    setEffects([...next])
+    return true
   }
   const prepare = override.prepare?.find((entry) => entry.kind === 'remainingResourceDamage')
   const setPrepare = (enabled: boolean, multiplier = prepare?.multiplier ?? 8): void => {
@@ -855,42 +864,48 @@ function ExecutionOverrideEditor(props: {
         </DsButton>
       </div>
       {effects.length > 0 ? (
-        <ol className="skill-effect-chain" data-skill-effect-chain={side}>
-          {effects.map((effect, index) => (
-            <SkillEffectCard
-              key={`${side}-execution-${index}`}
-              index={index}
-              total={effects.length}
-              effect={effect}
-              kindOptions={availableEffectKinds}
-              preview={effectPreview({ effect, assetBase, assetReader, battleSprites })}
-              onKindChange={(kind) => setEffect(index, defaultEffect(kind, battleSprites))}
-              onMoveUp={() => {
-                const next = [...effects]
-                ;[next[index - 1], next[index]] = [next[index]!, next[index - 1]!]
-                setEffects(next)
-              }}
-              onMoveDown={() => {
-                const next = [...effects]
-                ;[next[index], next[index + 1]] = [next[index + 1]!, next[index]!]
-                setEffects(next)
-              }}
-              onRemove={() => setEffects(effects.filter((_, row) => row !== index))}
-            >
-              <EffectFields
-                e={effect}
-                draftScope={`${draftScope}:effects.${index}`}
-                syncToken={syncToken}
-                on={(next) => setEffect(index, next)}
-                assetCatalog={assetCatalog}
-                assetReader={assetReader}
-                battleSprites={battleSprites}
-                onOpenSound={onOpenSound}
-                onOpenBattleSprite={onOpenBattleSprite}
-              />
-            </SkillEffectCard>
-          ))}
-        </ol>
+        <DsReorderCollection
+          adoptionId="skill/execution-effects"
+          scopeKey={`${draftScope}:effects`}
+          entries={effects.map((effect, index) => ({
+            key: reorderKeys.keys[index]!,
+            label:
+              availableEffectKinds.find((kind) => kind.v === effect.kind)?.label ?? effect.kind,
+          }))}
+          revision={syncToken}
+          onReorder={reorderEffects}
+        >
+          <ol className="skill-effect-chain" data-skill-effect-chain={side}>
+            {effects.map((effect, index) => {
+              const reorderKey = reorderKeys.keys[index]!
+              return (
+                <DsReorderItem as="li" itemKey={reorderKey} key={reorderKey}>
+                  <SkillEffectCard
+                    index={index}
+                    reorderKey={reorderKey}
+                    effect={effect}
+                    kindOptions={availableEffectKinds}
+                    preview={effectPreview({ effect, assetBase, assetReader, battleSprites })}
+                    onKindChange={(kind) => setEffect(index, defaultEffect(kind, battleSprites))}
+                    onRemove={() => setEffects(effects.filter((_, row) => row !== index))}
+                  >
+                    <EffectFields
+                      e={effect}
+                      draftScope={`${draftScope}:effects.${reorderKey}`}
+                      syncToken={syncToken}
+                      on={(next) => setEffect(index, next)}
+                      assetCatalog={assetCatalog}
+                      assetReader={assetReader}
+                      battleSprites={battleSprites}
+                      onOpenSound={onOpenSound}
+                      onOpenBattleSprite={onOpenBattleSprite}
+                    />
+                  </SkillEffectCard>
+                </DsReorderItem>
+              )
+            })}
+          </ol>
+        </DsReorderCollection>
       ) : (
         <div className="skill-effect-empty">尚未配置分支效果。</div>
       )}
@@ -977,6 +992,7 @@ export function SkillTab(props: {
     [skills, filter],
   )
   const skill = skills.find((s) => s.id === selId) ?? shown[0]
+  const effectReorderKeys = useDsReorderKeys(skill?.effects ?? [])
   const references = skill ? blockingSkillReferences(session.getState(), skill.id) : []
   const patch = (p: Partial<Omit<SkillData, 'id'>>): void => {
     if (skill) session.dispatch(new UpdateSkillCommand(skill.id, p))
@@ -993,6 +1009,14 @@ export function SkillTab(props: {
     const effects = [...skill.effects]
     effects[i] = next
     patch({ effects })
+  }
+  const reorderEffects = (intent: DsReorderIntent): boolean => {
+    if (!skill) return false
+    const effects = reorderDsItems(skill.effects, intent, 'insert', sameDsSerializableValue)
+    if (effects === skill.effects) return false
+    effectReorderKeys.move(intent)
+    patch({ effects: [...effects] })
+    return true
   }
   const setExecution = (
     side: 'player' | 'enemy',
@@ -1307,63 +1331,66 @@ export function SkillTab(props: {
                 description="效果按顺序执行；「条件门」失败会截断其后的效果（与原版 jump-on-fail 同构）。"
               >
                 {skill.effects.length > 0 ? (
-                  <ol className="skill-effect-chain" data-skill-effect-chain="base">
-                    {skill.effects.map((e, i) => (
-                      <SkillEffectCard
-                        key={`${skill.id}-${i}`}
-                        index={i}
-                        total={skill.effects.length}
-                        effect={e}
-                        kindOptions={EFFECT_KINDS}
-                        preview={effectPreview({
-                          effect: e,
-                          assetBase,
-                          assetReader,
-                          battleSprites,
-                        })}
-                        onKindChange={(kind) => {
-                          try {
-                            setEffect(i, defaultEffect(kind, battleSprites))
-                            onStatusNotice?.(undefined)
-                          } catch (reason) {
-                            onStatusNotice?.({
-                              kind: 'error',
-                              message: reason instanceof Error ? reason.message : String(reason),
-                            })
-                          }
-                        }}
-                        onMoveUp={() => {
-                          const effects = [...skill.effects]
-                          const previous = effects[i - 1]!
-                          effects[i - 1] = effects[i]!
-                          effects[i] = previous
-                          patch({ effects })
-                        }}
-                        onMoveDown={() => {
-                          const effects = [...skill.effects]
-                          const next = effects[i + 1]!
-                          effects[i + 1] = effects[i]!
-                          effects[i] = next
-                          patch({ effects })
-                        }}
-                        onRemove={() =>
-                          patch({ effects: skill.effects.filter((_, index) => index !== i) })
-                        }
-                      >
-                        <EffectFields
-                          e={e}
-                          draftScope={`skill:${skill.id}:effects.${i}`}
-                          syncToken={session.getHistoryVersion()}
-                          on={(next) => setEffect(i, next)}
-                          assetCatalog={assetCatalog}
-                          assetReader={assetReader}
-                          battleSprites={battleSprites}
-                          onOpenSound={onOpenSound}
-                          onOpenBattleSprite={onOpenBattleSprite}
-                        />
-                      </SkillEffectCard>
-                    ))}
-                  </ol>
+                  <DsReorderCollection
+                    adoptionId="skill/base-effects"
+                    scopeKey={`skill:${skill.id}:effects`}
+                    entries={skill.effects.map((effect, index) => ({
+                      key: effectReorderKeys.keys[index]!,
+                      label:
+                        EFFECT_KINDS.find((kind) => kind.v === effect.kind)?.label ?? effect.kind,
+                    }))}
+                    revision={session.getHistoryVersion()}
+                    onReorder={reorderEffects}
+                  >
+                    <ol className="skill-effect-chain" data-skill-effect-chain="base">
+                      {skill.effects.map((e, i) => {
+                        const reorderKey = effectReorderKeys.keys[i]!
+                        return (
+                          <DsReorderItem as="li" itemKey={reorderKey} key={reorderKey}>
+                            <SkillEffectCard
+                              index={i}
+                              reorderKey={reorderKey}
+                              effect={e}
+                              kindOptions={EFFECT_KINDS}
+                              preview={effectPreview({
+                                effect: e,
+                                assetBase,
+                                assetReader,
+                                battleSprites,
+                              })}
+                              onKindChange={(kind) => {
+                                try {
+                                  setEffect(i, defaultEffect(kind, battleSprites))
+                                  onStatusNotice?.(undefined)
+                                } catch (reason) {
+                                  onStatusNotice?.({
+                                    kind: 'error',
+                                    message:
+                                      reason instanceof Error ? reason.message : String(reason),
+                                  })
+                                }
+                              }}
+                              onRemove={() =>
+                                patch({ effects: skill.effects.filter((_, index) => index !== i) })
+                              }
+                            >
+                              <EffectFields
+                                e={e}
+                                draftScope={`skill:${skill.id}:effects.${reorderKey}`}
+                                syncToken={session.getHistoryVersion()}
+                                on={(next) => setEffect(i, next)}
+                                assetCatalog={assetCatalog}
+                                assetReader={assetReader}
+                                battleSprites={battleSprites}
+                                onOpenSound={onOpenSound}
+                                onOpenBattleSprite={onOpenBattleSprite}
+                              />
+                            </SkillEffectCard>
+                          </DsReorderItem>
+                        )
+                      })}
+                    </ol>
+                  </DsReorderCollection>
                 ) : (
                   <div className="skill-effect-empty">尚未配置技能效果。</div>
                 )}

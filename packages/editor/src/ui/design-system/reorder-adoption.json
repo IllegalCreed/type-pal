@@ -1,0 +1,475 @@
+{
+  "version": 1,
+  "baseline": {
+    "families": 17,
+    "adoptions": 29,
+    "dataPaths": 32,
+    "interactionOwnerFiles": 19
+  },
+  "interactionOwnerFiles": [
+    "ActorMode.tsx",
+    "CasualtyEditor.tsx",
+    "CommandForm.tsx",
+    "CutsceneTab.tsx",
+    "EnemyTab.tsx",
+    "EnemyTeamTab.tsx",
+    "FrameAnimationEditor.tsx",
+    "ItemTab.tsx",
+    "ItemUseEffectEditor.tsx",
+    "LayerStackControls.tsx",
+    "PoisonTab.tsx",
+    "ProjectWorkbenchTab.tsx",
+    "ScriptBehaviorInspector.tsx",
+    "ScriptEditor.tsx",
+    "ScriptSceneHookInspector.tsx",
+    "ScriptTree.tsx",
+    "ShopTab.tsx",
+    "SkillTab.tsx",
+    "SpriteActionEditor.tsx"
+  ],
+  "families": [
+    {
+      "id": "project-entry-party",
+      "integrationVerification": {
+        "file": "ui/ProjectWorkbenchTab.test.tsx",
+        "marker": "[reorder-family:project-entry-party]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "project/entry-points",
+          "source": "ProjectWorkbenchTab.tsx",
+          "dataPaths": ["manifest.entryPoints"],
+          "adapter": "linear-insert",
+          "identity": "entry.id",
+          "commandOwner": "SetStartupEntriesCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ProjectWorkbenchTab.test.tsx"]
+        },
+        {
+          "adoptionId": "project/startup-party",
+          "source": "ProjectWorkbenchTab.tsx",
+          "dataPaths": ["entryPoints[*].startWorld.party"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "SetStartupEntriesCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ProjectWorkbenchTab.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "startup-inventory",
+      "integrationVerification": {
+        "file": "ui/ProjectWorkbenchTab.test.tsx",
+        "marker": "[reorder-family:startup-inventory]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "project/startup-inventory",
+          "source": "ProjectWorkbenchTab.tsx",
+          "dataPaths": ["entryPoints[*].startWorld.inventory"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "SetStartupEntriesCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ProjectWorkbenchTab.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "enemy-ai",
+      "integrationVerification": {
+        "file": "ui/EnemyTab.test.tsx",
+        "marker": "[reorder-family:enemy-ai]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "enemy/ai-rules",
+          "source": "EnemyTab.tsx",
+          "dataPaths": ["enemies[*].ai.rules"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateEnemyCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/EnemyTab.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "enemy-team-fixed-slots",
+      "integrationVerification": {
+        "file": "ui/EnemyTeamTab.test.tsx",
+        "marker": "[reorder-family:enemy-team-fixed-slots]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "enemy-team/fixed-slots",
+          "source": "EnemyTeamTab.tsx",
+          "dataPaths": ["enemyTeams[*].slots"],
+          "adapter": "fixed-swap",
+          "identity": "slot-token",
+          "commandOwner": "UpdateEnemyTeamCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/EnemyTeamTab.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "item-effects",
+      "integrationVerification": {
+        "file": "ui/ItemTab.test.tsx",
+        "marker": "[reorder-family:item-effects]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "item/equipment-effects",
+          "source": "ItemTab.tsx",
+          "dataPaths": ["items[*].equip.effects"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateItemCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ItemTab.test.tsx"]
+        },
+        {
+          "adoptionId": "item/resource-reward-tiers",
+          "source": "ItemUseEffectEditor.tsx",
+          "dataPaths": ["items[*].use.resourcePool.rewards"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateItemCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ItemUseEffectEditor.test.tsx"]
+        },
+        {
+          "adoptionId": "item/craft-recipes",
+          "source": "ItemUseEffectEditor.tsx",
+          "dataPaths": ["items[*].use.craftRecipe.recipes"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateItemCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ItemUseEffectEditor.test.tsx"]
+        },
+        {
+          "adoptionId": "item/use-effects",
+          "source": "ItemUseEffectEditor.tsx",
+          "dataPaths": ["items[*].use.effects"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateItemCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ItemUseEffectEditor.test.tsx"]
+        },
+        {
+          "adoptionId": "item/throw-effects",
+          "source": "ItemUseEffectEditor.tsx",
+          "dataPaths": ["items[*].throw.effects"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateItemCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ItemUseEffectEditor.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "skill-effects",
+      "integrationVerification": {
+        "file": "ui/SkillTab.test.tsx",
+        "marker": "[reorder-family:skill-effects]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "skill/base-effects",
+          "source": "SkillTab.tsx",
+          "dataPaths": ["skills[*].effects"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateSkillCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/SkillTab.test.tsx"]
+        },
+        {
+          "adoptionId": "skill/execution-effects",
+          "source": "SkillTab.tsx",
+          "dataPaths": ["skills[*].execution.player.effects", "skills[*].execution.enemy.effects"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateSkillCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/SkillTab.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "poison-ticks",
+      "integrationVerification": {
+        "file": "ui/PoisonTab.test.tsx",
+        "marker": "[reorder-family:poison-ticks]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "poison/ticks",
+          "source": "PoisonTab.tsx",
+          "dataPaths": ["poisons[*].playerTicks", "poisons[*].enemyTicks"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdatePoisonCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/PoisonTab.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "shop-stock",
+      "integrationVerification": {
+        "file": "ui/ShopTab.test.tsx",
+        "marker": "[reorder-family:shop-stock]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "shop/stock",
+          "source": "ShopTab.tsx",
+          "dataPaths": ["shops[*].items"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateShopCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ShopTab.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "script-siblings",
+      "integrationVerification": {
+        "file": "ui/ScriptDrawer.test.tsx",
+        "marker": "[reorder-family:script-siblings]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "script/canonical-siblings",
+          "source": "ScriptEditor.tsx",
+          "dataPaths": ["canonical sibling command bodies"],
+          "adapter": "same-sibling",
+          "identity": "editor-local-token",
+          "commandOwner": "enclosing canonical snapshot command",
+          "revisionOwner": "body reference",
+          "verification": ["ui/ScriptEditor.test.tsx", "core/author-command-edit.test.ts"]
+        },
+        {
+          "adoptionId": "script/legacy-siblings",
+          "source": "ScriptTree.tsx",
+          "dataPaths": ["legacy stage/block/entry.prepare sibling bodies"],
+          "adapter": "same-sibling",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateScriptCommand|UpdateScriptBodyCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ScriptDrawer.test.tsx", "core/script-edit.test.ts"]
+        }
+      ]
+    },
+    {
+      "id": "layer-stack",
+      "integrationVerification": {
+        "file": "ui/MapMode.test.tsx",
+        "marker": "[reorder-family:layer-stack]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "map/layer-stack",
+          "source": "LayerStackControls.tsx",
+          "dataPaths": ["maps[*].layers", "stampDraft.layers"],
+          "adapter": "stack-insert",
+          "identity": "layer.id",
+          "commandOwner": "MoveProjectMapLayerCommand|ReplaceStampTemplateCommand",
+          "revisionOwner": "historyVersion|draft.layers",
+          "verification": ["core/stamp-draft.test.ts"]
+        }
+      ]
+    },
+    {
+      "id": "cutscene-import",
+      "integrationVerification": {
+        "file": "ui/CutsceneTab.test.tsx",
+        "marker": "[reorder-family:cutscene-import]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "asset/cutscene-import-frames",
+          "source": "CutsceneTab.tsx",
+          "dataPaths": ["pendingFrames.files"],
+          "adapter": "local-draft-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "pendingFrames local state",
+          "revisionOwner": "pendingFrames.files",
+          "verification": ["ui/CutsceneTab.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "sprite-actions",
+      "integrationVerification": {
+        "file": "ui/SpriteActionEditor.test.tsx",
+        "marker": "[reorder-family:sprite-actions]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "asset/sprite-action-definitions",
+          "source": "SpriteActionEditor.tsx",
+          "dataPaths": ["sprites[*].poses.*.order"],
+          "adapter": "stable-order",
+          "identity": "ActionId",
+          "commandOwner": "UpdateSpriteCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/SpriteActionEditor.test.tsx"]
+        },
+        {
+          "adoptionId": "asset/sprite-action-steps",
+          "source": "SpriteActionEditor.tsx",
+          "dataPaths": ["sprites[*].poses[*].steps"],
+          "adapter": "timeline-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateSpriteCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/SpriteActionEditor.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "frame-animation",
+      "integrationVerification": {
+        "file": "ui/FrameAnimationEditor.reorder.test.tsx",
+        "marker": "[reorder-family:frame-animation]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "asset/frame-animation-timeline",
+          "source": "FrameAnimationEditor.tsx",
+          "dataPaths": ["frameAnimationDraft.frames"],
+          "adapter": "local-draft-timeline",
+          "identity": "frame.id via DOM-safe token",
+          "commandOwner": "FrameAnimationDraftHistory",
+          "revisionOwner": "draft reference",
+          "verification": ["core/frame-animation-draft.test.ts"]
+        }
+      ]
+    },
+    {
+      "id": "actor-initial-casualty",
+      "integrationVerification": {
+        "file": "ui/CasualtyEditor.test.tsx",
+        "marker": "[reorder-family:actor-initial-casualty]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "actor/initial-magic",
+          "source": "ActorMode.tsx",
+          "dataPaths": ["actors[*].battler.initialMagic"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateActorCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ActorMode.test.tsx"]
+        },
+        {
+          "adoptionId": "actor/casualty-gates",
+          "source": "CasualtyEditor.tsx",
+          "dataPaths": ["actors[*].battler.casualty.*.gates"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateActorCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/CasualtyEditor.test.tsx"]
+        },
+        {
+          "adoptionId": "actor/casualty-lines",
+          "source": "CasualtyEditor.tsx",
+          "dataPaths": ["actors[*].battler.casualty.*.branch.lines"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateActorCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/CasualtyEditor.test.tsx"]
+        },
+        {
+          "adoptionId": "actor/casualty-effects",
+          "source": "CasualtyEditor.tsx",
+          "dataPaths": ["actors[*].battler.casualty.*.branch.effects"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateActorCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/CasualtyEditor.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "command-arrays",
+      "integrationVerification": {
+        "file": "ui/ScriptDrawer.test.tsx",
+        "marker": "[reorder-family:command-arrays]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "story/dialogue-cue-rows",
+          "source": "CommandForm.tsx",
+          "dataPaths": ["dialogue.cue.rows"],
+          "adapter": "aggregate-draft-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "enclosing script snapshot command",
+          "revisionOwner": "command draft reference",
+          "verification": ["ui/CommandForm.current-characterization.test.tsx"]
+        },
+        {
+          "adoptionId": "story/set-party-members",
+          "source": "CommandForm.tsx",
+          "dataPaths": ["setParty.members"],
+          "adapter": "aggregate-draft-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "enclosing script snapshot command",
+          "revisionOwner": "command draft reference",
+          "verification": ["ui/CommandForm.current-characterization.test.tsx"]
+        }
+      ]
+    },
+    {
+      "id": "entity-behavior-schemes",
+      "integrationVerification": {
+        "file": "ui/ScriptBehaviorInspector.test.tsx",
+        "marker": "[reorder-family:entity-behavior-schemes]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "story/entity-behavior-schemes",
+          "source": "ScriptEditor.tsx",
+          "dataPaths": ["entity.behaviors.*.*.order"],
+          "adapter": "stable-order",
+          "identity": "BehaviorId",
+          "commandOwner": "ReorderEntityBehaviorSchemesCommand",
+          "revisionOwner": "ScriptEditorState",
+          "verification": ["ui/ScriptBehaviorInspector.test.tsx", "core/script-editor.test.ts"]
+        }
+      ]
+    },
+    {
+      "id": "scene-hook-variants",
+      "integrationVerification": {
+        "file": "ui/ScriptSceneHookInspector.test.tsx",
+        "marker": "[reorder-family:scene-hook-variants]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "story/scene-hook-variants",
+          "source": "ScriptEditor.tsx",
+          "dataPaths": ["scene.hooks.*.variants.*.order"],
+          "adapter": "stable-order",
+          "identity": "HookId",
+          "commandOwner": "ReorderSceneHookVariantsCommand",
+          "revisionOwner": "ScriptEditorState",
+          "verification": ["ui/ScriptSceneHookInspector.test.tsx", "core/script-editor.test.ts"]
+        }
+      ]
+    }
+  ]
+}

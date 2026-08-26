@@ -18,6 +18,14 @@ import {
   DsPropertyRow,
   DsSequenceIndex,
 } from './design-system/recipes.js'
+import {
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
+  reorderDsItems,
+  type DsReorderIntent,
+  useDsReorderKeys,
+} from './design-system/reorder.js'
 
 type ShopInspectorTab = 'summary' | 'help'
 
@@ -34,6 +42,7 @@ export function ShopTab(props: {
   const [pick, setPick] = useState('')
   const [inspectorTab, setInspectorTab] = useState<ShopInspectorTab>('summary')
   const shop = shops.find((x) => x.id === selId) ?? shops[0]
+  const stockReorderKeys = useDsReorderKeys(shop?.items ?? [])
   const itemsById = useMemo(() => new Map(items.map((i) => [i.id, i])), [items])
   const stockItemOptions = useMemo(
     () =>
@@ -66,6 +75,15 @@ export function ShopTab(props: {
 
   const setItems = (next: string[]): void => {
     if (shop) session.dispatch(new UpdateShopCommand(shop.id, next))
+  }
+  const reorderStock = (intent: DsReorderIntent): boolean => {
+    if (!shop) return false
+    const next = reorderDsItems(shop.items, intent)
+    if (next === shop.items) return false
+    if (next.every((itemId, index) => itemId === shop.items[index])) return false
+    stockReorderKeys.move(intent)
+    setItems([...next])
+    return true
   }
 
   return (
@@ -121,74 +139,66 @@ export function ShopTab(props: {
                     <p className="eyebrow">在售物品</p>
                     <h3 id="shop-stock-title">当前货单</h3>
                   </div>
-                  <span className="shop-card-note">使用右侧按钮调整顺序</span>
+                  <span className="shop-card-note">拖动前置手柄，或使用右侧按钮精确调整</span>
                 </header>
 
-                <div className="shop-stock-list">
-                  {shop.items.map((id, i) => {
-                    const it = itemsById.get(id)
-                    const itemName = it?.name ?? `未知物品 ${id}`
-                    return (
-                      <div className="shop-stock-row" key={`${shop.id}-${i}-${id}`}>
-                        <DsSequenceIndex value={i + 1} accessibleLabel={`第 ${i + 1} 项`} />
-                        <span className="shop-stock-identity">
-                          <strong>{itemName}</strong>
-                          <span>
-                            <code>{id}</code>
-                            {it ? ` · 买价 ${it.buyPrice} 文` : ' · 不在物品表'}
-                          </span>
-                        </span>
-                        <span className="shop-stock-actions">
-                          <DsButton
-                            aria-label={`上移 ${itemName}`}
-                            title="上移"
-                            disabled={i === 0}
-                            onClick={() => {
-                              const a = [...shop.items]
-                              const t = a[i - 1]!
-                              a[i - 1] = a[i]!
-                              a[i] = t
-                              setItems(a)
-                            }}
-                            size="compact"
-                            variant="secondary"
-                          >
-                            ↑
-                          </DsButton>
-                          <DsButton
-                            aria-label={`下移 ${itemName}`}
-                            title="下移"
-                            disabled={i === shop.items.length - 1}
-                            onClick={() => {
-                              const a = [...shop.items]
-                              const t = a[i + 1]!
-                              a[i + 1] = a[i]!
-                              a[i] = t
-                              setItems(a)
-                            }}
-                            size="compact"
-                            variant="secondary"
-                          >
-                            ↓
-                          </DsButton>
-                          <DsButton
-                            className="shop-stock-remove"
-                            aria-label={`下架 ${itemName}`}
-                            title="下架"
-                            onClick={() => setItems(shop.items.filter((_, j) => j !== i))}
-                            size="compact"
-                            variant="secondary"
-                          >
-                            ✕
-                          </DsButton>
-                        </span>
-                      </div>
-                    )
-                  })}
-                  {shop.items.length === 0 ? (
-                    <div className="shop-stock-empty">这家店还没有在售物品。</div>
-                  ) : null}
-                </div>
+                <DsReorderCollection
+                  adoptionId="shop/stock"
+                  scopeKey={`shop:${shop.id}:items`}
+                  entries={shop.items.map((id, index) => ({
+                    key: stockReorderKeys.keys[index]!,
+                    label: itemsById.get(id)?.name ?? `未知物品 ${id}`,
+                  }))}
+                  revision={session.getHistoryVersion()}
+                  onReorder={reorderStock}
+                >
+                  <div className="shop-stock-list">
+                    {shop.items.map((id, i) => {
+                      const it = itemsById.get(id)
+                      const itemName = it?.name ?? `未知物品 ${id}`
+                      const reorderKey = stockReorderKeys.keys[i]!
+                      return (
+                        <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                          <div className="shop-stock-row">
+                            <DsSequenceIndex value={i + 1} accessibleLabel={`第 ${i + 1} 项`} />
+                            <span className="shop-stock-identity">
+                              <strong>{itemName}</strong>
+                              <span>
+                                <code>{id}</code>
+                                {it ? ` · 买价 ${it.buyPrice} 文` : ' · 不在物品表'}
+                              </span>
+                            </span>
+                            <span className="shop-stock-actions">
+                              <DsReorderMoveButton
+                                itemKey={reorderKey}
+                                direction="backward"
+                                label={`上移 ${itemName}`}
+                              />
+                              <DsReorderMoveButton
+                                itemKey={reorderKey}
+                                direction="forward"
+                                label={`下移 ${itemName}`}
+                              />
+                              <DsButton
+                                className="shop-stock-remove"
+                                aria-label={`下架 ${itemName}`}
+                                title="下架"
+                                onClick={() => setItems(shop.items.filter((_, j) => j !== i))}
+                                size="compact"
+                                variant="secondary"
+                              >
+                                ✕
+                              </DsButton>
+                            </span>
+                          </div>
+                        </DsReorderItem>
+                      )
+                    })}
+                    {shop.items.length === 0 ? (
+                      <div className="shop-stock-empty">这家店还没有在售物品。</div>
+                    ) : null}
+                  </div>
+                </DsReorderCollection>
 
                 <div className="shop-add-stock">
                   <DsSelectField

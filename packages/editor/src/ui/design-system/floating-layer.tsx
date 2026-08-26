@@ -17,6 +17,14 @@ interface DsFloatingLayout {
   style: CSSProperties
 }
 
+export function resolveDsPortalHost(anchor: HTMLElement | null): Element {
+  return (
+    anchor?.closest(
+      'dialog[open], [role="dialog"][aria-modal="true"], [role="alertdialog"][aria-modal="true"]',
+    ) ?? document.body
+  )
+}
+
 /**
  * Top-level anchored surface used by controls that must escape scrolling panels.
  * Native modal dialogs live in the browser top layer, so a layer anchored inside one must portal
@@ -132,7 +140,7 @@ export function DsFloatingLayer(props: {
   }, [anchorRef, dismissOnPointerDown, layerRef, onDismiss, open, updateLayout])
 
   if (!open || typeof document === 'undefined') return null
-  const portalHost = anchorRef.current?.closest('dialog[open]') ?? document.body
+  const portalHost = resolveDsPortalHost(anchorRef.current)
   return createPortal(
     <div
       ref={props.layerRef}

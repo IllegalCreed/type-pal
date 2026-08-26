@@ -20,6 +20,13 @@ import { lookupText, parseRichText, resolveDialogueIdentity } from '@type-pal/co
 import { useEffect, useRef } from 'react'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { DsButton, DsNumberInput, DsSelect, DsPressable } from './design-system/controls.js'
+import {
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
+  type DsReorderIntent,
+  useDsReorderKeys,
+} from './design-system/reorder.js'
 import { entityStateDisplayLabel } from './EntityStateSelect.js'
 
 /** locale 查文本;缺失回落显 id(不崩)。 */
@@ -443,7 +450,7 @@ export function describeScriptCommand(
 }
 
 /** 行级编辑操作(C-track v1)。 */
-export type RowAction = 'insert' | 'up' | 'down' | 'remove'
+export type RowAction = 'insert' | 'remove'
 /** 段级操作(多段 = 原版「再按一次继续下一段」的结构化版;宝箱防重两段等)。 */
 export type StageAction =
   | { kind: 'addAfter' }
@@ -461,11 +468,20 @@ interface RowCtx {
   focusRevision?: number
   onSelect?: (path: string, cmd: Command) => void
   onRowAction?: (path: string, action: RowAction) => void
+  reorderScopeKey?: string
+  reorderRevision?: unknown
+  onReorder?: (parentPath: string, intent: DsReorderIntent) => boolean
   onStageAction?: (stageIdx: number, action: StageAction) => void
 }
 
-function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: RowCtx }) {
-  const { cmd, depth, path, ctx } = props
+function CommandRow(props: {
+  cmd: Command
+  depth: number
+  path: string
+  reorderKey?: string
+  ctx: RowCtx
+}) {
+  const { cmd, depth, path, reorderKey, ctx } = props
   const d = describeScriptCommand(cmd, ctx.locale, ctx.scenes, ctx.references, ctx.actors)
   const active = ctx.activePath === path
   const selected = ctx.selectedPath === path
@@ -496,12 +512,12 @@ function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: Row
             >
               ＋
             </DsPressable>
-            <DsPressable type="button" title="上移" onClick={() => ctx.onRowAction?.(path, 'up')}>
-              ↑
-            </DsPressable>
-            <DsPressable type="button" title="下移" onClick={() => ctx.onRowAction?.(path, 'down')}>
-              ↓
-            </DsPressable>
+            {reorderKey ? (
+              <>
+                <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
+                <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
+              </>
+            ) : null}
             <DsPressable
               type="button"
               className="del"
@@ -513,23 +529,79 @@ function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: Row
           </span>
         ) : null}
       </div>
-      {d.blocks?.map((b, i) => (
-        <div key={i}>
-          <div className="cmd-block-title" style={{ paddingLeft: 8 + (depth + 1) * 16 }}>
-            {b.title}
-          </div>
-          {b.body.map((c, j) => (
-            <CommandRow
-              key={j}
-              cmd={c}
-              depth={depth + 2}
-              path={`${path}/${b.seg}/${j}`}
-              ctx={ctx}
-            />
-          ))}
-        </div>
-      ))}
     </>
+  )
+}
+
+function CommandRows(props: {
+  body: readonly Command[]
+  depth: number
+  parentPath: string
+  ctx: RowCtx
+}) {
+  const reorderKeys = useDsReorderKeys(props.body)
+  const rows = props.body.map((command, index) => {
+    const path = `${props.parentPath}/${index}`
+    const reorderKey = reorderKeys.keys[index]!
+    const description = describeScriptCommand(
+      command,
+      props.ctx.locale,
+      props.ctx.scenes,
+      props.ctx.references,
+      props.ctx.actors,
+    )
+    const row = (
+      <CommandRow
+        cmd={command}
+        depth={props.depth}
+        path={path}
+        reorderKey={props.ctx.onReorder ? reorderKey : undefined}
+        ctx={props.ctx}
+      />
+    )
+    return (
+      <div className="script-command-node" key={props.ctx.onReorder ? reorderKey : path}>
+        {props.ctx.onReorder ? <DsReorderItem itemKey={reorderKey}>{row}</DsReorderItem> : row}
+        {description.blocks?.map((block) => (
+          <div key={block.seg}>
+            <div className="cmd-block-title" style={{ paddingLeft: 8 + (props.depth + 1) * 16 }}>
+              {block.title}
+            </div>
+            <CommandRows
+              body={block.body}
+              depth={props.depth + 2}
+              parentPath={`${path}/${block.seg}`}
+              ctx={props.ctx}
+            />
+          </div>
+        ))}
+      </div>
+    )
+  })
+  if (!props.ctx.onReorder) return <>{rows}</>
+  return (
+    <DsReorderCollection
+      adoptionId="script/legacy-siblings"
+      scopeKey={`${props.ctx.reorderScopeKey ?? 'legacy-script'}:${props.parentPath}`}
+      entries={props.body.map((command, index) => ({
+        key: reorderKeys.keys[index]!,
+        label: describeScriptCommand(
+          command,
+          props.ctx.locale,
+          props.ctx.scenes,
+          props.ctx.references,
+          props.ctx.actors,
+        ).label,
+      }))}
+      revision={props.ctx.reorderRevision ?? props.body}
+      onReorder={(intent) => {
+        const changed = props.ctx.onReorder?.(props.parentPath, intent) ?? false
+        if (changed) reorderKeys.move(intent)
+        return changed
+      }}
+    >
+      {rows}
+    </DsReorderCollection>
   )
 }
 
@@ -584,15 +656,12 @@ function SceneEntrySections(props: {
         </summary>
         <div className="scene-entry-section-body">
           {entry.prepare.length ? (
-            entry.prepare.map((command, index) => (
-              <CommandRow
-                key={index}
-                cmd={command}
-                depth={0}
-                path={`${stageIndex}/entry/prepare/${index}`}
-                ctx={ctx}
-              />
-            ))
+            <CommandRows
+              body={entry.prepare}
+              depth={0}
+              parentPath={`${stageIndex}/entry/prepare`}
+              ctx={ctx}
+            />
           ) : ctx.onRowAction ? (
             <DsButton
               size="compact"
@@ -717,6 +786,9 @@ export function ScriptTree(props: {
   focusRevision?: number
   onSelect?: (path: string, cmd: Command) => void
   onRowAction?: (path: string, action: RowAction) => void
+  reorderScopeKey?: string
+  reorderRevision?: unknown
+  onReorder?: (parentPath: string, intent: DsReorderIntent) => boolean
   onStageAction?: (stageIdx: number, action: StageAction) => void
   showSceneEntry?: boolean
   onSceneEntryChange?: (stageIdx: number, entry: SceneEntryPresentation | undefined) => void
@@ -732,6 +804,9 @@ export function ScriptTree(props: {
     focusRevision,
     onSelect,
     onRowAction,
+    reorderScopeKey,
+    reorderRevision,
+    onReorder,
     onStageAction,
     showSceneEntry = false,
     onSceneEntryChange,
@@ -746,6 +821,9 @@ export function ScriptTree(props: {
     focusRevision,
     onSelect,
     onRowAction,
+    reorderScopeKey,
+    reorderRevision,
+    onReorder,
   }
   const renderBody = (stage: ScriptStage, stageIndex: number) =>
     stage.body.length === 0 ? (
@@ -763,15 +841,7 @@ export function ScriptTree(props: {
         <div className="script-empty">（空段）</div>
       )
     ) : (
-      stage.body.map((command, commandIndex) => (
-        <CommandRow
-          key={commandIndex}
-          cmd={command}
-          depth={0}
-          path={`${stageIndex}/${commandIndex}`}
-          ctx={ctx}
-        />
-      ))
+      <CommandRows body={stage.body} depth={0} parentPath={String(stageIndex)} ctx={ctx} />
     )
   if (stages.length === 0) return <div className="script-empty">（空脚本）</div>
   return (

@@ -8,12 +8,14 @@ import {
   DeleteEntityBehaviorCommand,
   describeCanonicalScriptReference,
   presentSelection,
+  ReorderEntityBehaviorSchemesCommand,
   type ScriptCommandLocator,
   type ScriptEditorCommand,
   type ScriptEditorState,
   UpdateEntityBehaviorCommand,
 } from '../core/script-editor.js'
 import { DsButton, DsHelpTip, DsSelect } from './design-system/controls.js'
+import { reorderDsItems, type DsReorderIntent } from './design-system/reorder.js'
 import {
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,
@@ -165,6 +167,17 @@ export function ScriptBehaviorInspector(props: {
       setCreateOpen(false)
     }
   }
+  const reorderSchemes = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(entries, intent)
+    if (next === entries) return false
+    return dispatch(
+      new ReorderEntityBehaviorSchemesCommand(
+        props.target,
+        props.channel,
+        next.map(([id]) => id),
+      ),
+    )
+  }
 
   if (!entity)
     return (
@@ -201,6 +214,12 @@ export function ScriptBehaviorInspector(props: {
             }}
             onDetails={setDetailsId}
             onCreate={() => setCreateOpen(true)}
+            reorder={{
+              kind: 'behavior',
+              scopeKey: `behavior:${props.target.scene}:${props.target.entity}:${props.channel}`,
+              revision: props.state,
+              onReorder: reorderSchemes,
+            }}
           />
 
           <CanonicalScriptFlowEditor

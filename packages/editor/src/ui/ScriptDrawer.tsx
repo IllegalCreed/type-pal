@@ -54,7 +54,7 @@ import {
   getCommandAt,
   insertAfterAt,
   insertAtHead,
-  moveAt,
+  moveAtTo,
   parsePath,
   removeAt,
   removeStage,
@@ -66,6 +66,7 @@ import { createAuthoredScriptCall } from '../core/shared-script.js'
 import { defaultActionTargetForEntity } from '../core/sprite-actions.js'
 import { CommandForm } from './CommandForm.js'
 import { DsButton, DsDraftNumberInput, DsSelect } from './design-system/controls.js'
+import type { DsReorderIntent } from './design-system/reorder.js'
 import { musicAssets } from './MusicPicker.js'
 import {
   PanelResizeHandle,
@@ -85,6 +86,36 @@ interface InsertCtx {
   musicAsset?: AssetId
   soundAsset?: AssetId
   actionTarget?: { sprite: string; action: string }
+}
+
+function remapLegacySiblingPath(
+  path: string | null,
+  parentPath: string,
+  fromIndex: number,
+  toIndex: number,
+): string | null {
+  if (!path) return path
+  const parsed = parsePath(path)
+  const parent = parsePath(parentPath)
+  if (
+    parsed.length <= parent.length ||
+    !parent.every((segment, index) => parsed[index] === segment)
+  )
+    return path
+  const siblingIndex = parsed[parent.length]
+  if (typeof siblingIndex !== 'number') return path
+  const nextIndex =
+    siblingIndex === fromIndex
+      ? toIndex
+      : fromIndex < toIndex && siblingIndex > fromIndex && siblingIndex <= toIndex
+        ? siblingIndex - 1
+        : fromIndex > toIndex && siblingIndex >= toIndex && siblingIndex < fromIndex
+          ? siblingIndex + 1
+          : siblingIndex
+  if (nextIndex === siblingIndex) return path
+  return [...parsed.slice(0, parent.length), nextIndex, ...parsed.slice(parent.length + 1)].join(
+    '/',
+  )
 }
 const selfOf = (c: InsertCtx): string => c.ownerId ?? c.scene.entities[0]?.id ?? 'e0'
 
@@ -732,9 +763,13 @@ export function ScriptDrawer(props: {
 
   // ── 脚本编辑:选中行 → 右栏表单;行按钮 插/移/删;整 stages 经指令落 session ──
   const [selPath, setSelPath] = useState<string | null>(null)
+  const [externalIdentityEpoch, setExternalIdentityEpoch] = useState(0)
   const [insertFor, setInsertFor] = useState<string | null>(null)
   const [commandDraft, setCommandDraft] = useState<DrawerCommandDraft | undefined>()
   const lastAppliedFocusRevisionRef = useRef<number | undefined>(undefined)
+  const historyVersion = session.getHistoryVersion()
+  const lastSeenHistoryVersionRef = useRef(historyVersion)
+  const locallyOwnedHistoryVersionRef = useRef<number | undefined>(undefined)
   // biome-ignore lint/correctness/useExhaustiveDependencies: 切场景/切源即回到该场景源并清临时选择
   useEffect(() => {
     setSelPath(null)
@@ -750,6 +785,17 @@ export function ScriptDrawer(props: {
     setInsertFor(null)
     setCommandDraft(undefined)
   }, [focusCommandRevision, focusInternalScriptId])
+  useEffect(() => {
+    if (lastSeenHistoryVersionRef.current === historyVersion) return
+    const locallyOwned = locallyOwnedHistoryVersionRef.current === historyVersion
+    lastSeenHistoryVersionRef.current = historyVersion
+    locallyOwnedHistoryVersionRef.current = undefined
+    if (locallyOwned) return
+    setSelPath(null)
+    setInsertFor(null)
+    setCommandDraft(undefined)
+    setExternalIdentityEpoch((epoch) => epoch + 1)
+  }, [historyVersion])
   useEffect(() => {
     if (!focusCommandPath || focusCommandRevision == null) return
     if (lastAppliedFocusRevisionRef.current === focusCommandRevision) return
@@ -797,13 +843,18 @@ export function ScriptDrawer(props: {
     )
     return new UpdateScriptCommand(scene.id, sourceRefOf(active.key), rawStages)
   }
+  const dispatchLocalCommand = (command: Parameters<EditSession['dispatch']>[0]): boolean => {
+    const changed = session.dispatch(command)
+    if (changed) locallyOwnedHistoryVersionRef.current = session.getHistoryVersion()
+    return changed
+  }
   const dispatchEdited = (
     stages: readonly ScriptStage[],
     stageIndex: number,
     entryEdit = false,
   ): void => {
     const command = editedCommand(stages, stageIndex, entryEdit)
-    if (command) session.dispatch(command)
+    if (command) dispatchLocalCommand(command)
   }
   const selCmd = selPath ? getCommandAt(editingStages, parsePath(selPath)) : undefined
   const commandDraftIdentity =
@@ -843,8 +894,7 @@ export function ScriptDrawer(props: {
     const localeUpdate = activeCommandDraft.localeUpdate
     const draftCue = (activeCommandDraft.command as { cue?: AuthorDialogueCue }).cue
     const localeUpdateStillOwned =
-      draftCue?.identity.kind === 'actor' &&
-      draftCue.identity.speakerOverride === localeUpdate?.key
+      draftCue?.identity.kind === 'actor' && draftCue.identity.speakerOverride === localeUpdate?.key
     const localeEdit =
       localeUpdateStillOwned &&
       localeUpdate &&
@@ -853,9 +903,9 @@ export function ScriptDrawer(props: {
         ? new UpdateLocaleCommand(localeUpdate.key, localeUpdate.text)
         : undefined
     if (edit && localeEdit)
-      session.dispatch(new CompositeCommand('编辑脚本指令', [localeEdit, edit]))
-    else if (edit) session.dispatch(edit)
-    else if (localeEdit) session.dispatch(localeEdit)
+      dispatchLocalCommand(new CompositeCommand('编辑脚本指令', [localeEdit, edit]))
+    else if (edit) dispatchLocalCommand(edit)
+    else if (localeEdit) dispatchLocalCommand(localeEdit)
     setCommandDraft(undefined)
   }
 
@@ -891,15 +941,24 @@ export function ScriptDrawer(props: {
       }
       return
     }
-    const dir = action === 'up' ? -1 : 1
-    const next = moveAt(editingStages, p, dir)
+  }
+
+  const onReorder = (parentPath: string, intent: DsReorderIntent): boolean => {
+    if (!editingStages.length) return false
+    setCommandDraft(undefined)
+    const path = `${parentPath}/${intent.fromIndex}`
+    const parsed = parsePath(path)
+    const stageIndex = parsed[0]
+    if (typeof stageIndex !== 'number') return false
+    const next = moveAtTo(editingStages, parsed, intent.toIndex)
     if (next !== editingStages) {
-      dispatchEdited(next, stageIndex, p[1] === 'entry')
-      if (selPath === path) {
-        const last = p[p.length - 1] as number
-        setSelPath([...p.slice(0, -1), last + dir].join('/'))
-      }
+      dispatchEdited(next, stageIndex, parsed[1] === 'entry')
+      setSelPath((current) =>
+        remapLegacySiblingPath(current, parentPath, intent.fromIndex, intent.toIndex),
+      )
+      return true
     }
+    return false
   }
 
   const insertCommands = (commands: readonly Command[]): void => {
@@ -1284,6 +1343,7 @@ export function ScriptDrawer(props: {
           <div className="drawer-tree">
             {active || internalScriptId ? (
               <ScriptTree
+                key={externalIdentityEpoch}
                 stages={editingStages}
                 locale={locale}
                 scenes={scenes}
@@ -1297,6 +1357,9 @@ export function ScriptDrawer(props: {
                   setInsertFor(null)
                 }}
                 onRowAction={onRowAction}
+                reorderScopeKey={`legacy:${scene.id}:${internalScriptId ?? active?.key ?? 'script'}`}
+                reorderRevision={session.getHistoryVersion()}
+                onReorder={onReorder}
                 showSceneEntry={!internalScriptId && active?.kind === 'onEnter'}
                 onSceneEntryChange={
                   !internalScriptId && active?.kind === 'onEnter'
@@ -1434,6 +1497,7 @@ export function ScriptDrawer(props: {
                     编辑指令 <span className="cf-path">{selPath}</span>
                   </h4>
                   <CommandForm
+                    reorderScopeKey={`legacy:${commandDraftIdentity}`}
                     actors={actorsById}
                     battleSprites={battleSprites}
                     sprites={sprites}
@@ -1489,9 +1553,7 @@ export function ScriptDrawer(props: {
                         localeUpdate: { key: localeKey, text },
                       })
                     }}
-                    onChange={(command) =>
-                      setCommandDraft({ ...activeCommandDraft, command })
-                    }
+                    onChange={(command) => setCommandDraft({ ...activeCommandDraft, command })}
                   />
                   <div className="ds-inspector-actions">
                     <DsButton size="compact" variant="secondary" onClick={cancelCommandDraft}>

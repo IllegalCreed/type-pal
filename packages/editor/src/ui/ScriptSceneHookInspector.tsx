@@ -7,6 +7,7 @@ import {
   DeleteSceneHookCommand,
   describeCanonicalScriptReference,
   SaveSceneHookDetailsCommand,
+  ReorderSceneHookVariantsCommand,
   type SceneHookSlot,
   type ScriptCommandLocator,
   type ScriptEditorCommand,
@@ -15,6 +16,7 @@ import {
   UpdateSceneHookCommand,
 } from '../core/script-editor.js'
 import { DsButton, DsHelpTip } from './design-system/index.js'
+import { reorderDsItems, type DsReorderIntent } from './design-system/reorder.js'
 import {
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,
@@ -123,6 +125,17 @@ export function ScriptSceneHookInspector(props: {
       setCreateOpen(false)
     }
   }
+  const reorderSchemes = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(entries, intent)
+    if (next === entries) return false
+    return dispatch(
+      new ReorderSceneHookVariantsCommand(
+        props.sceneId,
+        props.slot,
+        next.map(([id]) => id),
+      ),
+    )
+  }
 
   if (!scene)
     return (
@@ -158,6 +171,12 @@ export function ScriptSceneHookInspector(props: {
             }}
             onDetails={setDetailsId}
             onCreate={() => setCreateOpen(true)}
+            reorder={{
+              kind: 'hook',
+              scopeKey: `scene-hook:${props.sceneId}:${props.slot}`,
+              revision: props.state,
+              onReorder: reorderSchemes,
+            }}
           />
 
           <CanonicalScriptFlowEditor

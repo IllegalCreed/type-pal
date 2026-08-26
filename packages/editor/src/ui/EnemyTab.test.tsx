@@ -345,6 +345,56 @@ describe('EnemyTab shared workbench', () => {
     expect(session.getState().enemies?.[0]?.stats.health).toBe(50)
   })
 
+  test('[reorder-family:enemy-ai] AI handle 同值相邻移动零命令，有效移动单命令且 undo/redo 对称', async () => {
+    const editorState = state()
+    editorState.enemies![0] = {
+      ...editorState.enemies![0]!,
+      ai: {
+        ...editorState.enemies![0]!.ai,
+        rules: [
+          { at: 'act', do: { kind: 'attack' } },
+          { at: 'act', do: { kind: 'attack' } },
+          { at: 'act', do: { kind: 'flee' } },
+        ],
+      },
+    }
+    const session = new EditSession(editorState)
+    await act(async () => root.render(<Harness session={session} />))
+    const handle = host.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(0)
+
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().enemies?.[0]?.ai.rules?.map((rule) => rule.do.kind)).toEqual([
+      'attack',
+      'flee',
+      'attack',
+    ])
+    expect(session.undo()).toBe(true)
+    expect(session.getState().enemies?.[0]?.ai.rules?.map((rule) => rule.do.kind)).toEqual([
+      'attack',
+      'attack',
+      'flee',
+    ])
+    expect(session.redo()).toBe(true)
+    expect(session.getState().enemies?.[0]?.ai.rules?.map((rule) => rule.do.kind)).toEqual([
+      'attack',
+      'flee',
+      'attack',
+    ])
+  })
+
   test('物品交互与战败奖励使用结构化字段，并保留高级战败脚本', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))

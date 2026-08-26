@@ -152,13 +152,25 @@ export function removeAt(stages: readonly ScriptStage[], path: CmdPath): ScriptS
 
 /** 同 body 内上移(-1)/下移(+1);越界原样返回(引用相等)。 */
 export function moveAt(stages: readonly ScriptStage[], path: CmdPath, dir: -1 | 1): ScriptStage[] {
+  const index = path.at(-1)
+  if (typeof index !== 'number') return stages as ScriptStage[]
+  return moveAtTo(stages, path, index + dir)
+}
+
+/** 任意跨度移动同一 body 内的命令；target 只接下标，天然不能跨臂或跨 stage。 */
+export function moveAtTo(
+  stages: readonly ScriptStage[],
+  path: CmdPath,
+  targetIndex: number,
+): ScriptStage[] {
+  if (!Number.isInteger(targetIndex)) return stages as ScriptStage[]
   return mapContainingBody(stages, path, (body, i) => {
-    const j = i + dir
-    if (j < 0 || j >= body.length) return body as Command[]
+    if (targetIndex < 0 || targetIndex >= body.length || i === targetIndex) return body as Command[]
     const next = [...body]
-    const t = next[i]!
-    next[i] = next[j]!
-    next[j] = t
+    const [command] = next.splice(i, 1)
+    if (!command) return body as Command[]
+    next.splice(targetIndex, 0, command)
+    if (JSON.stringify(next) === JSON.stringify(body)) return body as Command[]
     return next
   })
 }

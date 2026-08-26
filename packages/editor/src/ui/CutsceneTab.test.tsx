@@ -77,7 +77,9 @@ describe('CutsceneTab catalog controls', () => {
     expect(host.querySelector('.cutscene-outliner')?.textContent).toContain('没有匹配的帧动画。')
     await setCatalogSearch(search, '')
     expect(host.querySelectorAll('.cutscene-asset-list .ds-catalog-row')).toHaveLength(3)
-    const selected = host.querySelector('.cutscene-asset-list .ds-catalog-row[data-selected="true"]')!
+    const selected = host.querySelector(
+      '.cutscene-asset-list .ds-catalog-row[data-selected="true"]',
+    )!
     expect(selected.querySelector('.ds-catalog-row__leading [aria-hidden="true"]')).not.toBeNull()
     expect(selected.querySelector('.ds-catalog-row__title')?.textContent).toBe('开场视频')
     expect(selected.querySelector('.ds-catalog-row__meta')?.textContent).toBe('video.opening')
@@ -203,5 +205,69 @@ describe('CutsceneTab catalog controls', () => {
     )!
     expect(secondDialog.open).toBe(true)
     expect(secondDialog.textContent).toContain('开场视频')
+  })
+
+  test('[reorder-family:cutscene-import] 待导入图片只改本地顺序且不污染全局历史', async () => {
+    const session = new EditSession(catalogControlsEditorState())
+    const dispatch = vi.spyOn(session, 'dispatch')
+    await act(async () => {
+      root.render(
+        <CutsceneTab
+          assetDiagnostics={[]}
+          assetReferences={[]}
+          assetReferenceStatus="current"
+          assetBase={{} as never}
+          catalog={catalogControlsAssetCatalog}
+          reader={catalogControlsReader as never}
+          session={session}
+        />,
+      )
+      await Promise.resolve()
+    })
+
+    const input = host.querySelector<HTMLInputElement>(
+      'input[hidden][multiple][accept="image/png,image/jpeg,image/webp"]',
+    )!
+    Object.defineProperty(input, 'files', {
+      configurable: true,
+      value: [
+        new File(['1'], 'frame-1.png', { type: 'image/png' }),
+        new File(['2'], 'frame-2.png', { type: 'image/png' }),
+        new File(['3'], 'frame-3.png', { type: 'image/png' }),
+      ],
+    })
+    await act(async () => input.dispatchEvent(new Event('change', { bubbles: true })))
+
+    const collection = host.querySelector<HTMLElement>(
+      '[data-ds-reorder-adoption="asset/cutscene-import-frames"]',
+    )!
+    const items = () => [...collection.querySelectorAll<HTMLElement>('.cutscene-import-file')]
+    const names = () => items().map((item) => item.querySelector('code')?.textContent)
+    expect(names()).toEqual(['frame-1.png', 'frame-2.png', 'frame-3.png'])
+    const source = items()[0]!
+    const sourceToken = source.dataset.itemKey
+    const handle = source.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
+
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(names()).toEqual(['frame-1.png', 'frame-2.png', 'frame-3.png'])
+    expect(items()[0]?.dataset.itemKey).toBe(sourceToken)
+    expect(dispatch).not.toHaveBeenCalled()
+    expect(session.getHistoryVersion()).toBe(0)
+
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(names()).toEqual(['frame-2.png', 'frame-3.png', 'frame-1.png'])
+    expect(items()[2]?.dataset.itemKey).toBe(sourceToken)
+    expect(dispatch).not.toHaveBeenCalled()
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(session.undo()).toBe(false)
+    expect(session.redo()).toBe(false)
+    expect(names()).toEqual(['frame-2.png', 'frame-3.png', 'frame-1.png'])
   })
 })

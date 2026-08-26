@@ -61,6 +61,15 @@ import {
   DsReferenceRow,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
+import {
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
+  reorderDsItems,
+  sameDsSerializableValue,
+  type DsReorderIntent,
+  useDsReorderKeys,
+} from './design-system/reorder.js'
 import { EnemyAnimPreview } from './EnemyAnimPreview.js'
 import { SoundPicker } from './SoundPicker.js'
 
@@ -328,10 +337,12 @@ function RuleRow(props: {
   enemies: EnemyDef[]
   skills: SkillData[]
   locale: Locale
+  reorderKey: string
   onChange: (r: AiRule) => void
-  onOp: (op: 'up' | 'down' | 'del') => void
+  onDelete: () => void
 }) {
-  const { rule, draftScope, syncToken, enemies, skills, locale, onChange, onOp } = props
+  const { rule, draftScope, syncToken, enemies, skills, locale, reorderKey, onChange, onDelete } =
+    props
   const ck = condKindOf(rule.when)
   const a = rule.do
   const setAction = (patch: Partial<AiAction>): void =>
@@ -511,26 +522,14 @@ function RuleRow(props: {
         />
       </span>
       <span className="rule-row-actions">
-        <DsIconButton
-          size="compact"
-          variant="secondary"
-          icon="chevron-up"
-          label="上移 AI 规则"
-          onClick={() => onOp('up')}
-        />
-        <DsIconButton
-          size="compact"
-          variant="secondary"
-          icon="chevron-down"
-          label="下移 AI 规则"
-          onClick={() => onOp('down')}
-        />
+        <DsReorderMoveButton itemKey={reorderKey} direction="backward" label="上移 AI 规则" />
+        <DsReorderMoveButton itemKey={reorderKey} direction="forward" label="下移 AI 规则" />
         <DsIconButton
           size="compact"
           variant="danger"
           icon="delete"
           label="删除 AI 规则"
-          onClick={() => onOp('del')}
+          onClick={onDelete}
         />
       </span>
     </div>
@@ -690,6 +689,14 @@ export function EnemyTab(props: {
   }
 
   const rules = enemy?.ai.rules ?? []
+  const ruleReorderKeys = useDsReorderKeys(rules)
+  const reorderRules = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(rules, intent, 'insert', sameDsSerializableValue)
+    if (next === rules) return false
+    ruleReorderKeys.move(intent)
+    setRules([...next])
+    return true
+  }
   return (
     <>
       {/* 左:标签栏 + 敌人列表 */}
@@ -898,26 +905,35 @@ export function EnemyTab(props: {
                 title="AI 规则"
                 description="规则从上到下匹配首条命中项；没有命中时执行普攻。"
               >
-                {rules.map((r, i) => (
-                  <RuleRow
-                    key={i}
-                    rule={r}
-                    draftScope={`enemy:${enemy.id}:ai.${i}`}
-                    syncToken={session.getHistoryVersion()}
-                    enemies={enemies}
-                    skills={skills}
-                    locale={locale}
-                    onChange={(nr) => setRules(rules.map((x, j) => (j === i ? nr : x)))}
-                    onOp={(op) => {
-                      if (op === 'del') return setRules(rules.filter((_, j) => j !== i))
-                      const j = op === 'up' ? i - 1 : i + 1
-                      if (j < 0 || j >= rules.length) return
-                      const next = [...rules]
-                      ;[next[i], next[j]] = [next[j]!, next[i]!]
-                      setRules(next)
-                    }}
-                  />
-                ))}
+                <DsReorderCollection
+                  adoptionId="enemy/ai-rules"
+                  scopeKey={`enemy:${enemy.id}:ai.rules`}
+                  entries={rules.map((rule, index) => ({
+                    key: ruleReorderKeys.keys[index]!,
+                    label: `${COND_LABEL[condKindOf(rule.when)]} · ${ACTION_LABEL[rule.do.kind]}`,
+                  }))}
+                  revision={session.getHistoryVersion()}
+                  onReorder={reorderRules}
+                >
+                  {rules.map((r, i) => {
+                    const reorderKey = ruleReorderKeys.keys[i]!
+                    return (
+                      <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                        <RuleRow
+                          rule={r}
+                          reorderKey={reorderKey}
+                          draftScope={`enemy:${enemy.id}:ai.${reorderKey}`}
+                          syncToken={session.getHistoryVersion()}
+                          enemies={enemies}
+                          skills={skills}
+                          locale={locale}
+                          onChange={(nr) => setRules(rules.map((x, j) => (j === i ? nr : x)))}
+                          onDelete={() => setRules(rules.filter((_, j) => j !== i))}
+                        />
+                      </DsReorderItem>
+                    )
+                  })}
+                </DsReorderCollection>
                 <DsButton
                   variant="secondary"
                   icon="add"

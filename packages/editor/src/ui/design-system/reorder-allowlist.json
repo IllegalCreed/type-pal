@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "file": "SpriteFrameWorkbench.tsx",
+      "rule": "native-draggable-transfer",
+      "fingerprint": "draggable={props.draggable}",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "源帧复制到动作槽，不改变源集合顺序。",
+      "verification": "调用方使用 SPRITE_FRAME_DRAG_MIME/RAW_FRAME_MIME 且 effectAllowed=copy。",
+      "removalCondition": "公共资源 transfer owner 替代 HTML5 DnD，或该入口被移除。"
+    },
+    {
+      "file": "SpriteFrameWorkbench.tsx",
+      "rule": "native-draggable-transfer",
+      "fingerprint": "draggable={!!props.onFrameDragStart}",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "源帧复制到动作槽，不改变源集合顺序。",
+      "verification": "onFrameDragStart 只写资源 transfer payload。",
+      "removalCondition": "公共资源 transfer owner 替代 HTML5 DnD，或该入口被移除。"
+    },
+    {
+      "file": "MapMode.tsx",
+      "rule": "spatial-move-action",
+      "fingerprint": "沿倾斜地图坐标向上移动（屏幕右上）",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "按钮改变地图空间坐标，不改变同级集合顺序。",
+      "verification": "回调写入实体位置坐标。",
+      "removalCondition": "空间移动控件被公共空间操作 owner 替代或移除。"
+    },
+    {
+      "file": "MapMode.tsx",
+      "rule": "spatial-move-action",
+      "fingerprint": "沿倾斜地图坐标向下移动（屏幕左下）",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "按钮改变地图空间坐标，不改变同级集合顺序。",
+      "verification": "回调写入实体位置坐标。",
+      "removalCondition": "空间移动控件被公共空间操作 owner 替代或移除。"
+    },
+    {
+      "file": "PanelResizeHandle.tsx",
+      "rule": "resize-gesture",
+      "fingerprint": "document.documentElement.setAttribute('data-panel-resize', props.orientation)",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "手势改变面板尺寸，不改变任何作者集合顺序。",
+      "verification": "PanelResizeHandle 专项测试覆盖 pointer capture、键盘与单次结束事务。",
+      "removalCondition": "面板 resize owner 被新的公共尺寸控件替代或该入口移除。"
+    },
+    {
+      "file": "StampPlacementSelectionInspector.tsx",
+      "rule": "membership-change",
+      "fingerprint": "移出组内碰撞成员",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "动作改变碰撞组成员归属，不表达同级作者顺序。",
+      "verification": "回调清空成员的 visual/collision 归属且不移动数组位置。",
+      "removalCondition": "成员归属编辑入口移除或由独立 membership owner 接管。"
+    },
+    {
+      "file": "LevelingEditor.tsx",
+      "rule": "derived-order",
+      "fingerprint": "[...rows].sort((a, b) => a.level - b.level)",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "显示顺序由等级数值派生，作者通过编辑 level 改变顺序。",
+      "verification": "LevelingEditor 始终按 level 排序并拒绝重复等级。",
+      "removalCondition": "等级行改为持久化独立 order 字段并经新任务审签。"
+    },
+    {
+      "file": "PreviewCanvas.tsx",
+      "rule": "pan-zoom-gesture",
+      "fingerprint": "panX: pd.panX - (e.clientX - pd.sx) / zoom,",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "拖动只平移预览视口，不改变任何作者集合顺序。",
+      "verification": "PreviewCanvas pointer move 只更新 panX/panY 视口状态。",
+      "removalCondition": "预览 pan/zoom 被公共 viewport owner 替代或入口移除。"
+    },
+    {
+      "file": "SpriteActionEditor.tsx",
+      "rule": "asset-transfer-drop",
+      "fingerprint": "onDrop={(event) => acceptDrop(event, index)}",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "资源帧复制到既有动作步骤，不重排动作步骤集合。",
+      "verification": "acceptDrop 读取 SPRITE_FRAME_DRAG_MIME/RAW_FRAME_MIME 并执行 copy insert。",
+      "removalCondition": "动作帧 transfer 改由独立公共资源投放 owner 承担或入口移除。"
+    },
+    {
+      "file": "SpriteActionEditor.tsx",
+      "rule": "asset-transfer-drop",
+      "fingerprint": "onDrop={(event) => acceptDrop(event, action.steps.length)}",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "资源帧追加到动作末尾，不是现有步骤的排序手势。",
+      "verification": "尾部 drop zone 只消费资源 transfer payload 并追加一次 step。",
+      "removalCondition": "动作帧 transfer 改由独立公共资源投放 owner 承担或入口移除。"
+    },
+    {
+      "file": "BattleSpriteLibrary.tsx",
+      "rule": "asset-transfer-drop",
+      "fingerprint": "onPlayerStageDrop(event, slot.key)",
+      "owner": "card:ED-REORDER-DRAG-1",
+      "reason": "源帧投放到战斗精灵槽位是资源绑定，不改变同级顺序。",
+      "verification": "onPlayerStageDrop 读取 RAW_FRAME_MIME 并写入指定语义槽。",
+      "removalCondition": "战斗精灵槽位 transfer 改由公共资源投放 owner 承担或入口移除。"
+    }
+  ]
+}

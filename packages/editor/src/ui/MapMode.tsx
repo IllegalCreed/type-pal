@@ -144,6 +144,11 @@ import { TilePalettePicker } from './TilePickerGrid.js'
 
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
+
+export function mapLayerVisualToStorageIndex(layerCount: number, visualIndex: number): number {
+  return layerCount - 1 - visualIndex
+}
+
 /** 当前地图层承接组合底层，其余局部层按组合顺序向上落到相邻地图层。 */
 function stampMappingsFromActiveLayer(
   template: StampTemplate | undefined,
@@ -2472,14 +2477,16 @@ export function MapMode(props: {
     )
   }
 
-  const moveLayer = (offset: -1 | 1): void => {
-    if (!liveMap || !activeLayer) return
-    if (activeLayerReadOnly) {
+  const moveLayer = (layerId: string, visualToIndex: number): void => {
+    if (!liveMap) return
+    if (lockedLayerIds.has(layerId) || hiddenLayerIds.has(layerId)) {
       explainReadOnlySelection()
       return
     }
-    const index = liveMap.layers.findIndex((layer) => layer.id === activeLayer.id)
-    session.dispatch(new MoveProjectMapLayerCommand(mapId, activeLayer.id, index + offset))
+    const index = liveMap.layers.findIndex((layer) => layer.id === layerId)
+    const toIndex = mapLayerVisualToStorageIndex(liveMap.layers.length, visualToIndex)
+    if (index < 0 || index === toIndex || toIndex < 0 || toIndex >= liveMap.layers.length) return
+    session.dispatch(new MoveProjectMapLayerCommand(mapId, layerId, toIndex))
   }
 
   const toggleLayerVisible = (layerId: string): void => {
@@ -2906,6 +2913,7 @@ export function MapMode(props: {
                 name: layer.name,
                 hidden: hiddenLayerIds.has(layer.id),
                 locked: lockedLayerIds.has(layer.id),
+                reorderDisabled: hiddenLayerIds.has(layer.id) || lockedLayerIds.has(layer.id),
                 canMoveUp: index < liveMap.layers.length - 1,
                 canMoveDown: index > 0,
               }
@@ -2916,7 +2924,10 @@ export function MapMode(props: {
             onDelete={removeLayer}
             onToggleVisible={toggleLayerVisible}
             onToggleLocked={toggleLayerLocked}
-            onMove={(_id, direction) => moveLayer(direction === 'up' ? 1 : -1)}
+            reorderScopeKey={`map:${mapId}:layers`}
+            reorderRevision={session.getMapRevision(mapId)}
+            stackOrder="top-first"
+            onReorder={moveLayer}
             deleteDisabled={liveMap.layers.length <= 1 || activeLayerReadOnly}
             footer={
               activeLayer ? (

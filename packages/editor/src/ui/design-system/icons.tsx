@@ -13,6 +13,7 @@ export type DsIconName =
   | 'edit'
   | 'eye'
   | 'eye-off'
+  | 'grip'
   | 'lock'
   | 'unlock'
   | 'more'
@@ -80,6 +81,16 @@ const PATHS: Record<DsIconName, React.ReactNode> = {
       <path d="M3.2 4.2C2.1 5.1 1.5 6.1 1.5 6.1S3.8 10 8 10c1 0 1.9-.2 2.7-.6" />
       <path d="M5.2 3.5C6 3.2 6.9 3 8 3c4.2 0 6.5 3.9 6.5 3.9s-.5.9-1.5 1.8" />
       <path d="m2 2 12 12" />
+    </>
+  ),
+  grip: (
+    <>
+      <circle cx="5" cy="4" r="1" fill="currentColor" stroke="none" />
+      <circle cx="11" cy="4" r="1" fill="currentColor" stroke="none" />
+      <circle cx="5" cy="8" r="1" fill="currentColor" stroke="none" />
+      <circle cx="11" cy="8" r="1" fill="currentColor" stroke="none" />
+      <circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" />
+      <circle cx="11" cy="12" r="1" fill="currentColor" stroke="none" />
     </>
   ),
   lock: (

@@ -5,6 +5,7 @@ export * from './multi-select.js'
 export * from './navigation.js'
 export * from './overlays.js'
 export * from './recipes.js'
+export * from './reorder.js'
 export * from './virtual-list.js'
 
-export const EDITOR_DESIGN_SYSTEM_VERSION = '2.11.0' as const
+export const EDITOR_DESIGN_SYSTEM_VERSION = '2.12.0' as const

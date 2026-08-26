@@ -224,6 +224,60 @@ describe('PoisonTab shared workbench', () => {
     expect(session.getState().poisons?.map((entry) => entry.id)).toEqual([1, 2])
   })
 
+  test('[reorder-family:poison-ticks] 回合 handle 有效移动单命令，同值移动零命令并可 undo/redo', async () => {
+    const editorState = state()
+    editorState.poisons = editorState.poisons!.map((poison, index) =>
+      index === 0
+        ? {
+            ...poison,
+            playerTicks: [{ hpDelta: -5 }, { hpDelta: -5 }, { hpDelta: -9 }],
+            enemyTicks: [{ mpDelta: -2 }, { mpDelta: -4 }],
+          }
+        : poison,
+    )
+    const session = new EditSession(editorState)
+    await act(async () => root.render(<Harness session={session} focusObjectId="1" />))
+    const playerCollection = host.querySelector<HTMLElement>(
+      '[data-ds-reorder-adoption="poison/ticks"][data-ds-reorder-scope="poison:1:player-ticks"]',
+    )!
+    const handle = playerCollection.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
+    const sourceToken = handle.dataset.reorderKey
+    const rows = () => playerCollection.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(rows()[0]?.dataset.itemKey).toBe(sourceToken)
+    expect(session.getState().poisons?.[0]?.enemyTicks).toEqual([{ mpDelta: -2 }, { mpDelta: -4 }])
+
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().poisons?.[0]?.playerTicks).toEqual([
+      { hpDelta: -5 },
+      { hpDelta: -9 },
+      { hpDelta: -5 },
+    ])
+    expect(rows()[2]?.dataset.itemKey).toBe(sourceToken)
+    expect(session.getState().poisons?.[0]?.enemyTicks).toEqual([{ mpDelta: -2 }, { mpDelta: -4 }])
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().poisons?.[0]?.playerTicks).toEqual([
+      { hpDelta: -5 },
+      { hpDelta: -5 },
+      { hpDelta: -9 },
+    ])
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(session.getState().poisons?.[0]?.playerTicks?.[1]).toEqual({ hpDelta: -9 })
+    expect(session.getState().poisons?.[0]?.enemyTicks).toEqual([{ mpDelta: -2 }, { mpDelta: -4 }])
+  })
+
   test('引用快照未就绪时 fail-closed，失败与过期状态不伪装成零引用', async () => {
     const session = new EditSession(state())
     await act(async () =>

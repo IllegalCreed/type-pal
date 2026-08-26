@@ -2,7 +2,6 @@ import { type AssetId, type AssetRecordV1, FRAME_SEQUENCE_MEDIA_TYPE } from '@ty
 import { type AssetBase, FrameSequenceReader, loadStandardPalette } from '@type-pal/reforge'
 import {
   type ChangeEvent,
-  type DragEvent,
   type KeyboardEvent,
   type PointerEvent,
   useEffect,
@@ -20,6 +19,7 @@ import {
   createDraftHistory,
   deleteDraftFrames,
   draftDurationMs,
+  frameSelectionAfterReorder,
   draftFrameDurationMs,
   draftFromFrameSequence,
   type FrameAnimationDraft,
@@ -49,9 +49,14 @@ import {
   DsFileInput,
   DsIconButton,
   DsNumberInput,
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
   DsSelect,
   DsZoomToolbar,
   DsPressable,
+  type DsReorderIntent,
+  useDsReorderKeys,
 } from './design-system/index.js'
 import {
   clampMediaPreviewZoom,
@@ -74,7 +79,7 @@ export interface FrameAnimationAsset {
   record: AssetRecordV1
 }
 
-const TIMELINE_ITEM_WIDTH = 78
+const TIMELINE_ITEM_WIDTH = 108
 let localFrameId = 0
 
 function nextFrameId(): string {
@@ -114,13 +119,14 @@ function FrameThumbnail(props: {
   reader: FrameSequenceReader
   selected: boolean
   current: boolean
+  visible: boolean
+  reorderKey: string
   onSelect(event: React.MouseEvent): void
-  onDragStart(event: DragEvent<HTMLButtonElement>): void
-  onDrop(event: DragEvent<HTMLButtonElement>): void
 }) {
-  const { draft, index, reader, selected, current, onSelect, onDragStart, onDrop } = props
+  const { draft, index, reader, selected, current, visible, reorderKey, onSelect } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
+    if (!visible) return
     let alive = true
     void resolveDraftFrame(draft, index, reader).then((rgba) => {
       if (alive && canvasRef.current) drawFrame(canvasRef.current, draft.width, draft.height, rgba)
@@ -128,23 +134,28 @@ function FrameThumbnail(props: {
     return () => {
       alive = false
     }
-  }, [draft, index, reader])
+  }, [draft, index, reader, visible])
   return (
-    <DsPressable
-      type="button"
-      className={`fa-frame${selected ? ' selected' : ''}${current ? ' current' : ''}`}
-      style={{ left: index * TIMELINE_ITEM_WIDTH }}
-      draggable
-      aria-label={`第 ${index + 1} 帧`}
-      aria-pressed={selected}
-      onClick={onSelect}
-      onDragStart={onDragStart}
-      onDragOver={(event) => event.preventDefault()}
-      onDrop={onDrop}
-    >
-      <canvas ref={canvasRef} />
-      <span>{index + 1}</span>
-    </DsPressable>
+    <div className={`fa-frame${selected ? ' selected' : ''}${current ? ' current' : ''}`}>
+      <DsPressable
+        type="button"
+        className="fa-frame-select"
+        aria-label={`第 ${index + 1} 帧`}
+        aria-pressed={selected}
+        onClick={onSelect}
+      >
+        {visible ? (
+          <canvas ref={canvasRef} />
+        ) : (
+          <span className="fa-frame-placeholder" aria-hidden="true" />
+        )}
+        <span>{index + 1}</span>
+      </DsPressable>
+      <div className="fa-frame-actions">
+        <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
+        <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
+      </div>
+    </div>
   )
 }
 
@@ -177,7 +188,6 @@ export function FrameAnimationEditor(props: {
   const timelineRef = useRef<HTMLDivElement>(null)
   const insertRef = useRef<HTMLInputElement>(null)
   const replaceRef = useRef<HTMLInputElement>(null)
-  const dragIndex = useRef<number | null>(null)
   const panGesture = useRef<{
     pointerId: number
     clientX: number
@@ -188,6 +198,7 @@ export function FrameAnimationEditor(props: {
   const selectionAnchor = useRef(0)
 
   const draft = history?.present
+  const frameReorderKeys = useDsReorderKeys(draft?.frames ?? [], (frame) => frame.id)
   const dirty = Boolean(draft && baseline && draft !== baseline)
   const timelineReady = Boolean(draft)
 
@@ -330,8 +341,54 @@ export function FrameAnimationEditor(props: {
     return () => observer.disconnect()
   }, [timelineReady])
 
+  useEffect(() => {
+    const element = timelineRef.current
+    if (!element || selectedIndex < 0) return
+    const start = selectedIndex * TIMELINE_ITEM_WIDTH
+    const end = start + TIMELINE_ITEM_WIDTH
+    if (start < element.scrollLeft) element.scrollTo({ left: start, behavior: 'auto' })
+    else if (end > element.scrollLeft + element.clientWidth)
+      element.scrollTo({ left: end - element.clientWidth, behavior: 'auto' })
+  }, [selectedIndex])
+
   const commit = (next: FrameAnimationDraft): void => {
     setHistory((current) => (current ? commitDraftHistory(current, next) : current))
+  }
+
+  const travelHistory = (
+    travel: (current: FrameAnimationDraftHistory) => FrameAnimationDraftHistory,
+  ): void => {
+    if (!history || !draft) return
+    const activeId = draft.frames[selectedIndex]?.id
+    const anchorId = draft.frames[selectionAnchor.current]?.id
+    const next = travel(history)
+    if (next === history) return
+    setHistory(next)
+    const activeIndex = activeId
+      ? next.present.frames.findIndex((frame) => frame.id === activeId)
+      : -1
+    const anchorIndex = anchorId
+      ? next.present.frames.findIndex((frame) => frame.id === anchorId)
+      : -1
+    const fallbackIndex = Math.min(selectedIndex, next.present.frames.length - 1)
+    setSelectedIndex(activeIndex >= 0 ? activeIndex : fallbackIndex)
+    selectionAnchor.current = anchorIndex >= 0 ? anchorIndex : fallbackIndex
+  }
+
+  const reorderFrames = (intent: DsReorderIntent): boolean => {
+    if (!draft) return false
+    const source = draft.frames[intent.fromIndex]
+    if (!source) return false
+    const next = moveDraftFrame(draft, intent.fromIndex, intent.toIndex)
+    if (next === draft) return false
+    frameReorderKeys.move(intent)
+    commit(next)
+    const selection = frameSelectionAfterReorder(next.frames, source.id, selectedFrameIds)
+    if (selection.selectedFrameIds !== selectedFrameIds)
+      setSelectedFrameIds(new Set(selection.selectedFrameIds))
+    setSelectedIndex(selection.selectedIndex)
+    selectionAnchor.current = selection.selectionAnchor
+    return true
   }
 
   const applyPreviewZoom = (value: number, anchor?: { clientX: number; clientY: number }): void => {
@@ -561,9 +618,11 @@ export function FrameAnimationEditor(props: {
     draft.frames.length,
     Math.ceil((viewport.left + viewport.width) / TIMELINE_ITEM_WIDTH) + 3,
   )
-  const visible = Array.from(
-    { length: Math.max(0, visibleEnd - visibleStart) },
-    (_value, index) => visibleStart + index,
+  const visible = new Set(
+    Array.from(
+      { length: Math.max(0, visibleEnd - visibleStart) },
+      (_value, index) => visibleStart + index,
+    ),
   )
   const selectedIndices = draft.frames
     .map((frame, index) => (selectedFrameIds.has(frame.id) ? index : -1))
@@ -638,14 +697,14 @@ export function FrameAnimationEditor(props: {
           icon="undo"
           variant="secondary"
           disabled={!history.past.length || Boolean(busy)}
-          onClick={() => setHistory((current) => (current ? undoDraftHistory(current) : current))}
+          onClick={() => travelHistory(undoDraftHistory)}
         />
         <DsIconButton
           label="重做帧编辑"
           icon="redo"
           variant="secondary"
           disabled={!history.future.length || Boolean(busy)}
-          onClick={() => setHistory((current) => (current ? redoDraftHistory(current) : current))}
+          onClick={() => travelHistory(redoDraftHistory)}
         />
         <DsButton
           variant="primary"
@@ -813,73 +872,88 @@ export function FrameAnimationEditor(props: {
           <span>{(draftDurationMs(draft) / 1000).toFixed(2)} 秒</span>
           <span>{draft.colorTreatment === 'project-standard' ? '项目标准色彩' : '保留原色'}</span>
         </div>
-        <div
-          ref={timelineRef}
-          className="fa-timeline"
-          onScroll={(event) =>
-            setViewport({
-              left: event.currentTarget.scrollLeft,
-              width: event.currentTarget.clientWidth,
-            })
-          }
+        <DsReorderCollection
+          adoptionId="asset/frame-animation-timeline"
+          scopeKey={`frame-animation:${asset.id}:${asset.record.sha256}`}
+          entries={draft.frames.map((frame, index) => ({
+            key: frameReorderKeys.keys[index]!,
+            label: `第 ${index + 1} 帧`,
+          }))}
+          revision={draft}
+          orientation="horizontal"
+          disabled={Boolean(busy)}
+          onReorder={reorderFrames}
         >
           <div
-            className="fa-track"
-            style={{ width: Math.max(viewport.width, draft.frames.length * TIMELINE_ITEM_WIDTH) }}
+            ref={timelineRef}
+            className="fa-timeline"
+            onScroll={(event) =>
+              setViewport({
+                left: event.currentTarget.scrollLeft,
+                width: event.currentTarget.clientWidth,
+              })
+            }
           >
-            {visible.map((index) => (
-              <FrameThumbnail
-                key={draft.frames[index]!.id}
-                draft={draft}
-                index={index}
-                reader={sequenceReader}
-                selected={selectedFrameIds.has(draft.frames[index]!.id)}
-                current={index === selectedIndex}
-                onSelect={(event) => {
-                  const frame = draft.frames[index]!
-                  if (event.shiftKey) {
-                    const from = Math.min(selectionAnchor.current, index)
-                    const to = Math.max(selectionAnchor.current, index)
-                    setSelectedFrameIds(
-                      new Set(draft.frames.slice(from, to + 1).map((candidate) => candidate.id)),
-                    )
-                    setSelectedIndex(index)
-                    return
-                  }
-                  if (event.metaKey || event.ctrlKey) {
-                    const next = new Set(selectedFrameIds)
-                    if (next.has(frame.id) && next.size > 1) {
-                      next.delete(frame.id)
-                      const active = draft.frames.findIndex((candidate) => next.has(candidate.id))
-                      setSelectedIndex(active >= 0 ? active : index)
-                    } else {
-                      next.add(frame.id)
-                      setSelectedIndex(index)
-                    }
-                    setSelectedFrameIds(next)
-                    selectionAnchor.current = index
-                    return
-                  }
-                  activateFrame(index)
-                }}
-                onDragStart={(event) => {
-                  dragIndex.current = index
-                  if (!selectedFrameIds.has(draft.frames[index]!.id)) activateFrame(index)
-                  event.dataTransfer.effectAllowed = 'move'
-                }}
-                onDrop={(event) => {
-                  event.preventDefault()
-                  const from = dragIndex.current
-                  dragIndex.current = null
-                  if (from === null || from === index) return
-                  commit(moveDraftFrame(draft, from, index))
-                  setSelectedIndex(index)
-                  selectionAnchor.current = index
-                }}
-              />
-            ))}
+            <div
+              className="fa-track"
+              style={{ width: Math.max(viewport.width, draft.frames.length * TIMELINE_ITEM_WIDTH) }}
+            >
+              {draft.frames.map((frame, index) => {
+                const reorderKey = frameReorderKeys.keys[index]!
+                return (
+                  <div
+                    className="fa-frame-position"
+                    style={{ left: index * TIMELINE_ITEM_WIDTH }}
+                    key={reorderKey}
+                  >
+                    <DsReorderItem itemKey={reorderKey} layout="overlay">
+                      <FrameThumbnail
+                        draft={draft}
+                        index={index}
+                        reader={sequenceReader}
+                        selected={selectedFrameIds.has(frame.id)}
+                        current={index === selectedIndex}
+                        visible={visible.has(index)}
+                        reorderKey={reorderKey}
+                        onSelect={(event) => {
+                          const frame = draft.frames[index]!
+                          if (event.shiftKey) {
+                            const from = Math.min(selectionAnchor.current, index)
+                            const to = Math.max(selectionAnchor.current, index)
+                            setSelectedFrameIds(
+                              new Set(
+                                draft.frames.slice(from, to + 1).map((candidate) => candidate.id),
+                              ),
+                            )
+                            setSelectedIndex(index)
+                            return
+                          }
+                          if (event.metaKey || event.ctrlKey) {
+                            const next = new Set(selectedFrameIds)
+                            if (next.has(frame.id) && next.size > 1) {
+                              next.delete(frame.id)
+                              const active = draft.frames.findIndex((candidate) =>
+                                next.has(candidate.id),
+                              )
+                              setSelectedIndex(active >= 0 ? active : index)
+                            } else {
+                              next.add(frame.id)
+                              setSelectedIndex(index)
+                            }
+                            setSelectedFrameIds(next)
+                            selectionAnchor.current = index
+                            return
+                          }
+                          activateFrame(index)
+                        }}
+                      />
+                    </DsReorderItem>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-        </div>
+        </DsReorderCollection>
       </div>
       {error ? <div className="fa-error cf-err">{error}</div> : null}
     </div>

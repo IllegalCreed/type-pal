@@ -5,9 +5,10 @@ import type {
   SpriteActionStep,
   SpriteDef,
 } from '@type-pal/content'
-import { Fragment, type DragEvent as ReactDragEvent, useEffect, useMemo } from 'react'
+import { Fragment, type DragEvent as ReactDragEvent, useEffect, useMemo, useRef } from 'react'
 import { type SpriteLayoutEditProof, UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { sortedSpriteActions } from '../core/sprite-actions.js'
 import {
   DsButton,
   DsCatalogRow,
@@ -17,23 +18,21 @@ import {
   DsInspectorSection,
   DsPropertyGrid,
   DsPropertyRow,
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
   DsSelect,
   DsPressable,
+  reorderDsItems,
+  type DsReorderIntent,
+  useDsReorderKeys,
 } from './design-system/index.js'
 import { SpriteFrameCanvas, type SpriteFrameView } from './SpriteFrameWorkbench.js'
 import { SPRITE_FRAME_DRAG_MIME } from './SpriteResourceViewer.js'
 
-const ACTION_STEP_DRAG_MIME = 'application/x-type-pal-sprite-action-step'
-
 interface RawFrameDragPayload {
   asset: string
   frame: number
-}
-
-interface ActionStepDragPayload {
-  sprite: string
-  action: string
-  index: number
 }
 
 function parseDragPayload<T>(event: ReactDragEvent, mime: string): T | undefined {
@@ -47,11 +46,7 @@ function parseDragPayload<T>(event: ReactDragEvent, mime: string): T | undefined
 }
 
 function sortedActions(sprite: SpriteDef): Array<[string, SpriteActionDef]> {
-  return Object.entries(sprite.poses ?? {}).sort(
-    ([leftId, left], [rightId, right]) =>
-      (left.order ?? Number.MAX_SAFE_INTEGER) - (right.order ?? Number.MAX_SAFE_INTEGER) ||
-      leftId.localeCompare(rightId),
-  )
+  return sortedSpriteActions(sprite).map(({ id, action }) => [id, action])
 }
 
 function nextActionId(sprite: SpriteDef): string {
@@ -111,6 +106,10 @@ export function SpriteActionEditor(props: {
     actions.find(([actionId]) => actionId === props.selectedActionId) ?? actions[0]
   const actionId = selectedEntry?.[0]
   const action = selectedEntry?.[1]
+  const stepReorderKeys = useDsReorderKeys(action?.steps ?? [], (step) => JSON.stringify(step))
+  const historyVersion = props.session.getHistoryVersion()
+  const lastSeenHistoryVersionRef = useRef(historyVersion)
+  const locallyOwnedHistoryVersionRef = useRef<number | undefined>(undefined)
   const actionNumber = actionId ? actions.findIndex(([id]) => id === actionId) : -1
   const actionReferences = actionId
     ? props.references.filter(
@@ -121,6 +120,13 @@ export function SpriteActionEditor(props: {
     if (!actions.some(([candidate]) => candidate === props.selectedActionId))
       props.onSelectedActionChange?.(actions[0]?.[0])
   }, [actions, props.onSelectedActionChange, props.selectedActionId])
+  useEffect(() => {
+    if (lastSeenHistoryVersionRef.current === historyVersion) return
+    const locallyOwned = locallyOwnedHistoryVersionRef.current === historyVersion
+    lastSeenHistoryVersionRef.current = historyVersion
+    locallyOwnedHistoryVersionRef.current = undefined
+    if (!locallyOwned) stepReorderKeys.reset()
+  }, [historyVersion, stepReorderKeys.reset])
 
   const reportError = (reason: unknown): void =>
     props.onStatusNotice?.({
@@ -146,6 +152,7 @@ export function SpriteActionEditor(props: {
         reportError('精灵用途定义已变化，请重新选择后再编辑。')
         return false
       }
+      locallyOwnedHistoryVersionRef.current = props.session.getHistoryVersion()
       props.onStatusNotice?.(undefined)
       return true
     } catch (reason) {
@@ -156,20 +163,31 @@ export function SpriteActionEditor(props: {
 
   const updateAction = (transform: (current: SpriteActionDef) => SpriteActionDef): boolean => {
     if (!actionId || !action) return false
+    const nextAction = transform(action)
+    if (JSON.stringify(nextAction) === JSON.stringify(action)) return false
     return commitPoses({
       ...props.definition.poses,
-      [actionId]: transform(structuredClone(action)),
+      [actionId]: nextAction,
     })
+  }
+
+  const reorderActions = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(actions, intent)
+    if (next === actions) return false
+    return commitPoses(
+      Object.fromEntries(next.map(([id, candidate], order) => [id, { ...candidate, order }])),
+    )
   }
 
   const createAction = (): void => {
     const id = nextActionId(props.definition)
-    const order = Math.max(-1, ...actions.map(([, value]) => value.order ?? -1)) + 1
     const created = commitPoses({
-      ...props.definition.poses,
+      ...Object.fromEntries(
+        actions.map(([actionKey, candidate], order) => [actionKey, { ...candidate, order }]),
+      ),
       [id]: {
         label: `动作 ${actions.length + 1}`,
-        order,
+        order: actions.length,
         steps: [
           {
             frame:
@@ -187,9 +205,13 @@ export function SpriteActionEditor(props: {
   const deleteAction = (): void => {
     if (!actionId || !action || actionReferences.length) return
     if (!window.confirm(`删除预制动作“${action.label}”（${actionId}）？`)) return
-    const poses = { ...props.definition.poses }
-    delete poses[actionId]
-    commitPoses(poses)
+    commitPoses(
+      Object.fromEntries(
+        actions
+          .filter(([id]) => id !== actionId)
+          .map(([id, candidate], order) => [id, { ...candidate, order }]),
+      ),
+    )
   }
 
   const insertStep = (step: SpriteActionStep, targetIndex: number): void => {
@@ -203,25 +225,19 @@ export function SpriteActionEditor(props: {
     })
   }
 
-  const reorderStep = (sourceIndex: number, targetIndex: number): void => {
-    updateAction((current) => {
-      if (
-        sourceIndex < 0 ||
-        sourceIndex >= current.steps.length ||
-        targetIndex < 0 ||
-        targetIndex > current.steps.length
-      )
-        return current
-      const loopStep = current.loopFrom === undefined ? undefined : current.steps[current.loopFrom]
-      const steps = [...current.steps]
-      const [moved] = steps.splice(sourceIndex, 1)
-      if (!moved) return current
-      const insertion = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex
-      steps.splice(insertion, 0, moved)
-      const next = { ...current, steps }
-      if (loopStep) next.loopFrom = steps.indexOf(loopStep)
+  const reorderSteps = (intent: DsReorderIntent): boolean => {
+    const reorderedKeys = reorderDsItems(stepReorderKeys.keys, intent)
+    const loopKey =
+      action?.loopFrom === undefined ? undefined : stepReorderKeys.keys[action.loopFrom]
+    const changed = updateAction((current) => {
+      const steps = reorderDsItems(current.steps, intent)
+      if (steps === current.steps) return current
+      const next = { ...current, steps: [...steps] }
+      if (loopKey) next.loopFrom = reorderedKeys.indexOf(loopKey)
       return next
     })
+    if (changed) stepReorderKeys.move(intent)
+    return changed
   }
 
   const removeStep = (index: number): void => {
@@ -253,9 +269,6 @@ export function SpriteActionEditor(props: {
       insertStep({ frame: frame.frame, durationMs: 250 }, targetIndex)
       return
     }
-    const step = parseDragPayload<ActionStepDragPayload>(event, ACTION_STEP_DRAG_MIME)
-    if (step && step.sprite === props.definition.id && step.action === actionId)
-      reorderStep(step.index, targetIndex)
   }
 
   const sounds = Object.entries(props.catalog.assets).filter(
@@ -274,18 +287,37 @@ export function SpriteActionEditor(props: {
       }
     >
       {actions.length ? (
-        <div className="ds-inspector-choice-list" role="group" aria-label="选择预制动作">
-          {actions.map(([id, candidate]) => (
-            <DsCatalogRow
-              key={id}
-              selected={id === actionId}
-              title={candidate.label}
-              meta={id}
-              trailing={`${candidate.loopFrom === undefined ? '单次' : '循环'} · ${candidate.steps.length} 步`}
-              onClick={() => props.onSelectedActionChange?.(id)}
-            />
-          ))}
-        </div>
+        <DsReorderCollection
+          adoptionId="asset/sprite-action-definitions"
+          scopeKey={`sprite:${props.definition.id}:actions`}
+          entries={actions.map(([id, candidate]) => ({ key: id, label: candidate.label }))}
+          revision={props.session.getHistoryVersion()}
+          disabled={!props.proof}
+          onReorder={reorderActions}
+        >
+          <div className="ds-inspector-choice-list" role="group" aria-label="选择预制动作">
+            {actions.map(([id, candidate]) => (
+              <DsReorderItem itemKey={id} contentClassName="sprite-action-catalog-content" key={id}>
+                <DsCatalogRow
+                  selected={id === actionId}
+                  title={candidate.label}
+                  meta={id}
+                  trailing={
+                    <span>
+                      {candidate.loopFrom === undefined ? '单次' : '循环'} ·{' '}
+                      {candidate.steps.length} 步
+                    </span>
+                  }
+                  onClick={() => props.onSelectedActionChange?.(id)}
+                />
+                <span className="sprite-action-catalog-actions">
+                  <DsReorderMoveButton itemKey={id} direction="backward" />
+                  <DsReorderMoveButton itemKey={id} direction="forward" />
+                </span>
+              </DsReorderItem>
+            ))}
+          </div>
+        </DsReorderCollection>
       ) : (
         <p className="ds-inspector-inline-empty">
           尚无预制动作。新增后，可把中间“全部源帧”中的帧拖到时间线。
@@ -375,207 +407,192 @@ export function SpriteActionEditor(props: {
               ＋ 追加已选 #{props.selectedSourceFrame}
             </DsButton>
           </div>
-          <ol className="sprite-action-timeline">
-            {action.steps.map((step, index) => (
-              <Fragment key={`${index}:${step.frame}`}>
-                <li
-                  className="sprite-action-drop-boundary"
-                  onDragOver={(event) => event.preventDefault()}
-                  onDrop={(event) => acceptDrop(event, index)}
-                >
-                  <DsPressable
-                    type="button"
-                    aria-label={`在第 ${index + 1} 步之前插入已选源帧 ${props.selectedSourceFrame}`}
-                    disabled={
-                      props.selectedSourceFrame < 0 ||
-                      props.selectedSourceFrame >= props.frames.length
-                    }
-                    onClick={() =>
-                      insertStep({ frame: props.selectedSourceFrame, durationMs: 250 }, index)
-                    }
-                  >
-                    ＋ 在此插入 #{props.selectedSourceFrame}
-                  </DsPressable>
-                </li>
-                <li
-                  className={`sprite-action-step${action.loopFrom === index ? ' loop-start' : ''}`}
-                >
-                  <DsPressable
-                    type="button"
-                    className="sprite-action-drag-handle"
-                    aria-label={`拖动第 ${index + 1} 步调整顺序`}
-                    draggable
-                    onDragStart={(event) => {
-                      event.dataTransfer.effectAllowed = 'move'
-                      event.dataTransfer.setData(
-                        ACTION_STEP_DRAG_MIME,
-                        JSON.stringify({ sprite: props.definition.id, action: actionId, index }),
-                      )
-                    }}
-                  >
-                    ≡
-                  </DsPressable>
-                  <SpriteFrameCanvas
-                    source={props.frames[step.frame]?.canvas}
-                    width={56}
-                    height={56}
-                    maxScale={2}
-                    label={`动作 ${action.label} 第 ${index + 1} 步，源帧 ${step.frame}`}
-                  />
-                  <div className="sprite-action-step-fields">
-                    <b>
-                      {action.loopFrom === index ? '↻ ' : ''}帧 #{step.frame}
-                    </b>
-                    <label htmlFor={`sprite-action-step-${actionNumber}-${index}-duration`}>
-                      停留
-                      <StepDurationInput
-                        id={`sprite-action-step-${actionNumber}-${index}-duration`}
-                        draftKey={`sprite:${props.definition.id}:action:${actionId}:step:${index}:${step.frame}:${(step.cues ?? []).map((cue) => cue.asset).join(',')}:durationMs`}
-                        syncToken={props.session.getHistoryVersion()}
-                        value={step.durationMs}
-                        disabled={!props.proof}
-                        onCommit={(durationMs) =>
-                          updateAction((current) => ({
-                            ...current,
-                            steps: current.steps.map((candidate, position) =>
-                              position === index ? { ...candidate, durationMs } : candidate,
-                            ),
-                          }))
+          <DsReorderCollection
+            adoptionId="asset/sprite-action-steps"
+            scopeKey={`sprite:${props.definition.id}:action:${actionId}:steps`}
+            entries={action.steps.map((step, index) => ({
+              key: stepReorderKeys.keys[index]!,
+              label: `第 ${index + 1} 步，帧 ${step.frame}`,
+            }))}
+            revision={props.session.getHistoryVersion()}
+            disabled={!props.proof}
+            onReorder={reorderSteps}
+          >
+            <ol className="sprite-action-timeline">
+              {action.steps.map((step, index) => {
+                const reorderKey = stepReorderKeys.keys[index]!
+                return (
+                  <Fragment key={reorderKey}>
+                    <li
+                      className="sprite-action-drop-boundary"
+                      onDragOver={(event) => event.preventDefault()}
+                      onDrop={(event) => acceptDrop(event, index)}
+                    >
+                      <DsPressable
+                        type="button"
+                        aria-label={`在第 ${index + 1} 步之前插入已选源帧 ${props.selectedSourceFrame}`}
+                        disabled={
+                          props.selectedSourceFrame < 0 ||
+                          props.selectedSourceFrame >= props.frames.length
                         }
-                      />
-                      ms
-                    </label>
-                  </div>
-                  <div className="sprite-action-step-buttons">
-                    <DsButton
-                      className="icon-only"
-                      aria-label={`第 ${index + 1} 步上移`}
-                      disabled={index === 0}
-                      onClick={() => reorderStep(index, index - 1)}
-                      size="compact"
-                      variant="secondary"
-                    >
-                      ↑
-                    </DsButton>
-                    <DsButton
-                      className="icon-only"
-                      aria-label={`第 ${index + 1} 步下移`}
-                      disabled={index === action.steps.length - 1}
-                      onClick={() => reorderStep(index, index + 2)}
-                      size="compact"
-                      variant="secondary"
-                    >
-                      ↓
-                    </DsButton>
-                    <DsButton
-                      className="icon-only danger-action"
-                      aria-label={`删除第 ${index + 1} 步`}
-                      disabled={action.steps.length <= 1}
-                      onClick={() => removeStep(index)}
-                      size="compact"
-                      variant="secondary"
-                    >
-                      ×
-                    </DsButton>
-                  </div>
-                  <div className="sprite-action-cues">
-                    {(step.cues ?? []).map((cue, cueIndex) => (
-                      <label key={`${cueIndex}:${cue.asset}`}>
-                        音效
-                        <DsSelect
-                          size="compact"
-                          aria-label={`第 ${index + 1} 步第 ${cueIndex + 1} 个音效`}
-                          value={cue.asset}
-                          options={sounds.map(([asset, record]) => ({
-                            value: asset,
-                            label: record.label ?? asset,
-                            description: asset,
-                          }))}
-                          onValueChange={(value) =>
-                            updateAction((current) => ({
-                              ...current,
-                              steps: current.steps.map((candidate, position) => {
-                                if (position !== index) return candidate
-                                const cues = [...(candidate.cues ?? [])]
-                                cues[cueIndex] = { kind: 'sound', asset: value }
-                                return { ...candidate, cues }
-                              }),
-                            }))
-                          }
+                        onClick={() =>
+                          insertStep({ frame: props.selectedSourceFrame, durationMs: 250 }, index)
+                        }
+                      >
+                        ＋ 在此插入 #{props.selectedSourceFrame}
+                      </DsPressable>
+                    </li>
+                    <DsReorderItem as="li" itemKey={reorderKey}>
+                      <div
+                        className={`sprite-action-step${action.loopFrom === index ? ' loop-start' : ''}`}
+                      >
+                        <SpriteFrameCanvas
+                          source={props.frames[step.frame]?.canvas}
+                          width={56}
+                          height={56}
+                          maxScale={2}
+                          label={`动作 ${action.label} 第 ${index + 1} 步，源帧 ${step.frame}`}
                         />
-                        <DsButton
-                          className="icon-only danger-action"
-                          aria-label="移除同步音效"
-                          onClick={() =>
-                            updateAction((current) => ({
-                              ...current,
-                              steps: current.steps.map((candidate, position) => {
-                                if (position !== index) return candidate
-                                const cues = (candidate.cues ?? []).filter(
-                                  (_, position) => position !== cueIndex,
-                                )
-                                const next = { ...candidate }
-                                if (cues.length) next.cues = cues
-                                else delete next.cues
-                                return next
-                              }),
-                            }))
-                          }
-                          size="compact"
-                          variant="secondary"
-                        >
-                          ×
-                        </DsButton>
-                      </label>
-                    ))}
-                    <DsButton
-                      disabled={!firstSoundAsset(props.catalog)}
-                      onClick={() => {
-                        const asset = firstSoundAsset(props.catalog)
-                        if (!asset) return
-                        updateAction((current) => ({
-                          ...current,
-                          steps: current.steps.map((candidate, position) =>
-                            position === index
-                              ? {
-                                  ...candidate,
-                                  cues: [...(candidate.cues ?? []), { kind: 'sound', asset }],
+                        <div className="sprite-action-step-fields">
+                          <b>
+                            {action.loopFrom === index ? '↻ ' : ''}帧 #{step.frame}
+                          </b>
+                          <label htmlFor={`sprite-action-step-${actionNumber}-${index}-duration`}>
+                            停留
+                            <StepDurationInput
+                              id={`sprite-action-step-${actionNumber}-${index}-duration`}
+                              draftKey={`sprite:${props.definition.id}:action:${actionId}:step:${reorderKey}:durationMs`}
+                              syncToken={props.session.getHistoryVersion()}
+                              value={step.durationMs}
+                              disabled={!props.proof}
+                              onCommit={(durationMs) =>
+                                updateAction((current) => ({
+                                  ...current,
+                                  steps: current.steps.map((candidate, position) =>
+                                    position === index ? { ...candidate, durationMs } : candidate,
+                                  ),
+                                }))
+                              }
+                            />
+                            ms
+                          </label>
+                        </div>
+                        <div className="sprite-action-step-buttons">
+                          <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
+                          <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
+                          <DsButton
+                            className="icon-only danger-action"
+                            aria-label={`删除第 ${index + 1} 步`}
+                            disabled={action.steps.length <= 1}
+                            onClick={() => removeStep(index)}
+                            size="compact"
+                            variant="secondary"
+                          >
+                            ×
+                          </DsButton>
+                        </div>
+                        <div className="sprite-action-cues">
+                          {(step.cues ?? []).map((cue, cueIndex) => (
+                            <label key={`${cueIndex}:${cue.asset}`}>
+                              音效
+                              <DsSelect
+                                size="compact"
+                                aria-label={`第 ${index + 1} 步第 ${cueIndex + 1} 个音效`}
+                                value={cue.asset}
+                                options={sounds.map(([asset, record]) => ({
+                                  value: asset,
+                                  label: record.label ?? asset,
+                                  description: asset,
+                                }))}
+                                onValueChange={(value) =>
+                                  updateAction((current) => ({
+                                    ...current,
+                                    steps: current.steps.map((candidate, position) => {
+                                      if (position !== index) return candidate
+                                      const cues = [...(candidate.cues ?? [])]
+                                      cues[cueIndex] = { kind: 'sound', asset: value }
+                                      return { ...candidate, cues }
+                                    }),
+                                  }))
                                 }
-                              : candidate,
-                          ),
-                        }))
-                      }}
-                      size="compact"
-                      variant="secondary"
-                    >
-                      ＋ 同步音效
-                    </DsButton>
-                  </div>
-                </li>
-              </Fragment>
-            ))}
-            <li
-              className="sprite-action-drop-end"
-              onDragOver={(event) => event.preventDefault()}
-              onDrop={(event) => acceptDrop(event, action.steps.length)}
-            >
-              <span>拖到这里追加源帧</span>
-              <DsPressable
-                type="button"
-                disabled={
-                  props.selectedSourceFrame < 0 || props.selectedSourceFrame >= props.frames.length
-                }
-                onClick={() =>
-                  insertStep(
-                    { frame: props.selectedSourceFrame, durationMs: 250 },
-                    action.steps.length,
-                  )
-                }
+                              />
+                              <DsButton
+                                className="icon-only danger-action"
+                                aria-label="移除同步音效"
+                                onClick={() =>
+                                  updateAction((current) => ({
+                                    ...current,
+                                    steps: current.steps.map((candidate, position) => {
+                                      if (position !== index) return candidate
+                                      const cues = (candidate.cues ?? []).filter(
+                                        (_, position) => position !== cueIndex,
+                                      )
+                                      const next = { ...candidate }
+                                      if (cues.length) next.cues = cues
+                                      else delete next.cues
+                                      return next
+                                    }),
+                                  }))
+                                }
+                                size="compact"
+                                variant="secondary"
+                              >
+                                ×
+                              </DsButton>
+                            </label>
+                          ))}
+                          <DsButton
+                            disabled={!firstSoundAsset(props.catalog)}
+                            onClick={() => {
+                              const asset = firstSoundAsset(props.catalog)
+                              if (!asset) return
+                              updateAction((current) => ({
+                                ...current,
+                                steps: current.steps.map((candidate, position) =>
+                                  position === index
+                                    ? {
+                                        ...candidate,
+                                        cues: [...(candidate.cues ?? []), { kind: 'sound', asset }],
+                                      }
+                                    : candidate,
+                                ),
+                              }))
+                            }}
+                            size="compact"
+                            variant="secondary"
+                          >
+                            ＋ 同步音效
+                          </DsButton>
+                        </div>
+                      </div>
+                    </DsReorderItem>
+                  </Fragment>
+                )
+              })}
+              <li
+                className="sprite-action-drop-end"
+                onDragOver={(event) => event.preventDefault()}
+                onDrop={(event) => acceptDrop(event, action.steps.length)}
               >
-                ＋ 追加已选 #{props.selectedSourceFrame}
-              </DsPressable>
-            </li>
-          </ol>
+                <span>拖到这里追加源帧</span>
+                <DsPressable
+                  type="button"
+                  disabled={
+                    props.selectedSourceFrame < 0 ||
+                    props.selectedSourceFrame >= props.frames.length
+                  }
+                  onClick={() =>
+                    insertStep(
+                      { frame: props.selectedSourceFrame, durationMs: 250 },
+                      action.steps.length,
+                    )
+                  }
+                >
+                  ＋ 追加已选 #{props.selectedSourceFrame}
+                </DsPressable>
+              </li>
+            </ol>
+          </DsReorderCollection>
 
           <div className="sprite-action-footer">
             {actionReferences.length ? (

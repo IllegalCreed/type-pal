@@ -145,8 +145,17 @@ export function moveStampDraftLayer(
 ): StampTemplate {
   const index = draft.layers.findIndex(({ id }) => id === layerId)
   if (index < 0) throw new Error(`组合图层 “${layerId}” 不存在。`)
-  const target = index + direction
-  if (target < 0 || target >= draft.layers.length) return draft
+  return moveStampDraftLayerTo(draft, layerId, index + direction)
+}
+
+export function moveStampDraftLayerTo(
+  draft: StampTemplate,
+  layerId: string,
+  target: number,
+): StampTemplate {
+  const index = draft.layers.findIndex(({ id }) => id === layerId)
+  if (index < 0) throw new Error(`组合图层 “${layerId}” 不存在。`)
+  if (target < 0 || target >= draft.layers.length || target === index) return draft
   const layers = [...draft.layers]
   const [layer] = layers.splice(index, 1)
   layers.splice(target, 0, layer!)

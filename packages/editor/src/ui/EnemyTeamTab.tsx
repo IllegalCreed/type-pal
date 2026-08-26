@@ -1,7 +1,7 @@
 /** 独立敌队预制工作台：稳定身份、五个语义槽、试玩、汇总与全域引用。 */
 import type { EnemyDef, EnemyTeamDef, Locale } from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   AddEnemyTeamCommand,
   DeleteEnemyTeamCommand,
@@ -19,7 +19,6 @@ import {
   DsActionLink,
   DsButton,
   DsField,
-  DsIconButton,
   DsSelect,
   DsTextInput,
   DsPressable,
@@ -33,6 +32,14 @@ import {
   DsReferenceRow,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
+import {
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
+  reorderDsItems,
+  type DsReorderIntent,
+  useDsReorderKeys,
+} from './design-system/reorder.js'
 
 function nextTeamId(teams: readonly EnemyTeamDef[]): string {
   let index = 1
@@ -166,9 +173,13 @@ export function EnemyTeamTab(props: {
   }
   const updateSlots = (slots: readonly (string | null)[]): void => {
     if (!selected) return
-    session.dispatch(
-      new UpdateEnemyTeamCommand(selected.id, { ...selected, slots: storedSlots(slots) }),
+    const next = storedSlots(slots)
+    if (
+      next.length === selected.slots.length &&
+      next.every((enemyId, index) => enemyId === selected.slots[index])
     )
+      return
+    session.dispatch(new UpdateEnemyTeamCommand(selected.id, { ...selected, slots: next }))
   }
   const remove = (): void => {
     if (!selected) return
@@ -196,6 +207,37 @@ export function EnemyTeamTab(props: {
       label: `${lookupText(enemy.name, locale)} · ${enemy.id}`,
     })),
   ]
+  const slotKeys = useDsReorderKeys(slots, (enemyId) => enemyId ?? undefined)
+  const expectedSlotOrderRef = useRef<{ teamId: string; signature: string } | undefined>(undefined)
+  const slotSignature = JSON.stringify(slots)
+  useEffect(() => {
+    const expected = expectedSlotOrderRef.current
+    if (expected && expected.teamId === selected?.id && expected.signature === slotSignature) {
+      expectedSlotOrderRef.current = undefined
+      return
+    }
+    expectedSlotOrderRef.current = undefined
+    slotKeys.reset()
+  }, [selected?.id, slotKeys.reset, slotSignature])
+  const slotEntries = slots.map((enemyId, index) => ({
+    key: slotKeys.keys[index]!,
+    label: enemyId
+      ? enemies.find((enemy) => enemy.id === enemyId)
+        ? lookupText(enemies.find((enemy) => enemy.id === enemyId)!.name, locale)
+        : enemyId
+      : `空槽 ${index + 1}`,
+  }))
+  const reorderSlots = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(slots, intent, 'swap')
+    if (next === slots) return false
+    expectedSlotOrderRef.current = {
+      teamId: selected?.id ?? '',
+      signature: JSON.stringify(next),
+    }
+    slotKeys.move(intent, 'swap')
+    updateSlots(next)
+    return true
+  }
 
   return (
     <>
@@ -305,48 +347,48 @@ export function EnemyTeamTab(props: {
                   title="阵容与顺序"
                   description="固定展示五个语义槽；空槽不会挤压后续成员，上移/下移会交换槽位。"
                 >
-                  <div className="enemy-team-slots">
-                    {slots.map((enemyId, index) => (
-                      <div className="enemy-team-slot" key={index}>
-                        <span className="enemy-team-slot__number">槽 {index + 1}</span>
-                        <DsSelect
-                          aria-label={`${selected.id} 槽 ${index + 1}`}
-                          value={enemyId ?? ''}
-                          options={enemyOptions}
-                          invalid={!!enemyId && !enemies.some((enemy) => enemy.id === enemyId)}
-                          onValueChange={(nextId) => {
-                            const next = [...slots]
-                            next[index] = nextId || null
-                            updateSlots(next)
-                          }}
-                        />
-                        <DsIconButton
-                          size="compact"
-                          variant="secondary"
-                          icon="chevron-up"
-                          label={`槽 ${index + 1} 上移`}
-                          disabled={index === 0}
-                          onClick={() => {
-                            const next = [...slots]
-                            ;[next[index - 1], next[index]] = [next[index]!, next[index - 1]!]
-                            updateSlots(next)
-                          }}
-                        />
-                        <DsIconButton
-                          size="compact"
-                          variant="secondary"
-                          icon="chevron-down"
-                          label={`槽 ${index + 1} 下移`}
-                          disabled={index === 4}
-                          onClick={() => {
-                            const next = [...slots]
-                            ;[next[index], next[index + 1]] = [next[index + 1]!, next[index]!]
-                            updateSlots(next)
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
+                  <DsReorderCollection
+                    adoptionId="enemy-team/fixed-slots"
+                    scopeKey={`enemy-team:${selected.id}:slots`}
+                    entries={slotEntries}
+                    revision={session.getHistoryVersion()}
+                    strategy="swap"
+                    onReorder={reorderSlots}
+                  >
+                    <div className="enemy-team-slots">
+                      {slots.map((enemyId, index) => (
+                        <DsReorderItem
+                          itemKey={slotEntries[index]!.key}
+                          key={slotEntries[index]!.key}
+                        >
+                          <div className="enemy-team-slot">
+                            <span className="enemy-team-slot__number">槽 {index + 1}</span>
+                            <DsSelect
+                              aria-label={`${selected.id} 槽 ${index + 1}`}
+                              value={enemyId ?? ''}
+                              options={enemyOptions}
+                              invalid={!!enemyId && !enemies.some((enemy) => enemy.id === enemyId)}
+                              onValueChange={(nextId) => {
+                                const next = [...slots]
+                                next[index] = nextId || null
+                                updateSlots(next)
+                              }}
+                            />
+                            <DsReorderMoveButton
+                              itemKey={slotEntries[index]!.key}
+                              direction="backward"
+                              label={`槽 ${index + 1} 上移`}
+                            />
+                            <DsReorderMoveButton
+                              itemKey={slotEntries[index]!.key}
+                              direction="forward"
+                              label={`槽 ${index + 1} 下移`}
+                            />
+                          </div>
+                        </DsReorderItem>
+                      ))}
+                    </div>
+                  </DsReorderCollection>
                 </DsWorkbenchSection>
                 <DsWorkbenchSection
                   title="战后结算摘要"

@@ -3,7 +3,7 @@
   "entries": [
     {
       "file": "StampContentEditor.tsx",
-      "line": 636,
+      "line": 642,
       "rule": "private-overlay-portal",
       "owner": "card:ED-DS-3",
       "reason": "The stamp shell owns three persistent layout slots; this portal moves ordinary layer controls into the shell and does not create a floating layer.",
@@ -12,7 +12,7 @@
     },
     {
       "file": "StampContentEditor.tsx",
-      "line": 637,
+      "line": 643,
       "rule": "private-overlay-portal",
       "owner": "card:ED-DS-3",
       "reason": "The stamp shell owns three persistent layout slots; this portal moves ordinary properties into the shell and does not create a floating layer.",
@@ -21,7 +21,7 @@
     },
     {
       "file": "StampContentEditor.tsx",
-      "line": 638,
+      "line": 644,
       "rule": "private-overlay-portal",
       "owner": "card:ED-DS-3",
       "reason": "The stamp shell owns three persistent layout slots; this portal moves the persistent tile palette into the shell and does not create a floating layer.",

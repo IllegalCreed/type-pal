@@ -52,11 +52,18 @@ import {
   DsListHeader,
   DsObjectHero,
   DsRepeatRow,
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
   DsSelect,
   DsSelectField,
   DsSequenceIndex,
   DsTag,
   DsTextInput,
+  reorderDsItems,
+  sameDsSerializableValue,
+  type DsReorderIntent,
+  useDsReorderKeys,
 } from './design-system/index.js'
 import type { EditorLocation } from './editor-navigation.js'
 import { ProjectAudioPreviewButton } from './ProjectAudioPreviewButton.js'
@@ -613,6 +620,8 @@ export function StartWorldFields(props: {
   const pendingResourceFocusRef = useRef<
     { inputKey?: string; preferComposer?: boolean } | undefined
   >(undefined)
+  const partyReorderKeys = useDsReorderKeys(value.party)
+  const inventoryReorderKeys = useDsReorderKeys(value.inventory ?? [])
   // biome-ignore lint/correctness/useExhaustiveDependencies: external command/object resync clears unfinished party/inventory choices.
   useEffect(() => {
     setPartyCandidateId('')
@@ -703,17 +712,25 @@ export function StartWorldFields(props: {
     patch({ party, seedStats: Object.keys(seedStats).length ? seedStats : undefined })
     setAnnouncement(`已将${actor ? lookupText(actor.name, locale) : id}移出初始队伍。`)
   }
-  const moveParty = (id: string, delta: -1 | 1): void => {
-    const index = value.party.indexOf(id)
-    const target = index + delta
-    if (index < 0 || target < 0 || target >= value.party.length) return
-    const party = [...value.party]
-    ;[party[index], party[target]] = [party[target]!, party[index]!]
-    patch({ party })
+  const reorderParty = (intent: DsReorderIntent): boolean => {
+    const party = reorderDsItems(value.party, intent, 'insert', sameDsSerializableValue)
+    if (party === value.party) return false
+    partyReorderKeys.move(intent)
+    patch({ party: [...party] })
+    const id = value.party[intent.fromIndex]
     const actor = actors.find((candidate) => candidate.id === id)
     setAnnouncement(
-      `${actor ? lookupText(actor.name, locale) : id}已移到初始队伍第 ${target + 1} 位。`,
+      `${actor ? lookupText(actor.name, locale) : id}已移到初始队伍第 ${intent.toIndex + 1} 位。`,
     )
+    return true
+  }
+  const reorderInventory = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(inventory, intent, 'insert', sameDsSerializableValue)
+    if (next === inventory) return false
+    inventoryReorderKeys.move(intent)
+    patch({ inventory: [...next] })
+    setAnnouncement(`已将初始道具移到第 ${intent.toIndex + 1} 项。`)
+    return true
   }
   const patchSeed = (actorId: string, key: 'hp' | 'mp', next: number | undefined): void => {
     const seedStats = { ...(value.seedStats ?? {}) }
@@ -791,89 +808,101 @@ export function StartWorldFields(props: {
         <p className="project-card-description">
           每个队员在同一行设置开局当前 HP/MP；留空即继承角色定义的当前值。
         </p>
-        <div className="project-party-order">
-          {value.party.map((actorId, index) => {
-            const actor = actors.find((candidate) => candidate.id === actorId)
-            const actorName = actor ? lookupText(actor.name, locale) : `${actorId}（缺失）`
-            const stats = value.seedStats?.[actorId] ?? {}
-            const inheritedHp = actor?.battler?.baseStats.hp
-            const inheritedMp = actor?.battler?.baseStats.mp
-            return (
-              <DsRepeatRow density="default" className="project-party-row" key={actorId}>
-                <DsSequenceIndex value={index + 1} accessibleLabel={`初始队伍第 ${index + 1} 位`} />
-                <span className="project-party-identity">
-                  <strong className="project-party-name" title={actorName}>
-                    {actorName}
-                  </strong>
-                  <code title={actorId}>{actorId}</code>
-                </span>
-                <span className="project-party-state">
-                  <DsFieldMeasure measure="short-number">
-                    <DsDraftNumberField
-                      label="当前 HP"
-                      min={0}
-                      integer
-                      allowEmpty
-                      normalize={(next) => Math.max(0, Math.floor(next))}
-                      draftKey={`${draftScope}:seedStats.${actorId}.hp`}
-                      syncToken={syncToken}
-                      value={stats.hp}
-                      disabled={readOnly}
-                      aria-label={`${actorId} 开局当前 HP，留空继承 ${inheritedHp ?? '未知'}`}
-                      placeholder={inheritedHp === undefined ? '继承不可用' : `继承 ${inheritedHp}`}
-                      onCommit={(value) => patchSeed(actorId, 'hp', value)}
+        <DsReorderCollection
+          adoptionId="project/startup-party"
+          scopeKey={`${draftScope}:party`}
+          entries={value.party.map((actorId, index) => ({
+            key: partyReorderKeys.keys[index]!,
+            label: actors.find((candidate) => candidate.id === actorId)
+              ? lookupText(actors.find((candidate) => candidate.id === actorId)!.name, locale)
+              : actorId,
+          }))}
+          revision={syncToken}
+          disabled={readOnly}
+          onReorder={reorderParty}
+        >
+          <div className="project-party-order">
+            {value.party.map((actorId, index) => {
+              const actor = actors.find((candidate) => candidate.id === actorId)
+              const actorName = actor ? lookupText(actor.name, locale) : `${actorId}（缺失）`
+              const stats = value.seedStats?.[actorId] ?? {}
+              const inheritedHp = actor?.battler?.baseStats.hp
+              const inheritedMp = actor?.battler?.baseStats.mp
+              const reorderKey = partyReorderKeys.keys[index]!
+              return (
+                <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                  <DsRepeatRow density="default" className="project-party-row">
+                    <DsSequenceIndex
+                      value={index + 1}
+                      accessibleLabel={`初始队伍第 ${index + 1} 位`}
                     />
-                  </DsFieldMeasure>
-                  <DsFieldMeasure measure="short-number">
-                    <DsDraftNumberField
-                      label="当前 MP"
-                      min={0}
-                      integer
-                      allowEmpty
-                      normalize={(next) => Math.max(0, Math.floor(next))}
-                      draftKey={`${draftScope}:seedStats.${actorId}.mp`}
-                      syncToken={syncToken}
-                      value={stats.mp}
-                      disabled={readOnly}
-                      aria-label={`${actorId} 开局当前 MP，留空继承 ${inheritedMp ?? '未知'}`}
-                      placeholder={inheritedMp === undefined ? '继承不可用' : `继承 ${inheritedMp}`}
-                      onCommit={(value) => patchSeed(actorId, 'mp', value)}
-                    />
-                  </DsFieldMeasure>
-                </span>
-                <span className="project-party-actions">
-                  <DsIconButton
-                    disabled={readOnly || index === 0}
-                    onClick={() => moveParty(actorId, -1)}
-                    label={`上移${actorName}`}
-                    icon="chevron-up"
-                    variant="secondary"
-                  />
-                  <DsIconButton
-                    disabled={readOnly || index === value.party.length - 1}
-                    onClick={() => moveParty(actorId, 1)}
-                    label={`下移${actorName}`}
-                    icon="chevron-down"
-                    variant="secondary"
-                  />
-                  <DsIconButton
-                    ref={(node) => {
-                      if (node) partyRemoveRefs.current.set(actorId, node)
-                      else partyRemoveRefs.current.delete(actorId)
-                    }}
-                    disabled={readOnly}
-                    onPointerDown={(event) => event.preventDefault()}
-                    onClick={() => removeParty(actorId)}
-                    label={`移出${actorName}`}
-                    icon="delete"
-                    variant="danger"
-                  />
-                </span>
-              </DsRepeatRow>
-            )
-          })}
-          {value.party.length === 0 ? <PageHint>当前没有队员；请从下方加入。</PageHint> : null}
-        </div>
+                    <span className="project-party-identity">
+                      <strong className="project-party-name" title={actorName}>
+                        {actorName}
+                      </strong>
+                      <code title={actorId}>{actorId}</code>
+                    </span>
+                    <span className="project-party-state">
+                      <DsFieldMeasure measure="short-number">
+                        <DsDraftNumberField
+                          label="当前 HP"
+                          min={0}
+                          integer
+                          allowEmpty
+                          normalize={(next) => Math.max(0, Math.floor(next))}
+                          draftKey={`${draftScope}:seedStats.${actorId}.hp`}
+                          syncToken={syncToken}
+                          value={stats.hp}
+                          disabled={readOnly}
+                          aria-label={`${actorId} 开局当前 HP，留空继承 ${inheritedHp ?? '未知'}`}
+                          placeholder={
+                            inheritedHp === undefined ? '继承不可用' : `继承 ${inheritedHp}`
+                          }
+                          onCommit={(value) => patchSeed(actorId, 'hp', value)}
+                        />
+                      </DsFieldMeasure>
+                      <DsFieldMeasure measure="short-number">
+                        <DsDraftNumberField
+                          label="当前 MP"
+                          min={0}
+                          integer
+                          allowEmpty
+                          normalize={(next) => Math.max(0, Math.floor(next))}
+                          draftKey={`${draftScope}:seedStats.${actorId}.mp`}
+                          syncToken={syncToken}
+                          value={stats.mp}
+                          disabled={readOnly}
+                          aria-label={`${actorId} 开局当前 MP，留空继承 ${inheritedMp ?? '未知'}`}
+                          placeholder={
+                            inheritedMp === undefined ? '继承不可用' : `继承 ${inheritedMp}`
+                          }
+                          onCommit={(value) => patchSeed(actorId, 'mp', value)}
+                        />
+                      </DsFieldMeasure>
+                    </span>
+                    <span className="project-party-actions">
+                      <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
+                      <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
+                      <DsIconButton
+                        ref={(node) => {
+                          if (node) partyRemoveRefs.current.set(actorId, node)
+                          else partyRemoveRefs.current.delete(actorId)
+                        }}
+                        disabled={readOnly}
+                        onPointerDown={(event) => event.preventDefault()}
+                        onClick={() => removeParty(actorId)}
+                        label={`移出${actorName}`}
+                        icon="delete"
+                        variant="danger"
+                      />
+                    </span>
+                  </DsRepeatRow>
+                </DsReorderItem>
+              )
+            })}
+            {value.party.length === 0 ? <PageHint>当前没有队员；请从下方加入。</PageHint> : null}
+          </div>
+        </DsReorderCollection>
         <DsInlineComposer
           density="default"
           className="project-party-composer"
@@ -945,121 +974,148 @@ export function StartWorldFields(props: {
             </div>
           </section>
         ) : null}
-        <span className="sr-only" role="status" aria-live="polite">
+        <span className="ds-visually-hidden" role="status" aria-live="polite">
           {announcement}
         </span>
       </section>
 
       <section className="project-card">
         <h4>初始道具</h4>
-        <div className="project-list-stack">
-          {inventory.map((row, index) => {
-            const itemName = items.find((item) => item.id === row.itemId)?.name ?? row.itemId
-            return (
-              <DsRepeatRow density="default" className="project-inventory-row" key={row.itemId}>
-                <DsSequenceIndex value={index + 1} accessibleLabel={`初始道具第 ${index + 1} 项`} />
-                <DsSelect
-                  aria-label={`第 ${index + 1} 项初始道具`}
-                  searchable
-                  value={row.itemId}
-                  disabled={readOnly}
-                  options={[
-                    ...(!items.some((item) => item.id === row.itemId)
-                      ? [{ value: row.itemId, label: `${row.itemId}（缺失）` }]
-                      : []),
-                    ...items
-                      .filter(
-                        (item) =>
-                          item.id === row.itemId ||
-                          !inventory.some(
-                            (entry, itemIndex) => itemIndex !== index && entry.itemId === item.id,
+        <DsReorderCollection
+          adoptionId="project/startup-inventory"
+          scopeKey={`${draftScope}:inventory`}
+          entries={inventory.map((row, index) => ({
+            key: inventoryReorderKeys.keys[index]!,
+            label: items.find((item) => item.id === row.itemId)?.name ?? row.itemId,
+          }))}
+          revision={syncToken}
+          disabled={readOnly}
+          onReorder={reorderInventory}
+        >
+          <div className="project-list-stack">
+            {inventory.map((row, index) => {
+              const itemName = items.find((item) => item.id === row.itemId)?.name ?? row.itemId
+              const reorderKey = inventoryReorderKeys.keys[index]!
+              return (
+                <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                  <DsRepeatRow density="default" className="project-inventory-row">
+                    <DsSequenceIndex
+                      value={index + 1}
+                      accessibleLabel={`初始道具第 ${index + 1} 项`}
+                    />
+                    <DsSelect
+                      aria-label={`第 ${index + 1} 项初始道具`}
+                      searchable
+                      value={row.itemId}
+                      disabled={readOnly}
+                      options={[
+                        ...(!items.some((item) => item.id === row.itemId)
+                          ? [{ value: row.itemId, label: `${row.itemId}（缺失）` }]
+                          : []),
+                        ...items
+                          .filter(
+                            (item) =>
+                              item.id === row.itemId ||
+                              !inventory.some(
+                                (entry, itemIndex) =>
+                                  itemIndex !== index && entry.itemId === item.id,
+                              ),
+                          )
+                          .map((item) => ({
+                            value: item.id,
+                            label: item.name,
+                            description: item.id,
+                          })),
+                      ]}
+                      onValueChange={(value) =>
+                        patch({
+                          inventory: inventory.map((item, itemIndex) =>
+                            itemIndex === index ? { ...item, itemId: value } : item,
                           ),
-                      )
-                      .map((item) => ({ value: item.id, label: item.name, description: item.id })),
-                  ]}
-                  onValueChange={(value) =>
-                    patch({
-                      inventory: inventory.map((item, itemIndex) =>
-                        itemIndex === index ? { ...item, itemId: value } : item,
-                      ),
-                    })
-                  }
+                        })
+                      }
+                    />
+                    <span className="project-count">
+                      <DsDraftNumberInput
+                        aria-label={`${itemName}的初始数量`}
+                        min={1}
+                        integer
+                        normalize={(count) => Math.max(1, Math.floor(count))}
+                        draftKey={`${draftScope}:inventory.${index}.count`}
+                        syncToken={syncToken}
+                        value={row.count}
+                        disabled={readOnly}
+                        onCommit={(count) =>
+                          patch({
+                            inventory: inventory.map((item, itemIndex) =>
+                              itemIndex === index ? { ...item, count: count ?? 1 } : item,
+                            ),
+                          })
+                        }
+                      />
+                    </span>
+                    <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
+                    <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
+                    <DsIconButton
+                      disabled={readOnly}
+                      onClick={() =>
+                        patch({
+                          inventory: inventory.filter((_, itemIndex) => itemIndex !== index),
+                        })
+                      }
+                      label={`删除初始道具${itemName}`}
+                      icon="delete"
+                      variant="danger"
+                    />
+                  </DsRepeatRow>
+                </DsReorderItem>
+              )
+            })}
+            <DsInlineComposer
+              density="default"
+              control={
+                <DsSelectField
+                  id="start-world-inventory-adder"
+                  label="添加道具"
+                  fieldClassName="project-composer-field"
+                  aria-label="添加初始道具"
+                  searchable
+                  value={selectedInventoryCandidate}
+                  disabled={readOnly || addableItems.length === 0}
+                  placeholder="搜索道具名称或 ID…"
+                  options={addableItems.map((item) => ({
+                    value: item.id,
+                    label: item.name,
+                    description: item.id,
+                  }))}
+                  onValueChange={setInventoryCandidateId}
                 />
-                <span className="project-count">
-                  <DsDraftNumberInput
-                    aria-label={`${itemName}的初始数量`}
-                    min={1}
-                    integer
-                    normalize={(count) => Math.max(1, Math.floor(count))}
-                    draftKey={`${draftScope}:inventory.${index}.count`}
-                    syncToken={syncToken}
-                    value={row.count}
-                    disabled={readOnly}
-                    onCommit={(count) =>
-                      patch({
-                        inventory: inventory.map((item, itemIndex) =>
-                          itemIndex === index ? { ...item, count: count ?? 1 } : item,
-                        ),
-                      })
-                    }
-                  />
-                </span>
-                <DsIconButton
-                  disabled={readOnly}
-                  onClick={() =>
-                    patch({ inventory: inventory.filter((_, itemIndex) => itemIndex !== index) })
-                  }
-                  label={`删除初始道具${itemName}`}
-                  icon="delete"
-                  variant="danger"
-                />
-              </DsRepeatRow>
-            )
-          })}
-          <DsInlineComposer
-            density="default"
-            control={
-              <DsSelectField
-                id="start-world-inventory-adder"
-                label="添加道具"
-                fieldClassName="project-composer-field"
-                aria-label="添加初始道具"
-                searchable
-                value={selectedInventoryCandidate}
-                disabled={readOnly || addableItems.length === 0}
-                placeholder="搜索道具名称或 ID…"
-                options={addableItems.map((item) => ({
-                  value: item.id,
-                  label: item.name,
-                  description: item.id,
-                }))}
-                onValueChange={setInventoryCandidateId}
-              />
-            }
-            action={
-              <DsButton
-                disabled={readOnly || !selectedInventoryCandidate}
-                onClick={() => {
-                  const item = addableItems.find(
-                    (candidate) => candidate.id === selectedInventoryCandidate,
-                  )
-                  if (!item) return
-                  patch({ inventory: [...inventory, { itemId: item.id, count: 1 }] })
-                  setInventoryCandidateId('')
-                  setAnnouncement(`已添加初始道具${item.name}。`)
-                }}
-                icon="add"
-                variant="secondary"
-              >
-                添加道具
-              </DsButton>
-            }
-          />
-          {inventory.length === 0 ? <PageHint>无初始道具。</PageHint> : null}
-          {inventory.length > 0 && addableItems.length === 0 ? (
-            <PageHint>所有道具都已加入初始库存。</PageHint>
-          ) : null}
-        </div>
+              }
+              action={
+                <DsButton
+                  disabled={readOnly || !selectedInventoryCandidate}
+                  onClick={() => {
+                    const item = addableItems.find(
+                      (candidate) => candidate.id === selectedInventoryCandidate,
+                    )
+                    if (!item) return
+                    patch({ inventory: [...inventory, { itemId: item.id, count: 1 }] })
+                    setInventoryCandidateId('')
+                    setAnnouncement(`已添加初始道具${item.name}。`)
+                  }}
+                  icon="add"
+                  variant="secondary"
+                >
+                  添加道具
+                </DsButton>
+              }
+            />
+            {inventory.length === 0 ? <PageHint>无初始道具。</PageHint> : null}
+            {inventory.length > 0 && addableItems.length === 0 ? (
+              <PageHint>所有道具都已加入初始库存。</PageHint>
+            ) : null}
+          </div>
+        </DsReorderCollection>
       </section>
 
       <section
@@ -1227,6 +1283,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
     issues,
   } = props
   const entryPoints = manifest.entryPoints
+  const entryReorderKeys = useDsReorderKeys(entryPoints, (entry) => entry.id)
   const identityIssues = issues.filter((issue) =>
     ['blank-entry-id', 'noncanonical-entry-id', 'duplicate-entry-id'].includes(issue.code),
   )
@@ -1402,14 +1459,12 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
     commit(remaining)
     chooseEntry(manifest.defaultEntryId)
   }
-  const moveEntry = (delta: -1 | 1): void => {
-    if (!selected) return
-    const index = entryPoints.findIndex((entry) => entry.id === selected.id)
-    const target = index + delta
-    if (index < 0 || target < 0 || target >= entryPoints.length) return
-    const next = [...entryPoints]
-    ;[next[index], next[target]] = [next[target]!, next[index]!]
-    commit(next)
+  const reorderEntries = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(entryPoints, intent, 'insert', sameDsSerializableValue)
+    if (next === entryPoints) return false
+    entryReorderKeys.move(intent)
+    commit([...next])
+    return true
   }
   const setSelectedAsDefault = (): void => {
     if (!selected) return
@@ -1430,18 +1485,6 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
           }}
           actions={[{ id: 'create-entry', label: '新增入口', icon: 'add', onClick: addEntry }]}
           overflowActions={[
-            {
-              id: 'move-entry-up',
-              label: '上移当前入口',
-              disabled: !selected || entryPoints[0]?.id === selected.id,
-              onClick: () => moveEntry(-1),
-            },
-            {
-              id: 'move-entry-down',
-              label: '下移当前入口',
-              disabled: !selected || entryPoints.at(-1)?.id === selected.id,
-              onClick: () => moveEntry(1),
-            },
             {
               id: 'clone-entry',
               label: '复制当前入口',
@@ -1464,27 +1507,50 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
             },
           ]}
         />
-        <div className="project-entry-list">
-          {entryPoints.map((entry) => (
-            <DsCatalogRow
-              key={entry.id}
-              leading={
-                <span aria-hidden="true">
-                  {entry.id === manifest.defaultEntryId ? '🧭' : '🚪'}
-                </span>
-              }
-              title={entry.label}
-              meta={entry.id}
-              trailing={
-                entry.id === manifest.defaultEntryId ? (
-                  <DsTag tone="accent">直接启动</DsTag>
-                ) : undefined
-              }
-              selected={entry.id === selected?.id}
-              onClick={() => chooseEntry(entry.id)}
-            />
-          ))}
-        </div>
+        <DsReorderCollection
+          adoptionId="project/entry-points"
+          scopeKey="manifest.entryPoints"
+          entries={entryPoints.map((entry, index) => ({
+            key: entryReorderKeys.keys[index]!,
+            label: entry.label || entry.id,
+          }))}
+          revision={session.getHistoryVersion()}
+          onReorder={reorderEntries}
+        >
+          <div className="project-entry-list">
+            {entryPoints.map((entry, index) => {
+              const reorderKey = entryReorderKeys.keys[index]!
+              return (
+                <DsReorderItem
+                  itemKey={reorderKey}
+                  contentClassName="project-entry-item-content"
+                  key={reorderKey}
+                >
+                  <DsCatalogRow
+                    leading={
+                      <span aria-hidden="true">
+                        {entry.id === manifest.defaultEntryId ? '🧭' : '🚪'}
+                      </span>
+                    }
+                    title={entry.label}
+                    meta={entry.id}
+                    trailing={
+                      entry.id === manifest.defaultEntryId ? (
+                        <DsTag tone="accent">直接启动</DsTag>
+                      ) : null
+                    }
+                    selected={entry.id === selected?.id}
+                    onClick={() => chooseEntry(entry.id)}
+                  />
+                  <span className="project-entry-row-actions">
+                    <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
+                    <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
+                  </span>
+                </DsReorderItem>
+              )
+            })}
+          </div>
+        </DsReorderCollection>
       </div>
       <ProjectPageWorkspace
         eyebrow="项目设置 · 入口点"

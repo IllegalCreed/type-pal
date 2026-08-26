@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.11.0 inline composer density and bounded numeric fields（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.12.0 shared ordered-collection reorder contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-26
+Last updated: 2026-08-27
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -445,6 +445,39 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   reorder primitive 持有，不能扩张 `DsCatalogRow`。代表页还必须以 DOM 槽位和 `data-leading` 断言，不能只
   检查整行 `textContent`。
 
+#### DS-C.4d 有序集合与排序手柄（v2.12.0）
+
+- 只有作者维护的 canonical 顺序可以采用排序；搜索结果、按名称/ID 派生的目录顺序、集合/多重集、空间移动、
+  数值拖动和资源 transfer 不得伪装成 reorder。生产采用真源为 `reorder-adoption.json`，合法原生 transfer 与
+  空间移动例外为 `reorder-allowlist.json`；新增、删除或改名后未同步、重复或陈旧条目都必须 fail-closed。
+- v2.12.0 的机器基线为 **17 个交互家族 / 29 个 adoption / 32 条数据路径 / 19 个领域 owner 文件**；这些数字是
+  registry 自身复算结果，不是未来可手改的常量。每条 adoption 必须登记 adapter、身份、command/revision owner
+  与验证文件；每条例外必须具备 `{file,rule,fingerprint,owner,reason,verification,removalCondition}` 七字段，
+  fingerprint 缺失、重复、未命中或命中多次均视为无效/陈旧例外。
+- 所有正式可移动项使用 `DsReorderCollection + DsReorderItem`。手柄是 item 的第一个交互槽，视觉上必须位于
+  item 自身边界与背景内，不能悬在卡片/行外；它不得占用 `DsCatalogRow.leading` 媒体槽，也不得嵌进目录按钮、
+  输入或整行点击目标。普通项由内容首根节点为内嵌 rail 留出空间；时间线使用 item 内左上 overlay。
+- `grip` 使用公共矢量图标和至少 `32×32px` 命中区，只在手柄自身设置 `touch-action:none`。禁止整行
+  `draggable`、文本 `≡`、领域私有 handle CSS 或复制 pointer 状态机。手柄必须有可见 hover/focus、
+  `grab/grabbing`、disabled 与 picked/drop-target 状态。
+- pointer 采用 Pointer Events、pointer capture 和统一 `6 CSS px` 阈值。pointermove/hover/边缘自动滚动只更新
+  本地投影；有效 pointerup 才向领域 owner 发送一次 intent。原位、越界、不可落点、Escape、pointercancel、
+  lost capture、window blur、document hidden、scope/revision/对象变化与 unmount 都取消且产生零命令。
+- dragging 期间必须提供 Sortable 式实时预览：来源 item 跟随指针，其余 item 以 `transform` 动画让出来源项完整尺寸，
+  DOM / 数据顺序与 history 在 pointerup 前保持不变。相邻 item 共享的插入缝只能显示一个居中的 indicator；光标经过
+  该缝或来源占位区时不得因 `display: contents` 命中空白而抖回原位，原位投放不显示 indicator。滚动 owner 位移后
+  占位与 indicator 必须同步修正；`prefers-reduced-motion: reduce` 下保留瞬时让位与静态 indicator，但关闭位移动画。
+- 键盘在手柄上用 Space/Enter 拿起或落位，方向键、Home/End 选择位置，Escape 取消；共享 polite live region
+  宣布当前位置与完成结果，live region 必须视觉隐藏且不占布局；提交后焦点跟随同一逻辑项。拖拽不能成为唯一入口：每项仍提供公共前移/后移按钮或
+  经审签的等价移动菜单；pointer、keyboard、click 必须调用同一个 `canReorder/onReorder` owner。
+- 普通数组用 insert，固定槽位用 swap，图层可按显示顺序适配反向索引，嵌套脚本只允许同父级，临时清单和时间线
+  只进入各自 draft history。重复值必须使用既有稳定 ID 或 editor-local occurrence token；不得用裸 value/index
+  作为手势身份，也不得为排序新增持久化 schema ID。
+- 一次完成手势最多产生一条 command 或 draft-history entry；20 次 hover/自动滚动仍是零提交，undo 一次恢复
+  完整旧序、redo 一次恢复新序。字段 blur/IME、popup、选择、多选和资源拖入不得因排序而误提交或串项。
+- Design Lab `RF-21` 固定覆盖 default/compact、普通/catalog/fixed-slot/nested/timeline、disabled、empty、single、
+  52 项长名称与真实滚动 owner；真实工程仍须在窄宽和 100%～200% 缩放验证边界、焦点、滚动和单步撤销。
+
 ### DS-C.5 表单字段
 
 - 每个输入必须有程序化 label；placeholder 不得代替 label。
@@ -845,6 +878,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-18 | Help/Inspector/action ownership + 1280/900/720/200% | 无效说明不存在；概念帮助为 18px 圆形视觉/稳定命中区，hover/focus/touch/Esc、viewport collision、modal top layer 与 ARIA 通过；Inspector section 节奏统一；完整对象动作与全局保存不重复 | v2.8 信息架构合同 |
 | RF-19 | 86 MIDI / 363 WAV 音频工作台，1280/900/720 | 目录有界挂载；仅选中项加载；WAV 标“PCM 波形”、MIDI 标“音符活动”；play/pause/stop/seek、切换停止、loading/error、引用/诊断和无横向溢出通过 | DS-R.2 音频真实性与生命周期合同 |
 | RF-20 | 25 registry 页面 + 标准/紧凑目录行 + allowlist 负例 | registry/DataMode 双向闭合；68/46px 行高、leading 策略、title/meta 截断一致；legacy/raw/static 违规 exit 1，损坏/stale allowlist exit 2，动态几何与 DS 内 file input 不误报 | v2.10 全量采用门禁 |
+| RF-21 | Ordered collection default/compact + catalog/fixed/nested/timeline + disabled/empty/single/52 项长列表 | grip 位于 item 边界内且不占 media leading；insert/swap 实时让位只有一个 indicator，提交无回跳；pointer/keyboard/click 同 owner，nested scope、水平 timeline、真实 scroll owner 与长名称无裁切 | v2.12 排序合同 |
 
 ### DS-PERF.1 大列表性能合同（G3）
 

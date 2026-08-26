@@ -4,7 +4,7 @@ import type { AuthorSceneDef } from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { afterEach, beforeEach, describe, expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   type ScriptEditorCommand,
   type ScriptEditorState,
@@ -157,5 +157,59 @@ describe('ScriptSceneHookInspector', () => {
     expect(session.canUndo()).toBe(false)
     expect(session.getState().scenes[0]!.hooks?.onEnter?.initial).toBe('default')
     expect(session.getState().scenes[0]!.hooks?.onEnter?.variants.default?.label).toBe('默认进场')
+  })
+
+  test('[reorder-family:scene-hook-variants] 场景方案 handle 横向重排单命令并可 undo/redo', async () => {
+    const initial = structuredClone(state)
+    initial.scenes[0]!.hooks!.onEnter!.variants.alternate = {
+      label: '备用进场',
+      order: 1,
+      flow: { kind: 'stages', initial: 'start', stages: [{ id: 'start', body: [] }] },
+    }
+    const session = new ScriptEditSession(initial)
+    const dispatched = vi.fn()
+    function Harness() {
+      const [current, setCurrent] = useState(session.getState())
+      return (
+        <ScriptSceneHookInspector
+          state={current}
+          sceneId="s001"
+          slot="onEnter"
+          onDispatch={(command) => {
+            dispatched(command)
+            session.dispatch(command)
+            setCurrent(session.getState())
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    const handle = host.querySelector<HTMLButtonElement>(
+      '[data-ds-reorder-adoption="story/scene-hook-variants"] [data-ds-reorder-handle]',
+    )!
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(dispatched).not.toHaveBeenCalled()
+    expect(session.getHistoryVersion()).toBe(0)
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(dispatched).toHaveBeenCalledOnce()
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().scenes[0]!.hooks!.onEnter!.variants).toMatchObject({
+      alternate: { order: 0 },
+      default: { order: 1 },
+    })
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().scenes[0]!.hooks!.onEnter!.variants.default!.order).toBe(0)
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(session.getState().scenes[0]!.hooks!.onEnter!.variants.default!.order).toBe(1)
   })
 })

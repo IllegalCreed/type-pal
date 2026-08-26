@@ -25,8 +25,7 @@ const CHILD_KEYS = new Set<AuthorCommandChildKey>([
 export function parseAuthorCommandPath(path: string): AuthorCommandPathSegment[] {
   if (!path) return []
   return path.split('/').map((segment) => {
-    if (CHILD_KEYS.has(segment as AuthorCommandChildKey))
-      return segment as AuthorCommandChildKey
+    if (CHILD_KEYS.has(segment as AuthorCommandChildKey)) return segment as AuthorCommandChildKey
     const index = Number(segment)
     if (!Number.isInteger(index)) throw new Error(`非法 canonical 指令路径 ${path}`)
     return index
@@ -104,6 +103,7 @@ function updateListAtPath(
   const child = authorCommandChildBody(command, key)
   if (!child) throw new Error(`${command.kind} 没有 ${key} 子块`)
   const nextChild = updateListAtPath(child, path.slice(2), update)
+  if (nextChild === child) return body as AuthorCommand[]
   const next = [...body]
   next[index] = withChildBody(command, key, nextChild)
   return next
@@ -151,11 +151,44 @@ export function moveAuthorCommandAt(
   path: AuthorCommandPath,
   direction: -1 | 1,
 ): AuthorCommand[] {
-  return updateListAtPath(body, path, (list, index) => {
-    const target = index + direction
-    if (index < 0 || index >= list.length || target < 0 || target >= list.length) return [...list]
+  const index = path.at(-1)
+  if (typeof index !== 'number') return body as AuthorCommand[]
+  return moveAuthorCommandToIndex(body, path, index + direction)
+}
+
+/** Moves one command inside its existing sibling body; the target is an index, never another path. */
+export function moveAuthorCommandToIndex(
+  body: readonly AuthorCommand[],
+  path: AuthorCommandPath,
+  targetIndex: number,
+): AuthorCommand[] {
+  const index = path.at(-1)
+  if (typeof index !== 'number' || !Number.isInteger(targetIndex)) return body as AuthorCommand[]
+  let siblings: readonly AuthorCommand[] = body
+  for (let offset = 0; offset < path.length - 1; offset += 2) {
+    const parentIndex = path[offset]
+    const childKey = path[offset + 1]
+    if (typeof parentIndex !== 'number' || typeof childKey !== 'string')
+      return body as AuthorCommand[]
+    const parent = siblings[parentIndex]
+    const child = parent ? authorCommandChildBody(parent, childKey) : undefined
+    if (!child) return body as AuthorCommand[]
+    siblings = child
+  }
+  if (
+    index < 0 ||
+    index >= siblings.length ||
+    targetIndex < 0 ||
+    targetIndex >= siblings.length ||
+    index === targetIndex
+  )
+    return body as AuthorCommand[]
+  return updateListAtPath(body, path, (list, sourceIndex) => {
     const next = [...list]
-    ;[next[index], next[target]] = [next[target]!, next[index]!]
+    const [command] = next.splice(sourceIndex, 1)
+    if (!command) return list as AuthorCommand[]
+    next.splice(targetIndex, 0, command)
+    if (JSON.stringify(next) === JSON.stringify(list)) return list as AuthorCommand[]
     return next
   })
 }

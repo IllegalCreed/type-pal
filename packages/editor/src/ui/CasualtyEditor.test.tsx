@@ -271,14 +271,14 @@ describe('CasualtyEditor (E18-1)', () => {
     })
     expect(session.getHistoryVersion()).toBe(history)
     expect(
-      session.getState().actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.branch.lines[0]!
-        .text,
+      session.getState().actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.branch.lines[0]!.text,
     ).toBe('dlg.talk.0')
-    await act(async () => input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })))
+    await act(async () =>
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
     expect(session.getHistoryVersion()).toBe(history + 1)
     expect(
-      session.getState().actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.branch.lines[0]!
-        .text,
+      session.getState().actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.branch.lines[0]!.text,
     ).toBe('dlg.changed')
 
     const committedHistory = session.getHistoryVersion()
@@ -289,5 +289,147 @@ describe('CasualtyEditor (E18-1)', () => {
     })
     expect(session.getHistoryVersion()).toBe(committedHistory)
     expect(input.value).toBe('dlg.changed')
+  })
+
+  test('编辑两个同内容概率门中的一项时，选中态不会跳到另一 occurrence', async () => {
+    const duplicate: CasualtyScript = {
+      gates: [
+        { chance: 50, branch: { lines: [], effects: [] } },
+        { chance: 50, branch: { lines: [], effects: [] } },
+      ],
+      fallback: { lines: [], effects: [] },
+    }
+    const session = new EditSession(state(battlerActor({ friendDeath: duplicate })))
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
+    })
+    const rows = [...host.querySelectorAll<HTMLElement>('.casualty-gate-row')]
+    const firstSelect = rows[0]!.querySelector<HTMLButtonElement>('[data-gate-select="true"]')!
+    await act(async () => firstSelect.click())
+    const chance = rows[0]!.querySelector<HTMLInputElement>('input[type="number"]')!
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    await act(async () => {
+      chance.focus()
+      setter.call(chance, '60')
+      chance.dispatchEvent(new Event('input', { bubbles: true }))
+      chance.blur()
+    })
+
+    const after = [...host.querySelectorAll<HTMLElement>('.casualty-gate-row')]
+    expect(after[0]!.querySelector<HTMLInputElement>('input[type="number"]')?.value).toBe('60')
+    expect(
+      after[0]!
+        .querySelector<HTMLButtonElement>('[data-gate-select="true"]')
+        ?.getAttribute('aria-pressed'),
+    ).toBe('true')
+    expect(
+      after[1]!
+        .querySelector<HTMLButtonElement>('[data-gate-select="true"]')
+        ?.getAttribute('aria-pressed'),
+    ).toBe('false')
+  })
+
+  test('[reorder-family:actor-initial-casualty] 概率门同值移动零命令，有效移动单命令并可 undo/redo', async () => {
+    const ordered: CasualtyScript = {
+      gates: [
+        { chance: 25, branch: { lines: [], effects: [] } },
+        { chance: 25, branch: { lines: [], effects: [] } },
+        { chance: 75, branch: { lines: [], effects: [] } },
+      ],
+      fallback: { lines: [], effects: [] },
+    }
+    const session = new EditSession(state(battlerActor({ friendDeath: ordered })))
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
+    })
+    const collection = host.querySelector<HTMLElement>(
+      '[data-ds-reorder-adoption="actor/casualty-gates"][data-ds-reorder-scope="actor:hero:casualty:friendDeath:gates"]',
+    )!
+    const handle = collection.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
+    const sourceToken = handle.dataset.reorderKey
+    const rows = () => collection.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')
+    await act(async () =>
+      rows()[0]!.querySelector<HTMLButtonElement>('[data-gate-select="true"]')!.click(),
+    )
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(rows()[0]?.dataset.itemKey).toBe(sourceToken)
+    expect(
+      rows()[0]?.querySelector('[data-gate-select="true"]')?.getAttribute('aria-pressed'),
+    ).toBe('true')
+
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(
+      session
+        .getState()
+        .actors[0]!.battler!.casualty!.friendDeath!.gates.map((gate) => gate.chance),
+    ).toEqual([25, 75, 25])
+    expect(rows()[2]?.dataset.itemKey).toBe(sourceToken)
+    expect(
+      rows()[2]?.querySelector('[data-gate-select="true"]')?.getAttribute('aria-pressed'),
+    ).toBe('true')
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(
+      session
+        .getState()
+        .actors[0]!.battler!.casualty!.friendDeath!.gates.map((gate) => gate.chance),
+    ).toEqual([25, 25, 75])
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(
+      session
+        .getState()
+        .actors[0]!.battler!.casualty!.friendDeath!.gates.map((gate) => gate.chance),
+    ).toEqual([25, 75, 25])
+  })
+
+  test('删除选中项之前的同值概率门时安全回退，undo/redo 不会把选择串到另一 occurrence', async () => {
+    const duplicate: CasualtyScript = {
+      gates: [
+        { chance: 50, branch: { lines: [], effects: [] } },
+        { chance: 50, branch: { lines: [], effects: [] } },
+      ],
+      fallback: { lines: [], effects: [] },
+    }
+    const session = new EditSession(state(battlerActor({ friendDeath: duplicate })))
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
+    })
+    let rows = [...host.querySelectorAll<HTMLElement>('.casualty-gate-row')]
+    await act(async () =>
+      rows[1]!.querySelector<HTMLButtonElement>('[data-gate-select="true"]')!.click(),
+    )
+    await act(async () =>
+      rows[0]!.querySelector<HTMLButtonElement>('[aria-label="删除第 1 个概率分支"]')!.click(),
+    )
+    rows = [...host.querySelectorAll<HTMLElement>('.casualty-gate-row')]
+    expect(rows).toHaveLength(1)
+    expect(rows[0]!.querySelector('[data-gate-select="true"]')?.getAttribute('aria-pressed')).toBe(
+      'false',
+    )
+    expect(host.querySelector('.casualty-fallback-row')?.getAttribute('aria-pressed')).toBe('true')
+    expect(host.querySelector('.casualty-branch-editor')?.textContent).toContain('兜底分支')
+
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(host.querySelectorAll('.casualty-gate-row')).toHaveLength(2)
+    expect(host.querySelector('.casualty-fallback-row')?.getAttribute('aria-pressed')).toBe('true')
+    expect(host.querySelector('.casualty-branch-editor')?.textContent).toContain('兜底分支')
+
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(host.querySelectorAll('.casualty-gate-row')).toHaveLength(1)
+    expect(host.querySelector('.casualty-fallback-row')?.getAttribute('aria-pressed')).toBe('true')
   })
 })

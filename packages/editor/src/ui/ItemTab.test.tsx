@@ -825,6 +825,68 @@ describe('ItemTab', () => {
     })
   })
 
+  test('[reorder-family:item-effects] 装备效果 handle 同值移动零命令，有效移动单命令并可 undo/redo', async () => {
+    const initial = state([
+      {
+        ...item('weapon-reorder'),
+        equip: {
+          slot: 'weapon',
+          equipableBy: [],
+          effects: [
+            { kind: 'statBonus', stat: 'attack', delta: 10 },
+            { kind: 'statBonus', stat: 'attack', delta: 10 },
+            { kind: 'attackAll' },
+          ],
+        },
+      },
+    ])
+    initial.shops = []
+    const session = new EditSession(initial)
+    await act(async () => root.render(<Harness session={session} />))
+    const collection = host.querySelector<HTMLElement>(
+      '[data-ds-reorder-adoption="item/equipment-effects"]',
+    )!
+    const handle = collection.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
+    const sourceToken = handle.dataset.reorderKey
+    await act(async () => {
+      for (let index = 0; index < 20; index += 1)
+        handle.dispatchEvent(new MouseEvent('pointermove', { bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(0)
+
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().items[0]!.equip!.effects.map((effect) => effect.kind)).toEqual([
+      'statBonus',
+      'attackAll',
+      'statBonus',
+    ])
+    expect(
+      host.querySelectorAll<HTMLElement>(
+        '[data-ds-reorder-adoption="item/equipment-effects"] [data-ds-reorder-item]',
+      )[2]?.dataset.itemKey,
+    ).toBe(sourceToken)
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().items[0]!.equip!.effects.map((effect) => effect.kind)).toEqual([
+      'statBonus',
+      'statBonus',
+      'attackAll',
+    ])
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(session.getState().items[0]!.equip!.effects.map((effect) => effect.kind)).toEqual([
+      'statBonus',
+      'attackAll',
+      'statBonus',
+    ])
+  })
+
   test('物品私有脚本由 shell 原子增删排序，撤销重做保留 canonical 正文', async () => {
     const initial = state([
       {

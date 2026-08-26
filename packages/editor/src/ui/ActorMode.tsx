@@ -65,6 +65,14 @@ import {
   DsReferenceRow,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
+import {
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
+  reorderDsItems,
+  type DsReorderIntent,
+  useDsReorderKeys,
+} from './design-system/reorder.js'
 import { ACTOR_WORKSPACE_SECTIONS, type ActorWorkspaceSection } from './editor-navigation.js'
 import { ImageAssetPicker, ImageAssetThumbnail } from './ImageAssetPicker.js'
 import { LevelCurveEditor } from './LevelCurveEditor.js'
@@ -292,7 +300,9 @@ export function ActorMode(props: {
   const setStat = useCallback(
     (key: keyof BattlerSpec['baseStats'], value: number): void => {
       if (!Number.isFinite(value)) return
-      const current = session.getState().actors.find((candidate) => candidate.id === selectedActorId)
+      const current = session
+        .getState()
+        .actors.find((candidate) => candidate.id === selectedActorId)
       if (!current?.battler) return
       const baseStats = { ...current.battler.baseStats, [key]: value }
       session.dispatch(
@@ -305,7 +315,9 @@ export function ActorMode(props: {
   )
   const setInitialMagic = useCallback(
     (initialMagic: string[]): void => {
-      const current = session.getState().actors.find((candidate) => candidate.id === selectedActorId)
+      const current = session
+        .getState()
+        .actors.find((candidate) => candidate.id === selectedActorId)
       if (!current?.battler) return
       session.dispatch(
         new UpdateActorCommand(current.id, {
@@ -317,7 +329,9 @@ export function ActorMode(props: {
   )
   const setBattlerSound = useCallback(
     (key: keyof BattlerSounds, value: AssetId | undefined): void => {
-      const current = session.getState().actors.find((candidate) => candidate.id === selectedActorId)
+      const current = session
+        .getState()
+        .actors.find((candidate) => candidate.id === selectedActorId)
       if (!current?.battler) return
       const sounds = { ...current.battler.sounds, [key]: value }
       if (value === undefined) delete sounds[key]
@@ -344,8 +358,7 @@ export function ActorMode(props: {
   )
   const setBattleSprite = useCallback(
     (id: string) => {
-      if (selectedActorId)
-        session.dispatch(new SetActorBattleSpriteCommand(selectedActorId, id))
+      if (selectedActorId) session.dispatch(new SetActorBattleSpriteCommand(selectedActorId, id))
     },
     [selectedActorId, session],
   )
@@ -782,10 +795,12 @@ export function ActorMode(props: {
                     />
 
                     <ActorInitialSetupPanel
+                      actorId={actor.id}
                       equipment={battler.initialEquipment}
                       magic={battler.initialMagic}
                       items={items}
                       skills={skills}
+                      syncToken={session.getHistoryVersion()}
                       onMagicChange={setInitialMagic}
                     />
 
@@ -1409,10 +1424,7 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
   )
 })
 
-function sameStringRecord(
-  left: object | undefined,
-  right: object | undefined,
-): boolean {
+function sameStringRecord(left: object | undefined, right: object | undefined): boolean {
   if (left === right) return true
   const leftEntries = Object.entries(left ?? {})
   const rightEntries = Object.entries(right ?? {})
@@ -1426,10 +1438,12 @@ function sameStringRecord(
 
 const ActorInitialSetupPanel = memo(
   function ActorInitialSetupPanel(props: {
+    actorId: string
     equipment: BattlerSpec['initialEquipment']
     magic: string[]
     items: ItemDataMap
     skills: SkillDataMap
+    syncToken: number
     onMagicChange: (value: string[]) => void
   }) {
     const equipmentLabels = useMemo(
@@ -1448,19 +1462,23 @@ const ActorInitialSetupPanel = memo(
       >
         <SummaryChips label="初始装备" values={equipmentLabels} />
         <InitialMagicEditor
+          actorId={props.actorId}
           value={props.magic}
           skills={props.skills}
+          syncToken={props.syncToken}
           onChange={props.onMagicChange}
         />
       </ActorPanel>
     )
   },
   (left, right) =>
+    left.actorId === right.actorId &&
     sameStringRecord(left.equipment, right.equipment) &&
     left.magic.length === right.magic.length &&
     left.magic.every((value, index) => value === right.magic[index]) &&
     left.items === right.items &&
     left.skills === right.skills &&
+    left.syncToken === right.syncToken &&
     left.onMagicChange === right.onMagicChange,
 )
 
@@ -1508,89 +1526,132 @@ const ActorSoundPanel = memo(
     left.onOpenAsset === right.onOpenAsset,
 )
 
-const InitialMagicEditor = memo(function InitialMagicEditor(props: {
-  value: string[]
-  skills: SkillDataMap
-  onChange: (value: string[]) => void
-}) {
-  const skillIds = useMemo(() => Object.keys(props.skills), [props.skills])
-  const valueKey = props.value.join('\0')
-  const addableSkillIds = useMemo(
-    () => skillIds.filter((skillId) => !props.value.includes(skillId)),
-    // UpdateActorCommand clones battler arrays; the semantic key avoids rebuilding unchanged rows.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [skillIds, valueKey],
-  )
-  const rowOptions = useMemo(
-    () =>
-      props.value.map((skillId, index) => [
-        ...(!props.skills[skillId] ? [{ value: skillId, label: `${skillId}（缺失）` }] : []),
-        ...skillIds
-          .filter(
-            (candidate) =>
-              candidate === skillId ||
-              !props.value.some(
-                (existing, existingIndex) => existingIndex !== index && existing === candidate,
-              ),
-          )
-          .map((candidate) => ({
-            value: candidate,
-            label: props.skills[candidate]?.name ?? candidate,
-            description: candidate,
-          })),
-      ]),
-    // See valueKey above; identical cloned arrays intentionally reuse the option collections.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.skills, skillIds, valueKey],
-  )
-  return (
-    <div className="actor-initial-magic-editor">
-      <span className="field-label">初始仙术</span>
-      {props.value.map((skillId, index) => (
-        <div className="actor-initial-magic-row" key={`${skillId}:${index}`}>
-          <DsSelect
-            size="compact"
-            aria-label={`第 ${index + 1} 项初始仙术`}
-            value={skillId}
-            options={rowOptions[index] ?? []}
-            onValueChange={(next) =>
-              props.onChange(
-                props.value.map((existing, existingIndex) =>
-                  existingIndex === index ? next : existing,
+const InitialMagicEditor = memo(
+  function InitialMagicEditor(props: {
+    actorId: string
+    value: string[]
+    skills: SkillDataMap
+    syncToken: number
+    onChange: (value: string[]) => void
+  }) {
+    const reorderKeys = useDsReorderKeys(props.value)
+    const skillIds = useMemo(() => Object.keys(props.skills), [props.skills])
+    const valueKey = props.value.join('\0')
+    const addableSkillIds = useMemo(
+      () => skillIds.filter((skillId) => !props.value.includes(skillId)),
+      // UpdateActorCommand clones battler arrays; the semantic key avoids rebuilding unchanged rows.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [skillIds, valueKey],
+    )
+    const rowOptions = useMemo(
+      () =>
+        props.value.map((skillId, index) => [
+          ...(!props.skills[skillId] ? [{ value: skillId, label: `${skillId}（缺失）` }] : []),
+          ...skillIds
+            .filter(
+              (candidate) =>
+                candidate === skillId ||
+                !props.value.some(
+                  (existing, existingIndex) => existingIndex !== index && existing === candidate,
                 ),
-              )
-            }
-          />
-          <DsButton
-            size="compact"
-            variant="secondary"
-            onClick={() =>
-              props.onChange(props.value.filter((_, itemIndex) => itemIndex !== index))
-            }
-          >
-            移除
-          </DsButton>
-        </div>
-      ))}
-      {props.value.length === 0 ? <span className="hint">未配置初始仙术。</span> : null}
-      <DsButton
-        size="compact"
-        variant="secondary"
-        disabled={addableSkillIds.length === 0}
-        onClick={() => {
-          const skillId = addableSkillIds[0]
-          if (skillId) props.onChange([...props.value, skillId])
-        }}
-      >
-        ＋ 添加初始仙术
-      </DsButton>
-    </div>
-  )
-}, (left, right) =>
-  left.skills === right.skills &&
-  left.onChange === right.onChange &&
-  left.value.length === right.value.length &&
-  left.value.every((value, index) => value === right.value[index]),
+            )
+            .map((candidate) => ({
+              value: candidate,
+              label: props.skills[candidate]?.name ?? candidate,
+              description: candidate,
+            })),
+        ]),
+      // See valueKey above; identical cloned arrays intentionally reuse the option collections.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [props.skills, skillIds, valueKey],
+    )
+    const reorderMagic = (intent: DsReorderIntent): boolean => {
+      const next = reorderDsItems(props.value, intent)
+      if (next === props.value) return false
+      reorderKeys.move(intent)
+      props.onChange([...next])
+      return true
+    }
+    return (
+      <div className="actor-initial-magic-editor">
+        <span className="field-label">初始仙术</span>
+        <DsReorderCollection
+          adoptionId="actor/initial-magic"
+          scopeKey={`actor:${props.actorId}:initial-magic`}
+          entries={props.value.map((skillId, index) => ({
+            key: reorderKeys.keys[index]!,
+            label: props.skills[skillId]?.name ?? skillId,
+          }))}
+          revision={props.syncToken}
+          onReorder={reorderMagic}
+        >
+          {props.value.map((skillId, index) => {
+            const reorderKey = reorderKeys.keys[index]!
+            const label = props.skills[skillId]?.name ?? skillId
+            return (
+              <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                <div className="actor-initial-magic-row">
+                  <DsSelect
+                    size="compact"
+                    aria-label={`第 ${index + 1} 项初始仙术`}
+                    value={skillId}
+                    options={rowOptions[index] ?? []}
+                    onValueChange={(next) =>
+                      props.onChange(
+                        props.value.map((existing, existingIndex) =>
+                          existingIndex === index ? next : existing,
+                        ),
+                      )
+                    }
+                  />
+                  <span className="actor-initial-magic-actions">
+                    <DsReorderMoveButton
+                      itemKey={reorderKey}
+                      direction="backward"
+                      label={`上移 ${label}`}
+                    />
+                    <DsReorderMoveButton
+                      itemKey={reorderKey}
+                      direction="forward"
+                      label={`下移 ${label}`}
+                    />
+                    <DsButton
+                      size="compact"
+                      variant="secondary"
+                      onClick={() =>
+                        props.onChange(props.value.filter((_, itemIndex) => itemIndex !== index))
+                      }
+                    >
+                      移除
+                    </DsButton>
+                  </span>
+                </div>
+              </DsReorderItem>
+            )
+          })}
+        </DsReorderCollection>
+        {props.value.length === 0 ? <span className="hint">未配置初始仙术。</span> : null}
+        <DsButton
+          size="compact"
+          variant="secondary"
+          disabled={addableSkillIds.length === 0}
+          onClick={() => {
+            const skillId = addableSkillIds[0]
+            if (skillId) props.onChange([...props.value, skillId])
+          }}
+        >
+          ＋ 添加初始仙术
+        </DsButton>
+      </div>
+    )
+  },
+  (left, right) =>
+    left.actorId === right.actorId &&
+    left.skills === right.skills &&
+    left.syncToken === right.syncToken &&
+    left.onChange === right.onChange &&
+    left.value.length === right.value.length &&
+    left.value.every((value, index) => value === right.value[index]),
 )
 
 function ActorPanel(props: {

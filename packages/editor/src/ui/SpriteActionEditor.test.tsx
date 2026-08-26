@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
 import { catalogControlsEditorState } from './catalog-controls-test-utils.js'
 import { SpriteActionEditor } from './SpriteActionEditor.js'
+import { SPRITE_FRAME_DRAG_MIME } from './SpriteResourceViewer.js'
 
 const sha256 = 'a'.repeat(64)
 
@@ -74,9 +75,7 @@ describe('SpriteActionEditor field commit boundary', () => {
         />,
       ),
     )
-    expect(host.querySelector<HTMLInputElement>('[name="sprite-action-name"]')!.disabled).toBe(
-      true,
-    )
+    expect(host.querySelector<HTMLInputElement>('[name="sprite-action-name"]')!.disabled).toBe(true)
     expect(host.querySelector<HTMLInputElement>('[id$="-duration"]')!.disabled).toBe(true)
   })
 
@@ -223,5 +222,108 @@ describe('SpriteActionEditor field commit boundary', () => {
     await keyDown(currentDuration, 'Escape')
     expect(currentDuration.value).toBe('399')
     expect(session.getHistoryVersion()).toBe(afterDuration)
+  })
+
+  test('[reorder-family:sprite-actions] step reorder keeps loopFrom on the logical step and preserves source-frame transfer', async () => {
+    const definition = sprite('timeline')
+    definition.poses!.idle = {
+      label: '待机',
+      loopFrom: 0,
+      steps: [
+        { frame: 0, durationMs: 100 },
+        { frame: 1, durationMs: 200 },
+        { frame: 2, durationMs: 300 },
+      ],
+    }
+    const state = catalogControlsEditorState({
+      version: 1,
+      assets: {
+        'sprite.test': {
+          kind: 'sprite',
+          path: 'assets/authored/sprites/test.rle',
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: 8,
+          sha256,
+          origin: { kind: 'authored' },
+        },
+      },
+    })
+    state.sprites = [definition]
+    const session = new EditSession(state)
+    const dispatch = vi.spyOn(session, 'dispatch')
+    const frames = Array.from({ length: 3 }, () => ({
+      canvas: undefined,
+      width: 1,
+      height: 1,
+    }))
+    const renderCurrent = async (): Promise<void> => {
+      await act(async () =>
+        root.render(
+          <SpriteActionEditor
+            definition={session.getState().sprites[0]!}
+            catalog={session.getState().assetCatalog}
+            proof={{ asset: 'sprite.test', sha256, actualFrameCount: 3 }}
+            frames={frames}
+            selectedSourceFrame={2}
+            references={[]}
+            session={session}
+            selectedActionId="idle"
+            onSelectedActionChange={() => {}}
+          />,
+        ),
+      )
+    }
+
+    await renderCurrent()
+    const stepTokens = (): string[] =>
+      [...host.querySelectorAll<HTMLElement>('.sprite-action-timeline [data-ds-reorder-item]')].map(
+        (item) => item.dataset.itemKey!,
+      )
+    const initialTokens = stepTokens()
+    const firstHandle = host.querySelector<HTMLButtonElement>(
+      '.sprite-action-timeline [data-ds-reorder-handle]',
+    )!
+    await act(async () => {
+      firstHandle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      firstHandle.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))
+      firstHandle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(dispatch).toHaveBeenCalledOnce()
+    expect(session.getState().sprites[0]!.poses!.idle!.steps.map((step) => step.frame)).toEqual([
+      1, 2, 0,
+    ])
+    expect(session.getState().sprites[0]!.poses!.idle!.loopFrom).toBe(2)
+
+    await renderCurrent()
+    const movedTokens = stepTokens()
+    expect(movedTokens[2]).toBe(initialTokens[0])
+    expect(session.undo()).toBe(true)
+    await renderCurrent()
+    const undoTokens = stepTokens()
+    expect(undoTokens.some((token) => movedTokens.includes(token))).toBe(false)
+    expect(session.getState().sprites[0]!.poses!.idle!.loopFrom).toBe(0)
+    expect(session.redo()).toBe(true)
+    await renderCurrent()
+    const redoTokens = stepTokens()
+    expect(redoTokens.some((token) => [...movedTokens, ...undoTokens].includes(token))).toBe(false)
+    expect(session.getState().sprites[0]!.poses!.idle!.loopFrom).toBe(2)
+
+    const beforeTransfer = session.getHistoryVersion()
+    const drop = new Event('drop', { bubbles: true, cancelable: true })
+    Object.defineProperty(drop, 'dataTransfer', {
+      value: {
+        getData: (mime: string) =>
+          mime === SPRITE_FRAME_DRAG_MIME ? JSON.stringify({ asset: 'sprite.test', frame: 2 }) : '',
+      },
+    })
+    await act(async () =>
+      host.querySelector<HTMLElement>('.sprite-action-drop-end')!.dispatchEvent(drop),
+    )
+    expect(session.getHistoryVersion()).toBe(beforeTransfer + 1)
+    expect(dispatch).toHaveBeenCalledTimes(2)
+    expect(session.getState().sprites[0]!.poses!.idle!.steps.map((step) => step.frame)).toEqual([
+      1, 2, 0, 2,
+    ])
   })
 })

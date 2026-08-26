@@ -6,9 +6,7 @@
  */
 import type { ItemData, PoisonCurability, PoisonDef, PoisonTick } from '@type-pal/content'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  type BattleDataReference,
-} from '../core/battle-data-references.js'
+import { type BattleDataReference } from '../core/battle-data-references.js'
 import {
   AddPoisonCommand,
   BattleDataInUseError,
@@ -40,6 +38,15 @@ import {
   DsSequenceIndex,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
+import {
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
+  reorderDsItems,
+  sameDsSerializableValue,
+  type DsReorderIntent,
+  useDsReorderKeys,
+} from './design-system/reorder.js'
 
 type PoisonInspectorTab = 'references' | 'relations' | 'help'
 
@@ -85,13 +92,10 @@ function TickRow(props: {
   items: ItemData[]
   onChange: (next: PoisonTick) => void
   onRemove: () => void
-  onMove: (dir: -1 | 1) => void
-  first: boolean
-  last: boolean
+  reorderKey: string
   idx: number
 }) {
-  const { draftScope, syncToken, tick, items, onChange, onRemove, onMove, first, last, idx } =
-    props
+  const { draftScope, syncToken, tick, items, onChange, onRemove, reorderKey, idx } = props
   // patch 语义:undefined = 删键(落盘 JSON 不留空键)
   const set = (p: Partial<PoisonTick>): void => {
     const next = { ...tick, ...p } as Record<string, unknown>
@@ -144,21 +148,15 @@ function TickRow(props: {
         />
       </div>
       <span className="ef-ops">
-        <DsIconButton
-          size="compact"
-          variant="secondary"
-          icon="chevron-up"
+        <DsReorderMoveButton
+          itemKey={reorderKey}
+          direction="backward"
           label={`上移回合 ${idx + 1}`}
-          disabled={first}
-          onClick={() => onMove(-1)}
         />
-        <DsIconButton
-          size="compact"
-          variant="secondary"
-          icon="chevron-down"
+        <DsReorderMoveButton
+          itemKey={reorderKey}
+          direction="forward"
           label={`下移回合 ${idx + 1}`}
-          disabled={last}
-          onClick={() => onMove(1)}
         />
         <DsIconButton
           size="compact"
@@ -186,38 +184,52 @@ interface TicksEditorProps {
 function TicksEditorView(props: TicksEditorProps) {
   const { draftScope, syncToken, title, hint, ticks, items, onChange } = props
   const list = ticks ?? []
+  const reorderKeys = useDsReorderKeys(list)
   const setAt = (i: number, next: PoisonTick): void => {
     const arr = [...list]
     arr[i] = next
     onChange(arr)
   }
+  const reorder = (intent: DsReorderIntent): boolean => {
+    const next = reorderDsItems(list, intent, 'insert', sameDsSerializableValue)
+    if (next === list) return false
+    reorderKeys.move(intent)
+    onChange([...next])
+    return true
+  }
   return (
     <DsWorkbenchSection title={title} description={hint}>
-      {list.map((t, i) => (
-        <TickRow
-          key={`t${i}-${list.length}`}
-          draftScope={`${draftScope}:${i}`}
-          syncToken={syncToken}
-          tick={t}
-          items={items}
-          idx={i}
-          first={i === 0}
-          last={i === list.length - 1}
-          onChange={(next) => setAt(i, next)}
-          onRemove={() => {
-            const arr = list.filter((_, j) => j !== i)
-            onChange(arr.length ? arr : undefined) // 清空 = 删键(无 DoT)
-          }}
-          onMove={(dir) => {
-            const j = i + dir
-            const arr = [...list]
-            const t2 = arr[j]!
-            arr[j] = arr[i]!
-            arr[i] = t2
-            onChange(arr)
-          }}
-        />
-      ))}
+      <DsReorderCollection
+        adoptionId="poison/ticks"
+        scopeKey={draftScope}
+        entries={list.map((_tick, index) => ({
+          key: reorderKeys.keys[index]!,
+          label: `${title}第 ${index + 1} 回合`,
+        }))}
+        revision={syncToken}
+        onReorder={reorder}
+      >
+        {list.map((t, i) => {
+          const reorderKey = reorderKeys.keys[i]!
+          return (
+            <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+              <TickRow
+                reorderKey={reorderKey}
+                draftScope={`${draftScope}:${reorderKey}`}
+                syncToken={syncToken}
+                tick={t}
+                items={items}
+                idx={i}
+                onChange={(next) => setAt(i, next)}
+                onRemove={() => {
+                  const arr = list.filter((_, j) => j !== i)
+                  onChange(arr.length ? arr : undefined) // 清空 = 删键(无 DoT)
+                }}
+              />
+            </DsReorderItem>
+          )
+        })}
+      </DsReorderCollection>
       <DsButton
         variant="secondary"
         icon="add"
@@ -234,6 +246,7 @@ const TicksEditor = memo(
   TicksEditorView,
   (left, right) =>
     left.draftScope === right.draftScope &&
+    left.syncToken === right.syncToken &&
     left.title === right.title &&
     left.hint === right.hint &&
     left.ticks === right.ticks &&
@@ -499,8 +512,8 @@ export function PoisonTab(props: {
                     referenceStatus !== 'current'
                       ? '毒引用仍在检查，暂不能删除'
                       : references.length
-                      ? `仍有 ${references.length} 处引用，请先从右侧处理`
-                      : '删除毒'
+                        ? `仍有 ${references.length} 处引用，请先从右侧处理`
+                        : '删除毒'
                   }
                   onClick={removePoison}
                 >

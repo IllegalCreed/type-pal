@@ -3,6 +3,7 @@ import {
   DsActionLink,
   DsButton,
   DsCard,
+  DsCatalogRow,
   DsCheckbox,
   DsDiagnosticList,
   DsDiagnosticPanel,
@@ -26,6 +27,9 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
   DsSelect,
   DsSelectField,
   DsStatus,
@@ -38,12 +42,14 @@ import {
   DsVirtualList,
   DsWorkbench,
   EDITOR_DESIGN_SYSTEM_VERSION,
+  type DsReorderIntent,
+  reorderDsItems,
 } from '../ui/design-system/index.js'
 
-const FIXTURES = Array.from(
-  { length: 17 },
-  (_, index) => `RF-${String(index + 1).padStart(2, '0')}`,
-)
+const FIXTURES = [
+  ...Array.from({ length: 17 }, (_, index) => `RF-${String(index + 1).padStart(2, '0')}`),
+  'RF-21',
+]
 const FORM_OPTIONS: DsOption[] = [
   { value: 'li-xiaoyao', label: '李逍遥', description: 'li-xiaoyao' },
   { value: 'zhao-linger', label: '赵灵儿', description: 'zhao-linger' },
@@ -673,6 +679,222 @@ function DiagnosticFixture() {
   )
 }
 
+interface LabOrderedItem {
+  id: string
+  label: string
+  meta?: string
+}
+
+function LabReorderList(props: {
+  id: string
+  title: string
+  initial: LabOrderedItem[]
+  density?: 'default' | 'compact'
+  disabled?: boolean
+  strategy?: 'insert' | 'swap'
+  scroll?: boolean
+}) {
+  const [items, setItems] = useState(() => props.initial)
+  const reorder = (intent: DsReorderIntent): void => {
+    setItems((current) => [...reorderDsItems(current, intent, props.strategy)])
+  }
+  return (
+    <DsCard title={props.title}>
+      <DsReorderCollection
+        adoptionId={`design-lab/${props.id}`}
+        scopeKey={`design-lab:${props.id}`}
+        entries={items.map((item) => ({ key: item.id, label: item.label }))}
+        revision={items}
+        disabled={props.disabled}
+        strategy={props.strategy}
+        onReorder={reorder}
+      >
+        <div className={`lab-reorder-list${props.scroll ? ' is-scroll' : ''}`}>
+          {items.map((item) => (
+            <DsReorderItem itemKey={item.id} key={item.id}>
+              <div className="lab-reorder-row" data-density={props.density ?? 'default'}>
+                <span className="lab-reorder-identity">
+                  <strong>{item.label}</strong>
+                  {item.meta ? <code>{item.meta}</code> : null}
+                </span>
+                <span className="lab-reorder-actions">
+                  <DsReorderMoveButton itemKey={item.id} direction="backward" />
+                  <DsReorderMoveButton itemKey={item.id} direction="forward" />
+                </span>
+              </div>
+            </DsReorderItem>
+          ))}
+          {items.length === 0 ? <p className="lab-reorder-empty">空列表没有伪手柄。</p> : null}
+        </div>
+      </DsReorderCollection>
+    </DsCard>
+  )
+}
+
+function LabCatalogReorder() {
+  const [items, setItems] = useState<LabOrderedItem[]>([
+    { id: 'hero', label: '李逍遥', meta: 'li-xiaoyao' },
+    { id: 'friend', label: '赵灵儿', meta: 'zhao-linger' },
+    { id: 'guest', label: '名字很长但手柄和动作仍必须留在同一个项目边界内', meta: 'long-guest-id' },
+  ])
+  return (
+    <DsCard title="Catalog · handle 不占媒体槽">
+      <DsReorderCollection
+        adoptionId="design-lab/catalog"
+        scopeKey="design-lab:catalog"
+        entries={items.map((item) => ({ key: item.id, label: item.label }))}
+        revision={items}
+        onReorder={(intent) => setItems((current) => [...reorderDsItems(current, intent)])}
+      >
+        <div className="lab-reorder-list">
+          {items.map((item) => (
+            <DsReorderItem
+              itemKey={item.id}
+              contentClassName="lab-reorder-catalog-content"
+              key={item.id}
+            >
+              <DsCatalogRow title={item.label} meta={item.meta} />
+              <span className="lab-reorder-actions">
+                <DsReorderMoveButton itemKey={item.id} direction="backward" />
+                <DsReorderMoveButton itemKey={item.id} direction="forward" />
+              </span>
+            </DsReorderItem>
+          ))}
+        </div>
+      </DsReorderCollection>
+    </DsCard>
+  )
+}
+
+function LabTimelineReorder() {
+  const [frames, setFrames] = useState(() =>
+    Array.from({ length: 8 }, (_, index) => ({
+      id: `frame-${index + 1}`,
+      label: `帧 ${index + 1}`,
+    })),
+  )
+  return (
+    <DsCard title="Timeline · 水平排序与点击替代">
+      <DsReorderCollection
+        adoptionId="design-lab/timeline"
+        scopeKey="design-lab:timeline"
+        entries={frames.map((frame) => ({ key: frame.id, label: frame.label }))}
+        revision={frames}
+        orientation="horizontal"
+        onReorder={(intent) => setFrames((current) => [...reorderDsItems(current, intent)])}
+      >
+        <div className="lab-reorder-timeline">
+          {frames.map((frame) => (
+            <DsReorderItem itemKey={frame.id} layout="overlay" key={frame.id}>
+              <div className="lab-reorder-frame">
+                <strong>{frame.label}</strong>
+                <span className="lab-reorder-actions">
+                  <DsReorderMoveButton itemKey={frame.id} direction="backward" />
+                  <DsReorderMoveButton itemKey={frame.id} direction="forward" />
+                </span>
+              </div>
+            </DsReorderItem>
+          ))}
+        </div>
+      </DsReorderCollection>
+    </DsCard>
+  )
+}
+
+function LabNestedReorder() {
+  const [branches, setBranches] = useState([
+    { id: 'branch-a', label: '分支 A' },
+    { id: 'branch-b', label: '分支 B' },
+  ])
+  return (
+    <DsCard title="Nested · 父子 scope 独立">
+      <DsReorderCollection
+        adoptionId="design-lab/nested-parent"
+        scopeKey="design-lab:nested-parent"
+        entries={branches.map((branch) => ({ key: branch.id, label: branch.label }))}
+        revision={branches}
+        onReorder={(intent) => setBranches((current) => [...reorderDsItems(current, intent)])}
+      >
+        <div className="lab-nested-stack">
+          {branches.map((branch) => (
+            <DsReorderItem itemKey={branch.id} key={branch.id}>
+              <section className="lab-nested-branch">
+                <header>
+                  <strong>{branch.label}</strong>
+                  <span className="lab-reorder-actions">
+                    <DsReorderMoveButton itemKey={branch.id} direction="backward" />
+                    <DsReorderMoveButton itemKey={branch.id} direction="forward" />
+                  </span>
+                </header>
+                <LabReorderList
+                  id={`nested-${branch.id}`}
+                  title={`${branch.label} · 同级命令`}
+                  density="compact"
+                  initial={[
+                    { id: `${branch.id}-1`, label: `${branch.label} · 对话` },
+                    { id: `${branch.id}-2`, label: `${branch.label} · 等待` },
+                  ]}
+                />
+              </section>
+            </DsReorderItem>
+          ))}
+        </div>
+      </DsReorderCollection>
+    </DsCard>
+  )
+}
+
+function ReorderFixture() {
+  const longItems = Array.from({ length: 52 }, (_, index) => ({
+    id: `many-${index + 1}`,
+    label: `第 ${index + 1} 项${index === 1 ? ' · 很长的中英文名称 Long ordered author item' : ''}`,
+    meta: `stable-id-${index + 1}`,
+  }))
+  return (
+    <div className="lab-reorder-grid">
+      <LabReorderList
+        id="default"
+        title="Default · 普通线性列表"
+        initial={[
+          { id: 'a', label: '第一项', meta: 'item-a' },
+          { id: 'b', label: '第二项', meta: 'item-b' },
+          { id: 'c', label: '第三项', meta: 'item-c' },
+        ]}
+      />
+      <LabReorderList
+        id="compact"
+        title="Compact · 固定槽位 swap"
+        density="compact"
+        strategy="swap"
+        initial={[
+          { id: 'slot-1', label: '槽 1 · 李逍遥' },
+          { id: 'slot-2', label: '槽 2 · 空槽' },
+          { id: 'slot-3', label: '槽 3 · 赵灵儿' },
+        ]}
+      />
+      <LabCatalogReorder />
+      <LabTimelineReorder />
+      <LabReorderList
+        id="disabled"
+        title="Disabled · 整组只读"
+        disabled
+        initial={[
+          { id: 'locked-a', label: '锁定图层 A' },
+          { id: 'locked-b', label: '锁定图层 B' },
+        ]}
+      />
+      <LabReorderList
+        id="single"
+        title="Single · 自动禁用手柄"
+        initial={[{ id: 'only', label: '唯一项' }]}
+      />
+      <LabReorderList id="empty" title="Empty" initial={[]} />
+      <LabReorderList id="many" title="Many · 52 项滚动压力" initial={longItems} scroll />
+      <LabNestedReorder />
+    </div>
+  )
+}
+
 function FixtureBody(props: { fixture: string }) {
   switch (props.fixture) {
     case 'RF-01':
@@ -724,6 +946,8 @@ function FixtureBody(props: { fixture: string }) {
       return <ReferenceFixture />
     case 'RF-17':
       return <DiagnosticFixture />
+    case 'RF-21':
+      return <ReorderFixture />
     default:
       return null
   }
@@ -735,7 +959,7 @@ export function DesignLab() {
     return (
       <main className="lab-error">
         <DsStatus tone="error" action={<a href="?fixture=RF-01">返回 RF-01</a>}>
-          未知 fixture。请使用 RF-01～RF-17。
+          未知 fixture。请使用 RF-01～RF-17 或 RF-21。
         </DsStatus>
       </main>
     )

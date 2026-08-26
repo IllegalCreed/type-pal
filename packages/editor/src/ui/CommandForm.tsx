@@ -46,9 +46,16 @@ import {
   DsButton,
   DsCheckbox,
   DsNumberInput,
+  DsReorderCollection,
+  DsReorderItem,
+  DsReorderMoveButton,
   DsSelect,
   DsTextArea,
   DsTextInput,
+  reorderDsItems,
+  sameDsSerializableValue,
+  type DsReorderIntent,
+  useDsReorderKeys,
 } from './design-system/index.js'
 import { EntityStateSelect } from './EntityStateSelect.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
@@ -269,6 +276,8 @@ export function CommandForm(props: {
   onDialogueSpeakerOverrideChange?: (text: string) => void
   /** 非作者态展示可保留逃生 JSON 编辑器；当前作者态隐藏它。 */
   showRawJson?: boolean
+  /** 当前 aggregate command draft 的稳定身份；用于隔离内部有序集合手势。 */
+  reorderScopeKey?: string
   onChange: (next: Command) => void
 }) {
   const {
@@ -296,8 +305,11 @@ export function CommandForm(props: {
     onOpenSpriteAction,
     onDialogueSpeakerOverrideChange,
     showRawJson = true,
+    reorderScopeKey = `command-form:${cmd.kind}`,
     onChange,
   } = props
+  const dialogueRowReorderKeys = useDsReorderKeys(cmd.kind === 'dialog' ? cmd.cue.rows : [])
+  const partyMemberReorderKeys = useDsReorderKeys(cmd.kind === 'setParty' ? cmd.members : [])
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
   const actorChoices = references.choices('actor')
   const spriteChoices = references.choices('sprite')
@@ -316,6 +328,13 @@ export function CommandForm(props: {
         setCue({
           rows: cue.rows.map((row, rowIndex) => (rowIndex === index ? { ...row, ...patch } : row)),
         })
+      const reorderRows = (intent: DsReorderIntent): boolean => {
+        const rows = reorderDsItems(cue.rows, intent, 'insert', sameDsSerializableValue)
+        if (rows === cue.rows) return false
+        dialogueRowReorderKeys.move(intent)
+        setCue({ rows: [...rows] })
+        return true
+      }
       return (
         <>
           {authorCue && identity ? (
@@ -411,42 +430,66 @@ export function CommandForm(props: {
               />
             </Row>
           )}
-          {cue.rows.map((row, index) => (
-            <div className="cf-dialog-row" key={index}>
-              <Row label={`第 ${index + 1} 行`}>
-                <DsTextArea
-                  size="compact"
-                  value={lookupText(row.text, locale)}
-                  onChange={(e) => setRow(index, { text: e.target.value })}
-                  spellCheck={false}
-                />
-              </Row>
-              <div className="cf-dialog-row-actions">
-                <DsCheckbox
-                  size="compact"
-                  label="自定速度"
-                  checked={row.speed !== undefined}
-                  onChange={(e) => setRow(index, { speed: e.target.checked ? 24 : undefined })}
-                />
-                {row.speed !== undefined ? (
-                  <Num value={row.speed} onChange={(speed) => setRow(index, { speed })} step={8} />
-                ) : null}
-                <DsButton
-                  size="compact"
-                  variant="quiet"
-                  icon="delete"
-                  title="删除此行"
-                  aria-label="删除此行"
-                  disabled={cue.rows.length === 1}
-                  onClick={() =>
-                    setCue({ rows: cue.rows.filter((_, rowIndex) => rowIndex !== index) })
-                  }
-                >
-                  删除
-                </DsButton>
-              </div>
-            </div>
-          ))}
+          <DsReorderCollection
+            adoptionId="story/dialogue-cue-rows"
+            scopeKey={`${reorderScopeKey}:dialogue-rows`}
+            entries={cue.rows.map((_row, index) => ({
+              key: dialogueRowReorderKeys.keys[index]!,
+              label: `对话第 ${index + 1} 行`,
+            }))}
+            revision={cmd}
+            onReorder={reorderRows}
+          >
+            {cue.rows.map((row, index) => {
+              const rowKey = dialogueRowReorderKeys.keys[index]!
+              return (
+                <DsReorderItem itemKey={rowKey} key={rowKey}>
+                  <div className="cf-dialog-row">
+                    <Row label={`第 ${index + 1} 行`}>
+                      <DsTextArea
+                        size="compact"
+                        value={lookupText(row.text, locale)}
+                        onChange={(e) => setRow(index, { text: e.target.value })}
+                        spellCheck={false}
+                      />
+                    </Row>
+                    <div className="cf-dialog-row-actions">
+                      <DsCheckbox
+                        size="compact"
+                        label="自定速度"
+                        checked={row.speed !== undefined}
+                        onChange={(e) =>
+                          setRow(index, { speed: e.target.checked ? 24 : undefined })
+                        }
+                      />
+                      {row.speed !== undefined ? (
+                        <Num
+                          value={row.speed}
+                          onChange={(speed) => setRow(index, { speed })}
+                          step={8}
+                        />
+                      ) : null}
+                      <DsReorderMoveButton itemKey={rowKey} direction="backward" />
+                      <DsReorderMoveButton itemKey={rowKey} direction="forward" />
+                      <DsButton
+                        size="compact"
+                        variant="quiet"
+                        icon="delete"
+                        title="删除此行"
+                        aria-label="删除此行"
+                        disabled={cue.rows.length === 1}
+                        onClick={() =>
+                          setCue({ rows: cue.rows.filter((_, rowIndex) => rowIndex !== index) })
+                        }
+                      >
+                        删除
+                      </DsButton>
+                    </div>
+                  </div>
+                </DsReorderItem>
+              )
+            })}
+          </DsReorderCollection>
           <DsButton
             size="compact"
             variant="secondary"
@@ -1232,31 +1275,61 @@ export function CommandForm(props: {
       if (!battlers.length) break // 无角色表 → 走底部 JSON 兜底
       const members = cmd.members
       const setMembers = (next: string[]): void => set({ members: next })
+      const reorderMembers = (intent: DsReorderIntent): boolean => {
+        const next = reorderDsItems(members, intent)
+        if (next === members) return false
+        partyMemberReorderKeys.move(intent)
+        setMembers([...next])
+        return true
+      }
       return (
         <>
-          {members.map((id, i) => (
-            <Row key={`${i}-${id}`} label={i === 0 ? '队长' : `队员 ${i}`}>
-              <DsSelect
-                size="compact"
-                value={id}
-                options={battlers.map((actor) => ({
-                  value: actor.id,
-                  label: references.label('actor', actor.id),
-                }))}
-                onValueChange={(actorId) =>
-                  setMembers(members.map((member, j) => (j === i ? actorId : member)))
-                }
-              />
-              <DsButton
-                size="compact"
-                variant="danger"
-                icon="delete"
-                onClick={() => setMembers(members.filter((_, j) => j !== i))}
-              >
-                删除
-              </DsButton>
-            </Row>
-          ))}
+          <DsReorderCollection
+            adoptionId="story/set-party-members"
+            scopeKey={`${reorderScopeKey}:party-members`}
+            entries={members.map((id, index) => ({
+              key: partyMemberReorderKeys.keys[index]!,
+              label: references.label('actor', id),
+            }))}
+            revision={cmd}
+            onReorder={reorderMembers}
+          >
+            {members.map((id, i) => {
+              const memberKey = partyMemberReorderKeys.keys[i]!
+              return (
+                <DsReorderItem itemKey={memberKey} key={memberKey}>
+                  <div className="cf-row cf-party-row">
+                    <span className="cf-label">{i === 0 ? '队长' : `队员 ${i}`}</span>
+                    <DsSelect
+                      size="compact"
+                      aria-label={i === 0 ? '队长' : `队员 ${i}`}
+                      value={id}
+                      options={battlers.map((actor) => ({
+                        value: actor.id,
+                        label: references.label('actor', actor.id),
+                      }))}
+                      onValueChange={(actorId) =>
+                        setMembers(members.map((member, j) => (j === i ? actorId : member)))
+                      }
+                    />
+                    <span className="cf-party-row-actions">
+                      <DsReorderMoveButton itemKey={memberKey} direction="backward" />
+                      <DsReorderMoveButton itemKey={memberKey} direction="forward" />
+                      <DsButton
+                        size="compact"
+                        variant="danger"
+                        icon="delete"
+                        aria-label={`删除${i === 0 ? '队长' : `队员 ${i}`}`}
+                        onClick={() => setMembers(members.filter((_, j) => j !== i))}
+                      >
+                        删除
+                      </DsButton>
+                    </span>
+                  </div>
+                </DsReorderItem>
+              )
+            })}
+          </DsReorderCollection>
           <Row label="">
             <DsButton
               size="compact"

@@ -16,6 +16,7 @@
 | ED-INPUT-PERF-1 | 编辑器输入提交与全局派生状态性能收口 | done | 三方 accept + 用户确认齐，整卡收口 | `a7109fd4`：五字段 commit max 8.6–18.2ms、urgent Long Task 0 |
 | ED-DS-3 | 编辑器设计系统全量采用与防回流门禁 | done | 三方 accept 齐，整卡收口 | `9dd4e4a3`：25 页面采用闭包、公共 owner、三态静态门禁与精灵虚拟滚动完成 |
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | done | 三方 accept + 用户验收齐，整卡收口 | `b118ce3a`：公共草稿/提交合同、首批采用与 AST 防回流门禁完成 |
+| ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | review | Codex rework accept；待 Kimi + GLM 实现终审 | Sortable 式实时让位、单缝、无回跳、value no-op 与身份/marker 门禁已闭环 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | review | Codex accept；待 Kimi + GLM 对当前资源交互 candidate 复审 | live 消费候选、2×2/命令/焦点矩阵与 PAL + 条件 fixture 1280/900/720 已闭环 |
 | ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | review | Codex accept；待 Kimi + GLM 只读终审 | 动态闭合 20 文件 / 28 消费点；11 面收口、17 面保留/例外，默认与 720px 已验证 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | done | 三方 accept + 用户验收齐，整卡收口 | content18、首次技能播种、当前 HP/MP 继承 UI 与 PAL replay 已完成 |
