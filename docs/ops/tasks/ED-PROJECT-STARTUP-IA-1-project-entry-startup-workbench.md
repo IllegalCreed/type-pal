@@ -1,6 +1,6 @@
 # ED-PROJECT-STARTUP-IA-1 - 入口与开局 / 全局资源与启动工作台收口
 
-Status: review（2026-08-26 Codex build、自测、PAL 功能界面验证与内部压力审查完成；待 Kimi / GLM 正式 review accept）
+Status: review（2026-08-26 Codex 验收返工 build、自测与 PAL/Design Lab 视觉验证完成；待 Kimi + GLM 正式 review accept）
 Phase: phase2
 Capability: X7
 Coding Owner: Codex
@@ -22,6 +22,11 @@ Branch: `codex/ed-project-startup-ia-1`
 - 范围内:
   - “入口与开局”：默认入口标识、入口列表操作、队伍顺序、库存、世界资源和现有 HP/MP 覆盖的 IA/控件收口。
   - 队伍改为“有序成员列表 + 可搜索添加器”，不再铺满候选 checkbox；上移/下移/移除保持稳定顺序。
+  - 队伍成员与该入口的当前 HP/MP 稀疏覆盖在同一成员行编辑；桌面数值字段保持紧凑，窄容器再分行。
+    移出成员时在同一可撤销命令中删除其已失效的 `seedStats` 覆盖，不保留运行时不会消费的孤立入口数据。
+  - “加入队伍 / 添加道具 / 添加资源”三类 composer 迁入公共 `DsInlineComposer` recipe；选择/输入与尾部动作
+    由一个 density owner 决定，同行必须同尺寸同高，禁止业务页给其中一个按钮单独使用 `compact`。
+    静态/recipe 门禁必须含 mixed-density 负例。
   - 库存、资源值复用标准重复行与标准新增/删除动作，窄宽度不折断动作。
   - “全局资源与启动”：按 `ASSET_ROLES` 与分组源动态渲染，音乐/音效原位试听与“打开资源页”分离。
   - 项目概览删除写死数量和重复流程编辑入口；启动链改为三张直观摘要卡：默认开局、标题菜单、启动资源。
@@ -68,10 +73,34 @@ Branch: `codex/ed-project-startup-ia-1`
 
 - 是否主动偏离已核真值: yes
 - `before -> after` 一句话: 分散 checkbox、raw 按钮、重复流程说明、跳转预览和 `s000/assets.roles` 机器摘要 ->
-  有序添加/重复行/原位试听，以及“默认开局/标题菜单/启动资源”三张可读摘要卡。
+  有序添加/重复行/原位试听，以及“默认开局/标题菜单/启动资源”三张可读摘要卡；验收返工补充为
+  “队伍顺序”与“开局当前状态”重复展示同一角色、宽数值框占据整行且移出队伍后可能遗留无效覆盖 ->
+  每个队员只出现一次并在成员行内编辑紧凑的当前 HP/MP，移出时原子清理该角色覆盖。
 - 代表场景: 编辑默认入口队伍与初始库存；在全局资源中试听默认战斗音乐；项目概览跳到对应唯一作者页。
 - 用户裁决: 2026-08-24 用户要求将入口、开局、全局资源与启动缺陷系统收口；2026-08-25 用户明确指出
-  `s000`、`assets.roles` 等普通人无法理解，要求重做摘要并展示重要、直观的信息。
+  `s000`、`assets.roles` 等普通人无法理解，要求重做摘要并展示重要、直观的信息；2026-08-26 用户确认
+  队伍与当前 HP/MP 应合并，并批准按成员行方案开始返工。
+
+### 2026-08-26 验收返工前提补充
+
+- `StartWorld.party` 持有开局成员顺序，`seedStats` 只持有同一入口下角色当前 HP/MP 的稀疏覆盖；二者数据
+  ownership 不合并，但同属“开局成员”作者任务，可以在一个成员行中编辑。
+- `buildWorld()` 只在遍历 `startWorld.party` 时读取同 id 的 `seedStats`；非队伍角色的覆盖不会进入运行时世界。
+- 当前编辑器用 `party + Object.keys(seedStats)` 的并集生成独立“开局当前状态”面板，而 `removeParty()` 只改
+  `party`，因此移出成员后会留下可见但运行时不消费的孤立覆盖。
+- 现有 DS-F.4 已明确要求同行 input/select/尾部文字动作使用同一尺寸档；token 也明确 default `36px`、compact
+  `30px`。但三个 composer 都是 default `DsSelectField`/`DsTextInput` 搭配 `size="compact"` 的 `DsButton`，
+  直接形成 36px/30px 混用。当前 boundary 只分别检查两档 primitive 存在，adoption matrix 只登记 owner，均未
+  检查组合行的一致 density，因此“adopted”状态没有拦住这次违规。
+- 直接证据: `packages/content/src/character.ts:53-60,226-245`；
+  `packages/editor/src/ui/ProjectWorkbenchTab.tsx:598-647,681-765,731-757,835-869,915-951,955-1010`；
+  `docs/phase2/editor/editor-design-system-v1.md:181-183`；`packages/editor/src/ui/design-system/tokens.css:47-48`；
+  `packages/editor/src/ui/design-system/boundary.test.ts:34-56`。
+- 最强替代解释: 保留孤立覆盖可让作者稍后重新加入同一角色时恢复值；schema/validator 也尚未要求
+  `seedStats` key 必须属于 party，因此已有外部 canonical 输入不能被新 IA 静默隐藏。新“移出成员”动作按用户裁决
+  清理本角色覆盖，并由 undo 提供恢复；对打开时已经存在的孤立覆盖，界面必须显示警告/清理行并保留明确修复路径。
+- 可证伪观察: 若存在正式入口流程需要为未入队角色预设当前 HP/MP，或 runtime/reserve 会消费这些覆盖，则必须
+  停线并另开 schema/ownership 设计；当前源码未发现该消费链。
 
 ## 上下文锚点
 
@@ -104,6 +133,14 @@ Branch: `codex/ed-project-startup-ia-1`
   - 默认入口只是入口列表中的真实项和明确徽标；重排后仍由稳定 ID 指向同一入口。
   - 新建、复制、设默认、删除保护、undo/redo、保存重开保持 canonical 入口语义。
   - 队伍为有序列表 + 可搜索添加器；上移、下移、移除和键盘操作闭环，不显示候选 checkbox 墙。
+  - 每个已入队角色只在一个成员行出现；当前 HP/MP 的留空继承、`0`、单字段覆盖均保持稀疏语义，桌面数值列
+    不随卡片无限拉伸，窄容器按成员信息/数值/动作的稳定顺序分行。
+  - 移出带覆盖的成员只产生一条历史命令，同时删除 party 项和该 actor 的 seed；undo 一次同时恢复二者，redo
+    同时清除，再加入时继承 ActorDef 基线。其他成员和既有 orphan seed 不受影响，空 seed map 归一为 undefined。
+  - 已有非队伍 seed 只在存在时显示“未入队状态覆盖”及单项清理动作；缺失 actor 仍可见、可清理，不静默隐藏。
+  - 加入队伍、添加道具、添加资源的同行选择/输入与按钮在 default/compact 任一合法 density 下必须同高；本卡
+    采用公共 `DsInlineComposer`，不能通过三个页面局部 size 补丁达成。自动测试必须证明 mixed-density fixture
+    会失败；新增 recipe 按 DS-G.4 升 minor，并同步文档、代码常量与 CSS token 版本。
   - 库存、资源使用同一重复行合同；删除动作不换行，空态与新增路径清楚。角色初始技能只由
     `ActorDef.initialMagic` 持有，入口页不显示或保存技能快照。
   - 音乐和音效都能原位试听；试听与打开资源页是两个明确动作；切曲停止前一资源。
@@ -119,6 +156,10 @@ Branch: `codex/ed-project-startup-ia-1`
 - 测试:
   - schema closure 测试证明 `ASSET_ROLES` 每项恰好进入一个可见分组，数量变化无需改文案。
   - 入口全操作、队伍顺序、重复行、原位试听、焦点与单步 undo 覆盖。
+  - 成员行专项覆盖继承/`0`/单字段 seed、移出原子清理、其他 key 保留、undo/redo、再加入继承、orphan repair、
+    聚焦草稿后移出、Enter + blur 单提交、对象切换与 command resync。
+  - DS 专项覆盖公共 composer density 正例、default/compact 两档几何，以及“default control + compact action”
+    负例；ProjectWorkbench 三个 composer 只消费公共 owner，采用矩阵不得只凭 primitive 名称判为 adopted。
   - 连续字段命令次数遵守 `ED-FIELD-COMMIT-1`。
   - 概览专项测试覆盖正常/缺损默认入口、单/多入口、资源全齐/缺失、长名称；断言机器 token 和写死数量不出现，
     三张卡及两个导航动作读取 live manifest，入口/资源变化后摘要同步刷新。
@@ -261,12 +302,115 @@ Branch: `codex/ed-project-startup-ia-1`
 - 缺签豁免: N/A
 - build 准入结论: blocked——Kimi（KP1-KP3）+ GLM（GP1-GP2）签字齐；**build 排期硬前置：ED-DS-3 与 ED-FIELD-COMMIT-1 公共合同实际落地后**（两卡本席已签 premise/design，见各自任务卡）
 
+### 2026-08-26 验收返工 build 准入签字
+
+- Codex:
+  - premise: **verified（2026-08-26）**。`character.ts:237-245` 直接证明 `buildWorld()` 只为 party 实例读取
+    同 id 的 `seedStats`；`ProjectWorkbenchTab.tsx:601,618-647,681-765,955-1010` 证明当前独立面板使用
+    party/seed key 并集，移出队伍只改 party，确会留下 runtime 不消费的孤立覆盖。
+  - design: **agree（2026-08-26）**。不改 schema/运行时/最大值 ownership；每个队员行内编辑当前 HP/MP，
+    留空继续继承；移出时同一 command 清理该 actor seed，undo/redo 同步恢复；桌面 composer 动作 intrinsic、
+    数值列有界，窄容器才堆叠/full-width；三个 composer 迁入公共 `DsInlineComposer`，由 recipe 同时决定
+    control/action density，并以 mixed-density 负例补齐采用门禁，不能只修当前三个 `size` 属性。
+- Kimi:
+  - premise: **verified（2026-08-26 独立直读 runtime/validator/UI/DS 一手证据，非代理）**。
+    ① 数据前提：`character.ts:237-245` buildWorld 只在 `startWorld.party.map` 内按同 id 读取
+    `seedStats?.[id]`，非队伍 seed 不进运行时；`validate.ts:87-128` 对 seedStats 只要求非空 actorId +
+    hp/mp 非负整数，**不要求 party 成员资格**——已有非队伍 seed 是 canonical 合法数据，新 IA 不得静默
+    隐藏；ownership 分离（party=顺序、seedStats=当前值覆盖）与 ARCH-SEED 冻结合同不冲突，本卡不移动
+    maxHP/maxMP/技能/装备/属性。② 移出现状：`ProjectWorkbenchTab.tsx:601` 用 party∪seedKeys 并集生成
+    面板，`:618-627` removeParty 只 patch party——孤立覆盖确实遗留；继承路径现成（seed 缺席时
+    instantiate 保留 baseStats，character.ts:240-243）。③ 稀疏语义现状：`patchSeed`(:640-648) 已实现
+    留空删键、floor+clamp、空 stats 删 actor、空 map 归 undefined——返工合同延续既有形状。
+    ④ DS 违规实锤：`ProjectWorkbenchTab.tsx:835-868`（添加道具）与同构的加入队伍/添加资源 composer
+    均为 36px `DsSelectField` + `size="compact"` 30px `DsButton` 混排；`tokens.css:47-48` 两档值
+    36/30；`boundary.test.ts:41-56` 只分别断言两档 primitive 存在，不检查同行混用——门禁缺口属实。
+    DS-F.4(:181-183) 同行同档规则原文、DS-L.7 的 480px 断点、DS-G.4 新 recipe 升 minor 与版本
+    必须 Design Lab 显示均与本卡设计一致；版本漂移属实（index.ts `2.10.3` vs tokens.css
+    `--ds-version: "2.10.0"`）。
+  - design: **agree（2026-08-26，附 K-R1-K-R4，build 必落钉）**：
+    - **K-R1（原子命令边界在命令层，不在 UI）**：移出必须是一个命令同时删除 party 项与该 actor
+      seed（沿用 `SetStartupEntriesCommand` 原子域），且归一 `seedStats: {}` 与空 stats 对象为
+      undefined；undo/redo 对称由 apply/invert 保证；focused draft 未提交时移出不得顺带提交草稿
+      （与 FIELD-COMMIT 的 resync 合同对齐）。
+    - **K-R2（density 父级统一）**：`DsInlineComposer` 的 control/action density 由 recipe 父级
+      统一下发，业务页只选行级 default/compact；mixed-density 负例直接断言“同 composer 内
+      control 与 action 高度不一致即失败”，不是只测两档各存在。
+    - **K-R3（版本三处一致）**：DS 文档版本、`index.ts EDITOR_DESIGN_SYSTEM_VERSION`、
+      `tokens.css --ds-version` 随新 recipe 同步升 minor 并在 Design Lab 显示；顺带消除
+      2.10.3/2.10.0 漂移。
+    - **K-R4（继承 vs 恢复可区分测试）**：“undo 恢复旧 seed”与“重新加入后 seed 缺席、继承
+      ActorDef 基线”是两种不同状态，测试必须分别断言，不得用 undo 冒充继承路径。
+- GLM:
+  - premise: **verified（2026-08-26，本人一手读码 + 独立 census，非代理）**：
+    1. **ownership 分离与运行时消费域**：`character.ts:53-61` StartWorld 五键封闭，`validate.ts:91`
+       requireOnlyKeys 无等级/装备/属性/技能/最大值通道；`buildWorld`（`character.ts:237-246`）只遍历
+       `party`、按成员 id 读 `seedStats?.[id]`、只覆盖 `hp/mp`（`:242-243`）。全库 grep 证实运行时唯一
+       seedStats 消费点就是 buildWorld（reforge `main.ts:6957` buildPresetParty、`debug-tools.ts:716-735`
+       均只按 party ids 构造）——非队伍 seed 是运行时死数据，premise 成立。
+    2. **validator 允许既有 orphan**：`validate.ts:112-124` 只做逐键形状校验（非空 id、仅 hp/mp、非负
+       安全整数），不要求键 ∈ party；`validate-refs.ts:793-799` 只把「键不在 actors 表」判 error。即
+       “存在但未入队的 actor seed”是合法 canonical 数据、“缺失 actor seed”是既有悬空诊断——“显示
+       未入队覆盖 + 单项清理、不静默隐藏/批量删”与既有诊断层一致。
+    3. **当前 UI 实锤**：`ProjectWorkbenchTab:601` 用 party ∪ seed keys 生成“开局当前状态”独立面板
+       （`:955-1010` 成员与 orphan 无差别混排）；`removeParty`（`:618-627`）只 patch party，移出后
+       遗留可见但运行时不消费的覆盖。before 描述全部属实。
+    4. **原子性与继承**：`SetStartupEntriesCommand`（`commands.ts:3529-3568`）整体 clone/替换
+       {defaultEntryId, entryPoints}（startWorld 内嵌），apply/invert 同源捕获——party+seed 同一次
+       dispatch 即单条 undo/redo 单元，无需新命令类；seed 删除后 buildWorld 无覆盖 → 继承
+       baseStats，运行时首次入队 `applySetParty`（`character.ts:217-219`）从模板 instantiate。空 map
+       归一为 undefined 是 `patchSeed`（`:640-647`）既有语义，合并后必须保持。
+    5. **DS 违规与门禁缺口实锤**：`tokens.css:47-48` = 36/30 两档；三个 composer = 默认档
+       DsSelectField（`:732`/`:836`）/DsTextInput（`:916`）+ `size="compact"` DsButton
+       （`:748-756`/`:852-868`/`:937-950`），primitives.css 默认 36、--compact 30（select
+       `:589-594`）→ 36/30 混排成立；`boundary.test.ts:34-56` 只断言两档常量存在于样式表，
+       adoption.json `project/startup` 只登记 owner primitive 名，均无组合行 density 检查——“adopted
+       未拦住”属实。版本漂移 `index.ts:10` 2.10.3 vs `tokens.css:4` 2.10.0 属实；全库无
+       DsInlineComposer → 新 recipe 按 DS-G.4 升 minor 成立。
+    6. **独立新发现（同类违规不止三处）**：库存重复行 DsSelect compact（`:776`）+ DsDraftNumberInput
+       默认 36（`:804-820`）；资源重复行 DsDraftNumberInput 默认 36（`:893-903`）+ DsIconButton
+       compact（`:905`）。同属 DS-F.4 同行混档，且就在本卡范围表面（库存/资源重复行）。
+  - design: **agree（2026-08-26，附 GM1-GM3 必落钉；与 K-R1-K-R4 互补不冲突）**：
+    - **GM1（mixed-density census 闭包，不钉死三个 composer）**：density 负例门禁必须由受影响表面的
+      全部“同行 control+action 组合”census 派生（composer、库存/资源重复行、新成员行），不能硬编码
+      三个 composer——否则 `:776/:804` 与 `:893/:905` 的同类混档在门禁绿灯下继续存活，重蹈“只修截图
+      点名处”（本仓 MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1、ED-CATALOG-ROW-IA-1 两次教训）。若实施中
+      确需把重复行排除在本轮收口外，必须在卡内显式记录 deferred+后续卡，不得静默留给门禁盲区。
+    - **GM2（orphan 数据矩阵三态）**：orphan 测试须覆盖三种键——a) actor 存在但未入队（合法数据，
+      只显示“未入队状态覆盖”+单项清理，不新增 error）；b) actor id 缺失（validate-refs 既有悬空
+      error，repair 行与既有诊断对齐，清理后 error 消失）；c) actor 存在但无 battler（schema 合法、
+      在 adder 的 `partyActors` 过滤之外 `:599`，repair 行必须可渲染、可清理、不崩）。修复动作本身
+      一条命令、可撤销。
+    - **GM3（原子清理与既有合同保持）**：移出测试断言一次 undo 同时恢复 party 顺序与该 seed、redo
+      同时清二者、其他成员 seed 与既有 orphan 逐键不变，且每步后 manifest 通过 validateStartWorld
+      （空 map 归一为 undefined 而非 {}）；“聚焦草稿后移出”不得产生幽灵提交（未提交草稿随成员行
+      unmount 取消，不写入命令）。
+  - 独立反证 / 可证伪观察: ①若发现任何运行时/存档路径消费非队伍 seedStats（本次全库 grep 为零），
+    “orphan=运行时死数据”前提失效，须停线重开 ownership 审查；②若 density owner 无法在不新增底层
+    primitive 前提下机械拦截 mixed fixture——已证实 DsDraftTextInput 透传 size（controls.tsx:466/
+    :488）、DsIconButton 有 size prop，可由 recipe 层统一控制，该风险只剩实现层；③若三态 orphan 任一
+    态使 repair 行崩溃，或为合法 orphan 新增第二份诊断真值（与 project-diagnostics/validate-refs
+    漂移），GM2 失败即返工。
+- counter / 分歧处理: N/A（与 Kimi K-R1-K-R4 互证互补：K-R1/K-R4 ↔ GM3，K-R2 ↔ GM1 机制面，K-R3 ↔ 版本漂移实锤）
+- 缺签豁免: N/A
+- build 准入结论: **allowed（2026-08-26，Codex + Kimi（K-R1-K-R4）+ GLM（GM1-GM3）三签齐、无
+  counter；必落钉 K-R1-K-R4 / GM1-GM3 与未失效历史钉 KI1-KI2/KP1/GP1-GP2/GPS1-GPS2 一并携带。
+  转 `build`，Coding Owner 保持 Codex，本轮签字仅授权返工范围，不得超出卡面范围改 schema/运行时。）**
+
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-26）**。canonical schema/runtime 未改；入口动作仍由单个
+- Codex: **accept（2026-08-26，本轮返工 candidate）**。直接核对实现与运行证据：canonical schema/runtime
+  未改；成员行合并当前 HP/MP，移出通过同一次 `patch({party,seedStats})` 落为一条
+  `SetStartupEntriesCommand`，pointerdown 阻止 dirty draft blur 幽灵提交；已有 orphan 按未入队/不可参战/
+  角色缺失三态显式呈现并逐项可撤销清理。`DsInlineComposer` 父级注入单一 density 并拒绝 control/action
+  显式 `size`，成员/库存/资源/orphan 重复行统一消费 `DsRepeatRow`；规范、代码常量、CSS token 与 Design Lab
+  均为 v2.11.0。聚焦 3 files / 108 tests、Editor 全量 158 files / 1209 tests、typecheck、DS gate、build、
+  PAL 1280/900/720 与 Design Lab default/compact 几何均通过；无 console error。
+- Codex 历史签字: **历史 accept（2026-08-26，candidate `95b81c60`）**。canonical schema/runtime 未改；入口动作仍由单个
   `SetStartupEntriesCommand` 原子提交，typed role registry、结构化 diagnostic role、全局单一音频试听 owner、
   三张 live 摘要卡、有序队伍/库存/资源重复行与 FIELD 合同均已落地。Editor 全量 158 files / 1203 tests、
-  最终聚焦 9 files / 77 tests、typecheck、build、DS gate 与 PAL 1280/900/720 功能界面验证通过。
+  最终聚焦 9 files / 77 tests、typecheck、build、DS gate 与 PAL 1280/900/720 功能界面验证通过。该 accept 因
+  2026-08-26 用户新增可见返工要求失效，只保留为上一 candidate 历史证据。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理:
@@ -279,7 +423,22 @@ Branch: `codex/ed-project-startup-ia-1`
 
 - 页面仍采用左侧真实对象/分组、中央标题与主编辑、必要时右侧 Inspector 的统一壳；启动链退为紧凑摘要和帮助。
 - 队伍采用 ordered collection；候选角色通过搜索/选择添加，选中成员行动作复用标准 reorder/remove 控件。
+- 队伍和当前 HP/MP 不再分成两个对象面板；每个成员行同时呈现顺序、可读名称、稳定 ID、当前 HP/MP 稀疏
+  覆盖及 reorder/remove 动作。HP/MP 留空仍表示继承 `ActorDef.battler.baseStats`，不改最大值 ownership。
+- 移出队伍时同步删除该角色的 `seedStats` 项，party 与 seed 清理作为一次 `SetStartupEntriesCommand` 提交；
+  undo/redo 必须同时恢复/重放成员与覆盖，禁止 Enter/blur 等连续字段边界产生额外命令。
+- 对载入时已经存在、但 actor id 不在 party 的 canonical-valid `seedStats`，只在有数据时显示“未入队状态覆盖”
+  警告/清理区；不得静默隐藏、自动批量删除或混入正常成员顺序。清理单项同样只提交一条可撤销命令。
 - 库存/资源使用同一 `repeatable row` recipe；选择/值/动作保持单行，窄容器按规范降为明确的上下块。
+- 标准宽度下 repeat composer 的文字动作按内容宽度放在选择器尾部，成员 HP/MP 使用有界数值列；仅在窄容器
+  堆叠布局下允许动作占满一行。该规则进入公共 DS 文档/recipe 测试，不以页面零散宽度补丁维持。
+- DS-F.4 的现有同行同高规则升级为可执行合同：compound/composer 由父级 density owner 统一控制 control/action，
+  业务页不得分别挑 size；公共测试包含 default/compact 正例与 mixed-density 负例，采用矩阵只有该合同通过才可
+  标记 `project/startup` adopted。
+- 不新增底层 control primitive：公共层组合既有 `DsField` / `DsSelectField` / `DsControlGroup` / `DsButton` 为
+  `DsInlineComposer`，桌面 `minmax(0,1fr) auto`、动作 intrinsic；容器 `<480px` 才单列并 full-width。
+  HP/MP 通过公开 short-number measure recipe 有界，不覆写全局 NumberInput。按 DS-G.4 将规范/代码/CSS 版本
+  同步升至下一 minor，消除当前 `index.ts 2.10.3` 与 `tokens.css 2.10.0` 漂移。
 - 资源角色列表由 typed registry 派生 label/kind/group/required/preview capability，杜绝 UI 单独维护数量与分组。
 - 音乐/音效试听共用现有 resolver/player；资源页导航使用真实 action link，不拿“前往预览”代替播放。
 - 项目概览使用三张自适应摘要卡，不再使用横向“标签/值/代码/动作”技术巡检表：
@@ -343,23 +502,87 @@ Branch: `codex/ed-project-startup-ia-1`
   - 金钱字段实机 Enter 提交后 undo 恢复、redo 可用；未执行保存。
 - 跳过的检查及原因:
   - 无跳过。仓库级 `pnpm lint` 已实际运行但失败：当前 HEAD 中本卡未修改的 `packages/content` 等文件存在
-    370 errors / 43 warnings 的既有全仓 Biome 债；本卡没有越界批量改写这些文件，改动 TS/TSX 已单独检查全绿。
+  370 errors / 43 warnings 的既有全仓 Biome 债；本卡没有越界批量改写这些文件，改动 TS/TSX 已单独检查全绿。
+
+### 2026-08-26 验收返工增量
+
+- 修改文件:
+  - `ProjectWorkbenchTab.tsx` / `.test.tsx`、`editor.css`：成员行合并当前 HP/MP、移出原子清 seed、orphan
+    三态 repair、三 composer 与成员/库存/资源重复行统一 density。
+  - `design-system/recipes.tsx` / `.css` / `.test.tsx`、`boundary.test.ts`、`tokens.css`、`index.ts`、
+    `design-system-adoption.json`：新增 `DsInlineComposer`、`DsRepeatRow`、`short-number` measure 与静态防回流门禁。
+  - `design-lab/DesignLab.tsx`、`editor-design-system-v1.md`：v2.11.0 同步并在 RF-08 展示两档 composer。
+- K-R1 / K-R4:
+  - 移出成员一次 patch 同时删除 party 项与该 actor seed，空 map 归 `undefined`；focused dirty HP 草稿在
+    pointerdown 被取消，不因 blur 先写一条命令。undo 一次恢复旧 party + seed，redo 同时清除；其他成员与
+    既有 orphan 逐键保持，再加入后 seed 缺席并继承 ActorDef 基线。
+  - 当前 HP/MP 测试区分留空继承、`0` 与单字段 `{mp:0}`；Enter + blur 只写一条命令，undo/redo 后字段从
+    canonical resync。
+- K-R2 / K-R3 / GM1:
+  - `DsInlineComposer` 要求父级显式选择 `default | compact`，向 control/action 同时下发尺寸；任何槽位显式
+    `size`（即使值相同）均抛错。桌面为 `minmax(0,1fr) auto`，自身容器 `<480px` 才转单列/full-width。
+  - `DsRepeatRow` 持有重复行表面与 density；成员、库存、资源与 orphan 全部采用 default 36px，消除原有
+    36/30 混档。真实页面 census 断言 3 个 composer 及所有受影响重复行不出现 child compact 回流。
+  - DS 文档、`EDITOR_DESIGN_SYSTEM_VERSION`、`--ds-version` 与 Design Lab 同步至 `2.11.0`；Design Lab
+    量测 default `36/36`、compact `30/30`，short-number `160px`。
+- GM2 / GM3:
+  - orphan repair 覆盖 actor+battler 未入队、actor 无 battler、actor 缺失三态；全部显式呈现、单项清理、
+    一条命令可撤销。原子移出测试逐键断言其他成员/orphan 不变，并在 remove/undo/redo/re-add 后分别通过
+    `validateStartWorld`。
+- 聚焦测试:
+  - `pnpm --filter @type-pal/editor exec vitest run src/ui/design-system/recipes.test.tsx
+    src/ui/design-system/boundary.test.ts src/ui/ProjectWorkbenchTab.test.tsx`
+  - **3 files / 108 tests passed**（红测先证明缺口，实施后两轮全绿）。
+- 最终验证（各只运行一次）:
+  - `pnpm --filter @type-pal/editor check`：typecheck passed；**158 files / 1209 tests passed**。
+  - `pnpm --filter @type-pal/editor audit:design-system`：**87 files / 3 evidence-bound exceptions，passed**。
+  - `pnpm --filter @type-pal/editor build`：passed；仅既有 chunk-size warning。
+  - `git diff --check`：passed。
+- PAL / Design Lab 功能界面证据:
+  - 1280×900：三个 composer control/action 均为 `36/36px`，动作固有宽 `108px`；成员 HP/MP 与三个图标
+    动作均为 `36px`，document/main 横向 overflow 为 0。
+  - 900×900：实际 composer 容器 `414px`，选择器与动作稳定单列；成员信息、双数值列、动作分两行，HP/MP
+    各 `160px`，overflow 为 0。
+  - 720×900：实际 composer 容器 `250px`，动作 full-width；HP/MP 再降为单列，名称/ID/动作保持可见，
+    document/main overflow 为 0。
+  - 实机字段：Escape 后值恢复空且 undo 仍 disabled；Enter 提交 `149` 后 undo/redo 为 `空 → 149 → 空`，
+    未执行保存；PAL 与 Design Lab console error 均为 0。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Kimi / GLM 正式审查 pending；Codex 内部三路只读压力审查（合同、测试、真实浏览器 UI）均 accept，
-  不替代三贤人正式签字。
-- 必须返工项: 当前无已知 blocker/high；若正式审查提出 counter，保持 `review/rework`，不得标记 done。
-- Accept / rework: pending（等待 Kimi + GLM）
+- 审查结论: Codex 本轮返工自验 accept；等待 Kimi + GLM 对 K-R1-K-R4 / GM1-GM3 正式复审。
+- 必须返工项: pending reviewer findings。
+- Accept / rework: pending Kimi + GLM。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: Kimi / GLM 双 accept 后交用户验收；整卡 done 后建议排期 `ED-CATALOG-ROW-IA-1`。
+- 用户结论: 2026-08-26 上一 candidate 的角色初始状态语义验收通过；入口工作台视觉验收提出本轮返工并批准
+  按 Codex 推荐方案推进，整卡尚未验收。
+- 后续任务: 2026-08-26 返工 build 已完成并转 review；Kimi + GLM 分别 accept 后交用户验收并收口。
 
 ## 交接日志
 
+- 2026-08-26 Codex: 验收返工单 Owner build 完成并转 review。成员行合并 HP/MP、移出原子清 seed、orphan
+  三态 repair、`DsInlineComposer` / `DsRepeatRow` 与 DS v2.11.0 防回流门禁全部落地。聚焦 108、Editor
+  全量 1209、typecheck、DS gate、build 与 PAL 1280/900/720、Design Lab 两档几何均通过；Codex accept。
+  Next: Kimi + GLM 只读正式复审并分别写回 accept/counter，双签前不得标 done。
+- 2026-08-26 GLM: 按 2026-08-26 验收返工合同完成独立审查并重签 premise verified + design agree
+  （附 GM1 density census 闭包 / GM2 orphan 三态矩阵 / GM3 原子清理断言）。一手核验：buildWorld
+  消费域全库 grep 唯一、validator 允许合法 orphan、removeParty 遗留 orphan、SetStartupEntriesCommand
+  单命令原子性、三 composer 36/30 混排 + boundary/adoption 门禁缺口、版本漂移；新发现库存/资源重复行
+  两处同类混档（:776/:804、:893/:905）→ GM1。三签齐（Codex + Kimi K-R1-K-R4 + GLM GM1-GM3），
+  准入 allowed，状态转 build。未修改实现文件，未代签 Kimi。
+- 2026-08-26 Kimi: 独立直读 buildWorld 消费域（仅 party 成员读 seed）、validator 非队伍 seed 合法、
+  当前 UI 并集面板与 removeParty 只改 party 的孤儿成因、三个 composer 的 36/30 混档与 boundary 缺口、
+  DS-F.4/L.7/G.4 原文与 2.10.3/2.10.0 版本漂移；签 premise verified + design agree（附 K-R1 命令层
+  原子边界 / K-R2 density 父级统一 / K-R3 版本三处一致 / K-R4 继承 vs 恢复可区分测试）。
+  未修改实现文件，未代签 GLM；GLM 未写回前保持 blocked。
+- 2026-08-26 User + Codex: 用户指出队伍与当前 HP/MP 分成两面板增加对照成本，宽数值框/全宽低频按钮缺少
+  约束；批准按“同一成员行 + 紧凑字段 + 桌面 intrinsic/narrow full-width”方案开始。Codex 直读确认 runtime
+  只消费 party 成员 seed、当前移出操作会遗留孤立覆盖；同时确认 validator 允许已有孤立 seed，因此设计补充
+  条件 repair 区而非静默隐藏。任务退回 `rework`，旧 build/review 签字不授权新实现。
+  Next: Kimi / GLM 按本轮补充直接证据重签 premise/design，签字前不得修改实现。
 - 2026-08-26 Codex: 单 Owner build 完成并转 `review`。Editor 全量 1203、最终聚焦 77、typecheck、build、
   DS gate 与真实 PAL 1280/900/720 验证通过；内部合同/测试/UI 压力审查 accept。Next: Kimi + GLM 对当前
   commit candidate 正式 code/test/visual review，未双签前不得标记 done。
@@ -382,24 +605,31 @@ Branch: `codex/ed-project-startup-ia-1`
 ## 下一位 Agent 提示词
 
 ```text
-请正式审查任务卡 docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md。
-当前状态 review，分支 codex/ed-project-startup-ia-1，Coding Owner 为 Codex；不得修改实现文件或标记 done。
+请联合复审 ED-PROJECT-STARTUP-IA-1 的 2026-08-26 验收返工实现。
+任务卡：docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md
+当前状态：review；分支 codex/ed-project-startup-ia-1；实现 Owner Codex。你是只读 reviewer，不得修改实现文件、
+不得代签另一席、不得标记 done。
 
-先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/board.md、本任务卡，以及
-docs/phase2/editor/editor-design.md §5.6。重点核：
-1) entryPoints/defaultEntryId/ActorDef.initialMagic ownership 未漂移，每个入口动作仅一条 SetStartupEntriesCommand；
-2) typed role registry 对 ASSET_ROLES 闭合，optional 留空中性，悬空/错型与 stale diagnostics fail-closed；
-3) 项目页/MusicPicker/SoundPicker/AudioAssetWorkbench 单一试听 owner，音效 A→B 无迟到叠播，打开资源先 stop，
-   不写 history 或 WorldState.audio.currentMusic；
-4) 概览三卡只消费 live manifest，缺损默认入口、单/多入口、长名称与机器 token 负断言齐；
-5) 1280/900/720 的滚动、弹层、动作重叠、焦点、IME、undo/redo 与 1024/1200 顶栏断点。
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/board.md、本任务卡的“验收返工前提补充”
+“验收返工 build 准入签字”“2026-08-26 验收返工增量”，以及 editor-design-system-v1.md 的
+DS-F.4 / DS-L.7 / DS-G.4。以当前分支实际 diff 与一手测试为准，不复述 Codex 结论。
 
-已有证据：editor check 158 files/1203 tests；最终聚焦 9 files/77 tests；typecheck、build、DS gate；
-真实 PAL 1280/900/720 及顶栏 1024/1200/1280 均通过。仓库级 lint 的 370 errors/43 warnings 位于本卡
-未修改的既有文件，本卡 18 个改动 TS/TSX 的 Biome check 通过。
+重点独立核查：
+1) K-R1/K-R4：focused dirty draft 后移出只产生一条 SetStartupEntriesCommand，party + 本 actor seed 同删，
+   空 map→undefined；undo 恢复旧 seed，redo 同删，再加入是 seed 缺席/继承而非 undo 状态。
+2) K-R2/K-R3：DsInlineComposer 父级唯一 density，control/action 任一显式 size 均失败；桌面 intrinsic、<480px
+   单列；DS 文档/index/token/Design Lab 版本均为 2.11.0。
+3) GM1：census 必须含三 composer、成员、库存、资源、orphan 重复行，不能只查截图点名处；不存在
+   project-repeat-composer/project-repeat-row/project-seed-row 回流。
+4) GM2/GM3：未入队 battler、无 battler、缺失 actor 三态都可见且逐项单命令清理；其他 seed key 保持，
+   remove/undo/redo/re-add 各步形状合法。
+5) schema/runtime/ActorDef ownership 未漂移，项目页没有技能/装备/属性/最大值快照通道。
 
-请把结论直接写回本卡“进入 done 前:审查签字”和 Review：accept，或 counter + 可复现证据/返工项。
-Kimi/GLM 两席未全部 accept 前，不得标记 done；不得开始下一张实现卡。
+现有证据：聚焦 3 files/108；Editor check 158 files/1209 + typecheck；DS gate 87 files/3 allowlist；build；
+PAL 1280/900/720 与 Design Lab v2.11.0 两档几何、Escape/Enter/undo/redo、console 0 error。
+
+请各自把独立结论写回任务卡“进入 done 前:审查签字”：accept，或 counter + file:line / 可复现测试 / 视觉
+证据与明确返工项。Kimi + GLM 两席未全部 accept 前不得标 done；不得开始下一张实现卡。
 ```
 - 2026-08-24 GLM（覆盖/数据/测试矩阵）: 审查完成，签 **premise verified + design agree
   （附 GP1-GP2）**。ASSET_ROLES 12 项独立枚举（audio 9+video 2+visual 1）vs :1686 写死
@@ -413,3 +643,10 @@ Kimi/GLM 两席未全部 accept 前，不得标记 done；不得开始下一张�
   role→label 现有映射/validate.ts:206 scene 校验），零新增 schema；ARCH-SEED 冻结域消费
   确认。GPS1 钉 scene 损坏判定单源；GPS2 钉可选待配置与类型错误不混淆。未改实现，未代签
   Kimi。
+- 2026-08-26 GLM（验收返工重签）: 按 2026-08-26 返工合同完成独立审查并重签 **premise verified +
+  design agree（附 GM1-GM3）**。buildWorld 消费域全库 grep 唯一（非队伍 seed=运行时死数据）、
+  validator 允许合法 orphan、removeParty 遗留 orphan 实锤、SetStartupEntriesCommand 单命令原子性、
+  三 composer 36/30 混排 + boundary/adoption 门禁缺口 + 版本漂移全部一手核验；**新发现库存/资源
+  重复行两处同类混档（:776/:804、:893/:905）** → GM1 钉 density census 闭包、GM2 钉 orphan 三态
+  矩阵、GM3 钉原子清理断言。三签齐（Codex + Kimi K-R1-K-R4 + GLM），准入 **allowed**，状态转
+  build。未改实现，未代签 Kimi。

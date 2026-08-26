@@ -11,6 +11,8 @@ import {
   DsDrawer,
   DsEmptyState,
   DsField,
+  DsFieldMeasure,
+  DsInlineComposer,
   DsListHeader,
   type DsMediaBackground,
   DsMediaViewport,
@@ -25,6 +27,7 @@ import {
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
+  DsSelectField,
   DsStatus,
   DsSwitch,
   DsTabs,
@@ -293,6 +296,44 @@ function ButtonMatrix() {
           <DsActionLink href="#danger-link" variant="danger" icon="delete">
             危险导航
           </DsActionLink>
+        </div>
+      </DsCard>
+      <DsCard title="同行密度与短数值">
+        <p className="lab-card-description">
+          Composer 由父级统一选择尺寸档；短数值字段保持有界，只有窄容器才让动作换到下一行。
+        </p>
+        <div className="lab-stack">
+          <DsInlineComposer
+            density="default"
+            control={
+              <DsSelectField
+                label="默认密度"
+                aria-label="默认密度角色"
+                options={FORM_OPTIONS}
+                value="li-xiaoyao"
+                onValueChange={() => {}}
+              />
+            }
+            action={<DsButton icon="add">加入队伍</DsButton>}
+          />
+          <DsInlineComposer
+            density="compact"
+            control={
+              <DsSelectField
+                label="紧凑密度"
+                aria-label="紧凑密度角色"
+                options={FORM_OPTIONS}
+                value="zhao-linger"
+                onValueChange={() => {}}
+              />
+            }
+            action={<DsButton icon="add">加入队伍</DsButton>}
+          />
+          <DsFieldMeasure measure="short-number">
+            <DsField id="lab-current-hp" label="当前 HP">
+              <DsNumberInput id="lab-current-hp" defaultValue={150} min={0} />
+            </DsField>
+          </DsFieldMeasure>
         </div>
       </DsCard>
     </div>

@@ -273,7 +273,7 @@
         "catalog": "DsCatalogRow",
         "scroll": "project workbench content",
         "overlay": "DsDialog",
-        "field": "DsField + DsPropertyRow + DsDraft controls",
+        "field": "DsField + DsPropertyRow + DsDraft controls + DsInlineComposer + DsRepeatRow",
         "action": "DsButton + DsIconButton"
       }
     },

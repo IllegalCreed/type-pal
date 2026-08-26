@@ -1,5 +1,10 @@
 // @vitest-environment jsdom
-import { ASSET_ROLE_KINDS, ASSET_ROLES, type StartWorld } from '@type-pal/content'
+import {
+  ASSET_ROLE_KINDS,
+  ASSET_ROLES,
+  type StartWorld,
+  validateStartWorld,
+} from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -450,6 +455,11 @@ describe('入口开局世界资源', () => {
     state.locale['name.hero'] = '主角'
     state.locale['name.friend'] = '伙伴'
     state.manifest.entryPoints[0]!.startWorld.party = ['hero']
+    state.manifest.entryPoints[0]!.startWorld.seedStats = {
+      hero: { hp: 90 },
+      friend: { hp: 40, mp: 20 },
+      orphan: { mp: 1 },
+    }
     const session = new EditSession(state)
     await act(async () => root.render(projectTab('entrypoint', session)))
 
@@ -478,16 +488,70 @@ describe('入口开局世界资源', () => {
 
     await act(async () => root.render(projectTab('entrypoint', session)))
     const beforeRemove = session.getHistoryVersion()
-    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="移出伙伴"]')!.click())
+    const friendHp = host.querySelector<HTMLInputElement>(
+      'input[aria-label^="friend 开局当前 HP"]',
+    )!
+    await act(async () => friendHp.focus())
+    await input(friendHp, '7')
+    const removeFriend = host.querySelector<HTMLButtonElement>('[aria-label="移出伙伴"]')!
+    const pointerDown = new Event('pointerdown', { bubbles: true, cancelable: true })
+    await act(async () => {
+      if (removeFriend.dispatchEvent(pointerDown)) removeFriend.focus()
+      removeFriend.click()
+    })
+    expect(pointerDown.defaultPrevented).toBe(true)
     expect(session.getHistoryVersion()).toBe(beforeRemove + 1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero'])
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
+      hero: { hp: 90 },
+      orphan: { mp: 1 },
+    })
+    expect(() =>
+      validateStartWorld(session.getState().manifest.entryPoints[0]!.startWorld),
+    ).not.toThrow()
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(host.querySelector('[role="status"]')?.textContent).toContain('伙伴移出初始队伍')
     expect(document.activeElement?.getAttribute('aria-label')).toBe('移出主角')
     expect(session.undo()).toBe(true)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
+      hero: { hp: 90 },
+      friend: { hp: 40, mp: 20 },
+      orphan: { mp: 1 },
+    })
+    expect(() =>
+      validateStartWorld(session.getState().manifest.entryPoints[0]!.startWorld),
+    ).not.toThrow()
     expect(session.redo()).toBe(true)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero'])
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
+      hero: { hp: 90 },
+      orphan: { mp: 1 },
+    })
+    expect(() =>
+      validateStartWorld(session.getState().manifest.entryPoints[0]!.startWorld),
+    ).not.toThrow()
+
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    await chooseSelectOption(
+      host.querySelector<HTMLButtonElement>('[aria-label="添加队员"]')!,
+      '伙伴',
+    )
+    await act(async () => button(host, '加入队伍').click())
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
+      hero: { hp: 90 },
+      orphan: { mp: 1 },
+    })
+    expect(() =>
+      validateStartWorld(session.getState().manifest.entryPoints[0]!.startWorld),
+    ).not.toThrow()
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    const readdedFriendHp = host.querySelector<HTMLInputElement>(
+      'input[aria-label^="friend 开局当前 HP"]',
+    )!
+    expect(readdedFriendHp.value).toBe('')
+    expect(readdedFriendHp.placeholder).toBe('继承 80')
   })
 
   test('库存显式选择新增项，数量 Enter + blur 只产生一条命令', async () => {
@@ -549,16 +613,17 @@ describe('入口开局世界资源', () => {
     ])
   })
 
-  test('开局当前状态使用中文业务标题，不暴露 schema 字段名', async () => {
+  test('初始队伍合并当前状态，不暴露独立 schema 面板', async () => {
     const session = new EditSession(projectState())
     await act(async () => root.render(projectTab('entrypoint', session)))
 
-    expect(host.textContent).toContain('开局当前状态')
+    expect(host.textContent).toContain('初始队伍')
     expect(host.textContent).toContain('留空即继承角色定义的当前值')
+    expect(host.textContent).not.toContain('开局当前状态')
     expect(host.textContent).not.toContain('seedStats')
   })
 
-  test('当前 HP/MP 显示角色继承值，清空后保持稀疏覆盖', async () => {
+  test('当前 HP/MP 保持继承、零值和单字段稀疏覆盖并按命令同步', async () => {
     const state = projectState()
     state.actors = [
       {
@@ -590,16 +655,172 @@ describe('入口开局世界资源', () => {
     const session = new EditSession(state)
     await act(async () => root.render(projectTab('entrypoint', session)))
 
-    const hp = host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 HP"]')!
+    let hp = host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 HP"]')!
     const mp = host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 MP"]')!
+    expect(hp.closest('.project-party-row')).toBe(mp.closest('.project-party-row'))
     expect(hp.placeholder).toBe('继承 100')
     expect(mp.placeholder).toBe('继承 30')
+    expect(hp.value).toBe('80')
+    expect(mp.value).toBe('')
     expect(host.textContent).not.toContain('初始技能')
 
+    const beforeMpCommit = session.getHistoryVersion()
+    await act(async () => mp.focus())
+    await input(mp, '0')
+    await act(async () =>
+      mp.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
+    await act(async () => mp.blur())
+    expect(session.getHistoryVersion()).toBe(beforeMpCommit + 1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
+      hero: { hp: 80, mp: 0 },
+    })
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    hp = host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 HP"]')!
+
+    const beforeHpCommit = session.getHistoryVersion()
     await act(async () => hp.focus())
     await input(hp, '')
+    await act(async () =>
+      hp.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
     await act(async () => hp.blur())
+    expect(session.getHistoryVersion()).toBe(beforeHpCommit + 1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
+      hero: { mp: 0 },
+    })
+
+    expect(session.undo()).toBe(true)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(
+      host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 HP"]')?.value,
+    ).toBe('80')
+    expect(session.redo()).toBe(true)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(
+      host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 HP"]')?.value,
+    ).toBe('')
+
+    const currentMp = host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 MP"]')!
+    const beforeClearMp = session.getHistoryVersion()
+    await act(async () => currentMp.focus())
+    await input(currentMp, '')
+    await act(async () => currentMp.blur())
+    expect(session.getHistoryVersion()).toBe(beforeClearMp + 1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toBeUndefined()
+  })
+
+  test('入口工作台的 composer 与重复行只由父级选择一个 density', async () => {
+    const state = projectState()
+    state.actors = [
+      {
+        id: 'hero',
+        name: 'name.hero',
+        spriteId: 'sprite.hero',
+        battler: {
+          battleSprite: 'battle.hero',
+          baseStats: {
+            level: 1,
+            hp: 100,
+            maxHP: 100,
+            mp: 30,
+            maxMP: 30,
+            attack: 1,
+            defense: 1,
+            magicAttack: 1,
+            speed: 1,
+            luck: 1,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+    ]
+    state.locale['name.hero'] = '主角'
+    state.manifest.entryPoints[0]!.startWorld.party = ['hero']
+    state.manifest.entryPoints[0]!.startWorld.inventory = [{ itemId: 'item.a', count: 2 }]
+    state.manifest.entryPoints[0]!.startWorld.resources = { alchemyEnergy: 4 }
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    const composers = [...host.querySelectorAll<HTMLElement>('.ds-inline-composer')]
+    expect(composers).toHaveLength(3)
+    expect(composers.every((row) => row.dataset.density === 'default')).toBe(true)
+
+    const rows = [...host.querySelectorAll<HTMLElement>('.ds-repeat-row')]
+    expect(rows.length).toBeGreaterThanOrEqual(3)
+    for (const row of [...composers, ...rows]) {
+      expect(
+        row.querySelector('.ds-input--compact, .ds-select--compact, .ds-button--compact'),
+      ).toBe(null)
+    }
+  })
+
+  test('已有未入队状态覆盖按三种角色状态显式呈现并可单项撤销清理', async () => {
+    const state = projectState()
+    state.actors = [
+      {
+        id: 'bench',
+        name: 'name.bench',
+        spriteId: 'sprite.bench',
+        battler: {
+          battleSprite: 'battle.bench',
+          baseStats: {
+            level: 1,
+            hp: 70,
+            maxHP: 70,
+            mp: 25,
+            maxMP: 25,
+            attack: 1,
+            defense: 1,
+            magicAttack: 1,
+            speed: 1,
+            luck: 1,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+      { id: 'npc', name: 'name.npc', spriteId: 'sprite.npc' },
+    ]
+    state.locale['name.bench'] = '候补角色'
+    state.locale['name.npc'] = '剧情角色'
+    state.manifest.entryPoints[0]!.startWorld.seedStats = {
+      bench: { hp: 12 },
+      npc: { mp: 3 },
+      missing: { hp: 1, mp: 0 },
+    }
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    const repair = host.querySelector('.project-orphan-seed-list')!
+    expect(repair.textContent).toContain('未入队')
+    expect(repair.textContent).toContain('不可参战')
+    expect(repair.textContent).toContain('角色缺失')
+    expect(repair.querySelectorAll('.project-orphan-seed-row')).toHaveLength(3)
+
+    for (const [label, actorId] of [
+      ['清理未入队状态覆盖 bench', 'bench'],
+      ['清理未入队状态覆盖 npc', 'npc'],
+      ['清理未入队状态覆盖 missing', 'missing'],
+    ] as const) {
+      const before = session.getHistoryVersion()
+      await act(async () =>
+        host.querySelector<HTMLButtonElement>(`[aria-label="${label}"]`)!.click(),
+      )
+      expect(session.getHistoryVersion()).toBe(before + 1)
+      expect(
+        session.getState().manifest.entryPoints[0]!.startWorld.seedStats?.[actorId],
+      ).toBeUndefined()
+      expect(() =>
+        validateStartWorld(session.getState().manifest.entryPoints[0]!.startWorld),
+      ).not.toThrow()
+      expect(session.undo()).toBe(true)
+      expect(
+        session.getState().manifest.entryPoints[0]!.startWorld.seedStats?.[actorId],
+      ).toBeDefined()
+      await act(async () => root.render(projectTab('entrypoint', session)))
+    }
   })
 
   test('可新增、修改和删除稳定资源键，并拒绝重复定义 collectValue', async () => {

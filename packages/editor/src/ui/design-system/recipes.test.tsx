@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
+import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   DsButton,
@@ -13,6 +14,8 @@ import {
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
+  DsFieldMeasure,
+  DsInlineComposer,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
@@ -23,6 +26,8 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsRepeatRow,
+  DsSelectField,
   DsSequenceIndex,
   DsTag,
   DsWorkbenchSection,
@@ -140,6 +145,101 @@ describe('object workbench recipes', () => {
     expect(input.getAttribute('aria-label')).toBe('搜索地图')
     expect(input.classList.contains('ds-input--compact')).toBe(true)
     expect(shell.parentElement).toBe(host)
+  })
+
+  test('inline composer owns default and compact density plus bounded number measure', async () => {
+    for (const density of ['default', 'compact'] as const) {
+      await act(async () =>
+        root.render(
+          <DsInlineComposer
+            density={density}
+            control={
+              <DsSelectField
+                label="添加队员"
+                aria-label="添加队员"
+                value=""
+                options={[]}
+                onValueChange={() => {}}
+              />
+            }
+            action={<DsButton icon="add">加入队伍</DsButton>}
+          />,
+        ),
+      )
+
+      const composer = host.querySelector<HTMLElement>('.ds-inline-composer')!
+      const select = composer.querySelector('.ds-inline-composer__control .ds-select')!
+      const action = composer.querySelector('.ds-inline-composer__action .ds-button')!
+      expect(composer.dataset.density).toBe(density)
+      expect(select.classList.contains('ds-select--compact')).toBe(density === 'compact')
+      expect(action.classList.contains('ds-button--compact')).toBe(density === 'compact')
+    }
+
+    await act(async () =>
+      root.render(
+        <DsRepeatRow density="compact">
+          <span>物品</span>
+          <DsButton>删除</DsButton>
+        </DsRepeatRow>,
+      ),
+    )
+    expect(host.querySelector<HTMLElement>('.ds-repeat-row')?.dataset.density).toBe('compact')
+
+    await act(async () =>
+      root.render(
+        <DsFieldMeasure measure="short-number">
+          <span>当前 HP</span>
+        </DsFieldMeasure>,
+      ),
+    )
+    expect(host.querySelector('.ds-field-measure--short-number')?.textContent).toBe('当前 HP')
+  })
+
+  test('inline composer rejects child-level density overrides', () => {
+    expect(() =>
+      renderToStaticMarkup(
+        <DsInlineComposer
+          density="compact"
+          control={
+            <DsSelectField
+              label="添加队员"
+              aria-label="添加队员"
+              value=""
+              options={[]}
+              size="default"
+              onValueChange={() => {}}
+            />
+          }
+          action={<DsButton>加入队伍</DsButton>}
+        />,
+      ),
+    ).toThrow(/density 只能由 DsInlineComposer 设置/)
+
+    expect(() =>
+      renderToStaticMarkup(
+        <DsInlineComposer
+          density="compact"
+          control={
+            <DsSelectField
+              label="添加队员"
+              aria-label="添加队员"
+              value=""
+              options={[]}
+              onValueChange={() => {}}
+            />
+          }
+          action={<DsButton size="compact">加入队伍</DsButton>}
+        />,
+      ),
+    ).toThrow(/density 只能由 DsInlineComposer 设置/)
+
+    expect(() =>
+      renderToStaticMarkup(
+        <DsRepeatRow density="compact">
+          <DsButton size="compact">删除</DsButton>
+        </DsRepeatRow>,
+      ),
+    ).toThrow(/density 只能由 DsRepeatRow 设置/)
   })
 
   test('catalog controls compose the header, optional scope, search, and adaptive filters', async () => {

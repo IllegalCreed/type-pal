@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.10.3 author-facing diagnostics and adaptive grid（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.11.0 inline composer density and bounded numeric fields（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-24
+Last updated: 2026-08-26
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -181,6 +181,10 @@ Last updated: 2026-08-24
 - 普通控件高度 `36px`，紧凑表格控件 `30px`，tab/工具条不得低于 `40px`。
 - 同一属性行中的输入、选择器和尾部文字动作必须使用同一尺寸档并保持同高；`compact` 只能由整行、表格或工具条的
   明确密度上下文统一启用，业务页不得只缩小其中一个按钮。状态徽标不属于可操作控件，可保持自身紧凑尺寸。
+- “一个主控件 + 一个尾部文字动作”的新增/绑定行必须使用 `DsInlineComposer`，并只在 recipe 父级选择一次
+  `default | compact`；control/action 槽显式传 `size` 属于门禁违规，即使传入值与父级相同也不允许。
+- 有序、可删除的表单项使用 `DsRepeatRow` 持有统一 density、边框和节奏，领域页只声明列语义；短数值字段使用
+  `DsFieldMeasure measure="short-number"`，不得随宽卡无限拉伸。
 - 仅图标按钮可视尺寸至少 `32×32px`；密集桌面工具条命中区域至少 `32×32px`。
 - 圆角：输入/按钮 `6px`，卡片 `10px`，modal/drawer `12px`。同一容器层级不得混用随机圆角。
 - 阴影只用于 overlay、popover、modal 和浮动工具条；普通卡片使用 surface + border，不用阴影堆层级。
@@ -319,6 +323,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 标签列不得窄于 `96px`，中文不得被压成逐字换行。空间不足时必须转上下布局。
 - 卡片网格以容器查询决定列数；单卡最小宽度 `280px`。不足时降列，不缩小输入和文字。
 - 长 id/path 必须 `min-width: 0`，并在换行、省略、复制三者中选择明确策略。
+- `DsInlineComposer` 在容器 `>= 480px` 时保持 `minmax(0,1fr) + intrinsic action`，尾部动作不得被拉成整行；
+  只有 `< 480px` 时才转为单列并允许动作占满可用宽度。
 
 ## 4. 共享组件与状态合同
 

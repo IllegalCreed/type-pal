@@ -98,6 +98,50 @@ describe('editor design-system static boundary', () => {
     )
   })
 
+  test('keeps inline composer density, repeat rows, and bounded number fields on public recipes', () => {
+    const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
+    const tokens = readFileSync(join(here, 'tokens.css'), 'utf8')
+    const index = readFileSync(join(here, 'index.ts'), 'utf8')
+    const project = readFileSync(join(here, '..', 'ProjectWorkbenchTab.tsx'), 'utf8')
+    const businessCss = readFileSync(join(here, '..', 'editor.css'), 'utf8')
+    const adoption = JSON.parse(readFileSync(join(here, 'design-system-adoption.json'), 'utf8'))
+    const specification = readFileSync(
+      join(here, '../../../../../docs/phase2/editor/editor-design-system-v1.md'),
+      'utf8',
+    )
+
+    expect(recipes).toMatch(
+      /\.ds-inline-composer__layout\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\) auto;/,
+    )
+    expect(recipes).toMatch(
+      /@container ds-inline-composer \(max-width:\s*479px\)[\s\S]*?\.ds-inline-composer__layout\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\);[\s\S]*?\.ds-inline-composer__action > \*\s*\{[\s\S]*?width:\s*100%;/,
+    )
+    expect(recipes).toMatch(
+      /\.ds-repeat-row\[data-density="compact"\] :is\(\.ds-input, \.ds-select, \.ds-button\)[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
+    )
+    expect(recipes).toMatch(
+      /\.ds-field-measure--short-number\s*\{[\s\S]*?var\(--ds-field-measure-short-number\);/,
+    )
+    expect(tokens).toContain('--ds-field-measure-short-number: 10rem;')
+
+    expect(project.match(/<DsInlineComposer\b/g)).toHaveLength(3)
+    expect(project.match(/<DsRepeatRow\b/g)).toHaveLength(4)
+    expect(project).not.toContain('project-repeat-composer')
+    expect(project).not.toContain('project-repeat-row')
+    expect(project).not.toContain('project-seed-row')
+    expect(businessCss).not.toContain('.project-repeat-composer')
+    expect(businessCss).not.toContain('.project-repeat-row')
+    expect(businessCss).not.toContain('.project-seed-row')
+
+    const startup = adoption.pages.find((page) => page.registry === 'project/startup')
+    expect(startup?.owners.field).toContain('DsInlineComposer')
+    expect(startup?.owners.field).toContain('DsRepeatRow')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.11.0'")
+    expect(tokens).toContain('--ds-version: "2.11.0";')
+    expect(specification).toContain('Status: implemented v2.11.0')
+    expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
+  })
+
   test('keeps the scene shell checkboxes on the shared component', () => {
     const uiRoot = dirname(here)
     for (const file of ['App.tsx', 'MapMode.tsx', 'StampTemplateDialog.tsx']) {

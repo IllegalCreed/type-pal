@@ -45,10 +45,13 @@ import {
   DsDraftNumberField,
   DsDraftNumberInput,
   DsDraftTextInput,
+  DsFieldMeasure,
   DsHelpTip,
   DsIconButton,
+  DsInlineComposer,
   DsListHeader,
   DsObjectHero,
+  DsRepeatRow,
   DsSelect,
   DsSelectField,
   DsSequenceIndex,
@@ -598,7 +601,9 @@ export function StartWorldFields(props: {
   const patch = (next: Partial<StartWorld>): void => onChange({ ...value, ...next })
   const partyActors = actors.filter((actor) => actor.battler)
   const addablePartyActors = partyActors.filter((actor) => !value.party.includes(actor.id))
-  const seedActorIds = Array.from(new Set([...value.party, ...Object.keys(value.seedStats ?? {})]))
+  const orphanSeedActorIds = Object.keys(value.seedStats ?? {}).filter(
+    (actorId) => !value.party.includes(actorId),
+  )
   const inventory = value.inventory ?? []
   const addableItems = items.filter((item) => !inventory.some((entry) => entry.itemId === item.id))
   const selectedPartyCandidate = addablePartyActors.some((actor) => actor.id === partyCandidateId)
@@ -619,10 +624,12 @@ export function StartWorldFields(props: {
     const actor = actors.find((candidate) => candidate.id === id)
     const index = value.party.indexOf(id)
     const party = value.party.filter((candidate) => candidate !== id)
+    const seedStats = { ...(value.seedStats ?? {}) }
+    delete seedStats[id]
     pendingPartyFocusRef.current = {
       actorId: party[Math.min(Math.max(index, 0), party.length - 1)],
     }
-    patch({ party })
+    patch({ party, seedStats: Object.keys(seedStats).length ? seedStats : undefined })
     setAnnouncement(`已将${actor ? lookupText(actor.name, locale) : id}移出初始队伍。`)
   }
   const moveParty = (id: string, delta: -1 | 1): void => {
@@ -645,6 +652,12 @@ export function StartWorldFields(props: {
     if (Object.keys(stats).length) seedStats[actorId] = stats
     else delete seedStats[actorId]
     patch({ seedStats: Object.keys(seedStats).length ? seedStats : undefined })
+  }
+  const clearSeed = (actorId: string): void => {
+    const seedStats = { ...(value.seedStats ?? {}) }
+    delete seedStats[actorId]
+    patch({ seedStats: Object.keys(seedStats).length ? seedStats : undefined })
+    setAnnouncement(`已清理 ${actorId} 的未入队状态覆盖。`)
   }
   const patchResource = (key: string, nextValue: number | undefined): void => {
     const resources = { ...(value.resources ?? {}) }
@@ -680,26 +693,70 @@ export function StartWorldFields(props: {
 
       <section className="project-card">
         <h4>
-          队伍顺序 <span className="b2">（顺序即初始站位）</span>
+          初始队伍 <span className="b2">（顺序即初始站位）</span>{' '}
+          <DsHelpTip label="初始队伍当前状态">
+            当前 HP/MP 只覆盖这个入口的开局当前值；留空即继承角色定义，最大值仍由角色定义持有。
+          </DsHelpTip>
         </h4>
+        <p className="project-card-description">
+          每个队员在同一行设置开局当前 HP/MP；留空即继承角色定义的当前值。
+        </p>
         <div className="project-party-order">
           {value.party.map((actorId, index) => {
             const actor = actors.find((candidate) => candidate.id === actorId)
             const actorName = actor ? lookupText(actor.name, locale) : `${actorId}（缺失）`
+            const stats = value.seedStats?.[actorId] ?? {}
+            const inheritedHp = actor?.battler?.baseStats.hp
+            const inheritedMp = actor?.battler?.baseStats.mp
             return (
-              <div className="project-party-row" key={actorId}>
+              <DsRepeatRow density="default" className="project-party-row" key={actorId}>
                 <DsSequenceIndex value={index + 1} accessibleLabel={`初始队伍第 ${index + 1} 位`} />
-                <span className="project-party-name" title={actorName}>
-                  {actorName}
+                <span className="project-party-identity">
+                  <strong className="project-party-name" title={actorName}>
+                    {actorName}
+                  </strong>
+                  <code title={actorId}>{actorId}</code>
                 </span>
-                <code>{actorId}</code>
+                <span className="project-party-state">
+                  <DsFieldMeasure measure="short-number">
+                    <DsDraftNumberField
+                      label="当前 HP"
+                      min={0}
+                      integer
+                      allowEmpty
+                      normalize={(next) => Math.max(0, Math.floor(next))}
+                      draftKey={`${draftScope}:seedStats.${actorId}.hp`}
+                      syncToken={syncToken}
+                      value={stats.hp}
+                      disabled={readOnly}
+                      aria-label={`${actorId} 开局当前 HP，留空继承 ${inheritedHp ?? '未知'}`}
+                      placeholder={inheritedHp === undefined ? '继承不可用' : `继承 ${inheritedHp}`}
+                      onCommit={(value) => patchSeed(actorId, 'hp', value)}
+                    />
+                  </DsFieldMeasure>
+                  <DsFieldMeasure measure="short-number">
+                    <DsDraftNumberField
+                      label="当前 MP"
+                      min={0}
+                      integer
+                      allowEmpty
+                      normalize={(next) => Math.max(0, Math.floor(next))}
+                      draftKey={`${draftScope}:seedStats.${actorId}.mp`}
+                      syncToken={syncToken}
+                      value={stats.mp}
+                      disabled={readOnly}
+                      aria-label={`${actorId} 开局当前 MP，留空继承 ${inheritedMp ?? '未知'}`}
+                      placeholder={inheritedMp === undefined ? '继承不可用' : `继承 ${inheritedMp}`}
+                      onCommit={(value) => patchSeed(actorId, 'mp', value)}
+                    />
+                  </DsFieldMeasure>
+                </span>
                 <span className="project-party-actions">
                   <DsIconButton
                     disabled={readOnly || index === 0}
                     onClick={() => moveParty(actorId, -1)}
                     label={`上移${actorName}`}
                     icon="chevron-up"
-                    size="compact"
                     variant="secondary"
                   />
                   <DsIconButton
@@ -707,7 +764,6 @@ export function StartWorldFields(props: {
                     onClick={() => moveParty(actorId, 1)}
                     label={`下移${actorName}`}
                     icon="chevron-down"
-                    size="compact"
                     variant="secondary"
                   />
                   <DsIconButton
@@ -716,48 +772,88 @@ export function StartWorldFields(props: {
                       else partyRemoveRefs.current.delete(actorId)
                     }}
                     disabled={readOnly}
+                    onPointerDown={(event) => event.preventDefault()}
                     onClick={() => removeParty(actorId)}
                     label={`移出${actorName}`}
                     icon="delete"
-                    size="compact"
                     variant="danger"
                   />
                 </span>
-              </div>
+              </DsRepeatRow>
             )
           })}
           {value.party.length === 0 ? <PageHint>当前没有队员；请从下方加入。</PageHint> : null}
         </div>
-        <div className="project-repeat-composer project-party-composer">
-          <DsSelectField
-            id="start-world-party-adder"
-            label="添加队员"
-            fieldClassName="project-composer-field"
-            aria-label="添加队员"
-            searchable
-            value={selectedPartyCandidate}
-            disabled={readOnly || addablePartyActors.length === 0}
-            placeholder="搜索角色名称或 ID…"
-            options={addablePartyActors.map((actor) => ({
-              value: actor.id,
-              label: lookupText(actor.name, locale),
-              description: actor.id,
-            }))}
-            onValueChange={setPartyCandidateId}
-          />
-          <DsButton
-            disabled={readOnly || !selectedPartyCandidate}
-            onClick={addParty}
-            icon="add"
-            size="compact"
-            variant="secondary"
-          >
-            加入队伍
-          </DsButton>
-        </div>
+        <DsInlineComposer
+          density="default"
+          className="project-party-composer"
+          control={
+            <DsSelectField
+              id="start-world-party-adder"
+              label="添加队员"
+              fieldClassName="project-composer-field"
+              aria-label="添加队员"
+              searchable
+              value={selectedPartyCandidate}
+              disabled={readOnly || addablePartyActors.length === 0}
+              placeholder="搜索角色名称或 ID…"
+              options={addablePartyActors.map((actor) => ({
+                value: actor.id,
+                label: lookupText(actor.name, locale),
+                description: actor.id,
+              }))}
+              onValueChange={setPartyCandidateId}
+            />
+          }
+          action={
+            <DsButton
+              disabled={readOnly || !selectedPartyCandidate}
+              onClick={addParty}
+              icon="add"
+              variant="secondary"
+            >
+              加入队伍
+            </DsButton>
+          }
+        />
         {partyActors.length === 0 ? <PageHint>当前项目没有可参战角色。</PageHint> : null}
         {partyActors.length > 0 && addablePartyActors.length === 0 ? (
           <PageHint>所有可参战角色都已在初始队伍中。</PageHint>
+        ) : null}
+        {orphanSeedActorIds.length > 0 ? (
+          <section className="project-orphan-seeds" aria-label="未入队状态覆盖">
+            <h5>未入队状态覆盖</h5>
+            <p>这些旧数据不会进入开局队伍。请确认后逐项清理；每次清理都可以撤销。</p>
+            <div className="project-orphan-seed-list">
+              {orphanSeedActorIds.map((actorId) => {
+                const actor = actors.find((candidate) => candidate.id === actorId)
+                const stats = value.seedStats?.[actorId] ?? {}
+                const state = !actor ? '角色缺失' : actor.battler ? '未入队' : '不可参战'
+                const name = actor ? lookupText(actor.name, locale) : actorId
+                return (
+                  <DsRepeatRow density="default" className="project-orphan-seed-row" key={actorId}>
+                    <span className="project-orphan-seed-identity">
+                      <strong>{name}</strong>
+                      <code>{actorId}</code>
+                    </span>
+                    <span className="project-orphan-seed-values">
+                      当前 HP {stats.hp ?? '未覆盖'} · 当前 MP {stats.mp ?? '未覆盖'}
+                    </span>
+                    <DsTag tone={state === '角色缺失' ? 'danger' : 'warning'}>{state}</DsTag>
+                    <DsButton
+                      aria-label={`清理未入队状态覆盖 ${actorId}`}
+                      disabled={readOnly}
+                      onClick={() => clearSeed(actorId)}
+                      icon="delete"
+                      variant="danger"
+                    >
+                      清理
+                    </DsButton>
+                  </DsRepeatRow>
+                )
+              })}
+            </div>
+          </section>
         ) : null}
         <span className="sr-only" role="status" aria-live="polite">
           {announcement}
@@ -770,10 +866,9 @@ export function StartWorldFields(props: {
           {inventory.map((row, index) => {
             const itemName = items.find((item) => item.id === row.itemId)?.name ?? row.itemId
             return (
-              <div className="project-repeat-row project-inventory-row" key={row.itemId}>
+              <DsRepeatRow density="default" className="project-inventory-row" key={row.itemId}>
                 <DsSequenceIndex value={index + 1} accessibleLabel={`初始道具第 ${index + 1} 项`} />
                 <DsSelect
-                  size="compact"
                   aria-label={`第 ${index + 1} 项初始道具`}
                   searchable
                   value={row.itemId}
@@ -826,47 +921,50 @@ export function StartWorldFields(props: {
                   }
                   label={`删除初始道具${itemName}`}
                   icon="delete"
-                  size="compact"
                   variant="danger"
                 />
-              </div>
+              </DsRepeatRow>
             )
           })}
-          <div className="project-repeat-composer">
-            <DsSelectField
-              id="start-world-inventory-adder"
-              label="添加道具"
-              fieldClassName="project-composer-field"
-              aria-label="添加初始道具"
-              searchable
-              value={selectedInventoryCandidate}
-              disabled={readOnly || addableItems.length === 0}
-              placeholder="搜索道具名称或 ID…"
-              options={addableItems.map((item) => ({
-                value: item.id,
-                label: item.name,
-                description: item.id,
-              }))}
-              onValueChange={setInventoryCandidateId}
-            />
-            <DsButton
-              disabled={readOnly || !selectedInventoryCandidate}
-              onClick={() => {
-                const item = addableItems.find(
-                  (candidate) => candidate.id === selectedInventoryCandidate,
-                )
-                if (!item) return
-                patch({ inventory: [...inventory, { itemId: item.id, count: 1 }] })
-                setInventoryCandidateId('')
-                setAnnouncement(`已添加初始道具${item.name}。`)
-              }}
-              icon="add"
-              size="compact"
-              variant="secondary"
-            >
-              添加道具
-            </DsButton>
-          </div>
+          <DsInlineComposer
+            density="default"
+            control={
+              <DsSelectField
+                id="start-world-inventory-adder"
+                label="添加道具"
+                fieldClassName="project-composer-field"
+                aria-label="添加初始道具"
+                searchable
+                value={selectedInventoryCandidate}
+                disabled={readOnly || addableItems.length === 0}
+                placeholder="搜索道具名称或 ID…"
+                options={addableItems.map((item) => ({
+                  value: item.id,
+                  label: item.name,
+                  description: item.id,
+                }))}
+                onValueChange={setInventoryCandidateId}
+              />
+            }
+            action={
+              <DsButton
+                disabled={readOnly || !selectedInventoryCandidate}
+                onClick={() => {
+                  const item = addableItems.find(
+                    (candidate) => candidate.id === selectedInventoryCandidate,
+                  )
+                  if (!item) return
+                  patch({ inventory: [...inventory, { itemId: item.id, count: 1 }] })
+                  setInventoryCandidateId('')
+                  setAnnouncement(`已添加初始道具${item.name}。`)
+                }}
+                icon="add"
+                variant="secondary"
+              >
+                添加道具
+              </DsButton>
+            }
+          />
           {inventory.length === 0 ? <PageHint>无初始道具。</PageHint> : null}
           {inventory.length > 0 && addableItems.length === 0 ? (
             <PageHint>所有道具都已加入初始库存。</PageHint>
@@ -886,7 +984,7 @@ export function StartWorldFields(props: {
           {Object.entries(value.resources ?? {})
             .sort(([left], [right]) => left.localeCompare(right))
             .map(([key, initialValue]) => (
-              <div className="project-repeat-row project-resource-row" key={key}>
+              <DsRepeatRow density="default" className="project-resource-row" key={key}>
                 <code>{key}</code>
                 <span>
                   初始值{' '}
@@ -907,106 +1005,53 @@ export function StartWorldFields(props: {
                   onClick={() => patchResource(key, undefined)}
                   label={`删除世界资源 ${key}`}
                   icon="delete"
-                  size="compact"
                   variant="danger"
                 />
-              </div>
+              </DsRepeatRow>
             ))}
-          <div className="project-repeat-composer project-resource-create">
-            <DsTextInput
-              value={newResourceKey}
-              name="startWorldResourceKey"
-              autoComplete="off"
-              spellCheck={false}
-              disabled={readOnly}
-              aria-label="新世界资源稳定键"
-              placeholder="新资源键，如 alchemyEnergy…"
-              onChange={(event) => setNewResourceKey(event.target.value)}
-              onKeyDown={(event) => {
-                if (
-                  event.key === 'Enter' &&
-                  !event.nativeEvent.isComposing &&
-                  event.nativeEvent.keyCode !== 229
-                ) {
-                  event.preventDefault()
-                  addResource()
+          <DsInlineComposer
+            density="default"
+            className="project-resource-create"
+            control={
+              <DsTextInput
+                value={newResourceKey}
+                name="startWorldResourceKey"
+                autoComplete="off"
+                spellCheck={false}
+                disabled={readOnly}
+                aria-label="新世界资源稳定键"
+                placeholder="新资源键，如 alchemyEnergy…"
+                onChange={(event) => setNewResourceKey(event.target.value)}
+                onKeyDown={(event) => {
+                  if (
+                    event.key === 'Enter' &&
+                    !event.nativeEvent.isComposing &&
+                    event.nativeEvent.keyCode !== 229
+                  ) {
+                    event.preventDefault()
+                    addResource()
+                  }
+                }}
+                monospace
+              />
+            }
+            action={
+              <DsButton
+                disabled={
+                  readOnly ||
+                  !newResourceKey.trim() ||
+                  newResourceKey.trim() === 'collectValue' ||
+                  Object.hasOwn(value.resources ?? {}, newResourceKey.trim())
                 }
-              }}
-              monospace
-            />
-            <DsButton
-              disabled={
-                readOnly ||
-                !newResourceKey.trim() ||
-                newResourceKey.trim() === 'collectValue' ||
-                Object.hasOwn(value.resources ?? {}, newResourceKey.trim())
-              }
-              onClick={addResource}
-              icon="add"
-              size="compact"
-              variant="secondary"
-            >
-              添加资源
-            </DsButton>
-          </div>
+                onClick={addResource}
+                icon="add"
+                variant="secondary"
+              >
+                添加资源
+              </DsButton>
+            }
+          />
         </div>
-      </section>
-
-      <section className="project-card">
-        <h4>
-          开局当前状态{' '}
-          <DsHelpTip label="开局当前状态">
-            可选。这里只覆盖本入口的开局当前
-            HP/MP；留空即继承角色定义的当前值，最大值始终由角色定义持有。
-          </DsHelpTip>
-        </h4>
-        {seedActorIds.map((actorId) => {
-          const actor = actors.find((candidate) => candidate.id === actorId)
-          const stats = value.seedStats?.[actorId] ?? {}
-          const inheritedHp = actor?.battler?.baseStats.hp
-          const inheritedMp = actor?.battler?.baseStats.mp
-          return (
-            <div className="project-inline-row project-seed-row" key={actorId}>
-              <span className="project-subtitle">
-                {actor ? lookupText(actor.name, locale) : actorId}
-              </span>
-              <code>{actorId}</code>
-              <DsDraftNumberField
-                label="当前 HP"
-                layout="inline"
-                min={0}
-                integer
-                allowEmpty
-                normalize={(next) => Math.max(0, Math.floor(next))}
-                draftKey={`${draftScope}:seedStats.${actorId}.hp`}
-                syncToken={syncToken}
-                value={stats.hp}
-                disabled={readOnly}
-                aria-label={`${actorId} 开局当前 HP，留空继承 ${inheritedHp ?? '未知'}`}
-                placeholder={inheritedHp === undefined ? '继承不可用' : `继承 ${inheritedHp}`}
-                onCommit={(value) => patchSeed(actorId, 'hp', value)}
-              />
-              <DsDraftNumberField
-                label="当前 MP"
-                layout="inline"
-                min={0}
-                integer
-                allowEmpty
-                normalize={(next) => Math.max(0, Math.floor(next))}
-                draftKey={`${draftScope}:seedStats.${actorId}.mp`}
-                syncToken={syncToken}
-                value={stats.mp}
-                disabled={readOnly}
-                aria-label={`${actorId} 开局当前 MP，留空继承 ${inheritedMp ?? '未知'}`}
-                placeholder={inheritedMp === undefined ? '继承不可用' : `继承 ${inheritedMp}`}
-                onCommit={(value) => patchSeed(actorId, 'mp', value)}
-              />
-            </div>
-          )
-        })}
-        {seedActorIds.length === 0 ? (
-          <PageHint>未设置当前 HP/MP 覆盖；开局继承角色定义的当前值。</PageHint>
-        ) : null}
       </section>
     </div>
   )

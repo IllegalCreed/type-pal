@@ -2,8 +2,10 @@ import {
   type ButtonHTMLAttributes,
   Children,
   type ComponentPropsWithoutRef,
+  cloneElement,
   forwardRef,
   isValidElement,
+  type ReactElement,
   type ReactNode,
   useState,
 } from 'react'
@@ -193,6 +195,85 @@ export function DsCatalogGroupList(props: { label: string; children: ReactNode }
 
 export function DsCatalogGroupEmpty(props: { children: ReactNode }) {
   return <p className="ds-catalog-group-list__empty">{props.children}</p>
+}
+
+type DsSizedRecipeElement = ReactElement<{ size?: DsControlSize }>
+
+function assertRecipeOwnsDensity(children: ReactNode, owner: string): void {
+  Children.forEach(children, (child) => {
+    if (!isValidElement(child)) return
+    const childProps = child.props as { children?: ReactNode; size?: DsControlSize }
+    if (Object.hasOwn(childProps, 'size')) throw new Error(`density 只能由 ${owner} 设置`)
+    if (childProps.children !== undefined) assertRecipeOwnsDensity(childProps.children, owner)
+  })
+}
+
+function withRecipeDensity(
+  element: DsSizedRecipeElement,
+  density: DsControlSize,
+  owner: string,
+): DsSizedRecipeElement {
+  assertRecipeOwnsDensity(element, owner)
+  return cloneElement(element, { size: density })
+}
+
+/**
+ * 选择/输入与尾部文字动作的唯一同行配方。density 只能在父级选一次，业务槽位不得自行覆写。
+ */
+export function DsInlineComposer(props: {
+  density: DsControlSize
+  control: DsSizedRecipeElement
+  action: DsSizedRecipeElement
+  className?: string
+}) {
+  return (
+    <div className={dsClasses('ds-inline-composer', props.className)} data-density={props.density}>
+      <div className="ds-inline-composer__layout">
+        <div className="ds-inline-composer__control">
+          {withRecipeDensity(props.control, props.density, 'DsInlineComposer')}
+        </div>
+        <div className="ds-inline-composer__action">
+          {withRecipeDensity(props.action, props.density, 'DsInlineComposer')}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/**
+ * 有序/可删除重复项的公共表面。领域 class 只决定列语义；尺寸档、边框和节奏由本配方持有。
+ */
+export function DsRepeatRow(props: {
+  density: DsControlSize
+  children: ReactNode
+  className?: string
+}) {
+  assertRecipeOwnsDensity(props.children, 'DsRepeatRow')
+  return (
+    <div className={dsClasses('ds-repeat-row', props.className)} data-density={props.density}>
+      {props.children}
+    </div>
+  )
+}
+
+/** 数值字段的有界宽度；窄容器中仍允许收缩到可用宽度。 */
+export function DsFieldMeasure(props: {
+  measure: 'short-number'
+  children: ReactNode
+  className?: string
+}) {
+  return (
+    <div
+      className={dsClasses(
+        'ds-field-measure',
+        `ds-field-measure--${props.measure}`,
+        props.className,
+      )}
+      data-measure={props.measure}
+    >
+      {props.children}
+    </div>
+  )
 }
 
 /**
