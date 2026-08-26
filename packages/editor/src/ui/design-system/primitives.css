@@ -1706,6 +1706,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ds-select-popover {
+    animation: none;
+  }
+
   .ds-button,
   .ds-icon-button,
   .ds-check-label,

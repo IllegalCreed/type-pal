@@ -1,6 +1,6 @@
 # ED-PROJECT-STARTUP-IA-1 - 入口与开局 / 全局资源与启动工作台收口
 
-Status: review（2026-08-26 Codex 验收返工 build、自测与 PAL/Design Lab 视觉验证完成；待 Kimi + GLM 正式 review accept）
+Status: review（2026-08-26 初始世界资源交互返工 build 完成；Codex accept，待 Kimi + GLM review）
 Phase: phase2
 Capability: X7
 Coding Owner: Codex
@@ -24,10 +24,14 @@ Branch: `codex/ed-project-startup-ia-1`
   - 队伍改为“有序成员列表 + 可搜索添加器”，不再铺满候选 checkbox；上移/下移/移除保持稳定顺序。
   - 队伍成员与该入口的当前 HP/MP 稀疏覆盖在同一成员行编辑；桌面数值字段保持紧凑，窄容器再分行。
     移出成员时在同一可撤销命令中删除其已失效的 `seedStats` 覆盖，不保留运行时不会消费的孤立入口数据。
-  - “加入队伍 / 添加道具 / 添加资源”三类 composer 迁入公共 `DsInlineComposer` recipe；选择/输入与尾部动作
-    由一个 density owner 决定，同行必须同尺寸同高，禁止业务页给其中一个按钮单独使用 `compact`。
-    静态/recipe 门禁必须含 mixed-density 负例。
-  - 库存、资源值复用标准重复行与标准新增/删除动作，窄宽度不折断动作。
+  - “加入队伍 / 添加道具”composer 迁入公共 `DsInlineComposer` recipe；选择与尾部动作由一个 density owner
+    决定，同行必须同尺寸同高，禁止业务页给其中一个按钮单独使用 `compact`。静态/recipe 门禁必须含
+    mixed-density 负例。
+  - “初始世界资源”普通流不再让作者发明内部 key；从项目内真实
+    `items[].use.effects[].drawFromResourcePool.resource` 引用动态派生候选，主信息显示消费该资源的物品名称，
+    稳定 key 只作次级信息。排除保留键和当前入口已配置项；无候选时只显示可理解的空态，不显示无意义输入框。
+  - 库存、资源值复用标准重复行与标准新增/删除动作，窄宽度不折断动作。载入时已有但当前无消费者的资源 key
+    仍作为 repair 行显式保留、可清理，不静默删除。
   - “全局资源与启动”：按 `ASSET_ROLES` 与分组源动态渲染，音乐/音效原位试听与“打开资源页”分离。
   - 项目概览删除写死数量和重复流程编辑入口；启动链改为三张直观摘要卡：默认开局、标题菜单、启动资源。
     默认开局直接展示入口名称、队员姓名、金钱、初始物品与开场视频状态；标题菜单展示可选故事数量/名称；
@@ -41,7 +45,9 @@ Branch: `codex/ed-project-startup-ia-1`
 - 明确不做:
   - 不恢复入口继承、默认开局模板、synthetic entry 或任何 fallback。
   - 不新增页面局部保存按钮，不让试听写入 `WorldState.audio.currentMusic`。
-  - 不把自由世界资源键伪装成预制枚举；若功能价值不足，须以证据删除而非继续堆说明。
+  - 不新增静态资源枚举，也不把自由世界资源键伪装成预制项；普通流的选项必须来自项目实际消费引用。
+  - 不在本卡新增 `ResourceDef` / 资源显示名 registry，不允许设置专用保留键 `collectValue`；若未来需要正式资源
+    定义表、单位或跨系统显示名，另开高风险 ARCH 卡。
 
 ## 前提真值门
 
@@ -75,11 +81,14 @@ Branch: `codex/ed-project-startup-ia-1`
 - `before -> after` 一句话: 分散 checkbox、raw 按钮、重复流程说明、跳转预览和 `s000/assets.roles` 机器摘要 ->
   有序添加/重复行/原位试听，以及“默认开局/标题菜单/启动资源”三张可读摘要卡；验收返工补充为
   “队伍顺序”与“开局当前状态”重复展示同一角色、宽数值框占据整行且移出队伍后可能遗留无效覆盖 ->
-  每个队员只出现一次并在成员行内编辑紧凑的当前 HP/MP，移出时原子清理该角色覆盖。
+  每个队员只出现一次并在成员行内编辑紧凑的当前 HP/MP，移出时原子清理该角色覆盖；资源交互返工补充为
+  “作者输入 `alchemyEnergy` 一类内部 key 才能添加初始世界资源” -> “从项目内真实消费引用选择可读资源；无
+  候选时显示明确空态，既有未知 key 只进入 repair 流”。
 - 代表场景: 编辑默认入口队伍与初始库存；在全局资源中试听默认战斗音乐；项目概览跳到对应唯一作者页。
 - 用户裁决: 2026-08-24 用户要求将入口、开局、全局资源与启动缺陷系统收口；2026-08-25 用户明确指出
   `s000`、`assets.roles` 等普通人无法理解，要求重做摘要并展示重要、直观的信息；2026-08-26 用户确认
-  队伍与当前 HP/MP 应合并，并批准按成员行方案开始返工。
+  队伍与当前 HP/MP 应合并，并批准按成员行方案开始返工；同日用户再次指出“初始世界资源”的内部 key 输入
+  没有用户能理解，要求改成选项或其他更简单的交互。
 
 ### 2026-08-26 验收返工前提补充
 
@@ -101,6 +110,31 @@ Branch: `codex/ed-project-startup-ia-1`
   清理本角色覆盖，并由 undo 提供恢复；对打开时已经存在的孤立覆盖，界面必须显示警告/清理行并保留明确修复路径。
 - 可证伪观察: 若存在正式入口流程需要为未入队角色预设当前 HP/MP，或 runtime/reserve 会消费这些覆盖，则必须
   停线并另开 schema/ownership 设计；当前源码未发现该消费链。
+
+### 2026-08-26 初始世界资源交互返工前提补充
+
+- `StartWorld.resources` / `WorldState.resources` 当前只是没有显示名、单位或定义 registry 的
+  `Record<string, number>`；validator 仅校验 key 非空、非保留键和 value 为非负安全整数，无法据此生成普通用户
+  可理解的静态选项。
+- 当前唯一通用消费入口是物品效果 `drawFromResourcePool.resource`，其资源字段同样是字符串；因此本卡可在不改
+  schema/runtime 的前提下，从项目实际物品效果反向派生“哪些资源需要入口初值”。主标签使用消费物品的可读名称，
+  多个物品共用同一 key 时合并成一个候选，稳定 key 降为次级信息。
+- 当前 `demo`、`e2e-own`、`pal` 三个 manifest 的 `startWorld.resources` 均为空；PAL 唯一已用资源键是
+  `collectValue`，由专用 `WorldState.collectValue` 持有，且已被 `StartWorld.resources` validator 明确排除。
+  因此把现有 key 集合直接做成下拉框会得到空的伪枚举，也不能把 `collectValue` 错当成普通世界资源。
+- 普通流取消任意 key 新建：候选来自项目内实际 `drawFromResourcePool` 引用，排除 `collectValue` 与当前入口已配置
+  key；有候选时使用可搜索选项并以 `0` 创建初值，无候选时显示“本项目没有需要为入口设置初值的自定义资源”。
+  载入时已有但当前无消费者的 key 保留为“未被使用的资源”repair 行，可修改数值或清理，不静默丢失。
+- 直接证据: `packages/content/src/character.ts:36-40,52-60`；`packages/content/src/item.ts:153-160,797-812`；
+  `packages/content/src/validate.ts:70-84,882-899`；
+  `packages/editor/src/ui/ProjectWorkbenchTab.tsx:574,668-673,975-1051`；
+  `packages/editor/src/ui/ItemUseEffectEditor.tsx:789-829`；`projects/pal/content/items.json:9407-9424`。
+- 最强替代解释: 开放 key 是高级作者扩展能力，保留自由输入最灵活。该能力的“定义 owner”实际不在入口初值页；
+  入口页只应为已经被系统消费的资源赋初值。继续让普通流发明裸 key 会产生没有消费者、名称和单位的悬空数据。
+  若未来确需先定义后消费，应另开 `ResourceDef` registry 卡，而不是在入口页保留隐式定义入口。
+- 可证伪观察: 若发现除 `drawFromResourcePool` 外已有 canonical 的世界资源定义/消费 registry，或真实工程需要在
+  尚无消费者时先定义资源且该入口由 runtime/tooling 正式消费，则本派生候选不完整，必须停线扩展 census 或另开
+  schema 卡；当前全库一手证据未发现该 owner。
 
 ## 上下文锚点
 
@@ -138,9 +172,13 @@ Branch: `codex/ed-project-startup-ia-1`
   - 移出带覆盖的成员只产生一条历史命令，同时删除 party 项和该 actor 的 seed；undo 一次同时恢复二者，redo
     同时清除，再加入时继承 ActorDef 基线。其他成员和既有 orphan seed 不受影响，空 seed map 归一为 undefined。
   - 已有非队伍 seed 只在存在时显示“未入队状态覆盖”及单项清理动作；缺失 actor 仍可见、可清理，不静默隐藏。
-  - 加入队伍、添加道具、添加资源的同行选择/输入与按钮在 default/compact 任一合法 density 下必须同高；本卡
-    采用公共 `DsInlineComposer`，不能通过三个页面局部 size 补丁达成。自动测试必须证明 mixed-density fixture
-    会失败；新增 recipe 按 DS-G.4 升 minor，并同步文档、代码常量与 CSS token 版本。
+  - 加入队伍、添加道具，以及存在真实资源候选时的添加资源 composer，其同行选择与按钮在 default/compact
+    任一合法 density 下必须同高；统一采用公共 `DsInlineComposer`，不能通过页面局部 size 补丁达成。自动测试
+    必须证明 mixed-density fixture 会失败；新增 recipe 按 DS-G.4 升 minor，并同步文档、代码常量与 CSS token 版本。
+  - 初始世界资源不得出现任意 key 文本框或 `alchemyEnergy` 一类示例。候选按实际
+    `drawFromResourcePool.resource` 引用动态派生、按 key 去重，排除 `collectValue` 和已配置项；选项主标签必须让
+    作者看见消费物品名称，内部 key 只作次级说明。零候选显示明确空态且不渲染 disabled composer；已有 orphan /
+    unknown key round-trip 不丢失，显示“未被使用”并可单步清理。
   - 库存、资源使用同一重复行合同；删除动作不换行，空态与新增路径清楚。角色初始技能只由
     `ActorDef.initialMagic` 持有，入口页不显示或保存技能快照。
   - 音乐和音效都能原位试听；试听与打开资源页是两个明确动作；切曲停止前一资源。
@@ -160,6 +198,9 @@ Branch: `codex/ed-project-startup-ia-1`
     聚焦草稿后移出、Enter + blur 单提交、对象切换与 command resync。
   - DS 专项覆盖公共 composer density 正例、default/compact 两档几何，以及“default control + compact action”
     负例；ProjectWorkbench 三个 composer 只消费公共 owner，采用矩阵不得只凭 primitive 名称判为 adopted。
+  - 资源选择专项覆盖 0 / 1 / 多候选、多个物品共用同一 key 去重、跨入口复用、`collectValue` 排除、当前入口已配置
+    项排除、选择后以 `0` 新建、改值/删除单步 undo/redo、已有 orphan/unknown key round-trip 与清理、长物品名和
+    稳定 key、键盘选择；旧的任意 key 输入与 IME 新建用例必须删除或改写，不能继续保护已废弃交互。
   - 连续字段命令次数遵守 `ED-FIELD-COMMIT-1`。
   - 概览专项测试覆盖正常/缺损默认入口、单/多入口、资源全齐/缺失、长名称；断言机器 token 和写死数量不出现，
     三张卡及两个导航动作读取 live manifest，入口/资源变化后摘要同步刷新。
@@ -167,6 +208,8 @@ Branch: `codex/ed-project-startup-ia-1`
   - 更新 `docs/phase2/editor/editor-design.md:210`，删除“八项/四组”等过期描述并记录实际数据驱动合同。
 - 视觉 / 手工验证:
   - PAL 真实工程下 1280、900、720px 检查两页与概览；无横向溢出、按钮折行、行高不齐、不可滚动或 popup 裁切。
+  - 以至少一个含自定义 `drawFromResourcePool` 的本地 fixture 验证资源选项可读标签、长名称、搜索/键盘、popup 与
+    单步撤销；PAL 零候选态不得残留不可用输入框或让用户猜内部 key。
 - E2E 用例登记: N/A（功能性界面在 build 期最小浏览器验证）。
 
 ## 推进签字
@@ -397,9 +440,121 @@ Branch: `codex/ed-project-startup-ia-1`
   counter；必落钉 K-R1-K-R4 / GM1-GM3 与未失效历史钉 KI1-KI2/KP1/GP1-GP2/GPS1-GPS2 一并携带。
   转 `build`，Coding Owner 保持 Codex，本轮签字仅授权返工范围，不得超出卡面范围改 schema/运行时。）**
 
-### 进入 done 前:审查签字
+### 2026-08-26 初始世界资源交互返工 build 准入签字（当前）
 
-- Codex: **accept（2026-08-26，本轮返工 candidate，含 720px 条件态复核修正）**。直接核对实现与运行证据：canonical schema/runtime
+> 本节是当前唯一 build 准入表。用户可见 `before -> after` 已刷新，上方所有 build / review 签字只保留为历史
+> 证据，不授权本轮实现或 `done`。
+
+- Codex:
+  - premise: **verified（2026-08-26）**。`StartWorld.resources` 是无 registry/label 的开放 Record，validator
+    仅校验 key/value 形状；当前 UI 直接要求填写 raw key 并以 `alchemyEnergy` 举例。全库 census 显示三个当前
+    manifest 均无自定义入口资源，唯一实际业务 key `collectValue` 是专用保留键；通用资源消费点为
+    `drawFromResourcePool.resource`。这证明“把已有 key 做静态下拉”与“继续补帮助文案”都不能形成可理解工作流。
+  - design: **agree（2026-08-26）**。普通流从项目实际 `drawFromResourcePool` 引用动态派生候选，按 key 去重、
+    排除 `collectValue` 与已配置项；用消费物品名称作主标签、key 作次级信息。零候选只显示空态；已有无消费者 key
+    保留 repair 行。不新增 schema/runtime/DS primitive，不把 `WorldVariableRegistry` 错当资源 registry。
+- Kimi:
+  - premise: **verified（2026-08-26 独立直读 schema/runtime/产物/构造 fixture，非代理）**。
+    ① 无 registry：`StartWorld.resources`/`WorldState.resources` 为裸 `Record<string, number>`
+    （character.ts:36-40,52-60）；`validateStartWorldResources`（validate.ts:70-84）仅校验 key 非空/
+    无首尾空格/非 `collectValue`（保留键抛错）与 value 非负安全整数——确实没有名称/单位/定义表可派生
+    静态选项。② 消费 owner 唯一：通用世界资源的唯一访问点是 `worldResourceValue/setWorldResourceValue`
+    （item.ts:797-812），唯一执行消费者是物品效果 `drawFromResourcePool`（item.ts:155,951-983）；
+    全仓 production grep（content/reforge/editor，排除测试）未见第二消费域或 canonical registry。
+    ③ `collectValue` 专用保留实锤：专用字段 `WorldState.collectValue`（character.ts:35），战斗收妖
+    直写该字段（battle-core.ts:1385-1387、main.ts:2611），访问器把 'collectValue' 映射到专用字段而非
+    resources 池（item.ts:800,810），validator 拒绝其进入 resources。④ 三 manifest census（本人复跑）：
+    pal/demo/e2e-own 全部 entryPoints 的 `startWorld.resources` 均缺席；PAL 唯一
+    drawFromResourcePool 物品紫金葫芦（items.json id=270）消费的正是保留键 `collectValue`——
+    普通池当前真实候选为零，空态是诚实当前态而非伪枚举。⑤ 非 collectValue fixture（本人构造）：
+    两物品共享 `alchemyEnergy` + 一物品独占 `starDust`，派生逻辑产出两个去重候选，主标签为消费物品
+    可读名拼接、key 次级——可读、去重、纯函数可测，方向成立。
+  - design: **agree（2026-08-26，附 K-W1-K-W3，build 必落钉）**：
+    - **K-W1（候选派生的确定性与排序）**：派生必须是只依赖 items 的纯函数；同 key 多消费者时主标签
+      按 item id 稳定排序拼接，key 以等宽次级信息展示；排除集 = `collectValue` + 当前入口已配置 key。
+    - **K-W2（repair 与零候选互斥边界）**：“未被使用的资源”repair 区只在已有无消费者 key 存在时
+      渲染，可与“无新候选”空态共存但不得合并；repair 单项清理 = 一条可撤销命令，与成员移出同一原子
+      纪律；repair 内修改数值继续走 FIELD 草稿合同。
+    - **K-W3（跨入口排除语义）**：“已配置”按当前正在编辑的入口计算；其他入口已配置的 key 不得
+      过滤出本入口候选（入口间 startWorld 独立，GLM 跨入口矩阵的同边界）。
+  - 边界确认：本设计不新增 `ResourceDef`、不复用 `WorldVariableRegistry`、不新增 DS primitive、
+    不改 schema/runtime；`alchemyEnergy` 类示例文案同步从 UI 删除。
+- GLM:
+  - premise: **verified（2026-08-26，本人一手读码 + 独立三工程 census + 构造 fixture 实跑，非代理）**：
+    1. **无 registry 实锤**：`character.ts:36-40` WorldState.resources 与 `:52-60` StartWorld.resources
+       均为无显示名/单位/定义的纯 `Record<string, number>`；`validate.ts:70-85` 仅形状校验（key 非空、
+       无首尾空格、值非负安全整数）；`world-variable.ts:1-19` 的 `WorldVariableRegistryV1` 是脚本变量
+       定义域（运行值在 WorldScriptState），与资源池不同域——资源确无任何定义表。
+    2. **消费 owner 唯一**：`item.ts:797-812` `worldResourceValue`/`setWorldResourceValue` 自注
+       “世界资源访问唯一入口”，全库 grep 证实 world.resources 生产读写仅此一处（`:733` 序列化 clone
+       除外）；执行点 `item.ts:951-952`（世界用物品效果）；战斗侧显式拒绝
+       （`battle-core.ts:2012-2024`“不能在战斗中执行”）；craftRecipe 材料是 itemId 不是世界资源
+       （`item.ts:152`）；migrate 不生成任何自定义资源键；reforge 的 collectValue 走专用字段
+       （`battle-core.ts:1385-1387` → `main.ts:2611`）。通用消费入口确为
+       `items[].use.effects[].drawFromResourcePool.resource`——未发现第二消费域，无需 counter。
+    3. **三 manifest census（本人复跑）**：demo / e2e-own / pal 全部 entry 的
+       `startWorld.resources` 均为 undefined；drawFromResourcePool census：demo NONE、e2e-own NONE、
+       pal 恰一条——item 270 紫金葫芦（`projects/pal/content/items.json:9407-9424`），
+       resource='collectValue'。“把已有 key 做静态下拉 = 空伪枚举”与“PAL 唯一业务键是保留键”
+       两条卡文结论均独立复现。
+    4. **collectValue 专用保留**：`character.ts:35` 专用字段；`validate.ts:80-81` schema 层拒绝
+       `resources.collectValue`（“保留资源必须使用专用世界字段”）；compat 访问器
+       `item.ts:800/:810` 双向映射——不得进普通候选，属实。
+    5. **非 collectValue fixture 实跑（本席满足反证要求）**：以真实 PAL items.json + 3 个注入消费者
+       （两件共用 `spiritWater`、一件独占 `treasurePoints`）按卡面派生规则实跑，得到 2 个候选：
+       `spiritWater` 去重为一条 label=“灵泉水、炼丹炉·水纹”（key 降为次级）、`treasurePoints`
+       独立一条——多物品共用 key 去重、物品名主标签、key 次级全部成立；label 源 `item.name` 是
+       纯字符串，且正是现有“添加道具”composer 已用的 label 字段——派生有库内先例，零新增
+       schema/primitive。
+  - design: **agree（2026-08-26，附 GR1-GR3 必落钉）**：
+    - **GR1（候选 census 单源 + 2×2 矩阵闭包）**：候选派生必须消费 StartWorldEditor 已持有的同一
+      live items 集合（与“添加道具”同源），不得二次快照；ItemUseEffectEditor 新增/删除
+      drawFromResourcePool 后入口页候选必须同步（live 派生断言）。测试以 2×2 全矩阵钉死——消费+
+      已配置=正常行、消费+未配置=候选、未消费+已配置=repair 行、未消费+未配置=不存在，外加
+      collectValue 永不出现、当前入口已配置项从候选排除且**其他入口候选不受影响**（跨入口复用
+      断言）。同一物品多个 effect 用同一 key 时 label 不得重复该物品名；多物品共用 key 的 label
+      合并顺序必须确定（按 items 表序或 id 排序），不得依赖遍历偶然。
+    - **GR2（命令边界矩阵）**：新增候选=一条 `SetStartupEntriesCommand` 以 0 建键（undo 删键并恢复
+      composer 选择、redo 复建）；改值沿用 FIELD-COMMIT Enter+blur 单命令；删除单命令可撤销；三项
+      互不粘连，其他既有键逐键不变。
+    - **GR3（零候选与长文案/窄宽）**：PAL 真实形态（零非 collectValue 消费）即真实零候选态——
+      空态文案出现且不渲染任何 composer（含 disabled）；有候选态长 label（多物品合并名可达 20+
+      字）在选项列表与选中回显两处都要有界/省略并保完整 tooltip（DS-F.4 截断合同）；720px 下
+      空态、repair 行、可搜索 popup（含键盘选择与 Escape 焦点恢复）不横向溢出。
+  - 独立反证 / 可证伪观察: ①若真实工程需要在物品效果尚未 authored 时先为入口预置资源键（“先配
+    初值后建消费者”的作者序），“候选=实际消费引用”前提失效——须停线另开 ResourceDef registry 卡
+    （卡面“明确不做”已预留该出口，不得偷塞本卡）；②若发现任何绕过 worldResourceValue 的
+    world.resources 读写或脚本/战斗命令写资源（本次 census 为零），消费 owner 唯一性失效须
+    counter；③若入口页候选与 ItemUseEffectEditor 的 resource 键不同步（live 派生断裂），GR1
+    失败即返工。
+- 独立 primary-source / 反证要求: 至少一位非 Owner 必须给出一个非 `collectValue` 的代表 fixture，证明同一
+  resource key 可由实际消费物品派生并在 UI 中得到可读且去重的选项；若发现 canonical registry 或其他消费 owner，
+  必须 `counter` 并列出遗漏域。**已满足**：GLM（2026-08-26，真实 PAL items + 注入消费者实跑）与
+  Kimi（2026-08-26，构造共享 key + 独占 key fixture 派生去重）分别独立完成，均未发现第二消费域。
+- counter / 分歧处理: N/A（三方结论一致且互补）
+- 缺签豁免: N/A
+- build 准入结论: **allowed（2026-08-26，Codex + Kimi（K-W1-K-W3）+ GLM（GR1-GR3）三签齐）。**
+
+### 进入 done 前:审查签字（当前资源交互返工 candidate）
+
+- Codex: **accept（2026-08-26）**。实现与验证直接覆盖 K-W1-K-W3 / GR1-GR3：候选仅由 live items 纯派生，
+  按 item id 稳定聚合并去重同物品重复 effect；`collectValue` 永久排除，已配置排除只看当前入口。消费+已配置、
+  消费+未配置、未消费+已配置、未消费+未配置四态分别落为正常行、可搜索候选、repair 行和不存在；新增以 0
+  建键，新增/改值/删除/清理各一条命令，undo/redo 与 composer 选择恢复通过。可读物品名是主信息，稳定 key
+  是等宽次级信息，长文案仅按需 opt-in 完整 title。新增/删除/清理已有焦点接力和 aria-live，搜索框继承
+  “添加世界资源”上下文，Escape 归还触发器焦点，reduced-motion 禁用 popup 入场动画。聚焦 2 files / 69 tests、
+  typecheck、DS gate（87 files / 3 evidence-bound exceptions）与 `git diff --check` 通过。PAL 真实零候选及临时
+  demo 条件 fixture 在 1280/900/720px 均无 document/card/popup 横向溢出；720px 动作按 recipe 单列，长标签、
+  repair、搜索和 Escape 均实机闭环。临时 fixture 已恢复，未修改 `projects/pal`，未改 schema/runtime。
+- Kimi: pending
+- GLM: pending
+- counter / 返工处理: N/A
+- 缺签豁免: N/A
+- done 准入结论: blocked（待 Kimi + GLM 分别 accept）
+
+### 进入 done 前:审查签字（历史候选；当前审查已停止）
+
+- Codex: **历史 accept（2026-08-26，上一轮返工 candidate，含 720px 条件态复核修正；因资源 UX 合同刷新而失效）**。直接核对实现与运行证据：canonical schema/runtime
   未改；成员行合并当前 HP/MP，移出通过同一次 `patch({party,seedStats})` 落为一条
   `SetStartupEntriesCommand`，pointerdown 阻止 dirty draft blur 幽灵提交；已有 orphan 按未入队/不可参战/
   角色缺失三态显式呈现并逐项可撤销清理。`DsInlineComposer` 父级注入单一 density 并拒绝 control/action
@@ -435,6 +590,9 @@ Branch: `codex/ed-project-startup-ia-1`
 - 对载入时已经存在、但 actor id 不在 party 的 canonical-valid `seedStats`，只在有数据时显示“未入队状态覆盖”
   警告/清理区；不得静默隐藏、自动批量删除或混入正常成员顺序。清理单项同样只提交一条可撤销命令。
 - 库存/资源使用同一 `repeatable row` recipe；选择/值/动作保持单行，窄容器按规范降为明确的上下块。
+- 初始世界资源不是资源“定义”页：从物品 `drawFromResourcePool` 的实际引用反向生成可搜索候选，显示消费物品
+  名称并将 key 降为次级信息；零候选为空态，已有无消费者 key 进入 repair 行。普通流不保留“高级自定义 key”
+  后门，避免同一页面既赋初值又隐式定义资源；正式定义能力若有需求另开 registry 卡。
 - 标准宽度下 repeat composer 的文字动作按内容宽度放在选择器尾部，成员 HP/MP 使用有界数值列；仅在窄容器
   堆叠布局下允许动作占满一行。该规则进入公共 DS 文档/recipe 测试，不以页面零散宽度补丁维持。
 - DS-F.4 的现有同行同高规则升级为可执行合同：compound/composer 由父级 density owner 统一控制 control/action，
@@ -463,12 +621,13 @@ Branch: `codex/ed-project-startup-ia-1`
 ### 主审立场
 
 - Reviewer: Kimi
-- 结论: agree（2026-08-25 按刷新后合同重签，KI1-KI2 已写回；GLM GPS1-GPS2 互补）
-- 必改项: 无新增；KI1（资源角色 label 单一来源）、KI2（起始位置健康态不显示裸 scene id）、
-  KP1（试听单通道）、GPS1（场景损坏判定单一真值源）、GPS2（待配置≠错误）为 build 必落钉。
-- 是否建议进入 build: 是（三签齐，前置合同已全部落地）
+- 结论: pending（2026-08-26 初始世界资源用户可见合同刷新；既有 agree 仅作历史记录）
+- 必改项: 待 Kimi / GLM 独立核验动态候选 owner、无候选空态、orphan repair、`collectValue` 排除和测试矩阵。
+- 是否建议进入 build: 是（2026-08-26 资源交互返工三签齐：K-W1-K-W3 + GR1-GR3 为 build 必落钉）。
 
-## Build: 实现与自测
+## Build: 实现与自测（历史候选）
+
+> 下列内容记录资源交互返工之前的 candidate；当前资源交互增量另记于本节末尾。
 
 - Coding Owner: Codex
 - 修改文件:
@@ -566,21 +725,73 @@ Branch: `codex/ed-project-startup-ia-1`
   - 实机字段：Escape 后值恢复空且 undo 仍 disabled；Enter 提交 `149` 后 undo/redo 为 `空 → 149 → 空`，
     未执行保存；PAL 与 Design Lab console error 均为 0。
 
+### 2026-08-26 初始世界资源交互返工增量（当前 candidate）
+
+- 修改文件:
+  - `packages/editor/src/ui/ProjectWorkbenchTab.tsx` / `.test.tsx`、`editor.css`。
+  - `packages/editor/src/ui/design-system/controls.tsx` / `.test.tsx`、`primitives.css`。
+- 实现摘要:
+  - `deriveStartWorldResourceCandidates(items)` 是唯一 live 派生入口：copy-sort item id、按 key 聚合、同物品同 key
+    去重、跳过空白/首尾空格与 `collectValue`，输出稳定消费物品名和 item id 证据。
+  - 当前入口资源按 2×2 矩阵渲染；普通作者只从可搜索的真实消费者候选新增，初值固定为 0；orphan 单独进入
+    “未被使用的资源”repair 区，零候选空态与 repair 可共存但不混为一项。其他入口同 key 不参与过滤。
+  - `DsSelect` 只增加可选的次级等宽标识和 option title，不对全编辑器无条件生成原生 tooltip；可搜索输入使用
+    所属控件上下文命名，popup 遵守 reduced-motion。资源新增后聚焦新值字段，删除后聚焦新增器，清理后聚焦
+    相邻资源/新增器/资源区稳定回退，并通过 live region 宣告结果。
+- 聚焦验证:
+  - `ProjectWorkbenchTab.test.tsx` + `design-system/controls.test.tsx`：**2 files / 69 tests passed**；覆盖纯派生、
+    2×2、live items、跨入口、长名称、搜索/Escape、焦点接力、单命令与 undo/redo。
+  - `pnpm --filter @type-pal/editor typecheck`：passed。
+  - `pnpm --filter @type-pal/editor audit:design-system`：**87 files / 3 evidence-bound exceptions，passed**。
+  - `git diff --check`：passed。受影响包耗时全量按批次纪律留到三张已签实现卡全部完成后只跑一次。
+- 功能界面证据:
+  - PAL 真实工程 1280/900/720px 均为真实零候选空态，无 raw key 输入/composer；document 与资源卡
+    `scrollWidth === clientWidth`。
+  - 不改 canonical 工程的临时 demo 条件 fixture 覆盖长合并名称、两个候选与 orphan repair；1280/900/720px
+    下 composer、repair、popup 均无横向溢出，720px 动作为单列 full-width；搜索“灵泉”只得一个聚合候选，
+    Escape 关闭 popup 并把焦点还给“添加世界资源”。fixture 与临时 dev server 均已清理。
+
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 本轮返工及 720px 条件态修正自验 accept；等待 Kimi + GLM 对当前 HEAD 正式复审。
-- 必须返工项: Owner 内部 high 已修复并有前后量测；pending Kimi / GLM reviewer findings。
-- Accept / rework: pending Kimi + GLM。
+- 审查结论: 当前资源交互返工 candidate 已完成，Codex accept；待 Kimi + GLM 对当前 diff 与验证证据分别
+  写回 accept/counter。
+- 必须返工项: 当前无 Coding Owner 自检 blocker；reviewer 如发现 consumer census、命令边界、窄宽或无障碍
+  反例必须转 rework，不得用历史 accept 代签。
+- Accept / rework: review；三方 done 签字未齐，不标 done。
 
 ## 用户验收
 
 - 用户结论: 2026-08-26 上一 candidate 的角色初始状态语义验收通过；入口工作台视觉验收提出本轮返工并批准
-  按 Codex 推荐方案推进，整卡尚未验收。
-- 后续任务: 2026-08-26 返工 build 已完成并转 review；Kimi + GLM 分别 accept 后交用户验收并收口。
+  按 Codex 推荐方案推进；随后再次明确指出“初始世界资源”的内部 key 输入不可理解，要求改成选项或更简单的
+  交互，整卡尚未验收。
+- 后续任务: 当前 candidate 待 Kimi + GLM 只读复审；同时 Coding Owner 可按冻结顺序转入已三签的
+  `ED-CATALOG-ROW-IA-1`，不得开始仍缺签的 `ARCH-ACTOR-CONDITION-SEED-1`。
 
 ## 交接日志
 
+- 2026-08-26 GLM: 状态同步——核验发现 Kimi 席已在本席写回的同窗口独立签字（K-W1-K-W3）并把
+  “初始世界资源交互返工 build 准入签字（当前）”的准入结论改为 allowed；本席仅同步 Status/看板/
+  主审立场/Review 结论/下一位提示词与门禁一致，未改动 Kimi 签字与其结论文本。K-W1（id 排序拼接）
+  与 GR1（live 单源+2×2 矩阵）互补钉死派生确定性；K-W3 与 GR1 跨入口断言同边界。
+- 2026-08-26 Kimi: 完成“初始世界资源”交互返工独立审查并签 premise verified + design agree
+  （附 K-W1 派生纯函数与稳定排序 / K-W2 repair 与零候选互斥且单项清理一条命令 / K-W3 跨入口
+  “已配置”按当前入口计算）。一手核验：schema 无 registry、唯一消费 owner drawFromResourcePool、
+  collectValue 专用保留、三 manifest resources 全空、PAL 唯一业务键为保留键、构造非 collectValue
+  fixture 证明派生可读去重；未发现第二消费域或 canonical registry，未触发 counter。未修改实现。
+  三签齐，准入开放。
+- 2026-08-26 GLM: 完成“初始世界资源”交互返工独立审查并重签 premise verified + design agree
+  （附 GR1 候选 census 单源+2×2 矩阵 / GR2 命令边界矩阵 / GR3 零候选与长文案窄宽）。一手核验：
+  resources 无 registry、worldResourceValue 唯一消费入口（战斗拒绝/craftRecipe 不沾/migrate 零生成）、
+  collectValue schema 级保留（validate.ts:80-81）、三 manifest startWorld.resources 全空 + 全库仅
+  紫金葫芦 collectValue 一条消费；构造 spiritWater/treasurePoints fixture 实跑派生得到去重可读候选
+  （item.name 主标签有“添加道具”composer 库内先例）。未发现第二消费域或 canonical registry，无
+  counter。Codex + GLM 已签，待 Kimi；未修改实现，未代签。
+- 2026-08-26 User + Codex: 用户再次指出“初始世界资源”要求输入 `alchemyEnergy` 一类内部 key，普通用户无法
+  理解，要求改用选项或更简单交互。Codex census 发现没有 canonical 资源 registry，三个当前 manifest 均无
+  自定义入口资源，PAL 唯一资源用法 `collectValue` 又是专用保留键；因此不做静态假枚举，改从真实
+  `drawFromResourcePool` 消费引用动态派生可读候选，无候选为空态，已有 unknown key 进入 repair。任务退回
+  `rework`，上一轮 build/review 签字失效；签字刷新前未修改实现。
 - 2026-08-26 Codex: Kimi/GLM review 签字表仍为 pending 时，内部 GM1 条件态复核发现 orphan 行在 720px
   被横向裁切。真实本地评审副本前后量测确认根因是 outer-center container owner + orphan nowrap；改为
   card-local container 与 `DsRepeatRow` 公共 shrink-safe 合同后，row 从 451/461 over 408 收到 408/408。
@@ -624,38 +835,59 @@ Branch: `codex/ed-project-startup-ia-1`
   伪入口/fallback、seed schema 留在 ARCH-ENTRY-ACTOR-SEED-1）；签 premise verified + design agree
   （附 KP1-KP3）。待 GLM 签字；build 排期在 ED-DS-3/ED-FIELD-COMMIT-1 公共合同之后。未修改实现文件。
 - 2026-08-24 Codex: 核对 canonical 入口、12 项资源角色和当前页面遗留，开独立 IA 卡。Next: Kimi/GLM 设计签字。
+- 2026-08-26 Codex: 初始世界资源交互返工单 Owner build 完成并转 review。live items 纯派生、2×2、
+  `collectValue` 排除、跨入口、repair、单命令、焦点/aria-live 与按需完整 title 均落地；聚焦 69、typecheck、
+  DS gate、PAL 真空态及条件 fixture 1280/900/720 通过，临时 fixture 已清理。Next: Kimi + GLM 只读复审
+  当前 candidate，分别写回 accept/counter；未三签不得标 done。
 
-## 下一位 Agent 提示词
+## 下一位 Agent 提示词（当前 review）
 
 ```text
-请联合复审 ED-PROJECT-STARTUP-IA-1 的 2026-08-26 验收返工实现。
+接手任务：ED-PROJECT-STARTUP-IA-1 初始世界资源交互返工只读复审。
 任务卡：docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md
-当前状态：review；分支 codex/ed-project-startup-ia-1；实现 Owner Codex。你是只读 reviewer，不得修改实现文件、
-不得代签另一席、不得标记 done。
+当前状态：review；Codex 已 accept，Kimi / GLM 当前 done 签字 pending。
+你的角色：Reviewer（Kimi 核架构/无障碍/视觉边界；GLM 核 census/2×2/命令与测试矩阵）。
 
-先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/board.md、本任务卡的“验收返工前提补充”
-“验收返工 build 准入签字”“2026-08-26 验收返工增量”，以及 editor-design-system-v1.md 的
-DS-F.4 / DS-L.7 / DS-G.4。以当前分支实际 diff 与一手测试为准，不复述 Codex 结论。
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡当前 build 准入 K-W1-K-W3 / GR1-GR3、
+“初始世界资源交互返工增量（当前 candidate）”与当前 done 签字表。审查当前工作区 diff/commit，不复用历史 accept。
 
-重点独立核查：
-1) K-R1/K-R4：focused dirty draft 后移出只产生一条 SetStartupEntriesCommand，party + 本 actor seed 同删，
-   空 map→undefined；undo 恢复旧 seed，redo 同删，再加入是 seed 缺席/继承而非 undo 状态。
-2) K-R2/K-R3：DsInlineComposer 父级唯一 density，control/action 任一显式 size 均失败；桌面 intrinsic、<480px
-   单列；DS 文档/index/token/Design Lab 版本均为 2.11.0。
-3) GM1：census 必须含三 composer、成员、库存、资源、orphan 重复行，不能只查截图点名处；不存在
-   project-repeat-composer/project-repeat-row/project-seed-row 回流。另请独立核 `.project-card` 是实际容器
-   owner、`DsRepeatRow` child shrink-safe，且 orphan values 不得恢复 nowrap；720px 条件态不能只看
-   document overflow=0，必须逐行比较 scroll/client width 与子项矩形。
-4) GM2/GM3：未入队 battler、无 battler、缺失 actor 三态都可见且逐项单命令清理；其他 seed key 保持，
-   remove/undo/redo/re-add 各步形状合法。
-5) schema/runtime/ActorDef ownership 未漂移，项目页没有技能/装备/属性/最大值快照通道。
+重点核对：候选是否只消费 live items 并稳定去重；collectValue/当前入口/跨入口边界；2×2 与 orphan repair；
+新增/改值/删除/清理是否各一条命令并可撤销；长名称/技术 key 层级；搜索、Escape、add/delete/repair 焦点；
+1280/900/720 popup 与横向溢出。不得改实现文件，不得代签另一席。
 
-现有证据：原聚焦 3 files/108；响应式 follow-up 2 files/81；当前 Editor check 158 files/1209 + typecheck；
-DS gate 87 files/3 allowlist；build；PAL 1280/900/720、Design Lab v2.11.0 两档几何、Escape/Enter/undo/redo；
-720px orphan 真实条件态从 451/461 over 408 收到 408/408；console 0 error。
+输出：在任务卡“进入 done 前:审查签字（当前资源交互返工 candidate）”写入 accept，或写 counter + 直接证据
+和返工项；同步 Review/交接日志。Kimi + GLM 都 accept 前不得标 done。
+```
 
-请各自把独立结论写回任务卡“进入 done 前:审查签字”：accept，或 counter + file:line / 可复现测试 / 视觉
-证据与明确返工项。Kimi + GLM 两席未全部 accept 前不得标 done；不得开始下一张实现卡。
+## 下一位 Agent 提示词（历史 build）
+
+```text
+接手任务：ED-PROJECT-STARTUP-IA-1 入口与开局 / 全局资源与启动工作台收口——初始世界资源交互返工 build。
+任务卡：docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md
+当前状态：build（2026-08-26 Codex + Kimi（K-W1-K-W3）+ GLM（GR1-GR3）三签齐，准入 allowed）。
+你的角色：Coding Owner（唯一实现者；分支 codex/ed-project-startup-ia-1；本轮仅授权资源交互返工范围）。
+
+先读：任务卡“初始世界资源交互返工前提补充”“验收条件”“初始世界资源交互返工 build 准入签字（当前）”
+三席全文与必落钉（K-W1-K-W3 / GR1-GR3，另携带未失效历史钉 K-R1-K-R4 / GM1-GM3）、
+ED-FIELD-COMMIT-1 合同、DS v2.11.0 recipe（DsInlineComposer / DsRepeatRow 已在位）。
+
+必落钉（build 期完成，缺一即返工）：
+- K-W1 候选派生为只依赖 items 的纯函数；同 key 多消费者主标签按 item id 稳定排序拼接、key 等宽次级；
+  排除集 = collectValue + 当前入口已配置 key。
+- K-W2 “未被使用的资源”repair 区仅在有 orphan key 时渲染，可与零候选空态共存但不合并；单项清理一条
+  可撤销命令；repair 内改值走 FIELD 草稿合同。
+- K-W3 “已配置”按当前编辑入口计算，其他入口已配置 key 不过滤本入口候选。
+- GR1 派生消费 StartWorldEditor 同一 live items 集合，不得二次快照；2×2 全矩阵测试（消费+已配置/
+  消费+未配置/未消费+已配置/未消费+未配置）+ collectValue 永不出现 + 跨入口断言 + 同物品多 effect
+  同 key 不重复 label；ItemUseEffectEditor 增删 drawFromResourcePool 后入口候选同步（live 断言）。
+- GR2 新增候选=一条 SetStartupEntriesCommand 以 0 建键（undo 删键恢复 composer、redo 复建）；改值
+  Enter+blur 单命令；删除单命令；互不粘连、其他键逐键不变。
+- GR3 PAL 真实零候选态只显示空态不渲染 composer（含 disabled）；长合并 label（多物品名拼接）在选项
+  列表与选中回显两处有界/省略+完整 tooltip；720px 空态/repair/可搜索 popup（键盘+Escape）不横向溢出。
+
+输出：聚焦测试先行 → editor 全量/typecheck/DS gate 各一次 → PAL 真实工程（零候选态）+ 含
+drawFromResourcePool 的本地 fixture（多候选/长名称/搜索键盘/undo-redo）验证 → build 摘要写回任务卡，
+转 review。未获三方 accept 前不得标 done。
 ```
 - 2026-08-24 GLM（覆盖/数据/测试矩阵）: 审查完成，签 **premise verified + design agree
   （附 GP1-GP2）**。ASSET_ROLES 12 项独立枚举（audio 9+video 2+visual 1）vs :1686 写死
@@ -676,3 +908,9 @@ DS gate 87 files/3 allowlist；build；PAL 1280/900/720、Design Lab v2.11.0 两
   重复行两处同类混档（:776/:804、:893/:905）** → GM1 钉 density census 闭包、GM2 钉 orphan 三态
   矩阵、GM3 钉原子清理断言。三签齐（Codex + Kimi K-R1-K-R4 + GLM），准入 **allowed**，状态转
   build。未改实现，未代签 Kimi。
+- 2026-08-26 GLM（资源交互返工重签）: 完成“初始世界资源”交互返工独立审查并重签 **premise verified +
+  design agree（附 GR1-GR3）**。resources 无 registry、worldResourceValue 唯一消费入口（战斗拒绝/
+  craftRecipe 不沾/migrate 零生成）、collectValue schema 级保留、三 manifest resources 全空、全库仅
+  紫金葫芦 collectValue 一条消费——全部一手复现；构造 spiritWater/treasurePoints fixture 实跑派生
+  得到去重可读候选（item.name 主标签有库内先例）。未发现第二消费域，无 counter。Codex + GLM 已签，
+  待 Kimi；未修改实现，未代签。

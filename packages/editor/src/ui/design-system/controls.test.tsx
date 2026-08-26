@@ -728,6 +728,40 @@ describe('editor design-system controls', () => {
     expect(onValueChange).toHaveBeenCalledWith('c')
   })
 
+  test('select preserves full clipped copy and supports a monospace secondary identifier', async () => {
+    await act(async () =>
+      root.render(
+        <DsSelect
+          aria-label="资源候选"
+          title="灵泉水、炼丹炉·水纹超级长名称 · spiritWater"
+          value="spirit-water"
+          options={[
+            {
+              value: 'spirit-water',
+              label: '灵泉水、炼丹炉·水纹超级长名称',
+              description: 'spiritWater',
+              title: '灵泉水、炼丹炉·水纹超级长名称 · spiritWater',
+              descriptionMonospace: true,
+            },
+          ]}
+          onValueChange={() => undefined}
+        />,
+      ),
+    )
+
+    const trigger = host.querySelector<HTMLButtonElement>('[aria-label="资源候选"]')!
+    expect(trigger.title).toBe('灵泉水、炼丹炉·水纹超级长名称 · spiritWater')
+    expect(trigger.querySelector('.ds-select__description')?.classList).toContain(
+      'ds-control--monospace',
+    )
+    await click(trigger)
+    const option = document.querySelector<HTMLElement>('[role="option"]')!
+    expect(option.title).toBe('灵泉水、炼丹炉·水纹超级长名称 · spiritWater')
+    expect(option.querySelector('.ds-select-option__description')?.classList).toContain(
+      'ds-control--monospace',
+    )
+  })
+
   test('select keeps its popup inside the nearest native dialog top-layer context', async () => {
     vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
       callback(0)

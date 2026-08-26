@@ -2,6 +2,7 @@
 import {
   ASSET_ROLE_KINDS,
   ASSET_ROLES,
+  type ItemData,
   type StartWorld,
   validateStartWorld,
 } from '@type-pal/content'
@@ -14,6 +15,7 @@ import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { collectProjectIssues, type ProjectIssue } from '../core/project-diagnostics.js'
 import {
+  deriveStartWorldResourceCandidates,
   groupProjectIssues,
   IssueList,
   type ProjectWorkbenchPage,
@@ -45,6 +47,15 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
   })
 }
 
+async function nextAnimationFrame(): Promise<void> {
+  await act(
+    async () =>
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => resolve())
+      }),
+  )
+}
+
 async function chooseSelectOption(trigger: HTMLButtonElement, label: string): Promise<void> {
   await act(async () => trigger.click())
   const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
@@ -54,13 +65,38 @@ async function chooseSelectOption(trigger: HTMLButtonElement, label: string): Pr
   await act(async () => option!.click())
 }
 
-function ResourceHarness() {
+function resourceItem(id: string, name: string, resources: string[]): ItemData {
+  return {
+    id,
+    name,
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+    use: {
+      target: 'scene',
+      consuming: false,
+      effects: resources.map((resource) => ({
+        kind: 'drawFromResourcePool' as const,
+        resource,
+        maxRoll: 1,
+        rewards: [],
+      })),
+    },
+  }
+}
+
+function ResourceHarness(props: { items?: ItemData[]; initialResources?: Record<string, number> }) {
+  const { items = [], initialResources } = props
   const [value, setValue] = useState<StartWorld>({
     party: [],
     money: 0,
     inventory: [],
+    ...(initialResources ? { resources: initialResources } : {}),
   })
-  return <StartWorldFields value={value} actors={[]} items={[]} locale={{}} onChange={setValue} />
+  return (
+    <StartWorldFields value={value} actors={[]} items={items} locale={{}} onChange={setValue} />
+  )
 }
 
 function projectState(): EditorState {
@@ -737,6 +773,10 @@ describe('入口开局世界资源', () => {
       },
     ]
     state.locale['name.hero'] = '主角'
+    state.items = [
+      resourceItem('item.a', '道具 A', ['alchemyEnergy']),
+      resourceItem('item.b', '道具 B', ['starDust']),
+    ]
     state.manifest.entryPoints[0]!.startWorld.party = ['hero']
     state.manifest.entryPoints[0]!.startWorld.inventory = [{ itemId: 'item.a', count: 2 }]
     state.manifest.entryPoints[0]!.startWorld.resources = { alchemyEnergy: 4 }
@@ -823,67 +863,175 @@ describe('入口开局世界资源', () => {
     }
   })
 
-  test('可新增、修改和删除稳定资源键，并拒绝重复定义 collectValue', async () => {
-    await act(async () => root.render(<ResourceHarness />))
+  test('世界资源候选按稳定物品 id 聚合、去重并排除 collectValue', () => {
+    const candidates = deriveStartWorldResourceCandidates([
+      resourceItem('z-item', '炼丹炉·水纹', ['spiritWater', 'spiritWater']),
+      resourceItem('a-item', '灵泉水', ['spiritWater', 'collectValue']),
+      resourceItem('b-item', '星尘瓶', ['starDust']),
+    ])
 
-    const keyInput = host.querySelector<HTMLInputElement>('input[aria-label="新世界资源稳定键"]')!
-    const addButton = button(host, '添加资源')
-    await input(keyInput, 'alchemyEnergy')
-    expect(addButton.disabled).toBe(false)
-    await act(async () => addButton.click())
-
-    const valueInput = host.querySelector<HTMLInputElement>(
-      'input[aria-label="alchemyEnergy 初始值"]',
-    )!
-    expect(valueInput.value).toBe('0')
-    await input(valueInput, '7')
-    expect(valueInput.value).toBe('7')
-
-    const row = valueInput.closest('.project-resource-row')!
-    await act(async () =>
-      (row as HTMLElement)
-        .querySelector<HTMLButtonElement>('[aria-label="删除世界资源 alchemyEnergy"]')!
-        .click(),
-    )
-    expect(host.querySelector('input[aria-label="alchemyEnergy 初始值"]')).toBeNull()
-
-    await input(keyInput, 'collectValue')
-    expect(addButton.disabled).toBe(true)
+    expect(candidates).toEqual([
+      {
+        key: 'spiritWater',
+        label: '灵泉水、炼丹炉·水纹',
+        consumerItemIds: ['a-item', 'z-item'],
+      },
+      { key: 'starDust', label: '星尘瓶', consumerItemIds: ['b-item'] },
+    ])
   })
 
-  test('中文输入法确认资源键时不把组合态 Enter 当成新增动作', async () => {
-    await act(async () => root.render(<ResourceHarness />))
-
-    const keyInput = host.querySelector<HTMLInputElement>('input[aria-label="新世界资源稳定键"]')!
-    await input(keyInput, 'alchemyEnergy')
+  test('资源面板落实 2×2 状态矩阵、可读候选、repair 与真实零候选空态', async () => {
+    const items = [
+      resourceItem('a-item', '灵泉水', ['spiritWater', 'collectValue']),
+      resourceItem('z-item', '炼丹炉·水纹超级长名称用于验证完整提示', ['spiritWater']),
+      resourceItem('star-item', '星尘瓶', ['starDust']),
+    ]
     await act(async () =>
-      keyInput.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter', keyCode: 229, bubbles: true }),
+      root.render(
+        <ResourceHarness
+          key="resource-matrix"
+          items={items}
+          initialResources={{ starDust: 2, legacyEnergy: 7 }}
+        />,
       ),
     )
-    expect(host.querySelector('input[aria-label="alchemyEnergy 初始值"]')).toBeNull()
+
+    expect(host.querySelector('input[aria-label="新世界资源稳定键"]')).toBeNull()
+    expect(host.textContent).toContain('星尘瓶')
+    expect(host.textContent).toContain('未被使用的资源')
+    expect(host.textContent).toContain('legacyEnergy')
+    expect(host.textContent).not.toContain('collectValue')
+    const trigger = host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]')!
+    expect(trigger).not.toBeNull()
+    await act(async () => trigger.click())
+    await nextAnimationFrame()
+    const search = document.querySelector<HTMLInputElement>('.ds-select-popover__search-input')!
+    expect(search.getAttribute('aria-label')).toBe('筛选添加世界资源')
+    expect(document.activeElement).toBe(search)
+    await input(search, '灵泉水')
+    expect(document.querySelectorAll('[role="option"]')).toHaveLength(1)
+    await act(async () =>
+      search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
+    )
+    await nextAnimationFrame()
+    expect(document.querySelector('.ds-select-popover')).toBeNull()
+    expect(document.activeElement).toBe(trigger)
+    await act(async () => trigger.click())
+    const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (candidate) =>
+        candidate.textContent?.includes('灵泉水、炼丹炉·水纹超级长名称用于验证完整提示'),
+    )!
+    expect(option.title).toBe('灵泉水、炼丹炉·水纹超级长名称用于验证完整提示 · spiritWater')
+    await act(async () => option.click())
+    expect(trigger.title).toBe('灵泉水、炼丹炉·水纹超级长名称用于验证完整提示 · spiritWater')
+    await act(async () => button(host, '添加资源').click())
+    const addedInput = host.querySelector<HTMLInputElement>(
+      'input[aria-label="灵泉水、炼丹炉·水纹超级长名称用于验证完整提示（资源 spiritWater）初始值"]',
+    )!
+    expect(document.activeElement).toBe(addedInput)
+    await act(async () =>
+      host
+        .querySelector<HTMLButtonElement>(
+          '[aria-label="删除灵泉水、炼丹炉·水纹超级长名称用于验证完整提示使用的初始世界资源"]',
+        )!
+        .click(),
+    )
+    expect(document.activeElement).toBe(
+      host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]'),
+    )
+    await act(async () =>
+      host
+        .querySelector<HTMLButtonElement>('[aria-label="清理未被使用的世界资源 legacyEnergy"]')!
+        .click(),
+    )
+    expect(document.activeElement).toBe(
+      host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]'),
+    )
+    expect(host.querySelector('[role="status"]')?.textContent).toContain(
+      '已清理未被使用的世界资源 legacyEnergy',
+    )
 
     await act(async () =>
-      keyInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+      root.render(
+        <ResourceHarness
+          key="resource-zero-candidate"
+          items={[resourceItem('reserved', '葫芦', ['collectValue'])]}
+          initialResources={{ legacyEnergy: 7 }}
+        />,
+      ),
     )
-    expect(host.querySelector('input[aria-label="alchemyEnergy 初始值"]')).not.toBeNull()
+    expect(host.textContent).toContain('本项目没有需要为入口设置初值的自定义资源')
+    expect(host.textContent).toContain('未被使用的资源')
+    expect(host.querySelector('[aria-label="添加世界资源"]')).toBeNull()
+  })
+
+  test('资源候选直接消费 live items，物品效果变化后同步出现', async () => {
+    await act(async () => root.render(<ResourceHarness items={[]} />))
+    expect(host.querySelector('[aria-label="添加世界资源"]')).toBeNull()
+
+    await act(async () =>
+      root.render(
+        <ResourceHarness items={[resourceItem('live-item', '即时炼化物品', ['livePool'])]} />,
+      ),
+    )
+    const trigger = host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]')!
+    expect(trigger).not.toBeNull()
+    await act(async () => trigger.click())
+    expect(document.querySelector('[role="option"]')?.textContent).toContain('即时炼化物品')
   })
 
   test('世界资源新增、提交、删除各自只写一条命令并可单步撤销', async () => {
-    const session = new EditSession(projectState())
+    const state = projectState()
+    state.items = [resourceItem('alchemy-item', '炼化壶', ['alchemyEnergy'])]
+    state.manifest.entryPoints[0]!.startWorld.resources = { legacyEnergy: 4 }
+    state.manifest.entryPoints.push({
+      id: 'other',
+      label: '其他入口',
+      scene: 's000',
+      startWorld: { party: [], money: 0, inventory: [], resources: { alchemyEnergy: 3 } },
+    })
+    const session = new EditSession(state)
     await act(async () => root.render(projectTab('entrypoint', session)))
 
-    const keyInput = host.querySelector<HTMLInputElement>('input[aria-label="新世界资源稳定键"]')!
-    await input(keyInput, 'alchemyEnergy')
+    const beforeRepair = session.getHistoryVersion()
+    await act(async () =>
+      host
+        .querySelector<HTMLButtonElement>('[aria-label="清理未被使用的世界资源 legacyEnergy"]')!
+        .click(),
+    )
+    expect(session.getHistoryVersion()).toBe(beforeRepair + 1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toBeUndefined()
+    expect(host.querySelector('[role="status"]')?.textContent).toContain(
+      '已清理未被使用的世界资源 legacyEnergy',
+    )
+    expect(session.undo()).toBe(true)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    const resourceSelect = host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]')!
+    await chooseSelectOption(resourceSelect, '炼化壶')
+    const beforeAdd = session.getHistoryVersion()
     await act(async () => button(host, '添加资源').click())
-    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getHistoryVersion()).toBe(beforeAdd + 1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
+      legacyEnergy: 4,
       alchemyEnergy: 0,
     })
-
+    expect(session.getState().manifest.entryPoints[1]!.startWorld.resources).toEqual({
+      alchemyEnergy: 3,
+    })
+    expect(session.undo()).toBe(true)
     await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
+      legacyEnergy: 4,
+    })
+    expect(
+      host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]')!.textContent,
+    ).toContain('炼化壶')
+    expect(session.redo()).toBe(true)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
     const valueInput = host.querySelector<HTMLInputElement>(
-      'input[aria-label="alchemyEnergy 初始值"]',
+      'input[aria-label="炼化壶（资源 alchemyEnergy）初始值"]',
     )!
     const beforeValue = session.getHistoryVersion()
     await input(valueInput, '9')
@@ -893,18 +1041,24 @@ describe('入口开局世界资源', () => {
     await act(async () => valueInput.blur())
     expect(session.getHistoryVersion()).toBe(beforeValue + 1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
+      legacyEnergy: 4,
       alchemyEnergy: 9,
     })
 
-    await act(async () => root.render(projectTab('entrypoint', session)))
     const beforeDelete = session.getHistoryVersion()
     await act(async () =>
-      host.querySelector<HTMLButtonElement>('[aria-label="删除世界资源 alchemyEnergy"]')!.click(),
+      host.querySelector<HTMLButtonElement>('[aria-label="删除炼化壶使用的初始世界资源"]')!.click(),
     )
     expect(session.getHistoryVersion()).toBe(beforeDelete + 1)
-    expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toBeUndefined()
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
+      legacyEnergy: 4,
+    })
+    expect(host.querySelector('[role="status"]')?.textContent).toContain(
+      '已删除炼化壶使用的初始世界资源',
+    )
     expect(session.undo()).toBe(true)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
+      legacyEnergy: 4,
       alchemyEnergy: 9,
     })
   })

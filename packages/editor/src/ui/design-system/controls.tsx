@@ -527,6 +527,7 @@ type DsDraftTextInputProps = Omit<
   DsFormControlAppearance &
   DsDraftInputContract & {
     value: string
+    inputRef?: Ref<HTMLInputElement>
   }
 
 function draftSource(draftKey: string, syncToken: string | number | undefined, value: string) {
@@ -547,6 +548,7 @@ export function DsDraftTextInput(props: DsDraftTextInputProps) {
     onCommit,
     onCancel,
     invalid,
+    inputRef,
     title,
     ...controlProps
   } = props
@@ -561,6 +563,7 @@ export function DsDraftTextInput(props: DsDraftTextInputProps) {
   return (
     <DsTextInput
       {...controlProps}
+      ref={inputRef}
       value={controller.value}
       invalid={invalid || Boolean(controller.error)}
       title={controller.error ?? title}
@@ -1079,6 +1082,10 @@ export interface DsOption {
   value: string
   label: string
   description?: string
+  /** Opt-in native disclosure for copy that may be clipped by a constrained option row. */
+  title?: string
+  /** Stable technical identifiers may use the secondary slot without forcing the primary label to monospace. */
+  descriptionMonospace?: boolean
   disabled?: boolean
 }
 
@@ -1487,7 +1494,16 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
       >
         <span className="ds-select__content">
           <span className="ds-select__value">{displayLabel}</span>
-          {description ? <span className="ds-select__description">{description}</span> : null}
+          {description ? (
+            <span
+              className={classes(
+                'ds-select__description',
+                selected?.descriptionMonospace && 'ds-control--monospace',
+              )}
+            >
+              {description}
+            </span>
+          ) : null}
         </span>
         <DsIcon name={open ? 'chevron-up' : 'chevron-down'} />
       </button>
@@ -1518,7 +1534,14 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
               aria-autocomplete="list"
               aria-invalid={invalid || undefined}
               aria-required={required || undefined}
-              aria-labelledby={classes(buttonProps['aria-labelledby'], `${searchId}-label`)}
+              aria-label={
+                buttonProps['aria-label'] ? `筛选${buttonProps['aria-label']}` : undefined
+              }
+              aria-labelledby={
+                buttonProps['aria-label']
+                  ? undefined
+                  : classes(buttonProps['aria-labelledby'], `${searchId}-label`)
+              }
               placeholder={`搜索 ${options.length} 项`}
               onChange={(event) => {
                 const nextQuery = event.currentTarget.value
@@ -1607,6 +1630,7 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
                       aria-posinset={virtual ? virtualStart + renderedIndex + 1 : undefined}
                       aria-setsize={virtual ? filteredOptions.length : undefined}
                       data-active={activeOption || undefined}
+                      title={option.title}
                       onPointerMove={() => {
                         if (!option.disabled) setActiveValue(option.value)
                       }}
@@ -1616,7 +1640,12 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
                       <span className="ds-select-option__copy">
                         <span className="ds-select-option__label">{option.label}</span>
                         {option.description ? (
-                          <span className="ds-select-option__description">
+                          <span
+                            className={classes(
+                              'ds-select-option__description',
+                              option.descriptionMonospace && 'ds-control--monospace',
+                            )}
+                          >
                             {option.description}
                           </span>
                         ) : null}

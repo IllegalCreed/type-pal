@@ -104,6 +104,36 @@ const ISSUE_PAGE_SIZE = 80
 const ADAPTIVE_ISSUE_TITLE_MAX_LENGTH = 72
 const PROJECT_NUMBER_FORMAT = new Intl.NumberFormat('zh-CN')
 
+export interface StartWorldResourceCandidate {
+  key: string
+  label: string
+  consumerItemIds: string[]
+}
+
+/** 从当前 live 物品定义反向派生入口可配置的普通世界资源；不创造第二份资源 registry。 */
+export function deriveStartWorldResourceCandidates(
+  items: readonly ItemData[],
+): StartWorldResourceCandidate[] {
+  const consumersByResource = new Map<string, Map<string, string>>()
+  for (const item of [...items].sort((left, right) => left.id.localeCompare(right.id))) {
+    for (const effect of item.use?.effects ?? []) {
+      if (effect.kind !== 'drawFromResourcePool') continue
+      const key = effect.resource.trim()
+      if (!key || key !== effect.resource || key === 'collectValue') continue
+      const consumers = consumersByResource.get(key) ?? new Map<string, string>()
+      if (!consumers.has(item.id)) consumers.set(item.id, item.name)
+      consumersByResource.set(key, consumers)
+    }
+  }
+  return [...consumersByResource.entries()]
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([key, consumers]) => ({
+      key,
+      label: [...consumers.values()].join('、'),
+      consumerItemIds: [...consumers.keys()],
+    }))
+}
+
 export function IssueList(props: {
   issues: readonly ProjectIssue[]
   onOpenLocation?: (location: EditorLocation) => void
@@ -571,19 +601,28 @@ export function StartWorldFields(props: {
     syncToken = 0,
     onChange,
   } = props
-  const [newResourceKey, setNewResourceKey] = useState('')
+  const [resourceCandidateKey, setResourceCandidateKey] = useState('')
   const [partyCandidateId, setPartyCandidateId] = useState('')
   const [inventoryCandidateId, setInventoryCandidateId] = useState('')
   const [announcement, setAnnouncement] = useState('')
   const rootRef = useRef<HTMLDivElement>(null)
   const partyRemoveRefs = useRef(new Map<string, HTMLButtonElement>())
   const pendingPartyFocusRef = useRef<{ actorId?: string } | undefined>(undefined)
-  // biome-ignore lint/correctness/useExhaustiveDependencies: external command/object resync clears unfinished add-row choices.
+  const resourceSectionRef = useRef<HTMLElement>(null)
+  const resourceValueRefs = useRef(new Map<string, HTMLInputElement>())
+  const pendingResourceFocusRef = useRef<
+    { inputKey?: string; preferComposer?: boolean } | undefined
+  >(undefined)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: external command/object resync clears unfinished party/inventory choices.
   useEffect(() => {
-    setNewResourceKey('')
     setPartyCandidateId('')
     setInventoryCandidateId('')
   }, [draftScope, syncToken])
+  // 保留同一入口的候选选择，使“新增 → undo”能恢复本次选择；切换入口时必须清空。
+  // biome-ignore lint/correctness/useExhaustiveDependencies: draftScope is the object identity boundary for local composer selection.
+  useEffect(() => {
+    setResourceCandidateKey('')
+  }, [draftScope])
   // biome-ignore lint/correctness/useExhaustiveDependencies: live feedback survives same-object commands and resets only on object switch.
   useEffect(() => {
     setAnnouncement('')
@@ -598,6 +637,20 @@ export function StartWorldFields(props: {
       : rootRef.current?.querySelector<HTMLButtonElement>('#start-world-party-adder')
     target?.focus()
   }, [value.party])
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a resource command changes the rendered row/composer that receives the requested focus handoff.
+  useEffect(() => {
+    const pending = pendingResourceFocusRef.current
+    if (!pending) return
+    pendingResourceFocusRef.current = undefined
+    const valueInput = pending.inputKey
+      ? resourceValueRefs.current.get(pending.inputKey)
+      : undefined
+    const composer = rootRef.current?.querySelector<HTMLButtonElement>(
+      '#start-world-resource-adder',
+    )
+    const target = valueInput ?? (pending.preferComposer ? composer : undefined) ?? composer
+    queueMicrotask(() => (target ?? resourceSectionRef.current)?.focus())
+  }, [value.resources])
   const patch = (next: Partial<StartWorld>): void => onChange({ ...value, ...next })
   const partyActors = actors.filter((actor) => actor.battler)
   const addablePartyActors = partyActors.filter((actor) => !value.party.includes(actor.id))
@@ -606,11 +659,29 @@ export function StartWorldFields(props: {
   )
   const inventory = value.inventory ?? []
   const addableItems = items.filter((item) => !inventory.some((entry) => entry.itemId === item.id))
+  const resourceCandidates = useMemo(() => deriveStartWorldResourceCandidates(items), [items])
+  const resourceCandidateByKey = useMemo(
+    () => new Map(resourceCandidates.map((candidate) => [candidate.key, candidate])),
+    [resourceCandidates],
+  )
+  const configuredResources = Object.entries(value.resources ?? {}).sort(([left], [right]) =>
+    left.localeCompare(right),
+  )
+  const activeResources = configuredResources.filter(([key]) => resourceCandidateByKey.has(key))
+  const orphanResources = configuredResources.filter(([key]) => !resourceCandidateByKey.has(key))
+  const addableResourceCandidates = resourceCandidates.filter(
+    (candidate) => !Object.hasOwn(value.resources ?? {}, candidate.key),
+  )
   const selectedPartyCandidate = addablePartyActors.some((actor) => actor.id === partyCandidateId)
     ? partyCandidateId
     : ''
   const selectedInventoryCandidate = addableItems.some((item) => item.id === inventoryCandidateId)
     ? inventoryCandidateId
+    : ''
+  const selectedResourceCandidate = addableResourceCandidates.some(
+    (candidate) => candidate.key === resourceCandidateKey,
+  )
+    ? resourceCandidateKey
     : ''
   const addParty = (): void => {
     const actor = addablePartyActors.find((candidate) => candidate.id === selectedPartyCandidate)
@@ -666,10 +737,29 @@ export function StartWorldFields(props: {
     patch({ resources: Object.keys(resources).length ? resources : undefined })
   }
   const addResource = (): void => {
-    const key = newResourceKey.trim()
-    if (!key || key === 'collectValue' || Object.hasOwn(value.resources ?? {}, key)) return
-    patchResource(key, 0)
-    setNewResourceKey('')
+    const candidate = addableResourceCandidates.find(
+      (candidate) => candidate.key === selectedResourceCandidate,
+    )
+    if (!candidate) return
+    pendingResourceFocusRef.current = { inputKey: candidate.key }
+    patchResource(candidate.key, 0)
+    setAnnouncement(`已添加${candidate.label}使用的初始世界资源。`)
+  }
+  const removeActiveResource = (candidate: StartWorldResourceCandidate): void => {
+    pendingResourceFocusRef.current = { preferComposer: true }
+    patchResource(candidate.key, undefined)
+    setAnnouncement(`已删除${candidate.label}使用的初始世界资源。`)
+  }
+  const clearOrphanResource = (key: string): void => {
+    const index = orphanResources.findIndex(([candidateKey]) => candidateKey === key)
+    const remainingKeys = orphanResources
+      .filter(([candidateKey]) => candidateKey !== key)
+      .map(([candidateKey]) => candidateKey)
+    pendingResourceFocusRef.current = {
+      inputKey: remainingKeys[Math.min(Math.max(index, 0), remainingKeys.length - 1)],
+    }
+    patchResource(key, undefined)
+    setAnnouncement(`已清理未被使用的世界资源 ${key}。`)
   }
 
   return (
@@ -972,23 +1062,34 @@ export function StartWorldFields(props: {
         </div>
       </section>
 
-      <section className="project-card">
-        <h4>
+      <section
+        ref={resourceSectionRef}
+        className="project-card"
+        aria-labelledby="start-world-resources-heading"
+        tabIndex={-1}
+      >
+        <h4 id="start-world-resources-heading">
           初始世界资源{' '}
           <DsHelpTip label="初始世界资源">
-            物品炼化等机制按稳定键读写。collectValue
-            是内建收妖值，不在这里重复定义；独立入口可以保存自己的资源初值。
+            这里只设置项目中物品机制已经使用的自定义资源初值；内建收妖值不在这里重复配置。
           </DsHelpTip>
         </h4>
         <div className="project-list-stack">
-          {Object.entries(value.resources ?? {})
-            .sort(([left], [right]) => left.localeCompare(right))
-            .map(([key, initialValue]) => (
+          {activeResources.map(([key, initialValue]) => {
+            const candidate = resourceCandidateByKey.get(key)!
+            return (
               <DsRepeatRow density="default" className="project-resource-row" key={key}>
-                <code>{key}</code>
-                <span>
+                <span className="project-resource-identity">
+                  <strong title={candidate.label}>{candidate.label}</strong>
+                  <code title={key}>{key}</code>
+                </span>
+                <span className="project-resource-value">
                   初始值{' '}
                   <DsDraftNumberInput
+                    inputRef={(node) => {
+                      if (node) resourceValueRefs.current.set(key, node)
+                      else resourceValueRefs.current.delete(key)
+                    }}
                     min={0}
                     integer
                     normalize={(next) => Math.max(0, Math.floor(next))}
@@ -996,61 +1097,114 @@ export function StartWorldFields(props: {
                     syncToken={syncToken}
                     value={initialValue}
                     disabled={readOnly}
-                    aria-label={`${key} 初始值`}
+                    aria-label={`${candidate.label}（资源 ${key}）初始值`}
                     onCommit={(value) => patchResource(key, value)}
                   />
                 </span>
                 <DsIconButton
                   disabled={readOnly}
-                  onClick={() => patchResource(key, undefined)}
-                  label={`删除世界资源 ${key}`}
+                  onPointerDown={(event) => event.preventDefault()}
+                  onClick={() => removeActiveResource(candidate)}
+                  label={`删除${candidate.label}使用的初始世界资源`}
                   icon="delete"
                   variant="danger"
                 />
               </DsRepeatRow>
-            ))}
-          <DsInlineComposer
-            density="default"
-            className="project-resource-create"
-            control={
-              <DsTextInput
-                value={newResourceKey}
-                name="startWorldResourceKey"
-                autoComplete="off"
-                spellCheck={false}
-                disabled={readOnly}
-                aria-label="新世界资源稳定键"
-                placeholder="新资源键，如 alchemyEnergy…"
-                onChange={(event) => setNewResourceKey(event.target.value)}
-                onKeyDown={(event) => {
-                  if (
-                    event.key === 'Enter' &&
-                    !event.nativeEvent.isComposing &&
-                    event.nativeEvent.keyCode !== 229
-                  ) {
-                    event.preventDefault()
-                    addResource()
+            )
+          })}
+          {addableResourceCandidates.length > 0 ? (
+            <DsInlineComposer
+              density="default"
+              className="project-resource-create"
+              control={
+                <DsSelectField
+                  id="start-world-resource-adder"
+                  label="添加世界资源"
+                  fieldClassName="project-composer-field"
+                  aria-label="添加世界资源"
+                  searchable
+                  value={selectedResourceCandidate}
+                  disabled={readOnly}
+                  placeholder="搜索使用该资源的物品…"
+                  title={
+                    selectedResourceCandidate
+                      ? `${resourceCandidateByKey.get(selectedResourceCandidate)?.label} · ${selectedResourceCandidate}`
+                      : undefined
                   }
-                }}
-                monospace
-              />
-            }
-            action={
-              <DsButton
-                disabled={
-                  readOnly ||
-                  !newResourceKey.trim() ||
-                  newResourceKey.trim() === 'collectValue' ||
-                  Object.hasOwn(value.resources ?? {}, newResourceKey.trim())
-                }
-                onClick={addResource}
-                icon="add"
-                variant="secondary"
-              >
-                添加资源
-              </DsButton>
-            }
-          />
+                  options={addableResourceCandidates.map((candidate) => ({
+                    value: candidate.key,
+                    label: candidate.label,
+                    description: candidate.key,
+                    title: `${candidate.label} · ${candidate.key}`,
+                    descriptionMonospace: true,
+                  }))}
+                  onValueChange={setResourceCandidateKey}
+                />
+              }
+              action={
+                <DsButton
+                  disabled={readOnly || !selectedResourceCandidate}
+                  onClick={addResource}
+                  icon="add"
+                  variant="secondary"
+                >
+                  添加资源
+                </DsButton>
+              }
+            />
+          ) : (
+            <PageHint>
+              {resourceCandidates.length === 0
+                ? '本项目没有需要为入口设置初值的自定义资源。'
+                : '当前入口已配置所有正在使用的自定义资源。'}
+            </PageHint>
+          )}
+          {orphanResources.length > 0 ? (
+            <section className="project-resource-repair" aria-label="未被使用的资源">
+              <h5>未被使用的资源</h5>
+              <p>这些既有资源目前没有物品机制使用。可保留数值，或确认后逐项清理。</p>
+              <div className="project-resource-repair-list">
+                {orphanResources.map(([key, initialValue]) => (
+                  <DsRepeatRow
+                    density="default"
+                    className="project-resource-row project-resource-row--repair"
+                    key={key}
+                  >
+                    <span className="project-resource-identity">
+                      <strong>未被使用的资源</strong>
+                      <code title={key}>{key}</code>
+                    </span>
+                    <span className="project-resource-value">
+                      初始值{' '}
+                      <DsDraftNumberInput
+                        inputRef={(node) => {
+                          if (node) resourceValueRefs.current.set(key, node)
+                          else resourceValueRefs.current.delete(key)
+                        }}
+                        min={0}
+                        integer
+                        normalize={(next) => Math.max(0, Math.floor(next))}
+                        draftKey={`${draftScope}:resources.${key}`}
+                        syncToken={syncToken}
+                        value={initialValue}
+                        disabled={readOnly}
+                        aria-label={`未被使用的资源 ${key} 初始值`}
+                        onCommit={(value) => patchResource(key, value)}
+                      />
+                    </span>
+                    <DsIconButton
+                      disabled={readOnly}
+                      onPointerDown={(event) => event.preventDefault()}
+                      onClick={() => clearOrphanResource(key)}
+                      label={`清理未被使用的世界资源 ${key}`}
+                      icon="delete"
+                      variant="danger"
+                    />
+                  </DsRepeatRow>
+                ))}
+              </div>
+            </section>
+          ) : null}
         </div>
       </section>
     </div>
