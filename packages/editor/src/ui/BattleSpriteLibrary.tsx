@@ -1208,10 +1208,7 @@ export function BattleSpriteLibrary(props: {
             onSelect={([asset]) => focusResource(asset)}
             renderItem={([asset, assetRecord], _index, control) => {
               const entries = definitionsByAsset.get(asset) ?? []
-              const tags = (['player-fighter', 'enemy', 'summon'] as const).filter((profileKind) =>
-                entries.some((entry) => entry.profile.kind === profileKind),
-              )
-              const metadata = tags.length ? tags.map((tag) => PROFILE_LABEL[tag]) : ['未配置']
+              const label = assetRecord.label?.trim() || entries[0]?.label?.trim() || asset
               return (
                 <DsCatalogRow
                   className="sprite-resource-row"
@@ -1219,9 +1216,10 @@ export function BattleSpriteLibrary(props: {
                   onFocus={control.onFocus}
                   selected={asset === selectedAsset}
                   leading={<span aria-hidden="true">▦</span>}
-                  title={assetRecord.label ?? entries[0]?.label ?? asset}
-                  meta={metadata.join(' · ')}
-                  aria-label={`${assetRecord.label ?? entries[0]?.label ?? asset}，${metadata.join('，')}`}
+                  title={label}
+                  meta={asset}
+                  trailing={entries.length ? undefined : <DsTag tone="warning">未配置</DsTag>}
+                  aria-label={`${label}，${asset}${entries.length ? '' : '，未配置'}`}
                   onClick={() => focusResource(asset)}
                 />
               )

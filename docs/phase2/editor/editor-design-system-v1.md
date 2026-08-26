@@ -2,7 +2,7 @@
 
 Status: implemented v2.11.0 inline composer density and bounded numeric fields（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -427,6 +427,23 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 合理例外唯一真源为 `design-system-allowlist.json`，字段固定为
   `{file,line,rule,owner,reason,verification,removalCondition}`。行号失效、规则消失或字段损坏视为 stale，门禁
   以 exit 2 失败；未批准违规以 exit 1 失败；完全通过为 exit 0。
+
+#### DS-C.4c 目录行内容层级门（2026-08-26）
+
+- `title` 必须是作者识别和选择对象时使用的主名称；稳定 ID 默认进入 `meta`，不得把 `#006`、资源键等技术
+  标识放进 `leading` 冒充媒体。没有独立显示名的对象可以用稳定 ID 作 `title`，但不得在另一槽重复一遍。
+- `leading` 只承载真实缩略图、头像、色样、播放/资源类型等能帮助选择对象的语义媒体。媒体策略按列表族统一：
+  同族全有或全无；资源暂缺时只能使用该列表族已经裁决的稳定语义 fallback，不得临时制造 emoji 或空白占位。
+- `trailing` 只承载选择时关键的分类、异常或立即行动状态，例如“默认”“待迁移”“不可解”。装备/使用等已有
+  筛选 owner 的普通能力、总引用数和详情统计默认不常驻；它们继续由筛选器、Hero、Inspector 或引用面板表达。
+- 统计只有能直接改变当前目录的选择判断、且没有等价筛选/详情 owner 时才可常驻，并必须在
+  `catalog-row-content-adoption.json` 逐项写明理由。音频目录引用数用于选择替换/清理对象，ActorAvatar 的无头像
+  fallback 属已裁决的稳定角色识别媒体，均是有边界的合规项，不可类推为任意统计或假图标许可。
+- 内容采用矩阵必须递归扫描生产 TSX 中全部 `<DsCatalogRow>` 调用，以相对文件与规范化 opening-element
+  fingerprint 绑定每个受审 surface，并记录列表族、四槽语义、裁决和证据理由；新增、删除、移动或修改调用而
+  未同步矩阵时测试失败。alias、spread 与拖拽/排序属性在目录行消费点 fail-closed；排序手柄必须由独立
+  reorder primitive 持有，不能扩张 `DsCatalogRow`。代表页还必须以 DOM 槽位和 `data-leading` 断言，不能只
+  检查整行 `textContent`。
 
 ### DS-C.5 表单字段
 

@@ -721,9 +721,8 @@ export function EnemyTab(props: {
             <DsCatalogRow
               key={e.id}
               selected={e.id === enemy?.id}
-              leading={<span className="face">👹</span>}
               title={nameOf(e)}
-              meta={`${e.id} · ${e.battleSprite}`}
+              meta={e.id}
               trailing={
                 e.ai.rules?.length ? <DsTag tone="neutral">{e.ai.rules.length} 规则</DsTag> : null
               }

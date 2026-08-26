@@ -8949,20 +8949,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 .bf-catalog {
   padding: 4px 0 16px;
 }
-.bf-catalog-id {
-  color: var(--dim);
-  font:
-    11px ui-monospace,
-    monospace;
-}
-.bf-default-badge {
-  padding: 2px 6px;
-  border-radius: 999px;
-  color: color-mix(in srgb, var(--accent) 80%, white);
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
-  font-size: 10px;
-  white-space: nowrap;
-}
 .canvas-wrap.data-body.bf-workbench {
   min-width: 0;
   background: var(--ds-surface-canvas);

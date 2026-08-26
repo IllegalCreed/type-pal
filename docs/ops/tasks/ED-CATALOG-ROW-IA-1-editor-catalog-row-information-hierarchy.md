@@ -1,6 +1,6 @@
 # ED-CATALOG-ROW-IA-1 - 编辑器对象目录行信息层级收口
 
-Status: draft（2026-08-25 设计三签齐；等待 Coding Owner 排期）
+Status: review（2026-08-26 build 完成；Codex accept，待 Kimi + GLM 终审）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: `codex/ed-audio-workbench-1`
+Branch: `codex/ed-project-startup-ia-1`
 
 ## 目标
 
@@ -185,7 +185,7 @@ Branch: `codex/ed-audio-workbench-1`
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-26）**。当前生产域动态闭合为 20 文件 / 28 个 `DsCatalogRow` 调用；11 个违规 surface 已按四槽合同收口，17 个健康面或有证据例外未机械改写。受影响页聚焦测试、内容矩阵门禁、typecheck、DS gate、`git diff --check` 与 1280/720px 浏览器检查均通过。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理：
@@ -220,25 +220,58 @@ Branch: `codex/ed-audio-workbench-1`
 ## Build: 实现与自测
 
 - Coding Owner：Codex
-- 修改文件：pending
-- 实现摘要：pending
-- 运行命令：pending
-- 浏览器 / 手工检查：pending
-- 跳过的检查及原因：pending
+- 修改文件：
+  - 生产：`BattleFieldTab.tsx`、`ItemTab.tsx`、`BattleSpriteLibrary.tsx`、`WorldSpriteLibrary.tsx`、
+    `EnemyTab.tsx`、`MapMode.tsx`、`CutsceneTab.tsx`、`ProjectWorkbenchTab.tsx`、
+    `SharedScriptTab.tsx`、`SpriteActionEditor.tsx`、`editor.css`。
+  - 测试 / 门禁：上述代表页面测试、`design-system/catalog-row-content-adoption.json`、
+    `design-system/catalog-row-content-adoption.test.ts`、`design-system/boundary.test.ts`。
+  - 文档：`docs/phase2/editor/editor-design-system-v1.md`、本卡与看板。
+- 实现摘要：
+  - 递归扫描当前生产 TSX，按相对文件 + 规范化 opening-element fingerprint 动态闭合 20 文件 / 28 调用；
+    16 项合规、12 项有证据 bounded exception。测试保证新增/删除/移动/表达式漂移必须同步裁决，按 family
+    锁定 leading 策略，并拒绝 alias、spread 与排序/拖拽属性绕过 owner。
+  - 共收口 11 个违规 surface：战场 ID 回归 meta；物品仅保留真实图标/名称/ID/迁移异常；精灵资源、敌人、
+    地图、过场、项目入口、共享脚本与动作选择去除重复机器信息或临时 index；毒目录保持无伪图标正向基线。
+    战斗/大世界精灵资源的空白 label 统一 trim 后回退 AssetId，避免目录出现空标题。
+    过场与项目入口的 leading 符号标记为装饰，防止重复进入按钮可访问名称。
+  - `DsCatalogRow` 公共 props、行高、选择/focus、滚动 owner、筛选与引用真值均未改变；拖拽合同仍归
+    `ED-REORDER-DRAG-1`，静态门禁禁止把 reorder props 塞入本 recipe。
+  - 同步修正 Startup 新增第 5 个合法 `DsRepeatRow` 后遗留的静态边界计数；这是全量测试提前暴露的既有门禁缺口。
+- 运行命令：
+  - 受影响页聚焦：13 文件 / 186 tests passed。
+  - `pnpm --filter @type-pal/editor exec vitest run src/ui/design-system/boundary.test.ts src/ui/design-system/catalog-row-content-adoption.test.ts`：2 文件 / 47 tests passed。
+  - `pnpm --filter @type-pal/editor typecheck`：passed。
+  - `pnpm --filter @type-pal/editor audit:design-system`：87 files / 3 evidence-bound exceptions，passed。
+  - `git diff --check`：passed。
+  - 备注：一次聚焦命令参数被包脚本吞掉而意外执行全量，先得到 1216/1217（只红旧 `DsRepeatRow=4` 计数）；
+    修正为 5 后已用边界聚焦测试闭合。按既定纪律不在本切片重复全量，待三张 editor 卡完成后只跑一次最终全量。
+- 浏览器 / 手工检查：
+  - PAL 真实项目 1280×900：BattleField `leading=none / #006 meta`、Item `leading=present / 61 meta / 无能力与引用串`、
+    Poison `leading=none / 551 meta / 常规 trailing`；三族行高均 68px，文档无水平溢出。
+  - 720×720：三族目录宽 214px、行高仍为 68px、选中态与四槽对齐稳定，`document.scrollWidth=clientWidth=720`；
+    截图人工确认无正文横跳、截断或遮挡。临时视口已 reset。
+- 跳过的检查及原因：最终 editor 全量留到 Startup / Catalog / Reorder 三卡全部实现后的唯一一次执行，避免重复耗时全量。
 
 ## Review: 审查与返工
 
 - Reviewer：Kimi + GLM
-- 审查结论：pending
-- 必须返工项：pending
-- Accept / rework：pending
+- 审查结论：Codex 自审及只读对抗审计 accept；Kimi / GLM pending。
+- 必须返工项：内部审计先后发现顶层漏扫、fingerprint 未绑定、reorder 禁词误伤/漏放、alias/spread 绕门、
+  `leading={undefined/0}` 假阳性、空 label 不回退及装饰符号重复朗读；均已补 AST/合成负例、页面 fixture 或
+  DOM 断言闭合。当前无遗留 blocker / high；若外部 reviewer 发现新回归则转 rework。
+- Accept / rework：review（done 仍由三方 accept 门禁阻塞）。
 
 ## 用户验收
 
-- 用户结论：已批准设计方向，待实现后视觉验收。
+- 用户结论：已批准设计方向；实现后的最终视觉验收待用户确认。
 - 后续任务：N/A。
 
 ## 交接日志
+
+- 2026-08-26 Codex：完成 20 文件 / 28 消费点递归 AST + fingerprint 动态矩阵与 11 surface 收口；
+  13 文件 / 186 聚焦测试、47 项内容/边界门禁、typecheck、DS gate、diff check 及 1280/720px 浏览器验证通过。任务转 review，
+  Codex accept；未重开旧卡，未触碰 schema / migration / 引用真值 / 公共 `DsCatalogRow` API。
 
 - 2026-08-25 Kimi：独立全量抽查 24 个生产消费点并核三个被点名页 + ActorMode/SkillTab/
   WorldSpriteLibrary/AudioAssetWorkbench 未点名面；签 premise verified + design agree（附 KC1-KC2：
@@ -254,17 +287,16 @@ Branch: `codex/ed-audio-workbench-1`
 ```text
 接手任务：ED-CATALOG-ROW-IA-1 编辑器对象目录行信息层级收口
 任务卡：docs/ops/tasks/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md
-当前状态：draft；Codex、Kimi、GLM 设计三签齐，build 准入已开放
-你的角色：Codex（唯一 Coding Owner）
+当前状态：review；build 已完成，Codex accept，待 Kimi + GLM done 前终审
+你的角色：Kimi 或 GLM（只读 reviewer）
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、editor-design-system-v1.md:53-91,404-411、
       ED-DS-3、ED-CATALOG-CONTROLS-1、ED-5I:95-100，以及 BattleFieldTab/ItemTab/PoisonTab 锚点
-已完成：用户已裁决战场 ID 回归 meta、物品降噪、毒无图标保持；三方 premise verified + design agree；
-        Kimi 已核 24 个生产消费点，GLM 已核 21 文件消费域，并冻结 KC1-KC2 / GRow1-GRow2
-请你做：生成完整采用矩阵；落实战场 ID meta、物品能力/引用降噪与待迁移 trailing DsTag；保持毒无伪图标；
-        逐条裁决音频引用数 trailing、ActorMode emoji fallback，并建立同族 data-leading 一致性机检
-不要做：不得重开已完成旧卡；不得修改 schema、引用真值、筛选逻辑或公共 DsCatalogRow API；不得机械删除
-        对选择任务确有帮助的信息
-输出要求：独立提交；聚焦测试、最小功能界面验证与 Build / Review 证据；实现后转 review，等待三方 accept
+已完成：当前递归 AST + fingerprint census 为 20 文件 / 28 调用；11 surface 已收口，17 surface 保留合规/有证据例外；
+        13 文件 / 186 聚焦测试、47 项内容/边界门禁、typecheck、DS gate 与 1280/720px 验证通过
+请你做：只读核对 adoption JSON 与生产域动态闭合、四槽映射、例外理由、Item 引用真值和 Poison 无伪图标；
+        直接在本卡 done 签字表写 accept，或给出带证据的 counter / 返工项
+不要做：不得修改实现文件；不得重开已完成旧卡；不得把 reorder 合同塞入 DsCatalogRow
+输出要求：Kimi / GLM 各自独立 accept 或 counter；签字不齐不得标记 done
 ```
 - 2026-08-25 GLM（全量消费覆盖）: 审查完成，签 **premise verified + design agree（附
   GRow1-GRow2）**。21 文件全消费面 census（比卡文锚点 6 文件广 3.5 倍）；三点名页错位/

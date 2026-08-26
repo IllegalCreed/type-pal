@@ -223,6 +223,49 @@ afterEach(async () => {
 })
 
 describe('ItemTab', () => {
+  test('目录行只常驻图标、名称、稳定 ID 与待处理异常，引用真值仍由筛选和检查器持有', async () => {
+    const initial = state([
+      {
+        ...item(),
+        equip: { slot: 'weapon', equipableBy: [], effects: [] },
+        use: { target: 'self', consuming: false, effects: [] },
+      },
+    ])
+    initial.migrationDiagnostics = {
+      version: 1,
+      diagnostics: [
+        {
+          id: 'item-throw:item-a',
+          severity: 'warn',
+          target: {
+            domain: 'item',
+            objectId: 'item-a',
+            capability: 'throw',
+            label: '剧情钥匙投掷能力',
+          },
+          category: 'manual-review',
+          reason: '旧投掷能力待确认',
+          source: { kind: 'legacy-script', label: 'L_1', address: 1 },
+        },
+      ],
+    }
+    const session = new EditSession(initial)
+    await act(async () => root.render(<Harness session={session} />))
+
+    const row = host.querySelector<HTMLElement>('.item-catalog-list .ds-catalog-row')!
+    expect(row.dataset.leading).toBe('present')
+    expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe('剧情钥匙')
+    expect(row.querySelector('.ds-catalog-row__meta')?.textContent).toBe('item-a')
+    expect(row.querySelector('.ds-catalog-row__trailing .ds-tag')?.textContent).toBe('待迁移')
+    expect(row.textContent).not.toContain('装备')
+    expect(row.textContent).not.toContain('使用')
+    expect(row.textContent).not.toContain('引用 1')
+
+    await chooseComboboxOption(combobox('按物品能力筛选', host), '有引用')
+    expect(host.querySelectorAll('.item-catalog-list .ds-catalog-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-object-hero__meta')?.textContent).toContain('引用 1')
+  })
+
   test('空项目可直接创建第一个物品并进入完整工作台', async () => {
     const initial = state([])
     initial.shops = []
@@ -1199,7 +1242,7 @@ describe('ItemTab', () => {
       ),
     )
 
-    expect(host.querySelector('.ds-catalog-row')?.textContent).toContain('引用 2')
+    expect(host.querySelector('.ds-catalog-row')?.textContent).not.toContain('引用 2')
     await act(async () =>
       button('引用 2', host.querySelector('[role="tablist"][aria-label="物品检查器"]')!).click(),
     )

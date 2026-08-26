@@ -314,9 +314,13 @@ describe('入口开局世界资源', () => {
 
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(host.querySelector('.project-center h1')?.textContent).toBe('直接入口')
-    expect(host.querySelector('.ds-catalog-row[aria-pressed="true"]')?.textContent).toContain(
-      'direct · 直接启动',
+    const selectedRow = host.querySelector('.ds-catalog-row[aria-pressed="true"]')!
+    expect(selectedRow.querySelector('.ds-catalog-row__title')?.textContent).toBe('直接入口')
+    expect(selectedRow.querySelector('.ds-catalog-row__meta')?.textContent).toBe('direct')
+    expect(selectedRow.querySelector('.ds-catalog-row__trailing .ds-tag')?.textContent).toBe(
+      '直接启动',
     )
+    expect(selectedRow.querySelector('.ds-catalog-row__leading [aria-hidden="true"]')).not.toBeNull()
 
     await act(async () => root.render(projectTab('entrypoint', session, 'main')))
     expect(host.querySelector('.project-center h1')?.textContent).toBe('主要入口')

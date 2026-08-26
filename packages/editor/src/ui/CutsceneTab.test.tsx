@@ -77,9 +77,10 @@ describe('CutsceneTab catalog controls', () => {
     expect(host.querySelector('.cutscene-outliner')?.textContent).toContain('没有匹配的帧动画。')
     await setCatalogSearch(search, '')
     expect(host.querySelectorAll('.cutscene-asset-list .ds-catalog-row')).toHaveLength(3)
-    expect(
-      host.querySelector('.cutscene-asset-list .ds-catalog-row[data-selected="true"]')?.textContent,
-    ).toContain('开场视频')
+    const selected = host.querySelector('.cutscene-asset-list .ds-catalog-row[data-selected="true"]')!
+    expect(selected.querySelector('.ds-catalog-row__leading [aria-hidden="true"]')).not.toBeNull()
+    expect(selected.querySelector('.ds-catalog-row__title')?.textContent).toBe('开场视频')
+    expect(selected.querySelector('.ds-catalog-row__meta')?.textContent).toBe('video.opening')
   })
 
   test('distinguishes an empty project from a filtered empty result', async () => {

@@ -456,7 +456,6 @@ function abilityTags(item: ItemData): string[] {
 interface ItemCatalogRowsProps {
   items: readonly ItemData[]
   selectedId: string | undefined
-  referenceMap: ReadonlyMap<string, readonly ItemReference[]>
   pendingIds: ReadonlySet<string>
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
@@ -465,8 +464,6 @@ interface ItemCatalogRowsProps {
 
 function ItemCatalogRowsView(props: ItemCatalogRowsProps) {
   return props.items.map((candidate) => {
-    const tags = abilityTags(candidate)
-    const refs = props.referenceMap.get(candidate.id)?.length ?? 0
     return (
       <DsCatalogRow
         key={candidate.id}
@@ -483,14 +480,10 @@ function ItemCatalogRowsView(props: ItemCatalogRowsProps) {
           />
         }
         title={candidate.name}
-        meta={[
-          candidate.id,
-          ...tags,
-          refs ? `引用 ${refs}` : undefined,
-          props.pendingIds.has(candidate.id) ? '待迁移' : undefined,
-        ]
-          .filter(Boolean)
-          .join(' · ')}
+        meta={candidate.id}
+        trailing={
+          props.pendingIds.has(candidate.id) ? <DsTag tone="warning">待迁移</DsTag> : undefined
+        }
         onClick={() => props.onSelect(candidate.id)}
       />
     )
@@ -514,11 +507,6 @@ function sameItemCatalogRows(left: ItemCatalogRowsProps, right: ItemCatalogRowsP
       item.id === next.id &&
       item.name === next.name &&
       item.icon === next.icon &&
-      !!item.equip === !!next.equip &&
-      !!item.use === !!next.use &&
-      !!item.throw === !!next.throw &&
-      (left.referenceMap.get(item.id)?.length ?? 0) ===
-        (right.referenceMap.get(next.id)?.length ?? 0) &&
       left.pendingIds.has(item.id) === right.pendingIds.has(next.id)
     )
   })
@@ -1257,7 +1245,6 @@ export function ItemTab(props: {
           <ItemCatalogRows
             items={shown}
             selectedId={item?.id}
-            referenceMap={referenceMap}
             pendingIds={pendingIds}
             assetCatalog={assetCatalog}
             assetReader={assetReader}

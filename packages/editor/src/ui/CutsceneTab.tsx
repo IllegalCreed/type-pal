@@ -164,7 +164,6 @@ function videoExtension(
 
 function AssetList(props: {
   title: string
-  kindLabel: string
   entries: readonly AssetEntry[]
   selectedId?: AssetId
   filter: string
@@ -198,9 +197,11 @@ function AssetList(props: {
             <DsCatalogRow
               key={entry.id}
               selected={props.selectedId === entry.id}
-              leading={entry.record.kind === 'video' ? '▶' : '▦'}
+              leading={
+                <span aria-hidden="true">{entry.record.kind === 'video' ? '▶' : '▦'}</span>
+              }
               title={entry.record.label || entry.id}
-              meta={`${entry.id} · ${props.kindLabel}`}
+              meta={entry.id}
               trailing={<DsTag tone="neutral">{ORIGIN_LABELS[entry.record.origin.kind]}</DsTag>}
               onClick={() => props.onSelect(entry.id)}
             />
@@ -678,7 +679,6 @@ export function CutsceneTab(props: {
         <DsCatalogGroupList label="过场资源分组">
           <AssetList
             title="视频"
-            kindLabel="视频"
             entries={videos}
             filter={filter}
             selectedId={selectedId}
@@ -687,7 +687,6 @@ export function CutsceneTab(props: {
           />
           <AssetList
             title="帧动画"
-            kindLabel="完整帧"
             entries={animations}
             filter={filter}
             selectedId={selectedId}

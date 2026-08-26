@@ -130,7 +130,7 @@ describe('editor design-system static boundary', () => {
     expect(tokens).toContain('--ds-field-measure-short-number: 10rem;')
 
     expect(project.match(/<DsInlineComposer\b/g)).toHaveLength(3)
-    expect(project.match(/<DsRepeatRow\b/g)).toHaveLength(4)
+    expect(project.match(/<DsRepeatRow\b/g)).toHaveLength(5)
     expect(project).not.toContain('project-repeat-composer')
     expect(project).not.toContain('project-repeat-row')
     expect(project).not.toContain('project-seed-row')

@@ -185,6 +185,7 @@ function library(
   options: {
     view?: 'definition' | 'asset'
     focusObjectId?: string
+    catalog?: AssetCatalogV1
     onActionFocus?: (spriteId: string, actionId: string) => void
     onJumpReference?: (reference: SpriteDefinitionReference) => void
     onJumpActionReference?: (reference: SpriteActionReference) => void
@@ -197,7 +198,7 @@ function library(
   return (
     <WorldSpriteLibrary
       definitions={entries}
-      catalog={catalog}
+      catalog={options.catalog ?? catalog}
       assetBase={{} as never}
       assetReader={{} as never}
       session={session}
@@ -220,9 +221,7 @@ describe('WorldSpriteLibrary', () => {
     const session = new EditSession(editorState(definitions))
     const onStatusNotice = vi.fn()
     await act(async () =>
-      root.render(
-        library(definitions, session, { focusObjectId: 'hero-walk', onStatusNotice }),
-      ),
+      root.render(library(definitions, session, { focusObjectId: 'hero-walk', onStatusNotice })),
     )
     const field = host.querySelector<HTMLInputElement>('#world-sprite-frames-per-dir')!
     await act(async () => {
@@ -247,9 +246,7 @@ describe('WorldSpriteLibrary', () => {
     const session = new EditSession(editorState(definitions))
     const onStatusNotice = vi.fn()
     await act(async () =>
-      root.render(
-        library(definitions, session, { focusObjectId: 'hero-walk', onStatusNotice }),
-      ),
+      root.render(library(definitions, session, { focusObjectId: 'hero-walk', onStatusNotice })),
     )
     const field = host.querySelector<HTMLInputElement>('#world-sprite-frames-per-dir')!
     const record = catalog.assets['sprite.shared']!
@@ -277,13 +274,9 @@ describe('WorldSpriteLibrary', () => {
     })
     expect(session.getHistoryVersion()).toBe(beforeRejected)
     expect(field.value).toBe('3')
-    expect(onStatusNotice).toHaveBeenLastCalledWith(
-      expect.objectContaining({ kind: 'error' }),
-    )
+    expect(onStatusNotice).toHaveBeenLastCalledWith(expect.objectContaining({ kind: 'error' }))
 
-    session.dispatch(
-      new UpsertAssetCommand('sprite.shared', record, new ArrayBuffer(4)),
-    )
+    session.dispatch(new UpsertAssetCommand('sprite.shared', record, new ArrayBuffer(4)))
     const beforeAccepted = session.getHistoryVersion()
     await act(async () => {
       field.focus()
@@ -341,29 +334,41 @@ describe('WorldSpriteLibrary', () => {
     expect(host.querySelector('[aria-pressed="true"]')?.textContent).toContain('共享精灵帧')
   })
 
-  test('按源文件只列一项，导入入口在筛选器上方且列表不暴露技术元数据', async () => {
+  test('按源文件只列一项，目录只保留名称、AssetId 与异常', async () => {
     const session = new EditSession(editorState(definitions))
     await act(async () => root.render(library(definitions, session)))
 
     expect(host.querySelectorAll('.world-sprite-outliner .sprite-resource-row')).toHaveLength(2)
     expect(host.querySelector('.sprite-library-switch')).toBeNull()
-    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('sprite.shared')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('sprite.shared')
     expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('.rle')
-    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('2 个用途定义')
-    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('四向')
-    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('默认定格')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('2 个用途定义')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('四向')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('默认定格')
     expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('待定义')
     expect(
       host.querySelector('[role="combobox"][aria-label="按用途与实例行为筛选源帧资源"]'),
     ).not.toBeNull()
     expect(
-      [...host.querySelectorAll('.sprite-resource-row .ds-catalog-row__meta')].filter((meta) =>
-        meta.textContent?.includes('四向'),
+      [...host.querySelectorAll('.sprite-resource-row .ds-catalog-row__meta')].map(
+        (meta) => meta.textContent,
       ),
-    ).toHaveLength(1)
+    ).toEqual(['sprite.raw', 'sprite.shared'])
     const upload = host.querySelector('.ds-list-header__action[aria-label="导入源帧资源"]')!
     const filter = host.querySelector('input[aria-label="过滤大世界精灵库"]')!
     expect(upload.compareDocumentPosition(filter) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
+
+  test('空白资源标签和空用途名称最终回退到 AssetId', async () => {
+    const blankCatalog = structuredClone(catalog)
+    blankCatalog.assets['sprite.raw']!.label = '   '
+    const session = new EditSession(editorState([]))
+    await act(async () => root.render(library([], session, { view: 'asset', catalog: blankCatalog })))
+
+    const row = [...host.querySelectorAll('.sprite-resource-row')].find(
+      (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent === 'sprite.raw',
+    )!
+    expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe('sprite.raw')
   })
 
   test('定义深链聚焦其源文件，多用途在右侧切换而不是重复左侧行', async () => {
@@ -775,7 +780,7 @@ describe('WorldSpriteLibrary', () => {
       ),
     )
 
-    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('自动脚本')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('自动脚本')
     expect(host.querySelector('[data-world-resource]')?.textContent).not.toContain('自动脚本切帧')
     await chooseSelectOption('按用途与实例行为筛选源帧资源', '含自动脚本')
     expect(host.querySelectorAll('.world-sprite-outliner .sprite-resource-row')).toHaveLength(1)

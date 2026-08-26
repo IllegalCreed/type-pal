@@ -132,6 +132,21 @@ async function setInput(input: HTMLInputElement, value: string): Promise<void> {
 }
 
 describe('BattleFieldTab B2-1 authoring closure', () => {
+  test('目录行将名称、稳定 ID 与默认状态分槽且全族省略媒体位', async () => {
+    const session = new EditSession(state([field(6, '初遇战场'), field(24, '默认战场')]))
+    await act(async () => root.render(<Harness session={session} focusObjectId="24" />))
+
+    const rows = [...host.querySelectorAll<HTMLElement>('.bf-catalog .ds-catalog-row')]
+    expect(rows).toHaveLength(2)
+    expect(rows.every((row) => row.dataset.leading === 'none')).toBe(true)
+    expect(rows[0]!.querySelector('.ds-catalog-row__title')?.textContent).toBe('初遇战场')
+    expect(rows[0]!.querySelector('.ds-catalog-row__meta')?.textContent).toBe('#006')
+    expect(rows[0]!.querySelector('.ds-catalog-row__trailing')).toBeNull()
+    expect(rows[1]!.querySelector('.ds-catalog-row__title')?.textContent).toBe('默认战场')
+    expect(rows[1]!.querySelector('.ds-catalog-row__meta')?.textContent).toBe('#024')
+    expect(rows[1]!.querySelector('.ds-catalog-row__trailing .ds-tag')?.textContent).toBe('默认')
+  })
+
   test('目录搜索覆盖命中、空结果与清空恢复，且不会偷换深链选择', async () => {
     const session = new EditSession(state([field(1, '前置战场'), field(24, '默认战场')]))
     await act(async () => root.render(<Harness session={session} focusObjectId="24" />))

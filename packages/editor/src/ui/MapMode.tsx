@@ -116,6 +116,7 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsTag,
   DsTextInput,
   DsPressable,
 } from './design-system/index.js'
@@ -2879,7 +2880,12 @@ export function MapMode(props: {
                 key={asset.id}
                 ref={asset.id === selectedAsset?.id ? selectedMapRowRef : undefined}
                 title={asset.name}
-                meta={`${asset.id} · ${references.length} 处使用`}
+                meta={asset.id}
+                trailing={
+                  references.length ? (
+                    <DsTag tone="neutral">{references.length} 处使用</DsTag>
+                  ) : undefined
+                }
                 selected={asset.id === selectedAsset?.id}
                 onClick={() => onSelectMap(asset.id)}
               />

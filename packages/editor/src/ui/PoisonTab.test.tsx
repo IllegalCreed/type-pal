@@ -112,6 +112,18 @@ afterEach(async () => {
 })
 
 describe('PoisonTab shared workbench', () => {
+  test('毒目录以名称、ID、可解度分槽且不伪造媒体位', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} focusObjectId="1" />))
+
+    const rows = [...host.querySelectorAll<HTMLElement>('.sprite-list .ds-catalog-row')]
+    expect(rows).toHaveLength(2)
+    expect(rows.every((row) => row.dataset.leading === 'none')).toBe(true)
+    expect(rows[0]!.querySelector('.ds-catalog-row__title')?.textContent).toBe('赤蝎粉')
+    expect(rows[0]!.querySelector('.ds-catalog-row__meta')?.textContent).toBe('1')
+    expect(rows[0]!.querySelector('.ds-catalog-row__trailing .ds-tag')?.textContent).toBe('常规')
+  })
+
   test('目录搜索覆盖命中、空结果与清空恢复，且不会偷换深链选择', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} focusObjectId="2" />))

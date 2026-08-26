@@ -39,6 +39,7 @@ import {
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
+  DsTag,
   DsTabs,
   DsTextInput,
   DsVirtualList,
@@ -431,8 +432,13 @@ export function WorldSpriteLibrary(props: {
       return false
     }
     try {
-      if (!props.session.dispatch(new UpdateSpriteCommand(definition.id, { layout }, loadedProof))) {
-        props.onStatusNotice?.({ kind: 'error', message: '精灵用途定义已变化，请重新选择后再编辑。' })
+      if (
+        !props.session.dispatch(new UpdateSpriteCommand(definition.id, { layout }, loadedProof))
+      ) {
+        props.onStatusNotice?.({
+          kind: 'error',
+          message: '精灵用途定义已变化，请重新选择后再编辑。',
+        })
         return false
       }
       props.onStatusNotice?.(undefined)
@@ -568,23 +574,7 @@ export function WorldSpriteLibrary(props: {
             onSelect={([asset]) => focusResource(asset)}
             renderItem={([asset, assetRecord], _index, control) => {
               const entries = definitionsByAsset.get(asset) ?? []
-              const tags = (['directional', 'static', 'loop'] as const).filter((layoutKind) =>
-                entries.some((entry) => entry.layout.kind === layoutKind),
-              )
-              const hasActions = entries.some((entry) => Object.keys(entry.poses ?? {}).length > 0)
-              const hasLoopingAction = entries.some((entry) =>
-                Object.values(entry.poses ?? {}).some((action) => action.loopFrom !== undefined),
-              )
-              const hasAutomaticScript = entries.some((entry) =>
-                automaticScriptDefinitionIds.has(entry.id),
-              )
-              const metadata = [
-                entries.length ? `${entries.length} 个用途定义` : '无用途定义',
-                ...(tags.length ? tags.map((tag) => KIND_LABEL[tag]) : ['待定义']),
-                ...(hasActions ? ['预制动作'] : []),
-                ...(hasLoopingAction ? ['循环动作'] : []),
-                ...(hasAutomaticScript ? ['自动脚本'] : []),
-              ]
+              const label = assetRecord.label?.trim() || entries[0]?.label?.trim() || asset
               return (
                 <DsCatalogRow
                   className="sprite-resource-row"
@@ -592,9 +582,10 @@ export function WorldSpriteLibrary(props: {
                   onFocus={control.onFocus}
                   selected={asset === selectedAsset}
                   leading={<span aria-hidden="true">▦</span>}
-                  title={assetRecord.label ?? entries[0]?.label ?? asset}
-                  meta={metadata.join(' · ')}
-                  aria-label={`${assetRecord.label ?? entries[0]?.label ?? asset}，${metadata.join('，')}`}
+                  title={label}
+                  meta={asset}
+                  trailing={entries.length ? undefined : <DsTag tone="warning">待定义</DsTag>}
+                  aria-label={`${label}，${asset}${entries.length ? '' : '，待定义'}`}
                   onClick={() => focusResource(asset)}
                 />
               )
@@ -939,11 +930,11 @@ export function WorldSpriteLibrary(props: {
                                     (right.order ?? Number.MAX_SAFE_INTEGER) ||
                                   leftId.localeCompare(rightId),
                               )
-                              .map(([actionId, action], index) => (
+                              .map(([actionId, action]) => (
                                 <DsCatalogRow
                                   key={actionId}
                                   selected={selectedActionId === actionId}
-                                  title={`#${index} · ${action.label}`}
+                                  title={action.label}
                                   meta={actionId}
                                   onClick={() => setSelectedActionId(actionId)}
                                 />

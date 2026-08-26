@@ -1468,9 +1468,18 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
           {entryPoints.map((entry) => (
             <DsCatalogRow
               key={entry.id}
-              leading={entry.id === manifest.defaultEntryId ? '🧭' : '🚪'}
+              leading={
+                <span aria-hidden="true">
+                  {entry.id === manifest.defaultEntryId ? '🧭' : '🚪'}
+                </span>
+              }
               title={entry.label}
-              meta={`${entry.id}${entry.id === manifest.defaultEntryId ? ' · 直接启动' : ''}`}
+              meta={entry.id}
+              trailing={
+                entry.id === manifest.defaultEntryId ? (
+                  <DsTag tone="accent">直接启动</DsTag>
+                ) : undefined
+              }
               selected={entry.id === selected?.id}
               onClick={() => chooseEntry(entry.id)}
             />

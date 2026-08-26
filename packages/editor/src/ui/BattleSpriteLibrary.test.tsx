@@ -224,6 +224,7 @@ function library(
   options: {
     view?: 'definition' | 'asset'
     focusObjectId?: string
+    catalog?: AssetCatalogV1
     onViewChange?: (view: 'definition' | 'asset', objectId?: string) => void
     onObjectFocus?: (objectId: string | undefined) => void
     onWorldDomain?: () => void
@@ -232,7 +233,7 @@ function library(
   return (
     <BattleSpriteLibrary
       definitions={entries}
-      catalog={catalog}
+      catalog={options.catalog ?? catalog}
       assetBase={{} as never}
       assetReader={{} as never}
       session={new EditSession(state(entries))}
@@ -285,22 +286,23 @@ describe('BattleSpriteLibrary', () => {
     await verifyInspectorTabs(host, '战斗精灵检查器', ['动作', /^引用 \d+$/, '源文件'])
   })
 
-  test('源文件和用途合并为一份资源列表，导入入口位于筛选器上方', async () => {
+  test('源文件和用途合并为一份资源列表，目录只保留名称、AssetId 与异常', async () => {
     await act(async () => root.render(library(definitions)))
 
     const rows = host.querySelectorAll('.sprite-resource-row')
     expect(rows).toHaveLength(2)
     expect(host.querySelector('.sprite-library-switch')).toBeNull()
-    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain(
-      'battle-sprite.shared',
-    )
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('battle-sprite.shared')
     expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('.rle')
-    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('玩家战斗')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('玩家战斗')
     expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('未配置')
     expect(
-      [...host.querySelectorAll('.sprite-resource-row .ds-catalog-row__meta')].filter((meta) =>
-        meta.textContent?.includes('玩家战斗'),
+      [...host.querySelectorAll('.sprite-resource-row .ds-catalog-row__meta')].map(
+        (meta) => meta.textContent,
       ),
+    ).toEqual(['battle-sprite.aaa-unrelated', 'battle-sprite.shared'])
+    expect(
+      host.querySelectorAll('.sprite-resource-row .ds-catalog-row__trailing .ds-tag'),
     ).toHaveLength(1)
 
     const upload = host.querySelector<HTMLButtonElement>(
@@ -318,6 +320,20 @@ describe('BattleSpriteLibrary', () => {
 
     await act(async () => button('源文件').click())
     expect(host.querySelector('.inspector')?.textContent).toContain('battle-sprite.shared')
+  })
+
+  test('空白资源标签和空用途名称最终回退到 AssetId', async () => {
+    const blankCatalog = structuredClone(catalog)
+    blankCatalog.assets['battle-sprite.aaa-unrelated']!.label = '   '
+    await act(async () => root.render(library([], { view: 'asset', catalog: blankCatalog })))
+
+    const row = [...host.querySelectorAll('.sprite-resource-row')].find(
+      (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent
+        === 'battle-sprite.aaa-unrelated',
+    )!
+    expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe(
+      'battle-sprite.aaa-unrelated',
+    )
   })
 
   test('未配置源文件直接预览，不伪造召唤用途', async () => {

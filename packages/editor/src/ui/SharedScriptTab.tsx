@@ -226,7 +226,6 @@ export function CanonicalSharedScriptTab(props: {
                 selected={id === selectedId}
                 title={script.name}
                 meta={<code>{id}</code>}
-                trailing={<DsTag tone="neutral">{script.body.length}</DsTag>}
                 onClick={() => select(id)}
               />
             )

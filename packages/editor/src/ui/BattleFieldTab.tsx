@@ -30,6 +30,7 @@ import {
   DsDraftNumberInput,
   DsDraftTextInput,
   DsField,
+  DsTag,
   DsTextInput,
 } from './design-system/controls.js'
 import {
@@ -260,14 +261,10 @@ export function BattleFieldTab(props: {
             <DsCatalogRow
               key={candidate.id}
               selected={!creating && field?.id === candidate.id}
-              leading={
-                <span className="bf-catalog-id">#{String(candidate.id).padStart(3, '0')}</span>
-              }
               title={candidate.name || '未命名战场'}
+              meta={`#${String(candidate.id).padStart(3, '0')}`}
               trailing={
-                candidate.id === DEFAULT_BATTLE_FIELD_ID ? (
-                  <span className="bf-default-badge">默认</span>
-                ) : null
+                candidate.id === DEFAULT_BATTLE_FIELD_ID ? <DsTag tone="neutral">默认</DsTag> : null
               }
               onClick={() => selectField(candidate.id)}
             />

@@ -275,11 +275,11 @@ export function SpriteActionEditor(props: {
     >
       {actions.length ? (
         <div className="ds-inspector-choice-list" role="group" aria-label="选择预制动作">
-          {actions.map(([id, candidate], index) => (
+          {actions.map(([id, candidate]) => (
             <DsCatalogRow
               key={id}
               selected={id === actionId}
-              title={`#${index} · ${candidate.label}`}
+              title={candidate.label}
               meta={id}
               trailing={`${candidate.loopFrom === undefined ? '单次' : '循环'} · ${candidate.steps.length} 步`}
               onClick={() => props.onSelectedActionChange?.(id)}
