@@ -1652,6 +1652,7 @@ html[data-panel-resize="horizontal"] * {
   max-width: 100%;
   min-width: 0;
   box-sizing: border-box;
+  container-type: inline-size;
   margin-bottom: var(--ds-space-7);
   padding: var(--ds-space-7);
   border: 1px solid var(--ds-border-subtle);
@@ -1811,9 +1812,6 @@ html[data-panel-resize="horizontal"] * {
 }
 .project-orphan-seed-row {
   grid-template-columns: minmax(10rem, 1fr) minmax(12rem, auto) auto auto;
-}
-.project-orphan-seed-values {
-  white-space: nowrap;
 }
 .project-button-row {
   display: flex;

@@ -119,6 +119,11 @@ describe('editor design-system static boundary', () => {
     expect(recipes).toMatch(
       /\.ds-repeat-row\[data-density="compact"\] :is\(\.ds-input, \.ds-select, \.ds-button\)[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
     )
+    const repeatRowChildRule = recipes.match(/\.ds-repeat-row\s*>\s*\*\s*\{([^}]*)\}/)?.[1]
+    expect(repeatRowChildRule).toBeDefined()
+    expect(repeatRowChildRule).toMatch(/min-width:\s*0;/)
+    expect(repeatRowChildRule).toMatch(/max-width:\s*100%;/)
+    expect(repeatRowChildRule).toMatch(/overflow-wrap:\s*anywhere;/)
     expect(recipes).toMatch(
       /\.ds-field-measure--short-number\s*\{[\s\S]*?var\(--ds-field-measure-short-number\);/,
     )
@@ -132,6 +137,12 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).not.toContain('.project-repeat-composer')
     expect(businessCss).not.toContain('.project-repeat-row')
     expect(businessCss).not.toContain('.project-seed-row')
+    const projectCardRule = businessCss.match(/\.project-card\s*\{([^}]*)\}/)?.[1]
+    expect(projectCardRule).toBeDefined()
+    expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
+    expect(businessCss).not.toMatch(
+      /\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/,
+    )
 
     const startup = adoption.pages.find((page) => page.registry === 'project/startup')
     expect(startup?.owners.field).toContain('DsInlineComposer')

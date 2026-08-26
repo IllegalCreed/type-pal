@@ -797,6 +797,8 @@
 
 .ds-repeat-row > * {
   min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .ds-repeat-row[data-density="compact"] :is(.ds-input, .ds-select, .ds-button) {

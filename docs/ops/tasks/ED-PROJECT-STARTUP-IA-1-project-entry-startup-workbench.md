@@ -399,13 +399,18 @@ Branch: `codex/ed-project-startup-ia-1`
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-26，本轮返工 candidate）**。直接核对实现与运行证据：canonical schema/runtime
+- Codex: **accept（2026-08-26，本轮返工 candidate，含 720px 条件态复核修正）**。直接核对实现与运行证据：canonical schema/runtime
   未改；成员行合并当前 HP/MP，移出通过同一次 `patch({party,seedStats})` 落为一条
   `SetStartupEntriesCommand`，pointerdown 阻止 dirty draft blur 幽灵提交；已有 orphan 按未入队/不可参战/
   角色缺失三态显式呈现并逐项可撤销清理。`DsInlineComposer` 父级注入单一 density 并拒绝 control/action
   显式 `size`，成员/库存/资源/orphan 重复行统一消费 `DsRepeatRow`；规范、代码常量、CSS token 与 Design Lab
   均为 v2.11.0。聚焦 3 files / 108 tests、Editor 全量 158 files / 1209 tests、typecheck、DS gate、build、
-  PAL 1280/900/720 与 Design Lab default/compact 几何均通过；无 console error。
+  PAL 1280/900/720 与 Design Lab default/compact 几何均通过。随后用不改 `projects/pal` 的临时本地评审副本
+  载入真实“未入队/不可参战”两态，在 720px 复现 row `scrollWidth 451/461 > clientWidth 408`；将响应 owner
+  从外层 center 收到实际 `.project-card`、撤销 orphan `nowrap`，并把 child shrink-safe 合同放入
+  `DsRepeatRow` 后，两行均为 `408/408`，所有子项矩形在行内。响应式修正后聚焦 2 files / 81 tests、Editor
+  全量 158 files / 1209 tests、typecheck、DS gate、build 均通过；门禁 rule-body 收口后 boundary
+  **1 file / 43 tests** 复跑通过；PAL/条件态 console error 为 0。
 - Codex 历史签字: **历史 accept（2026-08-26，candidate `95b81c60`）**。canonical schema/runtime 未改；入口动作仍由单个
   `SetStartupEntriesCommand` 原子提交，typed role registry、结构化 diagnostic role、全局单一音频试听 owner、
   三张 live 摘要卡、有序队伍/库存/资源重复行与 FIELD 合同均已落地。Editor 全量 158 files / 1203 tests、
@@ -529,11 +534,22 @@ Branch: `codex/ed-project-startup-ia-1`
   - orphan repair 覆盖 actor+battler 未入队、actor 无 battler、actor 缺失三态；全部显式呈现、单项清理、
     一条命令可撤销。原子移出测试逐键断言其他成员/orphan 不变，并在 remove/undo/redo/re-add 后分别通过
     `validateStartWorld`。
+- 条件态响应式复核:
+  - 内部 review 发现既有 PAL 正常数据没有 orphan，原 720px 截图只证明常态无 overflow；用临时本地项目载入
+    真实未入队 battler 与不可参战 actor 后，直接量到 `.project-center=526px`、内层 orphan row `408px`，旧
+    `@container (max-width:520px)` 因错误命中外层 center 而未降栏，且 orphan values 的 `nowrap` 与
+    `.project-scroll { overflow-x:hidden }` 会把溢出裁掉，document overflow=0 因而是假绿。
+  - `.project-card` 现在建立 inline-size container，使重复行按实际卡片 content box 降栏；
+    `DsRepeatRow > *` 公共持有 `min-width:0 / max-width:100% / overflow-wrap:anywhere`，业务层删除 orphan
+    `nowrap`。静态门禁同时钉住 container owner、公共 shrink-safe 合同和禁止 nowrap 回流，没有新增页面断点。
 - 聚焦测试:
   - `pnpm --filter @type-pal/editor exec vitest run src/ui/design-system/recipes.test.tsx
     src/ui/design-system/boundary.test.ts src/ui/ProjectWorkbenchTab.test.tsx`
   - **3 files / 108 tests passed**（红测先证明缺口，实施后两轮全绿）。
-- 最终验证（各只运行一次）:
+- 响应式 review 修正后聚焦：`boundary.test.ts` + `ProjectWorkbenchTab.test.tsx`，**2 files / 81 tests passed**。
+- 审查指出首版正向 regex 可跨 CSS block 假绿后，改为先提取目标 rule body 再逐属性断言；
+  `boundary.test.ts` **1 file / 43 tests passed**。
+- 当前 candidate 最终验证:
   - `pnpm --filter @type-pal/editor check`：typecheck passed；**158 files / 1209 tests passed**。
   - `pnpm --filter @type-pal/editor audit:design-system`：**87 files / 3 evidence-bound exceptions，passed**。
   - `pnpm --filter @type-pal/editor build`：passed；仅既有 chunk-size warning。
@@ -545,14 +561,16 @@ Branch: `codex/ed-project-startup-ia-1`
     各 `160px`，overflow 为 0。
   - 720×900：实际 composer 容器 `250px`，动作 full-width；HP/MP 再降为单列，名称/ID/动作保持可见，
     document/main overflow 为 0。
+  - 720×900 orphan 条件态：修正前两行分别为 `scroll/client 451/408`、`461/408`；修正后均为
+    `408/408`，卡片、行、values、tag 与清理按钮全部在边界内，未入队/不可参战状态和长 HP/MP 文本完整可读。
   - 实机字段：Escape 后值恢复空且 undo 仍 disabled；Enter 提交 `149` 后 undo/redo 为 `空 → 149 → 空`，
     未执行保存；PAL 与 Design Lab console error 均为 0。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 本轮返工自验 accept；等待 Kimi + GLM 对 K-R1-K-R4 / GM1-GM3 正式复审。
-- 必须返工项: pending reviewer findings。
+- 审查结论: Codex 本轮返工及 720px 条件态修正自验 accept；等待 Kimi + GLM 对当前 HEAD 正式复审。
+- 必须返工项: Owner 内部 high 已修复并有前后量测；pending Kimi / GLM reviewer findings。
 - Accept / rework: pending Kimi + GLM。
 
 ## 用户验收
@@ -563,6 +581,11 @@ Branch: `codex/ed-project-startup-ia-1`
 
 ## 交接日志
 
+- 2026-08-26 Codex: Kimi/GLM review 签字表仍为 pending 时，内部 GM1 条件态复核发现 orphan 行在 720px
+  被横向裁切。真实本地评审副本前后量测确认根因是 outer-center container owner + orphan nowrap；改为
+  card-local container 与 `DsRepeatRow` 公共 shrink-safe 合同后，row 从 451/461 over 408 收到 408/408。
+  响应式修正后 focused 81、门禁复跑 43、Editor 1209、typecheck、DS gate、build、console 均通过。Next: Kimi + GLM
+  必须复审当前 HEAD 并把 accept/counter 实际写回本节上方签字表；聊天“签了”不替代任务卡记录。
 - 2026-08-26 Codex: 验收返工单 Owner build 完成并转 review。成员行合并 HP/MP、移出原子清 seed、orphan
   三态 repair、`DsInlineComposer` / `DsRepeatRow` 与 DS v2.11.0 防回流门禁全部落地。聚焦 108、Editor
   全量 1209、typecheck、DS gate、build 与 PAL 1280/900/720、Design Lab 两档几何均通过；Codex accept。
@@ -620,13 +643,16 @@ DS-F.4 / DS-L.7 / DS-G.4。以当前分支实际 diff 与一手测试为准，�
 2) K-R2/K-R3：DsInlineComposer 父级唯一 density，control/action 任一显式 size 均失败；桌面 intrinsic、<480px
    单列；DS 文档/index/token/Design Lab 版本均为 2.11.0。
 3) GM1：census 必须含三 composer、成员、库存、资源、orphan 重复行，不能只查截图点名处；不存在
-   project-repeat-composer/project-repeat-row/project-seed-row 回流。
+   project-repeat-composer/project-repeat-row/project-seed-row 回流。另请独立核 `.project-card` 是实际容器
+   owner、`DsRepeatRow` child shrink-safe，且 orphan values 不得恢复 nowrap；720px 条件态不能只看
+   document overflow=0，必须逐行比较 scroll/client width 与子项矩形。
 4) GM2/GM3：未入队 battler、无 battler、缺失 actor 三态都可见且逐项单命令清理；其他 seed key 保持，
    remove/undo/redo/re-add 各步形状合法。
 5) schema/runtime/ActorDef ownership 未漂移，项目页没有技能/装备/属性/最大值快照通道。
 
-现有证据：聚焦 3 files/108；Editor check 158 files/1209 + typecheck；DS gate 87 files/3 allowlist；build；
-PAL 1280/900/720 与 Design Lab v2.11.0 两档几何、Escape/Enter/undo/redo、console 0 error。
+现有证据：原聚焦 3 files/108；响应式 follow-up 2 files/81；当前 Editor check 158 files/1209 + typecheck；
+DS gate 87 files/3 allowlist；build；PAL 1280/900/720、Design Lab v2.11.0 两档几何、Escape/Enter/undo/redo；
+720px orphan 真实条件态从 451/461 over 408 收到 408/408；console 0 error。
 
 请各自把独立结论写回任务卡“进入 done 前:审查签字”：accept，或 counter + file:line / 可复现测试 / 视觉
 证据与明确返工项。Kimi + GLM 两席未全部 accept 前不得标 done；不得开始下一张实现卡。
