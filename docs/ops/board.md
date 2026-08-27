@@ -15,9 +15,12 @@
 |---|---|---|---|---|
 | ED-INPUT-PERF-1 | 编辑器输入提交与全局派生状态性能收口 | done | 三方 accept + 用户确认齐，整卡收口 | `a7109fd4`：五字段 commit max 8.6–18.2ms、urgent Long Task 0 |
 | ED-DS-3 | 编辑器设计系统全量采用与防回流门禁 | done | 三方 accept 齐，整卡收口 | `9dd4e4a3`：25 页面采用闭包、公共 owner、三态静态门禁与精灵虚拟滚动完成 |
+| ED-FIELD-LAYOUT-1 | 编辑器字段标签列与响应式布局合同 | build（queued） | 三签齐；等待当前 Add Picker build 串行结束后由 Codex 实现 | 60/72 分裂/adoption 虚报/boundary 零断言实锤；DsFieldGroup 96px+480px container query 统一 |
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | done | 三方 accept + 用户验收齐，整卡收口 | `b118ce3a`：公共草稿/提交合同、首批采用与 AST 防回流门禁完成 |
-| ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | review | Codex rework accept；待 Kimi + GLM 实现终审 | Sortable 式实时让位、单缝、无回跳、value no-op 与身份/marker 门禁已闭环 |
-| ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | review | Codex accept；待 Kimi + GLM 对当前资源交互 candidate 复审 | live 消费候选、2×2/命令/焦点矩阵与 PAL + 条件 fixture 1280/900/720 已闭环 |
+| ED-ADD-PICKER-DIALOG-1 | 编辑器候选对象添加弹窗统一 | build | Codex 串行实现公共 owner；完成后 Kimi + GLM 复审 | Kimi KA1-KA5 + GLM AP1-AP3；4 处对话式追加（含 ShopTab）+ 3 处 append-default 全量登记 |
+| ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | done | 三方 accept + 用户复验齐，整卡收口 | Startup inventory 唯一遗漏动作槽已封组；1280/900/720 组内不拆行、无溢出 |
+| ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
+| ARCH-ACTOR-CONDITION-SEED-1 | 入口与剧情入队角色当前状态播种 | draft | Kimi + GLM 联合核真值与设计；签字齐前 build blocked | 入口快照与剧情命令分 owner；系统覆盖毒、定时状态、临时毒抗，不改 setParty / ActorDef |
 | ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | review | Codex accept；待 Kimi + GLM 只读终审 | 动态闭合 20 文件 / 28 消费点；11 面收口、17 面保留/例外，默认与 720px 已验证 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | done | 三方 accept + 用户验收齐，整卡收口 | content18、首次技能播种、当前 HP/MP 继承 UI 与 PAL replay 已完成 |
 | MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | done | 三方 accept + 用户验收齐，整卡收口 | `0e84e565`：4 定义 + 44 引用归一，严格重复为 0，replay 零计划 |
