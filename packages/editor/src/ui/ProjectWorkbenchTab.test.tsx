@@ -645,6 +645,8 @@ describe('入口开局世界资源', () => {
     const session = new EditSession(state)
     await act(async () => root.render(projectTab('entrypoint', session)))
 
+    expect(host.querySelector('[aria-label="初始道具数量：0 项"]')?.textContent).toBe('0 项')
+    expect(host.textContent).not.toContain('无初始道具。')
     const adder = host.querySelector<HTMLButtonElement>('[aria-label="添加初始道具"]')!
     await chooseSelectOption(adder, '还神丹')
     await act(async () => button(host, '添加道具').click())
@@ -654,7 +656,23 @@ describe('入口开局世界资源', () => {
     ])
 
     await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(host.querySelector('[aria-label="初始道具数量：1 项"]')?.textContent).toBe('1 项')
     const count = host.querySelector<HTMLInputElement>('[aria-label="还神丹的初始数量"]')!
+    const inventoryRow = count.closest('.project-inventory-row')!
+    const countField = count.closest('.project-inventory-count')!
+    const countLabel = countField.querySelector<HTMLLabelElement>('.ds-field__label')!
+    expect(countLabel.textContent).toBe('数量')
+    expect(countLabel.htmlFor).toBe(count.id)
+    const inventoryActions = inventoryRow.querySelector('.project-inventory-actions')!
+    expect(inventoryActions.parentElement).toBe(inventoryRow)
+    expect(inventoryActions.querySelectorAll('button')).toHaveLength(3)
+    expect(inventoryRow.children).toHaveLength(4)
+    const addComposer = host
+      .querySelector<HTMLButtonElement>('[aria-label="添加初始道具"]')!
+      .closest('.ds-inline-composer')!
+    expect(
+      inventoryRow.compareDocumentPosition(addComposer) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy()
     const beforeCount = session.getHistoryVersion()
     await act(async () => count.focus())
     await input(count, '6')
@@ -675,6 +693,9 @@ describe('入口开局世界资源', () => {
     )
     expect(session.getHistoryVersion()).toBe(beforeDelete + 1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([])
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(host.querySelector('[aria-label="初始道具数量：0 项"]')?.textContent).toBe('0 项')
+    expect(host.textContent).not.toContain('无初始道具。')
     expect(session.undo()).toBe(true)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
       { itemId: 'pill', count: 6 },

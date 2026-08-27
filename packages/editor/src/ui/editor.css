@@ -1749,22 +1749,21 @@ html[data-panel-resize="horizontal"] * {
   gap: var(--ds-space-2);
   justify-self: end;
 }
-.project-inline-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.project-inline-row > .in:not(.project-count) {
-  flex: 1 1 180px;
-  min-width: 120px;
-}
-.project-count {
-  width: 72px;
-  flex: 0 0 72px;
-}
 .project-inventory-row {
-  grid-template-columns: 30px minmax(0, 1fr) 84px auto;
+  grid-template-columns: 30px minmax(0, 1fr) max-content max-content;
+}
+.project-inventory-count > .ds-field {
+  grid-template-columns: max-content minmax(0, 1fr);
+  white-space: nowrap;
+}
+.project-inventory-actions {
+  display: inline-flex;
+  min-width: max-content;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: var(--ds-space-2);
+  justify-self: end;
+  white-space: nowrap;
 }
 .project-composer-field {
   display: grid;
@@ -2187,8 +2186,11 @@ html[data-panel-resize="horizontal"] * {
   .project-inventory-row > .ds-select {
     grid-column: 2 / -1;
   }
-  .project-inventory-row > .project-count {
+  .project-inventory-row > .project-inventory-count {
     grid-column: 2;
+  }
+  .project-inventory-row > .project-inventory-actions {
+    grid-column: 3;
   }
   .project-resource-row {
     grid-template-columns: minmax(0, 1fr) auto;
@@ -2227,6 +2229,17 @@ html[data-panel-resize="horizontal"] * {
   }
   .project-party-state {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .project-inventory-row {
+    grid-template-columns: 30px minmax(0, 1fr);
+  }
+  .project-inventory-row > .ds-select,
+  .project-inventory-row > .project-inventory-count,
+  .project-inventory-row > .project-inventory-actions {
+    grid-column: 2;
+  }
+  .project-inventory-row > .project-inventory-actions {
+    justify-self: start;
   }
   .project-orphan-seed-row {
     grid-template-columns: minmax(0, 1fr);

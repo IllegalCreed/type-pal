@@ -134,6 +134,15 @@ describe('editor design-system static boundary', () => {
 
     expect(project.match(/<DsInlineComposer\b/g)).toHaveLength(3)
     expect(project.match(/<DsRepeatRow\b/g)).toHaveLength(5)
+    expect(project).toMatch(
+      /className="project-inventory-actions"[\s\S]*?<DsReorderMoveButton[\s\S]*?<DsReorderMoveButton[\s\S]*?<DsIconButton/,
+    )
+    expect(businessCss).toMatch(
+      /\.project-inventory-actions\s*\{[\s\S]*?display:\s*inline-flex;[\s\S]*?flex-wrap:\s*nowrap;[\s\S]*?white-space:\s*nowrap;/,
+    )
+    expect(businessCss).toMatch(
+      /\.project-inventory-count\s*>\s*\.ds-field\s*\{[\s\S]*?grid-template-columns:\s*max-content minmax\(0, 1fr\);/,
+    )
     expect(project).not.toContain('project-repeat-composer')
     expect(project).not.toContain('project-repeat-row')
     expect(project).not.toContain('project-seed-row')

@@ -51,10 +51,11 @@ import {
   DsInlineComposer,
   DsListHeader,
   DsObjectHero,
-  DsRepeatRow,
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
+  DsRepeatRow,
   DsSelect,
   DsSelectField,
   DsSequenceIndex,
@@ -62,7 +63,6 @@ import {
   DsTextInput,
   reorderDsItems,
   sameDsSerializableValue,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/index.js'
 import type { EditorLocation } from './editor-navigation.js'
@@ -980,7 +980,12 @@ export function StartWorldFields(props: {
       </section>
 
       <section className="project-card">
-        <h4>初始道具</h4>
+        <div className="project-title-row">
+          <h4>初始道具</h4>
+          <DsTag aria-label={`初始道具数量：${inventory.length} 项`} tone="neutral">
+            {inventory.length} 项
+          </DsTag>
+        </div>
         <DsReorderCollection
           adoptionId="project/startup-inventory"
           scopeKey={`${draftScope}:inventory`}
@@ -1035,8 +1040,10 @@ export function StartWorldFields(props: {
                         })
                       }
                     />
-                    <span className="project-count">
-                      <DsDraftNumberInput
+                    <DsFieldMeasure measure="short-number" className="project-inventory-count">
+                      <DsDraftNumberField
+                        label="数量"
+                        layout="inline"
                         aria-label={`${itemName}的初始数量`}
                         min={1}
                         integer
@@ -1053,20 +1060,22 @@ export function StartWorldFields(props: {
                           })
                         }
                       />
+                    </DsFieldMeasure>
+                    <span className="project-inventory-actions">
+                      <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
+                      <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
+                      <DsIconButton
+                        disabled={readOnly}
+                        onClick={() =>
+                          patch({
+                            inventory: inventory.filter((_, itemIndex) => itemIndex !== index),
+                          })
+                        }
+                        label={`删除初始道具${itemName}`}
+                        icon="delete"
+                        variant="danger"
+                      />
                     </span>
-                    <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
-                    <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
-                    <DsIconButton
-                      disabled={readOnly}
-                      onClick={() =>
-                        patch({
-                          inventory: inventory.filter((_, itemIndex) => itemIndex !== index),
-                        })
-                      }
-                      label={`删除初始道具${itemName}`}
-                      icon="delete"
-                      variant="danger"
-                    />
                   </DsRepeatRow>
                 </DsReorderItem>
               )
@@ -1110,7 +1119,6 @@ export function StartWorldFields(props: {
                 </DsButton>
               }
             />
-            {inventory.length === 0 ? <PageHint>无初始道具。</PageHint> : null}
             {inventory.length > 0 && addableItems.length === 0 ? (
               <PageHint>所有道具都已加入初始库存。</PageHint>
             ) : null}

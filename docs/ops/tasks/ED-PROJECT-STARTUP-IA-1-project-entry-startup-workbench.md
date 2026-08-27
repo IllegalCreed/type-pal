@@ -1,6 +1,6 @@
 # ED-PROJECT-STARTUP-IA-1 - 入口与开局 / 全局资源与启动工作台收口
 
-Status: review（2026-08-26 初始世界资源交互返工 build 完成；Codex accept，待 Kimi + GLM review）
+Status: done（2026-08-27 三方增量 accept + 用户库存行复验通过，整卡收口）
 Phase: phase2
 Capability: X7
 Coding Owner: Codex
@@ -83,7 +83,9 @@ Branch: `codex/ed-project-startup-ia-1`
   “队伍顺序”与“开局当前状态”重复展示同一角色、宽数值框占据整行且移出队伍后可能遗留无效覆盖 ->
   每个队员只出现一次并在成员行内编辑紧凑的当前 HP/MP，移出时原子清理该角色覆盖；资源交互返工补充为
   “作者输入 `alchemyEnergy` 一类内部 key 才能添加初始世界资源” -> “从项目内真实消费引用选择可读资源；无
-  候选时显示明确空态，既有未知 key 只进入 repair 流”。
+  候选时显示明确空态，既有未知 key 只进入 repair 流”；库存空态验收返工补充为“无动作的‘无初始道具’文案
+  出现在新增器下方，空态与有数据态的信息区域发生跳变” -> “标题右侧始终显示库存种类数，条目固定在新增器
+  上方，0 项时不再重复说明空库存”。
 - 代表场景: 编辑默认入口队伍与初始库存；在全局资源中试听默认战斗音乐；项目概览跳到对应唯一作者页。
 - 用户裁决: 2026-08-24 用户要求将入口、开局、全局资源与启动缺陷系统收口；2026-08-25 用户明确指出
   `s000`、`assets.roles` 等普通人无法理解，要求重做摘要并展示重要、直观的信息；2026-08-26 用户确认
@@ -180,7 +182,8 @@ Branch: `codex/ed-project-startup-ia-1`
     作者看见消费物品名称，内部 key 只作次级说明。零候选显示明确空态且不渲染 disabled composer；已有 orphan /
     unknown key round-trip 不丢失，显示“未被使用”并可单步清理。
   - 库存、资源使用同一重复行合同；删除动作不换行，空态与新增路径清楚。角色初始技能只由
-    `ActorDef.initialMagic` 持有，入口页不显示或保存技能快照。
+    `ActorDef.initialMagic` 持有，入口页不显示或保存技能快照。初始道具标题右侧显示动态种类数标签；已有条目
+    始终位于新增器上方，0 项时不在新增器下方渲染重复的无动作占位文案。
   - 音乐和音效都能原位试听；试听与打开资源页是两个明确动作；切曲停止前一资源。
   - 全局资源角色及分组由源码常量动态生成，界面无“编辑 8 项”等陈旧数字。
   - 项目概览只保留三张摘要卡与两个唯一导航 owner：
@@ -535,9 +538,9 @@ Branch: `codex/ed-project-startup-ia-1`
 - 缺签豁免: N/A
 - build 准入结论: **allowed（2026-08-26，Codex + Kimi（K-W1-K-W3）+ GLM（GR1-GR3）三签齐）。**
 
-### 进入 done 前:审查签字（当前资源交互返工 candidate）
+### 进入 done 前:审查签字（当前资源交互与库存空态返工 candidate）
 
-- Codex: **accept（2026-08-26）**。实现与验证直接覆盖 K-W1-K-W3 / GR1-GR3：候选仅由 live items 纯派生，
+- Codex: **accept（2026-08-27）**。实现与验证直接覆盖 K-W1-K-W3 / GR1-GR3：候选仅由 live items 纯派生，
   按 item id 稳定聚合并去重同物品重复 effect；`collectValue` 永久排除，已配置排除只看当前入口。消费+已配置、
   消费+未配置、未消费+已配置、未消费+未配置四态分别落为正常行、可搜索候选、repair 行和不存在；新增以 0
   建键，新增/改值/删除/清理各一条命令，undo/redo 与 composer 选择恢复通过。可读物品名是主信息，稳定 key
@@ -546,11 +549,101 @@ Branch: `codex/ed-project-startup-ia-1`
   typecheck、DS gate（87 files / 3 evidence-bound exceptions）与 `git diff --check` 通过。PAL 真实零候选及临时
   demo 条件 fixture 在 1280/900/720px 均无 document/card/popup 横向溢出；720px 动作按 recipe 单列，长标签、
   repair、搜索和 Escape 均实机闭环。临时 fixture 已恢复，未修改 `projects/pal`，未改 schema/runtime。
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
+  2026-08-27 库存验收返工在同一已签 IA 范围内补充：标题右侧 neutral `DsTag` 显示 live
+  `inventory.length`，删除新增器下方的重复空态，列表/新增器 DOM 顺序由测试钉住；聚焦
+  `ProjectWorkbenchTab.test.tsx` **1 file / 40 tests**、typecheck、DS gate 通过。真实 PAL 浏览器验证 0 项无占位、
+  临时添加后 1 项且条目位于新增器前；随后重载丢弃临时内存数据，未保存工程。
+- Kimi: **accept（2026-08-27，只读终审当前 candidate = HEAD c799cb35 + 工作树库存空态返工；独立直读 +
+  聚焦复跑，非代理）**。按我历次设计钉子逐项核验：
+  - **K-R1/K-R4（移出原子 + 继承/恢复可区分）✓**：`removeParty` 单次 `patch({party, seedStats})` 同删
+    （ProjectWorkbenchTab.tsx:703-713），空 map 归 undefined；`addParty` 只补 party 不恢复旧 seed
+    （:695-702）——再加入继承 ActorDef 基线与 undo 恢复旧 seed 是两种可区分状态；onChange 经
+    `patchEntry` 落入单个 `SetStartupEntriesCommand`（:1675-1683 + 既有 commit 路径）。
+  - **orphan 三态 ✓**：未入队/不可参战/角色缺失分态显示 + 逐项可撤销清理（:943-963），不静默隐藏。
+  - **K-W1/K-W3（资源派生）✓**：`deriveStartWorldResourceCandidates`（:121-142）为纯函数——item id
+    copy-sort、按 key 聚合、同物品同 key 去重、排除空白/首尾空格/`collectValue`；2×2 矩阵与
+    “已配置只看当前入口”（:676-683）落地。
+  - **KI1/KI2（概览三卡）✓**：默认开局/标题菜单/启动资源三卡（:1949,:1997,:2029）全部 live 派生；
+    起始位置为健康态文案（不常驻裸 scene id）；全文件显示层无 `s000`/`assets.roles`/“编辑 N 项”/
+    “启动分支”残留（grep 零命中）；资源 label 由 `project-asset-roles.ts` typed registry 从
+    ASSET_ROLES 派生（:7）。
+  - **K-R2/K-R3（density owner 与版本）✓**：DsInlineComposer/DsRepeatRow 父级持 density；规范/代码
+    常量/CSS token/Design Lab 均 v2.11.0；工作树 recipes.css 对默认档图标按钮同高补强。
+  - **KP1（试听单通道）✓**：`audio-preview-session.ts` + `ProjectAudioPreviewButton` + MusicPicker/
+    SoundPicker 共用单一 owner，测试通过。
+  - **2026-08-27 库存空态 ✓**：标题右侧 neutral DsTag live 数量、重复空态删除、条目在新增器前的 DOM
+    顺序由测试钉住（工作树 diff 直读）。
+  - 聚焦复跑：ProjectWorkbenchTab/controls/adoption/boundary/project-asset-roles/project-role-groups/
+    audio-preview-session 7 文件 122/122 全绿（含真实门禁脚本执行）；全量采纳卡内记录未重复。
+- GLM: **accept（2026-08-27，只读终审，本人一手直读实现 + 独立复跑聚焦测试）**：
+  1. **K-W1/GR1 候选派生**：`deriveStartWorldResourceCandidates`（ProjectWorkbenchTab.tsx:121-142）
+     纯函数消费 live items、item id 排序聚合、同物品多 effect 同 key 不重名（consumers Map 按
+     item.id 去重 :131）、collectValue/空白键排除 :129、候选按 key 排序 :136——单元测试 :951-967
+     用 spiritWater 双物品 + collectValue 混合 fixture 断言 label="灵泉水、炼丹炉·水纹" 与
+     consumerItemIds 顺序，与我设计审查期实跑的派生 fixture 一致。消费侧 :671-683 与“添加道具”
+     同一 items 集合（live 单源），active/orphan/addable 三分即 2×2 矩阵实现（:679-682）。
+  2. **K-W2 repair 与空态**：repair 区仅在有 orphan key 时渲染（:1212+，aria-label“未被使用的
+     资源”），与零候选空态共存不合并；composer 仅在 addable>0 时渲染（:1173），零候选/
+     全配置两种 PageHint 文案区分（:1206-1210）——“本项目没有需要为入口设置初值的自定义资源”
+     空态不渲染任何 composer（含 disabled），GR3 落实。测试 :969+ 断言无自由键输入、repair
+     可见、collectValue 不出现、搜索过滤与 Escape。
+  3. **K-W3/GR2 命令边界**：addResource :756-764 对最新 addable 候选重校验 stale selection、
+     恰一次 patchResource(key, 0)；remove/clearOrphan 各一次 patch（:765-780）+ 焦点接力 +
+     pointerdown 阻止脏草稿 blur；undo/redo 由 SetStartupEntriesCommand 既有原子域承担——本席
+     设计期已验证该命令 apply/invert 同源捕获。跨入口排除按当前 entry 的 value.resources
+     计算（:682），不污染其他入口。
+  4. **库存空态返工附记**：工作区当前 diff 为 live `DsTag` 数量徽标（:985-987，aria-label）+
+     删除新增器下方重复空态，列表 DOM 在新增器之前——与 Codex accept 描述一致。
+  5. **历史钉仍完好**：removeParty :703-714 原子清 party+seed 且空 map 归一 undefined；
+     patchSeed/clearSeed 稀疏语义；orphan seed 三态（未入队/不可参战/角色缺失 :950）+
+     单项清理；播报节点 ds-visually-hidden :977。
+  6. **验证复跑**：`vitest run ProjectWorkbenchTab.test.tsx` → **1 file / 40 tests passed**
+     （本席独立执行）；`git show 1ebb8e8d/c799cb35 -- packages/content|reforge|migrate|projects`
+     均为空——schema/runtime/migration/PAL 未动。
+  - 无返工项。未修改实现文件，未代签 Kimi。
+- Kimi 增量补审 accept（2026-08-27，只读，仅限用户验收增量四点，不重审旧范围；独立直读 + 聚焦复跑，
+  非代理）：
+  1. **可见“数量”字段 ✓**：库存行 count 为 `DsFieldMeasure measure="short-number"` 包
+     `DsDraftNumberField label="数量"`（ProjectWorkbenchTab.tsx:1043-1046，diff 直读）；label/input
+     关联、0/1/0 live 数量徽标、Enter+blur 单命令均由测试钉住（ProjectWorkbenchTab.test.tsx:648-697）。
+     数值字段有界（short-number measure），不占整行。
+  2. **三动作原子槽 ✓**：`.project-inventory-actions` 为行内唯一动作槽（前移/后移公共
+     `DsReorderMoveButton` + danger 删除），是行的 direct child 且整行恰 4 子项（:1060-1076 + 测试
+     :666-669）；boundary.test.ts 新增断言把动作槽结构与 CSS（inline-flex/nowrap/max-content）机检钉死。
+  3. **三档响应布局 ✓（CSS 直读）**：editor.css 基础档 `30px 1fr max-content max-content` 四列同排
+     （:1752-1754）；中档 count/actions 各占独立列（:2183-2196）；窄档三项整组降第二列、动作
+     `justify-self:start`（:2233-2243）；组内 `flex-wrap:nowrap + min-width:max-content` 保证三动作
+     永不拆行；默认档 36×36 由 `.ds-repeat-row[data-density="default"] .ds-icon-button` 公共规则 +
+     boundary 断言锁定。与 Codex 三档浏览器证据（top spread=0、scrollWidth=clientWidth）结构一致。
+  4. **两个 Catalog Row evidence 指纹 ✓**：`catalog-row-content-adoption.json` 的
+     cutscene/asset-catalog 与 sprite-action/preset-catalog 指纹刷新；本人复跑
+     `catalog-row-content-adoption.test.ts` 4/4 通过——测试按当前 JSX 重算指纹，二者一致即防漂移。
+  - 复跑：ProjectWorkbenchTab 40 + boundary 43 + catalog-row-content-adoption 4，本席独立执行全绿。
+    无返工项；未修改实现，未代签 GLM。
+- GLM 增量补审 accept（2026-08-27，只读，仅限用户验收增量四点，不重审旧范围）：
+  1. **可见“数量”字段**：库存行 count 为 `DsFieldMeasure measure="short-number"` 包
+     `DsDraftNumberField label="数量"`（ProjectWorkbenchTab.tsx:1043-1046），label/input 关联由测试
+     断言 `countLabel.htmlFor === count.id`（test :663-664）；Enter 后 historyVersion +1、随后 blur
+     仍为 +1（:676-681）——Enter + blur 单命令合同成立。  2. **三动作原子槽**：`.project-inventory-actions` 为行内唯一动作槽，含前移/后移
+     `DsReorderMoveButton` + 删除共 3 按钮（:1055-1073）；测试断言 actions 是 direct child、
+     `querySelectorAll('button')` 恰 3、整行 direct child 恰 4（:666-669）。
+  3. **响应布局**：editor.css 三档——基础 4 列 `30px 1fr max-content max-content`（:1752-1754，
+     宽屏同排）；中档 count/actions 各占独立 grid 列（:2183-2196，组不拆）；窄档三项整组降至
+     第二列（:2233-2243，仅整组换行）。动作槽 `flex-wrap:nowrap + white-space:nowrap +
+     min-width:max-content`（:1759-1766）保证组内永不拆散；36×36 由
+     `.ds-repeat-row[data-density="default"] .ds-icon-button` 公共规则 + boundary 断言钉住。
+     Codex PAL 三档 top spread=0 / scrollWidth=clientWidth 证据与上述 CSS 结构一致。
+  4. **DsRepeatRow census**：全库恰 5 处（party :834 / orphan-seed :953 / inventory :1006 /
+     resource :1145 / resource-repair :1232），inventory 是唯一曾有未封组多动作的表面，现以页面级
+     槽位 span 封组——未扩大公共 API，符合“不为此扩 DsRepeatRow 合同”的边界。
+  - 本席独立复跑 `ProjectWorkbenchTab.test.tsx + catalog-row-content-adoption.test.ts +
+    reorder.test.tsx` → **3 files / 66 tests passed**。无返工项；未修改实现，未代签 Kimi。
+- counter / 返工处理: 2026-08-27 用户验收明确拒绝宽屏库存行把下移 / 删除拆到第二行，并指出裸数值 `1`
+  缺少可见“数量”语义；其余 Startup / Reorder 验收项通过。Codex 已完成增量返工，旧 Kimi / GLM accept
+  作为上一 candidate 历史保留；当前 Kimi / GLM 增量补审 accept 均已写回并授权最终 done（见上）。
 - 缺签豁免: N/A
-- done 准入结论: blocked（待 Kimi + GLM 分别 accept）
+- done 准入结论: **allowed / complete（2026-08-27）**——Codex rework accept + Kimi 增量补审
+  accept + GLM 增量补审 accept 齐，用户随后复验库存行并明确“通过”。
 
 ### 进入 done 前:审查签字（历史候选；当前审查已停止）
 
@@ -751,25 +844,91 @@ Branch: `codex/ed-project-startup-ia-1`
     下 composer、repair、popup 均无横向溢出，720px 动作为单列 full-width；搜索“灵泉”只得一个聚合候选，
     Escape 关闭 popup 并把焦点还给“添加世界资源”。fixture 与临时 dev server 均已清理。
 
+### 2026-08-27 初始库存空态与数量返工增量（当前 candidate）
+
+- 修改文件: `packages/editor/src/ui/ProjectWorkbenchTab.tsx` / `.test.tsx`。
+- 实现摘要:
+  - “初始道具”标题右侧复用 neutral `DsTag`，动态显示 `inventory.length`（库存种类数，不是总件数）。
+  - 删除新增器下方的“无初始道具。”；添加器本身已提供恢复路径，`0 项` 标签已表达空状态，不再重复无动作说明。
+  - 现有条目原本已在 `DsInlineComposer` 上方，本轮补 DOM 顺序回归断言，防止空态/有数据态再次交换信息区域。
+- 聚焦验证:
+  - `pnpm --filter @type-pal/editor exec vitest run src/ui/ProjectWorkbenchTab.test.tsx`：**1 file / 40 tests passed**；
+    覆盖 0 -> 1 -> 0 动态数量、空态文案缺席、条目在新增器前，以及原有命令/撤销合同。
+  - `pnpm --filter @type-pal/editor typecheck`：passed。
+  - `pnpm --filter @type-pal/editor audit:design-system`：**87 files / 3 evidence-bound exceptions，passed**。
+- 功能界面证据:
+  - PAL 真实工程空库存显示标题右侧“0 项”，下方直接是添加器，无“无初始道具。”；临时添加“观音符”后显示
+    “1 项”，条目在添加器上方。验收后重载页面丢弃临时内存改动，未保存工程。
+
+### 2026-08-27 库存行数量语义与动作槽验收返工（当前 candidate）
+
+- 用户反例与根因:
+  - 宽屏库存行只声明 4 个 grid 列，却把序号、选择器、数量和上移 / 下移 / 删除共 6 个 direct child 交给
+    auto-placement；因此上移留在第一行，下移 / 删除进入隐式第二行。
+  - 数量输入只有 item-specific `aria-label`，视觉上只显示裸数值，普通用户无法直观看出字段语义。
+- 实现摘要:
+  - 数量改为 `DsFieldMeasure(measure="short-number") + DsDraftNumberField(label="数量", layout="inline")`；
+    可见标签与输入正确关联，宽度继续由公共短数值 measure 持有，不保留页面私有像素宽度。
+  - 三枚动作封装为唯一 `.project-inventory-actions` direct child，组内 `inline-flex + nowrap`；宽容器不拆行，
+    `<=520px` 与 `<=400px` 只允许整个动作组按既有容器合同降行。
+  - 全库 5 个生产 `DsRepeatRow` census：队伍三动作已有封组，库存是唯一遗漏；其余三处各只有一个动作，
+    因此不扩大公共 API。
+- 验证:
+  - 失败测试先证实旧 DOM 无数量字段 / 动作槽；修复后 `ProjectWorkbenchTab + boundary` **2 files / 83 tests**，
+    加 Catalog Row 指纹门禁复跑共 **3 files / 87 tests** 通过。
+  - `pnpm --filter @type-pal/editor check` 的 typecheck 通过；全量阶段仅发现 Reorder 旧提交留下的两处 catalog
+    fingerprint 漂移，绑定当前真实调用点后聚焦门禁通过；未重复运行耗时全量。
+  - DS gate：**87 files / 3 evidence-bound exceptions，passed**；`git diff --check` passed。
+  - Chromium 真实 PAL 临时添加“观音符”：1280 / 900 / 720px 三档三按钮均 36×36、`top spread = 0`、
+    全在 row 边界内且 `scrollWidth === clientWidth`；数量标签均可见。900px 选择器整行、数量与动作同一响应行；
+    720px 三块依次整组降行。console 0 error / 0 warning；未保存临时工程状态。
+
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: 当前资源交互返工 candidate 已完成，Codex accept；待 Kimi + GLM 对当前 diff 与验证证据分别
-  写回 accept/counter。
-- 必须返工项: 当前无 Coding Owner 自检 blocker；reviewer 如发现 consumer census、命令边界、窄宽或无障碍
-  反例必须转 rework，不得用历史 accept 代签。
-- Accept / rework: review；三方 done 签字未齐，不标 done。
+- 审查结论: **Codex / Kimi / GLM 三方 accept（2026-08-27）**；两席均已独立补审“数量字段 +
+  原子动作槽 + catalog 指纹绑定”增量，无 counter。
+- 必须返工项: 无；用户验收提出的库存动作拆行与裸数量语义两项均已闭环。
+- Accept / rework: **accept / done**。
 
 ## 用户验收
 
 - 用户结论: 2026-08-26 上一 candidate 的角色初始状态语义验收通过；入口工作台视觉验收提出本轮返工并批准
   按 Codex 推荐方案推进；随后再次明确指出“初始世界资源”的内部 key 输入不可理解，要求改成选项或更简单的
-  交互，整卡尚未验收。
-- 后续任务: 当前 candidate 待 Kimi + GLM 只读复审；同时 Coding Owner 可按冻结顺序转入已三签的
-  `ED-CATALOG-ROW-IA-1`，不得开始仍缺签的 `ARCH-ACTOR-CONDITION-SEED-1`。
+  交互。2026-08-27 用户指出库存空态说明位于新增器下方既重复又与有数据态结构不一致，建议改为标题右侧数量
+  tag；Codex 已按该方案完成。2026-08-27 用户验收确认其余项目无问题，但拒绝初始道具宽屏动作拆行，并指出
+  裸数量值缺少可见语义；Codex 完成 acceptance rework，Kimi / GLM 增量补审均 accept；2026-08-27 用户刷新
+  复验后明确“通过”，本卡最终验收完成。
+- 后续任务: 本卡无剩余返工或审查；用户要求的“候选添加改为按钮打开选择弹窗”继续由独立 successor
+  `ED-ADD-PICKER-DIALOG-1` 承接，不回填或重开本卡。
 
 ## 交接日志
 
+- 2026-08-27 User: 复验库存行可见“数量”字段及不可拆分的上移 / 下移 / 删除动作组，明确“通过”。三方
+  增量 accept 与用户验收均齐，本卡转 done；无下一位 reviewer，successor 按独立任务卡串行推进。
+
+- 2026-08-27 Kimi 增量补审: 只读核用户验收增量四点（数量可见 label+有界、三动作原子槽、三档响应 CSS、
+  两个 catalog 指纹漂移修复），独立直读 diff + 复跑 ProjectWorkbenchTab 40/boundary 43/
+  catalog-adoption 4 全绿；签 accept。未修改实现，未代签 GLM，未标 done。Next: 用户复验库存行后收口。
+
+- 2026-08-27 User + Codex: 用户验收确认其余 Startup / Reorder 项无问题，只 counter 初始库存宽屏动作拆行，
+  并补充指出裸 `1` 无法直观表达数量。Codex 实锤 4 列 / 6 direct child 的 auto-placement 根因，改为公共
+  short-number measure 的可见“数量”字段和一个不可拆分动作槽；83 + 87 聚焦测试、typecheck、DS gate、
+  1280/900/720px 几何与 console 均通过。旧两席 accept 降为历史。Next: Kimi + GLM 只读补审增量；随后用户
+  只复验库存行，不重验已通过项目。
+- 2026-08-27 Kimi: done 前只读终审当前 candidate（HEAD c799cb35 + 工作树库存空态返工），签
+  **accept**。逐项核验历次钉子：移出单命令同删 party+seed 且空 map 归一、再加入继承与 undo 恢复
+  可区分、orphan 三态逐项清理、资源候选纯派生 + 2×2 矩阵 + 跨入口排除、概览三卡 live 且无机器
+  token、registry 单一来源、density 父级 owner + v2.11.0 三处一致、试听单通道、库存数量 tag 与 DOM
+  顺序钉。聚焦 7 文件 122/122 复跑全绿（含真实门禁脚本）。未修改实现，未代签 GLM。三方 accept 齐，
+  待用户验收收口；本卡收口后 ED-ADD-PICKER-DIALOG-1 方可按序开工。
+- 2026-08-27 User + Codex: 用户把“按钮 -> 弹窗选择 -> 明确确认”的候选添加重设计拆成独立 successor
+  `ED-ADD-PICKER-DIALOG-1`。本卡保留当前 inline candidate 的历史 / review 真值，不因 successor 退回 build；
+  新卡三签齐前不得修改实现。
+- 2026-08-27 User + Codex: 用户指出“无初始道具。”位于新增器下方既重复又与有数据态列表位置不一致，建议
+  标题右侧直接显示数量 tag。Codex 在原卡验收范围内改为 live 种类数 neutral tag、删除重复空态，并用测试钉住
+  列表始终在新增器前；聚焦 40、typecheck、DS gate 与 PAL 0/1 项浏览器验证通过，临时验收数据未保存。
+  Next: Kimi + GLM 对资源交互与本轮库存空态增量一起只读复审，分别写回 accept/counter。
 - 2026-08-26 GLM: 状态同步——核验发现 Kimi 席已在本席写回的同窗口独立签字（K-W1-K-W3）并把
   “初始世界资源交互返工 build 准入签字（当前）”的准入结论改为 allowed；本席仅同步 Status/看板/
   主审立场/Review 结论/下一位提示词与门禁一致，未改动 Kimi 签字与其结论文本。K-W1（id 排序拼接）
@@ -843,7 +1002,7 @@ Branch: `codex/ed-project-startup-ia-1`
 ## 下一位 Agent 提示词（当前 review）
 
 ```text
-接手任务：ED-PROJECT-STARTUP-IA-1 初始世界资源交互返工只读复审。
+接手任务：ED-PROJECT-STARTUP-IA-1 初始世界资源交互 + 初始库存空态返工只读复审。
 任务卡：docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md
 当前状态：review；Codex 已 accept，Kimi / GLM 当前 done 签字 pending。
 你的角色：Reviewer（Kimi 核架构/无障碍/视觉边界；GLM 核 census/2×2/命令与测试矩阵）。
@@ -853,9 +1012,10 @@ Branch: `codex/ed-project-startup-ia-1`
 
 重点核对：候选是否只消费 live items 并稳定去重；collectValue/当前入口/跨入口边界；2×2 与 orphan repair；
 新增/改值/删除/清理是否各一条命令并可撤销；长名称/技术 key 层级；搜索、Escape、add/delete/repair 焦点；
-1280/900/720 popup 与横向溢出。不得改实现文件，不得代签另一席。
+1280/900/720 popup 与横向溢出；库存标题数量是否取 live 行数、0 项是否没有重复占位、已有条目是否始终位于
+新增器上方。不得改实现文件，不得代签另一席。
 
-输出：在任务卡“进入 done 前:审查签字（当前资源交互返工 candidate）”写入 accept，或写 counter + 直接证据
+输出：在任务卡“进入 done 前:审查签字（当前资源交互与库存空态返工 candidate）”写入 accept，或写 counter + 直接证据
 和返工项；同步 Review/交接日志。Kimi + GLM 都 accept 前不得标 done。
 ```
 
@@ -914,3 +1074,35 @@ drawFromResourcePool 的本地 fixture（多候选/长名称/搜索键盘/undo-r
   紫金葫芦 collectValue 一条消费——全部一手复现；构造 spiritWater/treasurePoints fixture 实跑派生
   得到去重可读候选（item.name 主标签有库内先例）。未发现第二消费域，无 counter。Codex + GLM 已签，
   待 Kimi；未修改实现，未代签。
+
+## 下一位 Agent 提示词（2026-08-27 用户验收增量补审）
+
+```text
+请联合只读补审 ED-PROJECT-STARTUP-IA-1 + ED-REORDER-DRAG-1 的用户验收增量。
+
+任务卡：
+- docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md
+- docs/ops/tasks/ED-REORDER-DRAG-1-editor-sortable-collection-drag-handles.md
+当前状态：review。上一 candidate 的 Kimi / GLM accept 因用户可见返工失效；Codex 已 rework accept。
+不得修改实现、不得代签另一席、不得标记 done。
+
+只需审当前增量，不重审已通过旧范围：
+1. ProjectWorkbenchTab 库存数量是否使用 DsFieldMeasure(short-number) + 可见“数量”标签，label/input 正确关联，
+   Enter + blur 仍只提交一条命令。
+2. inventory row 是否只有 4 个 direct child，前移/后移/删除位于一个 project-inventory-actions 原子槽；
+   1280px 同行，900/720px 只允许整组降行，组内不拆散、不溢出，按钮仍为 36×36。
+3. 全库 5 个 DsRepeatRow census 是否证明 inventory 是唯一未封组多动作面，不应扩大公共 API。
+4. catalog-row-content-adoption.json 两个 fingerprint 是否精确绑定当前 CutsceneTab / SpriteActionEditor 调用点，
+   没有用 allowlist 绕过门禁。
+
+现有证据：2 files / 83 tests、含 catalog gate 3 files / 87 tests、typecheck、DS gate（87 files / 3 exceptions）、
+git diff-check 通过；PAL 1280/900/720 几何 top spread=0、scrollWidth=clientWidth、console 0 error/warning。
+
+请分别把 `accept` 或 `counter + 文件:行 + 最小返工条件` 写回两卡当前 done 签字 / Review 段。
+双 accept 后只等待用户复验这一行，不要求用户重验其余已通过项目。
+```
+
+## 下一位 Agent 提示词（2026-08-27 收口）
+
+无下一位 Agent 提示词；Codex / Kimi / GLM 三方审查与用户验收均已完成。后续工作按独立 successor
+`ED-ADD-PICKER-DIALOG-1` 的签字、范围与证据推进，不重开本卡。
