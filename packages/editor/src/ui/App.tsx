@@ -162,7 +162,10 @@ import {
   DsControlGroup,
   DsDraftNumberInput,
   DsDraftTextInput,
+  DsFieldMeasure,
   DsIconButton,
+  DsInspectorHost,
+  DsInspectorSection,
   DsInspectorTabs,
   DsListHeader,
   DsNumberInput,
@@ -380,9 +383,8 @@ export function App(props: {
         : (['legacy', snapshot.version] as const),
     shallowSelectorArrayEqual,
   )
-  const subscribedDerivedSnapshot = useEditorDerivedSelector(
-    derivedStore,
-    (snapshot) => (selectorOwnedPage ? undefined : snapshot),
+  const subscribedDerivedSnapshot = useEditorDerivedSelector(derivedStore, (snapshot) =>
+    selectorOwnedPage ? undefined : snapshot,
   )
   const derivedSnapshot = subscribedDerivedSnapshot ?? derivedStore.getSnapshot()
   const derivedData =
@@ -2298,9 +2300,9 @@ export function App(props: {
                               ? '请先结束实体放置'
                               : !derivedReferenceSnapshotCurrent
                                 ? '正在刷新脚本引用，暂不允许删除'
-                              : references.length
-                                ? `仍有 ${references.length} 处脚本引用；请到引用区处理`
-                                : `删除命名落点 ${sceneEntryOutlineLabel(entry)}`
+                                : references.length
+                                  ? `仍有 ${references.length} 处脚本引用；请到引用区处理`
+                                  : `删除命名落点 ${sceneEntryOutlineLabel(entry)}`
                           }
                           onClick={() => deleteNamedEntry(id)}
                         />
@@ -2380,9 +2382,9 @@ export function App(props: {
                                     ? '请先结束实体放置'
                                     : !derivedReferenceSnapshotCurrent
                                       ? '正在刷新实体引用，暂不允许删除'
-                                    : references.length
-                                      ? `仍有 ${references.length} 处引用；请到“引用”页处理`
-                                      : `删除实体 ${e.id}`
+                                      : references.length
+                                        ? `仍有 ${references.length} 处引用；请到“引用”页处理`
+                                        : `删除实体 ${e.id}`
                                 }
                                 onClick={() => deleteEntity(e.id)}
                               />
@@ -2613,7 +2615,9 @@ export function App(props: {
               )}
             </div>
 
-            <div className={`inspector${!placingEntity && selEntity ? ' inspector--tabbed' : ''}`}>
+            <DsInspectorHost
+              className={`inspector${!placingEntity && selEntity ? ' inspector--tabbed' : ''}`}
+            >
               {placingEntity ? (
                 <PlacePalette
                   actors={state.actors}
@@ -2710,8 +2714,7 @@ export function App(props: {
                         }
                       />
                       {scriptSession && scriptState && !drawer.open ? (
-                        <div className="section script-entity-section">
-                          <h4>脚本行为</h4>
+                        <DsInspectorSection title="脚本行为" className="script-entity-section">
                           {canonicalEntity?.hostile ? (
                             <CanonicalHostileOnLoseEditor
                               value={canonicalEntity.hostile.onLose}
@@ -2747,18 +2750,18 @@ export function App(props: {
                             />
                           ) : null}
                           {canonicalEntity && canonicalPage ? (
-                            <div className="script-page-binding">
+                            <DsPropertyGrid className="script-page-binding">
                               {(['trigger', 'auto'] as const).map((channel) => {
                                 const registry = canonicalEntity.behaviors?.[channel] ?? {}
+                                const fieldId = `scene-entity-page-${scene.id}-${selEntity.id}-${canonicalPage.id}-${channel}`
                                 return (
-                                  <div key={channel}>
-                                    <span className="field-label">
-                                      {channel === 'trigger' ? '触发行为槽' : '自动行为槽'}
-                                    </span>
+                                  <DsPropertyRow
+                                    key={channel}
+                                    label={channel === 'trigger' ? '触发行为槽' : '自动行为槽'}
+                                    labelFor={fieldId}
+                                  >
                                     <DsSelect
-                                      aria-label={
-                                        channel === 'trigger' ? '触发行为槽' : '自动行为槽'
-                                      }
+                                      id={fieldId}
                                       value={canonicalPage[channel] ?? ''}
                                       options={[
                                         { value: '', label: '显式无行为' },
@@ -2785,10 +2788,10 @@ export function App(props: {
                                         )
                                       }
                                     />
-                                  </div>
+                                  </DsPropertyRow>
                                 )
                               })}
-                            </div>
+                            </DsPropertyGrid>
                           ) : null}
                           <div className="script-channel-tabs" role="tablist" aria-label="行为通道">
                             {(['trigger', 'auto'] as const).map((channel) => (
@@ -2825,7 +2828,7 @@ export function App(props: {
                             }
                             onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
                           />
-                        </div>
+                        </DsInspectorSection>
                       ) : null}
                     </>
                   }
@@ -2867,7 +2870,7 @@ export function App(props: {
                   }
                 />
               )}
-            </div>
+            </DsInspectorHost>
           </>
         )}
 
@@ -2983,6 +2986,7 @@ function PlacePalette(props: {
     onZoneRangeChange,
   } = props
   const [filter, setFilter] = useState('')
+  const zoneRangeId = useId()
   const spriteById = new Map(sprites.map((sprite) => [sprite.id, sprite]))
   const visibleMode = mode === 'actor' || mode === 'sprite'
   const triggerOn = mode === 'interact-zone' ? 'interact' : 'touch'
@@ -3067,19 +3071,28 @@ function PlacePalette(props: {
                 交互
               </DsPressable>
             </fieldset>
-            <label className="place-range-field">
-              <span>范围</span>
-              <DsNumberInput
-                min={0}
-                max={99}
-                value={zoneRanges[triggerOn]}
-                onChange={(event) => {
-                  if (Number.isFinite(event.target.valueAsNumber))
-                    onZoneRangeChange(triggerOn, Math.max(0, event.target.valueAsNumber))
-                }}
-              />
-              <span>格</span>
-            </label>
+            <DsPropertyGrid>
+              <DsPropertyRow label="范围" labelFor={zoneRangeId}>
+                <DsFieldMeasure measure="short-number">
+                  <DsControlGroup
+                    control={
+                      <DsNumberInput
+                        id={zoneRangeId}
+                        size="compact"
+                        min={0}
+                        max={99}
+                        value={zoneRanges[triggerOn]}
+                        onChange={(event) => {
+                          if (Number.isFinite(event.target.valueAsNumber))
+                            onZoneRangeChange(triggerOn, Math.max(0, event.target.valueAsNumber))
+                        }}
+                      />
+                    }
+                    actions={<span>格</span>}
+                  />
+                </DsFieldMeasure>
+              </DsPropertyRow>
+            </DsPropertyGrid>
           </>
         )}
 
@@ -3232,6 +3245,7 @@ function SceneEntityInspectorTabs(props: {
   referenceCount: number
 }) {
   const id = useId()
+  const pageSelectId = `${id}-scene-entity-page`
   const [activeId, setActiveId] = useState('properties')
   const actorName =
     isActorEntity(props.entity) && props.actorsById[props.entity.actor]
@@ -3249,7 +3263,7 @@ function SceneEntityInspectorTabs(props: {
   ]
 
   return (
-    <div className="scene-entity-inspector">
+    <DsInspectorHost className="scene-entity-inspector">
       <div className="insp-head">
         <div className="what">选中实体</div>
         <div className="who">
@@ -3258,20 +3272,21 @@ function SceneEntityInspectorTabs(props: {
         </div>
       </div>
       {props.pages.length > 1 && props.page ? (
-        <div className="scene-entity-page-context">
-          <span className="field-label">实体页</span>
-          <DsSelect
-            size="compact"
-            aria-label="选择实体页"
-            value={props.page.id}
-            options={props.pages.map((page) => ({
-              value: page.id,
-              label: page.label,
-              description: page.id,
-            }))}
-            onValueChange={props.onPageChange}
-          />
-        </div>
+        <DsPropertyGrid className="scene-entity-page-context">
+          <DsPropertyRow label="实体页" labelFor={pageSelectId}>
+            <DsSelect
+              id={pageSelectId}
+              size="compact"
+              value={props.page.id}
+              options={props.pages.map((page) => ({
+                value: page.id,
+                label: page.label,
+                description: page.id,
+              }))}
+              onValueChange={props.onPageChange}
+            />
+          </DsPropertyRow>
+        </DsPropertyGrid>
       ) : null}
       <DsInspectorTabs
         id={`${id}-scene-entity`}
@@ -3280,7 +3295,7 @@ function SceneEntityInspectorTabs(props: {
         activeId={activeId}
         onChange={setActiveId}
       />
-    </div>
+    </DsInspectorHost>
   )
 }
 
@@ -3330,6 +3345,7 @@ function EntityInspector(props: {
   } = props
   const [spriteViewerOpen, setSpriteViewerOpen] = useState(false)
   const syncToken = session.getHistoryVersion()
+  const entityFieldPrefix = useId()
   // 实体的中文显示名:actor 实体解引用到角色名(entity.actor 是 id 引用),否则回落实体 id。
   const actorName =
     isActorEntity(entity) && actorsById[entity.actor]
@@ -3431,7 +3447,8 @@ function EntityInspector(props: {
                       value={effectiveTriggerRange(canonicalPage.triggerActivation)}
                       onCommit={(value) => {
                         const range = Math.max(0, value ?? 0)
-                        if (range === effectiveTriggerRange(canonicalPage.triggerActivation!)) return
+                        if (range === effectiveTriggerRange(canonicalPage.triggerActivation!))
+                          return
                         onTriggerActivationChange(canonicalPage.id, {
                           ...canonicalPage.triggerActivation!,
                           range,
@@ -3457,179 +3474,186 @@ function EntityInspector(props: {
         <>
           <div className="section">
             <h4>外观 / 交互</h4>
-            {spriteDef && (
-              <div className="field entity-preview-field">
-                <span className="field-label">预览</span>
-                <div className="entity-sprite-preview">
-                  <SpriteThumb
-                    assetBase={assetBase}
-                    assetReader={assetReader}
-                    asset={spriteDef.asset}
-                    revision={assetReader.record(spriteDef.asset, 'sprite').sha256}
-                    frameIndex={idleFrameIndex(spriteDef.layout, facing)}
-                    size={80}
-                    label={spriteDef.label || spriteDef.id}
-                    align="center"
-                  />
-                  <DsPressable
-                    type="button"
-                    className="entity-preview-zoom"
-                    aria-label={`放大查看 ${spriteDef.label || spriteDef.id}`}
-                    title="放大查看"
-                    onClick={() => setSpriteViewerOpen(true)}
-                  >
-                    <span className="preview-zoom-icon" aria-hidden="true" />
-                  </DsPressable>
-                </div>
-              </div>
-            )}
-            {/* actor 引用只读解算外观；普通 sprite 实体可换精灵；朝向属于场景实例。 */}
-            {isActorEntity(entity) ? (
-              <div className="field actor-entity-source">
-                <span className="field-label">预制人物（共享身份与资源）</span>
-                <DsReadonlyValue as="div" className="pick actor-entity-source-row">
-                  <span>{actorName ?? entity.actor}</span>
-                  <span className="meta">→ {spriteId ?? '(未解析)'}</span>
-                  <DsIconButton
-                    label={`打开人物 ${entity.actor}`}
-                    title="在人物库打开"
-                    icon="open"
-                    onClick={() => onOpenActor?.(entity.actor)}
+            <DsPropertyGrid>
+              {spriteDef && (
+                <DsPropertyRow label="预览" className="entity-preview-field">
+                  <div className="entity-sprite-preview">
+                    <SpriteThumb
+                      assetBase={assetBase}
+                      assetReader={assetReader}
+                      asset={spriteDef.asset}
+                      revision={assetReader.record(spriteDef.asset, 'sprite').sha256}
+                      frameIndex={idleFrameIndex(spriteDef.layout, facing)}
+                      size={80}
+                      label={spriteDef.label || spriteDef.id}
+                      align="center"
+                    />
+                    <DsPressable
+                      type="button"
+                      className="entity-preview-zoom"
+                      aria-label={`放大查看 ${spriteDef.label || spriteDef.id}`}
+                      title="放大查看"
+                      onClick={() => setSpriteViewerOpen(true)}
+                    >
+                      <span className="preview-zoom-icon" aria-hidden="true" />
+                    </DsPressable>
+                  </div>
+                </DsPropertyRow>
+              )}
+              {/* actor 引用只读解算外观；普通 sprite 实体可换精灵；朝向属于场景实例。 */}
+              {isActorEntity(entity) ? (
+                <DsPropertyRow
+                  label="预制人物"
+                  className="actor-entity-source"
+                  help="共享人物身份与资源；位置、朝向、碰撞、显隐、页面脚本和敌对配置只属于当前场景实例。"
+                >
+                  <DsReadonlyValue as="div" className="pick actor-entity-source-row">
+                    <span>{actorName ?? entity.actor}</span>
+                    <span className="meta">→ {spriteId ?? '(未解析)'}</span>
+                    <DsIconButton
+                      label={`打开人物 ${entity.actor}`}
+                      title="在人物库打开"
+                      icon="open"
+                      onClick={() => onOpenActor?.(entity.actor)}
+                      size="compact"
+                      variant="secondary"
+                    />
+                  </DsReadonlyValue>
+                  <DsButton
+                    onClick={() =>
+                      session.dispatch(new DetachActorEntityCommand(sceneId, entity.id))
+                    }
                     size="compact"
                     variant="secondary"
+                  >
+                    解除人物关联，保留当前精灵
+                  </DsButton>
+                </DsPropertyRow>
+              ) : 'sprite' in entity ? (
+                <DsPropertyRow label="精灵" labelFor={`${entityFieldPrefix}-sprite`}>
+                  <DsSelect
+                    id={`${entityFieldPrefix}-sprite`}
+                    searchable="auto"
+                    value={entity.sprite}
+                    options={[
+                      ...(!sprites.some((sprite) => sprite.id === entity.sprite)
+                        ? [{ value: entity.sprite, label: `${entity.sprite}（缺失）` }]
+                        : []),
+                      ...sprites.map((sprite) => ({
+                        value: sprite.id,
+                        label: sprite.label || sprite.id,
+                        description: `${sprite.id} · ${sprite.asset}`,
+                      })),
+                    ]}
+                    onValueChange={(value) =>
+                      session.dispatch(new SetEntitySpriteCommand(sceneId, entity.id, value))
+                    }
                   />
-                </DsReadonlyValue>
-                <p className="hint">
-                  位置、朝向、碰撞、显隐、页面脚本和敌对配置只属于当前场景实例。
-                </p>
-                <DsButton
-                  onClick={() => session.dispatch(new DetachActorEntityCommand(sceneId, entity.id))}
-                  size="compact"
-                  variant="secondary"
-                >
-                  解除人物关联，保留当前精灵
-                </DsButton>
-              </div>
-            ) : 'sprite' in entity ? (
-              <div className="field">
-                <span className="field-label">精灵</span>
-                <DsSelect
-                  searchable="auto"
-                  aria-label="实体精灵"
-                  value={entity.sprite}
-                  options={[
-                    ...(!sprites.some((sprite) => sprite.id === entity.sprite)
-                      ? [{ value: entity.sprite, label: `${entity.sprite}（缺失）` }]
-                      : []),
-                    ...sprites.map((sprite) => ({
-                      value: sprite.id,
-                      label: sprite.label || sprite.id,
-                      description: `${sprite.id} · ${sprite.asset}`,
-                    })),
-                  ]}
-                  onValueChange={(value) =>
-                    session.dispatch(new SetEntitySpriteCommand(sceneId, entity.id, value))
-                  }
-                />
-              </div>
-            ) : (
-              <div className="field">
-                <span className="field-label">触发区</span>
-                <DsReadonlyValue as="div" className="pick">
-                  <span>无外观</span>
-                  <span className="meta">触发器 / 脚本锚</span>
-                </DsReadonlyValue>
-              </div>
-            )}
-            {'zone' in entity ? null : (
-              <div className="field">
-                <span className="field-label entity-facing-label">
-                  <span>朝向</span>
-                  <EntityFacingHelpTip />
-                </span>
-                <DsSelect
-                  aria-label="实体朝向"
-                  value={facing}
-                  options={ENTITY_FACING_OPTIONS}
-                  onValueChange={(value) =>
+                </DsPropertyRow>
+              ) : (
+                <DsPropertyRow label="触发区">
+                  <DsReadonlyValue as="div" className="pick">
+                    <span>无外观</span>
+                    <span className="meta">触发器 / 脚本锚</span>
+                  </DsReadonlyValue>
+                </DsPropertyRow>
+              )}
+              {'zone' in entity ? null : (
+                <DsPropertyRow label="朝向" labelFor={`${entityFieldPrefix}-facing`}>
+                  <DsControlGroup
+                    control={
+                      <DsSelect
+                        id={`${entityFieldPrefix}-facing`}
+                        value={facing}
+                        options={ENTITY_FACING_OPTIONS}
+                        onValueChange={(value) =>
+                          session.dispatch(
+                            new UpdateEntityCommand(sceneId, entity.id, {
+                              facing: value as Facing,
+                            }),
+                          )
+                        }
+                      />
+                    }
+                    actions={<EntityFacingHelpTip />}
+                  />
+                </DsPropertyRow>
+              )}
+              <DsPropertyRow label="碰撞">
+                <DsCheckbox
+                  label="阻挡通行"
+                  checked={entity.collide === true}
+                  onChange={(event) =>
                     session.dispatch(
-                      new UpdateEntityCommand(sceneId, entity.id, { facing: value as Facing }),
+                      new UpdateEntityCommand(sceneId, entity.id, {
+                        collide: event.currentTarget.checked,
+                      }),
                     )
                   }
                 />
-              </div>
-            )}
-            <div className="field">
-              <span className="field-label">碰撞</span>
-              <DsCheckbox
-                label="阻挡通行"
-                checked={entity.collide === true}
-                onChange={(event) =>
-                  session.dispatch(
-                    new UpdateEntityCommand(sceneId, entity.id, {
-                      collide: event.currentTarget.checked,
-                    }),
-                  )
-                }
-              />
-            </div>
-            <div
-              className="field"
-              title="隐藏 = 游戏里初始不出现(剧情脚本 setEntityState 可显形);编辑器「隐藏实体(透视)」图层仍半透明可见"
-            >
-              <span className="field-label">初始显隐</span>
-              <DsCheckbox
-                label="初始隐藏（待剧情出场）"
-                checked={entity.hidden === true}
-                onChange={(event) =>
-                  session.dispatch(
-                    new UpdateEntityCommand(sceneId, entity.id, {
-                      hidden: event.currentTarget.checked ? true : undefined,
-                    }),
-                  )
-                }
-              />
-            </div>
+              </DsPropertyRow>
+              <DsPropertyRow label="初始显隐">
+                <DsCheckbox
+                  title="隐藏 = 游戏里初始不出现（剧情脚本 setEntityState 可显形）；编辑器「隐藏实体（透视）」图层仍半透明可见"
+                  label="初始隐藏（待剧情出场）"
+                  checked={entity.hidden === true}
+                  onChange={(event) =>
+                    session.dispatch(
+                      new UpdateEntityCommand(sceneId, entity.id, {
+                        hidden: event.currentTarget.checked ? true : undefined,
+                      }),
+                    )
+                  }
+                />
+              </DsPropertyRow>
+            </DsPropertyGrid>
           </div>
           <div className="section">
             <h4>
               位置<span className="b2"> · 菱形轴</span>
             </h4>
-            <div className="posrow">
-              <div className="cell">
-                <span>col</span>
-                <DsDraftNumberInput
-                  draftKey={`scene:${sceneId}:entity:${entity.id}:pos:col`}
-                  syncToken={syncToken}
-                  value={entity.pos.col}
-                  onCommit={(col) => {
-                    if (col !== undefined && col !== entity.pos.col) setPos({ col })
-                  }}
-                />
-              </div>
-              <div className="cell">
-                <span>row</span>
-                <DsDraftNumberInput
-                  draftKey={`scene:${sceneId}:entity:${entity.id}:pos:row`}
-                  syncToken={syncToken}
-                  value={entity.pos.row}
-                  onCommit={(row) => {
-                    if (row !== undefined && row !== entity.pos.row) setPos({ row })
-                  }}
-                />
-              </div>
-              <div className="cell">
-                <span>height</span>
-                <DsDraftNumberInput
-                  draftKey={`scene:${sceneId}:entity:${entity.id}:pos:height`}
-                  syncToken={syncToken}
-                  value={entity.pos.height}
-                  onCommit={(height) => {
-                    if (height !== undefined && height !== entity.pos.height) setPos({ height })
-                  }}
-                />
-              </div>
-            </div>
+            <DsPropertyGrid>
+              <DsPropertyRow label="坐标">
+                <div className="posrow">
+                  <label className="cell" htmlFor={`${entityFieldPrefix}-pos-col`}>
+                    <span>col</span>
+                    <DsDraftNumberInput
+                      id={`${entityFieldPrefix}-pos-col`}
+                      draftKey={`scene:${sceneId}:entity:${entity.id}:pos:col`}
+                      syncToken={syncToken}
+                      value={entity.pos.col}
+                      onCommit={(col) => {
+                        if (col !== undefined && col !== entity.pos.col) setPos({ col })
+                      }}
+                    />
+                  </label>
+                  <label className="cell" htmlFor={`${entityFieldPrefix}-pos-row`}>
+                    <span>row</span>
+                    <DsDraftNumberInput
+                      id={`${entityFieldPrefix}-pos-row`}
+                      draftKey={`scene:${sceneId}:entity:${entity.id}:pos:row`}
+                      syncToken={syncToken}
+                      value={entity.pos.row}
+                      onCommit={(row) => {
+                        if (row !== undefined && row !== entity.pos.row) setPos({ row })
+                      }}
+                    />
+                  </label>
+                  <label className="cell" htmlFor={`${entityFieldPrefix}-pos-height`}>
+                    <span>height</span>
+                    <DsDraftNumberInput
+                      id={`${entityFieldPrefix}-pos-height`}
+                      draftKey={`scene:${sceneId}:entity:${entity.id}:pos:height`}
+                      syncToken={syncToken}
+                      value={entity.pos.height}
+                      onCommit={(height) => {
+                        if (height !== undefined && height !== entity.pos.height) setPos({ height })
+                      }}
+                    />
+                  </label>
+                </div>
+              </DsPropertyRow>
+            </DsPropertyGrid>
           </div>
         </>
       ) : null}
@@ -3639,221 +3663,232 @@ function EntityInspector(props: {
             <h4>
               敌对行为<span className="b2"> · B9 数据驱动</span>
             </h4>
-            <div className="field">
-              <span className="field-label">敌对</span>
-              <DsCheckbox
-                label="遇敌开战（触碰即开始战斗）"
-                checked={!!entity.hostile}
-                onChange={(event) =>
-                  dispatchHostile(
-                    event.currentTarget.checked
-                      ? {
-                          enemyTeamId: enemyTeams[0]?.id ?? 'missing-enemy-team',
-                          onVictory: { kind: 'remove' },
-                          onPlayerFlee: { kind: 'remain' },
-                        }
-                      : undefined,
-                  )
-                }
-              />
-            </div>
-            {entity.hostile && (
-              <>
-                <div className="field">
-                  <span className="field-label">敌队</span>
-                  <DsSelect
-                    searchable="auto"
-                    aria-label="敌对实体敌队"
-                    value={entity.hostile.enemyTeamId}
-                    options={[
-                      ...(!enemyTeams.some((team) => team.id === entity.hostile!.enemyTeamId)
-                        ? [
-                            {
-                              value: entity.hostile.enemyTeamId,
-                              label: `${entity.hostile.enemyTeamId}（缺数据）`,
-                            },
-                          ]
-                        : []),
-                      ...enemyTeams.map((team) => ({
-                        value: team.id,
-                        label: team.id,
-                        description: `${team.slots.length} 槽`,
-                      })),
-                    ]}
-                    onValueChange={(value) => setHostile({ enemyTeamId: value })}
-                  />
-                </div>
-                <div className="field">
-                  <span className="field-label">战场</span>
-                  <BattleFieldPicker
-                    value={entity.hostile.battleFieldId}
-                    fields={battleFields}
-                    unsetLabel="跟随场景默认战场"
-                    ariaLabel="敌对实体战场"
-                    onOpen={onOpenBattleField}
-                    onChange={(battleFieldId) => setHostile({ battleFieldId })}
-                  />
-                </div>
-                <div className="field">
-                  <span className="field-label">追逐</span>
-                  <DsCheckbox
-                    label="见人就追（不勾为原地怪）"
-                    checked={!!entity.hostile.chase}
-                    onChange={(event) =>
-                      setHostile({
-                        chase: event.currentTarget.checked ? { range: 6, speed: 2 } : undefined,
-                      })
-                    }
-                  />
-                </div>
-                {entity.hostile.chase && (
-                  <div className="hostile-chase-options">
-                    <div className="posrow hostile-chase-metrics">
-                      <div className="cell">
-                        <span>range 格</span>
-                        <DsDraftNumberInput
-                          draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:chase:range`}
-                          syncToken={syncToken}
-                          value={entity.hostile.chase.range}
-                          onCommit={(range) => {
-                            if (range !== undefined && range !== entity.hostile!.chase!.range)
-                            setHostile({
-                              chase: { ...entity.hostile!.chase!, range },
-                            })
-                          }}
-                        />
-                      </div>
-                      <div className="cell">
-                        <span>speed</span>
-                        <DsDraftNumberInput
-                          draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:chase:speed`}
-                          syncToken={syncToken}
-                          value={entity.hostile.chase.speed}
-                          onCommit={(speed) => {
-                            if (speed !== undefined && speed !== entity.hostile!.chase!.speed)
-                            setHostile({
-                              chase: { ...entity.hostile!.chase!, speed },
-                            })
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <DsCheckbox
-                      size="compact"
-                      label="追击时忽略地形与阻挡实体"
-                      checked={entity.hostile.chase.floating === true}
-                      onChange={(event) => {
-                        const chase = { ...entity.hostile!.chase!, floating: true }
-                        if (!event.currentTarget.checked)
-                          delete (chase as { floating?: boolean }).floating
-                        setHostile({ chase })
-                      }}
-                    />
-                  </div>
-                )}
+            <DsPropertyGrid>
+              <DsPropertyRow label="敌对">
+                <DsCheckbox
+                  label="遇敌开战（触碰即开始战斗）"
+                  checked={!!entity.hostile}
+                  onChange={(event) =>
+                    dispatchHostile(
+                      event.currentTarget.checked
+                        ? {
+                            enemyTeamId: enemyTeams[0]?.id ?? 'missing-enemy-team',
+                            onVictory: { kind: 'remove' },
+                            onPlayerFlee: { kind: 'remain' },
+                          }
+                        : undefined,
+                    )
+                  }
+                />
+              </DsPropertyRow>
+              {entity.hostile && (
                 <>
-                  <div className="field">
-                    <span className="field-label">胜利后</span>
+                  <DsPropertyRow label="敌队" labelFor={`${entityFieldPrefix}-enemy-team`}>
                     <DsSelect
-                      aria-label="胜利后行为"
-                      value={hostile?.onVictory.kind ?? 'remove'}
+                      id={`${entityFieldPrefix}-enemy-team`}
+                      searchable="auto"
+                      value={entity.hostile.enemyTeamId}
                       options={[
-                        { value: 'remove', label: '隐藏后从场景移除' },
-                        { value: 'hide', label: '隐藏后离屏重现' },
-                        { value: 'remain', label: '保持原样' },
+                        ...(!enemyTeams.some((team) => team.id === entity.hostile!.enemyTeamId)
+                          ? [
+                              {
+                                value: entity.hostile.enemyTeamId,
+                                label: `${entity.hostile.enemyTeamId}（缺数据）`,
+                              },
+                            ]
+                          : []),
+                        ...enemyTeams.map((team) => ({
+                          value: team.id,
+                          label: team.id,
+                          description: `${team.slots.length} 槽`,
+                        })),
                       ]}
-                      onValueChange={(value) => {
-                        const kind = value as RuntimeHostileBehavior['onVictory']['kind']
-                        if (kind === 'hide')
-                          setHostile({
-                            onVictory: {
-                              kind,
-                              ticks:
-                                hostile?.onVictory.kind === 'hide' ? hostile.onVictory.ticks : 800,
-                            },
-                          })
-                        else setHostile({ onVictory: { kind } })
-                      }}
+                      onValueChange={(value) => setHostile({ enemyTeamId: value })}
                     />
-                  </div>
-                  {hostile?.onVictory.kind === 'hide' ? (
-                    <div className="field">
-                      <span className="field-label">胜利隐藏 ticks</span>
-                      <DsDraftNumberInput
-                        draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:on-victory:ticks`}
-                        syncToken={syncToken}
-                        min={1}
-                        step={1}
-                        integer
-                        value={hostile.onVictory.ticks}
-                        onCommit={(ticks) => {
-                          if (
-                            ticks !== undefined &&
-                            Number.isSafeInteger(ticks) &&
-                            ticks > 0 &&
-                            ticks !==
-                              (hostile?.onVictory.kind === 'hide'
-                                ? hostile.onVictory.ticks
-                                : undefined)
-                          )
-                            setHostile({ onVictory: { kind: 'hide', ticks } })
+                  </DsPropertyRow>
+                  <DsPropertyRow label="战场" labelFor={`${entityFieldPrefix}-battle-field`}>
+                    <BattleFieldPicker
+                      id={`${entityFieldPrefix}-battle-field`}
+                      value={entity.hostile.battleFieldId}
+                      fields={battleFields}
+                      unsetLabel="跟随场景默认战场"
+                      ariaLabel="敌对实体战场"
+                      onOpen={onOpenBattleField}
+                      onChange={(battleFieldId) => setHostile({ battleFieldId })}
+                    />
+                  </DsPropertyRow>
+                  <DsPropertyRow label="追逐">
+                    <DsCheckbox
+                      label="见人就追（不勾为原地怪）"
+                      checked={!!entity.hostile.chase}
+                      onChange={(event) =>
+                        setHostile({
+                          chase: event.currentTarget.checked ? { range: 6, speed: 2 } : undefined,
+                        })
+                      }
+                    />
+                  </DsPropertyRow>
+                  {entity.hostile.chase && (
+                    <>
+                      <DsPropertyRow label="追逐参数">
+                        <div className="posrow hostile-chase-metrics">
+                          <label className="cell" htmlFor={`${entityFieldPrefix}-chase-range`}>
+                            <span>range 格</span>
+                            <DsDraftNumberInput
+                              id={`${entityFieldPrefix}-chase-range`}
+                              draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:chase:range`}
+                              syncToken={syncToken}
+                              value={entity.hostile.chase.range}
+                              onCommit={(range) => {
+                                if (range !== undefined && range !== entity.hostile!.chase!.range)
+                                  setHostile({
+                                    chase: { ...entity.hostile!.chase!, range },
+                                  })
+                              }}
+                            />
+                          </label>
+                          <label className="cell" htmlFor={`${entityFieldPrefix}-chase-speed`}>
+                            <span>speed</span>
+                            <DsDraftNumberInput
+                              id={`${entityFieldPrefix}-chase-speed`}
+                              draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:chase:speed`}
+                              syncToken={syncToken}
+                              value={entity.hostile.chase.speed}
+                              onCommit={(speed) => {
+                                if (speed !== undefined && speed !== entity.hostile!.chase!.speed)
+                                  setHostile({
+                                    chase: { ...entity.hostile!.chase!, speed },
+                                  })
+                              }}
+                            />
+                          </label>
+                        </div>
+                      </DsPropertyRow>
+                      <DsPropertyRow label="寻路">
+                        <DsCheckbox
+                          size="compact"
+                          label="追击时忽略地形与阻挡实体"
+                          checked={entity.hostile.chase.floating === true}
+                          onChange={(event) => {
+                            const chase = { ...entity.hostile!.chase!, floating: true }
+                            if (!event.currentTarget.checked)
+                              delete (chase as { floating?: boolean }).floating
+                            setHostile({ chase })
+                          }}
+                        />
+                      </DsPropertyRow>
+                    </>
+                  )}
+                  <>
+                    <DsPropertyRow label="胜利后" labelFor={`${entityFieldPrefix}-victory`}>
+                      <DsSelect
+                        id={`${entityFieldPrefix}-victory`}
+                        value={hostile?.onVictory.kind ?? 'remove'}
+                        options={[
+                          { value: 'remove', label: '隐藏后从场景移除' },
+                          { value: 'hide', label: '隐藏后离屏重现' },
+                          { value: 'remain', label: '保持原样' },
+                        ]}
+                        onValueChange={(value) => {
+                          const kind = value as RuntimeHostileBehavior['onVictory']['kind']
+                          if (kind === 'hide')
+                            setHostile({
+                              onVictory: {
+                                kind,
+                                ticks:
+                                  hostile?.onVictory.kind === 'hide'
+                                    ? hostile.onVictory.ticks
+                                    : 800,
+                              },
+                            })
+                          else setHostile({ onVictory: { kind } })
                         }}
                       />
-                    </div>
-                  ) : null}
-                  <div className="field">
-                    <span className="field-label">逃跑后</span>
-                    <DsSelect
-                      aria-label="逃跑后行为"
-                      value={hostile?.onPlayerFlee.kind ?? 'remain'}
-                      options={[
-                        { value: 'remain', label: '保持原样' },
-                        { value: 'suspend', label: '短暂暂停自动行为' },
-                      ]}
-                      onValueChange={(value) => {
-                        const kind = value as RuntimeHostileBehavior['onPlayerFlee']['kind']
-                        if (kind === 'suspend')
-                          setHostile({
-                            onPlayerFlee: {
-                              kind,
-                              ticks:
-                                hostile?.onPlayerFlee.kind === 'suspend'
+                    </DsPropertyRow>
+                    {hostile?.onVictory.kind === 'hide' ? (
+                      <DsPropertyRow
+                        label="胜利隐藏 ticks"
+                        labelFor={`${entityFieldPrefix}-victory-ticks`}
+                      >
+                        <DsDraftNumberInput
+                          id={`${entityFieldPrefix}-victory-ticks`}
+                          draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:on-victory:ticks`}
+                          syncToken={syncToken}
+                          min={1}
+                          step={1}
+                          integer
+                          value={hostile.onVictory.ticks}
+                          onCommit={(ticks) => {
+                            if (
+                              ticks !== undefined &&
+                              Number.isSafeInteger(ticks) &&
+                              ticks > 0 &&
+                              ticks !==
+                                (hostile?.onVictory.kind === 'hide'
+                                  ? hostile.onVictory.ticks
+                                  : undefined)
+                            )
+                              setHostile({ onVictory: { kind: 'hide', ticks } })
+                          }}
+                        />
+                      </DsPropertyRow>
+                    ) : null}
+                    <DsPropertyRow label="逃跑后" labelFor={`${entityFieldPrefix}-flee`}>
+                      <DsSelect
+                        id={`${entityFieldPrefix}-flee`}
+                        value={hostile?.onPlayerFlee.kind ?? 'remain'}
+                        options={[
+                          { value: 'remain', label: '保持原样' },
+                          { value: 'suspend', label: '短暂暂停自动行为' },
+                        ]}
+                        onValueChange={(value) => {
+                          const kind = value as RuntimeHostileBehavior['onPlayerFlee']['kind']
+                          if (kind === 'suspend')
+                            setHostile({
+                              onPlayerFlee: {
+                                kind,
+                                ticks:
+                                  hostile?.onPlayerFlee.kind === 'suspend'
+                                    ? hostile.onPlayerFlee.ticks
+                                    : 15,
+                              },
+                            })
+                          else setHostile({ onPlayerFlee: { kind } })
+                        }}
+                      />
+                    </DsPropertyRow>
+                    {hostile?.onPlayerFlee.kind === 'suspend' ? (
+                      <DsPropertyRow
+                        label="逃跑暂停 ticks"
+                        labelFor={`${entityFieldPrefix}-flee-ticks`}
+                      >
+                        <DsDraftNumberInput
+                          id={`${entityFieldPrefix}-flee-ticks`}
+                          draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:on-player-flee:ticks`}
+                          syncToken={syncToken}
+                          min={1}
+                          step={1}
+                          integer
+                          value={hostile.onPlayerFlee.ticks}
+                          onCommit={(ticks) => {
+                            if (
+                              ticks !== undefined &&
+                              Number.isSafeInteger(ticks) &&
+                              ticks > 0 &&
+                              ticks !==
+                                (hostile?.onPlayerFlee.kind === 'suspend'
                                   ? hostile.onPlayerFlee.ticks
-                                  : 15,
-                            },
-                          })
-                        else setHostile({ onPlayerFlee: { kind } })
-                      }}
-                    />
-                  </div>
-                  {hostile?.onPlayerFlee.kind === 'suspend' ? (
-                    <div className="field">
-                      <span className="field-label">逃跑暂停 ticks</span>
-                      <DsDraftNumberInput
-                        draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:on-player-flee:ticks`}
-                        syncToken={syncToken}
-                        min={1}
-                        step={1}
-                        integer
-                        value={hostile.onPlayerFlee.ticks}
-                        onCommit={(ticks) => {
-                          if (
-                            ticks !== undefined &&
-                            Number.isSafeInteger(ticks) &&
-                            ticks > 0 &&
-                            ticks !==
-                              (hostile?.onPlayerFlee.kind === 'suspend'
-                                ? hostile.onPlayerFlee.ticks
-                                : undefined)
-                          )
-                            setHostile({ onPlayerFlee: { kind: 'suspend', ticks } })
-                        }}
-                      />
-                    </div>
-                  ) : null}
+                                  : undefined)
+                            )
+                              setHostile({ onPlayerFlee: { kind: 'suspend', ticks } })
+                          }}
+                        />
+                      </DsPropertyRow>
+                    ) : null}
+                  </>
                 </>
-              </>
-            )}
+              )}
+            </DsPropertyGrid>
           </div>
         </>
       ) : null}
@@ -3880,6 +3915,7 @@ function EntityInspector(props: {
  */
 function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
   const { scene, session } = props
+  const inspectorId = useId()
   const syncToken = session.getHistoryVersion()
   const facings: SceneDef['entry']['facing'][] = ['down', 'up', 'left', 'right']
   const patch = (
@@ -3913,54 +3949,57 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
         <h4>
           进场点 <span className="hint2">队伍走进本场景的出生格 + 朝向</span>
         </h4>
-        <div className="field">
-          <span className="field-label">坐标</span>
-          <div className="row entry-coordinate-row">
-            <span className="entry-n">
-              <DsDraftNumberInput
-                title="列 col"
-                draftKey={`scene:${scene.id}:default-entry:col`}
-                syncToken={syncToken}
-                value={scene.entry.pos.col}
-                onCommit={(col) => {
-                  if (col !== undefined && col !== scene.entry.pos.col) patch({ col })
-                }}
-              />
-            </span>
-            <span className="entry-n">
-              <DsDraftNumberInput
-                title="行 row"
-                draftKey={`scene:${scene.id}:default-entry:row`}
-                syncToken={syncToken}
-                value={scene.entry.pos.row}
-                onCommit={(row) => {
-                  if (row !== undefined && row !== scene.entry.pos.row) patch({ row })
-                }}
-              />
-            </span>
-            <span className="entry-n">
-              <DsDraftNumberInput
-                title="高度 height"
-                draftKey={`scene:${scene.id}:default-entry:height`}
-                syncToken={syncToken}
-                value={scene.entry.pos.height ?? 0}
-                onCommit={(height) => {
-                  if (height !== undefined && height !== (scene.entry.pos.height ?? 0))
-                    patch({ height })
-                }}
-              />
-            </span>
-          </div>
-        </div>
-        <div className="field">
-          <span className="field-label">朝向</span>
-          <DsSelect
-            aria-label="默认进场朝向"
-            value={scene.entry.facing}
-            options={facings.map((facing) => ({ value: facing, label: facing }))}
-            onValueChange={(value) => patch({ facing: value as SceneDef['entry']['facing'] })}
-          />
-        </div>
+        <DsPropertyGrid>
+          <DsPropertyRow label="坐标">
+            <div className="row entry-coordinate-row">
+              <label className="entry-n" htmlFor={`${inspectorId}-col`}>
+                <span>col</span>
+                <DsDraftNumberInput
+                  id={`${inspectorId}-col`}
+                  draftKey={`scene:${scene.id}:default-entry:col`}
+                  syncToken={syncToken}
+                  value={scene.entry.pos.col}
+                  onCommit={(col) => {
+                    if (col !== undefined && col !== scene.entry.pos.col) patch({ col })
+                  }}
+                />
+              </label>
+              <label className="entry-n" htmlFor={`${inspectorId}-row`}>
+                <span>row</span>
+                <DsDraftNumberInput
+                  id={`${inspectorId}-row`}
+                  draftKey={`scene:${scene.id}:default-entry:row`}
+                  syncToken={syncToken}
+                  value={scene.entry.pos.row}
+                  onCommit={(row) => {
+                    if (row !== undefined && row !== scene.entry.pos.row) patch({ row })
+                  }}
+                />
+              </label>
+              <label className="entry-n" htmlFor={`${inspectorId}-height`}>
+                <span>height</span>
+                <DsDraftNumberInput
+                  id={`${inspectorId}-height`}
+                  draftKey={`scene:${scene.id}:default-entry:height`}
+                  syncToken={syncToken}
+                  value={scene.entry.pos.height ?? 0}
+                  onCommit={(height) => {
+                    if (height !== undefined && height !== (scene.entry.pos.height ?? 0))
+                      patch({ height })
+                  }}
+                />
+              </label>
+            </div>
+          </DsPropertyRow>
+          <DsPropertyRow label="朝向" labelFor={`${inspectorId}-facing`}>
+            <DsSelect
+              id={`${inspectorId}-facing`}
+              value={scene.entry.facing}
+              options={facings.map((facing) => ({ value: facing, label: facing }))}
+              onValueChange={(value) => patch({ facing: value as SceneDef['entry']['facing'] })}
+            />
+          </DsPropertyRow>
+        </DsPropertyGrid>
         <div className="insp-empty ds-empty-state--offset">
           也可直接在画布上拖动红色菱形标记改坐标。这是「正常走进来」的落点;引路蜂/土灵珠把队伍送去哪,
           由本场景的<b>传送出口</b>脚本(📜 脚本模式)决定,和这里无关。
@@ -3998,6 +4037,7 @@ function SceneInspector(props: {
   const currentAsset = maps.find((asset) => asset.id === mapId)
   const mapSelectId = `scene-map-${scene.id}`
   const musicSelectId = `scene-music-${scene.id}`
+  const battleFieldSelectId = `scene-battle-field-${scene.id}`
 
   const createAndBind = (): void => {
     const { id, path } = nextMapAssetIdentity({ version: 1, maps }, scene.id)
@@ -4039,83 +4079,79 @@ function SceneInspector(props: {
       </div>
       <div className="section">
         <h4>场景</h4>
-        <div className="field scene-map-field">
-          <label className="field-label" htmlFor={mapSelectId}>
-            地图
-          </label>
-          <div className="scene-map-control">
-            <DsControlGroup
-              control={
-                <DsSelect
-                  id={mapSelectId}
-                  value={mapId}
-                  invalid={!currentAsset}
-                  options={[
-                    ...(!currentAsset ? [{ value: mapId, label: `${mapId} (缺失)` }] : []),
-                    ...maps.map((asset) => ({
-                      value: asset.id,
-                      label: `${asset.name} (${asset.id})`,
-                    })),
-                  ]}
-                  onValueChange={(nextMapId) => {
-                    if (nextMapId) {
-                      session.dispatch(new BindSceneMapCommand(scene.id, nextMapId))
-                    }
-                  }}
-                />
-              }
-              actions={
-                <DsIconButton
-                  label={`打开地图 ${mapId}`}
-                  title="在地图模块打开"
-                  icon="open"
+        <DsPropertyGrid>
+          <DsPropertyRow label="地图" labelFor={mapSelectId}>
+            <div className="scene-map-control">
+              <DsControlGroup
+                control={
+                  <DsSelect
+                    id={mapSelectId}
+                    value={mapId}
+                    invalid={!currentAsset}
+                    options={[
+                      ...(!currentAsset ? [{ value: mapId, label: `${mapId} (缺失)` }] : []),
+                      ...maps.map((asset) => ({
+                        value: asset.id,
+                        label: `${asset.name} (${asset.id})`,
+                      })),
+                    ]}
+                    onValueChange={(nextMapId) => {
+                      if (nextMapId) {
+                        session.dispatch(new BindSceneMapCommand(scene.id, nextMapId))
+                      }
+                    }}
+                  />
+                }
+                actions={
+                  <DsIconButton
+                    label={`打开地图 ${mapId}`}
+                    title="在地图模块打开"
+                    icon="open"
+                    variant="secondary"
+                    onClick={() => onOpenMap(mapId)}
+                  />
+                }
+              />
+              <div className="scene-map-actions">
+                <DsButton variant="secondary" icon="add" onClick={createAndBind}>
+                  创建并绑定
+                </DsButton>
+                <DsButton
                   variant="secondary"
-                  onClick={() => onOpenMap(mapId)}
-                />
+                  icon="copy"
+                  disabled={!currentAsset}
+                  onClick={() => void duplicateAndBind()}
+                >
+                  复制并绑定
+                </DsButton>
+              </div>
+            </div>
+          </DsPropertyRow>
+          <DsPropertyRow label="音乐" labelFor={musicSelectId}>
+            <MusicPicker
+              id={musicSelectId}
+              value={scene.music}
+              onChange={(music) => session.dispatch(new UpdateSceneCommand(scene.id, { music }))}
+              catalog={assetCatalog}
+              resolver={audioResolver}
+              allowUnset
+              allowStop
+            />
+          </DsPropertyRow>
+          <DsPropertyRow label="默认战场" labelFor={battleFieldSelectId}>
+            <BattleFieldPicker
+              id={battleFieldSelectId}
+              value={scene.battleFieldId}
+              fields={battleFields}
+              unsetLabel="项目默认战场 #024"
+              ariaLabel="场景默认战场"
+              onOpen={onOpenBattleField}
+              onChange={(battleFieldId) =>
+                session.dispatch(new UpdateSceneCommand(scene.id, { battleFieldId }))
               }
             />
-            <div className="scene-map-actions">
-              <DsButton variant="secondary" icon="add" onClick={createAndBind}>
-                创建并绑定
-              </DsButton>
-              <DsButton
-                variant="secondary"
-                icon="copy"
-                disabled={!currentAsset}
-                onClick={() => void duplicateAndBind()}
-              >
-                复制并绑定
-              </DsButton>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className="field-label" htmlFor={musicSelectId}>
-            音乐
-          </label>
-          <MusicPicker
-            id={musicSelectId}
-            value={scene.music}
-            onChange={(music) => session.dispatch(new UpdateSceneCommand(scene.id, { music }))}
-            catalog={assetCatalog}
-            resolver={audioResolver}
-            allowUnset
-            allowStop
-          />
-        </div>
-        <div className="field">
-          <span className="field-label">默认战场</span>
-          <BattleFieldPicker
-            value={scene.battleFieldId}
-            fields={battleFields}
-            unsetLabel="项目默认战场 #024"
-            ariaLabel="场景默认战场"
-            onOpen={onOpenBattleField}
-            onChange={(battleFieldId) =>
-              session.dispatch(new UpdateSceneCommand(scene.id, { battleFieldId }))
-            }
-          />
-        </div>
+          </DsPropertyRow>
+        </DsPropertyGrid>
       </div>
       <div className="insp-empty">点左侧落点或实体查看属性；从“实体”分组新增后，点画布放置。</div>
     </>
@@ -4172,64 +4208,60 @@ function NamedEntryInspector(props: {
       </div>
       <div className="section">
         <h4>落点属性</h4>
-        <div className="field">
-          <label className="field-label" htmlFor={`entry-label-${scene.id}-${entryId}`}>
-            名称
-          </label>
-          <DsDraftTextInput
-            id={`entry-label-${scene.id}-${entryId}`}
-            draftKey={`scene:${scene.id}:named-entry:${entryId}:label`}
-            syncToken={syncToken}
-            value={entry.label ?? ''}
-            placeholder="未命名落点"
-            onCommit={(value) => {
-              const label = value.trim()
-              if (label !== (entry.label ?? '')) patch({ label: label || undefined })
-            }}
-          />
-        </div>
-        <div className="field">
-          <span className="field-label">稳定 ID</span>
-          <code className="entry-stable-id">{entryId}</code>
-        </div>
-        <div className="field">
-          <span className="field-label">坐标</span>
-          <div className="entry-coordinate-grid">
-            {(['col', 'row', 'height'] as const).map((axis) => (
-              <label key={axis}>
-                <span>{axis === 'height' ? 'h' : axis}</span>
-                <DsDraftNumberInput
-                  draftKey={`scene:${scene.id}:named-entry:${entryId}:pos:${axis}`}
-                  syncToken={syncToken}
-                  value={entry.pos[axis] ?? 0}
-                  onCommit={(value) => {
-                    if (value === undefined || value === (entry.pos[axis] ?? 0)) return
-                    patch({ pos: { ...entry.pos, [axis]: value } })
-                  }}
-                  onWheel={(event) => event.currentTarget.blur()}
-                />
-              </label>
-            ))}
-          </div>
-        </div>
-        <div className="field">
-          <label className="field-label" htmlFor={`entry-facing-${scene.id}-${entryId}`}>
-            朝向
-          </label>
-          <DsSelect
-            id={`entry-facing-${scene.id}-${entryId}`}
-            aria-label="命名进场点朝向"
-            value={entry.facing ?? ''}
-            options={[
-              { value: '', label: '继承进入前朝向' },
-              ...facings.map((facing) => ({ value: facing, label: facing })),
-            ]}
-            onValueChange={(value) => {
-              const facing = value as SceneDef['entry']['facing'] | ''
-              patch({ facing: facing || undefined })
-            }}
-          />
-        </div>
+        <DsPropertyGrid>
+          <DsPropertyRow label="名称" labelFor={`entry-label-${scene.id}-${entryId}`}>
+            <DsDraftTextInput
+              id={`entry-label-${scene.id}-${entryId}`}
+              draftKey={`scene:${scene.id}:named-entry:${entryId}:label`}
+              syncToken={syncToken}
+              value={entry.label ?? ''}
+              placeholder="未命名落点"
+              onCommit={(value) => {
+                const label = value.trim()
+                if (label !== (entry.label ?? '')) patch({ label: label || undefined })
+              }}
+            />
+          </DsPropertyRow>
+          <DsPropertyRow label="稳定 ID">
+            <code className="entry-stable-id" translate="no">
+              {entryId}
+            </code>
+          </DsPropertyRow>
+          <DsPropertyRow label="坐标">
+            <div className="entry-coordinate-grid">
+              {(['col', 'row', 'height'] as const).map((axis) => (
+                <label key={axis} htmlFor={`entry-${axis}-${scene.id}-${entryId}`}>
+                  <span>{axis === 'height' ? 'h' : axis}</span>
+                  <DsDraftNumberInput
+                    id={`entry-${axis}-${scene.id}-${entryId}`}
+                    draftKey={`scene:${scene.id}:named-entry:${entryId}:pos:${axis}`}
+                    syncToken={syncToken}
+                    value={entry.pos[axis] ?? 0}
+                    onCommit={(value) => {
+                      if (value === undefined || value === (entry.pos[axis] ?? 0)) return
+                      patch({ pos: { ...entry.pos, [axis]: value } })
+                    }}
+                    onWheel={(event) => event.currentTarget.blur()}
+                  />
+                </label>
+              ))}
+            </div>
+          </DsPropertyRow>
+          <DsPropertyRow label="朝向" labelFor={`entry-facing-${scene.id}-${entryId}`}>
+            <DsSelect
+              id={`entry-facing-${scene.id}-${entryId}`}
+              value={entry.facing ?? ''}
+              options={[
+                { value: '', label: '继承进入前朝向' },
+                ...facings.map((facing) => ({ value: facing, label: facing })),
+              ]}
+              onValueChange={(value) => {
+                const facing = value as SceneDef['entry']['facing'] | ''
+                patch({ facing: facing || undefined })
+              }}
+            />
+          </DsPropertyRow>
+        </DsPropertyGrid>
       </div>
       <div className="section">
         <h4>脚本引用</h4>
@@ -4246,7 +4278,8 @@ function NamedEntryInspector(props: {
           {references.length ? (
             <DsReferenceList>
               {references.map((reference) => {
-                const canOpen = reference.canonical !== undefined || reference.caller.type !== 'global'
+                const canOpen =
+                  reference.canonical !== undefined || reference.caller.type !== 'global'
                 return (
                   <DsReferenceRow
                     key={sceneEntryReferenceIdentity(reference)}
@@ -4258,8 +4291,7 @@ function NamedEntryInspector(props: {
                         ? {
                             label: '打开',
                             onActivate: () => {
-                              if (reference.canonical)
-                                onOpenCanonicalReference(reference.canonical)
+                              if (reference.canonical) onOpenCanonicalReference(reference.canonical)
                               else if (reference.caller.type === 'scene')
                                 onJumpToEvent(reference.caller.sceneId, reference.caller.sourceKey)
                               else if (reference.caller.type === 'script')

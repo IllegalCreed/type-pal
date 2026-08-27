@@ -8,7 +8,13 @@ import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
 import { memo, useMemo } from 'react'
 import { UpdateLevelUpCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsButton, DsDraftNumberInput, DsSelect } from './design-system/controls.js'
+import {
+  DsButton,
+  DsDraftNumberInput,
+  DsField,
+  DsFieldGroup,
+  DsSelect,
+} from './design-system/controls.js'
 
 function LevelingEditorImpl(props: {
   actor: ActorDef & { battler: NonNullable<ActorDef['battler']> }
@@ -51,20 +57,23 @@ function LevelingEditorImpl(props: {
 
   return (
     <div className="actor-leveling-editor">
-      <div className="field">
-        <span className="field-label">经验曲线</span>
-        <span className="hint2">
-          {expTable.length
-            ? `${expTable.length} 级 · 末级累计 ${expTable[expTable.length - 1]}`
-            : '无曲线'}
-        </span>
-      </div>
+      <DsFieldGroup>
+        <DsField id="actor-level-curve-summary" label="经验曲线">
+          {(field) => (
+            <output id={field.id} className="hint2">
+              {expTable.length
+                ? `${expTable.length} 级 · 末级累计 ${expTable[expTable.length - 1]}`
+                : '无曲线'}
+            </output>
+          )}
+        </DsField>
+      </DsFieldGroup>
       <DsButton onClick={onEditCurve} size="compact" variant="secondary">
         📈 编辑曲线(中区拖点)
       </DsButton>
-      <div className="field leveling-skill-field">
-        <span className="field-label">升级学技能</span>
-        <div className="hint2">升到该级自动习得(战后结算「练成」;等级线也画在曲线图上)</div>
+      <div className="leveling-skill-intro">
+        <strong>升级学技能</strong>
+        <p className="hint2">升到该级自动习得(战后结算「练成」;等级线也画在曲线图上)</p>
       </div>
       {levelUpRows.map((r, i) => (
         <div className="pt-row" key={`${r.level}-${r.skillId}-${i}`}>

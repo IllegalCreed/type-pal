@@ -481,7 +481,7 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.mapIndex.maps = [{ id: 'm048', name: '测试地图 48', path: 'content/maps/m048.json' }]
     const session = await renderApp(shell)
-    const field = host.querySelector<HTMLElement>('.scene-map-field')!
+    const field = host.querySelector<HTMLElement>('[data-property-label="地图"]')!
     const trigger = field.querySelector<HTMLButtonElement>('[role="combobox"]')!
     const openMap = field.querySelector<HTMLButtonElement>('[aria-label="打开地图 m047"]')!
     const copyAndBind = button('复制并绑定', field)
@@ -662,13 +662,13 @@ describe('App item reference navigation', () => {
     const hiddenCheckbox = [
       ...inspector.querySelectorAll<HTMLLabelElement>('.ds-check-label'),
     ].find((label) => label.textContent?.includes('初始隐藏（待剧情出场）'))
-    expect(hiddenCheckbox?.parentElement?.classList.contains('field')).toBe(true)
+    expect(hiddenCheckbox?.closest('[data-property-label="初始显隐"]')).not.toBeNull()
     expect(
       (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedTriggerActivation,
     ).toEqual({ on: 'interact', range: 2 })
 
     const pageSelect = host.querySelector<HTMLButtonElement>(
-      '[role="combobox"][aria-label="选择实体页"]',
+      '[data-property-label="实体页"] [role="combobox"]',
     )!
     await act(async () => pageSelect.click())
     const pageListbox = document.getElementById(pageSelect.getAttribute('aria-controls')!)!
@@ -730,7 +730,7 @@ describe('App item reference navigation', () => {
     ).toEqual({ on: 'interact', range: 4 })
 
     const currentPageSelect = host.querySelector<HTMLButtonElement>(
-      '[role="combobox"][aria-label="选择实体页"]',
+      '[data-property-label="实体页"] [role="combobox"]',
     )!
     await act(async () => currentPageSelect.click())
     const currentPageListbox = document.getElementById(
@@ -903,7 +903,7 @@ describe('App item reference navigation', () => {
     await act(async () => button('e760', tree).click())
 
     const facingSelect = host.querySelector<HTMLButtonElement>(
-      '[role="combobox"][aria-label="实体朝向"]',
+      '[data-property-label="朝向"] [role="combobox"]',
     )!
     expect(facingSelect.textContent).toContain('下')
     expect(facingSelect.textContent).toContain('屏幕左下')
@@ -935,7 +935,7 @@ describe('App item reference navigation', () => {
 
     expect(session.getState().scenes[0]?.entities[0]?.facing).toBe('left')
     const updatedSelect = host.querySelector<HTMLButtonElement>(
-      '[role="combobox"][aria-label="实体朝向"]',
+      '[data-property-label="朝向"] [role="combobox"]',
     )!
     expect(updatedSelect.textContent).toContain('左')
     expect(updatedSelect.textContent).toContain('屏幕左上')

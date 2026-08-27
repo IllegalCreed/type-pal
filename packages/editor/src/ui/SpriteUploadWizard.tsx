@@ -21,7 +21,15 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { sha256Hex } from '../core/binary-signature.js'
 import { AddSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsButton, DsFilePicker, DsNumberInput, DsTextInput } from './design-system/index.js'
+import {
+  DsButton,
+  DsField,
+  DsFieldGroup,
+  DsFieldMeasure,
+  DsFilePicker,
+  DsNumberInput,
+  DsTextField,
+} from './design-system/index.js'
 
 function FrameThumb(props: { frame: RleFrame; palette: Palette; idx: number }) {
   const { frame, palette, idx } = props
@@ -227,8 +235,8 @@ export function SpriteUploadWizard(props: {
       <p className="sprite-upload-intro">
         导入一组源帧，并建立一个初始用途定义。同一源帧资源之后可以继续添加其它用途。
       </p>
-      <div className="field">
-        <span className="field-label">初始用途</span>
+      <fieldset className="sprite-upload-kind-fieldset" aria-describedby="sprite-upload-kind-help">
+        <legend>初始用途</legend>
         <div className="sprite-upload-kind-options">
           {KIND_META.map((k) => (
             <DsButton
@@ -243,119 +251,160 @@ export function SpriteUploadWizard(props: {
             </DsButton>
           ))}
         </div>
-      </div>
-      {kindMeta && <p className="hint2">{kindMeta.hint}</p>}
+      </fieldset>
+      {kindMeta && (
+        <p id="sprite-upload-kind-help" className="hint2">
+          {kindMeta.hint}
+        </p>
+      )}
       <p className="hint2">替换某一帧 / 给已有精灵补帧 → 选中精灵后在中间帧工作区就地做。</p>
 
-      <div className="field">
-        <span className="field-label">图片文件</span>
-        <DsFilePicker
-          label="选择图片…"
-          description="PNG / WebP / GIF"
-          accept="image/png,image/webp,image/gif"
-          disabled={submitting}
-          onChange={(e) => {
-            const f = e.target.files?.[0]
-            if (f) void pickFile(f)
-          }}
-        />
-      </div>
+      <DsFieldGroup>
+        <DsField id="sprite-upload-file" label="图片文件">
+          {(field) => (
+            <DsFilePicker
+              id={field.id}
+              aria-describedby={field['aria-describedby']}
+              label="选择图片…"
+              description="PNG / WebP / GIF"
+              accept="image/png,image/webp,image/gif"
+              disabled={submitting}
+              onChange={(e) => {
+                const f = e.target.files?.[0]
+                if (f) void pickFile(f)
+              }}
+            />
+          )}
+        </DsField>
+      </DsFieldGroup>
 
       {draft && (
         <>
-          <div className="field">
-            <span className="field-label">原图</span>
-            <span className="mono">
+          <dl className="sprite-upload-readout">
+            <dt>原图</dt>
+            <dd className="mono">
               {draft.fileName} · {draft.imgW}×{draft.imgH}
-            </span>
-          </div>
+            </dd>
+          </dl>
           <img src={draft.srcUrl} alt="原图预览" className="atlas-preview" />
-          {kind === 'directional' && (
-            <>
-              <div className="field">
-                <span className="field-label">每向帧数</span>
-                <DsNumberInput
-                  min={1}
-                  max={16}
-                  disabled={submitting}
-                  value={framesPerDir}
-                  onChange={(e) => setFramesPerDir(Math.floor(e.target.valueAsNumber) || 1)}
-                />
-                <span className="hint2">原版走姿 3 帧(中间为立姿)</span>
-              </div>
-              <div className="field">
-                <span className="field-label">动作帧行</span>
-                <DsNumberInput
-                  min={0}
-                  max={12}
-                  disabled={submitting}
-                  value={actionRows}
-                  onChange={(e) =>
-                    setActionRows(Math.max(0, Math.floor(e.target.valueAsNumber) || 0))
-                  }
-                />
-                <span className="hint2">0 = 无;每行同宽,空格留透明即可</span>
-              </div>
-            </>
-          )}
-          {kind === 'loop' && (
-            <div className="field">
-              <span className="field-label">帧数</span>
-              <DsNumberInput
-                min={1}
-                max={64}
-                disabled={submitting}
-                value={frameCount}
-                onChange={(e) => setFrameCount(Math.floor(e.target.valueAsNumber) || 1)}
-              />
-            </div>
-          )}
-          {kind === 'static' && (
-            <div className="sprite-source-grid-fields">
-              <label>
-                <span>源帧列数</span>
-                <DsNumberInput
-                  min={1}
-                  max={64}
-                  disabled={submitting}
-                  value={sourceCols}
-                  onChange={(event) =>
-                    setSourceCols(Math.max(1, Math.floor(event.target.valueAsNumber) || 1))
-                  }
-                />
-              </label>
-              <label>
-                <span>源帧行数</span>
-                <DsNumberInput
-                  min={1}
-                  max={64}
-                  disabled={submitting}
-                  value={sourceRows}
-                  onChange={(event) =>
-                    setSourceRows(Math.max(1, Math.floor(event.target.valueAsNumber) || 1))
-                  }
-                />
-              </label>
-              <p className="hint2">
-                这里只决定原图如何切成源帧；初始用途仍默认显示 #0，其它帧可交给动作或场景脚本。
-              </p>
-            </div>
-          )}
+          <DsFieldGroup>
+            {kind === 'directional' ? (
+              <>
+                <DsField
+                  id="sprite-upload-frames-per-direction"
+                  label="每向帧数"
+                  help="原版走姿 3 帧（中间为立姿）"
+                >
+                  {(field) => (
+                    <DsFieldMeasure measure="short-number">
+                      <DsNumberInput
+                        id={field.id}
+                        aria-describedby={field['aria-describedby']}
+                        min={1}
+                        max={16}
+                        disabled={submitting}
+                        value={framesPerDir}
+                        onChange={(e) => setFramesPerDir(Math.floor(e.target.valueAsNumber) || 1)}
+                      />
+                    </DsFieldMeasure>
+                  )}
+                </DsField>
+                <DsField
+                  id="sprite-upload-action-rows"
+                  label="动作帧行"
+                  help="0 = 无；每行同宽，空格留透明即可"
+                >
+                  {(field) => (
+                    <DsFieldMeasure measure="short-number">
+                      <DsNumberInput
+                        id={field.id}
+                        aria-describedby={field['aria-describedby']}
+                        min={0}
+                        max={12}
+                        disabled={submitting}
+                        value={actionRows}
+                        onChange={(e) =>
+                          setActionRows(Math.max(0, Math.floor(e.target.valueAsNumber) || 0))
+                        }
+                      />
+                    </DsFieldMeasure>
+                  )}
+                </DsField>
+              </>
+            ) : null}
+            {kind === 'loop' ? (
+              <DsField id="sprite-upload-frame-count" label="帧数">
+                {(field) => (
+                  <DsFieldMeasure measure="short-number">
+                    <DsNumberInput
+                      id={field.id}
+                      min={1}
+                      max={64}
+                      disabled={submitting}
+                      value={frameCount}
+                      onChange={(e) => setFrameCount(Math.floor(e.target.valueAsNumber) || 1)}
+                    />
+                  </DsFieldMeasure>
+                )}
+              </DsField>
+            ) : null}
+            {kind === 'static' ? (
+              <>
+                <DsField id="sprite-source-cols" label="源帧列数">
+                  {(field) => (
+                    <DsFieldMeasure measure="short-number">
+                      <DsNumberInput
+                        id={field.id}
+                        min={1}
+                        max={64}
+                        disabled={submitting}
+                        value={sourceCols}
+                        onChange={(event) =>
+                          setSourceCols(Math.max(1, Math.floor(event.target.valueAsNumber) || 1))
+                        }
+                      />
+                    </DsFieldMeasure>
+                  )}
+                </DsField>
+                <DsField
+                  id="sprite-source-rows"
+                  label="源帧行数"
+                  help="这里只决定原图如何切成源帧；初始用途仍默认显示 #0，其它帧可交给动作或场景脚本。"
+                >
+                  {(field) => (
+                    <DsFieldMeasure measure="short-number">
+                      <DsNumberInput
+                        id={field.id}
+                        aria-describedby={field['aria-describedby']}
+                        min={1}
+                        max={64}
+                        disabled={submitting}
+                        value={sourceRows}
+                        onChange={(event) =>
+                          setSourceRows(Math.max(1, Math.floor(event.target.valueAsNumber) || 1))
+                        }
+                      />
+                    </DsFieldMeasure>
+                  )}
+                </DsField>
+              </>
+            ) : null}
+          </DsFieldGroup>
           {!grid ? (
             <div className="err">图片尺寸无法按当前行列切分；请调整帧数、列数或行数。</div>
           ) : (
-            <div className="field">
-              <span className="field-label">切帧</span>
-              <span className="mono">
+            <dl className="sprite-upload-readout">
+              <dt>切帧</dt>
+              <dd className="mono">
                 {grid.cols}×{grid.rows} 帧 · 每帧 {grid.w}×{grid.h}
-              </span>
-            </div>
+              </dd>
+            </dl>
           )}
           {palette && grid && quantized.length > 0 && (
             <>
-              <div className="field">
-                <span className="field-label">入库预览</span>
-                <span className="hint2">已贴合项目主色(所见即入库,×2 展示)</span>
+              <div className="sprite-upload-preview-heading">
+                <strong>入库预览</strong>
+                <span className="hint2">已贴合项目主色（所见即入库，×2 展示）</span>
               </div>
               {kind === 'directional' ? (
                 // 按行展示:前 4 行标 下/左/上/右,动作行标 动作 1..K
@@ -387,24 +436,24 @@ export function SpriteUploadWizard(props: {
               )}
             </>
           )}
-          <div className="field">
-            <span className="field-label">ID</span>
-            <DsTextInput
+          <DsFieldGroup>
+            <DsTextField
+              id="sprite-upload-id"
+              label="ID"
               disabled={submitting}
               value={newId}
               onChange={(e) => setNewId(e.target.value)}
-              placeholder="kebab-case,唯一"
+              placeholder="kebab-case，唯一"
               monospace
             />
-          </div>
-          <div className="field">
-            <span className="field-label">标签</span>
-            <DsTextInput
+            <DsTextField
+              id="sprite-upload-label"
+              label="标签"
               disabled={submitting}
               value={newLabel}
               onChange={(e) => setNewLabel(e.target.value)}
             />
-          </div>
+          </DsFieldGroup>
           <DsButton
             className="sprite-upload-submit"
             disabled={submitting || !grid || quantized.length === 0}

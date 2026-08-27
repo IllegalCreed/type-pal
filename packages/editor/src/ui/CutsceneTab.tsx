@@ -44,7 +44,11 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsFileInput,
+  DsField,
+  DsFieldGroup,
+  DsFieldMeasure,
   DsIconButton,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsNumberInput,
@@ -58,6 +62,7 @@ import {
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
+  DsSelectField,
   DsTag,
   reorderDsItems,
   type DsReorderIntent,
@@ -820,7 +825,7 @@ export function CutsceneTab(props: {
         )}
       </div>
 
-      <div className="inspector inspector--tabbed cutscene-inspector">
+      <DsInspectorHost className="inspector inspector--tabbed cutscene-inspector">
         {selected ? (
           <DsInspectorTabs
             id="cutscene-inspector"
@@ -1002,7 +1007,7 @@ export function CutsceneTab(props: {
         ) : (
           <div className="insp-empty">选择一个过场资源查看属性与引用。</div>
         )}
-      </div>
+      </DsInspectorHost>
 
       <MediaAssetConfirmDialog
         open={Boolean(lifecycleRequest)}
@@ -1108,20 +1113,24 @@ export function CutsceneTab(props: {
                 })}
               </ol>
             </DsReorderCollection>
-            <label>
-              默认帧率
-              <DsNumberInput
-                min="0.1"
-                step="0.1"
-                value={importFps}
-                onChange={(event) => setImportFps(Number(event.target.value))}
-              />
-            </label>
-            <div className="cutscene-import-field">
-              <span>色彩处理</span>
-              <DsSelect
+            <DsFieldGroup>
+              <DsField id="cutscene-import-fps" label="默认帧率">
+                {(field) => (
+                  <DsFieldMeasure measure="short-number">
+                    <DsNumberInput
+                      id={field.id}
+                      min="0.1"
+                      step="0.1"
+                      value={importFps}
+                      onChange={(event) => setImportFps(Number(event.target.value))}
+                    />
+                  </DsFieldMeasure>
+                )}
+              </DsField>
+              <DsSelectField
+                id="cutscene-import-treatment"
+                label="色彩处理"
                 size="compact"
-                aria-label="导入色彩处理"
                 value={importTreatment}
                 options={[
                   { value: 'preserve', label: '保留原色' },
@@ -1131,13 +1140,11 @@ export function CutsceneTab(props: {
                   setImportTreatment(value as 'preserve' | 'project-standard')
                 }
               />
-            </div>
-            {importTreatment === 'project-standard' ? (
-              <div className="cutscene-import-field">
-                <span>转换方式</span>
-                <DsSelect
+              {importTreatment === 'project-standard' ? (
+                <DsSelectField
+                  id="cutscene-import-quantization"
+                  label="转换方式"
                   size="compact"
-                  aria-label="量化方式"
                   value={importQuantization}
                   options={[
                     { value: 'nearest', label: '最近色' },
@@ -1145,8 +1152,8 @@ export function CutsceneTab(props: {
                   ]}
                   onValueChange={(value) => setImportQuantization(value as FrameQuantization)}
                 />
-              </div>
-            ) : null}
+              ) : null}
+            </DsFieldGroup>
             <div className="modal-actions">
               <DsButton
                 disabled={Boolean(busy)}

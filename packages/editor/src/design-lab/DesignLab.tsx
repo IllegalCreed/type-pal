@@ -13,8 +13,11 @@ import {
   DsDrawer,
   DsEmptyState,
   DsField,
+  DsFieldGroup,
   DsFieldMeasure,
   DsInlineComposer,
+  DsInspectorHost,
+  DsInspectorSection,
   DsListHeader,
   type DsMediaBackground,
   DsMediaViewport,
@@ -24,6 +27,10 @@ import {
   DsNumberInput,
   type DsOption,
   DsRadioGroup,
+  DsPropertyGrid,
+  DsPropertyRow,
+  DsReadoutList,
+  DsReadoutRow,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
@@ -52,6 +59,7 @@ const FIXTURES = [
   ...Array.from({ length: 17 }, (_, index) => `RF-${String(index + 1).padStart(2, '0')}`),
   'RF-21',
   'RF-22',
+  'RF-23',
 ]
 const FORM_OPTIONS: DsOption[] = [
   { value: 'li-xiaoyao', label: '李逍遥', description: 'li-xiaoyao' },
@@ -270,6 +278,74 @@ function FormMatrix() {
             checked={checked}
             onChange={(event) => setChecked(event.currentTarget.checked)}
           />
+        </div>
+      </DsCard>
+    </div>
+  )
+}
+
+function FieldLayoutFixture() {
+  const [actor, setActor] = useState('li-xiaoyao')
+  return (
+    <div className="lab-field-layout-grid">
+      <DsCard title="480px 主工作区字段组">
+        <div className="lab-field-layout-sample lab-field-layout-sample--480">
+          <DsFieldGroup>
+            <DsField
+              id="lab-field-layout-name"
+              label="用于验证自然换行的较长中文标签"
+              help="帮助信息与 control 共享第二列起点。"
+            >
+              {(field) => <DsTextInput {...field} defaultValue="字段布局基准" />}
+            </DsField>
+            <DsSelectField
+              id="lab-field-layout-actor"
+              label="初始角色"
+              options={FORM_OPTIONS}
+              value={actor}
+              onValueChange={setActor}
+            />
+            <DsField
+              id="lab-field-layout-level"
+              label="等级"
+              error="示例错误：等级必须在 1～99 之间。"
+            >
+              {(field) => (
+                <DsFieldMeasure measure="short-number">
+                  <DsNumberInput {...field} defaultValue={120} min={1} max={99} />
+                </DsFieldMeasure>
+              )}
+            </DsField>
+          </DsFieldGroup>
+        </div>
+      </DsCard>
+      <DsCard title="479px 主工作区字段组">
+        <div className="lab-field-layout-sample lab-field-layout-sample--479">
+          <DsFieldGroup>
+            <DsField id="lab-field-layout-stacked" label="容器不足时整组上下排列">
+              <DsTextArea id="lab-field-layout-stacked" defaultValue="标签、控件与说明保持同列。" />
+            </DsField>
+          </DsFieldGroup>
+        </div>
+      </DsCard>
+      <DsCard title="Inspector 紧凑属性唯一例外">
+        <DsInspectorHost>
+          <DsInspectorSection title="Inspector 对照">
+            <DsPropertyGrid>
+              <DsPropertyRow label="很长的属性标签" help="仅 Inspector 使用具名 60px 紧凑轨。">
+                <code>actor.li-xiaoyao</code>
+              </DsPropertyRow>
+              <DsPropertyRow label="状态">已配置</DsPropertyRow>
+            </DsPropertyGrid>
+          </DsInspectorSection>
+        </DsInspectorHost>
+      </DsCard>
+      <DsCard title="主工作区只读信息">
+        <div className="lab-field-layout-sample lab-field-layout-sample--480">
+          <DsReadoutList>
+            <DsReadoutRow label="资源 ID">music.pal.001</DsReadoutRow>
+            <DsReadoutRow label="来源">原版迁移</DsReadoutRow>
+          </DsReadoutList>
         </div>
       </DsCard>
     </div>
@@ -1054,6 +1130,8 @@ function FixtureBody(props: { fixture: string }) {
       return <ReorderFixture />
     case 'RF-22':
       return <AddPickerFixture />
+    case 'RF-23':
+      return <FieldLayoutFixture />
     default:
       return null
   }
@@ -1065,7 +1143,7 @@ export function DesignLab() {
     return (
       <main className="lab-error">
         <DsStatus tone="error" action={<a href="?fixture=RF-01">返回 RF-01</a>}>
-          未知 fixture。请使用 RF-01～RF-17、RF-21 或 RF-22。
+          未知 fixture。请使用 RF-01～RF-17、RF-21～RF-23。
         </DsStatus>
       </main>
     )

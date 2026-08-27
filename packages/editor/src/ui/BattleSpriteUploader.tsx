@@ -13,7 +13,14 @@ import {
   sliceAtlasGrid,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { DsButton, DsFilePicker, DsNumberInput } from './design-system/controls.js'
+import {
+  DsButton,
+  DsField,
+  DsFieldGroup,
+  DsFieldMeasure,
+  DsFilePicker,
+  DsNumberInput,
+} from './design-system/index.js'
 
 function FrameThumb(props: { frame: RleFrame; palette: Palette; idx: number }) {
   const { frame, palette, idx } = props
@@ -117,50 +124,57 @@ export function BattleSpriteUploader(props: {
 
   return (
     <div className="bsu">
-      <div className="field">
-        <span className="field-label">图片</span>
-        <DsFilePicker
-          className="bsu-file-picker"
-          label="选择图片…"
-          description="PNG / WebP / GIF"
-          aria-label="选择战斗精灵图片"
-          accept="image/png,image/webp,image/gif"
-          disabled={submitting}
-          onChange={(e) => {
-            const f = e.target.files?.[0]
-            if (f) void pickFile(f)
-          }}
-        />
-      </div>
+      <DsFilePicker
+        className="bsu-file-picker"
+        label="选择图片…"
+        description="PNG / WebP / GIF"
+        aria-label="选择战斗精灵图片"
+        accept="image/png,image/webp,image/gif"
+        disabled={submitting}
+        onChange={(e) => {
+          const f = e.target.files?.[0]
+          if (f) void pickFile(f)
+        }}
+      />
       {rgba && (
         <>
-          <div className="field">
-            <span className="field-label">帧尺寸</span>
-            <span className="size-edit">
-              <DsNumberInput
-                aria-label="战斗精灵帧宽"
-                disabled={submitting}
-                min={1}
-                max={640}
-                value={frameW}
-                onChange={(e) => setFrameW(Math.floor(e.target.valueAsNumber) || 0)}
-              />
-              ×
-              <DsNumberInput
-                aria-label="战斗精灵帧高"
-                disabled={submitting}
-                min={1}
-                max={640}
-                value={frameH}
-                onChange={(e) => setFrameH(Math.floor(e.target.valueAsNumber) || 0)}
-              />
-              <span className="hint2">
-                {quantized.length
-                  ? `→ ${quantized.length} 帧(横排逐行切)`
-                  : `图 ${rgba.w}×${rgba.h} 切不开(宽高须整除)`}
-              </span>
-            </span>
-          </div>
+          <DsFieldGroup>
+            <DsField id="battle-sprite-frame-width" label="帧宽">
+              {(field) => (
+                <DsFieldMeasure measure="short-number">
+                  <DsNumberInput
+                    {...field}
+                    aria-label="战斗精灵帧宽"
+                    disabled={submitting}
+                    min={1}
+                    max={640}
+                    value={frameW}
+                    onChange={(e) => setFrameW(Math.floor(e.target.valueAsNumber) || 0)}
+                  />
+                </DsFieldMeasure>
+              )}
+            </DsField>
+            <DsField id="battle-sprite-frame-height" label="帧高">
+              {(field) => (
+                <DsFieldMeasure measure="short-number">
+                  <DsNumberInput
+                    {...field}
+                    aria-label="战斗精灵帧高"
+                    disabled={submitting}
+                    min={1}
+                    max={640}
+                    value={frameH}
+                    onChange={(e) => setFrameH(Math.floor(e.target.valueAsNumber) || 0)}
+                  />
+                </DsFieldMeasure>
+              )}
+            </DsField>
+          </DsFieldGroup>
+          <p className="hint2 bsu-frame-summary">
+            {quantized.length
+              ? `共 ${quantized.length} 帧（横排逐行切）`
+              : `图 ${rgba.w}×${rgba.h} 切不开（宽高须整除）`}
+          </p>
           {palette && quantized.length > 0 && (
             <div className="tile-grid bsu-frame-grid">
               {quantized.map((f, i) => (
@@ -170,7 +184,7 @@ export function BattleSpriteUploader(props: {
           )}
         </>
       )}
-      <div className="field bsu-actions">
+      <div className="bsu-actions">
         {rgba && (
           <DsButton
             variant="primary"

@@ -8,7 +8,14 @@ import {
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { DsButton, DsTextInput } from './design-system/index.js'
+import {
+  DsButton,
+  DsControlGroup,
+  DsEmptyState,
+  DsField,
+  DsFieldGroup,
+  DsTextInput,
+} from './design-system/index.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
 
 function ExpressionRow(props: {
@@ -118,28 +125,40 @@ export function PortraitEditor(props: {
       {error ? <div className="cf-warn">{error}</div> : null}
       {portraits ? (
         <>
-          <div className="pt-row portrait-main-row">
-            <span className="pt-name pt-main">主（默认）</span>
-            <ImageAssetPicker
-              value={portraits.default}
-              kind="portrait"
-              catalog={catalog}
-              reader={reader}
-              onChange={(asset) => {
-                if (asset) dispatch({ ...portraits, default: asset })
-              }}
-              ariaLabel="默认对话立绘"
-              onOpenAsset={onOpenAsset}
-            />
-            <DsButton
-              title="删除整个立绘组"
-              onClick={() => dispatchPortraitCommand(new RemoveActorPortraitSetCommand(actor.id))}
-              size="compact"
-              variant="secondary"
-            >
-              ✕
-            </DsButton>
-          </div>
+          <DsFieldGroup>
+            <DsField id="actor-default-portrait" label="主（默认）">
+              {(field) => (
+                <DsControlGroup
+                  control={
+                    <ImageAssetPicker
+                      id={field.id}
+                      value={portraits.default}
+                      kind="portrait"
+                      catalog={catalog}
+                      reader={reader}
+                      onChange={(asset) => {
+                        if (asset) dispatch({ ...portraits, default: asset })
+                      }}
+                      ariaLabel="默认对话立绘"
+                      onOpenAsset={onOpenAsset}
+                    />
+                  }
+                  actions={
+                    <DsButton
+                      title="删除整个立绘组"
+                      onClick={() =>
+                        dispatchPortraitCommand(new RemoveActorPortraitSetCommand(actor.id))
+                      }
+                      size="compact"
+                      variant="secondary"
+                    >
+                      ✕
+                    </DsButton>
+                  }
+                />
+              )}
+            </DsField>
+          </DsFieldGroup>
           {Object.entries(portraits.expressions ?? {}).map(([name, asset]) => (
             <ExpressionRow
               key={name}
@@ -177,20 +196,24 @@ export function PortraitEditor(props: {
           </DsButton>
         </>
       ) : (
-        <div className="field">
-          <div className="hint">（无立绘组——对话不会显示角色立绘）</div>
-          <DsButton
-            disabled={!available}
-            title={available ? undefined : '请先在图片库导入 portrait'}
-            onClick={() => {
-              if (available) dispatch({ default: available })
-            }}
-            size="compact"
-            variant="secondary"
-          >
-            ＋ 添加立绘组
-          </DsButton>
-        </div>
+        <DsEmptyState
+          layout="embedded"
+          title="暂无立绘组"
+          description="对话暂不显示角色立绘。"
+          action={
+            <DsButton
+              disabled={!available}
+              title={available ? undefined : '请先在图片库导入 portrait'}
+              onClick={() => {
+                if (available) dispatch({ default: available })
+              }}
+              size="compact"
+              variant="secondary"
+            >
+              添加立绘组
+            </DsButton>
+          }
+        />
       )}
     </div>
   )

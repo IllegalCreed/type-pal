@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
+import { createPortal } from 'react-dom'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
@@ -16,12 +17,16 @@ import {
   DsDiagnosticRow,
   DsFieldMeasure,
   DsInlineComposer,
+  DsInspectorHost,
+  DsInspectorPortal,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
   DsObjectWorkspace,
   DsPropertyGrid,
   DsPropertyRow,
+  DsReadoutList,
+  DsReadoutRow,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
@@ -370,26 +375,108 @@ describe('object workbench recipes', () => {
     )
     expect(host.querySelector('.ds-workbench-section')?.textContent).toContain('字段')
     expect(host.querySelector('.ds-inspector-section')?.textContent).toContain('2 处')
+    expect(
+      host.querySelector('.ds-inspector-section')?.hasAttribute('data-ds-inspector-host'),
+    ).toBe(false)
   })
 
   test('inspector properties share one compact label/value row contract', async () => {
     await act(async () =>
       root.render(
-        <DsPropertyGrid>
-          <DsPropertyRow label="名称" labelFor="property-name">
-            <input id="property-name" aria-label="名称" />
-          </DsPropertyRow>
-          <DsPropertyRow label="稳定 ID" help="创建后保持不变。">
-            <code>shared/example</code>
-          </DsPropertyRow>
-        </DsPropertyGrid>,
+        <DsInspectorHost>
+          <DsInspectorSection title="属性">
+            <DsPropertyGrid>
+              <DsPropertyRow label="名称" labelFor="property-name">
+                <input id="property-name" aria-label="名称" />
+              </DsPropertyRow>
+              <DsPropertyRow label="稳定 ID" help="创建后保持不变。">
+                <code>shared/example</code>
+              </DsPropertyRow>
+            </DsPropertyGrid>
+          </DsInspectorSection>
+        </DsInspectorHost>,
       ),
     )
+    expect(
+      host.querySelector('.ds-property-grid')?.closest('[data-ds-inspector-host]'),
+    ).not.toBeNull()
     const rows = host.querySelectorAll('.ds-property-row')
     expect(rows).toHaveLength(2)
     expect(rows[0]?.getAttribute('data-property-label')).toBe('名称')
     expect(rows[0]?.querySelector('label')?.getAttribute('for')).toBe('property-name')
     expect(rows[1]?.querySelector('.ds-property-row__help')?.textContent).toContain('保持不变')
+  })
+
+  test('property grids outside an Inspector host fail fast in development', () => {
+    expect(() =>
+      renderToStaticMarkup(
+        <DsPropertyGrid className="main-property-grid-fixture">
+          <DsPropertyRow label="主工作区">单列回退</DsPropertyRow>
+        </DsPropertyGrid>,
+      ),
+    ).toThrow('DsPropertyGrid must render inside a real DsInspector host')
+  })
+
+  test('property grids cannot inherit Inspector context through an ordinary portal', async () => {
+    const outside = document.createElement('div')
+    document.body.append(outside)
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+    await expect(
+      act(async () =>
+        root.render(
+          <DsInspectorHost>
+            {createPortal(
+              <DsPropertyGrid>
+                <DsPropertyRow label="越界">错误目标</DsPropertyRow>
+              </DsPropertyGrid>,
+              outside,
+            )}
+          </DsInspectorHost>,
+        ),
+      ),
+    ).rejects.toThrow('DsPropertyGrid must render under a real Inspector DOM host')
+    error.mockRestore()
+    outside.remove()
+  })
+
+  test('Inspector portals reject non-Inspector targets and preserve the compact context', async () => {
+    const invalidTarget = document.createElement('div')
+    expect(() => DsInspectorPortal({ host: invalidTarget, children: null })).toThrow(
+      'DsInspectorPortal target must be inside a DsInspector host',
+    )
+
+    const shell = document.createElement('div')
+    shell.setAttribute('data-ds-inspector-host', '')
+    const target = document.createElement('div')
+    shell.append(target)
+    document.body.append(shell)
+    await act(async () =>
+      root.render(
+        <DsInspectorPortal host={target}>
+          <DsPropertyGrid className="portal-property-grid">
+            <DsPropertyRow label="名称">组合</DsPropertyRow>
+          </DsPropertyGrid>
+        </DsInspectorPortal>,
+      ),
+    )
+    expect(target.querySelector('.portal-property-grid')).not.toBeNull()
+    shell.remove()
+  })
+
+  test('main readouts keep semantic description-list markup outside the Inspector track', async () => {
+    await act(async () =>
+      root.render(
+        <DsReadoutList>
+          <DsReadoutRow label="资源">music.pal.001</DsReadoutRow>
+          <DsReadoutRow label="引用">3 处</DsReadoutRow>
+        </DsReadoutList>,
+      ),
+    )
+    const list = host.querySelector('dl.ds-readout-list')
+    expect(list).not.toBeNull()
+    expect(list?.querySelectorAll('dt.ds-readout-row__label')).toHaveLength(2)
+    expect(list?.querySelectorAll('dd.ds-readout-row__value')).toHaveLength(2)
+    expect(list?.querySelector('.ds-property-grid')).toBeNull()
   })
 
   test('inspector tabs keep one visible scroll panel and expose linked tab semantics', async () => {

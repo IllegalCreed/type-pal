@@ -1,7 +1,7 @@
 import type { EntityPage, SpriteActionBinding, SpriteDef } from '@type-pal/content'
 import { sortedSpriteActions } from '../core/sprite-actions.js'
 import { DsButton, DsCheckbox, DsDraftNumberInput, DsSelect } from './design-system/controls.js'
-import { DsPropertyGrid, DsPropertyRow } from './design-system/recipes.js'
+import { DsPropertyRow } from './design-system/recipes.js'
 
 interface EntityPageAnimationFieldsProps {
   page: EntityPage | undefined
@@ -147,25 +147,5 @@ export function EntityPageAnimationFields(props: EntityPageAnimationFieldsProps)
         </>
       ) : null}
     </>
-  )
-}
-
-/** 独立使用时仍提供完整的共享属性网格。 */
-export function EntityPageAnimationEditor(
-  props: EntityPageAnimationFieldsProps & { pageIndex: number },
-) {
-  return (
-    <section aria-label={`第 ${props.pageIndex + 1} 页默认动作`}>
-      <DsPropertyGrid>
-        <EntityPageAnimationFields
-          page={props.page}
-          sprite={props.sprite}
-          onChange={props.onChange}
-          onOpenAction={props.onOpenAction}
-          draftScope={props.draftScope ?? `entity-page-animation:${props.pageIndex}`}
-          syncToken={props.syncToken}
-        />
-      </DsPropertyGrid>
-    </section>
   )
 }

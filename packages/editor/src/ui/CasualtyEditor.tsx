@@ -15,6 +15,7 @@ import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import {
   DsButton,
+  DsDraftNumberField,
   DsDraftNumberInput,
   DsDraftTextInput,
   DsReorderCollection,
@@ -284,25 +285,24 @@ export function CasualtyEditor(props: {
                             </small>
                           </span>
                         </DsPressable>
-                        <label className="casualty-chance-field">
-                          <span>阈值</span>
-                          <DsDraftNumberInput
-                            draftKey={`actor:${actor.id}:casualty:${slot}:gate:${reorderKey}:chance`}
-                            syncToken={syncToken}
-                            min={1}
-                            max={100}
-                            step={1}
-                            integer
-                            normalize={(value) => Math.max(1, Math.min(100, Math.trunc(value)))}
-                            aria-label={`第 ${index + 1} 个概率分支阈值`}
-                            value={gate.chance}
-                            onCommit={(value) => {
-                              const chance = Math.max(1, Math.min(100, value ?? 1))
-                              if (chance !== gate.chance) setGateChance(index, chance)
-                            }}
-                          />
-                          <span>%</span>
-                        </label>
+                        <DsDraftNumberField
+                          layout="inline"
+                          fieldClassName="casualty-chance-field"
+                          label="阈值（%）"
+                          draftKey={`actor:${actor.id}:casualty:${slot}:gate:${reorderKey}:chance`}
+                          syncToken={syncToken}
+                          min={1}
+                          max={100}
+                          step={1}
+                          integer
+                          normalize={(value) => Math.max(1, Math.min(100, Math.trunc(value)))}
+                          aria-label={`第 ${index + 1} 个概率分支阈值`}
+                          value={gate.chance}
+                          onCommit={(value) => {
+                            const chance = Math.max(1, Math.min(100, value ?? 1))
+                            if (chance !== gate.chance) setGateChance(index, chance)
+                          }}
+                        />
                         <span className="casualty-gate-actions">
                           <DsReorderMoveButton
                             itemKey={reorderKey}

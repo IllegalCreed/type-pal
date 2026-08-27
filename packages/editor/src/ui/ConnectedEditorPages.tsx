@@ -98,7 +98,7 @@ export type ConnectedProjectWorkbenchProps = Omit<
 }
 
 export function ConnectedProjectWorkbench(props: ConnectedProjectWorkbenchProps) {
-  const { derivedStore, scriptSession, session, ...staticProps } = props
+  const { derivedStore, scriptSession, session, page, ...staticProps } = props
   const state = useEditSessionSelector(session, (snapshot) => snapshot.state)
   useScriptEditSessionSelector(scriptSession, (snapshot) => snapshot.state)
   const derivedSnapshot = useEditorDerivedSnapshotAfterPaint(derivedStore)
@@ -111,6 +111,7 @@ export function ConnectedProjectWorkbench(props: ConnectedProjectWorkbenchProps)
   return (
     <ProjectWorkbenchTab
       {...staticProps}
+      page={page}
       session={session}
       manifest={state.manifest}
       scenes={state.scenes}

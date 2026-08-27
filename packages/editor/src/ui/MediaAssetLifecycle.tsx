@@ -6,8 +6,8 @@ import {
   DsDialog,
   DsDraftTextInput,
   DsField,
-  DsPropertyGrid,
-  DsPropertyRow,
+  DsReadoutList,
+  DsReadoutRow,
 } from './design-system/index.js'
 
 /** 媒体资源名称的共享编辑合同：Enter/blur 提交，Escape 恢复，等值零命令。 */
@@ -77,13 +77,13 @@ export function MediaAssetConfirmDialog(props: {
         </>
       }
     >
-      <DsPropertyGrid>
-        <DsPropertyRow label="资源">{props.objectLabel}</DsPropertyRow>
-        <DsPropertyRow label="影响">{props.impact}</DsPropertyRow>
-        <DsPropertyRow label="引用">
+      <DsReadoutList>
+        <DsReadoutRow label="资源">{props.objectLabel}</DsReadoutRow>
+        <DsReadoutRow label="影响">{props.impact}</DsReadoutRow>
+        <DsReadoutRow label="引用">
           {props.referenceCount === 'unknown' ? '未知（扫描失败）' : `${props.referenceCount} 处`}
-        </DsPropertyRow>
-      </DsPropertyGrid>
+        </DsReadoutRow>
+      </DsReadoutList>
     </DsDialog>
   )
 }

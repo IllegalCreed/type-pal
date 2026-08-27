@@ -52,8 +52,10 @@ import {
   DsDiagnosticRow,
   DsDraftNumberField,
   DsDraftNumberInput,
-  DsDraftTextInput,
+  DsDraftTextField,
   DsEmptyState,
+  DsField,
+  DsFieldGroup,
   DsFieldMeasure,
   DsHelpTip,
   DsIconButton,
@@ -65,6 +67,7 @@ import {
   DsReorderMoveButton,
   DsRepeatRow,
   DsSelect,
+  DsSelectField,
   DsSequenceIndex,
   DsTag,
   DsTextInput,
@@ -460,7 +463,7 @@ function RoleBindings(props: {
 }) {
   const { manifest, assetCatalog, session, assetReader, roles, onOpenLocation } = props
   return (
-    <div className="project-role-list">
+    <DsFieldGroup className="project-role-list">
       {roles.map((definition) => {
         const { role, kind: expected, label } = definition
         const status = projectAssetRoleStatus(definition, manifest.assets, assetCatalog)
@@ -484,8 +487,6 @@ function RoleBindings(props: {
         const validRecord = status.state === 'configured' ? status.record : undefined
         const expectedLabel = EDITOR_ASSET_KIND_LABELS[expected]
         const controlId = `project-role-${role.replaceAll('.', '-')}`
-        const labelId = `${controlId}-label`
-        const descriptionId = `${controlId}-description`
         const selectionOptions = [
           { value: '', label: '未绑定' },
           ...(current && !currentRecord ? [{ value: current, label: `${current}（缺失）` }] : []),
@@ -503,95 +504,89 @@ function RoleBindings(props: {
           })),
         ]
         return (
-          <div className="project-role-row" key={role}>
-            <div className="project-role-label">
-              <div className="project-role-label-head">
-                <strong id={labelId}>{label}</strong>
-                <DsTag tone={required ? 'accent' : 'neutral'}>{required ? '必选' : '可选'}</DsTag>
-                <DsHelpTip label={label}>
-                  稳定资源角色：<code translate="no">{role}</code>；需要{expectedLabel}资源。
-                  {definition.help ? ` ${definition.help}` : ''}
-                </DsHelpTip>
+          <DsField
+            id={controlId}
+            key={role}
+            className="project-role-row"
+            label={label}
+            required={required}
+            error={bindingError}
+            help={`${required ? '必选' : '可选'}资源角色：${role}；需要${expectedLabel}资源。${definition.help ? ` ${definition.help}` : ''}`}
+          >
+            {(control) => (
+              <div className="project-role-binding">
+                <DsControlGroup
+                  className="project-role-binding-control"
+                  control={
+                    <DsSelect
+                      {...control}
+                      value={current}
+                      required={required}
+                      invalid={Boolean(bindingError)}
+                      searchable="auto"
+                      options={selectionOptions}
+                      onValueChange={(value) =>
+                        session.dispatch(
+                          new UpdateManifestAssetRolesCommand({
+                            [role]: value || undefined,
+                          }),
+                        )
+                      }
+                    />
+                  }
+                  actions={
+                    <>
+                      {validRecord && (expected === 'music' || expected === 'sound') ? (
+                        <ProjectAudioPreviewButton
+                          asset={current}
+                          label={validRecord.label ?? label}
+                          kind={expected}
+                          cacheKey={validRecord.sha256}
+                          reader={assetReader}
+                        />
+                      ) : null}
+                      {onOpenLocation && targetSubpage ? (
+                        <DsButton
+                          variant="secondary"
+                          icon="open"
+                          title={validRecord ? `打开资源 ${current}` : `打开${libraryLabel}`}
+                          onClick={() => {
+                            stopEditorAudioPreview()
+                            onOpenLocation({
+                              module: 'asset',
+                              subpage: targetSubpage,
+                              ...(validRecord ? { objectId: current } : {}),
+                            })
+                          }}
+                        >
+                          {validRecord
+                            ? '打开资源'
+                            : candidates.length
+                              ? `打开${libraryLabel}`
+                              : `前往${libraryLabel}导入`}
+                        </DsButton>
+                      ) : null}
+                    </>
+                  }
+                />
+                {validRecord ? (
+                  <span className="project-role-resource" title={validRecord.path}>
+                    <DsTag tone="neutral">{expectedLabel}</DsTag>
+                    <span>{validRecord.label ?? current}</span>
+                  </span>
+                ) : null}
+                {!(expected === 'music' || expected === 'sound') &&
+                !(onOpenLocation && targetSubpage) ? (
+                  <span className="project-role-no-preview">
+                    当前没有{expectedLabel}专用资源页；这里只能绑定资源库中已有项。
+                  </span>
+                ) : null}
               </div>
-            </div>
-            <div className="project-role-binding">
-              <DsControlGroup
-                className="project-role-binding-control"
-                control={
-                  <DsSelect
-                    id={controlId}
-                    aria-labelledby={labelId}
-                    aria-describedby={bindingError || validRecord ? descriptionId : undefined}
-                    value={current}
-                    required={required}
-                    invalid={Boolean(bindingError)}
-                    searchable="auto"
-                    options={selectionOptions}
-                    onValueChange={(value) =>
-                      session.dispatch(
-                        new UpdateManifestAssetRolesCommand({
-                          [role]: value || undefined,
-                        }),
-                      )
-                    }
-                  />
-                }
-                actions={
-                  <>
-                    {validRecord && (expected === 'music' || expected === 'sound') ? (
-                      <ProjectAudioPreviewButton
-                        asset={current}
-                        label={validRecord.label ?? label}
-                        kind={expected}
-                        cacheKey={validRecord.sha256}
-                        reader={assetReader}
-                      />
-                    ) : null}
-                    {onOpenLocation && targetSubpage ? (
-                      <DsButton
-                        variant="secondary"
-                        icon="open"
-                        title={validRecord ? `打开资源 ${current}` : `打开${libraryLabel}`}
-                        onClick={() => {
-                          stopEditorAudioPreview()
-                          onOpenLocation({
-                            module: 'asset',
-                            subpage: targetSubpage,
-                            ...(validRecord ? { objectId: current } : {}),
-                          })
-                        }}
-                      >
-                        {validRecord
-                          ? '打开资源'
-                          : candidates.length
-                            ? `打开${libraryLabel}`
-                            : `前往${libraryLabel}导入`}
-                      </DsButton>
-                    ) : null}
-                  </>
-                }
-              />
-              {bindingError ? (
-                <span id={descriptionId} className="project-role-error">
-                  {bindingError}
-                </span>
-              ) : validRecord ? (
-                <span id={descriptionId} className="project-role-resource" title={validRecord.path}>
-                  <DsTag tone="neutral">{expectedLabel}</DsTag>
-                  <span>{validRecord.label ?? current}</span>
-                </span>
-              ) : null}
-              {!(expected === 'music' || expected === 'sound') &&
-              !(onOpenLocation && targetSubpage) ? (
-                <span className="project-role-no-preview">
-                  当前没有{expectedLabel}专用资源页；这里只能绑定资源库中已有项。
-                </span>
-              ) : null}
-            </div>
-          </div>
+            )}
+          </DsField>
         )
       })}
-    </div>
+    </DsFieldGroup>
   )
 }
 
@@ -773,22 +768,25 @@ export function StartWorldFields(props: {
 
   return (
     <div ref={rootRef} className="project-form-stack">
-      <div className="project-field-grid">
-        <label className="field" htmlFor="start-world-money">
-          <span className="field-label">金钱</span>
-          <DsDraftNumberInput
-            id="start-world-money"
-            min={0}
-            integer
-            normalize={(next) => Math.max(0, Math.floor(next))}
-            draftKey={`${draftScope}:money`}
-            syncToken={syncToken}
-            value={value.money}
-            disabled={readOnly}
-            onCommit={(next) => next !== undefined && patch({ money: next })}
-          />
-        </label>
-      </div>
+      <DsFieldGroup>
+        <DsField id="start-world-money" label="金钱">
+          {(field) => (
+            <DsFieldMeasure measure="short-number">
+              <DsDraftNumberInput
+                {...field}
+                min={0}
+                integer
+                normalize={(next) => Math.max(0, Math.floor(next))}
+                draftKey={`${draftScope}:money`}
+                syncToken={syncToken}
+                value={value.money}
+                disabled={readOnly}
+                onCommit={(next) => next !== undefined && patch({ money: next })}
+              />
+            </DsFieldMeasure>
+          )}
+        </DsField>
+      </DsFieldGroup>
 
       <section ref={partySectionRef} className="project-card" tabIndex={-1}>
         <div className="project-title-row">
@@ -1346,34 +1344,34 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
           meta={<DsTag tone="warning">阻止保存</DsTag>}
         >
           <section className="project-card">
-            <div className="project-form-stack">
+            <DsFieldGroup>
               {entryPoints.map((entry, index) => (
-                <label
-                  className="field"
-                  htmlFor={`entry-id-repair-${index}`}
+                <DsField
+                  id={`entry-id-repair-${index}`}
                   key={`repair:${index}`}
+                  label={`入口 ${index + 1}`}
+                  help={`${entry.label || '未命名入口'} · ${
+                    repairableEntryIndexes.has(index) ? '需要修复' : '稳定 id（只读）'
+                  }`}
                 >
-                  <span className="field-label">入口 {index + 1}</span>
-                  <DsTextInput
-                    id={`entry-id-repair-${index}`}
-                    aria-label={`入口 ${index + 1} id`}
-                    value={repairIds[index] ?? ''}
-                    disabled={!repairableEntryIndexes.has(index)}
-                    onChange={(event) =>
-                      setRepairIds((current) =>
-                        current.map((id, itemIndex) =>
-                          itemIndex === index ? event.target.value : id,
-                        ),
-                      )
-                    }
-                  />
-                  <span className="project-copy">
-                    {entry.label || '未命名入口'} ·{' '}
-                    {repairableEntryIndexes.has(index) ? '需要修复' : '稳定 id（只读）'}
-                  </span>
-                </label>
+                  {(field) => (
+                    <DsTextInput
+                      {...field}
+                      aria-label={`入口 ${index + 1} id`}
+                      value={repairIds[index] ?? ''}
+                      disabled={!repairableEntryIndexes.has(index)}
+                      onChange={(event) =>
+                        setRepairIds((current) =>
+                          current.map((id, itemIndex) =>
+                            itemIndex === index ? event.target.value : id,
+                          ),
+                        )
+                      }
+                    />
+                  )}
+                </DsField>
               ))}
-            </div>
+            </DsFieldGroup>
             <div className="project-button-row">
               <DsButton
                 disabled={!repairReady}
@@ -1567,20 +1565,18 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                   每个入口都保存完整场景、入口视频与开局状态；稳定 ID 创建后保持不变。
                 </DsHelpTip>
               </h4>
-              <label className="field" htmlFor="entry-label">
-                <span className="field-label">标签</span>
-                <DsDraftTextInput
+              <DsFieldGroup>
+                <DsDraftTextField
                   id="entry-label"
+                  label="标签"
                   draftKey={`entry:${selected.id}:label`}
                   syncToken={session.getHistoryVersion()}
                   value={selected.label}
                   onCommit={(value) => patchEntry(selected.id, { label: value })}
                 />
-              </label>
-              <div className="field">
-                <span className="field-label">起始场景</span>
-                <DsSelect
-                  aria-label="入口场景"
+                <DsSelectField
+                  id="entry-scene"
+                  label="起始场景"
                   value={selected.scene}
                   options={[
                     ...(!sceneIds.includes(selected.scene)
@@ -1590,67 +1586,68 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                   ]}
                   onValueChange={(value) => patchEntry(selected.id, { scene: value })}
                 />
-              </div>
-              <div className="field">
-                <span className="field-label">入口视频</span>
-                <DsControlGroup
-                  control={
-                    <DsSelect
-                      aria-label="入口视频"
-                      value={selected.introVideo ?? ''}
-                      options={[
-                        { value: '', label: '无（由场景脚本负责叙事）' },
-                        ...(selected.introVideo && !assetCatalog.assets[selected.introVideo]
-                          ? [
-                              {
-                                value: selected.introVideo,
-                                label: `${selected.introVideo}（缺失）`,
-                              },
-                            ]
-                          : []),
-                        ...(selected.introVideo &&
-                        selectedIntroVideoAsset &&
-                        selectedIntroVideoAsset.kind !== 'video'
-                          ? [
-                              {
-                                value: selected.introVideo,
-                                label: selected.introVideo,
-                                description: `类型 ${selectedIntroVideoAsset.kind}`,
-                              },
-                            ]
-                          : []),
-                        ...videoAssets.map(([id, asset]) => ({
-                          value: id,
-                          label: asset.label ?? id,
-                          description: asset.label ? id : undefined,
-                        })),
-                      ]}
-                      onValueChange={(value) =>
-                        patchEntry(selected.id, { introVideo: value || undefined })
+                <DsField id="entry-intro-video" label="入口视频">
+                  {(field) => (
+                    <DsControlGroup
+                      control={
+                        <DsSelect
+                          {...field}
+                          value={selected.introVideo ?? ''}
+                          options={[
+                            { value: '', label: '无（由场景脚本负责叙事）' },
+                            ...(selected.introVideo && !assetCatalog.assets[selected.introVideo]
+                              ? [
+                                  {
+                                    value: selected.introVideo,
+                                    label: `${selected.introVideo}（缺失）`,
+                                  },
+                                ]
+                              : []),
+                            ...(selected.introVideo &&
+                            selectedIntroVideoAsset &&
+                            selectedIntroVideoAsset.kind !== 'video'
+                              ? [
+                                  {
+                                    value: selected.introVideo,
+                                    label: selected.introVideo,
+                                    description: `类型 ${selectedIntroVideoAsset.kind}`,
+                                  },
+                                ]
+                              : []),
+                            ...videoAssets.map(([id, asset]) => ({
+                              value: id,
+                              label: asset.label ?? id,
+                              description: asset.label ? id : undefined,
+                            })),
+                          ]}
+                          onValueChange={(value) =>
+                            patchEntry(selected.id, { introVideo: value || undefined })
+                          }
+                        />
+                      }
+                      actions={
+                        selected.introVideo && onOpenLocation ? (
+                          <DsButton
+                            icon="open"
+                            title={`查看入口视频 ${selected.introVideo}`}
+                            onClick={() => {
+                              stopEditorAudioPreview()
+                              onOpenLocation({
+                                module: 'asset',
+                                subpage: 'cutscene',
+                                objectId: selected.introVideo!,
+                              })
+                            }}
+                            variant="secondary"
+                          >
+                            前往预览
+                          </DsButton>
+                        ) : undefined
                       }
                     />
-                  }
-                  actions={
-                    selected.introVideo && onOpenLocation ? (
-                      <DsButton
-                        icon="open"
-                        title={`查看入口视频 ${selected.introVideo}`}
-                        onClick={() => {
-                          stopEditorAudioPreview()
-                          onOpenLocation({
-                            module: 'asset',
-                            subpage: 'cutscene',
-                            objectId: selected.introVideo!,
-                          })
-                        }}
-                        variant="secondary"
-                      >
-                        前往预览
-                      </DsButton>
-                    ) : undefined
-                  }
-                />
-              </div>
+                  )}
+                </DsField>
+              </DsFieldGroup>
             </section>
             <section className="project-card">
               <div className="project-title-row">
@@ -1926,17 +1923,17 @@ function ProjectOverviewPage(props: ProjectWorkbenchTabProps) {
       >
         <section className="project-card">
           <h4>项目身份</h4>
-          <label className="field" htmlFor="project-display-name">
-            <span className="field-label">显示名</span>
-            <DsDraftTextInput
+          <DsFieldGroup>
+            <DsDraftTextField
               id="project-display-name"
+              label="显示名"
               draftKey={`project:${manifest.id}:name`}
               syncToken={session.getHistoryVersion()}
               value={manifest.name}
               validate={(value) => (value.trim() ? undefined : '项目显示名不能为空。')}
               onCommit={(value) => session.dispatch(new RenameProjectCommand(value))}
             />
-          </label>
+          </DsFieldGroup>
         </section>
         <section className="project-startup-summary-grid" aria-label="启动摘要">
           <DsCard

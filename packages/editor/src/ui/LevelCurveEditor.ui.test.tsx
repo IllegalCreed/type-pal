@@ -109,7 +109,7 @@ describe('LevelCurveEditor field commit boundary', () => {
     const session = new EditSession(editorState())
     await act(async () => root.render(<Harness session={session} />))
     let input = host.querySelector<HTMLInputElement>(
-      '.level-curve-input--short input[data-ds-draft-commit="number"]',
+      '[data-field-id="level-curve-count"] input[data-ds-draft-commit="number"]',
     )!
     const history = session.getHistoryVersion()
     await act(async () => {
@@ -124,12 +124,12 @@ describe('LevelCurveEditor field commit boundary', () => {
 
     await act(async () => session.undo())
     input = host.querySelector<HTMLInputElement>(
-      '.level-curve-input--short input[data-ds-draft-commit="number"]',
+      '[data-field-id="level-curve-count"] input[data-ds-draft-commit="number"]',
     )!
     expect(input.value).toBe('3')
     await act(async () => session.redo())
     input = host.querySelector<HTMLInputElement>(
-      '.level-curve-input--short input[data-ds-draft-commit="number"]',
+      '[data-field-id="level-curve-count"] input[data-ds-draft-commit="number"]',
     )!
     expect(input.value).toBe('23')
   })

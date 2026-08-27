@@ -1,10 +1,11 @@
 // @vitest-environment jsdom
 
 import type { EntityPage, SpriteActionBinding, SpriteDef } from '@type-pal/content'
-import { act, useState } from 'react'
+import { act, type ComponentProps, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { EntityPageAnimationEditor } from './EntityPageAnimationEditor.js'
+import { EntityPageAnimationFields } from './EntityPageAnimationEditor.js'
+import { DsInspectorHost, DsPropertyGrid } from './design-system/recipes.js'
 
 const sprite: SpriteDef = {
   id: 'sprite-77',
@@ -25,7 +26,26 @@ const sprite: SpriteDef = {
   },
 }
 
-describe('EntityPageAnimationEditor', () => {
+function TestEditor(
+  props: ComponentProps<typeof EntityPageAnimationFields> & { pageIndex: number },
+) {
+  return (
+    <DsInspectorHost
+      as="section"
+      className="inspector entity-page-animation-test-inspector"
+      aria-label={`第 ${props.pageIndex + 1} 页默认动作`}
+    >
+      <DsPropertyGrid>
+        <EntityPageAnimationFields
+          {...props}
+          draftScope={props.draftScope ?? `entity-page-animation:${props.pageIndex}`}
+        />
+      </DsPropertyGrid>
+    </DsInspectorHost>
+  )
+}
+
+describe('EntityPageAnimationFields', () => {
   let host: HTMLDivElement
   let root: Root
 
@@ -47,7 +67,7 @@ describe('EntityPageAnimationEditor', () => {
     function Harness() {
       const [page, setPage] = useState<EntityPage>({})
       return (
-        <EntityPageAnimationEditor
+        <TestEditor
           page={page}
           pageIndex={1}
           sprite={sprite}
@@ -81,14 +101,15 @@ describe('EntityPageAnimationEditor', () => {
     expect(changes.at(-1)).toMatchObject({ action: 'late', loop: true })
 
     const phase = host.querySelector<HTMLInputElement>('[aria-label="动作起始相位（毫秒）"]')!
+    const changeCountBeforeDraft = changes.length
     await act(async () => {
       phase.focus()
       Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(phase, '240')
       phase.dispatchEvent(new Event('input', { bubbles: true }))
     })
-    expect(changes.at(-1)).toMatchObject({ action: 'late', loop: true })
-    expect(changes.at(-1)).not.toHaveProperty('startAtMs')
+    expect(changes).toHaveLength(changeCountBeforeDraft)
     await act(async () => phase.blur())
+    expect(changes).toHaveLength(changeCountBeforeDraft + 1)
     expect(changes.at(-1)).toMatchObject({ action: 'late', loop: true, startAtMs: 240 })
 
     await act(async () =>
@@ -102,7 +123,7 @@ describe('EntityPageAnimationEditor', () => {
   test('悬空复合引用不猜测替换并明确提示', async () => {
     await act(async () =>
       root.render(
-        <EntityPageAnimationEditor
+        <TestEditor
           page={{ animation: { sprite: 'wrong', action: 'missing', loop: true } }}
           pageIndex={0}
           sprite={sprite}
@@ -121,7 +142,7 @@ describe('EntityPageAnimationEditor', () => {
   test('无可解析精灵时开关与说明仍归入统一属性值列', async () => {
     await act(async () =>
       root.render(
-        <EntityPageAnimationEditor
+        <TestEditor
           page={{}}
           pageIndex={0}
           sprite={undefined}

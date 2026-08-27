@@ -19,10 +19,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import {
-  DS_OPTION_VIRTUALIZE_ABOVE,
-  filterDsCollection,
-} from './collection-search.js'
+import { DS_OPTION_VIRTUALIZE_ABOVE, filterDsCollection } from './collection-search.js'
 import { DsFloatingLayer } from './floating-layer.js'
 import { DsIcon, type DsIconName } from './icons.js'
 
@@ -376,6 +373,26 @@ export const DsColorInput = forwardRef<
   )
 })
 
+/**
+ * 主工作区相关字段的共享标签轨。字段自身继续持有 label/help/error 与输入事务语义；
+ * 本组只负责统一轨道和基于自身容器宽度的 responsive / stacked 布局。
+ */
+export function DsFieldGroup(props: {
+  children: ReactNode
+  className?: string
+  layout?: 'responsive' | 'stacked'
+}) {
+  return (
+    <div
+      className={classes('ds-field-group', props.className)}
+      data-ds-field-group=""
+      data-layout={props.layout ?? 'responsive'}
+    >
+      {props.children}
+    </div>
+  )
+}
+
 export function DsField(props: {
   id?: string
   label: string
@@ -397,6 +414,7 @@ export function DsField(props: {
         props.className,
       )}
       data-field-id={id}
+      data-support={Boolean(props.error || props.help) || undefined}
     >
       <label className="ds-field__label" htmlFor={id}>
         {props.label}
@@ -1544,11 +1562,11 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
               placeholder={`搜索 ${options.length} 项`}
               onChange={(event) => {
                 const nextQuery = event.currentTarget.value
-                const nextOptions = filterDsCollection(
-                  indexedOptions,
-                  nextQuery,
-                  ({ option }) => [option.label, option.value, option.description],
-                )
+                const nextOptions = filterDsCollection(indexedOptions, nextQuery, ({ option }) => [
+                  option.label,
+                  option.value,
+                  option.description,
+                ])
                 setQuery(nextQuery)
                 setActiveValue(firstEnabledValue(nextOptions))
                 setListScrollTop(0)

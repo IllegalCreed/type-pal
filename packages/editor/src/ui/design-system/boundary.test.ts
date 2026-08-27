@@ -30,7 +30,112 @@ function splitTopLevelSelectors(selectorList: string): string[] {
   return selectors.filter(Boolean)
 }
 
+function cssRuleBodies(content: string, selector: string, atRule = ''): string[] {
+  const source = content.replace(/\/\*[\s\S]*?\*\//g, '')
+  const matches: string[] = []
+  const normalizedSelector = selector.replace(/\s+/g, ' ').trim()
+
+  function parse(region: string, contexts: string[]): void {
+    let cursor = 0
+    while (cursor < region.length) {
+      const opening = region.indexOf('{', cursor)
+      if (opening < 0) return
+      let depth = 1
+      let closing = opening + 1
+      for (; closing < region.length && depth > 0; closing += 1) {
+        if (region[closing] === '{') depth += 1
+        else if (region[closing] === '}') depth -= 1
+      }
+      if (depth !== 0) throw new Error('Unbalanced CSS boundary fixture')
+      const header = region.slice(cursor, opening).replace(/\s+/g, ' ').trim()
+      const body = region.slice(opening + 1, closing - 1)
+      if (header.startsWith('@')) parse(body, [...contexts, header])
+      else if (
+        contexts.join(' > ') === atRule &&
+        splitTopLevelSelectors(header).some(
+          (candidate) => candidate.replace(/\s+/g, ' ').trim() === normalizedSelector,
+        )
+      )
+        matches.push(body)
+      cursor = closing
+    }
+  }
+
+  parse(source, [])
+  return matches
+}
+
+function cssDeclaration(body: string, property: string): string | undefined {
+  return body
+    .split(';')
+    .map((entry) => entry.trim())
+    .find((entry) => entry.startsWith(`${property}:`))
+    ?.slice(property.length + 1)
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 describe('editor design-system static boundary', () => {
+  test('locks field groups to the shared 96px track and 479/480 container boundary', () => {
+    const tokens = readFileSync(join(here, 'tokens.css'), 'utf8')
+    const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
+    const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
+    const designLabCss = readFileSync(join(here, '../../design-lab/design-lab.css'), 'utf8')
+    const editor = readFileSync(join(here, '..', 'editor.css'), 'utf8')
+
+    expect(tokens).toContain('--ds-field-label-track: 96px;')
+    expect(tokens).toContain('--ds-inspector-property-label-track: 60px;')
+    const group = cssRuleBodies(primitives, '.ds-field-group')
+    expect(group).toHaveLength(1)
+    expect(cssDeclaration(group[0]!, 'container-name')).toBe('ds-field-group')
+    expect(cssDeclaration(group[0]!, 'container-type')).toBe('inline-size')
+    const responsive = cssRuleBodies(
+      primitives,
+      '.ds-field-group[data-layout="responsive"] > .ds-field',
+    )
+    expect(responsive).toHaveLength(1)
+    expect(cssDeclaration(responsive[0]!, 'grid-template-columns')).toBe(
+      'var(--ds-field-label-track) minmax(0, 1fr)',
+    )
+    const stackedBoundary = cssRuleBodies(
+      primitives,
+      '.ds-field-group[data-layout="responsive"] > .ds-field',
+      '@container ds-field-group (width < 480px)',
+    )
+    expect(stackedBoundary).toHaveLength(1)
+    expect(cssDeclaration(stackedBoundary[0]!, 'grid-template-columns')).toBe('minmax(0, 1fr)')
+    const control = cssRuleBodies(primitives, '.ds-field-group > .ds-field > [data-ds-control-id]')
+    expect(cssDeclaration(control[0]!, 'min-width')).toBe('0')
+    const support = cssRuleBodies(
+      primitives,
+      '.ds-field-group > .ds-field > :is(.ds-field__help, .ds-field__error)',
+    )
+    expect(cssDeclaration(support[0]!, 'grid-area')).toBe('support')
+    const label = cssRuleBodies(primitives, '.ds-field-group > .ds-field > .ds-field__label')
+    expect(cssDeclaration(label[0]!, 'overflow-wrap')).toBe('break-word')
+    expect(cssDeclaration(label[0]!, 'word-break')).toBe('normal')
+    expect(designLab).toContain("'RF-23'")
+    expect(designLab).toContain('<FieldLayoutFixture />')
+    expect(designLab).toContain('用于验证自然换行的较长中文标签')
+    expect(designLab).toContain('<DsPropertyGrid>')
+    expect(designLab).toContain('<DsReadoutList>')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(designLabCss, '.lab-field-layout-sample--480')[0]!,
+        'inline-size',
+      ),
+    ).toBe('min(100%, 480px)')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(designLabCss, '.lab-field-layout-sample--479')[0]!,
+        'inline-size',
+      ),
+    ).toBe('min(100%, 479px)')
+    expect(cssDeclaration(cssRuleBodies(editor, '.editor')[0]!, 'min-width')).toBe(
+      'min(720px, 100vw)',
+    )
+  })
+
   test('keeps the canonical form geometry and typography in one stylesheet', () => {
     const tokens = readFileSync(join(here, 'tokens.css'), 'utf8')
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
@@ -111,12 +216,25 @@ describe('editor design-system static boundary', () => {
       'utf8',
     )
 
-    expect(recipes).toMatch(
-      /\.ds-inline-composer__layout\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\) auto;/,
-    )
-    expect(recipes).toMatch(
-      /@container ds-inline-composer \(max-width:\s*479px\)[\s\S]*?\.ds-inline-composer__layout\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\);[\s\S]*?\.ds-inline-composer__action > \*\s*\{[\s\S]*?width:\s*100%;/,
-    )
+    expect(
+      cssDeclaration(
+        cssRuleBodies(recipes, '.ds-inline-composer__layout')[0]!,
+        'grid-template-columns',
+      ),
+    ).toBe('minmax(0, 1fr) auto')
+    const inlineBoundary = '@container ds-inline-composer (width < 480px)'
+    expect(
+      cssDeclaration(
+        cssRuleBodies(recipes, '.ds-inline-composer__layout', inlineBoundary)[0]!,
+        'grid-template-columns',
+      ),
+    ).toBe('minmax(0, 1fr)')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(recipes, '.ds-inline-composer__action > *', inlineBoundary)[0]!,
+        'width',
+      ),
+    ).toBe('100%')
     expect(recipes).toMatch(
       /\.ds-repeat-row\[data-density="compact"\] :is\(\.ds-input, \.ds-select, \.ds-button\)[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
     )
@@ -142,9 +260,10 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).toMatch(
       /\.project-inventory-actions\s*\{[\s\S]*?display:\s*inline-flex;[\s\S]*?flex-wrap:\s*nowrap;[\s\S]*?white-space:\s*nowrap;/,
     )
-    expect(businessCss).toMatch(
-      /\.project-inventory-count\s*>\s*\.ds-field\s*\{[\s\S]*?grid-template-columns:\s*max-content minmax\(0, 1fr\);/,
-    )
+    expect(project).not.toContain('className="field"')
+    expect(project).not.toContain('project-field-grid')
+    expect(businessCss).not.toContain('.project-field-grid')
+    expect(businessCss).not.toMatch(/\.project-inventory-count\s*>\s*\.ds-field/)
     expect(project).not.toContain('project-repeat-composer')
     expect(project).not.toContain('project-repeat-row')
     expect(project).not.toContain('project-seed-row')
@@ -156,15 +275,13 @@ describe('editor design-system static boundary', () => {
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
-    const startup = adoption.pages.find((page) => page.registry === 'project/startup')
-    expect(startup?.owners.field).toContain('DsAddPickerDialog')
-    expect(startup?.owners.field).toContain('DsRepeatRow')
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.13.0'")
-    expect(tokens).toContain('--ds-version: "2.13.0";')
-    expect(specification).toContain('Status: implemented v2.13.0')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.14.0'")
+    expect(tokens).toContain('--ds-version: "2.14.0";')
+    expect(specification).toContain('Status: implemented v2.14.0')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
+    expect(specification).toContain('ED-FIELD-LAYOUT-1（v2.14.0）')
     expect(primitives).toMatch(
       /\.ds-add-picker-dialog \.ds-overlay__body\s*\{[\s\S]*?overflow:\s*hidden;/,
     )
@@ -331,7 +448,7 @@ describe('editor design-system static boundary', () => {
       button: 0,
       input: 0,
       textarea: 0,
-      label: 61,
+      label: 40,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -596,8 +713,8 @@ describe('editor design-system static boundary', () => {
       'DsField',
       'DsDraftTextInput',
       'DsDialog',
-      'DsPropertyGrid',
-      'DsPropertyRow',
+      'DsReadoutList',
+      'DsReadoutRow',
     ])
       expect(helper, `MediaAssetLifecycle shared ${component}`).toContain(`<${component}`)
     expect(helper).not.toMatch(/<(?:input|label|button)\b/)
@@ -681,8 +798,11 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).toMatch(
       /:is\(\.inspector, \.scene-entity-inspector\) \.section\s*\{[\s\S]*?padding:\s*var\(--ds-space-6\);/,
     )
-    expect(businessCss).toMatch(
-      /:is\(\.inspector, \.scene-entity-inspector\)[\s\S]*?:where\(\.field, \.music-meta-row\)\s*\{[\s\S]*?grid-template-columns:\s*60px minmax\(0, 1fr\);/,
+    expect(businessCss).not.toMatch(
+      /:is\(\.inspector, \.scene-entity-inspector\)[^{}]*\.field\s*\{/,
+    )
+    expect(recipes).toMatch(
+      /\[data-ds-inspector-host\] \.ds-property-row\s*\{[\s\S]*?grid-template-columns:\s*var\(--ds-inspector-property-label-track\) minmax\(0, 1fr\);/,
     )
     expect(businessCss).toMatch(
       /:is\(\.inspector, \.scene-entity-inspector\) :is\(\.tool, \.btn, \.mini-txt\)\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
@@ -690,7 +810,6 @@ describe('editor design-system static boundary', () => {
 
     const pageAnimationEditor = readFileSync(join(uiRoot, 'EntityPageAnimationEditor.tsx'), 'utf8')
     for (const component of [
-      'DsPropertyGrid',
       'DsPropertyRow',
       'DsCheckbox',
       'DsDraftNumberInput',
@@ -1180,7 +1299,7 @@ describe('editor design-system static boundary', () => {
     expect(stampEditor).toContain('<DsPropertyGrid>')
     expect(stampEditor).not.toContain('stamp-template-facts')
     expect(recipesCss).toMatch(
-      /\.ds-property-row\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);[\s\S]*?grid-template-columns:\s*60px minmax\(0, 1fr\);/,
+      /\.ds-property-row\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);[\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\);[\s\S]*?\[data-ds-inspector-host\] \.ds-property-row\s*\{[\s\S]*?grid-template-columns:\s*var\(--ds-inspector-property-label-track\) minmax\(0, 1fr\);/,
     )
   })
 

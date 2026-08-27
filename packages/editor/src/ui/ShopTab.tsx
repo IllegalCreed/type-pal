@@ -18,6 +18,7 @@ import { DsAddPickerDialog } from './design-system/add-picker.js'
 import { DsButton, DsEmptyState, DsListHeader, DsTag } from './design-system/controls.js'
 import {
   DsCatalogRow,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
@@ -254,7 +255,7 @@ export function ShopTab(props: {
         )}
       </div>
 
-      <aside className="inspector inspector--tabbed shop-inspector">
+      <DsInspectorHost as="aside" className="inspector inspector--tabbed shop-inspector">
         <div className="insp-head">
           <div className="what">商店</div>
           <div className="who">{shop ? `店 ${shop.id}` : '未选择'}</div>
@@ -309,7 +310,7 @@ export function ShopTab(props: {
             },
           ]}
         />
-      </aside>
+      </DsInspectorHost>
     </>
   )
 }

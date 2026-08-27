@@ -27,17 +27,18 @@ import {
   DsColorInput,
   DsDialog,
   DsField,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsListHeader,
   DsNumberInput,
   DsObjectHero,
   DsObjectWorkspace,
-  DsPropertyGrid,
-  DsPropertyRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsReadoutList,
+  DsReadoutRow,
   DsStatus,
   DsTag,
   DsTextField,
@@ -514,12 +515,12 @@ export function AmbienceTab(props: {
               description="名称可修改；稳定 ID 创建后保持不变，供剧情脚本长期引用。"
             >
               <AmbienceNameField key={selected.id} ambience={selected} session={session} />
-              <DsPropertyGrid>
-                <DsPropertyRow label="稳定 ID">
+              <DsReadoutList>
+                <DsReadoutRow label="稳定 ID">
                   <code>{selected.id}</code>
-                </DsPropertyRow>
-                <DsPropertyRow label="滤镜语义">全帧乘法</DsPropertyRow>
-              </DsPropertyGrid>
+                </DsReadoutRow>
+                <DsReadoutRow label="滤镜语义">全帧乘法</DsReadoutRow>
+              </DsReadoutList>
             </DsWorkbenchSection>
             <DsWorkbenchSection
               title="滤镜颜色"
@@ -548,7 +549,7 @@ export function AmbienceTab(props: {
         )}
       </DsObjectWorkspace>
 
-      <aside className="inspector inspector--tabbed ambience-inspector">
+      <DsInspectorHost as="aside" className="inspector inspector--tabbed ambience-inspector">
         <div className="insp-head">
           <div className="what">氛围</div>
           <div className="who">{selected?.name ?? '未选择'}</div>
@@ -655,7 +656,7 @@ export function AmbienceTab(props: {
         ) : (
           <div className="insp-empty">未选择氛围。</div>
         )}
-      </aside>
+      </DsInspectorHost>
 
       <DsDialog
         open={createOpen}

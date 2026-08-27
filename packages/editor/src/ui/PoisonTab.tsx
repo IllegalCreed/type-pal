@@ -29,6 +29,7 @@ import {
 import {
   DsCatalogControls,
   DsCatalogRow,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
@@ -639,7 +640,7 @@ export function PoisonTab(props: {
       </div>
 
       {/* 右:提示 + 关系总览 */}
-      <div className="inspector inspector--tabbed battle-data-inspector poison-inspector">
+      <DsInspectorHost className="inspector inspector--tabbed battle-data-inspector poison-inspector">
         <div className="insp-head">
           <div className="what">毒</div>
           <div className="who">{poison?.name ?? '未选择'}</div>
@@ -723,7 +724,7 @@ export function PoisonTab(props: {
             },
           ]}
         />
-      </div>
+      </DsInspectorHost>
     </>
   )
 }

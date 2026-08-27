@@ -37,6 +37,7 @@ import {
 import {
   DsButton,
   DsCheckbox,
+  DsInspectorPortal,
   DsNumberInput,
   DsPropertyGrid,
   DsPropertyRow,
@@ -640,7 +641,9 @@ export function StampContentEditor(props: {
   return (
     <>
       {props.layersHost ? createPortal(layerControls, props.layersHost) : null}
-      {props.propertiesHost ? createPortal(properties, props.propertiesHost) : null}
+      {props.propertiesHost ? (
+        <DsInspectorPortal host={props.propertiesHost}>{properties}</DsInspectorPortal>
+      ) : null}
       {props.paletteHost ? createPortal(palette, props.paletteHost) : null}
       <IsometricEditorSurface
         className="stamp-content-editor"

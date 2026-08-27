@@ -6,12 +6,21 @@ import {
   paintProjectMapCollision,
   paintProjectMapTiles,
 } from '@type-pal/reforge'
-import { act } from 'react'
+import { act, type ComponentProps } from 'react'
 import { createRoot } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, test, vi } from 'vitest'
 import type { MapSelection } from '../core/map-selection.js'
-import { MapSelectionInspector } from './MapSelectionInspector.js'
+import { DsInspectorHost } from './design-system/index.js'
+import { MapSelectionInspector as MapSelectionInspectorContent } from './MapSelectionInspector.js'
+
+function MapSelectionInspector(props: ComponentProps<typeof MapSelectionInspectorContent>) {
+  return (
+    <DsInspectorHost>
+      <MapSelectionInspectorContent {...props} />
+    </DsInspectorHost>
+  )
+}
 
 function fixture() {
   let map = buildBlankProjectMap(3, 2, 'tiles')

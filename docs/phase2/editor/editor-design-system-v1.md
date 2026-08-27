@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.13.0 shared candidate add picker contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.14.0 shared responsive field layout contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-27
+Last updated: 2026-08-28
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -192,6 +192,10 @@ Last updated: 2026-08-27
 - z-index 只允许通过语义层：base、sticky、popover、drawer、modal、toast；模块不得自造任意数字。
 - 同一字段组的标签、控件、帮助/错误按 `6 / 8 / 12px` 的固定垂直节奏排列；相邻字段默认 `12px`，二级分区
   默认 `24px`。业务页不得靠零散 margin 修补某一行，也不得让相同尺寸档的输入和值行出现不同高度。
+- 主工作区的横排字段必须由一个 `DsFieldGroup` 共享唯一 `96px` 标签轨；业务字段行不得覆盖标签列宽度，
+  `DsFieldMeasure` 只约束 control 槽自身宽度，不改变共享标签轨。
+- 主工作区和确认弹窗的只读名称/值信息使用 `DsReadoutList/DsReadoutRow`，共享同一 `96px` 名称轨与
+  `479/480px` 容器降级；不得为了只读对齐借用 Inspector 的 `DsPropertyGrid/DsPropertyRow`。
 - 同一 grid 行的同级卡片按该行最高内容等高，下一行重新计算；表单标签列、输入起点和尾部动作列必须逐行对齐。
 - Inspector 中两个并列语义分区必须通过 `DsInspectorSection` 的 section padding 与边界分隔；只靠标题字号或空白
   猜分组不合格。单个连续表单内部不得滥加分割线。
@@ -321,11 +325,20 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 ### DS-L.7 字段与卡片响应式
 
 - 字段标签默认在输入上方；只有容器 `>= 480px` 且标签宽度稳定时可以使用左右两列。
-- 标签列不得窄于 `96px`，中文不得被压成逐字换行。空间不足时必须转上下布局。
+- `DsFieldGroup` 在容器 `>= 480px` 时使用公共 `96px + gap + minmax(0, 1fr)` 双列轨；`< 480px`
+  时整组切换为标签在上、控件在下，不允许单行独自改变断点或标签宽度。
+- 标签列不得窄于 `96px`。普通长中文在轨内自然换行，不得压成逐字竖排；若整组标签普遍过长，整组显式使用
+  stacked 布局，不为某一行扩宽轨道。
 - 卡片网格以容器查询决定列数；单卡最小宽度 `280px`。不足时降列，不缩小输入和文字。
 - 长 id/path 必须 `min-width: 0`，并在换行、省略、复制三者中选择明确策略。
 - `DsInlineComposer` 在容器 `>= 480px` 时保持 `minmax(0,1fr) + intrinsic action`，尾部动作不得被拉成整行；
   只有 `< 480px` 时才转为单列并允许动作占满可用宽度。
+- `DsPropertyGrid/DsPropertyRow` 的 `60px` 紧凑轨只在真实 DOM 祖先
+  `[data-ds-inspector-host]` 内生效；只有公共 `DsInspectorHost`、`DsWorkbench` Inspector slot、
+  `DsInspectorTabs` 或经 `DsInspectorPortal` 桥接的内容可以授予该上下文。`DsInspectorSection` 只负责分区和
+  padding，不能自行授予 Inspector 语义。host 外的 `DsPropertyGrid` 在开发期直接报错；主工作区不得通过嵌套
+  类名或改写 `--ds-inspector-property-label-track` 借用该例外。业务 shell 与 portal 必须进入
+  `field-layout-adoption.json` 的动态精确 census，并由调用路径门禁证明属性表确实处于真实 host 内。
 
 ## 4. 共享组件与状态合同
 
@@ -591,6 +604,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - “升级曲线与习得技能”这类主任务区域不得只剩折叠摘要；必须直接显示可编辑主内容。
 - Inspector 只允许 `DsInspectorTabs → DsInspectorSection → DsPropertyGrid/DsPropertyRow` 组成主要信息层级。
   同级 section 自带统一 padding 和边界；业务页不得用裸 `h2 + p + div`、空白块或局部 margin 伪造二级面板。
+- `DsPropertyGrid/DsPropertyRow` 的 `60px` 标签轨是唯一具名的 Inspector 紧凑例外，由
+  `--ds-inspector-property-label-track` 持有；主工作区表单不得借用该 recipe 或另写 `60px` 私有轨。
 - Inspector tab 按用户任务划分，例如“属性 / 引用 / 诊断 / 绘制”；不得按底层文件或重复主工作区信息划分。
   主区已有资源预览、完整编辑器或问题列表时，Inspector 不再复制一份只读镜像。
 
@@ -915,6 +930,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-20 | 25 registry 页面 + 标准/紧凑目录行 + allowlist 负例 | registry/DataMode 双向闭合；68/46px 行高、leading 策略、title/meta 截断一致；legacy/raw/static 违规 exit 1，损坏/stale allowlist exit 2，动态几何与 DS 内 file input 不误报 | v2.10 全量采用门禁 |
 | RF-21 | Ordered collection default/compact + catalog/fixed/nested/timeline + disabled/empty/single/52 项长列表 | grip 位于 item 边界内且不占 media leading；insert/swap 实时让位只有一个 indicator，提交无回跳；pointer/keyboard/click 同 owner，nested scope、水平 timeline、真实 scroll owner 与长名称无裁切 | v2.12 排序合同 |
 | RF-22 | Add Picker 0/1/234 + rich-row media/detail/trailing + active/selected/disabled/all-disabled/empty/long | 标题动作稳定；固定 ID + detail 截断、60px 两行 rich row、direct searchable listbox、80 阈值、明确 footer confirm、分层 Escape、single command、唯一滚动与 focus return 通过 | v2.13 候选追加合同 |
+| RF-23 | 480px / 479px FieldGroup + 长中文/help/error/短数值 + Inspector PropertyRow 对照 | 480px 共享 96px 标签轨；479px 整组 stacked；长标签自然换行且 control 起点不漂移；help/error 与 control 同列；Inspector 仅以具名 60px 紧凑轨存在 | v2.14 字段布局合同 |
 
 ### DS-PERF.1 大列表性能合同（G3）
 

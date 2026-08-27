@@ -3,7 +3,7 @@
   "entries": [
     {
       "file": "StampContentEditor.tsx",
-      "line": 642,
+      "line": 643,
       "rule": "private-overlay-portal",
       "owner": "card:ED-DS-3",
       "reason": "The stamp shell owns three persistent layout slots; this portal moves ordinary layer controls into the shell and does not create a floating layer.",
@@ -12,16 +12,7 @@
     },
     {
       "file": "StampContentEditor.tsx",
-      "line": 643,
-      "rule": "private-overlay-portal",
-      "owner": "card:ED-DS-3",
-      "reason": "The stamp shell owns three persistent layout slots; this portal moves ordinary properties into the shell and does not create a floating layer.",
-      "verification": "The target is props.propertiesHost, stays in document flow, and has no backdrop, z-index, focus trap, Escape dismissal, or overlay positioning.",
-      "removalCondition": "Remove when the stamp shell and editor share a component boundary or a public named-host-slot recipe replaces this layout bridge."
-    },
-    {
-      "file": "StampContentEditor.tsx",
-      "line": 644,
+      "line": 647,
       "rule": "private-overlay-portal",
       "owner": "card:ED-DS-3",
       "reason": "The stamp shell owns three persistent layout slots; this portal moves the persistent tile palette into the shell and does not create a floating layer.",

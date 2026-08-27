@@ -43,7 +43,6 @@ import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import { EnemyTab } from './EnemyTab.js'
 import { EnemyTeamTab } from './EnemyTeamTab.js'
-import { EntryPointTab } from './EntryPointTab.js'
 import { EventLibTab } from './EventLibTab.js'
 import { type DataPageId, editorSubpageForDataPage } from './editor-navigation.js'
 import { ImageTab } from './ImageTab.js'
@@ -542,25 +541,6 @@ export function DataMode(props: {
         onObjectFocus={onObjectFocus}
         currentAuthor={script?.state}
         getCurrentAuthor={() => script?.session.getState()}
-      />
-    )
-  }
-
-  if (tab === 'entrypoint') {
-    return (
-      <EntryPointTab
-        manifest={manifest}
-        scenes={scenes}
-        actors={actors}
-        items={itemList}
-        skills={skillList}
-        locale={locale}
-        assetCatalog={assetCatalog}
-        assetReader={assetReader}
-        session={session}
-        issues={props.projectIssues}
-        diagnosticsStatus={props.projectDiagnosticsStatus}
-        tabBar={tabBar}
       />
     )
   }

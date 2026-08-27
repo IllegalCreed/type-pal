@@ -10,7 +10,14 @@ import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsButton, DsDraftNumberInput, DsNumberInput } from './design-system/index.js'
+import {
+  DsButton,
+  DsDraftNumberInput,
+  DsField,
+  DsFieldGroup,
+  DsFieldMeasure,
+  DsNumberInput,
+} from './design-system/index.js'
 
 /** 生成累计经验表:table[0]=0;第 i 级需求 = first + step×(i−1),向后累计。 */
 export function genExpTable(first: number, step: number, n: number): number[] {
@@ -299,78 +306,93 @@ export function LevelCurveEditor(props: {
         ))}
       </svg>
 
-      <div className="field level-curve-fields">
-        <span className="field-label">级数</span>
-        <span className="level-curve-input level-curve-input--short">
-          <DsDraftNumberInput
-            draftKey={`actor:${actor.id}:leveling:level-count`}
-            syncToken={syncToken}
-            min={2}
-            max={99}
-            integer
-            normalize={Math.trunc}
-            value={n}
-            onCommit={(value) => {
-              const nn = Math.max(2, Math.min(99, value ?? 2))
-              if (nn === n) return
-              const next = resizeExpTable(table, nn)
-              setTable(next)
-              commit(next)
-            }}
-          />
-        </span>
-        {sel !== null && sel < n && (
-          <>
-            <span className="field-label">第 {sel} 级累计</span>
-            <span className="level-curve-input level-curve-input--long">
+      <DsFieldGroup className="level-curve-fields">
+        <DsField id="level-curve-count" label="级数">
+          {(field) => (
+            <DsFieldMeasure measure="short-number">
               <DsDraftNumberInput
-                draftKey={`actor:${actor.id}:leveling:exp-table:${sel}`}
+                {...field}
+                draftKey={`actor:${actor.id}:leveling:level-count`}
                 syncToken={syncToken}
-                min={0}
+                min={2}
+                max={99}
                 integer
                 normalize={Math.trunc}
-                value={table[sel] ?? 0}
+                value={n}
                 onCommit={(value) => {
-                  const v = Math.max(0, value ?? 0)
-                  if (v === table[sel]) return
-                  const next = table.map((old, i) => (i === sel ? v : old))
+                  const nn = Math.max(2, Math.min(99, value ?? 2))
+                  if (nn === n) return
+                  const next = resizeExpTable(table, nn)
                   setTable(next)
                   commit(next)
                 }}
               />
-            </span>
-          </>
+            </DsFieldMeasure>
+          )}
+        </DsField>
+        {sel !== null && sel < n && (
+          <DsField id="level-curve-selected-total" label={`第 ${sel} 级累计`}>
+            {(field) => (
+              <DsFieldMeasure measure="short-number">
+                <DsDraftNumberInput
+                  {...field}
+                  draftKey={`actor:${actor.id}:leveling:exp-table:${sel}`}
+                  syncToken={syncToken}
+                  min={0}
+                  integer
+                  normalize={Math.trunc}
+                  value={table[sel] ?? 0}
+                  onCommit={(value) => {
+                    const v = Math.max(0, value ?? 0)
+                    if (v === table[sel]) return
+                    const next = table.map((old, i) => (i === sel ? v : old))
+                    setTable(next)
+                    commit(next)
+                  }}
+                />
+              </DsFieldMeasure>
+            )}
+          </DsField>
         )}
-        <span className="sep" />
-        <span className="field-label">首级需</span>
-        <DsNumberInput
-          className="level-curve-input level-curve-input--short"
-          min={1}
-          value={genFirst}
-          onChange={(e) => setGenFirst(Math.max(1, Math.floor(e.target.valueAsNumber) || 1))}
-        />
-        <span className="field-label">每级递增</span>
-        <DsNumberInput
-          className="level-curve-input level-curve-input--short"
-          min={0}
-          value={genStep}
-          onChange={(e) => setGenStep(Math.max(0, Math.floor(e.target.valueAsNumber) || 0))}
-        />
-        <DsButton
-          onClick={() => {
-            const next = genExpTable(genFirst, genStep, n)
-            setTable(next)
-            commit(next)
-          }}
-          size="compact"
-          variant="secondary"
-        >
-          ⚡ 按增量生成
-        </DsButton>
-        {!monotonic && (
-          <span className="level-curve-warning">⚠ 曲线有回落(后级阈值低于前级),请检查</span>
-        )}
-      </div>
+        <DsField id="level-curve-generator-first" label="首级需">
+          {(field) => (
+            <DsFieldMeasure measure="short-number">
+              <DsNumberInput
+                {...field}
+                min={1}
+                value={genFirst}
+                onChange={(e) => setGenFirst(Math.max(1, Math.floor(e.target.valueAsNumber) || 1))}
+              />
+            </DsFieldMeasure>
+          )}
+        </DsField>
+        <DsField id="level-curve-generator-step" label="每级递增">
+          {(field) => (
+            <DsFieldMeasure measure="short-number">
+              <DsNumberInput
+                {...field}
+                min={0}
+                value={genStep}
+                onChange={(e) => setGenStep(Math.max(0, Math.floor(e.target.valueAsNumber) || 0))}
+              />
+            </DsFieldMeasure>
+          )}
+        </DsField>
+      </DsFieldGroup>
+      <DsButton
+        onClick={() => {
+          const next = genExpTable(genFirst, genStep, n)
+          setTable(next)
+          commit(next)
+        }}
+        size="compact"
+        variant="secondary"
+      >
+        ⚡ 按增量生成
+      </DsButton>
+      {!monotonic && (
+        <span className="level-curve-warning">⚠ 曲线有回落(后级阈值低于前级),请检查</span>
+      )}
       <p className="hint2">
         虚线 = 升级学技能的等级;拖动圆点上下调值,松手即入撤销历史;级数加长按末段增量外推。
       </p>

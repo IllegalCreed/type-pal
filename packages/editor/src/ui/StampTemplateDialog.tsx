@@ -13,6 +13,9 @@ import {
   DsButton,
   DsCheckbox,
   DsDialog,
+  DsField,
+  DsFieldGroup,
+  DsFieldMeasure,
   DsNumberInput,
   DsSelect,
   DsTextInput,
@@ -319,60 +322,76 @@ export function StampTemplateDialog(props: {
 
           <fieldset className="stamp-anchor-fields">
             <legend>显式锚点</legend>
-            <label>
-              <span>行</span>
-              <DsNumberInput
-                ref={anchorRowRef}
-                name="stamp-anchor-row"
-                step={1}
-                inputMode="numeric"
-                value={anchorRow}
-                aria-invalid={invalidField === 'anchor-row'}
-                aria-describedby={invalidField === 'anchor-row' ? errorId : undefined}
-                onChange={(event) => {
-                  setAnchorRow(event.target.value)
-                  if (invalidField === 'anchor-row') setInvalidField(undefined)
-                }}
-              />
-            </label>
-            <label>
-              <span>列</span>
-              <DsNumberInput
-                ref={anchorColRef}
-                name="stamp-anchor-col"
-                step={1}
-                inputMode="numeric"
-                value={anchorCol}
-                aria-invalid={invalidField === 'anchor-col'}
-                aria-describedby={invalidField === 'anchor-col' ? errorId : undefined}
-                onChange={(event) => {
-                  setAnchorCol(event.target.value)
-                  if (invalidField === 'anchor-col') setInvalidField(undefined)
-                }}
-              />
-            </label>
+            <DsFieldGroup>
+              <DsField id="stamp-anchor-row" label="行">
+                {(field) => (
+                  <DsFieldMeasure measure="short-number">
+                    <DsNumberInput
+                      {...field}
+                      ref={anchorRowRef}
+                      name="stamp-anchor-row"
+                      step={1}
+                      inputMode="numeric"
+                      value={anchorRow}
+                      aria-invalid={invalidField === 'anchor-row'}
+                      aria-describedby={invalidField === 'anchor-row' ? errorId : undefined}
+                      onChange={(event) => {
+                        setAnchorRow(event.target.value)
+                        if (invalidField === 'anchor-row') setInvalidField(undefined)
+                      }}
+                    />
+                  </DsFieldMeasure>
+                )}
+              </DsField>
+              <DsField id="stamp-anchor-col" label="列">
+                {(field) => (
+                  <DsFieldMeasure measure="short-number">
+                    <DsNumberInput
+                      {...field}
+                      ref={anchorColRef}
+                      name="stamp-anchor-col"
+                      step={1}
+                      inputMode="numeric"
+                      value={anchorCol}
+                      aria-invalid={invalidField === 'anchor-col'}
+                      aria-describedby={invalidField === 'anchor-col' ? errorId : undefined}
+                      onChange={(event) => {
+                        setAnchorCol(event.target.value)
+                        if (invalidField === 'anchor-col') setInvalidField(undefined)
+                      }}
+                    />
+                  </DsFieldMeasure>
+                )}
+              </DsField>
+            </DsFieldGroup>
             <p>默认取选区最左上的错排格；放置时光标将对准这里。</p>
           </fieldset>
 
           <fieldset className="stamp-slot-fields">
             <legend>局部图层槽</legend>
             <p>槽 ID 固定复用源图层稳定 ID；名称可编辑，放置时再显式映射到目标地图图层。</p>
-            {sourceLayers.map((layer) => (
-              <label key={layer.id}>
-                <span>
-                  <strong>{layer.id}</strong>
-                  <small>{layer.count} 成员</small>
-                </span>
-                <DsTextInput
-                  name={`stamp-slot-${layer.id}`}
-                  value={slotNames[layer.id] ?? ''}
-                  aria-label={`${layer.id} 局部槽名称`}
-                  onChange={(event) =>
-                    setSlotNames((current) => ({ ...current, [layer.id]: event.target.value }))
-                  }
-                />
-              </label>
-            ))}
+            <DsFieldGroup layout="stacked">
+              {sourceLayers.map((layer) => (
+                <DsField
+                  id={`stamp-slot-${layer.id}`}
+                  key={layer.id}
+                  label={layer.id}
+                  help={`${layer.count} 个成员`}
+                >
+                  {(field) => (
+                    <DsTextInput
+                      {...field}
+                      name={`stamp-slot-${layer.id}`}
+                      value={slotNames[layer.id] ?? ''}
+                      aria-label={`${layer.id} 局部槽名称`}
+                      onChange={(event) =>
+                        setSlotNames((current) => ({ ...current, [layer.id]: event.target.value }))
+                      }
+                    />
+                  )}
+                </DsField>
+              ))}
+            </DsFieldGroup>
           </fieldset>
 
           <div className="stamp-collision-choice">

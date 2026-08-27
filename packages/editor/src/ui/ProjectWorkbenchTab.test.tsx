@@ -1839,7 +1839,11 @@ describe('项目设置工作区', () => {
       candidate.textContent?.includes('启动商标视频'),
     )!
     const select = row.querySelector<HTMLButtonElement>('.ds-select')!
-    expect(select.getAttribute('aria-labelledby')).toBe('project-role-video-startupTrademark-label')
+    expect(select.id).toBe('project-role-video-startupTrademark')
+    expect(row.querySelector('label')?.getAttribute('for')).toBe(select.id)
+    expect(select.getAttribute('aria-describedby')).toBe(
+      'project-role-video-startupTrademark-description',
+    )
     expect(row.querySelector('select.in')).toBeNull()
     expect(row.querySelector('.project-role-resource')?.textContent).toContain('测试视频')
     expect(row.querySelector('.project-role-resource')?.getAttribute('title')).toBe(
@@ -1888,9 +1892,7 @@ describe('项目设置工作区', () => {
       ),
     )
 
-    const field = [...host.querySelectorAll<HTMLElement>('.field')].find((candidate) =>
-      candidate.textContent?.includes('入口视频'),
-    )!
+    const field = host.querySelector<HTMLElement>('[data-field-id="entry-intro-video"]')!
     const preview = button(field, '前往预览')
     expect(field.querySelector('.ds-control-group')).not.toBeNull()
     expect(preview.classList.contains('ds-button--compact')).toBe(false)

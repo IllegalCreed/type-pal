@@ -1,6 +1,6 @@
 # ED-FIELD-LAYOUT-1 - 编辑器字段标签列与响应式布局合同
 
-Status: build（queued；2026-08-27 三签齐：Codex + Kimi（KL1-KL4）+ GLM（FL1-FL3），准入 allowed；等待当前 Add Picker build 串行结束）
+Status: review（2026-08-28 Codex build / 自验证完成；待 Kimi + GLM done 前只读终审）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -237,10 +237,11 @@ Branch: `codex/ed-project-startup-ia-1`
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-28）**。最终聚焦 7 files / 132 tests、typecheck、build、design-system gate
+  与浏览器几何证据均通过；Codex 并行只读压力测试发现的路由/可达性 P0/P1 已全部以反例闭合。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理：
+- counter / 返工处理：当前无 counter；若任一席给出可复现 P0/P1，保持 review 并返工。
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -278,29 +279,73 @@ Branch: `codex/ed-project-startup-ia-1`
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（queued；当前不修改本卡实现文件，待 Add Picker 串行切片结束后接手）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex（complete；唯一实现者）
+- 修改文件:
+  - 公共合同与文档：`design-system/tokens.css`、`primitives.css`、`controls.tsx`、`recipes.tsx/.css`、
+    `index.ts`、Design Lab RF23、`editor-design-system-v1.md`。
+  - 真实页面迁移：项目工作台及动态 census 命中的主工作区/Inspector 消费面；删除无路由的
+    `EntryPointTab.tsx` 和已证实死 CSS，不修改 schema/runtime/project 内容。
+  - 门禁：`field-layout-adoption.json`、`field-layout-css-census.snapshot.txt`、
+    `field-layout-adoption.test.ts`，并将 adoption registry/审计器升级为按真实 App → connector →
+    Project/Data dispatcher → render 可达组件闭包核 owner。
+- 实现摘要:
+  - 新增 `DsFieldGroup`：主工作区共享 `96px + gap + minmax(0, 1fr)` 标签轨，精确在容器 `<480px`
+    stacked；help/error/control 仍由 `DsField` 持有，长标签自然换行。
+  - 新增 `DsInspectorHost` / `DsInspectorPortal`，把 `DsPropertyGrid/Row` 的 `60px` 紧凑轨限制在已命名
+    Inspector 宿主；`StampContentEditor` 仅把属性表 portal 到合法宿主。
+  - 动态 census 对全部生产 TSX/CSS 分类；移除 35 条已证实死/废弃 grid 声明，保留的非表单结构轨均有
+    证据化 allowlist。项目入口四行和其他真实业务字段不再通过页面 CSS 自造标签列。
+  - adoption 审计不再相信声明字符串：严格核 Project/App/connectors/DataMode 路由控制流，并只沿真实
+    render return、render-prop、map/flatMap、本地 helper、返回变量及 `useMemo` 追踪 owner；dead local、
+    字面量或稳定 `const`/别名/取反链形成的 dead branch、提前 return/throw 和伪 dispatcher 均有反例测试；
+    Inspector portal/ref 证据同样只接受 live branch，遇绑定写入即取消静态常量判定。
+- 运行命令:
+  - `pnpm --filter @type-pal/editor exec vitest run src/ui/design-system/field-layout-adoption.test.ts src/ui/design-system/adoption.test.ts src/ui/design-system/recipes.test.tsx src/ui/EntityPageAnimationEditor.test.tsx src/ui/design-system/boundary.test.ts src/ui/App.reference-navigation.test.tsx src/ui/editor-navigation.test.ts`：
+    **7 files / 132 tests passed**（最终 P1 返工后复跑，15.44s）。
+  - `pnpm typecheck`：passed。
+  - `pnpm audit:design-system`：passed（87 files；2 条证据化 exception）。
+  - `pnpm build`：passed（仅既有 chunk-size warning）。
+  - `git diff --check`：passed。
+- 浏览器 / 手工检查: PAL 入口页与 Design Lab RF23 已做 1280/900/720/640 宽度的最小功能性验证；
+  480px 容器实测 `96px 372px`，479px 实测单列，Inspector 实测 `60px 1114px`，页面横向 overflow=0。
+- 跳过的检查及原因: 不再重复跑 editor 全量。此前本切片已发生四次全量尝试：首次 164/166 files、
+  1329/1331 tests（Entity draft 并发波动 + adoption timeout）；第二次误重复为 164/166 files、
+  1331/1335 tests（4 个门禁/快照问题均随后聚焦修复）；只读压力审查又误触全量为 1334/1335 tests，
+  唯一 Entity draft 并发波动已隔离复跑 3/3 通过；随后一次命令参数透传失误又触发 165/166 files、
+  1335/1336 tests，仍只剩同一 Entity draft 并发断言波动。为遵守“最终全量只跑一次”，收口只运行受影响
+  的最终聚焦矩阵，不再用重复全量掩盖证据。
 
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: 本地浏览器打开 PAL 项目入口页和 Design Lab RF23；调整 viewport/容器宽度并读取实际
+  grid-template-columns、scrollWidth/clientWidth，检查滚动、长标签、Inspector portal 与窄宽 stacked。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径:
+  - `/tmp/type-pal-ed-field-layout-1280.png`
+  - `/tmp/type-pal-ed-field-layout-900.png`
+  - `/tmp/type-pal-ed-field-layout-720.png`
+  - `/tmp/type-pal-ed-field-layout-640-fixed.png`
+  - `/tmp/type-pal-ed-field-layout-rf23.png`
+- 结论: 主工作区同组控件起点一致；480/479 边界、Inspector 60px 命名例外、窄宽 stacked 和无横向
+  溢出均符合合同。功能性焦点/滚动/overlay 未见新增阻断。
+- 未完成项: 用户最终验收及 Kimi + GLM done 前只读终签。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论:
+  - Codex：**accept（2026-08-28）**。实现、聚焦测试、typecheck、build、动态审计与最小浏览器几何证据均
+    已闭合；未改 schema/runtime/project 内容，未混入 `stash@{0}` 的 Catalog Row WIP。
+  - Codex 并行只读压力审查（不代替 Kimi/GLM 签名）：先后发现路由死分支、DataMode 提前 exit、App
+    allowlist else 分支、owner dead JSX、静态 helper/prop、伪 render-prop consumer 与跨模块 AST 归属假绿，
+    以及 Inspector 稳定 `const` dead branch 伪造 portal/ref 证据，均补反例并修复；三路最终只读对抗复核
+    均确认无剩余 P0/P1。内部只读复核不冒充 Kimi/GLM 签名；当前生产 census 无漏项。
+  - Kimi：pending（done 前须基于当前提交只读签 `accept` 或 `counter`）。
+  - GLM：pending（done 前须基于当前提交只读签 `accept` 或 `counter`）。
+- 必须返工项: 当前无已知 P0/P1；若 Kimi/GLM 给出 counter，任务留在 review 并按反例返工。
+- Accept / rework: **Codex accept；Kimi + GLM pending，禁止标 done**。
 
 ## 用户验收
 
@@ -308,6 +353,15 @@ Branch: `codex/ed-project-startup-ia-1`
 - 后续任务: pending
 
 ## 交接日志
+
+- 2026-08-28 Codex：完成公共 96px/480px field group、Inspector 60px 命名例外、全生产 CSS census、
+  真实路由/render 可达 adoption 门禁及页面迁移。最终聚焦 7 files / 132 tests、typecheck、build、
+  design-system gate 全绿；浏览器几何证据闭合。最终只读对抗复核发现并关闭 Inspector 稳定 const dead
+  evidence P1，复跑 7 files / 132 tests 通过。卡保持 review，Codex accept；等待 Kimi + GLM done 前终签。
+
+- 2026-08-28 Codex：核对卡面确认 Codex + Kimi（KL1-KL4）+ GLM（FL1-FL3）build 三签仍有效，无
+  counter / 阻塞 unknown。前置 Add Picker 已以 `0787197d` 单独提交并推送；未终审 Catalog Row WIP 没有混提，
+  已可恢复隔离为 `stash@{0}`。本卡转 active build，先执行动态 census + 红测试，再实现公共 owner。
 
 - 2026-08-27 GLM: 完成独立审查并签 premise verified + design agree（附 FL1 census 产物化与分类轴
   冻结 / FL2 adoption 真值化 + boundary 补 96px/480px 断言 / FL3 测试矩阵含双轨负例）。一手实锤：
@@ -327,32 +381,22 @@ Branch: `codex/ed-project-startup-ia-1`
 ## 下一位 Agent 提示词
 
 ```text
-接手任务：ED-FIELD-LAYOUT-1 编辑器字段标签列与响应式布局合同——build。
+接手任务：ED-FIELD-LAYOUT-1 编辑器字段标签列与响应式布局合同——done 前只读终审。
 任务卡：docs/ops/tasks/ED-FIELD-LAYOUT-1-editor-field-label-layout-contract.md
-当前状态：build（2026-08-27 Codex + Kimi（KL1-KL4）+ GLM（FL1-FL3）三签齐，准入 allowed）。
-你的角色：Coding Owner（唯一实现者；本卡仅授权字段布局合同范围）。
+当前状态：review（Codex build / 自验证 / accept 完成；Kimi + GLM accept pending）。
+你的角色：Kimi 或 GLM reviewer；只读审查，不得修改实现文件。
 
-先读：任务卡全文（范围/验收条件/三席签字 KL1-KL4 + FL1-FL3/Kimi 反证条款“若改 DsField 公共
-props 须重开相关旧卡评估”）、editor-design-system-v1.md:194,320-327、ED-DS-3/ED-FIELD-COMMIT-1
-已冻结合同边界。
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡全文、
+docs/phase2/editor/editor-design-system-v1.md，以及本卡 Build/视觉/Review 证据。重点审当前提交相对父提交的
+diff，不依据聊天中的“签了”。
 
-必落钉（build 期完成，缺一即返工）：
-- KL1 DsFieldGroup 只持轨道与 container query 降级（479/480 基于容器，非 viewport media query）；
-  label/control/help/error 语义仍归 DsField。
-- KL2 DsPropertyRow 60px 为唯一命名 Inspector 例外（规范/recipe/Design Lab/测试一致）；DsField
-  layout="inline" 逐行 auto 退休或限制到命名无对齐场景并由门禁区分。
-- KL3 adoption 真值门禁：登记 owner 必须在生产源码真实出现；census 由全生产 TSX+CSS 动态派生，
-  逐项分类（主表单/Inspector 紧凑/非表单结构/死规则删除），不允许只修截图四行。
-- KL4 长中文标签 96px 轨内自然换行不逐字、不按单行扩宽；整组过长整组 stacked；组件测试断言。
-- FL1 census 落成可复现产物，分类轴冻结“可见 label 第一轨 + control 第二轨”（GLM 51→25 过滤
-  证明必须语义分类）；3 条死规则（stamp-slot-list/canonical-command-row/script-hook-initial）
-  与 .music-meta-row 动态引用疑点进首轮分类。
-- FL2 boundary 补 96px token 与 480px container query 断言（当前零命中）；Inspector 桥接 60px
-  收紧到 :is(.inspector,…) 作用域。
-- FL3 测试矩阵：479/480/共享轨/长标签/stacked help-error placement/min-width:0；迁移页禁止
-  className="field" 与 .project-field-grid 回流；入口四行 control left ≤0.5px 实测 + 旧 60/72
-  双轨负例断言。
+核验：96px 主轨 / 精确 <480px container stacked；DsPropertyRow 60px 只能位于 `DsInspectorHost`、
+`DsInspectorTabs`、`DsWorkbench` Inspector slot 或 `DsInspectorPortal` 组成的显式公共合同；真实页面 census
+与证据化 allowlist；App→connector→Project/Data dispatcher 的 route-aware adoption；owner 只沿真实 render
+return（dead local、字面量或稳定 const/别名/取反 dead branch、提前 return/throw 均不得假绿）；Project 入口
+legacy `.field` 与页面私有 label grid 不得回流。复用任务卡已有 132-test、typecheck、build、audit 与截图证据，
+勿重复跑全量。
 
-输出：聚焦测试先行 → editor 受影响包全量/typecheck 一次 → PAL 入口页 1280/900/720 与
-100-200% 缩放几何验证 → build 摘要写回任务卡，转 review。未获三方 accept 前不得标 done。
+输出：在任务卡 Review 写入本人 `accept`（附直接证据）或 `counter`（附可复现反例/返工项），并给下一席可
+复制提示词。不得代签另一席；Kimi + GLM 均 accept 前不得标 done。不得开始实现。
 ```

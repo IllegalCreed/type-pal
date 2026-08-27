@@ -1,0 +1,1006 @@
+{
+  "version": 1,
+  "adoptions": [
+    {
+      "source": "BattleSpriteLibrary.tsx",
+      "component": "BattleSpriteLibrary",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "BattleSpriteUploader.tsx",
+      "component": "BattleSpriteUploader",
+      "responsive": 1,
+      "stacked": 0
+    },
+    { "source": "CutsceneTab.tsx", "component": "CutsceneTab", "responsive": 1, "stacked": 0 },
+    { "source": "ItemTab.tsx", "component": "EquipEffectFields", "responsive": 1, "stacked": 0 },
+    { "source": "ItemTab.tsx", "component": "ItemTab", "responsive": 2, "stacked": 0 },
+    {
+      "source": "LevelCurveEditor.tsx",
+      "component": "LevelCurveEditor",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "LevelingEditor.tsx",
+      "component": "LevelingEditorImpl",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "PortraitEditor.tsx",
+      "component": "PortraitEditor",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "ProjectWorkbenchTab.tsx",
+      "component": "RoleBindings",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "ProjectWorkbenchTab.tsx",
+      "component": "StartWorldFields",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "ProjectWorkbenchTab.tsx",
+      "component": "EntryPointEditor",
+      "responsive": 2,
+      "stacked": 0
+    },
+    {
+      "source": "ProjectWorkbenchTab.tsx",
+      "component": "ProjectOverviewPage",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "SpriteActionEditor.tsx",
+      "component": "SpriteActionEditor",
+      "responsive": 2,
+      "stacked": 0
+    },
+    {
+      "source": "SpriteUploadWizard.tsx",
+      "component": "SpriteUploadWizard",
+      "responsive": 3,
+      "stacked": 0
+    },
+    {
+      "source": "StampTemplateDialog.tsx",
+      "component": "StampTemplateDialog",
+      "responsive": 1,
+      "stacked": 1
+    }
+  ],
+  "exceptions": {
+    "inlineFields": [
+      {
+        "source": "AmbienceScenePreview.tsx",
+        "component": "AmbienceScenePreview",
+        "fieldComponent": "DsSelectField",
+        "label": "预览场景",
+        "className": "ambience-preview-scene-field",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "单个预览工具栏控件，不与纵向表单字段组成共享标签轨。",
+        "responsiveEvidence": "AmbienceScenePreview 自身容器宽度约束和 DsField inline 收缩合同。",
+        "removalCondition": "该控件进入多行设置组或需要共享控件起点时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "CasualtyEditor.tsx",
+        "component": "CasualtyEditor",
+        "fieldComponent": "DsDraftNumberField",
+        "label": "阈值（%）",
+        "className": "casualty-chance-field",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "概率分支卡头的单个紧凑百分比控件，不与纵向表单共享标签轨。",
+        "responsiveEvidence": "分支卡头可换行，输入宽度由业务值域限制而非标签轨魔法数决定。",
+        "removalCondition": "阈值与其他分支设置组成多行表单时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "FireEffectPreview.tsx",
+        "component": "FireEffectPreview",
+        "fieldComponent": "DsField",
+        "label": "速度",
+        "className": "fp-rate-field",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "单个播放预览速度控件，没有跨行对齐对象。",
+        "responsiveEvidence": "FireEffectPreview 工具栏可换行，控件保持公共 inline 语义。",
+        "removalCondition": "预览速度与其他字段组成多行表单时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "FrameAnimationEditor.tsx",
+        "component": "FrameAnimationEditor",
+        "fieldComponent": "DsField",
+        "label": "全局帧率",
+        "className": "fa-edit-bar__field",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "时间轴工具栏的单行紧凑控件，标签与值是一个操作单元。",
+        "responsiveEvidence": "fa-edit-bar 在窄容器中使用已登记的工具栏换行规则。",
+        "removalCondition": "帧率进入多行动画属性表单时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "FrameAnimationEditor.tsx",
+        "component": "FrameAnimationEditor",
+        "fieldComponent": "DsField",
+        "label": "当前帧时长（ms）",
+        "className": "fa-edit-bar__field",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "时间轴工具栏的单行紧凑控件，没有独立纵向标签轨。",
+        "responsiveEvidence": "fa-edit-bar 在窄容器中使用已登记的工具栏换行规则。",
+        "removalCondition": "当前帧时长进入多行动画属性表单时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "LayerStackControls.tsx",
+        "component": "LayerPaintContext",
+        "fieldComponent": "DsField",
+        "label": "显示高度",
+        "className": "map-paint-context__control",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "地图涂刷工具栏内的单个范围控件，不属于多行表单。",
+        "responsiveEvidence": "LayerPaintContext 使用弹性布局且 range 允许 min-width:0。",
+        "removalCondition": "地图涂刷上下文增加其他对齐字段时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "StartWorldFields",
+        "fieldComponent": "DsDraftNumberField",
+        "label": "数量",
+        "className": "",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "数量是初始道具重复行内的单个紧凑单元，行外已由列表语义持有对齐。",
+        "responsiveEvidence": "DsRepeatRow 容器会在窄宽度切换行布局，数量控件使用 short-number measure。",
+        "removalCondition": "初始道具行改成多字段编辑组或需与其他行标签对齐时迁入 DsFieldGroup。"
+      }
+    ],
+    "inspectorOwners": [
+      {
+        "source": "App.tsx",
+        "component": "PlacePalette",
+        "propertyGrids": 1,
+        "host": { "source": "App.tsx", "component": "App", "kind": "business-shell" },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "场景放置工具的窄 Inspector 属性区。",
+        "responsiveEvidence": "由 App 的 inspector host 消费。",
+        "removalCondition": "移出 Inspector host 时改用主工作区字段合同。"
+      },
+      {
+        "source": "App.tsx",
+        "component": "EntityInspector",
+        "propertyGrids": 4,
+        "host": { "source": "App.tsx", "component": "App", "kind": "business-shell" },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "实体属性、坐标与敌对行为均属于窄 Inspector。",
+        "responsiveEvidence": "仅作为 SceneEntityInspectorTabs panel 消费。",
+        "removalCondition": "任一子表单移到主工作区时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "App.tsx",
+        "component": "EntryInspector",
+        "propertyGrids": 1,
+        "host": { "source": "App.tsx", "component": "App", "kind": "business-shell" },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "默认进场点 Inspector。",
+        "responsiveEvidence": "由 scene inspector 右侧栏消费。",
+        "removalCondition": "移出 Inspector 时改用 DsFieldGroup。"
+      },
+      {
+        "source": "App.tsx",
+        "component": "SceneInspector",
+        "propertyGrids": 1,
+        "host": { "source": "App.tsx", "component": "App", "kind": "business-shell" },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "场景基本属性 Inspector。",
+        "responsiveEvidence": "由 scene inspector 右侧栏消费。",
+        "removalCondition": "移出 Inspector 时改用 DsFieldGroup。"
+      },
+      {
+        "source": "App.tsx",
+        "component": "NamedEntryInspector",
+        "propertyGrids": 1,
+        "host": { "source": "App.tsx", "component": "App", "kind": "business-shell" },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "命名落点属性 Inspector。",
+        "responsiveEvidence": "由 scene inspector 右侧栏消费。",
+        "removalCondition": "移出 Inspector 时改用 DsFieldGroup。"
+      },
+      {
+        "source": "BattleSpriteLibrary.tsx",
+        "component": "ProfileEditor",
+        "propertyGrids": 2,
+        "host": {
+          "source": "BattleSpriteLibrary.tsx",
+          "component": "BattleSpriteLibrary",
+          "kind": "public-inspector-tabs"
+        },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "战斗精灵配置的 Inspector 本地草稿属性。",
+        "responsiveEvidence": "仅在 BattleSpriteLibrary Inspector panel 消费。",
+        "removalCondition": "ProfileEditor 移出 Inspector 时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "MapSelectionInspector.tsx",
+        "component": "MapSelectionInspector",
+        "propertyGrids": 3,
+        "host": {
+          "source": "MapMode.tsx",
+          "component": "MapMode",
+          "kind": "public-inspector-tabs"
+        },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "地图选区摘要、视觉实例和碰撞属性属于地图 Inspector。",
+        "responsiveEvidence": "MapSelectionInspector 仅由 MapMode Inspector panel 消费。",
+        "removalCondition": "选区编辑器移出 Inspector 时迁入主工作区字段合同。"
+      },
+      {
+        "source": "SpriteActionEditor.tsx",
+        "component": "SpriteActionEditor",
+        "propertyGrids": 1,
+        "host": {
+          "source": "WorldSpriteLibrary.tsx",
+          "component": "WorldSpriteLibrary",
+          "kind": "public-inspector-tabs"
+        },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "精灵预制动作属性属于行走图 Inspector 的用途定义面板。",
+        "responsiveEvidence": "SpriteActionEditor 仅由 WorldSpriteLibrary Inspector panel 消费。",
+        "removalCondition": "动作编辑器进入中央主工作区时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "StampContentEditor.tsx",
+        "component": "StampContentEditor",
+        "propertyGrids": 1,
+        "host": {
+          "source": "StampLibraryTab.tsx",
+          "component": "StampLibraryTab",
+          "kind": "public-inspector-portal"
+        },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "组合模板内容编辑器的 Inspector properties panel。",
+        "responsiveEvidence": "properties 节点仅传入 Inspector shell。",
+        "removalCondition": "属性面板移出 Inspector shell 时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "StampPlacementSelectionInspector.tsx",
+        "component": "StampPlacementSelectionInspector",
+        "propertyGrids": 4,
+        "host": {
+          "source": "MapMode.tsx",
+          "component": "MapMode",
+          "kind": "public-inspector-tabs"
+        },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "放置组选区摘要与编辑值均在窄 Inspector。",
+        "responsiveEvidence": "仅由 MapMode inspector host 消费。",
+        "removalCondition": "编辑面板移出 Inspector 时迁入 DsFieldGroup。"
+      }
+    ],
+    "inspectorHosts": [
+      { "source": "ActorMode.tsx", "component": "ActorInspector" },
+      { "source": "AmbienceTab.tsx", "component": "AmbienceTab" },
+      { "source": "App.tsx", "component": "App" },
+      { "source": "App.tsx", "component": "SceneEntityInspectorTabs" },
+      { "source": "AudioAssetWorkbench.tsx", "component": "AudioAssetWorkbench" },
+      { "source": "BattleSpriteLibrary.tsx", "component": "BattleSpriteLibrary" },
+      { "source": "CutsceneTab.tsx", "component": "CutsceneTab" },
+      { "source": "EnemyTab.tsx", "component": "EnemyTab" },
+      { "source": "ImageTab.tsx", "component": "ImageTab" },
+      { "source": "ItemTab.tsx", "component": "ItemTab" },
+      { "source": "MapMode.tsx", "component": "MapMode" },
+      { "source": "PoisonTab.tsx", "component": "PoisonTab" },
+      { "source": "ShopTab.tsx", "component": "ShopTab" },
+      { "source": "SkillTab.tsx", "component": "SkillTab" },
+      { "source": "StampLibraryTab.tsx", "component": "StampLibraryTab" },
+      { "source": "TilesetTab.tsx", "component": "TilesetTab" },
+      { "source": "WorldSpriteLibrary.tsx", "component": "WorldSpriteLibrary" }
+    ],
+    "inspectorTabs": [
+      { "source": "ActorMode.tsx", "component": "ActorInspector" },
+      { "source": "AmbienceTab.tsx", "component": "AmbienceTab" },
+      { "source": "App.tsx", "component": "SceneEntityInspectorTabs" },
+      { "source": "AudioAssetWorkbench.tsx", "component": "AudioAssetWorkbench" },
+      { "source": "BattleSpriteLibrary.tsx", "component": "BattleSpriteLibrary" },
+      { "source": "CutsceneTab.tsx", "component": "CutsceneTab" },
+      { "source": "EnemyTab.tsx", "component": "EnemyTab" },
+      { "source": "ImageTab.tsx", "component": "ImageTab" },
+      { "source": "ItemTab.tsx", "component": "ItemTab" },
+      { "source": "MapMode.tsx", "component": "MapMode" },
+      { "source": "PoisonTab.tsx", "component": "PoisonTab" },
+      { "source": "ShopTab.tsx", "component": "ShopTab" },
+      { "source": "SkillTab.tsx", "component": "SkillTab" },
+      { "source": "StampLibraryTab.tsx", "component": "StampLibraryTab" },
+      { "source": "TilesetTab.tsx", "component": "TilesetTab" },
+      { "source": "WorldSpriteLibrary.tsx", "component": "WorldSpriteLibrary" }
+    ],
+    "inspectorTrack": {
+      "source": "design-system/recipes.css",
+      "selector": "[data-ds-inspector-host] .ds-property-row",
+      "property": "grid-template-columns",
+      "value": "var(--ds-inspector-property-label-track) minmax(0, 1fr)",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "窄 Inspector 的唯一具名 60px 属性轨，只由 DsPropertyGrid/DsPropertyRow 持有。",
+      "responsiveEvidence": "Design Lab RF-23 展示 Inspector 对照，业务页不能改写该轨。",
+      "removalCondition": "Inspector 不再采用紧凑属性轨或被新公共 owner 替代时删除。"
+    },
+    "nonFormTracks": [
+      {
+        "source": "editor.css",
+        "selector": ".casualty-dialog-preview",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "auto minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "第一轨是只读预览标题，第二轨是文本预览，不包含表单控件。",
+        "responsiveEvidence": "内容可换行且第二轨 minmax(0,1fr)。",
+        "removalCondition": "预览行变成可编辑字段时迁入公共字段 owner。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".semantic-frame-row",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "112px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "第一轨是动作语义身份，第二轨是帧媒体序列，不是 label/control 表单。",
+        "responsiveEvidence": "620px 容器断点已切换为单列。",
+        "removalCondition": "该行变成可编辑字段或由公共媒体行 recipe 接管时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".sprite-action-step",
+        "atRule": "@container (max-width: 360px)",
+        "property": "grid-template-columns",
+        "value": "48px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "窄容器下第一轨是步骤序号，第二轨是完整步骤内容，不是字段标签与控件。",
+        "responsiveEvidence": "宽态还包含独立动作轨；360px 时动作换行但序号身份不变。",
+        "removalCondition": "序号轨开始承载字段标签时迁入公共字段 owner。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".project-inventory-row",
+        "atRule": "@container (max-width: 400px)",
+        "property": "grid-template-columns",
+        "value": "30px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "第一轨是固定序号，第二轨是整条初始道具编辑内容。",
+        "responsiveEvidence": "更宽容器另有数量与动作轨，400px 时它们换行而非变成标签轨。",
+        "removalCondition": "序号与内容关系被公共 RepeatRow 新版本接管时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".ambience-tint-fields__primary",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "64px minmax(160px, 200px) max-content",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨分别排列完整的颜色、HEX 字段和状态，不拆分任何字段内部的标签与控件。",
+        "responsiveEvidence": "每个子项自身使用 DsField；窄容器仅调整完整字段的外层排布。",
+        "removalCondition": "若外层开始直接持有标签/控件列，改由 DsFieldGroup 接管。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".ambience-tint-fields__primary",
+        "atRule": "@container (max-width: 460px)",
+        "property": "grid-template-columns",
+        "value": "64px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "窄态仍排列两个完整 DsField，状态独占下一行，不是标签/控件轨。",
+        "responsiveEvidence": "460px 容器规则与宽态成对锁定，子字段语义不变。",
+        "removalCondition": "两个完整字段改成纵向公共组时删除此外层轨。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".bf-create-grid",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "150px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "两列分别放置完整的编号与名称 DsField，不是单字段标签/控件分栏。",
+        "responsiveEvidence": "两个字段各自保留完整 label/control 语义，容器只决定字段卡排列。",
+        "removalCondition": "创建表单改为共享横向标签轨时整体迁入 DsFieldGroup。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".casualty-effect-fields",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "minmax(0, 1.5fr) minmax(0, 0.7fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "两轨排列完整的效果字段单元，每个单元自行包含名称和控件。",
+        "responsiveEvidence": "1000px 以下切单列，字段单元不会压成标签轨。",
+        "removalCondition": "效果单元采用公共 FieldGroup/RepeatRow 组合后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".casualty-line-fields",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "minmax(0, 1.5fr) minmax(0, 0.7fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "两轨排列完整的文本 ID 与显示方式字段单元，不拆分标签和控件。",
+        "responsiveEvidence": "1000px 以下切单列并保持每个字段单元内部完整。",
+        "removalCondition": "台词编辑行迁入公共重复字段 recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".enemy-item-fields",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "minmax(0, 2fr) minmax(120px, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "两轨排列完整的物品选择和数量 DsField，而非一个标签对应一个控件。",
+        "responsiveEvidence": "460px 以下整个字段组切单列，子字段语义保持完整。",
+        "removalCondition": "物品与数量采用公共复合字段 recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".item-icon-editor",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "92px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "第一轨是图标缩略图，第二轨是完整资源选择器，不是字段标签。",
+        "responsiveEvidence": "窄宽度切单列，缩略图与选择器均保持完整可操作。",
+        "removalCondition": "图标选择进入公共媒体 picker recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".stamp-canvas-size-fields",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "minmax(0, 1fr) auto minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是同一画布尺寸值内的宽度、乘号和高度，外层 DsPropertyRow 已持有标签。",
+        "responsiveEvidence": "两个数值控件均可收缩，乘号保持内容宽度且整体位于真实 Inspector。",
+        "removalCondition": "尺寸控件由公共成对数值 recipe 接管时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".project-inventory-row",
+        "atRule": "@container (max-width: 520px)",
+        "property": "grid-template-columns",
+        "value": "30px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨依次是序号、完整道具内容和动作槽，不拆分字段标签与控件。",
+        "responsiveEvidence": "520px 容器只把重复行动作压缩为内容宽度，400px 再进入两轨窄态。",
+        "removalCondition": "公共 RepeatRow 完整接管序号和动作布局时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".skill-effect-card__header",
+        "atRule": "@container (max-width: 520px)",
+        "property": "grid-template-columns",
+        "value": "auto minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是效果身份、完整标题内容和卡头动作，不是表单标签轨。",
+        "responsiveEvidence": "中间标题可收缩，首尾保持内容宽度，窄态不会拆散任何字段。",
+        "removalCondition": "效果卡头迁入公共对象卡 recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".enemy-team-slot",
+        "atRule": "@media (max-width: 900px)",
+        "property": "grid-template-columns",
+        "value": "44px minmax(0, 1fr) auto auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "四轨是站位、完整敌人摘要和两个动作槽，不包含字段标签列。",
+        "responsiveEvidence": "900px 只收窄站位媒体轨，摘要仍以 minmax(0,1fr) 安全收缩。",
+        "removalCondition": "敌队槽位由公共可排序对象行接管时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".project-party-row",
+        "atRule": "@media (max-width: 900px)",
+        "property": "grid-template-columns",
+        "value": "30px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是队伍序号、完整成员状态区和动作槽，不是 label/control。",
+        "responsiveEvidence": "900px 下成员状态整体收缩，内部字段仍由公共字段 owner 持有。",
+        "removalCondition": "队伍行由公共排序行 recipe 接管外层布局时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".battle-action-end-behavior",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "22px 54px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是选择标记、行为编号和完整说明内容，不是字段标签与输入。",
+        "responsiveEvidence": "说明轨可收缩换行，两个身份轨保持固定且不承载表单控件。",
+        "removalCondition": "行为选项迁入公共选择卡 recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".battle-action-stage-select",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "30px 54px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是选择控件、阶段编号和完整阶段说明，不是表单标签轨。",
+        "responsiveEvidence": "说明轨使用 minmax(0,1fr)，选择与编号保持可点击尺寸。",
+        "removalCondition": "阶段选择迁入公共选项行 recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".body",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "var(--outliner-width) minmax(0, 1fr) var(--inspector-width)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是应用级目录、主工作区与 Inspector shell，完全不属于字段布局。",
+        "responsiveEvidence": "左右宽度由面板拖拽变量持有，中间工作区保证 minmax(0,1fr)。",
+        "removalCondition": "应用 shell 改用公共可调面板 recipe 时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".casualty-fallback-row.arow",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "auto minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是兜底分支身份、完整摘要和动作槽，不是字段标签与控件。",
+        "responsiveEvidence": "摘要可换行收缩，首尾保持内容宽度并随卡片容器换行。",
+        "removalCondition": "伤亡分支迁入公共可排序卡 recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".cutscene-import-file-content",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "28px minmax(0, 1fr) repeat(3, var(--ds-hit-target-compact))",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "五轨是文件状态、完整文件摘要和三个动作按钮，不是字段标签轨。",
+        "responsiveEvidence": "文件摘要可收缩，动作使用公共紧凑点击目标并保留固定可达尺寸。",
+        "removalCondition": "导入文件行由公共媒体队列 recipe 接管时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".enemy-team-slot",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "52px minmax(0, 1fr) auto auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "四轨是站位媒体、完整敌人摘要和两个动作槽，不拆分字段内部语义。",
+        "responsiveEvidence": "宽态摘要安全收缩，900px 有配对的站位收窄规则。",
+        "removalCondition": "敌队槽位由公共可排序对象行接管时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".map-candidate-options > button[role=\"option\"]",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "20px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是选择标记、完整候选名称和元信息，不是字段标签轨。",
+        "responsiveEvidence": "候选名称允许收缩，标记与元信息保持内容宽度。",
+        "removalCondition": "地图候选迁入公共 option row recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".map-layer-row",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "30px 30px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "四轨是拖拽手柄、序号、完整图层摘要和动作槽，不是字段表单。",
+        "responsiveEvidence": "摘要轨可收缩，手柄和序号保持统一点击与身份尺寸。",
+        "removalCondition": "图层行由公共 ReorderItem recipe 完整接管时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".map-stamp-card",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "42px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是组合缩略图、完整名称摘要和状态动作，不是字段标签轨。",
+        "responsiveEvidence": "名称摘要可收缩换行，缩略图与尾部动作维持固有尺寸。",
+        "removalCondition": "组合卡迁入公共媒体目录行 recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".project-inventory-row",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "30px minmax(0, 1fr) max-content max-content",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "四轨是序号、完整道具内容、数量单元和动作槽，不是字段标签轨。",
+        "responsiveEvidence": "内容轨可收缩，520px 与400px 两级容器规则负责重排完整单元。",
+        "removalCondition": "公共 RepeatRow 接管数量与动作 slot 布局时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".project-party-row",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "30px minmax(9rem, 0.8fr) minmax(20rem, 1.4fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "四轨是队伍序号、完整身份区、完整当前状态区和动作槽。",
+        "responsiveEvidence": "900px 下身份与状态合为可收缩内容轨，字段内部仍由公共 owner 负责。",
+        "removalCondition": "队伍行由公共排序对象行 recipe 接管外层布局时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".shop-stock-row",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "30px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是库存序号、完整物品摘要和动作槽，不是字段标签与控件。",
+        "responsiveEvidence": "摘要轨可收缩，序号与动作维持稳定点击尺寸。",
+        "removalCondition": "商店库存迁入公共 RepeatRow recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".skill-effect-card__header",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "auto minmax(120px, 220px) minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "四轨排列效果身份、完整名称、完整摘要与卡头动作，不是字段标签轨。",
+        "responsiveEvidence": "摘要可收缩，520px 容器规则将完整单元重排为三轨。",
+        "removalCondition": "效果卡头迁入公共对象卡 recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".sprite-action-step",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "56px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是步骤序号、完整步骤编辑区和动作槽，不是字段标签轨。",
+        "responsiveEvidence": "步骤内容可收缩，360px 容器规则把动作换行并保留序号语义。",
+        "removalCondition": "步骤行由公共可排序对象行 recipe 接管时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".stamp-library-row",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "38px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是拖拽身份、完整组合摘要和动作槽，不是字段标签与输入。",
+        "responsiveEvidence": "组合摘要可收缩，手柄与动作保持固定可达尺寸。",
+        "removalCondition": "组合目录迁入公共 ReorderItem/CatalogRow 组合 recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".tileset-library-row",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "24px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是图块集状态、完整摘要和动作槽，不是字段标签轨。",
+        "responsiveEvidence": "摘要轨可收缩，状态与动作保持内容宽度。",
+        "removalCondition": "图块集目录迁入公共 CatalogRow recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".casualty-workbench",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "minmax(260px, 300px) minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "两轨是完整伤亡目录面板与完整编辑面板，不是字段标签和控件。",
+        "responsiveEvidence": "1450px 下只收窄目录面板，1120px 下整个工作台切单列。",
+        "removalCondition": "伤亡页迁入公共双面板 Workbench recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".casualty-workbench",
+        "atRule": "@media (max-width: 1450px)",
+        "property": "grid-template-columns",
+        "value": "minmax(240px, 270px) minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "响应式两轨仍是完整目录面板与完整编辑面板，不拆分字段语义。",
+        "responsiveEvidence": "1120px 的配对规则继续切为单列，窄屏不压缩为标签轨。",
+        "removalCondition": "伤亡页迁入公共双面板 Workbench recipe 后随根规则删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".bf-identity-card",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "minmax(260px, 320px) minmax(220px, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "两轨并排完整战场预览与身份编辑卡片，不是标签和单个控件。",
+        "responsiveEvidence": "1150px 下卡片整体切单列，两侧内容均保持完整语义。",
+        "removalCondition": "战场身份卡迁入公共媒体表单卡 recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".ea-body",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "minmax(240px, 320px) minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "两轨是完整动作舞台和完整设置面板，不是字段标签与输入。",
+        "responsiveEvidence": "720px 容器规则把两个完整区域切为单列，避免窄栏挤压。",
+        "removalCondition": "动作编辑页迁入公共双面板 Workbench recipe 后删除。"
+      }
+    ]
+  },
+  "retiredPrivateTracks": [
+    {
+      "source": "editor.css",
+      "selector": ".field",
+      "formerValues": ["60px 1fr"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup + DsField",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "无语义的全局 field 类会让主工作区借用 Inspector 轨。",
+      "evidence": "动态 TSX/CSS census 要求 exact field token 和 selector 同时归零。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久禁止恢复；新增字段必须选择公共字段 owner。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".project-field-grid",
+      "formerValues": ["72px minmax(0, 1fr) via .project-field-grid .field"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "项目页不再持有 72px 私有标签列。",
+      "evidence": "ProjectWorkbenchTab 已迁入 DsFieldGroup，CSS census 不再命中该 selector。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由公共 96px/窄屏堆叠合同接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".project-role-row",
+      "formerValues": ["minmax(190px, 0.72fr) minmax(0, 1.28fr)"],
+      "disposition": "track-retired-class-remains",
+      "replacement": "结构行保留，字段由 DsFieldGroup 持有",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "角色绑定卡仍需视觉容器，但不能持有字段标签轨。",
+      "evidence": "CSS census 允许 selector 存活但拒绝任何 grid-template-columns。",
+      "selectorPolicy": "may-remain-without-grid",
+      "removalCondition": "角色绑定卡 recipe 接管容器样式时删除 class。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".stamp-anchor-fields",
+      "formerValues": ["58px 96px 58px 96px minmax(0, 1fr)"],
+      "disposition": "track-retired-class-remains",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "锚点字段不能继续维护五列私有表单轨。",
+      "evidence": "StampTemplateDialog 已使用公共字段组；原 selector 仅保留非轨样式。",
+      "selectorPolicy": "may-remain-without-grid",
+      "removalCondition": "旧容器装饰迁入公共 section recipe 后删除。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".stamp-slot-fields",
+      "formerValues": ["private nested label/control tracks"],
+      "disposition": "track-retired-class-remains",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "组合槽位字段改由公共标签列管理。",
+      "evidence": "StampTemplateDialog migration 与 CSS census 共同锁定无私有列。",
+      "selectorPolicy": "may-remain-without-grid",
+      "removalCondition": "旧 fieldset 装饰由公共 recipe 接管后删除。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".battle-sprite-upload-panel > label",
+      "formerValues": ["120px minmax(0, 1fr)"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "战斗精灵上传不再自定义 120px 标签列。",
+      "evidence": "BattleSpriteUploader 已迁移，selector 在当前 CSS 中不存在。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由公共字段组接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".sprite-upload-wizard .field",
+      "formerValues": ["92px minmax(0, 1fr)"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "上传向导移除 legacy field 与 92px 私有轨。",
+      "evidence": "SpriteUploadWizard migration 与 exact field gate。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久禁止恢复 legacy field。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".sprite-source-grid-fields",
+      "formerValues": ["repeat(2, minmax(0, 1fr))", "auto minmax(64px, 1fr)"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "源帧字段不再混用卡片排列和私有 label/control 轨。",
+      "evidence": "SpriteUploadWizard 采用公共字段组，旧 selector 已删除。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "若恢复双栏卡片，只能排列完整 DsFieldGroup，不得改标签轨。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".battle-profile-field",
+      "formerValues": ["minmax(0, 1fr) 72px"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsPropertyGrid / DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "战斗 profile 字段不再持有反向私有两列。",
+      "evidence": "BattleSpriteLibrary migration 后 selector 归零。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由所在 Inspector 或主工作区公共 owner 决定。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".sprite-action-step-fields",
+      "formerValues": ["auto minmax(54px, 78px) auto via child labels"],
+      "disposition": "track-retired-class-remains",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "动作步骤容器保留，但字段列由公共 owner 接管。",
+      "evidence": "SpriteActionEditor migration 与 CSS census 拒绝原列。",
+      "selectorPolicy": "may-remain-without-grid",
+      "removalCondition": "步骤容器进入公共列表 recipe 后删除。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".sprite-action-cues",
+      "formerValues": ["auto minmax(0, 1fr) auto via child labels"],
+      "disposition": "track-retired-class-remains",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "动作 cue 容器保留，但不再定义表单标签列。",
+      "evidence": "SpriteActionEditor migration 与 CSS census 拒绝原列。",
+      "selectorPolicy": "may-remain-without-grid",
+      "removalCondition": "cue 列表形成公共 repeat-row owner 后删除。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".cutscene-import-dialog > label",
+      "formerValues": ["92px minmax(0, 1fr)"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "导入弹窗不再以裸 label 持有 92px 轨。",
+      "evidence": "CutsceneTab migration 后 selector 已删除。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由弹窗内公共字段组接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".cutscene-import-dialog > .cutscene-import-field",
+      "formerValues": ["92px minmax(0, 1fr)"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "导入弹窗私有 field wrapper 已退役。",
+      "evidence": "CutsceneTab migration 后 selector 已删除。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由弹窗内公共字段组接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".portrait-main-row",
+      "formerValues": ["max-content minmax(0, 1fr) auto"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "肖像编辑主行不再把标签、控件、动作混成私有三列。",
+      "evidence": "PortraitEditor migration 后 selector 已删除。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "动作布局由 field control slot 或 section action 持有。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".place-range-field",
+      "formerValues": ["auto minmax(72px, 1fr) auto"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsPropertyRow",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "放置范围属于 Inspector 属性，不再持有私有三列。",
+      "evidence": "App PlacePalette migration 后 selector 已删除。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由 Inspector 属性轨接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".item-battle-sprite-row",
+      "formerValues": ["minmax(72px, 120px) minmax(0, 1fr)"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "物品战斗精灵字段移除私有 72–120px 标签列。",
+      "evidence": "ItemTab migration 后 selector 已删除。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由公共字段 owner 接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".item-sound-row",
+      "formerValues": ["92px minmax(0, 1fr)"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "物品音效字段不再持有 92px 私有轨。",
+      "evidence": "ItemTab migration 后 selector 已删除。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由公共字段 owner 接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".music-meta-row",
+      "formerValues": ["58px minmax(0, 1fr)"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsReadoutList",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "主工作区只读媒体信息不再借 58px 私有元数据轨。",
+      "evidence": "AudioAssetWorkbench migration 后 selector 已删除。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由主工作区 96px readout owner 接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".project-meta-row",
+      "formerValues": ["private project metadata label/control track"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsReadoutList",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "项目只读元数据统一进入主工作区 readout。",
+      "evidence": "ProjectWorkbenchTab migration 与当前 CSS absence。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由公共 readout owner 接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".stamp-slot-list li",
+      "formerValues": ["30px minmax(0, 1fr) auto 28px"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsRepeatRow",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "组合槽位行由 repeat-row recipe 接管结构和动作。",
+      "evidence": "StampTemplateDialog migration 后旧 list selector 已删除。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由公共重复行 owner 接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".canonical-command-row",
+      "formerValues": ["auto minmax(0, 1fr)"],
+      "disposition": "dead-rule-removed",
+      "replacement": "canonical command recipe without field ownership",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "命令目录结构行不是表单 label/control 轨。",
+      "evidence": "旧 selector 已删除并由完整 CSS census 作为结构轨监控。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "若重建命令行必须登记为非表单结构，不得冒充字段轨。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".script-hook-initial",
+      "formerValues": ["92px minmax(0, 1fr)"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "脚本入口初值不再持有 92px 私有字段轨。",
+      "evidence": "Script editor migration 后 selector 已删除。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久由公共字段 owner 接管。"
+    },
+    {
+      "source": "editor.css",
+      "selector": ".script-advanced > .field",
+      "formerValues": ["legacy field descendant spacing rule"],
+      "disposition": "dead-rule-removed",
+      "replacement": "DsFieldGroup spacing",
+      "owner": "card:ED-FIELD-LAYOUT-1",
+      "reason": "即使只控制间距，legacy field selector 也会掩盖死合同。",
+      "evidence": "exact field CSS gate 要求该 selector 永久不存在。",
+      "selectorPolicy": "must-be-absent",
+      "removalCondition": "永久禁止恢复 exact field descendant。"
+    }
+  ]
+}

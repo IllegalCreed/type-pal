@@ -49,6 +49,7 @@ import {
 import {
   DsCatalogControls,
   DsCatalogRow,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
@@ -1471,7 +1472,7 @@ export function SkillTab(props: {
           <div className="insp-empty ds-empty-state--roomy">无技能</div>
         )}
       </div>
-      <div className="inspector inspector--tabbed battle-data-inspector">
+      <DsInspectorHost className="inspector inspector--tabbed battle-data-inspector">
         <div className="insp-head">
           <div className="what">技能</div>
           <div className="who">{skill?.name ?? '未选择'}</div>
@@ -1548,7 +1549,7 @@ export function SkillTab(props: {
             },
           ]}
         />
-      </div>
+      </DsInspectorHost>
     </>
   )
 }

@@ -1,5 +1,13 @@
 import { type ReactNode, useId } from 'react'
-import { DsButton, DsIconButton, DsRangeInput, DsTag, DsPressable } from './design-system/index.js'
+import {
+  DsButton,
+  DsControlGroup,
+  DsField,
+  DsIconButton,
+  DsPressable,
+  DsRangeInput,
+  DsTag,
+} from './design-system/index.js'
 import { DsReorderCollection, DsReorderItem, DsReorderMoveButton } from './design-system/reorder.js'
 
 export interface LayerStackControlItem {
@@ -44,20 +52,27 @@ export function LayerPaintContext(props: {
           {props.focusEnabled ? '只看当前' : '聚焦当前'}
         </DsButton>
       </div>
-      <div className="map-paint-context__control">
-        <label htmlFor={rangeId}>显示高度</label>
-        <DsRangeInput
-          id={rangeId}
-          min={0}
-          max={props.maxViewHeight}
-          step={1}
-          value={props.viewHeight}
-          onChange={(event) => props.onViewHeightChange(Number(event.currentTarget.value))}
-        />
-        <output htmlFor={rangeId} aria-live="polite">
-          {props.viewHeight}
-        </output>
-      </div>
+      <DsField id={rangeId} label="显示高度" layout="inline" className="map-paint-context__control">
+        {(field) => (
+          <DsControlGroup
+            control={
+              <DsRangeInput
+                {...field}
+                min={0}
+                max={props.maxViewHeight}
+                step={1}
+                value={props.viewHeight}
+                onChange={(event) => props.onViewHeightChange(Number(event.currentTarget.value))}
+              />
+            }
+            actions={
+              <output htmlFor={rangeId} aria-live="polite">
+                {props.viewHeight}
+              </output>
+            }
+          />
+        )}
+      </DsField>
     </section>
   )
 }

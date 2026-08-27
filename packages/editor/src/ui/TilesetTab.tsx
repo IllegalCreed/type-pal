@@ -37,9 +37,12 @@ import {
   DsButton,
   DsCatalogControls,
   DsFileInput,
+  DsInspectorHost,
   DsInspectorTabs,
   DsNumberInput,
   DsObjectHero,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
@@ -223,6 +226,8 @@ export function TilesetTab(props: {
   const newIdId = useId()
   const newNameId = useId()
   const newCategoryId = useId()
+  const editNameId = useId()
+  const editCategoryId = useId()
 
   useEffect(() => {
     let alive = true
@@ -707,7 +712,8 @@ export function TilesetTab(props: {
         )}
       </div>
 
-      <aside
+      <DsInspectorHost
+        as="aside"
         className={`inspector tileset-inspector${
           !uploading && selected ? ' inspector--tabbed' : ''
         }`}
@@ -720,40 +726,38 @@ export function TilesetTab(props: {
             </div>
             <section className="section">
               <h4>切片</h4>
-              <div className="field">
-                <label className="field-label" htmlFor={tileWidthId}>
-                  瓦宽
-                </label>
-                <DsNumberInput
-                  id={tileWidthId}
-                  min={1}
-                  max={400}
-                  inputMode="numeric"
-                  autoComplete="off"
-                  value={tileW}
-                  onChange={(event) => {
-                    setTileW(Math.floor(event.target.valueAsNumber) || 0)
-                    setReplacementScan(undefined)
-                  }}
-                />
-              </div>
-              <div className="field">
-                <label className="field-label" htmlFor={tileHeightId}>
-                  瓦高
-                </label>
-                <DsNumberInput
-                  id={tileHeightId}
-                  min={1}
-                  max={400}
-                  inputMode="numeric"
-                  autoComplete="off"
-                  value={tileH}
-                  onChange={(event) => {
-                    setTileH(Math.floor(event.target.valueAsNumber) || 0)
-                    setReplacementScan(undefined)
-                  }}
-                />
-              </div>
+              <DsPropertyGrid>
+                <DsPropertyRow label="瓦宽" labelFor={tileWidthId}>
+                  <DsNumberInput
+                    id={tileWidthId}
+                    size="compact"
+                    min={1}
+                    max={400}
+                    inputMode="numeric"
+                    autoComplete="off"
+                    value={tileW}
+                    onChange={(event) => {
+                      setTileW(Math.floor(event.target.valueAsNumber) || 0)
+                      setReplacementScan(undefined)
+                    }}
+                  />
+                </DsPropertyRow>
+                <DsPropertyRow label="瓦高" labelFor={tileHeightId}>
+                  <DsNumberInput
+                    id={tileHeightId}
+                    size="compact"
+                    min={1}
+                    max={400}
+                    inputMode="numeric"
+                    autoComplete="off"
+                    value={tileH}
+                    onChange={(event) => {
+                      setTileH(Math.floor(event.target.valueAsNumber) || 0)
+                      setReplacementScan(undefined)
+                    }}
+                  />
+                </DsPropertyRow>
+              </DsPropertyGrid>
               <div className="tileset-cut-summary">
                 {draft ? `将切出 ${quantized.length} 块瓦片` : '选择文件后显示切片结果'}
               </div>
@@ -830,45 +834,41 @@ export function TilesetTab(props: {
             ) : null}
             <section className="section">
               <h4>登记</h4>
-              <div className="field">
-                <label className="field-label" htmlFor={newIdId}>
-                  ID
-                </label>
-                <DsTextInput
-                  id={newIdId}
-                  autoComplete="off"
-                  spellCheck={false}
-                  value={newId}
-                  onChange={(event) => setNewId(event.target.value)}
-                  placeholder="例如 forest-set…"
-                  monospace
-                />
-              </div>
-              <div className="field">
-                <label className="field-label" htmlFor={newNameId}>
-                  名称
-                </label>
-                <DsTextInput
-                  id={newNameId}
-                  autoComplete="off"
-                  value={newName}
-                  onChange={(event) => setNewName(event.target.value)}
-                  placeholder="例如 森林套件…"
-                />
-              </div>
-              <div className="field">
-                <label className="field-label" htmlFor={newCategoryId}>
-                  分类
-                </label>
-                <DsTextInput
-                  id={newCategoryId}
-                  autoComplete="off"
-                  spellCheck={false}
-                  value={newCategory}
-                  onChange={(event) => setNewCategory(event.target.value)}
-                  placeholder="例如 outdoor…"
-                />
-              </div>
+              <DsPropertyGrid>
+                <DsPropertyRow label="ID" labelFor={newIdId}>
+                  <DsTextInput
+                    id={newIdId}
+                    size="compact"
+                    autoComplete="off"
+                    spellCheck={false}
+                    value={newId}
+                    onChange={(event) => setNewId(event.target.value)}
+                    placeholder="例如 forest-set…"
+                    monospace
+                  />
+                </DsPropertyRow>
+                <DsPropertyRow label="名称" labelFor={newNameId}>
+                  <DsTextInput
+                    id={newNameId}
+                    size="compact"
+                    autoComplete="off"
+                    value={newName}
+                    onChange={(event) => setNewName(event.target.value)}
+                    placeholder="例如 森林套件…"
+                  />
+                </DsPropertyRow>
+                <DsPropertyRow label="分类" labelFor={newCategoryId}>
+                  <DsTextInput
+                    id={newCategoryId}
+                    size="compact"
+                    autoComplete="off"
+                    spellCheck={false}
+                    value={newCategory}
+                    onChange={(event) => setNewCategory(event.target.value)}
+                    placeholder="例如 outdoor…"
+                  />
+                </DsPropertyRow>
+              </DsPropertyGrid>
             </section>
             <section className="section tileset-inspector-actions">
               <DsPressable
@@ -913,47 +913,49 @@ export function TilesetTab(props: {
                     <>
                       <section className="section">
                         <h4>登记信息</h4>
-                        <div className="field">
-                          <span className="field-label">ID</span>
-                          <DsReadonlyValue as="div" className="tileset-readonly" monospace>
-                            {selected.id}
-                          </DsReadonlyValue>
-                        </div>
-                        <div className="field">
-                          <span className="field-label">名称</span>
-                          <DsTextInput
-                            aria-label="瓦片集名称"
-                            value={editName}
-                            onChange={(event) => setEditName(event.target.value)}
-                            onBlur={() => commitMetadataField('name')}
-                            onKeyDown={(event) => {
-                              if (event.key === 'Enter') event.currentTarget.blur()
-                            }}
-                          />
-                        </div>
-                        <div className="field">
-                          <span className="field-label">分类</span>
-                          <DsTextInput
-                            aria-label="瓦片集分类"
-                            value={editCategory}
-                            onChange={(event) => setEditCategory(event.target.value)}
-                            onBlur={() => commitMetadataField('category')}
-                            onKeyDown={(event) => {
-                              if (event.key === 'Enter') event.currentTarget.blur()
-                            }}
-                          />
-                        </div>
-                        <div className="field tileset-path-field">
-                          <span className="field-label">文件</span>
-                          <DsReadonlyValue
-                            as="div"
-                            className="tileset-readonly"
-                            monospace
-                            title={selectedRecord?.path}
-                          >
-                            {selectedRecord?.path ?? 'catalog 缺失'}
-                          </DsReadonlyValue>
-                        </div>
+                        <DsPropertyGrid>
+                          <DsPropertyRow label="ID">
+                            <DsReadonlyValue as="div" className="tileset-readonly" monospace>
+                              {selected.id}
+                            </DsReadonlyValue>
+                          </DsPropertyRow>
+                          <DsPropertyRow label="名称" labelFor={editNameId}>
+                            <DsTextInput
+                              id={editNameId}
+                              size="compact"
+                              aria-label="瓦片集名称"
+                              value={editName}
+                              onChange={(event) => setEditName(event.target.value)}
+                              onBlur={() => commitMetadataField('name')}
+                              onKeyDown={(event) => {
+                                if (event.key === 'Enter') event.currentTarget.blur()
+                              }}
+                            />
+                          </DsPropertyRow>
+                          <DsPropertyRow label="分类" labelFor={editCategoryId}>
+                            <DsTextInput
+                              id={editCategoryId}
+                              size="compact"
+                              aria-label="瓦片集分类"
+                              value={editCategory}
+                              onChange={(event) => setEditCategory(event.target.value)}
+                              onBlur={() => commitMetadataField('category')}
+                              onKeyDown={(event) => {
+                                if (event.key === 'Enter') event.currentTarget.blur()
+                              }}
+                            />
+                          </DsPropertyRow>
+                          <DsPropertyRow label="文件">
+                            <DsReadonlyValue
+                              as="div"
+                              className="tileset-readonly"
+                              monospace
+                              title={selectedRecord?.path}
+                            >
+                              {selectedRecord?.path ?? 'catalog 缺失'}
+                            </DsReadonlyValue>
+                          </DsPropertyRow>
+                        </DsPropertyGrid>
                         {selectedRecord && session.getState().assetBlobs[selectedRecord.path] && (
                           <div className="tileset-source-note">
                             尚未保存；保存项目后写入资产目录。
@@ -1095,7 +1097,7 @@ export function TilesetTab(props: {
             {err}
           </div>
         )}
-      </aside>
+      </DsInspectorHost>
     </>
   )
 }

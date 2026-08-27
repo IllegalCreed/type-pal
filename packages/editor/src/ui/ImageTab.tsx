@@ -36,6 +36,7 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsFileInput,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
@@ -740,7 +741,7 @@ export function ImageTab(props: {
           <div className="insp-empty">导入或选择一张{KIND_LABEL[kind]}。</div>
         )}
       </div>
-      <div className="inspector inspector--tabbed music-inspector image-inspector">
+      <DsInspectorHost className="inspector inspector--tabbed music-inspector image-inspector">
         {missingFocusedId ? (
           <div className="section">
             <h4>缺失资源</h4>
@@ -878,7 +879,7 @@ export function ImageTab(props: {
         ) : (
           <div className="insp-empty">选择一张图片查看资源与引用。</div>
         )}
-      </div>
+      </DsInspectorHost>
       <MediaAssetConfirmDialog
         open={Boolean(deleteTarget)}
         title="删除图片"

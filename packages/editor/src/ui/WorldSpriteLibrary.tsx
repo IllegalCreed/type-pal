@@ -32,6 +32,7 @@ import {
   DsInspectorSection,
   DsInspectorTabs,
   DsDraftNumberInput,
+  DsInspectorHost,
   DsPropertyGrid,
   DsPropertyRow,
   DsReferenceGroup,
@@ -670,7 +671,7 @@ export function WorldSpriteLibrary(props: {
         )}
       </div>
 
-      <div className="inspector inspector--tabbed battle-sprite-inspector world-sprite-inspector">
+      <DsInspectorHost className="inspector inspector--tabbed battle-sprite-inspector world-sprite-inspector">
         <div className="insp-head">
           <div className="what">{inspectorHeading}</div>
           <div className="who" title={inspectorLabel || '未选择'}>
@@ -1155,7 +1156,7 @@ export function WorldSpriteLibrary(props: {
             },
           ]}
         />
-      </div>
+      </DsInspectorHost>
     </>
   )
 }

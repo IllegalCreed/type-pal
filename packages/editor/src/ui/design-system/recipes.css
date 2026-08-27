@@ -720,8 +720,13 @@
   display: grid;
   min-width: 0;
   min-height: var(--ds-control-height-compact);
-  grid-template-columns: 60px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
+  gap: var(--ds-space-2);
+}
+
+[data-ds-inspector-host] .ds-property-row {
+  grid-template-columns: var(--ds-inspector-property-label-track) minmax(0, 1fr);
   gap: var(--ds-space-4);
 }
 
@@ -756,6 +761,47 @@
   font: var(--ds-font-caption);
   line-height: 1.45;
   overflow-wrap: anywhere;
+}
+
+.ds-readout-list {
+  container-name: ds-readout-list;
+  container-type: inline-size;
+  display: grid;
+  min-width: 0;
+  margin: 0;
+  gap: var(--ds-space-3);
+}
+
+.ds-readout-row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: var(--ds-field-label-track) minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--ds-space-4);
+}
+
+.ds-readout-row__label,
+.ds-readout-row__value {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.ds-readout-row__label {
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-label);
+}
+
+.ds-readout-row__value {
+  color: var(--ds-text-primary);
+  font: var(--ds-font-body);
+}
+
+@container ds-readout-list (width < 480px) {
+  .ds-readout-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--ds-space-1);
+  }
 }
 
 .ds-inline-composer {
@@ -839,7 +885,7 @@
   min-width: 0;
 }
 
-@container ds-inline-composer (max-width: 479px) {
+@container ds-inline-composer (width < 480px) {
   .ds-inline-composer__layout {
     grid-template-columns: minmax(0, 1fr);
   }

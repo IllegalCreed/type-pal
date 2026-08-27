@@ -12,6 +12,7 @@ import {
   DsDraftTextInput,
   DsEmptyState,
   DsField,
+  DsFieldGroup,
   DsFilePicker,
   DsHelpTip,
   DsIconButton,
@@ -82,11 +83,7 @@ async function composition(element: HTMLInputElement, type: 'compositionstart' |
 describe('editor design-system controls', () => {
   test('centers embedded collection empty states without creating another card', () => {
     const markup = renderToStaticMarkup(
-      <DsEmptyState
-        layout="embedded"
-        title="暂无初始道具"
-        description="可从右上角添加。"
-      />,
+      <DsEmptyState layout="embedded" title="暂无初始道具" description="可从右上角添加。" />,
     )
     expect(markup).toContain('class="ds-empty-state ds-empty-state--embedded"')
     expect(markup).toContain('data-layout="embedded"')
@@ -698,6 +695,45 @@ describe('editor design-system controls', () => {
     expect(host.querySelector('[aria-label="打开"]')?.classList).toContain(
       'ds-icon-button--compact',
     )
+  })
+
+  test('groups related fields on one responsive label track without changing field semantics', async () => {
+    await act(async () =>
+      root.render(
+        <DsFieldGroup>
+          <DsField id="field-group-label" label="标签" help="用于列表显示">
+            {(field) => <DsTextInput {...field} defaultValue="新的故事" />}
+          </DsField>
+          <DsField id="field-group-video" label="入口视频资源" error="请选择可用视频">
+            {(field) => <DsTextInput {...field} defaultValue="video.pal.003" />}
+          </DsField>
+        </DsFieldGroup>,
+      ),
+    )
+
+    const group = host.querySelector<HTMLElement>('[data-ds-field-group]')
+    expect(group?.dataset.layout).toBe('responsive')
+    expect(group?.querySelectorAll(':scope > .ds-field')).toHaveLength(2)
+    expect(group?.querySelector<HTMLLabelElement>('label[for="field-group-label"]')).not.toBeNull()
+    expect(
+      group
+        ?.querySelector<HTMLInputElement>('#field-group-label')
+        ?.getAttribute('aria-describedby'),
+    ).toBe('field-group-label-description')
+    expect(
+      group?.querySelector<HTMLInputElement>('#field-group-video')?.getAttribute('aria-invalid'),
+    ).toBe('true')
+
+    await act(async () =>
+      root.render(
+        <DsFieldGroup layout="stacked">
+          <DsField label="整组上下排列">
+            <DsTextInput aria-label="整组上下排列" />
+          </DsField>
+        </DsFieldGroup>,
+      ),
+    )
+    expect(host.querySelector('[data-ds-field-group]')?.getAttribute('data-layout')).toBe('stacked')
   })
 
   test('select supports portal click and keyboard selection while skipping disabled options', async () => {

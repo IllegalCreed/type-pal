@@ -17,6 +17,7 @@ import {
   DsDialog,
   DsIcon,
   DsIconButton,
+  DsInspectorHost,
   DsInspectorTabs,
   DsPressable,
   DsReferenceGroup,
@@ -528,7 +529,7 @@ export function StampLibraryTab(props: {
         )}
       </main>
 
-      <aside className="inspector inspector--tabbed stamp-inspector">
+      <DsInspectorHost as="aside" className="inspector inspector--tabbed stamp-inspector">
         <div className="insp-head">
           <div className="what">组合模板</div>
           <div className="who">
@@ -653,7 +654,7 @@ export function StampLibraryTab(props: {
         ) : (
           <div className="insp-empty">选择组合后编辑属性和查看来源引用。</div>
         )}
-      </aside>
+      </DsInspectorHost>
       {createOpen ? (
         <DsDialog
           open

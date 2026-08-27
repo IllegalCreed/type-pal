@@ -21,6 +21,7 @@ import {
   type DragEvent as ReactDragEvent,
   type ReactNode,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -51,6 +52,8 @@ import {
   DsCatalogControls,
   DsCatalogRow,
   DsFileInput,
+  DsFieldGroup,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsNumberInput,
@@ -67,6 +70,7 @@ import {
   DsTabs,
   DsTag,
   DsTextInput,
+  DsTextField,
   DsVirtualList,
   DsPressable,
 } from './design-system/index.js'
@@ -336,10 +340,12 @@ function NumberField(props: {
   optional?: boolean
   onChange: (value: number | undefined) => void
 }) {
+  const id = useId()
   return (
-    <label className="battle-profile-field">
-      <span>{props.label}</span>
+    <DsPropertyRow label={props.label} labelFor={id}>
       <DsNumberInput
+        id={id}
+        size="compact"
         min={props.min ?? 0}
         value={props.value ?? ''}
         placeholder={props.optional ? '无' : undefined}
@@ -352,7 +358,28 @@ function NumberField(props: {
           )
         }
       />
-    </label>
+    </DsPropertyRow>
+  )
+}
+
+function RangeProperty(props: {
+  label: string
+  min: number
+  max: number
+  value: number
+  onChange: (value: number) => void
+}) {
+  const id = useId()
+  return (
+    <DsPropertyRow label={props.label} labelFor={id}>
+      <DsRangeInput
+        id={id}
+        min={props.min}
+        max={props.max}
+        value={props.value}
+        onChange={(event) => props.onChange(Number(event.target.value))}
+      />
+    </DsPropertyRow>
   )
 }
 
@@ -366,21 +393,23 @@ function ProfileEditor(props: {
     return <p className="hint2">召唤现身按源帧顺序播放；速度、染色和声音由引用它的技能设置。</p>
   if (profile.kind === 'player-fighter')
     return (
-      <div className="battle-profile-grid battle-profile-advanced">
-        <NumberField
-          label="施法特效基帧"
-          value={profile.castEffectBase}
-          onChange={(castEffectBase) =>
-            props.onChange({ ...profile, castEffectBase: castEffectBase ?? 0 })
-          }
-        />
-        <NumberField
-          label="攻击特效基帧"
-          value={profile.attackEffectBase}
-          onChange={(attackEffectBase) =>
-            props.onChange({ ...profile, attackEffectBase: attackEffectBase ?? 0 })
-          }
-        />
+      <div className="battle-profile-advanced">
+        <DsPropertyGrid>
+          <NumberField
+            label="施法特效基帧"
+            value={profile.castEffectBase}
+            onChange={(castEffectBase) =>
+              props.onChange({ ...profile, castEffectBase: castEffectBase ?? 0 })
+            }
+          />
+          <NumberField
+            label="攻击特效基帧"
+            value={profile.attackEffectBase}
+            onChange={(attackEffectBase) =>
+              props.onChange({ ...profile, attackEffectBase: attackEffectBase ?? 0 })
+            }
+          />
+        </DsPropertyGrid>
       </div>
     )
 
@@ -417,25 +446,21 @@ function ProfileEditor(props: {
           </span>
         ) : null}
       </section>
-      <label className="battle-boundary-field">
-        <span>待机结束：#{idleEnd - 1}</span>
-        <DsRangeInput
+      <DsPropertyGrid>
+        <RangeProperty
+          label={`待机结束：#${idleEnd - 1}`}
           min={1}
           max={total}
           value={idleEnd}
-          onChange={(event) => setBoundaries(Number(event.target.value), magicEnd)}
+          onChange={(value) => setBoundaries(value, magicEnd)}
         />
-      </label>
-      <label className="battle-boundary-field">
-        <span>施法结束：{magicEnd === idleEnd ? '无施法段' : `#${magicEnd - 1}`}</span>
-        <DsRangeInput
+        <RangeProperty
+          label={`施法结束：${magicEnd === idleEnd ? '无施法段' : `#${magicEnd - 1}`}`}
           min={idleEnd}
           max={total}
           value={magicEnd}
-          onChange={(event) => setBoundaries(idleEnd, Number(event.target.value))}
+          onChange={(value) => setBoundaries(idleEnd, value)}
         />
-      </label>
-      <div className="battle-profile-grid">
         <NumberField
           label="待机毫秒/帧"
           value={profile.idleTicksPerFrame * 40}
@@ -457,7 +482,7 @@ function ProfileEditor(props: {
             })
           }
         />
-      </div>
+      </DsPropertyGrid>
     </div>
   )
 }
@@ -1283,30 +1308,35 @@ export function BattleSpriteLibrary(props: {
           {uploading ? (
             <div className="battle-sprite-upload-panel">
               <h3>导入战斗精灵</h3>
-              <label>
-                <span>配置 id 前缀</span>
-                <DsTextInput
+              <DsFieldGroup>
+                <DsTextField
+                  id="battle-sprite-upload-id"
+                  label="配置 ID 前缀"
                   value={uploadId}
+                  monospace
+                  autoComplete="off"
+                  spellCheck={false}
                   onChange={(event) => setUploadId(event.target.value)}
                 />
-              </label>
-              <label>
-                <span>显示名</span>
-                <DsTextInput
+                <DsTextField
+                  id="battle-sprite-upload-label"
+                  label="显示名"
                   value={uploadLabel}
+                  autoComplete="off"
                   onChange={(event) => setUploadLabel(event.target.value)}
                 />
-              </label>
-              <DsSelectField
-                label="用途"
-                value={uploadKind}
-                options={[
-                  { value: 'player-fighter', label: '玩家战斗' },
-                  { value: 'enemy', label: '敌人' },
-                  { value: 'summon', label: '召唤现身' },
-                ]}
-                onValueChange={(value) => setUploadKind(value as BattleSpriteProfileKind)}
-              />
+                <DsSelectField
+                  id="battle-sprite-upload-kind"
+                  label="用途"
+                  value={uploadKind}
+                  options={[
+                    { value: 'player-fighter', label: '玩家战斗' },
+                    { value: 'enemy', label: '敌人' },
+                    { value: 'summon', label: '召唤现身' },
+                  ]}
+                  onValueChange={(value) => setUploadKind(value as BattleSpriteProfileKind)}
+                />
+              </DsFieldGroup>
               <BattleSpriteUploader
                 assetBase={props.assetBase}
                 onApply={async (bytes, frameCount) => {
@@ -1416,7 +1446,7 @@ export function BattleSpriteLibrary(props: {
         </div>
       </div>
 
-      <div className="inspector inspector--tabbed battle-sprite-inspector">
+      <DsInspectorHost className="inspector inspector--tabbed battle-sprite-inspector">
         <div className="insp-head">
           <div className="what">战斗精灵</div>
           <div className="who">{displayLabel || '未选择'}</div>
@@ -1793,7 +1823,7 @@ export function BattleSpriteLibrary(props: {
             },
           ]}
         />
-      </div>
+      </DsInspectorHost>
     </>
   )
 }

@@ -107,7 +107,7 @@ describe('SpriteUploadWizard', () => {
       fileInput.dispatchEvent(new Event('change', { bubbles: true }))
       await new Promise((resolve) => setTimeout(resolve, 0))
     })
-    const cols = host.querySelector<HTMLInputElement>('.sprite-source-grid-fields input')!
+    const cols = host.querySelector<HTMLInputElement>('[data-field-id="sprite-source-cols"] input')!
     await act(async () => {
       const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
       setter?.call(cols, '4')

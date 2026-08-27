@@ -53,6 +53,7 @@ import {
 import {
   DsCatalogControls,
   DsCatalogRow,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
@@ -1200,7 +1201,7 @@ export function EnemyTab(props: {
       </div>
 
       {/* 右:敌队 / 引用 / 说明 */}
-      <div className="inspector inspector--tabbed">
+      <DsInspectorHost className="inspector inspector--tabbed">
         <div className="insp-head">
           <div className="what">敌人</div>
           <div className="who">{enemy ? nameOf(enemy) : '—'}</div>
@@ -1300,7 +1301,7 @@ export function EnemyTab(props: {
             },
           ]}
         />
-      </div>
+      </DsInspectorHost>
     </>
   )
 }

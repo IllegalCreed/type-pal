@@ -36,16 +36,17 @@ import {
   DsFileInput,
   DsIcon,
   DsIconButton,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
   DsObjectWorkspace,
-  DsPropertyGrid,
-  DsPropertyRow,
   DsRangeInput,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsReadoutList,
+  DsReadoutRow,
   DsStatus,
   DsTag,
   DsVirtualList,
@@ -695,19 +696,19 @@ export function AudioAssetWorkbench(props: {
                 label={selected.record.label}
                 session={session}
               />
-              <DsPropertyGrid>
-                <DsPropertyRow label="AssetId">
+              <DsReadoutList>
+                <DsReadoutRow label="AssetId">
                   <code>{selected.id}</code>
-                </DsPropertyRow>
-                <DsPropertyRow label="格式">{selected.record.mediaType}</DsPropertyRow>
-                <DsPropertyRow label="文件">
+                </DsReadoutRow>
+                <DsReadoutRow label="格式">{selected.record.mediaType}</DsReadoutRow>
+                <DsReadoutRow label="文件">
                   <code>{selected.record.path}</code>
-                </DsPropertyRow>
-                <DsPropertyRow label="来源">
+                </DsReadoutRow>
+                <DsReadoutRow label="来源">
                   {ORIGIN_LABELS[selected.record.origin.kind]}
-                </DsPropertyRow>
-                <DsPropertyRow label="大小">{formatBytes(selected.record.bytes)}</DsPropertyRow>
-              </DsPropertyGrid>
+                </DsReadoutRow>
+                <DsReadoutRow label="大小">{formatBytes(selected.record.bytes)}</DsReadoutRow>
+              </DsReadoutList>
             </DsWorkbenchSection>
             <DsWorkbenchSection
               title="试听"
@@ -729,7 +730,7 @@ export function AudioAssetWorkbench(props: {
           <div className="insp-empty">{strategy.emptyLabel}</div>
         )}
       </DsObjectWorkspace>
-      <div className="inspector inspector--tabbed music-inspector audio-inspector">
+      <DsInspectorHost className="inspector inspector--tabbed music-inspector audio-inspector">
         {selected ? (
           <DsInspectorTabs
             id={`${strategy.kind}-inspector`}
@@ -836,7 +837,7 @@ export function AudioAssetWorkbench(props: {
         ) : (
           <div className="insp-empty">选择资源查看引用与诊断。</div>
         )}
-      </div>
+      </DsInspectorHost>
       <MediaAssetConfirmDialog
         open={Boolean(deleteTarget)}
         title={`删除${strategy.title}`}

@@ -108,6 +108,7 @@ import {
   DsCatalogControls,
   DsCatalogRow,
   DsCheckbox,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsNumberInput,
@@ -3169,7 +3170,10 @@ export function MapMode(props: {
         />
       </IsometricEditorSurface>
 
-      <div ref={inspectorRef} className="inspector inspector--tabbed map-inspector">
+      <DsInspectorHost
+        hostRef={inspectorRef}
+        className="inspector inspector--tabbed map-inspector"
+      >
         <div className="insp-head">
           <div className="what">地图</div>
           <div className="who">{selectedAsset?.name || mapId || '未选择'}</div>
@@ -3657,7 +3661,7 @@ export function MapMode(props: {
             },
           ]}
         />
-      </div>
+      </DsInspectorHost>
       {stampDialogOpen && selection.kind === 'cells' && liveMap ? (
         <StampTemplateDialog
           map={liveMap}

@@ -13,8 +13,12 @@ import {
   DsButton,
   DsCatalogRow,
   DsCheckbox,
+  DsControlGroup,
   DsDraftNumberInput,
   DsDraftTextInput,
+  DsField,
+  DsFieldGroup,
+  DsFieldMeasure,
   DsInspectorSection,
   DsPropertyGrid,
   DsPropertyRow,
@@ -453,30 +457,42 @@ export function SpriteActionEditor(props: {
                           maxScale={2}
                           label={`动作 ${action.label} 第 ${index + 1} 步，源帧 ${step.frame}`}
                         />
-                        <div className="sprite-action-step-fields">
+                        <DsFieldGroup className="sprite-action-step-fields">
                           <b>
                             {action.loopFrom === index ? '↻ ' : ''}帧 #{step.frame}
                           </b>
-                          <label htmlFor={`sprite-action-step-${actionNumber}-${index}-duration`}>
-                            停留
-                            <StepDurationInput
-                              id={`sprite-action-step-${actionNumber}-${index}-duration`}
-                              draftKey={`sprite:${props.definition.id}:action:${actionId}:step:${reorderKey}:durationMs`}
-                              syncToken={props.session.getHistoryVersion()}
-                              value={step.durationMs}
-                              disabled={!props.proof}
-                              onCommit={(durationMs) =>
-                                updateAction((current) => ({
-                                  ...current,
-                                  steps: current.steps.map((candidate, position) =>
-                                    position === index ? { ...candidate, durationMs } : candidate,
-                                  ),
-                                }))
-                              }
-                            />
-                            ms
-                          </label>
-                        </div>
+                          <DsField
+                            id={`sprite-action-step-${actionNumber}-${reorderKey}-duration`}
+                            label="停留"
+                          >
+                            {(field) => (
+                              <DsFieldMeasure measure="short-number">
+                                <DsControlGroup
+                                  control={
+                                    <StepDurationInput
+                                      id={field.id}
+                                      draftKey={`sprite:${props.definition.id}:action:${actionId}:step:${reorderKey}:durationMs`}
+                                      syncToken={props.session.getHistoryVersion()}
+                                      value={step.durationMs}
+                                      disabled={!props.proof}
+                                      onCommit={(durationMs) =>
+                                        updateAction((current) => ({
+                                          ...current,
+                                          steps: current.steps.map((candidate, position) =>
+                                            position === index
+                                              ? { ...candidate, durationMs }
+                                              : candidate,
+                                          ),
+                                        }))
+                                      }
+                                    />
+                                  }
+                                  actions={<span>ms</span>}
+                                />
+                              </DsFieldMeasure>
+                            )}
+                          </DsField>
+                        </DsFieldGroup>
                         <div className="sprite-action-step-buttons">
                           <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
                           <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
@@ -491,55 +507,67 @@ export function SpriteActionEditor(props: {
                             ×
                           </DsButton>
                         </div>
-                        <div className="sprite-action-cues">
+                        <DsFieldGroup className="sprite-action-cues">
                           {(step.cues ?? []).map((cue, cueIndex) => (
-                            <label key={`${cueIndex}:${cue.asset}`}>
-                              音效
-                              <DsSelect
-                                size="compact"
-                                aria-label={`第 ${index + 1} 步第 ${cueIndex + 1} 个音效`}
-                                value={cue.asset}
-                                options={sounds.map(([asset, record]) => ({
-                                  value: asset,
-                                  label: record.label ?? asset,
-                                  description: asset,
-                                }))}
-                                onValueChange={(value) =>
-                                  updateAction((current) => ({
-                                    ...current,
-                                    steps: current.steps.map((candidate, position) => {
-                                      if (position !== index) return candidate
-                                      const cues = [...(candidate.cues ?? [])]
-                                      cues[cueIndex] = { kind: 'sound', asset: value }
-                                      return { ...candidate, cues }
-                                    }),
-                                  }))
-                                }
-                              />
-                              <DsButton
-                                className="icon-only danger-action"
-                                aria-label="移除同步音效"
-                                onClick={() =>
-                                  updateAction((current) => ({
-                                    ...current,
-                                    steps: current.steps.map((candidate, position) => {
-                                      if (position !== index) return candidate
-                                      const cues = (candidate.cues ?? []).filter(
-                                        (_, position) => position !== cueIndex,
-                                      )
-                                      const next = { ...candidate }
-                                      if (cues.length) next.cues = cues
-                                      else delete next.cues
-                                      return next
-                                    }),
-                                  }))
-                                }
-                                size="compact"
-                                variant="secondary"
-                              >
-                                ×
-                              </DsButton>
-                            </label>
+                            <DsField
+                              key={`${cueIndex}:${cue.asset}`}
+                              id={`sprite-action-step-${actionNumber}-${reorderKey}-cue-${cueIndex}`}
+                              label="音效"
+                            >
+                              {(field) => (
+                                <DsControlGroup
+                                  control={
+                                    <DsSelect
+                                      id={field.id}
+                                      size="compact"
+                                      aria-label={`第 ${index + 1} 步第 ${cueIndex + 1} 个音效`}
+                                      value={cue.asset}
+                                      options={sounds.map(([asset, record]) => ({
+                                        value: asset,
+                                        label: record.label ?? asset,
+                                        description: asset,
+                                      }))}
+                                      onValueChange={(value) =>
+                                        updateAction((current) => ({
+                                          ...current,
+                                          steps: current.steps.map((candidate, position) => {
+                                            if (position !== index) return candidate
+                                            const cues = [...(candidate.cues ?? [])]
+                                            cues[cueIndex] = { kind: 'sound', asset: value }
+                                            return { ...candidate, cues }
+                                          }),
+                                        }))
+                                      }
+                                    />
+                                  }
+                                  actions={
+                                    <DsButton
+                                      className="icon-only danger-action"
+                                      aria-label="移除同步音效"
+                                      onClick={() =>
+                                        updateAction((current) => ({
+                                          ...current,
+                                          steps: current.steps.map((candidate, position) => {
+                                            if (position !== index) return candidate
+                                            const cues = (candidate.cues ?? []).filter(
+                                              (_, position) => position !== cueIndex,
+                                            )
+                                            const next = { ...candidate }
+                                            if (cues.length) next.cues = cues
+                                            else delete next.cues
+                                            return next
+                                          }),
+                                        }))
+                                      }
+                                      size="compact"
+                                      variant="secondary"
+                                    >
+                                      ×
+                                    </DsButton>
+                                  }
+                                />
+                              )}
+                            </DsField>
                           ))}
                           <DsButton
                             data-ds-add-picker-deferred="asset/sprite-step-sound-cue-append-default"
@@ -564,7 +592,7 @@ export function SpriteActionEditor(props: {
                           >
                             ＋ 同步音效
                           </DsButton>
-                        </div>
+                        </DsFieldGroup>
                       </div>
                     </DsReorderItem>
                   </Fragment>

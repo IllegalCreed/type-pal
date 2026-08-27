@@ -2,13 +2,19 @@ import {
   type ButtonHTMLAttributes,
   Children,
   type ComponentPropsWithoutRef,
+  createContext,
   cloneElement,
   forwardRef,
   isValidElement,
   type ReactElement,
   type ReactNode,
+  type Ref,
+  useContext,
+  useLayoutEffect,
+  useRef,
   useState,
 } from 'react'
+import { createPortal } from 'react-dom'
 import {
   DsButton,
   type DsControlSize,
@@ -25,6 +31,41 @@ import { DsIcon } from './icons.js'
 
 export type DsWorkbenchKind = 'object' | 'media' | 'script' | 'table'
 
+const DsInspectorContext = createContext(false)
+
+/** 真实 Inspector 外壳；业务页面不得自行写 data-ds-inspector-host。 */
+export function DsInspectorHost(props: {
+  as?: 'div' | 'aside' | 'section'
+  className?: string
+  children: ReactNode
+  hostRef?: Ref<HTMLElement>
+  'aria-label'?: string
+}) {
+  const Element = props.as ?? 'div'
+  return (
+    <DsInspectorContext.Provider value>
+      <Element
+        ref={props.hostRef as never}
+        className={props.className}
+        aria-label={props['aria-label']}
+        data-ds-inspector-host=""
+      >
+        {props.children}
+      </Element>
+    </DsInspectorContext.Provider>
+  )
+}
+
+/** 把 Inspector 属性内容安全桥接到真实 Inspector DOM host。 */
+export function DsInspectorPortal(props: { host: HTMLElement; children: ReactNode }) {
+  if (!props.host.closest('[data-ds-inspector-host]'))
+    throw new Error('DsInspectorPortal target must be inside a DsInspector host')
+  return createPortal(
+    <DsInspectorContext.Provider value>{props.children}</DsInspectorContext.Provider>,
+    props.host,
+  )
+}
+
 export function DsWorkbench(props: {
   kind: DsWorkbenchKind
   list?: ReactNode
@@ -37,7 +78,11 @@ export function DsWorkbench(props: {
       {props.list ? <aside className="ds-workbench__list">{props.list}</aside> : null}
       <main className="ds-workbench__main">{props.main}</main>
       {props.inspector ? (
-        <aside className="ds-workbench__inspector">{props.inspector}</aside>
+        <DsInspectorContext.Provider value>
+          <aside className="ds-workbench__inspector" data-ds-inspector-host="">
+            {props.inspector}
+          </aside>
+        </DsInspectorContext.Provider>
       ) : null}
     </section>
   )
@@ -635,9 +680,7 @@ export function DsDiagnosticPanel(props: {
   const warnings = props.count && props.count.kind !== 'unknown' ? props.count.warnings : 0
   const live = props.live ?? true
   const statusIsExternal =
-    props.statusOwner === 'external' &&
-    props.state === 'ready' &&
-    props.count?.kind === 'exact'
+    props.statusOwner === 'external' && props.state === 'ready' && props.count?.kind === 'exact'
   const tone =
     props.state === 'failure' || errors > 0
       ? 'error'
@@ -660,7 +703,9 @@ export function DsDiagnosticPanel(props: {
         >
           <span className="ds-diagnostic-panel__status">
             <span className="ds-diagnostic-panel__meta">
-              <DsTag tone={tone === 'error' ? 'danger' : tone === 'warning' ? 'warning' : 'neutral'}>
+              <DsTag
+                tone={tone === 'error' ? 'danger' : tone === 'warning' ? 'warning' : 'neutral'}
+              >
                 {props.state === 'clear'
                   ? '正常'
                   : props.state === 'partial'
@@ -669,7 +714,9 @@ export function DsDiagnosticPanel(props: {
                       ? '检查失败'
                       : '诊断'}
               </DsTag>
-              <span className="ds-diagnostic-panel__count">{diagnosticCountLabel(props.count)}</span>
+              <span className="ds-diagnostic-panel__count">
+                {diagnosticCountLabel(props.count)}
+              </span>
             </span>
             <strong className="ds-diagnostic-panel__summary">
               {props.summary ?? diagnosticPanelSummary(props.state, props.count)}
@@ -927,7 +974,23 @@ export function DsInspectorSection(props: {
  * Inspector 基本信息的统一双列属性表。领域页面只提供值或控件，不再自行拼接标签列与信息卡。
  */
 export function DsPropertyGrid(props: { children: ReactNode; className?: string }) {
-  return <div className={dsClasses('ds-property-grid', props.className)}>{props.children}</div>
+  const inInspector = useContext(DsInspectorContext)
+  const elementRef = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    if (
+      import.meta.env.DEV &&
+      elementRef.current &&
+      !elementRef.current.closest('[data-ds-inspector-host]')
+    )
+      throw new Error('DsPropertyGrid must render under a real Inspector DOM host')
+  }, [])
+  if (import.meta.env.DEV && !inInspector)
+    throw new Error('DsPropertyGrid must render inside a real DsInspector host')
+  return (
+    <div ref={elementRef} className={dsClasses('ds-property-grid', props.className)}>
+      {props.children}
+    </div>
+  )
 }
 
 /** Inspector 属性表中的单行；帮助文字跟随对应值，不另起一套表单布局。 */
@@ -959,6 +1022,25 @@ export function DsPropertyRow(props: {
   )
 }
 
+/** 主工作区和对话框的只读信息列表；不借用 Inspector 的 60px 属性轨。 */
+export function DsReadoutList(props: { children: ReactNode; className?: string }) {
+  return (
+    <dl className={dsClasses('ds-readout-list', props.className)} data-ds-readout-list="">
+      {props.children}
+    </dl>
+  )
+}
+
+/** 只读信息行；宽容器共享 96px 名称轨，窄于 480px 整行上下排列。 */
+export function DsReadoutRow(props: { label: ReactNode; children: ReactNode; className?: string }) {
+  return (
+    <div className={dsClasses('ds-readout-row', props.className)}>
+      <dt className="ds-readout-row__label">{props.label}</dt>
+      <dd className="ds-readout-row__value">{props.children}</dd>
+    </div>
+  )
+}
+
 export interface DsInspectorTabItem extends DsTabItem {
   panel: ReactNode
 }
@@ -976,31 +1058,36 @@ export function DsInspectorTabs(props: {
   className?: string
 }) {
   return (
-    <section className={dsClasses('ds-inspector-tabs', props.className)}>
-      <DsTabs
-        label={props.label}
-        items={props.items}
-        activeId={props.activeId}
-        onChange={props.onChange}
-        size={props.size}
-        variant="inspector"
-        idPrefix={props.id}
-      />
-      <div className="ds-inspector-tabs__panels">
-        {props.items.map((item) => (
-          <div
-            key={item.id}
-            id={`${props.id}-panel-${item.id}`}
-            className="ds-inspector-tabs__panel"
-            role="tabpanel"
-            aria-labelledby={`${props.id}-tab-${item.id}`}
-            tabIndex={0}
-            hidden={item.id !== props.activeId}
-          >
-            {item.panel}
-          </div>
-        ))}
-      </div>
-    </section>
+    <DsInspectorContext.Provider value>
+      <section
+        className={dsClasses('ds-inspector-tabs', props.className)}
+        data-ds-inspector-host=""
+      >
+        <DsTabs
+          label={props.label}
+          items={props.items}
+          activeId={props.activeId}
+          onChange={props.onChange}
+          size={props.size}
+          variant="inspector"
+          idPrefix={props.id}
+        />
+        <div className="ds-inspector-tabs__panels">
+          {props.items.map((item) => (
+            <div
+              key={item.id}
+              id={`${props.id}-panel-${item.id}`}
+              className="ds-inspector-tabs__panel"
+              role="tabpanel"
+              aria-labelledby={`${props.id}-tab-${item.id}`}
+              tabIndex={0}
+              hidden={item.id !== props.activeId}
+            >
+              {item.panel}
+            </div>
+          ))}
+        </div>
+      </section>
+    </DsInspectorContext.Provider>
   )
 }

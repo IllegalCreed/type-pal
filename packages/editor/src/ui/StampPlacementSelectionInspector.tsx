@@ -8,7 +8,13 @@ import { useMemo } from 'react'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import type { GridPointRef, StampGroupCellSelection, VisualSlotRef } from '../core/map-selection.js'
 import { buildStampPlacementIndex } from '../core/stamp-ownership.js'
-import { DsButton, DsNumberInput, DsPressable } from './design-system/index.js'
+import {
+  DsButton,
+  DsNumberInput,
+  DsPressable,
+  DsPropertyGrid,
+  DsPropertyRow,
+} from './design-system/index.js'
 import { MapContentSelectionPreview } from './MapContentSelectionPreview.js'
 
 export interface StampPlacementSelectionInspectorProps {
@@ -164,22 +170,19 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
         <div className="section stamp-group-summary">
           <h4>{single?.sourceStampName ?? (single ? '未命名放置组' : '多组选择')}</h4>
           {single ? (
-            <>
-              <div className="field">
-                <span className="field-label">组 ID</span>
+            <DsPropertyGrid>
+              <DsPropertyRow label="组 ID">
                 <code title={single.id}>{single.id}</code>
-              </div>
-              <div className="field">
-                <span className="field-label">锚点</span>
+              </DsPropertyRow>
+              <DsPropertyRow label="锚点">
                 <span className="mono">
                   r{single.anchor.row}:c{single.anchor.col}
                 </span>
-              </div>
-              <div className="field">
-                <span className="field-label">来源</span>
+              </DsPropertyRow>
+              <DsPropertyRow label="来源">
                 <span title={single.sourceStampId}>{single.sourceStampId ?? '来源模板已删除'}</span>
-              </div>
-            </>
+              </DsPropertyRow>
+            </DsPropertyGrid>
           ) : null}
           <div className="stamp-group-layer-list">
             {[...layerCounts].map(([layerId, count]) => {
@@ -269,12 +272,13 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
       </div>
       <div className="section stamp-group-edit-summary">
         <h4>当前层成员</h4>
-        <div className="field">
-          <span className="field-label">视觉</span>
-          <span>
-            当前层选中 {activeVisual.length} 个（整组 {editing.visualSlots.length} 个）
-          </span>
-        </div>
+        <DsPropertyGrid>
+          <DsPropertyRow label="视觉">
+            <span>
+              当前层选中 {activeVisual.length} 个（整组 {editing.visualSlots.length} 个）
+            </span>
+          </DsPropertyRow>
+        </DsPropertyGrid>
         <p>
           选择工具可在组内单选或框选成员；切换活动层不会把修改传播到其他层。Ctrl/⌘+A 恢复全组选中。
         </p>
@@ -286,52 +290,54 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
       </div>
       <div className="section stamp-group-edit-fields">
         <h4>视觉成员</h4>
-        <div className="field map-selection-field">
-          <span className="field-label">tileId</span>
-          <DsNumberInput
-            key={`group-tile:${editing.id}:${activeLayerId}:${mixedValue(activeTiles)}`}
-            min={0}
-            defaultValue={mixedValue(activeTiles)}
-            placeholder={activeTiles.length ? '混合' : '本层无成员'}
-            disabled={activeReadOnly || activeVisual.length === 0}
-            aria-label="组内当前层 tileId"
-            onBlur={(event) => {
-              const value = parseNonNegative(event.currentTarget.value, 'tileId')
-              if (value === undefined) return
-              edit(
-                {
-                  visual: activeVisual.map((ref) => ({ channel: 'tileId', ref, value })),
-                  collision: [],
-                },
-                `组内当前层瓦片设为 #${value}`,
-              )
-            }}
-            onKeyDown={(event) => event.key === 'Enter' && event.currentTarget.blur()}
-          />
-        </div>
-        <div className="field map-selection-field">
-          <span className="field-label">高度</span>
-          <DsNumberInput
-            key={`group-height:${editing.id}:${activeLayerId}:${mixedValue(activeHeights)}`}
-            min={0}
-            defaultValue={mixedValue(activeHeights)}
-            placeholder={activeHeights.length ? '混合' : '无高度成员'}
-            disabled={activeReadOnly || activeHeights.length === 0}
-            aria-label="组内当前层实例高度"
-            onBlur={(event) => {
-              const value = parseNonNegative(event.currentTarget.value, '高度')
-              if (value === undefined) return
-              edit(
-                {
-                  visual: activeVisual.map((ref) => ({ channel: 'height', ref, value })),
-                  collision: [],
-                },
-                `组内当前层高度设为 ${value}`,
-              )
-            }}
-            onKeyDown={(event) => event.key === 'Enter' && event.currentTarget.blur()}
-          />
-        </div>
+        <DsPropertyGrid>
+          <DsPropertyRow label="tileId" labelFor={`stamp-group-${editing.id}-tile`}>
+            <DsNumberInput
+              id={`stamp-group-${editing.id}-tile`}
+              key={`group-tile:${editing.id}:${activeLayerId}:${mixedValue(activeTiles)}`}
+              min={0}
+              defaultValue={mixedValue(activeTiles)}
+              placeholder={activeTiles.length ? '混合' : '本层无成员'}
+              disabled={activeReadOnly || activeVisual.length === 0}
+              aria-label="组内当前层 tileId"
+              onBlur={(event) => {
+                const value = parseNonNegative(event.currentTarget.value, 'tileId')
+                if (value === undefined) return
+                edit(
+                  {
+                    visual: activeVisual.map((ref) => ({ channel: 'tileId', ref, value })),
+                    collision: [],
+                  },
+                  `组内当前层瓦片设为 #${value}`,
+                )
+              }}
+              onKeyDown={(event) => event.key === 'Enter' && event.currentTarget.blur()}
+            />
+          </DsPropertyRow>
+          <DsPropertyRow label="高度" labelFor={`stamp-group-${editing.id}-height`}>
+            <DsNumberInput
+              id={`stamp-group-${editing.id}-height`}
+              key={`group-height:${editing.id}:${activeLayerId}:${mixedValue(activeHeights)}`}
+              min={0}
+              defaultValue={mixedValue(activeHeights)}
+              placeholder={activeHeights.length ? '混合' : '无高度成员'}
+              disabled={activeReadOnly || activeHeights.length === 0}
+              aria-label="组内当前层实例高度"
+              onBlur={(event) => {
+                const value = parseNonNegative(event.currentTarget.value, '高度')
+                if (value === undefined) return
+                edit(
+                  {
+                    visual: activeVisual.map((ref) => ({ channel: 'height', ref, value })),
+                    collision: [],
+                  },
+                  `组内当前层高度设为 ${value}`,
+                )
+              }}
+              onKeyDown={(event) => event.key === 'Enter' && event.currentTarget.blur()}
+            />
+          </DsPropertyRow>
+        </DsPropertyGrid>
         <DsButton
           className="map-inline-action"
           disabled={
@@ -362,29 +368,31 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
             选中 {selectedGridPoints.length}/{editing.gridPoints.length} · 值 0 仍属于组
           </span>
         </h4>
-        <div className="field map-selection-field">
-          <span className="field-label">collision</span>
-          <DsNumberInput
-            key={`group-collision:${editing.id}:${mixedValue(collisionValues)}`}
-            min={0}
-            defaultValue={mixedValue(collisionValues)}
-            placeholder={collisionValues.length ? '混合' : '无成员'}
-            disabled={collisionReadOnly || selectedGridPoints.length === 0}
-            aria-label="组内碰撞值"
-            onBlur={(event) => {
-              const value = parseNonNegative(event.currentTarget.value, 'collision')
-              if (value === undefined) return
-              edit(
-                {
-                  visual: [],
-                  collision: selectedGridPoints.map((ref) => ({ ref, value })),
-                },
-                `组内碰撞设为 ${value}`,
-              )
-            }}
-            onKeyDown={(event) => event.key === 'Enter' && event.currentTarget.blur()}
-          />
-        </div>
+        <DsPropertyGrid>
+          <DsPropertyRow label="collision" labelFor={`stamp-group-${editing.id}-collision`}>
+            <DsNumberInput
+              id={`stamp-group-${editing.id}-collision`}
+              key={`group-collision:${editing.id}:${mixedValue(collisionValues)}`}
+              min={0}
+              defaultValue={mixedValue(collisionValues)}
+              placeholder={collisionValues.length ? '混合' : '无成员'}
+              disabled={collisionReadOnly || selectedGridPoints.length === 0}
+              aria-label="组内碰撞值"
+              onBlur={(event) => {
+                const value = parseNonNegative(event.currentTarget.value, 'collision')
+                if (value === undefined) return
+                edit(
+                  {
+                    visual: [],
+                    collision: selectedGridPoints.map((ref) => ({ ref, value })),
+                  },
+                  `组内碰撞设为 ${value}`,
+                )
+              }}
+              onKeyDown={(event) => event.key === 'Enter' && event.currentTarget.blur()}
+            />
+          </DsPropertyRow>
+        </DsPropertyGrid>
         <DsButton
           className="map-inline-action"
           disabled={collisionReadOnly || selectedGridPoints.length === 0}

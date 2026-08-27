@@ -72,7 +72,10 @@ import {
   DsDraftTextArea,
   DsDraftTextInput,
   DsFileInput,
+  DsField,
+  DsFieldGroup,
   DsIconButton,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
@@ -357,33 +360,40 @@ function EquipEffectFields(props: {
       )
     case 'battleSprite':
       return (
-        <div className="item-battle-sprite-map">
+        <DsFieldGroup className="item-battle-sprite-map">
           {equipableBy.map((actorId) => {
             const actor = actors.find((candidate) => candidate.id === actorId)
             const value = e.byActor[actorId]
             return (
-              <div className="item-battle-sprite-row" key={actorId}>
-                <span>{actor ? lookupText(actor.name, locale) : actorId}</span>
-                <BattleSpritePicker
-                  value={value}
-                  definitions={battleSprites}
-                  kind="player-fighter"
-                  allowUnset
-                  unsetLabel="不覆写"
-                  ariaLabel={`${actor ? lookupText(actor.name, locale) : actorId}的战斗形象覆写`}
-                  onChange={(sprite) => {
-                    const byActor = { ...e.byActor }
-                    if (sprite) byActor[actorId] = sprite
-                    else delete byActor[actorId]
-                    on({ ...e, byActor })
-                  }}
-                  onOpenDefinition={onOpenBattleSprite}
-                />
-              </div>
+              <DsField
+                id={`item-battle-sprite-${actorId}`}
+                className="item-battle-sprite-row"
+                key={actorId}
+                label={actor ? lookupText(actor.name, locale) : actorId}
+              >
+                {(field) => (
+                  <BattleSpritePicker
+                    id={field.id}
+                    value={value}
+                    definitions={battleSprites}
+                    kind="player-fighter"
+                    allowUnset
+                    unsetLabel="不覆写"
+                    ariaLabel={`${actor ? lookupText(actor.name, locale) : actorId}的战斗形象覆写`}
+                    onChange={(sprite) => {
+                      const byActor = { ...e.byActor }
+                      if (sprite) byActor[actorId] = sprite
+                      else delete byActor[actorId]
+                      on({ ...e, byActor })
+                    }}
+                    onOpenDefinition={onOpenBattleSprite}
+                  />
+                )}
+              </DsField>
             )
           })}
           {!equipableBy.length ? <span className="hint2">请先勾选至少一个可装备角色。</span> : null}
-        </div>
+        </DsFieldGroup>
       )
     default:
       return <span className="hint2 item-effect-no-params">(无参数)</span>
@@ -1788,17 +1798,22 @@ export function ItemTab(props: {
               >
                 {item.use ? (
                   <div className="item-capability-body">
-                    <div className="item-sound-row">
-                      <span>使用音效</span>
-                      <SoundPicker
-                        value={item.use.sound}
-                        onChange={(sound) => patch({ use: withSound(item.use!, sound) })}
-                        catalog={assetCatalog}
-                        reader={assetReader}
-                        allowUnset
-                        onOpenAsset={onOpenSound}
-                      />
-                    </div>
+                    <DsFieldGroup>
+                      <DsField id="item-use-sound" label="使用音效" className="item-sound-row">
+                        {(field) => (
+                          <SoundPicker
+                            id={field.id}
+                            value={item.use!.sound}
+                            onChange={(sound) => patch({ use: withSound(item.use!, sound) })}
+                            catalog={assetCatalog}
+                            reader={assetReader}
+                            allowUnset
+                            ariaLabel="使用音效"
+                            onOpenAsset={onOpenSound}
+                          />
+                        )}
+                      </DsField>
+                    </DsFieldGroup>
                     <div className="item-script-authoring">
                       {confirmScriptReplaceId === item.id ? (
                         <div className="item-script-replace-confirm" role="alert">
@@ -1873,17 +1888,22 @@ export function ItemTab(props: {
               >
                 {item.throw ? (
                   <div className="item-capability-body">
-                    <div className="item-sound-row">
-                      <span>投掷音效</span>
-                      <SoundPicker
-                        value={item.throw.sound}
-                        onChange={(sound) => patch({ throw: withSound(item.throw!, sound) })}
-                        catalog={assetCatalog}
-                        reader={assetReader}
-                        allowUnset
-                        onOpenAsset={onOpenSound}
-                      />
-                    </div>
+                    <DsFieldGroup>
+                      <DsField id="item-throw-sound" label="投掷音效" className="item-sound-row">
+                        {(field) => (
+                          <SoundPicker
+                            id={field.id}
+                            value={item.throw!.sound}
+                            onChange={(sound) => patch({ throw: withSound(item.throw!, sound) })}
+                            catalog={assetCatalog}
+                            reader={assetReader}
+                            allowUnset
+                            ariaLabel="投掷音效"
+                            onOpenAsset={onOpenSound}
+                          />
+                        )}
+                      </DsField>
+                    </DsFieldGroup>
                     <div className="item-throw-presentation">
                       <div className="item-effect-subhead">
                         <strong>法术特效演出</strong>
@@ -1968,7 +1988,7 @@ export function ItemTab(props: {
         )}
       </div>
 
-      <aside className="inspector inspector--tabbed item-inspector">
+      <DsInspectorHost as="aside" className="inspector inspector--tabbed item-inspector">
         <div className="insp-head">
           <div className="what">物品</div>
           <div className="who">{item?.name ?? '未选择'}</div>
@@ -2126,7 +2146,7 @@ export function ItemTab(props: {
             ]}
           />
         )}
-      </aside>
+      </DsInspectorHost>
     </>
   )
 }

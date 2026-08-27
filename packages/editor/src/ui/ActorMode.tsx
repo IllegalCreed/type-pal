@@ -55,6 +55,7 @@ import {
 } from './design-system/controls.js'
 import {
   DsCatalogRow,
+  DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
@@ -1148,7 +1149,7 @@ function ActorInspector(props: {
           : ('loading' as const)
 
   return (
-    <aside className="inspector inspector--tabbed actor-summary-panel">
+    <DsInspectorHost as="aside" className="inspector inspector--tabbed actor-summary-panel">
       <div className="insp-head actor-summary-head">
         <div className="what">角色</div>
         <div className="who">{props.displayName}</div>
@@ -1271,7 +1272,7 @@ function ActorInspector(props: {
       ) : (
         <div className="insp-empty">无角色</div>
       )}
-    </aside>
+    </DsInspectorHost>
   )
 }
 
