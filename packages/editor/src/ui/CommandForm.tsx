@@ -1332,6 +1332,7 @@ export function CommandForm(props: {
           </DsReorderCollection>
           <Row label="">
             <DsButton
+              data-ds-add-picker-deferred="story/set-party-members-append-default"
               size="compact"
               variant="secondary"
               icon="add"

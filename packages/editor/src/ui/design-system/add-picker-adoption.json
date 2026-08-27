@@ -1,0 +1,153 @@
+{
+  "version": 1,
+  "baseline": {
+    "included": 4,
+    "deferredOwners": 7,
+    "includedDataPaths": 4,
+    "deferredDataPaths": 9
+  },
+  "included": [
+    {
+      "adoptionId": "project/startup-party",
+      "source": "ProjectWorkbenchTab.tsx",
+      "owner": "StartWorldFields",
+      "dataPaths": ["manifest.entryPoints[*].startWorld.party"],
+      "candidateOwner": "live actors with battler",
+      "mutationOwner": "SetStartupEntriesCommand",
+      "callsiteFingerprint": "7254fed9a0e239e5",
+      "verification": {
+        "file": "ui/ProjectWorkbenchTab.test.tsx",
+        "marker": "[add-picker:project/startup-party]"
+      }
+    },
+    {
+      "adoptionId": "project/startup-inventory",
+      "source": "ProjectWorkbenchTab.tsx",
+      "owner": "StartWorldFields",
+      "dataPaths": ["manifest.entryPoints[*].startWorld.inventory"],
+      "candidateOwner": "live items",
+      "mutationOwner": "SetStartupEntriesCommand",
+      "callsiteFingerprint": "f88c257df77cc641",
+      "verification": {
+        "file": "ui/ProjectWorkbenchTab.test.tsx",
+        "marker": "[add-picker:project/startup-inventory]"
+      }
+    },
+    {
+      "adoptionId": "project/startup-resource",
+      "source": "ProjectWorkbenchTab.tsx",
+      "owner": "StartWorldFields",
+      "dataPaths": ["manifest.entryPoints[*].startWorld.resources"],
+      "candidateOwner": "deriveStartWorldResourceCandidates(live items)",
+      "mutationOwner": "SetStartupEntriesCommand",
+      "callsiteFingerprint": "e949f9ce7602cd09",
+      "verification": {
+        "file": "ui/ProjectWorkbenchTab.test.tsx",
+        "marker": "[add-picker:project/startup-resource]"
+      }
+    },
+    {
+      "adoptionId": "shop/stock",
+      "source": "ShopTab.tsx",
+      "owner": "ShopTab",
+      "dataPaths": ["shops[*].items"],
+      "candidateOwner": "live items",
+      "mutationOwner": "UpdateShopCommand",
+      "callsiteFingerprint": "0fbb1082407ac448",
+      "verification": {
+        "file": "ui/ShopTab.test.tsx",
+        "marker": "[add-picker:shop/stock]"
+      }
+    }
+  ],
+  "deferred": [
+    {
+      "adoptionId": "item/item-amount-append-default",
+      "source": "ItemUseEffectEditor.tsx",
+      "owner": "ItemAmountList",
+      "dataPaths": [
+        "items[*].use.effects[kind=craftRecipe].recipes[*].ingredients",
+        "items[*].use.effects[kind=craftRecipe].recipes[*].products",
+        "items[*].use.effects[kind=drawFromResourcePool].rewards"
+      ],
+      "candidateOwner": "live items",
+      "mutationOwner": "ItemUseEffectEditor.onChange -> UpdateItemCommand",
+      "actionFingerprint": "20f60e55192bdf08",
+      "reason": "同一共享 owner 服务三条物品数量路径，待下一切片一次迁移并统一数量草稿合同。",
+      "removalCondition": "三条路径全部消费 DsAddPickerDialog 且对应业务测试与静态清单同步后删除。",
+      "verification": ["ui/ItemUseEffectEditor.test.tsx"]
+    },
+    {
+      "adoptionId": "actor/initial-magic-append-default",
+      "source": "ActorMode.tsx",
+      "owner": "ActorInitialMagicEditor",
+      "dataPaths": ["actors[*].battler.initialMagic"],
+      "candidateOwner": "live skills",
+      "mutationOwner": "UpdateActorCommand",
+      "actionFingerprint": "79113119254dc80f",
+      "reason": "角色初始仙术仍按首个未使用技能直接追加，留待角色编辑器专属迁移切片。",
+      "removalCondition": "初始仙术新增改用 DsAddPickerDialog 并补齐确认、撤销与焦点集成测试后删除。",
+      "verification": ["ui/ActorMode.test.tsx"]
+    },
+    {
+      "adoptionId": "story/set-party-members-append-default",
+      "source": "CommandForm.tsx",
+      "owner": "SetPartyCommandForm",
+      "dataPaths": ["scripts[*].commands[kind=setParty].members"],
+      "candidateOwner": "live battlers",
+      "mutationOwner": "CommandForm.onChange -> script draft owner",
+      "actionFingerprint": "5ba3d16cb2238d61",
+      "reason": "脚本命令表单仍直接挑选首个未使用战斗角色，需结合脚本草稿 owner 单独迁移。",
+      "removalCondition": "setParty 成员新增改用 DsAddPickerDialog 且脚本草稿提交边界测试通过后删除。",
+      "verification": ["ui/CommandForm.current-characterization.test.tsx"]
+    },
+    {
+      "adoptionId": "skill/cost-items-append-default",
+      "source": "SkillTab.tsx",
+      "owner": "SkillCostItemsEditor",
+      "dataPaths": ["skills[*].cost.items"],
+      "candidateOwner": "live items",
+      "mutationOwner": "UpdateSkillCommand",
+      "actionFingerprint": "f4d14d2e79a0626d",
+      "reason": "技能消耗物品仍直接追加首个未使用物品，待技能成本编辑器迁移切片处理。",
+      "removalCondition": "消耗物品新增改用 DsAddPickerDialog 并保留数量与单命令测试后删除。",
+      "verification": ["ui/SkillTab.test.tsx"]
+    },
+    {
+      "adoptionId": "actor/level-up-skill-append-default",
+      "source": "LevelingEditor.tsx",
+      "owner": "LevelingEditor",
+      "dataPaths": ["levelUp[actorId]"],
+      "candidateOwner": "live skill ids",
+      "mutationOwner": "UpdateLevelUpCommand",
+      "actionFingerprint": "6bdbe120e1354ee9",
+      "reason": "升级学技能行同时生成等级与技能默认值，需在专属迁移中冻结复合确认语义。",
+      "removalCondition": "新增升级技能行改用 DsAddPickerDialog 且等级默认值与撤销测试通过后删除。",
+      "verification": ["ui/LevelingEditor.test.tsx"]
+    },
+    {
+      "adoptionId": "asset/sprite-step-sound-cue-append-default",
+      "source": "SpriteActionEditor.tsx",
+      "owner": "SpriteStepSoundCueEditor",
+      "dataPaths": ["sprites[*].poses[*].steps[*].cues"],
+      "candidateOwner": "live sound assets",
+      "mutationOwner": "UpdateSpriteCommand",
+      "actionFingerprint": "5189d9e899442c4b",
+      "reason": "精灵步骤音效仍直接使用资源目录首项，待资产选择器迁移切片统一处理。",
+      "removalCondition": "音效 cue 新增改用 DsAddPickerDialog 且资源失效与排序测试通过后删除。",
+      "verification": ["ui/SpriteActionEditor.test.tsx"]
+    },
+    {
+      "adoptionId": "item/craft-recipe-append-default",
+      "source": "ItemUseEffectEditor.tsx",
+      "owner": "RecipeEditor",
+      "dataPaths": ["items[*].use.effects[kind=craftRecipe].recipes"],
+      "candidateOwner": "live ingredient and product items",
+      "mutationOwner": "ItemUseEffectEditor.onChange -> UpdateItemCommand",
+      "actionFingerprint": "92860ac2e9198ea0",
+      "reason": "配方新增同时消费材料与产物两个候选库，不能与单候选追加草率合并。",
+      "removalCondition": "复合候选确认交互冻结并迁移到共享 picker 合同且配方测试通过后删除。",
+      "verification": ["ui/ItemUseEffectEditor.test.tsx"]
+    }
+  ]
+}

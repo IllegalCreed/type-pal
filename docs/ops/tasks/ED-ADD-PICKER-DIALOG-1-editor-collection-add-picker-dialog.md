@@ -1,6 +1,6 @@
 # ED-ADD-PICKER-DIALOG-1 - 编辑器候选对象添加弹窗统一
 
-Status: blocked（2026-08-27 第三次 production census 证实 RecipeEditor 为第 7 个 deferred owner；4+6 签字失效，等待 Kimi / GLM 对 4+7 增量重签）
+Status: done（2026-08-28 Codex + Kimi + GLM accept 与用户验收齐，整卡收口）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -112,7 +112,7 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
   文件**。公共 WIP 原样保留、尚未迁移业务页；Kimi / GLM 只需增量直读 RecipeEditor 与 4+7 分类，无须重审
   已冻结的 Dialog 公共 API。
 
-#### 4+7 当前分类 registry（docs 真源；待 Kimi / GLM 增量重签后冻结并机械落 JSON gate）
+#### 4+7 当前分类 registry（docs 真源；三方增量重签齐，已冻结，待机械落 JSON gate）
 
 | 分类 | Adoption ID / owner | 数据路径 / 默认值 | 当前理由 | 删除条件 |
 |---|---|---|---|---|
@@ -341,6 +341,25 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
     ③ItemAmountList 三条 data path（ingredients/products/rewards）逐条写清；
     ④included 仍为原定四个迁移面，未借 census 更正扩面。机器 census 纪律（JSX 关联 + first*/[0]
     live registry 首项信号 + 排除项解释）已写入卡内，作为恢复 build 后 registry gate 的口径。
+  - premise: **reverified（2026-08-27 4+7 增量，独立直读 RecipeEditor 全链，非复述 Codex）**。
+    ①`ItemUseEffectEditor.tsx:510-529` 实锤：“添加配方”取 `ingredientItems[0]?.id`（live 材料候选，
+    consuming 时经 `:819` 的 `excludedIngredientItemId` 排除当前物品）与 `items[0]?.id`，立即向
+    `recipes` 追加 `{ingredients:[{itemId,count:1}], products:[{itemId,count:1}]}`——一次生成两类
+    live 引用的复合行。②与 ItemAmountList 是不同 owner 实锤：ItemAmountList 只向已有 recipe 的
+    ingredients/products 或 drawFromResourcePool.rewards 追加单个 ItemAmount（:492-503,862-868），
+    RecipeEditor（:423-432）追加的是带顺序语义的整个 `ItemRecipe`；不能并入已登记条目。
+    ③owner 链全链核实：RecipeEditor.onChange → `EffectFields` craftRecipe 分支（:813-821）→
+    `patchEffects`（:1092-1129，含 compatibleChain 上下文约束）→ `ItemEffectChainEditor.onChange`
+    （ItemTab.tsx:1833-1849）→ `patchUse` → `session.dispatch(new UpdateItemCommand(selId, next))`
+    （ItemTab.tsx:995-1000）——registry 的 `UpdateItemCommand` owner、数据路径
+    `items[*].use.effects[kind=craftRecipe].recipes`、deferred 理由（复合创建无法由单选 picker 表达 +
+    consuming 排除不变式）与删除条件全部准确。④included 仍为原定四面（Startup 三处 + shop stock），
+    第 7 处只登记 deferred、不扩面；卡面 98 TSX 复扫未见第 8 个的排除边界（固定 schema 行/创建向导/
+    文件/单 optional 引用）与本人抽查一致。
+  - design: **agree（2026-08-27 4+7 增量）**。接受 **4 included + 7 deferred** 基线；
+    `item/craft-recipe-append-default` 按同一 owner/理由/删除条件纪律登记；复合配方创建（双候选/
+    分步确认、默认数量、当前物品排除、配方顺序事务）留待后续独立卡冻结后迁移，本卡不把复合配方
+    塞进单选 picker。公共 Dialog API 与 KA1-KA5/AP1-AP3 钉继续有效。
 - GLM:
   - premise: **verified（2026-08-27，本人一手读码 + 独立机器 census，非代理）**：
     1. **Startup 三处现状实锤**：`DsInlineComposer` 全库生产消费恰 3 处——队员 :906 / 道具 :1079 /
@@ -444,6 +463,41 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
     `first*`/`[0]` 信号族，禁单行动词 grep）——本席 counter 的方法教训已落地。
   - design: **agree（4+6 counter 条件已满足）**。AP1-AP3 / KA1-KA5 全部继续有效；AP1 的
     census 命中清单按 4+6 冻结表执行。本席条件满足、counter 关闭；门禁仅待 Kimi 同样转正。
+  （4+6 转正按前提门规则因 RecipeEditor 漏项失效，仅作历史记录。）
+- GLM 4+7 增量重签（2026-08-27 第三次 census 更正；只审 RecipeEditor 与 4+7 分类，不重审公共 API）：
+  - premise: **verified（2026-08-27，本人一手直读完整代码链 + 多行追加复扫，非代理）**：
+    1. **“添加配方”复合追加属实**：`ItemUseEffectEditor.tsx:510-529` 按钮从 live
+       `ingredientItems[0]?.id`（`:432` 过滤 `excludedIngredientItemId`——`:813-821` consuming 时
+       传入 `props.subjectItemId`，即“材料排除当前物品”不变式）与 `items[0]?.id` 各取首项，立即向
+       `recipes` 追加 `{ingredients:[{itemId,count:1}], products:[{itemId,count:1}]}`——材料、
+       产物各 count=1 的整条复合 `ItemRecipe`，属实。
+    2. **与 ItemAmountList 确为不同 owner**：RecipeEditor（`:423-444`）追加**整个有序配方**（自有
+       `DsReorderCollection adoptionId="item/craft-recipes"` `:447-449`，顺序语义）；ItemAmountList
+       （`:291-419`）只向已有 recipe 的 `ingredients`/`products` 或资源 `rewards` 追加单个
+       `ItemAmount`。前者一次生成材料+产物两类 live 引用，后者单引用追加——不可合并登记。
+    3. **UpdateItemCommand 链属实**：RecipeEditor `onChange` → EffectFields `:820` →
+       `patchEffects`（`:1092-1117`，含 compatibleChain 校验与 target 派生）→ ItemTab
+       `patchUse`（`:1001`）→ `session.dispatch(new UpdateItemCommand(selId, next))`
+       （`:995-999`；`:1833-1849` 为 use 槽挂接点）——registry 的 owner/路径
+       `items[*].use.effects[kind=craftRecipe].recipes` 准确；deferred 理由（复合创建、单选 picker
+       无法表达、consuming 排除）与删除条件（后续卡冻结双候选/分步确认、默认数量、consuming 排除、
+       配方顺序事务并三签）均与代码事实一致。
+    4. **本卡范围未变**：included 仍恰四处（Startup 队员/道具/资源 + Shop stock），配方创建
+       只登记 deferred，未塞进单选 picker。
+    5. **闭合复扫（本席第三信号族）**：本席前两轮漏 SkillTab/LevelingEditor（单行动词 grep）与
+       本轮 RecipeEditor 的根因同族——recipe 追加是多行形态（`:519-524` 的 `[`、`...recipes,`、
+       `{` 分行），单行正则 `\[...x, {` 漏网。本席已改用**多行感知正则** `\[\s*\.\.\.(\w+),\s*\{`
+       （DOTALL）复扫全 UI：命中 10 处全部落位——5 处已在 registry（inventory:1111 included、
+       ItemAmountList:399、RecipeEditor:519、LevelingEditor:109、SkillTab:1256），其余为
+       创建/克隆/段插入（EnemyTab:940 规则、PoisonTab:236 回合、PWT:1445/:1461 入口新建与克隆、
+       ScriptEditor:3808 stage 插入）——**未见第 8 个候选追加 owner**。卡面“添加效果固定
+       healHp/fixedDamage 类型行不消费 live registry”的 exclusion 带失效条件，纪律正确。
+    6. **census 方法最终教训**：三次漏项（动词 grep → 追加模式单行 → 多行形态）证明只有 AST/JSX
+       解析可闭合；registry 末尾的机器 census 纪律（JSX button↔handler + 追加形态 + `first*`/
+       `[0]` 信号）必须包含多行追加形态，JSON gate 落地时不得再以任何行式正则作全量证明。
+  - design: **agree（2026-08-27，4+7）**。`item/craft-recipe-append-default` 为第 7 个 deferred，
+  理由/删除条件准确；AP1-AP3 / KA1-KA5 继续有效，AP1 命中清单按 4+7 冻结表执行。本席签字不代签
+  Kimi；三签恢复前 build 保持 blocked。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
   - 审查者: GLM（2026-08-27，独立机器 census + 逐锚点直读，见 GLM 签节 AP1-AP3 与可证伪观察①-③；
     小候选场景核验：资源 adder 0-2 候选时按设计不渲染触发器/走空态，1-3 候选走 dialog 与现 inline
@@ -457,29 +511,96 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
     floating-layer.tsx:20-32；multi-select.tsx:6-40；primitives.css:1548-1552,1675-1679；
     ProjectWorkbenchTab.test.tsx:521-533；projects/pal/content/items.json（234 项两席复数一致）。
   - 可证伪观察: 见 GLM 签节①-③与 Kimi 签节可证伪观察①-④。
-- 当前 4+7 独立反证审查: pending；Kimi / GLM 至少一席必须直接读取 `RecipeEditor` 的候选、append 与
-  `UpdateItemCommand` 链，并说明何种观察会推翻“它是独立第 7 owner”。历史 4+6 独立审查不能替代本轮。
-- counter / 分歧处理: 4+6 签字在第 7 owner 被一手证据证实后自动失效；尚无 Kimi / GLM 对 4+7 的新 counter，
-  但两席增量重签前同样不得恢复 build。
+- 当前 4+7 独立反证审查: **Kimi（2026-08-27）已完成**——独立直读 `RecipeEditor` 的候选
+  （`ingredientItems[0]`/`items[0]`，consuming 排除经 `:819`）、复合 append（`:510-529`）与完整
+  `UpdateItemCommand` 链（EffectFields :813-821 → patchEffects :1092-1129 → patchUse →
+  `UpdateItemCommand` :995-1000）。可推翻“独立第 7 owner”的观察：若 RecipeEditor 实际只是
+  ItemAmountList 的一个调用方或追加的是单个 ItemAmount，则应并入既有条目——直读确认它追加的是
+  整个有序 `ItemRecipe`（材料+产物两类 live 引用同次生成），独立成立。
+- counter / 分歧处理: 4+6 签字在第 7 owner 被一手证据证实后自动失效；Kimi 与 GLM 对 4+7 均签
+  verified + agree，无新 counter。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（2026-08-27，等待 4+7 增量重签）**。历史：原 Codex + Kimi（KA1-KA5）+
+- build 准入结论: **allowed（2026-08-27，4+7 冻结基线）**。历史：原 Codex + Kimi（KA1-KA5）+
   GLM（AP1-AP3）三签在 4+3 census 前提下曾放行；独立复核先后确认基线应为 4+5、最终为 4+6，按前提
   真值门立即停线。GLM 增量复审 counter 拒绝 4+5 基线（应为 4+6，SpriteActionEditor 同步音效
   :546-560 为第 6 个 append-first-default owner）；Kimi 同席复核一手证据属实后附议。Codex 已完成
   docs-only 4+6 冻结分类表与第 6 处 deferred 登记；GLM 已核验四项条件满足并转正，Kimi 亦核验
   四项条件满足并把 counter 转为 premise verified + design agree（SpriteActionEditor
   UpdateSpriteCommand 代码链 :9,144-149 直读复核）。该次 4+6 build 曾恢复。第三次复扫现已确认
-  `RecipeEditor` 为第 7 个 deferred owner，Codex 已更正 4+7 表并再次停线；**Kimi + GLM 对 4+7
-  premise verified + design agree 写回前，禁止修改实现或机械落 registry。** KA1-KA5 / AP1-AP3 钉继续有效。
+  `RecipeEditor` 为第 7 个 deferred owner，Codex 已更正 4+7 表并再次停线；**Kimi + GLM 已对 4+7
+  增量重签 premise verified + design agree（Kimi 直读完整 RecipeEditor→UpdateItemCommand 链；
+  GLM 同席复核）。Codex + Kimi + GLM 三席在 4+7 冻结基线上签字齐，build 恢复；KA1-KA5 / AP1-AP3
+  钉继续有效；included 仍限定原定四个迁移面。**
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
+- Codex: **accept（2026-08-28 rich-row 返工）**。独立复核四个 included adapter 与公共固定行：初始队员按
+  `face -> portraits.default` 使用真实角色媒体，显示稳定 ActorId、当前/最大 HP/MP 与等级；初始道具和 Shop
+  复用 `ImageAssetThumbnail` 的 `ItemData.icon -> AssetCatalog -> EditorAssetReader` 读取链，分别显示用途说明 +
+  能力标签 / 买价；无图项用明确“无图/缺图”文本，不补 emoji；世界资源没有一等媒体，保持无 leading 并显示
+  真实使用方与抽取语义。公共第二行改为稳定 ID 固定可见、detail 单独截断；disabled reason 取代 detail，仍严格
+  两行 / 60px，不破坏虚拟偏移。focused 4 files / 73 tests、最终 editor check 165 files / 1314 tests、DS gate
+  88 files / 3 evidence exceptions、474 modules build 全过；真实 PAL 234 初始道具、225 Shop 与 5 个队员候选在
+  1280 / 720 / 高缩放等效窄宽下无行横溢出，14 行有界挂载，footer 可见，console error 0。
+- Kimi: accept（2026-08-28，独立直读公共层与 adapter 边界 + 聚焦复跑，非代理）。按我域六项：
+  - **Dialog 生命周期 ✓（KA1）**：`DsDialog` 实例唯一 titleId/descriptionId + `aria-describedby`
+    （overlays.tsx:195-207）、`aria-modal`/`aria-busy`、dismissible 门控、controlled native cancel；
+    `useDialogState` 持 showModal/close/焦点捕获与 rAF 归还（fallbackFocusRef → trigger）。
+    overlays.test.tsx 生命周期专项在位并复跑通过。
+  - **分层 Escape ✓（KA2）**：搜索框首层 Escape 只收起结果并清选择（add-picker.tsx:243-252），
+    第二层关闭弹窗；busy 期 Escape 被 dismissible=false 阻断；取消/×/关闭均零命令。
+  - **焦点归还 ✓**：post-confirm 关闭走 DsDialog 既有 rAF 焦点归还到 opener；外部 resync
+    （revision/scopeKey/readOnly/options 可用性）关闭并重置 draft（:116-126），stale selection
+    在候选消失/禁用/过滤掉时清除（:128-140）——旧焦点与旧选择都不会串到下一对象。
+  - **唯一滚动 owner + 尺寸 ✓（KA3）**：dialog `min(680px,100vw-32px) × min(640px,100vh-32px)`
+    viewport 钳制，body `overflow:hidden` + flex column（primitives.css:1595-1606），结果区
+    `DsVirtualListbox` 为唯一纵向滚动面；listbox/option/`aria-selected`/`aria-activedescendant`
+    语义在位（virtual-list.tsx:378-458），active 行纳入 overscan；60px 固定行与 80 阈值未改。
+  - **确认事务 ✓（KA4）**：未选择/loading/error/readOnly 确认禁用；`submittingRef` + busy 防
+    双击/重复 Enter；确认前按最新候选重校验（:142-150）；异步完成后以 cycle 判过期；失败保留
+    dialog + 邻近 error，成功才关闭——取消面零命令、确认面恰一次 adapter。
+  - **registry/adapter 边界 ✓（KA5）**：4 included adapter（Startup 三处 + Shop stock）保持原
+    领域 command owner 与默认值（actor id / count=1 / value=0 / UpdateShopCommand），复合配方等
+    7 deferred 未混入；add-picker-adoption.json + 静态 gate 复跑通过。
+  - 聚焦复跑：add-picker/add-picker-adoption/overlays/ProjectWorkbenchTab/ShopTab/boundary
+    6 文件 122/122 全绿；editor 全量 165/1314 采纳卡内记录未重复。
+- GLM: **accept（2026-08-28，只读终审，本人一手直读 + 独立复跑聚焦测试；GLM 分工面：registry/静态
+  census/性能矩阵/四 adapter 命令与默认值；Kimi 已先行签公共层/焦点/滚动面，两席证据互补不重叠）**：
+  1. **4+7 registry 落地精确**：`add-picker-adoption.json` baseline {included:4, deferredOwners:7,
+     includedDataPaths:4, deferredDataPaths:9}——included 四条（startup-party/inventory/resource、
+     shop/stock，各带 dataPaths 与 command owner）；deferred 七条与 4+7 冻结 docs 表逐条一致，
+     ItemAmountList 三条 data path（ingredients/products/rewards）在 JSON 中分别登记（9 = 3 + 6），
+     非模糊条目。
+  2. **静态 census 为 AST 而非行式 grep**：`add-picker-adoption.test.ts:88/:226` 用
+     `ts.createSourceFile` 解析生产 TSX，信号族 = action tags（button/DsButton/DsIconButton/
+     DsPressable）+ onClick + spread + `[\s*0\s*]|.at(0)|.find(|first[A-Z]`（:78-81）——本席在
+     4+7 增量中钉的“三次漏项根因均为行式正则、gate 必须含多行追加形态”教训已按约落地；
+     :251 绑定全部公共 owner 与全部 deferred live-candidate append 到 reviewed evidence、
+     :361 对隐藏 owner 与未登记 append fail-closed。
+  3. **性能矩阵**：`add-picker.test.tsx:207-222` test.each **[0,1,8,79,80,81,234,500]**——
+     `<=80` 断言全量挂载（mounted === count），`>80` 断言 `0 < mounted <= 16`（可见+overscan
+     预算；79/80/81 钉住阈值边界）；:185 另有 option ≤16 有界断言。PAL 真实证据（Codex）：
+     234 项挂载 14 行、Shop 225 项 14 行、150%/200% 等效视口 13 行/136px active 可见——与
+     DS-C.4e “>80 挂载不得超过可见+overscan”一致。
+  4. **四 adapter 单命令 + 默认值**（全部一手直读）：party `addParty`
+     （ProjectWorkbenchTab:686-691，对最新 addable 集重校验后恰一次
+     `patch({party:[...party, actor.id]})`，仅追加 actor id、不触碰 seedStats——“队员不恢复
+     已清理 seed 覆盖”保持）；inventory `addInventoryItem`（:745-750，stale-guard +
+     `{itemId, count:1}`）；resource `addResource`（:751-756，stale-guard +
+     `patchResource(key, 0)`）；Shop onConfirm（ShopTab:165-178，从 `session.getState().shops`
+     重读 latest shop 防跨 revision 脏写，already-includes/存在性双 guard，恰一条
+     `UpdateShopCommand`）。命令 owner 全部未变（SetStartupEntriesCommand/UpdateShopCommand），
+     无 schema/runtime 改动。
+  5. **DS-C.4e 合同对照**：单选+明确确认、取消/Escape/scope/revision/unmount 零命令、stale
+     重校验、busy guard、80 阈值虚拟化、60px 两行/38px 媒体框/固定稳定 ID、分层 Escape、唯一
+     滚动 owner、embedded empty state、4+7 冻结 + AST census——逐条与实现/测试对上。
+  6. **独立复跑**：`add-picker.test.tsx + add-picker-adoption.test.ts + ProjectWorkbenchTab.test.tsx
+     + ShopTab.test.tsx` → **4 files / 73 tests passed**（本席独立执行，与 Codex 数字一致）。
+  - 无返工项。未修改实现文件，未代签 Kimi。
+- counter / 返工处理: N/A（两席均 accept，无分歧）
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **通过——Codex + Kimi + GLM 三方 accept 齐、用户验收已通过（“非常完美”），
+  2026-08-28 整卡收口 done。**
 
 ## Draft: 设计与风险
 
@@ -513,49 +634,144 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
 ### 主审立场
 
 - Reviewer: Kimi（公共接口、弹窗 / overlay / focus / UX）；GLM 负责 census、测试矩阵与性能覆盖。
-- 结论: **4+6 历史 agree；当前 4+7 build blocked**。RecipeEditor 新证据使旧 premise 签字失效；
-  KA1-KA5 / AP1-AP3 继续有效，无须重审公共 API，但 Kimi / GLM 必须增量核新 owner 与分类。
+- 结论: **4+6 历史 agree；当前 4+7 build allowed**。RecipeEditor 新证据使旧 premise 签字失效后，
+  Kimi / GLM 已分别独立增量核新 owner 与分类并转正；KA1-KA5 / AP1-AP3 继续有效。
 - 必改项: KA1 dialog 生命周期补齐、KA2 唯一焦点政策、KA3 唯一滚动面 + listbox 语义、KA4 确认事务
   防护、KA5 分类边界机检；AP1 census registry 全量、AP2 命令计数门禁、AP3 性能/虚拟化测试矩阵。
-- 是否建议进入 build: 否；等待 4+7 增量三签齐后再由 Codex 串行恢复公共层与四个 included surface。
+- 是否建议进入 build: 是；4+7 增量三签齐，由 Codex 串行恢复公共层与四个 included surface。
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（唯一实现修改者；第 7 owner 证实后已停线，当前不得继续改实现）
-- 修改文件: 公共 Add Picker / shared filter / virtual listbox / Dialog lifecycle 及其聚焦测试当前为未提交 WIP；
-  尚未迁移任何业务页面。
-- 实现摘要: 已建立公共 API 草案并补 dialog 唯一 ID、description、scroll lock、异步 close/reopen 与 focus restore；
-  已修复隐藏 selection、editable Space/Home/End、远距 End 程序滚动、全 disabled active descendant、分层 Escape、
-  loading/error resync 与虚拟窗口瞬时空白等公共反例。第三次 census 前尚未迁移任何业务页；当前保留 WIP 并停线。
-- 运行命令: `pnpm --filter @type-pal/editor typecheck` 通过；`add-picker.test.tsx` +
-  `virtual-list.test.tsx` 2 files / 30 tests 通过；公共 focused regression 6 files / 74 tests 通过。
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex（唯一实现修改者；4+7 三方增量重签齐后已恢复 build）
+- 修改文件:
+  - 公共层：`add-picker.tsx`、`collection-search.ts`、`virtual-list.tsx`、`overlays.tsx`、`controls.tsx`、
+    `primitives.css` 及其公共测试 / Design Lab fixture；
+  - 业务层：`add-picker-option-presentation.tsx` 统一真实 item / actor 媒体与用途摘要，`ProjectWorkbenchTab.tsx`
+    三处 Startup collection、`ShopTab.tsx` stock 与 `DataMode.tsx` 资源依赖透传，保持原领域命令 owner；
+  - 门禁 / 文档：`add-picker-adoption.json` + 静态 gate、DS boundary / adoption、v2.13.0 规范与入口设计文档。
+- 实现摘要:
+  - 建立 `DsAddPickerDialog`：dialog-local query / active / selected、明确 footer confirm、busy / stale / IME /
+    revision / scope / readOnly 防护、分层 Escape 与唯一焦点归还；`DsDialog` 补实例唯一 aria id、description、
+    scroll lock 与 controlled native cancel 生命周期。
+  - 抽取共享过滤和 virtual window，冻结 80 项阈值；0 / 1 / 8 / 79 / 80 / 81 / 234 / 500 项、搜索末项、
+    active descendant 与有界挂载均有测试。真实页面视觉检查发现 `fill` listbox 因父级无 definite height 被压成
+    0 高度，现由 viewport-clamped 640px Add Picker dialog height 修复并加静态守卫。
+  - Startup 队伍 / 道具 / 资源及 Shop stock 全部改为标题按钮 -> 搜索弹窗 -> 明确确认；分别保持只追加 actor id、
+    `count=1`、resource `value=0`、最新 shop state + 单条 `UpdateShopCommand`。移除旧 inline composer 与竞争焦点 effect。
+  - 2026-08-28 rich-row 返工没有扩公共 API：新增共享业务 presentation adapter，队员消费 `face` / 默认 portrait
+    与等级、HP/MP；道具 / Shop 消费真实 item icon、精简用途、能力 / 买价；世界资源因不存在 `ResourceDef` / AssetId
+    而明确保持无媒体，只显示使用方和抽取语义。公共 option 第二行改成“固定稳定 ID + 可截断 detail”，尾部至多一个
+    短标签；无图只显示语义文本 fallback，禁止装饰图标。固定 60px 行、38px 媒体框和虚拟化阈值均未改变。
+  - 空集合统一使用 `DsEmptyState layout="embedded"` 在面板正文居中；有候选时提示从右上角添加，无候选时解释原因，
+    不重复标题区 `0 项`。4 included + 7 deferred registry / fingerprint / recursive TSX census 已落静态 gate。
+- 运行命令 / 结果:
+  - 公共 + 业务 focused regression：8 files / 163 tests 通过；视觉返工后 `add-picker.test.tsx` +
+    `boundary.test.ts`：2 files / 68 tests 通过；`git diff --check` 通过。
+  - `pnpm --filter @type-pal/editor audit:design-system`：87 files / 3 个 evidence-bound exceptions，通过。
+  - 首轮全量检查曾暴露 `StampTemplateDialog` controlled native cancel 回归（1 / 1313 失败），修复后最终
+    `pnpm --filter @type-pal/editor check`：165 files / 1313 tests 通过。
+  - `pnpm --filter @type-pal/editor build`：473 modules transformed，生产构建通过；仅保留既有大 chunk warning。
+  - rich-row focused：`add-picker.test.tsx`、`add-picker-adoption.test.ts`、`ProjectWorkbenchTab.test.tsx`、
+    `ShopTab.test.tsx` 共 4 files / 73 tests 通过；第一次返工全量只发现新增 production adapter 令静态扫描计数
+    87 -> 88（功能 1313 条均通过），同步机械基线后最终 `pnpm --filter @type-pal/editor check` 为 165 files /
+    1314 tests 全过；`audit:design-system` 为 88 files / 3 evidence-bound exceptions；build 474 modules；
+    `git diff --check` 通过。
+- 浏览器 / 手工检查: 见下方视觉验证记录；真实 PAL 初始道具、商店上架、空态、搜索 / 选择 / 分层 Escape / 焦点、
+  footer、滚动、窄宽度和 console 均已验证。
+- 跳过的检查及原因: in-app browser 不暴露物理 zoom 控件；以 853×600 / 640×450 CSS viewport 分别等效覆盖
+  1280×900 的 150% / 200% 布局。字体栅格级物理缩放未单独截图，不影响已验证的 CSS 断点、滚动和焦点合同。
 
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: 本地 Vite + in-app Chromium，真实 `VITE_PROJECT_ID=pal`；原流程检查 1280×900、720×900、1280×720、
+  853×600（150% 等效）与 640×450（200% 等效）。读取 DOM / computed geometry 并截图，覆盖空态、234 项
+  初始道具、225 项 Shop stock、搜索 `294`、选中后确认可用、两层 Escape、focus return 与 console。rich-row
+  返工另在 1280×900、720×900 与 360px 高缩放等效宽度检查真实缩略图、ID 可见、次级截断与单尾标签。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: `/tmp/type-pal-ed-add-picker-empty-state.png`；
+  `/tmp/type-pal-ed-add-picker-dialog.png`；rich-row 证据
+  `/tmp/type-pal-ed-add-picker-rich-items-1280.png`、`/tmp/type-pal-ed-add-picker-rich-items-720.png`、
+  `/tmp/type-pal-ed-add-picker-rich-actors-720.png`、`/tmp/type-pal-ed-add-picker-rich-shop-720.png`
+  （临时本机证据，不进入 Git）。
+- 结论: **通过**。embedded empty state 高 112px、正文水平 / 垂直居中；1280 / 720 下 Add Picker listbox
+  clientHeight 358px、234 项仅挂载 14 行，150% 等效为 286px / 13 行，200% 等效为 136px 且 active option
+  仍在可视列表内；footer 始终在 viewport 内、dialog 自身无横向溢出、body scroll lock 生效。Shop 225 项同样
+  为 358px / 14 行。真实按键第一次 Escape 收起 results、第二次关闭并把焦点还给“添加道具”；console error 0。
+- rich-row 结论: **通过**。真实 PAL 初始道具 234 项与 Shop 可上架 225 项均为 14 行有界挂载，233 个现有 item
+  icon 走统一 reader；可见行保持 60px virtual item / 38px 缩略图，稳定 ID 在 detail 前且不会被长说明截掉，
+  720px 与 360px 高缩放等效宽度的行 `scrollWidth === clientWidth`、footer 可见。队员弹窗 5 / 5 候选使用真实
+  face / portrait，无 fallback；等级与 HP/MP 可读。世界资源条件 fixture 证明不伪造资源图片。console error 0。
+- 未完成项: 物理浏览器 150% / 200% 字体栅格截图未单独保存；布局等效视口已覆盖。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: **accept / done**。用户反馈的“名称 + ID 信息过空”已按四个领域真值修复，公共两行 / ID /
+  截断合同同时补齐；Kimi 独立核公共层、焦点与滚动面，GLM 独立核 registry、性能矩阵与四 adapter，均无返工项。
+- 必须返工项: 无。
+- Accept / rework: Codex + Kimi + GLM **accept**；用户验收通过，整卡 done。
 
 ## 用户验收
 
-- 用户结论: 2026-08-27 用户提出并批准单独开卡设计“按钮 -> 弹窗选择 -> 确认添加”；尚未验收实现。
-- 后续任务: 串行前置满足，但 4+6 census 已被第 7 owner 推翻；等待 Kimi + GLM 对 4+7 增量重签。签齐后
-  Codex 才恢复公共层、机械 registry 和四个 included 业务迁移，完成自测与功能视觉验证后再交 done 前审查。
+- 用户结论: 2026-08-27 用户提出并批准“按钮 -> 弹窗选择 -> 确认添加”和正文居中 empty state；随后反馈
+  “候选 item 只有名称 + ID 太空，其他几个也应补缩略图或更直观的关键信息”。2026-08-28 Codex 已完成返工，
+  用户复验后明确评价“非常完美”，**rich-row 用户验收通过**。
+- 后续任务: 无；整卡已完成。提交仍须按任务边界单独收口，不与其他在途卡混提。
 
 ## 交接日志
+
+- 2026-08-28 Codex: 核对任务卡实际记录，确认 Kimi / GLM 均已写入独立 accept；结合 Codex accept 与用户
+  验收，done 门禁完整通过。任务卡与看板收口为 done；未在本步骤修改实现、提交或推送。
+
+- 2026-08-28 GLM: done 前只读终审完成并签 accept。GLM 分工面全验：4+7 registry JSON 精确
+  （deferredDataPaths=9 含 ItemAmountList 三路径分别登记）、静态 census 为 TS AST（本席 4+7 增量
+  钉的多行追加纪律落地）、性能矩阵 test.each 0-500 含 79/80/81 阈值边界与 ≤16 有界挂载、四 adapter
+  单命令+默认值（actor id/count=1/value=0/shop latest-state 重读）全部一手直读；聚焦复跑
+  4 files / 73 tests 独立通过。核验发现 Kimi 已同窗口签 accept（公共层/焦点/滚动面），两席互补；
+  三方 accept + 用户验收齐，done 门禁 ready。未修改实现，未代签。
+
+- 2026-08-28 Kimi done 前终审: 独立直读 DsAddPickerDialog 公共层（触发器/ draft cycle/外部 resync/
+  busy 防护/分层 Escape/焦点归还）与 DsDialog 生命周期（实例唯一 id、aria-describedby、modal/busy、
+  native cancel）、DsVirtualListbox 语义与 dialog 尺寸钳制；四 adapter 保持原 command owner 与默认值。
+  聚焦 6 文件 122/122 复跑全绿（含 overlays 生命周期专项）。签 **accept**。未修改实现，未代签 GLM。
+  Next: GLM accept 后收口（用户已验收）。
+
+- 2026-08-28 User: 复验四类 included picker 的 rich-row 后明确评价“非常完美”，用户验收通过；任务保持
+  review，仅等待 Kimi / GLM done 前独立终审，不提前标记 done。
+
+- 2026-08-28 Codex: 完成用户要求的四个 included rich-row 返工。三份独立只读审计一致确认公共 option 槽已足够、
+  PAL 234 item 中 233 有真实 icon、队员可由 face -> portrait 全覆盖、世界资源不存在独立媒体模型。实现复用
+  `ImageAssetThumbnail` 与现有 reader，不扩 schema / command / 4+7 范围；固定 ID + 可截断 detail 修正窄宽信息
+  层级，disabled reason 保持两行。focused 4 / 73、最终 165 / 1314、DS gate 88 / 3、build 474 modules；真实
+  PAL 初始道具 / Shop / 队员在 1280 / 720 / 高缩放等效宽度视觉通过、console 0。卡恢复 review，Codex accept，
+  等待 Kimi / GLM 与用户验收（用户已于同日后续复验通过）。
+
+- 2026-08-27 User + Codex: 用户检查真实 234 项道具弹窗后指出候选行仅“名称 + ID”信息过空，并要求其他
+  picker 举一反三。该反馈命中原设计已冻结的 optional media / type / status 槽，不改变 single-select、confirm、
+  schema、命令或 4+7 范围，因此 build 设计签字继续有效；卡从 review 退回 rework，Codex 原 accept 失效。
+  实现前先审计 Startup party / inventory / resource 与 Shop stock 可用真值和现有缩略图 owner，禁止用装饰图标填空。
+
+- 2026-08-27 User + Codex: 用户明确“按钮弹窗添加后需要 empty 占位，通常放在面板中央”。Codex 将其落为
+  公共 `DsEmptyState layout="embedded"`，迁移 Startup party / inventory / resource 与 Shop stock；随后完成
+  4+7 registry、公共 dialog / virtual owner 与四个业务 adapter。真实 PAL 视觉检查先发现 234 项 listbox 被
+  压成 0 高度，修为 viewport-clamped definite dialog height；又发现原生 search input 吞掉第二层 Escape，改为
+  picker 显式关闭并回 opener。最终 165 files / 1313 tests、DS gate、build、1280 / 720 / 150% / 200% 等效
+  视觉与 console 均通过。卡转 review，等待 Kimi / GLM done 前终审。
+
+- 2026-08-27 Kimi 4+7 增量重签: 独立直读 RecipeEditor 全链（:510-529 复合 append →
+  EffectFields :813-821 → patchEffects :1092-1129 → patchUse → UpdateItemCommand :995-1000），
+  确认第 7 owner 独立成立（整个有序 ItemRecipe vs ItemAmountList 的单个 ItemAmount）且 registry
+  四项要素准确；included 仍限定原定四面。签 premise verified + design agree，完成 4+7 独立反证。
+  未修改实现，未代签 GLM。三席 4+7 签字齐，准入恢复 allowed。
+
+- 2026-08-27 GLM: 完成 4+7 第三次 census 更正增量复审并签 premise verified + design agree。
+  RecipeEditor“添加配方”复合追加（材料 ingredientItems[0] 排除当前物品 + 产物 items[0] 各 count=1，
+  :510-529）、与 ItemAmountList 的 owner 区别（整条有序 ItemRecipe vs 单 ItemAmount）、
+  UpdateItemCommand 完整链（:820→:1092-1117→ItemTab :1001→:995-999）全部一手验证；registry 条目
+  owner/路径/理由/删除条件与代码一致；included 仍恰四处。本席多行感知复扫（前两轮漏项根因均为
+  行式正则）10 命中全落位、未见第 8 个。未修改实现，未代签 Kimi，未重审公共 API。
 
 - 2026-08-27 Codex: 用户再次表示“签了”后先核任务卡与生产代码；在准备机械落 4+6 registry 时发现
   `RecipeEditor` “添加配方”是独立 append-first-default owner。本人直读候选、复合 append 与
@@ -670,7 +886,7 @@ premise verified + design agree，或指出仍缺的具体字段。不得修改�
 两席转签齐前不得恢复 build；签齐后 Codex 才修绿公共回归、机械落 4+6 JSON registry，并迁移原定四个 included surface。
 ```
 
-## 下一位 Agent 提示词（2026-08-27 4+7 第三次更正，当前有效）
+## 下一位 Agent 提示词（2026-08-27 4+7 第三次更正，历史）
 
 ```text
 增量复审 ED-ADD-PICKER-DIALOG-1 的第 7 个 deferred owner；不要重审已冻结的 Dialog 公共 API。
@@ -696,3 +912,44 @@ premise verified + design agree，或指出仍缺的具体字段。不得修改�
 premise verified + 独立 file:line 证据及 design agree；若不认同则签 counter 并写最小返工。
 两席都转正前不得恢复 build；签齐后 Codex 才机械落 4+7 registry、继续公共层与原定四个 included surface。
 ```
+
+## 下一位 Agent 提示词（2026-08-28 rich-row 返工后 done 前联合终审，历史）
+
+```text
+联合终审 ED-ADD-PICKER-DIALOG-1；实现已完成，当前只做 done 前只读审查并分别写回 accept / counter。
+任务卡：docs/ops/tasks/ED-ADD-PICKER-DIALOG-1-editor-collection-add-picker-dialog.md
+当前状态：review。Codex 是唯一 Coding Owner，已 self-review accept；Kimi / GLM done 签字 pending，签齐前不得 done。
+
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡，以及
+docs/phase2/editor/editor-design-system-v1.md 的 DS-C.4e。重点实现：
+- packages/editor/src/ui/design-system/add-picker.tsx、collection-search.ts、virtual-list.tsx、overlays.tsx、controls.tsx、primitives.css
+- packages/editor/src/ui/ProjectWorkbenchTab.tsx、ShopTab.tsx 及两份业务测试
+- packages/editor/src/ui/design-system/add-picker-adoption.json、add-picker-adoption.test.ts、boundary.test.ts
+
+2026-08-28 rich-row 返工：四个 included picker 已补语义媒体 / 关键次级信息。队员使用 face -> 默认 portrait、
+稳定 ActorId + 等级 + 当前/最大 HP/MP；初始道具和 Shop 复用真实 item icon，显示用途 + 能力 / 买价；世界资源
+没有独立媒体，保持无 leading 并显示真实使用方 / 抽取语义。公共行现在固定 ID 可见、detail 单独截断、尾部至多
+一个短标签，disabled reason 仍严格两行；无图只用“无图/缺图”文本，禁止 emoji / 伪媒体。
+
+已验证证据：原 focused 8 files / 163 tests；rich-row focused 4 files / 73 tests；最终 editor check 165 files /
+1314 tests；audit:design-system 88 files / 3 evidence-bound exceptions；build 474 modules；真实 PAL 234 项初始
+道具、225 项商店候选仅挂载 14 行，5 个队员候选全部真实头像。1280 / 720 / 高缩放等效窄宽 footer 固定、候选行
+无横溢出、稳定 ID 可见、console 0。临时截图：/tmp/type-pal-ed-add-picker-rich-items-1280.png、
+/tmp/type-pal-ed-add-picker-rich-items-720.png、/tmp/type-pal-ed-add-picker-rich-actors-720.png、
+/tmp/type-pal-ed-add-picker-rich-shop-720.png（另保留原 empty/dialog 证据）。
+
+Kimi：重点核 KA1-KA5——Dialog controlled/native 生命周期、搜索输入第二层 Escape、唯一 focus / scroll owner、
+viewport-clamped definite height、busy/stale/IME 防双提，以及真实截图中的 empty state / header action / footer。
+GLM：重点核 AP1-AP3——4 included + 7 deferred registry / fingerprint / recursive census 是否闭合；0/1/8/79/80/
+81/234/500 性能矩阵；四个 business adapter 是否分别保持 actor id、count=1、resource=0、最新 shop state 与恰一命令。
+两席都需增量检查 rich-row：媒体是否来自真实语义资产、无媒体族是否没有伪图、ID / detail / trailing 在 60px 固定行
+中是否不换行不裁关键身份；这只是 done 终审，不重开 build 设计签字。
+
+不要修改实现文件，不要代签另一席，不要重开已完成旧卡。若发现问题，签 counter 并给具体 file:line、复现和最小
+返工；若通过，各自在“进入 done 前：审查签字”写 accept 与独立证据，并同步 Review 结论。两席 accept 齐前不得
+标记 done、提交或推送；完成当前阶段后给用户一段可直接复制的下一位提示词。
+```
+
+## 下一位 Agent 提示词（2026-08-28 收口，当前有效）
+
+无下一位 Agent 提示词；本卡三方 accept 与用户验收齐，已收口 done。等待按任务边界单独提交。

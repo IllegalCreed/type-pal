@@ -100,6 +100,7 @@ describe('editor design-system static boundary', () => {
 
   test('keeps inline composer density, repeat rows, and bounded number fields on public recipes', () => {
     const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
+    const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
     const tokens = readFileSync(join(here, 'tokens.css'), 'utf8')
     const index = readFileSync(join(here, 'index.ts'), 'utf8')
     const project = readFileSync(join(here, '..', 'ProjectWorkbenchTab.tsx'), 'utf8')
@@ -132,7 +133,8 @@ describe('editor design-system static boundary', () => {
     )
     expect(tokens).toContain('--ds-field-measure-short-number: 10rem;')
 
-    expect(project.match(/<DsInlineComposer\b/g)).toHaveLength(3)
+    expect(project.match(/<DsInlineComposer\b/g) ?? []).toHaveLength(0)
+    expect(project.match(/<DsAddPickerDialog\b/g)).toHaveLength(3)
     expect(project.match(/<DsRepeatRow\b/g)).toHaveLength(5)
     expect(project).toMatch(
       /className="project-inventory-actions"[\s\S]*?<DsReorderMoveButton[\s\S]*?<DsReorderMoveButton[\s\S]*?<DsIconButton/,
@@ -155,13 +157,21 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
     const startup = adoption.pages.find((page) => page.registry === 'project/startup')
-    expect(startup?.owners.field).toContain('DsInlineComposer')
+    expect(startup?.owners.field).toContain('DsAddPickerDialog')
     expect(startup?.owners.field).toContain('DsRepeatRow')
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.12.0'")
-    expect(tokens).toContain('--ds-version: "2.12.0";')
-    expect(specification).toContain('Status: implemented v2.12.0')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.13.0'")
+    expect(tokens).toContain('--ds-version: "2.13.0";')
+    expect(specification).toContain('Status: implemented v2.13.0')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
+    expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
+    expect(primitives).toMatch(
+      /\.ds-add-picker-dialog \.ds-overlay__body\s*\{[\s\S]*?overflow:\s*hidden;/,
+    )
+    expect(primitives).toMatch(
+      /\.ds-add-picker-dialog\s*\{[\s\S]*?height:\s*min\(640px,\s*calc\(100vh - 32px\)\);/,
+    )
+    expect(primitives).toMatch(/\.ds-virtual-list\s*\{[\s\S]*?overflow:\s*auto;/)
   })
 
   test('keeps the scene shell checkboxes on the shared component', () => {

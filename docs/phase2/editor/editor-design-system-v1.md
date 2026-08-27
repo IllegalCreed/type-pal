@@ -1,8 +1,8 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.12.0 shared ordered-collection reorder contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.13.0 shared candidate add picker contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -181,8 +181,9 @@ Last updated: 2026-08-27
 - 普通控件高度 `36px`，紧凑表格控件 `30px`，tab/工具条不得低于 `40px`。
 - 同一属性行中的输入、选择器和尾部文字动作必须使用同一尺寸档并保持同高；`compact` 只能由整行、表格或工具条的
   明确密度上下文统一启用，业务页不得只缩小其中一个按钮。状态徽标不属于可操作控件，可保持自身紧凑尺寸。
-- “一个主控件 + 一个尾部文字动作”的新增/绑定行必须使用 `DsInlineComposer`，并只在 recipe 父级选择一次
-  `default | compact`；control/action 槽显式传 `size` 属于门禁违规，即使传入值与父级相同也不允许。
+- 自由文本、短高频操作或明确的“输入/选择后立即执行”可以使用 `DsInlineComposer`，并只在 recipe 父级选择一次
+  `default | compact`；从 live 既有对象库选择候选并追加到集合时必须使用 `DsAddPickerDialog`，不得常驻宽 select +
+  action。control/action 槽显式传 `size` 属于门禁违规，即使传入值与父级相同也不允许。
 - 有序、可删除的表单项使用 `DsRepeatRow` 持有统一 density、边框和节奏，领域页只声明列语义；短数值字段使用
   `DsFieldMeasure measure="short-number"`，不得随宽卡无限拉伸。
 - 仅图标按钮可视尺寸至少 `32×32px`；密集桌面工具条命中区域至少 `32×32px`。
@@ -480,6 +481,37 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   完整旧序、redo 一次恢复新序。字段 blur/IME、popup、选择、多选和资源拖入不得因排序而误提交或串项。
 - Design Lab `RF-21` 固定覆盖 default/compact、普通/catalog/fixed-slot/nested/timeline、disabled、empty、single、
   52 项长名称与真实滚动 owner；真实工程仍须在窄宽和 100%～200% 缩放验证边界、焦点、滚动和单步撤销。
+
+#### DS-C.4e 候选对象添加弹窗（v2.13.0）
+
+- “live 既有对象库 → 向集合追加、选择前不写 canonical”由 `DsAddPickerDialog` 统一持有；标题区只保留紧凑添加
+  动作，弹窗正文直接显示搜索与 single-select listbox，不在 modal 内再嵌套 `DsSelect`。自由输入、编辑已有引用和
+  创建默认行后再编辑不机械迁移，分类真源为 `add-picker-adoption.json`。
+- 公共 API 必须提供静态 `adoptionId`、`scopeKey`、外部 `revision`、stable option id、loading/error/readOnly 与
+  一次性 `onConfirm(id)` adapter。query、active 与 selected 都是 dialog-local draft；取消、关闭、分层 Escape、
+  scope/revision/对象切换、undo/redo、readOnly 和 unmount 都产生零命令且清空 draft。
+- 候选点击或 Enter 只更新 selected；footer 明确确认才允许调用一次 adapter。确认前必须以最新过滤后 addable 集
+  重校验，隐藏、移除或 disabled 的 stale selection 不得提交；busy guard 必须防双击、双 Enter、IME Enter 与重复
+  pointerup。adapter 返回 `false` 或抛错时 dialog 留在原位并显示邻近错误。
+- 搜索覆盖主名称、稳定 ID 与领域次级信息，并复用 `filterDsCollection`。结果使用共享 virtual window；集合大小
+  `<=80` 全量挂载，`>80` 虚拟化，234/500 项挂载不得超过可见 + overscan 预算。外部搜索 focus owner 只接管
+  ArrowUp/ArrowDown/Enter，不能吞 Space/Home/End 的文本编辑语义；active descendant 必须始终指向已挂载 option。
+- 候选行固定为 60px / 两行：首行是作者可读主名称，第二行先放不可收缩的稳定 ID，再放可单独 ellipsis 的领域
+  detail；不得把长 description 放在 ID 前导致关键身份先被截掉。disabled reason 取代普通 detail，不能另开第三行
+  破坏虚拟偏移。`leading` 媒体框固定 38px，只允许真实 item icon、actor face / portrait 等能提高选择准确性的语义
+  资产；同一候选族无真实媒体时整体省略，不得补 emoji 或把使用方图片冒充对象自身。无图单项可显示明确“无图 /
+  缺图”状态。`trailing` 至多一个短类型 / 数值标签并保持单行，搜索所需但未显示的说明必须进入 `searchText`。
+- `DsDialog` 持有 native modal、唯一 title/description id、document scroll lock 与焦点归还。结果列表是 dialog 内
+  唯一纵向滚动 owner，footer 固定；第一次 Escape 收起结果层，第二次关闭 dialog。关闭后优先回 opener；若 opener
+  已消失/禁用，则回业务传入的 section 或新行首个非危险 fallback。
+- 标题动作式集合在正式行数为 0 时必须在面板正文使用 `DsEmptyState layout="embedded"` 居中说明，不得只留一片
+  无语义空白，也不得在空态重复标题区已有的 `0 项`。仍有候选时说明从右上角添加；根本没有候选时改为解释原因，
+  不能显示虚假的“可添加”。已有正式行但候选全部用尽时，以邻近状态说明“已全部配置”，且不得移动标题、数量或按钮。
+- v2.13.0 census 冻结为 **4 个 included + 7 个 append-first-default deferred owner**；ItemAmountList 的三条 data
+  path 必须分别登记。静态门禁拒绝 alias、spread、动态 adoptionId、未登记 callsite 与陈旧 fingerprint；census 必须
+  结合 JSX button↔handler、数组追加形态和 `first*`/`[0]` live registry 信号，禁止只靠单行动词 grep。
+- Design Lab `RF-22` 固定覆盖 0/1/234、长名称、active/selected/disabled、all-disabled、搜索、键盘、明确确认与
+  fixed footer；真实 PAL 仍须在 1280/900/720 和 100%/150%/200% 验证 focus、唯一滚动面和零横向溢出。
 
 ### DS-C.5 表单字段
 
@@ -882,6 +914,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-19 | 86 MIDI / 363 WAV 音频工作台，1280/900/720 | 目录有界挂载；仅选中项加载；WAV 标“PCM 波形”、MIDI 标“音符活动”；play/pause/stop/seek、切换停止、loading/error、引用/诊断和无横向溢出通过 | DS-R.2 音频真实性与生命周期合同 |
 | RF-20 | 25 registry 页面 + 标准/紧凑目录行 + allowlist 负例 | registry/DataMode 双向闭合；68/46px 行高、leading 策略、title/meta 截断一致；legacy/raw/static 违规 exit 1，损坏/stale allowlist exit 2，动态几何与 DS 内 file input 不误报 | v2.10 全量采用门禁 |
 | RF-21 | Ordered collection default/compact + catalog/fixed/nested/timeline + disabled/empty/single/52 项长列表 | grip 位于 item 边界内且不占 media leading；insert/swap 实时让位只有一个 indicator，提交无回跳；pointer/keyboard/click 同 owner，nested scope、水平 timeline、真实 scroll owner 与长名称无裁切 | v2.12 排序合同 |
+| RF-22 | Add Picker 0/1/234 + rich-row media/detail/trailing + active/selected/disabled/all-disabled/empty/long | 标题动作稳定；固定 ID + detail 截断、60px 两行 rich row、direct searchable listbox、80 阈值、明确 footer confirm、分层 Escape、single command、唯一滚动与 focus return 通过 | v2.13 候选追加合同 |
 
 ### DS-PERF.1 大列表性能合同（G3）
 

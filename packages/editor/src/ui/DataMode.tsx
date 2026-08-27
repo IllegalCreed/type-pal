@@ -18,8 +18,8 @@ import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import type { EditSession } from '../core/edit-session.js'
-import type { EditorDerivedData } from '../core/editor-derived-contract.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedData } from '../core/editor-derived-contract.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import type { ItemReference } from '../core/item-references.js'
@@ -29,14 +29,14 @@ import type {
   ScriptEditorState,
   ScriptEditSession,
 } from '../core/script-editor.js'
-import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
   mergeEditorProjectionWithCurrentAuthorState,
   projectCurrentAuthorScriptEditorState,
 } from '../core/script-editor-projection.js'
+import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
-import { worldVariableScriptStateFromEditorStateV1 } from '../core/world-variable-references.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
+import { worldVariableScriptStateFromEditorStateV1 } from '../core/world-variable-references.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
@@ -240,10 +240,7 @@ export function DataMode(props: {
       : session.getState()
   const getCurrentScriptState = () =>
     script
-      ? projectCurrentAuthorScriptEditorState(
-          script.session.getStateSnapshot(),
-          session.getState(),
-        )
+      ? projectCurrentAuthorScriptEditorState(script.session.getStateSnapshot(), session.getState())
       : worldVariableScriptStateFromEditorStateV1(session.getState())
   const [spriteDomain, setSpriteDomain] = useState<'world' | 'battle'>(
     () =>
@@ -426,6 +423,8 @@ export function DataMode(props: {
         shops={shops}
         items={itemList}
         session={session}
+        assetCatalog={assetCatalog}
+        assetReader={assetReader}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
         tabBar={tabBar}

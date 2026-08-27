@@ -4,11 +4,18 @@
  * 买价/卖价随物品(items 表 buyPrice/sellPrice),此处只编「这家店卖什么」;
  * 脚本「商店」指令(openShop)按店号引用。
  */
-import type { ItemData, ShopDef } from '@type-pal/content'
-import { useEffect, useMemo, useState } from 'react'
+import type { AssetCatalogV1, ItemData, ShopDef } from '@type-pal/content'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { AddShopCommand, UpdateShopCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsButton, DsListHeader, DsSelectField, DsTag } from './design-system/controls.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import {
+  ItemPickerThumbnail,
+  itemPickerDescription,
+  itemPickerSearchText,
+} from './add-picker-option-presentation.js'
+import { DsAddPickerDialog } from './design-system/add-picker.js'
+import { DsButton, DsEmptyState, DsListHeader, DsTag } from './design-system/controls.js'
 import {
   DsCatalogRow,
   DsInspectorSection,
@@ -20,10 +27,10 @@ import {
 } from './design-system/recipes.js'
 import {
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
   reorderDsItems,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/reorder.js'
 
@@ -33,14 +40,17 @@ export function ShopTab(props: {
   shops: ShopDef[]
   items: ItemData[]
   session: EditSession
+  assetCatalog?: AssetCatalogV1
+  assetReader?: EditorAssetReader
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   tabBar?: React.ReactNode
 }) {
-  const { shops, items, session, focusObjectId, onObjectFocus, tabBar } = props
+  const { shops, items, session, assetCatalog, assetReader, focusObjectId, onObjectFocus, tabBar } =
+    props
   const [selId, setSelId] = useState<number>(shops[0]?.id ?? 0)
-  const [pick, setPick] = useState('')
   const [inspectorTab, setInspectorTab] = useState<ShopInspectorTab>('summary')
+  const stockSectionRef = useRef<HTMLElement>(null)
   const shop = shops.find((x) => x.id === selId) ?? shops[0]
   const stockReorderKeys = useDsReorderKeys(shop?.items ?? [])
   const itemsById = useMemo(() => new Map(items.map((i) => [i.id, i])), [items])
@@ -49,15 +59,17 @@ export function ShopTab(props: {
       items
         .filter((item) => !shop?.items.includes(item.id))
         .map((item) => ({
-          value: item.id,
+          id: item.id,
           label: item.name,
-          description: `${item.id} · 买价 ${item.buyPrice} 文`,
+          description: itemPickerDescription(item),
+          searchText: [...itemPickerSearchText(item), `买价 ${item.buyPrice} 文`],
+          leading: <ItemPickerThumbnail item={item} catalog={assetCatalog} reader={assetReader} />,
+          trailing: <DsTag tone="neutral">买价 {item.buyPrice} 文</DsTag>,
         })),
-    [items, shop?.items],
+    [assetCatalog, assetReader, items, shop?.items],
   )
   const selectShop = (id: number): void => {
     setSelId(id)
-    setPick('')
     onObjectFocus?.(String(id))
   }
 
@@ -65,13 +77,8 @@ export function ShopTab(props: {
     const id = Number(focusObjectId)
     if (focusObjectId && Number.isInteger(id) && shops.some((candidate) => candidate.id === id)) {
       setSelId(id)
-      setPick('')
     }
   }, [focusObjectId, shops])
-
-  useEffect(() => {
-    if (pick && !stockItemOptions.some((option) => option.value === pick)) setPick('')
-  }, [pick, stockItemOptions])
 
   const setItems = (next: string[]): void => {
     if (shop) session.dispatch(new UpdateShopCommand(shop.id, next))
@@ -133,13 +140,43 @@ export function ShopTab(props: {
             />
 
             <div className="shop-main-inner ds-object-workspace__content">
-              <section className="shop-stock-card" aria-labelledby="shop-stock-title">
+              <section
+                ref={stockSectionRef}
+                className="shop-stock-card"
+                aria-labelledby="shop-stock-title"
+                tabIndex={-1}
+              >
                 <header className="shop-card-head">
                   <div>
                     <p className="eyebrow">在售物品</p>
                     <h3 id="shop-stock-title">当前货单</h3>
                   </div>
-                  <span className="shop-card-note">拖动前置手柄，或使用右侧按钮精确调整</span>
+                  <DsAddPickerDialog
+                    adoptionId="shop/stock"
+                    triggerLabel="上架物品"
+                    title="上架物品"
+                    description="搜索物品，确认后加入当前货单；售价继续引用物品定义。"
+                    confirmLabel="上架物品"
+                    options={stockItemOptions}
+                    scopeKey={`shop:${shop.id}:stock`}
+                    revision={session.getHistoryVersion()}
+                    emptyMessage="当前没有可上架的物品。"
+                    fallbackFocusRef={stockSectionRef}
+                    onConfirm={(itemId) => {
+                      const latestShop = session
+                        .getState()
+                        .shops?.find((candidate) => candidate.id === shop.id)
+                      if (
+                        !latestShop ||
+                        latestShop.items.includes(itemId) ||
+                        !itemsById.has(itemId)
+                      )
+                        return false
+                      session.dispatch(
+                        new UpdateShopCommand(latestShop.id, [...latestShop.items, itemId]),
+                      )
+                    }}
+                  />
                 </header>
 
                 <DsReorderCollection
@@ -195,40 +232,16 @@ export function ShopTab(props: {
                       )
                     })}
                     {shop.items.length === 0 ? (
-                      <div className="shop-stock-empty">这家店还没有在售物品。</div>
+                      <DsEmptyState
+                        layout="embedded"
+                        title="暂无在售物品"
+                        description={
+                          items.length > 0 ? '可从右上角上架物品。' : '当前项目没有可上架的物品。'
+                        }
+                      />
                     ) : null}
                   </div>
                 </DsReorderCollection>
-
-                <div className="shop-add-stock">
-                  <DsSelectField
-                    label="上架物品"
-                    value={pick}
-                    placeholder={stockItemOptions.length ? '选择物品…' : '没有可上架物品'}
-                    options={[
-                      {
-                        value: '',
-                        label: stockItemOptions.length ? '选择物品…' : '没有可上架物品',
-                      },
-                      ...stockItemOptions,
-                    ]}
-                    disabled={!stockItemOptions.length}
-                    onValueChange={setPick}
-                  />
-                  <DsButton
-                    variant="primary"
-                    icon="add"
-                    className="shop-add-stock-button"
-                    disabled={!stockItemOptions.some((option) => option.value === pick)}
-                    onClick={() => {
-                      if (!stockItemOptions.some((option) => option.value === pick)) return
-                      setItems([...shop.items, pick])
-                      setPick('')
-                    }}
-                  >
-                    上架
-                  </DsButton>
-                </div>
               </section>
             </div>
           </main>

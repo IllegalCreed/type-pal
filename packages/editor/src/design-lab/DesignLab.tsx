@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import {
   DsActionLink,
+  DsAddPickerDialog,
   DsButton,
   DsCard,
   DsCatalogRow,
@@ -28,6 +29,7 @@ import {
   DsReferencePanel,
   DsReferenceRow,
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
   DsSelect,
@@ -35,6 +37,7 @@ import {
   DsStatus,
   DsSwitch,
   DsTabs,
+  DsTag,
   DsTextArea,
   DsTextInput,
   DsToolbar,
@@ -42,13 +45,13 @@ import {
   DsVirtualList,
   DsWorkbench,
   EDITOR_DESIGN_SYSTEM_VERSION,
-  type DsReorderIntent,
   reorderDsItems,
 } from '../ui/design-system/index.js'
 
 const FIXTURES = [
   ...Array.from({ length: 17 }, (_, index) => `RF-${String(index + 1).padStart(2, '0')}`),
   'RF-21',
+  'RF-22',
 ]
 const FORM_OPTIONS: DsOption[] = [
   { value: 'li-xiaoyao', label: '李逍遥', description: 'li-xiaoyao' },
@@ -895,6 +898,107 @@ function ReorderFixture() {
   )
 }
 
+function AddPickerFixture() {
+  const [revision, setRevision] = useState(0)
+  const [lastAdded, setLastAdded] = useState('尚未确认候选')
+  const manyOptions = useMemo(
+    () =>
+      Array.from({ length: 234 }, (_, index) => {
+        const number = String(index + 1).padStart(3, '0')
+        return {
+          id: `item-${number}`,
+          label:
+            index === 8
+              ? '一件名称很长、需要在候选行中稳定截断但仍能搜索的测试道具'
+              : `测试道具 ${number}`,
+          description: `恢复体力 +${index + 1}`,
+          searchText: `内部编号 ${number}`,
+          leading: (
+            <span
+              className="ds-add-picker-option__thumbnail ds-add-picker-option__thumbnail--empty"
+              role="img"
+              aria-label={`测试道具 ${number} 缩略图`}
+            >
+              图
+            </span>
+          ),
+          trailing: <DsTag tone="neutral">使用</DsTag>,
+          disabledReason: index === 2 ? '已在当前集合中' : undefined,
+        }
+      }),
+    [],
+  )
+  return (
+    <div className="lab-card-grid">
+      <DsCard title="Many · 234 项虚拟化">
+        <p className="lab-card-description">
+          搜索、active、selected、disabled reason 与 footer confirm 共用一个公共 owner。
+        </p>
+        <div className="lab-actions">
+          <DsAddPickerDialog
+            adoptionId="design-lab/add-picker-many"
+            triggerLabel="添加道具"
+            title="添加测试道具"
+            description="搜索名称、稳定 ID 或内部编号，选择后明确确认。"
+            confirmLabel="添加道具"
+            options={manyOptions}
+            scopeKey="design-lab:many"
+            revision={revision}
+            onConfirm={(id) => {
+              setLastAdded(id)
+              setRevision((current) => current + 1)
+            }}
+          />
+          <DsStatus tone="neutral">最近确认：{lastAdded}</DsStatus>
+        </div>
+      </DsCard>
+      <DsCard title="One / all-disabled / empty">
+        <div className="lab-stack">
+          <DsAddPickerDialog
+            adoptionId="design-lab/add-picker-one"
+            triggerLabel="添加唯一候选"
+            title="添加唯一候选"
+            confirmLabel="确认添加"
+            options={[{ id: 'only-option', label: '唯一候选', description: 'only-option' }]}
+            scopeKey="design-lab:one"
+            revision={0}
+            onConfirm={() => undefined}
+          />
+          <DsAddPickerDialog
+            adoptionId="design-lab/add-picker-disabled"
+            triggerLabel="查看不可添加项"
+            title="当前不可添加"
+            confirmLabel="确认添加"
+            options={[
+              {
+                id: 'already-used',
+                label: '已使用候选',
+                description: 'already-used',
+                disabledReason: '已在当前集合中',
+              },
+            ]}
+            scopeKey="design-lab:disabled"
+            revision={0}
+            onConfirm={() => undefined}
+          />
+          <DsAddPickerDialog
+            adoptionId="design-lab/add-picker-empty"
+            triggerLabel="添加候选"
+            title="空候选"
+            confirmLabel="确认添加"
+            options={[]}
+            emptyMessage="当前没有可添加的候选。"
+            scopeKey="design-lab:empty"
+            revision={0}
+            onConfirm={() => undefined}
+          />
+          <DsEmptyState layout="embedded" title="暂无初始道具" description="可从右上角添加道具。" />
+        </div>
+      </DsCard>
+    </div>
+  )
+}
+
 function FixtureBody(props: { fixture: string }) {
   switch (props.fixture) {
     case 'RF-01':
@@ -948,6 +1052,8 @@ function FixtureBody(props: { fixture: string }) {
       return <DiagnosticFixture />
     case 'RF-21':
       return <ReorderFixture />
+    case 'RF-22':
+      return <AddPickerFixture />
     default:
       return null
   }
@@ -959,7 +1065,7 @@ export function DesignLab() {
     return (
       <main className="lab-error">
         <DsStatus tone="error" action={<a href="?fixture=RF-01">返回 RF-01</a>}>
-          未知 fixture。请使用 RF-01～RF-17 或 RF-21。
+          未知 fixture。请使用 RF-01～RF-17、RF-21 或 RF-22。
         </DsStatus>
       </main>
     )

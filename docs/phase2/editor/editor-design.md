@@ -232,9 +232,14 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
   三张人话卡说明队伍、金钱、库存、入口、视频与资源健康，并只提供“入口与开局”“全局资源与启动”两个编辑
   目的地；不得常驻显示 scene / role / query 等机器路径。默认入口的场景健康必须消费统一 diagnostics，不能在
   卡片里另写一套场景存在性判断。
-- 开局队伍是有序列表，通过可搜索角色添加器加入并可用 item 内公共手柄、键盘或精确按钮调整顺序、原位移出；
-  初始库存也通过可搜索道具添加器明确选择和排序，不得使用 checkbox 墙或默认添加第一项。队伍、库存、世界资源和当前 HP/MP 每个离散动作只提交一条
-  `SetStartupEntriesCommand`，字段草稿继续服从共享 draft / validate / commit / cancel / resync 合同。角色
+- 开局队伍是有序列表，通过标题右侧的公共添加按钮打开搜索弹窗，选择角色并明确确认；正式 item 可用公共手柄、
+  键盘或精确按钮调整顺序并原位移出。初始库存和初始世界资源使用同一“按钮 → 搜索选择 → 确认”合同，不得常驻
+  宽下拉框、使用 checkbox 墙或默认添加第一项。集合为空时在面板正文居中说明，并根据 live 候选区分“可从右上角
+  添加”与“当前没有可添加对象”，不重复标题区数量。队伍、库存、世界资源和当前 HP/MP 每个离散动作只提交一条
+  `SetStartupEntriesCommand`。候选行必须帮助作者在确认前辨认对象：队员显示真实 face / portrait、稳定 ID、等级
+  与当前/最大 HP/MP；道具显示真实 item icon、稳定 ID、简短用途和能力；世界资源没有独立资产模型，只显示真实
+  使用方与抽取语义，禁止用物品图或装饰图标冒充资源图片。所有候选行保持固定两行，ID 不能被长说明先截掉。
+  字段草稿继续服从共享 draft / validate / commit / cancel / resync 合同。角色
   初始技能仍由 `ActorDef.initialMagic` 唯一持有，入口页不得恢复技能快照。
 - `?module=project&page=entrypoint` 无 object 时定位 `defaultEntryId` 命中的入口；附
   `object=<EntryPoint.id>` 定位指定真实入口。历史

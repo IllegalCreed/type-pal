@@ -1,3 +1,5 @@
+export * from './add-picker.js'
+export * from './collection-search.js'
 export * from './controls.js'
 export * from './icons.js'
 export * from './media.js'
@@ -8,4 +10,4 @@ export * from './recipes.js'
 export * from './reorder.js'
 export * from './virtual-list.js'
 
-export const EDITOR_DESIGN_SYSTEM_VERSION = '2.12.0' as const
+export const EDITOR_DESIGN_SYSTEM_VERSION = '2.13.0' as const

@@ -32,6 +32,14 @@ import {
 } from '../core/project-diagnostics.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
 import {
+  ActorPickerThumbnail,
+  ItemPickerThumbnail,
+  itemAbilitySummary,
+  itemPickerDescription,
+  itemPickerSearchText,
+} from './add-picker-option-presentation.js'
+import {
+  DsAddPickerDialog,
   DsButton,
   DsCard,
   DsCatalogGroupEmpty,
@@ -45,10 +53,10 @@ import {
   DsDraftNumberField,
   DsDraftNumberInput,
   DsDraftTextInput,
+  DsEmptyState,
   DsFieldMeasure,
   DsHelpTip,
   DsIconButton,
-  DsInlineComposer,
   DsListHeader,
   DsObjectHero,
   DsReorderCollection,
@@ -57,7 +65,6 @@ import {
   DsReorderMoveButton,
   DsRepeatRow,
   DsSelect,
-  DsSelectField,
   DsSequenceIndex,
   DsTag,
   DsTextInput,
@@ -593,6 +600,8 @@ export function StartWorldFields(props: {
   actors: ActorDef[]
   items: ItemData[]
   locale: Locale
+  assetCatalog?: AssetCatalogV1
+  assetReader?: EditorAssetReader
   readOnly?: boolean
   draftScope?: string
   syncToken?: number
@@ -603,16 +612,17 @@ export function StartWorldFields(props: {
     actors,
     items,
     locale,
+    assetCatalog,
+    assetReader,
     readOnly = false,
     draftScope = 'startWorld',
     syncToken = 0,
     onChange,
   } = props
-  const [resourceCandidateKey, setResourceCandidateKey] = useState('')
-  const [partyCandidateId, setPartyCandidateId] = useState('')
-  const [inventoryCandidateId, setInventoryCandidateId] = useState('')
   const [announcement, setAnnouncement] = useState('')
   const rootRef = useRef<HTMLDivElement>(null)
+  const partySectionRef = useRef<HTMLElement>(null)
+  const inventorySectionRef = useRef<HTMLElement>(null)
   const partyRemoveRefs = useRef(new Map<string, HTMLButtonElement>())
   const pendingPartyFocusRef = useRef<{ actorId?: string } | undefined>(undefined)
   const resourceSectionRef = useRef<HTMLElement>(null)
@@ -622,16 +632,6 @@ export function StartWorldFields(props: {
   >(undefined)
   const partyReorderKeys = useDsReorderKeys(value.party)
   const inventoryReorderKeys = useDsReorderKeys(value.inventory ?? [])
-  // biome-ignore lint/correctness/useExhaustiveDependencies: external command/object resync clears unfinished party/inventory choices.
-  useEffect(() => {
-    setPartyCandidateId('')
-    setInventoryCandidateId('')
-  }, [draftScope, syncToken])
-  // 保留同一入口的候选选择，使“新增 → undo”能恢复本次选择；切换入口时必须清空。
-  // biome-ignore lint/correctness/useExhaustiveDependencies: draftScope is the object identity boundary for local composer selection.
-  useEffect(() => {
-    setResourceCandidateKey('')
-  }, [draftScope])
   // biome-ignore lint/correctness/useExhaustiveDependencies: live feedback survives same-object commands and resets only on object switch.
   useEffect(() => {
     setAnnouncement('')
@@ -643,7 +643,9 @@ export function StartWorldFields(props: {
     pendingPartyFocusRef.current = undefined
     const target = pending.actorId
       ? partyRemoveRefs.current.get(pending.actorId)
-      : rootRef.current?.querySelector<HTMLButtonElement>('#start-world-party-adder')
+      : rootRef.current?.querySelector<HTMLButtonElement>(
+          '[data-ds-add-picker-adoption="project/startup-party"] button',
+        )
     target?.focus()
   }, [value.party])
   // biome-ignore lint/correctness/useExhaustiveDependencies: a resource command changes the rendered row/composer that receives the requested focus handoff.
@@ -654,10 +656,10 @@ export function StartWorldFields(props: {
     const valueInput = pending.inputKey
       ? resourceValueRefs.current.get(pending.inputKey)
       : undefined
-    const composer = rootRef.current?.querySelector<HTMLButtonElement>(
-      '#start-world-resource-adder',
+    const trigger = rootRef.current?.querySelector<HTMLButtonElement>(
+      '[data-ds-add-picker-adoption="project/startup-resource"] button',
     )
-    const target = valueInput ?? (pending.preferComposer ? composer : undefined) ?? composer
+    const target = valueInput ?? (pending.preferComposer ? trigger : undefined) ?? trigger
     queueMicrotask(() => (target ?? resourceSectionRef.current)?.focus())
   }, [value.resources])
   const patch = (next: Partial<StartWorld>): void => onChange({ ...value, ...next })
@@ -681,23 +683,10 @@ export function StartWorldFields(props: {
   const addableResourceCandidates = resourceCandidates.filter(
     (candidate) => !Object.hasOwn(value.resources ?? {}, candidate.key),
   )
-  const selectedPartyCandidate = addablePartyActors.some((actor) => actor.id === partyCandidateId)
-    ? partyCandidateId
-    : ''
-  const selectedInventoryCandidate = addableItems.some((item) => item.id === inventoryCandidateId)
-    ? inventoryCandidateId
-    : ''
-  const selectedResourceCandidate = addableResourceCandidates.some(
-    (candidate) => candidate.key === resourceCandidateKey,
-  )
-    ? resourceCandidateKey
-    : ''
-  const addParty = (): void => {
-    const actor = addablePartyActors.find((candidate) => candidate.id === selectedPartyCandidate)
-    if (!actor) return
-    pendingPartyFocusRef.current = { actorId: actor.id }
+  const addParty = (actorId: string) => {
+    const actor = addablePartyActors.find((candidate) => candidate.id === actorId)
+    if (!actor) return false
     patch({ party: [...value.party, actor.id] })
-    setPartyCandidateId('')
     setAnnouncement(`已将${lookupText(actor.name, locale)}加入初始队伍。`)
   }
   const removeParty = (id: string): void => {
@@ -753,12 +742,15 @@ export function StartWorldFields(props: {
     else resources[key] = Math.max(0, Math.floor(nextValue))
     patch({ resources: Object.keys(resources).length ? resources : undefined })
   }
-  const addResource = (): void => {
-    const candidate = addableResourceCandidates.find(
-      (candidate) => candidate.key === selectedResourceCandidate,
-    )
-    if (!candidate) return
-    pendingResourceFocusRef.current = { inputKey: candidate.key }
+  const addInventoryItem = (itemId: string) => {
+    const item = addableItems.find((candidate) => candidate.id === itemId)
+    if (!item) return false
+    patch({ inventory: [...inventory, { itemId: item.id, count: 1 }] })
+    setAnnouncement(`已添加初始道具${item.name}。`)
+  }
+  const addResource = (key: string) => {
+    const candidate = addableResourceCandidates.find((candidate) => candidate.key === key)
+    if (!candidate) return false
     patchResource(candidate.key, 0)
     setAnnouncement(`已添加${candidate.label}使用的初始世界资源。`)
   }
@@ -798,13 +790,43 @@ export function StartWorldFields(props: {
         </label>
       </div>
 
-      <section className="project-card">
-        <h4>
-          初始队伍 <span className="b2">（顺序即初始站位）</span>{' '}
-          <DsHelpTip label="初始队伍当前状态">
-            当前 HP/MP 只覆盖这个入口的开局当前值；留空即继承角色定义，最大值仍由角色定义持有。
-          </DsHelpTip>
-        </h4>
+      <section ref={partySectionRef} className="project-card" tabIndex={-1}>
+        <div className="project-title-row">
+          <h4>
+            初始队伍 <span className="b2">（顺序即初始站位）</span>{' '}
+            <DsHelpTip label="初始队伍当前状态">
+              当前 HP/MP 只覆盖这个入口的开局当前值；留空即继承角色定义，最大值仍由角色定义持有。
+            </DsHelpTip>
+          </h4>
+          <DsAddPickerDialog
+            adoptionId="project/startup-party"
+            triggerLabel="添加队员"
+            title="添加初始队员"
+            description="搜索可参战角色，选择后确认加入当前入口的初始队伍。"
+            confirmLabel="加入队伍"
+            options={addablePartyActors.map((actor) => ({
+              id: actor.id,
+              label: lookupText(actor.name, locale),
+              description: `HP ${actor.battler!.baseStats.hp}/${actor.battler!.baseStats.maxHP} · MP ${actor.battler!.baseStats.mp}/${actor.battler!.baseStats.maxMP}`,
+              searchText: [`等级 ${actor.battler!.baseStats.level}`],
+              leading: (
+                <ActorPickerThumbnail
+                  actor={actor}
+                  actorName={lookupText(actor.name, locale)}
+                  catalog={assetCatalog}
+                  reader={assetReader}
+                />
+              ),
+              trailing: <DsTag tone="neutral">等级 {actor.battler!.baseStats.level}</DsTag>,
+            }))}
+            scopeKey={`${draftScope}:party`}
+            revision={syncToken}
+            readOnly={readOnly}
+            emptyMessage="当前没有可加入初始队伍的角色。"
+            fallbackFocusRef={partySectionRef}
+            onConfirm={addParty}
+          />
+        </div>
         <p className="project-card-description">
           每个队员在同一行设置开局当前 HP/MP；留空即继承角色定义的当前值。
         </p>
@@ -900,42 +922,20 @@ export function StartWorldFields(props: {
                 </DsReorderItem>
               )
             })}
-            {value.party.length === 0 ? <PageHint>当前没有队员；请从下方加入。</PageHint> : null}
+            {value.party.length === 0 ? (
+              <DsEmptyState
+                layout="embedded"
+                title="暂无初始队员"
+                description={
+                  partyActors.length > 0 ? '可从右上角添加队员。' : '当前项目没有可参战角色。'
+                }
+              />
+            ) : null}
           </div>
         </DsReorderCollection>
-        <DsInlineComposer
-          density="default"
-          className="project-party-composer"
-          control={
-            <DsSelectField
-              id="start-world-party-adder"
-              label="添加队员"
-              fieldClassName="project-composer-field"
-              aria-label="添加队员"
-              searchable
-              value={selectedPartyCandidate}
-              disabled={readOnly || addablePartyActors.length === 0}
-              placeholder="搜索角色名称或 ID…"
-              options={addablePartyActors.map((actor) => ({
-                value: actor.id,
-                label: lookupText(actor.name, locale),
-                description: actor.id,
-              }))}
-              onValueChange={setPartyCandidateId}
-            />
-          }
-          action={
-            <DsButton
-              disabled={readOnly || !selectedPartyCandidate}
-              onClick={addParty}
-              icon="add"
-              variant="secondary"
-            >
-              加入队伍
-            </DsButton>
-          }
-        />
-        {partyActors.length === 0 ? <PageHint>当前项目没有可参战角色。</PageHint> : null}
+        {partyActors.length === 0 && value.party.length > 0 ? (
+          <PageHint>当前项目没有可参战角色。</PageHint>
+        ) : null}
         {partyActors.length > 0 && addablePartyActors.length === 0 ? (
           <PageHint>所有可参战角色都已在初始队伍中。</PageHint>
         ) : null}
@@ -979,12 +979,40 @@ export function StartWorldFields(props: {
         </span>
       </section>
 
-      <section className="project-card">
+      <section ref={inventorySectionRef} className="project-card" tabIndex={-1}>
         <div className="project-title-row">
           <h4>初始道具</h4>
-          <DsTag aria-label={`初始道具数量：${inventory.length} 项`} tone="neutral">
-            {inventory.length} 项
-          </DsTag>
+          <span className="project-title-actions">
+            <DsTag aria-label={`初始道具数量：${inventory.length} 项`} tone="neutral">
+              {inventory.length} 项
+            </DsTag>
+            <DsAddPickerDialog
+              adoptionId="project/startup-inventory"
+              triggerLabel="添加道具"
+              title="添加初始道具"
+              description="搜索道具并确认加入当前入口的初始库存；新增数量默认为 1。"
+              confirmLabel="添加道具"
+              options={addableItems.map((item) => {
+                const ability = itemAbilitySummary(item)
+                return {
+                  id: item.id,
+                  label: item.name,
+                  description: itemPickerDescription(item),
+                  searchText: itemPickerSearchText(item),
+                  leading: (
+                    <ItemPickerThumbnail item={item} catalog={assetCatalog} reader={assetReader} />
+                  ),
+                  trailing: ability ? <DsTag tone="neutral">{ability}</DsTag> : undefined,
+                }
+              })}
+              scopeKey={`${draftScope}:inventory`}
+              revision={syncToken}
+              readOnly={readOnly}
+              emptyMessage="当前没有可加入初始库存的道具。"
+              fallbackFocusRef={inventorySectionRef}
+              onConfirm={addInventoryItem}
+            />
+          </span>
         </div>
         <DsReorderCollection
           adoptionId="project/startup-inventory"
@@ -1080,45 +1108,15 @@ export function StartWorldFields(props: {
                 </DsReorderItem>
               )
             })}
-            <DsInlineComposer
-              density="default"
-              control={
-                <DsSelectField
-                  id="start-world-inventory-adder"
-                  label="添加道具"
-                  fieldClassName="project-composer-field"
-                  aria-label="添加初始道具"
-                  searchable
-                  value={selectedInventoryCandidate}
-                  disabled={readOnly || addableItems.length === 0}
-                  placeholder="搜索道具名称或 ID…"
-                  options={addableItems.map((item) => ({
-                    value: item.id,
-                    label: item.name,
-                    description: item.id,
-                  }))}
-                  onValueChange={setInventoryCandidateId}
-                />
-              }
-              action={
-                <DsButton
-                  disabled={readOnly || !selectedInventoryCandidate}
-                  onClick={() => {
-                    const item = addableItems.find(
-                      (candidate) => candidate.id === selectedInventoryCandidate,
-                    )
-                    if (!item) return
-                    patch({ inventory: [...inventory, { itemId: item.id, count: 1 }] })
-                    setInventoryCandidateId('')
-                    setAnnouncement(`已添加初始道具${item.name}。`)
-                  }}
-                  icon="add"
-                  variant="secondary"
-                >
-                  添加道具
-                </DsButton>
-              }
-            />
+            {inventory.length === 0 ? (
+              <DsEmptyState
+                layout="embedded"
+                title="暂无初始道具"
+                description={
+                  items.length > 0 ? '可从右上角添加道具。' : '当前项目没有可添加的道具。'
+                }
+              />
+            ) : null}
             {inventory.length > 0 && addableItems.length === 0 ? (
               <PageHint>所有道具都已加入初始库存。</PageHint>
             ) : null}
@@ -1132,12 +1130,35 @@ export function StartWorldFields(props: {
         aria-labelledby="start-world-resources-heading"
         tabIndex={-1}
       >
-        <h4 id="start-world-resources-heading">
-          初始世界资源{' '}
-          <DsHelpTip label="初始世界资源">
-            这里只设置项目中物品机制已经使用的自定义资源初值；内建收妖值不在这里重复配置。
-          </DsHelpTip>
-        </h4>
+        <div className="project-title-row">
+          <h4 id="start-world-resources-heading">
+            初始世界资源{' '}
+            <DsHelpTip label="初始世界资源">
+              这里只设置项目中物品机制已经使用的自定义资源初值；内建收妖值不在这里重复配置。
+            </DsHelpTip>
+          </h4>
+          {addableResourceCandidates.length > 0 ? (
+            <DsAddPickerDialog
+              adoptionId="project/startup-resource"
+              triggerLabel="添加资源"
+              title="添加初始世界资源"
+              description="选择项目中物品机制正在使用的资源，并以 0 作为当前入口的初始值。"
+              confirmLabel="添加资源"
+              options={addableResourceCandidates.map((candidate) => ({
+                id: candidate.key,
+                label: `${candidate.label}使用的资源`,
+                description: '用于物品的资源抽取',
+                searchText: [candidate.label, ...candidate.consumerItemIds],
+                trailing: <DsTag tone="neutral">{candidate.consumerItemIds.length} 个使用方</DsTag>,
+              }))}
+              scopeKey={`${draftScope}:resources`}
+              revision={syncToken}
+              readOnly={readOnly}
+              fallbackFocusRef={resourceSectionRef}
+              onConfirm={addResource}
+            />
+          ) : null}
+        </div>
         <div className="project-list-stack">
           {activeResources.map(([key, initialValue]) => {
             const candidate = resourceCandidateByKey.get(key)!
@@ -1176,53 +1197,20 @@ export function StartWorldFields(props: {
               </DsRepeatRow>
             )
           })}
-          {addableResourceCandidates.length > 0 ? (
-            <DsInlineComposer
-              density="default"
-              className="project-resource-create"
-              control={
-                <DsSelectField
-                  id="start-world-resource-adder"
-                  label="添加世界资源"
-                  fieldClassName="project-composer-field"
-                  aria-label="添加世界资源"
-                  searchable
-                  value={selectedResourceCandidate}
-                  disabled={readOnly}
-                  placeholder="搜索使用该资源的物品…"
-                  title={
-                    selectedResourceCandidate
-                      ? `${resourceCandidateByKey.get(selectedResourceCandidate)?.label} · ${selectedResourceCandidate}`
-                      : undefined
-                  }
-                  options={addableResourceCandidates.map((candidate) => ({
-                    value: candidate.key,
-                    label: candidate.label,
-                    description: candidate.key,
-                    title: `${candidate.label} · ${candidate.key}`,
-                    descriptionMonospace: true,
-                  }))}
-                  onValueChange={setResourceCandidateKey}
-                />
-              }
-              action={
-                <DsButton
-                  disabled={readOnly || !selectedResourceCandidate}
-                  onClick={addResource}
-                  icon="add"
-                  variant="secondary"
-                >
-                  添加资源
-                </DsButton>
+          {activeResources.length === 0 ? (
+            <DsEmptyState
+              layout="embedded"
+              title="暂无初始世界资源"
+              description={
+                addableResourceCandidates.length > 0
+                  ? '可从右上角添加资源。'
+                  : '本项目没有需要为入口设置初值的自定义资源。'
               }
             />
-          ) : (
-            <PageHint>
-              {resourceCandidates.length === 0
-                ? '本项目没有需要为入口设置初值的自定义资源。'
-                : '当前入口已配置所有正在使用的自定义资源。'}
-            </PageHint>
-          )}
+          ) : null}
+          {activeResources.length > 0 && addableResourceCandidates.length === 0 ? (
+            <PageHint>当前入口已配置所有正在使用的自定义资源。</PageHint>
+          ) : null}
           {orphanResources.length > 0 ? (
             <section className="project-resource-repair" aria-label="未被使用的资源">
               <h5>未被使用的资源</h5>
@@ -1683,6 +1671,8 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                 actors={actors}
                 items={items}
                 locale={locale}
+                assetCatalog={assetCatalog}
+                assetReader={props.assetReader}
                 onChange={(next: StartWorld) => patchEntry(selected.id, { startWorld: next })}
               />
             </section>

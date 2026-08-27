@@ -1238,6 +1238,7 @@ export function SkillTab(props: {
                   <div className="item-effect-subhead">
                     <span>消耗物品</span>
                     <DsButton
+                      data-ds-add-picker-deferred="skill/cost-items-append-default"
                       variant="secondary"
                       icon="add"
                       aria-label="添加消耗物品"

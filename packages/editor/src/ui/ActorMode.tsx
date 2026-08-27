@@ -1632,6 +1632,7 @@ const InitialMagicEditor = memo(
         </DsReorderCollection>
         {props.value.length === 0 ? <span className="hint">未配置初始仙术。</span> : null}
         <DsButton
+          data-ds-add-picker-deferred="actor/initial-magic-append-default"
           size="compact"
           variant="secondary"
           disabled={addableSkillIds.length === 0}

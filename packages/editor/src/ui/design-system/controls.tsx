@@ -19,6 +19,10 @@ import {
   useRef,
   useState,
 } from 'react'
+import {
+  DS_OPTION_VIRTUALIZE_ABOVE,
+  filterDsCollection,
+} from './collection-search.js'
 import { DsFloatingLayer } from './floating-layer.js'
 import { DsIcon, type DsIconName } from './icons.js'
 
@@ -1090,7 +1094,6 @@ export interface DsOption {
 }
 
 const SELECT_SEARCH_THRESHOLD = 20
-const SELECT_VIRTUAL_THRESHOLD = 80
 const SELECT_OPTION_HEIGHT = 40
 const SELECT_VISIBLE_OPTIONS = 8
 const SELECT_OVERSCAN = 4
@@ -1175,19 +1178,6 @@ function focusAdjacentTabStop(
   candidates[currentIndex + (backwards ? -1 : 1)]?.focus()
 }
 
-function filteredSelectOptions(
-  options: readonly IndexedOption[],
-  query: string,
-): readonly IndexedOption[] {
-  const needle = query.trim().toLocaleLowerCase()
-  if (!needle) return options
-  return options.filter(({ option }) =>
-    [option.label, option.value, option.description]
-      .filter(Boolean)
-      .some((part) => String(part).toLocaleLowerCase().includes(needle)),
-  )
-}
-
 function virtualWindowStart(optionCount: number, scrollTop: number, visibleCount: number): number {
   return Math.max(
     0,
@@ -1238,11 +1228,16 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
     [options],
   )
   const filteredOptions = useMemo(
-    () => filteredSelectOptions(indexedOptions, query),
+    () =>
+      filterDsCollection(indexedOptions, query, ({ option }) => [
+        option.label,
+        option.value,
+        option.description,
+      ]),
     [indexedOptions, query],
   )
   const activeIndex = filteredOptions.findIndex(({ option }) => option.value === activeValue)
-  const virtual = filteredOptions.length > SELECT_VIRTUAL_THRESHOLD
+  const virtual = filteredOptions.length > DS_OPTION_VIRTUALIZE_ABOVE
   const visibleCount = SELECT_VISIBLE_OPTIONS + SELECT_OVERSCAN * 2
   const virtualStart = virtual
     ? virtualWindowStart(filteredOptions.length, listScrollTop, visibleCount)
@@ -1290,7 +1285,11 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
     (fromEnd = false, initialQuery = '', useBoundary = false) => {
       if (disabled) return
       const selectedEnabled = selected && !selected.disabled ? selected.value : null
-      const initialOptions = filteredSelectOptions(indexedOptions, initialQuery)
+      const initialOptions = filterDsCollection(indexedOptions, initialQuery, ({ option }) => [
+        option.label,
+        option.value,
+        option.description,
+      ])
       const nextActive = useBoundary
         ? firstEnabledValue(initialOptions, fromEnd)
         : (selectedEnabled ?? firstEnabledValue(initialOptions, fromEnd))
@@ -1545,7 +1544,11 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
               placeholder={`搜索 ${options.length} 项`}
               onChange={(event) => {
                 const nextQuery = event.currentTarget.value
-                const nextOptions = filteredSelectOptions(indexedOptions, nextQuery)
+                const nextOptions = filterDsCollection(
+                  indexedOptions,
+                  nextQuery,
+                  ({ option }) => [option.label, option.value, option.description],
+                )
                 setQuery(nextQuery)
                 setActiveValue(firstEnabledValue(nextOptions))
                 setListScrollTop(0)
@@ -1993,10 +1996,23 @@ export function DsStatus(props: {
   )
 }
 
-export function DsEmptyState(props: { title: string; description: string; action?: ReactNode }) {
+export function DsEmptyState(props: {
+  title: string
+  description: string
+  action?: ReactNode
+  layout?: 'card' | 'embedded'
+}) {
+  const layout = props.layout ?? 'card'
   return (
-    <section className="ds-empty-state">
-      <h2 className="ds-card__title">{props.title}</h2>
+    <section
+      className={classes('ds-empty-state', layout === 'embedded' && 'ds-empty-state--embedded')}
+      data-layout={layout}
+    >
+      {layout === 'embedded' ? (
+        <h4 className="ds-card__title ds-empty-state__title">{props.title}</h4>
+      ) : (
+        <h2 className="ds-card__title ds-empty-state__title">{props.title}</h2>
+      )}
       <p>{props.description}</p>
       {props.action}
     </section>

@@ -1618,6 +1618,12 @@ html[data-panel-resize="horizontal"] * {
 .project-title-row h4 {
   margin: 0;
 }
+.project-title-actions {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--ds-space-3);
+}
 .project-title-row code,
 .project-summary-list code,
 .project-entry-list code,
@@ -1764,13 +1770,6 @@ html[data-panel-resize="horizontal"] * {
   gap: var(--ds-space-2);
   justify-self: end;
   white-space: nowrap;
-}
-.project-composer-field {
-  display: grid;
-  gap: var(--ds-space-2);
-  min-width: 0;
-  color: var(--ds-text-secondary);
-  font: var(--ds-font-caption);
 }
 .project-resource-row {
   grid-template-columns: minmax(140px, 1fr) minmax(150px, auto) auto;
@@ -3819,24 +3818,6 @@ html[data-panel-resize="horizontal"] * {
   border-color: color-mix(in srgb, var(--err) 45%, var(--line));
   color: var(--err);
 }
-.shop-stock-empty {
-  padding: 30px 18px;
-  border-bottom: 1px solid var(--ds-border-subtle);
-  color: var(--faint);
-  text-align: center;
-}
-.shop-add-stock {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 12px;
-  padding: 15px 18px 18px;
-  background: color-mix(in srgb, var(--ds-surface-raised) 58%, transparent);
-}
-.shop-add-stock-button {
-  min-width: 88px;
-  justify-content: center;
-}
 .shop-empty-state {
   width: min(520px, calc(100% - 40px));
   margin: clamp(40px, 10vh, 100px) auto 0;
@@ -3878,12 +3859,6 @@ html[data-panel-resize="horizontal"] * {
   }
   .shop-card-note {
     text-align: left;
-  }
-  .shop-add-stock {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .shop-add-stock-button {
-    width: 100%;
   }
 }
 

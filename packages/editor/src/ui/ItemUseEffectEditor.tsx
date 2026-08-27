@@ -389,6 +389,7 @@ function ItemAmountList(props: {
       <div className="item-effect-subhead">
         <span>{props.label}</span>
         <DsIconButton
+          data-ds-add-picker-deferred="item/item-amount-append-default"
           size="compact"
           variant="secondary"
           icon="add"
@@ -508,6 +509,7 @@ function RecipeEditor(props: {
         })}
       </DsReorderCollection>
       <DsButton
+        data-ds-add-picker-deferred="item/craft-recipe-append-default"
         size="compact"
         variant="primary"
         icon="add"

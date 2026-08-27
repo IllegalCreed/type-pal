@@ -10,6 +10,7 @@ import {
   DsControlGroup,
   DsDraftNumberInput,
   DsDraftTextInput,
+  DsEmptyState,
   DsField,
   DsFilePicker,
   DsHelpTip,
@@ -79,6 +80,19 @@ async function composition(element: HTMLInputElement, type: 'compositionstart' |
 }
 
 describe('editor design-system controls', () => {
+  test('centers embedded collection empty states without creating another card', () => {
+    const markup = renderToStaticMarkup(
+      <DsEmptyState
+        layout="embedded"
+        title="暂无初始道具"
+        description="可从右上角添加。"
+      />,
+    )
+    expect(markup).toContain('class="ds-empty-state ds-empty-state--embedded"')
+    expect(markup).toContain('data-layout="embedded"')
+    expect(markup).toContain('<h4')
+  })
+
   test('keeps text local through IME and commits Enter plus blur exactly once', async () => {
     const commits = vi.fn()
     const validate = vi.fn(() => undefined)

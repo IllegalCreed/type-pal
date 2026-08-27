@@ -104,6 +104,7 @@ function LevelingEditorImpl(props: {
         </div>
       ))}
       <DsButton
+        data-ds-add-picker-deferred="actor/level-up-skill-append-default"
         onClick={() => {
           const maxLv = levelUpRows.reduce((m, r) => Math.max(m, r.level), 0)
           dispatchRows([...levelUpRows, { level: maxLv + 1, skillId: skillIds[0] ?? '' }])

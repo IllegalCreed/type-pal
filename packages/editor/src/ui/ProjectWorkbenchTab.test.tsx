@@ -13,6 +13,7 @@ import { claimEditorAudioPreview, stopEditorAudioPreview } from '../core/audio-p
 import { SetStartupEntriesCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { collectProjectIssues, type ProjectIssue } from '../core/project-diagnostics.js'
 import {
   deriveStartWorldResourceCandidates,
@@ -39,6 +40,16 @@ function button(host: HTMLElement, text: string): HTMLButtonElement {
   )!
 }
 
+function liveAnnouncement(host: HTMLElement): HTMLElement {
+  return host.querySelector<HTMLElement>('.ds-visually-hidden[role="status"]')!
+}
+
+function addPickerTrigger(host: HTMLElement, adoptionId: string): HTMLButtonElement | null {
+  return host.querySelector<HTMLButtonElement>(
+    `[data-ds-add-picker-adoption="${adoptionId}"] button`,
+  )
+}
+
 async function input(element: HTMLInputElement, value: string): Promise<void> {
   await act(async () => {
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
@@ -56,13 +67,21 @@ async function nextAnimationFrame(): Promise<void> {
   )
 }
 
-async function chooseSelectOption(trigger: HTMLButtonElement, label: string): Promise<void> {
+async function chooseAddPickerOption(
+  trigger: HTMLButtonElement,
+  label: string,
+): Promise<HTMLDialogElement> {
+  trigger.focus()
   await act(async () => trigger.click())
-  const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
+  await nextAnimationFrame()
+  const dialog = host.querySelector<HTMLDialogElement>('dialog[open]')
+  expect(dialog).not.toBeNull()
+  const option = [...dialog!.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
     candidate.textContent?.includes(label),
   )
   expect(option).toBeDefined()
   await act(async () => option!.click())
+  return dialog!
 }
 
 function resourceItem(id: string, name: string, resources: string[]): ItemData {
@@ -138,7 +157,12 @@ function projectState(): EditorState {
   } as unknown as EditorState
 }
 
-function projectTab(page: ProjectWorkbenchPage, session: EditSession, focusObjectId?: string) {
+function projectTab(
+  page: ProjectWorkbenchPage,
+  session: EditSession,
+  focusObjectId?: string,
+  assetReader = {} as EditorAssetReader,
+) {
   const state = session.getState()
   return (
     <ProjectWorkbenchTab
@@ -152,7 +176,7 @@ function projectTab(page: ProjectWorkbenchPage, session: EditSession, focusObjec
       session={session}
       issues={collectProjectIssues(state)}
       diagnosticsStatus="current"
-      assetReader={{} as never}
+      assetReader={assetReader}
       focusObjectId={focusObjectId}
     />
   )
@@ -164,6 +188,10 @@ let host: HTMLDivElement
 beforeEach(() => {
   stopEditorAudioPreview()
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+    callback(0)
+    return 1
+  })
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
@@ -173,6 +201,7 @@ afterEach(async () => {
   stopEditorAudioPreview()
   await act(async () => root.unmount())
   host.remove()
+  vi.unstubAllGlobals()
 })
 
 describe('项目问题列表', () => {
@@ -459,7 +488,7 @@ describe('入口开局世界资源', () => {
     )
   })
 
-  test('队伍使用可搜索添加器，排序和移出各自保持单命令边界', async () => {
+  test('[add-picker:project/startup-party] 队伍确认添加、排序和移出各自保持单命令边界', async () => {
     const state = projectState()
     state.actors = [
       {
@@ -519,19 +548,31 @@ describe('入口开局世界资源', () => {
     await act(async () => root.render(projectTab('entrypoint', session)))
 
     expect(host.querySelector('.project-check-grid')).toBeNull()
-    const adder = host.querySelector<HTMLButtonElement>('[aria-label="添加队员"]')!
-    expect(adder.getAttribute('role')).toBe('combobox')
-    await chooseSelectOption(adder, '伙伴')
-    await act(async () => button(host, '加入队伍').click())
+    const adder = button(host, '添加队员')
+    expect(
+      adder.closest('[data-ds-add-picker-adoption]')?.getAttribute('data-ds-add-picker-adoption'),
+    ).toBe('project/startup-party')
+    const cancelledPartyDialog = await chooseAddPickerOption(adder, '伙伴')
+    await act(async () => button(cancelledPartyDialog, '取消').click())
+    await nextAnimationFrame()
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(document.activeElement).toBe(adder)
+
+    const partyDialog = await chooseAddPickerOption(adder, '伙伴')
+    expect(session.getHistoryVersion()).toBe(0)
+    await act(async () => button(partyDialog, '加入队伍').click())
+    await nextAnimationFrame()
     expect(session.getHistoryVersion()).toBe(1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
+    expect(document.activeElement).toBe(adder)
     await act(async () => root.render(projectTab('entrypoint', session)))
-    expect(host.querySelector('[role="status"]')?.textContent).toContain('伙伴加入初始队伍')
-    expect(host.querySelector('[role="status"]')?.classList.contains('ds-visually-hidden')).toBe(
-      true,
+    expect(button(host, '添加队员').disabled).toBe(true)
+    expect(liveAnnouncement(host).textContent).toContain('伙伴加入初始队伍')
+    expect(document.activeElement).not.toBe(
+      host.querySelector<HTMLButtonElement>('[aria-label="移出伙伴"]'),
     )
-    expect(document.activeElement?.getAttribute('aria-label')).toBe('移出伙伴')
 
+    const beforeMove = session.getHistoryVersion()
     const moveFriend = [
       ...host.querySelectorAll<HTMLButtonElement>('[data-ds-reorder-handle]'),
     ].find((candidate) => candidate.getAttribute('aria-label')?.includes('伙伴'))!
@@ -541,7 +582,7 @@ describe('入口开局世界资源', () => {
       moveFriend.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }))
       moveFriend.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
     })
-    expect(session.getHistoryVersion()).toBe(2)
+    expect(session.getHistoryVersion()).toBe(beforeMove + 1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['friend', 'hero'])
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(document.activeElement?.getAttribute('aria-label')).toBe(
@@ -561,6 +602,7 @@ describe('入口开局世界资源', () => {
     )!
     await act(async () => friendHp.focus())
     await input(friendHp, '7')
+    expect(session.getHistoryVersion()).toBe(beforeRemove)
     const removeFriend = host.querySelector<HTMLButtonElement>('[aria-label="移出伙伴"]')!
     const pointerDown = new Event('pointerdown', { bubbles: true, cancelable: true })
     await act(async () => {
@@ -578,7 +620,7 @@ describe('入口开局世界资源', () => {
       validateStartWorld(session.getState().manifest.entryPoints[0]!.startWorld),
     ).not.toThrow()
     await act(async () => root.render(projectTab('entrypoint', session)))
-    expect(host.querySelector('[role="status"]')?.textContent).toContain('伙伴移出初始队伍')
+    expect(liveAnnouncement(host).textContent).toContain('伙伴移出初始队伍')
     expect(document.activeElement?.getAttribute('aria-label')).toBe('移出主角')
     expect(session.undo()).toBe(true)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
@@ -601,11 +643,8 @@ describe('入口开局世界资源', () => {
     ).not.toThrow()
 
     await act(async () => root.render(projectTab('entrypoint', session)))
-    await chooseSelectOption(
-      host.querySelector<HTMLButtonElement>('[aria-label="添加队员"]')!,
-      '伙伴',
-    )
-    await act(async () => button(host, '加入队伍').click())
+    const readdDialog = await chooseAddPickerOption(button(host, '添加队员'), '伙伴')
+    await act(async () => button(readdDialog, '加入队伍').click())
     expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
       hero: { hp: 90 },
@@ -620,9 +659,13 @@ describe('入口开局世界资源', () => {
     )!
     expect(readdedFriendHp.value).toBe('')
     expect(readdedFriendHp.placeholder).toBe('继承 80')
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero'])
+    expect(session.redo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
   })
 
-  test('库存显式选择新增项，数量 Enter + blur 只产生一条命令', async () => {
+  test('[add-picker:project/startup-inventory] 库存确认添加 count=1，数量 Enter + blur 只产生一条命令', async () => {
     const state = projectState()
     state.items = [
       {
@@ -647,16 +690,41 @@ describe('入口开局世界资源', () => {
 
     expect(host.querySelector('[aria-label="初始道具数量：0 项"]')?.textContent).toBe('0 项')
     expect(host.textContent).not.toContain('无初始道具。')
-    const adder = host.querySelector<HTMLButtonElement>('[aria-label="添加初始道具"]')!
-    await chooseSelectOption(adder, '还神丹')
-    await act(async () => button(host, '添加道具').click())
+    const adder = button(host, '添加道具')
+    const inventorySection = adder.closest<HTMLElement>('.project-card')!
+    expect(inventorySection.querySelector('.ds-empty-state--embedded')?.textContent).toContain(
+      '暂无初始道具',
+    )
+    expect(
+      adder.closest('[data-ds-add-picker-adoption]')?.getAttribute('data-ds-add-picker-adoption'),
+    ).toBe('project/startup-inventory')
+    const cancelledInventoryDialog = await chooseAddPickerOption(adder, '还神丹')
+    await act(async () => button(cancelledInventoryDialog, '取消').click())
+    await nextAnimationFrame()
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(document.activeElement).toBe(adder)
+
+    const inventoryDialog = await chooseAddPickerOption(adder, '还神丹')
+    expect(session.getHistoryVersion()).toBe(0)
+    await act(async () => button(inventoryDialog, '添加道具').click())
+    await nextAnimationFrame()
     expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
+      { itemId: 'pill', count: 1 },
+    ])
+    expect(document.activeElement).toBe(adder)
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([])
+    expect(session.redo()).toBe(true)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
       { itemId: 'pill', count: 1 },
     ])
 
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(host.querySelector('[aria-label="初始道具数量：1 项"]')?.textContent).toBe('1 项')
+    const filteredDialog = await chooseAddPickerOption(button(host, '添加道具'), '止血草')
+    expect(filteredDialog.textContent).not.toContain('还神丹')
+    await act(async () => button(filteredDialog, '取消').click())
     const count = host.querySelector<HTMLInputElement>('[aria-label="还神丹的初始数量"]')!
     const inventoryRow = count.closest('.project-inventory-row')!
     const countField = count.closest('.project-inventory-count')!
@@ -667,11 +735,9 @@ describe('入口开局世界资源', () => {
     expect(inventoryActions.parentElement).toBe(inventoryRow)
     expect(inventoryActions.querySelectorAll('button')).toHaveLength(3)
     expect(inventoryRow.children).toHaveLength(4)
-    const addComposer = host
-      .querySelector<HTMLButtonElement>('[aria-label="添加初始道具"]')!
-      .closest('.ds-inline-composer')!
+    const addHeader = button(host, '添加道具').closest('.project-title-row')!
     expect(
-      inventoryRow.compareDocumentPosition(addComposer) & Node.DOCUMENT_POSITION_FOLLOWING,
+      addHeader.compareDocumentPosition(inventoryRow) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy()
     const beforeCount = session.getHistoryVersion()
     await act(async () => count.focus())
@@ -696,10 +762,114 @@ describe('入口开局世界资源', () => {
     await act(async () => root.render(projectTab('entrypoint', session)))
     expect(host.querySelector('[aria-label="初始道具数量：0 项"]')?.textContent).toBe('0 项')
     expect(host.textContent).not.toContain('无初始道具。')
+    expect(
+      button(host, '添加道具')
+        .closest<HTMLElement>('.project-card')
+        ?.querySelector('.ds-empty-state--embedded')?.textContent,
+    ).toContain('暂无初始道具')
     expect(session.undo()).toBe(true)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
       { itemId: 'pill', count: 6 },
     ])
+  })
+
+  test('队员与道具候选使用真实缩略图、固定 ID 和直观关键数据', async () => {
+    const state = projectState()
+    state.actors = [
+      {
+        id: 'hero',
+        name: 'name.hero',
+        spriteId: 'sprite.hero',
+        face: 'face.hero',
+        battler: {
+          battleSprite: 'battle.hero',
+          baseStats: {
+            level: 3,
+            hp: 120,
+            maxHP: 150,
+            mp: 40,
+            maxMP: 80,
+            attack: 1,
+            defense: 1,
+            magicAttack: 1,
+            speed: 1,
+            luck: 1,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+    ]
+    state.locale['name.hero'] = '主角'
+    state.items = [
+      {
+        id: '61',
+        name: '观音符',
+        desc: ['以观音圣水书写的灵符。', 'HP+150'],
+        icon: 'item-icon.test.61',
+        buyPrice: 150,
+        sellPrice: 75,
+        sellable: true,
+        use: {
+          target: 'oneAlly',
+          consuming: true,
+          effects: [{ kind: 'healHp', amount: 150 }],
+        },
+      },
+    ]
+    state.assetCatalog.assets['face.hero'] = {
+      kind: 'face',
+      path: 'assets/faces/hero.png',
+      mediaType: 'image/png',
+      bytes: 1,
+      sha256: 'face-revision',
+      origin: { kind: 'authored' },
+    }
+    state.assetCatalog.assets['item-icon.test.61'] = {
+      kind: 'item-icon',
+      path: 'assets/items/61.png',
+      mediaType: 'image/png',
+      bytes: 1,
+      sha256: 'item-revision',
+      origin: { kind: 'authored' },
+    }
+    const readBytes = vi.fn(() => new Promise<ArrayBuffer>(() => undefined))
+    const assetReader = {
+      readBytes,
+      record: (id: string) => state.assetCatalog.assets[id]!,
+    } as unknown as EditorAssetReader
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session, undefined, assetReader)))
+
+    const partyDialog = await chooseAddPickerOption(button(host, '添加队员'), '主角')
+    const partyOption = partyDialog.querySelector<HTMLElement>('[role="option"]')!
+    expect(
+      partyOption.querySelector('.image-asset-thumb.ds-add-picker-option__thumbnail'),
+    ).not.toBeNull()
+    expect(
+      partyOption.querySelector('.ds-add-picker-option__identity .ds-control--monospace')
+        ?.textContent,
+    ).toBe('hero')
+    expect(partyOption.querySelector('.ds-add-picker-option__detail')?.textContent).toBe(
+      'HP 120/150 · MP 40/80',
+    )
+    expect(partyOption.querySelector('.ds-add-picker-option__trailing')?.textContent).toBe('等级 3')
+    await act(async () => button(partyDialog, '取消').click())
+    await nextAnimationFrame()
+
+    const itemDialog = await chooseAddPickerOption(button(host, '添加道具'), '观音符')
+    const itemOption = itemDialog.querySelector<HTMLElement>('[role="option"]')!
+    expect(
+      itemOption.querySelector('.image-asset-thumb.ds-add-picker-option__thumbnail'),
+    ).not.toBeNull()
+    expect(
+      itemOption.querySelector('.ds-add-picker-option__identity .ds-control--monospace')
+        ?.textContent,
+    ).toBe('61')
+    expect(itemOption.querySelector('.ds-add-picker-option__detail')?.textContent).toBe('HP+150')
+    expect(itemOption.querySelector('.ds-add-picker-option__trailing')?.textContent).toBe('使用')
+    expect(readBytes).toHaveBeenCalledWith('face.hero', 'face')
+    expect(readBytes).toHaveBeenCalledWith('item-icon.test.61', 'item-icon')
   })
 
   test('[reorder-family:startup-inventory] 初始库存 handle 重排只提交一次并可单步 undo/redo', async () => {
@@ -839,7 +1009,7 @@ describe('入口开局世界资源', () => {
     expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toBeUndefined()
   })
 
-  test('入口工作台的 composer 与重复行只由父级选择一个 density', async () => {
+  test('入口工作台只在标题区采用三个 Add Picker，重复行 density 保持不变', async () => {
     const state = projectState()
     state.actors = [
       {
@@ -877,12 +1047,18 @@ describe('入口开局世界资源', () => {
     await act(async () => root.render(projectTab('entrypoint', session)))
 
     const composers = [...host.querySelectorAll<HTMLElement>('.ds-inline-composer')]
-    expect(composers).toHaveLength(3)
-    expect(composers.every((row) => row.dataset.density === 'default')).toBe(true)
+    expect(composers).toHaveLength(0)
+    const pickers = [...host.querySelectorAll<HTMLElement>('[data-ds-add-picker-adoption]')]
+    expect(pickers.map((picker) => picker.dataset.dsAddPickerAdoption).sort()).toEqual([
+      'project/startup-inventory',
+      'project/startup-party',
+      'project/startup-resource',
+    ])
+    expect(pickers.every((picker) => picker.closest('.project-title-row'))).toBe(true)
 
     const rows = [...host.querySelectorAll<HTMLElement>('.ds-repeat-row')]
     expect(rows.length).toBeGreaterThanOrEqual(3)
-    for (const row of [...composers, ...rows]) {
+    for (const row of rows) {
       expect(
         row.querySelector('.ds-input--compact, .ds-select--compact, .ds-button--compact'),
       ).toBe(null)
@@ -994,34 +1170,46 @@ describe('入口开局世界资源', () => {
     expect(host.textContent).toContain('未被使用的资源')
     expect(host.textContent).toContain('legacyEnergy')
     expect(host.textContent).not.toContain('collectValue')
-    const trigger = host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]')!
+    const trigger = button(host, '添加资源')
     expect(trigger).not.toBeNull()
-    await act(async () => trigger.click())
-    await nextAnimationFrame()
-    const search = document.querySelector<HTMLInputElement>('.ds-select-popover__search-input')!
-    expect(search.getAttribute('aria-label')).toBe('筛选添加世界资源')
-    expect(document.activeElement).toBe(search)
+    const dialog = await chooseAddPickerOption(
+      trigger,
+      '灵泉水、炼丹炉·水纹超级长名称用于验证完整提示',
+    )
+    const search = dialog.querySelector<HTMLInputElement>('input[type="search"]')!
+    expect(search.getAttribute('role')).toBe('combobox')
+    expect(dialog.getAttribute('aria-describedby')).toBeTruthy()
     await input(search, '灵泉水')
-    expect(document.querySelectorAll('[role="option"]')).toHaveLength(1)
+    expect(dialog.querySelectorAll('[role="option"]')).toHaveLength(1)
     await act(async () =>
       search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
     )
-    await nextAnimationFrame()
-    expect(document.querySelector('.ds-select-popover')).toBeNull()
-    expect(document.activeElement).toBe(trigger)
-    await act(async () => trigger.click())
-    const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+    expect(dialog.querySelector('[role="listbox"]')).toBeNull()
+    await input(search, '')
+    await act(async () =>
+      search.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })),
+    )
+    const resourceOption = [...dialog.querySelectorAll<HTMLElement>('[role="option"]')].find(
       (candidate) =>
         candidate.textContent?.includes('灵泉水、炼丹炉·水纹超级长名称用于验证完整提示'),
     )!
-    expect(option.title).toBe('灵泉水、炼丹炉·水纹超级长名称用于验证完整提示 · spiritWater')
-    await act(async () => option.click())
-    expect(trigger.title).toBe('灵泉水、炼丹炉·水纹超级长名称用于验证完整提示 · spiritWater')
-    await act(async () => button(host, '添加资源').click())
+    expect(resourceOption.querySelector('.ds-add-picker-option__leading')).toBeNull()
+    expect(
+      resourceOption.querySelector('.ds-add-picker-option__identity .ds-control--monospace')
+        ?.textContent,
+    ).toBe('spiritWater')
+    expect(resourceOption.querySelector('.ds-add-picker-option__detail')?.textContent).toBe(
+      '用于物品的资源抽取',
+    )
+    expect(resourceOption.querySelector('.ds-add-picker-option__trailing')?.textContent).toBe(
+      '2 个使用方',
+    )
+    await act(async () => resourceOption.click())
+    await act(async () => button(dialog, '添加资源').click())
     const addedInput = host.querySelector<HTMLInputElement>(
       'input[aria-label="灵泉水、炼丹炉·水纹超级长名称用于验证完整提示（资源 spiritWater）初始值"]',
     )!
-    expect(document.activeElement).toBe(addedInput)
+    expect(addedInput).not.toBeNull()
     await act(async () =>
       host
         .querySelector<HTMLButtonElement>(
@@ -1029,20 +1217,14 @@ describe('入口开局世界资源', () => {
         )!
         .click(),
     )
-    expect(document.activeElement).toBe(
-      host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]'),
-    )
+    expect(document.activeElement).toBe(addPickerTrigger(host, 'project/startup-resource'))
     await act(async () =>
       host
         .querySelector<HTMLButtonElement>('[aria-label="清理未被使用的世界资源 legacyEnergy"]')!
         .click(),
     )
-    expect(document.activeElement).toBe(
-      host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]'),
-    )
-    expect(host.querySelector('[role="status"]')?.textContent).toContain(
-      '已清理未被使用的世界资源 legacyEnergy',
-    )
+    expect(document.activeElement).toBe(addPickerTrigger(host, 'project/startup-resource'))
+    expect(liveAnnouncement(host).textContent).toContain('已清理未被使用的世界资源 legacyEnergy')
 
     await act(async () =>
       root.render(
@@ -1055,25 +1237,25 @@ describe('入口开局世界资源', () => {
     )
     expect(host.textContent).toContain('本项目没有需要为入口设置初值的自定义资源')
     expect(host.textContent).toContain('未被使用的资源')
-    expect(host.querySelector('[aria-label="添加世界资源"]')).toBeNull()
+    expect(addPickerTrigger(host, 'project/startup-resource')).toBeNull()
   })
 
   test('资源候选直接消费 live items，物品效果变化后同步出现', async () => {
     await act(async () => root.render(<ResourceHarness items={[]} />))
-    expect(host.querySelector('[aria-label="添加世界资源"]')).toBeNull()
+    expect(addPickerTrigger(host, 'project/startup-resource')).toBeNull()
 
     await act(async () =>
       root.render(
         <ResourceHarness items={[resourceItem('live-item', '即时炼化物品', ['livePool'])]} />,
       ),
     )
-    const trigger = host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]')!
+    const trigger = button(host, '添加资源')
     expect(trigger).not.toBeNull()
-    await act(async () => trigger.click())
-    expect(document.querySelector('[role="option"]')?.textContent).toContain('即时炼化物品')
+    const dialog = await chooseAddPickerOption(trigger, '即时炼化物品')
+    expect(dialog.querySelector('[role="option"]')?.textContent).toContain('即时炼化物品')
   })
 
-  test('世界资源新增、提交、删除各自只写一条命令并可单步撤销', async () => {
+  test('[add-picker:project/startup-resource] 世界资源确认新增为 0，提交、删除各自只写一条命令', async () => {
     const state = projectState()
     state.items = [resourceItem('alchemy-item', '炼化壶', ['alchemyEnergy'])]
     state.manifest.entryPoints[0]!.startWorld.resources = { legacyEnergy: 4 }
@@ -1094,21 +1276,26 @@ describe('入口开局世界资源', () => {
     )
     expect(session.getHistoryVersion()).toBe(beforeRepair + 1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toBeUndefined()
-    expect(host.querySelector('[role="status"]')?.textContent).toContain(
-      '已清理未被使用的世界资源 legacyEnergy',
-    )
+    expect(liveAnnouncement(host).textContent).toContain('已清理未被使用的世界资源 legacyEnergy')
     expect(session.undo()).toBe(true)
     await act(async () => root.render(projectTab('entrypoint', session)))
 
-    const resourceSelect = host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]')!
-    await chooseSelectOption(resourceSelect, '炼化壶')
+    const resourceTrigger = button(host, '添加资源')
+    const cancelledResourceDialog = await chooseAddPickerOption(resourceTrigger, '炼化壶')
+    await act(async () => button(cancelledResourceDialog, '取消').click())
+    await nextAnimationFrame()
+    expect(document.activeElement).toBe(resourceTrigger)
+
+    const resourceDialog = await chooseAddPickerOption(resourceTrigger, '炼化壶')
     const beforeAdd = session.getHistoryVersion()
-    await act(async () => button(host, '添加资源').click())
+    await act(async () => button(resourceDialog, '添加资源').click())
+    await nextAnimationFrame()
     expect(session.getHistoryVersion()).toBe(beforeAdd + 1)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
       legacyEnergy: 4,
       alchemyEnergy: 0,
     })
+    expect(document.activeElement).toBe(resourceTrigger)
     expect(session.getState().manifest.entryPoints[1]!.startWorld.resources).toEqual({
       alchemyEnergy: 3,
     })
@@ -1117,11 +1304,10 @@ describe('入口开局世界资源', () => {
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
       legacyEnergy: 4,
     })
-    expect(
-      host.querySelector<HTMLButtonElement>('[aria-label="添加世界资源"]')!.textContent,
-    ).toContain('炼化壶')
+    expect(button(host, '添加资源').textContent).toContain('添加资源')
     expect(session.redo()).toBe(true)
     await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(host.textContent).toContain('当前入口已配置所有正在使用的自定义资源')
 
     const valueInput = host.querySelector<HTMLInputElement>(
       'input[aria-label="炼化壶（资源 alchemyEnergy）初始值"]',
@@ -1146,9 +1332,7 @@ describe('入口开局世界资源', () => {
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
       legacyEnergy: 4,
     })
-    expect(host.querySelector('[role="status"]')?.textContent).toContain(
-      '已删除炼化壶使用的初始世界资源',
-    )
+    expect(liveAnnouncement(host).textContent).toContain('已删除炼化壶使用的初始世界资源')
     expect(session.undo()).toBe(true)
     expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
       legacyEnergy: 4,

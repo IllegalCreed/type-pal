@@ -542,6 +542,7 @@ export function SpriteActionEditor(props: {
                             </label>
                           ))}
                           <DsButton
+                            data-ds-add-picker-deferred="asset/sprite-step-sound-cue-append-default"
                             disabled={!firstSoundAsset(props.catalog)}
                             onClick={() => {
                               const asset = firstSoundAsset(props.catalog)
