@@ -269,7 +269,6 @@ export function VarsTab(props: {
         <DsCatalogRow
           key={id}
           selected={!creating && selectedId === id}
-          leading={<span aria-hidden="true">{definition.kind === 'flag' ? '⚑' : '№'}</span>}
           title={definition.name}
           meta={id}
           trailing={`读 ${reads} · 写 ${entriesForId.length - reads}`}
@@ -337,7 +336,6 @@ export function VarsTab(props: {
               {undeclared.map(({ id, entries, kinds }) => (
                 <DsCatalogRow
                   key={id}
-                  leading={<span aria-hidden="true">!</span>}
                   title={id}
                   meta={kinds.size > 1 ? '开关/数值冲突，需人工处理' : `${entries.length} 处使用`}
                   trailing={kinds.size > 1 ? '冲突' : '创建定义'}

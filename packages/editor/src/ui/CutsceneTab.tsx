@@ -208,7 +208,6 @@ function AssetList(props: {
             <DsCatalogRow
               key={entry.id}
               selected={props.selectedId === entry.id}
-              leading={<span aria-hidden="true">{entry.record.kind === 'video' ? '▶' : '▦'}</span>}
               title={entry.record.label || entry.id}
               meta={entry.id}
               trailing={<DsTag tone="neutral">{ORIGIN_LABELS[entry.record.origin.kind]}</DsTag>}

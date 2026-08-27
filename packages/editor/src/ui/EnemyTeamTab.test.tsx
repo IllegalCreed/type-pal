@@ -124,6 +124,9 @@ describe('EnemyTeamTab authoring closure', () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))
     expect(host.querySelectorAll('.enemy-team-slot')).toHaveLength(5)
+    expect(
+      host.querySelector<HTMLElement>('.enemy-team-catalog .ds-catalog-row')?.dataset.leading,
+    ).toBe('none')
     expect(host.textContent).toContain('10 经验')
     expect(host.textContent).toContain('20 金钱')
     expect(host.textContent).toContain('30 收妖值')

@@ -291,6 +291,10 @@ describe('BattleSpriteLibrary', () => {
 
     const rows = host.querySelectorAll('.sprite-resource-row')
     expect(rows).toHaveLength(2)
+    expect([...rows].map((row) => (row as HTMLElement).dataset.leading)).toEqual([
+      'none',
+      'none',
+    ])
     expect(host.querySelector('.sprite-library-switch')).toBeNull()
     expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('battle-sprite.shared')
     expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('.rle')

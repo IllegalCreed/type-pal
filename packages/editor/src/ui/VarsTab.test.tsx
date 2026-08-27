@@ -183,6 +183,13 @@ describe('VarsTab world variable workbench', () => {
     expect(host.textContent).toContain('数值')
     expect(host.textContent).toContain('未登记引用')
     expect(host.textContent).toContain('missing.value')
+    const variableRows = [...host.querySelectorAll<HTMLElement>('.world-variable-catalog .ds-catalog-row')]
+    const rowByTitle = (title: string) =>
+      variableRows.find(
+        (row) => row.querySelector('.ds-catalog-row__title')?.textContent === title,
+      )!
+    expect(rowByTitle('任务已开始').dataset.leading).toBe('none')
+    expect(rowByTitle('missing.value').dataset.leading).toBe('none')
     const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索变量"]')!
     await setCatalogSearch(search, '累计分数')
     expect(host.querySelector('.world-variable-catalog')?.textContent).toContain('总分')

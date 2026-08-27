@@ -448,6 +448,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   标识放进 `leading` 冒充媒体。没有独立显示名的对象可以用稳定 ID 作 `title`，但不得在另一槽重复一遍。
 - `leading` 只承载真实缩略图、头像、色样、播放/资源类型等能帮助选择对象的语义媒体。媒体策略按列表族统一：
   同族全有或全无；资源暂缺时只能使用该列表族已经裁决的稳定语义 fallback，不得临时制造 emoji 或空白占位。
+  若移除 `leading` 不会降低对象的识别或选择准确性，该列表族必须整体省略媒体槽；已由标题、`meta` 或 `trailing`
+  明确表达的类型/状态，不得再用装饰图标或 emoji 重复。
 - `trailing` 只承载选择时关键的分类、异常或立即行动状态，例如“默认”“待迁移”“不可解”。装备/使用等已有
   筛选 owner 的普通能力、总引用数和详情统计默认不常驻；它们继续由筛选器、Hero、Inspector 或引用面板表达。
 - 统计只有能直接改变当前目录的选择判断、且没有等价筛选/详情 owner 时才可常驻，并必须在
@@ -487,6 +489,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   glyph、hover 后才显露按钮边界的 `quiet` 外观。移动按钮必须服从所在公共行的 density：default 行与同组
   `36px` 动作同高，compact 行使用公共紧凑命中区，业务页不得单独缩小其中一枚按钮。pointer、keyboard、click
   必须调用同一个 `canReorder/onReorder` owner。
+- 当排序 item 把可选目录行与尾部移动动作组合为同一视觉表面时，动作区必须保留至少 `--ds-space-2` 的
+  `inline-end` inset，使按钮边框与 focus outline 完整位于 item 内；尾部动作不得直接贴住或被外边界裁切。
 - 普通数组用 insert，固定槽位用 swap，图层可按显示顺序适配反向索引，嵌套脚本只允许同父级，临时清单和时间线
   只进入各自 draft history。重复值必须使用既有稳定 ID 或 editor-local occurrence token；不得用裸 value/index
   作为手势身份，也不得为排序新增持久化 schema ID。

@@ -21,7 +21,7 @@
 | ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | done | 三方 accept + 用户复验齐，整卡收口 | Startup inventory 唯一遗漏动作槽已封组；1280/900/720 组内不拆行、无溢出 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
 | ARCH-ACTOR-CONDITION-SEED-1 | 入口与剧情入队角色当前状态播种 | draft | Kimi + GLM 联合核真值与设计；签字齐前 build blocked | 入口快照与剧情命令分 owner；系统覆盖毒、定时状态、临时毒抗，不改 setParty / ActorDef |
-| ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | review | Codex accept；待 Kimi + GLM 只读终审 | 动态闭合 20 文件 / 28 消费点；11 面收口、17 面保留/例外，默认与 720px 已验证 |
+| ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | review | Codex 返工 accept；待 Kimi + GLM 只读终审当前 candidate | 8 个装饰 leading 已删；入口尾部 4px 对称 inset，104 基线 + 44 聚焦通过 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | done | 三方 accept + 用户验收齐，整卡收口 | content18、首次技能播种、当前 HP/MP 继承 UI 与 PAL replay 已完成 |
 | MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | done | 三方 accept + 用户验收齐，整卡收口 | `0e84e565`：4 定义 + 44 引用归一，严格重复为 0，replay 零计划 |
 | MIG-PAL-WORLD-SPRITE-ALIAS-1 | PAL 大世界角色精灵语义别名收口 | done | 三方 accept + 用户确认齐，整卡收口 | `bde33d13`：1 重复定义 + 7 引用归一，迁移零计划，migrate 354 tests 全绿 |

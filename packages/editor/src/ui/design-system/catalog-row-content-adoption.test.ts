@@ -260,17 +260,22 @@ describe('catalog row content adoption gate', () => {
   })
 
   test('locks the repaired content hierarchy without changing DsCatalogRow props', () => {
+    const app = source('App.tsx')
     const battlefield = source('BattleFieldTab.tsx')
     const item = source('ItemTab.tsx')
     const enemy = source('EnemyTab.tsx')
+    const enemyTeam = source('EnemyTeamTab.tsx')
+    const editorCss = source('editor.css')
     const map = source('MapMode.tsx')
     const cutscene = source('CutsceneTab.tsx')
     const project = source('ProjectWorkbenchTab.tsx')
     const script = source('SharedScriptTab.tsx')
     const spriteAction = source('SpriteActionEditor.tsx')
+    const variables = source('VarsTab.tsx')
     const worldSprite = source('WorldSpriteLibrary.tsx')
     const battleSprite = source('BattleSpriteLibrary.tsx')
 
+    expect(app).not.toContain('leading={<span aria-hidden="true">🗺️</span>}')
     expect(battlefield).not.toContain('bf-catalog-id')
     expect(battlefield).toContain("meta={`#${String(candidate.id).padStart(3, '0')}`}")
     expect(item).toContain('meta={candidate.id}')
@@ -278,13 +283,27 @@ describe('catalog row content adoption gate', () => {
     expect(item).not.toContain('refs ? `引用 ${refs}`')
     expect(enemy).not.toContain('<span className="face">👹</span>')
     expect(enemy).toContain('meta={e.id}')
+    expect(enemyTeam).not.toContain('leading={<span aria-hidden="true">⚔</span>}')
     expect(map).toContain('meta={asset.id}')
     expect(cutscene).toContain('meta={entry.id}')
+    expect(cutscene).not.toContain("entry.record.kind === 'video' ? '▶' : '▦'")
     expect(project).toContain('meta={entry.id}')
+    expect(project).not.toContain("entry.id === manifest.defaultEntryId ? '🧭' : '🚪'")
+    expect(editorCss).toContain(`.project-entry-item-content {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  padding-inline-end: var(--ds-space-2);
+}`)
     expect(script).not.toContain('trailing={<DsTag tone="neutral">{script.body.length}</DsTag>}')
     expect(spriteAction).not.toContain('title={`#${index} · ${candidate.label}`}')
+    expect(variables).not.toContain("definition.kind === 'flag' ? '⚑' : '№'")
+    expect(variables).not.toContain('leading={<span aria-hidden="true">!</span>}')
     expect(worldSprite).not.toContain('title={`#${index} · ${action.label}`}')
+    expect(worldSprite).not.toContain('leading={<span aria-hidden="true">▦</span>}')
     expect(worldSprite).toContain('meta={asset}')
+    expect(battleSprite).not.toContain('leading={<span aria-hidden="true">▦</span>}')
     expect(battleSprite).toContain('meta={asset}')
 
     const recipeDeclaration = catalogRowDeclaration(readFileSync(join(here, 'recipes.tsx'), 'utf8'))

@@ -338,7 +338,11 @@ describe('WorldSpriteLibrary', () => {
     const session = new EditSession(editorState(definitions))
     await act(async () => root.render(library(definitions, session)))
 
-    expect(host.querySelectorAll('.world-sprite-outliner .sprite-resource-row')).toHaveLength(2)
+    const rows = host.querySelectorAll<HTMLElement>(
+      '.world-sprite-outliner .sprite-resource-row',
+    )
+    expect(rows).toHaveLength(2)
+    expect([...rows].map((row) => row.dataset.leading)).toEqual(['none', 'none'])
     expect(host.querySelector('.sprite-library-switch')).toBeNull()
     expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('sprite.shared')
     expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('.rle')

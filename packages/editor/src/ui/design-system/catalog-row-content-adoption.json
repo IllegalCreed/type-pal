@@ -28,14 +28,14 @@
     {
       "id": "scene/current-outline-root",
       "source": "App.tsx",
-      "jsxFingerprint": "3dda9e2e3b84082c",
+      "jsxFingerprint": "918066e6c058a9c0",
       "family": "scene-outline",
-      "leading": "present",
+      "leading": "none",
       "title": "SceneId",
       "meta": "实体数量",
       "trailing": "无",
       "decision": "bounded-exception",
-      "reason": "当前场景树只有一个根节点且 SceneDef 无显示名，实体数是树根的核心摘要。"
+      "reason": "当前场景树只有一个根节点且 SceneDef 无显示名；固定地图符号不区分对象，SceneId 与实体数已构成核心摘要。"
     },
     {
       "id": "audio/asset-catalog",
@@ -64,14 +64,14 @@
     {
       "id": "battle-sprite/asset-catalog",
       "source": "BattleSpriteLibrary.tsx",
-      "jsxFingerprint": "a8cc8d3b94c538ac",
+      "jsxFingerprint": "41f44354f4361982",
       "family": "battle-sprite-asset",
-      "leading": "present",
+      "leading": "none",
       "title": "资源或用途标签，最终回退 AssetId",
       "meta": "稳定 AssetId",
       "trailing": "无用途定义时显示未配置 DsTag",
       "decision": "compliant",
-      "reason": "虚拟列表使用精灵族稳定占位，profile 详情由筛选器、Hero 与 Inspector 表达。"
+      "reason": "固定字符占位在每行都相同，不能区分精灵资源；用途标签、AssetId 与未配置状态已支持选择。"
     },
     {
       "id": "battle-sprite/usage-choice",
@@ -100,14 +100,14 @@
     {
       "id": "cutscene/asset-catalog",
       "source": "CutsceneTab.tsx",
-      "jsxFingerprint": "907e826c897c45ff",
+      "jsxFingerprint": "3b35d27a55682674",
       "family": "cutscene-asset",
-      "leading": "present",
+      "leading": "none",
       "title": "资源标签，缺失时回退 AssetId",
       "meta": "稳定 AssetId",
       "trailing": "资源来源分类",
       "decision": "compliant",
-      "reason": "媒体类型由分组和 leading 表达，meta 只保留稳定资源身份。"
+      "reason": "视频与帧动画类型已由分组标题表达；逐行重复的固定字符不区分资源，名称、AssetId 与来源足够选择。"
     },
     {
       "id": "enemy/catalog",
@@ -124,14 +124,14 @@
     {
       "id": "enemy-team/catalog",
       "source": "EnemyTeamTab.tsx",
-      "jsxFingerprint": "9c7970177d3109de",
+      "jsxFingerprint": "9d9703b8288fb85f",
       "family": "enemy-team",
-      "leading": "present",
+      "leading": "none",
       "title": "EnemyTeamId",
       "meta": "成员数与固定语义槽数",
       "trailing": "无",
       "decision": "bounded-exception",
-      "reason": "schema 无显示名，敌队语义标记和固定槽组成是选择敌队的核心摘要。"
+      "reason": "schema 无显示名；固定剑符号在每行都相同且不区分敌队，稳定 ID、成员数与语义槽数才是核心摘要。"
     },
     {
       "id": "image/asset-catalog",
@@ -196,14 +196,14 @@
     {
       "id": "project/entry-catalog",
       "source": "ProjectWorkbenchTab.tsx",
-      "jsxFingerprint": "8fcb52f170feddf5",
+      "jsxFingerprint": "d5f6957fcf2a8218",
       "family": "project-entry",
-      "leading": "present",
+      "leading": "none",
       "title": "入口标签",
       "meta": "稳定 EntryPointId",
       "trailing": "默认入口的直接启动 DsTag",
       "decision": "compliant",
-      "reason": "入口类型具有选择价值，稳定 ID 与默认状态不再挤成同一 meta 字符串。"
+      "reason": "稳定 ID 和直接启动状态已支持入口选择；装饰 emoji 无法区分具体入口，省略媒体槽以保留正文空间。"
     },
     {
       "id": "project/resource-role-group-catalog",
@@ -268,38 +268,38 @@
     {
       "id": "variables/declared-catalog",
       "source": "VarsTab.tsx",
-      "jsxFingerprint": "83fc6b80a74974c8",
+      "jsxFingerprint": "259dcd64147ebd18",
       "family": "world-variable",
-      "leading": "present",
+      "leading": "none",
       "title": "变量名称",
       "meta": "稳定变量 ID",
       "trailing": "读写次数摘要",
       "decision": "bounded-exception",
-      "reason": "变量类型和读写 incidence 直接影响选择、删除与重构判断。"
+      "reason": "变量类型已由开关/数值分组标题表达；名称、稳定 ID 与读写次数直接支持选择、删除和重构判断。"
     },
     {
       "id": "variables/undeclared-reference-catalog",
       "source": "VarsTab.tsx",
-      "jsxFingerprint": "96e82709d07b4f11",
+      "jsxFingerprint": "1e092d6a6776f9e5",
       "family": "world-variable-diagnostic",
-      "leading": "present",
+      "leading": "none",
       "title": "被引用的变量 ID",
       "meta": "类型冲突或引用数说明",
       "trailing": "冲突或创建定义状态",
       "decision": "bounded-exception",
-      "reason": "可操作诊断行以异常和修复动作作为主信息，不是已定义领域对象。"
+      "reason": "未登记分组、冲突说明和创建定义状态已完整表达诊断；固定感叹号重复信息且不能区分引用。"
     },
     {
       "id": "world-sprite/asset-catalog",
       "source": "WorldSpriteLibrary.tsx",
-      "jsxFingerprint": "d3dcea07bfb4b94f",
+      "jsxFingerprint": "3ee8a1dca0256ccb",
       "family": "world-sprite-asset",
-      "leading": "present",
+      "leading": "none",
       "title": "资源或用途标签，最终回退 AssetId",
       "meta": "稳定 AssetId",
       "trailing": "无用途定义时显示待定义 DsTag",
       "decision": "compliant",
-      "reason": "用途、布局、动作和脚本详情由筛选器、Hero 与 Inspector 表达。"
+      "reason": "固定字符占位在每行都相同，不能区分大世界精灵；用途标签、AssetId 与待定义状态已支持选择。"
     },
     {
       "id": "world-sprite/usage-choice",

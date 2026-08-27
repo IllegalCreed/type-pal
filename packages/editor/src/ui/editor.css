@@ -1687,8 +1687,13 @@ html[data-panel-resize="horizontal"] * {
 }
 .project-entry-item-content {
   display: grid;
+  box-sizing: border-box;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
+  padding-inline-end: var(--ds-space-2);
+}
+.project-entry-item-content:has(> .ds-catalog-row[data-selected="true"]) {
+  background: var(--ds-surface-selection);
 }
 .project-party-row {
   grid-template-columns: 30px minmax(9rem, 0.8fr) minmax(20rem, 1.4fr) auto;

@@ -531,6 +531,9 @@ describe('App item reference navigation', () => {
     )
     const session = await renderApp(shell)
     const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+    expect(tree.querySelector<HTMLElement>(':scope > .ds-catalog-row')?.dataset.leading).toBe(
+      'none',
+    )
     const headers = [...tree.querySelectorAll<HTMLElement>('.ds-catalog-group-header')]
     const headerByTitle = (title: string) =>
       headers.find(

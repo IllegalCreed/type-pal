@@ -1,6 +1,6 @@
 # ED-CATALOG-ROW-IA-1 - 编辑器对象目录行信息层级收口
 
-Status: review（2026-08-26 build 完成；Codex accept，待 Kimi + GLM 终审）
+Status: review（2026-08-27 无意义 leading 增量 build 完成；Codex accept，待 Kimi + GLM 终审）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -29,6 +29,8 @@ Branch: `codex/ed-project-startup-ia-1`
   - 毒目录保持为正向基线：全体省略 `leading`，名称为 `title`、ID 为 `meta`、可解度为关键分类
     `trailing`；不补骷髅、毒物道具图标或其他假媒体。
   - 对矩阵发现的同类语义错位一次性收口；不能只修用户截图中的三个页面。
+  - 2026-08-27 增量：删除入口、场景根、战斗精灵、过场资源、敌队、已登记变量、未登记变量和大世界精灵目录中
+    无法区分具体对象、或已被分组/状态重复表达的固定符号；保留真实头像、色样、播放语义、图片缩略图和物品图标。
 - 范围外：
   - 不改 `DsCatalogRow` 公共 props、固定行高、滚动 owner、选中态或 focus 合同。
   - 不改 schema、migration、引用收集真值、筛选结果、对象选择、删除守卫或运行时行为。
@@ -71,8 +73,11 @@ Branch: `codex/ed-project-startup-ia-1`
 - 是否主动偏离已核真值：yes。
 - `before -> after` 一句话：技术 ID 可占媒体槽，普通能力和引用数挤成一串 -> 名称优先、ID 固定作为
   `meta`，媒体只放真实预览，`trailing` 只保留关键分类或异常状态。
+- 2026-08-27 增量 `before -> after`：固定 emoji / 字符图标只要“看起来像一种类型”即可常驻 -> 只有移除后会
+  降低对象识别或选择准确性的媒体才保留；已被标题、`meta`、分组或 `trailing` 表达的类型/状态不重复占槽。
 - 代表场景：PAL 战场 `#006`、物品 `61 观音符`、毒 `551 赤毒` 在默认宽度与窄侧栏中的目录行。
-- 用户裁决：2026-08-25 用户明确要求战场 ID 回归普通层级、物品目录降噪，并要求把结论正式落成任务卡防遗忘。
+- 用户裁决：2026-08-25 用户明确要求战场 ID 回归普通层级、物品目录降噪，并要求把结论正式落成任务卡防遗忘；
+  2026-08-27 又明确裁决“没用、没意义的 item 图标都应去掉，占地方”，授权按选择价值而不是装饰一致性判断。
 
 ## 上下文锚点
 
@@ -116,7 +121,82 @@ Branch: `codex/ed-project-startup-ia-1`
 
 ## 推进签字
 
-### 进入 build 前：设计签字
+### 2026-08-27 无意义 leading 增量重签
+
+- Codex：
+  - premise: **verified（2026-08-27，当前生产源码 + 全 adoption registry 复扫）**。除已改为 `none` 的
+    `project/entry-catalog` 外，当前 `leading=present` 的 12 个 surface 中，以下 7 个删除后不损失对象区分：
+    `App.tsx:2228-2234` 固定 `🗺️`；`BattleSpriteLibrary.tsx:1213-1223` 固定 `▦`；
+    `CutsceneTab.tsx:203-210,680-693` 的 `▶/▦` 与“视频/帧动画”分组重复；
+    `EnemyTeamTab.tsx:268-274` 固定 `⚔`；`VarsTab.tsx:269-276,330-343` 的 `⚑/№/!` 与分组、冲突/创建状态重复；
+    `WorldSpriteLibrary.tsx:579-589` 固定 `▦`。保留的 5 类均有直接选择价值：Actor 真实头像/已裁决 fallback
+    （`ActorMode.tsx:126-145,460-477`）、Ambience 真实色样（`AmbienceTab.tsx:442-463`）、Audio 播放语义
+    （`AudioAssetWorkbench.tsx:612-620`）、Image 缩略图（`ImageTab.tsx:649-663`）、Item 真实图标
+    （`ItemTab.tsx:475-492`）。
+  - design: **agree（2026-08-27）**。删除上述 7 个固定符号并同步 adoption fingerprint / leading / reason；
+    当前入口 WIP 同时让选中底色贯穿排序手柄、正文和移动动作区，但移动按钮保持独立 hit target 与边框。
+    `ImageAssetThumbnail` 的 item 缺图空白 fallback（`ImageAssetPicker.tsx:118`）只登记为独立待裁决缺陷，
+    本增量不借机删除真实 item 媒体槽或发明新资产。
+- Kimi：
+  - premise: **verified（2026-08-27，独立直读三个删除面 + 一个保留面，非代理）**。
+    删除面抽样：①敌队 `EnemyTeamTab.tsx:268-275`——`leading={<span>⚔</span>}` 是全行不变的装饰
+    符号，行区分度由 title(team.id)与 meta（成员/槽位数）承载（我 2026-08-25 曾判“有选择价值”，
+    直读复核确认该判断实际落在 meta 计数上而非符号本身，用户裁决正确）；②场景根
+    `App.tsx:2228-2234` 的 🗺️ 同为常量装饰；③`VarsTab.tsx:269-276` 的 ⚑/№ 与“开关/数值”
+    `DsCatalogGroupHeader` 分组（:330-333）完全重复，`:337-343` 的 ! 与“未登记引用”分组头 +
+    trailing（冲突/创建定义）完全重复——删除三者均不损失对象识别。
+    保留面抽样：氛围色样 `AmbienceTab.tsx:449-459`——leading 是按行真实渲染的
+    `backgroundColor: toHex(ambience.tint)` 色块（选中行显示 live previewTint），是帮助识别的
+    真实媒体，机械删除会损失 day/night/warm 的一眼区分。
+  - design: **agree（2026-08-27，附 K-I1-K-I2）**：
+    - **K-I1（删除判据形式化）**：常量、与分组/状态文字重复、或仅起装饰作用的 leading 一律删除；
+      判据机检化为 adoption reason 文本（“行内不变 / 与 group header 重复 / 与 trailing 状态重复”），
+      便于 registry 复审时逐条复核而非重读截图。
+    - **K-I2（保留边界）**：真实媒体（头像/fallback、色样、播放语义、缩略图、物品图标）不动；
+      `ImageAssetPicker.tsx:118` 的物品缺图空白 fallback 按卡面登记为独立待裁决缺陷，本增量
+      不借机删除真实 item 媒体槽、不发明替代资产。
+  - 可证伪观察：若任一删除面的符号按行变化或承载唯一状态（如某列表的 glyph 是唯一 kind 指示且
+    无 group header / trailing 对应），删除即丢信息、该面应转保留——抽查的 VarsTab 两类符号均有
+    分组头与 trailing 完全覆盖，敌队/场景根为全行常量，氛围色样为真实媒体；若入口行 WIP 的选中
+    底色贯穿使排序手柄/移动动作失去独立 hit target 或边框，则与 reorder 卡 KR2 合同冲突须停线——
+    卡面已明确移动按钮保持独立 hit target 与边框。
+- GLM：
+  - premise: **verified（2026-08-27，本席 7/7 删除面 + 2 保留面一手直读 + registry 全量复核，非代理）**：
+    1. **7 个删除面逐一实锤（全部固定 aria-hidden 类型符号，无一区分具体对象）**：
+       场景根 `🗺️`（App.tsx:2231——单根行纯装饰）；敌队 `⚔`（EnemyTeamTab.tsx:271——全行同 glyph）；
+       已登记变量 `⚑/№`（VarsTab.tsx:272——kind 已由分组头“开关/数值”表达 :330-331）；未登记变量
+       `!`（VarsTab.tsx:339——自有“未登记引用”分组头 :336 + trailing 冲突/创建定义 :341-342 双重
+       重复）；战斗精灵 `▦`（BattleSpriteLibrary.tsx:1219）；过场 `▶/▦`（CutsceneTab.tsx:205——
+       video/animation kind 已由“视频/帧动画”两个 AssetList 分组表达 :683-694）；大世界精灵 `▦`
+       （WorldSpriteLibrary.tsx:585——待定义态已在 trailing DsTag）。删除均不损失对象区分。
+    2. **5 类保留面 registry 算术精确闭合**：catalog-row-content-adoption.json 当前 `leading=present`
+       恰 12 条 = 7 删除 + 5 保留（actor/ambience/audio/image/item），无一错分。保留面抽验：
+       Item 真实图标（ItemTab.tsx:479-487——`ImageAssetThumbnail(candidate.icon)` 带 sha256
+       revision，逐对象真实媒体）；Actor 真实头像（ActorMode.tsx:463-468 `ActorAvatar` →
+       :126-146 真实 face 缩略图 + 已裁决 fallback 类——MIG-PAL-ACTOR-FACE-1 bounded-exception
+       合同完好，非机械删除对象）。
+    3. **本席 2026-08-25 旧签中 `EnemyTeam ⚔` 的“合规”结论按规则降为历史**——用户 2026-08-27
+       裁决以选择价值为唯一判据后，固定装饰 glyph 不再因“同族一致”而合格；本席复核无异议。
+  - design: **agree（2026-08-27，附 GC-R1/GC-R2 必落钉）**：
+    - **GC-R1（fingerprint/leading/reason 三方同步由门禁强制）**：删除 7 处 leading 会改变其 JSX
+      调用点——catalog gate（catalog-row-content-adoption.test.ts:221-249）由生产 JSX 重算
+      identity 并双向精确匹配，**不同步 registry 即门禁红**，反之亦然；实施时 7 条 entry 的
+      `leading` 翻 `none`、fingerprint 刷新、reason 改引 2026-08-27 用户裁决；KC2 的同族
+      `data-leading` 一致性断言在翻转后必须复绿。
+    - **GC-R2（保留面不得机械波及）**：5 类保留 entry 不动；Actor face 缺失 fallback 保留其
+      bounded-exception 理由；`ImageAssetPicker.tsx:118` 的 item 缺图空白 fallback 只登记为
+      独立待裁决缺陷，本增量不借机删除真实 item 媒体槽或发明新资产。
+  - 可证伪观察：①若任一被删 glyph 是某区分的唯一载体（如某 family 无分组头且 kind 只在 glyph 中）
+    ——已逐一验证相反（分组/trailing 均在位）；②若删除后用户在同名对象间失去区分且该 family 无
+    meta/媒体可用——当前 7 family 均有 title+meta，glyph 本就不区分对象；③若保留面中任一实为
+    固定装饰（无逐对象差异）——Item/Actor 抽验证实为真实资产缩略图，其余三类以 Codex 锚点 +
+    registry reason 存证，实施时 GC-R1 的 slot-presence 断言会捕获回退。
+- counter / 分歧处理：N/A（GLM 与 Codex 结论一致）。
+- build 准入结论：**allowed（2026-08-27，Codex + Kimi（K-I1-K-I2）+ GLM（GC-R1-GC-R2）三签齐）。
+  入口行 WIP 与 7 个删除面可按冻结分类实施；真实媒体与 `ImageAssetPicker.tsx:118` 独立缺陷不在
+  本增量内。**
+
+### 历史：2026-08-25 进入 build 前设计签字（因 2026-08-27 核心分类刷新而失效）
 
 - Codex：
   - premise: **verified（2026-08-25）**。共享 recipe 明确四槽与可选 `leading`（`recipes.tsx:101-143`）；
@@ -183,9 +263,27 @@ Branch: `codex/ed-project-startup-ia-1`
 - 缺签豁免：N/A。
 - build 准入结论：**allowed（2026-08-25，Codex + Kimi（KC1-KC2）+ GLM（GRow1-GRow2）三签齐）。**
 
-### 进入 done 前：审查签字
+### 2026-08-27 无意义 leading 增量进入 done 前审查签字
 
-- Codex: **accept（2026-08-26）**。当前生产域动态闭合为 20 文件 / 28 个 `DsCatalogRow` 调用；11 个违规 surface 已按四槽合同收口，17 个健康面或有证据例外未机械改写。受影响页聚焦测试、内容矩阵门禁、typecheck、DS gate、`git diff --check` 与 1280/720px 浏览器检查均通过。
+- Codex: **accept（2026-08-27，当前 candidate）**。入口、场景根、战斗精灵、过场、敌队、Vars 两面和
+  大世界精灵共 8 个装饰 leading 已删除；adoption registry 对 8 个调用同步刷新 fingerprint / `leading=none` /
+  选择价值 reason，静态负断言防止 🧭/🚪/🗺️/⚔/⚑/№/!/▦ 回流。registry 当前 `leading=present` 精确闭合为
+  5 类真实媒体：actor / ambience / audio / image / item；`ImageAssetPicker.tsx:118` 缺图 fallback 未改。
+  入口选中表面同时贯穿排序手柄、正文和动作区，移动按钮仍为独立 hit target 与有边框 secondary surface；
+  用户验收返工后，组合表面尾部使用 `--ds-space-2`（4px）inset，最右按钮不再贴边并为 focus outline 留足空间。
+  聚焦 **8 files / 104 tests passed**，`typecheck`、`git diff --check` 通过。真实 PAL 1280px：入口 item/surface
+  均为 68px、选中背景同为 `rgb(45,56,82)`；返工后动作区 x=287..349、item 右边界 x=353，左右 inset
+  均为 4px 且按钮边框保持；过场 18 行全部
+  `data-leading=none`、68px、标题 x=12，对应“视频/帧动画”分组清晰，页面无水平溢出、console 0 error/warn。
+- Kimi: pending（只读核实现与入口/代表页证据，accept 或带锚点 counter）。
+- GLM: pending（只读核 8 fingerprint/slot、5 保留面不变与 104 测试矩阵，accept 或带锚点 counter）。
+- counter / 返工处理：N/A。
+- 缺签豁免：N/A。
+- done 准入结论：**blocked**。
+
+### 历史：2026-08-26 进入 done 前审查签字（因 2026-08-27 核心分类刷新而失效）
+
+- Codex: **历史 accept（2026-08-26；因 2026-08-27 用户刷新 leading 分类而失效）**。当前生产域动态闭合为 20 文件 / 28 个 `DsCatalogRow` 调用；11 个违规 surface 已按四槽合同收口，17 个健康面或有证据例外未机械改写。受影响页聚焦测试、内容矩阵门禁、typecheck、DS gate、`git diff --check` 与 1280/720px 浏览器检查均通过。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理：
@@ -228,6 +326,11 @@ Branch: `codex/ed-project-startup-ia-1`
     `design-system/catalog-row-content-adoption.test.ts`、`design-system/boundary.test.ts`。
   - 文档：`docs/phase2/editor/editor-design-system-v1.md`、本卡与看板。
 - 实现摘要：
+  - 用户验收发现入口最右移动按钮贴边后，组合表面增加 `box-sizing:border-box` 与
+    `padding-inline-end:var(--ds-space-2)`；右侧 4px 与手柄左侧 4px 对称，选中背景继续覆盖 padding。
+  - 2026-08-27 增量删除 8 个无选择价值的 fixed glyph leading：入口 🧭/🚪、场景根 🗺️、战斗/大世界精灵 ▦、
+    过场 ▶/▦、敌队 ⚔、Vars ⚑/№/!；保留 5 类真实媒体不动。入口组合行由父级选中表面补齐动作区背景，
+    不改变 `DsCatalogRow` 或 reorder 公共 API。
   - 递归扫描当前生产 TSX，按相对文件 + 规范化 opening-element fingerprint 动态闭合 20 文件 / 28 调用；
     16 项合规、12 项有证据 bounded exception。测试保证新增/删除/移动/表达式漂移必须同步裁决，按 family
     锁定 leading 策略，并拒绝 alias、spread 与排序/拖拽属性绕过 owner。
@@ -239,6 +342,14 @@ Branch: `codex/ed-project-startup-ia-1`
     `ED-REORDER-DRAG-1`，静态门禁禁止把 reorder props 塞入本 recipe。
   - 同步修正 Startup 新增第 5 个合法 `DsRepeatRow` 后遗留的静态边界计数；这是全量测试提前暴露的既有门禁缺口。
 - 运行命令：
+  - 2026-08-28 在 `ED-FIELD-LAYOUT-1` 提交 `d0a42191` 之上恢复候选后做聚焦集成复核：App reference
+    navigation、Battle/World Sprite、Cutscene、EnemyTeam、Vars、ProjectWorkbench 与 catalog adoption
+    **8 files / 105 tests passed**；`pnpm --filter @type-pal/editor typecheck` passed；未重复跑全量。
+  - 入口尾部 inset 验收返工：ProjectWorkbench + catalog static contract **2 files / 44 tests passed**；
+    `git diff --check` passed。
+  - 2026-08-27 增量聚焦：App reference navigation、Battle/World Sprite、Cutscene、EnemyTeam、Vars、
+    ProjectWorkbench 与 catalog adoption 共 **8 files / 104 tests passed**。
+  - 2026-08-27 `pnpm --filter @type-pal/editor typecheck`：passed；`git diff --check`：passed。
   - 受影响页聚焦：13 文件 / 186 tests passed。
   - `pnpm --filter @type-pal/editor exec vitest run src/ui/design-system/boundary.test.ts src/ui/design-system/catalog-row-content-adoption.test.ts`：2 文件 / 47 tests passed。
   - `pnpm --filter @type-pal/editor typecheck`：passed。
@@ -247,6 +358,10 @@ Branch: `codex/ed-project-startup-ia-1`
   - 备注：一次聚焦命令参数被包脚本吞掉而意外执行全量，先得到 1216/1217（只红旧 `DsRepeatRow=4` 计数）；
     修正为 5 后已用边界聚焦测试闭合。按既定纪律不在本切片重复全量，待三张 editor 卡完成后只跑一次最终全量。
 - 浏览器 / 手工检查：
+  - 入口尾部 inset 返工：PAL 1280px 实测 surface right=353、末按钮 right=349、右 inset=4px；handle left=4px，
+    按钮 border `rgb(102,114,138)` 完整，选中背景连续，document overflow=0。
+  - 2026-08-27 PAL 1280px：入口 item/surface 68px 且选中背景连续到动作区，两个移动按钮保留独立边框；
+    过场 18 行 `data-leading=none` / 68px / title x=12，视频与帧动画分组仍清晰；两页均无水平溢出，console 0 error/warn。
   - PAL 真实项目 1280×900：BattleField `leading=none / #006 meta`、Item `leading=present / 61 meta / 无能力与引用串`、
     Poison `leading=none / 551 meta / 常规 trailing`；三族行高均 68px，文档无水平溢出。
   - 720×720：三族目录宽 214px、行高仍为 68px、选中态与四槽对齐稳定，`document.scrollWidth=clientWidth=720`；
@@ -256,18 +371,40 @@ Branch: `codex/ed-project-startup-ia-1`
 ## Review: 审查与返工
 
 - Reviewer：Kimi + GLM
-- 审查结论：Codex 自审及只读对抗审计 accept；Kimi / GLM pending。
+- 审查结论：Codex 对 2026-08-27 当前增量 candidate accept；2026-08-28 叠加 Field Layout 新基线后
+  8 files / 105 tests 与 typecheck 仍通过。Kimi / GLM pending。
 - 必须返工项：内部审计先后发现顶层漏扫、fingerprint 未绑定、reorder 禁词误伤/漏放、alias/spread 绕门、
   `leading={undefined/0}` 假阳性、空 label 不回退及装饰符号重复朗读；均已补 AST/合成负例、页面 fixture 或
-  DOM 断言闭合。当前无遗留 blocker / high；若外部 reviewer 发现新回归则转 rework。
+  DOM 断言闭合。当前增量无遗留 blocker / high；item 缺图空白 fallback 是已登记范围外缺陷，不冒充本卡完成。
+  若外部 reviewer 发现新回归则转 rework。
 - Accept / rework：review（done 仍由三方 accept 门禁阻塞）。
 
 ## 用户验收
 
-- 用户结论：已批准设计方向；实现后的最终视觉验收待用户确认。
+- 用户结论：2026-08-27 入口行选中表面/图标截图验收触发增量返工；用户明确要求删除没有选择价值的装饰图标。
+  当前入口修复浏览器自验通过，但整卡须待 7 个同类面完成、三方 review accept 和用户最终复验后收口。
 - 后续任务：N/A。
 
 ## 交接日志
+
+- 2026-08-27 User + Codex：用户验收指出入口最右移动箭头贴边。Codex 将组合表面尾部 inset 设为公共
+  `--ds-space-2`，与手柄左 inset 对称，并用静态合同防回流；聚焦 44/44、diff check 与 PAL 几何复核通过。
+  当前 Codex accept 更新到新 candidate，Kimi / GLM 仍为 pending，不需降级任何既有 reviewer accept。
+
+- 2026-08-27 Codex：增量单 Owner build 完成并转 review。8 个装饰 leading 删除、5 类真实媒体保留，registry
+  fingerprint/slot/reason 与页面 DOM/static 断言同步；聚焦 8 文件 104/104、typecheck、diff check 及 PAL 入口/过场
+  1280px 浏览器验证通过。Codex accept。Next：Kimi + GLM 只读终审当前 candidate，双签前不得 done。
+
+- 2026-08-27 Kimi 无意义 leading 增量重签: 独立直读敌队 ⚔(:268-275)/场景根 🗺️(:2228-2234)/
+  VarsTab ⚑№!(:269-276,337-343) 三个删除面——均为全行常量或与分组头/trailing 完全重复的符号；
+  氛围色样(:449-459)为按行真实渲染媒体，保留。签 premise verified + design agree（附 K-I1
+  删除判据形式化 / K-I2 保留边界）；完成独立反证并修正本人 08-25 对 ⚔ 的旧判断（其价值实际落在
+  meta 计数而非符号）。未修改实现，未代签 GLM。三签齐，准入开放。
+
+- 2026-08-27 User + Codex：用户指出入口行选中底色被右侧移动按钮截断，并裁决“没意义的 item 图标都可去掉”。
+  Codex 对全 registry 复扫得到 7 个高置信删除面、5 个保留媒体面；入口 WIP 已去掉 🧭/🚪、让选中表面贯穿动作区，
+  聚焦 2 文件 / 44 tests 与 1280px 浏览器几何通过。因该裁决直接推翻历史 `EnemyTeam ⚔` 合规前提，任务转
+  blocked，旧 build/review 签字失效；其余 surface 未开始修改。Next：Kimi + GLM 增量重签。
 
 - 2026-08-26 Codex：完成 20 文件 / 28 消费点递归 AST + fingerprint 动态矩阵与 11 surface 收口；
   13 文件 / 186 聚焦测试、47 项内容/边界门禁、typecheck、DS gate、diff check 及 1280/720px 浏览器验证通过。任务转 review，
@@ -287,16 +424,19 @@ Branch: `codex/ed-project-startup-ia-1`
 ```text
 接手任务：ED-CATALOG-ROW-IA-1 编辑器对象目录行信息层级收口
 任务卡：docs/ops/tasks/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md
-当前状态：review；build 已完成，Codex accept，待 Kimi + GLM done 前终审
-你的角色：Kimi 或 GLM（只读 reviewer）
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、editor-design-system-v1.md:53-91,404-411、
-      ED-DS-3、ED-CATALOG-CONTROLS-1、ED-5I:95-100，以及 BattleFieldTab/ItemTab/PoisonTab 锚点
-已完成：当前递归 AST + fingerprint census 为 20 文件 / 28 调用；11 surface 已收口，17 surface 保留合规/有证据例外；
-        13 文件 / 186 聚焦测试、47 项内容/边界门禁、typecheck、DS gate 与 1280/720px 验证通过
-请你做：只读核对 adoption JSON 与生产域动态闭合、四槽映射、例外理由、Item 引用真值和 Poison 无伪图标；
-        直接在本卡 done 签字表写 accept，或给出带证据的 counter / 返工项
-不要做：不得修改实现文件；不得重开已完成旧卡；不得把 reorder 合同塞入 DsCatalogRow
-输出要求：Kimi / GLM 各自独立 accept 或 counter；签字不齐不得标记 done
+当前状态：review；2026-08-27 增量 build 已完成，Codex accept，待 Kimi + GLM done 前终审
+你的角色：Kimi 或 GLM（done 前增量实现 reviewer，只读）
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡“2026-08-27 无意义 leading 增量重签”与
+      “2026-08-27 无意义 leading 增量进入 done 前审查签字”、
+      editor-design-system-v1.md DS-C.4b/DS-C.4c、catalog-row-content-adoption.json
+已完成：入口 + 7 个删除面已移除装饰 leading；5 类真实媒体不动；入口选中背景贯穿动作区；
+        尾部动作区新增 4px inset；原 8 files / 104 tests 基线 + 2 files / 44 tests 返工聚焦，以及
+        Field Layout 新基线上的 8 files / 105 tests 集成复核、typecheck、diff check 与 PAL 入口/过场浏览器证据通过
+请独立核：8 个 fingerprint/leading/reason 与生产 JSX 精确闭合；5 类保留面未机械波及；入口按钮仍有独立
+           hit target/border，最右按钮与 item 边界保留 4px 且 focus outline 不被裁切；至少复跑
+           catalog adoption + 一个受影响业务页测试
+请输出：在当前增量 done 签字表写 accept，或签 counter 并列明 file:line 返工项
+不要做：不得修改实现文件，不得代签另一席，不得把 item 缺图 fallback 偷塞进本增量；双签前不得标 done
 ```
 - 2026-08-25 GLM（全量消费覆盖）: 审查完成，签 **premise verified + design agree（附
   GRow1-GRow2）**。21 文件全消费面 census（比卡文锚点 6 文件广 3.5 倍）；三点名页错位/

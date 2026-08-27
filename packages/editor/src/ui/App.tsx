@@ -2230,7 +2230,6 @@ export function App(props: {
                 <DsCatalogRow
                   ref={sceneOutlineRowRef}
                   selected={selected.kind === 'scene'}
-                  leading={<span aria-hidden="true">🗺️</span>}
                   title={scene.id}
                   meta={`${scene.entities.length} 个实体`}
                   onClick={() => setSelected(SCENE_SELECTION)}

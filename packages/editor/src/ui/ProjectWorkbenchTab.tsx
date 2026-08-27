@@ -1521,11 +1521,6 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                   key={reorderKey}
                 >
                   <DsCatalogRow
-                    leading={
-                      <span aria-hidden="true">
-                        {entry.id === manifest.defaultEntryId ? '🧭' : '🚪'}
-                      </span>
-                    }
                     title={entry.label}
                     meta={entry.id}
                     trailing={

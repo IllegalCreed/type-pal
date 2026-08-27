@@ -349,9 +349,10 @@ describe('入口开局世界资源', () => {
     expect(selectedRow.querySelector('.ds-catalog-row__trailing .ds-tag')?.textContent).toBe(
       '直接启动',
     )
-    expect(
-      selectedRow.querySelector('.ds-catalog-row__leading [aria-hidden="true"]'),
-    ).not.toBeNull()
+    expect(selectedRow.querySelector('.ds-catalog-row__leading')).toBeNull()
+    const selectedItemSurface = selectedRow.parentElement
+    expect(selectedItemSurface?.classList.contains('project-entry-item-content')).toBe(true)
+    expect(selectedItemSurface?.querySelector('.project-entry-row-actions')).not.toBeNull()
 
     await act(async () => root.render(projectTab('entrypoint', session, 'main')))
     expect(host.querySelector('.project-center h1')?.textContent).toBe('主要入口')

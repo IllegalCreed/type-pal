@@ -268,7 +268,6 @@ export function EnemyTeamTab(props: {
             <DsCatalogRow
               key={team.id}
               selected={!creating && selected?.id === team.id}
-              leading={<span aria-hidden="true">⚔</span>}
               title={team.id}
               meta={`${team.slots.filter(Boolean).length} 名成员 · ${team.slots.length} 个语义槽`}
               onClick={() => select(team.id)}

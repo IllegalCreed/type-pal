@@ -1240,7 +1240,6 @@ export function BattleSpriteLibrary(props: {
                   tabIndex={control.tabIndex}
                   onFocus={control.onFocus}
                   selected={asset === selectedAsset}
-                  leading={<span aria-hidden="true">▦</span>}
                   title={label}
                   meta={asset}
                   trailing={entries.length ? undefined : <DsTag tone="warning">未配置</DsTag>}
