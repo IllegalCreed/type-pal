@@ -1,6 +1,6 @@
 # ED-REORDER-DRAG-1 - 编辑器有序集合拖拽手柄统一
 
-Status: review（2026-08-27 Codex 返工与 Sortable 式实时让位纠偏闭环；等待 Kimi + GLM 实现终审）
+Status: done（2026-08-27 三方增量 accept + 用户库存行复验通过，整卡收口）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -343,13 +343,98 @@ Branch: `codex/ed-project-startup-ia-1`（按用户要求在当前串行工作�
 
 - Codex: **accept（2026-08-27）**。直接证据：公共 22 项状态机测试覆盖 insert/swap 实时投影、唯一插入缝、
   scroll 补偿、成功交接无回跳、canonical no-op、repeat key 与 cancel；27 个受影响测试文件 / 373 tests passed；
-  Chromium RF-21 的提交前后 rect 连续，PAL 状态播报节点为 1×1 visual-hidden；typecheck、DS gate、build 通过。
-- Kimi: pending
-- GLM: pending
+  Chromium RF-21 的提交前后 rect 连续，PAL 状态播报节点为 1×1 visual-hidden；用户追加指出移动按钮无常驻
+  边框后，公共 `DsReorderMoveButton` 已冻结为 secondary，default `DsRepeatRow` 三枚动作实测均为 36×36px；
+  追加聚焦 4 files / 101 tests、typecheck 与 87-file DS gate 通过。
+- Kimi: **accept（2026-08-27，只读终审 c799cb35 + 工作树视觉修正；独立直读公共状态机与 adapter
+  调用域 + 聚焦复跑，非代理）**。按 KR1-KR4 逐项核验：
+  - **KR1（身份/revision）✓**：手势开始冻结 {scopeKey、sourceKey、有序键列、revision} 快照
+    （reorder.tsx:547-583），drop 前 `sameSnapshot` 再校验（:585-596,643-645）；重复值由
+    editor-local occurrence token 追踪（`useDsReorderKeys`，:1302+），StrictMode 克隆/插入删除/
+    显式去重/歧义 reset 均有专项测试（reorder.test.tsx:963-1040）；revision/scope 变化、lost
+    capture、blur、hidden、unmount 全部取消且零命令（:654,:558 测试）。
+  - **KR2（行合同不破）✓**：手柄是 item 边界内首个 DOM 槽，`DsCatalogRow.leading` 与 68/46
+    行高未被触碰（adoption 测试 :430 机检 grip 不占媒体槽）；`DsReorderMoveButton` 固定
+    secondary 常驻边框，默认档 repeat row 同组动作 36×36（工作树 recipes.css 直读）。
+  - **KR3（一次事务权威）✓**：commit 构造唯一 intent 后恰一次 `onReorder`（:641-696）；
+    原位/无目标/禁用/canReorder 拒绝/域级 no-op 全部零命令且焦点还原；hover/auto-scroll 只更新
+    本地投影（:745+ projectPointer 无 dispatch）；20 次 hover 零命令类断言在状态机测试内。
+  - **KR4（串行依赖）✓**：Startup 卡先于本卡收口（c7018f6a + 返工链在 c799cb35 之前）；
+    ARCH-ACTOR-CONDITION-SEED-1 未被夹带；stage reorder 未混入（卡面 C 节排除保持）。
+  - adapter 抽检：固定槽 swap（EnemyTeamTab `strategy="swap"`）、反向 LayerStack（visual↔storage
+    反向映射 + 测试）、嵌套 same-sibling、Cutscene/FrameAnimation draft-history、timeline 多选与
+    frame transfer payload 分离（SpriteActionEditor/FrameAnimationEditor 原生 draggable 已清零，
+    本人 grep 复核）。
+  - 聚焦复跑：reorder/reorder-adoption/boundary/ShopTab/EnemyTeamTab/SpriteActionEditor/
+    FrameAnimationEditor.reorder/CasualtyEditor/ScriptEditor 9 文件 113/113 全绿；全量采纳卡内
+    161/1246 记录未重复。
+- GLM: **accept（2026-08-27，只读终审，本人一手直读实现 + 独立复跑聚焦测试）**：
+  1. **公共 owner 合同（KR1/KR3）**：`reorder.tsx:214` `POINTER_THRESHOLD_PX=6`；pointer
+     capture 释放 try/custody（:504-511）；`cancel`（:513-528）fail-closed 清 session/autoscroll/
+     view/indicator；`currentBaseline/sameBaseline`（:530-548）冻结 scope+revision+有序键列并在
+     drop 前再校验；提交路径（:662-693）构建唯一 `DsReorderIntent` 后**恰一次**
+     `onReorderRef.current(intent)`，`false` 返回 = 域级 no-op（零 history + “顺序未改变”播报 +
+     焦点还原）。22 项状态机测试逐条覆盖：:654 阈值/no-op/disabled/cancel/revision 零命令、
+     :558 lostcapture/blur/hidden/unmount 零命令、:254 键盘至多一次提交、:506 swap 单次提交、
+     :847 IME composition 阻断捕获、:759 最近 modal owner 自动滚动。
+  2. **registry/allowlist（RD1/RD4）**：`reorder-adoption.json` 基线 **17 家族/29 adoption/
+     32 数据路径/19 owner 文件**与本席设计审查期独立 census 口径一致；每家族带
+     `integrationVerification.marker`（如 `[reorder-family:layer-stack]`）绑定真实测试。
+     `reorder-adoption.test.ts` 六断言：:179 机器 census 绑定全部公共 collection 调用点、
+     :286 transfer/spatial 例外证据化且**陈旧即失败**、:356 生产 draggable/onDrag*/onDrop 扫描、
+     :373 私有移动按钮/手柄/`≡` glyph/手搓 intent 拒绝、:430 grip 在 item 边界内且不占 catalog
+     媒体槽、:448 别名/展开 props 藏证据 fail-closed。11 条 allowlist 例外与本席设计期排除类
+     一一对应（transfer×4/spatial/resize/归属/level 派生/pan-zoom/精灵绑定）。
+  3. **adapter 抽检**：EnemyTeam `strategy="swap"` 固定槽交换保留空槽（EnemyTeamTab:231/:355）；
+     反向图层测试（MapMode.test:877-905）断言 visual `['objects','floor']` vs storage
+     `['floor','objects']` 反向映射 + `spyOn(dispatch)` 计数 + 键盘 Space/End/Enter（无位移
+     pick+Enter = dispatch 零调用）；Shop 重复货物 occurrence 测试（ShopTab.test:140 “重复货物
+     按 occurrence handle 重排，一次命令可 undo/redo，同值为零命令”）落实 RD3；occurrence
+     token 套件 :963-1040 覆盖 StrictMode 克隆、插入删除不串 token、歧义 reset。
+  4. **替代路径统一**：全库 18 个生产文件消费 `DsReorderMoveButton`（ShopTab:172-181、
+     PoisonTab:151-160 抽检确认上移/下移均为公共 owner，无私有箭头残留）；排序用原生
+     draggable 归零（仅 SpriteFrameWorkbench transfer 在 allowlist）；未提交视觉修正
+     （variant="secondary" 常驻边框 + `.ds-repeat-row[data-density=default] .ds-icon-button`
+     36×36 同组同高）与 boundary.test 新增规则断言一致钉死。
+  5. **验证复跑**：`vitest run reorder.test.tsx reorder-adoption.test.ts` → **2 files /
+     28 tests passed**（本席独立执行）；`git show c799cb35 -- packages/content|reforge|migrate|
+     projects` 为空——schema/runtime/migration/PAL 未动；Startup 队伍/库存 reorder adapter
+     （reorderDsItems + useDsReorderKeys，ProjectWorkbenchTab:715-734）与该卡命令域无冲突。
+  - 无返工项。未修改实现文件，未代签 Kimi。
+- Kimi 增量补审 accept（2026-08-27，只读，仅限用户验收增量四点，不重审旧范围；与 Startup 卡共享同一
+  增量证据）：库存行三动作封入唯一 `.project-inventory-actions` 槽且为行 direct child（四子项），宽屏
+  不再拆行；`DsReorderMoveButton` 固定 secondary + 默认档 repeat row 同组 36×36（reorder.tsx:1277+
+  与 recipes.css:801-807 工作树直读）；editor.css 三档断点结构直读一致（:1752/:2183/:2233）；
+  两个 catalog 指纹刷新后 `catalog-row-content-adoption.test.ts` 复跑 4/4（recorded==actual 双向匹配）。
+  复跑 reorder/ProjectWorkbenchTab/boundary/catalog-adoption 共 83+43+4 全绿。无返工项；未修改实现，
+  未代签 GLM。
+- GLM 增量补审 accept（2026-08-27，只读，仅限用户验收增量四点，不重审旧范围）：
+  1. **库存 adapter 三动作原子槽**：inventory 行 direct child 恰 4（序号/选择器/数量/动作槽），
+     前移/后移/删除封入唯一 `.project-inventory-actions` nowrap 槽（ProjectWorkbenchTab:1055-1073，
+     test :666-669 断言 3 按钮 + 4 child）——adapter 不再把动作拆成独立 grid child，宽屏不拆行。
+  2. **三档响应**：基础 4 列同排（editor.css:1752）、中档组列不拆（:2183-2196）、窄档整组降行
+     （:2233-2243）；组内 `flex-wrap:nowrap`（:1759-1766）；36×36 由公共 default-density
+     icon-button 规则钉住——adapter 层零私有 CSS 补丁。
+  3. **DsRepeatRow census**：全库恰 5 处消费（本席 grep 复核），inventory 封组后无剩余未封组多动作
+     表面；修复未扩大公共 API（页面级槽位 span + 既有 DsFieldMeasure），符合本卡“adapter 持列语义、
+     公共层持交互”的分层。
+  4. **两个 Catalog Row evidence fingerprint**：`catalog-row-content-adoption.json` 的
+     `cutscene/asset-catalog`（`907e826c897c45ff`）与 `sprite-action/preset-catalog`
+     （`77c7bcbc4e7252cd`）条目 decision 均为 `compliant` 且带理由——非 allowlist 绕过；gate 测试
+     （catalog-row-content-adoption.test.ts:221-249）由生产 JSX 重算 identity 并**双向精确匹配**
+     （recorded == actual、每条必须绑定真实 callsite、slot presence 逐项断言），本席复跑通过即证明
+     两 fingerprint 绑定的是当前 CutsceneTab / SpriteActionEditor 调用点（Reorder 改动后的漂移已修复）。
+  - 本席独立复跑 `reorder.test.tsx + ProjectWorkbenchTab.test.tsx +
+    catalog-row-content-adoption.test.ts` → **3 files / 66 tests passed**。无返工项；未修改实现，
+    未代签 Kimi。
 - counter / 返工处理: 2026-08-26 value no-op、undo identity、registry marker 假绿三项已逐项闭环；2026-08-27
-  用户指出的双命中线 / item 边缘落点已改为 Sortable 式实时让位，fixed-slot swap 与逻辑焦点一并闭环。
+  用户指出的双命中线 / item 边缘落点已改为 Sortable 式实时让位，fixed-slot swap 与逻辑焦点一并闭环；同日
+  追加指出上下移动 glyph 无常驻按钮边界，已由公共 owner 改为 secondary 并按行 density 同组同高；最终验收
+  又发现 Startup inventory adapter 把三动作作为独立 grid child 导致宽屏拆行，已封为一个 nowrap 动作槽
+  （GLM 增量补审 accept 已写回，含 Reorder 引起的两个 Catalog fingerprint 漂移修复核验）。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **allowed / complete（2026-08-27）**——Codex rework accept + Kimi 增量补审
+  accept + GLM 增量补审 accept 齐，用户随后复验库存行并明确“通过”。
 
 ## Draft: 设计与风险
 
@@ -425,6 +510,12 @@ Branch: `codex/ed-project-startup-ia-1`（按用户要求在当前串行工作�
     occupant。外部 undo/redo 或槽内容替换无法证明 occurrence 时统一 reset token，避免重复敌人/空槽静默串位。
   - 排序结果和 Startup 队伍结果继续通过 live region 提供无障碍播报，但节点统一视觉隐藏；不再把
     “已移到初始队伍第 N 位”作为普通正文显示或占据布局。
+  - 精确前移/后移 fallback 不再继承 `DsIconButton` 的 quiet 默认：公共 `DsReorderMoveButton` 固定使用
+    `secondary` 常驻 control border；`DsRepeatRow` 的 default density 统一同组图标动作至 36×36px，避免
+    移动按钮 30px、删除按钮 36px 的第二层回归。danger 删除继续保留红色边框，领域页不补私有 CSS。
+  - Startup inventory adapter 将前移 / 后移 / 删除封装为一个不可拆分的 trailing action slot；`DsRepeatRow`
+    五个生产消费点 census 证明库存是唯一遗漏，未为单一反例扩大公共 API。Reorder 提交影响的 Cutscene / Sprite
+    Catalog Row 调用点同时刷新 evidence fingerprint，恢复采用矩阵与当前源码双向闭合。
 - 运行命令:
   - `pnpm --dir packages/editor exec vitest run src/ui/design-system/reorder.test.tsx` → 22 passed。
   - `pnpm --filter @type-pal/editor exec vitest run src/ui/design-system/reorder-adoption.test.ts` → 6 passed。
@@ -433,6 +524,11 @@ Branch: `codex/ed-project-startup-ia-1`（按用户要求在当前串行工作�
   - `pnpm --filter @type-pal/editor typecheck` → passed（首次测试 spy 类型错误修正后复跑绿色）。
   - `pnpm --filter @type-pal/editor audit:design-system` → 87 files / 3 evidence-bound exceptions，passed。
   - `pnpm --filter @type-pal/editor build` → 471 modules，passed；仅既有 chunk-size 提示，无 build error。
+  - 移动按钮视觉返工聚焦组：`reorder.test.tsx + controls.test.tsx + reorder-adoption.test.ts + boundary.test.ts`
+    → 4 files / 101 passed；随后 typecheck、87-file DS gate 与 `git diff --check` 再次通过，未重复全量。
+  - 用户验收增量：`ProjectWorkbenchTab.test.tsx + boundary.test.ts` → 2 files / 83 passed；加入
+    `catalog-row-content-adoption.test.ts` 后 3 files / 87 passed。`check` typecheck 通过、DS gate 通过；全量阶段唯一
+    红项是上述两处旧 fingerprint 漂移，聚焦修复闭环后未重复耗时全量。
 - 浏览器 / 手工检查: Chromium 真实 PAL + Design Lab；详见下一节。
 - 跳过的检查及原因: 未再次运行 editor 全量；审查期间已执行一次 161 files / 1246 tests，全量之后的新增改动均由
   最终 27 files / 373 tests 聚焦组、typecheck、DS gate 与 build 覆盖，避免无价值重复全量。
@@ -455,18 +551,25 @@ Branch: `codex/ed-project-startup-ia-1`（按用户要求在当前串行工作�
     有效 viewport 低于应用既有 720px shell 下限时由 shell 横向滚动承接，不裁切 item 或浮层。
   - PAL Startup 的排序状态节点实测 class=`ds-visually-hidden`、`position:absolute`、`clip-path:inset(50%)`、
     rect=`1×1`；无障碍树仍保留 status，视觉页面不再出现用户截图中的独立正文行。
+  - PAL Startup 真实动作组追加实测：上移/下移均为 `ds-icon-button--secondary`、常驻 `1px solid
+    rgb(102,114,138)` control border、36×36px；删除为 `danger`、`1px solid rgb(242,125,132)`、36×36px。
+    三者同组同高，首尾 disabled 仍保留按钮轮廓，默认态不依赖 hover 才能识别。
+  - 用户验收反例修复后，PAL 初始库存临时添加“观音符”并量测 1280 / 900 / 720px：三动作每档均
+    `top spread = 0`、36×36px、完整落在 row rect 内且无横向溢出；900 / 720 只允许整组响应式降行，组内不拆散。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径:
   - `docs/ops/evidence/ED-REORDER-DRAG-1/design-lab-rf21-1280.png`
   - `docs/ops/evidence/ED-REORDER-DRAG-1/pal-startup-party-720.png`
   - `docs/ops/evidence/ED-REORDER-DRAG-1/design-lab-live-reflow-2026-08-27.png`
-- 结论: **accept（Codex，2026-08-27）**；item 内 grip、实时让位、单缝、无回跳与隐藏播报均已在真实浏览器闭环。
-- 未完成项: Kimi + GLM 实现终审与用户最终验收尚未完成。
+- 结论: **rework accept（Codex，2026-08-27）**；item 内 grip、实时让位、单缝、无回跳、隐藏播报、常驻按钮
+  边界与 adapter 原子动作槽均已在真实浏览器闭环。
+- 未完成项: 无；三方增量补审与用户库存行复验均已完成。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: **Codex rework accept**；Kimi pending，GLM pending。
+- 审查结论: **Codex / Kimi / GLM 三方 accept（2026-08-27）**；两席对当前用户验收增量完成独立补审，
+  无 counter。
 - 必须返工项:
   1. **closed**：深度同值的 script / effect / row / step 重排由 domain owner 返回 canonical no-op，零 history，
      公共层播报“顺序未改变”且不进入 settling。
@@ -478,16 +581,43 @@ Branch: `codex/ed-project-startup-ia-1`（按用户要求在当前串行工作�
   4. **closed（用户 2026-08-27 纠偏）**：删除 item 上下边缘各自命中的双线模型，改为冻结几何的单占位实时
      reflow；insert 一个居中缝，swap 只交换目标，松手 DOM handoff 不回跳。
   5. **closed（用户 2026-08-27 纠偏）**：Startup 独立可见排序结果行改为 visual-hidden live status。
-- Accept / rework: **ready for Kimi + GLM review**。
+  6. **closed（用户 2026-08-27 纠偏）**：前移/后移从 quiet 悬空 glyph 改为公共 secondary 常驻边框；default
+     RepeatRow 内与 danger 删除统一 36×36px，compact 行仍由公共 density recipe 持有。
+  7. **closed（用户 2026-08-27 验收 counter）**：Startup inventory 三动作不再作为独立 grid child；一个
+     nowrap slot 在宽屏同排，在窄宽只整组降行，数量同时获得可见标签与公共短数值宽度。
+- Accept / rework: **accept / done**。
 
 ## 用户验收
 
 - 用户结论: 2026-08-26 已批准“所有可调整顺序的项都在前面增加手柄并支持拖拽”；实现中再次明确纠偏
   “手柄应该在 item 里面”；2026-08-27 再明确要求 VueUse/SortableJS 式实时动画让位并移除可见播报正文，
-  当前 build 已按两项硬要求完成，最终整卡验收待用户确认。
-- 后续任务: Kimi + GLM 只读实现终审并分别签 `accept/counter`；三方 accept 后交用户最终验收。
+  随后指出上下移动同为按钮却没有 border；当前 build 已将移动按钮冻结为 secondary 常驻边框并补齐同组
+  density。最终验收确认其余项目通过，仅 counter 初始库存动作拆行与裸数量值；当前增量修复后获 Kimi / GLM
+  补审 accept，2026-08-27 用户复验该行并明确“通过”，本卡最终验收完成。
+- 后续任务: 无；后续添加器交互由独立 `ED-ADD-PICKER-DIALOG-1` 承接，不扩大或重开本卡。
 
 ## 交接日志
+
+- 2026-08-27 User: 复验 Startup 库存行可见“数量”字段及不可拆分的上移 / 下移 / 删除动作组，明确“通过”。
+  三方增量 accept 与用户验收均齐，本卡转 done；无下一位 reviewer。
+
+- 2026-08-27 Kimi 增量补审: 只读核同一增量的 reorder 侧（动作槽封组、secondary 常驻边框、36×36 同组
+  同高、catalog 指纹重算通过）；签 accept。未修改实现，未代签 GLM，未标 done。Next: 用户复验后收口。
+
+- 2026-08-27 User + Codex: 用户最终验收确认其余项目无问题，只 counter Startup inventory 宽屏动作拆行，
+  并指出裸数量值缺少可见语义。Codex 完成唯一遗漏 consumer 封组、公共短数值字段采用与两处 Reorder 引起的
+  Catalog Row evidence fingerprint 漂移修复；83 + 87 聚焦、typecheck、DS gate、PAL 三档几何通过。
+  Next: Kimi + GLM 只读补审当前增量；随后用户只复验库存行。
+- 2026-08-27 Kimi: done 前只读终审 c799cb35 + 工作树视觉修正，签 **accept**。独立直读公共状态机
+  （快照冻结/同基线再校验/一次 intent/取消面零命令/occurrence token）、adapter 四族（swap/反向 stack/
+  same-sibling/draft-history）、行合同不破（grip 不占 leading、68/46 不变、移动按钮同组同高）；原生
+  draggable 在两前私有页清零（本人 grep）；聚焦 9 文件 113/113 复跑全绿。未修改实现，未代签 GLM。
+  三方 accept 齐，待用户验收收口。
+- 2026-08-27 Codex: 根据用户截图定位公共 `DsReorderMoveButton` 漏传 variant、继承 quiet transparent border，
+  同时发现其硬编码 compact 导致 Project default row 的箭头 30px、删除 36px。公共 owner 改为 secondary，
+  `DsRepeatRow` default density 统一 icon action 为 36px；追加 4 files / 101 tests、typecheck、DS gate、diff-check
+  全绿。Chromium PAL 实测三枚按钮均 36×36px，上下 control border / 删除 danger border 常驻。Next: Kimi +
+  GLM 终审须把按钮视觉合同纳入 accept/counter。
 
 - 2026-08-27 Codex: 完成 value no-op、ambiguous undo identity 与 marker gate 返工；按用户反馈把双边缘
   indicator 重做为 Sortable 式实时 reflow，并隐藏 Startup 可见播报正文。补齐 insert/swap 几何、scroll、
@@ -537,7 +667,9 @@ ARCH-ACTOR-CONDITION-SEED-1 不在本卡实现范围。
    live/focus，以及所有 cancel 路径是否零命令；确认 `reorder.test.tsx` 的 22 项覆盖实时 insert/swap 几何、
    scroll 补偿、成功 handoff 无回跳、repeat key 与 canonical no-op，而非只测最终数组。
 2. 用户硬要求：grip 必须在 item 可见边界与背景内。核公共 DOM/CSS、PAL 720 截图与 RF-21；不得退回截图所示
-   的 item 外 rail，不得占 Catalog media leading 或嵌入目录按钮。点击精确移动仍须保留同 owner。
+   的 item 外 rail，不得占 Catalog media leading 或嵌入目录按钮。点击精确移动仍须保留同 owner；前移/后移
+   必须是 secondary 常驻边框而非 quiet 悬空 glyph，default RepeatRow 中与同组 danger 删除同为 36×36px，
+   compact 行尺寸只能由公共 density recipe 持有。
 3. 领域语义：抽查 Startup、重复 Shop、EnemyTeam 空槽、nested script、反向 LayerStack、SpriteAction
    `loopFrom`+资源 transfer、FrameAnimation active/anchor+history；一次完成恰一条 command/draft history，
    value-level no-op 为零，undo/redo 对称，重复 occurrence 与草稿不串项。
@@ -554,3 +686,35 @@ GLM 重点：registry/allowlist/gate 的可证伪性、测试矩阵/命令次数
 `design-lab-live-reflow-2026-08-27.png` 与 0/40/220ms rect 证据。除非发现会改变结论的新风险，不重复跑耗时全量。
 请分别签 `accept`，或写 `counter` 的文件:行、复现与最小返工条件；任一 counter 都留在 review/rework。
 ```
+
+## 下一位 Agent 提示词（2026-08-27 用户验收增量补审）
+
+```text
+请联合只读补审 ED-PROJECT-STARTUP-IA-1 + ED-REORDER-DRAG-1 的用户验收增量。
+
+任务卡：
+- docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md
+- docs/ops/tasks/ED-REORDER-DRAG-1-editor-sortable-collection-drag-handles.md
+当前状态：review。上一 candidate 的 Kimi / GLM accept 因用户可见返工失效；Codex 已 rework accept。
+不得修改实现、不得代签另一席、不得标记 done。
+
+只需审当前增量，不重审已通过旧范围：
+1. ProjectWorkbenchTab 库存数量是否使用 DsFieldMeasure(short-number) + 可见“数量”标签，label/input 正确关联，
+   Enter + blur 仍只提交一条命令。
+2. inventory row 是否只有 4 个 direct child，前移/后移/删除位于一个 project-inventory-actions 原子槽；
+   1280px 同行，900/720px 只允许整组降行，组内不拆散、不溢出，按钮仍为 36×36。
+3. 全库 5 个 DsRepeatRow census 是否证明 inventory 是唯一未封组多动作面，不应扩大公共 API。
+4. catalog-row-content-adoption.json 两个 fingerprint 是否精确绑定当前 CutsceneTab / SpriteActionEditor 调用点，
+   没有用 allowlist 绕过门禁。
+
+现有证据：2 files / 83 tests、含 catalog gate 3 files / 87 tests、typecheck、DS gate（87 files / 3 exceptions）、
+git diff-check 通过；PAL 1280/900/720 几何 top spread=0、scrollWidth=clientWidth、console 0 error/warning。
+
+请分别把 `accept` 或 `counter + 文件:行 + 最小返工条件` 写回两卡当前 done 签字 / Review 段。
+双 accept 后只等待用户复验这一行，不要求用户重验其余已通过项目。
+```
+
+## 下一位 Agent 提示词（2026-08-27 收口）
+
+无下一位 Agent 提示词；Codex / Kimi / GLM 三方审查与用户验收均已完成。后续添加器交互按独立
+`ED-ADD-PICKER-DIALOG-1` 推进，不重开本卡。

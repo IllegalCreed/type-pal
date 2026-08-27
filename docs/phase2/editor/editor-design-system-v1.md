@@ -468,8 +468,11 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   该缝或来源占位区时不得因 `display: contents` 命中空白而抖回原位，原位投放不显示 indicator。滚动 owner 位移后
   占位与 indicator 必须同步修正；`prefers-reduced-motion: reduce` 下保留瞬时让位与静态 indicator，但关闭位移动画。
 - 键盘在手柄上用 Space/Enter 拿起或落位，方向键、Home/End 选择位置，Escape 取消；共享 polite live region
-  宣布当前位置与完成结果，live region 必须视觉隐藏且不占布局；提交后焦点跟随同一逻辑项。拖拽不能成为唯一入口：每项仍提供公共前移/后移按钮或
-  经审签的等价移动菜单；pointer、keyboard、click 必须调用同一个 `canReorder/onReorder` owner。
+  宣布当前位置与完成结果，live region 必须视觉隐藏且不占布局；提交后焦点跟随同一逻辑项。拖拽不能成为唯一入口：
+  每项仍提供有常驻边框的公共 `secondary` 前移/后移按钮，或经审签的等价移动菜单；不得退回默认态只有悬空
+  glyph、hover 后才显露按钮边界的 `quiet` 外观。移动按钮必须服从所在公共行的 density：default 行与同组
+  `36px` 动作同高，compact 行使用公共紧凑命中区，业务页不得单独缩小其中一枚按钮。pointer、keyboard、click
+  必须调用同一个 `canReorder/onReorder` owner。
 - 普通数组用 insert，固定槽位用 swap，图层可按显示顺序适配反向索引，嵌套脚本只允许同父级，临时清单和时间线
   只进入各自 draft history。重复值必须使用既有稳定 ID 或 editor-local occurrence token；不得用裸 value/index
   作为手势身份，也不得为排序新增持久化 schema ID。

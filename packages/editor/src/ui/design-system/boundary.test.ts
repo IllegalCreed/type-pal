@@ -119,6 +119,9 @@ describe('editor design-system static boundary', () => {
     expect(recipes).toMatch(
       /\.ds-repeat-row\[data-density="compact"\] :is\(\.ds-input, \.ds-select, \.ds-button\)[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
     )
+    expect(recipes).toMatch(
+      /\.ds-repeat-row\[data-density="default"\] \.ds-icon-button\s*\{[\s\S]*?width:\s*var\(--ds-control-height\);[\s\S]*?height:\s*var\(--ds-control-height\);/,
+    )
     const repeatRowChildRule = recipes.match(/\.ds-repeat-row\s*>\s*\*\s*\{([^}]*)\}/)?.[1]
     expect(repeatRowChildRule).toBeDefined()
     expect(repeatRowChildRule).toMatch(/min-width:\s*0;/)

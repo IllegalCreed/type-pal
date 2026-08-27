@@ -348,6 +348,7 @@ describe('DsReorderCollection', () => {
 
     const move = host.querySelector<HTMLButtonElement>('[aria-label="下移甲"]')!
     expect(move.disabled).toBe(false)
+    expect(move.classList).toContain('ds-icon-button--secondary')
     await act(async () => move.click())
     expect(canReorder).toHaveBeenCalledTimes(2)
     expect(canReorder.mock.calls[1]?.[0]).toMatchObject({ fromIndex: 0, toIndex: 2 })

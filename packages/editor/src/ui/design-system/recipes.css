@@ -801,6 +801,13 @@
   overflow-wrap: anywhere;
 }
 
+.ds-repeat-row[data-density="default"] .ds-icon-button {
+  width: var(--ds-control-height);
+  min-width: var(--ds-control-height);
+  height: var(--ds-control-height);
+  min-height: var(--ds-control-height);
+}
+
 .ds-repeat-row[data-density="compact"] :is(.ds-input, .ds-select, .ds-button) {
   min-height: var(--ds-control-height-compact);
   padding: var(--ds-space-2) var(--ds-space-4);

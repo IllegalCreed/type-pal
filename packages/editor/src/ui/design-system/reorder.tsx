@@ -1277,6 +1277,7 @@ export function DsReorderMoveButton(props: {
     <DsIconButton
       className={props.className}
       size="compact"
+      variant="secondary"
       label={label}
       icon={
         context.orientation === 'horizontal'
