@@ -1,6 +1,6 @@
 # ED-ADD-PICKER-DIALOG-1 - 编辑器候选对象添加弹窗统一
 
-Status: build（2026-08-27 Codex + Kimi + GLM 已在 4+6 冻结基线上签齐；Codex 恢复唯一 Coding Owner）
+Status: blocked（2026-08-27 第三次 production census 证实 RecipeEditor 为第 7 个 deferred owner；4+6 签字失效，等待 Kimi / GLM 对 4+7 增量重签）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -92,15 +92,27 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
     `cues` 追加 `{ kind: 'sound', asset }`，命令 owner 为 `UpdateSpriteCommand`。
 - `ItemAmountList` 不是单一路径：同一 append-default owner 实际覆盖配方材料、配方产物、资源奖励档位三条 data path
   （`ItemUseEffectEditor.tsx:492-503,862-868`），registry 必须逐路径登记，不能以一个模糊条目代替。
-- 两席独立复扫后的生产基线为 **4 处对话式追加 + 6 个 append-first-default owner（其中 ItemAmountList 覆盖
-  3 条 data path）**。新增三处与原三处采用同一分类：本卡首轮只登记为 deferred evidence，不趁补 census 扩大业务迁移范围；
-  删除条件是后续任务为“先选后追加”或“创建默认行后编辑”作出统一产品裁决并独立签字。
-- 这改变 AP1 的“全量 census”核心前提，因此 2026-08-27 原 Codex / Kimi / GLM build 签字仅保留为历史记录，
-  **不再授权继续修改实现文件**。Kimi / GLM 已分别直读新增 owner 并共同 counter 4+5；本节现按其直接证据登记
-  4+6 基线、三条 ItemAmountList data path 与 deferred 理由。两席把 counter 转为 agree 前仍不得恢复 build；
-  无须重审已冻结的 Dialog 公共 API。
+- 上一轮两席独立复扫曾把生产基线认定为 **4 处对话式追加 + 6 个 append-first-default owner（其中
+  ItemAmountList 覆盖 3 条 data path）**，并据此完成 4+6 增量重签；这些记录作为历史事实保留。
+- 第三次独立语义 census 在落 JSON registry 前发现 `ItemUseEffectEditor.tsx:423-432,510-529` 的
+  `RecipeEditor`：“添加配方”从 live `ingredientItems[0]` 与 `items[0]` 同时取首项，立即向 `recipes` 追加
+  一条材料/产物 `count=1` 的复合行。它经 `EffectFields`（`:813-821`）与 `patchEffects`
+  （`:1092-1129`）最终由 `UpdateItemCommand`（`ItemTab.tsx:995-1001,1833-1849`）提交。
+- `RecipeEditor` 不能并入 `ItemAmountList`：后者只向已有 recipe 的 `ingredients` / `products` 或资源奖励
+  `rewards` 单列表追加一个 `ItemAmount`；前者追加的是有顺序语义的整个 `ItemRecipe`，一次生成材料和产物
+  两类 live 引用，并保持 consuming 时排除当前物品的不变式。
+- Codex 与两份只读 AST / 人工复扫按“按钮直接追加集合元素，且新元素引用由 live registry 首项或首个未用项
+  隐式生成”的冻结边界检查 98 个 production TSX，当前未发现第 8 个。明确排除固定 schema 默认行、完整对象 /
+  command 创建向导、文件或已选帧添加、编辑单个 optional 引用；`添加效果` 当前追加固定 `healHp` / `fixedDamage`
+  类型行，不消费 live registry，若默认顺序或兼容规则改变则该 exclusion 失效。
+- 当前生产基线因此更正为 **4 included + 7 deferred**。第 7 处只登记 evidence，不扩大本卡四个 included
+  业务迁移面；当前单选 picker 不能表达材料 + 产物的复合创建。后续独立卡须冻结双候选 / 分步确认、默认数量、
+  consuming 排除和配方顺序事务后才能迁移并删除 allowlist。
+- 这再次改变 AP1 的“全量 census”核心前提，故所有 4+6 build 签字仅保留为历史记录，**不再授权继续修改实现
+  文件**。公共 WIP 原样保留、尚未迁移业务页；Kimi / GLM 只需增量直读 RecipeEditor 与 4+7 分类，无须重审
+  已冻结的 Dialog 公共 API。
 
-#### 4+6 冻结分类 registry（docs 真源；JSON gate 在恢复 build 后机械落地）
+#### 4+7 当前分类 registry（docs 真源；待 Kimi / GLM 增量重签后冻结并机械落 JSON gate）
 
 | 分类 | Adoption ID / owner | 数据路径 / 默认值 | 当前理由 | 删除条件 |
 |---|---|---|---|---|
@@ -114,6 +126,7 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
 | deferred | `skill/cost-items-append-default` / `UpdateSkillCommand` | `skills[*].cost.items` / 首个未用 item、`amount=1` | 创建后在行内改物品与数量 | 同上；若统一先选后追加则删除 allowlist |
 | deferred | `actor/level-up-skill-append-default` / `UpdateLevelUpCommand` | `levelUp[actorId]` / `level=max+1`、首个 skill id并排序 | 同时创建等级与技能两个可编辑默认值，不只是挑候选 | 后续卡先冻结等级默认/排序事务再决定 picker |
 | deferred | `asset/sprite-step-sound-cue-append-default` / `UpdateSpriteCommand` | `sprites[*].poses[*].steps[*].cues` / 首个 sound asset | 在当前 step 创建可行内改选的 sound cue，且与动作编辑 proof/command owner 绑定 | 后续卡核 proof、step scope 与 cue 默认后再决定 picker；迁移时删除 allowlist |
+| deferred | `item/craft-recipe-append-default` / `UpdateItemCommand` | `items[*].use.effects[kind=craftRecipe].recipes` / 材料首个 eligible item `count=1` + 产物首个 item `count=1` | 一次创建材料与产物两类引用的复合配方行；当前单选 picker 无法表达，且 consuming 时材料必须排除当前物品 | 后续卡冻结双候选或分步确认、默认数量、当前物品排除与配方顺序事务并三签；迁移后删除 allowlist |
 
 机器 census 纪律：不得再以单行“添加”动词 grep 作为全量证明；恢复 build 后的 registry gate 必须结合 JSX
 button↔handler 关联、数组追加形态、`first*` / `[0]` live registry 首项信号，并逐项解释排除项。
@@ -263,6 +276,14 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
     `UpdateSpriteCommand` 提交；它与其余 append-first-default owner 同型。两席未见第 7 个的复扫证据已写回。
   - design: **agree（2026-08-27 4+6 二次更正）**。接受 4 included + 6 deferred 表；Sprite sound cue
     只登记 owner/理由/删除条件，不扩大本卡实现范围。公共 API 与四个 included 迁移范围不变。
+  - premise: **reverified（2026-08-27 4+7 第三次更正）**。本人直接读取 `RecipeEditor`
+    （`ItemUseEffectEditor.tsx:423-432,510-529`）及完整 `UpdateItemCommand` 链，确认其从 live 物品候选
+    隐式取材料与产物首项并追加整个 `recipes[]`，不能由只覆盖 `ingredients/products/rewards` 的
+    `ItemAmountList` 条目代替。随后以 TypeScript AST + 人工数据流复扫 98 个 production TSX，另两份独立
+    只读复扫一致确认未见第 8 个；固定 schema 行、创建向导、文件/已选帧和单 optional 引用均有明确 exclusion。
+  - design: **agree（2026-08-27 4+7 第三次更正）**。新增 `item/craft-recipe-append-default` 为第 7 个
+    deferred，保留本卡四个 included 与现有公共 API；后续卡单独冻结复合配方创建。本席签字不替代 Kimi / GLM
+    对新前提的一手增量核验，二席转正前 build 保持 blocked。
 - Kimi:
   - premise: **verified（2026-08-27 独立直读 UI/DS 一手代码，非代理）**。①三处常驻宽 composer 实锤：
     队员（ProjectWorkbenchTab.tsx:906-937）、初始道具（:1079-1117）、世界资源（:1175-1214，零候选
@@ -436,16 +457,20 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
     floating-layer.tsx:20-32；multi-select.tsx:6-40；primitives.css:1548-1552,1675-1679；
     ProjectWorkbenchTab.test.tsx:521-533；projects/pal/content/items.json（234 项两席复数一致）。
   - 可证伪观察: 见 GLM 签节①-③与 Kimi 签节可证伪观察①-④。
-- counter / 分歧处理: N/A（两席无 counter）
+- 当前 4+7 独立反证审查: pending；Kimi / GLM 至少一席必须直接读取 `RecipeEditor` 的候选、append 与
+  `UpdateItemCommand` 链，并说明何种观察会推翻“它是独立第 7 owner”。历史 4+6 独立审查不能替代本轮。
+- counter / 分歧处理: 4+6 签字在第 7 owner 被一手证据证实后自动失效；尚无 Kimi / GLM 对 4+7 的新 counter，
+  但两席增量重签前同样不得恢复 build。
 - 缺签豁免: N/A
-- build 准入结论: **allowed（2026-08-27，4+6 冻结基线）**。历史：原 Codex + Kimi（KA1-KA5）+
+- build 准入结论: **blocked（2026-08-27，等待 4+7 增量重签）**。历史：原 Codex + Kimi（KA1-KA5）+
   GLM（AP1-AP3）三签在 4+3 census 前提下曾放行；独立复核先后确认基线应为 4+5、最终为 4+6，按前提
   真值门立即停线。GLM 增量复审 counter 拒绝 4+5 基线（应为 4+6，SpriteActionEditor 同步音效
   :546-560 为第 6 个 append-first-default owner）；Kimi 同席复核一手证据属实后附议。Codex 已完成
   docs-only 4+6 冻结分类表与第 6 处 deferred 登记；GLM 已核验四项条件满足并转正，Kimi 亦核验
   四项条件满足并把 counter 转为 premise verified + design agree（SpriteActionEditor
-  UpdateSpriteCommand 代码链 :9,144-149 直读复核）。**Codex + Kimi + GLM 三席在 4+6 冻结基线上
-  签字齐，build 恢复；KA1-KA5 / AP1-AP3 钉继续有效。**
+  UpdateSpriteCommand 代码链 :9,144-149 直读复核）。该次 4+6 build 曾恢复。第三次复扫现已确认
+  `RecipeEditor` 为第 7 个 deferred owner，Codex 已更正 4+7 表并再次停线；**Kimi + GLM 对 4+7
+  premise verified + design agree 写回前，禁止修改实现或机械落 registry。** KA1-KA5 / AP1-AP3 钉继续有效。
 
 ### 进入 done 前:审查签字
 
@@ -488,22 +513,22 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
 ### 主审立场
 
 - Reviewer: Kimi（公共接口、弹窗 / overlay / focus / UX）；GLM 负责 census、测试矩阵与性能覆盖。
-- 结论: **agree / build allowed**。Kimi / GLM 已分别核验 4+6 docs-only 条件并把 counter 转为
-  premise verified + design agree；Codex / Kimi / GLM 三席签字齐，KA1-KA5 / AP1-AP3 继续有效。
+- 结论: **4+6 历史 agree；当前 4+7 build blocked**。RecipeEditor 新证据使旧 premise 签字失效；
+  KA1-KA5 / AP1-AP3 继续有效，无须重审公共 API，但 Kimi / GLM 必须增量核新 owner 与分类。
 - 必改项: KA1 dialog 生命周期补齐、KA2 唯一焦点政策、KA3 唯一滚动面 + listbox 语义、KA4 确认事务
   防护、KA5 分类边界机检；AP1 census registry 全量、AP2 命令计数门禁、AP3 性能/虚拟化测试矩阵。
-- 是否建议进入 build: 是（4+6 冻结基线三签齐；Codex 串行恢复公共层与四个 included surface）。
+- 是否建议进入 build: 否；等待 4+7 增量三签齐后再由 Codex 串行恢复公共层与四个 included surface。
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（2026-08-27 4+6 三签恢复后继续作为唯一实现修改者）
+- Coding Owner: Codex（唯一实现修改者；第 7 owner 证实后已停线，当前不得继续改实现）
 - 修改文件: 公共 Add Picker / shared filter / virtual listbox / Dialog lifecycle 及其聚焦测试当前为未提交 WIP；
   尚未迁移任何业务页面。
 - 实现摘要: 已建立公共 API 草案并补 dialog 唯一 ID、description、scroll lock、异步 close/reopen 与 focus restore；
-  test-first 又证实隐藏 selection、editable Space/Home/End、远距 End 程序滚动三个公共反例。更正签字前保留 WIP，
-  不继续修绿或扩页。
-- 运行命令: `pnpm --filter @type-pal/editor typecheck` 通过；公共层曾达 6 files / 60 tests green；新增三条
-  可证伪回归后当前预期为 2 files / 3 failed + 24 passed，失败点与卡面 AC 一致，并非业务页回归。
+  已修复隐藏 selection、editable Space/Home/End、远距 End 程序滚动、全 disabled active descendant、分层 Escape、
+  loading/error resync 与虚拟窗口瞬时空白等公共反例。第三次 census 前尚未迁移任何业务页；当前保留 WIP 并停线。
+- 运行命令: `pnpm --filter @type-pal/editor typecheck` 通过；`add-picker.test.tsx` +
+  `virtual-list.test.tsx` 2 files / 30 tests 通过；公共 focused regression 6 files / 74 tests 通过。
 - 浏览器 / 手工检查: pending
 - 跳过的检查及原因: pending
 
@@ -527,10 +552,16 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
 ## 用户验收
 
 - 用户结论: 2026-08-27 用户提出并批准单独开卡设计“按钮 -> 弹窗选择 -> 确认添加”；尚未验收实现。
-- 后续任务: 4+6 三签与串行前置均满足；Codex 已恢复公共层修绿与四个 included 业务迁移，完成自测和功能
-  视觉验证后交 Kimi + GLM 做 done 前只读审查。
+- 后续任务: 串行前置满足，但 4+6 census 已被第 7 owner 推翻；等待 Kimi + GLM 对 4+7 增量重签。签齐后
+  Codex 才恢复公共层、机械 registry 和四个 included 业务迁移，完成自测与功能视觉验证后再交 done 前审查。
 
 ## 交接日志
+
+- 2026-08-27 Codex: 用户再次表示“签了”后先核任务卡与生产代码；在准备机械落 4+6 registry 时发现
+  `RecipeEditor` “添加配方”是独立 append-first-default owner。本人直读候选、复合 append 与
+  `UpdateItemCommand` 链，并以 AST / 人工复扫 98 个 production TSX；三份只读复扫一致确认它是唯一漏项、
+  未见第 8 个。基线更正为 4+7，第 7 处登记 deferred，4+6 签字失效；公共 WIP 保留、业务页仍未迁移。
+  Next: Kimi / GLM 只增量核 RecipeEditor 与 4+7 表，签齐前不得改实现。
 
 - 2026-08-27 Codex: 再次以任务卡为真源核验 Kimi / GLM 已分别把 4+6 counter 转为 premise verified +
   design agree，build 准入结论已为 allowed、无新 counter。同步卡头 / 看板后恢复唯一 Coding Owner；先修三个
@@ -637,4 +668,31 @@ controls.tsx 的搜索 / 80+ 虚拟化、multi-select.tsx；ProjectWorkbenchTab.
 输出要求：Kimi、GLM 各自在“进入 build 前：设计签字”追加“4+6 counter 条件已满足”的
 premise verified + design agree，或指出仍缺的具体字段。不得修改实现文件、不得代签另一席。
 两席转签齐前不得恢复 build；签齐后 Codex 才修绿公共回归、机械落 4+6 JSON registry，并迁移原定四个 included surface。
+```
+
+## 下一位 Agent 提示词（2026-08-27 4+7 第三次更正，当前有效）
+
+```text
+增量复审 ED-ADD-PICKER-DIALOG-1 的第 7 个 deferred owner；不要重审已冻结的 Dialog 公共 API。
+任务卡：docs/ops/tasks/ED-ADD-PICKER-DIALOG-1-editor-collection-add-picker-dialog.md
+当前状态：blocked。历史 4+6 三签因 production census 漏掉 RecipeEditor 而失效；Codex 已把 docs 真源更正为
+4 included + 7 deferred。公共 Add Picker WIP 保留，尚未迁移任何业务页。
+
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡的“2026-08-27 census 更正”与
+“4+7 当前分类 registry”。然后必须亲自直读：
+- packages/editor/src/ui/ItemUseEffectEditor.tsx:423-432,492-529,813-821,1092-1129
+- packages/editor/src/ui/ItemTab.tsx:995-1001,1833-1849
+
+本轮只核四件事：
+1. “添加配方”是否从 live ingredientItems[0] / items[0] 立即向 recipes[] 追加材料与产物 count=1；
+2. 它是否与 ItemAmountList 的 ingredients/products/rewards 单列表追加是不同按钮、handler、目标集合与用户动作；
+3. `item/craft-recipe-append-default` 登记的 UpdateItemCommand、完整数据路径、deferred 理由与删除条件是否准确；
+4. 新条目是否保持本卡仍只迁移 Startup 三处 + Shop stock 四个 included，不把复合配方创建偷塞进单选 picker。
+
+请至少一席写出可证伪观察：什么一手证据会证明 RecipeEditor 可由旧 ItemAmountList 条目覆盖，或应排除而非 deferred。
+无需重跑 98 文件 census，也不要修改实现文件、不要代签另一席。
+
+输出要求：Kimi、GLM 各自在任务卡“进入 build 前：设计签字”追加对 4+7 的
+premise verified + 独立 file:line 证据及 design agree；若不认同则签 counter 并写最小返工。
+两席都转正前不得恢复 build；签齐后 Codex 才机械落 4+7 registry、继续公共层与原定四个 included surface。
 ```
