@@ -1,6 +1,6 @@
 # ED-ADD-PICKER-DIALOG-1 - 编辑器候选对象添加弹窗统一
 
-Status: blocked / rework（2026-08-27 独立 census 将签字基线由 4+3 更正为 4+5；旧 build 签字失效，等待 Kimi / GLM 增量重签）
+Status: blocked / rework（2026-08-27 census 已按两席 counter 更正为 4+6；等待 Kimi / GLM 将 counter 转为 agree）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -87,15 +87,36 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
   - `SkillTab.tsx:1237-1260`：从 live `items` 取 `firstUnused`，向 `skill.cost.items` 追加
     `{ itemId, amount: 1 }`，命令 owner 为 `UpdateSkillCommand`；
   - `LevelingEditor.tsx:65-115`：从 live `skills` 取 `skillIds[0]`，向 `levelUp[actorId]` 追加
-    `{ level: max + 1, skillId }` 并排序，命令 owner 为 `UpdateLevelUpCommand`。
+    `{ level: max + 1, skillId }` 并排序，命令 owner 为 `UpdateLevelUpCommand`；
+  - `SpriteActionEditor.tsx:61,544-565`：从 live asset catalog 取 `firstSoundAsset`，向当前 step 的
+    `cues` 追加 `{ kind: 'sound', asset }`，命令 owner 为 `UpdateSpriteCommand`。
 - `ItemAmountList` 不是单一路径：同一 append-default owner 实际覆盖配方材料、配方产物、资源奖励档位三条 data path
   （`ItemUseEffectEditor.tsx:492-503,862-868`），registry 必须逐路径登记，不能以一个模糊条目代替。
-- 更正后的生产基线为 **4 处对话式追加 + 5 个 append-first-default owner（其中 ItemAmountList 覆盖 3 条 data
-  path）**。新增两处与原三处采用同一分类：本卡首轮只登记为 deferred evidence，不趁补 census 扩大业务迁移范围；
+- 两席独立复扫后的生产基线为 **4 处对话式追加 + 6 个 append-first-default owner（其中 ItemAmountList 覆盖
+  3 条 data path）**。新增三处与原三处采用同一分类：本卡首轮只登记为 deferred evidence，不趁补 census 扩大业务迁移范围；
   删除条件是后续任务为“先选后追加”或“创建默认行后编辑”作出统一产品裁决并独立签字。
 - 这改变 AP1 的“全量 census”核心前提，因此 2026-08-27 原 Codex / Kimi / GLM build 签字仅保留为历史记录，
-  **不再授权继续修改实现文件**。Kimi / GLM 必须分别直读至少一个新增 owner，确认 4+5 基线、三条
-  ItemAmountList data path 与 deferred 理由后增量重签；无须重审已冻结的 Dialog 公共 API。
+  **不再授权继续修改实现文件**。Kimi / GLM 已分别直读新增 owner 并共同 counter 4+5；本节现按其直接证据登记
+  4+6 基线、三条 ItemAmountList data path 与 deferred 理由。两席把 counter 转为 agree 前仍不得恢复 build；
+  无须重审已冻结的 Dialog 公共 API。
+
+#### 4+6 冻结分类 registry（docs 真源；JSON gate 在恢复 build 后机械落地）
+
+| 分类 | Adoption ID / owner | 数据路径 / 默认值 | 当前理由 | 删除条件 |
+|---|---|---|---|---|
+| included | `project/startup-party` / `SetStartupEntriesCommand` | `entryPoints[*].startWorld.party` / actor id | 已是选择后确认，迁移共享 dialog | 本卡实现并由公共 owner 接管 |
+| included | `project/startup-inventory` / `SetStartupEntriesCommand` | `entryPoints[*].startWorld.inventory` / `count=1` | 已是选择后确认，PAL 234 项需要搜索虚拟化 | 本卡实现并由公共 owner 接管 |
+| included | `project/startup-resource` / `SetStartupEntriesCommand` | `entryPoints[*].startWorld.resources[key]` / `value=0` | 已是选择后确认，保持 live consumer/repair owner | 本卡实现并由公共 owner 接管 |
+| included | `shop/stock` / `UpdateShopCommand` | `shops[*].items` / item id | 已是选择后确认，现有 234 项选择器不可搜索 | 本卡实现并由公共 owner 接管 |
+| deferred | `item/item-amount-append-default` / `ItemUseEffectEditor.onChange` | `craftRecipes[*].ingredients`、`craftRecipes[*].products`、`drawFromResourcePool.rewards` / 首项 `count=1` | 创建可继续行内改对象与数量的默认行，不等同当前明确选择后确认 | 后续卡裁决“先选后追加”与“建默认行再编辑”的统一边界并三签 |
+| deferred | `actor/initial-magic-append-default` / `UpdateActorCommand` | `actors[*].battler.initialMagic` / 首个未用 skill id | 创建后可在正式行替换，当前点击即一命令 | 同上；若改为先选后追加则删除 allowlist 并采用公共 picker |
+| deferred | `story/set-party-members-append-default` / `CommandForm.onChange` | `setParty.members` / 首个未用 battler id | 脚本命令草稿内创建默认成员行，提交 owner 仍在上层脚本编辑器 | 同上；需独立核脚本 draft/command 边界后迁移 |
+| deferred | `skill/cost-items-append-default` / `UpdateSkillCommand` | `skills[*].cost.items` / 首个未用 item、`amount=1` | 创建后在行内改物品与数量 | 同上；若统一先选后追加则删除 allowlist |
+| deferred | `actor/level-up-skill-append-default` / `UpdateLevelUpCommand` | `levelUp[actorId]` / `level=max+1`、首个 skill id并排序 | 同时创建等级与技能两个可编辑默认值，不只是挑候选 | 后续卡先冻结等级默认/排序事务再决定 picker |
+| deferred | `asset/sprite-step-sound-cue-append-default` / `UpdateSpriteCommand` | `sprites[*].poses[*].steps[*].cues` / 首个 sound asset | 在当前 step 创建可行内改选的 sound cue，且与动作编辑 proof/command owner 绑定 | 后续卡核 proof、step scope 与 cue 默认后再决定 picker；迁移时删除 allowlist |
+
+机器 census 纪律：不得再以单行“添加”动词 grep 作为全量证明；恢复 build 后的 registry gate 必须结合 JSX
+button↔handler 关联、数组追加形态、`first*` / `[0]` live registry 首项信号，并逐项解释排除项。
 
 ### 反证与替代解释
 
@@ -237,6 +258,11 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
     append-first-default owner，且 ItemAmountList 覆盖三条 data path；生产基线应为 **4+5**。
   - design: **agree（2026-08-27 census 更正）**。新增两处与原三处同样登记 deferred owner / 理由 / 删除条件，
     不扩大本卡四个 included 业务迁移面；公共 API、单命令与性能合同不变。等待 Kimi / GLM 对更正前提增量重签。
+  - premise: **reverified（2026-08-27 4+6 二次更正）**。本人直读 `SpriteActionEditor.tsx:61,137-172,
+    544-565`，确认 `firstSoundAsset` 从 live catalog 取首个 sound，按钮立即 append cue，最终由
+    `UpdateSpriteCommand` 提交；它与其余 append-first-default owner 同型。两席未见第 7 个的复扫证据已写回。
+  - design: **agree（2026-08-27 4+6 二次更正）**。接受 4 included + 6 deferred 表；Sprite sound cue
+    只登记 owner/理由/删除条件，不扩大本卡实现范围。公共 API 与四个 included 迁移范围不变。
 - Kimi:
   - premise: **verified（2026-08-27 独立直读 UI/DS 一手代码，非代理）**。①三处常驻宽 composer 实锤：
     队员（ProjectWorkbenchTab.tsx:906-937）、初始道具（:1079-1117）、世界资源（:1175-1214，零候选
@@ -266,6 +292,26 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
     - **KA5（分类边界机检）**：InlineComposer 保留给自由输入/短高频；census 按“已有候选库→追加”
       分类入 adoption registry + evidence allowlist；未登记的新增 picker 即红——防止把编辑已有引用或
       自由文本误迁。
+  - premise: **reverified（2026-08-27 census 更正，独立直读三处新增锚点，非复述 Codex）**。
+    ①`SkillTab.tsx:1237-1260` 实锤：从 live `items` 取 `firstUnused`（当前 cost.items 未用的第一项），
+    点击立即追加 `{itemId, amount: 1}`；`setCostItems` 经 `session.dispatch(new UpdateSkillCommand)`
+    （:998-1000）——append-first-default owner 成立。②`LevelingEditor.tsx:106-115` 实锤：取
+    `skillIds[0] ?? ''`，追加 `{level: maxLv+1, skillId}`；`dispatchRows` 经
+    `new UpdateLevelUpCommand`（:9,43-45）——同型 owner 成立。③`ItemUseEffectEditor.tsx:492-503,
+    862-868` 实锤三条 data path：配方材料 `recipe.ingredients`（:492-497）、配方产物
+    `recipe.products`（:498-503）、资源奖励档位 `effect.rewards`（:862-868）——同一 ItemAmountList
+    组件下的三条独立数据路径，registry 必须逐路径登记而非一条模糊条目。④基线复核：对话式 4 处
+    （Startup 三处 + ShopTab 上架）不变；append-first-default owner 为 ItemAmountList（3 path）+
+    ActorMode 初始仙术 + CommandForm setParty.members + SkillTab 消耗物品 + LevelingEditor 学技能行
+    = **5 个 owner**。随后独立复核 GLM counter：`SpriteActionEditor.tsx:61,544-565` 的“＋ 同步音效”
+    取 `firstSoundAsset(props.catalog)` 立即向 step.cues 追加 `{kind:'sound', asset}`，经 updateAction
+    落入既有 sprite command owner——确为第 6 个 append-first-default owner；另扫 firstUnused/
+    firstSoundAsset/firstItem 形态，firstItem 用例均在已登记的 ItemAmountList 三路径内，未见第 7 个。
+  - design: **counter（接受 GLM 基线 counter）**：**基线应为 4+6（对话式 4 + append-first-default 6）**，
+    原 4+3 与 Codex 的 4+5 均不闭合。追加一处要求（docs-only 返工，非实现返工）：Codex 把基线与
+    registry 更正为 4+6 并登记 SpriteActionEditor 同步音效为第 6 个 deferred owner（与原五处同一
+    owner/理由/删除条件纪律）后，本人即恢复 design agree；新增六处全部 deferred，不扩大首批四个
+    业务迁移面。公共 Dialog API 不重审；KA1-KA5 继续有效。
 - GLM:
   - premise: **verified（2026-08-27，本人一手读码 + 独立机器 census，非代理）**：
     1. **Startup 三处现状实锤**：`DsInlineComposer` 全库生产消费恰 3 处——队员 :906 / 道具 :1079 /
@@ -315,6 +361,39 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
     aria-selected，必须走“抽取虚拟窗口 engine”路径——出现第二套 direct-list 状态机即 AP 失败返工；
     ③若真实 PAL 授权流中“一次加 5 名队员”类操作证明单选 dialog 不可用，single-select 首版边界
     前提弱化，须停线重审。
+- GLM 增量重签（2026-08-27 census 更正复审；上方 GLM 原签为 4+3 前提历史记录）：
+  - 对更正本身的核验（全部一手直读）：①SkillTab 属实——`消耗物品` adder（SkillTab.tsx:1240-1260）
+    从 live `items` 取 `firstUnused`（排除已用），追加 `{itemId, amount: 1}`（:1256），经
+    `setCostItems`（:1000-1006）→ `patch` → `session.dispatch(new UpdateSkillCommand(...))`
+    （:997-998）——owner 链完整。②LevelingEditor 属实——`skillIds` 由 live `skills` memo 派生
+    （:22-31），`＋ 添加学技能行`（:106-115）追加 `{level: maxLv+1, skillId: skillIds[0] ?? ''}`，
+    `dispatchRows`（:43-50）dispatch `UpdateLevelUpCommand` 且 `[...rows].sort((a,b)=>a.level-b.level)`
+    升序归一——“追加 max+1 并排序”属实。③ItemAmountList 三 data path 属实——配方材料 :492-497
+    （ingredients/ingredientItems）、配方产物 :498-503（products/items）、drawFromResourcePool
+    奖励档位 :862-868（rewards，ordered）——一个 owner 三条路径，registry 须逐路径登记属实。
+  - **counter（拒绝 4+5 基线，应为 4+6）**：本席复扫发现第 6 个 append-first-default owner——
+    `SpriteActionEditor.tsx:546-560` “＋ 同步音效”按钮：`asset = firstSoundAsset(props.catalog)`
+    （helper :61-63 取 live asset catalog 中首个 `kind==='sound'` 资源），立即追加
+    `{kind:'sound', asset}` 到 step.cues，随后 cue 行内用 DsSelect 在 live `sounds` 选项
+    （:496-513）中改选——与 SkillTab 消耗物品/LevelingEditor 完全同型（live registry 首项 +
+    立即追加 + 行内编辑），命中判定轴“live 候选库 + 追加语义”。最小返工条件（docs-only，无实现
+    改动）：census 更正节基线改为 **4+6**，并把 SpriteActionEditor 同步音效以 owner/理由/删除条件
+    登记为第 6 个 deferred 条目；完成该登记后本席对更正前提即时转 premise verified，无须重审其余。
+  - **接受 deferred 分类方式本身**（含 SkillTab、LevelingEditor 与本席新增的 SpriteAction 同步音效
+    三处）：与本卡原三处（ItemAmountList×3 path / ActorMode 初始仙术 / CommandForm members）同分类，
+    只登记 owner/理由/删除条件，不扩大首批四个业务迁移面——“先选后追加 vs 创建默认行”待统一产品
+    裁决另卡处理的边界正确。
+  - census 方法教训（写入 registry 纪律）：本席原 4+3 census 漏 SkillTab/LevelingEditor 的根因是
+    单行 grep 要求“动词与 handler 同行”，多行 JSX 按钮文本/aria-label/onClick 拆行使两处漏网；
+    本次复扫改用 `[...x, {` 追加模式 + `first*[A-Z]/[0]` registry 首项信号 + icon="add" 三信号族
+    交叉，并逐条分类其余命中（CasualtyEditor :125/:429/:529、EnemyTab :940、PoisonTab :236、
+    ScriptEditor :1438 均为默认行创建/类型枚举默认，非 live registry 候选追加；FrameAnimation
+    “插入图片”是文件输入；PWT :1461 是入口克隆）。AP1 的机器 census 必须以 JSX 解析
+    （button↔handler 关联）+ 追加模式为主信号，不得再用单行动词 grep。
+  - 另记录：`design-system/add-picker.tsx` 公共组件已存在于工作区（Codex 停线前的公共层工作）——
+    按指令本席不重审已冻结公共 API；其存在不影响 census 结论。
+  - design: **agree（2026-08-27，以基线更正为 4+6 为前提）**——deferred 分类、不扩大首批、
+    AP1-AP3/KA1-KA5 钉继续有效；build 门禁在基线登记 4+6 前保持 blocked。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
   - 审查者: GLM（2026-08-27，独立机器 census + 逐锚点直读，见 GLM 签节 AP1-AP3 与可证伪观察①-③；
     小候选场景核验：资源 adder 0-2 候选时按设计不渲染触发器/走空态，1-3 候选走 dialog 与现 inline
@@ -331,8 +410,13 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
 - counter / 分歧处理: N/A（两席无 counter）
 - 缺签豁免: N/A
 - build 准入结论: **blocked / previous allowance invalidated（2026-08-27）**。原 Codex + Kimi（KA1-KA5）+
-  GLM（AP1-AP3）三签在 4+3 census 前提下曾放行；独立复核确认基线应为 4+5 后，按前提真值门立即停线。
-  Kimi / GLM 对更正基线增量重签前，不得继续修改实现文件或迁移业务页。
+  GLM（AP1-AP3）三签在 4+3 census 前提下曾放行；独立复核先后确认基线应为 4+5、最终为 4+6，按前提真值门立即停线。
+  GLM 增量复审已写回：对 SkillTab/LevelingEditor/ItemAmountList 三项更正全部核验属实，但 **counter
+  拒绝 4+5 基线（应为 4+6，SpriteActionEditor 同步音效 :546-560 为第 6 个 append-first-default
+  owner）**，并接受 deferred 分类方式本身。Kimi 增量复审同席复核 GLM counter 一手证据属实
+  （SpriteActionEditor.tsx:61,544-565 直读 + 同形态 sweep 未见第 7 个），**附议 4+6 counter**。
+  Codex 已完成 docs-only 4+6 冻结分类表与第 6 处 deferred 登记；**当前只待 Kimi / GLM 各自把 counter
+  转为 premise verified + design agree**，两席确认前不得恢复实现。
 
 ### 进入 done 前:审查签字
 
@@ -375,12 +459,11 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
 ### 主审立场
 
 - Reviewer: Kimi（公共接口、弹窗 / overlay / focus / UX）；GLM 负责 census、测试矩阵与性能覆盖。
-- 结论: **rework pending**。Kimi agree（KA1-KA5）与 GLM agree（AP1-AP3）是 4+3 基线上的历史签字；
-  Codex 2026-08-27 独立确认另有 SkillTab / LevelingEditor 两个 append-first-default owner，当前等待两席只补审
-  census 更正与 deferred 分类。
+- 结论: **rework pending**。Kimi / GLM 已共同确认最终 4+6 事实并接受六处 deferred 分类，但当前签名记录仍是
+  counter；Codex 已完成其要求的 docs-only 4+6 表，等待两席把 counter 显式转为 agree。
 - 必改项: KA1 dialog 生命周期补齐、KA2 唯一焦点政策、KA3 唯一滚动面 + listbox 语义、KA4 确认事务
   防护、KA5 分类边界机检；AP1 census registry 全量、AP2 命令计数门禁、AP3 性能/虚拟化测试矩阵。
-- 是否建议进入 build: 否（更正基线增量重签前 blocked；公共 API 旧结论不要求重审）。
+- 是否建议进入 build: 否（只差两席 counter → agree；公共 API 旧结论不要求重审）。
 
 ## Build: 实现与自测
 
@@ -415,10 +498,30 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
 ## 用户验收
 
 - 用户结论: 2026-08-27 用户提出并批准单独开卡设计“按钮 -> 弹窗选择 -> 确认添加”；尚未验收实现。
-- 后续任务: 三方设计签字与串行前置均已满足；Codex 当前 build，完成自测与功能视觉验证后交 Kimi + GLM
-  做 done 前只读审查。
+- 后续任务: 4+6 census counter 的 docs-only 条件已满足，等待 Kimi / GLM 显式转签；放行后 Codex 恢复公共层
+  修绿与四个 included 业务迁移，完成自测和功能视觉验证后再交两席 done 前只读审查。
 
 ## 交接日志
+
+- 2026-08-27 Codex: 核对任务卡发现“签了”实际为 Kimi / GLM 共同 counter 4+5、要求改为 4+6。本人直读
+  `SpriteActionEditor` helper、append handler 与 `UpdateSpriteCommand` 链后确认反证成立；完成 docs-only 4+6
+  冻结分类表，逐项登记 4 included、6 deferred、ItemAmountList 三条 data path、owner/理由/删除条件与 JSX census
+  纪律。未修改实现文件。Next: 两席只确认 counter 条件已满足并转 agree。
+
+- 2026-08-27 Kimi 增量复审: 直读 SkillTab:1237-1260 / LevelingEditor:106-115 / ItemUseEffectEditor
+  :492-503,862-868 三处更正锚点全部属实；另独立复核 GLM counter 证据 SpriteActionEditor:61,544-565
+  （同步音效 firstSoundAsset 立即追加 cue），确认其为第 6 个 append-first-default owner，同形态 sweep
+  未见第 7 个。签 **counter（附议 4+6 基线）**，要求 Codex docs-only 更正基线并登记第 6 处 deferred 后
+  恢复 design agree。未修改实现，未代签 GLM。
+
+- 2026-08-27 GLM: 完成 census 更正增量复审。SkillTab（firstUnused/amount=1/UpdateSkillCommand）、
+  LevelingEditor（skillIds[0]/max+1 升序归一/UpdateLevelUpCommand）、ItemAmountList 三 data path
+  （材料/产物/奖励档位）全部一手核验属实；但复扫发现第 6 个 append-first-default owner——
+  SpriteActionEditor “＋ 同步音效”（:546-560，firstSoundAsset 从 live catalog 取首项立即追加 +
+  行内 DsSelect 改选），与 SkillTab/LevelingEditor 完全同型。签 **counter：拒绝 4+5 基线、应为
+  4+6；接受 deferred 分类方式**。最小返工 = docs-only 基线更正 + 第 6 处 deferred 登记，完成后本席
+  即时转 premise verified。同时记录 census 方法教训（单行动词 grep 漏多行 JSX 按钮，机器 census 须
+  以 JSX 解析 + 追加模式为主信号）。未修改实现，未代签 Kimi，未重审已冻结公共 API。
 
 - 2026-08-27 Codex: 在编写 adoption registry 前按 AP1 再做一次独立语义 census，确认 GLM 原 4+3 基线漏掉
   `SkillTab` 消耗物品和 `LevelingEditor` 升级学技能两处 append-first-default owner，且 `ItemAmountList` 实际覆盖
@@ -472,23 +575,21 @@ controls.tsx 的搜索 / 80+ 虚拟化、multi-select.tsx；ProjectWorkbenchTab.
 ## 下一位 Agent 提示词（2026-08-27 census 更正增量重签）
 
 ```text
-联合增量复审 ED-ADD-PICKER-DIALOG-1 的生产 census 更正；不要重审已冻结的 Dialog 公共 API。
+确认 ED-ADD-PICKER-DIALOG-1 的 4+6 counter 条件已经满足；不要重审已冻结的 Dialog 公共 API。
 任务卡：docs/ops/tasks/ED-ADD-PICKER-DIALOG-1-editor-collection-add-picker-dialog.md
-当前状态：blocked / rework；原 4+3 前提上的 build 签字已失效，Codex 已停线，业务页尚未迁移。
+当前状态：blocked / rework；Kimi / GLM 已共同确认 4+6，但卡面仍保留 counter。Codex 已完成要求的 docs-only
+4+6 分类表，业务页尚未迁移。
 
 先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡的
-“2026-08-27 census 更正（重新打开前提门）”。
+“2026-08-27 census 更正（重新打开前提门）”及其中“4+6 冻结分类 registry”。
 
-请两席分别直读一手源码并核对：
-1. SkillTab.tsx:1237-1260 是否从 live items 取 firstUnused，立即追加 cost.items，默认 amount=1，
-   command owner 为 UpdateSkillCommand；
-2. LevelingEditor.tsx:65-115 是否从 live skills 取 skillIds[0]，立即追加 level=max+1 的学习行并排序，
-   command owner 为 UpdateLevelUpCommand；
-3. ItemUseEffectEditor.tsx:492-503,862-868 的 ItemAmountList 是否覆盖配方材料、配方产物、资源奖励档位三条路径；
-4. 更正基线是否应为 4 个对话式追加 + 5 个 append-first-default owner；新增两处是否可与原三处一并
-   deferred（本卡只登记 owner / 理由 / 删除条件，不扩大首批业务迁移）。
+你们已经分别直读并确认的事实无需重跑；本轮只核文档条件：
+1. 基线是否已写成 4 个 included + 6 个 append-first-default deferred owner；
+2. SpriteActionEditor 同步音效是否作为第 6 个 deferred 登记了 UpdateSpriteCommand、路径、理由与删除条件；
+3. ItemAmountList 三条 data path 是否逐项写清；
+4. 六处 deferred 是否都不扩大本卡四个 included 迁移范围；JSX + append/first-signal census 纪律是否已写入。
 
-输出要求：Kimi、GLM 各自在“进入 build 前：设计签字”追加带 file:line 的 premise verified + design agree，
-或 counter + 理由；明确写“接受/拒绝 4+5 基线与新增两处 deferred 分类”。不得修改实现文件、不得代签另一席。
-两席增量重签齐前不得恢复 build；签齐后 Codex 才修绿公共回归、落 4+5 registry，并迁移原定四个 included surface。
+输出要求：Kimi、GLM 各自在“进入 build 前：设计签字”追加“4+6 counter 条件已满足”的
+premise verified + design agree，或指出仍缺的具体字段。不得修改实现文件、不得代签另一席。
+两席转签齐前不得恢复 build；签齐后 Codex 才修绿公共回归、机械落 4+6 JSON registry，并迁移原定四个 included surface。
 ```
