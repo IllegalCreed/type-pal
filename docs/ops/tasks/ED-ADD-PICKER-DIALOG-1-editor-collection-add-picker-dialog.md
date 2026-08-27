@@ -1,6 +1,6 @@
 # ED-ADD-PICKER-DIALOG-1 - 编辑器候选对象添加弹窗统一
 
-Status: build（2026-08-27 三方设计签字齐、ED-PROJECT-STARTUP-IA-1 已 done；Codex 串行实现公共 Add Picker 第一切片）
+Status: blocked / rework（2026-08-27 独立 census 将签字基线由 4+3 更正为 4+5；旧 build 签字失效，等待 Kimi / GLM 增量重签）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -79,6 +79,23 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
 | 第一阶段 | N/A：一阶段没有 Reforge 项目工作台与设计系统；本卡不改变一阶段 / 运行时的队伍、库存或资源语义。 | `docs/phase2/READ-FIRST.md:32-37` |
 | 当前二阶段 | Startup 的队员、道具、世界资源分别常驻 `DsInlineComposer`；现有测试证明每项选择后再点尾部按钮写一条命令。`DsDialog` 已持有 native modal / Escape / 焦点归还，`DsFloatingLayer` 已处理 native dialog top layer，`DsSelect` 在 80 项以上虚拟化；但生产代码没有共享 Add Picker Dialog。PAL 当前有 234 个物品。 | `packages/editor/src/ui/ProjectWorkbenchTab.tsx:906-937,1079-1117,1175-1214`；`packages/editor/src/ui/ProjectWorkbenchTab.test.tsx:521-533,625-695,968-1051`；`packages/editor/src/ui/design-system/overlays.tsx:5-92`；`packages/editor/src/ui/design-system/floating-layer.tsx:20-32`；`packages/editor/src/ui/design-system/controls.tsx:1092-1096,1244-1252`；`projects/pal/content/items.json`（234 项） |
 | 本任务目标 | 保持领域数据和命令 owner 不变，把候选追加的 UI owner 改为共享标题动作 + 单选确认弹窗；页面只提供 live options、领域行内容和一次性 confirm adapter。 | 用户 2026-08-27 产品裁决；本卡范围与验收条件 |
+
+### 2026-08-27 census 更正（重新打开前提门）
+
+- Codex 独立直读确认原签字所称“4 处对话式 + 3 处 append-first-default 全量命中”不闭合。对话式 4 处不变；
+  append-first-default 还包括：
+  - `SkillTab.tsx:1237-1260`：从 live `items` 取 `firstUnused`，向 `skill.cost.items` 追加
+    `{ itemId, amount: 1 }`，命令 owner 为 `UpdateSkillCommand`；
+  - `LevelingEditor.tsx:65-115`：从 live `skills` 取 `skillIds[0]`，向 `levelUp[actorId]` 追加
+    `{ level: max + 1, skillId }` 并排序，命令 owner 为 `UpdateLevelUpCommand`。
+- `ItemAmountList` 不是单一路径：同一 append-default owner 实际覆盖配方材料、配方产物、资源奖励档位三条 data path
+  （`ItemUseEffectEditor.tsx:492-503,862-868`），registry 必须逐路径登记，不能以一个模糊条目代替。
+- 更正后的生产基线为 **4 处对话式追加 + 5 个 append-first-default owner（其中 ItemAmountList 覆盖 3 条 data
+  path）**。新增两处与原三处采用同一分类：本卡首轮只登记为 deferred evidence，不趁补 census 扩大业务迁移范围；
+  删除条件是后续任务为“先选后追加”或“创建默认行后编辑”作出统一产品裁决并独立签字。
+- 这改变 AP1 的“全量 census”核心前提，因此 2026-08-27 原 Codex / Kimi / GLM build 签字仅保留为历史记录，
+  **不再授权继续修改实现文件**。Kimi / GLM 必须分别直读至少一个新增 owner，确认 4+5 基线、三条
+  ItemAmountList data path 与 deferred 理由后增量重签；无须重审已冻结的 Dialog 公共 API。
 
 ### 反证与替代解释
 
@@ -215,6 +232,11 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
     `DsVirtualList` 与既有过滤 / dialog / portal owner，不在 modal 内嵌 `DsSelect`。领域页只给 live options / row
     presentation / 一次性 confirm adapter。保留 `DsInlineComposer` 给自由输入 / 短操作，首批迁移 Startup 三处并用
     census / allowlist 防回流；不改 schema/runtime，不做多选。
+  - premise: **reverified（2026-08-27 census 更正）**。本人独立直读 `SkillTab.tsx:1237-1260`、
+    `LevelingEditor.tsx:65-115` 与 `ItemUseEffectEditor.tsx:492-503,862-868`，确认原 4+3 census 漏两位
+    append-first-default owner，且 ItemAmountList 覆盖三条 data path；生产基线应为 **4+5**。
+  - design: **agree（2026-08-27 census 更正）**。新增两处与原三处同样登记 deferred owner / 理由 / 删除条件，
+    不扩大本卡四个 included 业务迁移面；公共 API、单命令与性能合同不变。等待 Kimi / GLM 对更正前提增量重签。
 - Kimi:
   - premise: **verified（2026-08-27 独立直读 UI/DS 一手代码，非代理）**。①三处常驻宽 composer 实锤：
     队员（ProjectWorkbenchTab.tsx:906-937）、初始道具（:1079-1117）、世界资源（:1175-1214，零候选
@@ -308,8 +330,9 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
   - 可证伪观察: 见 GLM 签节①-③与 Kimi 签节可证伪观察①-④。
 - counter / 分歧处理: N/A（两席无 counter）
 - 缺签豁免: N/A
-- build 准入结论: **allowed（2026-08-27，Codex + Kimi（KA1-KA5）+ GLM（AP1-AP3）三签齐）。**
-  实现串行约束：与 ED-PROJECT-STARTUP-IA-1 当前 candidate 收口关系按卡面风险条执行，单独提交。
+- build 准入结论: **blocked / previous allowance invalidated（2026-08-27）**。原 Codex + Kimi（KA1-KA5）+
+  GLM（AP1-AP3）三签在 4+3 census 前提下曾放行；独立复核确认基线应为 4+5 后，按前提真值门立即停线。
+  Kimi / GLM 对更正基线增量重签前，不得继续修改实现文件或迁移业务页。
 
 ### 进入 done 前:审查签字
 
@@ -352,18 +375,23 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
 ### 主审立场
 
 - Reviewer: Kimi（公共接口、弹窗 / overlay / focus / UX）；GLM 负责 census、测试矩阵与性能覆盖。
-- 结论: Kimi agree（2026-08-27，KA1-KA5）；GLM agree（2026-08-27，AP1-AP3，含 ShopTab 第四命中面
-  与三处 append-first-default 登记要求）；Codex agree。
+- 结论: **rework pending**。Kimi agree（KA1-KA5）与 GLM agree（AP1-AP3）是 4+3 基线上的历史签字；
+  Codex 2026-08-27 独立确认另有 SkillTab / LevelingEditor 两个 append-first-default owner，当前等待两席只补审
+  census 更正与 deferred 分类。
 - 必改项: KA1 dialog 生命周期补齐、KA2 唯一焦点政策、KA3 唯一滚动面 + listbox 语义、KA4 确认事务
   防护、KA5 分类边界机检；AP1 census registry 全量、AP2 命令计数门禁、AP3 性能/虚拟化测试矩阵。
-- 是否建议进入 build: 是（三签齐；与 Startup 当前 candidate 收口关系按风险条串行）。
+- 是否建议进入 build: 否（更正基线增量重签前 blocked；公共 API 旧结论不要求重审）。
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（2026-08-27 三签齐且前置卡已收口；当前唯一实现修改者，先做公共层切片）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
+- Coding Owner: Codex（2026-08-27 原准入期间的唯一实现修改者；发现 census 漏项后已停线）
+- 修改文件: 公共 Add Picker / shared filter / virtual listbox / Dialog lifecycle 及其聚焦测试当前为未提交 WIP；
+  尚未迁移任何业务页面。
+- 实现摘要: 已建立公共 API 草案并补 dialog 唯一 ID、description、scroll lock、异步 close/reopen 与 focus restore；
+  test-first 又证实隐藏 selection、editable Space/Home/End、远距 End 程序滚动三个公共反例。更正签字前保留 WIP，
+  不继续修绿或扩页。
+- 运行命令: `pnpm --filter @type-pal/editor typecheck` 通过；公共层曾达 6 files / 60 tests green；新增三条
+  可证伪回归后当前预期为 2 files / 3 failed + 24 passed，失败点与卡面 AC 一致，并非业务页回归。
 - 浏览器 / 手工检查: pending
 - 跳过的检查及原因: pending
 
@@ -391,6 +419,11 @@ dialog-aware portal 和虚拟化基础，但没有“打开 -> 搜索 / 选择 -
   做 done 前只读审查。
 
 ## 交接日志
+
+- 2026-08-27 Codex: 在编写 adoption registry 前按 AP1 再做一次独立语义 census，确认 GLM 原 4+3 基线漏掉
+  `SkillTab` 消耗物品和 `LevelingEditor` 升级学技能两处 append-first-default owner，且 `ItemAmountList` 实际覆盖
+  三条 data path。核心前提变为 4+5，原 build 签字失效；立即停止实现，卡转 blocked/rework。公共层尚未进入业务页；
+  WIP 与三个已复现的红测试原样保留。Next: Kimi / GLM 只补审更正 census 与 deferred 分类，不重审公共 API。
 
 - 2026-08-27 Codex: 实际核对三方 build 签字与独立证据，确认无 counter；前置 Startup / Reorder 已分别由
   `f287c05c` / `32d09da0` 收口，串行门满足。本卡转 build，首切片只实现 census registry、Dialog 生命周期、
@@ -436,7 +469,26 @@ controls.tsx 的搜索 / 80+ 虚拟化、multi-select.tsx；ProjectWorkbenchTab.
 至少一席填写独立反证锚点和可证伪观察。三签齐前不得开始实现。
 ```
 
-## 下一位 Agent 提示词（2026-08-27 build 开工）
+## 下一位 Agent 提示词（2026-08-27 census 更正增量重签）
 
-无下一位 Agent 提示词；Codex 是当前唯一 Coding Owner，正在按三方冻结合同实现公共 Add Picker 第一切片。
-公共层聚焦验证通过后，再更新本节为 Kimi / GLM done 前只读审查提示词。
+```text
+联合增量复审 ED-ADD-PICKER-DIALOG-1 的生产 census 更正；不要重审已冻结的 Dialog 公共 API。
+任务卡：docs/ops/tasks/ED-ADD-PICKER-DIALOG-1-editor-collection-add-picker-dialog.md
+当前状态：blocked / rework；原 4+3 前提上的 build 签字已失效，Codex 已停线，业务页尚未迁移。
+
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡的
+“2026-08-27 census 更正（重新打开前提门）”。
+
+请两席分别直读一手源码并核对：
+1. SkillTab.tsx:1237-1260 是否从 live items 取 firstUnused，立即追加 cost.items，默认 amount=1，
+   command owner 为 UpdateSkillCommand；
+2. LevelingEditor.tsx:65-115 是否从 live skills 取 skillIds[0]，立即追加 level=max+1 的学习行并排序，
+   command owner 为 UpdateLevelUpCommand；
+3. ItemUseEffectEditor.tsx:492-503,862-868 的 ItemAmountList 是否覆盖配方材料、配方产物、资源奖励档位三条路径；
+4. 更正基线是否应为 4 个对话式追加 + 5 个 append-first-default owner；新增两处是否可与原三处一并
+   deferred（本卡只登记 owner / 理由 / 删除条件，不扩大首批业务迁移）。
+
+输出要求：Kimi、GLM 各自在“进入 build 前：设计签字”追加带 file:line 的 premise verified + design agree，
+或 counter + 理由；明确写“接受/拒绝 4+5 基线与新增两处 deferred 分类”。不得修改实现文件、不得代签另一席。
+两席增量重签齐前不得恢复 build；签齐后 Codex 才修绿公共回归、落 4+5 registry，并迁移原定四个 included surface。
+```
