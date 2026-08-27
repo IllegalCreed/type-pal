@@ -1,6 +1,6 @@
 # ED-ADD-PICKER-DIALOG-1 - 编辑器候选对象添加弹窗统一
 
-Status: blocked / rework（2026-08-27 census 已按两席 counter 更正为 4+6；等待 Kimi / GLM 将 counter 转为 agree）
+Status: build（2026-08-27 Codex + Kimi + GLM 已在 4+6 冻结基线上签齐；Codex 恢复唯一 Coding Owner）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -312,6 +312,14 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
     registry 更正为 4+6 并登记 SpriteActionEditor 同步音效为第 6 个 deferred owner（与原五处同一
     owner/理由/删除条件纪律）后，本人即恢复 design agree；新增六处全部 deferred，不扩大首批四个
     业务迁移面。公共 Dialog API 不重审；KA1-KA5 继续有效。
+  - design: **agree（2026-08-27，4+6 counter 条件已满足，counter 转为 agree）**。逐条复核冻结
+    registry（卡面 4+6 冻结分类节）：
+    ①4 included（startup-party/inventory/resource + shop/stock）+ 6 deferred 全部登记；
+    ②SpriteActionEditor 同步音效条目含 owner=`UpdateSpriteCommand`（本人复核 :9,145 的 commitPoses
+    落点属实）、路径 `sprites[*].poses[*].steps[*].cues`、理由与删除条件；
+    ③ItemAmountList 三条 data path（ingredients/products/rewards）逐条写清；
+    ④included 仍为原定四个迁移面，未借 census 更正扩面。机器 census 纪律（JSX 关联 + first*/[0]
+    live registry 首项信号 + 排除项解释）已写入卡内，作为恢复 build 后 registry gate 的口径。
 - GLM:
   - premise: **verified（2026-08-27，本人一手读码 + 独立机器 census，非代理）**：
     1. **Startup 三处现状实锤**：`DsInlineComposer` 全库生产消费恰 3 处——队员 :906 / 道具 :1079 /
@@ -394,6 +402,27 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
     按指令本席不重审已冻结公共 API；其存在不影响 census 结论。
   - design: **agree（2026-08-27，以基线更正为 4+6 为前提）**——deferred 分类、不扩大首批、
     AP1-AP3/KA1-KA5 钉继续有效；build 门禁在基线登记 4+6 前保持 blocked。
+- GLM counter 转正（2026-08-27，4+6 counter 条件核验）：
+  - premise: **verified（4+6 counter 条件已满足）**。逐项核验“4+6 冻结分类 registry”：
+    1. **4 included + 6 deferred 完整登记** ✓——included：startup-party / startup-inventory /
+       startup-resource / shop-stock（各带 command owner、数据路径、默认值、理由、删除条件）；
+       deferred：item-amount ×3 path、actor-initial-magic、story-set-party-members、
+       skill-cost-items、actor-level-up-skill、asset-sprite-step-sound-cue 共 6 owner。
+    2. **SpriteActionEditor 同步音效条目属实** ✓——registry 称 owner 为 `UpdateSpriteCommand`，
+       本席直读代码链验证：cue append（:546-560）→ `updateAction`（:164-171）→ `commitPoses`
+       → `session.dispatch(new UpdateSpriteCommand(definition.id, {poses}, proof))`（:144-149，
+       含 proof guard :138-141）——owner、路径 `sprites[*].poses[*].steps[*].cues`、默认首个
+       sound asset、理由（与 proof/command owner 绑定）与删除条件全部准确。
+    3. **ItemAmountList 三条数据路径分别写清** ✓——registry 行显式枚举
+       `craftRecipes[*].ingredients`、`craftRecipes[*].products`、`drawFromResourcePool.rewards`
+       三条路径与“首项 count=1”默认，非模糊条目；三路径同 owner 同交互，一行枚举满足“逐路径
+       登记”的反模糊要求（若 JSON gate 落地时需拆三行，属机械细节）。
+    4. **本卡仍只迁移原定四个 included surface** ✓——四行 included 恰为 Startup 三处 + ShopTab
+       上架（本席 census 发现的第四处），六条 deferred 全部不迁移、只登记。
+    另确认 registry 末尾已写入机器 census 纪律（JSX button↔handler 关联 + 数组追加形态 +
+    `first*`/`[0]` 信号族，禁单行动词 grep）——本席 counter 的方法教训已落地。
+  - design: **agree（4+6 counter 条件已满足）**。AP1-AP3 / KA1-KA5 全部继续有效；AP1 的
+    census 命中清单按 4+6 冻结表执行。本席条件满足、counter 关闭；门禁仅待 Kimi 同样转正。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
   - 审查者: GLM（2026-08-27，独立机器 census + 逐锚点直读，见 GLM 签节 AP1-AP3 与可证伪观察①-③；
     小候选场景核验：资源 adder 0-2 候选时按设计不渲染触发器/走空态，1-3 候选走 dialog 与现 inline
@@ -409,14 +438,14 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
   - 可证伪观察: 见 GLM 签节①-③与 Kimi 签节可证伪观察①-④。
 - counter / 分歧处理: N/A（两席无 counter）
 - 缺签豁免: N/A
-- build 准入结论: **blocked / previous allowance invalidated（2026-08-27）**。原 Codex + Kimi（KA1-KA5）+
-  GLM（AP1-AP3）三签在 4+3 census 前提下曾放行；独立复核先后确认基线应为 4+5、最终为 4+6，按前提真值门立即停线。
-  GLM 增量复审已写回：对 SkillTab/LevelingEditor/ItemAmountList 三项更正全部核验属实，但 **counter
-  拒绝 4+5 基线（应为 4+6，SpriteActionEditor 同步音效 :546-560 为第 6 个 append-first-default
-  owner）**，并接受 deferred 分类方式本身。Kimi 增量复审同席复核 GLM counter 一手证据属实
-  （SpriteActionEditor.tsx:61,544-565 直读 + 同形态 sweep 未见第 7 个），**附议 4+6 counter**。
-  Codex 已完成 docs-only 4+6 冻结分类表与第 6 处 deferred 登记；**当前只待 Kimi / GLM 各自把 counter
-  转为 premise verified + design agree**，两席确认前不得恢复实现。
+- build 准入结论: **allowed（2026-08-27，4+6 冻结基线）**。历史：原 Codex + Kimi（KA1-KA5）+
+  GLM（AP1-AP3）三签在 4+3 census 前提下曾放行；独立复核先后确认基线应为 4+5、最终为 4+6，按前提
+  真值门立即停线。GLM 增量复审 counter 拒绝 4+5 基线（应为 4+6，SpriteActionEditor 同步音效
+  :546-560 为第 6 个 append-first-default owner）；Kimi 同席复核一手证据属实后附议。Codex 已完成
+  docs-only 4+6 冻结分类表与第 6 处 deferred 登记；GLM 已核验四项条件满足并转正，Kimi 亦核验
+  四项条件满足并把 counter 转为 premise verified + design agree（SpriteActionEditor
+  UpdateSpriteCommand 代码链 :9,144-149 直读复核）。**Codex + Kimi + GLM 三席在 4+6 冻结基线上
+  签字齐，build 恢复；KA1-KA5 / AP1-AP3 钉继续有效。**
 
 ### 进入 done 前:审查签字
 
@@ -459,15 +488,15 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
 ### 主审立场
 
 - Reviewer: Kimi（公共接口、弹窗 / overlay / focus / UX）；GLM 负责 census、测试矩阵与性能覆盖。
-- 结论: **rework pending**。Kimi / GLM 已共同确认最终 4+6 事实并接受六处 deferred 分类，但当前签名记录仍是
-  counter；Codex 已完成其要求的 docs-only 4+6 表，等待两席把 counter 显式转为 agree。
+- 结论: **agree / build allowed**。Kimi / GLM 已分别核验 4+6 docs-only 条件并把 counter 转为
+  premise verified + design agree；Codex / Kimi / GLM 三席签字齐，KA1-KA5 / AP1-AP3 继续有效。
 - 必改项: KA1 dialog 生命周期补齐、KA2 唯一焦点政策、KA3 唯一滚动面 + listbox 语义、KA4 确认事务
   防护、KA5 分类边界机检；AP1 census registry 全量、AP2 命令计数门禁、AP3 性能/虚拟化测试矩阵。
-- 是否建议进入 build: 否（只差两席 counter → agree；公共 API 旧结论不要求重审）。
+- 是否建议进入 build: 是（4+6 冻结基线三签齐；Codex 串行恢复公共层与四个 included surface）。
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（2026-08-27 原准入期间的唯一实现修改者；发现 census 漏项后已停线）
+- Coding Owner: Codex（2026-08-27 4+6 三签恢复后继续作为唯一实现修改者）
 - 修改文件: 公共 Add Picker / shared filter / virtual listbox / Dialog lifecycle 及其聚焦测试当前为未提交 WIP；
   尚未迁移任何业务页面。
 - 实现摘要: 已建立公共 API 草案并补 dialog 唯一 ID、description、scroll lock、异步 close/reopen 与 focus restore；
@@ -498,10 +527,26 @@ button↔handler 关联、数组追加形态、`first*` / `[0]` live registry �
 ## 用户验收
 
 - 用户结论: 2026-08-27 用户提出并批准单独开卡设计“按钮 -> 弹窗选择 -> 确认添加”；尚未验收实现。
-- 后续任务: 4+6 census counter 的 docs-only 条件已满足，等待 Kimi / GLM 显式转签；放行后 Codex 恢复公共层
-  修绿与四个 included 业务迁移，完成自测和功能视觉验证后再交两席 done 前只读审查。
+- 后续任务: 4+6 三签与串行前置均满足；Codex 已恢复公共层修绿与四个 included 业务迁移，完成自测和功能
+  视觉验证后交 Kimi + GLM 做 done 前只读审查。
 
 ## 交接日志
+
+- 2026-08-27 Codex: 再次以任务卡为真源核验 Kimi / GLM 已分别把 4+6 counter 转为 premise verified +
+  design agree，build 准入结论已为 allowed、无新 counter。同步卡头 / 看板后恢复唯一 Coding Owner；先修三个
+  test-first 公共反例，再落 4+6 JSON registry 与四个 included 业务迁移。
+
+- 2026-08-27 Kimi: 核验 4+6 counter 四项条件全部满足（4 included + 6 deferred 完整登记、
+  SpriteActionEditor 同步音效含 UpdateSpriteCommand（本人 :9,144-149 直读 commitPoses 落点）/
+  路径/理由/删除条件、ItemAmountList 三路径逐条、included 仍限定原定四面），把本轮 counter 转为
+  **premise verified + design agree**。GLM 已先转正；三席 4+6 冻结基线签字齐，准入恢复 allowed。
+  未修改实现，未代签 GLM。
+
+- 2026-08-27 GLM: 核验 4+6 冻结分类 registry 四项条件全部满足，把 counter 转正为 premise verified +
+  design agree。关键验证：registry 称 SpriteAction 同步音效 owner 为 UpdateSpriteCommand——本席直读
+  代码链（:546-560 → :164-171 → :144-149 含 proof guard）证实；ItemAmountList 三路径显式枚举非
+  模糊；included 恰四处（Startup×3 + ShopTab），六 deferred 不迁移；机器 census 纪律（JSX 解析 +
+  追加形态 + first*/[0] 信号）已写入。未修改实现，未代签 Kimi；门禁仅待 Kimi 转正。
 
 - 2026-08-27 Codex: 核对任务卡发现“签了”实际为 Kimi / GLM 共同 counter 4+5、要求改为 4+6。本人直读
   `SpriteActionEditor` helper、append handler 与 `UpdateSpriteCommand` 链后确认反证成立；完成 docs-only 4+6
