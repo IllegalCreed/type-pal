@@ -244,12 +244,12 @@ export function RawFrameInspector(props: {
         <span className="spacer" />
         {props.onAppend ? (
           <DsButton variant="secondary" icon="add" disabled={props.busy} onClick={props.onAppend}>
-            追加帧…
+            追加帧
           </DsButton>
         ) : null}
         {props.onReplace ? (
           <DsButton variant="secondary" disabled={props.busy} onClick={props.onReplace}>
-            替换当前帧…
+            替换当前帧
           </DsButton>
         ) : null}
         {props.onDelete ? (

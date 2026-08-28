@@ -77,7 +77,7 @@ export const DsButton = forwardRef<
       aria-busy={busy || undefined}
     >
       {icon ? <DsIcon name={icon} /> : null}
-      <span>{busy ? '处理中…' : children}</span>
+      <span>{busy ? '处理中' : children}</span>
     </button>
   )
 })

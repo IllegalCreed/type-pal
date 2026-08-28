@@ -491,7 +491,7 @@ export function SpriteFrames(props: {
             替换帧 <b>#{replaceIdx}</b>:选一张图(整图作为该帧,自动贴合项目主色)
           </span>
           <DsButton variant="primary" onClick={() => replaceFileRef.current?.click()}>
-            选图替换…
+            选图替换
           </DsButton>
           <DsButton variant="secondary" onClick={() => setReplaceIdx(null)}>
             取消

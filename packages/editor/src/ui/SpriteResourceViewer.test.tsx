@@ -123,8 +123,8 @@ describe('SpriteResourceViewer', () => {
     ).toHaveLength(3)
     expect(host.textContent).toContain('22 × 50 px')
     expect(host.textContent).toContain('由 2 个用途共享')
-    expect(host.textContent).toContain('追加帧…')
-    expect(host.textContent).toContain('替换当前帧…')
+    expect(host.textContent).toContain('追加帧')
+    expect(host.textContent).toContain('替换当前帧')
     expect(host.textContent).toContain('删除当前帧')
     const raw = host.querySelector('.sprite-raw-inspector')!
     const semantics = host.querySelector('.semantic-frame-shelf')!

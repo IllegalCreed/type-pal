@@ -683,7 +683,7 @@ export function TilesetTab(props: {
             actions={
               <>
                 <DsButton size="compact" variant="secondary" onClick={beginSelectedReplacement}>
-                  替换图像…
+                  替换图像
                 </DsButton>
                 <DsButton
                   size="compact"
@@ -693,10 +693,10 @@ export function TilesetTab(props: {
                   onClick={runRemovalLifecycle}
                 >
                   {removalComplete && !removalHasReferences
-                    ? '确认移除…'
+                    ? '确认移除'
                     : removalScan
-                      ? '重新检查后移除…'
-                      : '检查引用后移除…'}
+                      ? '重新检查后移除'
+                      : '检查引用后移除'}
                 </DsButton>
               </>
             }

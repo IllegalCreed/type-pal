@@ -639,12 +639,12 @@ export function WorldSpriteLibrary(props: {
                     }
                     onClick={deleteDefinition}
                   >
-                    删除用途…
+                    删除用途
                   </DsButton>
                 ) : null}
                 {!consumers.length ? (
                   <DsButton size="compact" variant="danger" onClick={() => void deleteAsset()}>
-                    删除源资源…
+                    删除源资源
                   </DsButton>
                 ) : null}
               </>

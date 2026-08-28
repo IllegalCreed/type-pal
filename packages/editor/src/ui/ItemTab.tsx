@@ -620,7 +620,7 @@ function ItemIconBrowser(props: {
         aria-controls="item-icon-browser-panel"
         onClick={() => setOpen((value) => !value)}
       >
-        选择已有图标…
+        选择已有图标
       </DsButton>
       {open ? (
         <div
@@ -1441,7 +1441,7 @@ export function ItemTab(props: {
                         icon="upload"
                         onClick={() => iconInputRef.current?.click()}
                       >
-                        导入 PNG…
+                        导入 PNG
                       </DsButton>
                       {item.icon && onOpenImage ? (
                         <DsButton
@@ -1841,7 +1841,7 @@ export function ItemTab(props: {
                           size="compact"
                           variant="secondary"
                         >
-                          ＋ 新建剧情脚本并绑定…
+                          ＋ 新建剧情脚本并绑定
                         </DsButton>
                       )}
                     </div>

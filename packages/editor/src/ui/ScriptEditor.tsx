@@ -321,7 +321,7 @@ export function ScriptSchemeDetailsDialog(props: {
               }
               onClick={() => setConfirmDelete(true)}
             >
-              删除方案…
+              删除方案
             </DsButton>
             <span className="spacer" />
             <DsButton size="compact" variant="secondary" onClick={props.onClose}>
@@ -3382,7 +3382,7 @@ export function CanonicalHostileOnLoseEditor(props: {
             disabled={!custom}
             onClick={() => setOpen(true)}
           >
-            编辑脚本…
+            编辑脚本
           </DsButton>
         </div>
       </section>
@@ -3947,7 +3947,7 @@ export function CanonicalScriptFlowEditor(props: {
                     setDeleteOpen(true)
                   }}
                 >
-                  删除步骤…
+                  删除步骤
                 </DsButton>
                 {!hasMultipleStages ? (
                   <span className="canonical-stage-delete-note">

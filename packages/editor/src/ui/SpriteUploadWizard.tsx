@@ -265,7 +265,7 @@ export function SpriteUploadWizard(props: {
             <DsFilePicker
               id={field.id}
               aria-describedby={field['aria-describedby']}
-              label="选择图片…"
+              label="选择图片"
               description="PNG / WebP / GIF"
               accept="image/png,image/webp,image/gif"
               disabled={submitting}
@@ -461,7 +461,7 @@ export function SpriteUploadWizard(props: {
             size="compact"
             variant="secondary"
           >
-            {submitting ? '处理中…' : '✓ 入库'}
+            {submitting ? '处理中' : '✓ 入库'}
           </DsButton>
         </>
       )}

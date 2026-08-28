@@ -3127,7 +3127,7 @@ export function MapMode(props: {
               },
               {
                 id: 'save-as-stamp',
-                label: '保存为组合…',
+                label: '保存为组合',
                 disabled: !canSaveSelectionAsStamp,
                 run: () => setStampDialogOpen(true),
               },

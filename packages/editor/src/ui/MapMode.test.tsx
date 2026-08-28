@@ -750,8 +750,8 @@ describe('MapMode 地图内容选择交互', () => {
 
     expect(host.querySelector('.map-selection-stamp-actions')).toBeNull()
     const selectionMenu = await openSelectionMenu(host)
-    expect(button(selectionMenu, '保存为组合…').disabled).toBe(false)
-    await act(async () => button(selectionMenu, '保存为组合…').click())
+    expect(button(selectionMenu, '保存为组合').disabled).toBe(false)
+    await act(async () => button(selectionMenu, '保存为组合').click())
     expect(document.body.querySelector('.stamp-template-dialog')).not.toBeNull()
     await act(async () => button(document.body, '创建组合').click())
     expect(

@@ -258,7 +258,7 @@ export function CanonicalSharedScriptTab(props: {
                   icon="delete"
                   onClick={deleteSelectedScript}
                 >
-                  删除脚本…
+                  删除脚本
                 </DsButton>
               }
             />

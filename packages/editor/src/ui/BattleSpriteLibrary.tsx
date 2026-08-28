@@ -1277,11 +1277,11 @@ export function BattleSpriteLibrary(props: {
                     disabled={!proofReady}
                     onClick={() => setReplacing(true)}
                   >
-                    替换源文件…
+                    替换源文件
                   </DsButton>
                 ) : (
                   <DsButton size="compact" variant="danger" onClick={() => void deleteAsset()}>
-                    删除源文件…
+                    删除源文件
                   </DsButton>
                 )}
                 {definition ? (
@@ -1296,7 +1296,7 @@ export function BattleSpriteLibrary(props: {
                     }
                     onClick={deleteDefinition}
                   >
-                    删除用途…
+                    删除用途
                   </DsButton>
                 ) : null}
               </>

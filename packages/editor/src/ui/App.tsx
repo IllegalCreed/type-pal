@@ -1841,7 +1841,7 @@ export function App(props: {
   const commands = createEditorAppCommandRegistry([
     {
       id: 'file.new',
-      label: '新建项目…',
+      label: '新建项目',
       icon: 'open',
       enabled: props.onBackToPicker !== undefined,
       scope: 'global',
@@ -1850,7 +1850,7 @@ export function App(props: {
     },
     {
       id: 'file.open',
-      label: '打开项目…',
+      label: '打开项目',
       icon: 'open',
       enabled: saveActivity === null,
       scope: 'global',
@@ -1859,7 +1859,7 @@ export function App(props: {
     },
     {
       id: 'file.rename',
-      label: '重命名项目…',
+      label: '重命名项目',
       icon: 'more',
       enabled: saveActivity === null,
       scope: 'global',
@@ -1867,7 +1867,7 @@ export function App(props: {
     },
     {
       id: 'file.save-as',
-      label: '另存为…',
+      label: '另存为',
       icon: 'save',
       enabled: saveActivity === null && !exporting,
       scope: 'global',
@@ -1875,7 +1875,7 @@ export function App(props: {
     },
     {
       id: 'file.export',
-      label: exporting ? '正在导出…' : '导出 ZIP…',
+      label: exporting ? '正在导出' : '导出 ZIP',
       icon: 'copy',
       enabled: Boolean(dirHandleRef.current) && saveActivity === null && !exporting,
       disabledReason: dirHandleRef.current ? undefined : '请先打开或保存本地项目',
@@ -1906,11 +1906,11 @@ export function App(props: {
     {
       id: 'file.save',
       label: saveActivity
-        ? '正在保存…'
+        ? '正在保存'
         : !dirHandleRef.current && props.workspace.mode === 'sandbox'
-          ? '保存评审副本…'
+          ? '保存评审副本'
           : !dirHandleRef.current && props.workspace.mode === 'pal-development'
-            ? '保存 PAL 开发基线…'
+            ? '保存 PAL 开发基线'
             : '保存',
       icon: 'save',
       shortcut: '⌘S',

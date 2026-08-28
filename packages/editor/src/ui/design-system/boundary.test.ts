@@ -2,6 +2,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import ts from 'typescript'
 import { describe, expect, test } from 'vitest'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -11,6 +12,38 @@ function filesUnder(root: string): string[] {
     const path = join(root, entry)
     return statSync(path).isDirectory() ? filesUnder(path) : [path]
   })
+}
+
+const actionLabelEllipsis = /(?:…|\.\.\.)\s*$/
+
+function propertyName(node: ts.PropertyName): string | undefined {
+  if (ts.isIdentifier(node) || ts.isStringLiteralLike(node)) return node.text
+  return undefined
+}
+
+function jsxTagName(node: ts.JsxTagNameExpression): string {
+  return node.getText()
+}
+
+function isActionTag(tagName: string): boolean {
+  return (
+    tagName === 'button' ||
+    tagName.endsWith('Button') ||
+    tagName === 'DsActionLink' ||
+    tagName === 'DsFilePicker' ||
+    tagName === 'DsMenuItem'
+  )
+}
+
+function staticTexts(node: ts.Node): Array<{ node: ts.Node; value: string }> {
+  const texts: Array<{ node: ts.Node; value: string }> = []
+  function visit(current: ts.Node): void {
+    if (ts.isStringLiteralLike(current)) texts.push({ node: current, value: current.text })
+    else if (ts.isJsxText(current)) texts.push({ node: current, value: current.getText() })
+    else ts.forEachChild(current, visit)
+  }
+  visit(node)
+  return texts
 }
 
 function splitTopLevelSelectors(selectorList: string): string[] {
@@ -76,6 +109,63 @@ function cssDeclaration(body: string, property: string): string | undefined {
 }
 
 describe('editor design-system static boundary', () => {
+  test('forbids decorative ellipses at the end of action labels', () => {
+    const uiRoot = join(here, '..')
+    const sourcePaths = filesUnder(uiRoot).filter(
+      (path) => /\.tsx?$/.test(path) && !/\.(?:test|spec)\.tsx?$/.test(path),
+    )
+    const violations: string[] = []
+
+    for (const path of sourcePaths) {
+      const content = readFileSync(path, 'utf8')
+      const source = ts.createSourceFile(
+        path,
+        content,
+        ts.ScriptTarget.Latest,
+        true,
+        ts.ScriptKind.TSX,
+      )
+      const seen = new Set<number>()
+
+      function record(node: ts.Node, value: string): void {
+        if (!actionLabelEllipsis.test(value) || seen.has(node.pos)) return
+        seen.add(node.pos)
+        const { line } = source.getLineAndCharacterOfPosition(node.getStart(source))
+        violations.push(
+          `${path.slice(uiRoot.length + 1)}:${line + 1} ${JSON.stringify(value.trim())}`,
+        )
+      }
+
+      function visit(node: ts.Node): void {
+        if (ts.isPropertyAssignment(node) && propertyName(node.name) === 'label') {
+          for (const text of staticTexts(node.initializer)) record(text.node, text.value)
+        }
+
+        if (ts.isJsxElement(node) && isActionTag(jsxTagName(node.openingElement.tagName))) {
+          for (const child of node.children) {
+            for (const text of staticTexts(child)) record(text.node, text.value)
+          }
+        } else if (ts.isJsxSelfClosingElement(node) && isActionTag(jsxTagName(node.tagName))) {
+          for (const attribute of node.attributes.properties) {
+            if (
+              !ts.isJsxAttribute(attribute) ||
+              attribute.name.text !== 'label' ||
+              !attribute.initializer
+            )
+              continue
+            for (const text of staticTexts(attribute.initializer)) record(text.node, text.value)
+          }
+        }
+
+        ts.forEachChild(node, visit)
+      }
+
+      visit(source)
+    }
+
+    expect(violations).toEqual([])
+  })
+
   test('pins every central workspace shell to the middle grid track', () => {
     const editor = readFileSync(join(here, '..', 'editor.css'), 'utf8')
     const center = cssRuleBodies(editor, '.body > :is(.center, .canvas-wrap)')

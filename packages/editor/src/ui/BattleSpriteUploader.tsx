@@ -126,7 +126,7 @@ export function BattleSpriteUploader(props: {
     <div className="bsu">
       <DsFilePicker
         className="bsu-file-picker"
-        label="选择图片…"
+        label="选择图片"
         description="PNG / WebP / GIF"
         aria-label="选择战斗精灵图片"
         accept="image/png,image/webp,image/gif"
