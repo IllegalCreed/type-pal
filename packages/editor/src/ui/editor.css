@@ -298,7 +298,7 @@ body {
 .body > .outliner {
   grid-column: 1;
 }
-.body > .center {
+.body > :is(.center, .canvas-wrap) {
   grid-column: 2;
 }
 .body > .inspector {

@@ -76,6 +76,14 @@ function cssDeclaration(body: string, property: string): string | undefined {
 }
 
 describe('editor design-system static boundary', () => {
+  test('pins every central workspace shell to the middle grid track', () => {
+    const editor = readFileSync(join(here, '..', 'editor.css'), 'utf8')
+    const center = cssRuleBodies(editor, '.body > :is(.center, .canvas-wrap)')
+
+    expect(center).toHaveLength(1)
+    expect(cssDeclaration(center[0]!, 'grid-column')).toBe('2')
+  })
+
   test('locks field groups to the shared 96px track and 479/480 container boundary', () => {
     const tokens = readFileSync(join(here, 'tokens.css'), 'utf8')
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
