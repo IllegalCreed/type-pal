@@ -10,4 +10,4 @@ export * from './recipes.js'
 export * from './reorder.js'
 export * from './virtual-list.js'
 
-export const EDITOR_DESIGN_SYSTEM_VERSION = '2.14.0' as const
+export const EDITOR_DESIGN_SYSTEM_VERSION = '2.14.1' as const

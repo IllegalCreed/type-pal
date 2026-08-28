@@ -1,8 +1,8 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.14.0 shared responsive field layout contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.14.1 section-grid navigation hierarchy（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -288,6 +288,9 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - Narrow 不允许横向滚动或藏在屏外：保留 `文件　编辑　导航` 三个明确入口；“导航”按模块分组展示全部八个
   模块及子页，空间允许时双栏、极窄时单栏，弹层自行纵向滚动。不得重复模块前缀制造一条超长调试列表；顺序
   和 href 与 Wide/Medium 相同。
+- Narrow 分组菜单中，模块名只是定位用的辅助层级，使用 muted caption；具体页面才是主导航目标，使用 primary
+  small-title。当前页继续以 soft accent 背景、强调文字和 `aria-current` 表达。模块名不得比页面项更大、更粗或
+  更亮，页面项也不得退化成与分组标题同权重的一串文字。
 - 菜单弹层必须位于 Header 独立层叠上下文之上，不得被工作区分隔线或拖拽条覆盖。当前项使用 soft accent
   背景、文字强调与 `aria-current`；不额外显示 check，不使用左侧硬蓝条、整块描边或大面积 active 卡片。
 

@@ -275,9 +275,9 @@ describe('editor design-system static boundary', () => {
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.14.0'")
-    expect(tokens).toContain('--ds-version: "2.14.0";')
-    expect(specification).toContain('Status: implemented v2.14.0')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.14.1'")
+    expect(tokens).toContain('--ds-version: "2.14.1";')
+    expect(specification).toContain('Status: implemented v2.14.1')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
@@ -809,12 +809,7 @@ describe('editor design-system static boundary', () => {
     )
 
     const pageAnimationEditor = readFileSync(join(uiRoot, 'EntityPageAnimationEditor.tsx'), 'utf8')
-    for (const component of [
-      'DsPropertyRow',
-      'DsCheckbox',
-      'DsDraftNumberInput',
-      'DsButton',
-    ])
+    for (const component of ['DsPropertyRow', 'DsCheckbox', 'DsDraftNumberInput', 'DsButton'])
       expect(pageAnimationEditor, `EntityPageAnimationEditor shared ${component}`).toContain(
         `<${component}`,
       )
@@ -970,6 +965,36 @@ describe('editor design-system static boundary', () => {
         /className\s*=\s*["'][^"']*(?:\bin\b|linked-value-open|btn\s+mp-play)/,
       )
     }
+  })
+
+  test('keeps section-grid menu groups subordinate to their page links', () => {
+    const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
+    const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
+    const sectionTitle = cssRuleBodies(
+      primitives,
+      '.ds-menu-popover[data-layout="section-grid"] .ds-menu-section-title',
+    )
+    const pageItem = cssRuleBodies(
+      primitives,
+      '.ds-menu-popover[data-layout="section-grid"] .ds-menu-item',
+    )
+    const currentPage = cssRuleBodies(
+      primitives,
+      '.ds-menu-popover[data-layout="section-grid"] .ds-menu-item[aria-current="page"]',
+    )
+
+    expect(sectionTitle).toHaveLength(1)
+    expect(cssDeclaration(sectionTitle[0]!, 'color')).toBe('var(--ds-text-muted)')
+    expect(cssDeclaration(sectionTitle[0]!, 'font')).toBe('var(--ds-font-caption)')
+    expect(cssDeclaration(sectionTitle[0]!, 'letter-spacing')).toBe('0.04em')
+    expect(pageItem).toHaveLength(1)
+    expect(cssDeclaration(pageItem[0]!, 'color')).toBe('var(--ds-text-primary)')
+    expect(cssDeclaration(pageItem[0]!, 'font')).toBe('var(--ds-font-title-sm)')
+    expect(currentPage).toHaveLength(1)
+    expect(cssDeclaration(currentPage[0]!, 'color')).toBe('var(--ds-action-primary)')
+    expect(cssDeclaration(currentPage[0]!, 'font-weight')).toBe('700')
+    expect(designLab).toContain("layout: 'section-grid'")
+    expect(designLab).toContain("section: '战斗'")
   })
 
   test('keeps standalone sequence markers on the shared sequence index', () => {

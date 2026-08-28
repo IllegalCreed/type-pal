@@ -1080,6 +1080,48 @@ describe('editor design-system controls', () => {
     expect(host.querySelector('.ds-menu-popover')).toBeNull()
   })
 
+  test('section-grid menu exposes modules as groups and pages as primary links', async () => {
+    const menus: DsMenuDefinition[] = [
+      {
+        id: 'navigation',
+        label: '导航',
+        layout: 'section-grid',
+        items: [
+          { id: 'scene', section: '场景', label: '场景编排', href: '?module=scene' },
+          { id: 'ambience', section: '场景', label: '氛围', href: '?module=scene&page=ambience' },
+          {
+            id: 'overview',
+            section: '项目设置',
+            label: '概览',
+            href: '?module=project&page=overview',
+            current: true,
+          },
+        ],
+      },
+    ]
+    await act(async () => root.render(<DsMenuBar label="主菜单" menus={menus} />))
+    await click(host.querySelector<HTMLButtonElement>('.ds-menu-trigger')!)
+
+    const popover = host.querySelector<HTMLElement>('.ds-menu-popover')!
+    expect(popover.dataset.layout).toBe('section-grid')
+    expect(
+      [...popover.querySelectorAll<HTMLElement>('[role="group"]')].map((group) =>
+        group.getAttribute('aria-label'),
+      ),
+    ).toEqual(['场景', '项目设置'])
+    expect(
+      [...popover.querySelectorAll<HTMLElement>('.ds-menu-section-title')].map(
+        (title) => title.textContent,
+      ),
+    ).toEqual(['场景', '项目设置'])
+    expect(
+      [...popover.querySelectorAll<HTMLAnchorElement>('.ds-menu-item')].map(
+        (item) => item.textContent,
+      ),
+    ).toEqual(['场景编排', '氛围', '概览'])
+    expect(popover.querySelector('[aria-current="page"]')?.textContent).toBe('概览')
+  })
+
   test('toolbar reuses the supplied handler and never manufactures a second command', async () => {
     const execute = vi.fn()
     await act(async () =>
