@@ -2254,7 +2254,7 @@ function UnusedInspectorDecoy() {
         (record) => !record.source.startsWith('design-system/') && record.liveness !== 'live',
       ),
     ).toEqual([])
-    await expect(cssTrackCensus.join('\n')).toMatchFileSnapshot(
+    await expect(`${cssTrackCensus.join('\n')}\n`).toMatchFileSnapshot(
       join(here, 'field-layout-css-census.snapshot.txt'),
     )
 

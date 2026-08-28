@@ -283,9 +283,9 @@ describe('editor design-system static boundary', () => {
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.14.1'")
-    expect(tokens).toContain('--ds-version: "2.14.1";')
-    expect(specification).toContain('Status: implemented v2.14.1')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.14.2'")
+    expect(tokens).toContain('--ds-version: "2.14.2";')
+    expect(specification).toContain('Status: implemented v2.14.2')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
@@ -978,6 +978,19 @@ describe('editor design-system static boundary', () => {
   test('keeps section-grid menu groups subordinate to their page links', () => {
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
     const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
+    const sectionFlow = cssRuleBodies(
+      primitives,
+      '.ds-menu-popover[data-layout="section-grid"] > .ds-menu-group-flow',
+    )
+    const sectionGroup = cssRuleBodies(
+      primitives,
+      '.ds-menu-popover[data-layout="section-grid"] .ds-menu-group',
+    )
+    const narrowFlow = cssRuleBodies(
+      primitives,
+      '.ds-menu-popover[data-layout="section-grid"] > .ds-menu-group-flow',
+      '@media (max-width: 559px)',
+    )
     const sectionTitle = cssRuleBodies(
       primitives,
       '.ds-menu-popover[data-layout="section-grid"] .ds-menu-section-title',
@@ -991,6 +1004,15 @@ describe('editor design-system static boundary', () => {
       '.ds-menu-popover[data-layout="section-grid"] .ds-menu-item[aria-current="page"]',
     )
 
+    expect(sectionFlow).toHaveLength(1)
+    expect(cssDeclaration(sectionFlow[0]!, 'column-count')).toBe('2')
+    expect(cssDeclaration(sectionFlow[0]!, 'column-fill')).toBe('balance')
+    expect(cssDeclaration(sectionFlow[0]!, 'column-gap')).toBe('var(--ds-space-5)')
+    expect(sectionGroup).toHaveLength(1)
+    expect(cssDeclaration(sectionGroup[0]!, 'margin-block-end')).toBe('var(--ds-space-3)')
+    expect(cssDeclaration(sectionGroup[0]!, 'break-inside')).toBe('avoid')
+    expect(narrowFlow).toHaveLength(1)
+    expect(cssDeclaration(narrowFlow[0]!, 'column-count')).toBe('1')
     expect(sectionTitle).toHaveLength(1)
     expect(cssDeclaration(sectionTitle[0]!, 'color')).toBe('var(--ds-text-muted)')
     expect(cssDeclaration(sectionTitle[0]!, 'font')).toBe('var(--ds-font-caption)')

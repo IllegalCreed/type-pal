@@ -140,79 +140,81 @@ export function DsMenuBar(props: {
                 event.preventDefault()
               }}
             >
-              {groupMenuItems(menu.items).map((group, groupIndex) => (
-                <div
-                  className="ds-menu-group"
-                  role="group"
-                  aria-label={group.section}
-                  key={`${group.section ?? 'items'}:${groupIndex}`}
-                >
-                  {group.section ? (
-                    <div className="ds-menu-section-title" role="presentation">
-                      {group.section}
-                    </div>
-                  ) : null}
-                  {group.items.map(({ item, itemIndex }) => {
-                    const common = {
-                      className: 'ds-menu-item',
-                      role: item.checked === undefined ? 'menuitem' : 'menuitemcheckbox',
-                      tabIndex: itemIndex === 0 ? 0 : -1,
-                      'aria-disabled': item.disabled || undefined,
-                      'aria-current': item.current ? ('page' as const) : undefined,
-                      'aria-checked': item.checked,
-                      ref: (node: HTMLElement | null) => {
-                        const current = itemRefs.current.get(menu.id) ?? []
-                        if (node) current[itemIndex] = node
-                        else current.splice(itemIndex, 1)
-                        itemRefs.current.set(menu.id, current)
-                      },
-                    }
-                    const content = (
-                      <>
-                        {item.icon ? <DsIcon name={item.icon} /> : null}
-                        <span className="ds-menu-item__label">{item.label}</span>
-                        <span className="ds-spacer" />
-                        {item.shortcut ? (
-                          <span className="ds-field__help">{item.shortcut}</span>
-                        ) : null}
-                        {item.checked ? (
-                          <DsIcon className="ds-menu-item__check" name="check" />
-                        ) : null}
-                      </>
-                    )
-                    return item.href ? (
-                      <a
-                        key={item.id}
-                        {...common}
-                        href={item.disabled ? undefined : item.href}
-                        onClick={(event) => {
-                          if (item.disabled) {
-                            event.preventDefault()
-                            return
-                          }
-                          props.onNavigate?.(event, item)
-                          setOpenId(undefined)
-                        }}
-                      >
-                        {content}
-                      </a>
-                    ) : (
-                      <button
-                        key={item.id}
-                        {...common}
-                        type="button"
-                        disabled={item.disabled}
-                        onClick={() => {
-                          item.onSelect?.()
-                          setOpenId(undefined)
-                        }}
-                      >
-                        {content}
-                      </button>
-                    )
-                  })}
-                </div>
-              ))}
+              <div className="ds-menu-group-flow" role="presentation">
+                {groupMenuItems(menu.items).map((group) => (
+                  <div
+                    className="ds-menu-group"
+                    role="group"
+                    aria-label={group.section}
+                    key={`${group.section ?? 'items'}:${group.items[0]?.item.id ?? 'empty'}`}
+                  >
+                    {group.section ? (
+                      <div className="ds-menu-section-title" role="presentation">
+                        {group.section}
+                      </div>
+                    ) : null}
+                    {group.items.map(({ item, itemIndex }) => {
+                      const common = {
+                        className: 'ds-menu-item',
+                        role: item.checked === undefined ? 'menuitem' : 'menuitemcheckbox',
+                        tabIndex: itemIndex === 0 ? 0 : -1,
+                        'aria-disabled': item.disabled || undefined,
+                        'aria-current': item.current ? ('page' as const) : undefined,
+                        'aria-checked': item.checked,
+                        ref: (node: HTMLElement | null) => {
+                          const current = itemRefs.current.get(menu.id) ?? []
+                          if (node) current[itemIndex] = node
+                          else current.splice(itemIndex, 1)
+                          itemRefs.current.set(menu.id, current)
+                        },
+                      }
+                      const content = (
+                        <>
+                          {item.icon ? <DsIcon name={item.icon} /> : null}
+                          <span className="ds-menu-item__label">{item.label}</span>
+                          <span className="ds-spacer" />
+                          {item.shortcut ? (
+                            <span className="ds-field__help">{item.shortcut}</span>
+                          ) : null}
+                          {item.checked ? (
+                            <DsIcon className="ds-menu-item__check" name="check" />
+                          ) : null}
+                        </>
+                      )
+                      return item.href ? (
+                        <a
+                          key={item.id}
+                          {...common}
+                          href={item.disabled ? undefined : item.href}
+                          onClick={(event) => {
+                            if (item.disabled) {
+                              event.preventDefault()
+                              return
+                            }
+                            props.onNavigate?.(event, item)
+                            setOpenId(undefined)
+                          }}
+                        >
+                          {content}
+                        </a>
+                      ) : (
+                        <button
+                          key={item.id}
+                          {...common}
+                          type="button"
+                          disabled={item.disabled}
+                          onClick={() => {
+                            item.onSelect?.()
+                            setOpenId(undefined)
+                          }}
+                        >
+                          {content}
+                        </button>
+                      )
+                    })}
+                  </div>
+                ))}
+              </div>
             </div>
           ) : null}
         </div>

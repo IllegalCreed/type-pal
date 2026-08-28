@@ -1104,6 +1104,9 @@ describe('editor design-system controls', () => {
 
     const popover = host.querySelector<HTMLElement>('.ds-menu-popover')!
     expect(popover.dataset.layout).toBe('section-grid')
+    expect(popover.querySelector(':scope > .ds-menu-group-flow')?.getAttribute('role')).toBe(
+      'presentation',
+    )
     expect(
       [...popover.querySelectorAll<HTMLElement>('[role="group"]')].map((group) =>
         group.getAttribute('aria-label'),
