@@ -1,10 +1,10 @@
 {
   "version": 1,
   "baseline": {
-    "files": 36,
-    "leafCalls": 115,
+    "files": 35,
+    "leafCalls": 113,
     "controls": {
-      "DsNumberInput": 57,
+      "DsNumberInput": 55,
       "DsDraftNumberInput": 29,
       "DsNumberField": 4,
       "DsDraftNumberField": 25
@@ -678,20 +678,6 @@
       "removalCondition": "时间线改为主表单时迁入 NumberField。"
     },
     {
-      "source": "SpriteFrames.tsx",
-      "component": "SpriteFrames",
-      "match": { "context": "none", "fieldClass": "" },
-      "count": 2,
-      "mode": "coordinate-frame",
-      "control": "DsNumberInput",
-      "measure": "specialized-css",
-      "grid": "timeline",
-      "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "源帧切片起止值是帧工作台高密度参数。",
-      "verification": "SpriteFrames.tsx#sprite-frames-slice-input",
-      "removalCondition": "切片参数迁入主表单时使用 NumberField。"
-    },
-    {
       "source": "SpriteResourceViewer.tsx",
       "component": "SpriteResourceViewer",
       "match": { "context": "field", "fieldClass": "" },
@@ -1007,14 +993,6 @@
       "reason": "入口序号紧凑槽。",
       "verification": "ProjectWorkbenchTab.tsx#entry repeat row",
       "removalCondition": "入口行采用公共数量槽。"
-    },
-    {
-      "selector": ".sprite-frames-slice-input",
-      "property": "width",
-      "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "帧切片起止值紧凑槽。",
-      "verification": "SpriteFrames.tsx#slice controls",
-      "removalCondition": "切片参数迁入 NumberField。"
     },
     {
       "selector": ".item-amount-row",

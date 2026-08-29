@@ -974,14 +974,14 @@ export function ActorMode(props: {
                     contentClassName="actor-frame-card__content"
                     eyebrow="大世界"
                     title="行走图与动作帧"
-                    description="查看并编辑角色在大世界中的方向、站立与行走帧。"
+                    description="预览角色在大世界中的方向、站立、行走与命名动作帧。"
                     actions={
                       <DsButton
                         size="compact"
                         variant="secondary"
                         onClick={() => onOpenSprite?.(actor.spriteId)}
                       >
-                        在资源库打开
+                        在资源库编辑
                       </DsButton>
                     }
                   >
@@ -990,7 +990,6 @@ export function ActorMode(props: {
                         sprite={sprite}
                         assetBase={assetBase}
                         assetReader={assetReader}
-                        session={session}
                       />
                     ) : (
                       <div className="actor-resource-empty">

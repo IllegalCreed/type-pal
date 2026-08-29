@@ -1,54 +1,19 @@
 /**
- * 精灵帧面板(C1c/C1d + A4d)—— 精灵的全部帧网格 + 命名姿势 + **帧级编辑就地做**:
- * 点任意帧 → 替换该帧(选图直接换,面板即刷新,可撤销);工具栏「＋ 追加帧」→ 选图
- * 切帧接到末尾(后补动作不回上传向导 —— 作者反馈「替换一帧还要去追加?动线太复杂」)。
- * 帧级编辑仅自有精灵(有 path);原版号约定精灵只读展示。
+ * 角色精灵帧预览。
+ * 源帧、布局与命名动作的权威编辑面位于大世界精灵资源库。
  */
 
-import type { AssetRecordV1, SpriteActionDef, SpriteDef } from '@type-pal/content'
-import type { AssetBase, LoadedSprite, Palette, RleFrame } from '@type-pal/reforge'
+import type { SpriteDef } from '@type-pal/content'
+import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
 import {
   actualFrameIndex,
   bakeFrame,
-  compressGzip,
   deriveStepCycle,
-  encodeSpriteChunk,
   loadStandardPalette,
-  quantizeToRleFrame,
-  sliceAtlasGrid,
 } from '@type-pal/reforge'
-import { useEffect, useRef, useState } from 'react'
-import { sha256Hex } from '../core/binary-signature.js'
-import {
-  ReplaceSpriteAssetCommand,
-  type SpriteReplacementProof,
-  UpdateSpriteCommand,
-} from '../core/commands.js'
-import type { EditSession } from '../core/edit-session.js'
+import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
-import {
-  DsButton,
-  DsFileInput,
-  DsNumberInput,
-  DsSelect,
-  DsTextInput,
-  DsPressable,
-} from './design-system/controls.js'
-
-/** 读用户选图 → RGBA(量化/切帧的公共前置)。 */
-async function fileToRgba(file: File): Promise<{ rgba: Uint8Array; w: number; h: number }> {
-  const bitmap = await createImageBitmap(file)
-  const cvs = document.createElement('canvas')
-  cvs.width = bitmap.width
-  cvs.height = bitmap.height
-  const ctx = cvs.getContext('2d')
-  if (!ctx) throw new Error('2d context 不可用')
-  ctx.drawImage(bitmap, 0, 0)
-  bitmap.close()
-  const data = ctx.getImageData(0, 0, cvs.width, cvs.height)
-  return { rgba: new Uint8Array(data.data.buffer.slice(0)), w: cvs.width, h: cvs.height }
-}
 
 const DIRS = ['down', 'left', 'up', 'right'] as const
 const DIR_LABEL: Record<string, string> = { down: '下', left: '左', up: '上', right: '右' }
@@ -60,9 +25,8 @@ const DIR_COLOR: Record<string, string> = {
 }
 
 /**
- * 动画预览格:按帧序 order 定时轮播(walk 步序/循环/姿势共用)。
- * 节拍与引擎同源:走路 100ms/步(STEP_MS)、循环 250ms/帧(loopFrameIndex 缺省)。
- * interval 只重画 canvas 不触发 React 渲染;底对齐居中同 FrameCell。
+ * 动画预览格：按帧序 order 定时轮播。
+ * 节拍与引擎同源；系统要求减少动态效果时固定展示首帧。
  */
 function AnimCell(props: {
   canvases: (HTMLCanvasElement | undefined)[]
@@ -77,35 +41,34 @@ function AnimCell(props: {
   const cw = Math.max(1, Math.round(maxW * scale))
   const ch = Math.max(1, Math.round(maxH * scale))
   useEffect(() => {
-    const c = ref.current
-    const ctx = c?.getContext('2d')
-    if (!c || !ctx || order.length === 0) return
-    c.width = cw
-    c.height = ch
-    let i = 0
+    const canvas = ref.current
+    const context = canvas?.getContext('2d')
+    if (!canvas || !context || order.length === 0) return
+    canvas.width = cw
+    canvas.height = ch
+    let frameIndex = 0
     const draw = (): void => {
-      ctx.clearRect(0, 0, cw, ch)
-      const requested = order[i % order.length] ?? 0
-      const src = canvases[actualFrameIndex(requested, canvases.length)]
-      if (src) {
-        ctx.imageSmoothingEnabled = false
-        const w = src.width * scale
-        const h = src.height * scale
-        ctx.drawImage(src, (cw - w) / 2, ch - h, w, h)
+      context.clearRect(0, 0, cw, ch)
+      const requested = order[frameIndex % order.length] ?? 0
+      const source = canvases[actualFrameIndex(requested, canvases.length)]
+      if (source) {
+        context.imageSmoothingEnabled = false
+        const width = source.width * scale
+        const height = source.height * scale
+        context.drawImage(source, (cw - width) / 2, ch - height, width, height)
       }
-      i++
+      frameIndex++
     }
     draw()
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || order.length === 1)
+      return
     const timer = setInterval(draw, Math.max(60, msPerFrame))
     return () => clearInterval(timer)
   }, [canvases, order, msPerFrame, cw, ch, scale])
   return <canvas ref={ref} className="fcell-canvas" />
 }
 
-/**
- * 把 baked 精灵帧画进统一尺寸的 <canvas>:cell = 精灵最大帧包围盒 × scale(所有帧同尺寸 → 网格整齐),
- * 每帧在 cell 内**底对齐居中**(帧大小不一也完整不裁,脚底对齐地面视觉自然)。pixelated。
- */
+/** 每帧在统一包围盒内底对齐居中，避免不同尺寸的源帧被裁切。 */
 function FrameCell(props: {
   canvas: HTMLCanvasElement | undefined
   maxW: number
@@ -117,298 +80,100 @@ function FrameCell(props: {
   const cw = Math.max(1, Math.round(maxW * scale))
   const ch = Math.max(1, Math.round(maxH * scale))
   useEffect(() => {
-    const c = ref.current
-    const ctx = c?.getContext('2d')
-    if (!c || !ctx) return
-    c.width = cw
-    c.height = ch
-    ctx.clearRect(0, 0, cw, ch)
+    const target = ref.current
+    const context = target?.getContext('2d')
+    if (!target || !context) return
+    target.width = cw
+    target.height = ch
+    context.clearRect(0, 0, cw, ch)
     if (!canvas) return
-    ctx.imageSmoothingEnabled = false
-    const w = canvas.width * scale
-    const h = canvas.height * scale
-    ctx.drawImage(canvas, (cw - w) / 2, ch - h, w, h) // 底对齐居中
+    context.imageSmoothingEnabled = false
+    const width = canvas.width * scale
+    const height = canvas.height * scale
+    context.drawImage(canvas, (cw - width) / 2, ch - height, width, height)
   }, [canvas, cw, ch, scale])
   return <canvas ref={ref} className="fcell-canvas" />
+}
+
+function SpriteFrameTile(props: {
+  variant?: 'default' | 'standing' | 'missing'
+  style?: CSSProperties
+  label: string
+  children: ReactNode
+}) {
+  if (props.variant === 'missing')
+    return (
+      <div className="fcell frame-missing" style={props.style} role="img" aria-label={props.label}>
+        {props.children}
+      </div>
+    )
+  if (props.variant === 'standing')
+    return (
+      <div className="fcell stand" style={props.style} role="img" aria-label={props.label}>
+        {props.children}
+      </div>
+    )
+  return (
+    <div className="fcell" style={props.style} role="img" aria-label={props.label}>
+      {props.children}
+    </div>
+  )
 }
 
 export function SpriteFrames(props: {
   sprite: SpriteDef
   assetBase: AssetBase
   assetReader: EditorAssetReader
-  session: EditSession
-  onLayoutProof?: (proof: import('../core/commands.js').SpriteLayoutEditProof | undefined) => void
 }) {
-  const { sprite, assetBase, assetReader, session, onLayoutProof } = props
+  const { sprite, assetBase, assetReader } = props
   const record = assetReader.record(sprite.asset, 'sprite')
   const revision = record.sha256
   const [loadedResult, setLoadedResult] = useState<{
     sprite: LoadedSprite
     revision: string
   } | null>(null)
-  // React 会先用新 record 渲染、随后才运行 effect 清旧结果；revision 不同就立即视为未加载，
-  // 禁止把“新 SHA + 旧帧数”拼成伪证明。
   const loaded = loadedResult?.revision === revision ? loadedResult.sprite : null
   const [baked, setBaked] = useState<HTMLCanvasElement[]>([])
-  const [palette, setPalette] = useState<Palette | null>(null)
-  const [err, setErr] = useState('')
-  // 命名姿势框选:选中的未分配帧 + 待建姿势名/播放方式
-  const [selFrames, setSelFrames] = useState<Set<number>>(new Set())
-  const [poseName, setPoseName] = useState('')
-  const [poseMode, setPoseMode] = useState<'once' | 'loop'>('once')
-  // 帧级编辑(自有精灵):点帧选中待替换;追加帧草稿(选图后给切帧网格确认)
-  const [replaceIdx, setReplaceIdx] = useState<number | null>(null)
-  const [appendDraft, setAppendDraft] = useState<{
-    rgba: Uint8Array
-    w: number
-    h: number
-    cols: number
-    rows: number
-  } | null>(null)
-  const replaceFileRef = useRef<HTMLInputElement>(null)
-  const appendFileRef = useRef<HTMLInputElement>(null)
-  const consumers = session
-    .getState()
-    .sprites.filter((candidate) => candidate.asset === sprite.asset)
-  const editable = true
-  const layoutProof = loaded
-    ? { asset: sprite.asset, sha256: record.sha256, actualFrameCount: loaded.frames.length }
-    : undefined
-
-  const repairConsumersForFrameCount = (
-    nextCount: number,
-  ): NonNullable<SpriteReplacementProof['repairs']> =>
-    Object.fromEntries(
-      consumers.map((candidate) => {
-        const layout: SpriteDef['layout'] =
-          candidate.layout.kind === 'directional'
-            ? {
-                kind: 'directional',
-                framesPerDir: Math.min(candidate.layout.framesPerDir, Math.floor(nextCount / 4)),
-              }
-            : candidate.layout.kind === 'loop'
-              ? {
-                  ...candidate.layout,
-                  frameCount: Math.min(candidate.layout.frameCount, nextCount),
-                }
-              : candidate.layout
-        const poses = Object.fromEntries(
-          Object.entries(candidate.poses ?? {}).flatMap(([actionId, action]) => {
-            const steps = action.steps.filter((step) => step.frame < nextCount)
-            if (!steps.length) return []
-            const nextAction: SpriteActionDef = { ...action, steps }
-            if (nextAction.loopFrom !== undefined && nextAction.loopFrom >= steps.length)
-              delete nextAction.loopFrom
-            return [[actionId, nextAction]]
-          }),
-        ) as Record<string, SpriteActionDef>
-        return [candidate.id, { layout, ...(Object.keys(poses).length ? { poses } : {}) }]
-      }),
-    )
-
-  /** 当前帧集重编码 → 更新 catalog record + pending bytes（可撤销，SHA 驱动全部预览刷新）。 */
-  const commitFrames = async (frames: RleFrame[], label: string): Promise<void> => {
-    if (!loaded) return
-    const shrinking = frames.length < loaded.frames.length
-    if (
-      (consumers.length > 1 || shrinking) &&
-      !window.confirm(
-        shrinking
-          ? `将把资源从 ${loaded.frames.length} 帧缩到 ${frames.length} 帧，并在同一可撤销事务中修正 ${consumers.length} 个消费者（${consumers.map((item) => item.label).join('、')}）的布局与姿势。是否继续？`
-          : `此资源由 ${consumers.length} 个精灵定义共享（${consumers.map((item) => item.label).join('、')}）。继续会同步更新它们的图像，是否继续？`,
-      )
-    )
-      return
-    const gz = await compressGzip(encodeSpriteChunk(frames))
-    const buf = gz.buffer.slice(gz.byteOffset, gz.byteOffset + gz.byteLength) as ArrayBuffer
-    const hash = await sha256Hex(buf)
-    const previousBytes = await assetReader.readBytes(sprite.asset, 'sprite')
-    const nextRecord: AssetRecordV1 = {
-      ...record,
-      path: `assets/authored/sprites/${hash}.rle`,
-      bytes: buf.byteLength,
-      sha256: hash,
-      origin: { kind: 'authored' },
-    }
-    const proof: SpriteReplacementProof = {
-      asset: sprite.asset,
-      previousSha256: record.sha256,
-      previousFrameCount: loaded.frames.length,
-      nextFrameCount: frames.length,
-      consumerIds: consumers.map((candidate) => candidate.id),
-      ...(shrinking
-        ? {
-            repairs: repairConsumersForFrameCount(frames.length),
-            consumerSnapshots: Object.fromEntries(
-              consumers.map((candidate) => [
-                candidate.id,
-                {
-                  layout: structuredClone(candidate.layout),
-                  ...(candidate.poses ? { poses: structuredClone(candidate.poses) } : {}),
-                },
-              ]),
-            ),
-          }
-        : {}),
-    }
-    session.dispatch(
-      new ReplaceSpriteAssetCommand(
-        sprite.id,
-        sprite.asset,
-        nextRecord,
-        buf,
-        previousBytes,
-        proof,
-        label,
-      ),
-    )
-  }
-
-  const doReplace = async (file: File): Promise<void> => {
-    if (
-      replaceIdx === null ||
-      !loaded ||
-      !palette ||
-      replaceIdx < 0 ||
-      replaceIdx >= loaded.frames.length
-    )
-      return
-    try {
-      const { rgba, w, h } = await fileToRgba(file)
-      const frame = quantizeToRleFrame(rgba, w, h, palette) // 整图 = 单帧,量化贴盘
-      const next = loaded.frames.map((f, i) => (i === replaceIdx ? frame : f))
-      await commitFrames(next, `替换精灵帧 #${replaceIdx}`)
-      setReplaceIdx(null)
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : String(e))
-    }
-  }
-
-  const doRemoveLast = async (): Promise<void> => {
-    if (!loaded || loaded.frames.length <= 1) return
-    const nextCount = loaded.frames.length - 1
-    if (
-      consumers.some(
-        (candidate) => candidate.layout.kind === 'directional' && Math.floor(nextCount / 4) < 1,
-      )
-    ) {
-      setErr('方向精灵至少需要 4 帧，不能继续缩短')
-      return
-    }
-    try {
-      await commitFrames(loaded.frames.slice(0, -1), `删除精灵末帧 #${nextCount}`)
-      setReplaceIdx(null)
-      setSelFrames((previous) => new Set([...previous].filter((frame) => frame < nextCount)))
-    } catch (error) {
-      setErr(error instanceof Error ? error.message : String(error))
-    }
-  }
-
-  const doAppend = async (): Promise<void> => {
-    if (!appendDraft || !loaded || !palette) return
-    const { rgba, w, h, cols, rows } = appendDraft
-    if (w % cols !== 0 || h % rows !== 0) return
-    try {
-      const news = sliceAtlasGrid(rgba, w, h, w / cols, h / rows).map((t) =>
-        quantizeToRleFrame(t.rgba, t.width, t.height, palette),
-      )
-      await commitFrames([...loaded.frames, ...news], `追加精灵帧 ×${news.length}`)
-      setAppendDraft(null)
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : String(e))
-    }
-  }
-
-  const toggleFrame = (i: number): void => {
-    setSelFrames((prev) => {
-      const next = new Set(prev)
-      if (next.has(i)) next.delete(i)
-      else next.add(i)
-      return next
-    })
-  }
-  const createPose = (): void => {
-    const name = poseName.trim()
-    if (!name || selFrames.size === 0) return
-    const frames = [...selFrames].sort((a, b) => a - b)
-    session.dispatch(
-      new UpdateSpriteCommand(
-        sprite.id,
-        {
-          poses: {
-            ...sprite.poses,
-            [name]: {
-              label: name,
-              steps: frames.map((frame) => ({ frame, durationMs: 250 })),
-              ...(poseMode === 'loop' ? { loopFrom: 0 } : {}),
-            },
-          },
-        },
-        layoutProof,
-      ),
-    )
-    setSelFrames(new Set())
-    setPoseName('')
-  }
-  const deletePose = (name: string): void => {
-    const rest = { ...sprite.poses }
-    delete rest[name]
-    session.dispatch(
-      new UpdateSpriteCommand(
-        sprite.id,
-        { poses: Object.keys(rest).length ? rest : undefined },
-        layoutProof,
-      ),
-    )
-  }
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    // record SHA 变化时重新读取同一 AssetId，不能只依赖稳定的语义引用。
     void revision
     let alive = true
     setLoadedResult(null)
     setBaked([])
-    setErr('')
+    setError('')
     void (async () => {
       try {
-        const [sp, pal] = await Promise.all([
+        const [loadedSprite, palette] = await Promise.all([
           loadEditorSprite(assetReader, sprite.asset),
           loadStandardPalette(assetBase),
         ])
         if (!alive) return
-        setLoadedResult({ sprite: sp, revision })
-        setPalette(pal)
-        setBaked(sp.frames.map((f) => bakeFrame(f, pal)))
-        onLayoutProof?.({
-          asset: sprite.asset,
-          sha256: record.sha256,
-          actualFrameCount: sp.frames.length,
-        })
-      } catch (e) {
-        if (alive) setErr(e instanceof Error ? e.message : String(e))
+        setLoadedResult({ sprite: loadedSprite, revision })
+        setBaked(loadedSprite.frames.map((frame) => bakeFrame(frame, palette)))
+      } catch (caught) {
+        if (alive) setError(caught instanceof Error ? caught.message : String(caught))
       }
     })()
     return () => {
       alive = false
-      onLayoutProof?.(undefined)
     }
-  }, [assetBase, assetReader, sprite.asset, revision, record.sha256, onLayoutProof])
+  }, [assetBase, assetReader, sprite.asset, revision])
 
-  if (err)
+  if (error)
     return (
       <div className="insp-empty sprite-frames-empty sprite-frames-empty--error">
-        精灵加载失败: {err}
+        精灵加载失败：{error}
       </div>
     )
   if (!loaded) return <div className="insp-empty sprite-frames-empty">载入精灵 {sprite.asset}…</div>
 
   const total = loaded.frames.length
-  // 精灵所有帧的最大包围盒 → 统一 cell 尺寸(帧大小不一也整齐;每帧底对齐居中不裁)
-  const maxW = baked.length ? Math.max(...baked.map((c) => c.width)) : 1
-  const maxH = baked.length ? Math.max(...baked.map((c) => c.height)) : 1
+  const maxW = baked.length ? Math.max(...baked.map((canvas) => canvas.width)) : 1
+  const maxH = baked.length ? Math.max(...baked.map((canvas) => canvas.height)) : 1
   const layout = sprite.layout
-  const fpd = layout.kind === 'directional' ? layout.framesPerDir : 0
-  const walkCount = fpd * 4 // 移动帧占用的帧数
+  const framesPerDirection = layout.kind === 'directional' ? layout.framesPerDir : 0
+  const walkFrameCount = framesPerDirection * 4
   const declaredDemand = Math.max(
     layout.kind === 'directional'
       ? layout.framesPerDir * 4
@@ -419,13 +184,6 @@ export function SpriteFrames(props: {
       action.steps.map((step) => step.frame + 1),
     ),
   )
-  // 命名姿势用到的帧(高亮"已分配")
-  const posedFrames = new Set<number>()
-  for (const action of Object.values(sprite.poses ?? {}))
-    for (const step of action.steps) posedFrames.add(step.frame)
-  // 未分配帧 = 非移动帧、非姿势帧
-  const unassigned: number[] = []
-  for (let i = walkCount; i < total; i++) if (!posedFrames.has(i)) unassigned.push(i)
 
   return (
     <div className="sprite-frames">
@@ -434,147 +192,39 @@ export function SpriteFrames(props: {
         <span className="hint sprite-frames-summary">
           {sprite.asset} · {total} 帧 · {layoutDesc(layout)}
         </span>
-        {consumers.length > 1 && (
-          <span className="hint" title={consumers.map((candidate) => candidate.id).join('、')}>
-            共享资源 · {consumers.length} 个定义
-          </span>
-        )}
-        {editable && (
-          <>
-            <span className="spacer" />
-            <span className="hint">点任意帧可替换</span>
-            <DsButton variant="secondary" icon="add" onClick={() => appendFileRef.current?.click()}>
-              追加帧
-            </DsButton>
-            <DsButton
-              variant="danger"
-              icon="delete"
-              disabled={
-                total <= 1 ||
-                consumers.some(
-                  (candidate) =>
-                    candidate.layout.kind === 'directional' && Math.floor((total - 1) / 4) < 1,
-                )
-              }
-              title="删除末帧，并原子修复所有共享定义的布局与姿势"
-              onClick={() => void doRemoveLast()}
-            >
-              删除末帧
-            </DsButton>
-            <DsFileInput
-              ref={appendFileRef}
-              accept="image/png,image/webp,image/gif"
-              onChange={(e) => {
-                const f = e.target.files?.[0]
-                e.target.value = ''
-                if (!f) return
-                void fileToRgba(f)
-                  .then((d) => setAppendDraft({ ...d, cols: 1, rows: 1 }))
-                  .catch((er) => setErr(er instanceof Error ? er.message : String(er)))
-              }}
-            />
-            <DsFileInput
-              ref={replaceFileRef}
-              accept="image/png,image/webp,image/gif"
-              onChange={(e) => {
-                const f = e.target.files?.[0]
-                e.target.value = ''
-                if (f) void doReplace(f)
-              }}
-            />
-          </>
-        )}
       </div>
-      {replaceIdx !== null && (
-        <div className="pose-form">
-          <span>
-            替换帧 <b>#{replaceIdx}</b>:选一张图(整图作为该帧,自动贴合项目主色)
-          </span>
-          <DsButton variant="primary" onClick={() => replaceFileRef.current?.click()}>
-            选图替换
-          </DsButton>
-          <DsButton variant="secondary" onClick={() => setReplaceIdx(null)}>
-            取消
-          </DsButton>
-        </div>
-      )}
-      {appendDraft && (
-        <div className="pose-form">
-          <span>
-            追加帧:{appendDraft.w}×{appendDraft.h} 切
-          </span>
-          <DsNumberInput
-            className="sprite-frames-slice-input"
-            min={1}
-            max={16}
-            value={appendDraft.cols}
-            onChange={(e) =>
-              setAppendDraft({
-                ...appendDraft,
-                cols: Math.max(1, Math.floor(e.target.valueAsNumber) || 1),
-              })
-            }
-          />
-          <span>列 ×</span>
-          <DsNumberInput
-            className="sprite-frames-slice-input"
-            min={1}
-            max={16}
-            value={appendDraft.rows}
-            onChange={(e) =>
-              setAppendDraft({
-                ...appendDraft,
-                rows: Math.max(1, Math.floor(e.target.valueAsNumber) || 1),
-              })
-            }
-          />
-          <span>行</span>
-          {appendDraft.w % appendDraft.cols === 0 && appendDraft.h % appendDraft.rows === 0 ? (
-            <span className="hint">
-              {appendDraft.cols * appendDraft.rows} 帧 · 每帧 {appendDraft.w / appendDraft.cols}×
-              {appendDraft.h / appendDraft.rows} · 接在 #{total} 起(可框选命名姿势)
-            </span>
-          ) : (
-            <span className="sprite-frames-error">切不开:宽高须整除列/行</span>
-          )}
-          <DsButton
-            variant="primary"
-            disabled={
-              appendDraft.w % appendDraft.cols !== 0 || appendDraft.h % appendDraft.rows !== 0
-            }
-            onClick={() => void doAppend()}
-          >
-            追加
-          </DsButton>
-          <DsButton variant="secondary" onClick={() => setAppendDraft(null)}>
-            取消
-          </DsButton>
-        </div>
-      )}
-      <div className="frames-scroll">
+      <div className="frames-preview">
         {declaredDemand > total ? (
           <div className="pose-form sprite-layout-debt" role="status">
             历史布局声明需要 {declaredDemand} 帧，资源实际 {total} 帧；缺失槽按运行时真值回退第 0
-            帧，仅可缩小债务，不能替换不存在的帧。
+            帧，请前往资源库修复。
           </div>
         ) : null}
         {layout.kind === 'directional' ? (
           <>
-            {DIRS.map((dir, di) => (
-              <div key={dir} className="dirgroup">
+            {DIRS.map((direction, directionIndex) => (
+              <div key={direction} className="dirgroup">
                 <div className="gh">
-                  <span className="chip" style={{ background: DIR_COLOR[dir] }} />
-                  {DIR_LABEL[dir]}({dir})
+                  <span className="chip" style={{ background: DIR_COLOR[direction] }} />
+                  {DIR_LABEL[direction]}({direction})
                   <code>
-                    帧 {di * fpd}–{di * fpd + fpd - 1} · 站立 = {di * fpd}
+                    帧 {directionIndex * framesPerDirection}–
+                    {directionIndex * framesPerDirection + framesPerDirection - 1} · 站立 ={' '}
+                    {directionIndex * framesPerDirection}
                   </code>
                 </div>
                 <div className="cells">
-                  <div className="fcell" title="走路预览(引擎同源步序,100ms/步)">
+                  <div
+                    className="fcell"
+                    role="img"
+                    aria-label={`${DIR_LABEL[direction]}向走路动画预览`}
+                  >
                     <span className="fidx">▶</span>
                     <AnimCell
                       canvases={baked}
-                      order={deriveStepCycle(fpd).map((p) => di * fpd + p)}
+                      order={deriveStepCycle(framesPerDirection).map(
+                        (position) => directionIndex * framesPerDirection + position,
+                      )}
                       msPerFrame={100}
                       maxW={maxW}
                       maxH={maxH}
@@ -582,96 +232,73 @@ export function SpriteFrames(props: {
                     />
                     <span className="ftag">走</span>
                   </div>
-                  {Array.from({ length: fpd }, (_, fi) => {
-                    const idx = di * fpd + fi
-                    const missing = idx >= total
+                  {Array.from({ length: framesPerDirection }, (_, frameOffset) => {
+                    const frame = directionIndex * framesPerDirection + frameOffset
+                    const missing = frame >= total
                     return (
-                      <DsPressable
-                        type="button"
-                        key={idx}
-                        disabled={!editable || missing}
-                        className={`fcell${fi === 0 ? ' stand' : ''}${missing ? ' frame-missing' : ''}`}
+                      <SpriteFrameTile
+                        key={frame}
+                        variant={missing ? 'missing' : frameOffset === 0 ? 'standing' : 'default'}
                         style={{
-                          borderColor:
-                            replaceIdx === idx
-                              ? 'var(--accent)'
-                              : `color-mix(in srgb, ${DIR_COLOR[dir]} 45%, var(--line))`,
-                          ...(!missing && editable ? { cursor: 'pointer' } : {}),
-                          ...(replaceIdx === idx ? { outline: '2px solid var(--accent)' } : {}),
+                          borderColor: `color-mix(in srgb, ${DIR_COLOR[direction]} 45%, var(--line))`,
                         }}
-                        title={
+                        label={
                           missing
-                            ? `声明帧 #${idx} 不存在；运行时回退第 0 帧`
-                            : editable
-                              ? `点击替换帧 #${idx}`
-                              : undefined
+                            ? `帧 ${frame} 缺失，运行时回退第 0 帧`
+                            : `${DIR_LABEL[direction]}向第 ${frameOffset + 1} 帧，帧号 ${frame}${frameOffset === 0 ? '，站立帧' : ''}`
                         }
-                        onClick={() => {
-                          if (!missing) setReplaceIdx(idx)
-                        }}
                       >
-                        <span className="fidx">{idx}</span>
+                        <span className="fidx">{frame}</span>
                         <FrameCell
-                          canvas={baked[actualFrameIndex(idx, total)]}
+                          canvas={baked[actualFrameIndex(frame, total)]}
                           maxW={maxW}
                           maxH={maxH}
                           scale={2}
                         />
                         <span className="ftag">
-                          {missing ? '缺失→0' : fi === 0 ? '站立' : `迈${fi}`}
+                          {missing ? '缺失→0' : frameOffset === 0 ? '站立' : `迈${frameOffset}`}
                         </span>
-                      </DsPressable>
+                      </SpriteFrameTile>
                     )
                   })}
                 </div>
               </div>
             ))}
-            {total > walkCount && (
+            {total > walkFrameCount ? (
               <div className="dirgroup">
                 <div className="gh">
                   <span className="chip sprite-frames-action-chip" />
                   动作帧
                   <code>
-                    帧 {walkCount}–{total - 1} · 命名/引用走下方姿势
+                    帧 {walkFrameCount}–{total - 1} · 命名/引用见下方姿势
                   </code>
                 </div>
                 <div className="cells sprite-frames-wrapped-cells">
-                  {Array.from({ length: total - walkCount }, (_, k) => {
-                    const idx = walkCount + k
+                  {Array.from({ length: total - walkFrameCount }, (_, offset) => {
+                    const frame = walkFrameCount + offset
                     return (
-                      <DsPressable
-                        type="button"
-                        key={idx}
-                        disabled={!editable}
-                        className="fcell"
-                        style={{
-                          ...(editable ? { cursor: 'pointer' } : {}),
-                          ...(replaceIdx === idx ? { outline: '2px solid var(--accent)' } : {}),
-                        }}
-                        title={editable ? `点击替换帧 #${idx}` : undefined}
-                        onClick={() => setReplaceIdx(idx)}
-                      >
-                        <span className="fidx">{idx}</span>
-                        <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
-                      </DsPressable>
+                      <SpriteFrameTile key={frame} label={`动作帧 ${frame}`}>
+                        <span className="fidx">{frame}</span>
+                        <FrameCell canvas={baked[frame]} maxW={maxW} maxH={maxH} scale={2} />
+                      </SpriteFrameTile>
                     )
                   })}
                 </div>
               </div>
-            )}
+            ) : null}
             <div className="walk-preview">
-              步序预览 {DIR_LABEL.down}: [{deriveStepCycle(fpd).join(', ')}] · 与引擎同源
-              sprite-anim
+              步序预览 {DIR_LABEL.down}：[ {deriveStepCycle(framesPerDirection).join(', ')} ] ·
+              与引擎同源 sprite-anim
             </div>
           </>
         ) : (
           <div className="cells sprite-frames-wrapped-cells">
-            {layout.kind === 'loop' && (
-              <div className="fcell" title="循环预览(引擎同源,250ms/帧)">
+            {layout.kind === 'loop' ? (
+              <div className="fcell" role="img" aria-label="循环动画预览">
                 <span className="fidx">▶</span>
                 <AnimCell
                   canvases={baked}
-                  order={Array.from({ length: layout.frameCount }, (_, i) => i)}
+                  order={Array.from({ length: layout.frameCount }, (_, frame) => frame)}
                   msPerFrame={250}
                   maxW={maxW}
                   maxH={maxH}
@@ -679,46 +306,26 @@ export function SpriteFrames(props: {
                 />
                 <span className="ftag">循环</span>
               </div>
-            )}
-            {loaded.frames.map((_, idx) => (
-              <DsPressable
-                type="button"
-                key={idx}
-                disabled={!editable}
-                className="fcell"
-                style={{
-                  ...(editable ? { cursor: 'pointer' } : {}),
-                  ...(replaceIdx === idx ? { outline: '2px solid var(--accent)' } : {}),
-                }}
-                title={editable ? `点击替换帧 #${idx}` : undefined}
-                onClick={() => setReplaceIdx(idx)}
-              >
-                <span className="fidx">{idx}</span>
-                <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
-              </DsPressable>
+            ) : null}
+            {loaded.frames.map((_, frame) => (
+              <SpriteFrameTile key={frame} label={`帧 ${frame}`}>
+                <span className="fidx">{frame}</span>
+                <FrameCell canvas={baked[frame]} maxW={maxW} maxH={maxH} scale={2} />
+              </SpriteFrameTile>
             ))}
           </div>
         )}
 
-        {/* 命名姿势(C1d:点选未分配帧 + 命名 → 建姿势) */}
         <div className="posegroup">
           <div className="posehead">
             <span className="t">特殊动作 · 命名姿势</span>
-            <span className="why">绝对帧号(无分方向)· 脚本按名字引用 · 点下方帧框选新建</span>
+            <span className="why">绝对帧号（无分方向）· 脚本按名字引用</span>
           </div>
           <div className="poselist">
             {Object.entries(sprite.poses ?? {}).map(([actionId, action]) => (
               <div key={actionId} className="posecard">
                 <div className="pc-head">
                   <b>{action.label}</b>
-                  <DsPressable
-                    type="button"
-                    className="pc-del"
-                    title="删除动作"
-                    onClick={() => deletePose(actionId)}
-                  >
-                    ×
-                  </DsPressable>
                 </div>
                 <div className="pf">
                   <AnimCell
@@ -746,65 +353,17 @@ export function SpriteFrames(props: {
               </div>
             ))}
             {Object.keys(sprite.poses ?? {}).length === 0 ? (
-              <span className="hint">（暂无命名姿势;点下方帧框选 + 命名新建）</span>
+              <span className="hint">（暂无命名姿势）</span>
             ) : null}
           </div>
-          {unassigned.length > 0 ? (
-            <div className="unassigned">
-              <span>未分配帧(点选):</span>
-              {unassigned.map((i) => (
-                <DsPressable
-                  type="button"
-                  key={i}
-                  className={`uf${selFrames.has(i) ? ' sel' : ''}`}
-                  onClick={() => toggleFrame(i)}
-                >
-                  {i}
-                </DsPressable>
-              ))}
-            </div>
-          ) : null}
-          {selFrames.size > 0 ? (
-            <div className="pose-form">
-              <span className="pf">
-                {[...selFrames]
-                  .sort((a, b) => a - b)
-                  .map((fi) => (
-                    <FrameCell key={fi} canvas={baked[fi]} maxW={maxW} maxH={maxH} scale={1.1} />
-                  ))}
-              </span>
-              <DsTextInput
-                placeholder="姿势名(摔倒/坐下/施法…)"
-                value={poseName}
-                onChange={(e) => setPoseName(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && createPose()}
-              />
-              <DsSelect
-                size="compact"
-                aria-label="预览播放方式"
-                value={poseMode}
-                options={[
-                  { value: 'once', label: '单次' },
-                  { value: 'loop', label: '循环' },
-                ]}
-                onValueChange={(value) => setPoseMode(value as 'once' | 'loop')}
-              />
-              <DsButton variant="primary" onClick={createPose} disabled={!poseName.trim()}>
-                建姿势 · 帧 {[...selFrames].sort((a, b) => a - b).join(',')}
-              </DsButton>
-              <DsButton variant="secondary" onClick={() => setSelFrames(new Set())}>
-                取消
-              </DsButton>
-            </div>
-          ) : null}
         </div>
       </div>
     </div>
   )
 }
 
-function layoutDesc(l: SpriteDef['layout']): string {
-  if (l.kind === 'directional') return `行走 4 向 × ${l.framesPerDir}`
-  if (l.kind === 'loop') return `循环 ${l.frameCount} 帧`
+function layoutDesc(layout: SpriteDef['layout']): string {
+  if (layout.kind === 'directional') return `行走 4 向 × ${layout.framesPerDir}`
+  if (layout.kind === 'loop') return `循环 ${layout.frameCount} 帧`
   return '默认定格 #0'
 }

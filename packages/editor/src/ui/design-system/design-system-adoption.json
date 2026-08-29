@@ -554,18 +554,6 @@
           "verification": "默认宽视口下 editor.css .casualty-branch-editor owns overflow-y:auto；max-width:1120px 时恢复 visible。"
         },
         {
-          "region": "main.appearance.frames",
-          "axis": "y",
-          "owner": "custom:.frames-scroll",
-          "source": "SpriteFrames.tsx",
-          "component": "SpriteFrames",
-          "callsite": "class:frames-scroll",
-          "nestedWithin": "main",
-          "boundaryKind": "bounded-subviewport",
-          "reason": "角色帧序列在受限编辑区内独立滚动。",
-          "verification": "editor.css .frames-scroll owns overflow-y:auto and a finite max-height。"
-        },
-        {
           "region": "main.battle-sprite-upload.frames",
           "axis": "y",
           "owner": "custom:.bsu-frame-grid",
@@ -1930,15 +1918,14 @@
         "CasualtyEditor.tsx",
         "ConnectedEditorPages.tsx",
         "ImageAssetPicker.tsx",
-        "PortraitEditor.tsx",
-        "SpriteFrames.tsx"
+        "PortraitEditor.tsx"
       ],
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "custom:.actor-list + custom:.actor-workspace-scroll + custom:.dscroll + casualty responsive owners + custom:.frames-scroll + custom:.bsu-frame-grid + DsInspectorTabs",
+        "scroll": "custom:.actor-list + custom:.actor-workspace-scroll + custom:.dscroll + casualty responsive owners + custom:.bsu-frame-grid + DsInspectorTabs",
         "overlay": "DsFloatingLayer",
-        "field": "DsControlGroup + DsDraftNumberField + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsFilePicker + DsNumberInput + DsPropertyRow + DsSelect + DsTextInput",
+        "field": "DsControlGroup + DsDraftNumberField + DsDraftTextInput + DsField + DsFieldGroup + DsFilePicker + DsNumberInput + DsPropertyRow + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

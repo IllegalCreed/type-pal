@@ -548,6 +548,31 @@ describe('editor design-system static boundary', () => {
     expect(audioWorkbench).not.toMatch(/<div className="audio-workspace__scroll">/)
   })
 
+  test('keeps actor sprite frames preview-only under the outer workspace scroll owner', () => {
+    const uiRoot = dirname(here)
+    const actorMode = readFileSync(join(uiRoot, 'ActorMode.tsx'), 'utf8')
+    const spriteFrames = readFileSync(join(uiRoot, 'SpriteFrames.tsx'), 'utf8')
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    const spriteFramesCall = actorMode.match(/<SpriteFrames[\s\S]*?\/>/)?.[0] ?? ''
+
+    expect(actorMode).toContain('在资源库编辑')
+    expect(actorMode).toContain('预览角色在大世界中的方向、站立、行走与命名动作帧。')
+    expect(spriteFramesCall).not.toContain('session=')
+    expect(spriteFramesCall).not.toContain('mode=')
+    expect(spriteFrames).toContain('className="frames-preview"')
+    expect(spriteFrames).not.toMatch(/(?:追加帧|删除末帧|点任意帧可替换|建姿势|DsFileInput)/)
+    expect(spriteFrames).not.toMatch(/<(?:button|input|select|textarea)\b/)
+
+    const outerScroll = cssRuleBodies(businessCss, '.actor-workspace-scroll')
+    expect(outerScroll).toHaveLength(1)
+    expect(cssDeclaration(outerScroll[0]!, 'overflow')).toBe('auto')
+    const preview = cssRuleBodies(businessCss, '.frames-preview')
+    expect(preview).toHaveLength(1)
+    expect(cssDeclaration(preview[0]!, 'overflow-y')).toBeUndefined()
+    expect(cssDeclaration(preview[0]!, 'max-height')).toBeUndefined()
+    expect(businessCss).not.toContain('.frames-scroll')
+  })
+
   test('keeps canonical script headings content-sized above the scrolling body', () => {
     const businessCss = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
     expect(businessCss).toMatch(

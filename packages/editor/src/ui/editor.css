@@ -2910,8 +2910,7 @@ html[data-panel-resize="horizontal"] * {
   padding: 0;
 }
 .actor-frame-card .sprite-frames {
-  min-height: 560px;
-  max-height: calc(100vh - 250px);
+  min-height: 0;
 }
 .actor-appearance-side {
   display: grid;
@@ -3395,9 +3394,6 @@ html[data-panel-resize="horizontal"] * {
   .actor-appearance-layout {
     grid-template-columns: 1fr;
   }
-  .actor-frame-card .sprite-frames {
-    min-height: 480px;
-  }
   .casualty-workbench {
     grid-template-columns: minmax(240px, 270px) minmax(0, 1fr);
   }
@@ -3448,12 +3444,8 @@ html[data-panel-resize="horizontal"] * {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  height: 100%;
 }
-.frames-scroll {
-  flex: 1;
-  max-height: calc(100vh - 250px);
-  overflow-y: auto;
+.frames-preview {
   padding: 14px;
   background: repeating-linear-gradient(45deg, #171920 0 12px, #191b22 12px 24px);
 }
@@ -5425,10 +5417,6 @@ html[data-panel-resize="horizontal"] * {
 
 .sprite-frames-empty {
   padding: var(--ds-space-10);
-}
-
-.sprite-frames-slice-input {
-  width: 52px;
 }
 
 .sprite-frames-action-chip {

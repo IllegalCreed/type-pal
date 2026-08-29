@@ -307,6 +307,11 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
     await act(async () => button('外观资源').click())
     expect(host.querySelector('.actor-frame-card')).not.toBeNull()
     expect(host.textContent).toContain('行走图与动作帧')
+    expect(host.textContent).toContain('预览角色在大世界中的方向、站立、行走与命名动作帧。')
+    expect(button('在资源库编辑')).not.toBeNull()
+    expect(host.textContent).not.toContain('点任意帧可替换')
+    expect(host.textContent).not.toContain('追加帧')
+    expect(host.textContent).not.toContain('删除末帧')
   })
 
   test('角色列表与标题优先显示战斗小头像，未配置时回退人物占位', async () => {
