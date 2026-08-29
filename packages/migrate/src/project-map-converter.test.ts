@@ -9,6 +9,7 @@ import {
   sourceWordFromProjectMap,
   tilesetIdFromSourceNumber,
 } from './project-map-converter.js'
+import { mapNameFromSourceNumber } from './pal-map-names.js'
 
 function source(words: [number, number][]): Tilemap {
   return {
@@ -57,6 +58,19 @@ describe('旧地图到 ProjectMap', () => {
     expect(mapIdFromSourceNumber(104)).toBe('map-104')
     expect(tilesetIdFromSourceNumber(1)).toBe('tileset-001')
     expect(() => mapIdFromSourceNumber(0)).toThrow('正整数')
+  })
+
+  test('地图显示名只采用考据真值或精确未命名 allowlist', () => {
+    expect(mapNameFromSourceNumber(1)).toBe('盛渔村')
+    expect(mapNameFromSourceNumber(23)).toBe('苏州城')
+    expect(mapNameFromSourceNumber(174)).toBe('女娲神庙外雨季')
+    expect(mapNameFromSourceNumber(225)).toBe('试炼窟遗迹')
+    expect(mapNameFromSourceNumber(104)).toBe('PAL 地图 104')
+    expect(mapNameFromSourceNumber(164)).toBe('PAL 地图 164')
+    expect(() => mapNameFromSourceNumber(0)).toThrow('正整数')
+    expect(() => mapNameFromSourceNumber(-1)).toThrow('正整数')
+    expect(() => mapNameFromSourceNumber(1.5)).toThrow('正整数')
+    expect(() => mapNameFromSourceNumber(999)).toThrow('999')
   })
 
   test('审计报告统计实例并证明逐 word 往返', () => {

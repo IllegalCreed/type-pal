@@ -137,6 +137,24 @@ describe('createMigrationPlan', () => {
     expect(plan.deletes).toEqual([])
   })
 
+  test('地图名称双方同改时冲突并保持零写盘计划', () => {
+    const path = 'content/maps/index.json'
+    const index = (name: string): MigrationJson => ({
+      version: 1,
+      maps: [{ id: 'map-001', name, path: 'content/maps/map-001.json' }],
+    })
+    const plan = createMigrationPlan(
+      snapshot({ [path]: index('PAL 地图 1') }),
+      snapshot({ [path]: index('作者命名') }),
+      generated({ [path]: index('盛渔村') }),
+    )
+    expect(plan.conflicts).toMatchObject([
+      { file: path, path: expect.stringContaining('/maps/@string:map-001/name') },
+    ])
+    expect(plan.writes.size).toBe(0)
+    expect(plan.deletes).toEqual([])
+  })
+
   test('生成文件退役只删托管文件', () => {
     const base = snapshot({ 'content/old.json': { a: 1 } })
     const ours = snapshot({ 'content/old.json': { a: 1 } })

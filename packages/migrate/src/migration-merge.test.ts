@@ -280,6 +280,41 @@ describe('mergeManagedFile', () => {
     ])
   })
 
+  test('map index 名称遵守上游更新、作者保留与双方同改冲突', () => {
+    const index = (name: string) => ({
+      version: 1,
+      maps: [{ id: 'map-001', name, path: 'content/maps/map-001.json' }],
+    })
+
+    const upstreamOnly = mergeManagedFile(
+      'content/maps/index.json',
+      jsonPresent(index('PAL 地图 1')),
+      jsonPresent(index('PAL 地图 1')),
+      jsonPresent(index('盛渔村')),
+    )
+    expect(upstreamOnly.conflicts).toEqual([])
+    expect(upstreamOnly.value.value).toEqual(index('盛渔村'))
+
+    const authorOnly = mergeManagedFile(
+      'content/maps/index.json',
+      jsonPresent(index('盛渔村')),
+      jsonPresent(index('作者命名')),
+      jsonPresent(index('盛渔村')),
+    )
+    expect(authorOnly.conflicts).toEqual([])
+    expect(authorOnly.value.value).toEqual(index('作者命名'))
+
+    const bothChanged = mergeManagedFile(
+      'content/maps/index.json',
+      jsonPresent(index('PAL 地图 1')),
+      jsonPresent(index('作者命名')),
+      jsonPresent(index('盛渔村')),
+    )
+    expect(bothChanged.conflicts).toMatchObject([
+      { path: expect.stringContaining('/maps/@string:map-001/name') },
+    ])
+  })
+
   test('scene index 双边不同重排冲突', () => {
     const result = mergeManagedFile(
       'content/scenes/index.json',

@@ -56,7 +56,11 @@ import {
   type ProjectMapAuditReport,
   type SourceMapAuditEntry,
 } from './project-map-audit.js'
-import { mapIdFromSourceNumber, tilesetIdFromSourceNumber } from './project-map-converter.js'
+import {
+  mapIdFromSourceNumber,
+  tilesetIdFromSourceNumber,
+} from './project-map-converter.js'
+import { mapNameFromSourceNumber } from './pal-map-names.js'
 import { makeGlobalScriptRoots } from './script-graph.js'
 import {
   assertScriptLibraryAudit,
@@ -633,7 +637,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     version: 1,
     maps: sources.tilemaps.map(({ mapNum }) => ({
       id: mapIdFromSourceNumber(mapNum),
-      name: `PAL 地图 ${mapNum}`,
+      name: mapNameFromSourceNumber(mapNum),
       path: `content/maps/${mapIdFromSourceNumber(mapNum)}.json`,
     })),
   }
