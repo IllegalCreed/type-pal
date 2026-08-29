@@ -109,6 +109,23 @@ afterEach(async () => {
 })
 
 describe('LevelingEditor field commit boundary', () => {
+  test('升级学技能使用与同排默认控件等高的危险删除图标按钮', async () => {
+    const session = new EditSession(editorState())
+    await act(async () => root.render(<Harness session={session} actorId="a" />))
+
+    const remove = host.querySelector<HTMLButtonElement>(
+      'button[aria-label="删除等级 2 的学技能行"]',
+    )!
+    expect(remove.classList).toContain('ds-icon-button')
+    expect(remove.classList).toContain('ds-icon-button--danger')
+    expect(remove.classList).not.toContain('ds-icon-button--compact')
+    expect(remove.textContent).not.toContain('✕')
+
+    await act(async () => remove.click())
+    expect(session.getState().levelUp.a ?? []).toEqual([])
+    expect(session.getHistoryVersion()).toBe(1)
+  })
+
   test('连续输入只保留草稿，blur/Enter 各至多一条命令，Escape 不提交', async () => {
     const session = new EditSession(editorState())
     await act(async () => root.render(<Harness session={session} actorId="a" />))

@@ -13,6 +13,7 @@ import {
   DsDraftNumberInput,
   DsField,
   DsFieldGroup,
+  DsIconButton,
   DsSelect,
 } from './design-system/controls.js'
 
@@ -101,14 +102,12 @@ function LevelingEditorImpl(props: {
               dispatchRows(rows)
             }}
           />
-          <DsButton
-            title="删除此行"
+          <DsIconButton
+            label={`删除等级 ${r.level} 的学技能行`}
+            icon="delete"
+            variant="danger"
             onClick={() => dispatchRows(levelUpRows.filter((_, j) => j !== i))}
-            size="compact"
-            variant="secondary"
-          >
-            ✕
-          </DsButton>
+          />
         </div>
       ))}
       <DsButton
