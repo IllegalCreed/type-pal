@@ -1,6 +1,6 @@
 # ARCH-ACTOR-CONDITION-SEED-1 - 入口与剧情入队角色当前状态播种
 
-Status: draft（build blocked：等待 Kimi / GLM 前提与设计签字；`ED-PROJECT-STARTUP-IA-1` 先完成 review 收口）
+Status: build（2026-08-29 三方 premise/design 签字齐、Startup 前置已 done、用户批准方案；实现文件待前序 WIP 收口后开始）
 Phase: phase2
 Capability: X7 / C7 / B10 / N3
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: both（Kimi 主审 schema / 命令边界，GLM 主审原版数据 / �
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: TBD（签字齐后新建独立 `codex/` 分支；不得在当前 Startup review 分支提前实现）
+Branch: `main`（用户已裁决个人开发直接在 main 推进；当前混合 WIP 收口前不得叠加实现）
 
 ## 目标
 
@@ -177,24 +177,91 @@ Branch: TBD（签字齐后新建独立 `codex/` 分支；不得在当前 Startup
   - design: **agree（2026-08-26）**。入口使用独立 per-member condition seed；剧情使用具名 ActorId 显式命令，
     不改 `setParty`、ActorDef、reserve、装备派生或 battle-only statBuff。三类既有 carrier 必须系统覆盖。
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: **verified(2026-08-28,本人独立直读 primary source / 一阶段 / 二阶段全链,非复述 Codex / GLM 结论)**:
+    1. **原版三结构独立且不入档**: `global.h:521-522,547`——`rgEquipmentEffect` / `rgPlayerStatus` /
+       `rgPoisonStatus` 均在 `GLOBALVARS`;`SAVEDGAME_COMMON`(global.c:470-497)只到 rgInventory/rgScene,
+       不含三者。读档净身双段实锤: `global.c:626-631`(LoadGame_Common memcpy 队伍/PlayerRoles 后
+       `:630 memset(rgPoisonStatus,0)`)、`:930-953`(PAL_InitGame `:951` memset rgPlayerStatus +
+       `:953` PAL_UpdateEquipments 重派生装备 Extra)。
+    2. **三命令域独立**: 0x29 施毒带抗性门、单/全队(script.c:1257-1284);0x2D `PAL_SetPlayerStatus`
+       单目标(:1367-1374);0x75 仅重排队伍 + `:2195` memset 毒 + `:2196` PAL_UpdateEquipments
+       (:2164-2197)——**0x75 不清 rgPlayerStatus**,卡面"清毒与装备效果、不清定时状态"逐字属实。
+       战后三件套实锤: `battle.c:1822-1830`(ClearAllPlayerStatus + CurePoisonByLevel(w,3) +
+       RemoveEquipmentEffect(kBodyPartExtra))。
+    3. **一阶段忠实**: OP_POISON_PLAYER 独立时序 + 抗性门(event-system.ts:4629-4645);
+       OP_SET_PLAYER_STATUS bad cur==0 / puppet 仅死人 / good 活人且更久(:4679-4685);
+       OP_SET_PARTY 重排 + `rgPoisonStatus={}` + refreshEquipments(:4935-4951)。
+    4. **当前二阶段**: `StartWorld` 无 condition 字段、`buildWorld` 仅在 party.map 内消费 seedStats
+       (character.ts:52-60,237-245);三 carrier 已存在(:128 poisons / :134 extraStatuses /
+       :139 extraPoisonRes);入战桥接逐字段映射(main.ts:2292-2300);战后清三者(:2613-2619,
+       curePoisons **severe** 封顶、incurable 留);restore 全清三者(:5691-5697,含 incurable);
+       setParty commit 只写 party/reserve/learnedSkills、不碰三 carrier(:3247-3283);作者脚本
+       命令集确无施加毒/状态/临时毒抗(script.ts:118-131)。卡面四向矩阵逐行核对无误。
+  - design: **agree(2026-08-28)**。ownership 切分(入口快照归 StartWorld per-member seed、剧情变化归
+    具名 ActorId 显式命令)与原版三命令域独立、一阶段时序、C7 reserve 产品裁决一致;seed/命令落现有
+    三 carrier 后自动继承入战桥接、战后 severe 清理与 restore 全清,无第二套规则;不改 ActorDef /
+    setParty / reserve / 装备 live 派生 / battle-only statBuff 的边界成立。必落钉见「主审立场」。
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-28，本人一手直读 sdlpal/一阶段/二阶段全部锚点 + StatusId 域，非代理）**：
+    1. **原版三独立结构实锤**：`global.h:521-547`——`rgPlayerStatus[MAX_PLAYER_ROLES][kStatusAll]`、
+       `rgParty`、`rgPoisonStatus[MAX_POISONS][MAX_PLAYABLE_PLAYER_ROLES]` 与 `rgEquipmentEffect`
+       各自独立；状态/毒从不进 DATA.MKF PlayerRoles 表（该表仅 level/HP/MP/属性/装备/魔法，本席在
+       ARCH-ENTRY-ACTOR-SEED-1 审查已直读 player-roles.json）——**原版即“无角色模板默认状态”**。
+    2. **独立 opcode 实锤**：0x29 施毒（script.c:1257-1284，抗性判定 + 单人/全队）；0x2D 设状态
+       （:1367-1374，PAL_SetPlayerStatus 单目标）；0x75 只重排队伍（:2164-2197）——**且本席直读
+       到 :2194 `memset(rgPoisonStatus,0)` 后 :2195 `PAL_UpdateEquipments()`**：原版 0x75 的确
+       以副作用清全部毒再重建装备效果，卡文“按原版副作用清毒并重建装备”逐字属实。
+    3. **战后三件套 + 读档清毒实锤**：battle.c:1822-1830（ClearAllPlayerStatus +
+       CurePoisonByLevel(w,3) + RemoveEquipmentEffect(kBodyPartExtra)——Extra 即临时毒抗层）；
+       global.c:626-631（读档 memcpy 队伍后 `memset(rgPoisonStatus,0)`）。
+    4. **一阶段忠实**：OP_POISON_PLAYER（event-system.ts:4629+）、OP_SET_PLAYER_STATUS（:4680+，
+       注释载明 bad(0-3) cur==0 才设、puppet(4) 仅死人、good(5-8) 活人且更久）、OP_SET_PARTY
+       （:4935+，重排 + `rgPoisonStatus={}` + 装备刷新）——三命令域独立。
+    5. **当前二阶段**：StartWorld 五键封闭（validate.ts:91）无 condition；buildWorld 不播种；
+       setParty members-only；三 carrier 在 CharacterInstance（character.ts:125-139，注释含
+       带入战斗/战后三件套清理）；restore 主动清三 carrier（main.ts:5691-5696，注释本身已陈述
+       原版真值与 reforge 差异）——“注释与行为矛盾”实为 CharacterInstance 字段注释未同步，
+       卡内“修正注释口径”正确。
+    6. **StatusId 域（本席 allowlist 核心增量）**：skill.ts:17-27 恰 9 值——bad 4（confused/
+       paralyzed/sleep/silence）+ puppet + good 4（bravery/protect/haste/dualAttack）；
+       **puppet 为死人专用**（一阶段 0x2D 注释：仅死人且更久，活人→fScriptSuccess=FALSE）——
+       新游戏开局成员为活人，puppet 必须排除在入口 seed 外。
+  - design: **agree（2026-08-28，附 AC-G1-AC-G3 必落钉）**：
+    - **AC-G1（可携带 allowlist 证据钉）**：registry 须给出 9 状态逐项裁决表——puppet 以死人专用
+      证据排除；bad 4 / good 4 按原版 0x2D 约束可携带（活人、空位才设、turns 正整数、同状态单值）；
+      `protect` 文案钉死“护体（受到的物理/法术伤害减半）”。不得无差别开放 StatusId union。
+    - **AC-G2（0x75 清毒副作用不漂移钉）**：原版 0x75 清全部毒（script.c:2194），当前 C7 setParty
+      刻意不清（reserve 保留产品裁决）——两者差异是既有裁决不是缺陷。测试必须断言“setParty 后
+      施加的 condition 存活”（防止有人以“原版保真”给 setParty 加清毒副作用，破坏 C7 与本卡
+      显式命令模型）；迁移 translator 若遇原版 0x75+0x29 相邻序列，必须译成两条独立命令，
+      不得合并为带状态的 setParty payload。
+    - **AC-G3（三 carrier 完整矩阵 + tick 钉）**：入口 seed 矩阵覆盖 毒/定时状态/临时毒抗 ×
+      配置/空 × 多入口隔离 × 与 HP/MP seed 同命令原子清理（复用 Startup 移出既有模式）；毒只存
+      稳定 PoisonDef.id、构建从 tickIndex=0 首作发开始、未知/重复引用 fail-loud；剧情命令复用
+      content 状态函数，runner 不写第二套叠加/互斥规则。
+  - 独立反证 / 可证伪观察：①若 primary source 证明某状态是角色模板属性或装备 live 派生（PlayerRoles
+    表无状态字段、Extra 层由 battle.c:1828 战后清——均已排除），该类移出本卡；②若某 StatusId 在
+    大世界携带语义无效（如 follower 不参与战斗交互的边界场景），registry 红即停线；③若剧情必须在
+    角色实例化前写状态，显式命令模型失效须重审——不得用隐式 pending seed 绕过。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+  - 审查者: GLM（2026-08-28，独立直读 sdlpal global.h/script.c/battle.c/global.c、一阶段
+    event-system 三 opcode、二阶段 character/validate/main restore 与 StatusId 域——锚点见上）。
+  - 独立证据锚点: global.h:521-547；script.c:1257-1284,1367-1374,2164-2197（含 :2194 memset）；
+    battle.c:1822-1830；global.c:626-631；event-system.ts:4629+,4680+,4935+；skill.ts:17-27；
+    character.ts:52-60,125-139；validate.ts:87-127；main.ts:5691-5696。
+  - 可证伪观察: 见 GLM 签节①-③。
 - counter / 分歧处理: N/A（若任一方认为 restore 清理、可携带 allowlist 或剧情命令边界不成立，立即转 blocked 交用户裁决）
 - 缺签豁免: N/A
-- build 准入结论: **blocked**
+- build 准入结论: **allowed（2026-08-29）**。三方 premise/design 签字齐（Codex 2026-08-26 / GLM
+  2026-08-28 / Kimi 2026-08-28）、无 counter；`ED-PROJECT-STARTUP-IA-1` 已 done，用户本轮批准方案并
+  授权继续。按用户后续流程裁决在 `main` 推进；当前前序 editor/migrate WIP 未收口前只更新文档，不改本卡
+  实现文件。Kimi 必落钉见「主审立场」，build 期由 Codex 逐条落实、review 期两席复核。
 
 ### 进入 done 前:审查签字
 
 - Codex: pending
 - Kimi: pending
-- GLM: pending
+- GLM: pending（done 前实现审查；build 前 premise/design 已 agree）
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
 - done 准入结论: blocked
@@ -228,21 +295,41 @@ Branch: TBD（签字齐后新建独立 `codex/` 分支；不得在当前 Startup
   - 缓解: 按现有三 carrier 做完整矩阵；任何排除都必须写明证据和后续卡。
 - 风险: 剧情命令复刻 item effect 逻辑后叠加 / 互斥漂移。
   - 缓解: 抽取 / 复用 content 纯函数，runner 只解析目标与调用，不拥有规则。
-- 风险: 当前 `ED-PROJECT-STARTUP-IA-1` 仍在 review，直接改同一页面会混卡、混提交。
-  - 缓解: 本卡保持 draft；Startup 卡三方 review 与用户验收收口后才允许建立本卡 build 分支。
+- 风险: 当前工作区仍有前序 editor / migrate 未提交改动，直接改同一页面会混卡、混提交。
+  - 缓解: 本卡已获 build 准入，但在前序 WIP 按卡收口前不修改重叠实现文件；不得 stash/reset/覆盖用户改动。
 
 ### 主审立场
 
 - Reviewer: Kimi（schema / 跨包公共接口主审），GLM（原版数据 / 测试矩阵联合审）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: Kimi 主审——前提与设计成立，premise verified + design agree(2026-08-28)。
+- 必改项(五枚必落钉,build 期落实、review 期复核,不是 counter):
+  1. **剧情施加毒不投抗性骰**: 剧情命令复用 content 毒操作函数(poison.ts applyPoisonSelf 系,作者显式
+     命令必中);原版 0x29 概率门只属于既有敌附毒 / 巫术路径(applyPoisonToPlayer),本卡不得给新命令加骰,
+     也不得误删既有门;帮助文案写明这一语义差异。
+  2. **定时状态 registry 分层拦截**: `puppet`(一阶段语义:仅死人可设)大世界携带必须有证据排除或
+     validator fail-loud;bad 类(confused/paralyzed/sleep/silence)遵循"cur==0 才设"不覆盖、good 类
+     (bravery/protect/haste/dualAttack)遵循"活人且更久取 max"——入口 seed 直接构造无竞争,剧情命令
+     复用 content 函数自动继承;validator 不无差别接受整个 StatusId union(卡面 :139-140 已含,此处钉死)。
+  3. **清理语义双轨测试**: restore 全清(含 incurable 毒,main.ts:5691-5697)与战后 severe 封顶清
+     (incurable 留,:2613-2619)是两条不同规则,测试矩阵必须各有一条断言,防止实现把两条合并。
+  4. **0x75 清毒副作用不漂移**: 测试断言"setParty 后施加的 condition 存活"(卡面 AC-G2 已含);
+     迁移 translator 遇原版 0x75+0x29 相邻序列译成两条独立命令,不得合并成带状态 setParty payload。
+  5. **入口 seed 只由 buildWorld 单点消费**: restore 走 prepareSceneSwitch 不重建 world,读档不得重新
+     播种(与 ARCH-ENTRY-ACTOR-SEED-1 seedStats 同模式);tickIndex=0 与 PoisonDef.id 稳定引用、
+     未知/重复 fail-loud(卡面 AC-G3 已含)。
+- 是否建议进入 build: **已进入 build**——三方签字、Startup done 与用户批准齐；按用户裁决在 `main`
+  推进，前序 WIP 收口后从 content condition kernel 开始。
 
 ### 三方争议记录(按需)
 
 - Codex: 推荐“入口快照 + 剧情显式命令 + 三 carrier 完整覆盖”，保持 restore 清理和 C7 reserve 现状。
-- Kimi: pending
-- GLM: pending
+- Kimi: 同意 Codex 方向。曾压力测试的最强替代解释——"不加入口 seed,改用开局脚本在入口 onEnter 施加
+  condition"——被两点否证: (a) condition 与 HP/MP 同属开局快照,ARCH-ENTRY-ACTOR-SEED-1 已冻结
+  StartWorld 稀疏覆盖模式,走同模式才是一致 ownership; (b) 开局脚本方案要求 restore / 新游戏两路径
+  分别保证,而 buildWorld 单点消费天然只覆盖新游戏、读档由既有全清路径负责,不会重复播种。
+  无分歧,不需要用户裁决。
+- GLM: 同意“入口快照 + 剧情显式命令 + 三 carrier 完整覆盖”，并以 AC-G1-AC-G3 冻结 allowlist、
+  `setParty` 独立命令域和三 carrier / tick 测试矩阵；无分歧。
 - 用户拍板: 2026-08-26 已批准按 ownership 方向开卡；若三方对 restore / allowlist / 命令形状无法收敛，再提交具体分歧。
 
 ## 额度 / 代班记录(如适用)
@@ -257,7 +344,7 @@ Branch: TBD（签字齐后新建独立 `codex/` 分支；不得在当前 Startup
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（签字齐且 Startup 卡收口后）
+- Coding Owner: Codex（build 准入已满足；前序 WIP 收口前不改重叠实现文件）
 - 修改文件: pending
 - 实现摘要: pending
 - 运行命令: pending
@@ -292,36 +379,49 @@ Branch: TBD（签字齐后新建独立 `codex/` 分支；不得在当前 Startup
   Evidence: 当前会话。Next: Codex 建卡并送 Kimi / GLM 设计审查。
 - 2026-08-26 Codex: 完成原版 / 一阶段 / 当前二阶段只读 truth audit，建立四向矩阵、初始设计、风险和验收门禁；
   未修改任何实现文件。Evidence: 卡内锚点。Next: Kimi / GLM 独立核真值并签字。
+- 2026-08-28 GLM: 独立直读 sdlpal global.h/script.c/battle.c/global.c、一阶段三 opcode 与二阶段全链,
+  签 premise verified + design agree 并完成独立反证审查(锚点见签字节)。Next: Kimi 签字。
+- 2026-08-28 Kimi: 独立直读同一手证据链(global.h:521-522,547;global.c:470-497,626-631,930-953;
+  script.c:1257-1284,1367-1374,2164-2197;battle.c:1822-1830;event-system.ts:4629-4685,4935-4951;
+  character.ts:52-60,128-139,237-245;main.ts:2292-2300,2613-2619,3247-3283,5691-5697;
+  script.ts:118-131;skill.ts:17-27;poison.ts:69-105),逐行核四向矩阵无误,签 premise verified +
+  design agree,留五枚必落钉(剧情毒不投骰 / registry 分层拦 puppet / 清理双轨测试 / 0x75 不漂移 /
+  seed 单点消费);压力测试"开局脚本替代入口 seed"替代解释并否证。三方签字齐、无 counter;
+  未修改任何实现文件。Next: 等 Startup 卡 review 收口后 Codex 新建独立分支进入 build。
+- 2026-08-29 User/Codex：用户确认具体实施方案“可以”，并说明前序审查签字已完成。复核确认三方
+  premise/design 签字齐、Startup 已 done；用户此前已裁决个人开发直接在 `main` 推进。任务转 `build`，
+  但当前前序 editor/migrate WIP 与本卡高度重叠，先按卡收口，未修改本卡实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-联合审查 ARCH-ACTOR-CONDITION-SEED-1「入口与剧情入队角色当前状态播种」。
+接手 ARCH-ACTOR-CONDITION-SEED-1 build。
 
-任务卡：docs/ops/tasks/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md
-当前状态：draft / build blocked；Codex 已完成初始 truth audit 与设计签字，Kimi、GLM 均 pending。
-你的角色：
-- Kimi：独立核原版/一阶段行为、StartWorld schema、setParty 与具名 condition 命令边界、save/restore 生命周期和 UI 风险。
-- GLM：独立核毒/状态/临时毒抗三 carrier 覆盖、可携带 allowlist、PAL 代表数据、迁移与测试矩阵。
+任务卡:docs/ops/tasks/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md
+当前状态:build;build 前三方签字已齐(Codex 2026-08-26 / GLM 2026-08-28 / Kimi 2026-08-28),无 counter;
+Startup 前置已 done,用户已批准方案。
+你的角色:Codex,Coding Owner。
 
-先完整阅读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡；并直接读取卡内 primary source、
-packages/game 一阶段和 packages/content/reforge/editor 当前调用链。不要只复述 Codex 结论。
+工作流约束:按用户裁决在 `main` 推进；当前前序 editor/migrate WIP 与本卡重叠，必须先按卡收口，禁止
+stash/reset/覆盖或把 132 项混成一个提交。实现从干净的 content condition kernel 切片开始。
 
-已完成：已确认当前入口只有 HP/MP seed，剧情 setParty 只有 members；runtime 已有 poisons、extraStatuses、
-extraPoisonRes。初始设计要求入口快照归 StartWorld、剧情状态归 setParty 后的具名 ActorId 显式命令，且不修改
-ActorDef、setParty、reserve、装备派生或 battle-only statBuff。
+先完整阅读:AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡全文(四向矩阵、设计、验收条件、
+主审立场五枚必落钉),再按卡内锚点复核一手代码。
 
-请你做：
-1. 分别给出带直接 file:line/reference 的 premise verified 或 counter。
-2. 审查并签 design agree 或 counter，重点回答：
-   - 三类 carrier 是否应完整覆盖，哪些 StatusId 可安全从大世界携带；
-   - 毒是否只允许从 tickIndex=0 开始；
-   - restore 继续清 condition 是否与 primary source、当前产品合同一致；
-   - 剧情命令应独立于 setParty、目标必须已实例化是否成立；
-   - current-only schema 切版、迁移重生成、editor/测试矩阵是否有遗漏。
-3. 至少一位非 Coding Owner 完成独立反证，写明证据锚点和能推翻前提的观察。
-4. 把结论、钉子和签字直接写回任务卡，并刷新下一位 Agent 提示词。
+build 必须落实的 Kimi 必落钉(review 期两席逐条复核):
+1. 剧情施加毒复用 content 毒操作函数、作者显式命令必中不投抗性骰;既有 applyPoisonToPlayer 抗性别路径不变;
+   帮助文案写明语义差异。
+2. 定时状态 registry 分层:puppet(仅死人)大世界携带必须有证据排除或 validator fail-loud;bad 类
+   "cur==0 才设"、good 类"活人且更久取 max";validator 不无差别接受整个 StatusId union。
+3. 清理双轨测试:restore 全清(含 incurable)与战后 severe 清(incurable 留)各至少一条断言。
+4. setParty 不漂移:测试断言"setParty 后施加的 condition 存活";迁移遇 0x75+0x29 相邻序列译成两条
+   独立命令。
+5. 入口 seed 只由 buildWorld 单点消费,读档不得重新播种;毒 tickIndex=0、PoisonDef.id 稳定引用、
+   未知/重复 fail-loud。
 
-不要做：不得修改实现/schema/迁移器/projects/pal，不得把任务标记 build/done；任何 counter 或关键 unknown 立即停线。
-输出要求：明确写回 premise verified + design agree，或 counter + 理由/证据/待用户裁决问题；签字不齐时保持 build blocked。
+边界提醒:不改 ActorDef / setParty / reserve / 装备 live 派生 / battle-only statBuff;current-only
+切版,删除旧类型 / fixture / fallback,PAL 完整重迁并证明二次运行零 diff;完成后按卡面登记
+E2E 场景 A/B(开局赤毒+护体首战生效、setParty 后具名 condition 首战生效)。
+
+输出:build 完成后自测 + 登记证据,送 Kimi / GLM done 前终审;两席 accept 齐前不得标记 done。
 ```
