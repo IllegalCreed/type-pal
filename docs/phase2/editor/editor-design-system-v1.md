@@ -694,6 +694,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 
 - 卡片用于一组可独立理解的字段或摘要，不得为每个单字段造卡片。
 - 卡片标题包括名称、可选摘要、状态/动作；低频动作放末尾或菜单，高频动作靠近对象。
+- `DsWorkbenchSection` 固定为 intrinsic header + flexible content 两条行轨；同排卡片等高时，多余高度只进入
+  content，禁止拉伸标题区，也不得用业务页 margin、padding 或取消等高来掩盖轨道问题。
 - 默认展开主任务分组。仅高级/低频分组可折叠，并记忆用户选择但不写内容数据。
 - “升级曲线与习得技能”这类主任务区域不得只剩折叠摘要；必须直接显示可编辑主内容。
 - Inspector 只允许 `DsInspectorTabs → DsInspectorSection → DsPropertyGrid/DsPropertyRow` 组成主要信息层级。

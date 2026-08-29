@@ -635,6 +635,7 @@
 .ds-workbench-section {
   display: grid;
   min-width: 0;
+  grid-template-rows: max-content minmax(0, 1fr);
   overflow: hidden;
   border: 1px solid var(--ds-border-subtle);
   border-radius: var(--ds-radius-card);

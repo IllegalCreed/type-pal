@@ -320,6 +320,9 @@ describe('editor design-system static boundary', () => {
       /label:not\(\.ds-check-label\)[\s\S]*?:has\([\s\S]*?input\[type="checkbox"\][\s\S]*?\)\s*\{[\s\S]*?border:\s*1px solid var\(--ds-border-control\);/,
     )
     expect(recipes).toMatch(
+      /\.ds-workbench-section\s*\{[\s\S]*?grid-template-rows:\s*max-content minmax\(0,\s*1fr\);/,
+    )
+    expect(recipes).toMatch(
       /\.ds-workbench-section__content\s*\{[\s\S]*?display:\s*grid;[\s\S]*?align-content:\s*start;[\s\S]*?gap:\s*var\(--ds-space-5\);/,
     )
     expect(recipes).toMatch(
