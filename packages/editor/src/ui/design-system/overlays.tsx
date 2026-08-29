@@ -180,6 +180,7 @@ function useDialogState(
 
 export function DsDialog(props: {
   open: boolean
+  role?: 'dialog' | 'alertdialog'
   title: string
   description?: string
   children: ReactNode
@@ -200,7 +201,7 @@ export function DsDialog(props: {
   return (
     <dialog
       ref={ref}
-      role="dialog"
+      role={props.role ?? 'dialog'}
       className={`ds-dialog${props.className ? ` ${props.className}` : ''}`}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}

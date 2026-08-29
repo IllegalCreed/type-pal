@@ -108,6 +108,7 @@ import {
   DsCatalogControls,
   DsCatalogRow,
   DsCheckbox,
+  DsDialog,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
@@ -357,7 +358,6 @@ export function MapMode(props: {
   const [transformIntent, setTransformIntent] = useState<MapTransformIntent>()
   const [transformTargetLocked, setTransformTargetLocked] = useState(false)
   const [transformOverwriteIntent, setTransformOverwriteIntent] = useState<MapTransformIntent>()
-  const transformConflictAdjustRef = useRef<HTMLButtonElement>(null)
   const [candidateMenu, setCandidateMenu] = useState<MapCandidateMenu>()
   const candidateMenuRef = useRef<HTMLDivElement>(null)
   const [canvasContextMenu, setCanvasContextMenu] = useState<MapCanvasContextMenu>()
@@ -368,7 +368,6 @@ export function MapMode(props: {
   const [stampDialogOpen, setStampDialogOpen] = useState(false)
   const [stampStructureIntent, setStampStructureIntent] = useState<StampStructureIntent>()
   const stampStructureReturnFocusRef = useRef<HTMLElement | null>(null)
-  const stampStructureCancelRef = useRef<HTMLButtonElement>(null)
   const mapNameInputRef = useRef<HTMLInputElement>(null)
   const selectedMapRowRef = useRef<HTMLButtonElement>(null)
 
@@ -550,14 +549,6 @@ export function MapMode(props: {
     if (nextX !== canvasContextMenu.x || nextY !== canvasContextMenu.y)
       setCanvasContextMenu({ x: nextX, y: nextY })
   }, [canvasContextMenu])
-
-  useEffect(() => {
-    if (stampStructureIntent) stampStructureCancelRef.current?.focus({ preventScroll: true })
-  }, [stampStructureIntent])
-
-  useEffect(() => {
-    if (transformOverwriteIntent) transformConflictAdjustRef.current?.focus({ preventScroll: true })
-  }, [transformOverwriteIntent])
 
   const maxMapHeight = useMemo(() => {
     if (!liveMap) return 15
@@ -1846,7 +1837,6 @@ export function MapMode(props: {
   const returnToTransformAdjustment = (): void => {
     setTransformOverwriteIntent(undefined)
     setTransformTargetLocked(false)
-    canvasRef.current?.focus({ preventScroll: true })
     notifyWorkspace('info', '已保留变换预览；请重新选择目标位置。')
   }
 
@@ -2359,12 +2349,8 @@ export function MapMode(props: {
     setActiveLayerId(id)
   }
 
-  const closeStampStructureDialog = (returnFocus = true): void => {
+  const closeStampStructureDialog = (): void => {
     setStampStructureIntent(undefined)
-    if (!returnFocus) return
-    const target = stampStructureReturnFocusRef.current
-    stampStructureReturnFocusRef.current = null
-    window.setTimeout(() => target?.focus({ preventScroll: true }), 0)
   }
 
   const stampStructureCommand = (
@@ -3678,80 +3664,59 @@ export function MapMode(props: {
         />
       ) : null}
       {transformOverwriteIntent ? (
-        <div className="modal-backdrop" role="presentation">
-          <div
-            className="stamp-lifecycle-dialog map-transform-conflict-dialog"
-            role="alertdialog"
-            aria-modal="true"
-            aria-labelledby="map-transform-conflict-title"
-            aria-describedby="map-transform-conflict-description"
-            onKeyDown={(event) => {
-              if (event.key !== 'Escape') return
-              event.preventDefault()
-              event.stopPropagation()
-              returnToTransformAdjustment()
-            }}
-          >
-            <h2 id="map-transform-conflict-title">目标位置已有地图内容</h2>
-            <p id="map-transform-conflict-description">
-              目标位置有 {transformPlan?.conflicts.length ?? 0} 处内容冲突。覆盖后，现有内容将被
-              {transformOverwriteIntent.kind === 'move' ? '移动内容' : '粘贴内容'}
-              替换；本次操作仍可一步撤销。
-            </p>
-            <div className="stamp-lifecycle-actions">
-              <DsPressable
-                ref={transformConflictAdjustRef}
-                type="button"
+        <DsDialog
+          open
+          role="alertdialog"
+          className="stamp-lifecycle-dialog map-transform-conflict-dialog"
+          title="目标位置已有地图内容"
+          description={`目标位置有 ${transformPlan?.conflicts.length ?? 0} 处内容冲突。覆盖后，现有内容将被${
+            transformOverwriteIntent.kind === 'move' ? '移动内容' : '粘贴内容'
+          }替换；本次操作仍可一步撤销。`}
+          fallbackFocusRef={canvasRef}
+          onClose={returnToTransformAdjustment}
+          children={null}
+          footer={
+            <>
+              <DsButton
+                autoFocus
+                size="compact"
+                variant="secondary"
                 onClick={returnToTransformAdjustment}
               >
                 返回调整
-              </DsPressable>
+              </DsButton>
               <DsButton size="compact" variant="danger" onClick={confirmTransformOverwrite}>
                 {transformOverwriteIntent.kind === 'move' ? '覆盖并移动' : '覆盖并粘贴'}
               </DsButton>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        />
       ) : null}
       {stampStructureIntent ? (
-        <div className="modal-backdrop" role="presentation">
-          <div
-            className="stamp-lifecycle-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="stamp-lifecycle-title"
-            onKeyDown={(event) => {
-              if (event.key !== 'Escape') return
-              event.preventDefault()
-              closeStampStructureDialog()
-            }}
-          >
-            <h2 id="stamp-lifecycle-title">结构操作会影响已放置组合</h2>
-            <p>
-              当前操作会破坏 {stampStructureIntent.placementIds.length} 个放置组合的完整性。
-              可以先解组并保留普通地图内容，或删除这些整组内容后继续。
-            </p>
-            <ul className="stamp-lifecycle-list">
-              {projectMapStampPlacements(stampStructureIntent.map)
-                .filter((placement) => stampStructureIntent.placementIds.includes(placement.id))
-                .map((placement) => (
-                  <li key={placement.id}>
-                    <strong>{placement.sourceStampName ?? '未命名组合'}</strong>
-                    <span className="mono">{placement.id}</span>
-                  </li>
-                ))}
-            </ul>
-            <div className="stamp-lifecycle-actions">
-              <DsPressable
-                ref={stampStructureCancelRef}
-                type="button"
-                onClick={() => closeStampStructureDialog()}
+        <DsDialog
+          open
+          className="stamp-lifecycle-dialog"
+          title="结构操作会影响已放置组合"
+          description={`当前操作会破坏 ${stampStructureIntent.placementIds.length} 个放置组合的完整性。可以先解组并保留普通地图内容，或删除这些整组内容后继续。`}
+          fallbackFocusRef={stampStructureReturnFocusRef}
+          onClose={closeStampStructureDialog}
+          footer={
+            <>
+              <DsButton
+                autoFocus
+                size="compact"
+                variant="secondary"
+                onClick={closeStampStructureDialog}
               >
                 取消
-              </DsPressable>
-              <DsPressable type="button" onClick={() => confirmStampStructureOperation('ungroup')}>
+              </DsButton>
+              <DsButton
+                size="compact"
+                variant="secondary"
+                onClick={() => confirmStampStructureOperation('ungroup')}
+              >
                 先解组 {stampStructureIntent.placementIds.length} 个组合并继续
-              </DsPressable>
+              </DsButton>
               <DsButton
                 size="compact"
                 variant="danger"
@@ -3759,9 +3724,20 @@ export function MapMode(props: {
               >
                 删除 {stampStructureIntent.placementIds.length} 个组合并继续
               </DsButton>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        >
+          <ul className="stamp-lifecycle-list">
+            {projectMapStampPlacements(stampStructureIntent.map)
+              .filter((placement) => stampStructureIntent.placementIds.includes(placement.id))
+              .map((placement) => (
+                <li key={placement.id}>
+                  <strong>{placement.sourceStampName ?? '未命名组合'}</strong>
+                  <span className="mono">{placement.id}</span>
+                </li>
+              ))}
+          </ul>
+        </DsDialog>
       ) : null}
     </>
   )

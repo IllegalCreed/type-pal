@@ -1,6 +1,7 @@
-import { type KeyboardEvent, type ReactNode, useEffect, useRef, useState } from 'react'
+import { type KeyboardEvent, type ReactNode, useRef, useState } from 'react'
 import { DsIcon, type DsIconName } from './icons.js'
 import { type DsControlSize, DsTooltip, dsClasses } from './controls.js'
+import { DsFloatingLayer } from './floating-layer.js'
 
 export interface DsMenuItem {
   id: string
@@ -39,21 +40,19 @@ function groupMenuItems(items: readonly DsMenuItem[]) {
 export function DsMenuBar(props: {
   label: string
   menus: readonly DsMenuDefinition[]
+  popupAlign?: 'start' | 'end'
   onNavigate?: (event: React.MouseEvent<HTMLAnchorElement>, item: DsMenuItem) => void
 }) {
   const [openId, setOpenId] = useState<string>()
-  const rootRef = useRef<HTMLDivElement>(null)
   const triggerRefs = useRef(new Map<string, HTMLButtonElement>())
+  const activeTriggerRef = useRef<HTMLButtonElement>(null)
+  const menuLayerRef = useRef<HTMLDivElement>(null)
   const itemRefs = useRef(new Map<string, HTMLElement[]>())
 
-  useEffect(() => {
-    if (!openId) return
-    const onPointerDown = (event: PointerEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpenId(undefined)
-    }
-    document.addEventListener('pointerdown', onPointerDown)
-    return () => document.removeEventListener('pointerdown', onPointerDown)
-  }, [openId])
+  function openMenu(id: string): void {
+    activeTriggerRef.current = triggerRefs.current.get(id) ?? null
+    setOpenId(id)
+  }
 
   function menuIndex(id: string): number {
     return props.menus.findIndex((menu) => menu.id === id)
@@ -71,7 +70,7 @@ export function DsMenuBar(props: {
     const target = props.menus[index]
     if (!target) return
     triggerRefs.current.get(target.id)?.focus()
-    if (openId) setOpenId(target.id)
+    if (openId) openMenu(target.id)
   }
 
   function focusItem(menuId: string, index: number): void {
@@ -82,13 +81,14 @@ export function DsMenuBar(props: {
   }
 
   return (
-    <div ref={rootRef} className="ds-menubar" role="menubar" aria-label={props.label}>
+    <div className="ds-menubar" role="menubar" aria-label={props.label}>
       {props.menus.map((menu) => (
         <div key={menu.id} className="ds-menu" data-menu-visibility={menu.visibility ?? 'all'}>
           <button
             ref={(node) => {
               if (node) triggerRefs.current.set(menu.id, node)
               else triggerRefs.current.delete(menu.id)
+              if (openId === menu.id) activeTriggerRef.current = node
             }}
             type="button"
             role="menuitem"
@@ -97,7 +97,8 @@ export function DsMenuBar(props: {
             aria-expanded={openId === menu.id}
             onClick={() => {
               const next = openId === menu.id ? undefined : menu.id
-              setOpenId(next)
+              if (next) openMenu(next)
+              else setOpenId(undefined)
               if (next) requestAnimationFrame(() => focusItem(menu.id, 0))
             }}
             onKeyDown={(event) => {
@@ -106,7 +107,7 @@ export function DsMenuBar(props: {
               else if (event.key === 'Home') focusMenu(menu.id, 'first')
               else if (event.key === 'End') focusMenu(menu.id, 'last')
               else if (['ArrowDown', 'Enter', ' '].includes(event.key)) {
-                setOpenId(menu.id)
+                openMenu(menu.id)
                 requestAnimationFrame(() => focusItem(menu.id, 0))
               } else return
               event.preventDefault()
@@ -114,10 +115,24 @@ export function DsMenuBar(props: {
           >
             {menu.label}
           </button>
-          {openId === menu.id ? (
+          <DsFloatingLayer
+            open={openId === menu.id}
+            anchorRef={activeTriggerRef}
+            layerRef={menuLayerRef}
+            className="ds-menu-floating-layer"
+            width="content"
+            align={menu.visibility === 'narrow' ? 'center' : (props.popupAlign ?? 'start')}
+            maxHeight={720}
+            gap={8}
+            onDismiss={() => {
+              setOpenId(undefined)
+              activeTriggerRef.current?.focus()
+            }}
+          >
             <div
               className="ds-menu-popover"
               data-layout={menu.layout ?? 'list'}
+              data-menu-visibility={menu.visibility ?? 'all'}
               role="menu"
               aria-label={menu.label}
               onKeyDown={(event) => {
@@ -216,7 +231,7 @@ export function DsMenuBar(props: {
                 ))}
               </div>
             </div>
-          ) : null}
+          </DsFloatingLayer>
         </div>
       ))}
     </div>
@@ -241,27 +256,8 @@ export function DsToolbar(props: {
   label: string
   groups: readonly (readonly DsToolbarCommand[])[]
   trailing?: ReactNode
-  overflowAfter?: number
   size?: DsControlSize
 }) {
-  const [overflowOpen, setOverflowOpen] = useState(false)
-  const overflowRef = useRef<HTMLDivElement>(null)
-  const overflowTriggerRef = useRef<HTMLButtonElement>(null)
-  const commands = props.groups.flat()
-  const overflowAfter = Math.max(0, props.overflowAfter ?? commands.length)
-  const displayedGroups =
-    props.overflowAfter === undefined ? props.groups : [commands.slice(0, overflowAfter)]
-  const overflowCommands = props.overflowAfter === undefined ? [] : commands.slice(overflowAfter)
-
-  useEffect(() => {
-    if (!overflowOpen) return
-    const close = (event: PointerEvent): void => {
-      if (!overflowRef.current?.contains(event.target as Node)) setOverflowOpen(false)
-    }
-    document.addEventListener('pointerdown', close)
-    return () => document.removeEventListener('pointerdown', close)
-  }, [overflowOpen])
-
   const commandButton = (command: DsToolbarCommand): ReactNode => (
     <DsTooltip
       key={command.id}
@@ -294,69 +290,13 @@ export function DsToolbar(props: {
       role="toolbar"
       aria-label={props.label}
     >
-      {displayedGroups.map((group, groupIndex) => (
+      {props.groups.map((group, groupIndex) => (
         <div className="ds-toolbar__group" key={group.map((command) => command.id).join(':')}>
           {groupIndex > 0 ? <span className="ds-toolbar__divider" aria-hidden="true" /> : null}
           {group.map(commandButton)}
         </div>
       ))}
       <span className="ds-spacer" />
-      {overflowCommands.length > 0 ? (
-        <div ref={overflowRef} className="ds-toolbar__overflow">
-          <DsTooltip label="更多工具">
-            <button
-              ref={overflowTriggerRef}
-              type="button"
-              className={dsClasses(
-                'ds-toolbar-button',
-                props.size === 'compact' && 'ds-toolbar-button--compact',
-              )}
-              aria-label="更多工具"
-              aria-haspopup="menu"
-              aria-expanded={overflowOpen}
-              onClick={() => setOverflowOpen((open) => !open)}
-            >
-              <DsIcon name="more" />
-            </button>
-          </DsTooltip>
-          {overflowOpen ? (
-            <div
-              className="ds-toolbar__overflow-menu"
-              role="menu"
-              aria-label="更多工具"
-              onKeyDown={(event) => {
-                if (event.key !== 'Escape') return
-                event.preventDefault()
-                setOverflowOpen(false)
-                overflowTriggerRef.current?.focus()
-              }}
-            >
-              {overflowCommands.map((command) => (
-                <button
-                  key={command.id}
-                  type="button"
-                  className="ds-menu-item"
-                  role={command.pressed === undefined ? 'menuitem' : 'menuitemcheckbox'}
-                  aria-checked={command.pressed}
-                  disabled={command.disabled || command.busy}
-                  title={command.disabledReason}
-                  onClick={() => {
-                    command.execute()
-                    setOverflowOpen(false)
-                  }}
-                >
-                  <DsIcon name={command.icon} />
-                  <span>{command.label}</span>
-                  <span className="ds-spacer" />
-                  {command.shortcut ? (
-                    <span className="ds-field__help">{command.shortcut}</span>
-                  ) : null}
-                </button>
-              ))}
-            </div>
-          ) : null}
-        </div>
-      ) : null}
       {props.trailing}
     </div>
   )

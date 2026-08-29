@@ -606,24 +606,28 @@ describe('editor design-system static boundary', () => {
     }
   })
 
-  test('keeps handcrafted choice popups limited to named visual or canvas interactions', () => {
-    const srcRoot = dirname(dirname(here))
-    const choicePattern =
-      /role=["'](?:combobox|listbox|option)["']|aria-haspopup=["'](?:listbox|dialog)["']/
-    const files = filesUnder(srcRoot).filter(
-      (path) =>
-        path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
-    )
-    const handcrafted = files
-      .filter((path) => choicePattern.test(readFileSync(path, 'utf8')))
-      .map((path) => path.slice(srcRoot.length + 1))
-      .sort()
+  test('keeps route-live choice overlays on shared owners and canvas-only exceptions explicit', () => {
+    const uiRoot = dirname(here)
+    const toolbar = readFileSync(join(uiRoot, 'IsometricEditorToolbar.tsx'), 'utf8')
+    const item = readFileSync(join(uiRoot, 'ItemTab.tsx'), 'utf8')
+    const map = readFileSync(join(uiRoot, 'MapMode.tsx'), 'utf8')
+    const editorCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
 
-    expect(handcrafted).toEqual([
-      'ui/IsometricEditorToolbar.tsx',
-      'ui/ItemTab.tsx',
-      'ui/MapMode.tsx',
+    expect(toolbar).toContain('aria-haspopup="listbox"')
+    expect(toolbar).toContain('<DsFloatingLayer')
+    expect(toolbar).not.toMatch(/document\.addEventListener\(\s*['"]pointerdown['"]/)
+    expect(cssRuleBodies(editorCss, '.map-tool-option-layer')).toEqual([
+      expect.stringMatching(/\bposition\s*:\s*fixed\b/),
     ])
+    for (const body of cssRuleBodies(editorCss, '.map-tool-option-tray'))
+      expect(body).not.toMatch(/\bposition\s*:\s*(?:absolute|fixed)\b/)
+
+    expect(item).toMatch(/aria-haspopup="dialog"[\s\S]*?<DsDialog\b/)
+    expect(map.match(/role="menu"/g)).toHaveLength(1)
+    expect(map.match(/role="listbox"/g)).toHaveLength(1)
+    expect(map.match(/role="alertdialog"/g)).toHaveLength(1)
+    expect(map).toContain('<DsDialog')
+    expect(map).not.toMatch(/<dialog\b/)
   })
 
   test('keeps all general-purpose choice controls on the shared floating layer', () => {
@@ -635,6 +639,13 @@ describe('editor design-system static boundary', () => {
     expect(index).toContain("'./multi-select.js'")
     expect(`${primitives}\n${formScope}`).not.toMatch(/\.ds-combobox\b/)
     expect(multiSelect).toContain('<DsFloatingLayer')
+  })
+
+  test('does not keep a dormant private toolbar overflow popup contract', () => {
+    const navigation = readFileSync(join(here, 'navigation.tsx'), 'utf8')
+    const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
+    expect(navigation).not.toContain('overflowAfter')
+    expect(primitives).not.toContain('.ds-toolbar__overflow-menu')
   })
 
   test('keeps the canonical script workbench on design-system controls', () => {

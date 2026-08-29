@@ -46,6 +46,7 @@ import {
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
+  DsDialog,
   DsFileInput,
   DsFieldGroup,
   DsIconButton,
@@ -1055,100 +1056,16 @@ export function CutsceneTab(props: {
       />
 
       {pendingFrames ? (
-        <div className="modal-backdrop" role="presentation">
-          <div
-            className="cutscene-import-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="frame-import-title"
-          >
-            <div className="modal-title" id="frame-import-title">
-              {pendingFrames.replaceId ? '替换帧动画' : '新建帧动画'}
-            </div>
-            <p>{pendingFrames.files.length} 张图片。当前清单顺序就是动画帧顺序。</p>
-            <DsReorderCollection
-              adoptionId="asset/cutscene-import-frames"
-              scopeKey={`cutscene-import:${pendingFrames.replaceId ?? 'new'}`}
-              entries={pendingFrames.files.map((file, index) => ({
-                key: pendingFrameReorderKeys.keys[index]!,
-                label: file.name,
-              }))}
-              revision={pendingFrames.files}
-              onReorder={reorderPendingFrames}
-            >
-              <ol className="cutscene-import-files" aria-label="图片序列顺序">
-                {pendingFrames.files.map((file, index) => {
-                  const reorderKey = pendingFrameReorderKeys.keys[index]!
-                  return (
-                    <DsReorderItem
-                      as="li"
-                      className="cutscene-import-file"
-                      contentClassName="cutscene-import-file-content"
-                      itemKey={reorderKey}
-                      key={reorderKey}
-                    >
-                      <span>{index + 1}</span>
-                      <code title={file.name}>{file.name}</code>
-                      <DsReorderMoveButton
-                        itemKey={reorderKey}
-                        direction="backward"
-                        label={`上移 ${file.name}`}
-                      />
-                      <DsReorderMoveButton
-                        itemKey={reorderKey}
-                        direction="forward"
-                        label={`下移 ${file.name}`}
-                      />
-                      <DsButton
-                        title="排除此帧"
-                        onClick={() => removePendingFrame(index)}
-                        size="compact"
-                        variant="danger"
-                      >
-                        ×
-                      </DsButton>
-                    </DsReorderItem>
-                  )
-                })}
-              </ol>
-            </DsReorderCollection>
-            <DsFieldGroup>
-              <DsNumberField
-                id="cutscene-import-fps"
-                label="默认帧率"
-                min="0.1"
-                step="0.1"
-                value={importFps}
-                onChange={(event) => setImportFps(Number(event.target.value))}
-              />
-              <DsSelectField
-                id="cutscene-import-treatment"
-                label="色彩处理"
-                size="compact"
-                value={importTreatment}
-                options={[
-                  { value: 'preserve', label: '保留原色' },
-                  { value: 'project-standard', label: '贴合项目标准色彩' },
-                ]}
-                onValueChange={(value) =>
-                  setImportTreatment(value as 'preserve' | 'project-standard')
-                }
-              />
-              {importTreatment === 'project-standard' ? (
-                <DsSelectField
-                  id="cutscene-import-quantization"
-                  label="转换方式"
-                  size="compact"
-                  value={importQuantization}
-                  options={[
-                    { value: 'nearest', label: '最近色' },
-                    { value: 'floyd-steinberg', label: '误差扩散' },
-                  ]}
-                  onValueChange={(value) => setImportQuantization(value as FrameQuantization)}
-                />
-              ) : null}
-            </DsFieldGroup>
-            <div className="modal-actions">
+        <DsDialog
+          open
+          className="cutscene-import-dialog"
+          title={pendingFrames.replaceId ? '替换帧动画' : '新建帧动画'}
+          description={`${pendingFrames.files.length} 张图片。当前清单顺序就是动画帧顺序。`}
+          ariaBusy={Boolean(busy)}
+          dismissible={!busy}
+          onClose={() => setPendingFrames(undefined)}
+          footer={
+            <>
               <DsButton
                 disabled={Boolean(busy)}
                 onClick={() => setPendingFrames(undefined)}
@@ -1170,9 +1087,92 @@ export function CutsceneTab(props: {
               >
                 {busy || '创建'}
               </DsButton>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        >
+          <DsReorderCollection
+            adoptionId="asset/cutscene-import-frames"
+            scopeKey={`cutscene-import:${pendingFrames.replaceId ?? 'new'}`}
+            entries={pendingFrames.files.map((file, index) => ({
+              key: pendingFrameReorderKeys.keys[index]!,
+              label: file.name,
+            }))}
+            revision={pendingFrames.files}
+            onReorder={reorderPendingFrames}
+          >
+            <ol className="cutscene-import-files" aria-label="图片序列顺序">
+              {pendingFrames.files.map((file, index) => {
+                const reorderKey = pendingFrameReorderKeys.keys[index]!
+                return (
+                  <DsReorderItem
+                    as="li"
+                    className="cutscene-import-file"
+                    contentClassName="cutscene-import-file-content"
+                    itemKey={reorderKey}
+                    key={reorderKey}
+                  >
+                    <span>{index + 1}</span>
+                    <code title={file.name}>{file.name}</code>
+                    <DsReorderMoveButton
+                      itemKey={reorderKey}
+                      direction="backward"
+                      label={`上移 ${file.name}`}
+                    />
+                    <DsReorderMoveButton
+                      itemKey={reorderKey}
+                      direction="forward"
+                      label={`下移 ${file.name}`}
+                    />
+                    <DsButton
+                      title="排除此帧"
+                      onClick={() => removePendingFrame(index)}
+                      size="compact"
+                      variant="danger"
+                    >
+                      ×
+                    </DsButton>
+                  </DsReorderItem>
+                )
+              })}
+            </ol>
+          </DsReorderCollection>
+          <DsFieldGroup>
+            <DsNumberField
+              id="cutscene-import-fps"
+              label="默认帧率"
+              min="0.1"
+              step="0.1"
+              value={importFps}
+              onChange={(event) => setImportFps(Number(event.target.value))}
+            />
+            <DsSelectField
+              id="cutscene-import-treatment"
+              label="色彩处理"
+              size="compact"
+              value={importTreatment}
+              options={[
+                { value: 'preserve', label: '保留原色' },
+                { value: 'project-standard', label: '贴合项目标准色彩' },
+              ]}
+              onValueChange={(value) =>
+                setImportTreatment(value as 'preserve' | 'project-standard')
+              }
+            />
+            {importTreatment === 'project-standard' ? (
+              <DsSelectField
+                id="cutscene-import-quantization"
+                label="转换方式"
+                size="compact"
+                value={importQuantization}
+                options={[
+                  { value: 'nearest', label: '最近色' },
+                  { value: 'floyd-steinberg', label: '误差扩散' },
+                ]}
+                onValueChange={(value) => setImportQuantization(value as FrameQuantization)}
+              />
+            ) : null}
+          </DsFieldGroup>
+        </DsDialog>
       ) : null}
     </>
   )

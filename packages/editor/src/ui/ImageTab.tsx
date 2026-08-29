@@ -356,9 +356,9 @@ function BattleImportReview(props: {
   const sourceUrl = useBufferUrl(props.pending.prepared.sourceBytes)
   const effectUrl = useBufferUrl(props.pending.prepared.effectPreviewBytes)
   return (
-    <div className="image-import-review" role="dialog" aria-label="战场背景色彩适配预览">
+    <section className="image-import-review" aria-labelledby="battle-import-review-title">
       <div className="image-import-review-head">
-        <strong>确认项目色彩适配</strong>
+        <strong id="battle-import-review-title">确认项目色彩适配</strong>
         <span>保存的是右侧效果；运行时仍保留召唤换色能力。</span>
       </div>
       <div className="image-import-compare">
@@ -379,7 +379,7 @@ function BattleImportReview(props: {
           使用适配结果
         </DsButton>
       </div>
-    </div>
+    </section>
   )
 }
 

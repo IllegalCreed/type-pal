@@ -13,6 +13,7 @@ import {
   MAX_ISOMETRIC_BRUSH_SIZE,
 } from '../core/isometric-brush.js'
 import { DsButton, DsMenuBar } from './design-system/index.js'
+import { DsFloatingLayer } from './design-system/floating-layer.js'
 
 export type IsometricEditorTool =
   | 'pan'
@@ -65,22 +66,17 @@ function ToolOptionTray<T extends number>(props: {
 }) {
   const [open, setOpen] = useState(false)
   const panelId = useId()
-  const rootRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
+  const layerRef = useRef<HTMLDivElement>(null)
   const optionRefs = useRef(new Map<T, HTMLButtonElement>())
-
-  useEffect(() => {
-    if (!open) return
-    const onPointerDown = (event: PointerEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpen(false)
-    }
-    document.addEventListener('pointerdown', onPointerDown)
-    return () => document.removeEventListener('pointerdown', onPointerDown)
-  }, [open])
 
   useEffect(() => {
     if (props.disabled) setOpen(false)
   }, [props.disabled])
+
+  useEffect(() => {
+    if (open) focusOption(props.value)
+  }, [open, props.value])
 
   function focusOption(value: T): void {
     requestAnimationFrame(() => optionRefs.current.get(value)?.focus())
@@ -89,7 +85,6 @@ function ToolOptionTray<T extends number>(props: {
   function openTray(): void {
     if (props.disabled) return
     setOpen(true)
-    focusOption(props.value)
   }
 
   function moveFocus(event: KeyboardEvent<HTMLDivElement>, direction: -1 | 1): void {
@@ -104,7 +99,6 @@ function ToolOptionTray<T extends number>(props: {
 
   return (
     <div
-      ref={rootRef}
       className="map-tool-option"
       data-align={props.align ?? 'start'}
       data-open={open || undefined}
@@ -133,7 +127,20 @@ function ToolOptionTray<T extends number>(props: {
       >
         {props.renderIcon(props.value)}
       </DsButton>
-      {open ? (
+      <DsFloatingLayer
+        open={open}
+        anchorRef={triggerRef}
+        layerRef={layerRef}
+        className="map-tool-option-layer"
+        width="content"
+        align={props.align ?? 'start'}
+        gap={7}
+        maxHeight={360}
+        onDismiss={() => {
+          setOpen(false)
+          triggerRef.current?.focus()
+        }}
+      >
         <div
           id={panelId}
           role="listbox"
@@ -182,7 +189,7 @@ function ToolOptionTray<T extends number>(props: {
             </DsButton>
           ))}
         </div>
-      ) : null}
+      </DsFloatingLayer>
     </div>
   )
 }
@@ -319,6 +326,7 @@ export function IsometricEditorToolbar(props: {
       <div className="tool-group map-view-menu">
         <DsMenuBar
           label="画布显示"
+          popupAlign="end"
           menus={[
             {
               id: 'view',

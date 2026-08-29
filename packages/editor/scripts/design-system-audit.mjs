@@ -481,6 +481,13 @@ function reachableStaticAttributes(node) {
   return attributes
 }
 
+function reachableAttributeNames(node) {
+  return node.attributes.properties
+    .filter(ts.isJsxAttribute)
+    .map((property) => property.name.getText())
+    .sort()
+}
+
 const inlineScrollStyleProperties = new Map([
   ['blockSize', 'block-size'],
   ['height', 'height'],
@@ -2086,6 +2093,7 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
           component: publicComponent,
           tag,
           attributes: reachableStaticAttributes(node),
+          attributeNames: reachableAttributeNames(node),
           classes: reachableClassTokens(node),
           classVariants: classVariantAnalysis.variants,
           classVariantsTruncated: classVariantAnalysis.truncated,
@@ -2110,6 +2118,7 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
           tag,
           governed,
           attributes: reachableStaticAttributes(node),
+          attributeNames: reachableAttributeNames(node),
           classes: reachableClassTokens(node),
           classVariants: elementMetadata.get(elementSite).classVariants,
           classVariantsTruncated: elementMetadata.get(elementSite).classVariantsTruncated,
@@ -2545,6 +2554,7 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
           : semanticFieldOwnerSources.get(tag) === imported?.source ||
             (semanticFieldOwnerSources.get(tag) === componentSource &&
               Boolean(scopedFunctionAt(module, tag, node)))
+        elementMetadata.get(elementSite).governed = governedOwner
         if (tag === 'DsDialog' && governedOwner)
           elementMetadata.get(elementSite).canonicalTopLayer = true
         if (!fieldOwnerTokenForTag(tag) || governedOwner) tags.add(tag)
@@ -3614,6 +3624,97 @@ export function deriveFieldAdoptionTruth(overrides = {}) {
   )
 }
 
+const anchoredOverlayConsumerTags = new Set([
+  'DsFloatingLayer',
+  'DsHelpTip',
+  'DsIconButton',
+  'DsMenuBar',
+  'DsMultiSelect',
+  'DsSelect',
+  'DsSelectField',
+  'DsTooltip',
+])
+const modalOverlayConsumerTags = new Set(['DsAddPickerDialog', 'DsDialog', 'DsDrawer'])
+
+function overlayOwnerForElement(element) {
+  if (!element?.governed) return undefined
+  if (modalOverlayConsumerTags.has(element.tag)) return { owner: 'DsDialog', kind: 'modal' }
+  if (anchoredOverlayConsumerTags.has(element.tag))
+    return { owner: 'DsFloatingLayer', kind: 'anchored-popup' }
+  if (
+    (element.tag === 'DsCatalogControls' || element.tag === 'DsListHeader') &&
+    element.attributeNames?.includes('overflowActions')
+  )
+    return { owner: 'DsFloatingLayer', kind: 'anchored-popup' }
+  return undefined
+}
+
+function overlayExceptionKindForElement(element) {
+  const classes = new Set(element?.classes ?? [])
+  if (classes.has('map-canvas-context-menu')) return 'canvas-local'
+  if (classes.has('map-candidate-options')) return 'inline'
+  if (
+    classes.has('preview-dialog') ||
+    classes.has('ambience-scene-preview__overlay') ||
+    classes.has('map-viewport-status-cluster')
+  )
+    return 'preview-hud'
+  return undefined
+}
+
+export function deriveOverlayAdoptionTruth(overrides = {}) {
+  const registry = registeredSubpages()
+  const manifest = productionSources()
+    .map((source) => relative(uiRoot, source))
+    .join('\n')
+  const projectRoots = projectPageDispatchRoots(overrides['ProjectWorkbenchTab.tsx'])
+  const dataRoots = dataModeDispatchRoots(overrides['DataMode.tsx'])
+  const workspaceRoots = appWorkspaceDispatchRoots(overrides)
+  const connectorProblems = validateWorkspaceConnectors(overrides, workspaceRoots)
+  if (connectorProblems.length) throw new Error(connectorProblems.join('\n'))
+  return Object.fromEntries(
+    registry.map((entry) => {
+      const roots = canonicalFieldRoots(entry, projectRoots, dataRoots, workspaceRoots)
+      const owners = new Set()
+      const components = new Set(roots.map((root) => root.source))
+      const evidence = roots.map((root) => {
+        const kinds = new Set()
+        const reachable = cachedReachableJsxOwners(root.source, root.component, {
+          initialNode: root.initialNode,
+          manifest,
+          overrides,
+        })
+        for (const element of reachable.elements ?? []) {
+          const descriptor = overlayOwnerForElement(element)
+          if (descriptor) {
+            owners.add(descriptor.owner)
+            kinds.add(descriptor.kind)
+            components.add(element.source)
+          }
+          const exceptionKind = overlayExceptionKindForElement(element)
+          if (exceptionKind) {
+            kinds.add(exceptionKind)
+            components.add(element.source)
+          }
+        }
+        if (reachable.visitedSources.has('StampContentEditor.tsx')) {
+          kinds.add('shell-slot')
+          components.add('StampContentEditor.tsx')
+        }
+        return { ...publicRoot(root), kinds: [...kinds].sort() }
+      })
+      return [
+        entry.registry,
+        {
+          components: [...components].sort(),
+          owners: [...owners].sort(),
+          evidence,
+        },
+      ]
+    }),
+  )
+}
+
 const reservedBusinessMarkerSourceCache = new Map()
 
 function scanReservedBusinessMarkers(overrides = {}) {
@@ -4576,17 +4677,280 @@ function hasCanonicalTopLayerBetween(child, parent, elements) {
     .some((site) => elements.get(site)?.canonicalTopLayer === true)
 }
 
+const overlayKinds = new Set([
+  'anchored-popup',
+  'modal',
+  'canvas-local',
+  'inline',
+  'preview-hud',
+  'shell-slot',
+])
+
+function enclosingNamedComponent(node) {
+  let current = node
+  while (current) {
+    if (
+      (ts.isFunctionDeclaration(current) || ts.isFunctionExpression(current)) &&
+      current.name
+    )
+      return current.name.text
+    if (
+      (ts.isArrowFunction(current) || ts.isFunctionExpression(current)) &&
+      ts.isVariableDeclaration(current.parent) &&
+      ts.isIdentifier(current.parent.name)
+    )
+      return current.parent.name.text
+    current = current.parent
+  }
+  return undefined
+}
+
+function canonicalDesignSystemImports(source) {
+  const imports = new Set()
+  for (const statement of source.statements) {
+    if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier))
+      continue
+    const specifier = statement.moduleSpecifier.text
+    if (!specifier.startsWith('./design-system/') && specifier !== './design-system/index.js')
+      continue
+    if (statement.importClause?.name) imports.add(statement.importClause.name.text)
+    for (const element of statement.importClause?.namedBindings?.elements ?? [])
+      imports.add(element.name.text)
+  }
+  return imports
+}
+
+function componentDirectlyRendersOwner(source, component, ownerTag, imports) {
+  if (!imports.has(ownerTag)) return false
+  const body = namedFunctionBodies(source).get(component)
+  if (!body) return false
+  let found = false
+  const visit = (node) => {
+    if (found) return
+    if (
+      (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) &&
+      node.tagName.getText(source) === ownerTag
+    ) {
+      found = true
+      return
+    }
+    ts.forEachChild(node, visit)
+  }
+  visit(body)
+  return found
+}
+
+function overlayExceptionCallsites(sourcePath, source, component) {
+  const body = namedFunctionBodies(source).get(component)
+  if (!body) return []
+  const callsites = []
+  const visit = (node) => {
+    if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node))
+      for (const token of classTokens(node)) callsites.push(`class:${token}`)
+    if (
+      ts.isCallExpression(node) &&
+      ((ts.isIdentifier(node.expression) && node.expression.text === 'createPortal') ||
+        (ts.isPropertyAccessExpression(node.expression) &&
+          node.expression.name.text === 'createPortal'))
+    )
+      callsites.push('call:createPortal')
+    ts.forEachChild(node, visit)
+  }
+  visit(body)
+  return callsites.map((callsite, index, all) => ({
+    source: sourcePath,
+    component,
+    callsite,
+    occurrence: all.slice(0, index + 1).filter((candidate) => candidate === callsite).length,
+  }))
+}
+
+function validateOverlayExceptions(exceptions, expectedRegistries, overlayTruth, overrides = {}) {
+  const problems = []
+  if (!Array.isArray(exceptions)) return ['overlayExceptions must be an array']
+  const requiredKeys = [
+    'callsite',
+    'component',
+    'id',
+    'kind',
+    'occurrence',
+    'reason',
+    'registries',
+    'removalCondition',
+    'source',
+    'verification',
+  ].sort()
+  const seenIds = new Set()
+  const seenCallsites = new Set()
+  const registeredCallsites = new Set()
+  const parsedSources = new Map()
+  const sourceFor = (sourcePath) => {
+    if (!parsedSources.has(sourcePath))
+      parsedSources.set(
+        sourcePath,
+        ts.createSourceFile(
+          sourcePath,
+          readUiSource(sourcePath, overrides),
+          ts.ScriptTarget.Latest,
+          true,
+          ts.ScriptKind.TSX,
+        ),
+      )
+    return parsedSources.get(sourcePath)
+  }
+  for (const [index, entry] of exceptions.entries()) {
+    const context = `overlayExceptions[${index}]`
+    if (
+      !entry ||
+      typeof entry !== 'object' ||
+      JSON.stringify(Object.keys(entry).sort()) !== JSON.stringify(requiredKeys)
+    ) {
+      problems.push(`${context} must use exactly ${requiredKeys.join(', ')}`)
+      continue
+    }
+    for (const key of [
+      'callsite',
+      'component',
+      'id',
+      'kind',
+      'reason',
+      'removalCondition',
+      'source',
+      'verification',
+    ])
+      if (typeof entry[key] !== 'string' || !entry[key].trim())
+        problems.push(`${context}.${key} must be non-empty`)
+    if (!entry.source.endsWith('.tsx')) problems.push(`${context}.source must be a TSX path`)
+    if (!/^(?:class:[A-Za-z0-9_-]+|call:createPortal)$/.test(entry.callsite))
+      problems.push(`${context}.callsite is invalid`)
+    if (!Number.isInteger(entry.occurrence) || entry.occurrence < 1)
+      problems.push(`${context}.occurrence must be a positive integer`)
+    if (!overlayKinds.has(entry.kind)) problems.push(`${context}.kind is invalid`)
+    if (!Array.isArray(entry.registries) || !entry.registries.length)
+      problems.push(`${context}.registries must be a non-empty array`)
+    if (seenIds.has(entry.id)) problems.push(`duplicate overlay exception id ${entry.id}`)
+    seenIds.add(entry.id)
+    const identity = `${entry.source}@${entry.component}#${entry.callsite}@${entry.occurrence}`
+    if (seenCallsites.has(identity)) problems.push(`duplicate overlay exception callsite ${identity}`)
+    seenCallsites.add(identity)
+    registeredCallsites.add(identity)
+    let source
+    try {
+      source = sourceFor(entry.source)
+    } catch {
+      problems.push(`${context}.source does not exist: ${entry.source}`)
+      continue
+    }
+    const live = overlayExceptionCallsites(entry.source, source, entry.component).some(
+      (candidate) =>
+        `${candidate.source}@${candidate.component}#${candidate.callsite}@${candidate.occurrence}` ===
+        identity,
+    )
+    if (!live) problems.push(`stale overlay exception ${entry.id}: ${identity}`)
+    for (const registryId of entry.registries ?? []) {
+      if (!expectedRegistries.has(registryId)) {
+        problems.push(`${entry.id} references stale registry ${registryId}`)
+        continue
+      }
+      const truth = overlayTruth[registryId]
+      if (!truth?.components.includes(entry.source))
+        problems.push(`${entry.id} source is not route-live for ${registryId}`)
+      if (!truth?.evidence.some((scope) => scope.kinds.includes(entry.kind)))
+        problems.push(`${entry.id} kind ${entry.kind} is not route-live for ${registryId}`)
+    }
+  }
+
+  for (const absolutePath of productionSources()) {
+    const sourcePath = relative(uiRoot, absolutePath)
+    const source = sourceFor(sourcePath)
+    const imports = canonicalDesignSystemImports(source)
+    const occurrenceByCallsite = new Map()
+    const visit = (node) => {
+      if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
+        const tag = jsxTag(node)
+        const role = literalAttribute(node, 'role')
+        const popup = literalAttribute(node, 'aria-haspopup')
+        const component = enclosingNamedComponent(node)
+        const rawSemanticRole = ['dialog', 'alertdialog', 'menu', 'listbox', 'tooltip'].includes(role)
+        if (/^[a-z]/.test(tag) && rawSemanticRole) {
+          const ownerTag = ['dialog', 'alertdialog'].includes(role) ? 'DsDialog' : 'DsFloatingLayer'
+          const classes = classTokens(node)
+          const registered = classes.some((token) => {
+            const callsite = `class:${token}`
+            const key = `${sourcePath}@${component}#${callsite}`
+            const occurrence = (occurrenceByCallsite.get(key) ?? 0) + 1
+            occurrenceByCallsite.set(key, occurrence)
+            return registeredCallsites.has(`${key}@${occurrence}`)
+          })
+          const owned =
+            component && componentDirectlyRendersOwner(source, component, ownerTag, imports)
+          if (!registered && !owned)
+            problems.push(
+              `${sourcePath}@${component ?? '(anonymous)'} renders private ${role} without ${ownerTag} or an evidence-bound exception`,
+            )
+        }
+        if (popup && ['dialog', 'menu', 'listbox'].includes(popup)) {
+          const ownerTag = popup === 'dialog' ? 'DsDialog' : 'DsFloatingLayer'
+          if (
+            !component ||
+            !componentDirectlyRendersOwner(source, component, ownerTag, imports)
+          )
+            problems.push(
+              `${sourcePath}@${component ?? '(anonymous)'} declares aria-haspopup=${popup} without directly rendering ${ownerTag}`,
+            )
+        }
+      }
+      if (
+        ts.isCallExpression(node) &&
+        ((ts.isIdentifier(node.expression) && node.expression.text === 'createPortal') ||
+          (ts.isPropertyAccessExpression(node.expression) &&
+            node.expression.name.text === 'createPortal'))
+      ) {
+        const component = enclosingNamedComponent(node)
+        const key = `${sourcePath}@${component}#call:createPortal`
+        const occurrence = (occurrenceByCallsite.get(key) ?? 0) + 1
+        occurrenceByCallsite.set(key, occurrence)
+        if (!registeredCallsites.has(`${key}@${occurrence}`))
+          problems.push(`${sourcePath}@${component ?? '(anonymous)'} has unregistered createPortal`)
+      }
+      ts.forEachChild(node, visit)
+    }
+    visit(source)
+  }
+
+  const css = readUiSource('editor.css', overrides)
+  const semanticPositionedRules = []
+  const rulePattern = /([^{}]+)\{([^{}]*)\}/g
+  let match
+  while ((match = rulePattern.exec(css))) {
+    if (!/position:\s*(?:absolute|fixed)\s*;/.test(match[2])) continue
+    if (!/(?:menu|popover|dialog|tooltip|overlay|tray|backdrop)/.test(match[1])) continue
+    semanticPositionedRules.push({ selector: match[1].trim(), classes: selectorClassTokens(match[1]) })
+  }
+  const registeredPositionedClasses = new Set(
+    exceptions
+      .filter((entry) => ['canvas-local', 'preview-hud'].includes(entry?.kind))
+      .filter((entry) => entry?.callsite?.startsWith('class:'))
+      .map((entry) => entry.callsite.slice('class:'.length)),
+  )
+  for (const rule of semanticPositionedRules)
+    if (!rule.classes.some((token) => registeredPositionedClasses.has(token)))
+      problems.push(`editor.css has unregistered private overlay geometry: ${rule.selector}`)
+  return problems
+}
+
 export function validateAdoption(document, overrides = {}) {
   const problems = []
   if (
     !document ||
-    document.version !== 3 ||
+    document.version !== 4 ||
     !Array.isArray(document.pages) ||
     !Array.isArray(document.catalogScrollOwners) ||
+    !Array.isArray(document.overlayExceptions) ||
     !Array.isArray(document.workspaceLegacyExceptions)
   )
     return [
-      'design-system-adoption.json must contain { version: 3, catalogScrollOwners: [], workspaceLegacyExceptions: [], pages: [] }',
+      'design-system-adoption.json must contain { version: 4, catalogScrollOwners: [], overlayExceptions: [], workspaceLegacyExceptions: [], pages: [] }',
     ]
   const legacyValidation = validateWorkspaceLegacyExceptions(
     document.workspaceLegacyExceptions,
@@ -4642,6 +5006,22 @@ export function validateAdoption(document, overrides = {}) {
     .map((source) => relative(uiRoot, source))
     .join('\n')
   const expected = new Map(registry.map((page) => [page.registry, page]))
+  let overlayTruth = {}
+  try {
+    overlayTruth = deriveOverlayAdoptionTruth(overrides)
+    problems.push(
+      ...validateOverlayExceptions(
+        document.overlayExceptions,
+        new Set(expected.keys()),
+        overlayTruth,
+        overrides,
+      ),
+    )
+  } catch (error) {
+    problems.push(
+      `overlay adoption truth invalid: ${error instanceof Error ? error.message : String(error)}`,
+    )
+  }
   const actual = new Map()
   const linkedLegacyRegistryPairs = new Set()
   const legacyRegistries = new Set(
@@ -4682,6 +5062,45 @@ export function validateAdoption(document, overrides = {}) {
       for (const key of ownerKeys)
         if (typeof page.owners[key] !== 'string' || !page.owners[key].trim())
           problems.push(`pages[${index}].owners.${key} must be non-empty`)
+    const expectedOverlay = overlayTruth[page.registry]
+    const overlayScopes = page.ownerEvidence?.overlay
+    if (!Array.isArray(overlayScopes) || !overlayScopes.length)
+      problems.push(`pages[${index}].ownerEvidence.overlay must be a non-empty array`)
+    const validOverlayScopes = []
+    for (const [scopeIndex, scope] of (
+      Array.isArray(overlayScopes) ? overlayScopes : []
+    ).entries()) {
+      if (
+        !scope ||
+        typeof scope !== 'object' ||
+        JSON.stringify(Object.keys(scope).sort()) !==
+          JSON.stringify(['component', 'kinds', 'source']) ||
+        !Array.isArray(scope.kinds) ||
+        scope.kinds.some((kind) => !overlayKinds.has(kind)) ||
+        JSON.stringify([...scope.kinds].sort()) !== JSON.stringify(scope.kinds)
+      ) {
+        problems.push(
+          `pages[${index}].ownerEvidence.overlay[${scopeIndex}] must use exactly component, kinds, source with sorted valid kinds`,
+        )
+        continue
+      }
+      validOverlayScopes.push(scope)
+    }
+    if (
+      expectedOverlay &&
+      JSON.stringify(validOverlayScopes) !== JSON.stringify(expectedOverlay.evidence)
+    )
+      problems.push(`${page.registry} overlay evidence must exactly match routed overlay truth`)
+    const expectedOverlayOwner = expectedOverlay?.owners.length
+      ? expectedOverlay.owners.join(' + ')
+      : 'N/A: no route-live anchored popup or modal'
+    if (page.owners?.overlay !== expectedOverlayOwner)
+      problems.push(
+        `${page.registry} overlay owner must be ${expectedOverlayOwner}; received ${page.owners?.overlay ?? '(missing)'}`,
+      )
+    for (const source of expectedOverlay?.components ?? [])
+      if (!page.components?.includes(source))
+        problems.push(`${page.registry} routed overlay source is not registered: ${source}`)
     if (page.owners && typeof page.owners.field === 'string') {
       const scopes = page.ownerEvidence?.field
       if (!Array.isArray(scopes) || !scopes.length)

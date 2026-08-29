@@ -2180,6 +2180,16 @@ export function DsListHeader(props: {
 }) {
   const actions = props.actions ?? []
   const overflowActions = props.overflowActions ?? []
+  const [overflowOpen, setOverflowOpen] = useState(false)
+  const overflowTriggerRef = useRef<HTMLButtonElement>(null)
+  const overflowLayerRef = useRef<HTMLDivElement>(null)
+  const focusFirstOverflowAction = (): void => {
+    requestAnimationFrame(() => {
+      overflowLayerRef.current
+        ?.querySelector<HTMLButtonElement>('[role="menuitem"]:not(:disabled)')
+        ?.focus()
+    })
+  }
   return (
     <header className="ds-list-header">
       <h2 className="ds-list-header__title">{props.title}</h2>
@@ -2204,28 +2214,87 @@ export function DsListHeader(props: {
             />
           ))}
           {overflowActions.length > 0 ? (
-            <details className="ds-list-header__menu">
-              <summary className="ds-list-header__action" aria-label="更多操作" title="更多操作">
-                <DsIcon name="more" />
-              </summary>
-              <div className="ds-list-header__menu-popup">
-                {overflowActions.map((action) => (
-                  <button
-                    key={action.id}
-                    type="button"
-                    className={action.danger ? 'danger' : undefined}
-                    disabled={action.disabled}
-                    title={action.title}
-                    onClick={(event) => {
-                      event.currentTarget.closest('details')?.removeAttribute('open')
-                      action.onClick(event)
-                    }}
-                  >
-                    {action.label}
-                  </button>
-                ))}
-              </div>
-            </details>
+            <>
+              <DsIconButton
+                ref={overflowTriggerRef}
+                className="ds-list-header__action ds-list-header__menu-trigger"
+                size="compact"
+                variant="secondary"
+                label="更多操作"
+                icon="more"
+                aria-haspopup="menu"
+                aria-expanded={overflowOpen}
+                onClick={() => {
+                  setOverflowOpen((open) => {
+                    const next = !open
+                    if (next) focusFirstOverflowAction()
+                    return next
+                  })
+                }}
+                onKeyDown={(event) => {
+                  if (!['ArrowDown', 'Enter', ' '].includes(event.key)) return
+                  event.preventDefault()
+                  setOverflowOpen(true)
+                  focusFirstOverflowAction()
+                }}
+              />
+              <DsFloatingLayer
+                open={overflowOpen}
+                anchorRef={overflowTriggerRef}
+                layerRef={overflowLayerRef}
+                className="ds-list-header__menu-layer"
+                width="content"
+                align="end"
+                gap={8}
+                maxHeight={360}
+                onDismiss={() => {
+                  setOverflowOpen(false)
+                  overflowTriggerRef.current?.focus()
+                }}
+              >
+                <div
+                  className="ds-list-header__menu-popup"
+                  role="menu"
+                  aria-label="更多操作"
+                  onKeyDown={(event) => {
+                    const items = [
+                      ...(overflowLayerRef.current?.querySelectorAll<HTMLButtonElement>(
+                        '[role="menuitem"]:not(:disabled)',
+                      ) ?? []),
+                    ]
+                    const current = items.indexOf(document.activeElement as HTMLButtonElement)
+                    if (event.key === 'Escape') {
+                      setOverflowOpen(false)
+                      overflowTriggerRef.current?.focus()
+                    } else if (event.key === 'ArrowDown') {
+                      items[(current + 1 + items.length) % items.length]?.focus()
+                    } else if (event.key === 'ArrowUp') {
+                      items[(current - 1 + items.length) % items.length]?.focus()
+                    } else if (event.key === 'Home') items[0]?.focus()
+                    else if (event.key === 'End') items[items.length - 1]?.focus()
+                    else return
+                    event.preventDefault()
+                  }}
+                >
+                  {overflowActions.map((action) => (
+                    <button
+                      key={action.id}
+                      type="button"
+                      role="menuitem"
+                      className={action.danger ? 'danger' : undefined}
+                      disabled={action.disabled}
+                      title={action.title}
+                      onClick={(event) => {
+                        setOverflowOpen(false)
+                        action.onClick(event)
+                      }}
+                    >
+                      {action.label}
+                    </button>
+                  ))}
+                </div>
+              </DsFloatingLayer>
+            </>
           ) : null}
         </span>
       ) : null}

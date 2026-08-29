@@ -1101,6 +1101,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(host.querySelector('.map-transform-bar')?.textContent).toContain('锚点 r2:c1')
     await act(async () => button(dialog, '返回调整').click())
     expect(host.querySelector('[role="alertdialog"]')).toBeNull()
+    await act(async () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve())))
     expect(document.activeElement).toBe(canvas)
     expect(session.getState().maps['map-a']).toBe(before)
     expect(session.getMapRevision('map-a')).toBe(0)
@@ -1540,16 +1541,26 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('切换同 mapId 的 EditSession 会清掉旧项目删除二次确认', async () => {
     const { host, rerenderWithSession } = await mountMapMode({ referenceSelectedMap: false })
-    const deleteButton = host.querySelector<HTMLButtonElement>('[title="删除地图"]')!
+    const overflowTrigger = host.querySelector<HTMLButtonElement>(
+      '.map-outliner [aria-label="更多操作"]',
+    )!
+    await act(async () => overflowTrigger.click())
+    const deleteButton = document.querySelector<HTMLButtonElement>('[title="删除地图"]')!
     await act(async () => deleteButton.click())
-    expect(deleteButton.title).toBe('再次点击确认删除')
+    await act(async () => overflowTrigger.click())
+    expect(
+      document.querySelector<HTMLButtonElement>('[title="再次点击确认删除"]'),
+    ).not.toBeNull()
 
     const nextSession = new EditSession(editorState(fixtureMap()))
     await rerenderWithSession(nextSession)
-    expect(deleteButton.title).toBe('删除地图')
-    await act(async () => deleteButton.click())
+    const nextDeleteButton = document.querySelector<HTMLButtonElement>('[title="删除地图"]')!
+    await act(async () => nextDeleteButton.click())
     expect(nextSession.getState().maps['map-a']).toBeDefined()
-    expect(deleteButton.title).toBe('再次点击确认删除')
+    await act(async () => overflowTrigger.click())
+    expect(
+      document.querySelector<HTMLButtonElement>('[title="再次点击确认删除"]'),
+    ).not.toBeNull()
   })
 
   test.each([

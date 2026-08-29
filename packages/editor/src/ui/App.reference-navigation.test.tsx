@@ -1196,14 +1196,16 @@ describe('App item reference navigation', () => {
       (trigger) => trigger.textContent === '场景',
     )!
     await act(async () => sceneMenuTrigger.click())
-    const sceneMenuItem = host.querySelector<HTMLElement>('.ds-menu-popover [role="menuitem"]')!
+    const sceneMenuItem = document.querySelector<HTMLElement>(
+      '.ds-menu-popover [role="menuitem"]',
+    )!
     sceneMenuItem.focus()
     await act(async () =>
       sceneMenuItem.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
       ),
     )
-    expect(host.querySelector('.ds-menu-popover')).toBeNull()
+    expect(document.querySelector('.ds-menu-popover')).toBeNull()
     expect(canvas().selectedEntityId).toBe('e760')
 
     const consumedEscape = new KeyboardEvent('keydown', {

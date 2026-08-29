@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { describe, expect, test } from 'vitest'
 import {
   deriveFieldAdoptionTruth,
+  deriveOverlayAdoptionTruth,
   evaluateAllowlist,
   findEmbeddedNavigationGlyphActions,
   isEmbeddedNavigationGlyphAction,
@@ -25,8 +26,9 @@ describe('design-system adoption gate', () => {
     ).sort()
     const adopted = matrix.pages.map((page) => page.registry).sort()
 
-    expect(matrix.version).toBe(3)
+    expect(matrix.version).toBe(4)
     expect(matrix.catalogScrollOwners).toHaveLength(25)
+    expect(matrix.overlayExceptions).toHaveLength(7)
     expect(matrix.workspaceLegacyExceptions).toHaveLength(6)
     expect(adopted).toEqual(registered)
     expect(new Set(adopted).size).toBe(adopted.length)
@@ -46,13 +48,18 @@ describe('design-system adoption gate', () => {
     }
   })
 
-  test('derives every field owner and evidence root from the live route graph', () => {
+  test('derives every field and overlay owner from the live route graph', () => {
     const matrix = JSON.parse(readFileSync(join(here, 'design-system-adoption.json'), 'utf8'))
-    const truth = deriveFieldAdoptionTruth()
+    const fieldTruth = deriveFieldAdoptionTruth()
+    const overlayTruth = deriveOverlayAdoptionTruth()
     for (const page of matrix.pages) {
-      const expected = truth[page.registry]
+      const expected = fieldTruth[page.registry]
+      const expectedOverlay = overlayTruth[page.registry]
       expect(expected, page.registry).toBeDefined()
-      expect(page.components, `${page.registry} component closure`).toEqual(expected.components)
+      expect(expectedOverlay, `${page.registry} overlay truth`).toBeDefined()
+      expect(page.components, `${page.registry} component closure`).toEqual(
+        [...new Set([...expected.components, ...expectedOverlay.components])].sort(),
+      )
       const owners = page.owners.field.startsWith('N/A:')
         ? []
         : page.owners.field
@@ -64,8 +71,47 @@ describe('design-system adoption gate', () => {
       expect(page.ownerEvidence.field, `${page.registry} routed evidence`).toEqual(
         expected.evidence,
       )
+      expect(page.ownerEvidence.overlay, `${page.registry} overlay routed evidence`).toEqual(
+        expectedOverlay.evidence,
+      )
+      expect(page.owners.overlay, `${page.registry} overlay owners`).toBe(
+        expectedOverlay.owners.length
+          ? expectedOverlay.owners.join(' + ')
+          : 'N/A: no route-live anchored popup or modal',
+      )
     }
   }, 15_000)
+
+  test('fails loud for private popups, forged owners, and stale overlay exceptions', () => {
+    const matrix = JSON.parse(readFileSync(join(here, 'design-system-adoption.json'), 'utf8'))
+    expect(validateAdoption(matrix)).toEqual([])
+
+    const toolbarSource = readFileSync(join(here, '../IsometricEditorToolbar.tsx'), 'utf8')
+    const privateListbox = toolbarSource
+      .replace('<DsFloatingLayer', '<div')
+      .replace('</DsFloatingLayer>', '</div>')
+    expect(privateListbox).not.toBe(toolbarSource)
+    expect(
+      validateAdoption(matrix, { 'IsometricEditorToolbar.tsx': privateListbox }),
+    ).toContain(
+      'IsometricEditorToolbar.tsx@ToolOptionTray renders private listbox without DsFloatingLayer or an evidence-bound exception',
+    )
+
+    const forgedOwner = structuredClone(matrix)
+    forgedOwner.pages.find((page) => page.registry === 'map/tileset').owners.overlay =
+      'DsDialog + DsFloatingLayer'
+    expect(validateAdoption(forgedOwner)).toContain(
+      'map/tileset overlay owner must be DsFloatingLayer; received DsDialog + DsFloatingLayer',
+    )
+
+    const staleException = structuredClone(matrix)
+    staleException.overlayExceptions.find(
+      (entry) => entry.id === 'map-canvas-context-menu',
+    ).callsite = 'class:missing-canvas-menu'
+    expect(validateAdoption(staleException)).toContain(
+      'stale overlay exception map-canvas-context-menu: MapMode.tsx@MapMode#class:missing-canvas-menu@1',
+    )
+  }, 30_000)
 
   test('requires App connectors to render the canonical workspace dispatchers', () => {
     expect(validateWorkspaceConnectors()).toEqual([])
@@ -1232,7 +1278,7 @@ type DataStateProps`,
     const proseOnly = structuredClone(matrix)
     delete proseOnly.catalogScrollOwners
     expect(validateAdoption(proseOnly)).toEqual([
-      'design-system-adoption.json must contain { version: 3, catalogScrollOwners: [], workspaceLegacyExceptions: [], pages: [] }',
+      'design-system-adoption.json must contain { version: 4, catalogScrollOwners: [], overlayExceptions: [], workspaceLegacyExceptions: [], pages: [] }',
     ])
 
     const shopSource = readFileSync(join(here, '../ShopTab.tsx'), 'utf8')

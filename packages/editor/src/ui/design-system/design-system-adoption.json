@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "catalogScrollOwners": [
     {
       "registry": "scene/workspace",
@@ -184,43 +184,6 @@
           "callsite": "class:map-stamp-grid",
           "reason": "组合筛选固定，组合卡片网格独立滚动。",
           "verification": "editor.css .map-stamp-grid owns overflow-y:auto。"
-        },
-        {
-          "region": "overlay.transform-conflict",
-          "axis": "y",
-          "owner": "custom:.stamp-lifecycle-dialog",
-          "source": "MapMode.tsx",
-          "component": "MapMode",
-          "callsite": "class:stamp-lifecycle-dialog",
-          "occurrence": 1,
-          "variant": "transform-conflict",
-          "reason": "地图变换冲突弹窗在小窗口独立滚动。",
-          "verification": "第一个 route-live stamp-lifecycle-dialog；editor.css owns overflow-y:auto。"
-        },
-        {
-          "region": "overlay.stamp-lifecycle",
-          "axis": "y",
-          "owner": "custom:.stamp-lifecycle-dialog",
-          "source": "MapMode.tsx",
-          "component": "MapMode",
-          "callsite": "class:stamp-lifecycle-dialog",
-          "occurrence": 2,
-          "variant": "stamp-lifecycle",
-          "reason": "组合生命周期弹窗在小窗口独立滚动。",
-          "verification": "第二个 route-live stamp-lifecycle-dialog；editor.css owns overflow-y:auto。"
-        },
-        {
-          "region": "overlay.stamp-lifecycle.references",
-          "axis": "y",
-          "owner": "custom:.stamp-lifecycle-list",
-          "source": "MapMode.tsx",
-          "component": "MapMode",
-          "callsite": "class:stamp-lifecycle-list",
-          "variant": "stamp-lifecycle",
-          "nestedWithin": "overlay.stamp-lifecycle",
-          "boundaryKind": "bounded-subviewport",
-          "reason": "引用列表在有边界的生命周期弹窗内独立滚动。",
-          "verification": "editor.css .stamp-lifecycle-list owns overflow-y:auto and max-height:180px。"
         },
         {
           "region": "inspector",
@@ -1311,30 +1274,6 @@
           "verification": "editor.css .fa-error owns overflow:auto。"
         },
         {
-          "region": "overlay.import",
-          "axis": "y",
-          "owner": "custom:.cutscene-import-dialog",
-          "source": "CutsceneTab.tsx",
-          "component": "CutsceneTab",
-          "callsite": "class:cutscene-import-dialog",
-          "variant": "import",
-          "reason": "过场导入弹窗在小窗口承担纵向滚动。",
-          "verification": "editor.css .cutscene-import-dialog owns overflow-y:auto。"
-        },
-        {
-          "region": "overlay.import.files",
-          "axis": "y",
-          "owner": "custom:.cutscene-import-files",
-          "source": "CutsceneTab.tsx",
-          "component": "CutsceneTab",
-          "callsite": "class:cutscene-import-files",
-          "variant": "import",
-          "nestedWithin": "overlay.import",
-          "boundaryKind": "bounded-subviewport",
-          "reason": "导入文件清单在有界弹窗内独立滚动。",
-          "verification": "editor.css .cutscene-import-files owns overflow-y:auto and max-height:180px。"
-        },
-        {
           "region": "inspector",
           "axis": "y",
           "owner": "DsInspectorTabs",
@@ -1547,6 +1486,92 @@
       ]
     }
   ],
+  "overlayExceptions": [
+    {
+      "id": "map-canvas-context-menu",
+      "source": "MapMode.tsx",
+      "component": "MapMode",
+      "callsite": "class:map-canvas-context-menu",
+      "occurrence": 1,
+      "kind": "canvas-local",
+      "registries": ["map/workspace"],
+      "reason": "地图右键菜单以画布 client 坐标定位并由画布 viewport 约束，不是 DOM anchor popup。",
+      "verification": "route-live MapMode 渲染 role=menu 的 .map-canvas-context-menu，坐标由 openCanvasContextMenu clamp。",
+      "removalCondition": "若右键菜单改为 DOM 锚点或脱离画布 viewport，再迁入 DsFloatingLayer 并删除本例外。"
+    },
+    {
+      "id": "map-inspector-candidate-list",
+      "source": "MapMode.tsx",
+      "component": "MapMode",
+      "callsite": "class:map-candidate-options",
+      "occurrence": 1,
+      "kind": "inline",
+      "registries": ["map/workspace"],
+      "reason": "重叠内容候选是 Inspector 文档流内的持久 listbox，不覆盖其他面板。",
+      "verification": "route-live MapMode 在 .map-candidate-menu section 内渲染 .map-candidate-options[role=listbox]。",
+      "removalCondition": "若候选列表改为锚定画布的临时 popup，再迁入 DsFloatingLayer 并删除本例外。"
+    },
+    {
+      "id": "scene-preview-dialog-hud",
+      "source": "PreviewCanvas.tsx",
+      "component": "PreviewCanvas",
+      "callsite": "class:preview-dialog",
+      "occurrence": 1,
+      "kind": "preview-hud",
+      "registries": ["scene/workspace"],
+      "reason": "对话文本是场景预览画面内部的 HUD，不是编辑器交互弹窗。",
+      "verification": "route-live PreviewCanvas 将 .preview-dialog 绝对定位在预览舞台内部。",
+      "removalCondition": "若预览对话成为编辑器级交互弹窗或离开预览舞台，再使用公共 overlay owner。"
+    },
+    {
+      "id": "ambience-preview-status-hud",
+      "source": "AmbienceScenePreview.tsx",
+      "component": "LoadedAmbienceScenePreview",
+      "callsite": "class:ambience-scene-preview__overlay",
+      "occurrence": 1,
+      "kind": "preview-hud",
+      "registries": ["scene/ambience"],
+      "reason": "载入/错误状态是氛围预览画面内部 HUD，不是可交互 popup。",
+      "verification": "route-live AmbienceScenePreview 渲染 .ambience-scene-preview__overlay[role=status]。",
+      "removalCondition": "若状态层获得独立交互或脱离预览舞台，再迁入相应公共 owner。"
+    },
+    {
+      "id": "isometric-viewport-status-hud",
+      "source": "IsometricViewportStatus.tsx",
+      "component": "IsometricViewportStatus",
+      "callsite": "class:map-viewport-status-cluster",
+      "occurrence": 1,
+      "kind": "preview-hud",
+      "registries": ["map/workspace", "map/stamp"],
+      "reason": "坐标和缩放状态属于倾斜画布内部 HUD，不接收 popup 焦点。",
+      "verification": "MapMode 与 StampContentEditor 均 route-live 消费 IsometricViewportStatus。",
+      "removalCondition": "若状态簇变为可交互浮层或脱离画布，再迁入公共 overlay owner。"
+    },
+    {
+      "id": "stamp-layer-shell-slot",
+      "source": "StampContentEditor.tsx",
+      "component": "StampContentEditor",
+      "callsite": "call:createPortal",
+      "occurrence": 1,
+      "kind": "shell-slot",
+      "registries": ["map/stamp"],
+      "reason": "图层控件投递到编辑器持久 shell slot，不是临时 popup。",
+      "verification": "第一个 route-live createPortal 仅把 layerControls 投递到 props.layersHost。",
+      "removalCondition": "若 shell slot 架构移除，则删除 portal 与本例外；不得转成私有弹层。"
+    },
+    {
+      "id": "stamp-palette-shell-slot",
+      "source": "StampContentEditor.tsx",
+      "component": "StampContentEditor",
+      "callsite": "call:createPortal",
+      "occurrence": 2,
+      "kind": "shell-slot",
+      "registries": ["map/stamp"],
+      "reason": "瓦片/组合调色板投递到编辑器持久 shell slot，不是临时 popup。",
+      "verification": "第二个 route-live createPortal 仅把 palette 投递到 props.paletteHost。",
+      "removalCondition": "若 shell slot 架构移除，则删除 portal 与本例外；不得转成私有弹层。"
+    }
+  ],
   "workspaceLegacyExceptions": [
     {
       "id": "legacy-workspace-project",
@@ -1651,15 +1676,18 @@
         "MusicPicker.tsx",
         "NamedIdPicker.tsx",
         "PreviewCanvas.tsx",
+        "ScriptBehaviorInspector.tsx",
         "ScriptDrawer.tsx",
         "ScriptEditor.tsx",
-        "ScriptTree.tsx"
+        "ScriptSceneHookInspector.tsx",
+        "ScriptTree.tsx",
+        "SpriteThumb.tsx"
       ],
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "editor shell center / Inspector single owners",
-        "overlay": "DsFloatingLayer + DsDialog",
+        "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsNumberInput + DsPropertyRow + DsReadonlyValue + DsSelect + DsTextArea + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
@@ -1668,6 +1696,13 @@
           {
             "source": "App.tsx",
             "component": "App"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "App.tsx",
+            "component": "App",
+            "kinds": ["anchored-popup", "modal", "preview-hud"]
           }
         ]
       }
@@ -1679,7 +1714,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + DsInspectorTabs",
-        "overlay": "DsDialog",
+        "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsColorInput + DsField + DsNumberInput + DsReadoutList + DsSelectField + DsTextField + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
@@ -1689,12 +1724,21 @@
             "source": "AmbienceTab.tsx",
             "component": "AmbienceTab"
           }
+        ],
+        "overlay": [
+          {
+            "source": "AmbienceTab.tsx",
+            "component": "AmbienceTab",
+            "kinds": ["anchored-popup", "modal", "preview-hud"]
+          }
         ]
       }
     },
     {
       "registry": "map/workspace",
       "components": [
+        "IsometricEditorToolbar.tsx",
+        "IsometricViewportStatus.tsx",
         "LayerStackControls.tsx",
         "MapMode.tsx",
         "MapSelectionInspector.tsx",
@@ -1707,7 +1751,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "IsometricEditorSurface + Inspector single owner",
-        "overlay": "DsFloatingLayer + DsDialog",
+        "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsControlGroup + DsField + DsFieldGroup + DsNumberInput + DsPropertyRow + DsRangeInput + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
@@ -1716,6 +1760,13 @@
           {
             "source": "MapMode.tsx",
             "component": "MapMode"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "MapMode.tsx",
+            "component": "MapMode",
+            "kinds": ["anchored-popup", "canvas-local", "inline", "modal", "preview-hud"]
           }
         ]
       }
@@ -1727,7 +1778,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "custom:.tileset-library-list + custom:.tileset-workspace-scroll + custom:.inspector + DsInspectorTabs",
-        "overlay": "DsDialog",
+        "overlay": "DsFloatingLayer",
         "field": "DsFileInput + DsNumberInput + DsPropertyRow + DsReadonlyValue + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
@@ -1737,12 +1788,21 @@
             "source": "TilesetTab.tsx",
             "component": "TilesetTab"
           }
+        ],
+        "overlay": [
+          {
+            "source": "TilesetTab.tsx",
+            "component": "TilesetTab",
+            "kinds": ["anchored-popup"]
+          }
         ]
       }
     },
     {
       "registry": "map/stamp",
       "components": [
+        "IsometricEditorToolbar.tsx",
+        "IsometricViewportStatus.tsx",
         "LayerStackControls.tsx",
         "StampContentEditor.tsx",
         "StampLibraryTab.tsx",
@@ -1752,7 +1812,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "custom:.stamp-library-list + custom:.stamp-workspace-scroll + DsInspectorTabs",
-        "overlay": "DsDialog",
+        "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsControlGroup + DsField + DsNumberInput + DsPropertyRow + DsRangeInput + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
@@ -1761,6 +1821,13 @@
           {
             "source": "StampLibraryTab.tsx",
             "component": "StampLibraryTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "StampLibraryTab.tsx",
+            "component": "StampLibraryTab",
+            "kinds": ["anchored-popup", "modal", "preview-hud", "shell-slot"]
           }
         ]
       }
@@ -1791,6 +1858,13 @@
             "source": "SharedScriptTab.tsx",
             "component": "CanonicalSharedScriptTab"
           }
+        ],
+        "overlay": [
+          {
+            "source": "SharedScriptTab.tsx",
+            "component": "CanonicalSharedScriptTab",
+            "kinds": ["anchored-popup", "modal"]
+          }
         ]
       }
     },
@@ -1801,7 +1875,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "custom:.world-variable-catalog + legacy-exception:legacy-workspace-vars + custom:.world-variable-reference-panel",
-        "overlay": "DsDialog",
+        "overlay": "DsFloatingLayer",
         "field": "DsCheckbox + DsField + DsNumberField + DsSelect + DsTextAreaField + DsTextField",
         "action": "DsButton + DsIconButton"
       },
@@ -1810,6 +1884,13 @@
           {
             "source": "VarsTab.tsx",
             "component": "VarsTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "VarsTab.tsx",
+            "component": "VarsTab",
+            "kinds": ["anchored-popup"]
           }
         ]
       }
@@ -1821,7 +1902,7 @@
       "owners": {
         "catalog": "DsCatalogControls",
         "scroll": "event library content",
-        "overlay": "N/A: read-only catalog",
+        "overlay": "N/A: no route-live anchored popup or modal",
         "field": "N/A: read-only catalog",
         "action": "N/A: read-only catalog"
       },
@@ -1830,6 +1911,13 @@
           {
             "source": "EventLibTab.tsx",
             "component": "EventLibTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "EventLibTab.tsx",
+            "component": "EventLibTab",
+            "kinds": []
           }
         ]
       }
@@ -1849,7 +1937,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "custom:.actor-list + custom:.actor-workspace-scroll + custom:.dscroll + casualty responsive owners + custom:.frames-scroll + custom:.bsu-frame-grid + DsInspectorTabs",
-        "overlay": "DsDialog + DsFloatingLayer",
+        "overlay": "DsFloatingLayer",
         "field": "DsControlGroup + DsDraftNumberField + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsFilePicker + DsNumberInput + DsPropertyRow + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
@@ -1859,12 +1947,23 @@
             "source": "ConnectedEditorPages.tsx",
             "component": "ConnectedActorMode"
           }
+        ],
+        "overlay": [
+          {
+            "source": "ConnectedEditorPages.tsx",
+            "component": "ConnectedActorMode",
+            "kinds": ["anchored-popup"]
+          }
         ]
       }
     },
     {
       "registry": "item/item",
-      "components": ["FireEffectPreview.tsx", "ItemTab.tsx", "SkillAnimationEditor.tsx"],
+      "components": [
+        "FireEffectPreview.tsx",
+        "ItemTab.tsx",
+        "SkillAnimationEditor.tsx"
+      ],
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
@@ -1878,6 +1977,13 @@
           {
             "source": "ItemTab.tsx",
             "component": "ItemTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "ItemTab.tsx",
+            "component": "ItemTab",
+            "kinds": ["anchored-popup", "modal"]
           }
         ]
       }
@@ -1898,6 +2004,13 @@
           {
             "source": "ShopTab.tsx",
             "component": "ShopTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "ShopTab.tsx",
+            "component": "ShopTab",
+            "kinds": ["modal"]
           }
         ]
       }
@@ -1923,6 +2036,13 @@
           {
             "source": "SkillTab.tsx",
             "component": "SkillTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "SkillTab.tsx",
+            "component": "SkillTab",
+            "kinds": ["anchored-popup"]
           }
         ]
       }
@@ -1961,7 +2081,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "custom:.enemy-team-catalog + legacy-exception:legacy-workspace-enemy-team + custom:.inspector",
-        "overlay": "DsDialog",
+        "overlay": "DsFloatingLayer",
         "field": "DsField + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
@@ -1970,6 +2090,13 @@
           {
             "source": "EnemyTeamTab.tsx",
             "component": "EnemyTeamTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "EnemyTeamTab.tsx",
+            "component": "EnemyTeamTab",
+            "kinds": ["anchored-popup"]
           }
         ]
       }
@@ -1981,7 +2108,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + DsInspectorTabs",
-        "overlay": "DsDialog",
+        "overlay": "DsFloatingLayer",
         "field": "DsDraftNumberInput + DsDraftTextInput + DsField + DsSelect",
         "action": "DsButton + DsIconButton"
       },
@@ -1990,6 +2117,13 @@
           {
             "source": "PoisonTab.tsx",
             "component": "PoisonTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "PoisonTab.tsx",
+            "component": "PoisonTab",
+            "kinds": ["anchored-popup"]
           }
         ]
       }
@@ -2011,6 +2145,13 @@
             "source": "BattleFieldTab.tsx",
             "component": "BattleFieldTab"
           }
+        ],
+        "overlay": [
+          {
+            "source": "BattleFieldTab.tsx",
+            "component": "BattleFieldTab",
+            "kinds": ["anchored-popup"]
+          }
         ]
       }
     },
@@ -2020,6 +2161,7 @@
         "BattleSpriteLibrary.tsx",
         "BattleSpriteUploader.tsx",
         "SpriteActionEditor.tsx",
+        "SpriteFrameWorkbench.tsx",
         "SpriteResourceViewer.tsx",
         "SpriteUploadWizard.tsx",
         "WorldSpriteLibrary.tsx"
@@ -2028,7 +2170,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsVirtualList + legacy sprite workspace exceptions + custom:.dscroll + custom:.bsu-frame-grid + DsInspectorTabs",
-        "overlay": "DsDialog + DsFloatingLayer",
+        "overlay": "DsFloatingLayer",
         "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsFilePicker + DsNumberInput + DsPropertyRow + DsRangeInput + DsSelect + DsSelectField + DsTextField + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
@@ -2041,6 +2183,18 @@
           {
             "source": "WorldSpriteLibrary.tsx",
             "component": "WorldSpriteLibrary"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "BattleSpriteLibrary.tsx",
+            "component": "BattleSpriteLibrary",
+            "kinds": ["anchored-popup"]
+          },
+          {
+            "source": "WorldSpriteLibrary.tsx",
+            "component": "WorldSpriteLibrary",
+            "kinds": ["anchored-popup"]
           }
         ]
       }
@@ -2062,6 +2216,13 @@
             "source": "ImageTab.tsx",
             "component": "ImageTab"
           }
+        ],
+        "overlay": [
+          {
+            "source": "ImageTab.tsx",
+            "component": "ImageTab",
+            "kinds": ["modal"]
+          }
         ]
       }
     },
@@ -2072,7 +2233,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow + DsVirtualList",
         "scroll": "DsVirtualList + DsObjectWorkspaceContent + DsInspectorTabs",
-        "overlay": "DsDialog",
+        "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsDraftTextInput + DsField + DsFileInput + DsRangeInput + DsReadoutList + MediaAssetNameField",
         "action": "DsButton + DsIconButton"
       },
@@ -2081,6 +2242,13 @@
           {
             "source": "MusicTab.tsx",
             "component": "MusicTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "MusicTab.tsx",
+            "component": "MusicTab",
+            "kinds": ["anchored-popup", "modal"]
           }
         ]
       }
@@ -2092,7 +2260,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow + DsVirtualList",
         "scroll": "DsVirtualList + DsObjectWorkspaceContent + DsInspectorTabs",
-        "overlay": "DsDialog",
+        "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsDraftTextInput + DsField + DsFileInput + DsRangeInput + DsReadoutList + MediaAssetNameField",
         "action": "DsButton + DsIconButton"
       },
@@ -2101,6 +2269,13 @@
           {
             "source": "SoundTab.tsx",
             "component": "SoundTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "SoundTab.tsx",
+            "component": "SoundTab",
+            "kinds": ["anchored-popup", "modal"]
           }
         ]
       }
@@ -2111,8 +2286,8 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "custom:.cutscene-asset-list + custom:.fa-preview-stage + custom:.fa-error + custom:.cutscene-import-dialog + custom:.cutscene-import-files + DsInspectorTabs",
-        "overlay": "DsDialog",
+        "scroll": "custom:.cutscene-asset-list + custom:.fa-preview-stage + custom:.fa-error + DsInspectorTabs",
+        "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsNumberField + DsNumberInput + DsPropertyRow + DsReadoutList + DsSelect + DsSelectField + MediaAssetNameField",
         "action": "DsButton + DsIconButton"
       },
@@ -2121,6 +2296,13 @@
           {
             "source": "CutsceneTab.tsx",
             "component": "CutsceneTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "CutsceneTab.tsx",
+            "component": "CutsceneTab",
+            "kinds": ["anchored-popup", "modal"]
           }
         ]
       }
@@ -2132,7 +2314,7 @@
       "owners": {
         "catalog": "N/A: project form",
         "scroll": "project workbench content",
-        "overlay": "DsDialog",
+        "overlay": "N/A: no route-live anchored popup or modal",
         "field": "DsDraftTextField + DsFieldGroup",
         "action": "DsButton + DsIconButton"
       },
@@ -2141,6 +2323,13 @@
           {
             "source": "ProjectWorkbenchTab.tsx",
             "component": "ProjectOverviewPage"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "ProjectWorkbenchTab.tsx",
+            "component": "ProjectOverviewPage",
+            "kinds": []
           }
         ]
       }
@@ -2152,7 +2341,7 @@
       "owners": {
         "catalog": "DsCatalogRow",
         "scroll": "project workbench content",
-        "overlay": "DsDialog",
+        "overlay": "DsFloatingLayer",
         "field": "DsControlGroup + DsField + DsFieldGroup + DsSelect",
         "action": "DsButton + DsIconButton"
       },
@@ -2161,6 +2350,13 @@
           {
             "source": "ProjectWorkbenchTab.tsx",
             "component": "ProjectStartupPage"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "ProjectWorkbenchTab.tsx",
+            "component": "ProjectStartupPage",
+            "kinds": ["anchored-popup"]
           }
         ]
       }
@@ -2172,7 +2368,7 @@
       "owners": {
         "catalog": "DsCatalogRow",
         "scroll": "custom:.project-entry-list + custom:.project-outliner(repair only) + project workbench content",
-        "overlay": "DsDialog",
+        "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsAddPickerDialog + DsControlGroup + DsDraftNumberField + DsDraftNumberInput + DsDraftTextField + DsField + DsFieldGroup + DsRepeatRow + DsSelect + DsSelectField + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
@@ -2181,6 +2377,13 @@
           {
             "source": "ProjectWorkbenchTab.tsx",
             "component": "EntryPointEditor"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "ProjectWorkbenchTab.tsx",
+            "component": "EntryPointEditor",
+            "kinds": ["anchored-popup", "modal"]
           }
         ]
       }
@@ -2192,7 +2395,7 @@
       "owners": {
         "catalog": "DsCatalogGroupList + DsCatalogRow",
         "scroll": "project workbench content",
-        "overlay": "DsDialog",
+        "overlay": "N/A: no route-live anchored popup or modal",
         "field": "N/A: diagnostics-only project route",
         "action": "DsButton + DsIconButton"
       },
@@ -2201,6 +2404,13 @@
           {
             "source": "ProjectWorkbenchTab.tsx",
             "component": "ProjectAdvancedPage"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "ProjectWorkbenchTab.tsx",
+            "component": "ProjectAdvancedPage",
+            "kinds": []
           }
         ]
       }

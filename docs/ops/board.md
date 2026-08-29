@@ -15,6 +15,7 @@
 |---|---|---|---|---|
 | ED-INPUT-PERF-1 | 编辑器输入提交与全局派生状态性能收口 | done | 三方 accept + 用户确认齐，整卡收口 | `a7109fd4`：五字段 commit max 8.6–18.2ms、urgent Long Task 0 |
 | ED-DS-3 | 编辑器设计系统全量采用与防回流门禁 | done | 三方 accept 齐，整卡收口 | `9dd4e4a3`：25 页面采用闭包、公共 owner、三态静态门禁与精灵虚拟滚动完成 |
+| ED-FLOATING-LAYER-ADOPTION-1 | 编辑器浮层真实采用收口 | done | 三方 accept + 用户验收齐，整卡收口 | 25 路由 overlay evidence 双向闭合；浮层边界、Escape 与焦点归还复验通过 |
 | ED-FIELD-LAYOUT-1 | 编辑器字段标签列与响应式布局合同 | done | 三方 fresh accept + 用户末轮小修直接验收齐，整卡收口 | 六族共享效果卡、手柄/字段对齐、语义标题与投掷演出单开关闭合 |
 | ED-NUMBER-FIELD-1 | 编辑器数字控件与响应式数值字段密度合同 | done | 三方当前实现 accept + 用户复验齐，整卡收口 | 36 文件/111 leaf 门禁闭合；Skill `关闭 -> 1 -> 关闭` 用户反例复验通过 |
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | done | 三方 accept + 用户验收齐，整卡收口 | `b118ce3a`：公共草稿/提交合同、首批采用与 AST 防回流门禁完成 |

@@ -1313,14 +1313,17 @@ describe('editor design-system controls', () => {
     await act(async () => root.render(<DsMenuBar label="主菜单" menus={menus} />))
     const trigger = host.querySelector<HTMLButtonElement>('.ds-menu-trigger')!
     await click(trigger)
-    const link = host.querySelector<HTMLAnchorElement>('[role="menuitem"][href]')!
+    const link = document.querySelector<HTMLAnchorElement>('[role="menuitem"][href]')!
+    const popover = link.closest<HTMLElement>('.ds-menu-popover')!
+    expect(popover.closest('.ds-menu-floating-layer')?.parentElement).toBe(document.body)
+    expect(host.contains(popover)).toBe(false)
     expect(link.getAttribute('href')).toBe('?module=battle&page=battlefield')
     link.focus()
     await act(async () =>
       link.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
     )
     expect(document.activeElement).toBe(trigger)
-    expect(host.querySelector('.ds-menu-popover')).toBeNull()
+    expect(document.querySelector('.ds-menu-popover')).toBeNull()
   })
 
   test('section-grid menu exposes modules as groups and pages as primary links', async () => {
@@ -1345,7 +1348,7 @@ describe('editor design-system controls', () => {
     await act(async () => root.render(<DsMenuBar label="主菜单" menus={menus} />))
     await click(host.querySelector<HTMLButtonElement>('.ds-menu-trigger')!)
 
-    const popover = host.querySelector<HTMLElement>('.ds-menu-popover')!
+    const popover = document.querySelector<HTMLElement>('.ds-menu-popover')!
     expect(popover.dataset.layout).toBe('section-grid')
     expect(popover.querySelector(':scope > .ds-menu-group-flow')?.getAttribute('role')).toBe(
       'presentation',
@@ -1406,11 +1409,16 @@ describe('editor design-system controls', () => {
     expect(createButton.querySelector('.ds-icon')).not.toBeNull()
     await click(createButton)
     expect(create).toHaveBeenCalledOnce()
-    const details = host.querySelector<HTMLDetailsElement>('.ds-list-header__menu')!
-    details.open = true
-    await click(host.querySelector<HTMLButtonElement>('.ds-list-header__menu-popup button')!)
+    const overflowTrigger = host.querySelector<HTMLButtonElement>('[aria-label="更多操作"]')!
+    await click(overflowTrigger)
+    expect(overflowTrigger.getAttribute('aria-expanded')).toBe('true')
+    const overflowMenu = document.querySelector<HTMLElement>('.ds-list-header__menu-popup')!
+    expect(overflowMenu.closest('.ds-list-header__menu-layer')?.parentElement).toBe(document.body)
+    expect(host.contains(overflowMenu)).toBe(false)
+    await click(overflowMenu.querySelector<HTMLButtonElement>('button')!)
     expect(duplicate).toHaveBeenCalledOnce()
-    expect(details.open).toBe(false)
+    expect(document.querySelector('.ds-list-header__menu-popup')).toBeNull()
+    expect(overflowTrigger.getAttribute('aria-expanded')).toBe('false')
   })
 
   test('toggle commands expose pressed toolbar and checked menu semantics', async () => {
@@ -1446,7 +1454,7 @@ describe('editor design-system controls', () => {
       ),
     )
     await click(host.querySelector<HTMLButtonElement>('.ds-menu-trigger')!)
-    expect(host.querySelector('[role="menuitemcheckbox"]')?.getAttribute('aria-checked')).toBe(
+    expect(document.querySelector('[role="menuitemcheckbox"]')?.getAttribute('aria-checked')).toBe(
       'true',
     )
     const toolbar = host.querySelector<HTMLButtonElement>('[aria-label="对象列表"][aria-pressed]')!
