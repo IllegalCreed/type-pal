@@ -40,6 +40,19 @@ function button(host: HTMLElement, text: string): HTMLButtonElement {
   )!
 }
 
+async function listHeaderMenuButton(
+  host: HTMLElement,
+  text: string,
+): Promise<HTMLButtonElement> {
+  const trigger = host.querySelector<HTMLButtonElement>(
+    '.project-outliner .ds-list-header [aria-label="更多操作"]',
+  )!
+  if (trigger.getAttribute('aria-expanded') !== 'true') await act(async () => trigger.click())
+  return [...document.querySelectorAll<HTMLButtonElement>('[role="menuitem"]')].find(
+    (candidate) => candidate.textContent?.includes(text),
+  )!
+}
+
 function liveAnnouncement(host: HTMLElement): HTMLElement {
   return host.querySelector<HTMLElement>('.ds-visually-hidden[role="status"]')!
 }
@@ -387,18 +400,18 @@ describe('入口开局世界资源', () => {
     expect(created.startWorld).not.toBe(afterAdd[1]!.startWorld)
 
     await act(async () => root.render(projectTab('entrypoint', session, created.id)))
-    const setDefault = button(host, '设为直接启动入口')
+    const setDefault = await listHeaderMenuButton(host, '设为直接启动入口')
     expect(setDefault.disabled).toBe(false)
     await act(async () => setDefault.click())
     expect(session.getState().manifest.defaultEntryId).toBe(created.id)
 
     await act(async () => root.render(projectTab('entrypoint', session, created.id)))
-    expect(button(host, '删除当前入口').disabled).toBe(true)
+    expect((await listHeaderMenuButton(host, '删除当前入口')).disabled).toBe(true)
 
     const single = projectState()
     const singleSession = new EditSession(single)
     await act(async () => root.render(projectTab('entrypoint', singleSession)))
-    expect(button(host, '删除当前入口').disabled).toBe(true)
+    expect((await listHeaderMenuButton(host, '删除当前入口')).disabled).toBe(true)
   })
 
   test('[reorder-family:project-entry-party] 入口 handle 重排一次只写一条命令，并保持直接启动 ID 不变', async () => {
@@ -469,14 +482,16 @@ describe('入口开局世界资源', () => {
     const session = new EditSession(state)
     await act(async () => root.render(projectTab('entrypoint', session, 'alternate')))
 
-    await act(async () => button(host, '复制当前入口').click())
+    const cloneButton = await listHeaderMenuButton(host, '复制当前入口')
+    await act(async () => cloneButton.click())
     expect(session.getHistoryVersion()).toBe(1)
     const copy = session.getState().manifest.entryPoints.at(-1)!
     expect(copy).toMatchObject({ label: '备用入口 副本', scene: 's000' })
     expect(copy.startWorld).not.toBe(session.getState().manifest.entryPoints[1]!.startWorld)
 
     await act(async () => root.render(projectTab('entrypoint', session, copy.id)))
-    await act(async () => button(host, '删除当前入口').click())
+    const deleteButton = await listHeaderMenuButton(host, '删除当前入口')
+    await act(async () => deleteButton.click())
     expect(session.getHistoryVersion()).toBe(2)
     expect(session.getState().manifest.entryPoints.some((entry) => entry.id === copy.id)).toBe(
       false,
