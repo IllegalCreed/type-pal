@@ -380,6 +380,17 @@
       },
       {
         "source": "editor.css",
+        "selector": ".ef-row",
+        "atRule": "@container (max-width: 520px)",
+        "property": "grid-template-columns",
+        "value": "30px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "第一轨是回合序号，第二轨承载完整毒回合字段集合，不是标签与控件的私有对齐轨。",
+        "responsiveEvidence": "720px 视口下字段列保持 140px，输入、选择、复选与动作组均完整且无横向溢出。",
+        "removalCondition": "毒回合编辑项由新的公共序列字段 recipe 接管外层响应式结构时删除。"
+      },
+      {
+        "source": "editor.css",
         "selector": ".casualty-dialog-preview",
         "atRule": "",
         "property": "grid-template-columns",

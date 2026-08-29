@@ -369,8 +369,15 @@ describe('editor design-system static boundary', () => {
       /\.ds-repeat-row\[data-density="compact"\] :is\(\.ds-input, \.ds-select, \.ds-button\)[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
     )
     expect(recipes).toMatch(
+      /\.ds-repeat-row\[data-density="compact"\] \.ds-check-label\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
+    )
+    expect(recipes).toMatch(
       /\.ds-repeat-row\[data-density="default"\] \.ds-icon-button\s*\{[\s\S]*?width:\s*var\(--ds-control-height\);[\s\S]*?height:\s*var\(--ds-control-height\);/,
     )
+    const repeatRowRule = cssRuleBodies(recipes, '.ds-repeat-row')[0]!
+    expect(cssDeclaration(repeatRowRule, 'border')).toBe('1px solid var(--ds-border-subtle)')
+    expect(cssDeclaration(repeatRowRule, 'border-radius')).toBe('var(--ds-radius-control)')
+    expect(cssDeclaration(repeatRowRule, 'background')).toContain('var(--ds-surface-raised)')
     const repeatRowChildRule = recipes.match(/\.ds-repeat-row\s*>\s*\*\s*\{([^}]*)\}/)?.[1]
     expect(repeatRowChildRule).toBeDefined()
     expect(repeatRowChildRule).toMatch(/min-width:\s*0;/)
@@ -400,6 +407,24 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).not.toContain('.project-repeat-composer')
     expect(businessCss).not.toContain('.project-repeat-row')
     expect(businessCss).not.toContain('.project-seed-row')
+    const poisonTickRule = cssRuleBodies(businessCss, '.ef-row')[0]!
+    for (const property of ['padding', 'border', 'border-bottom', 'border-radius', 'background'])
+      expect(cssDeclaration(poisonTickRule, property), `.ef-row may not override ${property}`).toBe(
+        undefined,
+      )
+    const poisonNarrowRule = cssRuleBodies(
+      businessCss,
+      '.ef-row',
+      '@container (max-width: 520px)',
+    )[0]!
+    expect(cssDeclaration(poisonNarrowRule, 'display')).toBe('grid')
+    expect(cssDeclaration(poisonNarrowRule, 'grid-template-columns')).toBe('30px minmax(0, 1fr)')
+    const poisonVeryNarrowFields = cssRuleBodies(
+      businessCss,
+      '.ef-fields',
+      '@container (max-width: 360px)',
+    )[0]!
+    expect(cssDeclaration(poisonVeryNarrowFields, 'grid-column')).toBe('1 / -1')
     const projectCardRule = businessCss.match(/\.project-card\s*\{([^}]*)\}/)?.[1]
     expect(projectCardRule).toBeDefined()
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)

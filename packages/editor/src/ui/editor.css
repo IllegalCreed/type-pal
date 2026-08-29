@@ -9011,19 +9011,12 @@ button.sprite-frame-cell[draggable="true"]:active {
 .ef-row {
   display: flex;
   align-items: flex-end; /* 基线 = 输入框底:kind 下拉/字段/操作按钮同线(作者指出错位) */
-  gap: 12px;
-  padding: 8px;
   width: 100%;
   max-width: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 4px;
 }
 .ef-row .ef-kind,
 .ef-row .ef-ops {
   margin-bottom: 1px; /* 与 .in 边框底缘光学对齐 */
-}
-.ef-row:hover {
-  background: rgba(255, 255, 255, 0.02);
 }
 .ef-kind {
   width: 92px;
@@ -9063,6 +9056,28 @@ button.sprite-frame-cell[draggable="true"]:active {
   display: flex;
   gap: 2px;
   flex: none;
+}
+
+@container (max-width: 520px) {
+  .ef-row {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    align-items: start;
+  }
+  .ef-fields {
+    grid-column: 2;
+  }
+  .ef-ops {
+    grid-column: 2;
+    justify-self: end;
+  }
+}
+
+@container (max-width: 360px) {
+  .ef-fields,
+  .ef-ops {
+    grid-column: 1 / -1;
+  }
 }
 
 /* 领域共享效果卡：父头持有类型/排序/删除，命名参数区只承载该类型的条件字段。 */

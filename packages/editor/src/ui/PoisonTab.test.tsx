@@ -194,6 +194,10 @@ describe('PoisonTab shared workbench', () => {
     expect(host.querySelector('h1')?.textContent).toBe('赤蝎粉')
     expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(2)
     expect(host.querySelectorAll('.ds-workbench-section').length).toBeGreaterThanOrEqual(3)
+    const tickRows = [...host.querySelectorAll<HTMLElement>('.ef-row')]
+    expect(tickRows).not.toHaveLength(0)
+    expect(tickRows.every((row) => row.classList.contains('ds-repeat-row'))).toBe(true)
+    expect(tickRows.every((row) => row.dataset.density === 'compact')).toBe(true)
     expect(host.querySelector('.ds-sequence-index [aria-hidden="true"]')?.textContent).toBe('1')
     expect(host.querySelector('.ds-sequence-index .ds-visually-hidden')?.textContent).toBe(
       '第 1 回合',

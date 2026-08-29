@@ -6,7 +6,7 @@
  */
 import type { ItemData, PoisonCurability, PoisonDef, PoisonTick } from '@type-pal/content'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { type BattleDataReference } from '../core/battle-data-references.js'
+import type { BattleDataReference } from '../core/battle-data-references.js'
 import {
   AddPoisonCommand,
   BattleDataInUseError,
@@ -22,9 +22,9 @@ import {
   DsDraftTextInput,
   DsField,
   DsIconButton,
+  DsPressable,
   DsSelect,
   DsTag,
-  DsPressable,
 } from './design-system/controls.js'
 import {
   DsCatalogControls,
@@ -39,16 +39,17 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsRepeatRow,
   DsSequenceIndex,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
 import {
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
   reorderDsItems,
   sameDsSerializableValue,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/reorder.js'
 
@@ -71,13 +72,11 @@ function Num(props: {
   v: number | undefined
   on: (n: number | undefined) => void
   ph?: string
-  size?: 'default' | 'compact'
 }) {
   return (
     <DsDraftNumberInput
       draftKey={props.draftKey}
       syncToken={props.syncToken}
-      size={props.size}
       monospace
       value={props.v}
       allowEmpty
@@ -106,14 +105,13 @@ function TickRow(props: {
     onChange(next as PoisonTick)
   }
   return (
-    <div className="ef-row">
+    <DsRepeatRow density="compact" className="ef-row">
       <DsSequenceIndex value={idx + 1} accessibleLabel={`第 ${idx + 1} 回合`} />
       <div className="ef-fields">
         <DsField label="扣血">
           <Num
             draftKey={`${draftScope}:hp-delta`}
             syncToken={syncToken}
-            size="compact"
             v={tick.hpDelta}
             on={(n) => set({ hpDelta: n })}
           />
@@ -122,7 +120,6 @@ function TickRow(props: {
           <Num
             draftKey={`${draftScope}:halve-hp`}
             syncToken={syncToken}
-            size="compact"
             v={tick.halveHp}
             ph="留空 = 无"
             on={(n) => set({ halveHp: n })}
@@ -131,7 +128,6 @@ function TickRow(props: {
         <DsField label="产道具">
           {(field) => (
             <DsSelect
-              size="compact"
               {...field}
               value={tick.grantItem ?? ''}
               options={[
@@ -143,7 +139,6 @@ function TickRow(props: {
           )}
         </DsField>
         <DsCheckbox
-          size="compact"
           label="自解"
           checked={tick.selfCure === true}
           title="本回合跑完自动移除此毒"
@@ -162,14 +157,13 @@ function TickRow(props: {
           label={`下移回合 ${idx + 1}`}
         />
         <DsIconButton
-          size="compact"
           variant="danger"
           icon="delete"
           label={`删除回合 ${idx + 1}`}
           onClick={onRemove}
         />
       </span>
-    </div>
+    </DsRepeatRow>
   )
 }
 

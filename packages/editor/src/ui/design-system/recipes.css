@@ -862,6 +862,13 @@
   font-weight: 500;
 }
 
+.ds-repeat-row[data-density="compact"] .ds-check-label {
+  min-height: var(--ds-control-height-compact);
+  padding: var(--ds-space-2) var(--ds-space-4);
+  gap: var(--ds-space-3);
+  font: var(--ds-font-caption);
+}
+
 .ds-repeat-row[data-density="compact"] .ds-icon-button {
   width: var(--ds-hit-target-compact);
   min-width: var(--ds-hit-target-compact);
