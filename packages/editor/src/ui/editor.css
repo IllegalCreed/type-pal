@@ -6951,7 +6951,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-top: 1px solid var(--ds-border-subtle);
 }
 .enemy-sound-option > p {
-  margin: 0 0 0 30px;
+  margin: 0;
   color: var(--ds-text-muted);
   font: var(--ds-font-caption);
 }
@@ -10600,7 +10600,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .enemy-team-member-summary > button {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(0, 1.4fr);
   gap: var(--ds-space-3);
   align-items: center;
   width: 100%;
@@ -10614,6 +10614,14 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .enemy-team-member-summary > button:hover {
   border-color: var(--ds-color-border-accent);
+}
+.enemy-team-member-summary > button:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+.enemy-team-member-summary > button > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .enemy-team-member-summary strong {
   color: var(--ds-color-text-primary);
