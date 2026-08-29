@@ -457,6 +457,36 @@ describe('editor design-system static boundary', () => {
     }
   })
 
+  test('keeps script schemes as bounded object cards when reorder wraps the strip', () => {
+    const uiRoot = dirname(here)
+    const scriptEditor = readFileSync(join(uiRoot, 'ScriptEditor.tsx'), 'utf8')
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    const specification = readFileSync(
+      join(here, '../../../../../docs/phase2/editor/editor-design-system-v1.md'),
+      'utf8',
+    )
+
+    expect(scriptEditor).toMatch(
+      /variant="quiet"\s+className="script-scheme-card-select"\s+aria-pressed=/,
+    )
+    expect(scriptEditor).toContain(
+      '<nav className="script-scheme-card-list" aria-label="脚本方案列表">',
+    )
+    const stripRule = cssRuleBodies(businessCss, '.script-scheme-card-list')[0]!
+    expect(cssDeclaration(stripRule, 'display')).toBe('flex')
+    expect(cssDeclaration(stripRule, 'overflow-x')).toBe('auto')
+    const itemRule = cssRuleBodies(businessCss, '.script-scheme-card-list > .ds-reorder-item')[0]!
+    expect(cssDeclaration(itemRule, 'flex')).toMatch(/^0 0 /)
+    const selectRule = cssRuleBodies(businessCss, '.script-scheme-card-select').find(
+      (rule) => cssDeclaration(rule, 'justify-content') !== undefined,
+    )!
+    expect(cssDeclaration(selectRule, 'justify-content')).toBe('stretch')
+    expect(cssDeclaration(selectRule, 'justify-items')).toBe('start')
+    expect(specification).toContain(
+      '拥有独立 identity、可选择状态、对象级动作或详情任务边界的业务对象必须保留对象卡片',
+    )
+  })
+
   test('keeps item capability enablement on stable, self-describing switches', () => {
     const itemTab = readFileSync(join(dirname(here), 'ItemTab.tsx'), 'utf8')
     for (const label of ['启用装备能力', '启用使用能力', '启用投掷能力'])

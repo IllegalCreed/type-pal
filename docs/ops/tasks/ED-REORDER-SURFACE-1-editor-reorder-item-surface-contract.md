@@ -13,15 +13,15 @@ Branch: `main`
 
 ## 目标
 
-为全部 29 个生产排序入口冻结可见表面语义：内缩且有项间距的复合编辑项必须逐项拥有完整边框，贴边连续列表
-必须由一个完整外框包住且行间 gap 为 0，目录 / 树 / 时间线继续由各自专用 surface owner 管理。把该分类写进
+为全部 29 个生产排序入口冻结内容组件与手柄布局两条正交语义：同构字段编辑项、完整对象卡、贴边连续列表、专用
+连续结构分别保留各自 surface owner；手柄另行登记 inline / overlay。排序能力不得替换原内容组件。把两轴分类写进
 采用矩阵和 fail-closed 门禁，清掉 6 个已确认的“内缩项 + 仅分割线 / 无边界”遗留点，且不改变排序、命令或数据语义。
 
 ## 范围
 
 - 范围内:
-  - 为 `reorder-adoption.json` 的 29 个 adoption 登记 `framed-item | edge-to-edge-list |
-    continuous-structure | overlay-card` 视觉表面分类和证据 owner。
+  - 为 `reorder-adoption.json` 的 29 个 adoption 登记 `contentSurface: repeat-row | object-card |
+    edge-to-edge-list | continuous-structure` 与 `railLayout: inline | overlay`，两轴分别绑定证据 owner。
   - 修复 `enemy/ai-rules`、`enemy-team/fixed-slots`、`item/resource-reward-tiers`、
     `actor/initial-magic`、`story/dialogue-cue-rows`、`story/set-party-members` 六个已确认红项。
   - 复核窄宽度下 identity / fields 与不可拆动作组，禁止以“没有 overflow”代替内容可用性。
@@ -40,7 +40,9 @@ Branch: `main`
 
 ### 一句话行为 / 工程前提
 
-排序交互 owner 必须保持 surface-neutral；“逐项完整边框”还是“外框 + 连续 divider”由列表容器关系决定，
+排序交互 owner 必须保持 surface-neutral；内容先决定组件，再决定“逐项完整边框”还是“外框 + 连续 divider”。
+主要由同构行内字段组成、没有独立对象级任务边界的项使用 repeat row；拥有可识别 identity、可选择状态、对象级动作
+或独立详情任务的业务对象保留对象卡，标题是必备 identity，状态 / 摘要 / 详情是按业务存在的可选槽且不得因排序消失。
 不能靠是否出现 grip 一刀切，也不能把有 gap 的独立编辑项只画一条底线。
 
 ### 真值矩阵
@@ -49,19 +51,22 @@ Branch: `main`
 |---|---|---|
 | 原版 / primary source | N/A：本任务只改第二阶段作者工具的可见层级，不涉及原版游戏机制或内容真值。 | `docs/phase2/READ-FIRST.md`；`packages/editor/src/ui/design-system/reorder.tsx:1161-1244` |
 | 第一阶段 | N/A：第一阶段没有当前 Reforge 编辑器的公共 reorder surface 合同。 | `CLAUDE.md`；`docs/phase1/engineering-notes.md` |
-| 当前二阶段 | registry 有 17 家族 / 29 adoption / 32 数据路径，但没有视觉 surface 分类；已确认 2 个严格 edge-to-edge、5 个专用连续结构、16 个已有 frame、6 个 inset/gap 无完整 frame。 | `packages/editor/src/ui/design-system/reorder-adoption.json:1-476`；`packages/editor/src/ui/design-system/reorder-adoption.test.ts:430-446`；下方 census |
-| 本任务目标 | 29 项逐项登记视觉分类；6 个红项迁到正确 surface owner；门禁同时证明边界、gap/inset、窄宽可用性，合法连续列表保持不变。 | `docs/phase2/editor/editor-design-system-v1.md` 的 DS-F.4、DS-C.4d、RF-21 |
+| 当前二阶段 | registry 有 17 家族 / 29 adoption / 32 数据路径，但没有 contentSurface / railLayout 分类；已确认 2 个严格 edge-to-edge、5 个专用连续结构、16 个已有 frame、6 个 inset/gap 无完整 frame。脚本方案的历史产品真值是横向对象卡；reorder wrapper 插入真实 div 后旧 child selector 失活，曾退化为全宽大行。 | `packages/editor/src/ui/design-system/reorder-adoption.json:1-476`；`docs/ops/tasks/N3-1-script-control-flow-modernization.md:3618-3631`；`packages/editor/src/ui/design-system/reorder.tsx:1122-1145`；`packages/editor/src/ui/ScriptEditor.tsx:188-268` |
+| 本任务目标 | 29 项逐项登记内容 / surface 分类；6 个红项迁到正确 owner；门禁同时证明组件语义、边界、gap/inset、窄宽可用性，合法对象卡和连续列表保持不变。 | `docs/phase2/editor/editor-design-system-v1.md` 的 DS-F.4、DS-C.4d、RF-21 |
 
 ### 反证与替代解释
 
 - 最强替代解释:
   - 给所有 `.ds-reorder-item` 统一加 border 最省代码；但会让 EffectEditorCard 等双框，并破坏 Shop、Cutscene、
     Catalog、Tree 和 Timeline 的连续表面。
+  - 把所有缺框项改成 `DsRepeatRow` 也能统一边框；但会把脚本方案这类有 identity / summary / status / details 的
+    完整对象卡降级成字段行，丢失信息层级。
   - 把所有缺框项改成 gap 0 的连续列表也能减少视觉歧义；但复合表单项会失去逐项编辑对象层级和拖动范围。
 - 什么观察会推翻当前前提:
   - 若某红项实际由一个完整外框、gap 0、无外侧 inset 的列表 owner 持有，则应改判为 `edge-to-edge-list`，
     不应逐项加 frame。
-  - 若某项已有语义卡片 owner，则应登记 `overlay-card` 并复用现有 frame，不能再包 `DsRepeatRow`。
+  - 若某项已有语义卡片 owner，则 `contentSurface` 应登记 `object-card`；时间线等手柄位于内容上方时只把
+    `railLayout` 登记为 `overlay`，不能把手柄位置冒充内容组件。对象卡复用现有 frame，不能再包 `DsRepeatRow`。
 - audit 红项如适用，已排查的替代根因:
   - runtime 语义 / 命令分类: N/A；本卡不改命令。
   - 原版 / 第一阶段理解: N/A；仅第二阶段编辑器视觉。
@@ -71,21 +76,23 @@ Branch: `main`
 ### 用户可见偏离
 
 - 是否主动偏离已核真值: no；按用户提出的两种可接受表现冻结已有界面关系。
-- `before -> after` 一句话: 6 个“内缩/有 gap 但无完整边界”的排序编辑项 -> 每项拥有清晰完整 frame；
-  合法贴边连续列表不变。
+- `before -> after` 一句话: 6 个“内缩/有 gap 但无完整边界”的排序编辑项 -> 按内容语义消费 repeat row 或对象卡；
+  合法对象卡、贴边连续列表与专用结构不变。
 - 代表场景: Enemy AI 规则、敌队固定槽、物品资源奖励档、角色初始法术、对白 cue、设置队员。
-- 用户裁决: 2026-08-30 用户明确指出两种合法方向并要求按边界关系统一；本卡设计仍需三方签字。
+- 用户裁决: 2026-08-30 用户先明确两种合法边界方向，随后反例指出脚本方案必须保留原对象卡层级，不能仅因可拖动
+  就套用行式组件；本卡已按“内容语义先于排序表面”修订，仍需三方签字。
 
 ## 上下文锚点
 
 - 已拍板决策 / 铁律:
   - `DsReorderItem` 只拥有排序交互和几何；业务 surface 不能下沉到公共 reorder wrapper。
   - grip 只表示起拖入口，完整边框表示被移动的对象范围；整行仍不得变成任意位置可起拖。
+  - 完整对象卡的标题、状态、摘要和详情动作不得因排序采用而消失、拉伸或降级为字段行。
   - Shop 风格只在完整外框、贴边、gap 0 时成立。
 - 代码锚点:
   - 公共中性 wrapper：`packages/editor/src/ui/design-system/reorder.css:1-113`、
     `packages/editor/src/ui/design-system/reorder.tsx:1161-1244`。
-  - framed recipe：`packages/editor/src/ui/design-system/recipes.tsx:355-370`、
+  - repeat-row recipe：`packages/editor/src/ui/design-system/recipes.tsx:355-370`、
     `packages/editor/src/ui/design-system/recipes.css:834-877`。
   - 合法 edge-to-edge：`packages/editor/src/ui/ShopTab.tsx:223-257`、
     `packages/editor/src/ui/editor.css:3691-3729`；`packages/editor/src/ui/CutsceneTab.tsx:1107`、
@@ -104,17 +111,19 @@ Branch: `main`
   - `packages/editor/src/ui/design-system/reorder.test.tsx`
   - 六个 owner 的聚焦组件测试与 Design Lab RF-21。
 
-## 生产 surface census（build 前冻结）
+## 生产 surface census（设计输入，子类待三方冻结）
 
 - `edge-to-edge-list`（2）: `shop/stock`、`asset/cutscene-import-frames`。
 - `continuous-structure`（5）: `project/entry-points`、`script/canonical-siblings`、
   `script/legacy-siblings`、`map/layer-stack`、`asset/sprite-action-definitions`。
-- 已有 `framed-item / overlay-card`（16）: `project/startup-party`、`project/startup-inventory`、
+- 已有明确 frame owner、build 前须登记 `repeat-row / object-card` 与独立 `railLayout`（16）:
+  `project/startup-party`、`project/startup-inventory`、
   `item/equipment-effects`、`item/craft-recipes`、`item/use-effects`、`item/throw-effects`、
   `skill/base-effects`、`skill/execution-effects`、`poison/ticks`、`asset/sprite-action-steps`、
   `asset/frame-animation-timeline`、`actor/casualty-gates`、`actor/casualty-lines`、
-  `actor/casualty-effects`、`story/entity-behavior-schemes`、`story/scene-hook-variants`。
-- 待迁移 `framed-item`（6）: `enemy/ai-rules`、`enemy-team/fixed-slots`、
+  `actor/casualty-effects`、`story/entity-behavior-schemes`、`story/scene-hook-variants`；其中两项 story scheme
+  明确为 `object-card`，不得迁为 `DsRepeatRow`。
+- 待独立核定为 `repeat-row` 或 `object-card` 并迁移（6）: `enemy/ai-rules`、`enemy-team/fixed-slots`、
   `item/resource-reward-tiers`、`actor/initial-magic`、`story/dialogue-cue-rows`、
   `story/set-party-members`。
 - 合计: `2 + 5 + 16 + 6 = 29`。
@@ -122,16 +131,19 @@ Branch: `main`
 ## 验收条件
 
 - 功能:
-  - 29 个 adoption 分类闭合；6 个红项有明确逐项 frame；Shop/Cutscene/专用连续结构不出现双框。
+  - 29 个 adoption 的 `contentSurface + railLayout` 两轴分类闭合；6 个红项有正确内容 owner 与清晰边界；
+    Shop/Cutscene/专用连续结构不出现双框。
+  - `story/entity-behavior-schemes`、`story/scene-hook-variants` 是 object-card + inline rail canary：每卡保留标题、
+    步骤摘要、可选默认状态和方案详情；两卡横向平铺，单卡不得拉成 collection 全宽。
   - pointer、keyboard、上下移动按钮和 undo/redo 仍共用原 owner，一次动作最多一条命令。
 - 测试:
   - registry schema/fingerprint/census fail-closed；CSS/DOM 反例能红；六个 owner 聚焦测试通过。
   - Editor typecheck、design-system audit、受影响包全量测试各跑一次。
 - 文档:
-  - DS-C.4d / RF-21 与 adoption schema 同步，明确四类 surface 的 owner 和禁用混搭。
+  - DS-C.4d / RF-21 与 adoption schema 同步，明确四类 contentSurface、两类 railLayout 和禁用混搭。
 - 视觉 / 手工验证:
   - 1280 / 900 / 720 与 200% 缩放检查完整边界、拖动预览、动作组、长名称和字段可用性。
-  - 至少逐类验证一个 framed、edge-to-edge、continuous、overlay 代表页。
+  - 至少逐类验证一个 repeat-row、object-card、edge-to-edge、continuous 代表页，并分别覆盖 inline / overlay rail。
   - Shop 720px 代表场景中 identity 不得缩到仅剩省略号，三枚图标动作不得小于 `32×32px`。
 - E2E 用例登记: N/A（功能性编辑器界面，开发期最小浏览器验证）。
 
@@ -140,9 +152,11 @@ Branch: `main`
 ### 进入 build 前:设计签字
 
 - Codex:
-  - premise: verified（2026-08-30；独立直读 29-adoption registry、公共 reorder wrapper、Shop/Cutscene
-    连续表面和 6 个红项代码锚点，census 为 2+5+16+6）
-  - design: agree（保持 wrapper 中性；采用矩阵登记视觉分类；只迁移 6 个红项；窄宽检查不能只看 overflow）
+  - premise: verified（2026-08-30 二次修订；独立直读 29-adoption registry、N3 脚本方案历史真值、公共 reorder
+    wrapper、Shop/Cutscene 连续表面和 6 个红项锚点，确认内容组件与 rail placement 必须分轴登记）
+  - design: agree（保持 wrapper 中性；采用矩阵登记 contentSurface + railLayout；对象卡不得迁为 RepeatRow；
+    两项 story scheme 作为横向 object-card canary；只迁移 6 个红项；窄宽检查不能只看 overflow）
+  - 签字变更: 首版“边界拓扑优先”的 design 签字因用户反例失效；以上为按内容语义优先和两轴矩阵重新给出的签字。
 - Kimi:
   - premise: pending
   - design: pending
@@ -170,8 +184,9 @@ Branch: `main`
 
 ### 设计结论
 
-- 采用矩阵新增视觉 surface 分类，但不改变已有 adapter / identity / command / revision 字段。
-- `DsReorderItem` 永远保持 surface-neutral；framed item 复用 `DsRepeatRow` 或已有领域卡，连续列表由父容器持边框。
+- 采用矩阵新增 `contentSurface + railLayout` 两轴分类，但不改变已有 adapter / identity / command / revision 字段。
+- `DsReorderItem` 永远保持 surface-neutral；同构字段项复用 `DsRepeatRow`，有独立 identity / selection / object action
+  或 details 任务边界的对象保留领域卡，连续列表由父容器持边框；inline / overlay 只说明 rail 位置。
 - 门禁必须从 registry 反查真实 owner 和 fingerprint，不能只检查“字段已填写”。
 - 窄宽降列必须保留完整动作组和可用字段宽度；不允许依靠省略号或零 overflow 假装适配。
 
@@ -226,6 +241,8 @@ Branch: `main`
 
 - 2026-08-30 Codex: 用户指出 Poison 内缩拖动行仅靠 divider 无法表达移动范围；完成 29-adoption 只读 census，
   确认两种合法 surface 与 6 个同型遗留点。当前仅开卡审签，不允许修改本卡范围内的六个 owner。
+- 2026-08-30 Codex: 用户以脚本方案反例否决“有 gap 即 RepeatRow”的过宽解释；修订为内容语义优先，脚本方案明确
+  保留 object-card。本次只修复其 reorder wrapper 后失活的卡片布局，不视为六个红项的 build。
 
 ## 下一位 Agent 提示词
 
@@ -236,10 +253,10 @@ Branch: `main`
 你的角色: Kimi 核对视觉/架构边界；GLM 独立复算 29-adoption 分类、覆盖与测试门禁
 先读: AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/phase2/editor/editor-design-system-v1.md、
   ED-REORDER-DRAG-1 历史卡、本任务卡、reorder-adoption.json/test、reorder.tsx/reorder.css
-已完成: Codex 已从 registry 得到 2 edge-to-edge + 5 continuous + 16 framed + 6 debt = 29 的设计基线；
-  本卡未开始实现。
-请你做: 独立直读真实 TSX/CSS，给 premise verified 或 counter；检查四类 surface 是否足够、六个红项是否误判、
-  窄宽验收是否能防止 no-overflow 假绿；同意时把证据和可证伪观察写入推进签字表。
+已完成: Codex 已从 registry 得到 2 edge-to-edge + 5 continuous + 16 existing-frame + 6 debt = 29 的设计输入；
+  用户已要求按四类 contentSurface + 两类 railLayout 分轴登记，本卡未开始六个红项的实现。
+请你做: 独立直读真实 TSX/CSS，给 premise verified 或 counter；检查两轴分类是否足够、六个红项是否误判、
+  object-card 是否被错误降级、窄宽验收是否能防止 no-overflow 假绿；同意时把证据和可证伪观察写入推进签字表。
 不要做: 不得改实现文件；不得重开 ED-REORDER-DRAG-1；不得给 .ds-reorder-item 全局加边框；签字不齐不得 build。
 输出要求: 分别给出 premise verified/design agree，或 counter + 具体证据；至少一席完成独立反证审查。
 ```

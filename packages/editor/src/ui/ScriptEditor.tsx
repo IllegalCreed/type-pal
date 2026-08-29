@@ -199,13 +199,13 @@ export function ScriptSchemeStrip(props: {
   }
 }) {
   const cards = (
-    <nav aria-label="脚本方案列表">
+    <nav className="script-scheme-card-list" aria-label="脚本方案列表">
       {props.options.map((option) => (
         <DsReorderItem itemKey={option.id} key={option.id}>
           <div className={`script-scheme-card${option.id === props.selectedId ? ' active' : ''}`}>
             <DsButton
               size="compact"
-              variant={option.id === props.selectedId ? 'primary' : 'secondary'}
+              variant="quiet"
               className="script-scheme-card-select"
               aria-pressed={option.id === props.selectedId}
               onClick={() => props.onSelect(option.id)}

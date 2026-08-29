@@ -186,9 +186,12 @@ Last updated: 2026-08-30
 - 自由文本、短高频操作或明确的“输入/选择后立即执行”可以使用 `DsInlineComposer`，并只在 recipe 父级选择一次
   `default | compact`；从 live 既有对象库选择候选并追加到集合时必须使用 `DsAddPickerDialog`，不得常驻宽 select +
   action。control/action 槽显式传 `size` 属于门禁违规，即使传入值与父级相同也不允许。
-- 有序、可删除的表单项使用 `DsRepeatRow` 持有统一 density、完整边框和节奏，领域页只声明列语义；仅当列表行
-  无外间距、贴合一个完整外框组成连续列表时，才可由外框 + 行分割线表达范围。禁止“内缩/留空隙的独立项 +
-  仅底部分割线”混搭。短数值字段使用 `DsFieldMeasure measure="short-number"`，不得随宽卡无限拉伸。
+- 同构、紧凑、以字段编辑为主且没有独立对象级任务边界的有序项使用 `DsRepeatRow` 持有统一 density、完整边框和
+  节奏，领域页只声明列语义。拥有独立 identity、可选择状态、对象级动作或详情任务边界的业务对象必须保留对象卡片；
+  标题是必备 identity，状态、摘要、详情是按业务存在的可选槽，已有槽不得因排序消失。排序只在卡片内部增加 grip 与
+  移动动作，不得把对象卡降级为横向字段行。仅当轻量列表行无外间距、贴合一个完整外框组成连续列表时，才可由外框 +
+  行分割线表达范围。禁止“内缩/留空隙的独立项 + 仅底部分割线”混搭。短数值字段使用
+  `DsFieldMeasure measure="short-number"`，不得随宽卡无限拉伸。
 - 仅图标按钮可视尺寸至少 `32×32px`；密集桌面工具条命中区域至少 `32×32px`。
 - 圆角：输入/按钮 `6px`，卡片 `10px`，modal/drawer `12px`。同一容器层级不得混用随机圆角。
 - 阴影只用于 overlay、popover、modal 和浮动工具条；普通卡片使用 surface + border，不用阴影堆层级。
@@ -517,8 +520,10 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   fingerprint 缺失、重复、未命中或命中多次均视为无效/陈旧例外。
 - 所有正式可移动项使用 `DsReorderCollection + DsReorderItem`。手柄是 item 的第一个交互槽，视觉上必须位于
   item 自身边界与背景内，不能悬在卡片/行外；它不得占用 `DsCatalogRow.leading` 媒体槽，也不得嵌进目录按钮、
-  输入或整行点击目标。内缩且存在项间距的复合编辑项必须以 `DsRepeatRow` 提供逐项完整边框；贴边连续列表可以由
-  一个完整外框 + 行分割线表达，但行之间不得再留 gap 或外侧 inset。普通项由内容首根节点为内嵌 rail 留出空间；
+  输入或整行点击目标。具体 surface 由内容语义决定：没有独立对象任务边界的同构字段集合使用 `DsRepeatRow`；有独立
+  identity、可选择状态、对象级动作或详情任务边界的对象使用对象卡；贴边轻量列表由一个完整外框 + 行分割线表达，
+  行之间不得再留 gap 或外侧 inset。
+  `DsReorderItem` 只提供排序能力，不得替换、拉伸或降级原有内容组件。普通项由内容首根节点为内嵌 rail 留出空间；
   时间线使用 item 内左上 overlay。
 - `grip` 使用公共矢量图标和至少 `32×32px` 命中区，只在手柄自身设置 `touch-action:none`。禁止整行
   `draggable`、文本 `≡`、领域私有 handle CSS 或复制 pointer 状态机。手柄必须有可见 hover/focus、
@@ -1032,7 +1037,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-18 | Help/Inspector/action ownership + 1280/900/720/200% | 无效说明不存在；概念帮助为 18px 圆形视觉/稳定命中区，hover/focus/touch/Esc、viewport collision、modal top layer 与 ARIA 通过；Inspector section 节奏统一；完整对象动作与全局保存不重复 | v2.8 信息架构合同 |
 | RF-19 | 86 MIDI / 363 WAV 音频工作台，1280/900/720 | 目录有界挂载；仅选中项加载；WAV 标“PCM 波形”、MIDI 标“音符活动”；play/pause/stop/seek、切换停止、loading/error、引用/诊断和无横向溢出通过 | DS-R.2 音频真实性与生命周期合同 |
 | RF-20 | 25 registry 页面 + 标准/紧凑目录行 + allowlist 负例 | registry/DataMode 双向闭合；68/46px 行高、leading 策略、title/meta 截断一致；legacy/raw/static 违规 exit 1，损坏/stale allowlist exit 2，动态几何与 DS 内 file input 不误报 | v2.10 全量采用门禁 |
-| RF-21 | Ordered collection default/compact + framed-item/edge-to-edge-list + catalog/fixed/nested/timeline + disabled/empty/single/52 项长列表 | grip 位于 item 边界内且不占 media leading；内缩复合项有逐项完整边框，连续列表贴合单一外框且仅用 divider；insert/swap 实时让位只有一个 indicator，提交无回跳；pointer/keyboard/click 同 owner，nested scope、水平 timeline、真实 scroll owner 与长名称无裁切 | v2.12 排序合同 |
+| RF-21 | Ordered collection default/compact + repeat-row/object-card/edge-to-edge/continuous + inline/overlay rail + catalog/fixed/nested/timeline + disabled/empty/single/52 项长列表 | grip 位于 item 边界内且不占 media leading；同构字段项逐项完整边框；对象卡保留 identity、状态/摘要与详情槽且不拉成 collection 全宽；连续列表贴合单一外框且仅用 divider；insert/swap 实时让位只有一个 indicator，提交无回跳；pointer/keyboard/click 同 owner，nested scope、水平 timeline、真实 scroll owner 与长名称无裁切 | v2.12 排序合同 |
 | RF-22 | Add Picker 0/1/234 + rich-row media/detail/trailing + active/selected/disabled/all-disabled/empty/long | 标题动作稳定；固定 ID + detail 截断、60px 两行 rich row、direct searchable listbox、80 阈值、明确 footer confirm、分层 Escape、single command、唯一滚动与 focus return 通过 | v2.13 候选追加合同 |
 | RF-23 | 480px / 479px FieldGroup + 长中文/help/error/短数值 + Inspector PropertyRow 对照 | 480px 共享 96px 标签轨；479px 整组 stacked；长标签自然换行且 control 起点不漂移；help/error 与 control 同列；Inspector 仅以具名 60px 紧凑轨存在 | v2.14 字段布局合同 |
 | RF-24 | 28 个 catalog surface + EnemyTeam 重复/混合/空/缺失成员 + Shop 空/单/多/缺失货品 + 5 资源无 label + 295/enemy-468/team-0 | 普通对象可读 title / 精确 canonical ID meta；派生 title 不进入 identity 消费；资源缺 label 时 title 与 meta 不重复；scene root / undeclared reference 例外有界；伪 `skill.pal.*` / `enemy.pal.*` / `team.pal.*` 零命中 | v2.15 目录身份合同 |

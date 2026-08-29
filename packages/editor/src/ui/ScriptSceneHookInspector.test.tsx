@@ -78,6 +78,8 @@ describe('ScriptSceneHookInspector', () => {
     expect(html).toContain('canonical-script-editor')
     expect(html).toContain('方案详情')
     expect(html).toContain('脚本方案')
+    expect(html).toMatch(/class="[^"]*ds-button--quiet[^"]*script-scheme-card-select/)
+    expect(html).not.toMatch(/class="[^"]*ds-button--primary[^"]*script-scheme-card-select/)
     expect(html).toContain('分次执行')
     expect(html).not.toContain('进场脚本 · 脚本方案')
     expect(html).not.toContain('当前方案')
@@ -184,6 +186,13 @@ describe('ScriptSceneHookInspector', () => {
       )
     }
     await act(async () => root.render(<Harness />))
+    const schemeCards = host.querySelectorAll(
+      '.script-scheme-card-list > .ds-reorder-item > .ds-reorder-item__content > .script-scheme-card',
+    )
+    expect(schemeCards).toHaveLength(2)
+    expect(
+      [...schemeCards].every((card) => card.querySelector('.script-scheme-card-details')),
+    ).toBe(true)
     const handle = host.querySelector<HTMLButtonElement>(
       '[data-ds-reorder-adoption="story/scene-hook-variants"] [data-ds-reorder-handle]',
     )!

@@ -12341,14 +12341,14 @@ button.sprite-frame-cell[draggable="true"]:active {
 .script-scheme-strip > header > button {
   margin-left: auto;
 }
-.script-scheme-strip > nav {
+.script-scheme-card-list {
   display: flex;
   gap: 7px;
   min-width: 0;
   padding-bottom: 2px;
   overflow-x: auto;
 }
-.script-scheme-strip > nav > .ds-reorder-item {
+.script-scheme-card-list > .ds-reorder-item {
   flex: 0 0 220px;
 }
 .script-scheme-card {
@@ -12390,9 +12390,23 @@ button.sprite-frame-cell[draggable="true"]:active {
 .script-scheme-card-select {
   display: grid;
   align-content: start;
+  align-items: start;
+  justify-content: stretch;
+  justify-items: start;
   gap: 2px;
+  width: 100%;
   padding: 8px 9px 4px;
   text-align: left;
+}
+.script-scheme-card-select[aria-pressed="true"],
+.script-scheme-card-select:hover:not(:disabled) {
+  border-color: transparent;
+  color: var(--fg);
+  background: transparent;
+}
+.script-scheme-card-select:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: -2px;
 }
 .script-scheme-card-select strong,
 .script-scheme-card-select span {
@@ -12426,7 +12440,10 @@ button.sprite-frame-cell[draggable="true"]:active {
 .script-scheme-card-details:hover,
 .script-scheme-card-details:focus-visible {
   color: var(--accent);
-  outline: 0;
+}
+.script-scheme-card-details:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 1px;
 }
 .script-advanced,
 .canonical-flow-advanced {
