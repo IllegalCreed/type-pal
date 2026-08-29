@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "owner": "EffectEditorCard",
+  "families": [
+    {
+      "id": "actor/casualty-effects",
+      "source": "CasualtyEditor.tsx",
+      "density": "compact",
+      "fieldsLayout": "casualty",
+      "kinds": ["heal", "tempStatBuff"],
+      "privateBranch": false,
+      "previewKinds": [],
+      "verification": "BranchEditor route-live effect chain"
+    },
+    {
+      "id": "item/equipment-effects",
+      "source": "ItemTab.tsx",
+      "density": "compact",
+      "fieldsLayout": "equipment",
+      "kinds": [
+        "statBonus",
+        "maxPool",
+        "resistance",
+        "grantStatus",
+        "grantSkill",
+        "attackAll",
+        "regenHp",
+        "regenMp",
+        "battleSprite"
+      ],
+      "privateBranch": false,
+      "previewKinds": [],
+      "verification": "ItemTab equipment capability route-live effect chain"
+    },
+    {
+      "id": "item/throw-effects",
+      "source": "ItemUseEffectEditor.tsx",
+      "density": "default",
+      "fieldsLayout": "item",
+      "kinds": [
+        "magicDamage",
+        "fixedDamage",
+        "applyPoison",
+        "currentHpDamage",
+        "applyStatus",
+        "killIfHpAtMost",
+        "damageAndHealCaster"
+      ],
+      "privateBranch": false,
+      "previewKinds": [],
+      "verification": "ThrowEffectChainEditor route-live effect chain"
+    },
+    {
+      "id": "item/use-effects",
+      "source": "ItemUseEffectEditor.tsx",
+      "density": "default",
+      "fieldsLayout": "item",
+      "kinds": [
+        "healHp",
+        "healMp",
+        "revive",
+        "applyStatus",
+        "removeStatus",
+        "applyPoison",
+        "curePoison",
+        "permanentStatBoost",
+        "gate",
+        "dieIfNotPoisoned",
+        "runScript",
+        "runSceneHook",
+        "craftRecipe",
+        "drawFromResourcePool",
+        "extraPoisonRes",
+        "hideParty",
+        "modifyHostileAwareness",
+        "scaleCurrentHp",
+        "levelUp",
+        "placeEntityInFront"
+      ],
+      "privateBranch": true,
+      "previewKinds": [],
+      "verification": "ItemUseEffectChainEditor route-live canonical and author-private branches"
+    },
+    {
+      "id": "skill/base-effects",
+      "source": "SkillTab.tsx",
+      "density": "compact",
+      "fieldsLayout": "skill",
+      "kinds": [
+        "damage",
+        "healHp",
+        "healMp",
+        "revive",
+        "applyStatus",
+        "removeStatus",
+        "applyPoison",
+        "curePoison",
+        "buffStat",
+        "gate",
+        "instantKill",
+        "resourceDelta",
+        "steal",
+        "collectTreasure",
+        "summon",
+        "trance",
+        "fleeBattle",
+        "moneyDamage"
+      ],
+      "privateBranch": false,
+      "previewKinds": ["summon", "trance"],
+      "verification": "SkillTab base route-live effect chain"
+    },
+    {
+      "id": "skill/execution-effects",
+      "source": "SkillTab.tsx",
+      "density": "compact",
+      "fieldsLayout": "skill",
+      "kinds": [
+        "damage",
+        "healHp",
+        "healMp",
+        "revive",
+        "applyStatus",
+        "removeStatus",
+        "applyPoison",
+        "curePoison",
+        "buffStat",
+        "gate",
+        "instantKill",
+        "resourceDelta",
+        "steal",
+        "collectTreasure",
+        "summon",
+        "trance",
+        "fleeBattle",
+        "moneyDamage"
+      ],
+      "privateBranch": false,
+      "previewKinds": ["summon", "trance"],
+      "verification": "ExecutionOverrideEditor player and enemy route-live effect chain"
+    }
+  ]
+}

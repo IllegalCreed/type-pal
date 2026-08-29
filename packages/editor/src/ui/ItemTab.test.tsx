@@ -488,13 +488,16 @@ describe('ItemTab', () => {
     )
 
     expect(host.querySelectorAll('.item-capability-card.enabled')).toHaveLength(3)
-    const addEquipEffect = button('添加效果', host.querySelector('.item-equip-effects')!)
+    const equipEffects = host.querySelector(
+      '[data-effect-editor-family="item/equipment-effects"]',
+    )!
+    const addEquipEffect = button('添加效果', equipEffects)
     expect(addEquipEffect.classList).toContain('ds-button')
     expect(addEquipEffect.classList).toContain('ds-button--compact')
     expect(addEquipEffect.classList).not.toContain('item-action-button')
     await act(async () => addEquipEffect.click())
     const equipEffectActions = [
-      ...host.querySelectorAll<HTMLButtonElement>('.item-equip-effects .ef-ops button'),
+      ...equipEffects.querySelectorAll<HTMLButtonElement>('[data-effect-editor-actions] button'),
     ]
     expect(equipEffectActions).toHaveLength(3)
     expect(equipEffectActions.every((action) => action.classList.contains('ds-icon-button'))).toBe(
@@ -605,16 +608,18 @@ describe('ItemTab', () => {
     expect(
       host
         .querySelector('[aria-label="装备效果 1 类型"]')
-        ?.closest('.item-equip-effect-row')
-        ?.classList.contains('item-equip-effect-row-battle-sprite'),
-    ).toBe(true)
+        ?.closest('[data-effect-editor-card]')
+        ?.getAttribute('data-effect-kind'),
+    ).toBe('battleSprite')
     expect(
       host
         .querySelector('[aria-label="装备效果 2 类型"]')
-        ?.closest('.item-equip-effect-row')
-        ?.classList.contains('item-equip-effect-row-battle-sprite'),
-    ).toBe(false)
-    expect(host.querySelector('.item-effect-no-params')?.textContent).toBe('(无参数)')
+        ?.closest('[data-effect-editor-card]')
+        ?.getAttribute('data-effect-kind'),
+    ).not.toBe('battleSprite')
+    expect(host.querySelector('.item-effect-no-params')?.textContent).toBe(
+      '此效果无需设置参数',
+    )
     expect(
       host.querySelectorAll<HTMLButtonElement>(
         '.item-battle-sprite-row [role="combobox"][aria-label$="的战斗形象覆写"]',
@@ -737,7 +742,7 @@ describe('ItemTab', () => {
     })
   })
 
-  test('投掷法术演出使用共享结构化编辑器并可添加、编辑、移除和撤销', async () => {
+  test('投掷法术演出使用开关与共享结构化编辑器并可启用、编辑、关闭和撤销', async () => {
     const initial = state([
       {
         ...item('throw-item'),
@@ -768,7 +773,14 @@ describe('ItemTab', () => {
     const session = new EditSession(initial)
     await act(async () => root.render(<Harness session={session} />))
 
-    await act(async () => button('添加法术特效', host).click())
+    const presentationSwitch = host.querySelector<HTMLInputElement>(
+      'input[role="switch"]',
+    )!
+    expect(presentationSwitch.closest('label')?.textContent).toContain('法术特效演出')
+    expect(presentationSwitch.closest('.item-effect-subhead')?.querySelector('strong')).toBeNull()
+    expect(presentationSwitch.checked).toBe(false)
+    await act(async () => presentationSwitch.click())
+    expect(presentationSwitch.checked).toBe(true)
     expect(session.getState().items[0]?.throw?.presentation).toEqual({
       kind: 'magic',
       animation: { effectSprite: 0, placement: 'normal' },
@@ -814,8 +826,9 @@ describe('ItemTab', () => {
       },
     })
 
-    await act(async () => button('移除演出', host).click())
+    await act(async () => presentationSwitch.click())
     expect(session.getState().items[0]?.throw?.presentation).toBeUndefined()
+    expect(presentationSwitch.checked).toBe(false)
     await act(async () => session.undo())
     expect(session.getState().items[0]?.throw?.presentation?.animation).toMatchObject({
       effectSprite: 24,
@@ -823,6 +836,7 @@ describe('ItemTab', () => {
       layerOffset: 1,
       sound: 'sound.pal.157',
     })
+    expect(presentationSwitch.checked).toBe(true)
   })
 
   test('[reorder-family:item-effects] 装备效果 handle 同值移动零命令，有效移动单命令并可 undo/redo', async () => {
@@ -947,7 +961,12 @@ describe('ItemTab', () => {
     )
 
     expect(host.textContent).toContain('私有正文')
-    await act(async () => button('添加效果', host.querySelector('.item-effect-chain')!).click())
+    await act(async () =>
+      button(
+        '添加效果',
+        host.querySelector('[data-effect-editor-family="item/use-effects"]')!,
+      ).click(),
+    )
     expect(session.getState().items[0]!.use).toMatchObject({
       target: 'oneAlly',
       effects: [{ kind: 'runScript' }, { kind: 'healHp', amount: 100 }],
@@ -1058,7 +1077,7 @@ describe('ItemTab', () => {
       ),
     )
 
-    const chain = host.querySelector('.item-effect-chain')!
+    const chain = host.querySelector('[data-effect-editor-family="item/use-effects"]')!
     const addButton = button('添加脚本', chain)
     expect(addButton.disabled).toBe(false)
     await act(async () => addButton.click())

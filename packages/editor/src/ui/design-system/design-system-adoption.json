@@ -237,7 +237,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsObjectWorkspace + DsInspectorTabs",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsDraftNumberInput + DsDraftTextArea + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsPropertyRow + DsSelect + DsTextInput",
+        "field": "DsCheckbox + DsDraftNumberInput + DsDraftTextArea + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsPropertyRow + DsSelect + DsSwitch + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {
@@ -282,7 +282,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsObjectWorkspace + DsInspectorTabs",
         "overlay": "DsFloatingLayer",
-        "field": "DsCheckbox + DsDraftNumberField + DsDraftNumberInput + DsDraftTextAreaField + DsDraftTextField + DsDraftTextInput + DsField + DsSelect + DsSelectField",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftNumberInput + DsDraftTextAreaField + DsDraftTextField + DsField + DsSelect + DsSelectField",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

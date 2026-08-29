@@ -29,6 +29,7 @@ import {
   type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/index.js'
+import { EffectEditorCard, EffectEditorChain } from './EffectEditorCard.js'
 
 export type CasualtySlot = 'friendDeath' | 'dying'
 
@@ -519,13 +520,17 @@ function BranchEditor(props: {
         </DsReorderCollection>
       </section>
 
-      <section className="casualty-content-section">
+      <EffectEditorChain
+        family="actor/casualty-effects"
+        label="伤亡状态变化效果"
+      >
         <header>
           <div>
             <span>状态变化</span>
             <h4>效果</h4>
           </div>
           <DsButton
+            data-effect-editor-add="true"
             onClick={() => setEffects([...branch.effects, { kind: 'heal', resource: 'hp' }])}
             size="compact"
             variant="secondary"
@@ -543,136 +548,127 @@ function BranchEditor(props: {
           revision={syncToken}
           onReorder={reorderEffects}
         >
-          <div className="casualty-item-list">
+          <ol className="effect-editor-list casualty-item-list casualty-effect-list">
             {branch.effects.map((effect, index) => {
               const reorderKey = effectReorderKeys.keys[index]!
               return (
-                <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-                  <article className="casualty-item-card casualty-effect-card">
-                    <header>
-                      <strong>效果 {index + 1}</strong>
-                      <span className="casualty-item-actions">
-                        <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
-                        <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
-                        <DsButton
-                          aria-label={`删除效果 ${index + 1}`}
-                          onClick={() => setEffects(branch.effects.filter((_, i) => i !== index))}
-                          size="compact"
-                          variant="secondary"
-                        >
-                          ✕
-                        </DsButton>
-                      </span>
-                    </header>
-                    <div className="casualty-effect-fields">
+                <EffectEditorCard
+                  key={reorderKey}
+                  itemKey={reorderKey}
+                  label={`效果 ${index + 1}`}
+                  density="compact"
+                  effectKind={effect.kind}
+                  kindControl={
+                    <DsSelect
+                      size="compact"
+                      aria-label={`第 ${index + 1} 个效果类型`}
+                      value={effect.kind}
+                      options={[
+                        { value: 'heal', label: '恢复资源' },
+                        { value: 'tempStatBuff', label: '临时属性增益' },
+                      ]}
+                      onValueChange={(kind) => {
+                        setEffects(
+                          branch.effects.map((item, i) =>
+                            i === index
+                              ? kind === 'heal'
+                                ? { kind: 'heal', resource: 'hp' }
+                                : { kind: 'tempStatBuff', stat: 'attack', percent: 10 }
+                              : item,
+                          ),
+                        )
+                      }}
+                    />
+                  }
+                  fieldsLayout="casualty"
+                  onRemove={() => {
+                    effectReorderKeys.remove(index)
+                    setEffects(branch.effects.filter((_, i) => i !== index))
+                  }}
+                >
+                  {effect.kind === 'heal' ? (
+                    <div className="casualty-field">
+                      <span>恢复对象</span>
+                      <DsSelect
+                        size="compact"
+                        aria-label={`第 ${index + 1} 个效果恢复资源`}
+                        value={effect.resource}
+                        options={[
+                          { value: 'hp', label: '体力' },
+                          { value: 'mp', label: '真气' },
+                        ]}
+                        onValueChange={(value) =>
+                          setEffects(
+                            branch.effects.map((item, i) =>
+                              i === index ? { ...item, resource: value as 'hp' | 'mp' } : item,
+                            ),
+                          )
+                        }
+                      />
+                    </div>
+                  ) : (
+                    <>
                       <div className="casualty-field">
-                        <span>效果类型</span>
+                        <span>增益属性</span>
                         <DsSelect
                           size="compact"
-                          aria-label={`第 ${index + 1} 个效果类型`}
-                          value={effect.kind}
-                          options={[
-                            { value: 'heal', label: '恢复资源' },
-                            { value: 'tempStatBuff', label: '临时属性增益' },
-                          ]}
-                          onValueChange={(kind) => {
+                          aria-label={`第 ${index + 1} 个效果增益属性`}
+                          value={effect.stat}
+                          options={STAT_OPTIONS}
+                          onValueChange={(value) =>
                             setEffects(
                               branch.effects.map((item, i) =>
                                 i === index
-                                  ? kind === 'heal'
-                                    ? { kind: 'heal', resource: 'hp' }
-                                    : { kind: 'tempStatBuff', stat: 'attack', percent: 10 }
+                                  ? {
+                                      ...item,
+                                      stat: value as (typeof STAT_OPTIONS)[number]['value'],
+                                    }
                                   : item,
                               ),
                             )
-                          }}
+                          }
                         />
                       </div>
-                      {effect.kind === 'heal' ? (
-                        <div className="casualty-field">
-                          <span>恢复对象</span>
-                          <DsSelect
-                            size="compact"
-                            aria-label={`第 ${index + 1} 个效果恢复资源`}
-                            value={effect.resource}
-                            options={[
-                              { value: 'hp', label: '体力' },
-                              { value: 'mp', label: '真气' },
-                            ]}
-                            onValueChange={(value) =>
+                      <label>
+                        <span>提升比例</span>
+                        <span className="casualty-percent-input">
+                          <DsDraftNumberInput
+                            draftKey={`${draftScope}:effect:${reorderKey}:percent`}
+                            syncToken={syncToken}
+                            min={1}
+                            step={1}
+                            integer
+                            normalize={(value) => Math.max(1, Math.trunc(value))}
+                            value={effect.percent}
+                            onCommit={(percent) => {
+                              const nextPercent = Math.max(1, percent ?? 1)
+                              if (nextPercent === effect.percent) return
                               setEffects(
                                 branch.effects.map((item, i) =>
-                                  i === index ? { ...item, resource: value as 'hp' | 'mp' } : item,
+                                  i === index
+                                    ? {
+                                        ...item,
+                                        percent: nextPercent,
+                                      }
+                                    : item,
                                 ),
                               )
-                            }
+                            }}
                           />
-                        </div>
-                      ) : (
-                        <>
-                          <div className="casualty-field">
-                            <span>增益属性</span>
-                            <DsSelect
-                              size="compact"
-                              aria-label={`第 ${index + 1} 个效果增益属性`}
-                              value={effect.stat}
-                              options={STAT_OPTIONS}
-                              onValueChange={(value) =>
-                                setEffects(
-                                  branch.effects.map((item, i) =>
-                                    i === index
-                                      ? {
-                                          ...item,
-                                          stat: value as (typeof STAT_OPTIONS)[number]['value'],
-                                        }
-                                      : item,
-                                  ),
-                                )
-                              }
-                            />
-                          </div>
-                          <label>
-                            <span>提升比例</span>
-                            <span className="casualty-percent-input">
-                              <DsDraftNumberInput
-                                draftKey={`${draftScope}:effect:${reorderKey}:percent`}
-                                syncToken={syncToken}
-                                min={1}
-                                step={1}
-                                integer
-                                normalize={(value) => Math.max(1, Math.trunc(value))}
-                                value={effect.percent}
-                                onCommit={(percent) => {
-                                  const nextPercent = Math.max(1, percent ?? 1)
-                                  if (nextPercent === effect.percent) return
-                                  setEffects(
-                                    branch.effects.map((item, i) =>
-                                      i === index
-                                        ? {
-                                            ...item,
-                                            percent: nextPercent,
-                                          }
-                                        : item,
-                                    ),
-                                  )
-                                }}
-                              />
-                              <span>%</span>
-                            </span>
-                          </label>
-                        </>
-                      )}
-                    </div>
-                  </article>
-                </DsReorderItem>
+                          <span>%</span>
+                        </span>
+                      </label>
+                    </>
+                  )}
+                </EffectEditorCard>
               )
             })}
-            {branch.effects.length === 0 ? (
-              <div className="casualty-empty-state">这个分支没有附加效果。</div>
-            ) : null}
-          </div>
+          </ol>
+          {branch.effects.length === 0 ? (
+            <div className="casualty-empty-state">这个分支没有附加效果。</div>
+          ) : null}
         </DsReorderCollection>
-      </section>
+      </EffectEditorChain>
     </div>
   )
 }

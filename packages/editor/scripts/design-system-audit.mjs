@@ -7,6 +7,7 @@ const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const uiRoot = join(packageRoot, 'src/ui')
 const allowlistPath = join(uiRoot, 'design-system/design-system-allowlist.json')
 const adoptionPath = join(uiRoot, 'design-system/design-system-adoption.json')
+const effectCardAdoptionPath = join(uiRoot, 'design-system/effect-card-adoption.json')
 const navigationPath = join(uiRoot, 'editor-navigation.ts')
 const dataModePath = join(uiRoot, 'DataMode.tsx')
 const appPath = join(uiRoot, 'App.tsx')
@@ -45,6 +46,247 @@ function productionSources() {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     .sort()
+}
+
+function effectCardSource(name, overrides) {
+  return overrides[name] ?? readFileSync(join(uiRoot, name), 'utf8')
+}
+
+function effectKindConstant(source, constantName, property) {
+  const match = source.match(
+    new RegExp(`const\\s+${constantName}\\s*:[^=]+?=\\s*\\[([\\s\\S]*?)\\n\\]`),
+  )
+  if (!match) return undefined
+  return [...match[1].matchAll(new RegExp(`\\b${property}\\s*:\\s*['\"]([^'\"]+)['\"]`, 'g'))]
+    .map((entry) => entry[1])
+}
+
+function effectKindsForFamily(id, source) {
+  if (id === 'item/use-effects') return effectKindConstant(source, 'EFFECT_KINDS', 'value')
+  if (id === 'item/throw-effects')
+    return effectKindConstant(source, 'THROW_EFFECT_KINDS', 'value')
+  if (id === 'item/equipment-effects') return effectKindConstant(source, 'EFFECT_KINDS', 'v')
+  if (id === 'skill/base-effects' || id === 'skill/execution-effects')
+    return effectKindConstant(source, 'EFFECT_KINDS', 'v')
+  if (id === 'actor/casualty-effects') {
+    const typeOptions = source.match(
+      /aria-label=\{`第 \$\{index \+ 1\} 个效果类型`\}[\s\S]*?options=\{\[([\s\S]*?)\]\}/,
+    )
+    return typeOptions
+      ? [...typeOptions[1].matchAll(/\bvalue\s*:\s*['\"]([^'\"]+)['\"]/g)].map(
+          (entry) => entry[1],
+        )
+      : undefined
+  }
+  return undefined
+}
+
+function escapedEffectCardId(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function effectCardChainBlocks(source, id) {
+  return [
+    ...source.matchAll(
+      new RegExp(
+        `<EffectEditorChain\\b(?=[^>]*\\bfamily=['\"]${escapedEffectCardId(id)}['\"])[^>]*>[\\s\\S]*?<\\/EffectEditorChain>`,
+        'g',
+      ),
+    ),
+  ].map((match) => match[0])
+}
+
+const effectCardIdentityPatterns = {
+  'actor/casualty-effects':
+    /useDsReorderKeys\(\s*branch\.effects\s*,\s*\(effect\)\s*=>\s*JSON\.stringify\(effect\)/,
+  'item/equipment-effects':
+    /useDsReorderKeys\(\s*equip\?\.effects\s*\?\?\s*\[\]\s*,\s*\(effect\)\s*=>\s*JSON\.stringify\(effect\)/,
+  'item/throw-effects':
+    /useDsReorderKeys\(\s*spec\.effects\s*,\s*\(effect\)\s*=>\s*JSON\.stringify\(effect\)/,
+  'item/use-effects':
+    /useDsReorderKeys\(\s*use\.effects\s*,\s*\(effect\)\s*=>\s*JSON\.stringify\(effect\)/,
+  'skill/base-effects':
+    /useDsReorderKeys\(\s*skill\?\.effects\s*\?\?\s*\[\]\s*,\s*\(effect\)\s*=>\s*JSON\.stringify\(effect\)/,
+  'skill/execution-effects':
+    /useDsReorderKeys\(\s*effects\s*,\s*\(effect\)\s*=>\s*JSON\.stringify\(effect\)/,
+}
+
+const effectCardRemovalMarkers = {
+  'actor/casualty-effects': 'effectReorderKeys.remove(index)',
+  'item/equipment-effects': 'equipEffectReorderKeys.remove(index)',
+  'item/throw-effects': 'reorderKeys.remove(index)',
+  'item/use-effects': 'reorderKeys.remove(index)',
+  'skill/base-effects': 'effectReorderKeys.remove(i)',
+  'skill/execution-effects': 'reorderKeys.remove(index)',
+}
+
+/** Route-live effect-card census used by both Vitest and the command-line design-system gate. */
+export function validateEffectCardAdoption(document, overrides = {}) {
+  const problems = []
+  if (
+    !document ||
+    document.version !== 1 ||
+    document.owner !== 'EffectEditorCard' ||
+    !Array.isArray(document.families)
+  )
+    return [
+      'effect-card-adoption.json must contain { version: 1, owner: "EffectEditorCard", families: [] }',
+    ]
+
+  const familyKeys = [
+    'density',
+    'fieldsLayout',
+    'id',
+    'kinds',
+    'previewKinds',
+    'privateBranch',
+    'source',
+    'verification',
+  ].sort()
+  const allowedDensities = new Set(['default', 'compact'])
+  const allowedLayouts = new Set(['item', 'skill', 'equipment', 'casualty'])
+  const manifestIds = new Set()
+  for (const [index, family] of document.families.entries()) {
+    if (!family || typeof family !== 'object') {
+      problems.push(`effect-card families[${index}] must be an object`)
+      continue
+    }
+    if (JSON.stringify(Object.keys(family).sort()) !== JSON.stringify(familyKeys))
+      problems.push(`effect-card families[${index}] must use exactly ${familyKeys.join(', ')}`)
+    if (typeof family.id !== 'string' || !family.id.endsWith('-effects'))
+      problems.push(`effect-card families[${index}].id must be a static *-effects adoption id`)
+    if (manifestIds.has(family.id)) problems.push(`duplicate effect-card family ${family.id}`)
+    manifestIds.add(family.id)
+    if (typeof family.source !== 'string' || !family.source.endsWith('.tsx'))
+      problems.push(`effect-card ${family.id} source must be a production TSX basename`)
+    if (!allowedDensities.has(family.density))
+      problems.push(`effect-card ${family.id} has invalid density ${family.density}`)
+    if (!allowedLayouts.has(family.fieldsLayout))
+      problems.push(`effect-card ${family.id} has invalid fieldsLayout ${family.fieldsLayout}`)
+    if (!Array.isArray(family.kinds) || family.kinds.length === 0)
+      problems.push(`effect-card ${family.id} must enumerate its effect kinds`)
+    if (!Array.isArray(family.previewKinds))
+      problems.push(`effect-card ${family.id} previewKinds must be an array`)
+    if (typeof family.privateBranch !== 'boolean')
+      problems.push(`effect-card ${family.id} privateBranch must be boolean`)
+    if (typeof family.verification !== 'string' || !family.verification.trim())
+      problems.push(`effect-card ${family.id} verification must be non-empty`)
+    if (new Set(family.kinds).size !== family.kinds.length)
+      problems.push(`effect-card ${family.id} contains duplicate kinds`)
+  }
+
+  const actualAdoption = new Map()
+  const actualChains = new Map()
+  const addOccurrence = (registry, id, sourceName) => {
+    registry.set(id, [...(registry.get(id) ?? []), sourceName])
+  }
+  for (const path of productionSources()) {
+    const sourceName = relative(uiRoot, path)
+    const source = effectCardSource(sourceName, overrides)
+    for (const match of source.matchAll(/adoptionId=['\"]([^'\"]+-effects)['\"]/g))
+      addOccurrence(actualAdoption, match[1], sourceName)
+    for (const match of source.matchAll(/<EffectEditorChain\b[\s\S]*?family=['\"]([^'\"]+)['\"]/g))
+      addOccurrence(actualChains, match[1], sourceName)
+  }
+  for (const [id, sources] of actualAdoption) {
+    if (!manifestIds.has(id)) problems.push(`unregistered route-live effect-card family ${id}`)
+    if (sources.length !== 1)
+      problems.push(`effect-card family ${id} must have exactly one reorder adoption owner`)
+  }
+  for (const id of manifestIds) {
+    if (!actualAdoption.has(id)) problems.push(`stale effect-card family ${id}`)
+    if (!actualChains.has(id)) problems.push(`effect-card family ${id} has no EffectEditorChain owner`)
+    if ((actualChains.get(id) ?? []).length !== 1)
+      problems.push(`effect-card family ${id} must have exactly one EffectEditorChain owner`)
+  }
+  for (const id of actualChains.keys()) {
+    if (!actualAdoption.has(id)) problems.push(`EffectEditorChain ${id} has no reorder adoption id`)
+  }
+
+  for (const family of document.families) {
+    if (!family || typeof family.source !== 'string') continue
+    const source = effectCardSource(family.source, overrides)
+    const chainBlocks = effectCardChainBlocks(source, family.id)
+    const chain = chainBlocks[0] ?? ''
+    if (!/import\s*\{[\s\S]*?\bEffectEditorCard\b[\s\S]*?\bEffectEditorChain\b[\s\S]*?\}\s*from\s*['\"]\.\/EffectEditorCard\.js['\"]/.test(source))
+      problems.push(`${family.id} must import the canonical EffectEditorCard and EffectEditorChain`)
+    if (chainBlocks.length !== 1)
+      problems.push(`${family.id} must own exactly one statically scoped EffectEditorChain`)
+    if (!chain.includes(`adoptionId="${family.id}"`))
+      problems.push(`${family.id} is not the declared DsReorderCollection adoption owner`)
+    if (!chain.includes('<EffectEditorCard'))
+      problems.push(`${family.id} has no route-live EffectEditorCard item owner`)
+    if (
+      !/<EffectEditorCard\b(?=[\s\S]{0,240}?\bkey=\{reorderKey\})(?=[\s\S]{0,240}?\bitemKey=\{reorderKey\})/.test(
+        chain,
+      )
+    )
+      problems.push(`${family.id} must bind each card to its stable reorderKey`)
+    if (!chain.includes(`density="${family.density}"`))
+      problems.push(`${family.id} does not consume its declared ${family.density} density`)
+    if (!chain.includes(`fieldsLayout="${family.fieldsLayout}"`))
+      problems.push(`${family.id} does not consume fieldsLayout ${family.fieldsLayout}`)
+    if (!effectCardIdentityPatterns[family.id]?.test(source))
+      problems.push(`${family.id} must derive reorder tokens from serializable effect identity`)
+    if (!chain.includes(effectCardRemovalMarkers[family.id]))
+      problems.push(`${family.id} must remove its occurrence token before deleting a card`)
+    const actualKinds = effectKindsForFamily(family.id, source)
+    if (!actualKinds)
+      problems.push(`${family.id} kind census could not be derived from ${family.source}`)
+    else if (JSON.stringify(actualKinds) !== JSON.stringify(family.kinds))
+      problems.push(`${family.id} kind census differs from its route-live source`)
+    for (const previewKind of family.previewKinds ?? [])
+      if (!family.kinds.includes(previewKind) || !source.includes(`effect.kind === '${previewKind}'`))
+        problems.push(`${family.id} preview kind ${previewKind} is not route-live`)
+    if (
+      family.privateBranch &&
+      (!chain.includes("effectKind={privateScript ? 'author-private-script'") ||
+        !chain.includes('<ItemPrivateScriptBodyEditor'))
+    )
+      problems.push(`${family.id} lost its author-private branch`)
+  }
+  if (!effectCardSource('ItemUseEffectEditor.tsx', overrides).includes('reorderKeys.retain(index)'))
+    problems.push('item/use-effects must retain the selected token when a kind becomes exclusive')
+
+  const owner = effectCardSource('EffectEditorCard.tsx', overrides)
+  const editorCss = effectCardSource('editor.css', overrides)
+  for (const required of [
+    /<DsReorderItem(?=[\s\S]{0,200}?\bas="li")(?=[\s\S]{0,200}?\bitemKey=\{props\.itemKey\})(?=[\s\S]{0,200}?\blayout="overlay")/,
+    /data-effect-editor-header="true"/,
+    /className="effect-editor-card__body"/,
+    /data-effect-editor-fields="true"/,
+    /<DsIconButton[\s\S]{0,120}?\bsize="compact"/,
+  ])
+    if (!required.test(owner)) problems.push(`EffectEditorCard owner contract missing ${required}`)
+  if (owner.indexOf('data-effect-editor-header="true"') > owner.indexOf('effect-editor-card__body'))
+    problems.push('EffectEditorCard header must precede its parameter body')
+  if (
+    !/\.ds-reorder-item\.effect-editor-card-item\[data-layout="overlay"\]\s*>\s*\.ds-reorder-item__rail\s*\{[^}]*inset-block-start:\s*0[^}]*block-size:\s*calc\([^)]*var\(--ds-control-height\)/.test(
+      editorCss,
+    ) ||
+    !/\.effect-editor-card-item\[data-layout="overlay"\]:has\([\s\S]*?data-density="compact"[\s\S]*?\.ds-reorder-item__rail\s*\{[^}]*block-size:\s*calc\([^)]*var\(--ds-control-height-compact\)/.test(
+      editorCss,
+    )
+  )
+    problems.push('EffectEditorCard overlay handle is not header-aligned')
+  const responsiveHandleRule = editorCss.match(
+    /@container effect-editor-card \(max-width: 520px\)\s*\{[\s\S]*?\.ds-reorder-item\.effect-editor-card-item\[data-layout="overlay"\]\s*>\s*\.ds-reorder-item__rail\s*\{([^}]*)\}/,
+  )
+  if (
+    !responsiveHandleRule ||
+    !/block-size:\s*calc\([^)]*var\(--ds-control-height-compact\)/.test(
+      responsiveHandleRule[1],
+    )
+  )
+    problems.push('EffectEditorCard responsive overlay handle is not first-row aligned')
+  const fullSpanRule = editorCss.match(
+    /\.effect-editor-card__fields\s*>\s*\.item-effect-field-wide[^\{]*\{([^}]*)\}/,
+  )
+  if (!fullSpanRule || !/grid-column:\s*1\s*\/\s*-1/.test(fullSpanRule[1]))
+    problems.push('EffectEditorCard lost its full-span nested field contract')
+  if (/skill-effect-card|item-effect-row-head/.test(editorCss))
+    problems.push('stale private effect-card CSS remains after shared owner adoption')
+  return problems
 }
 
 function jsxTag(node) {
@@ -2952,6 +3194,16 @@ export function runDesignSystemGate() {
   const adoptionProblems = validateAdoption(adoption.value)
   if (adoptionProblems.length) {
     for (const problem of adoptionProblems) console.error(`adoption: ${problem}`)
+    return 2
+  }
+  const effectCardAdoption = parseJson(effectCardAdoptionPath)
+  if (effectCardAdoption.error) {
+    console.error(`effect-card adoption registry invalid: ${effectCardAdoption.error}`)
+    return 2
+  }
+  const effectCardProblems = validateEffectCardAdoption(effectCardAdoption.value)
+  if (effectCardProblems.length) {
+    for (const problem of effectCardProblems) console.error(`effect-card: ${problem}`)
     return 2
   }
   const parsed = parseJson(allowlistPath)

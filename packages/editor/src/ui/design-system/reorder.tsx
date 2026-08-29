@@ -40,6 +40,8 @@ export interface DsReorderKeysController {
   keys: string[]
   move(intent: Pick<DsReorderIntent, 'fromIndex' | 'toIndex'>, strategy?: DsReorderStrategy): void
   remove(index: number): void
+  /** Keep one occurrence token when a business rule replaces the whole chain with that item. */
+  retain(index: number): void
   /** Drop every occurrence token after an external history/object replacement makes identity unknowable. */
   reset(): void
 }
@@ -1398,9 +1400,13 @@ export function useDsReorderKeys<T>(
     current.splice(index, 1)
     stateRef.current = current
   }, [])
+  const retain = useCallback((index: number) => {
+    const entry = stateRef.current[index]
+    stateRef.current = entry ? [entry] : []
+  }, [])
   const reset = useCallback(() => {
     stateRef.current = []
     setResetVersion((version) => version + 1)
   }, [])
-  return { keys: next.map((entry) => entry.key), move, remove, reset }
+  return { keys: next.map((entry) => entry.key), move, remove, retain, reset }
 }

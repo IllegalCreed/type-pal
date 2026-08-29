@@ -434,7 +434,7 @@ describe('SkillTab · 效果卡片', () => {
     await act(async () => root.render(<Harness session={session} />))
 
     const chain = host.querySelector<HTMLOListElement>('[data-skill-effect-chain="base"]')!
-    const cards = () => [...chain.querySelectorAll<HTMLElement>('.skill-effect-card')]
+    const cards = () => [...chain.querySelectorAll<HTMLElement>('[data-effect-editor-card]')]
     expect(cards().map((card) => card.dataset.effectKind)).toEqual([
       'trance',
       'trance',
@@ -442,13 +442,13 @@ describe('SkillTab · 效果卡片', () => {
       'summon',
     ])
     expect(cards()[0]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
-    expect(cards()[0]!.querySelector('[data-effect-preview]')?.textContent).toContain(
+    expect(cards()[0]!.querySelector('[data-effect-editor-preview]')?.textContent).toContain(
       '变身形象预览',
     )
     expect(cards()[1]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
-    expect(cards()[2]!.querySelector('[data-effect-preview]')).toBeNull()
+    expect(cards()[2]!.querySelector('[data-effect-editor-preview]')).toBeNull()
     expect(cards()[3]!.querySelector('[data-testid="summon-preview"]')).not.toBeNull()
-    expect(cards()[3]!.querySelector('[data-effect-preview]')?.textContent).toContain(
+    expect(cards()[3]!.querySelector('[data-effect-editor-preview]')?.textContent).toContain(
       '召唤形象预览',
     )
 
@@ -488,7 +488,7 @@ describe('SkillTab · 效果卡片', () => {
       'trance',
     ])
     expect(cards()[0]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
-    expect(cards()[1]!.querySelector('[data-effect-preview]')).toBeNull()
+    expect(cards()[1]!.querySelector('[data-effect-editor-preview]')).toBeNull()
     expect(cards()[2]!.querySelector('[data-testid="summon-preview"]')).not.toBeNull()
     expect(cards()[3]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
 
@@ -517,7 +517,7 @@ describe('SkillTab · 效果卡片', () => {
     ])
     expect(cards()).toHaveLength(3)
     expect(cards()[0]!.querySelector('[data-testid="trance-preview"]')).not.toBeNull()
-    expect(cards()[1]!.querySelector('[data-effect-preview]')).toBeNull()
+    expect(cards()[1]!.querySelector('[data-effect-editor-preview]')).toBeNull()
     expect(cards()[2]!.querySelector('[data-testid="summon-preview"]')).not.toBeNull()
   })
 })

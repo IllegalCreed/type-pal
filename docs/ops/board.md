@@ -15,7 +15,7 @@
 |---|---|---|---|---|
 | ED-INPUT-PERF-1 | 编辑器输入提交与全局派生状态性能收口 | done | 三方 accept + 用户确认齐，整卡收口 | `a7109fd4`：五字段 commit max 8.6–18.2ms、urgent Long Task 0 |
 | ED-DS-3 | 编辑器设计系统全量采用与防回流门禁 | done | 三方 accept 齐，整卡收口 | `9dd4e4a3`：25 页面采用闭包、公共 owner、三态静态门禁与精灵虚拟滚动完成 |
-| ED-FIELD-LAYOUT-1 | 编辑器字段标签列与响应式布局合同 | review | Codex accept；待 Kimi + GLM 只读终审 | 96px/480px 公共合同、Inspector 例外、真实路由 adoption 与 live CSS census 已全绿 |
+| ED-FIELD-LAYOUT-1 | 编辑器字段标签列与响应式布局合同 | done | 三方 fresh accept + 用户末轮小修直接验收齐，整卡收口 | 六族共享效果卡、手柄/字段对齐、语义标题与投掷演出单开关闭合 |
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | done | 三方 accept + 用户验收齐，整卡收口 | `b118ce3a`：公共草稿/提交合同、首批采用与 AST 防回流门禁完成 |
 | ED-ADD-PICKER-DIALOG-1 | 编辑器候选对象添加弹窗统一 | done | 三方 accept + 用户验收齐；`0787197d` 已推送 | DsAddPickerDialog v2.13.0、4+7 AST census 门禁、234/225 项 14 行有界挂载、四 adapter 单命令 |
 | ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | done | 三方 accept + 用户复验齐，整卡收口 | Startup inventory 唯一遗漏动作槽已封组；1280/900/720 组内不拆行、无溢出 |

@@ -40,7 +40,7 @@ function Harness(props: {
       itemId="tool"
       scenes={props.scenes}
       onChange={(next) => {
-        const use = next as UseSpec
+        const use = structuredClone(next as UseSpec)
         setSpec(use)
         props.onChange?.(use)
       }}
@@ -80,7 +80,7 @@ function PrivateHarness(props: {
             }
       }
       onChange={(next) => {
-        const use = next as UseSpec
+        const use = structuredClone(next as UseSpec)
         setSpec(use)
         props.onChange?.(use)
       }}
@@ -95,8 +95,9 @@ function ThrowHarness(props: { initial: ThrowSpec; onChange?: (next: ThrowSpec) 
       spec={spec}
       poisons={[{ id: 7, name: '赤毒', color: 0, curability: 'common' }]}
       onChange={(next) => {
-        setSpec(next)
-        props.onChange?.(next)
+        const clone = structuredClone(next)
+        setSpec(clone)
+        props.onChange?.(clone)
       }}
     />
   )
@@ -256,7 +257,7 @@ describe('ItemEffectChainEditor', () => {
       ),
     )
     const poisonInput = [...host.querySelectorAll<HTMLInputElement>('input[type="number"]')].find(
-      (input) => input.closest('label')?.textContent?.includes('毒抗增量'),
+      (input) => input.labels?.[0]?.textContent?.includes('毒抗增量'),
     )!
     await input(poisonInput, '-8')
     await act(async () => poisonInput.dispatchEvent(new FocusEvent('focusout', { bubbles: true })))
@@ -326,6 +327,9 @@ describe('ItemEffectChainEditor', () => {
     expect(
       host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')?.classList,
     ).toContain('ds-icon-button--danger')
+    expect(
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')?.classList,
+    ).toContain('ds-icon-button--compact')
 
     await act(async () =>
       host.querySelector<HTMLButtonElement>('button[aria-label="下移效果 1"]')!.click(),
@@ -344,6 +348,9 @@ describe('ItemEffectChainEditor', () => {
     )
     expect(onChange).toHaveBeenLastCalledWith(
       expect.objectContaining({ effects: [{ kind: 'healMp', amount: 20 }] }),
+    )
+    expect(document.activeElement).toBe(
+      host.querySelector<HTMLButtonElement>('[aria-label="效果 1 类型"]'),
     )
     expect(host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')?.disabled).toBe(
       false,
@@ -557,14 +564,14 @@ describe('ItemEffectChainEditor', () => {
     expect(host.textContent).toContain('力量来源')
 
     await act(async () => buttonByText(host, '添加效果')!.click())
-    expect(host.querySelectorAll('.item-effect-row')).toHaveLength(2)
+    expect(host.querySelectorAll('[data-effect-editor-card]')).toHaveLength(2)
     expect(host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!.disabled).toBe(
       false,
     )
     await act(async () =>
       host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!.click(),
     )
-    expect(host.querySelectorAll('.item-effect-row')).toHaveLength(1)
+    expect(host.querySelectorAll('[data-effect-editor-card]')).toHaveLength(1)
     expect(host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!.disabled).toBe(
       true,
     )

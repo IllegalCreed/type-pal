@@ -152,6 +152,16 @@ function TokenHarness() {
       >
         remove first
       </button>
+      <button
+        type="button"
+        data-retain-second="true"
+        onClick={() => {
+          tokens.retain(1)
+          setItems((current) => (current[1] ? [{ ...current[1] }] : []))
+        }}
+      >
+        retain second
+      </button>
       <button type="button" data-reset="true" onClick={tokens.reset}>
         reset tokens
       </button>
@@ -1031,6 +1041,21 @@ describe('DsReorderCollection', () => {
       host.querySelector<HTMLButtonElement>('[data-remove-first="true"]')!.click(),
     )
     const after = [...host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')]
+    expect(after[0]?.dataset.itemKey).toBe(secondToken)
+    expect(after[0]?.querySelector('[data-occurrence]')?.getAttribute('data-occurrence')).toBe(
+      'second-a',
+    )
+  })
+
+  test('retaining one occurrence preserves that card token across a cloned chain replacement', async () => {
+    await act(async () => root.render(<TokenHarness />))
+    const before = [...host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')]
+    const secondToken = before[1]?.dataset.itemKey
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[data-retain-second="true"]')!.click(),
+    )
+    const after = [...host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')]
+    expect(after).toHaveLength(1)
     expect(after[0]?.dataset.itemKey).toBe(secondToken)
     expect(after[0]?.querySelector('[data-occurrence]')?.getAttribute('data-occurrence')).toBe(
       'second-a',

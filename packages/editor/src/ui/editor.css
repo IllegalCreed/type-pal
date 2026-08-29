@@ -3236,30 +3236,24 @@ html[data-panel-resize="horizontal"] * {
   color: var(--dim);
   font-size: 10px;
 }
-.casualty-line-fields,
-.casualty-effect-fields {
+.casualty-line-fields {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.7fr);
   gap: 10px;
 }
 .casualty-line-fields > label,
-.casualty-line-fields > .casualty-field,
-.casualty-effect-fields > label,
-.casualty-effect-fields > .casualty-field {
+.casualty-line-fields > .casualty-field {
   display: grid;
   gap: 5px;
   min-width: 0;
 }
 .casualty-line-fields > label > span,
-.casualty-line-fields > .casualty-field > span,
-.casualty-effect-fields > label > span:first-child,
-.casualty-effect-fields > .casualty-field > span:first-child {
+.casualty-line-fields > .casualty-field > span {
   color: var(--faint);
   font-size: 9px;
   font-weight: 600;
 }
-.casualty-line-fields .in,
-.casualty-effect-fields .in {
+.casualty-line-fields .in {
   width: 100%;
   min-width: 0;
 }
@@ -3283,9 +3277,6 @@ html[data-panel-resize="horizontal"] * {
   color: var(--dim);
   font-size: 10px;
   line-height: 1.5;
-}
-.casualty-effect-fields {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .casualty-percent-input {
   display: grid;
@@ -3345,9 +3336,6 @@ html[data-panel-resize="horizontal"] * {
   .casualty-workbench {
     grid-template-columns: minmax(240px, 270px) minmax(0, 1fr);
   }
-  .casualty-effect-fields {
-    grid-template-columns: repeat(2, minmax(120px, 1fr));
-  }
 }
 @media (max-width: 1120px) {
   .actor-dashboard-grid,
@@ -3372,8 +3360,7 @@ html[data-panel-resize="horizontal"] * {
   .casualty-branch-editor {
     overflow: visible;
   }
-  .casualty-line-fields,
-  .casualty-effect-fields {
+  .casualty-line-fields {
     grid-template-columns: 1fr;
   }
 }
@@ -9055,8 +9042,48 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex: none;
 }
 
-/* 技能效果链：一条效果是一张完整卡片，参数与素材预览不再散落在相邻行之间。 */
-.skill-effect-chain {
+/* 领域共享效果卡：父头持有类型/排序/删除，命名参数区只承载该类型的条件字段。 */
+.effect-editor-chain {
+  display: grid;
+  gap: var(--ds-space-5);
+  container: effect-editor-chain / inline-size;
+  min-width: 0;
+}
+[data-effect-editor-family="actor/casualty-effects"] {
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel2);
+}
+[data-effect-editor-family="actor/casualty-effects"] > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel) 86%, transparent);
+}
+[data-effect-editor-family="actor/casualty-effects"] > header span {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[data-effect-editor-family="actor/casualty-effects"] > header h4 {
+  margin: 0;
+  color: var(--fg);
+  font-size: 13px;
+  line-height: 1.25;
+}
+.casualty-effect-list {
+  padding: 12px;
+}
+.effect-editor-list {
   display: grid;
   gap: var(--ds-space-5);
   min-width: 0;
@@ -9064,7 +9091,10 @@ button.sprite-frame-cell[draggable="true"]:active {
   padding: 0;
   list-style: none;
 }
-.skill-effect-card {
+.effect-editor-card-item {
+  container: effect-editor-card / inline-size;
+}
+.effect-editor-card {
   display: grid;
   min-width: 0;
   overflow: hidden;
@@ -9072,61 +9102,133 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-radius: var(--ds-radius-card);
   background: color-mix(in srgb, var(--ds-surface-raised) 72%, var(--ds-surface-panel));
 }
-.skill-effect-card--with-preview {
+.effect-editor-card:focus-within {
+  border-color: color-mix(in srgb, var(--ds-action-primary) 52%, var(--ds-border-subtle));
+}
+.effect-editor-card[data-has-preview="true"] {
   grid-template-columns: minmax(0, 1fr) 240px;
 }
-.skill-effect-card__editor {
+.effect-editor-card__editor {
   display: grid;
   min-width: 0;
   align-content: start;
 }
-.skill-effect-card__header {
+.ds-reorder-item.effect-editor-card-item[data-layout="overlay"] > .ds-reorder-item__rail {
+  /* Center the compact handle on the first header row, including the card's two border pixels. */
+  inset-block-start: 0;
+  block-size: calc(
+    var(--ds-control-height) + var(--ds-space-4) + var(--ds-space-4) + 2px
+  );
+}
+.ds-reorder-item.effect-editor-card-item[data-layout="overlay"]:has(
+    .effect-editor-card[data-density="compact"]
+  )
+  > .ds-reorder-item__rail {
+  block-size: calc(
+    var(--ds-control-height-compact) + var(--ds-space-4) + var(--ds-space-4) + 2px
+  );
+}
+.effect-editor-card__header {
   display: grid;
-  grid-template-columns: auto minmax(120px, 220px) minmax(0, 1fr) auto;
+  grid-template-areas: "title kind spacer actions";
+  grid-template-columns: auto minmax(140px, 240px) minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--ds-space-4);
   min-width: 0;
-  padding: var(--ds-space-4) var(--ds-space-5);
-  border-bottom: 1px solid var(--ds-border-subtle);
+  min-height: calc(var(--ds-hit-target-compact) + var(--ds-space-4));
+  padding-block: var(--ds-space-4);
+  padding-inline-end: var(--ds-space-5);
+  padding-inline-start: calc(var(--ds-space-2) + var(--ds-hit-target-compact) + var(--ds-space-3));
   background: color-mix(in srgb, var(--ds-surface-overlay) 56%, transparent);
 }
-.skill-effect-card__index {
+.effect-editor-card__title {
+  grid-area: title;
+  min-width: 0;
+  margin: 0;
   color: var(--ds-text-muted);
   font: var(--ds-font-label);
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
-.skill-effect-card__kind {
+.effect-editor-card__kind {
+  grid-area: kind;
   width: 100%;
   min-width: 0;
 }
-.skill-effect-card__spacer {
+.effect-editor-card__kind > * {
+  max-width: 100%;
+}
+.effect-editor-card__spacer {
+  grid-area: spacer;
   min-width: 0;
 }
-.skill-effect-card__actions {
+.effect-editor-card__actions {
+  grid-area: actions;
   display: inline-flex;
   align-items: center;
   gap: var(--ds-space-2);
+  flex: none;
 }
-.skill-effect-card__actions .mini {
-  width: 28px;
-  height: 28px;
+.effect-editor-card__body {
+  display: grid;
+  gap: var(--ds-space-4);
+  min-width: 0;
+  padding: var(--ds-space-5);
+  border-top: 1px solid var(--ds-border-subtle);
+  background: color-mix(in srgb, var(--ds-surface-panel) 82%, var(--ds-surface-canvas));
 }
-.skill-effect-card__fields {
+.effect-editor-card__body-title {
+  margin: 0;
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-label);
+}
+.effect-editor-card__fields {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
   align-items: end;
   gap: var(--ds-space-5);
   min-width: 0;
-  padding: var(--ds-space-5);
 }
-.skill-effect-card__fields > .skill-effect-field {
+.effect-editor-card__fields[data-effect-fields-layout="skill"],
+.effect-editor-card__fields[data-effect-fields-layout="equipment"] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  align-items: end;
+  gap: var(--ds-space-5);
+}
+.effect-editor-card__fields[data-effect-fields-layout="casualty"] {
+  grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
+}
+.effect-editor-card__fields[data-effect-fields-layout="casualty"] > label,
+.effect-editor-card__fields[data-effect-fields-layout="casualty"] > .casualty-field {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+.effect-editor-card__fields[data-effect-fields-layout="casualty"] > label > span:first-child,
+.effect-editor-card__fields[data-effect-fields-layout="casualty"]
+  > .casualty-field
+  > span:first-child {
+  color: var(--faint);
+  font-size: 9px;
+  font-weight: 600;
+}
+.effect-editor-card__fields > .skill-effect-field {
   align-self: end;
 }
-.skill-effect-card__fields > .ef-status-set,
-.skill-effect-card__fields > .hint2 {
+.effect-editor-card__fields > .ef-status-set,
+.effect-editor-card__fields > .hint2,
+.effect-editor-card__fields > .item-effect-field-wide,
+.effect-editor-card__fields > .item-effect-block,
+.effect-editor-card__fields > .item-status-checks,
+.effect-editor-card__fields > .item-script-binding {
   grid-column: 1 / -1;
 }
-.skill-effect-card__preview {
+.effect-editor-card__empty-parameters {
+  grid-column: 1 / -1;
+  color: var(--ds-text-muted);
+  font: var(--ds-font-body);
+}
+.effect-editor-card__preview {
   display: grid;
   align-content: start;
   justify-items: center;
@@ -9137,12 +9239,12 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-left: 1px solid var(--ds-border-subtle);
   background: var(--ds-surface-canvas);
 }
-.skill-effect-card__preview > figcaption {
+.effect-editor-card__preview > figcaption {
   justify-self: stretch;
   color: var(--ds-text-secondary);
   font: var(--ds-font-label);
 }
-.skill-effect-card__preview > .battle-sprite-preview {
+.effect-editor-card__preview > .battle-sprite-preview {
   width: 100%;
 }
 .skill-effect-empty {
@@ -9157,27 +9259,58 @@ button.sprite-frame-cell[draggable="true"]:active {
 .skill-effect-chain__add {
   width: max-content;
 }
-@container (max-width: 760px) {
-  .skill-effect-card--with-preview {
+@container effect-editor-card (max-width: 760px) {
+  .effect-editor-card[data-has-preview="true"] {
     grid-template-columns: minmax(0, 1fr);
   }
-  .skill-effect-card__preview {
+  .effect-editor-card__preview {
     border-top: 1px solid var(--ds-border-subtle);
     border-left: 0;
   }
-  .skill-effect-card__preview > .battle-sprite-preview {
+  .effect-editor-card__preview > .battle-sprite-preview {
     width: min(216px, 100%);
   }
 }
-@container (max-width: 520px) {
-  .skill-effect-card__header {
+@container effect-editor-card (max-width: 520px) {
+  .ds-reorder-item.effect-editor-card-item[data-layout="overlay"] > .ds-reorder-item__rail {
+    block-size: calc(
+      var(--ds-control-height-compact) + var(--ds-space-4) + var(--ds-space-4) + 2px
+    );
+  }
+  .effect-editor-card__header {
+    grid-template-areas:
+      "title spacer actions"
+      "kind kind kind";
     grid-template-columns: auto minmax(0, 1fr) auto;
   }
-  .skill-effect-card__spacer {
+  .effect-editor-card__fields,
+  .effect-editor-card__fields[data-effect-fields-layout="skill"],
+  .effect-editor-card__fields[data-effect-fields-layout="equipment"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@container effect-editor-card (max-width: 320px) {
+  .ds-reorder-item.effect-editor-card-item[data-layout="overlay"]
+    > .ds-reorder-item__rail {
+    block-size: calc(
+      var(--ds-hit-target-compact) + var(--ds-space-4) + var(--ds-space-4) + 2px
+    );
+  }
+  .effect-editor-card__header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .effect-editor-card__title {
+    display: flex;
+    min-height: var(--ds-hit-target-compact);
+    align-items: center;
+  }
+  .effect-editor-card__spacer {
     display: none;
   }
-  .skill-effect-card__fields {
-    grid-template-columns: minmax(0, 1fr);
+  .effect-editor-card__actions {
+    align-self: flex-end;
   }
 }
 .skill-animation-editor {
@@ -9218,7 +9351,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 .skill-animation-group__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  align-items: end;
+  align-items: start;
   gap: var(--ds-space-5);
   min-width: 0;
 }
@@ -9921,18 +10054,16 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--dim);
   font-size: 10px;
 }
-.item-equip-effects,
-.item-effect-chain,
 .item-effect-block,
 .item-recipe-list {
   display: grid;
   gap: 9px;
   min-width: 0;
 }
-.item-effect-subhead,
-.item-effect-row-head {
+.item-effect-subhead {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
   min-width: 0;
 }
@@ -9948,28 +10079,12 @@ button.sprite-frame-cell[draggable="true"]:active {
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  margin-inline-start: auto;
 }
 .item-recipe-delete {
   min-width: 64px;
   flex: none;
   white-space: nowrap;
-}
-.item-equip-effect-row {
-  max-width: none;
-}
-.item-equip-effect-row > .ef-kind {
-  width: 128px;
-}
-.item-equip-effect-row > .ef-fields {
-  min-width: 0;
-  flex: 1 1 360px;
-}
-.item-equip-effect-row-battle-sprite {
-  align-items: flex-start;
-}
-.item-equip-effect-row-battle-sprite > .ef-kind,
-.item-equip-effect-row-battle-sprite > .ef-ops {
-  margin-bottom: 0;
 }
 .item-effect-no-params {
   display: inline-flex;
@@ -9978,9 +10093,23 @@ button.sprite-frame-cell[draggable="true"]:active {
   line-height: 1.2;
 }
 .item-battle-sprite-map {
-  flex: 1 1 420px;
+  width: 100%;
 }
-.item-equip-effects .eq-derived {
+.effect-editor-card__fields[data-effect-fields-layout="equipment"] > label,
+.effect-editor-card__fields[data-effect-fields-layout="equipment"]
+  > div:not(.ds-field-group) {
+  display: grid;
+  gap: var(--ds-space-2);
+  min-width: 0;
+}
+.effect-editor-card__fields[data-effect-fields-layout="equipment"] > label > span:first-child,
+.effect-editor-card__fields[data-effect-fields-layout="equipment"]
+  > div:not(.ds-field-group)
+  > span:first-child {
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-label);
+}
+[data-effect-editor-family="item/equipment-effects"] .eq-derived {
   max-width: none;
 }
 .item-throw-presentation {
@@ -10047,21 +10176,30 @@ button.sprite-frame-cell[draggable="true"]:active {
   min-width: 150px;
   max-width: 230px;
 }
+.effect-editor-card__fields[data-effect-fields-layout="item"],
 .item-effect-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 9px;
   min-width: 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 28rem));
+  justify-content: start;
   align-items: end;
+  gap: var(--ds-space-5);
 }
+.effect-editor-card__fields[data-effect-fields-layout="item"] > .item-effect-block,
+.effect-editor-card__fields[data-effect-fields-layout="item"] > .item-status-checks,
+.effect-editor-card__fields[data-effect-fields-layout="item"] > .item-script-binding,
+.effect-editor-card__fields[data-effect-fields-layout="item"] > .hint2,
 .item-effect-grid > .item-effect-block,
 .item-effect-grid > .item-status-checks,
 .item-effect-grid > .item-script-binding,
 .item-effect-grid > .hint2 {
   grid-column: 1 / -1;
 }
-.item-effect-field-wide {
-  grid-column: 1 / -1;
+.item-effect-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--ds-space-3);
 }
 .item-add-effect {
   width: max-content;

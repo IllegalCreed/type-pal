@@ -74,7 +74,6 @@ import {
   DsFileInput,
   DsField,
   DsFieldGroup,
-  DsIconButton,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
@@ -86,9 +85,8 @@ import {
   DsReferencePanel,
   DsReferenceRow,
   DsReorderCollection,
-  DsReorderItem,
-  DsReorderMoveButton,
   DsSelect,
+  DsSwitch,
   DsTag,
   DsTextInput,
   DsWorkbenchSection,
@@ -98,6 +96,7 @@ import {
   type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/index.js'
+import { EffectEditorCard, EffectEditorChain } from './EffectEditorCard.js'
 import { ImageAssetThumbnail, imageAssetLabel, imageAssets } from './ImageAssetPicker.js'
 import {
   defaultItemUseEffect,
@@ -396,7 +395,7 @@ function EquipEffectFields(props: {
         </DsFieldGroup>
       )
     default:
-      return <span className="hint2 item-effect-no-params">(无参数)</span>
+      return <span className="hint2 item-effect-no-params">此效果无需设置参数</span>
   }
 }
 
@@ -1014,7 +1013,10 @@ export function ItemTab(props: {
     patch({ throw: next })
   }
   const equip = item?.equip
-  const equipEffectReorderKeys = useDsReorderKeys(equip?.effects ?? [])
+  const equipEffectReorderKeys = useDsReorderKeys(
+    equip?.effects ?? [],
+    (effect) => JSON.stringify(effect),
+  )
   const patchEquip = (next: EquipSpec | undefined): void => patch({ equip: next })
   const setEquipEffect = (index: number, next: EquipEffect): void => {
     if (!equip) return
@@ -1636,10 +1638,14 @@ export function ItemTab(props: {
                           ))}
                       </fieldset>
                     </div>
-                    <div className="item-equip-effects">
+                    <EffectEditorChain
+                      family="item/equipment-effects"
+                      label="物品装备效果"
+                    >
                       <div className="item-effect-subhead">
                         <strong>装备效果</strong>
                         <DsButton
+                          data-effect-editor-add="true"
                           size="compact"
                           variant="secondary"
                           icon="add"
@@ -1666,18 +1672,17 @@ export function ItemTab(props: {
                         revision={session.getHistoryVersion()}
                         onReorder={reorderEquipEffects}
                       >
-                        {equip.effects.map((effect, index) => {
-                          const reorderKey = equipEffectReorderKeys.keys[index]!
-                          return (
-                            <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-                              <div
-                                className={`ef-row item-equip-effect-row${
-                                  effect.kind === 'battleSprite'
-                                    ? ' item-equip-effect-row-battle-sprite'
-                                    : ''
-                                }`}
-                              >
-                                <div className="ef-kind">
+                        <ol className="effect-editor-list item-equip-effect-list">
+                          {equip.effects.map((effect, index) => {
+                            const reorderKey = equipEffectReorderKeys.keys[index]!
+                            return (
+                              <EffectEditorCard
+                                key={reorderKey}
+                                itemKey={reorderKey}
+                                label={`装备效果 ${index + 1}`}
+                                density="compact"
+                                effectKind={effect.kind}
+                                kindControl={
                                   <DsSelect
                                     size="compact"
                                     aria-label={`装备效果 ${index + 1} 类型`}
@@ -1708,53 +1713,32 @@ export function ItemTab(props: {
                                       }
                                     }}
                                   />
-                                </div>
-                                <div className="ef-fields">
-                                  <EquipEffectFields
-                                    e={effect}
-                                    draftKey={`item:${item.id}:equip.effects.${reorderKey}`}
-                                    syncToken={session.getHistoryVersion()}
-                                    skills={skills}
-                                    battleSprites={battleSprites}
-                                    actors={actors}
-                                    equipableBy={equip.equipableBy}
-                                    locale={locale}
-                                    on={(next) => setEquipEffect(index, next)}
-                                    onOpenBattleSprite={onOpenBattleSprite}
-                                  />
-                                </div>
-                                <span
-                                  className="ef-ops ds-control-group__actions"
-                                  role="group"
-                                  aria-label={`装备效果 ${index + 1} 排序与删除`}
-                                >
-                                  <DsReorderMoveButton
-                                    itemKey={reorderKey}
-                                    direction="backward"
-                                    label={`上移装备效果 ${index + 1}`}
-                                  />
-                                  <DsReorderMoveButton
-                                    itemKey={reorderKey}
-                                    direction="forward"
-                                    label={`下移装备效果 ${index + 1}`}
-                                  />
-                                  <DsIconButton
-                                    size="compact"
-                                    variant="danger"
-                                    icon="delete"
-                                    label={`删除装备效果 ${index + 1}`}
-                                    onClick={() =>
-                                      patchEquip({
-                                        ...equip,
-                                        effects: equip.effects.filter((_, at) => at !== index),
-                                      })
-                                    }
-                                  />
-                                </span>
-                              </div>
-                            </DsReorderItem>
-                          )
-                        })}
+                                }
+                                fieldsLayout="equipment"
+                                onRemove={() => {
+                                  equipEffectReorderKeys.remove(index)
+                                  patchEquip({
+                                    ...equip,
+                                    effects: equip.effects.filter((_, at) => at !== index),
+                                  })
+                                }}
+                              >
+                                <EquipEffectFields
+                                  e={effect}
+                                  draftKey={`item:${item.id}:equip.effects.${reorderKey}`}
+                                  syncToken={session.getHistoryVersion()}
+                                  skills={skills}
+                                  battleSprites={battleSprites}
+                                  actors={actors}
+                                  equipableBy={equip.equipableBy}
+                                  locale={locale}
+                                  on={(next) => setEquipEffect(index, next)}
+                                  onOpenBattleSprite={onOpenBattleSprite}
+                                />
+                              </EffectEditorCard>
+                            )
+                          })}
+                        </ol>
                       </DsReorderCollection>
                       {!equip.effects.length ? (
                         <div className="item-capability-note">
@@ -1773,7 +1757,7 @@ export function ItemTab(props: {
                           <span className="hint2">(无机制效果)</span>
                         )}
                       </div>
-                    </div>
+                    </EffectEditorChain>
                   </div>
                 ) : (
                   <div className="item-capability-empty">开启后可配置槽位、角色和装备效果。</div>
@@ -1906,26 +1890,11 @@ export function ItemTab(props: {
                     </DsFieldGroup>
                     <div className="item-throw-presentation">
                       <div className="item-effect-subhead">
-                        <strong>法术特效演出</strong>
-                        {item.throw.presentation ? (
-                          <DsButton
-                            size="compact"
-                            variant="danger"
-                            icon="delete"
-                            onClick={() => {
-                              const next = { ...item.throw! }
-                              delete next.presentation
-                              patchThrow(next)
-                            }}
-                          >
-                            移除演出
-                          </DsButton>
-                        ) : (
-                          <DsButton
-                            size="compact"
-                            variant="secondary"
-                            icon="add"
-                            onClick={() =>
+                        <DsSwitch
+                          label="法术特效演出"
+                          checked={!!item.throw.presentation}
+                          onChange={(event) => {
+                            if (event.target.checked) {
                               patchThrow({
                                 ...item.throw!,
                                 presentation: {
@@ -1933,11 +1902,13 @@ export function ItemTab(props: {
                                   animation: { effectSprite: 0, placement: 'normal' },
                                 },
                               })
+                            } else {
+                              const next = { ...item.throw! }
+                              delete next.presentation
+                              patchThrow(next)
                             }
-                          >
-                            添加法术特效
-                          </DsButton>
-                        )}
+                          }}
+                        />
                       </div>
                       {item.throw.presentation ? (
                         <SkillAnimationEditor

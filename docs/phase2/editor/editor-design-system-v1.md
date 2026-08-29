@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.14.2 balanced section-grid navigation columns（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.19.0 effect editor card hierarchy（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
 Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-28
+Last updated: 2026-08-29
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -345,6 +345,15 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   padding，不能自行授予 Inspector 语义。host 外的 `DsPropertyGrid` 在开发期直接报错；主工作区不得通过嵌套
   类名或改写 `--ds-inspector-property-label-track` 借用该例外。业务 shell 与 portal 必须进入
   `field-layout-adoption.json` 的动态精确 census，并由调用路径门禁证明属性表确实处于真实 host 内。
+- 有序“效果类型 → 依赖参数”编辑器必须消费领域共享 `EffectEditorCard`：父头只放“效果 N”、类型选择和
+  排序/删除动作，参数与可选预览放在有分隔的 body；无参数类型也必须显示明确说明，不得让 body 空白消失。
+- 效果卡的拖拽手柄属于卡内标题栏，视觉中心必须与标题/类型控件中线一致，不得按整张高卡片的 50% 中线定位。
+  Item 使用 default 密度，Skill 等高密度链可用 compact，但同一动作组内的上下移动和删除按钮必须同尺寸。
+- 效果卡由自身容器降级：常规宽度允许标题、类型和动作同排；窄宽度依次把类型、动作换到下一层，字段转单列，
+  且不得产生页面或卡片横向溢出。业务页不得复制第三套效果卡 header/body CSS。
+- 每条效果链必须以可序列化语义 identity 维护稳定 occurrence key；移动、删除和独占类型压缩分别调用同一
+  reorder owner 的 move/remove/retain。删除后焦点依次回到下一卡、上一卡、添加按钮；类型切换后焦点回到
+  保留下来的类型控件，且一次用户动作只产生一条业务命令。
 
 ## 4. 共享组件与状态合同
 

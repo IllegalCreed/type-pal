@@ -406,17 +406,6 @@
       },
       {
         "source": "editor.css",
-        "selector": ".casualty-effect-fields",
-        "atRule": "",
-        "property": "grid-template-columns",
-        "value": "minmax(0, 1.5fr) minmax(0, 0.7fr)",
-        "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "两轨排列完整的效果字段单元，每个单元自行包含名称和控件。",
-        "responsiveEvidence": "1000px 以下切单列，字段单元不会压成标签轨。",
-        "removalCondition": "效果单元采用公共 FieldGroup/RepeatRow 组合后删除。"
-      },
-      {
-        "source": "editor.css",
         "selector": ".casualty-line-fields",
         "atRule": "",
         "property": "grid-template-columns",
@@ -472,14 +461,14 @@
       },
       {
         "source": "editor.css",
-        "selector": ".skill-effect-card__header",
-        "atRule": "@container (max-width: 520px)",
+        "selector": ".effect-editor-card__header",
+        "atRule": "@container effect-editor-card (max-width: 520px)",
         "property": "grid-template-columns",
         "value": "auto minmax(0, 1fr) auto",
         "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "三轨是效果身份、完整标题内容和卡头动作，不是表单标签轨。",
-        "responsiveEvidence": "中间标题可收缩，首尾保持内容宽度，窄态不会拆散任何字段。",
-        "removalCondition": "效果卡头迁入公共对象卡 recipe 后删除。"
+        "reason": "三轨是共享效果卡的身份、可收缩留白和项级动作；类型选择在下一完整行，不是表单标签轨。",
+        "responsiveEvidence": "520px 效果卡容器查询把类型选择器移到全宽第二行，标题可换行且动作保持完整点击尺寸。",
+        "removalCondition": "共享 EffectEditorCard 不再采用两行窄态卡头时删除。"
       },
       {
         "source": "editor.css",
@@ -637,14 +626,14 @@
       },
       {
         "source": "editor.css",
-        "selector": ".skill-effect-card__header",
+        "selector": ".effect-editor-card__header",
         "atRule": "",
         "property": "grid-template-columns",
-        "value": "auto minmax(120px, 220px) minmax(0, 1fr) auto",
+        "value": "auto minmax(140px, 240px) minmax(0, 1fr) auto",
         "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "四轨排列效果身份、完整名称、完整摘要与卡头动作，不是字段标签轨。",
-        "responsiveEvidence": "摘要可收缩，520px 容器规则将完整单元重排为三轨。",
-        "removalCondition": "效果卡头迁入公共对象卡 recipe 后删除。"
+        "reason": "四轨排列共享效果卡标题、类型选择、可收缩留白与项级动作，不是字段标签轨。",
+        "responsiveEvidence": "留白轨可收缩，类型有界，520px 效果卡容器规则把类型重排为完整第二行。",
+        "removalCondition": "共享 EffectEditorCard 不再使用标题、类型、留白、动作四槽卡头时删除。"
       },
       {
         "source": "editor.css",

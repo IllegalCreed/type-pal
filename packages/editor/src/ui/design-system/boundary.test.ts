@@ -373,9 +373,9 @@ describe('editor design-system static boundary', () => {
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.14.2'")
-    expect(tokens).toContain('--ds-version: "2.14.2";')
-    expect(specification).toContain('Status: implemented v2.14.2')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.19.0'")
+    expect(tokens).toContain('--ds-version: "2.19.0";')
+    expect(specification).toContain('Status: implemented v2.19.0')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
@@ -1288,7 +1288,7 @@ describe('editor design-system static boundary', () => {
     const contracts = [
       {
         file: 'ItemTab.tsx',
-        required: [/<DsButton\b/, /<DsIconButton\b/],
+        required: [/<DsButton\b/, /<EffectEditorCard\b/],
         forbidden: [/\bitem-action-button\b/, /className\s*=\s*["'][^"']*\bmini\b/],
       },
       {
@@ -1338,6 +1338,8 @@ describe('editor design-system static boundary', () => {
       for (const pattern of contract.required) expect(source, contract.file).toMatch(pattern)
       for (const pattern of contract.forbidden) expect(source, contract.file).not.toMatch(pattern)
     }
+    const effectCard = readFileSync(join(uiRoot, 'EffectEditorCard.tsx'), 'utf8')
+    expect(effectCard).toMatch(/<DsIconButton\b/)
   })
 
   test('keeps all 15 legacy aliases explicit and resolved to semantic tokens', () => {

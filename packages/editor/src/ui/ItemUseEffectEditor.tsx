@@ -32,6 +32,7 @@ import {
   type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/reorder.js'
+import { EffectEditorCard, EffectEditorChain } from './EffectEditorCard.js'
 import { CanonicalScriptBodyEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 
 const STATUSES: { value: StatusId; label: string }[] = [
@@ -1063,7 +1064,7 @@ interface ItemUseEffectChainEditorProps {
 
 function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
   const { spec: use, items, poisons, scripts, onChange } = props
-  const reorderKeys = useDsReorderKeys(use.effects)
+  const reorderKeys = useDsReorderKeys(use.effects, (effect) => JSON.stringify(effect))
   const reorderScope = props.draftScope ?? `item:${props.itemId ?? 'unknown'}:use`
   const reorderRevision = props.syncToken ?? 0
   const excludedIngredientItemId = use.consuming ? props.itemId : undefined
@@ -1133,6 +1134,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
   const changeKind = (index: number, kind: ItemUseEffect['kind']): void => {
     try {
       const effect = createDefaultEffect(kind)
+      if (EXCLUSIVE_EFFECTS.has(kind)) reorderKeys.retain(index)
       patchEffects(
         EXCLUSIVE_EFFECTS.has(kind)
           ? [effect]
@@ -1169,7 +1171,10 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
         syncToken: reorderRevision,
       }}
     >
-      <div className="item-effect-chain">
+      <EffectEditorChain
+        family="item/use-effects"
+        label="物品使用效果"
+      >
         <div className="item-use-options">
           <div className="item-effect-field">
             <span>目标</span>
@@ -1267,131 +1272,114 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
           revision={reorderRevision}
           onReorder={reorderEffects}
         >
-          {use.effects.map((effect, index) => {
-            const reorderKey = reorderKeys.keys[index]!
-            return (
-              <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-                <div className="item-effect-row">
-                  <div className="item-effect-row-head">
-                    <span className="item-effect-index">效果 {index + 1}</span>
-                    {props.privateScripts?.[index] ? (
-                      <DsReadonlyValue className="item-effect-kind item-private-script-kind">
+          <ol className="effect-editor-list item-effect-list">
+            {use.effects.map((effect, index) => {
+              const reorderKey = reorderKeys.keys[index]!
+              const privateScript = props.privateScripts?.[index]
+              return (
+                <EffectEditorCard
+                  key={reorderKey}
+                  itemKey={reorderKey}
+                  label={`效果 ${index + 1}`}
+                  density="default"
+                  effectKind={privateScript ? 'author-private-script' : effect.kind}
+                  kindControl={
+                    privateScript ? (
+                      <DsReadonlyValue className="item-private-script-kind">
                         物品私有脚本
                       </DsReadonlyValue>
                     ) : (
-                      <span className="item-effect-kind">
-                        <DsSelect
-                          size="compact"
-                          aria-label={`效果 ${index + 1} 类型`}
-                          value={effect.kind}
-                          options={compatibleKindsAt(index)}
-                          onValueChange={(value) =>
-                            changeKind(index, value as ItemUseEffect['kind'])
-                          }
-                        />
-                      </span>
-                    )}
-                    <span className="spacer" />
-                    <span
-                      className="item-effect-order-actions ds-control-group__actions"
-                      role="group"
-                      aria-label={`效果 ${index + 1} 排序与删除`}
-                    >
-                      <DsReorderMoveButton
-                        itemKey={reorderKey}
-                        direction="backward"
-                        label={`上移效果 ${index + 1}`}
+                      <DsSelect
+                        aria-label={`效果 ${index + 1} 类型`}
+                        value={effect.kind}
+                        options={compatibleKindsAt(index)}
+                        onValueChange={(value) =>
+                          changeKind(index, value as ItemUseEffect['kind'])
+                        }
                       />
-                      <DsReorderMoveButton
-                        itemKey={reorderKey}
-                        direction="forward"
-                        label={`下移效果 ${index + 1}`}
+                    )
+                  }
+                  fieldsLayout="item"
+                  bodyLabel={privateScript ? '脚本内容' : undefined}
+                  onRemove={() => {
+                    reorderKeys.remove(index)
+                    patchEffects(use.effects.filter((_, at) => at !== index))
+                  }}
+                >
+                  {privateScript ? (
+                    <ItemPrivateScriptBodyEditor binding={privateScript} onError={props.onError} />
+                  ) : (
+                    <ItemEffectDraftScope scope={`effect:${reorderKey}:${effect.kind}`}>
+                      <EffectFields
+                        effect={effect}
+                        items={items}
+                        poisons={poisons}
+                        scripts={scripts}
+                        onChange={(next) => replaceAt(index, next)}
+                        onOpenScript={props.onOpenScript}
+                        onCreateAndBindScript={props.onCreateAndBindScript}
+                        subjectItemId={props.itemId}
+                        consuming={use.consuming}
+                        scenes={props.scenes}
                       />
-                      <DsIconButton
-                        size="compact"
-                        variant="danger"
-                        icon="delete"
-                        label={`删除效果 ${index + 1}`}
-                        onClick={() => patchEffects(use.effects.filter((_, at) => at !== index))}
-                      />
-                    </span>
-                  </div>
-                  <div className="item-effect-grid">
-                    {props.privateScripts?.[index] ? (
-                      <ItemPrivateScriptBodyEditor
-                        binding={props.privateScripts[index]}
-                        onError={props.onError}
-                      />
-                    ) : (
-                      <ItemEffectDraftScope scope={`effect:${reorderKey}:${effect.kind}`}>
-                        <EffectFields
-                          effect={effect}
-                          items={items}
-                          poisons={poisons}
-                          scripts={scripts}
-                          onChange={(next) => replaceAt(index, next)}
-                          onOpenScript={props.onOpenScript}
-                          onCreateAndBindScript={props.onCreateAndBindScript}
-                          subjectItemId={props.itemId}
-                          consuming={use.consuming}
-                          scenes={props.scenes}
-                        />
-                      </ItemEffectDraftScope>
-                    )}
-                  </div>
-                </div>
-              </DsReorderItem>
-            )
-          })}
+                    </ItemEffectDraftScope>
+                  )}
+                </EffectEditorCard>
+              )
+            })}
+          </ol>
         </DsReorderCollection>
 
         {!use.effects.length ? (
           <div className="item-capability-note">当前没有效果，可继续添加或保留为空。</div>
         ) : null}
 
-        <DsButton
-          size="compact"
-          variant="primary"
-          icon="add"
-          className="item-add-effect"
-          disabled={use.effects.some(isExclusiveEffect) || firstAppendableKind() === undefined}
-          onClick={() => {
-            try {
-              const kind = firstAppendableKind()
-              if (!kind) return
-              patchEffects([...use.effects, createDefaultEffect(kind)])
-            } catch (cause) {
-              props.onError?.(cause instanceof Error ? cause.message : String(cause))
-            }
-          }}
-        >
-          添加效果
-        </DsButton>
-        {props.onAddPrivateScript ? (
+        <div className="item-effect-actions">
           <DsButton
+            data-effect-editor-add="true"
             size="compact"
-            variant="secondary"
+            variant="primary"
             icon="add"
-            className="item-add-effect item-add-private-script"
-            disabled={
-              use.effects.some(isPrivateScriptEffect) ||
-              !compatibleChain([
-                ...use.effects,
-                {
-                  kind: 'runScript',
-                  script: {
-                    chunk: '__author-script-runtime',
-                    id: `item:${props.itemId ?? ''}:__probe__`,
-                  },
-                },
-              ])
-            }
-            onClick={() => props.onAddPrivateScript?.()}
+            className="item-add-effect"
+            disabled={use.effects.some(isExclusiveEffect) || firstAppendableKind() === undefined}
+            onClick={() => {
+              try {
+                const kind = firstAppendableKind()
+                if (!kind) return
+                patchEffects([...use.effects, createDefaultEffect(kind)])
+              } catch (cause) {
+                props.onError?.(cause instanceof Error ? cause.message : String(cause))
+              }
+            }}
           >
-            添加脚本
+            添加效果
           </DsButton>
-        ) : null}
-      </div>
+          {props.onAddPrivateScript ? (
+            <DsButton
+              size="compact"
+              variant="secondary"
+              icon="add"
+              className="item-add-effect item-add-private-script"
+              disabled={
+                use.effects.some(isPrivateScriptEffect) ||
+                !compatibleChain([
+                  ...use.effects,
+                  {
+                    kind: 'runScript',
+                    script: {
+                      chunk: '__author-script-runtime',
+                      id: `item:${props.itemId ?? ''}:__probe__`,
+                    },
+                  },
+                ])
+              }
+              onClick={() => props.onAddPrivateScript?.()}
+            >
+              添加脚本
+            </DsButton>
+          ) : null}
+        </div>
+      </EffectEditorChain>
     </ItemEffectDraftContext.Provider>
   )
 }
@@ -1699,7 +1687,7 @@ export interface ThrowEffectChainEditorProps {
 
 export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
   const { spec, poisons, onChange } = props
-  const reorderKeys = useDsReorderKeys(spec.effects)
+  const reorderKeys = useDsReorderKeys(spec.effects, (effect) => JSON.stringify(effect))
   const reorderScope = props.draftScope ?? 'item:throw'
   const reorderRevision = props.syncToken ?? 0
   const patchEffects = (effects: ThrowEffect[]): void => onChange({ ...spec, effects })
@@ -1724,7 +1712,10 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
   }
   return (
     <ItemEffectDraftContext.Provider value={{ scope: reorderScope, syncToken: reorderRevision }}>
-      <div className="item-effect-chain item-throw-effect-chain">
+      <EffectEditorChain
+        family="item/throw-effects"
+        label="物品投掷效果"
+      >
         <div className="item-use-options">
           <div className="item-effect-field">
             <span>投掷目标</span>
@@ -1757,62 +1748,45 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
           revision={reorderRevision}
           onReorder={reorderEffects}
         >
-          {spec.effects.map((effect, index) => {
-            const reorderKey = reorderKeys.keys[index]!
-            return (
-              <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-                <div className="item-effect-row">
-                  <div className="item-effect-row-head">
-                    <span className="item-effect-index">效果 {index + 1}</span>
-                    <span className="item-effect-kind">
-                      <DsSelect
-                        size="compact"
-                        aria-label={`效果 ${index + 1} 类型`}
-                        value={effect.kind}
-                        options={THROW_EFFECT_KINDS}
-                        onValueChange={(value) => changeKind(index, value as ThrowEffect['kind'])}
-                      />
-                    </span>
-                    <span className="spacer" />
-                    <span
-                      className="item-effect-order-actions ds-control-group__actions"
-                      role="group"
-                      aria-label={`效果 ${index + 1} 排序与删除`}
-                    >
-                      <DsReorderMoveButton
-                        itemKey={reorderKey}
-                        direction="backward"
-                        label={`上移效果 ${index + 1}`}
-                      />
-                      <DsReorderMoveButton
-                        itemKey={reorderKey}
-                        direction="forward"
-                        label={`下移效果 ${index + 1}`}
-                      />
-                      <DsIconButton
-                        size="compact"
-                        variant="danger"
-                        icon="delete"
-                        label={`删除效果 ${index + 1}`}
-                        title={spec.effects.length === 1 ? '投掷能力至少保留一个效果' : undefined}
-                        disabled={spec.effects.length === 1}
-                        onClick={() => patchEffects(spec.effects.filter((_, at) => at !== index))}
-                      />
-                    </span>
-                  </div>
-                  <div className="item-effect-grid">
-                    <ItemEffectDraftScope scope={`effect:${reorderKey}:${effect.kind}`}>
-                      <ThrowEffectFields
-                        effect={effect}
-                        poisons={poisons}
-                        onChange={(next) => replaceAt(index, next)}
-                      />
-                    </ItemEffectDraftScope>
-                  </div>
-                </div>
-              </DsReorderItem>
-            )
-          })}
+          <ol className="effect-editor-list item-effect-list">
+            {spec.effects.map((effect, index) => {
+              const reorderKey = reorderKeys.keys[index]!
+              return (
+                <EffectEditorCard
+                  key={reorderKey}
+                  itemKey={reorderKey}
+                  label={`效果 ${index + 1}`}
+                  density="default"
+                  effectKind={effect.kind}
+                  kindControl={
+                    <DsSelect
+                      aria-label={`效果 ${index + 1} 类型`}
+                      value={effect.kind}
+                      options={THROW_EFFECT_KINDS}
+                      onValueChange={(value) => changeKind(index, value as ThrowEffect['kind'])}
+                    />
+                  }
+                  fieldsLayout="item"
+                  removeTitle={
+                    spec.effects.length === 1 ? '投掷能力至少保留一个效果' : undefined
+                  }
+                  removeDisabled={spec.effects.length === 1}
+                  onRemove={() => {
+                    reorderKeys.remove(index)
+                    patchEffects(spec.effects.filter((_, at) => at !== index))
+                  }}
+                >
+                  <ItemEffectDraftScope scope={`effect:${reorderKey}:${effect.kind}`}>
+                    <ThrowEffectFields
+                      effect={effect}
+                      poisons={poisons}
+                      onChange={(next) => replaceAt(index, next)}
+                    />
+                  </ItemEffectDraftScope>
+                </EffectEditorCard>
+              )
+            })}
+          </ol>
         </DsReorderCollection>
 
         {!spec.effects.length ? (
@@ -1820,18 +1794,21 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
             投掷能力至少需要一个效果，请添加后再保存。
           </div>
         ) : null}
-        <DsButton
-          size="compact"
-          variant="primary"
-          icon="add"
-          className="item-add-effect"
-          onClick={() =>
-            patchEffects([...spec.effects, defaultThrowEffect('fixedDamage', poisons)])
-          }
-        >
-          添加效果
-        </DsButton>
-      </div>
+        <div className="item-effect-actions">
+          <DsButton
+            data-effect-editor-add="true"
+            size="compact"
+            variant="primary"
+            icon="add"
+            className="item-add-effect"
+            onClick={() =>
+              patchEffects([...spec.effects, defaultThrowEffect('fixedDamage', poisons)])
+            }
+          >
+            添加效果
+          </DsButton>
+        </div>
+      </EffectEditorChain>
     </ItemEffectDraftContext.Provider>
   )
 }
