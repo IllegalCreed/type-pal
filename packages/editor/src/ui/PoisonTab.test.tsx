@@ -9,6 +9,7 @@ import {
 } from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { PoisonTab } from './PoisonTab.js'
@@ -115,8 +116,13 @@ describe('PoisonTab shared workbench', () => {
   test('毒目录以名称、ID、可解度分槽且不伪造媒体位', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} focusObjectId="1" />))
+    verifyCatalogWorkspace(host, '毒目录')
 
-    const rows = [...host.querySelectorAll<HTMLElement>('.sprite-list .ds-catalog-row')]
+    const rows = [
+      ...host.querySelectorAll<HTMLElement>(
+        '.ds-catalog-workspace__content .ds-catalog-row',
+      ),
+    ]
     expect(rows).toHaveLength(2)
     expect(rows.every((row) => row.dataset.leading === 'none')).toBe(true)
     expect(rows[0]!.querySelector('.ds-catalog-row__title')?.textContent).toBe('赤蝎粉')

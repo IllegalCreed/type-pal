@@ -15,13 +15,16 @@ import {
   itemPickerSearchText,
 } from './add-picker-option-presentation.js'
 import { DsAddPickerDialog } from './design-system/add-picker.js'
-import { DsButton, DsEmptyState, DsListHeader, DsTag } from './design-system/controls.js'
+import { DsButton, DsEmptyState, DsTag } from './design-system/controls.js'
 import {
+  DsCatalogControls,
   DsCatalogRow,
+  DsCatalogWorkspace,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsObjectWorkspace,
   DsPropertyGrid,
   DsPropertyRow,
   DsSequenceIndex,
@@ -36,6 +39,15 @@ import {
 } from './design-system/reorder.js'
 
 type ShopInspectorTab = 'summary' | 'help'
+
+function shopCatalogTitle(shop: ShopDef, itemsById: ReadonlyMap<string, ItemData>): string {
+  const firstItemId = shop.items[0]
+  if (!firstItemId) return '空货单'
+  const firstItemName = itemsById.get(firstItemId)?.name.trim() || firstItemId
+  return shop.items.length > 1
+    ? `${firstItemName}等 ${shop.items.length} 种货品`
+    : firstItemName
+}
 
 export function ShopTab(props: {
   shops: ShopDef[]
@@ -96,51 +108,63 @@ export function ShopTab(props: {
 
   return (
     <>
-      <div className="outliner data-outliner shop-outliner">
-        {tabBar}
-        <DsListHeader
-          title="商店"
-          count={shops.length}
-          unit="家"
-          actions={[
-            {
-              id: 'create-shop',
-              label: '新建店铺',
-              icon: 'add',
-              onClick: () => {
-                const id =
-                  shops.reduce((maximum, candidate) => Math.max(maximum, candidate.id), -1) + 1
-                session.dispatch(new AddShopCommand(id))
-                selectShop(id)
-              },
-            },
-          ]}
-        />
-        <div className="sprite-list shop-catalog">
-          {shops.map((x) => (
-            <DsCatalogRow
-              key={x.id}
-              selected={x.id === shop?.id}
-              title={`店 ${x.id}`}
-              meta={`${x.items.length} 种货`}
-              onClick={() => selectShop(x.id)}
+      <DsCatalogWorkspace
+        label="商店目录"
+        className="outliner data-outliner shop-outliner"
+        contentClassName="shop-catalog"
+        header={
+          <>
+            {tabBar}
+            <DsCatalogControls
+              title="商店"
+              count={shops.length}
+              unit="家"
+              actions={[
+                {
+                  id: 'create-shop',
+                  label: '新建店铺',
+                  icon: 'add',
+                  onClick: () => {
+                    const id =
+                      shops.reduce((maximum, candidate) => Math.max(maximum, candidate.id), -1) +
+                      1
+                    session.dispatch(new AddShopCommand(id))
+                    selectShop(id)
+                  },
+                },
+              ]}
             />
-          ))}
-        </div>
-      </div>
+          </>
+        }
+      >
+        {shops.map((x) => (
+          <DsCatalogRow
+            key={x.id}
+            selected={x.id === shop?.id}
+            title={shopCatalogTitle(x, itemsById)}
+            meta={String(x.id)}
+            onClick={() => selectShop(x.id)}
+          />
+        ))}
+      </DsCatalogWorkspace>
 
       <div className="canvas-wrap data-body shop-workbench">
         {shop ? (
-          <main className="shop-main ds-object-workspace">
-            <DsObjectHero
-              eyebrow="店铺"
-              title="货单"
-              objectId={`#${shop.id}`}
-              summary="配置这家店出售的物品及展示顺序；售价直接引用物品数据。"
-              meta={<DsTag tone="neutral">{shop.items.length} 种货</DsTag>}
-            />
-
-            <div className="shop-main-inner ds-object-workspace__content">
+          <DsObjectWorkspace
+            as="main"
+            label="店铺货单工作区"
+            className="shop-main"
+            contentClassName="shop-main-inner"
+            hero={
+              <DsObjectHero
+                eyebrow="店铺"
+                title="货单"
+                objectId={`#${shop.id}`}
+                summary="配置这家店出售的物品及展示顺序；售价直接引用物品数据。"
+                meta={<DsTag tone="neutral">{shop.items.length} 种货</DsTag>}
+              />
+            }
+          >
               <section
                 ref={stockSectionRef}
                 className="shop-stock-card"
@@ -244,8 +268,7 @@ export function ShopTab(props: {
                   </div>
                 </DsReorderCollection>
               </section>
-            </div>
-          </main>
+          </DsObjectWorkspace>
         ) : (
           <div className="shop-empty-state">
             <span aria-hidden="true">🏪</span>

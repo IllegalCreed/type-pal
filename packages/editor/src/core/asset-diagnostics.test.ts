@@ -1,8 +1,31 @@
 import type { AssetCatalogV1, AssetReference } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { collectEditorAssetDiagnostics } from './asset-diagnostics.js'
+import {
+  collectEditorAssetDiagnostics,
+  editorAssetCatalogTitle,
+} from './asset-diagnostics.js'
 
 describe('编辑器资源诊断展示', () => {
+  test('目录标题对空白标签使用唯一 AssetKind 中文 owner，且不接收 AssetId 回退', () => {
+    const cases = [
+      ['music', '未命名音乐'],
+      ['sound', '未命名音效'],
+      ['battle-sprite', '未命名战斗精灵'],
+      ['video', '未命名视频'],
+      ['frame-animation', '未命名帧动画'],
+      ['face', '未命名战斗头像'],
+      ['sprite', '未命名场景精灵'],
+    ] as const
+    for (const [kind, expected] of cases) {
+      expect(editorAssetCatalogTitle({ kind })).toBe(expected)
+      expect(editorAssetCatalogTitle({ kind, label: '   ' })).toBe(expected)
+    }
+    expect(editorAssetCatalogTitle({ kind: 'music', label: '  片尾曲  ' })).toBe('片尾曲')
+    expect(editorAssetCatalogTitle({ kind: 'sprite', label: '   ' }, '  赵灵儿  ')).toBe(
+      '赵灵儿',
+    )
+  })
+
   test('保留机器 code/where，并用结构化资源字段生成不重复的中文标题', () => {
     const catalog: AssetCatalogV1 = {
       version: 1,

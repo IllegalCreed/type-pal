@@ -1,25 +1,25 @@
 import type { ReactNode, Ref } from 'react'
 
 export function IsometricEditorSurface(props: {
-  className?: string
+  className?: 'center map-center' | 'stamp-content-editor'
   toolbar: ReactNode
-  toolbarClassName?: string
   viewportRef?: Ref<HTMLDivElement>
-  viewportClassName?: string
   children: ReactNode
   overlay?: ReactNode
   footer?: ReactNode
 }) {
+  const className =
+    props.className === 'center map-center'
+      ? 'isometric-editor-surface center map-center'
+      : props.className === 'stamp-content-editor'
+        ? 'isometric-editor-surface stamp-content-editor'
+        : 'isometric-editor-surface'
   return (
-    <section className={`isometric-editor-surface${props.className ? ` ${props.className}` : ''}`}>
-      <header
-        className={`toolbar map-toolbar${props.toolbarClassName ? ` ${props.toolbarClassName}` : ''}`}
-      >
-        {props.toolbar}
-      </header>
+    <section className={className}>
+      <header className="toolbar map-toolbar">{props.toolbar}</header>
       <div
         ref={props.viewportRef}
-        className={`viewport isometric-editor-surface__viewport${props.viewportClassName ? ` ${props.viewportClassName}` : ''}`}
+        className="viewport isometric-editor-surface__viewport"
       >
         {props.children}
         {props.overlay}

@@ -326,7 +326,7 @@ describe('BattleSpriteLibrary', () => {
     expect(host.querySelector('.inspector')?.textContent).toContain('battle-sprite.shared')
   })
 
-  test('空白资源标签和空用途名称最终回退到 AssetId', async () => {
+  test('空白资源标签和空用途名称回退为本地化类型标题，AssetId 仍在第二行', async () => {
     const blankCatalog = structuredClone(catalog)
     blankCatalog.assets['battle-sprite.aaa-unrelated']!.label = '   '
     await act(async () => root.render(library([], { view: 'asset', catalog: blankCatalog })))
@@ -335,7 +335,8 @@ describe('BattleSpriteLibrary', () => {
       (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent
         === 'battle-sprite.aaa-unrelated',
     )!
-    expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe(
+    expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe('未命名战斗精灵')
+    expect(row.querySelector('.ds-catalog-row__meta')?.textContent).toBe(
       'battle-sprite.aaa-unrelated',
     )
   })

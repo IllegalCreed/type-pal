@@ -49,10 +49,13 @@ import {
 import {
   DsCatalogControls,
   DsCatalogRow,
+  DsCatalogWorkspace,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsObjectWorkspace,
+  DsObjectWorkspaceContent,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -1032,35 +1035,43 @@ export function SkillTab(props: {
   }
   return (
     <>
-      <div className="outliner data-outliner">
-        <DsCatalogControls
-          title="技能"
-          count={skills.length}
-          unit="项"
-          actions={[{ id: 'create-skill', label: '新建技能', icon: 'add', onClick: addSkill }]}
-          search={{
-            'aria-label': '过滤技能',
-            placeholder: '过滤 id/名…',
-            value: filter,
-            onChange: (event) => setFilter(event.target.value),
-          }}
-        />
-        <div className="sprite-list">
-          {shown.map((s) => (
-            <DsCatalogRow
-              key={s.id}
-              selected={s.id === skill?.id}
-              title={s.name}
-              meta={s.id}
-              onClick={() => {
-                setSelId(s.id)
-                onObjectFocus?.(s.id)
-              }}
-            />
-          ))}
-        </div>
-      </div>
-      <div className="canvas-wrap data-body ds-object-workspace">
+      <DsCatalogWorkspace
+        label="技能目录"
+        className="outliner data-outliner"
+        header={
+          <DsCatalogControls
+            title="技能"
+            count={skills.length}
+            unit="项"
+            actions={[{ id: 'create-skill', label: '新建技能', icon: 'add', onClick: addSkill }]}
+            search={{
+              'aria-label': '过滤技能',
+              placeholder: '过滤 id/名…',
+              value: filter,
+              onChange: (event) => setFilter(event.target.value),
+            }}
+          />
+        }
+      >
+        {shown.map((s) => (
+          <DsCatalogRow
+            key={s.id}
+            selected={s.id === skill?.id}
+            title={s.name}
+            meta={s.id}
+            onClick={() => {
+              setSelId(s.id)
+              onObjectFocus?.(s.id)
+            }}
+          />
+        ))}
+      </DsCatalogWorkspace>
+      <DsObjectWorkspace
+        as="div"
+        label="技能工作区"
+        className="canvas-wrap data-body"
+        contentMode="manual"
+      >
         {skill ? (
           <>
             <DsObjectHero
@@ -1101,7 +1112,7 @@ export function SkillTab(props: {
                 </>
               }
             />
-            <div className="et-scroll battle-data-form ds-object-workspace__content">
+            <DsObjectWorkspaceContent className="et-scroll battle-data-form">
               <DsWorkbenchSection
                 title="基础"
                 description="配置施法目标、资源消耗、战外可用性与玩家可见说明。"
@@ -1455,12 +1466,12 @@ export function SkillTab(props: {
                   )
                 })}
               </DsWorkbenchSection>
-            </div>
+            </DsObjectWorkspaceContent>
           </>
         ) : (
           <div className="insp-empty ds-empty-state--roomy">无技能</div>
         )}
-      </div>
+      </DsObjectWorkspace>
       <DsInspectorHost className="inspector inspector--tabbed battle-data-inspector">
         <div className="insp-head">
           <div className="what">技能</div>

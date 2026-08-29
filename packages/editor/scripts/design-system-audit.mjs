@@ -1,9 +1,12 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import Specificity from '@bramus/specificity'
+import { JSDOM } from 'jsdom'
 import ts from 'typescript'
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
+const repositoryRoot = join(packageRoot, '../..')
 const uiRoot = join(packageRoot, 'src/ui')
 const allowlistPath = join(uiRoot, 'design-system/design-system-allowlist.json')
 const adoptionPath = join(uiRoot, 'design-system/design-system-adoption.json')
@@ -289,6 +292,19 @@ export function validateEffectCardAdoption(document, overrides = {}) {
   return problems
 }
 
+const uiSourceContentCache = new Map()
+
+function readUiSource(sourcePath, overrides = {}) {
+  if (Object.hasOwn(overrides, sourcePath)) return overrides[sourcePath]
+  const absolutePath = join(uiRoot, sourcePath)
+  const stats = statSync(absolutePath)
+  const cached = uiSourceContentCache.get(sourcePath)
+  if (cached?.mtimeMs === stats.mtimeMs && cached?.size === stats.size) return cached.content
+  const content = readFileSync(absolutePath, 'utf8')
+  uiSourceContentCache.set(sourcePath, { content, mtimeMs: stats.mtimeMs, size: stats.size })
+  return content
+}
+
 function jsxTag(node) {
   return node.tagName.getText()
 }
@@ -313,6 +329,253 @@ function classTokens(node) {
     .split(/[^A-Za-z0-9_-]+/)
     .filter(Boolean)
 }
+
+function literalClassTokens(node) {
+  const initializer = jsxAttribute(node, 'className')?.initializer
+  if (
+    !initializer ||
+    (!ts.isStringLiteral(initializer) && !ts.isNoSubstitutionTemplateLiteral(initializer))
+  )
+    return []
+  return initializer.text.split(/\s+/).filter(Boolean)
+}
+
+function reachableClassTokens(node) {
+  const initializer = jsxAttribute(node, 'className')?.initializer
+  if (!initializer) return []
+  if (ts.isStringLiteral(initializer) || ts.isNoSubstitutionTemplateLiteral(initializer))
+    return initializer.text.split(/\s+/).filter(Boolean)
+  if (!ts.isJsxExpression(initializer) || !initializer.expression) return []
+  const tokens = new Set()
+  const collect = (expression) => {
+    const current = unwrapExpression(expression)
+    if (!current) return
+    if (ts.isStringLiteral(current) || ts.isNoSubstitutionTemplateLiteral(current)) {
+      for (const token of current.text.split(/\s+/).filter(Boolean)) tokens.add(token)
+      return
+    }
+    if (ts.isTemplateExpression(current)) {
+      for (const token of current.head.text.split(/\s+/).filter(Boolean)) tokens.add(token)
+      for (const span of current.templateSpans) {
+        collect(span.expression)
+        for (const token of span.literal.text.split(/\s+/).filter(Boolean)) tokens.add(token)
+      }
+      return
+    }
+    if (ts.isConditionalExpression(current)) {
+      collect(current.whenTrue)
+      collect(current.whenFalse)
+      return
+    }
+    if (ts.isBinaryExpression(current) && current.operatorToken.kind === ts.SyntaxKind.PlusToken) {
+      collect(current.left)
+      collect(current.right)
+    }
+  }
+  collect(initializer.expression)
+  return [...tokens]
+}
+
+function reachableClassVariants(node) {
+  const initializer = jsxAttribute(node, 'className')?.initializer
+  if (!initializer) return { truncated: false, variants: [[]] }
+  let truncated = false
+  const merge = (left, right) => {
+    const values = []
+    for (const prefix of left)
+      for (const suffix of right) {
+        values.push(`${prefix}${suffix}`)
+        if (values.length > 32) {
+          truncated = true
+          return undefined
+        }
+      }
+    return values
+  }
+  const resolve = (expression) => {
+    const current = unwrapExpression(expression)
+    if (!current) return ['']
+    if (ts.isStringLiteral(current) || ts.isNoSubstitutionTemplateLiteral(current))
+      return [current.text]
+    if (ts.isNumericLiteral(current)) return [current.text]
+    if (
+      current.kind === ts.SyntaxKind.FalseKeyword ||
+      current.kind === ts.SyntaxKind.NullKeyword ||
+      (ts.isIdentifier(current) && current.text === 'undefined')
+    )
+      return ['']
+    if (ts.isConditionalExpression(current)) {
+      const whenTrue = resolve(current.whenTrue)
+      const whenFalse = resolve(current.whenFalse)
+      return whenTrue && whenFalse ? [...whenTrue, ...whenFalse] : undefined
+    }
+    if (ts.isBinaryExpression(current)) {
+      if (current.operatorToken.kind === ts.SyntaxKind.PlusToken) {
+        const left = resolve(current.left)
+        const right = resolve(current.right)
+        return left && right ? merge(left, right) : undefined
+      }
+      if (current.operatorToken.kind === ts.SyntaxKind.AmpersandAmpersandToken) {
+        const right = resolve(current.right)
+        return right ? ['', ...right] : undefined
+      }
+      if (
+        current.operatorToken.kind === ts.SyntaxKind.BarBarToken ||
+        current.operatorToken.kind === ts.SyntaxKind.QuestionQuestionToken
+      ) {
+        const left = resolve(current.left)
+        const right = resolve(current.right)
+        return left && right ? [...left, ...right] : undefined
+      }
+    }
+    if (ts.isTemplateExpression(current)) {
+      let values = [current.head.text]
+      for (const span of current.templateSpans) {
+        const expressions = resolve(span.expression)
+        if (!expressions) return undefined
+        const withExpression = merge(values, expressions)
+        if (!withExpression) return undefined
+        const withLiteral = merge(withExpression, [span.literal.text])
+        if (!withLiteral) return undefined
+        values = withLiteral
+      }
+      return values
+    }
+    return undefined
+  }
+  const values = ts.isStringLiteral(initializer)
+    ? [initializer.text]
+    : ts.isJsxExpression(initializer)
+      ? resolve(initializer.expression)
+      : undefined
+  if (!values) return { truncated, variants: [reachableClassTokens(node)] }
+  const unique = new Map()
+  for (const value of values) {
+    const tokens = value.split(/\s+/).filter(Boolean)
+    unique.set([...tokens].sort().join('.'), tokens)
+  }
+  return { truncated, variants: [...unique.values()] }
+}
+
+function reachableStaticAttributes(node) {
+  const attributes = {}
+  for (const property of node.attributes.properties) {
+    if (!ts.isJsxAttribute(property)) continue
+    const name = property.name.getText()
+    if (name === 'className') continue
+    if (!property.initializer) {
+      attributes[name] = ''
+      continue
+    }
+    if (ts.isStringLiteral(property.initializer)) {
+      attributes[name] = property.initializer.text
+      continue
+    }
+    if (!ts.isJsxExpression(property.initializer) || !property.initializer.expression) continue
+    const expression = unwrapExpression(property.initializer.expression)
+    if (ts.isStringLiteral(expression) || ts.isNumericLiteral(expression))
+      attributes[name] = expression.text
+    else if (expression.kind === ts.SyntaxKind.TrueKeyword) attributes[name] = ''
+    else if (expression.kind === ts.SyntaxKind.FalseKeyword) continue
+  }
+  return attributes
+}
+
+const inlineScrollStyleProperties = new Map([
+  ['blockSize', 'block-size'],
+  ['height', 'height'],
+  ['maxBlockSize', 'max-block-size'],
+  ['maxHeight', 'max-height'],
+  ['overflow', 'overflow'],
+  ['overflowX', 'overflow-x'],
+  ['overflowY', 'overflow-y'],
+])
+
+function inlineScrollStyle(node) {
+  const initializer = jsxAttribute(node, 'style')?.initializer
+  if (!initializer) return { declarations: [], uncertain: false }
+  if (!ts.isJsxExpression(initializer) || !initializer.expression)
+    return { declarations: [], uncertain: true }
+  const expression = unwrapExpression(initializer.expression)
+  if (!expression || !ts.isObjectLiteralExpression(expression))
+    return { declarations: [], uncertain: true }
+  const declarations = []
+  let uncertain = false
+  for (const property of expression.properties) {
+    if (ts.isSpreadAssignment(property)) {
+      uncertain = true
+      continue
+    }
+    if (!('name' in property) || !property.name) {
+      uncertain = true
+      continue
+    }
+    const name = unwrapExpression(property.name)
+    const propertyName =
+      ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNumericLiteral(name)
+        ? name.text
+        : undefined
+    if (propertyName === undefined) {
+      uncertain = true
+      continue
+    }
+    const cssProperty = inlineScrollStyleProperties.get(propertyName)
+    if (!cssProperty) continue
+    if (!ts.isPropertyAssignment(property)) {
+      uncertain = true
+      continue
+    }
+    const value = unwrapExpression(property.initializer)
+    if (ts.isStringLiteral(value) || ts.isNoSubstitutionTemplateLiteral(value)) {
+      declarations.push({ property: cssProperty, value: value.text })
+      continue
+    }
+    if (ts.isNumericLiteral(value)) {
+      const numeric = Number(value.text)
+      declarations.push({
+        property: cssProperty,
+        value:
+          cssProperty.includes('height') || cssProperty.includes('size')
+            ? numeric === 0
+              ? '0'
+              : `${numeric}px`
+            : value.text,
+      })
+      continue
+    }
+    uncertain = true
+  }
+  return { declarations, uncertain }
+}
+
+function intrinsicClassSelector(node) {
+  const tag = jsxTag(node)
+  const classes = literalClassTokens(node)
+  return /^[a-z]/.test(tag) && classes.length ? `${tag}.${classes.join('.')}` : undefined
+}
+
+const governedCatalogScrollTags = new Set([
+  'DsCatalogGroupList',
+  'DsCatalogWorkspace',
+  'DsInspectorTabs',
+  'DsObjectWorkspaceContent',
+  'DsVirtualList',
+])
+
+const governedCatalogScrollRoles = new Map([
+  ['DsCatalogGroupList', new Set(['catalog'])],
+  ['DsCatalogWorkspace', new Set(['catalog', 'scroll'])],
+  ['DsInspectorTabs', new Set(['scroll'])],
+  ['DsObjectWorkspaceContent', new Set(['scroll'])],
+  ['DsVirtualList', new Set(['catalog', 'scroll'])],
+])
+
+const governedScrollAxes = new Map([
+  ['DsCatalogWorkspace', new Set(['y'])],
+  ['DsInspectorTabs', new Set(['y'])],
+  ['DsObjectWorkspaceContent', new Set(['y'])],
+  ['DsVirtualList', new Set(['y'])],
+])
 
 function isStaticLiteral(expression) {
   if (
@@ -541,7 +804,8 @@ function registeredSubpages(sourceOverride) {
     )
       return []
     return statement.declarationList.declarations.filter(
-      (declaration) => ts.isIdentifier(declaration.name) && declaration.name.text === 'EDITOR_MODULES',
+      (declaration) =>
+        ts.isIdentifier(declaration.name) && declaration.name.text === 'EDITOR_MODULES',
     )
   })
   if (declarations.length !== 1)
@@ -701,8 +965,7 @@ function resolveScopedConstAliasAt(aliases, name, usage) {
     if (ts.isBlock(scope) || ts.isSourceFile(scope)) {
       const visible = candidates
         .filter(
-          (alias) =>
-            sameLexicalScope(alias.scope, scope) && alias.declaration.pos <= usage.pos,
+          (alias) => sameLexicalScope(alias.scope, scope) && alias.declaration.pos <= usage.pos,
         )
         .sort((left, right) => right.declaration.pos - left.declaration.pos)
       if (visible[0]) return visible[0]
@@ -755,8 +1018,7 @@ function scopedValueBindings(source) {
       )
     else if (ts.isFunctionDeclaration(node) && node.name)
       addNames(node.name, nearestScope(node), node)
-    else if (ts.isClassDeclaration(node) && node.name)
-      addNames(node.name, nearestScope(node), node)
+    else if (ts.isClassDeclaration(node) && node.name) addNames(node.name, nearestScope(node), node)
     else if (ts.isParameter(node))
       addNames(node.name, ts.isFunctionLike(node.parent) ? node.parent : nearestScope(node), node)
     else if (ts.isCatchClause(node) && node.variableDeclaration)
@@ -871,7 +1133,8 @@ function staticMemberExpression(baseExpression, key, bindings, resolving = new S
         name.text !== key
       )
         continue
-      if (ts.isPropertyAssignment(property)) return { known: true, expression: property.initializer }
+      if (ts.isPropertyAssignment(property))
+        return { known: true, expression: property.initializer }
       if (ts.isShorthandPropertyAssignment(property))
         return { known: true, expression: property.name }
     }
@@ -896,7 +1159,8 @@ function bindStaticPattern(pattern, initializer, bindings) {
   if (!ts.isObjectBindingPattern(pattern)) return
   for (const element of pattern.elements) {
     if (element.dotDotDotToken) continue
-    const sourceName = element.propertyName?.getText() ??
+    const sourceName =
+      element.propertyName?.getText() ??
       (ts.isIdentifier(element.name) ? element.name.text : undefined)
     if (!sourceName) continue
     const member = staticMemberExpression(initializer, sourceName, bindings)
@@ -917,8 +1181,7 @@ function staticPrimitiveValue(expression, bindings, resolving = new Set()) {
       ? current.name.text
       : (() => {
           const argument = unwrapExpression(current.argumentExpression)
-          return argument &&
-            (ts.isStringLiteral(argument) || ts.isNumericLiteral(argument))
+          return argument && (ts.isStringLiteral(argument) || ts.isNumericLiteral(argument))
             ? argument.text
             : undefined
         })()
@@ -940,7 +1203,8 @@ function staticPrimitiveValue(expression, bindings, resolving = new Set()) {
         return value
       }
     }
-    const directKey = base && ts.isIdentifier(base) && key !== undefined ? `${base.text}.${key}` : ''
+    const directKey =
+      base && ts.isIdentifier(base) && key !== undefined ? `${base.text}.${key}` : ''
     if (directKey && bindings?.has(directKey)) {
       if (resolving.has(directKey)) return staticUnknown
       resolving.add(directKey)
@@ -982,6 +1246,15 @@ function staticPrimitiveValue(expression, bindings, resolving = new Set()) {
   if (ts.isNumericLiteral(current)) return Number(current.text)
   if (ts.isStringLiteral(current) || ts.isNoSubstitutionTemplateLiteral(current))
     return current.text
+  if (ts.isTemplateExpression(current)) {
+    let value = current.head.text
+    for (const span of current.templateSpans) {
+      const expressionValue = staticPrimitiveValue(span.expression, bindings, resolving)
+      if (expressionValue === staticUnknown) return staticUnknown
+      value += String(expressionValue) + span.literal.text
+    }
+    return value
+  }
   if (ts.isPrefixUnaryExpression(current) && current.operator === ts.SyntaxKind.ExclamationToken) {
     const operand = staticPrimitiveValue(current.operand, bindings, resolving)
     return operand === staticUnknown ? staticUnknown : !operand
@@ -994,6 +1267,13 @@ function staticPrimitiveValue(expression, bindings, resolving = new Set()) {
   }
   if (ts.isBinaryExpression(current)) {
     const left = staticPrimitiveValue(current.left, bindings, resolving)
+    if (current.operatorToken.kind === ts.SyntaxKind.PlusToken) {
+      const right = staticPrimitiveValue(current.right, bindings, resolving)
+      if (left === staticUnknown || right === staticUnknown) return staticUnknown
+      return typeof left === 'string' || typeof right === 'string'
+        ? String(left) + String(right)
+        : Number(left) + Number(right)
+    }
     if (current.operatorToken.kind === ts.SyntaxKind.AmpersandAmpersandToken) {
       if (left === staticUnknown) return staticUnknown
       return left ? staticPrimitiveValue(current.right, bindings, resolving) : left
@@ -1038,8 +1318,7 @@ function reachableRenderFlow(body, initialBindings = new Map(), options = {}) {
   const source = options.source
   const scopedFunctions =
     options.scopedFunctions ?? (source ? cachedScopedFunctions(source) : new Map())
-  const scopedAliases =
-    options.scopedAliases ?? (source ? cachedScopedAliases(source) : new Map())
+  const scopedAliases = options.scopedAliases ?? (source ? cachedScopedAliases(source) : new Map())
   const scopedValues = options.scopedValues ?? (source ? cachedScopedValues(source) : new Map())
   const callableBindings = options.callableBindings ?? new Map()
   const callStack = options.callStack ?? new Set()
@@ -1075,9 +1354,7 @@ function reachableRenderFlow(body, initialBindings = new Map(), options = {}) {
           : false
       return (
         hasReachableLoopBreak(statement.thenStatement, bindings) ||
-        (statement.elseStatement
-          ? hasReachableLoopBreak(statement.elseStatement, bindings)
-          : false)
+        (statement.elseStatement ? hasReachableLoopBreak(statement.elseStatement, bindings) : false)
       )
     }
     if (ts.isTryStatement(statement))
@@ -1086,9 +1363,7 @@ function reachableRenderFlow(body, initialBindings = new Map(), options = {}) {
         (statement.catchClause
           ? hasReachableLoopBreak(statement.catchClause.block, bindings)
           : false) ||
-        (statement.finallyBlock
-          ? hasReachableLoopBreak(statement.finallyBlock, bindings)
-          : false)
+        (statement.finallyBlock ? hasReachableLoopBreak(statement.finallyBlock, bindings) : false)
       )
     if (
       ts.isFunctionLike(statement) ||
@@ -1130,8 +1405,7 @@ function reachableRenderFlow(body, initialBindings = new Map(), options = {}) {
       bindingRoot(current.operand)
     )
       invalidateBinding(bindingRoot(current.operand), bindings)
-    if (ts.isDeleteExpression(current))
-      invalidateBinding(bindingRoot(current.expression), bindings)
+    if (ts.isDeleteExpression(current)) invalidateBinding(bindingRoot(current.expression), bindings)
     if (
       ts.isCallExpression(current) &&
       ts.isPropertyAccessExpression(current.expression) &&
@@ -1286,16 +1560,10 @@ function reachableRenderFlow(body, initialBindings = new Map(), options = {}) {
   const visitStatement = (statement, bindings) => {
     if (ts.isVariableStatement(statement)) {
       for (const declaration of statement.declarationList.declarations) {
-        if (
-          declaration.initializer &&
-          !executeReachableCalls(declaration.initializer, bindings)
-        )
+        if (declaration.initializer && !executeReachableCalls(declaration.initializer, bindings))
           return false
-        if (
-          declaration.initializer &&
-          (statement.declarationList.flags & ts.NodeFlags.Const) !== 0
-        )
-            bindStaticPattern(declaration.name, declaration.initializer, bindings)
+        if (declaration.initializer && (statement.declarationList.flags & ts.NodeFlags.Const) !== 0)
+          bindStaticPattern(declaration.name, declaration.initializer, bindings)
       }
       return true
     }
@@ -1370,9 +1638,10 @@ function reachableRenderFlow(body, initialBindings = new Map(), options = {}) {
               break
             }
           }
-          if (!pathContinues || clause.statements.some(
-            (child) => ts.isBreakStatement(child) && !child.label,
-          ))
+          if (
+            !pathContinues ||
+            clause.statements.some((child) => ts.isBreakStatement(child) && !child.label)
+          )
             break
         }
         canContinue ||= pathContinues
@@ -1411,7 +1680,7 @@ function reachableRenderFlow(body, initialBindings = new Map(), options = {}) {
         return true
       const bodyContinues = visitStatement(statement.statement, new Map(bindings))
       const loopCondition =
-        (ts.isWhileStatement(statement) || ts.isDoStatement(statement))
+        ts.isWhileStatement(statement) || ts.isDoStatement(statement)
           ? staticBooleanValue(statement.expression, bindings)
           : ts.isForStatement(statement)
             ? statement.condition
@@ -1436,11 +1705,12 @@ function reachableRenderFlow(body, initialBindings = new Map(), options = {}) {
     ? visitStatements(body.statements, initialBindings)
     : ts.isStatement(body)
       ? visitStatement(body, new Map(initialBindings))
-      : executeReachableCalls(body, new Map(initialBindings))
-        ? (returns.push({ expression: body, bindings: new Map(initialBindings) }),
-          (completedReturns += 1),
-          false)
-        : false
+      : (() => {
+          if (!executeReachableCalls(body, new Map(initialBindings))) return false
+          returns.push({ expression: body, bindings: new Map(initialBindings) })
+          completedReturns += 1
+          return false
+        })()
   return {
     returns,
     expressions: returns.map((entry) => entry.expression),
@@ -1472,6 +1742,7 @@ const provenDesignSystemChildrenConsumers = new Set([
   'DsInspectorSection',
   'DsMediaViewport',
   'DsObjectWorkspace',
+  'DsObjectWorkspaceContent',
   'DsPressable',
   'DsPropertyGrid',
   'DsPropertyRow',
@@ -1495,9 +1766,7 @@ const provenDesignSystemRenderNodeProps = new Map([
   ['DsToolbar', new Set(['trailing'])],
   ['DsWorkbenchSection', new Set(['actions'])],
 ])
-const semanticFieldOwnerSources = new Map([
-  ['MediaAssetNameField', 'MediaAssetLifecycle.tsx'],
-])
+const semanticFieldOwnerSources = new Map([['MediaAssetNameField', 'MediaAssetLifecycle.tsx']])
 
 function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
   const modules = new Map()
@@ -1509,7 +1778,7 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
       return undefined
     const source = ts.createSourceFile(
       componentSource,
-      sourceOverride ?? readFileSync(absoluteSource, 'utf8'),
+      sourceOverride ?? readUiSource(componentSource, options.overrides),
       ts.ScriptTarget.Latest,
       true,
       ts.ScriptKind.TSX,
@@ -1573,7 +1842,15 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
   const tags = new Set()
   const ownerSources = new Set()
   const visitedSources = new Set()
-  const visited = new Set()
+  const callsiteMetadata = new Map()
+  const elementMetadata = new Map()
+  const elementSiteIds = new Map()
+  const activeCollects = new Map()
+  const recursiveCollects = new Set()
+  const uncertainties = new Set()
+  const elementNamespace = `${sourcePath}@${rootComponent}#${
+    options.initialNode ? `${options.initialNode.pos}:${options.initialNode.end}` : 'root'
+  }`
   const scopedFunctionAt = (module, name, usage) =>
     resolveScopedFunctionAt(module.scopedFunctions, name, usage)
   const hasLocalShadow = (module, tag, usage) =>
@@ -1610,7 +1887,9 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
         continue
       }
       if (!ts.isObjectBindingPattern(parameter.name)) continue
-      const object = argument ? unwrapExpression(resolveBoundExpression(argument, bindings)) : undefined
+      const object = argument
+        ? unwrapExpression(resolveBoundExpression(argument, bindings))
+        : undefined
       for (const element of parameter.name.elements) {
         if (!ts.isIdentifier(element.name)) continue
         const sourceName = element.propertyName?.getText() ?? element.name.text
@@ -1627,7 +1906,7 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
           element.name.text,
           property && ts.isPropertyAssignment(property)
             ? resolveBoundExpression(property.initializer, bindings)
-            : element.initializer ?? staticUndefinedExpression,
+            : (element.initializer ?? staticUndefinedExpression),
         )
       }
     }
@@ -1690,7 +1969,8 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
     }
     if (ts.isIdentifier(parameter.name)) {
       for (const key of [...next.keys()])
-        if (key === parameter.name.text || key.startsWith(`${parameter.name.text}.`)) next.delete(key)
+        if (key === parameter.name.text || key.startsWith(`${parameter.name.text}.`))
+          next.delete(key)
       for (const [name, value] of values) next.set(`${parameter.name.text}.${name}`, value)
       if (!hasUnknownSpread && body) {
         const referenced = new Set()
@@ -1714,28 +1994,131 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
         const sourceName = element.propertyName?.getText() ?? element.name.text
         const value = values.get(sourceName)
         next.delete(element.name.text)
-        next.set(
-          element.name.text,
-          value ?? element.initializer ?? staticUndefinedExpression,
-        )
+        next.set(element.name.text, value ?? element.initializer ?? staticUndefinedExpression)
       }
     return next
   }
-  const collect = (componentSource, component, initialNode, inheritedBindings = new Map()) => {
-    const bindingIdentity = [...inheritedBindings]
-      .map(
-        ([name, initializer]) =>
-          `${name}:${Array.isArray(initializer) ? initializer.map((node) => node.pos).join('.') : initializer.pos}`,
-      )
-      .sort()
-      .join(',')
-    const identity = `${componentSource}@${component}${initialNode ? '#routed' : ''}#${bindingIdentity}`
-    if (visited.has(identity)) return
-    visited.add(identity)
+  const collect = (
+    componentSource,
+    component,
+    initialNode,
+    inheritedBindings = new Map(),
+    inheritedRenderCounts = new Map(),
+    inheritedAncestorSites = [],
+  ) => {
     const module = loadModule(componentSource)
     const body = initialNode ?? module?.functions.get(component)
     if (!body) return
+    const identity = `${componentSource}@${component}#${body.pos}`
+    const publicComponent = component.split('@')[0]
+    if (activeCollects.has(identity)) {
+      recursiveCollects.add(identity)
+      return
+    }
+    activeCollects.set(identity, new Map(inheritedRenderCounts))
     visitedSources.add(componentSource)
+    let currentRenderCounts = inheritedRenderCounts
+    let currentAncestorSites = inheritedAncestorSites
+    const withRenderCounts = (counts, action) => {
+      const previous = currentRenderCounts
+      currentRenderCounts = counts
+      try {
+        return action()
+      } finally {
+        currentRenderCounts = previous
+      }
+    }
+    const withAncestorSites = (ancestorSites, action) => {
+      const previous = currentAncestorSites
+      currentAncestorSites = ancestorSites
+      try {
+        return action()
+      } finally {
+        currentAncestorSites = previous
+      }
+    }
+    const mergeAlternativeCounts = (actions) => {
+      const target = currentRenderCounts
+      const base = new Map(target)
+      const alternatives = actions.map((action) => {
+        const counts = new Map(base)
+        withRenderCounts(counts, action)
+        return counts
+      })
+      const states = [base, ...alternatives]
+      const ownerBase = (site) => {
+        const metadata = callsiteMetadata.get(site)
+        return metadata ? `${metadata.source}@${metadata.component}#${metadata.callsite}` : site
+      }
+      const sitesByBase = new Map()
+      for (const counts of states)
+        for (const site of counts.keys()) {
+          const identity = ownerBase(site)
+          const sites = sitesByBase.get(identity) ?? new Set()
+          sites.add(site)
+          sitesByBase.set(identity, sites)
+        }
+      target.clear()
+      for (const sites of sitesByBase.values()) {
+        const selected = states.reduce((best, candidate) => {
+          const total = [...sites].reduce((sum, site) => sum + (candidate.get(site) ?? 0), 0)
+          const bestTotal = [...sites].reduce((sum, site) => sum + (best.get(site) ?? 0), 0)
+          return total > bestTotal ? candidate : best
+        }, states[0])
+        for (const site of sites) {
+          const count = selected.get(site) ?? 0
+          if (count > 0) target.set(site, count)
+        }
+      }
+    }
+    const elementSiteFor = (node) => {
+      const key = `${identity}#${node.getStart(module.source)}#anc:${currentAncestorSites.join('>')}`
+      if (!elementSiteIds.has(key))
+        elementSiteIds.set(key, `${elementNamespace}:element:${elementSiteIds.size + 1}`)
+      return elementSiteIds.get(key)
+    }
+    const recordElement = (node, tag) => {
+      const elementSite = elementSiteFor(node)
+      if (!elementMetadata.has(elementSite)) {
+        const classVariantAnalysis = reachableClassVariants(node)
+        elementMetadata.set(elementSite, {
+          source: componentSource,
+          component: publicComponent,
+          tag,
+          attributes: reachableStaticAttributes(node),
+          classes: reachableClassTokens(node),
+          classVariants: classVariantAnalysis.variants,
+          classVariantsTruncated: classVariantAnalysis.truncated,
+          inlineScrollStyle: inlineScrollStyle(node),
+          position: node.getStart(module.source),
+          elementSite,
+          ancestorSites: [...currentAncestorSites],
+        })
+      }
+      return elementSite
+    }
+    const recordCallsite = (node, callsite, tag, governed) => {
+      const elementSite = recordElement(node, tag)
+      const renderSite = `${elementSite}#${callsite}`
+      const renderVisit = (currentRenderCounts.get(renderSite) ?? 0) + 1
+      currentRenderCounts.set(renderSite, renderVisit)
+      if (!callsiteMetadata.has(renderSite))
+        callsiteMetadata.set(renderSite, {
+          source: componentSource,
+          component: publicComponent,
+          callsite,
+          tag,
+          governed,
+          attributes: reachableStaticAttributes(node),
+          classes: reachableClassTokens(node),
+          classVariants: elementMetadata.get(elementSite).classVariants,
+          classVariantsTruncated: elementMetadata.get(elementSite).classVariantsTruncated,
+          inlineScrollStyle: inlineScrollStyle(node),
+          position: node.getStart(module.source),
+          elementSite,
+          ancestorSites: [...currentAncestorSites],
+        })
+    }
     const visitAggregateMember = (node, bindings, visitedInitializers) => {
       const base = unwrapExpression(node.expression)
       if (!base || !ts.isIdentifier(base)) return
@@ -1772,6 +2155,18 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
           visit(element, bindings, visitedInitializers)
       }
     }
+    const visitReachableReturns = (flow, visitedInitializers) => {
+      if (flow.returns.length === 1) {
+        const rendered = flow.returns[0]
+        visit(rendered.expression, rendered.bindings, visitedInitializers)
+      } else if (flow.returns.length > 1)
+        mergeAlternativeCounts(
+          flow.returns.map(
+            (rendered) => () =>
+              visit(rendered.expression, rendered.bindings, new Set(visitedInitializers)),
+          ),
+        )
+    }
     const visit = (node, bindings = inheritedBindings, visitedInitializers = new Set()) => {
       if (Array.isArray(node)) {
         for (const child of node) visit(child, bindings, visitedInitializers)
@@ -1779,7 +2174,14 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
       }
       const owningSource = node?.getSourceFile?.()?.fileName
       if (owningSource && owningSource !== componentSource) {
-        collect(owningSource, `__bound_${node.pos}_${node.end}`, node, bindings)
+        collect(
+          owningSource,
+          `__bound_${node.pos}_${node.end}`,
+          node,
+          bindings,
+          currentRenderCounts,
+          currentAncestorSites,
+        )
         return
       }
       const expression = unwrapExpression(node)
@@ -1802,8 +2204,10 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
           (ts.isArrowFunction(child) || ts.isFunctionExpression(child)) &&
           provenConsumer
         ) {
-          for (const rendered of reachableRenderFlow(child.body, bindings, { source: module.source }).returns)
-            visit(rendered.expression, rendered.bindings)
+          visitReachableReturns(
+            reachableRenderFlow(child.body, bindings, { source: module.source }),
+            visitedInitializers,
+          )
           return
         }
       }
@@ -1818,10 +2222,12 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
         const callback = unwrapExpression(binding)
         if (callback && (ts.isArrowFunction(callback) || ts.isFunctionExpression(callback))) {
           const callbackBindings = bindCallParameters(callback.parameters, node.arguments, bindings)
-          for (const rendered of reachableRenderFlow(callback.body, callbackBindings, {
-            source: callback.getSourceFile(),
-          }).returns)
-            visit(rendered.expression, rendered.bindings)
+          visitReachableReturns(
+            reachableRenderFlow(callback.body, callbackBindings, {
+              source: callback.getSourceFile(),
+            }),
+            visitedInitializers,
+          )
           return
         }
       }
@@ -1860,6 +2266,7 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
       if (ts.isJsxElement(node)) {
         visit(node.openingElement, bindings, visitedInitializers)
         const tag = node.openingElement.tagName.getText(module.source)
+        const elementSite = recordElement(node.openingElement, tag)
         const localShadow = hasLocalShadow(module, tag, node.openingElement)
         const directChildrenAreRendered =
           /^[a-z]/.test(tag) ||
@@ -1868,7 +2275,9 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
             !localShadow &&
             provenDesignSystemChildrenConsumers.has(tag))
         if (directChildrenAreRendered)
-          for (const child of node.children) visit(child, bindings, visitedInitializers)
+          withAncestorSites([...currentAncestorSites, elementSite], () => {
+            for (const child of node.children) visit(child, bindings, visitedInitializers)
+          })
         return
       }
       if (ts.isJsxFragment(node)) {
@@ -1877,8 +2286,13 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
       }
       if (ts.isConditionalExpression(node)) {
         const condition = staticBooleanValue(node.condition, bindings)
-        if (condition !== false) visit(node.whenTrue, bindings, visitedInitializers)
-        if (condition !== true) visit(node.whenFalse, bindings, visitedInitializers)
+        if (condition === true) visit(node.whenTrue, bindings, visitedInitializers)
+        else if (condition === false) visit(node.whenFalse, bindings, visitedInitializers)
+        else
+          mergeAlternativeCounts([
+            () => visit(node.whenTrue, bindings, new Set(visitedInitializers)),
+            () => visit(node.whenFalse, bindings, new Set(visitedInitializers)),
+          ])
         return
       }
       if (ts.isBinaryExpression(node)) {
@@ -1894,15 +2308,22 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
         }
         if (operator === ts.SyntaxKind.BarBarToken) {
           const left = staticBooleanValue(node.left, bindings)
-          if (left !== false) visit(node.left, bindings, visitedInitializers)
-          if (left !== true) visit(node.right, bindings, visitedInitializers)
+          if (left === true) visit(node.left, bindings, visitedInitializers)
+          else if (left === false) visit(node.right, bindings, visitedInitializers)
+          else
+            mergeAlternativeCounts([
+              () => visit(node.left, bindings, new Set(visitedInitializers)),
+              () => visit(node.right, bindings, new Set(visitedInitializers)),
+            ])
           return
         }
         if (operator === ts.SyntaxKind.QuestionQuestionToken) {
           const left = staticPrimitiveValue(node.left, bindings)
           if (left === staticUnknown) {
-            visit(node.left, bindings, visitedInitializers)
-            visit(node.right, bindings, visitedInitializers)
+            mergeAlternativeCounts([
+              () => visit(node.left, bindings, new Set(visitedInitializers)),
+              () => visit(node.right, bindings, new Set(visitedInitializers)),
+            ])
           } else if (left === null || left === undefined)
             visit(node.right, bindings, visitedInitializers)
           else visit(node.left, bindings, visitedInitializers)
@@ -1912,27 +2333,27 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
       if (ts.isCallExpression(node) && ts.isIdentifier(node.expression)) {
         const definition = scopedFunctionAt(module, node.expression.text, node)
         if (definition) {
-        collect(
-          componentSource,
+          collect(
+            componentSource,
             `${node.expression.text}@${definition.declaration.pos}`,
             definition.body,
-          bindCallParameters(
-              definition.parameters,
-            node.arguments,
-            bindings,
-          ),
-        )
-        return
+            bindCallParameters(definition.parameters, node.arguments, bindings),
+            currentRenderCounts,
+            currentAncestorSites,
+          )
+          return
         }
       }
       if (ts.isCallExpression(node) && ts.isIdentifier(node.expression)) {
         const callback = unwrapExpression(bindings.get(node.expression.text))
         if (callback && (ts.isArrowFunction(callback) || ts.isFunctionExpression(callback))) {
           const callbackBindings = bindCallParameters(callback.parameters, node.arguments, bindings)
-          for (const rendered of reachableRenderFlow(callback.body, callbackBindings, {
-            source: callback.getSourceFile(),
-          }).returns)
-            visit(rendered.expression, rendered.bindings)
+          visitReachableReturns(
+            reachableRenderFlow(callback.body, callbackBindings, {
+              source: callback.getSourceFile(),
+            }),
+            visitedInitializers,
+          )
           return
         }
       }
@@ -1941,12 +2362,81 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
         ts.isPropertyAccessExpression(node.expression) &&
         ['map', 'flatMap'].includes(node.expression.name.text)
       ) {
-        for (const argument of node.arguments) {
+        const resolveStaticArrayExpression = (expression, usage, resolving = new Set()) => {
+          const current = unwrapExpression(resolveBoundExpression(expression, bindings))
+          if (!current || !ts.isIdentifier(current)) return current
+          const binding = resolveScopedValueAt(module.scopedValues, current.text, usage)
+          if (
+            !binding ||
+            binding.declaration.pos > usage.pos ||
+            !ts.isVariableDeclaration(binding.declaration) ||
+            !binding.declaration.initializer
+          )
+            return current
+          const key = `${current.text}@${binding.declaration.pos}`
+          if (resolving.has(key)) return current
+          resolving.add(key)
+          const resolved = resolveStaticArrayExpression(
+            binding.declaration.initializer,
+            binding.declaration,
+            resolving,
+          )
+          resolving.delete(key)
+          return resolved
+        }
+        const staticArraySlots = (expression, usage, resolving = new Set()) => {
+          const array = resolveStaticArrayExpression(expression, usage, resolving)
+          if (!array || !ts.isArrayLiteralExpression(array)) return undefined
+          const slots = []
+          for (const element of array.elements) {
+            if (ts.isOmittedExpression(element)) {
+              slots.push(undefined)
+              continue
+            }
+            if (!ts.isSpreadElement(element)) {
+              slots.push(element)
+              continue
+            }
+            const key = `spread@${element.pos}`
+            if (resolving.has(key)) return undefined
+            resolving.add(key)
+            const spreadSlots = staticArraySlots(element.expression, element, resolving)
+            resolving.delete(key)
+            if (!spreadSlots) return undefined
+            for (const slot of spreadSlots) slots.push(slot ?? staticUndefinedExpression)
+          }
+          return slots
+        }
+        const receiver = resolveStaticArrayExpression(
+          node.expression.expression,
+          node.expression.expression,
+        )
+        const slots = staticArraySlots(node.expression.expression, node.expression.expression)
+        const elements = slots
+          ?.map((element, index) => ({ element, index }))
+          .filter(({ element }) => element !== undefined)
+        const visitCallbackReturns = (body, callbackBindings, source) => {
+          const returns = reachableRenderFlow(body, callbackBindings, { source }).returns
+          if (returns.length === 1) {
+            const rendered = returns[0]
+            visit(rendered.expression, rendered.bindings)
+          } else if (returns.length > 1)
+            mergeAlternativeCounts(
+              returns.map(
+                (rendered) => () =>
+                  visit(rendered.expression, rendered.bindings, new Set(visitedInitializers)),
+              ),
+            )
+        }
+        const visitMapArgument = (argument, element, index, knownElement) => {
+          const callbackArguments = knownElement
+            ? [element, ts.factory.createNumericLiteral(index), receiver]
+            : []
           if (ts.isArrowFunction(argument) || ts.isFunctionExpression(argument)) {
-            for (const rendered of reachableRenderFlow(argument.body, bindings, {
-              source: argument.getSourceFile(),
-            }).returns)
-              visit(rendered.expression, rendered.bindings)
+            const callbackBindings = knownElement
+              ? bindCallParameters(argument.parameters, callbackArguments, bindings)
+              : bindings
+            visitCallbackReturns(argument.body, callbackBindings, argument.getSourceFile())
           } else if (ts.isIdentifier(argument)) {
             const definition = scopedFunctionAt(module, argument.text, node)
             if (definition)
@@ -1954,10 +2444,58 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
                 componentSource,
                 `${argument.text}@${definition.declaration.pos}`,
                 definition.body,
-                bindings,
+                knownElement
+                  ? bindCallParameters(definition.parameters, callbackArguments, bindings)
+                  : bindings,
+                currentRenderCounts,
+                currentAncestorSites,
               )
           }
         }
+        if (elements) {
+          elements.forEach(({ element, index }) => {
+            const callback = node.arguments[0]
+            if (callback) visitMapArgument(callback, element, index, true)
+          })
+          return
+        }
+
+        const snapshots = {
+          metadata: new Map(callsiteMetadata),
+          uncertainties: new Set(uncertainties),
+        }
+        const probeCounts = new Map(currentRenderCounts)
+        withRenderCounts(probeCounts, () => {
+          const callback = node.arguments[0]
+          if (callback) visitMapArgument(callback, undefined, 0, false)
+        })
+        const changedSites = [...probeCounts].filter(
+          ([site, count]) => count > (currentRenderCounts.get(site) ?? 0),
+        )
+        const hasPotentialOwner = changedSites.some(([site]) => {
+          const metadata = callsiteMetadata.get(site)
+          return (
+            metadata?.governed ||
+            (metadata && cssElementOwnsVerticalScroll(metadata, elementMetadata, options.overrides))
+          )
+        })
+        const hasNestedUncertainty = [...uncertainties].some(
+          (uncertainty) => !snapshots.uncertainties.has(uncertainty),
+        )
+        const restoreSet = (target, snapshot) => {
+          target.clear()
+          for (const value of snapshot) target.add(value)
+        }
+        const restoreMap = (target, snapshot) => {
+          target.clear()
+          for (const [key, value] of snapshot) target.set(key, value)
+        }
+        restoreSet(uncertainties, snapshots.uncertainties)
+        restoreMap(callsiteMetadata, snapshots.metadata)
+        if (hasPotentialOwner || hasNestedUncertainty)
+          uncertainties.add(
+            `cannot prove catalog/scroll owner cardinality for dynamic ${node.expression.name.text} at ${componentSource}@${publicComponent}:${node.getStart(module.source)}`,
+          )
         return
       }
       if (
@@ -1967,10 +2505,12 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
       ) {
         const factory = unwrapExpression(node.arguments[0])
         if (factory && (ts.isArrowFunction(factory) || ts.isFunctionExpression(factory)))
-          for (const rendered of reachableRenderFlow(factory.body, bindings, {
-            source: factory.getSourceFile(),
-          }).returns)
-            visit(rendered.expression, rendered.bindings)
+          visitReachableReturns(
+            reachableRenderFlow(factory.body, bindings, {
+              source: factory.getSourceFile(),
+            }),
+            visitedInitializers,
+          )
         return
       }
       if (
@@ -1978,22 +2518,26 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
         ts.isIdentifier(node.expression) &&
         node.expression.text === 'createPortal'
       ) {
-        if (node.arguments[0]) visit(node.arguments[0], bindings, visitedInitializers)
+        if (node.arguments[0])
+          withAncestorSites([], () => visit(node.arguments[0], bindings, visitedInitializers))
         return
       }
       if (ts.isCallExpression(node)) {
         const callee = unwrapExpression(node.expression)
         if (callee && (ts.isArrowFunction(callee) || ts.isFunctionExpression(callee))) {
-          for (const rendered of reachableRenderFlow(callee.body, bindings, {
-            source: callee.getSourceFile(),
-          }).returns)
-            visit(rendered.expression, rendered.bindings)
+          visitReachableReturns(
+            reachableRenderFlow(callee.body, bindings, {
+              source: callee.getSourceFile(),
+            }),
+            visitedInitializers,
+          )
           return
         }
         return
       }
       if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
         const tag = node.tagName.getText(module.source)
+        const elementSite = recordElement(node, tag)
         const localShadow = hasLocalShadow(module, tag, node)
         const imported = localShadow ? undefined : module.imports.get(tag)
         const governedOwner = tag.startsWith('Ds')
@@ -2001,8 +2545,29 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
           : semanticFieldOwnerSources.get(tag) === imported?.source ||
             (semanticFieldOwnerSources.get(tag) === componentSource &&
               Boolean(scopedFunctionAt(module, tag, node)))
+        if (tag === 'DsDialog' && governedOwner)
+          elementMetadata.get(elementSite).canonicalTopLayer = true
         if (!fieldOwnerTokenForTag(tag) || governedOwner) tags.add(tag)
         if (fieldOwnerTokenForTag(tag) && governedOwner) ownerSources.add(componentSource)
+        if (tag === 'DsObjectWorkspace' && governedOwner) {
+          const contentMode = node.attributes.properties.find(
+            (attribute) =>
+              ts.isJsxAttribute(attribute) &&
+              attribute.name.getText(module.source) === 'contentMode',
+          )
+          const mode =
+            contentMode &&
+            ts.isJsxAttribute(contentMode) &&
+            contentMode.initializer &&
+            ts.isStringLiteral(contentMode.initializer)
+              ? contentMode.initializer.text
+              : 'wrapped'
+          if (mode !== 'manual')
+            recordCallsite(node, 'tag:DsObjectWorkspaceContent', 'DsObjectWorkspaceContent', true)
+        } else if (governedCatalogScrollTags.has(tag) && governedOwner)
+          recordCallsite(node, `tag:${tag}`, tag, true)
+        for (const token of reachableClassTokens(node))
+          recordCallsite(node, `class:${token}`, tag, false)
         if (/^[A-Z][A-Za-z0-9_]*$/.test(tag)) {
           const definition = scopedFunctionAt(module, tag, node)
           if (definition)
@@ -2011,6 +2576,8 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
               `${tag}@${definition.declaration.pos}`,
               definition.body,
               bindJsxComponentProps(node, definition.parameters, definition.body, bindings),
+              currentRenderCounts,
+              currentAncestorSites,
             )
           else {
             if (imported) {
@@ -2025,6 +2592,8 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
                   targetModule?.functions.get(imported.component),
                   bindings,
                 ),
+                currentRenderCounts,
+                currentAncestorSites,
               )
             }
           }
@@ -2048,28 +2617,102 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
       initialNode && !ts.isBlock(initialNode)
         ? { returns: [{ expression: initialNode, bindings: new Map(inheritedBindings) }] }
         : reachableRenderFlow(body, inheritedBindings, { source: module.source })
-    for (const rendered of renderFlow.returns) visit(rendered.expression, rendered.bindings)
+    if (renderFlow.returns.length === 1) {
+      const rendered = renderFlow.returns[0]
+      visit(rendered.expression, rendered.bindings)
+    } else if (renderFlow.returns.length > 1)
+      mergeAlternativeCounts(
+        renderFlow.returns.map((rendered) => () => visit(rendered.expression, rendered.bindings)),
+      )
+    if (recursiveCollects.has(identity)) {
+      const baseline = activeCollects.get(identity) ?? new Map()
+      const hasPotentialOwner = [...inheritedRenderCounts].some(([site, count]) => {
+        if (count <= (baseline.get(site) ?? 0)) return false
+        const metadata = callsiteMetadata.get(site)
+        return (
+          metadata?.governed ||
+          (metadata && cssElementOwnsVerticalScroll(metadata, elementMetadata, options.overrides))
+        )
+      })
+      if (hasPotentialOwner)
+        uncertainties.add(
+          `cannot prove catalog/scroll owner cardinality through recursive render ${componentSource}@${publicComponent}`,
+        )
+      recursiveCollects.delete(identity)
+    }
+    activeCollects.delete(identity)
   }
-  collect(sourcePath, rootComponent, options.initialNode)
-  return { tags, ownerSources, visitedSources }
+  const rootRenderCounts = new Map()
+  collect(sourcePath, rootComponent, options.initialNode, new Map(), rootRenderCounts)
+  const expandedCallsites = []
+  for (const [renderSite, count] of rootRenderCounts) {
+    const metadata = callsiteMetadata.get(renderSite)
+    if (!metadata) continue
+    for (let renderVisit = 1; renderVisit <= count; renderVisit++)
+      expandedCallsites.push({
+        ...metadata,
+        renderVisit,
+        trace: `${renderSite}#render:${renderVisit}`,
+        elementTrace: `${metadata.elementSite}#render:${renderVisit}`,
+      })
+  }
+  const groupedCallsites = new Map()
+  for (const callsite of expandedCallsites) {
+    const identity = `${callsite.source}@${callsite.component}#${callsite.callsite}`
+    const entries = groupedCallsites.get(identity) ?? []
+    entries.push(callsite)
+    groupedCallsites.set(identity, entries)
+  }
+  const numberedCallsites = []
+  for (const entries of groupedCallsites.values()) {
+    entries.sort(
+      (left, right) =>
+        left.position - right.position ||
+        left.renderVisit - right.renderVisit ||
+        left.trace.localeCompare(right.trace),
+    )
+    entries.forEach((entry, index) => {
+      numberedCallsites.push({ ...entry, occurrence: index + 1 })
+    })
+  }
+  return {
+    tags,
+    ownerSources,
+    visitedSources,
+    elements: [...elementMetadata.values()],
+    callsites: numberedCallsites,
+    uncertainties: [...uncertainties].sort(),
+  }
 }
 
 const reachableOwnerCache = new Map()
 
 function cachedReachableJsxOwners(sourcePath, rootComponent, options = {}) {
-  const initialText = options.initialNode?.getText?.() ?? ''
-  const key = `${sourcePath}@${rootComponent}#${initialText}`
+  const initialAnchor = options.initialNode
+    ? `${options.initialNode.getSourceFile().fileName}:${options.initialNode.pos}:${options.initialNode.end}:${options.initialNode.getText()}`
+    : 'function-root'
+  const key = `${sourcePath}@${rootComponent}#${initialAnchor}`
   const candidates = reachableOwnerCache.get(key) ?? []
-  const contentFor = (source) =>
-    options.overrides?.[source] ?? readFileSync(join(uiRoot, source), 'utf8')
+  const contentFor = (source) => readUiSource(source, options.overrides)
+  const manifest =
+    options.manifest ??
+    productionSources()
+      .map((source) => relative(uiRoot, source))
+      .join('\n')
+  const css = readUiSource('editor.css', options.overrides)
   for (const candidate of candidates)
-    if ([...candidate.fingerprints].every(([source, content]) => contentFor(source) === content))
+    if (
+      candidate.manifest === manifest &&
+      candidate.css === css &&
+      [...candidate.fingerprints].every(([source, content]) => contentFor(source) === content)
+    )
       return candidate.result
   const result = reachableJsxOwners(sourcePath, rootComponent, options)
   const fingerprints = new Map(
     [...result.visitedSources].map((source) => [source, contentFor(source)]),
   )
-  candidates.push({ fingerprints, result })
+  candidates.unshift({ css, fingerprints, manifest, result })
+  if (candidates.length > 12) candidates.length = 12
   reachableOwnerCache.set(key, candidates)
   return result
 }
@@ -2347,7 +2990,9 @@ function canonicalTopLevelReturnExpression(body, label, allowedExit, source) {
   for (const statement of prefix)
     if (hasNonNestedExit(statement) && !allowedExit?.(statement))
       throw new Error(`${label} has a non-continuing path before its canonical rendered root`)
-  const prefixFlow = reachableRenderFlow(ts.factory.createBlock(prefix, true), new Map(), { source })
+  const prefixFlow = reachableRenderFlow(ts.factory.createBlock(prefix, true), new Map(), {
+    source,
+  })
   if (!prefixFlow.canContinue || prefixFlow.hasNonRenderExit)
     throw new Error(`${label} has a non-continuing path before its canonical rendered root`)
   return last.expression
@@ -2411,12 +3056,7 @@ function appWorkspaceDispatchRoots(overrides = {}) {
     activeSubpageInitializer.expression.text !== 'editorSubpage' ||
     activeSubpageInitializer.arguments.length !== 1 ||
     activeSubpageInitializer.arguments[0]?.getText(source) !== 'location' ||
-    !hasCanonicalNamedImport(
-      source,
-      'editorSubpage',
-      'editorSubpage',
-      './editor-navigation.js',
-    ) ||
+    !hasCanonicalNamedImport(source, 'editorSubpage', 'editorSubpage', './editor-navigation.js') ||
     hasVisibleLocalBinding(scopedValues, 'editorSubpage', activeSubpageInitializer)
   )
     throw new Error('App.tsx activeSubpage must come from canonical editorSubpage(location)')
@@ -2446,11 +3086,9 @@ function appWorkspaceDispatchRoots(overrides = {}) {
       'App.tsx objectTargetMissing must come from canonical editorObjectTargetMissing inputs',
     )
   const appSetupFlow = ts.isBlock(body)
-    ? reachableRenderFlow(
-        ts.factory.createBlock(body.statements.slice(0, -1), true),
-        new Map(),
-        { source },
-      )
+    ? reachableRenderFlow(ts.factory.createBlock(body.statements.slice(0, -1), true), new Map(), {
+        source,
+      })
     : undefined
   if (
     appSetupFlow &&
@@ -2459,25 +3097,30 @@ function appWorkspaceDispatchRoots(overrides = {}) {
     )
   )
     throw new Error('App.tsx must not mutate workspace route discriminators')
-  const returned = canonicalTopLevelReturnExpression(body, 'App.tsx', (statement) => {
-    if (
-      !ts.isIfStatement(statement) ||
-      statement.elseStatement ||
-      statement.expression.getText(source).replace(/\s+/g, ' ') !==
-        "!scene && activeSubpage.kind !== 'project'" ||
-      !ts.isBlock(statement.thenStatement)
-    )
-      return false
-    const branchStatements = statement.thenStatement.statements
-    const branchReturn = branchStatements.at(-1)
-    if (
-      !branchReturn ||
-      !ts.isReturnStatement(branchReturn) ||
-      !returnedJsxOpening(branchReturn.expression)
-    )
-      return false
-    return !branchStatements.slice(0, -1).some(hasNonNestedExit)
-  }, source)
+  const returned = canonicalTopLevelReturnExpression(
+    body,
+    'App.tsx',
+    (statement) => {
+      if (
+        !ts.isIfStatement(statement) ||
+        statement.elseStatement ||
+        statement.expression.getText(source).replace(/\s+/g, ' ') !==
+          "!scene && activeSubpage.kind !== 'project'" ||
+        !ts.isBlock(statement.thenStatement)
+      )
+        return false
+      const branchStatements = statement.thenStatement.statements
+      const branchReturn = branchStatements.at(-1)
+      if (
+        !branchReturn ||
+        !ts.isReturnStatement(branchReturn) ||
+        !returnedJsxOpening(branchReturn.expression)
+      )
+        return false
+      return !branchStatements.slice(0, -1).some(hasNonNestedExit)
+    },
+    source,
+  )
   const renderedRoot = unwrapExpression(returned)
   if (!renderedRoot || !ts.isJsxElement(renderedRoot))
     throw new Error('App.tsx rendered workspace root must be a JSX element')
@@ -2586,11 +3229,9 @@ function directImportedRenderTargets(root, overrides = {}) {
       `${root.source}@${root.component} must derive staticProps${routeBindingName ? ` and ${routeBindingName}` : ''} from one canonical props destructure`,
     )
   const connectorSetupFlow = ts.isBlock(body)
-    ? reachableRenderFlow(
-        ts.factory.createBlock(body.statements.slice(0, -1), true),
-        new Map(),
-        { source },
-      )
+    ? reachableRenderFlow(ts.factory.createBlock(body.statements.slice(0, -1), true), new Map(), {
+        source,
+      })
     : undefined
   if (
     connectorSetupFlow &&
@@ -2770,9 +3411,14 @@ function dataModeDispatchRoots(sourceOverride) {
     spriteStateInitializer.expression.text !== 'useState' ||
     !hasCanonicalNamedImport(source, 'useState', 'useState', 'react') ||
     hasVisibleLocalBinding(scopedValues, 'useState', spriteStateInitializer) ||
-    !['controlledSpriteDomain', 'focusObjectId', 'battleSprites', 'assetCatalog', "'battle'", "'world'"].every(
-      (token) => spriteInitialStateText.includes(token),
-    )
+    ![
+      'controlledSpriteDomain',
+      'focusObjectId',
+      'battleSprites',
+      'assetCatalog',
+      "'battle'",
+      "'world'",
+    ].every((token) => spriteInitialStateText.includes(token))
   )
     throw new Error(
       'DataMode.tsx tab and spriteDomain must come from canonical props/state bindings',
@@ -2894,23 +3540,15 @@ function dataModeDispatchRoots(sourceOverride) {
         new Map(),
         { source },
       )
-      if (
-        !fallbackFlow.canContinue ||
-        fallbackFlow.hasNonRenderExit ||
-        fallbackFlow.returns.length
-      )
+      if (!fallbackFlow.canContinue || fallbackFlow.hasNonRenderExit || fallbackFlow.returns.length)
         throw new Error('DataMode.tsx has non-continuing fallback setup')
       continue
     }
     setupPrefix.push(node)
-    const setupFlow = reachableRenderFlow(
-      ts.factory.createBlock(setupPrefix, true),
-      new Map(),
-      { source },
-    )
-    if (
-      ['spriteDomain', 'tab'].some((name) => setupFlow.mutatedBindings.has(name))
-    )
+    const setupFlow = reachableRenderFlow(ts.factory.createBlock(setupPrefix, true), new Map(), {
+      source,
+    })
+    if (['spriteDomain', 'tab'].some((name) => setupFlow.mutatedBindings.has(name)))
       throw new Error('DataMode.tsx mutates a route discriminator before canonical routes')
     if (!setupFlow.canContinue || setupFlow.hasNonRenderExit || setupFlow.returns.length)
       throw new Error('DataMode.tsx has non-continuing setup before canonical routes')
@@ -2939,6 +3577,9 @@ function publicRoot(root) {
 
 export function deriveFieldAdoptionTruth(overrides = {}) {
   const registry = registeredSubpages()
+  const manifest = productionSources()
+    .map((source) => relative(uiRoot, source))
+    .join('\n')
   const projectRoots = projectPageDispatchRoots(overrides['ProjectWorkbenchTab.tsx'])
   const dataRoots = dataModeDispatchRoots(overrides['DataMode.tsx'])
   const workspaceRoots = appWorkspaceDispatchRoots(overrides)
@@ -2952,6 +3593,7 @@ export function deriveFieldAdoptionTruth(overrides = {}) {
       for (const root of roots) {
         const reachable = cachedReachableJsxOwners(root.source, root.component, {
           initialNode: root.initialNode,
+          manifest,
           overrides,
         })
         for (const tag of reachable.tags) {
@@ -2972,10 +3614,1017 @@ export function deriveFieldAdoptionTruth(overrides = {}) {
   )
 }
 
+const reservedBusinessMarkerSourceCache = new Map()
+
+function scanReservedBusinessMarkers(overrides = {}) {
+  const workspace = []
+  const forbidden = []
+  for (const absolutePath of productionSources()) {
+    const sourcePath = relative(uiRoot, absolutePath)
+    const content = readUiSource(sourcePath, overrides)
+    const cachedCandidates = reservedBusinessMarkerSourceCache.get(sourcePath) ?? []
+    const cached = cachedCandidates.find((candidate) => candidate.content === content)
+    if (cached) {
+      workspace.push(...cached.workspace)
+      forbidden.push(...cached.forbidden)
+      continue
+    }
+    const sourceWorkspace = []
+    const sourceForbidden = []
+    const source = ts.createSourceFile(
+      sourcePath,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+      ts.ScriptKind.TSX,
+    )
+    const scopedValues = scopedValueBindings(source)
+    const resolveStaticValue = (expression, usage, resolving = new Set()) => {
+      const current = unwrapExpression(expression)
+      if (!current) return staticUnknown
+      if (ts.isIdentifier(current)) {
+        if (current.text === 'undefined') return undefined
+        const binding = resolveScopedValueAt(scopedValues, current.text, usage)
+        if (
+          !binding ||
+          binding.declaration.pos > usage.pos ||
+          !ts.isVariableDeclaration(binding.declaration) ||
+          !binding.declaration.initializer
+        )
+          return staticUnknown
+        const key = `${current.text}@${binding.declaration.pos}`
+        if (resolving.has(key)) return staticUnknown
+        resolving.add(key)
+        const value = resolveStaticValue(
+          binding.declaration.initializer,
+          binding.declaration,
+          resolving,
+        )
+        resolving.delete(key)
+        return value
+      }
+      if (ts.isStringLiteral(current) || ts.isNoSubstitutionTemplateLiteral(current))
+        return current.text
+      if (ts.isTemplateExpression(current)) {
+        let value = current.head.text
+        for (const span of current.templateSpans) {
+          const expressionValue = resolveStaticValue(span.expression, usage, resolving)
+          if (expressionValue === staticUnknown) return staticUnknown
+          value += String(expressionValue) + span.literal.text
+        }
+        return value
+      }
+      if (
+        ts.isBinaryExpression(current) &&
+        current.operatorToken.kind === ts.SyntaxKind.PlusToken
+      ) {
+        const left = resolveStaticValue(current.left, usage, resolving)
+        const right = resolveStaticValue(current.right, usage, resolving)
+        if (left === staticUnknown || right === staticUnknown) return staticUnknown
+        return typeof left === 'string' || typeof right === 'string'
+          ? String(left) + String(right)
+          : Number(left) + Number(right)
+      }
+      if (current.kind === ts.SyntaxKind.TrueKeyword) return true
+      if (current.kind === ts.SyntaxKind.FalseKeyword) return false
+      if (current.kind === ts.SyntaxKind.NullKeyword) return null
+      if (ts.isNumericLiteral(current)) return Number(current.text)
+      return staticUnknown
+    }
+    const staticPropertyName = (name, usage) => {
+      const current = unwrapExpression(name)
+      if (ts.isIdentifier(current) || ts.isStringLiteral(current) || ts.isNumericLiteral(current))
+        return current.text
+      if (ts.isComputedPropertyName(current)) {
+        const value = resolveStaticValue(current.expression, usage)
+        return typeof value === 'string' || typeof value === 'number' ? String(value) : undefined
+      }
+      return undefined
+    }
+    const resolveStaticObject = (expression, usage, resolving = new Set()) => {
+      const current = unwrapExpression(expression)
+      if (current && ts.isIdentifier(current)) {
+        const binding = resolveScopedValueAt(scopedValues, current.text, usage)
+        if (
+          !binding ||
+          binding.declaration.pos > usage.pos ||
+          !ts.isVariableDeclaration(binding.declaration) ||
+          !binding.declaration.initializer
+        )
+          return undefined
+        const key = `${current.text}@${binding.declaration.pos}`
+        if (resolving.has(key)) return undefined
+        resolving.add(key)
+        const result = resolveStaticObject(
+          binding.declaration.initializer,
+          binding.declaration,
+          resolving,
+        )
+        resolving.delete(key)
+        return result
+      }
+      if (!current || !ts.isObjectLiteralExpression(current)) return undefined
+      const properties = new Map()
+      for (const property of current.properties) {
+        if (ts.isSpreadAssignment(property)) {
+          const spread = resolveStaticObject(property.expression, usage, resolving)
+          if (!spread) return undefined
+          for (const [name, value] of spread) properties.set(name, value)
+          continue
+        }
+        if (!('name' in property) || !property.name) continue
+        const name = staticPropertyName(property.name, usage)
+        if (!name) return undefined
+        if (ts.isPropertyAssignment(property)) properties.set(name, property.initializer)
+        else if (ts.isShorthandPropertyAssignment(property)) properties.set(name, property.name)
+        else return undefined
+      }
+      return properties
+    }
+    const mergeClassValues = (left, right) => {
+      const merged = new Set()
+      for (const prefix of left)
+        for (const suffix of right) {
+          merged.add(`${prefix}${suffix}`)
+          if (merged.size > 64) return undefined
+        }
+      return merged
+    }
+    const resolveStaticClassValues = (expression, usage, resolving = new Set()) => {
+      const current = unwrapExpression(expression)
+      if (!current) return new Set([''])
+      if (ts.isIdentifier(current)) {
+        if (current.text === 'undefined') return new Set([''])
+        const binding = resolveScopedValueAt(scopedValues, current.text, usage)
+        if (
+          !binding ||
+          binding.declaration.pos > usage.pos ||
+          !ts.isVariableDeclaration(binding.declaration) ||
+          !binding.declaration.initializer
+        )
+          return undefined
+        const key = `${current.text}@${binding.declaration.pos}`
+        if (resolving.has(key)) return undefined
+        resolving.add(key)
+        const values = resolveStaticClassValues(
+          binding.declaration.initializer,
+          binding.declaration,
+          resolving,
+        )
+        resolving.delete(key)
+        return values
+      }
+      if (ts.isStringLiteral(current) || ts.isNoSubstitutionTemplateLiteral(current))
+        return new Set([current.text])
+      if (ts.isNumericLiteral(current)) return new Set([current.text])
+      if (current.kind === ts.SyntaxKind.FalseKeyword || current.kind === ts.SyntaxKind.NullKeyword)
+        return new Set([''])
+      if (ts.isConditionalExpression(current)) {
+        const whenTrue = resolveStaticClassValues(current.whenTrue, usage, resolving)
+        const whenFalse = resolveStaticClassValues(current.whenFalse, usage, resolving)
+        if (!whenTrue || !whenFalse) return undefined
+        return new Set([...whenTrue, ...whenFalse])
+      }
+      if (ts.isBinaryExpression(current)) {
+        if (current.operatorToken.kind === ts.SyntaxKind.PlusToken) {
+          const left = resolveStaticClassValues(current.left, usage, resolving)
+          const right = resolveStaticClassValues(current.right, usage, resolving)
+          return left && right ? mergeClassValues(left, right) : undefined
+        }
+        if (current.operatorToken.kind === ts.SyntaxKind.AmpersandAmpersandToken) {
+          const right = resolveStaticClassValues(current.right, usage, resolving)
+          return right ? new Set(['', ...right]) : undefined
+        }
+        if (
+          current.operatorToken.kind === ts.SyntaxKind.BarBarToken ||
+          current.operatorToken.kind === ts.SyntaxKind.QuestionQuestionToken
+        ) {
+          const left = resolveStaticClassValues(current.left, usage, resolving)
+          const right = resolveStaticClassValues(current.right, usage, resolving)
+          return left && right ? new Set([...left, ...right]) : undefined
+        }
+      }
+      if (ts.isTemplateExpression(current)) {
+        let values = new Set([current.head.text])
+        for (const span of current.templateSpans) {
+          const expressions = resolveStaticClassValues(span.expression, usage, resolving)
+          if (!expressions) return undefined
+          const withExpression = mergeClassValues(values, expressions)
+          if (!withExpression) return undefined
+          const withLiteral = mergeClassValues(withExpression, new Set([span.literal.text]))
+          if (!withLiteral) return undefined
+          values = withLiteral
+        }
+        return values
+      }
+      return undefined
+    }
+    const readAttributeClassValues = (attribute, usage) => {
+      if (!attribute.initializer) return new Set([''])
+      if (ts.isStringLiteral(attribute.initializer)) return new Set([attribute.initializer.text])
+      if (ts.isJsxExpression(attribute.initializer) && attribute.initializer.expression)
+        return resolveStaticClassValues(attribute.initializer.expression, usage)
+      return undefined
+    }
+    const visit = (node) => {
+      if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
+        const intrinsic = /^[a-z]/.test(jsxTag(node))
+        const tokens = new Set(classTokens(node))
+        const markerNames = new Set()
+        for (const attribute of node.attributes.properties) {
+          if (ts.isJsxAttribute(attribute)) {
+            const name = attribute.name.getText(source)
+            if (name === 'className') {
+              const values = readAttributeClassValues(attribute, node)
+              if (!values && intrinsic)
+                sourceForbidden.push(
+                  `${sourcePath} uses an unverified dynamic intrinsic className; reserved design-system classes must be statically auditable`,
+                )
+              for (const value of values ?? [])
+                for (const token of value.split(/\s+/).filter(Boolean)) tokens.add(token)
+            }
+            if (name.startsWith('data-ds-scroll-')) markerNames.add(name)
+            continue
+          }
+          const spread = resolveStaticObject(attribute.expression, node)
+          if (!spread) {
+            if (intrinsic)
+              sourceForbidden.push(
+                `${sourcePath} uses an unverified intrinsic JSX spread; reserved design-system classes and markers must be statically auditable`,
+              )
+            continue
+          }
+          for (const [name, expression] of spread) {
+            if (name === 'className') {
+              const values = resolveStaticClassValues(expression, node)
+              if (!values && intrinsic)
+                sourceForbidden.push(
+                  `${sourcePath} uses an unverified dynamic intrinsic className; reserved design-system classes must be statically auditable`,
+                )
+              for (const value of values ?? [])
+                for (const token of value.split(/\s+/).filter(Boolean)) tokens.add(token)
+            }
+            if (name.startsWith('data-ds-scroll-')) markerNames.add(name)
+          }
+        }
+        const selector = intrinsicClassSelector(node)
+        for (const token of tokens) {
+          if (token === 'ds-object-workspace' || token === 'ds-object-workspace__content')
+            sourceWorkspace.push({
+              source: sourcePath,
+              selector: selector ?? `${jsxTag(node)}[class:${token}]`,
+            })
+          else if (token.startsWith('ds-catalog-') || token === 'sprite-list')
+            sourceForbidden.push(`${sourcePath} uses reserved raw class ${token}`)
+        }
+        for (const name of markerNames)
+          sourceForbidden.push(`${sourcePath} uses reserved raw marker ${name}`)
+      }
+      ts.forEachChild(node, visit)
+    }
+    visit(source)
+    cachedCandidates.unshift({ content, workspace: sourceWorkspace, forbidden: sourceForbidden })
+    if (cachedCandidates.length > 4) cachedCandidates.length = 4
+    reservedBusinessMarkerSourceCache.set(sourcePath, cachedCandidates)
+    workspace.push(...sourceWorkspace)
+    forbidden.push(...sourceForbidden)
+  }
+  return { workspace, forbidden }
+}
+
+function validateWorkspaceLegacyExceptions(entries, overrides = {}) {
+  const problems = []
+  const byId = new Map()
+  const expected = new Map()
+  const declaredRegistryPairs = new Set()
+  const entryKeys = [
+    'debtCard',
+    'id',
+    'reason',
+    'registries',
+    'removalCondition',
+    'selectors',
+    'source',
+    'verification',
+  ].sort()
+  const selectorKeys = ['count', 'selector']
+  if (!Array.isArray(entries))
+    return {
+      problems: ['design-system-adoption.json workspaceLegacyExceptions must be an array'],
+      byId,
+      declaredRegistryPairs,
+    }
+  const board = readFileSync(join(repositoryRoot, 'docs/ops/board.md'), 'utf8')
+  for (const [index, entry] of entries.entries()) {
+    if (!entry || typeof entry !== 'object') {
+      problems.push(`workspaceLegacyExceptions[${index}] must be an object`)
+      continue
+    }
+    if (JSON.stringify(Object.keys(entry).sort()) !== JSON.stringify(entryKeys))
+      problems.push(`workspaceLegacyExceptions[${index}] must use exactly ${entryKeys.join(', ')}`)
+    if (typeof entry.id !== 'string' || !entry.id) {
+      problems.push(`workspaceLegacyExceptions[${index}].id must be non-empty`)
+      continue
+    }
+    if (byId.has(entry.id)) problems.push(`duplicate workspace legacy exception ${entry.id}`)
+    else byId.set(entry.id, entry)
+    if (
+      typeof entry.source !== 'string' ||
+      !entry.source.endsWith('.tsx') ||
+      !statSync(join(uiRoot, entry.source), { throwIfNoEntry: false })
+    )
+      problems.push(`${entry.id} source must name a production TSX file`)
+    if (!Array.isArray(entry.registries) || !entry.registries.length)
+      problems.push(`${entry.id} registries must be non-empty`)
+    else {
+      const seenRegistries = new Set()
+      for (const [registryIndex, registryId] of entry.registries.entries()) {
+        if (typeof registryId !== 'string' || !registryId.trim()) {
+          problems.push(`${entry.id} registries[${registryIndex}] must be non-empty`)
+          continue
+        }
+        if (seenRegistries.has(registryId))
+          problems.push(`${entry.id} has duplicate registry ${registryId}`)
+        seenRegistries.add(registryId)
+        declaredRegistryPairs.add(`${entry.id}@${registryId}`)
+      }
+    }
+    for (const key of ['reason', 'verification', 'removalCondition'])
+      if (typeof entry[key] !== 'string' || !entry[key].trim())
+        problems.push(`${entry.id} ${key} must be non-empty`)
+    if (
+      typeof entry.debtCard !== 'string' ||
+      !entry.debtCard.endsWith('.md') ||
+      !statSync(join(repositoryRoot, entry.debtCard), { throwIfNoEntry: false })
+    )
+      problems.push(`${entry.id} debtCard must resolve to a task card`)
+    else {
+      const taskId = entry.debtCard.split('/').at(-1)?.split('-editor-')[0]
+      if (!taskId || !board.includes(taskId))
+        problems.push(`${entry.id} debtCard must be listed on docs/ops/board.md`)
+    }
+    if (!Array.isArray(entry.selectors) || !entry.selectors.length) {
+      problems.push(`${entry.id} selectors must be non-empty`)
+      continue
+    }
+    for (const [selectorIndex, selector] of entry.selectors.entries()) {
+      if (
+        !selector ||
+        typeof selector !== 'object' ||
+        JSON.stringify(Object.keys(selector).sort()) !== JSON.stringify(selectorKeys)
+      ) {
+        problems.push(`${entry.id} selectors[${selectorIndex}] must use exactly count, selector`)
+        continue
+      }
+      if (typeof selector.selector !== 'string' || !selector.selector)
+        problems.push(`${entry.id} selectors[${selectorIndex}].selector must be non-empty`)
+      if (!Number.isInteger(selector.count) || selector.count < 1)
+        problems.push(`${entry.id} selectors[${selectorIndex}].count must be positive`)
+      const identity = `${entry.source}#${selector.selector}`
+      if (expected.has(identity)) problems.push(`duplicate workspace legacy selector ${identity}`)
+      else expected.set(identity, selector.count)
+    }
+  }
+
+  const actual = new Map()
+  const scan = scanReservedBusinessMarkers(overrides)
+  problems.push(...scan.forbidden)
+  for (const usage of scan.workspace) {
+    const identity = `${usage.source}#${usage.selector}`
+    actual.set(identity, (actual.get(identity) ?? 0) + 1)
+  }
+  for (const [identity, count] of actual)
+    if (!expected.has(identity))
+      problems.push(`unregistered raw workspace marker ${identity} (${count})`)
+  for (const [identity, count] of expected) {
+    const actualCount = actual.get(identity) ?? 0
+    if (actualCount !== count)
+      problems.push(
+        `workspace legacy selector ${identity} expected ${count}, rendered ${actualCount}`,
+      )
+  }
+  return { problems, byId, declaredRegistryPairs }
+}
+
+function callsiteIdentity(value) {
+  return `${value.source}@${value.component}#${value.callsite}@${value.occurrence ?? 1}`
+}
+
+function callsiteBaseIdentity(value) {
+  return `${value.source}@${value.component}#${value.callsite}`
+}
+
+function validateCatalogScrollRecord(record, context) {
+  const problems = []
+  const keys = [
+    'axis',
+    'callsite',
+    'component',
+    'owner',
+    'reason',
+    'region',
+    'source',
+    'verification',
+  ].sort()
+  const optionalKeys = ['boundaryKind', 'condition', 'nestedWithin', 'occurrence', 'variant']
+  const actualKeys = record && typeof record === 'object' ? Object.keys(record).sort() : []
+  if (
+    !record ||
+    typeof record !== 'object' ||
+    actualKeys.some((key) => !keys.includes(key) && !optionalKeys.includes(key)) ||
+    keys.some((key) => !actualKeys.includes(key))
+  )
+    return [`${context} must use ${keys.join(', ')} with optional ${optionalKeys.join(', ')}`]
+  for (const key of [
+    'callsite',
+    'component',
+    'owner',
+    'reason',
+    'region',
+    'source',
+    'verification',
+  ])
+    if (typeof record[key] !== 'string' || !record[key].trim())
+      problems.push(`${context}.${key} must be non-empty`)
+  if (!['none', 'x', 'y', 'both'].includes(record.axis)) problems.push(`${context}.axis is invalid`)
+  if (
+    typeof record.region === 'string' &&
+    !/^(?:catalog|drawer|inspector|main|overlay)(?:\.|$)/.test(record.region)
+  )
+    problems.push(`${context}.region must start with catalog, drawer, inspector, main, or overlay`)
+  if (typeof record.source === 'string' && !record.source.endsWith('.tsx'))
+    problems.push(`${context}.source must be a TSX path`)
+  if (
+    typeof record.callsite === 'string' &&
+    !/^(?:tag|class):[A-Za-z0-9_-]+$/.test(record.callsite)
+  )
+    problems.push(`${context}.callsite must be a stable tag: or class: selector`)
+  if (
+    record.occurrence !== undefined &&
+    (!Number.isInteger(record.occurrence) || record.occurrence < 1)
+  )
+    problems.push(`${context}.occurrence must be a positive integer`)
+  if (
+    record.variant !== undefined &&
+    (typeof record.variant !== 'string' || !record.variant.trim())
+  )
+    problems.push(`${context}.variant must be non-empty`)
+  if (
+    record.condition !== undefined &&
+    (typeof record.condition !== 'string' || !record.condition.trim())
+  )
+    problems.push(`${context}.condition must be non-empty`)
+  if (
+    typeof record.condition === 'string' &&
+    record.condition.trim() !== 'default' &&
+    !record.condition
+      .split(' && ')
+      .every((clause) => /^@(media|container|supports)\s+\S/.test(clause.trim()))
+  )
+    problems.push(`${context}.condition must be default or a CSS at-rule condition`)
+  if (record.condition !== undefined && !record.owner?.startsWith('custom:.'))
+    problems.push(`${context}.condition is only supported for custom CSS owners`)
+  if ((record.nestedWithin === undefined) !== (record.boundaryKind === undefined))
+    problems.push(`${context}.nestedWithin and boundaryKind must be declared together`)
+  if (
+    record.nestedWithin !== undefined &&
+    (typeof record.nestedWithin !== 'string' || !record.nestedWithin.trim())
+  )
+    problems.push(`${context}.nestedWithin must be non-empty`)
+  if (record.boundaryKind !== undefined && record.boundaryKind !== 'bounded-subviewport')
+    problems.push(`${context}.boundaryKind must be bounded-subviewport`)
+  return problems
+}
+
+const parsedCssScrollRuleCache = new Map()
+const cssElementScrollResultCache = new Map()
+
+const cssContractProperties = new Set([
+  'block-size',
+  'height',
+  'max-block-size',
+  'max-height',
+  'overflow',
+  'overflow-x',
+  'overflow-y',
+])
+
+function cssConditionForRule(rule) {
+  if (!rule?.cssRules) return undefined
+  if (rule.constructor.name === 'CSSMediaRule') return `@media ${rule.conditionText}`
+  if (rule.constructor.name === 'CSSContainerRule') return `@container ${rule.conditionText}`
+  if (rule.constructor.name === 'CSSSupportsRule') return `@supports ${rule.conditionText}`
+  return undefined
+}
+
+const cssConditionProfileCache = new Map()
+
+function cssConditionProfile(condition) {
+  const cached = cssConditionProfileCache.get(condition)
+  if (cached) return cached
+  const constraints = new Map()
+  const opaque = new Set()
+  for (const clause of condition.split(' && ')) {
+    if (clause.includes(',')) {
+      opaque.add(clause)
+      continue
+    }
+    const media = clause.match(/^@media\s+/)
+    const container = clause.match(/^@container(?:\s+([A-Za-z0-9_-]+))?\s+/)
+    const dimension = media
+      ? 'media:viewport'
+      : container
+        ? `container:${container[1] ?? '<anonymous>'}`
+        : undefined
+    const bounds = [...clause.matchAll(/\((min|max)-width:\s*(\d+(?:\.\d+)?)px\)/g)]
+    if (!dimension || !bounds.length) {
+      opaque.add(clause)
+      continue
+    }
+    const residue = clause
+      .replace(/\((?:min|max)-width:\s*\d+(?:\.\d+)?px\)/g, '')
+      .replace(/^@media\s+/, '')
+      .replace(/^@container(?:\s+[A-Za-z0-9_-]+)?\s+/, '')
+      .replace(/\band\b/g, '')
+      .trim()
+    if (residue) {
+      opaque.add(clause)
+      continue
+    }
+    const constraint = constraints.get(dimension) ?? {
+      max: Number.POSITIVE_INFINITY,
+      min: Number.NEGATIVE_INFINITY,
+    }
+    for (const match of bounds) {
+      const value = Number(match[2])
+      if (match[1] === 'min') constraint.min = Math.max(constraint.min, value)
+      else constraint.max = Math.min(constraint.max, value)
+    }
+    constraints.set(dimension, constraint)
+  }
+  const result = { constraints, opaque }
+  cssConditionProfileCache.set(condition, result)
+  return result
+}
+
+function mergeCssConditionProfiles(conditions) {
+  const constraints = new Map()
+  const opaque = new Set()
+  for (const condition of conditions) {
+    const profile = cssConditionProfile(condition)
+    for (const value of profile.opaque) opaque.add(value)
+    for (const [dimension, bound] of profile.constraints) {
+      const merged = constraints.get(dimension) ?? {
+        max: Number.POSITIVE_INFINITY,
+        min: Number.NEGATIVE_INFINITY,
+      }
+      merged.min = Math.max(merged.min, bound.min)
+      merged.max = Math.min(merged.max, bound.max)
+      if (merged.min > merged.max) return undefined
+      constraints.set(dimension, merged)
+    }
+  }
+  return { constraints, opaque }
+}
+
+function cssConditionProfileImplies(source, target) {
+  for (const value of target.opaque) if (!source.opaque.has(value)) return false
+  for (const [dimension, targetBound] of target.constraints) {
+    const sourceBound = source.constraints.get(dimension)
+    if (!sourceBound || sourceBound.min < targetBound.min || sourceBound.max > targetBound.max)
+      return false
+  }
+  return true
+}
+
+function cssConditionScenarios(conditions) {
+  const unique = [...new Set(conditions)].sort()
+  const scenarios = [{ activeConditions: new Set(), condition: 'default' }]
+  for (const basis of unique) {
+    const basisProfile = mergeCssConditionProfiles([basis])
+    if (!basisProfile) continue
+    const seeds = [[basis]]
+    for (const peer of unique) {
+      if (peer === basis) continue
+      const combined = mergeCssConditionProfiles([basis, peer])
+      if (!combined || cssConditionProfileImplies(basisProfile, cssConditionProfile(peer))) continue
+      seeds.push([basis, peer])
+    }
+    const seen = new Set()
+    for (const seed of seeds) {
+      const profile = mergeCssConditionProfiles(seed)
+      if (!profile) continue
+      const activeConditions = new Set(
+        unique.filter((condition) =>
+          cssConditionProfileImplies(profile, cssConditionProfile(condition)),
+        ),
+      )
+      const signature = [...activeConditions].sort().join(' && ')
+      if (seen.has(signature)) continue
+      seen.add(signature)
+      scenarios.push({ activeConditions, condition: basis })
+    }
+  }
+  return scenarios
+}
+
+function parsedCssScrollRules(css) {
+  const cached = parsedCssScrollRuleCache.get(css)
+  if (cached) return cached
+  const dom = new JSDOM('<!doctype html><html><head><style></style></head><body></body></html>')
+  dom.window.document.querySelector('style').textContent = css
+  const sheet = dom.window.document.styleSheets[0]
+  const rules = []
+  const conditions = new Set()
+  let order = 0
+  const walk = (cssRules, conditionStack = []) => {
+    for (const rule of cssRules ?? []) {
+      if (typeof rule.selectorText === 'string') {
+        const declarations = []
+        for (let index = 0; index < rule.style.length; index += 1) {
+          const property = rule.style[index]
+          if (!cssContractProperties.has(property)) continue
+          declarations.push({
+            property,
+            value: rule.style.getPropertyValue(property).trim(),
+            important: rule.style.getPropertyPriority(property) === 'important',
+            declarationOrder: index,
+          })
+        }
+        if (!declarations.length) continue
+        order += 1
+        const condition = conditionStack.length ? conditionStack.join(' && ') : 'default'
+        if (condition !== 'default') conditions.add(condition)
+        for (const specificity of Specificity.calculate(rule.selectorText))
+          rules.push({
+            condition,
+            declarations,
+            order,
+            selector: specificity.selectorString(),
+            specificity: specificity.toArray(),
+          })
+        continue
+      }
+      if (!rule.cssRules) continue
+      const condition = cssConditionForRule(rule)
+      walk(rule.cssRules, condition ? [...conditionStack, condition] : conditionStack)
+    }
+  }
+  walk(sheet?.cssRules)
+  const result = { conditions: [...conditions].sort(), document: dom.window.document, rules }
+  parsedCssScrollRuleCache.set(css, result)
+  if (parsedCssScrollRuleCache.size > 8)
+    parsedCssScrollRuleCache.delete(parsedCssScrollRuleCache.keys().next().value)
+  return result
+}
+
+function cssCascadeOrder(left, right) {
+  return (
+    Number(left.important) - Number(right.important) ||
+    left.specificity[0] - right.specificity[0] ||
+    left.specificity[1] - right.specificity[1] ||
+    left.specificity[2] - right.specificity[2] ||
+    left.order - right.order ||
+    left.declarationOrder - right.declarationOrder
+  )
+}
+
+function overflowAxisValues(value) {
+  const values = value.split(/\s+/).filter(Boolean)
+  return { x: values[0], y: values[1] ?? values[0] }
+}
+
+function selectorClassTokens(selector) {
+  return [...selector.matchAll(/\.([A-Za-z0-9_-]+)/g)].map((match) => match[1])
+}
+
+function finiteBlockBoundary(value) {
+  const normalized = value.trim().toLowerCase()
+  if (!normalized || normalized === '0') return false
+  if (
+    /\b(?:auto|content|fit-content|max-content|min-content|none|normal|inherit|initial|unset|revert|revert-layer)\b/.test(
+      normalized,
+    ) ||
+    /(?:var|env)\(/.test(normalized) ||
+    normalized.includes('%')
+  )
+    return false
+  const withoutDimensions = normalized
+    .replace(
+      /-?(?:\d+(?:\.\d+)?|\.\d+)(?:px|rem|em|ex|ch|lh|rlh|cm|mm|q|in|pt|pc|vh|svh|lvh|dvh|vw|svw|lvw|dvw|vmin|svmin|lvmin|dvmin|vmax|svmax|lvmax|dvmax)\b/g,
+      '',
+    )
+    .replace(/\b0\b/g, '')
+    .replace(/\b(?:calc|min|max|clamp)\(/g, '(')
+    .replace(/[\s(),+*/-]/g, '')
+  return withoutDimensions === ''
+}
+
+function virtualElementSignature(metadata, elements) {
+  const path = [...(metadata.ancestorSites ?? []), metadata.elementSite]
+  return path
+    .map((site) => {
+      const element = site === metadata.elementSite ? metadata : elements.get(site)
+      return `${element?.tag ?? 'div'}#${[...(element?.classes ?? [])].sort().join('.')}#${JSON.stringify(element?.classVariants ?? [])}#${Boolean(element?.classVariantsTruncated)}#${JSON.stringify(element?.attributes ?? {})}#${JSON.stringify(element?.inlineScrollStyle ?? {})}`
+    })
+    .join('>')
+}
+
+function virtualElementClassPaths(metadata, elements) {
+  const path = [...(metadata.ancestorSites ?? []), metadata.elementSite]
+  const elementPath = path.map((site) =>
+    site === metadata.elementSite ? metadata : elements.get(site),
+  )
+  let truncated = elementPath.some((element) => element?.classVariantsTruncated)
+  const classPaths = elementPath.reduce(
+    (paths, element) => {
+      const variants = element?.classVariants?.length
+        ? element.classVariants
+        : [element?.classes ?? []]
+      const expanded = paths.flatMap((classes) => variants.map((variant) => [...classes, variant]))
+      if (expanded.length > 256) truncated = true
+      return expanded.slice(0, 256)
+    },
+    [[]],
+  )
+  return { classPaths, elementPath, truncated }
+}
+
+function selectorHasVariantCorrelationRisk(selector, elementPath) {
+  const selectorTokens = new Set(selectorClassTokens(selector))
+  let sensitiveElements = 0
+  for (const element of elementPath) {
+    const variants = element?.classVariants ?? []
+    if (variants.length < 2) continue
+    const union = new Set(variants.flat())
+    const common = new Set(
+      variants[0].filter((token) => variants.every((classes) => classes.includes(token))),
+    )
+    if ([...union].some((token) => !common.has(token) && selectorTokens.has(token)))
+      sensitiveElements += 1
+  }
+  return sensitiveElements > 1
+}
+
+function buildVirtualElement(metadata, elements, document, classPath) {
+  document.body.replaceChildren()
+  let parent = document.body
+  const append = (elementMetadata, classes = elementMetadata?.classes ?? []) => {
+    const intrinsicTag = /^[a-z][A-Za-z0-9-]*$/.test(elementMetadata?.tag ?? '')
+      ? elementMetadata.tag
+      : 'div'
+    const element = document.createElement(intrinsicTag)
+    for (const token of classes) element.classList.add(token)
+    for (const [name, value] of Object.entries(elementMetadata?.attributes ?? {}))
+      try {
+        element.setAttribute(name, value)
+      } catch {
+        // Invalid or framework-only JSX attribute names cannot contribute selector evidence.
+      }
+    parent.appendChild(element)
+    parent = element
+    return element
+  }
+  const path = [...(metadata.ancestorSites ?? []), metadata.elementSite]
+  let target = parent
+  path.forEach((site, index) => {
+    target = append(site === metadata.elementSite ? metadata : elements.get(site), classPath[index])
+  })
+  return target
+}
+
+function cssElementScrollContracts(metadata, elements, overrides = {}) {
+  const css = readUiSource('editor.css', overrides)
+  let results = cssElementScrollResultCache.get(css)
+  if (!results) {
+    results = new Map()
+    cssElementScrollResultCache.set(css, results)
+    if (cssElementScrollResultCache.size > 8)
+      cssElementScrollResultCache.delete(cssElementScrollResultCache.keys().next().value)
+  }
+  const key = virtualElementSignature(metadata, elements)
+  if (results.has(key)) return results.get(key)
+  const analysis = parsedCssScrollRules(css)
+  const { classPaths, elementPath, truncated } = virtualElementClassPaths(metadata, elements)
+  const scenarios = classPaths.flatMap((classPath, classVariant) => {
+    const targetClasses = classPath.at(-1) ?? []
+    const element = buildVirtualElement(metadata, elements, analysis.document, classPath)
+    const matchedRules = analysis.rules.filter((rule) => {
+      try {
+        return element.matches(rule.selector)
+      } catch {
+        return false
+      }
+    })
+    const conditionScenarios = cssConditionScenarios(
+      matchedRules.map((rule) => rule.condition).filter((condition) => condition !== 'default'),
+    )
+    return conditionScenarios.map(({ activeConditions, condition }) => {
+      const winners = new Map()
+      for (const rule of matchedRules) {
+        if (rule.condition !== 'default' && !activeConditions.has(rule.condition)) continue
+        for (const declaration of rule.declarations) {
+          const candidates = []
+          if (declaration.property === 'overflow') {
+            const values = overflowAxisValues(declaration.value)
+            candidates.push(['overflow-x', values.x], ['overflow-y', values.y])
+          } else candidates.push([declaration.property, declaration.value])
+          for (const [property, value] of candidates) {
+            const candidate = { ...rule, ...declaration, property, value }
+            const winner = winners.get(property)
+            if (!winner || cssCascadeOrder(winner, candidate) <= 0) winners.set(property, candidate)
+          }
+        }
+      }
+      for (const [declarationOrder, declaration] of (
+        metadata.inlineScrollStyle?.declarations ?? []
+      ).entries()) {
+        const candidates = []
+        if (declaration.property === 'overflow') {
+          const values = overflowAxisValues(declaration.value)
+          candidates.push(['overflow-x', values.x], ['overflow-y', values.y])
+        } else candidates.push([declaration.property, declaration.value])
+        for (const [property, value] of candidates) {
+          const candidate = {
+            condition: 'default',
+            declarationOrder,
+            important: false,
+            order: Number.MAX_SAFE_INTEGER,
+            property,
+            selector: '<inline style>',
+            specificity: [Number.MAX_SAFE_INTEGER, 0, 0],
+            value,
+          }
+          const winner = winners.get(property)
+          if (!winner || cssCascadeOrder(winner, candidate) <= 0) winners.set(property, candidate)
+        }
+      }
+      const axis = (name) => {
+        const winner = winners.get(`overflow-${name}`)
+        return {
+          ownerClasses: winner
+            ? selectorClassTokens(winner.selector).filter((token) => targetClasses.includes(token))
+            : [],
+          scroll: ['auto', 'scroll'].includes(winner?.value),
+          selector: winner?.selector,
+          sourceCondition: winner?.condition,
+          variantCorrelationUncertain: winner
+            ? selectorHasVariantCorrelationRisk(winner.selector, elementPath)
+            : false,
+          value: winner?.value,
+        }
+      }
+      const boundaryWinners = [
+        winners.get('height'),
+        winners.get('max-height'),
+        winners.get('block-size'),
+        winners.get('max-block-size'),
+      ].filter(Boolean)
+      const finiteBoundary = boundaryWinners.find((winner) => finiteBlockBoundary(winner.value))
+      return {
+        activeConditions: [...activeConditions].sort(),
+        classVariant,
+        condition,
+        inlineStyleUncertain: Boolean(metadata.inlineScrollStyle?.uncertain),
+        variantEnumerationTruncated: truncated,
+        x: axis('x'),
+        y: axis('y'),
+        bounded: Boolean(finiteBoundary),
+        boundary: finiteBoundary ? `${finiteBoundary.property}:${finiteBoundary.value}` : undefined,
+      }
+    })
+  })
+  results.set(key, scenarios)
+  return scenarios
+}
+
+function cssElementOwnsVerticalScroll(metadata, elements, overrides = {}) {
+  return cssElementScrollContracts(metadata, elements, overrides).some(
+    (scenario) => scenario.y.scroll,
+  )
+}
+
+function scrollOwnerLiveConditions(owner) {
+  if (!owner.scrollContracts) return undefined
+  return new Set(
+    owner.scrollContracts
+      .filter((scenario) => scenario.y.scroll && !scenario.y.variantCorrelationUncertain)
+      .map((scenario) => scenario.condition),
+  )
+}
+
+function scrollOwnersCanCoexist(child, parent) {
+  const childConditions = scrollOwnerLiveConditions(child)
+  const parentConditions = scrollOwnerLiveConditions(parent)
+  if (!childConditions || !parentConditions) return true
+  if ([...childConditions].some((condition) => parentConditions.has(condition))) return true
+  const explicitlyDisabledUnder = (owner, condition) => {
+    const scenarios = owner.scrollContracts.filter((scenario) => scenario.condition === condition)
+    return (
+      condition !== 'default' &&
+      scenarios.length > 0 &&
+      scenarios.every((scenario) => !scenario.y.scroll && scenario.y.sourceCondition === condition)
+    )
+  }
+  const childDisabledWheneverParentLives = [...parentConditions].every((condition) =>
+    explicitlyDisabledUnder(child, condition),
+  )
+  const parentDisabledWheneverChildLives = [...childConditions].every((condition) =>
+    explicitlyDisabledUnder(parent, condition),
+  )
+  return !childDisabledWheneverParentLives && !parentDisabledWheneverChildLives
+}
+
+function isCanonicalInspectorOwnerSwitch(child, parent) {
+  if (child.record.owner !== 'DsInspectorTabs' || parent.record.owner !== 'custom:.inspector')
+    return false
+  if (child.record.region !== parent.record.region || child.record.region !== 'inspector')
+    return false
+  const variants = parent.callsite.classVariants ?? []
+  if (
+    !variants.length ||
+    !variants.every((classes) => classes.includes('inspector')) ||
+    !variants.some((classes) => classes.includes('inspector--tabbed')) ||
+    !variants.some((classes) => !classes.includes('inspector--tabbed'))
+  )
+    return false
+  const scenarios = parent.scrollContracts ?? []
+  return (
+    scenarios.some((scenario) => scenario.y.scroll) &&
+    scenarios.some((scenario) => !scenario.y.scroll)
+  )
+}
+
+function isCanonicalInspectorVariantCallsite(record, callsite) {
+  if (record.owner !== 'custom:.inspector' || record.region !== 'inspector' || !record.variant)
+    return false
+  const variants = callsite.classVariants ?? []
+  return (
+    variants.length > 1 &&
+    variants.every((classes) => classes.includes('inspector')) &&
+    variants.some((classes) => classes.includes('inspector--tabbed')) &&
+    variants.some((classes) => !classes.includes('inspector--tabbed'))
+  )
+}
+
+function hasCanonicalTopLayerBetween(child, parent, elements) {
+  const ancestors = child.callsite.ancestorSites ?? []
+  const parentIndex = ancestors.indexOf(parent.callsite.elementSite)
+  if (parentIndex < 0) return false
+  return ancestors
+    .slice(parentIndex + 1)
+    .some((site) => elements.get(site)?.canonicalTopLayer === true)
+}
+
 export function validateAdoption(document, overrides = {}) {
   const problems = []
-  if (!document || document.version !== 2 || !Array.isArray(document.pages))
-    return ['design-system-adoption.json must contain { version: 2, pages: [] }']
+  if (
+    !document ||
+    document.version !== 3 ||
+    !Array.isArray(document.pages) ||
+    !Array.isArray(document.catalogScrollOwners) ||
+    !Array.isArray(document.workspaceLegacyExceptions)
+  )
+    return [
+      'design-system-adoption.json must contain { version: 3, catalogScrollOwners: [], workspaceLegacyExceptions: [], pages: [] }',
+    ]
+  const legacyValidation = validateWorkspaceLegacyExceptions(
+    document.workspaceLegacyExceptions,
+    overrides,
+  )
+  problems.push(...legacyValidation.problems)
+  const catalogScrollByRegistry = new Map()
+  const catalogScrollKeys = ['catalog', 'registry', 'scroll']
+  for (const [index, entry] of document.catalogScrollOwners.entries()) {
+    if (
+      !entry ||
+      typeof entry !== 'object' ||
+      JSON.stringify(Object.keys(entry).sort()) !== JSON.stringify(catalogScrollKeys)
+    ) {
+      problems.push(
+        `catalogScrollOwners[${index}] must use exactly ${catalogScrollKeys.join(', ')}`,
+      )
+      continue
+    }
+    if (typeof entry.registry !== 'string' || !entry.registry)
+      problems.push(`catalogScrollOwners[${index}].registry must be non-empty`)
+    else if (catalogScrollByRegistry.has(entry.registry))
+      problems.push(`duplicate catalog/scroll registry ${entry.registry}`)
+    else catalogScrollByRegistry.set(entry.registry, entry)
+    for (const kind of ['catalog', 'scroll']) {
+      if (!Array.isArray(entry[kind]) || !entry[kind].length) {
+        problems.push(`catalogScrollOwners[${index}].${kind} must be non-empty`)
+        continue
+      }
+      for (const [recordIndex, record] of entry[kind].entries())
+        problems.push(
+          ...validateCatalogScrollRecord(
+            record,
+            `catalogScrollOwners[${index}].${kind}[${recordIndex}]`,
+          ),
+        )
+    }
+  }
   let registry
   let dispatch
   let workspaceRoots
@@ -2989,8 +4638,15 @@ export function validateAdoption(document, overrides = {}) {
     return [error instanceof Error ? error.message : String(error)]
   }
   problems.push(...validateWorkspaceConnectors(overrides, workspaceRoots))
+  const sourceManifest = productionSources()
+    .map((source) => relative(uiRoot, source))
+    .join('\n')
   const expected = new Map(registry.map((page) => [page.registry, page]))
   const actual = new Map()
+  const linkedLegacyRegistryPairs = new Set()
+  const legacyRegistries = new Set(
+    [...legacyValidation.declaredRegistryPairs].map((pair) => pair.slice(pair.indexOf('@') + 1)),
+  )
   const ownerKeys = ['action', 'catalog', 'field', 'overlay', 'scroll']
   for (const [index, page] of document.pages.entries()) {
     if (!page || typeof page !== 'object') {
@@ -3003,6 +4659,11 @@ export function validateAdoption(document, overrides = {}) {
     else actual.set(page.registry, page)
     if (!['unadopted', 'partial', 'adopted', 'exception'].includes(page.status))
       problems.push(`pages[${index}].status is invalid`)
+    const expectedStatus = legacyRegistries.has(page.registry) ? 'exception' : 'adopted'
+    if (page.status !== expectedStatus)
+      problems.push(
+        `${page.registry} status must be ${expectedStatus}${expectedStatus === 'exception' ? ' while a workspace legacy exception is linked' : ''}`,
+      )
     if (!Array.isArray(page.components) || !page.components.length)
       problems.push(`pages[${index}].components must be non-empty`)
     else
@@ -3058,6 +4719,7 @@ export function validateAdoption(document, overrides = {}) {
         try {
           const result = cachedReachableJsxOwners(root.source, root.component, {
             initialNode: root.initialNode,
+            manifest: sourceManifest,
             overrides,
           })
           for (const tag of result.tags) reachable.add(tag)
@@ -3115,10 +4777,476 @@ export function validateAdoption(document, overrides = {}) {
         if (!fieldOwnerTokens.includes(token))
           problems.push(`${page.registry} renders unregistered field/control owner ${token}`)
     }
+
+    const catalogScrollEntry = catalogScrollByRegistry.get(page.registry)
+    if (!catalogScrollEntry) {
+      problems.push(`${page.registry} catalog/scroll owner truth is missing`)
+      continue
+    }
+    const registryEntry = expected.get(page.registry)
+    const routedRoots = canonicalFieldRoots(registryEntry, projectRoots, dispatch, workspaceRoots)
+    const routedCallsiteCandidates = new Map()
+    const routedElementMetadata = new Map()
+    const routedUncertainties = new Set()
+    for (const root of routedRoots) {
+      try {
+        const result = cachedReachableJsxOwners(root.source, root.component, {
+          initialNode: root.initialNode,
+          manifest: sourceManifest,
+          overrides,
+        })
+        for (const callsite of result.callsites) {
+          const key = `${callsiteBaseIdentity(callsite)}#${callsite.trace}`
+          routedCallsiteCandidates.set(key, callsite)
+        }
+        for (const element of result.elements ?? []) {
+          const existing = routedElementMetadata.get(element.elementSite)
+          if (
+            existing &&
+            (existing.source !== element.source ||
+              existing.component !== element.component ||
+              existing.position !== element.position ||
+              existing.ancestorSites.join('>') !== element.ancestorSites.join('>'))
+          )
+            problems.push(
+              `${page.registry} routed element identity collision: ${element.elementSite}`,
+            )
+          else routedElementMetadata.set(element.elementSite, element)
+        }
+        for (const uncertainty of result.uncertainties) routedUncertainties.add(uncertainty)
+      } catch (error) {
+        problems.push(
+          `${page.registry} routed catalog/scroll root invalid: ${error instanceof Error ? error.message : String(error)}`,
+        )
+      }
+    }
+    for (const uncertainty of routedUncertainties) problems.push(`${page.registry} ${uncertainty}`)
+    const groupedRoutedCallsites = new Map()
+    for (const callsite of routedCallsiteCandidates.values()) {
+      const base = callsiteBaseIdentity(callsite)
+      const entries = groupedRoutedCallsites.get(base) ?? []
+      entries.push(callsite)
+      groupedRoutedCallsites.set(base, entries)
+    }
+    const routedCallsites = new Map()
+    for (const entries of groupedRoutedCallsites.values()) {
+      entries.sort(
+        (left, right) =>
+          left.position - right.position ||
+          left.renderVisit - right.renderVisit ||
+          left.trace.localeCompare(right.trace),
+      )
+      entries.forEach((entry, index) => {
+        const numbered = { ...entry, occurrence: index + 1 }
+        routedCallsites.set(callsiteIdentity(numbered), numbered)
+      })
+    }
+    const registeredEdges = new Set()
+    const registeredElementEdges = new Set()
+    const registeredScrollOwners = []
+    const customBases = new Map([
+      ['catalog', new Set()],
+      ['scroll', new Set()],
+    ])
+    for (const kind of ['catalog', 'scroll']) {
+      const regionAxes = new Set()
+      for (const record of catalogScrollEntry[kind] ?? []) {
+        if (!record || typeof record !== 'object') continue
+        const regionAxis = `${record.region}@${record.axis}@${record.variant ?? 'default'}`
+        if (regionAxes.has(regionAxis))
+          problems.push(`${page.registry} has duplicate ${kind} owner region ${regionAxis}`)
+        regionAxes.add(regionAxis)
+        const identity = callsiteIdentity(record)
+        const callsite = routedCallsites.get(identity)
+        if (!callsite)
+          problems.push(
+            `${page.registry} ${kind} owner ${record.owner} is not rendered by its routed root`,
+          )
+        let validOwnerBinding = Boolean(callsite)
+        let scrollContract
+        let variantSpecificOwner = false
+        if (governedCatalogScrollTags.has(record.owner)) {
+          if (
+            record.callsite !== `tag:${record.owner}` ||
+            !callsite?.governed ||
+            callsite?.tag !== record.owner
+          ) {
+            problems.push(
+              `${page.registry} ${kind} owner ${record.owner} is not a governed design-system callsite`,
+            )
+            validOwnerBinding = false
+          }
+          if (!governedCatalogScrollRoles.get(record.owner)?.has(kind)) {
+            problems.push(
+              `${page.registry} ${kind} owner ${record.owner} does not support the ${kind} role`,
+            )
+            validOwnerBinding = false
+          }
+          if (
+            kind === 'scroll' &&
+            record.axis === 'both' &&
+            !governedScrollAxes.get(record.owner)?.has('both')
+          ) {
+            problems.push(
+              `${page.registry} governed scroll owner ${record.owner} declares unsupported axis both`,
+            )
+            validOwnerBinding = false
+          }
+        } else if (record.owner?.startsWith('custom:.')) {
+          const token = record.owner.slice('custom:.'.length)
+          if (record.callsite !== `class:${token}`) {
+            problems.push(
+              `${page.registry} ${kind} custom owner ${record.owner} must bind class:${token}`,
+            )
+            validOwnerBinding = false
+          }
+          if (callsite && !/^[a-z]/.test(callsite.tag) && callsite.tag !== 'DsInspectorHost') {
+            problems.push(
+              `${page.registry} ${kind} custom owner ${record.owner} must bind an intrinsic JSX class or DsInspectorHost`,
+            )
+            validOwnerBinding = false
+          }
+          if (kind === 'scroll' && callsite) {
+            const scrollContracts = cssElementScrollContracts(
+              callsite,
+              routedElementMetadata,
+              overrides,
+            )
+            const matchingContracts = record.condition
+              ? scrollContracts.filter((scenario) => scenario.condition === record.condition)
+              : scrollContracts
+            const variantEnumerationTruncated = scrollContracts.some(
+              (scenario) => scenario.variantEnumerationTruncated,
+            )
+            const inlineStyleUncertain = matchingContracts.some(
+              (scenario) => scenario.inlineStyleUncertain,
+            )
+            const uncertainVerticalContract = matchingContracts.find(
+              (scenario) => scenario.y.scroll && scenario.y.variantCorrelationUncertain,
+            )
+            const contractsByClassVariant = new Map()
+            const expectedClassVariants = new Set(
+              scrollContracts.map((scenario) => scenario.classVariant),
+            )
+            for (const contract of matchingContracts) {
+              const contracts = contractsByClassVariant.get(contract.classVariant) ?? []
+              contracts.push(contract)
+              contractsByClassVariant.set(contract.classVariant, contracts)
+            }
+            const verticalVariantContracts = [...contractsByClassVariant.values()]
+              .filter(
+                (contracts) =>
+                  contracts.length > 0 &&
+                  contracts.every(
+                    (scenario) => scenario.y.scroll && !scenario.y.variantCorrelationUncertain,
+                  ),
+              )
+              .map((contracts) => contracts[0])
+            const bothVariantContracts = [...contractsByClassVariant.values()]
+              .filter(
+                (contracts) =>
+                  contracts.length > 0 &&
+                  contracts.every(
+                    (scenario) =>
+                      scenario.y.scroll &&
+                      scenario.x.scroll &&
+                      !scenario.y.variantCorrelationUncertain &&
+                      !scenario.x.variantCorrelationUncertain,
+                  ),
+              )
+              .map((contracts) => contracts[0])
+            const everyClassVariantOwnsVertical =
+              expectedClassVariants.size > 0 &&
+              contractsByClassVariant.size === expectedClassVariants.size &&
+              verticalVariantContracts.length === expectedClassVariants.size
+            const canonicalInspectorVariant = isCanonicalInspectorVariantCallsite(record, callsite)
+            const verticalContract = everyClassVariantOwnsVertical
+              ? verticalVariantContracts[0]
+              : canonicalInspectorVariant
+                ? verticalVariantContracts[0]
+                : undefined
+            variantSpecificOwner = Boolean(verticalContract && !everyClassVariantOwnsVertical)
+            scrollContract =
+              record.axis === 'both'
+                ? contractsByClassVariant.size > 0 &&
+                  contractsByClassVariant.size === expectedClassVariants.size &&
+                  bothVariantContracts.length === expectedClassVariants.size
+                  ? bothVariantContracts[0]
+                  : undefined
+                : verticalContract
+            if (variantEnumerationTruncated) {
+              problems.push(
+                `${page.registry} scroll custom owner ${record.owner} cannot prove CSS class variants because its routed element path exceeds 256 combinations`,
+              )
+              validOwnerBinding = false
+            }
+            if (inlineStyleUncertain) {
+              problems.push(
+                `${page.registry} scroll custom owner ${record.owner} has a dynamic inline style that can override its scroll contract`,
+              )
+              validOwnerBinding = false
+            }
+            if (!verticalContract && !variantEnumerationTruncated && !inlineStyleUncertain) {
+              problems.push(
+                uncertainVerticalContract
+                  ? `${page.registry} scroll custom owner ${record.owner} relies on an unprovable cross-element class variant correlation`
+                  : `${page.registry} scroll custom owner ${record.owner} has no live vertical overflow contract${record.condition ? ` under ${record.condition}` : ''}`,
+              )
+              validOwnerBinding = false
+            }
+            if (record.axis === 'both' && verticalContract && !scrollContract) {
+              problems.push(
+                `${page.registry} scroll custom owner ${record.owner} declares axis both without a live horizontal overflow contract`,
+              )
+              validOwnerBinding = false
+            }
+          }
+          customBases.get(kind).add(callsiteBaseIdentity(record))
+        } else if (record.owner?.startsWith('N/A:')) {
+          if (!record.owner.slice('N/A:'.length).trim()) {
+            problems.push(`${page.registry} ${kind} N/A owner must explain why`)
+            validOwnerBinding = false
+          }
+          if (record.axis !== 'none') {
+            problems.push(`${page.registry} ${kind} N/A owner must use axis none`)
+            validOwnerBinding = false
+          }
+          if (callsite && (callsite.governed || !/^[a-z]/.test(callsite.tag))) {
+            problems.push(
+              `${page.registry} ${kind} N/A owner must bind a non-governed intrinsic evidence callsite`,
+            )
+            validOwnerBinding = false
+          }
+        } else if (record.owner?.startsWith('legacy-exception:')) {
+          const exceptionId = record.owner.slice('legacy-exception:'.length)
+          const exception = legacyValidation.byId.get(exceptionId)
+          if (!exception) {
+            problems.push(
+              `${page.registry} ${kind} owner references unknown legacy exception ${exceptionId}`,
+            )
+            validOwnerBinding = false
+          } else {
+            linkedLegacyRegistryPairs.add(`${exceptionId}@${page.registry}`)
+            if (!exception.registries.includes(page.registry)) {
+              problems.push(`${exceptionId} does not register ${page.registry}`)
+              validOwnerBinding = false
+            }
+            if (exception.source !== record.source) {
+              problems.push(`${exceptionId} owner source must be ${exception.source}`)
+              validOwnerBinding = false
+            }
+            const token = record.callsite?.startsWith('class:')
+              ? record.callsite.slice('class:'.length)
+              : undefined
+            if (
+              !token ||
+              !exception.selectors.some((selector) =>
+                selector.selector.split('.').slice(1).includes(token),
+              )
+            ) {
+              problems.push(`${exceptionId} does not authorize ${record.callsite}`)
+              validOwnerBinding = false
+            }
+            if (callsite && !/^[a-z]/.test(callsite.tag)) {
+              problems.push(`${exceptionId} must bind an intrinsic JSX class`)
+              validOwnerBinding = false
+            }
+          }
+        } else {
+          problems.push(
+            `${page.registry} ${kind} owner ${String(record.owner)} must be governed, custom, N/A, or legacy-exception`,
+          )
+          validOwnerBinding = false
+        }
+
+        const notApplicable = record.owner?.startsWith('N/A:')
+        if (kind === 'catalog' && record.axis !== 'none') {
+          problems.push(`${page.registry} catalog owner ${record.owner} must use axis none`)
+          validOwnerBinding = false
+        }
+        if (kind === 'scroll' && !notApplicable && !['y', 'both'].includes(record.axis)) {
+          problems.push(`${page.registry} scroll owner ${record.owner} must own vertical scrolling`)
+          validOwnerBinding = false
+        }
+        if (validOwnerBinding && !notApplicable) {
+          const edge = `${kind}@${identity}`
+          if (registeredEdges.has(edge))
+            problems.push(`${page.registry} has duplicate ${kind} owner registration ${identity}`)
+          registeredEdges.add(edge)
+          if (callsite?.elementTrace)
+            registeredElementEdges.add(
+              `${kind}@${callsite.elementTrace}@${record.condition ?? 'default'}`,
+            )
+          if (kind === 'scroll' && callsite)
+            registeredScrollOwners.push({
+              callsite,
+              record,
+              scrollContract,
+              variantSpecificOwner,
+              scrollContracts: record.owner.startsWith('custom:.')
+                ? cssElementScrollContracts(callsite, routedElementMetadata, overrides)
+                : undefined,
+            })
+        }
+      }
+    }
+    for (const callsite of routedCallsites.values()) {
+      const identity = callsiteIdentity(callsite)
+      if (callsite.governed && governedCatalogScrollTags.has(callsite.tag))
+        for (const kind of governedCatalogScrollRoles.get(callsite.tag) ?? [])
+          if (!registeredEdges.has(`${kind}@${identity}`))
+            problems.push(
+              `${page.registry} renders unregistered ${kind} owner ${callsite.tag} at ${identity}`,
+            )
+      for (const kind of ['catalog', 'scroll'])
+        if (
+          customBases.get(kind).has(callsiteBaseIdentity(callsite)) &&
+          !registeredEdges.has(`${kind}@${identity}`)
+        )
+          problems.push(`${page.registry} renders unregistered ${kind} custom owner at ${identity}`)
+    }
+    const routedElements = new Map()
+    for (const callsite of routedCallsites.values()) {
+      const element = routedElements.get(callsite.elementTrace) ?? {
+        classes: new Set(),
+        callsites: [],
+      }
+      for (const token of callsite.classes) element.classes.add(token)
+      element.callsites.push(callsite)
+      routedElements.set(callsite.elementTrace, element)
+    }
+    for (const [elementTrace, element] of routedElements) {
+      const evidence = element.callsites.find(
+        (callsite) =>
+          callsite.callsite.startsWith('class:') &&
+          (/^[a-z]/.test(callsite.tag) || callsite.tag === 'DsInspectorHost'),
+      )
+      if (!evidence) continue
+      const scenarios = cssElementScrollContracts(evidence, routedElementMetadata, overrides)
+      if (scenarios.some((scenario) => scenario.variantEnumerationTruncated)) {
+        problems.push(
+          `${page.registry} cannot prove live scroll ownership for ${evidence.source}@${evidence.component}#${evidence.callsite} because its routed class variants exceed 256 combinations`,
+        )
+        continue
+      }
+      if (
+        scenarios.some((scenario) => scenario.inlineStyleUncertain) &&
+        scenarios.some((scenario) => scenario.y.scroll)
+      ) {
+        problems.push(
+          `${page.registry} cannot prove live scroll ownership for ${evidence.source}@${evidence.component}#${evidence.callsite} because a dynamic inline style can override it`,
+        )
+        continue
+      }
+      const defaultScenario = scenarios.find(
+        (scenario) =>
+          scenario.condition === 'default' &&
+          scenario.y.scroll &&
+          !scenario.y.variantCorrelationUncertain,
+      )
+      const liveScenarios = defaultScenario
+        ? [defaultScenario]
+        : [...new Set(scenarios.map((scenario) => scenario.condition))]
+            .filter((condition) => condition !== 'default')
+            .map((condition) =>
+              scenarios.find(
+                (scenario) =>
+                  scenario.condition === condition &&
+                  scenario.y.scroll &&
+                  !scenario.y.variantCorrelationUncertain,
+              ),
+            )
+            .filter(Boolean)
+      if (
+        !liveScenarios.length &&
+        scenarios.some((scenario) => scenario.y.scroll && scenario.y.variantCorrelationUncertain)
+      ) {
+        problems.push(
+          `${page.registry} cannot prove live scroll ownership for ${evidence.source}@${evidence.component}#${evidence.callsite} because its CSS selector crosses correlated class variants`,
+        )
+        continue
+      }
+      for (const scenario of liveScenarios) {
+        if (registeredElementEdges.has(`scroll@${elementTrace}@${scenario.condition}`)) continue
+        const liveOwnerClasses = scenario.y.ownerClasses.length
+          ? scenario.y.ownerClasses
+          : [...element.classes]
+        problems.push(
+          `${page.registry} renders unregistered live custom scroll owner ${evidence.source}@${evidence.component}#${liveOwnerClasses.sort().join('+')}@${evidence.occurrence}${scenario.condition === 'default' ? '' : ` under ${scenario.condition}`}`,
+        )
+      }
+    }
+    for (const parent of registeredScrollOwners.filter((owner) => owner.variantSpecificOwner)) {
+      const switchOwner = registeredScrollOwners.find(
+        (child) =>
+          child !== parent &&
+          child.callsite.ancestorSites?.includes(parent.callsite.elementSite) &&
+          isCanonicalInspectorOwnerSwitch(child, parent),
+      )
+      if (!switchOwner)
+        problems.push(
+          `${page.registry} variant-specific custom:.inspector owner must pair with a routed DsInspectorTabs owner`,
+        )
+    }
+    const declaredNestedOwners = new Set()
+    for (const child of registeredScrollOwners) {
+      for (const parent of registeredScrollOwners) {
+        if (child === parent) continue
+        if (!child.callsite.ancestorSites?.includes(parent.callsite.elementSite)) continue
+        if (hasCanonicalTopLayerBetween(child, parent, routedElementMetadata)) continue
+        if (!scrollOwnersCanCoexist(child, parent)) continue
+        if (isCanonicalInspectorOwnerSwitch(child, parent)) continue
+        const nestedIdentity = `${child.record.region}@${parent.record.region}`
+        declaredNestedOwners.add(nestedIdentity)
+        const structurallyDeclared =
+          child.record.nestedWithin === parent.record.region &&
+          child.record.boundaryKind === 'bounded-subviewport' &&
+          child.record.region.startsWith(`${parent.record.region}.`)
+        const bounded = child.scrollContract?.bounded === true
+        if (!structurallyDeclared || !bounded)
+          problems.push(
+            `${page.registry} scroll owner ${child.record.owner} at ${child.record.region} is nested on axis ${child.record.axis} inside ${parent.record.owner} at ${parent.record.region} without a bounded subviewport`,
+          )
+      }
+    }
+    for (const owner of registeredScrollOwners) {
+      if (!owner.record.nestedWithin) continue
+      const nestedIdentity = `${owner.record.region}@${owner.record.nestedWithin}`
+      if (!owner.record.region.startsWith(`${owner.record.nestedWithin}.`))
+        problems.push(
+          `${page.registry} nested scroll region ${owner.record.region} must be a strict child of ${owner.record.nestedWithin}`,
+        )
+      if (!declaredNestedOwners.has(nestedIdentity))
+        problems.push(
+          `${page.registry} scroll owner ${owner.record.owner} declares nestedWithin ${owner.record.nestedWithin} without a matching DOM ancestor owner`,
+        )
+      if (owner.scrollContract && !owner.scrollContract.bounded)
+        problems.push(
+          `${page.registry} scroll owner ${owner.record.owner} declares a bounded subviewport without a finite block-size contract`,
+        )
+    }
   }
   for (const id of expected.keys())
     if (!actual.has(id)) problems.push(`registry page missing: ${id}`)
   for (const id of actual.keys()) if (!expected.has(id)) problems.push(`stale registry page: ${id}`)
+  for (const id of expected.keys())
+    if (!catalogScrollByRegistry.has(id)) problems.push(`catalog/scroll registry missing: ${id}`)
+  for (const id of catalogScrollByRegistry.keys())
+    if (!expected.has(id)) problems.push(`stale catalog/scroll registry: ${id}`)
+  const allLegacyRegistryPairs = new Set([
+    ...legacyValidation.declaredRegistryPairs,
+    ...linkedLegacyRegistryPairs,
+  ])
+  for (const pair of allLegacyRegistryPairs) {
+    const declared = legacyValidation.declaredRegistryPairs.has(pair)
+    const linked = linkedLegacyRegistryPairs.has(pair)
+    if (declared && !linked)
+      problems.push(`workspace legacy exception pair is not owner-linked: ${pair}`)
+    if (linked && !declared) problems.push(`workspace legacy owner pair is not declared: ${pair}`)
+  }
+  for (const [id, exception] of legacyValidation.byId)
+    for (const registryId of exception.registries)
+      if (!expected.has(registryId)) problems.push(`${id} references stale registry ${registryId}`)
   for (const { registry: registryId, kind, dataPage } of registry)
     if (kind === 'data' && dataPage && !dispatch.get(dataPage)?.size)
       problems.push(`DataMode has no component return for ${dataPage} (${registryId})`)

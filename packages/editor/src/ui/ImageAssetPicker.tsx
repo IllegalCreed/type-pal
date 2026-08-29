@@ -82,11 +82,28 @@ export function ImageAssetThumbnail(props: {
   /** 战场背景的项目标准色；有值时缩略图显示运行时着色效果，不暴露灰度索引图。 */
   paletteColors?: PaletteColors
   alt?: string
-  className?: string
+  className?:
+    | 'actor-avatar__image'
+    | 'ds-add-picker-option__thumbnail'
+    | 'item-icon-preview'
+    | 'item-list-icon'
+    | 'item-object-hero-icon'
 }) {
   const { asset, kind, reader } = props
   const [url, setUrl] = useState('')
   const [error, setError] = useState('')
+  const className =
+    props.className === 'actor-avatar__image'
+      ? 'image-asset-thumb actor-avatar__image'
+      : props.className === 'ds-add-picker-option__thumbnail'
+        ? 'image-asset-thumb ds-add-picker-option__thumbnail'
+        : props.className === 'item-icon-preview'
+          ? 'image-asset-thumb item-icon-preview'
+          : props.className === 'item-list-icon'
+            ? 'image-asset-thumb item-list-icon'
+            : props.className === 'item-object-hero-icon'
+              ? 'image-asset-thumb item-object-hero-icon'
+              : 'image-asset-thumb'
 
   useEffect(() => {
     // revision 不参与读取参数，但必须令同 AssetId 替换后的 object URL 失效并重建。
@@ -115,15 +132,15 @@ export function ImageAssetThumbnail(props: {
     }
   }, [asset, kind, props.paletteColors, props.revision, reader])
 
-  if (!asset) return <span className={`image-asset-thumb empty ${props.className ?? ''}`} />
+  if (!asset) return <span className={`${className} empty`} />
   if (error)
     return (
-      <span className={`image-asset-thumb error ${props.className ?? ''}`} title={error}>
+      <span className={`${className} error`} title={error}>
         !
       </span>
     )
   return (
-    <span className={`image-asset-thumb ${props.className ?? ''}`}>
+    <span className={className}>
       {url ? (
         <img src={url} alt={props.alt ?? ''} />
       ) : (

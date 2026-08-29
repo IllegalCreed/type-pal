@@ -8,13 +8,14 @@ import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
-import { itemReferenceMap, type ItemReference } from '../core/item-references.js'
+import { type ItemReference, itemReferenceMap } from '../core/item-references.js'
 import { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 import {
   mergeEditorProjectionWithCurrentAuthorState,
   projectActiveScriptEditorState,
   projectCurrentAuthorScriptEditorState,
 } from '../core/script-editor-projection.js'
+import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { ItemTab } from './ItemTab.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 
@@ -219,6 +220,8 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
+  document.body.style.overflow = ''
+  vi.unstubAllGlobals()
 })
 
 describe('ItemTab', () => {
@@ -250,6 +253,7 @@ describe('ItemTab', () => {
     }
     const session = new EditSession(initial)
     await act(async () => root.render(<Harness session={session} />))
+    verifyCatalogWorkspace(host, '物品目录')
 
     const row = host.querySelector<HTMLElement>('.item-catalog-list .ds-catalog-row')!
     expect(row.dataset.leading).toBe('present')
@@ -455,6 +459,10 @@ describe('ItemTab', () => {
   })
 
   test('图标浏览器使用可聚焦原生按钮组并正确绑定选择', async () => {
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+      callback(0)
+      return 1
+    })
     const initial = state([
       {
         ...item('item-a'),
@@ -504,14 +512,17 @@ describe('ItemTab', () => {
     )
     const iconTrigger = button('选择已有图标', host)
     await act(async () => iconTrigger.click())
+    const iconDialog = host.querySelector<HTMLDialogElement>('dialog.item-icon-browser-panel')!
+    expect(iconDialog.open).toBe(true)
+    expect(iconDialog.getAttribute('aria-modal')).toBe('true')
+    expect(document.body.style.overflow).toBe('hidden')
     expect(document.activeElement).toBe(host.querySelector<HTMLInputElement>('#item-icon-filter'))
     await act(async () => {
-      host
-        .querySelector('#item-icon-browser-panel')!
-        .dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+      iconDialog.dispatchEvent(new Event('cancel', { bubbles: true, cancelable: true }))
     })
-    expect(host.querySelector('#item-icon-browser-panel')).toBeNull()
+    expect(host.querySelector('dialog.item-icon-browser-panel')).toBeNull()
     expect(document.activeElement).toBe(iconTrigger)
+    expect(document.body.style.overflow).toBe('')
 
     await act(async () => iconTrigger.click())
     const group = host.querySelector<HTMLFieldSetElement>('fieldset[aria-label="物品图标"]')!

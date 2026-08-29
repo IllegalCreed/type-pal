@@ -5,6 +5,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { SkillTab } from './SkillTab.js'
@@ -145,6 +146,15 @@ function controlByLabel<T extends HTMLElement>(text: string): T {
 }
 
 describe('SkillTab · 施法物品成本', () => {
+  test('目录第二行保留原始数值 SkillId，不制造点分展示别名', async () => {
+    const session = new EditSession(state([skill({ mp: 8 }, '295', '梦蛇')]))
+    await act(async () => root.render(<Harness session={session} />))
+    const row = host.querySelector('.ds-catalog-row')!
+    expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe('梦蛇')
+    expect(row.querySelector('.ds-catalog-row__meta')?.textContent).toBe('295')
+    expect(row.textContent).not.toContain('skill.pal.295')
+  })
+
   test('目录搜索覆盖命中、空结果与清空恢复，且不会偷换被过滤的选择', async () => {
     const session = new EditSession(state([skill(), skill({ mp: 8 }, '353', '另一技能')]))
     await act(async () => root.render(<Harness session={session} focusObjectId="353" />))
@@ -169,6 +179,7 @@ describe('SkillTab · 施法物品成本', () => {
   test('检查器使用共享引用/说明 Tab 完整键盘与 ARIA 合同', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))
+    verifyCatalogWorkspace(host, '技能目录')
     await verifyInspectorTabs(host, '技能检查器', [/^引用 \d+$/, '说明'])
   })
 

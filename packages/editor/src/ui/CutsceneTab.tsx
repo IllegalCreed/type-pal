@@ -19,7 +19,10 @@ import {
   useState,
 } from 'react'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
-import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
+import {
+  editorAssetCatalogTitle,
+  type EditorAssetDiagnostic,
+} from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { tryCollectEditorAssetReferenceSnapshot } from '../core/editor-asset-references.js'
@@ -208,7 +211,7 @@ function AssetList(props: {
             <DsCatalogRow
               key={entry.id}
               selected={props.selectedId === entry.id}
-              title={entry.record.label || entry.id}
+              title={editorAssetCatalogTitle(entry.record)}
               meta={entry.id}
               trailing={<DsTag tone="neutral">{ORIGIN_LABELS[entry.record.origin.kind]}</DsTag>}
               onClick={() => props.onSelect(entry.id)}

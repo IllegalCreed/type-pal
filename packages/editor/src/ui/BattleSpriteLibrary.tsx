@@ -30,6 +30,7 @@ import {
   defaultBattleSpriteProfile,
   prepareBattleSpriteImport,
 } from '../core/battle-sprite-import.js'
+import { editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import {
   AddBattleSpriteCommand,
@@ -1166,7 +1167,7 @@ export function BattleSpriteLibrary(props: {
 
   return (
     <>
-      <div className="outliner data-outliner battle-sprite-outliner">
+      <div className="outliner outliner--split data-outliner battle-sprite-outliner">
         {props.tabBar}
         <DsCatalogControls
           title="精灵库"
@@ -1233,7 +1234,7 @@ export function BattleSpriteLibrary(props: {
             onSelect={([asset]) => focusResource(asset)}
             renderItem={([asset, assetRecord], _index, control) => {
               const entries = definitionsByAsset.get(asset) ?? []
-              const label = assetRecord.label?.trim() || entries[0]?.label?.trim() || asset
+              const label = editorAssetCatalogTitle(assetRecord, entries[0]?.label)
               return (
                 <DsCatalogRow
                   className="sprite-resource-row"

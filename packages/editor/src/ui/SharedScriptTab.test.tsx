@@ -7,6 +7,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 import { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
+import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { CanonicalSharedScriptTab } from './SharedScriptTab.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 
@@ -107,6 +108,7 @@ describe('CanonicalSharedScriptTab', () => {
       ),
     )
     const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索可复用脚本"]')!
+    verifyCatalogWorkspace(host, '可复用脚本目录')
     expect(host.querySelectorAll('.shared-list > .ds-catalog-row')).toHaveLength(2)
 
     await setCatalogSearch(search, '序章')

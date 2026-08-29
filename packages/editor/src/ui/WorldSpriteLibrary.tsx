@@ -16,6 +16,7 @@ import {
   type SpriteLayoutEditProof,
   UpdateSpriteCommand,
 } from '../core/commands.js'
+import { editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
@@ -508,7 +509,7 @@ export function WorldSpriteLibrary(props: {
 
   return (
     <>
-      <div className="outliner data-outliner battle-sprite-outliner world-sprite-outliner">
+      <div className="outliner outliner--split data-outliner battle-sprite-outliner world-sprite-outliner">
         {props.tabBar}
         <DsCatalogControls
           title="精灵库"
@@ -575,7 +576,7 @@ export function WorldSpriteLibrary(props: {
             onSelect={([asset]) => focusResource(asset)}
             renderItem={([asset, assetRecord], _index, control) => {
               const entries = definitionsByAsset.get(asset) ?? []
-              const label = assetRecord.label?.trim() || entries[0]?.label?.trim() || asset
+              const label = editorAssetCatalogTitle(assetRecord, entries[0]?.label)
               return (
                 <DsCatalogRow
                   className="sprite-resource-row"

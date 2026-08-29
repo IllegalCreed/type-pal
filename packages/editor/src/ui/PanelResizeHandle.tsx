@@ -77,13 +77,29 @@ export function PanelResizeHandle(props: {
   resizeLabel: string
   onResize: (delta: number) => void
   onReset: () => void
-  className?: string
+  className?:
+    | 'app-inspector-resizer'
+    | 'app-outliner-resizer'
+    | 'script-height-resizer'
+    | 'script-side-resizer'
   disabled?: boolean
   toggleDirection?: ToggleDirection
   toggleLabel?: string
   onToggle?: () => void
 }) {
   const pointer = useRef<{ id: number; coordinate: number } | null>(null)
+  const rootClassName =
+    props.orientation === 'vertical'
+      ? props.className === 'app-inspector-resizer'
+        ? 'panel-resizer panel-resizer-vertical app-inspector-resizer'
+        : props.className === 'app-outliner-resizer'
+          ? 'panel-resizer panel-resizer-vertical app-outliner-resizer'
+          : props.className === 'script-side-resizer'
+            ? 'panel-resizer panel-resizer-vertical script-side-resizer'
+            : 'panel-resizer panel-resizer-vertical'
+      : props.className === 'script-height-resizer'
+        ? 'panel-resizer panel-resizer-horizontal script-height-resizer'
+        : 'panel-resizer panel-resizer-horizontal'
   const coordinateOf = (event: ReactPointerEvent): number =>
     props.orientation === 'vertical' ? event.clientX : event.clientY
 
@@ -137,9 +153,7 @@ export function PanelResizeHandle(props: {
   }
 
   return (
-    <div
-      className={`panel-resizer panel-resizer-${props.orientation}${props.className ? ` ${props.className}` : ''}`}
-    >
+    <div className={rootClassName}>
       <hr
         className="panel-resizer-hit"
         aria-label={props.resizeLabel}
@@ -179,7 +193,15 @@ export function PanelResizeHandle(props: {
           onClick={props.onToggle}
         >
           <span
-            className={`panel-resizer-toggle-icon panel-resizer-toggle-icon-${props.toggleDirection}`}
+            className={
+              props.toggleDirection === 'up'
+                ? 'panel-resizer-toggle-icon panel-resizer-toggle-icon-up'
+                : props.toggleDirection === 'down'
+                  ? 'panel-resizer-toggle-icon panel-resizer-toggle-icon-down'
+                  : props.toggleDirection === 'left'
+                    ? 'panel-resizer-toggle-icon panel-resizer-toggle-icon-left'
+                    : 'panel-resizer-toggle-icon panel-resizer-toggle-icon-right'
+            }
             aria-hidden="true"
           />
         </DsPressable>

@@ -363,7 +363,7 @@ describe('WorldSpriteLibrary', () => {
     expect(upload.compareDocumentPosition(filter) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })
 
-  test('空白资源标签和空用途名称最终回退到 AssetId', async () => {
+  test('空白资源标签和空用途名称回退为本地化类型标题，AssetId 仍在第二行', async () => {
     const blankCatalog = structuredClone(catalog)
     blankCatalog.assets['sprite.raw']!.label = '   '
     const session = new EditSession(editorState([]))
@@ -372,7 +372,8 @@ describe('WorldSpriteLibrary', () => {
     const row = [...host.querySelectorAll('.sprite-resource-row')].find(
       (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent === 'sprite.raw',
     )!
-    expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe('sprite.raw')
+    expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe('未命名场景精灵')
+    expect(row.querySelector('.ds-catalog-row__meta')?.textContent).toBe('sprite.raw')
   })
 
   test('定义深链聚焦其源文件，多用途在右侧切换而不是重复左侧行', async () => {

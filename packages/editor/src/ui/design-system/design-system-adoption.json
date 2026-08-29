@@ -1,5 +1,1643 @@
 {
-  "version": 2,
+  "version": 3,
+  "catalogScrollOwners": [
+    {
+      "registry": "scene/workspace",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "custom:.tree",
+          "source": "App.tsx",
+          "component": "App",
+          "callsite": "class:tree",
+          "reason": "场景树仍由编辑器外壳维护。",
+          "verification": "route-live App 渲染 .tree。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.tree",
+          "source": "App.tsx",
+          "component": "App",
+          "callsite": "class:tree",
+          "reason": "场景树是目录的纵向 viewport。",
+          "verification": "editor.css .tree owns overflow-y:auto。"
+        },
+        {
+          "region": "drawer.canonical",
+          "axis": "y",
+          "owner": "custom:.canonical-script-drawer-body",
+          "source": "SceneScriptWorkspace.tsx",
+          "component": "CanonicalSceneScriptWorkspace",
+          "callsite": "class:canonical-script-drawer-body",
+          "variant": "canonical",
+          "reason": "规范脚本抽屉正文独立纵向滚动。",
+          "verification": "editor.css .canonical-script-drawer-body owns overflow:auto。"
+        },
+        {
+          "region": "drawer.legacy.tree",
+          "axis": "y",
+          "owner": "custom:.drawer-tree",
+          "source": "ScriptDrawer.tsx",
+          "component": "ScriptDrawer",
+          "callsite": "class:drawer-tree",
+          "variant": "legacy",
+          "reason": "旧脚本抽屉树与表单是并列 viewport。",
+          "verification": "editor.css .script-drawer .drawer-tree owns overflow:auto。"
+        },
+        {
+          "region": "drawer.legacy.form",
+          "axis": "y",
+          "owner": "custom:.drawer-form",
+          "source": "ScriptDrawer.tsx",
+          "component": "ScriptDrawer",
+          "callsite": "class:drawer-form",
+          "variant": "legacy",
+          "reason": "旧脚本抽屉表单与树是并列 viewport。",
+          "verification": "editor.css .script-drawer .drawer-form owns overflow-y:auto。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "custom:.inspector",
+          "source": "App.tsx",
+          "component": "App",
+          "callsite": "class:inspector",
+          "variant": "non-entity",
+          "reason": "非实体场景分支由基础 Inspector 外壳滚动。",
+          "verification": "该分支不添加 inspector--tabbed，editor.css .inspector owns overflow-y:auto。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "App.tsx",
+          "component": "SceneEntityInspectorTabs",
+          "callsite": "tag:DsInspectorTabs",
+          "variant": "entity",
+          "reason": "实体分支由选中 tab panel 持有 Inspector 滚动。",
+          "verification": "selEntity 分支 route-live 到 SceneEntityInspectorTabs。"
+        }
+      ]
+    },
+    {
+      "registry": "scene/ambience",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "AmbienceTab.tsx",
+          "component": "AmbienceTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "氛围目录采用共享目录壳。",
+          "verification": "route-live canonical import。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "AmbienceTab.tsx",
+          "component": "AmbienceTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "共享目录壳内建唯一 catalog viewport。",
+          "verification": "data-ds-scroll-owner=catalog 由 recipe 输出。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "AmbienceTab.tsx",
+          "component": "AmbienceTab",
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "氛围对象内容独立于目录滚动。",
+          "verification": "wrapped workspace 的 canonical content 输出 data-ds-scroll-owner=main。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "AmbienceTab.tsx",
+          "component": "AmbienceTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "氛围 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "map/workspace",
+      "catalog": [
+        {
+          "region": "catalog.maps",
+          "axis": "none",
+          "owner": "custom:.map-asset-list",
+          "source": "MapMode.tsx",
+          "component": "MapMode",
+          "callsite": "class:map-asset-list",
+          "reason": "地图目录仍是地图画布的专用列表。",
+          "verification": "route-live MapMode 渲染 .map-asset-list。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog.maps",
+          "axis": "y",
+          "owner": "custom:.map-asset-list",
+          "source": "MapMode.tsx",
+          "component": "MapMode",
+          "callsite": "class:map-asset-list",
+          "reason": "地图列表自身承担纵向滚动。",
+          "verification": "editor.css .map-asset-list owns overflow-y:auto。"
+        },
+        {
+          "region": "inspector.layers",
+          "axis": "y",
+          "owner": "custom:.map-layer-list",
+          "source": "LayerStackControls.tsx",
+          "component": "LayerStackControls",
+          "callsite": "class:map-layer-list",
+          "reason": "图层标题固定，图层列表独立滚动。",
+          "verification": "editor.css .map-layer-list owns overflow-y:auto。"
+        },
+        {
+          "region": "inspector.tiles",
+          "axis": "y",
+          "owner": "custom:.tile-picker-grid",
+          "source": "TilePickerGrid.tsx",
+          "component": "TilePickerGrid",
+          "callsite": "class:tile-picker-grid",
+          "reason": "绘制瓦片选择网格独立滚动。",
+          "verification": "editor.css .tile-picker-grid owns overflow-y:auto。"
+        },
+        {
+          "region": "inspector.stamps",
+          "axis": "y",
+          "owner": "custom:.map-stamp-grid",
+          "source": "MapStampPalette.tsx",
+          "component": "MapStampPalette",
+          "callsite": "class:map-stamp-grid",
+          "reason": "组合筛选固定，组合卡片网格独立滚动。",
+          "verification": "editor.css .map-stamp-grid owns overflow-y:auto。"
+        },
+        {
+          "region": "overlay.transform-conflict",
+          "axis": "y",
+          "owner": "custom:.stamp-lifecycle-dialog",
+          "source": "MapMode.tsx",
+          "component": "MapMode",
+          "callsite": "class:stamp-lifecycle-dialog",
+          "occurrence": 1,
+          "variant": "transform-conflict",
+          "reason": "地图变换冲突弹窗在小窗口独立滚动。",
+          "verification": "第一个 route-live stamp-lifecycle-dialog；editor.css owns overflow-y:auto。"
+        },
+        {
+          "region": "overlay.stamp-lifecycle",
+          "axis": "y",
+          "owner": "custom:.stamp-lifecycle-dialog",
+          "source": "MapMode.tsx",
+          "component": "MapMode",
+          "callsite": "class:stamp-lifecycle-dialog",
+          "occurrence": 2,
+          "variant": "stamp-lifecycle",
+          "reason": "组合生命周期弹窗在小窗口独立滚动。",
+          "verification": "第二个 route-live stamp-lifecycle-dialog；editor.css owns overflow-y:auto。"
+        },
+        {
+          "region": "overlay.stamp-lifecycle.references",
+          "axis": "y",
+          "owner": "custom:.stamp-lifecycle-list",
+          "source": "MapMode.tsx",
+          "component": "MapMode",
+          "callsite": "class:stamp-lifecycle-list",
+          "variant": "stamp-lifecycle",
+          "nestedWithin": "overlay.stamp-lifecycle",
+          "boundaryKind": "bounded-subviewport",
+          "reason": "引用列表在有边界的生命周期弹窗内独立滚动。",
+          "verification": "editor.css .stamp-lifecycle-list owns overflow-y:auto and max-height:180px。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "MapMode.tsx",
+          "component": "MapMode",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "地图 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "map/tileset",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "custom:.tileset-library-list",
+          "source": "TilesetTab.tsx",
+          "component": "TilesetTab",
+          "callsite": "class:tileset-library-list",
+          "reason": "瓦片集保留分页与预览专用目录。",
+          "verification": "route-live TilesetTab 渲染该 fieldset。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.tileset-library-list",
+          "source": "TilesetTab.tsx",
+          "component": "TilesetTab",
+          "callsite": "class:tileset-library-list",
+          "reason": "瓦片集列表自身是 viewport。",
+          "verification": "editor.css .tileset-library-list owns overflow-y:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "custom:.tileset-workspace-scroll",
+          "source": "TilesetTab.tsx",
+          "component": "TilesetTab",
+          "callsite": "class:tileset-workspace-scroll",
+          "variant": "uploading",
+          "reason": "上传分支的瓦片预览工作区独立滚动。",
+          "verification": "editor.css .tileset-workspace-scroll owns overflow:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "custom:.tileset-workspace-scroll",
+          "source": "TilesetTab.tsx",
+          "component": "TilesetPreview",
+          "callsite": "class:tileset-workspace-scroll",
+          "variant": "selected",
+          "reason": "已选瓦片集的预览工作区独立滚动。",
+          "verification": "TilesetPreview 根节点使用 editor.css .tileset-workspace-scroll overflow:auto。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "custom:.inspector",
+          "source": "TilesetTab.tsx",
+          "component": "TilesetTab",
+          "callsite": "class:inspector",
+          "variant": "non-selected",
+          "reason": "上传和未选择分支均由基础 Inspector 外壳滚动。",
+          "verification": "两个 non-selected 分支都不添加 inspector--tabbed，editor.css .inspector owns overflow-y:auto。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "TilesetTab.tsx",
+          "component": "TilesetTab",
+          "callsite": "tag:DsInspectorTabs",
+          "variant": "selected",
+          "reason": "已选择分支由 tab panel 持有 Inspector 滚动。",
+          "verification": "selected 分支 route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "map/stamp",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "custom:.stamp-library-list",
+          "source": "StampLibraryTab.tsx",
+          "component": "StampLibraryTab",
+          "callsite": "class:stamp-library-list",
+          "reason": "组合模板保留分页专用目录。",
+          "verification": "route-live StampLibraryTab 渲染该 section。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.stamp-library-list",
+          "source": "StampLibraryTab.tsx",
+          "component": "StampLibraryTab",
+          "callsite": "class:stamp-library-list",
+          "reason": "组合模板列表自身是 viewport。",
+          "verification": "editor.css .stamp-library-list owns overflow:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "custom:.stamp-workspace-scroll",
+          "source": "StampLibraryTab.tsx",
+          "component": "StampLibraryTab",
+          "callsite": "class:stamp-workspace-scroll",
+          "variant": "empty",
+          "reason": "未选择组合时由中央空态工作区承担滚动。",
+          "verification": "editor.css .stamp-workspace-scroll owns overflow:auto。"
+        },
+        {
+          "region": "inspector.layers",
+          "axis": "y",
+          "owner": "custom:.map-layer-list",
+          "source": "LayerStackControls.tsx",
+          "component": "LayerStackControls",
+          "callsite": "class:map-layer-list",
+          "variant": "selected",
+          "reason": "已选组合的图层列表独立滚动。",
+          "verification": "editor.css .map-layer-list owns overflow-y:auto。"
+        },
+        {
+          "region": "inspector.tiles",
+          "axis": "y",
+          "owner": "custom:.tile-picker-grid",
+          "source": "TilePickerGrid.tsx",
+          "component": "TilePickerGrid",
+          "callsite": "class:tile-picker-grid",
+          "variant": "selected",
+          "reason": "已选组合的瓦片选择网格独立滚动。",
+          "verification": "editor.css .tile-picker-grid owns overflow-y:auto。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "StampLibraryTab.tsx",
+          "component": "StampLibraryTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "组合模板 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "story/scripts",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "SharedScriptTab.tsx",
+          "component": "CanonicalSharedScriptTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "共享脚本目录采用共享目录壳。",
+          "verification": "route-live canonical import。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "SharedScriptTab.tsx",
+          "component": "CanonicalSharedScriptTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "共享目录壳内建唯一 catalog viewport。",
+          "verification": "data-ds-scroll-owner=catalog 由 recipe 输出。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "custom:.canonical-shared-script-editor-scroll",
+          "source": "SharedScriptTab.tsx",
+          "component": "CanonicalSharedScriptTab",
+          "callsite": "class:canonical-shared-script-editor-scroll",
+          "variant": "selected",
+          "reason": "已选择脚本时正文编辑区承担中央纵向滚动。",
+          "verification": "editor.css .canonical-shared-script-editor-scroll owns overflow:auto。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "custom:.shared-script-inspector",
+          "source": "SharedScriptTab.tsx",
+          "component": "CanonicalSharedScriptTab",
+          "callsite": "class:shared-script-inspector",
+          "reason": "脚本引用 Inspector 保留专用纵向 viewport。",
+          "verification": "editor.css .shared-script-inspector owns overflow:auto。"
+        }
+      ]
+    },
+    {
+      "registry": "story/vars",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "custom:.world-variable-catalog",
+          "source": "VarsTab.tsx",
+          "component": "VarsTab",
+          "callsite": "class:world-variable-catalog",
+          "reason": "变量目录带分组与引用摘要，暂保留专用列表。",
+          "verification": "route-live VarsTab 渲染该目录。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.world-variable-catalog",
+          "source": "VarsTab.tsx",
+          "component": "VarsTab",
+          "callsite": "class:world-variable-catalog",
+          "reason": "变量目录自身是 viewport。",
+          "verification": "editor.css .world-variable-catalog owns overflow:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "legacy-exception:legacy-workspace-vars",
+          "source": "VarsTab.tsx",
+          "component": "VarsTab",
+          "callsite": "class:ds-object-workspace__content",
+          "reason": "中央 raw workspace 属已冻结旧债。",
+          "verification": "精确 selector multiset 由静态门禁核对。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "custom:.world-variable-reference-panel",
+          "source": "VarsTab.tsx",
+          "component": "VarsTab",
+          "callsite": "class:world-variable-reference-panel",
+          "reason": "变量引用 Inspector 保留专用纵向 viewport。",
+          "verification": "editor.css .world-variable-reference-panel owns overflow:auto。"
+        }
+      ]
+    },
+    {
+      "registry": "story/events",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "custom:.catalog",
+          "source": "EventLibTab.tsx",
+          "component": "EventLibTab",
+          "callsite": "class:catalog",
+          "reason": "事件库是只读专用目录。",
+          "verification": "route-live EventLibTab 渲染 .catalog。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "main.catalog",
+          "axis": "y",
+          "owner": "custom:.et-scroll",
+          "source": "EventLibTab.tsx",
+          "component": "EventLibTab",
+          "callsite": "class:et-scroll",
+          "reason": "指令目录语义位于中央 canvas-wrap，由 et-scroll 获得纵向滚动。",
+          "verification": "editor.css .et-scroll owns overflow-y:auto。"
+        },
+        {
+          "region": "inspector",
+          "axis": "none",
+          "owner": "N/A: 指令手册只有目录与中央正文，没有右侧 Inspector。",
+          "source": "EventLibTab.tsx",
+          "component": "EventLibTab",
+          "callsite": "class:canvas-wrap",
+          "reason": "不得为不存在的 Inspector 伪造 scroll owner。",
+          "verification": "route-live EventLibTab 返回 outliner + canvas-wrap 两栏。"
+        }
+      ]
+    },
+    {
+      "registry": "actor/workspace",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "custom:.actor-list",
+          "source": "ActorMode.tsx",
+          "component": "ActorMode",
+          "callsite": "class:actor-list",
+          "reason": "角色目录保留头像与状态专用列表。",
+          "verification": "route-live ActorMode 渲染 .actor-list。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.actor-list",
+          "source": "ActorMode.tsx",
+          "component": "ActorMode",
+          "callsite": "class:actor-list",
+          "reason": "角色目录自身是 viewport。",
+          "verification": "editor.css .actor-list owns overflow-y:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "custom:.actor-workspace-scroll",
+          "source": "ActorMode.tsx",
+          "component": "ActorMode",
+          "callsite": "class:actor-workspace-scroll",
+          "variant": "normal",
+          "reason": "常规角色分区由统一中央工作区滚动。",
+          "verification": "editor.css .actor-workspace-scroll owns overflow:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "custom:.dscroll",
+          "source": "LevelCurveEditor.tsx",
+          "component": "LevelCurveEditor",
+          "callsite": "class:dscroll",
+          "variant": "curve",
+          "reason": "成长曲线编辑器切换后接管中央滚动。",
+          "verification": "LevelCurveEditor 是 .center 的直接 .dscroll 子节点。"
+        },
+        {
+          "region": "main.casualty.narrow",
+          "axis": "y",
+          "owner": "custom:.casualty-workbench",
+          "source": "CasualtyEditor.tsx",
+          "component": "CasualtyEditor",
+          "callsite": "class:casualty-workbench",
+          "variant": "casualty-narrow",
+          "condition": "@media (max-width: 1120px)",
+          "reason": "窄视口下伤亡工作台合并为单一纵向滚动。",
+          "verification": "max-width:1120px 时 editor.css .casualty-workbench owns overflow-y:auto。"
+        },
+        {
+          "region": "main.casualty.branches",
+          "axis": "y",
+          "owner": "custom:.casualty-branch-panel",
+          "source": "CasualtyEditor.tsx",
+          "component": "CasualtyEditor",
+          "callsite": "class:casualty-branch-panel",
+          "variant": "casualty-wide",
+          "condition": "default",
+          "reason": "宽视口下概率分支列表独立滚动。",
+          "verification": "默认宽视口下 editor.css .casualty-branch-panel owns overflow-y:auto；max-width:1120px 时恢复 visible。"
+        },
+        {
+          "region": "main.casualty.editor",
+          "axis": "y",
+          "owner": "custom:.casualty-branch-editor",
+          "source": "CasualtyEditor.tsx",
+          "component": "CasualtyEditor",
+          "callsite": "class:casualty-branch-editor",
+          "variant": "casualty-wide",
+          "condition": "default",
+          "reason": "宽视口下分支详情独立滚动。",
+          "verification": "默认宽视口下 editor.css .casualty-branch-editor owns overflow-y:auto；max-width:1120px 时恢复 visible。"
+        },
+        {
+          "region": "main.appearance.frames",
+          "axis": "y",
+          "owner": "custom:.frames-scroll",
+          "source": "SpriteFrames.tsx",
+          "component": "SpriteFrames",
+          "callsite": "class:frames-scroll",
+          "nestedWithin": "main",
+          "boundaryKind": "bounded-subviewport",
+          "reason": "角色帧序列在受限编辑区内独立滚动。",
+          "verification": "editor.css .frames-scroll owns overflow-y:auto and a finite max-height。"
+        },
+        {
+          "region": "main.battle-sprite-upload.frames",
+          "axis": "y",
+          "owner": "custom:.bsu-frame-grid",
+          "source": "BattleSpriteUploader.tsx",
+          "component": "BattleSpriteUploader",
+          "callsite": "class:bsu-frame-grid",
+          "nestedWithin": "main",
+          "boundaryKind": "bounded-subviewport",
+          "reason": "角色战斗精灵上传的帧候选网格是有界子 viewport。",
+          "verification": "editor.css .bsu-frame-grid owns overflow-y:auto and max-height:220px。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "ActorMode.tsx",
+          "component": "ActorInspector",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "角色 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live ActorInspector canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "item/item",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "ItemTab.tsx",
+          "component": "ItemTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "物品目录采用共享目录壳。",
+          "verification": "route-live canonical import。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "ItemTab.tsx",
+          "component": "ItemTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "共享目录壳内建唯一 catalog viewport。",
+          "verification": "data-ds-scroll-owner=catalog 由 recipe 输出。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "ItemTab.tsx",
+          "component": "ItemTab",
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "物品中央列采用真实对象工作区内容 viewport。",
+          "verification": "manual workspace 显式 route-live canonical content。"
+        },
+        {
+          "region": "overlay.icon-browser.options",
+          "axis": "y",
+          "owner": "custom:.item-icon-browser-grid",
+          "source": "ItemTab.tsx",
+          "component": "ItemIconBrowser",
+          "callsite": "class:item-icon-browser-grid",
+          "reason": "物品图标选择对话框进入 top layer，候选网格是浮层内唯一纵向 viewport。",
+          "verification": "DsDialog uses showModal；dialog body overflow:hidden；editor.css .item-icon-browser-grid owns overflow-y:auto + overscroll containment。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "ItemTab.tsx",
+          "component": "ItemTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "物品 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "item/shop",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "ShopTab.tsx",
+          "component": "ShopTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "商店目录采用共享目录壳。",
+          "verification": "route-live canonical import。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "ShopTab.tsx",
+          "component": "ShopTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "标题固定在唯一 catalog viewport 外。",
+          "verification": "data-ds-scroll-owner=catalog 由 recipe 输出。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "ShopTab.tsx",
+          "component": "ShopTab",
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "商店中央列采用真实对象工作区内容 viewport。",
+          "verification": "wrapped workspace canonical content。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "ShopTab.tsx",
+          "component": "ShopTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "商店 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "battle/skill",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "SkillTab.tsx",
+          "component": "SkillTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "技能目录采用共享目录壳。",
+          "verification": "route-live canonical import。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "SkillTab.tsx",
+          "component": "SkillTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "共享目录壳内建唯一 catalog viewport。",
+          "verification": "data-ds-scroll-owner=catalog 由 recipe 输出。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "SkillTab.tsx",
+          "component": "SkillTab",
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "技能中央列采用真实对象工作区内容 viewport。",
+          "verification": "manual workspace 显式 route-live canonical content。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "SkillTab.tsx",
+          "component": "SkillTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "技能 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "battle/enemy",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "EnemyTab.tsx",
+          "component": "EnemyTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "敌人目录采用共享目录壳。",
+          "verification": "route-live canonical import。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "EnemyTab.tsx",
+          "component": "EnemyTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "共享目录壳内建唯一 catalog viewport。",
+          "verification": "data-ds-scroll-owner=catalog 由 recipe 输出。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "EnemyTab.tsx",
+          "component": "EnemyTab",
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "敌人中央列采用真实对象工作区内容 viewport。",
+          "verification": "manual workspace 显式 route-live canonical content。"
+        },
+        {
+          "region": "main.battle-sprite-upload.frames",
+          "axis": "y",
+          "owner": "custom:.bsu-frame-grid",
+          "source": "BattleSpriteUploader.tsx",
+          "component": "BattleSpriteUploader",
+          "callsite": "class:bsu-frame-grid",
+          "nestedWithin": "main",
+          "boundaryKind": "bounded-subviewport",
+          "reason": "敌人战斗精灵上传的帧候选网格是有界子 viewport。",
+          "verification": "editor.css .bsu-frame-grid owns overflow-y:auto and max-height:220px。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "EnemyTab.tsx",
+          "component": "EnemyTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "敌人 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "battle/enemy-team",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "custom:.enemy-team-catalog",
+          "source": "EnemyTeamTab.tsx",
+          "component": "EnemyTeamTab",
+          "callsite": "class:enemy-team-catalog",
+          "reason": "敌队目录是范围外的既存专用列表。",
+          "verification": "route-live EnemyTeamTab 渲染该目录。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.enemy-team-catalog",
+          "source": "EnemyTeamTab.tsx",
+          "component": "EnemyTeamTab",
+          "callsite": "class:enemy-team-catalog",
+          "reason": "敌队目录自身是 viewport。",
+          "verification": "editor.css .enemy-team-catalog owns overflow:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "legacy-exception:legacy-workspace-enemy-team",
+          "source": "EnemyTeamTab.tsx",
+          "component": "EnemyTeamTab",
+          "callsite": "class:ds-object-workspace__content",
+          "reason": "中央 raw workspace 属已冻结旧债。",
+          "verification": "精确 selector multiset 由静态门禁核对。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "custom:.inspector",
+          "source": "EnemyTeamTab.tsx",
+          "component": "EnemyTeamTab",
+          "callsite": "class:inspector",
+          "reason": "敌队引用 Inspector 由基础 Inspector 外壳滚动。",
+          "verification": "editor.css .inspector owns overflow-y:auto。"
+        }
+      ]
+    },
+    {
+      "registry": "battle/poison",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "PoisonTab.tsx",
+          "component": "PoisonTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "毒目录采用共享目录壳。",
+          "verification": "route-live canonical import。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "PoisonTab.tsx",
+          "component": "PoisonTab",
+          "callsite": "tag:DsCatalogWorkspace",
+          "reason": "共享目录壳内建唯一 catalog viewport。",
+          "verification": "data-ds-scroll-owner=catalog 由 recipe 输出。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "PoisonTab.tsx",
+          "component": "PoisonTab",
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "毒中央列采用真实对象工作区内容 viewport。",
+          "verification": "manual workspace 显式 route-live canonical content。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "PoisonTab.tsx",
+          "component": "PoisonTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "毒 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "battle/battlefield",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "custom:.bf-catalog",
+          "source": "BattleFieldTab.tsx",
+          "component": "BattleFieldTab",
+          "callsite": "class:bf-catalog",
+          "reason": "战场目录是范围外的既存专用列表。",
+          "verification": "route-live BattleFieldTab 渲染 .bf-catalog。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.tree",
+          "source": "BattleFieldTab.tsx",
+          "component": "BattleFieldTab",
+          "callsite": "class:tree",
+          "reason": "bf-catalog 与基础 tree 同元素，滚动由 tree 合同拥有。",
+          "verification": "editor.css .tree owns overflow-y:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "legacy-exception:legacy-workspace-battlefield",
+          "source": "BattleFieldTab.tsx",
+          "component": "BattleFieldTab",
+          "callsite": "class:ds-object-workspace__content",
+          "reason": "中央 raw workspace 属已冻结旧债。",
+          "verification": "精确 selector multiset 由静态门禁核对。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "custom:.bf-reference-panel",
+          "source": "BattleFieldTab.tsx",
+          "component": "BattleFieldTab",
+          "callsite": "class:bf-reference-panel",
+          "reason": "战场引用 Inspector 自身承担纵向滚动。",
+          "verification": "editor.css .bf-reference-panel owns overflow-y:auto。"
+        }
+      ]
+    },
+    {
+      "registry": "asset/sprite",
+      "catalog": [
+        {
+          "region": "catalog.battle",
+          "axis": "none",
+          "owner": "DsVirtualList",
+          "source": "BattleSpriteLibrary.tsx",
+          "component": "BattleSpriteLibrary",
+          "callsite": "tag:DsVirtualList",
+          "reason": "战斗精灵目录需要虚拟列表。",
+          "verification": "route-live canonical import。"
+        },
+        {
+          "region": "catalog.world",
+          "axis": "none",
+          "owner": "DsVirtualList",
+          "source": "WorldSpriteLibrary.tsx",
+          "component": "WorldSpriteLibrary",
+          "callsite": "tag:DsVirtualList",
+          "reason": "大世界精灵目录需要虚拟列表。",
+          "verification": "route-live canonical import。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog.battle",
+          "axis": "y",
+          "owner": "DsVirtualList",
+          "source": "BattleSpriteLibrary.tsx",
+          "component": "BattleSpriteLibrary",
+          "callsite": "tag:DsVirtualList",
+          "reason": "虚拟列表内建唯一 catalog viewport。",
+          "verification": "virtual-list 输出 data-ds-scroll-owner=catalog。"
+        },
+        {
+          "region": "catalog.world",
+          "axis": "y",
+          "owner": "DsVirtualList",
+          "source": "WorldSpriteLibrary.tsx",
+          "component": "WorldSpriteLibrary",
+          "callsite": "tag:DsVirtualList",
+          "reason": "虚拟列表内建唯一 catalog viewport。",
+          "verification": "virtual-list 输出 data-ds-scroll-owner=catalog。"
+        },
+        {
+          "region": "main.battle",
+          "axis": "y",
+          "owner": "legacy-exception:legacy-workspace-battle-sprite",
+          "source": "BattleSpriteLibrary.tsx",
+          "component": "BattleSpriteLibrary",
+          "callsite": "class:ds-object-workspace__content",
+          "reason": "战斗精灵中央 raw workspace 属已冻结旧债。",
+          "verification": "精确 selector multiset 由静态门禁核对。"
+        },
+        {
+          "region": "main.world",
+          "axis": "y",
+          "owner": "legacy-exception:legacy-workspace-world-sprite-viewer",
+          "source": "SpriteResourceViewer.tsx",
+          "component": "SpriteResourceViewer",
+          "callsite": "class:ds-object-workspace__content",
+          "reason": "大世界精灵中央 raw workspace 属已冻结旧债。",
+          "verification": "精确 selector multiset 由静态门禁核对。"
+        },
+        {
+          "region": "main.world-upload",
+          "axis": "y",
+          "owner": "custom:.dscroll",
+          "source": "SpriteUploadWizard.tsx",
+          "component": "SpriteUploadWizard",
+          "callsite": "class:dscroll",
+          "variant": "world-upload",
+          "reason": "上传向导切换后接管大世界精灵中央滚动。",
+          "verification": "SpriteUploadWizard 是 .center 的直接 .dscroll 子节点。"
+        },
+        {
+          "region": "main.battle.upload.frames",
+          "axis": "y",
+          "owner": "custom:.bsu-frame-grid",
+          "source": "BattleSpriteUploader.tsx",
+          "component": "BattleSpriteUploader",
+          "callsite": "class:bsu-frame-grid",
+          "nestedWithin": "main.battle",
+          "boundaryKind": "bounded-subviewport",
+          "reason": "战斗精灵创建与替换分支共用有界帧候选 viewport。",
+          "verification": "editor.css .bsu-frame-grid owns overflow-y:auto and max-height:220px。"
+        },
+        {
+          "region": "inspector.battle",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "BattleSpriteLibrary.tsx",
+          "component": "BattleSpriteLibrary",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "战斗精灵 Inspector 由选中 tab panel 滚动。",
+          "verification": "battle sprite route-live canonical import。"
+        },
+        {
+          "region": "inspector.world",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "WorldSpriteLibrary.tsx",
+          "component": "WorldSpriteLibrary",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "大世界精灵 Inspector 由选中 tab panel 滚动。",
+          "verification": "world sprite route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "asset/image",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "custom:.image-asset-list",
+          "source": "ImageTab.tsx",
+          "component": "ImageTab",
+          "callsite": "class:image-asset-list",
+          "reason": "图片目录保留真实缩略图专用列表。",
+          "verification": "route-live ImageTab 渲染该目录。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.image-asset-list",
+          "source": "ImageTab.tsx",
+          "component": "ImageTab",
+          "callsite": "class:image-asset-list",
+          "reason": "图片列表自身是 viewport。",
+          "verification": "editor.css .image-asset-list owns overflow:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "both",
+          "owner": "custom:.image-preview-stage",
+          "source": "ImageTab.tsx",
+          "component": "ImageWorkspacePreview",
+          "callsite": "class:image-preview-stage",
+          "variant": "selected",
+          "reason": "选中图片后预览舞台负责双轴缩放浏览。",
+          "verification": "editor.css .image-preview-stage owns overflow:auto。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "ImageTab.tsx",
+          "component": "ImageTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "图片 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "asset/music",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsVirtualList",
+          "source": "AudioAssetWorkbench.tsx",
+          "component": "AudioAssetWorkbench",
+          "callsite": "tag:DsVirtualList",
+          "reason": "音乐目录使用虚拟列表。",
+          "verification": "music route reaches canonical AudioAssetWorkbench。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsVirtualList",
+          "source": "AudioAssetWorkbench.tsx",
+          "component": "AudioAssetWorkbench",
+          "callsite": "tag:DsVirtualList",
+          "reason": "虚拟列表内建唯一 catalog viewport。",
+          "verification": "virtual-list 输出 data-ds-scroll-owner=catalog。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "AudioAssetWorkbench.tsx",
+          "component": "AudioAssetWorkbench",
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "音频中央列采用真实对象工作区内容 viewport。",
+          "verification": "wrapped workspace canonical content。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "AudioAssetWorkbench.tsx",
+          "component": "AudioAssetWorkbench",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "音乐 Inspector 由选中 tab panel 滚动。",
+          "verification": "music route reaches canonical AudioAssetWorkbench。"
+        }
+      ]
+    },
+    {
+      "registry": "asset/sound",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsVirtualList",
+          "source": "AudioAssetWorkbench.tsx",
+          "component": "AudioAssetWorkbench",
+          "callsite": "tag:DsVirtualList",
+          "reason": "音效目录使用虚拟列表。",
+          "verification": "sound route reaches canonical AudioAssetWorkbench。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsVirtualList",
+          "source": "AudioAssetWorkbench.tsx",
+          "component": "AudioAssetWorkbench",
+          "callsite": "tag:DsVirtualList",
+          "reason": "虚拟列表内建唯一 catalog viewport。",
+          "verification": "virtual-list 输出 data-ds-scroll-owner=catalog。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "AudioAssetWorkbench.tsx",
+          "component": "AudioAssetWorkbench",
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "音频中央列采用真实对象工作区内容 viewport。",
+          "verification": "wrapped workspace canonical content。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "AudioAssetWorkbench.tsx",
+          "component": "AudioAssetWorkbench",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "音效 Inspector 由选中 tab panel 滚动。",
+          "verification": "sound route reaches canonical AudioAssetWorkbench。"
+        }
+      ]
+    },
+    {
+      "registry": "asset/cutscene",
+      "catalog": [
+        {
+          "region": "catalog.groups",
+          "axis": "none",
+          "owner": "DsCatalogGroupList",
+          "source": "CutsceneTab.tsx",
+          "component": "CutsceneTab",
+          "callsite": "tag:DsCatalogGroupList",
+          "reason": "过场目录用共享分组语义组织两类资源。",
+          "verification": "route-live canonical import。"
+        },
+        {
+          "region": "catalog.video",
+          "axis": "none",
+          "owner": "custom:.cutscene-asset-list",
+          "source": "CutsceneTab.tsx",
+          "component": "AssetList",
+          "callsite": "class:cutscene-asset-list",
+          "occurrence": 1,
+          "reason": "视频子目录保留独立 viewport。",
+          "verification": "AssetList 第一个运行时实例。"
+        },
+        {
+          "region": "catalog.frame-animation",
+          "axis": "none",
+          "owner": "custom:.cutscene-asset-list",
+          "source": "CutsceneTab.tsx",
+          "component": "AssetList",
+          "callsite": "class:cutscene-asset-list",
+          "occurrence": 2,
+          "reason": "帧动画子目录保留独立 viewport。",
+          "verification": "AssetList 第二个运行时实例。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog.video",
+          "axis": "y",
+          "owner": "custom:.cutscene-asset-list",
+          "source": "CutsceneTab.tsx",
+          "component": "AssetList",
+          "callsite": "class:cutscene-asset-list",
+          "occurrence": 1,
+          "reason": "视频子目录自身是 viewport。",
+          "verification": "editor.css .cutscene-asset-list owns overflow-y:auto。"
+        },
+        {
+          "region": "catalog.frame-animation",
+          "axis": "y",
+          "owner": "custom:.cutscene-asset-list",
+          "source": "CutsceneTab.tsx",
+          "component": "AssetList",
+          "callsite": "class:cutscene-asset-list",
+          "occurrence": 2,
+          "reason": "帧动画子目录自身是 viewport。",
+          "verification": "editor.css .cutscene-asset-list owns overflow-y:auto。"
+        },
+        {
+          "region": "main.frame-animation",
+          "axis": "both",
+          "owner": "custom:.fa-preview-stage",
+          "source": "FrameAnimationEditor.tsx",
+          "component": "FrameAnimationEditor",
+          "callsite": "class:fa-preview-stage",
+          "variant": "frame-animation",
+          "reason": "帧动画预览舞台负责双轴缩放浏览。",
+          "verification": "editor.css .fa-preview-stage owns overflow:auto。"
+        },
+        {
+          "region": "main.frame-animation.error",
+          "axis": "y",
+          "owner": "custom:.fa-error",
+          "source": "FrameAnimationEditor.tsx",
+          "component": "FrameAnimationEditor",
+          "callsite": "class:fa-error",
+          "variant": "frame-animation-error",
+          "reason": "帧动画错误详情在有界错误面板内独立滚动。",
+          "verification": "editor.css .fa-error owns overflow:auto。"
+        },
+        {
+          "region": "overlay.import",
+          "axis": "y",
+          "owner": "custom:.cutscene-import-dialog",
+          "source": "CutsceneTab.tsx",
+          "component": "CutsceneTab",
+          "callsite": "class:cutscene-import-dialog",
+          "variant": "import",
+          "reason": "过场导入弹窗在小窗口承担纵向滚动。",
+          "verification": "editor.css .cutscene-import-dialog owns overflow-y:auto。"
+        },
+        {
+          "region": "overlay.import.files",
+          "axis": "y",
+          "owner": "custom:.cutscene-import-files",
+          "source": "CutsceneTab.tsx",
+          "component": "CutsceneTab",
+          "callsite": "class:cutscene-import-files",
+          "variant": "import",
+          "nestedWithin": "overlay.import",
+          "boundaryKind": "bounded-subviewport",
+          "reason": "导入文件清单在有界弹窗内独立滚动。",
+          "verification": "editor.css .cutscene-import-files owns overflow-y:auto and max-height:180px。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "CutsceneTab.tsx",
+          "component": "CutsceneTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "过场 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "project/overview",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "N/A: 项目概览是只读摘要，不是可选择目录。",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectOverviewPage",
+          "callsite": "class:project-summary-list",
+          "reason": "摘要不应伪装为 catalog owner。",
+          "verification": "route-live overview 只渲染 project-summary-list。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.project-outliner",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectOverviewPage",
+          "callsite": "class:project-outliner",
+          "reason": "摘要侧栏由项目 outliner 外壳滚动。",
+          "verification": "project-outliner 继承 .outliner overflow-y:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "legacy-exception:legacy-workspace-project",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectPageWorkspace",
+          "callsite": "class:ds-object-workspace__content",
+          "reason": "项目中央 raw workspace 属已冻结旧债。",
+          "verification": "精确 selector multiset 由静态门禁核对。"
+        },
+        {
+          "region": "inspector",
+          "axis": "none",
+          "owner": "N/A: 项目概览没有独立右侧 Inspector。",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectPageWorkspace",
+          "callsite": "class:project-center",
+          "reason": "项目页采用目录 + 单一中央工作区，不伪造第三栏 owner。",
+          "verification": "route-live ProjectPageWorkspace 只渲染 main.project-center。"
+        }
+      ]
+    },
+    {
+      "registry": "project/startup",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogGroupList",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectStartupPage",
+          "callsite": "tag:DsCatalogGroupList",
+          "reason": "全局资源目录采用共享分组语义。",
+          "verification": "route-live canonical import。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.project-outliner",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectStartupPage",
+          "callsite": "class:project-outliner",
+          "reason": "分组列表本身不伪装 scroll owner，外层 outliner 滚动。",
+          "verification": "project-outliner 继承 .outliner overflow-y:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "legacy-exception:legacy-workspace-project",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectPageWorkspace",
+          "callsite": "class:ds-object-workspace__content",
+          "reason": "项目中央 raw workspace 属已冻结旧债。",
+          "verification": "精确 selector multiset 由静态门禁核对。"
+        },
+        {
+          "region": "inspector",
+          "axis": "none",
+          "owner": "N/A: 项目启动页没有独立右侧 Inspector。",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectPageWorkspace",
+          "callsite": "class:project-center",
+          "reason": "项目页采用目录 + 单一中央工作区，不伪造第三栏 owner。",
+          "verification": "route-live ProjectPageWorkspace 只渲染 main.project-center。"
+        }
+      ]
+    },
+    {
+      "registry": "project/entrypoint",
+      "catalog": [
+        {
+          "region": "catalog.entries",
+          "axis": "none",
+          "owner": "custom:.project-entry-list",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "EntryPointEditor",
+          "callsite": "class:project-entry-list",
+          "reason": "入口目录保留重排与状态专用列表；互斥稳定 ID 修复分支是表单而非目录。",
+          "verification": "route-live EntryPointEditor 正常目录分支渲染该列表。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog.entries",
+          "axis": "y",
+          "owner": "custom:.project-entry-list",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "EntryPointEditor",
+          "callsite": "class:project-entry-list",
+          "reason": "入口列表自身是 viewport。",
+          "verification": "editor.css .project-entry-list owns overflow:auto。"
+        },
+        {
+          "region": "catalog.repair",
+          "axis": "y",
+          "owner": "custom:.project-outliner",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "EntryPointEditor",
+          "callsite": "class:project-outliner",
+          "occurrence": 1,
+          "variant": "repair-id",
+          "reason": "稳定 ID 修复分支没有内层列表，由项目 outliner 承担滚动。",
+          "verification": "repair 分支保留 .outliner overflow-y:auto；正常分支用 outliner--split 关闭外层滚动。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "legacy-exception:legacy-workspace-project",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectPageWorkspace",
+          "callsite": "class:ds-object-workspace__content",
+          "reason": "项目中央 raw workspace 属已冻结旧债。",
+          "verification": "精确 selector multiset 由静态门禁核对。"
+        },
+        {
+          "region": "inspector",
+          "axis": "none",
+          "owner": "N/A: 项目入口页没有独立右侧 Inspector。",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectPageWorkspace",
+          "callsite": "class:project-center",
+          "reason": "项目页采用目录 + 单一中央工作区，不伪造第三栏 owner。",
+          "verification": "route-live ProjectPageWorkspace 只渲染 main.project-center。"
+        }
+      ]
+    },
+    {
+      "registry": "project/advanced",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogGroupList",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectAdvancedPage",
+          "callsite": "tag:DsCatalogGroupList",
+          "reason": "项目问题目录采用共享分组语义。",
+          "verification": "route-live canonical import。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "custom:.project-outliner",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectAdvancedPage",
+          "callsite": "class:project-outliner",
+          "reason": "分组列表本身不伪装 scroll owner，外层 outliner 滚动。",
+          "verification": "project-outliner 继承 .outliner overflow-y:auto。"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "legacy-exception:legacy-workspace-project",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectPageWorkspace",
+          "callsite": "class:ds-object-workspace__content",
+          "reason": "项目中央 raw workspace 属已冻结旧债。",
+          "verification": "精确 selector multiset 由静态门禁核对。"
+        },
+        {
+          "region": "inspector",
+          "axis": "none",
+          "owner": "N/A: 项目高级页没有独立右侧 Inspector。",
+          "source": "ProjectWorkbenchTab.tsx",
+          "component": "ProjectPageWorkspace",
+          "callsite": "class:project-center",
+          "reason": "项目页采用目录 + 单一中央工作区，不伪造第三栏 owner。",
+          "verification": "route-live ProjectPageWorkspace 只渲染 main.project-center。"
+        }
+      ]
+    }
+  ],
+  "workspaceLegacyExceptions": [
+    {
+      "id": "legacy-workspace-project",
+      "source": "ProjectWorkbenchTab.tsx",
+      "selectors": [
+        { "selector": "main.canvas-wrap.data-body.project-center.ds-object-workspace", "count": 1 },
+        { "selector": "div.project-scroll.ds-object-workspace__content", "count": 1 }
+      ],
+      "registries": [
+        "project/overview",
+        "project/startup",
+        "project/entrypoint",
+        "project/advanced"
+      ],
+      "reason": "项目工作台在本卡范围外仍借用对象工作区 raw class。",
+      "verification": "静态 AST 精确核对 2 个 selector 与次数，新增或漂移即红。",
+      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
+      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
+    },
+    {
+      "id": "legacy-workspace-battle-sprite",
+      "source": "BattleSpriteLibrary.tsx",
+      "selectors": [
+        {
+          "selector": "div.center.actor-center.battle-sprite-center.ds-object-workspace",
+          "count": 1
+        },
+        {
+          "selector": "div.battle-sprite-workspace-scroll.ds-object-workspace__content",
+          "count": 1
+        }
+      ],
+      "registries": ["asset/sprite"],
+      "reason": "战斗精灵中央列在本卡范围外仍借用对象工作区 raw class。",
+      "verification": "静态 AST 精确核对 2 个 selector 与次数，新增或漂移即红。",
+      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
+      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
+    },
+    {
+      "id": "legacy-workspace-vars",
+      "source": "VarsTab.tsx",
+      "selectors": [
+        { "selector": "main.ds-object-workspace", "count": 1 },
+        { "selector": "div.ds-object-workspace__content.world-variable-scroll", "count": 3 }
+      ],
+      "registries": ["story/vars"],
+      "reason": "变量中央列三个互斥状态分支仍借用对象工作区 raw class。",
+      "verification": "静态 AST 精确核对 selector multiset；互斥分支计数固定为 3。",
+      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
+      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
+    },
+    {
+      "id": "legacy-workspace-world-sprite-viewer",
+      "source": "SpriteResourceViewer.tsx",
+      "selectors": [
+        { "selector": "div.sprite-resource-viewer.ds-object-workspace", "count": 3 },
+        { "selector": "div.sprite-resource-viewer-scroll.ds-object-workspace__content", "count": 3 }
+      ],
+      "registries": ["asset/sprite"],
+      "reason": "大世界精灵 viewer 的三个互斥状态分支仍借用对象工作区 raw class。",
+      "verification": "静态 AST 精确核对两个 selector 各 3 次。",
+      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
+      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
+    },
+    {
+      "id": "legacy-workspace-enemy-team",
+      "source": "EnemyTeamTab.tsx",
+      "selectors": [
+        { "selector": "main.ds-object-workspace", "count": 1 },
+        { "selector": "div.ds-object-workspace__content.enemy-team-scroll", "count": 3 }
+      ],
+      "registries": ["battle/enemy-team"],
+      "reason": "敌队中央列三个互斥状态分支仍借用对象工作区 raw class。",
+      "verification": "静态 AST 精确核对 selector multiset；互斥分支计数固定为 3。",
+      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
+      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
+    },
+    {
+      "id": "legacy-workspace-battlefield",
+      "source": "BattleFieldTab.tsx",
+      "selectors": [
+        { "selector": "main.bf-main.ds-object-workspace", "count": 1 },
+        { "selector": "div.bf-editor-scroll.ds-object-workspace__content", "count": 3 }
+      ],
+      "registries": ["battle/battlefield"],
+      "reason": "战场中央列三个互斥状态分支仍借用对象工作区 raw class。",
+      "verification": "静态 AST 精确核对 selector multiset；互斥分支计数固定为 3。",
+      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
+      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
+    }
+  ],
   "pages": [
     {
       "registry": "scene/workspace",
@@ -40,7 +1678,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + DsInspectorTabs",
         "overlay": "DsDialog",
         "field": "DsColorInput + DsField + DsNumberInput + DsReadoutList + DsSelectField + DsTextField + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -88,7 +1726,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace",
+        "scroll": "custom:.tileset-library-list + custom:.tileset-workspace-scroll + custom:.inspector + DsInspectorTabs",
         "overlay": "DsDialog",
         "field": "DsFileInput + DsNumberInput + DsPropertyRow + DsReadonlyValue + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -113,7 +1751,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "IsometricEditorSurface + DsObjectWorkspace",
+        "scroll": "custom:.stamp-library-list + custom:.stamp-workspace-scroll + DsInspectorTabs",
         "overlay": "DsDialog",
         "field": "DsCheckbox + DsControlGroup + DsField + DsNumberInput + DsPropertyRow + DsRangeInput + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -159,10 +1797,10 @@
     {
       "registry": "story/vars",
       "components": ["VarsTab.tsx"],
-      "status": "adopted",
+      "status": "exception",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace",
+        "scroll": "custom:.world-variable-catalog + legacy-exception:legacy-workspace-vars + custom:.world-variable-reference-panel",
         "overlay": "DsDialog",
         "field": "DsCheckbox + DsField + DsNumberInput + DsSelect + DsTextAreaField + DsTextField",
         "action": "DsButton + DsIconButton"
@@ -211,7 +1849,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "scroll": "custom:.actor-list + custom:.actor-workspace-scroll + custom:.dscroll + casualty responsive owners + custom:.frames-scroll + custom:.bsu-frame-grid + DsInspectorTabs",
         "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsControlGroup + DsDraftNumberField + DsDraftNumberInput + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsFilePicker + DsNumberInput + DsPropertyRow + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -227,15 +1865,11 @@
     },
     {
       "registry": "item/item",
-      "components": [
-        "FireEffectPreview.tsx",
-        "ItemTab.tsx",
-        "SkillAnimationEditor.tsx"
-      ],
+      "components": ["FireEffectPreview.tsx", "ItemTab.tsx", "SkillAnimationEditor.tsx"],
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + custom:.item-icon-browser-grid + DsInspectorTabs",
         "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsDraftNumberInput + DsDraftTextArea + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsPropertyRow + DsSelect + DsSwitch + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -255,7 +1889,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + DsInspectorTabs",
         "overlay": "DsDialog",
         "field": "DsAddPickerDialog + DsPropertyRow",
         "action": "DsButton + DsIconButton"
@@ -280,7 +1914,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + DsInspectorTabs",
         "overlay": "DsFloatingLayer",
         "field": "DsCheckbox + DsDraftNumberField + DsDraftNumberInput + DsDraftTextAreaField + DsDraftTextField + DsField + DsSelect + DsSelectField",
         "action": "DsButton + DsIconButton"
@@ -300,7 +1934,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + custom:.bsu-frame-grid + DsInspectorTabs",
         "overlay": "DsFloatingLayer",
         "field": "DsCheckbox + DsDraftNumberInput + DsDraftTextInput + DsField + DsFieldGroup + DsFilePicker + DsNumberInput + DsSelect",
         "action": "DsButton + DsIconButton"
@@ -317,10 +1951,10 @@
     {
       "registry": "battle/enemy-team",
       "components": ["EnemyTeamTab.tsx"],
-      "status": "adopted",
+      "status": "exception",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "scroll": "custom:.enemy-team-catalog + legacy-exception:legacy-workspace-enemy-team + custom:.inspector",
         "overlay": "DsDialog",
         "field": "DsField + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -340,7 +1974,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + DsInspectorTabs",
         "overlay": "DsDialog",
         "field": "DsDraftNumberInput + DsDraftTextInput + DsField + DsSelect",
         "action": "DsButton + DsIconButton"
@@ -357,10 +1991,10 @@
     {
       "registry": "battle/battlefield",
       "components": ["BattleFieldTab.tsx", "ImageAssetPicker.tsx"],
-      "status": "adopted",
+      "status": "exception",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "scroll": "custom:.tree + legacy-exception:legacy-workspace-battlefield + custom:.bf-reference-panel",
         "overlay": "DsFloatingLayer",
         "field": "DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -384,10 +2018,10 @@
         "SpriteUploadWizard.tsx",
         "WorldSpriteLibrary.tsx"
       ],
-      "status": "adopted",
+      "status": "exception",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "scroll": "DsVirtualList + legacy sprite workspace exceptions + custom:.dscroll + custom:.bsu-frame-grid + DsInspectorTabs",
         "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsFilePicker + DsNumberInput + DsPropertyRow + DsRangeInput + DsSelect + DsSelectField + DsTextField + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -431,7 +2065,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow + DsVirtualList",
-        "scroll": "DsObjectWorkspace",
+        "scroll": "DsVirtualList + DsObjectWorkspaceContent + DsInspectorTabs",
         "overlay": "DsDialog",
         "field": "DsDraftTextInput + DsField + DsFileInput + DsRangeInput + DsReadoutList + MediaAssetNameField",
         "action": "DsButton + DsIconButton"
@@ -451,7 +2085,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow + DsVirtualList",
-        "scroll": "DsObjectWorkspace",
+        "scroll": "DsVirtualList + DsObjectWorkspaceContent + DsInspectorTabs",
         "overlay": "DsDialog",
         "field": "DsDraftTextInput + DsField + DsFileInput + DsRangeInput + DsReadoutList + MediaAssetNameField",
         "action": "DsButton + DsIconButton"
@@ -471,7 +2105,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "scroll": "custom:.cutscene-asset-list + custom:.fa-preview-stage + custom:.fa-error + custom:.cutscene-import-dialog + custom:.cutscene-import-files + DsInspectorTabs",
         "overlay": "DsDialog",
         "field": "DsCheckbox + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsNumberInput + DsPropertyRow + DsReadoutList + DsSelect + DsSelectField + MediaAssetNameField",
         "action": "DsButton + DsIconButton"
@@ -488,7 +2122,7 @@
     {
       "registry": "project/overview",
       "components": ["ProjectWorkbenchTab.tsx"],
-      "status": "adopted",
+      "status": "exception",
       "owners": {
         "catalog": "N/A: project form",
         "scroll": "project workbench content",
@@ -508,7 +2142,7 @@
     {
       "registry": "project/startup",
       "components": ["ProjectWorkbenchTab.tsx"],
-      "status": "adopted",
+      "status": "exception",
       "owners": {
         "catalog": "DsCatalogRow",
         "scroll": "project workbench content",
@@ -528,10 +2162,10 @@
     {
       "registry": "project/entrypoint",
       "components": ["ProjectWorkbenchTab.tsx"],
-      "status": "adopted",
+      "status": "exception",
       "owners": {
         "catalog": "DsCatalogRow",
-        "scroll": "project workbench content",
+        "scroll": "custom:.project-entry-list + custom:.project-outliner(repair only) + project workbench content",
         "overlay": "DsDialog",
         "field": "DsAddPickerDialog + DsControlGroup + DsDraftNumberField + DsDraftNumberInput + DsDraftTextField + DsField + DsFieldGroup + DsRepeatRow + DsSelect + DsSelectField + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -548,7 +2182,7 @@
     {
       "registry": "project/advanced",
       "components": ["ProjectWorkbenchTab.tsx"],
-      "status": "adopted",
+      "status": "exception",
       "owners": {
         "catalog": "DsCatalogGroupList + DsCatalogRow",
         "scroll": "project workbench content",

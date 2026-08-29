@@ -127,22 +127,89 @@ export function DsObjectHero(props: {
  * 对象工作区的固定滚动壳。Hero 固定在中央列顶部，长内容只能由内部 content 持有滚动。
  * 领域页面可追加 className 做背景或宽度布局，但不得另建并列的 overflow owner。
  */
-export function DsObjectWorkspace(props: {
-  label: string
-  hero?: ReactNode
-  children: ReactNode
-  className?: string
-  contentClassName?: string
-}) {
+export const DsObjectWorkspaceContent = forwardRef<
+  HTMLDivElement,
+  {
+    children: ReactNode
+    className?: string
+  }
+>(function DsObjectWorkspaceContent(props, ref) {
   return (
-    <section className={dsClasses('ds-object-workspace', props.className)} aria-label={props.label}>
-      {props.hero}
-      <div className={dsClasses('ds-object-workspace__content', props.contentClassName)}>
-        {props.children}
-      </div>
-    </section>
+    <div
+      ref={ref}
+      className={dsClasses('ds-object-workspace__content', props.className)}
+      data-ds-scroll-owner="main"
+      data-ds-scroll-axis="y"
+    >
+      {props.children}
+    </div>
   )
-}
+})
+
+export const DsObjectWorkspace = forwardRef<
+  HTMLElement,
+  {
+    as?: 'div' | 'section' | 'main'
+    label: string
+    hero?: ReactNode
+    children: ReactNode
+    className?: string
+    contentClassName?: string
+    contentMode?: 'wrapped' | 'manual'
+  }
+>(function DsObjectWorkspace(props, ref) {
+  const Element = props.as ?? 'section'
+  return (
+    <Element
+      ref={ref as never}
+      className={dsClasses('ds-object-workspace', props.className)}
+      aria-label={props.label}
+      data-ds-scroll-scope="main"
+    >
+      {props.hero}
+      {props.contentMode === 'manual' ? (
+        props.children
+      ) : (
+        <DsObjectWorkspaceContent className={props.contentClassName}>
+          {props.children}
+        </DsObjectWorkspaceContent>
+      )}
+    </Element>
+  )
+})
+
+/**
+ * 普通对象目录的固定滚动壳。标题与筛选固定在顶部，只有内部 nav 持有目录纵向滚动。
+ * 虚拟目录继续直接使用 DsVirtualList，不得嵌套本配方。
+ */
+export const DsCatalogWorkspace = forwardRef<
+  HTMLDivElement,
+  {
+    label: string
+    header: ReactNode
+    children: ReactNode
+    className?: string
+    contentClassName?: string
+  }
+>(function DsCatalogWorkspace(props, ref) {
+  return (
+    <div
+      ref={ref}
+      className={dsClasses('ds-catalog-workspace', props.className)}
+      data-ds-scroll-scope="catalog"
+    >
+      {props.header}
+      <nav
+        className={dsClasses('ds-catalog-workspace__content', props.contentClassName)}
+        aria-label={props.label}
+        data-ds-scroll-owner="catalog"
+        data-ds-scroll-axis="y"
+      >
+        {props.children}
+      </nav>
+    </div>
+  )
+})
 
 /** 目录中的完整宽度对象行；选中态固定为方角面 + 左侧强调线。 */
 export const DsCatalogRow = forwardRef<
@@ -1062,6 +1129,7 @@ export function DsInspectorTabs(props: {
       <section
         className={dsClasses('ds-inspector-tabs', props.className)}
         data-ds-inspector-host=""
+        data-ds-scroll-scope="inspector"
       >
         <DsTabs
           label={props.label}
@@ -1082,6 +1150,8 @@ export function DsInspectorTabs(props: {
               aria-labelledby={`${props.id}-tab-${item.id}`}
               tabIndex={0}
               hidden={item.id !== props.activeId}
+              data-ds-scroll-owner={item.id === props.activeId ? 'inspector' : undefined}
+              data-ds-scroll-axis={item.id === props.activeId ? 'y' : undefined}
             >
               {item.panel}
             </div>

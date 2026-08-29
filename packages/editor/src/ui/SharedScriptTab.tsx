@@ -19,6 +19,7 @@ import {
   DsButton,
   DsCatalogControls,
   DsCatalogRow,
+  DsCatalogWorkspace,
   DsDraftTextArea,
   DsDraftTextInput,
   DsField,
@@ -195,29 +196,36 @@ export function CanonicalSharedScriptTab(props: {
 
   return (
     <>
-      <div className="outliner shared-script-outliner canonical-shared-script-outliner">
-        {props.tabBar}
-        <DsCatalogControls
-          title="可复用脚本"
-          count={ids.length}
-          unit="项"
-          actions={[
-            {
-              id: 'create-shared-script',
-              label: '新建可复用脚本',
-              icon: 'add',
-              buttonRef: createButtonRef,
-              onClick: openCreate,
-            },
-          ]}
-          search={{
-            'aria-label': '搜索可复用脚本',
-            placeholder: '搜索名称或稳定 id…',
-            value: filter,
-            onChange: (event) => setFilter(event.target.value),
-          }}
-        />
-        <div className="shared-list">
+      <DsCatalogWorkspace
+        label="可复用脚本目录"
+        className="outliner shared-script-outliner canonical-shared-script-outliner"
+        contentClassName="shared-list"
+        header={
+          <>
+            {props.tabBar}
+            <DsCatalogControls
+              title="可复用脚本"
+              count={ids.length}
+              unit="项"
+              actions={[
+                {
+                  id: 'create-shared-script',
+                  label: '新建可复用脚本',
+                  icon: 'add',
+                  buttonRef: createButtonRef,
+                  onClick: openCreate,
+                },
+              ]}
+              search={{
+                'aria-label': '搜索可复用脚本',
+                placeholder: '搜索名称或稳定 id…',
+                value: filter,
+                onChange: (event) => setFilter(event.target.value),
+              }}
+            />
+          </>
+        }
+      >
           {shown.map((id) => {
             const script = props.state.sharedScripts[id]!
             return (
@@ -231,8 +239,7 @@ export function CanonicalSharedScriptTab(props: {
             )
           })}
           {!shown.length ? <div className="insp-empty">没有匹配的可复用脚本</div> : null}
-        </div>
-      </div>
+      </DsCatalogWorkspace>
 
       <div className="canvas-wrap data-body shared-script-main canonical-shared-script-main">
         {selected ? (
@@ -262,17 +269,19 @@ export function CanonicalSharedScriptTab(props: {
                 </DsButton>
               }
             />
-            <CanonicalScriptBodyEditor
-              label="正文"
-              body={selected.body}
-              context={{ ...props.context, hasImplicitSelf: selected.self === 'required' }}
-              onError={props.onError}
-              onChange={updateBody}
-              focusCommandPath={
-                props.focusScriptId === selectedId ? props.focusCommandPath : undefined
-              }
-              focusRevision={props.focusScriptId === selectedId ? props.focusRevision : undefined}
-            />
+            <div className="canonical-shared-script-editor-scroll">
+              <CanonicalScriptBodyEditor
+                label="正文"
+                body={selected.body}
+                context={{ ...props.context, hasImplicitSelf: selected.self === 'required' }}
+                onError={props.onError}
+                onChange={updateBody}
+                focusCommandPath={
+                  props.focusScriptId === selectedId ? props.focusCommandPath : undefined
+                }
+                focusRevision={props.focusScriptId === selectedId ? props.focusRevision : undefined}
+              />
+            </div>
           </>
         ) : (
           <div className="insp-empty">新建一个可复用脚本</div>

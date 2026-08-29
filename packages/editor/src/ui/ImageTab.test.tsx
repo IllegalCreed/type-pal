@@ -28,7 +28,9 @@ afterEach(async () => {
 
 describe('ImageTab catalog controls', () => {
   test('preserves filtered count semantics and switches the image scope through shared tabs', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const catalog = structuredClone(catalogControlsAssetCatalog)
+    delete catalog.assets['face.primary']!.label
+    const session = new EditSession(catalogControlsEditorState(catalog))
     await act(async () => {
       root.render(
         <ImageTab
@@ -36,7 +38,7 @@ describe('ImageTab catalog controls', () => {
           assetReferences={[]}
           assetReferenceStatus="current"
           assetBase={{} as never}
-          catalog={catalogControlsAssetCatalog}
+          catalog={catalog}
           reader={catalogControlsReader as never}
           session={session}
         />,
@@ -69,7 +71,11 @@ describe('ImageTab catalog controls', () => {
     )!
     await act(async () => faceTab.click())
     expect(host.querySelector('.ds-list-header__count')?.textContent).toBe('1 项')
-    expect(host.querySelector('.image-asset-list')?.textContent).toContain('战斗头像')
+    const unnamedFace = host.querySelector('.image-asset-list .ds-catalog-row')!
+    expect(unnamedFace.querySelector('.ds-catalog-row__title')?.textContent).toBe(
+      '未命名战斗头像',
+    )
+    expect(unnamedFace.querySelector('.ds-catalog-row__meta')?.textContent).toBe('face.primary')
     const itemIconTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
       (button) => button.textContent?.includes('物品图标'),
     )!

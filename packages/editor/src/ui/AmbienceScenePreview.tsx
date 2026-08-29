@@ -242,7 +242,10 @@ function LoadedAmbienceScenePreview(
           width={size.w}
           height={size.h}
           aria-label={`${scene.id} ${mode === 'filtered' ? '滤镜后' : '原图'}预览`}
-          {...panHandlers}
+          onPointerDown={panHandlers.onPointerDown}
+          onPointerMove={panHandlers.onPointerMove}
+          onPointerUp={panHandlers.onPointerUp}
+          onPointerCancel={panHandlers.onPointerCancel}
         />
         {status === 'loading' ? (
           <div className="ambience-scene-preview__overlay" role="status">

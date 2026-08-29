@@ -444,7 +444,13 @@ export function StampLibraryTab(props: {
                     <strong>{template.name}</strong>
                     <span className="mono">{template.id}</span>
                   </span>
-                  <span className={`stamp-origin-badge ${template.origin}`}>
+                  <span
+                    className={
+                      template.origin === 'migrated'
+                        ? 'stamp-origin-badge migrated'
+                        : 'stamp-origin-badge authored'
+                    }
+                  >
                     {template.origin === 'migrated' ? '预置' : '作者'}
                   </span>
                 </DsPressable>

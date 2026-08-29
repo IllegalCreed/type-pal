@@ -127,7 +127,15 @@ function ActorAvatar(props: {
   const faceRecord = actor.face ? catalog.assets[actor.face] : undefined
   return (
     <span
-      className={`actor-avatar actor-avatar--${placement} actor-avatar--${actor.face ? 'face' : 'fallback'}`}
+      className={
+        placement === 'catalog'
+          ? actor.face
+            ? 'actor-avatar actor-avatar--catalog actor-avatar--face'
+            : 'actor-avatar actor-avatar--catalog actor-avatar--fallback'
+          : actor.face
+            ? 'actor-avatar actor-avatar--hero actor-avatar--face'
+            : 'actor-avatar actor-avatar--hero actor-avatar--fallback'
+      }
       aria-hidden="true"
     >
       {actor.face ? (
@@ -378,7 +386,7 @@ export function ActorMode(props: {
 
   return (
     <>
-      <div className="outliner">
+      <div className="outliner outliner--split">
         {navigation}
         <DsListHeader
           title="角色"

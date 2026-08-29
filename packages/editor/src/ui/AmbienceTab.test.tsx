@@ -12,6 +12,7 @@ import {
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 import { AmbienceTab } from './AmbienceTab.js'
+import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 
 const day: AmbienceDef = { id: 'day', name: '白天', tint: [255, 255, 255] }
 const review: AmbienceDef = { id: '123', name: '123', tint: [255, 255, 255] }
@@ -72,6 +73,8 @@ describe('AmbienceTab creation dialog', () => {
         />,
       )
     })
+
+    verifyCatalogWorkspace(host, '氛围目录')
 
     const open = host.querySelector<HTMLButtonElement>('button[aria-label="新建氛围"]')!
     await act(async () => open.click())

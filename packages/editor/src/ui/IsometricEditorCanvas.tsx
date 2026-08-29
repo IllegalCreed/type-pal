@@ -23,9 +23,27 @@ export interface IsometricEditorCanvasScene {
   revision?: number
 }
 
-export interface IsometricEditorCanvasProps
-  extends Omit<CanvasHTMLAttributes<HTMLCanvasElement>, 'aria-label'> {
+type IsometricEditorCanvasAttributes = Pick<
+  CanvasHTMLAttributes<HTMLCanvasElement>,
+  | 'height'
+  | 'onClick'
+  | 'onContextMenu'
+  | 'onDoubleClick'
+  | 'onKeyDown'
+  | 'onLostPointerCapture'
+  | 'onPointerCancel'
+  | 'onPointerDown'
+  | 'onPointerLeave'
+  | 'onPointerMove'
+  | 'onPointerUp'
+  | 'style'
+  | 'tabIndex'
+  | 'width'
+>
+
+export interface IsometricEditorCanvasProps extends IsometricEditorCanvasAttributes {
   label: string
+  'data-map-canvas'?: string
   /** Canonical shared isometric content; maps and combinations enter directly. */
   scene?: IsometricEditorCanvasScene
   /** Domain-specific selection/hover/anchor overlay, painted after the shared cached base. */
@@ -37,7 +55,7 @@ export const IsometricEditorCanvas = forwardRef(function IsometricEditorCanvas(
   props: IsometricEditorCanvasProps,
   ref: ForwardedRef<HTMLCanvasElement>,
 ) {
-  const { label, className, style, scene, drawOverlay, width, height, ...canvasProps } = props
+  const { label, style, scene, drawOverlay, width, height } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const baseCacheRef = useRef<IsometricMapBaseCache | undefined>(undefined)
   const rendererRef = useRef<
@@ -89,14 +107,24 @@ export const IsometricEditorCanvas = forwardRef(function IsometricEditorCanvas(
 
   return (
     <canvas
-      {...canvasProps}
       width={width}
       height={height}
       ref={canvasRef}
-      className={`isometric-editor-canvas${className ? ` ${className}` : ''}`}
+      className="isometric-editor-canvas"
       tabIndex={props.tabIndex ?? 0}
       aria-label={label}
       data-isometric-editor-canvas="true"
+      data-map-canvas={props['data-map-canvas']}
+      onPointerDown={props.onPointerDown}
+      onPointerMove={props.onPointerMove}
+      onPointerUp={props.onPointerUp}
+      onPointerCancel={props.onPointerCancel}
+      onPointerLeave={props.onPointerLeave}
+      onLostPointerCapture={props.onLostPointerCapture}
+      onClick={props.onClick}
+      onDoubleClick={props.onDoubleClick}
+      onKeyDown={props.onKeyDown}
+      onContextMenu={props.onContextMenu}
       style={{ display: 'block', touchAction: 'none', ...style }}
     />
   )

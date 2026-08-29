@@ -29,10 +29,13 @@ import {
 import {
   DsCatalogControls,
   DsCatalogRow,
+  DsCatalogWorkspace,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsObjectWorkspace,
+  DsObjectWorkspaceContent,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -453,49 +456,57 @@ export function PoisonTab(props: {
   return (
     <>
       {/* 左:标签栏 + 毒列表 */}
-      <div className="outliner data-outliner">
-        <DsCatalogControls
-          title="毒"
-          count={poisons.length}
-          unit="种"
-          actions={[
-            {
-              id: 'create-poison',
-              label: '新建毒',
-              icon: 'add',
-              onClick: () => {
-                const name = window.prompt('新毒名字:', '')?.trim()
-                if (!name) return
-                let n = 1000
-                while (poisons.some((poisonEntry) => poisonEntry.id === n)) n++
-                session.dispatch(new AddPoisonCommand(n, name))
-                selectPoison(n)
+      <DsCatalogWorkspace
+        label="毒目录"
+        className="outliner data-outliner"
+        header={
+          <DsCatalogControls
+            title="毒"
+            count={poisons.length}
+            unit="种"
+            actions={[
+              {
+                id: 'create-poison',
+                label: '新建毒',
+                icon: 'add',
+                onClick: () => {
+                  const name = window.prompt('新毒名字:', '')?.trim()
+                  if (!name) return
+                  let n = 1000
+                  while (poisons.some((poisonEntry) => poisonEntry.id === n)) n++
+                  session.dispatch(new AddPoisonCommand(n, name))
+                  selectPoison(n)
+                },
               },
-            },
-          ]}
-          search={{
-            'aria-label': '过滤毒',
-            placeholder: '过滤 id/名…',
-            value: filter,
-            onChange: (event) => setFilter(event.target.value),
-          }}
-        />
-        <div className="sprite-list">
-          {shown.map((p) => (
-            <DsCatalogRow
-              key={p.id}
-              selected={p.id === poison?.id}
-              title={p.name}
-              meta={p.id}
-              trailing={<DsTag tone="neutral">{CURABILITY_BADGE[p.curability]}</DsTag>}
-              onClick={() => selectPoison(p.id)}
-            />
-          ))}
-        </div>
-      </div>
+            ]}
+            search={{
+              'aria-label': '过滤毒',
+              placeholder: '过滤 id/名…',
+              value: filter,
+              onChange: (event) => setFilter(event.target.value),
+            }}
+          />
+        }
+      >
+        {shown.map((p) => (
+          <DsCatalogRow
+            key={p.id}
+            selected={p.id === poison?.id}
+            title={p.name}
+            meta={p.id}
+            trailing={<DsTag tone="neutral">{CURABILITY_BADGE[p.curability]}</DsTag>}
+            onClick={() => selectPoison(p.id)}
+          />
+        ))}
+      </DsCatalogWorkspace>
 
       {/* 中：独立的毒编辑表单，不复用技能页私有样式。 */}
-      <div className="canvas-wrap data-body ds-object-workspace">
+      <DsObjectWorkspace
+        as="div"
+        label="毒工作区"
+        className="canvas-wrap data-body"
+        contentMode="manual"
+      >
         {poison ? (
           <>
             <DsObjectHero
@@ -522,7 +533,7 @@ export function PoisonTab(props: {
                 </DsButton>
               }
             />
-            <div className="et-scroll battle-data-form ds-object-workspace__content">
+            <DsObjectWorkspaceContent className="et-scroll battle-data-form">
               <DsWorkbenchSection title="基础" description="定义显示名称、可解度与状态头像染色。">
                 <div className="battle-data-grid">
                   <DsField label="名字">
@@ -632,12 +643,12 @@ export function PoisonTab(props: {
                   </DsField>
                 </div>
               </DsWorkbenchSection>
-            </div>
+            </DsObjectWorkspaceContent>
           </>
         ) : (
           <div className="insp-empty ds-empty-state--roomy">无毒定义</div>
         )}
-      </div>
+      </DsObjectWorkspace>
 
       {/* 右:提示 + 关系总览 */}
       <DsInspectorHost className="inspector inspector--tabbed battle-data-inspector poison-inspector">

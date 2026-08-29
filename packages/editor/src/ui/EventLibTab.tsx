@@ -34,7 +34,7 @@ export function EventLibTab(props: { tabBar?: React.ReactNode }) {
   }, [filter])
   return (
     <>
-      <div className="outliner data-outliner">
+      <div className="outliner outliner--split data-outliner">
         {tabBar}
         <DsCatalogControls
           title="指令手册"

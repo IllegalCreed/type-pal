@@ -304,7 +304,7 @@ export function VarsTab(props: {
 
   return (
     <>
-      <div className="outliner data-outliner world-variable-outliner">
+      <div className="outliner outliner--split data-outliner world-variable-outliner">
         {tabBar}
         <DsCatalogControls
           title="变量"
@@ -408,7 +408,6 @@ export function VarsTab(props: {
           ) : selected ? (
             <>
               <DsObjectHero
-                media={<span aria-hidden="true">{selected.kind === 'flag' ? '⚑' : '№'}</span>}
                 eyebrow="世界变量"
                 title={selected.name}
                 objectId={selectedId}

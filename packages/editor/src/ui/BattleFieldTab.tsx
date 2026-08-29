@@ -229,7 +229,7 @@ export function BattleFieldTab(props: {
 
   return (
     <>
-      <div className="outliner data-outliner bf-outliner">
+      <div className="outliner outliner--split data-outliner bf-outliner">
         <DsCatalogControls
           title="战场"
           count={battleFields.length}

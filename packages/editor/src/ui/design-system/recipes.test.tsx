@@ -12,6 +12,7 @@ import {
   DsCatalogGroupHeader,
   DsCatalogGroupList,
   DsCatalogRow,
+  DsCatalogWorkspace,
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
@@ -108,8 +109,13 @@ describe('object workbench recipes', () => {
     )
     const workspace = host.querySelector('.ds-object-workspace.domain-workspace')!
     expect(workspace.getAttribute('aria-label')).toBe('音乐工作区')
+    expect((workspace as HTMLElement).dataset.dsScrollScope).toBe('main')
     expect(workspace.querySelectorAll(':scope > .ds-object-hero')).toHaveLength(1)
-    const content = workspace.querySelector(':scope > .ds-object-workspace__content.domain-scroll')!
+    const content = workspace.querySelector<HTMLElement>(
+      ':scope > .ds-object-workspace__content.domain-scroll',
+    )!
+    expect(content.dataset.dsScrollOwner).toBe('main')
+    expect(content.dataset.dsScrollAxis).toBe('y')
     expect(content.querySelectorAll(':scope > .ds-workbench-section')).toHaveLength(1)
   })
 
@@ -286,6 +292,37 @@ describe('object workbench recipes', () => {
   test('catalog controls omit the body when no scope, search, or filters exist', async () => {
     await act(async () => root.render(<DsCatalogControls title="角色" count={6} unit="位" />))
     expect(host.querySelector('.ds-catalog-controls__body')).toBeNull()
+  })
+
+  test('catalog workspace keeps fixed chrome outside one labelled scroll owner', async () => {
+    const workspaceRef = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsCatalogWorkspace
+          ref={workspaceRef}
+          label="物品目录"
+          className="domain-catalog"
+          contentClassName="domain-catalog__content"
+          header={<DsCatalogControls title="物品" count={2} unit="项" />}
+        >
+          <DsCatalogRow title="观音符" meta="61" />
+          <DsCatalogRow title="圣灵符" meta="62" />
+        </DsCatalogWorkspace>,
+      ),
+    )
+
+    const workspace = host.querySelector<HTMLElement>('.ds-catalog-workspace.domain-catalog')!
+    expect(workspaceRef).toHaveBeenCalledWith(workspace)
+    expect(workspace.dataset.dsScrollScope).toBe('catalog')
+    expect(workspace.querySelectorAll(':scope > .ds-catalog-controls')).toHaveLength(1)
+    const content = workspace.querySelector<HTMLElement>(
+      ':scope > nav.ds-catalog-workspace__content.domain-catalog__content',
+    )!
+    expect(content.getAttribute('aria-label')).toBe('物品目录')
+    expect(content.dataset.dsScrollOwner).toBe('catalog')
+    expect(content.dataset.dsScrollAxis).toBe('y')
+    expect(content.querySelectorAll(':scope > .ds-catalog-row')).toHaveLength(2)
+    expect(content.getAttribute('tabindex')).toBeNull()
   })
 
   test('catalog controls keep one, two, and three filters in the same adaptive grid contract', async () => {
@@ -492,6 +529,9 @@ describe('object workbench recipes', () => {
     ).toBe('entity-inspector-tab-properties')
     expect(host.querySelectorAll('[role="tabpanel"]:not([hidden])')).toHaveLength(1)
     expect(host.querySelectorAll('[role="tabpanel"][hidden]')).toHaveLength(2)
+    expect(
+      host.querySelectorAll('[role="tabpanel"][data-ds-scroll-owner="inspector"]'),
+    ).toHaveLength(1)
     expect(host.querySelector('[role="tabpanel"]:not([hidden])')?.textContent).toBe('属性内容')
 
     await act(async () => tabs[1]!.click())

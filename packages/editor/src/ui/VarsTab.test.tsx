@@ -200,6 +200,10 @@ describe('VarsTab world variable workbench', () => {
     await render('quest.started')
     expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('任务已开始')
     expect(host.querySelectorAll('.ds-object-hero__id')).toHaveLength(1)
+    const hero = host.querySelector<HTMLElement>('.ds-object-hero')!
+    expect(hero.dataset.hasMedia).toBe('false')
+    expect(hero.querySelector('.ds-object-hero__media')).toBeNull()
+    expect(hero.textContent).not.toMatch(/[⚑№]/u)
     expect(host.querySelector('.world-variable-reference-panel')?.textContent).toContain('写入')
     const name = [...host.querySelectorAll<HTMLInputElement>('.ds-input')].find(
       (input) => input.value === '任务已开始',

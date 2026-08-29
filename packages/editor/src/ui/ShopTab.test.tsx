@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { ShopTab } from './ShopTab.js'
 
@@ -38,6 +39,56 @@ afterEach(async () => {
 })
 
 describe('ShopTab shared object workspace', () => {
+  test('目录以真实货单派生标题，第二行保留精确数值 ShopId', async () => {
+    const shops = [
+      { id: 7, items: ['item-a', 'item-b'] },
+      { id: 8, items: ['item-a'] },
+      { id: 9, items: [] },
+      { id: 10, items: ['item-missing'] },
+    ]
+    const items = [
+      { id: 'item-a', name: '金创药' },
+      { id: 'item-b', name: '还魂香' },
+    ] as never
+    const onObjectFocus = vi.fn()
+    const session = new EditSession({
+      shops,
+      maps: {},
+      mapIndex: { version: 1, maps: [] },
+      assetCatalog: { version: 1, assets: {} },
+      assetBlobs: {},
+    } as unknown as EditorState)
+
+    await act(async () =>
+      root.render(
+        <ShopTab
+          shops={shops}
+          items={items}
+          session={session}
+          onObjectFocus={onObjectFocus}
+        />,
+      ),
+    )
+    const rows = [...host.querySelectorAll<HTMLButtonElement>('.shop-catalog .ds-catalog-row')]
+    expect(verifyCatalogWorkspace(host, '商店目录')).toBe(rows[0]?.parentElement)
+    expect(rows.map((row) => row.querySelector('.ds-catalog-row__title')?.textContent)).toEqual([
+      '金创药等 2 种货品',
+      '金创药',
+      '空货单',
+      'item-missing',
+    ])
+    expect(rows.map((row) => row.querySelector('.ds-catalog-row__meta')?.textContent)).toEqual([
+      '7',
+      '8',
+      '9',
+      '10',
+    ])
+
+    await act(async () => rows[2]!.click())
+    expect(onObjectFocus).toHaveBeenLastCalledWith('9')
+    expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('#9')
+  })
+
   test('使用固定共享标题，货单正文在独立滚动层', async () => {
     const shops = [{ id: 0, items: ['item-a', 'item-b'] }]
     const session = new EditSession({
@@ -266,7 +317,7 @@ describe('ShopTab shared object workspace', () => {
     expect(dialog.querySelector('[role="option"][aria-selected="true"]')).not.toBeNull()
 
     const secondShop = [...host.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')].find(
-      (candidate) => candidate.textContent?.includes('店 1'),
+      (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent === '1',
     )!
     await act(async () => secondShop.click())
     expect(host.querySelector('dialog[open]')).toBeNull()

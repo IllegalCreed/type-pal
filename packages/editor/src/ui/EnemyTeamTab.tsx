@@ -57,6 +57,36 @@ function storedSlots(slots: readonly (string | null)[]): Array<string | null> {
   return next
 }
 
+function enemyTeamCatalogTitle(
+  team: EnemyTeamDef,
+  enemies: readonly EnemyDef[],
+  locale: Locale,
+): string {
+  const enemyById = new Map(enemies.map((enemy) => [enemy.id, enemy]))
+  const orderedMembers: Array<{ label: string; count: number }> = []
+  const memberById = new Map<string, { label: string; count: number }>()
+  for (const enemyId of team.slots) {
+    if (!enemyId) continue
+    const current = memberById.get(enemyId)
+    if (current) {
+      current.count += 1
+      continue
+    }
+    const enemy = enemyById.get(enemyId)
+    const member = {
+      label: enemy ? lookupText(enemy.name, locale) : enemyId,
+      count: 1,
+    }
+    memberById.set(enemyId, member)
+    orderedMembers.push(member)
+  }
+  if (!orderedMembers.length) return '空敌队'
+  return orderedMembers
+    .map((member) => `${member.label}${member.count > 1 ? `×${member.count}` : ''}`)
+    .join('、')
+}
+
+
 export function EnemyTeamTab(props: {
   enemyTeams: readonly EnemyTeamDef[]
   enemies: readonly EnemyDef[]
@@ -241,7 +271,7 @@ export function EnemyTeamTab(props: {
 
   return (
     <>
-      <div className="outliner data-outliner enemy-team-outliner">
+      <div className="outliner outliner--split data-outliner enemy-team-outliner">
         <DsCatalogControls
           title="敌队"
           count={enemyTeams.length}
@@ -268,8 +298,8 @@ export function EnemyTeamTab(props: {
             <DsCatalogRow
               key={team.id}
               selected={!creating && selected?.id === team.id}
-              title={team.id}
-              meta={`${team.slots.filter(Boolean).length} 名成员 · ${team.slots.length} 个语义槽`}
+              title={enemyTeamCatalogTitle(team, enemies, locale)}
+              meta={team.id}
               onClick={() => select(team.id)}
             />
           ))}
@@ -313,7 +343,6 @@ export function EnemyTeamTab(props: {
           ) : selected ? (
             <>
               <DsObjectHero
-                media={<span aria-hidden="true">⚔</span>}
                 eyebrow="敌队预制"
                 title={selected.id}
                 objectId={selected.id}

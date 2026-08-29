@@ -96,7 +96,17 @@ export function BehaviorSelectionEditor(props: {
           else props.onChange({ kind: 'use', value: nextValue })
         }}
       />
-      <small className={`script-selection-status ${presentation.tone}`}>{presentation.label}</small>
+      <small
+        className={
+          presentation.tone === 'disabled'
+            ? 'script-selection-status disabled'
+            : presentation.tone === 'use'
+              ? 'script-selection-status use'
+              : 'script-selection-status'
+        }
+      >
+        {presentation.label}
+      </small>
     </div>
   )
 }

@@ -2,7 +2,7 @@
 
 Status: implemented v2.19.0 effect editor card hierarchy（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0）/ ED-CATALOG-ROW-IA-1（DS-C.4c 内容层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -441,9 +441,10 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - current-canonical 左侧对象行统一由 `DsCatalogRow` 持有结构、选中态、focus 和密度。标准行固定
   `68px`，紧凑行固定 `46px`；title / meta 各单行截断，trailing 不参与正文换行。业务页不得通过标签折行、
   私有 padding 或内容高度改变同一列表中某一项的行高。
-- `leading` 是固定 `36px` 的公共槽位。一个列表族必须选择一致的媒体策略：音乐 / 音效用播放语义图标，
-  精灵定义用预览或稳定占位图标；不能因某一项暂时没有媒体而让正文水平跳动。同一列表族若不需要媒体，所有项
-  一起省略该槽，不允许有的有、有的无。
+- `leading` 是固定 `36px` 的公共槽位。一个列表族必须选择一致的媒体策略：Enemy 使用绑定
+  `BattleSpriteDef.profile.idle.start` 的真实首帧；音乐 / 音效的试听由中央播放器唯一持有，目录全族省略媒体槽。
+  不能因某一项暂时缺少资源而让正文水平跳动；需要媒体的列表族保留结构槽但不制造假图，同一列表族若不需要媒体，
+  所有项一起省略该槽，不允许有的有、有的无。
 - 全量采用真源为 `design-system-adoption.json`，其 registry 集合必须与 `EDITOR_MODULES` 的 25 个可达子页
   双向闭合；数据页还必须与 `DataMode` 每个 return 的生产组件闭合。新增、删除或换挂载组件时，门禁必须要求
   同步更新，不允许靠人工记忆维护另一份页面清单。
@@ -457,12 +458,21 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   `{file,line,rule,owner,reason,verification,removalCondition}`。行号失效、规则消失或字段损坏视为 stale，门禁
   以 exit 2 失败；未批准违规以 exit 1 失败；完全通过为 exit 0。
 
-#### DS-C.4c 目录行内容层级门（2026-08-26）
+#### DS-C.4c 目录行内容与身份层级门（v2.15.0）
 
 - `title` 必须是作者识别和选择对象时使用的主名称；稳定 ID 默认进入 `meta`，不得把 `#006`、资源键等技术
-  标识放进 `leading` 冒充媒体。没有独立显示名的对象可以用稳定 ID 作 `title`，但不得在另一槽重复一遍。
-- `leading` 只承载真实缩略图、头像、色样、播放/资源类型等能帮助选择对象的语义媒体。媒体策略按列表族统一：
-  同族全有或全无；资源暂缺时只能使用该列表族已经裁决的稳定语义 fallback，不得临时制造 emoji 或空白占位。
+  标识放进 `leading` 冒充媒体。普通对象没有独立显示名时，优先从其现有 canonical 内容确定性派生可读标题；
+  `title` 只是展示投影，搜索、选择、命令、深链和引用仍消费原始 ID。不能派生的非普通对象必须在 registry
+  显式登记边界，例如单个当前场景树根可用 SceneId 作 title，未登记变量引用诊断可用 referenced ID 作诊断主题。
+- `meta` 中的 ID 必须是精确 canonical 值；只有已有产品格式合同的编号允许登记 `canonical-formatted`。
+  `295`、`enemy-468`、`team-0` 等真实 ID 不得只为视觉一致而伪装成 `skill.pal.*`、`enemy.pal.*`、
+  `team.pal.*`；`sprite.pal.001` 之类点分形式仅在它本身就是真实 AssetId 时原样显示。
+- 资源目录以非空资源 label 作 title；label 缺失或只有空白时，由共享 `AssetKind` 中文 owner 生成
+  “未命名音乐 / 音效 / 战斗精灵 / …”标题，精确 AssetId 仍单独进入 meta。不得把 AssetId 同时回退到 title
+  和 meta，也不得在业务页面各自硬编码另一套未命名文案。
+- `leading` 只承载真实缩略图、头像、色样等能区分对象并帮助选择的语义媒体；不区分对象且不持有行内动作或状态的
+  固定播放/资源类型符号不算语义媒体。媒体策略按列表族统一：同族全有或全无；资源暂缺时保留统一结构槽，
+  但不得临时制造 emoji、假缩略图或其他视觉 fallback。
   若移除 `leading` 不会降低对象的识别或选择准确性，该列表族必须整体省略媒体槽；已由标题、`meta` 或 `trailing`
   明确表达的类型/状态，不得再用装饰图标或 emoji 重复。
 - `trailing` 只承载选择时关键的分类、异常或立即行动状态，例如“默认”“待迁移”“不可解”。装备/使用等已有
@@ -471,8 +481,9 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   `catalog-row-content-adoption.json` 逐项写明理由。音频目录引用数用于选择替换/清理对象，ActorAvatar 的无头像
   fallback 属已裁决的稳定角色识别媒体，均是有边界的合规项，不可类推为任意统计或假图标许可。
 - 内容采用矩阵必须递归扫描生产 TSX 中全部 `<DsCatalogRow>` 调用，以相对文件与规范化 opening-element
-  fingerprint 绑定每个受审 surface，并记录列表族、四槽语义、裁决和证据理由；新增、删除、移动或修改调用而
-  未同步矩阵时测试失败。alias、spread 与拖拽/排序属性在目录行消费点 fail-closed；排序手柄必须由独立
+  fingerprint 绑定每个受审 surface，并记录列表族、四槽语义、`titleKind`、`identitySlot`、
+  `idPresentation`、`summaryKind`、裁决和证据理由；新增、删除、移动或修改调用而未同步矩阵时测试失败。
+  alias、spread 与拖拽/排序属性在目录行消费点 fail-closed；排序手柄必须由独立
   reorder primitive 持有，不能扩张 `DsCatalogRow`。代表页还必须以 DOM 槽位和 `data-leading` 断言，不能只
   检查整行 `textContent`。
 
@@ -544,6 +555,30 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   结合 JSX button↔handler、数组追加形态和 `first*`/`[0]` live registry 信号，禁止只靠单行动词 grep。
 - Design Lab `RF-22` 固定覆盖 0/1/234、长名称、active/selected/disabled、all-disabled、搜索、键盘、明确确认与
   fixed footer；真实 PAL 仍须在 1280/900/720 和 100%/150%/200% 验证 focus、唯一滚动面和零横向溢出。
+
+#### DS-C.4f 目录工作区与滚动真值门（v2.16.0）
+
+- 非虚拟对象目录统一由 `DsCatalogWorkspace` 持有：root 冻结 `flex-column + min-width/min-height:0 +
+  overflow:hidden`，固定 header slot 位于 viewport 外，内部 viewport 是目录唯一纵向 scroll owner，并统一
+  `overflow:auto + overscroll-behavior:contain + scrollbar-gutter:stable`。业务页不得用 raw `sprite-list`、整栏
+  `overflow-y:auto` 或父层裁剪重建第二个滚动壳；21 项之类普通目录不因此引入虚拟列表。
+- 中央对象工作区继续由 `DsObjectWorkspace + DsObjectWorkspaceContent` 持有；目录 owner、中央 owner 与 inspector
+  owner 必须按区域分别登记，不能把中央滚动组件写进目录 owner 字符串冒充采用。既有虚拟目录由
+  `DsVirtualList` 持有，分组目录由 `DsCatalogGroupList` 持有；不适用的区域必须写有证据的 `N/A`。
+- `design-system-adoption.json` v3 以结构化记录声明每个可达页面的 catalog / scroll 真值：至少包含
+  `{region,axis,owner,source,component,callsite,reason,verification}`。canonical owner 必须从真实 route root 的
+  JSX 调用图可达，live owner 也必须按 catalog / scroll 角色与每个渲染 occurrence 反向登记；同一 JSX 值被渲染
+  多次也按多个 occurrence 计算。`DsInspectorTabs` 属于 inspector 纵向 scroll owner，不能漏出反向闭包；custom
+  scroll 必须由同一 live element 上的真实 CSS `overflow-y:auto|scroll` 证明，`N/A` 只能绑定非 governed 的 intrinsic
+  证据且 axis 为 `none`。prose `"A + B"`、只填非空字符串、死 helper、类名借用或错误 owner 角色均不得通过门禁。
+  业务 TSX 禁止伪造 `ds-catalog-*`、`data-ds-scroll-*` 或新增 raw `ds-object-workspace*` marker；静态拼接与静态
+  object spread 必须还原后检查，无法静态解析的 intrinsic JSX spread 直接失败，避免运行时注入保留 marker。
+- 尚未迁移的 raw workspace 只能进入精确 legacy exception：每项绑定 source、selector 与命中次数，并写清
+  registry、原因、验证、removal condition 和已上看板的 debt card。例外集合必须逐文件逐 selector 双向闭合，
+  新增、删除、计数漂移、仍登记为 adopted、债务卡消失或 owner 未交叉链接时一律失败；例外不能类推给新页面。
+- 小窗口验收必须同时覆盖溢出与不溢出：滚轮和键盘只改变唯一 viewport 的 `scrollTop`，header rect 不变，祖先
+  scrollTop 恒为 0，末项及 focus outline 可见，选中态与真实 leading 媒体不被裁切。编辑器根只能裁剪布局，
+  不得成为可被 focus 程序滚动的隐藏 owner；根布局使用 `overflow:clip` 并保持 `scrollTop=0`。
 
 ### DS-C.5 表单字段
 
@@ -722,7 +757,7 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   预览必须复用领域真实 renderer 与 runtime 同一效果 helper；允许缓存无效果底帧并只重做末端合成，禁止用 CSS
   色条、截图或页面私有公式伪装运行时效果。切换对象、场景或工程时必须丢弃过期异步结果，预览操作不得触发
   工程 dispatch。
-- 音频目录行只显示名称、稳定 ID 与引用数；不得在行内放播放器、替换或删除，也不得为目录中的每个资源解码。
+- 音频目录全族省略 `leading`，行内只显示名称、稳定 ID 与引用数；不得放播放器、替换或删除，也不得为目录中的每个资源解码。
   当前选中资源才允许按 `projectId + AssetId + sha256` 懒加载，切换资源、替换内容、切工程或卸载必须停止旧播放、
   丢弃旧异步结果，并使用有界派生缓存。
 - 时间轴必须声明真实数据来源：WAV 只显示实际解码 PCM 的峰值，MIDI 只显示由 note events 计算的“音符活动”，
@@ -950,6 +985,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-21 | Ordered collection default/compact + catalog/fixed/nested/timeline + disabled/empty/single/52 项长列表 | grip 位于 item 边界内且不占 media leading；insert/swap 实时让位只有一个 indicator，提交无回跳；pointer/keyboard/click 同 owner，nested scope、水平 timeline、真实 scroll owner 与长名称无裁切 | v2.12 排序合同 |
 | RF-22 | Add Picker 0/1/234 + rich-row media/detail/trailing + active/selected/disabled/all-disabled/empty/long | 标题动作稳定；固定 ID + detail 截断、60px 两行 rich row、direct searchable listbox、80 阈值、明确 footer confirm、分层 Escape、single command、唯一滚动与 focus return 通过 | v2.13 候选追加合同 |
 | RF-23 | 480px / 479px FieldGroup + 长中文/help/error/短数值 + Inspector PropertyRow 对照 | 480px 共享 96px 标签轨；479px 整组 stacked；长标签自然换行且 control 起点不漂移；help/error 与 control 同列；Inspector 仅以具名 60px 紧凑轨存在 | v2.14 字段布局合同 |
+| RF-24 | 28 个 catalog surface + EnemyTeam 重复/混合/空/缺失成员 + Shop 空/单/多/缺失货品 + 5 资源无 label + 295/enemy-468/team-0 | 普通对象可读 title / 精确 canonical ID meta；派生 title 不进入 identity 消费；资源缺 label 时 title 与 meta 不重复；scene root / undeclared reference 例外有界；伪 `skill.pal.*` / `enemy.pal.*` / `team.pal.*` 零命中 | v2.15 目录身份合同 |
 
 ### DS-PERF.1 大列表性能合同（G3）
 

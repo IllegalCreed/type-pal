@@ -162,6 +162,9 @@ export function DsVirtualList<T>(props: {
       ref={rootRef}
       className="ds-virtual-list"
       data-fill={props.fill || undefined}
+      data-ds-scroll-scope="catalog"
+      data-ds-scroll-owner="catalog"
+      data-ds-scroll-axis="y"
       role="list"
       aria-label={props.label}
       tabIndex={props.onSelect ? -1 : 0}

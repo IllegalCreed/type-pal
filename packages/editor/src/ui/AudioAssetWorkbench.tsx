@@ -9,7 +9,10 @@ import {
 } from '@type-pal/content'
 import type { MidiNoteActivity, MidiPreviewTransport } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
+import {
+  editorAssetCatalogTitle,
+  type EditorAssetDiagnostic,
+} from '../core/asset-diagnostics.js'
 import {
   AudioPreviewCache,
   type PcmPeaks,
@@ -34,7 +37,6 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsFileInput,
-  DsIcon,
   DsIconButton,
   DsInspectorHost,
   DsInspectorSection,
@@ -614,8 +616,7 @@ export function AudioAssetWorkbench(props: {
                   tabIndex={control.tabIndex}
                   onFocus={control.onFocus}
                   selected={selected?.id === entry.id}
-                  leading={<DsIcon name="play" />}
-                  title={entry.record.label || entry.id}
+                  title={editorAssetCatalogTitle(entry.record)}
                   meta={entry.id}
                   trailing={count ? <DsTag tone="neutral">{count}</DsTag> : undefined}
                   onClick={() => select(entry.id)}

@@ -976,6 +976,26 @@
   scrollbar-gutter: stable;
 }
 
+.ds-catalog-workspace[data-ds-scroll-scope="catalog"] {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ds-catalog-workspace__content {
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
 .ds-catalog-controls {
   width: 100%;
   min-width: 0;

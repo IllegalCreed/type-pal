@@ -1467,7 +1467,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
 
   return (
     <>
-      <div className="outliner project-outliner">
+      <div className="outliner outliner--split project-outliner">
         {tabBar}
         <DsListHeader
           title="入口点"

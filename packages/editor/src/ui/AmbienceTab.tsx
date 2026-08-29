@@ -23,14 +23,15 @@ import type {
 import { AmbienceScenePreview, type AmbienceScenePreviewProps } from './AmbienceScenePreview.js'
 import {
   DsButton,
+  DsCatalogControls,
   DsCatalogRow,
+  DsCatalogWorkspace,
   DsColorInput,
   DsDialog,
   DsField,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
-  DsListHeader,
   DsNumberInput,
   DsObjectHero,
   DsObjectWorkspace,
@@ -421,22 +422,30 @@ export function AmbienceTab(props: {
 
   return (
     <>
-      <div ref={outlinerRef} className="outliner data-outliner ambience-library-outliner">
-        {tabBar}
-        <DsListHeader
-          title="氛围"
-          count={ambiences.length}
-          unit="条"
-          actions={[
-            {
-              id: 'create-ambience',
-              label: '新建氛围',
-              icon: 'add',
-              onClick: openCreate,
-            },
-          ]}
-        />
-        <section className="ambience-library-outliner__list" aria-label="氛围目录">
+      <DsCatalogWorkspace
+        ref={outlinerRef}
+        label="氛围目录"
+        className="outliner data-outliner ambience-library-outliner"
+        contentClassName="ambience-library-outliner__list"
+        header={
+          <>
+            {tabBar}
+            <DsCatalogControls
+              title="氛围"
+              count={ambiences.length}
+              unit="条"
+              actions={[
+                {
+                  id: 'create-ambience',
+                  label: '新建氛围',
+                  icon: 'add',
+                  onClick: openCreate,
+                },
+              ]}
+            />
+          </>
+        }
+      >
           {ambiences.map((ambience) => {
             const count = referenceScan.index.get(ambience.id)?.length ?? 0
             return (
@@ -466,8 +475,7 @@ export function AmbienceTab(props: {
             )
           })}
           {!ambiences.length ? <div className="insp-empty">项目中还没有氛围定义。</div> : null}
-        </section>
-      </div>
+      </DsCatalogWorkspace>
 
       <DsObjectWorkspace
         label="氛围工作区"

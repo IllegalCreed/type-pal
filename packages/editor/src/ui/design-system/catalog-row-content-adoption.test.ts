@@ -17,6 +17,29 @@ import { describe, expect, test } from 'vitest'
 const here = dirname(fileURLToPath(import.meta.url))
 const uiRoot = join(here, '..')
 const slotNames = ['leading', 'title', 'meta', 'trailing'] as const
+const titleKinds = [
+  'authored-name',
+  'derived-content',
+  'resource-label-or-kind-fallback',
+  'semantic-label',
+  'canonical-id',
+  'referenced-id',
+] as const
+const identitySlots = ['meta', 'title', 'none'] as const
+const idPresentations = [
+  'canonical-exact',
+  'canonical-formatted',
+  'reference-exact',
+  'none',
+] as const
+const summaryKinds = [
+  'none',
+  'classification',
+  'status',
+  'selection-summary',
+  'structural-summary',
+  'diagnostic',
+] as const
 const reorderContractPattern
   = /reorder|sortable|draggable|onDrag(?:Start|End|Enter|Leave|Over)?|onDrop|onPointer(?:Down|Move|Up|Cancel|Enter|Leave|Over|Out|Capture)?|onMouse(?:Down|Move|Up|Enter|Leave|Over|Out)?|onTouch(?:Start|Move|End|Cancel)?|dragHandle|handleSlot|moveHandle|grip/i
 
@@ -195,8 +218,122 @@ function productionRegistry(root = uiRoot) {
   })
 }
 
+function heroMediaCallsites(root = uiRoot) {
+  return productionTsxFiles(root).flatMap((file) => {
+    const source = relative(root, file).split(sep).join('/')
+    const content = readFileSync(file, 'utf8')
+    const sourceFile = ts.createSourceFile(
+      source,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+      ts.ScriptKind.TSX,
+    )
+    const callsites: Array<{
+      component: string
+      fingerprint: string
+      hasRawText: boolean
+      source: string
+    }> = []
+    const aliases: string[] = []
+    const namespaceTags: string[] = []
+
+    const hasRawMediaText = (node: ts.Node): boolean => {
+      if (ts.isJsxText(node)) return Boolean(node.text.trim())
+      if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) return true
+      if (ts.isJsxExpression(node))
+        return node.expression ? hasRawMediaText(node.expression) : false
+      if (ts.isJsxElement(node) || ts.isJsxFragment(node))
+        return node.children.some(hasRawMediaText)
+      if (ts.isConditionalExpression(node))
+        return hasRawMediaText(node.whenTrue) || hasRawMediaText(node.whenFalse)
+      if (ts.isBinaryExpression(node))
+        return hasRawMediaText(node.left) || hasRawMediaText(node.right)
+      return false
+    }
+
+    function visit(node: ts.Node) {
+      if (ts.isImportSpecifier(node)) {
+        const imported = node.propertyName?.text ?? node.name.text
+        if (imported === 'DsObjectHero' && node.name.text !== 'DsObjectHero')
+          aliases.push(node.name.text)
+      }
+      if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
+        const tag = node.tagName.getText(sourceFile)
+        if (tag.endsWith('.DsObjectHero')) namespaceTags.push(tag)
+        if (tag === 'DsObjectHero') {
+          if (node.attributes.properties.some(ts.isJsxSpreadAttribute))
+            throw new Error(`${source}: DsObjectHero spread attributes can hide an unregistered media owner`)
+          const media = node.attributes.properties.find(
+            (property): property is ts.JsxAttribute =>
+              ts.isJsxAttribute(property) && property.name.getText(sourceFile) === 'media',
+          )
+          if (media) {
+            const initializer = media.initializer
+            const expression =
+              initializer && ts.isJsxExpression(initializer) ? initializer.expression : undefined
+            const component = expression && ts.isJsxElement(expression)
+              ? expression.openingElement.tagName.getText(sourceFile)
+              : expression && ts.isJsxSelfClosingElement(expression)
+                ? expression.tagName.getText(sourceFile)
+                : 'dynamic'
+            const mediaText = normalized(media.getText(sourceFile))
+            callsites.push({
+              component,
+              fingerprint: createHash('sha256').update(mediaText).digest('hex').slice(0, 16),
+              hasRawText: expression ? hasRawMediaText(expression) : true,
+              source,
+            })
+          }
+        }
+      }
+      ts.forEachChild(node, visit)
+    }
+    visit(sourceFile)
+
+    if (aliases.length)
+      throw new Error(`${source}: DsObjectHero aliases evade the Hero media census: ${aliases.join(', ')}`)
+    if (namespaceTags.length)
+      throw new Error(`${source}: namespace DsObjectHero tags evade the Hero media census: ${namespaceTags.join(', ')}`)
+    return callsites
+  })
+}
+
 function source(file: string): string {
   return readFileSync(join(uiRoot, file), 'utf8')
+}
+
+function heroMediaPresence(sourceName: string, eyebrow: string): boolean[] {
+  const content = source(sourceName)
+  const sourceFile = ts.createSourceFile(
+    sourceName,
+    content,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  )
+  const matches: boolean[] = []
+  function visit(node: ts.Node) {
+    if (
+      (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node))
+      && node.tagName.getText(sourceFile) === 'DsObjectHero'
+    ) {
+      const attributes = node.attributes.properties.filter(ts.isJsxAttribute)
+      const eyebrowAttribute = attributes.find(
+        (attribute) => attribute.name.getText(sourceFile) === 'eyebrow',
+      )
+      if (eyebrowAttribute?.initializer && ts.isStringLiteral(eyebrowAttribute.initializer)) {
+        if (eyebrowAttribute.initializer.text === eyebrow) {
+          matches.push(
+            attributes.some((attribute) => attribute.name.getText(sourceFile) === 'media'),
+          )
+        }
+      }
+    }
+    ts.forEachChild(node, visit)
+  }
+  visit(sourceFile)
+  return matches
 }
 
 function catalogRowDeclaration(content: string): string {
@@ -224,7 +361,7 @@ describe('catalog row content adoption gate', () => {
     const recorded = matrix.entries.map(
       (entry) => `${entry.source}@${entry.jsxFingerprint}`,
     )
-    expect(matrix.version).toBe(2)
+    expect(matrix.version).toBe(4)
     expect([...recorded].sort()).toEqual(actual.map((entry) => entry.identity).sort())
     expect(new Set(recorded).size, 'matrix contains duplicate source + fingerprint identities').toBe(recorded.length)
     expect(actualByIdentity.size, 'production contains ambiguous duplicate source + fingerprint identities').toBe(actual.length)
@@ -243,8 +380,128 @@ describe('catalog row content adoption gate', () => {
       expect(callsite.slots.meta, `${entry.id} meta presence`).toBe(entry.meta !== '无')
       expect(callsite.slots.trailing, `${entry.id} trailing presence`).toBe(entry.trailing !== '无')
       expect(['compliant', 'bounded-exception']).toContain(entry.decision)
+      expect(titleKinds).toContain(entry.titleKind)
+      expect(identitySlots).toContain(entry.identitySlot)
+      expect(idPresentations).toContain(entry.idPresentation)
+      expect(summaryKinds).toContain(entry.summaryKind)
+      if (entry.identitySlot !== 'none')
+        expect(callsite.slots[entry.identitySlot], `${entry.id} identity slot`).toBe(true)
+      if (entry.idPresentation.startsWith('canonical-'))
+        expect(entry.identitySlot, `${entry.id} canonical identity placement`).not.toBe('none')
+      if (entry.idPresentation === 'reference-exact') {
+        expect(entry.titleKind, `${entry.id} reference title kind`).toBe('referenced-id')
+        expect(entry.identitySlot, `${entry.id} diagnostic is not a stable object identity`).toBe('none')
+      }
+      if (entry.summaryKind === 'none') {
+        const summarySlots = ['meta', 'trailing'].filter(
+          (slot) => slot !== entry.identitySlot && callsite.slots[slot],
+        )
+        expect(summarySlots, `${entry.id} must not retain an unclassified summary`).toEqual([])
+      }
       expect(entry.reason.length).toBeGreaterThan(12)
     }
+
+    const idsFor = (field: string, value: string): string[] => matrix.entries
+      .filter((entry) => entry[field] === value)
+      .map((entry) => entry.id)
+      .sort()
+    expect(idsFor('titleKind', 'derived-content')).toEqual([
+      'enemy-team/catalog',
+      'shop/catalog',
+    ])
+    expect(idsFor('titleKind', 'resource-label-or-kind-fallback')).toEqual([
+      'audio/asset-catalog',
+      'battle-sprite/asset-catalog',
+      'cutscene/asset-catalog',
+      'image/asset-catalog',
+      'world-sprite/asset-catalog',
+    ])
+    expect(idsFor('identitySlot', 'title')).toEqual(['scene/current-outline-root'])
+    expect(idsFor('idPresentation', 'reference-exact')).toEqual([
+      'variables/undeclared-reference-catalog',
+    ])
+    expect(idsFor('idPresentation', 'canonical-formatted')).toEqual(['battle-field/catalog'])
+
+    const contractFor = (id: string) => {
+      const entry = matrix.entries.find((candidate) => candidate.id === id)
+      return entry && {
+        titleKind: entry.titleKind,
+        identitySlot: entry.identitySlot,
+        idPresentation: entry.idPresentation,
+        summaryKind: entry.summaryKind,
+        decision: entry.decision,
+      }
+    }
+    expect(contractFor('enemy-team/catalog')).toEqual({
+      titleKind: 'derived-content',
+      identitySlot: 'meta',
+      idPresentation: 'canonical-exact',
+      summaryKind: 'none',
+      decision: 'compliant',
+    })
+    expect(contractFor('shop/catalog')).toEqual({
+      titleKind: 'derived-content',
+      identitySlot: 'meta',
+      idPresentation: 'canonical-exact',
+      summaryKind: 'none',
+      decision: 'compliant',
+    })
+    expect(contractFor('scene/current-outline-root')).toEqual({
+      titleKind: 'canonical-id',
+      identitySlot: 'title',
+      idPresentation: 'canonical-exact',
+      summaryKind: 'structural-summary',
+      decision: 'bounded-exception',
+    })
+    expect(contractFor('variables/undeclared-reference-catalog')).toEqual({
+      titleKind: 'referenced-id',
+      identitySlot: 'none',
+      idPresentation: 'reference-exact',
+      summaryKind: 'diagnostic',
+      decision: 'bounded-exception',
+    })
+  })
+
+  test('closes every production object Hero media owner without raw glyph fallbacks', () => {
+    const matrix = JSON.parse(readFileSync(join(here, 'catalog-row-content-adoption.json'), 'utf8'))
+    const actual = heroMediaCallsites()
+    const actualByIdentity = new Map(
+      actual.map((entry) => [`${entry.source}@${entry.fingerprint}`, entry]),
+    )
+    const recorded = matrix.heroMedia.map(
+      (entry) => `${entry.source}@${entry.jsxFingerprint}`,
+    )
+
+    expect([...recorded].sort()).toEqual([...actualByIdentity.keys()].sort())
+    expect(new Set(recorded).size).toBe(recorded.length)
+    expect(new Set(matrix.heroMedia.map((entry) => entry.id)).size).toBe(matrix.heroMedia.length)
+    for (const entry of matrix.heroMedia) {
+      const actualEntry = actualByIdentity.get(`${entry.source}@${entry.jsxFingerprint}`)
+      expect(actualEntry, `${entry.id} must bind to a live DsObjectHero media prop`).toBeDefined()
+      expect(actualEntry?.component, `${entry.id} media owner`).toBe(entry.component)
+      expect(actualEntry?.hasRawText, `${entry.id} must not render raw text or emoji as media`).toBe(false)
+      expect(['identity-media', 'semantic-swatch']).toContain(entry.kind)
+      expect(entry.fallback.length).toBeGreaterThan(12)
+    }
+
+    expect(matrix.heroMedia.map((entry) => entry.id).sort()).toEqual([
+      'actor/hero-avatar',
+      'ambience/hero-swatch',
+      'enemy/hero-idle-frame',
+      'item/hero-icon',
+    ])
+    expect(matrix.heroMediaNone.map((entry) => entry.id).sort()).toEqual([
+      'enemy-team/hero-no-media',
+      'variables/hero-no-media',
+    ])
+    for (const entry of matrix.heroMediaNone) {
+      expect(heroMediaPresence(entry.source, entry.eyebrow), entry.id).toEqual([false])
+      expect(entry.reason.length).toBeGreaterThan(12)
+    }
+    expect(source('EnemyTab.tsx')).toContain('placement="hero"')
+    expect(source('EnemyTab.tsx')).not.toMatch(/[👹]/u)
+    expect(source('EnemyTeamTab.tsx')).not.toMatch(/media=.*[⚔]/u)
+    expect(source('VarsTab.tsx')).not.toMatch(/media=.*[⚑№]/u)
   })
 
   test('keeps every catalog family on one leading-slot strategy', () => {
@@ -257,25 +514,46 @@ describe('catalog row content adoption gate', () => {
     }
     for (const [family, values] of strategies)
       expect([...values], family).toHaveLength(1)
+
+    expect(
+      matrix.entries
+        .filter((entry) => entry.leading === 'present')
+        .map((entry) => entry.id)
+        .sort(),
+    ).toEqual(
+      [
+        'actor/catalog',
+        'ambience/catalog',
+        'enemy/catalog',
+        'image/asset-catalog',
+        'item/catalog',
+      ].sort(),
+    )
   })
 
   test('locks the repaired content hierarchy without changing DsCatalogRow props', () => {
     const app = source('App.tsx')
+    const audio = source('AudioAssetWorkbench.tsx')
     const battlefield = source('BattleFieldTab.tsx')
     const item = source('ItemTab.tsx')
     const enemy = source('EnemyTab.tsx')
+    const enemyThumbnail = source('EnemyBattleSpriteThumbnail.tsx')
     const enemyTeam = source('EnemyTeamTab.tsx')
     const editorCss = source('editor.css')
     const map = source('MapMode.tsx')
     const cutscene = source('CutsceneTab.tsx')
     const project = source('ProjectWorkbenchTab.tsx')
     const script = source('SharedScriptTab.tsx')
+    const shop = source('ShopTab.tsx')
     const spriteAction = source('SpriteActionEditor.tsx')
     const variables = source('VarsTab.tsx')
     const worldSprite = source('WorldSpriteLibrary.tsx')
     const battleSprite = source('BattleSpriteLibrary.tsx')
 
     expect(app).not.toContain('leading={<span aria-hidden="true">🗺️</span>}')
+    expect(audio).not.toContain('leading={<DsIcon name="play" />}')
+    expect(audio).toContain('title={editorAssetCatalogTitle(entry.record)}')
+    expect(audio).not.toContain('entry.record.label || entry.id')
     expect(battlefield).not.toContain('bf-catalog-id')
     expect(battlefield).toContain("meta={`#${String(candidate.id).padStart(3, '0')}`}")
     expect(item).toContain('meta={candidate.id}')
@@ -283,9 +561,21 @@ describe('catalog row content adoption gate', () => {
     expect(item).not.toContain('refs ? `引用 ${refs}`')
     expect(enemy).not.toContain('<span className="face">👹</span>')
     expect(enemy).toContain('meta={e.id}')
+    expect(enemy).toContain('<EnemyBattleSpriteThumbnail')
+    expect(enemyThumbnail).toContain('definition.profile.idle.start')
+    expect(enemyThumbnail).not.toMatch(/frames\s*\[\s*0\s*\]/)
+    expect(enemyThumbnail).not.toContain('frameIndex = 0')
+    expect(enemyThumbnail).not.toContain('setInterval')
+    expect(enemyThumbnail).not.toContain('requestAnimationFrame')
+    expect(enemyThumbnail).not.toMatch(/[👹🎭]/u)
     expect(enemyTeam).not.toContain('leading={<span aria-hidden="true">⚔</span>}')
+    expect(enemyTeam).toContain('key={team.id}')
+    expect(enemyTeam).toContain('meta={team.id}')
+    expect(enemyTeam).toContain('onClick={() => select(team.id)}')
     expect(map).toContain('meta={asset.id}')
     expect(cutscene).toContain('meta={entry.id}')
+    expect(cutscene).toContain('title={editorAssetCatalogTitle(entry.record)}')
+    expect(cutscene).not.toContain('entry.record.label || entry.id')
     expect(cutscene).not.toContain("entry.record.kind === 'video' ? '▶' : '▦'")
     expect(project).toContain('meta={entry.id}')
     expect(project).not.toContain("entry.id === manifest.defaultEntryId ? '🧭' : '🚪'")
@@ -296,15 +586,34 @@ describe('catalog row content adoption gate', () => {
   align-items: center;
   padding-inline-end: var(--ds-space-2);
 }`)
+    expect(editorCss).toContain(`.enemy-catalog-row {
+  content-visibility: auto;
+  contain-intrinsic-size: var(--ds-catalog-row-height);
+}`)
     expect(script).not.toContain('trailing={<DsTag tone="neutral">{script.body.length}</DsTag>}')
+    expect(shop).toContain('key={x.id}')
+    expect(shop).toContain('meta={String(x.id)}')
+    expect(shop).toContain('onClick={() => selectShop(x.id)}')
     expect(spriteAction).not.toContain('title={`#${index} · ${candidate.label}`}')
     expect(variables).not.toContain("definition.kind === 'flag' ? '⚑' : '№'")
     expect(variables).not.toContain('leading={<span aria-hidden="true">!</span>}')
     expect(worldSprite).not.toContain('title={`#${index} · ${action.label}`}')
     expect(worldSprite).not.toContain('leading={<span aria-hidden="true">▦</span>}')
+    expect(worldSprite).toContain('editorAssetCatalogTitle(assetRecord, entries[0]?.label)')
+    expect(worldSprite).not.toContain("entries[0]?.label?.trim() || asset")
     expect(worldSprite).toContain('meta={asset}')
     expect(battleSprite).not.toContain('leading={<span aria-hidden="true">▦</span>}')
+    expect(battleSprite).toContain('editorAssetCatalogTitle(assetRecord, entries[0]?.label)')
+    expect(battleSprite).not.toContain("entries[0]?.label?.trim() || asset")
     expect(battleSprite).toContain('meta={asset}')
+    expect(source('ImageTab.tsx')).toContain('title={editorAssetCatalogTitle(entry.record)}')
+    expect(source('ImageTab.tsx')).not.toContain('entry.record.label || entry.id')
+
+    const fakeObjectAliases = productionTsxFiles(uiRoot).flatMap((file) => {
+      const matches = readFileSync(file, 'utf8').match(/(?:skill|enemy|team)\.pal\./g) ?? []
+      return matches.map((match) => `${relative(uiRoot, file)}:${match}`)
+    })
+    expect(fakeObjectAliases).toEqual([])
 
     const recipeDeclaration = catalogRowDeclaration(readFileSync(join(here, 'recipes.tsx'), 'utf8'))
     expect(recipeDeclaration).not.toBe('')

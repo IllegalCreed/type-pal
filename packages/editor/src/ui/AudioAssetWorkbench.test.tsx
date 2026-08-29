@@ -104,6 +104,10 @@ describe('AudioAssetWorkbench async selection lifecycle', () => {
     expect(
       workspace.querySelectorAll(':scope > .audio-workspace__scroll.ds-object-workspace__content'),
     ).toHaveLength(1)
+    const musicRows = [...host.querySelectorAll<HTMLElement>('.ds-catalog-row')]
+    expect(musicRows.length).toBeGreaterThan(0)
+    expect(musicRows.every((row) => row.dataset.leading === 'none')).toBe(true)
+    expect(host.querySelector('.ds-catalog-row__leading')).toBeNull()
     await vi.waitFor(() => expect(requests).toHaveLength(1))
     expect(requests[0]?.asset).toBe('music.opening')
 
@@ -163,13 +167,15 @@ describe('AudioAssetWorkbench timeline completion', () => {
       createTransport: () => transport,
       describeReference: (reference) => ({ title: reference.site, kind: '音效引用' }),
     }
-    const session = new EditSession(catalogControlsEditorState())
+    const catalog = structuredClone(catalogControlsAssetCatalog)
+    delete catalog.assets['sound.heal']!.label
+    const session = new EditSession(catalogControlsEditorState(catalog))
 
     await act(async () => {
       root.render(
         <AudioAssetWorkbench
           assetDiagnostics={[]}
-          catalog={catalogControlsAssetCatalog}
+          catalog={catalog}
           reader={catalogControlsReader}
           session={session}
           strategy={strategy}
@@ -179,6 +185,17 @@ describe('AudioAssetWorkbench timeline completion', () => {
     })
     await vi.waitFor(() =>
       expect(host.querySelector('.audio-player__state')?.textContent).toBe('就绪'),
+    )
+    const soundRows = [...host.querySelectorAll<HTMLElement>('.ds-catalog-row')]
+    expect(soundRows.length).toBeGreaterThan(0)
+    expect(soundRows.every((row) => row.dataset.leading === 'none')).toBe(true)
+    expect(host.querySelector('.ds-catalog-row__leading')).toBeNull()
+    const unnamed = soundRows.find(
+      (row) => row.querySelector('.ds-catalog-row__meta')?.textContent === 'sound.heal',
+    )!
+    expect(unnamed.querySelector('.ds-catalog-row__title')?.textContent).toBe('未命名音效')
+    expect(unnamed.querySelector('.ds-catalog-row__title')?.textContent).not.toBe(
+      unnamed.querySelector('.ds-catalog-row__meta')?.textContent,
     )
 
     const range = host.querySelector<HTMLInputElement>('.audio-timeline__range')!

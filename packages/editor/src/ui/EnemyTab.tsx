@@ -53,10 +53,13 @@ import {
 import {
   DsCatalogControls,
   DsCatalogRow,
+  DsCatalogWorkspace,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsObjectWorkspace,
+  DsObjectWorkspaceContent,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -72,6 +75,10 @@ import {
   useDsReorderKeys,
 } from './design-system/reorder.js'
 import { EnemyAnimPreview } from './EnemyAnimPreview.js'
+import {
+  EnemyBattleSpriteThumbnail,
+  EnemyBattleSpriteThumbnailCache,
+} from './EnemyBattleSpriteThumbnail.js'
 import { SoundPicker } from './SoundPicker.js'
 
 type NumericEnemyStatKey =
@@ -584,6 +591,18 @@ export function EnemyTab(props: {
   const [inspectorTab, setInspectorTab] = useState('teams')
   const fieldPrefix = useId()
   const appliedFocusObjectId = useRef<string | undefined>(undefined)
+  const enemyThumbnailCache = useMemo(
+    () => new EnemyBattleSpriteThumbnailCache(),
+    [assetBase, assetReader],
+  )
+  const battleSpritesById = useMemo(
+    () => new Map(battleSprites.map((definition) => [definition.id, definition])),
+    [battleSprites],
+  )
+
+  useEffect(() => {
+    return () => enemyThumbnailCache.clear()
+  }, [enemyThumbnailCache])
 
   useEffect(() => {
     if (
@@ -613,6 +632,10 @@ export function EnemyTab(props: {
     [items, locale],
   )
   const enemy = enemies.find((e) => e.id === selId) ?? shown[0]
+  const enemyBattleSprite = enemy ? battleSpritesById.get(enemy.battleSprite) : undefined
+  const enemyBattleSpriteRecord = enemyBattleSprite
+    ? assetCatalog.assets[enemyBattleSprite.asset]
+    : undefined
   const references = enemy ? blockingEnemyReferences(session.getState(), enemy.id) : []
   const nameOf = (e: EnemyDef): string => lookupText(e.name, locale)
   const teamsOfSel = useMemo(
@@ -701,54 +724,91 @@ export function EnemyTab(props: {
   return (
     <>
       {/* 左:标签栏 + 敌人列表 */}
-      <div className="outliner data-outliner">
-        <DsCatalogControls
-          title="敌人"
-          count={enemies.length}
-          unit="个"
-          actions={[
-            {
-              id: 'create-enemy',
-              label: battleSprites.some((entry) => entry.profile.kind === 'enemy')
-                ? '新建敌人'
-                : '请先在战斗精灵库创建 enemy 定义',
-              icon: 'add',
-              disabled: !battleSprites.some((entry) => entry.profile.kind === 'enemy'),
-              onClick: addEnemy,
-            },
-          ]}
-          search={{
-            'aria-label': '过滤敌人',
-            placeholder: '过滤 id/名…',
-            value: filter,
-            onChange: (event) => setFilter(event.target.value),
-          }}
-        />
-        <div className="sprite-list">
-          {shown.map((e) => (
-            <DsCatalogRow
-              key={e.id}
-              selected={e.id === enemy?.id}
-              title={nameOf(e)}
-              meta={e.id}
-              trailing={
-                e.ai.rules?.length ? <DsTag tone="neutral">{e.ai.rules.length} 规则</DsTag> : null
-              }
-              onClick={() => {
-                setSelId(e.id)
-                onObjectFocus?.(e.id)
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      <DsCatalogWorkspace
+        label="敌人目录"
+        className="outliner data-outliner"
+        header={
+          <DsCatalogControls
+            title="敌人"
+            count={enemies.length}
+            unit="个"
+            actions={[
+              {
+                id: 'create-enemy',
+                label: battleSprites.some((entry) => entry.profile.kind === 'enemy')
+                  ? '新建敌人'
+                  : '请先在战斗精灵库创建 enemy 定义',
+                icon: 'add',
+                disabled: !battleSprites.some((entry) => entry.profile.kind === 'enemy'),
+                onClick: addEnemy,
+              },
+            ]}
+            search={{
+              'aria-label': '过滤敌人',
+              placeholder: '过滤 id/名…',
+              value: filter,
+              onChange: (event) => setFilter(event.target.value),
+            }}
+          />
+        }
+      >
+          {shown.map((e) => {
+            const definition = battleSpritesById.get(e.battleSprite)
+            const record = definition ? assetCatalog.assets[definition.asset] : undefined
+            return (
+              <DsCatalogRow
+                className="enemy-catalog-row"
+                key={e.id}
+                selected={e.id === enemy?.id}
+                leading={
+                  <EnemyBattleSpriteThumbnail
+                    definition={definition}
+                    assetBase={assetBase}
+                    assetReader={assetReader}
+                    revision={record?.kind === 'battle-sprite' ? record.sha256 : undefined}
+                    cache={enemyThumbnailCache}
+                  />
+                }
+                title={nameOf(e)}
+                meta={e.id}
+                trailing={
+                  e.ai.rules?.length ? (
+                    <DsTag tone="neutral">{e.ai.rules.length} 规则</DsTag>
+                  ) : null
+                }
+                onClick={() => {
+                  setSelId(e.id)
+                  onObjectFocus?.(e.id)
+                }}
+              />
+            )
+          })}
+      </DsCatalogWorkspace>
 
       {/* 中:敌人编辑 */}
-      <div className="center canvas-wrap data-body ds-object-workspace">
+      <DsObjectWorkspace
+        as="div"
+        label="敌人工作区"
+        className="center canvas-wrap data-body"
+        contentMode="manual"
+      >
         {enemy ? (
           <>
             <DsObjectHero
-              media={<span aria-hidden="true">👹</span>}
+              media={
+                <EnemyBattleSpriteThumbnail
+                  definition={enemyBattleSprite}
+                  assetBase={assetBase}
+                  assetReader={assetReader}
+                  revision={
+                    enemyBattleSpriteRecord?.kind === 'battle-sprite'
+                      ? enemyBattleSpriteRecord.sha256
+                      : undefined
+                  }
+                  cache={enemyThumbnailCache}
+                  placement="hero"
+                />
+              }
               eyebrow="敌人"
               title={nameOf(enemy)}
               objectId={enemy.id}
@@ -784,7 +844,7 @@ export function EnemyTab(props: {
                 </>
               }
             />
-            <div className="et-scroll battle-data-form ds-object-workspace__content">
+            <DsObjectWorkspaceContent className="et-scroll battle-data-form">
               <DsWorkbenchSection title="基础" description="配置敌人的显示名称与每回合行动次数。">
                 <div className="form-grid">
                   <DsField label="名字">
@@ -826,7 +886,7 @@ export function EnemyTab(props: {
                 <div className="enemy-stat-layout">
                   {ENEMY_STAT_GROUPS.map((group) => (
                     <fieldset
-                      className={`enemy-stat-group enemy-stat-group--${group.id}`}
+                      className="enemy-stat-group"
                       data-enemy-stat-group={group.id}
                       key={group.id}
                     >
@@ -864,7 +924,7 @@ export function EnemyTab(props: {
                 <div className="enemy-sound-layout">
                   {ENEMY_SOUND_GROUPS.map((group) => (
                     <fieldset
-                      className={`enemy-sound-group enemy-sound-group--${group.id}`}
+                      className="enemy-sound-group"
                       data-enemy-sound-group={group.id}
                       key={group.id}
                     >
@@ -1193,12 +1253,12 @@ export function EnemyTab(props: {
                   </p>
                 ) : null}
               </DsWorkbenchSection>
-            </div>
+            </DsObjectWorkspaceContent>
           </>
         ) : (
           <div className="insp-empty ds-empty-state--roomy">无敌人;点 ＋ 新建。</div>
         )}
-      </div>
+      </DsObjectWorkspace>
 
       {/* 右:敌队 / 引用 / 说明 */}
       <DsInspectorHost className="inspector inspector--tabbed">

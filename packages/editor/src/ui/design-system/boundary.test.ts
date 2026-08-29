@@ -719,9 +719,66 @@ describe('editor design-system static boundary', () => {
       expect(businessCss, selector).not.toContain(`.${selector}`)
   })
 
+  test('keeps flat catalogs on one shared fixed-chrome scroll workspace', () => {
+    const uiRoot = dirname(here)
+    const flatCatalogFiles = [
+      'ShopTab.tsx',
+      'AmbienceTab.tsx',
+      'SharedScriptTab.tsx',
+      'ItemTab.tsx',
+      'SkillTab.tsx',
+      'EnemyTab.tsx',
+      'PoisonTab.tsx',
+    ]
+    const production = filesUnder(uiRoot).filter(
+      (path) => path.endsWith('.tsx') && !path.endsWith('.test.tsx'),
+    )
+
+    for (const file of flatCatalogFiles) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, file).toMatch(/<DsCatalogWorkspace\b/)
+      expect(source, file).toMatch(/<DsCatalogControls\b/)
+      expect(source, file).not.toMatch(/\bsprite-list\b/)
+      expect(source, file).not.toMatch(/data-ds-scroll-(?:scope|owner|axis)/)
+    }
+    expect(
+      production.filter((path) =>
+        readFileSync(path, 'utf8').includes('<DsCatalogWorkspace'),
+      ),
+    ).toHaveLength(7)
+    expect(
+      production.filter((path) => /\bsprite-list\b/.test(readFileSync(path, 'utf8'))),
+    ).toEqual([])
+
+    const shop = readFileSync(join(uiRoot, 'ShopTab.tsx'), 'utf8')
+    expect(shop).toMatch(/<DsObjectWorkspace\b[\s\S]*?as="main"/)
+    expect(shop).not.toMatch(/className=["'][^"']*\bds-object-workspace(?:__content)?\b/)
+
+    const recipesCss = readFileSync(join(here, 'recipes.css'), 'utf8')
+    expect(recipesCss).toMatch(
+      /\.ds-catalog-workspace\[data-ds-scroll-scope="catalog"\]\s*\{[\s\S]*?min-width:\s*0;[\s\S]*?min-height:\s*0;[\s\S]*?flex-direction:\s*column;[\s\S]*?overflow:\s*hidden;/,
+    )
+    expect(recipesCss).toMatch(
+      /\.ds-catalog-workspace__content\s*\{[\s\S]*?min-width:\s*0;[\s\S]*?min-height:\s*0;[\s\S]*?flex:\s*1 1 auto;[\s\S]*?overflow:\s*auto;[\s\S]*?overscroll-behavior:\s*contain;[\s\S]*?scrollbar-gutter:\s*stable;/,
+    )
+
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    for (const selector of [
+      'shop-catalog',
+      'item-catalog-list',
+      'ambience-library-outliner__list',
+      'canonical-shared-script-outliner .shared-list',
+    ]) {
+      const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+')
+      const body = businessCss.match(new RegExp(`\\.${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? ''
+      expect(body, selector).not.toMatch(/(?:^|;)\s*(?:display|flex|min-height|overflow(?:-[xy])?)\s*:/)
+    }
+  })
+
   test('keeps every migrated inspector on the canonical shared tab contract', () => {
     const uiRoot = dirname(here)
     const migratedInspectors = [
+      'AmbienceTab.tsx',
       'ItemTab.tsx',
       'MapMode.tsx',
       'WorldSpriteLibrary.tsx',

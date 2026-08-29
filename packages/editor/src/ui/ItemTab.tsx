@@ -57,20 +57,25 @@ import {
   DsButton,
   DsCatalogControls,
   DsCatalogRow,
+  DsCatalogWorkspace,
   DsCheckbox,
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
+  DsDialog,
   DsDraftNumberInput,
   DsDraftTextArea,
   DsDraftTextInput,
-  DsFileInput,
   DsField,
   DsFieldGroup,
+  DsFileInput,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsObjectWorkspace,
+  DsObjectWorkspaceContent,
+  DsPressable,
   DsPropertyGrid,
   DsPropertyRow,
   DsReferenceGroup,
@@ -78,15 +83,14 @@ import {
   DsReferencePanel,
   DsReferenceRow,
   DsReorderCollection,
+  type DsReorderIntent,
   DsSelect,
   DsSwitch,
   DsTag,
   DsTextInput,
   DsWorkbenchSection,
-  DsPressable,
   reorderDsItems,
   sameDsSerializableValue,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/index.js'
 import { EffectEditorCard, EffectEditorChain } from './EffectEditorCard.js'
@@ -597,7 +601,6 @@ function ItemIconBrowser(props: {
 
   const close = (): void => {
     setOpen(false)
-    triggerRef.current?.focus()
   }
 
   return (
@@ -609,22 +612,17 @@ function ItemIconBrowser(props: {
         icon="edit"
         aria-haspopup="dialog"
         aria-expanded={open}
-        aria-controls="item-icon-browser-panel"
         onClick={() => setOpen((value) => !value)}
       >
         选择已有图标
       </DsButton>
       {open ? (
-        <div
-          id="item-icon-browser-panel"
+        <DsDialog
+          open
+          title="选择物品图标"
           className="item-icon-browser-panel"
-          role="dialog"
-          aria-label="选择物品图标"
-          onKeyDown={(event) => {
-            if (event.key !== 'Escape') return
-            event.preventDefault()
-            close()
-          }}
+          fallbackFocusRef={triggerRef}
+          onClose={close}
         >
           <div className="item-icon-browser-toolbar">
             <label className="visually-hidden" htmlFor="item-icon-filter">
@@ -678,7 +676,7 @@ function ItemIconBrowser(props: {
             ))}
           </fieldset>
           {!shown.length ? <div className="insp-empty">没有匹配的图标资源。</div> : null}
-        </div>
+        </DsDialog>
       ) : null}
     </div>
   )
@@ -1252,73 +1250,84 @@ export function ItemTab(props: {
 
   return (
     <>
-      <div className="outliner data-outliner item-catalog">
-        {tabBar}
-        <DsCatalogControls
-          title="物品"
-          count={items.length}
-          unit="项"
-          actions={[{ id: 'create-item', label: '新建物品', icon: 'add', onClick: createItem }]}
-          search={{
-            'aria-label': '搜索物品名称或稳定 ID',
-            placeholder: '搜索名称或 id…',
-            name: 'item-search',
-            autoComplete: 'off',
-            value: filter,
-            onChange: (event) => setFilter(event.target.value),
-          }}
-          filters={
-            <DsSelect
-              size="compact"
-              aria-label="按物品能力筛选"
-              value={filterMode}
-              onValueChange={(value) => setFilterMode(value as ItemFilter)}
-              options={ITEM_FILTERS.map((entry) => ({
-                value: entry.value,
-                label: entry.label,
-              }))}
+      <DsCatalogWorkspace
+        label="物品目录"
+        className="outliner data-outliner item-catalog"
+        contentClassName="item-catalog-list"
+        header={
+          <>
+            {tabBar}
+            <DsCatalogControls
+              title="物品"
+              count={items.length}
+              unit="项"
+              actions={[{ id: 'create-item', label: '新建物品', icon: 'add', onClick: createItem }]}
+              search={{
+                'aria-label': '搜索物品名称或稳定 ID',
+                placeholder: '搜索名称或 id…',
+                name: 'item-search',
+                autoComplete: 'off',
+                value: filter,
+                onChange: (event) => setFilter(event.target.value),
+              }}
+              filters={
+                <DsSelect
+                  size="compact"
+                  aria-label="按物品能力筛选"
+                  value={filterMode}
+                  onValueChange={(value) => setFilterMode(value as ItemFilter)}
+                  options={ITEM_FILTERS.map((entry) => ({
+                    value: entry.value,
+                    label: entry.label,
+                  }))}
+                />
+              }
             />
-          }
+          </>
+        }
+      >
+        <ItemCatalogRows
+          items={shown}
+          selectedId={item?.id}
+          pendingIds={pendingIds}
+          assetCatalog={assetCatalog}
+          assetReader={assetReader}
+          onSelect={selectItem}
         />
-        <div className="sprite-list item-catalog-list">
-          <ItemCatalogRows
-            items={shown}
-            selectedId={item?.id}
-            pendingIds={pendingIds}
-            assetCatalog={assetCatalog}
-            assetReader={assetReader}
-            onSelect={selectItem}
-          />
-          {!items.length ? (
-            <div className="item-catalog-empty">
-              <strong>项目还没有物品</strong>
-              <span>新建一个稳定 ID 的空白物品，再逐项添加装备、使用或投掷能力。</span>
-              <DsButton onClick={createItem} size="compact" variant="primary">
-                ＋ 新建第一个物品
-              </DsButton>
-            </div>
-          ) : !shown.length ? (
-            <div className="item-catalog-empty">
-              <strong>没有匹配项</strong>
-              <DsButton
-                onClick={() => {
-                  setFilter('')
-                  setFilterMode('all')
-                }}
-                size="compact"
-                variant="secondary"
-              >
-                清除筛选
-              </DsButton>
-              <DsButton onClick={createItem} size="compact" variant="primary">
-                ＋ 新物品
-              </DsButton>
-            </div>
-          ) : null}
-        </div>
-      </div>
+        {!items.length ? (
+          <div className="item-catalog-empty">
+            <strong>项目还没有物品</strong>
+            <span>新建一个稳定 ID 的空白物品，再逐项添加装备、使用或投掷能力。</span>
+            <DsButton onClick={createItem} size="compact" variant="primary">
+              ＋ 新建第一个物品
+            </DsButton>
+          </div>
+        ) : !shown.length ? (
+          <div className="item-catalog-empty">
+            <strong>没有匹配项</strong>
+            <DsButton
+              onClick={() => {
+                setFilter('')
+                setFilterMode('all')
+              }}
+              size="compact"
+              variant="secondary"
+            >
+              清除筛选
+            </DsButton>
+            <DsButton onClick={createItem} size="compact" variant="primary">
+              ＋ 新物品
+            </DsButton>
+          </div>
+        ) : null}
+      </DsCatalogWorkspace>
 
-      <div className="canvas-wrap data-body item-workbench ds-object-workspace">
+      <DsObjectWorkspace
+        as="div"
+        label="物品工作区"
+        className="canvas-wrap data-body item-workbench"
+        contentMode="manual"
+      >
         {item ? (
           <>
             <DsObjectHero
@@ -1388,7 +1397,7 @@ export function ItemTab(props: {
               }
             />
 
-            <div className="et-scroll item-workbench-scroll ds-object-workspace__content">
+            <DsObjectWorkspaceContent className="et-scroll item-workbench-scroll">
               {itemDiagnostics.length ? (
                 <section className="item-migration-alert" aria-label="待迁移能力">
                   <div>
@@ -1924,7 +1933,7 @@ export function ItemTab(props: {
                   </div>
                 )}
               </DsWorkbenchSection>
-            </div>
+            </DsObjectWorkspaceContent>
           </>
         ) : (
           <div className="item-workbench-empty">
@@ -1934,7 +1943,7 @@ export function ItemTab(props: {
             </DsButton>
           </div>
         )}
-      </div>
+      </DsObjectWorkspace>
 
       <DsInspectorHost as="aside" className="inspector inspector--tabbed item-inspector">
         <div className="insp-head">

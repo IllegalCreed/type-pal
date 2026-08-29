@@ -21,7 +21,7 @@ export interface TilePalettePickerProps extends TilePickerGridProps {
 export const TileFramePreview = memo(function TileFramePreview(props: {
   frame?: RleFrame
   palette?: Palette
-  className?: string
+  className?: 'map-current-paint-tile__preview'
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -35,7 +35,11 @@ export const TileFramePreview = memo(function TileFramePreview(props: {
 
   return (
     <span
-      className={`tile-frame-preview${props.className ? ` ${props.className}` : ''}`}
+      className={
+        props.className === 'map-current-paint-tile__preview'
+          ? 'tile-frame-preview map-current-paint-tile__preview'
+          : 'tile-frame-preview'
+      }
       data-unavailable={!props.frame || !props.palette || undefined}
       aria-hidden="true"
     >

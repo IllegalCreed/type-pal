@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { EnemyTab } from './EnemyTab.js'
 
@@ -198,6 +199,19 @@ afterEach(async () => {
 })
 
 describe('EnemyTab shared workbench', () => {
+  test('目录第二行保留原始 EnemyId，不制造点分展示别名', async () => {
+    const current = state()
+    current.enemies = [enemy('enemy-468')]
+    current.enemyTeams = []
+    current.locale = { 'name.enemy-468': '蝶精彩依' }
+    const session = new EditSession(current)
+    await act(async () => root.render(<Harness session={session} />))
+    const row = host.querySelector('.ds-catalog-row')!
+    expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe('蝶精彩依')
+    expect(row.querySelector('.ds-catalog-row__meta')?.textContent).toBe('enemy-468')
+    expect(row.textContent).not.toContain('enemy.pal.')
+  })
+
   test('profile fields stay disabled until the referenced sprite frames are ready', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} withAssetBase />))
@@ -257,11 +271,35 @@ describe('EnemyTab shared workbench', () => {
     const content = workspace.querySelector(':scope > .ds-object-workspace__content.et-scroll')!
     expect(workspace.classList.contains('data-body')).toBe(true)
     expect(hero).not.toBeNull()
+    expect(hero.getAttribute('data-has-media')).toBe('true')
+    const heroThumbnail = hero.querySelector<HTMLCanvasElement>(
+      '.ds-object-hero__media .enemy-battle-sprite-thumbnail',
+    )!
+    expect(heroThumbnail).toMatchObject({ width: 56, height: 56 })
+    expect(heroThumbnail.dataset.placement).toBe('hero')
+    expect(hero.textContent).not.toContain('👹')
     expect(content).not.toBeNull()
     expect(content.contains(hero)).toBe(false)
     expect(host.querySelectorAll('.battle-data-form > .ds-workbench-section')).toHaveLength(6)
     expect(host.querySelector('.battle-data-form > .section')).toBeNull()
-    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(2)
+    const catalogRows = [...host.querySelectorAll<HTMLElement>('.ds-catalog-row')]
+    expect(catalogRows).toHaveLength(2)
+    expect(catalogRows.every((row) => row.dataset.leading === 'present')).toBe(true)
+    expect(catalogRows[0]?.querySelector('.ds-catalog-row__title')?.textContent).toBe('赤鬼王')
+    expect(catalogRows[0]?.querySelector('.ds-catalog-row__meta')?.textContent).toBe('enemy-a')
+    expect(catalogRows[0]?.querySelector('.ds-catalog-row__trailing')).toBeNull()
+    expect(catalogRows[1]?.querySelector('.ds-catalog-row__title')?.textContent).toBe('变身者')
+    expect(catalogRows[1]?.querySelector('.ds-catalog-row__meta')?.textContent).toBe('enemy-b')
+    expect(catalogRows[1]?.querySelector('.ds-catalog-row__trailing')?.textContent).toBe('1 规则')
+    const thumbnails = [
+      ...host.querySelectorAll<HTMLCanvasElement>(
+        '.ds-catalog-row__leading .enemy-battle-sprite-thumbnail[aria-hidden="true"]',
+      ),
+    ]
+    expect(thumbnails).toHaveLength(2)
+    expect(thumbnails.every((thumbnail) => thumbnail.width === 36 && thumbnail.height === 36)).toBe(
+      true,
+    )
     expect(host.querySelectorAll('.ds-catalog-row[data-selected="true"]')).toHaveLength(1)
     const remove = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
       (button) => button.textContent === '删除敌人',
@@ -325,6 +363,7 @@ describe('EnemyTab shared workbench', () => {
   test('数值与音效按业务分组，字段编辑保持命令与撤销语义', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))
+    verifyCatalogWorkspace(host, '敌人目录')
 
     const combat = host.querySelector<HTMLElement>('[data-enemy-stat-group="combat"]')!
     const rewards = host.querySelector<HTMLElement>('[data-enemy-stat-group="rewards"]')!

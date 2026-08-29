@@ -3,6 +3,7 @@ import {
   type AssetClosureIssue,
   type AssetId,
   type AssetKind,
+  type AssetRecordV1,
   type AssetReference,
   validateAssetReferenceClosure,
 } from '@type-pal/content'
@@ -23,6 +24,18 @@ export const EDITOR_ASSET_KIND_LABELS = {
   'frame-animation': '帧动画',
   'color-table': '色表',
 } as const satisfies Record<AssetKind, string>
+
+/** 资源目录的可读标题；稳定 AssetId 由目录行的 meta 槽单独承载。 */
+export function editorAssetCatalogTitle(
+  record: Pick<AssetRecordV1, 'kind' | 'label'>,
+  fallbackLabel?: string,
+): string {
+  for (const candidate of [record.label, fallbackLabel]) {
+    const label = candidate?.trim()
+    if (label) return label
+  }
+  return `未命名${EDITOR_ASSET_KIND_LABELS[record.kind]}`
+}
 
 export interface EditorAssetDiagnostic extends AssetClosureIssue {
   assetId?: AssetId

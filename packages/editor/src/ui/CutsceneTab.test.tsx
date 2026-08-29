@@ -37,7 +37,9 @@ afterEach(async () => {
 
 describe('CutsceneTab catalog controls', () => {
   test('filters both resource groups while preserving the total header count and group actions', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const catalog = structuredClone(catalogControlsAssetCatalog)
+    delete catalog.assets['frame-animation.logo']!.label
+    const session = new EditSession(catalogControlsEditorState(catalog))
     await act(async () => {
       root.render(
         <CutsceneTab
@@ -45,7 +47,7 @@ describe('CutsceneTab catalog controls', () => {
           assetReferences={[]}
           assetReferenceStatus="current"
           assetBase={{} as never}
-          catalog={catalogControlsAssetCatalog}
+          catalog={catalog}
           reader={catalogControlsReader as never}
           session={session}
           focusObjectId="video.opening"
@@ -85,6 +87,13 @@ describe('CutsceneTab catalog controls', () => {
     expect(selected.querySelector('.ds-catalog-row__leading')).toBeNull()
     expect(selected.querySelector('.ds-catalog-row__title')?.textContent).toBe('开场视频')
     expect(selected.querySelector('.ds-catalog-row__meta')?.textContent).toBe('video.opening')
+    const unnamed = [...rows].find(
+      (row) => row.querySelector('.ds-catalog-row__meta')?.textContent === 'frame-animation.logo',
+    )!
+    expect(unnamed.querySelector('.ds-catalog-row__title')?.textContent).toBe('未命名帧动画')
+    expect(unnamed.querySelector('.ds-catalog-row__title')?.textContent).not.toBe(
+      unnamed.querySelector('.ds-catalog-row__meta')?.textContent,
+    )
   })
 
   test('distinguishes an empty project from a filtered empty result', async () => {

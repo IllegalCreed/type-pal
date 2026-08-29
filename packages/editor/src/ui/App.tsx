@@ -2187,7 +2187,7 @@ export function App(props: {
           />
         ) : (
           <>
-            <div className="outliner">
+            <div className="outliner outliner--split">
               <DsListHeader
                 title="场景"
                 count={state.scenes.length}

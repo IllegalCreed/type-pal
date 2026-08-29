@@ -86,7 +86,10 @@ function state(): EditorState {
   } as unknown as EditorState
 }
 
-function Harness(props: { session: EditSession }) {
+function Harness(props: {
+  session: EditSession
+  onObjectFocus?: (id: string | undefined) => void
+}) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
@@ -99,6 +102,7 @@ function Harness(props: { session: EditSession }) {
       locale={current.locale}
       projectId="demo"
       session={props.session}
+      onObjectFocus={props.onObjectFocus}
     />
   )
 }
@@ -120,13 +124,58 @@ afterEach(async () => {
 })
 
 describe('EnemyTeamTab authoring closure', () => {
+  test('目录以成员派生标题分组重复项，第二行保留精确 EnemyTeamId', async () => {
+    const current = state()
+    current.enemies = [enemy('enemy-a', 5), enemy('enemy-b', 7)]
+    current.enemyTeams = [
+      { id: 'team-mixed', slots: ['enemy-a', null, 'enemy-b', 'enemy-a'] },
+      { id: 'team-empty', slots: [null, null] },
+      { id: 'team-missing', slots: ['enemy-unknown'] },
+    ]
+    current.locale = { 'name.enemy-a': '赤鬼', 'name.enemy-b': '青鬼' }
+    const session = new EditSession(current)
+    const onObjectFocus = vi.fn()
+    await act(async () =>
+      root.render(<Harness session={session} onObjectFocus={onObjectFocus} />),
+    )
+
+    const rows = [...host.querySelectorAll<HTMLButtonElement>('.enemy-team-catalog .ds-catalog-row')]
+    expect(rows.map((row) => row.querySelector('.ds-catalog-row__title')?.textContent)).toEqual([
+      '赤鬼×2、青鬼',
+      '空敌队',
+      'enemy-unknown',
+    ])
+    expect(rows.map((row) => row.querySelector('.ds-catalog-row__meta')?.textContent)).toEqual([
+      'team-mixed',
+      'team-empty',
+      'team-missing',
+    ])
+    expect(rows.every((row) => !row.textContent?.includes('team.pal.'))).toBe(true)
+    expect(rows.every((row) => !row.textContent?.includes('语义槽'))).toBe(true)
+    expect(rows.every((row) => !row.querySelector('.ds-catalog-row__trailing'))).toBe(true)
+
+    await act(async () => rows[2]!.click())
+    expect(onObjectFocus).toHaveBeenLastCalledWith('team-missing')
+    expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('team-missing')
+  })
+
   test('renders five semantic slots, duplicate-member totals, full stable trial id and blocking reference', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))
     expect(host.querySelectorAll('.enemy-team-slot')).toHaveLength(5)
+    const hero = host.querySelector<HTMLElement>('.ds-object-hero')!
+    expect(hero.dataset.hasMedia).toBe('false')
+    expect(hero.querySelector('.ds-object-hero__media')).toBeNull()
+    expect(hero.textContent).not.toContain('⚔')
     expect(
       host.querySelector<HTMLElement>('.enemy-team-catalog .ds-catalog-row')?.dataset.leading,
     ).toBe('none')
+    expect(
+      host.querySelector('.enemy-team-catalog .ds-catalog-row__title')?.textContent,
+    ).toBe('赤鬼×2')
+    expect(
+      host.querySelector('.enemy-team-catalog .ds-catalog-row__meta')?.textContent,
+    ).toBe('team-c1')
     expect(host.textContent).toContain('10 经验')
     expect(host.textContent).toContain('20 金钱')
     expect(host.textContent).toContain('30 收妖值')

@@ -16,7 +16,10 @@ import {
   type WheelEvent,
 } from 'react'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
-import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
+import {
+  editorAssetCatalogTitle,
+  type EditorAssetDiagnostic,
+} from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { tryCollectEditorAssetReferenceSnapshot } from '../core/editor-asset-references.js'
@@ -589,7 +592,7 @@ export function ImageTab(props: {
 
   return (
     <>
-      <div className="outliner data-outliner image-library-outliner">
+      <div className="outliner outliner--split data-outliner image-library-outliner">
         {tabBar}
         <DsCatalogControls
           title="图像"
@@ -659,7 +662,7 @@ export function ImageTab(props: {
                   paletteColors={battlePaletteColors}
                 />
               }
-              title={entry.record.label || entry.id}
+              title={editorAssetCatalogTitle(entry.record)}
               meta={entry.id}
               onClick={() => {
                 setSelectedId(entry.id)

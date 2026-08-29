@@ -135,9 +135,32 @@ export function CanonicalScriptDialog(props: {
   title: string
   children: ReactNode
   onClose: () => void
-  className?: string
+  className?:
+    | 'canonical-flow-settings-dialog'
+    | 'canonical-hostile-script-dialog'
+    | 'canonical-shared-script-create-dialog'
+    | 'canonical-stage-create-dialog'
+    | 'canonical-stage-delete-dialog'
+    | 'script-scheme-create-dialog'
+    | 'script-scheme-details-dialog'
   footer?: ReactNode
 }) {
+  const bodyClassName =
+    props.className === 'canonical-flow-settings-dialog'
+      ? 'canonical-script-modal-body canonical-flow-settings-dialog'
+      : props.className === 'canonical-hostile-script-dialog'
+        ? 'canonical-script-modal-body canonical-hostile-script-dialog'
+        : props.className === 'canonical-shared-script-create-dialog'
+          ? 'canonical-script-modal-body canonical-shared-script-create-dialog'
+          : props.className === 'canonical-stage-create-dialog'
+            ? 'canonical-script-modal-body canonical-stage-create-dialog'
+            : props.className === 'canonical-stage-delete-dialog'
+              ? 'canonical-script-modal-body canonical-stage-delete-dialog'
+              : props.className === 'script-scheme-create-dialog'
+                ? 'canonical-script-modal-body script-scheme-create-dialog'
+                : props.className === 'script-scheme-details-dialog'
+                  ? 'canonical-script-modal-body script-scheme-details-dialog'
+                  : 'canonical-script-modal-body'
   return (
     <DsDialog
       open
@@ -149,7 +172,7 @@ export function CanonicalScriptDialog(props: {
         ) : undefined
       }
     >
-      <div className={`canonical-script-modal-body${props.className ? ` ${props.className}` : ''}`}>
+      <div className={bodyClassName}>
         {props.children}
       </div>
     </DsDialog>
