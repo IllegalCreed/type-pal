@@ -1,9 +1,8 @@
 // @vitest-environment jsdom
-import { createScriptIndex, deriveScriptChunk, type ItemData } from '@type-pal/content'
+import type { ItemData } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { UpdateItemCommand, UpsertAuthoredScriptCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -678,52 +677,64 @@ describe('ItemTab', () => {
     expect(session.getState().items[0]?.equip?.equipableBy).toEqual(['hero', 'anu'])
   })
 
-  test('使用能力可创建并原子绑定共享脚本，引用页可跳商店', async () => {
+  test('使用能力只允许选择和打开现有可复用脚本，引用页可跳商店', async () => {
     const initial = state()
-    const index = createScriptIndex({ shared: 1, global: {} })
-    const scriptId = 'shared/user/existing-00000000'
-    const chunk = deriveScriptChunk(scriptId, index.shards)!
-    initial.scriptIndex = index
+    const scriptId = 'existing'
+    initial.items[0] = {
+      ...initial.items[0]!,
+      use: {
+        target: 'scene',
+        consuming: true,
+        menuAfterUse: 'close',
+        effects: [
+          {
+            kind: 'runScript',
+            script: { id: scriptId, chunk: '__author-script-runtime' },
+          },
+        ],
+      },
+    }
     const session = new EditSession(initial)
-    session.dispatch(
-      new UpsertAuthoredScriptCommand(scriptId, { name: '旧使用脚本', self: 'none' }, []),
-    )
-    session.dispatch(
-      new UpdateItemCommand('item-a', {
-        use: {
-          target: 'scene',
-          consuming: true,
-          menuAfterUse: 'close',
-          effects: [{ kind: 'runScript', script: { id: scriptId, chunk } }],
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [
+        {
+          ...structuredClone(initial.items[0]!),
+          use: {
+            target: 'scene',
+            consuming: true,
+            menuAfterUse: 'close',
+            effects: [{ kind: 'runScript', script: scriptId }],
+          },
         },
-      }),
-    )
-    session.markSaved()
+      ],
+      sharedScripts: {
+        [scriptId]: {
+          name: '旧使用脚本',
+          self: 'none',
+          body: [],
+        },
+      },
+    }
+    const scriptSession = new ScriptEditSession(canonical)
     const onOpenScript = vi.fn()
     const onOpenItemReference = vi.fn()
     await act(async () =>
       root.render(
         <Harness
           session={session}
+          script={{ state: canonical, session: scriptSession }}
           onOpenScript={onOpenScript}
           onOpenItemReference={onOpenItemReference}
         />,
       ),
     )
 
-    await act(async () => button('新建并绑定', host).click())
-    expect(session.getState().items[0]?.use?.effects[0]).toMatchObject({
-      kind: 'runScript',
-      script: { id: scriptId },
-    })
-    expect(host.textContent).toContain('当前 1 个效果将被替换')
-    await act(async () => button('确认新建并替换', host).click())
-    const nextEffect = session.getState().items[0]?.use?.effects[0]
-    expect(nextEffect?.kind).toBe('runScript')
-    if (nextEffect?.kind !== 'runScript') throw new Error('expected runScript')
-    expect(nextEffect.script.id).not.toBe(scriptId)
-    expect(session.getState().scriptIndex?.library?.[nextEffect.script.id]).toBeDefined()
-    expect(onOpenScript).toHaveBeenCalledWith(nextEffect.script.id)
+    expect(host.textContent).not.toContain('新建剧情脚本并绑定')
+    expect(host.textContent).not.toContain('新建并绑定')
+    expect(host.textContent).toContain('使用可复用脚本')
+    await act(async () => button('打开脚本', host).click())
+    expect(onOpenScript).toHaveBeenCalledWith(scriptId)
 
     await act(async () =>
       button('引用', host.querySelector('[role="tablist"][aria-label="物品检查器"]')!).click(),
@@ -734,12 +745,6 @@ describe('ItemTab', () => {
     expect(onOpenItemReference).toHaveBeenCalledWith(
       expect.objectContaining({ locator: { kind: 'shop', shopId: 7 } }),
     )
-
-    await act(async () => session.undo())
-    expect(session.getState().items[0]?.use?.effects[0]).toMatchObject({
-      kind: 'runScript',
-      script: { id: scriptId },
-    })
   })
 
   test('投掷法术演出使用开关与共享结构化编辑器并可启用、编辑、关闭和撤销', async () => {
@@ -1017,19 +1022,47 @@ describe('ItemTab', () => {
       host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 2"]')!.click(),
     )
     expect(session.getState().items[0]!.use!.effects).toEqual([{ kind: 'healHp', amount: 100 }])
-    expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
-      { kind: 'itemPrivateScript', script: { body: [{ flag: 'private-body' }, {}] } },
-    ])
+    expect(scriptSession.getState().items[0]!.use!.effects).toEqual([])
     expect(host.textContent).not.toContain('私有正文')
+    expect(
+      button(
+        '添加当前物品脚本',
+        host.querySelector('[data-effect-editor-family="item/use-effects"]')!,
+      ).disabled,
+    ).toBe(false)
 
-    await act(async () => session.undo())
+    await act(async () =>
+      button(
+        '添加当前物品脚本',
+        host.querySelector('[data-effect-editor-family="item/use-effects"]')!,
+      ).click(),
+    )
+    expect(session.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'healHp', amount: 100 },
+      { kind: 'runScript' },
+    ])
+    expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'itemPrivateScript', script: { label: '私有脚本物品使用脚本', body: [] } },
+    ])
+
+    await act(async () => historyCoordinator.undo())
+    expect(session.getState().items[0]!.use!.effects).toEqual([{ kind: 'healHp', amount: 100 }])
+    expect(scriptSession.getState().items[0]!.use!.effects).toEqual([])
+    await act(async () => historyCoordinator.undo())
     expect(host.textContent).toContain('私有正文')
     expect(session.getState().items[0]!.use!.effects).toMatchObject([
       { kind: 'healHp' },
       { kind: 'runScript' },
     ])
-    await act(async () => session.redo())
+    expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'itemPrivateScript', script: { body: [{ flag: 'private-body' }, {}] } },
+    ])
+    await act(async () => historyCoordinator.redo())
     expect(host.textContent).not.toContain('私有正文')
+    await act(async () => historyCoordinator.redo())
+    expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'itemPrivateScript', script: { body: [] } },
+    ])
   })
 
   test('新建私有脚本:一次跨会话历史入帐→编辑正文→配对撤销重做→投影含正文', async () => {
@@ -1078,9 +1111,14 @@ describe('ItemTab', () => {
     )
 
     const chain = host.querySelector('[data-effect-editor-family="item/use-effects"]')!
-    const addButton = button('添加脚本', chain)
+    expect(host.textContent).not.toContain('新建剧情脚本并绑定')
+    expect(host.textContent).not.toContain('新建并绑定')
+    const addButton = button('添加当前物品脚本', chain)
     expect(addButton.disabled).toBe(false)
-    await act(async () => addButton.click())
+    await act(async () => {
+      addButton.click()
+      addButton.click()
+    })
 
     expect(session.getState().items[0]!.use!.effects).toMatchObject([
       { kind: 'runScript', script: { chunk: '__author-script-runtime', id: 'item:private:use' } },
@@ -1088,12 +1126,12 @@ describe('ItemTab', () => {
     expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
       {
         kind: 'itemPrivateScript',
-        script: { id: 'use', label: '私有脚本物品私有脚本', body: [] },
+        script: { id: 'use', label: '私有脚本物品使用脚本', body: [] },
       },
     ])
-    expect(host.textContent).toContain('私有脚本物品私有脚本')
+    expect(host.textContent).toContain('私有脚本物品使用脚本')
     // 已存在一条后入口禁用(每件物品至多一条)
-    expect(button('添加脚本', chain).disabled).toBe(true)
+    expect(button('添加当前物品脚本', chain).disabled).toBe(true)
 
     // 编辑正文:添加一条指令
     await act(async () => button('添加第一条指令', host).click())
@@ -1131,6 +1169,67 @@ describe('ItemTab', () => {
     expect(restored?.kind).toBe('itemPrivateScript')
     if (restored?.kind !== 'itemPrivateScript') throw new Error('重做后正文丢失')
     expect(restored.script.body).toHaveLength(1)
+  })
+
+  test('旧删除留下的 detached 正文不会阻塞再次添加当前物品脚本', async () => {
+    const initial = state([
+      {
+        ...item('private'),
+        name: '重加测试物品',
+        use: { target: 'scene', consuming: true, effects: [] },
+      },
+    ])
+    initial.shops = []
+    const session = new EditSession(initial)
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [
+        {
+          ...initial.items[0]!,
+          use: {
+            target: 'scene',
+            consuming: true,
+            effects: [
+              {
+                kind: 'itemPrivateScript',
+                script: {
+                  id: 'use',
+                  label: '旧残留正文',
+                  body: [{ kind: 'setFlag', flag: 'stale', value: true }],
+                },
+              },
+            ],
+          },
+        },
+      ],
+      sharedScripts: {},
+    }
+    const scriptSession = new ScriptEditSession(canonical)
+    const historyCoordinator = new EditorHistoryCoordinator(session, scriptSession)
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          script={{ state: canonical, session: scriptSession }}
+          historyCoordinator={historyCoordinator}
+        />,
+      ),
+    )
+
+    const addButton = button(
+      '添加当前物品脚本',
+      host.querySelector('[data-effect-editor-family="item/use-effects"]')!,
+    )
+    expect(addButton.disabled).toBe(false)
+    await act(async () => addButton.click())
+
+    expect(session.getState().items[0]!.use!.effects).toMatchObject([{ kind: 'runScript' }])
+    expect(scriptSession.getState().items[0]!.use!.effects).toEqual([
+      {
+        kind: 'itemPrivateScript',
+        script: { id: 'use', label: '重加测试物品使用脚本', body: [] },
+      },
+    ])
   })
 
   test('同一物品的私有脚本引用可按 revision 重复定位并明显高亮目标指令', async () => {

@@ -400,7 +400,7 @@ describe('ItemEffectChainEditor', () => {
         ],
       }),
     )
-    expect(host.textContent).toContain('归当前物品拥有')
+    expect(host.textContent).toContain('只用于当前物品')
 
     await act(async () =>
       host.querySelector<HTMLButtonElement>('button[aria-label="下移效果 1"]')!.click(),
@@ -577,6 +577,43 @@ describe('ItemEffectChainEditor', () => {
     )
   })
 
+  test('可复用脚本只保留选择和打开入口，不在物品里重复创建', async () => {
+    const onOpenScript = vi.fn()
+    await act(async () =>
+      root.render(
+        <ItemEffectChainEditor
+          ability="use"
+          spec={{
+            target: 'scene',
+            consuming: true,
+            effects: [
+              {
+                kind: 'runScript',
+                script: { id: 'shared/item/use', chunk: 'shared/c00' },
+              },
+            ],
+          }}
+          items={[item('tool')]}
+          poisons={[]}
+          scripts={[
+            {
+              ref: { id: 'shared/item/use', chunk: 'shared/c00' },
+              label: '治疗剧情 · shared/item/use',
+            },
+          ]}
+          itemId="tool"
+          onChange={() => undefined}
+          onOpenScript={onOpenScript}
+        />,
+      ),
+    )
+
+    expect(host.textContent).toContain('使用可复用脚本')
+    expect(host.textContent).not.toContain('新建并绑定')
+    await act(async () => buttonByText(host, '打开脚本')!.click())
+    expect(onOpenScript).toHaveBeenCalledWith('shared/item/use')
+  })
+
   test('物品私有脚本在物品效果内联编辑，不显示共享脚本跳转', async () => {
     const onBodyChange = vi.fn()
     await act(async () =>
@@ -608,8 +645,8 @@ describe('ItemEffectChainEditor', () => {
         />,
       ),
     )
-    expect(host.textContent).toContain('物品私有脚本')
-    expect(host.textContent).toContain('归当前物品拥有')
+    expect(host.textContent).toContain('当前物品脚本')
+    expect(host.textContent).toContain('只用于当前物品')
     expect(host.textContent).not.toContain('打开脚本')
     expect(host.querySelector('[aria-label="土灵珠使用正文"]')).toBeNull()
     expect(host.textContent).toContain('before = 真')

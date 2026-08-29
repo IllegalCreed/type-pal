@@ -17,18 +17,12 @@ import type {
   Locale,
   PoisonDef,
   SceneDef,
-  ScriptRef,
   SkillData,
   StatusId,
   ThrowSpec,
   UseSpec,
 } from '@type-pal/content'
-import {
-  createScriptIndex,
-  deriveScriptChunk,
-  describeEquipEffects,
-  lookupText,
-} from '@type-pal/content'
+import { deriveScriptChunk, describeEquipEffects, lookupText } from '@type-pal/content'
 import {
   type AssetBase,
   type AudioAssetReader,
@@ -42,7 +36,6 @@ import {
   DeleteItemCommand,
   UpdateItemCommand,
   UpsertAssetCommand,
-  UpsertAuthoredScriptCommand,
 } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -53,12 +46,12 @@ import { cloneItemForAuthoring, createBlankItem } from '../core/item-authoring.j
 import type { ItemReference } from '../core/item-references.js'
 import {
   AddItemPrivateScriptCommand,
+  DeleteItemPrivateScriptCommand,
   type ScriptEditorState,
   type ScriptEditSession,
   SetItemPrivateScriptBodyCommand,
 } from '../core/script-editor.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
-import { createAuthoredScriptId } from '../core/shared-script.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import {
   DsButton,
@@ -768,7 +761,6 @@ export function ItemTab(props: {
   const [filterMode, setFilterMode] = useState<ItemFilter>('all')
   const [selId, setSelId] = useState(items[0]?.id ?? '')
   const [confirmDeleteId, setConfirmDeleteId] = useState<string>()
-  const [confirmScriptReplaceId, setConfirmScriptReplaceId] = useState<string>()
   const [inspectorTab, setInspectorTab] = useState<ItemInspectorTab>('overview')
   const iconInputRef = useRef<HTMLInputElement>(null)
   const deletedSelectionRef = useRef<{ id: string; sawAbsent: boolean } | undefined>(undefined)
@@ -975,7 +967,7 @@ export function ItemTab(props: {
           [
             shellIndex,
             {
-              label: effect.script.label ?? `${item?.name ?? item?.id}私有脚本`,
+              label: effect.script.label ?? `${item?.name ?? item?.id}使用脚本`,
               body: effect.script.body,
               editorContext: canonicalScriptEditorContext,
               focusCommandPath:
@@ -1007,7 +999,54 @@ export function ItemTab(props: {
     },
     [selId, session],
   )
-  const patchUse = useCallback((next: UseSpec): void => patch({ use: next }), [patch])
+  const patchUse = useCallback(
+    (next: UseSpec | undefined): void => {
+      if (!item?.use) {
+        patch({ use: next })
+        return
+      }
+      const prefix = `item:${item.id}:`
+      const currentPrivateId = item.use.effects.flatMap((effect) =>
+        effect.kind === 'runScript' &&
+        isRuntimeScriptRef(effect.script) &&
+        effect.script.id.startsWith(prefix)
+          ? [effect.script.id]
+          : [],
+      )[0]
+      const keepsPrivate =
+        currentPrivateId &&
+        next?.effects.some(
+          (effect) =>
+            effect.kind === 'runScript' &&
+            isRuntimeScriptRef(effect.script) &&
+            effect.script.id === currentPrivateId,
+        )
+      if (!currentPrivateId || keepsPrivate) {
+        patch({ use: next })
+        return
+      }
+      if (!historyCoordinator || !script?.session) {
+        onStatusNotice?.({
+          kind: 'error',
+          message: '缺少脚本历史协调器，无法安全删除当前物品脚本。',
+        })
+        return
+      }
+      try {
+        historyCoordinator.dispatch(
+          new DeleteItemPrivateScriptCommand(item.id, 'use', currentPrivateId.slice(prefix.length)),
+          new UpdateItemCommand(item.id, { use: next }),
+        )
+        onStatusNotice?.({ kind: 'info', message: `已删除 ${item.name} 的当前物品脚本。` })
+      } catch (cause) {
+        onStatusNotice?.({
+          kind: 'error',
+          message: cause instanceof Error ? cause.message : String(cause),
+        })
+      }
+    },
+    [historyCoordinator, item, onStatusNotice, patch, script?.session],
+  )
   const patchThrow = (next: ThrowSpec): void => {
     if (!item) return
     patch({ throw: next })
@@ -1040,7 +1079,6 @@ export function ItemTab(props: {
     (id: string): void => {
       setSelId(id)
       setConfirmDeleteId(undefined)
-      setConfirmScriptReplaceId(undefined)
       onObjectFocus?.(id)
     },
     [onObjectFocus],
@@ -1086,72 +1124,45 @@ export function ItemTab(props: {
       })
     }
   }
-  const createAndBindScript = useCallback(
-    (confirmed = false): void => {
-      if (!selId) return
-      if (script?.session) {
-        onStatusNotice?.({
-          kind: 'error',
-          message: '共享脚本必须从具名共享库创建；物品私有逻辑请直接编辑当前物品内联正文。',
-        })
-        return
-      }
-      const state = session.getState()
-      const current = state.items.find((candidate) => candidate.id === selId)
-      if (!current) return
-      if (!confirmed && current.use?.effects.length) {
-        setConfirmScriptReplaceId(current.id)
-        onStatusNotice?.({
-          kind: 'info',
-          message: '共享剧情脚本必须独占用途链；确认后会替换当前效果。',
-        })
-        return
-      }
-      const index = state.scriptIndex ?? createScriptIndex()
-      const id = createAuthoredScriptId(`${current.name}使用`, Object.keys(index.library ?? {}))
-      const chunk = deriveScriptChunk(id, index.shards)
-      if (!chunk) {
-        onStatusNotice?.({ kind: 'error', message: `无法为 ${id} 推导脚本分片。` })
-        return
-      }
-      const scriptRef: ScriptRef = { id, chunk }
-      const nextUse: UseSpec = {
-        ...(current.use ?? { consuming: true, effects: [] }),
-        target: 'scene',
-        effects: [{ kind: 'runScript', script: scriptRef }],
-        menuAfterUse: current.use?.menuAfterUse ?? 'close',
-      }
-      delete nextUse.battleOnly
-      session.dispatch(
-        new CompositeCommand('新建并绑定物品使用脚本', [
-          new UpsertAuthoredScriptCommand(id, { name: `${current.name}使用`, self: 'none' }, []),
-          new UpdateItemCommand(current.id, { use: nextUse }),
-        ]),
-      )
-      setConfirmScriptReplaceId(undefined)
-      onStatusNotice?.({ kind: 'info', message: `已创建并绑定 ${id}。` })
-      onOpenScript?.(id)
-    },
-    [onOpenScript, onStatusNotice, script?.session, selId, session],
-  )
   /** 新建私有脚本是一个跨 session 作者事务；正文与 shell ref 必须成对撤销/重做。 */
   const scriptSession = script?.session
   const addPrivateScript = useCallback((): void => {
     if (!item || !scriptSession) return
-    const storedItem = scriptSession.getState().items.find((candidate) => candidate.id === item.id)
+    const current = session.getState().items.find((candidate) => candidate.id === item.id)
+    if (!current?.use) {
+      onStatusNotice?.({
+        kind: 'error',
+        message: `${item.id}.use 不存在，无法添加当前物品脚本`,
+      })
+      return
+    }
+    const storedItem = scriptSession
+      .getStateSnapshot()
+      .items.find((candidate) => candidate.id === item.id)
     const exists = (storedItem?.use?.effects ?? []).some(
       (effect) => effect.kind === 'itemPrivateScript',
     )
-    if (exists) {
-      onStatusNotice?.({ kind: 'error', message: `${item.name} 已有私有脚本,每件物品至多一条。` })
+    const prefix = `item:${item.id}:`
+    const shellHasPrivate = current.use.effects.some(
+      (effect) =>
+        effect.kind === 'runScript' &&
+        isRuntimeScriptRef(effect.script) &&
+        effect.script.id.startsWith(prefix),
+    )
+    if (exists && shellHasPrivate) {
+      onStatusNotice?.({
+        kind: 'error',
+        message: `${current.name} 已有当前物品脚本，每件物品至多一条。`,
+      })
       return
     }
     try {
-      if (!historyCoordinator) throw new Error('缺 EditorHistoryCoordinator，禁止拆分创建私有脚本')
-      const current = session.getState().items.find((candidate) => candidate.id === item.id)
-      if (!current?.use) throw new Error(`${item.id}.use 不存在，无法绑定私有脚本`)
+      if (!historyCoordinator)
+        throw new Error('缺 EditorHistoryCoordinator，无法安全添加当前物品脚本')
       historyCoordinator.dispatch(
-        new AddItemPrivateScriptCommand(item.id, `${item.name}私有脚本`),
+        new AddItemPrivateScriptCommand(item.id, `${current.name}使用脚本`, {
+          replaceDetached: exists,
+        }),
         new UpdateItemCommand(item.id, {
           use: {
             ...current.use,
@@ -1167,7 +1178,7 @@ export function ItemTab(props: {
       )
       onStatusNotice?.({
         kind: 'info',
-        message: `已新建私有脚本「${item.name}私有脚本」,可直接编辑正文。`,
+        message: `已添加当前物品脚本「${current.name}使用脚本」，可直接编辑正文。`,
       })
     } catch (cause) {
       onStatusNotice?.({
@@ -1175,7 +1186,7 @@ export function ItemTab(props: {
         message: cause instanceof Error ? cause.message : String(cause),
       })
     }
-  }, [historyCoordinator, item?.id, item?.name, onStatusNotice, scriptSession, session])
+  }, [historyCoordinator, item?.id, onStatusNotice, scriptSession, session])
   const reportItemEffectError = useCallback(
     (message: string): void => onStatusNotice?.({ kind: 'error', message }),
     [onStatusNotice],
@@ -1774,9 +1785,7 @@ export function ItemTab(props: {
                     className="item-capability-toggle"
                     label={item.use ? '已启用' : '启用使用'}
                     checked={!!item.use}
-                    onChange={(event) =>
-                      event.target.checked ? enableUse() : patch({ use: undefined })
-                    }
+                    onChange={(event) => (event.target.checked ? enableUse() : patchUse(undefined))}
                   />
                 }
               >
@@ -1798,37 +1807,6 @@ export function ItemTab(props: {
                         )}
                       </DsField>
                     </DsFieldGroup>
-                    <div className="item-script-authoring">
-                      {confirmScriptReplaceId === item.id ? (
-                        <div className="item-script-replace-confirm" role="alert">
-                          <span>
-                            新脚本会成为唯一用途，当前 {item.use.effects.length} 个效果将被替换。
-                          </span>
-                          <DsButton
-                            onClick={() => createAndBindScript(true)}
-                            size="compact"
-                            variant="primary"
-                          >
-                            确认新建并替换
-                          </DsButton>
-                          <DsButton
-                            onClick={() => setConfirmScriptReplaceId(undefined)}
-                            size="compact"
-                            variant="secondary"
-                          >
-                            取消
-                          </DsButton>
-                        </div>
-                      ) : (
-                        <DsButton
-                          onClick={() => createAndBindScript()}
-                          size="compact"
-                          variant="secondary"
-                        >
-                          ＋ 新建剧情脚本并绑定
-                        </DsButton>
-                      )}
-                    </div>
                     <ItemEffectChainEditor
                       ability="use"
                       spec={item.use}
@@ -1837,7 +1815,6 @@ export function ItemTab(props: {
                       scripts={scriptOptions}
                       onChange={patchUse}
                       onOpenScript={onOpenScript}
-                      onCreateAndBindScript={createAndBindScript}
                       onError={reportItemEffectError}
                       itemId={item.id}
                       scenes={editorState.scenes as readonly SceneDef[]}

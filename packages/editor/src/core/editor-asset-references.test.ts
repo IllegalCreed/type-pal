@@ -164,7 +164,19 @@ describe('editor asset reference source', () => {
           buyPrice: 0,
           sellPrice: 0,
           sellable: false,
-          use: { target: 'scene', consuming: false, effects: [] },
+          use: {
+            target: 'scene',
+            consuming: false,
+            effects: [
+              {
+                kind: 'runScript',
+                script: {
+                  id: 'item:item.live:use',
+                  chunk: '__author-script-runtime',
+                },
+              },
+            ],
+          },
         },
       ],
       locale: {},

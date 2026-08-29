@@ -5,6 +5,7 @@ import { type EditorState, EditSession } from './edit-session.js'
 import { EditorHistoryCoordinator } from './editor-history-coordinator.js'
 import {
   AddItemPrivateScriptCommand,
+  DeleteItemPrivateScriptCommand,
   type ScriptEditorState,
   ScriptEditSession,
 } from './script-editor.js'
@@ -91,6 +92,28 @@ describe('EditorHistoryCoordinator', () => {
     expect(coordinator.redo()).toBe(true)
     expect(legacy.getState().items[0]!.use!.effects).toHaveLength(1)
     expect(script.getState().items[0]!.use!.effects).toHaveLength(1)
+  })
+
+  test('删除私有正文与 shell ref 也是一次可撤销的成对动作', () => {
+    const legacy = new EditSession(legacyState())
+    const script = new ScriptEditSession(scriptState())
+    const coordinator = new EditorHistoryCoordinator(legacy, script)
+    coordinator.dispatch(new AddItemPrivateScriptCommand('private', '私有正文'), shellCommand())
+    coordinator.dispatch(
+      new DeleteItemPrivateScriptCommand('private', 'use', 'use'),
+      new UpdateItemCommand('private', {
+        use: { target: 'scene', consuming: true, effects: [] },
+      }),
+    )
+    expect(legacy.getState().items[0]!.use!.effects).toHaveLength(0)
+    expect(script.getState().items[0]!.use!.effects).toHaveLength(0)
+
+    expect(coordinator.undo()).toBe(true)
+    expect(legacy.getState().items[0]!.use!.effects).toHaveLength(1)
+    expect(script.getState().items[0]!.use!.effects).toHaveLength(1)
+    expect(coordinator.redo()).toBe(true)
+    expect(legacy.getState().items[0]!.use!.effects).toHaveLength(0)
+    expect(script.getState().items[0]!.use!.effects).toHaveLength(0)
   })
 
   test('第二笔 dispatch 抛错时沉默恢复第一笔，不能 redo 复活半状态', () => {

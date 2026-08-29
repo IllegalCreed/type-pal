@@ -1705,6 +1705,7 @@ export class AddItemPrivateScriptCommand extends SnapshotCommand {
   constructor(
     private readonly itemId: string,
     private readonly scriptLabel: string,
+    private readonly options: { replaceDetached?: boolean } = {},
   ) {
     super()
   }
@@ -1714,15 +1715,48 @@ export class AddItemPrivateScriptCommand extends SnapshotCommand {
     if (!item) throw new Error(`物品不存在 ${this.itemId}`)
     const use = item.use ?? { target: 'scene' as const, consuming: true, effects: [] }
     use.effects ??= []
-    const duplicate = use.effects.some(
+    const duplicateIndex = use.effects.findIndex(
       (effect) => effect.kind === 'itemPrivateScript' && effect.script.id === 'use',
     )
-    if (duplicate) throw new Error(`${this.itemId}.use 已有私有脚本(每件物品至多一条)`)
+    if (duplicateIndex >= 0) {
+      if (!this.options.replaceDetached)
+        throw new Error(`${this.itemId}.use 已有私有脚本(每件物品至多一条)`)
+      use.effects.splice(duplicateIndex, 1)
+    }
     use.effects.push({
       kind: 'itemPrivateScript',
       script: { id: 'use', label: this.scriptLabel, body: [] },
     })
     item.use = use
+  }
+}
+
+/** 删除物品私有脚本作者真值；必须与主会话中的 runtime ref 删除成对提交。 */
+export class DeleteItemPrivateScriptCommand extends SnapshotCommand {
+  readonly label = '删除物品私有脚本'
+  get affectedRecords() {
+    return { items: [this.itemId] }
+  }
+
+  constructor(
+    private readonly itemId: string,
+    private readonly slot: 'use' | 'throw',
+    private readonly scriptId: string,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorState): void {
+    const item = state.items.find((candidate) => candidate.id === this.itemId)
+    if (!item) throw new Error(`物品不存在 ${this.itemId}`)
+    const effects = item[this.slot]?.effects
+    if (!effects) throw new Error(`${this.itemId}.${this.slot} 不存在`)
+    const index = effects.findIndex(
+      (effect) => effect.kind === 'itemPrivateScript' && effect.script.id === this.scriptId,
+    )
+    if (index < 0)
+      throw new Error(`${this.itemId}.${this.slot} 不存在当前物品脚本 ${this.scriptId}`)
+    effects.splice(index, 1)
   }
 }
 

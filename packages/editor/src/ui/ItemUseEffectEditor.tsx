@@ -58,7 +58,7 @@ const EFFECT_KINDS: { value: ItemUseEffect['kind']; label: string }[] = [
   { value: 'permanentStatBoost', label: '永久成长' },
   { value: 'gate', label: '概率门槛' },
   { value: 'dieIfNotPoisoned', label: '未中毒则死亡' },
-  { value: 'runScript', label: '运行可复用脚本' },
+  { value: 'runScript', label: '使用可复用脚本' },
   { value: 'runSceneHook', label: '调用场景钩子' },
   { value: 'craftRecipe', label: '合成配方' },
   { value: 'drawFromResourcePool', label: '资源池抽取' },
@@ -129,7 +129,7 @@ function ItemPrivateScriptBodyEditor(props: {
     <div className="item-private-script" data-item-private-script={props.binding.label}>
       <div>
         <strong>{props.binding.label}</strong>
-        <span>归当前物品拥有 · 不进入共享脚本库</span>
+        <span>只用于当前物品，可与其他效果一起执行</span>
       </div>
       <CanonicalScriptBodyEditor
         label={`${props.binding.label} · 正文`}
@@ -166,7 +166,7 @@ function firstPoison(poisons: readonly PoisonDef[]): string {
 
 function firstScript(scripts: readonly ItemScriptOption[]): ScriptRef {
   const script = scripts[0]
-  if (!script) throw new Error('项目没有可复用脚本；请使用“新建并绑定脚本”')
+  if (!script) throw new Error('项目没有可复用脚本；请先在“剧情 → 共享脚本”中创建')
   return script.ref
 }
 
@@ -541,7 +541,6 @@ function EffectFields(props: {
   scripts: readonly ItemScriptOption[]
   onChange: (effect: ItemUseEffect) => void
   onOpenScript?: (id: string) => void
-  onCreateAndBindScript?: () => void
   subjectItemId?: string
   consuming?: boolean
   scenes?: readonly SceneDef[]
@@ -776,14 +775,6 @@ function EffectFields(props: {
             onClick={() => props.onOpenScript?.(effect.script.id)}
           >
             打开脚本
-          </DsButton>
-          <DsButton
-            size="compact"
-            variant="primary"
-            icon="add"
-            onClick={() => props.onCreateAndBindScript?.()}
-          >
-            新建并绑定
           </DsButton>
         </div>
       )
@@ -1050,8 +1041,7 @@ interface ItemUseEffectChainEditorProps {
   scripts: readonly ItemScriptOption[]
   onChange: (next: UseSpec) => void
   onOpenScript?: (id: string) => void
-  onCreateAndBindScript?: () => void
-  /** ED-5J:新建物品私有脚本(use 槽);提供时在「添加效果」旁显示入口。 */
+  /** ED-5J: 新建当前物品脚本（use 槽）；提供时在“添加效果”旁显示入口。 */
   onAddPrivateScript?: () => void
   onError?: (message: string) => void
   itemId?: string
@@ -1265,7 +1255,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
           entries={use.effects.map((effect, index) => ({
             key: reorderKeys.keys[index]!,
             label: props.privateScripts?.[index]
-              ? '物品私有脚本'
+              ? '当前物品脚本'
               : (EFFECT_KINDS.find((entry) => entry.value === effect.kind)?.label ?? effect.kind),
             disabled: isExclusiveEffect(effect),
           }))}
@@ -1286,7 +1276,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
                   kindControl={
                     privateScript ? (
                       <DsReadonlyValue className="item-private-script-kind">
-                        物品私有脚本
+                        当前物品脚本
                       </DsReadonlyValue>
                     ) : (
                       <DsSelect
@@ -1317,7 +1307,6 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
                         scripts={scripts}
                         onChange={(next) => replaceAt(index, next)}
                         onOpenScript={props.onOpenScript}
-                        onCreateAndBindScript={props.onCreateAndBindScript}
                         subjectItemId={props.itemId}
                         consuming={use.consuming}
                         scenes={props.scenes}
@@ -1375,7 +1364,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
               }
               onClick={() => props.onAddPrivateScript?.()}
             >
-              添加脚本
+              添加当前物品脚本
             </DsButton>
           ) : null}
         </div>
@@ -1899,7 +1888,6 @@ function sameItemEffectChainProps(
     left.onChange === right.onChange &&
     left.onError === right.onError &&
     left.onOpenScript === right.onOpenScript &&
-    left.onCreateAndBindScript === right.onCreateAndBindScript &&
     left.onAddPrivateScript === right.onAddPrivateScript &&
     left.itemId === right.itemId &&
     left.scenes === right.scenes &&

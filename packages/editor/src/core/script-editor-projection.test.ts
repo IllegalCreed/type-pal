@@ -74,6 +74,34 @@ describe('current script editor projection', () => {
     expect(merged.sharedScripts).toEqual(canonical.sharedScripts)
   })
 
+  test('shell removal does not revive a detached canonical item script', () => {
+    const shellItem = {
+      ...(item('stale') as unknown as ItemData),
+      use: { target: 'scene' as const, consuming: true, effects: [] },
+    }
+    const projected = projectActiveScriptEditorState(canonical, [shellItem])
+    expect(projected.items[0]!.use!.effects).toEqual([])
+
+    const merged = mergeEditorProjectionWithCurrentAuthorState(canonical, {
+      scenes: [],
+      items: [shellItem],
+      sharedScripts: {},
+    } as unknown as EditorState)
+    expect(merged.items[0]!.use!.effects).toEqual([])
+
+    const shellWithoutUse = { ...shellItem } as ItemData
+    delete shellWithoutUse.use
+    expect(
+      projectActiveScriptEditorState(canonical, [shellWithoutUse]).items[0]!.use,
+    ).toBeUndefined()
+    const mergedWithoutUse = mergeEditorProjectionWithCurrentAuthorState(canonical, {
+      scenes: [],
+      items: [shellWithoutUse],
+      sharedScripts: {},
+    } as unknown as EditorState)
+    expect(mergedWithoutUse.items[0]!.use).toBeUndefined()
+  })
+
   test('projects only reference-relevant slices without mutating shell metadata', () => {
     const shell = {
       scenes: [

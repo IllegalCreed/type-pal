@@ -17,6 +17,7 @@ import {
   CopySceneHookCommand,
   collectScriptReferenceIssues,
   DeleteEntityBehaviorCommand,
+  DeleteItemPrivateScriptCommand,
   DeleteSceneEntityDefinitionCommand,
   DeleteSceneHookCommand,
   DeleteSharedScriptCommand,
@@ -534,6 +535,33 @@ describe('canonical script editor commands', () => {
       kind: 'itemPrivateScript',
       script: { id: 'use', label: '私有脚本物品私有脚本', body: [] },
     })
+  })
+
+  test('deletes an item-private script and can rebuild a detached legacy remainder', () => {
+    const session = new ScriptEditSession(editorState())
+    session.dispatch(new DeleteItemPrivateScriptCommand('private', 'use', 'use'))
+    expect(session.getState().items[0]!.use!.effects).toHaveLength(0)
+    expect(session.undo()).toBe(true)
+    expect(session.getState().items[0]!.use!.effects[0]).toMatchObject({
+      kind: 'itemPrivateScript',
+      script: { body: [{ kind: 'selectEntityBehavior' }] },
+    })
+    expect(session.redo()).toBe(true)
+    expect(session.getState().items[0]!.use!.effects).toHaveLength(0)
+    expect(() =>
+      session.dispatch(new DeleteItemPrivateScriptCommand('private', 'use', 'use')),
+    ).toThrow(/不存在当前物品脚本/)
+
+    session.undo()
+    session.dispatch(
+      new AddItemPrivateScriptCommand('private', '重新添加', { replaceDetached: true }),
+    )
+    expect(session.getState().items[0]!.use!.effects).toEqual([
+      {
+        kind: 'itemPrivateScript',
+        script: { id: 'use', label: '重新添加', body: [] },
+      },
+    ])
   })
 
   test('creates and edits canonical shared scripts and rejects referenced deletion', () => {

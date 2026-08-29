@@ -10207,7 +10207,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .item-script-binding {
   display: grid;
-  grid-template-columns: minmax(180px, 1fr) auto auto;
+  grid-template-columns: minmax(180px, 1fr) auto;
   align-items: end;
   gap: 7px;
   min-width: 0;

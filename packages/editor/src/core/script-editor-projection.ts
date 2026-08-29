@@ -89,10 +89,7 @@ function mergeCurrentItemShell(
         : [],
     ),
   )
-  if (!next.use && canonicalPrivate.size > 0)
-    next.use = { target: 'scene', consuming: true, effects: [] }
   if (next.use) {
-    const used = new Set<string>()
     const effects: NonNullable<AuthorItemData['use']>['effects'] = []
     for (const effect of shell.use?.effects ?? []) {
       const projectedPrivate = effect as unknown as {
@@ -104,7 +101,6 @@ function mergeCurrentItemShell(
         if (id !== 'use') continue
         const replacement = canonicalPrivate.get(id)
         if (!replacement) continue
-        used.add(id)
         effects.push(structuredClone(replacement))
         continue
       }
@@ -117,7 +113,6 @@ function mergeCurrentItemShell(
         if (id !== 'use') continue
         const replacement = canonicalPrivate.get(id)
         if (!replacement) continue
-        used.add(id)
         effects.push(structuredClone(replacement))
         continue
       }
@@ -127,8 +122,6 @@ function mergeCurrentItemShell(
       }
       effects.push(structuredClone(effect))
     }
-    for (const [id, effect] of canonicalPrivate)
-      if (!used.has(id)) effects.push(structuredClone(effect))
     next.use.effects = effects
   }
   return next
