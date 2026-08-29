@@ -321,6 +321,32 @@ describe('ItemEffectChainEditor', () => {
     expect(addEffect.classList).toContain('ds-button')
     expect(addEffect.classList).toContain('ds-button--primary')
     expect(addEffect.classList).toContain('ds-button--compact')
+    const useOptions = host.querySelector<HTMLElement>('.item-use-options')!
+    expect(useOptions.querySelectorAll(':scope > [data-ds-field-group]')).toHaveLength(2)
+    expect(
+      [...useOptions.querySelectorAll<HTMLElement>(':scope > [data-ds-field-group]')].every(
+        (group) => group.dataset.layout === 'stacked',
+      ),
+    ).toBe(true)
+    expect(
+      host
+        .querySelector<HTMLButtonElement>('[aria-label="使用目标"]')!
+        .classList.contains('ds-select--compact'),
+    ).toBe(false)
+    expect(
+      [...host.querySelectorAll<HTMLElement>('[data-effect-editor-card]')].every(
+        (card) => card.dataset.density === 'default',
+      ),
+    ).toBe(true)
+    expect(
+      [
+        ...host.querySelectorAll<HTMLElement>('[data-effect-fields-layout="item"]'),
+      ].every(
+        (grid) =>
+          grid.querySelector(':scope > [data-ds-field-group]')?.getAttribute('data-layout') ===
+          'stacked',
+      ),
+    ).toBe(true)
     expect(
       host.querySelector<HTMLButtonElement>('button[aria-label="下移效果 1"]')?.classList,
     ).toContain('ds-icon-button')
@@ -361,6 +387,75 @@ describe('ItemEffectChainEditor', () => {
     expect(onChange).toHaveBeenLastCalledWith(expect.objectContaining({ effects: [] }))
     expect(host.textContent).toContain('当前没有效果')
     expect(buttonByText(host, '添加效果')?.disabled).toBe(false)
+    expect(document.activeElement).toBe(buttonByText(host, '添加效果'))
+  })
+
+  test('非首卡切换为独占效果时保留该卡与类型焦点', async () => {
+    const onChange = vi.fn()
+    await act(async () =>
+      root.render(
+        <Harness
+          initial={{
+            target: 'oneAlly',
+            consuming: true,
+            effects: [
+              { kind: 'healHp', amount: 10 },
+              { kind: 'healMp', amount: 20 },
+            ],
+          }}
+          onChange={onChange}
+        />,
+      ),
+    )
+
+    const secondType = host.querySelector<HTMLButtonElement>('[aria-label="效果 2 类型"]')!
+    await chooseSelect(secondType, '调用场景钩子')
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        effects: [expect.objectContaining({ kind: 'runSceneHook', hook: 'onTeleport' })],
+      }),
+    )
+    expect(host.querySelectorAll('[data-effect-editor-card]')).toHaveLength(1)
+    const retainedType = host.querySelector<HTMLButtonElement>('[aria-label="效果 1 类型"]')!
+    expect(retainedType.textContent).toContain('调用场景钩子')
+    await act(
+      async () =>
+        new Promise<void>((resolve) => {
+          requestAnimationFrame(() => resolve())
+        }),
+    )
+    expect(document.activeElement).toBe(retainedType)
+  })
+
+  test('状态效果的选择器与短数字字段共享默认密度且由字段组自适应分列', async () => {
+    await act(async () =>
+      root.render(
+        <Harness
+          initial={{
+            target: 'oneAlly',
+            consuming: true,
+            effects: [{ kind: 'applyStatus', status: 'protect', turns: 3 }],
+          }}
+        />,
+      ),
+    )
+
+    const card = host.querySelector<HTMLElement>('[data-effect-editor-card]')!
+    const grid = card.querySelector<HTMLElement>('[data-effect-fields-layout="item"]')!
+    const status = card.querySelector<HTMLButtonElement>('[aria-label="状态"]')!
+    const turns = card.querySelector<HTMLInputElement>('input[type="number"]')!
+    expect(card.dataset.density).toBe('default')
+    expect(grid.querySelectorAll(':scope > [data-ds-field-group]')).toHaveLength(2)
+    expect(
+      [...grid.querySelectorAll<HTMLElement>(':scope > [data-ds-field-group]')].every(
+        (group) => group.dataset.layout === 'stacked',
+      ),
+    ).toBe(true)
+    expect(status.classList.contains('ds-select--compact')).toBe(false)
+    expect(status.closest('.ds-field')?.querySelector('.ds-field__label')?.textContent).toBe('状态')
+    expect(turns.closest('.ds-number-field')).not.toBeNull()
+    expect(turns.classList.contains('ds-input--compact')).toBe(false)
   })
 
   test('物品私有脚本可与其他效果组合、排序和删除，私有正文始终跟随效果', async () => {
@@ -534,6 +629,18 @@ describe('ItemEffectChainEditor', () => {
 
     const target = host.querySelector<HTMLButtonElement>('[aria-label="投掷目标"]')!
     expect(target.textContent).toContain('单个敌人')
+    expect(target.classList.contains('ds-select--compact')).toBe(false)
+    expect(
+      host.querySelector('.item-use-options > [data-ds-field-group]')?.getAttribute('data-layout'),
+    ).toBe('stacked')
+    expect(host.querySelector('[data-effect-editor-card]')?.getAttribute('data-density')).toBe(
+      'default',
+    )
+    expect(
+      host
+        .querySelector('[data-effect-fields-layout="item"] > [data-ds-field-group]')
+        ?.getAttribute('data-layout'),
+    ).toBe('stacked')
     await act(async () => target.click())
     expect(document.querySelector('[role="listbox"]')?.textContent).toContain('全体敌人')
     const allEnemies = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(

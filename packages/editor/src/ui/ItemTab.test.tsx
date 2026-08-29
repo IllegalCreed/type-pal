@@ -302,6 +302,12 @@ describe('ItemTab', () => {
         (heading) => heading.textContent,
       ),
     ).toEqual(['图标资源', '身份信息', '交易信息', '显示文本'])
+    const identity = host.querySelector('.item-identity-section')!
+    expect(identity.querySelector('[data-ds-field-group]')).not.toBeNull()
+    expect(identity.querySelector('[data-ds-readout-list]')).not.toBeNull()
+    expect(identity.querySelector('.item-readonly-field')).toBeNull()
+    expect(identity.querySelector('.ds-readout-row__label')?.textContent).toBe('稳定 ID')
+    expect(identity.querySelector('.ds-readout-row__value')?.textContent).toBe('item-001')
     expect(host.querySelector('.ds-list-header')?.textContent).not.toContain('复制')
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('.item-icon-actions button')].every(

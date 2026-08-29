@@ -1610,30 +1610,6 @@
     },
     {
       "source": "editor.css",
-      "selectorText": ".item-readonly-field code",
-      "condition": "default",
-      "declarations": [
-        "text-overflow:ellipsis",
-        "white-space:nowrap"
-      ],
-      "specificity": [
-        0,
-        1,
-        1
-      ],
-      "producer": {
-        "source": "ItemTab.tsx",
-        "component": "ItemTab",
-        "callsite": "class:item-readonly-field"
-      },
-      "policy": "selection-summary",
-      "contentKind": "selection-summary",
-      "reveal": "selected-detail",
-      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
-      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
-    },
-    {
-      "source": "editor.css",
       "selectorText": ".item-recipe-delete",
       "condition": "default",
       "declarations": [

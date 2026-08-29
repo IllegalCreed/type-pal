@@ -76,10 +76,13 @@ import {
   DsObjectHero,
   DsObjectWorkspace,
   DsObjectWorkspaceContent,
-  DsNumberFieldGrid,
+  DsOverflowText,
   DsPressable,
+  DsNumberFieldGrid,
   DsPropertyGrid,
   DsPropertyRow,
+  DsReadoutList,
+  DsReadoutRow,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
@@ -1498,22 +1501,27 @@ export function ItemTab(props: {
                     </div>
                   </div>
                   <div className="item-identity-fields">
-                    <label className="item-field" htmlFor="item-name">
-                      <span>名称</span>
-                      <DsDraftTextInput
-                        name="item-name"
-                        id="item-name"
-                        autoComplete="off"
-                        draftKey={`item:${item.id}:name`}
-                        syncToken={session.getHistoryVersion()}
-                        value={item.name}
-                        onCommit={(value) => patch({ name: value })}
-                      />
-                    </label>
-                    <div className="item-readonly-field">
-                      <span>稳定 ID</span>
-                      <code>{item.id}</code>
-                    </div>
+                    <DsFieldGroup>
+                      <DsField id="item-name" label="名称">
+                        {(field) => (
+                          <DsDraftTextInput
+                            name="item-name"
+                            id={field.id}
+                            aria-describedby={field['aria-describedby']}
+                            autoComplete="off"
+                            draftKey={`item:${item.id}:name`}
+                            syncToken={session.getHistoryVersion()}
+                            value={item.name}
+                            onCommit={(value) => patch({ name: value })}
+                          />
+                        )}
+                      </DsField>
+                    </DsFieldGroup>
+                    <DsReadoutList>
+                      <DsReadoutRow label="稳定 ID">
+                        <DsOverflowText as="code">{item.id}</DsOverflowText>
+                      </DsReadoutRow>
+                    </DsReadoutList>
                   </div>
                 </section>
 

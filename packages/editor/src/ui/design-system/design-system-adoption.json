@@ -1969,7 +1969,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + custom:.item-icon-browser-grid + DsInspectorTabs",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextArea + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsPropertyRow + DsSelect + DsSwitch + DsTextInput",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextArea + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsPropertyRow + DsReadoutList + DsSelect + DsSwitch + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

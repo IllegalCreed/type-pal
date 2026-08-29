@@ -408,7 +408,7 @@ describe('editor design-system static boundary', () => {
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
-    expect(specification).toContain('ED-FIELD-LAYOUT-1（v2.14.0）')
+    expect(specification).toContain('ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）')
     expect(specification).toContain('ED-TEXT-OVERFLOW-1（v2.18.0）')
     expect(primitives).toMatch(
       /\.ds-add-picker-dialog \.ds-overlay__body\s*\{[\s\S]*?overflow:\s*hidden;/,
@@ -576,7 +576,7 @@ describe('editor design-system static boundary', () => {
       button: 0,
       input: 0,
       textarea: 0,
-      label: 37,
+      label: 32,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {

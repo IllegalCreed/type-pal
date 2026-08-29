@@ -358,7 +358,7 @@
     {
       "source": "ItemUseEffectEditor.tsx",
       "component": "NumberField",
-      "match": { "context": "none", "fieldClass": "item-effect-field" },
+      "match": { "context": "field-group", "fieldClass": "item-effect-field" },
       "count": 1,
       "mode": "bounded-exception",
       "control": "DsDraftNumberField",

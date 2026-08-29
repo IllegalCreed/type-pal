@@ -13,17 +13,21 @@ import type {
   UseSpec,
 } from '@type-pal/content'
 import { itemUseEffectSupportsContext } from '@type-pal/content'
-import { createContext, memo, type ReactNode, useContext } from 'react'
+import { createContext, memo, type ComponentProps, type ReactNode, useContext } from 'react'
 import {
   DsButton,
   DsCheckbox,
   DsDraftNumberField,
   DsDraftNumberInput,
-  DsDraftTextInput,
+  DsDraftTextField,
+  DsField,
+  DsFieldGroup,
   DsIconButton,
   DsReadonlyValue,
   DsSelect,
+  DsSelectField,
 } from './design-system/controls.js'
+import { DsRepeatRow } from './design-system/recipes.js'
 import {
   DsReorderCollection,
   DsReorderItem,
@@ -250,6 +254,88 @@ export function defaultItemUseEffect(
   }
 }
 
+type EffectSelectFieldProps = Pick<
+  ComponentProps<typeof DsSelectField>,
+  'label' | 'fieldClassName' | 'aria-label' | 'value' | 'options' | 'onValueChange' | 'disabled'
+>
+
+function EffectSelectField(props: EffectSelectFieldProps) {
+  return (
+    <DsFieldGroup layout="stacked">
+      <DsSelectField
+        label={props.label}
+        fieldClassName={props.fieldClassName ?? 'item-effect-field'}
+        aria-label={props['aria-label']}
+        value={props.value}
+        options={props.options}
+        disabled={props.disabled}
+        onValueChange={props.onValueChange}
+      />
+    </DsFieldGroup>
+  )
+}
+
+type EffectDraftTextFieldProps = Pick<
+  ComponentProps<typeof DsDraftTextField>,
+  | 'label'
+  | 'fieldClassName'
+  | 'draftKey'
+  | 'syncToken'
+  | 'monospace'
+  | 'value'
+  | 'onCommit'
+  | 'invalid'
+  | 'aria-label'
+  | 'placeholder'
+> & { wide?: boolean }
+
+function EffectDraftTextField(props: EffectDraftTextFieldProps) {
+  if (props.wide) {
+    return (
+      <DsFieldGroup layout="stacked" className="item-effect-field-wide">
+        <DsDraftTextField
+          label={props.label}
+          fieldClassName={props.fieldClassName ?? 'item-effect-field'}
+          draftKey={props.draftKey}
+          syncToken={props.syncToken}
+          monospace={props.monospace}
+          value={props.value}
+          invalid={props.invalid}
+          aria-label={props['aria-label']}
+          placeholder={props.placeholder}
+          onCommit={props.onCommit}
+        />
+      </DsFieldGroup>
+    )
+  }
+  return (
+    <DsFieldGroup layout="stacked">
+      <DsDraftTextField
+        label={props.label}
+        fieldClassName={props.fieldClassName ?? 'item-effect-field'}
+        draftKey={props.draftKey}
+        syncToken={props.syncToken}
+        monospace={props.monospace}
+        value={props.value}
+        invalid={props.invalid}
+        aria-label={props['aria-label']}
+        placeholder={props.placeholder}
+        onCommit={props.onCommit}
+      />
+    </DsFieldGroup>
+  )
+}
+
+function EffectReadonlyField(props: { label: string; children: ReactNode }) {
+  return (
+    <DsFieldGroup layout="stacked">
+      <DsField label={props.label} className="item-effect-field">
+        {props.children}
+      </DsField>
+    </DsFieldGroup>
+  )
+}
+
 function NumberField(props: {
   label: string
   value: number
@@ -261,30 +347,32 @@ function NumberField(props: {
 }) {
   const draft = useContext(ItemEffectDraftContext)
   return (
-    <DsDraftNumberField
-      label={props.label}
-      fieldClassName="item-effect-field"
-      draftKey={`${draft.scope}:number:${props.label}`}
-      syncToken={draft.syncToken}
-      min={props.min}
-      max={props.max}
-      enforceRange={false}
-      value={props.value}
-      integer
-      onCommit={(raw) => {
-        if (raw === undefined) return
-        let next = props.allowZero
-          ? Number.isFinite(raw)
-            ? Math.trunc(raw)
-            : 0
-          : props.signed
-            ? signed(raw)
-            : positive(raw)
-        if (props.min !== undefined) next = Math.max(props.min, next)
-        if (props.max !== undefined) next = Math.min(props.max, next)
-        props.onChange(next)
-      }}
-    />
+    <DsFieldGroup layout="stacked">
+      <DsDraftNumberField
+        label={props.label}
+        fieldClassName="item-effect-field"
+        draftKey={`${draft.scope}:number:${props.label}`}
+        syncToken={draft.syncToken}
+        min={props.min}
+        max={props.max}
+        enforceRange={false}
+        value={props.value}
+        integer
+        onCommit={(raw) => {
+          if (raw === undefined) return
+          let next = props.allowZero
+            ? Number.isFinite(raw)
+              ? Math.trunc(raw)
+              : 0
+            : props.signed
+              ? signed(raw)
+              : positive(raw)
+          if (props.min !== undefined) next = Math.max(props.min, next)
+          if (props.max !== undefined) next = Math.min(props.max, next)
+          props.onChange(next)
+        }}
+      />
+    </DsFieldGroup>
   )
 }
 
@@ -571,16 +659,14 @@ function EffectFields(props: {
     case 'applyStatus':
       return (
         <>
-          <div className="item-effect-field">
-            <span>状态</span>
-            <DsSelect
-              size="compact"
-              aria-label="状态"
-              value={effect.status}
-              options={STATUSES}
-              onValueChange={(value) => onChange({ ...effect, status: value as StatusId })}
-            />
-          </div>
+          <EffectSelectField
+            label="状态"
+            fieldClassName="item-effect-field"
+            aria-label="状态"
+            value={effect.status}
+            options={STATUSES}
+            onValueChange={(value) => onChange({ ...effect, status: value as StatusId })}
+          />
           <NumberField
             label="回合"
             value={effect.turns}
@@ -615,84 +701,76 @@ function EffectFields(props: {
       )
     case 'applyPoison':
       return (
-        <div className="item-effect-field">
-          <span>毒</span>
-          <DsSelect
-            size="compact"
-            aria-label="毒"
-            value={effect.poisonId}
-            options={[
-              ...(!poisons.some((poison) => String(poison.id) === effect.poisonId)
-                ? [{ value: effect.poisonId, label: `⚠ ${effect.poisonId}` }]
-                : []),
-              ...poisons.map((poison) => ({
-                value: String(poison.id),
-                label: poison.name,
-                description: String(poison.id),
-              })),
-            ]}
-            onValueChange={(value) => onChange({ ...effect, poisonId: value })}
-          />
-        </div>
+        <EffectSelectField
+          label="毒"
+          fieldClassName="item-effect-field"
+          aria-label="毒"
+          value={effect.poisonId}
+          options={[
+            ...(!poisons.some((poison) => String(poison.id) === effect.poisonId)
+              ? [{ value: effect.poisonId, label: `⚠ ${effect.poisonId}` }]
+              : []),
+            ...poisons.map((poison) => ({
+              value: String(poison.id),
+              label: poison.name,
+              description: String(poison.id),
+            })),
+          ]}
+          onValueChange={(value) => onChange({ ...effect, poisonId: value })}
+        />
       )
     case 'curePoison': {
       const mode = effect.poisonId ? 'poison' : 'tier'
       return (
         <>
-          <div className="item-effect-field">
-            <span>方式</span>
-            <DsSelect
-              size="compact"
-              aria-label="解毒方式"
-              value={mode}
+          <EffectSelectField
+            label="方式"
+            fieldClassName="item-effect-field"
+            aria-label="解毒方式"
+            value={mode}
+            options={[
+              { value: 'tier', label: '按可解等级' },
+              { value: 'poison', label: '指定毒', disabled: !poisons.length },
+            ]}
+            onValueChange={(value) =>
+              onChange(
+                value === 'poison'
+                  ? { kind: 'curePoison', poisonId: firstPoison(poisons) }
+                  : { kind: 'curePoison', curesTier: 'common' },
+              )
+            }
+          />
+          {mode === 'poison' ? (
+            <EffectSelectField
+              label="毒"
+              fieldClassName="item-effect-field"
+              aria-label="指定毒"
+              value={effect.poisonId ?? ''}
+              options={poisons.map((poison) => ({
+                value: String(poison.id),
+                label: poison.name,
+                description: String(poison.id),
+              }))}
+              onValueChange={(value) => onChange({ kind: 'curePoison', poisonId: value })}
+            />
+          ) : (
+            <EffectSelectField
+              label="最高等级"
+              fieldClassName="item-effect-field"
+              aria-label="可解毒最高等级"
+              value={effect.curesTier ?? 'common'}
               options={[
-                { value: 'tier', label: '按可解等级' },
-                { value: 'poison', label: '指定毒', disabled: !poisons.length },
+                { value: 'common', label: '常规' },
+                { value: 'severe', label: '剧毒' },
+                { value: 'incurable', label: '无解' },
               ]}
               onValueChange={(value) =>
-                onChange(
-                  value === 'poison'
-                    ? { kind: 'curePoison', poisonId: firstPoison(poisons) }
-                    : { kind: 'curePoison', curesTier: 'common' },
-                )
+                onChange({
+                  kind: 'curePoison',
+                  curesTier: value as PoisonCurability,
+                })
               }
             />
-          </div>
-          {mode === 'poison' ? (
-            <div className="item-effect-field">
-              <span>毒</span>
-              <DsSelect
-                size="compact"
-                aria-label="指定毒"
-                value={effect.poisonId ?? ''}
-                options={poisons.map((poison) => ({
-                  value: String(poison.id),
-                  label: poison.name,
-                  description: String(poison.id),
-                }))}
-                onValueChange={(value) => onChange({ kind: 'curePoison', poisonId: value })}
-              />
-            </div>
-          ) : (
-            <div className="item-effect-field">
-              <span>最高等级</span>
-              <DsSelect
-                size="compact"
-                aria-label="可解毒最高等级"
-                value={effect.curesTier ?? 'common'}
-                options={[
-                  { value: 'common', label: '常规' },
-                  { value: 'severe', label: '剧毒' },
-                  { value: 'incurable', label: '无解' },
-                ]}
-                onValueChange={(value) =>
-                  onChange({
-                    kind: 'curePoison',
-                    curesTier: value as PoisonCurability,
-                  })
-                }
-              />
-            </div>
           )}
         </>
       )
@@ -700,29 +778,27 @@ function EffectFields(props: {
     case 'permanentStatBoost':
       return (
         <>
-          <div className="item-effect-field">
-            <span>属性</span>
-            <DsSelect
-              size="compact"
-              aria-label="永久成长属性"
-              value={effect.stat}
-              options={[
-                { value: 'maxHP', label: '体力上限' },
-                { value: 'maxMP', label: '真气上限' },
-                { value: 'attack', label: '武术' },
-                { value: 'magicAttack', label: '灵力' },
-                { value: 'defense', label: '防御' },
-                { value: 'speed', label: '身法' },
-                { value: 'luck', label: '吉运' },
-              ]}
-              onValueChange={(value) =>
-                onChange({
-                  ...effect,
-                  stat: value as typeof effect.stat,
-                })
-              }
-            />
-          </div>
+          <EffectSelectField
+            label="属性"
+            fieldClassName="item-effect-field"
+            aria-label="永久成长属性"
+            value={effect.stat}
+            options={[
+              { value: 'maxHP', label: '体力上限' },
+              { value: 'maxMP', label: '真气上限' },
+              { value: 'attack', label: '武术' },
+              { value: 'magicAttack', label: '灵力' },
+              { value: 'defense', label: '防御' },
+              { value: 'speed', label: '身法' },
+              { value: 'luck', label: '吉运' },
+            ]}
+            onValueChange={(value) =>
+              onChange({
+                ...effect,
+                stat: value as typeof effect.stat,
+              })
+            }
+          />
           <NumberField
             label="增量"
             value={effect.delta}
@@ -745,28 +821,25 @@ function EffectFields(props: {
       const current = scripts.find((script) => script.ref.id === effect.script.id)
       return (
         <div className="item-script-binding">
-          <div className="item-effect-field">
-            <span>可复用脚本</span>
-            <DsSelect
-              size="compact"
-              aria-label="可复用脚本"
-              value={effect.script.id}
-              options={[
-                ...(!current ? [{ value: effect.script.id, label: `⚠ ${effect.script.id}` }] : []),
-                ...scripts.map((script) => ({
-                  value: script.ref.id,
-                  label: script.label,
-                  description: script.ref.id,
-                })),
-              ]}
-              onValueChange={(value) => {
-                const option = scripts.find((script) => script.ref.id === value)
-                if (option) onChange({ ...effect, script: option.ref })
-              }}
-            />
-          </div>
+          <EffectSelectField
+            label="可复用脚本"
+            fieldClassName="item-effect-field"
+            aria-label="可复用脚本"
+            value={effect.script.id}
+            options={[
+              ...(!current ? [{ value: effect.script.id, label: `⚠ ${effect.script.id}` }] : []),
+              ...scripts.map((script) => ({
+                value: script.ref.id,
+                label: script.label,
+                description: script.ref.id,
+              })),
+            ]}
+            onValueChange={(value) => {
+              const option = scripts.find((script) => script.ref.id === value)
+              if (option) onChange({ ...effect, script: option.ref })
+            }}
+          />
           <DsButton
-            size="compact"
             variant="secondary"
             icon="open"
             disabled={!effect.script.id || !props.onOpenScript}
@@ -780,26 +853,24 @@ function EffectFields(props: {
     case 'runSceneHook':
       return (
         <>
-          <div className="item-effect-field">
-            <span>当前场景钩子</span>
+          <EffectReadonlyField label="当前场景钩子">
             <DsReadonlyValue className="item-effect-readonly">传送出口 onTeleport</DsReadonlyValue>
-          </div>
-          <label className="item-effect-field item-effect-field-wide">
-            <span>不可用提示</span>
-            <DsDraftTextInput
-              draftKey={`${draft.scope}:unavailableMessage`}
-              syncToken={draft.syncToken}
-              value={effect.unavailableMessage ?? ''}
-              placeholder="留空则使用默认提示"
-              onCommit={(value) => {
-                onChange(
-                  value
-                    ? { ...effect, unavailableMessage: value }
-                    : { kind: 'runSceneHook', hook: effect.hook },
-                )
-              }}
-            />
-          </label>
+          </EffectReadonlyField>
+          <EffectDraftTextField
+            label="不可用提示"
+            wide
+            draftKey={`${draft.scope}:unavailableMessage`}
+            syncToken={draft.syncToken}
+            value={effect.unavailableMessage ?? ''}
+            placeholder="留空则使用默认提示"
+            onCommit={(value) => {
+              onChange(
+                value
+                  ? { ...effect, unavailableMessage: value }
+                  : { kind: 'runSceneHook', hook: effect.hook },
+              )
+            }}
+          />
         </>
       )
     case 'craftRecipe':
@@ -811,15 +882,14 @@ function EffectFields(props: {
             excludedIngredientItemId={props.consuming ? props.subjectItemId : undefined}
             onChange={(recipes) => onChange({ ...effect, recipes })}
           />
-          <label className="item-effect-field item-effect-field-wide">
-            <span>材料不足提示</span>
-            <DsDraftTextInput
-              draftKey={`${draft.scope}:recipeUnavailableMessage`}
-              syncToken={draft.syncToken}
-              value={effect.unavailableMessage ?? ''}
-              onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
-            />
-          </label>
+          <EffectDraftTextField
+            label="材料不足提示"
+            wide
+            draftKey={`${draft.scope}:recipeUnavailableMessage`}
+            syncToken={draft.syncToken}
+            value={effect.unavailableMessage ?? ''}
+            onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
+          />
         </div>
       )
     case 'drawFromResourcePool': {
@@ -832,19 +902,17 @@ function EffectFields(props: {
       }
       return (
         <div className="item-effect-block">
-          <div className="item-effect-grid">
-            <div className="item-effect-field">
-              <span>资源变量</span>
-              <DsDraftTextInput
-                draftKey={`${draft.scope}:resource`}
-                syncToken={draft.syncToken}
-                monospace
-                value={effect.resource}
-                onCommit={(value) => onChange({ ...effect, resource: value.trim() })}
-                invalid={effect.resource !== resourceName}
-                aria-label="资源变量名称"
-              />
-            </div>
+          <div className="item-effect-grid item-effect-nested-grid">
+            <EffectDraftTextField
+              label="资源变量"
+              draftKey={`${draft.scope}:resource`}
+              syncToken={draft.syncToken}
+              monospace
+              value={effect.resource}
+              onCommit={(value) => onChange({ ...effect, resource: value.trim() })}
+              invalid={effect.resource !== resourceName}
+              aria-label="资源变量名称"
+            />
             <NumberField
               label="最大点数"
               value={effect.maxRoll}
@@ -863,15 +931,14 @@ function EffectFields(props: {
             随机抽取 1…当前资源值，封顶为 {effect.maxRoll}；扣除抽中点数后，使用对应档位的奖励。
             各启动入口的资源初始值在“项目设置 → 入口与开局”中分别配置。
           </p>
-          <label className="item-effect-field item-effect-field-wide">
-            <span>不可用提示</span>
-            <DsDraftTextInput
-              draftKey={`${draft.scope}:poolUnavailableMessage`}
-              syncToken={draft.syncToken}
-              value={effect.unavailableMessage ?? ''}
-              onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
-            />
-          </label>
+          <EffectDraftTextField
+            label="不可用提示"
+            wide
+            draftKey={`${draft.scope}:poolUnavailableMessage`}
+            syncToken={draft.syncToken}
+            value={effect.unavailableMessage ?? ''}
+            onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
+          />
         </div>
       )
     }
@@ -895,24 +962,22 @@ function EffectFields(props: {
     case 'modifyHostileAwareness':
       return (
         <>
-          <div className="item-effect-field">
-            <span>感知范围</span>
-            <DsSelect
-              size="compact"
-              aria-label="明雷感知范围"
-              value={String(effect.rangeMultiplier)}
-              options={[
-                { value: '0', label: '停止追逐' },
-                { value: '3', label: '扩大至 3 倍' },
-              ]}
-              onValueChange={(value) =>
-                onChange({
-                  ...effect,
-                  rangeMultiplier: Number(value) as 0 | 3,
-                })
-              }
-            />
-          </div>
+          <EffectSelectField
+            label="感知范围"
+            fieldClassName="item-effect-field"
+            aria-label="明雷感知范围"
+            value={String(effect.rangeMultiplier)}
+            options={[
+              { value: '0', label: '停止追逐' },
+              { value: '3', label: '扩大至 3 倍' },
+            ]}
+            onValueChange={(value) =>
+              onChange({
+                ...effect,
+                rangeMultiplier: Number(value) as 0 | 3,
+              })
+            }
+          />
           <NumberField
             label="持续毫秒"
             value={effect.durationMs}
@@ -957,73 +1022,68 @@ function EffectFields(props: {
       }
       return (
         <>
-          <div className="item-effect-field">
-            <span>场景</span>
-            <DsSelect
-              size="compact"
-              aria-label="目标场景"
-              value={effect.target.scene}
-              options={[
-                ...(!scene
-                  ? [{ value: effect.target.scene, label: `⚠ ${effect.target.scene}` }]
-                  : []),
-                ...scenes.map((candidate) => ({
-                  value: candidate.id,
-                  label: candidate.id,
-                  description: candidate.entities.length ? undefined : '无可放置实体',
-                  disabled: candidate.entities.length === 0,
-                })),
-              ]}
-              onValueChange={(value) => {
-                const nextScene = scenes.find((candidate) => candidate.id === value)
-                onChange({
-                  ...effect,
-                  target: {
-                    scene: value,
-                    entity: nextScene?.entities[0]?.id ?? effect.target.entity,
-                  },
-                })
-              }}
-            />
-          </div>
-          <div className="item-effect-field">
-            <span>实体</span>
-            <DsSelect
-              size="compact"
-              aria-label="目标实体"
-              value={effect.target.entity}
-              options={[
-                ...(!scene?.entities.some((entity) => entity.id === effect.target.entity)
-                  ? [{ value: effect.target.entity, label: `⚠ ${effect.target.entity}` }]
-                  : []),
-                ...(scene?.entities.map((entity) => ({
-                  value: entity.id,
-                  label: entityLabel(entity),
-                })) ?? []),
-              ]}
-              onValueChange={(value) =>
-                onChange({
-                  ...effect,
-                  target: { ...effect.target, entity: value },
-                })
-              }
-            />
-          </div>
+          <EffectSelectField
+            label="场景"
+            fieldClassName="item-effect-field"
+            aria-label="目标场景"
+            value={effect.target.scene}
+            options={[
+              ...(!scene
+                ? [{ value: effect.target.scene, label: `⚠ ${effect.target.scene}` }]
+                : []),
+              ...scenes.map((candidate) => ({
+                value: candidate.id,
+                label: candidate.id,
+                description: candidate.entities.length ? undefined : '无可放置实体',
+                disabled: candidate.entities.length === 0,
+              })),
+            ]}
+            onValueChange={(value) => {
+              const nextScene = scenes.find((candidate) => candidate.id === value)
+              onChange({
+                ...effect,
+                target: {
+                  scene: value,
+                  entity: nextScene?.entities[0]?.id ?? effect.target.entity,
+                },
+              })
+            }}
+          />
+          <EffectSelectField
+            label="实体"
+            fieldClassName="item-effect-field"
+            aria-label="目标实体"
+            value={effect.target.entity}
+            options={[
+              ...(!scene?.entities.some((entity) => entity.id === effect.target.entity)
+                ? [{ value: effect.target.entity, label: `⚠ ${effect.target.entity}` }]
+                : []),
+              ...(scene?.entities.map((entity) => ({
+                value: entity.id,
+                label: entityLabel(entity),
+              })) ?? []),
+            ]}
+            onValueChange={(value) =>
+              onChange({
+                ...effect,
+                target: { ...effect.target, entity: value },
+              })
+            }
+          />
           <NumberField
             label="放置后的状态"
             value={effect.state}
             allowZero
             onChange={(state) => onChange({ ...effect, state })}
           />
-          <label className="item-effect-field item-effect-field-wide">
-            <span>无法放置时提示</span>
-            <DsDraftTextInput
-              draftKey={`${draft.scope}:placementUnavailableMessage`}
-              syncToken={draft.syncToken}
-              value={effect.unavailableMessage ?? ''}
-              onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
-            />
-          </label>
+          <EffectDraftTextField
+            label="无法放置时提示"
+            wide
+            draftKey={`${draft.scope}:placementUnavailableMessage`}
+            syncToken={draft.syncToken}
+            value={effect.unavailableMessage ?? ''}
+            onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
+          />
         </>
       )
     }
@@ -1164,87 +1224,86 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
         label="物品使用效果"
       >
         <div className="item-use-options">
-          <div className="item-effect-field">
-            <span>目标</span>
-            <DsSelect
-              size="compact"
-              aria-label="使用目标"
-              value={use.target}
-              disabled={use.effects.some(
-                (effect) =>
-                  isSceneEffect(effect) ||
-                  (isPrivateScriptEffect(effect) &&
-                    !use.effects.some(
-                      (candidate) =>
-                        !isSceneEffect(candidate) &&
-                        !isPrivateScriptEffect(candidate) &&
-                        candidate.kind !== 'gate',
-                    )) ||
-                  effect.kind === 'hideParty',
-              )}
-              options={[
-                { value: 'oneAlly', label: '一名队友' },
-                { value: 'allAllies', label: '全体队友' },
-                { value: 'self', label: '使用者' },
-                { value: 'scene', label: '当前场景' },
-              ]}
-              onValueChange={(value) =>
-                onChange({ ...use, target: value as NonNullable<UseSpec['target']> })
-              }
-            />
-          </div>
-          <DsCheckbox
-            className="item-inline-check"
-            label="成功后消耗"
-            checked={use.consuming}
-            onChange={(event) => {
-              const consuming = event.target.checked
-              const selfIsIngredient =
-                consuming &&
-                use.effects.some(
-                  (effect) =>
-                    effect.kind === 'craftRecipe' &&
-                    effect.recipes.some((recipe) =>
-                      recipe.ingredients.some((entry) => entry.itemId === props.itemId),
-                    ),
-                )
-              if (selfIsIngredient) {
-                props.onError?.('先从配方材料中移除当前工具，再开启“成功后消耗”。')
-                return
-              }
-              onChange({ ...use, consuming })
-            }}
-          />
-          <DsCheckbox
-            className="item-inline-check"
-            label="仅战斗可用"
-            checked={use.battleOnly === true}
-            disabled={
-              !use.effects.length ||
-              !use.effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
-            }
-            onChange={(event) =>
-              onChange({ ...use, battleOnly: event.target.checked || undefined })
+          <EffectSelectField
+            label="目标"
+            aria-label="使用目标"
+            value={use.target}
+            disabled={use.effects.some(
+              (effect) =>
+                isSceneEffect(effect) ||
+                (isPrivateScriptEffect(effect) &&
+                  !use.effects.some(
+                    (candidate) =>
+                      !isSceneEffect(candidate) &&
+                      !isPrivateScriptEffect(candidate) &&
+                      candidate.kind !== 'gate',
+                  )) ||
+                effect.kind === 'hideParty',
+            )}
+            options={[
+              { value: 'oneAlly', label: '一名队友' },
+              { value: 'allAllies', label: '全体队友' },
+              { value: 'self', label: '使用者' },
+              { value: 'scene', label: '当前场景' },
+            ]}
+            onValueChange={(value) =>
+              onChange({ ...use, target: value as NonNullable<UseSpec['target']> })
             }
           />
-          <div className="item-effect-field">
-            <span>成功后菜单</span>
-            <DsSelect
-              size="compact"
-              aria-label="使用成功后菜单"
-              value={use.menuAfterUse ?? 'keep'}
-              options={[
-                { value: 'keep', label: '保留物品菜单' },
-                { value: 'close', label: '关闭菜单' },
-              ]}
-              onValueChange={(value) =>
-                onChange({
-                  ...use,
-                  menuAfterUse: value as NonNullable<UseSpec['menuAfterUse']>,
-                })
-              }
-            />
-          </div>
+          <fieldset className="item-use-rules">
+            <legend>使用规则</legend>
+            <div>
+              <DsCheckbox
+                className="item-inline-check"
+                label="成功后消耗"
+                checked={use.consuming}
+                onChange={(event) => {
+                  const consuming = event.target.checked
+                  const selfIsIngredient =
+                    consuming &&
+                    use.effects.some(
+                      (effect) =>
+                        effect.kind === 'craftRecipe' &&
+                        effect.recipes.some((recipe) =>
+                          recipe.ingredients.some((entry) => entry.itemId === props.itemId),
+                        ),
+                    )
+                  if (selfIsIngredient) {
+                    props.onError?.('先从配方材料中移除当前工具，再开启“成功后消耗”。')
+                    return
+                  }
+                  onChange({ ...use, consuming })
+                }}
+              />
+              <DsCheckbox
+                className="item-inline-check"
+                label="仅战斗可用"
+                checked={use.battleOnly === true}
+                disabled={
+                  !use.effects.length ||
+                  !use.effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
+                }
+                onChange={(event) =>
+                  onChange({ ...use, battleOnly: event.target.checked || undefined })
+                }
+              />
+            </div>
+          </fieldset>
+          <EffectSelectField
+            label="成功后菜单"
+            aria-label="使用成功后菜单"
+            value={use.menuAfterUse ?? 'keep'}
+            options={[
+              { value: 'keep', label: '保留物品菜单' },
+              { value: 'close', label: '关闭菜单' },
+            ]}
+            onValueChange={(value) =>
+              onChange({
+                ...use,
+                menuAfterUse: value as NonNullable<UseSpec['menuAfterUse']>,
+              })
+            }
+          />
         </div>
 
         <DsReorderCollection
@@ -1425,54 +1484,50 @@ function ThrowEffectFields(props: {
             allowZero
             onChange={(baseDamage) => onChange({ ...effect, baseDamage })}
           />
-          <div className="item-effect-field">
-            <span>元素</span>
-            <DsSelect
-              size="compact"
-              aria-label="投掷元素"
-              value={effect.element}
-              options={[
-                { value: 'none', label: '无' },
-                { value: 'wind', label: '风' },
-                { value: 'thunder', label: '雷' },
-                { value: 'water', label: '水' },
-                { value: 'fire', label: '火' },
-                { value: 'earth', label: '土' },
-                { value: 'poison', label: '毒' },
-              ]}
-              onValueChange={(value) =>
-                onChange({
-                  ...effect,
-                  element: value as typeof effect.element,
-                })
-              }
-            />
-          </div>
-          <div className="item-effect-field">
-            <span>力量来源</span>
-            <DsSelect
-              size="compact"
-              aria-label="投掷力量来源"
-              value={strength.kind}
-              options={[
-                { value: 'fixed', label: '固定力量' },
-                { value: 'casterAttack', label: '按使用者武术随机' },
-              ]}
-              onValueChange={(value) =>
-                onChange({
-                  ...effect,
-                  strength:
-                    value === 'casterAttack'
-                      ? {
-                          kind: 'casterAttack',
-                          bonus: 0,
-                          multiplier: { kind: 'uniformInt', min: 0, max: 3 },
-                        }
-                      : { kind: 'fixed', value: 1 },
-                })
-              }
-            />
-          </div>
+          <EffectSelectField
+            label="元素"
+            fieldClassName="item-effect-field"
+            aria-label="投掷元素"
+            value={effect.element}
+            options={[
+              { value: 'none', label: '无' },
+              { value: 'wind', label: '风' },
+              { value: 'thunder', label: '雷' },
+              { value: 'water', label: '水' },
+              { value: 'fire', label: '火' },
+              { value: 'earth', label: '土' },
+              { value: 'poison', label: '毒' },
+            ]}
+            onValueChange={(value) =>
+              onChange({
+                ...effect,
+                element: value as typeof effect.element,
+              })
+            }
+          />
+          <EffectSelectField
+            label="力量来源"
+            fieldClassName="item-effect-field"
+            aria-label="投掷力量来源"
+            value={strength.kind}
+            options={[
+              { value: 'fixed', label: '固定力量' },
+              { value: 'casterAttack', label: '按使用者武术随机' },
+            ]}
+            onValueChange={(value) =>
+              onChange({
+                ...effect,
+                strength:
+                  value === 'casterAttack'
+                    ? {
+                        kind: 'casterAttack',
+                        bonus: 0,
+                        multiplier: { kind: 'uniformInt', min: 0, max: 3 },
+                      }
+                    : { kind: 'fixed', value: 1 },
+              })
+            }
+          />
           {strength.kind === 'fixed' ? (
             <NumberField
               label="固定力量"
@@ -1544,25 +1599,23 @@ function ThrowEffectFields(props: {
       )
     case 'applyPoison':
       return (
-        <div className="item-effect-field">
-          <span>毒</span>
-          <DsSelect
-            size="compact"
-            aria-label="投掷施毒"
-            value={effect.poisonId}
-            options={[
-              ...(!poisons.some((poison) => String(poison.id) === effect.poisonId)
-                ? [{ value: effect.poisonId, label: `⚠ ${effect.poisonId}` }]
-                : []),
-              ...poisons.map((poison) => ({
-                value: String(poison.id),
-                label: poison.name,
-                description: String(poison.id),
-              })),
-            ]}
-            onValueChange={(value) => onChange({ ...effect, poisonId: value })}
-          />
-        </div>
+        <EffectSelectField
+          label="毒"
+          fieldClassName="item-effect-field"
+          aria-label="投掷施毒"
+          value={effect.poisonId}
+          options={[
+            ...(!poisons.some((poison) => String(poison.id) === effect.poisonId)
+              ? [{ value: effect.poisonId, label: `⚠ ${effect.poisonId}` }]
+              : []),
+            ...poisons.map((poison) => ({
+              value: String(poison.id),
+              label: poison.name,
+              description: String(poison.id),
+            })),
+          ]}
+          onValueChange={(value) => onChange({ ...effect, poisonId: value })}
+        />
       )
     case 'currentHpDamage':
       return (
@@ -1597,40 +1650,36 @@ function ThrowEffectFields(props: {
     case 'applyStatus':
       return (
         <>
-          <div className="item-effect-field">
-            <span>状态</span>
-            <DsSelect
-              size="compact"
-              aria-label="投掷施加状态"
-              value={effect.status}
-              options={STATUSES}
-              onValueChange={(value) => onChange({ ...effect, status: value as StatusId })}
-            />
-          </div>
+          <EffectSelectField
+            label="状态"
+            fieldClassName="item-effect-field"
+            aria-label="投掷施加状态"
+            value={effect.status}
+            options={STATUSES}
+            onValueChange={(value) => onChange({ ...effect, status: value as StatusId })}
+          />
           <NumberField
             label="回合"
             value={effect.turns}
             min={1}
             onChange={(turns) => onChange({ ...effect, turns })}
           />
-          <div className="item-effect-field">
-            <span>被抵抗后</span>
-            <DsSelect
-              size="compact"
-              aria-label="状态被抵抗后"
-              value={effect.onResist}
-              options={[
-                { value: 'continue', label: '继续执行后续效果' },
-                { value: 'stopTarget', label: '停止当前目标的后续效果' },
-              ]}
-              onValueChange={(value) =>
-                onChange({
-                  ...effect,
-                  onResist: value as typeof effect.onResist,
-                })
-              }
-            />
-          </div>
+          <EffectSelectField
+            label="被抵抗后"
+            fieldClassName="item-effect-field"
+            aria-label="状态被抵抗后"
+            value={effect.onResist}
+            options={[
+              { value: 'continue', label: '继续执行后续效果' },
+              { value: 'stopTarget', label: '停止当前目标的后续效果' },
+            ]}
+            onValueChange={(value) =>
+              onChange({
+                ...effect,
+                onResist: value as typeof effect.onResist,
+              })
+            }
+          />
         </>
       )
     case 'killIfHpAtMost':
@@ -1704,24 +1753,22 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
         label="物品投掷效果"
       >
         <div className="item-use-options">
-          <div className="item-effect-field">
-            <span>投掷目标</span>
-            <DsSelect
-              size="compact"
-              aria-label="投掷目标"
-              value={spec.target}
-              options={[
-                { value: 'oneEnemy', label: '单个敌人' },
-                { value: 'allEnemies', label: '全体敌人' },
-              ]}
-              onValueChange={(value) =>
-                onChange({
-                  ...spec,
-                  target: value as ThrowSpec['target'],
-                })
-              }
-            />
-          </div>
+          <EffectSelectField
+            label="投掷目标"
+            fieldClassName="item-effect-field"
+            aria-label="投掷目标"
+            value={spec.target}
+            options={[
+              { value: 'oneEnemy', label: '单个敌人' },
+              { value: 'allEnemies', label: '全体敌人' },
+            ]}
+            onValueChange={(value) =>
+              onChange({
+                ...spec,
+                target: value as ThrowSpec['target'],
+              })
+            }
+          />
         </div>
 
         <DsReorderCollection

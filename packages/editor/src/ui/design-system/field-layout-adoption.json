@@ -15,7 +15,31 @@
     },
     { "source": "CutsceneTab.tsx", "component": "CutsceneTab", "responsive": 1, "stacked": 0 },
     { "source": "ItemTab.tsx", "component": "EquipEffectFields", "responsive": 1, "stacked": 0 },
-    { "source": "ItemTab.tsx", "component": "ItemTab", "responsive": 2, "stacked": 0 },
+    { "source": "ItemTab.tsx", "component": "ItemTab", "responsive": 3, "stacked": 0 },
+    {
+      "source": "ItemUseEffectEditor.tsx",
+      "component": "EffectDraftTextField",
+      "responsive": 0,
+      "stacked": 2
+    },
+    {
+      "source": "ItemUseEffectEditor.tsx",
+      "component": "EffectReadonlyField",
+      "responsive": 0,
+      "stacked": 1
+    },
+    {
+      "source": "ItemUseEffectEditor.tsx",
+      "component": "EffectSelectField",
+      "responsive": 0,
+      "stacked": 1
+    },
+    {
+      "source": "ItemUseEffectEditor.tsx",
+      "component": "NumberField",
+      "responsive": 0,
+      "stacked": 1
+    },
     {
       "source": "LevelingEditor.tsx",
       "component": "LevelingEditorImpl",
