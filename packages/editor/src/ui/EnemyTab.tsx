@@ -3,7 +3,7 @@
  * 左:敌人列表(过滤/➕新建);中:数值 + AI 规则表格 + 物品交互;右:敌队(⚔ 一键试打 =
  * 同源试玩页 ?battle=<team>,复用真实引擎零仿真偏差(本地项目 FSA 句柄跨不了源)。
  *
- * AI 规则表格:常见条件/动作下拉行编;物品交互与常用战败奖励均提供结构化编辑。
+ * AI 规则表格:常见条件/动作下拉行编;物品交互与常用击败后奖励均提供结构化编辑。
  * 未识别的高级 choreography/onDefeated 指令只读保留,编辑常用奖励时不得覆盖。
  */
 import type {
@@ -11,11 +11,11 @@ import type {
   AiCond,
   AiRule,
   AiTarget,
+  AuthorEnemyDef,
   AssetCatalogV1,
   AssetId,
   BattleSpriteDef,
   EnemyDef,
-  EnemyOnDefeatedCommand,
   EnemySounds,
   EnemyTeamDef,
   ItemData,
@@ -65,8 +65,10 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsSequenceIndex,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
+import { DsDialog } from './design-system/overlays.js'
 import {
   DsReorderCollection,
   DsReorderItem,
@@ -77,6 +79,13 @@ import {
   useDsReorderKeys,
 } from './design-system/reorder.js'
 import { EnemyAnimPreview } from './EnemyAnimPreview.js'
+import {
+  createEnemyDefeatedPresentationContext,
+  type EnemyDefeatedEventNode,
+  findEditableEnemyDefeatedItemReward,
+  presentEnemyDefeatedEvents,
+  replaceEditableEnemyDefeatedItemReward,
+} from './enemy-defeated-events.js'
 import {
   EnemyBattleSpriteThumbnail,
   EnemyBattleSpriteThumbnailCache,
@@ -95,6 +104,8 @@ type NumericEnemyStatKey =
   | 'exp'
   | 'cash'
   | 'collectValue'
+
+type AuthorEnemyDefeatedCommands = NonNullable<AuthorEnemyDef['onDefeated']>
 
 const ENEMY_STAT_GROUPS: readonly {
   id: string
@@ -184,78 +195,70 @@ function newEnemy(id: string, battleSprite: string): EnemyDef {
   }
 }
 
-type DefeatedGiveItemCommand = Extract<EnemyOnDefeatedCommand, { kind: 'giveItem' }>
-type DefeatedDialogCommand = Extract<EnemyOnDefeatedCommand, { kind: 'dialog' }>
-
-interface DefeatedItemReward {
-  startIndex: number
-  endIndex: number
-  itemId: string
-  count: number
-  probability: number
-  dialog?: DefeatedDialogCommand
-}
-
 function integerInRange(value: number, min: number, max: number, fallback: number): number {
   if (!Number.isFinite(value)) return fallback
   return Math.min(max, Math.max(min, Math.floor(value)))
 }
 
-function rewardSkipPercent(command: EnemyOnDefeatedCommand | undefined): number | undefined {
-  if (
-    command?.kind !== 'branch' ||
-    command.cond.kind !== 'chance' ||
-    command.then.length !== 1 ||
-    command.then[0]?.kind !== 'stopScript' ||
-    (command.else?.length ?? 0) !== 0
+function EnemyDefeatedEventTree(props: {
+  nodes: readonly EnemyDefeatedEventNode[]
+  level?: number
+}) {
+  const level = props.level ?? 1
+  if (!props.nodes.length) return <p className="enemy-defeated-event-tree__empty">没有事件。</p>
+  return (
+    <ol className="enemy-defeated-event-tree" aria-label={level === 1 ? '击败后事件执行顺序' : undefined}>
+      {props.nodes.map((node, index) => {
+        const row = (
+          <span className="enemy-defeated-event-tree__row">
+            <DsSequenceIndex value={index + 1} accessibleLabel={`第 ${index + 1} 步`} />
+            <span className="enemy-defeated-event-tree__copy">
+              <span className="enemy-defeated-event-tree__label">{node.label}</span>
+              {node.detail ? (
+                <span className="enemy-defeated-event-tree__detail">{node.detail}</span>
+              ) : null}
+            </span>
+            {node.invalid ? <DsTag tone="danger">引用异常</DsTag> : null}
+          </span>
+        )
+        return (
+          <li
+            className="enemy-defeated-event-tree__item"
+            data-event-kind={node.kind}
+            data-invalid={node.invalid || undefined}
+            key={node.path}
+          >
+            {node.arms ? (
+              <details className="enemy-defeated-event-tree__branch" open>
+                <summary
+                  onKeyDown={(event) => {
+                    if (event.key !== 'Enter' && event.key !== ' ') return
+                    event.preventDefault()
+                    const details = event.currentTarget.parentElement
+                    if (details instanceof HTMLDetailsElement) details.open = !details.open
+                  }}
+                >
+                  {row}
+                </summary>
+                {node.arms.map((arm) => (
+                  <section
+                    className="enemy-defeated-event-tree__arm"
+                    aria-label={arm.label}
+                    key={arm.path}
+                  >
+                    <h3>{arm.label}</h3>
+                    <EnemyDefeatedEventTree nodes={arm.nodes} level={level + 1} />
+                  </section>
+                ))}
+              </details>
+            ) : (
+              row
+            )}
+          </li>
+        )
+      })}
+    </ol>
   )
-    return undefined
-  return command.cond.percent
-}
-
-function findDefeatedItemReward(
-  commands: readonly EnemyOnDefeatedCommand[] | undefined,
-): DefeatedItemReward | undefined {
-  if (!commands) return undefined
-  const giveIndex = commands.findIndex((command) => command.kind === 'giveItem')
-  if (giveIndex < 0) return undefined
-  const give = commands[giveIndex] as DefeatedGiveItemCommand
-  const skipPercent = rewardSkipPercent(commands[giveIndex - 1])
-  const startIndex = skipPercent === undefined ? giveIndex : giveIndex - 1
-  const following = commands[giveIndex + 1]
-  const dialog = following?.kind === 'dialog' ? following : undefined
-  return {
-    startIndex,
-    endIndex: giveIndex + (dialog ? 2 : 1),
-    itemId: give.itemId,
-    count: give.count ?? 1,
-    probability: skipPercent === undefined ? 100 : 100 - skipPercent,
-    dialog,
-  }
-}
-
-function replaceDefeatedItemReward(
-  commands: readonly EnemyOnDefeatedCommand[] | undefined,
-  current: DefeatedItemReward | undefined,
-  next: { itemId: string; count: number; probability: number } | undefined,
-): EnemyOnDefeatedCommand[] | undefined {
-  const result = [...(commands ?? [])]
-  const replacement: EnemyOnDefeatedCommand[] = []
-  if (next) {
-    if (next.probability < 100) {
-      replacement.push({
-        kind: 'branch',
-        cond: { kind: 'chance', percent: 100 - next.probability },
-        then: [{ kind: 'stopScript' }],
-      })
-    }
-    replacement.push({ kind: 'giveItem', itemId: next.itemId, count: next.count })
-    if (current?.dialog) replacement.push(current.dialog)
-  }
-  if (current)
-    result.splice(current.startIndex, current.endIndex - current.startIndex, ...replacement)
-  else result.push(...replacement)
-  return result.length ? result : undefined
 }
 
 // ── 条件/动作 表格化词汇(常见形;复杂形 JSON)──
@@ -588,8 +591,10 @@ export function EnemyTab(props: {
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(enemies[0]?.id ?? '')
   const [inspectorTab, setInspectorTab] = useState('teams')
+  const [defeatedViewerOpen, setDefeatedViewerOpen] = useState(false)
   const fieldPrefix = useId()
   const appliedFocusObjectId = useRef<string | undefined>(undefined)
+  const defeatedViewerTriggerRef = useRef<HTMLButtonElement>(null)
   const enemyThumbnailCache = useMemo(
     () => new EnemyBattleSpriteThumbnailCache(),
     [assetBase, assetReader],
@@ -631,6 +636,28 @@ export function EnemyTab(props: {
     [items, locale],
   )
   const enemy = enemies.find((e) => e.id === selId) ?? shown[0]
+  // project-io 保留作者态 enemy tree；EditorState 的 EnemyDef 标注仍是既存类型债。
+  const defeatedCommands = enemy?.onDefeated as unknown as
+    | AuthorEnemyDefeatedCommands
+    | undefined
+  const defeatedContextState = session.getState()
+  const defeatedPresentationContext = useMemo(() => {
+    return createEnemyDefeatedPresentationContext({
+      items,
+      locale,
+      assetCatalog,
+      worldVariables: defeatedContextState.worldVariables ?? {},
+      actors: defeatedContextState.actors,
+      scenes: defeatedContextState.scenes,
+    })
+  }, [
+    assetCatalog,
+    defeatedContextState.actors,
+    defeatedContextState.scenes,
+    defeatedContextState.worldVariables,
+    items,
+    locale,
+  ])
   const enemyBattleSprite = enemy ? battleSpritesById.get(enemy.battleSprite) : undefined
   const enemyBattleSpriteRecord = enemyBattleSprite
     ? assetCatalog.assets[enemyBattleSprite.asset]
@@ -642,15 +669,21 @@ export function EnemyTab(props: {
     [enemyTeams, enemy],
   )
   const team = teamsOfSel[0]
-  const defeatedReward = findDefeatedItemReward(enemy?.onDefeated)
+  const defeatedReward = findEditableEnemyDefeatedItemReward(defeatedCommands)
+  const defeatedPresentation = presentEnemyDefeatedEvents(
+    defeatedCommands,
+    defeatedPresentationContext,
+  )
+  const hasUneditableDefeatedEvents = !!defeatedCommands?.length && !defeatedReward
   const stealMode = !enemy?.steal
     ? 'none'
     : enemy.steal.itemId === '' || enemy.steal.itemId === '0'
       ? 'money'
       : 'item'
-  const preservedDefeatedCommandCount =
-    (enemy?.onDefeated?.length ?? 0) -
-    (defeatedReward ? defeatedReward.endIndex - defeatedReward.startIndex : 0)
+
+  useEffect(() => {
+    setDefeatedViewerOpen(false)
+  }, [enemy?.id])
 
   const patchStats = (k: keyof EnemyDef['stats'], v: number | boolean): void => {
     if (!enemy) return
@@ -674,9 +707,15 @@ export function EnemyTab(props: {
     next: { itemId: string; count: number; probability: number } | undefined,
   ): void => {
     if (!enemy) return
+    const nextCommands = replaceEditableEnemyDefeatedItemReward(
+      defeatedCommands,
+      defeatedReward,
+      next,
+    )
+    if (sameDsSerializableValue(defeatedCommands ?? [], nextCommands ?? [])) return
     session.dispatch(
       new UpdateEnemyCommand(enemy.id, {
-        onDefeated: replaceDefeatedItemReward(enemy.onDefeated, defeatedReward, next),
+        onDefeated: nextCommands as unknown as EnemyDef['onDefeated'],
       }),
     )
   }
@@ -1150,14 +1189,35 @@ export function EnemyTab(props: {
                 </div>
               </DsWorkbenchSection>
               <DsWorkbenchSection
-                title="战败奖励"
-                description="经验、金钱和收妖值在“数值”面板配置；这里管理额外物品奖励。"
+                title="击败后事件"
+                description="每个终局敌槽会独立执行一次；经验、金钱和收妖值仍在“数值”面板配置。"
+                actions={
+                  <DsButton
+                    ref={defeatedViewerTriggerRef}
+                    size="compact"
+                    variant="secondary"
+                    aria-haspopup="dialog"
+                    aria-expanded={defeatedViewerOpen}
+                    onClick={() => setDefeatedViewerOpen(true)}
+                  >
+                    查看完整事件
+                  </DsButton>
+                }
               >
+                <p className="enemy-defeated-summary">{defeatedPresentation.compactSummary}</p>
                 <DsCheckbox
-                  label="战败后发放物品"
+                  label="击败后发放物品"
                   checked={!!defeatedReward}
-                  disabled={!defeatedReward && itemOptions.length === 0}
-                  title={itemOptions.length ? undefined : '项目中没有可选物品'}
+                  disabled={
+                    hasUneditableDefeatedEvents || (!defeatedReward && itemOptions.length === 0)
+                  }
+                  title={
+                    hasUneditableDefeatedEvents
+                      ? '当前事件不符合安全奖励模式；可查看，但不会猜测改写。'
+                      : itemOptions.length
+                        ? undefined
+                        : '项目中没有可选物品'
+                  }
                   onChange={(event) =>
                     setDefeatedReward(
                       event.target.checked
@@ -1220,14 +1280,12 @@ export function EnemyTab(props: {
                     />
                   </div>
                 ) : (
-                  <p className="enemy-reward-empty">当前敌人没有额外物品奖励。</p>
-                )}
-                {preservedDefeatedCommandCount || enemy.choreography?.length ? (
-                  <p className="enemy-preserved-note">
-                    另有 {preservedDefeatedCommandCount} 条高级战败指令、
-                    {enemy.choreography?.length ?? 0} 段战斗演出，编辑奖励时会原样保留。
+                  <p className="enemy-reward-empty">
+                    {hasUneditableDefeatedEvents
+                      ? '当前事件不符合安全奖励模式；完整内容保持只读，不会被奖励表单猜测改写。'
+                      : '当前敌人没有额外物品奖励。'}
                   </p>
-                ) : null}
+                )}
               </DsWorkbenchSection>
             </DsObjectWorkspaceContent>
           </>
@@ -1235,6 +1293,37 @@ export function EnemyTab(props: {
           <div className="insp-empty ds-empty-state--roomy">无敌人;点 ＋ 新建。</div>
         )}
       </DsObjectWorkspace>
+
+      {enemy && defeatedViewerOpen ? (
+        <DsDialog
+          open
+          title={`${nameOf(enemy)} · 击败后事件`}
+          description="按战斗胜利后的实际执行顺序展示；分支会在当前敌槽内决定后续事件。"
+          className="enemy-defeated-events-dialog"
+          fallbackFocusRef={defeatedViewerTriggerRef}
+          footer={
+            <DsButton variant="secondary" onClick={() => setDefeatedViewerOpen(false)}>
+              关闭
+            </DsButton>
+          }
+          onClose={() => setDefeatedViewerOpen(false)}
+        >
+          <div
+            className="enemy-defeated-events-viewer"
+            onKeyDown={(event) => {
+              if (event.key !== 'Escape') return
+              event.preventDefault()
+              setDefeatedViewerOpen(false)
+            }}
+          >
+            <div className="enemy-defeated-events-viewer__status">
+              <DsTag tone="neutral">仅查看</DsTag>
+              <span>修改奖励字段后，本视图会直接从当前敌人事件重新生成。</span>
+            </div>
+            <EnemyDefeatedEventTree nodes={defeatedPresentation.nodes} />
+          </div>
+        </DsDialog>
+      ) : null}
 
       {/* 右:敌队 / 引用 / 说明 */}
       <DsInspectorHost className="inspector inspector--tabbed">

@@ -7030,10 +7030,96 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--ds-text-muted);
   font: var(--ds-font-caption);
 }
-.enemy-preserved-note {
+.enemy-defeated-summary {
   margin: 0;
-  padding-top: var(--ds-space-5);
-  border-top: 1px solid var(--ds-border-subtle);
+  padding: var(--ds-space-4) var(--ds-space-5);
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-control);
+  color: var(--ds-text-primary);
+  background: var(--ds-surface-raised);
+  font: var(--ds-font-body);
+  overflow-wrap: anywhere;
+}
+.enemy-defeated-events-dialog {
+  width: min(760px, calc(100vw - 32px));
+}
+.enemy-defeated-events-viewer {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-5);
+}
+.enemy-defeated-events-viewer__status {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--ds-space-3);
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-caption);
+  overflow-wrap: anywhere;
+}
+.enemy-defeated-event-tree {
+  display: grid;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  gap: var(--ds-space-3);
+  list-style: none;
+}
+.enemy-defeated-event-tree__item {
+  min-width: 0;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-surface-panel);
+  overflow-wrap: anywhere;
+}
+.enemy-defeated-event-tree__item[data-invalid="true"] {
+  border-color: var(--ds-status-danger);
+}
+.enemy-defeated-event-tree__row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--ds-space-4);
+  padding: var(--ds-space-5);
+}
+.enemy-defeated-event-tree__copy {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-1);
+}
+.enemy-defeated-event-tree__label {
+  color: var(--ds-text-primary);
+  font: var(--ds-font-body);
+  overflow-wrap: anywhere;
+}
+.enemy-defeated-event-tree__detail {
+  color: var(--ds-text-muted);
+  font: var(--ds-font-code);
+  overflow-wrap: anywhere;
+}
+.enemy-defeated-event-tree__branch > summary {
+  min-height: 32px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.enemy-defeated-event-tree__branch > summary:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: -2px;
+}
+.enemy-defeated-event-tree__arm {
+  min-width: 0;
+  margin: 0 var(--ds-space-5) var(--ds-space-5);
+  padding-inline-start: var(--ds-space-5);
+  border-inline-start: 2px solid var(--ds-border-control);
+}
+.enemy-defeated-event-tree__arm > h3 {
+  margin: 0 0 var(--ds-space-3);
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-label);
+}
+.enemy-defeated-event-tree__empty {
+  margin: 0;
   color: var(--ds-text-muted);
   font: var(--ds-font-caption);
 }

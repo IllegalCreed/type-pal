@@ -89,6 +89,7 @@ function state(): EditorState {
 function Harness(props: {
   session: EditSession
   onObjectFocus?: (id: string | undefined) => void
+  onOpenEnemy?: (id: string) => void
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
@@ -99,10 +100,16 @@ function Harness(props: {
     <EnemyTeamTab
       enemyTeams={current.enemyTeams ?? []}
       enemies={current.enemies ?? []}
+      items={current.items}
       locale={current.locale}
+      assetCatalog={current.assetCatalog}
+      worldVariables={current.worldVariables ?? {}}
+      actors={current.actors}
+      scenes={current.scenes}
       projectId="demo"
       session={props.session}
       onObjectFocus={props.onObjectFocus}
+      onOpenEnemy={props.onOpenEnemy}
     />
   )
 }
@@ -188,6 +195,98 @@ describe('EnemyTeamTab authoring closure', () => {
         button.textContent?.includes('删除敌队'),
       )?.disabled,
     ).toBe(true)
+  })
+
+  test('重复敌槽逐行显示同一击败后语义摘要，不再暴露底层命令计数', async () => {
+    const current = state()
+    current.items = [
+      {
+        id: '115',
+        name: 'name.item.115',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+      },
+    ]
+    current.locale = { ...current.locale, 'name.item.115': '蜂巢', 'dlg.13119': '获得一个蜂巢' }
+    current.enemies![0] = {
+      ...current.enemies![0]!,
+      onDefeated: [
+        {
+          kind: 'branch',
+          cond: { kind: 'chance', percent: 89 },
+          then: [{ kind: 'stopScript' }],
+        },
+        { kind: 'giveItem', itemId: '115', count: 1 },
+        {
+          kind: 'dialog',
+          cue: { identity: { kind: 'narration' }, rows: [{ text: 'dlg.13119' }] },
+        },
+      ] as unknown as EnemyDef['onDefeated'],
+    }
+    const session = new EditSession(current)
+    const onOpenEnemy = vi.fn()
+    await act(async () => root.render(<Harness session={session} onOpenEnemy={onOpenEnemy} />))
+
+    const memberRows = [
+      ...host.querySelectorAll<HTMLButtonElement>('.enemy-team-member-summary > button'),
+    ]
+    expect(memberRows).toHaveLength(2)
+    expect(
+      memberRows.every((row) => row.textContent?.includes('击败后：11% 获得蜂巢 ×1')),
+    ).toBe(true)
+    expect(host.textContent).toContain('重复成员按槽位各结算一次')
+    expect(host.textContent).not.toContain('战败指令')
+    expect(host.textContent).not.toContain('3 条')
+
+    await act(async () => memberRows[1]!.click())
+    expect(onOpenEnemy).toHaveBeenCalledWith('enemy-a')
+  })
+
+  test('偷取摘要使用字面量道具名，缺失引用才保留 ID，金钱哨兵语义不变', async () => {
+    const current = state()
+    current.items = [
+      {
+        id: '125',
+        name: '断肠草',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+      },
+    ]
+    current.locale = {
+      'name.enemy-known': '金蟾鬼母',
+      'name.enemy-missing': '金蟾',
+      'name.enemy-money-zero': '钱袋甲',
+      'name.enemy-money-empty': '钱袋乙',
+      断肠草: '不应替换字面量道具名',
+    }
+    current.enemies = [
+      { ...enemy('enemy-known', 5), steal: { itemId: '125', count: 9 } },
+      { ...enemy('enemy-missing', 5), steal: { itemId: '999', count: 2 } },
+      { ...enemy('enemy-money-zero', 5), steal: { itemId: '0', count: 3 } },
+      { ...enemy('enemy-money-empty', 5), steal: { itemId: '', count: 4 } },
+    ]
+    current.enemyTeams = [
+      {
+        id: 'team-c1',
+        slots: ['enemy-known', 'enemy-missing', 'enemy-money-zero', 'enemy-money-empty'],
+      },
+    ]
+    const session = new EditSession(current)
+    await act(async () => root.render(<Harness session={session} />))
+
+    const memberRows = [
+      ...host.querySelectorAll<HTMLButtonElement>('.enemy-team-member-summary > button'),
+    ]
+    expect(memberRows[0]?.textContent).toContain('偷物 断肠草 ×9')
+    expect(memberRows[0]?.textContent).not.toContain('偷物 125')
+    expect(memberRows[0]?.textContent).not.toContain('不应替换字面量道具名')
+    expect(memberRows[1]?.textContent).toContain('偷物 999（引用缺失） ×2')
+    expect(memberRows[2]?.textContent).toContain('偷钱 ×3')
+    expect(memberRows[3]?.textContent).toContain('偷钱 ×4')
   })
 
   test('copies the current preset and creates an arbitrary stable id through the workbench', async () => {

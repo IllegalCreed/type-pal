@@ -59,9 +59,12 @@ function state(): EditorState {
         then: [{ kind: 'stopScript' }],
       },
       { kind: 'giveItem', itemId: 'item-b', count: 2 },
-      { kind: 'dialog', cue: { rows: [{ text: 'dialog.reward' }] } },
+      {
+        kind: 'dialog',
+        cue: { identity: { kind: 'narration' }, rows: [{ text: 'dialog.reward' }] },
+      },
       { kind: 'giveMoney', delta: 9 },
-    ],
+    ] as unknown as EnemyDef['onDefeated'],
   }
   const enemyTeams: EnemyTeamDef[] = [{ id: 'team-7', slots: ['enemy-a'] }]
   const items: ItemData[] = [
@@ -434,7 +437,7 @@ describe('EnemyTab shared workbench', () => {
     ])
   })
 
-  test('物品交互与战败奖励使用结构化字段，并保留高级战败脚本', async () => {
+  test('物品交互与击败后奖励使用结构化字段，并保留未识别事件', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))
 
@@ -484,7 +487,7 @@ describe('EnemyTab shared workbench', () => {
     expect(session.getState().enemies?.[0]?.steal?.count).toBe(2)
 
     const rewardToggle = [...host.querySelectorAll<HTMLLabelElement>('.ds-check-label')]
-      .find((label) => label.textContent?.includes('战败后发放物品'))!
+      .find((label) => label.textContent?.includes('击败后发放物品'))!
       .querySelector<HTMLInputElement>('input')!
     await act(async () => rewardToggle.click())
     expect(session.getState().enemies?.[0]?.onDefeated).toEqual([{ kind: 'giveMoney', delta: 9 }])
@@ -495,6 +498,104 @@ describe('EnemyTab shared workbench', () => {
         expect.objectContaining({ kind: 'dialog' }),
         { kind: 'giveMoney', delta: 9 },
       ]),
+    )
+  })
+
+  test('击败后事件弹窗按原序完整只读展示，开关查看器不写历史', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} />))
+    const historyBefore = session.getHistoryVersion()
+    const trigger = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent?.trim() === '查看完整事件',
+    )!
+    expect(trigger.getAttribute('aria-haspopup')).toBe('dialog')
+    trigger.focus()
+
+    await act(async () => trigger.click())
+    const dialog = host.querySelector<HTMLDialogElement>('dialog.enemy-defeated-events-dialog')!
+    expect(dialog).not.toBeNull()
+    expect(dialog.getAttribute('aria-label')).toBe('赤鬼王 · 击败后事件')
+    expect(dialog.textContent).toContain('仅查看')
+    expect(dialog.textContent).toContain('75% 概率时')
+    expect(dialog.textContent).toContain('结束本敌槽后续事件')
+    expect(dialog.textContent).toContain('获得金蚕王 ×2')
+    expect(dialog.textContent).toContain('显示“获得奖励”')
+    expect(dialog.textContent).toContain('获得金钱 9')
+    expect(
+      dialog.querySelector<HTMLOListElement>('[aria-label="击败后事件执行顺序"]')?.children,
+    ).toHaveLength(4)
+    const branch = dialog.querySelector<HTMLDetailsElement>('details[open]')!
+    const branchSummary = branch.querySelector<HTMLElement>('summary')!
+    expect(branchSummary).not.toBeNull()
+    await act(async () =>
+      branchSummary.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(branch.open).toBe(false)
+    await act(async () =>
+      branchSummary.dispatchEvent(
+        new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(branch.open).toBe(true)
+    expect(dialog.querySelector('.enemy-defeated-event-tree button')).toBeNull()
+    expect(dialog.querySelector('input, select, textarea')).toBeNull()
+    expect(dialog.textContent).not.toContain('JSON')
+    expect(session.getHistoryVersion()).toBe(historyBefore)
+
+    await act(async () => {
+      branchSummary.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      )
+      await new Promise((resolve) => setTimeout(resolve, 20))
+    })
+    expect(host.querySelector('dialog.enemy-defeated-events-dialog')).toBeNull()
+    expect(document.activeElement).toBe(trigger)
+    expect(session.getHistoryVersion()).toBe(historyBefore)
+
+    await act(async () => trigger.click())
+    const reopened = host.querySelector<HTMLDialogElement>('dialog.enemy-defeated-events-dialog')!
+    const close = [...reopened.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent?.trim() === '关闭',
+    )!
+    await act(async () => close.click())
+    expect(host.querySelector('dialog.enemy-defeated-events-dialog')).toBeNull()
+    expect(session.getHistoryVersion()).toBe(historyBefore)
+  })
+
+  test('奖励同值不写历史，单次修改仅一条命令且 undo/redo 实时刷新事件树', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} />))
+    const probability = host.querySelector<HTMLInputElement>(
+      'input[name="enemy.enemy-a.onDefeated.probability"]',
+    )!
+
+    await setAndCommit(probability, '25')
+    expect(session.getHistoryVersion()).toBe(0)
+    await setAndCommit(probability, '40')
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(
+      session.getState().enemies?.[0]?.onDefeated?.find((command) => command.kind === 'dialog'),
+    ).toMatchObject({
+      cue: { identity: { kind: 'narration' }, rows: [{ text: 'dialog.reward' }] },
+    })
+
+    const trigger = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent?.trim() === '查看完整事件',
+    )!
+    await act(async () => trigger.click())
+    expect(host.querySelector('dialog.enemy-defeated-events-dialog')?.textContent).toContain(
+      '60% 概率时',
+    )
+
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(host.querySelector('dialog.enemy-defeated-events-dialog')?.textContent).toContain(
+      '75% 概率时',
+    )
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(host.querySelector('dialog.enemy-defeated-events-dialog')?.textContent).toContain(
+      '60% 概率时',
     )
   })
 })

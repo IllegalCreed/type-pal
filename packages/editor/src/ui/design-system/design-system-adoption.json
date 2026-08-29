@@ -1934,7 +1934,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + custom:.bsu-frame-grid + DsInspectorTabs",
-        "overlay": "DsFloatingLayer",
+        "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsDraftNumberField + DsDraftNumberInput + DsDraftTextInput + DsField + DsFieldGroup + DsFilePicker + DsNumberInput + DsSelect",
         "action": "DsButton + DsIconButton"
       },
@@ -1943,6 +1943,13 @@
           {
             "source": "EnemyTab.tsx",
             "component": "EnemyTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "EnemyTab.tsx",
+            "component": "EnemyTab",
+            "kinds": ["anchored-popup", "modal"]
           }
         ]
       }

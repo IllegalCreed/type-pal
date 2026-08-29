@@ -303,7 +303,12 @@ export function DataMode(props: {
       <EnemyTeamTab
         enemyTeams={enemyTeams}
         enemies={enemies}
+        items={itemList}
         locale={locale}
+        assetCatalog={assetCatalog}
+        worldVariables={session.getState().worldVariables ?? {}}
+        actors={actors}
+        scenes={scenes}
         projectId={manifest.id}
         workspaceId={workspaceId}
         session={session}

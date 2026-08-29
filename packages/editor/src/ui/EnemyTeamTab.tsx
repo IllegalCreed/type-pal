@@ -1,5 +1,15 @@
 /** 独立敌队预制工作台：稳定身份、五个语义槽、试玩、汇总与全域引用。 */
-import type { EnemyDef, EnemyTeamDef, Locale } from '@type-pal/content'
+import type {
+  ActorDef,
+  AssetCatalogV1,
+  AuthorEnemyDef,
+  EnemyDef,
+  EnemyTeamDef,
+  ItemData,
+  Locale,
+  SceneDef,
+  WorldVariableRegistryV1,
+} from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
@@ -40,6 +50,10 @@ import {
   type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/reorder.js'
+import {
+  createEnemyDefeatedPresentationContext,
+  presentEnemyDefeatedEvents,
+} from './enemy-defeated-events.js'
 
 function nextTeamId(teams: readonly EnemyTeamDef[]): string {
   let index = 1
@@ -86,11 +100,27 @@ function enemyTeamCatalogTitle(
     .join('、')
 }
 
+function enemyStealSummary(
+  enemy: EnemyDef,
+  itemsById: ReadonlyMap<string, ItemData>,
+): string {
+  if (!enemy.steal) return '不可偷取'
+  if (enemy.steal.itemId === '' || enemy.steal.itemId === '0')
+    return `偷钱 ×${enemy.steal.count}`
+  const item = itemsById.get(enemy.steal.itemId)
+  const itemLabel = item ? item.name : `${enemy.steal.itemId}（引用缺失）`
+  return `偷物 ${itemLabel} ×${enemy.steal.count}`
+}
 
 export function EnemyTeamTab(props: {
   enemyTeams: readonly EnemyTeamDef[]
   enemies: readonly EnemyDef[]
+  items: readonly ItemData[]
   locale: Locale
+  assetCatalog: AssetCatalogV1
+  worldVariables: WorldVariableRegistryV1
+  actors: readonly ActorDef[]
+  scenes: readonly SceneDef[]
   projectId: string
   workspaceId?: string
   session: EditSession
@@ -103,7 +133,12 @@ export function EnemyTeamTab(props: {
   const {
     enemyTeams,
     enemies,
+    items,
     locale,
+    assetCatalog,
+    worldVariables,
+    actors,
+    scenes,
     projectId,
     workspaceId,
     session,
@@ -154,6 +189,27 @@ export function EnemyTeamTab(props: {
       }) ?? [],
     [enemies, selected],
   )
+  const itemsById = useMemo(() => new Map(items.map((item) => [item.id, item])), [items])
+  const defeatedPresentationContext = useMemo(
+    () =>
+      createEnemyDefeatedPresentationContext({
+        items,
+        locale,
+        assetCatalog,
+        worldVariables,
+        actors,
+        scenes,
+      }),
+    [actors, assetCatalog, items, locale, scenes, worldVariables],
+  )
+  const memberPresentations = members.map((enemy) => ({
+    enemy,
+    stealSummary: enemyStealSummary(enemy, itemsById),
+    defeated: presentEnemyDefeatedEvents(
+      enemy.onDefeated as unknown as NonNullable<AuthorEnemyDef['onDefeated']>,
+      defeatedPresentationContext,
+    ),
+  }))
   const totals = members.reduce(
     (sum, enemy) => ({
       exp: sum.exp + enemy.stats.exp,
@@ -346,7 +402,7 @@ export function EnemyTeamTab(props: {
                 eyebrow="敌队预制"
                 title={selected.id}
                 objectId={selected.id}
-                summary="只负责五个敌人语义槽；奖励、偷取与战败演出仍由每个敌人定义提供。"
+                summary="只负责五个敌人语义槽；奖励、偷取与击败后事件仍由每个敌人定义提供。"
                 actions={
                   <>
                     <DsActionLink
@@ -420,7 +476,7 @@ export function EnemyTeamTab(props: {
                 </DsWorkbenchSection>
                 <DsWorkbenchSection
                   title="战后结算摘要"
-                  description="只读汇总；同一敌人占两个槽会累计两次。点击成员回到敌人定义编辑数据。"
+                  description="只读汇总；重复成员按槽位各结算一次。点击成员回到敌人定义编辑数据。"
                 >
                   <div className="enemy-team-totals">
                     <span>
@@ -434,21 +490,15 @@ export function EnemyTeamTab(props: {
                     </span>
                   </div>
                   <div className="enemy-team-member-summary">
-                    {members.map((enemy, index) => (
+                    {memberPresentations.map(({ enemy, stealSummary, defeated }, index) => (
                       <DsPressable
                         type="button"
                         key={`${enemy.id}:${index}`}
                         onClick={() => onOpenEnemy?.(enemy.id)}
                       >
                         <strong>{lookupText(enemy.name, locale)}</strong>
-                        <span>
-                          {enemy.steal
-                            ? enemy.steal.itemId === '0'
-                              ? `偷钱 ×${enemy.steal.count}`
-                              : `偷物 ${enemy.steal.itemId} ×${enemy.steal.count}`
-                            : '不可偷取'}
-                        </span>
-                        <span>{enemy.onDefeated?.length ?? 0} 条战败指令</span>
+                        <span>{stealSummary}</span>
+                        <span>{defeated.compactSummary}</span>
                       </DsPressable>
                     ))}
                     {!members.length ? (

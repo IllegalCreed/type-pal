@@ -323,6 +323,17 @@
     "nonFormTracks": [
       {
         "source": "editor.css",
+        "selector": ".enemy-defeated-event-tree__row",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "auto minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨分别承载执行序号、完整只读事件文案与引用异常状态，不是 label/control 表单。",
+        "responsiveEvidence": "文案轨使用 minmax(0,1fr) 与 anywhere 换行，720px 弹窗无横向滚动。",
+        "removalCondition": "事件树改由公共只读序列 recipe 接管或开始承载编辑字段时删除。"
+      },
+      {
+        "source": "editor.css",
         "selector": ".casualty-dialog-preview",
         "atRule": "",
         "property": "grid-template-columns",
