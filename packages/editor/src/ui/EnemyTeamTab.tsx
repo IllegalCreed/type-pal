@@ -448,6 +448,7 @@ export function EnemyTeamTab(props: {
                           <div className="enemy-team-slot">
                             <span className="enemy-team-slot__number">槽 {index + 1}</span>
                             <DsSelect
+                              size="compact"
                               aria-label={`${selected.id} 槽 ${index + 1}`}
                               value={enemyId ?? ''}
                               options={enemyOptions}

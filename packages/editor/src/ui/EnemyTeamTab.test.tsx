@@ -169,7 +169,16 @@ describe('EnemyTeamTab authoring closure', () => {
   test('renders five semantic slots, duplicate-member totals, full stable trial id and blocking reference', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))
-    expect(host.querySelectorAll('.enemy-team-slot')).toHaveLength(5)
+    const slots = [...host.querySelectorAll<HTMLElement>('.enemy-team-slot')]
+    expect(slots).toHaveLength(5)
+    for (const slot of slots) {
+      expect(slot.querySelector('.ds-select')?.classList.contains('ds-select--compact')).toBe(true)
+      const moveButtons = [...slot.querySelectorAll<HTMLElement>('.ds-icon-button')]
+      expect(moveButtons).toHaveLength(2)
+      expect(
+        moveButtons.every((button) => button.classList.contains('ds-icon-button--compact')),
+      ).toBe(true)
+    }
     const hero = host.querySelector<HTMLElement>('.ds-object-hero')!
     expect(hero.dataset.hasMedia).toBe('false')
     expect(hero.querySelector('.ds-object-hero__media')).toBeNull()
