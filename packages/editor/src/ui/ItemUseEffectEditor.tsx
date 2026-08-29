@@ -17,6 +17,7 @@ import { createContext, memo, type ReactNode, useContext } from 'react'
 import {
   DsButton,
   DsCheckbox,
+  DsDraftNumberField,
   DsDraftNumberInput,
   DsDraftTextInput,
   DsIconButton,
@@ -260,32 +261,30 @@ function NumberField(props: {
 }) {
   const draft = useContext(ItemEffectDraftContext)
   return (
-    <label className="item-effect-field">
-      <span>{props.label}</span>
-      <DsDraftNumberInput
-        draftKey={`${draft.scope}:number:${props.label}`}
-        syncToken={draft.syncToken}
-        min={props.min}
-        max={props.max}
-        enforceRange={false}
-        value={props.value}
-        integer
-        onWheel={(event) => event.currentTarget.blur()}
-        onCommit={(raw) => {
-          if (raw === undefined) return
-          let next = props.allowZero
-            ? Number.isFinite(raw)
-              ? Math.trunc(raw)
-              : 0
-            : props.signed
-              ? signed(raw)
-              : positive(raw)
-          if (props.min !== undefined) next = Math.max(props.min, next)
-          if (props.max !== undefined) next = Math.min(props.max, next)
-          props.onChange(next)
-        }}
-      />
-    </label>
+    <DsDraftNumberField
+      label={props.label}
+      fieldClassName="item-effect-field"
+      draftKey={`${draft.scope}:number:${props.label}`}
+      syncToken={draft.syncToken}
+      min={props.min}
+      max={props.max}
+      enforceRange={false}
+      value={props.value}
+      integer
+      onCommit={(raw) => {
+        if (raw === undefined) return
+        let next = props.allowZero
+          ? Number.isFinite(raw)
+            ? Math.trunc(raw)
+            : 0
+          : props.signed
+            ? signed(raw)
+            : positive(raw)
+        if (props.min !== undefined) next = Math.max(props.min, next)
+        if (props.max !== undefined) next = Math.min(props.max, next)
+        props.onChange(next)
+      }}
+    />
   )
 }
 
@@ -344,7 +343,6 @@ function ItemAmountList(props: {
             integer
             aria-label={`${props.label}数量 ${index + 1}`}
             value={entry.count}
-            onWheel={(event) => event.currentTarget.blur()}
             onCommit={(value) => {
               if (value === undefined) return
               const next = [...entries]

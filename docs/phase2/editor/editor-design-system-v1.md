@@ -2,7 +2,7 @@
 
 Status: implemented v2.19.0 effect editor card hierarchy（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -201,6 +201,24 @@ Last updated: 2026-08-29
 - 同一 grid 行的同级卡片按该行最高内容等高，下一行重新计算；表单标签列、输入起点和尾部动作列必须逐行对齐。
 - Inspector 中两个并列语义分区必须通过 `DsInspectorSection` 的 section padding 与边界分隔；只靠标题字号或空白
   猜分组不合格。单个连续表单内部不得滥加分割线。
+
+#### DS-F.4a 数字字段与响应式密度（v2.17.0）
+
+- `DsNumberInput / DsDraftNumberInput` 是紧凑行、坐标、帧、时间轴和其它已登记专用布局使用的无 stepper
+  primitive；主表单数字必须使用 `DsNumberField / DsDraftNumberField`，不得再手写 `DsField + NumberInput`。
+- NumberField 固定拥有 `− / input / +` 同壳 stepper，并把整个控件限制在 `10rem`。业务页没有关闭 stepper、填满
+  整行或改写按钮尺寸的通用开关；确实不属于主表单的消费点必须进入 `number-field-adoption.json`。
+- `allowEmpty + min` 表示“空值/关闭”是下限前的合法状态：从空值增加进入 `min`，从 `min` 减少回到空值，
+  不得把减号永久禁用在最小值而让用户无法恢复“关闭”。
+- `integer` 默认对应 `inputMode="numeric"`，其它数值默认 `decimal`；调用方显式 `inputMode` 优先。任何页面不得覆盖
+  公共 wheel owner：聚焦的 number input 在滚轮默认动作期间临时只读，页面继续滚动，输入值、焦点和命令历史不变。
+- stepper 的 pointerdown 只保留输入焦点，不提交旧草稿；click 基于当前可见草稿按 `step/min/max` 计算候选，并走
+  既有 normalize/validate/onCommit 一次。边界、等值、disabled、readonly 或 `step="any"` 为零命令；直接键入和
+  ArrowUp/ArrowDown 仍遵守 Enter/blur 提交、Escape 取消的字段事务合同。
+- 同类主表单数值集合必须使用 `DsNumberFieldGrid`。它以 `12rem` 最小列宽和 CSS `auto-fit/minmax` 随容器自动
+  分列，禁止 JavaScript 测量、页面私有数字断点和逐页 `grid-template-columns`；单个数字字段可直接使用 NumberField。
+- 数字字段改造只改变输入外观和布局，不得顺手改变 schema、单位、合法范围或 normalize。PAL 的有符号字段必须继续
+  接受负数，不能以统一控件为由全局补 `min=0`。
 
 ### DS-F.5 图标
 
@@ -986,6 +1004,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-22 | Add Picker 0/1/234 + rich-row media/detail/trailing + active/selected/disabled/all-disabled/empty/long | 标题动作稳定；固定 ID + detail 截断、60px 两行 rich row、direct searchable listbox、80 阈值、明确 footer confirm、分层 Escape、single command、唯一滚动与 focus return 通过 | v2.13 候选追加合同 |
 | RF-23 | 480px / 479px FieldGroup + 长中文/help/error/短数值 + Inspector PropertyRow 对照 | 480px 共享 96px 标签轨；479px 整组 stacked；长标签自然换行且 control 起点不漂移；help/error 与 control 同列；Inspector 仅以具名 60px 紧凑轨存在 | v2.14 字段布局合同 |
 | RF-24 | 28 个 catalog surface + EnemyTeam 重复/混合/空/缺失成员 + Shop 空/单/多/缺失货品 + 5 资源无 label + 295/enemy-468/team-0 | 普通对象可读 title / 精确 canonical ID meta；派生 title 不进入 identity 消费；资源缺 label 时 title 与 meta 不重复；scene root / undeclared reference 例外有界；伪 `skill.pal.*` / `enemy.pal.*` / `team.pal.*` 零命中 | v2.15 目录身份合同 |
+| RF-25 | NumberField default/compact/disabled/readonly/error/empty/negative/zero/large + 1000/720/480/320px 数字网格 | 同壳 stepper 与可见焦点；integer/decimal/inputMode、min/max/step、wheel、单命令通过；控件不超过 10rem，列由 12rem auto-fit 随容器变化且无横向溢出 | v2.17 数字字段合同 |
 
 ### DS-PERF.1 大列表性能合同（G3）
 

@@ -414,7 +414,7 @@ export function SpriteUploadWizard(props: {
                       <span className="hint2 sprite-dir-label">
                         {d < 4 ? DIR_LABELS[d] : `动作${d - 3}`}
                       </span>
-                      <div className="tile-grid">
+                      <div className="sprite-upload-preview-grid">
                         {quantized.slice(d * grid.cols, (d + 1) * grid.cols).map((f, i) => (
                           <FrameThumb
                             key={`${d}-${i}`}
@@ -428,7 +428,7 @@ export function SpriteUploadWizard(props: {
                   ))}
                 </div>
               ) : (
-                <div className="tile-grid">
+                <div className="sprite-upload-preview-grid">
                   {quantized.map((f, i) => (
                     <FrameThumb key={`f${i}`} frame={f} palette={palette} idx={i} />
                   ))}

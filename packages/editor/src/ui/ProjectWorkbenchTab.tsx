@@ -56,10 +56,10 @@ import {
   DsEmptyState,
   DsField,
   DsFieldGroup,
-  DsFieldMeasure,
   DsHelpTip,
   DsIconButton,
   DsListHeader,
+  DsNumberFieldGrid,
   DsObjectHero,
   DsReorderCollection,
   type DsReorderIntent,
@@ -769,23 +769,18 @@ export function StartWorldFields(props: {
   return (
     <div ref={rootRef} className="project-form-stack">
       <DsFieldGroup>
-        <DsField id="start-world-money" label="金钱">
-          {(field) => (
-            <DsFieldMeasure measure="short-number">
-              <DsDraftNumberInput
-                {...field}
-                min={0}
-                integer
-                normalize={(next) => Math.max(0, Math.floor(next))}
-                draftKey={`${draftScope}:money`}
-                syncToken={syncToken}
-                value={value.money}
-                disabled={readOnly}
-                onCommit={(next) => next !== undefined && patch({ money: next })}
-              />
-            </DsFieldMeasure>
-          )}
-        </DsField>
+        <DsDraftNumberField
+          id="start-world-money"
+          label="金钱"
+          min={0}
+          integer
+          normalize={(next) => Math.max(0, Math.floor(next))}
+          draftKey={`${draftScope}:money`}
+          syncToken={syncToken}
+          value={value.money}
+          disabled={readOnly}
+          onCommit={(next) => next !== undefined && patch({ money: next })}
+        />
       </DsFieldGroup>
 
       <section ref={partySectionRef} className="project-card" tabIndex={-1}>
@@ -862,9 +857,8 @@ export function StartWorldFields(props: {
                       </strong>
                       <code title={actorId}>{actorId}</code>
                     </span>
-                    <span className="project-party-state">
-                      <DsFieldMeasure measure="short-number">
-                        <DsDraftNumberField
+                    <DsNumberFieldGrid className="project-party-state">
+                      <DsDraftNumberField
                           label="当前 HP"
                           min={0}
                           integer
@@ -879,10 +873,8 @@ export function StartWorldFields(props: {
                             inheritedHp === undefined ? '继承不可用' : `继承 ${inheritedHp}`
                           }
                           onCommit={(value) => patchSeed(actorId, 'hp', value)}
-                        />
-                      </DsFieldMeasure>
-                      <DsFieldMeasure measure="short-number">
-                        <DsDraftNumberField
+                      />
+                      <DsDraftNumberField
                           label="当前 MP"
                           min={0}
                           integer
@@ -897,9 +889,8 @@ export function StartWorldFields(props: {
                             inheritedMp === undefined ? '继承不可用' : `继承 ${inheritedMp}`
                           }
                           onCommit={(value) => patchSeed(actorId, 'mp', value)}
-                        />
-                      </DsFieldMeasure>
-                    </span>
+                      />
+                    </DsNumberFieldGrid>
                     <span className="project-party-actions">
                       <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
                       <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
@@ -1066,27 +1057,26 @@ export function StartWorldFields(props: {
                         })
                       }
                     />
-                    <DsFieldMeasure measure="short-number" className="project-inventory-count">
-                      <DsDraftNumberField
-                        label="数量"
-                        layout="inline"
-                        aria-label={`${itemName}的初始数量`}
-                        min={1}
-                        integer
-                        normalize={(count) => Math.max(1, Math.floor(count))}
-                        draftKey={`${draftScope}:inventory.${index}.count`}
-                        syncToken={syncToken}
-                        value={row.count}
-                        disabled={readOnly}
-                        onCommit={(count) =>
-                          patch({
-                            inventory: inventory.map((item, itemIndex) =>
-                              itemIndex === index ? { ...item, count: count ?? 1 } : item,
-                            ),
-                          })
-                        }
-                      />
-                    </DsFieldMeasure>
+                    <DsDraftNumberField
+                      fieldClassName="project-inventory-count"
+                      label="数量"
+                      layout="inline"
+                      aria-label={`${itemName}的初始数量`}
+                      min={1}
+                      integer
+                      normalize={(count) => Math.max(1, Math.floor(count))}
+                      draftKey={`${draftScope}:inventory.${index}.count`}
+                      syncToken={syncToken}
+                      value={row.count}
+                      disabled={readOnly}
+                      onCommit={(count) =>
+                        patch({
+                          inventory: inventory.map((item, itemIndex) =>
+                            itemIndex === index ? { ...item, count: count ?? 1 } : item,
+                          ),
+                        })
+                      }
+                    />
                     <span className="project-inventory-actions">
                       <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
                       <DsReorderMoveButton itemKey={reorderKey} direction="forward" />

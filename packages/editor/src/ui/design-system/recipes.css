@@ -885,6 +885,20 @@
   min-width: 0;
 }
 
+.ds-number-field-grid {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, var(--ds-number-field-column-min)), 1fr)
+    );
+  gap: var(--ds-space-5);
+}
+
+.ds-number-field-grid > * {
+  min-width: 0;
+}
+
 @container ds-inline-composer (width < 480px) {
   .ds-inline-composer__layout {
     grid-template-columns: minmax(0, 1fr);

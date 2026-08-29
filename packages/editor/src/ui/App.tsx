@@ -4240,7 +4240,6 @@ function NamedEntryInspector(props: {
                       if (value === undefined || value === (entry.pos[axis] ?? 0)) return
                       patch({ pos: { ...entry.pos, [axis]: value } })
                     }}
-                    onWheel={(event) => event.currentTarget.blur()}
                   />
                 </label>
               ))}

@@ -594,6 +594,95 @@
   appearance: none;
 }
 
+.ds-number-field > [data-ds-control-id] {
+  width: min(100%, var(--ds-field-measure-short-number));
+  max-width: var(--ds-field-measure-short-number);
+  justify-self: start;
+}
+
+.ds-number-stepper {
+  --ds-number-stepper-button-size: var(--ds-control-height);
+
+  box-sizing: border-box;
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--ds-number-stepper-button-size);
+  grid-template-columns:
+    var(--ds-number-stepper-button-size) minmax(0, 1fr)
+    var(--ds-number-stepper-button-size);
+  overflow: hidden;
+  border: 1px solid var(--ds-border-control);
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-surface-raised);
+}
+
+.ds-number-stepper[data-size="compact"] {
+  --ds-number-stepper-button-size: var(--ds-hit-target-compact);
+}
+
+.ds-number-stepper:has(:focus-visible) {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+
+.ds-number-stepper__input {
+  display: grid;
+  min-width: 0;
+}
+
+.ds-number-stepper .ds-input {
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  padding-inline: var(--ds-space-3);
+  border: 0;
+  border-radius: 0;
+  text-align: end;
+}
+
+.ds-number-stepper .ds-input:focus-visible,
+.ds-number-stepper__button:focus-visible {
+  outline: 0;
+}
+
+.ds-number-stepper__button {
+  display: inline-grid;
+  width: var(--ds-number-stepper-button-size);
+  min-width: var(--ds-number-stepper-button-size);
+  min-height: var(--ds-number-stepper-button-size);
+  place-items: center;
+  padding: 0;
+  border: 0;
+  color: var(--ds-text-secondary);
+  background: transparent;
+  font: 600 16px / 1 var(--ds-font-sans);
+  cursor: pointer;
+}
+
+.ds-number-stepper__button:first-child {
+  border-inline-end: 1px solid var(--ds-border-control);
+}
+
+.ds-number-stepper__button:last-child {
+  border-inline-start: 1px solid var(--ds-border-control);
+}
+
+.ds-number-stepper__button:hover:not(:disabled) {
+  color: var(--ds-text-primary);
+  background: var(--ds-action-primary-soft);
+}
+
+.ds-number-stepper__button:active:not(:disabled) {
+  color: var(--ds-action-primary);
+  background: color-mix(in srgb, var(--ds-action-primary) 22%, transparent);
+}
+
+.ds-number-stepper__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .ds-select {
   display: flex;
   align-items: center;

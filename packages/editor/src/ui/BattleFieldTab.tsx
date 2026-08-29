@@ -27,7 +27,7 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ScriptEditorState } from '../core/script-editor.js'
 import {
   DsButton,
-  DsDraftNumberInput,
+  DsDraftNumberField,
   DsDraftTextInput,
   DsField,
   DsTag,
@@ -36,6 +36,7 @@ import {
 import {
   DsCatalogControls,
   DsCatalogRow,
+  DsNumberFieldGrid,
   DsObjectHero,
   DsReferenceList,
   DsReferencePanel,
@@ -378,50 +379,43 @@ export function BattleFieldTab(props: {
                     title="常驻波动"
                     description="控制战场画面的持续波动；0 表示关闭。"
                   >
-                    <DsField label="强度">
-                      {({ id }) => (
-                        <DsDraftNumberInput
-                          id={id}
-                          monospace
-                          draftKey={`battlefield:${field.id}:screenWave`}
-                          syncToken={session.getHistoryVersion()}
-                          value={field.screenWave}
-                          onCommit={(value) => patch({ screenWave: value ?? 0 })}
-                        />
-                      )}
-                    </DsField>
+                    <DsDraftNumberField
+                      label="强度"
+                      monospace
+                      draftKey={`battlefield:${field.id}:screenWave`}
+                      syncToken={session.getHistoryVersion()}
+                      value={field.screenWave}
+                      onCommit={(value) => patch({ screenWave: value ?? 0 })}
+                    />
                   </DsWorkbenchSection>
                   <DsWorkbenchSection
                     eyebrow="法术环境"
                     title="五灵修正"
                     description="负数削弱、正数增强；直接参与法术伤害修正。"
                   >
-                    <div className="bf-elements">
+                    <DsNumberFieldGrid className="bf-elements">
                       {(Object.keys(ELEM_LABEL) as (keyof ElementVec)[]).map((key) => (
-                        <DsField key={key} label={ELEM_LABEL[key]}>
-                          {({ id }) => (
-                            <DsDraftNumberInput
-                              id={id}
-                              monospace
-                              min={-10}
-                              max={10}
-                              enforceRange={false}
-                              draftKey={`battlefield:${field.id}:magicEffect.${key}`}
-                              syncToken={session.getHistoryVersion()}
-                              value={field.magicEffect[key]}
-                              onCommit={(value) =>
-                                patch({
-                                  magicEffect: {
-                                    ...field.magicEffect,
-                                    [key]: value ?? 0,
-                                  },
-                                })
-                              }
-                            />
-                          )}
-                        </DsField>
+                        <DsDraftNumberField
+                          key={key}
+                          label={ELEM_LABEL[key]}
+                          monospace
+                          min={-10}
+                          max={10}
+                          enforceRange={false}
+                          draftKey={`battlefield:${field.id}:magicEffect.${key}`}
+                          syncToken={session.getHistoryVersion()}
+                          value={field.magicEffect[key]}
+                          onCommit={(value) =>
+                            patch({
+                              magicEffect: {
+                                ...field.magicEffect,
+                                [key]: value ?? 0,
+                              },
+                            })
+                          }
+                        />
                       ))}
-                    </div>
+                    </DsNumberFieldGrid>
                   </DsWorkbenchSection>
                 </div>
               </div>

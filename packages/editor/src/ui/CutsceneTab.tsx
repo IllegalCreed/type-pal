@@ -47,14 +47,12 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsFileInput,
-  DsField,
   DsFieldGroup,
-  DsFieldMeasure,
   DsIconButton,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
-  DsNumberInput,
+  DsNumberField,
   DsObjectHero,
   DsPropertyGrid,
   DsPropertyRow,
@@ -64,7 +62,6 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
-  DsSelect,
   DsSelectField,
   DsTag,
   reorderDsItems,
@@ -1116,19 +1113,14 @@ export function CutsceneTab(props: {
               </ol>
             </DsReorderCollection>
             <DsFieldGroup>
-              <DsField id="cutscene-import-fps" label="默认帧率">
-                {(field) => (
-                  <DsFieldMeasure measure="short-number">
-                    <DsNumberInput
-                      id={field.id}
-                      min="0.1"
-                      step="0.1"
-                      value={importFps}
-                      onChange={(event) => setImportFps(Number(event.target.value))}
-                    />
-                  </DsFieldMeasure>
-                )}
-              </DsField>
+              <DsNumberField
+                id="cutscene-import-fps"
+                label="默认帧率"
+                min="0.1"
+                step="0.1"
+                value={importFps}
+                onChange={(event) => setImportFps(Number(event.target.value))}
+              />
               <DsSelectField
                 id="cutscene-import-treatment"
                 label="色彩处理"

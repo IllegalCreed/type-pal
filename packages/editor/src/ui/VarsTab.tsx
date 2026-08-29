@@ -21,7 +21,7 @@ import {
   DsButton,
   DsCheckbox,
   DsField,
-  DsNumberInput,
+  DsNumberField,
   DsSelect,
   DsTextAreaField,
   DsTextField,
@@ -475,18 +475,14 @@ export function VarsTab(props: {
                       }}
                     />
                   ) : (
-                    <DsField label="初始数值">
-                      {({ id }) => (
-                        <DsNumberInput
-                          id={id}
-                          value={Number(draft.initial)}
-                          onChange={(event) =>
-                            setDraft({ ...draft, initial: event.target.valueAsNumber })
-                          }
-                          onBlur={() => commit()}
-                        />
-                      )}
-                    </DsField>
+                    <DsNumberField
+                      label="初始数值"
+                      value={Number(draft.initial)}
+                      onChange={(event) =>
+                        setDraft({ ...draft, initial: event.target.valueAsNumber })
+                      }
+                      onBlur={() => commit()}
+                    />
                   )}
                 </DsWorkbenchSection>
               </div>

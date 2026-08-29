@@ -234,6 +234,35 @@ describe('editor design-system static boundary', () => {
     )
   })
 
+  test('locks number fields to one bounded stepper and responsive grid recipe', () => {
+    const tokens = readFileSync(join(here, 'tokens.css'), 'utf8')
+    const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
+    const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
+    const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
+
+    expect(tokens).toContain('--ds-field-measure-short-number: 10rem;')
+    expect(tokens).toContain('--ds-number-field-column-min: 12rem;')
+    const field = cssRuleBodies(primitives, '.ds-number-field > [data-ds-control-id]')
+    expect(field).toHaveLength(1)
+    expect(cssDeclaration(field[0]!, 'max-width')).toBe('var(--ds-field-measure-short-number)')
+    const stepper = cssRuleBodies(primitives, '.ds-number-stepper')
+    expect(stepper).toHaveLength(1)
+    expect(cssDeclaration(stepper[0]!, 'grid-template-columns')).toBe(
+      'var(--ds-number-stepper-button-size) minmax(0, 1fr) var(--ds-number-stepper-button-size)',
+    )
+    const grid = cssRuleBodies(recipes, '.ds-number-field-grid')
+    expect(grid).toHaveLength(1)
+    expect(cssDeclaration(grid[0]!, 'grid-template-columns')).toBe(
+      'repeat( auto-fit, minmax(min(100%, var(--ds-number-field-column-min)), 1fr) )',
+    )
+    expect(cssDeclaration(grid[0]!, 'gap')).toBe('var(--ds-space-5)')
+    expect(designLab).toContain("'RF-25'")
+    expect(designLab).toContain('<NumberFieldFixture />')
+    expect(designLab).toContain("const widths = ['1000', '720', '480', '320'] as const")
+    expect(designLab).toContain('<DsCard title={`${width}px 自动分列`}')
+    expect(designLab).toContain('大型负数')
+  })
+
   test('keeps the canonical form geometry and typography in one stylesheet', () => {
     const tokens = readFileSync(join(here, 'tokens.css'), 'utf8')
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
@@ -546,7 +575,7 @@ describe('editor design-system static boundary', () => {
       button: 0,
       input: 0,
       textarea: 0,
-      label: 40,
+      label: 37,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {

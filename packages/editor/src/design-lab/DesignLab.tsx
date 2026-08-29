@@ -10,6 +10,7 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsDialog,
+  DsDraftNumberField,
   DsDrawer,
   DsEmptyState,
   DsField,
@@ -24,6 +25,8 @@ import {
   DsMenuBar,
   type DsMenuDefinition,
   DsMultiSelect,
+  DsNumberField,
+  DsNumberFieldGrid,
   DsNumberInput,
   type DsOption,
   DsPropertyGrid,
@@ -60,6 +63,7 @@ const FIXTURES = [
   'RF-21',
   'RF-22',
   'RF-23',
+  'RF-25',
 ]
 const FORM_OPTIONS: DsOption[] = [
   { value: 'li-xiaoyao', label: '李逍遥', description: 'li-xiaoyao' },
@@ -355,6 +359,57 @@ function FieldLayoutFixture() {
           </DsReadoutList>
         </div>
       </DsCard>
+    </div>
+  )
+}
+
+function NumberFieldFixture() {
+  const [defense, setDefense] = useState(-6)
+  const widths = ['1000', '720', '480', '320'] as const
+  return (
+    <div className="lab-number-field-stack">
+      <DsCard title="NumberField 状态与事务">
+        <DsNumberFieldGrid>
+          <DsDraftNumberField
+            label="防御"
+            draftKey="lab:number:defense"
+            value={defense}
+            integer
+            onCommit={(value) => value !== undefined && setDefense(value)}
+          />
+          <DsNumberField label="小数倍率" defaultValue={0.3} step={0.1} />
+          <DsNumberField label="大型负数" defaultValue={-32768} integer />
+          <DsNumberField label="零值" defaultValue={0} integer />
+          <DsNumberField label="禁用" defaultValue={12} disabled integer />
+          <DsNumberField label="只读" defaultValue={99} readOnly integer />
+          <DsNumberField label="错误" defaultValue={120} min={1} max={99} error="必须为 1～99。" />
+          <DsDraftNumberField
+            label="可关闭"
+            draftKey="lab:number:optional"
+            value={undefined}
+            allowEmpty
+            min={1}
+            integer
+            placeholder="关闭"
+            onCommit={() => undefined}
+          />
+        </DsNumberFieldGrid>
+      </DsCard>
+      {widths.map((width) => (
+        <DsCard title={`${width}px 自动分列`} key={width}>
+          <div className={`lab-number-field-sample lab-number-field-sample--${width}`}>
+            <DsNumberFieldGrid>
+              {['HP', 'MP', '等级', '武术', '灵力', '防御', '身法', '吉运'].map((label, index) => (
+                <DsNumberField
+                  label={label}
+                  defaultValue={index === 5 ? -6 : index * 25}
+                  key={label}
+                />
+              ))}
+            </DsNumberFieldGrid>
+          </div>
+        </DsCard>
+      ))}
     </div>
   )
 }
@@ -1139,6 +1194,8 @@ function FixtureBody(props: { fixture: string }) {
       return <AddPickerFixture />
     case 'RF-23':
       return <FieldLayoutFixture />
+    case 'RF-25':
+      return <NumberFieldFixture />
     default:
       return null
   }
@@ -1150,7 +1207,7 @@ export function DesignLab() {
     return (
       <main className="lab-error">
         <DsStatus tone="error" action={<a href="?fixture=RF-01">返回 RF-01</a>}>
-          未知 fixture。请使用 RF-01～RF-17、RF-21～RF-23。
+          未知 fixture。请使用 RF-01～RF-17、RF-21～RF-23、RF-25。
         </DsStatus>
       </main>
     )

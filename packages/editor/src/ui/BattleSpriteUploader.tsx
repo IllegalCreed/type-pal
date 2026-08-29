@@ -176,7 +176,7 @@ export function BattleSpriteUploader(props: {
               : `图 ${rgba.w}×${rgba.h} 切不开（宽高须整除）`}
           </p>
           {palette && quantized.length > 0 && (
-            <div className="tile-grid bsu-frame-grid">
+            <div className="bsu-frame-grid">
               {quantized.map((f, i) => (
                 <FrameThumb key={`f${i}`} frame={f} palette={palette} idx={i} />
               ))}

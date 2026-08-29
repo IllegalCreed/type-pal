@@ -12,11 +12,9 @@ import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import {
   DsButton,
-  DsDraftNumberInput,
-  DsField,
-  DsFieldGroup,
-  DsFieldMeasure,
-  DsNumberInput,
+  DsDraftNumberField,
+  DsNumberField,
+  DsNumberFieldGrid,
 } from './design-system/index.js'
 
 /** 生成累计经验表:table[0]=0;第 i 级需求 = first + step×(i−1),向后累计。 */
@@ -306,79 +304,61 @@ export function LevelCurveEditor(props: {
         ))}
       </svg>
 
-      <DsFieldGroup className="level-curve-fields">
-        <DsField id="level-curve-count" label="级数">
-          {(field) => (
-            <DsFieldMeasure measure="short-number">
-              <DsDraftNumberInput
-                {...field}
-                draftKey={`actor:${actor.id}:leveling:level-count`}
-                syncToken={syncToken}
-                min={2}
-                max={99}
-                integer
-                normalize={Math.trunc}
-                value={n}
-                onCommit={(value) => {
-                  const nn = Math.max(2, Math.min(99, value ?? 2))
-                  if (nn === n) return
-                  const next = resizeExpTable(table, nn)
-                  setTable(next)
-                  commit(next)
-                }}
-              />
-            </DsFieldMeasure>
-          )}
-        </DsField>
+      <DsNumberFieldGrid className="level-curve-fields">
+        <DsDraftNumberField
+          id="level-curve-count"
+          label="级数"
+          draftKey={`actor:${actor.id}:leveling:level-count`}
+          syncToken={syncToken}
+          min={2}
+          max={99}
+          integer
+          normalize={Math.trunc}
+          value={n}
+          onCommit={(value) => {
+            const nn = Math.max(2, Math.min(99, value ?? 2))
+            if (nn === n) return
+            const next = resizeExpTable(table, nn)
+            setTable(next)
+            commit(next)
+          }}
+        />
         {sel !== null && sel < n && (
-          <DsField id="level-curve-selected-total" label={`第 ${sel} 级累计`}>
-            {(field) => (
-              <DsFieldMeasure measure="short-number">
-                <DsDraftNumberInput
-                  {...field}
-                  draftKey={`actor:${actor.id}:leveling:exp-table:${sel}`}
-                  syncToken={syncToken}
-                  min={0}
-                  integer
-                  normalize={Math.trunc}
-                  value={table[sel] ?? 0}
-                  onCommit={(value) => {
-                    const v = Math.max(0, value ?? 0)
-                    if (v === table[sel]) return
-                    const next = table.map((old, i) => (i === sel ? v : old))
-                    setTable(next)
-                    commit(next)
-                  }}
-                />
-              </DsFieldMeasure>
-            )}
-          </DsField>
+          <DsDraftNumberField
+            id="level-curve-selected-total"
+            label={`第 ${sel} 级累计`}
+            draftKey={`actor:${actor.id}:leveling:exp-table:${sel}`}
+            syncToken={syncToken}
+            min={0}
+            integer
+            normalize={Math.trunc}
+            value={table[sel] ?? 0}
+            onCommit={(value) => {
+              const v = Math.max(0, value ?? 0)
+              if (v === table[sel]) return
+              const next = table.map((old, i) => (i === sel ? v : old))
+              setTable(next)
+              commit(next)
+            }}
+          />
         )}
-        <DsField id="level-curve-generator-first" label="首级需">
-          {(field) => (
-            <DsFieldMeasure measure="short-number">
-              <DsNumberInput
-                {...field}
-                min={1}
-                value={genFirst}
-                onChange={(e) => setGenFirst(Math.max(1, Math.floor(e.target.valueAsNumber) || 1))}
-              />
-            </DsFieldMeasure>
-          )}
-        </DsField>
-        <DsField id="level-curve-generator-step" label="每级递增">
-          {(field) => (
-            <DsFieldMeasure measure="short-number">
-              <DsNumberInput
-                {...field}
-                min={0}
-                value={genStep}
-                onChange={(e) => setGenStep(Math.max(0, Math.floor(e.target.valueAsNumber) || 0))}
-              />
-            </DsFieldMeasure>
-          )}
-        </DsField>
-      </DsFieldGroup>
+        <DsNumberField
+          id="level-curve-generator-first"
+          label="首级需"
+          min={1}
+          integer
+          value={genFirst}
+          onChange={(e) => setGenFirst(Math.max(1, Math.floor(e.target.valueAsNumber) || 1))}
+        />
+        <DsNumberField
+          id="level-curve-generator-step"
+          label="每级递增"
+          min={0}
+          integer
+          value={genStep}
+          onChange={(e) => setGenStep(Math.max(0, Math.floor(e.target.valueAsNumber) || 0))}
+        />
+      </DsNumberFieldGrid>
       <DsButton
         onClick={() => {
           const next = genExpTable(genFirst, genStep, n)

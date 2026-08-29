@@ -43,7 +43,7 @@ import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { CasualtyEditor } from './CasualtyEditor.js'
 import {
   DsButton,
-  DsDraftNumberInput,
+  DsDraftNumberField,
   DsDraftTextInput,
   DsField,
   DsIconButton,
@@ -55,6 +55,7 @@ import {
 } from './design-system/controls.js'
 import {
   DsCatalogRow,
+  DsNumberFieldGrid,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
@@ -1322,7 +1323,7 @@ const ActorBaseStatsPanel = memo(function ActorBaseStatsPanel(props: {
       title="基础能力"
       description="编辑角色的当前/最大体力与真气基线，以及等级和基础属性。"
     >
-      <div className="statgrid actor-stat-editor">
+      <DsNumberFieldGrid className="actor-stat-editor">
         {BASE_STAT_FIELDS.map(({ key, label }) => (
           <ActorStatField
             key={key}
@@ -1334,7 +1335,7 @@ const ActorBaseStatsPanel = memo(function ActorBaseStatsPanel(props: {
             onStat={props.onStat}
           />
         ))}
-      </div>
+      </DsNumberFieldGrid>
     </ActorPanel>
   )
 })
@@ -1349,12 +1350,21 @@ const ActorStatField = memo(
     onStat: (key: keyof BattlerSpec['baseStats'], value: number) => void
   }) {
     return (
-      <EditStat
+      <DsDraftNumberField
+        label={props.label}
+        fieldClassName="actor-stat-field"
+        size="compact"
+        monospace
+        name={`actor-${props.label}`}
+        autoComplete="off"
+        aria-label={props.label}
         draftKey={`actor:${props.actorId}:baseStats.${props.statKey}`}
         syncToken={props.syncToken}
-        k={props.label}
-        v={props.value}
-        on={(value) => props.onStat(props.statKey, value)}
+        value={props.value}
+        min={0}
+        integer
+        normalize={Math.floor}
+        onCommit={(value) => value !== undefined && props.onStat(props.statKey, value)}
       />
     )
   },
@@ -1718,35 +1728,5 @@ function ActorNonBattler(props: { onOverview: () => void }) {
         返回角色总览
       </DsButton>
     </ActorPanel>
-  )
-}
-
-function EditStat(props: {
-  k: string
-  v: number
-  draftKey: string
-  syncToken: number
-  on: (value: number) => void
-}) {
-  return (
-    <DsField label={props.k} className="actor-stat-field">
-      {(field) => (
-        <DsDraftNumberInput
-          {...field}
-          size="compact"
-          monospace
-          name={`actor-${props.k}`}
-          autoComplete="off"
-          aria-label={props.k}
-          draftKey={props.draftKey}
-          syncToken={props.syncToken}
-          value={props.v}
-          min={0}
-          integer
-          normalize={Math.floor}
-          onCommit={(value) => value !== undefined && props.on(value)}
-        />
-      )}
-    </DsField>
   )
 }

@@ -350,7 +350,6 @@ function NumberField(props: {
         min={props.min ?? 0}
         value={props.value ?? ''}
         placeholder={props.optional ? '无' : undefined}
-        onWheel={(event) => event.currentTarget.blur()}
         onChange={(event) =>
           props.onChange(
             event.target.value === '' && props.optional

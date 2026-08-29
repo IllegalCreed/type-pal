@@ -17,12 +17,6 @@
     { "source": "ItemTab.tsx", "component": "EquipEffectFields", "responsive": 1, "stacked": 0 },
     { "source": "ItemTab.tsx", "component": "ItemTab", "responsive": 2, "stacked": 0 },
     {
-      "source": "LevelCurveEditor.tsx",
-      "component": "LevelCurveEditor",
-      "responsive": 1,
-      "stacked": 0
-    },
-    {
       "source": "LevelingEditor.tsx",
       "component": "LevelingEditorImpl",
       "responsive": 1,
@@ -150,7 +144,7 @@
         "component": "StartWorldFields",
         "fieldComponent": "DsDraftNumberField",
         "label": "数量",
-        "className": "",
+        "className": "project-inventory-count",
         "owner": "card:ED-FIELD-LAYOUT-1",
         "reason": "数量是初始道具重复行内的单个紧凑单元，行外已由列表语义持有对齐。",
         "responsiveEvidence": "DsRepeatRow 容器会在窄宽度切换行布局，数量控件使用 short-number measure。",

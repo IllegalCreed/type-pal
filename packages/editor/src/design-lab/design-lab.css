@@ -158,6 +158,27 @@ textarea {
 .lab-field-layout-sample--479 {
   inline-size: min(100%, 479px);
 }
+.lab-number-field-stack {
+  display: grid;
+  align-items: start;
+  gap: var(--ds-space-6);
+  padding: var(--ds-space-6);
+}
+.lab-number-field-sample {
+  max-width: 100%;
+}
+.lab-number-field-sample--1000 {
+  inline-size: min(100%, 1000px);
+}
+.lab-number-field-sample--720 {
+  inline-size: min(100%, 720px);
+}
+.lab-number-field-sample--480 {
+  inline-size: min(100%, 480px);
+}
+.lab-number-field-sample--320 {
+  inline-size: min(100%, 320px);
+}
 .lab-media-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

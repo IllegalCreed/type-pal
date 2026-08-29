@@ -2,7 +2,7 @@ import type { AssetCatalogV1, AssetId, SkillAnimation } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useId } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { DsCheckbox, DsDraftNumberInput, DsField, DsSelect } from './design-system/controls.js'
+import { DsCheckbox, DsDraftNumberField, DsField, DsSelect } from './design-system/controls.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
 import { SoundPicker } from './SoundPicker.js'
 
@@ -23,41 +23,34 @@ function AnimationNumberField(props: {
   onChange: (value: number | undefined) => void
 }) {
   return (
-    <DsField
+    <DsDraftNumberField
       id={props.id}
       label={props.label}
       required={props.required}
       help={props.help}
-      className="skill-animation-field"
-    >
-      {(control) => (
-        <DsDraftNumberInput
-          {...control}
-          draftKey={props.draftKey}
-          syncToken={props.syncToken}
-          monospace
-          name={props.id}
-          autoComplete="off"
-          min={props.min}
-          max={props.max}
-          enforceRange={false}
-          value={props.value === props.emptyValue ? undefined : props.value}
-          allowEmpty={!props.required || props.emptyValue !== undefined}
-          integer
-          placeholder={props.placeholder}
-          onWheel={(event) => event.currentTarget.blur()}
-          onCommit={(raw) => {
-            if (raw === undefined) {
-              props.onChange(props.emptyValue ?? (props.required ? (props.min ?? 0) : undefined))
-              return
-            }
-            const integral = Math.trunc(raw)
-            const lowerBounded = Math.max(props.min ?? integral, integral)
-            props.onChange(Math.min(props.max ?? lowerBounded, lowerBounded))
-          }}
-        />
-      )}
-    </DsField>
+      fieldClassName="skill-animation-field"
+      draftKey={props.draftKey}
+      syncToken={props.syncToken}
+      monospace
+      name={props.id}
+      autoComplete="off"
+      min={props.min}
+      max={props.max}
+      enforceRange={false}
+      value={props.value === props.emptyValue ? undefined : props.value}
+      allowEmpty={!props.required || props.emptyValue !== undefined}
+      integer
+      placeholder={props.placeholder}
+      onCommit={(raw) => {
+        if (raw === undefined) {
+          props.onChange(props.emptyValue ?? (props.required ? (props.min ?? 0) : undefined))
+          return
+        }
+        const integral = Math.trunc(raw)
+        const lowerBounded = Math.max(props.min ?? integral, integral)
+        props.onChange(Math.min(props.max ?? lowerBounded, lowerBounded))
+      }}
+    />
   )
 }
 

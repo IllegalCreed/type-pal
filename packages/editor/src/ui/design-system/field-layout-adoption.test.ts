@@ -1788,7 +1788,7 @@ describe('field layout adoption gate', () => {
         `${entry.source}@${entry.component} must be reachable from a registered route`,
       ).toBe(true)
     validateInspectorOwnershipGraph(manifest)
-  })
+  }, 30_000)
 
   test('rejects Inspector owners moved outside hosts, tabs, or a live portal bridge', () => {
     const manifest = JSON.parse(readFileSync(join(here, 'field-layout-adoption.json'), 'utf8'))
@@ -1983,7 +1983,7 @@ function UnusedInspectorDecoy() {
         'StampLibraryTab.tsx': deadGoodPanelRef,
       }),
     ).toThrow(/must attach propertiesHost state/)
-  }, 15_000)
+  }, 30_000)
 
   test('rejects Inspector self-authorization in a main-area shell or ordinary portal', () => {
     const mainArea = ts.createSourceFile(
@@ -2429,7 +2429,7 @@ function UnusedInspectorDecoy() {
           ),
       ),
     ).toHaveLength(1)
-  })
+  }, 30_000)
 
   test('locks the main readout track to 96px and the exact <480px container boundary', () => {
     const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')

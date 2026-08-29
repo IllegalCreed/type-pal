@@ -90,7 +90,6 @@ function NumberInput(props: {
       enforceRange={false}
       integer
       autoComplete="off"
-      onWheel={(event) => event.currentTarget.blur()}
       onCommit={(value) => {
         const next = Math.floor(value ?? 0)
         return next === props.value ? true : props.onChange(next)

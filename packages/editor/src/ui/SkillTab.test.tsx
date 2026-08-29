@@ -430,6 +430,25 @@ describe('SkillTab · 动画布局', () => {
     await setInput(controlByLabel<HTMLInputElement>('特效号'), '')
     expect(session.getState().skills[0]?.animation.effectSprite).toBe(0xffff)
   })
+
+  test('前置震屏帧可用步进按钮在关闭与 1 帧之间双向切换', async () => {
+    const value = skill()
+    value.animation.preShake = { frames: 1, level: 3 }
+    const session = new EditSession(state([value]))
+    await act(async () => root.render(<Harness session={session} />))
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="减少前置震屏帧"]')!.click(),
+    )
+    expect(session.getState().skills[0]?.animation.preShake).toBeUndefined()
+    expect(controlByLabel<HTMLInputElement>('前置震屏帧').value).toBe('')
+    expect(controlByLabel<HTMLInputElement>('前置震屏帧').placeholder).toBe('关闭')
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="增加前置震屏帧"]')!.click(),
+    )
+    expect(session.getState().skills[0]?.animation.preShake).toEqual({ frames: 1, level: 3 })
+  })
 })
 
 describe('SkillTab · 效果卡片', () => {

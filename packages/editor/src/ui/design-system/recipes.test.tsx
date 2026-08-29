@@ -17,6 +17,7 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsFieldMeasure,
+  DsNumberFieldGrid,
   DsInlineComposer,
   DsInspectorHost,
   DsInspectorPortal,
@@ -204,6 +205,20 @@ describe('object workbench recipes', () => {
       ),
     )
     expect(host.querySelector('.ds-field-measure--short-number')?.textContent).toBe('当前 HP')
+  })
+
+  test('number field grid owns responsive columns without page-level breakpoints', async () => {
+    await act(async () =>
+      root.render(
+        <DsNumberFieldGrid>
+          <span>HP</span>
+          <span>MP</span>
+        </DsNumberFieldGrid>,
+      ),
+    )
+    const grid = host.querySelector<HTMLElement>('[data-ds-number-field-grid]')!
+    expect(grid.classList).toContain('ds-number-field-grid')
+    expect(grid.children).toHaveLength(2)
   })
 
   test('inline composer rejects child-level density overrides', () => {

@@ -89,7 +89,6 @@ function LevelingEditorImpl(props: {
                 rows[i] = { ...r, level }
                 dispatchRows(rows)
               }}
-              onWheel={(e) => e.currentTarget.blur()}
             />
           </span>
           <DsSelect

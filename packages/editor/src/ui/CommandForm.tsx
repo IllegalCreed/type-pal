@@ -107,8 +107,6 @@ function Num(props: { value: number; onChange: (n: number) => void; step?: numbe
       value={props.value}
       step={props.step ?? 1}
       onChange={(e) => props.onChange(Number(e.target.value))}
-      // 防滚轮误改:number input 聚焦时滚轮会步进值(滚右栏列表时极易把坐标滚歪)
-      onWheel={(e) => e.currentTarget.blur()}
     />
   )
 }

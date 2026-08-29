@@ -64,6 +64,7 @@ import {
   DsDiagnosticRow,
   DsDialog,
   DsDraftNumberInput,
+  DsDraftNumberField,
   DsDraftTextArea,
   DsDraftTextInput,
   DsField,
@@ -75,6 +76,7 @@ import {
   DsObjectHero,
   DsObjectWorkspace,
   DsObjectWorkspaceContent,
+  DsNumberFieldGrid,
   DsPressable,
   DsPropertyGrid,
   DsPropertyRow,
@@ -197,7 +199,6 @@ function Num(props: {
         syncToken={props.syncToken}
         value={props.v}
         onCommit={(value) => value !== undefined && props.on(value)}
-        onWheel={(event) => event.currentTarget.blur()}
       />
     </span>
   )
@@ -1524,9 +1525,9 @@ export function ItemTab(props: {
                     </div>
                   </div>
                   <div className="item-trade-fields">
-                    <label className="item-field" htmlFor="item-buy-price">
-                      <span>买价</span>
-                      <DsDraftNumberInput
+                    <DsNumberFieldGrid className="item-trade-number-fields">
+                      <DsDraftNumberField
+                        label="买价"
                         name="item-buy-price"
                         id="item-buy-price"
                         min={0}
@@ -1535,13 +1536,10 @@ export function ItemTab(props: {
                         draftKey={`item:${item.id}:buyPrice`}
                         syncToken={session.getHistoryVersion()}
                         value={item.buyPrice}
-                        onWheel={(event) => event.currentTarget.blur()}
                         onCommit={(value) => value !== undefined && patch({ buyPrice: value })}
                       />
-                    </label>
-                    <label className="item-field" htmlFor="item-sell-price">
-                      <span>卖价</span>
-                      <DsDraftNumberInput
+                      <DsDraftNumberField
+                        label="卖价"
                         name="item-sell-price"
                         id="item-sell-price"
                         min={0}
@@ -1550,10 +1548,9 @@ export function ItemTab(props: {
                         draftKey={`item:${item.id}:sellPrice`}
                         syncToken={session.getHistoryVersion()}
                         value={item.sellPrice}
-                        onWheel={(event) => event.currentTarget.blur()}
                         onCommit={(value) => value !== undefined && patch({ sellPrice: value })}
                       />
-                    </label>
+                    </DsNumberFieldGrid>
                     <DsCheckbox
                       className="item-inline-check item-sellable"
                       label="商店可收购"

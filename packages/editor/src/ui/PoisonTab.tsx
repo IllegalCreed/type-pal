@@ -83,7 +83,6 @@ function Num(props: {
       allowEmpty
       placeholder={props.ph}
       onCommit={props.on}
-      onWheel={(e) => e.currentTarget.blur()}
     />
   )
 }

@@ -9,6 +9,7 @@ import {
   DsCheckbox,
   DsControlGroup,
   DsDraftNumberInput,
+  DsDraftNumberField,
   DsDraftTextInput,
   DsEmptyState,
   DsField,
@@ -21,6 +22,7 @@ import {
   type DsMenuDefinition,
   DsMultiSelect,
   DsNumberInput,
+  DsNumberField,
   type DsOption,
   DsRadioGroup,
   DsSelect,
@@ -74,6 +76,12 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
 
 async function blur(element: HTMLInputElement): Promise<void> {
   await act(async () => element.blur())
+}
+
+async function pointerDown(element: HTMLElement): Promise<boolean> {
+  const event = new MouseEvent('pointerdown', { bubbles: true, cancelable: true })
+  await act(async () => element.dispatchEvent(event))
+  return event.defaultPrevented
 }
 
 async function composition(element: HTMLInputElement, type: 'compositionstart' | 'compositionend') {
@@ -226,6 +234,241 @@ describe('editor design-system controls', () => {
     await blur(field)
     expect(commits).toHaveBeenCalledTimes(1)
     expect(commits).toHaveBeenCalledWith(25)
+  })
+
+  test('derives numeric input modes without overriding an explicit caller choice', async () => {
+    await act(async () =>
+      root.render(
+        <>
+          <DsDraftNumberInput
+            aria-label="整数"
+            draftKey="integer"
+            value={1}
+            integer
+            onCommit={() => undefined}
+          />
+          <DsDraftNumberInput
+            aria-label="显式小数键盘"
+            draftKey="explicit"
+            value={1}
+            integer
+            inputMode="decimal"
+            onCommit={() => undefined}
+          />
+          <DsNumberInput aria-label="直接整数" integer defaultValue={2} />
+          <DsNumberInput aria-label="显式电话键盘" integer inputMode="tel" defaultValue={3} />
+        </>,
+      ),
+    )
+
+    expect(host.querySelector<HTMLInputElement>('[aria-label="整数"]')?.inputMode).toBe('numeric')
+    expect(host.querySelector<HTMLInputElement>('[aria-label="显式小数键盘"]')?.inputMode).toBe(
+      'decimal',
+    )
+    expect(host.querySelector<HTMLInputElement>('[aria-label="直接整数"]')?.inputMode).toBe(
+      'numeric',
+    )
+    expect(host.querySelector<HTMLInputElement>('[aria-label="显式电话键盘"]')?.inputMode).toBe(
+      'tel',
+    )
+    expect(
+      host.querySelector<HTMLInputElement>('[aria-label="直接整数"]')?.getAttribute('integer'),
+    ).toBeNull()
+  })
+
+  test('keeps wheel scrolling non-blocking without committing a focused numeric draft', async () => {
+    const commits = vi.fn()
+    vi.useFakeTimers()
+    await act(async () =>
+      root.render(
+        <DsDraftNumberInput
+          aria-label="等级"
+          draftKey="enemy:level"
+          value={1}
+          integer
+          onCommit={commits}
+        />,
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('input')!
+    await act(async () => field.focus())
+    await input(field, '9')
+    const wheel = new WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: 80 })
+    await act(async () => field.dispatchEvent(wheel))
+
+    expect(wheel.defaultPrevented).toBe(false)
+    expect(document.activeElement).toBe(field)
+    expect(field.value).toBe('9')
+    expect(field.readOnly).toBe(true)
+    expect(commits).not.toHaveBeenCalled()
+    await act(async () => vi.runOnlyPendingTimers())
+    expect(field.readOnly).toBe(false)
+    vi.useRealTimers()
+  })
+
+  test('number fields own a bounded accessible stepper and commit a visible draft once', async () => {
+    const commits = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsDraftNumberField
+          label="数量"
+          draftKey="inventory:potion:count"
+          value={1}
+          min={1}
+          max={3}
+          integer
+          onCommit={commits}
+        />,
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('input')!
+    const decrement = host.querySelector<HTMLButtonElement>('[aria-label="减少数量"]')!
+    const increment = host.querySelector<HTMLButtonElement>('[aria-label="增加数量"]')!
+
+    expect(field.inputMode).toBe('numeric')
+    expect(field.closest('[data-ds-number-stepper]')).not.toBeNull()
+    expect(field.closest('.ds-number-field')).not.toBeNull()
+    expect(field.labels?.[0]?.textContent).toBe('数量')
+    expect(increment.getAttribute('aria-controls')).toBe(field.id)
+    expect(decrement.disabled).toBe(true)
+    expect(increment.disabled).toBe(false)
+
+    await act(async () => field.focus())
+    await input(field, '2')
+    expect(await pointerDown(increment)).toBe(true)
+    expect(document.activeElement).toBe(field)
+    await click(increment)
+    await blur(field)
+
+    expect(commits).toHaveBeenCalledTimes(1)
+    expect(commits).toHaveBeenCalledWith(3)
+    expect(increment.disabled).toBe(true)
+    await click(increment)
+    expect(commits).toHaveBeenCalledTimes(1)
+  })
+
+  test('steps negative and fractional drafts precisely and disables step any', async () => {
+    const negativeCommits = vi.fn()
+    const decimalCommits = vi.fn()
+    await act(async () =>
+      root.render(
+        <>
+          <DsDraftNumberField
+            label="防御"
+            draftKey="enemy:defense"
+            value={-6}
+            integer
+            onCommit={negativeCommits}
+          />
+          <DsDraftNumberField
+            label="倍率"
+            draftKey="skill:ratio"
+            value={0.2}
+            step={0.1}
+            onCommit={decimalCommits}
+          />
+          <DsDraftNumberField
+            label="任意精度"
+            draftKey="any-step"
+            value={2}
+            step="any"
+            onCommit={() => undefined}
+          />
+        </>,
+      ),
+    )
+
+    await click(host.querySelector<HTMLButtonElement>('[aria-label="增加防御"]')!)
+    await click(host.querySelector<HTMLButtonElement>('[aria-label="增加倍率"]')!)
+    expect(negativeCommits).toHaveBeenCalledWith(-5)
+    expect(decimalCommits).toHaveBeenCalledWith(0.3)
+    expect(host.querySelector<HTMLButtonElement>('[aria-label="减少任意精度"]')?.disabled).toBe(
+      true,
+    )
+    expect(host.querySelector<HTMLButtonElement>('[aria-label="增加任意精度"]')?.disabled).toBe(
+      true,
+    )
+  })
+
+  test('optional bounded number fields step between empty and their minimum', async () => {
+    const commits = vi.fn()
+    function OptionalNumberField() {
+      const [value, setValue] = useState<number | undefined>(1)
+      return (
+        <DsDraftNumberField
+          label="前置震屏帧"
+          draftKey="skill:pre-shake-frames"
+          value={value}
+          allowEmpty
+          min={1}
+          integer
+          placeholder="关闭"
+          onCommit={(next) => {
+            commits(next)
+            setValue(next)
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<OptionalNumberField />))
+
+    await click(host.querySelector<HTMLButtonElement>('[aria-label="减少前置震屏帧"]')!)
+    expect(commits).toHaveBeenLastCalledWith(undefined)
+    expect(host.querySelector<HTMLInputElement>('input')?.value).toBe('')
+
+    await click(host.querySelector<HTMLButtonElement>('[aria-label="增加前置震屏帧"]')!)
+    expect(commits).toHaveBeenLastCalledWith(1)
+    expect(commits).toHaveBeenCalledTimes(2)
+  })
+
+  test('plain number field forwards its real input and emits one native change per step', async () => {
+    const inputRef = createRef<HTMLInputElement>()
+    const changes = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsNumberField
+          inputRef={inputRef}
+          label="回合"
+          defaultValue={1}
+          max={2}
+          integer
+          onChange={changes}
+        />,
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('input')!
+    expect(inputRef.current).toBe(field)
+    await click(host.querySelector<HTMLButtonElement>('[aria-label="增加回合"]')!)
+    expect(field.value).toBe('2')
+    expect(changes).toHaveBeenCalledTimes(1)
+    expect(host.querySelector<HTMLButtonElement>('[aria-label="增加回合"]')?.disabled).toBe(true)
+  })
+
+  test('number field stepper follows disabled and readonly semantics', async () => {
+    await act(async () =>
+      root.render(
+        <>
+          <DsNumberField label="禁用数值" value={1} disabled onChange={() => undefined} />
+          <DsDraftNumberField
+            label="只读数值"
+            draftKey="readonly"
+            value={2}
+            readOnly
+            onCommit={() => undefined}
+          />
+        </>,
+      ),
+    )
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('[data-ds-number-stepper] button')].every(
+        (button) => button.disabled,
+      ),
+    ).toBe(true)
+    const inputs = [...host.querySelectorAll<HTMLInputElement>('input')]
+    expect(inputs[0]?.disabled).toBe(true)
+    expect(inputs[0]?.readOnly).toBe(false)
+    expect(inputs[1]?.disabled).toBe(false)
+    expect(inputs[1]?.readOnly).toBe(true)
   })
 
   test('normalizes legacy domain values before integer and range validation', async () => {

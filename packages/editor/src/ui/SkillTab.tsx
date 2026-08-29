@@ -50,6 +50,7 @@ import {
   DsCatalogControls,
   DsCatalogRow,
   DsCatalogWorkspace,
+  DsNumberFieldGrid,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
@@ -208,7 +209,6 @@ function N(props: {
         allowEmpty
         placeholder={props.ph}
         onCommit={props.on}
-        onWheel={(e) => e.currentTarget.blur()}
       />
     </span>
   )
@@ -1134,75 +1134,73 @@ export function SkillTab(props: {
                       label: target.label,
                     }))}
                   />
-                  <DsDraftNumberField
-                    label="耗真气"
-                    draftKey={`skill:${skill.id}:cost.mp`}
-                    syncToken={session.getHistoryVersion()}
-                    monospace
-                    value={skill.cost.mp}
-                    allowEmpty
-                    placeholder="0"
-                    onWheel={(event) => event.currentTarget.blur()}
-                    onCommit={(value) =>
-                      patch({
-                        cost: {
-                          ...skill.cost,
-                          mp: value,
-                        },
-                      })
-                    }
-                  />
-                  <DsDraftNumberField
-                    label="耗体力"
-                    draftKey={`skill:${skill.id}:cost.stamina`}
-                    syncToken={session.getHistoryVersion()}
-                    monospace
-                    value={skill.cost.stamina}
-                    allowEmpty
-                    placeholder="0"
-                    onWheel={(event) => event.currentTarget.blur()}
-                    onCommit={(value) =>
-                      patch({
-                        cost: {
-                          ...skill.cost,
-                          stamina: value,
-                        },
-                      })
-                    }
-                  />
-                  <DsDraftNumberField
-                    label="耗金钱"
-                    draftKey={`skill:${skill.id}:cost.money`}
-                    syncToken={session.getHistoryVersion()}
-                    monospace
-                    value={skill.cost.money}
-                    allowEmpty
-                    placeholder="0"
-                    onWheel={(event) => event.currentTarget.blur()}
-                    onCommit={(value) =>
-                      patch({
-                        cost: {
-                          ...skill.cost,
-                          money: value,
-                        },
-                      })
-                    }
-                  />
-                  <DsDraftNumberField
-                    label="一生限用"
-                    draftKey={`skill:${skill.id}:lifetimeLimit`}
-                    syncToken={session.getHistoryVersion()}
-                    title="一生/全周目限用次数，达到后从角色习得列表移除并提示用尽；留空 = 不限（酒神 9 次）"
-                    monospace
-                    min={1}
-                    enforceRange={false}
-                    step={1}
-                    value={skill.lifetimeLimit}
-                    allowEmpty
-                    placeholder="不限"
-                    onWheel={(event) => event.currentTarget.blur()}
-                    onCommit={(value) => patch({ lifetimeLimit: value })}
-                  />
+                  <DsNumberFieldGrid className="battle-data-number-fields">
+                    <DsDraftNumberField
+                      label="耗真气"
+                      draftKey={`skill:${skill.id}:cost.mp`}
+                      syncToken={session.getHistoryVersion()}
+                      monospace
+                      value={skill.cost.mp}
+                      allowEmpty
+                      placeholder="0"
+                      onCommit={(value) =>
+                        patch({
+                          cost: {
+                            ...skill.cost,
+                            mp: value,
+                          },
+                        })
+                      }
+                    />
+                    <DsDraftNumberField
+                      label="耗体力"
+                      draftKey={`skill:${skill.id}:cost.stamina`}
+                      syncToken={session.getHistoryVersion()}
+                      monospace
+                      value={skill.cost.stamina}
+                      allowEmpty
+                      placeholder="0"
+                      onCommit={(value) =>
+                        patch({
+                          cost: {
+                            ...skill.cost,
+                            stamina: value,
+                          },
+                        })
+                      }
+                    />
+                    <DsDraftNumberField
+                      label="耗金钱"
+                      draftKey={`skill:${skill.id}:cost.money`}
+                      syncToken={session.getHistoryVersion()}
+                      monospace
+                      value={skill.cost.money}
+                      allowEmpty
+                      placeholder="0"
+                      onCommit={(value) =>
+                        patch({
+                          cost: {
+                            ...skill.cost,
+                            money: value,
+                          },
+                        })
+                      }
+                    />
+                    <DsDraftNumberField
+                      label="一生限用"
+                      draftKey={`skill:${skill.id}:lifetimeLimit`}
+                      syncToken={session.getHistoryVersion()}
+                      title="一生/全周目限用次数，达到后从角色习得列表移除并提示用尽；留空 = 不限（酒神 9 次）"
+                      monospace
+                      min={1}
+                      enforceRange={false}
+                      step={1}
+                      value={skill.lifetimeLimit}
+                      allowEmpty
+                      placeholder="不限"
+                      onCommit={(value) => patch({ lifetimeLimit: value })}
+                    />
+                  </DsNumberFieldGrid>
                   <DsCheckbox
                     label="战外可用"
                     checked={skill.usableOutsideBattle}
@@ -1272,7 +1270,6 @@ export function SkillTab(props: {
                           syncToken={session.getHistoryVersion()}
                           aria-label={`消耗物品数量 ${index + 1}`}
                           value={entry.amount}
-                          onWheel={(event) => event.currentTarget.blur()}
                           onCommit={(amount) => {
                             if (amount === undefined) return
                             const next = [...entries]

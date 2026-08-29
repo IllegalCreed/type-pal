@@ -2,8 +2,8 @@ import {
   type ButtonHTMLAttributes,
   Children,
   type ComponentPropsWithoutRef,
-  createContext,
   cloneElement,
+  createContext,
   forwardRef,
   isValidElement,
   type ReactElement,
@@ -382,6 +382,18 @@ export function DsFieldMeasure(props: {
         props.className,
       )}
       data-measure={props.measure}
+    >
+      {props.children}
+    </div>
+  )
+}
+
+/** 主表单短数值集合的唯一响应式列配方；列数只由容器可用宽度决定。 */
+export function DsNumberFieldGrid(props: { children: ReactNode; className?: string }) {
+  return (
+    <div
+      className={dsClasses('ds-number-field-grid', props.className)}
+      data-ds-number-field-grid=""
     >
       {props.children}
     </div>
