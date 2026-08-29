@@ -2,7 +2,7 @@ import { emptyWorldScriptState, type WorldState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { makeTestWorld } from '../test-fixtures.js'
 import { MemorySaveStore } from './store.js'
-import { SAVE_VERSION, type CurrentSavePayload, type SaveMeta } from './types.js'
+import { type CurrentSavePayload, SAVE_VERSION, type SaveMeta } from './types.js'
 
 function meta(slotId: string): SaveMeta {
   return {
@@ -22,7 +22,7 @@ function payload(): CurrentSavePayload {
   return {
     version: SAVE_VERSION,
     projectId: 'demo',
-    contentVersion: 18,
+    contentVersion: 19,
     world,
     position: { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
   }

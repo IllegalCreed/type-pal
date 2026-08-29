@@ -102,7 +102,7 @@ function st(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 18,
+      contentVersion: 19,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json' },
       assets: {
@@ -2353,13 +2353,13 @@ describe('地图资产命令', () => {
     const s1 = command.apply(s0)
     expect(s1.mapIndex.maps).toEqual([{ id: 'home', name: '民居', path: 'content/maps/home.json' }])
     expect(s1.maps.home).toBeDefined()
-    expect(s1.manifest.contentVersion).toBe(18)
+    expect(s1.manifest.contentVersion).toBe(19)
     expect(s1.manifest.content.maps).toBe('content/maps/index.json')
     expect(s0.mapIndex.maps).toEqual([])
     const back = command.invert(s1)
     expect(back.mapIndex.maps).toEqual([])
     expect(back.maps.home).toBeUndefined()
-    expect(back.manifest.contentVersion).toBe(18)
+    expect(back.manifest.contentVersion).toBe(19)
     expect(back.manifest.content.maps).toBe('content/maps/index.json')
   })
 
@@ -2657,10 +2657,12 @@ describe('X7 manifest 命令', () => {
     expect(restored.manifest.entryPoints).toEqual(s0.manifest.entryPoints)
 
     const session = new EditSession(s0)
-    session.dispatch(new SetStartupEntriesCommand({
-      defaultEntryId: 'alt',
-      entryPoints: s1.manifest.entryPoints,
-    }))
+    session.dispatch(
+      new SetStartupEntriesCommand({
+        defaultEntryId: 'alt',
+        entryPoints: s1.manifest.entryPoints,
+      }),
+    )
     expect(session.getState().manifest.defaultEntryId).toBe('alt')
     expect(session.undo()).toBe(true)
     expect(session.getState().manifest).toMatchObject({

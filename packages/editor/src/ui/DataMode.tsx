@@ -596,6 +596,7 @@ export function DataMode(props: {
         items: itemList,
         skills: skillList,
         actors,
+        poisons,
         sprites,
         battleSprites,
         ambiences,

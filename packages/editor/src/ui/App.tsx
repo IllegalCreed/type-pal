@@ -72,12 +72,12 @@ import {
   UpsertSceneEntryCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   createEditorDerivedStore,
   effectiveEditorDerivedStatus,
   isEditorDerivedSnapshotCurrent,
 } from '../core/editor-derived-store.js'
-import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import {
@@ -119,8 +119,8 @@ import {
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
   buildCanonicalSceneEntryReferenceIndex,
-  sceneEntryReferenceKey,
   type SceneEntryReferenceEntry,
+  sceneEntryReferenceKey,
 } from '../core/script-references.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
 import type { WorkspaceContext } from '../core/workspace-context.js'
@@ -169,13 +169,13 @@ import {
   DsInspectorTabs,
   DsListHeader,
   DsNumberInput,
+  DsPressable,
   DsPropertyGrid,
   DsPropertyRow,
-  DsPressable,
+  DsReadonlyValue,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
-  DsReadonlyValue,
   DsSelect,
   DsTextInput,
 } from './design-system/index.js'
@@ -204,12 +204,6 @@ import {
   useStoredPanelNumber,
 } from './PanelResizeHandle.js'
 import { type ProjectSaveActivity, ProjectSaveDialog } from './ProjectSaveDialog.js'
-import {
-  shallowSelectorArrayEqual,
-  useEditSessionSelector,
-  useEditorDerivedSelector,
-  useScriptEditSessionSelector,
-} from './session-selector.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { type SceneAnchorSelection, SceneCanvas } from './SceneCanvas.js'
 import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
@@ -218,6 +212,12 @@ import { ScriptDrawer } from './ScriptDrawer.js'
 import { CanonicalHostileOnLoseEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { disposeSoundPreview } from './SoundPicker.js'
 import { SpriteImageViewer, SpriteThumb } from './SpriteThumb.js'
+import {
+  shallowSelectorArrayEqual,
+  useEditorDerivedSelector,
+  useEditSessionSelector,
+  useScriptEditSessionSelector,
+} from './session-selector.js'
 
 type SceneSelection =
   | { kind: 'scene' }
@@ -1053,6 +1053,16 @@ export function App(props: {
       case 'poison':
         applyEditorLocation(editorLinks.poison(locator.poisonId))
         return
+      case 'scene':
+        setPlaceSceneId(locator.sceneId)
+        applyEditorLocation(editorLinks.scene(locator.sceneId))
+        return
+      case 'shared-script':
+        openSharedScript(locator.scriptId)
+        return
+      case 'entry-point':
+        applyEditorLocation(editorLinks.entryPoint(locator.entryPointId))
+        return
     }
   }
   const openBattleFieldReference = (reference: BlockingBattleFieldReference): void => {
@@ -1118,6 +1128,7 @@ export function App(props: {
         items: state.items,
         skills: state.skills,
         actors: state.actors,
+        poisons: state.poisons ?? [],
         sprites: state.sprites,
         battleSprites: state.battleSprites,
         ambiences: state.ambiences ?? [],
@@ -1154,6 +1165,7 @@ export function App(props: {
     state.items,
     state.locale,
     state.mapIndex,
+    state.poisons,
     state.scenes,
     state.shops,
     state.skills,

@@ -56,7 +56,7 @@ function state(): EditorState {
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: { worldVariables: 'content/world-variables.json' },
@@ -183,7 +183,9 @@ describe('VarsTab world variable workbench', () => {
     expect(host.textContent).toContain('数值')
     expect(host.textContent).toContain('未登记引用')
     expect(host.textContent).toContain('missing.value')
-    const variableRows = [...host.querySelectorAll<HTMLElement>('.world-variable-catalog .ds-catalog-row')]
+    const variableRows = [
+      ...host.querySelectorAll<HTMLElement>('.world-variable-catalog .ds-catalog-row'),
+    ]
     const rowByTitle = (title: string) =>
       variableRows.find(
         (row) => row.querySelector('.ds-catalog-row__title')?.textContent === title,

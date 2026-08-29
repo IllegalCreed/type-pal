@@ -80,7 +80,7 @@ async function localTarget(dir: FileSystemDirectoryHandle) {
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 18,
+  contentVersion: 19,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: { actors: 'content/actors.json', scenes: 'content/scenes/' },

@@ -16,6 +16,24 @@ describe('PAL 已审计内容 overlay', () => {
     expect(source[0]?.use).toBeUndefined()
   })
 
+  test('傀儡状态用途由上游明确限制为战斗内使用', () => {
+    const source = [
+      {
+        id: '152',
+        name: '傀儡虫',
+        use: {
+          target: 'oneAlly',
+          consuming: true,
+          effects: [{ kind: 'applyStatus', status: 'puppet', turns: 9 }],
+        },
+      },
+    ] as ItemData[]
+    const once = applyPalItemOverlays(source)
+    expect(once[0]?.use?.battleOnly).toBe(true)
+    expect(applyPalItemOverlays(once)).toEqual(once)
+    expect(source[0]?.use?.battleOnly).toBeUndefined()
+  })
+
   test('四个动态技能稳定追加，已有时以审计定义覆盖', () => {
     const source = [
       { id: '296', name: '气疗术' },

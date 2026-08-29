@@ -5,6 +5,7 @@
  * 旧 opcode 的翻译缺口属于迁移期诊断,不得进入工程内容或运行时。
  */
 
+import { type ActorConditionCommand, checkActorConditionCommandShape } from './actor-condition.js'
 import type { AssetId } from './asset.js'
 import type { GridPos } from './grid.js'
 import type { DialogueCue, Facing } from './index.js'
@@ -234,6 +235,8 @@ export type Command =
   // 队伍管理(C7,D22 reserve 暂存区。原版 0x75 setParty 的 clean 表达:
   // members = 角色模板 id 有序表(站位序;杜绝下标式身份),离队进 reserve 状态不丢)
   | { kind: 'setParty'; members: string[] }
+  /** 剧情只修改已实例化角色的当前临时状态；不改 setParty 语义。 */
+  | ActorConditionCommand
   // 控制流(M3b 引擎;schema 先行防返工)
   | { kind: 'branch'; cond: ScriptCondition; then: Command[]; else?: Command[] }
   /** 受控调用：目标正常结束后返回当前命令体。 */
@@ -264,12 +267,14 @@ export type SceneEntryPrepareSafety = 'safe' | 'blocked'
 export const SCENE_ENTRY_PREPARE_SAFETY = {
   addVar: 'safe',
   animEntity: 'safe',
+  applyActorCondition: 'safe',
   branch: 'blocked',
   callScript: 'blocked',
   cameraPan: 'blocked',
   cameraSnap: 'safe',
   chasePlayer: 'blocked',
   clearDialog: 'safe',
+  clearActorCondition: 'safe',
   clearSceneScripts: 'safe',
   confirm: 'blocked',
   dialog: 'blocked',
@@ -411,7 +416,11 @@ export function emptyProjectedWorldScriptState(): ProjectedWorldScriptState {
 }
 
 /** stages 选段(stage 越界钳到末段 —— 原版语义:推进过头停在最后一段重复)。 */
-export function stageIndexFor(world: ProjectedWorldScriptState, key: string, stages: ScriptStage[]): number {
+export function stageIndexFor(
+  world: ProjectedWorldScriptState,
+  key: string,
+  stages: ScriptStage[],
+): number {
   const raw = world.entityStage[key] ?? 0
   return Math.max(0, Math.min(raw, stages.length - 1))
 }
@@ -459,6 +468,8 @@ export function checkCommands(
     if (k === 'unmigrated') throw new Error(`${path}[${i}]: 旧工程产物,请用迁移器重新生成`)
     if (!Object.hasOwn(SCENE_ENTRY_PREPARE_SAFETY, k))
       throw new Error(`${path}[${i}].kind: 未知命令 ${JSON.stringify(k)}`)
+    if (k === 'applyActorCondition' || k === 'clearActorCondition')
+      checkActorConditionCommandShape(c, `${path}[${i}]`)
     if (k === 'dialog') {
       const dialog = c as { cue?: unknown; line?: unknown }
       if (dialog.line !== undefined)

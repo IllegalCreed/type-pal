@@ -7,12 +7,12 @@ const {
   openLocalProjectMock,
   writeProjectMock,
 } = vi.hoisted(() => ({
-    buildBlankProjectMock: vi.fn(),
-    cloneFromPalMock: vi.fn(),
-    httpSourceMock: vi.fn(),
-    openLocalProjectMock: vi.fn(),
-    writeProjectMock: vi.fn(),
-  }))
+  buildBlankProjectMock: vi.fn(),
+  cloneFromPalMock: vi.fn(),
+  httpSourceMock: vi.fn(),
+  openLocalProjectMock: vi.fn(),
+  writeProjectMock: vi.fn(),
+}))
 
 vi.mock('./seed.js', () => ({ buildBlankProject: buildBlankProjectMock }))
 vi.mock('./clone.js', () => ({ cloneFromPal: cloneFromPalMock }))
@@ -33,7 +33,7 @@ const PAL_WORKSPACE_ID = 'b71e6905-4422-4f0b-9bc4-a65f23f4c721'
 const palManifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 18,
+  contentVersion: 19,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   assets: { catalog: 'assets/index.json', roles: {} },
@@ -63,10 +63,7 @@ function palJsonFiles(): Record<string, unknown> {
   }
 }
 
-function jsonDirectory(
-  files: Record<string, unknown>,
-  name = 'pal',
-): FileSystemDirectoryHandle {
+function jsonDirectory(files: Record<string, unknown>, name = 'pal'): FileSystemDirectoryHandle {
   const nested = new Map<string, unknown>()
   for (const [path, value] of Object.entries(files)) nested.set(path, value)
   const directory = (prefix: string, directoryName: string): FileSystemDirectoryHandle => {
@@ -249,7 +246,7 @@ describe('project creation and Save As target policy', () => {
     buildBlankProjectMock.mockResolvedValue({
       'manifest.json': {
         version: 1,
-        contentVersion: 18,
+        contentVersion: 19,
         minimumSaveVersion: 8,
         id: 'blank',
         name: 'Blank',
@@ -431,9 +428,7 @@ describe('project creation and Save As target policy', () => {
       return { project: { manifest: { id: 'pal' } } }
     })
 
-    await expect(finishOpen(metadataDir)).rejects.toThrow(
-      '工作区 identity 在项目载入期间发生变化',
-    )
+    await expect(finishOpen(metadataDir)).rejects.toThrow('工作区 identity 在项目载入期间发生变化')
   })
 
   test('PAL target snapshot changing during canonical load is rejected before registration', async () => {
@@ -447,9 +442,7 @@ describe('project creation and Save As target policy', () => {
       return { project: { manifest: palManifest } }
     })
 
-    await expect(finishOpen(dir)).rejects.toThrow(
-      '关键快照与本次会话预期不一致',
-    )
+    await expect(finishOpen(dir)).rejects.toThrow('关键快照与本次会话预期不一致')
   })
 
   test('trusted PAL HTTP proof changing during canonical load is rejected', async () => {
@@ -462,9 +455,7 @@ describe('project creation and Save As target policy', () => {
       return { project: { manifest: palManifest } }
     })
 
-    await expect(finishOpen(dir)).rejects.toThrow(
-      'HTTP 快照在载入期间发生变化',
-    )
+    await expect(finishOpen(dir)).rejects.toThrow('HTTP 快照在载入期间发生变化')
   })
 
   test('two concurrent first opens of one unmarked directory reuse one workspace identity', async () => {

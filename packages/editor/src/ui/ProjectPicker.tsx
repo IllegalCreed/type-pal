@@ -1,6 +1,5 @@
-import { DsPressable } from './design-system/index.js'
 /**
- * 编辑器启动屏。只负责创建、选择和打开当前 canonical content18 项目；旧开发项目必须
+ * 编辑器启动屏。只负责创建、选择和打开当前 canonical content19 项目；旧开发项目必须
  * 重新生成，不在产品启动流程中提供兼容工作台。
  */
 import { useEffect, useState } from 'react'
@@ -18,6 +17,7 @@ import {
   pickDir,
 } from '../core/open-actions.js'
 import { type WorkspaceMode, workspaceModeLabel } from '../core/workspace-context.js'
+import { DsPressable } from './design-system/index.js'
 
 const mb = (value: number): string => (value / 1024 / 1024).toFixed(1)
 
@@ -99,7 +99,7 @@ export function ProjectPicker(props: {
       <div className="picker-card">
         <h1 className="picker-title">type-pal 编辑器</h1>
         <p className="picker-sub">
-          选择当前 canonical content18 项目开始编辑。旧开发项目请重新生成。
+          选择当前 canonical content19 项目开始编辑。旧开发项目请重新生成。
         </p>
 
         {busy ? (
@@ -129,11 +129,11 @@ export function ProjectPicker(props: {
               </DsPressable>
               <DsPressable type="button" className="picker-act" onClick={openProject}>
                 <span className="picker-act-t">打开项目</span>
-                <span className="picker-act-d">选择一个当前 content18 本地项目继续编辑。</span>
+                <span className="picker-act-d">选择一个当前 content19 本地项目继续编辑。</span>
               </DsPressable>
               <DsPressable type="button" className="picker-act" onClick={createBlank}>
                 <span className="picker-act-t">新建空白项目</span>
-                <span className="picker-act-d">创建包含起始场景与占位角色的 content18 项目。</span>
+                <span className="picker-act-d">创建包含起始场景与占位角色的 content19 项目。</span>
               </DsPressable>
             </div>
 

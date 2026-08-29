@@ -93,7 +93,7 @@ function shellState(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -345,7 +345,7 @@ describe('App item reference navigation', () => {
   ): Promise<EditSession> => {
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
     } as EditorState['manifest']
     const source = {
@@ -1196,9 +1196,7 @@ describe('App item reference navigation', () => {
       (trigger) => trigger.textContent === '场景',
     )!
     await act(async () => sceneMenuTrigger.click())
-    const sceneMenuItem = document.querySelector<HTMLElement>(
-      '.ds-menu-popover [role="menuitem"]',
-    )!
+    const sceneMenuItem = document.querySelector<HTMLElement>('.ds-menu-popover [role="menuitem"]')!
     sceneMenuItem.focus()
     await act(async () =>
       sceneMenuItem.dispatchEvent(
@@ -1305,7 +1303,7 @@ describe('App item reference navigation', () => {
     expect(host.querySelector('[role="status"]')?.textContent).not.toContain('已删除')
   })
 
-  test('content18 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
+  test('content19 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const canonical = canonicalState()
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
@@ -1329,7 +1327,7 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       content: { ...shell.manifest.content, sharedScripts: 'content/shared-scripts.json' },
     } as EditorState['manifest']
@@ -1379,7 +1377,7 @@ describe('App item reference navigation', () => {
     )
   })
 
-  test('content18 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
+  test('content19 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
     const canonical = canonicalState()
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
       kind: 'stages',
@@ -1402,7 +1400,7 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
@@ -1416,7 +1414,7 @@ describe('App item reference navigation', () => {
     }
 
     const merged = mergeEditorProjectionWithCurrentAuthorState(canonical, shell)
-    expect(merged.manifest.contentVersion).toBe(18)
+    expect(merged.manifest.contentVersion).toBe(19)
     expect(merged.scenes[0]!.entry.pos).toEqual({ col: 9, row: 8, height: 0 })
     expect(
       (merged.scenes[0] as unknown as ScriptEditorState['scenes'][number]).entities[0]!.behaviors!

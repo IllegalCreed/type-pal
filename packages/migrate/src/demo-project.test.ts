@@ -9,9 +9,9 @@ import {
   validateActors,
   validateAssetCatalog,
   validateAuthorItems,
-  validateLocale,
   validateAuthorScenes,
   validateCurrentManifestStartup,
+  validateLocale,
   validateSkills,
   validateSprites,
 } from '@type-pal/content'
@@ -21,10 +21,7 @@ const root = fileURLToPath(new URL('../../../projects/demo/', import.meta.url))
 const read = (rel: string): unknown => JSON.parse(readFileSync(root + rel, 'utf8'))
 
 const sceneIds = read('content/scenes/index.json') as string[]
-const { manifest, defaultEntry } = validateCurrentManifestStartup(
-  read('manifest.json'),
-  sceneIds,
-)
+const { manifest, defaultEntry } = validateCurrentManifestStartup(read('manifest.json'), sceneIds)
 const scenes = validateAuthorScenes(sceneIds.map((id) => read(`content/scenes/${id}.json`)))
 const actors = validateActors(read('content/actors.json'))
 const assetCatalog = validateAssetCatalog(read('assets/index.json'))
@@ -43,7 +40,7 @@ const spritesById = byId(sprites)
 describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
   test('数据关键值:入口场景 / 技能 MP / 物品装备槽 / locale', () => {
     expect(manifest.id).toBe('demo')
-    expect(manifest.contentVersion).toBe(18)
+    expect(manifest.contentVersion).toBe(19)
     expect(manifest.minimumSaveVersion).toBe(8)
     expect(scenes.find((s) => s.id === defaultEntry.scene)).toBeDefined() // 默认入口场景可解析
     expect(skillsById['296']?.name).toBe('气疗术')

@@ -249,6 +249,12 @@ export async function executeScriptHostEffect(
     case 'setParty':
       await host.setParty([...command.members], signal)
       return
+    case 'applyActorCondition':
+      await host.applyActorCondition(command.actor, command.condition, signal)
+      return
+    case 'clearActorCondition':
+      await host.clearActorCondition(command.actor, command.condition, signal)
+      return
     case 'quitToTitle':
       await host.quitToTitle?.(command.videos, signal)
       return

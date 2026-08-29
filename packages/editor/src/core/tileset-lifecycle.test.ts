@@ -42,7 +42,7 @@ function state(
     manifest: {
       id: 'tileset-test',
       name: 'Tileset Test',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json', tilesets: 'content/tilesets.json' },

@@ -11,7 +11,7 @@ import {
   UpdateActorCommand,
   UpdateLocaleCommand,
 } from './commands.js'
-import { EditSession, type EditorState } from './edit-session.js'
+import { type EditorState, EditSession } from './edit-session.js'
 
 const sprite: SpriteDef = {
   id: 'sprite.hero',
@@ -25,7 +25,7 @@ function state(actors: ActorDef[] = []): EditorState {
     manifest: {
       id: 'actor-crud',
       name: 'actor crud',
-      contentVersion: 18,
+      contentVersion: 19,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -166,9 +166,7 @@ describe('人物 CRUD 与解除关联', () => {
   test('删除被场景实例引用的人物 fail-loud 且无半删除', () => {
     const current = state([actor()])
     current.locale = { 'name.hero': '主角' }
-    current.scenes[0]!.entities = [
-      { id: 'e', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' },
-    ]
+    current.scenes[0]!.entities = [{ id: 'e', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' }]
     expect(() => new DeleteActorCommand('hero').apply(current)).toThrow(/场景 s \/ 实体 e/)
     expect(current.actors).toEqual([actor()])
   })
@@ -179,9 +177,9 @@ describe('人物 CRUD 与解除关联', () => {
     currentAuthor.scenes[0]!.entities = [
       { id: 'live', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' },
     ]
-    expect(() =>
-      new DeleteActorCommand('hero', () => currentAuthor).apply(shell),
-    ).toThrow(/场景 s \/ 实体 live/)
+    expect(() => new DeleteActorCommand('hero', () => currentAuthor).apply(shell)).toThrow(
+      /场景 s \/ 实体 live/,
+    )
     expect(() => new DeleteActorCommand('hero', () => undefined).apply(shell)).toThrow(
       /无法读取当前作者态引用/,
     )
@@ -241,12 +239,16 @@ describe('人物 CRUD 与解除关联', () => {
       {
         ...current.scenes[0]!,
         id: 'b',
-        entities: [{ id: 'two', actor: 'hero', pos: { col: 8, row: 8, height: 0 }, pages: [{ state: 2 }] }],
+        entities: [
+          { id: 'two', actor: 'hero', pos: { col: 8, row: 8, height: 0 }, pages: [{ state: 2 }] },
+        ],
       },
     ]
     const session = new EditSession(current)
     session.dispatch(new UpdateActorCommand('hero', { spriteId: 'sprite.hero.next' }))
-    const actorsById = Object.fromEntries(session.getState().actors.map((entry) => [entry.id, entry]))
+    const actorsById = Object.fromEntries(
+      session.getState().actors.map((entry) => [entry.id, entry]),
+    )
     expect(resolveEntitySpriteId(session.getState().scenes[0]!.entities[0]!, actorsById)).toBe(
       'sprite.hero.next',
     )

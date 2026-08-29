@@ -69,6 +69,16 @@ poisons: ActivePoison[]              // 独立列表,非 status
 interface ActivePoison { poisonId: number; tickIndex: number }  // 指针 = tickIndex
 ```
 
+### 入口与剧情作者入口（content19，2026-08-30）
+
+- 入口 `StartWorld.seedConditions[actorId].poisonIds` 只保存稳定 `PoisonDef.id`，并只允许开局队员。
+  `buildWorld` 新建世界时一次性物化为 `ActivePoison { tickIndex: 0 }`；这是确定性当前快照，不执行相克、
+  致死或抗性门，读档也不重新播种。
+- 剧情使用 `applyActorCondition` / `clearActorCondition` 指向稳定 ActorId。显式施毒必中，不投玩家毒抗概率骰；
+  施加动作复用 `applyPoisonSelf`，因此相克、致死与重复毒仍只有一份 content 规则。
+- 世界中毒不自行推进 tick。进入战斗后复制现有槽并按战斗回合推进；战后只解到 `severe`，不可解毒保留；
+  从存档恢复时 party 与 reserve 的毒全部清除，包含不可解毒。这两条清理边界不得合并。
+
 ## 核心机制
 
 1. **逐回合 DoT**(fight.c:4454):每单位**行动后**遍历自身 poisons,跑当前 tick(hpDelta/mpDelta/halveHp/grantItem)→ tickIndex++(钳到末项 or selfCure 则移除该毒)。敌我各取 enemyTicks/playerTicks。

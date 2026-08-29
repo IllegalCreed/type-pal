@@ -30,7 +30,7 @@ function state(items: ItemData[] = []): EditorState {
     manifest: {
       id: 'items',
       name: 'items',
-      contentVersion: 18,
+      contentVersion: 19,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -93,7 +93,11 @@ describe('物品 CRUD 命令', () => {
         },
       },
     }
-    const command = new DeleteItemCommand('used', () => canonical, () => current)
+    const command = new DeleteItemCommand(
+      'used',
+      () => canonical,
+      () => current,
+    )
 
     expect(() => command.apply(current)).toThrow(/可复用脚本“奖励”.*获得 ×1/s)
     canonical.sharedScripts['shared/user/reward']!.body = []

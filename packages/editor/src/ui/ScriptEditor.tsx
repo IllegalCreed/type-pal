@@ -4,16 +4,16 @@ import type {
   AssetCatalogV1,
   AuthorCommand,
   AuthorCondition,
+  AuthorSceneDef,
+  AuthorScriptFlow,
   BattleFieldDef,
   BattleSpriteDef,
   Command,
   EnemyTeamDef,
   EntityAddress,
-  AuthorSceneDef,
   Locale,
   SceneDef,
   ScriptCondition,
-  AuthorScriptFlow,
   ShopDef,
   SpriteDef,
   WorldVariableRegistryV1,
@@ -34,13 +34,13 @@ import {
   updateAuthorCommandAt,
 } from '../core/author-command-edit.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import type {
   CanonicalScriptReference,
-  ScriptEditorState,
   ScriptCommandLocator,
+  ScriptEditorState,
 } from '../core/script-editor.js'
 import { stateTransitionExecutionLabel } from '../core/script-editor.js'
+import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { CommandForm, WorldVariablePicker } from './CommandForm.js'
 import {
@@ -53,12 +53,12 @@ import {
   DsIconButton,
   DsNumberInput,
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
   DsSelect,
   DsTextArea,
   DsTextInput,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/index.js'
 import { EntityStateSelect } from './EntityStateSelect.js'
@@ -172,9 +172,7 @@ export function CanonicalScriptDialog(props: {
         ) : undefined
       }
     >
-      <div className={bodyClassName}>
-        {props.children}
-      </div>
+      <div className={bodyClassName}>{props.children}</div>
     </DsDialog>
   )
 }
@@ -519,11 +517,13 @@ interface DescribedCommand {
 export const AUTHOR_COMMAND_PRESENTATION_ = {
   addVar: ['🔢', '增减数值'],
   animEntity: ['🎞', '推进实体动画'],
+  applyActorCondition: ['🩺', '施加角色当前状态'],
   branch: ['🔀', '条件分支'],
   callScript: ['↪', '调用共享脚本'],
   cameraPan: ['🎥', '镜头平移'],
   cameraSnap: ['🎥', '镜头定位或回正'],
   chasePlayer: ['👣', '追逐玩家'],
+  clearActorCondition: ['🩹', '清除角色当前状态'],
   clearDialog: ['🧹', '清除对话框'],
   confirm: ['❓', '是/否询问'],
   dialog: ['💬', '对话'],
@@ -2704,11 +2704,39 @@ function fallbackInsertionChoice(
   })
 
   switch (kind) {
+    case 'applyActorCondition': {
+      const actor = Object.values(context?.actors ?? {}).find((candidate) => candidate.battler)?.id
+      const poisonId = Number(context?.references.choices('poison')[0]?.id)
+      return actor
+        ? enabled({
+            kind,
+            actor,
+            condition:
+              Number.isSafeInteger(poisonId) && poisonId > 0
+                ? { kind: 'poison', poisonId }
+                : { kind: 'status', status: 'protect', turns: 7 },
+          })
+        : unavailable('请先创建可参战角色')
+    }
     case 'callScript': {
       const script = Object.keys(context?.state.sharedScripts ?? {})[0]
       return script
         ? enabled({ kind, script })
         : unavailable('请先在“剧情 → 脚本库”创建一个可复用脚本')
+    }
+    case 'clearActorCondition': {
+      const actor = Object.values(context?.actors ?? {}).find((candidate) => candidate.battler)?.id
+      const poisonId = Number(context?.references.choices('poison')[0]?.id)
+      return actor
+        ? enabled({
+            kind,
+            actor,
+            condition:
+              Number.isSafeInteger(poisonId) && poisonId > 0
+                ? { kind: 'poison', poisonId }
+                : { kind: 'status', status: 'protect' },
+          })
+        : unavailable('请先创建可参战角色')
     }
     case 'endBattle':
       return enabled({ kind, result: 'terminate' })

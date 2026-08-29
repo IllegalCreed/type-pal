@@ -20,7 +20,7 @@ const alternateScene = {
 const manifest: CurrentManifest = {
   id: 'demo',
   name: 'Demo',
-  contentVersion: 18,
+  contentVersion: 19,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: {
@@ -71,7 +71,7 @@ describe('current editor project IO', () => {
     const loaded = assembleCurrentProject(manifest, jsons)
     const state = toEditorState(loaded, [loaded.authorContent.entryScene])
 
-    expect(state.manifest.contentVersion).toBe(18)
+    expect(state.manifest.contentVersion).toBe(19)
     expect(state.scenes).toEqual([scene])
     expect(state.scriptIndex).toBeUndefined()
     expect(state.scriptChunks).toEqual({})

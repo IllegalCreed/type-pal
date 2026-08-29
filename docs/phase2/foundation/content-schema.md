@@ -5,20 +5,28 @@
 >
 > **每条决策的「为什么旧引擎不行」证据**见 [engine-debt-audit.md](engine-debt-audit.md)（文末有「schema 决策 ↔ finding」反查表）。本文只定「应该长什么样」，那份定「为什么必须这样」。
 
-## 当前 canonical 项目入口（contentVersion 18，2026-08-25）
+## 当前 canonical 项目入口（contentVersion 19，2026-08-30）
 
-当前产品只接受 contentVersion 18。`manifest.entryPoints` 必填且非空；每个真实入口完整保存稳定 `id`、
+当前产品只接受 contentVersion 19。`manifest.entryPoints` 必填且非空；每个真实入口完整保存稳定 `id`、
 显示名、启动场景、可选开场视频和必填 `StartWorld`。`manifest.defaultEntryId` 必须命中其中一项，只决定无
 `menu` / `entry` 参数时直接启动哪一项；它不是父入口或模板。当前 manifest 不含顶层 `entryScene`、顶层
 `startWorld`，入口间也没有继承、合成或 fallback。SAVE 版本独立保持 8，payload 记录完整世界与位置，不记录入口 id。
 
 角色初始化同样只有一组权威输入：`ActorDef.battler` 持有初始等级、当前/最大 HP/MP 基线、基础属性、
 初始装备与初始技能；新实例经验固定从 0 开始。`StartWorld` 只持有队伍与顺序、金钱、库存、世界资源，
-以及可选的 `seedStats[actorId].hp/mp` **当前值**稀疏覆盖；缺字段即继承角色基线，入口不保存最大值、
-属性、装备或技能副本。新游戏和后续首次入队仅在 `WorldState.learnedSkills[instanceId] === undefined`
-时从 `ActorDef.battler.initialMagic` 深拷贝播种；学习、遗忘、离队/归队和读档均继续以运行时世界态为准。
+以及可选的 `seedStats[actorId].hp/mp` **当前值**稀疏覆盖和
+`seedConditions[actorId]` 当前临时状态快照。condition seed 只允许引用该入口的开局队员，包含稳定
+`PoisonDef.id`、单一 registry 中可携带的定时状态与临时毒抗；`puppet` 不可携带，毒从
+`tickIndex = 0` 开始。`buildWorld` 只在新建世界时消费一次，读档不重播种。入口不保存最大值、属性、
+装备或技能副本。新游戏和后续首次入队仅在 `WorldState.learnedSkills[instanceId] === undefined` 时从
+`ActorDef.battler.initialMagic` 深拷贝播种；学习、遗忘、离队/归队和读档均继续以运行时世界态为准。
 
-旧内容版本、旧顶层字段、可选入口表和缺省 StartWorld 不属于当前输入合同；开发期历史由 Git 保存，不在产品
+角色当前 condition 的运行时 owner 始终是 `CharacterInstance` 的 `poisons`、`extraStatuses`、
+`extraPoisonRes` 三个 carrier。大世界不自行衰减；进入战斗时复制，战后清除定时状态与临时毒抗并只解到
+`severe`（`incurable` 保留），从存档恢复时则对 party 与 reserve 全部清除，包括不可解毒。剧情变化使用
+稳定 ActorId 的显式施加/清除命令，`setParty` 仍只负责阵容，不隐式播种或清理 condition。
+
+旧内容版本 1..18、旧顶层字段、可选入口表和缺省 StartWorld 不属于当前输入合同；开发期历史由 Git 保存，不在产品
 loader、editor 或 migrate publication 中保留 upgrader。
 
 ## 0. 这份文档定下什么（大白话）
@@ -359,7 +367,7 @@ interface BattleSpriteDef {
 PAL 冻结结果为 172 个物理文件、171 个定义、179 条直接语义引用、171 个已用定义、5 个共享定义和唯一
 未引用资源 enemy 98；压缩源 900,973 B、有效帧 775、历史坏尾槽 6，combined tuple digest 为
 `ecbec106c6540de74adeec799bad19a22e7198272245c98b130522b0ac37a685`。本段是战斗精灵切片的历史冻结
-结果；当前 content18 工程已完成全资源 catalog-only 收口。
+结果；当前 content19 工程已完成全资源 catalog-only 收口。
 
 ## 7. 内容工程目录结构
 

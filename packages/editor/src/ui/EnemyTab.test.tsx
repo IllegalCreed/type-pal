@@ -6,8 +6,8 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
-import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
+import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { EnemyTab } from './EnemyTab.js'
 
 function enemy(id: string, ruleTarget?: string): EnemyDef {
@@ -89,7 +89,7 @@ function state(): EditorState {
     manifest: {
       id: 'test-project',
       name: '测试项目',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},

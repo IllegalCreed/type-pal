@@ -1,6 +1,6 @@
 # 剧情脚本系统
 
-> **当前实现（contentVersion 18 / SAVE 8，2026-08-25）**：canonical 脚本模型没有版本后缀，位于
+> **当前实现（contentVersion 19 / SAVE 8，2026-08-30）**：canonical 脚本模型没有版本后缀，位于
 > `packages/content/src/author-script*.ts`、`runtime-script.ts`、`author-scene.ts` 与
 > `runtime-scene.ts`；compiler/runtime/editor/save 直接消费当前模型。正式上线前不支持历史工程或
 > 存档，旧脚本类型、upgrader、sidecar、fixture 和产品迁移入口已删除。本文后半保留的 v0 草稿只用于
@@ -8,7 +8,7 @@
 > 最终验收状态见
 > [`N3-1` 任务卡](../../ops/tasks/N3-1-script-control-flow-modernization.md)。
 
-## contentVersion 18 / canonical script 契约
+## contentVersion 19 / canonical script 契约
 
 ### 作者身份与存储
 
@@ -95,6 +95,30 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 地址和调度节点，但必须带 compiler/content digest，且绝不能回写 canonical 内容、存档、引用索引
 或 MG2 冲突键。
 
+### 角色当前状态命令
+
+剧情对已实例化角色的临时状态变化使用两条显式作者命令，不扩张 `setParty`，也不使用队伍下标：
+
+```ts
+{ kind: 'applyActorCondition', actor: ActorId, condition:
+  | { kind: 'poison', poisonId: PoisonDefId }
+  | { kind: 'status', status: CarryableStatusId, turns: number }
+  | { kind: 'poisonResistance', amount: number } }
+
+{ kind: 'clearActorCondition', actor: ActorId, condition:
+  | { kind: 'poison', poisonId: PoisonDefId }
+  | { kind: 'status', status: CarryableStatusId }
+  | { kind: 'poisonResistance' } }
+```
+
+- `actor` 是稳定 ActorId；目标必须已存在于 party 或 reserve，缺失或重复实例 fail-loud。典型顺序是先
+  `setParty`，再施加状态。
+- 作者显式施毒必中，不投毒抗概率骰；它复用 content 的自毒相克/致死规则。毒和状态名称由工程定义与共享
+  registry 显示，不暴露 `tickIndex` 或裸英文枚举。
+- 可携带状态不含死人专用 `puppet`，回合为 1..999；坏状态已有时不刷新，好状态只取更长回合且不施加给
+  倒下角色。
+- 世界中 condition 不自行衰减。入战、战后与读档清理复用运行时唯一 owner，脚本 runner 不复制规则。
+
 ### 编辑器分层与场景预览
 
 - `CanonicalScriptBodyEditor` 是所有 `AuthorCommand[]` 的唯一作者态正文组件；
@@ -123,7 +147,7 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 
 ### 当前加载与发布边界
 
-- HTTP/runtime/editor loader 只接受 contentVersion 18；存档只接受 SAVE 8 / content18。
+- HTTP/runtime/editor loader 只接受 contentVersion 19；存档只接受 SAVE 8 / content19。
 - 迁移器从真实提取输入与当前作者 baseline 直接构建 current publication，三方 merge、完整闭包预检后
   最后提交 manifest；不发布脚本分片、版本 transition 或 migration sidecar。
 - 旧工程和旧开发期存档可由 Git 取回对应历史代码重建，但不进入当前产品路径。发现版本不匹配时

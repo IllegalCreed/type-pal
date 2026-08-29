@@ -189,7 +189,7 @@ const LOCAL_ID = '55555555-5555-4555-8555-555555555555'
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 18,
+  contentVersion: 19,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: {

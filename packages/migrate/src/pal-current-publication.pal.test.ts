@@ -13,7 +13,7 @@ import { loadPalMigrationSources } from './pal-migration-io.js'
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
 describe('PAL current-only publication', () => {
-  it('publishes the current baseline and raw-owned partitions directly as content18/SAVE8', () => {
+  it('publishes the current baseline and raw-owned partitions directly as content19/SAVE8', () => {
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
     const sources = loadPalMigrationSources(repo)
@@ -43,7 +43,9 @@ describe('PAL current-only publication', () => {
     expect(faceRecords.reduce((total, record) => total + record.bytes, 0)).toBe(10_324)
     expect(actors.filter(({ face }) => face !== undefined)).toHaveLength(5)
     expect(
-      actors.every(({ face }) => face === undefined || sources.assetCatalog.assets[face]?.kind === 'face'),
+      actors.every(
+        ({ face }) => face === undefined || sources.assetCatalog.assets[face]?.kind === 'face',
+      ),
     ).toBe(true)
     expect(sources.assetCatalog.assets).not.toHaveProperty('face.pal.gai-luojiao')
     expect(sources.binaryAssets.some(({ id }) => id === 'face.pal.gai-luojiao')).toBe(false)
@@ -51,11 +53,31 @@ describe('PAL current-only publication', () => {
     expect(manifest).not.toHaveProperty('entryScene')
     expect(manifest).not.toHaveProperty('startWorld')
     expect(manifest.assets).not.toHaveProperty('legacy')
-    expect([...publication.managedFiles]).not.toContain(
-      'content/migrations/script-v4-v5-save.json',
-    )
+    expect([...publication.managedFiles]).not.toContain('content/migrations/script-v4-v5-save.json')
     expect([...publication.managedFiles].some((path) => path.startsWith('_transitions/'))).toBe(
       false,
     )
+  })
+
+  it('rejects invalid poison definitions before publishing a current project', () => {
+    const baseline = loadPalBaseline(repo)
+    expect(baseline).toBeDefined()
+    const sources = loadPalMigrationSources(repo)
+    const publication = buildPalCurrentPublication(baseline!, sources)
+    const manifest = buildPalCurrentManifest(sources.assetCatalog)
+    const poisonsPath = manifest.content.poisons!
+    const poisons = publication.files.get(poisonsPath)
+    if (!Array.isArray(poisons) || poisons.length === 0)
+      throw new Error(`${poisonsPath}: 期望非空毒定义数组`)
+    const firstPoison = poisons[0]!
+    const invalidPublication = {
+      ...publication,
+      files: new Map(publication.files),
+    }
+    invalidPublication.files.set(poisonsPath, [...poisons, structuredClone(firstPoison)])
+
+    expect(() =>
+      validatePalCurrentPublication({ publication: invalidPublication, manifest, sources }),
+    ).toThrow(/poisons\[\d+\]\.id: 毒 \d+ 重复/)
   })
 })

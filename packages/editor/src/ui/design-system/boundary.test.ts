@@ -380,7 +380,7 @@ describe('editor design-system static boundary', () => {
 
     expect(project.match(/<DsInlineComposer\b/g) ?? []).toHaveLength(0)
     expect(project.match(/<DsAddPickerDialog\b/g)).toHaveLength(3)
-    expect(project.match(/<DsRepeatRow\b/g)).toHaveLength(5)
+    expect(project.match(/<DsRepeatRow\b/g)).toHaveLength(7)
     expect(project).toMatch(
       /className="project-inventory-actions"[\s\S]*?<DsReorderMoveButton[\s\S]*?<DsReorderMoveButton[\s\S]*?<DsIconButton/,
     )
@@ -793,13 +793,11 @@ describe('editor design-system static boundary', () => {
       expect(source, file).not.toMatch(/data-ds-scroll-(?:scope|owner|axis)/)
     }
     expect(
-      production.filter((path) =>
-        readFileSync(path, 'utf8').includes('<DsCatalogWorkspace'),
-      ),
+      production.filter((path) => readFileSync(path, 'utf8').includes('<DsCatalogWorkspace')),
     ).toHaveLength(7)
-    expect(
-      production.filter((path) => /\bsprite-list\b/.test(readFileSync(path, 'utf8'))),
-    ).toEqual([])
+    expect(production.filter((path) => /\bsprite-list\b/.test(readFileSync(path, 'utf8')))).toEqual(
+      [],
+    )
 
     const shop = readFileSync(join(uiRoot, 'ShopTab.tsx'), 'utf8')
     expect(shop).toMatch(/<DsObjectWorkspace\b[\s\S]*?as="main"/)
@@ -822,7 +820,9 @@ describe('editor design-system static boundary', () => {
     ]) {
       const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+')
       const body = businessCss.match(new RegExp(`\\.${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? ''
-      expect(body, selector).not.toMatch(/(?:^|;)\s*(?:display|flex|min-height|overflow(?:-[xy])?)\s*:/)
+      expect(body, selector).not.toMatch(
+        /(?:^|;)\s*(?:display|flex|min-height|overflow(?:-[xy])?)\s*:/,
+      )
     }
   })
 

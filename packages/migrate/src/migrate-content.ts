@@ -1606,6 +1606,9 @@ export function migrateAll(
       } else if (u.effects.length) {
         if (u.lossyNotes.length)
           lossyUse.push({ itemId: srcItem.id, name: srcItem._name, notes: u.lossyNotes })
+        const battleOnly = u.effects.some(
+          (effect) => effect.kind === 'applyStatus' && effect.status === 'puppet',
+        )
         // 场景钩子作用于当前场景而非队友；菜单不进入选目标。
         const target = u.effects.some(
           (e) => e.kind === 'runSceneHook' || e.kind === 'modifyHostileAwareness',
@@ -1619,6 +1622,7 @@ export function migrateAll(
           use: {
             target,
             consuming: srcItem.flags.consuming,
+            ...(battleOnly ? { battleOnly: true } : {}),
             effects: u.effects,
             ...(target === 'scene' ? { menuAfterUse: 'close' as const } : {}),
             ...(u.sound ? { sound: u.sound } : {}),
@@ -2569,8 +2573,7 @@ export function mapScenesStatic(
     return {
       hostile: {
         ...(tctx.palReferenceSchema === 'legacy' ||
-        (tctx.palReferenceSchema === undefined &&
-          tctx.palSemanticProfile === 'historical-r13-4')
+        (tctx.palReferenceSchema === undefined && tctx.palSemanticProfile === 'historical-r13-4')
           ? { team: historicalTeam }
           : { enemyTeamId: first.enemyTeamId }),
         ...(chaseCmd

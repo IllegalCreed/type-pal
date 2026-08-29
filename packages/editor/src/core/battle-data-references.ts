@@ -1,3 +1,4 @@
+import { collectActorConditionPoisonReferences } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 
 export type BattleDataReferenceLocator =
@@ -6,6 +7,9 @@ export type BattleDataReferenceLocator =
   | { kind: 'skill'; skillId: string }
   | { kind: 'enemy'; enemyId: string }
   | { kind: 'poison'; poisonId: number }
+  | { kind: 'scene'; sceneId: string }
+  | { kind: 'shared-script'; scriptId: string }
+  | { kind: 'entry-point'; entryPointId: string }
 
 export interface BattleDataReference {
   target: 'skill' | 'enemy' | 'poison'
@@ -25,7 +29,10 @@ function add(
   targetId: unknown,
   value: Omit<BattleDataReference, 'target' | 'targetId'>,
 ): void {
-  if ((typeof targetId !== 'string' && typeof targetId !== 'number') || String(targetId).length === 0)
+  if (
+    (typeof targetId !== 'string' && typeof targetId !== 'number') ||
+    String(targetId).length === 0
+  )
     return
   output.push({ target, targetId: String(targetId), ...value })
 }
@@ -34,7 +41,11 @@ function add(
  * 只识别有明确 `kind` 判别字段的动作/效果；不会把普通同名属性猜成引用。
  * Enemy choreography/onDefeated 的嵌套 arm 也因此无需复制一套递归结构。
  */
-function visitTagged(value: unknown, where: string, visit: (node: Record<string, unknown>, where: string) => void): void {
+function visitTagged(
+  value: unknown,
+  where: string,
+  visit: (node: Record<string, unknown>, where: string) => void,
+): void {
   if (Array.isArray(value)) {
     value.forEach((entry, index) => visitTagged(entry, `${where}[${index}]`, visit))
     return
@@ -138,6 +149,41 @@ function collectEnemyReferences(state: EditorState): BattleDataReference[] {
 
 function collectPoisonReferences(state: EditorState): BattleDataReference[] {
   const output: BattleDataReference[] = []
+  const collectActorConditionCommands = (
+    value: unknown,
+    where: string,
+    label: string,
+    locator?: BattleDataReferenceLocator,
+  ): void => {
+    for (const reference of collectActorConditionPoisonReferences(value, where))
+      add(output, 'poison', reference.poisonId, {
+        kind: 'command-actor-condition-poison',
+        label,
+        where: reference.where,
+        detail: '剧情施毒或指定解毒',
+        locator,
+      })
+  }
+
+  state.manifest.entryPoints.forEach((entry, entryIndex) => {
+    for (const [actorId, seed] of Object.entries(entry.startWorld.seedConditions ?? {}))
+      seed.poisonIds?.forEach((poisonId, poisonIndex) => {
+        add(output, 'poison', poisonId, {
+          kind: 'entry-point-seed-poison',
+          label: `入口 ${entry.label} / 角色 ${actorId}`,
+          where: `manifest.entryPoints[${entryIndex}](${entry.id}).startWorld.seedConditions.${actorId}.poisonIds[${poisonIndex}]`,
+          detail: '开局当前中毒状态',
+          locator: { kind: 'entry-point', entryPointId: entry.id },
+        })
+      })
+  })
+
+  ;(state.scenes ?? []).forEach((scene, sceneIndex) => {
+    collectActorConditionCommands(scene, `scenes[${sceneIndex}](${scene.id})`, `场景 ${scene.id}`, {
+      kind: 'scene',
+      sceneId: scene.id,
+    })
+  })
   state.skills.forEach((skill, skillIndex) =>
     visitTagged(skill, `skills[${skillIndex}](${skill.id})`, (node, where) => {
       if (node.kind !== 'applyPoison' && node.kind !== 'curePoison') return
@@ -164,6 +210,35 @@ function collectPoisonReferences(state: EditorState): BattleDataReference[] {
       })
     }),
   )
+  state.items.forEach((item, itemIndex) => {
+    collectActorConditionCommands(item, `items[${itemIndex}](${item.id})`, `物品 ${item.name}`, {
+      kind: 'item',
+      itemId: item.id,
+    })
+  })
+  for (const [chunkId, chunk] of Object.entries(state.scriptChunks ?? {}))
+    for (const [scriptId, body] of Object.entries(chunk.scripts))
+      collectActorConditionCommands(
+        body,
+        `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
+        `脚本 ${scriptId}`,
+        { kind: 'shared-script', scriptId },
+      )
+  for (const [scriptId, script] of Object.entries(state.sharedScripts ?? {}))
+    collectActorConditionCommands(
+      script.body,
+      `sharedScripts.${scriptId}.body`,
+      `共享脚本 ${script.name}`,
+      { kind: 'shared-script', scriptId },
+    )
+  ;(state.enemies ?? []).forEach((enemy, enemyIndex) => {
+    collectActorConditionCommands(
+      enemy,
+      `enemies[${enemyIndex}](${enemy.id})`,
+      `敌人 ${enemy.id}`,
+      { kind: 'enemy', enemyId: enemy.id },
+    )
+  })
   ;(state.poisons ?? []).forEach((poison, poisonIndex) => {
     if (poison.lethalWith !== undefined)
       add(output, 'poison', poison.lethalWith, {
@@ -217,9 +292,7 @@ export const blockingSkillReferences = (state: EditorState, skillId: string) =>
 export const blockingEnemyReferences = (state: EditorState, enemyId: string) =>
   blocking(state, 'enemy', enemyId)
 
-export function blockingPoisonReferenceMap(
-  state: EditorState,
-): Map<string, BattleDataReference[]> {
+export function blockingPoisonReferenceMap(state: EditorState): Map<string, BattleDataReference[]> {
   const index = new Map<string, BattleDataReference[]>()
   for (const reference of collectBattleDataReferences(state, 'poison')) {
     if (reference.ownerId === reference.targetId) continue

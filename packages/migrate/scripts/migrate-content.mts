@@ -1,7 +1,7 @@
 /**
  * PAL current-only publication command.
  *
- * Default is a read-only plan. `--write` publishes content18/SAVE8, assets and the
+ * Default is a read-only plan. `--write` publishes content19/SAVE8, assets and the
  * current baseline in one recoverable transaction, then proves the same publication
  * produces a zero-diff plan. There is no bootstrap, intermediate epoch or old-project route.
  */
@@ -10,10 +10,7 @@ import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { validateAssetCatalog } from '@type-pal/content'
-import {
-  assertPalBaselineSnapshotCurrent,
-  loadPalBaseline,
-} from '../src/migration-baseline.js'
+import { assertPalBaselineSnapshotCurrent, loadPalBaseline } from '../src/migration-baseline.js'
 import { createMigrationPlan, snapshotOf } from '../src/migration-plan.js'
 import {
   assertProjectSnapshotCurrent,
@@ -56,7 +53,9 @@ const write = args.has('--write')
 recoverMigrationTransaction(repo)
 const baseline = loadPalBaseline(repo)
 if (!baseline)
-  throw new Error('缺 current PAL baseline；开发期不支持从历史工程 bootstrap，请重新生成 current baseline')
+  throw new Error(
+    '缺 current PAL baseline；开发期不支持从历史工程 bootstrap，请重新生成 current baseline',
+  )
 
 console.log('读取 PAL 原始源并构建 current publication…')
 const sources = loadPalMigrationSources(repo)
@@ -71,7 +70,9 @@ const project = loadProjectMigrationSnapshot(repo, projectManaged)
 const plan = createMigrationPlan(baseline, project, publication)
 if (plan.conflicts.length) {
   const sample = plan.conflicts.slice(0, 20).map((conflict) => `${conflict.file}${conflict.path}`)
-  throw new Error(`current publication 有 ${plan.conflicts.length} 个三方合并冲突:\n${sample.join('\n')}`)
+  throw new Error(
+    `current publication 有 ${plan.conflicts.length} 个三方合并冲突:\n${sample.join('\n')}`,
+  )
 }
 
 const targetPublication = {
@@ -142,7 +143,12 @@ const replayRetiredAssets = planPalAssetRetirements({
   previousCatalog: validateAssetCatalog(publishedProject.files.get('assets/index.json')),
   targetCatalog: validateAssetCatalog(replay.target.get('assets/index.json')),
 })
-if (replay.conflicts.length || replay.writes.size || replay.deletes.length || replayRetiredAssets.length)
+if (
+  replay.conflicts.length ||
+  replay.writes.size ||
+  replay.deletes.length ||
+  replayRetiredAssets.length
+)
   throw new Error(
     `发布后非零差异: writes=${replay.writes.size} deletes=${replay.deletes.length} ` +
       `conflicts=${replay.conflicts.length} asset-deletes=${replayRetiredAssets.length}`,

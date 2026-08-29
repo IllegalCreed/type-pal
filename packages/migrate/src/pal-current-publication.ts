@@ -2,8 +2,8 @@ import type {
   AmbienceDef,
   CurrentManifest,
   EnemyTeamDef,
+  ItemData,
   MigrationDiagnosticsV1,
-  PoisonDef,
   RuntimeSceneDef,
   ShopDef,
 } from '@type-pal/content'
@@ -16,22 +16,23 @@ import {
   validateActors,
   validateAssetCatalog,
   validateAssetReferenceClosure,
+  validateAuthorDialogueReferences,
+  validateAuthorEnemies,
+  validateAuthorItems,
+  validateAuthorScenes,
+  validateAuthorSharedScripts,
   validateBattleFields,
   validateBattleSprites,
-  validateAuthorDialogueReferences,
   validateCurrentManifestStartup,
-  validateAuthorEnemies,
   validateEnemyTeams,
   validateEquipBattleSpriteReferences,
-  validateAuthorItems,
   validateLocale,
   validateManifestAssetConfig,
   validateMapIndex,
   validateMigrationDiagnostics,
+  validatePoisons,
   validateProjectMap,
   validateReferences,
-  validateAuthorScenes,
-  validateAuthorSharedScripts,
   validateSkills,
   validateSprites,
   validateStampTemplates,
@@ -41,11 +42,8 @@ import {
 import { mapRoleSpritesByNumber } from './migrate-content.js'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import type { TransactionPrecondition } from './migration-transaction.js'
-import {
-  buildPalMigration,
-  type MigrationJson,
-  type PalMigrationSources,
-} from './pal-migration.js'
+import { applyPalItemOverlays } from './pal-authored-overlays.js'
+import { buildPalMigration, type MigrationJson, type PalMigrationSources } from './pal-migration.js'
 import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES } from './pal-world-sprite-layouts.js'
 import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'
 import type { ProjectMapAuditReport } from './project-map-audit.js'
@@ -103,8 +101,8 @@ export function buildPalCurrentPublication(
   const files = new Map(baseline.files)
   const managedFiles = new Set(baseline.managedFiles)
   const generated = buildPalMigration(sources)
-  const previousMapPaths = [...managedFiles].filter(
-    (path) => /^content\/maps\/(?!index\.json$)[^/]+\.json$/.test(path),
+  const previousMapPaths = [...managedFiles].filter((path) =>
+    /^content\/maps\/(?!index\.json$)[^/]+\.json$/.test(path),
   )
   for (const path of previousMapPaths) {
     managedFiles.delete(path)
@@ -153,6 +151,10 @@ export function buildPalCurrentPublication(
 
   put('assets/index.json', required(generated.files, 'assets/index.json'))
   put('content/actors.json', [...generatedActors, ...authoredActors])
+  const baselineItems = required(files, 'content/items.json')
+  if (!Array.isArray(baselineItems))
+    throw new Error('PAL current baseline: content/items.json 期望数组')
+  put('content/items.json', applyPalItemOverlays(baselineItems as ItemData[]))
   put('content/sprites.json', spriteAliases.sprites)
   for (const [sceneId, scene] of spriteAliases.updatedScenes)
     put(`content/scenes/${sceneId}.json`, scene)
@@ -189,27 +191,23 @@ export function validatePalCurrentPublication(args: {
   if ('migrations' in manifest || manifest.content.scripts !== undefined)
     throw new Error('PAL current manifest 禁止 migrations/content.scripts')
   const forbidden = [...managedFiles].filter((path) => FORBIDDEN_CURRENT_PATH.test(path))
-  if (forbidden.length) throw new Error(`PAL current publication 含历史路径 ${forbidden.join(', ')}`)
+  if (forbidden.length)
+    throw new Error(`PAL current publication 含历史路径 ${forbidden.join(', ')}`)
 
   const catalog = validateAssetCatalog(required(files, manifest.assets.catalog))
   validateManifestAssetConfig(manifest.assets, catalog)
-  const actors = validateActors(
-    required(files, requiredPath(manifest.content.actors, 'actors')),
-  )
+  const actors = validateActors(required(files, requiredPath(manifest.content.actors, 'actors')))
   const actorsById = Object.fromEntries(actors.map((actor) => [actor.id, actor]))
-  const skills = validateSkills(
-    required(files, requiredPath(manifest.content.skills, 'skills')),
-  )
+  const skills = validateSkills(required(files, requiredPath(manifest.content.skills, 'skills')))
   const authorItems = validateAuthorItems(
     required(files, requiredPath(manifest.content.items, 'items')),
   )
   const authorEnemies = validateAuthorEnemies(
     required(files, requiredPath(manifest.content.enemies, 'enemies')),
   )
-  const locale = validateLocale(
-    required(files, requiredPath(manifest.content.locale, 'locale')),
-    { allowSoftWrap: true },
-  )
+  const locale = validateLocale(required(files, requiredPath(manifest.content.locale, 'locale')), {
+    allowSoftWrap: true,
+  })
   const sprites = validateSprites(
     required(files, requiredPath(manifest.content.sprites, 'sprites')),
     catalog,
@@ -238,7 +236,9 @@ export function validatePalCurrentPublication(args: {
       if (!tilesetIds.has(tileset)) throw new Error(`组合 ${stamp.id} 引用未知瓦片集 ${tileset}`)
   const mapIndex = validateMapIndex(required(files, requiredPath(manifest.content.maps, 'maps')))
   if (mapIndex.maps.length !== args.sources.tilemaps.length)
-    throw new Error(`PAL current 地图数量 ${mapIndex.maps.length} != 源 ${args.sources.tilemaps.length}`)
+    throw new Error(
+      `PAL current 地图数量 ${mapIndex.maps.length} != 源 ${args.sources.tilemaps.length}`,
+    )
   for (const entry of mapIndex.maps) {
     const map = validateProjectMap(required(files, entry.path))
     for (const tileset of map.tilesetRefs)
@@ -253,8 +253,10 @@ export function validatePalCurrentPublication(args: {
     (sceneIds as string[]).map((id) => required(files, `content/scenes/${id}.json`)),
   )
   authorScenes.forEach((scene, index) => {
-    if (scene.id !== sceneIds[index]) throw new Error(`场景 index/id 不符 ${String(sceneIds[index])}`)
-    if (!mapAssetById(mapIndex, scene.mapId)) throw new Error(`场景 ${scene.id} 引用未知地图 ${scene.mapId}`)
+    if (scene.id !== sceneIds[index])
+      throw new Error(`场景 index/id 不符 ${String(sceneIds[index])}`)
+    if (!mapAssetById(mapIndex, scene.mapId))
+      throw new Error(`场景 ${scene.id} 引用未知地图 ${scene.mapId}`)
   })
   const sharedScripts = validateAuthorSharedScripts(
     required(files, requiredPath(manifest.content.sharedScripts, 'sharedScripts')),
@@ -272,7 +274,9 @@ export function validatePalCurrentPublication(args: {
   const runtimeSharedScripts = resolveAuthorDialogueTree(sharedScripts, actorsById, 'sharedScripts')
   const equipIssues = validateEquipBattleSpriteReferences(items, actors, battleSprites)
   if (equipIssues.length) throw new Error(`${equipIssues[0]!.where}: ${equipIssues[0]!.message}`)
-  const poisons = required(files, requiredPath(manifest.content.poisons, 'poisons')) as PoisonDef[]
+  const poisons = validatePoisons(
+    required(files, requiredPath(manifest.content.poisons, 'poisons')),
+  )
   const shops = required(files, requiredPath(manifest.content.shops, 'shops')) as ShopDef[]
   const ambiences = required(
     files,
@@ -315,7 +319,10 @@ export function validatePalCurrentPublication(args: {
   )
   if (referenceErrors.length)
     throw new Error(
-      `PAL current 跨引用失败:\n${referenceErrors.slice(0, 50).map((issue) => `${issue.where}: ${issue.message}`).join('\n')}`,
+      `PAL current 跨引用失败:\n${referenceErrors
+        .slice(0, 50)
+        .map((issue) => `${issue.where}: ${issue.message}`)
+        .join('\n')}`,
     )
   const assetIssues = validateAssetReferenceClosure(
     catalog,
@@ -337,7 +344,10 @@ export function validatePalCurrentPublication(args: {
   const assetErrors = assetIssues.filter((issue) => issue.severity === 'error')
   if (assetErrors.length)
     throw new Error(
-      `PAL current 资源闭包失败:\n${assetErrors.slice(0, 50).map((issue) => `${issue.where}: ${issue.message}`).join('\n')}`,
+      `PAL current 资源闭包失败:\n${assetErrors
+        .slice(0, 50)
+        .map((issue) => `${issue.where}: ${issue.message}`)
+        .join('\n')}`,
     )
   return {
     scenes: authorScenes.length,

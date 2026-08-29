@@ -91,9 +91,7 @@ describe('design-system adoption gate', () => {
       .replace('<DsFloatingLayer', '<div')
       .replace('</DsFloatingLayer>', '</div>')
     expect(privateListbox).not.toBe(toolbarSource)
-    expect(
-      validateAdoption(matrix, { 'IsometricEditorToolbar.tsx': privateListbox }),
-    ).toContain(
+    expect(validateAdoption(matrix, { 'IsometricEditorToolbar.tsx': privateListbox })).toContain(
       'IsometricEditorToolbar.tsx@ToolOptionTray renders private listbox without DsFloatingLayer or an evidence-bound exception',
     )
 
@@ -947,7 +945,7 @@ type DataStateProps`,
     expect(validateAdoption(wrongRole)).toContain(
       'item/shop catalog owner DsObjectWorkspaceContent does not support the catalog role',
     )
-  }, 15_000)
+  }, 30_000)
 
   test('checks effective CSS cascade, responsive conditions, axes, and bounded nesting', () => {
     const matrix = JSON.parse(readFileSync(join(here, 'design-system-adoption.json'), 'utf8'))

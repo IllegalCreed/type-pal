@@ -173,6 +173,28 @@
         "reason": "数量是初始道具重复行内的单个紧凑单元，行外已由列表语义持有对齐。",
         "responsiveEvidence": "DsRepeatRow 容器会在窄宽度切换行布局，数量控件使用 short-number measure。",
         "removalCondition": "初始道具行改成多字段编辑组或需与其他行标签对齐时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "ActorConditionSeedDialog",
+        "fieldComponent": "DsDraftNumberField",
+        "label": "回合",
+        "className": "",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "持续回合属于每条状态选项内部的短数字参数，与状态开关共同构成单个操作单元。",
+        "responsiveEvidence": "状态行在宽容器使用自适应双列，在窄容器降为单列且短数字控件保持规范宽度。",
+        "removalCondition": "状态参数迁入独立多字段编辑组时改用 DsFieldGroup。"
+      },
+      {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "ActorConditionSeedDialog",
+        "fieldComponent": "DsDraftNumberField",
+        "label": "加值",
+        "className": "",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "临时毒抗加值是单个可选状态内部的短数字参数，不形成独立纵向表单轨。",
+        "responsiveEvidence": "状态行在宽容器使用自适应双列，在窄容器降为单列且短数字控件保持规范宽度。",
+        "removalCondition": "临时毒抗迁入独立多字段编辑组时改用 DsFieldGroup。"
       }
     ],
     "inspectorOwners": [
@@ -520,6 +542,17 @@
         "reason": "三轨是队伍序号、完整成员状态区和动作槽，不是 label/control。",
         "responsiveEvidence": "900px 下成员状态整体收缩，内部字段仍由公共字段 owner 持有。",
         "removalCondition": "队伍行由公共排序行 recipe 接管外层布局时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".project-party-row",
+        "atRule": "@container (max-width: 760px)",
+        "property": "grid-template-columns",
+        "value": "30px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "两轨分别保留队伍序号与完整成员内容；项级动作在窄容器中换到内容轨内，不是标签/控件分栏。",
+        "responsiveEvidence": "760px 以下仅重排完整身份、状态与动作单元，内部字段仍由公共字段 owner 持有。",
+        "removalCondition": "队伍行由公共排序对象行 recipe 接管窄态布局时删除。"
       },
       {
         "source": "editor.css",

@@ -70,6 +70,14 @@ interface SkillData {
 }
 ```
 
+### 当前状态 registry（content19）
+
+`StatusId` 的作者元数据不再由技能、物品、入口和脚本页面各复制一份。content 的
+`ACTOR_STATUS_DEFINITIONS` 是唯一 registry，集中提供中文名、好/坏/死人专用分类、效果说明、可携带性与
+回合范围；validator、runtime 与 editor 共用。九种状态中只有八种可作为大世界当前状态：混乱、定身、睡眠、
+沉默、神勇、护体、加速、连击；`puppet` 只适用于倒下角色，明确排除。大世界可携带状态的回合范围为
+1..999，坏状态已有时不刷新，好状态只取更长回合且不施加给倒下角色。毒继续是独立系统，不进入该 registry。
+
 - **`effects[]` 是核心修正**(回应「太粗糙」):技能 = 有序效果列表(原版 `scriptOnSuccess` opcode 链的 typed 版),不再是单 `baseDamage`。伤害/回血回蓝/复活/加解状态/下解毒/即死/偷取/收宝/召唤/変身 全覆盖 —— 点名的**飞龙探云手(steal)、灵葫咒(collectTreasure+instantKill)、给敌加状态(applyStatus)、解状态(removeStatus)全可表达**(见 §2.1)。
 - **命中/抗性是引擎按「目标」算,不存技能上**:原版 status/poison 命不命中靠**目标的** `resistanceToSorcery`(`RandomLong(0,9) ≥ 抗性`)/ `poisonResistance`,不是技能字段;伤害抗性靠 damage 效果的 `elemental`(0无/1-5风雷水火土/>5毒)× 角色 `elemResistance`。所以 `applyStatus` 只声明「加什么、几回合」,落不落由引擎判。**只有技能自带几率的**(偷取 `rate`)才进 effect。这也回答「怎么算抗性/巫术成功率」:**抗性在目标身上,技能只声明意图**。
 - **target 从原 MagicType 拆出**:原版 `type` 混了「目标」(单/全)和「渲染样式」(attackAll 逐个 / attackWhole 整团 / attackField 全场)。拆:`target` = gameplay 目标;渲染样式归 `animation`;summon/trance 不再是 type,而是 effect kind。

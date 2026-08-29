@@ -9,6 +9,7 @@ export type ActorReferenceKind =
   | 'scene-entity-actor'
   | 'entry-point-party'
   | 'entry-point-seed-stats'
+  | 'entry-point-seed-condition'
   | 'condition-in-party'
   | 'enemy-condition-player-in-party'
   | 'actor-covered-by'
@@ -17,6 +18,7 @@ export type ActorReferenceKind =
   | 'command-set-actor-sprite'
   | 'command-set-actor-appearance'
   | 'command-set-party-member'
+  | 'command-actor-condition'
   | 'enemy-apply-actor-growth'
   | 'enemy-play-actor-cast-effect'
   | 'dialogue-actor'
@@ -35,24 +37,90 @@ export interface ActorReferencePolicy {
 
 export const ACTOR_REFERENCE_POLICIES: Readonly<Record<ActorReferenceKind, ActorReferencePolicy>> =
   Object.freeze({
-    'scene-entity-actor': { label: '场景人物实例', ownership: 'external', danglingSeverity: 'error' },
-    'entry-point-party': { label: '入口开局队伍', ownership: 'external', danglingSeverity: 'error' },
+    'scene-entity-actor': {
+      label: '场景人物实例',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
+    'entry-point-party': {
+      label: '入口开局队伍',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
     // seedStats 既是 Actor 引用，也是开局存档种子；保留既有保存前硬错误语义。
-    'entry-point-seed-stats': { label: '入口属性播种', ownership: 'external', danglingSeverity: 'error' },
-    'condition-in-party': { label: '脚本在队条件', ownership: 'external', danglingSeverity: 'error' },
-    'enemy-condition-player-in-party': { label: '敌人玩家在队条件', ownership: 'external', danglingSeverity: 'error' },
+    'entry-point-seed-stats': {
+      label: '入口属性播种',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
+    'entry-point-seed-condition': {
+      label: '入口当前状态',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
+    'condition-in-party': {
+      label: '脚本在队条件',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
+    'enemy-condition-player-in-party': {
+      label: '敌人玩家在队条件',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
     'actor-covered-by': { label: '人物援护关系', ownership: 'external', danglingSeverity: 'error' },
-    'item-equipable-by': { label: '物品可装备人物', ownership: 'external', danglingSeverity: 'warn' },
-    'item-battle-sprite-by-actor': { label: '装备战斗形象映射', ownership: 'external', danglingSeverity: 'error' },
-    'command-set-actor-sprite': { label: '脚本人物精灵切换', ownership: 'external', danglingSeverity: 'error' },
-    'command-set-actor-appearance': { label: '脚本人物外观切换', ownership: 'external', danglingSeverity: 'error' },
-    'command-set-party-member': { label: '脚本队伍成员', ownership: 'external', danglingSeverity: 'error' },
-    'enemy-apply-actor-growth': { label: '敌人编排人物成长', ownership: 'external', danglingSeverity: 'error' },
-    'enemy-play-actor-cast-effect': { label: '敌人编排人物施法表现', ownership: 'external', danglingSeverity: 'error' },
+    'item-equipable-by': {
+      label: '物品可装备人物',
+      ownership: 'external',
+      danglingSeverity: 'warn',
+    },
+    'item-battle-sprite-by-actor': {
+      label: '装备战斗形象映射',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
+    'command-set-actor-sprite': {
+      label: '脚本人物精灵切换',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
+    'command-set-actor-appearance': {
+      label: '脚本人物外观切换',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
+    'command-set-party-member': {
+      label: '脚本队伍成员',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
+    'command-actor-condition': {
+      label: '脚本角色当前状态',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
+    'enemy-apply-actor-growth': {
+      label: '敌人编排人物成长',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
+    'enemy-play-actor-cast-effect': {
+      label: '敌人编排人物施法表现',
+      ownership: 'external',
+      danglingSeverity: 'error',
+    },
     'dialogue-actor': { label: '人物对话身份', ownership: 'external', danglingSeverity: 'error' },
     'level-up-owner': { label: '升级习得伴随表', ownership: 'companion', danglingSeverity: 'warn' },
-    'world-party-template': { label: '运行态队伍模板', ownership: 'runtime-readonly', danglingSeverity: 'error' },
-    'world-reserve-template': { label: '运行态后备模板', ownership: 'runtime-readonly', danglingSeverity: 'error' },
+    'world-party-template': {
+      label: '运行态队伍模板',
+      ownership: 'runtime-readonly',
+      danglingSeverity: 'error',
+    },
+    'world-reserve-template': {
+      label: '运行态后备模板',
+      ownership: 'runtime-readonly',
+      danglingSeverity: 'error',
+    },
   })
 
 export interface ActorTaggedReference {
@@ -64,6 +132,7 @@ export interface ActorTaggedReference {
     | 'command-set-actor-sprite'
     | 'command-set-actor-appearance'
     | 'command-set-party-member'
+    | 'command-actor-condition'
     | 'enemy-apply-actor-growth'
     | 'enemy-play-actor-cast-effect'
     | 'dialogue-actor'
@@ -72,7 +141,10 @@ export interface ActorTaggedReference {
 }
 
 /** command / condition / enemy choreography 共用的 actor id 叶扫描器。 */
-export function collectActorTaggedReferences(value: unknown, where: string): ActorTaggedReference[] {
+export function collectActorTaggedReferences(
+  value: unknown,
+  where: string,
+): ActorTaggedReference[] {
   const out: ActorTaggedReference[] = []
   const visit = (node: unknown, path: string): void => {
     if (Array.isArray(node)) {
@@ -103,6 +175,10 @@ export function collectActorTaggedReferences(value: unknown, where: string): Act
           record.members.forEach((actorId, index) =>
             push(actorId, 'command-set-party-member', `members[${index}]`),
           )
+        break
+      case 'applyActorCondition':
+      case 'clearActorCondition':
+        push(record.actor, 'command-actor-condition', 'actor')
         break
       case 'applyActorGrowth':
         push(record.actor, 'enemy-apply-actor-growth', 'actor')

@@ -4,13 +4,13 @@ import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
-  blockingPoisonReferenceMap,
   type BattleDataReference,
+  blockingPoisonReferenceMap,
 } from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
-import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
+import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { PoisonTab } from './PoisonTab.js'
 
@@ -35,7 +35,7 @@ function state(): EditorState {
     manifest: {
       id: 'test',
       name: '测试项目',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -119,9 +119,7 @@ describe('PoisonTab shared workbench', () => {
     verifyCatalogWorkspace(host, '毒目录')
 
     const rows = [
-      ...host.querySelectorAll<HTMLElement>(
-        '.ds-catalog-workspace__content .ds-catalog-row',
-      ),
+      ...host.querySelectorAll<HTMLElement>('.ds-catalog-workspace__content .ds-catalog-row'),
     ]
     expect(rows).toHaveLength(2)
     expect(rows.every((row) => row.dataset.leading === 'none')).toBe(true)

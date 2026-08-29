@@ -3,6 +3,23 @@
 // 编辑器产大量手改 JSON 时再上 zod(局部替换这些函数,签名不变)。
 
 import {
+  ACTOR_STATUS_DEFINITIONS,
+  CARRIED_STATUS_TURN_RANGE,
+  checkActorConditionSeedShape,
+} from './actor-condition.js'
+import { validateManifestAssetConfig } from './asset.js'
+import type { AuthorItemCore, AuthorItemUseEffect } from './author-item-core.js'
+import { AUTHOR_ITEM_USE_EFFECT_KINDS, authorItemUseSupportsContext } from './author-item-core.js'
+import {
+  type CommandValidationOptions,
+  checkBaseAuthorCommands,
+  checkBaseEntityBehaviors,
+  checkBaseEntityPages,
+  checkBaseSceneHooks,
+  checkEntityAddress,
+} from './author-script-core.js'
+import { CONTENT_VERSION, CURRENT_PROJECT_MINIMUM_SAVE_VERSION } from './character.js'
+import {
   checkBattleChoreography,
   checkEnemyAi,
   checkEnemyOnDefeatedCommands,
@@ -11,34 +28,23 @@ import type {
   ActorDef,
   AssetCatalogV1,
   BattleFieldDef,
+  CurrentManifest,
   EnemyDef,
+  EntryPoint,
   ItemData,
+  PoisonDef,
   SceneDef,
   SkillData,
   SpriteDef,
-  CurrentManifest,
-  EntryPoint,
   StartWorld,
 } from './index.js'
 import type { ItemUseEffect, ThrowEffect } from './item.js'
 import { ITEM_USE_EFFECT_KINDS, itemUseSupportsContext, THROW_EFFECT_KINDS } from './item.js'
-import type { AuthorItemCore, AuthorItemUseEffect } from './author-item-core.js'
-import { AUTHOR_ITEM_USE_EFFECT_KINDS, authorItemUseSupportsContext } from './author-item-core.js'
 import { isMapAssetId } from './map-index.js'
 import type { BaseSceneDef } from './scene-core.js'
 import { checkEntityPages, checkStages } from './script.js'
 import { checkScriptRef } from './script-library.js'
-import {
-  checkBaseAuthorCommands,
-  checkEntityAddress,
-  checkBaseEntityBehaviors,
-  checkBaseEntityPages,
-  checkBaseSceneHooks,
-  type CommandValidationOptions,
-} from './author-script-core.js'
 import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS } from './skill.js'
-import { CONTENT_VERSION, CURRENT_PROJECT_MINIMUM_SAVE_VERSION } from './character.js'
-import { validateManifestAssetConfig } from './asset.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
 function requireKeys(obj: object, keys: readonly string[], ctx: string): void {
@@ -88,13 +94,18 @@ export function validateStartWorldResources(startWorld: unknown, ctx = 'startWor
 export function validateStartWorld(startWorld: unknown, ctx = 'startWorld'): StartWorld {
   const world = assertObject(startWorld, ctx) as Record<string, unknown>
   requireKeys(world, ['party', 'money', 'inventory'], ctx)
-  requireOnlyKeys(world, ['party', 'money', 'inventory', 'resources', 'seedStats'], ctx)
+  requireOnlyKeys(
+    world,
+    ['party', 'money', 'inventory', 'resources', 'seedStats', 'seedConditions'],
+    ctx,
+  )
 
   const party = assertArray<unknown>(world.party, `${ctx}.party`)
   party.forEach((actorId, index) => {
     if (typeof actorId !== 'string' || actorId.trim().length === 0)
       throw new Error(`${ctx}.party[${index}]: 期望非空角色 id`)
   })
+  const partyIds = new Set(party as string[])
   if (!Number.isSafeInteger(world.money) || Number(world.money) < 0)
     throw new Error(`${ctx}.money: 必须是非负安全整数`)
 
@@ -120,6 +131,20 @@ export function validateStartWorld(startWorld: unknown, ctx = 'startWorld'): Sta
         if (value !== undefined && (!Number.isSafeInteger(value) || Number(value) < 0))
           throw new Error(`${ctx}.seedStats.${actorId}.${key}: 必须是非负安全整数`)
       }
+    }
+  }
+
+  if (world.seedConditions !== undefined) {
+    const seeds = assertObject(world.seedConditions, `${ctx}.seedConditions`) as Record<
+      string,
+      unknown
+    >
+    for (const [actorId, rawSeed] of Object.entries(seeds)) {
+      if (actorId.length === 0 || actorId.trim() !== actorId)
+        throw new Error(`${ctx}.seedConditions: 角色 id 必须非空且无首尾空格`)
+      if (!partyIds.has(actorId))
+        throw new Error(`${ctx}.seedConditions.${actorId}: 只能配置该入口已入队角色`)
+      checkActorConditionSeedShape(rawSeed, `${ctx}.seedConditions.${actorId}`)
     }
   }
 
@@ -201,7 +226,10 @@ export function validateCurrentManifestStartup(
     for (const key of ['label', 'scene'] as const)
       if ((entry[key] as string) !== (entry[key] as string).trim())
         throw new Error(`${entryCtx}.${key}: 不得包含首尾空格`)
-    if (entry.introVideo !== undefined && (typeof entry.introVideo !== 'string' || !entry.introVideo))
+    if (
+      entry.introVideo !== undefined &&
+      (typeof entry.introVideo !== 'string' || !entry.introVideo)
+    )
       throw new Error(`${entryCtx}.introVideo: 期望非空 AssetId`)
     if (sceneIds && !sceneIds.includes(entry.scene as string))
       throw new Error(`${entryCtx}.scene: 场景 "${String(entry.scene)}" 不在 scenes/index.json`)
@@ -324,7 +352,8 @@ export function validateBaseScenes(
   arr.forEach((scene, sceneIndex) => {
     const scenePath = `scenes[${sceneIndex}]`
     const sceneRecord = assertObject(scene, scenePath) as Record<string, unknown>
-    if ('onEnter' in sceneRecord) throw new Error(`${scenePath}.onEnter: current 作者态脚本必须位于 hooks.onEnter`)
+    if ('onEnter' in sceneRecord)
+      throw new Error(`${scenePath}.onEnter: current 作者态脚本必须位于 hooks.onEnter`)
     if ('onTeleport' in sceneRecord)
       throw new Error(`${scenePath}.onTeleport: current 作者态脚本必须位于 hooks.onTeleport`)
     checkBaseSceneHooks(sceneRecord.hooks, `${scenePath}.hooks`, options)
@@ -665,18 +694,6 @@ export function validateSkills(json: unknown): {
   return { skills, levelUp: (json as { levelUp: Record<string, unknown> }).levelUp }
 }
 
-const ITEM_STATUS_IDS = new Set([
-  'confused',
-  'paralyzed',
-  'sleep',
-  'silence',
-  'puppet',
-  'bravery',
-  'protect',
-  'haste',
-  'dualAttack',
-])
-
 function requireFiniteNumber(
   value: unknown,
   ctx: string,
@@ -687,6 +704,65 @@ function requireFiniteNumber(
   if (opts?.positive && value <= 0) throw new Error(`${ctx}: 期望正数`)
   if (opts?.nonzero && value === 0) throw new Error(`${ctx}: 不得为 0`)
   return value
+}
+
+/** 毒定义的 current-only 形状与唯一 id 门禁；禁止 loader 用 Object.fromEntries 静默覆盖重复项。 */
+export function validatePoisons(json: unknown): PoisonDef[] {
+  const poisons = assertArray<unknown>(json, 'poisons')
+  const seen = new Set<number>()
+  return poisons.map((rawPoison, index) => {
+    const ctx = `poisons[${index}]`
+    const poison = assertObject(rawPoison, ctx) as Record<string, unknown>
+    requireKeys(poison, ['id', 'name', 'curability', 'color'], ctx)
+    requireOnlyKeys(
+      poison,
+      ['id', 'name', 'curability', 'color', 'playerTicks', 'enemyTicks', 'lethalWith', 'counters'],
+      ctx,
+    )
+    if (typeof poison.id !== 'number' || !Number.isSafeInteger(poison.id) || poison.id <= 0)
+      throw new Error(`${ctx}.id: 期望正安全整数 PoisonDef.id`)
+    if (seen.has(poison.id)) throw new Error(`${ctx}.id: 毒 ${poison.id} 重复`)
+    seen.add(poison.id)
+    if (typeof poison.name !== 'string' || poison.name.trim().length === 0)
+      throw new Error(`${ctx}.name: 期望非空名称`)
+    if (!['common', 'severe', 'incurable'].includes(String(poison.curability)))
+      throw new Error(`${ctx}.curability: 期望 common|severe|incurable`)
+    if (!Number.isSafeInteger(poison.color) || Number(poison.color) < 0)
+      throw new Error(`${ctx}.color: 期望非负安全整数`)
+    for (const relation of ['lethalWith', 'counters'] as const) {
+      const value = poison[relation]
+      if (value !== undefined && (!Number.isSafeInteger(value) || Number(value) <= 0))
+        throw new Error(`${ctx}.${relation}: 期望正安全整数 PoisonDef.id`)
+    }
+    for (const side of ['playerTicks', 'enemyTicks'] as const) {
+      if (poison[side] === undefined) continue
+      const ticks = assertArray<unknown>(poison[side], `${ctx}.${side}`)
+      if (ticks.length === 0) throw new Error(`${ctx}.${side}: 不得为空`)
+      ticks.forEach((rawTick, tickIndex) => {
+        const tickPath = `${ctx}.${side}[${tickIndex}]`
+        const tick = assertObject(rawTick, tickPath) as Record<string, unknown>
+        requireOnlyKeys(tick, ['hpDelta', 'mpDelta', 'halveHp', 'grantItem', 'selfCure'], tickPath)
+        for (const field of ['hpDelta', 'mpDelta'] as const) {
+          const value = tick[field]
+          if (value !== undefined && !Number.isSafeInteger(value))
+            throw new Error(`${tickPath}.${field}: 期望安全整数`)
+        }
+        if (
+          tick.halveHp !== undefined &&
+          (!Number.isSafeInteger(tick.halveHp) || Number(tick.halveHp) <= 0)
+        )
+          throw new Error(`${tickPath}.halveHp: 期望正安全整数`)
+        if (
+          tick.grantItem !== undefined &&
+          (typeof tick.grantItem !== 'string' || tick.grantItem.length === 0)
+        )
+          throw new Error(`${tickPath}.grantItem: 期望非空物品 id`)
+        if (tick.selfCure !== undefined && typeof tick.selfCure !== 'boolean')
+          throw new Error(`${tickPath}.selfCure: 期望 boolean`)
+      })
+    }
+    return poison as unknown as PoisonDef
+  })
 }
 
 function requireSafeInteger(value: unknown, ctx: string): number {
@@ -796,16 +872,23 @@ function validateItemUseEffect(effect: Record<string, unknown>, ctx: string): vo
       break
     }
     case 'applyStatus':
-      if (typeof effect.status !== 'string' || !ITEM_STATUS_IDS.has(effect.status))
+      if (
+        typeof effect.status !== 'string' ||
+        !Object.hasOwn(ACTOR_STATUS_DEFINITIONS, effect.status)
+      )
         throw new Error(`${ctx}.status: 未知状态 ${String(effect.status)}`)
-      requireFiniteNumber(effect.turns, `${ctx}.turns`, { positive: true, integer: true })
+      if (
+        requireFiniteNumber(effect.turns, `${ctx}.turns`, { positive: true, integer: true }) >
+        CARRIED_STATUS_TURN_RANGE.max
+      )
+        throw new Error(`${ctx}.turns: 不得大于 ${CARRIED_STATUS_TURN_RANGE.max}`)
       break
     case 'removeStatus': {
       const statuses = assertArray<unknown>(effect.statuses, `${ctx}.statuses`)
       if (statuses.length === 0) throw new Error(`${ctx}.statuses: 不得为空`)
       const seen = new Set<string>()
       statuses.forEach((status, index) => {
-        if (typeof status !== 'string' || !ITEM_STATUS_IDS.has(status))
+        if (typeof status !== 'string' || !Object.hasOwn(ACTOR_STATUS_DEFINITIONS, status))
           throw new Error(`${ctx}.statuses[${index}]: 未知状态 ${String(status)}`)
         if (seen.has(status)) throw new Error(`${ctx}.statuses[${index}]: 状态 ${status} 重复`)
         seen.add(status)
@@ -999,7 +1082,10 @@ function validateThrowEffect(effect: Record<string, unknown>, ctx: string): void
     }
     case 'applyStatus':
       requireOnlyKeys(effect, ['kind', 'status', 'turns', 'onResist'], ctx)
-      if (typeof effect.status !== 'string' || !ITEM_STATUS_IDS.has(effect.status))
+      if (
+        typeof effect.status !== 'string' ||
+        !Object.hasOwn(ACTOR_STATUS_DEFINITIONS, effect.status)
+      )
         throw new Error(`${ctx}.status: 未知状态 ${String(effect.status)}`)
       if (requireSafeInteger(effect.turns, `${ctx}.turns`) <= 0)
         throw new Error(`${ctx}.turns: 期望正数`)
@@ -1139,6 +1225,13 @@ export function validateItems(json: unknown): ItemData[] {
       const typedUse = use as unknown as import('./item.js').UseSpec
       const supportsWorld = itemUseSupportsContext(typedUse, 'world')
       const supportsBattle = itemUseSupportsContext(typedUse, 'battle')
+      if (
+        use.battleOnly !== true &&
+        effects.some((effect) => effect.kind === 'applyStatus' && effect.status === 'puppet')
+      )
+        throw new Error(
+          `items[${i}].use.effects: 傀儡只能用于战斗中已倒下的队员，必须标记 battleOnly`,
+        )
       if (effects.length > 0 && use.battleOnly === true && !supportsBattle)
         throw new Error(`items[${i}].use.effects: battleOnly 用途包含不可用于战斗的效果`)
       if (effects.length > 0 && !supportsWorld && !supportsBattle)
@@ -1242,7 +1335,10 @@ export function validateAuthorItemCore(
         string,
         unknown
       >
-      const effects = assertArray<AuthorItemUseEffect>(spec.effects, `items[${itemIndex}].use.effects`)
+      const effects = assertArray<AuthorItemUseEffect>(
+        spec.effects,
+        `items[${itemIndex}].use.effects`,
+      )
       effects.forEach((effect, effectIndex) => {
         const ctx = `items[${itemIndex}].use.effects[${effectIndex}]`
         validateAuthorItemUseEffect(effect as unknown as Record<string, unknown>, ctx, options)
@@ -1339,10 +1435,7 @@ export function validateBattleFields(json: unknown): BattleFieldDef[] {
 }
 
 /** 敌人定义轻量 guard；音效边界必须拒绝旧数字/负号协议。 */
-export function validateEnemies(
-  json: unknown,
-  options: CommandValidationOptions = {},
-): EnemyDef[] {
+export function validateEnemies(json: unknown, options: CommandValidationOptions = {}): EnemyDef[] {
   const arr = assertArray<EnemyDef>(json, 'enemies')
   arr.forEach((enemy, index) => {
     const ctx = `enemies[${index}]`

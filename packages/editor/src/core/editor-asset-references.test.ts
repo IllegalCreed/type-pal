@@ -19,7 +19,7 @@ describe('editor asset reference source', () => {
       manifest: {
         id: 'shared-script-reference',
         name: '共享脚本资源引用',
-        contentVersion: 18,
+        contentVersion: 19,
         minimumSaveVersion: 8,
         defaultEntryId: 'main',
         content: {
@@ -127,7 +127,7 @@ describe('editor asset reference source', () => {
       manifest: {
         id: 'live-reference-state',
         name: '实时引用作者态',
-        contentVersion: 18,
+        contentVersion: 19,
         minimumSaveVersion: 8,
         defaultEntryId: 'main',
         content: {

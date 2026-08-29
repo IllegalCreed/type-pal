@@ -1,5 +1,5 @@
-import type { EntityDef } from './index.js'
 import { describe, expect, test } from 'vitest'
+import type { EntityDef } from './index.js'
 import { itemUseSupportsContext } from './item.js'
 import {
   checkThrowSpec,
@@ -12,6 +12,7 @@ import {
   validateScenes,
   validateSkills,
   validateSprites,
+  validateStartWorld,
   validateStartWorldResources,
 } from './validate.js'
 
@@ -780,6 +781,16 @@ describe('validateItems · C8 用途能力契约', () => {
     ).not.toThrow()
   })
 
+  test('傀儡不能成为大世界携带状态，显式 battleOnly 仍可用', () => {
+    const puppet = {
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'applyStatus', status: 'puppet', turns: 3 }],
+    }
+    expect(() => validateItems([item(puppet)])).toThrow(/battleOnly/)
+    expect(() => validateItems([item({ ...puppet, battleOnly: true })])).not.toThrow()
+  })
+
   test.each([
     [{ consuming: true, effects: [{ kind: 'healHp', amount: 1 }] }, /target: 期望/],
     [
@@ -1121,6 +1132,44 @@ describe('validateStartWorldResources', () => {
   })
 })
 
+describe('validateStartWorld · 入口角色当前状态', () => {
+  const start = (seedConditions?: unknown): unknown => ({
+    party: ['hero'],
+    money: 0,
+    inventory: [],
+    ...(seedConditions === undefined ? {} : { seedConditions }),
+  })
+
+  test('接受稀疏空值与三类 carrier', () => {
+    expect(() => validateStartWorld(start())).not.toThrow()
+    expect(() => validateStartWorld(start({ hero: {} }))).not.toThrow()
+    expect(() =>
+      validateStartWorld(
+        start({
+          hero: {
+            poisonIds: [551, 555],
+            statuses: [{ status: 'protect', turns: 7 }],
+            poisonResistance: 120,
+          },
+        }),
+      ),
+    ).not.toThrow()
+  })
+
+  test.each([
+    [{ outsider: {} }, /已入队/],
+    [{ hero: { poisonIds: [551, 551] } }, /重复/],
+    [{ hero: { poisonIds: [0] } }, /PoisonDef\.id/],
+    [{ hero: { statuses: [{ status: 'puppet', turns: 1 }] } }, /不可携带/],
+    [{ hero: { statuses: [{ status: 'protect', turns: 0 }] } }, /正安全整数/],
+    [{ hero: { statuses: [{ status: 'protect', turns: 1000 }] } }, /999/],
+    [{ hero: { poisonResistance: 0 } }, /正安全整数/],
+    [{ hero: { tickIndex: 2 } }, /未知字段/],
+  ])('拒绝非队员、重复/内部字段与非法值 %#', (seedConditions, expected) => {
+    expect(() => validateStartWorld(start(seedConditions))).toThrow(expected)
+  })
+})
+
 describe('validateLocale · 对话行边界', () => {
   test('新内容禁止 locale 内换行；loader 兼容边界可显式保留旧软换行', () => {
     expect(() => validateLocale({ old: '第一行\n第二行' })).toThrow(/DialogueCue\.rows/)
@@ -1130,7 +1179,7 @@ describe('validateLocale · 对话行边界', () => {
   })
 })
 
-describe('validateCurrentManifestStartup · canonical content18 startup model', () => {
+describe('validateCurrentManifestStartup · canonical content19 startup model', () => {
   const world = () => ({ party: [], money: 0, inventory: [] })
   const entry = (id: string, scene = `scene-${id}`) => ({
     id,
@@ -1141,7 +1190,7 @@ describe('validateCurrentManifestStartup · canonical content18 startup model', 
   const manifest = () => ({
     id: 'demo',
     name: 'Demo',
-    contentVersion: 18,
+    contentVersion: 19,
     minimumSaveVersion: 8,
     defaultEntryId: 'main',
     entryPoints: [entry('main')],
@@ -1169,7 +1218,7 @@ describe('validateCurrentManifestStartup · canonical content18 startup model', 
     ],
     [{ ...manifest(), entryScene: 'scene-main' }, /entryScene: 未知字段/],
     [{ ...manifest(), startWorld: world() }, /startWorld: 未知字段/],
-    [{ ...manifest(), contentVersion: 17 }, /contentVersion: 期望 18/],
+    [{ ...manifest(), contentVersion: 18 }, /contentVersion: 期望 19/],
     [
       {
         ...manifest(),

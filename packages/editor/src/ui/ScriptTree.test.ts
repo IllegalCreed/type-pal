@@ -24,6 +24,7 @@ describe('ScriptTree stable references', () => {
       ['item:293', '手卷'],
       ['skill:377', '飞龙探云手'],
       ['actor:li-xiaoyao', '李逍遥'],
+      ['poison:7', '赤毒'],
       ['sprite:li-training', '李逍遥练武'],
     ])
     const references: ScriptReferenceCatalog = {
@@ -46,6 +47,21 @@ describe('ScriptTree stable references', () => {
                 actor: 'li-xiaoyao',
                 sprite: 'li-training',
               },
+              {
+                kind: 'applyActorCondition',
+                actor: 'li-xiaoyao',
+                condition: { kind: 'poison', poisonId: 7 },
+              },
+              {
+                kind: 'applyActorCondition',
+                actor: 'li-xiaoyao',
+                condition: { kind: 'status', status: 'protect', turns: 7 },
+              },
+              {
+                kind: 'clearActorCondition',
+                actor: 'li-xiaoyao',
+                condition: { kind: 'poisonResistance' },
+              },
             ],
           },
         ],
@@ -58,6 +74,10 @@ describe('ScriptTree stable references', () => {
     expect(html).toContain('原版角色槽位 0 习得 飞龙探云手（377）')
     expect(html).toContain('李逍遥（li-xiaoyao） 换精灵')
     expect(html).toContain('李逍遥练武（li-training）')
+    expect(html).toContain('令 李逍遥（li-xiaoyao） 中毒：赤毒（7）')
+    expect(html).toContain('令 李逍遥（li-xiaoyao） 获得护体 7 回合')
+    expect(html).toContain('受到的物理与法术伤害减半')
+    expect(html).toContain('清除 李逍遥（li-xiaoyao） 的全部临时毒抗')
   })
 
   test('实体状态摘要使用中文语义并明确保留的非常规原值', () => {

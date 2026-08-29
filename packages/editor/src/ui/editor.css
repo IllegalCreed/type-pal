@@ -1709,6 +1709,12 @@ html[data-panel-resize="horizontal"] * {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.project-party-condition-summary {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: var(--ds-space-2);
+}
 .project-party-state {
   min-width: 0;
   justify-content: start;
@@ -1718,6 +1724,65 @@ html[data-panel-resize="horizontal"] * {
   flex-wrap: nowrap;
   gap: var(--ds-space-2);
   justify-self: end;
+}
+.actor-condition-dialog {
+  width: min(760px, calc(100vw - 32px));
+  container-type: inline-size;
+}
+.actor-condition-editor {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-6);
+  padding-top: var(--ds-space-4);
+}
+.actor-condition-group,
+.actor-condition-repair {
+  min-width: 0;
+  margin: 0;
+  padding: var(--ds-space-5);
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-surface-panel);
+}
+.actor-condition-group > legend {
+  padding-inline: var(--ds-space-2);
+  color: var(--ds-text-primary);
+  font: var(--ds-font-title-sm);
+}
+.actor-condition-group > p,
+.actor-condition-repair > p {
+  margin: 0 0 var(--ds-space-5);
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-caption);
+}
+.actor-condition-repair {
+  border-color: color-mix(in srgb, var(--err) 55%, var(--ds-border-subtle));
+}
+.actor-condition-repair > h3 {
+  margin: 0 0 var(--ds-space-2);
+  color: var(--err);
+  font: var(--ds-font-title-sm);
+}
+.actor-condition-options,
+.actor-condition-statuses,
+.actor-condition-repair-list {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-3);
+}
+.actor-condition-options {
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+}
+.actor-condition-status-row,
+.actor-condition-repair-list > .ds-repeat-row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, auto);
+  align-items: center;
+  gap: var(--ds-space-4);
+}
+.actor-condition-status-row > .ds-field {
+  margin: 0;
 }
 .project-inventory-row {
   grid-template-columns: 30px minmax(0, 1fr) max-content max-content;
@@ -2061,6 +2126,31 @@ html[data-panel-resize="horizontal"] * {
   .project-party-actions {
     grid-column: 3;
     grid-row: 1;
+  }
+}
+
+@container (max-width: 760px) {
+  .project-party-row {
+    grid-template-columns: 30px minmax(0, 1fr);
+  }
+  .project-party-state,
+  .project-party-actions {
+    grid-column: 2;
+  }
+  .project-party-state {
+    grid-row: 2;
+  }
+  .project-party-actions {
+    grid-row: 3;
+    justify-self: start;
+    flex-wrap: wrap;
+  }
+}
+
+@container (max-width: 520px) {
+  .actor-condition-status-row,
+  .actor-condition-repair-list > .ds-repeat-row {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -9049,17 +9139,13 @@ button.sprite-frame-cell[draggable="true"]:active {
 .ds-reorder-item.effect-editor-card-item[data-layout="overlay"] > .ds-reorder-item__rail {
   /* Center the compact handle on the first header row, including the card's two border pixels. */
   inset-block-start: 0;
-  block-size: calc(
-    var(--ds-control-height) + var(--ds-space-4) + var(--ds-space-4) + 2px
-  );
+  block-size: calc(var(--ds-control-height) + var(--ds-space-4) + var(--ds-space-4) + 2px);
 }
 .ds-reorder-item.effect-editor-card-item[data-layout="overlay"]:has(
     .effect-editor-card[data-density="compact"]
   )
   > .ds-reorder-item__rail {
-  block-size: calc(
-    var(--ds-control-height-compact) + var(--ds-space-4) + var(--ds-space-4) + 2px
-  );
+  block-size: calc(var(--ds-control-height-compact) + var(--ds-space-4) + var(--ds-space-4) + 2px);
 }
 .effect-editor-card__header {
   display: grid;
@@ -9207,7 +9293,10 @@ button.sprite-frame-cell[draggable="true"]:active {
 @container effect-editor-card (max-width: 520px) {
   .ds-reorder-item.effect-editor-card-item[data-layout="overlay"] > .ds-reorder-item__rail {
     block-size: calc(
-      var(--ds-control-height-compact) + var(--ds-space-4) + var(--ds-space-4) + 2px
+      var(--ds-control-height-compact) +
+      var(--ds-space-4) +
+      var(--ds-space-4) +
+      2px
     );
   }
   .effect-editor-card__header {
@@ -9223,11 +9312,8 @@ button.sprite-frame-cell[draggable="true"]:active {
   }
 }
 @container effect-editor-card (max-width: 320px) {
-  .ds-reorder-item.effect-editor-card-item[data-layout="overlay"]
-    > .ds-reorder-item__rail {
-    block-size: calc(
-      var(--ds-hit-target-compact) + var(--ds-space-4) + var(--ds-space-4) + 2px
-    );
+  .ds-reorder-item.effect-editor-card-item[data-layout="overlay"] > .ds-reorder-item__rail {
+    block-size: calc(var(--ds-hit-target-compact) + var(--ds-space-4) + var(--ds-space-4) + 2px);
   }
   .effect-editor-card__header {
     display: flex;
@@ -10004,8 +10090,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: 100%;
 }
 .effect-editor-card__fields[data-effect-fields-layout="equipment"] > label,
-.effect-editor-card__fields[data-effect-fields-layout="equipment"]
-  > div:not(.ds-field-group) {
+.effect-editor-card__fields[data-effect-fields-layout="equipment"] > div:not(.ds-field-group) {
   display: grid;
   gap: var(--ds-space-2);
   min-width: 0;

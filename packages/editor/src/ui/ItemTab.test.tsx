@@ -35,7 +35,7 @@ function state(items: ItemData[] = [item()]): EditorState {
     manifest: {
       id: 'test',
       name: '测试项目',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -511,9 +511,7 @@ describe('ItemTab', () => {
     )
 
     expect(host.querySelectorAll('.item-capability-card.enabled')).toHaveLength(3)
-    const equipEffects = host.querySelector(
-      '[data-effect-editor-family="item/equipment-effects"]',
-    )!
+    const equipEffects = host.querySelector('[data-effect-editor-family="item/equipment-effects"]')!
     const addEquipEffect = button('添加效果', equipEffects)
     expect(addEquipEffect.classList).toContain('ds-button')
     expect(addEquipEffect.classList).toContain('ds-button--compact')
@@ -643,9 +641,7 @@ describe('ItemTab', () => {
         ?.closest('[data-effect-editor-card]')
         ?.getAttribute('data-effect-kind'),
     ).not.toBe('battleSprite')
-    expect(host.querySelector('.item-effect-no-params')?.textContent).toBe(
-      '此效果无需设置参数',
-    )
+    expect(host.querySelector('.item-effect-no-params')?.textContent).toBe('此效果无需设置参数')
     expect(
       host.querySelectorAll<HTMLButtonElement>(
         '.item-battle-sprite-row [role="combobox"][aria-label$="的战斗形象覆写"]',

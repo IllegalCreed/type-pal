@@ -10,7 +10,9 @@
  *
  * 见 docs/phase2/editor/editor-design.md §6。
  */
+
 import { isActorEntity } from './actor.js'
+import { ACTOR_STATUS_DEFINITIONS, isCarryableStatusId } from './actor-condition.js'
 import { ACTOR_REFERENCE_POLICIES, collectActorTaggedReferences } from './actor-reference.js'
 import { collectBattleFieldTaggedReferences } from './battle-field-reference.js'
 import type {
@@ -24,6 +26,7 @@ import type {
   BattleSpriteDef,
   BattleSpriteProfileKind,
   Command,
+  CurrentManifest,
   EnemyDef,
   EnemyHookCommand,
   EnemyHookTransition,
@@ -32,7 +35,6 @@ import type {
   EntryPoint,
   ItemData,
   LevelUpSkill,
-  CurrentManifest,
   Locale,
   MapIndexV1,
   MigrationDiagnosticsV1,
@@ -758,11 +760,13 @@ export function validateEntryPointStartWorldReferences(
   entryPoints: readonly EntryPoint[],
   actors: readonly ActorDef[],
   items: readonly Pick<ItemData, 'id'>[],
+  poisons: readonly Pick<PoisonDef, 'id'>[] = [],
 ): Issue[] {
   const issues: Issue[] = []
   const actorIds = new Set(actors.map((actor) => actor.id))
   const actorsById = new Map(actors.map((actor) => [actor.id, actor]))
   const itemIds = new Set(items.map((item) => item.id))
+  const poisonIds = new Set(poisons.map((poison) => poison.id))
 
   for (const entryPoint of entryPoints) {
     const world = entryPoint.startWorld
@@ -797,7 +801,123 @@ export function validateEntryPointStartWorldReferences(
           where: `${prefix}.seedStats[${actorId}]`,
           message: `属性播种角色 "${actorId}" 不在 actors`,
         })
+    const partyIds = new Set(world.party)
+    for (const [actorId, seed] of Object.entries(world.seedConditions ?? {})) {
+      const actor = actorsById.get(actorId)
+      if (!actor)
+        issues.push({
+          severity: 'error',
+          where: `${prefix}.seedConditions[${actorId}]`,
+          message: `状态播种角色 "${actorId}" 不在 actors`,
+        })
+      else if (!actor.battler)
+        issues.push({
+          severity: 'error',
+          where: `${prefix}.seedConditions[${actorId}]`,
+          message: `状态播种角色 "${actorId}" 无 battler(不可入队)`,
+        })
+      if (!partyIds.has(actorId))
+        issues.push({
+          severity: 'error',
+          where: `${prefix}.seedConditions[${actorId}]`,
+          message: `状态播种角色 "${actorId}" 不在该入口 party`,
+        })
+      seed.poisonIds?.forEach((poisonId, index) => {
+        if (!poisonIds.has(poisonId))
+          issues.push({
+            severity: 'error',
+            where: `${prefix}.seedConditions[${actorId}].poisonIds[${index}]`,
+            message: `毒 ${poisonId} 不在 poisons`,
+          })
+      })
+      const effectiveHp = world.seedStats?.[actorId]?.hp ?? actor?.battler?.baseStats.hp
+      seed.statuses?.forEach((status, index) => {
+        if (
+          isCarryableStatusId(status.status) &&
+          effectiveHp !== undefined &&
+          effectiveHp <= 0 &&
+          ACTOR_STATUS_DEFINITIONS[status.status].category === 'good'
+        )
+          issues.push({
+            severity: 'error',
+            where: `${prefix}.seedConditions[${actorId}].statuses[${index}].status`,
+            message: `当前 HP 为 0 的角色 "${actorId}" 不能播种好状态 ${status.status}`,
+          })
+      })
+    }
   }
+  return issues
+}
+
+export interface ActorConditionPoisonReference {
+  poisonId: number
+  where: string
+}
+
+export function collectActorConditionPoisonReferences(
+  value: unknown,
+  where: string,
+): ActorConditionPoisonReference[] {
+  const references: ActorConditionPoisonReference[] = []
+  const visit = (node: unknown, path: string): void => {
+    if (Array.isArray(node)) {
+      node.forEach((entry, index) => {
+        visit(entry, `${path}[${index}]`)
+      })
+      return
+    }
+    if (!node || typeof node !== 'object') return
+    const record = node as Record<string, unknown>
+    if (record.kind === 'applyActorCondition' || record.kind === 'clearActorCondition') {
+      const condition = record.condition
+      if (condition && typeof condition === 'object' && !Array.isArray(condition)) {
+        const typedCondition = condition as Record<string, unknown>
+        if (typedCondition.kind === 'poison' && typeof typedCondition.poisonId === 'number')
+          references.push({
+            poisonId: typedCondition.poisonId,
+            where: `${path}.condition.poisonId`,
+          })
+      }
+    }
+    for (const [key, child] of Object.entries(record)) visit(child, `${path}.${key}`)
+  }
+  visit(value, where)
+  return references
+}
+
+/** loader 的 author root 与全量主引用门共用，不依赖 ContentBundle 组装。 */
+export function validateActorConditionCommandReferences(
+  value: unknown,
+  actors: readonly ActorDef[],
+  poisons: readonly Pick<PoisonDef, 'id'>[],
+  where: string,
+): Issue[] {
+  const issues: Issue[] = []
+  const actorsById = new Map(actors.map((actor) => [actor.id, actor]))
+  const poisonIds = new Set(poisons.map((poison) => poison.id))
+  for (const reference of collectActorTaggedReferences(value, where)) {
+    if (reference.kind !== 'command-actor-condition') continue
+    const actor = actorsById.get(reference.actorId)
+    if (!actor)
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `角色 "${reference.actorId}" 不在 actors`,
+      })
+    else if (!actor.battler)
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `角色 "${reference.actorId}" 无 battler，不可成为当前队员/后备角色`,
+      })
+  }
+  for (const reference of collectActorConditionPoisonReferences(value, where))
+    if (!poisonIds.has(reference.poisonId))
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `毒 ${reference.poisonId} 不在 poisons`,
+      })
   return issues
 }
 
@@ -820,6 +940,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const mapIds = new Set(b.mapIndex.maps.map((asset) => asset.id))
   const tilesetIds = new Set((b.tilesets ?? []).map((tileset) => tileset.id))
   const poisonIds = new Set((b.poisons ?? []).map((poison) => String(poison.id)))
+  const numericPoisonIds = new Set((b.poisons ?? []).map((poison) => poison.id))
   const battleFieldIds = new Set((b.battleFields ?? []).map((field) => field.id))
 
   const validateBattleField = (fieldId: number, where: string): void => {
@@ -1013,10 +1134,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
     }
   }
 
-  const validateOnDefeated = (
-    commands: readonly EnemyOnDefeatedCommand[],
-    where: string,
-  ): void => {
+  const validateOnDefeated = (commands: readonly EnemyOnDefeatedCommand[], where: string): void => {
     commands.forEach((command, index) => {
       const commandWhere = `${where}[${index}]`
       if (command.kind === 'giveItem' || command.kind === 'loseItem') {
@@ -1284,7 +1402,9 @@ export function validateReferences(b: ContentBundle): Issue[] {
   }
 
   // ── entryPoints[].startWorld ────────────────────────────
-  issues.push(...validateEntryPointStartWorldReferences(b.entryPoints, b.actors, b.items))
+  issues.push(
+    ...validateEntryPointStartWorldReferences(b.entryPoints, b.actors, b.items, b.poisons ?? []),
+  )
   issues.push(...validateActorInitialMagicReferences(b.actors, b.skills))
 
   // ── items ───────────────────────────────────────────────
@@ -1436,19 +1556,56 @@ export function validateReferences(b: ContentBundle): Issue[] {
     ...Object.entries(b.sharedScripts ?? {}).flatMap(([scriptId, script]) =>
       collectActorTaggedReferences(script.body, `sharedScripts[${JSON.stringify(scriptId)}].body`),
     ),
+    ...b.items.flatMap((item, index) =>
+      collectActorTaggedReferences(item, `items[${index}](${item.id})`),
+    ),
     ...(b.enemies ?? []).flatMap((enemy, index) =>
       collectActorTaggedReferences(enemy, `enemies[${index}](${enemy.id})`),
     ),
   ]
   const existingActorIssuePaths = new Set(issues.map((issue) => issue.where))
   for (const reference of tagged) {
-    if (actorIds.has(reference.actorId) || existingActorIssuePaths.has(reference.where)) continue
-    issues.push({
-      severity: ACTOR_REFERENCE_POLICIES[reference.kind].danglingSeverity,
-      where: reference.where,
-      message: `角色 "${reference.actorId}" 不在 actors`,
-    })
+    if (existingActorIssuePaths.has(reference.where)) continue
+    const actor = actorsById[reference.actorId]
+    if (!actor)
+      issues.push({
+        severity: ACTOR_REFERENCE_POLICIES[reference.kind].danglingSeverity,
+        where: reference.where,
+        message: `角色 "${reference.actorId}" 不在 actors`,
+      })
+    else if (reference.kind === 'command-actor-condition' && !actor.battler)
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `角色 "${reference.actorId}" 无 battler，不可成为当前队员/后备角色`,
+      })
+    else continue
     existingActorIssuePaths.add(reference.where)
   }
+
+  const conditionRoots: Array<{ value: unknown; where: string }> = [
+    ...b.scenes.map((scene, index) => ({ value: scene, where: `scenes[${index}](${scene.id})` })),
+    ...b.items.map((item, index) => ({ value: item, where: `items[${index}](${item.id})` })),
+    ...Object.entries(b.scriptChunks ?? {}).map(([chunkId, chunk]) => ({
+      value: chunk,
+      where: `scriptChunks[${JSON.stringify(chunkId)}]`,
+    })),
+    ...Object.entries(b.sharedScripts ?? {}).map(([scriptId, script]) => ({
+      value: script,
+      where: `sharedScripts[${JSON.stringify(scriptId)}]`,
+    })),
+    ...(b.enemies ?? []).map((enemy, index) => ({
+      value: enemy,
+      where: `enemies[${index}](${enemy.id})`,
+    })),
+  ]
+  for (const root of conditionRoots)
+    for (const reference of collectActorConditionPoisonReferences(root.value, root.where))
+      if (!numericPoisonIds.has(reference.poisonId))
+        issues.push({
+          severity: 'error',
+          where: reference.where,
+          message: `毒 ${reference.poisonId} 不在 poisons`,
+        })
   return issues
 }

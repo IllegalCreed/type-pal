@@ -3,9 +3,9 @@ import type { AssetCatalogV1 } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { collectEditorAssetDiagnostics } from '../core/asset-diagnostics.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
-import { collectEditorAssetDiagnostics } from '../core/asset-diagnostics.js'
 import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import { ImageTab } from './ImageTab.js'
@@ -87,7 +87,7 @@ function state(): EditorState {
     manifest: {
       id: 'test',
       name: '测试项目',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -169,10 +169,7 @@ const reader = {
 
 const assetReferenceProps = {
   assetReferences: collectEditorAssetReferences(state()),
-  assetDiagnostics: collectEditorAssetDiagnostics(
-    catalog,
-    collectEditorAssetReferences(state()),
-  ),
+  assetDiagnostics: collectEditorAssetDiagnostics(catalog, collectEditorAssetReferences(state())),
   assetReferenceStatus: 'current' as const,
 }
 
@@ -312,9 +309,7 @@ describe('asset inspectors shared tabs', () => {
     expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(1)
     const imageDiagnostic = host.querySelector('.ds-diagnostic-row')
     expect(imageDiagnostic?.tagName).toBe('ARTICLE')
-    expect(imageDiagnostic?.textContent).toContain(
-      '未使用立绘（ID：portrait.unused）当前未被使用',
-    )
+    expect(imageDiagnostic?.textContent).toContain('未使用立绘（ID：portrait.unused）当前未被使用')
     expect(imageDiagnostic?.textContent).not.toMatch(/AssetId|unused-asset|assets\[/)
     expect(imageDiagnostic?.querySelector('.ds-diagnostic-row__code')).toBeNull()
     expect(imageDiagnostic?.querySelector('.ds-diagnostic-row__path')).toBeNull()

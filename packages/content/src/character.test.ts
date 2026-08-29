@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import type { ActorDef } from './actor.js'
+import { applyActorCondition } from './actor-condition.js'
 import {
   applySetParty,
   buildWorld,
@@ -7,6 +8,7 @@ import {
   type StartWorld,
   type WorldState,
 } from './character.js'
+import type { PoisonDef } from './poison.js'
 
 // 内联角色 fixture(C0:CharacterTemplate → ActorDef,battler 包住战斗数据)
 const hero: ActorDef = {
@@ -34,6 +36,11 @@ const hero: ActorDef = {
 
 /** 无 battler 的普通 NPC(不可入队)。 */
 const villager: ActorDef = { id: 'villager', name: 'name.villager', spriteId: 'ghost' }
+
+const poisons: Record<number, PoisonDef> = {
+  551: { id: 551, name: '赤毒', curability: 'common', color: 16 },
+  555: { id: 555, name: '三尸蛊', curability: 'severe', color: 0 },
+}
 
 describe('角色 schema(ActorDef)', () => {
   test('instantiate 角色 → 实例(读 battler;初始值拷贝;exp=0,tags 空)', () => {
@@ -92,6 +99,65 @@ describe('buildWorld(入口 startWorld 数据化)', () => {
     expect(w.party[0]?.hp).toBe(150)
     expect(w.party[0]?.mp).toBe(100)
   })
+  test('只在新建世界时为开局队员播种三种 condition carrier', () => {
+    const sw: StartWorld = {
+      party: ['test-hero'],
+      money: 0,
+      inventory: [],
+      seedConditions: {
+        'test-hero': {
+          poisonIds: [551, 555],
+          statuses: [{ status: 'protect', turns: 7 }],
+          poisonResistance: 35,
+        },
+      },
+    }
+    const w = buildWorld(sw, { 'test-hero': hero }, undefined, poisons)
+    expect(w.party[0]).toMatchObject({
+      poisons: [
+        { poisonId: 551, tickIndex: 0 },
+        { poisonId: 555, tickIndex: 0 },
+      ],
+      extraStatuses: [{ status: 'protect', turns: 7 }],
+      extraPoisonRes: 35,
+    })
+  })
+
+  test('不同入口的 condition seed 完全隔离，未配置时不物化空 carrier', () => {
+    const plain = buildWorld(
+      { party: ['test-hero'], money: 0, inventory: [] },
+      { 'test-hero': hero },
+    )
+    const poisoned = buildWorld(
+      {
+        party: ['test-hero'],
+        money: 0,
+        inventory: [],
+        seedConditions: { 'test-hero': { poisonIds: [551] } },
+      },
+      { 'test-hero': hero },
+      undefined,
+      poisons,
+    )
+    expect(plain.party[0]).not.toHaveProperty('poisons')
+    expect(plain.party[0]).not.toHaveProperty('extraStatuses')
+    expect(poisoned.party[0]?.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
+  })
+
+  test('入口 condition 未知/重复引用 fail-loud', () => {
+    const start = (poisonIds: number[]): StartWorld => ({
+      party: ['test-hero'],
+      money: 0,
+      inventory: [],
+      seedConditions: { 'test-hero': { poisonIds } },
+    })
+    expect(() => buildWorld(start([999]), { 'test-hero': hero }, undefined, poisons)).toThrow(
+      '未知毒',
+    )
+    expect(() => buildWorld(start([551, 551]), { 'test-hero': hero }, undefined, poisons)).toThrow(
+      '重复',
+    )
+  })
   test('seedStats 的 0 是有效当前值，单字段覆盖不固化另一项', () => {
     const w = buildWorld(
       {
@@ -105,6 +171,24 @@ describe('buildWorld(入口 startWorld 数据化)', () => {
     expect(w.party[0]?.hp).toBe(0)
     expect(w.party[0]?.mp).toBe(100)
     expect(w.party[0]?.maxHP).toBe(150)
+  })
+  test('入口当前 HP 为 0 时不能同时播种好状态', () => {
+    expect(() =>
+      buildWorld(
+        {
+          party: ['test-hero'],
+          money: 0,
+          inventory: [],
+          seedStats: { 'test-hero': { hp: 0 } },
+          seedConditions: {
+            'test-hero': { statuses: [{ status: 'protect', turns: 7 }] },
+          },
+        },
+        { 'test-hero': hero },
+        undefined,
+        poisons,
+      ),
+    ).toThrow('死亡角色不能播种好状态 protect')
   })
   test('同一角色的不同入口只改当前 hp/mp，最大值与初始技能稳定继承定义', () => {
     const normal = buildWorld(
@@ -239,13 +323,41 @@ describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
     const w = world()
     applySetParty(w, ['test-hero', 'test-mate'], actors)
     w.party[1]!.hp = 7 // 打残
+    w.party[1]!.poisons = [{ poisonId: 551, tickIndex: 2 }]
+    w.party[1]!.extraStatuses = [{ status: 'protect', turns: 5 }]
+    w.party[1]!.extraPoisonRes = 20
     applySetParty(w, ['test-hero'], actors) // mate 离队
     expect(w.party.map((c) => c.template)).toEqual(['test-hero'])
     expect(w.reserve?.map((c) => c.template)).toEqual(['test-mate'])
     expect(w.reserve?.[0]?.hp).toBe(7) // 不清数据
     applySetParty(w, ['test-hero', 'test-mate'], actors) // 回归
     expect(w.party[1]?.hp).toBe(7) // 原实例
+    expect(w.party[1]).toMatchObject({
+      poisons: [{ poisonId: 551, tickIndex: 2 }],
+      extraStatuses: [{ status: 'protect', turns: 5 }],
+      extraPoisonRes: 20,
+    })
     expect(w.reserve).toEqual([])
+  })
+
+  test('setParty 后的显式 condition 命令独立生效，离队归队仍保留', () => {
+    const w = world()
+    applySetParty(w, ['test-hero', 'test-mate'], actors)
+    applyActorCondition(
+      w.party[1]!,
+      {
+        kind: 'status',
+        status: 'protect',
+        turns: 7,
+      },
+      poisons,
+    )
+    expect(w.party[1]?.extraStatuses).toEqual([{ status: 'protect', turns: 7 }])
+
+    applySetParty(w, ['test-hero'], actors)
+    expect(w.reserve?.[0]?.extraStatuses).toEqual([{ status: 'protect', turns: 7 }])
+    applySetParty(w, ['test-hero', 'test-mate'], actors)
+    expect(w.party[1]?.extraStatuses).toEqual([{ status: 'protect', turns: 7 }])
   })
 
   test('离队后的学习/遗忘进度在归队时不被出厂技能覆盖', () => {

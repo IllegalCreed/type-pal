@@ -1,16 +1,16 @@
 import type { ActorDef } from './actor.js'
+import {
+  type ActorConditionSeed,
+  applyActorConditionSeed,
+  type CarriedStatus,
+} from './actor-condition.js'
 import type { AssetId, ManifestAssetConfig } from './asset.js'
-import type { EntityLifecycleTable } from './entity-lifecycle.js'
 import { emptyWorldScriptState, type WorldScriptState } from './author-script-core.js'
-import type { StatusId } from './skill.js'
+import type { EntityLifecycleTable } from './entity-lifecycle.js'
+import type { PoisonDef } from './poison.js'
 import { initialWorldVariablesV1, type WorldVariableRegistryV1 } from './world-variable.js'
 
-/** 大世界带入战斗的临时状态(护体符/金刚符 = protect;加速符等)。原版全局 rgPlayerStatus 的一格:
- *  战斗外 use 施加、随存档,建态时注入战斗 status[key]=turns,战后三件套 ClearAllStatus 清。 */
-export interface CarriedStatus {
-  status: StatusId
-  turns: number
-}
+export type { ActorConditionSeed, CarriedStatus } from './actor-condition.js'
 
 /** L1 世界态(跟存档走;现 demo 内存构造)。 */
 export interface WorldState {
@@ -58,6 +58,8 @@ export interface StartWorld {
   resources?: Record<string, number>
   /** 开局当前 HP/MP 的稀疏覆盖;留空继承角色 baseStats.hp/mp，不覆盖最大值。 */
   seedStats?: Record<string, { hp?: number; mp?: number }>
+  /** 每名开局队员的当前临时状态；仅 buildWorld 在新建世界时消费一次。 */
+  seedConditions?: Record<string, ActorConditionSeed>
 }
 
 /**
@@ -78,7 +80,7 @@ export interface EntryPoint {
 }
 
 /** 工程内容 schema 版本；与存档 SAVE_VERSION 是两个独立的版本轴。 */
-export const CONTENT_VERSION = 18 as const
+export const CONTENT_VERSION = 19 as const
 /** 当前工程仍允许读取的最早 SAVE envelope；不得从 CONTENT_VERSION 推导。 */
 export const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8 as const
 
@@ -127,14 +129,14 @@ export interface CharacterInstance {
    */
   poisons?: import('./poison.js').ActivePoison[]
   /**
-   * 大世界带入的临时状态(护体符/金刚符 protect 7 回合等;原版全局 rgPlayerStatus)。战斗外 use 施加、
-   * 随存档,建态时注入战斗 status[key]=turns。战后三件套 ClearAllStatus 清(只保一场)。缺省 = 无。
-   * ⚠ 与装备常驻 grantedStatuses(连击,红线 live 派生、置 9999 永久)不同:此为定时、随存档持久。
+   * 大世界带入下一场战斗的临时状态(护体符/金刚符 protect 7 回合等)。
+   * 大世界不自行衰减；建态时注入战斗，战后清除，从存档恢复时也主动清除。缺省 = 无。
+   * ⚠ 与装备常驻 grantedStatuses(连击，live 派生、置 9999)不同，此处不保存装备派生值。
    */
   extraStatuses?: CarriedStatus[]
   /**
-   * 大世界带入的临时毒抗(大蒜;原版 rgEquipmentEffect Extra 层的 rgwPoisonResistance)。战斗外 use 施加、
-   * 随存档,建态并入战斗 poisonRes(缩「敌普攻附毒门」)。战后三件套 RemoveEquipExtra 清。缺省 = 无。
+   * 大世界带入下一场战斗的临时毒抗(大蒜；原版 rgEquipmentEffect Extra 层)。
+   * 大世界不自行衰减；战后和从存档恢复时均清除。缺省 = 无。
    */
   extraPoisonRes?: number
   /**
@@ -225,13 +227,14 @@ export function applySetParty(
 
 /**
  * 从入口的 startWorld 组装初始世界态(loader 的 content-op)。
- *  = initialWorld() 的数据化版:对每个 party 角色 id instantiate → 应用 seedStats 覆盖 hp/mp → 组装。
+ *  = initialWorld() 的数据化版:对每个 party 角色 id instantiate → 应用 seedStats / seedConditions → 组装。
  *  初始技能从 ActorDef.battler.initialMagic 播种；inventory 从入口拷贝。
  */
 export function buildWorld(
   startWorld: StartWorld,
   actorsById: Record<string, ActorDef>,
   worldVariables?: WorldVariableRegistryV1,
+  poisonDefs: Readonly<Record<number, PoisonDef>> = {},
 ): WorldState {
   const learnedSkills: Record<string, string[]> = {}
   const party = startWorld.party.map((id) => {
@@ -241,12 +244,12 @@ export function buildWorld(
     const seed = startWorld.seedStats?.[id]
     if (seed?.hp !== undefined) inst.hp = seed.hp
     if (seed?.mp !== undefined) inst.mp = seed.mp
+    const conditionSeed = startWorld.seedConditions?.[id]
+    if (conditionSeed) applyActorConditionSeed(inst, conditionSeed, poisonDefs)
     seedActorInitialSkills(learnedSkills, a, inst.id)
     return inst
   })
-  const initial = worldVariables
-    ? initialWorldVariablesV1(worldVariables)
-    : { flags: {}, vars: {} }
+  const initial = worldVariables ? initialWorldVariablesV1(worldVariables) : { flags: {}, vars: {} }
   return {
     script: {
       ...emptyWorldScriptState(),

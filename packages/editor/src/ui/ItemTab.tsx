@@ -63,8 +63,8 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsDialog,
-  DsDraftNumberInput,
   DsDraftNumberField,
+  DsDraftNumberInput,
   DsDraftTextArea,
   DsDraftTextInput,
   DsField,
@@ -73,12 +73,12 @@ import {
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
+  DsNumberFieldGrid,
   DsObjectHero,
   DsObjectWorkspace,
   DsObjectWorkspaceContent,
   DsOverflowText,
   DsPressable,
-  DsNumberFieldGrid,
   DsPropertyGrid,
   DsPropertyRow,
   DsReadoutList,
@@ -890,6 +890,7 @@ export function ItemTab(props: {
       items,
       skills,
       actors,
+      poisons: shell.poisons ?? [],
       sprites: shell.sprites,
       battleSprites,
       ambiences: shell.ambiences ?? [],
@@ -1054,9 +1055,8 @@ export function ItemTab(props: {
     patch({ throw: next })
   }
   const equip = item?.equip
-  const equipEffectReorderKeys = useDsReorderKeys(
-    equip?.effects ?? [],
-    (effect) => JSON.stringify(effect),
+  const equipEffectReorderKeys = useDsReorderKeys(equip?.effects ?? [], (effect) =>
+    JSON.stringify(effect),
   )
   const patchEquip = (next: EquipSpec | undefined): void => patch({ equip: next })
   const setEquipEffect = (index: number, next: EquipEffect): void => {
@@ -1663,10 +1663,7 @@ export function ItemTab(props: {
                           ))}
                       </fieldset>
                     </div>
-                    <EffectEditorChain
-                      family="item/equipment-effects"
-                      label="物品装备效果"
-                    >
+                    <EffectEditorChain family="item/equipment-effects" label="物品装备效果">
                       <div className="item-effect-subhead">
                         <strong>装备效果</strong>
                         <DsButton

@@ -8,11 +8,14 @@
  */
 
 import type {
+  ApplyActorCondition,
   AssetId,
+  ClearActorCondition,
   Command,
   DialogueCue,
   Facing,
   GridPos,
+  ProjectedWorldScriptState,
   RuntimeScriptBinding,
   SceneReveal,
   SceneSpawn,
@@ -22,7 +25,6 @@ import type {
   ScriptStage,
   SpriteActionBinding,
   WalkSpeed,
-  ProjectedWorldScriptState,
 } from '@type-pal/content'
 import { applyStageNext, stageIndexFor } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
@@ -111,6 +113,18 @@ export interface ScriptHost {
   ride(entityId: string, to: GridPos, speed: WalkSpeed, signal?: AbortSignal): Promise<void>
   /** C7 队伍变更(D22 reserve):members = 角色模板 id 有序表。 */
   setParty(members: readonly string[], signal?: AbortSignal): Promise<void>
+  /** 剧情显式施加角色当前状态；按稳定角色模板 id 查当前队伍与后备队伍。 */
+  applyActorCondition(
+    actor: string,
+    condition: ApplyActorCondition,
+    signal?: AbortSignal,
+  ): void | Promise<void>
+  /** 剧情显式清除角色当前状态；按稳定角色模板 id 查当前队伍与后备队伍。 */
+  clearActorCondition(
+    actor: string,
+    condition: ClearActorCondition,
+    signal?: AbortSignal,
+  ): void | Promise<void>
   /** 0x98:全部 SpriteDef/资产预载成功后 runner 才原子提交 followers。 */
   setFollowers(sprites: readonly string[], signal?: AbortSignal): Promise<void>
   // ── M3b 走位 / 演出(阻塞项返回 Promise,须响应 signal)──
@@ -676,6 +690,14 @@ export class ScriptRunner {
         return h.ride(cmd.entity, cmd.to, cmd.speed, this.signal)
       case 'setParty':
         await h.setParty([...cmd.members], this.signal)
+        throwIfAborted(this.signal)
+        return
+      case 'applyActorCondition':
+        await h.applyActorCondition(cmd.actor, cmd.condition, this.signal)
+        throwIfAborted(this.signal)
+        return
+      case 'clearActorCondition':
+        await h.clearActorCondition(cmd.actor, cmd.condition, this.signal)
         throwIfAborted(this.signal)
         return
       case 'stopScript':

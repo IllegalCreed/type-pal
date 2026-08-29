@@ -9,6 +9,8 @@
  * 必须和 pal.exe 一致），故公式层照抄一阶段（它已对齐 fight.c 行号，是语义真值源）。
  */
 
+import { ACTOR_STATUS_DEFINITIONS } from './actor-condition.js'
+
 /** SHORT cast:把任意整数 cast 成 -32768..32767 范围（sdlpal `(SHORT)` 语义）。 */
 function asShort(n: number): number {
   return (n << 16) >> 16
@@ -284,15 +286,6 @@ export function canCastMagic(status: BattleStatus): boolean {
   return (status.silence ?? 0) <= 0
 }
 
-/** 坏状态(已有不刷新;global.c:2231-2237)。slow 属坏(非 CLASSIC 语义,schema 超集故含)。 */
-const BAD_STATUS: ReadonlySet<keyof BattleStatus> = new Set([
-  'confused',
-  'paralyzed',
-  'sleep',
-  'silence',
-  'slow',
-] as const)
-
 /**
  * 队员状态设置语义(global.c:2221-2276 PAL_SetPlayerStatus 精确移植):
  * - 坏状态(乱/定/眠/封/迟缓):**已有不刷新**(==0 才设);
@@ -312,7 +305,8 @@ export function applyPlayerStatus(
     st.puppet = Math.max(st.puppet, turns)
     return true
   }
-  if (BAD_STATUS.has(key)) {
+  const definition = key === 'slow' ? undefined : ACTOR_STATUS_DEFINITIONS[key]
+  if (key === 'slow' || definition?.category === 'bad') {
     if (st[key] > 0) return false // 坏状态已有不刷新(global.c:2234)
     st[key] = turns
     if (key === 'slow') st.haste = 0 // 互斥

@@ -1959,11 +1959,7 @@
     },
     {
       "registry": "item/item",
-      "components": [
-        "FireEffectPreview.tsx",
-        "ItemTab.tsx",
-        "SkillAnimationEditor.tsx"
-      ],
+      "components": ["FireEffectPreview.tsx", "ItemTab.tsx", "SkillAnimationEditor.tsx"],
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
@@ -2369,7 +2365,7 @@
         "catalog": "DsCatalogRow",
         "scroll": "custom:.project-entry-list + custom:.project-outliner(repair only) + project workbench content",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsAddPickerDialog + DsControlGroup + DsDraftNumberField + DsDraftNumberInput + DsDraftTextField + DsField + DsFieldGroup + DsRepeatRow + DsSelect + DsSelectField + DsTextInput",
+        "field": "DsAddPickerDialog + DsCheckbox + DsControlGroup + DsDraftNumberField + DsDraftNumberInput + DsDraftTextField + DsField + DsFieldGroup + DsRepeatRow + DsSelect + DsSelectField + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

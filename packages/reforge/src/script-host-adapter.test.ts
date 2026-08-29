@@ -38,6 +38,8 @@ function host(): ScriptHost {
     unmountParty: vi.fn(),
     ride: vi.fn(async () => undefined),
     setParty: vi.fn(async () => undefined),
+    applyActorCondition: vi.fn(async () => undefined),
+    clearActorCondition: vi.fn(async () => undefined),
     setFollowers: vi.fn(async () => undefined),
     moveEntity: vi.fn(async () => undefined),
     stepEntity: vi.fn(),
@@ -71,6 +73,44 @@ function host(): ScriptHost {
 }
 
 describe('current script host adapter', () => {
+  test('forwards actor condition commands to the canonical gameplay host', async () => {
+    const target = host()
+    const signal = new AbortController().signal
+    await executeScriptHostEffect(
+      target,
+      {
+        kind: 'applyActorCondition',
+        actor: 'li-xiaoyao',
+        condition: { kind: 'status', status: 'protect', turns: 7 },
+      },
+      {},
+      signal,
+      { currentSceneId: () => 's001' },
+    )
+    await executeScriptHostEffect(
+      target,
+      {
+        kind: 'clearActorCondition',
+        actor: 'li-xiaoyao',
+        condition: { kind: 'poisonResistance' },
+      },
+      {},
+      signal,
+      { currentSceneId: () => 's001' },
+    )
+
+    expect(target.applyActorCondition).toHaveBeenCalledWith(
+      'li-xiaoyao',
+      { kind: 'status', status: 'protect', turns: 7 },
+      signal,
+    )
+    expect(target.clearActorCondition).toHaveBeenCalledWith(
+      'li-xiaoyao',
+      { kind: 'poisonResistance' },
+      signal,
+    )
+  })
+
   test('forwards source scene transition and transient screen commands', async () => {
     const target = host()
     const signal = new AbortController().signal
@@ -110,20 +150,12 @@ describe('current script host adapter', () => {
   test('forwards canonical fade direction and duration to the runtime host', async () => {
     const target = host()
     const signal = new AbortController().signal
-    await executeScriptHostEffect(
-      target,
-      { kind: 'fade', dir: 'out', ms: 1600 },
-      {},
-      signal,
-      { currentSceneId: () => 's048' },
-    )
-    await executeScriptHostEffect(
-      target,
-      { kind: 'fade', dir: 'in', ms: 600 },
-      {},
-      signal,
-      { currentSceneId: () => 's048' },
-    )
+    await executeScriptHostEffect(target, { kind: 'fade', dir: 'out', ms: 1600 }, {}, signal, {
+      currentSceneId: () => 's048',
+    })
+    await executeScriptHostEffect(target, { kind: 'fade', dir: 'in', ms: 600 }, {}, signal, {
+      currentSceneId: () => 's048',
+    })
     expect(target.fade).toHaveBeenNthCalledWith(1, 'out', 1600, undefined, signal)
     expect(target.fade).toHaveBeenNthCalledWith(2, 'in', 600, undefined, signal)
   })

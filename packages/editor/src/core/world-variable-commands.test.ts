@@ -12,7 +12,7 @@ function state(): EditorState {
     manifest: {
       id: 'variables',
       name: 'Variables',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: { worldVariables: 'content/world-variables.json' },

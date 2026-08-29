@@ -2,8 +2,8 @@ import type { ComponentProps } from 'react'
 import { useMemo } from 'react'
 import type { EditorDerivedStoreSnapshot } from '../core/editor-derived-store.js'
 import {
-  effectiveEditorDerivedStatus,
   type EditorDerivedStore,
+  effectiveEditorDerivedStatus,
 } from '../core/editor-derived-store.js'
 import type { ScriptEditSession } from '../core/script-editor.js'
 import {
@@ -14,8 +14,8 @@ import { ActorMode } from './ActorMode.js'
 import { DataMode } from './DataMode.js'
 import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
 import {
-  useEditSessionSelector,
   useEditorDerivedSnapshotAfterPaint,
+  useEditSessionSelector,
   useScriptEditSessionSelector,
 } from './session-selector.js'
 
@@ -84,6 +84,7 @@ type ProjectStateProps =
   | 'scenes'
   | 'actors'
   | 'items'
+  | 'poisons'
   | 'locale'
   | 'assetCatalog'
   | 'issues'
@@ -117,6 +118,7 @@ export function ConnectedProjectWorkbench(props: ConnectedProjectWorkbenchProps)
       scenes={state.scenes}
       actors={state.actors}
       items={state.items}
+      poisons={state.poisons ?? []}
       locale={state.locale}
       assetCatalog={state.assetCatalog}
       issues={derivedData?.projectIssues ?? []}

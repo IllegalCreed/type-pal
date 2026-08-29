@@ -1,11 +1,11 @@
 import { describe, expect, test } from 'vitest'
-import type { EditorState } from './edit-session.js'
 import {
   RemoveActorPortraitExpressionCommand,
   RemoveActorPortraitSetCommand,
   RenameActorPortraitExpressionCommand,
 } from './actor-dialogue-commands.js'
 import { collectEditorDialoguePortraitReferences } from './actor-references.js'
+import type { EditorState } from './edit-session.js'
 
 const actorCue = () => ({
   kind: 'dialog' as const,
@@ -25,7 +25,7 @@ function state(): EditorState {
     manifest: {
       id: 'dialogue-expression',
       name: 'dialogue expression',
-      contentVersion: 18,
+      contentVersion: 19,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

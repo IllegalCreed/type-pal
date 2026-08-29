@@ -95,7 +95,7 @@ function state(actorsList: ActorDef[]): EditorState {
     manifest: {
       id: 'test',
       name: '测试项目',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -153,9 +153,7 @@ function Harness(props: {
     entityAddressReferences: [],
     assetReferences: [],
     assetDiagnostics: [],
-    actorReferenceIndex: [
-      ...(props.referenceIndex ?? blockingActorReferenceMap(current)),
-    ] as never,
+    actorReferenceIndex: [...(props.referenceIndex ?? blockingActorReferenceMap(current))] as never,
     itemReferenceIndex: [],
     poisonReferenceIndex: [],
     worldVariableReferences: { all: [], byId: new Map() },

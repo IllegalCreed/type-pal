@@ -13,13 +13,13 @@ import type {
   ActivePoison,
   CharacterInstance,
   RuntimeSceneDef,
-  StatusId,
   WorldState,
 } from '@type-pal/content'
-import type { LoadedCurrentProject } from './project-loader.js'
-import type { WorldPreset } from './dev-preset.js'
-import type { ScriptProjectRuntime } from './runtime-script-project.js'
+import { isCarryableStatusId } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
+import type { WorldPreset } from './dev-preset.js'
+import type { LoadedCurrentProject } from './project-loader.js'
+import type { ScriptProjectRuntime } from './runtime-script-project.js'
 
 export interface DebugFrameStep {
   active: boolean
@@ -1143,8 +1143,8 @@ function applyPresetOverrides(party: CharacterInstance[], members: DebugPresetMe
       inst.extraStatuses = m.statuses
         .split(',')
         .map((s) => s.trim())
-        .filter(Boolean)
-        .map((status) => ({ status: status as StatusId, turns: 7 }))
+        .filter(isCarryableStatusId)
+        .map((status) => ({ status, turns: 7 }))
     }
     if (m.poisons) {
       inst.poisons = m.poisons

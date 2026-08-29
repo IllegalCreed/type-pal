@@ -1,6 +1,6 @@
 # 脚本库与可复用脚本作者手册
 
-> 适用版本：contentVersion 18 / SAVE 8（2026-08-25）。脚本模型不带产品版本后缀；作者内容直接使用
+> 适用版本：contentVersion 19 / SAVE 8（2026-08-30）。脚本模型不带产品版本后缀；作者内容直接使用
 > `AuthorCommand`、`AuthorScriptFlow`、`AuthorScriptLibrary` 与 `WorldScriptState`。正式上线前只支持
 > 当前 canonical 工程；脚本分片、旧地址 sidecar、旧 upgrader 和“迁移内部实现”均已删除。
 
@@ -85,7 +85,7 @@ type AuthorScriptLibrary = Record<
 `stopScript` 后返回 caller；当前作者命令没有 `jumpScript`。
 
 “打开脚本”会进入目标脚本，“扫描调用位置”会列出场景 Behavior、Hook、物品和其他共享脚本中的
-直接调用方。contentVersion 18 作者界面不显示“迁移内部实现”页签；若项目仍含脚本分片、旧地址或
+直接调用方。contentVersion 19 作者界面不显示“迁移内部实现”页签；若项目仍含脚本分片、旧地址或
 旧版本字段，当前 loader 会直接拒绝，重新执行当前迁移发布即可，不提供产品内升级工作台。
 
 ## 物品私有脚本
@@ -99,6 +99,17 @@ type AuthorScriptLibrary = Record<
 
 当同一逻辑后来确实需要跨物品复用时，再显式提取为共享脚本并把用途改成 `runScript`。
 
+## 剧情入队角色的当前状态
+
+“加入队伍”和“带着什么当前状态加入”是两个动作。先使用 `setParty` 完成阵容变化，再插入“施加角色当前
+状态”；清除时使用对应的“清除角色当前状态”。表单按中文名称选择稳定角色、毒或状态，不录入队伍下标。
+
+- 中毒：选择毒定义；剧情显式施毒必中，但仍遵守自毒的相克/致死规则。
+- 定时状态：只开放可从大世界带入战斗的八种状态，回合为 1..999；死人专用“傀儡”不在此入口。
+- 临时毒抗：填写正整数；同类多次施加取较高值。
+- 目标必须已经实例化；若尚未入队，应先 `setParty`。世界中这些状态不会自行倒计时，进入战斗后才按
+  战斗规则消费；战后与读档清理规则见状态帮助文案。
+
 ## 删除与错误
 
 - 有任何直接调用方的共享脚本不能删除；先从引用列表处理调用点。
@@ -111,4 +122,4 @@ type AuthorScriptLibrary = Record<
 
 当前发布以稳定 ScriptId、PageId、BehaviorId、HookId、StageId/StateId 作为作者冲突键，不以生成块
 或数组位置为键。作者独有共享脚本保留；双方修改同一 canonical identity 时显式冲突并保持零写。
-迁移器直接生成 contentVersion 18，发布前完整预检，manifest 最后写入；仓库不常驻旧脚本升级链。
+迁移器直接生成 contentVersion 19，发布前完整预检，manifest 最后写入；仓库不常驻旧脚本升级链。

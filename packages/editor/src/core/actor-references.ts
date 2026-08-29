@@ -1,9 +1,9 @@
 import {
   ACTOR_REFERENCE_POLICIES,
+  type ActorReferenceKind,
   collectActorTaggedReferences,
   collectDialoguePortraitReferences,
   type DialoguePortraitReference,
-  type ActorReferenceKind,
   type StartWorld,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
@@ -82,6 +82,8 @@ function scanStartWorld(
   )
   for (const actorId of Object.keys(world.seedStats ?? {}))
     add(out, actorId, 'entry-point-seed-stats', `${prefix}.seedStats.${actorId}`, context)
+  for (const actorId of Object.keys(world.seedConditions ?? {}))
+    add(out, actorId, 'entry-point-seed-condition', `${prefix}.seedConditions.${actorId}`, context)
 }
 
 /** 作者外部位置 + levelUp 伴随表 + 可选运行态位置的唯一编辑器 collector。 */

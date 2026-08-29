@@ -22,18 +22,18 @@ import {
   type GridPos,
   grantBattleRewards,
   gridToPixel,
-  type RuntimeHostileBehavior,
   lerpTint,
   lookupText,
   ownedItemCount,
+  type ProjectedWorldScriptState,
   pixelDeltaToGridDelta,
   pixelToGrid,
+  type RuntimeHostileBehavior,
   type RuntimeScriptBinding,
   removeOwnedItems,
   resolveAmbienceTint,
   resolveEntitySpriteId,
   type SceneDef,
-  type ProjectedWorldScriptState,
   type SceneEntryPresentation,
   type SceneReveal,
   type SceneSpawn,
@@ -48,6 +48,12 @@ import {
   type WorldState,
 } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
+import {
+  clearPostBattleActorConditions,
+  clearRestoredWorldActorConditions,
+} from './actor-condition-lifecycle.js'
+import { applyWorldActorCondition, clearWorldActorCondition } from './actor-condition-runtime.js'
+import { compositeAmbienceTint } from './ambience-compositor.js'
 import {
   type BattleFieldEntry,
   type LoadedSprite,
@@ -84,13 +90,6 @@ import { expectDefined } from './defined.js'
 import { type WorldPreset, withWorldPreset } from './dev-preset.js'
 import { loadCursorFrames } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
-import {
-  requireDefaultEntry,
-  resolveInitialSceneId,
-  resolveStartupEntry,
-  shouldPlayEntryIntro,
-  shouldShowOpeningMenu,
-} from './startup-entry.js'
 import { startDialogue } from './dialogue.js'
 import {
   applyDitherPaletteTransition,
@@ -154,23 +153,11 @@ import {
 import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
 import { createGameOverDialogueCue } from './game-over-dialog.js'
 import { GameplayClock } from './gameplay-clock.js'
+import { sha256Bytes } from './hash.js'
 import { Keyboard } from './input.js'
 import { executeWorldItemUse } from './item-use-executor.js'
 import { commitItemEntityPlacement, planItemEntityPlacement } from './item-use-placement.js'
 import { commitLatestPreparedSnapshot } from './latest-snapshot-transaction.js'
-import {
-  isRuntimeScriptRef,
-  runtimeProjectView,
-  runtimeSceneView,
-  projectedWorldScriptScratch,
-  refreshSceneViewBindings,
-} from './runtime-project-view.js'
-import {
-  type LoadedCurrentProject,
-  loadAllScenes,
-  loadScene,
-} from './project-loader.js'
-import type { RuntimeProjectView } from './runtime-project-view.js'
 import {
   castOutdoorSkill,
   closeMagicMenu,
@@ -212,14 +199,24 @@ import {
   wakeDurableMotionEndpoint,
 } from './motion-runtime-wiring.js'
 import { runOpeningMenu, runOpeningMenuWithMusic } from './opening-menu.js'
+import { type LoadedCurrentProject, loadAllScenes, loadScene } from './project-loader.js'
 import {
   Canvas2DRenderer,
   type CellRect,
   type SpriteDraw,
   type TilesetFrameRegistry,
 } from './render.js'
-import { compositeAmbienceTint } from './ambience-compositor.js'
 import { renderSceneFrame } from './render-scene.js'
+import type { RuntimeProjectView } from './runtime-project-view.js'
+import {
+  isRuntimeScriptRef,
+  projectedWorldScriptScratch,
+  refreshSceneViewBindings,
+  runtimeProjectView,
+  runtimeSceneView,
+} from './runtime-project-view.js'
+import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
+import { ScriptProjectRuntime } from './runtime-script-project.js'
 import {
   browserConfirm,
   browserConfirmOverwriteNo,
@@ -229,14 +226,10 @@ import {
   openSaveBrowser,
   type SaveBrowserState,
 } from './save/browser-state.js'
+import { normalizeCurrentSave, preflightCurrentSave } from './save/current-codec.js'
 import {
-  normalizeCurrentSave,
-  preflightCurrentSave,
-} from './save/current-codec.js'
-import { sha256Bytes } from './hash.js'
-import {
-  buildMeta,
   buildCurrentSavePayload,
+  buildMeta,
   captureThumbnail,
   resolveRestoredMusic,
 } from './save/ops.js'
@@ -255,12 +248,10 @@ import { resolveSceneSpawn } from './scene-transition.js'
 import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
 import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
-import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
 import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { executeScriptHostEffect } from './script-host-adapter.js'
 import type { ScriptEffectCommitControl } from './script-project-core.js'
-import { ScriptProjectRuntime } from './runtime-script-project.js'
-import { type ScriptHost, ScriptRunner } from './script-runner.js'
+import type { ScriptHost, ScriptRunner } from './script-runner.js'
 import type { ScriptRuntimeContext } from './script-runner-core.js'
 import {
   actualFrameIndex,
@@ -270,6 +261,13 @@ import {
   settleWalkAnimation,
   walkFrameIndex,
 } from './sprite-anim.js'
+import {
+  requireDefaultEntry,
+  resolveInitialSceneId,
+  resolveStartupEntry,
+  shouldPlayEntryIntro,
+  shouldShowOpeningMenu,
+} from './startup-entry.js'
 import {
   closeSystemMenu,
   openSystemMenu,
@@ -655,6 +653,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     bootStartWorld,
     canonicalProject.actorsById,
     canonicalProject.worldVariables,
+    canonicalProject.poisonsById,
   )
   const initialScript = world.script ?? emptyWorldScriptState()
   Object.assign(canonicalScript, structuredClone(initialScript))
@@ -2612,11 +2611,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态
     // (extraStatuses);② CurePoisonByLevel(3) → 世界毒态清 ≤severe(无影毒/寄生 incurable 留);
     // ③ RemoveEquipExtra → 清大蒜临时毒抗 Extra(extraPoisonRes;装备本身 Extra 走 live 派生无持久)。
-    for (const c of world.party) {
-      if (c.extraStatuses?.length) c.extraStatuses = []
-      if (c.extraPoisonRes) c.extraPoisonRes = undefined
-      if (c.poisons?.length) curePoisons(c, project.poisonsById, 'severe')
-    }
+    clearPostBattleActorConditions(result, world.party, project.poisonsById)
     // 战后脚本：逐槽按 scriptOwnerDef 跑 current canonical onDefeated。
     // exact launchSignal 复用父 activity lineage；F5 已关 gate 时不得另开 transient 自锁。
     // 非 abort 错误向外传播，禁止 console.error 后假装战斗成功。
@@ -3299,6 +3294,14 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
           deriveFollowers()
         },
       })
+    },
+    applyActorCondition: (actor, condition, signal) => {
+      assertRunnerActive(signal, `角色 ${actor} 的状态施加已取消`)
+      applyWorldActorCondition(world, actor, condition, project.poisonsById)
+    },
+    clearActorCondition: (actor, condition, signal) => {
+      assertRunnerActive(signal, `角色 ${actor} 的状态清除已取消`)
+      clearWorldActorCondition(world, actor, condition, project.poisonsById)
     },
     setFollowers: async (spriteIds, signal) => {
       assertRunnerActive(signal, 'setFollowers 的 runner 已取消')
@@ -5658,11 +5661,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
       manifest: inputProject.manifest,
       payload: raw,
     })
-    return normalizeCurrentSave(
-      raw,
-      resolver,
-      await getLifecycleReferences(),
-    )
+    return normalizeCurrentSave(raw, resolver, await getLifecycleReferences())
   }
 
   /** 已归一化 payload 的统一恢复事务；槽读档与 E2E 文件恢复必须共路。 */
@@ -5690,11 +5689,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     }
     // 读档解毒(原版真值:毒/定时状态/装备临时抗性在 GLOBALVARS 不入 SAVEDGAME → 读档即净身;
     // reforge 全量 world 入档,故读回后主动清 runtime-only 三件)
-    for (const c of candidate.party) {
-      c.poisons = undefined
-      c.extraStatuses = undefined
-      c.extraPoisonRes = undefined
-    }
+    clearRestoredWorldActorConditions(candidate)
     // 同场景也走 switchScene:场景实体运行时已被演出污染(位置/触发),读档必须回
     // def 初态再由 applyWorldToScene 重放世界态(X1;getSceneDef 已返回 pristine 拷贝)。
     let plan: SceneSwitchPlan
@@ -6312,10 +6307,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     },
     /** dev:直开一场战斗(M4c 验证/编辑器试打入口)。 */
     startBattle: (enemyTeamId: string) =>
-      expectDefined(scriptRuntime).host.startBattle(
-        { enemyTeamId },
-        new AbortController().signal,
-      ),
+      expectDefined(scriptRuntime).host.startBattle({ enemyTeamId }, new AbortController().signal),
     /** dev:按稳定 AssetId 播过场视频。 */
     playVideo: (asset: string) => host.playVideo(asset),
     /** dev:按稳定 AssetId 播帧动画。 */

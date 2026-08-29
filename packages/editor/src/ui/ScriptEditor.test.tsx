@@ -289,7 +289,7 @@ describe('CanonicalScriptEditor author presentation', () => {
       currentEntityId: 'e1',
       shellScenes: [scene as unknown as SceneDef],
       locale: {},
-      assetCatalog: { version: 1, assets: {} },
+      assetCatalog: { version: 1 as const, assets: {} },
       audioResolver: {} as CanonicalScriptEditorContext['audioResolver'],
       assetReader: {} as CanonicalScriptEditorContext['assetReader'],
       references: { choices: () => [], has: () => false, label: (_kind, id) => id },
@@ -390,6 +390,224 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(changes).toHaveBeenCalledOnce()
     row = host.querySelector<HTMLElement>('.cmd-row')!
     expect(row.textContent).toContain('6 tick')
+  })
+
+  test('角色当前状态命令可从空脚本插入并复用中文聚合表单', async () => {
+    const changes = vi.fn()
+    const scene = {
+      id: 's001',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+    }
+    const actor = {
+      id: 'hero',
+      name: 'name.hero',
+      spriteId: 'sprite.hero',
+      battler: {
+        battleSprite: 'battle.hero',
+        baseStats: {
+          level: 1,
+          hp: 100,
+          maxHP: 100,
+          mp: 30,
+          maxMP: 30,
+          attack: 10,
+          defense: 10,
+          magicAttack: 10,
+          speed: 10,
+          luck: 10,
+        },
+        initialEquipment: {},
+        initialMagic: [],
+      },
+    }
+    const context: CanonicalScriptEditorContext = {
+      state: { scenes: [scene], items: [], sharedScripts: {} } as never,
+      currentSceneId: 's001',
+      shellScenes: [scene as unknown as SceneDef],
+      locale: { 'name.hero': '主角' },
+      assetCatalog: { version: 1, assets: {} } as CanonicalScriptEditorContext['assetCatalog'],
+      audioResolver: {} as CanonicalScriptEditorContext['audioResolver'],
+      assetReader: {} as CanonicalScriptEditorContext['assetReader'],
+      actors: { hero: actor },
+      references: {
+        choices: (kind) =>
+          kind === 'actor'
+            ? [{ id: 'hero', name: '主角' }]
+            : kind === 'poison'
+              ? [{ id: '7', name: '赤毒' }]
+              : [],
+        has: (kind, id) => (kind === 'actor' && id === 'hero') || (kind === 'poison' && id === '7'),
+        label: (kind, id) =>
+          kind === 'actor' && id === 'hero'
+            ? '主角（hero）'
+            : kind === 'poison' && id === '7'
+              ? '赤毒（7）'
+              : id,
+      },
+      battleSprites: [],
+    }
+
+    function Harness() {
+      const [body, setBody] = useState<AuthorCommand[]>([])
+      return (
+        <CanonicalScriptBodyEditor
+          body={body}
+          context={context}
+          onChange={(next) => {
+            changes(next)
+            setBody(next)
+          }}
+        />
+      )
+    }
+
+    await act(async () => root.render(<Harness />))
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('添加指令'))!
+        .click(),
+    )
+    const apply = host.querySelector<HTMLButtonElement>(
+      '[data-command-kinds="applyActorCondition"]',
+    )!
+    const clear = host.querySelector<HTMLButtonElement>(
+      '[data-command-kinds="clearActorCondition"]',
+    )!
+    expect(apply.disabled).toBe(false)
+    expect(clear.disabled).toBe(false)
+    await act(async () => apply.click())
+    expect(changes).toHaveBeenCalledOnce()
+    expect(changes).toHaveBeenLastCalledWith([
+      {
+        kind: 'applyActorCondition',
+        actor: 'hero',
+        condition: { kind: 'poison', poisonId: 7 },
+      },
+    ])
+
+    const row = host.querySelector<HTMLElement>('.cmd-row')!
+    expect(row.textContent).toContain('主角（hero）')
+    expect(row.textContent).toContain('赤毒（7）')
+    changes.mockClear()
+    await act(async () =>
+      row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    const dialog = host.querySelector<HTMLElement>('[role="dialog"]')!
+    expect(dialog.textContent).toContain('目标角色')
+    expect(dialog.textContent).toContain('选择“中毒”时保证命中')
+    await act(async () => dialog.querySelector<HTMLButtonElement>('[aria-label="关闭"]')!.click())
+    expect(changes).not.toHaveBeenCalled()
+  })
+
+  test('无可参战角色时禁用状态指令，无毒定义时默认使用护体', async () => {
+    const scene = {
+      id: 's001',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+    }
+    const assetCatalog: CanonicalScriptEditorContext['assetCatalog'] = {
+      version: 1,
+      assets: {},
+    }
+    const commonContext = {
+      state: { scenes: [scene], items: [], sharedScripts: {} } as never,
+      currentSceneId: 's001',
+      shellScenes: [scene as unknown as SceneDef],
+      locale: {},
+      assetCatalog,
+      audioResolver: {} as CanonicalScriptEditorContext['audioResolver'],
+      assetReader: {} as CanonicalScriptEditorContext['assetReader'],
+      battleSprites: [],
+    }
+    const nonBattlerContext: CanonicalScriptEditorContext = {
+      ...commonContext,
+      actors: { npc: { id: 'npc', name: 'name.npc', spriteId: 'sprite.npc' } },
+      references: {
+        choices: (kind) => (kind === 'actor' ? [{ id: 'npc', name: '路人' }] : []),
+        has: (kind, id) => kind === 'actor' && id === 'npc',
+        label: (_kind, id) => id,
+      },
+    }
+
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditor body={[]} context={nonBattlerContext} onChange={() => {}} />,
+      ),
+    )
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('添加指令'))!
+        .click(),
+    )
+    for (const kind of ['applyActorCondition', 'clearActorCondition']) {
+      const choice = host.querySelector<HTMLButtonElement>(`[data-command-kinds="${kind}"]`)!
+      expect(choice.disabled).toBe(true)
+      expect(choice.textContent).toContain('请先创建可参战角色')
+    }
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="关闭"]')!.click())
+
+    const hero = {
+      id: 'hero',
+      name: 'name.hero',
+      spriteId: 'sprite.hero',
+      battler: {
+        battleSprite: 'battle.hero',
+        baseStats: {
+          level: 1,
+          hp: 100,
+          maxHP: 100,
+          mp: 30,
+          maxMP: 30,
+          attack: 10,
+          defense: 10,
+          magicAttack: 10,
+          speed: 10,
+          luck: 10,
+        },
+        initialEquipment: {},
+        initialMagic: [],
+      },
+    }
+    const changes = vi.fn()
+    const noPoisonContext: CanonicalScriptEditorContext = {
+      ...commonContext,
+      actors: { hero },
+      references: {
+        choices: (kind) => (kind === 'actor' ? [{ id: 'hero', name: '主角' }] : []),
+        has: (kind, id) => kind === 'actor' && id === 'hero',
+        label: (_kind, id) => id,
+      },
+    }
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditor
+          key="with-battler"
+          body={[]}
+          context={noPoisonContext}
+          onChange={changes}
+        />,
+      ),
+    )
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('添加指令'))!
+        .click(),
+    )
+    const apply = host.querySelector<HTMLButtonElement>(
+      '[data-command-kinds="applyActorCondition"]',
+    )!
+    expect(apply.disabled).toBe(false)
+    await act(async () => apply.click())
+    expect(changes).toHaveBeenCalledWith([
+      {
+        kind: 'applyActorCondition',
+        actor: 'hero',
+        condition: { kind: 'status', status: 'protect', turns: 7 },
+      },
+    ])
   })
 
   test('edits entity state through Chinese semantic choices without rewriting an existing raw value', async () => {

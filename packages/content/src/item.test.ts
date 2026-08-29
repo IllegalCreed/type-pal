@@ -1010,7 +1010,7 @@ describe('大世界护体符/金刚符(useItem applyStatus → char.extraStatuse
     expect(w2.party[0]?.extraStatuses).toEqual([{ status: 'protect', turns: 7 }])
     expect(w2.inventory.find((e) => e.itemId === 'talisman')).toBeUndefined()
   })
-  test('已有 protect 再用 → 刷新回合数(不重复条目);不同状态 → 追加', () => {
+  test('已有 protect 再用 → 只保留更长回合(不重复条目);不同状态 → 追加', () => {
     const w0 = world([
       { itemId: 'talisman', count: 1 },
       { itemId: 'haste', count: 1 },
@@ -1023,6 +1023,48 @@ describe('大世界护体符/金刚符(useItem applyStatus → char.extraStatuse
       { status: 'protect', turns: 7 },
       { status: 'haste', turns: 5 },
     ]) // 追加
+  })
+
+  test('好状态不被更短回合覆盖，坏状态已有时不刷新', () => {
+    const probe: ItemDataMap = {
+      shortProtect: {
+        id: 'shortProtect',
+        name: '短护体',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'oneAlly',
+          consuming: false,
+          effects: [{ kind: 'applyStatus', status: 'protect', turns: 2 }],
+        },
+      },
+      confuse: {
+        id: 'confuse',
+        name: '混乱',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'oneAlly',
+          consuming: false,
+          effects: [{ kind: 'applyStatus', status: 'confused', turns: 9 }],
+        },
+      },
+    }
+    const initial = world([
+      { itemId: 'shortProtect', count: 1 },
+      { itemId: 'confuse', count: 1 },
+    ])
+    initial.party[0]!.extraStatuses = [
+      { status: 'protect', turns: 7 },
+      { status: 'confused', turns: 2 },
+    ]
+    const afterProtect = useItem(initial, 'hero', 'shortProtect', probe)
+    const afterConfuse = useItem(afterProtect, 'hero', 'confuse', probe)
+    expect(afterConfuse.party[0]?.extraStatuses).toEqual(initial.party[0]?.extraStatuses)
   })
   test('纯更新不改原 world(输入 extraStatuses 引用不被 mutate)', () => {
     const w0 = world([{ itemId: 'talisman', count: 1 }])

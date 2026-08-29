@@ -955,6 +955,56 @@ test('entryPoint.startWorld.party 引无 battler 的 actor → 报 error(C0:入�
     ),
   ).toBe(true)
 })
+test('entryPoint.startWorld.seedConditions 只能引用该入口队员与已登记毒', () => {
+  const b = clone(base)
+  b.actors.push({
+    id: 'friend',
+    name: 'name.hero',
+    spriteId: 'hero-sprite',
+    battler: {
+      battleSprite: 'hero-battle-sprite',
+      baseStats: {} as never,
+      initialEquipment: {},
+      initialMagic: [],
+    },
+  })
+  b.poisons = [{ id: 551, name: '赤毒', curability: 'common', color: 1 }]
+  b.entryPoints[0]!.startWorld.seedConditions = {
+    hero: { poisonIds: [999] },
+    friend: { poisonIds: [551] },
+  }
+  const joined = validateReferences(b)
+    .map((issue) => `${issue.where} ${issue.message}`)
+    .join('\n')
+  expect(joined).toContain('seedConditions[hero].poisonIds[0]')
+  expect(joined).toContain('毒 999 不在 poisons')
+  expect(joined).toContain('seedConditions[friend]')
+  expect(joined).toContain('不在该入口 party')
+})
+test('entryPoint.startWorld.seedConditions 拒绝给当前 HP 为 0 的角色播种好状态', () => {
+  const b = clone(base)
+  b.entryPoints[0]!.startWorld.seedStats = { hero: { hp: 0 } }
+  b.entryPoints[0]!.startWorld.seedConditions = {
+    hero: { statuses: [{ status: 'protect', turns: 7 }] },
+  }
+  expect(validateReferences(b)).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        severity: 'error',
+        where: expect.stringContaining('seedConditions[hero].statuses[0].status'),
+        message: expect.stringContaining('当前 HP 为 0'),
+      }),
+    ]),
+  )
+})
+test('entryPoint.startWorld.seedConditions 的死亡角色未知状态不会让引用诊断崩溃', () => {
+  const b = clone(base)
+  b.entryPoints[0]!.startWorld.seedStats = { hero: { hp: 0 } }
+  b.entryPoints[0]!.startWorld.seedConditions = {
+    hero: { statuses: [{ status: 'retired-status' as never, turns: 7 }] },
+  }
+  expect(() => validateReferences(b)).not.toThrow()
+})
 test('ActorDef.battler.initialMagic 指向不存在技能 → 报 error', () => {
   const b = clone(base)
   b.actors[0]!.battler!.initialMagic = ['999']
@@ -1159,7 +1209,7 @@ test('迁移诊断 target.item 也必须存在', () => {
   )
 })
 
-test('Actor typed 引用补齐 setActorSprite/setActorAppearance/setParty 并保留精确路径', () => {
+test('Actor typed 引用补齐外观、队伍与当前状态命令，并保留精确路径', () => {
   const b = clone(base)
   b.scenes[0]!.onEnter = [
     {
@@ -1167,6 +1217,11 @@ test('Actor typed 引用补齐 setActorSprite/setActorAppearance/setParty 并保
         { kind: 'setActorSprite', actor: 'ghost-actor', sprite: 'ghost' },
         { kind: 'setActorAppearance', actor: 'ghost-actor', portrait: 'portrait.none' },
         { kind: 'setParty', members: ['hero', 'ghost-actor'] },
+        {
+          kind: 'applyActorCondition',
+          actor: 'ghost-actor',
+          condition: { kind: 'status', status: 'protect', turns: 7 },
+        },
       ],
     },
   ]
@@ -1179,8 +1234,63 @@ test('Actor typed 引用补齐 setActorSprite/setActorAppearance/setParty 并保
         severity: 'error',
         where: expect.stringContaining('[2].members[1]'),
       }),
+      expect.objectContaining({ severity: 'error', where: expect.stringContaining('[3].actor') }),
     ]),
   )
+})
+
+test('剧情 apply/clear condition 拒绝存在但不可参战的角色', () => {
+  const b = clone(base)
+  b.actors.push({ id: 'villager', name: 'name.hero', spriteId: 'hero-sprite' })
+  b.scenes[0]!.onEnter = [
+    {
+      body: [
+        {
+          kind: 'applyActorCondition',
+          actor: 'villager',
+          condition: { kind: 'status', status: 'protect', turns: 7 },
+        },
+        {
+          kind: 'clearActorCondition',
+          actor: 'villager',
+          condition: { kind: 'status', status: 'protect' },
+        },
+      ],
+    },
+  ]
+  const issues = validateReferences(b).filter((issue) => /villager/.test(issue.message))
+  expect(issues).toEqual([
+    expect.objectContaining({ severity: 'error', where: expect.stringContaining('[0].actor') }),
+    expect.objectContaining({ severity: 'error', where: expect.stringContaining('[1].actor') }),
+  ])
+})
+
+test('剧情 apply/clear condition 的数值毒 id 进入跨表闭包', () => {
+  const b = clone(base)
+  b.poisons = [{ id: 551, name: '赤毒', curability: 'common', color: 1 }]
+  b.scenes[0]!.onEnter = [
+    {
+      body: [
+        {
+          kind: 'applyActorCondition',
+          actor: 'hero',
+          condition: { kind: 'poison', poisonId: 999 },
+        },
+        {
+          kind: 'clearActorCondition',
+          actor: 'hero',
+          condition: { kind: 'poison', poisonId: 998 },
+        },
+      ],
+    },
+  ]
+  const joined = validateReferences(b)
+    .map((issue) => `${issue.where} ${issue.message}`)
+    .join('\n')
+  expect(joined).toContain('.body[0].condition.poisonId')
+  expect(joined).toContain('毒 999 不在 poisons')
+  expect(joined).toContain('.body[1].condition.poisonId')
+  expect(joined).toContain('毒 998 不在 poisons')
 })
 
 test('levelUp 悬空引用仍是 warn', () => {

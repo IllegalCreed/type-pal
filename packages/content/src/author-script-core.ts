@@ -1,3 +1,4 @@
+import { checkActorConditionCommandShape } from './actor-condition.js'
 import type { AssetId } from './asset.js'
 import { checkBattleChoreography } from './enemy-script.js'
 import type { GridPos } from './grid.js'
@@ -614,6 +615,8 @@ export function checkBaseAuthorCommands(
       )
     if (RETIRED_CONTROL_KINDS.has(kind))
       throw new Error(`${commandPath}.kind: 当前作者态已退役命令 ${kind}`)
+    if (kind === 'applyActorCondition' || kind === 'clearActorCondition')
+      checkActorConditionCommandShape(command, commandPath)
     if (kind === 'loadScene' && options.forbidLoadScene)
       throw new Error(`${commandPath}: auto 行为禁止 loadScene`)
     if (kind === 'loadScene') {
@@ -716,7 +719,8 @@ export function checkBaseAuthorCommands(
       checkBaseAuthorCommands(command.onNo, `${commandPath}.onNo`, options)
     }
     if (kind === 'callScript') {
-      if ('ref' in command) throw new Error(`${commandPath}.ref: current callScript 只存稳定 script id`)
+      if ('ref' in command)
+        throw new Error(`${commandPath}.ref: current callScript 只存稳定 script id`)
       nonEmptyString(command.script, `${commandPath}.script`)
       if (command.self !== undefined) checkEntityAddress(command.self, `${commandPath}.self`)
     }
@@ -779,11 +783,7 @@ function checkCursorHandoff(value: unknown, path: string): void {
   })
 }
 
-function checkSceneEntry(
-  value: unknown,
-  path: string,
-  options: CommandValidationOptions,
-): void {
+function checkSceneEntry(value: unknown, path: string, options: CommandValidationOptions): void {
   const entry = record(value, path)
   exactKeys(entry, ['prepare', 'reveal'], path)
   checkBaseAuthorCommands(entry.prepare, `${path}.prepare`, options)
@@ -1291,8 +1291,7 @@ export function checkWorldScriptState(
       const scene = record(rawScene, scenePath)
       exactKeys(scene, ['onEnter', 'onTeleport'], scenePath)
       for (const hook of ['onEnter', 'onTeleport'] as const)
-        if (scene[hook] !== undefined)
-          checkWorldSceneHookSlot(scene[hook], `${scenePath}.${hook}`)
+        if (scene[hook] !== undefined) checkWorldSceneHookSlot(scene[hook], `${scenePath}.${hook}`)
     }
   }
   if (world.followers !== undefined) {

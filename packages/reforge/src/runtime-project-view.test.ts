@@ -1,17 +1,17 @@
 import {
-  emptyWorldScriptState,
   type AuthorItemCoreMap,
   type BaseSceneDef,
   type CurrentManifest,
+  emptyWorldScriptState,
   type RuntimeSceneDef,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { LoadedCurrentProject } from './project-loader.js'
 import {
-  isRuntimeScriptRef,
-  projectItemsView,
   baseSceneView,
+  isRuntimeScriptRef,
   projectedWorldScriptScratch,
+  projectItemsView,
   refreshSceneViewBindings,
   runtimeProjectView,
 } from './runtime-project-view.js'
@@ -181,7 +181,7 @@ describe('current runtime projection', () => {
     const manifest: CurrentManifest = {
       id: 'test',
       name: 'Test',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'second',
       entryPoints: [

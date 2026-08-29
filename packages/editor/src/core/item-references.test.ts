@@ -13,7 +13,7 @@ function state(): EditorState {
     manifest: {
       id: 'refs',
       name: 'refs',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},

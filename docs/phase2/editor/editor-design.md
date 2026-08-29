@@ -241,12 +241,18 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
   使用方与抽取语义，禁止用物品图或装饰图标冒充资源图片。所有候选行保持固定两行，ID 不能被长说明先截掉。
   字段草稿继续服从共享 draft / validate / commit / cancel / resync 合同。角色
   初始技能仍由 `ActorDef.initialMagic` 唯一持有，入口页不得恢复技能快照。
+- 每名开局队员在同一行显示“当前状态”摘要，并由一个共享弹层编辑中毒、可携带定时状态和临时毒抗。
+  弹层使用中文名称与效果说明，不显示 `tickIndex`、`extraPoisonRes` 或裸状态枚举；“傀儡”不得出现在
+  大世界携带选项。草稿取消/对象切换产生零命令，最终保存最多一条命令；移出队员时 HP/MP seed 与
+  condition seed 必须在同一条命令中原子清除并可一次 undo 恢复。
+- 剧情脚本对后续入队角色使用独立的“施加/清除角色当前状态”结构化表单；典型流程是先 `setParty`，再按
+  稳定 ActorId 施加。该表单与入口弹层消费同一 condition registry 和毒引用目录，不建立页面私有词表。
 - `?module=project&page=entrypoint` 无 object 时定位 `defaultEntryId` 命中的入口；附
   `object=<EntryPoint.id>` 定位指定真实入口。历史
   `page=startworld` 只做 URL 兼容归一化到 `entrypoint`，不保留旧页面。
 - 保存前统一校验入口表非空、id 唯一、`defaultEntryId` 命中、入口 scene、每套 StartWorld 引用、资源角色与
-  typed 资产闭包，错误按稳定入口 id 跳回字段的唯一作者。contentVersion 18 不合成入口、不接受旧顶层字段，
-  也不保留任何 contentVersion 1..17 upgrader 或 fallback。
+  typed 资产闭包，错误按稳定入口 id 跳回字段的唯一作者。contentVersion 19 不合成入口、不接受旧顶层字段，
+  也不保留任何 contentVersion 1..18 upgrader 或 fallback。
 - “问题”页只消费统一 diagnostics，并按严重度、问题类型与资源类型分组；项目身份和版本信息归“概览”，
   不在问题页重复。locale 编辑与状态归未来独立本地化工作台，问题页不建立第二个入口。
 

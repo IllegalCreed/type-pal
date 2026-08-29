@@ -1,6 +1,6 @@
 # ARCH-ACTOR-CONDITION-SEED-1 - 入口与剧情入队角色当前状态播种
 
-Status: build（2026-08-29 三方 premise/design 签字齐、Startup 前置已 done、用户批准方案；实现文件待前序 WIP 收口后开始）
+Status: review（2026-08-30 Codex build / 自验 / 视觉验证已完成；待 Kimi / GLM done 前终审）
 Phase: phase2
 Capability: X7 / C7 / B10 / N3
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: both（Kimi 主审 schema / 命令边界，GLM 主审原版数据 / �
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: `main`（用户已裁决个人开发直接在 main 推进；当前混合 WIP 收口前不得叠加实现）
+Branch: `main`（用户已裁决个人开发直接在 main 推进）
 
 ## 目标
 
@@ -259,7 +259,10 @@ Branch: `main`（用户已裁决个人开发直接在 main 推进；当前混合
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-30）**。content19 schema / validator / typed reference、入口单点播种、剧情命令、
+  runtime / battle / restore 生命周期、editor 草稿与原子撤销、migration / PAL replay 均已自验；
+  三路只读终审发现的 dead + good 状态、actor / poison 删除引用、current-only 门禁、PAL 毒表校验、
+  SFX audit 参数与五终态测试缺口均已返工并回归通过。
 - Kimi: pending
 - GLM: pending（done 前实现审查；build 前 premise/design 已 agree）
 - counter / 返工处理: N/A
@@ -344,34 +347,80 @@ Branch: `main`（用户已裁决个人开发直接在 main 推进；当前混合
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（build 准入已满足；前序 WIP 收口前不改重叠实现文件）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: N/A
+- Coding Owner: Codex
+- 修改文件:
+  - content: `actor-condition.ts`、`character.ts`、`script.ts`、`validate*.ts`、`actor-reference.ts`、
+    `item.ts` 及对应测试。
+  - runtime: `actor-condition-runtime.ts`、`actor-condition-lifecycle.ts`、`script-runner.ts`、
+    `script-host-adapter.ts`、`main.ts`、`project-loader.ts` 及对应测试。
+  - editor: `ProjectWorkbenchTab.tsx`、`CommandForm.tsx`、`ScriptEditor.tsx`、`ScriptTree.tsx`、引用 / 删除
+    保护、设计系统采用表 / 门禁、CSS 及对应测试。
+  - migration / project: current-only 边界门禁、PAL current publication / overlay、迁移脚本、
+    content19 manifests / baseline / items 与相关文档。
+- 实现摘要:
+  1. 建立单一 typed condition registry：8 种可携带好 / 坏状态，`puppet` 明确排除；坏状态不刷新，
+     好状态取更长回合且死亡角色不得播种；中毒、定时状态、临时毒抗共用同一 owner。
+  2. `StartWorld.seedConditions` 只在 `buildWorld` 新建世界时消费一次；毒从 `tickIndex = 0`
+     开始，非队员、未知 / 重复毒、非法状态 / 回合全部 fail-loud。
+  3. 剧情增加“施加 / 清除角色当前状态”，按稳定 ActorId 在 party / reserve 唯一定位；
+     显式剧情施毒必中并复用相克 / 致死链，`setParty` 仍只负责阵容。
+  4. 战后清理显式穷举 victory / defeat / playerFled / enemyFled / terminated 五终态；
+     仅清参战者定时状态 / 临时毒抗并解至 severe，restore 则对 party + reserve 全清。
+  5. 入口成员行增加可读摘要 chip 和共享弹层编辑；草稿只在保存时单次提交，Cancel / 对象
+     切换 / undo-redo 正确 resync；移除队员一条命令原子清 HP/MP + condition。
+  6. 剧情表单使用中文角色 / 毒 / 状态名、效果说明与共享 NumberInput；删除 actor / poison
+     时覆盖入口、场景、物品、共享脚本和敌人编排引用。
+  7. 工程一次切到 content19，无 content18 parser / upgrader / fallback；PAL 152 僅从迁移上游
+     标注 `battleOnly`，current publication 完整重放后二次计划为零。
+- AC-G2 truth audit:
+  - `data/extracted/events/all.json` 直读统计：`0x29 = 16`、`0x75 = 119`、直接 `0x75 -> 0x29 = 0`。
+  - 原始 `0x29` 带抗性 / 目标语义，不能在无代表序列证据时偷译成新的“剧情必中”作者命令。
+    本卡因此不加不安全 raw mapping；以测试锁定 `setParty` 独立、后续显式 condition 及 reserve 保留。
+- 运行命令 / 结果:
+  - `content`: typecheck 通过；34 files / 464 tests 通过。
+  - `reforge`: typecheck 通过；93 files / 853 tests 通过。
+  - `migrate`: typecheck 通过；45 files / 378 tests 通过。
+  - `editor`: typecheck 通过；全量 176 files 中 175 files / 1442 tests 通过，唯一剩余项是
+    15s 测试超时而非断言失败；该慢门禁的显式预算改为 30s 后单项复跑通过（18.3s）。
+  - `pnpm --filter @type-pal/editor audit:design-system`: 89 files，2 个 evidence-bound exceptions，通过。
+  - editor / reforge production build 通过；`git diff --check` 通过。
+  - PAL dry-run: `managed=537 writes=0 deletes=0 conflicts=0 asset-deletes=0`；items / baseline SHA-256
+    均为 `b42b3a82718c8435e04b036f70bc2c2b2e19bf2ff48122eb13d3fe368d398090`。
+  - 仓库级 `pnpm lint` 仍被 HEAD 已存的历史 Biome 红项阻塞；差分对照确认本卡新增 Biome 诊断为 0，
+    当前 changed-set 的 39 errors / 18 warnings / 6 infos 均可在 HEAD 同路径复现，未把历史 lint 债务混入本提交。
+- 浏览器 / 手工检查: PAL 真实工程 1280 / 900 / 720px 完成入口弹层、死亡角色限制、
+  剧情 apply-condition 表单 / popup、滚动 owner、无水平溢出、Cancel 焦点归还检查，均通过。
+- 跳过的检查及原因: 剧情观感 E2E 按项目纪律留到代码冻结后的集中验收批次；
+  本轮已登记可执行场景 A / B，功能性编辑器界面未跳过。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
-- 集中 E2E 用例 / 批次: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 验证方式: 本地 PAL 编辑器；以 1280×900、900×900、720×900 三宽度检查真实入口与
+  脚本表单，读取弹层边界 / scrollHeight / clientHeight / 水平溢出与焦点归还。
+- 集中 E2E 用例 / 批次:
+  - A: 入口为李逍遥设“赤毒 + 护体 7 回合” → 首战生效 → 战后三件套清理。
+  - B: 脚本 `setParty` 加赵灵儿 → 显式施加具名 condition → 首战生效；离队 / 归队保留原实例。
+- 截图 / 像素检查路径: `.mimosa/evidence/ARCH-ACTOR-CONDITION-SEED-1/entry-condition-final-1280.png`、
+  `entry-condition-final-900.png`、`entry-condition-final-720.png`、`entry-condition-dead-720.png`、
+  `story-condition-form-900.png`、`story-condition-status-900.png`（`.mimosa/` 为本机证据，不提交）。
+- 结论: 弹层全部在 viewport 内；`DsDialog` body 是唯一纵向滚动 owner；三宽度无水平溢出；
+  HP=0 时 4 种好状态禁用、4 种坏状态仍可选；Cancel 将焦点还给“编辑开局当前状态”按钮。
+- 未完成项: 仅上述剧情观感集中 E2E；不阻塞功能性 UI 进入 review。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 实现终审、runtime 生命周期审计、migration / current-only 审计与
+  测试矩阵审计均已完成，最终无剩余 blocker。
+- 必须返工项: 审计曾发现的 7 类问题已全部改正；当前无。
+- Accept / rework: Codex accept；Kimi / GLM pending，两席实际写入 accept 前不得标记 done。
 
 ## 用户验收
 
-- 用户结论: 2026-08-26 已认可 ownership 并要求开卡；功能验收 pending
-- 后续任务: pending
+- 用户结论: 2026-08-26 已认可 ownership 并要求开卡；实现后功能验收 pending。
+- 后续任务: Kimi / GLM done 前终审后交用户按卡内步骤验收；三签 + 用户验收齐再 done。
 
 ## 交接日志
 
@@ -391,37 +440,32 @@ Branch: `main`（用户已裁决个人开发直接在 main 推进；当前混合
 - 2026-08-29 User/Codex：用户确认具体实施方案“可以”，并说明前序审查签字已完成。复核确认三方
   premise/design 签字齐、Startup 已 done；用户此前已裁决个人开发直接在 `main` 推进。任务转 `build`，
   但当前前序 editor/migrate WIP 与本卡高度重叠，先按卡收口，未修改本卡实现文件。
+- 2026-08-30 Codex: 完成 content19 condition kernel、入口 / 剧情作者链、runtime / battle / restore
+  生命周期、editor 交互、迁移上游与门禁；三路只读终审发现项全部返工。四包全量、构建、
+  DS 门禁、PAL 零差异与三宽度功能 UI 证据已登记；Codex 签 accept，卡转 review。
+  Next: Kimi / GLM 只读终审并将 accept / counter 实际写入本卡；不得只在聊天中声称已签。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手 ARCH-ACTOR-CONDITION-SEED-1 build。
+联合终审 ARCH-ACTOR-CONDITION-SEED-1。
 
 任务卡:docs/ops/tasks/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md
-当前状态:build;build 前三方签字已齐(Codex 2026-08-26 / GLM 2026-08-28 / Kimi 2026-08-28),无 counter;
-Startup 前置已 done,用户已批准方案。
-你的角色:Codex,Coding Owner。
+当前状态:review;build 前三方签字已齐，Codex build / 自验 / 视觉证据已完成并签 accept。
+你的角色:Kimi 或 GLM done 前终审人。
 
-工作流约束:按用户裁决在 `main` 推进；当前前序 editor/migrate WIP 与本卡重叠，必须先按卡收口，禁止
-stash/reset/覆盖或把 132 项混成一个提交。实现从干净的 content condition kernel 切片开始。
+先完整阅读:AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡全文，再只读复核实际 diff。
+本轮不得改实现文件；如有 counter，把证据和最小返工项写入任务卡并留在 review/rework。
 
-先完整阅读:AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡全文(四向矩阵、设计、验收条件、
-主审立场五枚必落钉),再按卡内锚点复核一手代码。
+必查:
+1. 五枚必落钉:剧情毒必中且既有抗性路径不变;puppet 排除、bad/good 叠加与 dead+good 拦截;
+   战后 severe / restore 全清双轨;setParty 独立;buildWorld 单点播种。
+2. 三 carrier 在 schema / validator / typed ref / runtime / editor / delete guard / save-restore 矩阵全链闭合。
+3. content19 current-only 无 content18 parser/upgrader/fallback;PAL 152 修在迁移上游，replay 为零。
+4. AC-G2 新证据:raw 中 0x75=119、0x29=16、直接 0x75->0x29=0；因此本卡未增无证据 raw mapping，
+   而是用当前 canonical 测试锁定阵容与 condition 独立。请明确 accept 或 counter 这个处置。
+5. 复核 Build / 视觉证据和实际测试输出，不得只复述 Codex 结论。
 
-build 必须落实的 Kimi 必落钉(review 期两席逐条复核):
-1. 剧情施加毒复用 content 毒操作函数、作者显式命令必中不投抗性骰;既有 applyPoisonToPlayer 抗性别路径不变;
-   帮助文案写明语义差异。
-2. 定时状态 registry 分层:puppet(仅死人)大世界携带必须有证据排除或 validator fail-loud;bad 类
-   "cur==0 才设"、good 类"活人且更久取 max";validator 不无差别接受整个 StatusId union。
-3. 清理双轨测试:restore 全清(含 incurable)与战后 severe 清(incurable 留)各至少一条断言。
-4. setParty 不漂移:测试断言"setParty 后施加的 condition 存活";迁移遇 0x75+0x29 相邻序列译成两条
-   独立命令。
-5. 入口 seed 只由 buildWorld 单点消费,读档不得重新播种;毒 tickIndex=0、PoisonDef.id 稳定引用、
-   未知/重复 fail-loud。
-
-边界提醒:不改 ActorDef / setParty / reserve / 装备 live 派生 / battle-only statBuff;current-only
-切版,删除旧类型 / fixture / fallback,PAL 完整重迁并证明二次运行零 diff;完成后按卡面登记
-E2E 场景 A/B(开局赤毒+护体首战生效、setParty 后具名 condition 首战生效)。
-
-输出:build 完成后自测 + 登记证据,送 Kimi / GLM done 前终审;两席 accept 齐前不得标记 done。
+输出:将你本人的 done 前审查结论实际写入任务卡签字表，签 `accept`、有证据的
+`counter` 或最小返工项。两席 accept 齐前不得标记 done。
 ```

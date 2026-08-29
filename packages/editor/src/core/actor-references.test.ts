@@ -1,14 +1,14 @@
 import type { ActorReferenceKind } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import type { EditorState } from './edit-session.js'
 import { blockingActorReferences, collectActorReferences } from './actor-references.js'
+import type { EditorState } from './edit-session.js'
 
 function state(): EditorState {
   return {
     manifest: {
       id: 'actor-refs',
       name: 'actor refs',
-      contentVersion: 18,
+      contentVersion: 19,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -21,6 +21,7 @@ function state(): EditorState {
             party: ['hero'],
             money: 0,
             seedStats: { hero: { hp: 1 } },
+            seedConditions: { hero: { poisonResistance: 1 } },
             inventory: [],
           },
         },
@@ -50,6 +51,11 @@ function state(): EditorState {
               { kind: 'setActorSprite', actor: 'hero', sprite: 'sprite.hero' },
               { kind: 'setActorAppearance', actor: 'hero', portrait: 'portrait.hero' },
               { kind: 'setParty', members: ['hero'] },
+              {
+                kind: 'applyActorCondition',
+                actor: 'hero',
+                condition: { kind: 'status', status: 'protect', turns: 7 },
+              },
               {
                 kind: 'dialog',
                 cue: {
@@ -133,6 +139,7 @@ const EXTERNAL_KINDS = [
   'scene-entity-actor',
   'entry-point-party',
   'entry-point-seed-stats',
+  'entry-point-seed-condition',
   'condition-in-party',
   'enemy-condition-player-in-party',
   'actor-covered-by',
@@ -141,13 +148,14 @@ const EXTERNAL_KINDS = [
   'command-set-actor-sprite',
   'command-set-actor-appearance',
   'command-set-party-member',
+  'command-actor-condition',
   'enemy-apply-actor-growth',
   'enemy-play-actor-cast-effect',
   'dialogue-actor',
 ] as const satisfies readonly ActorReferenceKind[]
 
 describe('Actor 引用闭包', () => {
-  test('14 个作者外部定位变体逐项进入删除门禁并都有可跳转 locator', () => {
+  test('16 个作者外部定位变体逐项进入删除门禁并都有可跳转 locator', () => {
     const references = blockingActorReferences(state(), 'hero')
     expect(new Set(references.map((reference) => reference.kind))).toEqual(new Set(EXTERNAL_KINDS))
     for (const kind of EXTERNAL_KINDS) {
@@ -168,6 +176,7 @@ describe('Actor 引用闭包', () => {
     for (const entry of current.manifest.entryPoints) {
       entry.startWorld.party = []
       entry.startWorld.seedStats = {}
+      entry.startWorld.seedConditions = {}
     }
     current.actors = current.actors.filter((actor) => actor.id === 'hero')
     current.items = []
@@ -181,6 +190,7 @@ describe('Actor 引用闭包', () => {
     for (const entry of current.manifest.entryPoints) {
       entry.startWorld.party = []
       entry.startWorld.seedStats = {}
+      entry.startWorld.seedConditions = {}
     }
     current.actors = current.actors.filter((actor) => actor.id === 'hero')
     current.items = [

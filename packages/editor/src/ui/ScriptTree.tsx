@@ -16,15 +16,20 @@ import type {
   ScriptCondition,
   ScriptStage,
 } from '@type-pal/content'
-import { lookupText, parseRichText, resolveDialogueIdentity } from '@type-pal/content'
+import {
+  ACTOR_STATUS_DEFINITIONS,
+  lookupText,
+  parseRichText,
+  resolveDialogueIdentity,
+} from '@type-pal/content'
 import { useEffect, useRef } from 'react'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
-import { DsButton, DsNumberInput, DsSelect, DsPressable } from './design-system/controls.js'
+import { DsButton, DsNumberInput, DsPressable, DsSelect } from './design-system/controls.js'
 import {
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/reorder.js'
 import { entityStateDisplayLabel } from './EntityStateSelect.js'
@@ -295,6 +300,42 @@ export function describeScriptCommand(
       return { icon: '🔢', label: `变量 ${cmd.var} ${cmd.delta >= 0 ? '+' : ''}${cmd.delta}` }
     case 'playSound':
       return { icon: '🔊', label: `音效 ${references.label('asset', cmd.asset)}` }
+    case 'applyActorCondition': {
+      const actor = references.label('actor', cmd.actor)
+      if (cmd.condition.kind === 'poison')
+        return {
+          icon: '🩺',
+          label: `令 ${actor} 中毒：${references.label('poison', String(cmd.condition.poisonId))}`,
+          detail: '剧情施毒保证命中；从首次发作开始',
+        }
+      if (cmd.condition.kind === 'status') {
+        const definition = ACTOR_STATUS_DEFINITIONS[cmd.condition.status]
+        return {
+          icon: '🩺',
+          label: `令 ${actor} 获得${definition.label} ${cmd.condition.turns} 回合`,
+          detail: definition.description,
+        }
+      }
+      return {
+        icon: '🩺',
+        label: `令 ${actor} 获得临时毒抗 +${cmd.condition.amount}`,
+        detail: '带入下一场战斗',
+      }
+    }
+    case 'clearActorCondition': {
+      const actor = references.label('actor', cmd.actor)
+      if (cmd.condition.kind === 'poison')
+        return {
+          icon: '🩹',
+          label: `清除 ${actor} 的${references.label('poison', String(cmd.condition.poisonId))}`,
+        }
+      if (cmd.condition.kind === 'status')
+        return {
+          icon: '🩹',
+          label: `清除 ${actor} 的${ACTOR_STATUS_DEFINITIONS[cmd.condition.status].label}`,
+        }
+      return { icon: '🩹', label: `清除 ${actor} 的全部临时毒抗` }
+    }
     case 'setParty':
       return {
         icon: '👥',

@@ -59,6 +59,7 @@ function catalog() {
       },
     ],
     actors: [{ id: 'li-xiaoyao', name: 'actor.li', spriteId: 'li-world' }],
+    poisons: [{ id: 7, name: '赤毒', curability: 'common', color: 0 }],
     sprites: [
       { id: 'li-world', label: '李逍遥（大世界）', asset: 'sprite.li', layout: { kind: 'static' } },
     ],
@@ -99,6 +100,7 @@ describe('脚本稳定引用目录', () => {
     expect(references.label('item', '290')).toBe('天书（290）')
     expect(references.label('skill', '377')).toBe('飞龙探云手（377）')
     expect(references.label('actor', 'li-xiaoyao')).toBe('李逍遥（li-xiaoyao）')
+    expect(references.label('poison', '7')).toBe('赤毒（7）')
     expect(references.label('sprite', 'li-world')).toBe('李逍遥（大世界）（li-world）')
     expect(references.label('battleSprite', 'li-battle')).toBe('李逍遥（战斗）（li-battle）')
     expect(references.label('ambience', 'night')).toBe('夜晚（night）')

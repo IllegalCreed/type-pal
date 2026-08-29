@@ -5,17 +5,32 @@
  * 当前版本只接受非空真实入口表；编辑直接启动入口和入口表时始终原子提交。
  */
 import type {
+  ActorConditionSeed,
   ActorDef,
   AssetCatalogV1,
   AssetKind,
   EntryPoint,
   ItemData,
   Locale,
+  PoisonDef,
   SceneDef,
   StartWorld,
 } from '@type-pal/content'
-import { lookupText } from '@type-pal/content'
-import { Fragment, type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  ACTOR_STATUS_DEFINITIONS,
+  CARRYABLE_STATUS_IDS,
+  isCarryableStatusId,
+  lookupText,
+} from '@type-pal/content'
+import {
+  Fragment,
+  type ReactNode,
+  type RefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { EDITOR_ASSET_KIND_LABELS } from '../core/asset-diagnostics.js'
 import { stopEditorAudioPreview } from '../core/audio-preview-session.js'
 import {
@@ -46,10 +61,12 @@ import {
   DsCatalogGroupHeader,
   DsCatalogGroupList,
   DsCatalogRow,
+  DsCheckbox,
   DsControlGroup,
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
+  DsDialog,
   DsDraftNumberField,
   DsDraftNumberInput,
   DsDraftTextField,
@@ -94,6 +111,7 @@ export interface ProjectWorkbenchTabProps {
   scenes: SceneDef[]
   actors: ActorDef[]
   items: ItemData[]
+  poisons: PoisonDef[]
   locale: Locale
   assetCatalog: AssetCatalogV1
   session: EditSession
@@ -590,10 +608,336 @@ function RoleBindings(props: {
   )
 }
 
+function normalizedConditionSeed(seed: ActorConditionSeed): ActorConditionSeed | undefined {
+  const next: ActorConditionSeed = {}
+  const poisonIds = [
+    ...new Set(
+      (seed.poisonIds ?? []).filter((poisonId) => Number.isSafeInteger(poisonId) && poisonId > 0),
+    ),
+  ]
+  if (poisonIds.length) next.poisonIds = poisonIds
+  const statuses = new Map<
+    (typeof CARRYABLE_STATUS_IDS)[number],
+    { status: (typeof CARRYABLE_STATUS_IDS)[number]; turns: number }
+  >()
+  for (const raw of seed.statuses ?? []) {
+    const status = raw.status as string
+    if (
+      isCarryableStatusId(status) &&
+      Number.isSafeInteger(raw.turns) &&
+      raw.turns >= 1 &&
+      raw.turns <= 999
+    )
+      statuses.set(status, { status, turns: raw.turns })
+  }
+  if (statuses.size) next.statuses = [...statuses.values()]
+  if (
+    seed.poisonResistance !== undefined &&
+    Number.isSafeInteger(seed.poisonResistance) &&
+    seed.poisonResistance > 0
+  )
+    next.poisonResistance = seed.poisonResistance
+  return Object.keys(next).length ? next : undefined
+}
+
+interface ConditionSeedSummary {
+  key: string
+  label: string
+  tone: 'neutral' | 'warning' | 'danger'
+}
+
+function conditionSeedSummary(
+  seed: ActorConditionSeed | undefined,
+  poisons: readonly PoisonDef[],
+): ConditionSeedSummary[] {
+  if (!seed) return []
+  const poisonNameById = new Map(poisons.map((poison) => [poison.id, poison.name]))
+  return [
+    ...(seed.poisonIds ?? []).map((poisonId, index) => ({
+      key: `poison:${poisonId}:${index}`,
+      label: poisonNameById.get(poisonId) ?? `未知毒 ${poisonId}`,
+      tone: poisonNameById.has(poisonId) ? ('warning' as const) : ('danger' as const),
+    })),
+    ...(seed.statuses ?? []).map(({ status, turns }, index) => {
+      const statusId = status as string
+      const definition = isCarryableStatusId(statusId)
+        ? ACTOR_STATUS_DEFINITIONS[statusId]
+        : undefined
+      return {
+        key: `status:${statusId}:${index}`,
+        label: definition ? `${definition.label} ${turns} 回合` : `未知状态 ${statusId}`,
+        tone: definition ? ('warning' as const) : ('danger' as const),
+      }
+    }),
+    ...(seed.poisonResistance !== undefined
+      ? [
+          {
+            key: 'poison-resistance',
+            label: `临时毒抗 +${seed.poisonResistance}`,
+            tone: 'warning' as const,
+          },
+        ]
+      : []),
+  ]
+}
+
+function ActorConditionSeedDialog(props: {
+  actorId: string
+  actorName: string
+  alive: boolean
+  value: ActorConditionSeed | undefined
+  poisons: readonly PoisonDef[]
+  readOnly: boolean
+  fallbackFocusRef?: RefObject<HTMLElement | null>
+  onClose: () => void
+  onSave: (value: ActorConditionSeed | undefined) => void
+}) {
+  const [draft, setDraft] = useState<ActorConditionSeed>(() => structuredClone(props.value ?? {}))
+  const sortedPoisons = useMemo(
+    () => [...props.poisons].sort((left, right) => left.id - right.id),
+    [props.poisons],
+  )
+  const knownPoisonIds = new Set(sortedPoisons.map((poison) => poison.id))
+  const unknownPoisonIds = (draft.poisonIds ?? []).filter(
+    (poisonId) => !knownPoisonIds.has(poisonId),
+  )
+  const rawStatuses = (draft.statuses ?? []) as Array<{ status: string; turns: number }>
+  const unknownStatuses = rawStatuses
+    .map((status, index) => ({ ...status, index }))
+    .filter(({ status }) => !isCarryableStatusId(status))
+  const deadGoodStatuses = rawStatuses.filter(
+    ({ status }) =>
+      isCarryableStatusId(status) &&
+      ACTOR_STATUS_DEFINITIONS[status].category === 'good' &&
+      !props.alive,
+  )
+  const hasInvalidEntries =
+    unknownPoisonIds.length > 0 || unknownStatuses.length > 0 || deadGoodStatuses.length > 0
+  const selectedStatusById = new Map(
+    rawStatuses
+      .filter(
+        (status): status is { status: (typeof CARRYABLE_STATUS_IDS)[number]; turns: number } =>
+          isCarryableStatusId(status.status),
+      )
+      .map((status) => [status.status, status]),
+  )
+  const updatePoison = (poisonId: number, selected: boolean): void => {
+    setDraft((current) => {
+      const ids = current.poisonIds ?? []
+      const poisonIds = selected
+        ? ids.includes(poisonId)
+          ? ids
+          : [...ids, poisonId]
+        : ids.filter((id) => id !== poisonId)
+      return { ...current, poisonIds: poisonIds.length ? poisonIds : undefined }
+    })
+  }
+  const updateStatus = (status: (typeof CARRYABLE_STATUS_IDS)[number], selected: boolean): void => {
+    setDraft((current) => {
+      const statuses = current.statuses ?? []
+      const next = selected
+        ? statuses.some((entry) => entry.status === status)
+          ? statuses
+          : [...statuses, { status, turns: 7 }]
+        : statuses.filter((entry) => entry.status !== status)
+      return { ...current, statuses: next.length ? next : undefined }
+    })
+  }
+  const updateStatusTurns = (
+    status: (typeof CARRYABLE_STATUS_IDS)[number],
+    turns: number | undefined,
+  ): void => {
+    if (turns === undefined) return
+    setDraft((current) => ({
+      ...current,
+      statuses: (current.statuses ?? []).map((entry) =>
+        entry.status === status ? { ...entry, turns } : entry,
+      ),
+    }))
+  }
+
+  return (
+    <DsDialog
+      open
+      className="actor-condition-dialog"
+      title={`${props.actorName} · 开局当前状态`}
+      description="这些状态只属于当前入口的新游戏快照：大世界中不自行衰减，带入下一场战斗。战后清除定时状态、临时毒抗与可解到重毒级别的毒（不可解毒保留）；读档会全部清除。"
+      fallbackFocusRef={props.fallbackFocusRef}
+      onClose={props.onClose}
+      footer={
+        <>
+          <DsButton size="compact" variant="secondary" onClick={props.onClose}>
+            取消
+          </DsButton>
+          <DsButton
+            size="compact"
+            variant="primary"
+            disabled={props.readOnly || hasInvalidEntries}
+            onClick={() => props.onSave(normalizedConditionSeed(draft))}
+          >
+            保存当前状态
+          </DsButton>
+        </>
+      }
+    >
+      <div className="actor-condition-editor">
+        {unknownPoisonIds.length || unknownStatuses.length || deadGoodStatuses.length ? (
+          <section className="actor-condition-repair" aria-label="需要清理的未知状态">
+            <h3>需要清理的无效状态</h3>
+            <p>
+              {deadGoodStatuses.length
+                ? '当前 HP 为 0 时不能携带好状态；请在下方取消已选好状态。'
+                : '这些引用已不在当前项目或可携带状态词表中，保存前请移除。'}
+            </p>
+            <div className="actor-condition-repair-list">
+              {unknownPoisonIds.map((poisonId, index) => (
+                <DsRepeatRow density="compact" key={`unknown-poison:${poisonId}:${index}`}>
+                  <DsTag tone="danger">未知毒 {poisonId}</DsTag>
+                  <DsButton
+                    variant="danger"
+                    icon="delete"
+                    disabled={props.readOnly}
+                    onClick={() => updatePoison(poisonId, false)}
+                  >
+                    移除
+                  </DsButton>
+                </DsRepeatRow>
+              ))}
+              {unknownStatuses.map((status) => (
+                <DsRepeatRow density="compact" key={`unknown-status:${status.index}`}>
+                  <DsTag tone="danger">未知状态 {status.status}</DsTag>
+                  <DsButton
+                    variant="danger"
+                    icon="delete"
+                    disabled={props.readOnly}
+                    onClick={() =>
+                      setDraft((current) => {
+                        const statuses = [...(current.statuses ?? [])]
+                        statuses.splice(status.index, 1)
+                        return {
+                          ...current,
+                          statuses: statuses.length ? statuses : undefined,
+                        }
+                      })
+                    }
+                  >
+                    移除
+                  </DsButton>
+                </DsRepeatRow>
+              ))}
+            </div>
+          </section>
+        ) : null}
+        <fieldset className="actor-condition-group">
+          <legend>中毒</legend>
+          <p>选择毒种即可；首次发作总是从第 1 回合开始，不需要设置内部进度。</p>
+          {sortedPoisons.length ? (
+            <div className="actor-condition-options">
+              {sortedPoisons.map((poison) => (
+                <DsCheckbox
+                  key={poison.id}
+                  label={`${poison.name}（${poison.id}）`}
+                  checked={draft.poisonIds?.includes(poison.id) ?? false}
+                  disabled={props.readOnly}
+                  onChange={(event) => updatePoison(poison.id, event.target.checked)}
+                />
+              ))}
+            </div>
+          ) : (
+            <DsEmptyState
+              layout="embedded"
+              title="当前项目没有可选毒种"
+              description="请先在“毒”页面创建毒定义。"
+            />
+          )}
+        </fieldset>
+
+        <fieldset className="actor-condition-group">
+          <legend>定时增益与减益</legend>
+          <p>坏状态已存在时不刷新；好状态只对存活队员生效，并保留更长回合。</p>
+          <div className="actor-condition-statuses">
+            {CARRYABLE_STATUS_IDS.map((status) => {
+              const definition = ACTOR_STATUS_DEFINITIONS[status]
+              const selected = selectedStatusById.get(status)
+              const unavailableForDeadActor =
+                !props.alive && definition.category === 'good' && !selected
+              return (
+                <div className="actor-condition-status-row" key={status}>
+                  <DsCheckbox
+                    label={`${definition.label} · ${definition.description}${
+                      unavailableForDeadActor ? '（当前 HP 为 0，不能添加）' : ''
+                    }`}
+                    checked={Boolean(selected)}
+                    disabled={props.readOnly || unavailableForDeadActor}
+                    onChange={(event) => updateStatus(status, event.target.checked)}
+                  />
+                  {selected ? (
+                    <DsDraftNumberField
+                      label="回合"
+                      layout="inline"
+                      min={1}
+                      max={999}
+                      integer
+                      normalize={(value) => Math.max(1, Math.min(999, Math.floor(value)))}
+                      draftKey={`entry-condition:${props.actorId}:${status}`}
+                      syncToken={0}
+                      value={selected.turns}
+                      disabled={props.readOnly}
+                      onCommit={(value) => updateStatusTurns(status, value)}
+                    />
+                  ) : null}
+                </div>
+              )
+            })}
+          </div>
+        </fieldset>
+
+        <fieldset className="actor-condition-group">
+          <legend>临时毒抗</legend>
+          <div className="actor-condition-status-row">
+            <DsCheckbox
+              label="带入下一场战斗的临时毒抗"
+              checked={draft.poisonResistance !== undefined}
+              disabled={props.readOnly}
+              onChange={(event) =>
+                setDraft((current) => ({
+                  ...current,
+                  poisonResistance: event.target.checked
+                    ? (current.poisonResistance ?? 1)
+                    : undefined,
+                }))
+              }
+            />
+            {draft.poisonResistance !== undefined ? (
+              <DsDraftNumberField
+                label="加值"
+                layout="inline"
+                min={1}
+                max={Number.MAX_SAFE_INTEGER}
+                integer
+                normalize={(value) => Math.max(1, Math.floor(value))}
+                draftKey={`entry-condition:${props.actorId}:poison-resistance`}
+                syncToken={0}
+                value={draft.poisonResistance}
+                disabled={props.readOnly}
+                onCommit={(value) => {
+                  if (value !== undefined)
+                    setDraft((current) => ({ ...current, poisonResistance: value }))
+                }}
+              />
+            ) : null}
+          </div>
+        </fieldset>
+      </div>
+    </DsDialog>
+  )
+}
+
 export function StartWorldFields(props: {
   value: StartWorld
   actors: ActorDef[]
   items: ItemData[]
+  poisons: PoisonDef[]
   locale: Locale
   assetCatalog?: AssetCatalogV1
   assetReader?: EditorAssetReader
@@ -606,6 +950,7 @@ export function StartWorldFields(props: {
     value,
     actors,
     items,
+    poisons,
     locale,
     assetCatalog,
     assetReader,
@@ -615,6 +960,7 @@ export function StartWorldFields(props: {
     onChange,
   } = props
   const [announcement, setAnnouncement] = useState('')
+  const [conditionEditorActorId, setConditionEditorActorId] = useState<string>()
   const rootRef = useRef<HTMLDivElement>(null)
   const partySectionRef = useRef<HTMLElement>(null)
   const inventorySectionRef = useRef<HTMLElement>(null)
@@ -625,12 +971,24 @@ export function StartWorldFields(props: {
   const pendingResourceFocusRef = useRef<
     { inputKey?: string; preferComposer?: boolean } | undefined
   >(undefined)
+  const conditionEditorScopeRef = useRef({ draftScope, syncToken })
   const partyReorderKeys = useDsReorderKeys(value.party)
   const inventoryReorderKeys = useDsReorderKeys(value.inventory ?? [])
   // biome-ignore lint/correctness/useExhaustiveDependencies: live feedback survives same-object commands and resets only on object switch.
   useEffect(() => {
     setAnnouncement('')
   }, [draftScope])
+  // 外部对象切换或 undo/redo 使 canonical revision 改变时，丢弃未保存的本地聚合草稿。
+  useEffect(() => {
+    const previous = conditionEditorScopeRef.current
+    if (previous.draftScope === draftScope && previous.syncToken === syncToken) return
+    conditionEditorScopeRef.current = { draftScope, syncToken }
+    setConditionEditorActorId(undefined)
+  }, [draftScope, syncToken])
+  useEffect(() => {
+    if (conditionEditorActorId && !value.party.includes(conditionEditorActorId))
+      setConditionEditorActorId(undefined)
+  }, [conditionEditorActorId, value.party])
   // biome-ignore lint/correctness/useExhaustiveDependencies: a changed ordered party means the requested row/fallback now exists in the DOM.
   useEffect(() => {
     const pending = pendingPartyFocusRef.current
@@ -660,9 +1018,17 @@ export function StartWorldFields(props: {
   const patch = (next: Partial<StartWorld>): void => onChange({ ...value, ...next })
   const partyActors = actors.filter((actor) => actor.battler)
   const addablePartyActors = partyActors.filter((actor) => !value.party.includes(actor.id))
-  const orphanSeedActorIds = Object.keys(value.seedStats ?? {}).filter(
-    (actorId) => !value.party.includes(actorId),
-  )
+  const conditionEditorActor = conditionEditorActorId
+    ? actors.find((actor) => actor.id === conditionEditorActorId)
+    : undefined
+  const conditionEditorHp = conditionEditorActorId
+    ? (value.seedStats?.[conditionEditorActorId]?.hp ??
+      conditionEditorActor?.battler?.baseStats.hp ??
+      0)
+    : 0
+  const orphanSeedActorIds = [
+    ...new Set([...Object.keys(value.seedStats ?? {}), ...Object.keys(value.seedConditions ?? {})]),
+  ].filter((actorId) => !value.party.includes(actorId))
   const inventory = value.inventory ?? []
   const addableItems = items.filter((item) => !inventory.some((entry) => entry.itemId === item.id))
   const resourceCandidates = useMemo(() => deriveStartWorldResourceCandidates(items), [items])
@@ -689,11 +1055,17 @@ export function StartWorldFields(props: {
     const index = value.party.indexOf(id)
     const party = value.party.filter((candidate) => candidate !== id)
     const seedStats = { ...(value.seedStats ?? {}) }
+    const seedConditions = { ...(value.seedConditions ?? {}) }
     delete seedStats[id]
+    delete seedConditions[id]
     pendingPartyFocusRef.current = {
       actorId: party[Math.min(Math.max(index, 0), party.length - 1)],
     }
-    patch({ party, seedStats: Object.keys(seedStats).length ? seedStats : undefined })
+    patch({
+      party,
+      seedStats: Object.keys(seedStats).length ? seedStats : undefined,
+      seedConditions: Object.keys(seedConditions).length ? seedConditions : undefined,
+    })
     setAnnouncement(`已将${actor ? lookupText(actor.name, locale) : id}移出初始队伍。`)
   }
   const reorderParty = (intent: DsReorderIntent): boolean => {
@@ -725,10 +1097,26 @@ export function StartWorldFields(props: {
     else delete seedStats[actorId]
     patch({ seedStats: Object.keys(seedStats).length ? seedStats : undefined })
   }
+  const patchConditionSeed = (actorId: string, condition: ActorConditionSeed | undefined): void => {
+    const seedConditions = { ...(value.seedConditions ?? {}) }
+    if (condition) seedConditions[actorId] = condition
+    else delete seedConditions[actorId]
+    patch({
+      seedConditions: Object.keys(seedConditions).length ? seedConditions : undefined,
+    })
+    setAnnouncement(
+      condition ? `已更新 ${actorId} 的开局当前状态。` : `已清空 ${actorId} 的开局当前状态。`,
+    )
+  }
   const clearSeed = (actorId: string): void => {
     const seedStats = { ...(value.seedStats ?? {}) }
+    const seedConditions = { ...(value.seedConditions ?? {}) }
     delete seedStats[actorId]
-    patch({ seedStats: Object.keys(seedStats).length ? seedStats : undefined })
+    delete seedConditions[actorId]
+    patch({
+      seedStats: Object.keys(seedStats).length ? seedStats : undefined,
+      seedConditions: Object.keys(seedConditions).length ? seedConditions : undefined,
+    })
     setAnnouncement(`已清理 ${actorId} 的未入队状态覆盖。`)
   }
   const patchResource = (key: string, nextValue: number | undefined): void => {
@@ -821,7 +1209,8 @@ export function StartWorldFields(props: {
           />
         </div>
         <p className="project-card-description">
-          每个队员在同一行设置开局当前 HP/MP；留空即继承角色定义的当前值。
+          每个队员在同一行设置开局当前
+          HP/MP；留空即继承角色定义的当前值。中毒、定时状态与临时毒抗通过“当前状态”集中编辑。
         </p>
         <DsReorderCollection
           adoptionId="project/startup-party"
@@ -841,6 +1230,8 @@ export function StartWorldFields(props: {
               const actor = actors.find((candidate) => candidate.id === actorId)
               const actorName = actor ? lookupText(actor.name, locale) : `${actorId}（缺失）`
               const stats = value.seedStats?.[actorId] ?? {}
+              const conditionSeed = value.seedConditions?.[actorId]
+              const conditionSummary = conditionSeedSummary(conditionSeed, poisons)
               const inheritedHp = actor?.battler?.baseStats.hp
               const inheritedMp = actor?.battler?.baseStats.mp
               const reorderKey = partyReorderKeys.keys[index]!
@@ -856,42 +1247,62 @@ export function StartWorldFields(props: {
                         {actorName}
                       </strong>
                       <code title={actorId}>{actorId}</code>
+                      <span className="project-party-condition-summary">
+                        {conditionSummary.length ? (
+                          conditionSummary.map((summary) => (
+                            <DsTag key={summary.key} tone={summary.tone}>
+                              {summary.label}
+                            </DsTag>
+                          ))
+                        ) : (
+                          <DsTag tone="neutral">无临时状态</DsTag>
+                        )}
+                      </span>
                     </span>
                     <DsNumberFieldGrid className="project-party-state">
                       <DsDraftNumberField
-                          label="当前 HP"
-                          min={0}
-                          integer
-                          allowEmpty
-                          normalize={(next) => Math.max(0, Math.floor(next))}
-                          draftKey={`${draftScope}:seedStats.${actorId}.hp`}
-                          syncToken={syncToken}
-                          value={stats.hp}
-                          disabled={readOnly}
-                          aria-label={`${actorId} 开局当前 HP，留空继承 ${inheritedHp ?? '未知'}`}
-                          placeholder={
-                            inheritedHp === undefined ? '继承不可用' : `继承 ${inheritedHp}`
-                          }
-                          onCommit={(value) => patchSeed(actorId, 'hp', value)}
+                        label="当前 HP"
+                        min={0}
+                        integer
+                        allowEmpty
+                        normalize={(next) => Math.max(0, Math.floor(next))}
+                        draftKey={`${draftScope}:seedStats.${actorId}.hp`}
+                        syncToken={syncToken}
+                        value={stats.hp}
+                        disabled={readOnly}
+                        aria-label={`${actorId} 开局当前 HP，留空继承 ${inheritedHp ?? '未知'}`}
+                        placeholder={
+                          inheritedHp === undefined ? '继承不可用' : `继承 ${inheritedHp}`
+                        }
+                        onCommit={(value) => patchSeed(actorId, 'hp', value)}
                       />
                       <DsDraftNumberField
-                          label="当前 MP"
-                          min={0}
-                          integer
-                          allowEmpty
-                          normalize={(next) => Math.max(0, Math.floor(next))}
-                          draftKey={`${draftScope}:seedStats.${actorId}.mp`}
-                          syncToken={syncToken}
-                          value={stats.mp}
-                          disabled={readOnly}
-                          aria-label={`${actorId} 开局当前 MP，留空继承 ${inheritedMp ?? '未知'}`}
-                          placeholder={
-                            inheritedMp === undefined ? '继承不可用' : `继承 ${inheritedMp}`
-                          }
-                          onCommit={(value) => patchSeed(actorId, 'mp', value)}
+                        label="当前 MP"
+                        min={0}
+                        integer
+                        allowEmpty
+                        normalize={(next) => Math.max(0, Math.floor(next))}
+                        draftKey={`${draftScope}:seedStats.${actorId}.mp`}
+                        syncToken={syncToken}
+                        value={stats.mp}
+                        disabled={readOnly}
+                        aria-label={`${actorId} 开局当前 MP，留空继承 ${inheritedMp ?? '未知'}`}
+                        placeholder={
+                          inheritedMp === undefined ? '继承不可用' : `继承 ${inheritedMp}`
+                        }
+                        onCommit={(value) => patchSeed(actorId, 'mp', value)}
                       />
                     </DsNumberFieldGrid>
                     <span className="project-party-actions">
+                      <DsButton
+                        variant="secondary"
+                        icon="edit"
+                        disabled={readOnly}
+                        aria-label={`编辑${actorName}开局当前状态`}
+                        onClick={() => setConditionEditorActorId(actorId)}
+                      >
+                        当前状态
+                      </DsButton>
                       <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
                       <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
                       <DsIconButton
@@ -936,6 +1347,10 @@ export function StartWorldFields(props: {
               {orphanSeedActorIds.map((actorId) => {
                 const actor = actors.find((candidate) => candidate.id === actorId)
                 const stats = value.seedStats?.[actorId] ?? {}
+                const conditionSummary = conditionSeedSummary(
+                  value.seedConditions?.[actorId],
+                  poisons,
+                )
                 const state = !actor ? '角色缺失' : actor.battler ? '未入队' : '不可参战'
                 const name = actor ? lookupText(actor.name, locale) : actorId
                 return (
@@ -946,6 +1361,9 @@ export function StartWorldFields(props: {
                     </span>
                     <span className="project-orphan-seed-values">
                       当前 HP {stats.hp ?? '未覆盖'} · 当前 MP {stats.mp ?? '未覆盖'}
+                      {conditionSummary.length
+                        ? ` · ${conditionSummary.map((summary) => summary.label).join('、')}`
+                        : ''}
                     </span>
                     <DsTag tone={state === '角色缺失' ? 'danger' : 'warning'}>{state}</DsTag>
                     <DsButton
@@ -967,6 +1385,32 @@ export function StartWorldFields(props: {
           {announcement}
         </span>
       </section>
+
+      {conditionEditorActorId ? (
+        <ActorConditionSeedDialog
+          key={`${draftScope}:${syncToken}:${conditionEditorActorId}`}
+          actorId={conditionEditorActorId}
+          actorName={
+            conditionEditorActor
+              ? lookupText(conditionEditorActor.name, locale)
+              : conditionEditorActorId
+          }
+          alive={conditionEditorHp > 0}
+          value={value.seedConditions?.[conditionEditorActorId]}
+          poisons={poisons}
+          readOnly={readOnly}
+          fallbackFocusRef={partySectionRef}
+          onClose={() => setConditionEditorActorId(undefined)}
+          onSave={(condition) => {
+            const rawCurrent = value.seedConditions?.[conditionEditorActorId]
+            const current = normalizedConditionSeed(rawCurrent ?? {})
+            const needsRepair = !sameDsSerializableValue(rawCurrent, current)
+            if (needsRepair || !sameDsSerializableValue(current, condition))
+              patchConditionSeed(conditionEditorActorId, condition)
+            setConditionEditorActorId(undefined)
+          }}
+        />
+      ) : null}
 
       <section ref={inventorySectionRef} className="project-card" tabIndex={-1}>
         <div className="project-title-row">
@@ -1257,6 +1701,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
     scenes,
     actors,
     items,
+    poisons,
     locale,
     assetCatalog,
     session,
@@ -1652,6 +2097,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                 value={selected.startWorld}
                 actors={actors}
                 items={items}
+                poisons={poisons}
                 locale={locale}
                 assetCatalog={assetCatalog}
                 assetReader={props.assetReader}

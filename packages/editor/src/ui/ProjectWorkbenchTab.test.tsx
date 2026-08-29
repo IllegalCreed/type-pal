@@ -40,16 +40,22 @@ function button(host: HTMLElement, text: string): HTMLButtonElement {
   )!
 }
 
-async function listHeaderMenuButton(
-  host: HTMLElement,
-  text: string,
-): Promise<HTMLButtonElement> {
+function checkbox(host: HTMLElement, text: string): HTMLInputElement {
+  const label = [...host.querySelectorAll<HTMLLabelElement>('label')].find((candidate) =>
+    candidate.textContent?.includes(text),
+  )
+  const input = label?.querySelector<HTMLInputElement>('input[type="checkbox"]')
+  if (!input) throw new Error(`缺少复选项 ${text}`)
+  return input
+}
+
+async function listHeaderMenuButton(host: HTMLElement, text: string): Promise<HTMLButtonElement> {
   const trigger = host.querySelector<HTMLButtonElement>(
     '.project-outliner .ds-list-header [aria-label="更多操作"]',
   )!
   if (trigger.getAttribute('aria-expanded') !== 'true') await act(async () => trigger.click())
-  return [...document.querySelectorAll<HTMLButtonElement>('[role="menuitem"]')].find(
-    (candidate) => candidate.textContent?.includes(text),
+  return [...document.querySelectorAll<HTMLButtonElement>('[role="menuitem"]')].find((candidate) =>
+    candidate.textContent?.includes(text),
   )!
 }
 
@@ -127,7 +133,14 @@ function ResourceHarness(props: { items?: ItemData[]; initialResources?: Record<
     ...(initialResources ? { resources: initialResources } : {}),
   })
   return (
-    <StartWorldFields value={value} actors={[]} items={items} locale={{}} onChange={setValue} />
+    <StartWorldFields
+      value={value}
+      actors={[]}
+      items={items}
+      poisons={[]}
+      locale={{}}
+      onChange={setValue}
+    />
   )
 }
 
@@ -141,7 +154,7 @@ function projectState(): EditorState {
     manifest: {
       id: 'project-test',
       name: '测试项目',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -184,6 +197,7 @@ function projectTab(
       scenes={state.scenes}
       actors={state.actors}
       items={state.items}
+      poisons={state.poisons ?? []}
       locale={state.locale}
       assetCatalog={state.assetCatalog}
       session={session}
@@ -934,8 +948,274 @@ describe('入口开局世界资源', () => {
 
     expect(host.textContent).toContain('初始队伍')
     expect(host.textContent).toContain('留空即继承角色定义的当前值')
-    expect(host.textContent).not.toContain('开局当前状态')
+    expect(host.textContent).toContain('当前状态')
     expect(host.textContent).not.toContain('seedStats')
+    expect(host.textContent).not.toContain('seedConditions')
+  })
+
+  test('开局状态在聚合弹窗内编辑，取消零命令、保存单命令并可 undo/redo', async () => {
+    const state = projectState()
+    state.actors = [
+      {
+        id: 'hero',
+        name: 'name.hero',
+        spriteId: 'sprite.hero',
+        battler: {
+          battleSprite: 'battle.hero',
+          baseStats: {
+            level: 1,
+            hp: 100,
+            maxHP: 100,
+            mp: 30,
+            maxMP: 30,
+            attack: 1,
+            defense: 1,
+            magicAttack: 1,
+            speed: 1,
+            luck: 1,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+    ]
+    state.locale['name.hero'] = '主角'
+    state.poisons = [{ id: 7, name: '赤毒', curability: 'common', color: 0 }]
+    state.manifest.entryPoints[0]!.startWorld.party = ['hero']
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    const trigger = host.querySelector<HTMLButtonElement>('[aria-label="编辑主角开局当前状态"]')!
+    trigger.focus()
+    await act(async () => trigger.click())
+    await nextAnimationFrame()
+    let dialog = host.querySelector<HTMLDialogElement>('dialog[open]')!
+    expect(dialog.textContent).toContain('赤毒（7）')
+    expect(dialog.textContent).toContain('护体 · 受到的物理与法术伤害减半。')
+    expect(dialog.textContent).not.toContain('傀儡')
+
+    await act(async () => checkbox(dialog, '赤毒').click())
+    await act(async () => checkbox(dialog, '护体').click())
+    expect(session.getHistoryVersion()).toBe(0)
+    const turns = dialog.querySelector<HTMLInputElement>(
+      '.actor-condition-status-row input[type="number"]',
+    )!
+    await input(turns, '9')
+    await act(async () =>
+      turns.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
+    await act(async () => turns.blur())
+    expect(session.getHistoryVersion()).toBe(0)
+    await act(async () => button(dialog, '取消').click())
+    await nextAnimationFrame()
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(document.activeElement).toBe(trigger)
+
+    await act(async () => trigger.click())
+    await nextAnimationFrame()
+    dialog = host.querySelector<HTMLDialogElement>('dialog[open]')!
+    await act(async () => checkbox(dialog, '赤毒').click())
+    await act(async () => checkbox(dialog, '护体').click())
+    const savedTurns = dialog.querySelector<HTMLInputElement>(
+      '.actor-condition-status-row input[type="number"]',
+    )!
+    await input(savedTurns, '9')
+    await act(async () =>
+      savedTurns.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
+    await act(async () => savedTurns.blur())
+    await act(async () => button(dialog, '保存当前状态').click())
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toEqual({
+      hero: {
+        poisonIds: [7],
+        statuses: [{ status: 'protect', turns: 9 }],
+      },
+    })
+
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toBeUndefined()
+    expect(session.redo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toEqual({
+      hero: {
+        poisonIds: [7],
+        statuses: [{ status: 'protect', turns: 9 }],
+      },
+    })
+
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(host.textContent).toContain('赤毒')
+    expect(host.textContent).toContain('护体 9 回合')
+    const beforeNoop = session.getHistoryVersion()
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="编辑主角开局当前状态"]')!.click(),
+    )
+    await nextAnimationFrame()
+    await act(async () => button(host, '保存当前状态').click())
+    expect(session.getHistoryVersion()).toBe(beforeNoop)
+  })
+
+  test('未知当前状态必须显式清理，保存以一条命令修复原始值', async () => {
+    const state = projectState()
+    state.actors = [
+      {
+        id: 'hero',
+        name: 'name.hero',
+        spriteId: 'sprite.hero',
+        battler: {
+          battleSprite: 'battle.hero',
+          baseStats: {
+            level: 1,
+            hp: 100,
+            maxHP: 100,
+            mp: 30,
+            maxMP: 30,
+            attack: 1,
+            defense: 1,
+            magicAttack: 1,
+            speed: 1,
+            luck: 1,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+    ]
+    state.locale['name.hero'] = '主角'
+    state.manifest.entryPoints[0]!.startWorld.party = ['hero']
+    state.manifest.entryPoints[0]!.startWorld.seedConditions = {
+      hero: { statuses: [{ status: 'legacy-status', turns: 3 }] } as never,
+    }
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    expect(host.textContent).toContain('未知状态 legacy-status')
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="编辑主角开局当前状态"]')!.click(),
+    )
+    await nextAnimationFrame()
+    const dialog = host.querySelector<HTMLDialogElement>('dialog[open]')!
+    const save = button(dialog, '保存当前状态')
+    expect(save.disabled).toBe(true)
+    expect(dialog.textContent).toContain('保存前请移除')
+    await act(async () => button(dialog, '移除').click())
+    expect(save.disabled).toBe(false)
+
+    await act(async () => save.click())
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toBeUndefined()
+    expect(session.undo()).toBe(true)
+    expect(
+      session.getState().manifest.entryPoints[0]!.startWorld.seedConditions?.hero?.statuses,
+    ).toEqual([{ status: 'legacy-status', turns: 3 }])
+  })
+
+  test('当前 HP 为 0 时不能新增好状态，并可显式清理已有非法好状态', async () => {
+    const state = projectState()
+    state.actors = [
+      {
+        id: 'hero',
+        name: 'name.hero',
+        spriteId: 'sprite.hero',
+        battler: {
+          battleSprite: 'battle.hero',
+          baseStats: {
+            level: 1,
+            hp: 100,
+            maxHP: 100,
+            mp: 30,
+            maxMP: 30,
+            attack: 1,
+            defense: 1,
+            magicAttack: 1,
+            speed: 1,
+            luck: 1,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+    ]
+    state.locale['name.hero'] = '主角'
+    state.manifest.entryPoints[0]!.startWorld.party = ['hero']
+    state.manifest.entryPoints[0]!.startWorld.seedStats = { hero: { hp: 0 } }
+    state.manifest.entryPoints[0]!.startWorld.seedConditions = {
+      hero: { statuses: [{ status: 'protect', turns: 7 }] },
+    }
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="编辑主角开局当前状态"]')!.click(),
+    )
+    await nextAnimationFrame()
+
+    const dialog = host.querySelector<HTMLDialogElement>('dialog[open]')!
+    const protect = checkbox(dialog, '护体')
+    const bravery = checkbox(dialog, '神勇')
+    const confused = checkbox(dialog, '混乱')
+    const save = button(dialog, '保存当前状态')
+    expect(dialog.textContent).toContain('当前 HP 为 0 时不能携带好状态')
+    expect(protect.checked).toBe(true)
+    expect(protect.disabled).toBe(false)
+    expect(bravery.disabled).toBe(true)
+    expect(confused.disabled).toBe(false)
+    expect(save.disabled).toBe(true)
+
+    await act(async () => protect.click())
+    expect(save.disabled).toBe(false)
+    await act(async () => save.click())
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toBeUndefined()
+  })
+
+  test('移出队员在一条命令内同时清理 HP/MP 与当前状态', async () => {
+    const state = projectState()
+    const makeActor = (id: string, name: string) => ({
+      id,
+      name,
+      spriteId: `sprite.${id}`,
+      battler: {
+        battleSprite: `battle.${id}`,
+        baseStats: {
+          level: 1,
+          hp: 100,
+          maxHP: 100,
+          mp: 30,
+          maxMP: 30,
+          attack: 1,
+          defense: 1,
+          magicAttack: 1,
+          speed: 1,
+          luck: 1,
+        },
+        initialEquipment: {},
+        initialMagic: [],
+      },
+    })
+    state.actors = [makeActor('hero', 'name.hero'), makeActor('friend', 'name.friend')]
+    state.locale = { 'name.hero': '主角', 'name.friend': '伙伴' }
+    state.manifest.entryPoints[0]!.startWorld.party = ['hero', 'friend']
+    state.manifest.entryPoints[0]!.startWorld.seedStats = { friend: { hp: 12 } }
+    state.manifest.entryPoints[0]!.startWorld.seedConditions = {
+      friend: { statuses: [{ status: 'protect', turns: 3 }] },
+    }
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    const before = session.getHistoryVersion()
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="移出伙伴"]')!.click())
+    expect(session.getHistoryVersion()).toBe(before + 1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld).toMatchObject({
+      party: ['hero'],
+    })
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toBeUndefined()
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toBeUndefined()
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toEqual({
+      friend: { hp: 12 },
+    })
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedConditions).toEqual({
+      friend: { statuses: [{ status: 'protect', turns: 3 }] },
+    })
   })
 
   test('当前 HP/MP 保持继承、零值和单字段稀疏覆盖并按命令同步', async () => {
@@ -1386,6 +1666,7 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
+          poisons={state.poisons ?? []}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -1438,6 +1719,7 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
+          poisons={state.poisons ?? []}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -1448,7 +1730,7 @@ describe('项目设置工作区', () => {
       ),
     )
 
-    expect(host.textContent).toContain('内容版本 18')
+    expect(host.textContent).toContain('内容版本 19')
     expect(host.textContent).toContain('最低存档版本 8')
 
     await act(async () =>
@@ -1459,6 +1741,7 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
+          poisons={state.poisons ?? []}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -1554,6 +1837,7 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
+          poisons={state.poisons ?? []}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -1616,6 +1900,7 @@ describe('项目设置工作区', () => {
             scenes={current.scenes}
             actors={current.actors}
             items={current.items}
+            poisons={current.poisons ?? []}
             locale={current.locale}
             assetCatalog={current.assetCatalog}
             session={session}
@@ -1677,6 +1962,7 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
+          poisons={state.poisons ?? []}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -1700,6 +1986,7 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
+          poisons={state.poisons ?? []}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -1726,6 +2013,7 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
+          poisons={state.poisons ?? []}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -1778,6 +2066,7 @@ describe('项目设置工作区', () => {
             scenes={state.scenes}
             actors={state.actors}
             items={state.items}
+            poisons={state.poisons ?? []}
             locale={state.locale}
             assetCatalog={state.assetCatalog}
             session={session}
@@ -1840,6 +2129,7 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
+          poisons={state.poisons ?? []}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -1897,6 +2187,7 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
+          poisons={state.poisons ?? []}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}

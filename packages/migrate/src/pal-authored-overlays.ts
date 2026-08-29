@@ -1,7 +1,7 @@
 import { type ItemData, palSoundAssetId, type SkillData } from '@type-pal/content'
 
 export const PAL_RESOLVED_SKILL_IDS = new Set([314, 344, 392, 394])
-export const PAL_RESOLVED_ITEM_USE_IDS = new Set([141])
+export const PAL_RESOLVED_ITEM_USE_IDS = new Set([141, 152])
 
 /**
  * R13-6B 的源语义补录。
@@ -248,17 +248,25 @@ export function applyPalSkillOverlays(
 
 /** 隐蛊原脚本是战斗全队隐形 3 回合，目标 schema 已有 hideParty 精确表达。 */
 export function applyPalItemOverlays(input: readonly ItemData[]): ItemData[] {
-  return input.map((item) =>
-    item.id === '141'
-      ? {
-          ...structuredClone(item),
-          use: {
-            target: 'allAllies',
-            consuming: true,
-            battleOnly: true,
-            effects: [{ kind: 'hideParty', turns: 3 }],
-          },
-        }
-      : structuredClone(item),
-  )
+  return input.map((item) => {
+    const overlaid =
+      item.id === '141'
+        ? {
+            ...structuredClone(item),
+            use: {
+              target: 'allAllies' as const,
+              consuming: true,
+              battleOnly: true,
+              effects: [{ kind: 'hideParty' as const, turns: 3 }],
+            },
+          }
+        : structuredClone(item)
+    if (
+      overlaid.use?.effects.some(
+        (effect) => effect.kind === 'applyStatus' && effect.status === 'puppet',
+      )
+    )
+      overlaid.use.battleOnly = true
+    return overlaid
+  })
 }

@@ -7,8 +7,8 @@ import type { BlockingBattleFieldReference } from '../core/battle-field-referenc
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 
 const field = (id: number, name = `战场 ${id}`): BattleFieldDef => ({
   id,
@@ -22,7 +22,7 @@ function state(fields: BattleFieldDef[], declared = true): EditorState {
     manifest: {
       id: 'test',
       name: '测试',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {

@@ -39,7 +39,7 @@ function state(): EditorState {
     manifest: {
       id: 'demo',
       name: 'Demo',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       entryPoints: [
@@ -142,11 +142,11 @@ describe('EnemyTeamTab authoring closure', () => {
     current.locale = { 'name.enemy-a': '赤鬼', 'name.enemy-b': '青鬼' }
     const session = new EditSession(current)
     const onObjectFocus = vi.fn()
-    await act(async () =>
-      root.render(<Harness session={session} onObjectFocus={onObjectFocus} />),
-    )
+    await act(async () => root.render(<Harness session={session} onObjectFocus={onObjectFocus} />))
 
-    const rows = [...host.querySelectorAll<HTMLButtonElement>('.enemy-team-catalog .ds-catalog-row')]
+    const rows = [
+      ...host.querySelectorAll<HTMLButtonElement>('.enemy-team-catalog .ds-catalog-row'),
+    ]
     expect(rows.map((row) => row.querySelector('.ds-catalog-row__title')?.textContent)).toEqual([
       '赤鬼×2、青鬼',
       '空敌队',
@@ -177,12 +177,12 @@ describe('EnemyTeamTab authoring closure', () => {
     expect(
       host.querySelector<HTMLElement>('.enemy-team-catalog .ds-catalog-row')?.dataset.leading,
     ).toBe('none')
-    expect(
-      host.querySelector('.enemy-team-catalog .ds-catalog-row__title')?.textContent,
-    ).toBe('赤鬼×2')
-    expect(
-      host.querySelector('.enemy-team-catalog .ds-catalog-row__meta')?.textContent,
-    ).toBe('team-c1')
+    expect(host.querySelector('.enemy-team-catalog .ds-catalog-row__title')?.textContent).toBe(
+      '赤鬼×2',
+    )
+    expect(host.querySelector('.enemy-team-catalog .ds-catalog-row__meta')?.textContent).toBe(
+      'team-c1',
+    )
     expect(host.textContent).toContain('10 经验')
     expect(host.textContent).toContain('20 金钱')
     expect(host.textContent).toContain('30 收妖值')
@@ -233,9 +233,9 @@ describe('EnemyTeamTab authoring closure', () => {
       ...host.querySelectorAll<HTMLButtonElement>('.enemy-team-member-summary > button'),
     ]
     expect(memberRows).toHaveLength(2)
-    expect(
-      memberRows.every((row) => row.textContent?.includes('击败后：11% 获得蜂巢 ×1')),
-    ).toBe(true)
+    expect(memberRows.every((row) => row.textContent?.includes('击败后：11% 获得蜂巢 ×1'))).toBe(
+      true,
+    )
     expect(host.textContent).toContain('重复成员按槽位各结算一次')
     expect(host.textContent).not.toContain('战败指令')
     expect(host.textContent).not.toContain('3 条')

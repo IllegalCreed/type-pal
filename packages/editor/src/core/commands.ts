@@ -113,12 +113,12 @@ import {
   preparedProjectMapPatchChanged,
   prepareProjectMapPatch,
 } from './map-patch.js'
+import type { ScriptEditorState } from './script-editor.js'
 import {
   findSceneEntryReferences,
   findScriptReferences,
   type SceneEntryReferenceEntry,
 } from './script-references.js'
-import type { ScriptEditorState } from './script-editor.js'
 import {
   resolveStampStructureOperation,
   type StampStructureResolutionOptions,
@@ -467,18 +467,13 @@ export class DeleteEntityCommand implements Command {
   readonly label = '删除实体'
   private readonly sceneId: string
   private readonly entityId: string
-  private readonly guardedReferences:
-    | ReturnType<typeof blockingEntityAddressReferences>
-    | undefined
+  private readonly guardedReferences: ReturnType<typeof blockingEntityAddressReferences> | undefined
   private removed: { entity: EntityDef; index: number } | undefined
 
   constructor(
     sceneId: string,
     entityId: string,
-    referenceState?: Pick<
-      EditorState,
-      'scenes' | 'items' | 'enemies' | 'sharedScripts' | 'worlds'
-    >,
+    referenceState?: Pick<EditorState, 'scenes' | 'items' | 'enemies' | 'sharedScripts' | 'worlds'>,
   ) {
     this.sceneId = sceneId
     this.entityId = entityId
@@ -3523,8 +3518,8 @@ function cloneNonEmptyEntryPoints(entries: readonly EntryPoint[]): [EntryPoint, 
 }
 
 /**
- * 原子替换直接启动入口选择器与全部真实入口。apply/invert 的每个可见状态都保持
- * 非空、唯一 id、defaultEntryId 命中以及完整 StartWorld 不变式。
+ * 原子替换直接启动入口选择器与全部真实入口。next 必须满足当前 schema；old 则按
+ * 原样快照，以便编辑器可以用同一条可撤销命令修复已载入的悬空/旧引用。
  */
 export class SetStartupEntriesCommand implements Command {
   readonly label = '编辑启动入口'
@@ -3538,10 +3533,10 @@ export class SetStartupEntriesCommand implements Command {
 
   apply(state: EditorState): EditorState {
     if (!this.captured) {
-      this.old = cloneStartupEntryConfig({
+      this.old = {
         defaultEntryId: state.manifest.defaultEntryId,
-        entryPoints: state.manifest.entryPoints,
-      })
+        entryPoints: cloneNonEmptyEntryPoints(state.manifest.entryPoints),
+      }
       this.captured = true
     }
     return {

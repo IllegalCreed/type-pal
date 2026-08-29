@@ -773,6 +773,10 @@ export class Playback {
     setAmbience: (id) => this.log(`🌗 切氛围 ${id}`), // 预览画布不染(创作视图恒白天);要看夜色走引擎试玩
     takeEntity: (id) => this.log(`🔒 接管 ${id}`),
     setParty: async (members) => this.log(`👥 队伍变更 → ${members.join(', ')}`),
+    applyActorCondition: async (actor, condition) =>
+      this.log(`🩺 ${actor} 施加状态 ${condition.kind}`),
+    clearActorCondition: async (actor, condition) =>
+      this.log(`🩹 ${actor} 清除状态 ${condition.kind}`),
     setFollowers: async (sprites) => this.log(`👣 编外跟随者 → ${sprites.join(', ') || '(清空)'}`),
     mountParty: (id) => this.log(`🛶 挂载队伍 → ${id}`),
     unmountParty: () => this.log('🚶 下载具'),

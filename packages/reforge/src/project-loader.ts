@@ -2,14 +2,16 @@ import type {
   ActorDef,
   AmbienceDef,
   AssetCatalogV1,
+  AuthorEnemyDef,
+  AuthorItemCoreMap,
+  AuthorItemData,
+  AuthorSceneDef,
+  AuthorScriptLibrary,
   BattleFieldDef,
   BattleSpriteDef,
   CurrentManifest,
   EnemyDef,
-  AuthorEnemyDef,
   EnemyTeamDef,
-  AuthorItemCoreMap,
-  AuthorItemData,
   LevelUpSkill,
   Locale,
   MapIndexV1,
@@ -17,9 +19,7 @@ import type {
   PoisonDef,
   ProjectMap,
   RuntimeSceneDef,
-  AuthorSceneDef,
   RuntimeScriptLibrary,
-  AuthorScriptLibrary,
   ShopDef,
   SkillDataMap,
   SpriteDef,
@@ -31,24 +31,26 @@ import {
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   mapAssetById,
   resolveAuthorDialogueTree,
+  validateActorConditionCommandReferences,
   validateActorInitialMagicReferences,
   validateActors,
   validateAssetCatalog,
+  validateAuthorDialogueReferences,
+  validateAuthorEnemies,
+  validateAuthorItems,
+  validateAuthorScenes,
+  validateAuthorSharedScripts,
   validateBattleFields,
   validateBattleSprites,
-  validateAuthorDialogueReferences,
   validateCurrentManifestStartup,
-  validateAuthorEnemies,
   validateEnemyTeams,
-  validateEquipBattleSpriteReferences,
   validateEntryPointStartWorldReferences,
-  validateAuthorItems,
+  validateEquipBattleSpriteReferences,
   validateLocale,
   validateManifestAssetConfig,
   validateMapIndex,
   validateMigrationDiagnostics,
-  validateAuthorScenes,
-  validateAuthorSharedScripts,
+  validatePoisons,
   validateSkills,
   validateSprites,
   validateStampTemplates,
@@ -155,6 +157,7 @@ function scenesDir(manifest: CurrentManifest): string {
 function validateAuthorScene(
   value: unknown,
   actors: readonly ActorDef[],
+  poisons: readonly PoisonDef[],
   mapIndex: MapIndexV1,
   path: string,
 ): AuthorSceneDef {
@@ -169,6 +172,8 @@ function validateAuthorScene(
     enemies: [],
     actors,
   })
+  const conditionIssue = validateActorConditionCommandReferences(scene, actors, poisons, path)[0]
+  if (conditionIssue) throw new Error(`${conditionIssue.where}: ${conditionIssue.message}`)
   return scene
 }
 
@@ -200,6 +205,8 @@ export function assembleCurrentProject(
   const mapIndex = validateMapIndex(jsons.maps)
   const actors = validateActors(jsons.actors)
   const actorsById = indexById(actors)
+  const poisonList = validatePoisons(jsons.poisons ?? [])
+  const poisonsById = Object.fromEntries(poisonList.map((poison) => [poison.id, poison]))
   const authorItems = validateAuthorItems(jsons.items)
   const authorEnemies = jsons.enemies === undefined ? [] : validateAuthorEnemies(jsons.enemies)
   const authorSharedScripts = validateAuthorSharedScripts(jsons.sharedScripts)
@@ -207,12 +214,11 @@ export function assembleCurrentProject(
   for (const entry of manifest.entryPoints) {
     if (authorEntryScenes[entry.scene]) continue
     if (!Object.hasOwn(jsons.entryScenes, entry.scene))
-      throw new Error(
-        `manifest.entryPoints[${entry.id}].scene: 缺场景文件 "${entry.scene}.json"`,
-      )
+      throw new Error(`manifest.entryPoints[${entry.id}].scene: 缺场景文件 "${entry.scene}.json"`)
     const authorScene = validateAuthorScene(
       jsons.entryScenes[entry.scene],
       actors,
+      poisonList,
       mapIndex,
       `manifest.entryPoints[${entry.id}].scene(${entry.scene})`,
     )
@@ -229,19 +235,24 @@ export function assembleCurrentProject(
     enemies: authorEnemies,
     actors,
   })
+  for (const [value, where] of [
+    [authorItems, 'items'],
+    [authorEnemies, 'enemies'],
+    [authorSharedScripts, 'sharedScripts'],
+  ] as const) {
+    const issue = validateActorConditionCommandReferences(value, actors, poisonList, where)[0]
+    if (issue) throw new Error(`${issue.where}: ${issue.message}`)
+  }
 
   const items = resolveAuthorDialogueTree(authorItems, actorsById, 'items')
   const enemies = resolveAuthorDialogueTree(authorEnemies, actorsById, 'enemies')
-  const sharedScripts = resolveAuthorDialogueTree(
-    authorSharedScripts,
-    actorsById,
-    'sharedScripts',
-  )
+  const sharedScripts = resolveAuthorDialogueTree(authorSharedScripts, actorsById, 'sharedScripts')
   const { skills, levelUp } = validateSkills(jsons.skills)
   const startupIssue = validateEntryPointStartWorldReferences(
     manifest.entryPoints,
     actors,
     authorItems,
+    poisonList,
   )[0]
   if (startupIssue) throw new Error(`${startupIssue.where}: ${startupIssue.message}`)
   const initialMagicIssue = validateActorInitialMagicReferences(actors, skills)[0]
@@ -268,7 +279,6 @@ export function assembleCurrentProject(
   const battleFields =
     jsons.battleFields === undefined ? [] : validateBattleFields(jsons.battleFields)
   const tilesets = validateTilesets(jsons.tilesets, assetCatalog)
-  const poisonList = Array.isArray(jsons.poisons) ? (jsons.poisons as PoisonDef[]) : []
   const ambiences = Array.isArray(jsons.ambiences) ? (jsons.ambiences as AmbienceDef[]) : []
   const shops = Array.isArray(jsons.shops) ? (jsons.shops as ShopDef[]) : []
   const migrationDiagnostics =
@@ -300,7 +310,7 @@ export function assembleCurrentProject(
     enemiesById: indexById(enemies),
     enemyTeamsById: indexById(enemyTeams),
     battleFields,
-    poisonsById: Object.fromEntries(poisonList.map((poison) => [poison.id, poison])),
+    poisonsById,
     poisons: poisonList,
     ambiences,
     shops,
@@ -406,31 +416,28 @@ export async function loadCurrentProjectFrom(source: FileSource): Promise<Loaded
     source.readJson(manifest.assets.catalog),
     source.readJson(worldVariablesPath),
   ])
-  const core = assembleCurrentProject(
-    manifest,
-    {
-      actors,
-      sceneIds: ids,
-      entryScenes,
-      skills,
-      items,
-      locale,
-      sprites,
-      battleSprites,
-      enemies,
-      enemyTeams,
-      battleFields,
-      poisons,
-      ambiences,
-      shops,
-      tilesets,
-      maps,
-      sharedScripts,
-      migrationDiagnostics,
-      assetCatalog,
-      worldVariables,
-    },
-  )
+  const core = assembleCurrentProject(manifest, {
+    actors,
+    sceneIds: ids,
+    entryScenes,
+    skills,
+    items,
+    locale,
+    sprites,
+    battleSprites,
+    enemies,
+    enemyTeams,
+    battleFields,
+    poisons,
+    ambiences,
+    shops,
+    tilesets,
+    maps,
+    sharedScripts,
+    migrationDiagnostics,
+    assetCatalog,
+    worldVariables,
+  })
   const assetResolver = new AssetResolver(
     manifest.id,
     core.assetCatalog,
@@ -459,6 +466,7 @@ export async function loadAuthorScene(
   const scene = validateAuthorScene(
     raw,
     Object.values(project.actorsById),
+    project.poisons,
     project.mapIndex,
     `scene ${sceneId}`,
   )
@@ -478,7 +486,9 @@ export async function loadScene(
   )
 }
 
-export async function loadAllAuthorScenes(project: LoadedCurrentProject): Promise<AuthorSceneDef[]> {
+export async function loadAllAuthorScenes(
+  project: LoadedCurrentProject,
+): Promise<AuthorSceneDef[]> {
   const scenes: AuthorSceneDef[] = []
   for (const id of project.sceneIds) scenes.push(await loadAuthorScene(project, id))
   return scenes

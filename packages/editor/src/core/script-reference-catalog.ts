@@ -7,6 +7,7 @@ import {
   type Locale,
   lookupText,
   type MapIndexV1,
+  type PoisonDef,
   type ScriptIndexV1,
   type SkillData,
   type SpriteDef,
@@ -22,6 +23,7 @@ export type ScriptReferenceKind =
   | 'item'
   | 'skill'
   | 'actor'
+  | 'poison'
   | 'sprite'
   | 'battleSprite'
   | 'ambience'
@@ -33,6 +35,7 @@ export const SCRIPT_REFERENCE_KIND_LABEL: Readonly<Record<ScriptReferenceKind, s
   item: '物品',
   skill: '仙术',
   actor: '角色',
+  poison: '毒',
   sprite: '大世界精灵',
   battleSprite: '战斗精灵',
   ambience: '氛围',
@@ -46,6 +49,7 @@ export interface ScriptReferenceCatalogInput {
   items: readonly ItemData[]
   skills: readonly SkillData[]
   actors: readonly ActorDef[]
+  poisons: readonly PoisonDef[]
   sprites: readonly SpriteDef[]
   battleSprites: readonly BattleSpriteDef[]
   ambiences: readonly AmbienceDef[]
@@ -103,6 +107,9 @@ export function createScriptReferenceCatalog(
     skill: orderedChoices(input.skills),
     actor: orderedChoices(
       input.actors.map((actor) => ({ id: actor.id, name: textName(actor.name, input.locale) })),
+    ),
+    poison: orderedChoices(
+      input.poisons.map((poison) => ({ id: String(poison.id), name: poison.name })),
     ),
     sprite: orderedChoices(input.sprites.map((sprite) => ({ id: sprite.id, name: sprite.label }))),
     battleSprite: orderedChoices(

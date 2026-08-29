@@ -2,13 +2,19 @@
 // 阶段隔离(D18):纯 content 数据 + 类型,无 reforge/引擎依赖。
 
 import type { ActorDef } from './actor.js'
+import {
+  ACTOR_STATUS_DEFINITIONS,
+  applyCarriedStatus,
+  applyTemporaryPoisonResistance,
+  isCarryableStatusId,
+} from './actor-condition.js'
 import type { AssetId } from './asset.js'
+import type { EntityAddress } from './author-script-core.js'
 import type { ElementVec } from './battle-formulas.js'
 import type { CharacterInstance, WorldState } from './character.js'
 import { applyPoisonSelf, poisonCurableBy } from './poison.js'
 import { applyLevelGrowth } from './rewards.js'
 import type { ScriptRef } from './script-library.js'
-import type { EntityAddress } from './author-script-core.js'
 import type { SkillAnimation, StatusId } from './skill.js'
 
 /** 战斗属性(对齐 CharacterInstance 的 5 项)。 */
@@ -58,17 +64,6 @@ const STAT_LABEL: Record<CombatStat, string> = {
 }
 const EQUIP_ELEM_LABEL: Record<'poison' | 'wind' | 'thunder' | 'water' | 'fire' | 'earth', string> =
   { poison: '毒', wind: '风', thunder: '雷', water: '水', fire: '火', earth: '土' }
-const EQUIP_STATUS_LABEL: Record<StatusId, string> = {
-  confused: '混乱',
-  paralyzed: '定身',
-  sleep: '睡眠',
-  silence: '沉默',
-  puppet: '傀儡',
-  bravery: '神勇',
-  protect: '护体',
-  haste: '加速',
-  dualAttack: '连击',
-}
 const signed = (n: number): string => (n >= 0 ? `+${n}` : `${n}`)
 
 /** 派生装备效果行(风味 desc 之外的机制文案)。数值(属性+上限+抗性)并成一行、全角空格分隔
@@ -94,7 +89,7 @@ export function describeEquipEffects(
         extraLines.push('攻击全体')
         break
       case 'grantStatus':
-        extraLines.push(`常驻·${EQUIP_STATUS_LABEL[e.status]}`)
+        extraLines.push(`常驻·${ACTOR_STATUS_DEFINITIONS[e.status].label}`)
         break
       case 'grantSkill':
         extraLines.push(`习得·${ctx?.skillName?.(e.skillId) ?? e.skillId}`)
@@ -239,13 +234,14 @@ export function itemUseEffectSupportsContext(
       return context === 'world'
     case 'applyPoison':
       return true
+    case 'applyStatus':
+      return context === 'battle' || isCarryableStatusId(effect.status)
     case 'modifyHostileAwareness':
     case 'scaleCurrentHp':
     case 'levelUp':
     case 'healHp':
     case 'healMp':
     case 'revive':
-    case 'applyStatus':
     case 'removeStatus':
     case 'curePoison':
     case 'gate':
@@ -1128,22 +1124,13 @@ export function resolveWorldItemUse(
         case 'extraPoisonRes':
           // 大蒜:临时毒抗 Extra,随存档,建态并入战斗 poisonRes(缩敌附毒门)、战后三件套清。刷新取高。
           {
-            const before = next.extraPoisonRes ?? 0
-            next.extraPoisonRes = Math.max(before, eff.amount)
-            effectChanged ||= next.extraPoisonRes !== before
+            effectChanged ||= applyTemporaryPoisonResistance(next, eff.amount)
           }
           break
         case 'applyStatus': {
-          // 大世界护体符/金刚符(护体等):写入 extraStatuses,随存档,建态注入下一场战斗、战后三件套清。
-          // 纯更新(新数组 + 新条目):同状态刷新回合数,否则追加。
-          const prev = next.extraStatuses ?? []
-          const beforeTurns = prev.find((status) => status.status === eff.status)?.turns
-          next.extraStatuses = prev.some((s) => s.status === eff.status)
-            ? prev.map((s) =>
-                s.status === eff.status ? { status: s.status, turns: eff.turns } : s,
-              )
-            : [...prev, { status: eff.status, turns: eff.turns }]
-          effectChanged ||= beforeTurns !== eff.turns
+          if (!isCarryableStatusId(eff.status))
+            throw new Error(`resolveWorldItemUse: 状态 ${eff.status} 不可带入大世界`)
+          effectChanged ||= applyCarriedStatus(next, eff.status, eff.turns)
           break
         }
         case 'hideParty':

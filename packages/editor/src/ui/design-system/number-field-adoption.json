@@ -2,12 +2,12 @@
   "version": 1,
   "baseline": {
     "files": 36,
-    "leafCalls": 111,
+    "leafCalls": 115,
     "controls": {
-      "DsNumberInput": 55,
+      "DsNumberInput": 57,
       "DsDraftNumberInput": 29,
       "DsNumberField": 4,
-      "DsDraftNumberField": 23
+      "DsDraftNumberField": 25
     }
   },
   "modes": [
@@ -214,6 +214,20 @@
       "reason": "命令参数是脚本表单中的高密度局部 helper。",
       "verification": "CommandForm.tsx#Num consumers",
       "removalCondition": "命令编辑器迁入声明式 Field schema 时移除。"
+    },
+    {
+      "source": "CommandForm.tsx",
+      "component": "CommandForm",
+      "match": { "context": "none", "fieldClass": "" },
+      "count": 2,
+      "mode": "compact-repeat-row",
+      "control": "DsNumberInput",
+      "measure": "compact-parent",
+      "grid": "script-grid",
+      "owner": "card:ARCH-ACTOR-CONDITION-SEED-1",
+      "reason": "角色当前状态命令的回合与临时毒抗是脚本聚合表单中的有界短数字。",
+      "verification": "CommandForm.tsx#applyActorCondition",
+      "removalCondition": "命令表单改由公共声明式字段 schema 生成时迁移。"
     },
     {
       "source": "CutsceneTab.tsx",
@@ -508,6 +522,20 @@
       "reason": "世界资源值位于可增删的资源重复行。",
       "verification": "ProjectWorkbenchTab.tsx#project-resource-row",
       "removalCondition": "资源行迁入公共数量行 recipe 时移除。"
+    },
+    {
+      "source": "ProjectWorkbenchTab.tsx",
+      "component": "ActorConditionSeedDialog",
+      "match": { "context": "none", "fieldClass": "" },
+      "count": 2,
+      "mode": "main-form-short",
+      "control": "DsDraftNumberField",
+      "measure": "canonical-short",
+      "grid": "adaptive-condition-grid",
+      "owner": "card:ARCH-ACTOR-CONDITION-SEED-1",
+      "reason": "状态回合与临时毒抗是聚合弹层内的有界短数字，宽度由公共 NumberField 控制。",
+      "verification": "ProjectWorkbenchTab.tsx#ActorConditionSeedDialog",
+      "removalCondition": "角色当前状态不再由入口弹层编辑时删除。"
     },
     {
       "source": "ScriptDrawer.tsx",
@@ -826,6 +854,16 @@
       "reason": "脚本命令参数 helper。",
       "verification": "CommandForm.tsx local consumers",
       "removalCondition": "删除 helper 时移除。"
+    },
+    {
+      "source": "CommandForm.tsx",
+      "component": "CommandForm",
+      "consumerCount": 2,
+      "context": "script-grid",
+      "owner": "card:ARCH-ACTOR-CONDITION-SEED-1",
+      "reason": "角色当前状态命令表单由脚本编辑器和脚本抽屉两个生产入口复用。",
+      "verification": "import-resolved production consumers",
+      "removalCondition": "命令表单不再由两个脚本宿主复用时更新登记。"
     },
     {
       "source": "EnemyAnimPreview.tsx",

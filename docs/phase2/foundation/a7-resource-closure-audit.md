@@ -1,7 +1,7 @@
 # A7/R7 工程资源闭包与稳定资源注册表审计
 
-> **现行结论（2026-08-25）**：本文件主体是 A7 各批次的历史审计。ARCH-CURRENT-ONLY-1 已将
-> content18 项目收敛为 catalog-only：PAL 1,934 条记录，effect sprite 56 文件 / 652,870 B / 922 帧；
+> **现行结论（2026-08-30）**：本文件主体是 A7 各批次的历史审计。ARCH-CURRENT-ONLY-1 已将
+> 当前项目收敛为 catalog-only；后续 schema 已切到 content19：PAL 1,934 条记录，effect sprite 56 文件 / 652,870 B / 922 帧；
 > editor/reforge 不再读取 extracted 或 `assets.legacy`。以下“仍剩 effect-sprite/image”等结论只描述
 > 旧审计时间点，不再是当前产品事实。MIG-PAL-ACTOR-FACE-1 另勘误 A7-2：只有五张真实 face，
 > 盖罗娇的透明槽不进入 catalog；历史签字与当时运行数字保留，不回写成现行 census。

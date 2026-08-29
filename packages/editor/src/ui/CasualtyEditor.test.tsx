@@ -54,7 +54,7 @@ function state(actor: ActorDef): EditorState {
     manifest: {
       id: 'test',
       name: '测试项目',
-      contentVersion: 18,
+      contentVersion: 19,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},

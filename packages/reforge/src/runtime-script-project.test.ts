@@ -5,12 +5,11 @@ import {
   type WorldState,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { compileBaseCommands } from './script-compiler-core.js'
 import {
   compileRuntimeCommands,
   compileRuntimeScriptFlow,
-  RuntimeSharedScriptResolver,
   type RuntimeLeafCommand,
+  RuntimeSharedScriptResolver,
 } from './runtime-script-compiler.js'
 import {
   type ProjectScriptHostOptions,
@@ -18,6 +17,7 @@ import {
   ScriptProjectRuntime,
 } from './runtime-script-project.js'
 import { RuntimeScriptRunner } from './runtime-script-runner.js'
+import { compileBaseCommands } from './script-compiler-core.js'
 import { FlowRuntimeCoordinator } from './script-world.js'
 
 const digest = 'a'.repeat(64)
@@ -102,6 +102,30 @@ async function run(
 }
 
 describe('current script compiler/runtime host', () => {
+  test('retains actor condition leaves through the current compiler and host', async () => {
+    const effects: string[] = []
+    const changes: string[] = []
+    await run(
+      makeWorld(),
+      [
+        {
+          kind: 'applyActorCondition',
+          actor: 'li-xiaoyao',
+          condition: { kind: 'status', status: 'protect', turns: 7 },
+        },
+        {
+          kind: 'clearActorCondition',
+          actor: 'li-xiaoyao',
+          condition: { kind: 'poisonResistance' },
+        },
+      ],
+      hostOptions(effects, changes),
+    )
+
+    expect(effects).toEqual(['applyActorCondition', 'clearActorCondition'])
+    expect(changes).toEqual(['applyActorCondition:committed', 'clearActorCondition:committed'])
+  })
+
   test('retained moveEntity forwards the endpoint commit control through the current host', async () => {
     const world = makeWorld()
     const endpoint = { col: 7, row: 9, height: 0 }

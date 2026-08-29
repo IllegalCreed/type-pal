@@ -12,12 +12,71 @@ function state(): EditorState {
     actors: [],
     levelUp: {},
     skills: [
-      { id: 'skill-a', name: '技能甲', desc: '', cost: {}, usableOutsideBattle: false, target: 'oneEnemy', effects: [{ kind: 'applyPoison', poisonId: '9' }], animation: { effectSprite: 0, placement: 'normal', xOffset: 0, yOffset: 0, speed: 0, fireDelay: 0, effectTimes: 0, shake: 0 } },
-      { id: 'skill-b', name: '技能乙', desc: '', cost: {}, usableOutsideBattle: false, target: 'oneEnemy', effects: [], animation: { effectSprite: 0, placement: 'normal', xOffset: 0, yOffset: 0, speed: 0, fireDelay: 0, effectTimes: 0, shake: 0 } },
+      {
+        id: 'skill-a',
+        name: '技能甲',
+        desc: '',
+        cost: {},
+        usableOutsideBattle: false,
+        target: 'oneEnemy',
+        effects: [{ kind: 'applyPoison', poisonId: '9' }],
+        animation: {
+          effectSprite: 0,
+          placement: 'normal',
+          xOffset: 0,
+          yOffset: 0,
+          speed: 0,
+          fireDelay: 0,
+          effectTimes: 0,
+          shake: 0,
+        },
+      },
+      {
+        id: 'skill-b',
+        name: '技能乙',
+        desc: '',
+        cost: {},
+        usableOutsideBattle: false,
+        target: 'oneEnemy',
+        effects: [],
+        animation: {
+          effectSprite: 0,
+          placement: 'normal',
+          xOffset: 0,
+          yOffset: 0,
+          speed: 0,
+          fireDelay: 0,
+          effectTimes: 0,
+          shake: 0,
+        },
+      },
     ],
     items: [],
     enemies: [
-      { id: 'enemy-a', name: 'name.enemy-a', battleSprite: 'battle.enemy', yPosOffset: 0, stats: { health: 1, level: 1, exp: 0, cash: 0, attackStrength: 1, magicStrength: 1, defense: 1, dexterity: 1, fleeRate: 1, physicalResistance: 0, poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }, dualMove: false, collectValue: 0 }, ai: { resistanceToSorcery: 0 }, sounds: {} },
+      {
+        id: 'enemy-a',
+        name: 'name.enemy-a',
+        battleSprite: 'battle.enemy',
+        yPosOffset: 0,
+        stats: {
+          health: 1,
+          level: 1,
+          exp: 0,
+          cash: 0,
+          attackStrength: 1,
+          magicStrength: 1,
+          defense: 1,
+          dexterity: 1,
+          fleeRate: 1,
+          physicalResistance: 0,
+          poisonResistance: 0,
+          elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+          dualMove: false,
+          collectValue: 0,
+        },
+        ai: { resistanceToSorcery: 0 },
+        sounds: {},
+      },
     ],
     enemyTeams: [{ id: 'team-a', slots: ['enemy-a'] }],
     poisons: [{ id: 9, name: '九号毒', curability: 'common', color: 0 }],
@@ -27,9 +86,27 @@ function state(): EditorState {
           id: 'main',
           label: '主要入口',
           scene: 's',
-          startWorld: { party: [], money: 0, inventory: [] },
+          startWorld: {
+            party: [],
+            money: 0,
+            inventory: [],
+            seedConditions: { hero: { poisonIds: [9] } },
+          },
         },
       ],
+    },
+    sharedScripts: {
+      poison: {
+        name: '施毒',
+        self: 'none',
+        body: [
+          {
+            kind: 'applyActorCondition',
+            actor: 'hero',
+            condition: { kind: 'poison', poisonId: 9 },
+          },
+        ],
+      },
     },
   } as unknown as EditorState
 }
@@ -46,9 +123,16 @@ describe('battle data delete commands', () => {
     const skill = new DeleteSkillCommand('skill-b')
     const withoutSkill = skill.apply(current)
     expect(withoutSkill.skills.map((entry) => entry.id)).toEqual(['skill-a'])
-    expect(skill.invert(withoutSkill).skills.map((entry) => entry.id)).toEqual(['skill-a', 'skill-b'])
+    expect(skill.invert(withoutSkill).skills.map((entry) => entry.id)).toEqual([
+      'skill-a',
+      'skill-b',
+    ])
 
-    const unreferenced = { ...current, enemyTeams: [], skills: [{ ...current.skills[0]!, effects: [] }] }
+    const unreferenced = structuredClone(current)
+    unreferenced.enemyTeams = []
+    unreferenced.skills = [{ ...current.skills[0]!, effects: [] }]
+    for (const entry of unreferenced.manifest.entryPoints) delete entry.startWorld.seedConditions
+    unreferenced.sharedScripts = {}
     const enemy = new DeleteEnemyCommand('enemy-a')
     const withoutEnemy = enemy.apply(unreferenced)
     expect(withoutEnemy.enemies).toEqual([])

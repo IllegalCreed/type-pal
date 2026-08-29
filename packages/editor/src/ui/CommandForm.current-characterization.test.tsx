@@ -51,7 +51,13 @@ const references: ScriptReferenceCatalog = {
   label: (_kind, id) => id,
 }
 
-function render(cmd: Command, onChange = vi.fn(), onOverride = vi.fn()) {
+function render(
+  cmd: Command,
+  onChange = vi.fn(),
+  onOverride = vi.fn(),
+  referenceCatalog = references,
+  actorDefinitions = actors,
+) {
   act(() => {
     root.render(
       <CommandForm
@@ -61,9 +67,9 @@ function render(cmd: Command, onChange = vi.fn(), onOverride = vi.fn()) {
         assetCatalog={{ version: 1, assets: {} }}
         audioResolver={{} as never}
         assetReader={{} as never}
-        actors={actors}
+        actors={actorDefinitions}
         battleSprites={[]}
-        references={references}
+        references={referenceCatalog}
         worldVariables={{
           a: { kind: 'flag', name: 'Alpha', description: '', initial: false },
           b: { kind: 'flag', name: 'Beta', description: '', initial: true },
@@ -227,6 +233,119 @@ describe('CommandForm commit characterization', () => {
       kind: 'setEntityState',
       entity: 'e4',
       state: 0,
+    })
+  })
+})
+
+describe('角色当前状态命令表单', () => {
+  const battlerActors: Record<string, ActorDef> = {
+    hero: {
+      ...actors.hero!,
+      battler: {
+        battleSprite: 'battle.hero',
+        baseStats: {
+          level: 1,
+          hp: 100,
+          maxHP: 100,
+          mp: 30,
+          maxMP: 30,
+          attack: 10,
+          defense: 10,
+          magicAttack: 10,
+          speed: 10,
+          luck: 10,
+        },
+        initialEquipment: {},
+        initialMagic: [],
+      },
+    },
+  }
+  const conditionReferences: ScriptReferenceCatalog = {
+    choices: (kind) =>
+      kind === 'actor'
+        ? [{ id: 'hero', name: '主角' }]
+        : kind === 'poison'
+          ? [{ id: '7', name: '赤毒' }]
+          : [],
+    has: (kind, id) => (kind === 'actor' && id === 'hero') || (kind === 'poison' && id === '7'),
+    label: (kind, id) =>
+      kind === 'actor' && id === 'hero'
+        ? '主角（hero）'
+        : kind === 'poison' && id === '7'
+          ? '赤毒（7）'
+          : `未知（${id}）`,
+  }
+
+  test('显示角色和毒名称，状态词表不开放死人专用傀儡', () => {
+    render(
+      { kind: 'applyActorCondition', actor: 'hero', condition: { kind: 'poison', poisonId: 7 } },
+      vi.fn(),
+      vi.fn(),
+      conditionReferences,
+      battlerActors,
+    )
+
+    expect(row('目标角色').textContent).toContain('主角（hero）')
+    expect(row('毒种').textContent).toContain('赤毒')
+    render(
+      {
+        kind: 'applyActorCondition',
+        actor: 'hero',
+        condition: { kind: 'status', status: 'protect', turns: 7 },
+      },
+      vi.fn(),
+      vi.fn(),
+      conditionReferences,
+      battlerActors,
+    )
+    openSelect('状态')
+    const statusOptions = [...document.querySelectorAll<HTMLElement>('[role="option"]')].map(
+      (option) => option.textContent,
+    )
+    expect(statusOptions.some((label) => label?.includes('护体'))).toBe(true)
+    expect(statusOptions.some((label) => label?.includes('傀儡'))).toBe(false)
+  })
+
+  test('切换类型重建 exact condition，不保留上一类型字段', () => {
+    const onChange = vi.fn()
+    render(
+      {
+        kind: 'applyActorCondition',
+        actor: 'hero',
+        condition: { kind: 'poisonResistance', amount: 8 },
+      },
+      onChange,
+      vi.fn(),
+      conditionReferences,
+      battlerActors,
+    )
+    chooseSelect('当前状态', '定时增益或减益')
+    expect(onChange).toHaveBeenLastCalledWith({
+      kind: 'applyActorCondition',
+      actor: 'hero',
+      condition: { kind: 'status', status: 'protect', turns: 7 },
+    })
+  })
+
+  test('清除命令明确区分指定毒、指定状态与全部临时毒抗', () => {
+    const onChange = vi.fn()
+    render(
+      {
+        kind: 'clearActorCondition',
+        actor: 'hero',
+        condition: { kind: 'status', status: 'protect' },
+      },
+      onChange,
+      vi.fn(),
+      conditionReferences,
+      battlerActors,
+    )
+    expect(row('状态').textContent).toContain('护体')
+    chooseSelect('清除状态', '全部临时毒抗')
+    expect(onChange).toHaveBeenLastCalledWith({
+      kind: 'clearActorCondition',
+      actor: 'hero',
+      condition: { kind: 'poisonResistance' },
     })
   })
 })

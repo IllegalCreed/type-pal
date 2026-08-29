@@ -123,7 +123,7 @@ async function battleBaseSounds(
   teamId: string,
   choreography: readonly unknown[] = [],
 ): Promise<Set<AssetId>> {
-  const world = buildWorld(start, project.actorsById)
+  const world = buildWorld(start, project.actorsById, project.worldVariables, project.poisonsById)
   const sounds = await collectBattleBaseSounds({
     playerSounds: world.party.map(
       (character) => project.actorsById[character.template]?.battler?.sounds,
@@ -251,7 +251,7 @@ function fullLoadActions(skillIds: readonly string[], items: readonly ItemData[]
 }
 
 function effectiveSkillIds(start: StartWorld, learnedSkills?: Record<string, string[]>): string[] {
-  const world = buildWorld(start, project.actorsById)
+  const world = buildWorld(start, project.actorsById, project.worldVariables, project.poisonsById)
   if (learnedSkills)
     world.learnedSkills = Object.fromEntries(
       Object.entries(learnedSkills).map(([actorId, skillIds]) => [actorId, [...skillIds]]),

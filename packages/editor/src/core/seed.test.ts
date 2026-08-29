@@ -6,7 +6,7 @@ import { buildBlankProject, enumerateSeedFiles, relativizeManifest } from './see
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 18,
+  contentVersion: 19,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: {
@@ -116,7 +116,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
-    expect(m.contentVersion).toBe(18)
+    expect(m.contentVersion).toBe(19)
     expect(m.content.worldVariables).toBe('content/world-variables.json')
     expect(files['content/world-variables.json']).toEqual({})
     expect(m.minimumSaveVersion).toBe(8)
