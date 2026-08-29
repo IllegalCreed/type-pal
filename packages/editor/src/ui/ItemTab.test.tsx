@@ -296,6 +296,16 @@ describe('ItemTab', () => {
         section.classList.contains('ds-workbench-section'),
       ),
     ).toBe(true)
+    const capabilitySwitches = [
+      ...host.querySelectorAll<HTMLInputElement>('.item-capability-card input[role="switch"]'),
+    ]
+    expect(capabilitySwitches).toHaveLength(3)
+    expect(capabilitySwitches.map((control) => control.closest('label')?.textContent)).toEqual([
+      '启用装备能力',
+      '启用使用能力',
+      '启用投掷能力',
+    ])
+    expect(host.querySelector('.item-capability-card .ds-check-label')).toBeNull()
     expect(host.querySelector('.item-card-heading')).toBeNull()
     expect(
       [...host.querySelectorAll('.item-base-section-heading h4')].map(
@@ -796,7 +806,7 @@ describe('ItemTab', () => {
     await act(async () => root.render(<Harness session={session} />))
 
     const presentationSwitch = host.querySelector<HTMLInputElement>(
-      'input[role="switch"]',
+      '.item-throw-presentation input[role="switch"]',
     )!
     expect(presentationSwitch.closest('label')?.textContent).toContain('法术特效演出')
     expect(presentationSwitch.closest('.item-effect-subhead')?.querySelector('strong')).toBeNull()

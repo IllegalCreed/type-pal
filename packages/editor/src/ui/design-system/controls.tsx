@@ -2179,6 +2179,10 @@ export function DsSelectField(props: DsFieldChromeProps & Omit<DsSelectProps, 'i
   )
 }
 
+/**
+ * Selects membership or one boolean condition within a form/group.
+ * Independent, immediately applied feature enablement belongs to DsSwitch instead.
+ */
 export function DsCheckbox(
   props: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className' | 'style' | 'size'> & {
     label: ReactNode
@@ -2241,14 +2245,19 @@ export function DsRadioGroup(props: {
   )
 }
 
+/**
+ * Enables or disables one independent setting immediately.
+ * Keep `label` stable and self-describing; never reduce it to state-only copy such as “已启用”.
+ */
 export function DsSwitch(
   props: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className' | 'style'> & {
     label: ReactNode
+    className?: string
   },
 ) {
-  const { label, ...inputProps } = props
+  const { label, className, ...inputProps } = props
   return (
-    <label className="ds-switch-label">
+    <label className={classes('ds-switch-label', className)}>
       <input
         {...inputProps}
         type="checkbox"

@@ -1601,9 +1601,9 @@ export function ItemTab(props: {
                 title="装备能力"
                 description="决定装备槽、可装备角色及实时派生效果。"
                 actions={
-                  <DsCheckbox
+                  <DsSwitch
                     className="item-capability-toggle"
-                    label={equip ? '已启用' : '启用装备'}
+                    label="启用装备能力"
                     checked={!!equip}
                     onChange={(event) =>
                       patchEquip(
@@ -1795,9 +1795,9 @@ export function ItemTab(props: {
                 title="使用能力"
                 description="可组合回复、状态、剧情脚本、场景出口、合成和资源池等现代化效果。"
                 actions={
-                  <DsCheckbox
+                  <DsSwitch
                     className="item-capability-toggle"
-                    label={item.use ? '已启用' : '启用使用'}
+                    label="启用使用能力"
                     checked={!!item.use}
                     onChange={(event) => (event.target.checked ? enableUse() : patchUse(undefined))}
                   />
@@ -1851,9 +1851,9 @@ export function ItemTab(props: {
                 title="投掷能力"
                 description="用于战斗中的投掷效果与命中特效；与“使用”能力可同时存在。"
                 actions={
-                  <DsCheckbox
+                  <DsSwitch
                     className="item-capability-toggle"
-                    label={item.throw ? '已启用' : '启用投掷'}
+                    label="启用投掷能力"
                     checked={!!item.throw}
                     onChange={(event) =>
                       event.target.checked ? enableThrow() : patch({ throw: undefined })

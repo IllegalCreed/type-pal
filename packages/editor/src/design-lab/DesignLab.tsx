@@ -274,10 +274,10 @@ function FormMatrix() {
           </DsField>
         </div>
       </DsCard>
-      <DsCard title="布尔与单选状态">
+      <DsCard title="选择、独立开关与单选状态">
         <div className="lab-stack">
           <DsCheckbox
-            label="普通复选框"
+            label="加入批量导出"
             checked={checked}
             onChange={(event) => setChecked(event.currentTarget.checked)}
           />
@@ -294,7 +294,7 @@ function FormMatrix() {
             onChange={setRadio}
           />
           <DsSwitch
-            label="即时预览"
+            label="显示即时预览"
             checked={checked}
             onChange={(event) => setChecked(event.currentTarget.checked)}
           />

@@ -402,14 +402,15 @@ describe('editor design-system static boundary', () => {
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.19.0'")
-    expect(tokens).toContain('--ds-version: "2.19.0";')
-    expect(specification).toContain('Status: implemented v2.19.0')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.20.0'")
+    expect(tokens).toContain('--ds-version: "2.20.0";')
+    expect(specification).toContain('Status: implemented v2.20.0')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
     expect(specification).toContain('ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）')
     expect(specification).toContain('ED-TEXT-OVERFLOW-1（v2.18.0）')
+    expect(specification).toContain('DS-C.5b Checkbox、Switch 与状态按钮语义边界')
     expect(primitives).toMatch(
       /\.ds-add-picker-dialog \.ds-overlay__body\s*\{[\s\S]*?overflow:\s*hidden;/,
     )
@@ -426,6 +427,15 @@ describe('editor design-system static boundary', () => {
       expect(source, file).toMatch(/<DsCheckbox\b/)
       expect(source, file).not.toMatch(/\btype\s*=\s*["']checkbox["']/)
     }
+  })
+
+  test('keeps item capability enablement on stable, self-describing switches', () => {
+    const itemTab = readFileSync(join(dirname(here), 'ItemTab.tsx'), 'utf8')
+    for (const label of ['启用装备能力', '启用使用能力', '启用投掷能力'])
+      expect(itemTab).toContain(
+        `<DsSwitch\n                    className="item-capability-toggle"\n                    label="${label}"`,
+      )
+    expect(itemTab).not.toMatch(/label=\{[^}]*\?\s*['"]已启用['"]/)
   })
 
   test('keeps all control tooltips on the shared portal layer instead of business positioning', () => {

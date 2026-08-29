@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.19.0 effect editor card hierarchy（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.20.0 boolean control semantics（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-29
+Last updated: 2026-08-30
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -632,6 +632,28 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   `{file,line,rule,owner,reason,verification,removalCondition}` 七字段；未登记的连续控件
   `onChange -> dispatch/项目 patch` 由静态门禁拒绝。
 
+#### DS-C.5b Checkbox、Switch 与状态按钮语义边界（v2.20.0）
+
+三者外观不得由业务页自由互换，必须先按用户任务判定语义：
+
+| 用户任务 | 唯一控件 | 判断标准 | 正例 |
+|---|---|---|---|
+| 开启 / 关闭一个独立功能或显示设置 | `DsSwitch` | 二元状态独立存在，切换后立即生效，不属于一组选项 | `法术特效演出`、`显示网格`、`循环播放` |
+| 选择是否包含某项或勾选并列条件 | `DsCheckbox` | 是多选、批量选择、成员资格或表单中的一个布尔条件；可以需要半选态 | `可装备角色`、`成功后消耗`、`仅战斗可用` |
+| 临时激活工具、视图或模式 | 具有 `aria-pressed` 的状态按钮 / 既有 tab、segmented control | 用户是在选择当前工具或视图，不是在编辑持久布尔值 | `画笔工具`、`碰撞显示模式` |
+
+- 判断顺序固定：需要多选或 `indeterminate` 时必须使用 Checkbox；否则，独立且即时生效的开 / 关功能必须
+  使用 Switch；临时工具或视图状态不得伪装成 Checkbox 或 Switch。
+- Switch 的标签必须稳定描述它控制的功能，开关状态由轨道位置和 `aria-checked` 表达。禁止在同一控件上根据
+  状态切换 `启用投掷` / `已启用`，也禁止只写没有对象的 `已启用`、`开启`、`关闭`。
+- Checkbox 的标签必须是一项可以读成“是否选择 / 包含 X”的命题。禁止把 Checkbox 做成启停整张功能卡的
+  按钮，也禁止仅为追求某种外观而在 Checkbox 与 Switch 之间替换。
+- 启停整项能力并立即展开 / 收起其配置时使用 Switch，并写完整稳定标签，例如 `启用投掷能力`。若关闭会
+  丢弃非默认配置，必须由同一编辑会话提供可见的 undo，或改用明确的危险动作与确认；不得静默清空后又把它
+  表达成无后果的普通选择。
+- 同一语义在所有页面必须使用同一 primitive。代码审查至少核对 DOM role、稳定标签、Space 键切换、完整
+  命中区和 disabled/focus 状态；业务 CSS 不得把 `.ds-check-label` 重新绘制成 Switch 或状态按钮。
+
 ### DS-C.6 选择控件、选择器与引用卡
 
 - 单选固定短枚举使用统一 `Select`；需要搜索或展示“名称 + 稳定 id”的长列表使用 `Combobox`；不得用
@@ -992,7 +1014,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-05 | DPR 1/2 Media | 控件尺寸不变，canvas 像素清晰 | DPR 边界 |
 | RF-06 | 长中英文/id/path | 标签不逐字换行；完整值可达/复制 | i18n/长文本 |
 | RF-07 | 空/过滤空/缺引用/加载失败 | 四种状态文案与动作不同，无白屏 | 恢复能力 |
-| RF-08 | 11 状态组件集 + 通用表单控件矩阵 | Button/Input/Select/MultiSelect/Checkbox/Radio/Switch 的 focus/open/selected/indeterminate/error/disabled/readonly 可区分；单/多选键盘与焦点返回正确 | 状态与表单合同 |
+| RF-08 | 11 状态组件集 + 通用表单控件矩阵 | Button/Input/Select/MultiSelect/Checkbox/Radio/Switch 的 focus/open/selected/indeterminate/error/disabled/readonly 可区分；Checkbox 明确表达成员选择，Switch 明确表达独立即时设置，稳定标签、DOM role、Space 键与焦点返回正确 | 状态、表单与 DS-C.5b 布尔语义合同 |
 | RF-09 | 无图/宽图/高图/透明图 + surface hierarchy | 中央 workspace 最深；panel/card/input 层级依次抬高；checkerboard/plain-dark/black/grid 四模式正确，fit/1:1/pan/reset/背景切换正常 | Surface/媒体合同 |
 | RF-10 | 500+ 对象列表 | DOM/延迟预算通过，选择和过滤稳定 | G3 性能 |
 | RF-11 | Script tree/form | 三档布局、树键盘、错误聚焦、未提交保护 | Script recipe |

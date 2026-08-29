@@ -835,7 +835,7 @@ describe('editor design-system controls', () => {
     await act(async () =>
       root.render(
         <>
-          <DsCheckbox label="已启用" checked readOnly />
+          <DsCheckbox label="加入批量导出" checked readOnly />
           <DsCheckbox label="部分选择" indeterminate />
           <DsCheckbox label="紧凑选择" size="compact" />
           <DsRadioGroup
@@ -848,7 +848,7 @@ describe('editor design-system controls', () => {
             ]}
             onChange={onRadio}
           />
-          <DsSwitch label="即时预览" checked readOnly />
+          <DsSwitch className="preview-switch" label="显示即时预览" checked readOnly />
         </>,
       ),
     )
@@ -868,7 +868,12 @@ describe('editor design-system controls', () => {
     expect(radios.map((radio) => radio.checked)).toEqual([true, false])
     await click(radios[1]!)
     expect(onRadio).toHaveBeenCalledWith('floating')
-    expect(host.querySelector<HTMLInputElement>('[role="switch"]')?.checked).toBe(true)
+    const previewSwitch = host.querySelector<HTMLInputElement>('[role="switch"]')!
+    expect(previewSwitch.checked).toBe(true)
+    expect(previewSwitch.closest('label')).toHaveProperty(
+      'className',
+      expect.stringContaining('preview-switch'),
+    )
   })
 
   test('keeps form shells, labels and trailing actions on the shared size contract', async () => {
