@@ -953,13 +953,8 @@
 }
 
 .ds-inspector-readonly {
-  display: block;
-  min-width: 0;
-  overflow: hidden;
   color: var(--ds-text-secondary);
   font: var(--ds-font-code);
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .ds-object-workspace {

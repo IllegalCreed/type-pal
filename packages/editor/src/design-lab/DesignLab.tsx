@@ -29,6 +29,7 @@ import {
   DsNumberFieldGrid,
   DsNumberInput,
   type DsOption,
+  DsOverflowText,
   DsPropertyGrid,
   DsPropertyRow,
   DsRadioGroup,
@@ -71,6 +72,14 @@ const FORM_OPTIONS: DsOption[] = [
   { value: 'lin-yueru', label: '林月如', description: 'lin-yueru' },
   { value: 'missing', label: '缺失引用', description: 'actor.missing', disabled: true },
 ]
+
+const OVERFLOW_TEXT_FIXTURES = {
+  chinese20: '这是用于验证截断披露的二十个中文字符样例',
+  ascii40: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn',
+  id64: 'sprite.pal.0123456789abcdef0123456789abcdef0123456789abcdef01234',
+  path120:
+    'assets/migrated/sprites/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab.png',
+} as const
 
 const MODULE_MENUS: DsMenuDefinition[] = [
   { id: 'file', label: '文件', items: [{ id: 'save', label: '保存', shortcut: '⌘S' }] },
@@ -290,6 +299,64 @@ function FormMatrix() {
             onChange={(event) => setChecked(event.currentTarget.checked)}
           />
         </div>
+      </DsCard>
+    </div>
+  )
+}
+
+function OverflowTextFixture() {
+  const [wide, setWide] = useState(false)
+  return (
+    <div className="lab-overflow-grid">
+      <DsCard title="截断与完整值披露">
+        <div className="lab-overflow-samples">
+          <div className="lab-overflow-row">
+            <span>短值（不应出现提示）</span>
+            <div className="lab-overflow-value lab-overflow-value--narrow">
+              <DsOverflowText>李逍遥</DsOverflowText>
+            </div>
+          </div>
+          <div className="lab-overflow-row">
+            <span>20 个中文字符</span>
+            <div className="lab-overflow-value lab-overflow-value--narrow">
+              <DsOverflowText>{OVERFLOW_TEXT_FIXTURES.chinese20}</DsOverflowText>
+            </div>
+          </div>
+          <div className="lab-overflow-row">
+            <span>40 个 ASCII 字符</span>
+            <div className="lab-overflow-value lab-overflow-value--narrow">
+              <DsOverflowText as="code">{OVERFLOW_TEXT_FIXTURES.ascii40}</DsOverflowText>
+            </div>
+          </div>
+          <div className="lab-overflow-row">
+            <span>64 字符 ID</span>
+            <div className="lab-overflow-value lab-overflow-value--narrow">
+              <DsOverflowText as="code">{OVERFLOW_TEXT_FIXTURES.id64}</DsOverflowText>
+            </div>
+          </div>
+          <div className="lab-overflow-row">
+            <span>120 字符路径</span>
+            <div className="lab-overflow-value lab-overflow-value--narrow">
+              <DsOverflowText as="code">{OVERFLOW_TEXT_FIXTURES.path120}</DsOverflowText>
+            </div>
+          </div>
+        </div>
+      </DsCard>
+      <DsCard title="容器宽度变化">
+        <p className="lab-card-description">
+          同一个文本实例在宽、窄容器间切换，不重新挂载。
+        </p>
+        <div
+          className={`lab-overflow-value ${
+            wide ? 'lab-overflow-value--wide' : 'lab-overflow-value--narrow'
+          }`}
+          data-width={wide ? 'wide' : 'narrow'}
+        >
+          <DsOverflowText as="code">{OVERFLOW_TEXT_FIXTURES.ascii40}</DsOverflowText>
+        </div>
+        <DsButton onClick={() => setWide((value) => !value)}>
+          {wide ? '切换为窄容器' : '切换为宽容器'}
+        </DsButton>
       </DsCard>
     </div>
   )
@@ -1150,7 +1217,7 @@ function FixtureBody(props: { fixture: string }) {
     case 'RF-05':
       return <ShellFixture kind="media" />
     case 'RF-06':
-      return <FormMatrix />
+      return <OverflowTextFixture />
     case 'RF-07':
       return (
         <div className="lab-card-grid">

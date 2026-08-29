@@ -125,7 +125,6 @@ body {
   gap: 4px 10px;
   min-height: 40px;
   padding: 4px 12px;
-  white-space: nowrap;
   background: var(--panel);
   border-bottom: 1px solid var(--line);
 }
@@ -133,7 +132,6 @@ body {
   font-weight: 600;
   min-width: 0;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 .topbar .proj .kind {
   color: var(--dim);
@@ -495,7 +493,6 @@ html[data-panel-resize="horizontal"] * {
   border-bottom: 0;
   font: inherit;
   text-align: left;
-  white-space: nowrap;
 }
 .module-nav-icon {
   display: grid;
@@ -507,10 +504,8 @@ html[data-panel-resize="horizontal"] * {
 }
 .module-nav-label {
   min-width: 0;
-  overflow: hidden;
   font-size: 12px;
   font-weight: 600;
-  text-overflow: ellipsis;
 }
 .module-nav-item:hover,
 .module-nav-toggle:hover {
@@ -585,7 +580,6 @@ html[data-panel-resize="horizontal"] * {
   font: inherit;
   font-size: 11px;
   text-align: center;
-  white-space: nowrap;
 }
 .module-subnav-item:hover {
   color: var(--fg);
@@ -605,8 +599,7 @@ html[data-panel-resize="horizontal"] * {
 }
 .linked-control > .in,
 .linked-control > .ds-control-group__control,
-.linked-control > .map-file,
-.linked-value > span:first-child {
+.linked-control > .map-file {
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -689,8 +682,7 @@ html[data-panel-resize="horizontal"] * {
   gap: 10px;
   padding: 9px 12px;
 }
-.outliner > .pane-h > .k,
-.catalog-count {
+.outliner > .pane-h > .k {
   flex: none;
   padding: 3px 7px;
   border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
@@ -1051,7 +1043,6 @@ html[data-panel-resize="horizontal"] * {
   display: flex;
   align-items: center;
   flex: none;
-  white-space: nowrap;
   gap: 5px;
   background: transparent;
   border: 1px solid transparent;
@@ -1100,7 +1091,6 @@ html[data-panel-resize="horizontal"] * {
 }
 .vtog {
   flex: none;
-  white-space: nowrap;
 }
 .bright {
   display: flex;
@@ -2605,7 +2595,6 @@ html[data-panel-resize="horizontal"] * {
   color: #9cc4ff;
   /* 徽章是短标签:长名行里禁被挤竖(响应式三件套,见 .toolbar 注) */
   flex: none;
-  white-space: nowrap;
 }
 .abadge.npc {
   background: #3a4256;
@@ -2988,19 +2977,15 @@ html[data-panel-resize="horizontal"] * {
   background: var(--accent);
 }
 .casualty-slot-tabs > button > span {
-  overflow: hidden;
   font-size: 12px;
   font-weight: 650;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .casualty-slot-tabs > button > small {
   grid-column: 1;
-  overflow: hidden;
   color: var(--faint);
   font-size: 10px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .casualty-slot-tabs > button > em {
   grid-column: 2;
@@ -4645,10 +4630,7 @@ html[data-panel-resize="horizontal"] * {
 }
 .stamp-readonly {
   min-height: 27px;
-  overflow: hidden;
   color: var(--dim);
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .stamp-resource-link {
   display: flex;
@@ -4855,11 +4837,8 @@ html[data-panel-resize="horizontal"] * {
   font-size: 12px;
 }
 .stamp-draft-palette > header span {
-  overflow: hidden;
   color: var(--faint);
   font-size: 9px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .stamp-draft-stage-scroll {
   min-height: 0;
@@ -5421,9 +5400,6 @@ html[data-panel-resize="horizontal"] * {
 }
 .sprite-upload-kind-options .ds-button {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .sprite-upload-readout {
   display: flex;
@@ -6263,7 +6239,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   padding-top: 5px;
 }
 .semantic-frame-row-label b,
-.semantic-frame-row-label button,
 .semantic-frame-row-label span {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -6616,7 +6591,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: 100%;
 }
 .pv-btn {
-  white-space: nowrap;
   font-size: 12px;
   padding: 2px 10px;
   background: var(--bg);
@@ -7494,15 +7468,12 @@ button.sprite-frame-cell[draggable="true"]:active {
   min-width: 0;
 }
 .asset-music-table td.mono {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .asset-music-table .music-actions {
   display: flex;
   align-items: center;
   gap: 5px;
-  white-space: nowrap;
 }
 .asset-music-table tbody tr {
   cursor: pointer;
@@ -8365,7 +8336,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 .cf-segment button {
   min-width: 0;
   padding: 5px 6px;
-  overflow: hidden;
   border: 0;
   border-right: 1px solid var(--line);
   background: var(--panel2);
@@ -8373,8 +8343,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   cursor: pointer;
   font: inherit;
   font-size: 11px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .cf-segment button:last-child {
   border-right: 0;
@@ -8768,10 +8736,8 @@ button.sprite-frame-cell[draggable="true"]:active {
   overflow: hidden;
 }
 .sprite-image-viewer-title strong {
-  overflow: hidden;
   font-size: 13px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .sprite-image-viewer-title span {
   flex: none;
@@ -9651,9 +9617,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 .item-workbench-empty .tool {
   width: auto;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .tool.danger,
 .mini.danger {
@@ -9700,13 +9663,11 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex: none;
   max-width: 42%;
   padding: 3px 7px;
-  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--dim);
   font-size: 9px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .item-capability-toggle,
 .item-inline-check {
@@ -10182,9 +10143,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: auto;
   min-width: 0;
   min-height: 32px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .item-recipe {
   display: grid;
@@ -10892,7 +10850,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   cursor: pointer;
   font-size: 12px;
   line-height: 1;
-  white-space: nowrap;
 }
 .mini-txt:hover {
   border-color: var(--acc);
@@ -10922,7 +10879,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: #72c894;
   font-size: 11px;
   font-weight: 700;
-  white-space: nowrap;
 }
 .mini-txt:disabled {
   opacity: 0.4;
@@ -11207,9 +11163,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 .map-asset-name,
 .map-asset-id {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .map-asset-name {
   font-size: 12px;
@@ -11406,9 +11360,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .scene-map-actions > .ds-button {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .map-kind-label {
   flex: none;
@@ -11658,9 +11609,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   max-width: 100%;
 }
 .map-stamp-palette-actions .ds-button > span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .stamp-placement-inspector {
   min-width: 0;
@@ -11678,20 +11627,16 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .stamp-placement-head h4 {
   margin: 4px 0 2px;
-  overflow: hidden;
   color: var(--fg);
   font-size: 15px;
-  text-overflow: ellipsis;
   text-transform: none;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .stamp-placement-head code {
   display: block;
-  overflow: hidden;
   color: var(--faint);
   font: 9px / 1.3 var(--mono);
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .stamp-placement-metrics {
   display: grid;
@@ -11768,9 +11713,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .stamp-mapping-list strong,
 .stamp-mapping-list small {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .stamp-mapping-list strong {
   color: var(--fg);
@@ -11790,7 +11733,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: auto;
   min-width: 61px;
   padding-inline: 6px;
-  white-space: nowrap;
 }
 .stamp-placement-status {
   margin: 0 10px 6px;
@@ -11824,11 +11766,9 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .stamp-placement-anchor {
   margin: 0 12px 8px;
-  overflow: hidden;
   color: var(--faint);
   font-size: 8px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .stamp-placement-actions {
   display: flex;
@@ -12120,7 +12060,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: 36px;
   min-width: 36px;
   padding-inline: 5px;
-  white-space: nowrap;
 }
 .map-selection-notice {
   margin: var(--ds-space-5) var(--ds-space-6);
@@ -12201,9 +12140,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: 100%;
   min-width: 0;
   justify-content: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .stamp-group-edit-summary p {
   margin: 6px 0 0;
@@ -12548,11 +12484,9 @@ button.sprite-frame-cell[draggable="true"]:active {
   background: color-mix(in srgb, var(--accent) 9%, var(--panel));
 }
 .script-reference-list li code {
-  overflow: hidden;
   color: var(--dim);
   font-size: 9px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .script-selection {
   display: grid;
@@ -12735,10 +12669,8 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .canonical-script-modal-heading strong {
   min-width: 0;
-  overflow: hidden;
   font-size: 13px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .canonical-script-modal-body {
   min-width: 0;

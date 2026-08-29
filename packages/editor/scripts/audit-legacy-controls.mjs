@@ -1,12 +1,17 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { printAdoptionMatrix, runDesignSystemGate } from './design-system-audit.mjs'
+import {
+  printAdoptionMatrix,
+  printTextOverflowAdoptionDraft,
+  runDesignSystemGate,
+} from './design-system-audit.mjs'
 
 const mode = process.argv[2]
 
 if (mode === '--gate') process.exitCode = runDesignSystemGate()
 else if (mode === '--matrix') process.exitCode = printAdoptionMatrix()
+else if (mode === '--text-overflow-matrix') process.exitCode = printTextOverflowAdoptionDraft()
 else {
   const root = join(dirname(fileURLToPath(import.meta.url)), '../src/ui')
 

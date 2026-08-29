@@ -48,6 +48,7 @@ import {
   DsField,
   DsIconButton,
   DsListHeader,
+  DsOverflowText,
   DsSelect,
   DsTabs,
   DsTag,
@@ -1182,9 +1183,9 @@ function ActorInspector(props: {
                         {battler ? '可入队 / 可参战' : 'NPC / 剧情角色'}
                       </DsPropertyRow>
                       <DsPropertyRow label="名称 ID">
-                        <code className="ds-inspector-readonly" translate="no">
+                        <DsOverflowText as="code" className="ds-inspector-readonly" translate="no">
                           {actor.name}
-                        </code>
+                        </DsOverflowText>
                       </DsPropertyRow>
                       <DsPropertyRow label="大世界精灵">
                         <span className="actor-inspector-linked-value">

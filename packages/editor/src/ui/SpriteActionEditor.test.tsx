@@ -86,6 +86,9 @@ describe('SpriteActionEditor field commit boundary', () => {
     )
     expect(host.querySelector<HTMLInputElement>('[name="sprite-action-name"]')!.disabled).toBe(true)
     expect(host.querySelector<HTMLInputElement>('[id$="-duration"]')!.disabled).toBe(true)
+    const actionId = host.querySelector<HTMLElement>('.ds-overflow-text.ds-inspector-readonly')
+    expect(actionId?.tagName).toBe('CODE')
+    expect(actionId?.textContent).toBe('idle')
   })
 
   test('dispatch noop resyncs the field and a later valid definition commits once', async () => {

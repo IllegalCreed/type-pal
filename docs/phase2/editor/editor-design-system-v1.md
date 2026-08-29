@@ -2,7 +2,7 @@
 
 Status: implemented v2.19.0 effect editor card hierarchy（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -897,7 +897,12 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 ### DS-A.2 长文本与国际化
 
 - Fixtures 必须使用至少：20 个汉字名称、40 字符英文、64 字符 id、120 字符路径。
-- 中文标签不逐字换行；英文/id 允许在语义边界换行或中间省略，并提供完整值。
+- 中文标签不逐字换行；需单行展示的名称、ID、路径和 hash 只有在真实发生截断时，
+  才可通过 `DsOverflowText` 的鼠标悬浮与键盘聚焦披露同一完整值；未截断时不增加提示或 Tab 停靠点。
+- 源 DOM 必须保留完整、可选择复制的文本；禁止用 JS `slice()` 预截断，禁止用无条件 native `title`
+  代替真实 overflow 测量。
+- 按钮、菜单、Tab 和导航命令不得用省略号掩盖宽度问题；帮助、错误和需阅读的说明必须换行完整展示。
+- 大型目录、Select 与 Add Picker 不得为每行常驻一个 `ResizeObserver`；完整值由惰性提示或已选详情披露。
 - UI 不依赖固定字数、英文大小写或全角/半角字符定位。
 - 数字、百分比、时长和文件大小使用一致格式；字段单位不得只写在 placeholder。
 

@@ -287,6 +287,9 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
     await verifyInspectorTabs(host, '角色检查器', ['摘要', /^引用 \d+$/])
     expect(host.querySelector('[role="group"][aria-label="角色编辑分区"]')).toBeNull()
     expect(host.querySelector('.actor-summary-panel')?.textContent).not.toContain('编辑分区')
+    const nameId = host.querySelector<HTMLElement>('.ds-overflow-text.ds-inspector-readonly')
+    expect(nameId?.tagName).toBe('CODE')
+    expect(nameId?.textContent).toBe(session.getState().actors[0]?.name)
   })
 
   test('默认主工作区是角色总览；行走帧只在外观资源分区出现', async () => {

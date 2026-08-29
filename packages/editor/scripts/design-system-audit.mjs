@@ -10,6 +10,7 @@ const repositoryRoot = join(packageRoot, '../..')
 const uiRoot = join(packageRoot, 'src/ui')
 const allowlistPath = join(uiRoot, 'design-system/design-system-allowlist.json')
 const adoptionPath = join(uiRoot, 'design-system/design-system-adoption.json')
+const textOverflowAdoptionPath = join(uiRoot, 'design-system/text-overflow-adoption.json')
 const effectCardAdoptionPath = join(uiRoot, 'design-system/effect-card-adoption.json')
 const navigationPath = join(uiRoot, 'editor-navigation.ts')
 const dataModePath = join(uiRoot, 'DataMode.tsx')
@@ -34,6 +35,32 @@ const legacyTokens = new Set([
   'mini-icon',
   'media-zoom-controls',
 ])
+
+const textOverflowCssSources = [
+  'design-system/tokens.css',
+  'design-system/primitives.css',
+  'design-system/recipes.css',
+  'design-system/reorder.css',
+  'editor.css',
+  'design-system/form-scope.css',
+]
+const textOverflowPolicies = new Set([
+  'informational-truncate',
+  'selection-summary',
+  'command-label',
+  'compact-token',
+  'structural-nowrap',
+  'wrap-required',
+  'stale-css',
+])
+const textOverflowContentKinds = new Set([
+  'identifier-path-hash',
+  'selection-summary',
+  'command',
+  'compact-token',
+  'layout-structure',
+])
+const textOverflowReveals = new Set(['DsOverflowText', 'lazy', 'selected-detail', 'none'])
 
 function filesUnder(directory) {
   return readdirSync(directory).flatMap((entry) => {
@@ -3715,6 +3742,448 @@ export function deriveOverlayAdoptionTruth(overrides = {}) {
   )
 }
 
+function textOverflowCssConditionForRule(rule) {
+  if (!rule?.cssRules) return undefined
+  if (rule.constructor.name === 'CSSMediaRule') return `@media ${rule.conditionText}`
+  if (rule.constructor.name === 'CSSContainerRule') return `@container ${rule.conditionText}`
+  if (rule.constructor.name === 'CSSSupportsRule') return `@supports ${rule.conditionText}`
+  return undefined
+}
+
+/** CSSOM is the sole inventory source; selector arms are normalized by the specificity parser. */
+export function deriveTextOverflowCssCensus(overrides = {}) {
+  const entries = []
+  for (const [sourceOrder, source] of textOverflowCssSources.entries()) {
+    const css = readUiSource(source, overrides)
+    const dom = new JSDOM('<!doctype html><html><head><style></style></head><body></body></html>')
+    dom.window.document.querySelector('style').textContent = css
+    let ruleOrder = 0
+    const walk = (cssRules, conditionStack = []) => {
+      for (const rule of cssRules ?? []) {
+        if (typeof rule.selectorText === 'string') {
+          const declarations = []
+          if (rule.style.getPropertyValue('text-overflow').trim() === 'ellipsis')
+            declarations.push('text-overflow:ellipsis')
+          if (rule.style.getPropertyValue('white-space').trim() === 'nowrap')
+            declarations.push('white-space:nowrap')
+          if (!declarations.length) continue
+          ruleOrder += 1
+          const condition = conditionStack.length ? conditionStack.join(' && ') : 'default'
+          for (const specificity of Specificity.calculate(rule.selectorText))
+            entries.push({
+              source,
+              selectorText: specificity.selectorString(),
+              condition,
+              declarations,
+              specificity: specificity.toArray(),
+              sourceOrder,
+              ruleOrder,
+            })
+          continue
+        }
+        if (!rule.cssRules) continue
+        const condition = textOverflowCssConditionForRule(rule)
+        walk(rule.cssRules, condition ? [...conditionStack, condition] : conditionStack)
+      }
+    }
+    walk(dom.window.document.styleSheets[0]?.cssRules)
+    dom.window.close()
+  }
+  return entries.sort(
+    (left, right) =>
+      left.source.localeCompare(right.source) ||
+      left.condition.localeCompare(right.condition) ||
+      left.selectorText.localeCompare(right.selectorText),
+  )
+}
+
+let canonicalTextOverflowRouteTruth
+
+function textOverflowRouteTruth(overrides = {}) {
+  const hasRouteOverrides = Object.keys(overrides).some(
+    (source) => source.endsWith('.tsx') || source === 'editor-navigation.ts',
+  )
+  if (!hasRouteOverrides && canonicalTextOverflowRouteTruth) return canonicalTextOverflowRouteTruth
+  const registry = registeredSubpages(overrides['editor-navigation.ts'])
+  const projectRoots = projectPageDispatchRoots(overrides['ProjectWorkbenchTab.tsx'])
+  const dataRoots = dataModeDispatchRoots(overrides['DataMode.tsx'])
+  const workspaceRoots = appWorkspaceDispatchRoots(overrides)
+  const manifest = productionSources()
+    .map((source) => relative(uiRoot, source))
+    .join('\n')
+  const callsites = new Set()
+  const components = new Set()
+  const canonicalDesignSystemTags = new Set()
+  const visitedSources = new Set()
+  const roots = [
+    ...registry.flatMap((entry) =>
+      canonicalFieldRoots(entry, projectRoots, dataRoots, workspaceRoots),
+    ),
+    { source: 'App.tsx', component: 'App' },
+    { source: 'ProjectPicker.tsx', component: 'ProjectPicker' },
+  ]
+  const importQueue = [...new Set(roots.map((root) => root.source))]
+  const importedSources = new Set()
+  while (importQueue.length) {
+    const sourcePath = importQueue.shift()
+    if (!sourcePath || importedSources.has(sourcePath)) continue
+    importedSources.add(sourcePath)
+    let source
+    try {
+      source = ts.createSourceFile(
+        sourcePath,
+        readUiSource(sourcePath, overrides),
+        ts.ScriptTarget.Latest,
+        true,
+        ts.ScriptKind.TSX,
+      )
+    } catch {
+      continue
+    }
+    for (const statement of source.statements) {
+      if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier))
+        continue
+      const specifier = statement.moduleSpecifier.text
+      if (!specifier.startsWith('./') || !specifier.endsWith('.js')) continue
+      const target = join(dirname(sourcePath), `${specifier.slice(2, -3)}.tsx`)
+      if (target.startsWith('design-system/')) continue
+      if (
+        overrides[target] === undefined &&
+        !statSync(join(uiRoot, target), { throwIfNoEntry: false })
+      )
+        continue
+      importQueue.push(target)
+    }
+  }
+  for (const source of importedSources) visitedSources.add(source)
+  const seenRoots = new Set()
+  for (const root of roots) {
+      const rootIdentity = `${root.source}@${root.component}#${root.initialNode?.pos ?? 'root'}`
+      if (seenRoots.has(rootIdentity)) continue
+      seenRoots.add(rootIdentity)
+      const reachable = cachedReachableJsxOwners(root.source, root.component, {
+        initialNode: root.initialNode,
+        manifest,
+        overrides,
+      })
+      for (const source of reachable.visitedSources) visitedSources.add(source)
+      for (const element of reachable.elements ?? [])
+        {
+          components.add(`${element.source}@${element.component}`)
+          if (element.governed && element.tag.startsWith('Ds'))
+            canonicalDesignSystemTags.add(element.tag)
+        }
+      for (const callsite of reachable.callsites ?? [])
+        callsites.add(`${callsite.source}@${callsite.component}#${callsite.callsite}`)
+  }
+  const result = { callsites, components, canonicalDesignSystemTags, visitedSources }
+  if (!hasRouteOverrides) canonicalTextOverflowRouteTruth = result
+  return result
+}
+
+function staticTokenValues(node) {
+  if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node))
+    return node.text.split(/\s+/).filter(Boolean)
+  if (ts.isTemplateHead(node) || ts.isTemplateMiddle(node) || ts.isTemplateTail(node))
+    return node.text.split(/\s+/).filter(Boolean)
+  return []
+}
+
+const textOverflowProducerFactsCache = new Map()
+
+function textOverflowProducerFacts(sourcePath, overrides = {}) {
+  let content
+  try {
+    content = readUiSource(sourcePath, overrides)
+  } catch {
+    return undefined
+  }
+  const cached = textOverflowProducerFactsCache.get(sourcePath)
+  if (cached?.content === content) return cached.facts
+  const source = ts.createSourceFile(
+    sourcePath,
+    content,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  )
+  const componentTokens = new Map()
+  const allTokens = new Set()
+  const visit = (node) => {
+    const tokens = staticTokenValues(node)
+    if (tokens.length) {
+      const component = enclosingNamedComponent(node)
+      if (component) {
+        const owned = componentTokens.get(component) ?? new Set()
+        for (const token of tokens) {
+          owned.add(token)
+          allTokens.add(token)
+        }
+        componentTokens.set(component, owned)
+      } else for (const token of tokens) allTokens.add(token)
+    }
+    ts.forEachChild(node, visit)
+  }
+  visit(source)
+  const facts = {
+    allTokens,
+    componentTokens,
+    functionNames: new Set(namedFunctionBodies(source).keys()),
+  }
+  textOverflowProducerFactsCache.set(sourcePath, { content, facts })
+  return facts
+}
+
+function textOverflowProducerHasCallsite(producer, overrides = {}) {
+  const token = producer.callsite.startsWith('class:')
+    ? producer.callsite.slice('class:'.length)
+    : undefined
+  if (!token) return false
+  return Boolean(textOverflowProducerFacts(producer.source, overrides)?.componentTokens.get(producer.component)?.has(token))
+}
+
+function sharedTextOverflowProducerHasCallsite(producer, overrides = {}) {
+  const facts = textOverflowProducerFacts(producer.source, overrides)
+  if (!facts?.functionNames.has(producer.component)) return false
+  const token = producer.callsite.startsWith('class:')
+    ? producer.callsite.slice('class:'.length)
+    : undefined
+  return Boolean(token && facts.allTokens.has(token))
+}
+
+function textOverflowClassProducerCandidates(routeTruth, overrides = {}) {
+  const sharedRoot = join(uiRoot, 'design-system')
+  const sources = [
+    ...productionSources().map((source) => relative(uiRoot, source)),
+    ...filesUnder(sharedRoot)
+      .filter((source) => source.endsWith('.tsx') && !source.endsWith('.test.tsx'))
+      .map((source) => relative(uiRoot, source)),
+  ]
+  const candidates = []
+  for (const sourcePath of sources) {
+    const facts = textOverflowProducerFacts(sourcePath, overrides)
+    if (!facts) continue
+    const seen = new Set()
+    const shared = sourcePath.startsWith('design-system/')
+    const sharedOwners = shared
+      ? [...facts.functionNames].filter((component) =>
+          routeTruth.canonicalDesignSystemTags.has(component),
+        )
+      : []
+    const componentEntries = shared
+      ? sharedOwners.map((component) => [component, facts.allTokens])
+      : [...facts.componentTokens.entries()]
+    for (const [component, tokens] of componentEntries)
+      for (const token of tokens) {
+        const identity = `${sourcePath}@${component}#class:${token}`
+        if (seen.has(identity)) continue
+        seen.add(identity)
+        candidates.push({ source: sourcePath, component, callsite: `class:${token}` })
+      }
+  }
+  return candidates
+}
+
+/** Mechanical seed helper: semantic policy fields are intentionally left for explicit review. */
+export function deriveTextOverflowAdoptionSeed(overrides = {}) {
+  const routeTruth = textOverflowRouteTruth(overrides)
+  const producers = textOverflowClassProducerCandidates(routeTruth, overrides)
+  return deriveTextOverflowCssCensus(overrides).map((entry) => {
+    const tokens = selectorClassTokens(entry.selectorText).reverse()
+    const candidates = tokens.flatMap((token) =>
+      producers.filter((producer) => producer.callsite === `class:${token}`),
+    )
+    const preferred = entry.source.startsWith('design-system/')
+      ? candidates.find((producer) => producer.source.startsWith('design-system/'))
+      : candidates.find((producer) => !producer.source.startsWith('design-system/'))
+    return {
+      source: entry.source,
+      selectorText: entry.selectorText,
+      condition: entry.condition,
+      declarations: entry.declarations,
+      specificity: entry.specificity,
+      producer: preferred ?? candidates[0] ?? { source: '', component: '', callsite: '' },
+    }
+  })
+}
+
+function textOverflowEntryIdentity(entry) {
+  return `${entry.source}|${entry.condition}|${entry.selectorText}`
+}
+
+function sameStringArray(left, right) {
+  return (
+    Array.isArray(left) &&
+    left.length === right.length &&
+    left.every((value, index) => value === right[index])
+  )
+}
+
+export function validateTextOverflowAdoption(document, overrides = {}) {
+  const problems = []
+  if (!document || document.version !== 1 || !Array.isArray(document.entries))
+    return ['text-overflow-adoption.json must contain { version: 1, entries: [] }']
+  const expectedKeys = [
+    'condition',
+    'contentKind',
+    'declarations',
+    'policy',
+    'producer',
+    'reason',
+    'reveal',
+    'selectorText',
+    'source',
+    'specificity',
+    'verification',
+  ].sort()
+  const producerKeys = ['callsite', 'component', 'source']
+  const actual = new Map()
+  const routeTruth = textOverflowRouteTruth(overrides)
+  for (const [index, entry] of document.entries.entries()) {
+    const context = `entries[${index}]`
+    if (
+      !entry ||
+      typeof entry !== 'object' ||
+      JSON.stringify(Object.keys(entry).sort()) !== JSON.stringify(expectedKeys)
+    ) {
+      problems.push(`${context} must use exactly ${expectedKeys.join(', ')}`)
+      continue
+    }
+    for (const key of [
+      'condition',
+      'contentKind',
+      'policy',
+      'reason',
+      'reveal',
+      'selectorText',
+      'source',
+      'verification',
+    ])
+      if (typeof entry[key] !== 'string' || !entry[key].trim())
+        problems.push(`${context}.${key} must be non-empty`)
+    if (!textOverflowCssSources.includes(entry.source))
+      problems.push(`${context}.source is outside the governed editor CSS set`)
+    if (!Array.isArray(entry.declarations) || !entry.declarations.length)
+      problems.push(`${context}.declarations must be a non-empty array`)
+    else if (
+      entry.declarations.some(
+        (value) => !['text-overflow:ellipsis', 'white-space:nowrap'].includes(value),
+      )
+    )
+      problems.push(`${context}.declarations contains an unsupported declaration`)
+    if (
+      !Array.isArray(entry.specificity) ||
+      entry.specificity.length !== 3 ||
+      entry.specificity.some((value) => !Number.isInteger(value) || value < 0)
+    )
+      problems.push(`${context}.specificity must contain three non-negative integers`)
+    if (!textOverflowPolicies.has(entry.policy)) problems.push(`${context}.policy is invalid`)
+    if (!textOverflowContentKinds.has(entry.contentKind))
+      problems.push(`${context}.contentKind is invalid`)
+    if (!textOverflowReveals.has(entry.reveal)) problems.push(`${context}.reveal is invalid`)
+    const verificationMatch = entry.verification.match(/^([^#]+)#(.+)$/)
+    if (!verificationMatch) problems.push(`${context}.verification must use source#marker`)
+    else {
+      const [, verificationSource, marker] = verificationMatch
+      try {
+        if (!readUiSource(verificationSource, overrides).includes(marker))
+          problems.push(`${context}.verification marker is stale`)
+      } catch {
+        problems.push(`${context}.verification source does not exist`)
+      }
+    }
+    if (
+      !entry.producer ||
+      typeof entry.producer !== 'object' ||
+      JSON.stringify(Object.keys(entry.producer).sort()) !== JSON.stringify(producerKeys)
+    )
+      problems.push(`${context}.producer must use exactly ${producerKeys.join(', ')}`)
+    else {
+      for (const key of producerKeys)
+        if (typeof entry.producer[key] !== 'string' || !entry.producer[key].trim())
+          problems.push(`${context}.producer.${key} must be non-empty`)
+      if (!/^class:[A-Za-z0-9_-]+$/.test(entry.producer.callsite))
+        problems.push(`${context}.producer.callsite must be an exact class: token`)
+      const producerIdentity = `${entry.producer.source}@${entry.producer.component}#${entry.producer.callsite}`
+      if (entry.producer.source.startsWith('design-system/')) {
+        if (!sharedTextOverflowProducerHasCallsite(entry.producer, overrides))
+          problems.push(`${context}.producer is not an exact shared-component class owner`)
+        if (!routeTruth.canonicalDesignSystemTags.has(entry.producer.component))
+          problems.push(`${context}.producer shared component is not route-live`)
+      } else {
+        if (!textOverflowProducerHasCallsite(entry.producer, overrides))
+          problems.push(`${context}.producer is not an exact business-component class owner`)
+        if (!routeTruth.callsites.has(producerIdentity) && !routeTruth.visitedSources.has(entry.producer.source))
+          problems.push(`${context}.producer is not reachable from a registered editor route`)
+      }
+    }
+    if (
+      entry.policy === 'command-label' &&
+      entry.declarations.includes('text-overflow:ellipsis')
+    )
+      problems.push(`${context} command-label must not use text-overflow:ellipsis`)
+    if (
+      entry.policy === 'informational-truncate' &&
+      entry.reveal !== 'DsOverflowText'
+    )
+      problems.push(`${context} informational-truncate must use same-value DsOverflowText reveal`)
+    if (
+      entry.policy === 'informational-truncate' &&
+      entry.producer?.callsite !== 'class:ds-overflow-text'
+    )
+      problems.push(`${context} informational-truncate reveal must be owned by ds-overflow-text`)
+    if (
+      entry.policy === 'selection-summary' &&
+      !['lazy', 'selected-detail'].includes(entry.reveal)
+    )
+      problems.push(`${context} selection-summary reveal must be lazy or selected-detail`)
+    if (
+      ['compact-token', 'structural-nowrap', 'command-label'].includes(entry.policy) &&
+      entry.reveal !== 'none'
+    )
+      problems.push(`${context} ${entry.policy} must use reveal=none`)
+    if (
+      entry.policy === 'structural-nowrap' &&
+      entry.declarations.includes('text-overflow:ellipsis')
+    )
+      problems.push(`${context} structural-nowrap must not use ellipsis`)
+    if (
+      entry.policy === 'compact-token' &&
+      entry.declarations.includes('text-overflow:ellipsis')
+    )
+      problems.push(`${context} compact-token with ellipsis must use an informational owner`)
+    if (entry.policy === 'wrap-required' || entry.policy === 'stale-css')
+      problems.push(`${context} ${entry.policy} must be fixed in CSS instead of registered`)
+    const identity = textOverflowEntryIdentity(entry)
+    if (actual.has(identity)) problems.push(`duplicate text-overflow registry ${identity}`)
+    actual.set(identity, entry)
+  }
+
+  const census = deriveTextOverflowCssCensus(overrides)
+  const censusCounts = new Map()
+  for (const cssEntry of census) {
+    const identity = textOverflowEntryIdentity(cssEntry)
+    censusCounts.set(identity, (censusCounts.get(identity) ?? 0) + 1)
+  }
+  for (const [identity, count] of censusCounts)
+    if (count > 1) problems.push(`duplicate text-overflow CSS selector ${identity} (${count})`)
+  const expected = new Map(census.map((entry) => [textOverflowEntryIdentity(entry), entry]))
+  for (const [identity, cssEntry] of expected) {
+    const registryEntry = actual.get(identity)
+    if (!registryEntry) {
+      problems.push(`unregistered text-overflow CSS selector ${identity}`)
+      continue
+    }
+    if (!sameStringArray(registryEntry.declarations, cssEntry.declarations))
+      problems.push(`${identity} declaration signature is stale`)
+    if (!sameStringArray(registryEntry.specificity, cssEntry.specificity))
+      problems.push(`${identity} specificity is stale`)
+  }
+  for (const identity of actual.keys())
+    if (!expected.has(identity)) problems.push(`stale text-overflow registry ${identity}`)
+  return problems
+}
+
 const reservedBusinessMarkerSourceCache = new Map()
 
 function scanReservedBusinessMarkers(overrides = {}) {
@@ -5753,6 +6222,16 @@ export function runDesignSystemGate() {
     for (const problem of effectCardProblems) console.error(`effect-card: ${problem}`)
     return 2
   }
+  const textOverflowAdoption = parseJson(textOverflowAdoptionPath)
+  if (textOverflowAdoption.error) {
+    console.error(`text-overflow adoption registry invalid: ${textOverflowAdoption.error}`)
+    return 2
+  }
+  const textOverflowProblems = validateTextOverflowAdoption(textOverflowAdoption.value)
+  if (textOverflowProblems.length) {
+    for (const problem of textOverflowProblems) console.error(`text-overflow: ${problem}`)
+    return 2
+  }
   const parsed = parseJson(allowlistPath)
   if (parsed.error) {
     console.error(`design-system allowlist invalid: ${parsed.error}`)
@@ -5792,5 +6271,22 @@ export function printAdoptionMatrix() {
     return 2
   }
   console.log(JSON.stringify(parsed.value, null, 2))
+  return 0
+}
+
+/**
+ * Print a deterministic mechanical draft without mutating the reviewed registry.
+ * Semantic fields intentionally remain unclassified so a generated file cannot pass the gate by accident.
+ */
+export function printTextOverflowAdoptionDraft() {
+  const entries = deriveTextOverflowAdoptionSeed().map((entry) => ({
+    ...entry,
+    policy: 'UNCLASSIFIED',
+    contentKind: 'UNCLASSIFIED',
+    reveal: 'UNCLASSIFIED',
+    reason: '',
+    verification: '',
+  }))
+  console.log(JSON.stringify({ version: 1, entries }, null, 2))
   return 0
 }

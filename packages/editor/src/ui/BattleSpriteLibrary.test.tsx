@@ -324,6 +324,16 @@ describe('BattleSpriteLibrary', () => {
 
     await act(async () => button('源文件').click())
     expect(host.querySelector('.inspector')?.textContent).toContain('battle-sprite.shared')
+    expect(
+      [...host.querySelectorAll<HTMLElement>('.ds-overflow-text.ds-inspector-readonly')].map(
+        (value) => value.textContent,
+      ),
+    ).toEqual([
+      'battle-sprite.shared',
+      'assets/authored/battle-sprites/shared.rle',
+      'a'.repeat(64),
+    ])
+    expect(host.querySelector('.ds-overflow-text[title]')).toBeNull()
   })
 
   test('空白资源标签和空用途名称回退为本地化类型标题，AssetId 仍在第二行', async () => {

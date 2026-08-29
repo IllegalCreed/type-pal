@@ -144,6 +144,135 @@ export function DsReadonlyValue(
   )
 }
 
+export type DsOverflowTextProps = Omit<
+  HTMLAttributes<HTMLElement>,
+  | 'children'
+  | 'tabIndex'
+  | 'aria-describedby'
+  | 'onMouseEnter'
+  | 'onMouseLeave'
+  | 'onFocus'
+  | 'onBlur'
+  | 'onKeyDown'
+> & {
+  as?: 'span' | 'code'
+  children: string
+}
+
+/**
+ * Selectable single-line information that reveals the same complete value only when it clips.
+ * Do not use this for command labels or large catalog rows.
+ */
+export function DsOverflowText(props: DsOverflowTextProps) {
+  const {
+    as: Element = 'span',
+    children,
+    className,
+    ...elementProps
+  } = props
+  const tooltipId = useId()
+  const anchorRef = useRef<HTMLElement>(null)
+  const layerRef = useRef<HTMLDivElement>(null)
+  const clippedRef = useRef(false)
+  const [clipped, setClipped] = useState(false)
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
+  const [dismissed, setDismissed] = useState(false)
+  const open = clipped && !dismissed && (hovered || focused)
+
+  const measure = useCallback(() => {
+    const node = anchorRef.current
+    const next = Boolean(node && node.clientWidth > 0 && node.scrollWidth > node.clientWidth + 1)
+    if (next === clippedRef.current) return
+    clippedRef.current = next
+    setClipped(next)
+  }, [])
+
+  useLayoutEffect(() => {
+    const node = anchorRef.current
+    if (!node) return
+    measure()
+    const observer = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(measure)
+    observer?.observe(node)
+    if (!observer) window.addEventListener('resize', measure)
+
+    let active = true
+    const fonts = document.fonts
+    const onFontsChanged = () => measure()
+    fonts?.addEventListener('loadingdone', onFontsChanged)
+    void fonts?.ready.then(() => {
+      if (active) measure()
+    })
+    return () => {
+      active = false
+      observer?.disconnect()
+      if (!observer) window.removeEventListener('resize', measure)
+      fonts?.removeEventListener('loadingdone', onFontsChanged)
+    }
+  }, [Element, measure])
+
+  useLayoutEffect(() => {
+    measure()
+  }, [children, measure])
+
+  useEffect(() => {
+    if (!open) return
+    const dismissOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      event.preventDefault()
+      setDismissed(true)
+    }
+    document.addEventListener('keydown', dismissOnEscape)
+    return () => document.removeEventListener('keydown', dismissOnEscape)
+  }, [open])
+
+  return (
+    <>
+      <Element
+        {...elementProps}
+        ref={(node) => {
+          anchorRef.current = node
+        }}
+        className={classes('ds-overflow-text', className)}
+        tabIndex={clipped ? 0 : undefined}
+        aria-describedby={clipped ? tooltipId : undefined}
+        onMouseEnter={() => {
+          setDismissed(false)
+          setHovered(true)
+        }}
+        onMouseLeave={() => setHovered(false)}
+        onFocus={() => {
+          setDismissed(false)
+          setFocused(true)
+        }}
+        onBlur={() => setFocused(false)}
+      >
+        {children}
+      </Element>
+      {clipped ? (
+        <span id={tooltipId} role="tooltip" className="ds-visually-hidden">
+          {children}
+        </span>
+      ) : null}
+      <DsFloatingLayer
+        open={open}
+        anchorRef={anchorRef}
+        layerRef={layerRef}
+        className="ds-tooltip__bubble ds-overflow-text__bubble"
+        width="content"
+        align="center"
+        maxHeight={280}
+        gap={6}
+        dismissOnPointerDown={false}
+        ariaHidden
+        onDismiss={() => setDismissed(true)}
+      >
+        {children}
+      </DsFloatingLayer>
+    </>
+  )
+}
+
 export function DsTooltip(props: { label: string; shortcut?: string; children: ReactNode }) {
   const tooltipId = useId()
   const anchorRef = useRef<HTMLSpanElement>(null)

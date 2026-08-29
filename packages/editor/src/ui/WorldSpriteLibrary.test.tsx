@@ -448,6 +448,16 @@ describe('WorldSpriteLibrary', () => {
     expect(button('源资源').getAttribute('aria-selected')).toBe('true')
     expect(host.querySelector('.world-sprite-inspector')?.textContent).toContain('sprite.shared')
     expect(host.querySelector('[data-world-resource="sprite.shared"]')).not.toBeNull()
+    expect(
+      [...host.querySelectorAll<HTMLElement>('.ds-overflow-text.ds-inspector-readonly')].map(
+        (value) => value.textContent,
+      ),
+    ).toEqual([
+      'sprite.shared',
+      'assets/authored/sprites/shared.rle',
+      'a'.repeat(64),
+    ])
+    expect(host.querySelector('.ds-overflow-text[title]')).toBeNull()
 
     await act(async () => button('引用').click())
     const usageButtons = [

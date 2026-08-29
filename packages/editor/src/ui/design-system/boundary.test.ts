@@ -409,6 +409,7 @@ describe('editor design-system static boundary', () => {
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
     expect(specification).toContain('ED-FIELD-LAYOUT-1（v2.14.0）')
+    expect(specification).toContain('ED-TEXT-OVERFLOW-1（v2.18.0）')
     expect(primitives).toMatch(
       /\.ds-add-picker-dialog \.ds-overlay__body\s*\{[\s\S]*?overflow:\s*hidden;/,
     )

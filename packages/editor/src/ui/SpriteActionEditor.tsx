@@ -20,6 +20,7 @@ import {
   DsFieldGroup,
   DsFieldMeasure,
   DsInspectorSection,
+  DsOverflowText,
   DsPropertyGrid,
   DsPropertyRow,
   DsReorderCollection,
@@ -350,9 +351,9 @@ export function SpriteActionEditor(props: {
               />
             </DsPropertyRow>
             <DsPropertyRow label="ActionId" help="稳定引用身份，显示顺序变化不会改变它。">
-              <code className="ds-inspector-readonly" translate="no">
+              <DsOverflowText as="code" className="ds-inspector-readonly" translate="no">
                 {actionId}
-              </code>
+              </DsOverflowText>
             </DsPropertyRow>
             <DsPropertyRow label="播放">
               <DsCheckbox

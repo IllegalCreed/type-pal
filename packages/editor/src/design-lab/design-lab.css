@@ -143,6 +143,46 @@ textarea {
   gap: var(--ds-space-5);
   margin-top: var(--ds-space-6);
 }
+.lab-overflow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  align-items: start;
+  gap: var(--ds-space-6);
+  padding: var(--ds-space-6);
+}
+.lab-overflow-samples,
+.lab-overflow-row {
+  display: grid;
+  gap: var(--ds-space-3);
+}
+.lab-overflow-samples {
+  gap: var(--ds-space-5);
+}
+.lab-overflow-row > span {
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-caption);
+}
+.lab-overflow-value {
+  min-width: 0;
+  padding: var(--ds-space-3) var(--ds-space-4);
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-surface-raised);
+  transition: inline-size var(--ds-motion-normal) ease;
+}
+.lab-overflow-value--narrow {
+  inline-size: min(100%, 220px);
+}
+.lab-overflow-value--wide {
+  inline-size: 100%;
+}
+.lab-overflow-grid .ds-card:last-child {
+  display: grid;
+  gap: var(--ds-space-5);
+}
+.lab-overflow-grid .ds-card:last-child > .ds-button {
+  justify-self: start;
+}
 .lab-field-layout-grid {
   display: grid;
   align-items: start;

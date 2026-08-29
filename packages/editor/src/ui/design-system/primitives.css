@@ -133,12 +133,10 @@
   max-width: 100%;
   min-height: 18px;
   padding: 1px 5px;
-  overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--ds-action-primary) 38%, var(--ds-border-subtle));
   border-radius: 999px;
   color: color-mix(in srgb, var(--ds-action-primary) 74%, white);
   font: var(--ds-font-tag);
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -412,6 +410,22 @@
 .ds-tooltip {
   position: relative;
   display: inline-flex;
+}
+
+.ds-overflow-text {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: text;
+}
+
+.ds-overflow-text:focus-visible {
+  border-radius: var(--ds-radius-control);
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
 }
 
 .ds-tooltip__bubble {
@@ -934,9 +948,6 @@
 .ds-multiselect__summary {
   min-width: 0;
   flex: 1 1 auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .ds-multiselect-popover__content {
@@ -1341,8 +1352,6 @@
 
 .ds-tab__label {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .ds-tab__count {
@@ -1393,11 +1402,9 @@
 .ds-tab--inspector {
   min-width: 0;
   min-height: var(--ds-control-height);
-  overflow: hidden;
   padding-inline: var(--ds-space-3);
   border: 1px solid transparent;
   border-radius: var(--ds-radius-control);
-  text-overflow: ellipsis;
 }
 
 .ds-tab--inspector:hover:not(:disabled) {
@@ -1617,9 +1624,7 @@
 }
 
 .ds-menu-item__label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .ds-toolbar {

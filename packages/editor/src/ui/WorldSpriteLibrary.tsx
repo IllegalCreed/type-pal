@@ -34,6 +34,7 @@ import {
   DsInspectorTabs,
   DsDraftNumberInput,
   DsInspectorHost,
+  DsOverflowText,
   DsPropertyGrid,
   DsPropertyRow,
   DsReferenceGroup,
@@ -1121,14 +1122,14 @@ export function WorldSpriteLibrary(props: {
                     <DsInspectorSection title="资源信息">
                       <DsPropertyGrid>
                         <DsPropertyRow label="AssetId">
-                          <code className="ds-inspector-readonly" translate="no">
+                          <DsOverflowText as="code" className="ds-inspector-readonly" translate="no">
                             {selectedAsset}
-                          </code>
+                          </DsOverflowText>
                         </DsPropertyRow>
                         <DsPropertyRow label="路径">
-                          <code className="ds-inspector-readonly" translate="no">
+                          <DsOverflowText as="code" className="ds-inspector-readonly" translate="no">
                             {record.path}
-                          </code>
+                          </DsOverflowText>
                         </DsPropertyRow>
                         <DsPropertyRow label="源帧数">
                           {actualFrameCount ?? '读取中…'}
@@ -1137,13 +1138,13 @@ export function WorldSpriteLibrary(props: {
                           {record.bytes.toLocaleString()}
                         </DsPropertyRow>
                         <DsPropertyRow label="SHA-256">
-                          <code
+                          <DsOverflowText
+                            as="code"
                             className="ds-inspector-readonly"
                             translate="no"
-                            title={record.sha256}
                           >
-                            {record.sha256.slice(0, 16)}…
-                          </code>
+                            {record.sha256}
+                          </DsOverflowText>
                         </DsPropertyRow>
                         <DsPropertyRow label="来源">{record.origin.kind}</DsPropertyRow>
                       </DsPropertyGrid>

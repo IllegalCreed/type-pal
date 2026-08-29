@@ -1,0 +1,3501 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-add-picker-option__content>:is(strong,span)",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "design-system/add-picker.tsx",
+        "component": "DsAddPickerDialog",
+        "callsite": "class:ds-add-picker-option__content"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-add-picker-option__detail",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/add-picker.tsx",
+        "component": "DsAddPickerDialog",
+        "callsite": "class:ds-add-picker-option__detail"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-add-picker-option__trailing",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/add-picker.tsx",
+        "component": "DsAddPickerDialog",
+        "callsite": "class:ds-add-picker-option__trailing"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-file-picker input[type=\"file\"]",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-file-picker"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-file-picker__description",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-file-picker__description"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-file-picker__label",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-file-picker__label"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-list-header__count",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-list-header__count"
+      },
+      "policy": "compact-token",
+      "contentKind": "compact-token",
+      "reveal": "none",
+      "reason": "计数、序号或固定短标签保持单行，不制造重复提示。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-list-header__title",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-list-header__title"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-menu-trigger",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/navigation.tsx",
+        "component": "DsMenuBar",
+        "callsite": "class:ds-menu-trigger"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-overflow-text",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-overflow-text"
+      },
+      "policy": "informational-truncate",
+      "contentKind": "identifier-path-hash",
+      "reveal": "DsOverflowText",
+      "reason": "信息值保持单行；仅在真实截断时由公共组件披露同一完整 DOM 文本。",
+      "verification": "design-system/overflow-text.test.tsx#reveals the same selectable DOM value"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-readonly-value",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-readonly-value"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-select__description",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-select__description"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-select__value",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-select__value"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-select-option__description",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-select-option__description"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-select-option__label",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-select-option__label"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-tab",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-tab"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-tag",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-tag"
+      },
+      "policy": "compact-token",
+      "contentKind": "compact-token",
+      "reveal": "none",
+      "reason": "计数、序号或固定短标签保持单行，不制造重复提示。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "design-system/primitives.css",
+      "selectorText": ".ds-visually-hidden",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/controls.tsx",
+        "component": "DsPressable",
+        "callsite": "class:ds-visually-hidden"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "design-system/recipes.css",
+      "selectorText": ".ds-catalog-group-header__title",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/recipes.tsx",
+        "component": "DsInspectorHost",
+        "callsite": "class:ds-catalog-group-header__title"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/recipes.css",
+      "selectorText": ".ds-catalog-row__meta",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/recipes.tsx",
+        "component": "DsInspectorHost",
+        "callsite": "class:ds-catalog-row__meta"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/recipes.css",
+      "selectorText": ".ds-catalog-row__title",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/recipes.tsx",
+        "component": "DsInspectorHost",
+        "callsite": "class:ds-catalog-row__title"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/recipes.css",
+      "selectorText": ".ds-inline-composer__action",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/recipes.tsx",
+        "component": "DsInspectorHost",
+        "callsite": "class:ds-inline-composer__action"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "design-system/recipes.css",
+      "selectorText": ".ds-reference-row__title",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/recipes.tsx",
+        "component": "DsInspectorHost",
+        "callsite": "class:ds-reference-row__title"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "design-system/reorder.css",
+      "selectorText": ".ds-reorder-live",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "design-system/reorder.tsx",
+        "component": "DsReorderCollection",
+        "callsite": "class:ds-reorder-live"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ":is(.inspector,.scene-entity-inspector) :is(.tool,.btn,.mini-txt)",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "SceneEntityInspectorTabs",
+        "callsite": "class:scene-entity-inspector"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".actor-definition-list dd",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ActorMode.tsx",
+        "component": "ActorMode",
+        "callsite": "class:actor-definition-list"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".actor-definition-list dt",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ActorMode.tsx",
+        "component": "ActorMode",
+        "callsite": "class:actor-definition-list"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".actor-inspector-linked-value>span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ActorMode.tsx",
+        "component": "ActorInspector",
+        "callsite": "class:actor-inspector-linked-value"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".actor-summary-lines strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ActorMode.tsx",
+        "component": "ActorMode",
+        "callsite": "class:actor-summary-lines"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".arow .nm b",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "PlacePalette",
+        "callsite": "class:nm"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".arow .nm span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "PlacePalette",
+        "callsite": "class:nm"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".audio-library-outliner .ds-catalog-row__meta",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "AudioAssetWorkbench.tsx",
+        "component": "AudioAssetWorkbench",
+        "callsite": "class:audio-library-outliner"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".audio-library-outliner .ds-catalog-row__title",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "AudioAssetWorkbench.tsx",
+        "component": "AudioAssetWorkbench",
+        "callsite": "class:audio-library-outliner"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".battle-action-stage-controls button",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "BattleSpriteLibrary.tsx",
+        "component": "BattleSpriteLibrary",
+        "callsite": "class:battle-action-stage-controls"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".battle-action-stage-meta b",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "BattleSpriteLibrary.tsx",
+        "component": "BattleSpriteLibrary",
+        "callsite": "class:battle-action-stage-meta"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".battle-action-stage-meta code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "BattleSpriteLibrary.tsx",
+        "component": "BattleSpriteLibrary",
+        "callsite": "class:battle-action-stage-meta"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".battle-action-stage-meta small",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "BattleSpriteLibrary.tsx",
+        "component": "BattleSpriteLibrary",
+        "callsite": "class:battle-action-stage-meta"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".battle-enemy-timeline span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "BattleSpriteLibrary.tsx",
+        "component": "ProfileEditor",
+        "callsite": "class:battle-enemy-timeline"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".battle-frame-labels",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "BattleSpriteInlinePreview.tsx",
+        "component": "FrameThumbnail",
+        "callsite": "class:battle-frame-labels"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".canonical-script-editor-heading strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ScriptEditor.tsx",
+        "component": "CanonicalScriptBodyEditor",
+        "callsite": "class:canonical-script-editor-heading"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".canonical-script-row-actions",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ScriptEditor.tsx",
+        "component": "CommandRows",
+        "callsite": "class:canonical-script-row-actions"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".casualty-branch-head p",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "CasualtyEditor.tsx",
+        "component": "BranchEditor",
+        "callsite": "class:casualty-branch-head"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".casualty-branch-select small",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "CasualtyEditor.tsx",
+        "component": "CasualtyEditor",
+        "callsite": "class:casualty-branch-select"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".casualty-fallback-row small",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "CasualtyEditor.tsx",
+        "component": "CasualtyEditor",
+        "callsite": "class:casualty-fallback-row"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".casualty-fallback-row>em",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "CasualtyEditor.tsx",
+        "component": "CasualtyEditor",
+        "callsite": "class:casualty-fallback-row"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".casualty-slot-tabs>button>em",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        2
+      ],
+      "producer": {
+        "source": "CasualtyEditor.tsx",
+        "component": "CasualtyEditor",
+        "callsite": "class:casualty-slot-tabs"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".cf-ref-target",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "CommandForm.tsx",
+        "component": "CommandForm",
+        "callsite": "class:cf-ref-target"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".cmd-detail",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ScriptEditor.tsx",
+        "component": "CommandRows",
+        "callsite": "class:cmd-detail"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".cutscene-import-file-content code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "CutsceneTab.tsx",
+        "component": "CutsceneTab",
+        "callsite": "class:cutscene-import-file-content"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".cutscene-inspector .btn",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "CutsceneTab.tsx",
+        "component": "CutsceneTab",
+        "callsite": "class:cutscene-inspector"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".cutscene-main .btn",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "CutsceneTab.tsx",
+        "component": "CutsceneTab",
+        "callsite": "class:cutscene-main"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".drawer-internal-nav code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ScriptDrawer.tsx",
+        "component": "ScriptDrawer",
+        "callsite": "class:drawer-internal-nav"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".editor-header-context",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "EditorAppHeader.tsx",
+        "component": "EditorAppHeader",
+        "callsite": "class:editor-header-context"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".editor-header-context__project",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "EditorAppHeader.tsx",
+        "component": "EditorAppHeader",
+        "callsite": "class:editor-header-context__project"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".ef-fields .sound-effect-field>span",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
+      "producer": {
+        "source": "PoisonTab.tsx",
+        "component": "TickRow",
+        "callsite": "class:ef-fields"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".fa-frame-select>span:last-child",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
+      "producer": {
+        "source": "FrameAnimationEditor.tsx",
+        "component": "FrameThumbnail",
+        "callsite": "class:fa-frame-select"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".image-preview-size",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ImageTab.tsx",
+        "component": "ImageWorkspacePreview",
+        "callsite": "class:image-preview-size"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".insp-head .who",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "ActorMode.tsx",
+        "component": "ActorInspector",
+        "callsite": "class:who"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".instance-behavior-group-head b",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "SpriteFrameWorkbench.tsx",
+        "component": "InstanceBehaviorShelf",
+        "callsite": "class:instance-behavior-group-head"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".instance-behavior-group-head code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "SpriteFrameWorkbench.tsx",
+        "component": "InstanceBehaviorShelf",
+        "callsite": "class:instance-behavior-group-head"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".instance-behavior-location-link",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "SpriteFrameWorkbench.tsx",
+        "component": "InstanceBehaviorShelf",
+        "callsite": "class:instance-behavior-location-link"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".item-base-section-heading>code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ItemTab.tsx",
+        "component": "ItemTab",
+        "callsite": "class:item-base-section-heading"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".item-base-section-heading>span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ItemTab.tsx",
+        "component": "ItemTab",
+        "callsite": "class:item-base-section-heading"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".item-catalog-row .nm>.item-row-title",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        3,
+        0
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "PlacePalette",
+        "callsite": "class:nm"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".item-catalog-row .nm>small",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "PlacePalette",
+        "callsite": "class:nm"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".item-icon-option>code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ItemTab.tsx",
+        "component": "ItemIconBrowser",
+        "callsite": "class:item-icon-option"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".item-icon-option>span:last-of-type",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
+      "producer": {
+        "source": "ItemTab.tsx",
+        "component": "ItemIconBrowser",
+        "callsite": "class:item-icon-option"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".item-migration-alert span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ItemTab.tsx",
+        "component": "ItemTab",
+        "callsite": "class:item-migration-alert"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".item-readonly-field code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ItemTab.tsx",
+        "component": "ItemTab",
+        "callsite": "class:item-readonly-field"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".item-recipe-delete",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ItemUseEffectEditor.tsx",
+        "component": "RecipeEditor",
+        "callsite": "class:item-recipe-delete"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".layer-name small",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "LayerStackControls.tsx",
+        "component": "LayerStackControls",
+        "callsite": "class:layer-name"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".layer-name>span:first-child",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
+      "producer": {
+        "source": "LayerStackControls.tsx",
+        "component": "LayerStackControls",
+        "callsite": "class:layer-name"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".linked-control>.ds-control-group__control",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "BattleFieldPicker.tsx",
+        "component": "BattleFieldPicker",
+        "callsite": "class:linked-control"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".linked-control>.in",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "CommandForm.tsx",
+        "component": "CommandForm",
+        "callsite": "class:in"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".linked-control>.map-file",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "MapMode.tsx",
+        "component": "MapMode",
+        "callsite": "class:map-file"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-a11y-legend",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "MapMode.tsx",
+        "component": "MapMode",
+        "callsite": "class:map-a11y-legend"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-candidate-menu code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "MapMode.tsx",
+        "component": "MapMode",
+        "callsite": "class:map-candidate-menu"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-content-selection-preview>header span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        2
+      ],
+      "producer": {
+        "source": "MapContentSelectionPreview.tsx",
+        "component": "MapContentSelectionPreview",
+        "callsite": "class:map-content-selection-preview"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-content-selection-preview>header strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        2
+      ],
+      "producer": {
+        "source": "MapContentSelectionPreview.tsx",
+        "component": "MapContentSelectionPreview",
+        "callsite": "class:map-content-selection-preview"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-paint-context__title>span:last-child",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
+      "producer": {
+        "source": "LayerStackControls.tsx",
+        "component": "LayerPaintContext",
+        "callsite": "class:map-paint-context__title"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-stamp-copy small",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "MapStampPalette.tsx",
+        "component": "MapStampPalette",
+        "callsite": "class:map-stamp-copy"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-stamp-copy strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "MapStampPalette.tsx",
+        "component": "MapStampPalette",
+        "callsite": "class:map-stamp-copy"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-stamp-recent",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "MapStampPalette.tsx",
+        "component": "MapStampPalette",
+        "callsite": "class:map-stamp-recent"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-step-actions .hint2",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "EntityInspector",
+        "callsite": "class:hint2"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-tool-option-tray",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "IsometricEditorToolbar.tsx",
+        "component": "ToolOptionTray",
+        "callsite": "class:map-tool-option-tray"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".map-viewport-status",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "IsometricViewportStatus.tsx",
+        "component": "IsometricViewportStatus",
+        "callsite": "class:map-viewport-status"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".missing-editor-target code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "MissingEditorTarget",
+        "callsite": "class:missing-editor-target"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".node-label",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "App",
+        "callsite": "class:node-label"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".outliner>.pane-h>.k",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        3,
+        0
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "App",
+        "callsite": "class:k"
+      },
+      "policy": "compact-token",
+      "contentKind": "compact-token",
+      "reveal": "none",
+      "reason": "计数、序号或固定短标签保持单行，不制造重复提示。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".palette-row .nm",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "PlacePalette",
+        "callsite": "class:nm"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".place-control-legend",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "PlacePalette",
+        "callsite": "class:place-control-legend"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-badge",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "EntryPointEditor",
+        "callsite": "class:project-badge"
+      },
+      "policy": "compact-token",
+      "contentKind": "compact-token",
+      "reveal": "none",
+      "reason": "计数、序号或固定短标签保持单行，不制造重复提示。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-center .btn",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "ProjectPageWorkspace",
+        "callsite": "class:project-center"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-center .linked-value-open",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "ProjectPageWorkspace",
+        "callsite": "class:project-center"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-entry-list .node code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        1
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "App",
+        "callsite": "class:node"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-inventory-actions",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "StartWorldFields",
+        "callsite": "class:project-inventory-actions"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-orphan-seed-identity code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "StartWorldFields",
+        "callsite": "class:project-orphan-seed-identity"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-orphan-seed-identity strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "StartWorldFields",
+        "callsite": "class:project-orphan-seed-identity"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-outliner .btn",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "ProjectAdvancedPage",
+        "callsite": "class:project-outliner"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-outliner .linked-value-open",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "ProjectAdvancedPage",
+        "callsite": "class:project-outliner"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-party-identity code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "StartWorldFields",
+        "callsite": "class:project-party-identity"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-party-name",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "StartWorldFields",
+        "callsite": "class:project-party-name"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-resource-identity>code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "StartWorldFields",
+        "callsite": "class:project-resource-identity"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-resource-identity>strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "StartWorldFields",
+        "callsite": "class:project-resource-identity"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-resource-value",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "StartWorldFields",
+        "callsite": "class:project-resource-value"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".project-startup-summary-card .ds-button",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "ProjectWorkbenchTab.tsx",
+        "component": "ProjectOverviewPage",
+        "callsite": "class:project-startup-summary-card"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".rel-poison",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "PoisonTab.tsx",
+        "component": "RelationOverview",
+        "callsite": "class:rel-poison"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".rel-warn",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "PoisonTab.tsx",
+        "component": "RelationOverview",
+        "callsite": "class:rel-warn"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".scene-entry-section>summary>span:last-child",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        2
+      ],
+      "producer": {
+        "source": "ScriptTree.tsx",
+        "component": "SceneEntrySections",
+        "callsite": "class:scene-entry-section"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".script-behavior-heading code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ScriptBehaviorInspector.tsx",
+        "component": "ScriptBehaviorInspector",
+        "callsite": "class:script-behavior-heading"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".script-drawer-context",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ScriptDrawer.tsx",
+        "component": "ScriptDrawer",
+        "callsite": "class:script-drawer-context"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".script-drawer-title",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ScriptDrawer.tsx",
+        "component": "ScriptDrawer",
+        "callsite": "class:script-drawer-title"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".script-scheme-card-select span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ScriptEditor.tsx",
+        "component": "ScriptSchemeStrip",
+        "callsite": "class:script-scheme-card-select"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".script-scheme-card-select strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ScriptEditor.tsx",
+        "component": "ScriptSchemeStrip",
+        "callsite": "class:script-scheme-card-select"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".semantic-frame-group-head b",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "SpriteFrameWorkbench.tsx",
+        "component": "SemanticFrameShelf",
+        "callsite": "class:semantic-frame-group-head"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".semantic-frame-group-head code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "SpriteFrameWorkbench.tsx",
+        "component": "SemanticFrameShelf",
+        "callsite": "class:semantic-frame-group-head"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".semantic-frame-row-label b",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "SpriteFrameWorkbench.tsx",
+        "component": "FrameRowView",
+        "callsite": "class:semantic-frame-row-label"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".semantic-frame-row-label span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "SpriteFrameWorkbench.tsx",
+        "component": "FrameRowView",
+        "callsite": "class:semantic-frame-row-label"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".shop-stock-identity strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ShopTab.tsx",
+        "component": "ShopTab",
+        "callsite": "class:shop-stock-identity"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".shop-stock-identity>span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "ShopTab.tsx",
+        "component": "ShopTab",
+        "callsite": "class:shop-stock-identity"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".sprite-frame-cell-caption small",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "SpriteFrameWorkbench.tsx",
+        "component": "FrameCell",
+        "callsite": "class:sprite-frame-cell-caption"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".sprite-image-viewer-tools-label",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "SpriteFrameWorkbench.tsx",
+        "component": "RawFrameInspector",
+        "callsite": "class:sprite-image-viewer-tools-label"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stage-head",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "ScriptTree.tsx",
+        "component": "ScriptTree",
+        "callsite": "class:stage-head"
+      },
+      "policy": "compact-token",
+      "contentKind": "compact-token",
+      "reveal": "none",
+      "reason": "计数、序号或固定短标签保持单行，不制造重复提示。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-dialog-summary .mono",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "CommandForm.tsx",
+        "component": "CommandForm",
+        "callsite": "class:mono"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-group-layer-list>span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "StampPlacementSelectionInspector.tsx",
+        "component": "StampPlacementSelectionInspector",
+        "callsite": "class:stamp-group-layer-list"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-group-selection-head .what",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "ActorMode.tsx",
+        "component": "ActorInspector",
+        "callsite": "class:what"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-group-selection-head .who",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "ActorMode.tsx",
+        "component": "ActorInspector",
+        "callsite": "class:who"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-group-summary code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "StampPlacementSelectionInspector.tsx",
+        "component": "StampPlacementSelectionInspector",
+        "callsite": "class:stamp-group-summary"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-inspector .insp-head .who",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        3,
+        0
+      ],
+      "producer": {
+        "source": "ActorMode.tsx",
+        "component": "ActorInspector",
+        "callsite": "class:who"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-lifecycle-list span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "MapMode.tsx",
+        "component": "MapMode",
+        "callsite": "class:stamp-lifecycle-list"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-lifecycle-list strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "MapMode.tsx",
+        "component": "MapMode",
+        "callsite": "class:stamp-lifecycle-list"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-missing-source button>span",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        2
+      ],
+      "producer": {
+        "source": "StampLibraryTab.tsx",
+        "component": "StampLibraryTab",
+        "callsite": "class:stamp-missing-source"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-origin-badge",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "StampLibraryTab.tsx",
+        "component": "StampLibraryTab",
+        "callsite": "class:stamp-origin-badge"
+      },
+      "policy": "compact-token",
+      "contentKind": "compact-token",
+      "reveal": "none",
+      "reason": "计数、序号或固定短标签保持单行，不制造重复提示。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-row-copy span",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "StampLibraryTab.tsx",
+        "component": "StampLibraryTab",
+        "callsite": "class:stamp-row-copy"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-row-copy strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "StampLibraryTab.tsx",
+        "component": "StampLibraryTab",
+        "callsite": "class:stamp-row-copy"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".stamp-sr-only",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "StampTemplateDialog.tsx",
+        "component": "StampTemplateDialog",
+        "callsite": "class:stamp-sr-only"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".tileset-category-badge",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "TilesetTab.tsx",
+        "component": "TilesetTab",
+        "callsite": "class:tileset-category-badge"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".tileset-library-copy .mono",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "CommandForm.tsx",
+        "component": "CommandForm",
+        "callsite": "class:mono"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".tileset-library-copy strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "TilesetTab.tsx",
+        "component": "TilesetTab",
+        "callsite": "class:tileset-library-copy"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".tileset-primary-action",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "TilesetTab.tsx",
+        "component": "TilesetTab",
+        "callsite": "class:tileset-primary-action"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".tileset-readonly",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "TilesetTab.tsx",
+        "component": "TilesetTab",
+        "callsite": "class:tileset-readonly"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".tileset-secondary-action",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "TilesetTab.tsx",
+        "component": "TilesetTab",
+        "callsite": "class:tileset-secondary-action"
+      },
+      "policy": "command-label",
+      "contentKind": "command",
+      "reveal": "none",
+      "reason": "命令标签不得用省略号掩盖布局错误；单行只由可滚动或溢出菜单结构承载。",
+      "verification": "design-system/text-overflow-adoption.test.ts#rejects ellipsis on command labels"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".toolbar",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "App",
+        "callsite": "class:toolbar"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".toolbar-hint",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "App.tsx",
+        "component": "App",
+        "callsite": "class:toolbar-hint"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".valbar .msg",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "EditorDiagnosticsBar.tsx",
+        "component": "EditorDiagnosticsBar",
+        "callsite": "class:msg"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".visually-hidden",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        0
+      ],
+      "producer": {
+        "source": "IsometricEditorToolbar.tsx",
+        "component": "IsometricEditorToolbar",
+        "callsite": "class:visually-hidden"
+      },
+      "policy": "structural-nowrap",
+      "contentKind": "layout-structure",
+      "reveal": "none",
+      "reason": "布局或无障碍结构需要单行，本身不承载需要披露的用户信息。",
+      "verification": "design-system/text-overflow-adoption.test.ts#accepts compact tokens and structural nowrap"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".world-variable-catalog .ds-catalog-row__trailing",
+      "condition": "default",
+      "declarations": [
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        2,
+        0
+      ],
+      "producer": {
+        "source": "VarsTab.tsx",
+        "component": "VarsTab",
+        "callsite": "class:world-variable-catalog"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".world-variable-readonly-grid code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "VarsTab.tsx",
+        "component": "VarsTab",
+        "callsite": "class:world-variable-readonly-grid"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
+      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
+    }
+  ]
+}
