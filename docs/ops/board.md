@@ -22,7 +22,7 @@
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | done | 三方 accept + 用户验收齐，整卡收口 | `b118ce3a`：公共草稿/提交合同、首批采用与 AST 防回流门禁完成 |
 | ED-ADD-PICKER-DIALOG-1 | 编辑器候选对象添加弹窗统一 | done | 三方 accept + 用户验收齐；`0787197d` 已推送 | DsAddPickerDialog v2.13.0、4+7 AST census 门禁、234/225 项 14 行有界挂载、四 adapter 单命令 |
 | ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | done | 三方 accept + 用户复验齐，整卡收口 | Startup inventory 唯一遗漏动作槽已封组；1280/900/720 组内不拆行、无溢出 |
-| ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | review | Codex 单列返工后 accept；待 Kimi/GLM 视觉增量复审与用户验收 | 战斗工作区固定单列，长预览与短配置同宽上下排列 |
+| ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | review | Codex `b7773cdc` accept；待 Kimi/GLM workbench list 增量复审与用户验收 | form 有 inset / list flush；Shop 公共 panel + danger 下架，Script flush |
 | ED-ACTION-GROUP-SPEC-1 | DsActionGroup 公共规范登记与 DS 2.22.0 升线 | draft | 待开卡补前提真值与 Codex/Kimi/GLM build 前签字；不得实现 | 登记不可拆动作组、compact 32px 合同与版本四处同步；承接 GLM P2，顺延至 wide track 2.21 后 |
 | ED-FIELD-LABEL-TRACK-WIDE-1 | 编辑器整组宽标签轨合同 | draft | 待 Kimi/GLM premise/design 签字；不得实现 | DsFieldGroup wide=160px/<560 stacked；RoleBindings 唯一首批采用；DS 2.21.0 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
@@ -30,7 +30,7 @@
 | ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | done | 三方 accept + 用户复验齐，整卡收口 | Hero 56px 复用 idle.start，同缓存防串图；EnemyTeam/Vars 无媒体，六面 census 闭合 |
 | ED-WORKSPACE-ADOPTION-DEBT-1 | 编辑器旧工作区滚动壳真实采用清零 | draft | 待逐文件真值与 Codex/Kimi/GLM build 前设计签字；不得实现 | 清零 6 文件 bounded raw `ds-object-workspace*` 旧债 |
 | MIG-PAL-MAP-NAME-1 | PAL 一阶段考据地图名迁入二阶段 | review | Codex + Kimi + GLM 当前实现 accept 齐；仅待用户验收 | 222/294/221/223/2、s230/s243 双钉、shared 专用边界、104/164 精确占位与 replay 全 0 均已终审 |
-| MIG-PAL-ITEM-SCHEME-LABEL-1 | PAL 物品剧情方案作者命名收口 | review | Codex accept；待 Kimi/GLM 当前实现终审与用户验收，签字不足不得 done | baseline/current 各 53 个 label-only 变化；49/11/4 永久门禁与发布 replay 全 0 |
+| MIG-PAL-ITEM-SCHEME-LABEL-1 | PAL 物品剧情方案作者命名收口 | review | Codex + Kimi + GLM 当前实现 accept 三签齐（`f9237db8`）；仅待用户功能验收 | 53 label-only 两侧镜像、49/11/4 闭包、292×13/273×12 消歧、machine-inner 同步、转换器/upgrader/fallback 清零均双席独立复算 |
 | MIG-PAL-STORE0-SHOP-BOUNDARY-1 | PAL Store[0] 奖励表与商店边界收口 | draft | 待 Kimi/GLM 独立 premise/design 签字；不得实现 | store0 仅供 0x34/item270 九档奖励；真实买店为 1..20，禁止 UI fallback |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | done | 三方 accept + 用户验收齐，整卡收口 | content18、首次技能播种、当前 HP/MP 继承 UI 与 PAL replay 已完成 |
 | MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | done | 三方 accept + 用户验收齐，整卡收口 | `0e84e565`：4 定义 + 44 引用归一，严格重复为 0，replay 零计划 |

@@ -155,10 +155,10 @@ counter）。** 实现期落实 K-L1-K-L4 与 GM-L1-L3；done accept 另行计�
 | Agent | accept | 证据 / 备注 |
 |---|---|---|
 | Codex | **accept（2026-08-30）** | current publication 永久门接入 `assertPalItemSchemeLabelInvariant`；真实 PAL 49 个方案 / 11 个 item root / 4 个 machine-inner 全闭合，零/多 root、环、悬空与稳定消歧聚焦覆盖。一次性转换器与旧输入测试已在发布后删除。Git 前后结构化 diff 对 baseline/current 分别复算为 17 文件 / 恰 53 个 `.label` 值变化，正文镜像；完整发布 replay 与删除转换器后的独立 dry-run 均为 `writes=0 deletes=0 conflicts=0 asset-deletes=0`。migrate 全量 47 files / 385 tests、typecheck、design-system gate 与 720px 浏览器闭环全绿。未发现 P0/P1/P2 返工项。 |
-| Kimi | pending | |
-| GLM | pending | |
+| Kimi | **accept（2026-08-30，只读终审 f9237db8 + 本人独立复核命令与聚焦复跑，非复述 Codex 证据）** | 按 K-L1~K-L4 逐项核验：**K-L1 反向图结构**✓——`collectNodes` 完整遍历 `entity.behaviors.trigger/auto` 与 `scene.hooks[onEnter/onTeleport].variants`（pal-item-scheme-labels.ts:218-252），固有挂载经 `visitRoot` 递归传播 item root（:272-294），s273 真实链（item 292 → hook c8-440a584eee79 → 8 个 auto 含 4 个 stateMachine 父）在 pal 测试内通过；**K-L2 exact-diff 与镜像**✓——本人对 f9237db8 独立复算：current scenes 恰 +53/−53 行且非 label 变更行=0，baseline scenes 同样 +53/−53、非 label=0，17 个文件 `cmp` 逐字镜像零输出；`_state.json` 仅文件哈希 churn；**K-L3 命名确定性**✓——同物品组按 `order + id` 排序（:337）、order+id 冲突 fail-loud（:341-343）、base+` 2`/` 3` 后缀（:344-361），292 凤纹手绢 13 方案精确名断言通过，machine-inner=父名+`连续流程`（s273 实查 4 处：方案 7/8/10/11）；零 root / 多 root / 环 / 悬空 / opaque 五个失败模式各有聚焦反例（:123-204）且本人复跑 6/6 绿；**K-L4 current-only**✓——publication diff 仅 +import +断言调用（无 rename/rewrite/convert 残留，本人 grep=0），editor src 旧名正则 0 命中（无 UI 展示遮罩），历史 upgrader 文件不存在且引用 0，一次性转换器未进入提交（最终树只余永久 invariant 与其测试）。本人独立执行：`rg` opaque 精确模式 current+baseline=0 hits；s001:8056 `紫金丹剧情方案` 样例在列；聚焦复跑 `pal-item-scheme-labels.test.ts + .pal.test.ts + pal-current-publication.pal.test.ts` → **3 files / 9 tests passed**（含 HEAD 全量 publish 验证）。二跑零计划采用 Codex 记录的两次独立 replay（writes=0/deletes=0/conflicts=0/asset-deletes=0）证据，并获结构性佐证：publication 内已无任何改名代码、仅剩断言，label 写入无从计划；按指示未重复跑全量发布。无返工项；未修改实现，未代签 GLM。 |
+| GLM | **accept（2026-08-30，只读终审 `f9237db8`，全部关键数字本人独立复算/复跑，与 Kimi 证据互补不重叠）** | 按 GM-L1~L3 独立核验：①**exact-diff 结构化复算（GM-L1）**——本人 python 脚本对 `c1c19fd3 -> f9237db8` 做 JSON 叶级 diff：current 与 baseline 各 **17 文件 / 恰 53 个 `.label` 变化 / 0 非 label**（数组长度与键增删均零），`scenes/index.json` 前后相等；17 份正文 current↔baseline `cmp` 逐字镜像。②**引用图实现（GM-L2）**——`pal-item-scheme-labels.ts` 覆盖 behaviors(trigger/auto)+`hooks[onEnter/onTeleport].variants`（:218-253），悬空 :280 / 成环 :285-286 / 零 root :313 / 多 root :314-317 / 数量漂移 :324-329 / order+id 不唯一 :341-342 全 fail-loud；**真实链抽查（K-L1 交叉）**：s273 `hooks.onEnter.variants.c8-440a584eee79` 现名 `凤纹手绢剧情方案`，其 10 个实体固有 auto = `凤纹手绢剧情方案 2..13` 全归 item 292。③**命名 census 重扫（GM-L3）**——49 顶层 label / 11 root（292×13、273×12、六神丹×5、布包×5、玉佩×3、香蕉×3、桂花酒×2、钓竿×2、情书×2、风灵珠×1、石钥匙×1），后缀无空洞；4 个 machine-inner 全为 `${父名}连续流程`（凤纹手绢 7/8/10/11）；样例 `s001.hooks.onEnter.variants['c8-731fd69bc3f4'].label=紫金丹剧情方案`（flow=stages）。④**清零（K-L4 交叉）**——`物品剧情行为` 全库仅存 invariant 检测正则（:8）与负例 fixture 各一处；`experimental/script-v5/` 不存在；无转换器提交记录；`_state.json` 变化恰为 17 个 scene SHA 记录。⑤**聚焦复跑（本人执行）**——`pal-item-scheme-labels.test.ts` 6/6 + `.pal.test.ts` 1/1 + `pal-current-publication.pal.test.ts` 2/2 全绿（publication 真实校验路径 :262-268 含 invariant，41/11/4 错值即红）；未重复全量与完整发布。⑥**零计划闭合**——真实 current 49 label 全等期望（pal 测试断言）+ current↔baseline 镜像 + publication 以 baseline 为起点，推出再发布必零计划，与 Codex 两次 replay 记录互证。**观察（非返工）**：`isCandidate = reachable ∪ label-shaped`（:306-307）是比卡面更强的门禁——未来 item 私有脚本选择手写命名方案会 fail-loud 强制按约定命名，属故意 fail-loud，符合 current-only 纪律。无返工项；未修改实现，未代签 Kimi。 |
 
-**done 准入结论：blocked（缺 Kimi / GLM 当前实现 accept 与用户功能验收）。**
+**done 准入结论：blocked（2026-08-30 Codex + Kimi + GLM 当前实现 accept 三签齐、无 counter；仅缺用户功能验收，验收前不得标记 done）。**
 
 ## Build / Review 证据
 
@@ -196,6 +196,23 @@ counter）。** 实现期落实 K-L1-K-L4 与 GM-L1-L3；done accept 另行计�
 
 ## 交接记录
 
+- 2026-08-30 GLM: 只读终审 `f9237db8`，签 **accept**。全部关键数字独立复算：结构化 JSON diff
+  current/baseline 各 17 文件恰 53 label-only 变化（0 非 label、index 不变、17 份 cmp 镜像）；
+  引用图 fail-loud 面（悬空/环/零/多 root/数量漂移/order+id）逐行定位；真实 census 重扫 49/11
+  （292×13、273×12…后缀无空洞）+ 4 machine-inner 全为父名+连续流程 + s273 固有挂载链抽查 +
+  紫金丹样例在位；清零三连（opaque 仅存门禁正则与负例 fixture、v5 目录不存在、无转换器提交）；
+  聚焦复跑 6+1+2 全绿；零计划由 invariant+镜像+baseline 起点结构闭合并与 Codex replay 互证。
+  附一条非返工观察（isCandidate 强门禁属故意 fail-loud）。未修改实现，未代签 Kimi，未标 done。
+  Next: 用户功能验收（编辑器 s001 进场脚本方案卡显示可读名 + 详情改名保存），验收通过后收口 done。
+- 2026-08-30 Kimi: 只读终审 f9237db8 当前实现，签 **accept**。独立复核（非复述）：K-L1 反向图
+  （behaviors.trigger/auto + hooks[channel].variants 全遍历、固有挂载递归传播、s273 链实过）、
+  K-L2 exact-diff（本人复算 current/baseline 各 +53/−53 label-only、非 label 变更 0 行、17 文件 cmp
+  逐字镜像、_state.json 仅哈希 churn）、K-L3 命名确定性（order+id 排序与冲突 fail-loud、292×13 精确名、
+  machine-inner=父名+连续流程 s273 实查 4 处）、K-L4 current-only（publication 仅余断言、editor 旧名
+  0 命中、upgrader 不存在、一次性转换器未入提交）。本人执行 opaque rg=0 hits、紫金丹样例在列、
+  聚焦复跑 3 files / 9 tests passed（含 HEAD 全量 publish）；二跑零计划采用 Codex 两次 replay 记录 +
+  结构性佐证（无改名代码即无 label 计划），按指示未重复全量发布。无返工项；未修改实现，未代签 GLM，
+  未标 done。Next: GLM 审引用闭包 / 测试矩阵后交用户功能验收。
 - 2026-08-30 Codex：完成唯一 Coding Owner build、自验证并转 `review`。落地永久引用图 / 确定性命名
   invariant，执行一次性 canonical transaction 后删除转换器；baseline/current 各 53 个 label-only
   变化且镜像，发布 replay 与删除转换器后的独立 dry-run 均为零计划。聚焦 6+1+2、migrate 全量
@@ -226,18 +243,6 @@ counter）。** 实现期落实 K-L1-K-L4 与 GM-L1-L3；done accept 另行计�
 
 ## 下一位 Agent 提示词
 
-```text
-终审 MIG-PAL-ITEM-SCHEME-LABEL-1 当前实现。
-
-任务卡：docs/ops/tasks/MIG-PAL-ITEM-SCHEME-LABEL-1-pal-item-scheme-author-labels.md
-当前状态：review；Codex accept 已签，Kimi / GLM 当前实现 accept pending，用户验收 pending。
-角色：Kimi（current-only / migration 边界）或 GLM（引用闭包 / 测试矩阵）审查者。
-
-先完整阅读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md 与本卡，再只读审查当前 working tree / HEAD。
-重点逐项核 K-L1~K-L4 与 GM-L1~GM-L3：hooks[channel].variants 和固有挂载中间节点是否完整；49/11/4
-唯一 root、零/多 root/环/悬空 fail-loud 与 292×13 稳定消歧；baseline/current 各 53 个 label-only diff
-及镜像；c8-ID/命令/flow/stage/order/引用零变化；machine-inner 同步；一次性转换器、旧 fixture、UI fallback
-和 upgrader 是否已清零；publication replay 是否为零计划。可复用任务卡证据并按风险做必要聚焦复跑，
-不要重复跑全量，不得修改实现。输出当前实现 `accept`，或给出带文件:行号与复现命令的 `counter` / 返工项，
-并把结论写回本卡 review -> done 签字与交接记录。Kimi / GLM / 用户验收未齐前不得标记 done。
-```
+无下一位 Agent 提示词。Codex / Kimi / GLM 三方当前实现 accept 已齐（无 counter），等待用户功能
+验收：在编辑器打开 `s001` 进场脚本，确认方案卡显示 `紫金丹剧情方案` 等可读名与独立 `N 个步骤`，
+详情浮层改名/保存正常且不回写旧名；验收通过后本卡收口 done。

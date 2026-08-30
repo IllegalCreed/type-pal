@@ -429,6 +429,35 @@ Branch: `main`
   ItemUseEffectEditor → 4 files / 79 tests 全绿。GLM P2 另开 DS 版本卡、P3 不混入本轮，与本人
   counter 放行条件一致。A 方案零视觉变化，按卡面无需重跑浏览器档。无剩余返工项；未修改实现，
   未代签 GLM，未标 done。
+- Kimi 视觉增量复审: **accept（2026-08-31，只读核 90f9dc6f / d36dc244 / 147ee833 / 19518463
+  四提交 + 本人独立静态核对、聚焦复跑与 1280px 实机测量，不重审已通过范围）**：
+  - **四向行走预览（90f9dc6f）✓**：共享派生 `worldSpriteSemanticGroups` 唯一真源
+    （world-sprite-action-preview.ts），资源库删除本地重复实现改为 re-export，角色页与资源库同源；
+    角色页 `SpriteFrames.tsx` 瘦身为纯只读 `<SemanticFrameShelf presentation="embedded"
+    ariaLabel="四向行走与动作帧预览">`，资源库 full 编辑能力（RawFrameInspector / 上传 / 帧删除规划）
+    未动；4 方向行（下/左/上/右·行走）+ 动态首格（每行恰 1 `.animated`）+ 具体帧 + 命名动作
+    （poses 按 order+id 稳定序、playbackSteps/loopFrom/单次·循环 note）完整，布局债经 `DsStatus`
+    warning 明示“缺失槽回退第 0 帧”；旧 `frames-preview/dirgroup/fcell/posegroup` JSX 与 CSS 双侧
+    清零（本人 grep 零残留），boundary 断言四选择器零规则体 + 零交互元素防复活；`SemanticFrameShelf`
+    新增 `ariaLabel` 且 `onActivate` 仅在有 owner 时渲染（假 affordance 防回流）。
+  - **战斗与四向绑定（d36dc244 + 147ee833）✓**：两处绑定面同语言——`padding: 16px 20px` +
+    `border-bottom 1px solid` + `panel2 72%` 背景（实机两处 computed 一致），字段标题 +
+    `{label, content}` 圆形 HelpTip（“这里只更换角色引用；…”）与主次层级一致；行走绑定删除
+    `size="compact"` 与 `.actor-world-sprite-binding__control{max-width:720px}`（boundary 断言零规则体），
+    1280px 实机 select 36×1056、按钮 36、“在资源库编辑”36px、control maxWidth=none 铺满整行；
+    战斗绑定 select/按钮同 36px。角色页只有换绑与 `editorLinks.battleSprite/actorSprite` 导航——
+    file input 0、导入/上传按钮 0（实机核对）；缺失引用保留原值作 label + “当前引用缺失”描述、
+    不兼容保留选中值 + profile 摘要描述，均不静默清空。
+  - **战斗工作区单列（19518463）✓**：`.actor-battle-detail-grid` 专属类固定
+    `grid-template-columns: minmax(0,1fr)`（boundary 断言），1280px 实机 grid=1080px 单列，
+    基础能力(249)→战斗形象(544)→初始装备与仙术(1795)→升级曲线与习得技能(2102)→战斗音效(2768)
+    五段同宽 1080px 上下排列，长预览不再与短面板双列等高；ActorPanel/预览/添加/排序/删除/Command
+    owner 零改动（diff 仅类名与 CSS），8 个战斗动作（待机/普通攻击/施法/防御/受伤/濒死/死亡/偷窃）
+    完整，document overflow=0。
+  - **验证（本人执行）**：ActorMode + BattleSpritePicker + SpriteFrames + SpriteFrameWorkbench +
+    SpriteResourceViewer + boundary → 6 files / 81 tests 全绿；1280px 实机测量如上，
+    与 Codex 证据（36px、20px inset、1080px 单列、8 动作、overflow=0）一致且各自独立取得。
+  - 无返工项；未修改实现，未代签 GLM，未标 done。
 - GLM: **accept（2026-08-30，只读终审 HEAD `e901eb75`（build 链 05f46e37→3c2852b8→1e0a6db1→e901eb75），全部钉逐条独立核验 + 本人复跑 12 files / 185 tests，非复述 Codex）**：
   - **GM-S1/KS4 registry 双轴**：本人脚本复算 registry v2——29 adoption / 32 dataPaths / 17 家族 / 19 owner 与 baseline 块一致；contentSurface 分布 **10 repeat-row + 12 object-card + 2 edge-to-edge + 5 continuous = 29**，railLayout **28 inline + 1 overlay**（唯一 overlay = frame-animation-timeline）；每条 adoption 恰 12 键含 contentSurface/contentOwner/railLayout/railOwner，两 owner 指纹经 `reorder-surface-adoption.test.ts:45-46` 逐一绑定真实源文件；桶成员精确断言（2/5 ID 清单、overlay 单例、六红项=repeat-row :72-80、story 两 scheme=object-card :81-82）。
   - **GM-S2/KS2 六红项迁移与旧皮肤清零**：六 owner 全部 `DsRepeatRow density="compact"`（EnemyTab.tsx:381、EnemyTeamTab.tsx:446、ItemUseEffectEditor.tsx:468、ActorMode.tsx:1637、CommandForm.tsx:454,1564）；本人逐块直读现存 CSS——`.rule-row`(:7243)/`.enemy-team-slot`(:10757)/`.item-amount-row(.ordered)`(:10287+)/`.actor-initial-magic-row`(:2845)/`.cf-dialog-row`(:6949)/`.cf-party-row`(:6967) 只剩列轨与 justify，border/background/radius/padding/margin/固定 flex 全部清除（旧 `.cf-dialog-row` 底色圆角形态已消灭）；门禁 `reorder-surface-adoption.test.ts:97-117` 同时反查 wrapper 中性与六选择器皮肤、禁 `.rr-*` flex；窄容器动作组**整组下沉**（item-amount/cf-party `grid-column: 1 / -1` @520px、enemy-team container-type、shop @560px）。
@@ -465,6 +494,50 @@ Branch: `main`
     Codex accept 失效，**本 accept 不覆盖该未实现增量**，落地后本席需再做只读复审。**P2 跟踪条件**：
     「DsActionGroup 规范登记 + 2.21.0 另开 DS 版本卡」承诺当前看板无对应行——要求本卡收口 done 前由
     Codex 开卡登记或看板留行，避免悬空。未修改实现文件，未代签 Kimi，未标 done。
+- GLM 视觉增量复审: **accept（2026-08-31，只读复审四提交 `90f9dc6f`（行走预览现代化）/`d36dc244`
+  （战斗绑定对齐）/`147ee833`（行走绑定扩宽）/`19518463`（战斗区单列），不重审已通过范围）**：
+  - **四向行走预览**：共享语义真源落地——新增 `world-sprite-action-preview.ts` `worldSpriteSemanticGroups`
+    （directional→下/左/上/右·行走 4 行，`deriveStepCycle` 播放序 + `#N 为站立帧` 注记；loop/static 各自
+    语义行；命名动作按 order+id 排序带 playbackSteps/loopFrom 注记与 active 标记），角色页
+    `SpriteFrames.tsx`（现仅 103 行只读预览）与资源库 `SpriteResourceViewer` 同源消费；角色页
+    `SemanticFrameShelf presentation="embedded"`、资源库默认 full 且保留 onGroup/onAction/onFrame
+    选择回调（编辑能力未削）；帧数不匹配时 `declaredDemand > total` 给出 warning 并披露运行时回退
+    真值。**旧皮清零**：`frames-preview|dirgroup|fcell|posegroup` 在 ActorMode/SpriteFrames/
+    SpriteResourceViewer/editor.css 四处 grep **零命中**，boundary 门禁同时封 JSX 正则与 CSS 规则
+    零存在。editor.css 净 -207 行。
+  - **战斗与四向绑定一致性**：两处 CSS 逐字相同（`container-type:inline-size; padding:
+    var(--ds-space-6) var(--ds-space-7); border-bottom; panel2 72% bg`，:2874-2879 与 :2938-2943），
+    共享 <520px 容器查询整组堆叠；两处均为 DsField + 结构化 help（圆形 HelpTip 形态）+「在资源库编辑」
+    secondary 跳转。**36px**：行走 select/按钮与战斗 picker 均已去 `size="compact"`（147ee833 diff 证实），
+    picker `size?: DsControlSize` 未传即 default；boundary 断言两绑定块内不得出现 compact。**720px 上限**：
+    `.actor-world-sprite-binding__control { max-width:720px }` 规则已删，boundary 断言该选择器规则数
+    必须为 0（防复活）；宽容器只剩 20px（`--ds-space-7:20px`）左右内边距并铺满整行。**权限边界**：
+    ActorMode 对 `type="file"|Uploader|prepareBattleSpriteImport|AddBattleSpriteCommand` grep 零命中，
+    仅换绑（UpdateActorCommand/SetActorBattleSpriteCommand）+ 跳转（App.tsx:1148 `onOpenBattleSprite`
+    → editorLinks）；与卡面用户澄清「允许在资源库编辑导航、角色页禁编辑/导入」一致。**缺失/不兼容**：
+    行走 select 合成 `{value:spriteId, description:'当前引用缺失'}` 保留原值，sprite 缺失走明确空态，
+    帧数不符走 warning。
+  - **战斗工作区单列**：`.actor-battle-detail-grid` 恰一条规则 `grid-template-columns: minmax(0, 1fr)`
+    （editor.css:2724-2726），boundary 断言唯一存在与值；标记序实测为 基础能力(:667 区) → 战斗形象
+    (ActorBattleAppearancePanel :784) → 初始装备与仙术(:791) → 成长(:802) → 战斗音效(:817)，同容器
+    同宽上下排列，长预览不再与短配置双列等高。初始仙术添加/排序/删除/Command owner 未被四提交触碰
+    （reorder registry 与六红项 owner 零改动）。
+  - **复跑（本人执行）**：ActorMode + BattleSpritePicker + SpriteFrames + SpriteResourceViewer +
+    SpriteFrameWorkbench + boundary → **6 files / 81 tests 全绿**；按纪律未重复全量。浏览器几何采用
+    Codex 记录的四份 .mimosa 证据（1280px：36px/20px inset/1080px 等宽/8 动作/overflow=0/console=0）。
+  - **P2 确认**：`ED-ACTION-GROUP-SPEC-1` 已在看板登记（draft，DS 2.22.0 顺延 wide track 2.21 之后），
+    本席先前跟踪条件视为满足。无返工项；未修改实现文件，未代签 Kimi，未标 done。
+- Codex workbench list 增量: **accept（2026-08-31，`b7773cdc`）**——按用户明确原则把公共
+  `DsWorkbenchSection.contentLayout` 收成 `form | list` 语义枚举：默认 form 保留 20px padding / 12px gap，
+  list 统一清零 padding/gap，禁止任意数值与业务覆写；DS 升到 2.20.1。Shop 私有 `.shop-stock-card` 外壳
+  迁为真实 `DsWorkbenchSection contentLayout="list"`，edge-to-edge 行与 divider 不变；下架由 secondary
+  “✕”改为 32×32 danger `DsIconButton icon="delete"`，具体 aria-label 保留。共享脚本正文同用 list，
+  panel content 为 0 inset，脚本树自身 8px 属列表内部节奏。删除 shop 私有 panel/header/remove hover 与
+  28px 死规则，reorder contentOwner 改绑真实 ShopTab callsite。聚焦 4 files / 50 tests + boundary 60、
+  typecheck、design audit、diff-check 全绿；1280px 实机 Shop content padding/gap=0、list 与 content 左右边界
+  精确相等、删除动作 32×32；脚本 content padding/gap=0 且 editor 根贴边；overflow/console 均为 0。
+- Kimi workbench list 增量复审: pending（仅复审 `b7773cdc`，旧 accept 不覆盖本增量）。
+- GLM workbench list 增量复审: pending（仅复审 `b7773cdc`，旧 accept 不覆盖本增量）。
 - counter / 返工处理: Kimi counter 已按建议 A 完成：craft-recipes 改登 object-card，桶计数 9/13/2/5；
   两条真实 owner 不变量扩展为全 registry 门禁，并进一步收紧为 exact class token、唯一 owner 与 object-card
   祖先链无 DsRepeatRow。Kimi 增量复审 accept（2026-08-31），全部 counter 闭环；原 counter 保留为
@@ -472,8 +545,8 @@ Branch: `main`
   “连资源库深链也不保留”的过宽解释：允许“在资源库编辑”导航，但角色页仍禁止编辑/导入。GLM P2 已在看板登记
   `ED-ACTION-GROUP-SPEC-1` draft（DsActionGroup 规范 + 2.21.0）；P3 卫生项不混入本次必要返工。
 - 缺签豁免: N/A
-- done 准入结论: blocked（Kimi + GLM 对 `bf129290` craft 增量 accept 均已签；Codex 已完成四向预览、
-  战斗绑定与战斗页单列视觉返工并刷新 accept，当前只缺 Kimi/GLM 对视觉增量复审与用户验收，齐前不得标记 done）
+- done 准入结论: blocked（craft 与四个角色视觉增量三方 accept 已齐；`b7773cdc` workbench list 增量
+  当前仅 Codex accept，仍缺 Kimi + GLM 增量复审与用户验收，齐前不得标记 done）
 
 ## Draft: 设计与风险
 
@@ -535,6 +608,8 @@ Branch: `main`
     binding 内容行；窄容器继续复用公共 control group 的整组纵向满宽回退。
   - 战斗与成长页使用专用单列 grid；战斗形象长预览与初始装备/仙术短配置改为同宽上下排列，消除双列
     等高产生的大面积空白，其他关系页继续保留通用双列合同。
+  - `DsWorkbenchSection` 新增 `contentLayout="form|list"`：表单默认 inset，edge-to-edge 列表统一 flush；
+    Shop 货单与共享脚本正文采用 list。Shop panel 迁为真实公共 Section，下架改为 danger delete icon。
 - 运行命令:
   - 聚焦：10 files / 108 tests；adoption / field-layout / number / add-picker / catalog fingerprint
     逐项复跑通过。
@@ -555,6 +630,8 @@ Branch: `main`
     design-system audit、`git diff --check` 全绿，未重复 editor 全量。
   - 战斗工作区单列返工聚焦：ActorMode + boundary，2 files / 72 tests；独立 typecheck、
     design-system audit、`git diff --check` 全绿，未重复 editor 全量。
+  - workbench list 增量：recipes / Shop / SharedScript / reorder surface 4 files / 50 tests + boundary 60；
+    typecheck、design-system audit、`git diff --check` 全绿，未重复 editor 全量。
 - 浏览器 / 手工检查: PAL 项目 1280/900/720/640（200% 等效 CSS 宽度）检查初始仙术；720 检查
   enemy-team、Shop、RF-21 与 map layer；1280 检查四向绑定 default 尺寸、满行宽度与四方向预览；复用
   本会话既有 script scheme object-card 证据。1280 追加检查战斗工作区单列、相邻面板同宽与交互保留。
@@ -574,7 +651,9 @@ Branch: `main`
   `.mimosa/evidence/ACTOR-WORLD-SPRITE-EMBEDDED-720.png`、
   `.mimosa/evidence/ACTOR-BATTLE-BINDING-REFERENCE-720.png`、
   `.mimosa/evidence/ACTOR-WORLD-SPRITE-FULL-WIDTH-1280.jpg`、
-  `.mimosa/evidence/ACTOR-BATTLE-STACKED-PANELS-1280.jpg`（本地忽略证据，禁止提交）。
+  `.mimosa/evidence/ACTOR-BATTLE-STACKED-PANELS-1280.jpg`、
+  `.mimosa/evidence/SHOP-STOCK-FLUSH-WORKBENCH-1280.jpg`、
+  `.mimosa/evidence/SHARED-SCRIPT-FLUSH-WORKBENCH-1280.jpg`（本地忽略证据，禁止提交）。
 - 结论: 初始仙术行 1px 完整边界，手柄位于行内；四档字段宽 325/656/476/396px，动作组始终在边界内，
   三枚动作 32/32/42px。敌队 5/5 repeat-row，720px 字段 550px、动作 32×32；Shop 720px
   identity 约 481px，外框 1px + 行 divider，三动作 32×32；RF-21 repeat-row / overlay rail 与
@@ -598,13 +677,17 @@ Branch: `main`
   战斗页单列返工后，1280px 的 grid computed columns=`1080px`；战斗形象与初始配置面板同宽 1080px、
   依次上下排列且间距 14px，不再互相拉出等高空白。8 个战斗动作、添加初始仙术 header action 与行级排序/
   删除均保留，document overflow=0、console error=0。
+  workbench list 增量后，Shop 与共享脚本 panel content 的 computed padding/gap 均为 0；Shop list 与 content
+  左右边界精确相等，行仍 edge-to-edge，删除按钮为 32×32 danger trash icon（aria=`下架 行军丹`）；共享脚本
+  editor 根与 panel content 精确贴边，脚本树只保留自身 8px 列表节奏。两页 overflow=0、console error=0。
 - 未完成项: Kimi / GLM 当前实现终审与用户验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Kimi + GLM 对 `bf129290` craft 增量均 accept；Codex 已完成四向预览、战斗绑定与战斗页单列
-  返工并刷新 accept，Kimi / GLM 对当前视觉增量复审 pending。此前签字保留为历史事实，不覆盖当前增量。
+- 审查结论: craft 与四个角色视觉增量三方 accept 均已到位；用户随后指出 Shop 私有 panel / 非规范下架动作，
+  并拍板“表单有 inset、直接列表无 inset”的公共原则。`b7773cdc` 已完成且 Codex accept，等待 Kimi / GLM
+  仅对该增量复审；此前签字保留为历史事实，不覆盖本增量。
 - 必须返工项:
   1. 角色战斗形象面导入与编辑入口已连同调用链、禁用占位动作和陈旧 adoption 全部移除（closed）。
   2. **closed（Kimi counter，2026-08-31 增量复审确认）**：craft-recipes 已改登 object-card，桶计数
@@ -617,7 +700,9 @@ Branch: `main`
      30px 升为 default 36px，删除 720px 上限并铺满 binding 内容行；等待两席增量复审。
   6. **closed pending reviewer confirmation（用户战斗页双列失衡反馈）**：战斗工作区已固定为单列，长预览
      与短配置同宽上下排列；等待两席增量复审。
-- Accept / rework: **review**（Codex accept；等待 Kimi / GLM 视觉增量复审与用户验收）。
+  7. **closed pending reviewer confirmation（用户 workbench content 原则）**：公共 Section 新增 form/list
+     语义布局，Shop / 共享脚本采用 list；Shop 迁公共 panel 且下架改 danger delete icon。
+- Accept / rework: **review**（Codex 对 `b7773cdc` accept；等待 Kimi / GLM 增量复审与用户验收）。
 
 ## 用户验收
 
@@ -626,6 +711,34 @@ Branch: `main`
 
 ## 交接日志
 
+- 2026-08-31 Codex: 用户指出 Shop 货单仍是私有 panel、下架“✕”不合规范，并拍板公共原则：表单内容有
+  inset，直接列表无 inset；共享脚本正文同属 list。新增 `DsWorkbenchSection.contentLayout=form|list`，默认
+  form、list 统一 padding/gap=0，DS 2.20.1；Shop / Script 采用 list，Shop 迁真实公共 Section，下架改
+  32×32 danger delete icon，删除全部私有 panel/header/remove CSS 与 28px 死规则。聚焦 50 + boundary 60、
+  typecheck、design audit、diff-check 与 1280px 两页实机全绿；证据为
+  `.mimosa/evidence/SHOP-STOCK-FLUSH-WORKBENCH-1280.jpg`、
+  `.mimosa/evidence/SHARED-SCRIPT-FLUSH-WORKBENCH-1280.jpg`。Codex accept，保持 review。
+  Next: Kimi / GLM 仅复审 `b7773cdc`；两席 accept 与用户验收齐前不得 done。
+
+- 2026-08-31 Kimi: 只读复审四个角色视觉增量提交（90f9dc6f / d36dc244 / 147ee833 / 19518463），
+  签 **accept**。独立证据：共享派生 `worldSpriteSemanticGroups` 唯一真源（库删本地实现改 re-export），
+  角色页纯只读 embedded shelf（四方向行 + 每行恰 1 动态首格 + 命名动作 + 布局债 DsStatus 明示），
+  旧 frames-preview/dirgroup/fcell/posegroup JSX 与 CSS 双侧零残留（本人 grep）；两绑定面实机
+  computed 一致（padding 16px 20px / border-bottom / panel2 72%），select 与“在资源库编辑”均 36px、
+  720px 上限规则删除后 control 铺满整行；角色页 file input 与导入/上传按钮实机为 0（用户澄清的
+  允许跳转、禁编辑/导入成立）；`.actor-battle-detail-grid` 单列实机 grid=1080px，五段（基础能力→
+  战斗形象→初始装备与仙术→升级曲线→战斗音效）同宽上下排列，8 动作完整、document overflow=0。
+  本人复跑 6 files / 81 tests 全绿（ActorMode/BattleSpritePicker/SpriteFrames/SpriteFrameWorkbench/
+  SpriteResourceViewer/boundary）。无返工项；未修改实现，未代签 GLM，未标 done。三方当前实现
+  accept 齐，Next: 用户验收。
+
+- 2026-08-31 GLM: 只读复审四个角色视觉增量提交（90f9dc6f 行走预览现代化 / d36dc244 战斗绑定对齐 /
+  147ee833 行走绑定扩宽 / 19518463 战斗区单列），签 **accept**。核心证据：worldSpriteSemanticGroups
+  共享语义真源 + 角色 embedded / 资源库 full 双态；四旧皮关键词全库零命中且 boundary 封锁；两绑定 CSS
+  逐字一致 + 36px（去 compact）+ 720px 上限规则删除断言防复活；ActorMode 导入链 grep 零命中（与用户
+  澄清的「允许跳转、禁编辑/导入」一致）；战斗区单列恰一规则 + 五面板顺序实测；初始仙术/reorder 域零
+  触碰。复跑 6 files / 81 tests 全绿。P2 确认 ED-ACTION-GROUP-SPEC-1 已落看板。未修改实现，未代签
+  Kimi，未标 done。Next: Kimi 视觉增量复审 → 用户验收。
 - 2026-08-31 Codex: 用户指出战斗形象长预览与初始配置短面板已不适合双列，等高 grid 造成大面积空白。
   新增 `actor-battle-detail-grid` 专用单列规则，不改变关系页通用双列或任何业务组件。红测先命中旧 class /
   缺 CSS owner；修复后聚焦 2 files / 72 tests、typecheck、design audit、diff-check 全绿。1280px 实机两面板
@@ -745,41 +858,17 @@ Branch: `main`
 ## 下一位 Agent 提示词
 
 ```text
-复审 ED-REORDER-SURFACE-1 当前角色视觉增量（Kimi / GLM reviewer）。
+复审 ED-REORDER-SURFACE-1 的 `b7773cdc` workbench list 增量（Kimi / GLM reviewer）。
+任务卡：docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md；状态 review。
+此前 craft 与四个角色视觉增量已三方 accept，不得重审；本轮只读核 `b7773cdc`，不得改实现、不得标 done。
 
-任务卡：docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md
-当前状态：review。Codex 已对当前实现 accept；craft counter 已由 bf129290 闭环并获 Kimi/GLM accept。
-Kimi / GLM 现有签字尚不覆盖 90f9dc6f、d36dc244、147ee833、19518463 四个角色视觉增量；本轮只读复审
-这四个提交，不得修改实现、不得重审已通过范围、不得标记 done。两席必须分别独立写回 accept，或给出
-file:line + 可复现反例 counter。
-
-增量要点：SpriteFrames 删除旧 frames-preview/dirgroup/fcell/posegroup JSX 与私有 CSS；抽出
-world-sprite-action-preview 供 SpriteResourceViewer 与角色页共用；角色页改为
-SemanticFrameShelf presentation="embedded" + ariaLabel="四向行走与动作帧预览"，资源库仍为 full
-presentation + RawFrameInspector + 编辑 callbacks。只读面无 callback 时不再渲染动作按钮；命名动作按
-逐步 duration 与 loopFrom 真值播放。boundary 门禁要求旧类 JSX/CSS 为 0。
-
-战斗/四向绑定增量：两处 binding 背景/padding/divider 一致，字段标题 + 概念 help、选项主名称 +
-`id · 中文 profile summary`、完整 title；用户澄清允许“在资源库编辑”导航，但角色页不得出现导入、
-file input 或内联编辑表单。两处下拉/按钮均为 default 36px；四向控制组已删除 720px 上限，在宽容器
-只保留左右 20px panel padding 并铺满整行，`<520px` 下选择器/动作组整体纵向满宽。缺失/不兼容分支
-也必须保留原值并使用同一主次信息层级。
-
-战斗工作区增量：`.actor-battle-detail-grid` 固定单列，基础能力、战斗形象、初始配置、成长和声音面板按顺序
-同宽上下排列；不得恢复战斗形象长预览与初始配置短面板的失衡双列。此项只改 grid class/CSS，不应改变
-预览、添加初始仙术、排序、删除或 Command owner。
-
-请核：资源库 full 与动作跳转不回退；角色页四向 4 行、动态首格 + 具体帧完整、命名 pose 正确；旧皮归零；
-720px screenshot/DOM 证据中 frame card 与战斗动态卡 90px/5px/6px/背景一致；1280px 四向 binding
-证据中 select/button 均 36px、control 只保留左右 20px inset 并铺满内容行；战斗 binding 同为 default
-36px，8 动作完整，overflow/console 为 0。战斗工作区必须由 `.actor-battle-detail-grid` 固定单列；1280px
-战斗形象与初始配置同宽 1080px、上下相邻。证据：`.mimosa/evidence/ACTOR-WORLD-SPRITE-EMBEDDED-720.png`、
-`.mimosa/evidence/ACTOR-BATTLE-BINDING-REFERENCE-720.png`、
-`.mimosa/evidence/ACTOR-WORLD-SPRITE-FULL-WIDTH-1280.jpg`、
-`.mimosa/evidence/ACTOR-BATTLE-STACKED-PANELS-1280.jpg`。可按风险复跑相关聚焦文件，不要跑 editor 全量。
-输出要求：在“进入 done 前：审查签字”写回本席对 90f9dc6f、d36dc244、147ee833、19518463 的 accept，
-或写 counter；
-同步交接日志。不得代签另一席，不得标记 done。`ED-ACTION-GROUP-SPEC-1` 已在看板登记，满足 P2 跟踪条件。
+用户拍板原则：公共内容面板若承载表单，保留统一 inset；若内容直接是列表，则不应有面板 inset。实现以
+`DsWorkbenchSection.contentLayout="form|list"` 语义枚举落地，默认 form，list 必须 padding=0/gap=0，
+不得开放任意数值。Shop 当前货单与共享脚本正文采用 list；Shop 必须是真实 DsWorkbenchSection，货单行
+edge-to-edge/divider/reorder 语义不变；下架必须是 DsActionGroup 内 32×32 danger delete icon，带具体 aria。
+核 DS 2.20.1 四处同步、规范文字、reorder contentOwner 与旧 shop 私有 CSS 清零；按风险复跑聚焦测试，
+不要跑 editor 全量。输出本席 accept，或 file:line + 复现反例 counter；只写本席签字与交接日志，
+不得代签另一席。两席与用户验收齐前不得 done。
 ```
 
 ## 历史 build 交接提示词
