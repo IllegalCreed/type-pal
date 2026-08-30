@@ -479,12 +479,19 @@
   row-gap: var(--ds-space-3);
 }
 
-.ds-field-group > .ds-field > .ds-field__label {
+.ds-field-group > .ds-field > :is(.ds-field__label, .ds-field__label-group) {
   grid-area: label;
   align-self: center;
   min-width: 0;
   overflow-wrap: break-word;
   word-break: normal;
+}
+
+.ds-field__label-group {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+  min-width: 0;
 }
 
 .ds-field-group > .ds-field > [data-ds-control-id] {

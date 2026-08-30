@@ -522,19 +522,33 @@ export function DsFieldGroup(props: {
   )
 }
 
+export type DsFieldHelp = string | { label: string; content: ReactNode }
+
 export function DsField(props: {
   id?: string
   label: string
   layout?: 'stacked' | 'inline'
   required?: boolean
-  help?: string
+  help?: DsFieldHelp
   error?: string
   children: ReactNode | ((control: DsFieldControlProps) => ReactNode)
   className?: string
 }) {
   const generatedId = useId()
   const id = props.id ?? generatedId
-  const descriptionId = props.error || props.help ? `${id}-description` : undefined
+  const inlineHelp = typeof props.help === 'string' ? props.help : undefined
+  const helpTip = typeof props.help === 'object' ? props.help : undefined
+  const descriptionId = props.error || inlineHelp ? `${id}-description` : undefined
+  const label = (
+    <label className="ds-field__label" htmlFor={id}>
+      {props.label}
+      {props.required ? (
+        <span className="ds-field__required" aria-hidden="true">
+          *
+        </span>
+      ) : null}
+    </label>
+  )
   return (
     <div
       className={classes(
@@ -543,16 +557,16 @@ export function DsField(props: {
         props.className,
       )}
       data-field-id={id}
-      data-support={Boolean(props.error || props.help) || undefined}
+      data-support={Boolean(props.error || inlineHelp) || undefined}
     >
-      <label className="ds-field__label" htmlFor={id}>
-        {props.label}
-        {props.required ? (
-          <span className="ds-field__required" aria-hidden="true">
-            *
-          </span>
-        ) : null}
-      </label>
+      {helpTip ? (
+        <span className="ds-field__label-group">
+          {label}
+          <DsHelpTip label={helpTip.label}>{helpTip.content}</DsHelpTip>
+        </span>
+      ) : (
+        label
+      )}
       <div data-ds-control-id={id} data-ds-description-id={descriptionId}>
         {typeof props.children === 'function'
           ? props.children({
@@ -566,9 +580,9 @@ export function DsField(props: {
         <div id={descriptionId} className="ds-field__error" role="alert">
           {props.error}
         </div>
-      ) : props.help ? (
+      ) : inlineHelp ? (
         <div id={descriptionId} className="ds-field__help">
-          {props.help}
+          {inlineHelp}
         </div>
       ) : null}
     </div>
@@ -586,7 +600,7 @@ type DsFieldChromeProps = {
   label: string
   layout?: 'stacked' | 'inline'
   required?: boolean
-  help?: string
+  help?: DsFieldHelp
   error?: string
   fieldClassName?: string
 }

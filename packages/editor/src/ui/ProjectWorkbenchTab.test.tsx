@@ -2147,9 +2147,32 @@ describe('项目设置工作区', () => {
     const select = row.querySelector<HTMLButtonElement>('.ds-select')!
     expect(select.id).toBe('project-role-video-startupTrademark')
     expect(row.querySelector('label')?.getAttribute('for')).toBe(select.id)
-    expect(select.getAttribute('aria-describedby')).toBe(
-      'project-role-video-startupTrademark-description',
+    expect(select.getAttribute('aria-describedby')).toBeNull()
+    expect(row.querySelector('.ds-field__help')).toBeNull()
+    const helpButton = row.querySelector<HTMLButtonElement>(
+      'button[aria-label="启动商标视频说明"]',
+    )!
+    expect(helpButton).not.toBeNull()
+    const helpTooltip = document.getElementById(helpButton.getAttribute('aria-describedby')!)
+    expect(helpTooltip?.getAttribute('role')).toBe('tooltip')
+    expect(helpTooltip?.textContent).toBe(
+      '可选资源角色：video.startupTrademark；需要视频资源。',
     )
+    expect(helpTooltip?.querySelector('code[translate="no"]')?.textContent).toBe(
+      'video.startupTrademark',
+    )
+    expect(
+      host.querySelectorAll('.project-role-row .ds-field__label-group > .ds-help-tip'),
+    ).toHaveLength(ASSET_ROLES.length)
+    const bossVictoryRow = [...host.querySelectorAll<HTMLElement>('.project-role-row')].find(
+      (candidate) => candidate.textContent?.includes('特殊战胜利结算音乐'),
+    )!
+    const bossHelp = bossVictoryRow.querySelector<HTMLButtonElement>(
+      'button[aria-label="特殊战胜利结算音乐说明"]',
+    )!
+    expect(
+      document.getElementById(bossHelp.getAttribute('aria-describedby')!)?.textContent,
+    ).toContain('不可逃战胜利后播放；若随后升级，升级屏继续沿用此曲。')
     expect(row.querySelector('select.in')).toBeNull()
     expect(row.querySelector('.project-role-resource')?.textContent).toContain('测试视频')
     expect(row.querySelector('.project-role-resource')?.getAttribute('title')).toBe(

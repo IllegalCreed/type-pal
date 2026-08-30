@@ -945,6 +945,55 @@ describe('editor design-system controls', () => {
     )
   })
 
+  test('字段的低频概念说明可放在标签旁帮助问号，不占用常驻支持行', async () => {
+    await act(async () =>
+      root.render(
+        <DsField
+          id="asset-role"
+          label="标题菜单音乐"
+          help={{
+            label: '标题菜单音乐',
+            content: '必选资源角色：audio.openingMenuMusic；需要音乐资源。',
+          }}
+        >
+          {(field) => <DsTextInput {...field} />}
+        </DsField>,
+      ),
+    )
+
+    const input = host.querySelector<HTMLInputElement>('#asset-role')!
+    const helpButton = host.querySelector<HTMLButtonElement>(
+      'button[aria-label="标题菜单音乐说明"]',
+    )!
+    expect(input.getAttribute('aria-describedby')).toBeNull()
+    expect(host.querySelector('.ds-field__help')).toBeNull()
+    expect(helpButton.closest('.ds-field__label-group')).not.toBeNull()
+    expect(document.getElementById(helpButton.getAttribute('aria-describedby')!)?.textContent).toBe(
+      '必选资源角色：audio.openingMenuMusic；需要音乐资源。',
+    )
+
+    await act(async () =>
+      root.render(
+        <DsField
+          id="asset-role"
+          label="标题菜单音乐"
+          error="请选择可用音乐"
+          help={{
+            label: '标题菜单音乐',
+            content: '必选资源角色：audio.openingMenuMusic；需要音乐资源。',
+          }}
+        >
+          {(field) => <DsTextInput {...field} />}
+        </DsField>,
+      ),
+    )
+    expect(
+      host.querySelector<HTMLInputElement>('#asset-role')?.getAttribute('aria-describedby'),
+    ).toBe('asset-role-description')
+    expect(host.querySelector('.ds-field__error')?.textContent).toBe('请选择可用音乐')
+    expect(host.querySelector('button[aria-label="标题菜单音乐说明"]')).not.toBeNull()
+  })
+
   test('groups related fields on one responsive label track without changing field semantics', async () => {
     await act(async () =>
       root.render(

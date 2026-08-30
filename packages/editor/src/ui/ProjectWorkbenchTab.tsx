@@ -529,7 +529,16 @@ function RoleBindings(props: {
             label={label}
             required={required}
             error={bindingError}
-            help={`${required ? '必选' : '可选'}资源角色：${role}；需要${expectedLabel}资源。${definition.help ? ` ${definition.help}` : ''}`}
+            help={{
+              label,
+              content: (
+                <>
+                  {required ? '必选' : '可选'}资源角色：
+                  <code translate="no">{role}</code>；需要{expectedLabel}资源。
+                  {definition.help ? ` ${definition.help}` : ''}
+                </>
+              ),
+            }}
           >
             {(control) => (
               <div className="project-role-binding">
