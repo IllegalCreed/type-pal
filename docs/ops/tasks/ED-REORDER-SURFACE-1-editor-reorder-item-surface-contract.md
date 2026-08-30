@@ -364,17 +364,18 @@ Branch: `main`
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-30）**——29 adoption 双轴闭合为 repeat-row 10 / object-card 12 /
-  edge-to-edge-list 2 / continuous-structure 5，rail 为 inline 28 / overlay 1；六红项全部换用
-  `DsRepeatRow`，Shop 动作组由公共 `DsActionGroup` 保证 32px，reorder state machine / adapter /
-  command / revision 零改动。聚焦 108、editor 全量 178 files / 1460 tests、typecheck、design-system
-  gate 与四档浏览器几何全绿；用户指出角色战斗动作预览嵌套边框过多后，已改为 embedded 动作架并以
-  聚焦 22 + 浏览器重新验收，刷新 accept；无 P0/P1/P2 自审返工项。
+- Codex: **accept（2026-08-30，用户返工后刷新）**——29 adoption 双轴分类与 reorder 语义保持不变；
+  `actor/initial-magic` 的集合级添加已移入 `ActorPanel → DsWorkbenchSection.actions`，使用 compact secondary
+  add 动作，body 入口清零；行级删除改为 `DsActionGroup` 内公共 danger delete 图标，具体 accessible name 与
+  tooltip 同步。并按 DS-C.4e 补齐 embedded 空态、右上角添加指引与候选用尽说明，清理死 `.btn` CSS；
+  deferred owner / fingerprint 同步。聚焦 3 files / 24 tests、typecheck、design-system gate 与 720px 浏览器
+  几何/溢出/日志全绿；原 editor 全量 178 files / 1460 tests 证据仍有效，本次按纪律不重复全量。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: N/A
+- counter / 返工处理: 用户指出角色战斗预览层级过深、初始仙术添加/删除动作归属不合规范；两项均已
+  按现行设计系统返工并刷新聚焦与浏览器证据，当前无未解决 counter。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（缺 Kimi / GLM 当前实现 accept 与用户验收）
 
 ## Draft: 设计与风险
 
@@ -417,11 +418,16 @@ Branch: `main`
     railLayout/railOwner`；公共 wrapper 保持 surface-neutral，story 两 scheme 保持 object-card canary。
   - Shop 保持 edge-to-edge 外框 + divider；560px 容器以下 identity 可换行、三枚动作整体下沉且均为
     32×32px。Design Lab RF-21 的字段行同步改用公共 repeat-row。
+  - 用户返工后，`actor/initial-magic` 集合级添加归入 panel header actions，行级删除归入 compact
+    `DsActionGroup` 的 danger `DsIconButton`；补齐 empty / candidates-exhausted 状态，删除 body 添加入口与
+    旧 `.actor-initial-magic-editor > .btn` 规则，并刷新 add-picker deferred owner / fingerprint。
 - 运行命令:
   - 聚焦：10 files / 108 tests；adoption / field-layout / number / add-picker / catalog fingerprint
     逐项复跑通过。
   - `pnpm --filter @type-pal/editor check`：178 files / 1460 tests（含 typecheck）全绿。
   - `pnpm --filter @type-pal/editor audit:design-system`：89 files / 2 evidence-bound exceptions。
+  - 用户返工聚焦：`ActorMode.test.tsx` + add-picker / reorder adoption gate，3 files / 24 tests；独立
+    `typecheck` 与 design-system gate 全绿，`git diff --check` 通过；未重复 editor 全量。
 - 浏览器 / 手工检查: PAL 项目 1280/900/720/640（200% 等效 CSS 宽度）检查初始仙术；720 检查
   enemy-team、Shop、RF-21 与 map layer；复用本会话既有 script scheme object-card 证据。
 - 跳过的检查及原因: N/A
@@ -434,20 +440,25 @@ Branch: `main`
   720/640 四档 viewport，640 作为 1280@200% 等效 CSS 宽度。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: `.mimosa/evidence/ED-REORDER-SURFACE-1-actor-initial-magic-720.png`
-  、`.mimosa/evidence/ACTOR-BATTLE-PREVIEW-EMBEDDED-720.png`（本地忽略证据，禁止提交）。
+  、`.mimosa/evidence/ACTOR-BATTLE-PREVIEW-EMBEDDED-720.png`、
+  `.mimosa/evidence/ACTOR-INITIAL-MAGIC-HEADER-ACTIONS-720.png`（本地忽略证据，禁止提交）。
 - 结论: 初始仙术行 1px 完整边界，手柄位于行内；四档字段宽 325/656/476/396px，动作组始终在边界内，
   三枚动作 32/32/42px。敌队 5/5 repeat-row，720px 字段 550px、动作 32×32；Shop 720px
   identity 约 481px，外框 1px + 行 divider，三动作 32×32；RF-21 repeat-row / overlay rail 与
   map continuous row 均符合分类。角色战斗动作架移除重复的 preview border / shelf border / 总标题 /
   单用途身份头 / active 蓝边，只保留动作 divider 与帧卡；8 动作 / 19 帧卡完整，console error 0。
+  初始仙术返工后，720px 下添加按钮只在 section header（body 同名入口 0），含公共 add icon；行级
+  上移 / 下移 / 删除均为 32×32px 且完整位于 642px repeat-row 内，删除为 danger icon，aria-label 与
+  tooltip 均为“删除初始仙术：气疗术”；panel / document 横向 overflow 均为 0，console error 0。
 - 未完成项: Kimi / GLM 当前实现终审与用户验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 自审 accept；Kimi / GLM pending。
-- 必须返工项: 用户视觉返工“角色战斗动作预览嵌套边框过多”已完成；当前无剩余 Codex 返工项。
-- Accept / rework: pending（签字不足不得 done）。
+- 审查结论: Codex 用户返工后自审 accept；Kimi / GLM pending。
+- 必须返工项: 用户指出的 header 添加归属、行级 danger 删除、空态/用尽状态与死 CSS 均已完成；当前无剩余
+  Codex 返工项。
+- Accept / rework: pending（已回到 review；签字不足不得 done）。
 
 ## 用户验收
 
@@ -455,6 +466,16 @@ Branch: `main`
 - 后续任务: pending
 
 ## 交接日志
+
+- 2026-08-30 Codex: 完成初始仙术动作归属返工。添加移入 panel header actions；删除改为 compact action
+  group 内 danger icon 并补齐 aria / tooltip；按 DS-C.4e 同步补齐 embedded 空态和候选用尽说明，清理死
+  CSS 与刷新 deferred owner/fingerprint。聚焦 24、typecheck、design gate、720px 几何与 console 全绿，
+  截图为 `.mimosa/evidence/ACTOR-INITIAL-MAGIC-HEADER-ACTIONS-720.png`；刷新 Codex accept，转 review。
+  Next: Kimi / GLM 按当前实现终审，签字不足不得 done。
+
+- 2026-08-30 Codex: 用户在 review 期指出初始仙术的添加按钮错误放在 panel body，行级移除也未使用
+  规范的危险图标动作。直读 DS-C.2 / DS-C.3、公共 `DsWorkbenchSection.actions` 与初始队伍/道具
+  合规类比后确认反馈成立，旧 Codex accept 失效，任务转 rework。Next: 由 Codex 唯一实现并聚焦复验。
 
 - 2026-08-30 Codex: 用户在 review 期指出角色战斗动作预览叠加角色面板、preview、semantic shelf、
   单用途身份头与 active 蓝边，视觉层级过深。新增 `SemanticFrameShelf presentation="embedded"`，角色页
@@ -490,13 +511,16 @@ Branch: `main`
 终审 ED-REORDER-SURFACE-1 当前实现。
 
 任务卡：docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md
-当前状态：review；Codex accept 已签，Kimi / GLM 当前实现 accept pending，用户验收 pending。
+当前状态：review；Codex 已在用户两轮返工后刷新 accept，Kimi / GLM 当前实现 accept pending，用户验收 pending。
 角色：Kimi（surface/视觉/边界）或 GLM（registry/覆盖/测试矩阵）审查者。
 
 先读 AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部签节与 Build/视觉证据。只读审查当前 HEAD / working
 tree，重点逐项核 KS1-KS4 与 GM-S1-GM-S5：29/32/19 census、10/12/2/5 contentSurface 与 28/1
 railLayout、六红项 DsRepeatRow 真采用且旧皮肤清零、Shop edge-to-edge + 3×32px 动作组、story scheme
 object-card canary、公共 DsReorderItem surface-neutral、reorder state machine/adapter/command/revision 零改动。
+另核用户返工：`actor/initial-magic` 添加只存在于 `DsWorkbenchSection.actions`，body 入口为 0；删除为
+compact action group 内 danger delete icon，具体 aria / tooltip、embedded 空态、候选用尽说明和 deferred
+fingerprint 均闭合；720px 三动作 32×32、row 内无溢出。
 可按风险复跑聚焦测试，不要重复跑 editor 全量，不得修改实现。输出当前实现 accept，或带 file:line 和复现
 命令的 counter/返工项，并写回 review -> done 签字与交接记录。Kimi、GLM、用户验收未齐前不得标记 done。
 ```

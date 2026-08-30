@@ -93,11 +93,11 @@
     {
       "adoptionId": "actor/initial-magic-append-default",
       "source": "ActorMode.tsx",
-      "owner": "ActorInitialMagicEditor",
+      "owner": "ActorInitialSetupPanel",
       "dataPaths": ["actors[*].battler.initialMagic"],
       "candidateOwner": "live skills",
       "mutationOwner": "UpdateActorCommand",
-      "actionFingerprint": "79113119254dc80f",
+      "actionFingerprint": "614e7077f9617e3e",
       "reason": "角色初始仙术仍按首个未使用技能直接追加，留待角色编辑器专属迁移切片。",
       "removalCondition": "初始仙术新增改用 DsAddPickerDialog 并补齐确认、撤销与焦点集成测试后删除。",
       "verification": ["ui/ActorMode.test.tsx"]

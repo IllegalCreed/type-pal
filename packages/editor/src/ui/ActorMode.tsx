@@ -48,6 +48,7 @@ import {
   DsControlGroup,
   DsDraftNumberField,
   DsDraftTextInput,
+  DsEmptyState,
   DsField,
   DsIconButton,
   DsListHeader,
@@ -1528,11 +1529,38 @@ const ActorInitialSetupPanel = memo(
         ),
       [props.equipment, props.items],
     )
+    const addableSkillId = Object.keys(props.skills).find(
+      (skillId) => !props.magic.includes(skillId),
+    )
     return (
       <ActorPanel
         eyebrow="配置"
         title="初始装备与仙术"
         description="角色首次加入队伍时，运行时会从这里深拷贝出厂仙术。"
+        actions={
+          <DsButton
+            data-ds-add-picker-deferred="actor/initial-magic-append-default"
+            size="compact"
+            variant="secondary"
+            icon="add"
+            disabled={!addableSkillId}
+            title={
+              addableSkillId
+                ? '添加首个尚未配置的仙术'
+                : Object.keys(props.skills).length > 0
+                  ? '所有仙术都已配置'
+                  : '当前项目没有可添加的仙术'
+            }
+            onClick={() => {
+              const skillId = Object.keys(props.skills).find(
+                (candidate) => !props.magic.includes(candidate),
+              )
+              if (skillId) props.onMagicChange([...props.magic, skillId])
+            }}
+          >
+            添加初始仙术
+          </DsButton>
+        }
       >
         <SummaryChips label="初始装备" values={equipmentLabels} />
         <InitialMagicEditor
@@ -1611,12 +1639,7 @@ const InitialMagicEditor = memo(
     const reorderKeys = useDsReorderKeys(props.value)
     const skillIds = useMemo(() => Object.keys(props.skills), [props.skills])
     const valueKey = props.value.join('\0')
-    const addableSkillIds = useMemo(
-      () => skillIds.filter((skillId) => !props.value.includes(skillId)),
-      // UpdateActorCommand clones battler arrays; the semantic key avoids rebuilding unchanged rows.
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [skillIds, valueKey],
-    )
+    const hasAddableSkills = skillIds.some((skillId) => !props.value.includes(skillId))
     const rowOptions = useMemo(
       () =>
         props.value.map((skillId, index) => [
@@ -1688,33 +1711,34 @@ const InitialMagicEditor = memo(
                       direction="forward"
                       label={`下移 ${label}`}
                     />
-                    <DsButton
-                      variant="secondary"
+                    <DsIconButton
+                      variant="danger"
+                      icon="delete"
+                      label={`删除初始仙术：${label}`}
                       onClick={() =>
                         props.onChange(props.value.filter((_, itemIndex) => itemIndex !== index))
                       }
-                    >
-                      移除
-                    </DsButton>
+                    />
                   </DsActionGroup>
                 </DsRepeatRow>
               </DsReorderItem>
             )
           })}
+          {props.value.length === 0 ? (
+            <DsEmptyState
+              layout="embedded"
+              title="暂无初始仙术"
+              description={
+                skillIds.length > 0
+                  ? '可从右上角添加初始仙术。'
+                  : '当前项目没有可添加的仙术。'
+              }
+            />
+          ) : null}
         </DsReorderCollection>
-        {props.value.length === 0 ? <span className="hint">未配置初始仙术。</span> : null}
-        <DsButton
-          data-ds-add-picker-deferred="actor/initial-magic-append-default"
-          size="compact"
-          variant="secondary"
-          disabled={addableSkillIds.length === 0}
-          onClick={() => {
-            const skillId = addableSkillIds[0]
-            if (skillId) props.onChange([...props.value, skillId])
-          }}
-        >
-          ＋ 添加初始仙术
-        </DsButton>
+        {props.value.length > 0 && !hasAddableSkills ? (
+          <span className="hint">所有仙术都已配置。</span>
+        ) : null}
       </div>
     )
   },

@@ -295,10 +295,37 @@ describe('ActorMode 初始状态唯一所有权', () => {
     })
     await act(async () => button('战斗与成长').click())
     expect(host.textContent).not.toContain('直接启动入口技能')
-    await act(async () => button('添加初始仙术').click())
+    const setupPanel = [...host.querySelectorAll<HTMLElement>('.ds-workbench-section')].find(
+      (section) =>
+        section.querySelector('.ds-workbench-section__title')?.textContent === '初始装备与仙术',
+    )!
+    const addMagic = [...setupPanel.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent?.trim() === '添加初始仙术',
+    )!
+    expect(setupPanel.querySelector('.ds-workbench-section__actions')?.contains(addMagic)).toBe(true)
+    expect(setupPanel.querySelector('.actor-initial-magic-editor')?.contains(addMagic)).toBe(false)
+    expect(addMagic.querySelector('.ds-icon')).not.toBeNull()
+    const emptyState = setupPanel.querySelector<HTMLElement>(
+      '.ds-empty-state[data-layout="embedded"]',
+    )!
+    expect(emptyState.textContent).toContain('暂无初始仙术')
+    expect(emptyState.textContent).toContain('可从右上角添加初始仙术。')
+    await act(async () => addMagic.click())
     expect(session.getState().actors[0]!.battler!.initialMagic).toEqual(['99'])
     expect(host.querySelector('.actor-initial-magic-row.ds-repeat-row')).not.toBeNull()
-    await act(async () => button('移除').click())
+    const deleteMagic = setupPanel.querySelector<HTMLButtonElement>(
+      'button.ds-icon-button--danger[aria-label="删除初始仙术：测试仙术"]',
+    )!
+    expect(deleteMagic).not.toBeNull()
+    expect(deleteMagic.textContent).toBe('')
+    expect(
+      deleteMagic.closest('.actor-initial-magic-actions[data-density="compact"]'),
+    ).not.toBeNull()
+    const tooltipId = deleteMagic.getAttribute('aria-describedby')!
+    expect(document.getElementById(tooltipId)?.getAttribute('role')).toBe('tooltip')
+    expect(document.getElementById(tooltipId)?.textContent).toBe('删除初始仙术：测试仙术')
+    expect(setupPanel.textContent).toContain('所有仙术都已配置。')
+    await act(async () => deleteMagic.click())
     expect(session.getState().actors[0]!.battler!.initialMagic).toEqual([])
     await act(async () => session.undo())
     expect(session.getState().actors[0]!.battler!.initialMagic).toEqual(['99'])

@@ -2854,9 +2854,6 @@ html[data-panel-resize="horizontal"] * {
   align-items: center;
   gap: var(--ds-space-1);
 }
-.actor-initial-magic-editor > .btn {
-  justify-self: start;
-}
 .actor-sound-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
