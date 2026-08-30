@@ -23,7 +23,8 @@
 | ED-ADD-PICKER-DIALOG-1 | 编辑器候选对象添加弹窗统一 | done | 三方 accept + 用户验收齐；`0787197d` 已推送 | DsAddPickerDialog v2.13.0、4+7 AST census 门禁、234/225 项 14 行有界挂载、四 adapter 单命令 |
 | ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | done | 三方 accept + 用户复验齐，整卡收口 | Startup inventory 唯一遗漏动作槽已封组；1280/900/720 组内不拆行、无溢出 |
 | ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | review | Codex 战斗绑定澄清返工后 accept；待 Kimi/GLM 视觉增量复审与用户验收 | 四向背景/导航 + 战斗 default 尺寸；主次摘要；无内联编辑/导入 |
-| ED-ACTION-GROUP-SPEC-1 | DsActionGroup 公共规范登记与 DS 2.21.0 升线 | draft | 待开卡补前提真值与 Codex/Kimi/GLM build 前签字；不得实现 | 登记不可拆动作组、compact 32px 合同与版本四处同步；承接 GLM P2 |
+| ED-ACTION-GROUP-SPEC-1 | DsActionGroup 公共规范登记与 DS 2.22.0 升线 | draft | 待开卡补前提真值与 Codex/Kimi/GLM build 前签字；不得实现 | 登记不可拆动作组、compact 32px 合同与版本四处同步；承接 GLM P2，顺延至 wide track 2.21 后 |
+| ED-FIELD-LABEL-TRACK-WIDE-1 | 编辑器整组宽标签轨合同 | draft | 待 Kimi/GLM premise/design 签字；不得实现 | DsFieldGroup wide=160px/<560 stacked；RoleBindings 唯一首批采用；DS 2.21.0 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
 | ARCH-ACTOR-CONDITION-SEED-1 | 入口与剧情入队角色当前状态播种 | review | Codex + Kimi + GLM accept 齐；仅待用户功能验收 | content19 三 carrier 全链闭合；三路只读审计无剩余 blocker，PAL replay 为零 |
 | ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | done | 三方 accept + 用户复验齐，整卡收口 | Hero 56px 复用 idle.start，同缓存防串图；EnemyTeam/Vars 无媒体，六面 census 闭合 |
