@@ -62,13 +62,16 @@ describe('BattleSpriteInlinePreview', () => {
   let root: Root
   let contextSpy: ReturnType<typeof vi.spyOn>
   const drawImage = vi.fn()
+  let bakedFrames: HTMLCanvasElement[]
 
   beforeEach(() => {
+    ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
     vi.useFakeTimers()
     host = document.createElement('div')
     document.body.append(host)
     root = createRoot(host)
     drawImage.mockReset()
+    bakedFrames = []
     contextSpy = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({
       clearRect: vi.fn(),
       drawImage,
@@ -82,6 +85,7 @@ describe('BattleSpriteInlinePreview', () => {
       const canvas = document.createElement('canvas')
       canvas.width = 57
       canvas.height = 66
+      bakedFrames.push(canvas)
       return canvas
     })
   })
@@ -144,5 +148,45 @@ describe('BattleSpriteInlinePreview', () => {
       const drawHeight = call[4] as number
       expect(drawWidth / drawHeight).toBeCloseTo(source.width / source.height, 8)
     }
+  })
+
+  test('角色页紧凑预览呈现完整动作分组，并持续循环动态首格', async () => {
+    await act(async () => {
+      root.render(
+        <BattleSpriteInlinePreview
+          definition={definition}
+          expected="player-fighter"
+          assetBase={{} as never}
+          assetReader={{ record: () => ({ sha256: 'a'.repeat(64) }) } as never}
+          showPrimaryPreview={false}
+          semanticGroups={[
+            {
+              id: definition.id,
+              label: definition.label,
+              typeLabel: '玩家战斗',
+              active: true,
+              rows: [
+                {
+                  id: 'attack',
+                  label: '普通攻击',
+                  frames: [7, 8, 9, 0],
+                  playbackFrames: [7, 8, 9, 0],
+                  frameMs: 140,
+                  loopFrom: 0,
+                },
+              ],
+            },
+          ]}
+        />,
+      )
+    })
+
+    expect(host.querySelector('.battle-sprite-preview .semantic-frame-shelf')).not.toBeNull()
+    expect(host.querySelector('.battle-sprite-preview > canvas')).toBeNull()
+    expect(host.querySelector('.semantic-frame-row')?.textContent).toContain('普通攻击')
+    await act(async () => vi.advanceTimersByTimeAsync(140))
+    expect(drawImage.mock.calls.at(-1)?.[0]).toBe(bakedFrames[8])
+    await act(async () => vi.advanceTimersByTimeAsync(420))
+    expect(drawImage.mock.calls.at(-1)?.[0]).toBe(bakedFrames[7])
   })
 })

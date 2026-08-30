@@ -2869,7 +2869,7 @@ html[data-panel-resize="horizontal"] * {
 }
 .actor-battle-appearance-preview {
   display: grid;
-  place-items: center;
+  place-items: stretch;
   min-height: 216px;
   margin-top: var(--ds-space-5);
   padding: var(--ds-space-5);
@@ -2878,7 +2878,12 @@ html[data-panel-resize="horizontal"] * {
   background: var(--ds-surface-canvas);
 }
 .actor-battle-appearance-preview > .battle-sprite-preview {
-  width: min(216px, 100%);
+  width: 100%;
+  align-items: stretch;
+}
+.actor-battle-appearance-preview > .battle-sprite-preview > canvas,
+.actor-battle-appearance-preview > .battle-sprite-preview > .hint2 {
+  align-self: center;
 }
 .actor-battle-appearance-preview__empty {
   margin: 0;

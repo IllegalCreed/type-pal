@@ -291,10 +291,7 @@ describe('BattleSpriteLibrary', () => {
 
     const rows = host.querySelectorAll('.sprite-resource-row')
     expect(rows).toHaveLength(2)
-    expect([...rows].map((row) => (row as HTMLElement).dataset.leading)).toEqual([
-      'none',
-      'none',
-    ])
+    expect([...rows].map((row) => (row as HTMLElement).dataset.leading)).toEqual(['none', 'none'])
     expect(host.querySelector('.sprite-library-switch')).toBeNull()
     expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('battle-sprite.shared')
     expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('.rle')
@@ -328,11 +325,7 @@ describe('BattleSpriteLibrary', () => {
       [...host.querySelectorAll<HTMLElement>('.ds-overflow-text.ds-inspector-readonly')].map(
         (value) => value.textContent,
       ),
-    ).toEqual([
-      'battle-sprite.shared',
-      'assets/authored/battle-sprites/shared.rle',
-      'a'.repeat(64),
-    ])
+    ).toEqual(['battle-sprite.shared', 'assets/authored/battle-sprites/shared.rle', 'a'.repeat(64)])
     expect(host.querySelector('.ds-overflow-text[title]')).toBeNull()
   })
 
@@ -342,8 +335,9 @@ describe('BattleSpriteLibrary', () => {
     await act(async () => root.render(library([], { view: 'asset', catalog: blankCatalog })))
 
     const row = [...host.querySelectorAll('.sprite-resource-row')].find(
-      (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent
-        === 'battle-sprite.aaa-unrelated',
+      (candidate) =>
+        candidate.querySelector('.ds-catalog-row__meta')?.textContent ===
+        'battle-sprite.aaa-unrelated',
     )!
     expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe('未命名战斗精灵')
     expect(row.querySelector('.ds-catalog-row__meta')?.textContent).toBe(
@@ -440,7 +434,12 @@ describe('BattleSpriteLibrary', () => {
       previewRender.mock.calls
         .at(-1)?.[0]
         .semanticGroups?.[0]?.rows.find((row: { label: string }) => row.label === label)?.frames
+    const actionLoopFrom = (label: string): number | undefined =>
+      previewRender.mock.calls
+        .at(-1)?.[0]
+        .semanticGroups?.[0]?.rows.find((row: { label: string }) => row.label === label)?.loopFrom
     expect(actionFrames('普通攻击')).toEqual([7, 8, 9, 0])
+    expect(actionLoopFrom('普通攻击')).toBe(0)
     await act(async () => button('选择帧 #4').click())
     expect(actionFrames('普通攻击')).toEqual([7, 8, 9, 0])
     const stages = [...host.querySelectorAll<HTMLLIElement>('.battle-action-stage-list > li')]

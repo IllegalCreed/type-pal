@@ -117,6 +117,8 @@ export function BattleSpriteInlinePreview(props: {
   sequenceKey?: string
   /** 只展示完整逐帧平铺，不把互不相干的帧自动串成动作。 */
   showAllFrames?: boolean
+  /** 角色页已有完整动作架时可隐藏重复的单帧主画布。 */
+  showPrimaryPreview?: boolean
   /** 资源库使用中心栏宽布局；缺省保持技能等处的紧凑预览。 */
   layout?: 'compact' | 'library'
   activeFrames?: readonly number[]
@@ -150,6 +152,7 @@ export function BattleSpriteInlinePreview(props: {
   const asset = props.definition?.asset ?? props.asset
   const label = props.definition?.label ?? props.label ?? asset
   const displayId = props.displayId ?? props.definition?.id
+  const showPrimaryPreview = props.showPrimaryPreview !== false
   let revision: string | undefined
   let recordError = ''
   if (asset) {
@@ -254,6 +257,12 @@ export function BattleSpriteInlinePreview(props: {
     if (image) drawCentered(context, image, WIDTH, HEIGHT, 2)
   }, [frames, sequence, tick])
 
+  const frameViews: SpriteFrameView[] = (frames ?? []).map((frame) => ({
+    canvas: frame,
+    width: frame.width,
+    height: frame.height,
+  }))
+
   if (props.layout === 'library') {
     if (frames === undefined)
       return (
@@ -270,11 +279,6 @@ export function BattleSpriteInlinePreview(props: {
           {error || '战斗精灵源文件不存在'}
         </div>
       )
-    const frameViews: SpriteFrameView[] = frames.map((frame) => ({
-      canvas: frame,
-      width: frame.width,
-      height: frame.height,
-    }))
     const selectFrame = (index: number): void => {
       setSelectedRawFrame(index)
       props.onFrameSelect?.(index)
@@ -310,13 +314,15 @@ export function BattleSpriteInlinePreview(props: {
 
   return (
     <div className="battle-sprite-preview">
-      <canvas
-        ref={canvasRef}
-        width={WIDTH}
-        height={HEIGHT}
-        role="img"
-        aria-label={label ? `${label}战斗精灵动画预览` : '战斗精灵预览'}
-      />
+      {showPrimaryPreview ? (
+        <canvas
+          ref={canvasRef}
+          width={WIDTH}
+          height={HEIGHT}
+          role="img"
+          aria-label={label ? `${label}战斗精灵动画预览` : '战斗精灵预览'}
+        />
+      ) : null}
       {frames === undefined && !error && <div className="hint2">加载战斗精灵…</div>}
       {frames === null && <div className="hint2">战斗精灵源文件不存在</div>}
       {error && (
@@ -326,10 +332,20 @@ export function BattleSpriteInlinePreview(props: {
       )}
       {frames?.length ? (
         <>
-          <div className="hint2">
-            {label}
-            {displayId ? ` · ${displayId}` : ''} · {frames.length} 帧
-          </div>
+          {showPrimaryPreview ? (
+            <div className="hint2">
+              {label}
+              {displayId ? ` · ${displayId}` : ''} · {frames.length} 帧
+            </div>
+          ) : null}
+          {props.semanticGroups?.length ? (
+            <SemanticFrameShelf
+              frames={frameViews}
+              groups={props.semanticGroups}
+              onGroupSelect={props.onDefinitionSelect}
+              onFrameSelect={props.onFrameSelect}
+            />
+          ) : null}
           {props.showAllFrames || props.playAllFrames ? (
             <section className="battle-frame-grid" aria-label="逐帧预览">
               {frames.map((frame, index) => (

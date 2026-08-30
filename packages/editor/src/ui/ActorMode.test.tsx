@@ -15,16 +15,27 @@ import type {
 import { ScriptEditSession } from '../core/script-editor.js'
 import { ActorMode } from './ActorMode.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
+import type { SemanticFrameGroup } from './SpriteFrameWorkbench.js'
 
 vi.mock('./BattleSpriteInlinePreview.js', () => ({
   BattleSpriteInlinePreview: (props: {
     definition?: { id: string; label: string }
     expected?: string
+    semanticGroups?: readonly SemanticFrameGroup[]
+    showPrimaryPreview?: boolean
   }) => (
     <div
       data-testid="battle-sprite-inline-preview"
       data-definition-id={props.definition?.id}
       data-expected={props.expected}
+      data-show-primary={String(props.showPrimaryPreview)}
+      data-actions={JSON.stringify(
+        props.semanticGroups?.[0]?.rows.map(({ label, frames, loopFrom }) => ({
+          label,
+          frames,
+          loopFrom,
+        })) ?? [],
+      )}
     >
       {props.definition?.label}
     </div>
@@ -306,20 +317,38 @@ describe('ActorMode 初始状态唯一所有权', () => {
     expect(session.getState().actors[0]!.battler!.baseStats).toMatchObject({ hp: 80, maxHP: 120 })
   })
 
-  test('战斗形象显示当前待机帧预览，并随选择同步换绑', async () => {
+  test('战斗形象显示全部语义动作预览，并随选择同步换绑', async () => {
     const current = state(actors())
+    const profile = {
+      kind: 'player-fighter' as const,
+      frames: {
+        idle: 0,
+        dying: 1,
+        dead: 2,
+        defend: 3,
+        hurt: 4,
+        preMagic: 5,
+        magic: 6,
+        attackWindup: 7,
+        attackRush: 8,
+        attackStrike: 9,
+        steal: 10,
+      },
+      castEffectBase: 15,
+      attackEffectBase: 0,
+    }
     current.battleSprites = [
       {
         id: 'hero-battle-sprite',
         label: '主角战斗精灵',
         asset: 'battle-sprite.hero',
-        profile: { kind: 'player-fighter' },
+        profile,
       },
       {
         id: 'guard-battle-sprite',
         label: '守护者战斗精灵',
         asset: 'battle-sprite.guard',
-        profile: { kind: 'player-fighter' },
+        profile: structuredClone(profile),
       },
     ] as never
     const session = new EditSession(current)
@@ -333,7 +362,18 @@ describe('ActorMode 初始状态唯一所有权', () => {
       host.querySelector<HTMLElement>('[data-testid="battle-sprite-inline-preview"]')!
     expect(preview().dataset.definitionId).toBe('hero-battle-sprite')
     expect(preview().dataset.expected).toBe('player-fighter')
+    expect(preview().dataset.showPrimary).toBe('false')
     expect(preview().textContent).toBe('主角战斗精灵')
+    expect(JSON.parse(preview().dataset.actions ?? '[]')).toEqual([
+      { label: '待机', frames: [0] },
+      { label: '普通攻击', frames: [7, 8, 9, 0], loopFrom: 0 },
+      { label: '施法', frames: [5, 6, 0], loopFrom: 0 },
+      { label: '防御', frames: [3] },
+      { label: '受伤', frames: [4, 0], loopFrom: 0 },
+      { label: '濒死', frames: [1] },
+      { label: '死亡', frames: [2] },
+      { label: '偷窃', frames: [10, 0], loopFrom: 0 },
+    ])
 
     const picker = host.querySelector<HTMLButtonElement>(
       '[role="combobox"][aria-label="角色战斗精灵"]',

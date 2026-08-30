@@ -41,6 +41,7 @@ import type { ScriptEditSession } from '../core/script-editor.js'
 import { BattleSpriteInlinePreview } from './BattleSpriteInlinePreview.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
+import { battleSpriteSemanticGroup } from './battle-sprite-action-preview.js'
 import { CasualtyEditor } from './CasualtyEditor.js'
 import {
   DsButton,
@@ -1425,7 +1426,7 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
     <ActorPanel
       eyebrow="表现"
       title="战斗形象"
-      description="选择角色战斗精灵并预览待机帧，或上传新的帧带定义。"
+      description="选择角色战斗精灵并预览全部战斗动作与组成帧，或上传新的帧带定义。"
       actions={
         <DsButton
           size="compact"
@@ -1452,10 +1453,12 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
             expected="player-fighter"
             assetBase={props.assetBase}
             assetReader={props.assetReader}
+            semanticGroups={[battleSpriteSemanticGroup(selectedDefinition, 0, true)]}
+            showPrimaryPreview={false}
           />
         ) : (
           <p className="actor-battle-appearance-preview__empty">
-            选择有效的我方战斗精灵后，这里会显示待机帧预览。
+            选择有效的我方战斗精灵后，这里会显示全部战斗动作与组成帧。
           </p>
         )}
       </div>
