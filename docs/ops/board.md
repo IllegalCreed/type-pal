@@ -24,10 +24,11 @@
 | ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | done | 三方 accept + 用户复验齐，整卡收口 | Startup inventory 唯一遗漏动作槽已封组；1280/900/720 组内不拆行、无溢出 |
 | ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | draft | 待 Kimi/GLM 按修订后的两轴矩阵重审并完成三方 build 前签字；不得实现六个红项 | 冻结四类 contentSurface + inline/overlay railLayout，清理 6 个 inset 无框遗留点 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
-| ARCH-ACTOR-CONDITION-SEED-1 | 入口与剧情入队角色当前状态播种 | review | Kimi + GLM done 前终审；Codex 已 accept | content19 三 carrier 全链闭合；三路只读审计无剩余 blocker，PAL replay 为零 |
+| ARCH-ACTOR-CONDITION-SEED-1 | 入口与剧情入队角色当前状态播种 | review | Codex + Kimi + GLM accept 齐；仅待用户功能验收 | content19 三 carrier 全链闭合；三路只读审计无剩余 blocker，PAL replay 为零 |
 | ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | done | 三方 accept + 用户复验齐，整卡收口 | Hero 56px 复用 idle.start，同缓存防串图；EnemyTeam/Vars 无媒体，六面 census 闭合 |
 | ED-WORKSPACE-ADOPTION-DEBT-1 | 编辑器旧工作区滚动壳真实采用清零 | draft | 待逐文件真值与 Codex/Kimi/GLM build 前设计签字；不得实现 | 清零 6 文件 bounded raw `ds-object-workspace*` 旧债 |
 | MIG-PAL-MAP-NAME-1 | PAL 一阶段考据地图名迁入二阶段 | review | Codex + Kimi + GLM 当前实现 accept 齐；仅待用户验收 | 222/294/221/223/2、s230/s243 双钉、shared 专用边界、104/164 精确占位与 replay 全 0 均已终审 |
+| MIG-PAL-ITEM-SCHEME-LABEL-1 | PAL 物品剧情方案作者命名收口 | build | 三方 build 前签字齐；Codex 按 K-L1~K-L4 / GM-L1~GM-L3 实现迁移上游 | 53/17=49+4 两席独立复算；49/49 唯一 item root（0 零/0 多）；历史 SHA 根因直读 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | done | 三方 accept + 用户验收齐，整卡收口 | content18、首次技能播种、当前 HP/MP 继承 UI 与 PAL replay 已完成 |
 | MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | done | 三方 accept + 用户验收齐，整卡收口 | `0e84e565`：4 定义 + 44 引用归一，严格重复为 0，replay 零计划 |
 | MIG-PAL-WORLD-SPRITE-ALIAS-1 | PAL 大世界角色精灵语义别名收口 | done | 三方 accept + 用户确认齐，整卡收口 | `bde33d13`：1 重复定义 + 7 引用归一，迁移零计划，migrate 354 tests 全绿 |
