@@ -34,15 +34,17 @@ import {
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
-  effectiveEditorDerivedStatus,
   type EditorDerivedStore,
+  effectiveEditorDerivedStatus,
 } from '../core/editor-derived-store.js'
 import type { ScriptEditSession } from '../core/script-editor.js'
+import { BattleSpriteInlinePreview } from './BattleSpriteInlinePreview.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { CasualtyEditor } from './CasualtyEditor.js'
 import {
   DsButton,
+  DsControlGroup,
   DsDraftNumberField,
   DsDraftTextInput,
   DsField,
@@ -56,10 +58,10 @@ import {
 } from './design-system/controls.js'
 import {
   DsCatalogRow,
-  DsNumberFieldGrid,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
+  DsNumberFieldGrid,
   DsObjectHero,
   DsPropertyGrid,
   DsPropertyRow,
@@ -70,10 +72,10 @@ import {
 } from './design-system/recipes.js'
 import {
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
   reorderDsItems,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/reorder.js'
 import { ACTOR_WORKSPACE_SECTIONS, type ActorWorkspaceSection } from './editor-navigation.js'
@@ -117,6 +119,12 @@ function actorSection(value: string | undefined): ActorWorkspaceSection {
   return ACTOR_WORKSPACE_SECTIONS.includes(value as ActorWorkspaceSection)
     ? (value as ActorWorkspaceSection)
     : 'overview'
+}
+
+function worldSpriteLayoutDescription(sprite: SpriteDef): string {
+  if (sprite.layout.kind === 'directional') return `4 向 × ${sprite.layout.framesPerDir} 帧`
+  if (sprite.layout.kind === 'loop') return `循环 ${sprite.layout.frameCount} 帧`
+  return '静态精灵'
 }
 
 function ActorAvatar(props: {
@@ -577,7 +585,7 @@ export function ActorMode(props: {
                     className="actor-card-identity"
                     eyebrow="身份"
                     title="角色定义"
-                    description="管理角色名称、稳定标识、类型与默认大世界精灵。"
+                    description="管理角色名称、稳定标识与类型。"
                   >
                     <dl className="actor-definition-list">
                       <div>
@@ -609,28 +617,6 @@ export function ActorMode(props: {
                       <div>
                         <dt>类型</dt>
                         <dd>{battler ? '可入队 / 可参战' : 'NPC / 剧情角色'}</dd>
-                      </div>
-                      <div>
-                        <dt>默认精灵</dt>
-                        <dd>
-                          <DsSelect
-                            size="compact"
-                            aria-label="人物默认精灵"
-                            value={actor.spriteId}
-                            onValueChange={(spriteId) =>
-                              session.dispatch(new UpdateActorCommand(actor.id, { spriteId }))
-                            }
-                            options={[
-                              ...(!sprites.some((candidate) => candidate.id === actor.spriteId)
-                                ? [{ value: actor.spriteId, label: `${actor.spriteId}（缺失）` }]
-                                : []),
-                              ...sprites.map((candidate) => ({
-                                value: candidate.id,
-                                label: `${candidate.label || candidate.id} (${candidate.id})`,
-                              })),
-                            ]}
-                          />
-                        </dd>
                       </div>
                     </dl>
                   </ActorPanel>
@@ -974,19 +960,62 @@ export function ActorMode(props: {
                     contentClassName="actor-frame-card__content"
                     eyebrow="大世界"
                     title="行走图与动作帧"
-                    description="预览角色在大世界中的方向、站立、行走与命名动作帧。"
-                    actions={
-                      <DsButton
-                        size="compact"
-                        variant="secondary"
-                        onClick={() => onOpenSprite?.(actor.spriteId)}
-                      >
-                        在资源库编辑
-                      </DsButton>
-                    }
+                    description="选择角色使用的行走精灵，并预览方向、站立、行走与命名动作帧。"
                   >
+                    <div className="actor-world-sprite-binding">
+                      <DsField
+                        label="行走精灵"
+                        help="这里只更换角色引用；帧、布局与动作请在资源库编辑。"
+                      >
+                        {(field) => (
+                          <DsControlGroup
+                            className="actor-world-sprite-binding__control"
+                            control={
+                              <DsSelect
+                                {...field}
+                                size="compact"
+                                value={actor.spriteId}
+                                searchable="auto"
+                                onValueChange={(spriteId) =>
+                                  session.dispatch(new UpdateActorCommand(actor.id, { spriteId }))
+                                }
+                                options={[
+                                  ...(!sprites.some((candidate) => candidate.id === actor.spriteId)
+                                    ? [
+                                        {
+                                          value: actor.spriteId,
+                                          label: actor.spriteId,
+                                          description: '当前引用缺失',
+                                        },
+                                      ]
+                                    : []),
+                                  ...sprites.map((candidate) => ({
+                                    value: candidate.id,
+                                    label: candidate.label || candidate.id,
+                                    description: `${candidate.id} · ${worldSpriteLayoutDescription(candidate)}`,
+                                    title: `${candidate.label || candidate.id} · ${candidate.id} · ${worldSpriteLayoutDescription(candidate)}`,
+                                  })),
+                                ]}
+                              />
+                            }
+                            actions={
+                              <DsButton
+                                size="compact"
+                                variant="secondary"
+                                icon="open"
+                                disabled={!sprite || !onOpenSprite}
+                                onClick={() => onOpenSprite?.(actor.spriteId)}
+                              >
+                                在资源库编辑
+                              </DsButton>
+                            }
+                          />
+                        )}
+                      </DsField>
+                    </div>
                     {sprite ? (
                       <SpriteFrames
+                        key={sprite.id}
                         sprite={sprite}
                         assetBase={assetBase}
                         assetReader={assetReader}
@@ -1388,11 +1417,15 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
   onOpenDefinition?: (id: string) => void
 }) {
   const [uploadOpen, setUploadOpen] = useState(false)
+  const selectedDefinition = props.definitions.find(
+    (definition) =>
+      definition.id === props.battleSprite && definition.profile.kind === 'player-fighter',
+  )
   return (
     <ActorPanel
       eyebrow="表现"
       title="战斗形象"
-      description="选择角色战斗精灵，或上传新的帧带定义。"
+      description="选择角色战斗精灵并预览待机帧，或上传新的帧带定义。"
       actions={
         <DsButton
           size="compact"
@@ -1411,6 +1444,21 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
         onOpenDefinition={props.onOpenDefinition}
         ariaLabel="角色战斗精灵"
       />
+      <div className="actor-battle-appearance-preview">
+        {selectedDefinition ? (
+          <BattleSpriteInlinePreview
+            key={selectedDefinition.id}
+            definition={selectedDefinition}
+            expected="player-fighter"
+            assetBase={props.assetBase}
+            assetReader={props.assetReader}
+          />
+        ) : (
+          <p className="actor-battle-appearance-preview__empty">
+            选择有效的我方战斗精灵后，这里会显示待机帧预览。
+          </p>
+        )}
+      </div>
       {uploadOpen ? (
         <BattleSpriteUploader
           assetBase={props.assetBase}
@@ -1516,7 +1564,7 @@ const ActorSoundPanel = memo(
         title="战斗音效"
         description="配置普攻、施法、受击、濒死与阵亡等战斗反馈音效。"
       >
-        <div className="sound-field-list actor-sound-grid">
+        <div className="actor-sound-grid">
           {BATTLER_SOUND_FIELDS.map(({ key, label }) => (
             <DsField label={label} key={key}>
               {(field) => (

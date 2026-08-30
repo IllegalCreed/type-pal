@@ -1,12 +1,25 @@
 {
   "version": 1,
   "baseline": {
-    "included": 4,
+    "included": 5,
     "deferredOwners": 7,
-    "includedDataPaths": 4,
+    "includedDataPaths": 6,
     "deferredDataPaths": 9
   },
   "included": [
+    {
+      "adoptionId": "actor/portrait",
+      "source": "PortraitEditor.tsx",
+      "owner": "PortraitEditor",
+      "dataPaths": ["actors[*].portraits.default", "actors[*].portraits.expressions[*]"],
+      "candidateOwner": "live portrait assets",
+      "mutationOwner": "UpdateActorCommand",
+      "callsiteFingerprint": "2a21d2a68009d859",
+      "verification": {
+        "file": "ui/PortraitEditor.test.tsx",
+        "marker": "[add-picker:actor/portrait]"
+      }
+    },
     {
       "adoptionId": "project/startup-party",
       "source": "ProjectWorkbenchTab.tsx",

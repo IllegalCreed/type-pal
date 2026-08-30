@@ -231,7 +231,7 @@
             "actor.battler.casualty.*.effects.*.percent",
             "actor.portraits.expressions.*.name"
           ],
-          "verification": "ActorMode.test.tsx + CasualtyEditor.test.tsx + LevelCurveEditor.ui.test.tsx + LevelingEditor.test.tsx"
+          "verification": "ActorMode.test.tsx + CasualtyEditor.test.tsx + LevelCurveEditor.ui.test.tsx + LevelingEditor.test.tsx + PortraitEditor.test.tsx"
         },
         {
           "id": "level-curve-generator",

@@ -1924,8 +1924,8 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "custom:.actor-list + custom:.actor-workspace-scroll + custom:.dscroll + casualty responsive owners + custom:.bsu-frame-grid + DsInspectorTabs",
-        "overlay": "DsFloatingLayer",
-        "field": "DsControlGroup + DsDraftNumberField + DsDraftTextInput + DsField + DsFieldGroup + DsFilePicker + DsNumberInput + DsPropertyRow + DsSelect + DsTextInput",
+        "overlay": "DsDialog + DsFloatingLayer",
+        "field": "DsAddPickerDialog + DsControlGroup + DsDraftNumberField + DsDraftTextField + DsDraftTextInput + DsField + DsFieldGroup + DsFilePicker + DsNumberInput + DsPropertyRow + DsRepeatRow + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {
@@ -1939,7 +1939,7 @@
           {
             "source": "ConnectedEditorPages.tsx",
             "component": "ConnectedActorMode",
-            "kinds": ["anchored-popup"]
+            "kinds": ["anchored-popup", "modal"]
           }
         ]
       }

@@ -265,9 +265,9 @@ describe('add picker adoption gate', () => {
 
     expect(manifest.version).toBe(1)
     expect(manifest.baseline).toEqual({
-      included: 4,
+      included: 5,
       deferredOwners: 7,
-      includedDataPaths: 4,
+      includedDataPaths: 6,
       deferredDataPaths: 9,
     })
     expect(manifest.included).toHaveLength(manifest.baseline.included)
@@ -290,10 +290,7 @@ describe('add picker adoption gate', () => {
         .sort(),
     ).toEqual(
       manifest.included
-        .map(
-          (entry) =>
-            `${entry.adoptionId}@${entry.source}@${entry.callsiteFingerprint}`,
-        )
+        .map((entry) => `${entry.adoptionId}@${entry.source}@${entry.callsiteFingerprint}`)
         .sort(),
     )
     expect(
@@ -372,10 +369,7 @@ describe('add picker adoption gate', () => {
       ),
     ).toThrow(/namespace picker tags/)
     expect(() =>
-      pickerCallsites(
-        'Spread.tsx',
-        `const view = <DsAddPickerDialog adoptionId="x" {...props} />`,
-      ),
+      pickerCallsites('Spread.tsx', `const view = <DsAddPickerDialog adoptionId="x" {...props} />`),
     ).toThrow(/spread props/)
     expect(() =>
       pickerCallsites(

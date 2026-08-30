@@ -16,6 +16,21 @@ import { ScriptEditSession } from '../core/script-editor.js'
 import { ActorMode } from './ActorMode.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 
+vi.mock('./BattleSpriteInlinePreview.js', () => ({
+  BattleSpriteInlinePreview: (props: {
+    definition?: { id: string; label: string }
+    expected?: string
+  }) => (
+    <div
+      data-testid="battle-sprite-inline-preview"
+      data-definition-id={props.definition?.id}
+      data-expected={props.expected}
+    >
+      {props.definition?.label}
+    </div>
+  ),
+}))
+
 let host: HTMLDivElement
 let root: Root
 
@@ -26,7 +41,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  root?.unmount()
+  act(() => root?.unmount())
   host.remove()
   vi.unstubAllGlobals()
 })
@@ -130,9 +145,26 @@ function state(actorsList: ActorDef[]): EditorState {
   } as unknown as EditorState
 }
 
+function spritePreviewReader(): EditorAssetReader {
+  return {
+    record: vi.fn((id: string) => ({
+      kind: 'sprite',
+      path: `assets/${id}.sprite`,
+      mediaType: 'application/octet-stream',
+      bytes: 0,
+      sha256: id,
+      origin: { kind: 'authored' },
+    })),
+    readBytes: vi.fn(async () => {
+      throw new Error('本测试不加载精灵像素')
+    }),
+  } as unknown as EditorAssetReader
+}
+
 function Harness(props: {
   session: EditSession
   assetReader?: EditorAssetReader
+  onOpenSprite?: (id: string) => void
   referenceStatus?: EditorDerivedStatus
   referenceIndex?: ReturnType<typeof blockingActorReferenceMap>
   getCurrentAuthorState?: () => EditorState | undefined
@@ -203,6 +235,7 @@ function Harness(props: {
       session={props.session}
       assetCatalog={current.assetCatalog}
       assetReader={props.assetReader ?? ({} as EditorAssetReader)}
+      onOpenSprite={props.onOpenSprite}
       levelUp={current.levelUp}
       derivedStore={derivedStore}
       scriptSession={scriptSession}
@@ -249,7 +282,6 @@ describe('ActorMode 初始状态唯一所有权', () => {
     })
     await act(async () => button('战斗与成长').click())
     expect(host.textContent).not.toContain('直接启动入口技能')
-
     await act(async () => button('添加初始仙术').click())
     expect(session.getState().actors[0]!.battler!.initialMagic).toEqual(['99'])
     await act(async () => button('移除').click())
@@ -272,6 +304,54 @@ describe('ActorMode 初始状态唯一所有权', () => {
     await commitInput(currentHp, '80')
     await commitInput(maxHp, '120')
     expect(session.getState().actors[0]!.battler!.baseStats).toMatchObject({ hp: 80, maxHP: 120 })
+  })
+
+  test('战斗形象显示当前待机帧预览，并随选择同步换绑', async () => {
+    const current = state(actors())
+    current.battleSprites = [
+      {
+        id: 'hero-battle-sprite',
+        label: '主角战斗精灵',
+        asset: 'battle-sprite.hero',
+        profile: { kind: 'player-fighter' },
+      },
+      {
+        id: 'guard-battle-sprite',
+        label: '守护者战斗精灵',
+        asset: 'battle-sprite.guard',
+        profile: { kind: 'player-fighter' },
+      },
+    ] as never
+    const session = new EditSession(current)
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} />)
+    })
+    await act(async () => button('战斗与成长').click())
+
+    const preview = (): HTMLElement =>
+      host.querySelector<HTMLElement>('[data-testid="battle-sprite-inline-preview"]')!
+    expect(preview().dataset.definitionId).toBe('hero-battle-sprite')
+    expect(preview().dataset.expected).toBe('player-fighter')
+    expect(preview().textContent).toBe('主角战斗精灵')
+
+    const picker = host.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="角色战斗精灵"]',
+    )!
+    await act(async () => picker.click())
+    const listbox = document.getElementById(picker.getAttribute('aria-controls')!)
+    const guardOption = [...listbox!.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.includes('守护者战斗精灵'),
+    )
+    expect(guardOption).toBeDefined()
+    await act(async () => {
+      guardOption!.click()
+      await Promise.resolve()
+    })
+
+    expect(session.getState().actors[0]!.battler!.battleSprite).toBe('guard-battle-sprite')
+    expect(preview().dataset.definitionId).toBe('guard-battle-sprite')
+    expect(preview().textContent).toBe('守护者战斗精灵')
   })
 })
 
@@ -299,6 +379,7 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
     expect(host.querySelector('[role="tab"][aria-selected="true"]')?.textContent).toBe('总览')
     expect(host.querySelector('.actor-dashboard-grid')).not.toBeNull()
     expect(host.querySelector('.actor-frame-card')).toBeNull()
+    expect(host.querySelector('[aria-label="行走精灵"]')).toBeNull()
     const panels = [...host.querySelectorAll('.actor-card')]
     expect(panels.length).toBeGreaterThan(0)
     expect(panels.every((panel) => panel.classList.contains('ds-workbench-section'))).toBe(true)
@@ -307,11 +388,110 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
     await act(async () => button('外观资源').click())
     expect(host.querySelector('.actor-frame-card')).not.toBeNull()
     expect(host.textContent).toContain('行走图与动作帧')
-    expect(host.textContent).toContain('预览角色在大世界中的方向、站立、行走与命名动作帧。')
-    expect(button('在资源库编辑')).not.toBeNull()
+    expect(host.textContent).toContain('选择角色使用的行走精灵')
+    expect(comboboxByLabel('行走精灵')).not.toBeNull()
     expect(host.textContent).not.toContain('点任意帧可替换')
     expect(host.textContent).not.toContain('追加帧')
     expect(host.textContent).not.toContain('删除末帧')
+  })
+
+  test('外观资源是行走精灵唯一换绑入口，换绑、打开资源与撤销重做使用同一引用', async () => {
+    const current = state(actors())
+    current.sprites = [
+      {
+        id: 'hero-sprite',
+        label: '主角行走图',
+        asset: 'sprite.hero',
+        layout: { kind: 'directional', framesPerDir: 3 },
+      },
+      {
+        id: 'guard-sprite',
+        label: '守护者行走图',
+        asset: 'sprite.guard',
+        layout: { kind: 'directional', framesPerDir: 3 },
+      },
+    ]
+    const onOpenSprite = vi.fn()
+    const assetReader = spritePreviewReader()
+    const session = new EditSession(current)
+    await act(async () => {
+      root = createRoot(host)
+      root.render(
+        <Harness session={session} assetReader={assetReader} onOpenSprite={onOpenSprite} />,
+      )
+    })
+
+    expect(host.querySelector('[aria-label="行走精灵"]')).toBeNull()
+    await act(async () => button('外观资源').click())
+    const combobox = comboboxByLabel('行走精灵')
+    expect(combobox.textContent).toContain('主角行走图')
+    expect(combobox.textContent).toContain('hero-sprite')
+
+    await act(async () => combobox.click())
+    const listbox = document.getElementById(combobox.getAttribute('aria-controls')!)
+    const guardOption = [...listbox!.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.includes('守护者行走图'),
+    )
+    expect(guardOption).toBeDefined()
+    await act(async () => guardOption!.click())
+    expect(session.getState().actors[0]!.spriteId).toBe('guard-sprite')
+    expect(comboboxByLabel('行走精灵').textContent).toContain('guard-sprite')
+    expect(assetReader.record).toHaveBeenLastCalledWith('sprite.guard', 'sprite')
+
+    await act(async () => button('在资源库编辑').click())
+    expect(onOpenSprite).toHaveBeenCalledWith('guard-sprite')
+
+    await act(async () => session.undo())
+    expect(session.getState().actors[0]!.spriteId).toBe('hero-sprite')
+    await act(async () => session.redo())
+    expect(session.getState().actors[0]!.spriteId).toBe('guard-sprite')
+  })
+
+  test('外观资源可把缺失的行走精灵引用修复为注册表中的精灵', async () => {
+    const currentActors = actors()
+    currentActors[0] = { ...currentActors[0]!, spriteId: 'missing-sprite' }
+    const current = state(currentActors)
+    current.sprites = [
+      {
+        id: 'guard-sprite',
+        label: '守护者行走图',
+        asset: 'sprite.guard',
+        layout: { kind: 'directional', framesPerDir: 3 },
+      },
+    ]
+    const onOpenSprite = vi.fn()
+    const session = new EditSession(current)
+    await act(async () => {
+      root = createRoot(host)
+      root.render(
+        <Harness
+          session={session}
+          assetReader={spritePreviewReader()}
+          onOpenSprite={onOpenSprite}
+        />,
+      )
+    })
+
+    await act(async () => button('外观资源').click())
+    const combobox = comboboxByLabel('行走精灵')
+    expect(combobox.textContent).toContain('missing-sprite')
+    expect(combobox.textContent).toContain('当前引用缺失')
+    expect(button('在资源库编辑').disabled).toBe(true)
+
+    await act(async () => combobox.click())
+    const listbox = document.getElementById(combobox.getAttribute('aria-controls')!)
+    const repairOption = [...listbox!.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.includes('守护者行走图'),
+    )
+    await act(async () => repairOption!.click())
+    expect(session.getState().actors[0]!.spriteId).toBe('guard-sprite')
+    expect(button('在资源库编辑').disabled).toBe(false)
+    await act(async () => button('在资源库编辑').click())
+    expect(onOpenSprite).toHaveBeenCalledWith('guard-sprite')
+
+    await act(async () => session.undo())
+    expect(session.getState().actors[0]!.spriteId).toBe('missing-sprite')
+    expect(button('在资源库编辑').disabled).toBe(true)
   })
 
   test('角色列表与标题优先显示战斗小头像，未配置时回退人物占位', async () => {

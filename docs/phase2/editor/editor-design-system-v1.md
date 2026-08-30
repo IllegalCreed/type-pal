@@ -576,8 +576,10 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 标题动作式集合在正式行数为 0 时必须在面板正文使用 `DsEmptyState layout="embedded"` 居中说明，不得只留一片
   无语义空白，也不得在空态重复标题区已有的 `0 项`。仍有候选时说明从右上角添加；根本没有候选时改为解释原因，
   不能显示虚假的“可添加”。已有正式行但候选全部用尽时，以邻近状态说明“已全部配置”，且不得移动标题、数量或按钮。
-- v2.13.0 census 冻结为 **4 个 included + 7 个 append-first-default deferred owner**；ItemAmountList 的三条 data
-  path 必须分别登记。静态门禁拒绝 alias、spread、动态 adoptionId、未登记 callsite 与陈旧 fingerprint；census 必须
+- v2.13.0 初始 census 冻结为 **4 个 included + 7 个 append-first-default deferred owner**；后续按同一合同增量纳入
+  `actor/portrait` 的默认立绘与命名表情两条 data path，当前 registry baseline 为 **5 个 included / 6 条 included
+  data path + 7 个 deferred owner / 9 条 deferred data path**。ItemAmountList 的三条 data path 必须分别登记。静态门禁
+  拒绝 alias、spread、动态 adoptionId、未登记 callsite 与陈旧 fingerprint；census 必须
   结合 JSX button↔handler、数组追加形态和 `first*`/`[0]` live registry 信号，禁止只靠单行动词 grep。
 - Design Lab `RF-22` 固定覆盖 0/1/234、长名称、active/selected/disabled、all-disabled、搜索、键盘、明确确认与
   fixed footer；真实 PAL 仍须在 1280/900/720 和 100%/150%/200% 验证 focus、唯一滚动面和零横向溢出。

@@ -52,6 +52,7 @@ import {
   DsHelpTip,
   DsIconButton,
   DsNumberInput,
+  DsPressable,
   DsReorderCollection,
   type DsReorderIntent,
   DsReorderItem,
@@ -203,9 +204,7 @@ export function ScriptSchemeStrip(props: {
       {props.options.map((option) => (
         <DsReorderItem itemKey={option.id} key={option.id}>
           <div className={`script-scheme-card${option.id === props.selectedId ? ' active' : ''}`}>
-            <DsButton
-              size="compact"
-              variant="quiet"
+            <DsPressable
               className="script-scheme-card-select"
               aria-pressed={option.id === props.selectedId}
               onClick={() => props.onSelect(option.id)}
@@ -217,10 +216,8 @@ export function ScriptSchemeStrip(props: {
                   : '连续流程（高级）'}
               </span>
               {option.isDefault ? <small>默认方案</small> : null}
-            </DsButton>
+            </DsPressable>
             <span className="script-scheme-card-actions">
-              <DsReorderMoveButton itemKey={option.id} direction="backward" />
-              <DsReorderMoveButton itemKey={option.id} direction="forward" />
               <DsButton
                 size="compact"
                 variant="quiet"
@@ -230,6 +227,8 @@ export function ScriptSchemeStrip(props: {
               >
                 方案详情
               </DsButton>
+              <DsReorderMoveButton itemKey={option.id} direction="backward" />
+              <DsReorderMoveButton itemKey={option.id} direction="forward" />
             </span>
           </div>
         </DsReorderItem>

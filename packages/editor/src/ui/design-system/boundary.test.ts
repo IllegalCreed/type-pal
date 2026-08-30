@@ -467,7 +467,7 @@ describe('editor design-system static boundary', () => {
     )
 
     expect(scriptEditor).toMatch(
-      /variant="quiet"\s+className="script-scheme-card-select"\s+aria-pressed=/,
+      /<DsPressable\s+className="script-scheme-card-select"\s+aria-pressed=/,
     )
     expect(scriptEditor).toContain(
       '<nav className="script-scheme-card-list" aria-label="脚本方案列表">',
@@ -556,7 +556,9 @@ describe('editor design-system static boundary', () => {
     const spriteFramesCall = actorMode.match(/<SpriteFrames[\s\S]*?\/>/)?.[0] ?? ''
 
     expect(actorMode).toContain('在资源库编辑')
-    expect(actorMode).toContain('预览角色在大世界中的方向、站立、行走与命名动作帧。')
+    expect(actorMode).toContain('label="行走精灵"')
+    expect(actorMode).toContain('这里只更换角色引用；帧、布局与动作请在资源库编辑。')
+    expect(actorMode).not.toContain('aria-label="人物默认精灵"')
     expect(spriteFramesCall).not.toContain('session=')
     expect(spriteFramesCall).not.toContain('mode=')
     expect(spriteFrames).toContain('className="frames-preview"')
@@ -566,6 +568,28 @@ describe('editor design-system static boundary', () => {
     const outerScroll = cssRuleBodies(businessCss, '.actor-workspace-scroll')
     expect(outerScroll).toHaveLength(1)
     expect(cssDeclaration(outerScroll[0]!, 'overflow')).toBe('auto')
+    expect(cssDeclaration(outerScroll[0]!, 'container-name')).toBe('actor-workspace')
+    expect(cssDeclaration(outerScroll[0]!, 'container-type')).toBe('inline-size')
+    const appearanceLayout = cssRuleBodies(businessCss, '.actor-appearance-layout')
+    expect(appearanceLayout).toHaveLength(1)
+    expect(cssDeclaration(appearanceLayout[0]!, 'grid-template-columns')).toBe('minmax(0, 1fr)')
+    expect(cssDeclaration(appearanceLayout[0]!, 'gap')).toBe('var(--ds-space-6)')
+    const actorWorkspaceBreakpoint = '@container actor-workspace (max-width: 960px)'
+    for (const selector of ['.actor-dashboard-grid', '.actor-detail-grid']) {
+      const responsiveLayout = cssRuleBodies(businessCss, selector, actorWorkspaceBreakpoint)
+      expect(responsiveLayout, selector).toHaveLength(1)
+      expect(cssDeclaration(responsiveLayout[0]!, 'grid-template-columns')).toBe('minmax(0, 1fr)')
+    }
+    expect(
+      cssRuleBodies(businessCss, '.actor-appearance-layout', actorWorkspaceBreakpoint),
+    ).toHaveLength(0)
+    const responsiveWideCard = cssRuleBodies(
+      businessCss,
+      '.actor-card-wide',
+      actorWorkspaceBreakpoint,
+    )
+    expect(responsiveWideCard).toHaveLength(1)
+    expect(cssDeclaration(responsiveWideCard[0]!, 'grid-column')).toBe('auto')
     const preview = cssRuleBodies(businessCss, '.frames-preview')
     expect(preview).toHaveLength(1)
     expect(cssDeclaration(preview[0]!, 'overflow-y')).toBeUndefined()
@@ -1254,6 +1278,44 @@ describe('editor design-system static boundary', () => {
         /className\s*=\s*["'][^"']*(?:\bin\b|linked-value-open|btn\s+mp-play)/,
       )
     }
+  })
+
+  test('keeps battle-sound columns separated from compact control actions', () => {
+    const uiRoot = dirname(here)
+    const actorMode = readFileSync(join(uiRoot, 'ActorMode.tsx'), 'utf8')
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    const soundGrid = cssRuleBodies(businessCss, '.actor-sound-grid')[0]
+
+    expect(actorMode).toContain('className="actor-sound-grid"')
+    expect(actorMode).not.toContain('sound-field-list actor-sound-grid')
+    expect(soundGrid).toBeDefined()
+    expect(cssDeclaration(soundGrid ?? '', 'gap')).toBe('var(--ds-space-5) var(--ds-space-8)')
+    expect(cssRuleBodies(businessCss, '.sound-field-list')).toHaveLength(0)
+  })
+
+  test('keeps actor battle appearance on the shared read-only idle preview', () => {
+    const uiRoot = dirname(here)
+    const actorMode = readFileSync(join(uiRoot, 'ActorMode.tsx'), 'utf8')
+    const previewCall = actorMode.match(/<BattleSpriteInlinePreview[\s\S]*?\/>/)?.[0] ?? ''
+
+    expect(actorMode).toContain('className="actor-battle-appearance-preview"')
+    expect(previewCall).toContain('expected="player-fighter"')
+    expect(previewCall).not.toMatch(
+      /showAllFrames|playAllFrames|onFrameSelect|onRawAppend|onRawReplace|onRawDelete|layout="library"/,
+    )
+  })
+
+  test('keeps portrait authoring on the shared section, add-picker, field, and repeat-row contracts', () => {
+    const uiRoot = dirname(here)
+    const source = readFileSync(join(uiRoot, 'PortraitEditor.tsx'), 'utf8')
+    expect(source).toMatch(/<DsWorkbenchSection\b/)
+    expect(source).toMatch(/<DsAddPickerDialog\b/)
+    expect(source).toMatch(/<DsRepeatRow\b/)
+    expect(source).toMatch(/<DsDraftTextField\b/)
+    expect(source).toMatch(/<DsIconButton\b[\s\S]*?icon="delete"/)
+    expect(source).not.toMatch(
+      /className="section portrait-editor"|className="pt-row"|className="pt-name"/,
+    )
   })
 
   test('keeps section-grid menu groups subordinate to their page links', () => {
