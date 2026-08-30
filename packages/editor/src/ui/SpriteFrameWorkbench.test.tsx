@@ -91,6 +91,7 @@ describe('SemanticFrameShelf', () => {
       root.render(
         <SemanticFrameShelf
           presentation="embedded"
+          ariaLabel="自定义动作预览"
           frames={[{ canvas, width: 20, height: 30 }]}
           groups={[
             {
@@ -106,6 +107,9 @@ describe('SemanticFrameShelf', () => {
     })
 
     expect(host.querySelector('.semantic-frame-shelf--embedded')).not.toBeNull()
+    expect(host.querySelector('.semantic-frame-shelf')?.getAttribute('aria-label')).toBe(
+      '自定义动作预览',
+    )
     expect(host.querySelector('.semantic-frame-shelf > header')).toBeNull()
     expect(host.querySelector('.semantic-frame-group-head')).toBeNull()
     expect(host.querySelector('.semantic-frame-row-label')?.textContent).toBe('待机')

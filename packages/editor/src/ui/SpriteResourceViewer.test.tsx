@@ -200,6 +200,7 @@ describe('SpriteResourceViewer', () => {
       sprite([frame(14, 21), frame(14, 21), frame(14, 21), frame(14, 21)]),
     )
 
+    const onActionSelect = vi.fn()
     await act(async () => {
       root.render(
         <SpriteResourceViewer
@@ -228,6 +229,7 @@ describe('SpriteResourceViewer', () => {
             },
           ]}
           session={{} as never}
+          onActionSelect={onActionSelect}
         />,
       )
     })
@@ -238,6 +240,14 @@ describe('SpriteResourceViewer', () => {
     expect(host.querySelector('.semantic-frame-shelf')?.textContent).toContain('默认使用 #0')
     expect(host.querySelector('.semantic-frame-shelf')?.textContent).toContain('火焰')
     const semanticShelf = host.querySelector('.semantic-frame-shelf')!
+    expect(semanticShelf.getAttribute('data-presentation')).toBe('full')
+    expect(semanticShelf.querySelector(':scope > header')).not.toBeNull()
+    await act(async () => {
+      ;[...semanticShelf.querySelectorAll<HTMLButtonElement>('.semantic-frame-row-label button')]
+        .find((button) => button.textContent === '火焰')
+        ?.click()
+    })
+    expect(onActionSelect).toHaveBeenCalledWith('sprite-8', 'flame')
     expect(semanticShelf.querySelectorAll('.semantic-frame-row')).toHaveLength(2)
     expect(
       semanticShelf.querySelectorAll('.semantic-frame-row .sprite-frame-cell.animated'),

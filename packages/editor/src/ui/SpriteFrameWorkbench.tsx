@@ -410,6 +410,7 @@ export function SemanticFrameShelf(props: {
   frames: readonly SpriteFrameView[]
   groups: readonly SemanticFrameGroup[]
   presentation?: 'full' | 'embedded'
+  ariaLabel?: string
   onGroupSelect?: (id: string) => void
   onActionSelect?: (groupId: string, actionId: string) => void
   onFrameSelect?: (index: number) => void
@@ -430,7 +431,9 @@ export function SemanticFrameShelf(props: {
     <section
       className={`semantic-frame-shelf${presentation === 'embedded' ? ' semantic-frame-shelf--embedded' : ''}`}
       data-presentation={presentation}
-      aria-label={presentation === 'embedded' ? '战斗动作预览' : '用途定义与动作'}
+      aria-label={
+        props.ariaLabel ?? (presentation === 'embedded' ? '战斗动作预览' : '用途定义与动作')
+      }
     >
       {presentation === 'full' ? (
         <header>
@@ -470,7 +473,9 @@ export function SemanticFrameShelf(props: {
                   frames={props.frames}
                   onFrameSelect={props.onFrameSelect}
                   onActivate={
-                    row.actionId ? () => props.onActionSelect?.(group.id, row.actionId!) : undefined
+                    row.actionId && props.onActionSelect
+                      ? () => props.onActionSelect?.(group.id, row.actionId!)
+                      : undefined
                   }
                 />
               ))}

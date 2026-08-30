@@ -364,13 +364,15 @@ Branch: `main`
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-31，Kimi counter 返工后刷新）**——采用 A 方案、零视觉变化：
-  `item/craft-recipes` 从误登 `repeat-row` 改为真实 `object-card`，当前四桶精确为 9 / 13 / 2 / 5，
-  rail 仍为 28 / 1。`reorder-surface-adoption.test.ts` 现由 registry 驱动遍历全部 29 项，对 22 个
-  repeat-row/object-card 以 exact class token 唯一定位真实 JSX owner；repeat-row 强制 owner tag 为
-  `DsRepeatRow`，object-card 强制自身及祖先链均无 `DsRepeatRow`，分类、fingerprint 与 wrapper 脱绑即红。
-  红测先同时命中错误桶计数与 craft owner=`div`，改登后转绿。聚焦 4 files / 79 tests、typecheck、
-  design-system gate、`git diff --check` 全绿；生产 TSX/CSS/reorder 交互零变化，按卡面无需重跑浏览器。
+- Codex: **accept（2026-08-31，四向预览返工后刷新）**——角色页 `SpriteFrames` 删除旧自绘
+  `.frames-preview/.dirgroup/.fcell/.posegroup` 与对应私有纹理、方向色、帧卡/姿势卡 CSS；四向与命名动作
+  改消费资源库同源 `worldSpriteSemanticGroups`，展示复用战斗预览同一 `SemanticFrameShelf embedded`。
+  资源库继续 full presentation + RawFrameInspector + 编辑 callbacks；角色页无帧选择/编辑控件。共享 shelf
+  新增可覆盖 aria label，并修正只在真实 `onActionSelect` owner 存在时渲染动作按钮。旧命名姿势的“首步时长
+  套全部步骤 + 非循环也无限循环”同步恢复为逐步 duration / `loopFrom` 真值。聚焦 6 files / 82 tests、
+  typecheck、design-system gate、diff-check 全绿；720px 为 4 行 / 16 帧卡 / 4 动态首格、旧类与交互控件均 0，
+  shelf border/background 0、panel/document overflow 0、console error 0；动态帧卡与战斗预览同为
+  90px / 5px radius / 6px padding / 同背景。
 - Kimi: **counter（2026-08-30，只读终审 build 链 05f46e37→e901eb75 + 本人独立复核与 720px 浏览器抽查；
   与 GLM accept 分歧一点：craft-recipes 分类失实，见下）**——除一项外全部钉通过：
   - **通过项（本人独立证据）**：registry v2 复算 17/29/32/19 闭合、owner file+fingerprint 全员在册；
@@ -416,6 +418,18 @@ Branch: `main`
     六红项），无误判；12 项 object-card 登记均未消费 DsRepeatRow。GLM 的 P2（DsActionGroup 未登
     DS 文档/未升 minor）与 P3（`.shop-stock-actions .mini` 死规则、cssRule 首规则体局限）观察与本
     counter 不冲突，返工轮可一并收口但非本 counter 的放行条件。未修改实现，未代签 GLM。
+- Kimi 增量复审: **accept（2026-08-31，只读核 bf129290 增量，不重审已通过范围）**。上方
+  2026-08-30 counter 的全部返工条件已闭环：①A 方案落地——`item/craft-recipes` 改登 `object-card`
+  （本人 git diff 证实，fingerprint `className="item-recipe"` 不变），桶计数断言同步为
+  repeat-row 9 / object-card 13 / edge-to-edge 2 / continuous 5，rail 28/1 不变；②桶不变量按
+  要求扩展并超预期收紧——新增 registry 驱动「binds every row/card surface classification to its
+  real JSX owner」门禁：TS AST 按 exact class token 定位唯一 owner，repeat-row 强制 owner tag 为
+  `DsRepeatRow`，object-card 强制自身与祖先链均无 `DsRepeatRow`；红先行成立——旧 registry 下
+  craft-recipes=repeat-row 且 owner tag=div，桶计数与消费断言双双必红（本人逻辑核对），Codex
+  记录的红测亦先命中二者；③本人复跑 reorder-surface-adoption + reorder-adoption + boundary +
+  ItemUseEffectEditor → 4 files / 79 tests 全绿。GLM P2 另开 DS 版本卡、P3 不混入本轮，与本人
+  counter 放行条件一致。A 方案零视觉变化，按卡面无需重跑浏览器档。无剩余返工项；未修改实现，
+  未代签 GLM，未标 done。
 - GLM: **accept（2026-08-30，只读终审 HEAD `e901eb75`（build 链 05f46e37→3c2852b8→1e0a6db1→e901eb75），全部钉逐条独立核验 + 本人复跑 12 files / 185 tests，非复述 Codex）**：
   - **GM-S1/KS4 registry 双轴**：本人脚本复算 registry v2——29 adoption / 32 dataPaths / 17 家族 / 19 owner 与 baseline 块一致；contentSurface 分布 **10 repeat-row + 12 object-card + 2 edge-to-edge + 5 continuous = 29**，railLayout **28 inline + 1 overlay**（唯一 overlay = frame-animation-timeline）；每条 adoption 恰 12 键含 contentSurface/contentOwner/railLayout/railOwner，两 owner 指纹经 `reorder-surface-adoption.test.ts:45-46` 逐一绑定真实源文件；桶成员精确断言（2/5 ID 清单、overlay 单例、六红项=repeat-row :72-80、story 两 scheme=object-card :81-82）。
   - **GM-S2/KS2 六红项迁移与旧皮肤清零**：六 owner 全部 `DsRepeatRow density="compact"`（EnemyTab.tsx:381、EnemyTeamTab.tsx:446、ItemUseEffectEditor.tsx:468、ActorMode.tsx:1637、CommandForm.tsx:454,1564）；本人逐块直读现存 CSS——`.rule-row`(:7243)/`.enemy-team-slot`(:10757)/`.item-amount-row(.ordered)`(:10287+)/`.actor-initial-magic-row`(:2845)/`.cf-dialog-row`(:6949)/`.cf-party-row`(:6967) 只剩列轨与 justify，border/background/radius/padding/margin/固定 flex 全部清除（旧 `.cf-dialog-row` 底色圆角形态已消灭）；门禁 `reorder-surface-adoption.test.ts:97-117` 同时反查 wrapper 中性与六选择器皮肤、禁 `.rr-*` flex；窄容器动作组**整组下沉**（item-amount/cf-party `grid-column: 1 / -1` @520px、enemy-team container-type、shop @560px）。
@@ -427,13 +441,39 @@ Branch: `main`
   - **本人复跑**：reorder-surface 4/4 + reorder-adoption 6/6 + 六 owner/Shop/recipes 7 files 94/94 + add-picker/boundary/reorder 状态机 3 files 81/81 全绿；按纪律未重复 editor 全量。
   - **非返工观察（P2，建议随下一次 DS 触碰卡或小文档任务收口）**：`DsActionGroup` 为本卡新增、6 个生产文件消费的公共 recipe，但 `editor-design-system-v1.md` 零登记且未随卡升 minor（2.20.0 系先前 boolean 卡 e66f65ae 所升）——32px 组下限与「不可拆组」契约目前只由 surface gate CSS 断言钉住，规范文档应补登并升 2.21.0（index.ts/tokens.css/boundary.test/doc 四处同步）；因本卡验收文本只要求 DS-C.4d/RF-21 taxonomy 同步（已满足）且无版本矛盾，不构成返工。P3 卫生项：`editor.css:3784-3787` `.shop-stock-actions .mini`（28px）为 ShopTab 已无消费者的死规则，建议顺手删除。门禁加固建议：`cssRule()` 只取每个选择器首个规则体，后续 @container/@media 内同选择器违规可绕过该断言（当前代码干净），可改 matchAll 全量断言。
   - 无必须返工项；未修改实现文件，未代签 Kimi。
+- GLM 增量复审: **accept（2026-08-31，只读核 `bf129290` 增量，不重审已通过范围；本行取代本席
+  2026-08-30 对 `e901eb75` 的 accept——其 10/12 桶口径已被 Kimi counter 证实失实）**：
+  - **承认漏项**：Kimi 定性准确——本席上轮核对了桶计数与两 owner 指纹绑定，但**未逐项核对 repeat-row
+    桶成员的真实 DsRepeatRow 消费**，`item/craft-recipes` 从该缝隙漏网。counter 证据本人独立复核成立：
+    `.item-recipe` 私有持框（editor.css:10274-10281 padding/border/radius/background）、行根裸
+    `<div className="item-recipe">`（ItemUseEffectEditor.tsx:554）、全文件 DsRepeatRow 唯一消费 :468
+    属 resource-reward-tiers——按已签 taxonomy 真实分类是 object-card。最小返工条件（A/B + 全 registry
+    桶不变量）与 KS4/GM-S1 本意一致，本席背书。
+  - **A 增量核验**：`git show bf129290 --stat` 证实仅 registry JSON（恰 1 行翻转）+ 新门禁 109 行 +
+    文档，**生产 TSX/CSS 零变化**；本人脚本复算桶分布 **9/13/2/5 + rail 28/1**；剩余 9 个 repeat-row
+    成员（六红项 + startup-party/inventory + poison/ticks）均为本席先前逐一直读核实的真实消费者，
+    13 个 object-card 含 craft 与六条 EffectEditorCard 效果链、sprite-action-steps、
+    frame-animation-timeline、story 两 scheme。
+  - **新门禁核验（reorder-surface-adoption.test.ts:167-192）**：`jsxOwners` 以 exact class token
+    集合 AST 定位并要求**恰一个 owner**（指纹子串多义在 AST 级被拒，较旧字符串 contain 更紧）；
+    repeat-row ⇒ tag 必须 `DsRepeatRow`；object-card ⇒ 自身与**祖先链**均无 DsRepeatRow——Kimi 要求的
+    两条桶不变量落地且被祖先链检查加强。
+  - **红态能力独立模拟（本席 node 脚本内存翻转，未改文件）**：旧登记下两条断言**双双确定红**
+    （计数 10/12 ≠ 9/13；craft owner 唯一命中 tag=`div` ≠ DsRepeatRow），与 Codex 红测记录互证。
+  - **复跑（本人执行）**：reorder-surface-adoption 5/5 + reorder-adoption 6/6 = 11/11 全绿。
+  - **边界与条件**：本 accept 覆盖 craft 增量及此前 build 链的全部既有核验项（除被修正的桶口径外均
+    维持有效）；2026-08-31 用户第四轮返工（四向行走预览改共享 embedded 语义动作架）当前 `rework`、
+    Codex accept 失效，**本 accept 不覆盖该未实现增量**，落地后本席需再做只读复审。**P2 跟踪条件**：
+    「DsActionGroup 规范登记 + 2.21.0 另开 DS 版本卡」承诺当前看板无对应行——要求本卡收口 done 前由
+    Codex 开卡登记或看板留行，避免悬空。未修改实现文件，未代签 Kimi，未标 done。
 - counter / 返工处理: Kimi counter 已按建议 A 完成：craft-recipes 改登 object-card，桶计数 9/13/2/5；
   两条真实 owner 不变量扩展为全 registry 门禁，并进一步收紧为 exact class token、唯一 owner 与 object-card
-  祖先链无 DsRepeatRow。当前等待 Kimi / GLM 对该增量复审并刷新签字；复审前 Kimi counter 保留为历史事实。
-  GLM P2（DsActionGroup 规范登记 + 2.21.0）明确另开设计规范版本卡处理；P3 卫生项不混入本次必要返工。
+  祖先链无 DsRepeatRow。Kimi 增量复审 accept（2026-08-31），全部 counter 闭环；原 counter 保留为
+  历史事实。用户四向预览旧皮返工亦已完成，等待两席增量复审。GLM P2 已在看板登记
+  `ED-ACTION-GROUP-SPEC-1` draft（DsActionGroup 规范 + 2.21.0）；P3 卫生项不混入本次必要返工。
 - 缺签豁免: N/A
-- done 准入结论: blocked（Codex 已完成 Kimi counter 返工并刷新 accept；Kimi / GLM 增量复审与用户验收
-  仍 pending，三方当前实现 accept 与用户验收齐前不得标记 done）
+- done 准入结论: blocked（Kimi + GLM 对 `bf129290` craft 增量 accept 均已签；Codex 已完成四向预览
+  embedded 返工并刷新 accept，当前只缺 Kimi/GLM 对该视觉增量复审与用户验收，齐前不得标记 done）
 
 ## Draft: 设计与风险
 
@@ -467,7 +507,7 @@ Branch: `main`
 - Coding Owner: Codex（2026-08-30，唯一实现方；build 完成）
 - 修改文件: `EnemyTab.tsx`、`EnemyTeamTab.tsx`、`ItemUseEffectEditor.tsx`、`ActorMode.tsx`、
   `CommandForm.tsx`、`ShopTab.tsx`、Design Lab RF-21、design-system recipes / adoption matrices /
-  CSS census 与相应测试。
+  CSS census、`SpriteFrames` / `SpriteFrameWorkbench` / world sprite semantic helper 与相应测试。
 - 实现摘要:
   - 新增公共 `DsActionGroup`，compact 动作的图标按钮和文字按钮最小命中区均为 32px，动作组不可拆。
   - AI 规则、敌队固定槽、资源奖励档、初始仙术、对话行、设置队员六个 owner 全部迁为
@@ -485,6 +525,9 @@ Branch: `main`
   - Kimi counter 返工采用 A：`item/craft-recipes` 改登 object-card，零生产视觉/行为变化；新增全 registry
     row/card owner AST 门禁，exact class token 只允许一个真实 owner，并检查 object-card 祖先链不含
     DsRepeatRow，防止错误 wrapper 藏在 fingerprint owner 外层仍假绿。
+  - 四向预览删除角色专属旧实现和 CSS，抽出资源库/角色页共用 world-sprite semantic helper，并将角色页
+    接到 `SemanticFrameShelf presentation="embedded"`；资源库 full 模式与编辑 owner 不变。只读面不再生成
+    无 callback 的动作按钮，命名动作按每步 duration 与 loopFrom 真值播放。
 - 运行命令:
   - 聚焦：10 files / 108 tests；adoption / field-layout / number / add-picker / catalog fingerprint
     逐项复跑通过。
@@ -496,6 +539,9 @@ Branch: `main`
     `typecheck` 与 design-system gate 全绿，`git diff --check` 通过；未重复 editor 全量。
   - Kimi counter 返工聚焦：reorder-surface-adoption 5 + reorder-adoption / ItemUseEffectEditor / boundary 74，
     合计 4 files / 79 tests；独立 typecheck、design-system gate、`git diff --check` 全绿，未重复 editor 全量。
+  - 四向预览返工聚焦：SpriteFrames / SpriteFrameWorkbench / SpriteResourceViewer /
+    BattleSpriteInlinePreview / ActorMode / boundary，6 files / 82 tests；独立 typecheck、design-system gate、
+    `git diff --check` 全绿，未重复 editor 全量。
 - 浏览器 / 手工检查: PAL 项目 1280/900/720/640（200% 等效 CSS 宽度）检查初始仙术；720 检查
   enemy-team、Shop、RF-21 与 map layer；复用本会话既有 script scheme object-card 证据。
 - 跳过的检查及原因: N/A
@@ -510,7 +556,8 @@ Branch: `main`
 - 截图 / 像素检查路径: `.mimosa/evidence/ED-REORDER-SURFACE-1-actor-initial-magic-720.png`
   、`.mimosa/evidence/ACTOR-BATTLE-PREVIEW-EMBEDDED-720.png`、
   `.mimosa/evidence/ACTOR-INITIAL-MAGIC-HEADER-ACTIONS-720.png`、
-  `.mimosa/evidence/ACTOR-BATTLE-APPEARANCE-SELECT-ONLY-720.png`（本地忽略证据，禁止提交）。
+  `.mimosa/evidence/ACTOR-BATTLE-APPEARANCE-SELECT-ONLY-720.png`、
+  `.mimosa/evidence/ACTOR-WORLD-SPRITE-EMBEDDED-720.png`（本地忽略证据，禁止提交）。
 - 结论: 初始仙术行 1px 完整边界，手柄位于行内；四档字段宽 325/656/476/396px，动作组始终在边界内，
   三枚动作 32/32/42px。敌队 5/5 repeat-row，720px 字段 550px、动作 32×32；Shop 720px
   identity 约 481px，外框 1px + 行 divider，三动作 32×32；RF-21 repeat-row / overlay rail 与
@@ -522,18 +569,24 @@ Branch: `main`
   战斗形象纯选择器返工后，720px 下 header actions=0、control actions=0、file input=0、导入/上传/编辑/打开
   按钮=0；`player-fighter` picker 与全部动作预览保留，panel / document 横向 overflow 均为 0，console error 0。
   Kimi counter 采用纯 registry/test 修正，不改 TSX/CSS 或用户可见行为，按卡面不重复浏览器验证。
+  四向预览返工后，720px 下 4 个方向语义行、16 个共享帧卡、4 个动态首格；旧 preview/dir/fcell/pose
+  类、shelf/group 重复 header 与预览交互控件均为 0；shelf border=0、background=transparent、track
+  overflow-x=auto、panel/document overflow=0。动态帧卡与战斗动态帧卡计算样式精确一致（90px、5px、6px、
+  同背景），console error 0。
 - 未完成项: Kimi / GLM 当前实现终审与用户验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 已完成 Kimi counter 返工并刷新 accept；Kimi / GLM 增量复审 pending。Kimi 原
-  counter 与 GLM 对 `e901eb75` 的 accept 均保留为历史审查事实，不代替当前增量签字。
+- 审查结论: Kimi + GLM 对 `bf129290` craft 增量均 accept；Codex 已完成用户四向预览返工并刷新
+  accept，Kimi / GLM 对该视觉增量复审 pending。此前签字保留为历史事实，不覆盖当前视觉增量。
 - 必须返工项:
   1. 角色战斗形象面导入与编辑入口已连同调用链、禁用占位动作和陈旧 adoption 全部移除（closed）。
-  2. **closed pending reviewer confirmation（Kimi counter）**：craft-recipes 已改登 object-card，桶计数
+  2. **closed（Kimi counter，2026-08-31 增量复审确认）**：craft-recipes 已改登 object-card，桶计数
      9/13/2/5；全 registry 两条 owner 不变量已实现，并补 exact token / 唯一 owner / 祖先 wrapper 防绕过。
-- Accept / rework: **review**（Codex accept；等待 Kimi / GLM 复审增量）。
+  3. **closed pending reviewer confirmation（用户四向预览反馈）**：角色页已复用资源库语义派生 + 战斗页
+     embedded shelf，旧皮与错误动画语义清零；等待两席增量复审。
+- Accept / rework: **review**（Codex accept；等待 Kimi / GLM 视觉增量复审与用户验收）。
 
 ## 用户验收
 
@@ -541,6 +594,29 @@ Branch: `main`
 - 后续任务: pending
 
 ## 交接日志
+
+- 2026-08-31 Codex: 用户指出角色四向行走预览仍是旧版样式。只读核验确认 `SpriteFrames` 独占私有
+  纹理、硬编码方向色、帧卡/姿势卡与错误动画语义；抽出 `world-sprite-action-preview` 供资源库和角色页
+  共用，角色页改用战斗预览同款 embedded SemanticFrameShelf，资源库 full/编辑能力不变。删除旧 JSX/CSS，
+  修复无 callback 动作按钮，并恢复逐步 duration/loopFrom。聚焦 6 files / 82 tests、typecheck、design gate、
+  diff-check 与 720px 实机全绿；证据 `.mimosa/evidence/ACTOR-WORLD-SPRITE-EMBEDDED-720.png`。看板新增
+  `ED-ACTION-GROUP-SPEC-1` draft 满足 GLM P2 跟踪条件。刷新 Codex accept，转 review。Next: Kimi / GLM
+  只复审本视觉增量；两席 accept 与用户验收齐前不得 done。
+
+- 2026-08-31 GLM: 对 Kimi counter 返工增量 `bf129290` 完成增量复审，签 **accept**（取代 2026-08-30
+  对 e901eb75 的 accept）。承认上轮漏项（核了桶计数与指纹绑定、未逐项核 repeat-row 成员真实消费），
+  独立复核 counter 证据成立（.item-recipe 私有持框 + 裸 div + 无 DsRepeatRow）；A 增量核验：提交仅
+  registry 1 行 + 门禁 109 行、生产零变化，桶 9/13/2/5 + 28/1 复算闭合，新 AST 门禁唯一 owner +
+  祖先链检查落地；node 内存模拟证明旧登记下双断言必红；复跑 11/11 绿。附 P2 跟踪条件：DS 版本卡
+  开卡须在本卡 done 前落到看板。四向预览返工落地后本席再复审。未修改实现，未代签 Kimi，未标 done。
+  Next: Codex 完成四向行走预览 embedded 返工 → Codex 重签 → Kimi/GLM 增量复审 → 用户验收。
+- 2026-08-31 Kimi: 只读增量复审 bf129290，签 **accept**。counter 全部条件闭环：A 方案落地
+  （craft-recipes 改登 object-card、fingerprint 不变、桶计数 9/13/2/5，本人 git diff 证实）；
+  桶不变量扩为全 29 项 registry 驱动 TS AST 门禁并超预期收紧（exact class token、唯一 owner、
+  object-card 祖先链无 DsRepeatRow）；红先行成立（旧态下 craft=repeat-row 且 owner=div，计数与
+  消费断言双必红，本人逻辑核对 + Codex 红测记录）；本人复跑 4 files / 79 tests 全绿。GLM P2 另卡、
+  P3 不混入，与本席放行条件一致；A 方案零视觉变化，无需重跑浏览器。无剩余返工项；未修改实现，
+  未代签 GLM，未标 done。Next: GLM 增量复审后交用户验收。
 
 - 2026-08-31 Codex: 确认 Kimi counter 成立并采用 A 方案。红测先证明旧 registry 为 10/12 且
   craft fingerprint owner tag=`div`、无法满足 repeat-row owner；随后只把 craft 改登 object-card，得到
@@ -616,21 +692,22 @@ Branch: `main`
 ## 下一位 Agent 提示词
 
 ```text
-复审 ED-REORDER-SURFACE-1 的 Kimi counter 增量（Kimi / GLM reviewer）。
+复审 ED-REORDER-SURFACE-1「角色四向行走预览」增量（Kimi / GLM reviewer）。
 
 任务卡：docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md
-当前状态：review。Codex 已采用 Kimi 建议 A 完成返工并刷新 accept；Kimi counter 与 GLM 对 e901eb75
-的 accept 保留为历史，当前只需复审本增量，不得修改实现文件、不得标记 done。
+当前状态：review。craft counter 已由 bf129290 闭环并获 Kimi/GLM accept；本轮只复审四向预览增量，
+不得修改实现、不得重审已通过范围、不得标记 done。
 
-增量内容：`item/craft-recipes` 改登 object-card，四桶变为 9/13/2/5（rail 28/1 不变）；
-`reorder-surface-adoption.test.ts` registry 驱动遍历全部 29 项，对 22 个 row/card adoption 用 exact class
-token 唯一定位 owner，repeat-row 强制 owner tag=DsRepeatRow，object-card 强制自身和祖先链均无
-DsRepeatRow。红测曾同时命中旧计数 10/12 与 craft owner=div，改登后转绿。
+增量要点：SpriteFrames 删除旧 frames-preview/dirgroup/fcell/posegroup JSX 与私有 CSS；抽出
+world-sprite-action-preview 供 SpriteResourceViewer 与角色页共用；角色页改为
+SemanticFrameShelf presentation="embedded" + ariaLabel="四向行走与动作帧预览"，资源库仍为 full
+presentation + RawFrameInspector + 编辑 callbacks。只读面无 callback 时不再渲染动作按钮；命名动作按
+逐步 duration 与 loopFrom 真值播放。boundary 门禁要求旧类 JSX/CSS 为 0。
 
-请复核 registry diff、AST owner/ancestor 门禁是否覆盖原 counter 且无假绿；可按风险复跑
-reorder-surface-adoption（5 tests），不要重复 editor 全量或浏览器。确认后在本卡分别刷新 Kimi / GLM
-当前增量 `accept`，或给出带 file:line 与可复现反例的 counter。GLM P2 已明确另开规范版本卡，P3 不在
-本必要返工范围。Kimi / GLM 当前实现 accept 与用户验收齐前不得标记 done。
+请核：资源库 full 与动作跳转不回退；角色页四向 4 行、动态首格 + 具体帧完整、命名 pose 正确；旧皮归零；
+720px screenshot/DOM 证据中 frame card 与战斗动态卡 90px/5px/6px/背景一致、overflow/console 为 0。
+可按风险复跑 6 个聚焦文件，不要跑 editor 全量。结论写回当前视觉增量 Kimi / GLM accept，或给出
+file:line + 复现反例 counter。`ED-ACTION-GROUP-SPEC-1` 已在看板登记，满足 P2 跟踪条件。
 ```
 
 ## 历史 build 交接提示词

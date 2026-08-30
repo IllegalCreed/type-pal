@@ -2941,8 +2941,12 @@ html[data-panel-resize="horizontal"] * {
     width: 100%;
   }
 }
-.actor-frame-card .sprite-frames {
+.actor-frame-card .actor-world-sprite-preview {
+  display: grid;
+  min-width: 0;
   min-height: 0;
+  gap: var(--ds-space-5);
+  padding: var(--ds-space-6) var(--ds-space-7);
 }
 .actor-appearance-side {
   display: grid;
@@ -3473,149 +3477,6 @@ html[data-panel-resize="horizontal"] * {
     width: 100%;
     min-width: 0;
   }
-}
-.sprite-frames {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-.frames-preview {
-  padding: 14px;
-  background: repeating-linear-gradient(45deg, #171920 0 12px, #191b22 12px 24px);
-}
-.dirgroup {
-  margin-bottom: 14px;
-}
-.dirgroup .gh {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
-  font-size: 11px;
-  color: var(--dim);
-}
-.dirgroup .gh .chip {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-}
-.dirgroup .gh code {
-  font-family: var(--mono);
-  color: var(--faint);
-  font-size: 10px;
-}
-.cells {
-  display: flex;
-  gap: 8px;
-}
-.fcell {
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 4px;
-  position: relative;
-  color: inherit;
-  font: inherit;
-}
-.fcell:disabled {
-  opacity: 1;
-}
-.fcell.frame-missing {
-  border-style: dashed;
-  filter: saturate(0.45);
-  color: var(--faint);
-  cursor: not-allowed;
-}
-.fcell.frame-missing .fcell-canvas {
-  opacity: 0.42;
-}
-.sprite-layout-debt {
-  border-color: color-mix(in srgb, var(--warn) 55%, var(--line));
-  color: var(--warn);
-}
-.fcell .fidx {
-  position: absolute;
-  top: 3px;
-  left: 5px;
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--faint);
-  z-index: 1;
-}
-.fcell-canvas {
-  image-rendering: pixelated;
-}
-.fcell .ftag {
-  font-size: 9px;
-  color: var(--dim);
-}
-.fcell.stand::after {
-  content: "站立";
-  position: absolute;
-  top: 3px;
-  right: 5px;
-  font-size: 9px;
-  color: var(--ok);
-}
-.walk-preview {
-  margin: 6px 0 14px;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--faint);
-}
-
-.posegroup {
-  margin-top: 6px;
-  padding-top: 12px;
-  border-top: 1px dashed var(--line);
-}
-.posehead {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-.posehead .t {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--dim);
-  font-weight: 600;
-}
-.posehead .why {
-  font-size: 11px;
-  color: var(--faint);
-}
-.poselist {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: flex-start;
-}
-.posecard {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 8px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.posecard b {
-  font-size: 12px;
-}
-.posecard .pf {
-  display: flex;
-  gap: 3px;
-}
-.posecard .pmode {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--faint);
 }
 .unassigned {
   margin-top: 10px;
@@ -5429,13 +5290,11 @@ html[data-panel-resize="horizontal"] * {
   margin-bottom: var(--ds-space-3);
 }
 
-.level-curve-title,
-.sprite-frames-title {
+.level-curve-title {
   font-weight: 600;
 }
 
-.level-curve-hint,
-.sprite-frames-summary {
+.level-curve-hint {
   margin-left: var(--ds-space-4);
 }
 
@@ -5458,22 +5317,8 @@ html[data-panel-resize="horizontal"] * {
   width: 100%;
 }
 
-.level-curve-warning,
-.sprite-frames-error,
-.sprite-frames-empty--error {
+.level-curve-warning {
   color: var(--ds-status-danger);
-}
-
-.sprite-frames-empty {
-  padding: var(--ds-space-10);
-}
-
-.sprite-frames-action-chip {
-  background: #a06cd5;
-}
-
-.sprite-frames-wrapped-cells {
-  flex-wrap: wrap;
 }
 .battle-sprite-upload-panel,
 .battle-replace-panel {
@@ -6672,42 +6517,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: #06121f;
   font-weight: 600;
 }
-.pose-form {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-  padding: 8px;
-  background: var(--panel2);
-  border: 1px solid var(--accent);
-  border-radius: 6px;
-  flex-wrap: wrap;
-}
-.pose-form .pf {
-  display: flex;
-  gap: 3px;
-}
-.pose-form .in {
-  max-width: 180px;
-}
-.pc-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-.pc-del {
-  background: none;
-  border: 0;
-  color: var(--faint);
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-}
-.pc-del:hover {
-  color: var(--err);
-}
-
 /* ── 演出预览(v0:播放/单步/高亮)── */
 .preview-wrap {
   flex: 1;
