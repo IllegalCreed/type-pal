@@ -379,6 +379,17 @@ describe('App item reference navigation', () => {
     return session
   }
 
+  test('指令手册回收不存在的右侧面板与工具栏入口', async () => {
+    window.history.replaceState({}, '', '/?module=story&page=events')
+    await renderApp()
+
+    const body = host.querySelector<HTMLElement>('section.body')!
+    expect(body.classList).toContain('inspector-collapsed')
+    expect(body.style.getPropertyValue('--inspector-width')).toBe('0px')
+    expect(host.querySelector('.app-inspector-resizer')).toBeNull()
+    expect(host.querySelector('header button[aria-label="Inspector"]')).toBeNull()
+  })
+
   test('入口页无 object 时使用非首项直接启动入口', async () => {
     window.history.replaceState({}, '', '/?module=project&page=entrypoint')
     const shell = shellState()

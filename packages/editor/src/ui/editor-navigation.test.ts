@@ -9,6 +9,7 @@ import {
   locationForSubpageNavigation,
   normalizeEditorLocation,
   objectIdForSubpageNavigation,
+  editorSubpageHasInspector,
   PROJECT_PAGE_IDS,
   sameEditorLocation,
 } from './editor-navigation.js'
@@ -53,6 +54,18 @@ describe('编辑器模块注册表', () => {
       subpage: 'ambience',
       objectId: 'night',
     })
+  })
+
+  it('只有存在属性语义的子页才开放右侧 Inspector', () => {
+    const story = EDITOR_MODULES.find((module) => module.id === 'story')!
+    const events = story.subpages.find((subpage) => subpage.id === 'events')!
+    const scripts = story.subpages.find((subpage) => subpage.id === 'scripts')!
+    const project = EDITOR_MODULES.find((module) => module.id === 'project')!
+
+    expect(events.inspector).toBe(false)
+    expect(editorSubpageHasInspector(events)).toBe(false)
+    expect(editorSubpageHasInspector(scripts)).toBe(true)
+    expect(project.subpages.every((subpage) => !editorSubpageHasInspector(subpage))).toBe(true)
   })
 })
 

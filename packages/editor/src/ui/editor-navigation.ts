@@ -54,6 +54,8 @@ export interface EditorSubpageDefinition {
   dataPage?: DataPageId
   projectPage?: ProjectPageId
   acceptsObject?: boolean
+  /** 显式关闭没有属性语义的右侧 Inspector；其余非项目工作区默认提供。 */
+  inspector?: boolean
 }
 
 export interface EditorModuleDefinition {
@@ -129,7 +131,14 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         dataPage: 'vars',
         acceptsObject: true,
       },
-      { id: 'events', label: '指令手册', icon: '📖', kind: 'data', dataPage: 'events' },
+      {
+        id: 'events',
+        label: '指令手册',
+        icon: '📖',
+        kind: 'data',
+        dataPage: 'events',
+        inspector: false,
+      },
     ],
   },
   {
@@ -313,6 +322,10 @@ export function editorModule(id: EditorModuleId): EditorModuleDefinition {
 export function editorSubpage(location: EditorLocation): EditorSubpageDefinition {
   const module = editorModule(location.module)
   return module.subpages.find((subpage) => subpage.id === location.subpage) ?? module.subpages[0]!
+}
+
+export function editorSubpageHasInspector(subpage: EditorSubpageDefinition): boolean {
+  return subpage.kind !== 'project' && subpage.inspector !== false
 }
 
 /**

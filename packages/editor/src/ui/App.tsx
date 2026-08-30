@@ -192,6 +192,7 @@ import {
   editorLocationHref,
   editorModule,
   editorSubpage,
+  editorSubpageHasInspector,
   normalizeEditorLocation,
   sameEditorLocation,
 } from './editor-navigation.js'
@@ -1195,7 +1196,7 @@ export function App(props: {
     false,
   )
   const scriptPanelAvailable = location.module === 'scene' && location.subpage === 'workspace'
-  const inspectorAvailable = location.module !== 'project'
+  const inspectorAvailable = editorSubpageHasInspector(editorSubpage(location))
   const effectiveInspectorCollapsed = inspectorCollapsed || !inspectorAvailable
   const toggleOutliner = useCallback(
     () => setOutlinerCollapsed((collapsed) => !collapsed),
