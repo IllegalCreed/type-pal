@@ -1030,9 +1030,11 @@ function CommandRows(props: {
               </DsReorderItem>
               {description.children.map((child) => (
                 <section className="canonical-command-child" key={child.key}>
-                  <header>
-                    <span>{child.label}</span>
-                    <small>{child.body.length} 条</small>
+                  <header className="canonical-command-child__header">
+                    <span className="canonical-command-child__label">{child.label}</span>
+                    <span className="canonical-command-child__count">
+                      {child.body.length} 条
+                    </span>
                   </header>
                   <CommandRows
                     body={child.body}

@@ -1382,6 +1382,32 @@ describe('editor design-system static boundary', () => {
     expect(cssDeclaration(embeddedEditor[0]!, 'grid-template-rows')).toBe('minmax(0, 1fr)')
   })
 
+  test('keeps canonical command rows centered and branch metadata readable', () => {
+    const uiRoot = dirname(here)
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    const commandRow = cssRuleBodies(businessCss, '.canonical-script-tree .cmd-row')
+    const commandRowHeight = cssRuleBodies(
+      businessCss,
+      '.canonical-script-tree .ds-reorder-item[data-layout="inline"] > .ds-reorder-item__content > .cmd-row',
+    )
+    const childHeader = cssRuleBodies(businessCss, '.canonical-command-child__header')
+    const childLabel = cssRuleBodies(businessCss, '.canonical-command-child__label')
+    const childCount = cssRuleBodies(businessCss, '.canonical-command-child__count')
+
+    expect(commandRow).toHaveLength(1)
+    expect(cssDeclaration(commandRow[0]!, 'align-items')).toBe('center')
+    expect(commandRowHeight).toHaveLength(1)
+    expect(cssDeclaration(commandRowHeight[0]!, 'min-block-size')).toBe(
+      'calc(var(--ds-hit-target-compact) + var(--ds-space-5))',
+    )
+    expect(childHeader).toHaveLength(1)
+    expect(cssDeclaration(childHeader[0]!, 'align-items')).toBe('center')
+    expect(childLabel).toHaveLength(1)
+    expect(cssDeclaration(childLabel[0]!, 'font')).toBe('var(--ds-font-title-sm)')
+    expect(childCount).toHaveLength(1)
+    expect(cssDeclaration(childCount[0]!, 'font')).toBe('var(--ds-font-caption)')
+  })
+
   test('keeps section-grid menu groups subordinate to their page links', () => {
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
     const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')

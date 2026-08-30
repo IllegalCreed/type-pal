@@ -12555,7 +12555,38 @@ button.sprite-frame-cell[draggable="true"]:active {
   overflow: visible;
 }
 .canonical-script-tree .cmd-row {
-  border-radius: 3px;
+  align-items: center;
+  gap: var(--ds-space-4);
+  padding-block: var(--ds-space-3);
+  padding-inline-end: var(--ds-space-4);
+  border-radius: var(--ds-radius-control);
+  font: var(--ds-font-body);
+}
+.canonical-script-tree
+  .ds-reorder-item[data-layout="inline"]
+  > .ds-reorder-item__content
+  > .cmd-row {
+  min-block-size: calc(var(--ds-hit-target-compact) + var(--ds-space-5));
+}
+.canonical-script-tree .cmd-ico {
+  display: grid;
+  width: var(--ds-space-8);
+  height: var(--ds-space-8);
+  flex: 0 0 var(--ds-space-8);
+  place-items: center;
+  font-size: 16px;
+  line-height: 1;
+}
+.canonical-script-tree .cmd-label {
+  min-width: 0;
+  flex: 1 1 auto;
+  font: var(--ds-font-body);
+  font-weight: 600;
+}
+.canonical-script-tree .cmd-detail {
+  max-width: min(44%, 32rem);
+  flex: 0 1 auto;
+  font: var(--ds-font-code);
 }
 .canonical-script-row-actions {
   position: absolute;
@@ -12928,17 +12959,32 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .canonical-command-child {
   min-width: 0;
-  margin: 4px 0 6px 16px;
-  padding-left: 8px;
+  margin: var(--ds-space-3) 0 var(--ds-space-5) var(--ds-space-7);
+  padding-left: var(--ds-space-5);
   border-left: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
 }
-.canonical-command-child > header {
+.canonical-command-child__header {
   display: flex;
+  min-height: var(--ds-hit-target-compact);
+  align-items: center;
   justify-content: space-between;
-  gap: 6px;
-  padding: 3px 2px;
-  color: var(--dim);
-  font-size: 9px;
+  gap: var(--ds-space-4);
+  padding: var(--ds-space-3) var(--ds-space-2);
+}
+.canonical-command-child__label {
+  min-width: 0;
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-title-sm);
+}
+.canonical-command-child__count {
+  flex: 0 0 auto;
+  padding: var(--ds-space-1) var(--ds-space-4);
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: 999px;
+  background: var(--ds-surface-raised);
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-caption);
+  font-variant-numeric: tabular-nums;
 }
 .canonical-script-empty-add {
   width: 100%;

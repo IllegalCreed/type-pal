@@ -269,6 +269,34 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(host.querySelector('.cmd-row.sel')).toBeNull()
   })
 
+  test('branch groups expose readable labels and explicit count badges', async () => {
+    const body: AuthorCommand[] = [
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'review.quest.rewarded', is: false },
+        then: [
+          { kind: 'setVar', var: 'review.reputation', value: 5 },
+          { kind: 'setFlag', flag: 'review.quest.rewarded', value: true },
+        ],
+        else: [{ kind: 'setVar', var: 'review.reputation', value: 1 }],
+      },
+    ]
+    await act(async () =>
+      root.render(<CanonicalScriptBodyEditor body={body} onChange={() => undefined} />),
+    )
+
+    const headers = host.querySelectorAll<HTMLElement>('.canonical-command-child__header')
+    expect(headers).toHaveLength(2)
+    expect(headers[0]?.querySelector('.canonical-command-child__label')?.textContent).toBe(
+      '满足条件',
+    )
+    expect(headers[0]?.querySelector('.canonical-command-child__count')?.textContent).toBe('2 条')
+    expect(headers[1]?.querySelector('.canonical-command-child__label')?.textContent).toBe(
+      '不满足条件',
+    )
+    expect(headers[1]?.querySelector('.canonical-command-child__count')?.textContent).toBe('1 条')
+  })
+
   test('inserts and edits an entity-state command with the shared localized form', async () => {
     const changes = vi.fn()
     const scene = {
