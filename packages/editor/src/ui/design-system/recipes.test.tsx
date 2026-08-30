@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
+  DsActionGroup,
   DsButton,
   DsCatalogControls,
   DsCatalogFilter,
@@ -196,6 +197,18 @@ describe('object workbench recipes', () => {
       ),
     )
     expect(host.querySelector<HTMLElement>('.ds-repeat-row')?.dataset.density).toBe('compact')
+
+    await act(async () =>
+      root.render(
+        <DsActionGroup density="compact">
+          <DsButton>移除</DsButton>
+          <DsButton>删除</DsButton>
+        </DsActionGroup>,
+      ),
+    )
+    const actions = host.querySelector<HTMLElement>('.ds-action-group')!
+    expect(actions.dataset.density).toBe('compact')
+    expect(actions.querySelectorAll('.ds-button')).toHaveLength(2)
 
     await act(async () =>
       root.render(

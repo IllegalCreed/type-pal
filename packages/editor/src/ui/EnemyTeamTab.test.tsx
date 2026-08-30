@@ -172,7 +172,8 @@ describe('EnemyTeamTab authoring closure', () => {
     const slots = [...host.querySelectorAll<HTMLElement>('.enemy-team-slot')]
     expect(slots).toHaveLength(5)
     for (const slot of slots) {
-      expect(slot.querySelector('.ds-select')?.classList.contains('ds-select--compact')).toBe(true)
+      expect(slot.classList.contains('ds-repeat-row')).toBe(true)
+      expect(slot.dataset.density).toBe('compact')
       const moveButtons = [...slot.querySelectorAll<HTMLElement>('.ds-icon-button')]
       expect(moveButtons).toHaveLength(2)
       expect(
@@ -333,6 +334,7 @@ describe('EnemyTeamTab authoring closure', () => {
   test('[reorder-family:enemy-team-fixed-slots] handle swaps with an empty slot without compression in one command', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))
+    expect(host.querySelectorAll('.enemy-team-slot.ds-repeat-row')).toHaveLength(5)
     const first = host.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')[0]!
     const handle = first.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
     await act(async () => {

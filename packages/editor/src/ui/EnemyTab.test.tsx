@@ -402,6 +402,7 @@ describe('EnemyTab shared workbench', () => {
     }
     const session = new EditSession(editorState)
     await act(async () => root.render(<Harness session={session} />))
+    expect(host.querySelectorAll('.rule-row.ds-repeat-row')).toHaveLength(3)
     const handle = host.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
     await act(async () => {
       for (let index = 0; index < 20; index += 1)

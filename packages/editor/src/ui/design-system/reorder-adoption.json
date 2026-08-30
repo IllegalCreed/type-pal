@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "baseline": {
     "families": 17,
     "adoptions": 29,
@@ -43,7 +43,17 @@
           "identity": "entry.id",
           "commandOwner": "SetStartupEntriesCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ProjectWorkbenchTab.test.tsx"]
+          "verification": ["ui/ProjectWorkbenchTab.test.tsx"],
+          "contentSurface": "continuous-structure",
+          "contentOwner": {
+            "file": "ProjectWorkbenchTab.tsx",
+            "fingerprint": "className=\"project-entry-list\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "project/startup-party",
@@ -53,7 +63,17 @@
           "identity": "editor-local-token",
           "commandOwner": "SetStartupEntriesCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ProjectWorkbenchTab.test.tsx"]
+          "verification": ["ui/ProjectWorkbenchTab.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "ProjectWorkbenchTab.tsx",
+            "fingerprint": "className=\"project-party-row\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -72,7 +92,17 @@
           "identity": "editor-local-token",
           "commandOwner": "SetStartupEntriesCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ProjectWorkbenchTab.test.tsx"]
+          "verification": ["ui/ProjectWorkbenchTab.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "ProjectWorkbenchTab.tsx",
+            "fingerprint": "className=\"project-inventory-row\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -91,7 +121,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateEnemyCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/EnemyTab.test.tsx"]
+          "verification": ["ui/EnemyTab.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "EnemyTab.tsx",
+            "fingerprint": "className=\"rule-row\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -110,7 +150,17 @@
           "identity": "slot-token",
           "commandOwner": "UpdateEnemyTeamCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/EnemyTeamTab.test.tsx"]
+          "verification": ["ui/EnemyTeamTab.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "EnemyTeamTab.tsx",
+            "fingerprint": "className=\"enemy-team-slot\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -129,7 +179,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateItemCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ItemTab.test.tsx"]
+          "verification": ["ui/ItemTab.test.tsx"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "EffectEditorCard.tsx",
+            "fingerprint": "className=\"effect-editor-card\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "item/resource-reward-tiers",
@@ -139,7 +199,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateItemCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ItemUseEffectEditor.test.tsx"]
+          "verification": ["ui/ItemUseEffectEditor.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "ItemUseEffectEditor.tsx",
+            "fingerprint": "className=\"item-amount-row ordered\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "item/craft-recipes",
@@ -149,7 +219,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateItemCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ItemUseEffectEditor.test.tsx"]
+          "verification": ["ui/ItemUseEffectEditor.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "ItemUseEffectEditor.tsx",
+            "fingerprint": "className=\"item-recipe\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "item/use-effects",
@@ -159,7 +239,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateItemCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ItemUseEffectEditor.test.tsx"]
+          "verification": ["ui/ItemUseEffectEditor.test.tsx"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "EffectEditorCard.tsx",
+            "fingerprint": "className=\"effect-editor-card\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "item/throw-effects",
@@ -169,7 +259,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateItemCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ItemUseEffectEditor.test.tsx"]
+          "verification": ["ui/ItemUseEffectEditor.test.tsx"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "EffectEditorCard.tsx",
+            "fingerprint": "className=\"effect-editor-card\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -188,7 +288,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateSkillCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/SkillTab.test.tsx"]
+          "verification": ["ui/SkillTab.test.tsx"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "EffectEditorCard.tsx",
+            "fingerprint": "className=\"effect-editor-card\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "skill/execution-effects",
@@ -198,7 +308,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateSkillCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/SkillTab.test.tsx"]
+          "verification": ["ui/SkillTab.test.tsx"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "EffectEditorCard.tsx",
+            "fingerprint": "className=\"effect-editor-card\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -217,7 +337,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdatePoisonCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/PoisonTab.test.tsx"]
+          "verification": ["ui/PoisonTab.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "PoisonTab.tsx",
+            "fingerprint": "className=\"ef-row\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -236,7 +366,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateShopCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ShopTab.test.tsx"]
+          "verification": ["ui/ShopTab.test.tsx"],
+          "contentSurface": "edge-to-edge-list",
+          "contentOwner": {
+            "file": "editor.css",
+            "fingerprint": ".shop-stock-card"
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -255,7 +395,17 @@
           "identity": "editor-local-token",
           "commandOwner": "enclosing canonical snapshot command",
           "revisionOwner": "body reference",
-          "verification": ["ui/ScriptEditor.test.tsx", "core/author-command-edit.test.ts"]
+          "verification": ["ui/ScriptEditor.test.tsx", "core/author-command-edit.test.ts"],
+          "contentSurface": "continuous-structure",
+          "contentOwner": {
+            "file": "ScriptEditor.tsx",
+            "fingerprint": "className=\"canonical-command-list\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "script/legacy-siblings",
@@ -265,7 +415,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateScriptCommand|UpdateScriptBodyCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ScriptDrawer.test.tsx", "core/script-edit.test.ts"]
+          "verification": ["ui/ScriptDrawer.test.tsx", "core/script-edit.test.ts"],
+          "contentSurface": "continuous-structure",
+          "contentOwner": {
+            "file": "ScriptTree.tsx",
+            "fingerprint": "cmd-row"
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -284,7 +444,17 @@
           "identity": "layer.id",
           "commandOwner": "MoveProjectMapLayerCommand|ReplaceStampTemplateCommand",
           "revisionOwner": "historyVersion|draft.layers",
-          "verification": ["core/stamp-draft.test.ts"]
+          "verification": ["core/stamp-draft.test.ts"],
+          "contentSurface": "continuous-structure",
+          "contentOwner": {
+            "file": "LayerStackControls.tsx",
+            "fingerprint": "map-layer-row"
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -303,7 +473,17 @@
           "identity": "editor-local-token",
           "commandOwner": "pendingFrames local state",
           "revisionOwner": "pendingFrames.files",
-          "verification": ["ui/CutsceneTab.test.tsx"]
+          "verification": ["ui/CutsceneTab.test.tsx"],
+          "contentSurface": "edge-to-edge-list",
+          "contentOwner": {
+            "file": "CutsceneTab.tsx",
+            "fingerprint": "className=\"cutscene-import-files\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -322,7 +502,17 @@
           "identity": "ActionId",
           "commandOwner": "UpdateSpriteCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/SpriteActionEditor.test.tsx"]
+          "verification": ["ui/SpriteActionEditor.test.tsx"],
+          "contentSurface": "continuous-structure",
+          "contentOwner": {
+            "file": "SpriteActionEditor.tsx",
+            "fingerprint": "contentClassName=\"sprite-action-catalog-content\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "asset/sprite-action-steps",
@@ -332,7 +522,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateSpriteCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/SpriteActionEditor.test.tsx"]
+          "verification": ["ui/SpriteActionEditor.test.tsx"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "SpriteActionEditor.tsx",
+            "fingerprint": "sprite-action-step"
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -351,7 +551,17 @@
           "identity": "frame.id via DOM-safe token",
           "commandOwner": "FrameAnimationDraftHistory",
           "revisionOwner": "draft reference",
-          "verification": ["core/frame-animation-draft.test.ts"]
+          "verification": ["core/frame-animation-draft.test.ts"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "FrameAnimationEditor.tsx",
+            "fingerprint": "className={`fa-frame"
+          },
+          "railLayout": "overlay",
+          "railOwner": {
+            "file": "FrameAnimationEditor.tsx",
+            "fingerprint": "layout=\"overlay\""
+          }
         }
       ]
     },
@@ -370,7 +580,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateActorCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ActorMode.test.tsx"]
+          "verification": ["ui/ActorMode.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "ActorMode.tsx",
+            "fingerprint": "className=\"actor-initial-magic-row\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "actor/casualty-gates",
@@ -380,7 +600,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateActorCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/CasualtyEditor.test.tsx"]
+          "verification": ["ui/CasualtyEditor.test.tsx"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "CasualtyEditor.tsx",
+            "fingerprint": "casualty-gate-row"
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "actor/casualty-lines",
@@ -390,7 +620,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateActorCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/CasualtyEditor.test.tsx"]
+          "verification": ["ui/CasualtyEditor.test.tsx"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "CasualtyEditor.tsx",
+            "fingerprint": "className=\"casualty-item-card\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "actor/casualty-effects",
@@ -400,7 +640,17 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateActorCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/CasualtyEditor.test.tsx"]
+          "verification": ["ui/CasualtyEditor.test.tsx"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "EffectEditorCard.tsx",
+            "fingerprint": "className=\"effect-editor-card\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -419,7 +669,17 @@
           "identity": "editor-local-token",
           "commandOwner": "enclosing script snapshot command",
           "revisionOwner": "command draft reference",
-          "verification": ["ui/CommandForm.current-characterization.test.tsx"]
+          "verification": ["ui/CommandForm.current-characterization.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "CommandForm.tsx",
+            "fingerprint": "className=\"cf-dialog-row\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         },
         {
           "adoptionId": "story/set-party-members",
@@ -429,7 +689,17 @@
           "identity": "editor-local-token",
           "commandOwner": "enclosing script snapshot command",
           "revisionOwner": "command draft reference",
-          "verification": ["ui/CommandForm.current-characterization.test.tsx"]
+          "verification": ["ui/CommandForm.current-characterization.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "CommandForm.tsx",
+            "fingerprint": "className=\"cf-party-row\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -448,7 +718,17 @@
           "identity": "BehaviorId",
           "commandOwner": "ReorderEntityBehaviorSchemesCommand",
           "revisionOwner": "ScriptEditorState",
-          "verification": ["ui/ScriptBehaviorInspector.test.tsx", "core/script-editor.test.ts"]
+          "verification": ["ui/ScriptBehaviorInspector.test.tsx", "core/script-editor.test.ts"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "ScriptEditor.tsx",
+            "fingerprint": "script-scheme-card"
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     },
@@ -467,7 +747,17 @@
           "identity": "HookId",
           "commandOwner": "ReorderSceneHookVariantsCommand",
           "revisionOwner": "ScriptEditorState",
-          "verification": ["ui/ScriptSceneHookInspector.test.tsx", "core/script-editor.test.ts"]
+          "verification": ["ui/ScriptSceneHookInspector.test.tsx", "core/script-editor.test.ts"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "ScriptEditor.tsx",
+            "fingerprint": "script-scheme-card"
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
         }
       ]
     }

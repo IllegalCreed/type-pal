@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import {
   DsActionLink,
+  DsActionGroup,
   DsAddPickerDialog,
   DsButton,
   DsCard,
@@ -43,6 +44,7 @@ import {
   type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
+  DsRepeatRow,
   DsSelect,
   DsSelectField,
   DsStatus,
@@ -343,9 +345,7 @@ function OverflowTextFixture() {
         </div>
       </DsCard>
       <DsCard title="容器宽度变化">
-        <p className="lab-card-description">
-          同一个文本实例在宽、窄容器间切换，不重新挂载。
-        </p>
+        <p className="lab-card-description">同一个文本实例在宽、窄容器间切换，不重新挂载。</p>
         <div
           className={`lab-overflow-value ${
             wide ? 'lab-overflow-value--wide' : 'lab-overflow-value--narrow'
@@ -920,16 +920,16 @@ function LabReorderList(props: {
         <div className={`lab-reorder-list${props.scroll ? ' is-scroll' : ''}`}>
           {items.map((item) => (
             <DsReorderItem itemKey={item.id} key={item.id}>
-              <div className="lab-reorder-row" data-density={props.density ?? 'default'}>
+              <DsRepeatRow density={props.density ?? 'default'} className="lab-reorder-row">
                 <span className="lab-reorder-identity">
                   <strong>{item.label}</strong>
                   {item.meta ? <code>{item.meta}</code> : null}
                 </span>
-                <span className="lab-reorder-actions">
+                <DsActionGroup density={props.density ?? 'default'} className="lab-reorder-actions">
                   <DsReorderMoveButton itemKey={item.id} direction="backward" />
                   <DsReorderMoveButton itemKey={item.id} direction="forward" />
-                </span>
-              </div>
+                </DsActionGroup>
+              </DsRepeatRow>
             </DsReorderItem>
           ))}
           {items.length === 0 ? <p className="lab-reorder-empty">空列表没有伪手柄。</p> : null}

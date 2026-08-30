@@ -52,6 +52,7 @@ import {
   DsTag,
 } from './design-system/controls.js'
 import {
+  DsActionGroup,
   DsCatalogControls,
   DsCatalogRow,
   DsCatalogWorkspace,
@@ -65,6 +66,7 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsRepeatRow,
   DsSequenceIndex,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
@@ -207,7 +209,10 @@ function EnemyDefeatedEventTree(props: {
   const level = props.level ?? 1
   if (!props.nodes.length) return <p className="enemy-defeated-event-tree__empty">没有事件。</p>
   return (
-    <ol className="enemy-defeated-event-tree" aria-label={level === 1 ? '击败后事件执行顺序' : undefined}>
+    <ol
+      className="enemy-defeated-event-tree"
+      aria-label={level === 1 ? '击败后事件执行顺序' : undefined}
+    >
       {props.nodes.map((node, index) => {
         const row = (
           <span className="enemy-defeated-event-tree__row">
@@ -373,10 +378,9 @@ function RuleRow(props: {
     onChange({ ...rule, do: mk[kind] })
   }
   return (
-    <div className="rule-row">
+    <DsRepeatRow density="compact" className="rule-row">
       <span className="rr-at">
         <DsSelect
-          size="compact"
           aria-label="触发时机"
           value={rule.at}
           options={[
@@ -388,7 +392,6 @@ function RuleRow(props: {
       </span>
       <span className="rr-cond">
         <DsSelect
-          size="compact"
           aria-label="触发条件"
           value={ck}
           disabled={ck === 'complex'}
@@ -408,7 +411,6 @@ function RuleRow(props: {
       {ck === 'hpBelow' || ck === 'hpAbove' || ck === 'turnGte' || ck === 'chance' ? (
         <span className="rr-num">
           <DsDraftNumberInput
-            size="compact"
             aria-label="条件数值"
             draftKey={`${draftScope}:condition`}
             syncToken={syncToken}
@@ -423,7 +425,6 @@ function RuleRow(props: {
       )}
       <span className="rr-act">
         <DsSelect
-          size="compact"
           aria-label="执行动作"
           value={a.kind}
           options={(Object.keys(ACTION_LABEL) as AiAction['kind'][]).map((kind) => ({
@@ -436,7 +437,6 @@ function RuleRow(props: {
       {a.kind === 'cast' ? (
         <span className="rr-p1">
           <DsSelect
-            size="compact"
             aria-label="施放技能"
             value={a.skillId}
             options={skills.map((skill) => ({
@@ -449,7 +449,6 @@ function RuleRow(props: {
       ) : a.kind === 'transform' ? (
         <span className="rr-p1">
           <DsSelect
-            size="compact"
             aria-label="变身敌人"
             value={a.enemyId}
             options={enemies.map((enemy) => ({
@@ -463,7 +462,6 @@ function RuleRow(props: {
         <>
           <span className="rr-p1">
             <DsSelect
-              size="compact"
               aria-label="召唤敌人"
               value={a.enemyId ?? ''}
               options={[
@@ -478,7 +476,6 @@ function RuleRow(props: {
           </span>
           <span className="rr-num">
             <DsDraftNumberInput
-              size="compact"
               aria-label="召唤数量"
               min={1}
               normalize={(value) => Math.max(1, value)}
@@ -492,7 +489,6 @@ function RuleRow(props: {
       ) : a.kind === 'divide' ? (
         <span className="rr-num">
           <DsDraftNumberInput
-            size="compact"
             aria-label="分裂数量"
             min={1}
             normalize={(value) => Math.max(1, value)}
@@ -508,7 +504,6 @@ function RuleRow(props: {
       {a.kind === 'attack' || a.kind === 'cast' ? (
         <span className="rr-tgt">
           <DsSelect
-            size="compact"
             aria-label="动作目标"
             value={a.target ?? 'random'}
             options={TARGETS.map((target) => ({ value: target.v, label: target.l }))}
@@ -524,25 +519,18 @@ function RuleRow(props: {
       )}
       <span className="rr-once">
         <DsCheckbox
-          size="compact"
           label="1次"
           title="整场只触发一次"
           checked={!!rule.once}
           onChange={(e) => onChange({ ...rule, once: e.target.checked || undefined })}
         />
       </span>
-      <span className="rule-row-actions">
+      <DsActionGroup density="compact" className="rule-row-actions">
         <DsReorderMoveButton itemKey={reorderKey} direction="backward" label="上移 AI 规则" />
         <DsReorderMoveButton itemKey={reorderKey} direction="forward" label="下移 AI 规则" />
-        <DsIconButton
-          size="compact"
-          variant="danger"
-          icon="delete"
-          label="删除 AI 规则"
-          onClick={onDelete}
-        />
-      </span>
-    </div>
+        <DsIconButton variant="danger" icon="delete" label="删除 AI 规则" onClick={onDelete} />
+      </DsActionGroup>
+    </DsRepeatRow>
   )
 }
 
@@ -637,9 +625,7 @@ export function EnemyTab(props: {
   )
   const enemy = enemies.find((e) => e.id === selId) ?? shown[0]
   // project-io 保留作者态 enemy tree；EditorState 的 EnemyDef 标注仍是既存类型债。
-  const defeatedCommands = enemy?.onDefeated as unknown as
-    | AuthorEnemyDefeatedCommands
-    | undefined
+  const defeatedCommands = enemy?.onDefeated as unknown as AuthorEnemyDefeatedCommands | undefined
   const defeatedContextState = session.getState()
   const defeatedPresentationContext = useMemo(() => {
     return createEnemyDefeatedPresentationContext({
@@ -790,37 +776,35 @@ export function EnemyTab(props: {
           />
         }
       >
-          {shown.map((e) => {
-            const definition = battleSpritesById.get(e.battleSprite)
-            const record = definition ? assetCatalog.assets[definition.asset] : undefined
-            return (
-              <DsCatalogRow
-                className="enemy-catalog-row"
-                key={e.id}
-                selected={e.id === enemy?.id}
-                leading={
-                  <EnemyBattleSpriteThumbnail
-                    definition={definition}
-                    assetBase={assetBase}
-                    assetReader={assetReader}
-                    revision={record?.kind === 'battle-sprite' ? record.sha256 : undefined}
-                    cache={enemyThumbnailCache}
-                  />
-                }
-                title={nameOf(e)}
-                meta={e.id}
-                trailing={
-                  e.ai.rules?.length ? (
-                    <DsTag tone="neutral">{e.ai.rules.length} 规则</DsTag>
-                  ) : null
-                }
-                onClick={() => {
-                  setSelId(e.id)
-                  onObjectFocus?.(e.id)
-                }}
-              />
-            )
-          })}
+        {shown.map((e) => {
+          const definition = battleSpritesById.get(e.battleSprite)
+          const record = definition ? assetCatalog.assets[definition.asset] : undefined
+          return (
+            <DsCatalogRow
+              className="enemy-catalog-row"
+              key={e.id}
+              selected={e.id === enemy?.id}
+              leading={
+                <EnemyBattleSpriteThumbnail
+                  definition={definition}
+                  assetBase={assetBase}
+                  assetReader={assetReader}
+                  revision={record?.kind === 'battle-sprite' ? record.sha256 : undefined}
+                  cache={enemyThumbnailCache}
+                />
+              }
+              title={nameOf(e)}
+              meta={e.id}
+              trailing={
+                e.ai.rules?.length ? <DsTag tone="neutral">{e.ai.rules.length} 规则</DsTag> : null
+              }
+              onClick={() => {
+                setSelId(e.id)
+                onObjectFocus?.(e.id)
+              }}
+            />
+          )
+        })}
       </DsCatalogWorkspace>
 
       {/* 中:敌人编辑 */}
@@ -1013,24 +997,26 @@ export function EnemyTab(props: {
                   revision={session.getHistoryVersion()}
                   onReorder={reorderRules}
                 >
-                  {rules.map((r, i) => {
-                    const reorderKey = ruleReorderKeys.keys[i]!
-                    return (
-                      <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-                        <RuleRow
-                          rule={r}
-                          reorderKey={reorderKey}
-                          draftScope={`enemy:${enemy.id}:ai.${reorderKey}`}
-                          syncToken={session.getHistoryVersion()}
-                          enemies={enemies}
-                          skills={skills}
-                          locale={locale}
-                          onChange={(nr) => setRules(rules.map((x, j) => (j === i ? nr : x)))}
-                          onDelete={() => setRules(rules.filter((_, j) => j !== i))}
-                        />
-                      </DsReorderItem>
-                    )
-                  })}
+                  <div className="rule-row-list">
+                    {rules.map((r, i) => {
+                      const reorderKey = ruleReorderKeys.keys[i]!
+                      return (
+                        <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                          <RuleRow
+                            rule={r}
+                            reorderKey={reorderKey}
+                            draftScope={`enemy:${enemy.id}:ai.${reorderKey}`}
+                            syncToken={session.getHistoryVersion()}
+                            enemies={enemies}
+                            skills={skills}
+                            locale={locale}
+                            onChange={(nr) => setRules(rules.map((x, j) => (j === i ? nr : x)))}
+                            onDelete={() => setRules(rules.filter((_, j) => j !== i))}
+                          />
+                        </DsReorderItem>
+                      )
+                    })}
+                  </div>
                 </DsReorderCollection>
                 <DsButton
                   variant="secondary"

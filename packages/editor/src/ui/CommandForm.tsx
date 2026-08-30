@@ -47,6 +47,7 @@ import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js
 import { defaultActionTargetForEntity, sortedSpriteActions } from '../core/sprite-actions.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import {
+  DsActionGroup,
   DsButton,
   DsCheckbox,
   DsNumberInput,
@@ -54,6 +55,7 @@ import {
   type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
+  DsRepeatRow,
   DsSelect,
   DsTextArea,
   DsTextInput,
@@ -444,55 +446,54 @@ export function CommandForm(props: {
             revision={cmd}
             onReorder={reorderRows}
           >
-            {cue.rows.map((row, index) => {
-              const rowKey = dialogueRowReorderKeys.keys[index]!
-              return (
-                <DsReorderItem itemKey={rowKey} key={rowKey}>
-                  <div className="cf-dialog-row">
-                    <Row label={`第 ${index + 1} 行`}>
-                      <DsTextArea
-                        size="compact"
-                        value={lookupText(row.text, locale)}
-                        onChange={(e) => setRow(index, { text: e.target.value })}
-                        spellCheck={false}
-                      />
-                    </Row>
-                    <div className="cf-dialog-row-actions">
-                      <DsCheckbox
-                        size="compact"
-                        label="自定速度"
-                        checked={row.speed !== undefined}
-                        onChange={(e) =>
-                          setRow(index, { speed: e.target.checked ? 24 : undefined })
-                        }
-                      />
-                      {row.speed !== undefined ? (
-                        <Num
-                          value={row.speed}
-                          onChange={(speed) => setRow(index, { speed })}
-                          step={8}
+            <div className="cf-dialog-row-list">
+              {cue.rows.map((row, index) => {
+                const rowKey = dialogueRowReorderKeys.keys[index]!
+                return (
+                  <DsReorderItem itemKey={rowKey} key={rowKey}>
+                    <DsRepeatRow density="compact" className="cf-dialog-row">
+                      <Row label={`第 ${index + 1} 行`}>
+                        <DsTextArea
+                          value={lookupText(row.text, locale)}
+                          onChange={(e) => setRow(index, { text: e.target.value })}
+                          spellCheck={false}
                         />
-                      ) : null}
-                      <DsReorderMoveButton itemKey={rowKey} direction="backward" />
-                      <DsReorderMoveButton itemKey={rowKey} direction="forward" />
-                      <DsButton
-                        size="compact"
-                        variant="quiet"
-                        icon="delete"
-                        title="删除此行"
-                        aria-label="删除此行"
-                        disabled={cue.rows.length === 1}
-                        onClick={() =>
-                          setCue({ rows: cue.rows.filter((_, rowIndex) => rowIndex !== index) })
-                        }
-                      >
-                        删除
-                      </DsButton>
-                    </div>
-                  </div>
-                </DsReorderItem>
-              )
-            })}
+                      </Row>
+                      <DsActionGroup density="compact" className="cf-dialog-row-actions">
+                        <DsCheckbox
+                          label="自定速度"
+                          checked={row.speed !== undefined}
+                          onChange={(e) =>
+                            setRow(index, { speed: e.target.checked ? 24 : undefined })
+                          }
+                        />
+                        {row.speed !== undefined ? (
+                          <Num
+                            value={row.speed}
+                            onChange={(speed) => setRow(index, { speed })}
+                            step={8}
+                          />
+                        ) : null}
+                        <DsReorderMoveButton itemKey={rowKey} direction="backward" />
+                        <DsReorderMoveButton itemKey={rowKey} direction="forward" />
+                        <DsButton
+                          variant="quiet"
+                          icon="delete"
+                          title="删除此行"
+                          aria-label="删除此行"
+                          disabled={cue.rows.length === 1}
+                          onClick={() =>
+                            setCue({ rows: cue.rows.filter((_, rowIndex) => rowIndex !== index) })
+                          }
+                        >
+                          删除
+                        </DsButton>
+                      </DsActionGroup>
+                    </DsRepeatRow>
+                  </DsReorderItem>
+                )
+              })}
+            </div>
           </DsReorderCollection>
           <DsButton
             size="compact"
@@ -1555,41 +1556,41 @@ export function CommandForm(props: {
             revision={cmd}
             onReorder={reorderMembers}
           >
-            {members.map((id, i) => {
-              const memberKey = partyMemberReorderKeys.keys[i]!
-              return (
-                <DsReorderItem itemKey={memberKey} key={memberKey}>
-                  <div className="cf-row cf-party-row">
-                    <span className="cf-label">{i === 0 ? '队长' : `队员 ${i}`}</span>
-                    <DsSelect
-                      size="compact"
-                      aria-label={i === 0 ? '队长' : `队员 ${i}`}
-                      value={id}
-                      options={battlers.map((actor) => ({
-                        value: actor.id,
-                        label: references.label('actor', actor.id),
-                      }))}
-                      onValueChange={(actorId) =>
-                        setMembers(members.map((member, j) => (j === i ? actorId : member)))
-                      }
-                    />
-                    <span className="cf-party-row-actions">
-                      <DsReorderMoveButton itemKey={memberKey} direction="backward" />
-                      <DsReorderMoveButton itemKey={memberKey} direction="forward" />
-                      <DsButton
-                        size="compact"
-                        variant="danger"
-                        icon="delete"
-                        aria-label={`删除${i === 0 ? '队长' : `队员 ${i}`}`}
-                        onClick={() => setMembers(members.filter((_, j) => j !== i))}
-                      >
-                        删除
-                      </DsButton>
-                    </span>
-                  </div>
-                </DsReorderItem>
-              )
-            })}
+            <div className="cf-party-row-list">
+              {members.map((id, i) => {
+                const memberKey = partyMemberReorderKeys.keys[i]!
+                return (
+                  <DsReorderItem itemKey={memberKey} key={memberKey}>
+                    <DsRepeatRow density="compact" className="cf-party-row">
+                      <span className="cf-label">{i === 0 ? '队长' : `队员 ${i}`}</span>
+                      <DsSelect
+                        aria-label={i === 0 ? '队长' : `队员 ${i}`}
+                        value={id}
+                        options={battlers.map((actor) => ({
+                          value: actor.id,
+                          label: references.label('actor', actor.id),
+                        }))}
+                        onValueChange={(actorId) =>
+                          setMembers(members.map((member, j) => (j === i ? actorId : member)))
+                        }
+                      />
+                      <DsActionGroup density="compact" className="cf-party-row-actions">
+                        <DsReorderMoveButton itemKey={memberKey} direction="backward" />
+                        <DsReorderMoveButton itemKey={memberKey} direction="forward" />
+                        <DsButton
+                          variant="danger"
+                          icon="delete"
+                          aria-label={`删除${i === 0 ? '队长' : `队员 ${i}`}`}
+                          onClick={() => setMembers(members.filter((_, j) => j !== i))}
+                        >
+                          删除
+                        </DsButton>
+                      </DsActionGroup>
+                    </DsRepeatRow>
+                  </DsReorderItem>
+                )
+              })}
+            </div>
           </DsReorderCollection>
           <Row label="">
             <DsButton

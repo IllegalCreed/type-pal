@@ -368,6 +368,19 @@ export function DsRepeatRow(props: {
   )
 }
 
+/** 不可拆的同项动作组；density 统一命中区，窄容器只能整组换行。 */
+export function DsActionGroup(props: {
+  density: DsControlSize
+  children: ReactNode
+  className?: string
+}) {
+  return (
+    <span className={dsClasses('ds-action-group', props.className)} data-density={props.density}>
+      {props.children}
+    </span>
+  )
+}
+
 /** 数值字段的有界宽度；窄容器中仍允许收缩到可用宽度。 */
 export function DsFieldMeasure(props: {
   measure: 'short-number'

@@ -13,9 +13,24 @@
       "responsive": 1,
       "stacked": 0
     },
-    { "source": "CutsceneTab.tsx", "component": "CutsceneTab", "responsive": 1, "stacked": 0 },
-    { "source": "ItemTab.tsx", "component": "EquipEffectFields", "responsive": 1, "stacked": 0 },
-    { "source": "ItemTab.tsx", "component": "ItemTab", "responsive": 3, "stacked": 0 },
+    {
+      "source": "CutsceneTab.tsx",
+      "component": "CutsceneTab",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "ItemTab.tsx",
+      "component": "EquipEffectFields",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "ItemTab.tsx",
+      "component": "ItemTab",
+      "responsive": 3,
+      "stacked": 0
+    },
     {
       "source": "ItemUseEffectEditor.tsx",
       "component": "EffectDraftTextField",
@@ -196,7 +211,11 @@
         "source": "App.tsx",
         "component": "PlacePalette",
         "propertyGrids": 1,
-        "host": { "source": "App.tsx", "component": "App", "kind": "business-shell" },
+        "host": {
+          "source": "App.tsx",
+          "component": "App",
+          "kind": "business-shell"
+        },
         "owner": "card:ED-FIELD-LAYOUT-1",
         "reason": "场景放置工具的窄 Inspector 属性区。",
         "responsiveEvidence": "由 App 的 inspector host 消费。",
@@ -206,7 +225,11 @@
         "source": "App.tsx",
         "component": "EntityInspector",
         "propertyGrids": 4,
-        "host": { "source": "App.tsx", "component": "App", "kind": "business-shell" },
+        "host": {
+          "source": "App.tsx",
+          "component": "App",
+          "kind": "business-shell"
+        },
         "owner": "card:ED-FIELD-LAYOUT-1",
         "reason": "实体属性、坐标与敌对行为均属于窄 Inspector。",
         "responsiveEvidence": "仅作为 SceneEntityInspectorTabs panel 消费。",
@@ -216,7 +239,11 @@
         "source": "App.tsx",
         "component": "EntryInspector",
         "propertyGrids": 1,
-        "host": { "source": "App.tsx", "component": "App", "kind": "business-shell" },
+        "host": {
+          "source": "App.tsx",
+          "component": "App",
+          "kind": "business-shell"
+        },
         "owner": "card:ED-FIELD-LAYOUT-1",
         "reason": "默认进场点 Inspector。",
         "responsiveEvidence": "由 scene inspector 右侧栏消费。",
@@ -226,7 +253,11 @@
         "source": "App.tsx",
         "component": "SceneInspector",
         "propertyGrids": 1,
-        "host": { "source": "App.tsx", "component": "App", "kind": "business-shell" },
+        "host": {
+          "source": "App.tsx",
+          "component": "App",
+          "kind": "business-shell"
+        },
         "owner": "card:ED-FIELD-LAYOUT-1",
         "reason": "场景基本属性 Inspector。",
         "responsiveEvidence": "由 scene inspector 右侧栏消费。",
@@ -236,7 +267,11 @@
         "source": "App.tsx",
         "component": "NamedEntryInspector",
         "propertyGrids": 1,
-        "host": { "source": "App.tsx", "component": "App", "kind": "business-shell" },
+        "host": {
+          "source": "App.tsx",
+          "component": "App",
+          "kind": "business-shell"
+        },
         "owner": "card:ED-FIELD-LAYOUT-1",
         "reason": "命名落点属性 Inspector。",
         "responsiveEvidence": "由 scene inspector 右侧栏消费。",
@@ -314,41 +349,140 @@
       }
     ],
     "inspectorHosts": [
-      { "source": "ActorMode.tsx", "component": "ActorInspector" },
-      { "source": "AmbienceTab.tsx", "component": "AmbienceTab" },
-      { "source": "App.tsx", "component": "App" },
-      { "source": "App.tsx", "component": "SceneEntityInspectorTabs" },
-      { "source": "AudioAssetWorkbench.tsx", "component": "AudioAssetWorkbench" },
-      { "source": "BattleSpriteLibrary.tsx", "component": "BattleSpriteLibrary" },
-      { "source": "CutsceneTab.tsx", "component": "CutsceneTab" },
-      { "source": "EnemyTab.tsx", "component": "EnemyTab" },
-      { "source": "ImageTab.tsx", "component": "ImageTab" },
-      { "source": "ItemTab.tsx", "component": "ItemTab" },
-      { "source": "MapMode.tsx", "component": "MapMode" },
-      { "source": "PoisonTab.tsx", "component": "PoisonTab" },
-      { "source": "ShopTab.tsx", "component": "ShopTab" },
-      { "source": "SkillTab.tsx", "component": "SkillTab" },
-      { "source": "StampLibraryTab.tsx", "component": "StampLibraryTab" },
-      { "source": "TilesetTab.tsx", "component": "TilesetTab" },
-      { "source": "WorldSpriteLibrary.tsx", "component": "WorldSpriteLibrary" }
+      {
+        "source": "ActorMode.tsx",
+        "component": "ActorInspector"
+      },
+      {
+        "source": "AmbienceTab.tsx",
+        "component": "AmbienceTab"
+      },
+      {
+        "source": "App.tsx",
+        "component": "App"
+      },
+      {
+        "source": "App.tsx",
+        "component": "SceneEntityInspectorTabs"
+      },
+      {
+        "source": "AudioAssetWorkbench.tsx",
+        "component": "AudioAssetWorkbench"
+      },
+      {
+        "source": "BattleSpriteLibrary.tsx",
+        "component": "BattleSpriteLibrary"
+      },
+      {
+        "source": "CutsceneTab.tsx",
+        "component": "CutsceneTab"
+      },
+      {
+        "source": "EnemyTab.tsx",
+        "component": "EnemyTab"
+      },
+      {
+        "source": "ImageTab.tsx",
+        "component": "ImageTab"
+      },
+      {
+        "source": "ItemTab.tsx",
+        "component": "ItemTab"
+      },
+      {
+        "source": "MapMode.tsx",
+        "component": "MapMode"
+      },
+      {
+        "source": "PoisonTab.tsx",
+        "component": "PoisonTab"
+      },
+      {
+        "source": "ShopTab.tsx",
+        "component": "ShopTab"
+      },
+      {
+        "source": "SkillTab.tsx",
+        "component": "SkillTab"
+      },
+      {
+        "source": "StampLibraryTab.tsx",
+        "component": "StampLibraryTab"
+      },
+      {
+        "source": "TilesetTab.tsx",
+        "component": "TilesetTab"
+      },
+      {
+        "source": "WorldSpriteLibrary.tsx",
+        "component": "WorldSpriteLibrary"
+      }
     ],
     "inspectorTabs": [
-      { "source": "ActorMode.tsx", "component": "ActorInspector" },
-      { "source": "AmbienceTab.tsx", "component": "AmbienceTab" },
-      { "source": "App.tsx", "component": "SceneEntityInspectorTabs" },
-      { "source": "AudioAssetWorkbench.tsx", "component": "AudioAssetWorkbench" },
-      { "source": "BattleSpriteLibrary.tsx", "component": "BattleSpriteLibrary" },
-      { "source": "CutsceneTab.tsx", "component": "CutsceneTab" },
-      { "source": "EnemyTab.tsx", "component": "EnemyTab" },
-      { "source": "ImageTab.tsx", "component": "ImageTab" },
-      { "source": "ItemTab.tsx", "component": "ItemTab" },
-      { "source": "MapMode.tsx", "component": "MapMode" },
-      { "source": "PoisonTab.tsx", "component": "PoisonTab" },
-      { "source": "ShopTab.tsx", "component": "ShopTab" },
-      { "source": "SkillTab.tsx", "component": "SkillTab" },
-      { "source": "StampLibraryTab.tsx", "component": "StampLibraryTab" },
-      { "source": "TilesetTab.tsx", "component": "TilesetTab" },
-      { "source": "WorldSpriteLibrary.tsx", "component": "WorldSpriteLibrary" }
+      {
+        "source": "ActorMode.tsx",
+        "component": "ActorInspector"
+      },
+      {
+        "source": "AmbienceTab.tsx",
+        "component": "AmbienceTab"
+      },
+      {
+        "source": "App.tsx",
+        "component": "SceneEntityInspectorTabs"
+      },
+      {
+        "source": "AudioAssetWorkbench.tsx",
+        "component": "AudioAssetWorkbench"
+      },
+      {
+        "source": "BattleSpriteLibrary.tsx",
+        "component": "BattleSpriteLibrary"
+      },
+      {
+        "source": "CutsceneTab.tsx",
+        "component": "CutsceneTab"
+      },
+      {
+        "source": "EnemyTab.tsx",
+        "component": "EnemyTab"
+      },
+      {
+        "source": "ImageTab.tsx",
+        "component": "ImageTab"
+      },
+      {
+        "source": "ItemTab.tsx",
+        "component": "ItemTab"
+      },
+      {
+        "source": "MapMode.tsx",
+        "component": "MapMode"
+      },
+      {
+        "source": "PoisonTab.tsx",
+        "component": "PoisonTab"
+      },
+      {
+        "source": "ShopTab.tsx",
+        "component": "ShopTab"
+      },
+      {
+        "source": "SkillTab.tsx",
+        "component": "SkillTab"
+      },
+      {
+        "source": "StampLibraryTab.tsx",
+        "component": "StampLibraryTab"
+      },
+      {
+        "source": "TilesetTab.tsx",
+        "component": "TilesetTab"
+      },
+      {
+        "source": "WorldSpriteLibrary.tsx",
+        "component": "WorldSpriteLibrary"
+      }
     ],
     "inspectorTrack": {
       "source": "design-system/recipes.css",
@@ -531,11 +665,11 @@
         "selector": ".enemy-team-slot",
         "atRule": "@media (max-width: 900px)",
         "property": "grid-template-columns",
-        "value": "44px minmax(0, 1fr) auto auto",
+        "value": "44px minmax(0, 1fr)",
         "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "四轨是站位、完整敌人摘要和两个动作槽，不包含字段标签列。",
-        "responsiveEvidence": "900px 只收窄站位媒体轨，摘要仍以 minmax(0,1fr) 安全收缩。",
-        "removalCondition": "敌队槽位由公共可排序对象行接管时删除。"
+        "reason": "中宽态保留站位与敌人选择，动作组整组下沉。",
+        "responsiveEvidence": "900px 下动作组位于第二列且每枚命中区不小于 32px。",
+        "removalCondition": "敌队槽位不再使用中宽两轨布局时删除。"
       },
       {
         "source": "editor.css",
@@ -619,11 +753,11 @@
         "selector": ".enemy-team-slot",
         "atRule": "",
         "property": "grid-template-columns",
-        "value": "52px minmax(0, 1fr) auto auto",
+        "value": "52px minmax(0, 1fr) auto",
         "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "四轨是站位媒体、完整敌人摘要和两个动作槽，不拆分字段内部语义。",
-        "responsiveEvidence": "宽态摘要安全收缩，900px 有配对的站位收窄规则。",
-        "removalCondition": "敌队槽位由公共可排序对象行接管时删除。"
+        "reason": "三轨是站位、完整敌人选择与不可拆动作组；DsRepeatRow 持有可见表面。",
+        "responsiveEvidence": "宽态字段安全收缩，动作组由 DsActionGroup 保持完整。",
+        "removalCondition": "敌队槽位不再使用三轨 repeat-row 时删除。"
       },
       {
         "source": "editor.css",
@@ -689,7 +823,7 @@
         "owner": "card:ED-FIELD-LAYOUT-1",
         "reason": "三轨是库存序号、完整物品摘要和动作槽，不是字段标签与控件。",
         "responsiveEvidence": "摘要轨可收缩，序号与动作维持稳定点击尺寸。",
-        "removalCondition": "商店库存迁入公共 RepeatRow recipe 后删除。"
+        "removalCondition": "Shop 不再采用 edge-to-edge 三轨行时删除。"
       },
       {
         "source": "editor.css",
@@ -778,6 +912,28 @@
         "reason": "两轨是完整动作舞台和完整设置面板，不是字段标签与输入。",
         "responsiveEvidence": "720px 容器规则把两个完整区域切为单列，避免窄栏挤压。",
         "removalCondition": "动作编辑页迁入公共双面板 Workbench recipe 后删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".shop-stock-row",
+        "atRule": "@container (max-width: 560px)",
+        "property": "grid-template-columns",
+        "value": "30px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "窄货单保留序号与完整 identity，三枚动作整组下沉。",
+        "responsiveEvidence": "720px 实机 identity 可见且动作组 3×32px 完整位于行内。",
+        "removalCondition": "Shop 不再使用窄态 edge-to-edge 行时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".cf-party-row",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "64px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是队伍位置标签、角色选择与不可拆动作组；外层由 DsRepeatRow 持框。",
+        "responsiveEvidence": "520px 以下降为单列且动作组整体下沉。",
+        "removalCondition": "setParty 不再使用 repeat-row 三轨布局时删除。"
       }
     ]
   },

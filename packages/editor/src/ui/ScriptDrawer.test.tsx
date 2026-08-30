@@ -368,6 +368,7 @@ describe('ScriptDrawer command aggregate draft', () => {
       '[data-ds-reorder-adoption="story/dialogue-cue-rows"]',
     )!
     const rows = () => collection.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')
+    expect(collection.querySelectorAll('.cf-dialog-row.ds-repeat-row')).toHaveLength(3)
     const values = () =>
       [...collection.querySelectorAll<HTMLTextAreaElement>('textarea')].map((field) => field.value)
     const sourceToken = rows()[0]?.dataset.itemKey

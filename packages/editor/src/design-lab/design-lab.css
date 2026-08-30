@@ -289,20 +289,11 @@ textarea {
   overscroll-behavior: contain;
 }
 .lab-reorder-row {
-  display: grid;
-  min-width: 0;
   min-height: 52px;
   grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--ds-space-4);
-  padding: var(--ds-space-3) var(--ds-space-4);
-  border: 1px solid var(--ds-border-subtle);
-  border-radius: var(--ds-radius-control);
-  background: var(--ds-surface-panel);
 }
 .lab-reorder-row[data-density="compact"] {
   min-height: 40px;
-  padding-block: var(--ds-space-2);
 }
 .lab-reorder-identity {
   display: grid;
@@ -319,9 +310,7 @@ textarea {
   font: var(--ds-font-code);
 }
 .lab-reorder-actions {
-  display: flex;
-  align-items: center;
-  gap: var(--ds-space-1);
+  justify-self: end;
 }
 .lab-reorder-catalog-content {
   display: grid;

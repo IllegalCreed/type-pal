@@ -1,6 +1,6 @@
 # ED-REORDER-SURFACE-1 - 编辑器排序项可见边界与列表表面合同
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -158,22 +158,217 @@ Branch: `main`
     两项 story scheme 作为横向 object-card canary；只迁移 6 个红项；窄宽检查不能只看 overflow）
   - 签字变更: 首版“边界拓扑优先”的 design 签字因用户反例失效；以上为按内容语义优先和两轴矩阵重新给出的签字。
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-30 独立直读 registry 全 29 项、公共 reorder/recipes 层、四桶代表面 TSX+CSS、
+    六红项行容器与 N3-1 历史真值，非代理；与 GLM 证据各自独立取得后比对收敛）**。
+    - **29 项独立复算**:逐一枚举 `reorder-adoption.json` 全部 29 个 adoptionId 并按内容语义归桶:
+      `edge-to-edge-list`(2)= shop/stock(`.shop-stock-card` 唯一外框 editor.css:3717-3722 +
+      `.shop-stock-list` 无 gap + 行仅 `border-bottom` 3743-3754;ShopTab.tsx:217-269)、
+      asset/cutscene-import-frames(`.cutscene-import-files` 外框 8024-8031 + li 仅底部分割线 8032-8036;
+      CutsceneTab.tsx:1093-1138);`continuous-structure`(5)= project/entry-points(DsCatalogRow 连续目录行,
+      ProjectWorkbenchTab.tsx:1953-1973)、script 两族(`.cmd-row` 树行无边框、整宽选中背景,
+      editor.css:2493-2499,6825-6832)、map/layer-stack(`.map-layer-row` 无边框、`.sel` 整宽背景+inset 强调线,
+      11277-11294)、asset/sprite-action-definitions(连续 catalog-content 行,SpriteActionEditor.tsx:296-322);
+      已有 frame(16)逐项或按族直读全部成立:startup-party/startup-inventory(DsRepeatRow,
+      ProjectWorkbenchTab.tsx:1240,1467)、poison/ticks(DsRepeatRow compact,PoisonTab.tsx:108,即 93bcab33
+      已收口的毒行)、craft-recipes(`.item-recipe` 完整 border,editor.css:10251-10258)、casualty-gates
+      (`.casualty-gate-row.arow` border,3208-3214)、casualty-lines(`.casualty-item-card` border,3334-3339)、
+      六条效果链(EffectEditorCard 调用点 ItemTab.tsx:1701、ItemUseEffectEditor.tsx:1327,1789、
+      SkillTab.tsx:827,1329、CasualtyEditor.tsx:555)、sprite-action-steps(`.sprite-action-step` border,
+      6459-6469)、frame-animation-timeline(`layout="overlay"` + FrameThumbnail 自有帧视觉,
+      FrameAnimationEditor.tsx:909)、story 两 scheme(`.script-scheme-card` border,12397-12424)。
+      四桶 2+5+16+6=29 与 registry 集合精确相等,无漏项、无重复、无第 30 项。
+    - **六红项逐一实锤“有 gap/内缩但无完整 frame”**:enemy/ai-rules(`.rule-row` 纯 flex,无
+      border/background,editor.css:7206-7211;EnemyTab.tsx:1006-1034)、enemy-team/fixed-slots
+      (`.enemy-team-slot` 无 border/background,容器 gap 8px,10718-10727;EnemyTeamTab.tsx:434-476)、
+      item/resource-reward-tiers(`.item-amount-row.ordered` 无 border/background,10264-10272;
+      ItemUseEffectEditor.tsx:466-508)、actor/initial-magic(`.actor-initial-magic-row` 无
+      border/background,容器 gap 7px,2840-2850;ActorMode.tsx:1643-1660)、story/dialogue-cue-rows
+      (`.cf-dialog-row` 有 background+radius+padding+margin 但**无 border**,6921-6926——正是 DS-F.4
+      禁止的内缩独立项无完整边界混搭;CommandForm.tsx:437-489)、story/set-party-members
+      (`.cf-row.cf-party-row` 无 border/background,6870-6875,6939-6947;CommandForm.tsx:1548-1593)。
+    - **两轴正交性实锤**:29 项全部消费同一 DsReorderItem(都有 grip),却分属四类内容 surface——证明分类轴
+      是内容语义而非“有没有手柄”;railLayout 独立成立:frame-animation-timeline 为唯一 overlay 代表
+      (`layout="overlay"`,FrameAnimationEditor.tsx:909),其余均为 inline(默认),overlay 是 rail 位置
+      而非内容组件,与卡面反证节一致。
+    - **公共层 surface-neutral 实锤**:`.ds-reorder-item` 仅 position/display/box-sizing/min-width/
+      min-block-size(reorder.css:5-11),无 border/padding/background/gap;inline rail 只向内容首根节点
+      预留 padding(reorder.css:94-98,DS-C.4d 已批准机制);`DsReorderItem` props 无 surface 入口
+      (reorder.tsx:1161-1244);registry 当前确无 contentSurface/railLayout 字段(全文直读)。
+    - **对象卡历史真值实锤**:N3-1 P7-R4(2026-07-25)用户验收约束“方案必须平铺;每张方案卡直接提供
+      方案详情”(docs/ops/tasks/N3-1-script-control-flow-modernization.md:3618-3631);当前
+      ScriptSchemeStrip 每卡持有 identity(strong 业务名)、选择态(aria-pressed+.active)、摘要
+      (N 个步骤)、可选状态(默认方案徽标)与详情任务(方案详情弹窗)(ScriptEditor.tsx:202-237);
+      wrapper 插入后失活的 220px 横向布局已由类锚定 `.script-scheme-card-list > .ds-reorder-item`
+      修复(editor.css:12404-12406)。将其迁为 DsRepeatRow 必然丢失选择态与详情槽——用户反例成立,
+      object-card 分类正确。
+    - **门禁缺口实锤**:现行门禁只断言 grip 在 item 边界内与不占 catalog 媒体槽
+      (reorder-adoption.test.ts:430-446),对可见 surface 零断言;六红项今天全绿与“audit/test model
+      是已排查的替代根因”一致。alias/spread fail-closed 范式(:448-464)可复用于新门禁。
+    - **窄宽假绿风险现证**:`.rr-p1{flex:1 1 120px;min-width:0}`(editor.css:7228-7231)可无横向滚动地
+      缩到 0 宽;`.shop-stock-row` 全文无响应式规则(3746-3768);Shop 下架按钮 compact=30px
+      (ShopTab.tsx:244-253)低于 32px 公共下限——卡面“禁止只看 no-overflow”有具体对象,不是抽象告诫。
+    - **draft 期提交边界独立复核**:`git show --stat` 确认 93bcab33(毒行)与 704a24bd(方案卡)只触碰
+      PoisonTab/ScriptEditor/CSS/测试/文档/本卡,未触碰六红项 owner、registry 或公共 wrapper;
+      DS-C.4d(editor-design-system-v1.md:523-526)与 RF-21(:1042)确已携带四类 taxonomy 措辞,
+      可随本卡签字生效。
+  - design: **agree（2026-08-30,附 KS1-KS4 build 必落钉;与 GLM GM-S1~S5 互补不冲突）**:
+    - **KS1(六红项分类核定,本人独立判定)**:六项全部是“同构行内字段编辑 + 仅位置性身份(规则 N /
+      槽 N / 第 N 行 / 队长·队员 N),无选择态、无状态/摘要槽、无逐项详情任务”——按 DS-F.4 全部判
+      **repeat-row**,无一应判 object-card,与 GLM 独立判定一致;与既有同型面(startup-inventory、
+      poison/ticks 均为 DsRepeatRow)连续。若 build 前产品裁决为任一红项新增选择态/状态徽标/逐项详情,
+      该项须重判 object-card 并回本卡重签,不得先按卡片实现。
+    - **KS2(迁移 = 换 owner,不是叠边框)**:六红项迁移必须删除遗留行皮肤——`.rule-row`/`.rr-*` 的固定
+      flex 基宽与 `.in` 私有小字号(editor.css:7212-7248)、`.item-amount-row(.ordered)` 私有列轨
+      (10264-10272)、`.actor-initial-magic-*`(2840-2864)、`.cf-dialog-row` 的
+      background/radius/padding/margin(6921-6926)、`.cf-party-row` 私有 flex(6939-6947)——由
+      DsRepeatRow 统一持有 density/边框/节奏,领域 class 只声明列语义;禁止在遗留行上叠 1px border,
+      也禁止保留“背景+圆角+无 border”的半吊子形态冒充采用。shop/stock 保持 edge-to-edge:窄容器只允许
+      完整动作组整体下沉,不得拆散、不得把身份列压到只剩省略号,下架与移动按钮恢复至少 `32×32px`
+      公共下限(现证 compact=30px)。
+    - **KS3(窄宽验收防假绿)**:720px 与 200% zoom 的通过判据必须同时断言关键列最小可用宽度、完整动作组
+      矩形(每枚 ≥32×32、整组落在 item 内)与可见文案,不得只断言 `scrollWidth <= clientWidth`;
+      长名称(20 汉字/40 英文/64 字符 id)与动作组(移动×2+删除)必须进入六红项每一代表页的浏览器断言。
+    - **KS4(门禁反查真实 surface,兼顾对象卡 canary)**:contentSurface/railLayout 登记后,门禁须按桶断言
+      CSS/DOM 不变量并能由反例打红——edge-to-edge:容器 gap 0、行无 border/radius、存在唯一外框 owner;
+      repeat-row:逐项完整 border 且行 owner 为 DsRepeatRow;object-card:存在语义 frame owner且未消费
+      DsRepeatRow;continuous:行无逐项 border。两项 story scheme 的 object-card + inline rail 作为横向
+      平铺 canary 进 CSS/DOM 门禁(单卡 220px 有界、不得拉成 collection 全宽、保留选择态与详情槽);
+      fingerprint 绑定真实调用点与 CSS owner,沿用 alias/spread/陈旧条目 fail-closed 三态纪律;
+      只校验“字段已填写”不算闭环。
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-30，机器 census 复算 + 六红项/合法边界/16 组代表逐个直读，非代理）**：
+    1. **机器 census 闭合**：解析 `reorder-adoption.json` 复算得 17 家族 / **29 adoption（唯一）** /
+       **32 dataPaths** / 19 owner 文件，与 baseline 块完全一致；本卡四组清单（2 edge-to-edge +
+       5 continuous + 16 existing-frame + 6 debt）与 registry 29 个 adoptionId **集合精确相等**，
+       无缺失、无多余、无重复。registry v1 现有字段只有 adapter/identity/command/revision/verification，
+       确无 contentSurface / railLayout 分类。
+    2. **六红项逐一实锤「内缩/gap 无完整 frame」**：`enemy/ai-rules` = `.rule-row` 纯 flex 无边框
+       （EnemyTab.tsx:1019-1031；editor.css:7206-7211）；`enemy-team/fixed-slots` =
+       `.enemy-team-slot` grid 无边框、容器 `.enemy-team-slots` gap 8px（EnemyTeamTab.tsx:444-473；
+       css:10718-10727）；`item/resource-reward-tiers` = `.item-amount-row.ordered` grid 无边框、
+       `.item-amount-list` gap 5px（ItemUseEffectEditor.tsx:467；css:10259-10271）；
+       `actor/initial-magic` = `.actor-initial-magic-row` grid 无边框、editor gap 7px
+       （ActorMode.tsx:1659-1696；css:2840-2849）；`story/dialogue-cue-rows` = `.cf-dialog-row`
+       有底色+圆角但**无 border**、margin-bottom 6px（CommandForm.tsx:450；css:6921-6925）；
+       `story/set-party-members` = `.cf-row.cf-party-row` 纯 flex 无边框（CommandForm.tsx:1561；
+       css:6870-6874）。**本席独立分类读**：六项均为同构字段行（条件/选择/数量字段 + 移动/删除），
+       无对象级 identity、可选择状态、摘要或独立详情任务 → repeat-row 候选；无一满足对象卡判据，
+       也无一处于「完整外框 + gap 0」容器 → 非 edge-to-edge。与卡面「待核定」口径一致，未发现误判。
+    3. **合法 edge-to-edge 实锤**：Shop `.shop-stock-card` 完整外框（css:3715-3719）+
+       `.shop-stock-list` grid 无 gap（:3743-3745）+ `.shop-stock-row` border-bottom divider
+       （:3746-3753；ShopTab.tsx:223-256）；Cutscene `.cutscene-import-files` ol 外框
+       （css:8021-8027）+ `.cutscene-import-file` li divider（:8032-8036；CutsceneTab.tsx:1103-1124）。
+       「Shop 风格仅在完整外框、贴边、gap 0 时成立」有现存正例。
+    4. **16 组已有 frame 抽查**：`.effect-editor-card` 完整 border+radius+bg（css:9188-9195，覆盖
+       casualty-effects 及 ED-FIELD-LAYOUT-1 六族）；`.casualty-gate-row.arow` 有 border
+       （css:3208-3214）；poison/ticks 已是 `DsRepeatRow`（PoisonTab.tsx:108，commit `93bcab33`
+       在本卡 census 前收口，解释其归入 16 组而非六红项）；use-effects 行已是
+       `DsRepeatRow`（ItemUseEffectEditor.tsx:1321）；story 两 scheme 为对象卡（ScriptEditor.tsx:202-235：
+       标题/步骤摘要/默认徽标/方案详情按钮），N3-1 P7-R4 用户拍板真值（方案平铺、卡片直进详情，
+       N3-1 卡 :3618-3631）支持「不得降级为 DsRepeatRow」。
+    5. **中性 wrapper 与两轴现实性**：`.ds-reorder-item`（reorder.css:5-11）只有
+       position/display/min 尺寸，**无 border/padding/background/gap**；唯一 padding 是 inline rail
+       在内容首子的留空（:94-98），属手柄几何非表面。`DsReorderItem` props（reorder.tsx:1161-1169）
+       无任何表面 props；`layout: 'inline' | 'overlay'` 已存在且有真实消费者（EffectEditorCard.tsx、
+       FrameAnimationEditor.tsx:909），railLayout 两值对当前 29 项足够。
+    6. **wrapper 破坏子选择器机制实锤**：commit `704a24bd` diff 显示旧 `.script-scheme-strip > nav`
+       结构选择器在 reorder wrapper 插入真实 div 后失活，修复改为类锚定
+       `.script-scheme-card-list > .ds-reorder-item { flex: 0 0 220px }`；boundary.test.ts:460-486
+       已锁定卡有界 + 规范句存在。
+    7. **门禁缺口属实**：reorder-adoption.test.ts 六断言（:179 census 绑定、:286 allowlist、
+       :356 draggable 扫描、:373 私有移动拒绝、:430 grip 几何、:448 别名/展开）全部只验证交互
+       adoption，无一验证可见 surface——六红项今天全绿，证明「audit/test model」替代根因排查成立。
+    8. **draft 期提交边界核查**：`93bcab33`（毒行）与 `704a24bd`（方案卡）均只触碰回归修复面
+       （PoisonTab/ScriptEditor/editor.css/测试/文档），**未触碰六红项 owner**，与本卡交接日志
+       「不视为六个红项的 build」一致，未发现签字门禁违规。
+  - design: **agree（2026-08-30，附 GM-S1~GM-S5 必落钉）**：
+    - **GM-S1（registry 双轴机器冻结）**：`reorder-adoption.json` 每个 adoption 新增
+      `contentSurface: repeat-row|object-card|edge-to-edge-list|continuous-structure` 与
+      `railLayout: inline|overlay`，两轴分别绑定证据 owner（真实持框的组件类 / CSS 规则锚点）；
+      census 复算必须继续闭合 29/32/19 与四组计数；新增、删除、改名或**分类与证据 owner 脱绑**
+      均 fail-closed。分类判据必须绑定内容语义（identity/可选择状态/对象级动作/详情任务的存在性），
+      永不得以「有无 grip」或「有无 gap」单轴推断。六个红项迁移与 registry 字段翻转在同一变更内完成。
+    - **GM-S2（六红项迁移 + 红先行）**：六红项逐项获得 `DsRepeatRow` 逐项完整边框（或有证据的对象卡）；
+      禁止页面局部单边 border、margin 伪装修、隐藏动作换空间。每个 owner 配聚焦测试断言
+      frame owner 与动作组原子性；CSS/DOM 门禁必须先有**红态负例 fixture**（内缩+仅底分割线、
+      无框项间 gap、对象卡被降级为 DsRepeatRow 的 ScriptSchemeStrip 形态负例）再实现修复，
+      不接受只在新实现上跑绿的门禁。
+    - **GM-S3（窄宽/缩放防假绿）**：720px / 200% / 长名称测试必须断言 identity 与字段列的最小可用
+      宽度、动作组完整矩形（每枚移动/删除 ≥32×32、整体落在 item 内、组不拆散）与可见文案，
+      不得以 scrollWidth==clientWidth 单独判绿；Shop 720px identity 不得只剩省略号；Shop 下架按钮
+      当前为 compact `DsButton`（30px，tokens.css:48 `--ds-control-height-compact`）低于 32px 下限
+      （tokens.css:57 `--ds-hit-target-compact`），必须经公共 recipe 恢复下限，不得页面 CSS 补丁。
+    - **GM-S4（中性 wrapper 不变量 + 文档同步）**：`reorder.css` 的 `.ds-reorder-item` 不得新增
+      border/padding/background/gap，作为 CSS 解析型门禁断言固化；DS-C.4d / RF-21 中已由 `704a24bd`
+      提前写入的四类 taxonomy 段落**随本卡三签生效**——若 review 修订分类，文档与 boundary.test 的
+      规范句断言必须同任务重同步；build 收口时复核文档措辞与最终 registry 分类零漂移。
+    - **GM-S5（不重开 DRAG-1）**：pointer/keyboard/projection 状态机、adapter 语义、
+      command/revision owner、occurrence-token 身份零改动；reorder.test.tsx 状态机套件与
+      reorder-adoption 六断言保持绿且语义不变（只允许增量 schema 字段）；ED-REORDER-DRAG-1 的
+      done 状态不重开；story 两 scheme 保持对象卡 canary 与
+      `.script-scheme-card-list > .ds-reorder-item { flex: 0 0 220px }` 有界横向平铺。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending（Kimi 或 GLM）
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
-- counter / 分歧处理: N/A
+  - 审查者: GLM（2026-08-30，完成）；Kimi（2026-08-30，完成——两席反证各自独立直读一手证据后比对收敛，
+    证据集合高度重叠但分类判定与替代解释排除分别独立作出）
+  - 独立证据锚点（GLM）: 六红项 `EnemyTab.tsx:1019` / `EnemyTeamTab.tsx:444` / `ItemUseEffectEditor.tsx:467` /
+    `ActorMode.tsx:1659` / `CommandForm.tsx:450,1561` 及对应无边框 CSS（editor.css:7206,10722,10264,
+    2845,6921,6870）；合法 edge-to-edge `ShopTab.tsx:223-256`+css:3715/3743/3746、
+    `CutsceneTab.tsx:1103-1124`+css:8021/8032；对象卡真值 `ScriptEditor.tsx:202-235` +
+    N3-1:3618-3631；中性 wrapper `reorder.css:5-11`；机器 census 脚本输出 29/32/19 与四组集合相等。
+  - 独立证据锚点（Kimi）:
+    - 公共中性 wrapper 与 rail 机制:`reorder.css:5-11,94-98`;`reorder.tsx:1161-1244`;repeat-row owner
+      `recipes.tsx:355-369` + `recipes.css:834-843`。
+    - 六红项行容器 CSS:`editor.css:7206-7211`(rule-row)、`:10718-10727`(enemy-team-slot)、
+      `:10264-10272`(item-amount-row.ordered)、`:2840-2850`(actor-initial-magic-row)、
+      `:6921-6926`(cf-dialog-row 有背景无 border)、`:6870-6875,6939-6947`(cf-party-row)。
+    - 对象卡 canary:`ScriptEditor.tsx:188-278`(选择态/摘要/默认徽标/方案详情俱全) +
+      `editor.css:12397-12424`(卡持 border、item 220px 有界) + N3-1:3618-3631(用户拍板横向卡)。
+    - 四桶代表:edge-to-edge `editor.css:3717-3722,3743-3754,8024-8036`;continuous
+      `ProjectWorkbenchTab.tsx:1953-1973`、`editor.css:2493-2499,6825-6832,11277-11294`;
+      existing-frame `recipes.css:834-843`(DsRepeatRow)、`editor.css:3208-3214,3334-3339,10251-10258,
+      6459-6469`、`FrameAnimationEditor.tsx:909`(唯一 overlay rail)。
+    - 门禁缺口:`reorder-adoption.test.ts:430-446`(只查 grip 几何);窄宽假绿现证
+      `editor.css:7228-7231`(rr-p1 可缩零)、`:3746-3768`(shop-stock-row 无响应式)、
+      `ShopTab.tsx:244-253`(compact 30px < 32px 下限)。
+    - draft 期边界:`git show --stat 93bcab33 704a24bd` 均未触碰六红项 owner/registry/公共 wrapper;
+      taxonomy 措辞已存在于 `editor-design-system-v1.md:523-526,1042`。
+  - 最强替代解释与排除（Kimi）:
+    1. “给 `.ds-reorder-item` 全局加 border 最省代码”——直读证伪:29 项中 16 项已自带 frame
+       (EffectEditorCard/`.script-scheme-card`/`.item-recipe`/`.casualty-*`/`.sprite-action-step`/
+       DsRepeatRow),全局 border 必双框;shop/cutscene 连续外框与 catalog/tree/layer 连续行会被切碎。
+    2. “六红项改 gap 0 连续列表也能统一”——排除:六项父级是表单 section(DsWorkbenchSection/ActorPanel/
+       命令表单),不存在单一外框 list owner;为边框重组 section 会丢掉逐项编辑对象层级,与用户两种合法
+       方向都不符;repeat-row 是与 startup-inventory/poison 同型的最小迁移。
+    3. “六红项中应有 object-card”——排除:逐项直读 DOM,六项均无选择态、状态/摘要槽或详情任务,身份仅
+       位置性;强造卡片会发明产品从未有过的层级(N3 横向卡真值只属于脚本方案)。
+  - 可证伪观察（GLM）: ①若六红项中任一项实际承载对象级任务边界（如 AI 规则未来需要独立详情/摘要槽），
+    其分类应翻为 object-card 且 registry 须记证据——本席今日直读未发现任何一项；②若出现第 30 个
+    adoption 或 29 项之一消失，2+5+16+6 划分即失效，census 必须 fail-closed 而非手改数字；
+    ③若 Shop/Cutscene 某行需要行级独立状态信号（当前缺货提示在行内文本），edge-to-edge 类需增补
+    状态槽修正案——现存证据不支持；④若 720/200% 下不隐藏动作就无法保住 identity 与字段可用宽，
+    必须演示「动作组整组下沉」的既定回退，不得以省略号交差。
+  - 可证伪观察（Kimi）:
+    1. 若任一红项在浏览器中被观察到拥有选择态、状态徽标或逐项详情入口（本次直读均未发现）,KS1 的
+       repeat-row 判定失效,该项重判 object-card 并回签。
+    2. 若 shop/stock 或 cutscene-import 行在真实渲染中出现外侧 inset 或行间 gap(与 CSS 直读矛盾),
+       edge-to-edge 桶不成立,须重新 census。
+    3. 若 16 个“已有 frame”代表页在 1280/720 下渲染出缺边或被 wrapper 裁切的卡片,existing-frame 桶
+       不成立;代表页浏览器门禁会先行暴露。
+    4. 若窄宽下迁移后的 repeat-row 仍能让关键列缩到 0 宽而无断言失败,KS3 防假绿判据未落地,不得转 review。
+- counter / 分歧处理: N/A（Kimi KS1-KS4 与 GLM GM-S1~S5、Codex 设计修订两两无冲突:KS1↔GM-S2 六红项
+  迁移、KS2↔GM-S2/S3 owner 更换与窄宽、KS3↔GM-S3 防假绿、KS4↔GM-S1/S4 registry 反查与 canary）
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **allowed（签字面）（2026-08-30,Codex + Kimi（KS1-KS4）+ GLM（GM-S1~S5）三签齐、
+  无 counter,两席非 Owner 独立反证均完成）**。KS1-KS4 与 GM-S1~S5 为 build 必落钉;Codex 开工时状态转
+  build,仍为唯一 Coding Owner。
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-30）**——29 adoption 双轴闭合为 repeat-row 10 / object-card 12 /
+  edge-to-edge-list 2 / continuous-structure 5，rail 为 inline 28 / overlay 1；六红项全部换用
+  `DsRepeatRow`，Shop 动作组由公共 `DsActionGroup` 保证 32px，reorder state machine / adapter /
+  command / revision 零改动。聚焦 108、editor 全量 178 files / 1460 tests、typecheck、design-system
+  gate 与四档浏览器几何全绿；无 P0/P1/P2 自审返工项。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: N/A
@@ -202,35 +397,55 @@ Branch: `main`
 ### 主审立场
 
 - Reviewer: Kimi + GLM
-- 结论: pending
-- 必改项: 至少一位非 Owner 必须独立复算 29 项分类并给出会推翻分类的代表观察。
-- 是否建议进入 build: pending
+- 结论: agree（2026-08-30,Kimi KS1-KS4 + GLM GM-S1~S5 均已写回,两席独立复算 29 项分类并各自完成
+  反证,结论收敛:四桶闭合、六红项全判 repeat-row、story 两 scheme 保持 object-card canary）。
+- 必改项: KS1-KS4 与 GM-S1~S5 全部为 build 必落钉。
+- 是否建议进入 build: 是（签字面 allowed;Codex 为唯一 Coding Owner,开工时状态转 build）。
 
 ## Build: 实现与自测
 
-- Coding Owner: pending
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
+- Coding Owner: Codex（2026-08-30，唯一实现方；build 完成）
+- 修改文件: `EnemyTab.tsx`、`EnemyTeamTab.tsx`、`ItemUseEffectEditor.tsx`、`ActorMode.tsx`、
+  `CommandForm.tsx`、`ShopTab.tsx`、Design Lab RF-21、design-system recipes / adoption matrices /
+  CSS census 与相应测试。
+- 实现摘要:
+  - 新增公共 `DsActionGroup`，compact 动作的图标按钮和文字按钮最小命中区均为 32px，动作组不可拆。
+  - AI 规则、敌队固定槽、资源奖励档、初始仙术、对话行、设置队员六个 owner 全部迁为
+    `DsRepeatRow`；删除旧行的私有 padding/background/radius/fixed-flex surface，只保留领域列语义。
+  - `reorder-adoption.json` 升到 v2，29 项逐项登记 `contentSurface/contentOwner +
+    railLayout/railOwner`；公共 wrapper 保持 surface-neutral，story 两 scheme 保持 object-card canary。
+  - Shop 保持 edge-to-edge 外框 + divider；560px 容器以下 identity 可换行、三枚动作整体下沉且均为
+    32×32px。Design Lab RF-21 的字段行同步改用公共 repeat-row。
+- 运行命令:
+  - 聚焦：10 files / 108 tests；adoption / field-layout / number / add-picker / catalog fingerprint
+    逐项复跑通过。
+  - `pnpm --filter @type-pal/editor check`：178 files / 1460 tests（含 typecheck）全绿。
+  - `pnpm --filter @type-pal/editor audit:design-system`：89 files / 2 evidence-bound exceptions。
+- 浏览器 / 手工检查: PAL 项目 1280/900/720/640（200% 等效 CSS 宽度）检查初始仙术；720 检查
+  enemy-team、Shop、RF-21 与 map layer；复用本会话既有 script scheme object-card 证据。
 - 跳过的检查及原因: N/A
 
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: 本地 editor 6010 + 应用内浏览器 DOM / computed-style / bounding-rect 检查；1280/900/
+  720/640 四档 viewport，640 作为 1280@200% 等效 CSS 宽度。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: `.mimosa/evidence/ED-REORDER-SURFACE-1-actor-initial-magic-720.png`
+  （本地忽略证据，禁止提交）。
+- 结论: 初始仙术行 1px 完整边界，手柄位于行内；四档字段宽 325/656/476/396px，动作组始终在边界内，
+  三枚动作 32/32/42px。敌队 5/5 repeat-row，720px 字段 550px、动作 32×32；Shop 720px
+  identity 约 481px，外框 1px + 行 divider，三动作 32×32；RF-21 repeat-row / overlay rail 与
+  map continuous row 均符合分类，console error 0。
+- 未完成项: Kimi / GLM 当前实现终审与用户验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- 审查结论: Codex 自审 accept；Kimi / GLM pending。
 - 必须返工项: pending
-- Accept / rework: pending
+- Accept / rework: pending（签字不足不得 done）。
 
 ## 用户验收
 
@@ -239,6 +454,23 @@ Branch: `main`
 
 ## 交接日志
 
+- 2026-08-30 Codex: 按 KS1-KS4 / GM-S1-GM-S5 完成 build 并转 review。六红项全部消费
+  `DsRepeatRow`，29 项双轴 registry 与证据 owner 闭合，Shop 保持 edge-to-edge 并由公共
+  `DsActionGroup` 收口 32px 动作命中区；聚焦 108、全量 1460、typecheck、design audit 和四档浏览器
+  验证全绿。Codex accept；Next: Kimi / GLM 只读终审，未齐签不得 done。
+
+- 2026-08-30 Kimi: 独立直读 29 项 registry 与四桶代表面 TSX+CSS、六红项行容器、公共 wrapper、N3-1
+  方案卡历史真值与现门禁,复核 draft 期两提交边界(93bcab33/704a24bd 未触碰六红项)。签 premise
+  verified + design agree,附 KS1-KS4 必落钉(六红项全判 repeat-row 的独立核定 / 迁移即换 owner 不叠
+  边框 / 窄宽防假绿具体判据 / 门禁按桶反查真实 surface 含对象卡 canary),完成独立反证。未修改实现
+  文件,未代签 GLM。三签齐,build 准入(签字面)allowed。Next: Codex 按 KS1-KS4 + GM-S1~S5 开工,
+  状态转 build。
+- 2026-08-30 GLM: 完成机器 census 复算（29/32/19 与四组 2+5+16+6 集合精确相等）、六红项 TSX+CSS
+  逐个直读（均为无完整边框的同构字段行，独立判为 repeat-row 候选）、合法 edge-to-edge 与 16 组
+  代表抽查、中性 wrapper 与 railLayout 现实性核验、draft 期两提交（93bcab33/704a24bd）边界核查
+  （未触碰六红项）。签 premise verified + design agree，附 GM-S1~GM-S5 必落钉（registry 双轴
+  机器冻结 / 六红项迁移红先行 / 窄宽防假绿 / 中性 wrapper 不变量与文档同步 / 不重开 DRAG-1），
+  完成独立反证。未修改实现文件，未代签 Kimi。Next: Kimi 签字后三签齐，Codex 方可开工 build。
 - 2026-08-30 Codex: 用户指出 Poison 内缩拖动行仅靠 divider 无法表达移动范围；完成 29-adoption 只读 census，
   确认两种合法 surface 与 6 个同型遗留点。当前仅开卡审签，不允许修改本卡范围内的六个 owner。
 - 2026-08-30 Codex: 用户以脚本方案反例否决“有 gap 即 RepeatRow”的过宽解释；修订为内容语义优先，脚本方案明确
@@ -247,16 +479,54 @@ Branch: `main`
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-REORDER-SURFACE-1 编辑器排序项可见边界与列表表面合同
+终审 ED-REORDER-SURFACE-1 当前实现。
+
+任务卡：docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md
+当前状态：review；Codex accept 已签，Kimi / GLM 当前实现 accept pending，用户验收 pending。
+角色：Kimi（surface/视觉/边界）或 GLM（registry/覆盖/测试矩阵）审查者。
+
+先读 AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部签节与 Build/视觉证据。只读审查当前 HEAD / working
+tree，重点逐项核 KS1-KS4 与 GM-S1-GM-S5：29/32/19 census、10/12/2/5 contentSurface 与 28/1
+railLayout、六红项 DsRepeatRow 真采用且旧皮肤清零、Shop edge-to-edge + 3×32px 动作组、story scheme
+object-card canary、公共 DsReorderItem surface-neutral、reorder state machine/adapter/command/revision 零改动。
+可按风险复跑聚焦测试，不要重复跑 editor 全量，不得修改实现。输出当前实现 accept，或带 file:line 和复现
+命令的 counter/返工项，并写回 review -> done 签字与交接记录。Kimi、GLM、用户验收未齐前不得标记 done。
+```
+
+## 历史 build 交接提示词
+
+```text
+接手任务: ED-REORDER-SURFACE-1 编辑器排序项可见边界与列表表面合同——build 开工
 任务卡: docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md
-当前状态: draft / build blocked
-你的角色: Kimi 核对视觉/架构边界；GLM 独立复算 29-adoption 分类、覆盖与测试门禁
-先读: AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/phase2/editor/editor-design-system-v1.md、
-  ED-REORDER-DRAG-1 历史卡、本任务卡、reorder-adoption.json/test、reorder.tsx/reorder.css
-已完成: Codex 已从 registry 得到 2 edge-to-edge + 5 continuous + 16 existing-frame + 6 debt = 29 的设计输入；
-  用户已要求按四类 contentSurface + 两类 railLayout 分轴登记，本卡未开始六个红项的实现。
-请你做: 独立直读真实 TSX/CSS，给 premise verified 或 counter；检查两轴分类是否足够、六个红项是否误判、
-  object-card 是否被错误降级、窄宽验收是否能防止 no-overflow 假绿；同意时把证据和可证伪观察写入推进签字表。
-不要做: 不得改实现文件；不得重开 ED-REORDER-DRAG-1；不得给 .ds-reorder-item 全局加边框；签字不齐不得 build。
-输出要求: 分别给出 premise verified/design agree，或 counter + 具体证据；至少一席完成独立反证审查。
+当前状态: 三签齐(Codex + Kimi KS1-KS4 + GLM GM-S1~S5,无 counter,两席独立反证完成),
+  build 准入(签字面)allowed。你是唯一 Coding Owner(Codex),开工时把 Status 转 build。
+先读: 本任务卡全部签节(尤其 KS1-KS4 与 GM-S1~S5 必落钉)、AGENTS.md、
+  docs/phase2/READ-FIRST.md、docs/phase2/editor/editor-design-system-v1.md(DS-F.4、DS-C.4d、RF-21)、
+  reorder-adoption.json、reorder.tsx/reorder.css、recipes.tsx/recipes.css,
+  六红项 owner(EnemyTab/EnemyTeamTab/ItemUseEffectEditor/ActorMode/CommandForm)。
+已冻结结论(不得重开):
+  1. 29 = 2 edge-to-edge + 5 continuous + 16 existing-frame + 6 debt,四桶与 registry 集合精确相等;
+  2. 六红项全部判 repeat-row(Kimi KS1 与 GLM 独立收敛);story/entity-behavior-schemes 与
+     story/scene-hook-variants 保持 object-card + inline rail 横向平铺 canary(220px 有界,
+     保留选择态/摘要/默认徽标/方案详情),不得迁为 DsRepeatRow;
+  3. DsReorderItem 保持 surface-neutral:不得给 .ds-reorder-item 全局加 border/padding/background/gap;
+  4. 不重开 ED-REORDER-DRAG-1:状态机/adapter/identity/command/revision 零改动。
+build 必落钉(验收时逐条核):
+  - KS1/GM-S1: registry 每 adoption 登记 contentSurface + railLayout 并绑定证据 owner,
+    census 29/32/19 持续闭合,分类与证据脱绑即 fail-closed;
+  - KS2/GM-S2: 六红项迁移到 DsRepeatRow 时删除遗留行皮肤(.rule-row/.rr-*/.item-amount-row.ordered/
+    .actor-initial-magic-*/.cf-dialog-row 背景圆角/.cf-party-row),禁止叠 border 冒充采用;
+    CSS/DOM 门禁先有红态负例 fixture 再修复;shop/stock 保持 edge-to-edge,窄容器动作组整组下沉,
+    图标动作恢复 ≥32×32 公共下限(现 compact=30px);
+  - KS3/GM-S3: 720px/200%/长名称断言关键列最小可用宽度 + 完整动作组矩形 + 可见文案,
+    不得只断言 scrollWidth;Shop 720px identity 不得只剩省略号;
+  - KS4/GM-S4: 门禁按桶断言 CSS/DOM 不变量(edge-to-edge 容器 gap 0+行无 border;repeat-row 逐项完整
+    border;object-card 有 frame owner 且未消费 DsRepeatRow;continuous 行无逐项 border),
+    story scheme canary 进门禁;DS-C.4d/RF-21 既有 taxonomy 措辞随本卡生效,文档与最终 registry 零漂移;
+  - GM-S5: reorder 状态机与 adoption 既有六断言保持绿且语义不变(只允许增量 schema 字段)。
+验证要求: 六 owner 聚焦测试 + editor typecheck + design-system audit + 受影响包全量各跑一次;
+  1280/900/720 与 200% 缩放代表页(逐类 repeat-row/object-card/edge-to-edge/continuous 各一,
+  覆盖 inline/overlay rail)浏览器几何断言;证据写入视觉验证记录。
+输出: 完成 build 与自测后重签 Codex accept 并转 review,按卡面流程交 Kimi + GLM 实现终审;
+  任一必落钉无法满足时停线转 blocked,不得变相通关。
 ```

@@ -1066,12 +1066,12 @@ type DataStateProps`,
       <DsCatalogWorkspace`,
       )
       .replace(
-        '          >\n              <section',
+        '          >\n            <section',
         `          >
-              <div className="future-nested-owner" />
-              <div className="future-fake-bounded-owner" />
-              <div className="future-percent-bounded-owner" />
-              <section`,
+            <div className="future-nested-owner" />
+            <div className="future-fake-bounded-owner" />
+            <div className="future-percent-bounded-owner" />
+            <section`,
       )
     expect(invalidSource).not.toBe(shopSource)
     const invalid = structuredClone(matrix)
@@ -1192,8 +1192,8 @@ type DataStateProps`,
       <DsCatalogWorkspace`,
       )
       .replace(
-        '          >\n              <section',
-        '          >\n              <div className="future-bounded-owner" />\n              <section',
+        '          >\n            <section',
+        '          >\n            <div className="future-bounded-owner" />\n            <section',
       )
     const valid = structuredClone(matrix)
     shopScroll(valid).push(

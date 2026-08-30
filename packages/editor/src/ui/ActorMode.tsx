@@ -58,6 +58,7 @@ import {
   DsTextInput,
 } from './design-system/controls.js'
 import {
+  DsActionGroup,
   DsCatalogRow,
   DsInspectorHost,
   DsInspectorSection,
@@ -69,6 +70,7 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsRepeatRow,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
 import {
@@ -1660,9 +1662,8 @@ const InitialMagicEditor = memo(
             const label = props.skills[skillId]?.name ?? skillId
             return (
               <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-                <div className="actor-initial-magic-row">
+                <DsRepeatRow density="compact" className="actor-initial-magic-row">
                   <DsSelect
-                    size="compact"
                     aria-label={`第 ${index + 1} 项初始仙术`}
                     value={skillId}
                     options={rowOptions[index] ?? []}
@@ -1674,7 +1675,7 @@ const InitialMagicEditor = memo(
                       )
                     }
                   />
-                  <span className="actor-initial-magic-actions">
+                  <DsActionGroup density="compact" className="actor-initial-magic-actions">
                     <DsReorderMoveButton
                       itemKey={reorderKey}
                       direction="backward"
@@ -1686,7 +1687,6 @@ const InitialMagicEditor = memo(
                       label={`下移 ${label}`}
                     />
                     <DsButton
-                      size="compact"
                       variant="secondary"
                       onClick={() =>
                         props.onChange(props.value.filter((_, itemIndex) => itemIndex !== index))
@@ -1694,8 +1694,8 @@ const InitialMagicEditor = memo(
                     >
                       移除
                     </DsButton>
-                  </span>
-                </div>
+                  </DsActionGroup>
+                </DsRepeatRow>
               </DsReorderItem>
             )
           })}

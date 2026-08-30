@@ -1020,9 +1020,9 @@
     },
     {
       "selector": ".rr-num",
-      "property": "flex",
+      "property": "width",
       "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "敌人规则参数紧凑槽。",
+      "reason": "敌人规则参数在响应式 repeat-row 内保持短数值宽度。",
       "verification": "EnemyTab.tsx#RuleRow",
       "removalCondition": "规则行由公共 recipe 接管。"
     },

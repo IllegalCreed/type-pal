@@ -1565,8 +1565,14 @@
       "id": "legacy-workspace-project",
       "source": "ProjectWorkbenchTab.tsx",
       "selectors": [
-        { "selector": "main.canvas-wrap.data-body.project-center.ds-object-workspace", "count": 1 },
-        { "selector": "div.project-scroll.ds-object-workspace__content", "count": 1 }
+        {
+          "selector": "main.canvas-wrap.data-body.project-center.ds-object-workspace",
+          "count": 1
+        },
+        {
+          "selector": "div.project-scroll.ds-object-workspace__content",
+          "count": 1
+        }
       ],
       "registries": [
         "project/overview",
@@ -1602,8 +1608,14 @@
       "id": "legacy-workspace-vars",
       "source": "VarsTab.tsx",
       "selectors": [
-        { "selector": "main.ds-object-workspace", "count": 1 },
-        { "selector": "div.ds-object-workspace__content.world-variable-scroll", "count": 3 }
+        {
+          "selector": "main.ds-object-workspace",
+          "count": 1
+        },
+        {
+          "selector": "div.ds-object-workspace__content.world-variable-scroll",
+          "count": 3
+        }
       ],
       "registries": ["story/vars"],
       "reason": "变量中央列三个互斥状态分支仍借用对象工作区 raw class。",
@@ -1615,8 +1627,14 @@
       "id": "legacy-workspace-world-sprite-viewer",
       "source": "SpriteResourceViewer.tsx",
       "selectors": [
-        { "selector": "div.sprite-resource-viewer.ds-object-workspace", "count": 3 },
-        { "selector": "div.sprite-resource-viewer-scroll.ds-object-workspace__content", "count": 3 }
+        {
+          "selector": "div.sprite-resource-viewer.ds-object-workspace",
+          "count": 3
+        },
+        {
+          "selector": "div.sprite-resource-viewer-scroll.ds-object-workspace__content",
+          "count": 3
+        }
       ],
       "registries": ["asset/sprite"],
       "reason": "大世界精灵 viewer 的三个互斥状态分支仍借用对象工作区 raw class。",
@@ -1628,8 +1646,14 @@
       "id": "legacy-workspace-enemy-team",
       "source": "EnemyTeamTab.tsx",
       "selectors": [
-        { "selector": "main.ds-object-workspace", "count": 1 },
-        { "selector": "div.ds-object-workspace__content.enemy-team-scroll", "count": 3 }
+        {
+          "selector": "main.ds-object-workspace",
+          "count": 1
+        },
+        {
+          "selector": "div.ds-object-workspace__content.enemy-team-scroll",
+          "count": 3
+        }
       ],
       "registries": ["battle/enemy-team"],
       "reason": "敌队中央列三个互斥状态分支仍借用对象工作区 raw class。",
@@ -1641,8 +1665,14 @@
       "id": "legacy-workspace-battlefield",
       "source": "BattleFieldTab.tsx",
       "selectors": [
-        { "selector": "main.bf-main.ds-object-workspace", "count": 1 },
-        { "selector": "div.bf-editor-scroll.ds-object-workspace__content", "count": 3 }
+        {
+          "selector": "main.bf-main.ds-object-workspace",
+          "count": 1
+        },
+        {
+          "selector": "div.bf-editor-scroll.ds-object-workspace__content",
+          "count": 3
+        }
       ],
       "registries": ["battle/battlefield"],
       "reason": "战场中央列三个互斥状态分支仍借用对象工作区 raw class。",
@@ -1676,7 +1706,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "editor shell center / Inspector single owners",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsNumberInput + DsPropertyRow + DsReadonlyValue + DsSelect + DsTextArea + DsTextInput",
+        "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsNumberInput + DsPropertyRow + DsReadonlyValue + DsRepeatRow + DsSelect + DsTextArea + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {
@@ -1837,7 +1867,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "canonical script editor body",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsControlGroup + DsDraftTextArea + DsDraftTextInput + DsField + DsNumberInput + DsSelect + DsTextArea + DsTextInput",
+        "field": "DsCheckbox + DsControlGroup + DsDraftTextArea + DsDraftTextInput + DsField + DsNumberInput + DsRepeatRow + DsSelect + DsTextArea + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {
@@ -2038,7 +2068,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + custom:.bsu-frame-grid + DsInspectorTabs",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsDraftNumberField + DsDraftNumberInput + DsDraftTextInput + DsField + DsFieldGroup + DsFilePicker + DsNumberInput + DsSelect",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftNumberInput + DsDraftTextInput + DsField + DsFieldGroup + DsFilePicker + DsNumberInput + DsRepeatRow + DsSelect",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {
@@ -2065,7 +2095,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "custom:.enemy-team-catalog + legacy-exception:legacy-workspace-enemy-team + custom:.inspector",
         "overlay": "DsFloatingLayer",
-        "field": "DsField + DsSelect + DsTextInput",
+        "field": "DsField + DsRepeatRow + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

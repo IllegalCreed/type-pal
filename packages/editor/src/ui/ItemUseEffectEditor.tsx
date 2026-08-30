@@ -27,7 +27,7 @@ import {
   DsSelect,
   DsSelectField,
 } from './design-system/controls.js'
-import { DsRepeatRow } from './design-system/recipes.js'
+import { DsActionGroup, DsRepeatRow } from './design-system/recipes.js'
 import {
   DsReorderCollection,
   DsReorderItem,
@@ -397,13 +397,18 @@ function ItemAmountList(props: {
   }
   const rows = entries.map((entry, index) => {
     const reorderKey = reorderKeys.keys[index]!
-    const row = (
-      <div
-        className={`item-amount-row${props.ordered ? ' ordered' : ''}`}
-        key={props.ordered ? undefined : `${entry.itemId}-${index}`}
-      >
+    const deleteButton = (
+      <DsIconButton
+        variant="danger"
+        icon="delete"
+        label={`删除${props.label} ${index + 1}`}
+        disabled={entries.length <= minimum}
+        onClick={() => onChange(entries.filter((_, current) => current !== index))}
+      />
+    )
+    const rowContent = (
+      <>
         <DsSelect
-          size="compact"
           aria-label={`${props.label}物品 ${index + 1}`}
           value={entry.itemId}
           options={[
@@ -440,7 +445,7 @@ function ItemAmountList(props: {
           />
         </span>
         {props.ordered ? (
-          <>
+          <DsActionGroup density="compact" className="item-amount-actions">
             <DsReorderMoveButton
               itemKey={reorderKey}
               direction="backward"
@@ -451,24 +456,23 @@ function ItemAmountList(props: {
               direction="forward"
               label={`下移${props.label} ${index + 1}`}
             />
-          </>
-        ) : null}
-        <DsIconButton
-          size="compact"
-          variant="danger"
-          icon="delete"
-          label={`删除${props.label} ${index + 1}`}
-          disabled={entries.length <= minimum}
-          onClick={() => onChange(entries.filter((_, current) => current !== index))}
-        />
-      </div>
+            {deleteButton}
+          </DsActionGroup>
+        ) : (
+          deleteButton
+        )}
+      </>
     )
     return props.ordered ? (
       <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-        {row}
+        <DsRepeatRow density="compact" className="item-amount-row ordered">
+          {rowContent}
+        </DsRepeatRow>
       </DsReorderItem>
     ) : (
-      row
+      <div className="item-amount-row" key={`${entry.itemId}-${index}`}>
+        {rowContent}
+      </div>
     )
   })
   return (
@@ -1219,10 +1223,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
         syncToken: reorderRevision,
       }}
     >
-      <EffectEditorChain
-        family="item/use-effects"
-        label="物品使用效果"
-      >
+      <EffectEditorChain family="item/use-effects" label="物品使用效果">
         <div className="item-use-options">
           <EffectSelectField
             label="目标"
@@ -1340,9 +1341,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
                         aria-label={`效果 ${index + 1} 类型`}
                         value={effect.kind}
                         options={compatibleKindsAt(index)}
-                        onValueChange={(value) =>
-                          changeKind(index, value as ItemUseEffect['kind'])
-                        }
+                        onValueChange={(value) => changeKind(index, value as ItemUseEffect['kind'])}
                       />
                     )
                   }
@@ -1748,10 +1747,7 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
   }
   return (
     <ItemEffectDraftContext.Provider value={{ scope: reorderScope, syncToken: reorderRevision }}>
-      <EffectEditorChain
-        family="item/throw-effects"
-        label="物品投掷效果"
-      >
+      <EffectEditorChain family="item/throw-effects" label="物品投掷效果">
         <div className="item-use-options">
           <EffectSelectField
             label="投掷目标"
@@ -1801,9 +1797,7 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
                     />
                   }
                   fieldsLayout="item"
-                  removeTitle={
-                    spec.effects.length === 1 ? '投掷能力至少保留一个效果' : undefined
-                  }
+                  removeTitle={spec.effects.length === 1 ? '投掷能力至少保留一个效果' : undefined}
                   removeDisabled={spec.effects.length === 1}
                   onRemove={() => {
                     reorderKeys.remove(index)

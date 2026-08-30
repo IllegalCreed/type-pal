@@ -295,6 +295,7 @@ describe('ActorMode 初始状态唯一所有权', () => {
     expect(host.textContent).not.toContain('直接启动入口技能')
     await act(async () => button('添加初始仙术').click())
     expect(session.getState().actors[0]!.battler!.initialMagic).toEqual(['99'])
+    expect(host.querySelector('.actor-initial-magic-row.ds-repeat-row')).not.toBeNull()
     await act(async () => button('移除').click())
     expect(session.getState().actors[0]!.battler!.initialMagic).toEqual([])
     await act(async () => session.undo())

@@ -185,7 +185,7 @@ describe('reorder adoption gate', () => {
       0,
     )
 
-    expect(manifest.version).toBe(1)
+    expect(manifest.version).toBe(2)
     expect(manifest.baseline).toEqual({
       families: 17,
       adoptions: 29,
@@ -233,8 +233,12 @@ describe('reorder adoption gate', () => {
         'adapter',
         'adoptionId',
         'commandOwner',
+        'contentOwner',
+        'contentSurface',
         'dataPaths',
         'identity',
+        'railLayout',
+        'railOwner',
         'revisionOwner',
         'source',
         'verification',

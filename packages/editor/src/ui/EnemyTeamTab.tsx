@@ -34,12 +34,14 @@ import {
   DsPressable,
 } from './design-system/controls.js'
 import {
+  DsActionGroup,
   DsCatalogControls,
   DsCatalogRow,
   DsObjectHero,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsRepeatRow,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
 import {
@@ -100,13 +102,9 @@ function enemyTeamCatalogTitle(
     .join('、')
 }
 
-function enemyStealSummary(
-  enemy: EnemyDef,
-  itemsById: ReadonlyMap<string, ItemData>,
-): string {
+function enemyStealSummary(enemy: EnemyDef, itemsById: ReadonlyMap<string, ItemData>): string {
   if (!enemy.steal) return '不可偷取'
-  if (enemy.steal.itemId === '' || enemy.steal.itemId === '0')
-    return `偷钱 ×${enemy.steal.count}`
+  if (enemy.steal.itemId === '' || enemy.steal.itemId === '0') return `偷钱 ×${enemy.steal.count}`
   const item = itemsById.get(enemy.steal.itemId)
   const itemLabel = item ? item.name : `${enemy.steal.itemId}（引用缺失）`
   return `偷物 ${itemLabel} ×${enemy.steal.count}`
@@ -445,10 +443,9 @@ export function EnemyTeamTab(props: {
                           itemKey={slotEntries[index]!.key}
                           key={slotEntries[index]!.key}
                         >
-                          <div className="enemy-team-slot">
+                          <DsRepeatRow density="compact" className="enemy-team-slot">
                             <span className="enemy-team-slot__number">槽 {index + 1}</span>
                             <DsSelect
-                              size="compact"
                               aria-label={`${selected.id} 槽 ${index + 1}`}
                               value={enemyId ?? ''}
                               options={enemyOptions}
@@ -459,17 +456,19 @@ export function EnemyTeamTab(props: {
                                 updateSlots(next)
                               }}
                             />
-                            <DsReorderMoveButton
-                              itemKey={slotEntries[index]!.key}
-                              direction="backward"
-                              label={`槽 ${index + 1} 上移`}
-                            />
-                            <DsReorderMoveButton
-                              itemKey={slotEntries[index]!.key}
-                              direction="forward"
-                              label={`槽 ${index + 1} 下移`}
-                            />
-                          </div>
+                            <DsActionGroup density="compact" className="enemy-team-slot-actions">
+                              <DsReorderMoveButton
+                                itemKey={slotEntries[index]!.key}
+                                direction="backward"
+                                label={`槽 ${index + 1} 上移`}
+                              />
+                              <DsReorderMoveButton
+                                itemKey={slotEntries[index]!.key}
+                                direction="forward"
+                                label={`槽 ${index + 1} 下移`}
+                              />
+                            </DsActionGroup>
+                          </DsRepeatRow>
                         </DsReorderItem>
                       ))}
                     </div>

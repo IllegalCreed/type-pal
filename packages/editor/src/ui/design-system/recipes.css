@@ -877,6 +877,28 @@
   padding: 0;
 }
 
+.ds-action-group {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--ds-space-2);
+  width: max-content;
+  max-width: 100%;
+}
+
+.ds-action-group[data-density="compact"] .ds-icon-button {
+  width: var(--ds-hit-target-compact);
+  min-width: var(--ds-hit-target-compact);
+  height: var(--ds-hit-target-compact);
+  min-height: var(--ds-hit-target-compact);
+  padding: 0;
+}
+
+.ds-action-group[data-density="compact"] .ds-button {
+  min-width: var(--ds-hit-target-compact);
+  min-height: var(--ds-hit-target-compact);
+}
+
 .ds-field-measure {
   display: grid;
   min-width: 0;

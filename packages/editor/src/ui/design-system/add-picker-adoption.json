@@ -66,7 +66,7 @@
       "dataPaths": ["shops[*].items"],
       "candidateOwner": "live items",
       "mutationOwner": "UpdateShopCommand",
-      "callsiteFingerprint": "0fbb1082407ac448",
+      "callsiteFingerprint": "99875f2e9b2b85ad",
       "verification": {
         "file": "ui/ShopTab.test.tsx",
         "marker": "[add-picker:shop/stock]"
