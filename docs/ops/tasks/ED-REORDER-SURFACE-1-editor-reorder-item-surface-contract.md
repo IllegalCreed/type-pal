@@ -745,12 +745,13 @@ Branch: `main`
 ## 下一位 Agent 提示词
 
 ```text
-复审 ED-REORDER-SURFACE-1 两轮角色视觉增量（Kimi / GLM reviewer）。
+复审 ED-REORDER-SURFACE-1 当前角色视觉增量（Kimi / GLM reviewer）。
 
 任务卡：docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md
-当前状态：review。craft counter 已由 bf129290 闭环并获 Kimi/GLM accept；本轮只复审四向预览与战斗
-绑定增量，
-不得修改实现、不得重审已通过范围、不得标记 done。
+当前状态：review。Codex 已对当前实现 accept；craft counter 已由 bf129290 闭环并获 Kimi/GLM accept。
+Kimi / GLM 现有签字尚不覆盖 90f9dc6f、d36dc244、147ee833、19518463 四个角色视觉增量；本轮只读复审
+这四个提交，不得修改实现、不得重审已通过范围、不得标记 done。两席必须分别独立写回 accept，或给出
+file:line + 可复现反例 counter。
 
 增量要点：SpriteFrames 删除旧 frames-preview/dirgroup/fcell/posegroup JSX 与私有 CSS；抽出
 world-sprite-action-preview 供 SpriteResourceViewer 与角色页共用；角色页改为
@@ -764,13 +765,21 @@ file input 或内联编辑表单。两处下拉/按钮均为 default 36px；四�
 只保留左右 20px panel padding 并铺满整行，`<520px` 下选择器/动作组整体纵向满宽。缺失/不兼容分支
 也必须保留原值并使用同一主次信息层级。
 
+战斗工作区增量：`.actor-battle-detail-grid` 固定单列，基础能力、战斗形象、初始配置、成长和声音面板按顺序
+同宽上下排列；不得恢复战斗形象长预览与初始配置短面板的失衡双列。此项只改 grid class/CSS，不应改变
+预览、添加初始仙术、排序、删除或 Command owner。
+
 请核：资源库 full 与动作跳转不回退；角色页四向 4 行、动态首格 + 具体帧完整、命名 pose 正确；旧皮归零；
 720px screenshot/DOM 证据中 frame card 与战斗动态卡 90px/5px/6px/背景一致；1280px 四向 binding
 证据中 select/button 均 36px、control 只保留左右 20px inset 并铺满内容行；战斗 binding 同为 default
 36px，8 动作完整，overflow/console 为 0。战斗工作区必须由 `.actor-battle-detail-grid` 固定单列；1280px
-战斗形象与初始配置同宽 1080px、上下相邻，不得恢复失衡双列。可按风险复跑相关聚焦文件，不要跑 editor 全量。结论写回
-当前视觉增量 Kimi / GLM accept，或给出
-file:line + 复现反例 counter。`ED-ACTION-GROUP-SPEC-1` 已在看板登记，满足 P2 跟踪条件。
+战斗形象与初始配置同宽 1080px、上下相邻。证据：`.mimosa/evidence/ACTOR-WORLD-SPRITE-EMBEDDED-720.png`、
+`.mimosa/evidence/ACTOR-BATTLE-BINDING-REFERENCE-720.png`、
+`.mimosa/evidence/ACTOR-WORLD-SPRITE-FULL-WIDTH-1280.jpg`、
+`.mimosa/evidence/ACTOR-BATTLE-STACKED-PANELS-1280.jpg`。可按风险复跑相关聚焦文件，不要跑 editor 全量。
+输出要求：在“进入 done 前：审查签字”写回本席对 90f9dc6f、d36dc244、147ee833、19518463 的 accept，
+或写 counter；
+同步交接日志。不得代签另一席，不得标记 done。`ED-ACTION-GROUP-SPEC-1` 已在看板登记，满足 P2 跟踪条件。
 ```
 
 ## 历史 build 交接提示词
