@@ -545,8 +545,8 @@ Branch: `main`
   “连资源库深链也不保留”的过宽解释：允许“在资源库编辑”导航，但角色页仍禁止编辑/导入。GLM P2 已在看板登记
   `ED-ACTION-GROUP-SPEC-1` draft（DsActionGroup 规范 + 2.21.0）；P3 卫生项不混入本次必要返工。
 - 缺签豁免: N/A
-- done 准入结论: blocked（craft 与四个角色视觉增量三方 accept 已齐；`b7773cdc` workbench list 增量
-  当前仅 Codex accept，仍缺 Kimi + GLM 增量复审与用户验收，齐前不得标记 done）
+- done 准入结论: blocked（craft 与四个角色视觉增量三方 accept 已齐，用户已验收；`b7773cdc`
+  workbench list 增量当前仅 Codex accept，仍缺 Kimi + GLM 增量复审，齐前不得标记 done）
 
 ## Draft: 设计与风险
 
@@ -692,24 +692,27 @@ Branch: `main`
   1. 角色战斗形象面导入与编辑入口已连同调用链、禁用占位动作和陈旧 adoption 全部移除（closed）。
   2. **closed（Kimi counter，2026-08-31 增量复审确认）**：craft-recipes 已改登 object-card，桶计数
      9/13/2/5；全 registry 两条 owner 不变量已实现，并补 exact token / 唯一 owner / 祖先 wrapper 防绕过。
-  3. **closed pending reviewer confirmation（用户四向预览反馈）**：角色页已复用资源库语义派生 + 战斗页
-     embedded shelf，旧皮与错误动画语义清零；等待两席增量复审。
-  4. **closed pending reviewer confirmation（用户战斗绑定反馈与澄清）**：背景/标题问号/主次摘要/资源库导航
-     对齐四向，尺寸保持战斗 default；无内联编辑或导入。等待两席增量复审。
-  5. **closed pending reviewer confirmation（用户四向绑定尺寸/宽度反馈）**：四向选择器与导航已由 compact
-     30px 升为 default 36px，删除 720px 上限并铺满 binding 内容行；等待两席增量复审。
-  6. **closed pending reviewer confirmation（用户战斗页双列失衡反馈）**：战斗工作区已固定为单列，长预览
-     与短配置同宽上下排列；等待两席增量复审。
+  3. **closed（2026-08-31 Kimi + GLM confirmed）**：角色页已复用资源库语义派生 + 战斗页 embedded shelf，
+     旧皮与错误动画语义清零。
+  4. **closed（2026-08-31 Kimi + GLM confirmed）**：背景/标题问号/主次摘要/资源库导航对齐四向，尺寸保持
+     战斗 default；无内联编辑或导入。
+  5. **closed（2026-08-31 Kimi + GLM confirmed）**：四向选择器与导航已由 compact 30px 升为 default
+     36px，删除 720px 上限并铺满 binding 内容行。
+  6. **closed（2026-08-31 Kimi + GLM confirmed）**：战斗工作区已固定为单列，长预览与短配置同宽上下排列。
   7. **closed pending reviewer confirmation（用户 workbench content 原则）**：公共 Section 新增 form/list
      语义布局，Shop / 共享脚本采用 list；Shop 迁公共 panel 且下架改 danger delete icon。
-- Accept / rework: **review**（Codex 对 `b7773cdc` accept；等待 Kimi / GLM 增量复审与用户验收）。
+- Accept / rework: **review**（用户已验收；Codex 对 `b7773cdc` accept，等待 Kimi / GLM 增量复审）。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accept（2026-08-31）**——用户明确“以上 review 卡验收通过”。
+- 后续任务: Kimi / GLM 对 `b7773cdc` 增量 accept 齐后，按门禁收口 done。
 
 ## 交接日志
+
+- 2026-08-31 User: 对当前 review 卡统一验收通过；本卡用户验收已到位。因 `b7773cdc` 是两席旧签字后的
+  新增公共 workbench list / Shop surface 增量，仍须 Kimi + GLM 各自 accept 后方可 done。
+  Next: Kimi / GLM 仅复审 `b7773cdc`。
 
 - 2026-08-31 Codex: 用户指出 Shop 货单仍是私有 panel、下架“✕”不合规范，并拍板公共原则：表单内容有
   inset，直接列表无 inset；共享脚本正文同属 list。新增 `DsWorkbenchSection.contentLayout=form|list`，默认
@@ -868,7 +871,7 @@ Branch: `main`
 edge-to-edge/divider/reorder 语义不变；下架必须是 DsActionGroup 内 32×32 danger delete icon，带具体 aria。
 核 DS 2.20.1 四处同步、规范文字、reorder contentOwner 与旧 shop 私有 CSS 清零；按风险复跑聚焦测试，
 不要跑 editor 全量。输出本席 accept，或 file:line + 复现反例 counter；只写本席签字与交接日志，
-不得代签另一席。两席与用户验收齐前不得 done。
+不得代签另一席。用户验收已通过；两席增量 accept 齐前不得 done。
 ```
 
 ## 历史 build 交接提示词

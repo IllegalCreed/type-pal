@@ -1,6 +1,6 @@
 # ARCH-ACTOR-CONDITION-SEED-1 - 入口与剧情入队角色当前状态播种
 
-Status: review（2026-08-30 Codex / Kimi / GLM done 前 accept 已齐；仅待用户功能验收）
+Status: done（2026-08-31 Codex / Kimi / GLM done 前 accept + 用户功能验收齐）
 Phase: phase2
 Capability: X7 / C7 / B10 / N3
 Coding Owner: Codex
@@ -332,8 +332,8 @@ Branch: `main`（用户已裁决个人开发直接在 main 推进）
   - 无返工项。未修改实现文件，未代签 Kimi。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked（Codex + GLM + Kimi 三方 accept 已齐，均 2026-08-30 提交 8a51a2b2；
-  按流程待用户验收后收口，任何 Agent 不得自行标记 done）
+- done 准入结论: complete（2026-08-31 Codex + GLM + Kimi 三方 accept 与用户功能验收全部到位；
+  无 counter）
 
 ## Draft: 设计与风险
 
@@ -481,14 +481,17 @@ Branch: `main`（用户已裁决个人开发直接在 main 推进）
 - 审查结论: Codex 实现终审、runtime 生命周期审计、migration / current-only 审计与
   测试矩阵审计均已完成，最终无剩余 blocker。
 - 必须返工项: 审计曾发现的 7 类问题已全部改正；当前无。
-- Accept / rework: Codex / Kimi / GLM accept 已齐；仅待用户功能验收，不得提前标记 done。
+- Accept / rework: done（Codex / Kimi / GLM accept + 用户功能验收齐）。
 
 ## 用户验收
 
-- 用户结论: 2026-08-26 已认可 ownership 并要求开卡；实现后功能验收 pending。
-- 后续任务: 三方 done 前终审已完成；交用户按卡内步骤验收，用户验收后再 done。
+- 用户结论: **accept（2026-08-31）**——用户明确“以上 review 卡验收通过”。
+- 后续任务: N/A。
 
 ## 交接日志
+
+- 2026-08-31 User: 对当前 review 卡统一验收通过；本卡三方 accept 早已齐，状态收口 done。
+  Next: N/A。
 
 - 2026-08-26 User: 确认“入口队员状态归入口、剧情入队状态归脚本”的方向并要求开卡。
   Evidence: 当前会话。Next: Codex 建卡并送 Kimi / GLM 设计审查。
@@ -523,4 +526,4 @@ Branch: `main`（用户已裁决个人开发直接在 main 推进）
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 审查提示词；Codex / Kimi / GLM done 前 accept 已齐，等待用户功能验收后收口。
+无下一位 Agent 提示词：Codex / Kimi / GLM 当前实现 accept 与用户功能验收均已到位，任务已 done。

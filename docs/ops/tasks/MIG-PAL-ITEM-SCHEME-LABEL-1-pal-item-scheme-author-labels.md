@@ -1,6 +1,6 @@
 # MIG-PAL-ITEM-SCHEME-LABEL-1 PAL 物品剧情方案作者命名收口
 
-> **状态**：review（2026-08-30，Codex build / 自验证完成；待 Kimi / GLM 当前实现 accept 与用户验收）
+> **状态**：done（2026-08-31，Codex / Kimi / GLM 当前实现 accept + 用户功能验收齐）
 > **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（迁移 / current-only 边界）、GLM（全量引用闭包 / 测试矩阵）
 > **阶段**：phase2
@@ -158,7 +158,7 @@ counter）。** 实现期落实 K-L1-K-L4 与 GM-L1-L3；done accept 另行计�
 | Kimi | **accept（2026-08-30，只读终审 f9237db8 + 本人独立复核命令与聚焦复跑，非复述 Codex 证据）** | 按 K-L1~K-L4 逐项核验：**K-L1 反向图结构**✓——`collectNodes` 完整遍历 `entity.behaviors.trigger/auto` 与 `scene.hooks[onEnter/onTeleport].variants`（pal-item-scheme-labels.ts:218-252），固有挂载经 `visitRoot` 递归传播 item root（:272-294），s273 真实链（item 292 → hook c8-440a584eee79 → 8 个 auto 含 4 个 stateMachine 父）在 pal 测试内通过；**K-L2 exact-diff 与镜像**✓——本人对 f9237db8 独立复算：current scenes 恰 +53/−53 行且非 label 变更行=0，baseline scenes 同样 +53/−53、非 label=0，17 个文件 `cmp` 逐字镜像零输出；`_state.json` 仅文件哈希 churn；**K-L3 命名确定性**✓——同物品组按 `order + id` 排序（:337）、order+id 冲突 fail-loud（:341-343）、base+` 2`/` 3` 后缀（:344-361），292 凤纹手绢 13 方案精确名断言通过，machine-inner=父名+`连续流程`（s273 实查 4 处：方案 7/8/10/11）；零 root / 多 root / 环 / 悬空 / opaque 五个失败模式各有聚焦反例（:123-204）且本人复跑 6/6 绿；**K-L4 current-only**✓——publication diff 仅 +import +断言调用（无 rename/rewrite/convert 残留，本人 grep=0），editor src 旧名正则 0 命中（无 UI 展示遮罩），历史 upgrader 文件不存在且引用 0，一次性转换器未进入提交（最终树只余永久 invariant 与其测试）。本人独立执行：`rg` opaque 精确模式 current+baseline=0 hits；s001:8056 `紫金丹剧情方案` 样例在列；聚焦复跑 `pal-item-scheme-labels.test.ts + .pal.test.ts + pal-current-publication.pal.test.ts` → **3 files / 9 tests passed**（含 HEAD 全量 publish 验证）。二跑零计划采用 Codex 记录的两次独立 replay（writes=0/deletes=0/conflicts=0/asset-deletes=0）证据，并获结构性佐证：publication 内已无任何改名代码、仅剩断言，label 写入无从计划；按指示未重复跑全量发布。无返工项；未修改实现，未代签 GLM。 |
 | GLM | **accept（2026-08-30，只读终审 `f9237db8`，全部关键数字本人独立复算/复跑，与 Kimi 证据互补不重叠）** | 按 GM-L1~L3 独立核验：①**exact-diff 结构化复算（GM-L1）**——本人 python 脚本对 `c1c19fd3 -> f9237db8` 做 JSON 叶级 diff：current 与 baseline 各 **17 文件 / 恰 53 个 `.label` 变化 / 0 非 label**（数组长度与键增删均零），`scenes/index.json` 前后相等；17 份正文 current↔baseline `cmp` 逐字镜像。②**引用图实现（GM-L2）**——`pal-item-scheme-labels.ts` 覆盖 behaviors(trigger/auto)+`hooks[onEnter/onTeleport].variants`（:218-253），悬空 :280 / 成环 :285-286 / 零 root :313 / 多 root :314-317 / 数量漂移 :324-329 / order+id 不唯一 :341-342 全 fail-loud；**真实链抽查（K-L1 交叉）**：s273 `hooks.onEnter.variants.c8-440a584eee79` 现名 `凤纹手绢剧情方案`，其 10 个实体固有 auto = `凤纹手绢剧情方案 2..13` 全归 item 292。③**命名 census 重扫（GM-L3）**——49 顶层 label / 11 root（292×13、273×12、六神丹×5、布包×5、玉佩×3、香蕉×3、桂花酒×2、钓竿×2、情书×2、风灵珠×1、石钥匙×1），后缀无空洞；4 个 machine-inner 全为 `${父名}连续流程`（凤纹手绢 7/8/10/11）；样例 `s001.hooks.onEnter.variants['c8-731fd69bc3f4'].label=紫金丹剧情方案`（flow=stages）。④**清零（K-L4 交叉）**——`物品剧情行为` 全库仅存 invariant 检测正则（:8）与负例 fixture 各一处；`experimental/script-v5/` 不存在；无转换器提交记录；`_state.json` 变化恰为 17 个 scene SHA 记录。⑤**聚焦复跑（本人执行）**——`pal-item-scheme-labels.test.ts` 6/6 + `.pal.test.ts` 1/1 + `pal-current-publication.pal.test.ts` 2/2 全绿（publication 真实校验路径 :262-268 含 invariant，41/11/4 错值即红）；未重复全量与完整发布。⑥**零计划闭合**——真实 current 49 label 全等期望（pal 测试断言）+ current↔baseline 镜像 + publication 以 baseline 为起点，推出再发布必零计划，与 Codex 两次 replay 记录互证。**观察（非返工）**：`isCandidate = reachable ∪ label-shaped`（:306-307）是比卡面更强的门禁——未来 item 私有脚本选择手写命名方案会 fail-loud 强制按约定命名，属故意 fail-loud，符合 current-only 纪律。无返工项；未修改实现，未代签 Kimi。 |
 
-**done 准入结论：blocked（2026-08-30 Codex + Kimi + GLM 当前实现 accept 三签齐、无 counter；仅缺用户功能验收，验收前不得标记 done）。**
+**done 准入结论：complete（2026-08-31 Codex + Kimi + GLM 当前实现 accept 三签齐、无 counter；用户功能验收已通过）。**
 
 ## Build / Review 证据
 
@@ -195,6 +195,9 @@ counter）。** 实现期落实 K-L1-K-L4 与 GM-L1-L3；done accept 另行计�
   改；当前 canonical 名称与重新实机验收以上述 720px 证据为准。
 
 ## 交接记录
+
+- 2026-08-31 User: 对当前 review 卡统一验收通过；本卡三方 accept 早已齐，状态收口 done。
+  Next: N/A。
 
 - 2026-08-30 GLM: 只读终审 `f9237db8`，签 **accept**。全部关键数字独立复算：结构化 JSON diff
   current/baseline 各 17 文件恰 53 label-only 变化（0 非 label、index 不变、17 份 cmp 镜像）；
@@ -241,8 +244,11 @@ counter）。** 实现期落实 K-L1-K-L4 与 GM-L1-L3；done accept 另行计�
 - 2026-08-30 Codex：完成根因、样例引用链、53 / 17 census、49 + 4 分类与设计初签；撤回 UI
   旧名遮罩方案，只保留独立布局小修。Next: Kimi / GLM 合并审查并将签字写回本卡。
 
+## 用户验收
+
+- 用户结论: **accept（2026-08-31）**——用户明确“以上 review 卡验收通过”。
+- 后续任务: N/A。
+
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词。Codex / Kimi / GLM 三方当前实现 accept 已齐（无 counter），等待用户功能
-验收：在编辑器打开 `s001` 进场脚本，确认方案卡显示 `紫金丹剧情方案` 等可读名与独立 `N 个步骤`，
-详情浮层改名/保存正常且不回写旧名；验收通过后本卡收口 done。
+无下一位 Agent 提示词。Codex / Kimi / GLM 三方当前实现 accept 与用户功能验收均已到位，任务已 done。

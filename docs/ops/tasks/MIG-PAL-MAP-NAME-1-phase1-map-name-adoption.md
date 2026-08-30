@@ -1,6 +1,6 @@
 # MIG-PAL-MAP-NAME-1 - PAL 一阶段考据地图名迁入二阶段
 
-Status: review
+Status: done（2026-08-31 三方当前实现 accept + 用户最终验收齐）
 Phase: phase2
 Capability: W7F
 Coding Owner: Codex
@@ -284,7 +284,7 @@ Branch: main
   - 无返工项。未修改实现/生成物，未代签 Kimi。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked（Codex + GLM + Kimi 三方 accept 已齐，均 2026-08-28 当前实现；按流程待用户最终验收后收口，任何 Agent 不得自行标记 done。收口提交只暂存本卡清单文件——K-N4）
+- done 准入结论: complete（2026-08-31 Codex + GLM + Kimi 三方 accept 与用户最终验收全部到位；无 counter）
 
 ## Draft: 设计与风险
 
@@ -397,16 +397,19 @@ Branch: main
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex / Kimi / GLM 已对 2026-08-28 当前实现分别签 accept，无 counter；只待用户最终验收。
+- 审查结论: Codex / Kimi / GLM 已对 2026-08-28 当前实现分别签 accept，无 counter；用户最终验收已通过。
 - 必须返工项: 无。
-- Accept / rework: review（实现三方 accept 齐，用户验收未完成）。
+- Accept / rework: done（三方当前实现 accept + 用户最终验收齐）。
 
 ## 用户验收
 
-- 用户结论: 2026-08-28 已确认采用第一阶段地图名；实现待验收。
+- 用户结论: **accept（2026-08-31）**——用户明确“以上 review 卡验收通过”。
 - 后续任务: N/A
 
 ## 交接日志
+
+- 2026-08-31 User: 对当前 review 卡统一验收通过；本卡三方 accept 早已齐，状态收口 done。
+  Next: N/A。
 
 - 2026-08-28 User: 批准二阶段使用第一阶段已经命名的地图。Evidence: 本轮用户消息。Next: Codex 开卡并送三方设计审查。
 - 2026-08-28 Codex: 独立核清 phase1 222 条名称、静态 scene 地图 221/221 覆盖、physical 221/223 名称覆盖及 migration 全量占位根因；进一步更正 map-164 为 s230 动态换图目标而非 unused，未改实现。Evidence: `map-names.ts`、git `442ed43f`、`pal-migration.ts:632-638`、`scene-230.json:71-78`。Next: Kimi / GLM 合并审查，三签齐后 Codex build。
@@ -434,8 +437,7 @@ Branch: main
 
 ## 当前执行说明（2026-08-28）
 
-无下一位 Agent 提示词：Codex / Kimi / GLM 已对当前实现三方 accept，无 counter；任务保持 review，
-等待用户对地图中文名、104/164 占位与目录搜索/滚动做最终验收后再由 Coding Owner 收口。
+无下一位 Agent 提示词：Codex / Kimi / GLM 当前实现 accept 与用户最终验收均已到位，任务已 done。
 
 ## 历史下一位 Agent 提示词（build）
 
