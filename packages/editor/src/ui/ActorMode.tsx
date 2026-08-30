@@ -772,7 +772,7 @@ export function ActorMode(props: {
 
               {section === 'battle' ? (
                 battler ? (
-                  <div className="actor-detail-grid">
+                  <div className="actor-detail-grid actor-battle-detail-grid">
                     <ActorBaseStatsPanel
                       actorId={actor.id}
                       baseStats={battler.baseStats}

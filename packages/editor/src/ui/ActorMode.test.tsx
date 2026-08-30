@@ -301,6 +301,9 @@ describe('ActorMode 初始状态唯一所有权', () => {
       (section) =>
         section.querySelector('.ds-workbench-section__title')?.textContent === '初始装备与仙术',
     )!
+    expect(setupPanel.closest('.actor-detail-grid')?.classList).toContain(
+      'actor-battle-detail-grid',
+    )
     const addMagic = [...setupPanel.querySelectorAll<HTMLButtonElement>('button')].find(
       (candidate) => candidate.textContent?.trim() === '添加初始仙术',
     )!
@@ -401,6 +404,9 @@ describe('ActorMode 初始状态唯一所有权', () => {
       (section) =>
         section.querySelector('.ds-workbench-section__title')?.textContent === '战斗形象',
     )!
+    expect(appearancePanel.closest('.actor-detail-grid')?.classList).toContain(
+      'actor-battle-detail-grid',
+    )
     expect(appearancePanel.querySelector('.ds-workbench-section__actions')).toBeNull()
     expect(appearancePanel.textContent).not.toContain('导入战斗形象')
     expect(appearancePanel.textContent).not.toContain('上传新的帧带定义')

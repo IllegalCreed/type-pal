@@ -2721,6 +2721,9 @@ html[data-panel-resize="horizontal"] * {
   width: min(100%, 1080px);
   margin: 0 auto;
 }
+.actor-battle-detail-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
 .actor-card {
   min-width: 0;
 }

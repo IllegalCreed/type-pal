@@ -604,6 +604,11 @@ describe('editor design-system static boundary', () => {
       expect(responsiveLayout, selector).toHaveLength(1)
       expect(cssDeclaration(responsiveLayout[0]!, 'grid-template-columns')).toBe('minmax(0, 1fr)')
     }
+    const battleDetailLayout = cssRuleBodies(businessCss, '.actor-battle-detail-grid')
+    expect(battleDetailLayout).toHaveLength(1)
+    expect(cssDeclaration(battleDetailLayout[0]!, 'grid-template-columns')).toBe(
+      'minmax(0, 1fr)',
+    )
     expect(
       cssRuleBodies(businessCss, '.actor-appearance-layout', actorWorkspaceBreakpoint),
     ).toHaveLength(0)

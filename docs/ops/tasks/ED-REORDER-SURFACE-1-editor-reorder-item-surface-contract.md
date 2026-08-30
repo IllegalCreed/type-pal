@@ -364,13 +364,14 @@ Branch: `main`
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-31，四向绑定尺寸/宽度返工后刷新）**——删除行走精灵选择器与资源库导航按钮的
-  `size="compact"`，两者与战斗形象绑定统一为 default 36px；删除业务 CSS 的 720px 上限，控制组在宽容器
-  中只保留 binding 自身左右 20px padding 并铺满整行。`<520px` 既有容器规则继续让选择器与动作组纵向
-  堆叠、各自满宽，不增加页面局部尺寸补丁。聚焦 ActorMode + boundary 2 files / 72 tests、typecheck、
-  design-system audit（89 files / 2 evidence-bound exceptions）与 diff-check 全绿；1280px 实机为 root
-  1238px、control 1198px、左右 inset 均 20px，select 1056×36、导航 136×36，四方向预览完整，document
-  overflow=0、console error=0。证据 `.mimosa/evidence/ACTOR-WORLD-SPRITE-FULL-WIDTH-1280.jpg`。
+- Codex: **accept（2026-08-31，战斗工作区单列返工后刷新）**——为战斗与成长页增加专用
+  `.actor-battle-detail-grid`，以纯 CSS `minmax(0, 1fr)` 固定单列；基础能力、战斗形象、初始装备与仙术、
+  升级曲线、战斗音效按文档顺序上下排列，不再让 1237px 长预览与 293px 短配置被 grid 等高并排。未改
+  ActorPanel、预览、添加/排序动作或数据命令。红测先命中旧 grid class 与缺失 CSS owner；修复后 ActorMode +
+  boundary 2 files / 72 tests、typecheck、design-system audit（89 files / 2 evidence-bound exceptions）与
+  diff-check 全绿。1280px 实机 grid=1080px 单列，战斗形象/初始配置均宽 1080px 且前者 bottom 1781 <
+  后者 top 1795；8 动作、唯一 header 添加按钮保留，document overflow=0、console error=0。证据
+  `.mimosa/evidence/ACTOR-BATTLE-STACKED-PANELS-1280.jpg`。
 - Kimi: **counter（2026-08-30，只读终审 build 链 05f46e37→e901eb75 + 本人独立复核与 720px 浏览器抽查；
   与 GLM accept 分歧一点：craft-recipes 分类失实，见下）**——除一项外全部钉通过：
   - **通过项（本人独立证据）**：registry v2 复算 17/29/32/19 闭合、owner file+fingerprint 全员在册；
@@ -471,8 +472,8 @@ Branch: `main`
   “连资源库深链也不保留”的过宽解释：允许“在资源库编辑”导航，但角色页仍禁止编辑/导入。GLM P2 已在看板登记
   `ED-ACTION-GROUP-SPEC-1` draft（DsActionGroup 规范 + 2.21.0）；P3 卫生项不混入本次必要返工。
 - 缺签豁免: N/A
-- done 准入结论: blocked（Kimi + GLM 对 `bf129290` craft 增量 accept 均已签；Codex 已完成四向预览与
-  战斗绑定两轮视觉返工并刷新 accept，当前只缺 Kimi/GLM 对视觉增量复审与用户验收，齐前不得标记 done）
+- done 准入结论: blocked（Kimi + GLM 对 `bf129290` craft 增量 accept 均已签；Codex 已完成四向预览、
+  战斗绑定与战斗页单列视觉返工并刷新 accept，当前只缺 Kimi/GLM 对视觉增量复审与用户验收，齐前不得标记 done）
 
 ## Draft: 设计与风险
 
@@ -532,6 +533,8 @@ Branch: `main`
     内联编辑能力仍不存在。
   - 四向绑定区清除 compact 30px 与 720px 私有上限，选择器/导航统一为 default 36px，并在宽容器铺满
     binding 内容行；窄容器继续复用公共 control group 的整组纵向满宽回退。
+  - 战斗与成长页使用专用单列 grid；战斗形象长预览与初始装备/仙术短配置改为同宽上下排列，消除双列
+    等高产生的大面积空白，其他关系页继续保留通用双列合同。
 - 运行命令:
   - 聚焦：10 files / 108 tests；adoption / field-layout / number / add-picker / catalog fingerprint
     逐项复跑通过。
@@ -550,9 +553,11 @@ Branch: `main`
     design-system gate、`git diff --check` 全绿，未重复 editor 全量。
   - 四向绑定尺寸/宽度返工聚焦：ActorMode + boundary，2 files / 72 tests；独立 typecheck、
     design-system audit、`git diff --check` 全绿，未重复 editor 全量。
+  - 战斗工作区单列返工聚焦：ActorMode + boundary，2 files / 72 tests；独立 typecheck、
+    design-system audit、`git diff --check` 全绿，未重复 editor 全量。
 - 浏览器 / 手工检查: PAL 项目 1280/900/720/640（200% 等效 CSS 宽度）检查初始仙术；720 检查
   enemy-team、Shop、RF-21 与 map layer；1280 检查四向绑定 default 尺寸、满行宽度与四方向预览；复用
-  本会话既有 script scheme object-card 证据。
+  本会话既有 script scheme object-card 证据。1280 追加检查战斗工作区单列、相邻面板同宽与交互保留。
 - 跳过的检查及原因: N/A
 
 ## 视觉验证记录
@@ -568,7 +573,8 @@ Branch: `main`
   `.mimosa/evidence/ACTOR-BATTLE-APPEARANCE-SELECT-ONLY-720.png`、
   `.mimosa/evidence/ACTOR-WORLD-SPRITE-EMBEDDED-720.png`、
   `.mimosa/evidence/ACTOR-BATTLE-BINDING-REFERENCE-720.png`、
-  `.mimosa/evidence/ACTOR-WORLD-SPRITE-FULL-WIDTH-1280.jpg`（本地忽略证据，禁止提交）。
+  `.mimosa/evidence/ACTOR-WORLD-SPRITE-FULL-WIDTH-1280.jpg`、
+  `.mimosa/evidence/ACTOR-BATTLE-STACKED-PANELS-1280.jpg`（本地忽略证据，禁止提交）。
 - 结论: 初始仙术行 1px 完整边界，手柄位于行内；四档字段宽 325/656/476/396px，动作组始终在边界内，
   三枚动作 32/32/42px。敌队 5/5 repeat-row，720px 字段 550px、动作 32×32；Shop 720px
   identity 约 481px，外框 1px + 行 divider，三动作 32×32；RF-21 repeat-row / overlay rail 与
@@ -589,12 +595,15 @@ Branch: `main`
   1056×36、导航 136×36，已清除 720px 上限且四方向预览完整；战斗选择器显示主名称 +
   `player-fighter-0 · 玩家战斗 · 8 个动作`，导航按钮只进入资源库；header action/import/file input 均 0，
   overflow 与 console 全绿。
+  战斗页单列返工后，1280px 的 grid computed columns=`1080px`；战斗形象与初始配置面板同宽 1080px、
+  依次上下排列且间距 14px，不再互相拉出等高空白。8 个战斗动作、添加初始仙术 header action 与行级排序/
+  删除均保留，document overflow=0、console error=0。
 - 未完成项: Kimi / GLM 当前实现终审与用户验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Kimi + GLM 对 `bf129290` craft 增量均 accept；Codex 已完成四向预览与战斗绑定两轮视觉
+- 审查结论: Kimi + GLM 对 `bf129290` craft 增量均 accept；Codex 已完成四向预览、战斗绑定与战斗页单列
   返工并刷新 accept，Kimi / GLM 对当前视觉增量复审 pending。此前签字保留为历史事实，不覆盖当前增量。
 - 必须返工项:
   1. 角色战斗形象面导入与编辑入口已连同调用链、禁用占位动作和陈旧 adoption 全部移除（closed）。
@@ -606,6 +615,8 @@ Branch: `main`
      对齐四向，尺寸保持战斗 default；无内联编辑或导入。等待两席增量复审。
   5. **closed pending reviewer confirmation（用户四向绑定尺寸/宽度反馈）**：四向选择器与导航已由 compact
      30px 升为 default 36px，删除 720px 上限并铺满 binding 内容行；等待两席增量复审。
+  6. **closed pending reviewer confirmation（用户战斗页双列失衡反馈）**：战斗工作区已固定为单列，长预览
+     与短配置同宽上下排列；等待两席增量复审。
 - Accept / rework: **review**（Codex accept；等待 Kimi / GLM 视觉增量复审与用户验收）。
 
 ## 用户验收
@@ -614,6 +625,13 @@ Branch: `main`
 - 后续任务: pending
 
 ## 交接日志
+
+- 2026-08-31 Codex: 用户指出战斗形象长预览与初始配置短面板已不适合双列，等高 grid 造成大面积空白。
+  新增 `actor-battle-detail-grid` 专用单列规则，不改变关系页通用双列或任何业务组件。红测先命中旧 class /
+  缺 CSS owner；修复后聚焦 2 files / 72 tests、typecheck、design audit、diff-check 全绿。1280px 实机两面板
+  均宽 1080px 并上下相邻，8 动作/添加按钮/排序动作保留，overflow 与 console 全绿；证据
+  `.mimosa/evidence/ACTOR-BATTLE-STACKED-PANELS-1280.jpg`。刷新 Codex accept，转 review。
+  Next: Kimi / GLM 合并复审 90f9dc6f 以来全部视觉增量；两席 accept 与用户验收齐前不得 done。
 
 - 2026-08-31 Codex: 用户指出四向绑定仍错误使用 compact 30px 且控制组被 720px 上限截断，要求与战斗
   形象统一。删除选择器/按钮的 compact 参数与 `.actor-world-sprite-binding__control` 私有 max-width；
@@ -749,7 +767,8 @@ file input 或内联编辑表单。两处下拉/按钮均为 default 36px；四�
 请核：资源库 full 与动作跳转不回退；角色页四向 4 行、动态首格 + 具体帧完整、命名 pose 正确；旧皮归零；
 720px screenshot/DOM 证据中 frame card 与战斗动态卡 90px/5px/6px/背景一致；1280px 四向 binding
 证据中 select/button 均 36px、control 只保留左右 20px inset 并铺满内容行；战斗 binding 同为 default
-36px，8 动作完整，overflow/console 为 0。可按风险复跑相关聚焦文件，不要跑 editor 全量。结论写回
+36px，8 动作完整，overflow/console 为 0。战斗工作区必须由 `.actor-battle-detail-grid` 固定单列；1280px
+战斗形象与初始配置同宽 1080px、上下相邻，不得恢复失衡双列。可按风险复跑相关聚焦文件，不要跑 editor 全量。结论写回
 当前视觉增量 Kimi / GLM accept，或给出
 file:line + 复现反例 counter。`ED-ACTION-GROUP-SPEC-1` 已在看板登记，满足 P2 跟踪条件。
 ```
