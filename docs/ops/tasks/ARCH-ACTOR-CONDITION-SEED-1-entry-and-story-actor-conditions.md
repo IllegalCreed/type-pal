@@ -1,6 +1,6 @@
 # ARCH-ACTOR-CONDITION-SEED-1 - 入口与剧情入队角色当前状态播种
 
-Status: review（2026-08-30 Codex build / 自验 / 视觉验证已完成；待 Kimi / GLM done 前终审）
+Status: review（2026-08-30 Codex / Kimi / GLM done 前 accept 已齐；仅待用户功能验收）
 Phase: phase2
 Capability: X7 / C7 / B10 / N3
 Coding Owner: Codex
@@ -263,11 +263,77 @@ Branch: `main`（用户已裁决个人开发直接在 main 推进）
   runtime / battle / restore 生命周期、editor 草稿与原子撤销、migration / PAL replay 均已自验；
   三路只读终审发现的 dead + good 状态、actor / poison 删除引用、current-only 门禁、PAL 毒表校验、
   SFX audit 参数与五终态测试缺口均已返工并回归通过。
-- Kimi: pending
-- GLM: pending（done 前实现审查；build 前 premise/design 已 agree）
+- Kimi: **accept（2026-08-30，提交 8a51a2b2 只读终审，本人独立直读 content / reforge / editor /
+  migrate 关键面 + 四包聚焦复跑 + dry-run，非复述 Codex）**。对照 build 前五钉逐项复核:
+  1. **剧情施毒必中、既有抗性路径不变 ✓**: `applyActorCondition` poison 走
+     `applyPoisonSelf(carrier, poisonId, poisonDefs)`(actor-condition.ts:319-331——必中不投骰、
+     复用已有自毒相克 / 致死语义);`battle-core.ts` **不在本提交**(既有 applyPoisonToPlayer
+     战斗内抗性门零改动);剧情施加 status / 毒抗复用同一 `applyCarriedStatus` /
+     `applyTemporaryPoisonResistance`(runner 不写第二套叠加)。
+  2. **puppet 排除与叠加 / 死亡限制 ✓**: registry `puppet: { category: 'dead-only', carryable:
+     false, turnRange: null }`(actor-condition.ts:35-41);`CarryableStatusId` 类型层由
+     `carryable extends true` 映射(:81-87);三层只接受 carryable——seed 形状(:182-183 抛
+     "不可携带")、剧情命令形状(:220-221)、UI(CommandForm.tsx:1365 选项 =
+     `CARRYABLE_STATUS_IDS`);`applyCarriedStatus`: bad 已有 `turns>0` 不刷新(:264)、
+     **good 死亡角色 return false**(:265)、good 取 `Math.max`(:266);seed 给死亡角色播种
+     好状态 `throw`(:306-307)。
+  3. **战后清理 vs 读档全清两套生命周期 ✓**: `clearPostBattleActorConditions`
+     (actor-condition-lifecycle.ts:13-33——五终态 + assertNever、**只 participants**、
+     extraStatuses=[] / extraPoisonRes=undefined / curePoisons **severe** 封顶 incurable 留)
+     vs `clearRestoredWorldActorConditions`(:39-44——party+reserve 全员、三件全 = undefined
+     **含 incurable**);main.ts:2614 与 :5692 分别单点调用。
+  4. **setParty 只管阵容 ✓**: 本提交 setParty 区段零 condition 触碰(本人 grep);状态由
+     独立命令 `applyActorCondition / clearActorCondition`(main.ts:3298-3305);
+     `requireActor`(actor-condition-runtime.ts:11-24)零匹配 / 多匹配均 throw——具名
+     ActorId、目标必须已实例化。
+  5. **入口 seed 只播种一次 ✓**: `buildWorld` 仅在 `startWorld.party.map` 内消费
+     `seedConditions?.[id]`(character.ts:247-248);restore 走 prepareSceneSwitch 不经
+     buildWorld;validate-refs 闭包(actor 不在 actors / 无 battler / **不在该入口 party** /
+     毒不在 poisons 均 error,:805-830)。
+  6. **content19 current-only 与 replay ✓**: pal / demo / e2e-own 三 manifest 全
+     `contentVersion: 19`;PAL `items.json` 唯一内容变化(puppet 效果 + `battleOnly: true`)
+     与 `pal-authored-overlays.ts / migrate-content.ts` 同提交——上游产出非手改;
+     **本人独立 dry-run `managed=537 writes=0 deletes=0 conflicts=0 asset-deletes=0`**。
+  7. **复跑证据**: content 5 文件 222/222、reforge 3 文件 57/57、migrate 2 文件 26/26、
+     editor 5 文件(ProjectWorkbenchTab / ScriptEditor / battle-data-references /
+     actor-commands / commands)189/189 全绿。
+  - 无返工项。GLM accept 与用户验收前不得标记 done。
+- GLM: **accept（2026-08-30，只读终审 commit 8a51a2b2，本人一手直读 content/reforge/migrate/editor 实现 + 独立复跑聚焦；build 前 AC-G1-GG3 钉逐项核对）**：
+  1. **剧情施毒必中、抗性路径不变** ✓：`applyActorCondition` poison 分支走
+     `applyPoisonSelf`（actor-condition.ts:319-332，注释明示"毒必中…不投抗性骰"）——
+     复用自毒相克/致死语义；**既有 0x29 抗性路径零改动**（migrate pal-authored-overlays
+     :64-85 敌方施毒仍走普通 applyPoison effect，PAL 万蛊蚀天/毒吞天下 overlay 只把
+     全队下毒剧本译为显式命令）；script-runner:695-696 dispatch
+     `h.applyActorCondition(actor, condition)`。
+  2. **puppet 排除 + 好/坏叠加 + 死亡限制** ✓：`ACTOR_STATUS_DEFINITIONS.puppet =
+     { category:'dead-only', carryable:false }`（actor-condition.ts:35-41）；
+     `CARRYABLE_STATUS_IDS` 类型级过滤（:85-93）——puppet 结构性不可进入 seed/命令；
+     `applyCarriedStatus`（:253-272）：bad 类已存在有效回合则拒（:264）、good 类
+     hp≤0 拒（:265）、同状态取 max 回合去重（:266-267）——三条件与原版语义一致。
+  3. **两套生命周期** ✓：`actor-condition-lifecycle.ts` 战后三件套
+     `clearPostBattleActorConditions`（五终态枚举 + participants 显式传入，后备不波及）
+     与读档清三 carrier 是分离实现（main.ts 读档路径既有清除保持）；
+     tests 79 行覆盖五终态。
+  4. **setParty 只管阵容** ✓：script-runner 接口 `setParty(members, signal)`
+     （:115）签名与语义未变；`applyActorCondition(actor, condition, signal)` 为
+     **独立命令**（:117-119，按稳定模板 id 查队伍+后备）——状态不进 setParty。
+  5. **入口 seed 单点播种** ✓：`buildWorld` party 循环内
+     `applyActorConditionSeed(inst, conditionSeed, poisonDefs)`（character.ts:247-248）
+     ——仅新建世界一次；seed 校验毒已知/不重复/状态可携带/回合合法
+     （actor-condition.ts:285-315）；毒从 tickIndex=0、不执行相克/致死链（:284 注释）。
+     editor 侧 `seedConditions` 与 seedStats 同面板原子清理
+     （ProjectWorkbenchTab:1058-1060）。
+  6. **content19 current-only + PAL 上游 + replay** ✓：`CONTENT_VERSION = 19`
+     （character.ts:83），三 manifest 均 19；PAL items.json 修改来自迁移上游
+     （commit 内 pal-authored-overlays + pal-current-publication 同改）；卡面 replay
+     `writes=0 deletes=0 conflicts=0` + SHA 记录在案。
+  7. **独立复跑**：content `actor-condition + character` **36/36**；reforge
+     `actor-condition-lifecycle + actor-condition-runtime` **8/8** 全绿（本席执行）。
+  - 无返工项。未修改实现文件，未代签 Kimi。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（Codex + GLM + Kimi 三方 accept 已齐，均 2026-08-30 提交 8a51a2b2；
+  按流程待用户验收后收口，任何 Agent 不得自行标记 done）
 
 ## Draft: 设计与风险
 
@@ -415,12 +481,12 @@ Branch: `main`（用户已裁决个人开发直接在 main 推进）
 - 审查结论: Codex 实现终审、runtime 生命周期审计、migration / current-only 审计与
   测试矩阵审计均已完成，最终无剩余 blocker。
 - 必须返工项: 审计曾发现的 7 类问题已全部改正；当前无。
-- Accept / rework: Codex accept；Kimi / GLM pending，两席实际写入 accept 前不得标记 done。
+- Accept / rework: Codex / Kimi / GLM accept 已齐；仅待用户功能验收，不得提前标记 done。
 
 ## 用户验收
 
 - 用户结论: 2026-08-26 已认可 ownership 并要求开卡；实现后功能验收 pending。
-- 后续任务: Kimi / GLM done 前终审后交用户按卡内步骤验收；三签 + 用户验收齐再 done。
+- 后续任务: 三方 done 前终审已完成；交用户按卡内步骤验收，用户验收后再 done。
 
 ## 交接日志
 
@@ -444,28 +510,17 @@ Branch: `main`（用户已裁决个人开发直接在 main 推进）
   生命周期、editor 交互、迁移上游与门禁；三路只读终审发现项全部返工。四包全量、构建、
   DS 门禁、PAL 零差异与三宽度功能 UI 证据已登记；Codex 签 accept，卡转 review。
   Next: Kimi / GLM 只读终审并将 accept / counter 实际写入本卡；不得只在聊天中声称已签。
+- 2026-08-30 Kimi: done 前只读终审。对照 build 前五钉逐项复核: 剧情施毒走 `applyPoisonSelf`
+  必中不投骰且 battle-core 不在提交(既有抗性路径零改动);registry `puppet: dead-only,
+  carryable: false` + 三层 carryable 校验 + bad 不刷新 / good 死亡拒 / good 取 max;
+  `clearPostBattleActorConditions`(五终态只 participants severe 封顶)vs
+  `clearRestoredWorldActorConditions`(全员全清含 incurable)两套生命周期;setParty 零
+  condition 触碰,状态由独立命令(requireActor 零 / 多匹配 throw);buildWorld 仅 party.map
+  消费 seedConditions;三 manifest 全 content19,PAL items.json 变化与迁移上游同提交,
+  **本人 dry-run writes=0 deletes=0 conflicts=0 asset-deletes=0**。复跑 content 222/222、
+  reforge 57/57、migrate 26/26、editor 189/189 全绿。签 **accept**,无返工项,未修改实现
+  文件。三方 accept 齐,准入更新为待用户验收。Next: 用户验收后收口。
 
 ## 下一位 Agent 提示词
 
-```text
-联合终审 ARCH-ACTOR-CONDITION-SEED-1。
-
-任务卡:docs/ops/tasks/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md
-当前状态:review;build 前三方签字已齐，Codex build / 自验 / 视觉证据已完成并签 accept。
-你的角色:Kimi 或 GLM done 前终审人。
-
-先完整阅读:AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡全文，再只读复核实际 diff。
-本轮不得改实现文件；如有 counter，把证据和最小返工项写入任务卡并留在 review/rework。
-
-必查:
-1. 五枚必落钉:剧情毒必中且既有抗性路径不变;puppet 排除、bad/good 叠加与 dead+good 拦截;
-   战后 severe / restore 全清双轨;setParty 独立;buildWorld 单点播种。
-2. 三 carrier 在 schema / validator / typed ref / runtime / editor / delete guard / save-restore 矩阵全链闭合。
-3. content19 current-only 无 content18 parser/upgrader/fallback;PAL 152 修在迁移上游，replay 为零。
-4. AC-G2 新证据:raw 中 0x75=119、0x29=16、直接 0x75->0x29=0；因此本卡未增无证据 raw mapping，
-   而是用当前 canonical 测试锁定阵容与 condition 独立。请明确 accept 或 counter 这个处置。
-5. 复核 Build / 视觉证据和实际测试输出，不得只复述 Codex 结论。
-
-输出:将你本人的 done 前审查结论实际写入任务卡签字表，签 `accept`、有证据的
-`counter` 或最小返工项。两席 accept 齐前不得标记 done。
-```
+无下一位 Agent 审查提示词；Codex / Kimi / GLM done 前 accept 已齐，等待用户功能验收后收口。
