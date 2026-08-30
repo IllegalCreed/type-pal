@@ -1,6 +1,6 @@
 # ED-REORDER-SURFACE-1 - 编辑器排序项可见边界与列表表面合同
 
-Status: review
+Status: done（2026-08-31 全部增量三方 accept + 用户验收齐）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -536,8 +536,53 @@ Branch: `main`
   28px 死规则，reorder contentOwner 改绑真实 ShopTab callsite。聚焦 4 files / 50 tests + boundary 60、
   typecheck、design audit、diff-check 全绿；1280px 实机 Shop content padding/gap=0、list 与 content 左右边界
   精确相等、删除动作 32×32；脚本 content padding/gap=0 且 editor 根贴边；overflow/console 均为 0。
-- Kimi workbench list 增量复审: pending（仅复审 `b7773cdc`，旧 accept 不覆盖本增量）。
-- GLM workbench list 增量复审: pending（仅复审 `b7773cdc`，旧 accept 不覆盖本增量）。
+- Kimi workbench list 增量复审: **accept（2026-08-31，只读核 `b7773cdc` + 本人静态核对、聚焦复跑与
+  1280px 实机测量，不重审已通过范围）**：
+  - **公共合同 ✓**:`DsWorkbenchSection.contentLayout` 收成 `'form' | 'list'` 语义枚举（recipes.tsx:1021），
+    默认 form 行为不变；list 仅经 `data-content-layout='list'` 把 content `gap/padding` 清零
+    （recipes.css:690-693），无任意数值出口；DS-C.7 成文禁止业务覆写 `__content` 模仿 flush 变体；
+    版本 2.20.0→2.20.1 三处同步（doc Status / index.ts / tokens.css，boundary 断言锁定），
+    纯增量向后兼容的 patch 口径与既有 v2.x.y 惯例一致。
+  - **Shop 迁移 ✓**:私有 `.shop-stock-card`/`.shop-card-head`/`.shop-stock-remove:hover`/`.mini 28px`
+    死规则全部删除（editor.css -53，boundary 断言四选择器零规则体防复活——GLM P3 的 mini 项随之闭环）；
+    外框改由公共 `.ds-workbench-section` 持有（border/radius/panel/container-type 逐字同构），
+    `contentLayout="list"` 后行与 content 左右边界实机差均为 0，行无全框（borderTop 0）仅 divider——
+    edge-to-edge 语义不变、registry contentOwner 重绑真实 `ShopTab.tsx` callsite（fingerprint 命中 :169）；
+    下架由 secondary “✕” 改为 `DsActionGroup compact` 内 danger `DsIconButton icon="delete"`，
+    实机 32×32、danger 边框、aria-label=`下架 行军丹`；“上架物品”经 `DsAddPickerDialog` 归入
+    section header actions。
+  - **脚本正文 ✓**:`CanonicalScriptBodyEditor` workbench 态同用 `contentLayout="list"`（ScriptEditor.tsx:3405），
+    panel content 0 inset、脚本树自身节奏不变。
+  - **验证（本人执行）**:ShopTab + SharedScriptTab + recipes + boundary + reorder-surface-adoption +
+    reorder-adoption → 6 files / 116 tests 全绿；1280px 实机：section 持 1px 框 + 10px 圆角、
+    content padding/gap=0、行贴边差 0、9 行 divider、删除按钮 32×32 danger、document overflow=0，
+    与 Codex 证据一致且独立取得。
+  - 无返工项；未修改实现，未代签 GLM，未标 done。
+- GLM workbench list 增量复审: **accept（2026-08-31，只读复审 `b7773cdc`，不重审已通过范围）**：
+  - **公共枚举**：`DsWorkbenchSection.contentLayout?: 'form' | 'list'`（recipes.tsx，默认 form）以
+    `data-content-layout` 落地——TS 类型层即禁止任意数值；公共 CSS 恰一条
+    `[data-content-layout='list'] { gap:0; padding:0 }`（recipes.css），form 默认
+    `gap: var(--ds-space-5) / padding: var(--ds-space-7)` 不变；规范段同步成文并明确**禁止暴露任意
+    padding 数值、禁止业务页覆写 content 模仿 flush**（editor-design-system-v1.md v2.20.1）。
+  - **版本四处同步**：index.ts / tokens.css / boundary.test(:439-441) / doc Status+Owner 行全部
+    2.20.1，无漂移。
+  - **Shop 迁移实锤**：私有 `.shop-stock-card` 外壳规则整体删除，持框上收公共 `.ds-workbench-section`
+    基类（border-subtle/radius-card/surface-panel/overflow/container-type 逐字等价，recipes.css:635-643）；
+    `.shop-card-head` 家族、900px 私有 media、`.shop-stock-remove:hover` 私有 hover、以及 **本席 P3 的
+    `.shop-stock-actions .mini` 28px 死规则**全部删除且被 boundary 选择器零存在断言封禁；行级
+    edge-to-edge 不变量存活（`.shop-stock-list` gap 0 :3583、`.shop-stock-row` 60px+9/14padding+
+    border-bottom divider :3586-3594）。下架按钮改 `DsIconButton icon="delete" size="compact"
+    variant="danger" label={下架 ${itemName}}`（ShopTab:239-245），32×32 由 DsActionGroup compact 公共
+    下限持有，具体 aria 保留。
+  - **registry 改绑**：shop/stock contentOwner 从 `editor.css/.shop-stock-card` 改绑真实 TSX callsite
+    `ShopTab.tsx/className="shop-stock-card"`（:169 实在）——证据绑定从 CSS 规则升级到 JSX owner；
+    reorder-surface 5/5 + reorder-adoption 6/6 复跑绿，桶 9/13/2/5 + 28/1 不受影响。
+  - **脚本正文 list**：`CanonicalScriptBodyEditor` workbench 形态 `contentLayout="list"`
+    （ScriptEditor:3405），boundary 断言两消费者 + 删掉的选择器零存在 + 危险图标形态。
+  - **复跑（本人执行）**：ShopTab + SharedScriptTab + recipes + boundary + 双 reorder 门禁 →
+    **6 files / 116 tests 全绿**；按纪律未重复全量。浏览器几何采用 Codex 1280px 记录
+    （content padding/gap=0、list 与 content 左右边界精确相等、删除 32×32、overflow/console 0）。
+  - 无返工项；未修改实现文件，未代签 Kimi，未标 done。
 - counter / 返工处理: Kimi counter 已按建议 A 完成：craft-recipes 改登 object-card，桶计数 9/13/2/5；
   两条真实 owner 不变量扩展为全 registry 门禁，并进一步收紧为 exact class token、唯一 owner 与 object-card
   祖先链无 DsRepeatRow。Kimi 增量复审 accept（2026-08-31），全部 counter 闭环；原 counter 保留为
@@ -545,8 +590,8 @@ Branch: `main`
   “连资源库深链也不保留”的过宽解释：允许“在资源库编辑”导航，但角色页仍禁止编辑/导入。GLM P2 已在看板登记
   `ED-ACTION-GROUP-SPEC-1` draft（DsActionGroup 规范 + 2.21.0）；P3 卫生项不混入本次必要返工。
 - 缺签豁免: N/A
-- done 准入结论: blocked（craft 与四个角色视觉增量三方 accept 已齐，用户已验收；`b7773cdc`
-  workbench list 增量当前仅 Codex accept，仍缺 Kimi + GLM 增量复审，齐前不得标记 done）
+- done 准入结论: complete（2026-08-31 craft、四个角色视觉增量与 `b7773cdc` workbench list 增量
+  Codex + GLM + Kimi 三方 accept 均已签；用户验收已通过，无 counter）
 
 ## Draft: 设计与风险
 
@@ -686,8 +731,8 @@ Branch: `main`
 
 - Reviewer: Kimi + GLM
 - 审查结论: craft 与四个角色视觉增量三方 accept 均已到位；用户随后指出 Shop 私有 panel / 非规范下架动作，
-  并拍板“表单有 inset、直接列表无 inset”的公共原则。`b7773cdc` 已完成且 Codex accept，等待 Kimi / GLM
-  仅对该增量复审；此前签字保留为历史事实，不覆盖本增量。
+  并拍板“表单有 inset、直接列表无 inset”的公共原则。`b7773cdc` workbench list 增量 Codex + GLM + Kimi
+  三方 accept 均已签（2026-08-31），本卡全部增量三方 accept 与用户验收均已到位；此前签字保留为历史事实。
 - 必须返工项:
   1. 角色战斗形象面导入与编辑入口已连同调用链、禁用占位动作和陈旧 adoption 全部移除（closed）。
   2. **closed（Kimi counter，2026-08-31 增量复审确认）**：craft-recipes 已改登 object-card，桶计数
@@ -701,7 +746,7 @@ Branch: `main`
   6. **closed（2026-08-31 Kimi + GLM confirmed）**：战斗工作区已固定为单列，长预览与短配置同宽上下排列。
   7. **closed pending reviewer confirmation（用户 workbench content 原则）**：公共 Section 新增 form/list
      语义布局，Shop / 共享脚本采用 list；Shop 迁公共 panel 且下架改 danger delete icon。
-- Accept / rework: **review**（用户已验收；Codex 对 `b7773cdc` accept，等待 Kimi / GLM 增量复审）。
+- Accept / rework: **done**（全部增量三方 accept + 用户验收齐）。
 
 ## 用户验收
 
@@ -710,6 +755,23 @@ Branch: `main`
 
 ## 交接日志
 
+- 2026-08-31 Codex: 核对 `b7773cdc` Kimi + GLM 增量 accept 均已实际写回；结合此前用户统一验收，
+  本卡全部 done 门禁闭合，状态收口 done。Next: N/A。
+
+- 2026-08-31 Kimi: 只读复审 workbench list 增量 `b7773cdc`，签 **accept**。独立证据：contentLayout
+  收成 form/list 语义枚举（无任意数值出口、默认 form 不变、DS-C.7 禁业务覆写成文、2.20.1 三处同步）；
+  Shop 私有 `.shop-stock-card`/card-head/remove hover/`.mini` 死规则全删且 boundary 零规则体防复活，
+  外框由公共 `.ds-workbench-section` 逐字同构持有，registry contentOwner 重绑真实 TSX callsite；
+  下架改 danger `DsIconButton icon="delete"` 实机 32×32 + 具体 aria；脚本正文同用 list。
+  本人复跑 6 files / 116 tests 全绿；1280px 实机：content padding/gap=0、行与 content 边界差 0、
+  document overflow=0。无返工项；未修改实现，未代签 GLM，未标 done。三方当前实现 accept 齐，
+  Next: 用户验收。
+- 2026-08-31 GLM: 只读复审 workbench list 增量 `b7773cdc`，签 **accept**。公共 contentLayout 枚举
+  （form/list）+ flush CSS 恰一条 + 规范禁任意数值/业务覆写成文 + 2.20.1 四处同步；Shop 私有外壳/
+  header/hover 与本席 P3 的 28px 死规则全删并被 boundary 封禁，持框上收公共基类逐字等价，edge-to-edge
+  行不变量存活，下架改 danger icon 32×32；registry contentOwner 升级绑真实 TSX callsite；脚本正文
+  list 消费。复跑 6 files / 116 tests 全绿。无返工项；未修改实现，未代签 Kimi，未标 done。
+  Next: Kimi 增量复审 → 用户验收。
 - 2026-08-31 User: 对当前 review 卡统一验收通过；本卡用户验收已到位。因 `b7773cdc` 是两席旧签字后的
   新增公共 workbench list / Shop surface 增量，仍须 Kimi + GLM 各自 accept 后方可 done。
   Next: Kimi / GLM 仅复审 `b7773cdc`。
@@ -861,17 +923,8 @@ Branch: `main`
 ## 下一位 Agent 提示词
 
 ```text
-复审 ED-REORDER-SURFACE-1 的 `b7773cdc` workbench list 增量（Kimi / GLM reviewer）。
-任务卡：docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md；状态 review。
-此前 craft 与四个角色视觉增量已三方 accept，不得重审；本轮只读核 `b7773cdc`，不得改实现、不得标 done。
-
-用户拍板原则：公共内容面板若承载表单，保留统一 inset；若内容直接是列表，则不应有面板 inset。实现以
-`DsWorkbenchSection.contentLayout="form|list"` 语义枚举落地，默认 form，list 必须 padding=0/gap=0，
-不得开放任意数值。Shop 当前货单与共享脚本正文采用 list；Shop 必须是真实 DsWorkbenchSection，货单行
-edge-to-edge/divider/reorder 语义不变；下架必须是 DsActionGroup 内 32×32 danger delete icon，带具体 aria。
-核 DS 2.20.1 四处同步、规范文字、reorder contentOwner 与旧 shop 私有 CSS 清零；按风险复跑聚焦测试，
-不要跑 editor 全量。输出本席 accept，或 file:line + 复现反例 counter；只写本席签字与交接日志，
-不得代签另一席。用户验收已通过；两席增量 accept 齐前不得 done。
+无下一位 Agent 提示词；ED-REORDER-SURFACE-1 的 craft 分类修正、四个角色视觉增量与 `b7773cdc`
+workbench list 增量均获 Codex + Kimi + GLM accept，用户验收亦已通过，任务已 done。
 ```
 
 ## 历史 build 交接提示词
