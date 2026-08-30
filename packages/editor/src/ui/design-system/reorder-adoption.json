@@ -369,8 +369,8 @@
           "verification": ["ui/ShopTab.test.tsx"],
           "contentSurface": "edge-to-edge-list",
           "contentOwner": {
-            "file": "editor.css",
-            "fingerprint": ".shop-stock-card"
+            "file": "ShopTab.tsx",
+            "fingerprint": "className=\"shop-stock-card\""
           },
           "railLayout": "inline",
           "railOwner": {

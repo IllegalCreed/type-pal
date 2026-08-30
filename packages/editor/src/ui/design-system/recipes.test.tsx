@@ -611,9 +611,20 @@ describe('object workbench recipes', () => {
       '基础战斗数值',
     )
     expect(section.querySelector('.ds-workbench-section__actions .ds-button')).not.toBeNull()
-    expect(section.querySelector('.ds-workbench-section__content.domain-layout')?.textContent).toBe(
-      '内容',
+    const content = section.querySelector('.ds-workbench-section__content.domain-layout')
+    expect(content?.textContent).toBe('内容')
+    expect(content?.getAttribute('data-content-layout')).toBe('form')
+
+    await act(async () =>
+      root.render(
+        <DsWorkbenchSection title="列表" contentLayout="list">
+          <span>贴边列表</span>
+        </DsWorkbenchSection>,
+      ),
     )
+    expect(
+      host.querySelector('.ds-workbench-section__content')?.getAttribute('data-content-layout'),
+    ).toBe('list')
   })
 
   test('reference rows keep domain content in slots while sharing one interaction contract', async () => {

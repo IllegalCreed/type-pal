@@ -687,6 +687,11 @@
   padding: var(--ds-space-7);
 }
 
+.ds-workbench-section__content[data-content-layout='list'] {
+  gap: 0;
+  padding: 0;
+}
+
 .ds-workbench-section__content > .ds-button {
   justify-self: start;
 }

@@ -3402,7 +3402,7 @@ export function CanonicalScriptBodyEditor(props: {
     </section>
   )
   return props.presentation === 'workbench' ? (
-    <DsWorkbenchSection title={editorLabel} actions={headerActions}>
+    <DsWorkbenchSection title={editorLabel} actions={headerActions} contentLayout="list">
       {editor}
     </DsWorkbenchSection>
   ) : (

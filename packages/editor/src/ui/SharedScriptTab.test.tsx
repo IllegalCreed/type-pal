@@ -86,6 +86,7 @@ describe('CanonicalSharedScriptTab', () => {
     expect(html).toContain('data-ds-scroll-scope="main"')
     expect(html).toContain('ds-object-workspace__content')
     expect(html).toContain('ds-workbench-section')
+    expect(html).toContain('data-content-layout="list"')
     expect(html).not.toContain('canonical-shared-script-editor-scroll')
     expect(html).not.toContain('迁移内部实现')
     expect(html).not.toContain('Canonical ScriptFlow JSON')

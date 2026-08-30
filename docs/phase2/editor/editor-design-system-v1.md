@@ -1,8 +1,8 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.20.0 boolean control semantics（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.20.1 workbench content layout（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -707,6 +707,10 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 卡片标题包括名称、可选摘要、状态/动作；低频动作放末尾或菜单，高频动作靠近对象。
 - `DsWorkbenchSection` 固定为 intrinsic header + flexible content 两条行轨；同排卡片等高时，多余高度只进入
   content，禁止拉伸标题区，也不得用业务页 margin、padding 或取消等高来掩盖轨道问题。
+- `DsWorkbenchSection.contentLayout` 只允许语义枚举：`form`（默认）保留统一 content padding/gap，适用于
+  表单与结构化编辑块；`list` 将 content padding/gap 清零，适用于由行高、divider 和空态自行持有节奏的
+  edge-to-edge 列表或脚本树。禁止暴露任意 padding 数值，也禁止业务页再覆写
+  `.ds-workbench-section__content` 模仿 flush 变体。
 - 默认展开主任务分组。仅高级/低频分组可折叠，并记忆用户选择但不写内容数据。
 - “升级曲线与习得技能”这类主任务区域不得只剩折叠摘要；必须直接显示可编辑主内容。
 - Inspector 只允许 `DsInspectorTabs → DsInspectorSection → DsPropertyGrid/DsPropertyRow` 组成主要信息层级。

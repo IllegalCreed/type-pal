@@ -1018,7 +1018,9 @@ export function DsWorkbenchSection(props: {
   children: ReactNode
   className?: string
   contentClassName?: string
+  contentLayout?: 'form' | 'list'
 }) {
+  const contentLayout = props.contentLayout ?? 'form'
   return (
     <section className={dsClasses('ds-workbench-section', props.className)}>
       <header className="ds-workbench-section__header">
@@ -1033,7 +1035,10 @@ export function DsWorkbenchSection(props: {
           <div className="ds-workbench-section__actions">{props.actions}</div>
         ) : null}
       </header>
-      <div className={dsClasses('ds-workbench-section__content', props.contentClassName)}>
+      <div
+        className={dsClasses('ds-workbench-section__content', props.contentClassName)}
+        data-content-layout={contentLayout}
+      >
         {props.children}
       </div>
     </section>

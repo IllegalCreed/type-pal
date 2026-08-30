@@ -3580,41 +3580,6 @@ html[data-panel-resize="horizontal"] * {
   grid-auto-rows: max-content;
   align-content: start;
 }
-.shop-card-head .eyebrow {
-  margin: 0;
-  color: color-mix(in srgb, var(--accent) 78%, white);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.shop-stock-card {
-  overflow: hidden;
-  border: 1px solid var(--ds-border-subtle);
-  border-radius: var(--ds-radius-card);
-  background: var(--ds-surface-panel);
-  container-type: inline-size;
-}
-.shop-card-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 17px 18px 15px;
-  border-bottom: 1px solid var(--ds-border-subtle);
-}
-.shop-card-head h3 {
-  margin: 4px 0 0;
-  color: var(--fg);
-  font-size: 15px;
-  line-height: 1.35;
-  text-wrap: balance;
-}
-.shop-card-note {
-  color: var(--faint);
-  font-size: 10px;
-  text-align: right;
-}
 .shop-stock-list {
   display: grid;
 }
@@ -3656,14 +3621,6 @@ html[data-panel-resize="horizontal"] * {
 }
 .shop-stock-actions {
   justify-self: end;
-}
-.shop-stock-actions .mini {
-  width: 28px;
-  height: 28px;
-}
-.shop-stock-remove:hover:not(:disabled) {
-  border-color: color-mix(in srgb, var(--err) 45%, var(--line));
-  color: var(--err);
 }
 @container (max-width: 560px) {
   .shop-stock-row {
@@ -3715,16 +3672,6 @@ html[data-panel-resize="horizontal"] * {
   margin: 0;
   padding-inline-start: var(--ds-space-6);
 }
-@media (max-width: 900px) {
-  .shop-card-head {
-    align-items: start;
-    flex-direction: column;
-  }
-  .shop-card-note {
-    text-align: left;
-  }
-}
-
 /* ── 瓦片集库(W7B):资源库 / 预览 / 登记信息三栏 ── */
 .tileset-outliner {
   overflow: hidden;

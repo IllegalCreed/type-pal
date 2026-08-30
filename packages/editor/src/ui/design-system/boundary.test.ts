@@ -436,9 +436,9 @@ describe('editor design-system static boundary', () => {
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.20.0'")
-    expect(tokens).toContain('--ds-version: "2.20.0";')
-    expect(specification).toContain('Status: implemented v2.20.0')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.20.1'")
+    expect(tokens).toContain('--ds-version: "2.20.1";')
+    expect(specification).toContain('Status: implemented v2.20.1')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
@@ -581,7 +581,10 @@ describe('editor design-system static boundary', () => {
     for (const selector of ['.frames-preview', '.dirgroup', '.fcell', '.posegroup'])
       expect(cssRuleBodies(businessCss, selector), selector).toHaveLength(0)
 
-    const embeddedPreview = cssRuleBodies(businessCss, '.actor-frame-card .actor-world-sprite-preview')
+    const embeddedPreview = cssRuleBodies(
+      businessCss,
+      '.actor-frame-card .actor-world-sprite-preview',
+    )
     expect(embeddedPreview).toHaveLength(1)
     expect(cssDeclaration(embeddedPreview[0]!, 'min-width')).toBe('0')
     expect(cssDeclaration(embeddedPreview[0]!, 'padding')).toBe(
@@ -606,9 +609,7 @@ describe('editor design-system static boundary', () => {
     }
     const battleDetailLayout = cssRuleBodies(businessCss, '.actor-battle-detail-grid')
     expect(battleDetailLayout).toHaveLength(1)
-    expect(cssDeclaration(battleDetailLayout[0]!, 'grid-template-columns')).toBe(
-      'minmax(0, 1fr)',
-    )
+    expect(cssDeclaration(battleDetailLayout[0]!, 'grid-template-columns')).toBe('minmax(0, 1fr)')
     expect(
       cssRuleBodies(businessCss, '.actor-appearance-layout', actorWorkspaceBreakpoint),
     ).toHaveLength(0)
@@ -1328,9 +1329,7 @@ describe('editor design-system static boundary', () => {
     const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
     const previewCall = actorMode.match(/<BattleSpriteInlinePreview[\s\S]*?\/>/)?.[0] ?? ''
     const binding =
-      actorMode.match(
-        /<div className="actor-battle-sprite-binding">[\s\S]*?<\/div>/,
-      )?.[0] ?? ''
+      actorMode.match(/<div className="actor-battle-sprite-binding">[\s\S]*?<\/div>/)?.[0] ?? ''
 
     expect(actorMode).toContain('className="actor-battle-appearance-preview"')
     expect(binding).toContain('label="战斗精灵"')
@@ -1339,9 +1338,7 @@ describe('editor design-system static boundary', () => {
     expect(binding).toContain('onOpenDefinition={props.onOpenDefinition}')
     expect(binding).toContain('openActionLabel="在资源库编辑"')
     const bindingCss = cssRuleBodies(businessCss, '.actor-battle-sprite-binding')
-    expect(cssDeclaration(bindingCss[0]!, 'padding')).toBe(
-      'var(--ds-space-6) var(--ds-space-7)',
-    )
+    expect(cssDeclaration(bindingCss[0]!, 'padding')).toBe('var(--ds-space-6) var(--ds-space-7)')
     expect(cssDeclaration(bindingCss[0]!, 'border-bottom')).toBe('1px solid var(--line)')
     expect(cssDeclaration(bindingCss[0]!, 'background')).toContain('var(--panel2) 72%')
     expect(previewCall).toContain('expected="player-fighter"')
@@ -1370,13 +1367,9 @@ describe('editor design-system static boundary', () => {
     const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
 
     expect(sharedScript).toMatch(/<DsObjectWorkspace\b[\s\S]*?presentation="workbench"/)
-    expect(scriptEditor).toMatch(
-      /presentation === 'workbench'[\s\S]*?<DsWorkbenchSection\b/,
-    )
+    expect(scriptEditor).toMatch(/presentation === 'workbench'[\s\S]*?<DsWorkbenchSection\b/)
     expect(businessCss).not.toContain('.canonical-shared-script-editor-scroll')
-    expect(
-      cssRuleBodies(businessCss, '.canvas-wrap.data-body.shared-script-main'),
-    ).toHaveLength(0)
+    expect(cssRuleBodies(businessCss, '.canvas-wrap.data-body.shared-script-main')).toHaveLength(0)
     const embeddedEditor = cssRuleBodies(businessCss, '.canonical-script-editor--embedded')
     expect(embeddedEditor).toHaveLength(1)
     expect(cssDeclaration(embeddedEditor[0]!, 'grid-template-rows')).toBe('minmax(0, 1fr)')
@@ -1424,10 +1417,39 @@ describe('editor design-system static boundary', () => {
     expect(cssDeclaration(groupHeader[0]!, 'border-bottom')).toBe(
       '1px solid var(--ds-border-subtle)',
     )
-    expect(cssDeclaration(groupHeader[0]!, 'background')).toContain(
-      'var(--ds-surface-raised)',
-    )
+    expect(cssDeclaration(groupHeader[0]!, 'background')).toContain('var(--ds-surface-raised)')
     expect(cssDeclaration(assetList[0]!, 'padding-block')).toBe('var(--ds-space-2)')
+  })
+
+  test('keeps workbench content inset semantic and edge-to-edge list consumers flush', () => {
+    const uiRoot = dirname(here)
+    const recipes = readFileSync(join(here, 'recipes.tsx'), 'utf8')
+    const recipeCss = readFileSync(join(here, 'recipes.css'), 'utf8')
+    const shop = readFileSync(join(uiRoot, 'ShopTab.tsx'), 'utf8')
+    const scriptEditor = readFileSync(join(uiRoot, 'ScriptEditor.tsx'), 'utf8')
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    const listContent = cssRuleBodies(
+      recipeCss,
+      ".ds-workbench-section__content[data-content-layout='list']",
+    )
+
+    expect(recipes).toContain("contentLayout?: 'form' | 'list'")
+    expect(listContent).toHaveLength(1)
+    expect(cssDeclaration(listContent[0]!, 'padding')).toBe('0')
+    expect(cssDeclaration(listContent[0]!, 'gap')).toBe('0')
+    expect(shop).toMatch(/<DsWorkbenchSection\b[\s\S]*?contentLayout="list"/)
+    expect(shop).toMatch(
+      /<DsIconButton\b[\s\S]*?label={`下架 \${itemName}`}[\s\S]*?icon="delete"[\s\S]*?variant="danger"/,
+    )
+    expect(scriptEditor).toMatch(/<DsWorkbenchSection\b[^>]*contentLayout="list"/)
+    for (const selector of [
+      '.shop-stock-card',
+      '.shop-card-head',
+      '.shop-stock-remove:hover:not(:disabled)',
+      '.shop-stock-actions .mini',
+    ]) {
+      expect(cssRuleBodies(businessCss, selector), selector).toHaveLength(0)
+    }
   })
 
   test('keeps section-grid menu groups subordinate to their page links', () => {

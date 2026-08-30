@@ -15,7 +15,7 @@ import {
   itemPickerSearchText,
 } from './add-picker-option-presentation.js'
 import { DsAddPickerDialog } from './design-system/add-picker.js'
-import { DsButton, DsEmptyState, DsTag } from './design-system/controls.js'
+import { DsButton, DsEmptyState, DsIconButton, DsTag } from './design-system/controls.js'
 import {
   DsActionGroup,
   DsCatalogControls,
@@ -29,6 +29,7 @@ import {
   DsPropertyGrid,
   DsPropertyRow,
   DsSequenceIndex,
+  DsWorkbenchSection,
 } from './design-system/recipes.js'
 import {
   DsReorderCollection,
@@ -62,7 +63,7 @@ export function ShopTab(props: {
     props
   const [selId, setSelId] = useState<number>(shops[0]?.id ?? 0)
   const [inspectorTab, setInspectorTab] = useState<ShopInspectorTab>('summary')
-  const stockSectionRef = useRef<HTMLElement>(null)
+  const stockSectionRef = useRef<HTMLDivElement>(null)
   const shop = shops.find((x) => x.id === selId) ?? shops[0]
   const stockReorderKeys = useDsReorderKeys(shop?.items ?? [])
   const itemsById = useMemo(() => new Map(items.map((i) => [i.id, i])), [items])
@@ -163,105 +164,103 @@ export function ShopTab(props: {
               />
             }
           >
-            <section
-              ref={stockSectionRef}
-              className="shop-stock-card"
-              aria-labelledby="shop-stock-title"
-              tabIndex={-1}
-            >
-              <header className="shop-card-head">
-                <div>
-                  <p className="eyebrow">在售物品</p>
-                  <h3 id="shop-stock-title">当前货单</h3>
-                </div>
-                <DsAddPickerDialog
-                  adoptionId="shop/stock"
-                  triggerLabel="上架物品"
-                  title="上架物品"
-                  description="搜索物品，确认后加入当前货单；售价继续引用物品定义。"
-                  confirmLabel="上架物品"
-                  options={stockItemOptions}
-                  scopeKey={`shop:${shop.id}:stock`}
-                  revision={session.getHistoryVersion()}
-                  emptyMessage="当前没有可上架的物品。"
-                  fallbackFocusRef={stockSectionRef}
-                  onConfirm={(itemId) => {
-                    const latestShop = session
-                      .getState()
-                      .shops?.find((candidate) => candidate.id === shop.id)
-                    if (!latestShop || latestShop.items.includes(itemId) || !itemsById.has(itemId))
-                      return false
-                    session.dispatch(
-                      new UpdateShopCommand(latestShop.id, [...latestShop.items, itemId]),
-                    )
-                  }}
-                />
-              </header>
-
-              <DsReorderCollection
-                adoptionId="shop/stock"
-                scopeKey={`shop:${shop.id}:items`}
-                entries={shop.items.map((id, index) => ({
-                  key: stockReorderKeys.keys[index]!,
-                  label: itemsById.get(id)?.name ?? `未知物品 ${id}`,
-                }))}
-                revision={session.getHistoryVersion()}
-                onReorder={reorderStock}
+            <div ref={stockSectionRef} tabIndex={-1}>
+              <DsWorkbenchSection
+                className="shop-stock-card"
+                eyebrow="在售物品"
+                title="当前货单"
+                contentLayout="list"
+                actions={
+                  <DsAddPickerDialog
+                    adoptionId="shop/stock"
+                    triggerLabel="上架物品"
+                    title="上架物品"
+                    description="搜索物品，确认后加入当前货单；售价继续引用物品定义。"
+                    confirmLabel="上架物品"
+                    options={stockItemOptions}
+                    scopeKey={`shop:${shop.id}:stock`}
+                    revision={session.getHistoryVersion()}
+                    emptyMessage="当前没有可上架的物品。"
+                    fallbackFocusRef={stockSectionRef}
+                    onConfirm={(itemId) => {
+                      const latestShop = session
+                        .getState()
+                        .shops?.find((candidate) => candidate.id === shop.id)
+                      if (
+                        !latestShop ||
+                        latestShop.items.includes(itemId) ||
+                        !itemsById.has(itemId)
+                      )
+                        return false
+                      session.dispatch(
+                        new UpdateShopCommand(latestShop.id, [...latestShop.items, itemId]),
+                      )
+                    }}
+                  />
+                }
               >
-                <div className="shop-stock-list">
-                  {shop.items.map((id, i) => {
-                    const it = itemsById.get(id)
-                    const itemName = it?.name ?? `未知物品 ${id}`
-                    const reorderKey = stockReorderKeys.keys[i]!
-                    return (
-                      <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-                        <div className="shop-stock-row">
-                          <DsSequenceIndex value={i + 1} accessibleLabel={`第 ${i + 1} 项`} />
-                          <span className="shop-stock-identity">
-                            <strong>{itemName}</strong>
-                            <span>
-                              <code>{id}</code>
-                              {it ? ` · 买价 ${it.buyPrice} 文` : ' · 不在物品表'}
+                <DsReorderCollection
+                  adoptionId="shop/stock"
+                  scopeKey={`shop:${shop.id}:items`}
+                  entries={shop.items.map((id, index) => ({
+                    key: stockReorderKeys.keys[index]!,
+                    label: itemsById.get(id)?.name ?? `未知物品 ${id}`,
+                  }))}
+                  revision={session.getHistoryVersion()}
+                  onReorder={reorderStock}
+                >
+                  <div className="shop-stock-list">
+                    {shop.items.map((id, i) => {
+                      const it = itemsById.get(id)
+                      const itemName = it?.name ?? `未知物品 ${id}`
+                      const reorderKey = stockReorderKeys.keys[i]!
+                      return (
+                        <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+                          <div className="shop-stock-row">
+                            <DsSequenceIndex value={i + 1} accessibleLabel={`第 ${i + 1} 项`} />
+                            <span className="shop-stock-identity">
+                              <strong>{itemName}</strong>
+                              <span>
+                                <code>{id}</code>
+                                {it ? ` · 买价 ${it.buyPrice} 文` : ' · 不在物品表'}
+                              </span>
                             </span>
-                          </span>
-                          <DsActionGroup density="compact" className="shop-stock-actions">
-                            <DsReorderMoveButton
-                              itemKey={reorderKey}
-                              direction="backward"
-                              label={`上移 ${itemName}`}
-                            />
-                            <DsReorderMoveButton
-                              itemKey={reorderKey}
-                              direction="forward"
-                              label={`下移 ${itemName}`}
-                            />
-                            <DsButton
-                              className="shop-stock-remove"
-                              aria-label={`下架 ${itemName}`}
-                              title="下架"
-                              onClick={() => setItems(shop.items.filter((_, j) => j !== i))}
-                              size="compact"
-                              variant="secondary"
-                            >
-                              ✕
-                            </DsButton>
-                          </DsActionGroup>
-                        </div>
-                      </DsReorderItem>
-                    )
-                  })}
-                  {shop.items.length === 0 ? (
-                    <DsEmptyState
-                      layout="embedded"
-                      title="暂无在售物品"
-                      description={
-                        items.length > 0 ? '可从右上角上架物品。' : '当前项目没有可上架的物品。'
-                      }
-                    />
-                  ) : null}
-                </div>
-              </DsReorderCollection>
-            </section>
+                            <DsActionGroup density="compact" className="shop-stock-actions">
+                              <DsReorderMoveButton
+                                itemKey={reorderKey}
+                                direction="backward"
+                                label={`上移 ${itemName}`}
+                              />
+                              <DsReorderMoveButton
+                                itemKey={reorderKey}
+                                direction="forward"
+                                label={`下移 ${itemName}`}
+                              />
+                              <DsIconButton
+                                label={`下架 ${itemName}`}
+                                icon="delete"
+                                onClick={() => setItems(shop.items.filter((_, j) => j !== i))}
+                                size="compact"
+                                variant="danger"
+                              />
+                            </DsActionGroup>
+                          </div>
+                        </DsReorderItem>
+                      )
+                    })}
+                    {shop.items.length === 0 ? (
+                      <DsEmptyState
+                        layout="embedded"
+                        title="暂无在售物品"
+                        description={
+                          items.length > 0 ? '可从右上角上架物品。' : '当前项目没有可上架的物品。'
+                        }
+                      />
+                    ) : null}
+                  </div>
+                </DsReorderCollection>
+              </DsWorkbenchSection>
+            </div>
           </DsObjectWorkspace>
         ) : (
           <div className="shop-empty-state">

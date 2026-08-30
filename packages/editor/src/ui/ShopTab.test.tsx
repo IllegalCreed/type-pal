@@ -115,6 +115,16 @@ describe('ShopTab shared object workspace', () => {
     expect(hero!.querySelector('.ds-object-hero__id')?.textContent).toBe('#0')
     expect(hero!.querySelector('.ds-tag')?.textContent).toBe('2 种货')
     expect(host.querySelectorAll('h1')).toHaveLength(1)
+    const stockPanel = content!.querySelector<HTMLElement>('.shop-stock-card')!
+    expect(stockPanel.classList).toContain('ds-workbench-section')
+    expect(
+      stockPanel
+        .querySelector('.ds-workbench-section__content')
+        ?.getAttribute('data-content-layout'),
+    ).toBe('list')
+    const remove = stockPanel.querySelector<HTMLButtonElement>('button[aria-label^="下架 "]')!
+    expect(remove.classList).toContain('ds-icon-button--danger')
+    expect(remove.querySelector('.ds-icon')).not.toBeNull()
     await verifyInspectorTabs(host, '商店检查器', ['摘要', '说明'])
 
     const helpTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
