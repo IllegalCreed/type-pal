@@ -159,6 +159,7 @@ describe('BattleSpriteInlinePreview', () => {
           assetBase={{} as never}
           assetReader={{ record: () => ({ sha256: 'a'.repeat(64) }) } as never}
           showPrimaryPreview={false}
+          semanticPresentation="embedded"
           semanticGroups={[
             {
               id: definition.id,
@@ -183,6 +184,9 @@ describe('BattleSpriteInlinePreview', () => {
 
     expect(host.querySelector('.battle-sprite-preview .semantic-frame-shelf')).not.toBeNull()
     expect(host.querySelector('.battle-sprite-preview > canvas')).toBeNull()
+    expect(host.querySelector('.semantic-frame-shelf--embedded')).not.toBeNull()
+    expect(host.querySelector('.semantic-frame-shelf > header')).toBeNull()
+    expect(host.querySelector('.semantic-frame-group-head')).toBeNull()
     expect(host.querySelector('.semantic-frame-row')?.textContent).toContain('普通攻击')
     await act(async () => vi.advanceTimersByTimeAsync(140))
     expect(drawImage.mock.calls.at(-1)?.[0]).toBe(bakedFrames[8])

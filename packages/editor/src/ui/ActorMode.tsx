@@ -1433,9 +1433,10 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
         <DsButton
           size="compact"
           variant="secondary"
+          title="导入一组战斗帧，并立即设为当前角色的战斗形象"
           onClick={() => setUploadOpen((value) => !value)}
         >
-          {uploadOpen ? '收起上传' : '上传帧带'}
+          {uploadOpen ? '收起导入' : '导入战斗形象'}
         </DsButton>
       }
     >
@@ -1456,6 +1457,7 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
             assetBase={props.assetBase}
             assetReader={props.assetReader}
             semanticGroups={[battleSpriteSemanticGroup(selectedDefinition, 0, true)]}
+            semanticPresentation="embedded"
             showPrimaryPreview={false}
           />
         ) : (

@@ -83,6 +83,34 @@ describe('SemanticFrameShelf', () => {
     expect(onFrameSelect).toHaveBeenCalledWith(2)
   })
 
+  test('单用途嵌入式动作架不重复外层标题和用途身份头', async () => {
+    const canvas = document.createElement('canvas')
+    canvas.width = 20
+    canvas.height = 30
+    await act(async () => {
+      root.render(
+        <SemanticFrameShelf
+          presentation="embedded"
+          frames={[{ canvas, width: 20, height: 30 }]}
+          groups={[
+            {
+              id: 'fighter',
+              label: '战士',
+              typeLabel: '玩家战斗',
+              active: true,
+              rows: [{ id: 'idle', label: '待机', frames: [0] }],
+            },
+          ]}
+        />,
+      )
+    })
+
+    expect(host.querySelector('.semantic-frame-shelf--embedded')).not.toBeNull()
+    expect(host.querySelector('.semantic-frame-shelf > header')).toBeNull()
+    expect(host.querySelector('.semantic-frame-group-head')).toBeNull()
+    expect(host.querySelector('.semantic-frame-row-label')?.textContent).toBe('待机')
+  })
+
   test('实例自动行为单独成区，可预览稳定帧序并跳转使用位置', async () => {
     const frames: SpriteFrameView[] = Array.from({ length: 4 }, () => {
       const canvas = document.createElement('canvas')

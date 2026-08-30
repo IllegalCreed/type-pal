@@ -368,7 +368,8 @@ Branch: `main`
   edge-to-edge-list 2 / continuous-structure 5，rail 为 inline 28 / overlay 1；六红项全部换用
   `DsRepeatRow`，Shop 动作组由公共 `DsActionGroup` 保证 32px，reorder state machine / adapter /
   command / revision 零改动。聚焦 108、editor 全量 178 files / 1460 tests、typecheck、design-system
-  gate 与四档浏览器几何全绿；无 P0/P1/P2 自审返工项。
+  gate 与四档浏览器几何全绿；用户指出角色战斗动作预览嵌套边框过多后，已改为 embedded 动作架并以
+  聚焦 22 + 浏览器重新验收，刷新 accept；无 P0/P1/P2 自审返工项。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: N/A
@@ -433,18 +434,19 @@ Branch: `main`
   720/640 四档 viewport，640 作为 1280@200% 等效 CSS 宽度。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: `.mimosa/evidence/ED-REORDER-SURFACE-1-actor-initial-magic-720.png`
-  （本地忽略证据，禁止提交）。
+  、`.mimosa/evidence/ACTOR-BATTLE-PREVIEW-EMBEDDED-720.png`（本地忽略证据，禁止提交）。
 - 结论: 初始仙术行 1px 完整边界，手柄位于行内；四档字段宽 325/656/476/396px，动作组始终在边界内，
   三枚动作 32/32/42px。敌队 5/5 repeat-row，720px 字段 550px、动作 32×32；Shop 720px
   identity 约 481px，外框 1px + 行 divider，三动作 32×32；RF-21 repeat-row / overlay rail 与
-  map continuous row 均符合分类，console error 0。
+  map continuous row 均符合分类。角色战斗动作架移除重复的 preview border / shelf border / 总标题 /
+  单用途身份头 / active 蓝边，只保留动作 divider 与帧卡；8 动作 / 19 帧卡完整，console error 0。
 - 未完成项: Kimi / GLM 当前实现终审与用户验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
 - 审查结论: Codex 自审 accept；Kimi / GLM pending。
-- 必须返工项: pending
+- 必须返工项: 用户视觉返工“角色战斗动作预览嵌套边框过多”已完成；当前无剩余 Codex 返工项。
 - Accept / rework: pending（签字不足不得 done）。
 
 ## 用户验收
@@ -453,6 +455,12 @@ Branch: `main`
 - 后续任务: pending
 
 ## 交接日志
+
+- 2026-08-30 Codex: 用户在 review 期指出角色战斗动作预览叠加角色面板、preview、semantic shelf、
+  单用途身份头与 active 蓝边，视觉层级过深。新增 `SemanticFrameShelf presentation="embedded"`，角色页
+  隐藏重复总标题/单用途头并移除两层大边框，资源库 full presentation 不变；“上传帧带”改为可理解的
+  “导入战斗形象”并补充作用说明。聚焦 22、typecheck、design-system gate 与 720px 实机全绿，Codex
+  刷新 accept。Next: Kimi / GLM 按当前实现终审。
 
 - 2026-08-30 Codex: 按 KS1-KS4 / GM-S1-GM-S5 完成 build 并转 review。六红项全部消费
   `DsRepeatRow`，29 项双轴 registry 与证据 owner 闭合，Shop 保持 edge-to-edge 并由公共

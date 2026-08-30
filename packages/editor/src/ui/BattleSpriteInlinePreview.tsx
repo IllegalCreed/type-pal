@@ -128,6 +128,7 @@ export function BattleSpriteInlinePreview(props: {
   onLoaded?: (proof: BattleSpritePreviewProof | undefined) => void
   onResourceLoaded?: (snapshot: BattleSpriteResourceSnapshot | undefined) => void
   semanticGroups?: readonly SemanticFrameGroup[]
+  semanticPresentation?: 'full' | 'embedded'
   activeDefinitionId?: string
   consumerCount?: number
   onDefinitionSelect?: (id: string) => void
@@ -342,6 +343,7 @@ export function BattleSpriteInlinePreview(props: {
             <SemanticFrameShelf
               frames={frameViews}
               groups={props.semanticGroups}
+              presentation={props.semanticPresentation}
               onGroupSelect={props.onDefinitionSelect}
               onFrameSelect={props.onFrameSelect}
             />

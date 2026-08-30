@@ -2865,12 +2865,7 @@ html[data-panel-resize="horizontal"] * {
 .actor-battle-appearance-preview {
   display: grid;
   place-items: stretch;
-  min-height: 216px;
   margin-top: var(--ds-space-5);
-  padding: var(--ds-space-5);
-  border: 1px solid var(--ds-border-subtle);
-  border-radius: var(--ds-radius-control);
-  background: var(--ds-surface-canvas);
 }
 .actor-battle-appearance-preview > .battle-sprite-preview {
   width: 100%;
@@ -6237,6 +6232,19 @@ button.sprite-frame-cell[draggable="true"]:active {
   border: 1px solid var(--line);
   border-radius: 7px;
   background: color-mix(in srgb, var(--panel2) 92%, transparent);
+}
+.semantic-frame-shelf--embedded {
+  margin-top: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.semantic-frame-shelf--embedded .semantic-frame-group.active {
+  box-shadow: none;
+}
+.semantic-frame-shelf--embedded .semantic-frame-row {
+  padding-inline: 0;
 }
 .semantic-frame-shelf > header,
 .semantic-frame-shelf.empty > div,

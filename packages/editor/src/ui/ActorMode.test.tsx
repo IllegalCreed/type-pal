@@ -22,6 +22,7 @@ vi.mock('./BattleSpriteInlinePreview.js', () => ({
     definition?: { id: string; label: string }
     expected?: string
     semanticGroups?: readonly SemanticFrameGroup[]
+    semanticPresentation?: 'full' | 'embedded'
     showPrimaryPreview?: boolean
   }) => (
     <div
@@ -29,6 +30,7 @@ vi.mock('./BattleSpriteInlinePreview.js', () => ({
       data-definition-id={props.definition?.id}
       data-expected={props.expected}
       data-show-primary={String(props.showPrimaryPreview)}
+      data-semantic-presentation={props.semanticPresentation}
       data-actions={JSON.stringify(
         props.semanticGroups?.[0]?.rows.map(({ label, frames, loopFrom }) => ({
           label,
@@ -364,6 +366,8 @@ describe('ActorMode 初始状态唯一所有权', () => {
     expect(preview().dataset.definitionId).toBe('hero-battle-sprite')
     expect(preview().dataset.expected).toBe('player-fighter')
     expect(preview().dataset.showPrimary).toBe('false')
+    expect(preview().dataset.semanticPresentation).toBe('embedded')
+    expect(button('导入战斗形象').title).toContain('立即设为当前角色')
     expect(preview().textContent).toBe('主角战斗精灵')
     expect(JSON.parse(preview().dataset.actions ?? '[]')).toEqual([
       { label: '待机', frames: [0] },

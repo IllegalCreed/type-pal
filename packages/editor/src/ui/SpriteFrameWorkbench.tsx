@@ -409,11 +409,14 @@ function FrameRowView(props: {
 export function SemanticFrameShelf(props: {
   frames: readonly SpriteFrameView[]
   groups: readonly SemanticFrameGroup[]
+  presentation?: 'full' | 'embedded'
   onGroupSelect?: (id: string) => void
   onActionSelect?: (groupId: string, actionId: string) => void
   onFrameSelect?: (index: number) => void
 }) {
   const groupIds = useMemo(() => new Set(props.groups.map((group) => group.id)), [props.groups])
+  const presentation = props.presentation ?? 'full'
+  const showGroupHeader = presentation === 'full' || props.groups.length > 1
   if (!props.groups.length)
     return (
       <section className="semantic-frame-shelf empty" aria-label="用途定义与动作">
@@ -424,32 +427,40 @@ export function SemanticFrameShelf(props: {
       </section>
     )
   return (
-    <section className="semantic-frame-shelf" aria-label="用途定义与动作">
-      <header>
-        <div>
-          <strong>用途定义与动作</strong>
-          <span>每个用途如何解释同一组源帧；场景实例脚本行为在下方单独列出。</span>
-        </div>
-        <b>{groupIds.size} 个用途定义</b>
-      </header>
+    <section
+      className={`semantic-frame-shelf${presentation === 'embedded' ? ' semantic-frame-shelf--embedded' : ''}`}
+      data-presentation={presentation}
+      aria-label={presentation === 'embedded' ? '战斗动作预览' : '用途定义与动作'}
+    >
+      {presentation === 'full' ? (
+        <header>
+          <div>
+            <strong>用途定义与动作</strong>
+            <span>每个用途如何解释同一组源帧；场景实例脚本行为在下方单独列出。</span>
+          </div>
+          <b>{groupIds.size} 个用途定义</b>
+        </header>
+      ) : null}
       <div className="semantic-frame-groups">
         {props.groups.map((group) => (
           <article
             key={group.id}
             className={`semantic-frame-group${group.active ? ' active' : ''}`}
           >
-            <DsPressable
-              type="button"
-              className="semantic-frame-group-head"
-              aria-pressed={group.active}
-              onClick={() => props.onGroupSelect?.(group.id)}
-            >
-              <span>
-                <b>{group.label}</b>
-                <code>{group.id}</code>
-              </span>
-              <em>{group.typeLabel}</em>
-            </DsPressable>
+            {showGroupHeader ? (
+              <DsPressable
+                type="button"
+                className="semantic-frame-group-head"
+                aria-pressed={group.active}
+                onClick={() => props.onGroupSelect?.(group.id)}
+              >
+                <span>
+                  <b>{group.label}</b>
+                  <code>{group.id}</code>
+                </span>
+                <em>{group.typeLabel}</em>
+              </DsPressable>
+            ) : null}
             <div className="semantic-frame-rows">
               {group.rows.map((row) => (
                 <FrameRowView
