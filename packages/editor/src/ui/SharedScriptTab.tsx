@@ -22,9 +22,11 @@ import {
   DsCatalogWorkspace,
   DsDraftTextArea,
   DsDraftTextInput,
+  DsEmptyState,
   DsField,
   DsHelpTip,
   DsObjectHero,
+  DsObjectWorkspace,
   DsSelect,
   DsTag,
   DsTextInput,
@@ -241,9 +243,12 @@ export function CanonicalSharedScriptTab(props: {
           {!shown.length ? <div className="insp-empty">没有匹配的可复用脚本</div> : null}
       </DsCatalogWorkspace>
 
-      <div className="canvas-wrap data-body shared-script-main canonical-shared-script-main">
-        {selected ? (
-          <>
+      <DsObjectWorkspace
+        as="main"
+        label="可复用脚本工作区"
+        className="canvas-wrap data-body shared-script-main canonical-shared-script-main"
+        hero={
+          selected ? (
             <DsObjectHero
               eyebrow="可复用脚本"
               title={selected.name}
@@ -269,24 +274,30 @@ export function CanonicalSharedScriptTab(props: {
                 </DsButton>
               }
             />
-            <div className="canonical-shared-script-editor-scroll">
-              <CanonicalScriptBodyEditor
-                label="正文"
-                body={selected.body}
-                context={{ ...props.context, hasImplicitSelf: selected.self === 'required' }}
-                onError={props.onError}
-                onChange={updateBody}
-                focusCommandPath={
-                  props.focusScriptId === selectedId ? props.focusCommandPath : undefined
-                }
-                focusRevision={props.focusScriptId === selectedId ? props.focusRevision : undefined}
-              />
-            </div>
-          </>
+          ) : undefined
+        }
+      >
+        {selected ? (
+          <CanonicalScriptBodyEditor
+            presentation="workbench"
+            label="正文"
+            body={selected.body}
+            context={{ ...props.context, hasImplicitSelf: selected.self === 'required' }}
+            onError={props.onError}
+            onChange={updateBody}
+            focusCommandPath={
+              props.focusScriptId === selectedId ? props.focusCommandPath : undefined
+            }
+            focusRevision={props.focusScriptId === selectedId ? props.focusRevision : undefined}
+          />
         ) : (
-          <div className="insp-empty">新建一个可复用脚本</div>
+          <DsEmptyState
+            layout="embedded"
+            title="还没有可复用脚本"
+            description="点击左侧加号创建第一条可复用脚本。"
+          />
         )}
-      </div>
+      </DsObjectWorkspace>
 
       <aside className="inspector shared-script-inspector canonical-shared-script-inspector">
         {selected ? (

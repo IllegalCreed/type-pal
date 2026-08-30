@@ -83,6 +83,10 @@ describe('CanonicalSharedScriptTab', () => {
     expect(html).toContain('shared/user/book')
     expect(html).toContain('天书正文')
     expect(html).toContain('canonical-script-editor')
+    expect(html).toContain('data-ds-scroll-scope="main"')
+    expect(html).toContain('ds-object-workspace__content')
+    expect(html).toContain('ds-workbench-section')
+    expect(html).not.toContain('canonical-shared-script-editor-scroll')
     expect(html).not.toContain('迁移内部实现')
     expect(html).not.toContain('Canonical ScriptFlow JSON')
   })
@@ -261,5 +265,27 @@ describe('CanonicalSharedScriptTab', () => {
     expect(html).not.toContain('调用实体')
     expect(html).not.toContain('shared-preview')
     expect(html).toContain('请从真实场景调用位置进入预览')
+  })
+
+  test('empty workbench keeps the single header add action without a duplicate body button', () => {
+    const emptyState: ScriptEditorState = {
+      ...state,
+      sharedScripts: {
+        'shared/user/empty': { name: '空脚本', self: 'none', body: [] },
+      },
+    }
+    const html = renderToStaticMarkup(
+      <CanonicalSharedScriptTab
+        tabBar={null}
+        state={emptyState}
+        session={new ScriptEditSession(emptyState)}
+        context={{ ...context, state: emptyState }}
+        {...projectProps}
+      />,
+    )
+
+    expect(html.match(/<span>添加指令<\/span>/g)).toHaveLength(1)
+    expect(html).not.toContain('添加第一条指令')
+    expect(html).toContain('请使用右上角“添加指令”')
   })
 })

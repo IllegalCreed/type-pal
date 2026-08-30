@@ -10835,12 +10835,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 
 /* N6 脚本库：canonical 作者工作台。 */
-.canvas-wrap.data-body.shared-script-main {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  background: #090b10;
-}
 .shared-script-inspector {
   min-height: 0;
   overflow: auto;
@@ -12520,6 +12514,9 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-radius: 0;
   background: transparent;
 }
+.canonical-script-editor--embedded {
+  grid-template-rows: minmax(0, 1fr);
+}
 .canonical-script-editor-heading {
   display: flex;
   align-items: center;
@@ -13239,30 +13236,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 .canonical-transition-editor .canonical-transition-editor {
   margin-left: 8px;
   border-left-color: var(--accent);
-}
-.canonical-shared-script-main {
-  padding: 0;
-}
-.canonical-shared-script-editor-scroll {
-  flex: 1 1 auto;
-  margin: 10px;
-  min-height: 0;
-  overflow: auto;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--panel);
-}
-.canonical-shared-script-editor-scroll > .canonical-script-editor {
-  min-height: 100%;
-}
-.canonical-shared-script-editor-scroll
-  > .canonical-script-editor
-  > .canonical-script-editor-heading {
-  padding: 8px 10px;
-  background: color-mix(in srgb, var(--accent) 5%, var(--panel2));
-}
-.canonical-shared-script-main .canonical-script-editor-layout {
-  min-height: 0;
 }
 .canonical-shared-script-create-dialog {
   width: min(520px, 100%);

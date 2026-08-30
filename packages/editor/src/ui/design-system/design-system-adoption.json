@@ -366,13 +366,12 @@
         {
           "region": "main",
           "axis": "y",
-          "owner": "custom:.canonical-shared-script-editor-scroll",
+          "owner": "DsObjectWorkspaceContent",
           "source": "SharedScriptTab.tsx",
           "component": "CanonicalSharedScriptTab",
-          "callsite": "class:canonical-shared-script-editor-scroll",
-          "variant": "selected",
-          "reason": "已选择脚本时正文编辑区承担中央纵向滚动。",
-          "verification": "editor.css .canonical-shared-script-editor-scroll owns overflow:auto。"
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "共享脚本中央列采用真实对象工作区内容 viewport。",
+          "verification": "wrapped workspace 的 canonical content 输出 data-ds-scroll-owner=main。"
         },
         {
           "region": "inspector",
@@ -1853,7 +1852,7 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "canonical script editor body",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + custom:.shared-script-inspector",
         "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsControlGroup + DsDraftTextArea + DsDraftTextInput + DsField + DsNumberInput + DsRepeatRow + DsSelect + DsTextArea + DsTextInput",
         "action": "DsButton + DsIconButton"

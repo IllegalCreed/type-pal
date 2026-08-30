@@ -60,6 +60,7 @@ import {
   DsSelect,
   DsTextArea,
   DsTextInput,
+  DsWorkbenchSection,
   useDsReorderKeys,
 } from './design-system/index.js'
 import { EntityStateSelect } from './EntityStateSelect.js'
@@ -917,6 +918,7 @@ function CommandRows(props: {
   referenceFocusRevision?: number
   reorderScopeKey: string
   reorderDisabled?: boolean
+  showEmptyAction?: boolean
   onSelect: (path: string) => void
   onEdit: (path: string) => void
   onInsert: (path: string) => void
@@ -925,6 +927,12 @@ function CommandRows(props: {
   onRemove: (path: string) => void
 }) {
   const reorderKeys = useDsReorderKeys(props.body)
+  if (!props.body.length && props.showEmptyAction === false)
+    return (
+      <p className="canonical-script-editor-empty">
+        当前脚本还没有指令；请使用右上角“添加指令”。
+      </p>
+    )
   if (!props.body.length)
     return (
       <DsButton
@@ -3101,6 +3109,7 @@ export function CanonicalScriptBodyEditor(props: {
   focusCommandPath?: string
   focusRevision?: number
   reorderScopeKey?: string
+  presentation?: 'plain' | 'workbench'
 }) {
   const fallbackReorderScope = useId()
   const editorRef = useRef<HTMLElement>(null)
@@ -3208,32 +3217,39 @@ export function CanonicalScriptBodyEditor(props: {
     }
   }
 
-  return (
+  const editorLabel = props.label ?? '脚本正文'
+  const openInsertAtEnd = (): void => {
+    setInsertPath(formatAuthorCommandPath([props.body.length ? props.body.length - 1 : -1]))
+  }
+  const headerActions = (
+    <>
+      <span className="canonical-script-editor-summary">
+        {props.body.length} 条顶层指令 · 双击指令可编辑
+      </span>
+      <DsButton
+        size="compact"
+        variant="secondary"
+        icon="add"
+        onClick={openInsertAtEnd}
+      >
+        添加指令
+      </DsButton>
+    </>
+  )
+  const editor = (
     <section
       ref={editorRef}
-      className="canonical-script-editor"
+      className={`canonical-script-editor${
+        props.presentation === 'workbench' ? ' canonical-script-editor--embedded' : ''
+      }`}
       aria-label={props.label ?? '脚本正文编辑器'}
     >
-      <header className="canonical-script-editor-heading">
-        <strong>{props.label ?? '脚本正文'}</strong>
-        <div>
-          <span className="canonical-script-editor-summary">
-            {props.body.length} 条顶层指令 · 双击指令可编辑
-          </span>
-          <DsButton
-            size="compact"
-            variant="secondary"
-            icon="add"
-            onClick={() =>
-              setInsertPath(
-                formatAuthorCommandPath([props.body.length ? props.body.length - 1 : -1]),
-              )
-            }
-          >
-            添加指令
-          </DsButton>
-        </div>
-      </header>
+      {props.presentation !== 'workbench' ? (
+        <header className="canonical-script-editor-heading">
+          <strong>{editorLabel}</strong>
+          <div>{headerActions}</div>
+        </header>
+      ) : null}
       <div className="canonical-script-editor-layout">
         <div className="canonical-script-tree">
           <CommandRows
@@ -3246,6 +3262,7 @@ export function CanonicalScriptBodyEditor(props: {
             referenceFocusRevision={props.focusRevision}
             reorderScopeKey={props.reorderScopeKey ?? `canonical:${fallbackReorderScope}`}
             reorderDisabled={Boolean(editingDraft || insertPath)}
+            showEmptyAction={props.presentation !== 'workbench'}
             onSelect={(path) => {
               setSelectedPath(path)
             }}
@@ -3381,6 +3398,13 @@ export function CanonicalScriptBodyEditor(props: {
         </CanonicalScriptDialog>
       ) : null}
     </section>
+  )
+  return props.presentation === 'workbench' ? (
+    <DsWorkbenchSection title={editorLabel} actions={headerActions}>
+      {editor}
+    </DsWorkbenchSection>
+  ) : (
+    editor
   )
 }
 

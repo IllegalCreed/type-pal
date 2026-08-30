@@ -1363,6 +1363,25 @@ describe('editor design-system static boundary', () => {
     )
   })
 
+  test('keeps the shared-script center on the public workspace and section surfaces', () => {
+    const uiRoot = dirname(here)
+    const sharedScript = readFileSync(join(uiRoot, 'SharedScriptTab.tsx'), 'utf8')
+    const scriptEditor = readFileSync(join(uiRoot, 'ScriptEditor.tsx'), 'utf8')
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+
+    expect(sharedScript).toMatch(/<DsObjectWorkspace\b[\s\S]*?presentation="workbench"/)
+    expect(scriptEditor).toMatch(
+      /presentation === 'workbench'[\s\S]*?<DsWorkbenchSection\b/,
+    )
+    expect(businessCss).not.toContain('.canonical-shared-script-editor-scroll')
+    expect(
+      cssRuleBodies(businessCss, '.canvas-wrap.data-body.shared-script-main'),
+    ).toHaveLength(0)
+    const embeddedEditor = cssRuleBodies(businessCss, '.canonical-script-editor--embedded')
+    expect(embeddedEditor).toHaveLength(1)
+    expect(cssDeclaration(embeddedEditor[0]!, 'grid-template-rows')).toBe('minmax(0, 1fr)')
+  })
+
   test('keeps section-grid menu groups subordinate to their page links', () => {
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
     const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
