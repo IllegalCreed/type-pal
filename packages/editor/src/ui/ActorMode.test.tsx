@@ -549,6 +549,9 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
     const combobox = comboboxByLabel('行走精灵')
     expect(combobox.textContent).toContain('主角行走图')
     expect(combobox.textContent).toContain('hero-sprite')
+    expect(combobox.classList).not.toContain('ds-select--compact')
+    const openSprite = button('在资源库编辑')
+    expect(openSprite.classList).not.toContain('ds-button--compact')
 
     await act(async () => combobox.click())
     const listbox = document.getElementById(combobox.getAttribute('aria-controls')!)
@@ -561,7 +564,7 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
     expect(comboboxByLabel('行走精灵').textContent).toContain('guard-sprite')
     expect(assetReader.record).toHaveBeenLastCalledWith('sprite.guard', 'sprite')
 
-    await act(async () => button('在资源库编辑').click())
+    await act(async () => openSprite.click())
     expect(onOpenSprite).toHaveBeenCalledWith('guard-sprite')
 
     await act(async () => session.undo())

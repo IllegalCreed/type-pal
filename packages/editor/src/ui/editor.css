@@ -2938,9 +2938,6 @@ html[data-panel-resize="horizontal"] * {
   border-bottom: 1px solid var(--line);
   background: color-mix(in srgb, var(--panel2) 72%, transparent);
 }
-.actor-world-sprite-binding__control {
-  max-width: 720px;
-}
 @container (width < 520px) {
   .actor-world-sprite-binding__control,
   .actor-battle-sprite-binding .linked-control {

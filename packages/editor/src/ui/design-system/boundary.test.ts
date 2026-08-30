@@ -560,11 +560,14 @@ describe('editor design-system static boundary', () => {
     const spriteFrames = readFileSync(join(uiRoot, 'SpriteFrames.tsx'), 'utf8')
     const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
     const spriteFramesCall = actorMode.match(/<SpriteFrames[\s\S]*?\/>/)?.[0] ?? ''
+    const worldBinding =
+      actorMode.match(/<div className="actor-world-sprite-binding">[\s\S]*?<\/div>/)?.[0] ?? ''
 
     expect(actorMode).toContain('在资源库编辑')
     expect(actorMode).toContain('label="行走精灵"')
     expect(actorMode).toContain('这里只更换角色引用；帧、布局与动作请在资源库编辑。')
     expect(actorMode).toContain("label: '行走精灵'")
+    expect(worldBinding).not.toContain('size="compact"')
     expect(actorMode).not.toContain('aria-label="人物默认精灵"')
     expect(spriteFramesCall).not.toContain('session=')
     expect(spriteFramesCall).not.toContain('mode=')
@@ -594,6 +597,7 @@ describe('editor design-system static boundary', () => {
     expect(appearanceLayout).toHaveLength(1)
     expect(cssDeclaration(appearanceLayout[0]!, 'grid-template-columns')).toBe('minmax(0, 1fr)')
     expect(cssDeclaration(appearanceLayout[0]!, 'gap')).toBe('var(--ds-space-6)')
+    expect(cssRuleBodies(businessCss, '.actor-world-sprite-binding__control')).toHaveLength(0)
     const actorWorkspaceBreakpoint = '@container actor-workspace (max-width: 960px)'
     for (const selector of ['.actor-dashboard-grid', '.actor-detail-grid']) {
       const responsiveLayout = cssRuleBodies(businessCss, selector, actorWorkspaceBreakpoint)

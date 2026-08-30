@@ -364,13 +364,13 @@ Branch: `main`
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-31，战斗绑定区澄清返工后刷新）**——按用户明确口径只对齐四向绑定区的
-  背景层级、字段标题/圆形问号、名称 + 稳定 ID + 中文 profile 摘要和“在资源库编辑”导航按钮；下拉与按钮
-  保留战斗形象原 default 36px 尺寸，不跟随四向 compact 30px。`BattleSpritePicker` 正常/缺失/不兼容选项
-  统一主次信息和完整 title；player-fighter 显示“玩家战斗 · 8 个动作”，enemy 显示动作段与帧数。
-  用户澄清导航按钮获准，它只切到资源库，不在角色页提供编辑表单；header import、uploader、file input 仍为 0。
-  聚焦 3 files / 73 tests、typecheck、design-system gate、diff-check 全绿；720px binding 与四向背景/padding/
-  divider 相同，battle select=501×36、导航=136×36，8 动作预览完整，panel/document overflow=0、console error=0。
+- Codex: **accept（2026-08-31，四向绑定尺寸/宽度返工后刷新）**——删除行走精灵选择器与资源库导航按钮的
+  `size="compact"`，两者与战斗形象绑定统一为 default 36px；删除业务 CSS 的 720px 上限，控制组在宽容器
+  中只保留 binding 自身左右 20px padding 并铺满整行。`<520px` 既有容器规则继续让选择器与动作组纵向
+  堆叠、各自满宽，不增加页面局部尺寸补丁。聚焦 ActorMode + boundary 2 files / 72 tests、typecheck、
+  design-system audit（89 files / 2 evidence-bound exceptions）与 diff-check 全绿；1280px 实机为 root
+  1238px、control 1198px、左右 inset 均 20px，select 1056×36、导航 136×36，四方向预览完整，document
+  overflow=0、console error=0。证据 `.mimosa/evidence/ACTOR-WORLD-SPRITE-FULL-WIDTH-1280.jpg`。
 - Kimi: **counter（2026-08-30，只读终审 build 链 05f46e37→e901eb75 + 本人独立复核与 720px 浏览器抽查；
   与 GLM accept 分歧一点：craft-recipes 分类失实，见下）**——除一项外全部钉通过：
   - **通过项（本人独立证据）**：registry v2 复算 17/29/32/19 闭合、owner file+fingerprint 全员在册；
@@ -530,6 +530,8 @@ Branch: `main`
   - 战斗绑定区使用与四向相同的 raised 背景、padding/divider、字段标签与概念 help；选择项拆成可读名称 +
     `id · profile summary`，恢复经用户澄清批准的资源库导航按钮。Actor 处明确使用 default 尺寸，导入和
     内联编辑能力仍不存在。
+  - 四向绑定区清除 compact 30px 与 720px 私有上限，选择器/导航统一为 default 36px，并在宽容器铺满
+    binding 内容行；窄容器继续复用公共 control group 的整组纵向满宽回退。
 - 运行命令:
   - 聚焦：10 files / 108 tests；adoption / field-layout / number / add-picker / catalog fingerprint
     逐项复跑通过。
@@ -546,8 +548,11 @@ Branch: `main`
     `git diff --check` 全绿，未重复 editor 全量。
   - 战斗绑定澄清返工聚焦：ActorMode / BattleSpritePicker / boundary，3 files / 73 tests；独立 typecheck、
     design-system gate、`git diff --check` 全绿，未重复 editor 全量。
+  - 四向绑定尺寸/宽度返工聚焦：ActorMode + boundary，2 files / 72 tests；独立 typecheck、
+    design-system audit、`git diff --check` 全绿，未重复 editor 全量。
 - 浏览器 / 手工检查: PAL 项目 1280/900/720/640（200% 等效 CSS 宽度）检查初始仙术；720 检查
-  enemy-team、Shop、RF-21 与 map layer；复用本会话既有 script scheme object-card 证据。
+  enemy-team、Shop、RF-21 与 map layer；1280 检查四向绑定 default 尺寸、满行宽度与四方向预览；复用
+  本会话既有 script scheme object-card 证据。
 - 跳过的检查及原因: N/A
 
 ## 视觉验证记录
@@ -562,7 +567,8 @@ Branch: `main`
   `.mimosa/evidence/ACTOR-INITIAL-MAGIC-HEADER-ACTIONS-720.png`、
   `.mimosa/evidence/ACTOR-BATTLE-APPEARANCE-SELECT-ONLY-720.png`、
   `.mimosa/evidence/ACTOR-WORLD-SPRITE-EMBEDDED-720.png`、
-  `.mimosa/evidence/ACTOR-BATTLE-BINDING-REFERENCE-720.png`（本地忽略证据，禁止提交）。
+  `.mimosa/evidence/ACTOR-BATTLE-BINDING-REFERENCE-720.png`、
+  `.mimosa/evidence/ACTOR-WORLD-SPRITE-FULL-WIDTH-1280.jpg`（本地忽略证据，禁止提交）。
 - 结论: 初始仙术行 1px 完整边界，手柄位于行内；四档字段宽 325/656/476/396px，动作组始终在边界内，
   三枚动作 32/32/42px。敌队 5/5 repeat-row，720px 字段 550px、动作 32×32；Shop 720px
   identity 约 481px，外框 1px + 行 divider，三动作 32×32；RF-21 repeat-row / overlay rail 与
@@ -578,9 +584,11 @@ Branch: `main`
   类、shelf/group 重复 header 与预览交互控件均为 0；shelf border=0、background=transparent、track
   overflow-x=auto、panel/document overflow=0。动态帧卡与战斗动态帧卡计算样式精确一致（90px、5px、6px、
   同背景），console error 0。
-  战斗绑定澄清后与四向 binding 的 background/padding/divider 精确一致；四向控件仍为 compact 30px，战斗
-  控件按用户要求为 default 36px。战斗选择器显示主名称 + `player-fighter-0 · 玩家战斗 · 8 个动作`，导航按钮
-  136×36 且只进入资源库；header action/import/file input 均 0，8 行动作预览、overflow 与 console 全绿。
+  战斗绑定澄清后与四向 binding 的 background/padding/divider 精确一致；最终两处选择器与导航按钮均为
+  default 36px。四向 binding 在 1280px 实机 root=1238px、control=1198px、左右 inset=20px，选择器
+  1056×36、导航 136×36，已清除 720px 上限且四方向预览完整；战斗选择器显示主名称 +
+  `player-fighter-0 · 玩家战斗 · 8 个动作`，导航按钮只进入资源库；header action/import/file input 均 0，
+  overflow 与 console 全绿。
 - 未完成项: Kimi / GLM 当前实现终审与用户验收。
 
 ## Review: 审查与返工
@@ -596,6 +604,8 @@ Branch: `main`
      embedded shelf，旧皮与错误动画语义清零；等待两席增量复审。
   4. **closed pending reviewer confirmation（用户战斗绑定反馈与澄清）**：背景/标题问号/主次摘要/资源库导航
      对齐四向，尺寸保持战斗 default；无内联编辑或导入。等待两席增量复审。
+  5. **closed pending reviewer confirmation（用户四向绑定尺寸/宽度反馈）**：四向选择器与导航已由 compact
+     30px 升为 default 36px，删除 720px 上限并铺满 binding 内容行；等待两席增量复审。
 - Accept / rework: **review**（Codex accept；等待 Kimi / GLM 视觉增量复审与用户验收）。
 
 ## 用户验收
@@ -604,6 +614,14 @@ Branch: `main`
 - 后续任务: pending
 
 ## 交接日志
+
+- 2026-08-31 Codex: 用户指出四向绑定仍错误使用 compact 30px 且控制组被 720px 上限截断，要求与战斗
+  形象统一。删除选择器/按钮的 compact 参数与 `.actor-world-sprite-binding__control` 私有 max-width；
+  保留 `<520px` 整组纵向满宽回退。红测先命中 compact class / source 参数与 CSS 上限，修复后聚焦
+  2 files / 72 tests、typecheck、design audit、diff-check 全绿；1280px 实机 control 在 binding 内左右
+  inset 均 20px，select/button 均 36px，四方向、overflow、console 全绿。证据
+  `.mimosa/evidence/ACTOR-WORLD-SPRITE-FULL-WIDTH-1280.jpg`。刷新 Codex accept，转 review。
+  Next: Kimi / GLM 合并复审 90f9dc6f 以来全部视觉增量；两席 accept 与用户验收齐前不得 done。
 
 - 2026-08-31 Codex: 用户要求战斗精灵绑定参考四向设计，随后澄清背景与跳转按钮获准，但组件尺寸应保持
   战斗形象原规格。实现同背景/padding/divider、字段标题与圆形 help，选择器以名称 + ID + 中文 profile 摘要
@@ -722,15 +740,17 @@ SemanticFrameShelf presentation="embedded" + ariaLabel="四向行走与动作帧
 presentation + RawFrameInspector + 编辑 callbacks。只读面无 callback 时不再渲染动作按钮；命名动作按
 逐步 duration 与 loopFrom 真值播放。boundary 门禁要求旧类 JSX/CSS 为 0。
 
-战斗绑定增量：binding 背景/padding/divider 与四向一致，字段标题 + 概念 help、选项主名称 +
-`id · 中文 profile summary`、完整 title；用户澄清允许“在资源库编辑”导航，但下拉/按钮必须保留战斗
-default 36px（四向仍 compact 30px），角色页不得出现导入、file input 或内联编辑表单。缺失/不兼容分支
+战斗/四向绑定增量：两处 binding 背景/padding/divider 一致，字段标题 + 概念 help、选项主名称 +
+`id · 中文 profile summary`、完整 title；用户澄清允许“在资源库编辑”导航，但角色页不得出现导入、
+file input 或内联编辑表单。两处下拉/按钮均为 default 36px；四向控制组已删除 720px 上限，在宽容器
+只保留左右 20px panel padding 并铺满整行，`<520px` 下选择器/动作组整体纵向满宽。缺失/不兼容分支
 也必须保留原值并使用同一主次信息层级。
 
 请核：资源库 full 与动作跳转不回退；角色页四向 4 行、动态首格 + 具体帧完整、命名 pose 正确；旧皮归零；
-720px screenshot/DOM 证据中 frame card 与战斗动态卡 90px/5px/6px/背景一致；战斗 binding 与四向背景
-一致但尺寸分别 36px/30px，8 动作完整，overflow/console 为 0。可按风险复跑 6+3 个聚焦文件，不要跑
-editor 全量。结论写回当前视觉增量 Kimi / GLM accept，或给出
+720px screenshot/DOM 证据中 frame card 与战斗动态卡 90px/5px/6px/背景一致；1280px 四向 binding
+证据中 select/button 均 36px、control 只保留左右 20px inset 并铺满内容行；战斗 binding 同为 default
+36px，8 动作完整，overflow/console 为 0。可按风险复跑相关聚焦文件，不要跑 editor 全量。结论写回
+当前视觉增量 Kimi / GLM accept，或给出
 file:line + 复现反例 counter。`ED-ACTION-GROUP-SPEC-1` 已在看板登记，满足 P2 跟踪条件。
 ```
 

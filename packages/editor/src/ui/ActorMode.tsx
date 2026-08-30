@@ -974,7 +974,6 @@ export function ActorMode(props: {
                             control={
                               <DsSelect
                                 {...field}
-                                size="compact"
                                 value={actor.spriteId}
                                 searchable="auto"
                                 onValueChange={(spriteId) =>
@@ -1001,7 +1000,6 @@ export function ActorMode(props: {
                             }
                             actions={
                               <DsButton
-                                size="compact"
                                 variant="secondary"
                                 icon="open"
                                 disabled={!sprite || !onOpenSprite}
