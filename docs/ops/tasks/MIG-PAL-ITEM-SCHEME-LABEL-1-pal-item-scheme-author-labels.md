@@ -1,6 +1,6 @@
 # MIG-PAL-ITEM-SCHEME-LABEL-1 PAL 物品剧情方案作者命名收口
 
-> **状态**：build（2026-08-30，Codex / Kimi / GLM build 前签字已齐）
+> **状态**：review（2026-08-30，Codex build / 自验证完成；待 Kimi / GLM 当前实现 accept 与用户验收）
 > **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（迁移 / current-only 边界）、GLM（全量引用闭包 / 测试矩阵）
 > **阶段**：phase2
@@ -116,14 +116,14 @@ issue 位置自动哈希得到，且稳定身份已经由 `c8-*` ID 持有；名
 
 - [x] Kimi / GLM 分别签 `premise verified + design agree`，两方均独立复算 53 / 17、49 + 4 与
   唯一 item root。
-- [ ] current 与 baseline 的 `物品剧情行为 <12hex>` 精确匹配均为 0。
-- [ ] 截图样例显示 `紫金丹剧情方案` 与独立的 `2 个步骤`；不再拼成一个名称。
-- [ ] 结构化 diff 只有 53 个 `label` 值变化；稳定 ID、命令、flow / stage、order、引用均零 diff。
-- [ ] 零 root / 多 root / 环 / 悬空、同 registry 重名消歧均有聚焦测试。
-- [ ] 最终生产代码没有旧名正则展示遮罩、旧 upgrader 或兼容 fallback。
-- [ ] 聚焦测试先行；最终受影响包全量只跑一次；typecheck / design-system audit 通过。
-- [ ] PAL 完整发布后二次运行零计划。
-- [ ] 功能性浏览器最小验证：方案卡层级、窄宽、滚动、详情浮层与选择 / 保存不回写旧名。
+- [x] current 与 baseline 的 `物品剧情行为 <12hex>` 精确匹配均为 0。
+- [x] 截图样例显示 `紫金丹剧情方案` 与独立的 `2 个步骤`；不再拼成一个名称。
+- [x] 结构化 diff 只有 53 个 `label` 值变化；稳定 ID、命令、flow / stage、order、引用均零 diff。
+- [x] 零 root / 多 root / 环 / 悬空、同 registry 重名消歧均有聚焦测试。
+- [x] 最终生产代码没有旧名正则展示遮罩、旧 upgrader 或兼容 fallback。
+- [x] 聚焦测试先行；最终受影响包全量只跑一次；typecheck / design-system audit 通过。
+- [x] PAL 完整发布后二次运行零计划。
+- [x] 功能性浏览器最小验证：方案卡层级、窄宽、滚动、详情浮层与选择 / 保存不回写旧名。
 
 ## 推进签字
 
@@ -154,22 +154,54 @@ counter）。** 实现期落实 K-L1-K-L4 与 GM-L1-L3；done accept 另行计�
 
 | Agent | accept | 证据 / 备注 |
 |---|---|---|
-| Codex | pending | |
+| Codex | **accept（2026-08-30）** | current publication 永久门接入 `assertPalItemSchemeLabelInvariant`；真实 PAL 49 个方案 / 11 个 item root / 4 个 machine-inner 全闭合，零/多 root、环、悬空与稳定消歧聚焦覆盖。一次性转换器与旧输入测试已在发布后删除。Git 前后结构化 diff 对 baseline/current 分别复算为 17 文件 / 恰 53 个 `.label` 值变化，正文镜像；完整发布 replay 与删除转换器后的独立 dry-run 均为 `writes=0 deletes=0 conflicts=0 asset-deletes=0`。migrate 全量 47 files / 385 tests、typecheck、design-system gate 与 720px 浏览器闭环全绿。未发现 P0/P1/P2 返工项。 |
 | Kimi | pending | |
 | GLM | pending | |
 
-**done 准入结论：blocked。**
+**done 准入结论：blocked（缺 Kimi / GLM 当前实现 accept 与用户功能验收）。**
 
 ## Build / Review 证据
 
-- 三方 build 前签字已齐，任务已进入 build；迁移实现尚未开始。
+- 永久 invariant：新增 `packages/migrate/src/pal-item-scheme-labels.ts`，完整遍历 entity behavior 与
+  `hooks[channel].variants`，从 item private script 沿选择边传播 root；49 个方案必须分别只有一个
+  item root，同物品按稳定 `order + id` 生成名称，4 个 machine-inner 必须与父名同步。任何零 root、
+  多 root、环、悬空、数量漂移、opaque label 或名称漂移都 fail-loud。
+- publication 接入：`packages/migrate/src/pal-current-publication.ts` 在事务 journal 与资源写入前运行永久
+  invariant；固定 PAL current 为 49 schemes / 11 item roots / 4 machine-inners。生产代码不改名，
+  不识别旧名做展示 fallback。
+- canonical rewrite：曾以 current publication 内的一次性转换器生成目标并由 migration transaction 同时
+  写 baseline/current；正式计划 `writes=17 deletes=0 conflicts=0 asset-deletes=0`，事务共 35 项
+  （17 current scenes + 17 baseline scenes + baseline state），资产 1934/1934 未改。发布成功后一次性
+  转换器和旧输入专属测试均已删除。
+- exact diff：发布前真实 PAL 聚焦测试先证明恰 53 个 `.label`；发布后从 Git HEAD 独立重读旧正文，
+  对 baseline 与 current 分别得到 `files=17 changed-values=53 label-only=true`，且 17 份正文逐字镜像。
+  因而 `c8-*` ID、命令、flow、stage、order 与引用零变化。
+- 聚焦测试：`pal-item-scheme-labels.test.ts` 6 / 6（嵌套 hook + 固有挂载链、稳定消歧、零/多 root、
+  环、悬空、opaque）；`pal-item-scheme-labels.pal.test.ts` 1 / 1（真实 49/11/4、292 凤纹手绢 13 方案、
+  baseline/current label 镜像）；`pal-current-publication.pal.test.ts` 2 / 2。
+- 最终门禁只跑一次：`pnpm --filter @type-pal/migrate check` → 47 files / 385 tests 全绿（含 typecheck）；
+  `pnpm --filter @type-pal/editor audit:design-system` → 89 files / 2 evidence-bound exceptions。
+- 幂等：完整 `--write` 发布进程 replay 为 `writes=0 deletes=0 conflicts=0 asset-deletes=0`；删除一次性
+  转换器后的第二次独立 dry-run 仍为同一零计划，closure 为 294 scenes / 223 maps / 1934 assets。
+- 功能性浏览器：本地 editor 6010、`s001` 进场脚本。默认宽度下目标卡 `strong=紫金丹剧情方案` 与
+  `span=2 个步骤` 分别为两个 block；720px 下 rail `clientWidth=240 / scrollWidth=901 / overflow-x=auto`，
+  横向滚动至 650 后目标 180px 卡完整可达。详情浮层名称字段为 `紫金丹剧情方案` 且保存可用；保存后
+  目标卡 `aria-pressed=true`、项目仍无脏改，页面 opaque 可见数 0、console error 0。
 - 同会话独立 UI 小修：`ScriptSchemeStrip` 的富内容选择面改用 `DsPressable`，避免
   `DsButton` child wrapper 把名称和步骤数挤成一行；该变更不改任何持久化 label。
 - UI 小修验证：`ScriptSceneHookInspector.test.tsx` 3 / 3、editor typecheck、design-system gate
   （89 files / 2 evidence-bound exceptions）通过；本地 1280×720 实机打开 `s001` 进场脚本，目标卡已
-  分两行显示怪名与 `2 个步骤`，横向滚动 / 选择 rail 正常。数据名称仍按门禁保持未改。
+  分两行显示怪名与 `2 个步骤`，横向滚动 / 选择 rail 正常。此条是 build 前历史证据，当时数据名称尚未
+  改；当前 canonical 名称与重新实机验收以上述 720px 证据为准。
 
 ## 交接记录
+
+- 2026-08-30 Codex：完成唯一 Coding Owner build、自验证并转 `review`。落地永久引用图 / 确定性命名
+  invariant，执行一次性 canonical transaction 后删除转换器；baseline/current 各 53 个 label-only
+  变化且镜像，发布 replay 与删除转换器后的独立 dry-run 均为零计划。聚焦 6+1+2、migrate 全量
+  47 files / 385 tests、typecheck、design-system gate、720px 浏览器详情/选择/保存全绿。Codex 已签
+  accept；Next：Kimi 审 current-only / exact-diff / 一次性退休边界，GLM 审闭包 / 测试矩阵；两席不得
+  修改实现或在签字不足时标记 done。
 
 - 2026-08-30 GLM: 独立复算完成并签 premise verified + design agree（附 GM-L1 exact-diff 门禁 /
   GM-L2 闭包 invariant 永久化 / GM-L3 重名消歧 + machine-inner 同步钉）。核心证据：53/17 current=
@@ -195,18 +227,17 @@ counter）。** 实现期落实 K-L1-K-L4 与 GM-L1-L3；done accept 另行计�
 ## 下一位 Agent 提示词
 
 ```text
-实现 MIG-PAL-ITEM-SCHEME-LABEL-1。
+终审 MIG-PAL-ITEM-SCHEME-LABEL-1 当前实现。
 
 任务卡：docs/ops/tasks/MIG-PAL-ITEM-SCHEME-LABEL-1-pal-item-scheme-author-labels.md
-当前状态：build；Codex / Kimi / GLM premise verified + design agree 已齐，无 counter。
-角色：Codex，唯一 Coding Owner。
+当前状态：review；Codex accept 已签，Kimi / GLM 当前实现 accept pending，用户验收 pending。
+角色：Kimi（current-only / migration 边界）或 GLM（引用闭包 / 测试矩阵）审查者。
 
-先完整阅读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md 与本卡。只修迁移 / current
-publication 上游，不直接手改 projects/pal，不在编辑器增加旧名展示 fallback，不复活 v4/v5 upgrader。
-实现必须落实 K-L1~K-L4 与 GM-L1~GM-L3：正确遍历 hooks[channel].variants 与固有挂载中间节点；
-49/49 顶层方案唯一 item root，零 / 多 root、环、悬空 fail-loud；确定性命名与 292×13 消歧；
-exact diff 只能有 53 个 label 变化，ID / 命令 / flow / stage / order / 引用零变化；machine-inner 从父名
-派生；最终删除一次性转换器，只保留 invariant。先跑聚焦测试，最终受影响包全量只跑一次；完整发布后
-二次运行必须零计划。完成后登记 Build / Review 与视觉证据、转 review，三方 done accept 和用户复验前
-不得标记 done。
+先完整阅读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md 与本卡，再只读审查当前 working tree / HEAD。
+重点逐项核 K-L1~K-L4 与 GM-L1~GM-L3：hooks[channel].variants 和固有挂载中间节点是否完整；49/11/4
+唯一 root、零/多 root/环/悬空 fail-loud 与 292×13 稳定消歧；baseline/current 各 53 个 label-only diff
+及镜像；c8-ID/命令/flow/stage/order/引用零变化；machine-inner 同步；一次性转换器、旧 fixture、UI fallback
+和 upgrader 是否已清零；publication replay 是否为零计划。可复用任务卡证据并按风险做必要聚焦复跑，
+不要重复跑全量，不得修改实现。输出当前实现 `accept`，或给出带文件:行号与复现命令的 `counter` / 返工项，
+并把结论写回本卡 review -> done 签字与交接记录。Kimi / GLM / 用户验收未齐前不得标记 done。
 ```

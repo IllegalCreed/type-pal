@@ -238,13 +238,13 @@
       "behaviors": {
         "auto": {
           "c8-3278127a7af6": {
-            "label": "物品剧情行为 3278127a7af6",
+            "label": "凤纹手绢剧情方案 7",
             "order": 1038,
             "flow": {
               "kind": "stateMachine",
               "machine": {
                 "id": "machine",
-                "label": "物品剧情行为 3278127a7af6",
+                "label": "凤纹手绢剧情方案 7连续流程",
                 "cadence": "transition",
                 "initial": "cycle-01",
                 "states": {
@@ -9268,7 +9268,7 @@
             }
           },
           "c8-f4bde04ce9f0": {
-            "label": "物品剧情行为 f4bde04ce9f0",
+            "label": "凤纹手绢剧情方案 13",
             "order": 1052,
             "flow": {
               "kind": "stages",
@@ -9464,7 +9464,7 @@
         },
         "auto": {
           "c8-a0ab54723b62": {
-            "label": "物品剧情行为 a0ab54723b62",
+            "label": "凤纹手绢剧情方案 3",
             "order": 1034,
             "flow": {
               "kind": "stages",
@@ -9573,13 +9573,13 @@
       "behaviors": {
         "auto": {
           "c8-119ab4af0281": {
-            "label": "物品剧情行为 119ab4af0281",
+            "label": "凤纹手绢剧情方案 10",
             "order": 1048,
             "flow": {
               "kind": "stateMachine",
               "machine": {
                 "id": "machine",
-                "label": "物品剧情行为 119ab4af0281",
+                "label": "凤纹手绢剧情方案 10连续流程",
                 "cadence": "transition",
                 "initial": "cycle-01",
                 "states": {
@@ -18254,7 +18254,7 @@
             }
           },
           "c8-7f025c388a79": {
-            "label": "物品剧情行为 7f025c388a79",
+            "label": "凤纹手绢剧情方案 6",
             "order": 1037,
             "flow": {
               "kind": "stages",
@@ -18317,13 +18317,13 @@
       "behaviors": {
         "auto": {
           "c8-0c47a1f79fad": {
-            "label": "物品剧情行为 0c47a1f79fad",
+            "label": "凤纹手绢剧情方案 8",
             "order": 1040,
             "flow": {
               "kind": "stateMachine",
               "machine": {
                 "id": "machine",
-                "label": "物品剧情行为 0c47a1f79fad",
+                "label": "凤纹手绢剧情方案 8连续流程",
                 "cadence": "transition",
                 "initial": "cycle-01",
                 "states": {
@@ -26998,7 +26998,7 @@
             }
           },
           "c8-ac7ee72b9150": {
-            "label": "物品剧情行为 ac7ee72b9150",
+            "label": "凤纹手绢剧情方案 5",
             "order": 1036,
             "flow": {
               "kind": "stages",
@@ -27075,13 +27075,13 @@
       "behaviors": {
         "auto": {
           "c8-900c5edf30b3": {
-            "label": "物品剧情行为 900c5edf30b3",
+            "label": "凤纹手绢剧情方案 11",
             "order": 1050,
             "flow": {
               "kind": "stateMachine",
               "machine": {
                 "id": "machine",
-                "label": "物品剧情行为 900c5edf30b3",
+                "label": "凤纹手绢剧情方案 11连续流程",
                 "cadence": "transition",
                 "initial": "cycle-01",
                 "states": {
@@ -35756,7 +35756,7 @@
             }
           },
           "c8-ce8bb918cff0": {
-            "label": "物品剧情行为 ce8bb918cff0",
+            "label": "凤纹手绢剧情方案 4",
             "order": 1035,
             "flow": {
               "kind": "stages",
@@ -35955,7 +35955,7 @@
             }
           },
           "c8-80a10b0fd027": {
-            "label": "物品剧情行为 80a10b0fd027",
+            "label": "凤纹手绢剧情方案 12",
             "order": 1051,
             "flow": {
               "kind": "stages",
@@ -36177,7 +36177,7 @@
     "onEnter": {
       "variants": {
         "c8-440a584eee79": {
-          "label": "物品剧情行为 440a584eee79",
+          "label": "凤纹手绢剧情方案",
           "order": 1002,
           "flow": {
             "kind": "stages",

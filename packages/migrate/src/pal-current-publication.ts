@@ -43,6 +43,7 @@ import { mapRoleSpritesByNumber } from './migrate-content.js'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import type { TransactionPrecondition } from './migration-transaction.js'
 import { applyPalItemOverlays } from './pal-authored-overlays.js'
+import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
 import { buildPalMigration, type MigrationJson, type PalMigrationSources } from './pal-migration.js'
 import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES } from './pal-world-sprite-layouts.js'
 import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'
@@ -257,6 +258,13 @@ export function validatePalCurrentPublication(args: {
       throw new Error(`场景 index/id 不符 ${String(sceneIds[index])}`)
     if (!mapAssetById(mapIndex, scene.mapId))
       throw new Error(`场景 ${scene.id} 引用未知地图 ${scene.mapId}`)
+  })
+  assertPalItemSchemeLabelInvariant({
+    items: authorItems,
+    scenes: authorScenes,
+    expectedSchemes: 49,
+    expectedMachineInners: 4,
+    expectedItemRoots: 11,
   })
   const sharedScripts = validateAuthorSharedScripts(
     required(files, requiredPath(manifest.content.sharedScripts, 'sharedScripts')),
