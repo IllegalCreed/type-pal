@@ -30,6 +30,7 @@
 | ED-WORKSPACE-ADOPTION-DEBT-1 | 编辑器旧工作区滚动壳真实采用清零 | draft | 待逐文件真值与 Codex/Kimi/GLM build 前设计签字；不得实现 | 清零 6 文件 bounded raw `ds-object-workspace*` 旧债 |
 | MIG-PAL-MAP-NAME-1 | PAL 一阶段考据地图名迁入二阶段 | review | Codex + Kimi + GLM 当前实现 accept 齐；仅待用户验收 | 222/294/221/223/2、s230/s243 双钉、shared 专用边界、104/164 精确占位与 replay 全 0 均已终审 |
 | MIG-PAL-ITEM-SCHEME-LABEL-1 | PAL 物品剧情方案作者命名收口 | review | Codex accept；待 Kimi/GLM 当前实现终审与用户验收，签字不足不得 done | baseline/current 各 53 个 label-only 变化；49/11/4 永久门禁与发布 replay 全 0 |
+| MIG-PAL-STORE0-SHOP-BOUNDARY-1 | PAL Store[0] 奖励表与商店边界收口 | draft | 待 Kimi/GLM 独立 premise/design 签字；不得实现 | store0 仅供 0x34/item270 九档奖励；真实买店为 1..20，禁止 UI fallback |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | done | 三方 accept + 用户验收齐，整卡收口 | content18、首次技能播种、当前 HP/MP 继承 UI 与 PAL replay 已完成 |
 | MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | done | 三方 accept + 用户验收齐，整卡收口 | `0e84e565`：4 定义 + 44 引用归一，严格重复为 0，replay 零计划 |
 | MIG-PAL-WORLD-SPRITE-ALIAS-1 | PAL 大世界角色精灵语义别名收口 | done | 三方 accept + 用户确认齐，整卡收口 | `bde33d13`：1 重复定义 + 7 引用归一，迁移零计划，migrate 354 tests 全绿 |
