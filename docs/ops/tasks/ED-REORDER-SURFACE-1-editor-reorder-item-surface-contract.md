@@ -364,15 +364,13 @@ Branch: `main`
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-31，四向预览返工后刷新）**——角色页 `SpriteFrames` 删除旧自绘
-  `.frames-preview/.dirgroup/.fcell/.posegroup` 与对应私有纹理、方向色、帧卡/姿势卡 CSS；四向与命名动作
-  改消费资源库同源 `worldSpriteSemanticGroups`，展示复用战斗预览同一 `SemanticFrameShelf embedded`。
-  资源库继续 full presentation + RawFrameInspector + 编辑 callbacks；角色页无帧选择/编辑控件。共享 shelf
-  新增可覆盖 aria label，并修正只在真实 `onActionSelect` owner 存在时渲染动作按钮。旧命名姿势的“首步时长
-  套全部步骤 + 非循环也无限循环”同步恢复为逐步 duration / `loopFrom` 真值。聚焦 6 files / 82 tests、
-  typecheck、design-system gate、diff-check 全绿；720px 为 4 行 / 16 帧卡 / 4 动态首格、旧类与交互控件均 0，
-  shelf border/background 0、panel/document overflow 0、console error 0；动态帧卡与战斗预览同为
-  90px / 5px radius / 6px padding / 同背景。
+- Codex: **accept（2026-08-31，战斗绑定区澄清返工后刷新）**——按用户明确口径只对齐四向绑定区的
+  背景层级、字段标题/圆形问号、名称 + 稳定 ID + 中文 profile 摘要和“在资源库编辑”导航按钮；下拉与按钮
+  保留战斗形象原 default 36px 尺寸，不跟随四向 compact 30px。`BattleSpritePicker` 正常/缺失/不兼容选项
+  统一主次信息和完整 title；player-fighter 显示“玩家战斗 · 8 个动作”，enemy 显示动作段与帧数。
+  用户澄清导航按钮获准，它只切到资源库，不在角色页提供编辑表单；header import、uploader、file input 仍为 0。
+  聚焦 3 files / 73 tests、typecheck、design-system gate、diff-check 全绿；720px binding 与四向背景/padding/
+  divider 相同，battle select=501×36、导航=136×36，8 动作预览完整，panel/document overflow=0、console error=0。
 - Kimi: **counter（2026-08-30，只读终审 build 链 05f46e37→e901eb75 + 本人独立复核与 720px 浏览器抽查；
   与 GLM accept 分歧一点：craft-recipes 分类失实，见下）**——除一项外全部钉通过：
   - **通过项（本人独立证据）**：registry v2 复算 17/29/32/19 闭合、owner file+fingerprint 全员在册；
@@ -469,11 +467,12 @@ Branch: `main`
 - counter / 返工处理: Kimi counter 已按建议 A 完成：craft-recipes 改登 object-card，桶计数 9/13/2/5；
   两条真实 owner 不变量扩展为全 registry 门禁，并进一步收紧为 exact class token、唯一 owner 与 object-card
   祖先链无 DsRepeatRow。Kimi 增量复审 accept（2026-08-31），全部 counter 闭环；原 counter 保留为
-  历史事实。用户四向预览旧皮返工亦已完成，等待两席增量复审。GLM P2 已在看板登记
+  历史事实。用户四向预览旧皮与战斗绑定层级返工均已完成，等待两席增量复审。用户最新澄清取代先前
+  “连资源库深链也不保留”的过宽解释：允许“在资源库编辑”导航，但角色页仍禁止编辑/导入。GLM P2 已在看板登记
   `ED-ACTION-GROUP-SPEC-1` draft（DsActionGroup 规范 + 2.21.0）；P3 卫生项不混入本次必要返工。
 - 缺签豁免: N/A
-- done 准入结论: blocked（Kimi + GLM 对 `bf129290` craft 增量 accept 均已签；Codex 已完成四向预览
-  embedded 返工并刷新 accept，当前只缺 Kimi/GLM 对该视觉增量复审与用户验收，齐前不得标记 done）
+- done 准入结论: blocked（Kimi + GLM 对 `bf129290` craft 增量 accept 均已签；Codex 已完成四向预览与
+  战斗绑定两轮视觉返工并刷新 accept，当前只缺 Kimi/GLM 对视觉增量复审与用户验收，齐前不得标记 done）
 
 ## Draft: 设计与风险
 
@@ -528,6 +527,9 @@ Branch: `main`
   - 四向预览删除角色专属旧实现和 CSS，抽出资源库/角色页共用 world-sprite semantic helper，并将角色页
     接到 `SemanticFrameShelf presentation="embedded"`；资源库 full 模式与编辑 owner 不变。只读面不再生成
     无 callback 的动作按钮，命名动作按每步 duration 与 loopFrom 真值播放。
+  - 战斗绑定区使用与四向相同的 raised 背景、padding/divider、字段标签与概念 help；选择项拆成可读名称 +
+    `id · profile summary`，恢复经用户澄清批准的资源库导航按钮。Actor 处明确使用 default 尺寸，导入和
+    内联编辑能力仍不存在。
 - 运行命令:
   - 聚焦：10 files / 108 tests；adoption / field-layout / number / add-picker / catalog fingerprint
     逐项复跑通过。
@@ -542,6 +544,8 @@ Branch: `main`
   - 四向预览返工聚焦：SpriteFrames / SpriteFrameWorkbench / SpriteResourceViewer /
     BattleSpriteInlinePreview / ActorMode / boundary，6 files / 82 tests；独立 typecheck、design-system gate、
     `git diff --check` 全绿，未重复 editor 全量。
+  - 战斗绑定澄清返工聚焦：ActorMode / BattleSpritePicker / boundary，3 files / 73 tests；独立 typecheck、
+    design-system gate、`git diff --check` 全绿，未重复 editor 全量。
 - 浏览器 / 手工检查: PAL 项目 1280/900/720/640（200% 等效 CSS 宽度）检查初始仙术；720 检查
   enemy-team、Shop、RF-21 与 map layer；复用本会话既有 script scheme object-card 证据。
 - 跳过的检查及原因: N/A
@@ -557,7 +561,8 @@ Branch: `main`
   、`.mimosa/evidence/ACTOR-BATTLE-PREVIEW-EMBEDDED-720.png`、
   `.mimosa/evidence/ACTOR-INITIAL-MAGIC-HEADER-ACTIONS-720.png`、
   `.mimosa/evidence/ACTOR-BATTLE-APPEARANCE-SELECT-ONLY-720.png`、
-  `.mimosa/evidence/ACTOR-WORLD-SPRITE-EMBEDDED-720.png`（本地忽略证据，禁止提交）。
+  `.mimosa/evidence/ACTOR-WORLD-SPRITE-EMBEDDED-720.png`、
+  `.mimosa/evidence/ACTOR-BATTLE-BINDING-REFERENCE-720.png`（本地忽略证据，禁止提交）。
 - 结论: 初始仙术行 1px 完整边界，手柄位于行内；四档字段宽 325/656/476/396px，动作组始终在边界内，
   三枚动作 32/32/42px。敌队 5/5 repeat-row，720px 字段 550px、动作 32×32；Shop 720px
   identity 约 481px，外框 1px + 行 divider，三动作 32×32；RF-21 repeat-row / overlay rail 与
@@ -573,19 +578,24 @@ Branch: `main`
   类、shelf/group 重复 header 与预览交互控件均为 0；shelf border=0、background=transparent、track
   overflow-x=auto、panel/document overflow=0。动态帧卡与战斗动态帧卡计算样式精确一致（90px、5px、6px、
   同背景），console error 0。
+  战斗绑定澄清后与四向 binding 的 background/padding/divider 精确一致；四向控件仍为 compact 30px，战斗
+  控件按用户要求为 default 36px。战斗选择器显示主名称 + `player-fighter-0 · 玩家战斗 · 8 个动作`，导航按钮
+  136×36 且只进入资源库；header action/import/file input 均 0，8 行动作预览、overflow 与 console 全绿。
 - 未完成项: Kimi / GLM 当前实现终审与用户验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Kimi + GLM 对 `bf129290` craft 增量均 accept；Codex 已完成用户四向预览返工并刷新
-  accept，Kimi / GLM 对该视觉增量复审 pending。此前签字保留为历史事实，不覆盖当前视觉增量。
+- 审查结论: Kimi + GLM 对 `bf129290` craft 增量均 accept；Codex 已完成四向预览与战斗绑定两轮视觉
+  返工并刷新 accept，Kimi / GLM 对当前视觉增量复审 pending。此前签字保留为历史事实，不覆盖当前增量。
 - 必须返工项:
   1. 角色战斗形象面导入与编辑入口已连同调用链、禁用占位动作和陈旧 adoption 全部移除（closed）。
   2. **closed（Kimi counter，2026-08-31 增量复审确认）**：craft-recipes 已改登 object-card，桶计数
      9/13/2/5；全 registry 两条 owner 不变量已实现，并补 exact token / 唯一 owner / 祖先 wrapper 防绕过。
   3. **closed pending reviewer confirmation（用户四向预览反馈）**：角色页已复用资源库语义派生 + 战斗页
      embedded shelf，旧皮与错误动画语义清零；等待两席增量复审。
+  4. **closed pending reviewer confirmation（用户战斗绑定反馈与澄清）**：背景/标题问号/主次摘要/资源库导航
+     对齐四向，尺寸保持战斗 default；无内联编辑或导入。等待两席增量复审。
 - Accept / rework: **review**（Codex accept；等待 Kimi / GLM 视觉增量复审与用户验收）。
 
 ## 用户验收
@@ -594,6 +604,13 @@ Branch: `main`
 - 后续任务: pending
 
 ## 交接日志
+
+- 2026-08-31 Codex: 用户要求战斗精灵绑定参考四向设计，随后澄清背景与跳转按钮获准，但组件尺寸应保持
+  战斗形象原规格。实现同背景/padding/divider、字段标题与圆形 help，选择器以名称 + ID + 中文 profile 摘要
+  呈现并覆盖缺失/不兼容；恢复“在资源库编辑”导航链，但不恢复导入或内联编辑。战斗控件 default 36px，
+  四向仍 compact 30px。聚焦 3 files / 73 tests、typecheck、design gate、diff-check 与 720px 实机全绿；
+  证据 `.mimosa/evidence/ACTOR-BATTLE-BINDING-REFERENCE-720.png`。刷新 Codex accept，转 review。
+  Next: Kimi / GLM 合并复审 90f9dc6f 以来的两轮视觉增量；两席 accept 与用户验收齐前不得 done。
 
 - 2026-08-31 Codex: 用户指出角色四向行走预览仍是旧版样式。只读核验确认 `SpriteFrames` 独占私有
   纹理、硬编码方向色、帧卡/姿势卡与错误动画语义；抽出 `world-sprite-action-preview` 供资源库和角色页
@@ -692,10 +709,11 @@ Branch: `main`
 ## 下一位 Agent 提示词
 
 ```text
-复审 ED-REORDER-SURFACE-1「角色四向行走预览」增量（Kimi / GLM reviewer）。
+复审 ED-REORDER-SURFACE-1 两轮角色视觉增量（Kimi / GLM reviewer）。
 
 任务卡：docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md
-当前状态：review。craft counter 已由 bf129290 闭环并获 Kimi/GLM accept；本轮只复审四向预览增量，
+当前状态：review。craft counter 已由 bf129290 闭环并获 Kimi/GLM accept；本轮只复审四向预览与战斗
+绑定增量，
 不得修改实现、不得重审已通过范围、不得标记 done。
 
 增量要点：SpriteFrames 删除旧 frames-preview/dirgroup/fcell/posegroup JSX 与私有 CSS；抽出
@@ -704,9 +722,15 @@ SemanticFrameShelf presentation="embedded" + ariaLabel="四向行走与动作帧
 presentation + RawFrameInspector + 编辑 callbacks。只读面无 callback 时不再渲染动作按钮；命名动作按
 逐步 duration 与 loopFrom 真值播放。boundary 门禁要求旧类 JSX/CSS 为 0。
 
+战斗绑定增量：binding 背景/padding/divider 与四向一致，字段标题 + 概念 help、选项主名称 +
+`id · 中文 profile summary`、完整 title；用户澄清允许“在资源库编辑”导航，但下拉/按钮必须保留战斗
+default 36px（四向仍 compact 30px），角色页不得出现导入、file input 或内联编辑表单。缺失/不兼容分支
+也必须保留原值并使用同一主次信息层级。
+
 请核：资源库 full 与动作跳转不回退；角色页四向 4 行、动态首格 + 具体帧完整、命名 pose 正确；旧皮归零；
-720px screenshot/DOM 证据中 frame card 与战斗动态卡 90px/5px/6px/背景一致、overflow/console 为 0。
-可按风险复跑 6 个聚焦文件，不要跑 editor 全量。结论写回当前视觉增量 Kimi / GLM accept，或给出
+720px screenshot/DOM 证据中 frame card 与战斗动态卡 90px/5px/6px/背景一致；战斗 binding 与四向背景
+一致但尺寸分别 36px/30px，8 动作完整，overflow/console 为 0。可按风险复跑 6+3 个聚焦文件，不要跑
+editor 全量。结论写回当前视觉增量 Kimi / GLM accept，或给出
 file:line + 复现反例 counter。`ED-ACTION-GROUP-SPEC-1` 已在看板登记，满足 P2 跟踪条件。
 ```
 

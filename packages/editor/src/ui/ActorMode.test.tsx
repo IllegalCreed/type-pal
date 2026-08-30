@@ -178,6 +178,7 @@ function Harness(props: {
   session: EditSession
   assetReader?: EditorAssetReader
   onOpenSprite?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
   referenceStatus?: EditorDerivedStatus
   referenceIndex?: ReturnType<typeof blockingActorReferenceMap>
   getCurrentAuthorState?: () => EditorState | undefined
@@ -249,6 +250,7 @@ function Harness(props: {
       assetCatalog={current.assetCatalog}
       assetReader={props.assetReader ?? ({} as EditorAssetReader)}
       onOpenSprite={props.onOpenSprite}
+      onOpenBattleSprite={props.onOpenBattleSprite}
       levelUp={current.levelUp}
       derivedStore={derivedStore}
       scriptSession={scriptSession}
@@ -347,7 +349,7 @@ describe('ActorMode 初始状态唯一所有权', () => {
     expect(session.getState().actors[0]!.battler!.baseStats).toMatchObject({ hp: 80, maxHP: 120 })
   })
 
-  test('战斗形象仅从精灵库选择并预览全部动作，不提供导入或编辑入口', async () => {
+  test('战斗形象沿用引用绑定层级，只提供库选择、资源库跳转与动作预览', async () => {
     const current = state(actors())
     const profile = {
       kind: 'player-fighter' as const,
@@ -382,9 +384,10 @@ describe('ActorMode 初始状态唯一所有权', () => {
       },
     ] as never
     const session = new EditSession(current)
+    const onOpenBattleSprite = vi.fn()
     await act(async () => {
       root = createRoot(host)
-      root.render(<Harness session={session} />)
+      root.render(<Harness session={session} onOpenBattleSprite={onOpenBattleSprite} />)
     })
     await act(async () => button('战斗与成长').click())
 
@@ -404,8 +407,40 @@ describe('ActorMode 初始状态唯一所有权', () => {
     expect(
       appearancePanel.querySelector('button[aria-label^="打开战斗精灵"]'),
     ).toBeNull()
-    expect(appearancePanel.querySelector('.ds-control-group__actions')).toBeNull()
+    const openDefinition = button('在资源库编辑')
+    expect(appearancePanel.querySelector('.ds-control-group__actions')?.contains(openDefinition)).toBe(
+      true,
+    )
+    expect(openDefinition.classList).not.toContain('ds-button--compact')
+    expect(openDefinition.querySelector('.ds-icon')).not.toBeNull()
     expect(appearancePanel.querySelector('input[type="file"]')).toBeNull()
+    const bindingField = appearancePanel.querySelector<HTMLElement>(
+      '.actor-battle-sprite-binding .ds-field',
+    )!
+    const picker = appearancePanel.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="角色战斗精灵"]',
+    )!
+    expect(bindingField).not.toBeNull()
+    expect(bindingField.querySelector<HTMLLabelElement>('.ds-field__label')?.textContent).toBe(
+      '战斗精灵',
+    )
+    expect(bindingField.querySelector<HTMLLabelElement>('.ds-field__label')?.htmlFor).toBe(picker.id)
+    expect(picker.classList).not.toContain('ds-select--compact')
+    expect(picker.textContent).toContain('主角战斗精灵')
+    expect(picker.textContent).toContain('hero-battle-sprite · 玩家战斗 · 8 个动作')
+    expect(picker.getAttribute('aria-describedby')).toBeNull()
+    expect(bindingField.querySelector('.ds-field__help')).toBeNull()
+    const bindingHelpButton = bindingField.querySelector<HTMLButtonElement>(
+      'button[aria-label="战斗精灵说明"]',
+    )!
+    const bindingHelp = document.getElementById(
+      bindingHelpButton.getAttribute('aria-describedby')!,
+    )
+    expect(bindingHelp?.textContent).toBe(
+      '这里只更换角色引用；帧、动作与源资源请在战斗精灵库管理。',
+    )
+    await act(async () => openDefinition.click())
+    expect(onOpenBattleSprite).toHaveBeenCalledWith('hero-battle-sprite')
     expect(preview().textContent).toBe('主角战斗精灵')
     expect(JSON.parse(preview().dataset.actions ?? '[]')).toEqual([
       { label: '待机', frames: [0] },
@@ -418,9 +453,6 @@ describe('ActorMode 初始状态唯一所有权', () => {
       { label: '偷窃', frames: [10, 0], loopFrom: 0 },
     ])
 
-    const picker = host.querySelector<HTMLButtonElement>(
-      '[role="combobox"][aria-label="角色战斗精灵"]',
-    )!
     await act(async () => picker.click())
     const listbox = document.getElementById(picker.getAttribute('aria-controls')!)
     const guardOption = [...listbox!.querySelectorAll<HTMLElement>('[role="option"]')].find(
@@ -472,7 +504,15 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
     expect(host.querySelector('.actor-frame-card')).not.toBeNull()
     expect(host.textContent).toContain('行走图与动作帧')
     expect(host.textContent).toContain('选择角色使用的行走精灵')
+    const worldSpriteField = host.querySelector<HTMLElement>('.actor-world-sprite-binding .ds-field')!
     expect(comboboxByLabel('行走精灵')).not.toBeNull()
+    expect(worldSpriteField.querySelector('.ds-field__help')).toBeNull()
+    const worldHelpButton = worldSpriteField.querySelector<HTMLButtonElement>(
+      'button[aria-label="行走精灵说明"]',
+    )!
+    expect(
+      document.getElementById(worldHelpButton.getAttribute('aria-describedby')!)?.textContent,
+    ).toBe('这里只更换角色引用；帧、布局与动作请在资源库编辑。')
     expect(host.textContent).not.toContain('点任意帧可替换')
     expect(host.textContent).not.toContain('追加帧')
     expect(host.textContent).not.toContain('删除末帧')

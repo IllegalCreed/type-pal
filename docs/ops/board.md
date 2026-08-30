@@ -22,7 +22,7 @@
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | done | 三方 accept + 用户验收齐，整卡收口 | `b118ce3a`：公共草稿/提交合同、首批采用与 AST 防回流门禁完成 |
 | ED-ADD-PICKER-DIALOG-1 | 编辑器候选对象添加弹窗统一 | done | 三方 accept + 用户验收齐；`0787197d` 已推送 | DsAddPickerDialog v2.13.0、4+7 AST census 门禁、234/225 项 14 行有界挂载、四 adapter 单命令 |
 | ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | done | 三方 accept + 用户复验齐，整卡收口 | Startup inventory 唯一遗漏动作槽已封组；1280/900/720 组内不拆行、无溢出 |
-| ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | review | Codex 四向预览返工后 accept；待 Kimi/GLM 视觉增量复审与用户验收 | 9/13/2/5+28/1；四向共享 embedded shelf；旧皮与错误动画语义清零 |
+| ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | review | Codex 战斗绑定澄清返工后 accept；待 Kimi/GLM 视觉增量复审与用户验收 | 四向背景/导航 + 战斗 default 尺寸；主次摘要；无内联编辑/导入 |
 | ED-ACTION-GROUP-SPEC-1 | DsActionGroup 公共规范登记与 DS 2.21.0 升线 | draft | 待开卡补前提真值与 Codex/Kimi/GLM build 前签字；不得实现 | 登记不可拆动作组、compact 32px 合同与版本四处同步；承接 GLM P2 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
 | ARCH-ACTOR-CONDITION-SEED-1 | 入口与剧情入队角色当前状态播种 | review | Codex + Kimi + GLM accept 齐；仅待用户功能验收 | content19 三 carrier 全链闭合；三路只读审计无剩余 blocker，PAL replay 为零 |

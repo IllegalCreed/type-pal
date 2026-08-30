@@ -209,9 +209,15 @@ describe('editor design-system static boundary', () => {
       '.ds-field-group > .ds-field > :is(.ds-field__help, .ds-field__error)',
     )
     expect(cssDeclaration(support[0]!, 'grid-area')).toBe('support')
-    const label = cssRuleBodies(primitives, '.ds-field-group > .ds-field > .ds-field__label')
+    const label = cssRuleBodies(
+      primitives,
+      '.ds-field-group > .ds-field > :is(.ds-field__label, .ds-field__label-group)',
+    )
     expect(cssDeclaration(label[0]!, 'overflow-wrap')).toBe('break-word')
     expect(cssDeclaration(label[0]!, 'word-break')).toBe('normal')
+    const labelGroup = cssRuleBodies(primitives, '.ds-field__label-group')
+    expect(cssDeclaration(labelGroup[0]!, 'display')).toBe('flex')
+    expect(cssDeclaration(labelGroup[0]!, 'min-width')).toBe('0')
     expect(designLab).toContain("'RF-23'")
     expect(designLab).toContain('<FieldLayoutFixture />')
     expect(designLab).toContain('用于验证自然换行的较长中文标签')
@@ -558,6 +564,7 @@ describe('editor design-system static boundary', () => {
     expect(actorMode).toContain('在资源库编辑')
     expect(actorMode).toContain('label="行走精灵"')
     expect(actorMode).toContain('这里只更换角色引用；帧、布局与动作请在资源库编辑。')
+    expect(actorMode).toContain("label: '行走精灵'")
     expect(actorMode).not.toContain('aria-label="人物默认精灵"')
     expect(spriteFramesCall).not.toContain('session=')
     expect(spriteFramesCall).not.toContain('mode=')
@@ -1309,9 +1316,25 @@ describe('editor design-system static boundary', () => {
   test('keeps actor battle appearance on the shared read-only idle preview', () => {
     const uiRoot = dirname(here)
     const actorMode = readFileSync(join(uiRoot, 'ActorMode.tsx'), 'utf8')
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
     const previewCall = actorMode.match(/<BattleSpriteInlinePreview[\s\S]*?\/>/)?.[0] ?? ''
+    const binding =
+      actorMode.match(
+        /<div className="actor-battle-sprite-binding">[\s\S]*?<\/div>/,
+      )?.[0] ?? ''
 
     expect(actorMode).toContain('className="actor-battle-appearance-preview"')
+    expect(binding).toContain('label="战斗精灵"')
+    expect(binding).toContain("label: '战斗精灵'")
+    expect(binding).not.toContain('size="compact"')
+    expect(binding).toContain('onOpenDefinition={props.onOpenDefinition}')
+    expect(binding).toContain('openActionLabel="在资源库编辑"')
+    const bindingCss = cssRuleBodies(businessCss, '.actor-battle-sprite-binding')
+    expect(cssDeclaration(bindingCss[0]!, 'padding')).toBe(
+      'var(--ds-space-6) var(--ds-space-7)',
+    )
+    expect(cssDeclaration(bindingCss[0]!, 'border-bottom')).toBe('1px solid var(--line)')
+    expect(cssDeclaration(bindingCss[0]!, 'background')).toContain('var(--panel2) 72%')
     expect(previewCall).toContain('expected="player-fighter"')
     expect(previewCall).not.toMatch(
       /showAllFrames|playAllFrames|onFrameSelect|onRawAppend|onRawReplace|onRawDelete|layout="library"/,

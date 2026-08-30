@@ -1,11 +1,13 @@
 import type { BattleSpriteDef, BattleSpriteProfileKind } from '@type-pal/content'
 import { memo, useMemo } from 'react'
 import {
+  DsButton,
   DsControlGroup,
   type DsControlSize,
   DsIconButton,
   DsSelect,
 } from './design-system/controls.js'
+import { battleSpriteProfileSummary } from './battle-sprite-action-preview.js'
 
 function BattleSpritePickerImpl(props: {
   id?: string
@@ -14,6 +16,7 @@ function BattleSpritePickerImpl(props: {
   kind: BattleSpriteProfileKind
   onChange: (id: string) => void
   onOpenDefinition?: (id: string) => void
+  openActionLabel?: string
   ariaLabel?: string
   allowUnset?: boolean
   unsetLabel?: string
@@ -33,12 +36,23 @@ function BattleSpritePickerImpl(props: {
       ...(props.allowUnset
         ? [{ value: '', label: props.unsetLabel ?? '（不改战斗形象）' }]
         : []),
-      ...(missing && props.value ? [{ value: props.value, label: `缺失：${props.value}` }] : []),
+      ...(missing && props.value
+        ? [
+            {
+              value: props.value,
+              label: props.value,
+              description: '当前引用缺失',
+              title: `${props.value} · 当前引用缺失`,
+            },
+          ]
+        : []),
       ...(incompatible && selected
         ? [
             {
               value: selected.id,
-              label: `不兼容：${selected.label} · 实际 ${selected.profile.kind}`,
+              label: selected.label,
+              description: `${selected.id} · 不兼容：${battleSpriteProfileSummary(selected.profile)}`,
+              title: `${selected.label} · ${selected.id} · 不兼容：${battleSpriteProfileSummary(selected.profile)}`,
             },
           ]
         : []),
@@ -47,7 +61,9 @@ function BattleSpritePickerImpl(props: {
         : []),
       ...compatible.map((entry) => ({
         value: entry.id,
-        label: `${entry.label} · ${entry.id}`,
+        label: entry.label,
+        description: `${entry.id} · ${battleSpriteProfileSummary(entry.profile)}`,
+        title: `${entry.label} · ${entry.id} · ${battleSpriteProfileSummary(entry.profile)}`,
       })),
     ],
     [
@@ -77,14 +93,26 @@ function BattleSpritePickerImpl(props: {
       }
       actions={
         props.onOpenDefinition ? (
-          <DsIconButton
-            variant="secondary"
-            size={props.size}
-            icon="open"
-            label={`打开战斗精灵 ${props.value ?? ''}`}
-            disabled={!selected}
-            onClick={() => props.value && props.onOpenDefinition?.(props.value)}
-          />
+          props.openActionLabel ? (
+            <DsButton
+              variant="secondary"
+              size={props.size}
+              icon="open"
+              disabled={!selected}
+              onClick={() => props.value && props.onOpenDefinition?.(props.value)}
+            >
+              {props.openActionLabel}
+            </DsButton>
+          ) : (
+            <DsIconButton
+              variant="secondary"
+              size={props.size}
+              icon="open"
+              label={`打开战斗精灵 ${props.value ?? ''}`}
+              disabled={!selected}
+              onClick={() => props.value && props.onOpenDefinition?.(props.value)}
+            />
+          )
         ) : undefined
       }
     />

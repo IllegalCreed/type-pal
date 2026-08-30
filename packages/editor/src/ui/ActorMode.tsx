@@ -184,6 +184,7 @@ export function ActorMode(props: {
   onActorFocus?: (id: string) => void
   onSectionChange?: (section: ActorWorkspaceSection) => void
   onOpenSprite?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenActorReference?: (reference: ActorReference) => void
@@ -209,6 +210,7 @@ export function ActorMode(props: {
     onActorFocus,
     onSectionChange,
     onOpenSprite,
+    onOpenBattleSprite,
     onOpenSound,
     onOpenImage,
     onOpenActorReference,
@@ -784,6 +786,7 @@ export function ActorMode(props: {
                       assetBase={assetBase}
                       assetReader={assetReader}
                       onChange={setBattleSprite}
+                      onOpenDefinition={onOpenBattleSprite}
                     />
 
                     <ActorInitialSetupPanel
@@ -960,7 +963,10 @@ export function ActorMode(props: {
                     <div className="actor-world-sprite-binding">
                       <DsField
                         label="行走精灵"
-                        help="这里只更换角色引用；帧、布局与动作请在资源库编辑。"
+                        help={{
+                          label: '行走精灵',
+                          content: '这里只更换角色引用；帧、布局与动作请在资源库编辑。',
+                        }}
                       >
                         {(field) => (
                           <DsControlGroup
@@ -1406,6 +1412,7 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
   assetBase: AssetBase
   assetReader: EditorAssetReader
   onChange: (id: string) => void
+  onOpenDefinition?: (id: string) => void
 }) {
   const selectedDefinition = props.definitions.find(
     (definition) =>
@@ -1416,14 +1423,30 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
       eyebrow="表现"
       title="战斗形象"
       description="从战斗精灵库选择角色战斗形象，并预览全部战斗动作与组成帧。"
+      contentClassName="actor-battle-appearance-content"
     >
-      <BattleSpritePicker
-        value={props.battleSprite}
-        definitions={props.definitions}
-        kind="player-fighter"
-        onChange={props.onChange}
-        ariaLabel="角色战斗精灵"
-      />
+      <div className="actor-battle-sprite-binding">
+        <DsField
+          label="战斗精灵"
+          help={{
+            label: '战斗精灵',
+            content: '这里只更换角色引用；帧、动作与源资源请在战斗精灵库管理。',
+          }}
+        >
+          {(field) => (
+            <BattleSpritePicker
+              id={field.id}
+              value={props.battleSprite}
+              definitions={props.definitions}
+              kind="player-fighter"
+              onChange={props.onChange}
+              onOpenDefinition={props.onOpenDefinition}
+              openActionLabel="在资源库编辑"
+              ariaLabel="角色战斗精灵"
+            />
+          )}
+        </DsField>
+      </div>
       <div className="actor-battle-appearance-preview">
         {selectedDefinition ? (
           <BattleSpriteInlinePreview

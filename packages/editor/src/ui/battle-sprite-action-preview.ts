@@ -12,6 +12,14 @@ export const BATTLE_SPRITE_PROFILE_LABEL: Record<BattleSpriteProfileKind, string
   summon: '召唤现身',
 }
 
+export function battleSpriteProfileSummary(profile: BattleSpriteProfile): string {
+  if (profile.kind === 'player-fighter')
+    return `${BATTLE_SPRITE_PROFILE_LABEL[profile.kind]} · ${PLAYER_BATTLE_ACTIONS.length} 个动作`
+  if (profile.kind === 'enemy')
+    return `${BATTLE_SPRITE_PROFILE_LABEL[profile.kind]} · 3 个动作段 · ${profile.idle.count + profile.magic.count + profile.attack.count} 帧`
+  return `${BATTLE_SPRITE_PROFILE_LABEL[profile.kind]} · 全帧播放`
+}
+
 interface PlayerActionSpec {
   key: string
   label: string

@@ -2862,7 +2862,17 @@ html[data-panel-resize="horizontal"] * {
 .actor-battle-appearance-preview {
   display: grid;
   place-items: stretch;
-  margin-top: var(--ds-space-5);
+  margin-top: 0;
+  padding: var(--ds-space-6) var(--ds-space-7);
+}
+.actor-battle-appearance-content {
+  padding: 0;
+}
+.actor-battle-sprite-binding {
+  container-type: inline-size;
+  padding: var(--ds-space-6) var(--ds-space-7);
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel2) 72%, transparent);
 }
 .actor-battle-appearance-preview > .battle-sprite-preview {
   width: 100%;
@@ -2932,12 +2942,15 @@ html[data-panel-resize="horizontal"] * {
   max-width: 720px;
 }
 @container (width < 520px) {
-  .actor-world-sprite-binding__control {
+  .actor-world-sprite-binding__control,
+  .actor-battle-sprite-binding .linked-control {
     flex-direction: column;
     align-items: stretch;
   }
   .actor-world-sprite-binding__control .ds-control-group__actions,
-  .actor-world-sprite-binding__control .ds-control-group__actions > .ds-button {
+  .actor-world-sprite-binding__control .ds-control-group__actions > .ds-button,
+  .actor-battle-sprite-binding .ds-control-group__actions,
+  .actor-battle-sprite-binding .ds-control-group__actions > .ds-button {
     width: 100%;
   }
 }
