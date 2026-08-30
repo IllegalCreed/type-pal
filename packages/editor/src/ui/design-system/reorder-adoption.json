@@ -220,7 +220,7 @@
           "commandOwner": "UpdateItemCommand",
           "revisionOwner": "EditSession.historyVersion",
           "verification": ["ui/ItemUseEffectEditor.test.tsx"],
-          "contentSurface": "repeat-row",
+          "contentSurface": "object-card",
           "contentOwner": {
             "file": "ItemUseEffectEditor.tsx",
             "fingerprint": "className=\"item-recipe\""

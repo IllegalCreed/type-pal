@@ -364,18 +364,76 @@ Branch: `main`
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-30，用户第三次返工后刷新）**——29 adoption 双轴与 reorder 语义保持不变；
-  角色战斗形象面收口为纯 `player-fighter` 库选择器 + 全动作只读预览，导入按钮、file input、上传状态、
-  资源创建命令与编辑深链全部清零。`BattleSpritePicker` 仅在调用方提供跳转 owner 时渲染打开动作，其他业务面
-  与战斗精灵库能力不变；actor adoption 同步删除 `BattleSpriteUploader`、`.bsu-frame-grid` 及其字段 owner。
-  聚焦 2 files / 17 tests、typecheck、design-system gate 与 720px 浏览器几何/溢出/console 全绿；原 editor
-  全量 178 files / 1460 tests 证据仍有效，本次按纪律不重复全量。
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: 用户要求角色战斗形象面为纯库选择器；导入与编辑跳转两类越权入口、调用链及陈旧
-  adoption 已全部删除并补回归门禁，当前无未解决 counter。
+- Codex: **accept（2026-08-31，Kimi counter 返工后刷新）**——采用 A 方案、零视觉变化：
+  `item/craft-recipes` 从误登 `repeat-row` 改为真实 `object-card`，当前四桶精确为 9 / 13 / 2 / 5，
+  rail 仍为 28 / 1。`reorder-surface-adoption.test.ts` 现由 registry 驱动遍历全部 29 项，对 22 个
+  repeat-row/object-card 以 exact class token 唯一定位真实 JSX owner；repeat-row 强制 owner tag 为
+  `DsRepeatRow`，object-card 强制自身及祖先链均无 `DsRepeatRow`，分类、fingerprint 与 wrapper 脱绑即红。
+  红测先同时命中错误桶计数与 craft owner=`div`，改登后转绿。聚焦 4 files / 79 tests、typecheck、
+  design-system gate、`git diff --check` 全绿；生产 TSX/CSS/reorder 交互零变化，按卡面无需重跑浏览器。
+- Kimi: **counter（2026-08-30，只读终审 build 链 05f46e37→e901eb75 + 本人独立复核与 720px 浏览器抽查；
+  与 GLM accept 分歧一点：craft-recipes 分类失实，见下）**——除一项外全部钉通过：
+  - **通过项（本人独立证据）**：registry v2 复算 17/29/32/19 闭合、owner file+fingerprint 全员在册；
+    六红项全部真消费 `<DsRepeatRow density="compact">`（EnemyTab.tsx:381、EnemyTeamTab.tsx:446、
+    ItemUseEffectEditor.tsx:468、ActorMode.tsx:1637、CommandForm.tsx:454,1564），旧皮肤只剩列语义
+    （`.cf-dialog-row` 背景/圆角/padding/margin 清零 editor.css:6949-6951；`.rule-row` 固定 flex 基宽改
+    auto-fit minmax(8rem) :7243-7245，本人设计期 KS3 假绿证据 `.rr-p1` 已除；`.item-amount-row.ordered`
+    数量列有界 + 动作组 container query 下沉 :10293-10306）；公共 `DsActionGroup` compact 双按钮 32px
+    下限（recipes.css:889-900）；Shop 保持 edge-to-edge（外卡持框 + 行仅 divider + 560px 动作组整组
+    下沉 + identity 换行 :3794-3808）；新门禁四断言含 fingerprint 反查、中性 wrapper 与旧皮拒绝，
+    scheme canary 由 boundary.test.ts 锁定（220px 有界 + 规范句）；`git diff 704a24bd..HEAD --
+    reorder.tsx reorder.css` 为空（GM-S5）。用户返工两项实锤：initial-magic 添加仅在
+    `DsWorkbenchSection.actions`（ActorMode.tsx:1487-1510）、body 入口 0、删除为 compact 组内 danger
+    icon 且 aria 具体（:1661-1668）、embedded 空态与候选用尽说明俱全；战斗形象面 actor 侧
+    uploader/import/深链零引用、`BattleSpritePicker` 未传 `onOpenDefinition`（:1420-1426）故不渲染
+    打开动作，uploader 仅存于 EnemyAnimPreview 与 BattleSpriteLibrary 两个合法 owner，
+    `.bsu-frame-grid` 滚动 owner 只剩 library/enemy 两区。本人复跑聚焦 11 files / 161 tests 全绿；
+    720px 实机：敌队窄壳字段 550px、动作 32×32 在界内、document 零溢出（与 Codex 证据一致）；
+    Shop 720px identity 476px 不缩省略号、三动作 32×32、行无全框、外卡持框。
+  - **返工项（唯一，分类失实）**：`item/craft-recipes` 在 registry 登记为
+    `contentSurface: "repeat-row"`，但其行根仍是裸 `<div className="item-recipe">`
+    （ItemUseEffectEditor.tsx:552），由**私有 CSS 持框**——`padding: 9px; border: 1px solid var(--line);
+    border-radius: 6px; background: color-mix(...)`（editor.css:10274-10281），全文件无 DsRepeatRow
+    消费（本人 grep 仅 :468 一处属 resource-reward-tiers）。按本卡已签 taxonomy（KS4/GM-S1：
+    repeat-row 的行 owner 必须为 DsRepeatRow，分类与证据 owner 脱绑即 fail-closed；object-card =
+    存在语义 frame owner 且未消费 DsRepeatRow）及内容语义（配方 N 标题 + 排序/删除对象级动作 +
+    材料/产物复合 body，与 `.casualty-item-card`、`.sprite-action-step` 同型），该项真实分类是
+    **object-card**。现登记使 repeat-row 计数虚为 10（实为 9/13），且正是 KS4「只校验字段已填写不算
+    闭环」要防的失配：现行门禁只对六个红项断言 DsRepeatRow 消费，craft-recipes 不在其列而漏网。
+    GLM accept 行核对了桶分布计数与 fingerprint 绑定，但未逐项核对 repeat-row 桶成员的真实消费，
+    本席与此点分歧，证据如下可复现。
+    最小返工条件（二选一并补门禁）：**A（建议，零视觉变化）**——registry 将 `item/craft-recipes`
+    改登 `object-card`（contentOwner fingerprint `className="item-recipe"` 不变），同步
+    reorder-surface-adoption.test.ts 桶计数断言为 repeat-row 9 / object-card 13；
+    **B**——若产品裁决配方确应为行式表面，则迁移 `.item-recipe` 真消费 DsRepeatRow 并删私有框皮肤。
+    无论 A/B：`reorder-surface-adoption.test.ts` 必须把「repeat-row ⇒ 真实消费 DsRepeatRow」与
+    「object-card ⇒ 未消费 DsRepeatRow」两条桶不变量从六红项扩到**全部 29 项 registry 驱动断言**，
+    使分类与证据 owner 脱绑即 fail-closed（KS4/GM-S1 本意）。复现命令：
+    `sed -n '10274,10281p' packages/editor/src/ui/editor.css`；
+    `sed -n '552,556p' packages/editor/src/ui/ItemUseEffectEditor.tsx`；
+    `node -e "const r=require('./packages/editor/src/ui/design-system/reorder-adoption.json');console.log(r.families.flatMap(f=>f.adoptions).find(a=>a.adoptionId==='item/craft-recipes').contentSurface)"` → `repeat-row`。
+  - 其余九项 repeat-row 登记已逐一核对真实消费 DsRepeatRow（startup-party/inventory、poison/ticks、
+    六红项），无误判；12 项 object-card 登记均未消费 DsRepeatRow。GLM 的 P2（DsActionGroup 未登
+    DS 文档/未升 minor）与 P3（`.shop-stock-actions .mini` 死规则、cssRule 首规则体局限）观察与本
+    counter 不冲突，返工轮可一并收口但非本 counter 的放行条件。未修改实现，未代签 GLM。
+- GLM: **accept（2026-08-30，只读终审 HEAD `e901eb75`（build 链 05f46e37→3c2852b8→1e0a6db1→e901eb75），全部钉逐条独立核验 + 本人复跑 12 files / 185 tests，非复述 Codex）**：
+  - **GM-S1/KS4 registry 双轴**：本人脚本复算 registry v2——29 adoption / 32 dataPaths / 17 家族 / 19 owner 与 baseline 块一致；contentSurface 分布 **10 repeat-row + 12 object-card + 2 edge-to-edge + 5 continuous = 29**，railLayout **28 inline + 1 overlay**（唯一 overlay = frame-animation-timeline）；每条 adoption 恰 12 键含 contentSurface/contentOwner/railLayout/railOwner，两 owner 指纹经 `reorder-surface-adoption.test.ts:45-46` 逐一绑定真实源文件；桶成员精确断言（2/5 ID 清单、overlay 单例、六红项=repeat-row :72-80、story 两 scheme=object-card :81-82）。
+  - **GM-S2/KS2 六红项迁移与旧皮肤清零**：六 owner 全部 `DsRepeatRow density="compact"`（EnemyTab.tsx:381、EnemyTeamTab.tsx:446、ItemUseEffectEditor.tsx:468、ActorMode.tsx:1637、CommandForm.tsx:454,1564）；本人逐块直读现存 CSS——`.rule-row`(:7243)/`.enemy-team-slot`(:10757)/`.item-amount-row(.ordered)`(:10287+)/`.actor-initial-magic-row`(:2845)/`.cf-dialog-row`(:6949)/`.cf-party-row`(:6967) 只剩列轨与 justify，border/background/radius/padding/margin/固定 flex 全部清除（旧 `.cf-dialog-row` 底色圆角形态已消灭）；门禁 `reorder-surface-adoption.test.ts:97-117` 同时反查 wrapper 中性与六选择器皮肤、禁 `.rr-*` flex；窄容器动作组**整组下沉**（item-amount/cf-party `grid-column: 1 / -1` @520px、enemy-team container-type、shop @560px）。
+  - **GM-S3 32px 公共下限**：新增公共 `DsActionGroup`（recipes.tsx:372-382）——compact 图标按钮 `--ds-hit-target-compact`(32px)、文字按钮 min 32×32（recipes.css:889-900），Shop 三枚动作经该组收口（ShopTab:227），下架按钮不再低于下限；Shop ≤560px identity 换行（`overflow-wrap:anywhere; white-space:normal`，editor.css:3799-3804）而非仅省略号。
+  - **GM-S4 中性 wrapper + 文档零漂移**：`.ds-reorder-item` 规则体无 border/padding/background/gap（门禁断言 :99-101）；DS-C.4d/DS-F.4/RF-21 taxonomy 与最终 registry 桶零矛盾（四类 + inline/overlay + 禁用混搭成文）；DS 版本三处一致 2.20.0。
+  - **GM-S5 不重开 DRAG-1**：`reorder.tsx / reorder.css / reorder.test.tsx` 自 build 起点（9b1d48cf）到 HEAD **零 diff**（本人 git diff 证实）；状态机 22/22 绿、allowlist 11 条三态闭合、别名/展开负例保持。
+  - **用户返工①（initial-magic）**：添加唯一存在于 `ActorPanel actions` 头部（ActorMode.tsx:1487-1506，deferred owner + 分态 title），body 添加入口 0；行级删除为 `DsActionGroup` 内 danger `DsIconButton`，aria/tooltip=`删除初始仙术：${label}`（:1661-1668）；embedded 空态 + 候选用尽双态（:1674-1688）。
+  - **用户返工②（战斗形象纯选择器）**：ActorMode 对 `BattleSpriteUploader/prepareBattleSpriteImport/AddBattleSpriteCommand/onOpenBattleSprite` 引用**归零**（本人 grep exit=1）；共享组件仅由资源库 `BattleSpriteLibrary` 与 `EnemyAnimPreview` 消费，adoption 条目 source 均绑定这两个合法 owner 而非 ActorMode；actor 面无 file input / 导入 / 编辑深链。
+  - **本人复跑**：reorder-surface 4/4 + reorder-adoption 6/6 + 六 owner/Shop/recipes 7 files 94/94 + add-picker/boundary/reorder 状态机 3 files 81/81 全绿；按纪律未重复 editor 全量。
+  - **非返工观察（P2，建议随下一次 DS 触碰卡或小文档任务收口）**：`DsActionGroup` 为本卡新增、6 个生产文件消费的公共 recipe，但 `editor-design-system-v1.md` 零登记且未随卡升 minor（2.20.0 系先前 boolean 卡 e66f65ae 所升）——32px 组下限与「不可拆组」契约目前只由 surface gate CSS 断言钉住，规范文档应补登并升 2.21.0（index.ts/tokens.css/boundary.test/doc 四处同步）；因本卡验收文本只要求 DS-C.4d/RF-21 taxonomy 同步（已满足）且无版本矛盾，不构成返工。P3 卫生项：`editor.css:3784-3787` `.shop-stock-actions .mini`（28px）为 ShopTab 已无消费者的死规则，建议顺手删除。门禁加固建议：`cssRule()` 只取每个选择器首个规则体，后续 @container/@media 内同选择器违规可绕过该断言（当前代码干净），可改 matchAll 全量断言。
+  - 无必须返工项；未修改实现文件，未代签 Kimi。
+- counter / 返工处理: Kimi counter 已按建议 A 完成：craft-recipes 改登 object-card，桶计数 9/13/2/5；
+  两条真实 owner 不变量扩展为全 registry 门禁，并进一步收紧为 exact class token、唯一 owner 与 object-card
+  祖先链无 DsRepeatRow。当前等待 Kimi / GLM 对该增量复审并刷新签字；复审前 Kimi counter 保留为历史事实。
+  GLM P2（DsActionGroup 规范登记 + 2.21.0）明确另开设计规范版本卡处理；P3 卫生项不混入本次必要返工。
 - 缺签豁免: N/A
-- done 准入结论: blocked（缺 Kimi / GLM 当前实现 accept 与用户验收）
+- done 准入结论: blocked（Codex 已完成 Kimi counter 返工并刷新 accept；Kimi / GLM 增量复审与用户验收
+  仍 pending，三方当前实现 accept 与用户验收齐前不得标记 done）
 
 ## Draft: 设计与风险
 
@@ -424,6 +482,9 @@ Branch: `main`
   - 角色战斗形象面移除 `BattleSpriteUploader` / `prepareBattleSpriteImport` / `AddBattleSpriteCommand` 与
     `onOpenBattleSprite` 深链，只保留库内选择、`SetActorBattleSpriteCommand` 换绑和全动作预览；共享 picker
     以 callback 是否存在决定是否渲染打开动作，actor adoption 精确移除上传器及其滚动/字段 owner。
+  - Kimi counter 返工采用 A：`item/craft-recipes` 改登 object-card，零生产视觉/行为变化；新增全 registry
+    row/card owner AST 门禁，exact class token 只允许一个真实 owner，并检查 object-card 祖先链不含
+    DsRepeatRow，防止错误 wrapper 藏在 fingerprint owner 外层仍假绿。
 - 运行命令:
   - 聚焦：10 files / 108 tests；adoption / field-layout / number / add-picker / catalog fingerprint
     逐项复跑通过。
@@ -433,6 +494,8 @@ Branch: `main`
     `typecheck` 与 design-system gate 全绿，`git diff --check` 通过；未重复 editor 全量。
   - 纯选择器返工聚焦：`ActorMode.test.tsx` + `BattleSpritePicker.test.tsx`，2 files / 17 tests；独立
     `typecheck` 与 design-system gate 全绿，`git diff --check` 通过；未重复 editor 全量。
+  - Kimi counter 返工聚焦：reorder-surface-adoption 5 + reorder-adoption / ItemUseEffectEditor / boundary 74，
+    合计 4 files / 79 tests；独立 typecheck、design-system gate、`git diff --check` 全绿，未重复 editor 全量。
 - 浏览器 / 手工检查: PAL 项目 1280/900/720/640（200% 等效 CSS 宽度）检查初始仙术；720 检查
   enemy-team、Shop、RF-21 与 map layer；复用本会话既有 script scheme object-card 证据。
 - 跳过的检查及原因: N/A
@@ -458,15 +521,19 @@ Branch: `main`
   tooltip 均为“删除初始仙术：气疗术”；panel / document 横向 overflow 均为 0，console error 0。
   战斗形象纯选择器返工后，720px 下 header actions=0、control actions=0、file input=0、导入/上传/编辑/打开
   按钮=0；`player-fighter` picker 与全部动作预览保留，panel / document 横向 overflow 均为 0，console error 0。
+  Kimi counter 采用纯 registry/test 修正，不改 TSX/CSS 或用户可见行为，按卡面不重复浏览器验证。
 - 未完成项: Kimi / GLM 当前实现终审与用户验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 用户第三次返工后自审 accept；Kimi / GLM pending。
-- 必须返工项: 角色战斗形象面导入与编辑入口已连同调用链、禁用占位动作和陈旧 adoption 全部移除；当前无
-  剩余 Codex 返工项。
-- Accept / rework: pending（已回到 review；签字不足不得 done）。
+- 审查结论: Codex 已完成 Kimi counter 返工并刷新 accept；Kimi / GLM 增量复审 pending。Kimi 原
+  counter 与 GLM 对 `e901eb75` 的 accept 均保留为历史审查事实，不代替当前增量签字。
+- 必须返工项:
+  1. 角色战斗形象面导入与编辑入口已连同调用链、禁用占位动作和陈旧 adoption 全部移除（closed）。
+  2. **closed pending reviewer confirmation（Kimi counter）**：craft-recipes 已改登 object-card，桶计数
+     9/13/2/5；全 registry 两条 owner 不变量已实现，并补 exact token / 唯一 owner / 祖先 wrapper 防绕过。
+- Accept / rework: **review**（Codex accept；等待 Kimi / GLM 复审增量）。
 
 ## 用户验收
 
@@ -475,6 +542,32 @@ Branch: `main`
 
 ## 交接日志
 
+- 2026-08-31 Codex: 确认 Kimi counter 成立并采用 A 方案。红测先证明旧 registry 为 10/12 且
+  craft fingerprint owner tag=`div`、无法满足 repeat-row owner；随后只把 craft 改登 object-card，得到
+  9/13/2/5。门禁从六红项硬编码扩为全部 29 项 registry 驱动，并经只读交叉审查进一步收紧为 exact class
+  token、唯一 owner、repeat-row 自身必须是 DsRepeatRow、object-card 自身及祖先链均不得是 DsRepeatRow。
+  聚焦 4 files / 79 tests、typecheck、design gate、diff-check 全绿；生产 TSX/CSS/交互零变化，无需浏览器。
+  GLM P2 明确另开规范版本卡，P3 不混入本轮。刷新 Codex accept，转 review。Next: Kimi / GLM 只复审
+  本增量；两席当前实现 accept 与用户验收齐前不得 done。
+
+- 2026-08-30 Kimi: 只读终审 build 链 05f46e37→e901eb75，签 **counter**。通过项（本人独立证据）：
+  六红项 DsRepeatRow 真采用且旧皮肤只剩列语义（含 `.rule-row` 固定基宽改 auto-fit、`.cf-dialog-row`
+  背景圆角清零）、DsActionGroup 32px 公共下限、Shop edge-to-edge + 560px 整组下沉、新门禁四断言 +
+  scheme canary、公共 reorder 层零 diff、两轮用户返工实锤；本人复跑聚焦 11 files / 161 tests 全绿，
+  720px 实机敌队字段 550px / 动作 32×32 / 零溢出、Shop identity 476px / 三动作 32×32。**唯一返工项**：
+  `item/craft-recipes` 登记 repeat-row 但行为裸 `<div className="item-recipe">` + 私有框 CSS
+  （editor.css:10274-10281），未消费 DsRepeatRow，与 KS4/GM-S1 桶定义矛盾（真实分类 object-card，
+  与 `.casualty-item-card`/`.sprite-action-step` 同型）；现行门禁只查六红项消费而漏网。最小返工：
+  A 改登 object-card（建议，零视觉变化）或 B 真迁移；并把两条桶不变量扩为全 29 项 registry 驱动
+  断言。与 GLM accept 在此一点分歧，按协议转 rework。未修改实现，未代签 GLM，未标 done。
+  Next: Codex 处置后刷新 accept，Kimi / GLM 复审增量；若分歧不收敛请用户拍板。
+- 2026-08-30 GLM: 只读终审 HEAD `e901eb75`，签 **accept**（无必须返工项）。逐钉核验：registry v2 双轴
+  10/12/2/5 + 28/1 机器复算闭合且指纹绑定真实源；六红项 DsRepeatRow 真采用、六块旧皮肤 CSS 逐块直读
+  确认只剩列轨；DsActionGroup 32px 公共下限 + Shop identity 换行；公共 reorder 层自 build 起零 diff
+  （GM-S5）；两轮用户返工（initial-magic header actions/danger icon/空态、战斗形象纯选择器与导入链
+  归零、资源库合法保留）逐一实锤；本人复跑 12 files / 185 tests 全绿。附三条非返工观察：P2 DsActionGroup
+  规范登记 + 2.21.0 升线待下次 DS 触碰卡收口、P3 `.shop-stock-actions .mini` 死规则、门禁 cssRule
+  首匹配加固建议。未修改实现，未代签 Kimi，未标 done。Next: Kimi surface/视觉终审后交用户验收。
 - 2026-08-30 Codex: 用户重申角色战斗形象面只能从精灵库选择，不能导入或编辑资源。移除 header 导入、
   uploader / import command 链与编辑深链；共享 picker 在无跳转 owner 时不再渲染禁用打开按钮，资源库及
   其他有 owner 的业务面保持打开能力。actor adoption 同步清掉上传器、`.bsu-frame-grid` 和字段 owner；
@@ -523,24 +616,21 @@ Branch: `main`
 ## 下一位 Agent 提示词
 
 ```text
-终审 ED-REORDER-SURFACE-1 当前实现。
+复审 ED-REORDER-SURFACE-1 的 Kimi counter 增量（Kimi / GLM reviewer）。
 
 任务卡：docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md
-当前状态：review；Codex 已在用户两轮返工后刷新 accept，Kimi / GLM 当前实现 accept pending，用户验收 pending。
-角色：Kimi（surface/视觉/边界）或 GLM（registry/覆盖/测试矩阵）审查者。
+当前状态：review。Codex 已采用 Kimi 建议 A 完成返工并刷新 accept；Kimi counter 与 GLM 对 e901eb75
+的 accept 保留为历史，当前只需复审本增量，不得修改实现文件、不得标记 done。
 
-先读 AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部签节与 Build/视觉证据。只读审查当前 HEAD / working
-tree，重点逐项核 KS1-KS4 与 GM-S1-GM-S5：29/32/19 census、10/12/2/5 contentSurface 与 28/1
-railLayout、六红项 DsRepeatRow 真采用且旧皮肤清零、Shop edge-to-edge + 3×32px 动作组、story scheme
-object-card canary、公共 DsReorderItem surface-neutral、reorder state machine/adapter/command/revision 零改动。
-另核用户返工：`actor/initial-magic` 添加只存在于 `DsWorkbenchSection.actions`，body 入口为 0；删除为
-compact action group 内 danger delete icon，具体 aria / tooltip、embedded 空态、候选用尽说明和 deferred
-fingerprint 均闭合；720px 三动作 32×32、row 内无溢出。
-再核角色战斗形象面：只保留 `player-fighter` 库选择与全动作预览，header/control actions、file input、
-导入/上传/编辑/打开入口均为 0；actor adoption 不再登记 uploader / `.bsu-frame-grid`，而资源库与其他合法
-owner 仍保留导入/打开能力。
-可按风险复跑聚焦测试，不要重复跑 editor 全量，不得修改实现。输出当前实现 accept，或带 file:line 和复现
-命令的 counter/返工项，并写回 review -> done 签字与交接记录。Kimi、GLM、用户验收未齐前不得标记 done。
+增量内容：`item/craft-recipes` 改登 object-card，四桶变为 9/13/2/5（rail 28/1 不变）；
+`reorder-surface-adoption.test.ts` registry 驱动遍历全部 29 项，对 22 个 row/card adoption 用 exact class
+token 唯一定位 owner，repeat-row 强制 owner tag=DsRepeatRow，object-card 强制自身和祖先链均无
+DsRepeatRow。红测曾同时命中旧计数 10/12 与 craft owner=div，改登后转绿。
+
+请复核 registry diff、AST owner/ancestor 门禁是否覆盖原 counter 且无假绿；可按风险复跑
+reorder-surface-adoption（5 tests），不要重复 editor 全量或浏览器。确认后在本卡分别刷新 Kimi / GLM
+当前增量 `accept`，或给出带 file:line 与可复现反例的 counter。GLM P2 已明确另开规范版本卡，P3 不在
+本必要返工范围。Kimi / GLM 当前实现 accept 与用户验收齐前不得标记 done。
 ```
 
 ## 历史 build 交接提示词
