@@ -20,10 +20,8 @@ import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { memo, type ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import type { ActorReference } from '../core/actor-references.js'
-import { prepareBattleSpriteImport } from '../core/battle-sprite-import.js'
 import {
   AddActorCommand,
-  AddBattleSpriteCommand,
   CompositeCommand,
   CopyActorCommand,
   DeleteActorCommand,
@@ -40,7 +38,6 @@ import {
 import type { ScriptEditSession } from '../core/script-editor.js'
 import { BattleSpriteInlinePreview } from './BattleSpriteInlinePreview.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
-import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { battleSpriteSemanticGroup } from './battle-sprite-action-preview.js'
 import { CasualtyEditor } from './CasualtyEditor.js'
 import {
@@ -187,7 +184,6 @@ export function ActorMode(props: {
   onActorFocus?: (id: string) => void
   onSectionChange?: (section: ActorWorkspaceSection) => void
   onOpenSprite?: (id: string) => void
-  onOpenBattleSprite?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenActorReference?: (reference: ActorReference) => void
@@ -213,7 +209,6 @@ export function ActorMode(props: {
     onActorFocus,
     onSectionChange,
     onOpenSprite,
-    onOpenBattleSprite,
     onOpenSound,
     onOpenImage,
     onOpenActorReference,
@@ -784,15 +779,11 @@ export function ActorMode(props: {
                     />
 
                     <ActorBattleAppearancePanel
-                      actorId={actor.id}
-                      actorLabel={nm(actor.name)}
                       battleSprite={battler.battleSprite}
                       definitions={battleSprites}
                       assetBase={assetBase}
                       assetReader={assetReader}
-                      session={session}
                       onChange={setBattleSprite}
-                      onOpenDefinition={onOpenBattleSprite}
                     />
 
                     <ActorInitialSetupPanel
@@ -1410,17 +1401,12 @@ const ActorStatField = memo(
 )
 
 const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(props: {
-  actorId: string
-  actorLabel: string
   battleSprite?: string
   definitions: readonly BattleSpriteDef[]
   assetBase: AssetBase
   assetReader: EditorAssetReader
-  session: EditSession
   onChange: (id: string) => void
-  onOpenDefinition?: (id: string) => void
 }) {
-  const [uploadOpen, setUploadOpen] = useState(false)
   const selectedDefinition = props.definitions.find(
     (definition) =>
       definition.id === props.battleSprite && definition.profile.kind === 'player-fighter',
@@ -1429,24 +1415,13 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
     <ActorPanel
       eyebrow="表现"
       title="战斗形象"
-      description="选择角色战斗精灵并预览全部战斗动作与组成帧，或上传新的帧带定义。"
-      actions={
-        <DsButton
-          size="compact"
-          variant="secondary"
-          title="导入一组战斗帧，并立即设为当前角色的战斗形象"
-          onClick={() => setUploadOpen((value) => !value)}
-        >
-          {uploadOpen ? '收起导入' : '导入战斗形象'}
-        </DsButton>
-      }
+      description="从战斗精灵库选择角色战斗形象，并预览全部战斗动作与组成帧。"
     >
       <BattleSpritePicker
         value={props.battleSprite}
         definitions={props.definitions}
         kind="player-fighter"
         onChange={props.onChange}
-        onOpenDefinition={props.onOpenDefinition}
         ariaLabel="角色战斗精灵"
       />
       <div className="actor-battle-appearance-preview">
@@ -1467,34 +1442,6 @@ const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(prop
           </p>
         )}
       </div>
-      {uploadOpen ? (
-        <BattleSpriteUploader
-          assetBase={props.assetBase}
-          onApply={async (bytes, frameCount) => {
-            const prepared = await prepareBattleSpriteImport(props.session.getState(), {
-              hint: props.actorId,
-              label: `${props.actorLabel} 战斗精灵`,
-              kind: 'player-fighter',
-              bytes,
-              frameCount,
-              reader: props.assetReader,
-            })
-            props.session.dispatch(
-              new CompositeCommand('上传并设置角色战斗精灵', [
-                new AddBattleSpriteCommand(
-                  prepared.definition,
-                  prepared.record,
-                  prepared.bytes,
-                  prepared.frameCount,
-                ),
-                new SetActorBattleSpriteCommand(props.actorId, prepared.definition.id),
-              ]),
-            )
-            setUploadOpen(false)
-          }}
-          onCancel={() => setUploadOpen(false)}
-        />
-      ) : null}
     </ActorPanel>
   )
 })

@@ -76,14 +76,16 @@ function BattleSpritePickerImpl(props: {
         />
       }
       actions={
-        <DsIconButton
-          variant="secondary"
-          size={props.size}
-          icon="open"
-          label={`打开战斗精灵 ${props.value ?? ''}`}
-          disabled={!selected || !props.onOpenDefinition}
-          onClick={() => props.value && props.onOpenDefinition?.(props.value)}
-        />
+        props.onOpenDefinition ? (
+          <DsIconButton
+            variant="secondary"
+            size={props.size}
+            icon="open"
+            label={`打开战斗精灵 ${props.value ?? ''}`}
+            disabled={!selected}
+            onClick={() => props.value && props.onOpenDefinition?.(props.value)}
+          />
+        ) : undefined
       }
     />
   )

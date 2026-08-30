@@ -554,18 +554,6 @@
           "verification": "默认宽视口下 editor.css .casualty-branch-editor owns overflow-y:auto；max-width:1120px 时恢复 visible。"
         },
         {
-          "region": "main.battle-sprite-upload.frames",
-          "axis": "y",
-          "owner": "custom:.bsu-frame-grid",
-          "source": "BattleSpriteUploader.tsx",
-          "component": "BattleSpriteUploader",
-          "callsite": "class:bsu-frame-grid",
-          "nestedWithin": "main",
-          "boundaryKind": "bounded-subviewport",
-          "reason": "角色战斗精灵上传的帧候选网格是有界子 viewport。",
-          "verification": "editor.css .bsu-frame-grid owns overflow-y:auto and max-height:220px。"
-        },
-        {
           "region": "inspector",
           "axis": "y",
           "owner": "DsInspectorTabs",
@@ -1944,7 +1932,6 @@
       "registry": "actor/workspace",
       "components": [
         "ActorMode.tsx",
-        "BattleSpriteUploader.tsx",
         "CasualtyEditor.tsx",
         "ConnectedEditorPages.tsx",
         "ImageAssetPicker.tsx",
@@ -1953,9 +1940,9 @@
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "custom:.actor-list + custom:.actor-workspace-scroll + custom:.dscroll + casualty responsive owners + custom:.bsu-frame-grid + DsInspectorTabs",
+        "scroll": "custom:.actor-list + custom:.actor-workspace-scroll + custom:.dscroll + casualty responsive owners + DsInspectorTabs",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsAddPickerDialog + DsControlGroup + DsDraftNumberField + DsDraftTextField + DsDraftTextInput + DsField + DsFieldGroup + DsFilePicker + DsNumberInput + DsPropertyRow + DsRepeatRow + DsSelect + DsTextInput",
+        "field": "DsAddPickerDialog + DsControlGroup + DsDraftNumberField + DsDraftTextField + DsDraftTextInput + DsField + DsPropertyRow + DsRepeatRow + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

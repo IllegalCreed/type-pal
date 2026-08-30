@@ -364,16 +364,16 @@ Branch: `main`
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-30，用户返工后刷新）**——29 adoption 双轴分类与 reorder 语义保持不变；
-  `actor/initial-magic` 的集合级添加已移入 `ActorPanel → DsWorkbenchSection.actions`，使用 compact secondary
-  add 动作，body 入口清零；行级删除改为 `DsActionGroup` 内公共 danger delete 图标，具体 accessible name 与
-  tooltip 同步。并按 DS-C.4e 补齐 embedded 空态、右上角添加指引与候选用尽说明，清理死 `.btn` CSS；
-  deferred owner / fingerprint 同步。聚焦 3 files / 24 tests、typecheck、design-system gate 与 720px 浏览器
-  几何/溢出/日志全绿；原 editor 全量 178 files / 1460 tests 证据仍有效，本次按纪律不重复全量。
+- Codex: **accept（2026-08-30，用户第三次返工后刷新）**——29 adoption 双轴与 reorder 语义保持不变；
+  角色战斗形象面收口为纯 `player-fighter` 库选择器 + 全动作只读预览，导入按钮、file input、上传状态、
+  资源创建命令与编辑深链全部清零。`BattleSpritePicker` 仅在调用方提供跳转 owner 时渲染打开动作，其他业务面
+  与战斗精灵库能力不变；actor adoption 同步删除 `BattleSpriteUploader`、`.bsu-frame-grid` 及其字段 owner。
+  聚焦 2 files / 17 tests、typecheck、design-system gate 与 720px 浏览器几何/溢出/console 全绿；原 editor
+  全量 178 files / 1460 tests 证据仍有效，本次按纪律不重复全量。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: 用户指出角色战斗预览层级过深、初始仙术添加/删除动作归属不合规范；两项均已
-  按现行设计系统返工并刷新聚焦与浏览器证据，当前无未解决 counter。
+- counter / 返工处理: 用户要求角色战斗形象面为纯库选择器；导入与编辑跳转两类越权入口、调用链及陈旧
+  adoption 已全部删除并补回归门禁，当前无未解决 counter。
 - 缺签豁免: N/A
 - done 准入结论: blocked（缺 Kimi / GLM 当前实现 accept 与用户验收）
 
@@ -421,12 +421,17 @@ Branch: `main`
   - 用户返工后，`actor/initial-magic` 集合级添加归入 panel header actions，行级删除归入 compact
     `DsActionGroup` 的 danger `DsIconButton`；补齐 empty / candidates-exhausted 状态，删除 body 添加入口与
     旧 `.actor-initial-magic-editor > .btn` 规则，并刷新 add-picker deferred owner / fingerprint。
+  - 角色战斗形象面移除 `BattleSpriteUploader` / `prepareBattleSpriteImport` / `AddBattleSpriteCommand` 与
+    `onOpenBattleSprite` 深链，只保留库内选择、`SetActorBattleSpriteCommand` 换绑和全动作预览；共享 picker
+    以 callback 是否存在决定是否渲染打开动作，actor adoption 精确移除上传器及其滚动/字段 owner。
 - 运行命令:
   - 聚焦：10 files / 108 tests；adoption / field-layout / number / add-picker / catalog fingerprint
     逐项复跑通过。
   - `pnpm --filter @type-pal/editor check`：178 files / 1460 tests（含 typecheck）全绿。
   - `pnpm --filter @type-pal/editor audit:design-system`：89 files / 2 evidence-bound exceptions。
   - 用户返工聚焦：`ActorMode.test.tsx` + add-picker / reorder adoption gate，3 files / 24 tests；独立
+    `typecheck` 与 design-system gate 全绿，`git diff --check` 通过；未重复 editor 全量。
+  - 纯选择器返工聚焦：`ActorMode.test.tsx` + `BattleSpritePicker.test.tsx`，2 files / 17 tests；独立
     `typecheck` 与 design-system gate 全绿，`git diff --check` 通过；未重复 editor 全量。
 - 浏览器 / 手工检查: PAL 项目 1280/900/720/640（200% 等效 CSS 宽度）检查初始仙术；720 检查
   enemy-team、Shop、RF-21 与 map layer；复用本会话既有 script scheme object-card 证据。
@@ -441,7 +446,8 @@ Branch: `main`
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: `.mimosa/evidence/ED-REORDER-SURFACE-1-actor-initial-magic-720.png`
   、`.mimosa/evidence/ACTOR-BATTLE-PREVIEW-EMBEDDED-720.png`、
-  `.mimosa/evidence/ACTOR-INITIAL-MAGIC-HEADER-ACTIONS-720.png`（本地忽略证据，禁止提交）。
+  `.mimosa/evidence/ACTOR-INITIAL-MAGIC-HEADER-ACTIONS-720.png`、
+  `.mimosa/evidence/ACTOR-BATTLE-APPEARANCE-SELECT-ONLY-720.png`（本地忽略证据，禁止提交）。
 - 结论: 初始仙术行 1px 完整边界，手柄位于行内；四档字段宽 325/656/476/396px，动作组始终在边界内，
   三枚动作 32/32/42px。敌队 5/5 repeat-row，720px 字段 550px、动作 32×32；Shop 720px
   identity 约 481px，外框 1px + 行 divider，三动作 32×32；RF-21 repeat-row / overlay rail 与
@@ -450,14 +456,16 @@ Branch: `main`
   初始仙术返工后，720px 下添加按钮只在 section header（body 同名入口 0），含公共 add icon；行级
   上移 / 下移 / 删除均为 32×32px 且完整位于 642px repeat-row 内，删除为 danger icon，aria-label 与
   tooltip 均为“删除初始仙术：气疗术”；panel / document 横向 overflow 均为 0，console error 0。
+  战斗形象纯选择器返工后，720px 下 header actions=0、control actions=0、file input=0、导入/上传/编辑/打开
+  按钮=0；`player-fighter` picker 与全部动作预览保留，panel / document 横向 overflow 均为 0，console error 0。
 - 未完成项: Kimi / GLM 当前实现终审与用户验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 用户返工后自审 accept；Kimi / GLM pending。
-- 必须返工项: 用户指出的 header 添加归属、行级 danger 删除、空态/用尽状态与死 CSS 均已完成；当前无剩余
-  Codex 返工项。
+- 审查结论: Codex 用户第三次返工后自审 accept；Kimi / GLM pending。
+- 必须返工项: 角色战斗形象面导入与编辑入口已连同调用链、禁用占位动作和陈旧 adoption 全部移除；当前无
+  剩余 Codex 返工项。
 - Accept / rework: pending（已回到 review；签字不足不得 done）。
 
 ## 用户验收
@@ -466,6 +474,13 @@ Branch: `main`
 - 后续任务: pending
 
 ## 交接日志
+
+- 2026-08-30 Codex: 用户重申角色战斗形象面只能从精灵库选择，不能导入或编辑资源。移除 header 导入、
+  uploader / import command 链与编辑深链；共享 picker 在无跳转 owner 时不再渲染禁用打开按钮，资源库及
+  其他有 owner 的业务面保持打开能力。actor adoption 同步清掉上传器、`.bsu-frame-grid` 和字段 owner；
+  聚焦 17、typecheck、design gate 与 720px 实机全绿，截图为
+  `.mimosa/evidence/ACTOR-BATTLE-APPEARANCE-SELECT-ONLY-720.png`。刷新 Codex accept，转 review。
+  Next: Kimi / GLM 按当前实现终审，签字不足不得 done。
 
 - 2026-08-30 Codex: 完成初始仙术动作归属返工。添加移入 panel header actions；删除改为 compact action
   group 内 danger icon 并补齐 aria / tooltip；按 DS-C.4e 同步补齐 embedded 空态和候选用尽说明，清理死
@@ -521,6 +536,9 @@ object-card canary、公共 DsReorderItem surface-neutral、reorder state machin
 另核用户返工：`actor/initial-magic` 添加只存在于 `DsWorkbenchSection.actions`，body 入口为 0；删除为
 compact action group 内 danger delete icon，具体 aria / tooltip、embedded 空态、候选用尽说明和 deferred
 fingerprint 均闭合；720px 三动作 32×32、row 内无溢出。
+再核角色战斗形象面：只保留 `player-fighter` 库选择与全动作预览，header/control actions、file input、
+导入/上传/编辑/打开入口均为 0；actor adoption 不再登记 uploader / `.bsu-frame-grid`，而资源库与其他合法
+owner 仍保留导入/打开能力。
 可按风险复跑聚焦测试，不要重复跑 editor 全量，不得修改实现。输出当前实现 accept，或带 file:line 和复现
 命令的 counter/返工项，并写回 review -> done 签字与交接记录。Kimi、GLM、用户验收未齐前不得标记 done。
 ```

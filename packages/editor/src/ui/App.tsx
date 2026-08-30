@@ -2108,7 +2108,6 @@ export function App(props: {
               if (actorId) applyEditorLocation(editorLinks.actor(actorId, section), 'replace')
             }}
             onOpenSprite={(id) => applyEditorLocation(editorLinks.actorSprite(id))}
-            onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
             assetReader={assetReader}
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
             onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}

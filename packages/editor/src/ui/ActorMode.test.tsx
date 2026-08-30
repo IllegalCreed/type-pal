@@ -347,7 +347,7 @@ describe('ActorMode 初始状态唯一所有权', () => {
     expect(session.getState().actors[0]!.battler!.baseStats).toMatchObject({ hp: 80, maxHP: 120 })
   })
 
-  test('战斗形象显示全部语义动作预览，并随选择同步换绑', async () => {
+  test('战斗形象仅从精灵库选择并预览全部动作，不提供导入或编辑入口', async () => {
     const current = state(actors())
     const profile = {
       kind: 'player-fighter' as const,
@@ -394,7 +394,18 @@ describe('ActorMode 初始状态唯一所有权', () => {
     expect(preview().dataset.expected).toBe('player-fighter')
     expect(preview().dataset.showPrimary).toBe('false')
     expect(preview().dataset.semanticPresentation).toBe('embedded')
-    expect(button('导入战斗形象').title).toContain('立即设为当前角色')
+    const appearancePanel = [...host.querySelectorAll<HTMLElement>('.ds-workbench-section')].find(
+      (section) =>
+        section.querySelector('.ds-workbench-section__title')?.textContent === '战斗形象',
+    )!
+    expect(appearancePanel.querySelector('.ds-workbench-section__actions')).toBeNull()
+    expect(appearancePanel.textContent).not.toContain('导入战斗形象')
+    expect(appearancePanel.textContent).not.toContain('上传新的帧带定义')
+    expect(
+      appearancePanel.querySelector('button[aria-label^="打开战斗精灵"]'),
+    ).toBeNull()
+    expect(appearancePanel.querySelector('.ds-control-group__actions')).toBeNull()
+    expect(appearancePanel.querySelector('input[type="file"]')).toBeNull()
     expect(preview().textContent).toBe('主角战斗精灵')
     expect(JSON.parse(preview().dataset.actions ?? '[]')).toEqual([
       { label: '待机', frames: [0] },
