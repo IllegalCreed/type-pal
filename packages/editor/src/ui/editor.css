@@ -7520,10 +7520,20 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex: 1 1 0;
   flex-direction: column;
   min-height: 108px;
-  border-bottom: 1px solid var(--line);
+}
+.cutscene-library-section + .cutscene-library-section {
+  border-top: 1px solid var(--ds-border-subtle);
+}
+.cutscene-library-section > .ds-catalog-group-header {
+  min-height: var(--ds-toolbar-height);
+  padding: var(--ds-space-4) var(--ds-space-5) var(--ds-space-4) var(--ds-space-6);
+  border-top: 0;
+  border-bottom: 1px solid var(--ds-border-subtle);
+  background: color-mix(in srgb, var(--ds-surface-raised) 42%, transparent);
 }
 .cutscene-asset-list {
   min-height: 0;
+  padding-block: var(--ds-space-2);
   overflow-y: auto;
 }
 .cutscene-list-empty,

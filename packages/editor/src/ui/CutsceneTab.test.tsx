@@ -9,7 +9,6 @@ import {
   catalogControlsAssetCatalog,
   catalogControlsEditorState,
   catalogControlsReader,
-  setCatalogSearch,
 } from './catalog-controls-test-utils.js'
 
 vi.mock('./FrameAnimationEditor.js', () => ({
@@ -36,7 +35,7 @@ afterEach(async () => {
 })
 
 describe('CutsceneTab catalog controls', () => {
-  test('filters both resource groups while preserving the total header count and group actions', async () => {
+  test('shows both resource groups without a redundant catalog search', async () => {
     const catalog = structuredClone(catalogControlsAssetCatalog)
     delete catalog.assets['frame-animation.logo']!.label
     const session = new EditSession(catalogControlsEditorState(catalog))
@@ -56,13 +55,15 @@ describe('CutsceneTab catalog controls', () => {
       await Promise.resolve()
     })
     expect(host.querySelector('.ds-list-header__count')?.textContent).toBe('3 项')
-    const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索过场资源"]')!
-    await setCatalogSearch(search, '片尾')
-    expect(host.querySelectorAll('.cutscene-asset-list .ds-catalog-row')).toHaveLength(1)
-    expect(host.querySelector('.cutscene-asset-list')?.textContent).toContain('片尾视频')
-    expect(
-      host.querySelector('.cutscene-asset-list .ds-catalog-row[data-selected="true"]'),
-    ).toBeNull()
+    expect(host.querySelector('input[aria-label="搜索过场资源"]')).toBeNull()
+    const groups = host.querySelectorAll<HTMLElement>('.cutscene-library-section')
+    expect(groups).toHaveLength(2)
+    expect(groups[0]?.querySelector('.ds-catalog-group-header__title')?.textContent).toBe('视频')
+    expect(groups[0]?.querySelector('.ds-catalog-group-header__count')?.textContent).toBe('2')
+    expect(groups[1]?.querySelector('.ds-catalog-group-header__title')?.textContent).toBe(
+      '帧动画',
+    )
+    expect(groups[1]?.querySelector('.ds-catalog-group-header__count')?.textContent).toBe('1')
     expect(
       host.querySelector('.cutscene-main > .ds-object-hero .ds-object-hero__title')?.textContent,
     ).toBe('开场视频')
@@ -72,12 +73,6 @@ describe('CutsceneTab catalog controls', () => {
     expect(host.querySelector('.ds-list-header__count')?.textContent).toBe('3 项')
     expect(host.querySelector('[aria-label="导入视频"]')).not.toBeNull()
     expect(host.querySelector('[aria-label="导入帧动画"]')).not.toBeNull()
-
-    await setCatalogSearch(search, '不存在')
-    expect(host.querySelectorAll('.cutscene-asset-list .ds-catalog-row')).toHaveLength(0)
-    expect(host.querySelector('.cutscene-outliner')?.textContent).toContain('没有匹配的视频。')
-    expect(host.querySelector('.cutscene-outliner')?.textContent).toContain('没有匹配的帧动画。')
-    await setCatalogSearch(search, '')
     const rows = host.querySelectorAll<HTMLElement>('.cutscene-asset-list .ds-catalog-row')
     expect(rows).toHaveLength(3)
     expect([...rows].map((row) => row.dataset.leading)).toEqual(['none', 'none', 'none'])

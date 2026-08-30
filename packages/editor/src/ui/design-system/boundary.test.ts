@@ -1408,6 +1408,28 @@ describe('editor design-system static boundary', () => {
     expect(cssDeclaration(childCount[0]!, 'font')).toBe('var(--ds-font-caption)')
   })
 
+  test('keeps cutscene groups separated from their list bodies without a redundant search', () => {
+    const uiRoot = dirname(here)
+    const cutscene = readFileSync(join(uiRoot, 'CutsceneTab.tsx'), 'utf8')
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    const groupHeader = cssRuleBodies(
+      businessCss,
+      '.cutscene-library-section > .ds-catalog-group-header',
+    )
+    const assetList = cssRuleBodies(businessCss, '.cutscene-asset-list')
+
+    expect(cutscene).not.toContain("const [filter, setFilter] = useState('')")
+    expect(cutscene).not.toContain("'aria-label': '搜索过场资源'")
+    expect(groupHeader).toHaveLength(1)
+    expect(cssDeclaration(groupHeader[0]!, 'border-bottom')).toBe(
+      '1px solid var(--ds-border-subtle)',
+    )
+    expect(cssDeclaration(groupHeader[0]!, 'background')).toContain(
+      'var(--ds-surface-raised)',
+    )
+    expect(cssDeclaration(assetList[0]!, 'padding-block')).toBe('var(--ds-space-2)')
+  })
+
   test('keeps section-grid menu groups subordinate to their page links', () => {
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
     const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')

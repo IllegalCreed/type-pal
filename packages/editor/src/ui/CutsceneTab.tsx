@@ -178,21 +178,14 @@ function AssetList(props: {
   title: string
   entries: readonly AssetEntry[]
   selectedId?: AssetId
-  filter: string
   onSelect(id: AssetId): void
   onImport(): void
 }) {
-  const shown = props.entries.filter(
-    (entry) =>
-      !props.filter ||
-      entry.id.toLowerCase().includes(props.filter.toLowerCase()) ||
-      (entry.record.label ?? '').toLowerCase().includes(props.filter.toLowerCase()),
-  )
   return (
     <section className="cutscene-library-section">
       <DsCatalogGroupHeader
         title={props.title}
-        count={shown.length}
+        count={props.entries.length}
         actions={
           <DsIconButton
             label={`导入${props.title}`}
@@ -204,8 +197,8 @@ function AssetList(props: {
         }
       />
       <div className="cutscene-asset-list">
-        {shown.length ? (
-          shown.map((entry) => (
+        {props.entries.length ? (
+          props.entries.map((entry) => (
             <DsCatalogRow
               key={entry.id}
               selected={props.selectedId === entry.id}
@@ -216,9 +209,7 @@ function AssetList(props: {
             />
           ))
         ) : (
-          <DsCatalogGroupEmpty>
-            {props.entries.length ? `没有匹配的${props.title}。` : `此项目还没有${props.title}。`}
-          </DsCatalogGroupEmpty>
+          <DsCatalogGroupEmpty>此项目还没有{props.title}。</DsCatalogGroupEmpty>
         )}
       </div>
     </section>
@@ -383,7 +374,6 @@ export function CutsceneTab(props: {
       ? focusObjectId
       : (videos[0]?.id ?? animations[0]?.id),
   )
-  const [filter, setFilter] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState('')
   const [inspectorTab, setInspectorTab] = useState<CutsceneInspectorTab>('resource')
@@ -675,18 +665,11 @@ export function CutsceneTab(props: {
           title="过场"
           count={videos.length + animations.length}
           unit="项"
-          search={{
-            'aria-label': '搜索过场资源',
-            placeholder: '搜索名称或 AssetId',
-            value: filter,
-            onChange: (event) => setFilter(event.target.value),
-          }}
         />
         <DsCatalogGroupList label="过场资源分组">
           <AssetList
             title="视频"
             entries={videos}
-            filter={filter}
             selectedId={selectedId}
             onSelect={selectAsset}
             onImport={() => requestTransition('导入视频', () => videoImportRef.current?.click())}
@@ -694,7 +677,6 @@ export function CutsceneTab(props: {
           <AssetList
             title="帧动画"
             entries={animations}
-            filter={filter}
             selectedId={selectedId}
             onSelect={selectAsset}
             onImport={() => requestTransition('新建帧动画', () => frameImportRef.current?.click())}
