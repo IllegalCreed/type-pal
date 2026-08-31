@@ -1,6 +1,6 @@
 # ED-ITEM-ALCHEMY-SURFACE-1 - 炼蛊皿与紫金葫芦双炼化工作台
 
-Status: rework
+Status: blocked
 Phase: phase2
 Capability: Editor item authoring（不改变 capability-map）
 Coding Owner: Codex
@@ -288,7 +288,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - Codex: **counter / rework（2026-08-31）**——此前对 `54ba9c2e` + `1b090cb2` + `aacf68b7` 的 UI/code
   accept 作为历史保留，但用户复验发现 PAL item268 提示为空。直接证据确认是 migration 丢失可达 L39595 原文，
   使 current UI 与 runtime 回退成泛化“材料不足”。在 `MIG-PAL-CRAFT-FAILURE-MESSAGE-1` build/review 完成并
-  重迁前，旧 accept 不再授权本卡 done。
+  重迁前，旧 accept 不再授权本卡 done。增量 `314e3a52` 的一进一出 rework 已自验通过；counter 现仅保留为
+  migration done 门禁，不否定该增量实现。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -299,14 +300,15 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：rework；migration 已完成 build/re迁并进入 review。用户新增一进一出裁决由 Codex 按既有
-  “无玩家选料 + PAL 五条单材料映射”前提修正；本卡最终 review 仍等待 migration done。
+- Review：blocked；`314e3a52` 已完成一进一出 rework，migration 已完成 build/re迁并进入 review；本卡
+  最终 review 等待 migration done 后恢复 Codex accept 并交 Kimi / GLM。
 
 ### Build / Review 证据
 
 - 实现提交：`54ba9c2e feat(editor): add item alchemy mechanism workbenches`；用户真值复核后的文案/文档修正：
   `1b090cb2 fix(editor): clarify automatic alchemy sourcing`；固定资源展示修正：
-  `aacf68b7 fix(editor): move fixed alchemy resource to inspector`；均未推送。
+  `aacf68b7 fix(editor): move fixed alchemy resource to inspector`；一进一出表面修正：
+  `314e3a52 fix(editor): keep PAL crafting rules one-to-one`；均未推送。
 - current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
   `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
   `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
@@ -322,6 +324,15 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   阻断，本卡未越界清理。
 - 浏览器 1280：两页无 outliner/数量徽标/owner 新增删除；紫金葫芦 9 行、0 个重复圆圈、resource 无输入、
   document/main 均无横向溢出；增加实际消耗值 `9→10`、undo `10→9`、redo `9→10`、最终 undo 回 9。
+- 一进一出 rework（`314e3a52`）：炼蛊规则正文由多项集合收紧为固定材料选择+数量 → 产物选择+数量；行内
+  添加/删除材料与产物为 0，只保留新增完整对应关系、规则排序/删除。复杂 0/2 材料或产物 shape 进入现有
+  机制数据错误空态，原数据与 history 不变；通用 content schema/runtime/migration 未改。
+- 增量验证：core + ItemAlchemy `2 files / 13 tests` 全绿；DataMode + add-picker/number-field/field-layout/
+  reorder/boundary 七个门禁的 85 项均闭合（唯一陈旧 action fingerprint 更新后精确复跑 2/2）；editor
+  typecheck 与 design-system gate（91 files / 2 evidence-bound exceptions）全绿，未重复此前 editor 全量。
+- 增量浏览器：1280×720 与 720×900 均显示 5 条固定一进一出规则、0 个材料/产物 add 按钮；720px
+  `body.scrollWidth === clientWidth === 720`，保存按钮保持 disabled。箭头提供读屏“炼成”，4 个字段按配方号
+  拥有唯一 accessible name。
 - 响应式实机：通过键盘调整真实 Inspector 宽度，把 main 精确压到 893px / 718px / 660px；两机制行
   `scrollWidth <= clientWidth`，718px 两页截图无横向溢出。真实浏览器 200% zoom 仍待 Kimi/用户补验。
 - 视觉证据（忽略目录，禁止提交）：
@@ -360,6 +371,10 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ## 交接记录
 
+- 2026-08-31 Codex: `314e3a52` 完成一进一出 rework。移除 `RecipeAmountList` 的材料/产物行内新增与删除，
+  改为单值字段；新增 editor-only strict guard，复杂 shape fail-loud，不收窄通用 craftRecipe。同步删除已失效的
+  add-picker deferred owner、重绑 number-field helper 与 CSS census。聚焦 13 tests、七门禁 85 项、typecheck、
+  DS gate 绿；浏览器 1280/720 无横溢、无脏写。Next: 等 MIG done 后恢复本卡 review，Kimi / GLM 终审本增量。
 - 2026-08-31 User/Codex: 用户复验指出“添加材料”无法对应游戏操作。Codex 确认 runtime 对同一 recipe 的
   多 ingredient 是 AND 条件并自动消费，但 PAL_CLASSIC 没有玩家选料/组合步骤，当前五条也全为 1→1；该控件
   暴露了与炼蛊皿专页无关的通用 schema 能力。卡转 rework：每条规则固定一进一出，复杂 shape fail-loud，
@@ -418,9 +433,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 终审 ED-ITEM-ALCHEMY-SURFACE-1（Kimi 或 GLM，只读 reviewer）。
 
 任务卡：docs/ops/tasks/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md
-当前状态：review；实现提交 `54ba9c2e` + 真值文案修正 `1b090cb2` + 固定资源呈现修正 `aacf68b7`，
-Codex accept；Kimi / GLM / 用户
-done 前验收 pending。
+当前状态：blocked；实现提交 `54ba9c2e` + 真值文案修正 `1b090cb2` + 固定资源呈现修正 `aacf68b7` +
+一进一出修正 `314e3a52`。Codex 对最新增量自验通过，但整卡 counter 仅因依赖
+MIG-PAL-CRAFT-FAILURE-MESSAGE-1 尚在 review；Kimi / GLM / 用户 done 前验收 pending。
 不得修改实现、不得代签另一席、签字不足不得标记 done。
 
 已冻结结论：item268=5 条 craftRecipe（117..121→148）、item270=9 档 drawFromResourcePool
@@ -432,6 +447,10 @@ done 前验收 pending。
 换型/关闭机制 owner；两 reorder adoption 保持 18 families / 29 adoptions / 32 dataPaths / 20 owner files；
 指定中间行删除、两类移动、picker/count/delete 均一动作一命令且 undo/redo；Enemy 目录/Hero/专属字段显示
 “收服 +N 灵葫值”（含 +0），不得称自动战后奖励或不可收服；Shop0 仍只由 migration 清理。
+
+新增产品裁决：炼蛊皿每条规则必须固定 1 项材料 → 1 项产物；页面不得出现行内“添加/删除材料”或
+“添加/删除产物”，但保留数量、选择器、新增完整对应关系、规则排序/删除。任何复杂 shape 必须进入错误空态且
+原数据不变；不得把该限制下沉到通用 craftRecipe schema/runtime/migration。
 
 验证证据见卡面 Build / Review 证据；请独立读 `54ba9c2e` 与当前测试。Kimi 重点审 IA/视觉并补真实 200%
 缩放；GLM 重点复算 5/9、strict invariant、registry census、引用/删除/测试矩阵。输出 accept，或 file:line +
