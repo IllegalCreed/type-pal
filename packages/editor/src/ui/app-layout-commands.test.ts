@@ -2,9 +2,9 @@ import { describe, expect, test, vi } from 'vitest'
 import {
   closeSceneScriptPanelState,
   createEditorLayoutCommands,
+  type EditorLayoutCommandHandlers,
   editorPanelToolbarCommandIds,
   executeEditorLayoutShortcut,
-  type EditorLayoutCommandHandlers,
   toggleSceneScriptPanelState,
 } from './app-layout-commands.js'
 
@@ -30,11 +30,43 @@ describe('editor layout commands', () => {
         scriptPanelAvailable: true,
         inspectorAvailable: true,
       }),
-    ).toEqual([
-      'view.toggle-outliner',
-      'view.toggle-script-panel',
-      'view.toggle-inspector',
-    ])
+    ).toEqual(['view.toggle-outliner', 'view.toggle-script-panel', 'view.toggle-inspector'])
+  })
+
+  test('single mechanism pages hide and disable a nonexistent object list', () => {
+    const actions = handlers()
+    expect(
+      editorPanelToolbarCommandIds({
+        outlinerAvailable: false,
+        scriptPanelAvailable: false,
+        inspectorAvailable: true,
+      }),
+    ).toEqual(['view.toggle-inspector'])
+    const command = createEditorLayoutCommands(actions, {
+      outlinerAvailable: false,
+      outlinerVisible: false,
+      scriptPanelAvailable: false,
+      scriptPanelVisible: false,
+      inspectorAvailable: true,
+      inspectorVisible: true,
+    }).find((candidate) => candidate.id === 'view.toggle-outliner')
+    expect(command).toMatchObject({
+      enabled: false,
+      pressed: false,
+      disabledReason: '当前页面没有左侧对象列表',
+    })
+    expect(
+      executeEditorLayoutShortcut(
+        { key: 'l', metaKey: true, ctrlKey: false, altKey: true },
+        actions,
+        {
+          outlinerAvailable: false,
+          scriptPanelAvailable: false,
+          inspectorAvailable: true,
+        },
+      ),
+    ).toBe(false)
+    expect(actions.toggleOutliner).not.toHaveBeenCalled()
   })
 
   test('menu and toolbar projections keep the exact same handlers used by shortcuts', () => {
@@ -59,14 +91,29 @@ describe('editor layout commands', () => {
       actions.resetLayout,
     )
 
-    expect(executeEditorLayoutShortcut({ key: 'b', metaKey: true, ctrlKey: false, altKey: true }, actions)).toBe(true)
+    expect(
+      executeEditorLayoutShortcut(
+        { key: 'b', metaKey: true, ctrlKey: false, altKey: true },
+        actions,
+      ),
+    ).toBe(true)
     expect(actions.toggleScriptPanel).toHaveBeenCalledOnce()
   })
 
   test('does not consume unrelated or incomplete shortcuts', () => {
     const actions = handlers()
-    expect(executeEditorLayoutShortcut({ key: 'b', metaKey: false, ctrlKey: false, altKey: true }, actions)).toBe(false)
-    expect(executeEditorLayoutShortcut({ key: 'x', metaKey: true, ctrlKey: false, altKey: true }, actions)).toBe(false)
+    expect(
+      executeEditorLayoutShortcut(
+        { key: 'b', metaKey: false, ctrlKey: false, altKey: true },
+        actions,
+      ),
+    ).toBe(false)
+    expect(
+      executeEditorLayoutShortcut(
+        { key: 'x', metaKey: true, ctrlKey: false, altKey: true },
+        actions,
+      ),
+    ).toBe(false)
     expect(actions.toggleScriptPanel).not.toHaveBeenCalled()
   })
 

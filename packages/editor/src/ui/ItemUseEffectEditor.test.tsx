@@ -27,6 +27,7 @@ function item(id: string): ItemData {
 function Harness(props: {
   initial: UseSpec
   onChange?: (next: UseSpec) => void
+  onOpenAlchemy?: (surface: 'crafting' | 'spirit-gourd') => void
   scenes?: readonly SceneDef[]
 }) {
   const [spec, setSpec] = useState(props.initial)
@@ -39,6 +40,7 @@ function Harness(props: {
       scripts={[]}
       itemId="tool"
       scenes={props.scenes}
+      onOpenAlchemy={props.onOpenAlchemy}
       onChange={(next) => {
         const use = structuredClone(next as UseSpec)
         setSpec(use)
@@ -241,7 +243,7 @@ describe('ItemEffectChainEditor', () => {
     expect(() => defaultItemUseEffect('craftRecipe', [item('tool')], [], [], 'tool')).toThrow()
   })
 
-  test('毒抗编辑器钳到正整数，资源键失焦时去掉首尾空格', async () => {
+  test('毒抗编辑器钳到正整数，资源池在普通物品页只留摘要与精确跳转', async () => {
     const onPoisonChange = vi.fn()
     await act(async () =>
       root.render(
@@ -266,6 +268,7 @@ describe('ItemEffectChainEditor', () => {
     )
 
     const onPoolChange = vi.fn()
+    const onOpenAlchemy = vi.fn()
     await act(async () =>
       root.render(
         <Harness
@@ -283,19 +286,19 @@ describe('ItemEffectChainEditor', () => {
             ],
           }}
           onChange={onPoolChange}
+          onOpenAlchemy={onOpenAlchemy}
         />,
       ),
     )
-    const resourceInput = host.querySelector<HTMLInputElement>('input[aria-label="资源变量名称"]')!
-    expect(host.querySelector('datalist, input[list]')).toBeNull()
-    await input(resourceInput, ' pool ')
-    await act(async () =>
-      resourceInput.dispatchEvent(new FocusEvent('focusout', { bubbles: true })),
-    )
-    expect(onPoolChange).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        effects: [expect.objectContaining({ kind: 'drawFromResourcePool', resource: 'pool' })],
-      }),
+    expect(host.querySelector('input[aria-label="资源变量名称"]')).toBeNull()
+    expect(host.querySelector('input[aria-label="最大点数"]')).toBeNull()
+    expect(host.textContent).toContain('pool · 最高实际消耗 1 灵葫值 · 第 N 行实际扣除 N 点')
+    const open = buttonByText(host, '在“紫金葫芦”页面编辑')!
+    await act(async () => open.click())
+    expect(onOpenAlchemy).toHaveBeenCalledWith('spirit-gourd')
+    expect(onPoolChange).not.toHaveBeenCalled()
+    expect(host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')?.disabled).toBe(
+      true,
     )
   })
 
@@ -339,9 +342,7 @@ describe('ItemEffectChainEditor', () => {
       ),
     ).toBe(true)
     expect(
-      [
-        ...host.querySelectorAll<HTMLElement>('[data-effect-fields-layout="item"]'),
-      ].every(
+      [...host.querySelectorAll<HTMLElement>('[data-effect-fields-layout="item"]')].every(
         (grid) =>
           grid.querySelector(':scope > [data-ds-field-group]')?.getAttribute('data-layout') ===
           'stacked',

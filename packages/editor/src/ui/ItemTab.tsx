@@ -532,10 +532,8 @@ function sameItemCatalogRows(left: ItemCatalogRowsProps, right: ItemCatalogRowsP
 /** Detail-only edits must not rebuild the entire 234-row PAL catalog. */
 const ItemCatalogRows = memo(ItemCatalogRowsView, sameItemCatalogRows)
 
-function summarizeUse(item: ItemData, items: readonly ItemData[]): string[] {
+function summarizeUse(item: ItemData): string[] {
   if (!item.use) return ['未启用使用能力']
-  const itemName = (id: string): string =>
-    items.find((candidate) => candidate.id === id)?.name ?? id
   return [
     `${TARGET_LABEL[item.use.target]} · ${item.use.consuming ? '成功后消耗' : '不消耗'} · ${item.use.battleOnly ? '仅战斗' : '大世界/战斗按效果开放'}`,
     ...item.use.effects.map((effect) => {
@@ -545,14 +543,9 @@ function summarizeUse(item: ItemData, items: readonly ItemData[]): string[] {
         case 'runSceneHook':
           return '调用当前场景传送出口（场景可做前置判断、剧情处理或拒绝）'
         case 'craftRecipe':
-          return `按顺序匹配 ${effect.recipes.length} 条配方：${effect.recipes
-            .map(
-              (recipe) =>
-                `${recipe.ingredients.map((row) => `${itemName(row.itemId)}×${row.count}`).join('＋')} → ${recipe.products.map((row) => `${itemName(row.itemId)}×${row.count}`).join('＋')}`,
-            )
-            .join('；')}`
+          return `炼蛊皿机制：${effect.recipes.length} 条有序配方（在“炼蛊皿”页面编辑）`
         case 'drawFromResourcePool':
-          return `从资源 ${effect.resource} 抽取 1…当前值（封顶 ${effect.maxRoll}），按 ${effect.rewards.length} 档给出奖励并扣除点数`
+          return `紫金葫芦机制：最高实际消耗 ${effect.maxRoll} 灵葫值（在“紫金葫芦”页面编辑）`
         case 'permanentStatBoost':
           return `${USE_EFFECT_LABEL[effect.kind]}：${effect.stat} ${effect.delta >= 0 ? '+' : ''}${effect.delta}`
         case 'modifyHostileAwareness':
@@ -705,6 +698,7 @@ export function ItemTab(props: {
   onOpenBattleSprite?: (id: string) => void
   onOpenBattleField?: (id: number) => void
   onOpenItemReference?: (reference: ItemReference) => void
+  onOpenItemAlchemy?: (surface: 'crafting' | 'spirit-gourd', itemId: string) => void
   onOpenProjectIssues?: () => void
   focusObjectId?: string
   focusPrivateScript?: {
@@ -746,6 +740,7 @@ export function ItemTab(props: {
     onOpenBattleSprite,
     onOpenBattleField,
     onOpenItemReference,
+    onOpenItemAlchemy,
     onOpenProjectIssues,
     focusObjectId,
     focusPrivateScript,
@@ -1796,6 +1791,18 @@ export function ItemTab(props: {
                     className="item-capability-toggle"
                     label="启用使用能力"
                     checked={!!item.use}
+                    disabled={item.use?.effects.some(
+                      (effect) =>
+                        effect.kind === 'craftRecipe' || effect.kind === 'drawFromResourcePool',
+                    )}
+                    title={
+                      item.use?.effects.some(
+                        (effect) =>
+                          effect.kind === 'craftRecipe' || effect.kind === 'drawFromResourcePool',
+                      )
+                        ? '该物品承载固定项目机制，不能在普通物品页关闭使用能力'
+                        : undefined
+                    }
                     onChange={(event) => (event.target.checked ? enableUse() : patchUse(undefined))}
                   />
                 }
@@ -1826,6 +1833,7 @@ export function ItemTab(props: {
                       scripts={scriptOptions}
                       onChange={patchUse}
                       onOpenScript={onOpenScript}
+                      onOpenAlchemy={(surface) => onOpenItemAlchemy?.(surface, item.id)}
                       onError={reportItemEffectError}
                       itemId={item.id}
                       scenes={editorState.scenes as readonly SceneDef[]}
@@ -1984,7 +1992,7 @@ export function ItemTab(props: {
                     {item.use ? (
                       <DsInspectorSection title="使用时发生什么">
                         <ul className="item-summary-list">
-                          {summarizeUse(item, items).map((line) => (
+                          {summarizeUse(item).map((line) => (
                             <li key={line}>{line}</li>
                           ))}
                         </ul>

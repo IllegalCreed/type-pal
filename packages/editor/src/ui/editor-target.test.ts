@@ -202,6 +202,36 @@ describe('editorObjectTargetMissing', () => {
     ).toBe(true)
   })
 
+  test('炼蛊皿与紫金葫芦深链以 owner 物品存在为准，effect 缺席交给页面空态', () => {
+    const state = makeState({
+      items: [
+        {
+          id: '268',
+          name: '炼蛊皿',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: { target: 'scene', consuming: false, effects: [] },
+        },
+      ],
+    })
+    expect(
+      editorObjectTargetMissing(state, {
+        module: 'item',
+        subpage: 'crafting',
+        objectId: '268',
+      }),
+    ).toBe(false)
+    expect(
+      editorObjectTargetMissing(state, {
+        module: 'item',
+        subpage: 'spirit-gourd',
+        objectId: '270',
+      }),
+    ).toBe(true)
+  })
+
   test('战场深链以显式数值 id 判断存在与撤销残留', () => {
     const state = makeState({
       battleFields: [

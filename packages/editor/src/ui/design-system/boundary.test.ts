@@ -1650,9 +1650,8 @@ describe('editor design-system static boundary', () => {
   test('keeps every ItemUseEffectEditor action on shared button controls', () => {
     const source = readFileSync(join(dirname(here), 'ItemUseEffectEditor.tsx'), 'utf8')
 
-    expect(source).toMatch(/import\s*\{[^}]*DsButton[^}]*DsIconButton[^}]*\}/s)
+    expect(source).toMatch(/import\s*\{[^}]*DsButton[^}]*\}/s)
     expect(source).toMatch(/<DsButton\b/)
-    expect(source).toMatch(/<DsIconButton\b/)
     expect(source).not.toMatch(/<button\b/)
     expect(source).not.toMatch(/\bitem-action-button\b/)
     expect(source).not.toMatch(/className\s*=\s*["'][^"']*\bmini\b/)

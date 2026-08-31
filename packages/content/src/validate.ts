@@ -973,7 +973,10 @@ function validateItemUseEffect(effect: Record<string, unknown>, ctx: string): vo
         integer: true,
       })
       const rewards = assertArray<Record<string, unknown>>(effect.rewards, `${ctx}.rewards`)
-      if (rewards.length < maxRoll) throw new Error(`${ctx}.rewards: 至少覆盖 maxRoll 档`)
+      if (rewards.length !== maxRoll)
+        throw new Error(
+          `${ctx}.rewards: 档位数必须恰好等于 maxRoll（${rewards.length} != ${maxRoll}）`,
+        )
       rewards.forEach((entry, rewardIndex) => {
         const path = `${ctx}.rewards[${rewardIndex}]`
         if (typeof entry.itemId !== 'string' || entry.itemId.length === 0)

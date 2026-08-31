@@ -148,7 +148,7 @@
     {
       "id": "enemy/catalog",
       "source": "EnemyTab.tsx",
-      "jsxFingerprint": "6e40da86be2caafa",
+      "jsxFingerprint": "38ba550a08fe8460",
       "family": "enemy",
       "titleKind": "authored-name",
       "identitySlot": "meta",
@@ -157,9 +157,9 @@
       "leading": "present",
       "title": "敌人名称",
       "meta": "稳定 EnemyId",
-      "trailing": "非空 AI 规则数量",
+      "trailing": "灵葫咒收服所得实际灵葫值；0 明示不增加灵葫值",
       "decision": "compliant",
-      "reason": "绑定 enemy BattleSpriteDef 的 profile.idle.start 真实首帧帮助辨认对象；缺资源仍保留槽位且不串图，名称、EnemyId 与非空 AI 规则数继续支持选择。"
+      "reason": "绑定 enemy BattleSpriteDef 的 profile.idle.start 真实首帧帮助辨认对象；缺资源仍保留槽位且不串图，名称、EnemyId 与每敌收服所得灵葫值继续支持选择。"
     },
     {
       "id": "enemy-team/catalog",

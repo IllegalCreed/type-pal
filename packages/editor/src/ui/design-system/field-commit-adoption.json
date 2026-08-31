@@ -291,6 +291,40 @@
       ]
     },
     {
+      "registry": "item/crafting",
+      "status": "adopted",
+      "productionFiles": ["ItemAlchemyTab.tsx", "ItemAlchemyEditors.tsx"],
+      "transactions": [
+        {
+          "id": "item-crafting-fields",
+          "kind": "field-draft",
+          "fields": [
+            "items.*.use.effects[kind=craftRecipe].unavailableMessage",
+            "items.*.use.effects[kind=craftRecipe].recipes.*.ingredients.*.count",
+            "items.*.use.effects[kind=craftRecipe].recipes.*.products.*.count"
+          ],
+          "verification": "ItemAlchemyTab.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "item/spirit-gourd",
+      "status": "adopted",
+      "productionFiles": ["ItemAlchemyTab.tsx", "ItemAlchemyEditors.tsx"],
+      "transactions": [
+        {
+          "id": "item-spirit-gourd-fields",
+          "kind": "field-draft",
+          "fields": [
+            "items.*.use.effects[kind=drawFromResourcePool].maxRoll",
+            "items.*.use.effects[kind=drawFromResourcePool].rewards.*.count",
+            "items.*.use.effects[kind=drawFromResourcePool].unavailableMessage"
+          ],
+          "verification": "ItemAlchemyTab.test.tsx"
+        }
+      ]
+    },
+    {
       "registry": "item/shop",
       "status": "not-applicable",
       "reason": "货单只使用 select/button 离散提交；无 canonical text/number/textarea。"

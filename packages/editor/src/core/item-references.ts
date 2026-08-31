@@ -1,18 +1,18 @@
 import type {
   AuthorCommand,
   AuthorCondition,
+  AuthorScriptFlow,
   Command,
   EnemyOnDefeatedCommand,
   ScriptCondition,
-  AuthorScriptFlow,
   ScriptStage,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import {
   type CanonicalScriptReference,
   describeCanonicalScriptReference,
-  type ScriptEditorState,
   type ScriptCommandLocator,
+  type ScriptEditorState,
   visitCanonicalScriptCommands,
 } from './script-editor.js'
 
@@ -39,6 +39,8 @@ export type ItemReferenceLocator =
   | { kind: 'poison'; poisonId: number }
   | { kind: 'entry-point'; entryPointId?: string }
   | { kind: 'item'; itemId: string }
+  | { kind: 'item-crafting'; itemId: string }
+  | { kind: 'item-spirit-gourd'; itemId: string }
   | {
       kind: 'canonical-script'
       reference: Extract<CanonicalScriptReference, { kind: 'command' }>
@@ -703,7 +705,7 @@ export function collectItemReferences(
                 where: `items[${itemIndex}](${item.id}).use.effects[${effectIndex}].recipes[${recipeIndex}].${field}[${entryIndex}].itemId`,
                 detail:
                   field === 'ingredients' ? `配方材料 ×${entry.count}` : `配方产物 ×${entry.count}`,
-                locator: { kind: 'item', itemId: item.id },
+                locator: { kind: 'item-crafting', itemId: item.id },
                 ownerItemId: item.id,
               })
             })
@@ -715,8 +717,8 @@ export function collectItemReferences(
             source: 'item',
             label: `物品 ${item.name}`,
             where: `items[${itemIndex}](${item.id}).use.effects[${effectIndex}].rewards[${rewardIndex}].itemId`,
-            detail: `资源池第 ${rewardIndex + 1} 档 ×${entry.count}`,
-            locator: { kind: 'item', itemId: item.id },
+            detail: `实际扣除 ${rewardIndex + 1} 灵葫值的奖励 ×${entry.count}`,
+            locator: { kind: 'item-spirit-gourd', itemId: item.id },
             ownerItemId: item.id,
           })
         })
@@ -749,7 +751,6 @@ export function collectItemReferences(
               unavailableReason: '运行态存档只读，没有作者对象可供精确跳转。',
             })
       })
-
   })
 
   if (canonicalState) out.push(...collectCanonicalItemReferences(canonicalState))

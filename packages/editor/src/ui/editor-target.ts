@@ -35,7 +35,11 @@ export function editorObjectTargetMissing(
       ? state.assetCatalog.assets[objectId]?.kind !== 'sprite'
       : !state.sprites.some((candidate) => candidate.id === objectId)
   }
-  if (subpage.dataPage === 'item')
+  if (
+    subpage.dataPage === 'item' ||
+    subpage.dataPage === 'crafting' ||
+    subpage.dataPage === 'spirit-gourd'
+  )
     return !state.items.some((candidate) => candidate.id === objectId)
   if (subpage.dataPage === 'skill')
     return !state.skills.some((candidate) => candidate.id === objectId)

@@ -497,7 +497,7 @@ describe('collectItemReferences', () => {
       source: 'item',
       access: 'consume',
       where: 'items[0](target).use.effects[0].recipes[0].ingredients[0].itemId',
-      locator: { kind: 'item', itemId: 'target' },
+      locator: { kind: 'item-crafting', itemId: 'target' },
       ownerItemId: 'target',
     },
     {
@@ -505,7 +505,7 @@ describe('collectItemReferences', () => {
       source: 'item',
       access: 'reward',
       where: 'items[1](owner).use.effects[0].rewards[0].itemId',
-      locator: { kind: 'item', itemId: 'owner' },
+      locator: { kind: 'item-spirit-gourd', itemId: 'owner' },
       ownerItemId: 'owner',
     },
     {

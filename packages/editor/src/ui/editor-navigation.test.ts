@@ -6,10 +6,11 @@ import {
   EDITOR_MODULES,
   editorLinks,
   editorLocationHref,
+  editorSubpageHasInspector,
+  editorSubpageHasOutliner,
   locationForSubpageNavigation,
   normalizeEditorLocation,
   objectIdForSubpageNavigation,
-  editorSubpageHasInspector,
   PROJECT_PAGE_IDS,
   sameEditorLocation,
 } from './editor-navigation.js'
@@ -25,7 +26,7 @@ describe('编辑器模块注册表', () => {
     }
   })
 
-  it('十七个数据页恰好各登记一次', () => {
+  it('十九个数据页恰好各登记一次', () => {
     const registered = EDITOR_MODULES.flatMap((module) =>
       module.subpages.flatMap((subpage) => (subpage.dataPage ? [subpage.dataPage] : [])),
     )
@@ -54,6 +55,44 @@ describe('编辑器模块注册表', () => {
       subpage: 'ambience',
       objectId: 'night',
     })
+  })
+
+  it('物品模块把两种炼化机制登记为独立深链页面', () => {
+    const item = EDITOR_MODULES.find((module) => module.id === 'item')!
+    expect(item.subpages.map((subpage) => subpage.id)).toEqual([
+      'item',
+      'crafting',
+      'spirit-gourd',
+      'shop',
+    ])
+    expect(item.subpages.find((subpage) => subpage.id === 'crafting')).toMatchObject({
+      label: '炼蛊皿',
+      dataPage: 'crafting',
+      acceptsObject: true,
+      outliner: false,
+    })
+    expect(item.subpages.find((subpage) => subpage.id === 'spirit-gourd')).toMatchObject({
+      label: '紫金葫芦',
+      dataPage: 'spirit-gourd',
+      acceptsObject: true,
+      outliner: false,
+    })
+    expect(editorLinks.itemCrafting('268')).toEqual({
+      module: 'item',
+      subpage: 'crafting',
+      objectId: '268',
+    })
+    expect(editorLinks.spiritGourd('270')).toEqual({
+      module: 'item',
+      subpage: 'spirit-gourd',
+      objectId: '270',
+    })
+    expect(editorSubpageHasOutliner(item.subpages.find((subpage) => subpage.id === 'item')!)).toBe(
+      true,
+    )
+    expect(
+      editorSubpageHasOutliner(item.subpages.find((subpage) => subpage.id === 'crafting')!),
+    ).toBe(false)
   })
 
   it('只有存在属性语义的子页才开放右侧 Inspector', () => {

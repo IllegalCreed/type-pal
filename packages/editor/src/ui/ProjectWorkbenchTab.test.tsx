@@ -118,7 +118,7 @@ function resourceItem(id: string, name: string, resources: string[]): ItemData {
         kind: 'drawFromResourcePool' as const,
         resource,
         maxRoll: 1,
-        rewards: [],
+        rewards: [{ itemId: id, count: 1 }],
       })),
     },
   }

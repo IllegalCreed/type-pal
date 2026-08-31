@@ -3551,6 +3551,14 @@ html[data-panel-resize="horizontal"] * {
   content-visibility: auto;
   contain-intrinsic-size: var(--ds-catalog-row-height);
 }
+.enemy-catalog-tags,
+.enemy-hero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--ds-space-2);
+}
 
 /* ── 商店工作台 ── */
 .shop-catalog {
@@ -3649,6 +3657,214 @@ html[data-panel-resize="horizontal"] * {
 }
 .shop-empty-state > span {
   font-size: 36px;
+}
+
+/* ── 物品炼化机制工作台 ── */
+.body > .item-alchemy-workbench--mechanism {
+  grid-column: 1 / 3;
+}
+.item-alchemy-workbench {
+  background:
+    radial-gradient(circle at 76% -12%, rgb(64 98 157 / 12%), transparent 34%),
+    var(--ds-surface-canvas);
+}
+.item-alchemy-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  container: item-alchemy / inline-size;
+}
+.item-alchemy-main__content {
+  width: 100%;
+  align-content: start;
+}
+.item-alchemy-sections {
+  display: grid;
+  gap: var(--ds-space-5);
+  min-width: 0;
+  outline: none;
+}
+.item-alchemy-hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--ds-space-2);
+}
+.item-alchemy-recipe-list,
+.item-alchemy-reward-list {
+  display: grid;
+}
+.item-alchemy-recipe-row {
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  background: var(--ds-surface-panel);
+}
+.item-alchemy-recipe-row:hover {
+  background: color-mix(in srgb, var(--accent) 4%, var(--ds-surface-panel));
+}
+.item-alchemy-recipe-row__header {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--ds-space-3);
+  min-height: 56px;
+  padding: 9px 14px;
+}
+.item-alchemy-recipe-row__identity {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+.item-alchemy-recipe-row__identity strong {
+  color: var(--fg);
+  font-size: 13px;
+  font-weight: 650;
+}
+.item-alchemy-recipe-row__identity span {
+  color: var(--faint);
+  font: var(--ds-font-supporting);
+  overflow-wrap: anywhere;
+}
+.item-alchemy-recipe-row__formula {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--ds-space-4);
+  padding: 0 14px 14px 56px;
+}
+.item-alchemy-formula-arrow {
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: 700;
+}
+.item-alchemy-amount-list {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-2);
+}
+.item-alchemy-amount-list__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-2);
+  color: var(--dim);
+  font: var(--ds-font-label);
+}
+.item-alchemy-amount-list__rows {
+  display: grid;
+  gap: var(--ds-space-2);
+}
+.item-alchemy-amount-row {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) minmax(4.5rem, 5.5rem) auto;
+  align-items: center;
+  gap: var(--ds-space-2);
+  min-width: 0;
+}
+.item-alchemy-amount-row__count,
+.item-alchemy-reward-count {
+  min-width: 0;
+}
+.item-alchemy-amount-row__count > .ds-input,
+.item-alchemy-reward-count > .ds-input {
+  width: 100%;
+}
+.item-alchemy-reward-row {
+  display: grid;
+  grid-template-columns: minmax(11rem, 0.42fr) auto minmax(10rem, 1fr) minmax(4.5rem, 6rem) auto;
+  align-items: center;
+  gap: var(--ds-space-3);
+  min-height: 60px;
+}
+.item-alchemy-reward-cost {
+  color: var(--fg);
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.item-alchemy-row-actions {
+  justify-self: end;
+}
+.item-alchemy-inline-error {
+  margin: 0;
+  padding: var(--ds-space-3) var(--ds-space-4);
+  border: 1px solid var(--ds-status-danger);
+  border-radius: var(--ds-radius-control);
+  color: var(--ds-status-danger);
+}
+.item-alchemy-inspector__body {
+  min-width: 0;
+}
+.item-alchemy-effect-summary {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--ds-space-4);
+  min-width: 0;
+}
+.item-alchemy-effect-summary > div {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-1);
+}
+.item-alchemy-effect-summary > div > span {
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-supporting);
+}
+
+@container item-alchemy (max-width: 760px) {
+  .item-alchemy-recipe-row__formula {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline-start: 56px;
+  }
+  .item-alchemy-recipe-row__formula > .item-alchemy-formula-arrow {
+    justify-self: start;
+    transform: rotate(90deg);
+  }
+  .item-alchemy-reward-row {
+    grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 6rem);
+  }
+  .item-alchemy-reward-row > .item-alchemy-formula-arrow {
+    display: none;
+  }
+  .item-alchemy-reward-row > .ds-select {
+    grid-column: 1;
+  }
+  .item-alchemy-reward-count {
+    grid-column: 2;
+  }
+  .item-alchemy-row-actions {
+    grid-column: 1 / -1;
+  }
+}
+
+@container item-alchemy (max-width: 520px) {
+  .item-alchemy-recipe-row__header {
+    grid-template-columns: 30px minmax(0, 1fr);
+  }
+  .item-alchemy-recipe-row__header .item-alchemy-row-actions {
+    grid-column: 2;
+  }
+  .item-alchemy-recipe-row__formula {
+    padding-inline-start: 14px;
+  }
+  .item-alchemy-amount-row {
+    grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 5.5rem);
+  }
+  .item-alchemy-amount-row > .ds-icon-button {
+    grid-column: 2;
+    justify-self: end;
+  }
+  .item-alchemy-reward-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .item-alchemy-reward-row > .ds-select,
+  .item-alchemy-reward-count,
+  .item-alchemy-row-actions {
+    grid-column: 1;
+  }
 }
 .shop-empty-state h2 {
   margin: 10px 0 6px;
@@ -5272,8 +5488,7 @@ html[data-panel-resize="horizontal"] * {
 .level-curve-fields {
   margin-top: var(--ds-space-4);
 }
-.entry-n > .ds-input,
-.item-amount-count > .ds-input {
+.entry-n > .ds-input {
   width: 100%;
 }
 
@@ -9851,8 +10066,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   min-width: 0;
 }
 .item-field > .ds-select,
-.item-effect-field > .ds-select,
-.item-amount-row > .ds-select {
+.item-effect-field > .ds-select {
   width: 100%;
   min-width: 0;
 }
@@ -9918,8 +10132,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--dim);
   font-size: 10px;
 }
-.item-effect-block,
-.item-recipe-list {
+.item-effect-block {
   display: grid;
   gap: 9px;
   min-width: 0;
@@ -9938,17 +10151,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .item-effect-add-button {
   flex: none;
-}
-.item-effect-order-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-inline-start: auto;
-}
-.item-recipe-delete {
-  min-width: 64px;
-  flex: none;
-  white-space: nowrap;
 }
 .item-effect-no-params {
   display: inline-flex;
@@ -10010,8 +10212,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex-wrap: wrap;
   gap: var(--ds-space-3);
 }
-.effect-editor-card__fields[data-effect-fields-layout="item"],
-.item-effect-grid {
+.effect-editor-card__fields[data-effect-fields-layout="item"] {
   display: grid;
   min-width: 0;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 28rem));
@@ -10022,11 +10223,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 .effect-editor-card__fields[data-effect-fields-layout="item"] > .item-effect-block,
 .effect-editor-card__fields[data-effect-fields-layout="item"] > .item-status-checks,
 .effect-editor-card__fields[data-effect-fields-layout="item"] > .item-script-binding,
-.effect-editor-card__fields[data-effect-fields-layout="item"] > .hint2,
-.item-effect-grid > .item-effect-block,
-.item-effect-grid > .item-status-checks,
-.item-effect-grid > .item-script-binding,
-.item-effect-grid > .hint2 {
+.effect-editor-card__fields[data-effect-fields-layout="item"] > .hint2 {
   grid-column: 1 / -1;
 }
 .item-effect-actions {
@@ -10050,14 +10247,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: auto;
   min-width: 0;
 }
-.item-recipe {
-  display: grid;
-  gap: 8px;
-  padding: 9px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--bg) 45%, transparent);
-}
 .item-amount-list {
   display: grid;
   gap: 5px;
@@ -10069,26 +10258,9 @@ button.sprite-frame-cell[draggable="true"]:active {
   gap: 6px;
   min-width: 0;
 }
-.item-amount-row.ordered {
-  grid-template-columns: minmax(140px, 1fr) minmax(4.5rem, 6rem) auto;
-}
-.item-amount-actions {
-  justify-self: end;
-}
-@container item-workbench (max-width: 520px) {
-  .item-amount-list .item-amount-row.ordered {
-    grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 6rem);
-  }
-  .item-amount-actions {
-    grid-column: 1 / -1;
-  }
-}
 .item-amount-row > .in {
   min-width: 0;
   width: 100%;
-}
-.item-amount-count {
-  text-align: right;
 }
 .item-resource-initial-state {
   display: grid;

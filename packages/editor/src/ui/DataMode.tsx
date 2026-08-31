@@ -46,6 +46,7 @@ import { EnemyTeamTab } from './EnemyTeamTab.js'
 import { EventLibTab } from './EventLibTab.js'
 import { type DataPageId, editorSubpageForDataPage } from './editor-navigation.js'
 import { ImageTab } from './ImageTab.js'
+import { CraftingAlchemyTab, SpiritGourdAlchemyTab } from './ItemAlchemyTab.js'
 import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
 import { PoisonTab } from './PoisonTab.js'
@@ -143,6 +144,8 @@ export function DataMode(props: {
   onOpenWorldVariable?: (id: string) => void
   onOpenCanonicalReference?: (reference: CanonicalScriptReference) => void
   onOpenItemReference?: (reference: ItemReference) => void
+  onOpenItem?: (id: string) => void
+  onOpenItemAlchemy?: (surface: 'crafting' | 'spirit-gourd', itemId: string) => void
   onOpenBattleDataReference?: (reference: BattleDataReference) => void
   onOpenProjectIssues?: () => void
   onJumpWorldSpriteReference?: (reference: SpriteDefinitionReference) => void
@@ -208,6 +211,8 @@ export function DataMode(props: {
     onOpenWorldVariable,
     onOpenCanonicalReference,
     onOpenItemReference,
+    onOpenItem,
+    onOpenItemAlchemy,
     onOpenProjectIssues,
     onJumpWorldSpriteReference,
     onJumpWorldSpriteActionReference,
@@ -321,6 +326,36 @@ export function DataMode(props: {
     )
   }
 
+  if (tab === 'crafting') {
+    return (
+      <CraftingAlchemyTab
+        items={itemList}
+        session={session}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+        onOpenItem={onOpenItem}
+        tabBar={tabBar}
+        itemReferenceIndex={itemReferenceIndex}
+        onStatusNotice={onStatusNotice}
+      />
+    )
+  }
+
+  if (tab === 'spirit-gourd') {
+    return (
+      <SpiritGourdAlchemyTab
+        items={itemList}
+        session={session}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+        onOpenItem={onOpenItem}
+        tabBar={tabBar}
+        itemReferenceIndex={itemReferenceIndex}
+        onStatusNotice={onStatusNotice}
+      />
+    )
+  }
+
   if (tab === 'item') {
     return (
       <ItemTab
@@ -346,6 +381,7 @@ export function DataMode(props: {
         onOpenImage={onOpenImage}
         onOpenScript={onOpenScript}
         onOpenItemReference={onOpenItemReference}
+        onOpenItemAlchemy={onOpenItemAlchemy}
         onOpenProjectIssues={onOpenProjectIssues}
         tabBar={tabBar}
         script={script}

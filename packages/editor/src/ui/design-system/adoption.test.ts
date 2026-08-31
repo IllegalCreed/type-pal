@@ -27,12 +27,12 @@ describe('design-system adoption gate', () => {
     const adopted = matrix.pages.map((page) => page.registry).sort()
 
     expect(matrix.version).toBe(4)
-    expect(matrix.catalogScrollOwners).toHaveLength(25)
+    expect(matrix.catalogScrollOwners).toHaveLength(27)
     expect(matrix.overlayExceptions).toHaveLength(7)
     expect(matrix.workspaceLegacyExceptions).toHaveLength(6)
     expect(adopted).toEqual(registered)
     expect(new Set(adopted).size).toBe(adopted.length)
-    expect(matrix.pages).toHaveLength(25)
+    expect(matrix.pages).toHaveLength(27)
     const legacyRegistries = new Set(
       matrix.workspaceLegacyExceptions.flatMap((entry) => entry.registries),
     )
@@ -1066,12 +1066,12 @@ type DataStateProps`,
       <DsCatalogWorkspace`,
       )
       .replace(
-        '          >\n            <section',
+        '          >\n            <div ref={stockSectionRef} tabIndex={-1}>',
         `          >
             <div className="future-nested-owner" />
             <div className="future-fake-bounded-owner" />
             <div className="future-percent-bounded-owner" />
-            <section`,
+            <div ref={stockSectionRef} tabIndex={-1}>`,
       )
     expect(invalidSource).not.toBe(shopSource)
     const invalid = structuredClone(matrix)
@@ -1192,8 +1192,8 @@ type DataStateProps`,
       <DsCatalogWorkspace`,
       )
       .replace(
-        '          >\n            <section',
-        '          >\n            <div className="future-bounded-owner" />\n            <section',
+        '          >\n            <div ref={stockSectionRef} tabIndex={-1}>',
+        '          >\n            <div className="future-bounded-owner" />\n            <div ref={stockSectionRef} tabIndex={-1}>',
       )
     const valid = structuredClone(matrix)
     shopScroll(valid).push(
@@ -2013,7 +2013,7 @@ type DataStateProps`,
       cwd: packageRoot,
       encoding: 'utf8',
     })
-    expect(output).toContain('design-system gate passed: 89 files, 2 evidence-bound exceptions')
+    expect(output).toContain('design-system gate passed: 91 files, 2 evidence-bound exceptions')
   }, 15_000)
 
   test('keeps legitimate native and dynamic geometry behind public boundaries', () => {

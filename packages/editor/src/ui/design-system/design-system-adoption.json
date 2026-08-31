@@ -622,6 +622,80 @@
       ]
     },
     {
+      "registry": "item/crafting",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "N/A: 炼蛊皿是单一项目机制，不是对象目录。",
+          "source": "ItemAlchemyTab.tsx",
+          "component": "ItemAlchemyTab",
+          "callsite": "class:item-alchemy-workbench--mechanism",
+          "reason": "唯一 canonical owner 只作为内部承载，不允许伪装成可增删对象列表。",
+          "verification": "route-live 只返回中央机制工作区与 Inspector。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "ItemAlchemyTab.tsx",
+          "component": "ItemAlchemyTab",
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "炼蛊皿中央列采用真实对象工作区内容 viewport。",
+          "verification": "wrapped workspace canonical content。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "ItemAlchemyTab.tsx",
+          "component": "ItemAlchemyTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "炼蛊皿 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
+      "registry": "item/spirit-gourd",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "N/A: 紫金葫芦是单一项目机制，不是对象目录。",
+          "source": "ItemAlchemyTab.tsx",
+          "component": "ItemAlchemyTab",
+          "callsite": "class:item-alchemy-workbench--mechanism",
+          "reason": "唯一 canonical owner 只作为内部承载，不允许伪装成可增删对象列表。",
+          "verification": "route-live 只返回中央机制工作区与 Inspector。"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "ItemAlchemyTab.tsx",
+          "component": "ItemAlchemyTab",
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "紫金葫芦中央列采用真实对象工作区内容 viewport。",
+          "verification": "wrapped workspace canonical content。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "ItemAlchemyTab.tsx",
+          "component": "ItemAlchemyTab",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "紫金葫芦 Inspector 由选中 tab panel 滚动。",
+          "verification": "route-live canonical import。"
+        }
+      ]
+    },
+    {
       "registry": "item/shop",
       "catalog": [
         {
@@ -1690,7 +1764,7 @@
       ],
       "status": "adopted",
       "owners": {
-        "catalog": "DsCatalogControls + DsCatalogRow",
+        "catalog": "N/A: single project mechanism",
         "scroll": "editor shell center / Inspector single owners",
         "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsNumberInput + DsPropertyRow + DsReadonlyValue + DsRepeatRow + DsSelect + DsTextArea + DsTextInput",
@@ -1717,7 +1791,7 @@
       "components": ["AmbienceScenePreview.tsx", "AmbienceTab.tsx"],
       "status": "adopted",
       "owners": {
-        "catalog": "DsCatalogControls + DsCatalogRow",
+        "catalog": "N/A: single project mechanism",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + DsInspectorTabs",
         "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsColorInput + DsField + DsNumberInput + DsReadoutList + DsSelectField + DsTextField + DsTextInput",
@@ -1983,6 +2057,60 @@
             "source": "ItemTab.tsx",
             "component": "ItemTab",
             "kinds": ["anchored-popup", "modal"]
+          }
+        ]
+      }
+    },
+    {
+      "registry": "item/crafting",
+      "components": ["ItemAlchemyEditors.tsx", "ItemAlchemyTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "N/A: single mechanism page has no object catalog",
+        "scroll": "DsObjectWorkspaceContent + DsInspectorTabs",
+        "overlay": "DsFloatingLayer",
+        "field": "DsDraftNumberInput + DsDraftTextField + DsFieldGroup + DsPropertyRow + DsSelect",
+        "action": "DsButton + DsIconButton"
+      },
+      "ownerEvidence": {
+        "field": [
+          {
+            "source": "ItemAlchemyTab.tsx",
+            "component": "CraftingAlchemyTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "ItemAlchemyTab.tsx",
+            "component": "CraftingAlchemyTab",
+            "kinds": ["anchored-popup"]
+          }
+        ]
+      }
+    },
+    {
+      "registry": "item/spirit-gourd",
+      "components": ["ItemAlchemyEditors.tsx", "ItemAlchemyTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "N/A: single mechanism page has no object catalog",
+        "scroll": "DsObjectWorkspaceContent + DsInspectorTabs",
+        "overlay": "DsFloatingLayer",
+        "field": "DsDraftNumberField + DsDraftNumberInput + DsDraftTextField + DsField + DsFieldGroup + DsPropertyRow + DsReadonlyValue + DsRepeatRow + DsSelect",
+        "action": "DsButton + DsIconButton"
+      },
+      "ownerEvidence": {
+        "field": [
+          {
+            "source": "ItemAlchemyTab.tsx",
+            "component": "SpiritGourdAlchemyTab"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "ItemAlchemyTab.tsx",
+            "component": "SpiritGourdAlchemyTab",
+            "kinds": ["anchored-popup"]
           }
         ]
       }

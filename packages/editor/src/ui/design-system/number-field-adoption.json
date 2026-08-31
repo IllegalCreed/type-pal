@@ -1,13 +1,13 @@
 {
   "version": 1,
   "baseline": {
-    "files": 35,
-    "leafCalls": 113,
+    "files": 37,
+    "leafCalls": 115,
     "controls": {
       "DsNumberInput": 55,
-      "DsDraftNumberInput": 29,
+      "DsDraftNumberInput": 30,
       "DsNumberField": 4,
-      "DsDraftNumberField": 25
+      "DsDraftNumberField": 26
     }
   },
   "modes": [
@@ -356,18 +356,46 @@
       "removalCondition": "效果编辑器迁入声明式 NumberField 时移除。"
     },
     {
-      "source": "ItemUseEffectEditor.tsx",
-      "component": "ItemAmountList",
+      "source": "ItemAlchemyEditors.tsx",
+      "component": "RecipeAmountList",
       "match": { "context": "none", "fieldClass": "" },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberInput",
       "measure": "specialized-css",
       "grid": "repeat-row",
-      "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "道具数量嵌在有选择器和排序动作的重复行。",
-      "verification": "ItemUseEffectEditor.tsx#ItemAmountList consumers",
-      "removalCondition": "重复行由公共数量行 recipe 接管时移除。"
+      "owner": "card:ED-ITEM-ALCHEMY-SURFACE-1",
+      "reason": "配方材料与产物数量嵌在选择器和删除动作组成的重复行。",
+      "verification": "ItemAlchemyTab.test.tsx#crafting",
+      "removalCondition": "数量行改为新的公共复合字段 recipe 时更新。"
+    },
+    {
+      "source": "ItemAlchemyEditors.tsx",
+      "component": "ResourceRewardTierList",
+      "match": { "context": "none", "fieldClass": "" },
+      "count": 1,
+      "mode": "compact-repeat-row",
+      "control": "DsDraftNumberInput",
+      "measure": "specialized-css",
+      "grid": "repeat-row",
+      "owner": "card:ED-ITEM-ALCHEMY-SURFACE-1",
+      "reason": "灵葫奖励数量与档位、物品和排序动作同行。",
+      "verification": "ItemAlchemyTab.test.tsx#spirit-gourd",
+      "removalCondition": "档位行取消数量编辑时删除。"
+    },
+    {
+      "source": "ItemAlchemyTab.tsx",
+      "component": "ItemAlchemyTab",
+      "match": { "context": "field-group", "fieldClass": "" },
+      "count": 1,
+      "mode": "main-form-short",
+      "control": "DsDraftNumberField",
+      "measure": "canonical-short",
+      "grid": "specialist-grid",
+      "owner": "card:ED-ITEM-ALCHEMY-SURFACE-1",
+      "reason": "紫金葫芦最大档位是机制表单中的短数字字段。",
+      "verification": "ItemAlchemyTab.test.tsx#spirit-gourd",
+      "removalCondition": "最大档位不再可编辑时删除。"
     },
     {
       "source": "ItemUseEffectEditor.tsx",
@@ -824,7 +852,7 @@
     {
       "source": "BattleSpriteUploader.tsx",
       "component": "BattleSpriteUploader",
-      "consumerCount": 4,
+      "consumerCount": 3,
       "context": "specialist-grid",
       "owner": "card:ED-NUMBER-FIELD-1",
       "reason": "角色、敌人和资源库共同复用两项切帧字段。",
@@ -862,6 +890,26 @@
       "removalCondition": "删除 helper 时移除。"
     },
     {
+      "source": "ItemAlchemyEditors.tsx",
+      "component": "RecipeAmountList",
+      "consumerCount": 2,
+      "context": "repeat-row",
+      "owner": "card:ED-NUMBER-FIELD-1",
+      "reason": "材料和产物两个数量集合复用同一个紧凑行 helper。",
+      "verification": "ItemAlchemyEditors.tsx local consumers",
+      "removalCondition": "配方数量集合不再复用时删除。"
+    },
+    {
+      "source": "ItemAlchemyTab.tsx",
+      "component": "ItemAlchemyTab",
+      "consumerCount": 2,
+      "context": "specialist-grid",
+      "owner": "card:ED-NUMBER-FIELD-1",
+      "reason": "炼蛊皿与紫金葫芦两个 route 复用机制工作台。",
+      "verification": "CraftingAlchemyTab + SpiritGourdAlchemyTab",
+      "removalCondition": "双机制页不再共享工作台时更新。"
+    },
+    {
       "source": "ItemTab.tsx",
       "component": "Num",
       "consumerCount": 4,
@@ -873,21 +921,11 @@
     },
     {
       "source": "ItemUseEffectEditor.tsx",
-      "component": "ItemAmountList",
-      "consumerCount": 3,
-      "context": "repeat-row",
-      "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "三组道具数量列表。",
-      "verification": "ItemUseEffectEditor.tsx local consumers",
-      "removalCondition": "删除 helper 时移除。"
-    },
-    {
-      "source": "ItemUseEffectEditor.tsx",
       "component": "NumberField",
-      "consumerCount": 27,
+      "consumerCount": 26,
       "context": "specialist-grid",
       "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "二十七个效果数值消费点。",
+      "reason": "二十六个普通物品效果数值消费点；双炼化字段已迁出。",
       "verification": "ItemUseEffectEditor.tsx local consumers",
       "removalCondition": "删除 helper 时移除。"
     },
@@ -999,16 +1037,8 @@
       "property": "grid-template-columns",
       "owner": "card:ED-NUMBER-FIELD-1",
       "reason": "数量列与选择器及动作同排。",
-      "verification": "ItemUseEffectEditor.tsx#ItemAmountList",
-      "removalCondition": "重复行由公共 recipe 接管。"
-    },
-    {
-      "selector": ".item-amount-row.ordered",
-      "property": "grid-template-columns",
-      "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "可排序数量行增加三个动作槽。",
-      "verification": "ItemUseEffectEditor.tsx#ordered ItemAmountList",
-      "removalCondition": "重复行由公共 recipe 接管。"
+      "verification": "SkillTab.tsx#skill-cost-item-row",
+      "removalCondition": "技能消耗物品行迁入独立公共 recipe 时删除。"
     },
     {
       "selector": ".ef-num",

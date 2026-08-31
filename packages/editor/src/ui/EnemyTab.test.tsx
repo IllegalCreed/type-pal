@@ -50,6 +50,7 @@ function state(): EditorState {
   const enemies = [enemy('enemy-a'), enemy('enemy-b', 'enemy-a')]
   enemies[0] = {
     ...enemies[0]!,
+    stats: { ...enemies[0]!.stats, collectValue: 3 },
     steal: { itemId: 'item-a', count: 2 },
     attackEquivItem: { itemId: 'item-b', rate: 3 },
     onDefeated: [
@@ -290,10 +291,15 @@ describe('EnemyTab shared workbench', () => {
     expect(catalogRows.every((row) => row.dataset.leading === 'present')).toBe(true)
     expect(catalogRows[0]?.querySelector('.ds-catalog-row__title')?.textContent).toBe('赤鬼王')
     expect(catalogRows[0]?.querySelector('.ds-catalog-row__meta')?.textContent).toBe('enemy-a')
-    expect(catalogRows[0]?.querySelector('.ds-catalog-row__trailing')).toBeNull()
+    expect(catalogRows[0]?.querySelector('.ds-catalog-row__trailing')?.textContent).toBe(
+      '收服 +3 灵葫值',
+    )
     expect(catalogRows[1]?.querySelector('.ds-catalog-row__title')?.textContent).toBe('变身者')
     expect(catalogRows[1]?.querySelector('.ds-catalog-row__meta')?.textContent).toBe('enemy-b')
-    expect(catalogRows[1]?.querySelector('.ds-catalog-row__trailing')?.textContent).toBe('1 规则')
+    expect(catalogRows[1]?.querySelector('.ds-catalog-row__trailing')?.textContent).toBe(
+      '收服 +0 灵葫值',
+    )
+    expect(hero.textContent).toContain('收服 +3 灵葫值')
     const thumbnails = [
       ...host.querySelectorAll<HTMLCanvasElement>(
         '.ds-catalog-row__leading .enemy-battle-sprite-thumbnail[aria-hidden="true"]',
@@ -370,12 +376,20 @@ describe('EnemyTab shared workbench', () => {
 
     const combat = host.querySelector<HTMLElement>('[data-enemy-stat-group="combat"]')!
     const rewards = host.querySelector<HTMLElement>('[data-enemy-stat-group="rewards"]')!
+    const capture = host.querySelector<HTMLElement>('[data-enemy-stat-group="capture"]')!
     const actionSounds = host.querySelector<HTMLElement>('[data-enemy-sound-group="actions"]')!
     const stateSounds = host.querySelector<HTMLElement>('[data-enemy-sound-group="states"]')!
     expect(combat.querySelector('legend')?.textContent).toBe('战斗能力')
     expect(combat.querySelectorAll('.ds-field')).toHaveLength(8)
     expect(rewards.querySelector('legend')?.textContent).toBe('战后结算')
-    expect(rewards.querySelectorAll('.ds-field')).toHaveLength(3)
+    expect(rewards.querySelectorAll('.ds-field')).toHaveLength(2)
+    expect(capture.querySelector('legend')?.textContent).toBe('灵葫咒收服')
+    expect(capture.querySelectorAll('.ds-field')).toHaveLength(1)
+    const collect = capture.querySelector<HTMLInputElement>('input[name$=".stats.collectValue"]')!
+    expect(collect.labels?.[0]?.textContent).toContain('收服获得灵葫值')
+    expect(capture.textContent).toContain(
+      '灵葫咒成功收服该敌人时，实际增加到全局灵葫值；0 表示不增加灵葫值。',
+    )
     expect(actionSounds.querySelectorAll('.ds-field')).toHaveLength(3)
     expect(stateSounds.querySelectorAll('.ds-field')).toHaveLength(2)
     expect(host.querySelector('.enemy-sound-option')?.textContent).toContain('施法音优先')
@@ -385,6 +399,13 @@ describe('EnemyTab shared workbench', () => {
     expect(session.getState().enemies?.[0]?.stats.health).toBe(88)
     await act(async () => expect(session.undo()).toBe(true))
     expect(session.getState().enemies?.[0]?.stats.health).toBe(50)
+
+    const beforeCollect = session.getHistoryVersion()
+    await setAndCommit(collect, '5')
+    expect(session.getHistoryVersion()).toBe(beforeCollect + 1)
+    expect(session.getState().enemies?.[0]?.stats.collectValue).toBe(5)
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().enemies?.[0]?.stats.collectValue).toBe(3)
   })
 
   test('[reorder-family:enemy-ai] AI handle 同值相邻移动零命令，有效移动单命令且 undo/redo 对称', async () => {

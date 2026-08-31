@@ -456,6 +456,56 @@ describe('App item reference navigation', () => {
     expect(second.focusItemPrivateScript?.revision).toBeGreaterThan(firstRevision)
   })
 
+  test('炼蛊配方与灵葫奖励引用分别跳到两个精确机制 route', async () => {
+    await renderApp()
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenItemReference
+    const referenceBase = {
+      itemId: '289',
+      access: 'reward' as const,
+      source: 'item' as const,
+      label: '石钥匙',
+      where: 'items[0].use.effects[0]',
+      detail: '机制引用',
+      ownerItemId: '289',
+    }
+
+    await act(async () =>
+      openReference({
+        ...referenceBase,
+        locator: { kind: 'item-crafting', itemId: '289' },
+      }),
+    )
+    expect(window.location.search).toContain('module=item')
+    expect(window.location.search).toContain('page=crafting')
+    expect(window.location.search).toContain('object=289')
+
+    await act(async () =>
+      openReference({
+        ...referenceBase,
+        locator: { kind: 'item-spirit-gourd', itemId: '289' },
+      }),
+    )
+    expect(window.location.search).toContain('page=spirit-gourd')
+    expect(window.location.search).toContain('object=289')
+  })
+
+  test('单一炼化机制 route 在 toolbar、视图菜单和分隔条中都不伪造对象列表', async () => {
+    window.history.replaceState({}, '', '/?module=item&page=crafting&object=289')
+    await renderApp()
+
+    const toolbar = host.querySelector<HTMLElement>('[role="toolbar"][aria-label="常用操作"]')!
+    expect(toolbar.querySelector('button[aria-label="对象列表"]')).toBeNull()
+    expect(host.querySelector('.app-outliner-resizer')).toBeNull()
+
+    const view = [
+      ...host.querySelectorAll<HTMLButtonElement>('[role="menubar"] [role="menuitem"]'),
+    ].find((candidate) => candidate.textContent?.trim() === '视图')!
+    await act(async () => view.click())
+    const menu = document.querySelector<HTMLElement>('[role="menu"][aria-label="视图"]')!
+    expect(menu.textContent).not.toContain('对象列表')
+  })
+
   test('场景引用会同时切换场景、实体、脚本抽屉和精确指令', async () => {
     await renderApp()
     const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)

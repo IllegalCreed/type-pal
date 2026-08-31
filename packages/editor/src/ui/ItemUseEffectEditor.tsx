@@ -1,7 +1,6 @@
 import type {
   AuthorCommand,
   ItemData,
-  ItemRecipe,
   ItemUseEffect,
   PoisonCurability,
   PoisonDef,
@@ -13,28 +12,23 @@ import type {
   UseSpec,
 } from '@type-pal/content'
 import { itemUseEffectSupportsContext } from '@type-pal/content'
-import { createContext, memo, type ComponentProps, type ReactNode, useContext } from 'react'
+import { type ComponentProps, createContext, memo, type ReactNode, useContext } from 'react'
 import {
   DsButton,
   DsCheckbox,
   DsDraftNumberField,
-  DsDraftNumberInput,
   DsDraftTextField,
   DsField,
   DsFieldGroup,
-  DsIconButton,
   DsReadonlyValue,
   DsSelect,
   DsSelectField,
 } from './design-system/controls.js'
-import { DsActionGroup, DsRepeatRow } from './design-system/recipes.js'
 import {
   DsReorderCollection,
-  DsReorderItem,
-  DsReorderMoveButton,
+  type DsReorderIntent,
   reorderDsItems,
   sameDsSerializableValue,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/reorder.js'
 import { EffectEditorCard, EffectEditorChain } from './EffectEditorCard.js'
@@ -65,8 +59,8 @@ const EFFECT_KINDS: { value: ItemUseEffect['kind']; label: string }[] = [
   { value: 'dieIfNotPoisoned', label: '未中毒则死亡' },
   { value: 'runScript', label: '使用可复用脚本' },
   { value: 'runSceneHook', label: '调用场景钩子' },
-  { value: 'craftRecipe', label: '合成配方' },
-  { value: 'drawFromResourcePool', label: '资源池抽取' },
+  { value: 'craftRecipe', label: '炼蛊皿配方' },
+  { value: 'drawFromResourcePool', label: '紫金葫芦奖励' },
   { value: 'extraPoisonRes', label: '临时毒抗' },
   { value: 'hideParty', label: '全队隐身' },
   { value: 'modifyHostileAwareness', label: '调整明雷感知' },
@@ -88,6 +82,8 @@ const SCENE_EFFECTS = new Set<ItemUseEffect['kind']>([
   'modifyHostileAwareness',
   'placeEntityInFront',
 ])
+
+const ALCHEMY_EFFECTS = new Set<ItemUseEffect['kind']>(['craftRecipe', 'drawFromResourcePool'])
 
 const ItemEffectDraftContext = createContext({
   scope: 'item-effect',
@@ -376,254 +372,6 @@ function NumberField(props: {
   )
 }
 
-function ItemAmountList(props: {
-  label: string
-  entries: readonly { itemId: string; count: number }[]
-  items: readonly ItemData[]
-  minimum?: number
-  ordered?: boolean
-  onChange: (entries: { itemId: string; count: number }[]) => void
-}) {
-  const draft = useContext(ItemEffectDraftContext)
-  const { entries, items, onChange } = props
-  const minimum = props.minimum ?? 1
-  const reorderKeys = useDsReorderKeys(entries)
-  const reorder = (intent: DsReorderIntent): boolean => {
-    const next = reorderDsItems(entries, intent, 'insert', sameDsSerializableValue)
-    if (next === entries) return false
-    reorderKeys.move(intent)
-    onChange([...next])
-    return true
-  }
-  const rows = entries.map((entry, index) => {
-    const reorderKey = reorderKeys.keys[index]!
-    const deleteButton = (
-      <DsIconButton
-        variant="danger"
-        icon="delete"
-        label={`删除${props.label} ${index + 1}`}
-        disabled={entries.length <= minimum}
-        onClick={() => onChange(entries.filter((_, current) => current !== index))}
-      />
-    )
-    const rowContent = (
-      <>
-        <DsSelect
-          aria-label={`${props.label}物品 ${index + 1}`}
-          value={entry.itemId}
-          options={[
-            ...(!items.some((item) => item.id === entry.itemId)
-              ? [{ value: entry.itemId, label: `⚠ ${entry.itemId}` }]
-              : []),
-            ...items.map((item) => ({
-              value: item.id,
-              label: item.name,
-              description: item.id,
-            })),
-          ]}
-          onValueChange={(value) => {
-            const next = [...entries]
-            next[index] = { ...entry, itemId: value }
-            onChange(next)
-          }}
-        />
-        <span className="item-amount-count">
-          <DsDraftNumberInput
-            draftKey={`${draft.scope}:amount:${props.label}:${props.ordered ? reorderKey : index}`}
-            syncToken={draft.syncToken}
-            min={1}
-            enforceRange={false}
-            integer
-            aria-label={`${props.label}数量 ${index + 1}`}
-            value={entry.count}
-            onCommit={(value) => {
-              if (value === undefined) return
-              const next = [...entries]
-              next[index] = { ...entry, count: positive(value) }
-              onChange(next)
-            }}
-          />
-        </span>
-        {props.ordered ? (
-          <DsActionGroup density="compact" className="item-amount-actions">
-            <DsReorderMoveButton
-              itemKey={reorderKey}
-              direction="backward"
-              label={`上移${props.label} ${index + 1}`}
-            />
-            <DsReorderMoveButton
-              itemKey={reorderKey}
-              direction="forward"
-              label={`下移${props.label} ${index + 1}`}
-            />
-            {deleteButton}
-          </DsActionGroup>
-        ) : (
-          deleteButton
-        )}
-      </>
-    )
-    return props.ordered ? (
-      <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-        <DsRepeatRow density="compact" className="item-amount-row ordered">
-          {rowContent}
-        </DsRepeatRow>
-      </DsReorderItem>
-    ) : (
-      <div className="item-amount-row" key={`${entry.itemId}-${index}`}>
-        {rowContent}
-      </div>
-    )
-  })
-  return (
-    <div className="item-amount-list">
-      <div className="item-effect-subhead">
-        <span>{props.label}</span>
-        <DsIconButton
-          data-ds-add-picker-deferred="item/item-amount-append-default"
-          size="compact"
-          variant="secondary"
-          icon="add"
-          label={`添加${props.label}`}
-          disabled={!items.length}
-          onClick={() => {
-            if (!items.length) return
-            onChange([...entries, { itemId: items[0]!.id, count: 1 }])
-          }}
-        />
-      </div>
-      {props.ordered ? (
-        <DsReorderCollection
-          adoptionId="item/resource-reward-tiers"
-          scopeKey={`${draft.scope}:ordered-amounts:${props.label}`}
-          entries={entries.map((entry, index) => ({
-            key: reorderKeys.keys[index]!,
-            label: items.find((item) => item.id === entry.itemId)?.name ?? entry.itemId,
-          }))}
-          revision={draft.syncToken}
-          onReorder={reorder}
-        >
-          {rows}
-        </DsReorderCollection>
-      ) : (
-        rows
-      )}
-    </div>
-  )
-}
-
-function RecipeEditor(props: {
-  recipes: readonly ItemRecipe[]
-  items: readonly ItemData[]
-  excludedIngredientItemId?: string
-  onChange: (recipes: ItemRecipe[]) => void
-}) {
-  const draft = useContext(ItemEffectDraftContext)
-  const { recipes, items, onChange } = props
-  const reorderKeys = useDsReorderKeys(recipes)
-  const ingredientItems = items.filter((item) => item.id !== props.excludedIngredientItemId)
-  const patch = (index: number, next: ItemRecipe): void => {
-    const result = [...recipes]
-    result[index] = next
-    onChange(result)
-  }
-  const reorder = (intent: DsReorderIntent): boolean => {
-    const next = reorderDsItems(recipes, intent, 'insert', sameDsSerializableValue)
-    if (next === recipes) return false
-    reorderKeys.move(intent)
-    onChange([...next])
-    return true
-  }
-  return (
-    <div className="item-recipe-list">
-      <DsReorderCollection
-        adoptionId="item/craft-recipes"
-        scopeKey={`${draft.scope}:recipes`}
-        entries={recipes.map((_recipe, index) => ({
-          key: reorderKeys.keys[index]!,
-          label: `配方 ${index + 1}`,
-        }))}
-        revision={draft.syncToken}
-        onReorder={reorder}
-      >
-        {recipes.map((recipe, index) => {
-          const reorderKey = reorderKeys.keys[index]!
-          return (
-            <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-              <ItemEffectDraftScope scope={`recipe:${reorderKey}`}>
-                <div className="item-recipe">
-                  <div className="item-effect-subhead">
-                    <strong>配方 {index + 1}</strong>
-                    <span
-                      className="item-effect-order-actions ds-control-group__actions"
-                      role="group"
-                      aria-label={`配方 ${index + 1} 排序与删除`}
-                    >
-                      <DsReorderMoveButton
-                        itemKey={reorderKey}
-                        direction="backward"
-                        label={`上移配方 ${index + 1}`}
-                      />
-                      <DsReorderMoveButton
-                        itemKey={reorderKey}
-                        direction="forward"
-                        label={`下移配方 ${index + 1}`}
-                      />
-                      <DsButton
-                        size="compact"
-                        variant="danger"
-                        icon="delete"
-                        className="item-recipe-delete"
-                        disabled={recipes.length <= 1}
-                        onClick={() => onChange(recipes.filter((_, current) => current !== index))}
-                      >
-                        删除配方
-                      </DsButton>
-                    </span>
-                  </div>
-                  <ItemAmountList
-                    label="材料"
-                    entries={recipe.ingredients}
-                    items={ingredientItems}
-                    onChange={(ingredients) => patch(index, { ...recipe, ingredients })}
-                  />
-                  <ItemAmountList
-                    label="产物"
-                    entries={recipe.products}
-                    items={items}
-                    onChange={(products) => patch(index, { ...recipe, products })}
-                  />
-                </div>
-              </ItemEffectDraftScope>
-            </DsReorderItem>
-          )
-        })}
-      </DsReorderCollection>
-      <DsButton
-        data-ds-add-picker-deferred="item/craft-recipe-append-default"
-        size="compact"
-        variant="primary"
-        icon="add"
-        disabled={!ingredientItems.length || !items.length}
-        onClick={() => {
-          const ingredientId = ingredientItems[0]?.id
-          const productId = items[0]?.id
-          if (!ingredientId || !productId) return
-          onChange([
-            ...recipes,
-            {
-              ingredients: [{ itemId: ingredientId, count: 1 }],
-              products: [{ itemId: productId, count: 1 }],
-            },
-          ])
-        }}
-      >
-        添加配方
-      </DsButton>
-    </div>
-  )
-}
-
 function EffectFields(props: {
   effect: ItemUseEffect
   items: readonly ItemData[]
@@ -631,13 +379,14 @@ function EffectFields(props: {
   scripts: readonly ItemScriptOption[]
   onChange: (effect: ItemUseEffect) => void
   onOpenScript?: (id: string) => void
+  onOpenAlchemy?: (surface: 'crafting' | 'spirit-gourd') => void
   subjectItemId?: string
   consuming?: boolean
   scenes?: readonly SceneDef[]
   draftScope?: string
   syncToken?: string | number
 }) {
-  const { effect, items, poisons, scripts, onChange } = props
+  const { effect, poisons, scripts, onChange } = props
   const draft = useContext(ItemEffectDraftContext)
   switch (effect.kind) {
     case 'healHp':
@@ -879,73 +628,40 @@ function EffectFields(props: {
       )
     case 'craftRecipe':
       return (
-        <div className="item-effect-block">
-          <RecipeEditor
-            recipes={effect.recipes}
-            items={items}
-            excludedIngredientItemId={props.consuming ? props.subjectItemId : undefined}
-            onChange={(recipes) => onChange({ ...effect, recipes })}
-          />
-          <EffectDraftTextField
-            label="材料不足提示"
-            wide
-            draftKey={`${draft.scope}:recipeUnavailableMessage`}
-            syncToken={draft.syncToken}
-            value={effect.unavailableMessage ?? ''}
-            onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
-          />
-        </div>
-      )
-    case 'drawFromResourcePool': {
-      const resourceName = effect.resource.trim()
-      const resizeRewards = (maxRoll: number): ItemUseEffect => {
-        const rewards = [...effect.rewards]
-        const fallback = rewards.at(-1) ?? { itemId: firstItem(items), count: 1 }
-        while (rewards.length < maxRoll) rewards.push({ ...fallback })
-        return { ...effect, maxRoll, rewards }
-      }
-      return (
-        <div className="item-effect-block">
-          <div className="item-effect-grid item-effect-nested-grid">
-            <EffectDraftTextField
-              label="资源变量"
-              draftKey={`${draft.scope}:resource`}
-              syncToken={draft.syncToken}
-              monospace
-              value={effect.resource}
-              onCommit={(value) => onChange({ ...effect, resource: value.trim() })}
-              invalid={effect.resource !== resourceName}
-              aria-label="资源变量名称"
-            />
-            <NumberField
-              label="最大点数"
-              value={effect.maxRoll}
-              onChange={(maxRoll) => onChange(resizeRewards(maxRoll))}
-            />
+        <div className="item-alchemy-effect-summary">
+          <div>
+            <strong>炼蛊皿配方</strong>
+            <span>{effect.recipes.length} 条有序配方 · 材料 → 产物</span>
           </div>
-          <ItemAmountList
-            label="奖励档位"
-            entries={effect.rewards}
-            items={items}
-            minimum={effect.maxRoll}
-            ordered
-            onChange={(rewards) => onChange({ ...effect, rewards })}
-          />
-          <p className="item-effect-help">
-            随机抽取 1…当前资源值，封顶为 {effect.maxRoll}；扣除抽中点数后，使用对应档位的奖励。
-            各启动入口的资源初始值在“项目设置 → 入口与开局”中分别配置。
-          </p>
-          <EffectDraftTextField
-            label="不可用提示"
-            wide
-            draftKey={`${draft.scope}:poolUnavailableMessage`}
-            syncToken={draft.syncToken}
-            value={effect.unavailableMessage ?? ''}
-            onCommit={(value) => onChange({ ...effect, unavailableMessage: value || undefined })}
-          />
+          <DsButton
+            variant="secondary"
+            icon="open"
+            disabled={!props.onOpenAlchemy}
+            onClick={() => props.onOpenAlchemy?.('crafting')}
+          >
+            在“炼蛊皿”页面编辑
+          </DsButton>
         </div>
       )
-    }
+    case 'drawFromResourcePool':
+      return (
+        <div className="item-alchemy-effect-summary">
+          <div>
+            <strong>紫金葫芦奖励</strong>
+            <span>
+              {effect.resource} · 最高实际消耗 {effect.maxRoll} 灵葫值 · 第 N 行实际扣除 N 点
+            </span>
+          </div>
+          <DsButton
+            variant="secondary"
+            icon="open"
+            disabled={!props.onOpenAlchemy}
+            onClick={() => props.onOpenAlchemy?.('spirit-gourd')}
+          >
+            在“紫金葫芦”页面编辑
+          </DsButton>
+        </div>
+      )
     case 'extraPoisonRes':
       return (
         <NumberField
@@ -1103,6 +819,7 @@ interface ItemUseEffectChainEditorProps {
   scripts: readonly ItemScriptOption[]
   onChange: (next: UseSpec) => void
   onOpenScript?: (id: string) => void
+  onOpenAlchemy?: (surface: 'crafting' | 'spirit-gourd') => void
   /** ED-5J: 新建当前物品脚本（use 槽）；提供时在“添加效果”旁显示入口。 */
   onAddPrivateScript?: () => void
   onError?: (message: string) => void
@@ -1198,6 +915,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
   }
   const compatibleKindsAt = (index: number): typeof EFFECT_KINDS =>
     EFFECT_KINDS.filter((entry) => {
+      if (ALCHEMY_EFFECTS.has(entry.value)) return false
       if (entry.value === use.effects[index]?.kind) return true
       if (EXCLUSIVE_EFFECTS.has(entry.value)) return true
       try {
@@ -1209,6 +927,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
     })
   const firstAppendableKind = (): ItemUseEffect['kind'] | undefined =>
     EFFECT_KINDS.map((entry) => entry.value).find((kind) => {
+      if (ALCHEMY_EFFECTS.has(kind)) return false
       try {
         return compatibleChain([...use.effects, createDefaultEffect(kind)])
       } catch {
@@ -1314,8 +1033,13 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
             key: reorderKeys.keys[index]!,
             label: props.privateScripts?.[index]
               ? '当前物品脚本'
-              : (EFFECT_KINDS.find((entry) => entry.value === effect.kind)?.label ?? effect.kind),
-            disabled: isExclusiveEffect(effect),
+              : effect.kind === 'craftRecipe'
+                ? '炼蛊皿配方'
+                : effect.kind === 'drawFromResourcePool'
+                  ? '紫金葫芦奖励'
+                  : (EFFECT_KINDS.find((entry) => entry.value === effect.kind)?.label ??
+                    effect.kind),
+            disabled: isExclusiveEffect(effect) || ALCHEMY_EFFECTS.has(effect.kind),
           }))}
           revision={reorderRevision}
           onReorder={reorderEffects}
@@ -1336,6 +1060,10 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
                       <DsReadonlyValue className="item-private-script-kind">
                         当前物品脚本
                       </DsReadonlyValue>
+                    ) : ALCHEMY_EFFECTS.has(effect.kind) ? (
+                      <DsReadonlyValue className="item-alchemy-effect-kind">
+                        {effect.kind === 'craftRecipe' ? '炼蛊皿' : '紫金葫芦'}
+                      </DsReadonlyValue>
                     ) : (
                       <DsSelect
                         aria-label={`效果 ${index + 1} 类型`}
@@ -1347,6 +1075,12 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
                   }
                   fieldsLayout="item"
                   bodyLabel={privateScript ? '脚本内容' : undefined}
+                  removeDisabled={ALCHEMY_EFFECTS.has(effect.kind)}
+                  removeTitle={
+                    ALCHEMY_EFFECTS.has(effect.kind)
+                      ? '这是固定项目机制；普通物品页和机制页都不提供 owner 删除'
+                      : undefined
+                  }
                   onRemove={() => {
                     reorderKeys.remove(index)
                     patchEffects(use.effects.filter((_, at) => at !== index))
@@ -1363,6 +1097,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
                         scripts={scripts}
                         onChange={(next) => replaceAt(index, next)}
                         onOpenScript={props.onOpenScript}
+                        onOpenAlchemy={props.onOpenAlchemy}
                         subjectItemId={props.itemId}
                         consuming={use.consuming}
                         scenes={props.scenes}
@@ -1927,6 +1662,7 @@ function sameItemEffectChainProps(
     left.onChange === right.onChange &&
     left.onError === right.onError &&
     left.onOpenScript === right.onOpenScript &&
+    left.onOpenAlchemy === right.onOpenAlchemy &&
     left.onAddPrivateScript === right.onAddPrivateScript &&
     left.itemId === right.itemId &&
     left.scenes === right.scenes &&

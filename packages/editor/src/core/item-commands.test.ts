@@ -80,6 +80,73 @@ describe('物品 CRUD 命令', () => {
     expect(current.items.map((entry) => entry.id)).toEqual(['used'])
   })
 
+  test.each([
+    {
+      name: '炼蛊材料',
+      owner: {
+        ...item('vessel'),
+        use: {
+          target: 'scene' as const,
+          consuming: false,
+          effects: [
+            {
+              kind: 'craftRecipe' as const,
+              recipes: [
+                {
+                  ingredients: [{ itemId: 'used', count: 1 }],
+                  products: [{ itemId: 'product', count: 1 }],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+    {
+      name: '炼蛊产物',
+      owner: {
+        ...item('vessel'),
+        use: {
+          target: 'scene' as const,
+          consuming: false,
+          effects: [
+            {
+              kind: 'craftRecipe' as const,
+              recipes: [
+                {
+                  ingredients: [{ itemId: 'material', count: 1 }],
+                  products: [{ itemId: 'used', count: 1 }],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+    {
+      name: '灵葫奖励',
+      owner: {
+        ...item('gourd'),
+        use: {
+          target: 'scene' as const,
+          consuming: false,
+          effects: [
+            {
+              kind: 'drawFromResourcePool' as const,
+              resource: 'collectValue',
+              maxRoll: 1,
+              rewards: [{ itemId: 'used', count: 1 }],
+            },
+          ],
+        },
+      },
+    },
+  ])('DeleteItem 会阻断 $name 引用', ({ owner }) => {
+    const current = state([item('used'), item('material'), item('product'), owner])
+    expect(() => new DeleteItemCommand('used').apply(current)).toThrow(/物品/)
+    expect(current.items.some((entry) => entry.id === 'used')).toBe(true)
+  })
+
   test('DeleteItem 每次从 canonical provider 重算脚本引用', () => {
     const current = state([item('used')])
     const canonical: ScriptEditorState = {

@@ -178,6 +178,7 @@ export function ConnectedDataMode(props: ConnectedDataModeProps) {
     // ItemTab reads canonical private-script bodies directly. Projecting every shell item here
     // cloned the full 234-item table for a description-only commit.
     if (tab === 'item') return canonical
+    if (tab === 'crafting' || tab === 'spirit-gourd') return undefined
     if (tab === 'poison') return undefined
     return projectActiveScriptEditorState(canonical, state.items)
   }, [canonical, state.items, tab])

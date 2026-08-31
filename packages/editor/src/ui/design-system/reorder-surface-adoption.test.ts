@@ -173,10 +173,7 @@ describe('reorder visible surface adoption gate', () => {
     for (const adoption of adoptions) {
       if (!['repeat-row', 'object-card'].includes(adoption.contentSurface)) continue
       expect(adoption.contentOwner.file, adoption.adoptionId).toMatch(/\.tsx$/)
-      const owners = jsxOwners(
-        adoption.contentOwner.file,
-        adoption.contentOwner.fingerprint,
-      )
+      const owners = jsxOwners(adoption.contentOwner.file, adoption.contentOwner.fingerprint)
       expect(owners, `${adoption.adoptionId} content owner`).toHaveLength(1)
       const owner = owners[0]!
       if (adoption.contentSurface === 'repeat-row')
@@ -195,7 +192,7 @@ describe('reorder visible surface adoption gate', () => {
     const expectations: Array<[string, RegExp]> = [
       ['EnemyTab.tsx', /<DsRepeatRow[^>]*className="rule-row"/s],
       ['EnemyTeamTab.tsx', /<DsRepeatRow[^>]*className="enemy-team-slot"/s],
-      ['ItemUseEffectEditor.tsx', /<DsRepeatRow[^>]*className="item-amount-row ordered"/s],
+      ['ItemAlchemyEditors.tsx', /<DsRepeatRow[^>]*className="item-alchemy-reward-row"/s],
       ['ActorMode.tsx', /<DsRepeatRow[^>]*className="actor-initial-magic-row"/s],
       ['CommandForm.tsx', /<DsRepeatRow[^>]*className="cf-dialog-row"/s],
       ['CommandForm.tsx', /<DsRepeatRow[^>]*className="cf-party-row"/s],
@@ -213,7 +210,7 @@ describe('reorder visible surface adoption gate', () => {
     for (const selector of [
       '.actor-initial-magic-row',
       '.enemy-team-slot',
-      '.item-amount-row.ordered',
+      '.item-alchemy-reward-row',
       '.cf-dialog-row',
       '.cf-party-row',
       '.rule-row',

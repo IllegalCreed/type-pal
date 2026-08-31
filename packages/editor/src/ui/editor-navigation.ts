@@ -24,6 +24,8 @@ export const DATA_PAGE_IDS = [
   'sprite',
   'skill',
   'item',
+  'crafting',
+  'spirit-gourd',
   'enemy',
   'enemy-team',
   'poison',
@@ -54,6 +56,8 @@ export interface EditorSubpageDefinition {
   dataPage?: DataPageId
   projectPage?: ProjectPageId
   acceptsObject?: boolean
+  /** 显式关闭单一机制/文档页不存在的左侧对象目录。 */
+  outliner?: boolean
   /** 显式关闭没有属性语义的右侧 Inspector；其余非项目工作区默认提供。 */
   inspector?: boolean
 }
@@ -163,6 +167,24 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         kind: 'data',
         dataPage: 'item',
         acceptsObject: true,
+      },
+      {
+        id: 'crafting',
+        label: '炼蛊皿',
+        icon: '⚗️',
+        kind: 'data',
+        dataPage: 'crafting',
+        acceptsObject: true,
+        outliner: false,
+      },
+      {
+        id: 'spirit-gourd',
+        label: '紫金葫芦',
+        icon: '🏺',
+        kind: 'data',
+        dataPage: 'spirit-gourd',
+        acceptsObject: true,
+        outliner: false,
       },
       {
         id: 'shop',
@@ -326,6 +348,10 @@ export function editorSubpage(location: EditorLocation): EditorSubpageDefinition
 
 export function editorSubpageHasInspector(subpage: EditorSubpageDefinition): boolean {
   return subpage.kind !== 'project' && subpage.inspector !== false
+}
+
+export function editorSubpageHasOutliner(subpage: EditorSubpageDefinition): boolean {
+  return subpage.outliner !== false
 }
 
 /**
@@ -524,6 +550,16 @@ export const editorLinks = {
   item: (itemId: string): EditorLocation => ({
     module: 'item',
     subpage: 'item',
+    objectId: itemId,
+  }),
+  itemCrafting: (itemId: string): EditorLocation => ({
+    module: 'item',
+    subpage: 'crafting',
+    objectId: itemId,
+  }),
+  spiritGourd: (itemId: string): EditorLocation => ({
+    module: 'item',
+    subpage: 'spirit-gourd',
     objectId: itemId,
   }),
   skill: (skillId: string): EditorLocation => ({

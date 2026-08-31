@@ -1038,6 +1038,25 @@ describe('validateItems · C8 用途能力契约', () => {
           consuming: false,
           effects: [
             {
+              kind: 'drawFromResourcePool',
+              resource: 'collectValue',
+              maxRoll: 2,
+              rewards: [
+                { itemId: 'one', count: 1 },
+                { itemId: 'two', count: 1 },
+              ],
+            },
+          ],
+        }),
+      ]),
+    ).not.toThrow()
+    expect(() =>
+      validateItems([
+        item({
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
               kind: 'craftRecipe',
               recipes: [{ ingredients: [], products: [{ itemId: 'out', count: 1 }] }],
             },
@@ -1060,7 +1079,27 @@ describe('validateItems · C8 用途能力契约', () => {
           ],
         }),
       ]),
-    ).toThrow(/至少覆盖 maxRoll 档/)
+    ).toThrow(/档位数必须恰好等于 maxRoll/)
+    expect(() =>
+      validateItems([
+        item({
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'drawFromResourcePool',
+              resource: 'collectValue',
+              maxRoll: 2,
+              rewards: [
+                { itemId: 'one', count: 1 },
+                { itemId: 'two', count: 1 },
+                { itemId: 'unreachable', count: 1 },
+              ],
+            },
+          ],
+        }),
+      ]),
+    ).toThrow(/档位数必须恰好等于 maxRoll/)
     expect(() =>
       validateItems([
         {

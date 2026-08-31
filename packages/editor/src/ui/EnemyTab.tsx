@@ -11,9 +11,9 @@ import type {
   AiCond,
   AiRule,
   AiTarget,
-  AuthorEnemyDef,
   AssetCatalogV1,
   AssetId,
+  AuthorEnemyDef,
   BattleSpriteDef,
   EnemyDef,
   EnemySounds,
@@ -51,6 +51,7 @@ import {
   DsSelect,
   DsTag,
 } from './design-system/controls.js'
+import { DsDialog } from './design-system/overlays.js'
 import {
   DsActionGroup,
   DsCatalogControls,
@@ -59,10 +60,10 @@ import {
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
+  DsNumberFieldGrid,
   DsObjectHero,
   DsObjectWorkspace,
   DsObjectWorkspaceContent,
-  DsNumberFieldGrid,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -70,17 +71,20 @@ import {
   DsSequenceIndex,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
-import { DsDialog } from './design-system/overlays.js'
 import {
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
   reorderDsItems,
   sameDsSerializableValue,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/reorder.js'
 import { EnemyAnimPreview } from './EnemyAnimPreview.js'
+import {
+  EnemyBattleSpriteThumbnail,
+  EnemyBattleSpriteThumbnailCache,
+} from './EnemyBattleSpriteThumbnail.js'
 import {
   createEnemyDefeatedPresentationContext,
   type EnemyDefeatedEventNode,
@@ -88,10 +92,6 @@ import {
   presentEnemyDefeatedEvents,
   replaceEditableEnemyDefeatedItemReward,
 } from './enemy-defeated-events.js'
-import {
-  EnemyBattleSpriteThumbnail,
-  EnemyBattleSpriteThumbnailCache,
-} from './EnemyBattleSpriteThumbnail.js'
 import { SoundPicker } from './SoundPicker.js'
 
 type NumericEnemyStatKey =
@@ -134,8 +134,12 @@ const ENEMY_STAT_GROUPS: readonly {
     fields: [
       { key: 'exp', label: '经验' },
       { key: 'cash', label: '金钱' },
-      { key: 'collectValue', label: '收妖值' },
     ],
+  },
+  {
+    id: 'capture',
+    label: '灵葫咒收服',
+    fields: [{ key: 'collectValue', label: '收服获得灵葫值' }],
   },
 ]
 
@@ -796,7 +800,11 @@ export function EnemyTab(props: {
               title={nameOf(e)}
               meta={e.id}
               trailing={
-                e.ai.rules?.length ? <DsTag tone="neutral">{e.ai.rules.length} 规则</DsTag> : null
+                <span className="enemy-catalog-tags">
+                  <DsTag tone={e.stats.collectValue > 0 ? 'accent' : 'neutral'}>
+                    收服 +{e.stats.collectValue} 灵葫值
+                  </DsTag>
+                </span>
               }
               onClick={() => {
                 setSelId(e.id)
@@ -834,8 +842,15 @@ export function EnemyTab(props: {
               eyebrow="敌人"
               title={nameOf(enemy)}
               objectId={enemy.id}
-              summary="统一管理战斗数值、行动规则、视觉音效、物品交互与敌队试打。"
-              meta={<DsTag tone="neutral">{enemy.ai.rules?.length ?? 0} 条 AI 规则</DsTag>}
+              summary="统一管理战斗数值、灵葫咒收服奖励、行动规则、视觉音效、物品交互与敌队试打。"
+              meta={
+                <span className="enemy-hero-meta">
+                  <DsTag tone={enemy.stats.collectValue > 0 ? 'accent' : 'neutral'}>
+                    收服 +{enemy.stats.collectValue} 灵葫值
+                  </DsTag>
+                  <DsTag tone="neutral">{enemy.ai.rules?.length ?? 0} 条 AI 规则</DsTag>
+                </span>
+              }
               actions={
                 <>
                   {team ? (
@@ -904,7 +919,10 @@ export function EnemyTab(props: {
                   />
                 </DsWorkbenchSection>
               ) : null}
-              <DsWorkbenchSection title="数值" description="分别配置战斗能力与战后结算奖励。">
+              <DsWorkbenchSection
+                title="数值"
+                description="分别配置战斗能力、常规战后结算与灵葫咒成功收服后的实际灵葫值。"
+              >
                 <div className="enemy-stat-layout">
                   {ENEMY_STAT_GROUPS.map((group) => (
                     <fieldset
@@ -927,8 +945,18 @@ export function EnemyTab(props: {
                               draftKey={`enemy:${enemy.id}:stats.${key}`}
                               syncToken={session.getHistoryVersion()}
                               value={enemy.stats[key]}
+                              min={key === 'collectValue' ? 0 : undefined}
+                              help={
+                                key === 'collectValue'
+                                  ? '灵葫咒成功收服该敌人时，实际增加到全局灵葫值；0 表示不增加灵葫值。'
+                                  : undefined
+                              }
                               integer
-                              normalize={Math.floor}
+                              normalize={(value) =>
+                                key === 'collectValue'
+                                  ? Math.max(0, Math.floor(value))
+                                  : Math.floor(value)
+                              }
                               onCommit={(value) => value !== undefined && patchStats(key, value)}
                             />
                           )
@@ -1176,7 +1204,7 @@ export function EnemyTab(props: {
               </DsWorkbenchSection>
               <DsWorkbenchSection
                 title="击败后事件"
-                description="每个终局敌槽会独立执行一次；经验、金钱和收妖值仍在“数值”面板配置。"
+                description="每个终局敌槽会独立执行一次；经验、金钱在“战后结算”，灵葫值只在灵葫咒成功收服时增加。"
                 actions={
                   <DsButton
                     ref={defeatedViewerTriggerRef}

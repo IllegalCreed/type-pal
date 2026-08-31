@@ -8,6 +8,7 @@ export interface EditorLayoutCommandHandlers {
 }
 
 export interface EditorLayoutCommandState {
+  outlinerAvailable?: boolean
   outlinerVisible: boolean
   scriptPanelAvailable: boolean
   scriptPanelVisible: boolean
@@ -24,19 +25,20 @@ export interface SceneScriptPanelState {
 }
 
 export function editorPanelToolbarCommandIds(
-  state: Pick<EditorLayoutCommandState, 'scriptPanelAvailable' | 'inspectorAvailable'>,
+  state: Pick<
+    EditorLayoutCommandState,
+    'outlinerAvailable' | 'scriptPanelAvailable' | 'inspectorAvailable'
+  >,
 ): readonly string[] {
   return [
-    'view.toggle-outliner',
+    ...(state.outlinerAvailable === false ? [] : ['view.toggle-outliner']),
     ...(state.scriptPanelAvailable ? ['view.toggle-script-panel'] : []),
     ...(state.inspectorAvailable ? ['view.toggle-inspector'] : []),
   ]
 }
 
 /** 所有纯开关入口共享该状态变换，避免菜单/快捷键残留陈旧的内部命令焦点。 */
-export function toggleSceneScriptPanelState(
-  state: SceneScriptPanelState,
-): SceneScriptPanelState {
+export function toggleSceneScriptPanelState(state: SceneScriptPanelState): SceneScriptPanelState {
   return {
     open: !state.open,
     src: state.src,
@@ -46,9 +48,7 @@ export function toggleSceneScriptPanelState(
   }
 }
 
-export function closeSceneScriptPanelState(
-  state: SceneScriptPanelState,
-): SceneScriptPanelState {
+export function closeSceneScriptPanelState(state: SceneScriptPanelState): SceneScriptPanelState {
   return {
     open: false,
     src: state.src,
@@ -68,8 +68,9 @@ export function createEditorLayoutCommands(
       label: '对象列表',
       icon: 'panel-left',
       shortcut: '⌘⌥L',
-      enabled: true,
-      pressed: state.outlinerVisible,
+      enabled: state.outlinerAvailable !== false,
+      disabledReason: state.outlinerAvailable === false ? '当前页面没有左侧对象列表' : undefined,
+      pressed: state.outlinerAvailable !== false && state.outlinerVisible,
       scope: 'global',
       defaultPlacement: 'fixed',
       execute: handlers.toggleOutliner,
@@ -112,16 +113,27 @@ export function createEditorLayoutCommands(
 export function executeEditorLayoutShortcut(
   event: Pick<KeyboardEvent, 'key' | 'metaKey' | 'ctrlKey' | 'altKey'>,
   handlers: EditorLayoutCommandHandlers,
+  availability: Pick<
+    EditorLayoutCommandState,
+    'outlinerAvailable' | 'scriptPanelAvailable' | 'inspectorAvailable'
+  > = {
+    outlinerAvailable: true,
+    scriptPanelAvailable: true,
+    inspectorAvailable: true,
+  },
 ): boolean {
   if (!(event.metaKey || event.ctrlKey) || !event.altKey) return false
   switch (event.key.toLocaleLowerCase()) {
     case 'l':
+      if (availability.outlinerAvailable === false) return false
       handlers.toggleOutliner()
       return true
     case 'b':
+      if (!availability.scriptPanelAvailable) return false
       handlers.toggleScriptPanel()
       return true
     case 'r':
+      if (!availability.inspectorAvailable) return false
       handlers.toggleInspector()
       return true
     default:

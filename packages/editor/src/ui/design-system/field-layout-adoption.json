@@ -20,6 +20,12 @@
       "stacked": 0
     },
     {
+      "source": "ItemAlchemyTab.tsx",
+      "component": "ItemAlchemyTab",
+      "responsive": 1,
+      "stacked": 1
+    },
+    {
       "source": "ItemTab.tsx",
       "component": "EquipEffectFields",
       "responsive": 1,
@@ -386,6 +392,10 @@
         "component": "ImageTab"
       },
       {
+        "source": "ItemAlchemyTab.tsx",
+        "component": "ItemAlchemyTab"
+      },
+      {
         "source": "ItemTab.tsx",
         "component": "ItemTab"
       },
@@ -450,6 +460,10 @@
       {
         "source": "ImageTab.tsx",
         "component": "ImageTab"
+      },
+      {
+        "source": "ItemAlchemyTab.tsx",
+        "component": "ItemAlchemyTab"
       },
       {
         "source": "ItemTab.tsx",
@@ -934,6 +948,72 @@
         "reason": "三轨是队伍位置标签、角色选择与不可拆动作组；外层由 DsRepeatRow 持框。",
         "responsiveEvidence": "520px 以下降为单列且动作组整体下沉。",
         "removalCondition": "setParty 不再使用 repeat-row 三轨布局时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".item-alchemy-recipe-row__header",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "30px minmax(0, 1fr) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是配方序号、完整优先级摘要与不可拆动作组，不是字段标签轨。",
+        "responsiveEvidence": "520px 容器规则把动作组整体下沉，摘要允许完整换行。",
+        "removalCondition": "配方行不再使用序号、摘要、动作三槽时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".item-alchemy-recipe-row__header",
+        "atRule": "@container item-alchemy (max-width: 520px)",
+        "property": "grid-template-columns",
+        "value": "30px minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "窄态只保留序号与完整摘要，动作组作为整体换行。",
+        "responsiveEvidence": "第二轨可收缩且文本可换行，动作按钮不拆组。",
+        "removalCondition": "配方行窄态布局改变时更新。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".item-alchemy-recipe-row__formula",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "minmax(0, 1fr) auto minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "三轨是完整材料集合、公式箭头与完整产物集合，不是 label/control 字段。",
+        "responsiveEvidence": "两侧集合等权收缩，760px 下整体改为单列。",
+        "removalCondition": "材料到产物公式不再并排时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".item-alchemy-reward-row",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "minmax(11rem, 0.42fr) auto minmax(10rem, 1fr) minmax(4.5rem, 6rem) auto",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "六轨是档位、消耗语义、箭头、奖励、数量与不可拆动作组。",
+        "responsiveEvidence": "奖励轨可收缩；760px 与520px 两级规则按完整语义单元换行。",
+        "removalCondition": "灵葫档位行不再使用该六槽结构时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".item-alchemy-reward-row",
+        "atRule": "@container item-alchemy (max-width: 760px)",
+        "property": "grid-template-columns",
+        "value": "minmax(0, 1fr) minmax(4.5rem, 6rem)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "中窄态保留档位、奖励内容与数量，动作组整体下沉。",
+        "responsiveEvidence": "消耗文案与奖励选择占完整内容轨，数量保持短字段宽度。",
+        "removalCondition": "中窄档位布局改变时更新。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".item-alchemy-reward-row",
+        "atRule": "@container item-alchemy (max-width: 520px)",
+        "property": "grid-template-columns",
+        "value": "minmax(0, 1fr)",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "最窄态只保留档位身份与一个完整内容轨，各内容单元顺序下沉。",
+        "responsiveEvidence": "物品、数量和动作都在第二轨完整呈现，不形成横向溢出。",
+        "removalCondition": "最窄档位布局改变时更新。"
       }
     ]
   },

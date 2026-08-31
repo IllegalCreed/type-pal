@@ -1,10 +1,10 @@
 {
   "version": 2,
   "baseline": {
-    "families": 17,
+    "families": 18,
     "adoptions": 29,
     "dataPaths": 32,
-    "interactionOwnerFiles": 19
+    "interactionOwnerFiles": 20
   },
   "interactionOwnerFiles": [
     "ActorMode.tsx",
@@ -15,6 +15,7 @@
     "EnemyTeamTab.tsx",
     "FrameAnimationEditor.tsx",
     "ItemTab.tsx",
+    "ItemAlchemyEditors.tsx",
     "ItemUseEffectEditor.tsx",
     "LayerStackControls.tsx",
     "PoisonTab.tsx",
@@ -192,46 +193,6 @@
           }
         },
         {
-          "adoptionId": "item/resource-reward-tiers",
-          "source": "ItemUseEffectEditor.tsx",
-          "dataPaths": ["items[*].use.resourcePool.rewards"],
-          "adapter": "linear-insert",
-          "identity": "editor-local-token",
-          "commandOwner": "UpdateItemCommand",
-          "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ItemUseEffectEditor.test.tsx"],
-          "contentSurface": "repeat-row",
-          "contentOwner": {
-            "file": "ItemUseEffectEditor.tsx",
-            "fingerprint": "className=\"item-amount-row ordered\""
-          },
-          "railLayout": "inline",
-          "railOwner": {
-            "file": "design-system/reorder.css",
-            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
-          }
-        },
-        {
-          "adoptionId": "item/craft-recipes",
-          "source": "ItemUseEffectEditor.tsx",
-          "dataPaths": ["items[*].use.craftRecipe.recipes"],
-          "adapter": "linear-insert",
-          "identity": "editor-local-token",
-          "commandOwner": "UpdateItemCommand",
-          "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ItemUseEffectEditor.test.tsx"],
-          "contentSurface": "object-card",
-          "contentOwner": {
-            "file": "ItemUseEffectEditor.tsx",
-            "fingerprint": "className=\"item-recipe\""
-          },
-          "railLayout": "inline",
-          "railOwner": {
-            "file": "design-system/reorder.css",
-            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
-          }
-        },
-        {
           "adoptionId": "item/use-effects",
           "source": "ItemUseEffectEditor.tsx",
           "dataPaths": ["items[*].use.effects"],
@@ -264,6 +225,55 @@
           "contentOwner": {
             "file": "EffectEditorCard.tsx",
             "fingerprint": "className=\"effect-editor-card\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
+        }
+      ]
+    },
+    {
+      "id": "item-alchemy-details",
+      "integrationVerification": {
+        "file": "ui/ItemAlchemyTab.test.tsx",
+        "marker": "[reorder-family:item-alchemy-details]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "item/resource-reward-tiers",
+          "source": "ItemAlchemyEditors.tsx",
+          "dataPaths": ["items[*].use.effects[kind=drawFromResourcePool].rewards"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateItemCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ItemAlchemyTab.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "ItemAlchemyEditors.tsx",
+            "fingerprint": "className=\"item-alchemy-reward-row\""
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
+        },
+        {
+          "adoptionId": "item/craft-recipes",
+          "source": "ItemAlchemyEditors.tsx",
+          "dataPaths": ["items[*].use.effects[kind=craftRecipe].recipes"],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateItemCommand",
+          "revisionOwner": "EditSession.historyVersion",
+          "verification": ["ui/ItemAlchemyTab.test.tsx"],
+          "contentSurface": "object-card",
+          "contentOwner": {
+            "file": "ItemAlchemyEditors.tsx",
+            "fingerprint": "className=\"item-alchemy-recipe-row\""
           },
           "railLayout": "inline",
           "railOwner": {

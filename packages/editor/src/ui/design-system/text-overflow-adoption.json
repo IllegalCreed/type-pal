@@ -1610,7 +1610,7 @@
     },
     {
       "source": "editor.css",
-      "selectorText": ".item-recipe-delete",
+      "selectorText": ".item-alchemy-reward-cost",
       "condition": "default",
       "declarations": [
         "white-space:nowrap"
@@ -1621,9 +1621,9 @@
         0
       ],
       "producer": {
-        "source": "ItemUseEffectEditor.tsx",
-        "component": "RecipeEditor",
-        "callsite": "class:item-recipe-delete"
+        "source": "ItemAlchemyEditors.tsx",
+        "component": "ResourceRewardTierList",
+        "callsite": "class:item-alchemy-reward-cost"
       },
       "policy": "structural-nowrap",
       "contentKind": "layout-structure",

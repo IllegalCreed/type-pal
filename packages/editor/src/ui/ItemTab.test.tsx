@@ -83,6 +83,7 @@ function Harness(props: {
   onOpenScript?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenItemReference?: (reference: ItemReference) => void
+  onOpenItemAlchemy?: (surface: 'crafting' | 'spirit-gourd', itemId: string) => void
   onOpenProjectIssues?: () => void
   focusPrivateScript?: {
     itemId: string
@@ -130,6 +131,7 @@ function Harness(props: {
       onOpenScript={props.onOpenScript}
       onOpenImage={props.onOpenImage}
       onOpenItemReference={props.onOpenItemReference}
+      onOpenItemAlchemy={props.onOpenItemAlchemy}
       onOpenProjectIssues={props.onOpenProjectIssues}
       script={
         props.script && activeScriptState
@@ -627,8 +629,10 @@ describe('ItemTab', () => {
 
     const heroPicker = combobox('李逍遥的战斗形象覆写', host)
     const magePicker = combobox('赵灵儿的战斗形象覆写', host)
-    expect(heroPicker.textContent).toContain('逍遥战斗形象 · fighter-hero')
-    expect(magePicker.textContent).toContain('灵儿战斗形象 · fighter-mage')
+    expect(heroPicker.textContent).toContain('逍遥战斗形象')
+    expect(heroPicker.textContent).toContain('fighter-hero')
+    expect(magePicker.textContent).toContain('灵儿战斗形象')
+    expect(magePicker.textContent).toContain('fighter-mage')
     expect(
       host
         .querySelector('[aria-label="装备效果 1 类型"]')
@@ -661,7 +665,7 @@ describe('ItemTab', () => {
     expect(disabledBattleSprite.getAttribute('aria-disabled')).toBe('true')
     await act(async () => otherEffectKind.click())
 
-    await chooseComboboxOption(heroPicker, '灵儿战斗形象 · fighter-mage')
+    await chooseComboboxOption(heroPicker, '灵儿战斗形象')
     expect(session.getState().items[0]?.equip?.effects[0]).toEqual({
       kind: 'battleSprite',
       byActor: { hero: 'fighter-mage', mage: 'fighter-mage' },
@@ -1556,5 +1560,48 @@ describe('ItemTab', () => {
     await act(async () => session.undo())
     expect(session.getState().items.map((entry) => entry.id)).toEqual(['item-a', 'item-b'])
     expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('item-b')
+  })
+
+  test('复杂炼化 effect 在物品页只显示摘要，并把 owner 精确交给独立页面', async () => {
+    const vessel = item('item-a')
+    vessel.use = {
+      target: 'scene',
+      consuming: false,
+      effects: [
+        {
+          kind: 'craftRecipe',
+          recipes: [
+            {
+              ingredients: [{ itemId: 'material', count: 1 }],
+              products: [{ itemId: 'product', count: 1 }],
+            },
+          ],
+        },
+      ],
+    }
+    const onOpenItemAlchemy = vi.fn()
+    const session = new EditSession(state([vessel, item('material'), item('product')]))
+    await act(async () =>
+      root.render(<Harness session={session} onOpenItemAlchemy={onOpenItemAlchemy} />),
+    )
+
+    expect(host.textContent).toContain('1 条有序配方 · 材料 → 产物')
+    expect(host.querySelector('[aria-label="材料物品 1"]')).toBeNull()
+    expect(host.querySelector('.item-summary-list')?.textContent).toContain(
+      '炼蛊皿机制：1 条有序配方（在“炼蛊皿”页面编辑）',
+    )
+    expect(host.querySelector('.item-summary-list')?.textContent).not.toContain('material×1')
+    const useSwitch = [...host.querySelectorAll<HTMLInputElement>('input[role="switch"]')].find(
+      (input) => input.closest('label')?.textContent?.includes('启用使用能力'),
+    )!
+    expect(useSwitch.disabled).toBe(true)
+    expect(useSwitch.title).toBe('该物品承载固定项目机制，不能在普通物品页关闭使用能力')
+    const before = session.getHistoryVersion()
+    await act(async () => useSwitch.click())
+    expect(session.getHistoryVersion()).toBe(before)
+    expect(session.getState().items[0]?.use?.effects[0]?.kind).toBe('craftRecipe')
+    const open = button('在“炼蛊皿”页面编辑', host)
+    await act(async () => open.click())
+    expect(onOpenItemAlchemy).toHaveBeenCalledWith('crafting', 'item-a')
   })
 })

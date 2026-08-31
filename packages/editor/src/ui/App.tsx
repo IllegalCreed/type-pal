@@ -193,6 +193,7 @@ import {
   editorModule,
   editorSubpage,
   editorSubpageHasInspector,
+  editorSubpageHasOutliner,
   normalizeEditorLocation,
   sameEditorLocation,
 } from './editor-navigation.js'
@@ -313,6 +314,8 @@ export function editorPageOwnsSessionSubscription(location: EditorLocation): boo
     subpage.kind === 'project' ||
     (subpage.kind === 'data' &&
       (subpage.dataPage === 'item' ||
+        subpage.dataPage === 'crafting' ||
+        subpage.dataPage === 'spirit-gourd' ||
         subpage.dataPage === 'poison' ||
         subpage.dataPage === 'scripts'))
   )
@@ -991,6 +994,12 @@ export function App(props: {
       case 'item':
         applyEditorLocation(editorLinks.item(locator.itemId))
         return
+      case 'item-crafting':
+        applyEditorLocation(editorLinks.itemCrafting(locator.itemId))
+        return
+      case 'item-spirit-gourd':
+        applyEditorLocation(editorLinks.spiritGourd(locator.itemId))
+        return
     }
   }
   const openActorReference = (reference: ActorReference): void => {
@@ -1196,12 +1205,13 @@ export function App(props: {
     false,
   )
   const scriptPanelAvailable = location.module === 'scene' && location.subpage === 'workspace'
+  const outlinerAvailable = editorSubpageHasOutliner(editorSubpage(location))
   const inspectorAvailable = editorSubpageHasInspector(editorSubpage(location))
+  const effectiveOutlinerCollapsed = outlinerCollapsed || !outlinerAvailable
   const effectiveInspectorCollapsed = inspectorCollapsed || !inspectorAvailable
-  const toggleOutliner = useCallback(
-    () => setOutlinerCollapsed((collapsed) => !collapsed),
-    [setOutlinerCollapsed],
-  )
+  const toggleOutliner = useCallback(() => {
+    if (outlinerAvailable) setOutlinerCollapsed((collapsed) => !collapsed)
+  }, [outlinerAvailable, setOutlinerCollapsed])
   const toggleInspector = useCallback(() => {
     if (inspectorAvailable) setInspectorCollapsed((collapsed) => !collapsed)
   }, [inspectorAvailable, setInspectorCollapsed])
@@ -1238,7 +1248,7 @@ export function App(props: {
   }, [])
 
   const layoutWidth = bodyWidth || 1280
-  const requestedOutlinerWidth = outlinerCollapsed
+  const requestedOutlinerWidth = effectiveOutlinerCollapsed
     ? 0
     : clampPanelSize(outlinerWidth, OUTLINER_MIN_WIDTH, OUTLINER_MAX_WIDTH)
   const requestedInspectorWidth = effectiveInspectorCollapsed
@@ -1248,7 +1258,7 @@ export function App(props: {
     available: layoutWidth - CENTER_MIN_WIDTH,
     left: requestedOutlinerWidth,
     right: requestedInspectorWidth,
-    leftMin: outlinerCollapsed ? 0 : OUTLINER_MIN_WIDTH,
+    leftMin: effectiveOutlinerCollapsed ? 0 : OUTLINER_MIN_WIDTH,
     rightMin: effectiveInspectorCollapsed ? 0 : INSPECTOR_MIN_WIDTH,
   })
   const visibleOutlinerWidth = fittedPanels.left
@@ -1606,7 +1616,14 @@ export function App(props: {
         else undo()
         return
       }
-      if (!typing && executeEditorLayoutShortcut(e, layoutCommandHandlers)) {
+      if (
+        !typing &&
+        executeEditorLayoutShortcut(e, layoutCommandHandlers, {
+          outlinerAvailable,
+          scriptPanelAvailable,
+          inspectorAvailable,
+        })
+      ) {
         e.preventDefault()
       }
     }
@@ -1622,6 +1639,8 @@ export function App(props: {
     deleteEntity,
     deleteNamedEntry,
     layoutCommandHandlers,
+    outlinerAvailable,
+    inspectorAvailable,
     redo,
     undo,
   ])
@@ -1934,7 +1953,8 @@ export function App(props: {
       execute: () => void save(),
     },
     ...createEditorLayoutCommands(layoutCommandHandlers, {
-      outlinerVisible: !outlinerCollapsed,
+      outlinerAvailable,
+      outlinerVisible: !effectiveOutlinerCollapsed,
       scriptPanelAvailable,
       scriptPanelVisible: drawer.open,
       inspectorAvailable,
@@ -2015,7 +2035,7 @@ export function App(props: {
       id: 'view',
       label: '视图',
       items: [
-        commandItem('view.toggle-outliner'),
+        ...(outlinerAvailable ? [commandItem('view.toggle-outliner')] : []),
         commandItem('view.toggle-script-panel'),
         commandItem('view.toggle-inspector'),
         commandItem('view.reset-layout'),
@@ -2048,7 +2068,11 @@ export function App(props: {
         menus={menus}
         commands={commands}
         toolbarCommandGroups={[
-          editorPanelToolbarCommandIds({ scriptPanelAvailable, inspectorAvailable }),
+          editorPanelToolbarCommandIds({
+            outlinerAvailable,
+            scriptPanelAvailable,
+            inspectorAvailable,
+          }),
           ['edit.undo', 'edit.redo', 'file.save'],
         ]}
         onNavigate={onHeaderNavigate}
@@ -2059,7 +2083,7 @@ export function App(props: {
         tabIndex={-1}
         aria-label={`${activeSubpage.label}工作区`}
         inert={saveActivity !== null ? true : undefined}
-        className={`body${outlinerCollapsed ? ' outliner-collapsed' : ''}${effectiveInspectorCollapsed ? ' inspector-collapsed' : ''}`}
+        className={`body${effectiveOutlinerCollapsed ? ' outliner-collapsed' : ''}${effectiveInspectorCollapsed ? ' inspector-collapsed' : ''}`}
         style={bodyStyle}
       >
         {objectTargetMissing ? (
@@ -2190,6 +2214,14 @@ export function App(props: {
             onOpenWorldVariable={(id) => applyEditorLocation(editorLinks.variable(id))}
             onOpenCanonicalReference={openCanonicalReference}
             onOpenItemReference={openItemReference}
+            onOpenItem={(id) => applyEditorLocation(editorLinks.item(id))}
+            onOpenItemAlchemy={(surface, itemId) =>
+              applyEditorLocation(
+                surface === 'crafting'
+                  ? editorLinks.itemCrafting(itemId)
+                  : editorLinks.spiritGourd(itemId),
+              )
+            }
             onOpenProjectIssues={() =>
               applyEditorLocation({ module: 'project', subpage: 'advanced' })
             }
@@ -2886,21 +2918,23 @@ export function App(props: {
           </>
         )}
 
-        <PanelResizeHandle
-          orientation="vertical"
-          className="app-outliner-resizer"
-          value={visibleOutlinerWidth}
-          min={outlinerCollapsed ? 0 : OUTLINER_MIN_WIDTH}
-          max={outlinerCollapsed ? 0 : outlinerResizeMax}
-          resizeLabel="调整左侧面板宽度"
-          disabled={outlinerCollapsed}
-          onReset={() => setOutlinerWidth(OUTLINER_DEFAULT_WIDTH)}
-          onResize={(delta) =>
-            setOutlinerWidth((current) =>
-              clampPanelSize(current + delta, OUTLINER_MIN_WIDTH, outlinerResizeMax),
-            )
-          }
-        />
+        {outlinerAvailable ? (
+          <PanelResizeHandle
+            orientation="vertical"
+            className="app-outliner-resizer"
+            value={visibleOutlinerWidth}
+            min={outlinerCollapsed ? 0 : OUTLINER_MIN_WIDTH}
+            max={outlinerCollapsed ? 0 : outlinerResizeMax}
+            resizeLabel="调整左侧面板宽度"
+            disabled={outlinerCollapsed}
+            onReset={() => setOutlinerWidth(OUTLINER_DEFAULT_WIDTH)}
+            onResize={(delta) =>
+              setOutlinerWidth((current) =>
+                clampPanelSize(current + delta, OUTLINER_MIN_WIDTH, outlinerResizeMax),
+              )
+            }
+          />
+        ) : null}
         {inspectorAvailable ? (
           <PanelResizeHandle
             orientation="vertical"
