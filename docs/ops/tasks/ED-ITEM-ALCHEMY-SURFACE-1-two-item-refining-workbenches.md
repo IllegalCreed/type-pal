@@ -304,6 +304,10 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `13ed6138` 将奖励组改为default，并在公共ActionGroup recipe补齐default尺寸所有权，三枚动作与数量input/±
   全部36px；`1f6b25af`把stepper同token与Craft仍compact写入防回流门禁。520/396无溢出，761第10档
   reward最终172.2px且overflow0、undo回9；Shop/Craft继续compact32px。
+  用户随后指出炼蛊配方卡整体错位；`e11515f7` 修复reward动作area泄漏到Craft header产生隐式5列×2行，
+  将Craft rail切到公共overlay并稳定锚定首header行，同时把公共number stepper真实border改为不占布局的inset描边。
+  最终1280 header96→56px、row173→131px；handle/header中心在1280/760/520差0，identity与formula起点同为
+  x103，四label与Select/stepper/箭头控制行同top/bottom且均36px。invalid/focus/forced-colors四态门禁闭合。
   聚焦测试、typecheck、DS gate、无溢出/无脏写均通过；数据/schema/runtime/migration 零变化，恢复 Codex accept。
 - Kimi: **accept（2026-08-31，只读终审七提交最终组合态（`54ba9c2e` + `1b090cb2` + `aacf68b7` +
   `314e3a52` + 三张 MIG——后三者本日已由本席逐卡独立终审 accept）+ 本人静态核对、聚焦复跑与
@@ -414,8 +418,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
     content validate 93 tests——**全绿**。命令计数/no-op 0/undo-redo 对称断言逐条直读确认。
   无返工项；200% zoom 实机复验按卡面分工仍归 Kimi/用户补验，不构成本席 blocker；
   未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: pending（历史组合态曾 approved；最新奖励行控件高度增量待复验）
-- done 准入结论: **blocked（窄态密度增量三方accept；最新控件高度增量仅Codex accept，待Kimi/GLM accept + 用户复验）**
+- 用户验收: pending（历史组合态曾 approved；最新控件高度/配方卡几何增量待复验）
+- done 准入结论: **blocked（窄态密度增量三方accept；最新控件高度/配方卡几何增量仅Codex accept，待Kimi/GLM accept + 用户复验）**
 
 ### 数量字段 / 连接符 / 奖励列表表面、横向节奏与窄态密度增量复审
 
@@ -490,12 +494,12 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   未填用户验收。
 - 用户验收: pending
 
-### 奖励行控件高度增量复审
+### 奖励行控件高度、配方卡几何与公共Stepper外框增量复审
 
-- Codex: **accept（2026-08-31，`13ed6138` + `1f6b25af`）**——奖励数量字段的input与−/+交互面均36px；
-  同排上移/下移/删除三按钮由公共ActionGroup default owner统一为36px且同y。stepper外壳38px仅含上下各1px
-  组合边框，不是density漂移。Shop与Craft仍compact32px；520/396及761第10档均overflow0。7 files / 126
-  tests、typecheck与91-file DS gate绿；两条P2防回流缺口补齐后2 files / 71 tests绿。
+- Codex: **accept（2026-08-31，`13ed6138` + `1f6b25af` + `e11515f7`）**——奖励数量input/−/+与
+  上移/下移/删除均36px同y；公共stepper outer也由38收紧为真实36px，并保留normal/invalid/focus/
+  forced-colors可辨识外框。Craft header序号/摘要/actions同轴，rail稳定锚首header行，formula四字段与箭头同线；
+  1280/760/520三档overflow0。7 files / 134 tests、typecheck与91-file DS gate绿；多路只读终审无finding。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -505,7 +509,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：in progress；窄态密度增量三方accept；最新控件高度增量Codex accept，待Kimi/GLM终审与用户复验。
+- Review：in progress；窄态密度增量三方accept；最新控件高度/配方卡几何增量Codex accept，待Kimi/GLM终审与用户复验。
 
 ### Build / Review 证据
 
@@ -523,7 +527,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `0a423136 fix(editor): compact spirit gourd reward rows` +
   `b01d10a8 fix(editor): preserve gourd rewards at breakpoints`；奖励行控件高度：
   `13ed6138 fix(editor): align gourd reward action heights` +
-  `1f6b25af test(editor): lock aligned gourd control sizes`；均未推送。
+  `1f6b25af test(editor): lock aligned gourd control sizes`；配方卡几何/公共Stepper外框：
+  `e11515f7 fix(editor): align alchemy recipe card geometry`；均未推送。
 - current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
   `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
   `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
@@ -589,6 +594,15 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   overflow0；761新增第10档reward172.2px且overflow0，undo回9。静态门禁同时钉default/compact ActionGroup
   与stepper消费同一语义token，并锁Craft compact、Shop compact、gourd default。7 files / 126 tests、
   typecheck、91-file DS gate绿；P2补钉2 files / 71 tests绿。canonical/data/command/reorder语义零漂移。
+- 配方卡几何/公共Stepper外框增量（`e11515f7`）：用户截图显示摘要左上、actions悬空、字段错位。直接根因一是
+  通用`.item-alchemy-row-actions{grid-area:actions}`泄漏到未声明named area的Craft header，浏览器生成隐式
+  5列×2行；二是number stepper的36px子按钮再叠加真实上下border，使outer38px而Select36px；三是inline rail
+  按整卡50%漂移。修复后actions area分别scope到Craft header/reward row；Craft使用官方overlay rail并以56px
+  header band锚定；stepper改为不占布局的inset描边。1280 header96→56px、row173→131px，header index/
+  identity/actions/handle同cy579，identity/formula x同103，四field均h60且label y607、Select/stepper/arrow
+  y631..667 h36。760/520 handle-header delta0、overflow0。普通/invalid/focus以及forced-colors base/invalid/
+  focus/invalid+focus均有独立外框合同。reorder adoption仅Craft railLayout inline→overlay，dataPath/adapter/
+  commandOwner不变。7 files / 134 tests、typecheck、91-file DS gate绿；多路只读终审accept。
 - 响应式实机：通过键盘调整真实 Inspector 宽度，把 main 精确压到 893px / 718px / 660px；两机制行
   `scrollWidth <= clientWidth`，718px 两页截图无横向溢出。真实浏览器 200% zoom 仍待 Kimi/用户补验。
 - 视觉证据（忽略目录，禁止提交）：
@@ -640,10 +654,19 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 奖励行控件高度: **rework（2026-08-31）**——用户指出数量与同排动作按钮高度仍不一致。确认是default字段
   36px与compact动作32px混排；`13ed6138`以公共ActionGroup default合同统一交互面为36px，`1f6b25af`
   锁住stepper/action同token及Shop/Craft继续compact，待增量终审/用户复验。
-- 实现验收: pending（最新奖励行控件高度增量待用户复验）。
+- 炼蛊配方卡几何: **rework（2026-08-31）**——用户指出配方摘要、actions、drag handle与四字段严重错位。
+  `e11515f7`消除跨surface grid-area泄漏、用overlay rail锚定header，并从公共Stepper外框修正38/36px错位；
+  normal/invalid/focus/forced-colors状态与1280/760/520几何均闭合，待增量终审/用户复验。
+- 实现验收: pending（最新控件高度/配方卡几何增量待用户复验）。
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: 用户截图指出炼蛊配方卡摘要/actions/handle/字段严重错位。浏览器证实Craft header因
+  reward共享`grid-area:actions`生成隐式5列×2行（96px），number stepper真实border又使outer38而Select36。
+  `e11515f7`将actions area按surface分域、Craft切公共overlay rail并锚56px header、formula与identity同起点，
+  同时把公共stepper外框改成不占布局的inset描边并补invalid/focus/forced-colors四态。最终1280 header56/
+  row131，index/identity/actions/handle同cy579，四label/control全齐；760/520 handle-header差0、overflow0。
+  7 files/134 tests、typecheck、DS gate绿；三路只读终审accept。待正式Kimi/GLM签最新组合增量与用户复验。
 - 2026-08-31 User/Codex: 用户指出数量与排序/删除按钮高度再次不一致。实测根因为default数字字段交互面36px
   对compact ActionGroup32px；`DsReorderMoveButton`自身还硬编码compact，故只改父prop会形成30/30/36混组。
   `13ed6138`在公共ActionGroup recipe补齐default所有权，仅奖励行选default：input、−/+、上/下/删全部36px
@@ -809,7 +832,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - `b01d10a8 fix(editor): preserve gourd rewards at breakpoints`
 - `13ed6138 fix(editor): align gourd reward action heights`
 - `1f6b25af test(editor): lock aligned gourd control sizes`
-历史至`b01d10a8`的窄态增量三方已accept；最新控件高度增量Codex accept，Kimi / GLM与用户复验pending。
+- `e11515f7 fix(editor): align alchemy recipe card geometry`
+历史至`b01d10a8`的窄态增量三方已accept；最新控件高度/配方卡几何增量Codex accept，Kimi / GLM与用户复验pending。
 
 请只审最新增量及其与既有一进一出表面的组合：
 1. 每条配方是否恰有“材料/材料数量/产物/产物数量”四个可见公共字段；label for、唯一 aria、name、
@@ -839,14 +863,21 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
    reward分别约274.9/384px，不得再次出现只剩省略号的1px cliff；396px/720 viewport无溢出。main761新增
    第10档后cost约112.8px；最终default动作组下reward约172.2px且row/main/body overflow0。每行必须有可见“数量”label、label for
    正确、标准stepper，1时减号disabled，一次+恰一命令且undo恢复。
-9. 同排控件高度必须按实际交互rect而非外壳猜测：奖励select、数量input、−/+、上移/下移/删除均为36px并同y；
-   stepper outer38px只允许来自上下各1px组合边框。奖励ActionGroup必须`density="default"`且公共recipe把组内
+9. 同排控件高度必须按实际交互rect验证：奖励select、stepper outer、数量input、−/+、上移/下移/删除均为
+   36px并同y，不再允许38px外壳。奖励ActionGroup必须`density="default"`且公共recipe把组内
    icon/button统一到`--ds-control-height`；Shop与Craft必须继续compact并使用compact token。520/396无溢出；
    761新增第10档时action group116px、reward约172.2px且row/main/body overflow0，undo回9。静态门禁必须同时
    锁default/compact ActionGroup与default/compact stepper使用同一对语义token。
+10. Craft配方卡几何：header不得再生成隐式grid行；1280应为`index identity actions`三列单行，header约56px、
+    row约131px，index/identity/actions/handle中心差≤1px。Craft DsReorderItem必须`layout="overlay"`并由scoped rail
+    锚首header行；1280/760/520 handle-header delta均≤1px。identity与formula起点应一致（当前x103）；宽态四个
+    label同top，两个Select/两个Stepper/箭头控制行同top-bottom且全部36px。760/520无横向溢出。通用actions
+    class不得持grid-area；Craft header与reward row必须各自scope。公共Stepper普通描边不得占盒模型，并保留
+    invalid/focus/forced-colors base/invalid/focus/invalid+focus四态可辨识外框。Craft rail adoption只允许把
+    railLayout改overlay，dataPaths/adapter/identity/commandOwner/revisionOwner必须不变。
 
 Kimi 重点审可视对齐/1280/720/200%；GLM 重点审DOM、command、registry/census与零数据漂移。
-请在任务卡“奖励行控件高度增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，
+请在任务卡“奖励行控件高度、配方卡几何与公共Stepper外框增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，
 并追加交接记录。
 不得代签另一席、不得填写用户验收、不得标记done、不得修改实现或推送。
 ```
