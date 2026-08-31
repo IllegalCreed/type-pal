@@ -199,10 +199,42 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
   5 files / 157 tests、typecheck、design-system gate（91 files、2 个 evidence-bound exceptions）通过；
   1280、720、560/559 与 default 480/479 浏览器证据无横向溢出，标签、HelpTip、双动作与尾随资源对齐。
   当前工具未能可靠触发真实浏览器 200% zoom，已把该点显式留给 Kimi 视觉复核，不以等效宽度冒充实测。
-- Kimi: pending
+- Kimi: **accept（2026-08-31，只读终审 `6e7999ef` 全 diff + 真实 Project 页/断点/版本治理 +
+  本人聚焦复跑，非复述 Codex）**。按 KL1-KL5 与卡面五点逐项核验：
+  - **API 封闭与 default 零漂移 ✓（KL1/KL3）**:API 仅 `labelTrack?: 'default' | 'wide'`
+    （controls.tsx:512-521），DOM 出 `data-label-track`;`staticAttribute` 对非静态字面量直接
+    抛错（field-layout-adoption.test.ts:183-206）——数字/动态/别名值 fail-loud；非 default/wide
+    值 `unsupported DsFieldGroup labelTrack` 抛错；manifest 宽轨 owner 精确等于
+    `['ProjectWorkbenchTab.tsx@RoleBindings']`（第二 owner 即红）;`--ds-field-label-track-wide`
+    已入 governed inline style/token 治理清单（业务 CSS/inline 覆盖必红）;default 96px token、
+    480 边界与既有门禁断言在本提交 diff 中零改动。
+  - **真实 Project 页 5 组/12 行 ✓（实机 1280）**：五组 3+3+1+4+1=12 行全部
+    `data-label-track="wide"`；最长“特殊战胜利结算音乐”+ required 星文本实机 **1 行**，
+    32×32 HelpTip 在侧（label-group 高 32 属命中区非换行）；各行 control 起点一致；
+    “默认战斗音乐”行实机双动作（`试听 PAL 音乐 037` + `打开资源`）;
+    `.project-role-resource`（音乐 PAL 音乐 004）与 no-preview 尾注均在 DOM;label/htmlFor、
+    error/help 语义未随新轨改动（diff 未触 DsField）；页面/卡片横向溢出 0。
+  - **断点 ✓（实机）**：内容宽 **560**（border-box 562，组持 1px border）实机
+    `160px 356px` 横排；内容宽 **559**（border-box 561）实机单列 stacked——边界精确;
+    **720** 实机组内容 644 ≥560 保持 wide-inline，最长标签 1 行、control 440px、双溢出 0;
+    **1280** 组内容 1188 全单行、溢出 0。
+  - **200% zoom（诚实声明）**：环境**无法可靠产生真实浏览器 UI 级 200% zoom**——chrome-devtools
+    MCP 无 zoom API;CDP `Emulation.setPageScaleFactor(2)` 实测为 pinch 式缩放
+    （`visualViewport.width` 变 640 而 `innerWidth` 保持 1280，布局视口不变、容器查询不响应），
+    不能冒充真实 zoom。**真实 200% UI zoom 未实测**。可接受性判断：本合同的全部 zoom 敏感行为
+    由内容宽容器查询驱动，已实测覆盖 559/560 两侧、644(720)与 1188(1280)两点；1280@200%
+    等效 640 落在已实测区间（562..644）内部、无未测代码路径——720/<560 证据**足以接受**，
+    建议用户复验顺手做一次真实 zoom。
+  - **版本与文档 ✓（KL4）**:DS 升 2.21.0 四处一致（doc Status/Owner 行、index.ts、tokens.css、
+    boundary 断言）;DS-F.4/DS-L.7 成文 default 96/480 + wide 160/560 双合同且禁第三档;
+    RF-23 更新为 default 480/479 + wide 560/559;effect-card 负例修正**实为加严**（新增
+    overlay grip `inset-block-start` 错位负例），未弱化门禁;field-layout census snapshot 同步。
+  - **本人复跑**:controls + boundary + field-layout-adoption + effect-card-adoption +
+    ProjectWorkbenchTab → **5 files / 157 tests 全绿**。
+  无返工项；未修改实现，未代签 GLM。
 - GLM: pending
 - 用户验收: pending
-- done 准入结论: blocked
+- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
 
 ## Draft / Build / Review 证据
 
@@ -229,6 +261,15 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
 
 ## 交接记录
 
+- 2026-08-31 Kimi: 只读终审 `6e7999ef`，签 **accept**。独立证据：封闭枚举 + 非静态字面量抛错 +
+  唯一 wide owner + wide token 入 inline 治理；真实 Project 页 5 组 12 行全 wide、最长标签实机
+  1 行、HelpTip 32×32、control 起点一致、音乐双动作与两类尾注在 DOM;content 560=inline/559=
+  stacked 边界精确（组持 1px border,border-box 562/561）;720 wide-inline 最长 1 行零溢出;
+  **真实 200% UI zoom 未实测**——CDP setPageScaleFactor 实测为 pinch 式（innerWidth 不变 1280、
+  visualViewport 640，布局视口不响应），已按约定明写；等效 640 落在已实测 562..644 区间内、
+  无未测代码路径，判 720/<560 证据足以接受，建议用户复验做真实 zoom;DS 2.21.0 四处一致、
+  RF-23 更新、effect-card 负例为加严；本人复跑 5 files / 157 tests 全绿。无返工项；未修改实现，
+  未代签 GLM，未标 done。Next: GLM 终审与用户验收。
 - 2026-08-31 Codex: commit `6e7999ef` 完成公共 wide 标签轨、RoleBindings 唯一采用、DS 2.21.0、
   registry/census/负例与 Design Lab。聚焦 157 tests、typecheck、design-system gate 通过；一次 editor
   全量唯一陈旧负例已以精确 selector 修正并聚焦复绿。浏览器完成 1280、720、560/559、480/479 与
@@ -257,25 +298,25 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
 ## 下一位 Agent 提示词
 
 ```text
-终审 ED-FIELD-LABEL-TRACK-WIDE-1（Kimi 席，review，只读，不得实现）。
+终审 ED-FIELD-LABEL-TRACK-WIDE-1（GLM 席，review，只读，不得实现，不得代签，不得标 done）。
 
 任务卡：docs/ops/tasks/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md
 实现提交：6e7999ef feat(editor): add wide field label track
-当前状态：review；build 前三签已齐，Codex 已签 accept；Kimi / GLM 正式审查签字与用户验收仍 pending。
-你只做只读架构/视觉终审；不得修改实现、不得代签 GLM、不得标记 done。
+当前状态：review；Codex accept 与 Kimi accept（本日，含真实页面/断点/版本治理与 200% zoom
+诚实声明）均已签，仅余你的 GLM accept 与用户验收。
 
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、editor-design-system-v1.md 的 DS-L.7/DS-G.4、
-ED-FIELD-LAYOUT-1 历史卡、本卡全部签字与 Build/Review 证据；审查 commit 6e7999ef 全 diff。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、editor-design-system-v1.md DS-L.7/DS-G.4、
+ED-FIELD-LAYOUT-1 历史卡、本卡全部签节（含 Kimi accept 的实测口径）与 6e7999ef 全 diff。
 
-必须独立输出：
-1. 核对 API 只能表达 default/wide，default 96px/<480 一行未漂移，wide 160px/<560 只作用于
-   RoleBindings；第二 owner、动态/数字值及业务 token/CSS 覆盖是否 fail-loud。
-2. 在真实 Project 页复核 5 组/12 行：最长“特殊战胜利结算音乐”+ required + 32px HelpTip 单行，
-   control 起点一致；重点覆盖音乐双动作、resource/no-preview tail、error/help 语义与横向溢出。
-3. 复核 560/559、720、1280；请尽可能做真实浏览器 200% zoom。若环境仍不能可靠设置 zoom，必须
-   明写未实测，并判断 720/<560 stacked 证据是否足以接受，不能把等效 viewport 冒充 200% 实测。
-4. 核对 DS 2.21.0 四处、RF-23、18/23 registry 与唯一 wide owner；确认 effect-card 负例定位修正
-   没有弱化门禁。
-5. 给出 Kimi `accept`，或 `counter` + P0/P1/P2、file:line/复现步骤。若 accept，请写入任务卡并在
-   回复末尾附一段可直接转发给 GLM 的只读终审提示词；GLM 与用户签字前不得标记 done。
+你的分工（独立证据，不复述 Codex/Kimi）：
+1. 真实字体逐标签测量 12 行：标签 + required 星 + 32px HelpTip 的组合宽度与最长行
+   “特殊战胜利结算音乐”是否确需 ~153px（验证 160px 取值不多不少；若 ≤128px 实测成立须回签）；
+2. 复算 field-layout census（组计数、唯一 wide owner、inline/detached/业务类清单）与门禁负例
+   （第二 owner、动态 labelTrack、非枚举值、业务 --ds-field-label-track-wide 覆盖均必红）；
+3. 测试矩阵：label/htmlFor、HelpTip 32px 命中区、error/aria-describedby、559/560、480/479、
+   720/1280 与 Design Lab RF-23 default/wide 覆盖是否闭合；
+4. 核对版本治理：DS 2.21.0 四处一致，后续 ED-ACTION-GROUP-SPEC-1 顺延 2.22.0 无冲突；
+5. 200% zoom：Kimi 已明写真实 UI zoom 未实测（CDP pageScaleFactor 为 pinch 式不响应布局视口），
+   你若同样无法可靠设置，请保持“未实测”口径并以门禁/静态证据为准，不得以等效 viewport 冒充实测。
+输出：本席 accept 或 counter + file:line/可复现步骤；写回“进入 done 前”GLM 行与交接记录。
 ```
