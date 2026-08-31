@@ -543,7 +543,7 @@ function summarizeUse(item: ItemData): string[] {
         case 'runSceneHook':
           return '调用当前场景传送出口（场景可做前置判断、剧情处理或拒绝）'
         case 'craftRecipe':
-          return `炼蛊皿机制：${effect.recipes.length} 条有序配方（在“炼蛊皿”页面编辑）`
+          return `炼蛊皿机制：直接使用后按固定优先级自动取材，共 ${effect.recipes.length} 条规则（在“炼蛊皿”页面编辑）`
         case 'drawFromResourcePool':
           return `紫金葫芦机制：最高实际消耗 ${effect.maxRoll} 灵葫值（在“紫金葫芦”页面编辑）`
         case 'permanentStatBoost':

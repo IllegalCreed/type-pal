@@ -630,8 +630,8 @@ function EffectFields(props: {
       return (
         <div className="item-alchemy-effect-summary">
           <div>
-            <strong>炼蛊皿配方</strong>
-            <span>{effect.recipes.length} 条有序配方 · 材料 → 产物</span>
+            <strong>炼蛊皿自动取材</strong>
+            <span>直接使用后自动采用首条材料充足规则 · 共 {effect.recipes.length} 条</span>
           </div>
           <DsButton
             variant="secondary"

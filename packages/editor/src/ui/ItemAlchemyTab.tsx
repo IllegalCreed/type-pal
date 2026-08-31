@@ -36,9 +36,9 @@ type InspectorTab = 'summary' | 'help'
 const COPY = {
   crafting: {
     title: '炼蛊皿',
-    eyebrow: '物品炼化机制',
-    sectionEyebrow: '有序配方',
-    sectionTitle: '材料 → 产物',
+    eyebrow: '自动炼蛊机制',
+    sectionEyebrow: '固定优先级',
+    sectionTitle: '自动取材规则',
     effectKind: 'craftRecipe',
   },
   'spirit-gourd': {
@@ -160,7 +160,7 @@ export function ItemAlchemyTab(props: ItemAlchemyTabProps) {
                 objectId={`${selectedItem.name} · ${selectedItem.id}`}
                 summary={
                   surface === 'crafting'
-                    ? '按顺序尝试配方，第一个材料充足的配方生效。'
+                    ? '游戏中只需使用炼蛊皿，不选择原材料；系统按固定顺序自动消耗第一种足量材料。'
                     : '随机值封顶后的 N 就是本次实际扣除的 N 点灵葫值，并决定第 N 行奖励。'
                 }
                 meta={<DsTag tone="neutral">{effectCount(surface, effect)}</DsTag>}
@@ -225,7 +225,7 @@ export function ItemAlchemyTab(props: ItemAlchemyTabProps) {
                   className="item-alchemy-list-card"
                   eyebrow={copy.sectionEyebrow}
                   title={copy.sectionTitle}
-                  description="上下移动会改变运行时优先级。"
+                  description="游戏操作没有选料步骤；下方选择器只供作者配置。系统自上而下判断，同时满足时自动采用第一条。"
                   contentLayout="list"
                   actions={
                     <DsButton
@@ -422,15 +422,17 @@ export function ItemAlchemyTab(props: ItemAlchemyTabProps) {
               panel: (
                 <div className="item-alchemy-inspector__body">
                   <DsInspectorSection
-                    title={surface === 'crafting' ? '配方优先级' : '灵葫值公式'}
+                    title={surface === 'crafting' ? '玩家操作与自动取材' : '灵葫值公式'}
                     description={
                       surface === 'crafting'
-                        ? '从第 1 条开始匹配'
+                        ? '包袱中直接使用炼蛊皿；没有第二步原材料选择'
                         : 'tier = min(random(1, 当前资源), 最大档位)'
                     }
                   >
                     {surface === 'crafting' ? (
-                      <p>运行时按顺序选择第一个材料充足的配方，并一次性扣材料、发放产物。</p>
+                      <p>
+                        运行时固定按毒蛇卵、毒蝎卵、毒蟾卵、蜘蛛卵、蜈蚣卵的顺序检查，自动消耗第一种足量材料并炼成蛊。
+                      </p>
                     ) : (
                       <p>
                         抽中 N 时会实际扣除 N 点灵葫值，并发放第 N 行奖励；N

@@ -129,6 +129,9 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
     expect(host.textContent).not.toContain('添加炼蛊皿')
     expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('炼蛊皿')
     expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('炼蛊皿 · 268')
+    expect(host.textContent).toContain('游戏中只需使用炼蛊皿，不选择原材料')
+    expect(host.textContent).toContain('游戏操作没有选料步骤；下方选择器只供作者配置')
+    expect(host.querySelector('.item-alchemy-list-card h2')?.textContent).toBe('自动取材规则')
     expect(host.querySelectorAll('.item-alchemy-recipe-row')).toHaveLength(5)
     expect(
       [...host.querySelectorAll('.item-alchemy-recipe-row__identity > span')].map(
@@ -154,6 +157,12 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
         ?.getAttribute('data-content-layout'),
     ).toBe('form')
     await verifyInspectorTabs(host, '炼蛊皿检查器', ['摘要', '公式'])
+    const formulaTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+      (tab) => tab.textContent?.trim() === '公式',
+    )!
+    await act(async () => formulaTab.click())
+    expect(host.textContent).toContain('包袱中直接使用炼蛊皿；没有第二步原材料选择')
+    expect(host.textContent).toContain('毒蛇卵、毒蝎卵、毒蟾卵、蜘蛛卵、蜈蚣卵')
   })
 
   test('紫金葫芦逐行显示消耗 1..9 灵葫值与奖励，不出现商店价格文案', async () => {

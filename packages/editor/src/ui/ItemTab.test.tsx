@@ -1585,10 +1585,10 @@ describe('ItemTab', () => {
       root.render(<Harness session={session} onOpenItemAlchemy={onOpenItemAlchemy} />),
     )
 
-    expect(host.textContent).toContain('1 条有序配方 · 材料 → 产物')
+    expect(host.textContent).toContain('直接使用后自动采用首条材料充足规则 · 共 1 条')
     expect(host.querySelector('[aria-label="材料物品 1"]')).toBeNull()
     expect(host.querySelector('.item-summary-list')?.textContent).toContain(
-      '炼蛊皿机制：1 条有序配方（在“炼蛊皿”页面编辑）',
+      '炼蛊皿机制：直接使用后按固定优先级自动取材，共 1 条规则（在“炼蛊皿”页面编辑）',
     )
     expect(host.querySelector('.item-summary-list')?.textContent).not.toContain('material×1')
     const useSwitch = [...host.querySelectorAll<HTMLInputElement>('input[role="switch"]')].find(
