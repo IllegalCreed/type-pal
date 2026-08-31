@@ -290,7 +290,57 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `62e30f56`（炼蛊失败原文）与 `893da2a3`（紫金葫芦零值原文）重迁并三方终审 done；
   `314e3a52` 固定一进一出 rework、双页既有功能、字段预填、九档/五配方与 1280/720 视觉均已自验。
   无 UI/runtime 特判、无 current 手改，恢复 Codex accept。
-- Kimi: pending
+- Kimi: **accept（2026-08-31，只读终审七提交最终组合态（`54ba9c2e` + `1b090cb2` + `aacf68b7` +
+  `314e3a52` + 三张 MIG——后三者本日已由本席逐卡独立终审 accept）+ 本人静态核对、聚焦复跑与
+  1280/720 实机测量，不重审已通过范围，非复述 Codex/GLM）**。按 KE1-KE6 与卡面六区逐项核验：
+  - **IA 与唯一 owner ✓（KE1/KE2）**:editor-navigation 物品模块恰 4 子页（物品/炼蛊皿/紫金葫芦/
+    商店）≤5，两页独立 route 且 deep link 自动聚焦 canonical owner（实机 `?page=crafting&object=268`、
+    `?page=spirit-gourd&object=270`）；outliner/Catalog 按子页 capability 抑制（App.tsx
+    `editorSubpageHasOutliner` + 菜单/快捷键/布局门同钉），两页无对象列表、无数量徽标、无添加/删除
+    机制 owner 入口；`findItemAlchemyEffect` 重复 effect 抛错、`itemAlchemyOwners` 多 owner 抛错
+    “只能存在一个 canonical owner”（item-alchemy.ts:41-51,92-93），`mutateItemAlchemyEffect`
+    禁改 kind、no-op(JSON 相等)返回 false 零 dispatch、有效动作恰一条 `UpdateItemCommand`
+    （:98-126）；Item 页两种 kind 仅摘要行 + `onOpenAlchemy` 精确跳转（ItemUseEffectEditor.tsx:629+
+    只读摘要 + open 按钮），且机制承载物品的“启用使用能力”开关被禁用并说明原因（ItemTab.tsx:
+    1791-1804）——不存在第二个详细编辑面；Shop 目录 20 家无 Shop0（本日前卡已证）。
+  - **炼蛊皿 ✓（KE3）**：实机 Hero“游戏中只需使用炼蛊皿，不选择原材料；系统按固定顺序自动消耗
+    第一种足量材料”；5 行“优先级 N · 首个材料充足的配方生效”，行内固定 材料 select+count →
+    产物 select+count（patchRecipe 只写单元数组），**全页无“添加材料/添加产物”**（实机
+    hasAddMaterial=false）；保留选择器、数量、header“添加对应关系”（完整 1→1）、排序与
+    danger 删除（实机 aria=“删除配方 1”、32×32）；
+    `assertSingleInputOutputCraftRecipes` 仅存在于编辑器领域层并以注释明写“通用 craftRecipe
+    schema 仍允许复合配方”（item-alchemy.ts:53-65）——复杂 shape 命中即 derivationError 错误
+    空态、原数据不变，一进一出限制**未下沉** schema/runtime；材料不足提示实机字段值
+    “炼蛊的材料不足”（migration 来）。
+  - **紫金葫芦 ✓（KE3/KE4）**:collectValue 只在 Inspector 以 `<code translate="no">` 只读呈现
+    （实机 resourceIsInput=false、resourceInInspector=true，aacf68b7 落点）；maxRoll 实机=9；
+    9 行实机文案逐行“实际扣除 N 灵葫值 → 奖励”（1 行军丹…9 灵葫仙丹），无买价/售价/cost 字段
+    （实机全 false）；删除原子 `maxRoll-1 + filter`、增加原子 `maxRoll+1 + 复制末档`、改档
+    `resizeResourcePoolEffect` slice/pad（item-alchemy.ts:67-79）；不可用提示实机字段值
+    “无任何效果”（migration 来）。
+  - **来源闭环 ✓**:Enemy 目录行与 Hero 均无条件插值“收服 +{collectValue} 灵葫值”
+    （EnemyTab.tsx:805,849，+0 也显示）；帮助与 section 文案明示“灵葫咒成功收服该敌人时，实际
+    增加到全局灵葫值；0 表示不增加灵葫值”（:951）与“灵葫值只在灵葫咒成功收服时增加”（:1207）——
+    不是自动战后奖励。
+  - **设计系统与交互 ✓（KE5）**：表单卡默认 inset、两个列表卡 `contentLayout="list"`；添加均在
+    section header 且带 `data-ds-add-picker-deferred`（`item/craft-recipe-append-default` /
+    `item/resource-reward-tier-append-default`）；720px 实机奖励行 select 538px 可用宽、动作组
+    整组下沉不拆（groupOnOwnRow=true、三钮 32×32 在界内）、document overflow=0；
+    **registry 复核**:item/craft-recipes 与 item/resource-reward-tiers 的 source/contentOwner
+    已重绑 `ItemAlchemyEditors.tsx`（指纹 `item-alchemy-recipe-row` / `item-alchemy-reward-row`、
+    verification 指向 `ItemAlchemyTab.test.tsx`），resource-reward-tiers dataPath 已修正为
+    `items[*].use.effects[kind=drawFromResourcePool].rewards`（KE5/GM-B2 全闭环）。
+  - **最终数据 ✓**:item268 五条 117..121 ×1→148 ×1 + “炼蛊的材料不足”；item270 九档
+    [100,105,95,112,72,131,97,102,111] ×1 + “无任何效果”——两种原文均由 producer 重迁
+    （62e30f56 / 893da2a3 本席已 accept），无 UI/runtime 特判（本日 grep 已证）、无 current 手改；
+    content19/SAVE8 不变，validate.ts 仅把 `rewards.length === maxRoll` 收紧（:976-979），
+    schema shape 不变。
+  - **验证（本人执行）**:editor 聚焦 item-alchemy + item-commands + ItemAlchemyTab +
+    DataMode.item-alchemy + ItemTab + ItemUseEffectEditor + EnemyTab + App.reference-navigation +
+    reorder-surface/reorder-adoption/add-picker/boundary → **12 files / 158 tests 全绿**；
+    content `validate.test.ts` → **93 tests 全绿**；1280 双页与 720 实机测量如上，
+    与 Codex 证据一致且独立取得。
+  无返工项；未修改实现，未代签 GLM。
 - GLM: **accept（2026-08-31，只读终审七提交最终组合态（`54ba9c2e` + `1b090cb2` + `aacf68b7` +
   `314e3a52` + 三张 MIG `ff6c9532`/`62e30f56`/`893da2a3`，后三者本日已由本席逐卡独立终审）+
   当前工作树复算与聚焦复跑，非复述 Codex）**。按 GM-B1~B4 与卡面六区逐项独立核验（本席重点：
@@ -350,7 +400,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   无返工项；200% zoom 实机复验按卡面分工仍归 Kimi/用户补验，不构成本席 blocker；
   未修改实现，未代签 Kimi，未填用户验收。
 - 用户验收: pending
-- done 准入结论: blocked（Codex + GLM accept 已签；缺 Kimi accept 与用户验收，不得标 done）
+- done 准入结论: blocked（Codex + GLM + Kimi 三方 accept 已签；仅缺用户验收，不得标 done）
 
 ## Draft / Build / Review
 
@@ -431,6 +481,16 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ## 交接记录
 
+- 2026-08-31 Kimi: 只读终审七提交最终组合态，签 **accept**。独立证据：导航恰 4 子页、双 route
+  deep link 自动聚焦 owner、outliner 按 capability 抑制（实机无 Catalog/徽标/机制 owner 增删）；
+  adapter 重复 effect/多 owner/改 kind 抛错、no-op 零 dispatch、有效动作恰一条 UpdateItemCommand；
+  炼蛊皿实机 5 行优先级一进一出、无添加材料/产物、删除 32×32 danger、一进一出 guard 仅在编辑器
+  领域层未下沉 schema、复杂 shape 错误空态；紫金葫芦 collectValue 只读于 Inspector（非输入框）、
+  9 行“实际扣除 N → 奖励”实机逐字、无价格/cost、增删改档全原子；Enemy“收服 +N 灵葫值”（含 +0）
+  与“只在灵葫咒成功收服时增加”直读；两条 reorder adoption 重绑 ItemAlchemyEditors.tsx + dataPath
+  修正；两条 message 字段实机值=“炼蛊的材料不足”/“无任何效果”（producer 重迁，本席前三卡已
+  accept）；本人复跑 editor 12 files / 158 tests + content validate 93 tests 全绿，1280 双页与
+  720 动作组整组下沉零溢出。无返工项；未修改实现，未代签 GLM，未标 done。Next: 用户验收。
 - 2026-08-31 GLM: 只读终审七提交最终组合态，签 **accept**。独立证据：导航恰 4 子页、双页无
   Catalog/徽标/机制 owner 增删；adapter 重复 effect 抛错、no-op 零命令、有效变更恰一条
   UpdateItemCommand；一进一出单值字段 + 复合 shape 错误空态零命令且原文不变（测试逐条直读），
