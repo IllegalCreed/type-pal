@@ -483,6 +483,11 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   同步 field-layout adoption与CSS census；聚焦6 files / 91 tests、typecheck、91-file DS gate、定向Biome与
   `git diff --check` 全绿，仅有未触碰的visually-hidden `!important`既有warning。临界容器实测：761px仍为
   五轨且reward轨222.9px；760px准确切到两列/向下connector，row/main/body两点overflow均0。
+- 不可用提示旧会话反例：current与migration baseline的item270均精确为`unavailableMessage: "无任何效果"`
+  且byte mirror；旧`?ui_samples`标签实测input为空，但撤销/重做/保存评审副本全disabled，排除手工脏改。同一
+  6010、同一URL fresh boot后开发基线与评审沙盒input均为“无任何效果”。根因是`main.tsx`仅首次mount读取
+  `projects/pal`并构造EditSession，Vite HMR不会重读迁移后的JSON；`ui_samples`也不投影items。旧页/迁移前
+  保存的独立评审副本不得继续充当current验收证据；不返工producer/current，不加UI/runtime fallback。
 - 响应式实机：通过键盘调整真实 Inspector 宽度，把 main 精确压到 893px / 718px / 660px；两机制行
   `scrollWidth <= clientWidth`，718px 两页截图无横向溢出。真实浏览器 200% zoom 仍待 Kimi/用户补验。
 - 视觉证据（忽略目录，禁止提交）：
@@ -525,10 +530,17 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 奖励行横向节奏: **rework（2026-08-31）**——用户指出“实际扣除”与箭头之间存在异常大空白。确认不是设计
   意图，根因为扣除值轨误用fr吸收宽屏余量；`c8016faa` 已改为内容宽轨并以可见文字/SVG path边界复测为
   15px/15px，待增量终审/复验。
+- 不可用提示旧页截图: **verified stale-session（2026-08-31）**——用户截图中的input确为空，但current /
+  baseline与同URL fresh开发基线/评审沙盒均显示“无任何效果”；旧页无history或dirty，确定是迁移前boot快照，
+  不是当前数据或字段绑定回归。刷新/新开取证即可；若是迁移前另存的独立副本，必须从最新current新建评审会话。
 - 实现验收: pending（最新数量字段、连接符、奖励列表表面与横向节奏增量待用户复验）。
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: 用户再次截图指出“不可用提示”为空。三路只读追踪与浏览器A/B确认：旧评审标签
+  value=''且undo/redo/save均disabled；同一`?ui_samples`地址fresh tab value='无任何效果'。current与baseline
+  item270亦精确同值。根因是迁移前boot的单次EditSession快照不会被HMR重载；无实现返工，不刷新用户页以避免
+  潜在丢失编辑。后续review必须刷新/新开后取证，旧截图作废。
 - 2026-08-31 Codex: 用户截图指出奖励行扣除文案到箭头空白过大。浏览器2048px实测修复前可见文字→SVG
   为275.4px；`c8016faa` 把扣除轨 `minmax(10rem, 0.38fr)` 改为 `max-content`，余量只分配给奖励选择器，
   修复后2048/1280均为文字→SVG 15px、SVG→奖励15px，overflow0。同步field-layout registry/census；
@@ -676,6 +688,9 @@ Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
    奖励轨独占剩余宽度，select/input36px、动作32px，row/body overflow均0。field-layout adoption/census值应为
    `max-content 2.75rem minmax(12rem, 1fr) var(--ds-field-measure-short-number) auto`。
    另请复测item-alchemy容器761/760px：761保持五轨且overflow0；760切为两列/connector向下且overflow0。
+7. 不可用提示必须以fresh boot取证：current与baseline item270均为“无任何效果”；同一6010的fresh开发基线和
+   `?ui_samples`评审沙盒input均应预填该值。迁移前已打开标签或迁移前保存的独立评审副本可能为空，不得当作
+   current反例；不得因此添加UI/runtime fallback或手改current。若fresh boot仍空，才用网络响应与绑定链反证。
 
 Kimi 重点审可视对齐/1280/720/200%；GLM 重点审DOM、command、registry/census与零数据漂移。
 请在任务卡“数量字段 / 连接符 / 奖励列表表面与横向节奏增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，
