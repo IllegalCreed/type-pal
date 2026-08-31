@@ -296,6 +296,10 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `minmax(10rem, 0.38fr)` 收紧为 `max-content`，剩余宽度仅交给奖励选择轨。宽屏直接测可见文字右缘到SVG
   path左缘由275.4px降为15px，path右缘到奖励控件同为15px；1280仍为15px/15px，无横向溢出。
   `9c38d97b` 同时修正field-layout登记中“五轨/六槽”的文字自相矛盾。
+  用户随后指出窄态四层堆叠过高；`0a423136` 将奖励行改为水平连接符的紧凑两/三行，并把裸数量input升级为
+  带可见“数量”label与标准stepper的`DsDraftNumberField`。只读审查发现521px奖励仅62.9px及761px第10档
+  潜在溢出两个P1；`b01d10a8` 将中档改为“扣除→奖励 / 数量+动作”，root奖励轨允许安全收缩。最终521px
+  reward274.9px、520px384px；761px新增第10档reward184.2px且row/main/body overflow均0，undo恢复9档。
   聚焦测试、typecheck、DS gate、无溢出/无脏写均通过；数据/schema/runtime/migration 零变化，恢复 Codex accept。
 - Kimi: **accept（2026-08-31，只读终审七提交最终组合态（`54ba9c2e` + `1b090cb2` + `aacf68b7` +
   `314e3a52` + 三张 MIG——后三者本日已由本席逐卡独立终审 accept）+ 本人静态核对、聚焦复跑与
@@ -406,13 +410,14 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
     content validate 93 tests——**全绿**。命令计数/no-op 0/undo-redo 对称断言逐条直读确认。
   无返工项；200% zoom 实机复验按卡面分工仍归 Kimi/用户补验，不构成本席 blocker；
   未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: pending（历史组合态曾 approved；最新数量字段、连接符、奖励列表表面与横向节奏增量待复验）
+- 用户验收: pending（历史组合态曾 approved；最新数量字段、连接符、奖励列表表面、横向节奏与窄态密度待复验）
 - done 准入结论: **blocked（最新增量仅 Codex accept；待 Kimi / GLM 增量 accept + 用户复验）**
 
-### 数量字段 / 连接符 / 奖励列表表面与横向节奏增量复审
+### 数量字段 / 连接符 / 奖励列表表面、横向节奏与窄态密度增量复审
 
-- Codex: **accept（2026-08-31，`314e88e3` + `55b5e981` + `35843eb7` + `c8016faa` + `9c38d97b`）**——标准数量字段、
-  对称SVG连接符、Shop式edge奖励列表与15px/15px横向节奏均按可见元素边界实机复验通过；
+- Codex: **accept（2026-08-31，`314e88e3` + `55b5e981` + `35843eb7` + `c8016faa` + `9c38d97b` +
+  `0a423136` + `b01d10a8`）**——标准数量字段、对称SVG、Shop式edge列表、15px/15px横向节奏与紧凑窄态
+  均按可见元素边界实机复验通过；521/520与761/760两个断点cliff已闭合；
   `f7cc5770` / `b6d751c4` 两次错误居中证据仅作历史保留。
 - Kimi: pending
 - GLM: pending
@@ -423,7 +428,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：in progress；数量字段、对称SVG、edge列表与横向节奏 Codex accept，待 Kimi / GLM 增量终审与用户复验。
+- Review：in progress；数量字段、对称SVG、edge列表、横向节奏与窄态密度 Codex accept，待 Kimi / GLM 增量终审与用户复验。
 
 ### Build / Review 证据
 
@@ -437,7 +442,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `55b5e981 fix(editor): use symmetric alchemy flow glyph`（最终对称SVG）；紫金葫芦奖励列表表面：
   `35843eb7 fix(editor): flatten spirit gourd reward rows`；奖励行横向节奏：
   `c8016faa fix(editor): tighten spirit gourd reward flow` +
-  `9c38d97b fix(editor): correct reward layout registry wording`；均未推送。
+  `9c38d97b fix(editor): correct reward layout registry wording`；奖励行窄态：
+  `0a423136 fix(editor): compact spirit gourd reward rows` +
+  `b01d10a8 fix(editor): preserve gourd rewards at breakpoints`；均未推送。
 - current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
   `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
   `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
@@ -488,6 +495,14 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   6010、同一URL fresh boot后开发基线与评审沙盒input均为“无任何效果”。根因是`main.tsx`仅首次mount读取
   `projects/pal`并构造EditSession，Vite HMR不会重读迁移后的JSON；`ui_samples`也不投影items。旧页/迁移前
   保存的独立评审副本不得继续充当current验收证据；不返工producer/current，不加UI/runtime fallback。
+- 奖励行窄态增量（`0a423136` + `b01d10a8`）：用户截图对应760px旧行159.5px，因cost/竖箭头/
+  reward+count/actions机械拆四层。最终760px为99px两行：首行“实际扣除→奖励”，次行可见“数量”标准stepper
+  与32px动作组；520px以下为123.5px三行，箭头始终与奖励同排且保持水平。number-field leaf115不变，
+  DraftNumberInput29→28、DraftNumberField27→28；label for、min=1、stepper、单命令与undo有测试钉。
+  边界实测：521/520 reward274.9/384px，396px reward260px，720 viewport reward294px；761px新增合法第10档
+  cost112.8px/reward184.2px，row/main/body overflow0并undo回9档。初版两个P1经修复后只读复审accept；
+  聚焦6 files / 92 tests、typecheck、91-file DS gate与Biome/diff绿，P1修复后仅精确复跑3 files / 22 tests
+  + DS gate，未重复全量。content/reforge/migrate/projects/pal/editor core/reorder核心均零diff。
 - 响应式实机：通过键盘调整真实 Inspector 宽度，把 main 精确压到 893px / 718px / 660px；两机制行
   `scrollWidth <= clientWidth`，718px 两页截图无横向溢出。真实浏览器 200% zoom 仍待 Kimi/用户补验。
 - 视觉证据（忽略目录，禁止提交）：
@@ -533,10 +548,19 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 不可用提示旧页截图: **verified stale-session（2026-08-31）**——用户截图中的input确为空，但current /
   baseline与同URL fresh开发基线/评审沙盒均显示“无任何效果”；旧页无history或dirty，确定是迁移前boot快照，
   不是当前数据或字段绑定回归。刷新/新开取证即可；若是迁移前另存的独立副本，必须从最新current新建评审会话。
-- 实现验收: pending（最新数量字段、连接符、奖励列表表面与横向节奏增量待用户复验）。
+- 奖励行窄态密度: **rework（2026-08-31）**——用户指出四层堆叠“丑到过分”。确认是过度响应式：箭头和动作
+  各自占行造成159.5px高空白。`0a423136`紧凑化并补可见数量字段；`b01d10a8`继续消除521/520可辨识断崖与
+  761px第10档溢出风险，待增量终审/用户复验。
+- 实现验收: pending（最新数量字段、连接符、奖励列表表面、横向节奏与窄态密度待用户复验）。
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: 用户指出紫金葫芦奖励窄态四层布局过高。`0a423136`改为紧凑两/三行、水平SVG，
+  并将奖励数量升级为可见“数量”DsDraftNumberField；760px行159.5→95px。只读视觉审查随后counter：521px
+  reward仅62.9px、761px新增第10档可能溢出。`b01d10a8`重排中档并放开root reward最小轨；最终760px99px、
+  521/520 reward274.9/384px，761px第10档reward184.2px且overflow0、undo回9。P1提出席复审accept，
+  其余只读审查确认registry与数据/command无blocker；6 files/92 tests、typecheck、DS gate绿；仍待正式
+  Kimi/GLM增量签字与用户复验。
 - 2026-08-31 User/Codex: 用户再次截图指出“不可用提示”为空。三路只读追踪与浏览器A/B确认：旧评审标签
   value=''且undo/redo/save均disabled；同一`?ui_samples`地址fresh tab value='无任何效果'。current与baseline
   item270亦精确同值。根因是迁移前boot的单次EditSession快照不会被HMR重载；无实现返工，不刷新用户页以避免
@@ -666,6 +690,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - `35843eb7 fix(editor): flatten spirit gourd reward rows`
 - `c8016faa fix(editor): tighten spirit gourd reward flow`
 - `9c38d97b fix(editor): correct reward layout registry wording`
+- `0a423136 fix(editor): compact spirit gourd reward rows`
+- `b01d10a8 fix(editor): preserve gourd rewards at breakpoints`
 Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
 
 请只审最新增量及其与既有一进一出表面的组合：
@@ -673,7 +699,8 @@ Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
    autocomplete、type=number、min=1、step=1、integer/enforceRange 是否正确。
 2. 两个数量字段是否使用 DsDraftNumberField 标准 ± stepper；1 时减号 disabled；一次+只产生一条
    UpdateItemCommand，undo恢复；itemId、另一侧、其它配方和 canonical 数据零变化。
-3. number-field census 115 leaf不变、DraftNumberInput 30→29 / DraftNumberField 26→27，field-layout、
+3. number-field census 115 leaf不变；配方增量为DraftNumberInput 30→29 / DraftNumberField 26→27，奖励数量
+   升级后当前为DraftNumberInput28 / DraftNumberField28。field-layout、
    design-system owner 与 boundary gate 是否同步；业务 CSS 是否未覆盖公共 number 实现。
 4. 最终连接符是否为非交互对称SVG path，读屏仍为“炼成”；`f7cc5770` / `b6d751c4` 的CSS伪元素
    居中证据已作废，不得复用。请直接测 path 渲染边界：1280材料数量stepper右边缘505、产物输入左边缘565、
@@ -681,19 +708,23 @@ Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
    两档无row/body overflow、stepper不裁切、保存无脏写。
 5. 紫金葫芦奖励是否正式从DsRepeatRow/repeat-row迁为Shop式edge-to-edge-list：DOM无DsRepeatRow，
    逐项四边框/圆角/raised背景为0，仅bottom 1px divider；列表和内容边界同宽同x。select/input默认36px、
-   动作32px；surface census repeat 8 / edge 3 / 总adoption29。734px主面板connector仍显示并向下、动作组不拆、
+   动作32px；surface census repeat 8 / edge 3 / 总adoption29。窄态connector保持水平且与奖励同排、动作组不拆、
    row/main/body overflow均0。rewards顺序、maxRoll同步、单命令/undo与canonical数据不得变化。
 6. 宽屏横向节奏是否按可见元素而非容器盒验证：2048px实际扣除文案右缘→SVG path左缘15px，path右缘→
    奖励select左缘15px；1280同为15px/15px。第一轨computed应为内容宽（当前104.133px），不得再随行宽扩张；
-   奖励轨独占剩余宽度，select/input36px、动作32px，row/body overflow均0。field-layout adoption/census值应为
-   `max-content 2.75rem minmax(12rem, 1fr) var(--ds-field-measure-short-number) auto`。
-   另请复测item-alchemy容器761/760px：761保持五轨且overflow0；760切为两列/connector向下且overflow0。
+   奖励轨独占剩余宽度，select36px、数量stepper为公共默认尺寸、动作32px，row/body overflow均0。root
+   field-layout值应为`max-content 2.75rem minmax(0, 1fr) max-content auto`。
+   另请复测item-alchemy容器761/760px：761保持五轨；760为“扣除→奖励 / 数量+动作”两行，connector水平。
 7. 不可用提示必须以fresh boot取证：current与baseline item270均为“无任何效果”；同一6010的fresh开发基线和
    `?ui_samples`评审沙盒input均应预填该值。迁移前已打开标签或迁移前保存的独立评审副本可能为空，不得当作
    current反例；不得因此添加UI/runtime fallback或手改current。若fresh boot仍空，才用网络响应与绑定链反证。
+8. 窄态密度与可辨识性：旧760px四层159.5px证据作废；当前760px约99px、520px约123.5px。main521/520
+   reward分别约274.9/384px，不得再次出现只剩省略号的1px cliff；396px/720 viewport无溢出。main761新增
+   第10档后cost约112.8px、reward约184.2px且row/main/body overflow0。每行必须有可见“数量”label、label for
+   正确、标准stepper，1时减号disabled，一次+恰一命令且undo恢复。
 
 Kimi 重点审可视对齐/1280/720/200%；GLM 重点审DOM、command、registry/census与零数据漂移。
-请在任务卡“数量字段 / 连接符 / 奖励列表表面与横向节奏增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，
+请在任务卡“数量字段 / 连接符 / 奖励列表表面、横向节奏与窄态密度增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，
 并追加交接记录。
 不得代签另一席、不得填写用户验收、不得标记done、不得修改实现或推送。
 ```
