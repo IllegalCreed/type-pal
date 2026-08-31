@@ -239,6 +239,13 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
       ),
     ).toBe(true)
     expect(
+      rows.every((row) => {
+        const label = row.querySelector<HTMLLabelElement>('.item-alchemy-reward-count label')
+        const input = row.querySelector<HTMLInputElement>('.item-alchemy-reward-count .ds-input')
+        return label?.textContent?.trim() === '数量' && label.htmlFor === input?.id
+      }),
+    ).toBe(true)
+    expect(
       rows.every(
         (row) =>
           row.querySelector('.item-alchemy-row-actions')?.getAttribute('data-density') ===
@@ -340,6 +347,39 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
         'spirit-gourd',
       )!.effect.rewards,
     ).toHaveLength(9)
+  })
+
+  test('奖励数量使用带标签的标准步进器，并保持单命令与撤销边界', async () => {
+    const edit = session()
+    await act(async () =>
+      root.render(
+        <SpiritGourdAlchemyTab items={edit.getState().items} session={edit} focusObjectId="270" />,
+      ),
+    )
+
+    const decrement = host.querySelector<HTMLButtonElement>(
+      'button[aria-label="减少实际扣除 1 灵葫值的奖励数量"]',
+    )!
+    const increment = host.querySelector<HTMLButtonElement>(
+      'button[aria-label="增加实际扣除 1 灵葫值的奖励数量"]',
+    )!
+    expect(decrement.disabled).toBe(true)
+    const before = edit.getHistoryVersion()
+    await act(async () => increment.click())
+    expect(edit.getHistoryVersion()).toBe(before + 1)
+    expect(
+      findItemAlchemyEffect(
+        edit.getState().items.find((item) => item.id === '270')!,
+        'spirit-gourd',
+      )!.effect.rewards[0]?.count,
+    ).toBe(2)
+    expect(edit.undo()).toBe(true)
+    expect(
+      findItemAlchemyEffect(
+        edit.getState().items.find((item) => item.id === '270')!,
+        'spirit-gourd',
+      )!.effect.rewards[0]?.count,
+    ).toBe(1)
   })
 
   test('[reorder-family:item-alchemy-details] 配方与灵葫奖励移动都满足 no-op 0 命令、有效移动 1 命令和 undo/redo', async () => {

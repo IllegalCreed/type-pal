@@ -14,6 +14,16 @@ function cssRule(css: string, selector: string): string {
   return new RegExp(`${escaped}\\s*\\{([^}]*)\\}`, 's').exec(css)?.[1] ?? ''
 }
 
+function cssRuleInAtRule(css: string, atRule: string, selector: string): string {
+  const escapedAtRule = atRule.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return (
+    new RegExp(`${escapedAtRule}\\s*\\{[\\s\\S]*?${escapedSelector}\\s*\\{([^}]*)\\}`, 's').exec(
+      css,
+    )?.[1] ?? ''
+  )
+}
+
 type JsxOwner = { tag: string; ancestors: string[] }
 
 function classTokens(value: string): string[] {
@@ -240,6 +250,26 @@ describe('reorder visible surface adoption gate', () => {
     ).toContain('var(--ds-hit-target-compact)')
     expect(cssRule(recipeCss, '.ds-action-group[data-density="compact"] .ds-button')).toContain(
       'min-width: var(--ds-hit-target-compact)',
+    )
+
+    const businessCss = source('editor.css')
+    const mediumRewardRow = cssRuleInAtRule(
+      businessCss,
+      '@container item-alchemy (max-width: 760px)',
+      '.item-alchemy-reward-row',
+    )
+    expect(mediumRewardRow).toContain('"cost flow reward count"')
+    expect(mediumRewardRow).toContain('". . actions actions"')
+    const narrowRewardRow = cssRuleInAtRule(
+      businessCss,
+      '@container item-alchemy (max-width: 520px)',
+      '.item-alchemy-reward-row',
+    )
+    expect(narrowRewardRow).toContain('"cost cost cost"')
+    expect(narrowRewardRow).toContain('"flow reward reward"')
+    expect(narrowRewardRow).toContain('"count count actions"')
+    expect(businessCss).not.toMatch(
+      /\.item-alchemy-reward-row\s*>\s*\.item-alchemy-formula-arrow\s*\{[^}]*transform:/s,
     )
   })
 })

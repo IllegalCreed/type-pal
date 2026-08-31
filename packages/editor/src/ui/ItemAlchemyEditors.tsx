@@ -3,7 +3,6 @@ import type { CraftRecipeEffect, ResourcePoolEffect } from '../core/item-alchemy
 import {
   DsActionGroup,
   DsDraftNumberField,
-  DsDraftNumberInput,
   DsIconButton,
   DsReorderCollection,
   type DsReorderIntent,
@@ -267,27 +266,28 @@ export function ResourceRewardTierList(props: {
                     }}
                   />
                 </span>
-                <span className="item-alchemy-reward-count">
-                  <DsDraftNumberInput
-                    size="default"
-                    aria-label={`实际扣除 ${index + 1} 灵葫值的奖励数量`}
-                    name={`spirit-gourd-reward-${index + 1}-count`}
-                    autoComplete="off"
-                    draftKey={`${props.scopeKey}:reward:${reorderKey}:count`}
-                    syncToken={props.revision}
-                    min={1}
-                    step={1}
-                    integer
-                    enforceRange
-                    value={reward.count}
-                    onCommit={(count) => {
-                      if (count === undefined) return
-                      const next = [...rewards]
-                      next[index] = { ...reward, count: positiveInteger(count) }
-                      props.onChange({ ...props.effect, rewards: next })
-                    }}
-                  />
-                </span>
+                <DsDraftNumberField
+                  label="数量"
+                  layout="inline"
+                  fieldClassName="item-alchemy-reward-count"
+                  size="default"
+                  aria-label={`实际扣除 ${index + 1} 灵葫值的奖励数量`}
+                  name={`spirit-gourd-reward-${index + 1}-count`}
+                  autoComplete="off"
+                  draftKey={`${props.scopeKey}:reward:${reorderKey}:count`}
+                  syncToken={props.revision}
+                  min={1}
+                  step={1}
+                  integer
+                  enforceRange
+                  value={reward.count}
+                  onCommit={(count) => {
+                    if (count === undefined) return
+                    const next = [...rewards]
+                    next[index] = { ...reward, count: positiveInteger(count) }
+                    props.onChange({ ...props.effect, rewards: next })
+                  }}
+                />
                 <DsActionGroup density="compact" className="item-alchemy-row-actions">
                   <DsReorderMoveButton
                     itemKey={reorderKey}

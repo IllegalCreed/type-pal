@@ -168,6 +168,17 @@
         "removalCondition": "当前帧时长进入多行动画属性表单时迁入 DsFieldGroup。"
       },
       {
+        "source": "ItemAlchemyEditors.tsx",
+        "component": "ResourceRewardTierList",
+        "fieldComponent": "DsDraftNumberField",
+        "label": "数量",
+        "className": "item-alchemy-reward-count",
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "奖励数量是edge-to-edge档位行内的单个紧凑字段，不与纵向表单共享标签轨。",
+        "responsiveEvidence": "字段使用公共inline标签与short-number控件；760px和520px规则只重排完整语义单元。",
+        "removalCondition": "奖励数量进入多字段表单或公共列表字段recipe时迁入对应共享布局。"
+      },
+      {
         "source": "LayerStackControls.tsx",
         "component": "LayerPaintContext",
         "fieldComponent": "DsField",
@@ -987,9 +998,9 @@
         "selector": ".item-alchemy-reward-row",
         "atRule": "",
         "property": "grid-template-columns",
-        "value": "max-content 2.75rem minmax(12rem, 1fr) var(--ds-field-measure-short-number) auto",
+        "value": "max-content 2.75rem minmax(12rem, 1fr) max-content auto",
         "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "五轨是按内容计宽的实际扣除值、流程连接符、唯一吸收剩余宽度的奖励轨、标准数量字段与不可拆动作组。",
+        "reason": "五轨是按内容计宽的实际扣除值、流程连接符、唯一吸收剩余宽度的奖励轨、带可见标签的标准数量字段与不可拆动作组。",
         "responsiveEvidence": "扣除文案与可见箭头保持固定节奏，奖励轨独占剩余宽度；760px 与520px 两级规则按完整语义单元换行。",
         "removalCondition": "灵葫档位行不再使用该五轨结构时删除。"
       },
@@ -998,10 +1009,10 @@
         "selector": ".item-alchemy-reward-row",
         "atRule": "@container item-alchemy (max-width: 760px)",
         "property": "grid-template-columns",
-        "value": "minmax(0, 1fr) var(--ds-field-measure-short-number)",
+        "value": "max-content 2.75rem minmax(0, 1fr) max-content",
         "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "中窄态保留档位、奖励内容与数量，动作组整体下沉。",
-        "responsiveEvidence": "消耗文案与奖励选择占完整内容轨，数量保持短字段宽度。",
+        "reason": "中窄态把实际扣除、水平连接符、奖励与带可见标签的标准数量字段保留在同一语义行，只让不可拆动作组下沉。",
+        "responsiveEvidence": "奖励轨独占弹性余量；动作组跨奖励与数量两轨靠右，连接符不再独占空白行。",
         "removalCondition": "中窄档位布局改变时更新。"
       },
       {
@@ -1009,10 +1020,10 @@
         "selector": ".item-alchemy-reward-row",
         "atRule": "@container item-alchemy (max-width: 520px)",
         "property": "grid-template-columns",
-        "value": "minmax(0, 1fr)",
+        "value": "2.75rem minmax(0, 1fr) auto",
         "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "最窄态只保留档位身份与一个完整内容轨，各内容单元顺序下沉。",
-        "responsiveEvidence": "物品、数量和动作都在第二轨完整呈现，不形成横向溢出。",
+        "reason": "最窄态把扣除文案独占首行，水平连接符与奖励同排，标准数量字段和不可拆动作组在末行分居两侧。",
+        "responsiveEvidence": "奖励跨内容与动作轨获得可用宽度；公共数字字段自身保持短数字控件宽度，动作保持右对齐。",
         "removalCondition": "最窄档位布局改变时更新。"
       }
     ]

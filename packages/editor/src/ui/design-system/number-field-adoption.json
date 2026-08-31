@@ -5,9 +5,9 @@
     "leafCalls": 115,
     "controls": {
       "DsNumberInput": 55,
-      "DsDraftNumberInput": 29,
+      "DsDraftNumberInput": 28,
       "DsNumberField": 4,
-      "DsDraftNumberField": 27
+      "DsDraftNumberField": 28
     }
   },
   "modes": [
@@ -372,14 +372,14 @@
     {
       "source": "ItemAlchemyEditors.tsx",
       "component": "ResourceRewardTierList",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": { "context": "none", "fieldClass": "item-alchemy-reward-count" },
       "count": 1,
       "mode": "compact-repeat-row",
-      "control": "DsDraftNumberInput",
+      "control": "DsDraftNumberField",
       "measure": "canonical-short",
       "grid": "edge-to-edge-list",
       "owner": "card:ED-ITEM-ALCHEMY-SURFACE-1",
-      "reason": "灵葫奖励数量位于edge-to-edge档位行，使用公共默认高度与标准短数字宽度。",
+      "reason": "灵葫奖励数量位于edge-to-edge档位行，使用带可见标签、公共默认高度与标准短数字宽度的字段。",
       "verification": "ItemAlchemyTab.test.tsx#spirit-gourd",
       "removalCondition": "档位行取消数量编辑时删除。"
     },
