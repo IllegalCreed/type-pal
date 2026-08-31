@@ -1,6 +1,6 @@
 # MIG-PAL-STORE0-SHOP-BOUNDARY-1 - PAL Store[0] 奖励表与商店边界收口
 
-Status: review
+Status: done
 Phase: phase2
 Capability: E9 商店 / 物品资源池（不改变 capability-map）
 Coding Owner: Codex
@@ -269,17 +269,19 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
     publication.pal（2）→ 4 files / 12 tests 全绿（craft 卡另补 2 files / 63 tests，两卡合计
     6 files / 75 tests；按纪律未重复全量）。
   无返工项；未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: pending
-- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
+- 用户验收: **approved（2026-08-31）**——用户在两席终审 accept 落卡后回复“签了”，确认依赖卡验收并放行收口。
+- done 准入结论: **allowed / complete（Codex + Kimi + GLM 三方 accept + 用户验收齐，无 counter）**
 
 ## Draft / Build / Review 证据
 
 - Draft：本卡与直接证据已建立；尚未修改 migration、tests、baseline/current 或 UI。
 - Build：2026-08-31 Codex 按三签准入开工；仍为唯一 Coding Owner。
-- Review：Codex accept；等待 Kimi / GLM 当前实现终审与用户验收。
+- Review：completed；Codex / Kimi / GLM accept 与用户验收齐，任务收口 done。
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: Kimi / GLM 终审均 accept；用户回复“签了”确认验收。无 counter、无剩余返工，
+  本卡转 done，解除 `MIG-PAL-GOURD-FAILURE-MESSAGE-1` 的 Store0 依赖。
 - 2026-08-31 GLM: 只读终审 `ff6c9532` + 当前工作树，签 **accept**。独立证据：node 复算 shops 双树
   20 项 id 严格 1..20、字节镜像、diff 恰 −14 行删 id0 + state 单 hash 行；重扫 canonical openShop
   buy 29 全 1..20 零 0、sell 6 全 shop=0，sell 运行时不读 shops（main.ts:3442-3452 直读）；重扫

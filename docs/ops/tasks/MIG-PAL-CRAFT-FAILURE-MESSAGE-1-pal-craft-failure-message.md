@@ -1,6 +1,6 @@
 # MIG-PAL-CRAFT-FAILURE-MESSAGE-1 - PAL 炼蛊失败原文迁移闭环
 
-Status: review
+Status: done
 Phase: phase2
 Capability: PAL item migration / current publication（不改变 capability-map）
 Coding Owner: Codex
@@ -267,14 +267,14 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
     pal-derived-content/pal-current-publication.pal 已在本日 Store0 终审复跑（两卡合计 6 files /
     75 tests；按纪律未重复全量）。
   无返工项；未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: pending
-- done 准入结论: **blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）**
+- 用户验收: **approved（2026-08-31）**——用户在两席终审 accept 落卡后回复“签了”，确认依赖卡验收并放行收口。
+- done 准入结论: **allowed / complete（Codex + Kimi + GLM 三方 accept + 用户验收齐，无 counter）**
 
 ## Draft / Build / Review
 
 - Draft：前提真值、producer 根因、最小 strict translator 与 exact-diff 方案已登记。
 - Build：completed（`62e30f56`）；Codex 按 KC1-KC5 / GM-C1-GM-C4 完成实现、重迁和自验证。
-- Review：in progress；Codex accept，待 Kimi / GLM 独立终审与用户验收。
+- Review：completed；Codex / Kimi / GLM accept 与用户验收齐，任务收口 done。
 
 ## Build / Review 证据
 
@@ -306,10 +306,12 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
 ## 用户验收
 
 - 问题确认：2026-08-31 用户指出“材料不足提示”字段为空并质疑其用途。
-- 实现验收：pending。
+- 实现验收：**approved（2026-08-31）**。
 
 ## 交接日志
 
+- 2026-08-31 User/Codex: Kimi / GLM 终审均 accept；用户回复“签了”确认验收。无 counter、无剩余返工，
+  本卡转 done，解除 `MIG-PAL-GOURD-FAILURE-MESSAGE-1` 的 craft failure 依赖。
 - 2026-08-31 GLM: 只读终审 `62e30f56` + 当前工作树，签 **accept**。独立证据：raw 五连 0x20 链
   L39598..L39606 终端 fail→L39595 严格三件套「炼蛊的材料不足」且全局唯一入边、全库唯一
   fail→0x20 真链（其余 0x20 失败边落点逐条核对）；translator 环/悬空/空白/缺 narration/缺 end/

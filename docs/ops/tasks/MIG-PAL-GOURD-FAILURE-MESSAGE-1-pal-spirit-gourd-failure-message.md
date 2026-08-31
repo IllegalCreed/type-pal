@@ -1,6 +1,6 @@
 # MIG-PAL-GOURD-FAILURE-MESSAGE-1 - PAL 紫金葫芦零灵葫值原文迁移闭环
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: PAL item migration / current publication（不改变 capability-map）
 Coding Owner: Codex
@@ -231,9 +231,8 @@ migration producer 未读取 operand0 failure arm，不是原版静默，也不�
   原文；可证伪观察见 Kimi 签节第 6 条；两席反证独立取得后收敛）。
 - counter / 分歧: none（Kimi KG1-KG6 与 GLM GM-D1~D4 逐项收敛，无冲突）
 - 缺签豁免: N/A
-- build 准入结论: **签字面三签齐（2026-08-31，Codex + Kimi（KG1-KG6）+ GLM（GM-D1~D4），无 counter，
-  两席非 Owner 独立反证完成）；但 Depends On 两卡（Store0 / craft）done 收口前本卡不得转 build，
-  届时由 Codex 作为唯一 Coding Owner 开工并转 Status。**
+- build 准入结论: **allowed（2026-08-31，Codex + Kimi（KG1-KG6）+ GLM（GM-D1~D4）三签齐、
+  无 counter、两席独立反证完成；Store0 / craft 两张 Depends On 已 done）。Codex 为唯一 Coding Owner。**
 
 ### 进入 done 前：审查签字
 
@@ -246,7 +245,7 @@ migration producer 未读取 operand0 failure arm，不是原版静默，也不�
 ## Draft / Build / Review
 
 - Draft：原版失败臂、producer 根因、current publication 接线与 exact-diff 方案已登记。
-- Build：blocked；三方 premise/design 签字已齐，仍须等两张 Depends On done 后才能修改 migration/current publication。
+- Build：in progress；三方签字与两张 Depends On 均已闭合，Codex 作为唯一 Coding Owner 开工。
 - Review：pending。
 
 ## 用户验收
@@ -256,6 +255,9 @@ migration producer 未读取 operand0 failure arm，不是原版静默，也不�
 
 ## 交接日志
 
+- 2026-08-31 Codex: 开工前核对新卡三方 premise/design 全齐、无 counter；Store0 / craft 两卡均已有
+  Codex/Kimi/GLM accept，用户本轮确认验收后转 done。所有 build 门禁闭合，本卡转 build；先 strict
+  0x34 translator，再 generated ownership/invariant，最后重迁 exact diff 与双零计划。
 - 2026-08-31 Kimi: 独立直读全部核验点——item270 scriptOnUse=39713/applyToAll、L39713
   `[38780,0,0]` 线性后继 end、sdlpal else `wScriptEntry=operand[0]-1` + 解释器 `return +1` 精确落
   L38780、L38780 严格三元组「无任何效果」、19 入边共享臂（本人 operands+goto 全扫与 GLM 独立
