@@ -1,6 +1,6 @@
 # ED-ITEM-ALCHEMY-SURFACE-1 - 炼蛊皿与紫金葫芦双炼化工作台
 
-Status: review
+Status: blocked
 Phase: phase2
 Capability: Editor item authoring（不改变 capability-map）
 Coding Owner: Codex
@@ -10,7 +10,8 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: `main`
-Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
+Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
+`MIG-PAL-CRAFT-FAILURE-MESSAGE-1`（恢复炼蛊失败原文，当前 draft / 三签 pending）
 
 ## 目标
 
@@ -280,11 +281,10 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 
 ### 进入 done 前：审查签字
 
-- Codex: **accept（2026-08-31，`54ba9c2e` + `1b090cb2` + `aacf68b7`）**——双独立 route、单一机制 IA、Item 页只读摘要与 use
-  switch 防绕过、`collectValue` 只读、严格 `rewards.length === maxRoll`、指定行删除、两类 reorder 单命令
-  undo/redo、引用深链/删除保护、29/32 registry 闭包与 Enemy 来源显示均已自审；两轮只读 blocker 复核后
-  P0/P1 清零。实际 200% 浏览器缩放受当前 in-app Browser 固定 viewport 限制，已做 660px main 宽代理且无
-  溢出，仍指定 Kimi 或用户在 done 前补一次真实 200% 观感确认。
+- Codex: **counter / rework（2026-08-31）**——此前对 `54ba9c2e` + `1b090cb2` + `aacf68b7` 的 UI/code
+  accept 作为历史保留，但用户复验发现 PAL item268 提示为空。直接证据确认是 migration 丢失可达 L39595 原文，
+  使 current UI 与 runtime 回退成泛化“材料不足”。在 `MIG-PAL-CRAFT-FAILURE-MESSAGE-1` build/review 完成并
+  重迁前，旧 accept 不再授权本卡 done。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -295,7 +295,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：2026-08-31 Codex 自审 accept；Kimi / GLM 当前实现终审与用户实现验收 pending。
+- Review：blocked；等待 `MIG-PAL-CRAFT-FAILURE-MESSAGE-1` 三签、build、重迁与终审后回到本卡复验。
 
 ### Build / Review 证据
 
@@ -345,6 +345,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 - 固定资源呈现: **approved（2026-08-31）**——用户指出不能修改的 `collectValue` 不应伪装成输入框；中央表单
   完全撤下该控件，只在右侧机制摘要以普通 code readout 显示“资源来源 collectValue”，该行不存在 input、textarea
   或 combobox。
+- 炼蛊失败提示: **rework（2026-08-31）**——用户指出“材料不足提示”为空并质疑用途。核验确认字段有效，原版
+  L39595 明有“炼蛊的材料不足”；空值来自 migration producer 漏翻译终端失败臂。禁止 UI/runtime fallback 或
+  手改 current，已开 `MIG-PAL-CRAFT-FAILURE-MESSAGE-1`；该依赖完成前本卡实现验收暂停。
 - 实现验收: pending。
 
 ## 交接记录
@@ -369,6 +372,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 - 2026-08-31 User/Codex: 用户指出固定 `collectValue` 仍使用输入框视觉。`aacf68b7` 将其从中央 form 删除，
   只在 Inspector 以 code readout 显示；聚焦 ItemAlchemy + DS route truth、typecheck 绿，浏览器断言中央无
   “资源变量/collectValue”、Inspector 行输入控件数为 0。
+- 2026-08-31 User/Codex: 用户指出炼蛊失败提示为空。三席只读证据收敛：L39606 最后 failure 指向 L39595，
+  原文“炼蛊的材料不足”可达；translator 在解析 failure address 后 break，仅输出 recipes；runtime/UI 本身正确。
+  开 `MIG-PAL-CRAFT-FAILURE-MESSAGE-1` 并将本卡转 blocked/Codex counter；新 MIG 三签齐前不得实现或恢复 review。
 - 2026-08-31 Codex: 核对 Kimi KE1-KE6 / GLM GM-B1-GM-B4 三签齐、无 counter，状态转 build；
   按依赖先完成 Store0 migration，再实施两个独立 route 与唯一编辑 owner。
 
