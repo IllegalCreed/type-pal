@@ -26,6 +26,13 @@ describe('PAL current-only publication', () => {
     const staleCraft = staleVessel.use!.effects.find((effect) => effect.kind === 'craftRecipe')!
     if (staleCraft.kind !== 'craftRecipe') throw new Error('expected craftRecipe')
     delete staleCraft.unavailableMessage
+    const staleGourd = staleItems.find(({ id }) => id === '270')!
+    staleGourd.desc = ['紫金葫芦作者字段必须保留']
+    const stalePool = staleGourd.use!.effects.find(
+      (effect) => effect.kind === 'drawFromResourcePool',
+    )!
+    if (stalePool.kind !== 'drawFromResourcePool') throw new Error('expected resource pool')
+    delete stalePool.unavailableMessage
     const staleBaseline = { ...baseline!, files: new Map(baseline!.files) }
     staleBaseline.files.set('content/items.json', staleItems as never)
     const publication = buildPalCurrentPublication(staleBaseline, sources)
@@ -74,6 +81,10 @@ describe('PAL current-only publication', () => {
     expect(vessel.desc).toEqual(['作者字段必须保留'])
     expect(vessel.buyPrice).toBe(1_234)
     expect(craft).toMatchObject({ unavailableMessage: '炼蛊的材料不足' })
+    const gourd = items.find(({ id }) => id === '270')!
+    const pool = gourd.use!.effects.find((effect) => effect.kind === 'drawFromResourcePool')!
+    expect(gourd.desc).toEqual(['紫金葫芦作者字段必须保留'])
+    expect(pool).toMatchObject({ unavailableMessage: '无任何效果' })
     const shops = publication.files.get('content/shops.json') as unknown as ShopDef[]
     expect(shops.map(({ id }) => id)).toEqual(Array.from({ length: 20 }, (_, index) => index + 1))
     expect(shops.some(({ id }) => id === 0)).toBe(false)

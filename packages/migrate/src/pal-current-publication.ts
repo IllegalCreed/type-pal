@@ -42,7 +42,11 @@ import {
 import { mapRoleSpritesByNumber } from './migrate-content.js'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import type { TransactionPrecondition } from './migration-transaction.js'
-import { applyPalGeneratedCraftMessages, applyPalItemOverlays } from './pal-authored-overlays.js'
+import {
+  applyPalGeneratedCraftMessages,
+  applyPalGeneratedResourcePoolMessages,
+  applyPalItemOverlays,
+} from './pal-authored-overlays.js'
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
 import { buildPalMigration, type MigrationJson, type PalMigrationSources } from './pal-migration.js'
 import { assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
@@ -161,8 +165,11 @@ export function buildPalCurrentPublication(
     throw new Error('PAL generated publication: content/items.json 期望数组')
   put(
     'content/items.json',
-    applyPalGeneratedCraftMessages(
-      applyPalItemOverlays(baselineItems as ItemData[]),
+    applyPalGeneratedResourcePoolMessages(
+      applyPalGeneratedCraftMessages(
+        applyPalItemOverlays(baselineItems as ItemData[]),
+        generatedItems as ItemData[],
+      ),
       generatedItems as ItemData[],
     ),
   )

@@ -83,6 +83,10 @@ function assertSpiritGourd(
   if (effects.length !== 1)
     throw new Error(`PAL Store0 invariant: item270 resource pool 数量 ${effects.length} != 1`)
   const effect = effects[0]!
+  if (effect.unavailableMessage !== '无任何效果')
+    throw new Error(
+      `PAL Store0 invariant: item270 unavailableMessage=${String(effect.unavailableMessage)}`,
+    )
   const rewardIds = effect.rewards.map(({ itemId }) => itemId)
   if (
     effect.resource !== 'collectValue' ||

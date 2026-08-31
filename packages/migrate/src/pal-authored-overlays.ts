@@ -275,6 +275,10 @@ type CraftRecipeEffect = Extract<
   NonNullable<ItemData['use']>['effects'][number],
   { kind: 'craftRecipe' }
 >
+type ResourcePoolEffect = Extract<
+  NonNullable<ItemData['use']>['effects'][number],
+  { kind: 'drawFromResourcePool' }
+>
 
 function sameItemAmounts(
   left: readonly { itemId: string; count: number }[],
@@ -346,6 +350,51 @@ export function applyPalGeneratedCraftMessages(
       if (!message.length || message.trim() !== message)
         throw new Error(`PAL generated craft message: item${generatedItem.id} message 非法`)
       currentCraft.unavailableMessage = message
+    })
+  }
+  return output
+}
+
+function sameResourcePool(left: ResourcePoolEffect, right: ResourcePoolEffect): boolean {
+  return (
+    left.resource === right.resource &&
+    left.maxRoll === right.maxRoll &&
+    sameItemAmounts(left.rewards, right.rewards)
+  )
+}
+
+/** current publication 只同步同轮 raw producer 已完整翻译的资源池失败原文。 */
+export function applyPalGeneratedResourcePoolMessages(
+  current: readonly ItemData[],
+  generated: readonly ItemData[],
+): ItemData[] {
+  const output = current.map((item) => structuredClone(item))
+  const currentById = uniqueItemsById(output, 'current')
+  const generatedById = uniqueItemsById(generated, 'generated')
+
+  for (const generatedItem of generatedById.values()) {
+    const generatedPools =
+      generatedItem.use?.effects.filter((effect) => effect.kind === 'drawFromResourcePool') ?? []
+    if (!generatedPools.some((effect) => effect.unavailableMessage !== undefined)) continue
+    const currentItem = currentById.get(generatedItem.id)
+    if (!currentItem)
+      throw new Error(`PAL generated resource message: current 缺物品 ${generatedItem.id}`)
+    const currentPools =
+      currentItem.use?.effects.filter((effect) => effect.kind === 'drawFromResourcePool') ?? []
+    if (currentPools.length !== generatedPools.length)
+      throw new Error(`PAL generated resource message: item${generatedItem.id} pool 数量漂移`)
+
+    generatedPools.forEach((generatedPool, index) => {
+      const message = generatedPool.unavailableMessage
+      const currentPool = currentPools[index]
+      if (!currentPool || !sameResourcePool(currentPool, generatedPool))
+        throw new Error(
+          `PAL generated resource message: item${generatedItem.id} resource pool drift`,
+        )
+      if (message === undefined) return
+      if (!message.length || message.trim() !== message)
+        throw new Error(`PAL generated resource message: item${generatedItem.id} message 非法`)
+      currentPool.unavailableMessage = message
     })
   }
   return output

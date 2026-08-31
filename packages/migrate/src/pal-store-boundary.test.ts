@@ -48,6 +48,7 @@ function items(): ItemData[] {
             resource: 'collectValue',
             maxRoll: 9,
             rewards: rewards.map((itemId) => ({ itemId, count: 1 })),
+            unavailableMessage: '无任何效果',
           },
         ],
       },
@@ -142,6 +143,22 @@ describe('PAL Store0 / Shop boundary invariant', () => {
     })
     expect(() => assertPalStoreBoundaryInvariant({ ...validArgs(), items: vesselDrift })).toThrow(
       /item268 craftRecipe/,
+    )
+  })
+
+  it.each([
+    undefined,
+    '当前没有可用资源',
+    ' 无任何效果 ',
+  ])('rejects item270 failure message drift: %s', (message) => {
+    const changed = items()
+    const gourd = changed.find(({ id }) => id === '270')!
+    const pool = gourd.use!.effects[0]!
+    if (pool.kind !== 'drawFromResourcePool') throw new Error('expected pool')
+    if (message === undefined) delete pool.unavailableMessage
+    else pool.unavailableMessage = message
+    expect(() => assertPalStoreBoundaryInvariant({ ...validArgs(), items: changed })).toThrow(
+      /item270 unavailableMessage/,
     )
   })
 

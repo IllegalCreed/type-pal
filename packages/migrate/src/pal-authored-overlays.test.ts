@@ -2,6 +2,7 @@ import type { ItemData, SkillData } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   applyPalGeneratedCraftMessages,
+  applyPalGeneratedResourcePoolMessages,
   applyPalItemOverlays,
   applyPalSkillOverlays,
 } from './pal-authored-overlays.js'
@@ -169,6 +170,92 @@ describe('PAL 已审计内容 overlay', () => {
     const missingCraft = structuredClone(current)
     missingCraft[0]!.use!.effects = []
     expect(() => applyPalGeneratedCraftMessages(missingCraft, generated)).toThrow(/craft 数量漂移/)
+  })
+
+  test('current publication 只同步同轮 producer 的 resource-pool failure message', () => {
+    const rewards = [
+      { itemId: '100', count: 1 },
+      { itemId: '105', count: 1 },
+    ]
+    const current = [
+      {
+        id: '888',
+        name: '作者葫芦',
+        desc: ['作者说明'],
+        buyPrice: 321,
+        use: {
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'drawFromResourcePool',
+              resource: 'collectValue',
+              maxRoll: 2,
+              rewards,
+            },
+          ],
+        },
+      },
+    ] as ItemData[]
+    const generated = structuredClone(current)
+    generated[0]!.name = 'producer 标题不得覆盖作者标题'
+    const generatedPool = generated[0]!.use!.effects[0]!
+    if (generatedPool.kind !== 'drawFromResourcePool') throw new Error('expected pool')
+    generatedPool.unavailableMessage = '无任何效果'
+
+    const once = applyPalGeneratedResourcePoolMessages(current, generated)
+    expect(once).toEqual([
+      {
+        ...current[0],
+        use: {
+          ...current[0]!.use,
+          effects: [
+            {
+              kind: 'drawFromResourcePool',
+              resource: 'collectValue',
+              maxRoll: 2,
+              rewards,
+              unavailableMessage: '无任何效果',
+            },
+          ],
+        },
+      },
+    ])
+    expect(applyPalGeneratedResourcePoolMessages(once, generated)).toEqual(once)
+    expect(current[0]!.use!.effects[0]).not.toHaveProperty('unavailableMessage')
+  })
+
+  test('producer resource-pool message 的空白值或结构漂移时 fail-loud', () => {
+    const current = [
+      {
+        id: '888',
+        name: '作者葫芦',
+        use: {
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'drawFromResourcePool',
+              resource: 'collectValue',
+              maxRoll: 1,
+              rewards: [{ itemId: '100', count: 1 }],
+            },
+          ],
+        },
+      },
+    ] as ItemData[]
+    const generated = structuredClone(current)
+    const generatedPool = generated[0]!.use!.effects[0]!
+    if (generatedPool.kind !== 'drawFromResourcePool') throw new Error('expected pool')
+    generatedPool.unavailableMessage = '无任何效果'
+    generatedPool.resource = 'other'
+    expect(() => applyPalGeneratedResourcePoolMessages(current, generated)).toThrow(
+      /resource pool drift/,
+    )
+
+    generatedPool.resource = 'collectValue'
+    generatedPool.unavailableMessage = ' 无任何效果 '
+    expect(() => applyPalGeneratedResourcePoolMessages(current, generated)).toThrow(/message 非法/)
   })
 
   test('四个动态技能稳定追加，已有时以审计定义覆盖', () => {

@@ -29,6 +29,7 @@ import {
   sceneSlug,
   translateCraftRecipeScript,
   translatePlaceEntityInFrontUseScript,
+  translateResourcePoolScript,
   translateThrowScript,
   walkDesc,
 } from './migrate-content.js'
@@ -539,6 +540,82 @@ describe('M1d · 0x20 有序配方终端失败臂', () => {
   })
 })
 
+describe('M1d · 0x34 资源池终端失败臂', () => {
+  const rewards = [100, 105]
+  const poolScript = (failureAddress = 5, text = '  无任何效果  '): SourceCmd[] => [
+    { label: 'L_1', op: 'raw', opcode: 0x34, operands: [failureAddress, 0, 0] },
+    { op: 'end' },
+    { label: 'L_5', op: 'setDialogStyleNarration' },
+    { op: 'showDialog', text },
+    { op: 'end' },
+  ]
+
+  test('PAL 真链从 operand0 提取九档 pool 与 trimmed 共享失败原文', () => {
+    expect(
+      translateResourcePoolScript(
+        src.commands,
+        buildLabelIndex(src.commands),
+        39713,
+        [100, 105, 95, 112, 72, 131, 97, 102, 111],
+      ),
+    ).toEqual({
+      kind: 'drawFromResourcePool',
+      resource: 'collectValue',
+      maxRoll: 9,
+      rewards: [100, 105, 95, 112, 72, 131, 97, 102, 111].map((itemId) => ({
+        itemId: String(itemId),
+        count: 1,
+      })),
+      unavailableMessage: '无任何效果',
+    })
+  })
+
+  test('strict 三元组迁移 trimmed 文案', () => {
+    const commands = poolScript()
+    expect(translateResourcePoolScript(commands, buildLabelIndex(commands), 1, rewards)).toEqual({
+      kind: 'drawFromResourcePool',
+      resource: 'collectValue',
+      maxRoll: 2,
+      rewards: rewards.map((itemId) => ({ itemId: String(itemId), count: 1 })),
+      unavailableMessage: '无任何效果',
+    })
+  })
+
+  test('零/悬空 operand0、空白或畸形臂、非线性成功尾与空 rewards 全部 fail-loud', () => {
+    const malformed: Array<{ commands: SourceCmd[]; rewards?: number[] }> = []
+    malformed.push({ commands: poolScript(0) })
+    malformed.push({ commands: poolScript(99) })
+    malformed.push({ commands: poolScript(5, '   ') })
+
+    const missingNarration = poolScript()
+    missingNarration[2] = { ...missingNarration[2], op: 'showDialog', text: '错误起点' }
+    malformed.push({ commands: missingNarration })
+
+    const missingFailureEnd = poolScript()
+    missingFailureEnd[4] = { op: 'showDialog', text: '未结束' }
+    malformed.push({ commands: missingFailureEnd })
+
+    const extraFailureCommand = poolScript()
+    extraFailureCommand.push({ op: 'raw', opcode: 0x41, operands: [0, 0, 0] })
+    malformed.push({ commands: extraFailureCommand })
+
+    const nonLinearSuccess = poolScript()
+    nonLinearSuccess.splice(1, 0, { op: 'raw', opcode: 0x41, operands: [0, 0, 0] })
+    malformed.push({ commands: nonLinearSuccess })
+    malformed.push({ commands: poolScript(), rewards: [] })
+
+    for (const fixture of malformed)
+      expect(
+        translateResourcePoolScript(
+          fixture.commands,
+          buildLabelIndex(fixture.commands),
+          1,
+          fixture.rewards ?? rewards,
+        ),
+      ).toBeUndefined()
+  })
+})
+
 describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
   const byId = new Map(out.items.map((i) => [i.id, i]))
   test('观音符/茶叶蛋保持数据效果；土灵珠迁成稳定共享脚本引用', () => {
@@ -627,6 +704,7 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
             itemId: String(itemId),
             count: 1,
           })),
+          unavailableMessage: '无任何效果',
         },
       ],
     })

@@ -1030,6 +1030,59 @@ export function translateCraftRecipeScript(
   }
 }
 
+/** 读取共享失败臂的严格旁白三元组；共享入边数量不参与 owner 判断。 */
+function strictNarrationFailureMessage(
+  commands: readonly SourceCmd[],
+  start: number,
+): string | undefined {
+  const style = commands[start]
+  const message = commands[start + 1]
+  const end = commands[start + 2]
+  const nextBlock = commands[start + 3]
+  if (
+    style?.op !== 'setDialogStyleNarration' ||
+    message?.op !== 'showDialog' ||
+    typeof message.text !== 'string' ||
+    message.text.trim().length === 0 ||
+    end?.op !== 'end' ||
+    (nextBlock !== undefined && nextBlock.label === undefined)
+  )
+    return undefined
+  return message.text.trim()
+}
+
+/**
+ * 识别 0x34“从 collectValue 抽取并扣同档资源、按 Store0 档位给奖励”的完整形状。
+ * operand0 是零资源时的直接失败地址；共享失败臂只按该控制流读取，不要求唯一入边。
+ */
+export function translateResourcePoolScript(
+  commands: readonly SourceCmd[],
+  labelIndex: ReadonlyMap<string, number>,
+  ip: number,
+  rewardItemIds: readonly number[],
+):
+  | Extract<NonNullable<ItemData['use']>['effects'][number], { kind: 'drawFromResourcePool' }>
+  | undefined {
+  const start = labelIndex.get(`L_${ip}`)
+  if (start === undefined || rewardItemIds.length === 0) return undefined
+  const command = commands[start]
+  if (command?.op !== 'raw' || command.opcode !== 0x34 || commands[start + 1]?.op !== 'end')
+    return undefined
+  const [failureAddress = 0] = command.operands ?? []
+  if (failureAddress <= 0) return undefined
+  const failure = labelIndex.get(`L_${failureAddress}`)
+  if (failure === undefined) return undefined
+  const unavailableMessage = strictNarrationFailureMessage(commands, failure)
+  if (unavailableMessage === undefined) return undefined
+  return {
+    kind: 'drawFromResourcePool',
+    resource: 'collectValue',
+    maxRoll: rewardItemIds.length,
+    rewards: rewardItemIds.map((itemId) => ({ itemId: String(itemId), count: 1 })),
+    unavailableMessage,
+  }
+}
+
 /**
  * 识别原版 0x84“把指定场景对象放到队伍前方”的完整事务形状。
  * 成功直接结束；失败臂只负责旁白提示和 0x41 终止，不能把失败对白并进成功效果。
@@ -1552,6 +1605,12 @@ export function migrateAll(
       const useHead = useStart === undefined ? undefined : src.commands[useStart]
       const poolRewards = src.stores?.find((store) => store.id === 0)?.items ?? []
       const isResourcePool = useHead?.op === 'raw' && useHead.opcode === 0x34
+      const resourcePoolEffect = translateResourcePoolScript(
+        src.commands,
+        labelIndex,
+        srcItem.scriptOnUse,
+        poolRewards,
+      )
       const useSharedScript = shouldMigrateUseAsSharedScript(
         src.commands,
         labelIndex,
@@ -1594,20 +1653,13 @@ export function migrateAll(
             effects: [recipeEffect],
           },
         }
-      } else if (isResourcePool && poolRewards.length > 0) {
+      } else if (resourcePoolEffect) {
         out = {
           ...out,
           use: {
             target: 'scene',
             consuming: srcItem.flags.consuming,
-            effects: [
-              {
-                kind: 'drawFromResourcePool',
-                resource: 'collectValue',
-                maxRoll: poolRewards.length,
-                rewards: poolRewards.map((itemId) => ({ itemId: String(itemId), count: 1 })),
-              },
-            ],
+            effects: [resourcePoolEffect],
           },
         }
       } else if (useSharedScript) {
