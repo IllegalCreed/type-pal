@@ -1,6 +1,6 @@
 # MIG-PAL-STORE0-SHOP-BOUNDARY-1 - PAL Store[0] 奖励表与商店边界收口
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: E9 商店 / 物品资源池（不改变 capability-map）
 Coding Owner: Codex
@@ -111,10 +111,99 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
   - design: **agree（2026-08-31）**——PAL migration 过滤 id0但不重编号；保留 store0 resource-pool source；
     publication/invariant/exact-diff/replay 全闭合，零 UI fallback；用户新增双页面决定由独立 ED 卡消费
     现有 effect，本卡保持 migration-only，原设计仍有效。
-- Kimi: pending（需独立 primary-source 证据与可证伪回答）
-- GLM: pending（需独立 census / exact-diff / 测试矩阵）
-- counter / 分歧: none
-- build 准入结论: **blocked（缺 Kimi / GLM premise verified + design agree；签字齐前不得修改实现或生成内容）**
+- Kimi:
+  - premise: **verified（2026-08-31，独立直读 sdlpal 源、提取器、raw/current census、migration/
+    runtime/validator owner 与 shops/items 数据，非复述 Codex/GLM；与 GLM 证据各自独立取得后收敛）**：
+    1. **primary source 实锤**:0x26 把 operand 直传 `PAL_BuyMenu`、无 0 值守卫
+       （reference/sdlpal/script.c:1156-1163）；0x34 在 PAL_CLASSIC 分支
+       `i=RandomLong(1,wCollectValue)` 封顶 9、`wCollectValue-=i`、`i--` 后
+       `PAL_AddItemToInventory(lprgStore[0].rgwItems[i],1)`（script.c:1465-1490）——
+       Store[0] 就是紫金葫芦九档奖励表，档位 index+1 即灵葫消耗；提取器明写 store0 脚本专用、
+       0x26 实际用 1..N（packages/pal-extract/src/resources/parsers/stores.ts:17-24）；
+       九档表与 docs/phase1/game-mechanics.md:697-725 逐字一致。
+    2. **raw census 本人复算**:data/extracted/events/all.json 全扫 `opcode=0x26` → **23 次、
+       operand 恰为 1..20、无 0**——“无 PAL_BuyMenu(0)”成立（与 GLM 独立一致）。
+    3. **current census 本人复算**:projects/pal/content 全扫 openShop → **buy 29 次、引用恰
+       1..20、buy shop=0 为 0**；sell 6 次全 shop=0，且 reforge runtime sell 走
+       `sellableItems(world, project.items)` 不查 shops（packages/reforge/src/main.ts:3442-3452），
+       店不存在仅 report 后续跑不死锁——“sell 不依赖货单”在运行时成立；
+       packages/content/src/validate-refs.ts 无 per-command shop 引用校验（本人 grep 仅注释命中），
+       删除 ShopDef0 不产生新诊断。
+    4. **根因与数据实锤**:`migratePalShops` 盲 map 全部 21 store（pal-derived-content.ts:170-171）；
+       shops.json 恰 21 项 id 0..20、shop0 items=`100,105,95,112,72,131,97,102,111`、
+       零价仅 112 试炼果/72 舍利子、真实店 1..20 零价项为 0（本人 node 复算）；
+       item270 已独立持有同一组九档 rewards，迁移从源 stores 读取（migrate-content.ts:1530），
+       运行时 drawFromResourcePool 不依赖 ShopDef0。
+    5. **替代解释排除**:“buyPrice=0=不可购买”被 `shopBuy` 推翻——只判断 `money < buyPrice`，
+       0 文是合法免费结算，sellable 只管当铺（packages/content/src/shop.ts:10-34）；
+       “store0 必须作 ShopDef 供资源池运行时查询”被推翻——item270 rewards 独立固化；
+       “只是 UI 文案错”被推翻——ShopTab 如实呈现了被错误发布的 canonical ShopDef0，错在上游分类。
+    6. **可证伪观察**:任一 raw 0x26 operand=0（本人 census：无）；任一 current buy shop=0
+       （本人 census：无）；sell 或 validator 解析 ShopDef（直读：均无）；真实店 1..20 出现
+       零价商品（本人 census：无）——出现任一项本签字失效。
+  - design: **agree（2026-08-31，附 KM1-KM4 必落钉；与 GLM GM-A1~A4 收敛互补）**：
+    - **KM1（过滤不重编号，同 GM-A2）**:migratePalShops 仅过滤 `store.id !== 0`，原始 id 1..20
+       原样保留——operand 即 id，重编号即断全部 29 处 buy 引用。
+    - **KM2（永久门禁三件套，同 GM-A1/A4）**:publication 断言无 ShopDef0；buy-only openShop 引用
+       命中真实 ShopDef（sell shop=0 合法豁免，GLM GM-A1 负例双 fixture 背书）；store0 → item270
+       rewards 闭包精确一致；item268 与本迁移零交集。6 条 sell `shop=0` 保持 canonical 原值不改写。
+    - **KM3（exact-diff 与 current-only，同 GM-A3）**：首次 plan 精确 `writes=1`（shops.json）+
+       baseline state hash；items/manifest/scenes/content19/SAVE8/价格/命令/奖励零变化；
+       replay 与删除一次性辅助后的 dry-run 均 `writes=0 deletes=0 conflicts=0 asset-deletes=0`；
+       不保留转换器/upgrader/UI 隐藏规则。
+    - **KM4（build 期必查的编辑器呈现，本席独有补充）**:CommandForm openShop 对 buy/sell 同显
+       店铺下拉（CommandForm.tsx:1814-1826），移除后 6 条 sell `shop=0` 的值不在 options 内——
+       本人确认 DsSelect 的 onValueChange 仅由用户交互触发（CommandForm.tsx:131-149），无静默
+       改写风险；build 视觉验证须覆盖这 6 条 sell 命令的表单显示状态（原值保留、无误导文案），
+       不得靠删命令或加 fallback 消灭该显示。
+- GLM:
+  - premise: **verified（2026-08-31，raw/current census 全部本人脚本独立复算 + 一手语义直读，非复述 Codex）**：
+    1. **raw 0x26 census 精确复算**：`data/extracted/events/all.json` 43503 命令中 opcode 38（0x26）恰
+       **23 次**，operand[0] 值域**恰 1..20**（1/2/3 各 2、4..20 各 1），**零次 =0**——与卡面逐字一致。
+       opcode 52（0x34）**恰 1 次**（L_39713），与 ED 卡锚点同源。
+    2. **一手语义直读**：`reference/sdlpal/script.c:1157-1163` `PAL_BuyMenu(rgwOperand[0])` 直传；
+       `:1452-1490` `i=RandomLong(1,wCollectValue)`（封顶 9）→ `wCollectValue -= i` → `i--` →
+       `AddItemToInventory(lprgStore[0].rgwItems[i])`——**Store[0] 独占炼丹奖励、档位 i+1 即消耗**。
+    3. **一阶段真值**：`pal-extract/src/resources/parsers/stores.ts:17-20` 注释明写
+       「lprgStore[0] 是脚本专用，0x0026 实际用 1..N」。
+    4. **current census 复算**：shops.json current/baseline 各 **21 项 id 0..20 且逐字镜像**（本人
+       `cur == base` 为 True）；零买价货单**只**出现在伪 shop0 的 112/72（真实 1..20 零项）；shop0
+       九项 `['100','105','95','112','72','131','97','102','111']` 与 item270 rewards **逐项相等**；
+       canonical openShop：buy **29 次全部 1..20**（无 0），sell **6 次全部 shop=0**。
+    5. **sell 不读 shops 实锤（关键反证）**：`packages/reforge/src/main.ts:3444-3452` openShop host——
+       buy 查 `project.shops.find(id)`，sell 直接 `sellableItems(world, project.items)`，**shop id 仅进
+       报错文案**；`shop.ts:17-18` shopBuy 只判余额（0 文合法免费）。删除 ShopDef0 后 6 次 sell 完全
+       不受影响。
+    6. **根因与改点唯一**：`pal-derived-content.ts:170-172` `migratePalShops = stores.map(全部)` 盲 map；
+       全库唯一消费点 `pal-migration.ts:635 put('content/shops.json', ...)`；item270 奖励独立派生自
+       **raw stores**（`migrate-content.ts:1530 find(store.id===0)`），与 derived shops 无关——过滤
+       id0 结构上只影响 shops.json。
+  - design: **agree（2026-08-31，附 GM-A1~GM-A4 必落钉）**：
+    - **GM-A1（buy-only 引用 invariant 钉）**：publication 永久断言「全部 **buy** openShop 引用命中真实
+      ShopDef」必须显式限定 `mode === 'buy'`——现存 6 次 sell 命令携带 shop=0 且语义合法（运行时
+      main.ts:3448 sell 分支不读 shops）；负例双 fixture：sell shop=0 + ShopDef 缺失必须**保持绿**，
+      buy 悬空引用必须**红**。现 validate-refs.ts 对 shop id 零扫描（本人 grep），新增 invariant 是
+      首个此类断言，不得误伤 sell。
+    - **GM-A2（过滤语义钉）**：过滤必须为 `store.id !== 0` 且**原样保留 id 1..20 不重编号**；聚焦测试
+      断言输出恰 20 项、id 序列恰 1..20、每店 items 数组与过滤前逐字相等；**零价合法性不扩大**——真实
+      店中 buyPrice=0 货品仍合法（不做全局零价禁令），仅伪 shop0 消失；item 112/72 的 ItemData
+      buyPrice=0 原始真值不改。
+    - **GM-A3（exact-diff 与幂等钉）**：结构化 diff 允许集恰为 {shops.json 删除 id0 元素}；items（含
+      268/270）、manifest、scenes/index、content19、SAVE8、价格、奖励零变化；首次 PAL plan 必须精确
+      **writes=1**（按 content path 计——LABEL 卡先例 17 路径跨双树=writes=17）；完整 replay 与删除
+      一次性辅助后的独立 dry-run 均 `writes=0 deletes=0 conflicts=0 asset-deletes=0`。
+    - **GM-A4（268/270 永久区分钉）**：永久门禁同时断言（a）shops 无 ShopDef0；（b）item270 rewards
+      仍逐项等于源 store0 九项 `[100,105,95,112,72,131,97,102,111]`（池源读 raw stores 的 owner
+      migrate-content.ts:1530 不动）；（c）item268 的 5 条 craftRecipe 与本迁移零交集——三者任一
+      漂移即红。
+  - 独立反证：①若 raw 中出现 `0x26 operand[0]=0` 的真实买调用（本人 census 23 次零命中）或 canonical
+    出现第 30 个 buy 引用 shop0——前提失效停线；②若 sell 运行时/校验在任何路径读取 ShopDef 货单
+    （main.ts sell 分支实测只读背包）——删除 shop0 造成回归，转 rework；③若真实店 1..20 原始货单
+    含 0 价商品（本人 census 零命中）——「零价仅伪店」前提失效，零价合法性钉需重审。
+- counter / 分歧: none（Kimi KM1-KM4 与 GLM GM-A1~A4 逐项收敛；KM4 为 Kimi 独有的编辑器呈现补充，
+  不构成 counter）
+- build 准入结论: **allowed（签字面）（2026-08-31，Codex + Kimi（KM1-KM4）+ GLM（GM-A1~A4）三签齐、
+  无 counter，两席非 Owner 独立反证完成）。Codex 开工时状态转 build，仍为唯一 Coding Owner。**
 
 ### 进入 done 前：审查签字
 
@@ -127,11 +216,29 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 ## Draft / Build / Review 证据
 
 - Draft：本卡与直接证据已建立；尚未修改 migration、tests、baseline/current 或 UI。
-- Build：pending。
+- Build：2026-08-31 Codex 按三签准入开工；仍为唯一 Coding Owner。
 - Review：pending。
 
 ## 交接记录
 
+- 2026-08-31 Codex: 核对 Kimi KM1-KM4 / GLM GM-A1-GM-A4 三签齐、无 counter，状态转 build。
+  先完成 migration-only exact diff / replay，再进入依赖的双炼化页面卡。
+
+- 2026-08-31 Kimi: 独立直读 sdlpal 0x26/0x34、提取器注释、raw census（0x26 恰 23 次 operand 1..20
+  无 0）、current census（buy 29 全 1..20、sell 6 全 shop=0 且运行时不读 shops、validate-refs 无
+  shop 扫描）、盲 map 根因与 shops/items 数据（shop0 九项==item270 rewards、零价仅 112/72、真实店
+  零价 0），排除三条替代解释。签 premise verified + design agree，附 KM1（过滤不重编号）/KM2
+  （永久门禁三件套）/KM3（exact-diff writes=1 + 双零计划 + current-only）/KM4（sell shop=0 在
+  CommandForm 的呈现 build 期必查，无静默改写风险——本席独有补充）。未修改实现，未代签 GLM。
+  三签齐，build 准入（签字面）allowed。Next: Codex 按钉 build。
+- 2026-08-31 GLM: 独立复算全部 census（raw 0x26 恰 23 次值域 1..20 零次 0；0x34 恰 1 次；shops
+  current/baseline 21 项镜像、零价仅伪 shop0 的 112/72；shop0 九项 == item270 rewards；buy 29 次
+  全 1..20、sell 6 次全 shop=0）+ 直读 SDLPal 0x26/0x34、sell 运行时不读 shops（main.ts:3448）、
+  shopBuy 零价合法、migratePalShops 盲 map 唯一消费点 pal-migration.ts:635。签 premise verified +
+  design agree，附 GM-A1（buy-only 引用 invariant 防 sell 假红负例）/GM-A2（过滤不重编号 + 零价
+  合法性不扩大）/GM-A3（exact-diff 允许集恰 shops.json 删 id0、首跑 writes=1、双零计划）/GM-A4
+  （shops 无 0 + item270==store0 + item268 零交集三断言）。未修改实现，未代签 Kimi。
+  Next: Kimi 签 primary-source/边界反证后三签齐，Codex 方可 build。
 - 2026-08-31 Codex: 用户质疑试炼果/舍利子“买价 0 文”。核验后确认 price0 为 raw 真值，但两项来自
   Store[0] 炼丹奖励表而非商店；根因为 `migratePalShops` 盲 map。按 migration 铁律开卡并停在 draft，
   未修改实现/生成内容。Next: Kimi / GLM 独立签 premise/design；三签齐前不得 build。
@@ -142,19 +249,22 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 ## 下一位 Agent 提示词
 
 ```text
-审签 MIG-PAL-STORE0-SHOP-BOUNDARY-1（draft，不得实现）。
+开工 build MIG-PAL-STORE0-SHOP-BOUNDARY-1（Codex，唯一 Coding Owner）。
 
 任务卡：docs/ops/tasks/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md
-先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md 与本卡全部证据。
+当前状态：三签齐（Codex + Kimi KM1-KM4 + GLM GM-A1~A4，无 counter），build 准入（签字面）
+allowed；开工时把 Status 转 build。
 
-角色：Kimi 核 primary source / 边界与反证；GLM 独立复算 raw/current census、exact-diff 与测试矩阵。
-必须独立核实：0x26 buy 是否只使用 store1..20；0x34 是否独占 store0；item270 rewards 是否已脱离 shops；
-0 价是否是通用合法价格；migratePalShops 过滤 id0且不重编号是否会留下悬空引用。
+已冻结结论：Store[0] 是紫金葫芦 0x34 九档奖励表（非商店）；raw 0x26 恰 23 次 operand 1..20；
+current buy 29 次全 1..20、sell 6 次 shop=0 且运行时不读 shops；migratePalShops 盲 map 是根因；
+item270 rewards 已独立固化。不得重开这些前提。
 
-用户新增双页面决定已拆到 `ED-ITEM-ALCHEMY-SURFACE-1`；本卡必须保持 migration-only。请额外核：
-current/baseline exact diff 是否只能删除 shops id0（首次 plan 精确 writes=1）、items/manifest/content19/SAVE8
-是否全不变，以及 item268 craftRecipe 与 item270 resource pool 是否被永久门禁明确区分。
-
-输出带 file:line / 可复现命令的 premise verified + design agree，或 counter 与推翻观察；写回任务卡。
-Kimi / GLM build 前签字未齐，不得修改 migration/tests/baseline/current/UI，不得把卡推进 build。
+build 必落钉：KM1/GM-A2 过滤 `store.id !== 0` 不重编号；KM2/GM-A1/A4 永久门禁三件套
+（无 ShopDef0 + buy-only 引用命中真实 ShopDef（sell shop=0 合法豁免、buy 悬空必红负例）+
+store0→item270 rewards 闭包 + item268 零交集）；KM3/GM-A3 首次 plan 精确 writes=1（shops.json）
++ baseline state hash，items/manifest/content19/SAVE8 零变化，replay 与删辅助后 dry-run 双零计划，
+不保留转换器/upgrader/UI 隐藏；KM4 build 视觉验证须覆盖 6 条 sell shop=0 命令在 CommandForm 的
+显示（原值保留、无误导），以及 Shop 目录无 0 号伪商店。
+验证：migrate 聚焦 + PAL publication + typecheck + DS gate；受影响包全量只跑一次。
+输出：build + 自测后重签 Codex accept 转 review，交 Kimi / GLM 终审；任一钉无法满足停线转 blocked。
 ```
