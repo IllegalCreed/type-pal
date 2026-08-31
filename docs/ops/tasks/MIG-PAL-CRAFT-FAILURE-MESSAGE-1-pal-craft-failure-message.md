@@ -1,6 +1,6 @@
 # MIG-PAL-CRAFT-FAILURE-MESSAGE-1 - PAL 炼蛊失败原文迁移闭环
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: PAL item migration / current publication（不改变 capability-map）
 Coding Owner: Codex
@@ -101,15 +101,98 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
   - design: **agree（2026-08-31）**——严格形状翻译、畸形 fail-loud、三生成文件 exact diff、双零计划；无
     runtime/UI fallback。
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-31，独立直读 raw 事件链、sdlpal 0x20 语义、producer、current 数据与
+    runtime/editor 下游，非复述 Codex/GLM；与 GLM 证据各自独立取得后收敛）**：
+    1. **终端失败臂实锤（本人链式复算）**:data/extracted/events/all.json 中炼蛊链为
+       L39598 `[117,1,→39600]` → L39600 `[118,1,→39602]` → L39602 `[119,1,→39604]` →
+       L39604 `[120,1,→39606]` → **L39606 `[121,1,→39595]`**——前四条 failure 边链到下一条
+       0x20，最后一条指向 L39595；L39595 恰为 `setDialogStyleNarration →
+       showDialog(messageIndex 12541 "炼蛊的材料不足") → end` 严格三件套；成功臂
+       L39607 `giveItem 148` + “炼成一只蛊．．”在旁。0x20 语义直读：材料不足时
+       `wScriptEntry = operand[2] - 1`（reference/sdlpal/script.c:977-1024，operand[2]=0 则
+       恒成功不落失败臂）——“五种材料全不足 → 显示‘炼蛊的材料不足’”成立。
+    2. **根因实锤**:`translateCraftRecipeScript`（migrate-content.ts:962-1007）对每条 0x20
+       仅用 failure 边判断“链继续（目标是 0x20）还是 break”，随后只提取 giveItem 产物并
+       `return { kind:'craftRecipe', recipes }`——**终端非 0x20 失败臂（L39595）从未被读取，
+       unavailableMessage 从未产出**；current item268 effect 只有 recipes（本人数据直读一致），
+       运行时缺 message 走通用 fallback、编辑器忠实显空——缺失唯一位于 migration producer。
+    3. **替代解释排除**:“省略 message 是合法默认”只证明 schema 可选，不能证明 producer 可以丢弃
+       已存在、可达、schema 可表达的源文案；schema 有 `unavailableMessage?`（item.ts:146-155）、
+       runtime 透传 optional message、editor 有通用字段——三层均可表达，无需任何 PAL 特判。
+    4. **可证伪观察**:L39595 实际不可达（本人链式复算：L39606 直达；GLM 唯一入边扫描独立佐证）；
+       文本不属于材料全不足场景（链尾唯一非 0x20 失败臂）；current schema/runtime 无法表达
+       （三层直读均可表达）——出现任一真反证本签字失效。
+  - design: **agree（2026-08-31，附 KC1-KC5 必落钉；与 GLM GM-C1~C4 收敛互补）**：
+    - **KC1（终端臂识别钉）**：终端失败地址 = 链中最后一条 0x20 的 failure 边且目标**不是** 0x20；
+      链式继续边（failure→0x20）语义不变，不得把中间边误当终端。以 L39598..L39606 链为正例回归。
+    - **KC2（strict shape + fail-loud 边界钉，同 GM-C1）**：仅 `setDialogStyleNarration →
+      showDialog(nonblank) → end` 翻译为 trimmed unavailableMessage；空白/纯空白文本、缺
+      narration、缺 end、臂内插额外命令或其它可达非零终端形状一律 fail-loud（返回 undefined →
+      调用方保留脚本迁移路径，**不生成缺提示的半截 craftRecipe**）；operand[2]=0 的恒成功链无
+      终端臂属合法，不误伤；禁止任何“尽力翻译前缀”的宽松化。
+    - **KC3（下游零特判钉，同 GM-C4）**:runtime fallback 保持通用“材料不足”只服务于无 message
+      的作者工程；编辑器字段通用展示；任何层不得出现 item268 特判、PAL 专用文案或 UI 隐藏规则。
+    - **KC4（exact-diff 与 current-only 钉，同 GM-C3）**：首次 plan 精确 `writes=1`
+      （content/items.json，双树 + `_state.json` 该文件 hash，managedFiles 不变）；其余 items、
+      shops、scenes、scripts、ids、counts、orders 零漂移，current↔baseline 镜像；内部 replay 与
+      独立第二次 plan 全零；本卡是永久 producer 修复，无一次性转换器可退、不引入 upgrader/兼容分支。
+    - **KC5（回归矩阵钉，同 GM-C2）**:translator 正例（strict→trimmed message）+ 畸形臂负例组 +
+      PAL integration exact（item268 五条 117..121→148 不变、仅新增 message）+ publication
+      镜像门禁；卡面已指出的“integration expectation 漏断言 message”必须补上，防同类漏检回流。
 - GLM:
-  - premise: pending
-  - design: pending
-- 独立反证审查：pending（至少一位非 Coding Owner 必须直读 raw failure edge 与 producer）。
-- counter / 分歧处理: none
+  - premise: **verified（2026-08-31，raw 脚本臂 / translator / schema / runtime / current 数据全部本人一手复算，非复述 Codex）**：
+    1. **核验点①实锤**：raw 五连 0x20 链逐命令复算——L_39598(117×1 fail→39600)→L_39600(118)→
+       L_39602(119)→L_39604(120)→**L_39606(121×1, fail→39595)**；成功臂各层 `goto L_39607`
+       （giveItem 148 蛊 + 旁白「炼成一只蛊．．」+ end）；**L_39595 = setDialogStyleNarration →
+       showDialog「炼蛊的材料不足」(messageIndex 12541) → end**，且全局唯一入边就是 L_39606 的
+       failure operand（本人扫描 43503 命令仅此一引用）——可达性语义恰为「五种材料全不足」。
+    2. **核验点②实锤**：`migrate-content.ts:986-989` 在 failure 命令非 0x20 时直接 `break`，
+       :1004-1007 返回值仅 `{kind, recipes}`——**终端失败臂的地址与文案结构上不可达**，根因唯一
+       落在 migration。全库 46 个 opcode-32 命令中唯一「fail→下一 0x20」真链即 39598..39606
+       （:978 `failureAddress<=0 → undefined` 已排除平行形状），item268 是唯一 craft 源。
+    3. **核验点③合理**：严格三元组 [setDialogStyleNarration, showDialog(非空), end] 是最小忠实
+       表达（对白样式属 runtime 表现层，无需迁移）；形状不受支持返回 undefined 不产半截效果 +
+       PAL publication 断言缺 message 即红——双层 fail-loud 正确。schema `unavailableMessage?`
+       可选性不变（item.ts:146-147）；runtime `message: eff.unavailableMessage` 直传
+       （item.ts:928-930），壳层 `if (message) return message` 否则才回退通用「材料不足」
+       （main.ts:5428-5440）——通用工程零影响。
+    4. **核验点④可行**：items current==baseline **今日即逐字镜像**（本人 `cur == base` True）；
+       唯一变更为 item268 effect 新增一个键；manifest/scenes/shops 对物品文本零依赖；
+       `_state.json` 仅 `files["content/items.json"]` hash。exact diff 三文件允许集封闭。
+    5. **核验点⑤充分**：writes 按 content path 计（LABEL 卡先例：17 路径跨双树=writes=17）——
+       items.json 单路径首跑 writes=1；内部 replay + 删除一次性辅助后的独立第二次全零，
+       与本席 GM-A3 先例同构，幂等证明充分。
+    6. **before 状态复核**：current item268 effect keys 恰 `['kind','recipes']`，无
+       unavailableMessage；编辑器 ItemAlchemyTab:215 忠实渲染空值——「字段空是迁移丢失可表达
+       源文案」的定性成立；卡面「integration expectation 漏断言 message」的 audit/test-model
+       替代根因排查属实。
+  - design: **agree（2026-08-31，附 GM-C1~GM-C4 必落钉）**：
+    - **GM-C1（translator 正负例矩阵钉）**：正例 = PAL 真链五层 + 严格三元组 → 5 recipes + trimmed
+      「炼蛊的材料不足」；负例至少四条且均须 undefined：①三元组 showDialog 文本为空白；②三元组
+      缺 `end` 或其后还有更多命令；③narration 与 showDialog 之间插入额外命令；④各层 success
+      目标不一致（productStart mismatch，现有）。禁止任何「尽力翻译前缀」的宽松化。
+    - **GM-C2（PAL invariant 钉）**：publication 永久断言 item268 craftRecipe 的
+      `unavailableMessage === '炼蛊的材料不足'`（精确、trimmed）且 recipes 仍 5×(117..121→148)
+      零漂移；integration expectation 补上此前缺失的 message 断言（卡面已登记的测试模型缺口）。
+    - **GM-C3（exact diff 与幂等钉）**：结构化 diff 允许集恰三文件；`_state.json` 断言仅
+      `files["content/items.json"]` 变化、managedFiles 与其余键零变化；current/baseline items
+      改后仍镜像；首跑 `writes=1 deletes=0 conflicts=0 asset-deletes=0`、写盘事务恰三文件、
+      内部 replay 与独立第二次 plan 全零。
+    - **GM-C4（通用语义不扩大钉）**：不改 schema 可选性、不给 runtime 加 PAL 文案、编辑器无
+      item268 特判（Alchemy 页继续渲染字段本体）；ED-ITEM-ALCHEMY-SURFACE-1 解除阻塞后
+      编辑器自动显示预填原文，其卡的 5/9 census 数据不变。
+  - 独立反证：①若 L_39595 存在第二条入边或其文本不属于「材料全不足」语境（本人唯一引用扫描 +
+      块结构直读已排除）——前提失效；②若终端臂三元组外还有必须迁移的表现命令（块内 39595-39597
+      恰三条，已排除）；③若任何其他生成文件依赖 item268 文本（mirror + 依赖面直读已排除）。
+- 独立反证审查: GLM（2026-08-31，完成——raw failure edge、L_39595 唯一入边、translator break 点、
+  runtime fallback 分支、items 镜像均本人直读）；Kimi（2026-08-31，完成——独立链式复算
+  L39598→…→L39606→L39595、producer 丢弃点、0x20 sdlpal 语义与下游三层可表达性直读，
+  可证伪观察见 Kimi 签节第 4 条；两席反证独立取得后收敛）。
+- counter / 分歧处理: none（Kimi KC1-KC5 与 GLM GM-C1~C4 逐项收敛，无冲突）
 - 缺签豁免: N/A
-- build 准入结论: **blocked（Codex only；Kimi / GLM pending）**
+- build 准入结论: **allowed（签字面）（2026-08-31，Codex + Kimi（KC1-KC5）+ GLM（GM-C1~C4）三签齐、
+  无 counter，两席非 Owner 独立反证完成）。Codex 开工时状态转 build，仍为唯一 Coding Owner;
+  与 ED-ITEM-ALCHEMY-SURFACE-1 按 Blocks 依赖串行。**
 
 ### 进入 done 前：审查签字
 
@@ -122,7 +205,7 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
 ## Draft / Build / Review
 
 - Draft：前提真值、producer 根因、最小 strict translator 与 exact-diff 方案已登记。
-- Build：blocked，三方 premise/design 签字齐前不得修改 migration/current publication。
+- Build：in progress；三方 premise/design 签字已齐，Codex 为唯一 Coding Owner，按 KC1-KC5 / GM-C1-GM-C4 实施。
 - Review：pending。
 
 ## 用户验收
@@ -132,6 +215,24 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
 
 ## 交接日志
 
+- 2026-08-31 Codex: 开工前逐项核对任务卡实际签字表；Codex / Kimi / GLM 三方 premise verified +
+  design agree 已齐、两席独立反证完成、无 counter，build 准入结论为 allowed。状态转 build；Codex
+  继续作为唯一 Coding Owner，先补 strict translator 聚焦回归，再补 PAL invariant，最后执行重迁、
+  exact diff 与双零计划。未重索签，未修改 runtime/editor fallback，未直接手改 current。
+- 2026-08-31 Kimi: 独立链式复算 raw 五连 0x20 链（L39598→L39600→L39602→L39604→L39606，前四条
+  failure 链下一条、L39606 终端 fail→L39595 三元组「炼蛊的材料不足」）、直读 0x20 sdlpal 语义、
+  translator 丢弃点（failure 边只判 continue/break、返回值无 message）、下游三层可表达性与
+  exact-diff/幂等设计。签 premise verified + design agree，附 KC1（终端臂识别）/KC2（strict
+  三元组 + 畸形 fail-loud、恒成功链不误伤）/KC3（下游零特判）/KC4（writes=1 + 双零计划 +
+  current-only）/KC5（回归矩阵含漏断言补钉）。未修改实现，未代签 GLM。三签齐，build 准入
+  （签字面）allowed。Next: Codex 按钉 build，与 ED-ITEM-ALCHEMY-SURFACE-1 串行。
+- 2026-08-31 GLM: 独立复算五项核验点全部闭合——raw 五连 0x20 链（L_39598..L_39606）终端 fail→
+  L_39595 三元组「炼蛊的材料不足」且全局唯一入边；translator :986-989 break 点丢弃终端臂、返回值
+  无 message 路径（根因唯一）；严格三元组 + 畸形 undefined + publication 断言双层 fail-loud 合理；
+  items 双树今日即镜像、exact diff 三文件允许集封闭；writes=1 + 双零计划与 GM-A3 先例同构。
+  签 premise verified + design agree，附 GM-C1（正负例矩阵含四负例）/GM-C2（PAL invariant 补
+  message 断言）/GM-C3（三文件 exact diff + managedFiles 零变化 + 幂等）/GM-C4（通用语义不扩大）。
+  未修改实现，未代签 Kimi。Next: Kimi 签控制流/架构边界后三签齐，Codex 方可 build。
 - 2026-08-31 User/Codex: 用户指出空字段。Codex + 两席只读独立审计确认 primary 明有原文，schema/runtime/UI
   均可表达，`translateCraftRecipeScript` 丢弃最终 failure arm 是唯一根因。开高风险 migration 卡；未修改实现或
   generated current。Next: Kimi / GLM 独立签 premise/design，三签齐前不得 build。
@@ -139,21 +240,25 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
 ## 下一位 Agent 提示词
 
 ```text
-设计签字 MIG-PAL-CRAFT-FAILURE-MESSAGE-1（Kimi 或 GLM，只读）。
+开工 build MIG-PAL-CRAFT-FAILURE-MESSAGE-1（Codex，唯一 Coding Owner）。
 
 任务卡：docs/ops/tasks/MIG-PAL-CRAFT-FAILURE-MESSAGE-1-pal-craft-failure-message.md
-当前状态：draft；Codex premise verified + design agree；Kimi/GLM pending；不得开始实现。
+当前状态：build；三签齐（Codex + Kimi KC1-KC5 + GLM GM-C1~C4，无 counter），build 准入
+allowed；Codex 已核门禁并开工，与 ED-ITEM-ALCHEMY-SURFACE-1 按 Blocks 依赖串行。
 
-先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md 与任务卡。独立直读：
-- data/extracted/events/all.json 的 L39606 failure→L39595 与“炼蛊的材料不足”
-- reference/sdlpal/script.c 0x20
-- packages/migrate/src/migrate-content.ts:958-1007
-- current/baseline item268、content runtime fallback
+已冻结结论：L39606 终端 failure → L39595（narration → showDialog「炼蛊的材料不足」 → end，
+唯一入边）；translateCraftRecipeScript 丢弃终端失败臂是唯一根因；schema/runtime/editor 三层
+均可表达，零 PAL 特判。不得重开这些前提。
 
-请核：根因是否确在 migration；终端臂 strict narration/showDialog/end 翻译与畸形 fail-loud 是否正确；generated
-exact diff 是否只能是 current/baseline items + state hash；第一次 writes=1、replay/独立二次全零是否足够。
-Kimi 重点审控制流与架构边界；GLM 重点审 exact diff、负例与测试矩阵。
-
-输出 premise verified + design agree，或带 file:line/反例的 counter；写回任务卡和交接日志。不得修改实现，
-不得代签另一席，三签齐前不得把状态改 build。
+build 必落钉：KC1 终端臂识别（最后一条 0x20 的非 0x20 failure 目标，链式继续边不变）；
+KC2/GM-C1 仅 strict 三元组翻译为 trimmed message，空白文本/缺 narration/缺 end/臂内插命令/
+其它可达形状全部 fail-loud（undefined → 保留脚本路径，不产半截效果），operand[2]=0 恒成功链
+不误伤，禁止前缀宽松化；KC3/GM-C4 runtime fallback 保持通用、编辑器无 item268 特判；
+KC4/GM-C3 首次 writes=1（items.json 双树 + state hash、managedFiles 不变）、其余零漂移、
+镜像、replay 与独立第二次全零、永久 producer 修复无转换器/upgrader；
+KC5/GM-C2 回归矩阵（translator 正例 + 畸形负例组 + PAL integration exact + 镜像门禁 +
+补上此前漏断言的 message expectation）。
+验证：migrate 聚焦 + PAL publication + typecheck + DS gate；受影响包全量只跑一次；
+编辑器炼蛊失败字段显示原文（dev-functional）；游戏材料全不足用例登记集中 E2E。
+输出：build + 自测后重签 Codex accept 转 review，交 Kimi / GLM 终审；任一钉无法满足停线转 blocked。
 ```
