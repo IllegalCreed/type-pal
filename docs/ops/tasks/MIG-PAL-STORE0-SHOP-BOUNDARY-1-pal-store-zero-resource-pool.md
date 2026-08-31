@@ -1,6 +1,6 @@
 # MIG-PAL-STORE0-SHOP-BOUNDARY-1 - PAL Store[0] 奖励表与商店边界收口
 
-Status: build
+Status: review
 Phase: phase2
 Capability: E9 商店 / 物品资源池（不改变 capability-map）
 Coding Owner: Codex
@@ -207,7 +207,14 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-31，`ff6c9532`）**——migration-only build 全部落钉：生成层过滤 Store0
+  不重编号；current publication 显式重放 generated shops；永久门禁覆盖无 ShopDef0、buy-only 引用命中、
+  sell shop0 合法、item270==源 Store0 九档、item268 保持 5 recipe 且无 resource pool。首次 dry plan
+  `writes=1`；发布 transaction-changes=3，内置 replay 与独立第二轮均
+  `writes=0 deletes=0 conflicts=0 asset-deletes=0`。结构化 diff 仅 current/baseline shops 删除 id0 与
+  baseline state 的 shops hash；items/manifest/scenes/content19/SAVE8/价格/奖励零变化。migrate 全量
+  50 files / 391 tests、typecheck 与聚焦 4 files / 8 tests 全绿。1280px 实机 Shop 20 行 id1..20、无
+  伪店/试炼果/舍利子；s029 sell shop0 表单保留原值，显示“0（缺失）/卖（当铺收购）”，无静默改写。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -217,9 +224,16 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 
 - Draft：本卡与直接证据已建立；尚未修改 migration、tests、baseline/current 或 UI。
 - Build：2026-08-31 Codex 按三签准入开工；仍为唯一 Coding Owner。
-- Review：pending。
+- Review：Codex accept；等待 Kimi / GLM 当前实现终审与用户验收。
 
 ## 交接记录
+
+- 2026-08-31 Codex: 完成 `ff6c9532` migration-only build。红测先证明 migratePalShops 输出 21 项、
+  PAL current/baseline 含 ShopDef0；修复后首次 plan writes=1，发布与独立 replay 全 0，exact diff 白名单
+  恰三路径。永久 invariant / unit / PAL truth / publication 全绿；migrate 全量 391。浏览器证据：
+  `.mimosa/evidence/PAL-SHOPS-WITHOUT-STORE0-1280.jpg`、
+  `.mimosa/evidence/PAL-SELL-SHOP0-PRESERVED-1280.jpg`。Codex 签 accept，转 review。
+  Next: Kimi / GLM 终审；两席与用户验收齐前不得 done。
 
 - 2026-08-31 Codex: 核对 Kimi KM1-KM4 / GLM GM-A1-GM-A4 三签齐、无 counter，状态转 build。
   先完成 migration-only exact diff / replay，再进入依赖的双炼化页面卡。
@@ -249,22 +263,23 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 ## 下一位 Agent 提示词
 
 ```text
-开工 build MIG-PAL-STORE0-SHOP-BOUNDARY-1（Codex，唯一 Coding Owner）。
+终审 MIG-PAL-STORE0-SHOP-BOUNDARY-1 当前实现（Kimi / GLM reviewer）。
 
 任务卡：docs/ops/tasks/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md
-当前状态：三签齐（Codex + Kimi KM1-KM4 + GLM GM-A1~A4，无 counter），build 准入（签字面）
-allowed；开工时把 Status 转 build。
+当前状态：review；Codex `ff6c9532` accept，Kimi / GLM done 前 accept pending，用户验收 pending。
+只读审查，不得修改实现，不得标 done。
 
 已冻结结论：Store[0] 是紫金葫芦 0x34 九档奖励表（非商店）；raw 0x26 恰 23 次 operand 1..20；
 current buy 29 次全 1..20、sell 6 次 shop=0 且运行时不读 shops；migratePalShops 盲 map 是根因；
 item270 rewards 已独立固化。不得重开这些前提。
 
-build 必落钉：KM1/GM-A2 过滤 `store.id !== 0` 不重编号；KM2/GM-A1/A4 永久门禁三件套
+逐项核 build 必落钉：KM1/GM-A2 过滤 `store.id !== 0` 不重编号；KM2/GM-A1/A4 永久门禁三件套
 （无 ShopDef0 + buy-only 引用命中真实 ShopDef（sell shop=0 合法豁免、buy 悬空必红负例）+
 store0→item270 rewards 闭包 + item268 零交集）；KM3/GM-A3 首次 plan 精确 writes=1（shops.json）
 + baseline state hash，items/manifest/content19/SAVE8 零变化，replay 与删辅助后 dry-run 双零计划，
 不保留转换器/upgrader/UI 隐藏；KM4 build 视觉验证须覆盖 6 条 sell shop=0 命令在 CommandForm 的
 显示（原值保留、无误导），以及 Shop 目录无 0 号伪商店。
-验证：migrate 聚焦 + PAL publication + typecheck + DS gate；受影响包全量只跑一次。
-输出：build + 自测后重签 Codex accept 转 review，交 Kimi / GLM 终审；任一钉无法满足停线转 blocked。
+证据：首次 plan writes=1；发布 replay 与独立第二轮全0；diff只三路径；migrate 50 files / 391 tests、
+typecheck、聚焦8；两张浏览器截图。按风险复跑聚焦测试，不要重复全量。
+输出本席 accept，或 file:line + 复现反例 counter；写回任务卡与交接日志，不得代签另一席。
 ```
