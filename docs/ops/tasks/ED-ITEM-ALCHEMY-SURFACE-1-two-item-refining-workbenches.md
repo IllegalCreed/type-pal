@@ -292,6 +292,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `M3 8h26M23 2l6 6-6 6` 的对称 SVG。浏览器直接测 path 渲染边界 522..548、中心535，精确等于真实控件
   空隙中心535；720 path中心偏差同为0。`35843eb7` 进一步把紫金葫芦奖励从 `DsRepeatRow` 正式迁为
   Shop式 `edge-to-edge-list`：逐项卡框/圆角/raised背景清零，只保留底部分割线，输入36px、动作32px。
+  用户随后以2048px截图指出扣除文案与连接符间距异常；`c8016faa` 将错误吸收剩余宽度的
+  `minmax(10rem, 0.38fr)` 收紧为 `max-content`，剩余宽度仅交给奖励选择轨。宽屏直接测可见文字右缘到SVG
+  path左缘由275.4px降为15px，path右缘到奖励控件同为15px；1280仍为15px/15px，无横向溢出。
   聚焦测试、typecheck、DS gate、无溢出/无脏写均通过；数据/schema/runtime/migration 零变化，恢复 Codex accept。
 - Kimi: **accept（2026-08-31，只读终审七提交最终组合态（`54ba9c2e` + `1b090cb2` + `aacf68b7` +
   `314e3a52` + 三张 MIG——后三者本日已由本席逐卡独立终审 accept）+ 本人静态核对、聚焦复跑与
@@ -402,13 +405,14 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
     content validate 93 tests——**全绿**。命令计数/no-op 0/undo-redo 对称断言逐条直读确认。
   无返工项；200% zoom 实机复验按卡面分工仍归 Kimi/用户补验，不构成本席 blocker；
   未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: pending（历史组合态曾 approved；最新数量字段与连接符增量待复验）
+- 用户验收: pending（历史组合态曾 approved；最新数量字段、连接符、奖励列表表面与横向节奏增量待复验）
 - done 准入结论: **blocked（最新增量仅 Codex accept；待 Kimi / GLM 增量 accept + 用户复验）**
 
-### 数量字段 / 连接符 / 奖励列表表面增量复审
+### 数量字段 / 连接符 / 奖励列表表面与横向节奏增量复审
 
-- Codex: **accept（2026-08-31，`314e88e3` + `55b5e981` + `35843eb7`）**——标准数量字段、
-  对称SVG连接符与Shop式edge奖励列表均实机复验通过；`f7cc5770` / `b6d751c4` 两次错误居中证据仅作历史保留。
+- Codex: **accept（2026-08-31，`314e88e3` + `55b5e981` + `35843eb7` + `c8016faa`）**——标准数量字段、
+  对称SVG连接符、Shop式edge奖励列表与15px/15px横向节奏均按可见元素边界实机复验通过；
+  `f7cc5770` / `b6d751c4` 两次错误居中证据仅作历史保留。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -418,7 +422,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：in progress；数量字段与对称SVG连接符 Codex accept，待 Kimi / GLM 增量终审与用户复验。
+- Review：in progress；数量字段、对称SVG、edge列表与横向节奏 Codex accept，待 Kimi / GLM 增量终审与用户复验。
 
 ### Build / Review 证据
 
@@ -430,7 +434,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `f7cc5770 fix(editor): clarify alchemy quantity flow` +
   `b6d751c4 fix(editor): center alchemy flow connector`（两次 CSS 方案均被用户复验推翻）+
   `55b5e981 fix(editor): use symmetric alchemy flow glyph`（最终对称SVG）；紫金葫芦奖励列表表面：
-  `35843eb7 fix(editor): flatten spirit gourd reward rows`；均未推送。
+  `35843eb7 fix(editor): flatten spirit gourd reward rows`；奖励行横向节奏：
+  `c8016faa fix(editor): tighten spirit gourd reward flow`；均未推送。
 - current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
   `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
   `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
@@ -470,6 +475,11 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   四边中仅 bottom 1px、padding 9px/14px（reorder rail为拖拽柄把左侧computed扩到38px，Shop同值）、列表/内容
   x与width完全一致。默认select/input均36px，三个动作均32×32；主面板734px时connector向下、动作组整组下沉，
   row/main/body overflow均0。聚焦6 files / 91 tests、typecheck、DS gate绿；数据/command不变量未变。
+- 奖励行横向节奏增量（`c8016faa`）：2048px 下修复前第一轨被 `0.38fr` 扩到364.6px，可见扣除文案右缘到
+  SVG path左缘275.4px；改为 `max-content` 后第一轨104.1px，文案→path与path→奖励控件均为15px。1280px
+  复测仍为15px/15px；奖励选择器独占剩余宽度，select/input保持36px、动作保持32px，row/body overflow均0。
+  同步 field-layout adoption与CSS census；聚焦6 files / 91 tests、typecheck、91-file DS gate、定向Biome与
+  `git diff --check` 全绿，仅有未触碰的visually-hidden `!important`既有warning。
 - 响应式实机：通过键盘调整真实 Inspector 宽度，把 main 精确压到 893px / 718px / 660px；两机制行
   `scrollWidth <= clientWidth`，718px 两页截图无横向溢出。真实浏览器 200% zoom 仍待 Kimi/用户补验。
 - 视觉证据（忽略目录，禁止提交）：
@@ -509,10 +519,17 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `MIG-PAL-GOURD-FAILURE-MESSAGE-1`，禁止 UI/runtime fallback 或手改 current；本卡继续 blocked。
 - 奖励列表表面: **rework（2026-08-31）**——用户要求紫金葫芦参考Shop货单，移除每项重复卡框、只用
   分割线并采用规范组件尺寸。`35843eb7` 已迁为edge-to-edge-list，待增量终审/复验。
-- 实现验收: pending（最新数量字段、连接符与奖励列表表面增量待用户复验）。
+- 奖励行横向节奏: **rework（2026-08-31）**——用户指出“实际扣除”与箭头之间存在异常大空白。确认不是设计
+  意图，根因为扣除值轨误用fr吸收宽屏余量；`c8016faa` 已改为内容宽轨并以可见文字/SVG path边界复测为
+  15px/15px，待增量终审/复验。
+- 实现验收: pending（最新数量字段、连接符、奖励列表表面与横向节奏增量待用户复验）。
 
 ## 交接记录
 
+- 2026-08-31 Codex: 用户截图指出奖励行扣除文案到箭头空白过大。浏览器2048px实测修复前可见文字→SVG
+  为275.4px；`c8016faa` 把扣除轨 `minmax(10rem, 0.38fr)` 改为 `max-content`，余量只分配给奖励选择器，
+  修复后2048/1280均为文字→SVG 15px、SVG→奖励15px，overflow0。同步field-layout registry/census；
+  6 files / 91 tests、typecheck、DS gate与Biome/diff绿。Codex accept，仍待Kimi/GLM增量终审与用户复验。
 - 2026-08-31 Codex: `35843eb7` 删除紫金葫芦奖励行的 DsRepeatRow，正式把reorder surface从repeat-row迁为
   edge-to-edge-list并同步taxonomy/field/number/DS registry。与Shop实机对照：透明、radius0、仅bottom1px、
   同padding/边界；select/input36px、动作32px。主面板734px connector保留向下、动作不拆、overflow0。
@@ -631,6 +648,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - `b6d751c4 fix(editor): center alchemy flow connector`
 - `55b5e981 fix(editor): use symmetric alchemy flow glyph`
 - `35843eb7 fix(editor): flatten spirit gourd reward rows`
+- `c8016faa fix(editor): tighten spirit gourd reward flow`
 Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
 
 请只审最新增量及其与既有一进一出表面的组合：
@@ -648,9 +666,13 @@ Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
    逐项四边框/圆角/raised背景为0，仅bottom 1px divider；列表和内容边界同宽同x。select/input默认36px、
    动作32px；surface census repeat 8 / edge 3 / 总adoption29。734px主面板connector仍显示并向下、动作组不拆、
    row/main/body overflow均0。rewards顺序、maxRoll同步、单命令/undo与canonical数据不得变化。
+6. 宽屏横向节奏是否按可见元素而非容器盒验证：2048px实际扣除文案右缘→SVG path左缘15px，path右缘→
+   奖励select左缘15px；1280同为15px/15px。第一轨computed应为内容宽（当前104.133px），不得再随行宽扩张；
+   奖励轨独占剩余宽度，select/input36px、动作32px，row/body overflow均0。field-layout adoption/census值应为
+   `max-content 2.75rem minmax(12rem, 1fr) var(--ds-field-measure-short-number) auto`。
 
 Kimi 重点审可视对齐/1280/720/200%；GLM 重点审DOM、command、registry/census与零数据漂移。
-请在任务卡“数量字段 / 连接符 / 奖励列表表面增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，
+请在任务卡“数量字段 / 连接符 / 奖励列表表面与横向节奏增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，
 并追加交接记录。
 不得代签另一席、不得填写用户验收、不得标记done、不得修改实现或推送。
 ```
