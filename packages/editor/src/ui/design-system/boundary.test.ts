@@ -253,8 +253,16 @@ describe('editor design-system static boundary', () => {
     expect(cssDeclaration(field[0]!, 'max-width')).toBe('var(--ds-field-measure-short-number)')
     const stepper = cssRuleBodies(primitives, '.ds-number-stepper')
     expect(stepper).toHaveLength(1)
+    expect(cssDeclaration(stepper[0]!, '--ds-number-stepper-button-size')).toBe(
+      'var(--ds-control-height)',
+    )
     expect(cssDeclaration(stepper[0]!, 'grid-template-columns')).toBe(
       'var(--ds-number-stepper-button-size) minmax(0, 1fr) var(--ds-number-stepper-button-size)',
+    )
+    const compactStepper = cssRuleBodies(primitives, '.ds-number-stepper[data-size="compact"]')
+    expect(compactStepper).toHaveLength(1)
+    expect(cssDeclaration(compactStepper[0]!, '--ds-number-stepper-button-size')).toBe(
+      'var(--ds-hit-target-compact)',
     )
     const grid = cssRuleBodies(recipes, '.ds-number-field-grid')
     expect(grid).toHaveLength(1)

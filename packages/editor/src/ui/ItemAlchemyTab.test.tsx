@@ -128,6 +128,13 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
       true,
     )
     expect(recipeRows.every((row) => row.querySelectorAll('input').length === 2)).toBe(true)
+    expect(
+      recipeRows.every(
+        (row) =>
+          row.querySelector('.item-alchemy-row-actions')?.getAttribute('data-density') ===
+          'compact',
+      ),
+    ).toBe(true)
     recipeRows.forEach((row, index) => {
       const fieldLabels = [...row.querySelectorAll<HTMLLabelElement>('.ds-field__label')]
       expect(fieldLabels.map((label) => label.textContent?.trim())).toEqual([
