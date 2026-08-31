@@ -1,6 +1,6 @@
 # ED-ITEM-ALCHEMY-SURFACE-1 - 炼蛊皿与紫金葫芦双炼化工作台
 
-Status: review
+Status: rework
 Phase: phase2
 Capability: Editor item authoring（不改变 capability-map）
 Coding Owner: Codex
@@ -405,7 +405,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ### 数量字段 / 连接符增量复审
 
-- Codex: **accept（`314e88e3` + `f7cc5770` + `b6d751c4`）**
+- Codex: **counter / rework（2026-08-31）**——数量字段 `314e88e3` 保持 accept；连接符 `f7cc5770` / 
+  `b6d751c4` 的验收仍错误地依赖不含 CSS 伪元素真实像素的 DOM 外盒，用户截图证明可见箭头仍偏。
+  改用几何边界可验证的对称 SVG path，并以 path `getBBox()` + 真实控件间隙复验后重新 accept。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -415,8 +417,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：in progress；历史组合态三方 accept 保留，数量字段与连接符增量 Codex accept，待 Kimi / GLM
-  增量终审与用户复验。
+- Review：rework；历史组合态与数量字段保持有效，连接符改为对称 SVG path 后重新进入增量终审。
 
 ### Build / Review 证据
 
@@ -502,6 +503,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: 用户第二次截图证明连接符仍未视觉居中。Codex 复盘发现 `b6d751c4` 只量了
+  `.item-alchemy-formula-arrow__line` 元素盒，CSS `::after` 箭头头部不在该矩形内，因而“偏差0”证据无效。
+  最新增量转 counter/rework：删除伪元素箭头，改用可直接测量 path 几何边界的对称 SVG，不再接受容器指标。
 - 2026-08-31 Codex: `314e88e3` 用公共 `DsSelectField + DsDraftNumberField` 重构一进一出字段，显示
   “材料/材料数量/产物/产物数量”，number type、min=1、step=1、± stepper 与一动作一命令/undo 均闭合；
   number-field census 30/26→29/27。`f7cc5770` 将文字箭头改为流程连接符，但初次误量外层容器；用户截图
