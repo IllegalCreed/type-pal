@@ -1,6 +1,6 @@
 # MIG-PAL-CRAFT-FAILURE-MESSAGE-1 - PAL 炼蛊失败原文迁移闭环
 
-Status: build
+Status: review
 Phase: phase2
 Capability: PAL item migration / current publication（不改变 capability-map）
 Coding Owner: Codex
@@ -196,17 +196,47 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-31）**——实现提交 `62e30f56`；strict terminal arm、环/悬空/畸形
+  fail-loud、current publication producer-message 接线、item268 exact invariant、三文件 exact diff、
+  writes=1→事务 3 文件→内部/独立 replay 全零均已自验。migrate typecheck、Biome 与唯一一次全量
+  50 files / 402 tests 全绿；编辑器字段预填与五配方最小浏览器验收通过。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
-- done 准入结论: blocked
+- done 准入结论: **blocked（仅 Codex accept；待 Kimi / GLM accept + 用户验收）**
 
 ## Draft / Build / Review
 
 - Draft：前提真值、producer 根因、最小 strict translator 与 exact-diff 方案已登记。
-- Build：in progress；三方 premise/design 签字已齐，Codex 为唯一 Coding Owner，按 KC1-KC5 / GM-C1-GM-C4 实施。
-- Review：pending。
+- Build：completed（`62e30f56`）；Codex 按 KC1-KC5 / GM-C1-GM-C4 完成实现、重迁和自验证。
+- Review：in progress；Codex accept，待 Kimi / GLM 独立终审与用户验收。
+
+## Build / Review 证据
+
+- producer：`translateCraftRecipeScript` 继续沿 failure→0x20 解析有序链，只在最后一个非 0x20 failure
+  目标严格匹配 `setDialogStyleNarration -> showDialog(nonblank) -> end` 时输出 trimmed message；failure
+  环、悬空地址、空白文本、缺 narration/end、臂内/臂后多命令、产物入口不一致均返回 undefined。
+  `operand[2]=0` 保持非候选，避免把原版恒继续语义误投影为“材料足量”配方。
+- current publication：新增两输入纯函数，只把同轮 generated craft 的已翻译非空 message 接回
+  baseline-derived items；按 item id + craft ordinal 配对，重复 id、缺 owner、craft/recipe 结构漂移
+  fail-loud，只改 message 叶，不覆盖作者名称、说明、价格、配方或其它 effect；无 item268/runtime/UI 特判，
+  不是一次性转换器或 upgrader。
+- 永久 invariant：item268 必须唯一 craft、零 resource pool、message 精确为“炼蛊的材料不足”，五条配方
+  必须依次为 117..121 ×1 -> 148 ×1；缺失、通用文案、首尾空白和配方漂移均有负例。
+- 聚焦测试：translator 56/56；PAL Store0 unit 8/8；publication overlay 7/7；PAL publication + mirror
+  3/3。最终 `@type-pal/migrate` typecheck 通过，Biome 9 个受影响源文件通过；唯一一次完整测试为
+  50 files / 402 tests 全绿。
+- 重迁：写前 `managed=537 writes=1 deletes=0 conflicts=0 asset-deletes=0`；正式事务
+  `transaction-changes=3`，1934 资产全部 unchanged，内部 replay 四项全零；独立第二进程 dry-run
+  `writes=0 deletes=0 conflicts=0 asset-deletes=0`。
+- exact diff：结构化脚本证明 current/baseline items 只给 item268 craft effect 新增一个
+  `unavailableMessage`；两树 JSON/字节镜像；`_state.json` 仅 `files["content/items.json"]` 从
+  `b42b...8090` 更新为 `0058...a45`，managedFiles、其余 536 个文件哈希及全部其他生成路径零变化。
+- 编辑器 dev-functional：`/?module=item&page=crafting&object=268` 在 1280×720 下字段唯一、可见、可编辑，
+  值精确为“炼蛊的材料不足”；5 个配方 article 与五种材料均可见，body `scrollWidth=clientWidth=1280`，
+  保存按钮保持 disabled（无脏写）。
+- gameplay E2E（集中批次登记）：入口为背包中 117..121 全部为 0 时直接使用 item268；预期不扣材料、
+  不给 148，旁白显示“炼蛊的材料不足”后结束。按视觉纪律延后到代码冻结后的剧情/运行时集中 E2E。
 
 ## 用户验收
 
@@ -215,6 +245,11 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
 
 ## 交接日志
 
+- 2026-08-31 Codex: `62e30f56` 完成 strict producer、current publication message ownership 接线、
+  item268 exact invariant 与 current/baseline 重迁。结构化 exact diff 仅三文件；writes=1、事务 3、
+  内部 replay 与独立二次计划全零；migrate typecheck / Biome / 50 files 402 tests 全绿。应用内浏览器确认
+  炼蛊失败字段精确预填、5 条配方完整、1280px 无横溢且无脏保存。Codex 签 accept，状态转 review；
+  gameplay 零材料用例已登记集中 E2E。Next: Kimi / GLM 只读终审并分别签 accept/counter，签字不足不得 done。
 - 2026-08-31 Codex: 开工前逐项核对任务卡实际签字表；Codex / Kimi / GLM 三方 premise verified +
   design agree 已齐、两席独立反证完成、无 counter，build 准入结论为 allowed。状态转 build；Codex
   继续作为唯一 Coding Owner，先补 strict translator 聚焦回归，再补 PAL invariant，最后执行重迁、
@@ -240,25 +275,22 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
 ## 下一位 Agent 提示词
 
 ```text
-开工 build MIG-PAL-CRAFT-FAILURE-MESSAGE-1（Codex，唯一 Coding Owner）。
+终审 MIG-PAL-CRAFT-FAILURE-MESSAGE-1（Kimi 或 GLM，只读；不得修改实现）。
 
 任务卡：docs/ops/tasks/MIG-PAL-CRAFT-FAILURE-MESSAGE-1-pal-craft-failure-message.md
-当前状态：build；三签齐（Codex + Kimi KC1-KC5 + GLM GM-C1~C4，无 counter），build 准入
-allowed；Codex 已核门禁并开工，与 ED-ITEM-ALCHEMY-SURFACE-1 按 Blocks 依赖串行。
+当前状态：review；实现提交 `62e30f56`，Codex accept；Kimi / GLM / 用户验收 pending，签字不足不得 done。
+先完整阅读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡与 `62e30f56` diff。
 
-已冻结结论：L39606 终端 failure → L39595（narration → showDialog「炼蛊的材料不足」 → end，
-唯一入边）；translateCraftRecipeScript 丢弃终端失败臂是唯一根因；schema/runtime/editor 三层
-均可表达，零 PAL 特判。不得重开这些前提。
+请独立核：
+1. 终端 failure 仅 strict narration/showDialog(nonblank)/end 输出 trimmed message；链继续、环、悬空、
+   畸形臂、productStart mismatch、operand[2]=0 非候选是否全部 fail-loud 且不产半截配方。
+2. current publication 是否只同步 generated producer 的 message 叶，保持作者其它字段；是否没有 item268
+   runtime/editor 特判、一次性转换器、upgrader 或兼容分支。
+3. item268 永久 invariant 是否精确钉 message + 117..121→148；负例和 publication 接线是否足够。
+4. generated exact diff 是否恰 current/baseline items + `_state.json` items hash；current/baseline 镜像，
+   writes=1、事务3、内部 replay/独立 dry-run 全零；migrate 50 files / 402 tests 与浏览器证据是否可信。
 
-build 必落钉：KC1 终端臂识别（最后一条 0x20 的非 0x20 failure 目标，链式继续边不变）；
-KC2/GM-C1 仅 strict 三元组翻译为 trimmed message，空白文本/缺 narration/缺 end/臂内插命令/
-其它可达形状全部 fail-loud（undefined → 保留脚本路径，不产半截效果），operand[2]=0 恒成功链
-不误伤，禁止前缀宽松化；KC3/GM-C4 runtime fallback 保持通用、编辑器无 item268 特判；
-KC4/GM-C3 首次 writes=1（items.json 双树 + state hash、managedFiles 不变）、其余零漂移、
-镜像、replay 与独立第二次全零、永久 producer 修复无转换器/upgrader；
-KC5/GM-C2 回归矩阵（translator 正例 + 畸形负例组 + PAL integration exact + 镜像门禁 +
-补上此前漏断言的 message expectation）。
-验证：migrate 聚焦 + PAL publication + typecheck + DS gate；受影响包全量只跑一次；
-编辑器炼蛊失败字段显示原文（dev-functional）；游戏材料全不足用例登记集中 E2E。
-输出：build + 自测后重签 Codex accept 转 review，交 Kimi / GLM 终审；任一钉无法满足停线转 blocked。
+Kimi 重点审控制流、current publication ownership 与无下游特判；GLM 重点独立复算 exact diff、invariant、
+负例/测试矩阵和二次零计划。结论写回本卡“进入 done 前”签字与交接日志：accept，或带 file:line、
+可复现反例和返工项的 counter。不得代签另一席、不得改实现、不得标记 done；用户验收仍单独 pending。
 ```
