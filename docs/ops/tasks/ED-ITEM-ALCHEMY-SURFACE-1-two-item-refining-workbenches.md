@@ -280,7 +280,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 
 ### 进入 done 前：审查签字
 
-- Codex: **accept（2026-08-31，`54ba9c2e` + `1b090cb2`）**——双独立 route、单一机制 IA、Item 页只读摘要与 use
+- Codex: **accept（2026-08-31，`54ba9c2e` + `1b090cb2` + `aacf68b7`）**——双独立 route、单一机制 IA、Item 页只读摘要与 use
   switch 防绕过、`collectValue` 只读、严格 `rewards.length === maxRoll`、指定行删除、两类 reorder 单命令
   undo/redo、引用深链/删除保护、29/32 registry 闭包与 Enemy 来源显示均已自审；两轮只读 blocker 复核后
   P0/P1 清零。实际 200% 浏览器缩放受当前 in-app Browser 固定 viewport 限制，已做 660px main 宽代理且无
@@ -300,7 +300,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 ### Build / Review 证据
 
 - 实现提交：`54ba9c2e feat(editor): add item alchemy mechanism workbenches`；用户真值复核后的文案/文档修正：
-  `1b090cb2 fix(editor): clarify automatic alchemy sourcing`；均未推送。
+  `1b090cb2 fix(editor): clarify automatic alchemy sourcing`；固定资源展示修正：
+  `aacf68b7 fix(editor): move fixed alchemy resource to inspector`；均未推送。
 - current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
   `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
   `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
@@ -341,6 +342,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
   二阶段 runtime，确认玩家只选择炼蛊皿，随后固定按 117→118→119→120→121 自动消耗首个足量材料；没有
   第二层原料 picker。同时修正 `docs/phase1/status/item-status.md` 中“0x81 facing/对准毒蛇卵”的陈旧误记，
   编辑器改称“自动取材规则”，明确行内下拉只供作者配置。
+- 固定资源呈现: **approved（2026-08-31）**——用户指出不能修改的 `collectValue` 不应伪装成输入框；中央表单
+  完全撤下该控件，只在右侧机制摘要以普通 code readout 显示“资源来源 collectValue”，该行不存在 input、textarea
+  或 combobox。
 - 实现验收: pending。
 
 ## 交接记录
@@ -362,6 +366,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
   `applyToAll` 直接跑 L39598；0x20 按 117→118→119→120→121 逐项扣料，成功即进共同产物段，完全没有材料
   菜单。`1b090cb2` 将 Hero/规则/Inspector/Item 摘要改为“直接使用、固定优先级自动取材”，并纠正一阶段陈旧
   文档；聚焦 `3 files / 38 tests` + editor typecheck 绿，review 状态与 canonical 设计不变。
+- 2026-08-31 User/Codex: 用户指出固定 `collectValue` 仍使用输入框视觉。`aacf68b7` 将其从中央 form 删除，
+  只在 Inspector 以 code readout 显示；聚焦 ItemAlchemy + DS route truth、typecheck 绿，浏览器断言中央无
+  “资源变量/collectValue”、Inspector 行输入控件数为 0。
 - 2026-08-31 Codex: 核对 Kimi KE1-KE6 / GLM GM-B1-GM-B4 三签齐、无 counter，状态转 build；
   按依赖先完成 Store0 migration，再实施两个独立 route 与唯一编辑 owner。
 
@@ -393,7 +400,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 终审 ED-ITEM-ALCHEMY-SURFACE-1（Kimi 或 GLM，只读 reviewer）。
 
 任务卡：docs/ops/tasks/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md
-当前状态：review；实现提交 `54ba9c2e` + 真值文案修正 `1b090cb2`，Codex accept；Kimi / GLM / 用户
+当前状态：review；实现提交 `54ba9c2e` + 真值文案修正 `1b090cb2` + 固定资源呈现修正 `aacf68b7`，
+Codex accept；Kimi / GLM / 用户
 done 前验收 pending。
 不得修改实现、不得代签另一席、签字不足不得标记 done。
 
