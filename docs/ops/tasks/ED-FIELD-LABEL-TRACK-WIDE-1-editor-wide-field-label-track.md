@@ -1,6 +1,6 @@
 # ED-FIELD-LABEL-TRACK-WIDE-1 - 编辑器整组宽标签轨合同
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: Editor design system（不改变 capability-map）
 Coding Owner: Codex
@@ -194,7 +194,11 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-31，commit `6e7999ef`）**——公共 API / token / CSS、RoleBindings 唯一采用、
+  adoption/census/版本/Design Lab 均按已签设计闭合；default 96px / `<480px` 声明零漂移。聚焦
+  5 files / 157 tests、typecheck、design-system gate（91 files、2 个 evidence-bound exceptions）通过；
+  1280、720、560/559 与 default 480/479 浏览器证据无横向溢出，标签、HelpTip、双动作与尾随资源对齐。
+  当前工具未能可靠触发真实浏览器 200% zoom，已把该点显式留给 Kimi 视觉复核，不以等效宽度冒充实测。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -203,11 +207,33 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
 ## Draft / Build / Review 证据
 
 - Draft：用户裁决、规范冲突、推荐公共方案与直接证据已记录；未修改实现/CSS/token/version。
-- Build：pending。
-- Review：pending。
+- Build：2026-08-31 Codex 核对三方签字齐、无 counter 后开工；仍为唯一 Coding Owner。
+  - `DsFieldGroup` 新增封闭 `labelTrack?: 'default' | 'wide'`，DOM 恒输出 default/wide 静态属性；
+    token 新增 160px，CSS 只新增 wide 根规则与 `<560px` query。
+  - RoleBindings 五组 12 行仅在 group owner 声明 `labelTrack="wide"`；字段内容、候选、command、预览、
+    跳转与保存语义零改动。同页四个 field-group owner 继续 default。
+  - field-layout registry 仍为 18 adoptions / 23 retired，wide owner 恰一项；AST 门禁拒绝动态、数字、
+    `narrow`、spread 与业务 inline/CSS token 覆盖；snapshot 只新增两条公共 wide 轨记录。
+  - DS 版本 index/token/spec/boundary 四处同步 `2.21.0`，规范日期为 2026-08-31；Design Lab RF-23
+    增加 wide 560/559，保留 default 480/479。
+  - 验证：聚焦 5 files / 157 tests 绿；editor typecheck 绿；design-system gate 91 files、2 个已登记
+    evidence-bound exceptions。一次 editor 全量执行为 182/183 files、1498/1499 tests，唯一失败是
+    EffectEditorCard 负例被新 CSS 中同名声明截获；将负例定位收窄到目标 selector 后，受影响测试与上述
+    聚焦集全绿，按“一次全量”纪律未重复全量。
+  - 浏览器：真实 Project 页 1280 下 5 组/12 行均为 160px 标签轨，最长标签单行、HelpTip 32px、
+    control/tail 同起点，双动作和 no-preview/resource tail 无溢出；720 下实际 group 292px 自动 stacked，
+    control 258px 且无页面/卡片溢出；Design Lab 精确验证 wide 560 inline / 559 stacked 与 default
+    480 inline / 479 stacked。真实 200% zoom 未由当前工具可靠触发，禁止写成已实测。
+- Review：实现提交 `6e7999ef`；Codex accept，三路内部只读压力审查无剩余 P0/P1/P2；正式 Kimi / GLM
+  审签与用户验收待完成，不得标记 done。
 
 ## 交接记录
 
+- 2026-08-31 Codex: commit `6e7999ef` 完成公共 wide 标签轨、RoleBindings 唯一采用、DS 2.21.0、
+  registry/census/负例与 Design Lab。聚焦 157 tests、typecheck、design-system gate 通过；一次 editor
+  全量唯一陈旧负例已以精确 selector 修正并聚焦复绿。浏览器完成 1280、720、560/559、480/479 与
+  tail/双动作/HelpTip/overflow 核验；真实 200% zoom 未伪报。Codex 签 accept，状态转 review。
+  Next: Kimi 只读视觉/架构终审，重点实测或明确裁决 200% zoom；不得改实现或标记 done。
 - 2026-08-31 GLM: 独立测量 12 标签（最长 9 字逐项直读）、星号/HelpTip 真实 token（12px 字体、
   32px 命中、4px×2 gap）→ 最长组合 ≈154px，与 Kimi 153px 独立收敛：160 可容、128 不可、96 必换行；
   复算 field-layout census（18 adoptions/23 retired、零 wide、RoleBindings 同页另有 4 个 default
@@ -231,22 +257,25 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-FIELD-LABEL-TRACK-WIDE-1（GLM 席，draft，不得实现）。
+终审 ED-FIELD-LABEL-TRACK-WIDE-1（Kimi 席，review，只读，不得实现）。
 
 任务卡：docs/ops/tasks/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md
-当前状态：draft；Codex + Kimi（KL1-KL5）已签；仅余你的 GLM premise verified + design agree。
-三签齐前不得修改 controls/primitives/tokens/规范版本/RoleBindings，不得推进 build。
+实现提交：6e7999ef feat(editor): add wide field label track
+当前状态：review；build 前三签已齐，Codex 已签 accept；Kimi / GLM 正式审查签字与用户验收仍 pending。
+你只做只读架构/视觉终审；不得修改实现、不得代签 GLM、不得标记 done。
 
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、editor-design-system-v1.md 的 DS-L.7/DS-G.4、
-ED-FIELD-LAYOUT-1 历史卡、本卡全部签节（含 Kimi KL1-KL5 与可推翻观察）。
+ED-FIELD-LAYOUT-1 历史卡、本卡全部签字与 Build/Review 证据；审查 commit 6e7999ef 全 diff。
 
-你的分工（独立证据，不复述 Codex/Kimi）：
-1. 真实字体逐标签测量 RoleBindings 12 个标签 + required 星号 + 32px HelpTip 的组合宽度——
-   特别验证最长“特殊战胜利结算音乐”行是否需要 ~153px（Kimi 估算值，若 ≤128px 实测成立，
-   160px 取值须收窄回签）；
-2. 复算 field-layout census 与现有门禁（96px token、480 边界、业务覆盖必红），确认 wide
-   唯一 owner 登记形状；
-3. 测试矩阵审查：559/560、720、1280、200%、label/htmlFor、HelpTip 命中区、error/
-   aria-describedby、业务 CSS/inline 必红负例是否闭合；
-4. 输出带直接证据的 premise verified + design agree，或 counter + file:line/可复现观察。
+必须独立输出：
+1. 核对 API 只能表达 default/wide，default 96px/<480 一行未漂移，wide 160px/<560 只作用于
+   RoleBindings；第二 owner、动态/数字值及业务 token/CSS 覆盖是否 fail-loud。
+2. 在真实 Project 页复核 5 组/12 行：最长“特殊战胜利结算音乐”+ required + 32px HelpTip 单行，
+   control 起点一致；重点覆盖音乐双动作、resource/no-preview tail、error/help 语义与横向溢出。
+3. 复核 560/559、720、1280；请尽可能做真实浏览器 200% zoom。若环境仍不能可靠设置 zoom，必须
+   明写未实测，并判断 720/<560 stacked 证据是否足以接受，不能把等效 viewport 冒充 200% 实测。
+4. 核对 DS 2.21.0 四处、RF-23、18/23 registry 与唯一 wide owner；确认 effect-card 负例定位修正
+   没有弱化门禁。
+5. 给出 Kimi `accept`，或 `counter` + P0/P1/P2、file:line/复现步骤。若 accept，请写入任务卡并在
+   回复末尾附一段可直接转发给 GLM 的只读终审提示词；GLM 与用户签字前不得标记 done。
 ```
