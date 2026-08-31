@@ -1,6 +1,6 @@
 # ED-ITEM-ALCHEMY-SURFACE-1 - 炼蛊皿与紫金葫芦双炼化工作台
 
-Status: done
+Status: rework
 Phase: phase2
 Capability: Editor item authoring（不改变 capability-map）
 Coding Owner: Codex
@@ -286,10 +286,10 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ### 进入 done 前：审查签字
 
-- Codex: **accept（2026-08-31）**——历史 counter 所指两项 producer 缺陷均已由
-  `62e30f56`（炼蛊失败原文）与 `893da2a3`（紫金葫芦零值原文）重迁并三方终审 done；
-  `314e3a52` 固定一进一出 rework、双页既有功能、字段预填、九档/五配方与 1280/720 视觉均已自验。
-  无 UI/runtime 特判、无 current 手改，恢复 Codex accept。
+- Codex: **counter / rework（2026-08-31）**——此前最终组合态 accept 作为历史保留；用户验收后发现炼蛊
+  规则中的数量仍以无可见 label 的裸 `DsDraftNumberInput` 呈现，视觉上无法识别为数量，也未采用项目统一
+  `DsDraftNumberField` 步进外观。该问题不改数据/schema/runtime，但最新用户可见表面未通过，旧 accept
+  不再授权 done；改为标准“数量”字段并完成聚焦/视觉复验后重新签 Codex accept。
 - Kimi: **accept（2026-08-31，只读终审七提交最终组合态（`54ba9c2e` + `1b090cb2` + `aacf68b7` +
   `314e3a52` + 三张 MIG——后三者本日已由本席逐卡独立终审 accept）+ 本人静态核对、聚焦复跑与
   1280/720 实机测量，不重审已通过范围，非复述 Codex/GLM）**。按 KE1-KE6 与卡面六区逐项核验：
@@ -400,14 +400,14 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   无返工项；200% zoom 实机复验按卡面分工仍归 Kimi/用户补验，不构成本席 blocker；
   未修改实现，未代签 Kimi，未填用户验收。
 - 用户验收: **approved（2026-08-31）**——用户在 Kimi / GLM 最终组合态终审 accept 落卡后回复“签了”，确认整卡验收。
-- done 准入结论: **allowed / complete（Codex + Kimi + GLM 三方 accept + 用户验收齐，无 counter）**
+- done 准入结论: **blocked（用户新增数量字段 rework；最新增量终审与用户复验前不得 done）**
 
 ## Draft / Build / Review
 
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：completed；最终组合态 Codex / Kimi / GLM accept 与用户验收齐，整卡收口 done。
+- Review：rework；历史组合态三方 accept 保留，数量字段增量由 Codex 修正后重新进入最终 review。
 
 ### Build / Review 证据
 
@@ -476,10 +476,14 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 紫金葫芦不可用提示: **rework（2026-08-31）**——用户指出该字段也为空。核验确认 0x34 在
   collectValue=0 时通过 operand0 跳 L38780，原版旁白“无任何效果”；当前 producer 漏失败臂。已开
   `MIG-PAL-GOURD-FAILURE-MESSAGE-1`，禁止 UI/runtime fallback 或手改 current；本卡继续 blocked。
-- 实现验收: **approved（2026-08-31）**。
+- 实现验收: **rework（2026-08-31）**——数量字段缺少可见 label 与统一数字步进外观。
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: 用户指出材料/产物后的值无法识别为数量，且不像统一数字 input。代码虽使用
+  `DsDraftNumberInput(type=number)`，但页面只暴露无可见标签的裸控件；按数字字段合同应改用带“数量”label
+  与步进器的 `DsDraftNumberField`。本卡从 done 转 rework；仅改 editor surface / registry / 测试 / CSS，
+  不碰 canonical 数据、schema、runtime 或 migration。
 - 2026-08-31 User/Codex: Kimi / GLM 对七提交最终组合态均签 accept；用户回复“签了”确认验收。
   双页 IA、一进一出、5/9 数据、两种 producer 原文、Enemy 来源闭环、DS registry 与响应式证据全部闭合，
   无 counter、无剩余返工。本卡转 done；无下一位 Agent 提示词。
