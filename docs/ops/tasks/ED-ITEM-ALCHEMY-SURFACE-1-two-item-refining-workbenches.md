@@ -1,6 +1,6 @@
 # ED-ITEM-ALCHEMY-SURFACE-1 - 炼蛊皿与紫金葫芦双炼化工作台
 
-Status: blocked
+Status: rework
 Phase: phase2
 Capability: Editor item authoring（不改变 capability-map）
 Coding Owner: Codex
@@ -11,7 +11,7 @@ Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: `main`
 Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
-`MIG-PAL-CRAFT-FAILURE-MESSAGE-1`（恢复炼蛊失败原文，当前 draft / 三签 pending）
+`MIG-PAL-CRAFT-FAILURE-MESSAGE-1`（恢复炼蛊失败原文，当前 review / `62e30f56` 已重迁）
 
 ## 目标
 
@@ -29,6 +29,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   - `EDITOR_MODULES` 的物品模块新增两个独立子页：`炼蛊皿`、`紫金葫芦`；不新增一级模块。
   - 两页分别从 live items 派生唯一 `craftRecipe` 与 `drawFromResourcePool` canonical owner；PAL 当前各恰一项
     （268 / 270）。页面不把内部承载物品伪装成可新增的对象目录；零 owner、多 owner、重复 effect 均 fail-loud。
+  - 炼蛊皿专页把每条 PAL_CLASSIC 规则收紧为固定“一项材料 × N -> 一项产物 × N”；玩家没有选料或组合
+    合成步骤，因此行内不得出现“添加材料 / 添加产物”或材料/产物子项删除。复杂多项 shape 必须 fail-loud，
+    不得静默截断；新增规则仍新增一条完整的一进一出映射。
   - 新增共享炼化工作区壳，但两页使用独立 route、标题、帮助、列表语义与测试。
   - 复用 `DsObjectWorkspace`、`DsObjectHero`、`DsWorkbenchSection`、`DsInspectorHost`；两页没有左侧
     Catalog/outliner，中央机制工作区铺满左栏与中央列；form 区使用默认 inset，配方 / 消耗值直接列表使用
@@ -118,7 +121,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 - 页面是单一项目机制，不显示“1 件”、owner 列表或“添加炼蛊皿”；内部唯一 owner 是 PAL item268。
 - 中间：Hero 显示 owner 物品；“炼蛊配方”用 edge-to-edge list，每行明确“材料 → 产物”，顺序即运行时优先级；
-  复用现有 recipe editor / reorder / picker / Command，不复制 adapter。
+  每行固定一个材料选择器 + 数量和一个产物选择器 + 数量；复用 reorder / picker / Command，不复制 adapter，
+  不暴露 schema 的通用多材料/多产物 authoring。
 - 右侧：摘要、优先级公式、物品引用与诊断；不复制详细表单。
 - 配方增删改 / 排序仅此页可做；机制 effect 本身不在 UI 新增或删除，Item 页只显示摘要和跳转。
 
@@ -149,8 +153,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 语义：炼蛊皿显示“材料 → 产物”和优先级；紫金葫芦显示“消耗 1..9 灵葫值 → 奖励”，无价格文案。
 - invariant：所有 `drawFromResourcePool` 均满足 rewards.length === maxRoll；档位从 1 连续到 N，count 正整数，
   item 引用存在；奖励移动同步改变档位，不产生 cost 字段。
-- 交互：配方 / 消耗值的新增、删除、调整、picker、undo、redo 均单命令；危险动作 danger icon + 具体 aria；
-  窄宽动作组不拆；两页不得新增 / 删除第二个机制 owner。
+- 交互：配方 / 消耗值的新增、删除、调整、picker、undo、redo 均单命令；炼蛊配方内部固定一进一出、无
+  材料/产物子项增删；危险动作 danger icon + 具体 aria；窄宽动作组不拆；两页不得新增 / 删除第二个机制 owner。
 - 空态：零 owner、多 owner、重复 effect、owner 物品删除、引用丢失分别有明确状态，不跳到其他对象掩盖错误。
 - 测试：navigation/DataMode、两页组件、Item 摘要跳转、validator、refs/delete protection、commands、DS gate；
   受影响 editor/content 全量各只跑一次。
@@ -295,7 +299,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：blocked；等待 `MIG-PAL-CRAFT-FAILURE-MESSAGE-1` 三签、build、重迁与终审后回到本卡复验。
+- Review：rework；migration 已完成 build/re迁并进入 review。用户新增一进一出裁决由 Codex 按既有
+  “无玩家选料 + PAL 五条单材料映射”前提修正；本卡最终 review 仍等待 migration done。
 
 ### Build / Review 证据
 
@@ -348,10 +353,17 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 炼蛊失败提示: **rework（2026-08-31）**——用户指出“材料不足提示”为空并质疑用途。核验确认字段有效，原版
   L39595 明有“炼蛊的材料不足”；空值来自 migration producer 漏翻译终端失败臂。禁止 UI/runtime fallback 或
   手改 current，已开 `MIG-PAL-CRAFT-FAILURE-MESSAGE-1`；该依赖完成前本卡实现验收暂停。
+- 配方基数: **approved / rework（2026-08-31）**——用户指出游戏中无法选择原材料，因此行内“添加材料”会
+  错误暗示组合合成。裁决每条炼蛊规则固定一项材料到一项产物；移除行内材料/产物添加与子项删除，只保留
+  新增完整映射、优先级、物品选择和数量。该裁决收紧编辑器表面，不改 schema/runtime/current 数据。
 - 实现验收: pending。
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: 用户复验指出“添加材料”无法对应游戏操作。Codex 确认 runtime 对同一 recipe 的
+  多 ingredient 是 AND 条件并自动消费，但 PAL_CLASSIC 没有玩家选料/组合步骤，当前五条也全为 1→1；该控件
+  暴露了与炼蛊皿专页无关的通用 schema 能力。卡转 rework：每条规则固定一进一出，复杂 shape fail-loud，
+  不改 schema/runtime/migration；最终 review 仍受 MIG done 门禁约束。
 - 2026-08-31 User/Codex: build 期视觉复核发现双页被误做成 owner 对象目录。用户先指出紫金葫芦、随后确认
   炼蛊皿同理，裁决两者均为单一机制页；撤掉左侧列表 / “1 件” / 添加 owner / 删除机制，并隐藏不存在的左栏开关与
   分隔条。另确认数组位置 N 是 runtime 实际扣除 N 点灵葫值，撤掉重复圆圈序号并改为明确扣除文案。premise 与
