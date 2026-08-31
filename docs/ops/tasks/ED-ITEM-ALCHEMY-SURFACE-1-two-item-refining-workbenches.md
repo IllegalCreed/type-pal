@@ -500,7 +500,41 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   上移/下移/删除均36px同y；公共stepper outer也由38收紧为真实36px，并保留normal/invalid/focus/
   forced-colors可辨识外框。Craft header序号/摘要/actions同轴，rail稳定锚首header行，formula四字段与箭头同线；
   1280/760/520三档overflow0。7 files / 134 tests、typecheck与91-file DS gate绿；多路只读终审无finding。
-- Kimi: pending
+- Kimi: **accept（2026-08-31，只读增量终审 `13ed6138` + `1f6b25af` + `e11515f7`，按本席分工做
+  三档视觉几何、focus 与 200% zoom 实机复测 + 静态核对与聚焦复跑，非复述 Codex/GLM）**：
+  - **Craft header ✓（实机 1280）**：areas 实机 `"index identity actions"`、三列单行
+    `30px 1028px 104px`、header 恰 **56px**，无隐式 grid 行；序号/摘要/上移下移删除/拖拽柄中心线
+    实机全部 cy=579 与 header 中心重合，**最大偏差 0 ≤1px**；identity 与 formula 内容起点实机均
+    **x=103**；材料/材料数量/产物/产物数量四个 label 实机同 top=607；两个 Select、两个 Stepper
+    与箭头实机同 top=631/bottom=667 且均 **36px**。
+  - **Overlay rail ✓（实机三档）**:Craft `DsReorderItem` 实机 `data-layout="overlay"`（TSX diff
+    `layout="overlay"` + `item-alchemy-recipe-item` 一致）；rail 实机 `inset-block-start` 与 header
+    顶对齐、高 56px 锚定首个 header 行——handle 与首行中心差 1280=**0**、760=**0**、520=**0**
+    （520 为两行 header `40px+32px`，handle 恰与 index/identity 首行同轴 667，本人逐像素复测，
+    非与整体两行 header 比对的口径）。
+  - **通用 actions 不持区 ✓（diff 直读）**:`.item-alchemy-row-actions` 基类仅 `justify-self:end`，
+    actions 区由 `.item-alchemy-recipe-row__header >` 与 `.item-alchemy-reward-row >` 两个直接子
+    选择器分别授予（e11515f7 editor.css diff）。
+  - **公共 Stepper ✓（实机 + 门禁）**:outer 实机真实 **36px**（Codex 所述 38→36 收正确认）；
+    实机 `border: 0px none`（不参与盒模型）、`box-shadow: inset 0 0 0 1px rgb(102,114,138)`
+    （=--ds-border-control 的 inset 描边）；focus 实机 `outline: 2px solid rgb(131,184,255)
+    offset 2px`（=--ds-focus-ring 的外部焦点环）；invalid 的 `:has(.ds-input[aria-invalid="true"])`
+    danger inset 描边规则与四态 forced-colors（base `1px ButtonText/-1`、invalid `2px Highlight/-2`、
+    focus `2px Highlight/0`、invalid+focus `2px Highlight/0`）由 boundary.test.ts:254-317 逐值断言
+    （本人直读，MCP 无法模拟 forced-colors 介质查询，以门禁为准）。
+  - **奖励行动作 ✓**:`DsActionGroup density="default"` + recipes.css 新增 default 密度 36px 规则
+    （diff 直读），与步进器/Select 同 36px 同轴（实机 1280 与 640 等效档 controlHeights 全 36）。
+  - **rail adoption ✓（diff 直读）**:`item/craft-recipes` 仅 `railLayout: inline→overlay`、
+    railOwner 改指 `ItemAlchemyEditors.tsx` 的 `layout="overlay"` 指纹；dataPaths/adapter/identity/
+    commandOwner/revisionOwner 零改动。
+  - **200% zoom ✓（本人补验）**:1280@200% 等效 640 CSS px 实机——handle-identity 中心差 0、
+    四控件全 36px、row/header/section/document 横向溢出全 0、5 行完整，核心功能可达
+    （上轮卡面遗留项，本轮闭环）。
+  - **零漂移 ✓**:recipes/rewards/maxRoll/itemKey/MoveButton/删除回调/Command/undo-redo 未被触碰
+    （四提交 diff stat 仅 editor UI/CSS/测试/registry;item-alchemy.ts 领域逻辑零改动）。
+  - **本人复跑**:ItemAlchemyTab + boundary + recipes + reorder-surface-adoption +
+    reorder-adoption + field-layout + number-field → **7 files / 126 tests 全绿**。
+  无返工项；未修改实现，未代签 GLM。
 - GLM: **accept（2026-08-31，只读增量终审 `13ed6138` + `1f6b25af` + `e11515f7`，按本席分工核
   DOM / overlay registry / Stepper 状态门禁 / 数据零漂移，非复述 Codex）**：
   - **配方卡 DOM 几何 ✓**：`.item-alchemy-recipe-row__header` 为 `grid-template-areas:
@@ -703,6 +737,15 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ## 交接记录
 
+- 2026-08-31 Kimi: 增量只读终审 `13ed6138` + `1f6b25af` + `e11515f7`（控件高度/配方卡几何/
+  公共 Stepper 外框），按视觉几何/focus/200% zoom 分工签 **accept**。独立证据：1280 实机
+  header 三区单行恰 56px、五元素中心线偏差 0、identity/formula 起点均 x=103、四 label 同 top、
+  双 Select/双 Stepper/箭头同 top-bottom 均 36px；overlay rail 实机三档 handle-首行中心差全 0
+  （520 两行 header 下与 index/identity 首行同轴）；Stepper outer 实机 36px、border=0、inset
+  描边、focus 外部 2px/offset2 环；forced-colors 四态与 invalid 规则以 boundary.test.ts:254-317
+  门禁为准；奖励行 DsActionGroup default 36px；rail adoption 仅 railLayout/Owner 两字段变更；
+  200% 等效 640px 实机零溢出全控件 36px（上轮遗留闭环）；本人复跑 7 files / 126 tests 全绿。
+  无返工项；未修改实现，未代签 GLM，未标 done。Next: 用户复验。
 - 2026-08-31 GLM: 增量只读终审 `13ed6138` + `1f6b25af` + `e11515f7`（控件高度/配方卡几何/公共
   Stepper 外框），按本席分工签 **accept**。独立证据：header 三区单行 56px 无隐式行、通用
   `.item-alchemy-row-actions` 不持 grid-area（两直接子选择器持 actions，门禁逐条钉死）；
