@@ -231,9 +231,44 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
     pal-derived-content + pal-current-publication → **6 files / 75 tests 全绿**（含真实 PAL
     镜像断言与 publication 全量 publish）；按纪律未重复全量。
   无返工项；未修改实现，未代签 GLM。
-- GLM: pending
+- GLM: **accept（2026-08-31，只读终审 `62e30f56` + 当前工作树独立复算与聚焦复跑，非复述 Codex/Kimi）**。
+  按 GM-C1~GM-C4 与卡面核验点逐项独立核验：
+  - **raw 链与迁移正确性 ✓**：本人重扫 all.json——五连 0x20 链 L39598`[117,1,→39600]`→L39600`[118]`→
+    L39602`[119]`→L39604`[120]`→L39606`[121,1,→39595]`；L39595 起恰三条 `setDialogStyleNarration →
+    showDialog(messageIndex 12541 "炼蛊的材料不足") → end`（索引 39595-39597）；全局对 39595 的引用
+    恰 1 条（仅 L39606 failure operand）；全库 46 个 0x20 中唯一 fail→0x20 真链即此五条（其余失败边
+    6417/34912/43058/43078 本人逐条核对，均非 0x20）。working tree item268
+    `unavailableMessage: "炼蛊的材料不足"` 精确。
+  - **strict 形状与 fail-loud ✓（GM-C1）**：translator 直读（migrate-content.ts:962-1031）——环
+    （seen 命中 :975）、悬空（labelIndex miss :989）、缺 narration、非 dialog、空白/纯空白文本、
+    缺 end、三元组后无 label 续行（:1011）、productStart mismatch（:985）全部 return undefined；
+    测试矩阵逐负例覆盖（migrate-content.test.ts:489-539：空白/缺 narration/缺 end/臂内插命令/
+    end 后多命令/mismatch/悬空/环），无前缀宽松化路径。
+  - **operand[2]=0 不误投影 ✓**：`failureAddress <= 0 → undefined`（:980）为既有守卫，本提交 diff
+    未触碰；本人复算全部含 0x20 的 use 脚本——260/263..267/287/289/291/292 全为 `[id,0,0]`，
+    改前改后均 undefined，回归面闭合；当前全工程 craftRecipe 仍仅 item268 一处。
+  - **publication 只覆 message 叶 ✓**：`applyPalGeneratedCraftMessages`（pal-authored-overlays.ts:
+    320-352）双侧 unique-id 抛错、current 缺物品抛错、craft 数量漂移抛错、`sameRecipes` 逐项
+    结构证据不匹配抛错、空/未 trim 抛错，仅赋值 `unavailableMessage` 叶，名称/价格/其它 effect
+    全留作者侧；接线 `applyPalGeneratedCraftMessages(applyPalItemOverlays(baselineItems),
+    generatedItems)`（pal-current-publication.ts:163-170）。
+  - **invariant 与下游零特判 ✓（GM-C2/C4）**：assertVesselRecipes 补 message 精确断言
+    （pal-store-boundary.ts:53-57）+ 负例 undefined/通用文案/首尾空白 + recipe 漂移
+    （pal-store-boundary.test.ts it.each + order drift）；本人 grep「炼蛊的材料不足」在
+    reforge/editor/game **零命中**（仅 migrate invariant/测试、pal-extract gbk 与生成数据）；
+    runtime `message: eff.unavailableMessage` 透传（content/src/item.ts:930）、壳层
+    `if (message) return message` 才回退通用（reforge/src/main.ts:5428-5430）、编辑器通用渲染
+    （ItemAlchemyTab.tsx:226/319）——无 item268 特判、无一次性转换器、无 upgrader。
+  - **exact-diff 与幂等 ✓（GM-C3）**：`git show 62e30f56` 生成侧恰三文件——两树 items.json 各
+    +3 行 message-only、`_state.json` 仅 items hash `b42b…8090 → 0058…a45` 一行；两树 items/
+    shops 字节镜像（本人 cmp 复核）；本人在当前工作树独立复跑只读 migration plan：
+    `managed=537 writes=0 deletes=0 conflicts=0 asset-deletes=0`——独立二次零计划成立。
+  - **本人复跑**：migrate-content 56/56 + pal-authored-overlays 7/7；pal-store-boundary（unit+pal）/
+    pal-derived-content/pal-current-publication.pal 已在本日 Store0 终审复跑（两卡合计 6 files /
+    75 tests；按纪律未重复全量）。
+  无返工项；未修改实现，未代签 Kimi，未填用户验收。
 - 用户验收: pending
-- done 准入结论: **blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）**
+- done 准入结论: **blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）**
 
 ## Draft / Build / Review
 
@@ -275,6 +310,18 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
 
 ## 交接日志
 
+- 2026-08-31 GLM: 只读终审 `62e30f56` + 当前工作树，签 **accept**。独立证据：raw 五连 0x20 链
+  L39598..L39606 终端 fail→L39595 严格三件套「炼蛊的材料不足」且全局唯一入边、全库唯一
+  fail→0x20 真链（其余 0x20 失败边落点逐条核对）；translator 环/悬空/空白/缺 narration/缺 end/
+  臂内插命令/end 后无 label 续行/productStart mismatch 全 undefined（migrate-content.ts:962-1031
+  直读 + 测试矩阵逐负例）；operand[2]=0 守卫为既有未动、含 0x20 的其余 use 脚本全 `[id,0,0]`
+  零回归、全工程 craftRecipe 仍仅 item268；`applyPalGeneratedCraftMessages` 只覆 message 叶 +
+  五类 fail-loud（pal-authored-overlays.ts:320-352）；invariant message 精断言 + 空白/漂移负例；
+  grep 下游三包零特判、runtime 透传与通用 fallback 直读；generated diff 恰三文件 message-only、
+  双树字节镜像、state 仅 items hash；本人独立复跑只读 plan 全零（managed=537 writes=0 deletes=0
+  conflicts=0 asset-deletes=0）+ 聚焦 2 files / 63 tests 全绿（合计 6 files / 75 tests）。
+  无返工项；未修改实现，未代签 Kimi，未填用户验收。三方 accept 齐，仅剩用户验收；
+  无下一位 Agent 提示词，等待用户验收/收口。
 - 2026-08-31 Kimi: 只读终审 `62e30f56`，签 **accept**。独立证据：translator 环/悬空/缺 narration/
   空白/缺 end/臂后无 label 续行全 undefined（migrate-content.ts:969-1029 直读）、strict 三元组
   trimmed message；operand[2]=0 保持非候选（:981）；`applyPalGeneratedCraftMessages` 双侧

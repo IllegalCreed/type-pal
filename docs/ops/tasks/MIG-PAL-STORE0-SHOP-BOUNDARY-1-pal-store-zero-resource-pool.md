@@ -242,9 +242,35 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
     pal-authored-overlays + pal-current-publication → **6 files / 75 tests 全绿**（含真实 PAL
     镜像断言 item268 recipes/message 与 item270 源闭包）；按纪律未重复全量。
   无返工项；未修改实现，未代签 GLM。
-- GLM: pending
+- GLM: **accept（2026-08-31，只读终审 `ff6c9532` + 当前工作树独立复算与聚焦复跑，非复述 Codex/Kimi）**。
+  按 GM-A1~GM-A4 与卡面核验点逐项独立核验：
+  - **过滤不重编号 ✓（GM-A2）**：本人 node 复算 working tree——current/baseline shops 均 20 项、id 序列
+    严格 `1..20`、无 id0、两树字节镜像；`git show ff6c9532` 生成侧 diff 恰两树 shops.json 各 −14 行
+    （仅删 id0 元素）+ `_state.json` 仅 `content/shops.json` hash 一行；本提交零 editor 文件
+    （本人 `git show --stat` 复核）。
+  - **buy/sell 边界 ✓（GM-A1）**：本人重扫 canonical 全部 openShop——buy 29 次引用恰为 `1..20`、
+    零次 shop=0；sell 6 次全 shop=0；运行时 sell 分支 `sellableItems(world, project.items)` 不读
+    shops（`packages/reforge/src/main.ts:3442-3452` 直读）；`assertPalStoreBoundaryInvariant`
+    （pal-store-boundary.ts:126-184）永久断言禁 ShopDef0、源/发布 id 序列 1..20、buy 命中真实店、
+    sell 恒 0，publication 每次发布执行并钉 `expectedBuyCalls:29 / expectedSellCalls:6 /
+    expectedSellShopId:0`（pal-current-publication.ts:310-318）。
+  - **raw 真值与 268/270 区分 ✓（GM-A4）**：本人重扫 all.json——0x26 恰 23 次、operand 值域恰
+    `1..20`、零次 0；0x34 恰 1 次（L_39713）；sdlpal 直读 0x26 直传 `PAL_BuyMenu(rgwOperand[0])`
+    （script.c:1157-1163）、0x34 读 `lprgStore[0].rgwItems[i]`（script.c:1465-1490）；raw
+    stores.json store0 = `100,105,95,112,72,131,97,102,111` 与 item270 rewards 逐项相等、
+    maxRoll=9、count 全 1；真实店 1..20 零买价货单 0 项、112/72 buyPrice 保持 0；item268 恰
+    1 craftRecipe ×5（117..121 ×1 → 148 ×1）零 pool——与本迁移零交集。
+  - **幂等 ✓（GM-A3）**：本人在当前工作树独立复跑只读 migration plan：
+    `managed=537 writes=0 deletes=0 conflicts=0 asset-deletes=0`——独立二次零计划成立（该工作树
+    已含后续 `62e30f56`，两卡合并状态下仍零漂移）。
+  - **无 workaround ✓**：ShopTab 无 id0 过滤（:73 为货单排除、:242 为编辑删除，均无关）；无
+    upgrader/兼容分支/UI 隐藏规则，0 号伪商店消失来自 canonical 数据本身。
+  - **本人复跑**：pal-store-boundary（unit 8 + pal 1）+ pal-derived-content + pal-current-
+    publication.pal（2）→ 4 files / 12 tests 全绿（craft 卡另补 2 files / 63 tests，两卡合计
+    6 files / 75 tests；按纪律未重复全量）。
+  无返工项；未修改实现，未代签 Kimi，未填用户验收。
 - 用户验收: pending
-- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
+- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
 
 ## Draft / Build / Review 证据
 
@@ -254,6 +280,15 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 
 ## 交接记录
 
+- 2026-08-31 GLM: 只读终审 `ff6c9532` + 当前工作树，签 **accept**。独立证据：node 复算 shops 双树
+  20 项 id 严格 1..20、字节镜像、diff 恰 −14 行删 id0 + state 单 hash 行；重扫 canonical openShop
+  buy 29 全 1..20 零 0、sell 6 全 shop=0，sell 运行时不读 shops（main.ts:3442-3452 直读）；重扫
+  raw all.json 0x26 恰 23 次 operand 1..20 零 0、0x34 恰 1 次；sdlpal script.c 0x26/0x34 直读；
+  raw store0 九档 == item270 rewards 逐项相等、真实店零价 0 项、112/72 buyPrice 保 0、item268
+  5 配方零 pool 零交集；invariant + publication 钉 29/6/0 直读；零 editor 文件、无 UI 隐藏/
+  upgrader；本人独立复跑只读 plan 全零（managed=537 writes=0 deletes=0 conflicts=0
+  asset-deletes=0）+ 聚焦 4 files / 12 tests 全绿。无返工项；未修改实现，未代签 Kimi，未填用户
+  验收。三方 accept 齐，仅剩用户验收；无下一位 Agent 提示词，等待用户验收/收口。
 - 2026-08-31 Kimi: 只读终审 `ff6c9532`，签 **accept**。独立证据：过滤 `store.id !== 0` 不重编号
   （pal-derived-content.ts:170-173）；本人 node 复算 shops 20 项 id 1..20、current==baseline 镜像、
   diff 恰 −14 行仅删 id0、state 仅 shops hash；永久 invariant 直读（禁 ShopDef0、id 序列 1..20、
