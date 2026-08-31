@@ -232,9 +232,45 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
   - **本人复跑**:controls + boundary + field-layout-adoption + effect-card-adoption +
     ProjectWorkbenchTab → **5 files / 157 tests 全绿**。
   无返工项；未修改实现，未代签 GLM。
-- GLM: pending
+- GLM: **accept（2026-08-31，只读终审 `6e7999ef` 全 diff + 本人浏览器实测 + 聚焦复跑，非复述
+  Codex/Kimi；与 Kimi 证据各自独立取得后收敛）**。按 GM-W1~GM-W4 逐钉核验（本席重点：DOM /
+  census / 门禁 / 数据零漂移）：
+  - **API 与 default 零漂移 ✓（GM-W1）**：diff 纯增量——`labelTrack?: 'default' | 'wide'` 封闭
+    枚举 + DOM 恒输出 `data-label-track`（缺省 default）；CSS 仅新增 `[data-label-track="wide"]`
+    作用域规则与 `<560px` 容器查询，default 96px/`<480px` 四条轨声明**零删改**（本人 diff 逐行核）；
+    token 仅新增 `--ds-field-label-track-wide: 160px` 与版本行。门禁负例直读：
+    `labelTrack={track}`/`={160}`/`="narrow"` 全 throw；`assertOfficialDesignSystemTag` 要求
+    canonical export（包装/memo 红）；inline `--ds-field-label-track` **与**
+    `--ds-field-label-track-wide` 覆盖均被 `governedInlineStyleViolations` 捕获（fixture 已扩 wide
+    token）；公共轨 allowlist 恰新增 wide 两行 + token 一行，default 行原样。
+  - **census 唯一 owner ✓（GM-W2）**：registry 18 adoptions / 23 retired 不变；wide owner 机器枚举
+    **恰一项** `ProjectWorkbenchTab.tsx@RoleBindings`（manifest 与生产 census 双向相等断言）；
+    同页其余 field-group 消费者不受影响。
+  - **真实页实测（本人浏览器 1280×800）✓**：5 组 3+3+1+4+1=12 行全部 wide、grid `160px 790px`；
+    **12 标签全部单行**（label 高恰 18px，含最长「特殊战胜利结算音乐」+ required + 32×32
+    HelpTip）；**12 行 control 起点唯一值 189px**；音乐行双动作（试听 36×36、打开资源 36px）与
+    `.project-role-resource` tail 在场；body/main 溢出 0。
+  - **断点实测 ✓（GM-W3）**：逐档细扫（viewport 843/844/845/846/847/848/850/860）——组
+    border-box **562（content 560）起 inline 且轨恰 `160px + minmax(0,1fr)`**（`160px 356px`），
+    border-box 561（content 559）stacked 单列——容器查询 content-box 语义下边界精确符合
+    `<560px` stacked 合同（组持 1px border，与 Kimi 562/561 独立收敛）；720 视口本环境面板布局
+    下组宽 452→stacked 分支、最长标签仍单行、溢出 0（与 Kimi 720 组 644→inline 分支恰互补覆盖
+    两分支）。
+  - **200% zoom：未实测（明写）**——本环境 IAB webview 对 6×Cmd+= 零响应（devicePixelRatio=1、
+    visualViewport.scale=1 前后不变）；Kimi 席已同断言 CDP pinch-zoom 不可冒充。**判断可接受**：
+    zoom 敏感行为全由内容宽容器查询驱动，559/560 两侧 + stacked（452）+ inline（560..996）均已
+    实测，200% 等效布局视口落入已测分支内，无未测代码路径；残余仅 2× 字体栅格渲染，不触布局合同。
+  - **effect-card 修正 ✓**：负例变异从全局 `replace('inset-block-start: 0;')` 锚定到
+    `.ds-reorder-item.effect-editor-card-item[data-layout="overlay"] > .ds-reorder-item__rail`
+    目标 selector——断言原文未动、变异命中受测规则，属**加严**非弱化（本人 diff 直读，与 Kimi
+    结论独立收敛）。
+  - **数据零漂移 ✓**：本提交未触 `projects/pal`、migration、content schema、reforge、字段值/
+    命令/保存/选择器语义；ProjectWorkbenchTab 仅 +`labelTrack="wide"` 一个属性。
+  - **本人复跑**：field-layout-adoption + boundary + controls + effect-card-adoption +
+    ProjectWorkbenchTab **5 files / 157 tests 全绿** + editor typecheck 干净。
+  无返工项；200% zoom 留用户真实浏览器复验；未修改实现，未代签 Kimi，未填用户验收。
 - 用户验收: pending
-- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
+- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
 
 ## Draft / Build / Review 证据
 
@@ -260,6 +296,16 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
   审签与用户验收待完成，不得标记 done。
 
 ## 交接记录
+
+- 2026-08-31 GLM: 只读终审 `6e7999ef`，签 **accept**。独立证据：diff 逐行（纯增量、default 四条轨
+  零删改、负例矩阵含 wide token inline 覆盖）、census 18/23 且 wide owner 恰 RoleBindings；本人
+  浏览器 1280 实测 5 组 12 行全 wide、`160px 790px`、12 标签全单行（最长含星号+32px HelpTip）、
+  control 起点唯一 189px、双动作与 tail 在场、溢出 0；边界细扫 border-box 562（content 560）inline
+  轨恰 160px / 561（559）stacked（与 Kimi 独立收敛，组 1px border 的 content-box 语义）；720 本环境
+  组 452 stacked 单行零溢出（与 Kimi 644 inline 互补）；200% zoom 本环境不可触发（IAB 对 Cmd+=
+  零响应），明写未实测并给等效分支论证；effect-card 负例锚定属加严；聚焦 5 files / 157 tests +
+  typecheck 全绿。无返工项；未修改实现，未代签 Kimi，未填用户验收。三方 accept 齐，仅剩用户验收；
+  无下一位 Agent 提示词，等待用户验收/收口。
 
 - 2026-08-31 Kimi: 只读终审 `6e7999ef`，签 **accept**。独立证据：封闭枚举 + 非静态字面量抛错 +
   唯一 wide owner + wide token 入 inline 治理；真实 Project 页 5 组 12 行全 wide、最长标签实机
