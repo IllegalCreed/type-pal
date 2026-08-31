@@ -411,7 +411,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   无返工项；200% zoom 实机复验按卡面分工仍归 Kimi/用户补验，不构成本席 blocker；
   未修改实现，未代签 Kimi，未填用户验收。
 - 用户验收: pending（历史组合态曾 approved；最新数量字段、连接符、奖励列表表面、横向节奏与窄态密度待复验）
-- done 准入结论: **blocked（最新增量仅 Codex accept；待 Kimi / GLM 增量 accept + 用户复验）**
+- done 准入结论: **blocked（最新增量 Codex + GLM accept；待 Kimi 增量 accept + 用户复验）**
 
 ### 数量字段 / 连接符 / 奖励列表表面、横向节奏与窄态密度增量复审
 
@@ -419,8 +419,71 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `0a423136` + `b01d10a8`）**——标准数量字段、对称SVG、Shop式edge列表、15px/15px横向节奏与紧凑窄态
   均按可见元素边界实机复验通过；521/520与761/760两个断点cliff已闭合；
   `f7cc5770` / `b6d751c4` 两次错误居中证据仅作历史保留。
-- Kimi: pending
-- GLM: pending
+- Kimi: **accept（2026-08-31，只读增量终审 `0a423136` + `b01d10a8`（含 `541ea07d` 证据），按本席
+  视觉/响应式分工做像素级实机复测 + 静态核对与聚焦复跑，非复述 Codex/GLM）**：
+  - **两断点新布局实机逐像素复测 ✓**：以命名容器（`container-name: item-alchemy`）显式定宽逐档测量——
+    container=760 时行高恰 **99px**（旧四层 159.5px 已消失），grid areas 实机为
+    `"cost flow reward reward" "count count count actions"`：第一行 实际扣除 → 箭头 → 奖励，
+    第二行 数量字段 + 完整动作组（countTop≈actionsTop）；container=520 时行高恰 **123.5px**，
+    areas `"cost cost cost" "flow reward reward" "count count actions"`：扣除文案 / 水平箭头+奖励 /
+    数量+动作组三行——与卡面验收逐字一致。
+  - **连接符 ✓**：五档宽度（761/760/521/520/396）逐档实机 `arrow top == reward top`（sameRow=true），
+    `.item-alchemy-reward-row > .formula-arrow` 无 transform——连接符始终水平并与奖励同排；
+    唯一 `rotate(90deg)` 仅存于 `.item-alchemy-recipe-row__formula`（炼蛊配方列纵向堆叠），非本列表。
+  - **数量字段 ✓**：实机每行可见 `<label>数量</label>` 且 `label for` 与 input id 精确相等；
+    标准 ± 步进器两枚（aria=“减少/增加实际扣除 N 灵葫值的奖励数量”、36px）；count=1 时减号
+    disabled（实机）。一次步进点击实机产生一个可撤销变更（dirty 出现），Header 全局撤销按钮恢复——
+    单命令/undo 语义另由 ItemAlchemyTab.test.tsx（:285-376,451-493 真实 `edit.undo()` 断言）与
+    本人复跑锁定。
+  - **cliff 闭合 ✓**:container=521 实机奖励宽 **274.9px**、container=520 实机 **384px**
+    （与 Codex 记录逐点一致），521→520 从两行 274.9 平滑增为三行全宽 384，**无省略号 1px 断崖**；
+    container=761 加第 10 档实机 cost=**112.8px**、reward=200.2px（与 Codex 184.2 同量级，差异为
+    面板态宽度差），row/main/body overflow 全 0，Header undo 恢复 9 档。
+  - **720/396 与动作组 ✓**:viewport=720（container 688、两行态）与 container=396（三行态）实机
+    document/section/row 横向溢出全 0；动作组恒 32px 高、整组不拆。
+  - **census 与零漂移 ✓**:number-field-adoption baseline 实读 `leafCalls:115`、
+    `DsDraftNumberInput:28`、`DsDraftNumberField:28`（逐字一致）；两提交仅触 editor UI/CSS/
+    registry/测试——projects/pal、schema、runtime、migration、rewards/maxRoll/reorder key/Command
+    零漂移（本人 `git show --stat` 证实）；reorder adoption 仍绑定 `item-alchemy-reward-row`
+    （DsRepeatRow 行类未变），门禁扩展钉死两断点 areas 与箭头禁 transform（本人直读
+    reorder-surface-adoption.test.ts 新增断言）。
+  - **本人复跑**:ItemAlchemyTab + reorder-surface-adoption + reorder-adoption + field-layout +
+    number-field + boundary → **6 files / 92 tests 全绿**（与卡面记录一致）。
+  - 200% zoom 复核建议随用户复验一并进行（本席本轮未覆盖，卡面已同样标注）。
+  无返工项；未修改实现，未代签 GLM。
+- GLM: **accept（2026-08-31，只读增量终审 `0a423136` + `b01d10a8`（含 `541ea07d` 证据），按本席分工
+  核 DOM / registry / 测试 / 数据零漂移，非复述 Codex）**：
+  - **窄态结构 ✓**：旧四层已删——editor.css 中 760px 断点现为两行
+    `"cost flow reward reward" / "count count count actions"`（`max-content 2.75rem minmax(0,1fr) auto`），
+    520px 断点为三行 `"cost cost cost" / "flow reward reward" / "count count actions"`
+    （`2.75rem minmax(0,1fr) auto`）；`.item-alchemy-reward-row > .item-alchemy-formula-arrow` 的
+    `transform: rotate(90deg)` 已删除，rotate 仅存于炼蛊配方列——连接符始终水平、与奖励同排、
+    不独占行。默认五轨 `minmax(12rem,1fr)→minmax(0,1fr)`（b01d10a8）消除 521/520 奖励被 12rem
+    地板挤成省略号断崖、并让 761px 第 10 档可收缩不溢出（与 Codex 实测 274.9/384/184.2px 数值
+    方向一致；像素级复测归 Kimi/视觉）。结构由 reorder-surface 门禁**永久钉死**（正则断言两断点
+    grid-template-areas 逐串 + reward-row 箭头禁 transform），本人直读该测试。
+  - **数量字段 ✓**：奖励数量由裸 `DsDraftNumberInput` 升级为 `DsDraftNumberField label="数量"
+    layout="inline"`（ItemAlchemyEditors.tsx）；`DsField` 渲染 `<label htmlFor={id}>` 且控件同 id
+    ——label for 关联由测试对每行断言 `label.textContent==='数量' && label.htmlFor===input.id`；
+    ± 步进器为公共 `DsNumberStepper`（`减少/增加{aria-label}`、stepUp/stepDown、
+    `decrementDisabled={!canStep(-1)}`）；count=1 减号 disabled、一次 + 恰 `historyVersion+1`
+    （单条 UpdateItemCommand）、undo 恢复 1——测试逐条实证（ItemAlchemyTab.test.tsx 新增块）。
+  - **registry ✓**：number-field census `leafCalls:115 / DsDraftNumberInput:28 /
+    DsDraftNumberField:28` 与卡面一致且由 AST 门禁强制复算；field-layout adoption 三档
+    grid-template-columns 与 CSS 逐值同步（root/760/520）、css census snapshot 同步更新；
+    design-system-adoption 奖励页组件清单移除 DraftNumberInput；b01d10a8 的 P1 修复同步更新
+    registry + snapshot + 门禁期望（`"cost flow reward count"→"cost flow reward reward"` 等），
+    无 registry/实现漂移。
+  - **数据零漂移 ✓**：`git diff 9c38d97b..b01d10a8` 文件面恰为 editor UI/registry/测试/CSS +
+    文档——`projects/`、content、reforge、migrate、editor core（commands/item-alchemy）、shared
+    **零文件**；item270 现值 maxRoll=9、9 档 `[100,105,95,112,72,131,97,102,111]` count 全 1、
+    message“无任何效果”不变；reorder key（useDsReorderKeys/editor-local-token）与
+    UpdateItemCommand 路径未触碰。
+  - **本人复跑**：聚焦 6 files / 90 tests（ItemAlchemyTab + item-alchemy core + number-field/
+    field-layout/reorder-surface/boundary 门禁）+ DS adoption 总门禁 21 tests + editor
+    typecheck——**全绿**。
+  无返工项；200% zoom 实机与像素级复测按分工归 Kimi/用户补验；未修改实现，未代签 Kimi，
+  未填用户验收。
 - 用户验收: pending
 
 ## Draft / Build / Review
@@ -555,6 +618,18 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ## 交接记录
 
+- 2026-08-31 GLM: 增量只读终审 `0a423136` + `b01d10a8`（窄态重做），按本席分工签 **accept**。独立证据：
+  CSS 断点结构直读（760px 两行 `"cost flow reward reward"/"count count count actions"`、520px 三行
+  `"cost cost cost"/"flow reward reward"/"count count actions"`、竖箭头 rotate 已删仅存炼蛊配方列、
+  root 五轨 minmax(0,1fr) 消 12rem 地板断崖）并由 reorder-surface 门禁永久钉死；数量字段为
+  DsDraftNumberField label="数量"、htmlFor 关联/±步进器/减号 1 时 disabled/单命令/undo 均有测试
+  断言逐条实证；number-field census 115/28/28、field-layout 三档值与 CSS 逐值同步、css census
+  snapshot 与门禁期望随 P1 修复同步；`git diff 9c38d97b..b01d10a8` 证明 projects/content/reforge/
+  migrate/editor core/shared 零文件、item270 九档与 message 不变、reorder key 与 command 路径
+  未触碰；本人复跑聚焦 6 files / 90 tests + DS adoption 21 tests + typecheck 全绿。像素级数值
+  （99/123.5/274.9/384/112.8/184.2px、overflow 0、32px 动作）与 200% zoom 采信 Codex 实测并归
+  Kimi/视觉/用户复验，结构/测试与其方向一致。无返工项；未修改实现，未代签 Kimi，未填用户验收。
+  Next: Kimi 增量终审（视觉/响应式 + 200%）与用户复验。
 - 2026-08-31 User/Codex: 用户指出紫金葫芦奖励窄态四层布局过高。`0a423136`改为紧凑两/三行、水平SVG，
   并将奖励数量升级为可见“数量”DsDraftNumberField；760px行159.5→95px。只读视觉审查随后counter：521px
   reward仅62.9px、761px新增第10档可能溢出。`b01d10a8`重排中档并放开root reward最小轨；最终760px99px、
