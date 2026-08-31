@@ -269,6 +269,31 @@ describe('editor design-system static boundary', () => {
     expect(designLab).toContain('大型负数')
   })
 
+  test('locks each action group density to one shared control height', () => {
+    const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
+    const defaultIcons = cssRuleBodies(
+      recipes,
+      '.ds-action-group[data-density="default"] .ds-icon-button',
+    )
+    expect(defaultIcons).toHaveLength(1)
+    for (const property of ['width', 'min-width', 'height', 'min-height'])
+      expect(cssDeclaration(defaultIcons[0]!, property)).toBe('var(--ds-control-height)')
+    const defaultButtons = cssRuleBodies(
+      recipes,
+      '.ds-action-group[data-density="default"] .ds-button',
+    )
+    expect(defaultButtons).toHaveLength(1)
+    expect(cssDeclaration(defaultButtons[0]!, 'min-height')).toBe('var(--ds-control-height)')
+
+    const compactIcons = cssRuleBodies(
+      recipes,
+      '.ds-action-group[data-density="compact"] .ds-icon-button',
+    )
+    expect(compactIcons).toHaveLength(1)
+    for (const property of ['width', 'min-width', 'height', 'min-height'])
+      expect(cssDeclaration(compactIcons[0]!, property)).toBe('var(--ds-hit-target-compact)')
+  })
+
   test('keeps the canonical form geometry and typography in one stylesheet', () => {
     const tokens = readFileSync(join(here, 'tokens.css'), 'utf8')
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
@@ -1430,7 +1455,7 @@ describe('editor design-system static boundary', () => {
     const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
     const listContent = cssRuleBodies(
       recipeCss,
-      ".ds-workbench-section__content[data-content-layout='list']",
+      '.ds-workbench-section__content[data-content-layout="list"]',
     )
 
     expect(recipes).toContain("contentLayout?: 'form' | 'list'")

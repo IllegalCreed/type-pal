@@ -233,6 +233,9 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
         (row) =>
           row.querySelector<HTMLInputElement>('.item-alchemy-reward-count .ds-input')?.type ===
             'number' &&
+          row.querySelector<HTMLInputElement>('.item-alchemy-reward-count .ds-input')?.inputMode ===
+            'numeric' &&
+          row.querySelector('.item-alchemy-reward-count .ds-number-stepper') !== null &&
           row
             .querySelector<HTMLInputElement>('.item-alchemy-reward-count .ds-input')
             ?.getAttribute('data-size') !== 'compact',
@@ -249,7 +252,7 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
       rows.every(
         (row) =>
           row.querySelector('.item-alchemy-row-actions')?.getAttribute('data-density') ===
-          'compact',
+          'default',
       ),
     ).toBe(true)
     expect(rows.every((row) => row.querySelector('.item-alchemy-formula-arrow__glyph'))).toBe(true)

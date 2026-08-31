@@ -234,14 +234,16 @@ describe('reorder visible surface adoption gate', () => {
     expect(css).not.toMatch(/\.rr-[\w-]+\s*\{[^}]*\bflex\s*:/s)
   })
 
-  test('keeps Shop and spirit-gourd edge-to-edge while using compact action-group hit targets', () => {
+  test('keeps Shop and spirit-gourd edge-to-edge with one density owner per action group', () => {
     const shop = source('ShopTab.tsx')
     const recipes = source('design-system/recipes.tsx')
     const recipeCss = source('design-system/recipes.css')
-    expect(shop).toMatch(/<DsActionGroup[^>]*className="shop-stock-actions"/s)
+    expect(shop).toMatch(/<DsActionGroup[^>]*density="compact"[^>]*className="shop-stock-actions"/s)
     expect(shop).toContain('<div className="shop-stock-row">')
     const alchemy = source('ItemAlchemyEditors.tsx')
-    expect(alchemy).toMatch(/<DsActionGroup[^>]*className="item-alchemy-row-actions"/s)
+    expect(alchemy).toMatch(
+      /export function ResourceRewardTierList[\s\S]*?<DsActionGroup[^>]*density="default"[^>]*className="item-alchemy-row-actions"/s,
+    )
     expect(alchemy).toContain('<div className="item-alchemy-reward-row">')
     expect(alchemy).not.toMatch(/<DsRepeatRow[^>]*className="item-alchemy-reward-row"/s)
     expect(recipes).toContain('export function DsActionGroup')
@@ -250,6 +252,15 @@ describe('reorder visible surface adoption gate', () => {
     ).toContain('var(--ds-hit-target-compact)')
     expect(cssRule(recipeCss, '.ds-action-group[data-density="compact"] .ds-button')).toContain(
       'min-width: var(--ds-hit-target-compact)',
+    )
+    const defaultIcons = cssRule(
+      recipeCss,
+      '.ds-action-group[data-density="default"] .ds-icon-button',
+    )
+    for (const property of ['width', 'min-width', 'height', 'min-height'])
+      expect(defaultIcons).toContain(`${property}: var(--ds-control-height)`)
+    expect(cssRule(recipeCss, '.ds-action-group[data-density="default"] .ds-button')).toContain(
+      'min-height: var(--ds-control-height)',
     )
 
     const businessCss = source('editor.css')

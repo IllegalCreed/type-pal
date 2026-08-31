@@ -288,7 +288,7 @@ export function ResourceRewardTierList(props: {
                     props.onChange({ ...props.effect, rewards: next })
                   }}
                 />
-                <DsActionGroup density="compact" className="item-alchemy-row-actions">
+                <DsActionGroup density="default" className="item-alchemy-row-actions">
                   <DsReorderMoveButton
                     itemKey={reorderKey}
                     direction="backward"

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { act, useState } from 'react'
-import { createRoot, type Root } from 'react-dom/client'
 import { createPortal } from 'react-dom'
+import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
@@ -18,12 +18,12 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsFieldMeasure,
-  DsNumberFieldGrid,
   DsInlineComposer,
   DsInspectorHost,
   DsInspectorPortal,
   DsInspectorSection,
   DsInspectorTabs,
+  DsNumberFieldGrid,
   DsObjectHero,
   DsObjectWorkspace,
   DsPropertyGrid,
@@ -209,6 +209,16 @@ describe('object workbench recipes', () => {
     const actions = host.querySelector<HTMLElement>('.ds-action-group')!
     expect(actions.dataset.density).toBe('compact')
     expect(actions.querySelectorAll('.ds-button')).toHaveLength(2)
+
+    await act(async () =>
+      root.render(
+        <DsActionGroup density="default">
+          <DsButton>上移</DsButton>
+          <DsButton>删除</DsButton>
+        </DsActionGroup>,
+      ),
+    )
+    expect(host.querySelector<HTMLElement>('.ds-action-group')?.dataset.density).toBe('default')
 
     await act(async () =>
       root.render(
