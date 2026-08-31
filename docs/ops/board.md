@@ -25,7 +25,7 @@
 | ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | done | 全部增量三方 accept + 用户验收齐，整卡收口 | contentLayout form/list；Shop 公共 panel + danger 下架；角色视觉与 surface 四桶闭合 |
 | ED-ACTION-GROUP-SPEC-1 | DsActionGroup 公共规范登记与 DS 2.22.0 升线 | draft | 待开卡补前提真值与 Codex/Kimi/GLM build 前签字；不得实现 | 登记不可拆动作组、compact 32px 合同与版本四处同步；承接 GLM P2，顺延至 wide track 2.21 后 |
 | ED-FIELD-LABEL-TRACK-WIDE-1 | 编辑器整组宽标签轨合同 | draft | 待 Kimi/GLM premise/design 签字；不得实现 | DsFieldGroup wide=160px/<560 stacked；RoleBindings 唯一首批采用；DS 2.21.0 |
-| ED-ITEM-ALCHEMY-SURFACE-1 | 炼蛊皿与紫金葫芦双炼化工作台 | build | Codex 唯一 Coding Owner；Store0 migration 后实施 | 三签齐：双独立 route、唯一 ItemData owner、registry 两 adoption 迁绑、`===` fail-loud |
+| ED-ITEM-ALCHEMY-SURFACE-1 | 炼蛊皿与紫金葫芦双炼化工作台 | review | Codex `54ba9c2e` accept；待 Kimi/GLM 终审与用户验收 | 双单一机制 route、实际扣除值、Enemy 来源闭环、29/32 registry 与 strict invariant 已实现 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
 | ARCH-ACTOR-CONDITION-SEED-1 | 入口与剧情入队角色当前状态播种 | done | 三方 accept + 用户验收齐，整卡收口 | content19 三 carrier 全链闭合；三路只读审计无剩余 blocker，PAL replay 为零 |
 | ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | done | 三方 accept + 用户复验齐，整卡收口 | Hero 56px 复用 idle.start，同缓存防串图；EnemyTeam/Vars 无媒体，六面 census 闭合 |

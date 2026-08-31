@@ -1,6 +1,6 @@
 # ED-ITEM-ALCHEMY-SURFACE-1 - 炼蛊皿与紫金葫芦双炼化工作台
 
-Status: build
+Status: review
 Phase: phase2
 Capability: Editor item authoring（不改变 capability-map）
 Coding Owner: Codex
@@ -26,12 +26,16 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 
 - 范围内：
   - `EDITOR_MODULES` 的物品模块新增两个独立子页：`炼蛊皿`、`紫金葫芦`；不新增一级模块。
-  - 两页分别从 live items 派生 `craftRecipe` 与 `drawFromResourcePool` owner；PAL 当前各恰一项（268 / 270）。
+  - 两页分别从 live items 派生唯一 `craftRecipe` 与 `drawFromResourcePool` canonical owner；PAL 当前各恰一项
+    （268 / 270）。页面不把内部承载物品伪装成可新增的对象目录；零 owner、多 owner、重复 effect 均 fail-loud。
   - 新增共享炼化工作区壳，但两页使用独立 route、标题、帮助、列表语义与测试。
-  - 复用 `DsCatalogWorkspace`、`DsObjectWorkspace`、`DsObjectHero`、`DsWorkbenchSection`、
-    `DsInspectorHost`；form 区使用默认 inset，配方 / 档位直接列表使用 `contentLayout="list"`。
+  - 复用 `DsObjectWorkspace`、`DsObjectHero`、`DsWorkbenchSection`、`DsInspectorHost`；两页没有左侧
+    Catalog/outliner，中央机制工作区铺满左栏与中央列；form 区使用默认 inset，配方 / 消耗值直接列表使用
+    `contentLayout="list"`。
   - 继续通过 `UpdateItemCommand` 修改原 ItemData；补齐 route deep link、引用跳转、undo/redo 与删除保护。
   - Item 页撤下这两种 effect 的详细表单，只保留只读摘要、owner 物品信息和精确页面跳转，防止双编辑面。
+  - Enemy 页把 `stats.collectValue` 从“战后结算/收妖值”中拆出为“灵葫咒收服/收服获得灵葫值”，并在敌人
+    Catalog 与 Hero 直接显示“收服 +N 灵葫值”（含 `+0`）；明确它不是自动战后奖励。
   - 当前 canonical 收紧 `drawFromResourcePool.rewards.length === maxRoll`；current census 只有 PAL item270，
     当前为 9 === 9。若 build 前发现其他真实输入不满足，任务转 blocked，不得静默裁剪。
 - 范围外：
@@ -111,18 +115,20 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 
 ### 页面一：物品 > 炼蛊皿
 
-- 左侧：只列含 `craftRecipe` effect 的物品；PAL 当前只显示“炼蛊皿 268 · 5 条配方”。
+- 页面是单一项目机制，不显示“1 件”、owner 列表或“添加炼蛊皿”；内部唯一 owner 是 PAL item268。
 - 中间：Hero 显示 owner 物品；“炼蛊配方”用 edge-to-edge list，每行明确“材料 → 产物”，顺序即运行时优先级；
   复用现有 recipe editor / reorder / picker / Command，不复制 adapter。
 - 右侧：摘要、优先级公式、物品引用与诊断；不复制详细表单。
-- 详细 effect 的新增 / 删除 / 配方增删改 / 排序仅此页可做；Item 页只显示摘要和跳转。
+- 配方增删改 / 排序仅此页可做；机制 effect 本身不在 UI 新增或删除，Item 页只显示摘要和跳转。
 
 ### 页面二：物品 > 紫金葫芦
 
-- 左侧：只列含 `drawFromResourcePool` effect 的物品；PAL 当前只显示“紫金葫芦 270 · 9 档”。
-- 中间：Hero 显示 owner 物品；form 区显示 resource 与档数；“灵葫炼丹档位”用 edge-to-edge list。
-- 每行序号是稳定档位，文案固定为“消耗 N 灵葫值”，只允许编辑奖励 item/count；不得出现买价、售价或可选配方。
-- 增减档位必须原子同步 `maxRoll` 与 rewards 长度；重排奖励属于概率 / 消耗语义变化，必须使用明确移动动作和
+- 页面是单一项目机制，不显示“1 件”、owner 列表或“添加紫金葫芦”；内部唯一 owner 是 PAL item270。
+- 中间：Hero 显示内部承载物品；form 区把固定 `collectValue` 资源显示为只读事实，只允许编辑单次最高实际
+  消耗；“实际灵葫值消耗 → 奖励”用 edge-to-edge list。不得把 resource 改成任意 ID 后继续显示灵葫值文案。
+- 数组位置 `index + 1` 同时是 runtime 抽中值与**本次实际扣除值**；界面不再重复显示普通排序圆圈，固定文案为
+  “实际扣除 N 灵葫值 → 奖励”，只允许编辑奖励 item/count；不得出现买价、售价或可选配方。
+- 增减实际消耗行必须原子同步 `maxRoll` 与 rewards 长度；重排奖励属于概率 / 消耗语义变化，必须使用明确移动动作和
   具体 aria，不得伪装成纯展示排序。
 - 右侧：显示 PAL_CLASSIC 公式、当前资源 owner、奖励引用与不可达档位诊断；不编辑第二份数据。
 
@@ -132,6 +138,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 - `UpdateItemCommand` / EditSession history 是唯一 mutation owner；一次动作最多一条命令，undo/redo 可逆。
 - Item 页对 `craftRecipe` / `drawFromResourcePool` 详细字段改为只读摘要 + 精确 deep link。
 - Shop 页只拥有 ShopDef；Enemy 页只拥有敌人 collectValue；Skill 页只拥有 collectTreasure；入口页只拥有资源初值。
+- Enemy 的 `collectValue` 仍由 Enemy 页唯一编辑；双炼化页只消费并解释全局 `world.collectValue`，不复制每敌数值。
 
 ## 验收条件
 
@@ -141,12 +148,15 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 - 语义：炼蛊皿显示“材料 → 产物”和优先级；紫金葫芦显示“消耗 1..9 灵葫值 → 奖励”，无价格文案。
 - invariant：所有 `drawFromResourcePool` 均满足 rewards.length === maxRoll；档位从 1 连续到 N，count 正整数，
   item 引用存在；奖励移动同步改变档位，不产生 cost 字段。
-- 交互：新增 / 删除 / 调整 / picker / undo / redo 单命令；危险动作 danger icon + 具体 aria；窄宽动作组不拆。
-- 空态：无匹配 effect、owner 物品删除、引用丢失、候选为空分别有明确状态，不跳到其他对象掩盖错误。
+- 交互：配方 / 消耗值的新增、删除、调整、picker、undo、redo 均单命令；危险动作 danger icon + 具体 aria；
+  窄宽动作组不拆；两页不得新增 / 删除第二个机制 owner。
+- 空态：零 owner、多 owner、重复 effect、owner 物品删除、引用丢失分别有明确状态，不跳到其他对象掩盖错误。
 - 测试：navigation/DataMode、两页组件、Item 摘要跳转、validator、refs/delete protection、commands、DS gate；
   受影响 editor/content 全量各只跑一次。
 - 视觉：1280 / 900 / 720 与 200% 检查两页列表、formula、长名称、滚动 owner、Inspector、无横向溢出。
 - 与 migration 联验：Shop 目录无 0 号；两页仍精确显示 item268 / 270 数据；不得靠 UI 隐藏 Shop0。
+- 来源闭环：敌人目录和 Hero 显示每敌“收服 +N 灵葫值”（含 `+0`）；数值面板单列“灵葫咒收服”，帮助文案
+  明确成功收服才增加全局灵葫值，`0` 表示不增加灵葫值；不得继续归入自动“战后结算”。
 
 ## 推进签字
 
@@ -270,7 +280,11 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-31，`54ba9c2e`）**——双独立 route、单一机制 IA、Item 页只读摘要与 use
+  switch 防绕过、`collectValue` 只读、严格 `rewards.length === maxRoll`、指定行删除、两类 reorder 单命令
+  undo/redo、引用深链/删除保护、29/32 registry 闭包与 Enemy 来源显示均已自审；两轮只读 blocker 复核后
+  P0/P1 清零。实际 200% 浏览器缩放受当前 in-app Browser 固定 viewport 限制，已做 660px main 宽代理且无
+  溢出，仍指定 Kimi 或用户在 done 前补一次真实 200% 观感确认。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -279,16 +293,65 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 ## Draft / Build / Review
 
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
-- Build：2026-08-31 Codex 按三签准入开工；仍为唯一 Coding Owner，并在 Store0 migration 切片后实施。
-- Review：pending。
+- Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
+  固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
+- Review：2026-08-31 Codex 自审 accept；Kimi / GLM 当前实现终审与用户实现验收 pending。
+
+### Build / Review 证据
+
+- 实现提交：`54ba9c2e feat(editor): add item alchemy mechanism workbenches`；未推送。
+- current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
+  `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
+  `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
+  `collectValue>0`、53 个为 0，范围 0..99。
+- exact scope：本提交未改 `projects/pal` 或 migration baseline，未新增 schema/content 文件，content19 / SAVE8
+  不变；paired migration 的首次 plan / replay / 独立二次零计划证据继续见依赖卡。
+- 聚焦：核心 adapter、两机制 UI、Item 摘要、Enemy 来源、navigation/DataMode/App 深链、delete protection、
+  effect/reorder/add-picker/field/overflow/adoption gates 均绿；两位只读复核最终均报 P0/P1 清零。
+- 全量（按纪律各一次）：content `34 files / 464 tests` 全绿 + typecheck；editor 全量第一次且唯一一次为
+  `179/183 files、1490/1494 tests` 通过，4 个失败均为实现后陈旧静态期望/并发超时；修正后只复跑这 4 个
+  失败文件，`4 files / 95 tests` 全绿，不重复 editor 全量；editor typecheck 全绿。
+- lint：本任务新增/核心文件定向 Biome check 全绿；仓库级 `pnpm lint` 仍被任务前既有 338 项跨包 lint debt
+  阻断，本卡未越界清理。
+- 浏览器 1280：两页无 outliner/数量徽标/owner 新增删除；紫金葫芦 9 行、0 个重复圆圈、resource 无输入、
+  document/main 均无横向溢出；增加实际消耗值 `9→10`、undo `10→9`、redo `9→10`、最终 undo 回 9。
+- 响应式实机：通过键盘调整真实 Inspector 宽度，把 main 精确压到 893px / 718px / 660px；两机制行
+  `scrollWidth <= clientWidth`，718px 两页截图无横向溢出。真实浏览器 200% zoom 仍待 Kimi/用户补验。
+- 视觉证据（忽略目录，禁止提交）：
+  - `.mimosa/evidence/ITEM-ALCHEMY-CRAFTING-1280.png`
+  - `.mimosa/evidence/ITEM-ALCHEMY-CRAFTING-720.png`
+  - `.mimosa/evidence/ITEM-ALCHEMY-SPIRIT-GOURD-1280.png`
+  - `.mimosa/evidence/ITEM-ALCHEMY-SPIRIT-GOURD-900.png`
+  - `.mimosa/evidence/ITEM-ALCHEMY-SPIRIT-GOURD-720.png`
+  - `.mimosa/evidence/ENEMY-CAPTURE-COLLECT-VALUE-1280.png`
+  - `.mimosa/evidence/ENEMY-CAPTURE-FIELD-1280.png`
+  - `.mimosa/evidence/ENEMY-CAPTURE-ZERO-1280.png`
 
 ## 用户验收
 
 - 产品方向: **approved（2026-08-31）**——用户明确要求炼蛊皿 / 紫金葫芦两个页面。
+- IA 细化: **approved（2026-08-31）**——用户明确指出两者都是机制，不存在对象列表；撤销两页的 owner
+  Catalog、数量徽标与新增 / 删除 owner 入口。用户进一步确认行号 N 是本次实际灵葫值扣除；界面移除重复排序圆圈，
+  改为“实际扣除 N 灵葫值”。该细化不改变 canonical owner、schema、runtime 公式或双独立 route 前提。
+- 来源闭环: **approved（2026-08-31）**——用户追问每个敌人的实际灵葫值是否在 Enemy 页显示；实现改为目录、
+  Hero 与专属“灵葫咒收服”字段三处同源显示，替换易误读为自动战利品的“战后结算 / 收妖值”。
 - 实现验收: pending。
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: build 期视觉复核发现双页被误做成 owner 对象目录。用户先指出紫金葫芦、随后确认
+  炼蛊皿同理，裁决两者均为单一机制页；撤掉左侧列表 / “1 件” / 添加 owner / 删除机制，并隐藏不存在的左栏开关与
+  分隔条。另确认数组位置 N 是 runtime 实际扣除 N 点灵葫值，撤掉重复圆圈序号并改为明确扣除文案。premise 与
+  双 route 不变，实际 IA 由 done 前 reviewer 按本条增量复审。
+- 2026-08-31 User/Codex: 用户继续追问每敌收服所得灵葫值。直读 runtime 确认只有灵葫咒 `collectTreasure`
+  成功时才把 `Enemy.stats.collectValue` 累进全局值，原 Enemy 页虽有“收妖值”字段却误放在“战后结算”。本轮将其
+  拆成专属收服组，并在 153 个敌人的 Catalog / 当前 Hero 显示实际 `+N`（含 `+0`）；不改 schema/runtime/data。
+  复核同时发现原版 0x33 的零值跳转与 current reforge `collectTreasure -> instantKill` 对零值的行为可能不一致；
+  本卡只如实显示 current “收服 +0”，不越界修改运行时，后续须另开机制真值卡核验。
+- 2026-08-31 Codex: `54ba9c2e` build 收口。两位只读审查先报 effect census、use switch 绕过、resource
+  误可编辑、零值失真、DS registry/测试证据等 blocker；逐项修复后复核均确认无剩余 P0/P1。content 全量绿；
+  editor 全量仅跑一次，4 个静态失败精确复跑绿；1280/893/718/660 main 功能视觉证据落 `.mimosa`。状态转
+  review，Codex accept；Next: Kimi / GLM 当前提交终审，用户复验，三方 accept + 用户验收前不得 done。
 - 2026-08-31 Codex: 核对 Kimi KE1-KE6 / GLM GM-B1-GM-B4 三签齐、无 counter，状态转 build；
   按依赖先完成 Store0 migration，再实施两个独立 route 与唯一编辑 owner。
 
@@ -317,28 +380,22 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 ## 下一位 Agent 提示词
 
 ```text
-开工 build ED-ITEM-ALCHEMY-SURFACE-1（Codex，唯一 Coding Owner）。
+终审 ED-ITEM-ALCHEMY-SURFACE-1（Kimi 或 GLM，只读 reviewer）。
 
 任务卡：docs/ops/tasks/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md
-当前状态：三签齐（Codex + Kimi KE1-KE6 + GLM GM-B1~B4，无 counter），build 准入（签字面）
-allowed；开工时把 Status 转 build；与 MIG-PAL-STORE0-SHOP-BOUNDARY-1 按依赖串行（Shop0 清理
-只由 MIG 卡负责，本卡不得在 ShopTab 加隐藏规则）。
+当前状态：review；实现提交 `54ba9c2e`，Codex accept；Kimi / GLM / 用户 done 前验收 pending。
+不得修改实现、不得代签另一席、签字不足不得标记 done。
 
 已冻结结论：item268=5 条 craftRecipe（117..121→148）、item270=9 档 drawFromResourcePool
 （rewards.length===maxRoll=9、序列 [100,105,95,112,72,131,97,102,111]）、全项目各恰一项；
 档位 index+1 即灵葫消耗，无 cost 字段；现 ItemData.use.effects 是唯一 canonical owner。
 
-build 必落钉：KE1 物品模块恰两个独立 route（子页 ≤5、deep link/back 稳定）；KE2 直写现
-ItemData、UpdateItemCommand 唯一 mutation owner、无 alchemy.json/cost 镜像/content20；
-KE3 炼蛊皿显示材料→产物与优先级、紫金葫芦每行“消耗 N 灵葫值 → 奖励”无价格文案、Item 页
-两种 effect 只留摘要 + 精确跳转（GM-B4 静态断言防双详细面）；KE4/GM-B3 增减档位原子同步
-maxRoll 与 rewards（resizeRewards 语义）、奖励移动为语义变化须明确动作 + 具体 aria、每动作
-恰一条命令 + dispatch 计数 spy；GM-B1 `===` 收紧带 census 与正负例 fail-loud；KE5/GM-B2
-item/craft-recipes 与 item/resource-reward-tiers 两条 reorder adoption 同变更重绑到新页面
-owner 并修正失真 dataPath（use.effects[*].drawFromResourcePool.rewards），29-adoption census
-与 AST owner 门禁持续闭合、不得新增第 30 个未登记入口。
-验证：navigation/DataMode、两页组件（5 配方/9 档逐字、无价格断言）、Item 摘要跳转、validator、
-refs/delete protection、commands、DS gate；受影响 editor/content 全量各只跑一次；1280/900/720
-+200% 视觉档；与 migration 联验 Shop 目录无 0 号。
-输出：build + 自测后重签 Codex accept 转 review，交 Kimi / GLM 终审；任一钉无法满足停线转 blocked。
+终审重点：两页必须是无 Catalog 的单一机制；`collectValue` 只读，封顶后 N 是实际扣除；Item 页不能增删/
+换型/关闭机制 owner；两 reorder adoption 保持 18 families / 29 adoptions / 32 dataPaths / 20 owner files；
+指定中间行删除、两类移动、picker/count/delete 均一动作一命令且 undo/redo；Enemy 目录/Hero/专属字段显示
+“收服 +N 灵葫值”（含 +0），不得称自动战后奖励或不可收服；Shop0 仍只由 migration 清理。
+
+验证证据见卡面 Build / Review 证据；请独立读 `54ba9c2e` 与当前测试。Kimi 重点审 IA/视觉并补真实 200%
+缩放；GLM 重点复算 5/9、strict invariant、registry census、引用/删除/测试矩阵。输出 accept，或 file:line +
+复现反例 counter；写回任务卡与交接记录。三方 accept + 用户实现验收齐前不得 done。
 ```
