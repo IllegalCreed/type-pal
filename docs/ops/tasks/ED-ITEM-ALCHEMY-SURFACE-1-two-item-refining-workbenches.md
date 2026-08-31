@@ -290,8 +290,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `DsSelectField + DsDraftNumberField`，数量使用标准 `− / number / +` 步进器。CSS伪元素连接符两次验收均因
   测量盒不包含真实箭头像素而被用户截图推翻；`55b5e981` 最终删除伪元素，改用 viewBox 32×16、path
   `M3 8h26M23 2l6 6-6 6` 的对称 SVG。浏览器直接测 path 渲染边界 522..548、中心535，精确等于真实控件
-  空隙中心535；720 path中心偏差同为0。聚焦测试、typecheck、DS gate、无溢出/无脏写均通过；
-  数据/schema/runtime/migration 零变化，恢复 Codex accept。
+  空隙中心535；720 path中心偏差同为0。`35843eb7` 进一步把紫金葫芦奖励从 `DsRepeatRow` 正式迁为
+  Shop式 `edge-to-edge-list`：逐项卡框/圆角/raised背景清零，只保留底部分割线，输入36px、动作32px。
+  聚焦测试、typecheck、DS gate、无溢出/无脏写均通过；数据/schema/runtime/migration 零变化，恢复 Codex accept。
 - Kimi: **accept（2026-08-31，只读终审七提交最终组合态（`54ba9c2e` + `1b090cb2` + `aacf68b7` +
   `314e3a52` + 三张 MIG——后三者本日已由本席逐卡独立终审 accept）+ 本人静态核对、聚焦复跑与
   1280/720 实机测量，不重审已通过范围，非复述 Codex/GLM）**。按 KE1-KE6 与卡面六区逐项核验：
@@ -404,10 +405,10 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 用户验收: pending（历史组合态曾 approved；最新数量字段与连接符增量待复验）
 - done 准入结论: **blocked（最新增量仅 Codex accept；待 Kimi / GLM 增量 accept + 用户复验）**
 
-### 数量字段 / 连接符增量复审
+### 数量字段 / 连接符 / 奖励列表表面增量复审
 
-- Codex: **accept（2026-08-31，`314e88e3` + `55b5e981`）**——标准数量字段与对称SVG连接符均按
-  真实控件/实际path渲染边界复验通过；`f7cc5770` / `b6d751c4` 两次错误居中证据仅作历史保留。
+- Codex: **accept（2026-08-31，`314e88e3` + `55b5e981` + `35843eb7`）**——标准数量字段、
+  对称SVG连接符与Shop式edge奖励列表均实机复验通过；`f7cc5770` / `b6d751c4` 两次错误居中证据仅作历史保留。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -428,7 +429,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `314e88e3 fix(editor): label alchemy quantity fields`；连接符居中：
   `f7cc5770 fix(editor): clarify alchemy quantity flow` +
   `b6d751c4 fix(editor): center alchemy flow connector`（两次 CSS 方案均被用户复验推翻）+
-  `55b5e981 fix(editor): use symmetric alchemy flow glyph`（最终对称SVG）；均未推送。
+  `55b5e981 fix(editor): use symmetric alchemy flow glyph`（最终对称SVG）；紫金葫芦奖励列表表面：
+  `35843eb7 fix(editor): flatten spirit gourd reward rows`；均未推送。
 - current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
   `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
   `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
@@ -463,6 +465,11 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 最新验证：ItemAlchemy + number-field/field-layout/boundary `4 files / 80 tests` 全绿；editor typecheck、
   design-system gate（91 files / 2 evidence-bound exceptions）、定向 Biome 与 `git diff --check` 通过；
   未重复此前 editor 全量。Biome 仅报告 editor.css 既有 visually-hidden `!important` warnings，本增量未触碰。
+- 奖励列表表面增量：`item/resource-reward-tiers` 从 repeat-row 正式重分类为 edge-to-edge-list；surface census
+  repeat-row 9→8、edge 2→3，总 adoption 29不变。DOM 不再含 DsRepeatRow；行与 Shop 同为透明背景、圆角0、
+  四边中仅 bottom 1px、padding 9px/14px（reorder rail为拖拽柄把左侧computed扩到38px，Shop同值）、列表/内容
+  x与width完全一致。默认select/input均36px，三个动作均32×32；主面板734px时connector向下、动作组整组下沉，
+  row/main/body overflow均0。聚焦6 files / 91 tests、typecheck、DS gate绿；数据/command不变量未变。
 - 响应式实机：通过键盘调整真实 Inspector 宽度，把 main 精确压到 893px / 718px / 660px；两机制行
   `scrollWidth <= clientWidth`，718px 两页截图无横向溢出。真实浏览器 200% zoom 仍待 Kimi/用户补验。
 - 视觉证据（忽略目录，禁止提交）：
@@ -500,10 +507,16 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 紫金葫芦不可用提示: **rework（2026-08-31）**——用户指出该字段也为空。核验确认 0x34 在
   collectValue=0 时通过 operand0 跳 L38780，原版旁白“无任何效果”；当前 producer 漏失败臂。已开
   `MIG-PAL-GOURD-FAILURE-MESSAGE-1`，禁止 UI/runtime fallback 或手改 current；本卡继续 blocked。
-- 实现验收: pending（最新数量字段与连接符增量待用户复验）。
+- 奖励列表表面: **rework（2026-08-31）**——用户要求紫金葫芦参考Shop货单，移除每项重复卡框、只用
+  分割线并采用规范组件尺寸。`35843eb7` 已迁为edge-to-edge-list，待增量终审/复验。
+- 实现验收: pending（最新数量字段、连接符与奖励列表表面增量待用户复验）。
 
 ## 交接记录
 
+- 2026-08-31 Codex: `35843eb7` 删除紫金葫芦奖励行的 DsRepeatRow，正式把reorder surface从repeat-row迁为
+  edge-to-edge-list并同步taxonomy/field/number/DS registry。与Shop实机对照：透明、radius0、仅bottom1px、
+  同padding/边界；select/input36px、动作32px。主面板734px connector保留向下、动作不拆、overflow0。
+  6 files / 91 tests、typecheck、DS gate绿；canonical数据与命令语义零变化。Codex accept。
 - 2026-08-31 Codex: `55b5e981` 删除不可可靠测量的 CSS 伪元素箭头，改用 viewBox 32×16 的对称SVG path。
   1280直接读取 path实际渲染边界522..548、中心535，与真实控件空隙中心535完全一致；720旋转后path中心
   偏差同为0px，overflow=0、无脏写。ItemAlchemy/field-layout 2 files / 16 tests、typecheck、DS gate绿。
@@ -617,6 +630,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - `f7cc5770 fix(editor): clarify alchemy quantity flow`
 - `b6d751c4 fix(editor): center alchemy flow connector`
 - `55b5e981 fix(editor): use symmetric alchemy flow glyph`
+- `35843eb7 fix(editor): flatten spirit gourd reward rows`
 Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
 
 请只审最新增量及其与既有一进一出表面的组合：
@@ -630,8 +644,13 @@ Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
    居中证据已作废，不得复用。请直接测 path 渲染边界：1280材料数量stepper右边缘505、产物输入左边缘565、
    空隙中心535；path边界522..548、中心535，左右各13px、偏差0px。720旋转向下后path中心偏差0px；
    两档无row/body overflow、stepper不裁切、保存无脏写。
+5. 紫金葫芦奖励是否正式从DsRepeatRow/repeat-row迁为Shop式edge-to-edge-list：DOM无DsRepeatRow，
+   逐项四边框/圆角/raised背景为0，仅bottom 1px divider；列表和内容边界同宽同x。select/input默认36px、
+   动作32px；surface census repeat 8 / edge 3 / 总adoption29。734px主面板connector仍显示并向下、动作组不拆、
+   row/main/body overflow均0。rewards顺序、maxRoll同步、单命令/undo与canonical数据不得变化。
 
 Kimi 重点审可视对齐/1280/720/200%；GLM 重点审DOM、command、registry/census与零数据漂移。
-请在任务卡“数量字段 / 连接符增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，并追加交接记录。
+请在任务卡“数量字段 / 连接符 / 奖励列表表面增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，
+并追加交接记录。
 不得代签另一席、不得填写用户验收、不得标记done、不得修改实现或推送。
 ```
