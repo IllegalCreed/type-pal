@@ -108,9 +108,9 @@ describe('reorder visible surface adoption gate', () => {
         ]),
       ),
     ).toEqual({
-      'repeat-row': 9,
+      'repeat-row': 8,
       'object-card': 13,
-      'edge-to-edge-list': 2,
+      'edge-to-edge-list': 3,
       'continuous-structure': 5,
     })
     for (const adoption of adoptions) {
@@ -133,7 +133,7 @@ describe('reorder visible surface adoption gate', () => {
         .filter((entry) => entry.contentSurface === 'edge-to-edge-list')
         .map((entry) => entry.adoptionId)
         .sort(),
-    ).toEqual(['asset/cutscene-import-frames', 'shop/stock'])
+    ).toEqual(['asset/cutscene-import-frames', 'item/resource-reward-tiers', 'shop/stock'])
     expect(
       [...byId.values()]
         .filter((entry) => entry.contentSurface === 'continuous-structure')
@@ -154,7 +154,6 @@ describe('reorder visible surface adoption gate', () => {
     for (const adoptionId of [
       'enemy/ai-rules',
       'enemy-team/fixed-slots',
-      'item/resource-reward-tiers',
       'actor/initial-magic',
       'story/dialogue-cue-rows',
       'story/set-party-members',
@@ -171,13 +170,18 @@ describe('reorder visible surface adoption gate', () => {
     )
 
     for (const adoption of adoptions) {
-      if (!['repeat-row', 'object-card'].includes(adoption.contentSurface)) continue
+      if (!['repeat-row', 'object-card', 'edge-to-edge-list'].includes(adoption.contentSurface))
+        continue
       expect(adoption.contentOwner.file, adoption.adoptionId).toMatch(/\.tsx$/)
       const owners = jsxOwners(adoption.contentOwner.file, adoption.contentOwner.fingerprint)
       expect(owners, `${adoption.adoptionId} content owner`).toHaveLength(1)
       const owner = owners[0]!
       if (adoption.contentSurface === 'repeat-row')
         expect(owner.tag, `${adoption.adoptionId} must consume DsRepeatRow`).toBe('DsRepeatRow')
+      else if (adoption.contentSurface === 'edge-to-edge-list')
+        expect(owner.tag, `${adoption.adoptionId} edge row must not consume DsRepeatRow`).not.toBe(
+          'DsRepeatRow',
+        )
       else {
         expect(owner.tag, `${adoption.adoptionId} object card owner`).not.toBe('DsRepeatRow')
         expect(
@@ -188,11 +192,10 @@ describe('reorder visible surface adoption gate', () => {
     }
   })
 
-  test('moves all six debt owners to DsRepeatRow instead of layering private skins', () => {
+  test('moves the remaining five debt owners to DsRepeatRow instead of layering private skins', () => {
     const expectations: Array<[string, RegExp]> = [
       ['EnemyTab.tsx', /<DsRepeatRow[^>]*className="rule-row"/s],
       ['EnemyTeamTab.tsx', /<DsRepeatRow[^>]*className="enemy-team-slot"/s],
-      ['ItemAlchemyEditors.tsx', /<DsRepeatRow[^>]*className="item-alchemy-reward-row"/s],
       ['ActorMode.tsx', /<DsRepeatRow[^>]*className="actor-initial-magic-row"/s],
       ['CommandForm.tsx', /<DsRepeatRow[^>]*className="cf-dialog-row"/s],
       ['CommandForm.tsx', /<DsRepeatRow[^>]*className="cf-party-row"/s],
@@ -210,7 +213,6 @@ describe('reorder visible surface adoption gate', () => {
     for (const selector of [
       '.actor-initial-magic-row',
       '.enemy-team-slot',
-      '.item-alchemy-reward-row',
       '.cf-dialog-row',
       '.cf-party-row',
       '.rule-row',
@@ -222,12 +224,16 @@ describe('reorder visible surface adoption gate', () => {
     expect(css).not.toMatch(/\.rr-[\w-]+\s*\{[^}]*\bflex\s*:/s)
   })
 
-  test('keeps Shop edge-to-edge while using the public compact action-group hit target', () => {
+  test('keeps Shop and spirit-gourd edge-to-edge while using compact action-group hit targets', () => {
     const shop = source('ShopTab.tsx')
     const recipes = source('design-system/recipes.tsx')
     const recipeCss = source('design-system/recipes.css')
     expect(shop).toMatch(/<DsActionGroup[^>]*className="shop-stock-actions"/s)
     expect(shop).toContain('<div className="shop-stock-row">')
+    const alchemy = source('ItemAlchemyEditors.tsx')
+    expect(alchemy).toMatch(/<DsActionGroup[^>]*className="item-alchemy-row-actions"/s)
+    expect(alchemy).toContain('<div className="item-alchemy-reward-row">')
+    expect(alchemy).not.toMatch(/<DsRepeatRow[^>]*className="item-alchemy-reward-row"/s)
     expect(recipes).toContain('export function DsActionGroup')
     expect(
       cssRule(recipeCss, '.ds-action-group[data-density="compact"] .ds-icon-button'),

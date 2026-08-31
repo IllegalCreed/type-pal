@@ -250,7 +250,7 @@
           "commandOwner": "UpdateItemCommand",
           "revisionOwner": "EditSession.historyVersion",
           "verification": ["ui/ItemAlchemyTab.test.tsx"],
-          "contentSurface": "repeat-row",
+          "contentSurface": "edge-to-edge-list",
           "contentOwner": {
             "file": "ItemAlchemyEditors.tsx",
             "fingerprint": "className=\"item-alchemy-reward-row\""

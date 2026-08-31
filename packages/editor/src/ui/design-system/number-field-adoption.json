@@ -376,10 +376,10 @@
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberInput",
-      "measure": "specialized-css",
-      "grid": "repeat-row",
+      "measure": "canonical-short",
+      "grid": "edge-to-edge-list",
       "owner": "card:ED-ITEM-ALCHEMY-SURFACE-1",
-      "reason": "灵葫奖励数量与档位、物品和排序动作同行。",
+      "reason": "灵葫奖励数量位于edge-to-edge档位行，使用公共默认高度与标准短数字宽度。",
       "verification": "ItemAlchemyTab.test.tsx#spirit-gourd",
       "removalCondition": "档位行取消数量编辑时删除。"
     },

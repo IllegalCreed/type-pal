@@ -3772,18 +3772,39 @@ html[data-panel-resize="horizontal"] * {
 }
 .item-alchemy-reward-row {
   display: grid;
-  grid-template-columns: minmax(11rem, 0.42fr) auto minmax(10rem, 1fr) minmax(4.5rem, 6rem) auto;
+  grid-template-areas: "cost flow reward count actions";
+  grid-template-columns:
+    minmax(10rem, 0.38fr) 2.75rem minmax(12rem, 1fr) var(--ds-field-measure-short-number)
+    auto;
   align-items: center;
   gap: var(--ds-space-3);
   min-height: 60px;
+  padding: 9px 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+}
+.item-alchemy-reward-row:hover {
+  background: color-mix(in srgb, var(--accent) 4%, var(--ds-surface-panel));
 }
 .item-alchemy-reward-cost {
+  grid-area: cost;
   color: var(--fg);
   font-size: 13px;
   font-weight: 650;
   white-space: nowrap;
 }
+.item-alchemy-reward-row > .item-alchemy-formula-arrow {
+  grid-area: flow;
+  align-self: center;
+}
+.item-alchemy-reward-item {
+  grid-area: reward;
+  min-width: 0;
+}
+.item-alchemy-reward-count {
+  grid-area: count;
+}
 .item-alchemy-row-actions {
+  grid-area: actions;
   justify-self: end;
 }
 .item-alchemy-inline-error {
@@ -3826,19 +3847,15 @@ html[data-panel-resize="horizontal"] * {
     transform: rotate(90deg);
   }
   .item-alchemy-reward-row {
-    grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 6rem);
+    grid-template-areas:
+      "cost cost"
+      "flow flow"
+      "reward count"
+      "actions actions";
+    grid-template-columns: minmax(0, 1fr) var(--ds-field-measure-short-number);
   }
   .item-alchemy-reward-row > .item-alchemy-formula-arrow {
-    display: none;
-  }
-  .item-alchemy-reward-row > .ds-select {
-    grid-column: 1;
-  }
-  .item-alchemy-reward-count {
-    grid-column: 2;
-  }
-  .item-alchemy-row-actions {
-    grid-column: 1 / -1;
+    transform: rotate(90deg);
   }
 }
 
@@ -3856,12 +3873,13 @@ html[data-panel-resize="horizontal"] * {
     grid-template-columns: minmax(0, 1fr);
   }
   .item-alchemy-reward-row {
+    grid-template-areas:
+      "cost"
+      "flow"
+      "reward"
+      "count"
+      "actions";
     grid-template-columns: minmax(0, 1fr);
-  }
-  .item-alchemy-reward-row > .ds-select,
-  .item-alchemy-reward-count,
-  .item-alchemy-row-actions {
-    grid-column: 1;
   }
 }
 .shop-empty-state h2 {

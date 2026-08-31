@@ -9,7 +9,6 @@ import {
   type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
-  DsRepeatRow,
   DsSelect,
   DsSelectField,
   DsSequenceIndex,
@@ -31,6 +30,22 @@ function itemOptions(items: readonly ItemData[], currentId: string) {
       : []),
     ...items.map((item) => ({ value: item.id, label: item.name, description: item.id })),
   ]
+}
+
+function ItemAlchemyFlowConnector(props: { label: string }) {
+  return (
+    <span className="item-alchemy-formula-arrow">
+      <svg
+        className="item-alchemy-formula-arrow__glyph"
+        viewBox="0 0 32 16"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M3 8h26M23 2l6 6-6 6" />
+      </svg>
+      <span className="ds-visually-hidden">{props.label}</span>
+    </span>
+  )
 }
 
 function RecipeAmountField(props: {
@@ -162,17 +177,7 @@ export function CraftRecipeList(props: {
                       patchRecipe(index, { ...recipe, ingredients: [ingredient] })
                     }
                   />
-                  <span className="item-alchemy-formula-arrow">
-                    <svg
-                      className="item-alchemy-formula-arrow__glyph"
-                      viewBox="0 0 32 16"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path d="M3 8h26M23 2l6 6-6 6" />
-                    </svg>
-                    <span className="ds-visually-hidden">炼成</span>
-                  </span>
+                  <ItemAlchemyFlowConnector label="炼成" />
                   <RecipeAmountField
                     label="产物"
                     entry={recipe.products[0]!}
@@ -246,27 +251,32 @@ export function ResourceRewardTierList(props: {
           const reorderKey = reorderKeys.keys[index]!
           return (
             <DsReorderItem itemKey={reorderKey} key={reorderKey}>
-              <DsRepeatRow density="compact" className="item-alchemy-reward-row">
+              <div className="item-alchemy-reward-row">
                 <span className="item-alchemy-reward-cost">实际扣除 {index + 1} 灵葫值</span>
-                <span className="item-alchemy-formula-arrow" aria-hidden="true">
-                  →
+                <ItemAlchemyFlowConnector label="对应奖励" />
+                <span className="item-alchemy-reward-item">
+                  <DsSelect
+                    size="default"
+                    aria-label={`实际扣除 ${index + 1} 灵葫值的奖励物品`}
+                    value={reward.itemId}
+                    options={itemOptions(props.items, reward.itemId)}
+                    onValueChange={(itemId) => {
+                      const next = [...rewards]
+                      next[index] = { ...reward, itemId }
+                      props.onChange({ ...props.effect, rewards: next })
+                    }}
+                  />
                 </span>
-                <DsSelect
-                  aria-label={`实际扣除 ${index + 1} 灵葫值的奖励物品`}
-                  value={reward.itemId}
-                  options={itemOptions(props.items, reward.itemId)}
-                  onValueChange={(itemId) => {
-                    const next = [...rewards]
-                    next[index] = { ...reward, itemId }
-                    props.onChange({ ...props.effect, rewards: next })
-                  }}
-                />
                 <span className="item-alchemy-reward-count">
                   <DsDraftNumberInput
+                    size="default"
                     aria-label={`实际扣除 ${index + 1} 灵葫值的奖励数量`}
+                    name={`spirit-gourd-reward-${index + 1}-count`}
+                    autoComplete="off"
                     draftKey={`${props.scopeKey}:reward:${reorderKey}:count`}
                     syncToken={props.revision}
                     min={1}
+                    step={1}
                     integer
                     enforceRange
                     value={reward.count}
@@ -303,7 +313,7 @@ export function ResourceRewardTierList(props: {
                     }
                   />
                 </DsActionGroup>
-              </DsRepeatRow>
+              </div>
             </DsReorderItem>
           )
         })}

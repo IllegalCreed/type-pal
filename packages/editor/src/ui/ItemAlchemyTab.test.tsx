@@ -223,6 +223,29 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
     expect(sourceRow.querySelector('input, textarea, [role="combobox"]')).toBeNull()
     expect(sourceRow.querySelector('code')?.textContent).toBe('collectValue')
     expect(rows).toHaveLength(9)
+    expect(rows.every((row) => !row.classList.contains('ds-repeat-row'))).toBe(true)
+    expect(rows.every((row) => row.getAttribute('data-density') === null)).toBe(true)
+    expect(
+      rows.every((row) => row.querySelector('.ds-select')?.getAttribute('data-size') !== 'compact'),
+    ).toBe(true)
+    expect(
+      rows.every(
+        (row) =>
+          row.querySelector<HTMLInputElement>('.item-alchemy-reward-count .ds-input')?.type ===
+            'number' &&
+          row
+            .querySelector<HTMLInputElement>('.item-alchemy-reward-count .ds-input')
+            ?.getAttribute('data-size') !== 'compact',
+      ),
+    ).toBe(true)
+    expect(
+      rows.every(
+        (row) =>
+          row.querySelector('.item-alchemy-row-actions')?.getAttribute('data-density') ===
+          'compact',
+      ),
+    ).toBe(true)
+    expect(rows.every((row) => row.querySelector('.item-alchemy-formula-arrow__glyph'))).toBe(true)
     expect(rows.every((row) => row.querySelector('.ds-sequence-index') === null)).toBe(true)
     expect(rows.map((row) => row.querySelector('.item-alchemy-reward-cost')?.textContent)).toEqual(
       Array.from({ length: 9 }, (_, index) => `实际扣除 ${index + 1} 灵葫值`),
