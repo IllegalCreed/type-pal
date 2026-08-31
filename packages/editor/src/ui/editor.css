@@ -3741,33 +3741,17 @@ html[data-panel-resize="horizontal"] * {
   min-height: var(--ds-control-height);
   color: var(--accent);
 }
-.item-alchemy-formula-arrow__line {
-  position: relative;
+.item-alchemy-formula-arrow__glyph {
   display: block;
   width: 2rem;
-  height: 2px;
-}
-.item-alchemy-formula-arrow__line::before {
-  position: absolute;
-  top: 50%;
-  right: 7px;
-  left: 0;
-  height: 2px;
-  border-radius: 999px;
-  background: currentcolor;
-  content: "";
-  transform: translateY(-50%);
-}
-.item-alchemy-formula-arrow__line::after {
-  position: absolute;
-  top: 50%;
-  right: 7px;
-  width: 0;
-  height: 0;
-  border-block: 5px solid transparent;
-  border-inline-start: 7px solid currentcolor;
-  content: "";
-  transform: translateY(-50%);
+  height: 1rem;
+  overflow: visible;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
 }
 .item-alchemy-amount-list {
   display: grid;

@@ -163,7 +163,14 @@ export function CraftRecipeList(props: {
                     }
                   />
                   <span className="item-alchemy-formula-arrow">
-                    <span className="item-alchemy-formula-arrow__line" aria-hidden="true" />
+                    <svg
+                      className="item-alchemy-formula-arrow__glyph"
+                      viewBox="0 0 32 16"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M3 8h26M23 2l6 6-6 6" />
+                    </svg>
                     <span className="ds-visually-hidden">炼成</span>
                   </span>
                   <RecipeAmountField

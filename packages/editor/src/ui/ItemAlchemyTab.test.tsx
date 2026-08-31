@@ -158,7 +158,12 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
       }
     })
     expect(host.textContent).not.toMatch(/添加材料|添加产物/)
-    expect(host.querySelectorAll('.item-alchemy-formula-arrow__line')).toHaveLength(5)
+    expect(host.querySelectorAll('.item-alchemy-formula-arrow__glyph')).toHaveLength(5)
+    expect(
+      [...host.querySelectorAll<SVGPathElement>('.item-alchemy-formula-arrow__glyph path')].every(
+        (path) => path.getAttribute('d') === 'M3 8h26M23 2l6 6-6 6',
+      ),
+    ).toBe(true)
     expect(
       [...host.querySelectorAll('.item-alchemy-formula-arrow .ds-visually-hidden')].every(
         (label) => label.textContent === '炼成',
