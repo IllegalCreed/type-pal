@@ -102,10 +102,95 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
     RoleBindings 12 行；确认业务 CSS/absolute-help 不是合法修复。
   - design: **agree（2026-08-31）**——封闭 wide 枚举、160px/560px、default 零漂移、唯一首批 owner、
     DS 2.21.0 与 adoption/Design Lab/浏览器边界闭合。
-- Kimi: pending（需独立核 API/版本治理/反证与宽窄风险）
-- GLM: pending（需独立测量 12 标签、census、测试矩阵与门禁）
-- counter / 分歧: none
-- build 准入结论: **blocked（缺 Kimi / GLM premise verified + design agree；签字齐前不得修改实现）**
+- Kimi:
+  - premise: **verified（2026-08-31，独立直读 DsFieldGroup owner、当前轨 CSS/token、静态门禁、
+    RoleBindings 12 行与 12 个标签真值，非复述 Codex）**：
+    1. **现行合同与封闭性实锤**:`DsFieldGroup` 当前仅 `layout?: 'responsive' | 'stacked'`
+       （controls.tsx:509-523）；responsive 轨由 `--ds-field-label-track` 单 token 持 96px、
+       `<480px` 整组 stacked（primitives.css:454-531、tokens.css:50）；既有静态门禁逐值锁定
+       `--ds-field-label-track: 96px` 与 480 边界（field-layout-adoption.test.ts:2282-2322,2434-2520）
+       ——业务页/per-row 加宽今天就是 MUST 违规且机器必红，唯一合法出路确为扩公共合同。
+    2. **12 行与换行必然性实锤**:RoleBindings 12 个 `DsField` 均带结构化 help（→ label-group 内
+       32px DsHelpTip）与 required 星号（ProjectWorkbenchTab.tsx:474-613）；12 标签真值
+       （project-asset-roles.ts:26-71）:MIDI 音色库 / 默认战斗音乐 / **特殊战胜利结算音乐（9 字最长）**
+       / 普通胜利音乐 / 标题菜单音乐 / 战斗物品使用音效（8 字）/ 合击起手音效 / 逃跑音效 /
+       敌人变身音效 / 启动商标视频 / 启动开场视频 / 标准色表。本人估算：9 字×12px≈108px +
+       星号约 7 + label-group 间距约 6 + HelpTip 命中 32 ≈ **153px**——96px 轨必然换行、
+       128px 仍不足、160px 有约 7px 余量，卡面 128px 否决与 160px 取值独立成立。
+    3. **原版/一阶段 N/A 认同**:纯二阶段作者工具布局合同，无原版/一阶段真值维度。
+    4. **可推翻当前方案的观察**:①若真实字体逐标签测量证明最长组合 ≤128px（本人估算约 153px，
+       不支持）;②若 560px 下 160px 轨使 control（select+打开资源类 action）不可用且 559 stacked
+       也无法闭合（现行 DsControlGroup 自有窄态行为，预计不成立）;③若改后任一既有 default 组
+       渲染漂移——96px token 与 480 边界已被门禁逐值锁定，应红而不应绿。
+  - design: **agree（2026-08-31，附 KL1-KL5 必落钉）**：
+    - **KL1（最小公共 API 钉）**:在既有 owner 上以封闭枚举 `labelTrack?: 'default' | 'wide'` 扩展是
+      最小合法形状——与 `layout` 枚举同构、DOM 只出 `data-label-track`；数值 prop 会重开 96px 合同
+      已消灭的 magic number；业务 CSS/per-row 已是 MUST-not + 门禁红；`layout="stacked"` 不满足
+      用户“保持横排”裁决。禁止第三档或任意宽度。
+    - **KL2（160/560 布局风险钉）**:≥560 时 control 约 360px 可用（select+action）;720px 窄壳
+      主区约 688 → wide 保持横排;1280@200% 等效 640 → 组约 600+ 仍 ≥560 横排;<560 整组 stacked
+      与 default <480 同型降级，两断点各自 fail-closed。480–560 区间本组由 inline(96) 转
+      stacked(wide) 属合同内换轨，非回归。行内 `.project-role-resource`/`.project-role-no-preview`
+      尾随内容必须进入 720/560 浏览器断言。
+    - **KL3（default 零漂移钉）**:改动严格可加——新枚举值、新 token `--ds-field-label-track-wide`、
+      仅作用于 wide 的规则与 `<560px` 查询；default 96px/480 既有规则与门禁断言零改动；
+      DS-L.7/RF-23/Design Lab 规范文与版本四处同步同提交完成。
+    - **KL4（版本治理钉）**:DS-G.4 minor（响应式合同扩展）适用;2.20.1(done)→2.21.0(本卡)→
+      2.22.0(`ED-ACTION-GROUP-SPEC-1` 顺延)顺序与看板登记一致;MUST 级布局合同走“规范修订 +
+      三签 + 升 minor”路径而非业务豁免，符合 DS-G.3。
+    - **KL5（采用纪律钉）**:RoleBindings 为 field-layout adoption 登记的唯一 wide owner;
+      门禁拒绝第二个未审采用、别名/动态/展开传参；wide 组内 label/htmlFor、HelpTip 32px 命中区、
+      error/aria-describedby 与 default 完全同构，不得借新轨改动字段自身事务语义。
+- GLM:
+  - premise: **verified（2026-08-31，12 标签/星号/HelpTip 宽度、census、门禁与 a11y 合同全部本人
+    一手复算，非复述 Codex/Kimi；与 Kimi 153px 估算各自独立取得后收敛）**：
+    1. **12 标签逐项直读**（project-asset-roles.ts:26-71 ASSET_ROLES）：MIDI 音色库 / 默认战斗音乐 /
+       **特殊战胜利结算音乐（9 字最长）** / 普通胜利音乐 / 标题菜单音乐 / 战斗物品使用音效（8 字）/
+       合击起手音效 / 逃跑音效 / 敌人变身音效 / 启动商标视频 / 启动开场视频 / 标准色表——
+       RoleBindings 角色行 `help` 为对象形式**无条件渲染 DsHelpTip**（ProjectWorkbenchTab.tsx:533-536），
+       HelpTip 与 label 同处 `.ds-field__label-group` 标签轨内（controls.tsx DsField）。
+    2. **宽度复算（真实 token 直读）**：`--ds-font-label: 600 12px/18px`（CJK 每字 12px）、
+       required 星号 `*` ≈6px + margin-inline-start 4px（--ds-space-2）、label→HelpTip gap 4px
+       （--ds-space-2）、HelpTip 命中 `--ds-hit-target-compact: 32px`（tokens.css:57）。最长 9 字
+       = 108px → **108+4+6+4+32 ≈ 154px**：**160px 可容纳（≥6px 余量）、128px 装不下（154>128，
+       8 字标签 ≈142px 同样超）、96px 轨内文本仅剩 ~50px ≈ 4 字/行 → 9 字标签必然两行**。
+       「128px 只覆盖 6 字标签」「96px 必然换行」两条前提量化成立；不计星号的弱化情形
+       （108+4+32=144px）同样 >128 且 <160，结论对 required 状态鲁棒。
+    3. **census 复算**：field-layout-adoption.json 现恰 **18 条 adoptions / 23 条 retired 私有轨**、
+       全 registry **零处 wide**；RoleBindings 现登记 `ProjectWorkbenchTab.tsx / responsive:1` 普通
+       adoption；同页另有 StartWorldFields / EntryPointEditor×2 / ProjectOverviewPage 四个 default
+       消费者——「RoleBindings 唯一 wide 首批」是机器可分辨、可门禁的约束，非整页放行。
+    4. **default 零漂移与门禁实锤**：default 轨 = tokens.css:50 `--ds-field-label-track: 96px` +
+       `@container ds-field-group (width < 480px)` stacked（primitives.css:471-474,523-533）；
+       field-layout 门禁以**精确 allowlist 相等**锁定全部公共轨声明（
+       field-layout-adoption.test.ts:2303-2322）；业务轨形状（`72px 1fr` / `minmax(72px,96px)…`）
+       被 `isPotentialBusinessLabelTrack` 识别必红（:2473-2497）；inline `gridTemplateColumns` 与
+       inline `--ds-field-label-track` 覆盖均被 `governedInlineStyleViolations` 捕获必红
+       （:2499-2518）——「业务 CSS / inline / 任意数字宽度不可表达」有既有静态门禁背书。
+    5. **a11y 合同与轨宽正交**：`<label htmlFor={id}>` + 控件同 id、error/inlineHelp →
+       `aria-describedby={id}-description`、HelpTip 32×32 命中——全在 DsField/DsHelpTip 层，
+       与 label track 宽度无关；本方案只加 `data-label-track` + token/grid，语义面零接触。
+  - design: **agree（2026-08-31，附 GM-W1~GM-W4 必落钉；与 Kimi KL1-KL5 收敛互补）**：
+    - **GM-W1（default 零漂移钉，同 KL3）**：wide 为封闭枚举 + 静态 `data-label-track`，不接受
+      数字/表达式；default 四条轨声明（96px token、responsive 双列、stacked 单列、<480 容器查询）
+      在 allowlist 中**一行不改**，wide 只新增自己的 allowlist 行；负例：业务页
+      `--ds-field-label-track` / `--ds-field-label-track-wide` 覆盖与任意 px 数字轨必须继续红。
+    - **GM-W2（census 唯一 owner 钉，同 KL5）**：field-layout adoption 为 RoleBindings 登记
+      `labelTrack: "wide"`，门禁机器枚举生产 `labelTrack="wide"` 调用点与登记**双向相等**；第二个
+      未审 wide 采用、动态/别名/计算属性传参（AST 精确属性匹配，同 hasExactClassToken 先例）
+      必须红；同页四个 default 消费者不得被波及。
+    - **GM-W3（双断点精确钉，同 KL2）**：wide stacked 用 `@container ds-field-group
+      (width < 560px)` 精确边界（与 default `<480px` 同容器名同 fail-closed 形态）；测试矩阵两侧
+      都钉——**559 stacked / 560 inline、479/480 default 不变**，另加 720 / 1280 / 200% 无横向
+      溢出且控件/动作可用（560 时 control = 560−160−12 = 388px，布局算术成立；实机归 build 视觉）；
+      KL2 指出的 `.project-role-resource` / `.project-role-no-preview` 尾随内容一并进断言。
+    - **GM-W4（a11y 与版本钉，同 KL4/KL5）**：聚焦测试断言 label/htmlFor、HelpTip 32px 命中、
+      error/aria-describedby 在 wide 与 default 完全一致；DS 2.21.0 为 DS-G.4「响应式合同扩展 =
+      minor」正确档位，ED-ACTION-GROUP-SPEC-1 顺延 2.22.0 与看板登记一致。
+- counter / 分歧: none（GLM 154px 与 Kimi 153px 为独立测算的正常收敛，钉值一致取 160px/560px）
+- build 准入结论: **allowed（签字面）（2026-08-31，Codex + Kimi（KL1-KL5）+ GLM（GM-W1~GM-W4）
+  三方 premise verified + design agree 齐、无 counter。Codex 开工时状态转 build，仍为唯一
+  Coding Owner。**
 
 ### 进入 done 前：审查签字
 
@@ -123,6 +208,22 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
 
 ## 交接记录
 
+- 2026-08-31 GLM: 独立测量 12 标签（最长 9 字逐项直读）、星号/HelpTip 真实 token（12px 字体、
+  32px 命中、4px×2 gap）→ 最长组合 ≈154px，与 Kimi 153px 独立收敛：160 可容、128 不可、96 必换行；
+  复算 field-layout census（18 adoptions/23 retired、零 wide、RoleBindings 同页另有 4 个 default
+  消费者可机器分辨）；直读门禁（公共轨 allowlist 精确相等、业务轨形状与 inline `--ds-field-label-track`
+  覆盖必红）与 a11y 合同（label htmlFor/HelpTip 命中/aria-describedby 与轨宽正交）。签 premise
+  verified + design agree，附 GM-W1（default allowlist 一行不改 + wide 负例必红）/GM-W2（census
+  双向相等 + 拒第二采用与动态传参）/GM-W3（559/560 + 479/480 双断点两侧钉 + 720/1280/200%）/
+  GM-W4（a11y 同构断言 + DS-G.4 minor 2.21.0 与 2.22.0 顺延一致）。未修改实现，未代签 Kimi。
+  三签齐，build 准入（签字面）allowed。Next: Codex 按钉 build；200% zoom 实机仍归 build 期视觉。
+- 2026-08-31 Kimi: 独立直读 DsFieldGroup owner（仅 layout 枚举）、96px/480 现行 CSS/token 与
+  逐值门禁、RoleBindings 12 行（结构化 help→32px HelpTip + required 星）与 12 标签真值
+  （最长 9 字，估算组合约 153px——96 必换行、128 不足、160 有余量）。判封闭枚举为最小合法公共
+  API；160/560 对 720/1280/200% 风险闭合；default 由既有门禁锁零漂移；2.20.1→2.21.0→2.22.0
+  顺序合理。签 premise verified + design agree（附 KL1 最小 API / KL2 布局风险 / KL3 default
+  零漂移 / KL4 版本治理 / KL5 采用纪律五钉与三条可推翻观察）。未修改实现，未代签 GLM。
+  Next: GLM 测量 12 标签与 census 后三签齐，Codex 方可 build。
 - 2026-08-31 Codex: 用户要求资源角色标签整组加宽避免换行。核验确认现行 MUST 禁止业务加宽，故新开
   公共 wide-track 卡，冻结 160px/560px 与 default 零漂移；未修改实现。Next: Kimi / GLM 独立审签，
   三签齐前不得 build。
@@ -130,14 +231,22 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-FIELD-LABEL-TRACK-WIDE-1（draft，不得实现）。
+审签 ED-FIELD-LABEL-TRACK-WIDE-1（GLM 席，draft，不得实现）。
 
 任务卡：docs/ops/tasks/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md
-先读 AGENTS.md、docs/phase2/READ-FIRST.md、editor-design-system-v1.md DS-L.7/DS-G.4、
-ED-FIELD-LAYOUT-1 历史卡与本卡全部证据。
+当前状态：draft；Codex + Kimi（KL1-KL5）已签；仅余你的 GLM premise verified + design agree。
+三签齐前不得修改 controls/primitives/tokens/规范版本/RoleBindings，不得推进 build。
 
-Kimi：独立判断 wide 枚举是否是最小合法公共 API、160/560 是否会破坏布局/版本治理，并给反证。
-GLM：独立测量 12 标签 + required/help、复算 field-layout census，审 default/wide 双断点与测试矩阵。
-输出带直接证据的 premise verified + design agree，或 counter/推翻观察，并写回本卡。
-三签齐前不得修改 controls/primitives/tokens/spec/version/RoleBindings，不得推进 build。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、editor-design-system-v1.md 的 DS-L.7/DS-G.4、
+ED-FIELD-LAYOUT-1 历史卡、本卡全部签节（含 Kimi KL1-KL5 与可推翻观察）。
+
+你的分工（独立证据，不复述 Codex/Kimi）：
+1. 真实字体逐标签测量 RoleBindings 12 个标签 + required 星号 + 32px HelpTip 的组合宽度——
+   特别验证最长“特殊战胜利结算音乐”行是否需要 ~153px（Kimi 估算值，若 ≤128px 实测成立，
+   160px 取值须收窄回签）；
+2. 复算 field-layout census 与现有门禁（96px token、480 边界、业务覆盖必红），确认 wide
+   唯一 owner 登记形状；
+3. 测试矩阵审查：559/560、720、1280、200%、label/htmlFor、HelpTip 命中区、error/
+   aria-describedby、业务 CSS/inline 必红负例是否闭合；
+4. 输出带直接证据的 premise verified + design agree，或 counter + file:line/可复现观察。
 ```
