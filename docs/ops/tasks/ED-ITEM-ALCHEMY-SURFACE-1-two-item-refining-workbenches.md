@@ -295,6 +295,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   用户随后以2048px截图指出扣除文案与连接符间距异常；`c8016faa` 将错误吸收剩余宽度的
   `minmax(10rem, 0.38fr)` 收紧为 `max-content`，剩余宽度仅交给奖励选择轨。宽屏直接测可见文字右缘到SVG
   path左缘由275.4px降为15px，path右缘到奖励控件同为15px；1280仍为15px/15px，无横向溢出。
+  `9c38d97b` 同时修正field-layout登记中“五轨/六槽”的文字自相矛盾。
   聚焦测试、typecheck、DS gate、无溢出/无脏写均通过；数据/schema/runtime/migration 零变化，恢复 Codex accept。
 - Kimi: **accept（2026-08-31，只读终审七提交最终组合态（`54ba9c2e` + `1b090cb2` + `aacf68b7` +
   `314e3a52` + 三张 MIG——后三者本日已由本席逐卡独立终审 accept）+ 本人静态核对、聚焦复跑与
@@ -410,7 +411,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ### 数量字段 / 连接符 / 奖励列表表面与横向节奏增量复审
 
-- Codex: **accept（2026-08-31，`314e88e3` + `55b5e981` + `35843eb7` + `c8016faa`）**——标准数量字段、
+- Codex: **accept（2026-08-31，`314e88e3` + `55b5e981` + `35843eb7` + `c8016faa` + `9c38d97b`）**——标准数量字段、
   对称SVG连接符、Shop式edge奖励列表与15px/15px横向节奏均按可见元素边界实机复验通过；
   `f7cc5770` / `b6d751c4` 两次错误居中证据仅作历史保留。
 - Kimi: pending
@@ -435,7 +436,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `b6d751c4 fix(editor): center alchemy flow connector`（两次 CSS 方案均被用户复验推翻）+
   `55b5e981 fix(editor): use symmetric alchemy flow glyph`（最终对称SVG）；紫金葫芦奖励列表表面：
   `35843eb7 fix(editor): flatten spirit gourd reward rows`；奖励行横向节奏：
-  `c8016faa fix(editor): tighten spirit gourd reward flow`；均未推送。
+  `c8016faa fix(editor): tighten spirit gourd reward flow` +
+  `9c38d97b fix(editor): correct reward layout registry wording`；均未推送。
 - current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
   `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
   `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
@@ -479,7 +481,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   SVG path左缘275.4px；改为 `max-content` 后第一轨104.1px，文案→path与path→奖励控件均为15px。1280px
   复测仍为15px/15px；奖励选择器独占剩余宽度，select/input保持36px、动作保持32px，row/body overflow均0。
   同步 field-layout adoption与CSS census；聚焦6 files / 91 tests、typecheck、91-file DS gate、定向Biome与
-  `git diff --check` 全绿，仅有未触碰的visually-hidden `!important`既有warning。
+  `git diff --check` 全绿，仅有未触碰的visually-hidden `!important`既有warning。临界容器实测：761px仍为
+  五轨且reward轨222.9px；760px准确切到两列/向下connector，row/main/body两点overflow均0。
 - 响应式实机：通过键盘调整真实 Inspector 宽度，把 main 精确压到 893px / 718px / 660px；两机制行
   `scrollWidth <= clientWidth`，718px 两页截图无横向溢出。真实浏览器 200% zoom 仍待 Kimi/用户补验。
 - 视觉证据（忽略目录，禁止提交）：
@@ -529,7 +532,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 2026-08-31 Codex: 用户截图指出奖励行扣除文案到箭头空白过大。浏览器2048px实测修复前可见文字→SVG
   为275.4px；`c8016faa` 把扣除轨 `minmax(10rem, 0.38fr)` 改为 `max-content`，余量只分配给奖励选择器，
   修复后2048/1280均为文字→SVG 15px、SVG→奖励15px，overflow0。同步field-layout registry/census；
-  6 files / 91 tests、typecheck、DS gate与Biome/diff绿。Codex accept，仍待Kimi/GLM增量终审与用户复验。
+  761/760px容器断点两侧亦overflow0。只读内审无P0/P1；唯一P2“六槽”陈旧登记由`9c38d97b`改为“五轨”，
+  复跑field-layout 7/7与Biome绿。Codex accept，仍待Kimi/GLM增量终审与用户复验。
 - 2026-08-31 Codex: `35843eb7` 删除紫金葫芦奖励行的 DsRepeatRow，正式把reorder surface从repeat-row迁为
   edge-to-edge-list并同步taxonomy/field/number/DS registry。与Shop实机对照：透明、radius0、仅bottom1px、
   同padding/边界；select/input36px、动作32px。主面板734px connector保留向下、动作不拆、overflow0。
@@ -649,6 +653,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - `55b5e981 fix(editor): use symmetric alchemy flow glyph`
 - `35843eb7 fix(editor): flatten spirit gourd reward rows`
 - `c8016faa fix(editor): tighten spirit gourd reward flow`
+- `9c38d97b fix(editor): correct reward layout registry wording`
 Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
 
 请只审最新增量及其与既有一进一出表面的组合：
@@ -670,6 +675,7 @@ Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
    奖励select左缘15px；1280同为15px/15px。第一轨computed应为内容宽（当前104.133px），不得再随行宽扩张；
    奖励轨独占剩余宽度，select/input36px、动作32px，row/body overflow均0。field-layout adoption/census值应为
    `max-content 2.75rem minmax(12rem, 1fr) var(--ds-field-measure-short-number) auto`。
+   另请复测item-alchemy容器761/760px：761保持五轨且overflow0；760切为两列/connector向下且overflow0。
 
 Kimi 重点审可视对齐/1280/720/200%；GLM 重点审DOM、command、registry/census与零数据漂移。
 请在任务卡“数量字段 / 连接符 / 奖励列表表面与横向节奏增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，
