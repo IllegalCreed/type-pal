@@ -280,7 +280,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 
 ### 进入 done 前：审查签字
 
-- Codex: **accept（2026-08-31，`54ba9c2e`）**——双独立 route、单一机制 IA、Item 页只读摘要与 use
+- Codex: **accept（2026-08-31，`54ba9c2e` + `1b090cb2`）**——双独立 route、单一机制 IA、Item 页只读摘要与 use
   switch 防绕过、`collectValue` 只读、严格 `rewards.length === maxRoll`、指定行删除、两类 reorder 单命令
   undo/redo、引用深链/删除保护、29/32 registry 闭包与 Enemy 来源显示均已自审；两轮只读 blocker 复核后
   P0/P1 清零。实际 200% 浏览器缩放受当前 in-app Browser 固定 viewport 限制，已做 660px main 宽代理且无
@@ -299,7 +299,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 
 ### Build / Review 证据
 
-- 实现提交：`54ba9c2e feat(editor): add item alchemy mechanism workbenches`；未推送。
+- 实现提交：`54ba9c2e feat(editor): add item alchemy mechanism workbenches`；用户真值复核后的文案/文档修正：
+  `1b090cb2 fix(editor): clarify automatic alchemy sourcing`；均未推送。
 - current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
   `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
   `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
@@ -335,6 +336,11 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
   改为“实际扣除 N 灵葫值”。该细化不改变 canonical owner、schema、runtime 公式或双独立 route 前提。
 - 来源闭环: **approved（2026-08-31）**——用户追问每个敌人的实际灵葫值是否在 Enemy 页显示；实现改为目录、
   Hero 与专属“灵葫咒收服”字段三处同源显示，替换易误读为自动战利品的“战后结算 / 收妖值”。
+- 自动取材真值: **verified（2026-08-31）**——用户质疑游戏内是否需要选择原材料。独立双席与 Codex 直读
+  raw item268 `scriptOnUse=39598/applyToAll`、SDLPal `PAL_GameUseItem`、L39598 的五段 0x20 失败跳链及
+  二阶段 runtime，确认玩家只选择炼蛊皿，随后固定按 117→118→119→120→121 自动消耗首个足量材料；没有
+  第二层原料 picker。同时修正 `docs/phase1/status/item-status.md` 中“0x81 facing/对准毒蛇卵”的陈旧误记，
+  编辑器改称“自动取材规则”，明确行内下拉只供作者配置。
 - 实现验收: pending。
 
 ## 交接记录
@@ -352,6 +358,10 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
   误可编辑、零值失真、DS registry/测试证据等 blocker；逐项修复后复核均确认无剩余 P0/P1。content 全量绿；
   editor 全量仅跑一次，4 个静态失败精确复跑绿；1280/893/718/660 main 功能视觉证据落 `.mimosa`。状态转
   review，Codex accept；Next: Kimi / GLM 当前提交终审，用户复验，三方 accept + 用户验收前不得 done。
+- 2026-08-31 User/Codex: 用户在 review 质疑炼蛊皿是否需要选料。三方独立核验收敛：原版选中 item268 后
+  `applyToAll` 直接跑 L39598；0x20 按 117→118→119→120→121 逐项扣料，成功即进共同产物段，完全没有材料
+  菜单。`1b090cb2` 将 Hero/规则/Inspector/Item 摘要改为“直接使用、固定优先级自动取材”，并纠正一阶段陈旧
+  文档；聚焦 `3 files / 38 tests` + editor typecheck 绿，review 状态与 canonical 设计不变。
 - 2026-08-31 Codex: 核对 Kimi KE1-KE6 / GLM GM-B1-GM-B4 三签齐、无 counter，状态转 build；
   按依赖先完成 Store0 migration，再实施两个独立 route 与唯一编辑 owner。
 
@@ -383,14 +393,16 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（只负责移除伪 ShopDef0）
 终审 ED-ITEM-ALCHEMY-SURFACE-1（Kimi 或 GLM，只读 reviewer）。
 
 任务卡：docs/ops/tasks/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md
-当前状态：review；实现提交 `54ba9c2e`，Codex accept；Kimi / GLM / 用户 done 前验收 pending。
+当前状态：review；实现提交 `54ba9c2e` + 真值文案修正 `1b090cb2`，Codex accept；Kimi / GLM / 用户
+done 前验收 pending。
 不得修改实现、不得代签另一席、签字不足不得标记 done。
 
 已冻结结论：item268=5 条 craftRecipe（117..121→148）、item270=9 档 drawFromResourcePool
 （rewards.length===maxRoll=9、序列 [100,105,95,112,72,131,97,102,111]）、全项目各恰一项；
 档位 index+1 即灵葫消耗，无 cost 字段；现 ItemData.use.effects 是唯一 canonical owner。
 
-终审重点：两页必须是无 Catalog 的单一机制；`collectValue` 只读，封顶后 N 是实际扣除；Item 页不能增删/
+终审重点：两页必须是无 Catalog 的单一机制；炼蛊皿是“直接使用后按 117→118→119→120→121 固定优先级
+自动取材”，没有玩家原材料 picker；`collectValue` 只读，封顶后 N 是实际扣除；Item 页不能增删/
 换型/关闭机制 owner；两 reorder adoption 保持 18 families / 29 adoptions / 32 dataPaths / 20 owner files；
 指定中间行删除、两类移动、picker/count/delete 均一动作一命令且 undo/redo；Enemy 目录/Hero/专属字段显示
 “收服 +N 灵葫值”（含 +0），不得称自动战后奖励或不可收服；Shop0 仍只由 migration 清理。
