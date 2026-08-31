@@ -969,8 +969,10 @@ export function translateCraftRecipeScript(
   const seen = new Set<number>()
   const ingredients: Array<{ itemId: string; count: number }> = []
   let productStart: number | undefined
+  let terminalFailure: number | undefined
 
-  while (cursor !== undefined && !seen.has(cursor)) {
+  while (cursor !== undefined) {
+    if (seen.has(cursor)) return undefined
     seen.add(cursor)
     const command = commands[cursor]
     if (command?.op !== 'raw' || command.opcode !== 0x20) break
@@ -984,12 +986,32 @@ export function translateCraftRecipeScript(
     ingredients.push({ itemId: String(itemId), count: Math.max(1, rawCount) })
 
     const failure = labelIndex.get(`L_${failureAddress}`)
-    const failureCommand = failure === undefined ? undefined : commands[failure]
-    if (failureCommand?.op === 'raw' && failureCommand.opcode === 0x20) cursor = failure
-    else break
+    if (failure === undefined) return undefined
+    const failureCommand = commands[failure]
+    if (failureCommand?.op === 'raw' && failureCommand.opcode === 0x20) {
+      cursor = failure
+      continue
+    }
+    terminalFailure = failure
+    break
   }
 
-  if (!ingredients.length || productStart === undefined) return undefined
+  if (!ingredients.length || productStart === undefined || terminalFailure === undefined)
+    return undefined
+  const failureStyle = commands[terminalFailure]
+  const failureMessage = commands[terminalFailure + 1]
+  const failureEnd = commands[terminalFailure + 2]
+  const nextFailureBlock = commands[terminalFailure + 3]
+  if (
+    failureStyle?.op !== 'setDialogStyleNarration' ||
+    failureMessage?.op !== 'showDialog' ||
+    typeof failureMessage.text !== 'string' ||
+    failureMessage.text.trim().length === 0 ||
+    failureEnd?.op !== 'end' ||
+    (nextFailureBlock !== undefined && nextFailureBlock.label === undefined)
+  )
+    return undefined
+  const unavailableMessage = failureMessage.text.trim()
   const products: Array<{ itemId: string; count: number }> = []
   for (let index = productStart; index < commands.length; index++) {
     const command = commands[index] as (SourceCmd & { itemId?: number; count?: number }) | undefined
@@ -1004,6 +1026,7 @@ export function translateCraftRecipeScript(
   return {
     kind: 'craftRecipe',
     recipes: ingredients.map((ingredient) => ({ ingredients: [ingredient], products })),
+    unavailableMessage,
   }
 }
 

@@ -270,3 +270,83 @@ export function applyPalItemOverlays(input: readonly ItemData[]): ItemData[] {
     return overlaid
   })
 }
+
+type CraftRecipeEffect = Extract<
+  NonNullable<ItemData['use']>['effects'][number],
+  { kind: 'craftRecipe' }
+>
+
+function sameItemAmounts(
+  left: readonly { itemId: string; count: number }[],
+  right: readonly { itemId: string; count: number }[],
+): boolean {
+  return (
+    left.length === right.length &&
+    left.every(
+      (amount, index) =>
+        amount.itemId === right[index]?.itemId && amount.count === right[index]?.count,
+    )
+  )
+}
+
+function sameRecipes(
+  left: CraftRecipeEffect['recipes'],
+  right: CraftRecipeEffect['recipes'],
+): boolean {
+  return (
+    left.length === right.length &&
+    left.every(
+      (recipe, index) =>
+        sameItemAmounts(recipe.ingredients, right[index]?.ingredients ?? []) &&
+        sameItemAmounts(recipe.products, right[index]?.products ?? []),
+    )
+  )
+}
+
+function uniqueItemsById(items: readonly ItemData[], label: string): Map<string, ItemData> {
+  const byId = new Map<string, ItemData>()
+  for (const item of items) {
+    if (byId.has(item.id))
+      throw new Error(`PAL generated craft message: ${label} 重复 item id ${item.id}`)
+    byId.set(item.id, item)
+  }
+  return byId
+}
+
+/**
+ * current publication 保留作者 items，只把同轮 raw producer 已完整翻译的 craft 失败原文同步回来。
+ * 配方仍由作者树承载；结构对不上时停线，不能把 message 挂到错误配方，也不能覆盖其它作者字段。
+ */
+export function applyPalGeneratedCraftMessages(
+  current: readonly ItemData[],
+  generated: readonly ItemData[],
+): ItemData[] {
+  const output = current.map((item) => structuredClone(item))
+  const currentById = uniqueItemsById(output, 'current')
+  const generatedById = uniqueItemsById(generated, 'generated')
+
+  for (const generatedItem of generatedById.values()) {
+    const generatedCrafts =
+      generatedItem.use?.effects.filter((effect) => effect.kind === 'craftRecipe') ?? []
+    if (!generatedCrafts.some((effect) => effect.unavailableMessage !== undefined)) continue
+    const currentItem = currentById.get(generatedItem.id)
+    if (!currentItem)
+      throw new Error(`PAL generated craft message: current 缺物品 ${generatedItem.id}`)
+    const currentCrafts =
+      currentItem.use?.effects.filter((effect) => effect.kind === 'craftRecipe') ?? []
+    if (currentCrafts.length !== generatedCrafts.length)
+      throw new Error(`PAL generated craft message: item${generatedItem.id} craft 数量漂移`)
+
+    generatedCrafts.forEach((generatedCraft, index) => {
+      const message = generatedCraft.unavailableMessage
+      const currentCraft = currentCrafts[index]
+      if (!currentCraft || !sameRecipes(currentCraft.recipes, generatedCraft.recipes))
+        throw new Error(`PAL generated craft message: item${generatedItem.id} recipes drift`)
+      if (message === undefined) return
+      if (!message.length || message.trim() !== message)
+        throw new Error(`PAL generated craft message: item${generatedItem.id} message 非法`)
+      currentCraft.unavailableMessage = message
+    })
+  }
+  return output
+}

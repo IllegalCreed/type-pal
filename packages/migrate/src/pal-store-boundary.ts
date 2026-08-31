@@ -50,6 +50,25 @@ function assertVesselRecipes(items: readonly (ItemData | AuthorItemData)[]): voi
     throw new Error(
       `PAL Store0 invariant: item268 craftRecipe=${craftEffects.length}/recipes=${craftEffects[0]?.recipes.length ?? 0}/resourcePool=${poolEffects.length}`,
     )
+  const craft = craftEffects[0]!
+  if (craft.unavailableMessage !== '炼蛊的材料不足')
+    throw new Error(
+      `PAL Store0 invariant: item268 unavailableMessage=${String(craft.unavailableMessage)}`,
+    )
+  const expectedIngredients = ['117', '118', '119', '120', '121']
+  const recipesMatch = craft.recipes.every((recipe, index) => {
+    const ingredient = recipe.ingredients[0]
+    const product = recipe.products[0]
+    return (
+      recipe.ingredients.length === 1 &&
+      ingredient?.itemId === expectedIngredients[index] &&
+      ingredient?.count === 1 &&
+      recipe.products.length === 1 &&
+      product?.itemId === '148' &&
+      product?.count === 1
+    )
+  })
+  if (!recipesMatch) throw new Error('PAL Store0 invariant: item268 recipes drift')
 }
 
 function assertSpiritGourd(

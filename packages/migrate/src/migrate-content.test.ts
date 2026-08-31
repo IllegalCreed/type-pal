@@ -27,6 +27,7 @@ import {
   type SourceCmd,
   type SourceScene,
   sceneSlug,
+  translateCraftRecipeScript,
   translatePlaceEntityInFrontUseScript,
   translateThrowScript,
   walkDesc,
@@ -125,9 +126,7 @@ describe('M1a · 角色(装备槽真序哨兵)', () => {
     const gai = out.actors.find((actor) => actor.id === 'gai-luojiao')!
     expect(gai.portraits).toEqual({ default: 'portrait.pal.044' })
     expect(gai).not.toHaveProperty('face')
-    expect(
-      out.actors.filter((actor) => actor.face).map(({ id, face }) => [id, face]),
-    ).toEqual([
+    expect(out.actors.filter((actor) => actor.face).map(({ id, face }) => [id, face])).toEqual([
       ['li-xiaoyao', 'face.pal.li-xiaoyao'],
       ['zhao-linger', 'face.pal.zhao-linger'],
       ['lin-yueru', 'face.pal.lin-yueru'],
@@ -433,6 +432,113 @@ describe('M1a · 输出过 content 契约 + 可 buildWorld', () => {
   })
 })
 
+describe('M1d · 0x20 有序配方终端失败臂', () => {
+  type CraftSourceCmd = SourceCmd & {
+    to?: string
+    itemId?: number
+    count?: number
+  }
+
+  const oneIngredientCraft = (
+    failureArm: readonly CraftSourceCmd[],
+    failureAddress = 5,
+  ): CraftSourceCmd[] => [
+    { label: 'L_1', op: 'raw', opcode: 0x20, operands: [117, 1, failureAddress] },
+    { op: 'goto', to: 'L_9' },
+    ...failureArm,
+    { label: 'L_9', op: 'giveItem', itemId: 148, count: 0 },
+    { op: 'end' },
+  ]
+
+  const strictFailureArm = (text = '  炼蛊的材料不足  '): CraftSourceCmd[] => [
+    { label: 'L_5', op: 'setDialogStyleNarration' },
+    { op: 'showDialog', text },
+    { op: 'end' },
+  ]
+
+  test('PAL 真链提取五条配方与 trimmed 终端失败原文', () => {
+    expect(translateCraftRecipeScript(src.commands, buildLabelIndex(src.commands), 39598)).toEqual({
+      kind: 'craftRecipe',
+      unavailableMessage: '炼蛊的材料不足',
+      recipes: ['117', '118', '119', '120', '121'].map((itemId) => ({
+        ingredients: [{ itemId, count: 1 }],
+        products: [{ itemId: '148', count: 1 }],
+      })),
+    })
+  })
+
+  test('strict 三元组迁移 trimmed 文案；operand[2]=0 恒成功链不误投影为配方', () => {
+    const strict = oneIngredientCraft(strictFailureArm())
+    expect(translateCraftRecipeScript(strict, buildLabelIndex(strict), 1)).toEqual({
+      kind: 'craftRecipe',
+      unavailableMessage: '炼蛊的材料不足',
+      recipes: [
+        {
+          ingredients: [{ itemId: '117', count: 1 }],
+          products: [{ itemId: '148', count: 1 }],
+        },
+      ],
+    })
+
+    const alwaysSucceeds = oneIngredientCraft([], 0)
+    expect(
+      translateCraftRecipeScript(alwaysSucceeds, buildLabelIndex(alwaysSucceeds), 1),
+    ).toBeUndefined()
+  })
+
+  test('空白、缺 narration、缺 end、臂内插命令或 end 后多余命令全部 fail-loud', () => {
+    const malformed: CraftSourceCmd[][] = []
+
+    malformed.push(oneIngredientCraft(strictFailureArm('   ')))
+
+    const missingNarration = oneIngredientCraft(strictFailureArm())
+    missingNarration[2] = { ...missingNarration[2], op: 'showDialog', text: '错误起点' }
+    malformed.push(missingNarration)
+
+    const missingEnd = oneIngredientCraft(strictFailureArm())
+    missingEnd[4] = { op: 'showDialog', text: '未结束' }
+    malformed.push(missingEnd)
+
+    const insertedCommand = oneIngredientCraft(strictFailureArm())
+    insertedCommand.splice(3, 0, { op: 'raw', opcode: 0x41, operands: [0, 0, 0] })
+    malformed.push(insertedCommand)
+
+    const commandAfterEnd = oneIngredientCraft(strictFailureArm())
+    commandAfterEnd.splice(5, 0, { op: 'raw', opcode: 0x41, operands: [0, 0, 0] })
+    malformed.push(commandAfterEnd)
+
+    for (const commands of malformed)
+      expect(translateCraftRecipeScript(commands, buildLabelIndex(commands), 1)).toBeUndefined()
+  })
+
+  test('产物入口不一致、悬空终端地址与 failure 环不生成配方前缀', () => {
+    const mismatchedProducts: CraftSourceCmd[] = [
+      { label: 'L_1', op: 'raw', opcode: 0x20, operands: [117, 1, 3] },
+      { op: 'goto', to: 'L_9' },
+      { label: 'L_3', op: 'raw', opcode: 0x20, operands: [118, 1, 5] },
+      { op: 'goto', to: 'L_10' },
+      ...strictFailureArm(),
+      { label: 'L_9', op: 'giveItem', itemId: 148, count: 0 },
+      { label: 'L_10', op: 'giveItem', itemId: 149, count: 0 },
+    ]
+    expect(
+      translateCraftRecipeScript(mismatchedProducts, buildLabelIndex(mismatchedProducts), 1),
+    ).toBeUndefined()
+
+    const dangling = oneIngredientCraft(strictFailureArm(), 99)
+    expect(translateCraftRecipeScript(dangling, buildLabelIndex(dangling), 1)).toBeUndefined()
+
+    const cycle: CraftSourceCmd[] = [
+      { label: 'L_1', op: 'raw', opcode: 0x20, operands: [117, 1, 3] },
+      { op: 'goto', to: 'L_9' },
+      { label: 'L_3', op: 'raw', opcode: 0x20, operands: [118, 1, 1] },
+      { op: 'goto', to: 'L_9' },
+      { label: 'L_9', op: 'giveItem', itemId: 148, count: 0 },
+    ]
+    expect(translateCraftRecipeScript(cycle, buildLabelIndex(cycle), 1)).toBeUndefined()
+  })
+})
+
 describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
   const byId = new Map(out.items.map((i) => [i.id, i]))
   test('观音符/茶叶蛋保持数据效果；土灵珠迁成稳定共享脚本引用', () => {
@@ -503,6 +609,7 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
     const craft = byId.get('268')!.use!.effects[0]
     expect(craft).toEqual({
       kind: 'craftRecipe',
+      unavailableMessage: '炼蛊的材料不足',
       recipes: ['117', '118', '119', '120', '121'].map((itemId) => ({
         ingredients: [{ itemId, count: 1 }],
         products: [{ itemId: '148', count: 1 }],

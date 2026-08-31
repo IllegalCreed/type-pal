@@ -42,10 +42,10 @@ import {
 import { mapRoleSpritesByNumber } from './migrate-content.js'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import type { TransactionPrecondition } from './migration-transaction.js'
-import { applyPalItemOverlays } from './pal-authored-overlays.js'
+import { applyPalGeneratedCraftMessages, applyPalItemOverlays } from './pal-authored-overlays.js'
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
-import { assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
 import { buildPalMigration, type MigrationJson, type PalMigrationSources } from './pal-migration.js'
+import { assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
 import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES } from './pal-world-sprite-layouts.js'
 import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'
 import type { ProjectMapAuditReport } from './project-map-audit.js'
@@ -156,7 +156,16 @@ export function buildPalCurrentPublication(
   const baselineItems = required(files, 'content/items.json')
   if (!Array.isArray(baselineItems))
     throw new Error('PAL current baseline: content/items.json 期望数组')
-  put('content/items.json', applyPalItemOverlays(baselineItems as ItemData[]))
+  const generatedItems = required(generated.files, 'content/items.json')
+  if (!Array.isArray(generatedItems))
+    throw new Error('PAL generated publication: content/items.json 期望数组')
+  put(
+    'content/items.json',
+    applyPalGeneratedCraftMessages(
+      applyPalItemOverlays(baselineItems as ItemData[]),
+      generatedItems as ItemData[],
+    ),
+  )
   put('content/shops.json', required(generated.files, 'content/shops.json'))
   put('content/sprites.json', spriteAliases.sprites)
   for (const [sceneId, scene] of spriteAliases.updatedScenes)

@@ -28,6 +28,7 @@ function items(): ItemData[] {
         effects: [
           {
             kind: 'craftRecipe',
+            unavailableMessage: '炼蛊的材料不足',
             recipes: ['117', '118', '119', '120', '121'].map((itemId) => ({
               ingredients: [{ itemId, count: 1 }],
               products: [{ itemId: '148', count: 1 }],
@@ -141,6 +142,33 @@ describe('PAL Store0 / Shop boundary invariant', () => {
     })
     expect(() => assertPalStoreBoundaryInvariant({ ...validArgs(), items: vesselDrift })).toThrow(
       /item268 craftRecipe/,
+    )
+  })
+
+  it.each([
+    undefined,
+    '材料不足',
+    ' 炼蛊的材料不足 ',
+  ])('rejects item268 failure message drift: %s', (message) => {
+    const changed = items()
+    const vessel = changed.find(({ id }) => id === '268')!
+    const craft = vessel.use!.effects[0]!
+    if (craft.kind !== 'craftRecipe') throw new Error('expected craftRecipe')
+    if (message === undefined) delete craft.unavailableMessage
+    else craft.unavailableMessage = message
+    expect(() => assertPalStoreBoundaryInvariant({ ...validArgs(), items: changed })).toThrow(
+      /item268 unavailableMessage/,
+    )
+  })
+
+  it('rejects item268 recipe order or amount drift', () => {
+    const changed = items()
+    const vessel = changed.find(({ id }) => id === '268')!
+    const craft = vessel.use!.effects[0]!
+    if (craft.kind !== 'craftRecipe') throw new Error('expected craftRecipe')
+    craft.recipes[0]!.ingredients[0] = { itemId: '118', count: 1 }
+    expect(() => assertPalStoreBoundaryInvariant({ ...validArgs(), items: changed })).toThrow(
+      /item268 recipes drift/,
     )
   })
 })

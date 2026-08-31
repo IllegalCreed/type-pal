@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { ActorDef, ShopDef } from '@type-pal/content'
+import type { ActorDef, ItemData, ShopDef } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
 import {
@@ -17,7 +17,18 @@ describe('PAL current-only publication', () => {
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
     const sources = loadPalMigrationSources(repo)
-    const publication = buildPalCurrentPublication(baseline!, sources)
+    const staleItems = structuredClone(
+      baseline!.files.get('content/items.json'),
+    ) as unknown as ItemData[]
+    const staleVessel = staleItems.find(({ id }) => id === '268')!
+    staleVessel.desc = ['作者字段必须保留']
+    staleVessel.buyPrice = 1_234
+    const staleCraft = staleVessel.use!.effects.find((effect) => effect.kind === 'craftRecipe')!
+    if (staleCraft.kind !== 'craftRecipe') throw new Error('expected craftRecipe')
+    delete staleCraft.unavailableMessage
+    const staleBaseline = { ...baseline!, files: new Map(baseline!.files) }
+    staleBaseline.files.set('content/items.json', staleItems as never)
+    const publication = buildPalCurrentPublication(staleBaseline, sources)
     const manifest = buildPalCurrentManifest(sources.assetCatalog)
     const report = validatePalCurrentPublication({ publication, manifest, sources })
 
@@ -57,6 +68,12 @@ describe('PAL current-only publication', () => {
     expect([...publication.managedFiles].some((path) => path.startsWith('_transitions/'))).toBe(
       false,
     )
+    const items = publication.files.get('content/items.json') as unknown as ItemData[]
+    const vessel = items.find(({ id }) => id === '268')!
+    const craft = vessel.use!.effects.find((effect) => effect.kind === 'craftRecipe')!
+    expect(vessel.desc).toEqual(['作者字段必须保留'])
+    expect(vessel.buyPrice).toBe(1_234)
+    expect(craft).toMatchObject({ unavailableMessage: '炼蛊的材料不足' })
     const shops = publication.files.get('content/shops.json') as unknown as ShopDef[]
     expect(shops.map(({ id }) => id)).toEqual(Array.from({ length: 20 }, (_, index) => index + 1))
     expect(shops.some(({ id }) => id === 0)).toBe(false)

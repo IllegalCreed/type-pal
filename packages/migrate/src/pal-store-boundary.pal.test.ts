@@ -54,7 +54,7 @@ function projectContent() {
 }
 
 describe('PAL Store0 publication boundary', () => {
-  it('keeps baseline/current mirrored at 20 real shops and exact item270 source closure', () => {
+  it('keeps baseline/current mirrored at exact item268 recipes/message and item270 source closure', () => {
     const sources = loadPalMigrationSources(repo)
     const expected = {
       sourceStores: sources.stores,
