@@ -1,6 +1,6 @@
 # ED-ITEM-ALCHEMY-SURFACE-1 - 炼蛊皿与紫金葫芦双炼化工作台
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor item authoring（不改变 capability-map）
 Coding Owner: Codex
@@ -399,16 +399,15 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
     content validate 93 tests——**全绿**。命令计数/no-op 0/undo-redo 对称断言逐条直读确认。
   无返工项；200% zoom 实机复验按卡面分工仍归 Kimi/用户补验，不构成本席 blocker；
   未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: pending
-- done 准入结论: blocked（Codex + GLM + Kimi 三方 accept 已签；仅缺用户验收，不得标 done）
+- 用户验收: **approved（2026-08-31）**——用户在 Kimi / GLM 最终组合态终审 accept 落卡后回复“签了”，确认整卡验收。
+- done 准入结论: **allowed / complete（Codex + Kimi + GLM 三方 accept + 用户验收齐，无 counter）**
 
 ## Draft / Build / Review
 
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：in progress；`314e3a52` 与两张 failure-message migration 均已闭合，Codex accept；
-  待 Kimi / GLM 对最终组合态终审与用户实现验收。
+- Review：completed；最终组合态 Codex / Kimi / GLM accept 与用户验收齐，整卡收口 done。
 
 ### Build / Review 证据
 
@@ -477,10 +476,13 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 紫金葫芦不可用提示: **rework（2026-08-31）**——用户指出该字段也为空。核验确认 0x34 在
   collectValue=0 时通过 operand0 跳 L38780，原版旁白“无任何效果”；当前 producer 漏失败臂。已开
   `MIG-PAL-GOURD-FAILURE-MESSAGE-1`，禁止 UI/runtime fallback 或手改 current；本卡继续 blocked。
-- 实现验收: pending。
+- 实现验收: **approved（2026-08-31）**。
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: Kimi / GLM 对七提交最终组合态均签 accept；用户回复“签了”确认验收。
+  双页 IA、一进一出、5/9 数据、两种 producer 原文、Enemy 来源闭环、DS registry 与响应式证据全部闭合，
+  无 counter、无剩余返工。本卡转 done；无下一位 Agent 提示词。
 - 2026-08-31 Kimi: 只读终审七提交最终组合态，签 **accept**。独立证据：导航恰 4 子页、双 route
   deep link 自动聚焦 owner、outliner 按 capability 抑制（实机无 Catalog/徽标/机制 owner 增删）；
   adapter 重复 effect/多 owner/改 kind 抛错、no-op 零 dispatch、有效动作恰一条 UpdateItemCommand；
@@ -567,30 +569,5 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 ## 下一位 Agent 提示词
 
 ```text
-终审 ED-ITEM-ALCHEMY-SURFACE-1（Kimi 或 GLM，只读 reviewer）。
-
-任务卡：docs/ops/tasks/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md
-当前状态：review；实现提交 `54ba9c2e` + 真值文案修正 `1b090cb2` + 固定资源呈现修正 `aacf68b7` +
-一进一出修正 `314e3a52`；producer 依赖提交 `ff6c9532`（Store0）、`62e30f56`（炼蛊失败原文）、
-`893da2a3`（紫金葫芦零值原文）均已三方终审 done。Codex accept；Kimi / GLM / 用户验收 pending。
-不得修改实现、不得代签另一席、签字不足不得标记 done。
-
-已冻结结论：item268=5 条 craftRecipe（117..121→148）、item270=9 档 drawFromResourcePool
-（rewards.length===maxRoll=9、序列 [100,105,95,112,72,131,97,102,111]）、全项目各恰一项；
-档位 index+1 即灵葫消耗，无 cost 字段；现 ItemData.use.effects 是唯一 canonical owner。
-
-终审重点：两页必须是无 Catalog 的单一机制；炼蛊皿是“直接使用后按 117→118→119→120→121 固定优先级
-自动取材”，没有玩家原材料 picker；`collectValue` 只读，封顶后 N 是实际扣除；Item 页不能增删/
-换型/关闭机制 owner；两 reorder adoption 保持 18 families / 29 adoptions / 32 dataPaths / 20 owner files；
-指定中间行删除、两类移动、picker/count/delete 均一动作一命令且 undo/redo；Enemy 目录/Hero/专属字段显示
-“收服 +N 灵葫值”（含 +0），不得称自动战后奖励或不可收服；Shop 目录必须保持 20 家真实商店、无 Shop0。
-
-新增产品裁决：炼蛊皿每条规则必须固定 1 项材料 → 1 项产物；页面不得出现行内“添加/删除材料”或
-“添加/删除产物”，但保留数量、选择器、新增完整对应关系、规则排序/删除。任何复杂 shape 必须进入错误空态且
-原数据不变；不得把该限制下沉到通用 craftRecipe schema/runtime/migration。
-
-最终生成态必须显示 item268“炼蛊的材料不足”与 item270“无任何效果”，两者均来自 migration，禁止 UI/runtime
-fallback。验证证据见卡面 Build / Review 证据；请独立读上述提交与当前测试。Kimi 重点审 IA/视觉并补真实 200%
-缩放；GLM 重点复算 5/9、strict invariant、registry census、引用/删除/测试矩阵。输出 accept，或 file:line +
-复现反例 counter；写回任务卡与交接记录。三方 accept + 用户实现验收齐前不得 done。
+无下一位 Agent 提示词；ED-ITEM-ALCHEMY-SURFACE-1 已完成三方 accept 与用户验收，整卡 done。
 ```
