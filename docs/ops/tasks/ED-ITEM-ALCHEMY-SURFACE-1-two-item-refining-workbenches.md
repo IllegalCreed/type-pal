@@ -419,7 +419,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   无返工项；200% zoom 实机复验按卡面分工仍归 Kimi/用户补验，不构成本席 blocker；
   未修改实现，未代签 Kimi，未填用户验收。
 - 用户验收: pending（历史组合态曾 approved；最新控件高度/配方卡几何增量待复验）
-- done 准入结论: **blocked（窄态密度增量三方accept；最新控件高度/配方卡几何增量仅Codex accept，待Kimi/GLM accept + 用户复验）**
+- done 准入结论: **blocked（窄态密度增量三方accept；最新控件高度/配方卡几何增量 Codex + GLM accept，待Kimi accept + 用户复验）**
 
 ### 数量字段 / 连接符 / 奖励列表表面、横向节奏与窄态密度增量复审
 
@@ -501,7 +501,49 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   forced-colors可辨识外框。Craft header序号/摘要/actions同轴，rail稳定锚首header行，formula四字段与箭头同线；
   1280/760/520三档overflow0。7 files / 134 tests、typecheck与91-file DS gate绿；多路只读终审无finding。
 - Kimi: pending
-- GLM: pending
+- GLM: **accept（2026-08-31，只读增量终审 `13ed6138` + `1f6b25af` + `e11515f7`，按本席分工核
+  DOM / overlay registry / Stepper 状态门禁 / 数据零漂移，非复述 Codex）**：
+  - **配方卡 DOM 几何 ✓**：`.item-alchemy-recipe-row__header` 为 `grid-template-areas:
+    "index identity actions"` + `30px minmax(0,1fr) auto` 三列单行，`min-height:
+    var(--item-alchemy-recipe-header-height)`=**56px**（`.item-alchemy-recipe-item` 令牌定义）；
+    每个子元素显式持区（sequence-index→index、identity→identity、header 直接子动作→actions），
+    无隐式 grid 行。**通用 `.item-alchemy-row-actions` 仅持 `justify-self:end` 不持 grid-area**，
+    actions 区只由 `.item-alchemy-recipe-row__header > .item-alchemy-row-actions` 与
+    `.item-alchemy-reward-row > .item-alchemy-row-actions` 两个直接子选择器授予——reorder-surface
+    门禁逐条钉死（generic 断言 not.toContain('grid-area')、两条直接子断言 toContain）。
+  - **overlay rail ✓**：craft `DsReorderItem` 升 `layout="overlay"` + `item-alchemy-recipe-item`；
+    rail 规则 `inset-block-start:0; block-size:var(--item-alchemy-recipe-header-height)`——锚定
+    首个 header 行、与 header 同高共中线（结构上保证 handle/header 中心一致；三档 ≤1px 实测归
+    Codex/Kimi 视觉）。identity 与 formula 内容起点共用同一 inset 令牌链（header padding =
+    rail-inset；formula padding = rail-inset+30px+space-3，即 index 列终点），与实测同 x 一致。
+  - **公共 Stepper 外框 ✓（逐声明门禁）**：`.ds-number-stepper` `min-height:
+    var(--ds-number-stepper-button-size)`=var(--ds-control-height)=**36px 真实值**（`border:0`，
+    外框不参与盒模型），base 描边 `box-shadow: inset 0 0 0 1px var(--ds-border-control)`；
+    invalid `:has(.ds-input[aria-invalid="true"])` → inset danger；非 forced 的 focus 走既有
+    `:focus-visible` 外部 outline。**forced-colors 四态**——base `1px ButtonText/-1px/box-shadow
+    none`、invalid `2px Highlight/-2px`、focus `2px Highlight/0`、invalid+focus `2px
+    Highlight/0`——boundary 门禁对六条规则逐声明断言（本人直读 + 复跑绿）。
+  - **奖励行动作高度 ✓**：reward row 动作组 `density compact→default`，新增公共规则
+    `.ds-action-group[data-density="default"] .ds-icon-button` 36px 方形（=--ds-control-height），
+    与 select/input/stepper 同 36px 同 y（结构一致；同 top/bottom 实测归 Codex/Kimi）。
+  - **overlay registry ✓**：`item/craft-recipes` 条目**恰两字段变更**——`railLayout
+    inline→overlay`、`railOwner` → `ItemAlchemyEditors.tsx layout="overlay"`；dataPaths
+    （`items[*].use.effects[kind=craftRecipe].recipes`）/adapter（linear-insert）/identity
+    （editor-local-token）/commandOwner（UpdateItemCommand）/revisionOwner
+    （EditSession.historyVersion）/contentSurface/contentOwner/verification 本人逐字段比对不变。
+    全库 overlay census 恰 `["asset/frame-animation-timeline","item/craft-recipes"]`，与 surface
+    门禁 sorted 断言一致。
+  - **数据零漂移 ✓**：累计 DOM diff 恰两处属性级（DsReorderItem +layout/className、
+    DsActionGroup density）——recipes/rewards/maxRoll、reorderKeys/itemKey、MoveButton、
+    删除回调、onChange→UpdateItemCommand 路径全部未触碰；`git diff b01d10a8..e11515f7` 文件面
+    仅 editor UI/DS css/registry/测试 + 文档，`projects/`、content、reforge、migrate、core、
+    shared 零文件；item268 现值 5 条 117..121→148 +「炼蛊的材料不足」、item270 9===9 九档 +
+    「无任何效果」不变（本人复算）。
+  - **本人复跑**：聚焦 7 files / 126 tests（ItemAlchemyTab + boundary + reorder-surface +
+    reorder-adoption + recipes + number-field + field-layout 门禁）+ DS adoption 总门禁 21
+    tests + editor typecheck——**全绿**。
+  无返工项；三档（1280/760/520）像素级几何、focus 视觉与 200% zoom 按分工归 Kimi/用户复验，
+  采信 Codex 实测且与本席结构/门禁证据一致；未修改实现，未代签 Kimi，未填用户验收。
 - 用户验收: pending
 
 ## Draft / Build / Review
@@ -661,6 +703,18 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ## 交接记录
 
+- 2026-08-31 GLM: 增量只读终审 `13ed6138` + `1f6b25af` + `e11515f7`（控件高度/配方卡几何/公共
+  Stepper 外框），按本席分工签 **accept**。独立证据：header 三区单行 56px 无隐式行、通用
+  `.item-alchemy-row-actions` 不持 grid-area（两直接子选择器持 actions，门禁逐条钉死）；
+  DsReorderItem layout="overlay"、rail 锚定 56px header 行、identity/formula 共用 inset 令牌链；
+  stepper outer 36px 真实值（border 0 + inset 1px 描边）、invalid danger、非 forced focus 外部
+  ring、forced-colors 四态 1px ButtonText/-1、2px Highlight/-2、2px Highlight/0 ×2——boundary
+  门禁六规则逐声明断言；reward 动作组 default density 36px 与控件同高；registry 恰 railLayout
+  + railOwner 两字段变更（其余字段逐字段比对不变）、全库 overlay census 恰 2 与门禁一致；
+  累计 DOM diff 恰两处属性级、数据/命令/reorder key/回调零触碰、`b01d10a8..e11515f7` 仅 editor
+  文件、item268/270 现值不变；本人复跑聚焦 7 files / 126 tests + DS adoption 21 tests +
+  typecheck 全绿。三档像素几何/focus 视觉/200% zoom 归 Kimi/用户，采信 Codex 实测且与本席
+  结构证据一致。无返工项；未修改实现，未代签 Kimi，未填用户验收。Next: Kimi 增量终审与用户复验。
 - 2026-08-31 User/Codex: 用户截图指出炼蛊配方卡摘要/actions/handle/字段严重错位。浏览器证实Craft header因
   reward共享`grid-area:actions`生成隐式5列×2行（96px），number stepper真实border又使outer38而Select36。
   `e11515f7`将actions area按surface分域、Craft切公共overlay rail并锚56px header、formula与identity同起点，
