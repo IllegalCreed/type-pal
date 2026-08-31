@@ -71,7 +71,8 @@
       "source": "ProjectWorkbenchTab.tsx",
       "component": "RoleBindings",
       "responsive": 1,
-      "stacked": 0
+      "stacked": 0,
+      "labelTrack": "wide"
     },
     {
       "source": "ProjectWorkbenchTab.tsx",

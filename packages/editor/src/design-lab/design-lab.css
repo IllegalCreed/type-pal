@@ -198,6 +198,12 @@ textarea {
 .lab-field-layout-sample--479 {
   inline-size: min(100%, 479px);
 }
+.lab-field-layout-sample--560 {
+  inline-size: min(100%, 560px);
+}
+.lab-field-layout-sample--559 {
+  inline-size: min(100%, 559px);
+}
 .lab-number-field-stack {
   display: grid;
   align-items: start;

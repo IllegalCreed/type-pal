@@ -19,6 +19,7 @@ import {
   deriveStartWorldResourceCandidates,
   groupProjectIssues,
   IssueList,
+  PROJECT_ASSET_ROLE_GROUPS,
   type ProjectWorkbenchPage,
   ProjectWorkbenchTab,
   StartWorldFields,
@@ -2141,6 +2142,20 @@ describe('项目设置工作区', () => {
       ),
     )
 
+    const roleGroups = [...host.querySelectorAll<HTMLElement>('.project-role-list')]
+    expect(roleGroups).toHaveLength(PROJECT_ASSET_ROLE_GROUPS.length)
+    expect(
+      roleGroups.every(
+        (group) =>
+          group.getAttribute('data-ds-field-group') === '' && group.dataset.labelTrack === 'wide',
+      ),
+    ).toBe(true)
+    expect(
+      roleGroups.reduce(
+        (total, group) => total + group.querySelectorAll(':scope > .project-role-row').length,
+        0,
+      ),
+    ).toBe(ASSET_ROLES.length)
     const row = [...host.querySelectorAll<HTMLElement>('.project-role-row')].find((candidate) =>
       candidate.textContent?.includes('启动商标视频'),
     )!
@@ -2155,9 +2170,7 @@ describe('项目设置工作区', () => {
     expect(helpButton).not.toBeNull()
     const helpTooltip = document.getElementById(helpButton.getAttribute('aria-describedby')!)
     expect(helpTooltip?.getAttribute('role')).toBe('tooltip')
-    expect(helpTooltip?.textContent).toBe(
-      '可选资源角色：video.startupTrademark；需要视频资源。',
-    )
+    expect(helpTooltip?.textContent).toBe('可选资源角色：video.startupTrademark；需要视频资源。')
     expect(helpTooltip?.querySelector('code[translate="no"]')?.textContent).toBe(
       'video.startupTrademark',
     )

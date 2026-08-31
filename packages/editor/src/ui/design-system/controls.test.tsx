@@ -8,8 +8,8 @@ import {
   DsButton,
   DsCheckbox,
   DsControlGroup,
-  DsDraftNumberInput,
   DsDraftNumberField,
+  DsDraftNumberInput,
   DsDraftTextInput,
   DsEmptyState,
   DsField,
@@ -21,8 +21,8 @@ import {
   DsMenuBar,
   type DsMenuDefinition,
   DsMultiSelect,
-  DsNumberInput,
   DsNumberField,
+  DsNumberInput,
   type DsOption,
   DsRadioGroup,
   DsSelect,
@@ -1010,6 +1010,7 @@ describe('editor design-system controls', () => {
 
     const group = host.querySelector<HTMLElement>('[data-ds-field-group]')
     expect(group?.dataset.layout).toBe('responsive')
+    expect(group?.dataset.labelTrack).toBe('default')
     expect(group?.querySelectorAll(':scope > .ds-field')).toHaveLength(2)
     expect(group?.querySelector<HTMLLabelElement>('label[for="field-group-label"]')).not.toBeNull()
     expect(
@@ -1023,6 +1024,30 @@ describe('editor design-system controls', () => {
 
     await act(async () =>
       root.render(
+        <DsFieldGroup labelTrack="wide">
+          <DsField
+            id="field-group-wide"
+            label="特殊战胜利结算音乐"
+            required
+            error="请选择可用音乐"
+            help={{ label: '特殊战胜利结算音乐', content: '宽标签帮助内容' }}
+          >
+            {(field) => <DsTextInput {...field} defaultValue="music.special-victory" />}
+          </DsField>
+        </DsFieldGroup>,
+      ),
+    )
+    const wideGroup = host.querySelector<HTMLElement>('[data-ds-field-group]')!
+    const wideInput = wideGroup.querySelector<HTMLInputElement>('#field-group-wide')!
+    expect(wideGroup.dataset.layout).toBe('responsive')
+    expect(wideGroup.dataset.labelTrack).toBe('wide')
+    expect(wideGroup.querySelector('label')?.htmlFor).toBe(wideInput.id)
+    expect(wideInput.getAttribute('aria-describedby')).toBe('field-group-wide-description')
+    expect(wideInput.getAttribute('aria-invalid')).toBe('true')
+    expect(wideGroup.querySelector('button[aria-label="特殊战胜利结算音乐说明"]')).not.toBeNull()
+
+    await act(async () =>
+      root.render(
         <DsFieldGroup layout="stacked">
           <DsField label="整组上下排列">
             <DsTextInput aria-label="整组上下排列" />
@@ -1031,6 +1056,9 @@ describe('editor design-system controls', () => {
       ),
     )
     expect(host.querySelector('[data-ds-field-group]')?.getAttribute('data-layout')).toBe('stacked')
+    expect(host.querySelector('[data-ds-field-group]')?.getAttribute('data-label-track')).toBe(
+      'default',
+    )
   })
 
   test('select supports portal click and keyboard selection while skipping disabled options', async () => {

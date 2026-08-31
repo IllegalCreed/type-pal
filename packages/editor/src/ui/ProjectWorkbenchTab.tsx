@@ -481,7 +481,7 @@ function RoleBindings(props: {
 }) {
   const { manifest, assetCatalog, session, assetReader, roles, onOpenLocation } = props
   return (
-    <DsFieldGroup className="project-role-list">
+    <DsFieldGroup className="project-role-list" labelTrack="wide">
       {roles.map((definition) => {
         const { role, kind: expected, label } = definition
         const status = projectAssetRoleStatus(definition, manifest.assets, assetCatalog)

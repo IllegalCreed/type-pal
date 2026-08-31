@@ -110,8 +110,9 @@ function scopedLocalBindings(sourceFile: ts.SourceFile) {
 }
 
 function sameScope(left: ts.Node, right: ts.Node): boolean {
-  return left === right ||
-    (left.kind === right.kind && left.pos === right.pos && left.end === right.end)
+  return (
+    left === right || (left.kind === right.kind && left.pos === right.pos && left.end === right.end)
+  )
 }
 
 function visibleLocalBinding(
@@ -122,13 +123,12 @@ function visibleLocalBinding(
   const candidates = bindings.get(name) ?? []
   let scope: ts.Node | undefined = usage
   while (scope) {
-    if (ts.isBlock(scope) || ts.isSourceFile(scope) || ts.isFunctionLike(scope))
-      {
-        const visible = candidates
-          .filter((candidate) => sameScope(candidate.scope, scope))
-          .sort((left, right) => right.declaration.pos - left.declaration.pos)
-        if (visible[0]) return visible[0]
-      }
+    if (ts.isBlock(scope) || ts.isSourceFile(scope) || ts.isFunctionLike(scope)) {
+      const visible = candidates
+        .filter((candidate) => sameScope(candidate.scope, scope))
+        .sort((left, right) => right.declaration.pos - left.declaration.pos)
+      if (visible[0]) return visible[0]
+    }
     scope = scope.parent
   }
   return undefined
@@ -154,9 +154,7 @@ function assertOfficialDesignSystemTag(
   if (officialBindings.get(tag) === tag && !hasVisibleLocalBinding(localBindings, tag, opening))
     return
   const line = sourceFile.getLineAndCharacterOfPosition(opening.getStart(sourceFile)).line + 1
-  throw new Error(
-    `${source}:${line}: ${tag} must resolve to its canonical design-system export`,
-  )
+  throw new Error(`${source}:${line}: ${tag} must resolve to its canonical design-system export`)
 }
 
 function recursiveFiles(root: string): string[] {
@@ -205,6 +203,17 @@ function staticAttribute(
   throw new Error(
     `${source}: ${opening.tagName.getText(sourceFile)} ${name} must be a static string literal; received ${attribute.getText(sourceFile)}`,
   )
+}
+
+function staticFieldGroupLabelTrack(
+  opening: ts.JsxOpeningLikeElement,
+  sourceFile: ts.SourceFile,
+  source: string,
+): 'default' | 'wide' {
+  const labelTrack = staticAttribute(opening, 'labelTrack', sourceFile, source) ?? 'default'
+  if (labelTrack !== 'default' && labelTrack !== 'wide')
+    throw new Error(`${source}: unsupported DsFieldGroup labelTrack ${labelTrack}`)
+  return labelTrack
 }
 
 function jsxAttribute(
@@ -360,6 +369,7 @@ const governedInlineStyleKeys = new Set([
   'gridTemplate',
   'gridTemplateColumns',
   '--ds-field-label-track',
+  '--ds-field-label-track-wide',
   '--ds-inspector-property-label-track',
 ])
 
@@ -482,6 +492,7 @@ function productionCensus(root = uiRoot) {
     component: string
     responsive: number
     stacked: number
+    labelTrack?: 'wide'
   }> = []
   const inlineFields: Array<{
     source: string
@@ -519,7 +530,15 @@ function productionCensus(root = uiRoot) {
       true,
       ts.ScriptKind.TSX,
     )
-    const groupCounts = new Map<string, { responsive: number; stacked: number }>()
+    const groupCounts = new Map<
+      string,
+      {
+        component: string
+        labelTrack: 'default' | 'wide'
+        responsive: number
+        stacked: number
+      }
+    >()
     const detachedCounts = new Map<string, number>()
     const importedComponentSources = new Map<string, string>()
     const officialBindings = officialDesignSystemBindings(sourceFile, source)
@@ -540,13 +559,7 @@ function productionCensus(root = uiRoot) {
 
     function visit(node: ts.Node): void {
       if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
-        assertOfficialDesignSystemTag(
-          node,
-          sourceFile,
-          source,
-          officialBindings,
-          localBindings,
-        )
+        assertOfficialDesignSystemTag(node, sourceFile, source, officialBindings, localBindings)
         const tag = node.tagName.getText(sourceFile)
         if (/^[A-Z][A-Za-z0-9]*$/.test(tag))
           componentUsages.push({
@@ -599,13 +612,20 @@ function productionCensus(root = uiRoot) {
           const layout = staticAttribute(node, 'layout', sourceFile, source) ?? 'responsive'
           if (layout !== 'responsive' && layout !== 'stacked')
             throw new Error(`${source}: unsupported DsFieldGroup layout ${layout}`)
+          const labelTrack = staticFieldGroupLabelTrack(node, sourceFile, source)
           const component = namedComponent(node, sourceFile, source)
           const className = staticAttribute(node, 'className', sourceFile, source)
           for (const token of className?.split(/\s+/).filter(Boolean) ?? [])
             fieldGroupBusinessClasses.add(token)
-          const count = groupCounts.get(component) ?? { responsive: 0, stacked: 0 }
+          const groupKey = `${component}\u0000${labelTrack}`
+          const count = groupCounts.get(groupKey) ?? {
+            component,
+            labelTrack,
+            responsive: 0,
+            stacked: 0,
+          }
           count[layout] += 1
-          groupCounts.set(component, count)
+          groupCounts.set(groupKey, count)
         }
 
         if (isLayoutFieldComponent(tag)) {
@@ -652,8 +672,14 @@ function productionCensus(root = uiRoot) {
         `${source}: namespace field owner tags are forbidden: ${namespaceTags.join(', ')}`,
       )
 
-    for (const [component, counts] of groupCounts)
-      groups.push({ source: basename(source), component, ...counts })
+    for (const counts of groupCounts.values())
+      groups.push({
+        source: basename(source),
+        component: counts.component,
+        responsive: counts.responsive,
+        stacked: counts.stacked,
+        ...(counts.labelTrack === 'wide' ? { labelTrack: 'wide' as const } : {}),
+      })
     for (const [component, propertyGrids] of detachedCounts)
       detachedPropertyGrids.push({ source: basename(source), component, propertyGrids })
   }
@@ -1062,13 +1088,7 @@ function inspectorGraph(overrides: Record<string, string> = {}, root = uiRoot): 
         inspector: boolean,
         portal?: number,
       ): void {
-        assertOfficialDesignSystemTag(
-          opening,
-          sourceFile,
-          source,
-          officialBindings,
-          localBindings,
-        )
+        assertOfficialDesignSystemTag(opening, sourceFile, source, officialBindings, localBindings)
         const tag = opening.tagName.getText(sourceFile)
         const line = sourceFile.getLineAndCharacterOfPosition(opening.getStart(sourceFile)).line + 1
         if (tag === 'DsInspectorHost') component.hosts += 1
@@ -1401,14 +1421,12 @@ function validateInspectorOwnershipGraph(
   for (const entry of manifest.exceptions.inspectorHosts) {
     const hostId = componentIdentity(entry.source, entry.component)
     const host = graph.components.get(hostId)
-    if (!host || host.hosts < 1)
-      throw new Error(`${hostId} must own a real DsInspectorHost`)
+    if (!host || host.hosts < 1) throw new Error(`${hostId} must own a real DsInspectorHost`)
   }
   for (const entry of manifest.exceptions.inspectorTabs) {
     const hostId = componentIdentity(entry.source, entry.component)
     const host = graph.components.get(hostId)
-    if (!host || host.tabs < 1)
-      throw new Error(`${hostId} must own a real DsInspectorTabs`)
+    if (!host || host.tabs < 1) throw new Error(`${hostId} must own a real DsInspectorTabs`)
   }
 
   for (const entry of manifest.exceptions.inspectorOwners) {
@@ -1750,6 +1768,11 @@ describe('field layout adoption gate', () => {
     expect(census.groups.map((entry) => JSON.stringify(entry)).sort()).toEqual(
       manifest.adoptions.map((entry) => JSON.stringify(entry)).sort(),
     )
+    expect(
+      manifest.adoptions
+        .filter((entry) => entry.labelTrack === 'wide')
+        .map((entry) => `${entry.source}@${entry.component}`),
+    ).toEqual(['ProjectWorkbenchTab.tsx@RoleBindings'])
     expect(census.inlineFields.map((entry) => JSON.stringify(entry)).sort()).toEqual(
       manifest.exceptions.inlineFields
         .map((entry) =>
@@ -1799,7 +1822,9 @@ describe('field layout adoption gate', () => {
           .replace(/<DsInspectorHost\b/g, '<div')
           .replace(/<\/DsInspectorHost>/g, '</div>'),
       }),
-    ).toThrow(/must own a real DsInspectorHost|outside a real Inspector host|no Inspector-context path/)
+    ).toThrow(
+      /must own a real DsInspectorHost|outside a real Inspector host|no Inspector-context path/,
+    )
 
     const aliasedOutsideHost = appSource
       .replace('export function App(', 'const Unsafe = EntityInspector\n\nexport function App(')
@@ -1815,7 +1840,10 @@ describe('field layout adoption gate', () => {
     ).toThrow(/outside a real Inspector host/)
 
     const memoAliasedOutsideHost = appSource
-      .replace('export function App(', 'const UnsafeMemo = React.memo(EntityInspector)\n\nexport function App(')
+      .replace(
+        'export function App(',
+        'const UnsafeMemo = React.memo(EntityInspector)\n\nexport function App(',
+      )
       .replace(
         '\n            <DsInspectorHost',
         '\n            <UnsafeMemo />\n\n            <DsInspectorHost',
@@ -1834,9 +1862,9 @@ describe('field layout adoption gate', () => {
         'function DsInspectorHost(props: { children?: ReactNode }) { return <main>{props.children}</main> }\n\nexport function App(',
       )
     expect(counterfeitHost).not.toBe(appSource)
-    expect(() =>
-      validateInspectorOwnershipGraph(manifest, { 'App.tsx': counterfeitHost }),
-    ).toThrow(/DsInspectorHost must resolve to its canonical design-system export/)
+    expect(() => validateInspectorOwnershipGraph(manifest, { 'App.tsx': counterfeitHost })).toThrow(
+      /DsInspectorHost must resolve to its canonical design-system export/,
+    )
 
     const unrelatedInspectorImport = appSource.replace(
       /from '\.\/design-system\/index\.js'/g,
@@ -1875,7 +1903,9 @@ function UnusedInspectorDecoy() {
           .replace(/<DsInspectorHost\b/g, '<div')
           .replace(/<\/DsInspectorHost>/g, '</div>'),
       }),
-    ).toThrow(/must own a real DsInspectorHost|outside a real Inspector host|must place every PropertyGrid/)
+    ).toThrow(
+      /must own a real DsInspectorHost|outside a real Inspector host|must place every PropertyGrid/,
+    )
 
     const stampSource = readFileSync(join(uiRoot, 'StampContentEditor.tsx'), 'utf8')
     const withoutLivePortal = stampSource.replace(
@@ -2108,7 +2138,12 @@ function UnusedInspectorDecoy() {
     ).toBe(manifest.retiredPrivateTracks.length)
 
     for (const entry of manifest.adoptions) {
-      expect(Object.keys(entry).sort()).toEqual(['component', 'responsive', 'source', 'stacked'])
+      expect(Object.keys(entry).sort()).toEqual(
+        entry.labelTrack === 'wide'
+          ? ['component', 'labelTrack', 'responsive', 'source', 'stacked']
+          : ['component', 'responsive', 'source', 'stacked'],
+      )
+      if (entry.labelTrack !== undefined) expect(entry.labelTrack).toBe('wide')
       expect(entry.responsive + entry.stacked).toBeGreaterThan(0)
     }
     for (const entry of manifest.exceptions.inlineFields) {
@@ -2263,7 +2298,7 @@ function UnusedInspectorDecoy() {
       return cssRules(readFileSync(file, 'utf8')).flatMap((rule) =>
         [
           ...rule.body.matchAll(
-            /(--ds-(?:field-label|inspector-property-label)-track)\s*:\s*([^;}]*)/g,
+            /(--ds-(?:field-label-track(?:-wide)?|inspector-property-label-track))\s*:\s*([^;}]*)/g,
           ),
         ].map((match) => ({
           source,
@@ -2281,6 +2316,13 @@ function UnusedInspectorDecoy() {
         atRule: '',
         property: '--ds-field-label-track',
         value: '96px',
+      },
+      {
+        source: 'design-system/tokens.css',
+        selector: ':root',
+        atRule: '',
+        property: '--ds-field-label-track-wide',
+        value: '160px',
       },
       {
         source: 'design-system/tokens.css',
@@ -2315,8 +2357,10 @@ function UnusedInspectorDecoy() {
       [
         'design-system/primitives.css|root|.ds-field--inline|grid-template-columns|auto minmax(0, 1fr)',
         'design-system/primitives.css|root|.ds-field-group[data-layout="responsive"] > .ds-field|grid-template-columns|var(--ds-field-label-track) minmax(0, 1fr)',
+        'design-system/primitives.css|root|.ds-field-group[data-layout="responsive"][data-label-track="wide"] > .ds-field|grid-template-columns|var(--ds-field-label-track-wide) minmax(0, 1fr)',
         'design-system/primitives.css|root|.ds-field-group[data-layout="stacked"] > .ds-field|grid-template-columns|minmax(0, 1fr)',
         'design-system/primitives.css|@container ds-field-group (width < 480px)|.ds-field-group[data-layout="responsive"] > .ds-field|grid-template-columns|minmax(0, 1fr)',
+        'design-system/primitives.css|@container ds-field-group (width < 560px)|.ds-field-group[data-layout="responsive"][data-label-track="wide"] > .ds-field|grid-template-columns|minmax(0, 1fr)',
         'design-system/recipes.css|root|.ds-property-row|grid-template-columns|minmax(0, 1fr)',
         'design-system/recipes.css|root|[data-ds-inspector-host] .ds-property-row|grid-template-columns|var(--ds-inspector-property-label-track) minmax(0, 1fr)',
         'design-system/recipes.css|root|.ds-readout-row|grid-template-columns|var(--ds-field-label-track) minmax(0, 1fr)',
@@ -2452,6 +2496,49 @@ function UnusedInspectorDecoy() {
     ).toHaveLength(1)
   })
 
+  test('keeps DsFieldGroup labelTrack a static default-or-wide enum', () => {
+    const openingFrom = (
+      jsx: string,
+    ): { opening: ts.JsxOpeningLikeElement; source: ts.SourceFile } => {
+      const source = ts.createSourceFile(
+        'label-track-fixture.tsx',
+        `export function Fixture() { return (${jsx}) }`,
+        ts.ScriptTarget.Latest,
+        true,
+        ts.ScriptKind.TSX,
+      )
+      let opening: ts.JsxOpeningLikeElement | undefined
+      function visit(node: ts.Node): void {
+        if (
+          !opening &&
+          (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) &&
+          node.tagName.getText(source) === 'DsFieldGroup'
+        )
+          opening = node
+        ts.forEachChild(node, visit)
+      }
+      visit(source)
+      return { opening: opening!, source }
+    }
+
+    for (const [jsx, expected] of [
+      ['<DsFieldGroup />', 'default'],
+      ['<DsFieldGroup labelTrack="default" />', 'default'],
+      ['<DsFieldGroup labelTrack="wide" />', 'wide'],
+    ] as const) {
+      const { opening, source } = openingFrom(jsx)
+      expect(staticFieldGroupLabelTrack(opening, source, 'label-track-fixture.tsx')).toBe(expected)
+    }
+    for (const jsx of [
+      '<DsFieldGroup labelTrack={track} />',
+      '<DsFieldGroup labelTrack={160} />',
+      '<DsFieldGroup labelTrack="narrow" />',
+    ]) {
+      const { opening, source } = openingFrom(jsx)
+      expect(() => staticFieldGroupLabelTrack(opening, source, 'label-track-fixture.tsx')).toThrow()
+    }
+  })
+
   test('recognizes exact legacy class tokens without matching compound names', () => {
     const source = ts.createSourceFile(
       'fixture.tsx',
@@ -2507,6 +2594,7 @@ function UnusedInspectorDecoy() {
           return <>
             <div style={badTrack} />
             <div style={{ '--ds-field-label-track': \`${'${labelWidth}'}px\` }} />
+            <div style={{ '--ds-field-label-track-wide': \`${'${labelWidth}'}px\` }} />
           </>
         }
       `,
@@ -2517,6 +2605,7 @@ function UnusedInspectorDecoy() {
     expect(governedInlineStyleViolations(inlineStyleSource, 'inline-style-fixture.tsx')).toEqual([
       'inline-style-fixture.tsx:3:gridTemplateColumns',
       'inline-style-fixture.tsx:7:--ds-field-label-track',
+      'inline-style-fixture.tsx:8:--ds-field-label-track-wide',
     ])
   })
 })

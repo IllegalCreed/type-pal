@@ -21,33 +21,34 @@ describe('effect-card adoption gate', () => {
       'skill/base-effects',
       'skill/execution-effects',
     ])
-    expect(registry.families.find((family: { id: string }) => family.id === 'item/use-effects'))
-      .toMatchObject({ density: 'default', privateBranch: true, kinds: expect.arrayContaining([
-        'dieIfNotPoisoned',
-        'levelUp',
-        'placeEntityInFront',
-      ]) })
+    expect(
+      registry.families.find((family: { id: string }) => family.id === 'item/use-effects'),
+    ).toMatchObject({
+      density: 'default',
+      privateBranch: true,
+      kinds: expect.arrayContaining(['dieIfNotPoisoned', 'levelUp', 'placeEntityInFront']),
+    })
   })
 
   test('fails loud for a missing owner, wrong key, misaligned grip, or lost full-span body', () => {
     const owner = source('EffectEditorCard.tsx')
     const editorCss = source('editor.css')
-    const fullSpanStart = editorCss.indexOf(
-      '.effect-editor-card__fields > .item-effect-field-wide',
-    )
+    const fullSpanStart = editorCss.indexOf('.effect-editor-card__fields > .item-effect-field-wide')
     const editorCssWithoutFullSpan =
       editorCss.slice(0, fullSpanStart) +
-      editorCss
-        .slice(fullSpanStart)
-        .replace(/grid-column:\s*1\s*\/\s*-1;/, '')
-    const responsiveStart = editorCss.indexOf(
-      '@container effect-editor-card (max-width: 520px)',
-    )
+      editorCss.slice(fullSpanStart).replace(/grid-column:\s*1\s*\/\s*-1;/, '')
+    const responsiveStart = editorCss.indexOf('@container effect-editor-card (max-width: 520px)')
     const editorCssWithWrongResponsiveGrip =
       editorCss.slice(0, responsiveStart) +
       editorCss
         .slice(responsiveStart)
         .replace('var(--ds-control-height-compact)', 'var(--ds-control-height)')
+    const overlayStart = editorCss.indexOf(
+      '.ds-reorder-item.effect-editor-card-item[data-layout="overlay"] > .ds-reorder-item__rail',
+    )
+    const editorCssWithWrongOverlayGrip =
+      editorCss.slice(0, overlayStart) +
+      editorCss.slice(overlayStart).replace('inset-block-start: 0;', 'inset-block-start: 50%;')
 
     expect(
       validateEffectCardAdoption(registry, {
@@ -75,10 +76,7 @@ describe('effect-card adoption gate', () => {
     ).toContain('item/use-effects must bind each card to its stable reorderKey')
     expect(
       validateEffectCardAdoption(registry, {
-        'editor.css': editorCss.replace(
-          'inset-block-start: 0;',
-          'inset-block-start: 50%;',
-        ),
+        'editor.css': editorCssWithWrongOverlayGrip,
       }),
     ).toContain('EffectEditorCard overlay handle is not header-aligned')
     expect(

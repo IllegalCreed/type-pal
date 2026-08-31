@@ -510,12 +510,14 @@ export function DsFieldGroup(props: {
   children: ReactNode
   className?: string
   layout?: 'responsive' | 'stacked'
+  labelTrack?: 'default' | 'wide'
 }) {
   return (
     <div
       className={classes('ds-field-group', props.className)}
       data-ds-field-group=""
       data-layout={props.layout ?? 'responsive'}
+      data-label-track={props.labelTrack ?? 'default'}
     >
       {props.children}
     </div>

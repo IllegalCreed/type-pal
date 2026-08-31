@@ -174,7 +174,7 @@ describe('editor design-system static boundary', () => {
     expect(cssDeclaration(center[0]!, 'grid-column')).toBe('2')
   })
 
-  test('locks field groups to the shared 96px track and 479/480 container boundary', () => {
+  test('locks field groups to default 96px/480 and wide 160px/560 contracts', () => {
     const tokens = readFileSync(join(here, 'tokens.css'), 'utf8')
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
     const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
@@ -182,6 +182,7 @@ describe('editor design-system static boundary', () => {
     const editor = readFileSync(join(here, '..', 'editor.css'), 'utf8')
 
     expect(tokens).toContain('--ds-field-label-track: 96px;')
+    expect(tokens).toContain('--ds-field-label-track-wide: 160px;')
     expect(tokens).toContain('--ds-inspector-property-label-track: 60px;')
     const group = cssRuleBodies(primitives, '.ds-field-group')
     expect(group).toHaveLength(1)
@@ -195,6 +196,14 @@ describe('editor design-system static boundary', () => {
     expect(cssDeclaration(responsive[0]!, 'grid-template-columns')).toBe(
       'var(--ds-field-label-track) minmax(0, 1fr)',
     )
+    const wideResponsive = cssRuleBodies(
+      primitives,
+      '.ds-field-group[data-layout="responsive"][data-label-track="wide"] > .ds-field',
+    )
+    expect(wideResponsive).toHaveLength(1)
+    expect(cssDeclaration(wideResponsive[0]!, 'grid-template-columns')).toBe(
+      'var(--ds-field-label-track-wide) minmax(0, 1fr)',
+    )
     const stackedBoundary = cssRuleBodies(
       primitives,
       '.ds-field-group[data-layout="responsive"] > .ds-field',
@@ -202,6 +211,24 @@ describe('editor design-system static boundary', () => {
     )
     expect(stackedBoundary).toHaveLength(1)
     expect(cssDeclaration(stackedBoundary[0]!, 'grid-template-columns')).toBe('minmax(0, 1fr)')
+    const wideBoundary = cssRuleBodies(
+      primitives,
+      '.ds-field-group[data-layout="responsive"][data-label-track="wide"] > .ds-field',
+      '@container ds-field-group (width < 560px)',
+    )
+    expect(wideBoundary).toHaveLength(1)
+    expect(cssDeclaration(wideBoundary[0]!, 'grid-template-areas')).toBe('"label" "control"')
+    expect(cssDeclaration(wideBoundary[0]!, 'grid-template-columns')).toBe('minmax(0, 1fr)')
+    expect(cssDeclaration(wideBoundary[0]!, 'row-gap')).toBe('var(--ds-space-3)')
+    const wideSupportBoundary = cssRuleBodies(
+      primitives,
+      '.ds-field-group[data-layout="responsive"][data-label-track="wide"] > .ds-field[data-support="true"]',
+      '@container ds-field-group (width < 560px)',
+    )
+    expect(wideSupportBoundary).toHaveLength(1)
+    expect(cssDeclaration(wideSupportBoundary[0]!, 'grid-template-areas')).toBe(
+      '"label" "control" "support"',
+    )
     const control = cssRuleBodies(primitives, '.ds-field-group > .ds-field > [data-ds-control-id]')
     expect(cssDeclaration(control[0]!, 'min-width')).toBe('0')
     const support = cssRuleBodies(
@@ -221,6 +248,9 @@ describe('editor design-system static boundary', () => {
     expect(designLab).toContain("'RF-23'")
     expect(designLab).toContain('<FieldLayoutFixture />')
     expect(designLab).toContain('用于验证自然换行的较长中文标签')
+    expect(designLab).toContain('labelTrack="wide"')
+    expect(designLab).toContain('特殊战胜利结算音乐')
+    expect(designLab).toContain('required')
     expect(designLab).toContain('<DsPropertyGrid>')
     expect(designLab).toContain('<DsReadoutList>')
     expect(
@@ -235,6 +265,18 @@ describe('editor design-system static boundary', () => {
         'inline-size',
       ),
     ).toBe('min(100%, 479px)')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(designLabCss, '.lab-field-layout-sample--560')[0]!,
+        'inline-size',
+      ),
+    ).toBe('min(100%, 560px)')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(designLabCss, '.lab-field-layout-sample--559')[0]!,
+        'inline-size',
+      ),
+    ).toBe('min(100%, 559px)')
     expect(cssDeclaration(cssRuleBodies(editor, '.editor')[0]!, 'min-width')).toBe(
       'min(720px, 100vw)',
     )
@@ -520,14 +562,15 @@ describe('editor design-system static boundary', () => {
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.20.1'")
-    expect(tokens).toContain('--ds-version: "2.20.1";')
-    expect(specification).toContain('Status: implemented v2.20.1')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.21.0'")
+    expect(tokens).toContain('--ds-version: "2.21.0";')
+    expect(specification).toContain('Status: implemented v2.21.0')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
     expect(specification).toContain('ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）')
     expect(specification).toContain('ED-TEXT-OVERFLOW-1（v2.18.0）')
+    expect(specification).toContain('ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）')
     expect(specification).toContain('DS-C.5b Checkbox、Switch 与状态按钮语义边界')
     expect(primitives).toMatch(
       /\.ds-add-picker-dialog \.ds-overlay__body\s*\{[\s\S]*?overflow:\s*hidden;/,

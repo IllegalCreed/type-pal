@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.20.1 workbench content layout（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.21.0 wide field label track（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）/ ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-30
+Last updated: 2026-08-31
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -198,8 +198,9 @@ Last updated: 2026-08-30
 - z-index 只允许通过语义层：base、sticky、popover、drawer、modal、toast；模块不得自造任意数字。
 - 同一字段组的标签、控件、帮助/错误按 `6 / 8 / 12px` 的固定垂直节奏排列；相邻字段默认 `12px`，二级分区
   默认 `24px`。业务页不得靠零散 margin 修补某一行，也不得让相同尺寸档的输入和值行出现不同高度。
-- 主工作区的横排字段必须由一个 `DsFieldGroup` 共享唯一 `96px` 标签轨；业务字段行不得覆盖标签列宽度，
-  `DsFieldMeasure` 只约束 control 槽自身宽度，不改变共享标签轨。
+- 主工作区的横排字段必须由一个 `DsFieldGroup` 共享公共标签轨：默认组使用 `96px`；只有整组标签普遍较长且
+  经审签登记的组才能声明 `labelTrack="wide"` 使用 `160px`。业务字段行不得覆盖标签列宽度、传入任意数字或
+  自造第三档；`DsFieldMeasure` 只约束 control 槽自身宽度，不改变共享标签轨。
 - 主工作区和确认弹窗的只读名称/值信息使用 `DsReadoutList/DsReadoutRow`，共享同一 `96px` 名称轨与
   `479/480px` 容器降级；不得为了只读对齐借用 Inspector 的 `DsPropertyGrid/DsPropertyRow`。
 - 同一 grid 行的同级卡片按该行最高内容等高，下一行重新计算；表单标签列、输入起点和尾部动作列必须逐行对齐。
@@ -353,10 +354,11 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 ### DS-L.7 字段与卡片响应式
 
 - 字段标签默认在输入上方；只有容器 `>= 480px` 且标签宽度稳定时可以使用左右两列。
-- `DsFieldGroup` 在容器 `>= 480px` 时使用公共 `96px + gap + minmax(0, 1fr)` 双列轨；`< 480px`
-  时整组切换为标签在上、控件在下，不允许单行独自改变断点或标签宽度。
-- 标签列不得窄于 `96px`。普通长中文在轨内自然换行，不得压成逐字竖排；若整组标签普遍过长，整组显式使用
-  stacked 布局，不为某一行扩宽轨道。
+- `DsFieldGroup` 默认组在容器 `>= 480px` 时使用公共 `96px + gap + minmax(0, 1fr)` 双列轨，`< 480px`
+  时整组切换为标签在上、控件在下；审签的 `labelTrack="wide"` 组在 `>= 560px` 时使用
+  `160px + gap + minmax(0, 1fr)`，`< 560px` 时整组 stacked。两种合同都不允许单行独自改变断点或标签宽度。
+- 标签列默认不得窄于 `96px`，wide 固定为 `160px`。普通长中文在默认轨内自然换行，不得压成逐字竖排；
+  只有整组标签普遍过长时才能采用登记后的wide轨，不为某一行扩宽，也不允许业务页自造第三档。
 - 卡片网格以容器查询决定列数；单卡最小宽度 `280px`。不足时降列，不缩小输入和文字。
 - 长 id/path 必须 `min-width: 0`，并在换行、省略、复制三者中选择明确策略。
 - `DsInlineComposer` 在容器 `>= 480px` 时保持 `minmax(0,1fr) + intrinsic action`，尾部动作不得被拉成整行；
@@ -1046,7 +1048,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-20 | 25 registry 页面 + 标准/紧凑目录行 + allowlist 负例 | registry/DataMode 双向闭合；68/46px 行高、leading 策略、title/meta 截断一致；legacy/raw/static 违规 exit 1，损坏/stale allowlist exit 2，动态几何与 DS 内 file input 不误报 | v2.10 全量采用门禁 |
 | RF-21 | Ordered collection default/compact + repeat-row/object-card/edge-to-edge/continuous + inline/overlay rail + catalog/fixed/nested/timeline + disabled/empty/single/52 项长列表 | grip 位于 item 边界内且不占 media leading；同构字段项逐项完整边框；对象卡保留 identity、状态/摘要与详情槽且不拉成 collection 全宽；连续列表贴合单一外框且仅用 divider；insert/swap 实时让位只有一个 indicator，提交无回跳；pointer/keyboard/click 同 owner，nested scope、水平 timeline、真实 scroll owner 与长名称无裁切 | v2.12 排序合同 |
 | RF-22 | Add Picker 0/1/234 + rich-row media/detail/trailing + active/selected/disabled/all-disabled/empty/long | 标题动作稳定；固定 ID + detail 截断、60px 两行 rich row、direct searchable listbox、80 阈值、明确 footer confirm、分层 Escape、single command、唯一滚动与 focus return 通过 | v2.13 候选追加合同 |
-| RF-23 | 480px / 479px FieldGroup + 长中文/help/error/短数值 + Inspector PropertyRow 对照 | 480px 共享 96px 标签轨；479px 整组 stacked；长标签自然换行且 control 起点不漂移；help/error 与 control 同列；Inspector 仅以具名 60px 紧凑轨存在 | v2.14 字段布局合同 |
+| RF-23 | default 480/479 + wide 560/559 FieldGroup；最长标签/required/HelpTip/help/error/短数值 + Inspector PropertyRow 对照 | default：480px共享96px轨、479px stacked；wide：560px共享160px轨且最长标签单行、559px整组stacked；control起点不漂移，help/error与control同列；Inspector仅以具名60px紧凑轨存在 | v2.14 default + v2.21 wide字段布局合同 |
 | RF-24 | 28 个 catalog surface + EnemyTeam 重复/混合/空/缺失成员 + Shop 空/单/多/缺失货品 + 5 资源无 label + 295/enemy-468/team-0 | 普通对象可读 title / 精确 canonical ID meta；派生 title 不进入 identity 消费；资源缺 label 时 title 与 meta 不重复；scene root / undeclared reference 例外有界；伪 `skill.pal.*` / `enemy.pal.*` / `team.pal.*` 零命中 | v2.15 目录身份合同 |
 | RF-25 | NumberField default/compact/disabled/readonly/error/empty/negative/zero/large + 1000/720/480/320px 数字网格 | 同壳 stepper 与可见焦点；integer/decimal/inputMode、min/max/step、wheel、单命令通过；控件不超过 10rem，列由 12rem auto-fit 随容器变化且无横向溢出 | v2.17 数字字段合同 |
 | RF-26 | Item use/throw/equipment、Skill base/execution、Actor casualty 六族效果链；560/480/320px 卡容器；普通/无参数/full-span/preview/重复项/独占类型 | 共享父头/body 层级；手柄与标题中线重合；动作同尺寸；字段按容器分列/降列且无溢出；稳定 key、删除/独占切换焦点与 adoption 负例通过 | v2.19 效果卡层级合同 |

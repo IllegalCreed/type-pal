@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import {
-  DsActionLink,
   DsActionGroup,
+  DsActionLink,
   DsAddPickerDialog,
   DsButton,
   DsCard,
@@ -402,6 +402,40 @@ function FieldLayoutFixture() {
           <DsFieldGroup>
             <DsField id="lab-field-layout-stacked" label="容器不足时整组上下排列">
               <DsTextArea id="lab-field-layout-stacked" defaultValue="标签、控件与说明保持同列。" />
+            </DsField>
+          </DsFieldGroup>
+        </div>
+      </DsCard>
+      <DsCard title="560px 宽标签字段组">
+        <div className="lab-field-layout-sample lab-field-layout-sample--560">
+          <DsFieldGroup labelTrack="wide">
+            <DsField
+              id="lab-field-layout-wide-inline"
+              label="特殊战胜利结算音乐"
+              required
+              help={{
+                label: '特殊战胜利结算音乐',
+                content: <span>最长标签、必填星号与帮助按钮共享160px宽标签轨。</span>,
+              }}
+            >
+              {(field) => <DsTextInput {...field} defaultValue="music.battle.victory.special" />}
+            </DsField>
+          </DsFieldGroup>
+        </div>
+      </DsCard>
+      <DsCard title="559px 宽标签字段组">
+        <div className="lab-field-layout-sample lab-field-layout-sample--559">
+          <DsFieldGroup labelTrack="wide">
+            <DsField
+              id="lab-field-layout-wide-stacked"
+              label="特殊战胜利结算音乐"
+              required
+              help={{
+                label: '特殊战胜利结算音乐窄态',
+                content: <span>容器不足560px时，整组统一切换为标签在上、控件在下。</span>,
+              }}
+            >
+              {(field) => <DsTextInput {...field} defaultValue="music.battle.victory.special" />}
             </DsField>
           </DsFieldGroup>
         </div>
