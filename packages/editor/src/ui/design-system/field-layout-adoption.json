@@ -987,10 +987,10 @@
         "selector": ".item-alchemy-reward-row",
         "atRule": "",
         "property": "grid-template-columns",
-        "value": "minmax(10rem, 0.38fr) 2.75rem minmax(12rem, 1fr) var(--ds-field-measure-short-number) auto",
+        "value": "max-content 2.75rem minmax(12rem, 1fr) var(--ds-field-measure-short-number) auto",
         "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "五轨是实际扣除值、流程连接符、奖励、标准数量字段与不可拆动作组。",
-        "responsiveEvidence": "奖励轨可收缩；760px 与520px 两级规则按完整语义单元换行。",
+        "reason": "五轨是按内容计宽的实际扣除值、流程连接符、唯一吸收剩余宽度的奖励轨、标准数量字段与不可拆动作组。",
+        "responsiveEvidence": "扣除文案与可见箭头保持固定节奏，奖励轨独占剩余宽度；760px 与520px 两级规则按完整语义单元换行。",
         "removalCondition": "灵葫档位行不再使用该六槽结构时删除。"
       },
       {

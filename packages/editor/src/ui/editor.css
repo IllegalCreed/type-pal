@@ -3773,9 +3773,7 @@ html[data-panel-resize="horizontal"] * {
 .item-alchemy-reward-row {
   display: grid;
   grid-template-areas: "cost flow reward count actions";
-  grid-template-columns:
-    minmax(10rem, 0.38fr) 2.75rem minmax(12rem, 1fr) var(--ds-field-measure-short-number)
-    auto;
+  grid-template-columns: max-content 2.75rem minmax(12rem, 1fr) var(--ds-field-measure-short-number) auto;
   align-items: center;
   gap: var(--ds-space-3);
   min-height: 60px;
