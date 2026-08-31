@@ -27,6 +27,8 @@ PAL current / baseline 的 `content/shops.json` 只发布真实买店 `1..20`；
   - 不改变 `ItemData.buyPrice` 的数字语义；作者仍可在真实 ShopDef 中配置 0 文免费商品。
   - 不把 `sellable=false` 解释成不可购买；它只约束当铺出售。
   - 不改变 Shop UI 文案，不增加 `shop 0` 兼容 fallback，不改 openShop 指令或 ShopDef schema。
+  - 不在本卡新增编辑器页面或炼化 schema。用户拍板的“炼蛊皿 / 紫金葫芦”两个独立页面由
+    `ED-ITEM-ALCHEMY-SURFACE-1` 消费现有 item268 / item270 canonical effect，不反向扩大本 migration 卡。
 
 ## 前提真值门
 
@@ -50,6 +52,7 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 - current/baseline shops：各 21 项、id `0..20`、正文镜像。
 - 真实 shops `1..20` 中零买价货单项为 0；零价只出现在伪 shop0 的 112/72。
 - store0 九项：`100,105,95,112,72,131,97,102,111`；与 item270 rewards 精确一致。
+- item268 炼蛊皿是独立的 5 条 `craftRecipe`（虫卵 117..121 → 蛊 148），与 Store0 / item270 无关。
 
 ### 最强替代解释与反证
 
@@ -84,14 +87,16 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 1. `migratePalShops` 只发布 `store.id !== 0`，保留真实 id 1..20，不做 `-1` 重编号。
 2. 新增聚焦测试证明：输出 20 项、无 id0、id1..20/货单不变；item270 rewards 仍精确等于源 store0。
 3. PAL publication 永久断言：无 ShopDef0；全部 buy openShop 引用均命中真实 ShopDef；store0 rewards 闭合。
-4. 完整发布 current/baseline；结构化 exact diff 只允许 `shops.json` 删除 id0 与相应 state hash 变化。
+4. 完整发布 current/baseline；结构化 exact diff 只允许 `shops.json` 删除 id0 与 baseline state 中该文件
+   hash 变化。无其他漂移时首次 PAL plan 必须精确 `writes=1`。
 5. 发布 replay 与删除任何一次性辅助后再次 dry-run，均须 `writes=0 deletes=0 conflicts=0 asset-deletes=0`。
 
 ## 验收条件
 
 - 数据：baseline/current shops 均为 20 项、id1..20、镜像；112/72 ItemData 原始 price0 不改；item270 九档不改。
 - 引用：29 个 current buy 调用全部命中 1..20；sell 流程不依赖 shop 货单。
-- exact diff：除 shops0 删除和派生 publication hash 外，items/scenes/命令/id/价格/奖励零变化。
+- exact diff：除 shops0 删除和派生 publication hash 外，items（含 item268 / 270）、manifest、scenes、命令、
+  id、价格、奖励零变化；content19 / SAVE8 不变。
 - 测试：migrate 聚焦、PAL publication、typecheck、design-system gate 通过；受影响包全量只跑一次。
 - 视觉：Shop 目录中不再出现 0 号伪商店或“试炼果/舍利子买价 0 文”；真实 1..20 商店不变。
 - current-only：不保留转换器、兼容分支、UI 隐藏规则或 upgrader。
@@ -104,7 +109,8 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
   - premise: **verified（2026-08-31）**——直读 SDLPal 0x26/0x34、提取器 store 注释、raw/current buy census、
     migration owner、ShopDef 结算语义与 item270 rewards；确认 UI 只是暴露上游分类错误。
   - design: **agree（2026-08-31）**——PAL migration 过滤 id0但不重编号；保留 store0 resource-pool source；
-    publication/invariant/exact-diff/replay 全闭合，零 UI fallback。
+    publication/invariant/exact-diff/replay 全闭合，零 UI fallback；用户新增双页面决定由独立 ED 卡消费
+    现有 effect，本卡保持 migration-only，原设计仍有效。
 - Kimi: pending（需独立 primary-source 证据与可证伪回答）
 - GLM: pending（需独立 census / exact-diff / 测试矩阵）
 - counter / 分歧: none
@@ -129,6 +135,9 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 - 2026-08-31 Codex: 用户质疑试炼果/舍利子“买价 0 文”。核验后确认 price0 为 raw 真值，但两项来自
   Store[0] 炼丹奖励表而非商店；根因为 `migratePalShops` 盲 map。按 migration 铁律开卡并停在 draft，
   未修改实现/生成内容。Next: Kimi / GLM 独立签 premise/design；三签齐前不得 build。
+- 2026-08-31 User/Codex: 用户拍板炼蛊皿与紫金葫芦分别做独立页面。再次核验确认 Store0 只属于
+  紫金葫芦，炼蛊皿是 item268 craftRecipe。页面另开 `ED-ITEM-ALCHEMY-SURFACE-1`，本卡收窄保持
+  migration-only；首次 exact plan 收紧为 shops.json 单一 write。未修改实现/生成内容。
 
 ## 下一位 Agent 提示词
 
@@ -141,6 +150,10 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 角色：Kimi 核 primary source / 边界与反证；GLM 独立复算 raw/current census、exact-diff 与测试矩阵。
 必须独立核实：0x26 buy 是否只使用 store1..20；0x34 是否独占 store0；item270 rewards 是否已脱离 shops；
 0 价是否是通用合法价格；migratePalShops 过滤 id0且不重编号是否会留下悬空引用。
+
+用户新增双页面决定已拆到 `ED-ITEM-ALCHEMY-SURFACE-1`；本卡必须保持 migration-only。请额外核：
+current/baseline exact diff 是否只能删除 shops id0（首次 plan 精确 writes=1）、items/manifest/content19/SAVE8
+是否全不变，以及 item268 craftRecipe 与 item270 resource pool 是否被永久门禁明确区分。
 
 输出带 file:line / 可复现命令的 premise verified + design agree，或 counter 与推翻观察；写回任务卡。
 Kimi / GLM build 前签字未齐，不得修改 migration/tests/baseline/current/UI，不得把卡推进 build。
