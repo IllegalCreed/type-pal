@@ -1,6 +1,6 @@
 # ED-ITEM-ALCHEMY-SURFACE-1 - 炼蛊皿与紫金葫芦双炼化工作台
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: Editor item authoring（不改变 capability-map）
 Coding Owner: Codex
@@ -286,10 +286,10 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ### 进入 done 前：审查签字
 
-- Codex: **counter / rework（2026-08-31）**——此前最终组合态 accept 作为历史保留；用户验收后发现炼蛊
-  规则中的数量仍以无可见 label 的裸 `DsDraftNumberInput` 呈现，视觉上无法识别为数量，也未采用项目统一
-  `DsDraftNumberField` 步进外观。该问题不改数据/schema/runtime，但最新用户可见表面未通过，旧 accept
-  不再授权 done；改为标准“数量”字段并完成聚焦/视觉复验后重新签 Codex accept。
+- Codex: **accept（2026-08-31）**——`314e88e3` 将材料/产物两侧改为带可见 label 的
+  `DsSelectField + DsDraftNumberField`，数量使用标准 `− / number / +` 步进器；`f7cc5770` 把“炼成”
+  改为非交互流程连接符并严格对齐两侧控件中心。聚焦测试、typecheck、DS gate、1280/720 实机与无脏写
+  均通过；数据/schema/runtime/migration 零变化，恢复 Codex accept。
 - Kimi: **accept（2026-08-31，只读终审七提交最终组合态（`54ba9c2e` + `1b090cb2` + `aacf68b7` +
   `314e3a52` + 三张 MIG——后三者本日已由本席逐卡独立终审 accept）+ 本人静态核对、聚焦复跑与
   1280/720 实机测量，不重审已通过范围，非复述 Codex/GLM）**。按 KE1-KE6 与卡面六区逐项核验：
@@ -399,22 +399,32 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
     content validate 93 tests——**全绿**。命令计数/no-op 0/undo-redo 对称断言逐条直读确认。
   无返工项；200% zoom 实机复验按卡面分工仍归 Kimi/用户补验，不构成本席 blocker；
   未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: **approved（2026-08-31）**——用户在 Kimi / GLM 最终组合态终审 accept 落卡后回复“签了”，确认整卡验收。
-- done 准入结论: **blocked（用户新增数量字段 rework；最新增量终审与用户复验前不得 done）**
+- 用户验收: pending（历史组合态曾 approved；最新数量字段与连接符增量待复验）
+- done 准入结论: **blocked（最新增量仅 Codex accept；待 Kimi / GLM 增量 accept + 用户复验）**
+
+### 数量字段 / 连接符增量复审
+
+- Codex: **accept（`314e88e3` + `f7cc5770`）**
+- Kimi: pending
+- GLM: pending
+- 用户验收: pending
 
 ## Draft / Build / Review
 
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：rework；历史组合态三方 accept 保留，数量字段增量由 Codex 修正后重新进入最终 review。
+- Review：in progress；历史组合态三方 accept 保留，数量字段与连接符增量 Codex accept，待 Kimi / GLM
+  增量终审与用户复验。
 
 ### Build / Review 证据
 
 - 实现提交：`54ba9c2e feat(editor): add item alchemy mechanism workbenches`；用户真值复核后的文案/文档修正：
   `1b090cb2 fix(editor): clarify automatic alchemy sourcing`；固定资源展示修正：
   `aacf68b7 fix(editor): move fixed alchemy resource to inspector`；一进一出表面修正：
-  `314e3a52 fix(editor): keep PAL crafting rules one-to-one`；均未推送。
+  `314e3a52 fix(editor): keep PAL crafting rules one-to-one`；数量字段标准化：
+  `314e88e3 fix(editor): label alchemy quantity fields`；连接符居中：
+  `f7cc5770 fix(editor): clarify alchemy quantity flow`；均未推送。
 - current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
   `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
   `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
@@ -439,6 +449,14 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 增量浏览器：1280×720 与 720×900 均显示 5 条固定一进一出规则、0 个材料/产物 add 按钮；720px
   `body.scrollWidth === clientWidth === 720`，保存按钮保持 disabled。箭头提供读屏“炼成”，4 个字段按配方号
   拥有唯一 accessible name。
+- 数量字段增量：每行恰 4 个公共字段，可见 label 为“材料/材料数量/产物/产物数量”，label `for` 精确关联
+  控件；两个 `type=number` 输入各有完整 stepper，1 时减号 disabled，点击+ history 恰+1且 undo恢复。
+  number-field leaf 总数115不变，DraftNumberInput 30→29、DraftNumberField 26→27；DS 公共实现无业务
+  CSS 覆盖。连接符改为短线+箭头端点，保留读屏“炼成”：1280材料/产物间水平偏差0px、与控件中心垂直
+  偏差0px；720旋转向下且水平偏差0px。两档 body/row overflow均0、两个stepper各160px、保存disabled。
+- 最新验证：ItemAlchemy + number-field/field-layout/boundary `4 files / 80 tests` 全绿；editor typecheck、
+  design-system gate（91 files / 2 evidence-bound exceptions）、定向 Biome 与 `git diff --check` 通过；
+  未重复此前 editor 全量。Biome 仅报告 editor.css 既有 visually-hidden `!important` warnings，本增量未触碰。
 - 响应式实机：通过键盘调整真实 Inspector 宽度，把 main 精确压到 893px / 718px / 660px；两机制行
   `scrollWidth <= clientWidth`，718px 两页截图无横向溢出。真实浏览器 200% zoom 仍待 Kimi/用户补验。
 - 视觉证据（忽略目录，禁止提交）：
@@ -476,10 +494,15 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 紫金葫芦不可用提示: **rework（2026-08-31）**——用户指出该字段也为空。核验确认 0x34 在
   collectValue=0 时通过 operand0 跳 L38780，原版旁白“无任何效果”；当前 producer 漏失败臂。已开
   `MIG-PAL-GOURD-FAILURE-MESSAGE-1`，禁止 UI/runtime fallback 或手改 current；本卡继续 blocked。
-- 实现验收: **rework（2026-08-31）**——数量字段缺少可见 label 与统一数字步进外观。
+- 实现验收: pending（最新数量字段与连接符增量待用户复验）。
 
 ## 交接记录
 
+- 2026-08-31 Codex: `314e88e3` 用公共 `DsSelectField + DsDraftNumberField` 重构一进一出字段，显示
+  “材料/材料数量/产物/产物数量”，number type、min=1、step=1、± stepper 与一动作一命令/undo 均闭合；
+  number-field census 30/26→29/27。`f7cc5770` 将文字箭头改为短线+箭头端点流程连接符：1280 水平/
+  垂直中心偏差均0px，720旋转向下且水平偏差0px；两档 overflow=0、保存无脏写。聚焦 4 files / 80 tests、
+  typecheck、91-file DS gate 全绿。Codex accept，转 review。
 - 2026-08-31 User/Codex: 用户指出材料/产物后的值无法识别为数量，且不像统一数字 input。代码虽使用
   `DsDraftNumberInput(type=number)`，但页面只暴露无可见标签的裸控件；按数字字段合同应改用带“数量”label
   与步进器的 `DsDraftNumberField`。本卡从 done 转 rework；仅改 editor surface / registry / 测试 / CSS，
@@ -573,5 +596,25 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 ## 下一位 Agent 提示词
 
 ```text
-无下一位 Agent 提示词；ED-ITEM-ALCHEMY-SURFACE-1 已完成三方 accept 与用户验收，整卡 done。
+增量终审 ED-ITEM-ALCHEMY-SURFACE-1（Kimi 或 GLM，只读，不得修改实现）。
+
+任务卡：docs/ops/tasks/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md
+当前状态：review；历史组合态三方 accept 保留。最新增量提交：
+- `314e88e3 fix(editor): label alchemy quantity fields`
+- `f7cc5770 fix(editor): clarify alchemy quantity flow`
+Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
+
+请只审最新增量及其与既有一进一出表面的组合：
+1. 每条配方是否恰有“材料/材料数量/产物/产物数量”四个可见公共字段；label for、唯一 aria、name、
+   autocomplete、type=number、min=1、step=1、integer/enforceRange 是否正确。
+2. 两个数量字段是否使用 DsDraftNumberField 标准 ± stepper；1 时减号 disabled；一次+只产生一条
+   UpdateItemCommand，undo恢复；itemId、另一侧、其它配方和 canonical 数据零变化。
+3. number-field census 115 leaf不变、DraftNumberInput 30→29 / DraftNumberField 26→27，field-layout、
+   design-system owner 与 boundary gate 是否同步；业务 CSS 是否未覆盖公共 number 实现。
+4. 炼成连接符是否为非交互短线+箭头端点，读屏仍为“炼成”；1280 水平/垂直中心偏差0px，720旋转向下且
+   水平偏差0px；两档无 row/body overflow、stepper不裁切、保存无脏写。
+
+Kimi 重点审可视对齐/1280/720/200%；GLM 重点审DOM、command、registry/census与零数据漂移。
+请在任务卡“数量字段 / 连接符增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，并追加交接记录。
+不得代签另一席、不得填写用户验收、不得标记done、不得修改实现或推送。
 ```
