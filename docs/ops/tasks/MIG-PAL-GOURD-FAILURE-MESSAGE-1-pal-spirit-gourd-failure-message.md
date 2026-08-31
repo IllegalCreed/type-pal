@@ -1,6 +1,6 @@
 # MIG-PAL-GOURD-FAILURE-MESSAGE-1 - PAL 紫金葫芦零灵葫值原文迁移闭环
 
-Status: review
+Status: done
 Phase: phase2
 Capability: PAL item migration / current publication（不改变 capability-map）
 Coding Owner: Codex
@@ -326,14 +326,14 @@ migration producer 未读取 operand0 failure arm，不是原版静默，也不�
     pal-derived-content + pal-current-publication.pal → **6 files / 83 tests 全绿**（含真实
     PAL 镜像与全量 publish；按纪律未重复全量）。
   无返工项；未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: pending
-- done 准入结论: **blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）**
+- 用户验收: **approved（2026-08-31）**——用户在 Kimi / GLM 终审 accept 落卡后回复“签了”，确认验收。
+- done 准入结论: **allowed / complete（Codex + Kimi + GLM 三方 accept + 用户验收齐，无 counter）**
 
 ## Draft / Build / Review
 
 - Draft：原版失败臂、producer 根因、current publication 接线与 exact-diff 方案已登记。
 - Build：completed（`893da2a3`）；Codex 按 KG1-KG6 / GM-D1-GM-D4 完成实现、重迁和自验证。
-- Review：in progress；Codex accept，待 Kimi / GLM 独立终审与用户验收。
+- Review：completed；Codex / Kimi / GLM accept 与用户验收齐，任务收口 done。
 
 ## Build / Review 证据
 
@@ -367,10 +367,12 @@ migration producer 未读取 operand0 failure arm，不是原版静默，也不�
 ## 用户验收
 
 - 问题确认：2026-08-31 用户指出紫金葫芦“不可用提示”也为空。
-- 实现验收：pending。
+- 实现验收：**approved（2026-08-31）**。
 
 ## 交接日志
 
+- 2026-08-31 User/Codex: Kimi / GLM 终审均 accept；用户回复“签了”确认验收。无 counter、无剩余返工，
+  本卡转 done，解除 `ED-ITEM-ALCHEMY-SURFACE-1` 的最后一个 migration blocker。
 - 2026-08-31 GLM: 只读终审 `893da2a3` + 当前工作树，签 **accept**。独立证据：重扫 L39713
   0x34 `[38780,0,0]` 线性后继 end、sdlpal else + 解释器 +1 精确落 L38780、L38780 严格三元组
   「无任何效果」、19 入边共享臂（18 operand + 1 goto，opcode 6/100/129/56/52）；translator
