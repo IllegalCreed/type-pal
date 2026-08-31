@@ -158,6 +158,12 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
       }
     })
     expect(host.textContent).not.toMatch(/添加材料|添加产物/)
+    expect(host.querySelectorAll('.item-alchemy-formula-arrow__line')).toHaveLength(5)
+    expect(
+      [...host.querySelectorAll('.item-alchemy-formula-arrow .ds-visually-hidden')].every(
+        (label) => label.textContent === '炼成',
+      ),
+    ).toBe(true)
     expect(host.querySelector('button[aria-label^="删除材料"]')).toBeNull()
     expect(host.querySelector('button[aria-label^="删除产物"]')).toBeNull()
     expect(host.textContent).toContain('添加对应关系')

@@ -163,7 +163,7 @@ export function CraftRecipeList(props: {
                     }
                   />
                   <span className="item-alchemy-formula-arrow">
-                    <span aria-hidden="true">→</span>
+                    <span className="item-alchemy-formula-arrow__line" aria-hidden="true" />
                     <span className="ds-visually-hidden">炼成</span>
                   </span>
                   <RecipeAmountField
