@@ -3746,13 +3746,22 @@ html[data-panel-resize="horizontal"] * {
   display: block;
   width: 2rem;
   height: 2px;
+}
+.item-alchemy-formula-arrow__line::before {
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  left: 0;
+  height: 2px;
   border-radius: 999px;
   background: currentcolor;
+  content: "";
+  transform: translateY(-50%);
 }
 .item-alchemy-formula-arrow__line::after {
   position: absolute;
   top: 50%;
-  right: -1px;
+  right: 7px;
   width: 0;
   height: 0;
   border-block: 5px solid transparent;
@@ -3762,7 +3771,7 @@ html[data-panel-resize="horizontal"] * {
 }
 .item-alchemy-amount-list {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(10rem, 12rem);
+  grid-template-columns: minmax(0, 1fr) var(--ds-field-measure-short-number);
   align-items: end;
   min-width: 0;
   gap: var(--ds-space-5);
