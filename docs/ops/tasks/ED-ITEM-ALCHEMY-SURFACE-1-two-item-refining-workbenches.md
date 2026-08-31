@@ -618,6 +618,14 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ## 交接记录
 
+- 2026-08-31 Kimi: 增量只读终审 `0a423136` + `b01d10a8`（窄态重做），按视觉/响应式分工签
+  **accept**。独立证据：命名容器显式定宽逐档实机——760=99px 两行（扣除→奖励 / 数量+动作组，
+  旧四层 159.5 消失）、520=123.5px 三行、521 奖励恰 274.9px、520 恰 384px 平滑无 1px 断崖、
+  761 加第 10 档 cost 恰 112.8px 且三处 overflow=0、Header undo 恢复 9 档；连接符五档宽度
+  sameRow 恒真（rotate 仅存炼蛊配方列）；数量 label for==input id、±步进器 36px、count=1 减号
+  disabled（均实机）；census 实读 115/28/28；两提交 projects/pal/schema/runtime/migration/
+  rewards/maxRoll/reorder key/Command 零漂移（git show --stat）；本人复跑 6 files / 92 tests 全绿。
+  200% zoom 留用户复验。无返工项；未修改实现，未代签 GLM，未标 done。Next: 用户复验。
 - 2026-08-31 GLM: 增量只读终审 `0a423136` + `b01d10a8`（窄态重做），按本席分工签 **accept**。独立证据：
   CSS 断点结构直读（760px 两行 `"cost flow reward reward"/"count count count actions"`、520px 三行
   `"cost cost cost"/"flow reward reward"/"count count actions"`、竖箭头 rotate 已删仅存炼蛊配方列、
