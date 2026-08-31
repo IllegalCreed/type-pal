@@ -1,6 +1,6 @@
 # ED-ITEM-ALCHEMY-SURFACE-1 - 炼蛊皿与紫金葫芦双炼化工作台
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: Editor item authoring（不改变 capability-map）
 Coding Owner: Codex
@@ -287,10 +287,11 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 ### 进入 done 前：审查签字
 
 - Codex: **accept（2026-08-31）**——`314e88e3` 将材料/产物两侧改为带可见 label 的
-  `DsSelectField + DsDraftNumberField`，数量使用标准 `− / number / +` 步进器；`f7cc5770` 建立非交互
-  流程连接符，用户复验指出其容器居中但可见图形右偏，`b6d751c4` 随后固定数量轨为公共10rem并把箭头头部
-  收进32px图形边界。最终按真实控件边缘复测可见中心偏差0px。聚焦测试、typecheck、DS gate、1280/720
-  实机与无脏写均通过；数据/schema/runtime/migration 零变化，恢复 Codex accept。
+  `DsSelectField + DsDraftNumberField`，数量使用标准 `− / number / +` 步进器。CSS伪元素连接符两次验收均因
+  测量盒不包含真实箭头像素而被用户截图推翻；`55b5e981` 最终删除伪元素，改用 viewBox 32×16、path
+  `M3 8h26M23 2l6 6-6 6` 的对称 SVG。浏览器直接测 path 渲染边界 522..548、中心535，精确等于真实控件
+  空隙中心535；720 path中心偏差同为0。聚焦测试、typecheck、DS gate、无溢出/无脏写均通过；
+  数据/schema/runtime/migration 零变化，恢复 Codex accept。
 - Kimi: **accept（2026-08-31，只读终审七提交最终组合态（`54ba9c2e` + `1b090cb2` + `aacf68b7` +
   `314e3a52` + 三张 MIG——后三者本日已由本席逐卡独立终审 accept）+ 本人静态核对、聚焦复跑与
   1280/720 实机测量，不重审已通过范围，非复述 Codex/GLM）**。按 KE1-KE6 与卡面六区逐项核验：
@@ -405,9 +406,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ### 数量字段 / 连接符增量复审
 
-- Codex: **counter / rework（2026-08-31）**——数量字段 `314e88e3` 保持 accept；连接符 `f7cc5770` / 
-  `b6d751c4` 的验收仍错误地依赖不含 CSS 伪元素真实像素的 DOM 外盒，用户截图证明可见箭头仍偏。
-  改用几何边界可验证的对称 SVG path，并以 path `getBBox()` + 真实控件间隙复验后重新 accept。
+- Codex: **accept（2026-08-31，`314e88e3` + `55b5e981`）**——标准数量字段与对称SVG连接符均按
+  真实控件/实际path渲染边界复验通过；`f7cc5770` / `b6d751c4` 两次错误居中证据仅作历史保留。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -417,7 +417,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：rework；历史组合态与数量字段保持有效，连接符改为对称 SVG path 后重新进入增量终审。
+- Review：in progress；数量字段与对称SVG连接符 Codex accept，待 Kimi / GLM 增量终审与用户复验。
 
 ### Build / Review 证据
 
@@ -427,7 +427,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
   `314e3a52 fix(editor): keep PAL crafting rules one-to-one`；数量字段标准化：
   `314e88e3 fix(editor): label alchemy quantity fields`；连接符居中：
   `f7cc5770 fix(editor): clarify alchemy quantity flow` +
-  `b6d751c4 fix(editor): center alchemy flow connector`；均未推送。
+  `b6d751c4 fix(editor): center alchemy flow connector`（两次 CSS 方案均被用户复验推翻）+
+  `55b5e981 fix(editor): use symmetric alchemy flow glyph`（最终对称SVG）；均未推送。
 - current 真值复算：craftRecipe owner 恰 item268 / 5 条；drawFromResourcePool owner 恰 item270 /
   `resource=collectValue` / `maxRoll=9=rewards.length` / 奖励仍
   `[100,105,95,112,72,131,97,102,111]`；Shop 仍 20 家 id1..20；Enemy 153 个，其中 100 个
@@ -455,10 +456,10 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 数量字段增量：每行恰 4 个公共字段，可见 label 为“材料/材料数量/产物/产物数量”，label `for` 精确关联
   控件；两个 `type=number` 输入各有完整 stepper，1 时减号 disabled，点击+ history 恰+1且 undo恢复。
   number-field leaf 总数115不变，DraftNumberInput 30→29、DraftNumberField 26→27；DS 公共实现无业务
-  CSS 覆盖。连接符改为短线+箭头端点，保留读屏“炼成”。首次只量外层容器曾漏掉可见图形偏移；用户复验后
-  改按“材料数量 stepper 右边缘 ↔ 产物输入左边缘”测量：1280 边缘505/565、空隙中心535、可见图形
-  519..551、中心535，真实偏差0px；与控件中心垂直偏差0px。720旋转向下且水平偏差0px；两档
-  body/row overflow均0、两个stepper各160px、保存disabled。
+  CSS 覆盖。连接符保留读屏“炼成”；两次 CSS 伪元素方案因 DOM 盒不含真实箭头像素被用户截图推翻，证据
+  作废。最终 `55b5e981` 改用对称SVG path `M3 8h26M23 2l6 6-6 6`：浏览器直接测 path 渲染边界
+  522..548、中心535，精确等于 stepper右边缘505与产物输入左边缘565的空隙中心535，左右各13px；
+  720旋转向下后path中心偏差0px。两档body/row overflow均0、两个stepper各160px、保存disabled。
 - 最新验证：ItemAlchemy + number-field/field-layout/boundary `4 files / 80 tests` 全绿；editor typecheck、
   design-system gate（91 files / 2 evidence-bound exceptions）、定向 Biome 与 `git diff --check` 通过；
   未重复此前 editor 全量。Biome 仅报告 editor.css 既有 visually-hidden `!important` warnings，本增量未触碰。
@@ -503,6 +504,10 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ## 交接记录
 
+- 2026-08-31 Codex: `55b5e981` 删除不可可靠测量的 CSS 伪元素箭头，改用 viewBox 32×16 的对称SVG path。
+  1280直接读取 path实际渲染边界522..548、中心535，与真实控件空隙中心535完全一致；720旋转后path中心
+  偏差同为0px，overflow=0、无脏写。ItemAlchemy/field-layout 2 files / 16 tests、typecheck、DS gate绿。
+  Codex 对数量+连接符最新增量恢复accept，转review。
 - 2026-08-31 User/Codex: 用户第二次截图证明连接符仍未视觉居中。Codex 复盘发现 `b6d751c4` 只量了
   `.item-alchemy-formula-arrow__line` 元素盒，CSS `::after` 箭头头部不在该矩形内，因而“偏差0”证据无效。
   最新增量转 counter/rework：删除伪元素箭头，改用可直接测量 path 几何边界的对称 SVG，不再接受容器指标。
@@ -611,6 +616,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - `314e88e3 fix(editor): label alchemy quantity fields`
 - `f7cc5770 fix(editor): clarify alchemy quantity flow`
 - `b6d751c4 fix(editor): center alchemy flow connector`
+- `55b5e981 fix(editor): use symmetric alchemy flow glyph`
 Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
 
 请只审最新增量及其与既有一进一出表面的组合：
@@ -620,9 +626,10 @@ Codex 已 accept；Kimi / GLM 增量复审与用户复验 pending。
    UpdateItemCommand，undo恢复；itemId、另一侧、其它配方和 canonical 数据零变化。
 3. number-field census 115 leaf不变、DraftNumberInput 30→29 / DraftNumberField 26→27，field-layout、
    design-system owner 与 boundary gate 是否同步；业务 CSS 是否未覆盖公共 number 实现。
-4. 炼成连接符是否为非交互短线+箭头端点，读屏仍为“炼成”；不得只量外层容器。请按材料数量stepper
-   右边缘到产物输入左边缘的真实空隙复算：1280边缘505/565、空隙中心535、可见图形519..551、中心535，
-   偏差0px；720旋转向下且水平偏差0px；两档无row/body overflow、stepper不裁切、保存无脏写。
+4. 最终连接符是否为非交互对称SVG path，读屏仍为“炼成”；`f7cc5770` / `b6d751c4` 的CSS伪元素
+   居中证据已作废，不得复用。请直接测 path 渲染边界：1280材料数量stepper右边缘505、产物输入左边缘565、
+   空隙中心535；path边界522..548、中心535，左右各13px、偏差0px。720旋转向下后path中心偏差0px；
+   两档无row/body overflow、stepper不裁切、保存无脏写。
 
 Kimi 重点审可视对齐/1280/720/200%；GLM 重点审DOM、command、registry/census与零数据漂移。
 请在任务卡“数量字段 / 连接符增量复审”本人席位写 accept，或带 file:line/复现步骤的 counter，并追加交接记录。
