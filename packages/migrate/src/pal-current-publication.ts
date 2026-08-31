@@ -44,6 +44,7 @@ import type { MigrationSnapshot } from './migration-baseline.js'
 import type { TransactionPrecondition } from './migration-transaction.js'
 import { applyPalItemOverlays } from './pal-authored-overlays.js'
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
+import { assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
 import { buildPalMigration, type MigrationJson, type PalMigrationSources } from './pal-migration.js'
 import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES } from './pal-world-sprite-layouts.js'
 import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'
@@ -156,6 +157,7 @@ export function buildPalCurrentPublication(
   if (!Array.isArray(baselineItems))
     throw new Error('PAL current baseline: content/items.json 期望数组')
   put('content/items.json', applyPalItemOverlays(baselineItems as ItemData[]))
+  put('content/shops.json', required(generated.files, 'content/shops.json'))
   put('content/sprites.json', spriteAliases.sprites)
   for (const [sceneId, scene] of spriteAliases.updatedScenes)
     put(`content/scenes/${sceneId}.json`, scene)
@@ -296,6 +298,15 @@ export function validatePalCurrentPublication(args: {
   validateWorldVariableRegistryV1(
     required(files, requiredPath(manifest.content.worldVariables, 'worldVariables')),
   )
+  assertPalStoreBoundaryInvariant({
+    sourceStores: args.sources.stores,
+    shops,
+    items: authorItems,
+    commandRoots: [authorScenes, authorItems, authorEnemies, sharedScripts],
+    expectedBuyCalls: 29,
+    expectedSellCalls: 6,
+    expectedSellShopId: 0,
+  })
   const referenceIssues = validateReferences({
     scenes: scenes as never,
     actors,

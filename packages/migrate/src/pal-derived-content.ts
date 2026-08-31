@@ -168,5 +168,7 @@ export function migratePalPoisons(source: readonly SourceObjectPoison[]): Poison
 }
 
 export function migratePalShops(stores: readonly SourceStore[]): ShopDef[] {
-  return stores.map((store) => ({ id: store.id, items: store.items.map(String) }))
+  return stores
+    .filter((store) => store.id !== 0)
+    .map((store) => ({ id: store.id, items: store.items.map(String) }))
 }

@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { ActorDef } from '@type-pal/content'
+import type { ActorDef, ShopDef } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
 import {
@@ -57,6 +57,9 @@ describe('PAL current-only publication', () => {
     expect([...publication.managedFiles].some((path) => path.startsWith('_transitions/'))).toBe(
       false,
     )
+    const shops = publication.files.get('content/shops.json') as unknown as ShopDef[]
+    expect(shops.map(({ id }) => id)).toEqual(Array.from({ length: 20 }, (_, index) => index + 1))
+    expect(shops.some(({ id }) => id === 0)).toBe(false)
   })
 
   it('rejects invalid poison definitions before publishing a current project', () => {
