@@ -2,6 +2,7 @@ import type { ItemData } from '@type-pal/content'
 import { useEffect, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
 import {
+  assertSingleInputOutputCraftRecipes,
   type CraftRecipeEffect,
   findItemAlchemyEffect,
   type ItemAlchemySurface,
@@ -108,6 +109,16 @@ export function ItemAlchemyTab(props: ItemAlchemyTabProps) {
     effect.resource !== 'collectValue'
   )
     derivationError = `紫金葫芦机制资源必须是 collectValue，当前为 ${effect.resource}`
+  if (!derivationError && surface === 'crafting' && effect?.kind === 'craftRecipe') {
+    try {
+      assertSingleInputOutputCraftRecipes(
+        effect,
+        selectedItem?.id ?? canonicalOwner?.id ?? 'unknown',
+      )
+    } catch (cause) {
+      derivationError = cause instanceof Error ? cause.message : String(cause)
+    }
+  }
 
   useEffect(() => {
     if (!focusObjectId && canonicalOwner) onObjectFocus?.(canonicalOwner.id)
@@ -223,7 +234,7 @@ export function ItemAlchemyTab(props: ItemAlchemyTabProps) {
                   className="item-alchemy-list-card"
                   eyebrow={copy.sectionEyebrow}
                   title={copy.sectionTitle}
-                  description="游戏操作没有选料步骤；下方选择器只供作者配置。系统自上而下判断，同时满足时自动采用第一条。"
+                  description="游戏中不选择原材料；每条规则固定一项材料和一项产物，系统按优先级自动采用第一条材料足量的规则。"
                   contentLayout="list"
                   actions={
                     <DsButton
@@ -256,7 +267,7 @@ export function ItemAlchemyTab(props: ItemAlchemyTabProps) {
                         })
                       }}
                     >
-                      添加配方
+                      添加对应关系
                     </DsButton>
                   }
                 >

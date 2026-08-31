@@ -31,72 +31,40 @@ function itemOptions(items: readonly ItemData[], currentId: string) {
   ]
 }
 
-function RecipeAmountList(props: {
+function RecipeAmountField(props: {
   label: '材料' | '产物'
-  entries: readonly ItemAmount[]
+  entry: ItemAmount
   items: readonly ItemData[]
+  recipeNumber: number
   scopeKey: string
   revision: number
-  onChange: (entries: ItemAmount[]) => void
+  onChange: (entry: ItemAmount) => void
 }) {
-  const fallbackId = props.items[0]?.id
   return (
     <div className="item-alchemy-amount-list" data-amount-kind={props.label}>
-      <div className="item-alchemy-amount-list__header">
-        <strong>{props.label}</strong>
-        <DsIconButton
-          data-ds-add-picker-deferred="item/item-amount-append-default"
-          variant="secondary"
-          icon="add"
-          label={`添加${props.label}`}
-          disabled={!fallbackId}
-          onClick={() => {
-            const itemId = props.items[0]?.id
-            if (itemId) props.onChange([...props.entries, { itemId, count: 1 }])
-          }}
+      <strong className="item-alchemy-amount-list__label">{props.label}</strong>
+      <div className="item-alchemy-amount-row">
+        <DsSelect
+          aria-label={`配方 ${props.recipeNumber} ${props.label}物品`}
+          value={props.entry.itemId}
+          options={itemOptions(props.items, props.entry.itemId)}
+          onValueChange={(itemId) => props.onChange({ ...props.entry, itemId })}
         />
-      </div>
-      <div className="item-alchemy-amount-list__rows">
-        {props.entries.map((entry, index) => (
-          <div className="item-alchemy-amount-row" key={`${props.scopeKey}:${index}`}>
-            <DsSelect
-              aria-label={`${props.label}物品 ${index + 1}`}
-              value={entry.itemId}
-              options={itemOptions(props.items, entry.itemId)}
-              onValueChange={(itemId) => {
-                const next = [...props.entries]
-                next[index] = { ...entry, itemId }
-                props.onChange(next)
-              }}
-            />
-            <span className="item-alchemy-amount-row__count">
-              <DsDraftNumberInput
-                aria-label={`${props.label}数量 ${index + 1}`}
-                draftKey={`${props.scopeKey}:count:${index}`}
-                syncToken={props.revision}
-                min={1}
-                integer
-                enforceRange
-                value={entry.count}
-                onCommit={(value) => {
-                  if (value === undefined) return
-                  const next = [...props.entries]
-                  next[index] = { ...entry, count: positiveInteger(value) }
-                  props.onChange(next)
-                }}
-              />
-            </span>
-            <DsIconButton
-              variant="danger"
-              icon="delete"
-              label={`删除${props.label} ${index + 1}`}
-              disabled={props.entries.length <= 1}
-              onClick={() =>
-                props.onChange(props.entries.filter((_, current) => current !== index))
-              }
-            />
-          </div>
-        ))}
+        <span className="item-alchemy-amount-row__count">
+          <DsDraftNumberInput
+            aria-label={`配方 ${props.recipeNumber} ${props.label}数量`}
+            draftKey={`${props.scopeKey}:count`}
+            syncToken={props.revision}
+            min={1}
+            integer
+            enforceRange
+            value={props.entry.count}
+            onCommit={(value) => {
+              if (value !== undefined)
+                props.onChange({ ...props.entry, count: positiveInteger(value) })
+            }}
+          />
+        </span>
       </div>
     </div>
   )
@@ -178,24 +146,29 @@ export function CraftRecipeList(props: {
                   </DsActionGroup>
                 </header>
                 <div className="item-alchemy-recipe-row__formula">
-                  <RecipeAmountList
+                  <RecipeAmountField
                     label="材料"
-                    entries={recipe.ingredients}
+                    entry={recipe.ingredients[0]!}
                     items={ingredientItems}
+                    recipeNumber={index + 1}
                     scopeKey={`${props.scopeKey}:recipe:${reorderKey}:ingredients`}
                     revision={props.revision}
-                    onChange={(ingredients) => patchRecipe(index, { ...recipe, ingredients })}
+                    onChange={(ingredient) =>
+                      patchRecipe(index, { ...recipe, ingredients: [ingredient] })
+                    }
                   />
-                  <span className="item-alchemy-formula-arrow" aria-hidden="true">
-                    →
+                  <span className="item-alchemy-formula-arrow">
+                    <span aria-hidden="true">→</span>
+                    <span className="ds-visually-hidden">炼成</span>
                   </span>
-                  <RecipeAmountList
+                  <RecipeAmountField
                     label="产物"
-                    entries={recipe.products}
+                    entry={recipe.products[0]!}
                     items={props.items}
+                    recipeNumber={index + 1}
                     scopeKey={`${props.scopeKey}:recipe:${reorderKey}:products`}
                     revision={props.revision}
-                    onChange={(products) => patchRecipe(index, { ...recipe, products })}
+                    onChange={(product) => patchRecipe(index, { ...recipe, products: [product] })}
                   />
                 </div>
               </article>

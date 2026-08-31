@@ -357,7 +357,7 @@
     },
     {
       "source": "ItemAlchemyEditors.tsx",
-      "component": "RecipeAmountList",
+      "component": "RecipeAmountField",
       "match": { "context": "none", "fieldClass": "" },
       "count": 1,
       "mode": "compact-repeat-row",
@@ -365,7 +365,7 @@
       "measure": "specialized-css",
       "grid": "repeat-row",
       "owner": "card:ED-ITEM-ALCHEMY-SURFACE-1",
-      "reason": "配方材料与产物数量嵌在选择器和删除动作组成的重复行。",
+      "reason": "配方材料与产物数量分别与固定的一进一出选择器同行。",
       "verification": "ItemAlchemyTab.test.tsx#crafting",
       "removalCondition": "数量行改为新的公共复合字段 recipe 时更新。"
     },
@@ -891,11 +891,11 @@
     },
     {
       "source": "ItemAlchemyEditors.tsx",
-      "component": "RecipeAmountList",
+      "component": "RecipeAmountField",
       "consumerCount": 2,
       "context": "repeat-row",
       "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "材料和产物两个数量集合复用同一个紧凑行 helper。",
+      "reason": "材料和产物两个单值数量字段复用同一个紧凑行 helper。",
       "verification": "ItemAlchemyEditors.tsx local consumers",
       "removalCondition": "配方数量集合不再复用时删除。"
     },

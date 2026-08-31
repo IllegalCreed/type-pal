@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { UpdateItemCommand } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
 import {
+  assertSingleInputOutputCraftRecipes,
   findItemAlchemyEffect,
   itemAlchemyOwners,
   mutateItemAlchemyEffect,
@@ -77,6 +78,36 @@ describe('item alchemy canonical owner', () => {
     expect(pool).toMatchObject({ maxRoll: 2, rewards: [{ itemId: 'a' }, { itemId: 'b' }] })
     for (const invalid of [0, -1, 1.5, Number.NaN, Number.POSITIVE_INFINITY, 1000])
       expect(() => resizeResourcePoolEffect(pool, invalid, 'fallback')).toThrow(/1\.\.999/)
+  })
+
+  it('accepts PAL one-in-one-out recipes and rejects composite shapes without rewriting them', () => {
+    expect(() => assertSingleInputOutputCraftRecipes(craft, 'vessel')).not.toThrow()
+    for (const [ingredients, products] of [
+      [[], [{ itemId: 'bug', count: 1 }]],
+      [
+        [
+          { itemId: 'egg', count: 1 },
+          { itemId: 'egg-2', count: 1 },
+        ],
+        [{ itemId: 'bug', count: 1 }],
+      ],
+      [[{ itemId: 'egg', count: 1 }], []],
+      [
+        [{ itemId: 'egg', count: 1 }],
+        [
+          { itemId: 'bug', count: 1 },
+          { itemId: 'bug-2', count: 1 },
+        ],
+      ],
+    ] as const) {
+      const composite = {
+        ...structuredClone(craft),
+        recipes: [{ ingredients: [...ingredients], products: [...products] }],
+      }
+      expect(() => assertSingleInputOutputCraftRecipes(composite, 'vessel')).toThrow(
+        /炼蛊 owner vessel 的规则 1 必须恰有 1 项材料和 1 项产物/,
+      )
+    }
   })
 
   it('mutates the latest item through exactly one UpdateItemCommand and preserves other effects', () => {

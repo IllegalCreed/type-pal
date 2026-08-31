@@ -50,6 +50,20 @@ export function itemAlchemyOwners(
   return items.filter((item) => findItemAlchemyEffect(item, surface) !== undefined)
 }
 
+/** PAL 炼蛊皿专页只表达自动优先级的一进一出规则；通用 craftRecipe schema 仍允许复合配方。 */
+export function assertSingleInputOutputCraftRecipes(
+  effect: CraftRecipeEffect,
+  ownerItemId: string,
+): void {
+  effect.recipes.forEach((recipe, index) => {
+    if (recipe.ingredients.length === 1 && recipe.products.length === 1) return
+    throw new Error(
+      `炼蛊 owner ${ownerItemId} 的规则 ${index + 1} 必须恰有 1 项材料和 1 项产物；` +
+        `当前为 ${recipe.ingredients.length} 项材料、${recipe.products.length} 项产物`,
+    )
+  })
+}
+
 export function resizeResourcePoolEffect(
   effect: ResourcePoolEffect,
   maxRoll: number,

@@ -130,9 +130,18 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
     expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('炼蛊皿')
     expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('炼蛊皿 · 268')
     expect(host.textContent).toContain('游戏中只需使用炼蛊皿，不选择原材料')
-    expect(host.textContent).toContain('游戏操作没有选料步骤；下方选择器只供作者配置')
+    expect(host.textContent).toContain('每条规则固定一项材料和一项产物')
     expect(host.querySelector('.item-alchemy-list-card h2')?.textContent).toBe('自动取材规则')
-    expect(host.querySelectorAll('.item-alchemy-recipe-row')).toHaveLength(5)
+    const recipeRows = [...host.querySelectorAll('.item-alchemy-recipe-row')]
+    expect(recipeRows).toHaveLength(5)
+    expect(recipeRows.every((row) => row.querySelectorAll('[role="combobox"]').length === 2)).toBe(
+      true,
+    )
+    expect(recipeRows.every((row) => row.querySelectorAll('input').length === 2)).toBe(true)
+    expect(host.textContent).not.toMatch(/添加材料|添加产物/)
+    expect(host.querySelector('button[aria-label^="删除材料"]')).toBeNull()
+    expect(host.querySelector('button[aria-label^="删除产物"]')).toBeNull()
+    expect(host.textContent).toContain('添加对应关系')
     expect(
       [...host.querySelectorAll('.item-alchemy-recipe-row__identity > span')].map(
         (entry) => entry.textContent,
@@ -144,8 +153,8 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
       '优先级 4 · 首个材料充足的配方生效',
       '优先级 5 · 首个材料充足的配方生效',
     ])
-    expect(host.querySelector('[aria-label="材料物品 1"]')?.textContent).toContain('毒蛇卵')
-    expect(host.querySelector('[aria-label="产物物品 1"]')?.textContent).toContain('蛊')
+    expect(host.querySelector('[aria-label="配方 1 材料物品"]')?.textContent).toContain('毒蛇卵')
+    expect(host.querySelector('[aria-label="配方 1 产物物品"]')?.textContent).toContain('蛊')
     expect(
       host
         .querySelector('.item-alchemy-list-card .ds-workbench-section__content')
@@ -178,8 +187,8 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
     expect(host.textContent).not.toContain('添加紫金葫芦')
     expect(host.querySelector('.item-alchemy-form-card')?.textContent).not.toContain('资源变量')
     expect(host.querySelector('.item-alchemy-form-card')?.textContent).not.toContain('collectValue')
-    const sourceRow = [...host.querySelectorAll<HTMLElement>('.ds-property-row')].find(
-      (row) => row.textContent?.includes('资源来源'),
+    const sourceRow = [...host.querySelectorAll<HTMLElement>('.ds-property-row')].find((row) =>
+      row.textContent?.includes('资源来源'),
     )!
     expect(sourceRow.querySelector('input, textarea, [role="combobox"]')).toBeNull()
     expect(sourceRow.querySelector('code')?.textContent).toBe('collectValue')
@@ -354,7 +363,7 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
       ),
     )
 
-    const material = host.querySelector<HTMLButtonElement>('[aria-label="材料物品 1"]')!
+    const material = host.querySelector<HTMLButtonElement>('[aria-label="配方 1 材料物品"]')!
     const beforePicker = edit.getHistoryVersion()
     await act(async () => material.click())
     const poisonEgg = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
@@ -369,7 +378,7 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
     expect(edit.undo()).toBe(true)
 
     const beforeCount = edit.getHistoryVersion()
-    await commitNumber(host.querySelector<HTMLInputElement>('[aria-label="材料数量 1"]')!, '2')
+    await commitNumber(host.querySelector<HTMLInputElement>('[aria-label="配方 1 材料数量"]')!, '2')
     expect(edit.getHistoryVersion()).toBe(beforeCount + 1)
     expect(
       findItemAlchemyEffect(edit.getState().items.find((item) => item.id === '268')!, 'crafting')!
@@ -387,6 +396,30 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
         .effect.recipes,
     ).toHaveLength(4)
     expect(edit.undo()).toBe(true)
+  })
+
+  test('复合材料或多产物 shape 明确 fail-loud，不截断成第一项也不产生命令', async () => {
+    const items = palItems()
+    const vessel = items.find((item) => item.id === '268')!
+    const craft = findItemAlchemyEffect(vessel, 'crafting')!.effect
+    craft.recipes[0]!.ingredients.push({ itemId: '118', count: 1 })
+    craft.recipes[0]!.products.push({ itemId: '117', count: 1 })
+    const edit = session(items)
+    const before = edit.getHistoryVersion()
+
+    await act(async () =>
+      root.render(
+        <CraftingAlchemyTab items={edit.getState().items} session={edit} focusObjectId="268" />,
+      ),
+    )
+
+    expect(host.textContent).toContain('炼蛊 owner 268 的规则 1 必须恰有 1 项材料和 1 项产物')
+    expect(host.textContent).toContain('当前为 2 项材料、2 项产物')
+    expect(host.querySelector('.item-alchemy-recipe-list')).toBeNull()
+    expect(host.querySelector('[aria-label="配方 1 材料物品"]')).toBeNull()
+    expect(edit.getHistoryVersion()).toBe(before)
+    expect(craft.recipes[0]!.ingredients).toHaveLength(2)
+    expect(craft.recipes[0]!.products).toHaveLength(2)
   })
 
   test('深链 owner 仍在但 effect 缺席时显示精确空态，不跳到其他 owner', async () => {

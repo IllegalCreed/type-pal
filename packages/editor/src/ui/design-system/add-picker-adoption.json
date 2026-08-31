@@ -2,9 +2,9 @@
   "version": 1,
   "baseline": {
     "included": 5,
-    "deferredOwners": 8,
+    "deferredOwners": 7,
     "includedDataPaths": 6,
-    "deferredDataPaths": 9
+    "deferredDataPaths": 7
   },
   "included": [
     {
@@ -75,21 +75,6 @@
   ],
   "deferred": [
     {
-      "adoptionId": "item/item-amount-append-default",
-      "source": "ItemAlchemyEditors.tsx",
-      "owner": "RecipeAmountList",
-      "dataPaths": [
-        "items[*].use.effects[kind=craftRecipe].recipes[*].ingredients",
-        "items[*].use.effects[kind=craftRecipe].recipes[*].products"
-      ],
-      "candidateOwner": "live items",
-      "mutationOwner": "ItemAlchemyTab.commitCraft -> UpdateItemCommand",
-      "actionFingerprint": "30e3fcb1dd44e3d7",
-      "reason": "同一共享 owner 服务配方材料与产物两条路径，待复合数量 picker 方案冻结后统一迁移。",
-      "removalCondition": "材料与产物路径都消费 DsAddPickerDialog 且对应业务测试与静态清单同步后删除。",
-      "verification": ["ui/ItemAlchemyTab.test.tsx"]
-    },
-    {
       "adoptionId": "actor/initial-magic-append-default",
       "source": "ActorMode.tsx",
       "owner": "ActorInitialSetupPanel",
@@ -156,7 +141,7 @@
       "dataPaths": ["items[*].use.effects[kind=craftRecipe].recipes"],
       "candidateOwner": "live ingredient and product items",
       "mutationOwner": "ItemAlchemyTab.commitCraft -> UpdateItemCommand",
-      "actionFingerprint": "1ceb8f580bb0d3c5",
+      "actionFingerprint": "e7e4a90be549598a",
       "reason": "配方新增同时消费材料与产物两个候选库，不能与单候选追加草率合并。",
       "removalCondition": "复合候选确认交互冻结并迁移到共享 picker 合同且配方测试通过后删除。",
       "verification": ["ui/ItemAlchemyTab.test.tsx"]

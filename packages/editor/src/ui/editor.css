@@ -3742,21 +3742,13 @@ html[data-panel-resize="horizontal"] * {
   min-width: 0;
   gap: var(--ds-space-2);
 }
-.item-alchemy-amount-list__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--ds-space-2);
+.item-alchemy-amount-list__label {
   color: var(--dim);
   font: var(--ds-font-label);
 }
-.item-alchemy-amount-list__rows {
-  display: grid;
-  gap: var(--ds-space-2);
-}
 .item-alchemy-amount-row {
   display: grid;
-  grid-template-columns: minmax(8rem, 1fr) minmax(4.5rem, 5.5rem) auto;
+  grid-template-columns: minmax(8rem, 1fr) minmax(4.5rem, 5.5rem);
   align-items: center;
   gap: var(--ds-space-2);
   min-width: 0;
@@ -3849,13 +3841,6 @@ html[data-panel-resize="horizontal"] * {
   }
   .item-alchemy-recipe-row__formula {
     padding-inline-start: 14px;
-  }
-  .item-alchemy-amount-row {
-    grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 5.5rem);
-  }
-  .item-alchemy-amount-row > .ds-icon-button {
-    grid-column: 2;
-    justify-self: end;
   }
   .item-alchemy-reward-row {
     grid-template-columns: minmax(0, 1fr);
