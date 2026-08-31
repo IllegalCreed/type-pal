@@ -1,6 +1,6 @@
 # ED-FIELD-LABEL-TRACK-WIDE-1 - 编辑器整组宽标签轨合同
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor design system（不改变 capability-map）
 Coding Owner: Codex
@@ -269,8 +269,10 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
   - **本人复跑**：field-layout-adoption + boundary + controls + effect-card-adoption +
     ProjectWorkbenchTab **5 files / 157 tests 全绿** + editor typecheck 干净。
   无返工项；200% zoom 留用户真实浏览器复验；未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: pending
-- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
+- 用户验收: **accept（2026-08-31）**——在任务卡与交接回复均明确披露真实浏览器 200% zoom 未由
+  Agent 可靠实测、其余断点与等效布局路径已闭合的前提下，用户明确回复“验收通过”；不追记为
+  200% 实测证据。
+- done 准入结论: **allowed（2026-08-31，Codex + Kimi + GLM 三方 accept 与用户验收齐）**
 
 ## Draft / Build / Review 证据
 
@@ -292,11 +294,14 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
     control/tail 同起点，双动作和 no-preview/resource tail 无溢出；720 下实际 group 292px 自动 stacked，
     control 258px 且无页面/卡片溢出；Design Lab 精确验证 wide 560 inline / 559 stacked 与 default
     480 inline / 479 stacked。真实 200% zoom 未由当前工具可靠触发，禁止写成已实测。
-- Review：实现提交 `6e7999ef`；Codex accept，三路内部只读压力审查无剩余 P0/P1/P2；正式 Kimi / GLM
-  审签与用户验收待完成，不得标记 done。
+- Review：实现提交 `6e7999ef`；Codex / Kimi / GLM 三方 accept，无 P0/P1/P2；用户在已知真实
+  200% zoom 未由 Agent 可靠实测的口径下明确验收通过。任务完成，未把等效 viewport 冒充真实 zoom。
 
 ## 交接记录
 
+- 2026-08-31 User + Codex: 用户明确回复“验收通过”；三方 accept 与用户验收门全部齐，任务转 done。
+  真实 200% zoom 仍只保留为诚实披露，不改写为已实测；实现、断点、门禁与版本证据以本卡记录为准。
+  无下一位 Agent 提示词；当前卡等待 git 收口与推送。
 - 2026-08-31 GLM: 只读终审 `6e7999ef`，签 **accept**。独立证据：diff 逐行（纯增量、default 四条轨
   零删改、负例矩阵含 wide token inline 覆盖）、census 18/23 且 wide owner 恰 RoleBindings；本人
   浏览器 1280 实测 5 组 12 行全 wide、`160px 790px`、12 标签全单行（最长含星号+32px HelpTip）、
@@ -344,25 +349,5 @@ default `96px / <480px stacked` 合同保持不变。首个采用 owner 为项�
 ## 下一位 Agent 提示词
 
 ```text
-终审 ED-FIELD-LABEL-TRACK-WIDE-1（GLM 席，review，只读，不得实现，不得代签，不得标 done）。
-
-任务卡：docs/ops/tasks/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md
-实现提交：6e7999ef feat(editor): add wide field label track
-当前状态：review；Codex accept 与 Kimi accept（本日，含真实页面/断点/版本治理与 200% zoom
-诚实声明）均已签，仅余你的 GLM accept 与用户验收。
-
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、editor-design-system-v1.md DS-L.7/DS-G.4、
-ED-FIELD-LAYOUT-1 历史卡、本卡全部签节（含 Kimi accept 的实测口径）与 6e7999ef 全 diff。
-
-你的分工（独立证据，不复述 Codex/Kimi）：
-1. 真实字体逐标签测量 12 行：标签 + required 星 + 32px HelpTip 的组合宽度与最长行
-   “特殊战胜利结算音乐”是否确需 ~153px（验证 160px 取值不多不少；若 ≤128px 实测成立须回签）；
-2. 复算 field-layout census（组计数、唯一 wide owner、inline/detached/业务类清单）与门禁负例
-   （第二 owner、动态 labelTrack、非枚举值、业务 --ds-field-label-track-wide 覆盖均必红）；
-3. 测试矩阵：label/htmlFor、HelpTip 32px 命中区、error/aria-describedby、559/560、480/479、
-   720/1280 与 Design Lab RF-23 default/wide 覆盖是否闭合；
-4. 核对版本治理：DS 2.21.0 四处一致，后续 ED-ACTION-GROUP-SPEC-1 顺延 2.22.0 无冲突；
-5. 200% zoom：Kimi 已明写真实 UI zoom 未实测（CDP pageScaleFactor 为 pinch 式不响应布局视口），
-   你若同样无法可靠设置，请保持“未实测”口径并以门禁/静态证据为准，不得以等效 viewport 冒充实测。
-输出：本席 accept 或 counter + file:line/可复现步骤；写回“进入 done 前”GLM 行与交接记录。
+无下一位 Agent 提示词：本卡三方 accept 与用户验收齐，状态 done，等待 git 收口/推送。
 ```
