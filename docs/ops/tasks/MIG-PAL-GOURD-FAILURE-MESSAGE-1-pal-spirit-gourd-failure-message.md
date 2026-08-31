@@ -277,9 +277,57 @@ migration producer 未读取 operand0 failure arm，不是原版静默，也不�
     pal-current-publication → **5 files / 82 tests 全绿**（含真实 PAL 镜像断言与全量 publish）；
     按纪律未重复全量。
   无返工项；未修改实现，未代签 GLM。
-- GLM: pending
+- GLM: **accept（2026-08-31，只读终审 `893da2a3` + 当前工作树独立复算与聚焦复跑，非复述 Codex/Kimi）**。
+  按 GM-D1~GM-D4 与卡面四区逐项独立核验（重点：九档、exact diff、负例矩阵、hash 与幂等）：
+  - **0x34 控制流 ✓（GM-D1/D2）**：本人重扫 all.json——L39713 恰 `raw 0x34 operands [38780,0,0]`、
+    线性后继 39714 恰 `end`；L38780 起恰三条 `setDialogStyleNarration → showDialog(12538
+    "无任何效果") → end`、下一块 38783 有 label；sdlpal 直读 else
+    `wScriptEntry = rgwOperand[0] - 1`（script.c:1515-1518）+ 解释器 `return wScriptEntry + 1`
+    （:3083）——(38780-1)+1 精确落 L38780，一阶段 port `else(==0): jump op0` 同义
+    （event-system.ts:4036-4055）。本人重扫 38780 入边：**operand 边 18 处（opcode 6/100/129/56/52）
+    + goto 边 1 处 = 19 处**——共享通用失败臂；实现仅按 operand0 直接控制流读取，无唯一性断言、
+    无文本反推。item270 源 `scriptOnUse: 39713`、`consuming:false`、`applyToAll:true`。
+  - **strict 形状与负例矩阵 ✓（GM-D1）**：`translateResourcePoolScript`
+    （migrate-content.ts:1047-1085）——head 非 0x34 或线性后继非 end、rewards 空、
+    `failureAddress <= 0`、label 不可解析、臂空白/缺 narration/缺 end/臂后无 label 续行全部
+    undefined，pending 路径承接不产半截 pool；测试矩阵 8 条负例（operand0=0/悬空 99/空白文本/
+    缺 narration/缺失败 end/臂后插命令/head 与 end 间插命令/空 rewards）+ PAL 真链正例
+    （九档 + trimmed「无任何效果」）。**craft translator 本提交零 diff**（本人 `git show` 证实仅
+    新增函数与调用点替换，`translateCraftRecipeScript` 962-1031 未触碰），Store0 九档与成功
+    item-box 语义不变（game/reforge 零文件）。
+  - **publication ownership ✓（GM-D3）**：`applyPalGeneratedResourcePoolMessages`
+    （pal-authored-overlays.ts:360-401）按 item id + pool ordinal 配对，`sameResourcePool` =
+    resource + maxRoll + rewards 完整相等才同步；双侧 unique-id、current 缺物品、pool 数量漂移、
+    结构漂移、空/未 trim message 均抛错；只赋值 `unavailableMessage` 叶。测试实证：作者
+    name/desc/price 保留、producer 标题不覆盖作者标题、幂等重入、输入不被 mutate；PAL 级
+    stale-baseline 用例实证作者 desc 保留且 message 重同步。接线 overlays → craft → pool
+    （pal-current-publication.ts:165-173）；无 item270 分支与文案常量。
+  - **invariant 与 item268 零漂移 ✓（GM-D3）**：`assertSpiritGourd` 扩
+    `unavailableMessage !== '无任何效果'` 抛错（pal-store-boundary.ts:86-89），负例
+    undefined/通用文案「当前没有可用资源」/首尾空白三态；本人 node 跨提交深等复算——
+    **item268 整对象与 `893da2a3^` 完全相等**（五配方 +「炼蛊的材料不足」零漂移）。
+  - **exact diff / hash / 幂等 ✓（GM-D4）**：本人 `git show` 复核生成侧恰三文件——两树
+    items.json 各 +3 行 message-only、`_state.json` 仅 `content/items.json` hash
+    `0058…a45 → 84cc…7b5a` 一行；工作树 state hash 与之相等、managedFiles 537；两树
+    items **字节镜像**（cmp）；跨提交全 234 项 items 中**仅 id 270 有差异**；item270 现值
+    resource=collectValue、maxRoll=9、九档 `100,105,95,112,72,131,97,102,111` count 全 1、
+    仅新增 message。本人独立复跑只读迁移 plan：
+    `managed=537 writes=0 deletes=0 conflicts=0 asset-deletes=0`。
+  - **下游零特判 ✓**：本人 grep「无任何效果」——reforge 命中均为既有战斗侧灵葫咒/顺序门结算
+    文案（battle-core.ts 溯源 `3a03bfdd`、skill.ts `411c16ea`，本提交零 reforge/content 文件）；
+    runtime pool 分支 `message: eff.unavailableMessage` 透传（item.ts:955）、壳层
+    `empty-resource-pool → '当前没有可用资源'` 仅缺 message 时回退（main.ts:5441）、编辑器
+    通用字段（ItemAlchemyTab.tsx:319-321）；`.shadow` 命中为 gitignore 的 replay 暂存——无
+    item270 runtime/editor 特判、无一次性转换器、无 upgrader。
+  - **文档 ✓（GM-D4）**：game-mechanics.md diff 仅零值行 1 删 2 增（0 时不炼出物品；else 跳
+    operand0 共享失败臂显示「无任何效果」），未触碰其它机制段落；编辑器预填与 1280px 证据采信
+    Codex 实机记录，与本席数据/通用字段代码核验一致；游戏零灵葫值用例已登记集中 E2E。
+  - **本人复跑**：migrate-content + pal-authored-overlays + pal-store-boundary（unit+pal）+
+    pal-derived-content + pal-current-publication.pal → **6 files / 83 tests 全绿**（含真实
+    PAL 镜像与全量 publish；按纪律未重复全量）。
+  无返工项；未修改实现，未代签 Kimi，未填用户验收。
 - 用户验收: pending
-- done 准入结论: **blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）**
+- done 准入结论: **blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）**
 
 ## Draft / Build / Review
 
@@ -323,6 +371,18 @@ migration producer 未读取 operand0 failure arm，不是原版静默，也不�
 
 ## 交接日志
 
+- 2026-08-31 GLM: 只读终审 `893da2a3` + 当前工作树，签 **accept**。独立证据：重扫 L39713
+  0x34 `[38780,0,0]` 线性后继 end、sdlpal else + 解释器 +1 精确落 L38780、L38780 严格三元组
+  「无任何效果」、19 入边共享臂（18 operand + 1 goto，opcode 6/100/129/56/52）；translator
+  strict 八负例矩阵 + PAL 真链九档正例、craft translator 零 diff；ownership 按 id + pool ordinal +
+  sameResourcePool 完整结构证据、只覆 message 叶、作者字段保留/幂等/不 mutate 均有测试实证；
+  invariant message 精断言 + 缺失/通用/首尾空白负例；item268 跨提交深等零漂移；generated diff
+  恰三文件 message-only、state 单 hash `0058→84cc`、双树字节镜像、全 234 项仅 270 有差异；
+  本人独立复跑只读 plan 全零（managed=537 writes=0 deletes=0 conflicts=0 asset-deletes=0）；
+  grep 下游命中均为既有战斗文案（3a03bfdd/411c16ea 溯源），runtime 透传/壳层通用回退/编辑器
+  通用字段直读；game-mechanics.md 仅零值行纠正；聚焦 6 files / 83 tests 全绿。无返工项；
+  未修改实现，未代签 Kimi，未填用户验收。三方 accept 齐，仅剩用户验收；无下一位 Agent
+  提示词，等待用户验收/收口。
 - 2026-08-31 Kimi: 只读终审 `893da2a3`，签 **accept**。独立证据：`translateResourcePoolScript`
   head=0x34 + 紧邻 end + 空 rewards/零地址/悬空/畸形臂全 undefined（migrate-content.ts:1047-1085
   直读）、共享 `strictNarrationFailureMessage` 严格三元组 + 臂后无 label 续行拒绝、共享入边不

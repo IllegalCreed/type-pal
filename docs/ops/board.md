@@ -34,7 +34,7 @@
 | MIG-PAL-ITEM-SCHEME-LABEL-1 | PAL 物品剧情方案作者命名收口 | done | 三方 accept + 用户验收齐，整卡收口 | 53 label-only 两侧镜像、49/11/4 闭包、292×13/273×12 消歧、machine-inner 同步、转换器/upgrader/fallback 清零均双席独立复算 |
 | MIG-PAL-STORE0-SHOP-BOUNDARY-1 | PAL Store[0] 奖励表与商店边界收口 | done | 三方 accept + 用户验收齐，整卡收口 | Shop 20家；writes=1→双零计划；sell shop0 原值保留；migrate 391 全绿 |
 | MIG-PAL-CRAFT-FAILURE-MESSAGE-1 | PAL 炼蛊失败原文迁移闭环 | done | 三方 accept + 用户验收齐，整卡收口 | strict producer + publication 接线；三文件 exact diff、writes=1→双零、migrate 402 绿、浏览器预填通过 |
-| MIG-PAL-GOURD-FAILURE-MESSAGE-1 | PAL 紫金葫芦零灵葫值原文迁移闭环 | review | `893da2a3` Codex + Kimi accept；待 GLM 终审与用户验收 | 三文件 exact diff、writes=1→双零、migrate 410 绿、编辑器预填通过 |
+| MIG-PAL-GOURD-FAILURE-MESSAGE-1 | PAL 紫金葫芦零灵葫值原文迁移闭环 | review | `893da2a3` 三方 accept 齐；待用户验收 | 三文件 exact diff、writes=1→双零、migrate 410 绿、编辑器预填通过 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | done | 三方 accept + 用户验收齐，整卡收口 | content18、首次技能播种、当前 HP/MP 继承 UI 与 PAL replay 已完成 |
 | MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | done | 三方 accept + 用户验收齐，整卡收口 | `0e84e565`：4 定义 + 44 引用归一，严格重复为 0，replay 零计划 |
 | MIG-PAL-WORLD-SPRITE-ALIAS-1 | PAL 大世界角色精灵语义别名收口 | done | 三方 accept + 用户确认齐，整卡收口 | `bde33d13`：1 重复定义 + 7 引用归一，迁移零计划，migrate 354 tests 全绿 |
