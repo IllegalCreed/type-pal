@@ -217,20 +217,84 @@ Target Design-System Version: `2.22.0`
     equivalent-owner / deferred / N/A fail-loud 分类；不机械迁移候选、不新增 toolbar/ARIA role、不改业务
     命令。用户可见 CommandForm + disabled reason before -> after 仍待裁决。
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-31，本人 rg 独立 census + 逐处 DOM 直读，非复述 Codex）**：
+    1. **census 本人复算（限定生产域 `packages/editor/src/ui/**/*.tsx`、排除测试与 design-lab）**:
+       `DsActionGroup` 恰 **6 files / 8 callsites / compact 7 + default 1**——CommandForm.tsx:462,1577、
+       ItemAlchemyEditors.tsx:147(compact),296(default)、EnemyTab.tsx:532、ShopTab.tsx:228、
+       EnemyTeamTab.tsx:459、ActorMode.tsx:1671;`DsReorderMoveButton` 恰 **46 枚**——
+       adopted 内 16（CommandForm 4 + ItemAlchemy 4 + EnemyTab 2 + ShopTab 2 + EnemyTeamTab 2 +
+       ActorMode 2），外 30 枚按 10 文件恰 **15 个两枚 surface**（CasualtyEditor:307,455、
+       CutsceneTab:1089-1115、EffectEditorCard:158、FrameAnimationEditor:154、LayerStackControls:169、
+       PoisonTab:148、ProjectWorkbenchTab:1305,1533,1978、ScriptEditor:221,996、ScriptTree:548、
+       SpriteActionEditor:318,497）——与卡面逐字一致。
+    2. **CommandForm 违规实锤**:cf-dialog-row-actions（:462-491）把 `DsCheckbox`（自定速度，表单控件）
+       与条件 `Num` 放进动作组——非动作 children;`Num` helper（:109-117）不传任何
+       accessible name/name/autoComplete——无名数字输入;`DsButton variant="quiet" icon="delete"`
+       带文字“删除”（:479-490）与两枚纯图标移动同组——quiet 删除 + 表达模式混用;
+       cf-party-row-actions（:1577-1588）为纯图标移动 + icon+文字 danger 删除——模式混用。
+       另 ShopTab.tsx:239-245 的 `DsIconButton size="compact"` 与父组 density="compact" 构成
+       direct-child size 双 owner（DS-F.4 已禁类）。
+    3. **ItemAlchemy disabled reason 实锤**:ItemAlchemyEditors.tsx:147 与 :296 的删除均为
+       `disabled={rows.length <= 1}` 的 danger 图标按钮，附近无“至少保留 1 条”可读原因——
+       违反 DS-C.1“disabled 必须给出原因”。
+    4. **组件与规范缺口实锤**:recipes.tsx:371-382 的 root 为
+       `inline-flex / flex:none / max-content / max-width:100%`（recipes.css:885-892），
+       default 图标 36×36、compact 图标 32×32、文字按钮仅 min 尺寸（:894-918）;
+       规范全文零具名 `DsActionGroup`——P2“规范遗漏而非原任务返工”
+       （ED-REORDER-SURFACE-1 卡 :470-471）属实。
+    5. **candidate 不等同违规的实样**:ProjectWorkbenchTab 的 inventory 行已由
+       `.project-inventory-actions` 原子槽持有（ED-REORDER-DRAG-1 收口）;EffectEditorCard header
+       动作由 DS-L.7/RF-26 效果卡合同持有;CasualtyEditor 两族由
+       `.casualty-gate-actions/.casualty-item-actions` flex 簇持有（editor.css:2851-2855）——
+       至少三类候选存在等价原子 owner 证据，机械迁移会双 owner。
+    6. **可证伪观察**:任一数字与本人 rg 复算不符（8/46/16/30/15）即重签；任一 candidate 经直读
+       证明确无等价 owner 且父布局可安全包组（如 PoisonTab/LayerStackControls 的行尾裸对），
+       才够格 deferred;320/720/200% 下 relocation 令字段/identity 不可用则合同父责任不足。
+  - design: **agree（2026-08-31，选 B：合同 + 8 adopted 闭合 + 15 candidate 逐项分类；
+    附 KA1-KA5 必落钉）**：
+    - **KA1（范围 B 钉）**:A（纯文档）会把 :462-491 非动作 children、:109-117 无名输入、
+      :479-490 quiet 删除与 :1577-1588 模式混用写成“已符合”，与现行 MUST 正面冲突;
+      C（同卡迁移 15）无逐面父布局真值、对 inventory/EffectEditorCard/casualty 已有等价 owner 的
+      面制造双 owner。B 是唯一既不伪合规又不伪债务的范围。candidate registry 必须逐项带
+      file:line 结构证据:equivalent-owner / deferred(含 removalCondition) / N/A;
+      看板不得伪报“15 全债务或已迁移”。
+    - **KA2（CommandForm 修复与用户裁决钉）**:checkbox+Num 是字段控件不是同项离散命令,
+      拆出为独立具名字段簇且 handler/disabled/一次命令语义不变——属用户可见 before -> after,
+      **必须经用户产品裁决方可 build**(卡面已标 pending,任何一方不得代为放行);
+      纯图标 danger 组（具体 label/tooltip）是现行 DS-C.2/DS-F.5 唯一一致模式;
+      数字输入补 accessible name + name + autoComplete="off";Shop 删 direct-child size。
+      更小替代（仅 tooltip 原因）对触屏不可达,不采。
+    - **KA3（disabled reason 钉）**:ItemAlchemy 唯一行在 disabled 删除邻近显示“至少保留 1 条”
+      并以描述关系关联,handler 与最少一条规则不变;同属 before -> after 需用户裁决。
+    - **KA4（公共边界钉）**:wrapper 保持交互中性——不得新增 role=toolbar/group、roving tabindex
+      或方向键模型;density 只经公共后代 CSS 冻结按钮**计算几何**,合同约束（无字段、单一模式）
+      由 AST 门禁执行,不得虚构“任意 child 自动继承”;root intrinsic containment 必须移除
+      `max-width:100%` 并显式 `flex-wrap:nowrap`——现状（recipes.css:891）会把 wrapper 夹窄而
+      固定按钮外伸出界;窄态唯一答案是父布局整组 relocation,focus 外扩矩形须落在 item/最近
+      非裁切 owner 内（验收条件已钉）。
+    - **KA5（版本与门禁比例钉）**:DS-C.2a 属新具名 pattern,DS-G.4 minor(2.22.0)适用,
+      2.21.0(done)→2.22.0 顺序成立;RF-27 独立成立（RF-21 的排序焦点覆盖不了纯文案/图标加文案/
+      danger/disabled reason/parent relocation）;adoption AST 与既有 gate 家族同密度,不算过度
+      设计——**新增单枚 raw move 也必须红**,不得只按完整 pair 计数;Design Lab 第 9 个 fixture
+      不计入生产 adopted。
 - GLM:
   - premise: pending
   - design: pending
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending（Kimi 优先核架构/公共接口，GLM 核 census/门禁）
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
-- counter / 分歧处理: pending（重点审 A 纯文档 / B 本卡方案 / C 全量迁移三种边界；用户改变
-  before -> after 时现有三方 design 签字全部失效，更新方案后必须重签）
+  - 审查者: Kimi（2026-08-31，完成——本人 rg census + 逐处 DOM/CSS 直读；GLM 席位保留）
+  - 独立证据锚点: `rg '<DsActionGroup'` / `rg '<DsReorderMoveButton'`（生产域，排除测试与
+    design-lab）;`recipes.tsx:371-382`、`recipes.css:885-918`、`CommandForm.tsx:109-117,462-491,
+    1577-1588`、`ItemAlchemyEditors.tsx:147,296`、`ShopTab.tsx:239-245`、`editor.css:2851-2855`、
+    `ED-REORDER-SURFACE-1 卡 :470-471`。
+  - 可证伪观察: 任一 census 数字与本人 rg 复算不符即重签;任一 candidate 直读证明确有等价
+    owner（如 inventory 原子槽/效果卡合同/casualty flex 簇）即不得判 debt,反之（Poison/
+    LayerStack 类行尾裸对）才够格 deferred;若移除 max-width 后 root 仍夹窄外伸（320/720 实测），
+    intrinsic containment 前提失效转 rework。
+- counter / 分歧处理: none（Kimi 选 B 与 Codex 推荐一致；A 伪合规、C 伪债务均已带证据否决。
+  用户改变 before -> after 时现有三方 design 签字全部失效，更新方案后必须重签）
 - 缺签豁免: N/A
-- build 准入结论: **blocked（缺 Kimi / GLM premise + design；且用户可见 CommandForm + ItemAlchemy
-  disabled reason 两项 before -> after 裁决均 pending）**
+- build 准入结论: **blocked（2026-08-31 Codex + Kimi 已签；缺 GLM premise + design；且用户
+  CommandForm + ItemAlchemy disabled reason 两项 before -> after 裁决均 pending）**
 
 ### 进入 done 前:审查签字
 
@@ -303,6 +367,15 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 
 ## 交接日志
 
+- 2026-08-31 Kimi: 独立 census（rg 生产域：6 files / 8 DsActionGroup compact 7+default 1、
+  46 枚 move buttons = adopted 16 + 30 枚/15 个两枚 surface，逐 file:line 复核一致）+ 直读
+  CommandForm 两处（:462-491 字段控件入组 + :109-117 无名 Num + :479-490 quiet 删除、
+  :1577-1588 模式混用）、Shop direct-child size 双 owner、ItemAlchemy disabled 删除无邻近原因、
+  recipes.css:885-892 现状 max-width 外伸风险、candidate 三类等价 owner 实样（inventory 原子槽/
+  效果卡合同/casualty flex 簇）。签 premise verified + design agree（选 B；附 KA1 范围 / KA2
+  CommandForm 修复须用户裁决 / KA3 disabled reason / KA4 公共边界含 intrinsic containment /
+  KA5 版本与单枚必红五钉），完成独立反证。未修改实现，未代签 GLM。Next: GLM 核 census/AST/
+  测试矩阵；用户对 CommandForm + disabled reason 两项 before -> after 裁决未下前不得 build。
 - 2026-08-31 Codex: wide label track 已三方 + 用户验收收口并推送 `98e06c2f`。对下一项 ActionGroup P2
   做三路只读压力审计，确认公共实现与 8 adopted 已存在，但 CommandForm 有两个不合规采用、ItemAlchemy
   disabled reason 缺失，另有 30 枚 raw move buttons / 15 个候选 surface 尚待语义分类。开卡采用中间方案；
@@ -311,32 +384,30 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-ACTION-GROUP-SPEC-1（Kimi 席，draft；生产实现只读，只允许更新本任务卡签字/提示词）。
+审签 ED-ACTION-GROUP-SPEC-1（GLM 席，draft；生产实现只读，只允许更新本任务卡签字/提示词）。
 
 任务卡：docs/ops/tasks/ED-ACTION-GROUP-SPEC-1-editor-action-group-contract.md
-当前状态：draft；Codex 已签 premise verified + 推荐设计 agree；Kimi / GLM 与用户 CommandForm +
-ItemAlchemy disabled reason 两项 before->after 裁决均 pending。任何一项未齐不得修改实现、不得转 build。
+当前状态：draft；Codex + Kimi（KA1-KA5，选 B）已签；你的 GLM premise/design 与用户
+CommandForm + ItemAlchemy disabled reason 两项 before->after 裁决均 pending。
+任何一项未齐不得修改实现、不得转 build。
 
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、editor-design-system-v1.md 的 DS-F.4/DS-F.5/DS-C.2/
-DS-C.4d/DS-G.4/RF-21，本任务卡全文；再直读 recipes.tsx:312-382、recipes.css:885-918、
-boundary.test.ts:373-396、CommandForm.tsx:109-117,462-491,1577-1588，以及历史
-ED-REORDER-SURFACE-1 卡 :470-471。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、editor-design-system-v1.md DS-F.4/DS-F.5/DS-C.2/
+DS-C.4d/DS-G.4/RF-21、本卡全文（含 Kimi 签节与独立 census）、recipes.tsx:312-382、
+recipes.css:885-918、boundary.test.ts:373-396、CommandForm.tsx:109-117,462-491,1577-1588、
+ItemAlchemyEditors.tsx:147,296、ShopTab.tsx:239-245。
 
-必须独立核验并输出：
-1. 按限定生产域复算 6 files / 8 DsActionGroup（compact 7/default 1）与 46 枚 move buttons：16 枚在
-   adopted、30 枚归属 15 candidate surfaces；给 file:line，不复述 Codex 数字。判断 candidate 中哪些是
-   equivalent-owner / deferred / N/A，不能把“未包组”直接等同违规。
-2. 判断三种范围：A 只补文档/版本；B 本卡推荐的“合同 + 8 adopted 闭合 + 15 candidate 逐项分类”；
-   C 不分类而同卡迁移全部 15。明确 agree 哪个或 counter，并说明最强替代解释与可推翻观察。
-3. 核 CommandForm 两处：非动作 children、无名/无 name 数字输入、quiet/文字删除、同组表达混用是否真实
-   违规；再核 ItemAlchemy 唯一行 disabled 删除缺邻近原因。判断卡面修复是否需要用户产品裁决、是否存在
-   更小合法修复。
-4. 审公共边界：wrapper 不应是 toolbar/roving focus；density 只冻结按钮计算几何，不得虚构“任意 child
-   自动继承”；parent relocation/focus inset/nowrap 的责任边界是否完整。
-5. 审 DS 2.22.0 minor、独立 RF-27、action-group-adoption adopted/candidate 双向 AST 门是否过度设计；
-   特别核 root 去除 max-width 后的 intrinsic containment、额外单枚 raw move 必红、文字按钮仅锁最小尺寸。
-
-输出 Kimi 席带直接证据的 premise verified + design agree，或 counter + P0/P1/P2、file:line/反例；
-只允许写回任务卡签字/交接/下一提示词，不得修改生产或测试。若 agree，请附下一段可直接转发给 GLM 的
-提示词。不得代签 GLM，不得标 build/done。用户若修改 before -> after，全部 design 签字失效并须重签。
+你的分工（独立证据，不复述 Codex/Kimi）：
+1. 以你自己的扫描方式复算 8 adopted / 46 move buttons / 15 candidate surfaces，并设计
+   action-group-adoption.json 的双向 AST 门禁：漏登/重复/stale、alias/spread/dynamic density、
+   非动作 child、混合模式、adopted 直系 size、**新增单枚 raw move** 全部必红；
+2. 15 candidate 逐项分类的证据审查：equivalent-owner / deferred(含 removalCondition) / N/A
+   每项是否带真实 file:line 与 DOM/父布局证据；防止真实 debt 被写成等价 owner，也防止
+   deferred 变永久豁免；
+3. 测试矩阵：root 几何（nowrap/intrinsic、scrollWidth==clientWidth、按钮 border box 与 4px
+   focus 外扩矩形归属）、default 36/compact 32/文字仅最小尺寸、native button/a11y name/
+   tooltip/SVG hidden/Tab/Enter/Space、disabled reason 关联、RF-27 与 boundary/recipes/
+   reorder-surface/CommandForm 聚焦；
+4. CommandForm 与 ItemAlchemy 修复的命令语义零变化核验（handler、disabled、一次命令、
+   undo/redo 对称）；
+5. 输出 GLM 席 premise verified + design agree，或 counter + file:line/反例。
 ```
