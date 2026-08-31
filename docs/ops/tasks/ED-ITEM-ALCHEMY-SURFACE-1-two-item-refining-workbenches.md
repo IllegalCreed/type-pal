@@ -1,6 +1,6 @@
 # ED-ITEM-ALCHEMY-SURFACE-1 - 炼蛊皿与紫金葫芦双炼化工作台
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor item authoring（不改变 capability-map）
 Coding Owner: Codex
@@ -418,8 +418,8 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
     content validate 93 tests——**全绿**。命令计数/no-op 0/undo-redo 对称断言逐条直读确认。
   无返工项；200% zoom 实机复验按卡面分工仍归 Kimi/用户补验，不构成本席 blocker；
   未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: pending（历史组合态曾 approved；最新控件高度/配方卡几何增量待复验）
-- done 准入结论: **blocked（窄态密度增量三方accept；最新控件高度/配方卡几何增量 Codex + GLM accept，待Kimi accept + 用户复验）**
+- 用户验收: **approved（2026-08-31）**——用户回复“签了”，确认最新控件高度、配方卡几何与公共Stepper外框。
+- done 准入结论: **allowed / complete（Codex + Kimi + GLM accept + 用户验收齐，无counter）**
 
 ### 数量字段 / 连接符 / 奖励列表表面、横向节奏与窄态密度增量复审
 
@@ -492,7 +492,7 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
     typecheck——**全绿**。
   无返工项；200% zoom 实机与像素级复测按分工归 Kimi/用户补验；未修改实现，未代签 Kimi，
   未填用户验收。
-- 用户验收: pending
+- 用户验收: **approved（2026-08-31，用户回复“签了”）**
 
 ### 奖励行控件高度、配方卡几何与公共Stepper外框增量复审
 
@@ -578,14 +578,14 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
     tests + editor typecheck——**全绿**。
   无返工项；三档（1280/760/520）像素级几何、focus 视觉与 200% zoom 按分工归 Kimi/用户复验，
   采信 Codex 实测且与本席结构/门禁证据一致；未修改实现，未代签 Kimi，未填用户验收。
-- 用户验收: pending
+- 用户验收: **approved（2026-08-31，用户回复“签了”）**
 
 ## Draft / Build / Review
 
 - Draft：用户产品裁决、双机制真值、无新 schema 设计与 paired migration 边界已登记。
 - Build：2026-08-31 Codex 按三签准入开工；`54ba9c2e` 完成实现，期间按用户视觉裁决撤销双页 owner Catalog，
   固定为单一机制 IA，并补 Enemy `collectValue` 来源闭环。
-- Review：in progress；窄态密度增量三方accept；最新控件高度/配方卡几何增量Codex accept，待Kimi/GLM终审与用户复验。
+- Review：complete；窄态密度与最新控件高度/配方卡几何增量均三方accept，用户验收齐，任务done。
 
 ### Build / Review 证据
 
@@ -733,10 +733,12 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 炼蛊配方卡几何: **rework（2026-08-31）**——用户指出配方摘要、actions、drag handle与四字段严重错位。
   `e11515f7`消除跨surface grid-area泄漏、用overlay rail锚定header，并从公共Stepper外框修正38/36px错位；
   normal/invalid/focus/forced-colors状态与1280/760/520几何均闭合，待增量终审/用户复验。
-- 实现验收: pending（最新控件高度/配方卡几何增量待用户复验）。
+- 实现验收: **approved（2026-08-31）**——用户回复“签了”；全部review增量验收通过。
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: 最新控件高度/配方卡几何增量Codex、Kimi、GLM三方accept齐；用户回复“签了”
+  确认最终验收。无counter、无剩余返工项，Status由review转done；旧增量终审提示词失效，无下一位Agent。
 - 2026-08-31 Kimi: 增量只读终审 `13ed6138` + `1f6b25af` + `e11515f7`（控件高度/配方卡几何/
   公共 Stepper 外框），按视觉几何/focus/200% zoom 分工签 **accept**。独立证据：1280 实机
   header 三区单行恰 56px、五元素中心线偏差 0、identity/formula 起点均 x=103、四 label 同 top、
@@ -913,6 +915,9 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 
 ## 下一位 Agent 提示词
 
+无下一位 Agent 提示词；任务已完成，等待常规后续版本收口。
+
+<!-- 以下为已失效的历史增量终审提示词，仅保留追溯，不得继续转发。
 ```text
 增量终审 ED-ITEM-ALCHEMY-SURFACE-1（Kimi 或 GLM，只读，不得修改实现）。
 
@@ -978,3 +983,4 @@ Kimi 重点审可视对齐/1280/720/200%；GLM 重点审DOM、command、registry
 并追加交接记录。
 不得代签另一席、不得填写用户验收、不得标记done、不得修改实现或推送。
 ```
+-->
