@@ -11,16 +11,6 @@ import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 let root: Root
 let host: HTMLDivElement
 
-async function commitNumber(input: HTMLInputElement, value: string): Promise<void> {
-  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
-  await act(async () => {
-    input.focus()
-    setter.call(input, value)
-    input.dispatchEvent(new Event('input', { bubbles: true }))
-    input.blur()
-  })
-}
-
 beforeEach(() => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
@@ -138,6 +128,35 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
       true,
     )
     expect(recipeRows.every((row) => row.querySelectorAll('input').length === 2)).toBe(true)
+    recipeRows.forEach((row, index) => {
+      const fieldLabels = [...row.querySelectorAll<HTMLLabelElement>('.ds-field__label')]
+      expect(fieldLabels.map((label) => label.textContent?.trim())).toEqual([
+        '材料',
+        '材料数量',
+        '产物',
+        '产物数量',
+      ])
+      for (const label of fieldLabels) {
+        expect(label.htmlFor).not.toBe('')
+        expect(row.contains(document.getElementById(label.htmlFor))).toBe(true)
+      }
+      const recipeNumber = index + 1
+      for (const kind of ['材料', '产物']) {
+        const input = row.querySelector<HTMLInputElement>(
+          `[aria-label="配方 ${recipeNumber} ${kind}数量"]`,
+        )!
+        expect(input.type).toBe('number')
+        expect(input.closest('.ds-number-stepper')).not.toBeNull()
+        expect(
+          row.querySelector<HTMLButtonElement>(
+            `button[aria-label="减少配方 ${recipeNumber} ${kind}数量"]`,
+          )?.disabled,
+        ).toBe(true)
+        expect(
+          row.querySelector(`button[aria-label="增加配方 ${recipeNumber} ${kind}数量"]`),
+        ).not.toBeNull()
+      }
+    })
     expect(host.textContent).not.toMatch(/添加材料|添加产物/)
     expect(host.querySelector('button[aria-label^="删除材料"]')).toBeNull()
     expect(host.querySelector('button[aria-label^="删除产物"]')).toBeNull()
@@ -378,7 +397,9 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
     expect(edit.undo()).toBe(true)
 
     const beforeCount = edit.getHistoryVersion()
-    await commitNumber(host.querySelector<HTMLInputElement>('[aria-label="配方 1 材料数量"]')!, '2')
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="增加配方 1 材料数量"]')!.click(),
+    )
     expect(edit.getHistoryVersion()).toBe(beforeCount + 1)
     expect(
       findItemAlchemyEffect(edit.getState().items.find((item) => item.id === '268')!, 'crafting')!

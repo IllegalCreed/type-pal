@@ -2,6 +2,7 @@ import type { ItemData, ItemRecipe } from '@type-pal/content'
 import type { CraftRecipeEffect, ResourcePoolEffect } from '../core/item-alchemy.js'
 import {
   DsActionGroup,
+  DsDraftNumberField,
   DsDraftNumberInput,
   DsIconButton,
   DsReorderCollection,
@@ -10,6 +11,7 @@ import {
   DsReorderMoveButton,
   DsRepeatRow,
   DsSelect,
+  DsSelectField,
   DsSequenceIndex,
   reorderDsItems,
   sameDsSerializableValue,
@@ -42,30 +44,33 @@ function RecipeAmountField(props: {
 }) {
   return (
     <div className="item-alchemy-amount-list" data-amount-kind={props.label}>
-      <strong className="item-alchemy-amount-list__label">{props.label}</strong>
-      <div className="item-alchemy-amount-row">
-        <DsSelect
-          aria-label={`配方 ${props.recipeNumber} ${props.label}物品`}
-          value={props.entry.itemId}
-          options={itemOptions(props.items, props.entry.itemId)}
-          onValueChange={(itemId) => props.onChange({ ...props.entry, itemId })}
-        />
-        <span className="item-alchemy-amount-row__count">
-          <DsDraftNumberInput
-            aria-label={`配方 ${props.recipeNumber} ${props.label}数量`}
-            draftKey={`${props.scopeKey}:count`}
-            syncToken={props.revision}
-            min={1}
-            integer
-            enforceRange
-            value={props.entry.count}
-            onCommit={(value) => {
-              if (value !== undefined)
-                props.onChange({ ...props.entry, count: positiveInteger(value) })
-            }}
-          />
-        </span>
-      </div>
+      <DsSelectField
+        label={props.label}
+        layout="stacked"
+        fieldClassName="item-alchemy-amount-item-field"
+        aria-label={`配方 ${props.recipeNumber} ${props.label}物品`}
+        value={props.entry.itemId}
+        options={itemOptions(props.items, props.entry.itemId)}
+        onValueChange={(itemId) => props.onChange({ ...props.entry, itemId })}
+      />
+      <DsDraftNumberField
+        label={`${props.label}数量`}
+        layout="stacked"
+        fieldClassName="item-alchemy-amount-count-field"
+        aria-label={`配方 ${props.recipeNumber} ${props.label}数量`}
+        name={`recipe-${props.recipeNumber}-${props.label === '材料' ? 'ingredient' : 'product'}-count`}
+        autoComplete="off"
+        draftKey={`${props.scopeKey}:count`}
+        syncToken={props.revision}
+        min={1}
+        step={1}
+        integer
+        enforceRange
+        value={props.entry.count}
+        onCommit={(value) => {
+          if (value !== undefined) props.onChange({ ...props.entry, count: positiveInteger(value) })
+        }}
+      />
     </div>
   )
 }

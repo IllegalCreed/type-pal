@@ -2069,7 +2069,7 @@
         "catalog": "N/A: single mechanism page has no object catalog",
         "scroll": "DsObjectWorkspaceContent + DsInspectorTabs",
         "overlay": "DsFloatingLayer",
-        "field": "DsDraftNumberInput + DsDraftTextField + DsFieldGroup + DsPropertyRow + DsSelect",
+        "field": "DsDraftNumberField + DsDraftTextField + DsFieldGroup + DsPropertyRow + DsSelectField",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

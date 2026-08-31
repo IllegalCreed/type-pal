@@ -5,9 +5,9 @@
     "leafCalls": 115,
     "controls": {
       "DsNumberInput": 55,
-      "DsDraftNumberInput": 30,
+      "DsDraftNumberInput": 29,
       "DsNumberField": 4,
-      "DsDraftNumberField": 26
+      "DsDraftNumberField": 27
     }
   },
   "modes": [
@@ -358,14 +358,14 @@
     {
       "source": "ItemAlchemyEditors.tsx",
       "component": "RecipeAmountField",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": { "context": "none", "fieldClass": "item-alchemy-amount-count-field" },
       "count": 1,
       "mode": "compact-repeat-row",
-      "control": "DsDraftNumberInput",
-      "measure": "specialized-css",
+      "control": "DsDraftNumberField",
+      "measure": "canonical-short",
       "grid": "repeat-row",
       "owner": "card:ED-ITEM-ALCHEMY-SURFACE-1",
-      "reason": "配方材料与产物数量分别与固定的一进一出选择器同行。",
+      "reason": "配方材料与产物数量使用带可见标签与步进器的标准数字字段。",
       "verification": "ItemAlchemyTab.test.tsx#crafting",
       "removalCondition": "数量行改为新的公共复合字段 recipe 时更新。"
     },
@@ -895,7 +895,7 @@
       "consumerCount": 2,
       "context": "repeat-row",
       "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "材料和产物两个单值数量字段复用同一个紧凑行 helper。",
+      "reason": "材料和产物两个带标签标准数字字段复用同一个一进一出 helper。",
       "verification": "ItemAlchemyEditors.tsx local consumers",
       "removalCondition": "配方数量集合不再复用时删除。"
     },
