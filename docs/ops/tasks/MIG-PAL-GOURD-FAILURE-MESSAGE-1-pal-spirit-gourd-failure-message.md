@@ -1,6 +1,6 @@
 # MIG-PAL-GOURD-FAILURE-MESSAGE-1 - PAL 紫金葫芦零灵葫值原文迁移闭环
 
-Status: build
+Status: review
 Phase: phase2
 Capability: PAL item migration / current publication（不改变 capability-map）
 Coding Owner: Codex
@@ -236,17 +236,49 @@ migration producer 未读取 operand0 failure arm，不是原版静默，也不�
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-31，`893da2a3`）**——strict 0x34 operand0 translator、共享臂纪律、
+  generated resource-pool message ownership、item270 exact invariant、一阶段说明纠正与三文件重迁全部落钉；
+  writes=1、事务3、内部/独立 replay 全零；migrate typecheck、Biome 与唯一一次全量 50 files / 410 tests
+  全绿；编辑器字段预填、九档与 1280px 无横溢实机通过。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
-- done 准入结论: blocked
+- done 准入结论: **blocked（仅 Codex accept；待 Kimi / GLM accept + 用户验收）**
 
 ## Draft / Build / Review
 
 - Draft：原版失败臂、producer 根因、current publication 接线与 exact-diff 方案已登记。
-- Build：in progress；三方签字与两张 Depends On 均已闭合，Codex 作为唯一 Coding Owner 开工。
-- Review：pending。
+- Build：completed（`893da2a3`）；Codex 按 KG1-KG6 / GM-D1-GM-D4 完成实现、重迁和自验证。
+- Review：in progress；Codex accept，待 Kimi / GLM 独立终审与用户验收。
+
+## Build / Review 证据
+
+- producer：`translateResourcePoolScript` 只接受 head=0x34、reward 非空、紧邻 end、operand0 非零可解析、
+  failure arm 严格 `narration -> showDialog(nonblank) -> end` 且下一块为 label/EOF；失败返回 undefined，
+  由既有 pending 路径承接，不产半截 pool。只沿 operand0 读取 L38780，不扫描/限制其 19 个共享入边；
+  craft translator 代码与行为未改。
+- current publication：新增 resource-pool message 纯同步，只在 item id + pool ordinal +
+  resource/maxRoll/rewards 完整相等时覆盖 generated 明确提供的 message 叶；作者名称、说明、价格、其它 effect
+  保留，重复 id、owner 缺失、pool 数量或结构漂移 fail-loud；无 item270 分支或文案常量。
+- 永久 invariant：item270 必须唯一 pool、resource=collectValue、maxRoll=9、九档
+  `[100,105,95,112,72,131,97,102,111]` ×1 且 message 精确“无任何效果”；缺失、通用 fallback、
+  首尾空白均有负例。item268 整对象与 HEAD 深等，五配方和“炼蛊的材料不足”零漂移。
+- 聚焦：unit 3 files / 79 tests；PAL publication + mirror 2 files / 3 tests 全绿。最终 migrate typecheck、
+  8 个受影响源文件 Biome、`git diff --check` 全绿；唯一一次 migrate 全量为 50 files / 410 tests。
+- 重迁：写前 `managed=537 writes=1 deletes=0 conflicts=0 asset-deletes=0`；正式事务
+  `transaction-changes=3`、1934 assets 全 unchanged；内置 replay 与正式写后独立 dry-run四项全零。
+  只读复核另独立执行两次 plan，均保持四项全零。
+- exact diff：允许集恰 current/baseline items + `_state.json`；双树 JSON/字节镜像，item270 仅新增
+  `unavailableMessage: "无任何效果"`；state 仅 `content/items.json` hash 变为
+  `84cc52734d4e5a150e76a52c330c2cfc86330c2b5a33c1e17e207fc58a417b5a`，managedFiles 与其余
+  536 hashes 零变化，shops/scenes/scripts/其余 items 零变化。
+- 文档：`docs/phase1/game-mechanics.md` 仅把“0 时没反应”纠正为 0x34 else 跳 operand0 共享失败臂并
+  显示“无任何效果”。
+- 编辑器 dev-functional：`/?module=item&page=spirit-gourd&object=270` 的“不可用提示”唯一、可见、值精确
+  “无任何效果”；9 个奖励行，1280px `scrollWidth=clientWidth=1280`，保存 disabled（无脏写）。
+- gameplay E2E（集中批次登记）：入口为全局 collectValue=0 时直接使用 item270；预期不扣值、不发奖励，
+  旁白显示“无任何效果”后结束。按视觉纪律延后到代码冻结后的运行时集中 E2E。
+- 三路增量只读复核均 accept、无 P0/P1；未把支持性复核代作 Kimi / GLM done 签字。
 
 ## 用户验收
 
@@ -255,6 +287,10 @@ migration producer 未读取 operand0 failure arm，不是原版静默，也不�
 
 ## 交接日志
 
+- 2026-08-31 Codex: `893da2a3` 完成 strict 0x34 producer、resource-pool publication ownership、
+  item270 exact invariant、一阶段说明纠正与 current/baseline 重迁。三文件 exact diff、writes=1、事务3、
+  内部/独立 replay 全零；migrate 410 tests/typecheck/Biome 绿；浏览器确认“无任何效果”、九档、无横溢、
+  无脏写。三路只读支持复核无 P0/P1。Codex 签 accept，状态转 review；Next: Kimi / GLM 终审。
 - 2026-08-31 Codex: 开工前核对新卡三方 premise/design 全齐、无 counter；Store0 / craft 两卡均已有
   Codex/Kimi/GLM accept，用户本轮确认验收后转 done。所有 build 门禁闭合，本卡转 build；先 strict
   0x34 translator，再 generated ownership/invariant，最后重迁 exact diff 与双零计划。
@@ -283,14 +319,21 @@ migration producer 未读取 operand0 failure arm，不是原版静默，也不�
 ## 下一位 Agent 提示词
 
 ```text
-无下一位 Agent 提示词；MIG-PAL-GOURD-FAILURE-MESSAGE-1 签字面三签已齐
-（Codex + Kimi KG1-KG6 + GLM GM-D1~D4，无 counter，两席独立反证完成）。
+终审 MIG-PAL-GOURD-FAILURE-MESSAGE-1（Kimi 或 GLM，只读，不得修改实现）。
 
-本卡 build 的前置条件：Depends On 两卡（MIG-PAL-STORE0-SHOP-BOUNDARY-1、
-MIG-PAL-CRAFT-FAILURE-MESSAGE-1）done 收口。届时请直接把本提示词替换为 Codex build 版：
-唯一 Coding Owner = Codex，开工时 Status 转 build；已冻结结论（L39713 [38780,0,0] → L38780
-「无任何效果」共享臂 19 入边、producer 未读 operand0 为唯一根因）不得重开；build 必落钉
-KG1-KG6 与 GM-D1~D4（operand0 控制流驱动、strict pool translator + craft 回归零改动、
-generated message ownership 只覆 message 叶、assertSpiritGourd 扩展、三文件 exact diff、
-writes=1/双零、game-mechanics.md:703 纠正、零灵葫值 E2E 登记）。
+任务卡：docs/ops/tasks/MIG-PAL-GOURD-FAILURE-MESSAGE-1-pal-spirit-gourd-failure-message.md
+当前状态：review；实现提交 `893da2a3`，Codex accept；Kimi / GLM / 用户验收 pending。
+先完整阅读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡与 `893da2a3` diff。
+
+请独立核：
+1. 0x34 translator 是否只沿 operand0 读取共享失败臂，严格形状/畸形 pending，不错误要求 L38780 唯一入边；
+   craft translator、成功 item-box 与 Store0 九档是否零回归。
+2. generated resource-pool ownership 是否只覆 message 叶，结构证据充分，作者其它字段保留，无 item270 特判。
+3. item270 invariant 是否精确钉 message + 九档；item268 是否零漂移；文档纠正是否忠实。
+4. exact diff 是否恰三文件、state 单 hash、镜像、writes=1、事务3、内部/独立零计划；410 tests 与浏览器
+   证据是否可信。
+
+Kimi 重点审控制流/共享臂与 current publication ownership；GLM 重点复算九档、exact diff、negative matrix、
+hash 与幂等。结论写回“进入 done 前”本人席位和交接日志：accept，或带 file:line、复现反例与返工条件的
+counter。不得代签另一席、不得改实现、不得标记 done；用户验收仍单独 pending。
 ```

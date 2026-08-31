@@ -12,7 +12,7 @@ Unavailable Agents: none
 Branch: `main`
 Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 `MIG-PAL-CRAFT-FAILURE-MESSAGE-1`（恢复炼蛊失败原文，当前 review / `62e30f56` 已重迁）；
-`MIG-PAL-GOURD-FAILURE-MESSAGE-1`（恢复紫金葫芦零灵葫值原文，当前 draft / 三签 pending）
+`MIG-PAL-GOURD-FAILURE-MESSAGE-1`（恢复紫金葫芦零灵葫值原文，当前 review / `893da2a3` 已重迁）
 
 ## 目标
 
