@@ -258,8 +258,8 @@ describe('reorder visible surface adoption gate', () => {
       '@container item-alchemy (max-width: 760px)',
       '.item-alchemy-reward-row',
     )
-    expect(mediumRewardRow).toContain('"cost flow reward count"')
-    expect(mediumRewardRow).toContain('". . actions actions"')
+    expect(mediumRewardRow).toContain('"cost flow reward reward"')
+    expect(mediumRewardRow).toContain('"count count count actions"')
     const narrowRewardRow = cssRuleInAtRule(
       businessCss,
       '@container item-alchemy (max-width: 520px)',

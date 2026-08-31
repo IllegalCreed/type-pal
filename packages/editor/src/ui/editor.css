@@ -3770,7 +3770,7 @@ html[data-panel-resize="horizontal"] * {
 .item-alchemy-reward-row {
   display: grid;
   grid-template-areas: "cost flow reward count actions";
-  grid-template-columns: max-content 2.75rem minmax(12rem, 1fr) max-content auto;
+  grid-template-columns: max-content 2.75rem minmax(0, 1fr) max-content auto;
   align-items: center;
   gap: var(--ds-space-3);
   min-height: 60px;
@@ -3843,9 +3843,9 @@ html[data-panel-resize="horizontal"] * {
   }
   .item-alchemy-reward-row {
     grid-template-areas:
-      "cost flow reward count"
-      ". . actions actions";
-    grid-template-columns: max-content 2.75rem minmax(0, 1fr) max-content;
+      "cost flow reward reward"
+      "count count count actions";
+    grid-template-columns: max-content 2.75rem minmax(0, 1fr) auto;
   }
 }
 

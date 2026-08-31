@@ -998,10 +998,10 @@
         "selector": ".item-alchemy-reward-row",
         "atRule": "",
         "property": "grid-template-columns",
-        "value": "max-content 2.75rem minmax(12rem, 1fr) max-content auto",
+        "value": "max-content 2.75rem minmax(0, 1fr) max-content auto",
         "owner": "card:ED-FIELD-LAYOUT-1",
         "reason": "五轨是按内容计宽的实际扣除值、流程连接符、唯一吸收剩余宽度的奖励轨、带可见标签的标准数量字段与不可拆动作组。",
-        "responsiveEvidence": "扣除文案与可见箭头保持固定节奏，奖励轨独占剩余宽度；760px 与520px 两级规则按完整语义单元换行。",
+        "responsiveEvidence": "扣除文案与可见箭头保持固定节奏，奖励轨独占并可安全收缩剩余宽度；760px 与520px 两级规则按完整语义单元换行。",
         "removalCondition": "灵葫档位行不再使用该五轨结构时删除。"
       },
       {
@@ -1009,10 +1009,10 @@
         "selector": ".item-alchemy-reward-row",
         "atRule": "@container item-alchemy (max-width: 760px)",
         "property": "grid-template-columns",
-        "value": "max-content 2.75rem minmax(0, 1fr) max-content",
+        "value": "max-content 2.75rem minmax(0, 1fr) auto",
         "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "中窄态把实际扣除、水平连接符、奖励与带可见标签的标准数量字段保留在同一语义行，只让不可拆动作组下沉。",
-        "responsiveEvidence": "奖励轨独占弹性余量；动作组跨奖励与数量两轨靠右，连接符不再独占空白行。",
+        "reason": "中窄态把实际扣除、水平连接符与奖励保留在首行，带可见标签的标准数量字段和不可拆动作组在第二行分居两侧。",
+        "responsiveEvidence": "奖励跨弹性与动作轨保持可辨识宽度；数量字段横跨前三轨，动作组靠右，连接符不再独占空白行。",
         "removalCondition": "中窄档位布局改变时更新。"
       },
       {
