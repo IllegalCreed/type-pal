@@ -215,10 +215,36 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
   baseline state 的 shops hash；items/manifest/scenes/content19/SAVE8/价格/奖励零变化。migrate 全量
   50 files / 391 tests、typecheck 与聚焦 4 files / 8 tests 全绿。1280px 实机 Shop 20 行 id1..20、无
   伪店/试炼果/舍利子；s029 sell shop0 表单保留原值，显示“0（缺失）/卖（当铺收购）”，无静默改写。
-- Kimi: pending
+- Kimi: **accept（2026-08-31，只读终审 `ff6c9532` + 本人独立复核命令与聚焦复跑，非复述 Codex）**。
+  按 KM1-KM4 与卡面核验点逐项核验：
+  - **过滤不重编号 ✓（KM1/GM-A2）**:`migratePalShops` 现为
+    `stores.filter(store => store.id !== 0).map(...)`（pal-derived-content.ts:170-173），原始 id 与
+    货单原样保留；本人 node 复算 working tree——current shops 恰 20 项、id 序列恰 `1..20`、
+    baseline 与 current 逐字镜像；shops.json diff 恰 −14 行（仅删 id0 元素）、`_state.json` 仅
+    `files["content/shops.json"]` 一行 hash 变化。
+  - **buy/sell 边界 ✓（KM2/GM-A1）**:`assertPalStoreBoundaryInvariant`（pal-store-boundary.ts:126-184）
+    永久断言：禁止发布 ShopDef0、源/发布真实商店 id 序列恰 1..20、buy openShop 必须命中真实
+    ShopDef、sell 仅计数豁免且 sell shop 恒为 0（publish 侧钉 `expectedBuyCalls:29 /
+    expectedSellCalls:6 / expectedSellShopId:0`，pal-current-publication.ts:301-309）；sell 运行时
+    不读 shops 的前提（设计期本人直读 main.ts:3442-3452）未被本提交改变，CommandForm 对 sell
+    shop=0 的呈现由 Codex 实机证据覆盖（保留原值显示“0（缺失）”，无静默改写）——KM4 闭环。
+  - **item270/268 区分 ✓（GM-A4）**:`assertSpiritGourd`（:74-98）断言源 Store0 恰九档
+    `[100,105,95,112,72,131,97,102,111]`、item270 唯一 pool、resource=collectValue、
+    maxRoll==源档数、rewards 序列==源、count 全 1、112/72 原始 buyPrice 保持 0；
+    `assertVesselRecipes`（:44-52）断言 item268 恰 1 个 craftRecipe×5 且 resource pool 为 0——
+    本人 node 复算 working tree 与之一致（item270 rewards 九档精确、item268 零交集）。
+  - **exact-diff 与幂等 ✓（KM3/GM-A3）**：本提交仅 shops.json×2 + state hash + 迁移侧代码/测试，
+    零 editor 文件（本人 `git show --stat` 证实）；Codex 记录首次 plan writes=1、
+    transaction-changes=3、内置 replay 与独立第二轮四项全零，与本卡验收口径一致。
+  - **无 workaround ✓**：无 UI 隐藏规则、兼容分支、upgrader 或一次性转换器（Shop 目录的 0 号
+    消失来自 canonical 数据，非 UI 过滤）。
+  - **本人复跑**:pal-store-boundary（unit+pal）+ pal-derived-content + migrate-content +
+    pal-authored-overlays + pal-current-publication → **6 files / 75 tests 全绿**（含真实 PAL
+    镜像断言 item268 recipes/message 与 item270 源闭包）；按纪律未重复全量。
+  无返工项；未修改实现，未代签 GLM。
 - GLM: pending
 - 用户验收: pending
-- done 准入结论: blocked
+- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
 
 ## Draft / Build / Review 证据
 
@@ -228,6 +254,13 @@ PAL `Store[0]` 是脚本资源池，不是买店；把它发布为 ShopDef 才�
 
 ## 交接记录
 
+- 2026-08-31 Kimi: 只读终审 `ff6c9532`，签 **accept**。独立证据：过滤 `store.id !== 0` 不重编号
+  （pal-derived-content.ts:170-173）；本人 node 复算 shops 20 项 id 1..20、current==baseline 镜像、
+  diff 恰 −14 行仅删 id0、state 仅 shops hash；永久 invariant 直读（禁 ShopDef0、id 序列 1..20、
+  buy 命中真实店、sell 豁免且恒 shop=0、publish 钉 29/6/0）；assertSpiritGourd 九档源闭包 +
+  112/72 buyPrice 保 0、assertVesselRecipes 268 恰 5 配方零 pool；零 editor 文件、无 UI 隐藏/
+  兼容/upgrader；本人复跑 6 files / 75 tests 全绿。无返工项；未修改实现，未代签 GLM，未标 done。
+  Next: GLM 终审与用户验收。
 - 2026-08-31 Codex: 完成 `ff6c9532` migration-only build。红测先证明 migratePalShops 输出 21 项、
   PAL current/baseline 含 ShopDef0；修复后首次 plan writes=1，发布与独立 replay 全 0，exact diff 白名单
   恰三路径。永久 invariant / unit / PAL truth / publication 全绿；migrate 全量 391。浏览器证据：

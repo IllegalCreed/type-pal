@@ -32,8 +32,8 @@
 | ED-WORKSPACE-ADOPTION-DEBT-1 | 编辑器旧工作区滚动壳真实采用清零 | draft | 待逐文件真值与 Codex/Kimi/GLM build 前设计签字；不得实现 | 清零 6 文件 bounded raw `ds-object-workspace*` 旧债 |
 | MIG-PAL-MAP-NAME-1 | PAL 一阶段考据地图名迁入二阶段 | done | 三方 accept + 用户验收齐，整卡收口 | 222/294/221/223/2、s230/s243 双钉、shared 专用边界、104/164 精确占位与 replay 全 0 均已终审 |
 | MIG-PAL-ITEM-SCHEME-LABEL-1 | PAL 物品剧情方案作者命名收口 | done | 三方 accept + 用户验收齐，整卡收口 | 53 label-only 两侧镜像、49/11/4 闭包、292×13/273×12 消歧、machine-inner 同步、转换器/upgrader/fallback 清零均双席独立复算 |
-| MIG-PAL-STORE0-SHOP-BOUNDARY-1 | PAL Store[0] 奖励表与商店边界收口 | review | Codex `ff6c9532` accept；待 Kimi/GLM 终审与用户验收 | Shop 20家；writes=1→双零计划；sell shop0 原值保留；migrate 391 全绿 |
-| MIG-PAL-CRAFT-FAILURE-MESSAGE-1 | PAL 炼蛊失败原文迁移闭环 | review | `62e30f56` Codex accept；待 Kimi/GLM 终审与用户验收 | strict producer + publication 接线；三文件 exact diff、writes=1→双零、migrate 402 绿、浏览器预填通过 |
+| MIG-PAL-STORE0-SHOP-BOUNDARY-1 | PAL Store[0] 奖励表与商店边界收口 | review | Codex `ff6c9532` + Kimi accept；待 GLM 终审与用户验收 | Shop 20家；writes=1→双零计划；sell shop0 原值保留；migrate 391 全绿 |
+| MIG-PAL-CRAFT-FAILURE-MESSAGE-1 | PAL 炼蛊失败原文迁移闭环 | review | `62e30f56` Codex + Kimi accept；待 GLM 终审与用户验收 | strict producer + publication 接线；三文件 exact diff、writes=1→双零、migrate 402 绿、浏览器预填通过 |
 | MIG-PAL-GOURD-FAILURE-MESSAGE-1 | PAL 紫金葫芦零灵葫值原文迁移闭环 | draft | 三方设计签字已齐；等 Store0 + craft 两卡 done 放行 build | KG1~KG6 + GM-D1~D4 收敛；L38780 共享臂 19 入边按直接控制流限界 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | done | 三方 accept + 用户验收齐，整卡收口 | content18、首次技能播种、当前 HP/MP 继承 UI 与 PAL replay 已完成 |
 | MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | done | 三方 accept + 用户验收齐，整卡收口 | `0e84e565`：4 定义 + 44 引用归一，严格重复为 0，replay 零计划 |

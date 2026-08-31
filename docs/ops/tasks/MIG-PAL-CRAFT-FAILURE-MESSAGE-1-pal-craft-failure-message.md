@@ -200,10 +200,40 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
   fail-loud、current publication producer-message 接线、item268 exact invariant、三文件 exact diff、
   writes=1→事务 3 文件→内部/独立 replay 全零均已自验。migrate typecheck、Biome 与唯一一次全量
   50 files / 402 tests 全绿；编辑器字段预填与五配方最小浏览器验收通过。
-- Kimi: pending
+- Kimi: **accept（2026-08-31，只读终审 `62e30f56` + 本人独立复核命令与聚焦复跑，非复述 Codex）**。
+  按 KC1-KC5 与卡面核验点逐项核验：
+  - **strict 终端臂翻译 ✓（KC1/KC2/GM-C1）**:`translateCraftRecipeScript`
+    （migrate-content.ts:969-1029）现逐钉落实——链环 `seen` 命中即 `return undefined`（:973-975）；
+    failure 地址不可解析即 undefined（:989，悬空 fail-loud）；仅当终端非 0x20 目标严格为
+    `setDialogStyleNarration → showDialog(nonblank) → end` 时取 `text.trim()`（:997-1010，
+    缺 narration / 非 dialog / 空白文本 / 缺 end 全 undefined）；三元组后若存在**无 label 的
+    续行命令**同样 undefined（:1003-1007，臂内/臂后额外命令防前缀宽松化）；产物入口不一致保持
+    既有 productStart 语义。L39606→L39595 迁移结果即 working tree item268
+    `unavailableMessage: "炼蛊的材料不足"`（本人 node 复算：五条 117..121 ×1 → 148 ×1、
+    零 resource pool、message 精确）。
+  - **operand[2]=0 不误投影 ✓**:`failureAddress <= 0` 维持既有 `return undefined`（:981），
+    恒成功语义不会被生成 craftRecipe。
+  - **generated ownership ✓（KC3/GM ownership）**:`applyPalGeneratedCraftMessages`
+    （pal-authored-overlays.ts:273-352）——双侧 unique-id（重复 id 抛错）、current 缺物品抛错、
+    craft 数量漂移抛错、逐 effect `sameRecipes` 完整结构证据（ingredients+products 逐项）不匹配
+    抛错、message undefined 跳过、空/未 trim message 抛错；**只赋值 `unavailableMessage` 叶**，
+    配方/名称/价格/其它 effect 全留作者侧；文件内无 item268 分支、无文案常量。publication 接线
+    `applyPalGeneratedCraftMessages(applyPalItemOverlays(baselineItems), generatedItems)`
+    （pal-current-publication.ts）顺序正确。
+  - **invariant 与下游零特判 ✓（KC5/GM-C2）**:`assertVesselRecipes` 断言 message 精确
+    “炼蛊的材料不足” + 五条配方精确结构（pal-store-boundary.ts:53-71，含首尾空白负例
+    pal-store-boundary.test.ts:151）；本人 grep `炼蛊的材料不足` 在 reforge/editor/game **零命中**，
+    仅 migrate 侧 invariant/测试持有——无 runtime/editor 特判、无一次性转换器、无 upgrader。
+  - **exact-diff 与幂等 ✓（KC4/GM-C3）**：本提交 generated 侧仅 items.json×2 + `_state.json`
+    items hash（本人 `git show` 证实 items.json diff 恰 +3 行 message-only）；Codex 记录
+    写前 writes=1、事务 3 文件、1934 资产不变、内部 replay 与独立第二进程 dry-run 四项全零。
+  - **本人复跑**:migrate-content + pal-authored-overlays + pal-store-boundary（unit+pal）+
+    pal-derived-content + pal-current-publication → **6 files / 75 tests 全绿**（含真实 PAL
+    镜像断言与 publication 全量 publish）；按纪律未重复全量。
+  无返工项；未修改实现，未代签 GLM。
 - GLM: pending
 - 用户验收: pending
-- done 准入结论: **blocked（仅 Codex accept；待 Kimi / GLM accept + 用户验收）**
+- done 准入结论: **blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）**
 
 ## Draft / Build / Review
 
@@ -245,6 +275,14 @@ PAL 炼蛊皿五种材料全部不足时，原版可达失败臂会显示“炼�
 
 ## 交接日志
 
+- 2026-08-31 Kimi: 只读终审 `62e30f56`，签 **accept**。独立证据：translator 环/悬空/缺 narration/
+  空白/缺 end/臂后无 label 续行全 undefined（migrate-content.ts:969-1029 直读）、strict 三元组
+  trimmed message；operand[2]=0 保持非候选（:981）；`applyPalGeneratedCraftMessages` 双侧
+  unique-id + sameRecipes 结构证据 + 只覆 message 叶、无 item268 分支与文案常量
+  （pal-authored-overlays.ts:273-352）；invariant 精确 message + 五条结构 + 空白负例；本人 grep
+  reforge/editor/game 零特判；items.json diff 恰 +3 行 message-only、state 仅 items hash；
+  本人 node 复算 item268 五条 117..121→148 + 精确 message + 零 pool；本人复跑 6 files / 75 tests
+  全绿。无返工项；未修改实现，未代签 GLM，未标 done。Next: GLM 终审与用户验收。
 - 2026-08-31 Codex: `62e30f56` 完成 strict producer、current publication message ownership 接线、
   item268 exact invariant 与 current/baseline 重迁。结构化 exact diff 仅三文件；writes=1、事务 3、
   内部 replay 与独立二次计划全零；migrate typecheck / Biome / 50 files 402 tests 全绿。应用内浏览器确认
