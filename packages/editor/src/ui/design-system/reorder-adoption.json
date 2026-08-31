@@ -275,10 +275,10 @@
             "file": "ItemAlchemyEditors.tsx",
             "fingerprint": "className=\"item-alchemy-recipe-row\""
           },
-          "railLayout": "inline",
+          "railLayout": "overlay",
           "railOwner": {
-            "file": "design-system/reorder.css",
-            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+            "file": "ItemAlchemyEditors.tsx",
+            "fingerprint": "layout=\"overlay\""
           }
         }
       ]

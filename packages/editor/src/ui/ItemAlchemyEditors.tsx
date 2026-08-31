@@ -131,7 +131,12 @@ export function CraftRecipeList(props: {
         {recipes.map((recipe, index) => {
           const reorderKey = reorderKeys.keys[index]!
           return (
-            <DsReorderItem itemKey={reorderKey} key={reorderKey}>
+            <DsReorderItem
+              itemKey={reorderKey}
+              key={reorderKey}
+              layout="overlay"
+              className="item-alchemy-recipe-item"
+            >
               <article className="item-alchemy-recipe-row">
                 <header className="item-alchemy-recipe-row__header">
                   <DsSequenceIndex value={index + 1} accessibleLabel={`优先级 ${index + 1}`} />

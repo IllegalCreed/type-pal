@@ -256,6 +256,11 @@ describe('editor design-system static boundary', () => {
     expect(cssDeclaration(stepper[0]!, '--ds-number-stepper-button-size')).toBe(
       'var(--ds-control-height)',
     )
+    expect(cssDeclaration(stepper[0]!, 'min-height')).toBe('var(--ds-number-stepper-button-size)')
+    expect(cssDeclaration(stepper[0]!, 'border')).toBe('0')
+    expect(cssDeclaration(stepper[0]!, 'box-shadow')).toBe(
+      'inset 0 0 0 1px var(--ds-border-control)',
+    )
     expect(cssDeclaration(stepper[0]!, 'grid-template-columns')).toBe(
       'var(--ds-number-stepper-button-size) minmax(0, 1fr) var(--ds-number-stepper-button-size)',
     )
@@ -264,6 +269,52 @@ describe('editor design-system static boundary', () => {
     expect(cssDeclaration(compactStepper[0]!, '--ds-number-stepper-button-size')).toBe(
       'var(--ds-hit-target-compact)',
     )
+    const stepperButton = cssRuleBodies(primitives, '.ds-number-stepper__button')
+    expect(stepperButton).toHaveLength(1)
+    expect(cssDeclaration(stepperButton[0]!, 'min-height')).toBe(
+      'var(--ds-number-stepper-button-size)',
+    )
+    const invalidStepper = cssRuleBodies(
+      primitives,
+      '.ds-number-stepper:has(.ds-input[aria-invalid="true"])',
+    )
+    expect(invalidStepper).toHaveLength(1)
+    expect(cssDeclaration(invalidStepper[0]!, 'box-shadow')).toBe(
+      'inset 0 0 0 1px var(--ds-status-danger)',
+    )
+    const forcedStepper = cssRuleBodies(
+      primitives,
+      '.ds-number-stepper',
+      '@media (forced-colors: active)',
+    )
+    expect(forcedStepper).toHaveLength(1)
+    expect(cssDeclaration(forcedStepper[0]!, 'outline')).toBe('1px solid ButtonText')
+    expect(cssDeclaration(forcedStepper[0]!, 'outline-offset')).toBe('-1px')
+    expect(cssDeclaration(forcedStepper[0]!, 'box-shadow')).toBe('none')
+    const forcedInvalidStepper = cssRuleBodies(
+      primitives,
+      '.ds-number-stepper:has(.ds-input[aria-invalid="true"])',
+      '@media (forced-colors: active)',
+    )
+    expect(forcedInvalidStepper).toHaveLength(1)
+    expect(cssDeclaration(forcedInvalidStepper[0]!, 'outline')).toBe('2px solid Highlight')
+    expect(cssDeclaration(forcedInvalidStepper[0]!, 'outline-offset')).toBe('-2px')
+    const forcedFocusedStepper = cssRuleBodies(
+      primitives,
+      '.ds-number-stepper:has(:focus-visible)',
+      '@media (forced-colors: active)',
+    )
+    expect(forcedFocusedStepper).toHaveLength(1)
+    expect(cssDeclaration(forcedFocusedStepper[0]!, 'outline')).toBe('2px solid Highlight')
+    expect(cssDeclaration(forcedFocusedStepper[0]!, 'outline-offset')).toBe('0')
+    const forcedInvalidFocusedStepper = cssRuleBodies(
+      primitives,
+      '.ds-number-stepper:has(.ds-input[aria-invalid="true"]):has(:focus-visible)',
+      '@media (forced-colors: active)',
+    )
+    expect(forcedInvalidFocusedStepper).toHaveLength(1)
+    expect(cssDeclaration(forcedInvalidFocusedStepper[0]!, 'outline')).toBe('2px solid Highlight')
+    expect(cssDeclaration(forcedInvalidFocusedStepper[0]!, 'outline-offset')).toBe('0')
     const grid = cssRuleBodies(recipes, '.ds-number-field-grid')
     expect(grid).toHaveLength(1)
     expect(cssDeclaration(grid[0]!, 'grid-template-columns')).toBe(

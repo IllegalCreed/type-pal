@@ -124,6 +124,14 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
     expect(host.querySelector('.item-alchemy-list-card h2')?.textContent).toBe('自动取材规则')
     const recipeRows = [...host.querySelectorAll('.item-alchemy-recipe-row')]
     expect(recipeRows).toHaveLength(5)
+    expect(
+      recipeRows.every((row) => {
+        const item = row.closest<HTMLElement>('.ds-reorder-item')
+        return (
+          item?.dataset.layout === 'overlay' && item.classList.contains('item-alchemy-recipe-item')
+        )
+      }),
+    ).toBe(true)
     expect(recipeRows.every((row) => row.querySelectorAll('[role="combobox"]').length === 2)).toBe(
       true,
     )

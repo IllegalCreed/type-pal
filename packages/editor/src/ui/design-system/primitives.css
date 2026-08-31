@@ -633,9 +633,10 @@
     var(--ds-number-stepper-button-size) minmax(0, 1fr)
     var(--ds-number-stepper-button-size);
   overflow: hidden;
-  border: 1px solid var(--ds-border-control);
+  border: 0;
   border-radius: var(--ds-radius-control);
   background: var(--ds-surface-raised);
+  box-shadow: inset 0 0 0 1px var(--ds-border-control);
 }
 
 .ds-number-stepper[data-size="compact"] {
@@ -645,6 +646,10 @@
 .ds-number-stepper:has(:focus-visible) {
   outline: 2px solid var(--ds-focus-ring);
   outline-offset: 2px;
+}
+
+.ds-number-stepper:has(.ds-input[aria-invalid="true"]) {
+  box-shadow: inset 0 0 0 1px var(--ds-status-danger);
 }
 
 .ds-number-stepper__input {
@@ -2038,6 +2043,27 @@
 }
 
 @media (forced-colors: active) {
+  .ds-number-stepper {
+    outline: 1px solid ButtonText;
+    outline-offset: -1px;
+    box-shadow: none;
+  }
+
+  .ds-number-stepper:has(.ds-input[aria-invalid="true"]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .ds-number-stepper:has(:focus-visible) {
+    outline: 2px solid Highlight;
+    outline-offset: 0;
+  }
+
+  .ds-number-stepper:has(.ds-input[aria-invalid="true"]):has(:focus-visible) {
+    outline: 2px solid Highlight;
+    outline-offset: 0;
+  }
+
   .ds-check-control {
     appearance: auto;
     accent-color: Highlight;

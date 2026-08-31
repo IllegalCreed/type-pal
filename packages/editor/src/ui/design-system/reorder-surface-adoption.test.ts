@@ -159,8 +159,9 @@ describe('reorder visible surface adoption gate', () => {
     expect(
       [...byId.values()]
         .filter((entry) => entry.railLayout === 'overlay')
-        .map((entry) => entry.adoptionId),
-    ).toEqual(['asset/frame-animation-timeline'])
+        .map((entry) => entry.adoptionId)
+        .sort(),
+    ).toEqual(['asset/frame-animation-timeline', 'item/craft-recipes'])
     for (const adoptionId of [
       'enemy/ai-rules',
       'enemy-team/fixed-slots',
@@ -264,6 +265,19 @@ describe('reorder visible surface adoption gate', () => {
     )
 
     const businessCss = source('editor.css')
+    expect(cssRule(businessCss, '.item-alchemy-row-actions')).not.toContain('grid-area')
+    expect(cssRule(businessCss, '.item-alchemy-reward-row > .item-alchemy-row-actions')).toContain(
+      'grid-area: actions',
+    )
+    expect(
+      cssRule(businessCss, '.item-alchemy-recipe-row__header > .item-alchemy-row-actions'),
+    ).toContain('grid-area: actions')
+    const recipeRail = cssRule(
+      businessCss,
+      '.ds-reorder-item.item-alchemy-recipe-item[data-layout="overlay"] > .ds-reorder-item__rail',
+    )
+    expect(recipeRail).toContain('inset-block-start: 0')
+    expect(recipeRail).toContain('block-size: var(--item-alchemy-recipe-header-height)')
     const mediumRewardRow = cssRuleInAtRule(
       businessCss,
       '@container item-alchemy (max-width: 760px)',
