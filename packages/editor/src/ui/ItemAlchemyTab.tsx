@@ -16,7 +16,6 @@ import {
   DsDraftNumberField,
   DsDraftTextField,
   DsEmptyState,
-  DsField,
   DsFieldGroup,
   DsInspectorHost,
   DsInspectorSection,
@@ -25,7 +24,6 @@ import {
   DsObjectWorkspace,
   DsPropertyGrid,
   DsPropertyRow,
-  DsReadonlyValue,
   DsTag,
   DsWorkbenchSection,
 } from './design-system/index.js'
@@ -282,12 +280,6 @@ export function ItemAlchemyTab(props: ItemAlchemyTabProps) {
                   description="奖励行数与最高消耗严格相等；第 N 行会实际扣除 N 点灵葫值。"
                 >
                   <DsFieldGroup>
-                    <DsField
-                      label="资源变量"
-                      help="紫金葫芦固定消费全局 collectValue；该事实不在此页改写。"
-                    >
-                      <DsReadonlyValue monospace>{effect.resource}</DsReadonlyValue>
-                    </DsField>
                     <DsDraftNumberField
                       label="单次最高消耗"
                       aria-label="单次最高灵葫值消耗"
@@ -407,6 +399,11 @@ export function ItemAlchemyTab(props: ItemAlchemyTabProps) {
                       <DsPropertyRow label="结构">
                         {effect ? effectCount(surface, effect) : '未配置'}
                       </DsPropertyRow>
+                      {effect?.kind === 'drawFromResourcePool' ? (
+                        <DsPropertyRow label="资源来源">
+                          <code translate="no">{effect.resource}</code>
+                        </DsPropertyRow>
+                      ) : null}
                       <DsPropertyRow label="物品引用">{references.length} 处</DsPropertyRow>
                       <DsPropertyRow label="缺失引用">
                         {missingReferences.length ? missingReferences.join('、') : '0'}

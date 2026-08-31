@@ -176,9 +176,13 @@ describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
     const rows = [...host.querySelectorAll('.item-alchemy-reward-row')]
     expect(host.querySelector('.outliner')).toBeNull()
     expect(host.textContent).not.toContain('添加紫金葫芦')
-    expect(host.querySelector('input[aria-label="资源变量"]')).toBeNull()
-    expect(host.textContent).toContain('collectValue')
-    expect(host.textContent).toContain('该事实不在此页改写')
+    expect(host.querySelector('.item-alchemy-form-card')?.textContent).not.toContain('资源变量')
+    expect(host.querySelector('.item-alchemy-form-card')?.textContent).not.toContain('collectValue')
+    const sourceRow = [...host.querySelectorAll<HTMLElement>('.ds-property-row')].find(
+      (row) => row.textContent?.includes('资源来源'),
+    )!
+    expect(sourceRow.querySelector('input, textarea, [role="combobox"]')).toBeNull()
+    expect(sourceRow.querySelector('code')?.textContent).toBe('collectValue')
     expect(rows).toHaveLength(9)
     expect(rows.every((row) => row.querySelector('.ds-sequence-index') === null)).toBe(true)
     expect(rows.map((row) => row.querySelector('.item-alchemy-reward-cost')?.textContent)).toEqual(
