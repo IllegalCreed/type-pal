@@ -25,7 +25,7 @@
 | ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | done | 全部增量三方 accept + 用户验收齐，整卡收口 | contentLayout form/list；Shop 公共 panel + danger 下架；角色视觉与 surface 四桶闭合 |
 | ED-ACTION-GROUP-SPEC-1 | DsActionGroup 公共规范登记与 DS 2.22.0 升线 | draft | 待开卡补前提真值与 Codex/Kimi/GLM build 前签字；不得实现 | 登记不可拆动作组、compact 32px 合同与版本四处同步；承接 GLM P2，顺延至 wide track 2.21 后 |
 | ED-FIELD-LABEL-TRACK-WIDE-1 | 编辑器整组宽标签轨合同 | draft | 待 Kimi/GLM premise/design 签字；不得实现 | DsFieldGroup wide=160px/<560 stacked；RoleBindings 唯一首批采用；DS 2.21.0 |
-| ED-ITEM-ALCHEMY-SURFACE-1 | 炼蛊皿与紫金葫芦双炼化工作台 | blocked | `314e3a52` 一进一出 rework 已完成；等 MIG done 后终审 | 行内子项增删清零，复杂 shape fail-loud；聚焦/DS/typecheck/1280+720 浏览器均绿 |
+| ED-ITEM-ALCHEMY-SURFACE-1 | 炼蛊皿与紫金葫芦双炼化工作台 | blocked | `314e3a52` 一进一出已完成；等 craft + gourd 两张 MIG done | UI 增量已绿；两种失败原文均须 producer 重迁，禁止下游特判 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
 | ARCH-ACTOR-CONDITION-SEED-1 | 入口与剧情入队角色当前状态播种 | done | 三方 accept + 用户验收齐，整卡收口 | content19 三 carrier 全链闭合；三路只读审计无剩余 blocker，PAL replay 为零 |
 | ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | done | 三方 accept + 用户复验齐，整卡收口 | Hero 56px 复用 idle.start，同缓存防串图；EnemyTeam/Vars 无媒体，六面 census 闭合 |
@@ -34,6 +34,7 @@
 | MIG-PAL-ITEM-SCHEME-LABEL-1 | PAL 物品剧情方案作者命名收口 | done | 三方 accept + 用户验收齐，整卡收口 | 53 label-only 两侧镜像、49/11/4 闭包、292×13/273×12 消歧、machine-inner 同步、转换器/upgrader/fallback 清零均双席独立复算 |
 | MIG-PAL-STORE0-SHOP-BOUNDARY-1 | PAL Store[0] 奖励表与商店边界收口 | review | Codex `ff6c9532` accept；待 Kimi/GLM 终审与用户验收 | Shop 20家；writes=1→双零计划；sell shop0 原值保留；migrate 391 全绿 |
 | MIG-PAL-CRAFT-FAILURE-MESSAGE-1 | PAL 炼蛊失败原文迁移闭环 | review | `62e30f56` Codex accept；待 Kimi/GLM 终审与用户验收 | strict producer + publication 接线；三文件 exact diff、writes=1→双零、migrate 402 绿、浏览器预填通过 |
+| MIG-PAL-GOURD-FAILURE-MESSAGE-1 | PAL 紫金葫芦零灵葫值原文迁移闭环 | draft | 待 Kimi/GLM premise/design；先完成 Store0 + craft 两卡终审 | L39713 0x34 零值→L38780“无任何效果”；producer 漏 operand0 failure arm |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | done | 三方 accept + 用户验收齐，整卡收口 | content18、首次技能播种、当前 HP/MP 继承 UI 与 PAL replay 已完成 |
 | MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | done | 三方 accept + 用户验收齐，整卡收口 | `0e84e565`：4 定义 + 44 引用归一，严格重复为 0，replay 零计划 |
 | MIG-PAL-WORLD-SPRITE-ALIAS-1 | PAL 大世界角色精灵语义别名收口 | done | 三方 accept + 用户确认齐，整卡收口 | `bde33d13`：1 重复定义 + 7 引用归一，迁移零计划，migrate 354 tests 全绿 |

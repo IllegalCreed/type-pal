@@ -11,7 +11,8 @@ Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: `main`
 Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
-`MIG-PAL-CRAFT-FAILURE-MESSAGE-1`（恢复炼蛊失败原文，当前 review / `62e30f56` 已重迁）
+`MIG-PAL-CRAFT-FAILURE-MESSAGE-1`（恢复炼蛊失败原文，当前 review / `62e30f56` 已重迁）；
+`MIG-PAL-GOURD-FAILURE-MESSAGE-1`（恢复紫金葫芦零灵葫值原文，当前 draft / 三签 pending）
 
 ## 目标
 
@@ -367,10 +368,16 @@ Depends On: `MIG-PAL-STORE0-SHOP-BOUNDARY-1`（移除伪 ShopDef0）；
 - 配方基数: **approved / rework（2026-08-31）**——用户指出游戏中无法选择原材料，因此行内“添加材料”会
   错误暗示组合合成。裁决每条炼蛊规则固定一项材料到一项产物；移除行内材料/产物添加与子项删除，只保留
   新增完整映射、优先级、物品选择和数量。该裁决收紧编辑器表面，不改 schema/runtime/current 数据。
+- 紫金葫芦不可用提示: **rework（2026-08-31）**——用户指出该字段也为空。核验确认 0x34 在
+  collectValue=0 时通过 operand0 跳 L38780，原版旁白“无任何效果”；当前 producer 漏失败臂。已开
+  `MIG-PAL-GOURD-FAILURE-MESSAGE-1`，禁止 UI/runtime fallback 或手改 current；本卡继续 blocked。
 - 实现验收: pending。
 
 ## 交接记录
 
+- 2026-08-31 User/Codex: 用户指出紫金葫芦“不可用提示”为空。Codex + 三路只读审计确认 L39713
+  `0x34 [38780,0,0]` 在零灵葫值时跳 L38780 三元组“无任何效果”；现 pool producer 未读 operand0。
+  新开独立 `MIG-PAL-GOURD-FAILURE-MESSAGE-1`，不扩两张 review 卡、不改 UI/runtime/current；本卡新增依赖。
 - 2026-08-31 Codex: `314e3a52` 完成一进一出 rework。移除 `RecipeAmountList` 的材料/产物行内新增与删除，
   改为单值字段；新增 editor-only strict guard，复杂 shape fail-loud，不收窄通用 craftRecipe。同步删除已失效的
   add-picker deferred owner、重绑 number-field helper 与 CSS census。聚焦 13 tests、七门禁 85 项、typecheck、
