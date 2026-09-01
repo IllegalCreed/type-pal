@@ -402,10 +402,37 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
   `<280px` 父容器换轨、registry/规范/测试；按钮 props、稳定 key、reorder owner、命令/schema/数据均零改。
   聚焦 133、全量 1521、typecheck、91 文件设计系统门禁全绿；真实入口 280/279/235/139 与毒
   760/520/360/320 容器逐档复验，无 P0/P1/P2 自审遗留。
-- Kimi: pending
+- Kimi: **accept（2026-09-01，只读终审 `d8b04a23` 全 diff + 真实页面两边界复测 + registry/版本/
+  测试证据复核与本人聚焦复跑，非复述 Codex）**：
+  - **生产变更面 ✓（diff 直读）**:PoisonTab `.ef-ops` 与 ProjectWorkbenchTab
+    `.project-entry-row-actions` 两处 span 仅换为 `<DsActionGroup density="compact">`,按钮
+    label/variant/disabled/handler/itemKey 逐字未动;`.ef-ops` 私有的 display/gap/flex 与
+    `.project-entry-row-actions` 私有 flex/gap 规则删除,`.ef-row .ef-ops` 移出 1px optical
+    margin(仅 `.ef-kind` 保留);`.project-entry-list` 新增唯一命名 container + `<280px`
+    单列/padding-block-end 4px/动作组 `grid-column:1; justify-self:end`——与 rework 方案逐字一致;
+    其余文件仅 registry/测试/audit/规范文案。
+  - **入口边界（真实实现复测）**:280px 实机 `208px 68px` 同排,正文 title=**98px ≥96**
+    （与设计期注入推算的 ~98px 一致）、meta=`new-game` 全量 ID 在 DOM、动作 68px 两枚 32×32
+    在 item 内、溢出 0;279px 实机单列下沉,title=**165px**;235px 下沉 title=**121px**——
+    小数边界以整数档申报,focus 外扩有 4px block-end 承接。
+  - **毒回合断点（真实实现复测）**:760px 同排右对齐;520px 整组第二行右对齐;360/320px
+    整组跨行右对齐;四档三枚按钮（上移/下移/删除回合 1，具体 aria）均 **32×32**、
+    `scrollWidth===clientWidth`、删除保持 danger 边框 rgb(242,125,132)、row/doc 溢出全 0;
+    字段/动作底线 1280 实测证据见 Codex 记录（本人 760 同排无异常）。
+  - **基线 ✓（本人复算）**:registry baseline 恰为
+    `10 groups / 46 moves / adopted 20 / raw 26 / candidates 13`;adopted 清单恰为原 8 +
+    `poison/ticks/actions` + `project/entry-points/actions`;disposition
+    **1 equivalent + 12 deferred + 0 N/A**;其余 13 candidates 的 DOM/CSS 零改动（commit stat
+    证明）;DS 版本保持 **2.22.0**(index.ts 与 tokens.css 实测未升）;DS-C.2a census 文案已同步为
+    “10 组 / 20 枚…26 枚…13 个候选”。
+  - **测试证据 ✓**:本人复跑 action-group-adoption + PoisonTab + ProjectWorkbenchTab +
+    boundary → **4 files / 133 tests 全绿**(与卡面“聚焦 133 项”精确一致）;typecheck、
+    91-file design-system gate 与 editor 全量 184 files / 1521 项记录采用 Codex 证据,
+    按纪律未重复全量。
+  无返工项；未修改实现，未代签 GLM。
 - GLM: pending
 - 用户验收: pending
-- done 准入结论: blocked
+- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
 
 ## Draft / Build / Review 证据
 
@@ -437,6 +464,14 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ## 交接日志
 
+- 2026-09-01 Kimi: 只读终审 `d8b04a23`，签 **accept**。独立证据：两 wrapper 仅换
+  `DsActionGroup density="compact"` 且按钮逐字未动、三处私有 CSS 几何清除（diff 直读）;
+  真实实现复测——入口 280 同排 title=98px ≥96 / meta=new-game 全量 / 动作 32×32 在 item 内、
+  279 下沉 165px、235 下沉 121px、溢出全 0;毒 760 同排 / 520 第二行右对齐 / 360、320 跨行右对齐、
+  三钮均 32×32、删除 danger、scrollEq、溢出全 0;registry 复算恰 10/46/20/26/13 + 1 equivalent
+  + 12 deferred、其余 13 candidates 零 diff（commit stat）、DS 保持 2.22.0(index/tokens 实测）;
+  本人复跑 4 files / 133 tests 全绿（与卡面聚焦数一致）。无返工项；未修改实现，未代签 GLM,
+  未标 done。Next: GLM 终审与用户验收。
 - 2026-09-01 Codex: implementation `d8b04a23` 完成。聚焦133 + 全量1521、typecheck、设计系统门禁全绿；
   真实入口280/279/235/139与毒760/520/360/320均通过几何/a11y/focus检查，临时入口未保存且页面重载后
   恢复“已保存”。状态转 review，Codex accept。Next: Kimi 只读代码/视觉审查并签 accept 或 counter；
@@ -495,28 +530,30 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 ## 下一位 Agent 提示词
 
 ```text
-审查 ED-ACTION-GROUP-ADOPTION-1（Kimi 席，review；生产实现只读，只允许更新任务卡签字/交接）。
+终审 ED-ACTION-GROUP-ADOPTION-1（GLM 席，review；生产实现只读，不得修改实现/测试，不得代签，
+不得标 done）。
 
 任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md
-当前状态：review；implementation `d8b04a23` 已推送。Codex accept；Kimi/GLM review accept 与用户验收
-pending。done 三签不齐，不得标 done。
+实现提交：d8b04a23 feat(editor): adopt action groups in poison and entry rows
+当前状态：review；Codex accept 与 Kimi accept（2026-09-01，含真实实现两边界复测与基线复算）
+均已签，仅余你的 GLM review accept 与用户验收。
 
-先读：AGENTS.md done 门禁、本卡全部 rework/签字/Build 证据、ED-ACTION-GROUP-SPEC-1、DS-C.2a，
-并只读 `git show --stat d8b04a23` 与本提交涉及的 PoisonTab.tsx、ProjectWorkbenchTab.tsx、editor.css、
-action-group-adoption.json/测试。
+先读：AGENTS.md done 门禁、本卡全部 rework/签字/Build 证据（含 Kimi accept 的实机口径）、
+ED-ACTION-GROUP-SPEC-1、DS-C.2a、`git show d8b04a23` 全 diff。
 
-你的审查职责：
-1. 逐字确认生产 UI 只把 `.ef-ops`、`.project-entry-row-actions` 换成 compact `DsActionGroup`，并由
-   `.project-entry-list` 单点持有具名 inline-size container；按钮 label/variant/disabled/handler、
-   itemKey/scopeKey/adoptionId、稳定 entry.id、UpdatePoisonCommand/SetStartupEntriesCommand 均零漂移。
-2. 审入口边界：280px 必须同排且带“直接启动”最紧行正文 >=96px（Codex 实测98px）；279/235px
-   必须完整下沉（165/121px）；真实最窄139px仍须 title/meta 正宽、完整 DOM/access name、无覆盖/横溢。
-   四档最后一项 4px focus 外扩须落在 item/list 内。可自行在
-   `http://localhost:6010/?module=project&page=entrypoint` 用临时入口复验，但不得保存，结束后重载丢弃。
-3. 审毒回合：760同行底线差0；520第二列右对齐；360/320整组跨行右对齐；各档104px整组、三枚
-   32px按钮、danger/tooltip/SVG hidden/focus containment 不变。不得恢复私有1px margin或2px gap。
-4. 复算 registry/规范/门禁：10/46/20/26/13 + 1 equivalent/12 deferred/0 N/A；其余13 candidates
-   生产零 diff；DS保持2.22.0。核聚焦133、typecheck、91文件设计系统门禁、全量184文件/1521测试证据。
-5. 输出 Kimi review **accept**，或 counter + P0/P1/P2/file:line/复现。若 accept，仅写回任务卡
-   Kimi签字与交接日志，并附可直接转发给GLM的复审提示词；不得修改实现、代签GLM或标done。
+你的分工（独立证据，不复述 Codex/Kimi）：
+1. registry 与门禁复算：10 groups / 46 / adopted 20 / raw 26 / 13 candidates 与
+   1 equivalent + 12 deferred + 0 N/A；两个新 adopted 面的静态字段（compact / icon-only /
+   moveButtonCount:2）与两处业务 class 不再持 display/gap/wrap/尺寸的机器证明；其余
+   13 candidates 生产 DOM/CSS 零 diff；既有负例与新增 stale/wrapper regression 继续有效。
+2. 命令语义测试矩阵复核：Poison 玩家/敌人删除各 +1 history、另一序列不变、undo/redo 复原；
+   entry-points 移动恰一次 SetStartupEntriesCommand、entry.id/defaultEntryId/选中项不变；
+   按钮 label/variant/disabled/handler/itemKey/scopeKey/adoptionId 逐字核对。
+3. 几何验收复核：入口 280 同排 title>=96（最紧 tag 行）、279/235 下沉、最窄档 title/meta
+   正宽与完整 DOM/access name、focus 外扩归属；毒 760 同行底线、520/360/320 整组 placement、
+   三钮 32×32、scrollEq、danger；不恢复私有 1px margin / 2px gap。
+4. 测试证据：聚焦 133、typecheck、91-file design-system gate、editor 全量 184 files / 1521
+   是否自洽；可复跑聚焦（Kimi 已复跑 4 files / 133 全绿），不要重复全量。
+5. 200% zoom 无法可靠触发时保持“未实测”口径，不用 pinch/等效冒充。
+输出：GLM 席 review accept 或 counter + file:line/复现；写回“进入 done 前”GLM 行与交接记录。
 ```
