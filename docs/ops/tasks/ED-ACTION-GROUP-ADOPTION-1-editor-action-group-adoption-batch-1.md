@@ -1,6 +1,6 @@
 # ED-ACTION-GROUP-ADOPTION-1 - 同项动作组采用第一批（战斗 / 毒回合；项目设置 / 入口点）
 
-Status: build
+Status: review
 Phase: phase2
 Capability: Editor design system adoption（不改变 capability-map）
 Coding Owner: Codex
@@ -398,7 +398,10 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-09-01，implementation `d8b04a23`）**——逐文件复核实现只改两个 wrapper、入口
+  `<280px` 父容器换轨、registry/规范/测试；按钮 props、稳定 key、reorder owner、命令/schema/数据均零改。
+  聚焦 133、全量 1521、typecheck、91 文件设计系统门禁全绿；真实入口 280/279/235/139 与毒
+  760/520/360/320 容器逐档复验，无 P0/P1/P2 自审遗留。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -408,10 +411,23 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 - Draft: Codex 已完成 14 deferred 分层审计并把首批从 5 处收窄为 2 处；初版三方 premise/design
   签字已因 build 期反证失效。
-- Build: 2026-09-01 Codex 开工后在真实 235px 入口目录测得正文仅 53px，触发卡面反证；立即停线，
-  用 apply_patch 撤回全部未提交实现，状态转 rework。Poison 1280 实测 32px/4px、字段与动作 bottom 完全
-  相等的证据保留，但不构成继续授权。
-- Review: pending
+- Build:
+  - 首次开工在真实 235px 入口目录测得正文仅 53px，触发反证后完整撤回未提交实现并转 rework。
+  - refreshed 三签 + 用户批准齐后以 `d8b04a23` 恢复实现：两处 wrapper 消费 compact `DsActionGroup`；
+    `.project-entry-list` 成为唯一具名 inline-size container，`width < 280px` 时 CatalogRow 与动作组改为
+    两层；窄态父 content 以 4px block-end 空间容纳 focus 外扩。Poison 只删私有 2px gap/1px optical
+    margin，520/360 placement 原样。
+  - registry / DS-C.2a 闭合 **10 groups / 46 moves / 20 adopted / 26 raw / 13 candidates**，disposition
+    **1 equivalent + 12 deferred + 0 N/A**；其余 13 candidates 规范化 manifest 与生产文件 diff 均为 0。
+  - 验证：聚焦 `4 files / 133 tests`；reorder surface `5 tests`；`typecheck`；design-system gate
+    `91 files / 2 evidence-bound exceptions`；最终编辑器全量单线程 **184 files / 1521 tests** 全绿。
+  - 真实入口：280px 同排最紧正文 **98px**；279px / 235px 下沉正文 **165px / 121px**；真实最窄
+    139px 正文仍为正宽（带“直接启动”行 25px），四档 group/button 68px/32×32、双溢出0、最后一项
+    4px focus 外扩均在 item/list 内。279.5px 浏览器按整数布局取整，由 range query + 静态门禁覆盖。
+  - 真实毒回合：760px 容器同行底线差0；520px 第二列右对齐；360/320px 横跨整行右对齐；各档
+    group 104px、三按钮32×32、无溢出、danger/tooltip/SVG hidden 与 focus containment 正确。
+  - 200% zoom：未实测；未以 pinch/pageScaleFactor 冒充。
+- Review: Codex 自审 accept；待 Kimi / GLM 独立代码、测试与视觉证据审查。
 
 ## 后续批次
 
@@ -421,6 +437,10 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ## 交接日志
 
+- 2026-09-01 Codex: implementation `d8b04a23` 完成。聚焦133 + 全量1521、typecheck、设计系统门禁全绿；
+  真实入口280/279/235/139与毒760/520/360/320均通过几何/a11y/focus检查，临时入口未保存且页面重载后
+  恢复“已保存”。状态转 review，Codex accept。Next: Kimi 只读代码/视觉审查并签 accept 或 counter；
+  不得修改实现/标 done。
 - 2026-09-01 Codex: 核对 Kimi KBR1-KBR3 与 GLM GM-R1-R3 refreshed 签字、用户入口新形态批准，
   三方 premise/design + 用户裁决齐且无 counter；状态由 rework 转 build，Codex 恢复为唯一 Coding Owner。
   Next: 按新边界实现、自测与真实页面复验后转 review；不得跳过 280px 正文仅约2px余量的反证门。
@@ -475,29 +495,28 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-ACTION-GROUP-ADOPTION-1（GLM 席，rework；生产实现只读，只允许更新任务卡签字/交接）。
+审查 ED-ACTION-GROUP-ADOPTION-1（Kimi 席，review；生产实现只读，只允许更新任务卡签字/交接）。
 
 任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md
-当前状态：rework；初版三签已因真实页面反证失效；Codex refreshed 已签、用户已批准入口响应式
-方案（>=280px 同排 / <280px 动作组第二层）、Kimi refreshed（KBR1-KBR3）已签；你的 GLM
-refreshed 签字 pending。两席齐前不得恢复实现。
+当前状态：review；implementation `d8b04a23` 已推送。Codex accept；Kimi/GLM review accept 与用户验收
+pending。done 三签不齐，不得标 done。
 
-先读：AGENTS.md 前提真值门、本卡「build 期反证」与「rework 后重新进入 build」、
-ED-ACTION-GROUP-SPEC-1、DS-C.2a、ProjectWorkbenchTab.tsx:1948-1982、editor.css:1672-1682、
-Kimi refreshed 签节的实机证据（720px 真实目录 193px / 带 tag 行正文 17px、235px 同排 59px、
-注入模拟 235/279 下沉 121/165px、280 同排 104px 迁后推算 98px）。
+先读：AGENTS.md done 门禁、本卡全部 rework/签字/Build 证据、ED-ACTION-GROUP-SPEC-1、DS-C.2a，
+并只读 `git show --stat d8b04a23` 与本提交涉及的 PoisonTab.tsx、ProjectWorkbenchTab.tsx、editor.css、
+action-group-adoption.json/测试。
 
-你的分工（独立证据，不复述 Codex/Kimi）：
-1. 复算并复核容器 owner：`.project-entry-list` 新增 container-type 的唯一性、`@container
-   (width < 280px)` 的 CSS 规则形状（单列 + 动作组 grid-column:1 / justify-self:end /
-   padding-block-end>=4px）；实现后复测 280 同排正文 >=96px（Kimi 注入推算余量仅约 2px）与
-   279/235 下沉正文、focus 外扩归属、list/content/doc 三溢出 0。
-2. 测试矩阵：entry-points 移动恰一次 SetStartupEntriesCommand、entry.id/defaultEntryId/选中项
-   不变；Poison 玩家/敌人删除各 +1 history、undo/redo 复原；两业务 class 不再持 display/gap/
-   wrap/尺寸的门禁断言；registry 新基线 10/46/20/26/13 + 1 equivalent + 12 deferred 与其余
-   13 candidates 生产零 diff 的机器证明；受影响包全量只跑一次。
-3. 命令/语义零漂移：按钮 label/variant/disabled/handler/itemKey/scopeKey/adoptionId 逐项；
-   名称/ID 在四档（280/279/235/真实 193）下保留于 DOM 与 accessible name。
-4. 200% zoom 无法可靠触发时保持“未实测”口径；279.5 小数边界在环境取整时按整数边界申报。
-输出：GLM 席 refreshed premise verified + design agree，或 counter + file:line/反例。
+你的审查职责：
+1. 逐字确认生产 UI 只把 `.ef-ops`、`.project-entry-row-actions` 换成 compact `DsActionGroup`，并由
+   `.project-entry-list` 单点持有具名 inline-size container；按钮 label/variant/disabled/handler、
+   itemKey/scopeKey/adoptionId、稳定 entry.id、UpdatePoisonCommand/SetStartupEntriesCommand 均零漂移。
+2. 审入口边界：280px 必须同排且带“直接启动”最紧行正文 >=96px（Codex 实测98px）；279/235px
+   必须完整下沉（165/121px）；真实最窄139px仍须 title/meta 正宽、完整 DOM/access name、无覆盖/横溢。
+   四档最后一项 4px focus 外扩须落在 item/list 内。可自行在
+   `http://localhost:6010/?module=project&page=entrypoint` 用临时入口复验，但不得保存，结束后重载丢弃。
+3. 审毒回合：760同行底线差0；520第二列右对齐；360/320整组跨行右对齐；各档104px整组、三枚
+   32px按钮、danger/tooltip/SVG hidden/focus containment 不变。不得恢复私有1px margin或2px gap。
+4. 复算 registry/规范/门禁：10/46/20/26/13 + 1 equivalent/12 deferred/0 N/A；其余13 candidates
+   生产零 diff；DS保持2.22.0。核聚焦133、typecheck、91文件设计系统门禁、全量184文件/1521测试证据。
+5. 输出 Kimi review **accept**，或 counter + P0/P1/P2/file:line/复现。若 accept，仅写回任务卡
+   Kimi签字与交接日志，并附可直接转发给GLM的复审提示词；不得修改实现、代签GLM或标done。
 ```
