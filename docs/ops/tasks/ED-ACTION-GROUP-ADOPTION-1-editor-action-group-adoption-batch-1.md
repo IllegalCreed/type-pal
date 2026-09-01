@@ -1,6 +1,6 @@
 # ED-ACTION-GROUP-ADOPTION-1 - 同项动作组采用第一批（战斗 / 毒回合；项目设置 / 入口点）
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor design system adoption（不改变 capability-map）
 Coding Owner: Codex
@@ -466,8 +466,8 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
   - **200% zoom（诚实声明）**：本席环境同前——IAB 键盘缩放零响应，**真实 200% zoom 未实测**，
     不以 pinch/等效冒充；已测五档（320..1280）覆盖 zoom 敏感代码路径。
   无返工项；未修改实现/测试（浏览器注入仅本会话页面态并已清除复原），未代签 Kimi，未填用户验收。
-- 用户验收: pending
-- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
+- 用户验收: **accept（2026-09-01，“验收通过”）**
+- done 准入结论: **allowed（2026-09-01，Codex + Kimi + GLM 三方 accept 与用户验收齐；任务收口）**
 
 ## Draft / Build / Review 证据
 
@@ -499,6 +499,8 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ## 交接日志
 
+- 2026-09-01 User: 明确“验收通过”。三方 review accept + 用户验收齐，任务转 done。无下一位 Agent
+  提示词；由 Codex 提交并推送任务卡/看板收口。
 - 2026-09-01 GLM: 只读终审 `d8b04a23`，签 **accept**。独立证据：registry node 复算
   10/46/20/26/13 + 1 equivalent + 12 deferred、两新 adopted 静态字段恰 compact/icon-only/2、
   提交文件面即 13 candidates 零 diff 证明；业务类几何清零与 container owner 单点（diff 逐行）；
@@ -573,31 +575,4 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ## 下一位 Agent 提示词
 
-```text
-终审 ED-ACTION-GROUP-ADOPTION-1（GLM 席，review；生产实现只读，不得修改实现/测试，不得代签，
-不得标 done）。
-
-任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md
-实现提交：d8b04a23 feat(editor): adopt action groups in poison and entry rows
-当前状态：review；Codex accept 与 Kimi accept（2026-09-01，含真实实现两边界复测与基线复算）
-均已签，仅余你的 GLM review accept 与用户验收。
-
-先读：AGENTS.md done 门禁、本卡全部 rework/签字/Build 证据（含 Kimi accept 的实机口径）、
-ED-ACTION-GROUP-SPEC-1、DS-C.2a、`git show d8b04a23` 全 diff。
-
-你的分工（独立证据，不复述 Codex/Kimi）：
-1. registry 与门禁复算：10 groups / 46 / adopted 20 / raw 26 / 13 candidates 与
-   1 equivalent + 12 deferred + 0 N/A；两个新 adopted 面的静态字段（compact / icon-only /
-   moveButtonCount:2）与两处业务 class 不再持 display/gap/wrap/尺寸的机器证明；其余
-   13 candidates 生产 DOM/CSS 零 diff；既有负例与新增 stale/wrapper regression 继续有效。
-2. 命令语义测试矩阵复核：Poison 玩家/敌人删除各 +1 history、另一序列不变、undo/redo 复原；
-   entry-points 移动恰一次 SetStartupEntriesCommand、entry.id/defaultEntryId/选中项不变；
-   按钮 label/variant/disabled/handler/itemKey/scopeKey/adoptionId 逐字核对。
-3. 几何验收复核：入口 280 同排 title>=96（最紧 tag 行）、279/235 下沉、最窄档 title/meta
-   正宽与完整 DOM/access name、focus 外扩归属；毒 760 同行底线、520/360/320 整组 placement、
-   三钮 32×32、scrollEq、danger；不恢复私有 1px margin / 2px gap。
-4. 测试证据：聚焦 133、typecheck、91-file design-system gate、editor 全量 184 files / 1521
-   是否自洽；可复跑聚焦（Kimi 已复跑 4 files / 133 全绿），不要重复全量。
-5. 200% zoom 无法可靠触发时保持“未实测”口径，不用 pinch/等效冒充。
-输出：GLM 席 review accept 或 counter + file:line/复现；写回“进入 done 前”GLM 行与交接记录。
-```
+无下一位 Agent 提示词；三方 review accept 与用户验收均已完成，任务已收口。
