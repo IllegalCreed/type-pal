@@ -430,9 +430,44 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
     91-file design-system gate 与 editor 全量 184 files / 1521 项记录采用 Codex 证据,
     按纪律未重复全量。
   无返工项；未修改实现，未代签 GLM。
-- GLM: pending
+- GLM: **accept（2026-09-01，只读终审 `d8b04a23` + registry/命令/门禁独立复算 + 本人实机
+  几何五档实测 + 聚焦复跑，非复述 Codex/Kimi；与 Kimi 口径各自独立取得后收敛）**。按
+  GM-P1/P2/R1-R3 逐钉核验：
+  - **registry 复算 ✓（GM-P1）**：baseline 恰 **10 groups / 46 / adopted 20 / raw 26 / 13
+    candidates**，disposition **1 equivalent + 12 deferred + 0 N/A**（本人 node 复算：adopted
+    moves 20 + candidate moves 26 = 46）；两个新 adopted 条目 `poison/ticks/actions` 与
+    `project/entry-points/actions` 静态字段恰 **compact / icon-only / moveButtonCount:2**；
+    提交文件面即零 diff 证明——除两处 TSX/editor.css 对应行/registry/门禁/规范/测试外**无其它
+    candidate 文件**；新增负例直读复跑绿（47/27 单枚 raw move、两组 wrapper regression
+    9/18/28、既有 stale/alias 等全家族）。
+  - **业务类几何清零 ✓（GM-R1）**：`.ef-ops` 的 `display:flex/gap:2px/flex:none` 与
+    `.project-entry-row-actions` 的 `flex/gap:space-1` 私有规则已删（diff 逐行核）；1px optical
+    margin 仅 `.ef-kind` 保留、动作侧已移出；`container-type: inline-size` + 命名只落在
+    `.project-entry-list` 一处，`<280px` 单列 + `padding-block-end: space-2(4px)` + 动作
+    `grid-column:1/justify-self:end`——与 rework 冻结方案逐字一致；毒 520/360 整组 placement
+    原样。
+  - **命令语义零变化 ✓（GM-P2）**：DOM diff 恰两处 span→DsActionGroup，按钮零触碰；新测试
+    矩阵逐条直读——毒玩家/敌人删除各自恰 `history+1` 且**另一序列逐字不变**、undo/redo 精确
+    复原（双向四断言）；入口移动 hover 0/有效恰 1、entry.id 顺序精确、`defaultEntryId` 与
+    选中项不变、undo 复原；icon-only 三属性（label、tooltip id 关联、SVG hidden/focusable）
+    与 danger 断言齐备；长中文名 + 64 字符 ID 完整保留 DOM/accessible name。
+  - **实机几何五档 ✓（GM-R2，本席独立测量）**：毒 1280/760/520/360/320——三钮全部
+    **32×32**、gap **4px**、`flex-wrap:nowrap`、`scrollWidth===clientWidth`、danger 尾钮、
+    同行同 top、组恒 104px 整组迁移不拆、list/body 溢出 0。入口——真实活态列宽 **193px**
+    （固定列，与 Kimi 实测一致）：单列下沉、2×32、scrollEq、完整 title/meta 在 DOM、溢出 0；
+    以页面级注入把同一**真实实现**的容器分别压到 **280/279/235**（仅变输入宽度，未改任何
+    文件；注入后已清除并复核复原 193px）——**280 双轨 `208px 68px` 同排、最紧「直接启动」
+    tag 行 title 98px ≥96（与 Kimi 推算 98 恰合，~2px 余量）**；279/235 单列下沉、title
+    165/121 ≥96；三档 focus 外扩均在 item 内、双溢出 0——整数边界 280 同排/279 下沉精确。
+  - **测试证据自洽 ✓**：本人复跑 action-group + boundary + PoisonTab + ProjectWorkbench +
+    reorder-adoption **5 files / 139 tests 全绿** + editor typecheck 干净 + design-system
+    gate **91 files / 2 evidence-bound exceptions** 通过；卡面全量 184 files / 1521 与聚焦
+    记录自洽，按纪律未重复全量。
+  - **200% zoom（诚实声明）**：本席环境同前——IAB 键盘缩放零响应，**真实 200% zoom 未实测**，
+    不以 pinch/等效冒充；已测五档（320..1280）覆盖 zoom 敏感代码路径。
+  无返工项；未修改实现/测试（浏览器注入仅本会话页面态并已清除复原），未代签 Kimi，未填用户验收。
 - 用户验收: pending
-- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
+- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
 
 ## Draft / Build / Review 证据
 
@@ -464,6 +499,15 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ## 交接日志
 
+- 2026-09-01 GLM: 只读终审 `d8b04a23`，签 **accept**。独立证据：registry node 复算
+  10/46/20/26/13 + 1 equivalent + 12 deferred、两新 adopted 静态字段恰 compact/icon-only/2、
+  提交文件面即 13 candidates 零 diff 证明；业务类几何清零与 container owner 单点（diff 逐行）；
+  命令矩阵（毒双序列隔离 + 入口 hover 0/有效 1/defaultEntryId/undo）逐条直读；实机五档——毒
+  1280/760/520/360/320 三钮 32×32、4px、nowrap、scrollEq、组恒 104px 不拆、零溢出，入口活态
+  193px 下沉 + 注入 280/279/235（真实实现仅变容器宽，已清除复原）280 同排 tag 行 title 98≥96
+  与 Kimi 推算恰合、279/235 下沉 165/121、focus 归属、双溢出 0；复跑 5 files / 139 tests +
+  typecheck + 91-file gate 全绿。200% 未实测口径保持。无返工项；未修改实现/测试，未代签
+  Kimi，未填用户验收。三方 accept 齐，仅剩用户验收；无下一位 Agent 提示词，等待用户验收/收口。
 - 2026-09-01 Kimi: 只读终审 `d8b04a23`，签 **accept**。独立证据：两 wrapper 仅换
   `DsActionGroup density="compact"` 且按钮逐字未动、三处私有 CSS 几何清除（diff 直读）;
   真实实现复测——入口 280 同排 title=98px ≥96 / meta=new-game 全量 / 动作 32×32 在 item 内、
