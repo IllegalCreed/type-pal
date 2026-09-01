@@ -25,6 +25,9 @@
 | ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | done | 全部增量三方 accept + 用户验收齐，整卡收口 | contentLayout form/list；Shop 公共 panel + danger 下架；角色视觉与 surface 四桶闭合 |
 | ED-ACTION-GROUP-SPEC-1 | DsActionGroup 公共规范与当前采用闭合 | done | 三方 accept + 用户验收齐，整卡收口 | `1c320ce0`：DS 2.22.0；8/46/16/30/15；1 equivalent +14 deferred；单枚与1→3均必红 |
 | ED-ACTION-GROUP-ADOPTION-1 | 同项动作组采用第一批（战斗 / 毒回合；项目设置 / 入口点） | done | `d8b04a23` 三方 accept + 用户验收齐，整卡收口 | 280同排正文98px；279/235下沉165/121px；10/46/20/26/13闭合 |
+| ED-ACTION-GROUP-ADOPTION-2 | 帧动画时间线动作组与纵向可见边界 | draft | 待用户批准186px时间线 + Kimi/GLM设计签字；不得实现 | 当前96/88px viewport裁132px track；目标11/46/22/24/12 |
+| ED-ACTION-GROUP-ADOPTION-3 | 地图与组合库图层动作组及窄栏合同 | draft | 依赖ADOPTION-2；待用户批准三组/320/216形态 + Kimi/GLM设计签字 | 0-move registry真模型；目标DS2.23.0与14/46/24/22/11 |
+| ED-FRAME-TIMELINE-VIRTUALIZATION-1 | 长帧动画时间线 DOM windowing | draft | 依赖ADOPTION-2；待补完整前提/设计与用户排期；不得夹带 | 410帧当前全挂DOM，违反既有12–15可见项约束 |
 | ED-FIELD-LABEL-TRACK-WIDE-1 | 编辑器整组宽标签轨合同 | done | 三方 accept + 用户验收齐，整卡收口 | `6e7999ef`：wide=160px/<560 stacked；RoleBindings 唯一采用；DS 2.21.0 |
 | ED-ITEM-ALCHEMY-SURFACE-1 | 炼蛊皿与紫金葫芦双炼化工作台 | done | 全部增量三方accept + 用户验收齐，整卡收口 | Craft header/handle/formula稳定对齐；Stepper outer与控件统一36px，三态/高对比闭合 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
