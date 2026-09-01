@@ -16,13 +16,13 @@ describe('action group adoption gate', () => {
     expect(validateActionGroupAdoption(manifest)).toEqual([])
     expect(manifest.baseline).toEqual({
       groups: 10,
-      moveButtons: 46,
+      moveButtons: 44,
       adoptedMoveButtons: 20,
-      rawMoveButtons: 26,
-      candidateSurfaces: 13,
+      rawMoveButtons: 24,
+      candidateSurfaces: 12,
     })
     expect(manifest.adopted).toHaveLength(10)
-    expect(manifest.candidates).toHaveLength(13)
+    expect(manifest.candidates).toHaveLength(12)
     expect(
       Object.fromEntries(
         ['equivalent-owner', 'deferred', 'N/A'].map((disposition) => [
@@ -32,7 +32,7 @@ describe('action group adoption gate', () => {
           ).length,
         ]),
       ),
-    ).toEqual({ 'equivalent-owner': 1, deferred: 12, 'N/A': 0 })
+    ).toEqual({ 'equivalent-owner': 1, deferred: 11, 'N/A': 0 })
     expect(
       manifest.candidates.find(
         (entry: { id: string }) => entry.id === 'project/startup-inventory/actions',
@@ -151,7 +151,7 @@ describe('action group adoption gate', () => {
     const file = 'EnemyTab.tsx'
     const mutated = `${source(file)}\nconst ActionGroupSingleMoveFixture = () => (\n  <DsReorderMoveButton itemKey="fixture" direction="backward" />\n)\n`
     const problems = validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')
-    expect(problems).toMatch(/production move buttons 47|raw move buttons 27/)
+    expect(problems).toMatch(/production move buttons 45|raw move buttons 25/)
     expect(problems).toMatch(/raw move button must map to exactly one candidate owner/)
   })
 
@@ -172,7 +172,9 @@ describe('action group adoption gate', () => {
     const mutated = source(file).replace(opening, fallback).replace('</DsActionGroup>', '</span>')
     const problems = validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')
     expect(problems).toMatch(new RegExp(`${id.replaceAll('/', '\\/')} must bind exactly one`))
-    expect(problems).toMatch(/production action groups 9|adopted move buttons 18|raw move buttons 28/)
+    expect(problems).toMatch(
+      /production action groups 9|adopted move buttons 18|raw move buttons 26/,
+    )
     expect(problems).toMatch(/raw move button must map to exactly one candidate owner/)
   })
 
@@ -218,13 +220,13 @@ describe('action group adoption gate', () => {
   })
 
   test('rejects candidate pairs that lose or gain one move button', () => {
-    const file = 'FrameAnimationEditor.tsx'
+    const file = 'SpriteActionEditor.tsx'
     const mutated = source(file).replace(
       '<DsReorderMoveButton itemKey={reorderKey} direction="forward" />',
       '<DsIconButton label="错误替代" icon="delete" />',
     )
     expect(validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')).toMatch(
-      /candidate asset\/frame-animation-timeline\/actions owns 1 move buttons/,
+      /candidate asset\/sprite-action-steps\/actions owns 1 move buttons/,
     )
   })
 })

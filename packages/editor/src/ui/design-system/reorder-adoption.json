@@ -1,10 +1,10 @@
 {
   "version": 2,
   "baseline": {
-    "families": 18,
-    "adoptions": 29,
-    "dataPaths": 32,
-    "interactionOwnerFiles": 20
+    "families": 17,
+    "adoptions": 28,
+    "dataPaths": 31,
+    "interactionOwnerFiles": 19
   },
   "interactionOwnerFiles": [
     "ActorMode.tsx",
@@ -13,7 +13,6 @@
     "CutsceneTab.tsx",
     "EnemyTab.tsx",
     "EnemyTeamTab.tsx",
-    "FrameAnimationEditor.tsx",
     "ItemTab.tsx",
     "ItemAlchemyEditors.tsx",
     "ItemUseEffectEditor.tsx",
@@ -542,35 +541,6 @@
           "railOwner": {
             "file": "design-system/reorder.css",
             "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
-          }
-        }
-      ]
-    },
-    {
-      "id": "frame-animation",
-      "integrationVerification": {
-        "file": "ui/FrameAnimationEditor.reorder.test.tsx",
-        "marker": "[reorder-family:frame-animation]"
-      },
-      "adoptions": [
-        {
-          "adoptionId": "asset/frame-animation-timeline",
-          "source": "FrameAnimationEditor.tsx",
-          "dataPaths": ["frameAnimationDraft.frames"],
-          "adapter": "local-draft-timeline",
-          "identity": "frame.id via DOM-safe token",
-          "commandOwner": "FrameAnimationDraftHistory",
-          "revisionOwner": "draft reference",
-          "verification": ["core/frame-animation-draft.test.ts"],
-          "contentSurface": "object-card",
-          "contentOwner": {
-            "file": "FrameAnimationEditor.tsx",
-            "fingerprint": "className={`fa-frame"
-          },
-          "railLayout": "overlay",
-          "railOwner": {
-            "file": "FrameAnimationEditor.tsx",
-            "fingerprint": "layout=\"overlay\""
           }
         }
       ]

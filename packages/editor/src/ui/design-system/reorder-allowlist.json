@@ -99,6 +99,15 @@
       "reason": "源帧投放到战斗精灵槽位是资源绑定，不改变同级顺序。",
       "verification": "onPlayerStageDrop 读取 RAW_FRAME_MIME 并写入指定语义槽。",
       "removalCondition": "战斗精灵槽位 transfer 改由公共资源投放 owner 承担或入口移除。"
+    },
+    {
+      "file": "FrameAnimationEditor.tsx",
+      "rule": "native-draggable-reorder",
+      "fingerprint": "draggable={!busy}",
+      "owner": "card:ED-FRAME-TIMELINE-UX-RESTORE-1",
+      "reason": "用户批准恢复整张帧卡 native drag；按稳定 frame.id 重排本地 draft。",
+      "verification": "visible window、DataTransfer、stable frame.id、单条 draft history 与 selection/anchor 测试。",
+      "removalCondition": "用户撤回原始形态，或该面重新采用具备等价视觉与交互的公共排序 owner。"
     }
   ]
 }

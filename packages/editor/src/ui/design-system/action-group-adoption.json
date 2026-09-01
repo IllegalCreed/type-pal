@@ -2,10 +2,10 @@
   "version": 1,
   "baseline": {
     "groups": 10,
-    "moveButtons": 46,
+    "moveButtons": 44,
     "adoptedMoveButtons": 20,
-    "rawMoveButtons": 26,
-    "candidateSurfaces": 13
+    "rawMoveButtons": 24,
+    "candidateSurfaces": 12
   },
   "adopted": [
     {
@@ -157,18 +157,6 @@
       "reason": "已有共享原子 owner，但按钮尺寸仍固定 compact，未随效果卡 density 完成 36/32px 对称。",
       "verification": "design-system/effect-card-adoption.test.ts",
       "removalCondition": "使共享效果卡动作 owner 达到与卡 density 对称的等价合同后改登 equivalent-owner。"
-    },
-    {
-      "id": "asset/frame-animation-timeline/actions",
-      "source": "FrameAnimationEditor.tsx",
-      "fingerprint": "className=\"fa-frame-actions\"",
-      "occurrence": 1,
-      "moveButtonCount": 2,
-      "disposition": "deferred",
-      "owner": "fa-frame-actions",
-      "reason": "原子簇仍为 30px 移动按钮和 2px gap。",
-      "verification": "FrameAnimationEditor.reorder.test.tsx",
-      "removalCondition": "迁移到 DsActionGroup 或补齐等价 32px、4px gap 与 focus containment。"
     },
     {
       "id": "map/layer-stack/actions",

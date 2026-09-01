@@ -1301,20 +1301,20 @@
     },
     {
       "source": "editor.css",
-      "selectorText": ".fa-frame-select>span:last-child",
+      "selectorText": ".fa-frame span",
       "condition": "default",
       "declarations": [
         "text-overflow:ellipsis"
       ],
       "specificity": [
         0,
-        2,
+        1,
         1
       ],
       "producer": {
         "source": "FrameAnimationEditor.tsx",
         "component": "FrameThumbnail",
-        "callsite": "class:fa-frame-select"
+        "callsite": "class:fa-frame"
       },
       "policy": "selection-summary",
       "contentKind": "selection-summary",

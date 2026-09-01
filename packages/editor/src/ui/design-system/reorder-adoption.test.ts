@@ -187,10 +187,10 @@ describe('reorder adoption gate', () => {
 
     expect(manifest.version).toBe(2)
     expect(manifest.baseline).toEqual({
-      families: 18,
-      adoptions: 29,
-      dataPaths: 32,
-      interactionOwnerFiles: 20,
+      families: 17,
+      adoptions: 28,
+      dataPaths: 31,
+      interactionOwnerFiles: 19,
     })
     expect(manifest.families).toHaveLength(manifest.baseline.families)
     expect(registered).toHaveLength(manifest.baseline.adoptions)
@@ -312,13 +312,14 @@ describe('reorder adoption gate', () => {
     }
 
     expect(allowlist.version).toBe(1)
-    expect(allowlist.entries).toHaveLength(11)
+    expect(allowlist.entries).toHaveLength(12)
     expect(new Set(allowlist.entries.map((entry) => entry.rule))).toEqual(
       new Set([
         'asset-transfer-drop',
         'derived-order',
         'membership-change',
         'native-draggable-transfer',
+        'native-draggable-reorder',
         'pan-zoom-gesture',
         'resize-gesture',
         'spatial-move-action',
@@ -351,9 +352,24 @@ describe('reorder adoption gate', () => {
     }
 
     const allowedNative = allowlist.entries
-      .filter((entry) => entry.rule === 'native-draggable-transfer')
+      .filter(
+        (entry) =>
+          entry.rule === 'native-draggable-transfer' || entry.rule === 'native-draggable-reorder',
+      )
       .map((entry) => ({ file: entry.file, fingerprint: normalized(entry.fingerprint) }))
-    expect(nativeDraggables).toEqual(allowedNative)
+    const byIdentity = (entry: { file: string; fingerprint: string }) =>
+      `${entry.file}:${entry.fingerprint}`
+    expect(
+      nativeDraggables.sort((left, right) => byIdentity(left).localeCompare(byIdentity(right))),
+    ).toEqual(
+      allowedNative.sort((left, right) => byIdentity(left).localeCompare(byIdentity(right))),
+    )
+    expect(allowlist.entries.filter((entry) => entry.rule === 'native-draggable-reorder')).toEqual([
+      expect.objectContaining({
+        file: 'FrameAnimationEditor.tsx',
+        owner: 'card:ED-FRAME-TIMELINE-UX-RESTORE-1',
+      }),
+    ])
 
     const productionDndOwners = [...contents]
       .filter(([_file, content]) =>
@@ -366,7 +382,9 @@ describe('reorder adoption gate', () => {
         allowlist.entries
           .filter(
             (entry) =>
-              entry.rule === 'native-draggable-transfer' || entry.rule === 'asset-transfer-drop',
+              entry.rule === 'native-draggable-transfer' ||
+              entry.rule === 'native-draggable-reorder' ||
+              entry.rule === 'asset-transfer-drop',
           )
           .map((entry) => entry.file),
       ),

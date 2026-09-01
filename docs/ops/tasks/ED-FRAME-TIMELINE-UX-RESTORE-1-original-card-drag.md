@@ -1,11 +1,11 @@
 # ED-FRAME-TIMELINE-UX-RESTORE-1 - 帧动画原始卡片拖拽形态恢复
 
-Status: build
+Status: review
 Phase: phase2
 Capability: Editor frame-animation authoring UX（不改变内容schema/capability-map）
 Coding Owner: Codex
-Reviewer: Kimi + GLM
-Risk: 高（撤回一项正式reorder adoption并新增有界native-drag例外；完整三签）
+Reviewer: User（Kimi + GLM由用户明确豁免）
+Risk: 高（撤回一项正式reorder adoption并新增有界native-drag例外；用户明确豁免本卡外部签字）
 Supersedes: `ED-ACTION-GROUP-ADOPTION-2`
 Co-closes: `ED-FRAME-TIMELINE-VIRTUALIZATION-1`
 Target Design-System Version: `2.22.0`（用户批准的有界例外，不提升为公共可复用合同）
@@ -85,6 +85,32 @@ FrameAnimationDraftHistory及唯一保存命令。不得只隐藏新控件而保
 - 测试：frame draft + FrameAnimationEditor drag/selection/undo、reorder/action-group adoption与boundary、
   typecheck、design-system gate；受影响包全量一次。真实200%无法触发时诚实记录。
 
+## 实现与验证证据
+
+- 实现：`FrameAnimationEditor.tsx`恢复单一`DsPressable.fa-frame`整卡native drag，按稳定`frame.id`
+  生成/校验DataTransfer payload并在drop时重新定位；删除公共reorder wrapper、grip、左右移动按钮及旧
+  placeholder/action壳；保留selection/history/save owner。
+- 几何与窗口：`TIMELINE_ITEM_WIDTH=78`、`.fa-track=86px`、`.fa-frame=72×76`；渲染改为精确
+  `[visibleStart,visibleEnd)`。410帧测试在600px timeline首屏挂11卡，非对齐滚动挂15卡，仅解码0..21，
+  未全量挂载/解码。
+- 失败路径：同项、空/损坏payload、错asset、错frameId、外部drop、dragEnd后迟到drop与busy均零draft
+  history；busy时`draggable=false`且dragover不宣告可投放；合法drop恰一条本地history，undo/redo按稳定
+  identity对称，`EditSession.dispatch/historyVersion`保持0。
+- 治理：reorder冻结17/28/31/19；action-group冻结10/44/20/24/12；allowlist为12 entries / 8 rules，
+  仅追加本卡`native-draggable-reorder`。脚本复算证明其余28项reorder、其余12项action candidate及原11条
+  allowlist逐项零diff；text-overflow registry同步帧号新selector。
+- 自动化：
+  - `audit:design-system`：91 files，2个evidence-bound exceptions，通过；
+  - 聚焦：7 files / 105 tests，通过；`typecheck`通过；
+  - editor全量首次并发仅`text-overflow`门禁超过30s（同项聚焦已通过）；随后
+    `vitest run --passWithNoTests --maxWorkers=1`为184 files / 1523 tests全绿；Vite production build通过。
+  - repo全量`pnpm lint`仍被本卡范围外的既存content格式/回调规则等320项阻塞；本卡未顺手修改。当前
+    `FrameAnimationEditor`剩余的preview-stage a11y与effect依赖4项同样为既存债，不属于本次时间线恢复。
+- 真实页面：`frame-animation.pal.000`在1280×720、900×600、720×480分别挂14/9/7卡；三档均实测
+  72×76、stride78、track86、`draggable=true`、grip=0、action wrapper=0。720窄档滚到中段挂第28..37帧，
+  滚到末端挂第58..64帧，末帧右边界438px小于timeline右边界444px，完整可见。浏览器未提供Firefox/
+  Safari原生DnD环境，DataTransfer兼容性由同一Map-backed fixture覆盖，未冒充跨浏览器实拖。
+
 ## 推进签字
 
 ### 进入 build 前
@@ -103,14 +129,17 @@ FrameAnimationDraftHistory及唯一保存命令。不得只隐藏新控件而保
 
 ### 进入 done 前
 
-- Codex: pending
+- Codex: **accept（2026-09-01）**——实现、失败路径、410帧窗口、治理门禁、typecheck、editor全量1523项
+  与真实PAL三档几何/首中末横滚均复核通过；无schema/save/capability变化。
 - Kimi: **waived（用户批准本卡done前审查豁免）**
 - GLM: **waived（用户批准本卡done前审查豁免）**
 - 用户验收: pending
-- done准入: blocked（只待Codex自验accept + 用户验收）
+- done准入: blocked（只待用户验收）
 
 ## 交接日志
 
+- 2026-09-01 Codex: 恢复72×76/78/86整卡native drag与visible-only window；移除grip/move，保留稳定
+  identity/selection/local history。门禁、105聚焦、1523全量与三档真实页面通过；转review，仅待用户验收。
 - 2026-09-01 User + Codex: 用户明确豁免本还原任务Kimi/GLM三签；卡转build，Codex为唯一Coding Owner。
   Next: 完整还原、自测并转review，只交用户验收。
 - 2026-09-01 Codex: 用户指出帧时间线不应新增独立grip/move，核历史确认move button为Codex越界推演；

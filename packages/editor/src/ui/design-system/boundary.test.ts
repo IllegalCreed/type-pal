@@ -433,16 +433,16 @@ describe('editor design-system static boundary', () => {
     expect(designLab).toContain('<ActionGroupFixture />')
     expect(designLab).toContain('至少保留 1 项，当前项目不能删除。')
     expect(specification).toContain('#### DS-C.2a 同项动作组（v2.22.0）')
-    expect(specification).toContain('10 组 / 20 枚移动动作；其余 26 枚移动动作按 13 个候选 surface')
+    expect(specification).toContain('10 组 / 20 枚移动动作；其余 24 枚移动动作按 12 个候选 surface')
     expect(poison).toContain('<DsActionGroup density="compact" className="ef-ops">')
     expect(project).toContain(
       '<DsActionGroup density="compact" className="project-entry-row-actions">',
     )
     expect(cssRuleBodies(businessCss, '.ef-ops')).toHaveLength(0)
     expect(cssRuleBodies(businessCss, '.ef-row .ef-ops')).toHaveLength(0)
-    expect(cssDeclaration(cssRuleBodies(businessCss, '.ef-row .ef-kind')[0]!, 'margin-bottom')).toBe(
-      '1px',
-    )
+    expect(
+      cssDeclaration(cssRuleBodies(businessCss, '.ef-row .ef-kind')[0]!, 'margin-bottom'),
+    ).toBe('1px')
     const poisonActionsAt520 = cssRuleBodies(
       businessCss,
       '.ef-ops',
@@ -1961,8 +1961,17 @@ describe('editor design-system static boundary', () => {
       },
       {
         file: 'FrameAnimationEditor.tsx',
-        required: [/<DsZoomToolbar\b/],
-        forbidden: [/media-zoom-controls/],
+        required: [
+          /<DsZoomToolbar\b/,
+          /const TIMELINE_ITEM_WIDTH = 78/,
+          /draggable=\{!busy\}/,
+          /\{visible\.map\(\(index\) =>/,
+        ],
+        forbidden: [
+          /media-zoom-controls/,
+          /DsReorder(?:Collection|Item|MoveButton)/,
+          /fa-frame-(?:position|select|placeholder|actions)/,
+        ],
       },
       {
         file: 'SceneScriptWorkspace.tsx',
@@ -1976,6 +1985,13 @@ describe('editor design-system static boundary', () => {
       for (const pattern of contract.required) expect(source, contract.file).toMatch(pattern)
       for (const pattern of contract.forbidden) expect(source, contract.file).not.toMatch(pattern)
     }
+    const frameCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    expect(cssDeclaration(cssRuleBodies(frameCss, '.fa-track')[0]!, 'height')).toBe('86px')
+    const frame = cssRuleBodies(frameCss, '.fa-frame')[0]!
+    expect(cssDeclaration(frame, 'grid-template-rows')).toBe('56px 16px')
+    expect(cssDeclaration(frame, 'width')).toBe('72px')
+    expect(cssDeclaration(frame, 'height')).toBe('76px')
+    expect(cssRuleBodies(frameCss, '.fa-frame-actions')).toHaveLength(0)
     const effectCard = readFileSync(join(uiRoot, 'EffectEditorCard.tsx'), 'utf8')
     expect(effectCard).toMatch(/<DsIconButton\b/)
   })

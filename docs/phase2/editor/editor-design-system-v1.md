@@ -447,7 +447,7 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   位置使前移/后移不可用属于从当前顺序即可理解的边界状态，不强制重复说明。不可聚焦 disabled button 的
   tooltip 不能代替业务禁用原因。
 - `action-group-adoption.json` 双向枚举正式采用和所有 production `DsReorderMoveButton`：当前正式采用为
-  10 组 / 20 枚移动动作；其余 26 枚移动动作按 13 个候选 surface 逐项登记
+  10 组 / 20 枚移动动作；其余 24 枚移动动作按 12 个候选 surface 逐项登记
   `equivalent-owner | deferred | N/A`。未消费 ActionGroup
   不自动等于违规；只有具备真实 DOM/CSS/响应式证据的专用 owner 才能登记 equivalent/N/A，deferred 必须写
   removalCondition。新增单枚 raw move、漏登、重复、stale fingerprint、动态 density、非动作 child、模式混用
@@ -544,7 +544,7 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 只有作者维护的 canonical 顺序可以采用排序；搜索结果、按名称/ID 派生的目录顺序、集合/多重集、空间移动、
   数值拖动和资源 transfer 不得伪装成 reorder。生产采用真源为 `reorder-adoption.json`，合法原生 transfer 与
   空间移动例外为 `reorder-allowlist.json`；新增、删除或改名后未同步、重复或陈旧条目都必须 fail-closed。
-- v2.12.0 的机器基线为 **17 个交互家族 / 29 个 adoption / 32 条数据路径 / 19 个领域 owner 文件**；这些数字是
+- 当前机器基线为 **17 个交互家族 / 28 个 adoption / 31 条数据路径 / 19 个领域 owner 文件**；这些数字是
   registry 自身复算结果，不是未来可手改的常量。每条 adoption 必须登记 adapter、身份、command/revision owner
   与验证文件；每条例外必须具备 `{file,rule,fingerprint,owner,reason,verification,removalCondition}` 七字段，
   fingerprint 缺失、重复、未命中或命中多次均视为无效/陈旧例外。
@@ -558,6 +558,9 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - `grip` 使用公共矢量图标和至少 `32×32px` 命中区，只在手柄自身设置 `touch-action:none`。禁止整行
   `draggable`、文本 `≡`、领域私有 handle CSS 或复制 pointer 状态机。手柄必须有可见 hover/focus、
   `grab/grabbing`、disabled 与 picked/drop-target 状态。
+- 唯一用户批准例外是 `ED-FRAME-TIMELINE-UX-RESTORE-1`：帧动画恢复72×76帧卡整卡native drag、
+  visible window与本地draft history，并以`native-draggable-reorder`登记。它不具公共handle/键盘/touch排序
+  合同，不构成推荐pattern，也不得类推到其它集合。
 - pointer 采用 Pointer Events、pointer capture 和统一 `6 CSS px` 阈值。pointermove/hover/边缘自动滚动只更新
   本地投影；有效 pointerup 才向领域 owner 发送一次 intent。原位、越界、不可落点、Escape、pointercancel、
   lost capture、window blur、document hidden、scope/revision/对象变化与 unmount 都取消且产生零命令。

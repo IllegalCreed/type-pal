@@ -93,7 +93,7 @@ function jsxOwners(file: string, fingerprint: string): JsxOwner[] {
 }
 
 describe('reorder visible surface adoption gate', () => {
-  test('freezes all 29 adoptions on independently evidenced content and rail axes', () => {
+  test('freezes all 28 adoptions on independently evidenced content and rail axes', () => {
     const manifest = JSON.parse(source('design-system/reorder-adoption.json'))
     const adoptions = manifest.families.flatMap(
       (family: { adoptions: unknown[] }) => family.adoptions,
@@ -109,7 +109,7 @@ describe('reorder visible surface adoption gate', () => {
     ])
 
     expect(manifest.version).toBe(2)
-    expect(adoptions).toHaveLength(29)
+    expect(adoptions).toHaveLength(28)
     expect(
       Object.fromEntries(
         [...surfaces].map((surface) => [
@@ -119,7 +119,7 @@ describe('reorder visible surface adoption gate', () => {
       ),
     ).toEqual({
       'repeat-row': 8,
-      'object-card': 13,
+      'object-card': 12,
       'edge-to-edge-list': 3,
       'continuous-structure': 5,
     })
@@ -161,7 +161,7 @@ describe('reorder visible surface adoption gate', () => {
         .filter((entry) => entry.railLayout === 'overlay')
         .map((entry) => entry.adoptionId)
         .sort(),
-    ).toEqual(['asset/frame-animation-timeline', 'item/craft-recipes'])
+    ).toEqual(['item/craft-recipes'])
     for (const adoptionId of [
       'enemy/ai-rules',
       'enemy-team/fixed-slots',

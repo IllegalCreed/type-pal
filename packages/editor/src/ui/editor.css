@@ -8012,46 +8012,30 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .fa-track {
   position: relative;
-  height: 132px;
-}
-.fa-frame-position {
-  position: absolute;
-  top: 4px;
-  width: 102px;
-  height: 122px;
+  height: 86px;
 }
 .fa-frame {
+  position: absolute;
+  top: 4px;
   display: grid;
-  grid-template-rows: 76px 40px;
-  width: 102px;
-  height: 122px;
+  grid-template-rows: 56px 16px;
+  width: 72px;
+  height: 76px;
   padding: 3px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 4px;
   background: #07080a;
   color: var(--dim);
-}
-.fa-frame-select {
-  display: grid;
-  grid-template-rows: 56px 16px;
-  min-width: 0;
-  padding: 0 0 0 var(--ds-hit-target-compact);
-  border: 0;
-  color: inherit;
-  background: transparent;
   cursor: pointer;
 }
-.fa-frame-placeholder {
-  display: block;
-  width: 64px;
-  height: 54px;
-  background: color-mix(in srgb, var(--panel3) 72%, transparent);
-}
 .fa-frame:hover,
-.fa-frame:has(.fa-frame-select:focus-visible) {
+.fa-frame:focus-visible {
   border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+}
+.fa-frame:focus-visible {
   outline: none;
+  box-shadow: inset 0 0 0 2px var(--accent);
 }
 .fa-frame.selected {
   background: color-mix(in srgb, var(--accent) 10%, #07080a);
@@ -8061,23 +8045,20 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-color: var(--accent);
   box-shadow: inset 0 -2px 0 var(--accent);
 }
-.fa-frame-select canvas {
+.fa-frame.current:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.fa-frame canvas {
   width: 64px;
   height: 54px;
   object-fit: contain;
   image-rendering: pixelated;
 }
-.fa-frame-select > span:last-child {
+.fa-frame span {
   overflow: hidden;
   font: 9px / 14px var(--mono);
   text-align: center;
   text-overflow: ellipsis;
-}
-.fa-frame-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--ds-space-1);
 }
 .fa-error {
   max-height: 44px;
