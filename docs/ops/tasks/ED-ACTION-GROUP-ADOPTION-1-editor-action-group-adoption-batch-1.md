@@ -220,18 +220,74 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
       恰为 `compact / icon-only / moveButtonCount:2`;既有负例继续有效并补两项 stale/wrapper
       regression;DS-C.2a census 文案与 boundary 断言同版同步,**不升设计系统版本**。
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-09-01，两处 DOM/命令路径/私有几何、三处另批反证与 registry 算术全部
+    本人一手直读复算，非复述 Codex/Kimi；与 Kimi 逐数收敛）**：
+    1. **poison/ticks 机械面实锤**：`DsRepeatRow density="compact"` 内 `.ef-ops` span 恰 2 枚
+       `DsReorderMoveButton`（上移/下移回合 N）+ 1 枚 danger `DsIconButton`（删除回合 N）——纯图标
+       单一模式（PoisonTab.tsx:148-165 本人直读）；私有几何恰 `.ef-ops { display:flex; gap:2px;
+       flex:none }`（editor.css:9205-9209）+ `.ef-row .ef-ops { margin-bottom:1px }` 光学校正
+       （:9168-9170）；520/360 query 只持 `grid-column/justify-self` placement（:9218-9231）——
+       KB1「删几何留放置」可精确执行。命令路径 wrapper 外：`TicksEditorView.reorder` →
+       reorderDsItems/keys/onChange → `patchPlayerTicks/patchEnemyTicks → patch →
+       UpdatePoisonCommand`（:184-207, :418-430, :573-589 直读）；既有单命令/undo-redo 测试锚点
+       在 PoisonTab.test.tsx:235+（本人确认存在）。
+    2. **project/entry-points 机械面实锤**：`.project-entry-row-actions` span 恰 2 枚正式 move
+       button（ProjectWorkbenchTab.tsx:1978-1981），私有规则恰 `display:flex; gap:
+       var(--ds-space-1)`（editor.css:1672-1676）；父 `.project-entry-item-content` 已持
+       `minmax(0,1fr) auto + inline-end space-2`（:1677-1683）；identity/command
+       `useDsReorderKeys(entry.id)` → reorderEntries → `SetStartupEntriesCommand`（:1764）。
+    3. **registry 新基线算术本人复算**：8+2=**10 groups**；46 moves 不变（按钮只在 raw↔adopted 间
+       转移）；adopted 16+2×2=**20**；raw 30−4=**26**；candidates 15−2=**13** =
+       **1 equivalent + 12 deferred + 0 N/A**——与本人在 SPEC 卡独立复算的 8/46/16/30/15 基线
+       自洽。第二批 3 + 第三批 9 = 12 留存 deferred，**无漏分**（casualty×2/cutscene/
+       EffectEditorCard/startup party/script scheme/canonical/legacy/sprite steps 恰 9）。
+    4. **三处转第二批反证本人复核**：帧动画 `.fa-frame` 固定 `width:102px; height:122px;
+       overflow:hidden`（editor.css:8016-8024 直读）——包组后 4px focus 外扩必被裁切实锤；
+       图层行 lock/unlock 为 standalone `DsIconButton size="compact"`（30px 档，
+       LayerStackControls.tsx:150-158 直读）与组 compact 32px 混高实锤；精灵目录 Inspector
+       尾部 inset + proof-disabled（registry reason 一致）。「先迁再补视觉」会把已知违规带进
+       采用面——收窄到 2 处是最小安全面。
+    5. **版本判断**：v2.22.0 既有 pattern 的采用 + census 文案/boundary 断言同版更新，非新
+       API/合同——DS-G.4 不升版成立；240px 算术（240−68−4−行距 ≈ 130 ≥ 96）自洽。
+    6. **可证伪观察**：实现改任一按钮 type/label/variant/disabled/onClick 或 reorder/command
+       owner；移除 1px margin 后 760/520/360/320 实测底线错位且公共 align 不能闭合；240px 下
+       长名/64 字符 ID 不可识别或 focus 越界；registry 复算 ≠ 10/46/20/26/13 + 1+12——任一
+       本签字失效。
+  - design: **agree（2026-09-01，附 GM-P1~GM-P4 必落钉；与 Kimi KB1-KB5 收敛互补）**：
+    - **GM-P1（新基线 + 零 diff 机器证明钉，同 KB5）**：registry 冻结
+      **10/46/20/26/13（1 equivalent + 12 deferred + 0 N/A）**；两个转 adopted 条目静态字段恰
+      `compact / icon-only / moveButtonCount:2`；**其余 13 candidates 生产 DOM/CSS 零 diff 必须
+      机器证明**——build diff 范围断言只允许两处 TSX + 对应 editor.css 几何行 + registry/规范/
+      测试文件，任何第三文件红；`.ef-ops` / `.project-entry-row-actions` 残留 display/gap/flex/
+      尺寸声明由 boundary/audit 负例钉死（placement 规则白名单除外）；补两项 stale/wrapper
+      regression 负例。
+    - **GM-P2（命令语义零变化测试钉）**：poison 玩家/敌人删除各自恰 +1 history 且**另一序列
+      不变**（playerTicks/enemyTicks 互不污染）、undo/redo 精确复原；entry-points 移动恰一次
+      `SetStartupEntriesCommand`、全部 entry.id 顺序、`defaultEntryId` 与选中项不变——沿既有
+      PoisonTab reorder-family 测试形态扩展，不新建命令。
+    - **GM-P3（批次纪律钉，同 KB2）**：第二批三面与第三批九面在本卡**零触碰**（含 CSS）；
+      帧动画/图层/精灵目录的 focus 裁切、30/32 混高、Inspector 尾部问题留给
+      ADOPTION-2 逐面设计，不得以「顺手」夹带。
+    - **GM-P4（实测与诚实口径钉，同 KB3/KB4）**：毒页移除 1px optical margin 后 1280/720 +
+      520/360/320 底线实测，失败转 rework 不回补私有 margin；入口点 240px 目录 title/meta
+      ≥96px、完整长中文名与 64 字符 ID 留在 DOM/accessible name、focus 外扩归属、双溢出 0；
+      200% zoom 无法可靠触发时保持「未实测」，不以 pinch/等效冒充。
 - 独立反证审查:
-  - 审查者: Kimi（2026-09-01，完成——本人逐行直读 DOM/CSS/命令路径与算术；GLM 席位保留）
+  - 审查者: Kimi（2026-09-01，完成——本人逐行直读 DOM/CSS/命令路径与算术）；
+    GLM（2026-09-01，完成——两处 DOM/私有几何/命令路径、三处另批反证（.fa-frame 102px
+    overflow-hidden / standalone compact 30px 混高 / sprite Inspector 尾部）、registry 新基线
+    10/46/20/26/13 与批次清单 3+9=12 全部本人一手复算；两席独立取得后收敛）。
   - 直接证据: `PoisonTab.tsx:108-166,184-207,418-430,573-589`、`editor.css:1672-1683,9161-9230`、
-    `ProjectWorkbenchTab.tsx:1948-1985`、`editor.css:8013-8064`（帧动画固定卡）、
+    `ProjectWorkbenchTab.tsx:1948-1985`、`editor.css:8016-8024`（帧动画固定卡）、
+    `LayerStackControls.tsx:150-169`（standalone compact 30px）、
     `action-group-adoption.json` 基线算术。
-  - 可证伪观察: 见 Kimi 签节第 6 条（按钮/owner 漂移、底线错位、240px 语义失败、基线不等）。
-- counter / 分歧处理: none（Kimi KB1-KB5 与 Codex 设计一致，无 counter）
+  - 可证伪观察: 见 Kimi 签节第 6 条与 GLM 签节第 6 条（按钮/owner 漂移、底线错位、240px 语义
+    失败、基线不等）。
+- counter / 分歧处理: none（Kimi KB1-KB5 与 Codex 设计一致，GLM GM-P1~P4 收敛，无 counter）
 - 缺签豁免: N/A
-- build 准入结论: **blocked（2026-09-01 Codex + Kimi 已签；缺 GLM premise verified + design agree；
-  不得实现）**
+- build 准入结论: **allowed（签字面）（2026-09-01，Codex + Kimi（KB1-KB5）+ GLM（GM-P1~P4）
+  三方 premise verified + design agree 齐、无 counter；用户 2026-09-01 已裁决分批授权。Codex
+  开工时状态转 build，仍为唯一 Coding Owner。）**
 
 ### 进入 done 前:审查签字
 
@@ -255,6 +311,16 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
 
 ## 交接日志
 
+- 2026-09-01 GLM: 独立直读两处机械面（毒 `.ef-ops` 2 move + 1 danger 纯图标、私有几何恰
+  flex/2px/1px 光学 margin、520/360 仅 placement；入口 `.project-entry-row-actions` 恰 2 move、
+  私有恰 flex/space-1、父 grid/inset 已备）、命令路径（UpdatePoisonCommand /
+  SetStartupEntriesCommand 均 wrapper 外）、三处第二批反证（.fa-frame 102px overflow-hidden、
+  standalone compact 30px 与组 32px 混高、sprite Inspector 尾部）与 registry 新基线
+  10/46/20/26/13 + 1 equivalent + 12 deferred（3+9=12 无漏分）。签 premise verified +
+  design agree，附 GM-P1（新基线 + 13 candidates 零 diff 机器证明 + 业务类几何清零负例）/
+  GM-P2（毒双序列删除互不污染 + 入口语义不变测试钉）/GM-P3（批次纪律零夹带）/GM-P4（1px
+  margin 底线实测 + 240px 语义 + 200% 未实测口径）。未修改实现，未代签 Kimi。三签齐且用户
+  分批裁决在案，build 准入（签字面）allowed。Next: Codex 按钉 build。
 - 2026-09-01 Kimi: 独立直读两处迁移面（毒 `.ef-ops` 与入口 `.project-entry-row-actions` 的
   DOM/私有几何/命令路径）、三处另批实锤（帧动画 102px overflow-hidden focus 裁切、图层 30/32
   混高、精灵目录 Inspector 尾部裁切）、毒 1px optical margin 的居中自洽性与 520/360 placement、

@@ -24,7 +24,7 @@
 | ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | done | 三方 accept + 用户复验齐，整卡收口 | Startup inventory 唯一遗漏动作槽已封组；1280/900/720 组内不拆行、无溢出 |
 | ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | done | 全部增量三方 accept + 用户验收齐，整卡收口 | contentLayout form/list；Shop 公共 panel + danger 下架；角色视觉与 surface 四桶闭合 |
 | ED-ACTION-GROUP-SPEC-1 | DsActionGroup 公共规范与当前采用闭合 | done | 三方 accept + 用户验收齐，整卡收口 | `1c320ce0`：DS 2.22.0；8/46/16/30/15；1 equivalent +14 deferred；单枚与1→3均必红 |
-| ED-ACTION-GROUP-ADOPTION-1 | 同项动作组采用第一批（战斗 / 毒回合；项目设置 / 入口点） | draft | Codex 已签；待 Kimi/GLM 审签，不得实现 | 复用既有组件；目标10/46/20/26/13；不改按钮/命令/数据 |
+| ED-ACTION-GROUP-ADOPTION-1 | 同项动作组采用第一批（战斗 / 毒回合；项目设置 / 入口点） | draft | 三方 design 签字齐（签字面 allowed，用户分批裁决在案）；Codex 可开工转 build | 复用既有组件；目标10/46/20/26/13；不改按钮/命令/数据 |
 | ED-FIELD-LABEL-TRACK-WIDE-1 | 编辑器整组宽标签轨合同 | done | 三方 accept + 用户验收齐，整卡收口 | `6e7999ef`：wide=160px/<560 stacked；RoleBindings 唯一采用；DS 2.21.0 |
 | ED-ITEM-ALCHEMY-SURFACE-1 | 炼蛊皿与紫金葫芦双炼化工作台 | done | 全部增量三方accept + 用户验收齐，整卡收口 | Craft header/handle/formula稳定对齐；Stepper outer与控件统一36px，三态/高对比闭合 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
