@@ -1,6 +1,6 @@
 # ED-ACTION-GROUP-ADOPTION-1 - 同项动作组采用第一批（战斗 / 毒回合；项目设置 / 入口点）
 
-Status: rework
+Status: build
 Phase: phase2
 Capability: Editor design system adoption（不改变 capability-map）
 Coding Owner: Codex
@@ -421,6 +421,9 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ## 交接日志
 
+- 2026-09-01 Codex: 核对 Kimi KBR1-KBR3 与 GLM GM-R1-R3 refreshed 签字、用户入口新形态批准，
+  三方 premise/design + 用户裁决齐且无 counter；状态由 rework 转 build，Codex 恢复为唯一 Coding Owner。
+  Next: 按新边界实现、自测与真实页面复验后转 review；不得跳过 280px 正文仅约2px余量的反证门。
 - 2026-09-01 GLM: rework 重签。独立核实反证结构核心——`.project-entry-list` 现仅 flex/overflow/
   padding，全库零 container/媒体降级 owner，`.project-entry-item-content` 静态 `1fr auto` +
   CatalogRow 固定高 flex（tag 争宽）→ 窄列表 title 必塌缩，与 Kimi 193/235px 实测自洽，原
