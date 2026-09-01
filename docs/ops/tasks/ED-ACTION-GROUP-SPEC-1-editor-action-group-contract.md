@@ -1,6 +1,6 @@
 # ED-ACTION-GROUP-SPEC-1 - DsActionGroup 公共规范与当前采用闭合
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor design system（不改变 capability-map）
 Coding Owner: Codex
@@ -447,10 +447,11 @@ Target Design-System Version: `2.22.0`
     pageScaleFactor 为 pinch 式，**真实 200% zoom 与 640 等效视口均未实测**，与 Kimi 口径一致，
     不以 pinch/等效冒充；720 / RF-27 480/320 / 360 单列下沉已覆盖 zoom 敏感代码路径。
   无返工项；未修改实现/测试，未代签 Kimi，未填用户验收。
-- 用户验收: pending
+- 用户验收: **accept（2026-09-01）**——用户明确回复“验收通过”；真实 UI 级 200% zoom 未由 Agent
+  可靠实测的口径已在交接中披露，本次验收不追记为 200% 实测证据。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
+- done 准入结论: **allowed（2026-09-01，Codex + Kimi + GLM 三方 accept 与用户验收齐）**
 
 ## Draft: 设计与风险
 
@@ -540,15 +541,17 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 - Reviewer: Kimi + GLM
 - 审查结论: Codex + Kimi + GLM 三方 accept；内部两路只读压力审查也 accept。
 - 必须返工项: none
-- Accept / rework: review（仅缺用户 build 后验收）
+- Accept / rework: accept（done）
 
 ## 用户验收
 
-- 用户结论: build 前产品裁决 **approved（2026-09-01）**；build 后功能验收 pending
+- 用户结论: build 前产品裁决 **approved（2026-09-01）**；build 后功能验收 **accept（2026-09-01）**
 - 后续任务: `ED-ACTION-GROUP-ADOPTION-1`（仅在本卡逐项分类后仍有真实 deferred 时开卡；数量不得预设）
 
 ## 交接日志
 
+- 2026-09-01 User + Codex: 用户明确回复“验收通过”；三方 accept 与用户验收齐，任务转 done。
+  真实 200% zoom 继续保留为未实测，不改写证据。无下一位 Agent；等待 git 收口与推送。
 - 2026-09-01 Codex: 核对 `24f5b010` / `5bd7f4d4`，Kimi 与 GLM 均对 `1c320ce0` 签 accept，
   无 counter / 返工项；两席均保持真实 200% zoom 未实测的诚实口径。三方 accept 齐，当前无下一位
   Agent，只等待用户验收后收口。
@@ -614,5 +617,5 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 ## 下一位 Agent 提示词
 
 ```text
-无下一位 Agent 提示词：Codex / Kimi / GLM 三方 accept 齐、无 counter，当前等待用户验收/收口。
+无下一位 Agent 提示词：本卡三方 accept 与用户验收齐，状态 done，等待 git 收口/推送。
 ```
