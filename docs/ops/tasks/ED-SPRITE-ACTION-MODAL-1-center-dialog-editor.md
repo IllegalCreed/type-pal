@@ -158,10 +158,65 @@ Target Design-System Version: `2.24.0`（用户批准中心长流程modal，扩�
   - design: **agree（2026-09-01）**——中央单一入口 + 同一Dialog + 内嵌源帧 + 搜索listbox + header动作；
     create baseline-protected local/edit live，schema零变，单一source owner、step控件与registry/DS-C.9例外
     有界，目标DS2.24.0。
-- Kimi: premise/design pending
+- Kimi:
+  - premise: **verified（2026-09-01，本人直读中央/Inspector 结构、create 现行写、registry 链与
+    命令边界，非复述 Codex）**：
+    1. **“before”实锤**:WorldSpriteLibrary.tsx:690 的“动作”tab 挂载完整
+       `SpriteActionEditor`(:873)——名称/循环/步骤/音效/删除整个主任务确在右侧 Inspector;
+       `createAction`(SpriteActionEditor.tsx:187-207)**立即 `commitPoses` 写默认动作**并
+       选中——“create 会立即 dispatch”逐字成立;动作目录逐行 grip + 前移/后移
+       （`asset/sprite-action-definitions` 为现行 reorder adoption)。
+    2. **Registry 链本人复算（自 ADOPTION-3 基线 13/44/22/22/11）**:
+       - ActionGroup：删 definitions 目录 2 raw moves(-2 moves)+ steps 组 deferred→adopted
+         (+2 adopted,-2 raw,-1 candidate,-1 deferred)+ 当前动作 header 0-move 组(+1 group)
+         → **15 groups / 42 moves / 24 adopted / 18 raw / 9 candidates(1 equivalent +
+         8 deferred + 0 N/A)**,逐项一致;
+       - Reorder：移除 `asset/sprite-action-definitions` 一条 adoption/data path →
+         **17 families / 27 adoptions / 30 paths / 19 owner files**,一致;
+       - Allowlist:+1 `selected-item-reorder-action`(限本 Dialog 当前 header 稳定
+         ActionId 适配)→ **13 entries / 9 rules**,一致;DS 2.23→**2.24.0**。
+    3. **事务边界实锤**:edit 侧既有 `UpdateSpriteCommand` 一次一条 + global undo 可保留
+       （不扩 API);create 侧“打开捕获 baselinePoses/historyVersion、确认前重读当前 sprite、
+       poses 结构相等且生成 ID 仍空闲,漂移零 command 保留输入”——是在不扩
+       UpdateSpriteCommand 的前提下最严的并发保护;create 立即写 → 本地 draft + 确认一次写
+       是用户已批准的 before -> after。
+    4. **单一 source owner 判定**:SpriteFrameWorkbench 的私有 FrameCell/drag payload 抽为
+       共享 `SpriteSourceFramePicker` 领域 owner 属有界 UI API 变更;中央池与 modal 双消费 +
+       同一 MIME/选择/a11y 语义 + 键盘“追加/在此插入”替代——避免第二套拖拽语义;
+       modal 背景 inert、不可作 drag source 成立。
+    5. **DS-C.9 长流程 modal 例外判定**:用户明确要求的中央专用编辑器、固定 header/footer、
+      明确 scroll owner、route/focus/dirty 边界与独立审签——属 DS-G.4 minor 的**有界例外**,
+      卡面已明写“禁止扩散成普通表单默认形态”,判断成立。
+    6. **可推翻观察**:若右侧完整表单能在 220px Inspector 证明主任务可达且用户撤回 modal
+       裁决;若 create 并发无需 baseline 保护（现行立即写已证反）;若步骤/目录动作仍需逐行
+       grip/move(reorder 治理已证替代表达）——任一本签字失效。
+  - design: **agree（2026-09-01，附 KM1-KM5 必落钉）**：
+    - **KM1(IA/唯一 owner 钉）**:中央 Hero 两入口、语义动作行与 `action=<ActionId>` 深链
+      均驱动同一 parent modal owner;右侧 tab 改名“用途”,**不得残留任何动作编辑器/新增/
+      排序/删除**;create 成功才写 ActionId route,close 只清 action;背景 inert 且不可作
+      drag source。
+    - **KM2(create/edit 事务钉）**:create = 本地 draft + baselinePoses/historyVersion 捕获 +
+      确认时重读校验(poses 相等、生成 ID 空闲）+ 恰一条 UpdateSpriteCommand;pristine 零写、
+      dirty 关闭走放弃 alertdialog 仍零 command;edit 一次操作一条 + global undo/redo,
+      关闭不回滚已提交值;close 前结束 composition 并 flush,invalid/失败留 Dialog 聚焦首错;
+      ⌘S edit 先 flush 后保存、create 消费快捷键并提示“先创建动作”。
+    - **KM3（单一 source owner 钉）**:从 SpriteFrameWorkbench 私有 FrameCell/drag payload
+      抽取唯一共享 `SpriteSourceFramePicker` 领域 owner,双 consumer 合同测试绑定同一
+      MIME/选择/a11y;modal 内点击与拖入共用同一插入 adapter;键盘“追加/在此插入”恒可用。
+    - **KM4(Dialog 几何与焦点钉）**:固定 header/footer;宽态目录 280px + 详情
+      `minmax(0,1fr)` 两个明确 scroll owner,窄态单页单一 owner;`.sprite-action-dialog` 与
+      body 冻结 `overflow:hidden`,禁止第三纵向 owner;52 项虚拟 listbox 冻结 mounted DOM
+      预算;分层 Esc;窄态 list→detail 标题/首字段、detail→搜索 owner + selected
+      active-descendant 的焦点迁移逐条实测;删除后 next→previous→empty fallback。
+    - **KM5（registry/版本钉）**:冻结 **ActionGroup 15/42/24/18/9、reorder 17/27/30/19、
+      allowlist 13/9**;`selected-item-reorder-action` 例外限本 Dialog 当前 header 稳定
+      ActionId/local-or-live adapter,不扩散;DS 升 **2.24.0**(DS-C.9 长流程 modal 有界例外,
+      用户批准）;其它 reorder/action candidates 零 diff;Inspector 旧编辑器、逐行 grip/move、
+      背景 drag 与双入口回流必须进门禁负例。
 - GLM: premise/design pending
-- 用户裁决: **approved（2026-09-01，“按以上弹窗和动作目录方案执行”）**
-- build准入: **blocked（RESTORE-1/ADOPTION-3依赖与Kimi/GLM签字未齐）**
+- 用户裁决: approved（2026-09-01，“按以上弹窗和动作目录方案执行”）
+- build准入: **blocked（2026-09-01 Codex + Kimi 已签;缺 GLM 签字;且依赖
+  ED-FRAME-TIMELINE-UX-RESTORE-1 与 ED-ACTION-GROUP-ADOPTION-3 完成）**
 
 ### 进入 done 前
 
@@ -173,6 +228,13 @@ Target Design-System Version: `2.24.0`（用户批准中心长流程modal，扩�
 
 ## 交接日志
 
+- 2026-09-01 Kimi: 独立直读“before”实锤（WorldSpriteLibrary.tsx:690 动作 tab + :873 挂
+  SpriteActionEditor、createAction:187-207 立即 commitPoses 写）、复算三条 registry 链
+  (ActionGroup 15/42/24/18/9、reorder 17/27/30/19、allowlist 13/9，自 ADOPTION-3 基线逐项
+  一致)、create baseline 并发保护与单一 source picker owner 判定、DS-C.9 长流程 modal 有界
+  例外与 DS2.24 版本判断。签 premise verified + design agree(KM1 IA 唯一 owner / KM2
+  create-edit 事务 / KM3 单一 source owner / KM4 Dialog 几何焦点 / KM5 registry 与版本),
+  完成独立反证。未修改实现,未代签 GLM。Next: GLM 签字;依赖 RESTORE-1 与 ADOPTION-3 先完成。
 - 2026-09-01 Codex: 用户从真实Inspector截图否决侧栏完整动作编辑器，并批准中央Hero + 单一Dialog +
   内嵌源帧 + 搜索单选目录 + 当前动作header操作。三路只读审计补齐create并发保护、dirty guard、单一drag
   owner、步骤控件与scroll/focus合同；未修改实现。Next: Kimi/GLM设计审签。
@@ -180,17 +242,35 @@ Target Design-System Version: `2.24.0`（用户批准中心长流程modal，扩�
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-SPRITE-ACTION-MODAL-1（Kimi席，draft；生产实现只读，只允许更新任务卡签字/交接）。
+联合审签 ED-ACTION-GROUP-ADOPTION-3 与 ED-SPRITE-ACTION-MODAL-1（GLM 席，draft；生产实现
+只读，只允许更新两卡签字/交接；不得代签，不得标 build/done）。
 
-任务卡：docs/ops/tasks/ED-SPRITE-ACTION-MODAL-1-center-dialog-editor.md
-用户已批准中央入口、单一Dialog、内嵌源帧、搜索单选目录与当前动作header操作；依赖与三签齐前不得build。
+任务卡：
+- docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md（Kimi KC3-1~KC3-5 已签）
+- docs/ops/tasks/ED-SPRITE-ACTION-MODAL-1-center-dialog-editor.md（Kimi KM1-KM5 已签）
+当前状态：两卡 Codex + Kimi 已签；ADOPTION-3 另缺用户对三组/320/216 具体形态裁决；
+依赖顺序：RESTORE-1 → ADOPTION-3 → SPRITE-ACTION-MODAL-1。
 
-请独立核：WorldSpriteLibrary中央/Inspector所有权；create local零写/确认1与edit live/global undo边界；
-UpdateSpriteCommand的proof/live reference guard；action route开关；modal source picker；1120×780双栏和720/200%
-单页scroll/focus；create baseline/dirty/⌘S与edit flush/reference边界；单一source picker owner；步骤动作32px；
-逐行reorder移除与当前header例外；最终action15/42/24/18/9、reorder17/27/30/19、
-allowlist13/9及DS2.24版本判断。
+先读：AGENTS.md 前提真值门、READ-FIRST、ED-ACTION-GROUP-SPEC-1、ADOPTION-1、两卡全部签节、
+DS-C.2a/DS-C.4d/DS-C.9/RF-27、action-group-adoption.json、reorder-adoption.json、
+reorder-allowlist.json。
 
-输出Kimi premise verified + design agree，或counter + P0/P1/P2/file:line/反例。若agree，仅更新任务卡签字与
-交接并附GLM提示词；不得修改实现、代签GLM或标build/done。
+GLM 分工（独立证据，不复述 Codex/Kimi）：
+1. ADOPTION-3：复算 13 groups / 44 moves / 22 adopted / 22 raw / 11 candidates（1 equivalent
+   + 10 deferred + 0 N/A）；audit adopted「非负整数且等于 AST 实数」与 candidate 仍恰 2 的
+   validator 新负例（0 合法、负数/小数/漏登记/漂移）先红后绿；LayerStackControls 组件测试矩阵
+   （三组指纹、32×32、稳定 label+aria-pressed、danger、useId 原因+describedby）；Map 排序
+   单 MoveProjectMapLayerCommand/undo 与 Stamp 单 ReplaceStampTemplateCommand/显隐锁定零
+   history 的命令边界；320/216 换轨在 rail 占位后的名称正宽与 4px focus 归属；其余 11
+   candidates 生产零 diff；DS 2.23.0 四处一致。
+2. SPRITE-ACTION-MODAL-1：复算 ActionGroup 15/42/24/18/9、reorder 17/27/30/19、allowlist
+   13/9；create baselinePoses/historyVersion 捕获与确认时重读校验（poses 相等、生成 ID 空闲、
+   漂移零 command 保留输入）的测试覆盖；pristine 零写 / dirty alertdialog 零 command / edit
+   一次一条 + global undo / close flush / IME 与 invalid 留 Dialog / ⌘S 两侧边界；搜索单选
+   listbox 52 项虚拟窗口与 mounted DOM 预算；宽 2 窄 1 scroll owner 与 body overflow:hidden；
+   分层 Esc 与窄态键盘焦点迁移（list→detail、detail→搜索 owner、删除 fallback）；单一
+   SpriteSourceFramePicker owner 的双 consumer 合同测试；DS-C.9 长流程 modal 例外不扩散与
+   DS 2.24.0 四处一致。
+3. 200% zoom 无法可靠触发时保持“未实测”口径，不用 pinch/等效冒充。
+输出：分别写回两卡 GLM 席 premise verified + design agree，或 counter + file:line/反例。
 ```

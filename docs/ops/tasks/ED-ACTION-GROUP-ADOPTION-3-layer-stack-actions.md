@@ -122,10 +122,61 @@ workspace显隐/锁定状态与undo边界不变。
     同行、140px名称列0且横溢23px；registry 2-move硬假设已直读。
   - design: **agree（2026-09-01）**——三语义组 +320/216两级换轨 +可见禁用原因；修audit真模型并升
     DS2.23.0；依赖基线刷新为13/44/22/22/11；不改变数据/命令owner。
-- Kimi: premise/design pending
+- Kimi:
+  - premise: **verified（2026-09-01，本人逐行直读共享组件、行 CSS、audit 假设与命令链，非复述 Codex）**：
+    1. **混高与禁用实锤**:`LayerStackControls.tsx:84-189`——header 两枚
+       `DsIconButton size="compact"`(30px)且 `addDisabled/deleteDisabled` 为无原因 boolean;
+       每行 eye/lock 两枚 30px 状态钮，label 随状态翻转（`:147` 显示图层/隐藏图层、`:155`
+       锁定图层/解锁图层）;active 行 `.layer-order` 为 2 枚 32px `DsReorderMoveButton`——
+       **只迁 order 必留 30/32 混高行**;名称按钮只有 title 无 `data-layer-id` 与含 ID 的稳定
+       accessible name(:158-167)。
+    2. **140px 实锤（算术）**:`.map-layer-row` 为 `30px 30px minmax(0,1fr) auto` +
+       `min-height:38px; padding:4px 8px`(editor.css:11331-11337)——active 行固定件
+       30+30+68(order 2×32+4)+16 padding + gaps ≈ 156-163 > 140,名称列归零且行溢出
+       16-23px,与卡面“名称列 0 / 横溢 23px”一致;`.layer-name` 高度 30px(:11355-11363)
+       低于 32px 命中下限。
+    3. **audit 硬假设实锤**:`action-group-audit.mjs:189-190` 与 `:224-225` 对 adopted 与
+       candidate 均硬编码 `moveButtonCount !== 2`——header/state 这类 0-move 合法组当前
+       无法登记,卡面“registry 错误审计假设”逐字成立。
+    4. **命令/状态边界直读**:Map 排序/删除走 `MoveProjectMapLayerCommand` 与既有确认链,
+       Stamp 结构写为一条 `ReplaceStampTemplateCommand`;显隐/锁定为 workspace/local state,
+       不进 content history/dirty——卡面边界与既有代码一致;top-first/bottom-first 方向映射
+       不应在本卡改动。
+    5. **基线算术本人复算**:RESTORE-1 后基线 10/44/20/24/12 → 本卡 +3 groups
+       (header/state 0-move、order 2-move)→ **13 groups / 44 moves / adopted 22 / raw 22 /
+       candidates 11(1 equivalent + 10 deferred + 0 N/A)**,逐项一致;其余 11 candidates
+       生产零 diff 的范围声明相容。
+    6. **可推翻观察**:若只迁 order 仍能在 Map/Stamp 全宽度证明四类按钮同尺寸、名称正宽、
+       focus 完整且零横溢（算术已否）;若 0-move 组无需登记也能双向闭合（audit 硬编码已否）;
+       若显隐/锁定需要进 content history（现行为 local state）——任一本签字失效。
+  - design: **agree（2026-09-01，附 KC3-1~KC3-5 必落钉）**：
+    - **KC3-1（三组最小闭环钉）**:header/state/order 三个 compact ActionGroup 是无可避免
+      混高与无原因禁用的最小合法闭面;**audit adopted 必须改为“非负整数且等于 AST 实数”,
+      candidate 仍恰 2**;新增 0 合法、负数/小数/漏登记/漂移负例先红后绿;三个领域 class
+      只持 placement,不持 gap/wrap/尺寸。
+    - **KC3-2（320/216 换轨钉）**:`.map-layer-list` 唯一 inline-size container;`>=320` 三列
+      同排、`<320` order 整组第二层右对齐、`<216` 三层 DOM 序;名称列在同排档 >=96px,
+      窄档 `.layer-name > span` 与可选 `small` 正宽且可见字符;active-only 渲染 order,
+      非选中行不产生空白排序层;reorder rail inset 与 4px focus 空间保留。
+    - **KC3-3（稳定命名与原因钉）**:状态钮 label 固定为 `图层可见：${name}` /
+      `图层锁定：${name}`,状态仅由 `aria-pressed` 与图标表达,**禁止随状态翻转文案**;
+      header 删除固定 `删除选中图层：${activeLayer.name}` 且 danger;boolean disabled 改为
+      `addDisabledReason/deleteDisabledReason` + useId + `aria-describedby`,四段文案冻结
+      （Map 至少保留一个图层 / 先显示再删除 / 先解锁再删除;Stamp 先接管迁移组合）。
+    - **KC3-4（命令/状态边界钉）**:Map 排序恰一条 MoveProjectMapLayerCommand 且 undo/redo,
+      删除确认取消零写、确认一步 undo;Stamp 结构排序/删除恰一条
+      ReplaceStampTemplateCommand;显隐/锁定 history 与 dirty 均不变;方向映射
+      （top-first 反向 / bottom-first 正向）不改。
+    - **KC3-5（基线与版本钉）**:build 顺序基于 RESTORE-1 后新基线;完成后冻结
+      **13 groups / 44 moves / 22 adopted / 22 raw / 11 candidates(1 equivalent +
+      10 deferred + 0 N/A)**;其余 11 candidates 生产零 diff;DS 升 **2.23.0**(registry
+      validator 合同 + 图层响应式合同,DS-G.4 minor 适用）;DS-C.2a census 文案同步为
+      “0-move 合法、candidate 仍恰 2”的表述。
 - GLM: premise/design pending
-- 用户裁决: 保留图层拖拽/移动 approved；三组与两级换轨形态 pending
-- build 准入: **blocked**（依赖帧恢复任务、Kimi/GLM签字与具体形态裁决未齐）
+- 用户裁决: 保留图层拖拽/移动 approved（2026-09-01）；三组与两级换轨形态 pending
+- counter / 分歧处理: none
+- build 准入: **blocked（2026-09-01 Codex + Kimi 已签;缺 GLM 签字、用户对三组/320/216 具体
+  形态裁决,且依赖 ED-FRAME-TIMELINE-UX-RESTORE-1 完成）**
 
 ### 进入 done 前
 
@@ -137,24 +188,48 @@ workspace显隐/锁定状态与undo边界不变。
 
 ## 交接日志
 
+- 2026-09-01 Kimi: 独立直读 LayerStackControls（30px 状态钮翻转 label、32px order 混高、
+  header 无原因 boolean）、行 CSS(140px 固定件 ≈160px 致名称列 0、横溢 16-23px 算术成立)、
+  audit 对 adopted/candidate 硬编码 moveButtonCount=2(:189-190,:224-225)与 Map/Stamp 命令/
+  本地状态边界;复算基线 13/44/22/22/11(自 RESTORE-1 新基线逐项一致)。签 premise verified +
+  design agree(KC3-1 三组最小闭环 / KC3-2 320/216 换轨 / KC3-3 稳定命名与可见原因 / KC3-4
+  命令状态边界 / KC3-5 基线与 DS2.23),完成独立反证。未修改实现,未代签 GLM。Next: GLM 签字 +
+  用户三组/320/216 形态裁决;依赖 RESTORE-1 先完成。
 - 2026-09-01 Codex: 独立审计把原三面批次拆开；本卡只处理共享LayerStackControls与registry 0-move
   真模型。未修改实现。Next: 用户批准三组/320/216形态；Kimi/GLM设计审签；RESTORE-1先完成。
 
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-ACTION-GROUP-ADOPTION-3（Kimi 席，draft；生产实现只读，只允许更新任务卡签字/交接）。
+联合审签 ED-ACTION-GROUP-ADOPTION-3 与 ED-SPRITE-ACTION-MODAL-1（GLM 席，draft；生产实现
+只读，只允许更新两卡签字/交接；不得代签，不得标 build/done）。
 
-任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md
-用户已批准图层保留拖拽/移动，但三组/320/216具体形态仍pending，且依赖帧恢复任务；具体形态用户裁决 +
-Kimi + GLM三门齐前不得build。
-先读：AGENTS.md前提真值门、READ-FIRST、ED-ACTION-GROUP-SPEC-1、ADOPTION-1、
-ED-FRAME-TIMELINE-UX-RESTORE-1、cancelled ADOPTION-2历史反例、DS-C.2a与本卡全文。
+任务卡：
+- docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md（Kimi KC3-1~KC3-5 已签）
+- docs/ops/tasks/ED-SPRITE-ACTION-MODAL-1-center-dialog-editor.md（Kimi KM1-KM5 已签）
+当前状态：两卡 Codex + Kimi 已签；ADOPTION-3 另缺用户对三组/320/216 具体形态裁决；
+依赖顺序：RESTORE-1 → ADOPTION-3 → SPRITE-ACTION-MODAL-1。
 
-请独立核验：只迁layer-order是否必造30/32混高；Map+Stamp两caller的命令/本地状态边界；header/state/order
-三个ActionGroup与0-move registry合同；320/216两级换轨在reorder rail占位后的可用宽；上下文状态名称、
-danger和可见disabled reason；顺序目标13/44/22/22/11及DS2.23.0版本判断。
+先读：AGENTS.md 前提真值门、READ-FIRST、ED-ACTION-GROUP-SPEC-1、ADOPTION-1、两卡全部签节、
+DS-C.2a/DS-C.4d/DS-C.9/RF-27、action-group-adoption.json、reorder-adoption.json、
+reorder-allowlist.json。
 
-输出Kimi premise verified + design agree，或counter + P0/P1/P2/file:line/反例。若agree，仅写回本卡
-签字/交接并附GLM提示词；不得修改实现、代签GLM或标build/done。
+GLM 分工（独立证据，不复述 Codex/Kimi）：
+1. ADOPTION-3：复算 13 groups / 44 moves / 22 adopted / 22 raw / 11 candidates（1 equivalent
+   + 10 deferred + 0 N/A）；audit adopted「非负整数且等于 AST 实数」与 candidate 仍恰 2 的
+   validator 新负例（0 合法、负数/小数/漏登记/漂移）先红后绿；LayerStackControls 组件测试矩阵
+   （三组指纹、32×32、稳定 label+aria-pressed、danger、useId 原因+describedby）；Map 排序
+   单 MoveProjectMapLayerCommand/undo 与 Stamp 单 ReplaceStampTemplateCommand/显隐锁定零
+   history 的命令边界；320/216 换轨在 rail 占位后的名称正宽与 4px focus 归属；其余 11
+   candidates 生产零 diff；DS 2.23.0 四处一致。
+2. SPRITE-ACTION-MODAL-1：复算 ActionGroup 15/42/24/18/9、reorder 17/27/30/19、allowlist
+   13/9；create baselinePoses/historyVersion 捕获与确认时重读校验（poses 相等、生成 ID 空闲、
+   漂移零 command 保留输入）的测试覆盖；pristine 零写 / dirty alertdialog 零 command / edit
+   一次一条 + global undo / close flush / IME 与 invalid 留 Dialog / ⌘S 两侧边界；搜索单选
+   listbox 52 项虚拟窗口与 mounted DOM 预算；宽 2 窄 1 scroll owner 与 body overflow:hidden；
+   分层 Esc 与窄态键盘焦点迁移（list→detail、detail→搜索 owner、删除 fallback）；单一
+   SpriteSourceFramePicker owner 的双 consumer 合同测试；DS-C.9 长流程 modal 例外不扩散与
+   DS 2.24.0 四处一致。
+3. 200% zoom 无法可靠触发时保持“未实测”口径，不用 pinch/等效冒充。
+输出：分别写回两卡 GLM 席 premise verified + design agree，或 counter + file:line/反例。
 ```
