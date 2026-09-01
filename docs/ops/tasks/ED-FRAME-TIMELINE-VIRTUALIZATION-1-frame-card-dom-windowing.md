@@ -1,12 +1,12 @@
 # ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing
 
-Status: draft
+Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）
 Phase: phase2
 Capability: Editor frame-animation performance
 Coding Owner: Codex
 Reviewer: Kimi + GLM
 Risk: 高（虚拟化与横向reorder/选择/滚动/焦点语义耦合）
-Depends On: `ED-ACTION-GROUP-ADOPTION-2`
+Merged Into: `ED-FRAME-TIMELINE-UX-RESTORE-1`
 
 ## 追踪原因
 
@@ -15,18 +15,18 @@ visible集合延迟canvas解码；410帧并非真正DOM virtualization。这违�
 `A7-3-cutscene-asset-workbench.md:72,367,418-420` 的12–15可见项约束，也超过最新Web Interface
 Guidelines对50项列表的virtualize建议。
 
-## 目标与删除条件
+## 原目标与替代关系
 
-- 真实DOM只保留可视窗口 + 有界overscan，同时保留总轨宽和稳定frame.id。
-- offscreen来源/目标仍支持handle pointer、键盘Home/End、左右移动、选择范围、自动滚动与live announcement。
-- 1/3/64/410帧在首/中/末、缩放与横滚后选择/焦点不丢；本地draft history与唯一保存command不变。
-- 完成并通过性能/交互/浏览器矩阵后，任务转`done`并关闭board开放债，任务卡保留历史；不得以
-  ADOPTION-2的“未新增节点”冒充完成。
+- 原目标曾要求公共handle/Home/End/移动按钮下的DOM windowing；用户随后否决该整套可见形态，要求恢复
+  `c799cb35^` 的pointer-only整卡native drag，因此原目标不再适用。
+- `ED-FRAME-TIMELINE-UX-RESTORE-1`接管仍然有效的债务：真实DOM只保留旧精确可视窗口+overscan，
+  保留总轨宽、稳定frame.id、selection/history与唯一save command；不再要求已被用户否决的handle/move语义。
+- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。
 
 ## 当前门禁
 
-本卡仅建立可追踪债务，尚未完成独立前提矩阵与设计审签；`ED-ACTION-GROUP-ADOPTION-2`不得夹带实现。
+本卡已合并进`ED-FRAME-TIMELINE-UX-RESTORE-1`；恢复任务不得只删按钮而漏掉原先有界可见帧挂载。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；等待ADOPTION-2完成及用户安排优先级后再补完整设计与三签。
+无下一位 Agent 提示词；本债由RESTORE-1按原始visible window形态共同关闭。

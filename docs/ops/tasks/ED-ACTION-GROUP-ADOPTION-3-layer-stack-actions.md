@@ -6,7 +6,7 @@ Capability: Editor design-system action-group governance（不改变 capability-
 Coding Owner: Codex
 Reviewer: Kimi + GLM
 Risk: 公共合同迭代（共享组件 + registry validator；完整三签）
-Depends On: `ED-ACTION-GROUP-ADOPTION-2`
+Depends On: `ED-FRAME-TIMELINE-UX-RESTORE-1`
 Target Design-System Version: `2.23.0`
 
 ## 目标
@@ -55,12 +55,15 @@ workspace显隐/锁定状态与undo边界不变。
 - 宽度 `>=320px`：状态组 / 名称 / 排序组同排；`216–319px`：排序组完整下沉；`<216px`：
   状态组、名称、排序组按DOM顺序三层。非选中行不产生空白排序层。
 - 显示/锁定改为稳定状态名称（含图层名），新增/删除被业务规则禁用时显示邻近原因。
-- 用户裁决：**pending**。
+- 用户裁决：
+  - **approved（2026-09-01）**——用户明确“图层可以加”，即保留图层拖拽/移动并继续统一治理。
+  - **pending**——header/state/order三组及320/216具体响应式形态仍需用户确认。
 
 ## 上下文锚点
 
 - `docs/phase2/READ-FIRST.md`
-- `ED-ACTION-GROUP-SPEC-1`、`ED-ACTION-GROUP-ADOPTION-1/2`
+- `ED-ACTION-GROUP-SPEC-1`、`ED-ACTION-GROUP-ADOPTION-1`、`ED-FRAME-TIMELINE-UX-RESTORE-1`；
+  cancelled ADOPTION-2只作历史反例
 - `LayerStackControls.tsx:84-181`
 - `MapMode.tsx:2455-2487,2888-2932`
 - `StampContentEditor.tsx:127,432-492`
@@ -85,8 +88,8 @@ workspace显隐/锁定状态与undo边界不变。
    `width < 216px`三组各占整行。保留reorder rail inset、8px inline/4px block padding与4px focus空间。
 6. audit adopted `moveButtonCount`从硬编码2改为“非负整数且等于AST实数”；candidate仍必须2。新增0合法、
    负数/小数/登记漂移/漏登记负例。DS公共规范和版本升到2.23.0。
-7. build顺序基于ADOPTION-2新基线；本卡新增adopted恰3条（header/state为0 move，order为2 move），
-   完成后冻结：**14 groups / 46 moves / 24 adopted / 22 raw / 11 candidates
+7. build顺序基于帧时间线恢复后的新基线；本卡新增adopted恰3条（header/state为0 move，order为2 move），
+   完成后冻结：**13 groups / 44 moves / 22 adopted / 22 raw / 11 candidates
    （1 equivalent +10 deferred +0 N/A）**。
 8. 命令边界不变：Map排序/删除仍是MoveProjectMapLayerCommand及既有确认链；Stamp结构写入仍是一条
    ReplaceStampTemplateCommand；显隐/锁定只改workspace/local state，history与dirty不变。
@@ -103,7 +106,7 @@ workspace显隐/锁定状态与undo边界不变。
   确认一步undo；top-first方向映射不变。
 - Stamp：未接管时新增/删除/排序禁用且原因可见；显隐/锁定零history；结构排序/删除一条
   ReplaceStampTemplateCommand并可undo；bottom-first方向映射不变。
-- 门禁：validator 0-move组合同与负例；14/46/24/22/11 +1 equivalent/10 deferred/0 N/A精确；其余
+- 门禁：validator 0-move组合同与负例；13/44/22/22/11 +1 equivalent/10 deferred/0 N/A精确；其余
   11 candidates生产零diff；**三个ActionGroup领域class**只持placement、不持gap/wrap/尺寸；
   `.map-layer-row/.layer-name/.map-layer-list`继续持本卡审签的40/32px与响应式recipe；DS index/tokens/spec
   一致2.23.0。
@@ -118,11 +121,11 @@ workspace显隐/锁定状态与undo边界不变。
   - premise: **verified（2026-09-01）**——逐行核共享组件与两个caller/命令链；真实map-001在419px
     同行、140px名称列0且横溢23px；registry 2-move硬假设已直读。
   - design: **agree（2026-09-01）**——三语义组 +320/216两级换轨 +可见禁用原因；修audit真模型并升
-    DS2.23.0；不改变数据/命令owner。
+    DS2.23.0；依赖基线刷新为13/44/22/22/11；不改变数据/命令owner。
 - Kimi: premise/design pending
 - GLM: premise/design pending
-- 用户裁决: pending（三组与两级换轨形态）
-- build 准入: **blocked**（依赖ADOPTION-2、Kimi/GLM签字与用户裁决未齐）
+- 用户裁决: 保留图层拖拽/移动 approved；三组与两级换轨形态 pending
+- build 准入: **blocked**（依赖帧恢复任务、Kimi/GLM签字与具体形态裁决未齐）
 
 ### 进入 done 前
 
@@ -135,7 +138,7 @@ workspace显隐/锁定状态与undo边界不变。
 ## 交接日志
 
 - 2026-09-01 Codex: 独立审计把原三面批次拆开；本卡只处理共享LayerStackControls与registry 0-move
-  真模型。未修改实现。Next: 用户批准三组/320/216形态；Kimi/GLM设计审签；ADOPTION-2先完成。
+  真模型。未修改实现。Next: 用户批准三组/320/216形态；Kimi/GLM设计审签；RESTORE-1先完成。
 
 ## 下一位 Agent 提示词
 
@@ -143,12 +146,14 @@ workspace显隐/锁定状态与undo边界不变。
 审签 ED-ACTION-GROUP-ADOPTION-3（Kimi 席，draft；生产实现只读，只允许更新任务卡签字/交接）。
 
 任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md
-当前用户三组/320/216形态裁决仍pending，且依赖ADOPTION-2；用户 + Kimi + GLM三门齐前不得build。
-先读：AGENTS.md前提真值门、READ-FIRST、ED-ACTION-GROUP-SPEC-1、ADOPTION-1/2、DS-C.2a与本卡全文。
+用户已批准图层保留拖拽/移动，但三组/320/216具体形态仍pending，且依赖帧恢复任务；具体形态用户裁决 +
+Kimi + GLM三门齐前不得build。
+先读：AGENTS.md前提真值门、READ-FIRST、ED-ACTION-GROUP-SPEC-1、ADOPTION-1、
+ED-FRAME-TIMELINE-UX-RESTORE-1、cancelled ADOPTION-2历史反例、DS-C.2a与本卡全文。
 
 请独立核验：只迁layer-order是否必造30/32混高；Map+Stamp两caller的命令/本地状态边界；header/state/order
 三个ActionGroup与0-move registry合同；320/216两级换轨在reorder rail占位后的可用宽；上下文状态名称、
-danger和可见disabled reason；顺序目标14/46/24/22/11及DS2.23.0版本判断。
+danger和可见disabled reason；顺序目标13/44/22/22/11及DS2.23.0版本判断。
 
 输出Kimi premise verified + design agree，或counter + P0/P1/P2/file:line/反例。若agree，仅写回本卡
 签字/交接并附GLM提示词；不得修改实现、代签GLM或标build/done。

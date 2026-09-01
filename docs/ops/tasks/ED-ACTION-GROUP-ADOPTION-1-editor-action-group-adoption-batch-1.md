@@ -33,7 +33,8 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
   - 同版修订 DS-C.2a 的采用数字：8 groups / raw 30 / 15 candidates → 10 groups / raw 26 /
     13 candidates；同步 boundary 精确断言，但设计系统版本保持 2.22.0。
 - 范围外:
-  - 后续独立卡：ADOPTION-2 帧动画时间线、ADOPTION-3 图层栈、ADOPTION-4 精灵预制动作目录。
+  - 后续独立卡：RESTORE-1 帧动画原始形态恢复、ADOPTION-3 图层栈、ADOPTION-4 精灵预制动作目录；
+    ADOPTION-2 已被用户取消。
   - ADOPTION-5 的 9 个复杂动作区：casualty×2、cutscene、EffectEditorCard、startup party、script scheme、
     canonical/legacy script rail、sprite steps。
   - 不新增组件、不修改 `DsActionGroup` / `DsReorderMoveButton` API，不升设计系统版本。
@@ -89,7 +90,7 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
   hover-only、20×18px 旧按钮、固定卡片裁切、状态按钮混高或 Inspector overflow。
 - “首批仍做 5 处”也不够严谨：帧动画必须解决固定时间线纵向裁切；地图图层若只迁移动作会留下
   显示/锁定30px与移动32px混高；精灵动作目录需补Inspector尾部inset与proof-disabled原因。三路一手
-  审计后分别转为ADOPTION-2/3/4，不再合并成单一“第二批”。
+  后续用户裁决与一手审计后分别由RESTORE-1/ADOPTION-3/ADOPTION-4接管，不再合并成单一“第二批”。
 - 会推翻本卡前提的观察:
   - 实现需要改任一按钮 type/label/variant/disabled/onClick 或 reorder/command owner。
   - 移除“战斗 / 毒”回合规则的 1px margin 后字段与动作底线真实错位，无法由公共
@@ -492,7 +493,8 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ## 后续批次
 
-- `ED-ACTION-GROUP-ADOPTION-2`：帧动画时间线动作组 + 既存纵向裁切闭环。
+- `ED-ACTION-GROUP-ADOPTION-2`：**cancelled**；用户否决大卡/独立grip/左右按钮。
+- `ED-FRAME-TIMELINE-UX-RESTORE-1`：恢复c799cb35之前的72×76整卡native drag与visible window。
 - `ED-ACTION-GROUP-ADOPTION-3`：地图/组合库共享图层栈三类动作组 + 窄栏/禁用原因 + 0-move registry合同。
 - `ED-ACTION-GROUP-ADOPTION-4`：大世界精灵预制动作目录响应式、proof只读原因与删除语义。
 - `ED-ACTION-GROUP-ADOPTION-5`：剩余 9 个含混合语义、旧按钮或特殊 reveal 的动作区。

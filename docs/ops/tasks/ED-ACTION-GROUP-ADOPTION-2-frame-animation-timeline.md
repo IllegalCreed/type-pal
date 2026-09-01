@@ -1,12 +1,16 @@
 # ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界
 
-Status: draft
+Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）
 Phase: phase2
 Capability: Editor design-system adoption（不改变 capability-map）
 Coding Owner: Codex
 Reviewer: Kimi + GLM
 Risk: 常规迭代（用户可见时间线高度变化；开卡，走完整三签）
 Target Design-System Version: `2.22.0`（采用既有 ActionGroup，不新增公共 API）
+
+> **取消说明**：用户明确指出当前102×122帧卡 + 独立手柄 + 左右移动按钮“太丑”，要求恢复
+> `c799cb35` 之前的72×76整卡拖拽形态。本卡未修改任何实现，Codex旧premise/design仅保留为历史草案，
+> 不再授权build。替代任务为 `ED-FRAME-TIMELINE-UX-RESTORE-1`。
 
 ## 目标
 
@@ -63,7 +67,7 @@ draft history，不改变 EditSession command、资源格式、稳定 frame id�
   96/88px → 至少132px（设计值156px，预留最多约24px给经典横滚条/焦点安全区）。主预览相应减少
   60/68px高度；帧卡102×122、横向 stride108保持不变。
 - 按钮标签从上下移动口径改为具体的“向左移动第 N 帧 / 向右移动第 N 帧”；方向与排序结果不变。
-- 用户裁决：**pending**。
+- 用户裁决：**counter / cancelled（2026-09-01）**——用户要求恢复原始时间线，不接受本卡形态。
 
 ## 上下文锚点
 
@@ -116,8 +120,8 @@ draft history，不改变 EditSession command、资源格式、稳定 frame id�
     clientHeight/完整focus结果；不夹带virtualization。
 - Kimi: premise/design pending
 - GLM: premise/design pending
-- 用户裁决: pending（186px时间线形态）
-- build 准入: **blocked**（Kimi/GLM签字与用户裁决未齐，不得实现）
+- 用户裁决: **counter / cancelled（恢复原始时间线）**
+- build 准入: **cancelled（用户裁决改变目标；不得实现本卡方案）**
 
 ### 进入 done 前
 
@@ -135,16 +139,5 @@ draft history，不改变 EditSession command、资源格式、稳定 frame id�
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-ACTION-GROUP-ADOPTION-2（Kimi 席，draft；生产实现只读，只允许更新任务卡签字/交接）。
-
-任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md
-当前用户186px时间线形态裁决仍pending；用户 + Kimi + GLM三门齐前不得build。
-先读：AGENTS.md 前提真值门、READ-FIRST、ED-ACTION-GROUP-SPEC-1、ADOPTION-1、DS-C.2a，及本卡全部证据。
-
-请独立核验：96/88px timeline 与132px track的裁切前提；经典横滚条替代解释；186px shell是否为最小
-跨平台安全形态；102×122卡内32px/4px focus containment；frame.id、本地draft history、选择与保存命令
-零漂移；registry 11/46/22/24/12；virtualization明确排除。
-
-输出 Kimi premise verified + design agree，或 counter + P0/P1/P2/file:line/反例。若agree，仅写回
-本卡签字与交接，并附GLM提示词；不得修改实现、代签GLM或标build/done。
+无下一位 Agent 提示词；本卡已取消，后续只审 `ED-FRAME-TIMELINE-UX-RESTORE-1`。
 ```
