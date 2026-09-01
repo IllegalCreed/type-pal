@@ -165,18 +165,73 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
   - design: **agree（2026-09-01）**——第一批仅迁两个低风险面；复用既有组件，冻结 10/46/20/26/13；
     不改按钮/命令/数据，不升版本。
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-09-01，本人逐行直读两处 DOM/CSS/command owner、三处另批问题与
+    registry 算术，非复述 Codex）**：
+    1. **两处确为机械迁移面**:poison/ticks——`.ef-ops`(PoisonTab.tsx:148-165）内恰 2 枚
+       `DsReorderMoveButton` + 1 枚 danger `DsIconButton`（纯图标单一模式），私有几何仅
+       `display:flex; gap:2px; flex:none`(editor.css:9205-9209)+ 1px optical margin
+       (editor.css:9167-9170);reorder 经 `TicksEditorView.reorder`(PoisonTab.tsx:184-207)→
+       patchPlayer/patchEnemy → UpdatePoisonCommand(:418-430,573-589),wrapper 不在命令路径上。
+       project/entry-points——`.project-entry-row-actions`(ProjectWorkbenchTab.tsx:1978-1981）
+       恰 2 枚正式 move button，私有规则仅 `display:flex; gap:var(--ds-space-1)`
+       (editor.css:1672-1676);父 `.project-entry-item-content` 已持
+       `minmax(0,1fr) auto + 4px inline-end inset`(editor.css:1677-1683);identity/command 经
+       `useDsReorderKeys(entry.id)` → `reorderEntries` → `SetStartupEntriesCommand`。
+       两处按钮 label/variant/disabled/handler/itemKey/scopeKey/adoptionId 均无需改动。
+    2. **5→2 收窄成立（三处另批各有实锤）**:
+       - 帧动画：时间线帧卡为固定 `width: 102px` + `overflow: hidden`(editor.css:8013-8064
+         区域）——包组后 focus 外扩矩形必然被卡片裁切，须先做 focus containment 设计;
+       - 地图图层：行内显示/锁定状态按钮为 30px 档，移动组为 32px——只迁移动作会留下
+         30/32 混高行，须同批决定状态按钮档位;
+       - 精灵动作目录：目录行尾部在 Inspector 窄宽被裁切，且需 proof-disabled 原因,
+         超出 wrapper 替换。
+       “更小边界”（先迁这三处再补视觉）只会把已知违规带进 2.22.0——收窄到 2 处才是最小安全面。
+    3. **1px optical margin 风险有界**:`.ef-row` 由 DsRepeatRow 的 `align-items:center` 持有,
+       32px 组与 30px compact 字段天然居中——移除 1px margin 后底线差为居中自洽的 ±0.5px,
+       卡面已钉 1280/720 与 520/360/320 实测及“失败转 rework 不以私有 margin 回补”的诚实退路,
+       不构成 counter;520/360 placement 规则（`.ef-ops` 整组 `grid-column:2; justify-self:end` /
+       `1 / -1`,editor.css:9211-9223）与 DS-C.2a 父 relocation 模式一致。
+    4. **入口点窄宽语义闭合可验证**:240px 目录下正文 = 240 − 动作组(68) − 4px inset − 行内距
+       ≈ 130px ≥ 96px,算术成立;长名称/64 字符 ID 保留在 DOM/accessible name 的验收与
+       focus 外扩归属已在卡面冻结。
+    5. **registry 算术本人复算**:8+2=**10 groups**;46 moves 不变;adopted 16+4=**20**
+       （毒 2 + 入口 2);raw 30−4=**26**;candidates 15−2=**13**;deferred 14−2=**12**,
+       equivalent 1、N/A 0——与卡面冻结基线逐字一致。其余 13 candidates 本卡零 DOM/CSS diff
+       的范围声明与证据相容。DS-C.2a census 文案与 boundary 断言同版更新不升版成立——
+       这是 v2.22.0 既有 pattern 的采用而非新合同（DS-G.4 适用）。
+    6. **可推翻观察**:实现若改动任一按钮 type/label/variant/disabled/onClick 或 reorder/command
+       owner;若移除 1px margin 后 760/520/360/320 实测底线真实错位;若 240px 下长名/ID 被压成
+       不可识别或 focus 外扩越界;若 registry 复算不等于 10/46/20/26/13 + 1+12——任一本签字失效。
+  - design: **agree（2026-09-01，附 KB1-KB5 必落钉）**：
+    - **KB1（机械边界钉）**:两处仅替换 wrapper 为 `DsActionGroup density="compact"` 并删除
+      `.ef-ops` 的 display/gap/flex 与 `.project-entry-row-actions` 私有规则;520/360 的
+      grid-column/justify-self 整组 placement 与父 grid/4px end inset 原样保留——业务 class
+      从此只持放置、不持几何。
+    - **KB2（批次纪律钉）**：帧动画（102px overflow-hidden focus 裁切）、图层（30/32 混高须
+      同档裁决）、精灵动作目录（Inspector 尾部 inset + proof-disabled 原因）转第二批;
+      其余 9 面第三批;**不得以“顺手”名义在本卡夹带**,registry 其余 13 candidates 生产零 diff。
+    - **KB3（底线实测钉）**:“战斗 / 毒”移除 1px optical margin 后,必须在 1280/720 与
+      520/360/320 实测字段/动作底线;失败即转 rework 且不得回补私有 margin。
+    - **KB4（入口点语义钉）**:240px 下 title/meta 可用宽 ≥96px、各有正宽且可见若干字符,
+      完整长中文名与 64 字符 ID 保留于 DOM/accessible name;动作组不覆盖正文,group 与目录
+      owner 横向溢出均 0;focus 外扩矩形落在 item/最近非裁切 owner 内。
+    - **KB5（基线与版本钉）**:registry 冻结为 **10 groups / 46 moves / adopted 20 / raw 26 /
+      candidates 13(1 equivalent + 12 deferred + 0 N/A)**;两个 deferred 转 adopted 的静态字段
+      恰为 `compact / icon-only / moveButtonCount:2`;既有负例继续有效并补两项 stale/wrapper
+      regression;DS-C.2a census 文案与 boundary 断言同版同步,**不升设计系统版本**。
 - GLM:
   - premise: pending
   - design: pending
 - 独立反证审查:
-  - 审查者: pending
-  - 直接证据: pending
-  - 可证伪观察: pending
-- counter / 分歧处理: none
+  - 审查者: Kimi（2026-09-01，完成——本人逐行直读 DOM/CSS/命令路径与算术；GLM 席位保留）
+  - 直接证据: `PoisonTab.tsx:108-166,184-207,418-430,573-589`、`editor.css:1672-1683,9161-9230`、
+    `ProjectWorkbenchTab.tsx:1948-1985`、`editor.css:8013-8064`（帧动画固定卡）、
+    `action-group-adoption.json` 基线算术。
+  - 可证伪观察: 见 Kimi 签节第 6 条（按钮/owner 漂移、底线错位、240px 语义失败、基线不等）。
+- counter / 分歧处理: none（Kimi KB1-KB5 与 Codex 设计一致，无 counter）
 - 缺签豁免: N/A
-- build 准入结论: **blocked（缺 Kimi / GLM premise verified + design agree；不得实现）**
+- build 准入结论: **blocked（2026-09-01 Codex + Kimi 已签；缺 GLM premise verified + design agree；
+  不得实现）**
 
 ### 进入 done 前:审查签字
 
@@ -200,6 +255,13 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
 
 ## 交接日志
 
+- 2026-09-01 Kimi: 独立直读两处迁移面（毒 `.ef-ops` 与入口 `.project-entry-row-actions` 的
+  DOM/私有几何/命令路径）、三处另批实锤（帧动画 102px overflow-hidden focus 裁切、图层 30/32
+  混高、精灵目录 Inspector 尾部裁切）、毒 1px optical margin 的居中自洽性与 520/360 placement、
+  入口 240px ≥96px 算术与 registry 新基线（10/46/20/26/13 + 1+12，本人复算一致）。签 premise
+  verified + design agree，附 KB1 机械边界 / KB2 批次纪律 / KB3 底线实测 / KB4 入口语义 /
+  KB5 基线与版本不升五钉，完成独立反证。未修改实现，未代签 GLM。Next: GLM 核 census/测试矩阵/
+  零 diff 后三签齐，Codex 方可 build。
 - 2026-09-01 Codex: 用户把分批判断交由 Codex。三路只读审计后确认“战斗 / 毒”回合规则与
   “项目设置 / 入口点”为真正机械采用；“资源 / 帧动画”“地图编辑 / 图层列表”“资源 / 大世界精灵 /
   预制动作目录”分别存在 focus 裁切、30/32 混高与 Inspector 边界，故改为三批并先开本卡。未修改实现。
@@ -208,25 +270,28 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-ACTION-GROUP-ADOPTION-1（Kimi 席，draft；生产实现只读，只允许更新任务卡签字/交接）。
+审签 ED-ACTION-GROUP-ADOPTION-1（GLM 席，draft；生产实现只读，只允许更新任务卡签字/交接）。
 
 任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md
-当前状态：draft；Codex 已签 premise verified + design agree；Kimi / GLM pending。三签齐前不得实现。
+当前状态：draft；Codex + Kimi（KB1-KB5）已签；你的 GLM premise/design pending。三签齐前不得实现。
 
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、上一卡 ED-ACTION-GROUP-SPEC-1、设计规范 DS-C.2a/
-DS-C.4d/RF-27、action-group-adoption.json，以及本卡全部证据。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、上一卡 ED-ACTION-GROUP-SPEC-1、设计规范
+DS-C.2a/DS-C.4d/RF-27、action-group-adoption.json、本卡全部签节（含 Kimi 独立证据）。
 
-请独立核验：
-1. “战斗 / 毒”回合规则（poison/ticks）与“项目设置 / 入口点”（project/entry-points）是否确实只需
-   替换 wrapper/删除私有几何，按钮、handler、identity、command/schema 是否零变化；给 file:line 与最强反证。
-2. 审 Codex 从“首批5处”收窄为“首批2处”的判断：“资源 / 帧动画”的固定卡 focus 裁切、
-   “地图编辑 / 图层列表”的状态按钮 30/32 混高、“资源 / 大世界精灵 / 预制动作目录”的 Inspector
-   尾部裁切是否足以要求另批；若不同意请给更小/更安全边界。
-3. 审“战斗 / 毒”移除 1px optical margin 的底线风险与 520/360 整组 placement；“项目设置 / 入口点”
-   父 grid / 4px end inset、240px 下正文宽度≥96px、完整名称/ID DOM 语义和 focus 是否闭合。
-4. 复算迁移后 registry 必须为10 groups /46 moves / adopted20 / raw26 / candidates13，disposition
-   1 equivalent +12 deferred；其余13 candidates（含 equivalent）必须零DOM/CSS diff；同步核 DS-C.2a
-   census 文案和 boundary 断言更新但版本不升。
-5. 输出带直接证据的 Kimi premise verified + design agree，或 counter + P0/P1/P2/反例；若agree，
-   写回任务卡并附可直接转发给GLM的提示词。不得代签GLM，不得标build/done。
+你的分工（独立证据，不复述 Codex/Kimi）：
+1. 复算迁移后 registry 新基线：10 groups / 46 moves / adopted 20 / raw 26 / candidates 13，
+   disposition 1 equivalent + 12 deferred + 0 N/A；两个转 adopted 面的静态字段
+   （compact / icon-only / moveButtonCount:2）与两处 business class 不再持 display/gap/wrap/尺寸
+   的门禁断言；其余 13 candidates（含 equivalent）生产 DOM/CSS 零 diff 的机器证明。
+2. 测试矩阵：Poison 玩家/敌人删除各 +1 history 且另一序列不变、undo/redo 精确复原；
+   entry-points 移动恰一次 SetStartupEntriesCommand、entry.id/defaultEntryId/选中项不变；
+   32×32、scrollWidth==clientWidth、同组 top、focus 外扩归属、icon-only aria/tooltip/SVG hidden；
+   action-group adoption/CLI gate、boundary、Poison、ProjectWorkbench、reorder adoption 聚焦；
+   受影响包全量只跑一次。
+3. 复核三处转第二批的理由（帧动画 102px overflow-hidden focus 裁切、图层 30/32 混高、
+   精灵目录 Inspector 尾部 inset + proof-disabled）与 9 面第三批清单是否有漏分或误分。
+4. 复核“战斗 / 毒”移除 1px optical margin 的实测要求（1280/720 + 520/360/320、失败转 rework
+   不回补）与入口点 240px 语义验收（≥96px、完整 DOM 名称/ID、focus 归属、双溢出 0）。
+5. 200% zoom 无法可靠触发时保持“未实测”口径，不用 pinch/等效冒充。
+输出：GLM 席 premise verified + design agree，或 counter + file:line/反例。
 ```
