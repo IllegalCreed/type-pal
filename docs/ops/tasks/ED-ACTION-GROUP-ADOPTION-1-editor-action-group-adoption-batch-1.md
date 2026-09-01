@@ -313,14 +313,49 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
   - design: **agree（2026-09-01 refreshed）**——Poison 方案不变；入口点新增 `<280px` 单列/动作第二层，
     冻结 280 同排正文≥96、279 下沉正文≥96、完整 DOM/access name 与双溢出0；按钮/命令/registry计数不变。
 - Kimi:
-  - premise: pending（须独立复现实机 235px / 正文53px反证并审 279/280 新边界）
-  - design: pending
+  - premise: **verified（2026-09-01 refreshed，本人实机复现反证 + 真实 DOM 注入模拟新边界，
+    非复述 Codex）**：
+    1. **反证独立复现成立（且更劣）**:720px 视口下真实 `.project-entry-list` 实测宽 **193px**,
+       默认入口行（带“直接启动”tag 52px）正文 title 仅 **17px**;将目录显式调到 235px 后同排
+       正文 **59px**(卡面记 53px，同量级)——均低于已签 ≥96px 下限。零溢出（list/content/doc
+       全 0）确实不等于 identity 可读，反证成立且原 wrapper-only 前提对入口点不成立。
+    2. **新边界实测闭合（真实 DOM 注入模拟）**:
+       - 235px 注入 `<280px` 形态（单列 + 动作组 `grid-column:1; justify-self:end` +
+         `padding-block-end:4px`)：正文 **121px ≥96**,list/content 溢出 0;
+       - 279px 同注入：正文 **165px ≥96**,溢出 0;
+       - 279.5px 在本环境被布局取整为 280px，无法区分小数边界——整数边界 280 同排 / 279 下沉
+         已实测，申报为整数边界验证;
+       - 280px 同排（当前旧 30px 按钮 62px)：正文 **104px ≥96**；迁后按钮 32px(+6px)推算约
+         **98px**——仍 ≥96 但仅约 2px 余量，属合同内紧贴通过，已在卡面风险中注明;
+       - 235px 同排对照 **59px <96**——正是新方案要消灭的形态，证明 `<280px` 分支必要。
+       以上均为真实生产 DOM 上的页面级注入测量，未改任何实现文件;完整名称/ID 始终保留在
+       DOM 与 accessible name（动作组不覆盖 CatalogRow 节点）。
+    3. **“战斗 / 毒”不受影响**:rework 只改入口点边界;`PoisonTab.tsx:108-166,184-207` 的
+       wrapper-only 前提、520/360 整组 placement(editor.css:9211-9223)、danger 删除与
+       UpdatePoisonCommand/undo 语义均与初版核验一致,无需重开。
+    4. **基线算术复核**:10 groups / 46 moves / adopted 20 / raw 26 / candidates 13,
+       disposition 1 equivalent + 12 deferred + 0 N/A 与初版一致;其余 13 candidates 生产
+       零 DOM/CSS diff;DS-C.2a census 与 boundary 断言同版同步、不升版成立。
+    5. **可推翻观察**:280 同排实测正文若 <96（本人测 104/推算 98，余量仅约 2px,环境字体差异
+       可推翻);注入形态与最终实现若有语义偏差（最终以真实实现的 279/280 复测为准）;
+       名称/ID 若在任一窄档从 DOM/access name 丢失;毒面底线实测若错位——任一本签字失效。
+  - design: **agree（2026-09-01 refreshed，维持 KB1-KB5 并以 KBR1-KBR3 替换 KB4）**：
+    - **KBR1（280 边界钉）**:`.project-entry-list` 持唯一 container owner;`>=280px` 同排
+      （父 grid/inset 原样）,`<280px` 单列 + 动作组 `grid-column:1; justify-self:end` +
+      `padding-block-end >=4px`;实现后必须以真实页面复测 280 同排正文 >=96px（预期仅约 2px
+      余量）与 279/235 下沉正文、focus 外扩归属、双溢出 0,不得以注入模拟替代实现证据。
+    - **KBR2（identity 语义钉）**:四档（280/279/235/真实 193）下完整长中文名与 entry.id 必须
+      保留在 DOM 与 accessible name;动作组不得覆盖 CatalogRow;“直接启动”tag 行是最紧约束,
+      必须纳入验收断言。
+    - **KBR3（rework 纪律钉）**:Poison 方案与 registry 基线不变;其余 13 candidates 生产零 diff;
+      初版签字失效仅因入口边界,重签后仍冻结 10/46/20/26/13 + 1+12,不升设计系统版本;
+      280 同排若实测低于 96 即回 rework,不得改回更大阈值凑数。
 - GLM:
   - premise: pending（须独立核容器 owner、CSS/测试矩阵与命令零漂移）
   - design: pending
 - counter / 分歧处理: none
-- build 准入结论: **blocked（用户已批准 refreshed 入口响应式形态；Kimi / GLM refreshed 签字未齐，
-  不得恢复实现）**
+- build 准入结论: **blocked（用户已批准 refreshed 入口响应式形态；2026-09-01 Codex + Kimi
+  refreshed 已签；缺 GLM refreshed 签字，不得恢复实现）**
 
 ### 进入 done 前:审查签字
 
@@ -347,6 +382,13 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ## 交接日志
 
+- 2026-09-01 Kimi: rework 重签。独立实机复现反证：720px 下真实入口目录宽 193px、带 tag 行
+  正文仅 17px;235px 同排对照 59px(卡面记 53px，同量级)<96——反证成立且更劣。真实 DOM 注入
+  模拟新边界：235/279 下沉正文 121/165px、280 同排 104px(迁后推算 98px,余量约 2px)、各档溢出
+  全 0;279.5 在本环境被取整为 280，按整数边界申报。毒面不受影响（初版核验维持）。签 refreshed
+  premise verified + design agree(KBR1 280 边界 / KBR2 identity 语义 / KBR3 rework 纪律),
+  注明最终以真实实现的 279/280 复测为准。未修改实现，未代签 GLM。Next: GLM 核容器 owner/CSS/
+  测试矩阵与命令零漂移后三签齐,Codex 方可恢复实现。
 - 2026-09-01 User: 以“签了”批准 refreshed 入口响应式形态：目录内容宽 `>=280px` 同排，`<280px`
   时动作组完整移到第二层。Next: Kimi / GLM 对新前提与边界重新签字；两席齐前不得 build。
 - 2026-09-01 Codex: build 实机发现入口目录 content≈235px 时正文仅53px，推翻“父 grid/inset 原样即可”
@@ -380,27 +422,29 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 ## 下一位 Agent 提示词
 
 ```text
-重新审签 ED-ACTION-GROUP-ADOPTION-1（Kimi 席，rework；生产实现只读，只允许更新任务卡签字/交接）。
+审签 ED-ACTION-GROUP-ADOPTION-1（GLM 席，rework；生产实现只读，只允许更新任务卡签字/交接）。
 
 任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md
-当前状态：rework。初版三签因 build 实机反证全部失效；Codex 已 refreshed premise/design，用户已批准
-入口响应式形态，Kimi/GLM refreshed 签字 pending。两席齐前不得恢复 Poison/Project/CSS/registry/规范/测试实现。
+当前状态：rework；初版三签已因真实页面反证失效；Codex refreshed 已签、用户已批准入口响应式
+方案（>=280px 同排 / <280px 动作组第二层）、Kimi refreshed（KBR1-KBR3）已签；你的 GLM
+refreshed 签字 pending。两席齐前不得恢复实现。
 
-先读：AGENTS.md 前提真值门、本卡“build期反证”与“rework后重新进入build”全文、上一卡
-ED-ACTION-GROUP-SPEC-1、设计规范 DS-C.2a、ProjectWorkbenchTab.tsx:1948-1982、
-editor.css:1672-1682。
+先读：AGENTS.md 前提真值门、本卡「build 期反证」与「rework 后重新进入 build」、
+ED-ACTION-GROUP-SPEC-1、DS-C.2a、ProjectWorkbenchTab.tsx:1948-1982、editor.css:1672-1682、
+Kimi refreshed 签节的实机证据（720px 真实目录 193px / 带 tag 行正文 17px、235px 同排 59px、
+注入模拟 235/279 下沉 121/165px、280 同排 104px 迁后推算 98px）。
 
-请独立核验：
-1. 复现/复算反证：真实入口目录 content≈235px 时，旧同排布局的 CatalogRow body≈53px，而不是已签≥96px；
-   解释为何 group/focus零溢出仍不能证明identity可用。给直接几何或等价一手证据。
-2. 审新方案：`.project-entry-list` 持 container-type；内容宽≥280px保持`minmax(0,1fr) auto`同排；
-   range query `width < 280px` 单列，`.project-entry-row-actions`整组到第二层并右对齐；窄态父 content
-   提供至少4px block-end focus空间。核280/279.5/279/真实235四档正文≥96、完整DOM/access name、
-   最后一项focus containment与双溢出0；不得靠隐藏/截掉按钮通过。
-3. Poison方案是否仍可保持wrapper-only：移除1px optical margin与私有gap后，多档底线、520/360placement、
-   danger删除、命令/undo语义不变。
-4. registry目标仍是10/46/20/26/13 +1 equivalent/12 deferred，DS-C.2a census同版更新；其余13
-   candidates零DOM/CSS diff；不升DS版本。
-5. 输出 refreshed Kimi premise verified + design agree，或 counter + P0/P1/P2/反例。若agree，写回
-   rework签字节并附GLM刷新提示词。不得代签GLM，不得把Kimi签字当作用户产品批准，不得标build/done。
+你的分工（独立证据，不复述 Codex/Kimi）：
+1. 复算并复核容器 owner：`.project-entry-list` 新增 container-type 的唯一性、`@container
+   (width < 280px)` 的 CSS 规则形状（单列 + 动作组 grid-column:1 / justify-self:end /
+   padding-block-end>=4px）；实现后复测 280 同排正文 >=96px（Kimi 注入推算余量仅约 2px）与
+   279/235 下沉正文、focus 外扩归属、list/content/doc 三溢出 0。
+2. 测试矩阵：entry-points 移动恰一次 SetStartupEntriesCommand、entry.id/defaultEntryId/选中项
+   不变；Poison 玩家/敌人删除各 +1 history、undo/redo 复原；两业务 class 不再持 display/gap/
+   wrap/尺寸的门禁断言；registry 新基线 10/46/20/26/13 + 1 equivalent + 12 deferred 与其余
+   13 candidates 生产零 diff 的机器证明；受影响包全量只跑一次。
+3. 命令/语义零漂移：按钮 label/variant/disabled/handler/itemKey/scopeKey/adoptionId 逐项；
+   名称/ID 在四档（280/279/235/真实 193）下保留于 DOM 与 accessible name。
+4. 200% zoom 无法可靠触发时保持“未实测”口径；279.5 小数边界在环境取整时按整数边界申报。
+输出：GLM 席 refreshed premise verified + design agree，或 counter + file:line/反例。
 ```
