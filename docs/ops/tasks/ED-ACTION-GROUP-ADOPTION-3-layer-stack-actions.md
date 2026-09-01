@@ -1,6 +1,6 @@
 # ED-ACTION-GROUP-ADOPTION-3 - 地图与组合库图层动作组及窄栏合同
 
-Status: build
+Status: review
 Phase: phase2
 Capability: Editor design-system action-group governance（不改变 capability-map）
 Coding Owner: Codex
@@ -113,6 +113,33 @@ workspace显隐/锁定状态与undo边界不变。
   一致2.23.0。
 - 测试：新增LayerStackControls component测试；Map/Stamp/action-group/boundary聚焦、typecheck、design-system
   gate；受影响包全量一次。真实200%无法可靠触发时诚实记录。
+
+## 实现与验证证据
+
+- 实现提交：`44c0cfd5`。`LayerStackControls`新增header/state/order三个compact `DsActionGroup`；状态
+  accessible name稳定并以`aria-pressed`表达状态；名称按钮带完整name/id与`data-layer-id`；删除保持danger
+  并随active稳定命名。新增/删除boolean改为可见reason + `aria-describedby`，Stamp相同接管原因只渲染一次。
+- 响应式：`.map-layer-list`为唯一named inline-size container；`width < 320px`排序组完整进入第二行，
+  `width < 216px`按state/name/order三层排列；非active行没有空`.layer-order`。三领域ActionGroup class静态门禁
+  仅允许placement属性，公共32×32/4px/nowrap几何未被业务CSS接管。
+- 命令/状态：Map动作按钮按稳定ID派发恰一条`MoveProjectMapLayerCommand`并可undo；删除确认链不变；显隐/
+  锁定前后map identity、map revision、historyVersion、dirty均不变。Stamp未接管时add/delete/order禁用且原因
+  可见，显隐零history；接管后move/delete各恰一条`ReplaceStampTemplateCommand`并可一步undo。
+- registry/DS：ActionGroup冻结**13 groups / 44 moves / 22 adopted / 22 raw / 11 candidates（1 equivalent +
+  10 deferred + 0 N/A）**；order沿用稳定ID`map/layer-stack/actions`；其余11 candidates逐对象零diff。
+  validator允许adopted非负整数0-move并继续强制candidate=2，负数/小数/漏登记/AST漂移均有负例。DS版本、
+  tokens、live spec与boundary同步为2.23.0；field-layout四条新证据与CSS census snapshot同步。
+- 自动验证：
+  - 聚焦：6 files / 176 tests全绿；action/boundary/field-layout/LayerStack独立95项亦全绿；
+  - editor全量：185 files / 1534 tests全绿（`--maxWorkers=1`）；
+  - `typecheck`、Vite production build、design-system gate（91 files / 2 evidence-bound exceptions）通过；
+  - 其余候选owner生产零diff、allowlist仅刷新Stamp portal真实行号。
+- 真实页面：PAL `map-001`以键盘sash实测list宽139/193/209进入三层、225/257/305进入两层、321进入
+  同行；三档按钮32×32、group 68px、gap4px、nowrap，row/list/document横溢0，完整name/id保留，非active
+  无排序伪行。最宽/最窄键盘focus-visible均为2px outline+2px offset且四边位于row内。`ui_samples` Stamp
+  在viewport高480/720/1000实测host block-size 230/280.8/360；3层时list为唯一纵向scroll owner，最后层名称
+  与可用排序按钮均可由键盘聚焦滚入可见区，footer完整位于host内。`ui_samples`均为authored，未冒充migrated
+  接管原因视觉证据；该语义由集成测试覆盖。真实200%未可靠触发，未以页面缩放冒充。
 
 ## 推进签字
 
@@ -230,7 +257,8 @@ workspace显隐/锁定状态与undo边界不变。
 
 ### 进入 done 前
 
-- Codex: pending
+- Codex: **accept（2026-09-02）**——实现、命令边界、registry负例、1534项全量与Map/Stamp真实双consumer
+  三档布局/focus/scroll均复核通过；schema/capability-map/命令owner未变。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -238,6 +266,9 @@ workspace显隐/锁定状态与undo边界不变。
 
 ## 交接日志
 
+- 2026-09-02 Codex: `44c0cfd5`完成三ActionGroup、320/216换轨、稳定名称/原因与0-move registry真模型；
+  聚焦176、全量1534、typecheck/build/gate及Map/Stamp实机通过。卡转review，Next: Kimi实现/视觉审查，
+  不得改实现；accept后交GLM覆盖终审。
 - 2026-09-02 User + Codex: 用户此前授权“按照你的判断来”，三方签字齐后确认“都签了”；记录三组与
   320/216两级换轨裁决approved。RESTORE-1已done，卡转build，Codex直接实现，不再重复签字。
 - 2026-09-01 GLM: 联合审签（同 SPRITE-ACTION-MODAL-1）。独立复算三条链起点（AG 现恰
@@ -264,35 +295,25 @@ workspace显隐/锁定状态与undo边界不变。
 ## 下一位 Agent 提示词
 
 ```text
-联合审签 ED-ACTION-GROUP-ADOPTION-3 与 ED-SPRITE-ACTION-MODAL-1（GLM 席，draft；生产实现
-只读，只允许更新两卡签字/交接；不得代签，不得标 build/done）。
+审查 ED-ACTION-GROUP-ADOPTION-3（Kimi席，review；实现提交44c0cfd5，只读生产实现，只允许更新任务卡
+Kimi done前签字/交接；不得代签GLM、不得标done）。
 
-任务卡：
-- docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md（Kimi KC3-1~KC3-5 已签）
-- docs/ops/tasks/ED-SPRITE-ACTION-MODAL-1-center-dialog-editor.md（Kimi KM1-KM5 已签）
-当前状态：两卡 Codex + Kimi 已签；ADOPTION-3 另缺用户对三组/320/216 具体形态裁决；
-依赖顺序：RESTORE-1 → ADOPTION-3 → SPRITE-ACTION-MODAL-1。
+先读：AGENTS.md、READ-FIRST、任务卡全文、DS-C.2a v2.23.0、LayerStackControls.tsx/test、MapMode与
+StampContentEditor caller/test、editor.css图层段、action-group-adoption.json/audit/test、field-layout证据与
+boundary。设计签KC3-1~KC3-5已齐，本轮只审当前实现，不重开设计签。
 
-先读：AGENTS.md 前提真值门、READ-FIRST、ED-ACTION-GROUP-SPEC-1、ADOPTION-1、两卡全部签节、
-DS-C.2a/DS-C.4d/DS-C.9/RF-27、action-group-adoption.json、reorder-adoption.json、
-reorder-allowlist.json。
+请独立核：
+1. 三个compact ActionGroup是否为唯一动作尺寸owner，header/state=0 move、order=2 move；稳定label、pressed、
+   danger、name/id、reason去重/describedby与tooltip/SVG是否正确。
+2. 320/216严格range syntax、非active零空轨、reorder rail与4px focus、Map/Stamp双consumer在真实窄栏是否
+   无横溢/裁切；Codex记录的PAL 139..321与Stamp 230/360证据是否可信，200%未实测口径是否诚实。
+3. Map一条MoveProjectMapLayerCommand、Stamp一条ReplaceStampTemplateCommand、显隐/锁定零history、方向映射
+   与删除确认链是否未变。
+4. registry 13/44/22/22/11、0-move validator负例、DS2.23四处、field-layout snapshot、其余11 candidates
+   零diff和allowlist行号是否闭合。
 
-GLM 分工（独立证据，不复述 Codex/Kimi）：
-1. ADOPTION-3：复算 13 groups / 44 moves / 22 adopted / 22 raw / 11 candidates（1 equivalent
-   + 10 deferred + 0 N/A）；audit adopted「非负整数且等于 AST 实数」与 candidate 仍恰 2 的
-   validator 新负例（0 合法、负数/小数/漏登记/漂移）先红后绿；LayerStackControls 组件测试矩阵
-   （三组指纹、32×32、稳定 label+aria-pressed、danger、useId 原因+describedby）；Map 排序
-   单 MoveProjectMapLayerCommand/undo 与 Stamp 单 ReplaceStampTemplateCommand/显隐锁定零
-   history 的命令边界；320/216 换轨在 rail 占位后的名称正宽与 4px focus 归属；其余 11
-   candidates 生产零 diff；DS 2.23.0 四处一致。
-2. SPRITE-ACTION-MODAL-1：复算 ActionGroup 15/42/24/18/9、reorder 17/27/30/19、allowlist
-   13/9；create baselinePoses/historyVersion 捕获与确认时重读校验（poses 相等、生成 ID 空闲、
-   漂移零 command 保留输入）的测试覆盖；pristine 零写 / dirty alertdialog 零 command / edit
-   一次一条 + global undo / close flush / IME 与 invalid 留 Dialog / ⌘S 两侧边界；搜索单选
-   listbox 52 项虚拟窗口与 mounted DOM 预算；宽 2 窄 1 scroll owner 与 body overflow:hidden；
-   分层 Esc 与窄态键盘焦点迁移（list→detail、detail→搜索 owner、删除 fallback）；单一
-   SpriteSourceFramePicker owner 的双 consumer 合同测试；DS-C.9 长流程 modal 例外不扩散与
-   DS 2.24.0 四处一致。
-3. 200% zoom 无法可靠触发时保持“未实测”口径，不用 pinch/等效冒充。
-输出：分别写回两卡 GLM 席 premise verified + design agree，或 counter + file:line/反例。
+至少复跑：LayerStackControls/MapMode/StampLibrary/action-group/boundary/field-layout聚焦、typecheck、
+audit:design-system；视觉只做完成判断所需最小复核，不重复无价值全量。
+输出：accept并写回Kimi席+交接日志+可直接复制的GLM终审提示词；或counter（P0/P1/P2、file:line、反例）。
+不得修改实现文件。
 ```
