@@ -12,17 +12,17 @@ const source = (name: string): string => readFileSync(join(uiRoot, name), 'utf8'
 const cloneManifest = () => structuredClone(manifest)
 
 describe('action group adoption gate', () => {
-  test('closes eight adopted groups and classifies every raw move-button surface', () => {
+  test('closes ten adopted groups and classifies every raw move-button surface', () => {
     expect(validateActionGroupAdoption(manifest)).toEqual([])
     expect(manifest.baseline).toEqual({
-      groups: 8,
+      groups: 10,
       moveButtons: 46,
-      adoptedMoveButtons: 16,
-      rawMoveButtons: 30,
-      candidateSurfaces: 15,
+      adoptedMoveButtons: 20,
+      rawMoveButtons: 26,
+      candidateSurfaces: 13,
     })
-    expect(manifest.adopted).toHaveLength(8)
-    expect(manifest.candidates).toHaveLength(15)
+    expect(manifest.adopted).toHaveLength(10)
+    expect(manifest.candidates).toHaveLength(13)
     expect(
       Object.fromEntries(
         ['equivalent-owner', 'deferred', 'N/A'].map((disposition) => [
@@ -32,7 +32,7 @@ describe('action group adoption gate', () => {
           ).length,
         ]),
       ),
-    ).toEqual({ 'equivalent-owner': 1, deferred: 14, 'N/A': 0 })
+    ).toEqual({ 'equivalent-owner': 1, deferred: 12, 'N/A': 0 })
     expect(
       manifest.candidates.find(
         (entry: { id: string }) => entry.id === 'project/startup-inventory/actions',
@@ -151,7 +151,28 @@ describe('action group adoption gate', () => {
     const file = 'EnemyTab.tsx'
     const mutated = `${source(file)}\nconst ActionGroupSingleMoveFixture = () => (\n  <DsReorderMoveButton itemKey="fixture" direction="backward" />\n)\n`
     const problems = validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')
-    expect(problems).toMatch(/production move buttons 47|raw move buttons 31/)
+    expect(problems).toMatch(/production move buttons 47|raw move buttons 27/)
+    expect(problems).toMatch(/raw move button must map to exactly one candidate owner/)
+  })
+
+  test.each([
+    {
+      id: 'poison/ticks/actions',
+      file: 'PoisonTab.tsx',
+      opening: '<DsActionGroup density="compact" className="ef-ops">',
+      fallback: '<span className="ef-ops">',
+    },
+    {
+      id: 'project/entry-points/actions',
+      file: 'ProjectWorkbenchTab.tsx',
+      opening: '<DsActionGroup density="compact" className="project-entry-row-actions">',
+      fallback: '<span className="project-entry-row-actions">',
+    },
+  ])('rejects $id wrapper regression', ({ id, file, opening, fallback }) => {
+    const mutated = source(file).replace(opening, fallback).replace('</DsActionGroup>', '</span>')
+    const problems = validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')
+    expect(problems).toMatch(new RegExp(`${id.replaceAll('/', '\\/')} must bind exactly one`))
+    expect(problems).toMatch(/production action groups 9|adopted move buttons 18|raw move buttons 28/)
     expect(problems).toMatch(/raw move button must map to exactly one candidate owner/)
   })
 
@@ -197,13 +218,13 @@ describe('action group adoption gate', () => {
   })
 
   test('rejects candidate pairs that lose or gain one move button', () => {
-    const file = 'PoisonTab.tsx'
+    const file = 'FrameAnimationEditor.tsx'
     const mutated = source(file).replace(
-      '<DsReorderMoveButton\n          itemKey={reorderKey}\n          direction="forward"',
-      '<DsIconButton\n          label="错误替代"\n          icon="delete"',
+      '<DsReorderMoveButton itemKey={reorderKey} direction="forward" />',
+      '<DsIconButton label="错误替代" icon="delete" />',
     )
     expect(validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')).toMatch(
-      /candidate poison\/ticks\/actions owns 1 move buttons/,
+      /candidate asset\/frame-animation-timeline\/actions owns 1 move buttons/,
     )
   })
 })

@@ -54,6 +54,7 @@ import {
   itemPickerSearchText,
 } from './add-picker-option-presentation.js'
 import {
+  DsActionGroup,
   DsAddPickerDialog,
   DsButton,
   DsCard,
@@ -1975,10 +1976,10 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                     selected={entry.id === selected?.id}
                     onClick={() => chooseEntry(entry.id)}
                   />
-                  <span className="project-entry-row-actions">
+                  <DsActionGroup density="compact" className="project-entry-row-actions">
                     <DsReorderMoveButton itemKey={reorderKey} direction="backward" />
                     <DsReorderMoveButton itemKey={reorderKey} direction="forward" />
-                  </span>
+                  </DsActionGroup>
                 </DsReorderItem>
               )
             })}

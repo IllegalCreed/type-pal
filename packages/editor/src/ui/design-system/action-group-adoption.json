@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": {
-    "groups": 8,
+    "groups": 10,
     "moveButtons": 46,
-    "adoptedMoveButtons": 16,
-    "rawMoveButtons": 30,
-    "candidateSurfaces": 15
+    "adoptedMoveButtons": 20,
+    "rawMoveButtons": 26,
+    "candidateSurfaces": 13
   },
   "adopted": [
     {
@@ -87,6 +87,26 @@
       "actionMode": "icon-only",
       "moveButtonCount": 2,
       "verification": "ShopTab.test.tsx"
+    },
+    {
+      "id": "poison/ticks/actions",
+      "source": "PoisonTab.tsx",
+      "fingerprint": "className=\"ef-ops\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "PoisonTab.test.tsx"
+    },
+    {
+      "id": "project/entry-points/actions",
+      "source": "ProjectWorkbenchTab.tsx",
+      "fingerprint": "className=\"project-entry-row-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "ProjectWorkbenchTab.test.tsx"
     }
   ],
   "candidates": [
@@ -163,18 +183,6 @@
       "removalCondition": "迁移到 DsActionGroup 或证明图层专用 owner 达到等价尺寸与窄态合同。"
     },
     {
-      "id": "poison/ticks/actions",
-      "source": "PoisonTab.tsx",
-      "fingerprint": "className=\"ef-ops\"",
-      "occurrence": 1,
-      "moveButtonCount": 2,
-      "disposition": "deferred",
-      "owner": "ef-ops",
-      "reason": "DsRepeatRow 已提供 32px，但私有动作簇仍为 2px gap，不满足公共 4px 原子节奏。",
-      "verification": "PoisonTab.test.tsx",
-      "removalCondition": "消费 DsActionGroup 或把领域 owner 补齐并审签为等价合同。"
-    },
-    {
       "id": "project/startup-party/actions",
       "source": "ProjectWorkbenchTab.tsx",
       "fingerprint": "className=\"project-party-actions\"",
@@ -210,18 +218,6 @@
         },
         "responsiveEvidence": "520px 时整组进入第 3 列；400px 时整组进入第 2 列并左对齐。"
       }
-    },
-    {
-      "id": "project/entry-points/actions",
-      "source": "ProjectWorkbenchTab.tsx",
-      "fingerprint": "className=\"project-entry-row-actions\"",
-      "occurrence": 1,
-      "moveButtonCount": 2,
-      "disposition": "deferred",
-      "owner": "project-entry-row-actions",
-      "reason": "动作簇仍为 30px 移动按钮与 2px gap。",
-      "verification": "ProjectWorkbenchTab.test.tsx",
-      "removalCondition": "迁移到 DsActionGroup 或证明目录行尾 owner 达到等价合同。"
     },
     {
       "id": "story/script-scheme-card/actions",

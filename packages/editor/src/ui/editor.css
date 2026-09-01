@@ -1669,11 +1669,6 @@ html[data-panel-resize="horizontal"] * {
   gap: var(--ds-space-4);
   margin-bottom: var(--ds-space-4);
 }
-.project-entry-row-actions {
-  display: flex;
-  align-items: center;
-  gap: var(--ds-space-1);
-}
 .project-entry-item-content {
   display: grid;
   box-sizing: border-box;
@@ -1940,6 +1935,18 @@ html[data-panel-resize="horizontal"] * {
   min-height: 0;
   overflow: auto;
   padding: 4px 0;
+  container-name: project-entry-list;
+  container-type: inline-size;
+}
+@container project-entry-list (width < 280px) {
+  .project-entry-item-content {
+    grid-template-columns: minmax(0, 1fr);
+    padding-block-end: var(--ds-space-2);
+  }
+  .project-entry-row-actions {
+    grid-column: 1;
+    justify-self: end;
+  }
 }
 .project-entry-list .node {
   gap: 6px;
@@ -9164,8 +9171,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: 100%;
   max-width: none;
 }
-.ef-row .ef-kind,
-.ef-row .ef-ops {
+.ef-row .ef-kind {
   margin-bottom: 1px; /* 与 .in 边框底缘光学对齐 */
 }
 .ef-kind {
@@ -9202,12 +9208,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex-wrap: wrap;
   gap: 2px 10px;
 }
-.ef-ops {
-  display: flex;
-  gap: 2px;
-  flex: none;
-}
-
 @container (max-width: 520px) {
   .ef-row {
     display: grid;

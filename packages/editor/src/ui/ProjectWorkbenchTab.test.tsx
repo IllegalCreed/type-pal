@@ -448,6 +448,12 @@ describe('入口开局世界资源', () => {
     const session = new EditSession(state)
     await act(async () => root.render(projectTab('entrypoint', session, 'alternate')))
 
+    expect(
+      host.querySelectorAll(
+        '.project-entry-row-actions.ds-action-group[data-density="compact"]',
+      ),
+    ).toHaveLength(3)
+
     const handle = [...host.querySelectorAll<HTMLButtonElement>('[data-ds-reorder-handle]')].find(
       (candidate) => candidate.getAttribute('aria-label')?.includes('备用入口'),
     )!
@@ -469,6 +475,10 @@ describe('入口开局世界资源', () => {
       'challenge',
     ])
     expect(session.getState().manifest.defaultEntryId).toBe('main')
+    expect(
+      host.querySelector('.ds-catalog-row[data-selected="true"] .ds-catalog-row__title')
+        ?.textContent,
+    ).toBe('备用入口')
 
     expect(session.undo()).toBe(true)
     expect(session.getState().manifest.entryPoints.map((entry) => entry.id)).toEqual([
@@ -484,6 +494,63 @@ describe('入口开局世界资源', () => {
       'challenge',
     ])
     expect(session.getState().manifest.defaultEntryId).toBe('main')
+    expect(
+      host.querySelector('.ds-catalog-row[data-selected="true"] .ds-catalog-row__title')
+        ?.textContent,
+    ).toBe('备用入口')
+  })
+
+  test('[action-group:project-entry-points] 长名称与稳定 ID 保留完整 DOM、动作名称和 tooltip 关系', async () => {
+    const state = projectState()
+    const longChineseLabel = '这是一个必须完整保留的超长中文入口名称用于动作组验收'
+    const longEnglishLabel = 'AlternateEntryWithFortyVisibleAsciiCharacters'
+    const longId = `entry-${'x'.repeat(58)}`
+    const startWorld = state.manifest.entryPoints[0]!.startWorld
+    state.manifest.defaultEntryId = longId
+    state.manifest.entryPoints = [
+      {
+        id: longId,
+        label: longChineseLabel,
+        scene: 's000',
+        startWorld: structuredClone(startWorld),
+      },
+      {
+        id: 'entry-english',
+        label: longEnglishLabel,
+        scene: 's000',
+        startWorld: structuredClone(startWorld),
+      },
+      {
+        id: 'entry-third',
+        label: '第三入口',
+        scene: 's000',
+        startWorld: structuredClone(startWorld),
+      },
+    ]
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session, longId)))
+
+    const rows = [...host.querySelectorAll<HTMLElement>('.project-entry-item-content')]
+    expect(rows).toHaveLength(3)
+    for (const [index, row] of rows.entries()) {
+      const entry = state.manifest.entryPoints[index]!
+      expect(row.querySelector('.ds-catalog-row__title')?.textContent).toBe(entry.label)
+      expect(row.querySelector('.ds-catalog-row__meta')?.textContent).toBe(entry.id)
+      const actions = row.querySelector<HTMLElement>(
+        '.project-entry-row-actions.ds-action-group[data-density="compact"]',
+      )!
+      const buttons = [...actions.querySelectorAll<HTMLButtonElement>('.ds-icon-button')]
+      expect(buttons).toHaveLength(2)
+      for (const action of buttons) {
+        const label = action.getAttribute('aria-label')
+        const tooltipId = action.getAttribute('aria-describedby')
+        expect(label).toContain(entry.label)
+        expect(tooltipId).toBeTruthy()
+        expect(document.getElementById(tooltipId!)?.textContent).toBe(label)
+        expect(action.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true')
+        expect(action.querySelector('svg')?.getAttribute('focusable')).toBe('false')
+      }
+    }
   })
 
   test('复制入口与删除非默认入口各写一条命令，并可单步撤销重做', async () => {

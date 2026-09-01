@@ -446,8 +446,9 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   gap、wrap、order、宽高或命中区。因业务规则而 disabled 且原因不显然的动作必须有邻近可读原因；排序首尾
   位置使前移/后移不可用属于从当前顺序即可理解的边界状态，不强制重复说明。不可聚焦 disabled button 的
   tooltip 不能代替业务禁用原因。
-- `action-group-adoption.json` 双向枚举正式采用和所有 production `DsReorderMoveButton`：当前正式采用为 8 组；
-  其余 30 枚移动动作按 15 个候选 surface 逐项登记 `equivalent-owner | deferred | N/A`。未消费 ActionGroup
+- `action-group-adoption.json` 双向枚举正式采用和所有 production `DsReorderMoveButton`：当前正式采用为
+  10 组 / 20 枚移动动作；其余 26 枚移动动作按 13 个候选 surface 逐项登记
+  `equivalent-owner | deferred | N/A`。未消费 ActionGroup
   不自动等于违规；只有具备真实 DOM/CSS/响应式证据的专用 owner 才能登记 equivalent/N/A，deferred 必须写
   removalCondition。新增单枚 raw move、漏登、重复、stale fingerprint、动态 density、非动作 child、模式混用
   或直系 size 双 owner 都必须 fail-loud。

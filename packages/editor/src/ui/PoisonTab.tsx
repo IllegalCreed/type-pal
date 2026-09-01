@@ -27,6 +27,7 @@ import {
   DsTag,
 } from './design-system/controls.js'
 import {
+  DsActionGroup,
   DsCatalogControls,
   DsCatalogRow,
   DsCatalogWorkspace,
@@ -145,7 +146,7 @@ function TickRow(props: {
           onChange={(e) => set({ selfCure: e.target.checked || undefined })}
         />
       </div>
-      <span className="ef-ops">
+      <DsActionGroup density="compact" className="ef-ops">
         <DsReorderMoveButton
           itemKey={reorderKey}
           direction="backward"
@@ -162,7 +163,7 @@ function TickRow(props: {
           label={`删除回合 ${idx + 1}`}
           onClick={onRemove}
         />
-      </span>
+      </DsActionGroup>
     </DsRepeatRow>
   )
 }

@@ -286,6 +286,73 @@ describe('PoisonTab shared workbench', () => {
     expect(session.getState().poisons?.[0]?.enemyTicks).toEqual([{ mpDelta: -2 }, { mpDelta: -4 }])
   })
 
+  test('[action-group:poison-ticks] 玩家与敌人删除各写一条命令，不污染另一序列并可精确撤销重做', async () => {
+    const editorState = state()
+    const playerTicks = [{ hpDelta: -5 }, { hpDelta: -9 }]
+    const enemyTicks = [{ mpDelta: -2 }, { mpDelta: -4 }]
+    editorState.poisons = editorState.poisons!.map((poison, index) =>
+      index === 0 ? { ...poison, playerTicks, enemyTicks } : poison,
+    )
+    const session = new EditSession(editorState)
+    await act(async () => root.render(<Harness session={session} focusObjectId="1" />))
+
+    const collection = (scope: 'player' | 'enemy') =>
+      host.querySelector<HTMLElement>(
+        `[data-ds-reorder-adoption="poison/ticks"][data-ds-reorder-scope="poison:1:${scope}-ticks"]`,
+      )!
+    expect(
+      collection('player').querySelector<HTMLElement>('.ef-ops.ds-action-group')?.dataset.density,
+    ).toBe('compact')
+    expect(
+      collection('enemy').querySelector<HTMLElement>('.ef-ops.ds-action-group')?.dataset.density,
+    ).toBe('compact')
+    for (const scope of ['player', 'enemy'] as const) {
+      const actions = collection(scope).querySelector<HTMLElement>('.ef-ops.ds-action-group')!
+      const buttons = [...actions.querySelectorAll<HTMLButtonElement>('.ds-icon-button')]
+      expect(buttons).toHaveLength(3)
+      for (const action of buttons) {
+        const label = action.getAttribute('aria-label')
+        const tooltipId = action.getAttribute('aria-describedby')
+        expect(label).toBeTruthy()
+        expect(tooltipId).toBeTruthy()
+        expect(document.getElementById(tooltipId!)?.textContent).toBe(label)
+        expect(action.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true')
+        expect(action.querySelector('svg')?.getAttribute('focusable')).toBe('false')
+      }
+      expect(buttons[2]?.classList).toContain('ds-icon-button--danger')
+    }
+
+    const playerVersion = session.getHistoryVersion()
+    await act(async () =>
+      collection('player')
+        .querySelector<HTMLButtonElement>('[aria-label="删除回合 1"]')!
+        .click(),
+    )
+    expect(session.getHistoryVersion()).toBe(playerVersion + 1)
+    expect(session.getState().poisons?.[0]?.playerTicks).toEqual([{ hpDelta: -9 }])
+    expect(session.getState().poisons?.[0]?.enemyTicks).toEqual(enemyTicks)
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().poisons?.[0]?.playerTicks).toEqual(playerTicks)
+    expect(session.getState().poisons?.[0]?.enemyTicks).toEqual(enemyTicks)
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(session.getState().poisons?.[0]?.playerTicks).toEqual([{ hpDelta: -9 }])
+
+    const enemyVersion = session.getHistoryVersion()
+    await act(async () =>
+      collection('enemy')
+        .querySelector<HTMLButtonElement>('[aria-label="删除回合 1"]')!
+        .click(),
+    )
+    expect(session.getHistoryVersion()).toBe(enemyVersion + 1)
+    expect(session.getState().poisons?.[0]?.playerTicks).toEqual([{ hpDelta: -9 }])
+    expect(session.getState().poisons?.[0]?.enemyTicks).toEqual([{ mpDelta: -4 }])
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().poisons?.[0]?.playerTicks).toEqual([{ hpDelta: -9 }])
+    expect(session.getState().poisons?.[0]?.enemyTicks).toEqual(enemyTicks)
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(session.getState().poisons?.[0]?.enemyTicks).toEqual([{ mpDelta: -4 }])
+  })
+
   test('引用快照未就绪时 fail-closed，失败与过期状态不伪装成零引用', async () => {
     const session = new EditSession(state())
     await act(async () =>

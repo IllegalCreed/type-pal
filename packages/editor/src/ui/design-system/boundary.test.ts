@@ -373,6 +373,8 @@ describe('editor design-system static boundary', () => {
   test('locks each action group density to one shared control height', () => {
     const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
     const businessCss = readFileSync(join(here, '..', 'editor.css'), 'utf8')
+    const poison = readFileSync(join(here, '..', 'PoisonTab.tsx'), 'utf8')
+    const project = readFileSync(join(here, '..', 'ProjectWorkbenchTab.tsx'), 'utf8')
     const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
     const designLabCss = readFileSync(join(here, '../../design-lab/design-lab.css'), 'utf8')
     const specification = readFileSync(
@@ -427,7 +429,48 @@ describe('editor design-system static boundary', () => {
     expect(designLab).toContain('<ActionGroupFixture />')
     expect(designLab).toContain('至少保留 1 项，当前项目不能删除。')
     expect(specification).toContain('#### DS-C.2a 同项动作组（v2.22.0）')
-    expect(specification).toContain('其余 30 枚移动动作按 15 个候选 surface')
+    expect(specification).toContain('10 组 / 20 枚移动动作；其余 26 枚移动动作按 13 个候选 surface')
+    expect(poison).toContain('<DsActionGroup density="compact" className="ef-ops">')
+    expect(project).toContain(
+      '<DsActionGroup density="compact" className="project-entry-row-actions">',
+    )
+    expect(cssRuleBodies(businessCss, '.ef-ops')).toHaveLength(0)
+    expect(cssRuleBodies(businessCss, '.ef-row .ef-ops')).toHaveLength(0)
+    expect(cssDeclaration(cssRuleBodies(businessCss, '.ef-row .ef-kind')[0]!, 'margin-bottom')).toBe(
+      '1px',
+    )
+    const poisonActionsAt520 = cssRuleBodies(
+      businessCss,
+      '.ef-ops',
+      '@container (max-width: 520px)',
+    )[0]!
+    expect(cssDeclaration(poisonActionsAt520, 'grid-column')).toBe('2')
+    expect(cssDeclaration(poisonActionsAt520, 'justify-self')).toBe('end')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(businessCss, '.ef-ops', '@container (max-width: 360px)')[0]!,
+        'grid-column',
+      ),
+    ).toBe('1 / -1')
+    expect(cssRuleBodies(businessCss, '.project-entry-row-actions')).toHaveLength(0)
+    const entryList = cssRuleBodies(businessCss, '.project-entry-list')[0]!
+    expect(cssDeclaration(entryList, 'container-name')).toBe('project-entry-list')
+    expect(cssDeclaration(entryList, 'container-type')).toBe('inline-size')
+    const entryBoundary = '@container project-entry-list (width < 280px)'
+    const narrowEntryContent = cssRuleBodies(
+      businessCss,
+      '.project-entry-item-content',
+      entryBoundary,
+    )[0]!
+    expect(cssDeclaration(narrowEntryContent, 'grid-template-columns')).toBe('minmax(0, 1fr)')
+    expect(cssDeclaration(narrowEntryContent, 'padding-block-end')).toBe('var(--ds-space-2)')
+    const narrowEntryActions = cssRuleBodies(
+      businessCss,
+      '.project-entry-row-actions',
+      entryBoundary,
+    )[0]!
+    expect(cssDeclaration(narrowEntryActions, 'grid-column')).toBe('1')
+    expect(cssDeclaration(narrowEntryActions, 'justify-self')).toBe('end')
     expect(
       cssDeclaration(
         cssRuleBodies(designLabCss, '.lab-action-group-sample--480')[0]!,
