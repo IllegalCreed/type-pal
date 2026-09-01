@@ -1,6 +1,6 @@
 # ED-ACTION-GROUP-ADOPTION-3 - 地图与组合库图层动作组及窄栏合同
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: Editor design-system action-group governance（不改变 capability-map）
 Coding Owner: Codex
@@ -57,7 +57,8 @@ workspace显隐/锁定状态与undo边界不变。
 - 显示/锁定改为稳定状态名称（含图层名），新增/删除被业务规则禁用时显示邻近原因。
 - 用户裁决：
   - **approved（2026-09-01）**——用户明确“图层可以加”，即保留图层拖拽/移动并继续统一治理。
-  - **pending**——header/state/order三组及320/216具体响应式形态仍需用户确认。
+  - **approved（2026-09-02）**——用户先明确“按照你的判断来吧”，并在三方签字齐后确认“都签了”；
+    Codex据此采用已审签的header/state/order三组与320/216两级换轨，不再重复索要签字。
 
 ## 上下文锚点
 
@@ -221,11 +222,11 @@ workspace显隐/锁定状态与undo边界不变。
       + undo/redo、删除确认链不变；Stamp 恰一条 ReplaceStampTemplateCommand；显隐/锁定
       history/dirty 零变化；方向映射不改；冻结 **13/44/22/22/11 + 1+10+0**，其余 11 candidates
       生产零 diff（build diff 范围机器证明）；DS 四处一致 **2.23.0**。
-- 用户裁决: 保留图层拖拽/移动 approved（2026-09-01）；三组与两级换轨形态 pending
+- 用户裁决: **approved（2026-09-02）**——保留图层拖拽/移动；三组与320/216两级换轨按用户授权
+  Codex判断采用已审签方案；三方签字齐后用户再次确认“都签了”。
 - counter / 分歧处理: none
-- build 准入: **blocked（2026-09-01 Codex + Kimi + GLM 三方 design 签字齐、无 counter；仍缺用户
-  对三组/320/216 具体形态裁决，且依赖 ED-FRAME-TIMELINE-UX-RESTORE-1 完成——用户裁决与依赖
-  齐前不得 build）**
+- build 准入: **allowed（2026-09-02 Codex + Kimi + GLM 三方 design 签字齐、无 counter；用户形态
+  裁决与 ED-FRAME-TIMELINE-UX-RESTORE-1 done 依赖均齐；Codex为唯一Coding Owner）**
 
 ### 进入 done 前
 
@@ -237,6 +238,8 @@ workspace显隐/锁定状态与undo边界不变。
 
 ## 交接日志
 
+- 2026-09-02 User + Codex: 用户此前授权“按照你的判断来”，三方签字齐后确认“都签了”；记录三组与
+  320/216两级换轨裁决approved。RESTORE-1已done，卡转build，Codex直接实现，不再重复签字。
 - 2026-09-01 GLM: 联合审签（同 SPRITE-ACTION-MODAL-1）。独立复算三条链起点（AG 现恰
   10/44/20/24/12 + 1 eq + 11 def、reorder 17/28/31/19、allowlist 12）与目标基线
   13/44/22/22/11 算术；直读组件实锤（header/state 30px + 翻转 label + boolean 无因禁用、

@@ -27,7 +27,7 @@
 | ED-ACTION-GROUP-ADOPTION-1 | 同项动作组采用第一批（战斗 / 毒回合；项目设置 / 入口点） | done | `d8b04a23` 三方 accept + 用户验收齐，整卡收口 | 280同排正文98px；279/235下沉165/121px；10/46/20/26/13闭合 |
 | ED-ACTION-GROUP-ADOPTION-2 | 帧动画时间线动作组与纵向可见边界 | cancelled | 用户否决大卡/独立grip/左右按钮；由RESTORE-1替代 | 未实现；旧186px方案失效 |
 | ED-FRAME-TIMELINE-UX-RESTORE-1 | 帧动画原始卡片拖拽形态恢复 | done | 用户验收通过；Kimi/GLM签字豁免在案，整卡收口 | `f019ba8d`：72×76/78/86/visible/native drag恢复；1523全绿，三档实机通过 |
-| ED-ACTION-GROUP-ADOPTION-3 | 地图与组合库图层动作组及窄栏合同 | draft | 依赖RESTORE-1；三方 design 签字齐；待用户三组/320/216 形态裁决，未批不得 build | 0-move registry真模型；目标DS2.23.0与13/44/22/22/11 |
+| ED-ACTION-GROUP-ADOPTION-3 | 地图与组合库图层动作组及窄栏合同 | build | 三方签字、用户形态裁决与RESTORE-1依赖齐；Codex实现 | 三组+320/216换轨；目标DS2.23.0与13/44/22/22/11 |
 | ED-SPRITE-ACTION-MODAL-1 | 大世界精灵预制动作中心弹窗编辑器 | draft | 依赖RESTORE-1/ADOPTION-3；用户形态批准；三方 design 签字齐，依赖齐后可 build | 中央Hero+单一Dialog+源帧区+搜索listbox；目标DS2.24与action15/42/24/18/9、reorder17/27/30/19 |
 | ED-FRAME-TIMELINE-VIRTUALIZATION-1 | 长帧动画时间线 DOM windowing | cancelled | 用户恢复旧形态后合并入RESTORE-1；历史卡保留 | RESTORE-1接管visible window与410帧DOM上界验收 |
 | ED-FIELD-LABEL-TRACK-WIDE-1 | 编辑器整组宽标签轨合同 | done | 三方 accept + 用户验收齐，整卡收口 | `6e7999ef`：wide=160px/<560 stacked；RoleBindings 唯一采用；DS 2.21.0 |
