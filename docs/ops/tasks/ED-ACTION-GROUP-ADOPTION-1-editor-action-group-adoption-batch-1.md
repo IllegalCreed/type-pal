@@ -1,6 +1,6 @@
 # ED-ACTION-GROUP-ADOPTION-1 - 同项动作组采用第一批（战斗 / 毒回合；项目设置 / 入口点）
 
-Status: draft
+Status: rework
 Phase: phase2
 Capability: Editor design system adoption（不改变 capability-map）
 Coding Owner: Codex
@@ -14,10 +14,10 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
 
 ## 目标
 
-把两个真正低风险的旧动作包装迁移到现有 `DsActionGroup`：“战斗 / 毒”的玩家/敌人回合规则
-（上移 / 下移 / 删除）和“项目设置 / 入口点”（上移 / 下移）。复用现有 `DsReorderMoveButton`、
-`DsIconButton` 与 reorder owner，只统一动作组
-的 32×32px 命中区、4px 间距、不可拆布局和焦点边界；不改变任何排序、删除、命令或数据语义。
+把“战斗 / 毒”的玩家/敌人回合规则和“项目设置 / 入口点”迁移到现有 `DsActionGroup`。毒回合仍是
+wrapper-only 机械采用；入口点除换 wrapper 外，还要修复真实约 235px 目录下正文仅 53px 的问题，由父目录
+在 `<280px` 时把完整动作组移到第二层。两处都复用现有 `DsReorderMoveButton` / `DsIconButton` 与 reorder
+owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ## 范围
 
@@ -25,7 +25,8 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
   - “战斗 / 毒”的回合规则（`poison/ticks/actions`）：`.ef-ops` wrapper 改为
     `DsActionGroup density="compact"`，保留 danger 删除。
   - “项目设置 / 入口点”（`project/entry-points/actions`）：`.project-entry-row-actions` wrapper
-    改为 compact ActionGroup。
+    改为 compact ActionGroup；`.project-entry-list` 成为 container owner，内容宽 `<280px` 时把完整动作组
+    移到 CatalogRow 下方，保证名称/ID 可读宽度与 focus containment。
   - 删除两处业务 class 对 `display/gap/flex/尺寸` 的私有所有权，只保留父布局需要的 grid-column /
     justify-self 等整体放置规则。
   - 更新 action-group registry / CLI/Vitest census、边界测试、业务行为测试与浏览器证据。
@@ -47,8 +48,9 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
 
 ### 一句话行为 / 工程前提
 
-这两处已经使用正式移动按钮和稳定 reorder owner，唯一缺口是外层仍由业务 class 持有 2px 私有间距或裸 flex；
-把 wrapper 换成现有 compact `DsActionGroup` 并清掉私有几何即可完成采用，命令和数据层不需要也不允许变化。
+两处都已使用正式移动按钮和稳定 reorder owner。毒回合只需把私有 wrapper 收口到 compact ActionGroup；
+入口点的旧同排布局在真实约 235px 目录下会把正文压到 53px，因此还必须由 `.project-entry-list` container
+持有 `<280px` 整组下沉。命令、identity 与数据层不需要也不允许变化。
 
 ### 真值矩阵
 
@@ -56,8 +58,8 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
 |---|---|---|
 | 原版 / primary source | N/A：纯二阶段作者工具动作布局，不涉及原版游戏行为。 | `docs/phase2/READ-FIRST.md:8-10,20` |
 | 第一阶段 | N/A：第一阶段没有当前编辑器设计系统动作组。 | `CLAUDE.md:5-12` |
-| 当前二阶段 | `DsActionGroup` v2.22.0 已冻结 compact 32×32 / 4px / nowrap；两处仍登记 deferred。 | `docs/phase2/editor/editor-design-system-v1.md:429-453`；`packages/editor/src/ui/design-system/action-group-adoption.json:3-8,166-175,215-224` |
-| 本任务目标 | 两处转 adopted；其余 13 个 candidate 原样保留并重新精确计数。 | 本卡 `:109-143`；`docs/ops/board.md:27`；用户 2026-09-01 裁决 |
+| 当前二阶段 | `DsActionGroup` v2.22.0 已冻结 compact 32×32 / 4px / nowrap；两处仍登记 deferred；入口旧同排在真实约235px目录下正文仅53px，已推翻wrapper-only前提。 | `docs/phase2/editor/editor-design-system-v1.md:429-453`；`packages/editor/src/ui/design-system/action-group-adoption.json:3-8,166-175,215-224`；本卡 build 反证记录 |
+| 本任务目标 | 两处转 adopted；毒保持机械采用；入口由真实 `.project-entry-list` 在 `>=280px` 同排、`<280px` 第二层；其余13个candidate原样保留。 | 本卡设计/验收条件；`docs/ops/board.md:27`；用户2026-09-01分批授权 |
 
 ### 两处直接证据
 
@@ -78,6 +80,9 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
    - 私有缺口：`.project-entry-row-actions` 只有 flex + 2px gap；父 `.project-entry-item-content` 已有
      `minmax(0,1fr) auto` 与 4px inline-end inset，恰好容纳 2px ring + 2px offset
      （`editor.css:1672-1682`）。
+   - **build 期反证（2026-09-01）**：真实 720px 页面把左目录调到约 235px 后，ActionGroup 仍与
+     CatalogRow 同排，正文实际只剩 53px（卡面要求 ≥96px）；group/focus 虽未溢出，但 identity 已被过度压缩。
+     因此“父 grid/inset 原样即可”的 wrapper-only 前提被推翻，必须新增 `<280px` 整组下沉合同。
 
 ### 反证与替代解释
 
@@ -101,9 +106,12 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
     同时取消业务层 1px optical margin，由父 align + 公共 root 持有底线；真实多档失败则转 rework，
     不用私有 margin 回补。
   - “项目设置 / 入口点”：30px 按钮 + 2px 私有间距 → 32px 按钮 + 公共 4px 间距，目录身份与排序不变。
+    宽度 `>=280px` 保持同排；`<280px` 时动作组完整移到目录行第二层，正文不得被压到 96px 以下。
 - 代表场景: “战斗 / 毒”的玩家/敌人回合规则；“项目设置 / 入口点”的入口目录。
-- 用户裁决: **approved（2026-09-01）**——用户明确把是否分批交由 Codex 判断；Codex依据直接审计选择
-  三批推进，并先开这两个低风险面。
+- 用户裁决:
+  - 分批授权: **approved（2026-09-01）**——用户明确把是否分批交由 Codex 判断。
+  - refreshed 入口响应式形态: **approved（2026-09-01）**——用户以“签了”批准“>=280px同排；
+    <280px动作组第二层”。
 
 ## 上下文锚点
 
@@ -122,7 +130,10 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
 2. “战斗 / 毒”回合规则删除 `.ef-row .ef-ops` 的 1px optical margin 与 `.ef-ops` 的
    display/gap/flex；保留 520/360
    query 的 `grid-column/justify-self` 整组放置。若视觉实测底线失败则本卡转 rework，不以私有 margin 回补。
-3. “项目设置 / 入口点”删除 `.project-entry-row-actions` 私有规则；父 grid/inset 原样。
+3. “项目设置 / 入口点”删除 `.project-entry-row-actions` 的私有 flex/gap；给 `.project-entry-list` 增加
+   container owner，并以 range query `@container (width < 280px)` 把 `.project-entry-item-content` 改为
+   单列、动作组 `grid-column:1 / justify-self:end`；父 content 在窄态提供至少 4px `padding-block-end`，
+   让最后一行按钮的 2px ring + 2px offset 留在 item/非裁切 owner 内。280px 及以上父 grid/inset 原样。
 4. registry 把两个 deferred 移入 adopted，静态字段均为 `compact / icon-only / moveButtonCount:2`。
 5. 新基线必须精确为：**10 groups / 46 move buttons / 20 adopted moves / 26 raw moves /
    13 candidates（1 equivalent + 12 deferred + 0 N/A）**。所有既有负例继续工作，并补两项 stale/
@@ -142,11 +153,15 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
   - “战斗 / 毒”760/520/360/320 容器整组不拆；“项目设置 / 入口点”在 480/320/240px 目录下，
     CatalogRow 正文可用宽度至少 96px，title/meta 各有正宽并至少可见若干字符，完整长中文名与 64 字符 ID
     仍保留在 DOM/accessible name；动作组不覆盖正文，group 与目录 owner 横向溢出均为 0。
+  - “项目设置 / 入口点”精确边界：内容宽 280px 时保持同排且正文 ≥96px；279.5px 与 279px 时动作组
+    进入第二层，CatalogRow 正文 ≥96px；真实缺陷档约235px也必须下沉且正文≥96px。最后一项/滚动边缘的
+    focus 外扩位于 item/最近非裁切 owner 内，block-end 不裁切。
   - icon-only 继续有具体 aria-label + tooltip，SVG hidden；“战斗 / 毒”删除保持 danger。
 - registry / 门禁:
   - 10/46/20/26/13 与 1 equivalent +12 deferred 精确；其它 12 deferred 生产 DOM 零改。
   - 除本卡两处外的其余 13 个 candidate surfaces（1 equivalent + 12 deferred）生产 DOM/CSS 全部零改。
-  - 两个业务 class 不再持有 display/gap/wrap/尺寸；只允许“战斗 / 毒”回合规则的响应式 placement。
+  - 两个业务 class 不再持有 display/gap/wrap/尺寸；只允许“战斗 / 毒”和“项目设置 / 入口点”各自在卡面
+    列明的 grid-column/justify-self 等整体 placement，以及入口父 content 的4px block-end containment。
 - 测试:
   - action-group adoption/CLI gate、boundary、Poison、ProjectWorkbench、reorder adoption 聚焦；typecheck。
   - Editor 受影响包全量只跑一次。
@@ -285,9 +300,27 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
     失败、基线不等）。
 - counter / 分歧处理: none（Kimi KB1-KB5 与 Codex 设计一致，GLM GM-P1~P4 收敛，无 counter）
 - 缺签豁免: N/A
-- build 准入结论: **allowed（签字面）（2026-09-01，Codex + Kimi（KB1-KB5）+ GLM（GM-P1~P4）
-  三方 premise verified + design agree 齐、无 counter；用户 2026-09-01 已裁决分批授权。Codex
-  开工时状态转 build，仍为唯一 Coding Owner。）**
+- build 准入结论: **invalidated（2026-09-01 build 实机反证推翻“Project 父 grid 原样即可”核心前提；
+  上述 Codex / Kimi / GLM 签字保留为历史事实，不再授权实现）**
+
+### rework 后重新进入 build：前提 / 设计签字
+
+- 直接反证: 真实 720px 页面把“项目设置 / 入口点”目录调到约 235px，正文仅 53px，低于已签 ≥96px；
+  wrapper/focus 零溢出不能替代 identity 可读性。未提交实现已全部用 apply_patch 撤回，工作树只保留任务卡/看板。
+- Codex:
+  - premise: **verified（2026-09-01 refreshed）**——原 wrapper-only 前提对“战斗 / 毒”仍成立，对入口点
+    `<280px` 不成立；必须由真实 `.project-entry-list` container 在 279/280 两侧持有整组 relocation。
+  - design: **agree（2026-09-01 refreshed）**——Poison 方案不变；入口点新增 `<280px` 单列/动作第二层，
+    冻结 280 同排正文≥96、279 下沉正文≥96、完整 DOM/access name 与双溢出0；按钮/命令/registry计数不变。
+- Kimi:
+  - premise: pending（须独立复现实机 235px / 正文53px反证并审 279/280 新边界）
+  - design: pending
+- GLM:
+  - premise: pending（须独立核容器 owner、CSS/测试矩阵与命令零漂移）
+  - design: pending
+- counter / 分歧处理: none
+- build 准入结论: **blocked（用户已批准 refreshed 入口响应式形态；Kimi / GLM refreshed 签字未齐，
+  不得恢复实现）**
 
 ### 进入 done 前:审查签字
 
@@ -299,8 +332,11 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
 
 ## Draft / Build / Review 证据
 
-- Draft: Codex 已完成 14 deferred 分层审计并把首批从 5 处收窄为 2 处；未修改实现。
-- Build: pending
+- Draft: Codex 已完成 14 deferred 分层审计并把首批从 5 处收窄为 2 处；初版三方 premise/design
+  签字已因 build 期反证失效。
+- Build: 2026-09-01 Codex 开工后在真实 235px 入口目录测得正文仅 53px，触发卡面反证；立即停线，
+  用 apply_patch 撤回全部未提交实现，状态转 rework。Poison 1280 实测 32px/4px、字段与动作 bottom 完全
+  相等的证据保留，但不构成继续授权。
 - Review: pending
 
 ## 后续批次
@@ -311,6 +347,14 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
 
 ## 交接日志
 
+- 2026-09-01 User: 以“签了”批准 refreshed 入口响应式形态：目录内容宽 `>=280px` 同排，`<280px`
+  时动作组完整移到第二层。Next: Kimi / GLM 对新前提与边界重新签字；两席齐前不得 build。
+- 2026-09-01 Codex: build 实机发现入口目录 content≈235px 时正文仅53px，推翻“父 grid/inset 原样即可”
+  及“240px正文≥96”前提。停止实现并完整撤回未提交生产/测试/规范改动；任务转 rework。新设计以
+  `.project-entry-list` 为 container owner，280px 同排 / 279px 动作整组下沉；旧三签失效。
+  Next: 用户批准新入口响应式形态，Kimi / GLM 对新前提和边界重新签字；三门齐前不得 build。
+- 2026-09-01 Codex: 核对 Kimi KB1-KB5 与 GLM GM-P1-GM-P4，三方 premise verified + design agree
+  齐、无 counter，用户分批授权在案；状态转 build。Next: Codex 按钉实现、自测并转 review。
 - 2026-09-01 GLM: 独立直读两处机械面（毒 `.ef-ops` 2 move + 1 danger 纯图标、私有几何恰
   flex/2px/1px 光学 margin、520/360 仅 placement；入口 `.project-entry-row-actions` 恰 2 move、
   私有恰 flex/space-1、父 grid/inset 已备）、命令路径（UpdatePoisonCommand /
@@ -336,28 +380,27 @@ Target Design-System Version: `2.22.0`（采用既有合同，不升版）
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-ACTION-GROUP-ADOPTION-1（GLM 席，draft；生产实现只读，只允许更新任务卡签字/交接）。
+重新审签 ED-ACTION-GROUP-ADOPTION-1（Kimi 席，rework；生产实现只读，只允许更新任务卡签字/交接）。
 
 任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md
-当前状态：draft；Codex + Kimi（KB1-KB5）已签；你的 GLM premise/design pending。三签齐前不得实现。
+当前状态：rework。初版三签因 build 实机反证全部失效；Codex 已 refreshed premise/design，用户已批准
+入口响应式形态，Kimi/GLM refreshed 签字 pending。两席齐前不得恢复 Poison/Project/CSS/registry/规范/测试实现。
 
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、上一卡 ED-ACTION-GROUP-SPEC-1、设计规范
-DS-C.2a/DS-C.4d/RF-27、action-group-adoption.json、本卡全部签节（含 Kimi 独立证据）。
+先读：AGENTS.md 前提真值门、本卡“build期反证”与“rework后重新进入build”全文、上一卡
+ED-ACTION-GROUP-SPEC-1、设计规范 DS-C.2a、ProjectWorkbenchTab.tsx:1948-1982、
+editor.css:1672-1682。
 
-你的分工（独立证据，不复述 Codex/Kimi）：
-1. 复算迁移后 registry 新基线：10 groups / 46 moves / adopted 20 / raw 26 / candidates 13，
-   disposition 1 equivalent + 12 deferred + 0 N/A；两个转 adopted 面的静态字段
-   （compact / icon-only / moveButtonCount:2）与两处 business class 不再持 display/gap/wrap/尺寸
-   的门禁断言；其余 13 candidates（含 equivalent）生产 DOM/CSS 零 diff 的机器证明。
-2. 测试矩阵：Poison 玩家/敌人删除各 +1 history 且另一序列不变、undo/redo 精确复原；
-   entry-points 移动恰一次 SetStartupEntriesCommand、entry.id/defaultEntryId/选中项不变；
-   32×32、scrollWidth==clientWidth、同组 top、focus 外扩归属、icon-only aria/tooltip/SVG hidden；
-   action-group adoption/CLI gate、boundary、Poison、ProjectWorkbench、reorder adoption 聚焦；
-   受影响包全量只跑一次。
-3. 复核三处转第二批的理由（帧动画 102px overflow-hidden focus 裁切、图层 30/32 混高、
-   精灵目录 Inspector 尾部 inset + proof-disabled）与 9 面第三批清单是否有漏分或误分。
-4. 复核“战斗 / 毒”移除 1px optical margin 的实测要求（1280/720 + 520/360/320、失败转 rework
-   不回补）与入口点 240px 语义验收（≥96px、完整 DOM 名称/ID、focus 归属、双溢出 0）。
-5. 200% zoom 无法可靠触发时保持“未实测”口径，不用 pinch/等效冒充。
-输出：GLM 席 premise verified + design agree，或 counter + file:line/反例。
+请独立核验：
+1. 复现/复算反证：真实入口目录 content≈235px 时，旧同排布局的 CatalogRow body≈53px，而不是已签≥96px；
+   解释为何 group/focus零溢出仍不能证明identity可用。给直接几何或等价一手证据。
+2. 审新方案：`.project-entry-list` 持 container-type；内容宽≥280px保持`minmax(0,1fr) auto`同排；
+   range query `width < 280px` 单列，`.project-entry-row-actions`整组到第二层并右对齐；窄态父 content
+   提供至少4px block-end focus空间。核280/279.5/279/真实235四档正文≥96、完整DOM/access name、
+   最后一项focus containment与双溢出0；不得靠隐藏/截掉按钮通过。
+3. Poison方案是否仍可保持wrapper-only：移除1px optical margin与私有gap后，多档底线、520/360placement、
+   danger删除、命令/undo语义不变。
+4. registry目标仍是10/46/20/26/13 +1 equivalent/12 deferred，DS-C.2a census同版更新；其余13
+   candidates零DOM/CSS diff；不升DS版本。
+5. 输出 refreshed Kimi premise verified + design agree，或 counter + P0/P1/P2/反例。若agree，写回
+   rework签字节并附GLM刷新提示词。不得代签GLM，不得把Kimi签字当作用户产品批准，不得标build/done。
 ```
