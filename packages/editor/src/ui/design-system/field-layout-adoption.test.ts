@@ -2247,13 +2247,34 @@ function UnusedInspectorDecoy() {
       ...manifest.exceptions.inlineFields,
       ...manifest.exceptions.inspectorOwners,
       manifest.exceptions.inspectorTrack,
-      ...manifest.exceptions.nonFormTracks,
     ]) {
       expect(entry.owner).toBe('card:ED-FIELD-LAYOUT-1')
       expect(entry.reason.length).toBeGreaterThan(10)
       expect(entry.responsiveEvidence.length).toBeGreaterThan(10)
       expect(entry.removalCondition.length).toBeGreaterThan(10)
     }
+    const layerTrackIdentities = new Set([
+      '|.map-layer-row|max-content minmax(0, 1fr)',
+      '|.map-layer-row:has(.layer-order)|max-content minmax(96px, 1fr) max-content',
+      '@container map-layer-list (width < 320px)|.map-layer-row|max-content minmax(96px, 1fr)',
+      '@container map-layer-list (width < 320px)|.map-layer-row:has(.layer-order)|max-content minmax(96px, 1fr)',
+    ])
+    for (const entry of manifest.exceptions.nonFormTracks) {
+      const identity = `${entry.atRule}|${entry.selector}|${entry.value}`
+      expect(entry.owner).toBe(
+        layerTrackIdentities.has(identity)
+          ? 'card:ED-ACTION-GROUP-ADOPTION-3'
+          : 'card:ED-FIELD-LAYOUT-1',
+      )
+      expect(entry.reason.length).toBeGreaterThan(10)
+      expect(entry.responsiveEvidence.length).toBeGreaterThan(10)
+      expect(entry.removalCondition.length).toBeGreaterThan(10)
+    }
+    expect(
+      manifest.exceptions.nonFormTracks.filter(
+        (entry: { owner: string }) => entry.owner === 'card:ED-ACTION-GROUP-ADOPTION-3',
+      ),
+    ).toHaveLength(4)
     for (const entry of manifest.retiredPrivateTracks) {
       expect(Object.keys(entry).sort()).toEqual([
         'disposition',

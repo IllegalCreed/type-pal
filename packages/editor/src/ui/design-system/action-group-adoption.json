@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": {
-    "groups": 10,
+    "groups": 13,
     "moveButtons": 44,
-    "adoptedMoveButtons": 20,
-    "rawMoveButtons": 24,
-    "candidateSurfaces": 12
+    "adoptedMoveButtons": 22,
+    "rawMoveButtons": 22,
+    "candidateSurfaces": 11
   },
   "adopted": [
     {
@@ -107,6 +107,36 @@
       "actionMode": "icon-only",
       "moveButtonCount": 2,
       "verification": "ProjectWorkbenchTab.test.tsx"
+    },
+    {
+      "id": "map/layer-stack/header-actions",
+      "source": "LayerStackControls.tsx",
+      "fingerprint": "className=\"map-layer-header-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 0,
+      "verification": "LayerStackControls.test.tsx"
+    },
+    {
+      "id": "map/layer-stack/state-actions",
+      "source": "LayerStackControls.tsx",
+      "fingerprint": "className=\"layer-state-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 0,
+      "verification": "LayerStackControls.test.tsx"
+    },
+    {
+      "id": "map/layer-stack/actions",
+      "source": "LayerStackControls.tsx",
+      "fingerprint": "className=\"layer-order\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "LayerStackControls.test.tsx"
     }
   ],
   "candidates": [
@@ -157,18 +187,6 @@
       "reason": "已有共享原子 owner，但按钮尺寸仍固定 compact，未随效果卡 density 完成 36/32px 对称。",
       "verification": "design-system/effect-card-adoption.test.ts",
       "removalCondition": "使共享效果卡动作 owner 达到与卡 density 对称的等价合同后改登 equivalent-owner。"
-    },
-    {
-      "id": "map/layer-stack/actions",
-      "source": "LayerStackControls.tsx",
-      "fingerprint": "className=\"layer-order\"",
-      "occurrence": 1,
-      "moveButtonCount": 2,
-      "disposition": "deferred",
-      "owner": "layer-order",
-      "reason": "原子簇仍使用独立 compact fallback，未拥有公共 32px/4px 几何。",
-      "verification": "MapMode.test.tsx",
-      "removalCondition": "迁移到 DsActionGroup 或证明图层专用 owner 达到等价尺寸与窄态合同。"
     },
     {
       "id": "project/startup-party/actions",

@@ -1,5 +1,6 @@
 import { type ReactNode, useId } from 'react'
 import {
+  DsActionGroup,
   DsButton,
   DsControlGroup,
   DsField,
@@ -17,8 +18,6 @@ export interface LayerStackControlItem {
   hidden?: boolean
   locked?: boolean
   reorderDisabled?: boolean
-  canMoveUp?: boolean
-  canMoveDown?: boolean
 }
 
 /** 地图与组合编辑器共用的当前绘制层级与显示高度上下文。 */
@@ -93,33 +92,67 @@ export function LayerStackControls(props: {
   reorderRevision: unknown
   stackOrder: 'top-first' | 'bottom-first'
   onReorder: (id: string, visualToIndex: number) => boolean | void
-  addDisabled?: boolean
-  deleteDisabled?: boolean
+  addDisabledReason?: string
+  deleteDisabledReason?: string
   footer?: ReactNode
 }) {
+  const addReasonId = useId()
+  const deleteReasonId = useId()
+  const activeLayer = props.items.find((layer) => layer.id === props.activeId)
+  const sharedDisabledReason =
+    props.addDisabledReason && props.addDisabledReason === props.deleteDisabledReason
+      ? props.addDisabledReason
+      : undefined
+  const addDescriptionId = props.addDisabledReason ? addReasonId : undefined
+  const deleteDescriptionId = props.deleteDisabledReason
+    ? sharedDisabledReason
+      ? addReasonId
+      : deleteReasonId
+    : undefined
+
   return (
     <section className="layer-stack-controls" aria-label="图层">
       <div className="pane-h map-layer-panel__header">
         <span className="t">图层</span>
         <DsTag tone="neutral">{props.items.length} 层</DsTag>
         <span className="spacer" />
-        <DsIconButton
-          size="compact"
-          variant="secondary"
-          icon="add"
-          onClick={props.onAdd}
-          disabled={props.addDisabled}
-          label="新增图层"
-        />
-        <DsIconButton
-          size="compact"
-          variant="danger"
-          icon="delete"
-          onClick={props.onDelete}
-          disabled={props.deleteDisabled}
-          label="删除选中图层"
-        />
+        <DsActionGroup density="compact" className="map-layer-header-actions">
+          <DsIconButton
+            variant="secondary"
+            icon="add"
+            onClick={props.onAdd}
+            disabled={Boolean(props.addDisabledReason)}
+            aria-describedby={addDescriptionId}
+            label="新增图层"
+          />
+          <DsIconButton
+            variant="danger"
+            icon="delete"
+            onClick={props.onDelete}
+            disabled={Boolean(props.deleteDisabledReason)}
+            aria-describedby={deleteDescriptionId}
+            label={activeLayer ? `删除选中图层：${activeLayer.name}` : '删除选中图层'}
+          />
+        </DsActionGroup>
       </div>
+      {sharedDisabledReason ? (
+        <p className="layer-stack-disabled-reason" id={addReasonId}>
+          {sharedDisabledReason}
+        </p>
+      ) : (
+        <>
+          {props.addDisabledReason ? (
+            <p className="layer-stack-disabled-reason" id={addReasonId}>
+              {props.addDisabledReason}
+            </p>
+          ) : null}
+          {props.deleteDisabledReason ? (
+            <p className="layer-stack-disabled-reason" id={deleteReasonId}>
+              {props.deleteDisabledReason}
+            </p>
+          ) : null}
+        </>
+      )}
       <DsReorderCollection
         adoptionId="map/layer-stack"
         scopeKey={props.reorderScopeKey}
@@ -139,45 +172,47 @@ export function LayerStackControls(props: {
           {props.items.map((layer) => (
             <DsReorderItem itemKey={layer.id} key={layer.id}>
               <div className={`map-layer-row${layer.id === props.activeId ? ' sel' : ''}`}>
-                <DsIconButton
-                  size="compact"
-                  variant="quiet"
-                  icon={layer.hidden ? 'eye-off' : 'eye'}
-                  onClick={() => props.onToggleVisible(layer.id)}
-                  label={layer.hidden ? '显示图层' : '隐藏图层'}
-                  aria-pressed={!layer.hidden}
-                />
-                <DsIconButton
-                  size="compact"
-                  variant="quiet"
-                  icon={layer.locked ? 'lock' : 'unlock'}
-                  onClick={() => props.onToggleLocked(layer.id)}
-                  label={layer.locked ? '解锁图层' : '锁定图层'}
-                  aria-pressed={layer.locked}
-                />
+                <DsActionGroup density="compact" className="layer-state-actions">
+                  <DsIconButton
+                    variant="quiet"
+                    icon={layer.hidden ? 'eye-off' : 'eye'}
+                    onClick={() => props.onToggleVisible(layer.id)}
+                    label={`图层可见：${layer.name}`}
+                    aria-pressed={!layer.hidden}
+                  />
+                  <DsIconButton
+                    variant="quiet"
+                    icon={layer.locked ? 'lock' : 'unlock'}
+                    onClick={() => props.onToggleLocked(layer.id)}
+                    label={`图层锁定：${layer.name}`}
+                    aria-pressed={layer.locked}
+                  />
+                </DsActionGroup>
                 <DsPressable
                   type="button"
                   className="layer-name"
                   onClick={() => props.onSelect(layer.id)}
                   title={`${layer.name} (${layer.id})`}
+                  data-layer-id={layer.id}
+                  aria-label={`选择图层：${layer.name}（${layer.id}）`}
                   aria-pressed={layer.id === props.activeId}
                 >
                   <span>{layer.name}</span>
                   {layer.detail ? <small>{layer.detail}</small> : null}
                 </DsPressable>
                 {layer.id === props.activeId ? (
-                  <span className="layer-order">
+                  <DsActionGroup density="compact" className="layer-order">
                     <DsReorderMoveButton
                       itemKey={layer.id}
                       direction={props.stackOrder === 'top-first' ? 'backward' : 'forward'}
-                      label="上移图层"
+                      label={`上移图层：${layer.name}`}
                     />
                     <DsReorderMoveButton
                       itemKey={layer.id}
                       direction={props.stackOrder === 'top-first' ? 'forward' : 'backward'}
-                      label="下移图层"
+                      label={`下移图层：${layer.name}`}
                     />
-                  </span>
+                  </DsActionGroup>
                 ) : null}
               </div>
             </DsReorderItem>

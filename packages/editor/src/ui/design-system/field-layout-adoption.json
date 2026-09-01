@@ -801,11 +801,44 @@
         "selector": ".map-layer-row",
         "atRule": "",
         "property": "grid-template-columns",
-        "value": "30px 30px minmax(0, 1fr) auto",
-        "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "四轨是拖拽手柄、序号、完整图层摘要和动作槽，不是字段表单。",
-        "responsiveEvidence": "摘要轨可收缩，手柄和序号保持统一点击与身份尺寸。",
-        "removalCondition": "图层行由公共 ReorderItem recipe 完整接管时删除。"
+        "value": "max-content minmax(0, 1fr)",
+        "owner": "card:ED-ACTION-GROUP-ADOPTION-3",
+        "reason": "两轨是不可拆状态动作组与完整图层摘要；排序组只在选中行存在，不是字段标签轨。",
+        "responsiveEvidence": "非选中行不预留空排序轨；摘要占据剩余宽度并安全收缩。",
+        "removalCondition": "图层行不再使用状态组与名称摘要双轨时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".map-layer-row:has(.layer-order)",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "max-content minmax(96px, 1fr) max-content",
+        "owner": "card:ED-ACTION-GROUP-ADOPTION-3",
+        "reason": "三轨是状态动作组、至少96px图层摘要与选中行排序组，不是字段标签轨。",
+        "responsiveEvidence": "320px及以上三组同排；两侧动作组保持完整，名称仍有正宽。",
+        "removalCondition": "图层选中行由新的公共响应式列表recipe接管时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".map-layer-row",
+        "atRule": "@container map-layer-list (width < 320px)",
+        "property": "grid-template-columns",
+        "value": "max-content minmax(96px, 1fr)",
+        "owner": "card:ED-ACTION-GROUP-ADOPTION-3",
+        "reason": "窄栏两轨是状态动作组与完整摘要；非选中行不预留排序轨。",
+        "responsiveEvidence": "319px及以下名称仍至少96px，非选中行不产生空白排序层。",
+        "removalCondition": "图层窄栏不再使用两级container换轨时删除。"
+      },
+      {
+        "source": "editor.css",
+        "selector": ".map-layer-row:has(.layer-order)",
+        "atRule": "@container map-layer-list (width < 320px)",
+        "property": "grid-template-columns",
+        "value": "max-content minmax(96px, 1fr)",
+        "owner": "card:ED-ACTION-GROUP-ADOPTION-3",
+        "reason": "选中行窄栏两轨是状态动作组与完整摘要，排序组作为隐式第二行完整右对齐。",
+        "responsiveEvidence": "319px及以下排序组整组换轨，216px边界前名称仍至少96px。",
+        "removalCondition": "图层窄栏不再使用两级container换轨时删除。"
       },
       {
         "source": "editor.css",

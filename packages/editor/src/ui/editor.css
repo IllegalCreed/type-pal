@@ -5135,6 +5135,8 @@ html[data-panel-resize="horizontal"] * {
   gap: 1px;
 }
 .layer-name small {
+  width: 100%;
+  min-width: 0;
   max-width: 100%;
   overflow: hidden;
   color: var(--faint);
@@ -11318,6 +11320,8 @@ button.sprite-frame-cell[draggable="true"]:active {
   text-align: center;
 }
 .map-layer-list {
+  container-name: map-layer-list;
+  container-type: inline-size;
   flex: 1 1 auto;
   min-height: 44px;
   overflow-y: auto;
@@ -11328,16 +11332,25 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex: none;
   gap: var(--ds-space-3);
 }
+.layer-stack-disabled-reason {
+  flex: none;
+  margin: 0;
+  padding: var(--ds-space-2) var(--ds-space-4);
+  border-bottom: 1px solid var(--line);
+  color: var(--faint);
+  font: var(--ds-font-caption);
+}
 .map-layer-row {
   display: grid;
-  grid-template-columns: 30px 30px minmax(0, 1fr) auto;
+  grid-template-columns: max-content minmax(0, 1fr);
   align-items: center;
-  min-height: 38px;
+  gap: var(--ds-space-2);
+  min-height: 40px;
   padding: 4px 8px;
   color: var(--dim);
 }
-.map-layer-row > .ds-tooltip {
-  display: block;
+.map-layer-row:has(.layer-order) {
+  grid-template-columns: max-content minmax(96px, 1fr) max-content;
 }
 .map-layer-row:hover {
   background: var(--panel2);
@@ -11348,6 +11361,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   box-shadow: inset 2px 0 0 var(--accent);
 }
 .layer-name {
+  grid-column: 2;
   min-width: 0;
   border: 0;
   background: transparent;
@@ -11358,19 +11372,56 @@ button.sprite-frame-cell[draggable="true"]:active {
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 30px;
+  min-height: var(--ds-hit-target-compact);
   padding: 0 6px;
   overflow: hidden;
   text-align: left;
 }
 .layer-name > span:first-child {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.layer-state-actions {
+  grid-column: 1;
+  justify-self: start;
+}
 .layer-order {
-  display: flex;
-  gap: 4px;
+  grid-column: 3;
+  justify-self: end;
+}
+@container map-layer-list (width < 320px) {
+  .map-layer-row,
+  .map-layer-row:has(.layer-order) {
+    grid-template-columns: max-content minmax(96px, 1fr);
+  }
+  .layer-order {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}
+@container map-layer-list (width < 216px) {
+  .map-layer-row,
+  .map-layer-row:has(.layer-order) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .layer-state-actions {
+    grid-row: 1;
+    grid-column: 1;
+  }
+  .layer-name {
+    grid-row: 2;
+    grid-column: 1;
+    width: 100%;
+  }
+  .layer-order {
+    grid-row: 3;
+    grid-column: 1;
+  }
 }
 .map-tiles-head {
   flex: none;

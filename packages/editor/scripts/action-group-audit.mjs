@@ -141,11 +141,11 @@ export function validateActionGroupAdoption(document, overrides = {}) {
     ]
 
   const expectedBaseline = {
-    groups: 10,
+    groups: 13,
     moveButtons: 44,
-    adoptedMoveButtons: 20,
-    rawMoveButtons: 24,
-    candidateSurfaces: 12,
+    adoptedMoveButtons: 22,
+    rawMoveButtons: 22,
+    candidateSurfaces: 11,
   }
   if (JSON.stringify(document.baseline) !== JSON.stringify(expectedBaseline))
     problems.push(`action-group baseline must equal ${JSON.stringify(expectedBaseline)}`)
@@ -186,8 +186,8 @@ export function validateActionGroupAdoption(document, overrides = {}) {
       problems.push(`action-group ${entry.id} has invalid density ${entry.density}`)
     if (!['icon-only', 'icon-text', 'text'].includes(entry.actionMode))
       problems.push(`action-group ${entry.id} has invalid actionMode ${entry.actionMode}`)
-    if (entry.moveButtonCount !== 2)
-      problems.push(`action-group ${entry.id} must own exactly two move buttons`)
+    if (!Number.isInteger(entry.moveButtonCount) || entry.moveButtonCount < 0)
+      problems.push(`action-group ${entry.id} moveButtonCount must be a non-negative integer`)
     if (!Number.isInteger(entry.occurrence) || entry.occurrence < 1)
       problems.push(`action-group ${entry.id} occurrence must be a positive integer`)
     if (!actionGroupFingerprintParts(entry.fingerprint))

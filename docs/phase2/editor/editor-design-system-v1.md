@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.22.0 action group contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.23.0 layer action-group and responsive track contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）/ ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）/ ED-ACTION-GROUP-SPEC-1（v2.22.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）/ ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）/ ED-ACTION-GROUP-SPEC-1（v2.22.0）/ ED-ACTION-GROUP-ADOPTION-3（v2.23.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-09-01
+Last updated: 2026-09-02
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -426,7 +426,7 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - `tool`、`btn`、`mini`、`mini-txt`、`pv-btn`、`item-action-button` 及业务页自造的
   `*-primary-action` / `*-danger-action` 都是迁移期遗留类，不是获准的新变体；新增代码禁止使用，存量只能减少。
 
-#### DS-C.2a 同项动作组（v2.22.0）
+#### DS-C.2a 同项动作组（v2.23.0）
 
 - 同一对象、同一作用域且必须共同保留的相邻离散命令使用 `DsActionGroup`。它只持有布局与动作几何，不拥有
   command、disabled、tooltip 或业务状态，也不是 toolbar、表单字段组或新的 ARIA 交互 role；子按钮继续按
@@ -447,11 +447,16 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   位置使前移/后移不可用属于从当前顺序即可理解的边界状态，不强制重复说明。不可聚焦 disabled button 的
   tooltip 不能代替业务禁用原因。
 - `action-group-adoption.json` 双向枚举正式采用和所有 production `DsReorderMoveButton`：当前正式采用为
-  10 组 / 20 枚移动动作；其余 24 枚移动动作按 12 个候选 surface 逐项登记
+  13 组 / 22 枚移动动作；其余 22 枚移动动作按 11 个候选 surface 逐项登记
   `equivalent-owner | deferred | N/A`。未消费 ActionGroup
   不自动等于违规；只有具备真实 DOM/CSS/响应式证据的专用 owner 才能登记 equivalent/N/A，deferred 必须写
   removalCondition。新增单枚 raw move、漏登、重复、stale fingerprint、动态 density、非动作 child、模式混用
-  或直系 size 双 owner 都必须 fail-loud。
+  或直系 size 双 owner 都必须 fail-loud。正式采用组的 `moveButtonCount` 必须是与 AST 实数相等的非负整数；
+  header/state等0-move离散动作组合法，候选surface仍必须恰有两枚移动动作，不能借0-move合同掩盖残缺候选。
+- `LayerStackControls` 以 `.map-layer-list` 作为唯一 inline-size container：`>=320px` 时状态组、名称和排序组
+  同排且名称轨至少96px；`216–319px` 时排序组完整进入第二行并右对齐；`<216px` 时状态组、名称、排序组按
+  DOM顺序逐层排列。非选中行不得预留空排序层；图层行与列表必须保留4px focus外扩空间，动作组本身不得
+  通过裁剪、缩放或拆组换取窄栏空间。
 
 ### DS-C.3 列表头与对象列表
 

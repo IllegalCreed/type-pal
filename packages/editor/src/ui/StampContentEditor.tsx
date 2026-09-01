@@ -131,6 +131,18 @@ export function StampContentEditor(props: {
     !activeLayer ||
     hiddenLayerIds.has(activeLayerId) ||
     lockedLayerIds.has(activeLayerId)
+  const ownershipDisabledReason = !editingAllowed
+    ? '先接管迁移组合，才能增删或排序图层。'
+    : undefined
+  const deleteLayerDisabledReason = ownershipDisabledReason
+    ? ownershipDisabledReason
+    : draft.layers.length <= 1
+      ? '至少保留一个图层。'
+      : hiddenLayerIds.has(activeLayerId)
+        ? '先显示当前图层，再删除。'
+        : lockedLayerIds.has(activeLayerId)
+          ? '先解锁当前图层，再删除。'
+          : undefined
   const selectedTiles = assets?.tilesets.get(selectedTilesetId) ?? new Map<number, RleFrame>()
   const maxViewHeight = useMemo(() => {
     let max = 0
@@ -431,7 +443,7 @@ export function StampContentEditor(props: {
 
   const layerControls = (
     <LayerStackControls
-      items={draft.layers.map((layer, index) => ({
+      items={draft.layers.map((layer) => ({
         id: layer.id,
         name: layer.name,
         detail: `${layerTileCount(layer)} 格`,
@@ -439,11 +451,9 @@ export function StampContentEditor(props: {
         locked: lockedLayerIds.has(layer.id),
         reorderDisabled:
           !editingAllowed || hiddenLayerIds.has(layer.id) || lockedLayerIds.has(layer.id),
-        canMoveUp: editingAllowed && index < draft.layers.length - 1,
-        canMoveDown: editingAllowed && index > 0,
       }))}
       activeId={activeLayerId}
-      addDisabled={!editingAllowed}
+      addDisabledReason={ownershipDisabledReason}
       onSelect={setActiveLayerId}
       onAdd={() => {
         const id = nextStampLayerSlotId(draft)
@@ -453,7 +463,7 @@ export function StampContentEditor(props: {
         setActiveLayerId(id)
       }}
       onDelete={() => updateDraft((current) => deleteStampDraftLayer(current, activeLayerId))}
-      deleteDisabled={!editingAllowed || draft.layers.length <= 1 || activeLayerReadOnly}
+      deleteDisabledReason={deleteLayerDisabledReason}
       onToggleVisible={(id) =>
         setHiddenLayerIds((current) => {
           const next = new Set(current)

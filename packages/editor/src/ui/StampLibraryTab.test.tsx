@@ -7,6 +7,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { ReplaceStampTemplateCommand } from '../core/stamp-commands.js'
 import { createBlankStampDraft } from '../core/stamp-draft.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -587,7 +588,9 @@ describe('StampLibraryTab', () => {
     await clickDraftPoint({ row: 1, col: 0 })
     expect(button('设为锚点', toolbar).disabled).toBe(false)
     expect(host.querySelector('.map-viewport-status--coordinate')?.textContent).toBe('R1 · C0')
-    expect(host.querySelector('.map-viewport-status--context')?.textContent).toContain('地板 · 选择')
+    expect(host.querySelector('.map-viewport-status--context')?.textContent).toContain(
+      '地板 · 选择',
+    )
     await act(async () => button('设为锚点', toolbar).click())
     expect(host.querySelector('[data-property-label="锚点"]')?.textContent).toContain('r1 · c0')
   })
@@ -911,7 +914,12 @@ describe('StampLibraryTab', () => {
   })
 
   test('预置组合未接管时编辑控件禁用，接管后恢复', async () => {
-    const migrated = { ...template(), origin: 'migrated' as const }
+    const base = template()
+    const migrated = {
+      ...base,
+      origin: 'migrated' as const,
+      layers: [base.layers[0]!, { ...structuredClone(base.layers[0]!), id: 'upper', name: '上层' }],
+    }
     const session = new EditSession(state([migrated], {}))
     await act(async () => {
       root.render(<Harness session={session} />)
@@ -919,6 +927,27 @@ describe('StampLibraryTab', () => {
     })
     expect(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')?.disabled).toBe(true)
     expect(session.getHistoryVersion()).toBe(0)
+    const addLayer = host.querySelector<HTMLButtonElement>('[aria-label="新增图层"]')!
+    const deleteLayer = host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层：地板"]')!
+    const moveLayer = host.querySelector<HTMLButtonElement>('[aria-label="上移图层：地板"]')!
+    expect(addLayer.disabled).toBe(true)
+    expect(deleteLayer.disabled).toBe(true)
+    expect(moveLayer.disabled).toBe(true)
+    expect(host.querySelectorAll('.layer-stack-disabled-reason')).toHaveLength(1)
+    expect(host.querySelector('.layer-stack-disabled-reason')?.textContent).toBe(
+      '先接管迁移组合，才能增删或排序图层。',
+    )
+    const visible = host.querySelector<HTMLButtonElement>('[aria-label="图层可见：地板"]')!
+    await act(async () => visible.click())
+    expect(host.querySelector('[aria-label="图层可见：地板"]')?.getAttribute('aria-pressed')).toBe(
+      'false',
+    )
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="图层可见：地板"]')!.click(),
+    )
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(session.isDirty()).toBe(false)
+
     const takeover = host.querySelector<HTMLInputElement>(
       '.stamp-content-properties input[type="checkbox"]',
     )!
@@ -926,5 +955,39 @@ describe('StampLibraryTab', () => {
     expect(session.getState().stamps[0]?.origin).toBe('authored')
     expect(session.getHistoryVersion()).toBe(1)
     expect(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')?.disabled).toBe(false)
+    expect(host.querySelector('.layer-stack-disabled-reason')).toBeNull()
+    expect(host.querySelector<HTMLButtonElement>('[aria-label="新增图层"]')?.disabled).toBe(false)
+    expect(
+      host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层：地板"]')?.disabled,
+    ).toBe(false)
+
+    const dispatch = vi.spyOn(session, 'dispatch')
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="上移图层：地板"]')!.click(),
+    )
+    expect(dispatch).toHaveBeenCalledOnce()
+    expect(dispatch.mock.calls[0]?.[0]).toBeInstanceOf(ReplaceStampTemplateCommand)
+    expect(session.getState().stamps[0]?.layers.map((layer) => layer.id)).toEqual([
+      'upper',
+      'floor',
+    ])
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().stamps[0]?.layers.map((layer) => layer.id)).toEqual([
+      'floor',
+      'upper',
+    ])
+
+    dispatch.mockClear()
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层：地板"]')!.click(),
+    )
+    expect(dispatch).toHaveBeenCalledOnce()
+    expect(dispatch.mock.calls[0]?.[0]).toBeInstanceOf(ReplaceStampTemplateCommand)
+    expect(session.getState().stamps[0]?.layers.map((layer) => layer.id)).toEqual(['upper'])
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().stamps[0]?.layers.map((layer) => layer.id)).toEqual([
+      'floor',
+      'upper',
+    ])
   })
 })

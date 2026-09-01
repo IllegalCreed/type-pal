@@ -11,18 +11,28 @@ const manifest = JSON.parse(readFileSync(join(here, 'action-group-adoption.json'
 const source = (name: string): string => readFileSync(join(uiRoot, name), 'utf8')
 const cloneManifest = () => structuredClone(manifest)
 
+function unwrapActionGroup(value: string, opening: string): string {
+  const start = value.indexOf(opening)
+  const close = value.indexOf('</DsActionGroup>', start)
+  if (start < 0 || close < 0) throw new Error(`missing ActionGroup fixture: ${opening}`)
+  return `${value.slice(0, start)}${opening.replace('<DsActionGroup', '<span')}${value.slice(
+    start + opening.length,
+    close,
+  )}</span>${value.slice(close + '</DsActionGroup>'.length)}`
+}
+
 describe('action group adoption gate', () => {
-  test('closes ten adopted groups and classifies every raw move-button surface', () => {
+  test('closes thirteen adopted groups and classifies every raw move-button surface', () => {
     expect(validateActionGroupAdoption(manifest)).toEqual([])
     expect(manifest.baseline).toEqual({
-      groups: 10,
+      groups: 13,
       moveButtons: 44,
-      adoptedMoveButtons: 20,
-      rawMoveButtons: 24,
-      candidateSurfaces: 12,
+      adoptedMoveButtons: 22,
+      rawMoveButtons: 22,
+      candidateSurfaces: 11,
     })
-    expect(manifest.adopted).toHaveLength(10)
-    expect(manifest.candidates).toHaveLength(12)
+    expect(manifest.adopted).toHaveLength(13)
+    expect(manifest.candidates).toHaveLength(11)
     expect(
       Object.fromEntries(
         ['equivalent-owner', 'deferred', 'N/A'].map((disposition) => [
@@ -32,7 +42,7 @@ describe('action group adoption gate', () => {
           ).length,
         ]),
       ),
-    ).toEqual({ 'equivalent-owner': 1, deferred: 11, 'N/A': 0 })
+    ).toEqual({ 'equivalent-owner': 1, deferred: 10, 'N/A': 0 })
     expect(
       manifest.candidates.find(
         (entry: { id: string }) => entry.id === 'project/startup-inventory/actions',
@@ -63,6 +73,48 @@ describe('action group adoption gate', () => {
     ).equivalentEvidence
     expect(validateActionGroupAdoption(noEquivalentEvidence).join('\n')).toMatch(
       /needs structured evidence|must use exactly/,
+    )
+  })
+
+  test('accepts registered zero-move groups and rejects invalid or drifting counts', () => {
+    const zeroMoveGroups = manifest.adopted.filter(
+      (entry: { moveButtonCount: number }) => entry.moveButtonCount === 0,
+    )
+    expect(zeroMoveGroups.map((entry: { id: string }) => entry.id)).toEqual([
+      'map/layer-stack/header-actions',
+      'map/layer-stack/state-actions',
+    ])
+
+    for (const invalid of [-1, 0.5]) {
+      const mutated = cloneManifest()
+      mutated.adopted.find(
+        (entry: { id: string }) => entry.id === 'map/layer-stack/header-actions',
+      ).moveButtonCount = invalid
+      expect(validateActionGroupAdoption(mutated).join('\n')).toMatch(
+        /moveButtonCount must be a non-negative integer/,
+      )
+    }
+
+    const drift = cloneManifest()
+    drift.adopted.find(
+      (entry: { id: string }) => entry.id === 'map/layer-stack/header-actions',
+    ).moveButtonCount = 1
+    expect(validateActionGroupAdoption(drift).join('\n')).toMatch(
+      /map\/layer-stack\/header-actions owns 0 move buttons, expected 1/,
+    )
+
+    const missing = cloneManifest()
+    missing.adopted = missing.adopted.filter(
+      (entry: { id: string }) => entry.id !== 'map/layer-stack/header-actions',
+    )
+    expect(validateActionGroupAdoption(missing).join('\n')).toMatch(
+      /unregistered action-group LayerStackControls\.tsx:className="map-layer-header-actions":1/,
+    )
+
+    const candidateZero = cloneManifest()
+    candidateZero.candidates[0].moveButtonCount = 0
+    expect(validateActionGroupAdoption(candidateZero).join('\n')).toMatch(
+      /candidate .* must own exactly two move buttons/,
     )
   })
 
@@ -151,7 +203,7 @@ describe('action group adoption gate', () => {
     const file = 'EnemyTab.tsx'
     const mutated = `${source(file)}\nconst ActionGroupSingleMoveFixture = () => (\n  <DsReorderMoveButton itemKey="fixture" direction="backward" />\n)\n`
     const problems = validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')
-    expect(problems).toMatch(/production move buttons 45|raw move buttons 25/)
+    expect(problems).toMatch(/production move buttons 45|raw move buttons 23/)
     expect(problems).toMatch(/raw move button must map to exactly one candidate owner/)
   })
 
@@ -173,9 +225,29 @@ describe('action group adoption gate', () => {
     const problems = validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')
     expect(problems).toMatch(new RegExp(`${id.replaceAll('/', '\\/')} must bind exactly one`))
     expect(problems).toMatch(
-      /production action groups 9|adopted move buttons 18|raw move buttons 26/,
+      /production action groups 12|adopted move buttons 20|raw move buttons 24/,
     )
     expect(problems).toMatch(/raw move button must map to exactly one candidate owner/)
+  })
+
+  test.each([
+    {
+      id: 'map/layer-stack/header-actions',
+      opening: '<DsActionGroup density="compact" className="map-layer-header-actions">',
+    },
+    {
+      id: 'map/layer-stack/state-actions',
+      opening: '<DsActionGroup density="compact" className="layer-state-actions">',
+    },
+    {
+      id: 'map/layer-stack/actions',
+      opening: '<DsActionGroup density="compact" className="layer-order">',
+    },
+  ])('rejects $id wrapper regression', ({ id, opening }) => {
+    const mutated = unwrapActionGroup(source('LayerStackControls.tsx'), opening)
+    expect(
+      validateActionGroupAdoption(manifest, { 'LayerStackControls.tsx': mutated }).join('\n'),
+    ).toMatch(new RegExp(`${id.replaceAll('/', '\\/')} must bind exactly one`))
   })
 
   test('rejects moving one adopted move button between groups while the global total stays fixed', () => {

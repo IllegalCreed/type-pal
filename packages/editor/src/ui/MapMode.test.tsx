@@ -13,7 +13,7 @@ import {
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { UpdateProjectMapLayerCommand } from '../core/commands.js'
+import { MoveProjectMapLayerCommand, UpdateProjectMapLayerCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -926,6 +926,27 @@ describe('MapMode 地图内容选择交互', () => {
     expect(visualOrder()).toEqual(['floor', 'objects'])
   })
 
+  test('图层动作组上移按稳定 ID 只派发一条 MoveProjectMapLayerCommand', async () => {
+    const { host, session } = await mountMapMode()
+    const before = session.getState().maps['map-a']
+    const dispatch = vi.spyOn(session, 'dispatch')
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="上移图层：地板"]')!.click(),
+    )
+    expect(dispatch).toHaveBeenCalledOnce()
+    expect(dispatch.mock.calls[0]?.[0]).toBeInstanceOf(MoveProjectMapLayerCommand)
+    expect(session.getState().maps['map-a']?.layers.map((layer) => layer.id)).toEqual([
+      'objects',
+      'floor',
+    ])
+    expect(session.getHistoryVersion()).toBe(1)
+
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().maps['map-a']).toEqual(before)
+    expect(session.undo()).toBe(false)
+  })
+
   test('600 个组合只挂载首批 60 个，真实画布 hover 不重渲染缩略图', async () => {
     const { host, canvas } = await mountMapMode({ stamps: stampTemplates(600) })
     await act(async () => inspectorTab(host, '绘制').click())
@@ -1241,10 +1262,10 @@ describe('MapMode 地图内容选择交互', () => {
     const floor = rows.find((row) => row.textContent?.includes('地板'))!
     const objects = rows.find((row) => row.textContent?.includes('上层'))!
     await act(async () =>
-      floor.querySelector<HTMLButtonElement>('[aria-label="锁定图层"]')?.click(),
+      floor.querySelector<HTMLButtonElement>('[aria-label="图层锁定：地板"]')?.click(),
     )
     await act(async () =>
-      objects.querySelector<HTMLButtonElement>('[aria-label="隐藏图层"]')?.click(),
+      objects.querySelector<HTMLButtonElement>('[aria-label="图层可见：上层"]')?.click(),
     )
 
     await act(async () => pointer(canvas, 'pointerdown'))
@@ -1548,9 +1569,7 @@ describe('MapMode 地图内容选择交互', () => {
     const deleteButton = document.querySelector<HTMLButtonElement>('[title="删除地图"]')!
     await act(async () => deleteButton.click())
     await act(async () => overflowTrigger.click())
-    expect(
-      document.querySelector<HTMLButtonElement>('[title="再次点击确认删除"]'),
-    ).not.toBeNull()
+    expect(document.querySelector<HTMLButtonElement>('[title="再次点击确认删除"]')).not.toBeNull()
 
     const nextSession = new EditSession(editorState(fixtureMap()))
     await rerenderWithSession(nextSession)
@@ -1558,9 +1577,7 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => nextDeleteButton.click())
     expect(nextSession.getState().maps['map-a']).toBeDefined()
     await act(async () => overflowTrigger.click())
-    expect(
-      document.querySelector<HTMLButtonElement>('[title="再次点击确认删除"]'),
-    ).not.toBeNull()
+    expect(document.querySelector<HTMLButtonElement>('[title="再次点击确认删除"]')).not.toBeNull()
   })
 
   test.each([
@@ -1689,7 +1706,7 @@ describe('MapMode 地图内容选择交互', () => {
       row.textContent?.includes('上层'),
     )!
     await act(async () =>
-      objectRow.querySelector<HTMLButtonElement>('[aria-label="锁定图层"]')?.click(),
+      objectRow.querySelector<HTMLButtonElement>('[aria-label="图层锁定：上层"]')?.click(),
     )
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown'))
@@ -1747,28 +1764,44 @@ describe('MapMode 地图内容选择交互', () => {
   })
 
   test('活动层锁定或隐藏后，笔刷与 Inspector 写操作禁用并显示原因', async () => {
-    const { host, canvas } = await mountMapMode()
+    const { host, canvas, session } = await mountMapMode()
     await selectFloor(host, canvas)
+    const mapBefore = session.getState().maps['map-a']
+    const historyBefore = session.getHistoryVersion()
+    const revisionBefore = session.getMapRevision('map-a')
     const floorRow = [...host.querySelectorAll<HTMLElement>('.map-layer-row')].find((row) =>
       row.textContent?.includes('地板'),
     )!
 
     await act(async () =>
-      floorRow.querySelector<HTMLButtonElement>('[aria-label="锁定图层"]')?.click(),
+      floorRow.querySelector<HTMLButtonElement>('[aria-label="图层锁定：地板"]')?.click(),
     )
     expect(host.querySelector('.map-selection-warning')?.textContent).toContain('当前活动层已锁定')
     expect(button(host, '笔刷').disabled).toBe(true)
     expect(host.querySelector<HTMLInputElement>('[aria-label="选区 tileId"]')?.disabled).toBe(true)
+    expect(host.querySelector('.layer-stack-disabled-reason')?.textContent).toBe(
+      '先解锁当前图层，再删除。',
+    )
+    expect(
+      host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层：地板"]')?.disabled,
+    ).toBe(true)
 
     await act(async () =>
-      floorRow.querySelector<HTMLButtonElement>('[aria-label="解锁图层"]')?.click(),
+      floorRow.querySelector<HTMLButtonElement>('[aria-label="图层锁定：地板"]')?.click(),
     )
     await act(async () =>
-      floorRow.querySelector<HTMLButtonElement>('[aria-label="隐藏图层"]')?.click(),
+      floorRow.querySelector<HTMLButtonElement>('[aria-label="图层可见：地板"]')?.click(),
     )
     expect(host.querySelector('.map-selection-warning')?.textContent).toContain('当前活动层已隐藏')
     expect(button(host, '笔刷').disabled).toBe(true)
     expect(host.querySelector<HTMLInputElement>('[aria-label="选区 tileId"]')?.disabled).toBe(true)
+    expect(host.querySelector('.layer-stack-disabled-reason')?.textContent).toBe(
+      '先显示当前图层，再删除。',
+    )
+    expect(session.getHistoryVersion()).toBe(historyBefore)
+    expect(session.getMapRevision('map-a')).toBe(revisionBefore)
+    expect(session.isDirty()).toBe(false)
+    expect(session.getState().maps['map-a']).toBe(mapBefore)
   })
 
   test('变换预览锁定 Inspector，切回平移后取消预览、清空选区并恢复地图属性', async () => {
@@ -1888,7 +1921,7 @@ describe('MapMode 地图内容选择交互', () => {
   test('删层影响放置组时先零写确认；取消零变化，解组与删层只占一步撤销', async () => {
     const { host, session } = await mountMapMode({ map: placementMap() })
     const before = session.getState().maps['map-a']!
-    const removeLayer = host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层"]')!
+    const removeLayer = host.querySelector<HTMLButtonElement>('[aria-label^="删除选中图层："]')!
 
     await act(async () => removeLayer.click())
     let dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
@@ -1921,7 +1954,7 @@ describe('MapMode 地图内容选择交互', () => {
     const { host, session } = await mountMapMode({ map })
     const before = session.getState().maps['map-a']!
     await act(async () =>
-      host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层"]')?.click(),
+      host.querySelector<HTMLButtonElement>('[aria-label^="删除选中图层："]')?.click(),
     )
     const dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
     await act(async () => button(dialog, '删除 1 个组合并继续').click())
@@ -1954,7 +1987,7 @@ describe('MapMode 地图内容选择交互', () => {
   test('确认期间地图变化会刷新影响清单，第一次过期确认绝不执行', async () => {
     const { host, session, onWorkspaceNotice } = await mountMapMode({ map: placementMap() })
     await act(async () =>
-      host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层"]')?.click(),
+      host.querySelector<HTMLButtonElement>('[aria-label^="删除选中图层："]')?.click(),
     )
     await act(async () =>
       session.dispatch(new UpdateProjectMapLayerCommand('map-a', 'floor', { name: '改名后地板' })),
@@ -1982,10 +2015,10 @@ describe('MapMode 地图内容选择交互', () => {
       row.textContent?.includes('上层'),
     )!
     await act(async () =>
-      objectRow.querySelector<HTMLButtonElement>('[aria-label="锁定图层"]')?.click(),
+      objectRow.querySelector<HTMLButtonElement>('[aria-label="图层锁定：上层"]')?.click(),
     )
     await act(async () =>
-      host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层"]')?.click(),
+      host.querySelector<HTMLButtonElement>('[aria-label^="删除选中图层："]')?.click(),
     )
     const dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
     await act(async () => button(dialog, '先解组 1 个组合并继续').click())

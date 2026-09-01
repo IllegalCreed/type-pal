@@ -485,6 +485,15 @@ export function MapMode(props: {
   const activeLayerHidden = activeLayer ? hiddenLayerIds.has(activeLayer.id) : false
   const activeLayerLocked = activeLayer ? lockedLayerIds.has(activeLayer.id) : false
   const activeLayerReadOnly = !activeLayer || activeLayerHidden || activeLayerLocked
+  const deleteLayerDisabledReason = !liveMap
+    ? undefined
+    : liveMap.layers.length <= 1
+      ? '至少保留一个图层。'
+      : activeLayerHidden
+        ? '先显示当前图层，再删除。'
+        : activeLayerLocked
+          ? '先解锁当前图层，再删除。'
+          : undefined
   const mapHasReadOnlyLayer = hiddenLayerIds.size > 0 || lockedLayerIds.size > 0
   const selectionHasReadOnlyLayer = useMemo(
     () =>
@@ -2894,15 +2903,12 @@ export function MapMode(props: {
         {liveMap ? (
           <LayerStackControls
             items={[...liveMap.layers].reverse().map((layer) => {
-              const index = liveMap.layers.findIndex((candidate) => candidate.id === layer.id)
               return {
                 id: layer.id,
                 name: layer.name,
                 hidden: hiddenLayerIds.has(layer.id),
                 locked: lockedLayerIds.has(layer.id),
                 reorderDisabled: hiddenLayerIds.has(layer.id) || lockedLayerIds.has(layer.id),
-                canMoveUp: index < liveMap.layers.length - 1,
-                canMoveDown: index > 0,
               }
             })}
             activeId={activeLayerId}
@@ -2915,7 +2921,7 @@ export function MapMode(props: {
             reorderRevision={session.getMapRevision(mapId)}
             stackOrder="top-first"
             onReorder={moveLayer}
-            deleteDisabled={liveMap.layers.length <= 1 || activeLayerReadOnly}
+            deleteDisabledReason={deleteLayerDisabledReason}
             footer={
               activeLayer ? (
                 <LayerPaintContext
@@ -3156,10 +3162,7 @@ export function MapMode(props: {
         />
       </IsometricEditorSurface>
 
-      <DsInspectorHost
-        hostRef={inspectorRef}
-        className="inspector inspector--tabbed map-inspector"
-      >
+      <DsInspectorHost hostRef={inspectorRef} className="inspector inspector--tabbed map-inspector">
         <div className="insp-head">
           <div className="what">地图</div>
           <div className="who">{selectedAsset?.name || mapId || '未选择'}</div>

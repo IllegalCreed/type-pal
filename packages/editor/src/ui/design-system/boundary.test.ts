@@ -379,6 +379,7 @@ describe('editor design-system static boundary', () => {
     const businessCss = readFileSync(join(here, '..', 'editor.css'), 'utf8')
     const poison = readFileSync(join(here, '..', 'PoisonTab.tsx'), 'utf8')
     const project = readFileSync(join(here, '..', 'ProjectWorkbenchTab.tsx'), 'utf8')
+    const layerStack = readFileSync(join(here, '..', 'LayerStackControls.tsx'), 'utf8')
     const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
     const designLabCss = readFileSync(join(here, '../../design-lab/design-lab.css'), 'utf8')
     const specification = readFileSync(
@@ -432,12 +433,67 @@ describe('editor design-system static boundary', () => {
     expect(designLab).toContain("'RF-27'")
     expect(designLab).toContain('<ActionGroupFixture />')
     expect(designLab).toContain('至少保留 1 项，当前项目不能删除。')
-    expect(specification).toContain('#### DS-C.2a 同项动作组（v2.22.0）')
-    expect(specification).toContain('10 组 / 20 枚移动动作；其余 24 枚移动动作按 12 个候选 surface')
+    expect(specification).toContain('#### DS-C.2a 同项动作组（v2.23.0）')
+    expect(specification).toContain('13 组 / 22 枚移动动作；其余 22 枚移动动作按 11 个候选 surface')
     expect(poison).toContain('<DsActionGroup density="compact" className="ef-ops">')
     expect(project).toContain(
       '<DsActionGroup density="compact" className="project-entry-row-actions">',
     )
+    for (const fingerprint of [
+      'className="map-layer-header-actions"',
+      'className="layer-state-actions"',
+      'className="layer-order"',
+    ])
+      expect(layerStack).toContain(`<DsActionGroup density="compact" ${fingerprint}>`)
+    expect(layerStack).not.toMatch(/<DsIconButton\b[^>]*\bsize=/)
+    expect(layerStack).toContain('label={`图层可见：${layer.name}`}')
+    expect(layerStack).toContain('label={`图层锁定：${layer.name}`}')
+    expect(layerStack).toContain('data-layer-id={layer.id}')
+    expect(layerStack).toContain('aria-label={`选择图层：${layer.name}（${layer.id}）`}')
+    const layerList = cssRuleBodies(businessCss, '.map-layer-list')[0]!
+    expect(cssDeclaration(layerList, 'container-name')).toBe('map-layer-list')
+    expect(cssDeclaration(layerList, 'container-type')).toBe('inline-size')
+    const layerRow = cssRuleBodies(businessCss, '.map-layer-row')[0]!
+    expect(cssDeclaration(layerRow, 'grid-template-columns')).toBe('max-content minmax(0, 1fr)')
+    expect(cssDeclaration(layerRow, 'min-height')).toBe('40px')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(businessCss, '.map-layer-row:has(.layer-order)')[0]!,
+        'grid-template-columns',
+      ),
+    ).toBe('max-content minmax(96px, 1fr) max-content')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(
+          businessCss,
+          '.map-layer-row',
+          '@container map-layer-list (width < 320px)',
+        )[0]!,
+        'grid-template-columns',
+      ),
+    ).toBe('max-content minmax(96px, 1fr)')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(
+          businessCss,
+          '.map-layer-row',
+          '@container map-layer-list (width < 216px)',
+        )[0]!,
+        'grid-template-columns',
+      ),
+    ).toBe('minmax(0, 1fr)')
+    const placementProperties = new Set([
+      'align-self',
+      'grid-area',
+      'grid-column',
+      'grid-row',
+      'justify-self',
+    ])
+    for (const selector of ['.map-layer-header-actions', '.layer-state-actions', '.layer-order'])
+      for (const body of cssRuleBodies(businessCss, selector)) {
+        const properties = [...body.matchAll(/(?:^|;)\s*([a-z-]+)\s*:/g)].map((match) => match[1]!)
+        expect(properties.every((property) => placementProperties.has(property))).toBe(true)
+      }
     expect(cssRuleBodies(businessCss, '.ef-ops')).toHaveLength(0)
     expect(cssRuleBodies(businessCss, '.ef-row .ef-ops')).toHaveLength(0)
     expect(
@@ -686,9 +742,9 @@ describe('editor design-system static boundary', () => {
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.22.0'")
-    expect(tokens).toContain('--ds-version: "2.22.0";')
-    expect(specification).toContain('Status: implemented v2.22.0')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.23.0'")
+    expect(tokens).toContain('--ds-version: "2.23.0";')
+    expect(specification).toContain('Status: implemented v2.23.0')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
@@ -696,6 +752,7 @@ describe('editor design-system static boundary', () => {
     expect(specification).toContain('ED-TEXT-OVERFLOW-1（v2.18.0）')
     expect(specification).toContain('ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）')
     expect(specification).toContain('ED-ACTION-GROUP-SPEC-1（v2.22.0）')
+    expect(specification).toContain('ED-ACTION-GROUP-ADOPTION-3（v2.23.0）')
     expect(specification).toContain('DS-C.5b Checkbox、Switch 与状态按钮语义边界')
     expect(primitives).toMatch(
       /\.ds-add-picker-dialog \.ds-overlay__body\s*\{[\s\S]*?overflow:\s*hidden;/,
