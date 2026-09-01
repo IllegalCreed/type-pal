@@ -426,6 +426,10 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 
 ## 交接日志
 
+- 2026-09-01 Codex: 核对 `fd37fd9b` / `992fe8fc`，Kimi KA1-KA5 与 GLM GM-A1~GM-A4 均签
+  premise verified + design agree，选择范围 B、无 counter；build 唯一剩余门禁是用户同时批准
+  CommandForm 字段簇拆分与 ItemAlchemy disabled 邻近原因两项 before -> after。未修改实现。
+  无下一位 Agent；等待用户产品裁决。
 - 2026-08-31 GLM: 独立复算 census 全数收敛（8 callsites/6 files、compact 7+default 1、46 枚
   move = adopted 组内 16 无孤儿 + 组外 30 = 15 两枚 surface，按文件算术闭合）+ 直读
   CommandForm 两处违规（字段入组/quiet 带字删除/无名 Num/模式混用）、Shop 直系 size 双 owner、
@@ -453,30 +457,10 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-ACTION-GROUP-SPEC-1（GLM 席，draft；生产实现只读，只允许更新本任务卡签字/提示词）。
-
-任务卡：docs/ops/tasks/ED-ACTION-GROUP-SPEC-1-editor-action-group-contract.md
-当前状态：draft；Codex + Kimi（KA1-KA5，选 B）已签；你的 GLM premise/design 与用户
-CommandForm + ItemAlchemy disabled reason 两项 before->after 裁决均 pending。
-任何一项未齐不得修改实现、不得转 build。
-
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、editor-design-system-v1.md DS-F.4/DS-F.5/DS-C.2/
-DS-C.4d/DS-G.4/RF-21、本卡全文（含 Kimi 签节与独立 census）、recipes.tsx:312-382、
-recipes.css:885-918、boundary.test.ts:373-396、CommandForm.tsx:109-117,462-491,1577-1588、
-ItemAlchemyEditors.tsx:147,296、ShopTab.tsx:239-245。
-
-你的分工（独立证据，不复述 Codex/Kimi）：
-1. 以你自己的扫描方式复算 8 adopted / 46 move buttons / 15 candidate surfaces，并设计
-   action-group-adoption.json 的双向 AST 门禁：漏登/重复/stale、alias/spread/dynamic density、
-   非动作 child、混合模式、adopted 直系 size、**新增单枚 raw move** 全部必红；
-2. 15 candidate 逐项分类的证据审查：equivalent-owner / deferred(含 removalCondition) / N/A
-   每项是否带真实 file:line 与 DOM/父布局证据；防止真实 debt 被写成等价 owner，也防止
-   deferred 变永久豁免；
-3. 测试矩阵：root 几何（nowrap/intrinsic、scrollWidth==clientWidth、按钮 border box 与 4px
-   focus 外扩矩形归属）、default 36/compact 32/文字仅最小尺寸、native button/a11y name/
-   tooltip/SVG hidden/Tab/Enter/Space、disabled reason 关联、RF-27 与 boundary/recipes/
-   reorder-surface/CommandForm 聚焦；
-4. CommandForm 与 ItemAlchemy 修复的命令语义零变化核验（handler、disabled、一次命令、
-   undo/redo 对称）；
-5. 输出 GLM 席 premise verified + design agree，或 counter + file:line/反例。
+无下一位 Agent 提示词：Codex / Kimi / GLM 三方 premise verified + design agree 齐、无 counter。
+当前等待用户同时裁决以下两项 before -> after；未明确批准前不得修改实现、不得转 build：
+1. CommandForm：速度 checkbox/数字输入移出 ActionGroup，补 accessible name/name/autocomplete；
+   移动/删除改为一致的纯图标组，删除保持 danger，handler/命令语义不变。
+2. ItemAlchemy：唯一配方/奖励行的 disabled 删除旁显示“至少保留 1 条”原因并建立描述关系；
+   disabled 条件、handler 与业务最少一条规则不变。
 ```
