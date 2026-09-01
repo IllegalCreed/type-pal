@@ -23,7 +23,7 @@
 | ED-ADD-PICKER-DIALOG-1 | 编辑器候选对象添加弹窗统一 | done | 三方 accept + 用户验收齐；`0787197d` 已推送 | DsAddPickerDialog v2.13.0、4+7 AST census 门禁、234/225 项 14 行有界挂载、四 adapter 单命令 |
 | ED-REORDER-DRAG-1 | 编辑器有序集合拖拽手柄统一 | done | 三方 accept + 用户复验齐，整卡收口 | Startup inventory 唯一遗漏动作槽已封组；1280/900/720 组内不拆行、无溢出 |
 | ED-REORDER-SURFACE-1 | 编辑器排序项可见边界与列表表面合同 | done | 全部增量三方 accept + 用户验收齐，整卡收口 | contentLayout form/list；Shop 公共 panel + danger 下架；角色视觉与 surface 四桶闭合 |
-| ED-ACTION-GROUP-SPEC-1 | DsActionGroup 公共规范与当前采用闭合 | draft | 三方 design 签字齐（选 B）；待用户裁决 CommandForm/禁用原因 before->after，未批不得 build | DS 2.22.0；8 adopted 闭合 + 15 candidate 分类（单枚 raw move 必红） |
+| ED-ACTION-GROUP-SPEC-1 | DsActionGroup 公共规范与当前采用闭合 | review | `1c320ce0` Codex accept；待 Kimi/GLM 终审 + 用户验收 | DS 2.22.0；8/46/16/30/15；1 equivalent +14 deferred；单枚与1→3均必红 |
 | ED-FIELD-LABEL-TRACK-WIDE-1 | 编辑器整组宽标签轨合同 | done | 三方 accept + 用户验收齐，整卡收口 | `6e7999ef`：wide=160px/<560 stacked；RoleBindings 唯一采用；DS 2.21.0 |
 | ED-ITEM-ALCHEMY-SURFACE-1 | 炼蛊皿与紫金葫芦双炼化工作台 | done | 全部增量三方accept + 用户验收齐，整卡收口 | Craft header/handle/formula稳定对齐；Stepper outer与控件统一36px，三态/高对比闭合 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |

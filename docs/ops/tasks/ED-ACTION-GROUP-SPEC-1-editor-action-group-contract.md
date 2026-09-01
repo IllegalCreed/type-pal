@@ -1,6 +1,6 @@
 # ED-ACTION-GROUP-SPEC-1 - DsActionGroup 公共规范与当前采用闭合
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: Editor design system（不改变 capability-map）
 Coding Owner: Codex
@@ -116,7 +116,8 @@ Target Design-System Version: `2.22.0`
   炼化禁用删除邻近显示“至少保留 1 条”的原因；其它 adopted 页面视觉不变。
 - 代表场景: 对话指令“第 N 行”的自定速度 + 数值 + 上移/下移/删除；队伍成员行的移动/删除；炼化页
   唯一配方 / 唯一奖励档位的禁用删除与“至少保留 1 条”原因。
-- 用户裁决: **pending**（即使三方设计签字齐，用户批准该 before -> after 前仍不得 build）
+- 用户裁决: **approved（2026-09-01）**——用户在术语改为真实页面名称后明确回复“批准以上两项调整”，
+  同时批准脚本编辑器「对话」指令的字段/动作分离与炼蛊皿/紫金葫芦唯一行禁用原因；业务命令与数据不变。
 
 ## 上下文锚点
 
@@ -351,13 +352,16 @@ Target Design-System Version: `2.22.0`
 - counter / 分歧处理: none（Kimi 选 B、GLM 选 B 与 Codex 推荐一致；A 伪合规、C 伪债务均已带
   证据否决。用户改变 before -> after 时现有三方 design 签字全部失效，更新方案后必须重签）
 - 缺签豁免: N/A
-- build 准入结论: **blocked（2026-08-31 Codex + Kimi（KA1-KA5）+ GLM（GM-A1~GM-A4）三方 design
-  签字齐、无 counter；但用户 CommandForm + ItemAlchemy disabled reason 两项 before -> after 裁决
-  仍 pending——用户批准前不得转 build）**
+- build 准入结论: **allowed（2026-09-01，Codex + Kimi（KA1-KA5）+ GLM（GM-A1~GM-A4）三方
+  premise verified + design agree 齐、无 counter；用户已批准脚本编辑器「对话」指令与炼蛊皿/
+  紫金葫芦两项 before -> after；Codex 为唯一 Coding Owner）**
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-09-01，commit `1c320ce0`）**——DS 2.22.0 公共合同、8 adopted、46 move
+  buttons / 15 candidates、CommandForm 与双炼化禁用原因、RF-27、CLI/Vitest/浏览器证据均按
+  KA1-KA5 / GM-A1-GM-A4 闭合；两路内部只读终审发现的“组间转移一枚 move 仍假绿”和
+  “equivalent owner 证据只写文案”两项 P1 已以逐组 count + 结构化 parent/CSS/响应式门禁关闭并重获 accept。
 - Kimi: pending
 - GLM: pending
 - 用户验收: pending
@@ -390,42 +394,86 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 - Reviewer: Kimi（公共合同/范围/视觉）+ GLM（census/AST/测试矩阵）
 - 结论: pending
 - 必改项: pending
-- 是否建议进入 build: no（签字与用户裁决未齐）
+- 是否建议进入 build: yes（2026-09-01 三方签字与用户产品裁决均齐）
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（签字门满足后）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex（唯一实现修改者）
+- 修改文件:
+  - 公共合同 / 版本：`recipes.css`、`index.ts`、`tokens.css`、设计规范、RF-27。
+  - 当前采用：`CommandForm.tsx`、`ItemAlchemyEditors.tsx`、`ShopTab.tsx` 与受限 `editor.css`。
+  - census / 门禁：`action-group-adoption.json`、`action-group-audit.mjs`、CLI gate 接线、adoption /
+    boundary / recipe / reorder-surface / field-layout snapshot 测试。
+  - 明确零改：`reorder.tsx`、`reorder.css`、`reorder-adoption.json`、schema/content/runtime/project data。
+- 实现摘要:
+  - root 改为显式 nowrap + intrinsic min-width，删除会夹窄 wrapper 的 `max-width:100%`；default icon
+    36×36、compact icon 32×32，文字动作只锁最小宽高，业务 CSS 禁止覆盖公共 class。
+  - 脚本编辑器「对话」指令：`fieldset` 持有“自定速度 + 每字间隔（毫秒）+ 毫秒/字”，补 name/
+    autocomplete；上移/下移/删除成为 pure-icon group，单行删除显示“至少保留 1 行对话”；队伍删除改为
+    `从队伍移出：角色名` danger icon。`setRow/setCue/setMembers` 与草稿提交时机原样。
+  - 炼蛊皿 / 紫金葫芦：唯一配方 / 唯一奖励档位显示完整可见原因并以 `aria-describedby` 关联；disabled、
+    handler、`maxRoll` 与至少一条业务规则原样。Shop 只删除直系冗余 `size`。
+  - 生产 census 精确为 8 groups / 46 move buttons / adopted 内 16 / raw 30 / 15 candidate surfaces；
+    最终分类为 1 `equivalent-owner`（startup inventory）+ 14 `deferred` + 0 N/A。每组 adopted 恰 2 枚
+    move；组间 1→3 转移、额外单枚 raw move、alias/namespace/spread/dynamic/non-action/mixed-mode/
+    direct-size/stale/重复均有红态负例。唯一 equivalent owner 的 default parent、4px gap、max-content/
+    nowrap 与 520/400 整组换轨由 CLI + boundary 双锁。
+- 运行命令:
+  - final focused：9 files / 158 tests 绿（action-group、recipes、boundary、reorder-surface、field-layout、
+    text-overflow、CommandForm、ScriptDrawer、ItemAlchemy）。
+  - `pnpm --filter @type-pal/editor typecheck` 绿。
+  - `pnpm --filter @type-pal/editor audit:design-system`：91 files、2 个既有 evidence-bound exceptions，绿。
+  - Editor 全量第一次：3 项失败——field-layout snapshot 为本任务新增两条 CommandForm grid 预期差异；
+    EnemyTab focus 时序失败；text-overflow 30s timeout。按精确原因更新 snapshot。
+  - `vitest run -u <field-file>` 因 Vitest v4 的 `-u` 参数位置意外再次触发 editor-wide：183/184 files、
+    1513/1514 tests，唯一剩余为 text-overflow 30s timeout；这是意外第二次全量，已如实记录，不再重复全量。
+  - 精确复跑：EnemyTab + field-layout 2 files / 19 tests 绿；text-overflow 单文件 9 tests 在
+    `--testTimeout=120000` 下 14.63s 绿；最终 9-file focused 再次 158/158 绿。
+- 浏览器 / 手工检查:
+  - RF-27 v2.22.0：480px 三枚 icon-text 36px 同排；320px 三枚 pure-icon 32px 整组下沉；480px
+    pure-text 保持 intrinsic。20 汉字 / 40 英文 / 64 字符 ID 均零溢出，group scrollWidth=clientWidth。
+  - 真实脚本页在评审沙盒临时插入未保存“对话”后检查：1280/720 下实际 row 486px 同排；360 viewport
+    实际 row 294px 单列，group 完整下沉。速度 input 不在 group，aria/name/autocomplete 正确，三动作
+    32×32 同 y、danger 正确、row/document overflow 0；刷新后未保存草稿已丢弃。
+  - 真实炼蛊皿 / 紫金葫芦：1280 与 720 均测。炼蛊组 104px、按钮 32×32；紫金葫芦组 116px、按钮
+    36×36；group/client/scroll width 相等、按钮位于 row 内、row/document overflow 0。
+- 跳过的检查及原因: 真实浏览器 UI 级 200% zoom 仍无法由当前工具可靠设置；未用 pinch/
+  pageScaleFactor 冒充。RF-27 固定 320px、真实 360 viewport / row294、720 与 1280 已覆盖两侧布局路径，
+  200% 留 Kimi / 用户复验。
 
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: Design Lab RF-27 DOM/computed geometry + 真实脚本/炼蛊皿/紫金葫芦页面 DOM、截图与
+  bounding-rect 检查；1280/720/360 viewport。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending（`.mimosa/evidence/`，禁止提交）
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: 应用内浏览器本轮截图（未写仓库）；无 `.mimosa` 提交。
+- 结论: RF-27 三模式、真实 CommandForm 与两机制页面均无拆组、混高、裁切或横向溢出。
+- 未完成项: 真实 UI 级 200% zoom；当前证据不宣称已实测。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- 审查结论: Codex accept；内部两路只读压力审查 accept；正式 Kimi / GLM pending。
 - 必须返工项: pending
 - Accept / rework: pending
 
 ## 用户验收
 
-- 用户结论: pending（build 前须同时裁决 CommandForm + ItemAlchemy disabled reason 两项
-  before -> after；build 后再功能验收）
+- 用户结论: build 前产品裁决 **approved（2026-09-01）**；build 后功能验收 pending
 - 后续任务: `ED-ACTION-GROUP-ADOPTION-1`（仅在本卡逐项分类后仍有真实 deferred 时开卡；数量不得预设）
 
 ## 交接日志
 
+- 2026-09-01 Codex: commit `1c320ce0` 完成 DS 2.22.0、当前 8 adopted 闭合、46/16/30/15 census、
+  1 equivalent +14 deferred 分类、CommandForm / ItemAlchemy 真实术语修复与 RF-27。最终 focused
+  9 files /158、typecheck、CLI gate 绿；全量与意外第二次全量的预期 snapshot/时序/timeout 过程已如实
+  记录并全部精确复绿。浏览器完成 RF-27 480/320、真实 1280/720/360 与两机制页；未伪报 200%。
+  Codex 签 accept，状态转 review。Next: Kimi 只读架构/视觉终审，不得修改实现或标 done。
+- 2026-09-01 User + Codex: 用户要求把内部代码名改为真实页面术语；Codex 澄清为“脚本编辑器「对话」
+  指令”和“炼蛊皿/紫金葫芦唯一行禁用原因”后，用户明确回复“批准以上两项调整”。三方签字与用户
+  产品裁决门均齐，状态转 build；Codex 作为唯一 Coding Owner 开工。Next: Codex 实现、自测并转 review。
 - 2026-09-01 Codex: 核对 `fd37fd9b` / `992fe8fc`，Kimi KA1-KA5 与 GLM GM-A1~GM-A4 均签
   premise verified + design agree，选择范围 B、无 counter；build 唯一剩余门禁是用户同时批准
   CommandForm 字段簇拆分与 ItemAlchemy disabled 邻近原因两项 before -> after。未修改实现。
@@ -457,10 +505,28 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 ## 下一位 Agent 提示词
 
 ```text
-无下一位 Agent 提示词：Codex / Kimi / GLM 三方 premise verified + design agree 齐、无 counter。
-当前等待用户同时裁决以下两项 before -> after；未明确批准前不得修改实现、不得转 build：
-1. CommandForm：速度 checkbox/数字输入移出 ActionGroup，补 accessible name/name/autocomplete；
-   移动/删除改为一致的纯图标组，删除保持 danger，handler/命令语义不变。
-2. ItemAlchemy：唯一配方/奖励行的 disabled 删除旁显示“至少保留 1 条”原因并建立描述关系；
-   disabled 条件、handler 与业务最少一条规则不变。
+终审 ED-ACTION-GROUP-SPEC-1（Kimi 席，review；只读，不得修改实现/测试，不得代签 GLM，不得标 done）。
+
+任务卡：docs/ops/tasks/ED-ACTION-GROUP-SPEC-1-editor-action-group-contract.md
+实现提交：1c320ce0 feat(editor): enforce action group contract
+当前状态：review；Codex accept，Kimi / GLM 正式 review 签字与用户 build 后验收 pending。
+
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部 KA/GM 签字与 Build/视觉证据、
+editor-design-system-v1.md DS-C.2a/DS-F.5/DS-G.4/RF-27；审 `31ecc0fa..1c320ce0` 全 diff。
+
+必须独立核验：
+1. scope：只改 CommandForm、双炼化禁用原因、Shop冗余size、公共CSS/规范/门禁；reorder API、schema、
+   Command、项目数据必须零漂移。
+2. 公共几何与语义：nowrap/intrinsic、default icon 36×36、compact icon 32×32、text仅min；neutral
+   wrapper；同组单一模式；icon name/tooltip、danger、业务原因 disabled、focus containment。
+3. census/门禁：8/46/16/30/15，1 equivalent +14 deferred；每 adopted moveButtonCount=2；新增单枚、
+   组间1→3转移、alias/namespace/spread/dynamic/non-action/mixed/direct-size/stale 都必红；inventory
+   equivalent 的default parent/4px/max-content/nowrap/520+400换轨不能只写文案。
+4. 真实页面：脚本「对话」速度字段与动作分离、单行原因、队伍“移出”语义；炼蛊皿/紫金葫芦原因关系；
+   RF-27 20汉字/40英文/64 ID 与320下沉。尽可能补真实200% zoom；无法可靠设置必须明写未实测。
+5. 测试记录：复核全量3失败→精确复绿、`-u` 参数误触第二次全量及最终9 files/158的诚实归因；不得
+   把 timeout 说成产品回归，也不得忽略 snapshot 是本任务预期变化。
+
+输出 Kimi `accept`，或 `counter` + P0/P1/P2、file:line/复现步骤；只允许写回任务卡签字/交接/
+下一提示词。若 accept，请附可直接转发给 GLM 的只读终审提示词。GLM 与用户签字前不得 done。
 ```
