@@ -1,6 +1,6 @@
 # ED-FRAME-TIMELINE-UX-RESTORE-1 - 帧动画原始卡片拖拽形态恢复
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: Editor frame-animation authoring UX（不改变内容schema/capability-map）
 Coding Owner: Codex
@@ -94,37 +94,30 @@ FrameAnimationDraftHistory及唯一保存命令。不得只隐藏新控件而保
     原始形态、越界新增按钮和当前裁切/全量DOM均来自该提交。
   - design: **agree（2026-09-01）**——恢复旧视觉/visible/native drag，同时保留当前稳定identity与
     selection/history；以单一显式例外收口，不伪装成公共推荐pattern。
-- Kimi: premise/design pending
-- GLM: premise/design pending
+- Kimi: **waived（2026-09-01，用户明确豁免本还原任务三签）**
+- GLM: **waived（2026-09-01，用户明确豁免本还原任务三签）**
 - 用户裁决: **approved（2026-09-01，恢复原来的帧时间线）**
-- build准入: **blocked（Kimi/GLM设计签字未齐，不得实现）**
+- 缺签豁免: **approved（2026-09-01）**——用户明确“帧时间线恢复任务别再麻烦Kimi和GLM三签；
+  不是新内容，只是还原”。豁免本卡build前与done前三方外部签字，Codex仍须完整自测并交用户验收。
+- build准入: **allowed（用户缺签豁免 + Codex premise/design + 用户恢复裁决齐；Codex开工）**
 
 ### 进入 done 前
 
 - Codex: pending
-- Kimi: pending
-- GLM: pending
+- Kimi: **waived（用户批准本卡done前审查豁免）**
+- GLM: **waived（用户批准本卡done前审查豁免）**
 - 用户验收: pending
-- done准入: blocked
+- done准入: blocked（只待Codex自验accept + 用户验收）
 
 ## 交接日志
 
+- 2026-09-01 User + Codex: 用户明确豁免本还原任务Kimi/GLM三签；卡转build，Codex为唯一Coding Owner。
+  Next: 完整还原、自测并转review，只交用户验收。
 - 2026-09-01 Codex: 用户指出帧时间线不应新增独立grip/move，核历史确认move button为Codex越界推演；
   ADOPTION-2取消，改开本恢复卡。未修改实现。Next: Kimi/GLM独立设计审签。
 
 ## 下一位 Agent 提示词
 
 ```text
-审签 ED-FRAME-TIMELINE-UX-RESTORE-1（Kimi席，draft；生产实现只读，只允许更新任务卡签字/交接）。
-
-任务卡：docs/ops/tasks/ED-FRAME-TIMELINE-UX-RESTORE-1-original-card-drag.md
-用户已批准恢复c799cb35之前的帧时间线；Kimi/GLM签字齐前不得build。
-
-请独立对比c799cb35^与当前FrameAnimationEditor/CSS/两registry/allowlist，核72×76、stride78、track86、
-visible window、整卡native drag、无grip/无move；审保留当前frame.id/selection/anchor/draft history的方案，
-复算reorder17/28/31/19与action-group10/44/20/24/12，核DS-C.2a/C.4d正文同步，确认唯一native
-draggable card reorder例外的风险边界。
-
-输出Kimi premise verified + design agree，或counter + P0/P1/P2/file:line/反例。若agree，仅更新任务卡
-签字与交接并附GLM提示词；不得修改实现、代签GLM或标build/done。
+无下一位 Agent 提示词；用户已豁免本还原任务Kimi/GLM三签，由Codex实现、自测后等待用户验收。
 ```
