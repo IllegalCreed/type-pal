@@ -362,12 +362,51 @@ Target Design-System Version: `2.22.0`
   buttons / 15 candidates、CommandForm 与双炼化禁用原因、RF-27、CLI/Vitest/浏览器证据均按
   KA1-KA5 / GM-A1-GM-A4 闭合；两路内部只读终审发现的“组间转移一枚 move 仍假绿”和
   “equivalent owner 证据只写文案”两项 P1 已以逐组 count + 结构化 parent/CSS/响应式门禁关闭并重获 accept。
-- Kimi: pending
+- Kimi: **accept（2026-09-01，只读终审 `31ecc0fa..1c320ce0` 全 diff + 真实页面/Design Lab/门禁
+  直读与本人聚焦复跑，非复述 Codex）**。按 KA1-KA5 与卡面五点逐项核验：
+  - **scope ✓**:diff stat 仅 editor UI/CSS、design-lab、规范/门禁/audit 脚本与看板/任务卡——
+    reorder API、schema、Command、projects/pal、content/migrate 零文件（本人 `git diff --stat` 证实）;
+    CommandForm handler/disabled/一次命令语义未动（diff 仅结构拆分与 a11y 属性）。
+  - **公共几何与语义 ✓（实机 + diff）**:root 实机 `flex-wrap: nowrap`、宽恰 104px(2×32+32+2×4)
+    且 `scrollWidth === clientWidth`（真实对话表单）;`max-width:100%` 已改 `min-width: max-content`
+    的 intrinsic containment(recipes.css:885-893);default 图标 36×36/compact 图标 32×32/文字按钮
+    仅 min 尺寸不锁方形(RF-27 实机 default 文字 80×36、compact 图标 32×32);wrapper 无 role、
+    无 roving/方向键模型(recipes.test 断言 role=null、native button、aria-describedby tooltip、
+    SVG hidden+focusable=false);DS-C.2a 成文含“首尾位置边界态不强制重复原因、tooltip 不能代替
+    业务禁用原因”的精确边界;`DS-F.5` 三模式禁混用成文。
+  - **census/门禁 ✓（本人复算一致）**:registry baseline `8/46/16/30/15` 与本人 rg 复算一致,
+    disposition `{equivalent-owner: 1, deferred: 14, N/A: 0}`——equivalent 恰为
+    `project/startup-inventory/actions`（设计期预判的原子槽，绑定 default parent/几何/响应式
+    证据，stale 即红）;门禁负例直读：stale fingerprint、deferred 缺证据、dynamic density、
+    spread/import alias/variable alias、non-action child、mixed mode、**额外单枚 raw move**
+    (47/31 必红）、**组间 1→3 转移**(总量不变仍红）、candidate pair 增减一枚必红、
+    adopted 直系 size 双 owner(Shop `size="compact"` 已删）。
+  - **真实页面 ✓（实机）**：场景脚本对话表单——速度字段已入独立 `fieldset`（视觉隐藏 legend
+    “对话第 1 行打字速度”+ 可见“毫秒/字”)，动作组内仅剩两枚移动 + danger 删除（无字段控件）;
+    单行时删除 disabled 且邻近显示“至少保留 1 行对话”,button
+    `aria-describedby=dialogue-row-1-delete-reason` 关联成立;`Num` 现带
+    aria-label/name/autoComplete(diff :107-127,:488-491);队伍删除为
+    `从队伍移出：${memberName}` 纯图标 danger（移出语义如实）;ItemAlchemy 双列表同型
+    “至少保留 1 条配方/奖励”邻近原因 + describedby;720 实机 row/group/document 溢出全 0。
+  - **200% zoom（诚实声明）**：真实 UI 级 200% zoom 在本环境**仍无法可靠设置**——CDP
+    `Emulation.setPageScaleFactor` 已于前卡实测为 pinch 式（布局视口不响应）;chrome-devtools
+    MCP 窗口在本环境被钳制 ≥720，等效 640 也无法下探（实测 innerWidth 恒 720）。
+    **真实 200% zoom 与 640 等效视口均未实测**,720/RF-27(480/320)/560 以下 stacked 证据覆盖
+    zoom 敏感代码路径，不以等效或 pinch 冒充。
+  - **测试记录诚实性 ✓**:卡面如实记录——全量第一次 3 失败（field-layout snapshot 两条
+    CommandForm grid 属本任务预期、EnemyTab 时序、text-overflow 30s timeout）并按精确原因复绿;
+    `vitest run -u` 因 Vitest v4 参数位置**意外触发第二次全量**(183/184 files、1513/1514)
+    已如实记录未隐瞒;text-overflow 在 `--testTimeout=120000` 下 14.63s 绿,归因为 timeout 而非
+    产品回归;最终 9 files / 158 focused 复绿。归因与证据自洽。
+  - **本人复跑**:action-group-adoption + recipes + boundary + reorder-surface + field-layout +
+    CommandForm.current-characterization + ItemAlchemyTab + ShopTab + reorder-adoption →
+    **9 files / 157 tests 全绿**。
+  无返工项；未修改实现/测试，未代签 GLM。
 - GLM: pending
 - 用户验收: pending
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
 
 ## Draft: 设计与风险
 
@@ -466,6 +505,17 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 
 ## 交接日志
 
+- 2026-09-01 Kimi: 只读终审 `31ecc0fa..1c320ce0`，签 **accept**。独立证据：scope 零越界
+  （git diff --stat 无 schema/Command/projects/content-migrate）；真实对话表单速度字段已入具名
+  fieldset（隐藏 legend + 毫秒/字）、动作组纯两移+danger、单行删除 disabled 且邻近原因 +
+  aria-describedby 关联、组实机 nowrap/104px/scrollEq;root `min-width:max-content` intrinsic
+  containment;RF-27 实机 default 文字 80×36 不锁方、compact 图标 32×32、wrapper role=null;
+  registry 8/46/16/30/15 与本人 rg 复算一致、1 equivalent(inventory 原子槽绑 parent/几何/
+  响应式)+14 deferred；门禁单枚/1→3 转移/pair 增减/stale/alias/dynamic/non-action/mixed/
+  direct-size 全必红;Shop direct-size 已删;Num 补 aria/name/autoComplete;队伍“移出：名”;
+  测试记录诚实（预期 snapshot/意外第二次全量/timeout 归因均如实）;200% zoom 与 640 等效均
+  未实测（窗口钳制 ≥720，已明写不冒充）;本人复跑 9 files / 157 tests 全绿。无返工项；未修改
+  实现，未代签 GLM，未标 done。Next: GLM 终审与用户验收。
 - 2026-09-01 Codex: commit `1c320ce0` 完成 DS 2.22.0、当前 8 adopted 闭合、46/16/30/15 census、
   1 equivalent +14 deferred 分类、CommandForm / ItemAlchemy 真实术语修复与 RF-27。最终 focused
   9 files /158、typecheck、CLI gate 绿；全量与意外第二次全量的预期 snapshot/时序/timeout 过程已如实
