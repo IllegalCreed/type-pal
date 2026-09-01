@@ -15,7 +15,7 @@ import {
   itemPickerSearchText,
 } from './add-picker-option-presentation.js'
 import { DsAddPickerDialog } from './design-system/add-picker.js'
-import { DsButton, DsEmptyState, DsIconButton, DsTag } from './design-system/controls.js'
+import { DsEmptyState, DsIconButton, DsTag } from './design-system/controls.js'
 import {
   DsActionGroup,
   DsCatalogControls,
@@ -240,7 +240,6 @@ export function ShopTab(props: {
                                 label={`下架 ${itemName}`}
                                 icon="delete"
                                 onClick={() => setItems(shop.items.filter((_, j) => j !== i))}
-                                size="compact"
                                 variant="danger"
                               />
                             </DsActionGroup>

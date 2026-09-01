@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import Specificity from '@bramus/specificity'
 import { JSDOM } from 'jsdom'
 import ts from 'typescript'
+import { validateActionGroupAdoption } from './action-group-audit.mjs'
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const repositoryRoot = join(packageRoot, '../..')
@@ -12,6 +13,7 @@ const allowlistPath = join(uiRoot, 'design-system/design-system-allowlist.json')
 const adoptionPath = join(uiRoot, 'design-system/design-system-adoption.json')
 const textOverflowAdoptionPath = join(uiRoot, 'design-system/text-overflow-adoption.json')
 const effectCardAdoptionPath = join(uiRoot, 'design-system/effect-card-adoption.json')
+const actionGroupAdoptionPath = join(uiRoot, 'design-system/action-group-adoption.json')
 const navigationPath = join(uiRoot, 'editor-navigation.ts')
 const dataModePath = join(uiRoot, 'DataMode.tsx')
 const appPath = join(uiRoot, 'App.tsx')
@@ -6220,6 +6222,16 @@ export function runDesignSystemGate() {
   const effectCardProblems = validateEffectCardAdoption(effectCardAdoption.value)
   if (effectCardProblems.length) {
     for (const problem of effectCardProblems) console.error(`effect-card: ${problem}`)
+    return 2
+  }
+  const actionGroupAdoption = parseJson(actionGroupAdoptionPath)
+  if (actionGroupAdoption.error) {
+    console.error(`action-group adoption registry invalid: ${actionGroupAdoption.error}`)
+    return 2
+  }
+  const actionGroupProblems = validateActionGroupAdoption(actionGroupAdoption.value)
+  if (actionGroupProblems.length) {
+    for (const problem of actionGroupProblems) console.error(`action-group: ${problem}`)
     return 2
   }
   const textOverflowAdoption = parseJson(textOverflowAdoptionPath)

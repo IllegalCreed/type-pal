@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.21.0 wide field label track（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.22.0 action group contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）/ ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）/ ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）/ ED-ACTION-GROUP-SPEC-1（v2.22.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-31
+Last updated: 2026-09-01
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -232,7 +232,8 @@ Last updated: 2026-08-31
 - 无文字图标按钮必须有 `aria-label` 和 tooltip；有文字按钮不得重复朗读装饰图标。
 - 新建、复制、打开、删除、关闭、缩放等常用动作必须跨模块使用同一图标和方向。
 - 图标按语义登记，不能按外形临时复用：`open/jump`、`copy/duplicate`、`import/upload`、`save`、`delete` 必须
-  各自唯一；同一动作组要么全部使用“图标 + 文案”，要么全部纯文案，不得一半有图标一半没有。
+  各自唯一；同一动作组只能选择一种一致表达：全部纯图标、全部“图标 + 文案”或全部纯文案。不得在同组混合
+  三种模式；纯图标组的每枚动作仍必须有具体 accessible name 与 tooltip。
 - emoji 可以作为内容类别或装饰提示，但不得充当生产操作图标、列表身份的唯一信息或跨模块语义注册表。
 
 ### DS-F.6 动效
@@ -424,6 +425,32 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   保持危险边框和文字。focus-visible 优先于 hover，disabled/busy 不响应 hover。
 - `tool`、`btn`、`mini`、`mini-txt`、`pv-btn`、`item-action-button` 及业务页自造的
   `*-primary-action` / `*-danger-action` 都是迁移期遗留类，不是获准的新变体；新增代码禁止使用，存量只能减少。
+
+#### DS-C.2a 同项动作组（v2.22.0）
+
+- 同一对象、同一作用域且必须共同保留的相邻离散命令使用 `DsActionGroup`。它只持有布局与动作几何，不拥有
+  command、disabled、tooltip 或业务状态，也不是 toolbar、表单字段组或新的 ARIA 交互 role；子按钮继续按
+  DOM 顺序进入普通 Tab 序列，不新增 roving tabindex / 方向键模型。
+- ActionGroup 只承载 `DsButton`、`DsIconButton`、`DsReorderMoveButton` 等离散动作。checkbox、number、select
+  与其它字段控件必须放在独立、有名称的字段簇；“字段 + 立即执行”使用 `DsInlineComposer`，不得借动作组排版。
+- 组内只能使用 DS-F.5 的一种表达模式。纯图标动作必须有具体 accessible name 与 tooltip；删除/解除绑定继续
+  使用 danger，不得因紧凑布局退成 quiet、普通文字 glyph 或 hover 后才出现的无边界按钮。
+- `density="default"` 的图标动作固定 `36×36px`，`density="compact"` 的图标动作固定 `32×32px`；文字动作
+  只冻结对应的 `min-width/min-height`，保持 intrinsic width，不锁成方形。`30px` compact 表单控件档不得扩散到
+  图标动作命中区；业务按钮不得再显式传入与父组重复或冲突的 `size`。
+- 根固定 `inline-flex + flex:none + flex-wrap:nowrap + width/min-width:max-content`，组内 gap 为 `4px`；不得用
+  `max-width:100%` 把 wrapper 夹窄后让固定按钮伸出。空间不足时只能由父 recipe 把完整组移到下一行，不得拆散、
+  隐藏、重排某一枚动作或用 overflow 裁掉按钮/焦点环。按钮 border box 必须位于 group 内，2px ring + 2px
+  offset 的外扩矩形必须位于 item 或最近的非裁切 owner 内。
+- 领域 class 只能为完整 root 指定 `grid-area/grid-column/justify-self/align-self` 等放置属性，不得覆写公共
+  gap、wrap、order、宽高或命中区。因业务规则而 disabled 且原因不显然的动作必须有邻近可读原因；排序首尾
+  位置使前移/后移不可用属于从当前顺序即可理解的边界状态，不强制重复说明。不可聚焦 disabled button 的
+  tooltip 不能代替业务禁用原因。
+- `action-group-adoption.json` 双向枚举正式采用和所有 production `DsReorderMoveButton`：当前正式采用为 8 组；
+  其余 30 枚移动动作按 15 个候选 surface 逐项登记 `equivalent-owner | deferred | N/A`。未消费 ActionGroup
+  不自动等于违规；只有具备真实 DOM/CSS/响应式证据的专用 owner 才能登记 equivalent/N/A，deferred 必须写
+  removalCondition。新增单枚 raw move、漏登、重复、stale fingerprint、动态 density、非动作 child、模式混用
+  或直系 size 双 owner 都必须 fail-loud。
 
 ### DS-C.3 列表头与对象列表
 
@@ -1052,6 +1079,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-24 | 28 个 catalog surface + EnemyTeam 重复/混合/空/缺失成员 + Shop 空/单/多/缺失货品 + 5 资源无 label + 295/enemy-468/team-0 | 普通对象可读 title / 精确 canonical ID meta；派生 title 不进入 identity 消费；资源缺 label 时 title 与 meta 不重复；scene root / undeclared reference 例外有界；伪 `skill.pal.*` / `enemy.pal.*` / `team.pal.*` 零命中 | v2.15 目录身份合同 |
 | RF-25 | NumberField default/compact/disabled/readonly/error/empty/negative/zero/large + 1000/720/480/320px 数字网格 | 同壳 stepper 与可见焦点；integer/decimal/inputMode、min/max/step、wheel、单命令通过；控件不超过 10rem，列由 12rem auto-fit 随容器变化且无横向溢出 | v2.17 数字字段合同 |
 | RF-26 | Item use/throw/equipment、Skill base/execution、Actor casualty 六族效果链；560/480/320px 卡容器；普通/无参数/full-span/preview/重复项/独占类型 | 共享父头/body 层级；手柄与标题中线重合；动作同尺寸；字段按容器分列/降列且无溢出；稳定 key、删除/独占切换焦点与 adoption 负例通过 | v2.19 效果卡层级合同 |
+| RF-27 | ActionGroup 480/320 + default/compact + 2/3 动作 + 纯图标/图标与文案/纯文案 + danger/disabled reason/长 identity | root intrinsic 且 nowrap；default icon 36×36、compact icon 32×32、text 仅最小尺寸；320 整组下沉；native button、accessible name/tooltip、SVG hidden、Tab/focus-visible、描述关系与 focus containment 通过 | v2.22 同项动作组合同 |
 
 ### DS-PERF.1 大列表性能合同（G3）
 

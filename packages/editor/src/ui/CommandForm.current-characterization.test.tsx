@@ -184,6 +184,94 @@ describe('当前对话身份表单', () => {
   })
 })
 
+describe('脚本指令同项动作组', () => {
+  test('对话速度字段与纯图标动作分离，并保留原有行级更新语义', () => {
+    const { onChange } = render({
+      kind: 'dialog',
+      cue: {
+        rows: [{ text: '第一行', speed: 24 }, { text: '第二行' }],
+      },
+    } as Command)
+
+    const rows = [...host.querySelectorAll<HTMLElement>('.cf-dialog-row')]
+    expect(rows).toHaveLength(2)
+    const speedGroup = rows[0]!.querySelector<HTMLFieldSetElement>('.cf-dialog-row-speed')!
+    expect(speedGroup.tagName).toBe('FIELDSET')
+    expect(speedGroup.querySelector('legend')?.textContent).toContain('对话第 1 行打字速度')
+    expect(speedGroup.closest('.ds-action-group')).toBeNull()
+    expect(speedGroup.textContent).toContain('自定速度')
+    expect(speedGroup.textContent).toContain('毫秒/字')
+    const speed = speedGroup.querySelector<HTMLInputElement>(
+      '[aria-label="对话第 1 行每字间隔（毫秒）"]',
+    )!
+    expect(speed.name).toBe('dialogue-row-1-character-delay-ms')
+    expect(speed.autocomplete).toBe('off')
+
+    const actions = rows[0]!.querySelector<HTMLElement>('.cf-dialog-row-actions')!
+    const actionButtons = [...actions.querySelectorAll<HTMLButtonElement>('button')]
+    expect(actionButtons).toHaveLength(3)
+    expect(actionButtons.every((button) => button.classList.contains('ds-icon-button'))).toBe(true)
+    expect(actions.querySelector('button[aria-label="删除对话第 1 行"]')?.classList).toContain(
+      'ds-icon-button--danger',
+    )
+
+    act(() => rows[1]!.querySelector<HTMLButtonElement>('[aria-label="删除对话第 2 行"]')!.click())
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenLastCalledWith({
+      kind: 'dialog',
+      cue: { rows: [{ text: '第一行', speed: 24 }] },
+    })
+  })
+
+  test('单行对话保留禁用删除并给出可见原因', () => {
+    const { onChange } = render({
+      kind: 'dialog',
+      cue: { rows: [{ text: '唯一一行' }] },
+    } as Command)
+    const remove = host.querySelector<HTMLButtonElement>('[aria-label="删除对话第 1 行"]')!
+    const reason = remove
+      .getAttribute('aria-describedby')!
+      .split(/\s+/)
+      .map((id) => document.getElementById(id))
+      .find((node) => node?.textContent?.includes('至少保留 1 行对话'))!
+    expect(remove.disabled).toBe(true)
+    expect(reason.textContent).toContain('至少保留 1 行对话')
+    expect(reason.classList).not.toContain('ds-visually-hidden')
+    act(() => remove.click())
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  test('队伍成员移动与移出使用一致的纯图标危险动作', () => {
+    const onChange = vi.fn()
+    render(
+      { kind: 'setParty', members: ['hero', 'friend'] } as Command,
+      onChange,
+      vi.fn(),
+      references,
+      {
+        hero: { ...actors.hero, battler: {} },
+        friend: { ...actors.friend, battler: {} },
+      } as unknown as Record<string, ActorDef>,
+    )
+    const groups = [...host.querySelectorAll<HTMLElement>('.cf-party-row-actions')]
+    expect(groups).toHaveLength(2)
+    expect(
+      groups.every((group) => {
+        const buttons = [...group.querySelectorAll<HTMLButtonElement>('button')]
+        return (
+          buttons.length === 3 &&
+          buttons.every((button) => button.classList.contains('ds-icon-button'))
+        )
+      }),
+    ).toBe(true)
+    const removeFriend = host.querySelector<HTMLButtonElement>('[aria-label="从队伍移出：friend"]')!
+    expect(removeFriend.classList).toContain('ds-icon-button--danger')
+    act(() => removeFriend.click())
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenLastCalledWith({ kind: 'setParty', members: ['hero'] })
+  })
+})
+
 describe('CommandForm commit characterization', () => {
   test("number empty string commits Number('') === 0 immediately", () => {
     const { onChange } = render({ kind: 'wait', ms: 40 } as Command)

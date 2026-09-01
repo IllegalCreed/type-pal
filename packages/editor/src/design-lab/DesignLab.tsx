@@ -17,6 +17,7 @@ import {
   DsField,
   DsFieldGroup,
   DsFieldMeasure,
+  DsIconButton,
   DsInlineComposer,
   DsInspectorHost,
   DsInspectorSection,
@@ -67,6 +68,7 @@ const FIXTURES = [
   'RF-22',
   'RF-23',
   'RF-25',
+  'RF-27',
 ]
 const FORM_OPTIONS: DsOption[] = [
   { value: 'li-xiaoyao', label: '李逍遥', description: 'li-xiaoyao' },
@@ -1137,6 +1139,76 @@ function ReorderFixture() {
   )
 }
 
+function ActionGroupFixture() {
+  return (
+    <div className="lab-action-group-grid">
+      <DsCard title="480px · Default · 图标与文案">
+        <div className="lab-action-group-sample lab-action-group-sample--480">
+          <div className="lab-action-group-row">
+            <span className="lab-action-group-identity">
+              <strong>{OVERFLOW_TEXT_FIXTURES.chinese20}</strong>
+              <small>default · 同排保留完整动作组</small>
+            </span>
+            <div className="lab-action-group-action-slot">
+              <DsActionGroup density="default" className="lab-action-group-actions">
+                <DsButton icon="edit">编辑</DsButton>
+                <DsButton icon="copy">复制</DsButton>
+                <DsButton icon="delete" variant="danger">
+                  删除
+                </DsButton>
+              </DsActionGroup>
+            </div>
+          </div>
+        </div>
+      </DsCard>
+
+      <DsCard title="320px · Compact · 纯图标与禁用原因">
+        <div className="lab-action-group-sample lab-action-group-sample--320">
+          <div className="lab-action-group-row">
+            <span className="lab-action-group-identity">
+              <strong>{OVERFLOW_TEXT_FIXTURES.ascii40}</strong>
+              <small>compact · 不拆分、不裁切焦点</small>
+            </span>
+            <div className="lab-action-group-action-slot">
+              <span id="rf-27-disabled-reason" className="lab-action-group-reason">
+                至少保留 1 项，当前项目不能删除。
+              </span>
+              <DsActionGroup density="compact" className="lab-action-group-actions">
+                <DsIconButton label="上移当前项目" icon="chevron-up" />
+                <DsIconButton label="下移当前项目" icon="chevron-down" />
+                <DsIconButton
+                  label="删除当前项目"
+                  icon="delete"
+                  variant="danger"
+                  disabled
+                  aria-describedby="rf-27-disabled-reason"
+                />
+              </DsActionGroup>
+            </div>
+          </div>
+        </div>
+      </DsCard>
+
+      <DsCard title="480px · Default · 纯文案">
+        <div className="lab-action-group-sample lab-action-group-sample--480">
+          <div className="lab-action-group-row">
+            <span className="lab-action-group-identity">
+              <strong>{OVERFLOW_TEXT_FIXTURES.id64}</strong>
+              <small>文字按钮保持 intrinsic width</small>
+            </span>
+            <div className="lab-action-group-action-slot">
+              <DsActionGroup density="default" className="lab-action-group-actions">
+                <DsButton>取消</DsButton>
+                <DsButton variant="primary">应用</DsButton>
+              </DsActionGroup>
+            </div>
+          </div>
+        </div>
+      </DsCard>
+    </div>
+  )
+}
+
 function AddPickerFixture() {
   const [revision, setRevision] = useState(0)
   const [lastAdded, setLastAdded] = useState('尚未确认候选')
@@ -1297,6 +1369,8 @@ function FixtureBody(props: { fixture: string }) {
       return <FieldLayoutFixture />
     case 'RF-25':
       return <NumberFieldFixture />
+    case 'RF-27':
+      return <ActionGroupFixture />
     default:
       return null
   }
@@ -1308,7 +1382,7 @@ export function DesignLab() {
     return (
       <main className="lab-error">
         <DsStatus tone="error" action={<a href="?fixture=RF-01">返回 RF-01</a>}>
-          未知 fixture。请使用 RF-01～RF-17、RF-21～RF-23、RF-25。
+          未知 fixture。请使用 RF-01～RF-17、RF-21～RF-23、RF-25、RF-27。
         </DsStatus>
       </main>
     )

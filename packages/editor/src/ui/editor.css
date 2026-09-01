@@ -3823,13 +3823,22 @@ html[data-panel-resize="horizontal"] * {
 .item-alchemy-reward-count {
   grid-area: count;
 }
-.item-alchemy-row-actions {
+.item-alchemy-row-action-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--ds-space-2);
   justify-self: end;
 }
-.item-alchemy-recipe-row__header > .item-alchemy-row-actions {
+.item-alchemy-row-action-reason {
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-caption);
+  text-align: end;
+}
+.item-alchemy-recipe-row__header > .item-alchemy-row-action-slot {
   grid-area: actions;
 }
-.item-alchemy-reward-row > .item-alchemy-row-actions {
+.item-alchemy-reward-row > .item-alchemy-row-action-slot {
   grid-area: actions;
 }
 .item-alchemy-inline-error {
@@ -6966,21 +6975,58 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .cf-dialog-row {
   grid-template-columns: minmax(0, 1fr);
+  container-type: inline-size;
 }
 .cf-dialog-row .cf-row {
   align-items: flex-start;
 }
+.cf-dialog-row-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: center;
+  gap: var(--ds-space-3) var(--ds-space-5);
+}
+.cf-dialog-row-speed {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--ds-space-2);
+  width: max-content;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.cf-dialog-row-speed-input {
+  width: 88px;
+}
+.cf-dialog-row-speed-unit,
+.cf-dialog-row-action-reason {
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-caption);
+}
+.cf-dialog-row-action-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-self: end;
+  gap: var(--ds-space-2);
+}
 .cf-dialog-row-actions {
   justify-content: flex-end;
-  justify-self: end;
-}
-.cf-dialog-row-actions .cf-num {
-  width: 88px;
 }
 .cf-dialog-row-list,
 .cf-party-row-list {
   display: grid;
   gap: var(--ds-space-2);
+}
+@container (max-width: 360px) {
+  .cf-dialog-row-footer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cf-dialog-row-action-slot {
+    justify-self: end;
+  }
 }
 .cf-party-row {
   grid-template-columns: 64px minmax(0, 1fr) auto;

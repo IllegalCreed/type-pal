@@ -265,12 +265,13 @@ describe('reorder visible surface adoption gate', () => {
     )
 
     const businessCss = source('editor.css')
-    expect(cssRule(businessCss, '.item-alchemy-row-actions')).not.toContain('grid-area')
-    expect(cssRule(businessCss, '.item-alchemy-reward-row > .item-alchemy-row-actions')).toContain(
-      'grid-area: actions',
-    )
+    expect(cssRule(businessCss, '.item-alchemy-row-actions')).toBe('')
+    expect(cssRule(businessCss, '.item-alchemy-row-action-slot')).not.toContain('grid-area')
     expect(
-      cssRule(businessCss, '.item-alchemy-recipe-row__header > .item-alchemy-row-actions'),
+      cssRule(businessCss, '.item-alchemy-reward-row > .item-alchemy-row-action-slot'),
+    ).toContain('grid-area: actions')
+    expect(
+      cssRule(businessCss, '.item-alchemy-recipe-row__header > .item-alchemy-row-action-slot'),
     ).toContain('grid-area: actions')
     const recipeRail = cssRule(
       businessCss,

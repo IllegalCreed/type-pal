@@ -18,6 +18,7 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsFieldMeasure,
+  DsIconButton,
   DsInlineComposer,
   DsInspectorHost,
   DsInspectorPortal,
@@ -219,6 +220,31 @@ describe('object workbench recipes', () => {
       ),
     )
     expect(host.querySelector<HTMLElement>('.ds-action-group')?.dataset.density).toBe('default')
+
+    await act(async () =>
+      root.render(
+        <DsActionGroup density="compact">
+          <DsIconButton label="上移当前项目" icon="chevron-up" />
+          <DsIconButton label="删除当前项目" icon="delete" variant="danger" />
+        </DsActionGroup>,
+      ),
+    )
+    const iconActions = host.querySelector<HTMLElement>('.ds-action-group')!
+    expect(iconActions.getAttribute('role')).toBeNull()
+    const iconButtons = [...iconActions.querySelectorAll<HTMLButtonElement>('.ds-icon-button')]
+    expect(iconButtons.map((button) => button.getAttribute('aria-label'))).toEqual([
+      '上移当前项目',
+      '删除当前项目',
+    ])
+    expect(iconButtons.every((button) => button.type === 'button')).toBe(true)
+    expect(iconButtons.every((button) => button.getAttribute('aria-describedby'))).toBe(true)
+    expect(
+      iconButtons.every(
+        (button) =>
+          button.querySelector('svg')?.getAttribute('aria-hidden') === 'true' &&
+          button.querySelector('svg')?.getAttribute('focusable') === 'false',
+      ),
+    ).toBe(true)
 
     await act(async () =>
       root.render(

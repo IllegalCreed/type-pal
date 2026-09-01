@@ -1,4 +1,5 @@
 import type { ItemData, ItemRecipe } from '@type-pal/content'
+import { useId } from 'react'
 import type { CraftRecipeEffect, ResourcePoolEffect } from '../core/item-alchemy.js'
 import {
   DsActionGroup,
@@ -99,6 +100,7 @@ export function CraftRecipeList(props: {
   onChange: (effect: CraftRecipeEffect) => void
 }) {
   const recipes = props.effect.recipes
+  const deleteReasonPrefix = useId()
   const reorderKeys = useDsReorderKeys(recipes)
   const ingredientItems = props.consuming
     ? props.items.filter((item) => item.id !== props.ownerItemId)
@@ -130,6 +132,8 @@ export function CraftRecipeList(props: {
       <div className="item-alchemy-recipe-list">
         {recipes.map((recipe, index) => {
           const reorderKey = reorderKeys.keys[index]!
+          const deleteDisabled = recipes.length <= 1
+          const deleteReasonId = `${deleteReasonPrefix}-recipe-${index + 1}-delete-reason`
           return (
             <DsReorderItem
               itemKey={reorderKey}
@@ -144,30 +148,38 @@ export function CraftRecipeList(props: {
                     <strong>配方 {index + 1}</strong>
                     <span>优先级 {index + 1} · 首个材料充足的配方生效</span>
                   </span>
-                  <DsActionGroup density="compact" className="item-alchemy-row-actions">
-                    <DsReorderMoveButton
-                      itemKey={reorderKey}
-                      direction="backward"
-                      label={`上移配方 ${index + 1}`}
-                    />
-                    <DsReorderMoveButton
-                      itemKey={reorderKey}
-                      direction="forward"
-                      label={`下移配方 ${index + 1}`}
-                    />
-                    <DsIconButton
-                      variant="danger"
-                      icon="delete"
-                      label={`删除配方 ${index + 1}`}
-                      disabled={recipes.length <= 1}
-                      onClick={() =>
-                        props.onChange({
-                          ...props.effect,
-                          recipes: recipes.filter((_, current) => current !== index),
-                        })
-                      }
-                    />
-                  </DsActionGroup>
+                  <div className="item-alchemy-row-action-slot">
+                    {deleteDisabled ? (
+                      <span id={deleteReasonId} className="item-alchemy-row-action-reason">
+                        至少保留 1 条配方，当前配方不能删除。
+                      </span>
+                    ) : null}
+                    <DsActionGroup density="compact" className="item-alchemy-row-actions">
+                      <DsReorderMoveButton
+                        itemKey={reorderKey}
+                        direction="backward"
+                        label={`上移配方 ${index + 1}`}
+                      />
+                      <DsReorderMoveButton
+                        itemKey={reorderKey}
+                        direction="forward"
+                        label={`下移配方 ${index + 1}`}
+                      />
+                      <DsIconButton
+                        variant="danger"
+                        icon="delete"
+                        label={`删除配方 ${index + 1}`}
+                        aria-describedby={deleteDisabled ? deleteReasonId : undefined}
+                        disabled={deleteDisabled}
+                        onClick={() =>
+                          props.onChange({
+                            ...props.effect,
+                            recipes: recipes.filter((_, current) => current !== index),
+                          })
+                        }
+                      />
+                    </DsActionGroup>
+                  </div>
                 </header>
                 <div className="item-alchemy-recipe-row__formula">
                   <RecipeAmountField
@@ -230,6 +242,7 @@ export function ResourceRewardTierList(props: {
   onChange: (effect: ResourcePoolEffect) => void
 }) {
   const rewards = props.effect.rewards
+  const deleteReasonPrefix = useId()
   const reorderKeys = useDsReorderKeys(rewards)
   const reorder = (intent: DsReorderIntent): boolean => {
     const next = reorderDsItems(rewards, intent, 'insert', sameDsSerializableValue)
@@ -253,6 +266,8 @@ export function ResourceRewardTierList(props: {
       <div className="item-alchemy-reward-list">
         {rewards.map((reward, index) => {
           const reorderKey = reorderKeys.keys[index]!
+          const deleteDisabled = rewards.length <= 1
+          const deleteReasonId = `${deleteReasonPrefix}-reward-${index + 1}-delete-reason`
           return (
             <DsReorderItem itemKey={reorderKey} key={reorderKey}>
               <div className="item-alchemy-reward-row">
@@ -293,31 +308,39 @@ export function ResourceRewardTierList(props: {
                     props.onChange({ ...props.effect, rewards: next })
                   }}
                 />
-                <DsActionGroup density="default" className="item-alchemy-row-actions">
-                  <DsReorderMoveButton
-                    itemKey={reorderKey}
-                    direction="backward"
-                    label={`上移实际扣除 ${index + 1} 灵葫值的奖励`}
-                  />
-                  <DsReorderMoveButton
-                    itemKey={reorderKey}
-                    direction="forward"
-                    label={`下移实际扣除 ${index + 1} 灵葫值的奖励`}
-                  />
-                  <DsIconButton
-                    variant="danger"
-                    icon="delete"
-                    label={`删除实际扣除 ${index + 1} 灵葫值的奖励`}
-                    disabled={rewards.length <= 1}
-                    onClick={() =>
-                      props.onChange({
-                        ...props.effect,
-                        maxRoll: props.effect.maxRoll - 1,
-                        rewards: rewards.filter((_, current) => current !== index),
-                      })
-                    }
-                  />
-                </DsActionGroup>
+                <div className="item-alchemy-row-action-slot">
+                  {deleteDisabled ? (
+                    <span id={deleteReasonId} className="item-alchemy-row-action-reason">
+                      至少保留 1 档奖励，当前奖励不能删除。
+                    </span>
+                  ) : null}
+                  <DsActionGroup density="default" className="item-alchemy-row-actions">
+                    <DsReorderMoveButton
+                      itemKey={reorderKey}
+                      direction="backward"
+                      label={`上移实际扣除 ${index + 1} 灵葫值的奖励`}
+                    />
+                    <DsReorderMoveButton
+                      itemKey={reorderKey}
+                      direction="forward"
+                      label={`下移实际扣除 ${index + 1} 灵葫值的奖励`}
+                    />
+                    <DsIconButton
+                      variant="danger"
+                      icon="delete"
+                      label={`删除实际扣除 ${index + 1} 灵葫值的奖励`}
+                      aria-describedby={deleteDisabled ? deleteReasonId : undefined}
+                      disabled={deleteDisabled}
+                      onClick={() =>
+                        props.onChange({
+                          ...props.effect,
+                          maxRoll: props.effect.maxRoll - 1,
+                          rewards: rewards.filter((_, current) => current !== index),
+                        })
+                      }
+                    />
+                  </DsActionGroup>
+                </div>
               </div>
             </DsReorderItem>
           )

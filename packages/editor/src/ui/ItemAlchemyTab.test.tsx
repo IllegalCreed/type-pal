@@ -5,6 +5,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import { findItemAlchemyEffect } from '../core/item-alchemy.js'
+import { CraftRecipeList, ResourceRewardTierList } from './ItemAlchemyEditors.js'
 import { CraftingAlchemyTab, SpiritGourdAlchemyTab } from './ItemAlchemyTab.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 
@@ -107,6 +108,71 @@ function session(items = palItems()): EditSession {
 }
 
 describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
+  test('唯一配方与唯一奖励档位的禁用删除显示可读原因', async () => {
+    const items = palItems()
+    const craft = findItemAlchemyEffect(
+      items.find((item) => item.id === '268')!,
+      'crafting',
+    )!.effect
+    const reward = findItemAlchemyEffect(
+      items.find((item) => item.id === '270')!,
+      'spirit-gourd',
+    )!.effect
+    const onCraftChange = vi.fn()
+    await act(async () =>
+      root.render(
+        <CraftRecipeList
+          effect={{ ...craft, recipes: craft.recipes.slice(0, 1) }}
+          items={items}
+          ownerItemId="268"
+          consuming={false}
+          scopeKey="test-craft"
+          revision={0}
+          onChange={onCraftChange}
+        />,
+      ),
+    )
+    const removeCraft = host.querySelector<HTMLButtonElement>('[aria-label="删除配方 1"]')!
+    const craftReason = removeCraft
+      .getAttribute('aria-describedby')!
+      .split(/\s+/)
+      .map((id) => document.getElementById(id))
+      .find((node) => node?.textContent?.includes('至少保留 1 条配方'))!
+    expect(removeCraft.disabled).toBe(true)
+    expect(craftReason.textContent).toBe('至少保留 1 条配方，当前配方不能删除。')
+    expect(craftReason.classList).not.toContain('ds-visually-hidden')
+    expect(removeCraft.closest('.ds-action-group')?.getAttribute('data-density')).toBe('compact')
+    await act(async () => removeCraft.click())
+    expect(onCraftChange).not.toHaveBeenCalled()
+
+    const onRewardChange = vi.fn()
+    await act(async () =>
+      root.render(
+        <ResourceRewardTierList
+          effect={{ ...reward, maxRoll: 1, rewards: reward.rewards.slice(0, 1) }}
+          items={items}
+          scopeKey="test-reward"
+          revision={0}
+          onChange={onRewardChange}
+        />,
+      ),
+    )
+    const removeReward = host.querySelector<HTMLButtonElement>(
+      '[aria-label="删除实际扣除 1 灵葫值的奖励"]',
+    )!
+    const rewardReason = removeReward
+      .getAttribute('aria-describedby')!
+      .split(/\s+/)
+      .map((id) => document.getElementById(id))
+      .find((node) => node?.textContent?.includes('至少保留 1 档奖励'))!
+    expect(removeReward.disabled).toBe(true)
+    expect(rewardReason.textContent).toBe('至少保留 1 档奖励，当前奖励不能删除。')
+    expect(rewardReason.classList).not.toContain('ds-visually-hidden')
+    expect(removeReward.closest('.ds-action-group')?.getAttribute('data-density')).toBe('default')
+    await act(async () => removeReward.click())
+    expect(onRewardChange).not.toHaveBeenCalled()
+  })
+
   test('炼蛊皿是单一机制工作台，五条配方以材料到产物和运行时优先级呈现', async () => {
     const edit = session()
     await act(async () =>

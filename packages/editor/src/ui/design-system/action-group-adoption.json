@@ -1,0 +1,287 @@
+{
+  "version": 1,
+  "baseline": {
+    "groups": 8,
+    "moveButtons": 46,
+    "adoptedMoveButtons": 16,
+    "rawMoveButtons": 30,
+    "candidateSurfaces": 15
+  },
+  "adopted": [
+    {
+      "id": "actor/initial-magic/actions",
+      "source": "ActorMode.tsx",
+      "fingerprint": "className=\"actor-initial-magic-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "ActorMode.test.tsx"
+    },
+    {
+      "id": "story/dialogue-cue-rows/actions",
+      "source": "CommandForm.tsx",
+      "fingerprint": "className=\"cf-dialog-row-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "CommandForm.current-characterization.test.tsx"
+    },
+    {
+      "id": "story/set-party-members/actions",
+      "source": "CommandForm.tsx",
+      "fingerprint": "className=\"cf-party-row-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "CommandForm.current-characterization.test.tsx"
+    },
+    {
+      "id": "enemy/ai-rules/actions",
+      "source": "EnemyTab.tsx",
+      "fingerprint": "className=\"rule-row-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "EnemyTab.test.tsx"
+    },
+    {
+      "id": "enemy-team/fixed-slots/actions",
+      "source": "EnemyTeamTab.tsx",
+      "fingerprint": "className=\"enemy-team-slot-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "EnemyTeamTab.test.tsx"
+    },
+    {
+      "id": "item/craft-recipes/actions",
+      "source": "ItemAlchemyEditors.tsx",
+      "fingerprint": "className=\"item-alchemy-row-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "ItemAlchemyTab.test.tsx"
+    },
+    {
+      "id": "item/resource-reward-tiers/actions",
+      "source": "ItemAlchemyEditors.tsx",
+      "fingerprint": "className=\"item-alchemy-row-actions\"",
+      "occurrence": 2,
+      "density": "default",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "ItemAlchemyTab.test.tsx"
+    },
+    {
+      "id": "shop/stock/actions",
+      "source": "ShopTab.tsx",
+      "fingerprint": "className=\"shop-stock-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "ShopTab.test.tsx"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "actor/casualty-gates/actions",
+      "source": "CasualtyEditor.tsx",
+      "fingerprint": "className=\"casualty-gate-actions\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "casualty-gate-actions",
+      "reason": "领域动作簇仍使用 2px gap、30px 移动按钮与文字删除，未满足公共原子动作合同。",
+      "verification": "CasualtyEditor.test.tsx",
+      "removalCondition": "迁移到 DsActionGroup，或以独立审签证明等价的 4px gap、命中尺寸、同模式与窄态合同。"
+    },
+    {
+      "id": "actor/casualty-lines/actions",
+      "source": "CasualtyEditor.tsx",
+      "fingerprint": "className=\"casualty-item-actions\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "casualty-item-actions",
+      "reason": "对象卡动作簇仍使用 2px gap、30px 移动按钮与文字删除，未满足公共原子动作合同。",
+      "verification": "CasualtyEditor.test.tsx",
+      "removalCondition": "迁移到 DsActionGroup，或以独立审签证明对象卡 owner 达到等价合同。"
+    },
+    {
+      "id": "asset/cutscene-import-frames/actions",
+      "source": "CutsceneTab.tsx",
+      "fingerprint": "contentClassName=\"cutscene-import-file-content\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "cutscene-import-file-content",
+      "reason": "三枚动作是独立 grid cell，没有持有整体几何的动作根。",
+      "verification": "CutsceneTab.test.tsx",
+      "removalCondition": "为导入帧行建立公共或等价原子动作 owner，并验证窄态整组 relocation。"
+    },
+    {
+      "id": "shared/effect-editor-card/actions",
+      "source": "EffectEditorCard.tsx",
+      "fingerprint": "data-effect-editor-actions=\"true\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "effect-editor-card__actions",
+      "reason": "已有共享原子 owner，但按钮尺寸仍固定 compact，未随效果卡 density 完成 36/32px 对称。",
+      "verification": "design-system/effect-card-adoption.test.ts",
+      "removalCondition": "使共享效果卡动作 owner 达到与卡 density 对称的等价合同后改登 equivalent-owner。"
+    },
+    {
+      "id": "asset/frame-animation-timeline/actions",
+      "source": "FrameAnimationEditor.tsx",
+      "fingerprint": "className=\"fa-frame-actions\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "fa-frame-actions",
+      "reason": "原子簇仍为 30px 移动按钮和 2px gap。",
+      "verification": "FrameAnimationEditor.reorder.test.tsx",
+      "removalCondition": "迁移到 DsActionGroup 或补齐等价 32px、4px gap 与 focus containment。"
+    },
+    {
+      "id": "map/layer-stack/actions",
+      "source": "LayerStackControls.tsx",
+      "fingerprint": "className=\"layer-order\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "layer-order",
+      "reason": "原子簇仍使用独立 compact fallback，未拥有公共 32px/4px 几何。",
+      "verification": "MapMode.test.tsx",
+      "removalCondition": "迁移到 DsActionGroup 或证明图层专用 owner 达到等价尺寸与窄态合同。"
+    },
+    {
+      "id": "poison/ticks/actions",
+      "source": "PoisonTab.tsx",
+      "fingerprint": "className=\"ef-ops\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "ef-ops",
+      "reason": "DsRepeatRow 已提供 32px，但私有动作簇仍为 2px gap，不满足公共 4px 原子节奏。",
+      "verification": "PoisonTab.test.tsx",
+      "removalCondition": "消费 DsActionGroup 或把领域 owner 补齐并审签为等价合同。"
+    },
+    {
+      "id": "project/startup-party/actions",
+      "source": "ProjectWorkbenchTab.tsx",
+      "fingerprint": "className=\"project-party-actions\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "project-party-actions",
+      "reason": "当前状态文字动作与纯图标动作混用，窄态还允许内部 flex-wrap。",
+      "verification": "ProjectWorkbenchTab.test.tsx",
+      "removalCondition": "另卡裁决复合动作与排序动作的分组层级，禁止本卡机械包组。"
+    },
+    {
+      "id": "project/startup-inventory/actions",
+      "source": "ProjectWorkbenchTab.tsx",
+      "fingerprint": "className=\"project-inventory-actions\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "equivalent-owner",
+      "owner": "project-inventory-actions",
+      "reason": "DsRepeatRow default 提供 36px；动作纯图标，4px gap、max-content/nowrap 与整组换轨均已冻结。",
+      "verification": "ProjectWorkbenchTab.test.tsx",
+      "equivalentEvidence": {
+        "parentSource": "ProjectWorkbenchTab.tsx",
+        "parentFingerprint": "<DsRepeatRow density=\"default\" className=\"project-inventory-row\">",
+        "cssSource": "editor.css",
+        "selector": ".project-inventory-actions",
+        "requiredDeclarations": {
+          "display": "inline-flex",
+          "min-width": "max-content",
+          "flex-wrap": "nowrap",
+          "gap": "var(--ds-space-2)",
+          "white-space": "nowrap"
+        },
+        "responsiveEvidence": "520px 时整组进入第 3 列；400px 时整组进入第 2 列并左对齐。"
+      }
+    },
+    {
+      "id": "project/entry-points/actions",
+      "source": "ProjectWorkbenchTab.tsx",
+      "fingerprint": "className=\"project-entry-row-actions\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "project-entry-row-actions",
+      "reason": "动作簇仍为 30px 移动按钮与 2px gap。",
+      "verification": "ProjectWorkbenchTab.test.tsx",
+      "removalCondition": "迁移到 DsActionGroup 或证明目录行尾 owner 达到等价合同。"
+    },
+    {
+      "id": "story/script-scheme-card/actions",
+      "source": "ScriptEditor.tsx",
+      "fingerprint": "className=\"script-scheme-card-actions\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "script-scheme-card-actions",
+      "reason": "方案详情文字动作与纯图标移动混用，且尺寸/gap 未达到公共合同。",
+      "verification": "SharedScriptTab.test.tsx",
+      "removalCondition": "另卡裁决详情与排序动作的层级后，迁移或审签等价 owner。"
+    },
+    {
+      "id": "script/canonical-siblings/actions",
+      "source": "ScriptEditor.tsx",
+      "fingerprint": "className=\"canonical-script-row-actions\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "canonical-script-row-actions",
+      "reason": "完整动作 rail 已存在，但仍为 30px/2px 且默认隐藏，不符合常驻原子动作合同。",
+      "verification": "ScriptEditor.test.tsx",
+      "removalCondition": "在脚本动作可见性任务中迁移或审签专用等价 rail。"
+    },
+    {
+      "id": "script/legacy-siblings/actions",
+      "source": "ScriptTree.tsx",
+      "fingerprint": "className=\"cmd-ops\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "cmd-ops",
+      "reason": "旧动作 rail 使用私有 raw buttons、20×18px 命中区与 hover 隐藏。",
+      "verification": "ScriptTree.test.ts",
+      "removalCondition": "随 legacy 脚本树动作统一任务删除私有按钮和 hover-only rail。"
+    },
+    {
+      "id": "asset/sprite-action-definitions/actions",
+      "source": "SpriteActionEditor.tsx",
+      "fingerprint": "className=\"sprite-action-catalog-actions\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "sprite-action-catalog-actions",
+      "reason": "目录尾部原子簇仍为 30px 移动按钮与 2px gap。",
+      "verification": "SpriteActionEditor.test.tsx",
+      "removalCondition": "迁移到 DsActionGroup 或证明目录尾部 owner 达到等价合同。"
+    },
+    {
+      "id": "asset/sprite-action-steps/actions",
+      "source": "SpriteActionEditor.tsx",
+      "fingerprint": "className=\"sprite-action-step-buttons\"",
+      "occurrence": 1,
+      "moveButtonCount": 2,
+      "disposition": "deferred",
+      "owner": "sprite-action-step-buttons",
+      "reason": "移动按钮 30px、删除 28px、3px gap，且删除仍为 secondary 文字 glyph。",
+      "verification": "SpriteActionEditor.test.tsx",
+      "removalCondition": "另卡统一步骤动作的尺寸、危险语义与纯图标模式。"
+    }
+  ]
+}

@@ -50,6 +50,7 @@ import {
   DsActionGroup,
   DsButton,
   DsCheckbox,
+  DsIconButton,
   DsNumberInput,
   DsReorderCollection,
   type DsReorderIntent,
@@ -106,12 +107,24 @@ function Row(props: { label: string; children: React.ReactNode }) {
   )
 }
 
-function Num(props: { value: number; onChange: (n: number) => void; step?: number }) {
+function Num(props: {
+  value: number
+  onChange: (n: number) => void
+  step?: number
+  'aria-label'?: string
+  name?: string
+  autoComplete?: string
+  className?: string
+}) {
   return (
     <DsNumberInput
       size="compact"
       value={props.value}
       step={props.step ?? 1}
+      aria-label={props['aria-label']}
+      name={props.name}
+      autoComplete={props.autoComplete}
+      className={props.className}
       onChange={(e) => props.onChange(Number(e.target.value))}
     />
   )
@@ -449,6 +462,8 @@ export function CommandForm(props: {
             <div className="cf-dialog-row-list">
               {cue.rows.map((row, index) => {
                 const rowKey = dialogueRowReorderKeys.keys[index]!
+                const deleteDisabled = cue.rows.length === 1
+                const deleteReasonId = `dialogue-row-${index + 1}-delete-reason`
                 return (
                   <DsReorderItem itemKey={rowKey} key={rowKey}>
                     <DsRepeatRow density="compact" className="cf-dialog-row">
@@ -459,36 +474,57 @@ export function CommandForm(props: {
                           spellCheck={false}
                         />
                       </Row>
-                      <DsActionGroup density="compact" className="cf-dialog-row-actions">
-                        <DsCheckbox
-                          label="自定速度"
-                          checked={row.speed !== undefined}
-                          onChange={(e) =>
-                            setRow(index, { speed: e.target.checked ? 24 : undefined })
-                          }
-                        />
-                        {row.speed !== undefined ? (
-                          <Num
-                            value={row.speed}
-                            onChange={(speed) => setRow(index, { speed })}
-                            step={8}
+                      <div className="cf-dialog-row-footer">
+                        <fieldset className="cf-dialog-row-speed">
+                          <legend className="ds-visually-hidden">
+                            对话第 {index + 1} 行打字速度
+                          </legend>
+                          <DsCheckbox
+                            label="自定速度"
+                            checked={row.speed !== undefined}
+                            onChange={(e) =>
+                              setRow(index, { speed: e.target.checked ? 24 : undefined })
+                            }
                           />
-                        ) : null}
-                        <DsReorderMoveButton itemKey={rowKey} direction="backward" />
-                        <DsReorderMoveButton itemKey={rowKey} direction="forward" />
-                        <DsButton
-                          variant="quiet"
-                          icon="delete"
-                          title="删除此行"
-                          aria-label="删除此行"
-                          disabled={cue.rows.length === 1}
-                          onClick={() =>
-                            setCue({ rows: cue.rows.filter((_, rowIndex) => rowIndex !== index) })
-                          }
-                        >
-                          删除
-                        </DsButton>
-                      </DsActionGroup>
+                          {row.speed !== undefined ? (
+                            <Num
+                              value={row.speed}
+                              onChange={(speed) => setRow(index, { speed })}
+                              step={8}
+                              aria-label={`对话第 ${index + 1} 行每字间隔（毫秒）`}
+                              name={`dialogue-row-${index + 1}-character-delay-ms`}
+                              autoComplete="off"
+                              className="cf-dialog-row-speed-input"
+                            />
+                          ) : null}
+                          {row.speed !== undefined ? (
+                            <span className="cf-dialog-row-speed-unit">毫秒/字</span>
+                          ) : null}
+                        </fieldset>
+                        <div className="cf-dialog-row-action-slot">
+                          {deleteDisabled ? (
+                            <span id={deleteReasonId} className="cf-dialog-row-action-reason">
+                              至少保留 1 行对话
+                            </span>
+                          ) : null}
+                          <DsActionGroup density="compact" className="cf-dialog-row-actions">
+                            <DsReorderMoveButton itemKey={rowKey} direction="backward" />
+                            <DsReorderMoveButton itemKey={rowKey} direction="forward" />
+                            <DsIconButton
+                              variant="danger"
+                              icon="delete"
+                              label={`删除对话第 ${index + 1} 行`}
+                              aria-describedby={deleteDisabled ? deleteReasonId : undefined}
+                              disabled={deleteDisabled}
+                              onClick={() =>
+                                setCue({
+                                  rows: cue.rows.filter((_, rowIndex) => rowIndex !== index),
+                                })
+                              }
+                            />
+                          </DsActionGroup>
+                        </div>
+                      </div>
                     </DsRepeatRow>
                   </DsReorderItem>
                 )
@@ -1559,6 +1595,7 @@ export function CommandForm(props: {
             <div className="cf-party-row-list">
               {members.map((id, i) => {
                 const memberKey = partyMemberReorderKeys.keys[i]!
+                const memberName = references.label('actor', id)
                 return (
                   <DsReorderItem itemKey={memberKey} key={memberKey}>
                     <DsRepeatRow density="compact" className="cf-party-row">
@@ -1577,14 +1614,12 @@ export function CommandForm(props: {
                       <DsActionGroup density="compact" className="cf-party-row-actions">
                         <DsReorderMoveButton itemKey={memberKey} direction="backward" />
                         <DsReorderMoveButton itemKey={memberKey} direction="forward" />
-                        <DsButton
+                        <DsIconButton
                           variant="danger"
                           icon="delete"
-                          aria-label={`删除${i === 0 ? '队长' : `队员 ${i}`}`}
+                          label={`从队伍移出：${memberName}`}
                           onClick={() => setMembers(members.filter((_, j) => j !== i))}
-                        >
-                          删除
-                        </DsButton>
+                        />
                       </DsActionGroup>
                     </DsRepeatRow>
                   </DsReorderItem>

@@ -372,6 +372,23 @@ describe('editor design-system static boundary', () => {
 
   test('locks each action group density to one shared control height', () => {
     const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
+    const businessCss = readFileSync(join(here, '..', 'editor.css'), 'utf8')
+    const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
+    const designLabCss = readFileSync(join(here, '../../design-lab/design-lab.css'), 'utf8')
+    const specification = readFileSync(
+      join(here, '../../../../../docs/phase2/editor/editor-design-system-v1.md'),
+      'utf8',
+    )
+    const root = cssRuleBodies(recipes, '.ds-action-group')
+    expect(root).toHaveLength(1)
+    expect(cssDeclaration(root[0]!, 'display')).toBe('inline-flex')
+    expect(cssDeclaration(root[0]!, 'flex')).toBe('none')
+    expect(cssDeclaration(root[0]!, 'flex-wrap')).toBe('nowrap')
+    expect(cssDeclaration(root[0]!, 'align-items')).toBe('center')
+    expect(cssDeclaration(root[0]!, 'gap')).toBe('var(--ds-space-2)')
+    expect(cssDeclaration(root[0]!, 'width')).toBe('max-content')
+    expect(cssDeclaration(root[0]!, 'min-width')).toBe('max-content')
+    expect(cssDeclaration(root[0]!, 'max-width')).toBeUndefined()
     const defaultIcons = cssRuleBodies(
       recipes,
       '.ds-action-group[data-density="default"] .ds-icon-button',
@@ -384,7 +401,10 @@ describe('editor design-system static boundary', () => {
       '.ds-action-group[data-density="default"] .ds-button',
     )
     expect(defaultButtons).toHaveLength(1)
+    expect(cssDeclaration(defaultButtons[0]!, 'min-width')).toBe('var(--ds-control-height)')
     expect(cssDeclaration(defaultButtons[0]!, 'min-height')).toBe('var(--ds-control-height)')
+    expect(cssDeclaration(defaultButtons[0]!, 'width')).toBeUndefined()
+    expect(cssDeclaration(defaultButtons[0]!, 'height')).toBeUndefined()
 
     const compactIcons = cssRuleBodies(
       recipes,
@@ -393,6 +413,39 @@ describe('editor design-system static boundary', () => {
     expect(compactIcons).toHaveLength(1)
     for (const property of ['width', 'min-width', 'height', 'min-height'])
       expect(cssDeclaration(compactIcons[0]!, property)).toBe('var(--ds-hit-target-compact)')
+    const compactButtons = cssRuleBodies(
+      recipes,
+      '.ds-action-group[data-density="compact"] .ds-button',
+    )
+    expect(compactButtons).toHaveLength(1)
+    expect(cssDeclaration(compactButtons[0]!, 'min-width')).toBe('var(--ds-hit-target-compact)')
+    expect(cssDeclaration(compactButtons[0]!, 'min-height')).toBe('var(--ds-hit-target-compact)')
+    expect(cssDeclaration(compactButtons[0]!, 'width')).toBeUndefined()
+    expect(cssDeclaration(compactButtons[0]!, 'height')).toBeUndefined()
+    expect(businessCss).not.toContain('.ds-action-group')
+    expect(designLab).toContain("'RF-27'")
+    expect(designLab).toContain('<ActionGroupFixture />')
+    expect(designLab).toContain('至少保留 1 项，当前项目不能删除。')
+    expect(specification).toContain('#### DS-C.2a 同项动作组（v2.22.0）')
+    expect(specification).toContain('其余 30 枚移动动作按 15 个候选 surface')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(designLabCss, '.lab-action-group-sample--480')[0]!,
+        'inline-size',
+      ),
+    ).toBe('min(100%, 480px)')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(designLabCss, '.lab-action-group-sample--320')[0]!,
+        'inline-size',
+      ),
+    ).toBe('min(100%, 320px)')
+    expect(
+      cssDeclaration(
+        cssRuleBodies(designLabCss, '.lab-action-group-row', '@container (max-width: 359px)')[0]!,
+        'grid-template-columns',
+      ),
+    ).toBe('minmax(0, 1fr)')
   })
 
   test('keeps the canonical form geometry and typography in one stylesheet', () => {
@@ -526,9 +579,33 @@ describe('editor design-system static boundary', () => {
     expect(project).toMatch(
       /className="project-inventory-actions"[\s\S]*?<DsReorderMoveButton[\s\S]*?<DsReorderMoveButton[\s\S]*?<DsIconButton/,
     )
-    expect(businessCss).toMatch(
-      /\.project-inventory-actions\s*\{[\s\S]*?display:\s*inline-flex;[\s\S]*?flex-wrap:\s*nowrap;[\s\S]*?white-space:\s*nowrap;/,
+    expect(project).toMatch(/<DsRepeatRow\s+density="default"\s+className="project-inventory-row">/)
+    const inventoryActions = cssRuleBodies(businessCss, '.project-inventory-actions')
+    expect(inventoryActions).toHaveLength(1)
+    expect(cssDeclaration(inventoryActions[0]!, 'display')).toBe('inline-flex')
+    expect(cssDeclaration(inventoryActions[0]!, 'min-width')).toBe('max-content')
+    expect(cssDeclaration(inventoryActions[0]!, 'flex-wrap')).toBe('nowrap')
+    expect(cssDeclaration(inventoryActions[0]!, 'gap')).toBe('var(--ds-space-2)')
+    expect(cssDeclaration(inventoryActions[0]!, 'white-space')).toBe('nowrap')
+    const inventoryActionsAt520 = cssRuleBodies(
+      businessCss,
+      '.project-inventory-row > .project-inventory-actions',
+      '@container (max-width: 520px)',
     )
+    expect(inventoryActionsAt520).toHaveLength(1)
+    expect(cssDeclaration(inventoryActionsAt520[0]!, 'grid-column')).toBe('3')
+    const inventoryActionsAt400 = cssRuleBodies(
+      businessCss,
+      '.project-inventory-row > .project-inventory-actions',
+      '@container (max-width: 400px)',
+    )
+    expect(inventoryActionsAt400).toHaveLength(2)
+    expect(inventoryActionsAt400.some((body) => cssDeclaration(body, 'grid-column') === '2')).toBe(
+      true,
+    )
+    expect(
+      inventoryActionsAt400.some((body) => cssDeclaration(body, 'justify-self') === 'start'),
+    ).toBe(true)
     expect(project).not.toContain('className="field"')
     expect(project).not.toContain('project-field-grid')
     expect(businessCss).not.toContain('.project-field-grid')
@@ -562,15 +639,16 @@ describe('editor design-system static boundary', () => {
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.21.0'")
-    expect(tokens).toContain('--ds-version: "2.21.0";')
-    expect(specification).toContain('Status: implemented v2.21.0')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.22.0'")
+    expect(tokens).toContain('--ds-version: "2.22.0";')
+    expect(specification).toContain('Status: implemented v2.22.0')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
     expect(specification).toContain('ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）')
     expect(specification).toContain('ED-TEXT-OVERFLOW-1（v2.18.0）')
     expect(specification).toContain('ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）')
+    expect(specification).toContain('ED-ACTION-GROUP-SPEC-1（v2.22.0）')
     expect(specification).toContain('DS-C.5b Checkbox、Switch 与状态按钮语义边界')
     expect(primitives).toMatch(
       /\.ds-add-picker-dialog \.ds-overlay__body\s*\{[\s\S]*?overflow:\s*hidden;/,
