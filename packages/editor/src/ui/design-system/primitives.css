@@ -686,7 +686,8 @@
   padding-inline: var(--ds-space-3);
   border: 0;
   border-radius: 0;
-  text-align: end;
+  background: transparent;
+  text-align: center;
 }
 
 .ds-number-stepper .ds-input:focus-visible,

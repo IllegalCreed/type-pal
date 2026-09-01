@@ -316,6 +316,10 @@ describe('editor design-system static boundary', () => {
     expect(cssDeclaration(stepperButton[0]!, 'min-height')).toBe(
       'var(--ds-number-stepper-button-size)',
     )
+    const stepperInput = cssRuleBodies(primitives, '.ds-number-stepper .ds-input')
+    expect(stepperInput).toHaveLength(1)
+    expect(cssDeclaration(stepperInput[0]!, 'background')).toBe('transparent')
+    expect(cssDeclaration(stepperInput[0]!, 'text-align')).toBe('center')
     const invalidStepper = cssRuleBodies(
       primitives,
       '.ds-number-stepper:has(.ds-input[aria-invalid="true"])',
