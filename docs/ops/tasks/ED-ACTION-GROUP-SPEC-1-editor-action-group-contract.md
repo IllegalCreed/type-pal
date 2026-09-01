@@ -402,11 +402,55 @@ Target Design-System Version: `2.22.0`
     CommandForm.current-characterization + ItemAlchemyTab + ShopTab + reorder-adoption →
     **9 files / 157 tests 全绿**。
   无返工项；未修改实现/测试，未代签 GLM。
-- GLM: pending
+- GLM: **accept（2026-09-01，只读终审 `31ecc0fa..1c320ce0` + registry/门禁/语义 diff 独立复算与
+  聚焦复跑，非复述 Codex/Kimi；与 Kimi 实测口径各自独立取得后收敛）**。按 GM-A1~GM-A4 逐钉核验：
+  - **registry 复算 ✓（GM-A1）**：`action-group-adoption.json` baseline 恰
+    `8 groups / 46 moveButtons / adopted 16 / raw 30 / 15 candidateSurfaces`——本人 node 复算
+    adopted 8 组**每组 moveButtonCount=2**（合计 16）+ candidate 15×2（合计 30）= 46，与本人
+    设计期独立扫描逐数一致；disposition 恰 **1 equivalent-owner + 14 deferred + 0 N/A**。
+    **deferred 逐项可执行**：14 项全部带具体 reason + verification 测试 + removalCondition
+    （迁移 DsActionGroup 或独立审签等价合同，另卡裁决类明确指向后续任务而非永久豁免）——本人
+    抽查 `.casualty-gate/item-actions`（editor.css:2854）、`.ef-ops`、`.cmd-ops`（absolute 私有
+    rail）、`.layer-order`、`.sprite-action-step-buttons`（:497）等 fingerprint 均真实存在于
+    生产源，无虚构 debt。**equivalent（inventory）证据实锤**：`.project-inventory-actions`
+    （editor.css）持 requiredDeclarations 全集（inline-flex / min-width:max-content /
+    flex-wrap:nowrap / gap:var(--ds-space-2) / white-space:nowrap），父
+    `<DsRepeatRow density="default" className="project-inventory-row">`（:1476）实在；门禁对
+    parent density 改 compact 与 gap token 漂移均有 stale-red（本人直读 + 复跑绿）——无把真实
+    debt 写成 equivalent，也无 deferred 变永久豁免。
+  - **门禁负例矩阵 ✓（GM-A2）**：`action-group-adoption.test.ts` 负例为**真实生产源变异**——
+    额外单枚 raw move（47/31 必红 + “must map to exactly one candidate owner”）、组间 1→3 转移
+    （总量不变仍红：actor 1 枚/enemy-team 3 枚双红）、candidate pair 增减一枚红、equivalent
+    parent/gap stale 红、alias/spread/dynamic density/non-action/mixed-mode/direct-size
+    fail-closed（"fails closed for import alias" 等本人复跑绿）。**扫描域精确**：
+    `action-audit.mjs` 以 `src/ui` 为根（design-lab 结构性排除）、排除 `*.test.tsx` 与
+    `/design-system/`（组件自计数排除），接入 `design-system-audit.mjs` CLI gate（91 files 复跑
+    通过）。
+  - **命令语义零变化 ✓（GM-A4）**：diff 逐行核——dialogue 行 `setRow`（checkbox 三元、Num
+    回写）、`setCue`（rows.filter 删除）、disabled `cue.rows.length === 1`、移动 backward→forward
+    顺序全部逐字保留；party 行删除 handler 原样、label 具体化“从队伍移出：角色名”；ItemAlchemy
+    两处删除 filter handler、`<=1` 条件、move label 原样，仅新增 useId 前缀 reason span +
+    aria-describedby；Shop 仅删 `size="compact"`；字段/命令/一次 UpdateItemCommand 路径零触碰
+    （schema/content/migrate/projects-pal 零文件）。`Num` 三属性逐行断言（characterization 测试
+    :205-238：aria-label/name/autoComplete + 删除 describedby → “至少保留 1 行对话”节点）。
+  - **root 几何与公共 CSS ✓（GM-A3）**：recipes.css root 现为显式 `flex-wrap: nowrap` +
+    `min-width: max-content`，`max-width: 100%` 已删除（本人直读 :885-893）；default 36×36 /
+    compact 32×32 / text 仅 min 尺寸既有断言保持。
+  - **测试记录复核 ✓**：卡面如实记录全量第一次 3 失败的精确归因（field-layout snapshot 两条
+    为本任务预期 CommandForm grid 差异、EnemyTab 时序、text-overflow 30s timeout）、
+    `vitest run -u` 因参数位置**意外触发第二次全量**（183/184、1513/1514）未隐瞒、timeout
+    归因自洽——诚实性成立。**本人复跑**：action-group + recipes + boundary + reorder-surface
+    门禁 **4 files / 113 tests**、CommandForm characterization + ItemAlchemyTab + ShopTab
+    **3 files / 30 tests**、DS adoption 总门禁 **21 tests**、`audit:design-system` CLI
+    **91 files / 2 evidence-bound exceptions**、editor typecheck——**全绿**（按纪律未重复全量）。
+  - **200% zoom（诚实声明）**：本席环境与前卡同——IAB webview 对键盘缩放零响应、CDP
+    pageScaleFactor 为 pinch 式，**真实 200% zoom 与 640 等效视口均未实测**，与 Kimi 口径一致，
+    不以 pinch/等效冒充；720 / RF-27 480/320 / 360 单列下沉已覆盖 zoom 敏感代码路径。
+  无返工项；未修改实现/测试，未代签 Kimi，未填用户验收。
 - 用户验收: pending
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
+- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
 
 ## Draft: 设计与风险
 
@@ -505,6 +549,18 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 
 ## 交接日志
 
+- 2026-09-01 GLM: 只读终审 `31ecc0fa..1c320ce0`，签 **accept**。独立证据：registry node 复算
+  8 组×2=16 + 15×2=30 = 46、disposition 1 equivalent + 14 deferred + 0 N/A，deferred 逐项
+  removalCondition 可执行、fingerprint 抽查全实在；equivalent(inventory) requiredDeclarations
+  与 default parent 实测在源 + stale-red 双锁；门禁负例为真实生产源变异（单枚 raw move/1→3
+  转移/pair 增减/stale/alias/spread/dynamic/non-action/mixed/direct-size 全红），扫描域以
+  src/ui 为根结构性排除 design-lab 与组件自计数；CommandForm/ItemAlchemy/Shop 语义 diff 逐行
+  零变化（handler/disabled/顺序/一次命令），Num aria/name/autoComplete 与删除 describedby
+  原因逐行断言；recipes.css root 显式 nowrap + intrinsic、max-width 已删；测试记录（3 失败
+  归因/意外第二次全量/timeout）诚实；本人复跑门禁 4 files/113 + 页面 3 files/30 + DS adoption
+  21 + audit CLI 91 files + typecheck 全绿。200% zoom 与 640 等效均未实测（环境同限，不冒充）。
+  无返工项；未修改实现/测试，未代签 Kimi，未填用户验收。三方 accept 齐，仅剩用户验收；
+  无下一位 Agent 提示词，等待用户验收/收口。
 - 2026-09-01 Kimi: 只读终审 `31ecc0fa..1c320ce0`，签 **accept**。独立证据：scope 零越界
   （git diff --stat 无 schema/Command/projects/content-migrate）；真实对话表单速度字段已入具名
   fieldset（隐藏 legend + 毫秒/字）、动作组纯两移+danger、单行删除 disabled 且邻近原因 +
