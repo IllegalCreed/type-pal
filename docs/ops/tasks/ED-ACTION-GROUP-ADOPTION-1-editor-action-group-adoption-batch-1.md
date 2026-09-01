@@ -351,11 +351,50 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
       初版签字失效仅因入口边界,重签后仍冻结 10/46/20/26/13 + 1+12,不升设计系统版本;
       280 同排若实测低于 96 即回 rework,不得改回更大阈值凑数。
 - GLM:
-  - premise: pending（须独立核容器 owner、CSS/测试矩阵与命令零漂移）
-  - design: pending
+  - premise: **verified（2026-09-01 refreshed，容器 owner/CSS 结构/命令零漂移/基线算术本人独立
+    复核，非复述 Codex/Kimi；与 Kimi 实测口径独立取得后收敛）**：
+    1. **反证结构核心独立核实**：当前 `.project-entry-list` 仅为 `flex:1; overflow:auto;
+       padding:4px 0`（editor.css:1938-1943 本人直读）——**全库零 container-type/零 @container/
+       零 media 降级**持有入口列表窄态（本人 grep 证实）；`.project-entry-item-content` 静态
+       `minmax(0,1fr) auto` 把动作列恒置 auto 档，`DsCatalogRow` 自身固定高 flex（gap+padding+
+       trailing「直接启动」tag 争宽，recipes.css:168-180 直读）——窄列表下 title 必然塌缩，
+       Kimi 实测 193px→17px / 235px→59px 与该结构完全自洽。「wrapper-only 父 grid 原样即可」
+       对 `<280px` 不成立、零溢出 ≠ identity 可读——**原前提失效与撤回正当**。本人另证
+       `git diff 5a084708..HEAD -- packages/` 为空——生产树与初版签字时逐字节一致，撤回干净，
+       我对毒面（DOM/命令/CSS/520/360 placement）的初版核验**继续有效**，无需重开。
+    2. **新方案结构合法**：`.project-entry-list`（ProjectWorkbenchTab.tsx:1958 实在）作唯一
+       container owner，280 同排 / <280 整组下沉——与 DS-C.2a「窄态由父 recipe 整组换行」及
+       `.ef-ops` 520/360、field-group `<480` 先例同构；动作 `grid-column:1; justify-self:end`
+       + `padding-block-end >=4px` 与毒面 placement 形态一致。
+    3. **280 余量风险量化复核**：Kimi 实测 280 同排正文 104px（旧 30px 按钮 62px 列）、迁后
+       32px 按钮 +6px 推算 ~98px——≥96 但仅 ~2px 余量；279.5 取整申报诚实。「直接启动」tag 行
+       为最紧约束属实。该余量属合同内紧贴通过，**以真实实现复测为准**的控制（KBR1/KBR3）必要
+       且充分，不构成 counter。
+    4. **命令零漂移与基线复核**：rework 仅改 CSS 边界——按钮 label/variant/disabled/handler/
+       itemKey、`useDsReorderKeys(entry.id)` → `SetStartupEntriesCommand`（:1764）路径零触碰；
+       registry 目标基线维持 **10/46/20/26/13 + 1 equivalent + 12 deferred + 0 N/A**（与本人
+       初版算术一致）；DS 不升版成立（既有 pattern 采用）。
+    5. **可推翻观察**：真实实现 280 同排复测 <96（余量仅 ~2px，字体环境差异可翻）；279/235/
+       最窄档任一名称或 entry.id 从 DOM/accessible name 丢失；毒面底线实测错位；registry 复算
+       不等于冻结基线——任一本签字失效。
+  - design: **agree（2026-09-01 refreshed，维持 GM-P1/P2/P4 效力并以 GM-R1~R3 替换 GM-P4
+    入口部分）**：
+    - **GM-R1（容器 owner 与边界钉）**：`container-type: inline-size`（+命名）只落在
+      `.project-entry-list` 一处；`>=280px` 父 grid/inset 原样同排，`<280px` 单列 + 动作组
+      `grid-column:1 / justify-self:end / padding-block-end >=4px`；边界为整数 280 并由 CSS
+      断言钉死，不得在 item/action 层散落第二断点或 media fallback。
+    - **GM-R2（identity 四档测试矩阵钉）**：280（同排，复测 ≥96，~2px 余量如实登记）/ 279 /
+      235 / 真实最窄档逐档断言：title/meta 可用宽与可见性、完整长中文名 + entry.id 保留在
+      DOM 与 accessible name、动作组不覆盖 CatalogRow、**「直接启动」tag 行纳入断言**（最紧
+      约束）、focus 外扩落 item/最近非裁切 owner、list/content/document 三点溢出 0；注入模拟
+      不得替代真实实现复测；200% zoom 保持未实测口径。
+    - **GM-R3（零漂移与纪律钉）**：毒面方案/命令/基线不变；其余 13 candidates 生产 DOM/CSS
+      零 diff 机器证明（diff 范围断言只允许两处 TSX + 入口 CSS + registry/规范/测试）；280
+      实测 <96 即回 rework，不得改回更大阈值凑数；DS 保持 2.22.0。
 - counter / 分歧处理: none
-- build 准入结论: **blocked（用户已批准 refreshed 入口响应式形态；2026-09-01 Codex + Kimi
-  refreshed 已签；缺 GLM refreshed 签字，不得恢复实现）**
+- build 准入结论: **allowed（签字面）（2026-09-01 refreshed，Codex + Kimi（KBR1-KBR3）+
+  GLM（GM-R1~R3）三方 refreshed premise/design 齐、无 counter；用户已批准 280 同排 / <280
+  下沉形态。Codex 恢复实现时状态转 build，仍为唯一 Coding Owner。）**
 
 ### 进入 done 前:审查签字
 
@@ -382,6 +421,17 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 
 ## 交接日志
 
+- 2026-09-01 GLM: rework 重签。独立核实反证结构核心——`.project-entry-list` 现仅 flex/overflow/
+  padding，全库零 container/媒体降级 owner，`.project-entry-item-content` 静态 `1fr auto` +
+  CatalogRow 固定高 flex（tag 争宽）→ 窄列表 title 必塌缩，与 Kimi 193/235px 实测自洽，原
+  wrapper-only 前提失效与撤回正当；另证 `git diff 5a084708..HEAD -- packages/` 为空（撤回干净，
+  毒面初版核验继续有效）。新方案（`.project-entry-list` 唯一 container owner、280 同排 / <280
+  下沉）与 DS-C.2a 及 ef-ops/field-group 先例同构；280 余量 ~2px 风险量化复核，以真实实现复测
+  为准不构成 counter。签 refreshed premise verified + design agree，附 GM-R1（container owner
+  单点 + 整数 280 边界钉）/GM-R2（四档 identity 矩阵含「直接启动」最紧行 + 三点溢出 0 +
+  注入不得替代实现复测）/GM-R3（毒面/基线/13 candidates 零漂移 + 不改阈值凑数 + 不升版）。
+  未修改实现，未代签 Kimi。三方 refreshed 齐 + 用户批准在案，恢复 build（签字面）allowed。
+  Next: Codex 恢复实现；done 前需真实实现 279/280 复测。
 - 2026-09-01 Kimi: rework 重签。独立实机复现反证：720px 下真实入口目录宽 193px、带 tag 行
   正文仅 17px;235px 同排对照 59px(卡面记 53px，同量级)<96——反证成立且更劣。真实 DOM 注入
   模拟新边界：235/279 下沉正文 121/165px、280 同排 104px(迁后推算 98px,余量约 2px)、各档溢出
