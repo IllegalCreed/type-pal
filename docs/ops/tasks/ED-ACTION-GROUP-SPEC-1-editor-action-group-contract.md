@@ -538,9 +538,9 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex accept；内部两路只读压力审查 accept；正式 Kimi / GLM pending。
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex + Kimi + GLM 三方 accept；内部两路只读压力审查也 accept。
+- 必须返工项: none
+- Accept / rework: review（仅缺用户 build 后验收）
 
 ## 用户验收
 
@@ -549,6 +549,9 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 
 ## 交接日志
 
+- 2026-09-01 Codex: 核对 `24f5b010` / `5bd7f4d4`，Kimi 与 GLM 均对 `1c320ce0` 签 accept，
+  无 counter / 返工项；两席均保持真实 200% zoom 未实测的诚实口径。三方 accept 齐，当前无下一位
+  Agent，只等待用户验收后收口。
 - 2026-09-01 GLM: 只读终审 `31ecc0fa..1c320ce0`，签 **accept**。独立证据：registry node 复算
   8 组×2=16 + 15×2=30 = 46、disposition 1 equivalent + 14 deferred + 0 N/A，deferred 逐项
   removalCondition 可执行、fingerprint 抽查全实在；equivalent(inventory) requiredDeclarations
@@ -611,32 +614,5 @@ toolbar role、actionMode prop 或任意尺寸开关。规范的采用义务限�
 ## 下一位 Agent 提示词
 
 ```text
-终审 ED-ACTION-GROUP-SPEC-1（GLM 席，review；只读，不得修改实现/测试，不得代签，不得标 done）。
-
-任务卡：docs/ops/tasks/ED-ACTION-GROUP-SPEC-1-editor-action-group-contract.md
-实现提交：1c320ce0 feat(editor): enforce action group contract
-当前状态：review；Codex accept 与 Kimi accept（2026-09-01，含真实页面/门禁/测试记录诚实性
-与 200% zoom 未实测声明）均已签，仅余你的 GLM accept 与用户验收。
-
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部签节（KA1-KA5、GM-A1~A4、Kimi accept
-实测口径）与 Build/视觉证据、editor-design-system-v1.md DS-C.2a/DS-F.5/RF-27；审
-`31ecc0fa..1c320ce0` 全 diff。
-
-你的分工（独立证据，不复述 Codex/Kimi）：
-1. 以你自己的方式复算 action-group-adoption registry：8 adopted（每组 moveButtonCount=2）/
-   46 / 16 / 30 / 15，disposition 1 equivalent + 14 deferred + 0 N/A；deferred 逐项的
-   removalCondition 与 file:line 证据是否真实可执行、有无把真实 debt 写成 equivalent 或把
-   deferred 变永久豁免；equivalent(inventory)的 default parent/几何/响应式证据复核。
-2. 门禁负例矩阵独立复跑与覆盖判断：额外单枚 raw move、组间 1→3 转移、candidate pair 增减、
-   stale fingerprint、alias/namespace/spread/dynamic density/non-action child/mixed mode/
-   adopted 直系 size 是否逐条真能红；action-group-audit.mjs 与 design-system-audit.mjs 的
-   扫描域（排除测试与 design-lab）是否精确。
-3. CommandForm/ItemAlchemy/Shop 的命令语义零变化：handler、disabled、move/remove 顺序、
-   一次命令、undo/redo 对称、字符/资源引用不丢失；Num 的 aria/name/autoComplete 逐行断言。
-4. 测试记录复核：全量 3 失败的精确归因（snapshot 为本任务预期、时序、timeout 非产品回归）、
-   `vitest run -u` 意外第二次全量是否如实记录、最终 9 files / 158 与 editor typecheck、
-   design-system gate 证据是否自洽；可复跑聚焦，不要重复全量。
-5. 200% zoom：Kimi 已明写真实 UI zoom 与 640 等效均未实测（CDP pageScaleFactor 为 pinch 式、
-   MCP 窗口钳制 ≥720）；你若同样无法可靠设置，请保持“未实测”口径，不得以 pinch/等效冒充。
-输出：本席 accept 或 counter + file:line/可复现步骤；写回“进入 done 前”GLM 行与交接记录。
+无下一位 Agent 提示词：Codex / Kimi / GLM 三方 accept 齐、无 counter，当前等待用户验收/收口。
 ```
