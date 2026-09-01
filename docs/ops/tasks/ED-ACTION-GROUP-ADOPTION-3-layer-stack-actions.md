@@ -172,11 +172,60 @@ workspace显隐/锁定状态与undo边界不变。
       10 deferred + 0 N/A)**;其余 11 candidates 生产零 diff;DS 升 **2.23.0**(registry
       validator 合同 + 图层响应式合同,DS-G.4 minor 适用）;DS-C.2a census 文案同步为
       “0-move 合法、candidate 仍恰 2”的表述。
-- GLM: premise/design pending
+- GLM:
+  - premise: **verified（2026-09-01，registry 基线/组件实锤/审计硬编码/命令链全部本人一手复算，
+    非复述 Codex/Kimi；与 Kimi 逐项收敛）**：
+    1. **当前基线本人复算（RESTORE-1 后）**：action-group registry 现恰 **10 groups / 44 moves /
+       adopted 20 / raw 24 / 12 candidates（1 equivalent + 11 deferred）**（node 复算 20+24=44；
+       `asset/frame-animation-timeline` 候选已被恢复移除、cutscene 仍在）——与卡面/ Kimi 所引
+       RESTORE 基线逐字一致；reorder **17 families / 28 adoptions / 31 paths / 19 owner files**
+       （owner files 按 source+contentOwner+railOwner 去重本人复算=19）、reorder-allowlist 恰
+       **12 entries**——三条链起点全部实证。
+    2. **组件实锤直读**：header 两枚 `DsIconButton size="compact"`（30px）且
+       `addDisabled/deleteDisabled` 为无原因 boolean；每行 eye/lock 亦 compact 30px 且 label
+       随状态翻转（`显示图层/隐藏图层`、`解锁图层/锁定图层` + aria-pressed）——label 承载翻转
+       动作文案、语义名称不稳定属实；active 行 `.layer-order` 2 枚 32px move——**同排 30/32
+       混高必然**；名称按钮仅 `title`、无 `data-layer-id`、accessible name 不含 ID
+       （LayerStackControls.tsx:106-181 本人直读）。
+    3. **CSS/算术实锤**：`.map-layer-row` 为 `30px 30px minmax(0,1fr) auto` + min-height 38 +
+       padding 4px 8px（editor.css:11331-11340 直读）——active 行固定件 30+30+68+16+gaps ≈
+       156-163 > 140，「140px 名称列归零 + 行横溢」算术成立，`>=320/216` 两级换轨必要。
+    4. **审计真模型缺陷实锤**：`action-group-audit.mjs` 对 adopted（:189-190）与 candidate
+       （:224-225）**均硬编码 `moveButtonCount !== 2`**——header/state 类 0-move 合法组当前
+       结构上不可登记，「registry 错误审计假设」逐字成立，validator 修真模型是本卡必要组成
+       而非顺手改动。
+    5. **命令/状态边界直读**：Map 排序 `session.dispatch(new MoveProjectMapLayerCommand(...))`
+       （MapMode.tsx:2476）；显隐/锁定走 workspace 回调不进 content history；Stamp 结构写
+       `ReplaceStampTemplateCommand`——与卡面边界一致。
+    6. **目标基线算术本人复算**：自 10/44/20/24/12 +3 groups（header 0 / state 0 / order 2）、
+       order 自 candidate 迁 adopted → **13 / 44 / 22 / 22 / 11（1 equivalent + 10 deferred +
+       0 N/A）**，逐项自洽。
+    7. **可推翻观察**：只迁 order 仍能全宽度证明同尺寸/正宽/focus/零横溢（算术已否）；0-move
+       组不修 validator 也能双向闭合（硬编码已否）；显隐/锁定需进 content history（现为
+       local state）——任一本签字失效。
+  - design: **agree（2026-09-01，附 GM-A3-1~GM-A3-4 必落钉；与 Kimi KC3-1~KC3-5 收敛互补）**：
+    - **GM-A3-1（validator 真模型钉，同 KC3-1）**：adopted `moveButtonCount` 改为「非负整数且
+      等于 AST 实数」（0 合法），candidate 仍恰 2；负例矩阵先红后绿——0-move 合法正例、负数/
+      小数/漏登记/与 AST 实数漂移必红；既有全部负例（单枚 raw move/1→3/wrapper regression 等）
+      继续有效。三个领域 class（`map-layer-header-actions`/`layer-state-actions`/`layer-order`）
+      只持 placement，不持 gap/wrap/尺寸。
+    - **GM-A3-2（换轨与算术钉，同 KC3-2）**：`.map-layer-list` 唯一 inline-size container；
+      `>=320` 三列同排（名称 ≥96px）、`<320` order 整组第二层右对齐、`<216` 三层 DOM 序；
+      非选中行不渲染空白排序层；reorder rail inset 与 4px focus 外扩空间保留；Map 360/320/319/
+      257/216/215/140 + Stamp host 360/230 双 consumer 逐档实测。
+    - **GM-A3-3（命名与原因钉，同 KC3-3）**：状态钮 label 冻结 `图层可见：${name}` /
+      `图层锁定：${name}`，状态仅由 aria-pressed + 图标表达；header 删除固定
+      `删除选中图层：${activeLayer.name}` 且 danger；`addDisabledReason/deleteDisabledReason` +
+      useId + aria-describedby 四段文案冻结；`选择图层：名称（稳定ID）` + `data-layer-id`。
+    - **GM-A3-4（命令/基线/版本钉，同 KC3-4/5）**：Map 排序恰一条 MoveProjectMapLayerCommand
+      + undo/redo、删除确认链不变；Stamp 恰一条 ReplaceStampTemplateCommand；显隐/锁定
+      history/dirty 零变化；方向映射不改；冻结 **13/44/22/22/11 + 1+10+0**，其余 11 candidates
+      生产零 diff（build diff 范围机器证明）；DS 四处一致 **2.23.0**。
 - 用户裁决: 保留图层拖拽/移动 approved（2026-09-01）；三组与两级换轨形态 pending
 - counter / 分歧处理: none
-- build 准入: **blocked（2026-09-01 Codex + Kimi 已签;缺 GLM 签字、用户对三组/320/216 具体
-  形态裁决,且依赖 ED-FRAME-TIMELINE-UX-RESTORE-1 完成）**
+- build 准入: **blocked（2026-09-01 Codex + Kimi + GLM 三方 design 签字齐、无 counter；仍缺用户
+  对三组/320/216 具体形态裁决，且依赖 ED-FRAME-TIMELINE-UX-RESTORE-1 完成——用户裁决与依赖
+  齐前不得 build）**
 
 ### 进入 done 前
 
@@ -188,6 +237,17 @@ workspace显隐/锁定状态与undo边界不变。
 
 ## 交接日志
 
+- 2026-09-01 GLM: 联合审签（同 SPRITE-ACTION-MODAL-1）。独立复算三条链起点（AG 现恰
+  10/44/20/24/12 + 1 eq + 11 def、reorder 17/28/31/19、allowlist 12）与目标基线
+  13/44/22/22/11 算术；直读组件实锤（header/state 30px + 翻转 label + boolean 无因禁用、
+  order 32px 混高、名称钮无 ID）、`.map-layer-row` 30/30/1fr/auto + 140px 算术、audit
+  adopted/candidate 双硬编码 `!==2`（0-move 组不可登记的真模型缺陷）、Map/Stamp 命令链与
+  显隐/锁定 local state。签 premise verified + design agree，附 GM-A3-1（validator 真模型
+  负例矩阵：0 合法/负数/小数/漏登记/AST 漂移 + candidate 仍 2 + 三 class 只持 placement）/
+  GM-A3-2（320/216 两级换轨 + 名称 ≥96 + 4px focus + 双 consumer 逐档）/GM-A3-3（稳定命名
+  + useId 原因 + data-layer-id）/GM-A3-4（命令/基线冻结/11 candidates 零 diff/DS 2.23.0）。
+  未修改实现，未代签 Kimi。三席 design 齐；build 仍待用户三组/320/216 形态裁决与 RESTORE-1
+  依赖闭合。Next: 用户裁决。
 - 2026-09-01 Kimi: 独立直读 LayerStackControls（30px 状态钮翻转 label、32px order 混高、
   header 无原因 boolean）、行 CSS(140px 固定件 ≈160px 致名称列 0、横溢 16-23px 算术成立)、
   audit 对 adopted/candidate 硬编码 moveButtonCount=2(:189-190,:224-225)与 Map/Stamp 命令/

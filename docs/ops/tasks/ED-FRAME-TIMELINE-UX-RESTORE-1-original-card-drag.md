@@ -1,6 +1,6 @@
 # ED-FRAME-TIMELINE-UX-RESTORE-1 - 帧动画原始卡片拖拽形态恢复
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor frame-animation authoring UX（不改变内容schema/capability-map）
 Coding Owner: Codex
@@ -133,11 +133,12 @@ FrameAnimationDraftHistory及唯一保存命令。不得只隐藏新控件而保
   与真实PAL三档几何/首中末横滚均复核通过；无schema/save/capability变化。
 - Kimi: **waived（用户批准本卡done前审查豁免）**
 - GLM: **waived（用户批准本卡done前审查豁免）**
-- 用户验收: pending
-- done准入: blocked（只待用户验收）
+- 用户验收: **accept（2026-09-01，“验收通过”）**
+- done准入: **allowed（Codex自验 + 用户验收齐；Kimi/GLM由用户明确豁免）**
 
 ## 交接日志
 
+- 2026-09-01 User: 真实页面验收通过；本卡转done并收口，无后续Agent交接。
 - 2026-09-01 Codex: 恢复72×76/78/86整卡native drag与visible-only window；移除grip/move，保留稳定
   identity/selection/local history。门禁、105聚焦、1523全量与三档真实页面通过；转review，仅待用户验收。
 - 2026-09-01 User + Codex: 用户明确豁免本还原任务Kimi/GLM三签；卡转build，Codex为唯一Coding Owner。
