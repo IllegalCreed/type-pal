@@ -28,6 +28,7 @@
 | ED-ACTION-GROUP-ADOPTION-2 | 帧动画时间线动作组与纵向可见边界 | cancelled | 用户否决大卡/独立grip/左右按钮；由RESTORE-1替代 | 未实现；旧186px方案失效 |
 | ED-FRAME-TIMELINE-UX-RESTORE-1 | 帧动画原始卡片拖拽形态恢复 | draft | 用户已批准；待Kimi/GLM设计签字 | 恢复72×76/78/86/visible/native drag；目标reorder17/28/31/19、action10/44/20/24/12 |
 | ED-ACTION-GROUP-ADOPTION-3 | 地图与组合库图层动作组及窄栏合同 | draft | 依赖RESTORE-1；用户批准保留图层拖拽/移动，具体三组/320/216待批 + Kimi/GLM签字 | 0-move registry真模型；目标DS2.23.0与13/44/22/22/11 |
+| ED-SPRITE-ACTION-MODAL-1 | 大世界精灵预制动作中心弹窗编辑器 | draft | 依赖RESTORE-1/ADOPTION-3；用户形态批准，待Kimi/GLM设计签字 | 中央Hero+单一Dialog+源帧区+搜索listbox；目标DS2.24与action15/42/24/18/9、reorder17/27/30/19 |
 | ED-FRAME-TIMELINE-VIRTUALIZATION-1 | 长帧动画时间线 DOM windowing | cancelled | 用户恢复旧形态后合并入RESTORE-1；历史卡保留 | RESTORE-1接管visible window与410帧DOM上界验收 |
 | ED-FIELD-LABEL-TRACK-WIDE-1 | 编辑器整组宽标签轨合同 | done | 三方 accept + 用户验收齐，整卡收口 | `6e7999ef`：wide=160px/<560 stacked；RoleBindings 唯一采用；DS 2.21.0 |
 | ED-ITEM-ALCHEMY-SURFACE-1 | 炼蛊皿与紫金葫芦双炼化工作台 | done | 全部增量三方accept + 用户验收齐，整卡收口 | Craft header/handle/formula稳定对齐；Stepper outer与控件统一36px，三态/高对比闭合 |
