@@ -327,12 +327,67 @@ Target Design-System Version: `2.24.0`（用户批准中心长流程modal，扩�
     field-layout-adoption → **8 files / 143 tests 全绿**;editor 串行全量 186 files / 1556、
     typecheck、build、DS gate 92/2 采用 Codex 记录，按纪律未重复全量。
   无返工项；未修改实现，未代签 GLM。
-- GLM: pending
+- GLM: **accept（2026-09-02，只读终审 `f8420026` + 三链 registry 独立复算 + create 事务/flush
+  代码逐条直读 + 聚焦复跑 + 本人 IAB 实机几何，非复述 Codex/Kimi；与 Kimi 口径收敛、分歧点
+  如实登记）**。按 GM-SM1~SM4 逐钉核验：
+  - **registry 三链 + 版本 ✓（GM-SM4）**：本人 node 复算——ActionGroup 恰 **15 groups / 42
+    moves / adopted 24 / raw 18 / 9 candidates（1 equivalent + 8 deferred + 0 N/A）**，sprite
+    侧恰 `asset/sprite-action-current/actions`（**0 moves**，header 组）+ `asset/sprite-action-
+    steps/actions`（2 moves，自 deferred 迁 adopted），definitions 候选/收养双清零；reorder 恰
+    **17 families / 27 adoptions / 30 paths / 19 owner files**（sprite 仅剩 steps）；allowlist
+    恰 **13 entries / 9 rules**，`selected-item-reorder-action` 恰 1 条有界不扩散；
+    catalog-row-content 恰 **27 entries**；DS **2.24.0** 四处一致（index/tokens/spec×2 本人
+    直读）。**其余 candidates 生产零 diff**（本人对提交文件面逐一核对——Casualty/Cutscene/
+    EffectEditor/Poison/ProjectWorkbench/Script×2/LayerStack 全不在 diff）。
+  - **create 事务 ✓（GM-SM1，代码逐条直读 SpriteActionEditorDialog.tsx:263-304）**：
+    `confirmCreate` 先 flush，再重读 session——current 存在、asset 相等、
+    `historyVersion === baselineHistoryVersion`、`poses` JSON 相等、生成 ActionId 仍空闲、
+    catalog record kind==='sprite'、proof.asset 相等、**record.sha256 === proofRevision** 八条
+    全过才恰一条 `UpdateSpriteCommand`；任一漂移零 command、保留 modal、报错并聚焦名称输入。
+    测试矩阵逐项直读复跑绿——pristine 关闭零写 / dirty 走放弃确认仍零写 / 确认恰一条转 edit /
+    **外部 history 漂移保留输入零创建** / proof 丢失保草稿可见冲突 / 连续编辑不对旧快照。
+  - **edit 事务与 flush guard ✓（GM-SM2）**：`flushFocusedField` 以 `flushSync(blur)` +
+    `mutationRejectedRef` 实现，五路消费直读——完成（:199）、确认创建（:264）、查看引用
+    （:307）、⌘S（:321，create 只提示「请先创建动作，再保存项目。」并聚焦、不保存不创建）、
+    切换上下文（:397 onBeforeContextChange）；提交失败阻止完成/引用/切动作/新建/保存五路测试绿。
+  - **route/目录 ✓（职责 3）**：invalid 深链报错不偷选不开窗、外部清 action 只关 route-owned、
+    create 草稿不被焦点变化杀死、删除 next→previous→empty、selection fallback order+id、
+    52 项虚拟目录无 reorder 行、过滤后 header 移动保稳定 ActionId 恰一条——测试矩阵逐条在
+    本人复跑的 7 files / 135 tests 内全绿。
+  - **实机几何（本人 IAB 实测，create 模式）✓**：Dialog **1120×768**（min 公式生效）、
+    `.ds-overlay__body` **overflow:hidden**、footer 常驻「取消/创建动作」、doc 溢出 0、
+    **create 草稿不入 URL**（`action=null`）、源帧 rail 12 帧在场、焦点落入 trap 内。
+    宽态双 scroll owner / 窄态单页 / rail roving 采信 Kimi 真实 Chrome 实测 + jsdom 焦点
+    测试（均在本人 135 复跑内）。
+  - **诚实声明（两点）**：① **create 初焦点存在测量分歧**——Kimi 真实 Chrome 实测名称
+    INPUT；本席 IAB 以 DOM 合成开启复现两次均落在 Dialog 关闭钮（trap 内首位 focusable），
+    名称输入框含 `autoFocus={mode==='create'}`（SpriteActionEditor.tsx:509）但 open 初焦点
+    **无测试钉**（Dialog.test 仅断言提交失败回焦名称 :440）。焦点仍在 trap 内、Tab 一次可达
+    名称，无数据/几何/命令影响——**不构成 counter**，建议用户真 Chrome 验收时顺手确认；若
+    确认落关闭钮，属 P2 触达微调另卡处理。② **200% zoom 与 Firefox/WebKit native modal
+    trap 未实测**（环境同限，不以缩窄视口/pinch 冒充），与 Codex/Kimi 口径一致。
+  - **验证（本人执行）**：SpriteActionEditorDialog + SpriteActionEditor + WorldSpriteLibrary +
+    SpriteFrameWorkbench + action-group + reorder + boundary → **7 files / 135 tests 全绿**；
+    typecheck 干净；design-system gate **92 files / 2 evidence-bound exceptions** 通过；
+    Codex 串行全量 186/1556 采信，按纪律未重复。
+  无返工项；未修改实现/测试，未代签 Kimi，未填用户验收。
 - 用户验收: pending
-- done准入: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
+- done准入: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收——建议验收时顺带确认
+  create 初焦点真 Chrome 行为，不得标 done）
 
 ## 交接日志
 
+- 2026-09-02 GLM: 只读终审 `f8420026`，签 **accept**。独立证据：三链 registry node 复算
+  （ActionGroup 15/42/24/18/9 + sprite current 0-move/steps 2-move、reorder 17/27/30/19、
+  allowlist 13/9 有界、catalog 27、DS 2.24.0 四处）+ 其余 candidates 零 diff；create 八条重读
+  校验（含 record sha256/proof）与漂移零命令保稿、flush guard 五路消费、⌘S create 只提示
+  ——代码逐条直读 + 测试矩阵复跑；route/目录/52 项虚拟化/删除 fallback 测试全绿；本人 IAB
+  实机 Dialog 1120×768、body hidden、footer、零溢出、create 不入 URL、焦点在 trap 内。
+  **分歧如实登记**：create 初焦点本席 IAB 合成开启两次均落关闭钮 vs Kimi 真实 Chrome 实测
+  名称 INPUT，open 初焦点无测试钉——不构成 counter（trap 内、Tab 一次可达），建议用户真
+  Chrome 验收顺手确认，若确认落关闭钮属 P2 微调。200% 与 Firefox/WebKit trap 未实测口径
+  保持。复跑 7 files / 135 tests + typecheck + gate 92/2 全绿。无返工项；未修改实现/测试，
+  未代签 Kimi，未填用户验收。三方 accept 齐，仅剩用户验收；无下一位 Agent 提示词。
 - 2026-09-02 Kimi: 只读终审 `f8420026`，签 **accept**。独立证据：createSnapshot 全量冻结 +
   confirmCreate 重读校验（asset/historyVersion/poses/ID 空闲/record sha256）漂移零命令保稿;
   commitEditPoses 提交前重读 session（连续编辑不对旧快照）;mutationRejectedRef 统一阻止
