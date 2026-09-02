@@ -10,6 +10,7 @@ import {
   worldVariableScriptStateFromEditorStateV1,
 } from '../core/world-variable-references.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
+import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
 import { VarsTab } from './VarsTab.js'
 
 const references: WorldVariableReferenceIndexV1 = {
@@ -147,6 +148,29 @@ async function render(
 }
 
 describe('VarsTab world variable workbench', () => {
+  test('selected、creating 与 empty 共用唯一 canonical main owner', async () => {
+    await render()
+    const selected = verifyCanonicalObjectWorkspace(host, '世界变量工作区')
+    expect(selected.content.querySelector('.world-variable-readonly-grid')).not.toBeNull()
+
+    const createTrigger = host.querySelector<HTMLButtonElement>('button[aria-label="新建变量"]')!
+    await act(async () => {
+      createTrigger.focus()
+      createTrigger.click()
+    })
+    const creating = verifyCanonicalObjectWorkspace(host, '世界变量工作区', { hero: false })
+    expect(creating.content).toBe(selected.content)
+    expect(creating.content.querySelector('.world-variable-create-card')).not.toBeNull()
+    expect(document.activeElement).toBe(creating.content.querySelector('input'))
+
+    await act(async () => root.unmount())
+    root = createRoot(host)
+    session = new EditSession({ ...state(), worldVariables: {} })
+    await render()
+    const empty = verifyCanonicalObjectWorkspace(host, '世界变量工作区', { hero: false })
+    expect(empty.content.textContent).toContain('建立第一条变量定义')
+  })
+
   test('引用快照过期时禁删，current canonical 新引用仍在命令边界阻断', async () => {
     await render('unused', 'stale')
     const deleteButton = [...host.querySelectorAll<HTMLButtonElement>('button')].find(

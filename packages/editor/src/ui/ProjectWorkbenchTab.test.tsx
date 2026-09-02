@@ -15,6 +15,7 @@ import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { collectProjectIssues, type ProjectIssue } from '../core/project-diagnostics.js'
+import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
 import {
   deriveStartWorldResourceCandidates,
   groupProjectIssues,
@@ -449,9 +450,7 @@ describe('入口开局世界资源', () => {
     await act(async () => root.render(projectTab('entrypoint', session, 'alternate')))
 
     expect(
-      host.querySelectorAll(
-        '.project-entry-row-actions.ds-action-group[data-density="compact"]',
-      ),
+      host.querySelectorAll('.project-entry-row-actions.ds-action-group[data-density="compact"]'),
     ).toHaveLength(3)
 
     const handle = [...host.querySelectorAll<HTMLButtonElement>('[data-ds-reorder-handle]')].find(
@@ -2329,12 +2328,11 @@ describe('项目设置工作区', () => {
     const session = new EditSession(projectState())
     await act(async () => root.render(projectTab(page, session)))
 
-    const workspace = host.querySelector<HTMLElement>('.project-center')!
+    const { workspace, content } = verifyCanonicalObjectWorkspace(host, '项目设置工作区')
     const hero = workspace.querySelector<HTMLElement>(':scope > .ds-object-hero')!
-    const content = workspace.querySelector<HTMLElement>(':scope > .project-scroll')!
 
     expect(hero).not.toBeNull()
-    expect(content).not.toBeNull()
+    expect(content.classList.contains('project-scroll')).toBe(true)
     expect(hero.querySelector('h1')?.textContent).toBe(title)
     expect(workspace.querySelectorAll('h1')).toHaveLength(1)
     expect(content.contains(hero)).toBe(false)

@@ -413,12 +413,12 @@
         {
           "region": "main",
           "axis": "y",
-          "owner": "legacy-exception:legacy-workspace-vars",
+          "owner": "DsObjectWorkspaceContent",
           "source": "VarsTab.tsx",
           "component": "VarsTab",
-          "callsite": "class:ds-object-workspace__content",
-          "reason": "中央 raw workspace 属已冻结旧债。",
-          "verification": "精确 selector multiset 由静态门禁核对。"
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "变量中央列采用真实对象工作区的唯一 content viewport。",
+          "verification": "wrapped DsObjectWorkspace 输出 canonical main/y scroll marker。"
         },
         {
           "region": "inspector",
@@ -876,12 +876,12 @@
         {
           "region": "main",
           "axis": "y",
-          "owner": "legacy-exception:legacy-workspace-enemy-team",
+          "owner": "DsObjectWorkspaceContent",
           "source": "EnemyTeamTab.tsx",
           "component": "EnemyTeamTab",
-          "callsite": "class:ds-object-workspace__content",
-          "reason": "中央 raw workspace 属已冻结旧债。",
-          "verification": "精确 selector multiset 由静态门禁核对。"
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "敌队中央列采用真实对象工作区的唯一 content viewport。",
+          "verification": "wrapped DsObjectWorkspace 输出 canonical main/y scroll marker。"
         },
         {
           "region": "inspector",
@@ -970,12 +970,12 @@
         {
           "region": "main",
           "axis": "y",
-          "owner": "legacy-exception:legacy-workspace-battlefield",
+          "owner": "DsObjectWorkspaceContent",
           "source": "BattleFieldTab.tsx",
           "component": "BattleFieldTab",
-          "callsite": "class:ds-object-workspace__content",
-          "reason": "中央 raw workspace 属已冻结旧债。",
-          "verification": "精确 selector multiset 由静态门禁核对。"
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "战场中央列采用真实对象工作区的唯一 content viewport。",
+          "verification": "wrapped DsObjectWorkspace 输出 canonical main/y scroll marker。"
         },
         {
           "region": "inspector",
@@ -1037,22 +1037,22 @@
         {
           "region": "main.battle",
           "axis": "y",
-          "owner": "legacy-exception:legacy-workspace-battle-sprite",
+          "owner": "DsObjectWorkspaceContent",
           "source": "BattleSpriteLibrary.tsx",
           "component": "BattleSpriteLibrary",
-          "callsite": "class:ds-object-workspace__content",
-          "reason": "战斗精灵中央 raw workspace 属已冻结旧债。",
-          "verification": "精确 selector multiset 由静态门禁核对。"
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "战斗精灵中央列采用真实对象工作区的唯一 content viewport。",
+          "verification": "wrapped DsObjectWorkspace 输出 canonical main/y scroll marker。"
         },
         {
           "region": "main.world",
           "axis": "y",
-          "owner": "legacy-exception:legacy-workspace-world-sprite-viewer",
+          "owner": "DsObjectWorkspaceContent",
           "source": "SpriteResourceViewer.tsx",
           "component": "SpriteResourceViewer",
-          "callsite": "class:ds-object-workspace__content",
-          "reason": "大世界精灵中央 raw workspace 属已冻结旧债。",
-          "verification": "精确 selector multiset 由静态门禁核对。"
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "大世界精灵中央列采用真实对象工作区的唯一 content viewport。",
+          "verification": "wrapped DsObjectWorkspace 输出 canonical main/y scroll marker。"
         },
         {
           "region": "main.world-upload",
@@ -1372,22 +1372,22 @@
         {
           "region": "main",
           "axis": "y",
-          "owner": "legacy-exception:legacy-workspace-project",
+          "owner": "DsObjectWorkspaceContent",
           "source": "ProjectWorkbenchTab.tsx",
           "component": "ProjectPageWorkspace",
-          "callsite": "class:ds-object-workspace__content",
-          "reason": "项目中央 raw workspace 属已冻结旧债。",
-          "verification": "精确 selector multiset 由静态门禁核对。"
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "项目中央列采用真实对象工作区的唯一 content viewport。",
+          "verification": "ProjectPageWorkspace wrapped owner 覆盖当前 route。"
         },
         {
           "region": "inspector",
           "axis": "none",
           "owner": "N/A: 项目概览没有独立右侧 Inspector。",
           "source": "ProjectWorkbenchTab.tsx",
-          "component": "ProjectPageWorkspace",
-          "callsite": "class:project-center",
+          "component": "ProjectOverviewPage",
+          "callsite": "class:project-outliner",
           "reason": "项目页采用目录 + 单一中央工作区，不伪造第三栏 owner。",
-          "verification": "route-live ProjectPageWorkspace 只渲染 main.project-center。"
+          "verification": "route-live ProjectOverviewPage 只渲染 outliner + main workspace。"
         }
       ]
     },
@@ -1419,22 +1419,22 @@
         {
           "region": "main",
           "axis": "y",
-          "owner": "legacy-exception:legacy-workspace-project",
+          "owner": "DsObjectWorkspaceContent",
           "source": "ProjectWorkbenchTab.tsx",
           "component": "ProjectPageWorkspace",
-          "callsite": "class:ds-object-workspace__content",
-          "reason": "项目中央 raw workspace 属已冻结旧债。",
-          "verification": "精确 selector multiset 由静态门禁核对。"
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "项目中央列采用真实对象工作区的唯一 content viewport。",
+          "verification": "ProjectPageWorkspace wrapped owner 覆盖当前 route。"
         },
         {
           "region": "inspector",
           "axis": "none",
           "owner": "N/A: 项目启动页没有独立右侧 Inspector。",
           "source": "ProjectWorkbenchTab.tsx",
-          "component": "ProjectPageWorkspace",
-          "callsite": "class:project-center",
+          "component": "ProjectStartupPage",
+          "callsite": "class:project-outliner",
           "reason": "项目页采用目录 + 单一中央工作区，不伪造第三栏 owner。",
-          "verification": "route-live ProjectPageWorkspace 只渲染 main.project-center。"
+          "verification": "route-live ProjectStartupPage 只渲染 outliner + main workspace。"
         }
       ]
     },
@@ -1478,22 +1478,22 @@
         {
           "region": "main",
           "axis": "y",
-          "owner": "legacy-exception:legacy-workspace-project",
+          "owner": "DsObjectWorkspaceContent",
           "source": "ProjectWorkbenchTab.tsx",
           "component": "ProjectPageWorkspace",
-          "callsite": "class:ds-object-workspace__content",
-          "reason": "项目中央 raw workspace 属已冻结旧债。",
-          "verification": "精确 selector multiset 由静态门禁核对。"
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "项目中央列采用真实对象工作区的唯一 content viewport。",
+          "verification": "ProjectPageWorkspace wrapped owner 覆盖当前 route。"
         },
         {
           "region": "inspector",
           "axis": "none",
           "owner": "N/A: 项目入口页没有独立右侧 Inspector。",
           "source": "ProjectWorkbenchTab.tsx",
-          "component": "ProjectPageWorkspace",
-          "callsite": "class:project-center",
+          "component": "EntryPointEditor",
+          "callsite": "class:project-outliner",
           "reason": "项目页采用目录 + 单一中央工作区，不伪造第三栏 owner。",
-          "verification": "route-live ProjectPageWorkspace 只渲染 main.project-center。"
+          "verification": "route-live EntryPointEditor 只渲染 outliner + main workspace。"
         }
       ]
     },
@@ -1525,22 +1525,22 @@
         {
           "region": "main",
           "axis": "y",
-          "owner": "legacy-exception:legacy-workspace-project",
+          "owner": "DsObjectWorkspaceContent",
           "source": "ProjectWorkbenchTab.tsx",
           "component": "ProjectPageWorkspace",
-          "callsite": "class:ds-object-workspace__content",
-          "reason": "项目中央 raw workspace 属已冻结旧债。",
-          "verification": "精确 selector multiset 由静态门禁核对。"
+          "callsite": "tag:DsObjectWorkspaceContent",
+          "reason": "项目中央列采用真实对象工作区的唯一 content viewport。",
+          "verification": "ProjectPageWorkspace wrapped owner 覆盖当前 route。"
         },
         {
           "region": "inspector",
           "axis": "none",
           "owner": "N/A: 项目高级页没有独立右侧 Inspector。",
           "source": "ProjectWorkbenchTab.tsx",
-          "component": "ProjectPageWorkspace",
-          "callsite": "class:project-center",
+          "component": "ProjectAdvancedPage",
+          "callsite": "class:project-outliner",
           "reason": "项目页采用目录 + 单一中央工作区，不伪造第三栏 owner。",
-          "verification": "route-live ProjectPageWorkspace 只渲染 main.project-center。"
+          "verification": "route-live ProjectAdvancedPage 只渲染 outliner + main workspace。"
         }
       ]
     }
@@ -1631,127 +1631,7 @@
       "removalCondition": "若 shell slot 架构移除，则删除 portal 与本例外；不得转成私有弹层。"
     }
   ],
-  "workspaceLegacyExceptions": [
-    {
-      "id": "legacy-workspace-project",
-      "source": "ProjectWorkbenchTab.tsx",
-      "selectors": [
-        {
-          "selector": "main.canvas-wrap.data-body.project-center.ds-object-workspace",
-          "count": 1
-        },
-        {
-          "selector": "div.project-scroll.ds-object-workspace__content",
-          "count": 1
-        }
-      ],
-      "registries": [
-        "project/overview",
-        "project/startup",
-        "project/entrypoint",
-        "project/advanced"
-      ],
-      "reason": "项目工作台在本卡范围外仍借用对象工作区 raw class。",
-      "verification": "静态 AST 精确核对 2 个 selector 与次数，新增或漂移即红。",
-      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
-      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
-    },
-    {
-      "id": "legacy-workspace-battle-sprite",
-      "source": "BattleSpriteLibrary.tsx",
-      "selectors": [
-        {
-          "selector": "div.center.actor-center.battle-sprite-center.ds-object-workspace",
-          "count": 1
-        },
-        {
-          "selector": "div.battle-sprite-workspace-scroll.ds-object-workspace__content",
-          "count": 1
-        }
-      ],
-      "registries": ["asset/sprite"],
-      "reason": "战斗精灵中央列在本卡范围外仍借用对象工作区 raw class。",
-      "verification": "静态 AST 精确核对 2 个 selector 与次数，新增或漂移即红。",
-      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
-      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
-    },
-    {
-      "id": "legacy-workspace-vars",
-      "source": "VarsTab.tsx",
-      "selectors": [
-        {
-          "selector": "main.ds-object-workspace",
-          "count": 1
-        },
-        {
-          "selector": "div.ds-object-workspace__content.world-variable-scroll",
-          "count": 3
-        }
-      ],
-      "registries": ["story/vars"],
-      "reason": "变量中央列三个互斥状态分支仍借用对象工作区 raw class。",
-      "verification": "静态 AST 精确核对 selector multiset；互斥分支计数固定为 3。",
-      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
-      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
-    },
-    {
-      "id": "legacy-workspace-world-sprite-viewer",
-      "source": "SpriteResourceViewer.tsx",
-      "selectors": [
-        {
-          "selector": "div.sprite-resource-viewer.ds-object-workspace",
-          "count": 3
-        },
-        {
-          "selector": "div.sprite-resource-viewer-scroll.ds-object-workspace__content",
-          "count": 3
-        }
-      ],
-      "registries": ["asset/sprite"],
-      "reason": "大世界精灵 viewer 的三个互斥状态分支仍借用对象工作区 raw class。",
-      "verification": "静态 AST 精确核对两个 selector 各 3 次。",
-      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
-      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
-    },
-    {
-      "id": "legacy-workspace-enemy-team",
-      "source": "EnemyTeamTab.tsx",
-      "selectors": [
-        {
-          "selector": "main.ds-object-workspace",
-          "count": 1
-        },
-        {
-          "selector": "div.ds-object-workspace__content.enemy-team-scroll",
-          "count": 3
-        }
-      ],
-      "registries": ["battle/enemy-team"],
-      "reason": "敌队中央列三个互斥状态分支仍借用对象工作区 raw class。",
-      "verification": "静态 AST 精确核对 selector multiset；互斥分支计数固定为 3。",
-      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
-      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
-    },
-    {
-      "id": "legacy-workspace-battlefield",
-      "source": "BattleFieldTab.tsx",
-      "selectors": [
-        {
-          "selector": "main.bf-main.ds-object-workspace",
-          "count": 1
-        },
-        {
-          "selector": "div.bf-editor-scroll.ds-object-workspace__content",
-          "count": 3
-        }
-      ],
-      "registries": ["battle/battlefield"],
-      "reason": "战场中央列三个互斥状态分支仍借用对象工作区 raw class。",
-      "verification": "静态 AST 精确核对 selector multiset；互斥分支计数固定为 3。",
-      "removalCondition": "由 ED-WORKSPACE-ADOPTION-DEBT-1 改为真实 DsObjectWorkspace 后删除。",
-      "debtCard": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md"
-    }
-  ],
+  "workspaceLegacyExceptions": [],
   "pages": [
     {
       "registry": "scene/workspace",
@@ -1960,10 +1840,10 @@
     {
       "registry": "story/vars",
       "components": ["VarsTab.tsx"],
-      "status": "exception",
+      "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "custom:.world-variable-catalog + legacy-exception:legacy-workspace-vars + custom:.world-variable-reference-panel",
+        "scroll": "custom:.world-variable-catalog + DsObjectWorkspaceContent + custom:.world-variable-reference-panel",
         "overlay": "DsFloatingLayer",
         "field": "DsCheckbox + DsField + DsNumberField + DsSelect + DsTextAreaField + DsTextField",
         "action": "DsButton + DsIconButton"
@@ -2214,10 +2094,10 @@
     {
       "registry": "battle/enemy-team",
       "components": ["EnemyTeamTab.tsx"],
-      "status": "exception",
+      "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "custom:.enemy-team-catalog + legacy-exception:legacy-workspace-enemy-team + custom:.inspector",
+        "scroll": "custom:.enemy-team-catalog + DsObjectWorkspaceContent + custom:.inspector",
         "overlay": "DsFloatingLayer",
         "field": "DsField + DsRepeatRow + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -2268,10 +2148,10 @@
     {
       "registry": "battle/battlefield",
       "components": ["BattleFieldTab.tsx", "ImageAssetPicker.tsx"],
-      "status": "exception",
+      "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "custom:.tree + legacy-exception:legacy-workspace-battlefield + custom:.bf-reference-panel",
+        "scroll": "custom:.tree + DsObjectWorkspaceContent + custom:.bf-reference-panel",
         "overlay": "DsFloatingLayer",
         "field": "DsControlGroup + DsDraftNumberField + DsDraftTextInput + DsField + DsSelect + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -2304,10 +2184,10 @@
         "SpriteUploadWizard.tsx",
         "WorldSpriteLibrary.tsx"
       ],
-      "status": "exception",
+      "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
-        "scroll": "DsVirtualList + legacy sprite workspace exceptions + custom:.dscroll + custom:.bsu-frame-grid + DsInspectorTabs",
+        "scroll": "DsVirtualList + DsObjectWorkspaceContent + custom:.dscroll + custom:.bsu-frame-grid + DsInspectorTabs",
         "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsFilePicker + DsNumberInput + DsPropertyRow + DsRangeInput + DsSelect + DsSelectField + DsTextField + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -2448,10 +2328,10 @@
     {
       "registry": "project/overview",
       "components": ["ProjectWorkbenchTab.tsx"],
-      "status": "exception",
+      "status": "adopted",
       "owners": {
         "catalog": "N/A: project form",
-        "scroll": "project workbench content",
+        "scroll": "DsObjectWorkspaceContent",
         "overlay": "N/A: no route-live anchored popup or modal",
         "field": "DsDraftTextField + DsFieldGroup",
         "action": "DsButton + DsIconButton"
@@ -2475,10 +2355,10 @@
     {
       "registry": "project/startup",
       "components": ["ProjectWorkbenchTab.tsx"],
-      "status": "exception",
+      "status": "adopted",
       "owners": {
         "catalog": "DsCatalogRow",
-        "scroll": "project workbench content",
+        "scroll": "DsObjectWorkspaceContent",
         "overlay": "DsFloatingLayer",
         "field": "DsControlGroup + DsField + DsFieldGroup + DsSelect",
         "action": "DsButton + DsIconButton"
@@ -2502,10 +2382,10 @@
     {
       "registry": "project/entrypoint",
       "components": ["ProjectWorkbenchTab.tsx"],
-      "status": "exception",
+      "status": "adopted",
       "owners": {
         "catalog": "DsCatalogRow",
-        "scroll": "custom:.project-entry-list + custom:.project-outliner(repair only) + project workbench content",
+        "scroll": "custom:.project-entry-list + custom:.project-outliner(repair only) + DsObjectWorkspaceContent",
         "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsAddPickerDialog + DsCheckbox + DsControlGroup + DsDraftNumberField + DsDraftNumberInput + DsDraftTextField + DsField + DsFieldGroup + DsRepeatRow + DsSelect + DsSelectField + DsTextInput",
         "action": "DsButton + DsIconButton"
@@ -2529,10 +2409,10 @@
     {
       "registry": "project/advanced",
       "components": ["ProjectWorkbenchTab.tsx"],
-      "status": "exception",
+      "status": "adopted",
       "owners": {
         "catalog": "DsCatalogGroupList + DsCatalogRow",
-        "scroll": "project workbench content",
+        "scroll": "DsObjectWorkspaceContent",
         "overlay": "N/A: no route-live anchored popup or modal",
         "field": "N/A: diagnostics-only project route",
         "action": "DsButton + DsIconButton"

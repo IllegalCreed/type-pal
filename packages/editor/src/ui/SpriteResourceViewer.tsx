@@ -25,6 +25,7 @@ import {
   DsFileInput,
   DsNumberInput,
   DsObjectHero,
+  DsObjectWorkspace,
   DsTag,
 } from './design-system/index.js'
 import {
@@ -445,29 +446,6 @@ export function SpriteResourceViewer(props: {
     />
   )
 
-  if (error)
-    return (
-      <div className="sprite-resource-viewer ds-object-workspace">
-        {resourceHero}
-        <div className="sprite-resource-viewer-scroll ds-object-workspace__content">
-          <div className="insp-empty sprite-resource-load-state error" role="alert">
-            帧资源加载失败：{error}
-          </div>
-        </div>
-      </div>
-    )
-  if (!loaded)
-    return (
-      <div className="sprite-resource-viewer ds-object-workspace">
-        {resourceHero}
-        <div className="sprite-resource-viewer-scroll ds-object-workspace__content">
-          <div className="insp-empty sprite-resource-load-state" role="status">
-            正在解析帧资源 {props.asset}…
-          </div>
-        </div>
-      </div>
-    )
-
   const appendPanel = appendDraft ? (
     <div className="sprite-raw-append-panel">
       <span>
@@ -529,58 +507,75 @@ export function SpriteResourceViewer(props: {
     </div>
   ) : null
 
-  return (
-    <div className="sprite-resource-viewer ds-object-workspace">
-      {resourceHero}
-      <div className="sprite-resource-viewer-scroll ds-object-workspace__content">
-        <DsFileInput
-          ref={replaceFileRef}
-          className="sprite-hidden-file-input"
-          accept="image/png,image/webp,image/gif"
-          onChange={(event) => {
-            const file = event.target.files?.[0]
-            event.target.value = ''
-            if (file) void replaceSelected(file)
-          }}
-        />
-        <DsFileInput
-          ref={appendFileRef}
-          className="sprite-hidden-file-input"
-          accept="image/png,image/webp,image/gif"
-          onChange={(event) => {
-            const file = event.target.files?.[0]
-            event.target.value = ''
-            if (!file) return
-            void fileToRgba(file)
-              .then((image) => setAppendDraft({ ...image, cols: 1, rows: 1 }))
-              .catch(reportError)
-          }}
-        />
-        <RawFrameInspector
-          label={props.label}
-          asset={props.asset}
-          frames={loaded.frames}
-          selectedFrame={selectedFrame}
-          consumerCount={props.consumers.length}
-          onSelect={selectFrame}
-          onAppend={() => appendFileRef.current?.click()}
-          onReplace={() => replaceFileRef.current?.click()}
-          onDelete={() => void deleteSelected()}
-          draggableFrames={props.enableFrameDrag}
-          busy={busy}
-          editorMessage={editorMessage}
-          editorMessageKind={editorMessageKind}
-          editorPanel={appendPanel}
-          showHero={false}
-        />
-        <SemanticFrameShelf
-          frames={loaded.frames}
-          groups={groups}
-          onGroupSelect={props.onDefinitionSelect}
-          onActionSelect={props.onActionSelect}
-          onFrameSelect={selectFrame}
-        />
-      </div>
+  const workspaceContent = error ? (
+    <div className="insp-empty sprite-resource-load-state error" role="alert">
+      帧资源加载失败：{error}
     </div>
+  ) : !loaded ? (
+    <div className="insp-empty sprite-resource-load-state" role="status">
+      正在解析帧资源 {props.asset}…
+    </div>
+  ) : (
+    <>
+      <DsFileInput
+        ref={replaceFileRef}
+        className="sprite-hidden-file-input"
+        accept="image/png,image/webp,image/gif"
+        onChange={(event) => {
+          const file = event.target.files?.[0]
+          event.target.value = ''
+          if (file) void replaceSelected(file)
+        }}
+      />
+      <DsFileInput
+        ref={appendFileRef}
+        className="sprite-hidden-file-input"
+        accept="image/png,image/webp,image/gif"
+        onChange={(event) => {
+          const file = event.target.files?.[0]
+          event.target.value = ''
+          if (!file) return
+          void fileToRgba(file)
+            .then((image) => setAppendDraft({ ...image, cols: 1, rows: 1 }))
+            .catch(reportError)
+        }}
+      />
+      <RawFrameInspector
+        label={props.label}
+        asset={props.asset}
+        frames={loaded.frames}
+        selectedFrame={selectedFrame}
+        consumerCount={props.consumers.length}
+        onSelect={selectFrame}
+        onAppend={() => appendFileRef.current?.click()}
+        onReplace={() => replaceFileRef.current?.click()}
+        onDelete={() => void deleteSelected()}
+        draggableFrames={props.enableFrameDrag}
+        busy={busy}
+        editorMessage={editorMessage}
+        editorMessageKind={editorMessageKind}
+        editorPanel={appendPanel}
+        showHero={false}
+      />
+      <SemanticFrameShelf
+        frames={loaded.frames}
+        groups={groups}
+        onGroupSelect={props.onDefinitionSelect}
+        onActionSelect={props.onActionSelect}
+        onFrameSelect={selectFrame}
+      />
+    </>
+  )
+
+  return (
+    <DsObjectWorkspace
+      as="div"
+      label="大世界精灵资源工作区"
+      className="sprite-resource-viewer"
+      contentClassName="sprite-resource-viewer-scroll"
+      hero={resourceHero}
+    >
+      {workspaceContent}
+    </DsObjectWorkspace>
   )
 }

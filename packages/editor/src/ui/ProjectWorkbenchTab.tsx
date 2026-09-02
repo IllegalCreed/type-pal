@@ -79,6 +79,7 @@ import {
   DsListHeader,
   DsNumberFieldGrid,
   DsObjectHero,
+  DsObjectWorkspace,
   DsReorderCollection,
   type DsReorderIntent,
   DsReorderItem,
@@ -306,16 +307,23 @@ function ProjectPageWorkspace(props: {
   children: ReactNode
 }) {
   return (
-    <main className="canvas-wrap data-body project-center ds-object-workspace">
-      <DsObjectHero
-        eyebrow={props.eyebrow}
-        title={props.title}
-        objectId={props.objectId}
-        summary={props.summary}
-        meta={props.meta}
-      />
-      <div className="project-scroll ds-object-workspace__content">{props.children}</div>
-    </main>
+    <DsObjectWorkspace
+      as="main"
+      label="项目设置工作区"
+      className="canvas-wrap data-body project-center"
+      contentClassName="project-scroll"
+      hero={
+        <DsObjectHero
+          eyebrow={props.eyebrow}
+          title={props.title}
+          objectId={props.objectId}
+          summary={props.summary}
+          meta={props.meta}
+        />
+      }
+    >
+      {props.children}
+    </DsObjectWorkspace>
   )
 }
 

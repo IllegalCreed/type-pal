@@ -9,6 +9,7 @@ import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
+import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
 
 const field = (id: number, name = `战场 ${id}`): BattleFieldDef => ({
   id,
@@ -182,14 +183,11 @@ describe('BattleFieldTab B2-1 authoring closure', () => {
     const session = new EditSession(state([field(6, '')]))
     await act(async () => root.render(<Harness session={session} focusObjectId="6" />))
 
-    const workspace = host.querySelector<HTMLElement>('.bf-main.ds-object-workspace')
-    const hero = workspace?.querySelector<HTMLElement>(':scope > .ds-object-hero')
-    const content = workspace?.querySelector<HTMLElement>(
-      ':scope > .bf-editor-scroll.ds-object-workspace__content',
-    )
+    const { workspace, content } = verifyCanonicalObjectWorkspace(host, '战场工作区')
+    const hero = workspace.querySelector<HTMLElement>(':scope > .ds-object-hero')
 
     expect(hero).not.toBeNull()
-    expect(content).not.toBeNull()
+    expect(content.classList.contains('bf-editor-scroll')).toBe(true)
     expect(content?.contains(hero ?? null)).toBe(false)
     expect(hero?.querySelector('h1')?.textContent).toBe('战场 #006')
     expect(hero?.querySelector('.ds-object-hero__eyebrow')?.textContent).toBe('战场')
@@ -204,7 +202,15 @@ describe('BattleFieldTab B2-1 authoring closure', () => {
     const session = new EditSession(state([], false))
     await act(async () => root.render(<Harness session={session} />))
     expect(host.textContent).toContain('还没有战场')
-    await act(async () => button('创建第一个战场').click())
+    const empty = verifyCanonicalObjectWorkspace(host, '战场工作区', { hero: false })
+    const emptyCreate = button('创建第一个战场')
+    await act(async () => {
+      emptyCreate.focus()
+      emptyCreate.click()
+    })
+    const creating = verifyCanonicalObjectWorkspace(host, '战场工作区', { hero: false })
+    expect(creating.content).toBe(empty.content)
+    expect(document.activeElement).toBe(creating.content.querySelector('input'))
     const inputs = host.querySelectorAll<HTMLInputElement>('.bf-create-grid input')
     expect(inputs[0]!.value).toBe('24')
     await setInput(inputs[0]!, '30')

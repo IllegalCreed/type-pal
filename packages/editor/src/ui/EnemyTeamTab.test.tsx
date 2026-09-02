@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { EnemyTeamTab } from './EnemyTeamTab.js'
+import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
 
 function enemy(id: string, exp: number): EnemyDef {
   return {
@@ -131,6 +132,33 @@ afterEach(async () => {
 })
 
 describe('EnemyTeamTab authoring closure', () => {
+  test('selected、creating 与 empty 共用唯一 canonical main owner', async () => {
+    const selectedSession = new EditSession(state())
+    await act(async () => root.render(<Harness session={selectedSession} />))
+    const selected = verifyCanonicalObjectWorkspace(host, '敌队工作区')
+    expect(selected.content.querySelector('.enemy-team-slots')).not.toBeNull()
+
+    const createTrigger = host.querySelector<HTMLButtonElement>('button[aria-label="新建敌队"]')!
+    await act(async () => {
+      createTrigger.focus()
+      createTrigger.click()
+    })
+    const creating = verifyCanonicalObjectWorkspace(host, '敌队工作区', { hero: false })
+    expect(creating.content).toBe(selected.content)
+    expect(creating.content.querySelector('.enemy-team-create-card')).not.toBeNull()
+    expect(document.activeElement).toBe(creating.content.querySelector('input'))
+
+    const emptyState = state()
+    emptyState.enemyTeams = []
+    await act(async () =>
+      root.render(
+        <Harness key="empty-enemy-team-workspace" session={new EditSession(emptyState)} />,
+      ),
+    )
+    const empty = verifyCanonicalObjectWorkspace(host, '敌队工作区', { hero: false })
+    expect(empty.content.textContent).toContain('还没有敌队')
+  })
+
   test('目录以成员派生标题分组重复项，第二行保留精确 EnemyTeamId', async () => {
     const current = state()
     current.enemies = [enemy('enemy-a', 5), enemy('enemy-b', 7)]

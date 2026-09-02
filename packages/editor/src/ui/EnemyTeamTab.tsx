@@ -19,25 +19,26 @@ import {
   UpdateEnemyTeamCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { playProjectQuery } from '../core/play-url.js'
 import {
   type BlockingEnemyTeamReference,
   enemyTeamReferences,
 } from '../core/enemy-team-references.js'
+import { playProjectQuery } from '../core/play-url.js'
 import type { ScriptEditorState } from '../core/script-editor.js'
 import {
   DsActionLink,
   DsButton,
   DsField,
+  DsPressable,
   DsSelect,
   DsTextInput,
-  DsPressable,
 } from './design-system/controls.js'
 import {
   DsActionGroup,
   DsCatalogControls,
   DsCatalogRow,
   DsObjectHero,
+  DsObjectWorkspace,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -46,10 +47,10 @@ import {
 } from './design-system/recipes.js'
 import {
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
   reorderDsItems,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/reorder.js'
 import {
@@ -362,166 +363,169 @@ export function EnemyTeamTab(props: {
       </div>
 
       <div className="canvas-wrap data-body enemy-team-workbench">
-        <main className="ds-object-workspace">
-          {notice ? (
-            <div className="enemy-team-notice" role="alert">
-              {notice}
-            </div>
-          ) : null}
-          {creating ? (
-            <div className="ds-object-workspace__content enemy-team-scroll">
-              <section className="enemy-team-create-card">
-                <p className="eyebrow">新建敌队</p>
-                <h2>先确定稳定 ID</h2>
-                <p>ID 会被场景与剧情脚本持久引用；创建后保持稳定，显示顺序和成员可随时修改。</p>
-                <DsField label="稳定 ID">
-                  {({ id }) => (
-                    <DsTextInput
-                      id={id}
-                      monospace
-                      value={draftId}
-                      onChange={(event) => setDraftId(event.target.value)}
-                    />
-                  )}
-                </DsField>
-                <div className="enemy-team-create-actions">
-                  <DsButton variant="primary" onClick={create}>
-                    创建敌队
-                  </DsButton>
-                  <DsButton variant="secondary" onClick={() => setCreating(false)}>
-                    取消
-                  </DsButton>
+        <DsObjectWorkspace
+          as="main"
+          label="敌队工作区"
+          contentClassName="enemy-team-scroll"
+          hero={
+            <>
+              {notice ? (
+                <div className="enemy-team-notice" role="alert">
+                  {notice}
                 </div>
-              </section>
-            </div>
+              ) : null}
+              {!creating && selected ? (
+                <DsObjectHero
+                  eyebrow="敌队预制"
+                  title={selected.id}
+                  objectId={selected.id}
+                  summary="只负责五个敌人语义槽；奖励、偷取与击败后事件仍由每个敌人定义提供。"
+                  actions={
+                    <>
+                      <DsActionLink
+                        variant="secondary"
+                        icon="open"
+                        href={`play.html?${playProjectQuery(projectId, workspaceId)}&battle=${encodeURIComponent(selected.id)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="读取磁盘项目；未保存改动不会进入试玩"
+                      >
+                        试打
+                      </DsActionLink>
+                      <DsButton
+                        variant="danger"
+                        icon="delete"
+                        disabled={references.length > 0}
+                        onClick={remove}
+                      >
+                        删除敌队
+                      </DsButton>
+                    </>
+                  }
+                />
+              ) : null}
+            </>
+          }
+        >
+          {creating ? (
+            <section className="enemy-team-create-card">
+              <p className="eyebrow">新建敌队</p>
+              <h2>先确定稳定 ID</h2>
+              <p>ID 会被场景与剧情脚本持久引用；创建后保持稳定，显示顺序和成员可随时修改。</p>
+              <DsField label="稳定 ID">
+                {({ id }) => (
+                  <DsTextInput
+                    id={id}
+                    autoFocus
+                    monospace
+                    value={draftId}
+                    onChange={(event) => setDraftId(event.target.value)}
+                  />
+                )}
+              </DsField>
+              <div className="enemy-team-create-actions">
+                <DsButton variant="primary" onClick={create}>
+                  创建敌队
+                </DsButton>
+                <DsButton variant="secondary" onClick={() => setCreating(false)}>
+                  取消
+                </DsButton>
+              </div>
+            </section>
           ) : selected ? (
             <>
-              <DsObjectHero
-                eyebrow="敌队预制"
-                title={selected.id}
-                objectId={selected.id}
-                summary="只负责五个敌人语义槽；奖励、偷取与击败后事件仍由每个敌人定义提供。"
-                actions={
-                  <>
-                    <DsActionLink
-                      variant="secondary"
-                      icon="open"
-                      href={`play.html?${playProjectQuery(projectId, workspaceId)}&battle=${encodeURIComponent(selected.id)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="读取磁盘项目；未保存改动不会进入试玩"
-                    >
-                      试打
-                    </DsActionLink>
-                    <DsButton
-                      variant="danger"
-                      icon="delete"
-                      disabled={references.length > 0}
-                      onClick={remove}
-                    >
-                      删除敌队
-                    </DsButton>
-                  </>
-                }
-              />
-              <div className="ds-object-workspace__content enemy-team-scroll">
-                <DsWorkbenchSection
-                  title="阵容与顺序"
-                  description="固定展示五个语义槽；空槽不会挤压后续成员，上移/下移会交换槽位。"
+              <DsWorkbenchSection
+                title="阵容与顺序"
+                description="固定展示五个语义槽；空槽不会挤压后续成员，上移/下移会交换槽位。"
+              >
+                <DsReorderCollection
+                  adoptionId="enemy-team/fixed-slots"
+                  scopeKey={`enemy-team:${selected.id}:slots`}
+                  entries={slotEntries}
+                  revision={session.getHistoryVersion()}
+                  strategy="swap"
+                  onReorder={reorderSlots}
                 >
-                  <DsReorderCollection
-                    adoptionId="enemy-team/fixed-slots"
-                    scopeKey={`enemy-team:${selected.id}:slots`}
-                    entries={slotEntries}
-                    revision={session.getHistoryVersion()}
-                    strategy="swap"
-                    onReorder={reorderSlots}
-                  >
-                    <div className="enemy-team-slots">
-                      {slots.map((enemyId, index) => (
-                        <DsReorderItem
-                          itemKey={slotEntries[index]!.key}
-                          key={slotEntries[index]!.key}
-                        >
-                          <DsRepeatRow density="compact" className="enemy-team-slot">
-                            <span className="enemy-team-slot__number">槽 {index + 1}</span>
-                            <DsSelect
-                              aria-label={`${selected.id} 槽 ${index + 1}`}
-                              value={enemyId ?? ''}
-                              options={enemyOptions}
-                              invalid={!!enemyId && !enemies.some((enemy) => enemy.id === enemyId)}
-                              onValueChange={(nextId) => {
-                                const next = [...slots]
-                                next[index] = nextId || null
-                                updateSlots(next)
-                              }}
-                            />
-                            <DsActionGroup density="compact" className="enemy-team-slot-actions">
-                              <DsReorderMoveButton
-                                itemKey={slotEntries[index]!.key}
-                                direction="backward"
-                                label={`槽 ${index + 1} 上移`}
-                              />
-                              <DsReorderMoveButton
-                                itemKey={slotEntries[index]!.key}
-                                direction="forward"
-                                label={`槽 ${index + 1} 下移`}
-                              />
-                            </DsActionGroup>
-                          </DsRepeatRow>
-                        </DsReorderItem>
-                      ))}
-                    </div>
-                  </DsReorderCollection>
-                </DsWorkbenchSection>
-                <DsWorkbenchSection
-                  title="战后结算摘要"
-                  description="只读汇总；重复成员按槽位各结算一次。点击成员回到敌人定义编辑数据。"
-                >
-                  <div className="enemy-team-totals">
-                    <span>
-                      <strong>{totals.exp}</strong> 经验
-                    </span>
-                    <span>
-                      <strong>{totals.cash}</strong> 金钱
-                    </span>
-                    <span>
-                      <strong>{totals.collectValue}</strong> 收妖值
-                    </span>
-                  </div>
-                  <div className="enemy-team-member-summary">
-                    {memberPresentations.map(({ enemy, stealSummary, defeated }, index) => (
-                      <DsPressable
-                        type="button"
-                        key={`${enemy.id}:${index}`}
-                        onClick={() => onOpenEnemy?.(enemy.id)}
+                  <div className="enemy-team-slots">
+                    {slots.map((enemyId, index) => (
+                      <DsReorderItem
+                        itemKey={slotEntries[index]!.key}
+                        key={slotEntries[index]!.key}
                       >
-                        <strong>{lookupText(enemy.name, locale)}</strong>
-                        <span>{stealSummary}</span>
-                        <span>{defeated.compactSummary}</span>
-                      </DsPressable>
+                        <DsRepeatRow density="compact" className="enemy-team-slot">
+                          <span className="enemy-team-slot__number">槽 {index + 1}</span>
+                          <DsSelect
+                            aria-label={`${selected.id} 槽 ${index + 1}`}
+                            value={enemyId ?? ''}
+                            options={enemyOptions}
+                            invalid={!!enemyId && !enemies.some((enemy) => enemy.id === enemyId)}
+                            onValueChange={(nextId) => {
+                              const next = [...slots]
+                              next[index] = nextId || null
+                              updateSlots(next)
+                            }}
+                          />
+                          <DsActionGroup density="compact" className="enemy-team-slot-actions">
+                            <DsReorderMoveButton
+                              itemKey={slotEntries[index]!.key}
+                              direction="backward"
+                              label={`槽 ${index + 1} 上移`}
+                            />
+                            <DsReorderMoveButton
+                              itemKey={slotEntries[index]!.key}
+                              direction="forward"
+                              label={`槽 ${index + 1} 下移`}
+                            />
+                          </DsActionGroup>
+                        </DsRepeatRow>
+                      </DsReorderItem>
                     ))}
-                    {!members.length ? (
-                      <p className="hint">
-                        当前敌队为空；可保存为占位预制，但无法形成有效战斗阵容。
-                      </p>
-                    ) : null}
                   </div>
-                </DsWorkbenchSection>
-              </div>
+                </DsReorderCollection>
+              </DsWorkbenchSection>
+              <DsWorkbenchSection
+                title="战后结算摘要"
+                description="只读汇总；重复成员按槽位各结算一次。点击成员回到敌人定义编辑数据。"
+              >
+                <div className="enemy-team-totals">
+                  <span>
+                    <strong>{totals.exp}</strong> 经验
+                  </span>
+                  <span>
+                    <strong>{totals.cash}</strong> 金钱
+                  </span>
+                  <span>
+                    <strong>{totals.collectValue}</strong> 收妖值
+                  </span>
+                </div>
+                <div className="enemy-team-member-summary">
+                  {memberPresentations.map(({ enemy, stealSummary, defeated }, index) => (
+                    <DsPressable
+                      type="button"
+                      key={`${enemy.id}:${index}`}
+                      onClick={() => onOpenEnemy?.(enemy.id)}
+                    >
+                      <strong>{lookupText(enemy.name, locale)}</strong>
+                      <span>{stealSummary}</span>
+                      <span>{defeated.compactSummary}</span>
+                    </DsPressable>
+                  ))}
+                  {!members.length ? (
+                    <p className="hint">当前敌队为空；可保存为占位预制，但无法形成有效战斗阵容。</p>
+                  ) : null}
+                </div>
+              </DsWorkbenchSection>
             </>
           ) : (
-            <div className="ds-object-workspace__content enemy-team-scroll">
-              <section className="enemy-team-create-card">
-                <h2>还没有敌队</h2>
-                <p>创建后即可被场景敌对实体和开战脚本选择。</p>
-                <DsButton variant="primary" onClick={beginCreate}>
-                  创建第一个敌队
-                </DsButton>
-              </section>
-            </div>
+            <section className="enemy-team-create-card">
+              <h2>还没有敌队</h2>
+              <p>创建后即可被场景敌对实体和开战脚本选择。</p>
+              <DsButton variant="primary" onClick={beginCreate}>
+                创建第一个敌队
+              </DsButton>
+            </section>
           )}
-        </main>
+        </DsObjectWorkspace>
       </div>
 
       <aside className="inspector enemy-team-reference-panel">

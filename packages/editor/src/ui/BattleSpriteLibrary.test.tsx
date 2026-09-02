@@ -9,6 +9,7 @@ import type { BattleSpriteResourceSnapshot } from './BattleSpriteInlinePreview.j
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
+import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
 import type { SemanticFrameGroup } from './SpriteFrameWorkbench.js'
 
 const previewRender = vi.hoisted(() => vi.fn())
@@ -286,6 +287,32 @@ describe('BattleSpriteLibrary', () => {
     await verifyInspectorTabs(host, '战斗精灵检查器', ['动作', /^引用 \d+$/, '源文件'])
   })
 
+  test('ready、upload 与 empty 共用唯一 canonical main owner', async () => {
+    await act(async () => root.render(library(definitions)))
+    const ready = verifyCanonicalObjectWorkspace(host, '战斗精灵工作区', { tagName: 'DIV' })
+    expect(ready.content.querySelector('[data-preview]')).not.toBeNull()
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="导入战斗精灵"]')!.click(),
+    )
+    const uploading = verifyCanonicalObjectWorkspace(host, '战斗精灵工作区', { tagName: 'DIV' })
+    expect(uploading.content).toBe(ready.content)
+    expect(uploading.content.querySelector('[data-uploader]')).not.toBeNull()
+
+    await act(async () => root.unmount())
+    root = createRoot(host)
+    await act(async () =>
+      root.render(
+        library([], {
+          catalog: { version: 1, assets: {} },
+          view: 'asset',
+        }),
+      ),
+    )
+    const empty = verifyCanonicalObjectWorkspace(host, '战斗精灵工作区', { tagName: 'DIV' })
+    expect(empty.content.textContent).toContain('没有可预览的战斗精灵')
+  })
+
   test('源文件和用途合并为一份资源列表，目录只保留名称、AssetId 与异常', async () => {
     await act(async () => root.render(library(definitions)))
 
@@ -312,11 +339,12 @@ describe('BattleSpriteLibrary', () => {
     const filter = host.querySelector('input[aria-label="过滤战斗精灵库"]')!
     expect(upload.compareDocumentPosition(filter) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
 
-    const workspace = host.querySelector('.battle-sprite-center.ds-object-workspace')!
+    const { workspace, content } = verifyCanonicalObjectWorkspace(host, '战斗精灵工作区', {
+      tagName: 'DIV',
+    })
     const hero = workspace.querySelector(':scope > .ds-object-hero')!
-    const content = workspace.querySelector(':scope > .ds-object-workspace__content')!
     expect(hero).not.toBeNull()
-    expect(content).not.toBeNull()
+    expect(content.classList.contains('battle-sprite-workspace-scroll')).toBe(true)
     expect(content.contains(hero)).toBe(false)
 
     await act(async () => button('源文件').click())

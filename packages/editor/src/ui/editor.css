@@ -1546,11 +1546,6 @@ html[data-panel-resize="horizontal"] * {
   border-bottom: 1px solid var(--ds-border-subtle);
 }
 .project-center {
-  display: flex;
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-  background: var(--ds-surface-canvas);
   container-type: inline-size;
 }
 .project-scroll {
@@ -1560,7 +1555,6 @@ html[data-panel-resize="horizontal"] * {
   min-height: 0;
   box-sizing: border-box;
   overflow-x: hidden;
-  overflow-y: auto;
 }
 .project-scroll > * {
   min-width: 0;
@@ -5753,10 +5747,6 @@ html[data-panel-resize="horizontal"] * {
 .battle-sprite-inspector {
   container-type: inline-size;
 }
-.battle-sprite-center {
-  grid-template-rows: minmax(0, 1fr);
-  overflow: hidden;
-}
 .battle-sprite-workspace-scroll {
   grid-auto-rows: max-content;
   align-content: start;
@@ -6032,13 +6022,8 @@ html[data-panel-resize="horizontal"] * {
   color: var(--warn);
 }
 .sprite-resource-viewer {
-  display: flex;
   height: 100%;
-  min-height: 0;
-  min-width: 0;
   padding: 0;
-  overflow: hidden;
-  background: var(--ds-surface-canvas);
 }
 .sprite-resource-viewer-scroll {
   grid-auto-rows: max-content;
@@ -8306,7 +8291,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   min-height: 0;
 }
 .world-variable-catalog,
-.world-variable-scroll,
 .world-variable-reference-panel {
   overflow: auto;
 }
@@ -8317,8 +8301,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   white-space: nowrap;
 }
 .world-variable-workbench .ds-object-workspace {
-  display: flex;
-  flex-direction: column;
   height: 100%;
 }
 .world-variable-scroll {
@@ -10882,9 +10864,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 .enemy-team-workbench > main {
   min-width: 0;
   height: 100%;
-}
-.enemy-team-scroll {
-  overflow: auto;
 }
 .enemy-team-catalog {
   overflow: auto;

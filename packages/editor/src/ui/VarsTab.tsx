@@ -31,6 +31,7 @@ import {
   DsCatalogGroupHeader,
   DsCatalogRow,
   DsObjectHero,
+  DsObjectWorkspace,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
@@ -357,148 +358,153 @@ export function VarsTab(props: {
       </div>
 
       <div className="canvas-wrap data-body world-variable-workbench">
-        <main className="ds-object-workspace">
-          {notice ? (
-            <div className="world-variable-notice" role="alert">
-              {notice}
-            </div>
-          ) : null}
-          {creating ? (
-            <div className="ds-object-workspace__content world-variable-scroll">
-              <section className="world-variable-create-card">
-                <p className="eyebrow">新建世界变量</p>
-                <h2>先确定稳定 ID 与运行类型</h2>
-                <p>ID 和类型创建后保持稳定；显示名称、说明和新开局默认值可继续编辑。</p>
-                <DsTextField
-                  label="稳定 ID"
-                  monospace
-                  value={createId}
-                  onChange={(event) => setCreateId(event.target.value)}
-                  help="字母开头；sys: 前缀保留给引擎。"
-                />
-                <DsField label="类型">
-                  {({ id }) => (
-                    <DsSelect
-                      id={id}
-                      value={createKind}
-                      searchable={false}
-                      options={[
-                        { value: 'flag', label: '开关（boolean）' },
-                        { value: 'number', label: '数值（number）' },
-                      ]}
-                      onValueChange={(value) => setCreateKind(value as WorldVariableKindV1)}
-                    />
-                  )}
-                </DsField>
-                <DsTextField
-                  label="显示名称"
-                  value={createName}
-                  onChange={(event) => setCreateName(event.target.value)}
-                />
-                <div className="world-variable-create-actions">
-                  <DsButton variant="primary" onClick={create}>
-                    创建变量
-                  </DsButton>
-                  <DsButton variant="secondary" onClick={() => setCreating(false)}>
-                    取消
-                  </DsButton>
+        <DsObjectWorkspace
+          as="main"
+          label="世界变量工作区"
+          contentClassName="world-variable-scroll"
+          hero={
+            <>
+              {notice ? (
+                <div className="world-variable-notice" role="alert">
+                  {notice}
                 </div>
-              </section>
-            </div>
+              ) : null}
+              {!creating && selected ? (
+                <DsObjectHero
+                  eyebrow="世界变量"
+                  title={selected.name}
+                  objectId={selectedId}
+                  summary={selected.description || '尚未填写说明。'}
+                  meta={`${typeLabel(selected.kind)} · 读 ${reads.length} · 写 ${writes.length}`}
+                  actions={
+                    <DsButton
+                      variant="danger"
+                      icon="delete"
+                      disabled={referenceStatus !== 'current' || selectedRefs.length > 0}
+                      title={
+                        referenceStatus !== 'current'
+                          ? '变量引用仍在检查，暂不能删除'
+                          : selectedRefs.length
+                            ? `仍有 ${selectedRefs.length} 处引用，请先从右侧处理`
+                            : '删除变量'
+                      }
+                      onClick={remove}
+                    >
+                      删除变量
+                    </DsButton>
+                  }
+                />
+              ) : null}
+            </>
+          }
+        >
+          {creating ? (
+            <section className="world-variable-create-card">
+              <p className="eyebrow">新建世界变量</p>
+              <h2>先确定稳定 ID 与运行类型</h2>
+              <p>ID 和类型创建后保持稳定；显示名称、说明和新开局默认值可继续编辑。</p>
+              <DsTextField
+                label="稳定 ID"
+                autoFocus
+                monospace
+                value={createId}
+                onChange={(event) => setCreateId(event.target.value)}
+                help="字母开头；sys: 前缀保留给引擎。"
+              />
+              <DsField label="类型">
+                {({ id }) => (
+                  <DsSelect
+                    id={id}
+                    value={createKind}
+                    searchable={false}
+                    options={[
+                      { value: 'flag', label: '开关（boolean）' },
+                      { value: 'number', label: '数值（number）' },
+                    ]}
+                    onValueChange={(value) => setCreateKind(value as WorldVariableKindV1)}
+                  />
+                )}
+              </DsField>
+              <DsTextField
+                label="显示名称"
+                value={createName}
+                onChange={(event) => setCreateName(event.target.value)}
+              />
+              <div className="world-variable-create-actions">
+                <DsButton variant="primary" onClick={create}>
+                  创建变量
+                </DsButton>
+                <DsButton variant="secondary" onClick={() => setCreating(false)}>
+                  取消
+                </DsButton>
+              </div>
+            </section>
           ) : selected ? (
             <>
-              <DsObjectHero
-                eyebrow="世界变量"
-                title={selected.name}
-                objectId={selectedId}
-                summary={selected.description || '尚未填写说明。'}
-                meta={`${typeLabel(selected.kind)} · 读 ${reads.length} · 写 ${writes.length}`}
-                actions={
-                  <DsButton
-                    variant="danger"
-                    icon="delete"
-                    disabled={referenceStatus !== 'current' || selectedRefs.length > 0}
-                    title={
-                      referenceStatus !== 'current'
-                        ? '变量引用仍在检查，暂不能删除'
-                        : selectedRefs.length
-                          ? `仍有 ${selectedRefs.length} 处引用，请先从右侧处理`
-                          : '删除变量'
-                    }
-                    onClick={remove}
-                  >
-                    删除变量
-                  </DsButton>
-                }
-              />
-              <div className="ds-object-workspace__content world-variable-scroll">
-                <DsWorkbenchSection
-                  title="基本信息"
-                  description="显示名称与说明只服务作者；稳定 ID 和运行类型创建后只读。"
-                >
-                  <div className="world-variable-readonly-grid">
-                    <div>
-                      <span>稳定 ID</span>
-                      <code>{selectedId}</code>
-                    </div>
-                    <div>
-                      <span>类型</span>
-                      <strong>{typeLabel(selected.kind)}</strong>
-                    </div>
+              <DsWorkbenchSection
+                title="基本信息"
+                description="显示名称与说明只服务作者；稳定 ID 和运行类型创建后只读。"
+              >
+                <div className="world-variable-readonly-grid">
+                  <div>
+                    <span>稳定 ID</span>
+                    <code>{selectedId}</code>
                   </div>
-                  <DsTextField
-                    label="显示名称"
-                    value={draft.name}
-                    onChange={(event) => setDraft({ ...draft, name: event.target.value })}
+                  <div>
+                    <span>类型</span>
+                    <strong>{typeLabel(selected.kind)}</strong>
+                  </div>
+                </div>
+                <DsTextField
+                  label="显示名称"
+                  value={draft.name}
+                  onChange={(event) => setDraft({ ...draft, name: event.target.value })}
+                  onBlur={() => commit()}
+                />
+                <DsTextAreaField
+                  label="说明"
+                  rows={4}
+                  value={draft.description}
+                  onChange={(event) => setDraft({ ...draft, description: event.target.value })}
+                  onBlur={() => commit()}
+                />
+              </DsWorkbenchSection>
+              <DsWorkbenchSection
+                title="新开局默认值"
+                description="只用于创建新世界；修改这里不会覆盖当前存档或预览运行值。"
+              >
+                {selected.kind === 'flag' ? (
+                  <DsCheckbox
+                    label="新开局时开启"
+                    checked={Boolean(draft.initial)}
+                    onChange={(event) => {
+                      const next = { ...draft, initial: event.target.checked }
+                      setDraft(next)
+                      commit(next)
+                    }}
+                  />
+                ) : (
+                  <DsNumberField
+                    label="初始数值"
+                    value={Number(draft.initial)}
+                    onChange={(event) =>
+                      setDraft({ ...draft, initial: event.target.valueAsNumber })
+                    }
                     onBlur={() => commit()}
                   />
-                  <DsTextAreaField
-                    label="说明"
-                    rows={4}
-                    value={draft.description}
-                    onChange={(event) => setDraft({ ...draft, description: event.target.value })}
-                    onBlur={() => commit()}
-                  />
-                </DsWorkbenchSection>
-                <DsWorkbenchSection
-                  title="新开局默认值"
-                  description="只用于创建新世界；修改这里不会覆盖当前存档或预览运行值。"
-                >
-                  {selected.kind === 'flag' ? (
-                    <DsCheckbox
-                      label="新开局时开启"
-                      checked={Boolean(draft.initial)}
-                      onChange={(event) => {
-                        const next = { ...draft, initial: event.target.checked }
-                        setDraft(next)
-                        commit(next)
-                      }}
-                    />
-                  ) : (
-                    <DsNumberField
-                      label="初始数值"
-                      value={Number(draft.initial)}
-                      onChange={(event) =>
-                        setDraft({ ...draft, initial: event.target.valueAsNumber })
-                      }
-                      onBlur={() => commit()}
-                    />
-                  )}
-                </DsWorkbenchSection>
-              </div>
+                )}
+              </DsWorkbenchSection>
             </>
           ) : (
-            <div className="ds-object-workspace__content world-variable-scroll">
-              <section className="world-variable-create-card">
-                <h2>建立第一条变量定义</h2>
-                <p>变量先定义，再供剧情条件和写入命令选择；未登记字符串会阻断保存。</p>
-                <DsButton variant="primary" onClick={() => beginCreate()}>
-                  新建变量
-                </DsButton>
-              </section>
-            </div>
+            <section className="world-variable-create-card">
+              <h2>建立第一条变量定义</h2>
+              <p>变量先定义，再供剧情条件和写入命令选择；未登记字符串会阻断保存。</p>
+              <DsButton variant="primary" onClick={() => beginCreate()}>
+                新建变量
+              </DsButton>
+            </section>
           )}
-        </main>
+        </DsObjectWorkspace>
       </div>
 
       <aside className="inspector world-variable-reference-panel">

@@ -29,15 +29,17 @@ describe('design-system adoption gate', () => {
     expect(matrix.version).toBe(4)
     expect(matrix.catalogScrollOwners).toHaveLength(27)
     expect(matrix.overlayExceptions).toHaveLength(7)
-    expect(matrix.workspaceLegacyExceptions).toHaveLength(6)
+    expect(matrix.workspaceLegacyExceptions).toHaveLength(0)
     expect(adopted).toEqual(registered)
     expect(new Set(adopted).size).toBe(adopted.length)
     expect(matrix.pages).toHaveLength(27)
-    const legacyRegistries = new Set(
-      matrix.workspaceLegacyExceptions.flatMap((entry) => entry.registries),
-    )
+    const scrollRecords = matrix.catalogScrollOwners.flatMap((page) => page.scroll)
+    expect(scrollRecords).toHaveLength(102)
+    expect(
+      scrollRecords.filter((record) => record.owner === 'DsObjectWorkspaceContent'),
+    ).toHaveLength(20)
     for (const page of matrix.pages) {
-      expect(page.status).toBe(legacyRegistries.has(page.registry) ? 'exception' : 'adopted')
+      expect(page.status).toBe('adopted')
       expect(Object.keys(page.owners).sort()).toEqual([
         'action',
         'catalog',
@@ -45,6 +47,21 @@ describe('design-system adoption gate', () => {
         'overlay',
         'scroll',
       ])
+    }
+  })
+
+  test('closes every raw object workspace debt behind one real owner per source', () => {
+    for (const source of [
+      'ProjectWorkbenchTab.tsx',
+      'BattleSpriteLibrary.tsx',
+      'VarsTab.tsx',
+      'SpriteResourceViewer.tsx',
+      'EnemyTeamTab.tsx',
+      'BattleFieldTab.tsx',
+    ]) {
+      const text = readFileSync(join(here, '..', source), 'utf8')
+      expect(text, source).not.toMatch(/['"`]ds-object-workspace(?:__content)?\b/)
+      expect(text.match(/<DsObjectWorkspace\b/g), source).toHaveLength(1)
     }
   })
 
@@ -1222,7 +1239,7 @@ type DataStateProps`,
     ).toEqual([])
   }, 60_000)
 
-  test('requires every Inspector and legacy registry pair to be explicitly linked', () => {
+  test('requires every Inspector and canonical object workspace owner to be explicitly linked', () => {
     const matrix = JSON.parse(readFileSync(join(here, 'design-system-adoption.json'), 'utf8'))
     const missingInspector = structuredClone(matrix)
     const shop = missingInspector.catalogScrollOwners.find((page) => page.registry === 'item/shop')
@@ -1233,42 +1250,24 @@ type DataStateProps`,
       ]),
     )
 
-    const missingProjectLink = structuredClone(matrix)
-    const overview = missingProjectLink.catalogScrollOwners.find(
+    const missingProjectOwner = structuredClone(matrix)
+    const overview = missingProjectOwner.catalogScrollOwners.find(
       (page) => page.registry === 'project/overview',
     )
     overview.scroll = overview.scroll.filter(
-      (record) => record.owner !== 'legacy-exception:legacy-workspace-project',
+      (record) => record.owner !== 'DsObjectWorkspaceContent',
     )
-    expect(validateAdoption(missingProjectLink)).toContain(
-      'workspace legacy exception pair is not owner-linked: legacy-workspace-project@project/overview',
-    )
-
-    const extraDeclaredPair = structuredClone(matrix)
-    extraDeclaredPair.workspaceLegacyExceptions
-      .find((entry) => entry.id === 'legacy-workspace-vars')
-      .registries.push('battle/enemy-team')
-    expect(validateAdoption(extraDeclaredPair)).toContain(
-      'workspace legacy exception pair is not owner-linked: legacy-workspace-vars@battle/enemy-team',
-    )
-
-    const duplicateRegistry = structuredClone(matrix)
-    duplicateRegistry.workspaceLegacyExceptions
-      .find((entry) => entry.id === 'legacy-workspace-vars')
-      .registries.push('story/vars')
-    expect(validateAdoption(duplicateRegistry)).toContain(
-      'legacy-workspace-vars has duplicate registry story/vars',
-    )
-
-    const fakeAdopted = structuredClone(matrix)
-    fakeAdopted.pages.find((page) => page.registry === 'story/vars').status = 'adopted'
-    expect(validateAdoption(fakeAdopted)).toContain(
-      'story/vars status must be exception while a workspace legacy exception is linked',
+    expect(validateAdoption(missingProjectOwner)).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining(
+          'project/overview renders unregistered scroll owner DsObjectWorkspaceContent',
+        ),
+      ]),
     )
 
     const fakeException = structuredClone(matrix)
-    fakeException.pages.find((page) => page.registry === 'item/shop').status = 'exception'
-    expect(validateAdoption(fakeException)).toContain('item/shop status must be adopted')
+    fakeException.pages.find((page) => page.registry === 'story/vars').status = 'exception'
+    expect(validateAdoption(fakeException)).toContain('story/vars status must be adopted')
   }, 15_000)
 
   test('rejects prose-only adoption truth, forged reserved markers, and legacy drift', () => {
@@ -1349,11 +1348,18 @@ type DataStateProps`,
     )
 
     const staleLegacy = structuredClone(matrix)
-    staleLegacy.workspaceLegacyExceptions.find(
-      (entry) => entry.id === 'legacy-workspace-vars',
-    ).selectors[1].count = 2
+    staleLegacy.workspaceLegacyExceptions.push({
+      id: 'stale-workspace-vars',
+      source: 'VarsTab.tsx',
+      selectors: [{ selector: 'main.ds-object-workspace', count: 1 }],
+      registries: ['story/vars'],
+      reason: '用于证明已清零 legacy 记录不能回流。',
+      verification: '静态 AST 必须发现 selector 已不存在。',
+      removalCondition: '本记录必须保持不存在。',
+      debtCard: 'docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md',
+    })
     expect(validateAdoption(staleLegacy)).toContain(
-      'workspace legacy selector VarsTab.tsx#div.ds-object-workspace__content.world-variable-scroll expected 2, rendered 3',
+      'workspace legacy selector VarsTab.tsx#main.ds-object-workspace expected 1, rendered 0',
     )
   })
 

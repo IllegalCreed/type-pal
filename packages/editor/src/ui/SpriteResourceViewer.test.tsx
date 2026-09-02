@@ -5,6 +5,7 @@ import type { LoadedWorldSprite, RleFrame } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
 import { SpriteResourceViewer } from './SpriteResourceViewer.js'
 
 const mocks = vi.hoisted(() => ({
@@ -108,11 +109,12 @@ describe('SpriteResourceViewer', () => {
     const resourceMeta = host.querySelector('.ds-object-hero__meta .ds-tag')
     expect(resourceMeta?.textContent).toContain('3 帧')
     expect(host.querySelector('.sprite-resource-frame-count')).toBeNull()
-    const workspace = host.querySelector('.sprite-resource-viewer')!
+    const { workspace, content } = verifyCanonicalObjectWorkspace(host, '大世界精灵资源工作区', {
+      tagName: 'DIV',
+    })
     const hero = workspace.querySelector(':scope > .ds-object-hero')!
-    const content = workspace.querySelector(':scope > .ds-object-workspace__content')!
     expect(hero).not.toBeNull()
-    expect(content).not.toBeNull()
+    expect(content.classList.contains('sprite-resource-viewer-scroll')).toBe(true)
     expect(content.contains(hero)).toBe(false)
     expect(content.querySelector('.sprite-raw-inspector')).not.toBeNull()
     expect(content.querySelector('.sprite-raw-inspector .ds-object-hero')).toBeNull()
@@ -170,6 +172,10 @@ describe('SpriteResourceViewer', () => {
         />,
       )
     })
+    const oldLoading = verifyCanonicalObjectWorkspace(host, '大世界精灵资源工作区', {
+      tagName: 'DIV',
+    })
+    expect(oldLoading.content.textContent).toContain('正在解析帧资源 sprite.old')
     expect(host.querySelector(':scope .ds-object-hero__title')?.textContent).toBe('旧资源')
     await act(async () => {
       root.render(
@@ -184,15 +190,43 @@ describe('SpriteResourceViewer', () => {
         />,
       )
     })
+    const nextLoading = verifyCanonicalObjectWorkspace(host, '大世界精灵资源工作区', {
+      tagName: 'DIV',
+    })
+    expect(nextLoading.content).toBe(oldLoading.content)
     expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('新资源')
     await act(async () => oldLoad.resolve(sprite([frame(9, 9), frame(8, 8)])))
     expect(host.textContent).toContain('正在解析帧资源 sprite.next')
     expect(host.textContent).not.toContain('2 帧')
 
     await act(async () => nextLoad.resolve(sprite([frame(30, 40)])))
+    expect(
+      verifyCanonicalObjectWorkspace(host, '大世界精灵资源工作区', { tagName: 'DIV' }).content,
+    ).toBe(oldLoading.content)
     expect(host.textContent).toContain('新资源')
     expect(host.textContent).toContain('1 帧')
     expect(host.textContent).not.toContain('旧资源')
+  })
+
+  test('加载失败仍保留同一 canonical workspace 与 content owner', async () => {
+    mocks.loadSprite.mockRejectedValue(new Error('损坏的精灵资源'))
+    await act(async () => {
+      root.render(
+        <SpriteResourceViewer
+          assetBase={{} as never}
+          assetReader={{} as never}
+          asset={'sprite.broken' as AssetId}
+          revision="broken-sha"
+          label="损坏资源"
+          consumers={[]}
+          session={{} as never}
+        />,
+      )
+    })
+    const failed = verifyCanonicalObjectWorkspace(host, '大世界精灵资源工作区', {
+      tagName: 'DIV',
+    })
+    expect(failed.content.querySelector('[role="alert"]')?.textContent).toContain('损坏的精灵资源')
   })
 
   test('多帧源容器的默认布局只解释 #0，其它帧可组成独立循环动作', async () => {

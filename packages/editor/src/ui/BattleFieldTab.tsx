@@ -38,6 +38,7 @@ import {
   DsCatalogRow,
   DsNumberFieldGrid,
   DsObjectHero,
+  DsObjectWorkspace,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -275,164 +276,167 @@ export function BattleFieldTab(props: {
       </div>
 
       <div className="canvas-wrap data-body bf-workbench">
-        <main className="bf-main ds-object-workspace">
-          {notice ? (
-            <div className="bf-notice" role="alert">
-              {notice}
-            </div>
-          ) : null}
+        <DsObjectWorkspace
+          as="main"
+          label="战场工作区"
+          className="bf-main"
+          contentClassName="bf-editor-scroll"
+          hero={
+            <>
+              {notice ? (
+                <div className="bf-notice" role="alert">
+                  {notice}
+                </div>
+              ) : null}
+              {!creating && field ? (
+                <DsObjectHero
+                  eyebrow="战场"
+                  title={fieldTitle(field)}
+                  objectId={`#${String(field.id).padStart(3, '0')}`}
+                  summary="负责战斗画面与环境参数；角色、敌人的站位仍由各自战斗数据管理。"
+                  actions={
+                    <DsButton variant="danger" icon="delete" onClick={remove}>
+                      删除战场
+                    </DsButton>
+                  }
+                />
+              ) : null}
+            </>
+          }
+        >
           {creating ? (
-            <div className="bf-editor-scroll ds-object-workspace__content">
-              <section className="bf-create-card">
-                <p className="eyebrow">新建战场</p>
-                <h2>先确定稳定编号与名称</h2>
-                <p>
-                  空项目建议保留 #024 作为项目默认战场。编号提交后不可修改，但可以撤销本次创建。
-                </p>
-                <div className="bf-create-grid">
-                  <DsField label="编号">
-                    {({ id }) => (
-                      <DsTextInput
-                        id={id}
-                        monospace
-                        value={draftId}
-                        onChange={(event) => setDraftId(event.target.value)}
-                      />
-                    )}
-                  </DsField>
-                  <DsField label="名称">
-                    {({ id }) => (
-                      <DsTextInput
-                        id={id}
-                        value={draftName}
-                        placeholder="例如：林间空地"
-                        onChange={(event) => setDraftName(event.target.value)}
-                      />
-                    )}
-                  </DsField>
-                </div>
-                <div className="bf-create-actions">
-                  <DsButton variant="primary" onClick={create}>
-                    创建战场
-                  </DsButton>
-                  <DsButton variant="secondary" onClick={() => setCreating(false)}>
-                    取消
-                  </DsButton>
-                </div>
-              </section>
-            </div>
+            <section className="bf-create-card">
+              <p className="eyebrow">新建战场</p>
+              <h2>先确定稳定编号与名称</h2>
+              <p>空项目建议保留 #024 作为项目默认战场。编号提交后不可修改，但可以撤销本次创建。</p>
+              <div className="bf-create-grid">
+                <DsField label="编号">
+                  {({ id }) => (
+                    <DsTextInput
+                      id={id}
+                      autoFocus
+                      monospace
+                      value={draftId}
+                      onChange={(event) => setDraftId(event.target.value)}
+                    />
+                  )}
+                </DsField>
+                <DsField label="名称">
+                  {({ id }) => (
+                    <DsTextInput
+                      id={id}
+                      value={draftName}
+                      placeholder="例如：林间空地"
+                      onChange={(event) => setDraftName(event.target.value)}
+                    />
+                  )}
+                </DsField>
+              </div>
+              <div className="bf-create-actions">
+                <DsButton variant="primary" onClick={create}>
+                  创建战场
+                </DsButton>
+                <DsButton variant="secondary" onClick={() => setCreating(false)}>
+                  取消
+                </DsButton>
+              </div>
+            </section>
           ) : field ? (
             <>
-              <DsObjectHero
-                eyebrow="战场"
-                title={fieldTitle(field)}
-                objectId={`#${String(field.id).padStart(3, '0')}`}
-                summary="负责战斗画面与环境参数；角色、敌人的站位仍由各自战斗数据管理。"
-                actions={
-                  <DsButton variant="danger" icon="delete" onClick={remove}>
-                    删除战场
-                  </DsButton>
-                }
-              />
-
-              <div className="bf-editor-scroll ds-object-workspace__content">
-                <DsWorkbenchSection
-                  title="身份与背景"
-                  description="配置战场名称及战斗画面使用的背景图像。"
-                  contentClassName="bf-identity-card"
-                >
-                  <div className="bf-preview-column">
-                    <FieldPreview assetBase={assetBase} field={field} />
-                  </div>
-                  <div className="bf-card-fields">
-                    <DsField label="名称">
-                      {({ id }) => (
-                        <DsDraftTextInput
-                          id={id}
-                          draftKey={`battlefield:${field.id}:name`}
-                          syncToken={session.getHistoryVersion()}
-                          value={field.name ?? ''}
-                          placeholder="未命名战场"
-                          onCommit={(value) => patch({ name: value || undefined })}
-                        />
-                      )}
-                    </DsField>
-                    <DsField label="背景图像" help="不配置背景时，运行时明确显示黑底。">
-                      <ImageAssetPicker
-                        value={field.background}
-                        kind="battle-background"
-                        catalog={assetCatalog}
-                        reader={assetReader}
-                        allowUnset
-                        showThumbnail
-                        ariaLabel={`战场 ${field.id} 背景`}
-                        onOpenAsset={onOpenImage}
-                        onChange={(background) => patch({ background })}
-                      />
-                    </DsField>
-                  </div>
-                </DsWorkbenchSection>
-
-                <div className="bf-card-grid">
-                  <DsWorkbenchSection
-                    eyebrow="环境演出"
-                    title="常驻波动"
-                    description="控制战场画面的持续波动；0 表示关闭。"
-                  >
-                    <DsDraftNumberField
-                      label="强度"
-                      monospace
-                      draftKey={`battlefield:${field.id}:screenWave`}
-                      syncToken={session.getHistoryVersion()}
-                      value={field.screenWave}
-                      onCommit={(value) => patch({ screenWave: value ?? 0 })}
-                    />
-                  </DsWorkbenchSection>
-                  <DsWorkbenchSection
-                    eyebrow="法术环境"
-                    title="五灵修正"
-                    description="负数削弱、正数增强；直接参与法术伤害修正。"
-                  >
-                    <DsNumberFieldGrid className="bf-elements">
-                      {(Object.keys(ELEM_LABEL) as (keyof ElementVec)[]).map((key) => (
-                        <DsDraftNumberField
-                          key={key}
-                          label={ELEM_LABEL[key]}
-                          monospace
-                          min={-10}
-                          max={10}
-                          enforceRange={false}
-                          draftKey={`battlefield:${field.id}:magicEffect.${key}`}
-                          syncToken={session.getHistoryVersion()}
-                          value={field.magicEffect[key]}
-                          onCommit={(value) =>
-                            patch({
-                              magicEffect: {
-                                ...field.magicEffect,
-                                [key]: value ?? 0,
-                              },
-                            })
-                          }
-                        />
-                      ))}
-                    </DsNumberFieldGrid>
-                  </DsWorkbenchSection>
+              <DsWorkbenchSection
+                title="身份与背景"
+                description="配置战场名称及战斗画面使用的背景图像。"
+                contentClassName="bf-identity-card"
+              >
+                <div className="bf-preview-column">
+                  <FieldPreview assetBase={assetBase} field={field} />
                 </div>
+                <div className="bf-card-fields">
+                  <DsField label="名称">
+                    {({ id }) => (
+                      <DsDraftTextInput
+                        id={id}
+                        draftKey={`battlefield:${field.id}:name`}
+                        syncToken={session.getHistoryVersion()}
+                        value={field.name ?? ''}
+                        placeholder="未命名战场"
+                        onCommit={(value) => patch({ name: value || undefined })}
+                      />
+                    )}
+                  </DsField>
+                  <DsField label="背景图像" help="不配置背景时，运行时明确显示黑底。">
+                    <ImageAssetPicker
+                      value={field.background}
+                      kind="battle-background"
+                      catalog={assetCatalog}
+                      reader={assetReader}
+                      allowUnset
+                      showThumbnail
+                      ariaLabel={`战场 ${field.id} 背景`}
+                      onOpenAsset={onOpenImage}
+                      onChange={(background) => patch({ background })}
+                    />
+                  </DsField>
+                </div>
+              </DsWorkbenchSection>
+
+              <div className="bf-card-grid">
+                <DsWorkbenchSection
+                  eyebrow="环境演出"
+                  title="常驻波动"
+                  description="控制战场画面的持续波动；0 表示关闭。"
+                >
+                  <DsDraftNumberField
+                    label="强度"
+                    monospace
+                    draftKey={`battlefield:${field.id}:screenWave`}
+                    syncToken={session.getHistoryVersion()}
+                    value={field.screenWave}
+                    onCommit={(value) => patch({ screenWave: value ?? 0 })}
+                  />
+                </DsWorkbenchSection>
+                <DsWorkbenchSection
+                  eyebrow="法术环境"
+                  title="五灵修正"
+                  description="负数削弱、正数增强；直接参与法术伤害修正。"
+                >
+                  <DsNumberFieldGrid className="bf-elements">
+                    {(Object.keys(ELEM_LABEL) as (keyof ElementVec)[]).map((key) => (
+                      <DsDraftNumberField
+                        key={key}
+                        label={ELEM_LABEL[key]}
+                        monospace
+                        min={-10}
+                        max={10}
+                        enforceRange={false}
+                        draftKey={`battlefield:${field.id}:magicEffect.${key}`}
+                        syncToken={session.getHistoryVersion()}
+                        value={field.magicEffect[key]}
+                        onCommit={(value) =>
+                          patch({
+                            magicEffect: {
+                              ...field.magicEffect,
+                              [key]: value ?? 0,
+                            },
+                          })
+                        }
+                      />
+                    ))}
+                  </DsNumberFieldGrid>
+                </DsWorkbenchSection>
               </div>
             </>
           ) : (
-            <div className="bf-editor-scroll ds-object-workspace__content">
-              <section className="bf-empty-state">
-                <span aria-hidden="true">🏞️</span>
-                <h2>还没有战场</h2>
-                <p>创建第一项会同时登记 content/battle-fields.json，并预填项目默认编号 #024。</p>
-                <DsButton variant="primary" onClick={beginCreate}>
-                  创建第一个战场
-                </DsButton>
-              </section>
-            </div>
+            <section className="bf-empty-state">
+              <span aria-hidden="true">🏞️</span>
+              <h2>还没有战场</h2>
+              <p>创建第一项会同时登记 content/battle-fields.json，并预填项目默认编号 #024。</p>
+              <DsButton variant="primary" onClick={beginCreate}>
+                创建第一个战场
+              </DsButton>
+            </section>
           )}
-        </main>
+        </DsObjectWorkspace>
       </div>
 
       <aside className="inspector bf-reference-panel">

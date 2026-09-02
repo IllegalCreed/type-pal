@@ -646,6 +646,10 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 尚未迁移的 raw workspace 只能进入精确 legacy exception：每项绑定 source、selector 与命中次数，并写清
   registry、原因、验证、removal condition 和已上看板的 debt card。例外集合必须逐文件逐 selector 双向闭合，
   新增、删除、计数漂移、仍登记为 adopted、债务卡消失或 owner 未交叉链接时一律失败；例外不能类推给新页面。
+- 当前采用终态冻结为 **27 pages adopted / 0 exception**，`workspaceLegacyExceptions` 必须为空；业务 TSX 中
+  raw `ds-object-workspace*` occurrence 必须为 0。六个历史 owner 已由真实 `DsObjectWorkspace` 清零，102 条
+  scroll records 总数不变，其中 canonical `DsObjectWorkspaceContent` records 为 20；任何 legacy/status/raw
+  回流都由同一双向门禁拒绝。
 - 小窗口验收必须同时覆盖溢出与不溢出：滚轮和键盘只改变唯一 viewport 的 `scrollTop`，header rect 不变，祖先
   scrollTop 恒为 0，末项及 focus outline 可见，选中态与真实 leading 媒体不被裁切。编辑器根只能裁剪布局，
   不得成为可被 focus 程序滚动的隐藏 owner；根布局使用 `overflow:clip` 并保持 `scrollTop=0`。

@@ -26,11 +26,11 @@ import {
   useRef,
   useState,
 } from 'react'
+import { editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import {
   defaultBattleSpriteProfile,
   prepareBattleSpriteImport,
 } from '../core/battle-sprite-import.js'
-import { editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import {
   AddBattleSpriteCommand,
@@ -58,14 +58,16 @@ import {
   DsButton,
   DsCatalogControls,
   DsCatalogRow,
-  DsFileInput,
   DsFieldGroup,
+  DsFileInput,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsNumberInput,
   DsObjectHero,
+  DsObjectWorkspace,
   DsOverflowText,
+  DsPressable,
   DsPropertyGrid,
   DsPropertyRow,
   DsRangeInput,
@@ -77,10 +79,9 @@ import {
   DsSequenceIndex,
   DsTabs,
   DsTag,
-  DsTextInput,
   DsTextField,
+  DsTextInput,
   DsVirtualList,
-  DsPressable,
 } from './design-system/index.js'
 import { SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
 
@@ -1125,196 +1126,201 @@ export function BattleSpriteLibrary(props: {
         )}
       </div>
 
-      <div className="center actor-center battle-sprite-center ds-object-workspace">
-        <DsObjectHero
-          eyebrow="战斗精灵"
-          title={uploading ? '导入战斗精灵' : displayLabel || '未选择资源'}
-          objectId={uploading ? undefined : selectedAsset}
-          summary="集中管理共享源帧、战斗用途与动作语义。"
-          meta={
-            uploading ? null : (
-              <DsTag tone="neutral">
-                {actualFrameCount} 帧 · {consumers.length} 个用途定义
-              </DsTag>
-            )
-          }
-          actions={
-            uploading ? null : (
-              <>
-                {consumers.length ? (
-                  <DsButton
-                    size="compact"
-                    variant="secondary"
-                    disabled={!proofReady}
-                    onClick={() => setReplacing(true)}
-                  >
-                    替换源文件
-                  </DsButton>
-                ) : (
-                  <DsButton size="compact" variant="danger" onClick={() => void deleteAsset()}>
-                    删除源文件
-                  </DsButton>
-                )}
-                {definition ? (
-                  <DsButton
-                    size="compact"
-                    variant="danger"
-                    disabled={references.length > 0 || creatingUsage}
-                    title={
-                      references.length
-                        ? `仍有 ${references.length} 处用途引用，不能删除`
-                        : '删除当前用途，保留共享源文件'
-                    }
-                    onClick={deleteDefinition}
-                  >
-                    删除用途
-                  </DsButton>
-                ) : null}
-              </>
-            )
-          }
-        />
-        <div className="battle-sprite-workspace-scroll ds-object-workspace__content">
-          {uploading ? (
-            <div className="battle-sprite-upload-panel">
-              <h3>导入战斗精灵</h3>
-              <DsFieldGroup>
-                <DsTextField
-                  id="battle-sprite-upload-id"
-                  label="配置 ID 前缀"
-                  value={uploadId}
-                  monospace
-                  autoComplete="off"
-                  spellCheck={false}
-                  onChange={(event) => setUploadId(event.target.value)}
+      <DsObjectWorkspace
+        as="div"
+        label="战斗精灵工作区"
+        className="center actor-center battle-sprite-center"
+        contentClassName="battle-sprite-workspace-scroll"
+        hero={
+          <DsObjectHero
+            eyebrow="战斗精灵"
+            title={uploading ? '导入战斗精灵' : displayLabel || '未选择资源'}
+            objectId={uploading ? undefined : selectedAsset}
+            summary="集中管理共享源帧、战斗用途与动作语义。"
+            meta={
+              uploading ? null : (
+                <DsTag tone="neutral">
+                  {actualFrameCount} 帧 · {consumers.length} 个用途定义
+                </DsTag>
+              )
+            }
+            actions={
+              uploading ? null : (
+                <>
+                  {consumers.length ? (
+                    <DsButton
+                      size="compact"
+                      variant="secondary"
+                      disabled={!proofReady}
+                      onClick={() => setReplacing(true)}
+                    >
+                      替换源文件
+                    </DsButton>
+                  ) : (
+                    <DsButton size="compact" variant="danger" onClick={() => void deleteAsset()}>
+                      删除源文件
+                    </DsButton>
+                  )}
+                  {definition ? (
+                    <DsButton
+                      size="compact"
+                      variant="danger"
+                      disabled={references.length > 0 || creatingUsage}
+                      title={
+                        references.length
+                          ? `仍有 ${references.length} 处用途引用，不能删除`
+                          : '删除当前用途，保留共享源文件'
+                      }
+                      onClick={deleteDefinition}
+                    >
+                      删除用途
+                    </DsButton>
+                  ) : null}
+                </>
+              )
+            }
+          />
+        }
+      >
+        {uploading ? (
+          <div className="battle-sprite-upload-panel">
+            <h3>导入战斗精灵</h3>
+            <DsFieldGroup>
+              <DsTextField
+                id="battle-sprite-upload-id"
+                label="配置 ID 前缀"
+                value={uploadId}
+                monospace
+                autoComplete="off"
+                spellCheck={false}
+                onChange={(event) => setUploadId(event.target.value)}
+              />
+              <DsTextField
+                id="battle-sprite-upload-label"
+                label="显示名"
+                value={uploadLabel}
+                autoComplete="off"
+                onChange={(event) => setUploadLabel(event.target.value)}
+              />
+              <DsSelectField
+                id="battle-sprite-upload-kind"
+                label="用途"
+                value={uploadKind}
+                options={[
+                  { value: 'player-fighter', label: '玩家战斗' },
+                  { value: 'enemy', label: '敌人' },
+                  { value: 'summon', label: '召唤现身' },
+                ]}
+                onValueChange={(value) => setUploadKind(value as BattleSpriteProfileKind)}
+              />
+            </DsFieldGroup>
+            <BattleSpriteUploader
+              assetBase={props.assetBase}
+              onApply={async (bytes, frameCount) => {
+                try {
+                  const prepared = await prepareBattleSpriteImport(props.session.getState(), {
+                    hint: uploadId,
+                    label: uploadLabel,
+                    kind: uploadKind,
+                    bytes,
+                    frameCount,
+                    reader: props.assetReader,
+                  })
+                  props.session.dispatch(
+                    new AddBattleSpriteCommand(
+                      prepared.definition,
+                      prepared.record,
+                      prepared.bytes,
+                      prepared.frameCount,
+                    ),
+                  )
+                  setUploading(false)
+                  setSelectedAsset(prepared.definition.asset)
+                  setSelectedId(prepared.definition.id)
+                  props.onViewChange('definition', prepared.definition.id)
+                  props.onObjectFocus?.(prepared.definition.id)
+                } catch (reason) {
+                  reportError(reason)
+                  throw reason
+                }
+              }}
+              onCancel={() => setUploading(false)}
+            />
+          </div>
+        ) : record?.kind === 'battle-sprite' ? (
+          <>
+            <DsFileInput
+              ref={rawReplaceFileRef}
+              className="sprite-hidden-file-input"
+              accept="image/png,image/webp,image/gif"
+              onChange={(event) => {
+                const file = event.target.files?.[0]
+                event.target.value = ''
+                if (file) void replaceRawFrame(file, rawReplaceIndex.current)
+              }}
+            />
+            <DsFileInput
+              ref={rawAppendFileRef}
+              className="sprite-hidden-file-input"
+              accept="image/png,image/webp,image/gif"
+              onChange={(event) => {
+                const file = event.target.files?.[0]
+                event.target.value = ''
+                if (!file) return
+                void imageFileToRgba(file)
+                  .then((image) => setRawAppendDraft({ ...image, cols: 1, rows: 1 }))
+                  .catch(reportRawError)
+              }}
+            />
+            <BattleSpriteInlinePreview
+              asset={selectedAsset}
+              label={displayLabel}
+              assetBase={props.assetBase}
+              assetReader={props.assetReader}
+              layout="library"
+              semanticGroups={semanticGroups}
+              activeDefinitionId={draftDefinitionId ?? definition?.id}
+              consumerCount={consumers.length}
+              onDefinitionSelect={(id) => {
+                const next = consumers.find((entry) => entry.id === id)
+                if (next) focusDefinition(next)
+              }}
+              onFrameSelect={setSelectedRawFrame}
+              onLoaded={setPreviewProof}
+              onResourceLoaded={setResourceSnapshot}
+              onRawAppend={() => rawAppendFileRef.current?.click()}
+              onRawReplace={(index) => {
+                rawReplaceIndex.current = index
+                rawReplaceFileRef.current?.click()
+              }}
+              onRawDelete={(index) => void deleteRawFrame(index)}
+              onRawFrameDragStart={(event, index) => {
+                setSelectedRawFrame(index)
+                event.dataTransfer.effectAllowed = 'copy'
+                event.dataTransfer.setData(RAW_FRAME_MIME, String(index))
+                event.dataTransfer.setData('text/plain', `${RAW_FRAME_TEXT_PREFIX}${index}`)
+              }}
+              rawEditorBusy={rawEditorBusy}
+              rawEditorMessage={rawEditorMessage}
+              rawEditorMessageKind={rawEditorMessageKind}
+              rawEditorPanel={rawAppendPanel}
+              showHero={false}
+            />
+            {replacing ? (
+              <div className="battle-replace-panel">
+                <h4>替换当前共享帧源</h4>
+                <BattleSpriteUploader
+                  assetBase={props.assetBase}
+                  onApply={replaceAsset}
+                  onCancel={() => setReplacing(false)}
                 />
-                <DsTextField
-                  id="battle-sprite-upload-label"
-                  label="显示名"
-                  value={uploadLabel}
-                  autoComplete="off"
-                  onChange={(event) => setUploadLabel(event.target.value)}
-                />
-                <DsSelectField
-                  id="battle-sprite-upload-kind"
-                  label="用途"
-                  value={uploadKind}
-                  options={[
-                    { value: 'player-fighter', label: '玩家战斗' },
-                    { value: 'enemy', label: '敌人' },
-                    { value: 'summon', label: '召唤现身' },
-                  ]}
-                  onValueChange={(value) => setUploadKind(value as BattleSpriteProfileKind)}
-                />
-              </DsFieldGroup>
-              <BattleSpriteUploader
-                assetBase={props.assetBase}
-                onApply={async (bytes, frameCount) => {
-                  try {
-                    const prepared = await prepareBattleSpriteImport(props.session.getState(), {
-                      hint: uploadId,
-                      label: uploadLabel,
-                      kind: uploadKind,
-                      bytes,
-                      frameCount,
-                      reader: props.assetReader,
-                    })
-                    props.session.dispatch(
-                      new AddBattleSpriteCommand(
-                        prepared.definition,
-                        prepared.record,
-                        prepared.bytes,
-                        prepared.frameCount,
-                      ),
-                    )
-                    setUploading(false)
-                    setSelectedAsset(prepared.definition.asset)
-                    setSelectedId(prepared.definition.id)
-                    props.onViewChange('definition', prepared.definition.id)
-                    props.onObjectFocus?.(prepared.definition.id)
-                  } catch (reason) {
-                    reportError(reason)
-                    throw reason
-                  }
-                }}
-                onCancel={() => setUploading(false)}
-              />
-            </div>
-          ) : record?.kind === 'battle-sprite' ? (
-            <>
-              <DsFileInput
-                ref={rawReplaceFileRef}
-                className="sprite-hidden-file-input"
-                accept="image/png,image/webp,image/gif"
-                onChange={(event) => {
-                  const file = event.target.files?.[0]
-                  event.target.value = ''
-                  if (file) void replaceRawFrame(file, rawReplaceIndex.current)
-                }}
-              />
-              <DsFileInput
-                ref={rawAppendFileRef}
-                className="sprite-hidden-file-input"
-                accept="image/png,image/webp,image/gif"
-                onChange={(event) => {
-                  const file = event.target.files?.[0]
-                  event.target.value = ''
-                  if (!file) return
-                  void imageFileToRgba(file)
-                    .then((image) => setRawAppendDraft({ ...image, cols: 1, rows: 1 }))
-                    .catch(reportRawError)
-                }}
-              />
-              <BattleSpriteInlinePreview
-                asset={selectedAsset}
-                label={displayLabel}
-                assetBase={props.assetBase}
-                assetReader={props.assetReader}
-                layout="library"
-                semanticGroups={semanticGroups}
-                activeDefinitionId={draftDefinitionId ?? definition?.id}
-                consumerCount={consumers.length}
-                onDefinitionSelect={(id) => {
-                  const next = consumers.find((entry) => entry.id === id)
-                  if (next) focusDefinition(next)
-                }}
-                onFrameSelect={setSelectedRawFrame}
-                onLoaded={setPreviewProof}
-                onResourceLoaded={setResourceSnapshot}
-                onRawAppend={() => rawAppendFileRef.current?.click()}
-                onRawReplace={(index) => {
-                  rawReplaceIndex.current = index
-                  rawReplaceFileRef.current?.click()
-                }}
-                onRawDelete={(index) => void deleteRawFrame(index)}
-                onRawFrameDragStart={(event, index) => {
-                  setSelectedRawFrame(index)
-                  event.dataTransfer.effectAllowed = 'copy'
-                  event.dataTransfer.setData(RAW_FRAME_MIME, String(index))
-                  event.dataTransfer.setData('text/plain', `${RAW_FRAME_TEXT_PREFIX}${index}`)
-                }}
-                rawEditorBusy={rawEditorBusy}
-                rawEditorMessage={rawEditorMessage}
-                rawEditorMessageKind={rawEditorMessageKind}
-                rawEditorPanel={rawAppendPanel}
-                showHero={false}
-              />
-              {replacing ? (
-                <div className="battle-replace-panel">
-                  <h4>替换当前共享帧源</h4>
-                  <BattleSpriteUploader
-                    assetBase={props.assetBase}
-                    onApply={replaceAsset}
-                    onCancel={() => setReplacing(false)}
-                  />
-                </div>
-              ) : null}
-            </>
-          ) : (
-            <div className="insp-empty">没有可预览的战斗精灵。</div>
-          )}
-        </div>
-      </div>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <div className="insp-empty">没有可预览的战斗精灵。</div>
+        )}
+      </DsObjectWorkspace>
 
       <DsInspectorHost className="inspector inspector--tabbed battle-sprite-inspector">
         <div className="insp-head">
