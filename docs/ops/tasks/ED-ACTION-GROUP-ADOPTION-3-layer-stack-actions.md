@@ -259,13 +259,51 @@ workspace显隐/锁定状态与undo边界不变。
 
 - Codex: **accept（2026-09-02）**——实现、命令边界、registry负例、1534项全量与Map/Stamp真实双consumer
   三档布局/focus/scroll均复核通过；schema/capability-map/命令owner未变。
-- Kimi: pending
+- Kimi: **accept（2026-09-02，只读终审 `44c0cfd5` 全 diff + 真实 Map 双面板七档复测 +
+  registry/版本/命令边界复核与本人聚焦复跑，非复述 Codex）**。按 KC3-1~KC3-5 与卡面四点逐项核验：
+  - **三组唯一尺寸 owner ✓（实机 + diff）**:header/state/order 三个 compact ActionGroup 实机
+    全部按钮恰 **32×32**(140px 最窄档亦无 30px 残留);按钮 `size=` 已删、私有几何规则清除,
+    领域 class 只持 placement。header 删除实机 label=`删除选中图层：下层` + danger 边框
+    rgb(242,125,132);状态钮实机稳定 label=`图层可见：上层`/`图层锁定：上层`,状态仅由
+    `aria-pressed`+图标表达、SVG `aria-hidden`;order label=`上移图层：下层` 含完整图层名;
+    名称钮实机 `aria-label=选择图层：上层（layer-1）` + `data-layer-id=layer-1`;
+    `addDisabledReason/deleteDisabledReason` + useId + `aria-describedby` 与共享原因去重逻辑
+    (Map 三段冻结文案 / Stamp 接管文案)diff 直读一致。
+  - **断点与溢出 ✓（实机七档）**:360/320 同排（state+name+order 同行,stateOrderSameRow),
+    319/257 order 整组第二层,216 名称 98px ≥96,215/140 三层 DOM 序、名称 169/94px 正宽可见;
+    七档 `scrollWidth===clientWidth`、row/list/document 横向溢出全 0;非活动行无 order 渲染
+    （零空轨）;`.map-layer-list` 唯一命名 inline-size container、`<320` 与 `<216` 两条
+    container query 与设计逐字一致。
+  - **命令/状态边界 ✓**:Map `deleteLayerDisabledReason` 三段冻结文案 + 排序仍走
+    MoveProjectMapLayerCommand(diff 直读，确认链未触);Stamp ownership/删除两段原因 +
+    结构写仍一条 ReplaceStampTemplateCommand;显隐/锁定为 local state、history/dirty 不变
+    （卡面锚点与 diff 相容）;方向映射 stackOrder 传参未改;canMoveUp/Down 冗余 props 已清。
+  - **registry/版本 ✓（本人复算）**:baseline 恰 `13 groups / 44 moves / 22 adopted /
+    22 raw / 11 candidates`;三条 layer 登记为 header-actions/state-actions(0 moves,compact,
+    icon-only)+ actions(2 moves);candidates **1 equivalent + 10 deferred + 0 N/A**;
+    audit adopted 改为「非负整数且等于 AST 实数」、candidate 仍恰 2,0-move 合法与漂移负例在
+    adoption 测试内;DS **2.23.0** index.ts 实测（tokens/spec/boundary 同步见 diff）;
+    其余 11 candidates 生产零 diff(commit stat 证明）;field-layout snapshot 同步。
+  - **验证（本人执行）**:LayerStackControls + MapMode + StampLibraryTab +
+    action-group-adoption + boundary + field-layout-adoption → **6 files / 176 tests 全绿**;
+    `pnpm --filter @type-pal/editor typecheck` 通过;`audit:design-system` →
+    **91 files / 2 evidence-bound exceptions passed**。
+  无返工项；未修改实现，未代签 GLM。
 - GLM: pending
 - 用户验收: pending
-- done 准入: blocked
+- done 准入: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
 
 ## 交接日志
 
+- 2026-09-02 Kimi: 只读终审 `44c0cfd5`，签 **accept**。独立证据：三组实机全 32×32 无 30px
+  残留、header 删除含层名 danger、状态钮稳定 label+aria-pressed+SVG hidden、order 含完整层名、
+  名称钮含 ID 的 aria-label+data-layer-id、useId 原因+describedby 与共享去重（均实机/diff);
+  七档断点 360/320 同排、319/257 order 下沉、216 名称 98、215/140 三层且名称正宽、溢出全 0、
+  非活动行零空轨;Map/Stamp 原因文案与命令链（MoveProjectMapLayerCommand /
+  ReplaceStampTemplateCommand / 显隐锁定零 history）未变;registry 复算恰 13/44/22/22/11 +
+  1 equivalent + 10 deferred、三条 0/0/2 moves 登记、DS 2.23.0 实测、其余 11 candidates 零 diff;
+  本人复跑 6 files / 176 tests 全绿、typecheck 通过、DS gate 91 files / 2 exceptions 通过。
+  无返工项；未修改实现，未代签 GLM，未标 done。Next: GLM 覆盖终审与用户验收。
 - 2026-09-02 Codex: `44c0cfd5`完成三ActionGroup、320/216换轨、稳定名称/原因与0-move registry真模型；
   聚焦176、全量1534、typecheck/build/gate及Map/Stamp实机通过。卡转review，Next: Kimi实现/视觉审查，
   不得改实现；accept后交GLM覆盖终审。
@@ -295,25 +333,31 @@ workspace显隐/锁定状态与undo边界不变。
 ## 下一位 Agent 提示词
 
 ```text
-审查 ED-ACTION-GROUP-ADOPTION-3（Kimi席，review；实现提交44c0cfd5，只读生产实现，只允许更新任务卡
-Kimi done前签字/交接；不得代签GLM、不得标done）。
+终审 ED-ACTION-GROUP-ADOPTION-3（GLM 席，review；生产实现只读，不得修改实现/测试，不得代签，
+不得标 done）。
 
-先读：AGENTS.md、READ-FIRST、任务卡全文、DS-C.2a v2.23.0、LayerStackControls.tsx/test、MapMode与
-StampContentEditor caller/test、editor.css图层段、action-group-adoption.json/audit/test、field-layout证据与
-boundary。设计签KC3-1~KC3-5已齐，本轮只审当前实现，不重开设计签。
+任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md
+实现提交：44c0cfd5 feat(editor): unify layer stack action groups
+当前状态：review；Codex accept 与 Kimi accept（2026-09-02，含三组实机/七档断点/registry 复算）
+均已签，仅余你的 GLM accept 与用户验收。
 
-请独立核：
-1. 三个compact ActionGroup是否为唯一动作尺寸owner，header/state=0 move、order=2 move；稳定label、pressed、
-   danger、name/id、reason去重/describedby与tooltip/SVG是否正确。
-2. 320/216严格range syntax、非active零空轨、reorder rail与4px focus、Map/Stamp双consumer在真实窄栏是否
-   无横溢/裁切；Codex记录的PAL 139..321与Stamp 230/360证据是否可信，200%未实测口径是否诚实。
-3. Map一条MoveProjectMapLayerCommand、Stamp一条ReplaceStampTemplateCommand、显隐/锁定零history、方向映射
-   与删除确认链是否未变。
-4. registry 13/44/22/22/11、0-move validator负例、DS2.23四处、field-layout snapshot、其余11 candidates
-   零diff和allowlist行号是否闭合。
+先读：AGENTS.md、READ-FIRST、本卡全部签节（KC3-1~KC3-5、Kimi accept 实机口径）、DS-C.2a
+v2.23.0、`git show 44c0cfd5` 全 diff、action-group-adoption.json、action-group-audit.mjs。
 
-至少复跑：LayerStackControls/MapMode/StampLibrary/action-group/boundary/field-layout聚焦、typecheck、
-audit:design-system；视觉只做完成判断所需最小复核，不重复无价值全量。
-输出：accept并写回Kimi席+交接日志+可直接复制的GLM终审提示词；或counter（P0/P1/P2、file:line、反例）。
-不得修改实现文件。
+你的分工（独立证据，不复述 Codex/Kimi）：
+1. registry/audit 复算：13 groups / 44 / adopted 22 / raw 22 / 11 candidates 与 1 equivalent +
+   10 deferred + 0 N/A；三条 layer 登记（header/state=0 moves、order=2 moves，compact/icon-only）
+   与 adopted「非负整数且等于 AST 实数」、candidate 仍恰 2 的 validator 负例矩阵（0 合法、
+   负数/小数/漏登记/漂移）先红后绿；其余 11 candidates 生产零 diff；allowlist 行号现行。
+2. 组件测试矩阵复核：LayerStackControls 三组指纹、32×32、稳定 label+aria-pressed、danger、
+   useId 原因+describedby 与共享去重、名称钮 aria-label+data-layer-id；Map 排序恰一条
+   MoveProjectMapLayerCommand、删除确认取消零写/确认一步 undo；Stamp 未接管禁用原因可见、
+   结构排序/删除恰一条 ReplaceStampTemplateCommand、显隐/锁定零 history；方向映射不变。
+3. 几何验收复核：360/320 同排、319/257 order 下沉、216 名称>=96、215/140 三层且名称正宽、
+   非活动行零空轨、reorder rail inset 与 4px focus 归属、row/list/document 溢出 0；
+   Map/Stamp 双 consumer 各档（含 Stamp host 230/360）；200% 无法可靠触发时保持“未实测”口径。
+4. 测试证据：Kimi 已复跑 LayerStackControls/MapMode/StampLibraryTab/action-group/boundary/
+   field-layout → 6 files / 176 tests 全绿、typecheck 通过、DS gate 91 files / 2 exceptions；
+   你可聚焦复核，不要重复 editor 全量。
+输出：GLM 席 accept 或 counter + file:line/复现；写回“进入 done 前”GLM 行与交接记录。
 ```
