@@ -163,10 +163,58 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
     - **KW5（视觉矩阵钉）**:1280×800、900×720、720×700、高 480:Hero/notice rect 固定,
       content 可滚到底,root/祖先 scrollTop=0,document 横溢 0,focus 只滚中央 content;
       catalog/Inspector 与 bounded `.bsu-frame-grid` 各自独立。
-- GLM: pending
-- counter / 分歧处理: N/A
+- GLM:
+  - premise: **verified（2026-09-02，registry 全部数值本人以真实 JSON 结构独立解析复算 + 六文件
+    raw census + wrapped API/CSS/门禁锚点直读，非复述 Codex/Kimi；与 Kimi 逐数收敛）**：
+    1. **registry 复算（design-system-adoption.json 本人 node 解析）**：pages 恰 **27 = 19
+       adopted + 8 exception**；8 个 exception registry 恰为
+       `story/vars`、`battle/enemy-team`、`battle/battlefield`、`asset/sprite`、
+       `project/overview|startup|entrypoint|advanced`——精确映射六文件（Project helper 一处
+       覆盖四 route）；`catalogScrollOwners` 各页 scroll records 总和恰 **102**；canonical
+       `DsObjectWorkspaceContent` records 恰 **11**（11+9=**20** 算术自洽）；
+       `workspaceLegacyExceptions` 恰 **6 entries / 12 selectors / 22 occurrences**、其中
+       main 位 legacy records 恰 **9**——卡面全部基线数值与我的独立解析逐字一致。
+    2. **六文件 raw census**：`ds-object-workspace` 字面出现 Project 2 / BattleSprite 2 /
+       Vars 4 / SpriteViewer 6 / EnemyTeam 4 / BattleField 4 = **22**，与 legacy occurrences
+       计数闭合；六个 legacy entry 的 selector 与 callsite 抽样直读真实（如 Project 的
+       `main.canvas-wrap…ds-object-workspace` + `div.project-scroll…__content` 双 selector）。
+    3. **wrapped API 充足性直读**：`recipes.tsx` `DsObjectWorkspace` 现有
+       `as/label/hero?: ReactNode/className/contentClassName/contentMode`——hero 可持
+       fragment（notice + selected Hero）且不新增 DOM 层；wrapped mode 恒生成唯一带
+       `data-ds-scroll-owner="main"` / `data-ds-scroll-axis="y"` 的 content——「无一需要
+       manual mode 或新公共 prop」成立，DS 2.24.0 零变前提可靠。
+    4. **CSS/门禁锚点直读**：`.project-scroll`（:1556）、`.world-variable-scroll`
+       （:8309,8324）、`.enemy-team-scroll`（:10886）私有 y-overflow 规则真实存在（删除目标
+       实在）；`.bsu-frame-grid` 在 registry 中为 bounded `custom:` owner 非 main（误判防线
+       有据）；adoption.test 已有 route-live 证明与 nested-owner 负例族
+       （`future-nested-owner` forged-independent 红）——KW4 的回流负例在既有家族上扩展成立。
+    5. **可推翻观察**：迁后任一分支出现第二 y owner 或 Hero/notice 进滚层；route-live 追不到
+       Project helper 单 callsite；registry 复算 ≠ 27+0 / 102 / 全零 / 20——任一本签字失效。
+  - design: **agree（2026-09-02，附 GM-WD1~GM-WD4 必落钉；与 Kimi KW1-KW5 收敛互补）**：
+    - **GM-WD1（census 冻结与零 diff 钉，同 KW2）**：终态精确 **27+0 / 102 不变 / legacy
+      6-12-22-9 全零 / canonical 11→20**；8 个 exception page 翻转为 adopted 且 owners 文案
+      同步去掉 `legacy-exception:` 前缀；`status:exception` 回流必红；recipes.tsx/css、
+      design-system-audit.mjs、index/tokens、DS 版本与 Design Lab/RF **零 diff**——若实现
+      需要任何新公共 prop 立即停线回卡重签。
+    - **GM-WD2（运行态唯一 owner 与分支钉，同 KW3）**：六文件每个运行态恰 1 root + 1 个
+      direct `data-ds-scroll-owner="main"` y owner；分支切换（creating/selected/empty/
+      loading/error）只换 children 不换 content owner identity；SpriteViewer 三次 early
+      return 收敛为单 workspace callsite 后 loading/error 不闪 ready 壳；焦点回退
+      （creating→selected、empty→creating、删除→empty）有测试；route-live 证明能追到
+      Project helper 单 callsite 覆盖四 route + repair。
+    - **GM-WD3（门禁与 CSS 钉，同 KW4）**：负例矩阵——raw literal/拼接/spread/dynamic、
+      真组件退回 raw、重复 content owner、**9 条 main owner 漏登任一**、stale legacy 全红；
+      `.bsu-frame-grid` bounded 继续独立非 main；私有 y-overflow 声明删除而领域
+      padding/背景/height/container 保留（boundary/CSS census 同步）。
+    - **GM-WD4（视觉矩阵与诚实口径钉，同 KW5）**：1280×800、900×720、720×700、高 480——
+      Hero/notice rect 固定、content 可滚到末项、root/祖先 scrollTop=0、document 横溢 0、
+      focus 只滚中央 content、catalog/Inspector/bounded grid 独立；200% 无法可靠触发时保持
+      「未实测」口径，不以缩窄视口/pinch 冒充。
+- counter / 分歧处理: N/A（GM-WD1~WD4 与 Kimi KW1-KW5 逐项收敛）
 - 缺签豁免: N/A
-- build 准入结论: blocked（2026-09-02 Codex + Kimi 已签;缺 GLM premise verified + design agree）
+- build 准入结论: **allowed（签字面）（2026-09-02，Codex + Kimi（KW1-KW5）+ GLM
+  （GM-WD1~WD4）三方 premise verified + design agree 齐、无 counter；用户「做吧」在案。Codex
+  开工时状态转 build，仍为唯一 Coding Owner；按卡面两批实现。）**
 
 ### 进入 done 前：审查签字
 
@@ -211,6 +259,16 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 
 ## 交接日志
 
+- 2026-09-02 GLM: 设计审签。独立以真实 JSON 结构解析复算全部基线——27 pages（19+8，exception
+  registry 精确映射六文件）、scroll records 总和 102、canonical DsObjectWorkspaceContent 11
+  （+9 main legacy = 20）、legacy 6/12/22；六文件 raw 字面 22 处 grep 闭合；wrapped API
+  （hero ReactNode fragment + 唯一 main/y content marker）充足性、私有 y-overflow CSS 目标、
+  `.bsu-frame-grid` bounded 登记、既有 route-live/nested 负例族直读。签 premise verified +
+  design agree，附 GM-WD1（census 冻结 + exception 翻转 + 公共层零 diff）/GM-WD2（运行态唯一
+  owner + 分支不换 identity + SpriteViewer 不闪 ready 壳 + route-live 追 helper）/GM-WD3
+  （回流负例矩阵含 9 条 main 漏登 + CSS 删留边界）/GM-WD4（四档视觉矩阵 + 200% 未实测口径）。
+  未修改实现，未代签 Kimi。三签齐 + 用户「做吧」在案，build 准入（签字面）allowed。
+  Next: Codex 按两批实现。
 - 2026-09-02 Kimi: 独立复算 registry(27 pages=19+8 exception 恰映射六文件四 route+四面、
   102 scroll records、legacy 6/12/22、canonical content 11)并逐文件直读六处结构（Project
   helper 一处四 route、BattleSprite 单 Hero ternary、SpriteViewer 三次 early return 可收敛、
