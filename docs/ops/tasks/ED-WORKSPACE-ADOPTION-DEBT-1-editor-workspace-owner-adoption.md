@@ -1,6 +1,6 @@
 # ED-WORKSPACE-ADOPTION-DEBT-1 - 编辑器旧工作区滚动壳真实采用清零
 
-Status: build
+Status: review
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -218,7 +218,19 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept（2026-09-02，实施提交 `39ea04cd`）**——六文件各恰 1 个真实 wrapped
+  `DsObjectWorkspace`，生产 raw `ds-object-workspace*` 为 0；Project 一处 helper 覆盖四 route，
+  BattleSprite/Vars/EnemyTeam/BattleField 分支只切 children，SpriteViewer 三次 early return 收敛为
+  单一 owner。公共 `recipes.tsx/css`、audit、index/tokens、DS 2.24 与 Design Lab/RF 零 diff。
+  registry 精确为 27 adopted / 0 exception、102 scroll records、20 canonical main owner、legacy 全零。
+  创建分支首输入获得焦点，未改页面样式、字段、命令或数据。
+  - 自动验证：红先行 `6 legacy != 0`；受影响 `8 files / 165 tests`；editor 串行全量
+    `186 files / 1562 tests`；typecheck、production build、design-system gate
+    `92 files / 2 evidence-bound exceptions` 全绿。
+  - 浏览器验证：Project 四 route + BattleSprite / WorldSprite / Vars / EnemyTeam / Battlefield，
+    1280×800、900×480、720×700；每页 main owner 恰 1、root/祖先 scrollTop=0、Hero y不动、
+    长内容末端可聚焦、document横溢0。domain class、padding（24/16，Vars 14）、背景与 root/content
+    overflow 保持原合同；三个创建分支焦点均落 INPUT。200% / Firefox / WebKit 未实测，不以缩视口冒充。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: N/A
@@ -241,9 +253,18 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 ## Build: 实现与自测
 
 - Coding Owner: Codex（2026-09-02 开始；唯一实现 owner）
-- 修改文件: pending
-- 实现摘要: pending
-- 测试结果: pending
+- 修改文件: 六个业务 TSX + 六个业务测试 + `object-workspace-test-utils.ts`；
+  `design-system-adoption.json` / `adoption.test.ts` / design-system spec / `editor.css`。
+- 实现摘要:
+  - 第一批 Project / BattleSprite / SpriteViewer 全部采用默认 wrapped owner；SpriteViewer 的
+    loading/error/ready 共用同一 content DOM identity。
+  - 第二批 Vars / EnemyTeam / BattleField 以 hero fragment 固定 notice+selected Hero，children ternary
+    切 creating/selected/empty；三个创建分支首输入 `autoFocus`，避免旧按钮卸载后焦点掉 body。
+  - 删除重复 domain overflow/flex 声明；保留全部 domain class、padding、背景、height、container 与
+    `.bsu-frame-grid` bounded subviewport，样式零变化。
+  - adoption 从 19/8 翻为27/0，6 entries / 12 selectors / 22 occurrences / 9 pairs 清零，
+    canonical owner 11→20；raw/动态/重复/stale 回流负例保留并增强。
+- 测试结果: 见 Codex done 前 accept；实现提交 `39ea04cd`。
 
 ## Review: 审查与返工
 
@@ -259,6 +280,9 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 
 ## 交接日志
 
+- 2026-09-02 Codex：完成两批实现并提交 `39ea04cd`。六文件22 raw与legacy全清，27 pages全adopted，
+  公共API/DS版本零变；受影响165项、全量1562项、typecheck/build/gate与三档九route浏览器矩阵通过。
+  Codex签accept，卡转review。Next：Kimi只读终审；不得标done。
 - 2026-09-02 User + Codex：用户再次确认本卡“只是统一组件，理论上样式不会变”，Codex明确将
   **样式与交互零可见变化**作为硬验收条件；随后用户“签了”。Kimi/GLM设计签字提交已推送，三签齐、
   无 counter，卡转 build。Codex按两批连续实现；无下一位 Agent 提示词。
@@ -288,7 +312,34 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；三方 build 前签字已齐，由 Codex 作为唯一 Coding Owner 连续实现。
+```text
+终审 ED-WORKSPACE-ADOPTION-DEBT-1（Kimi 席，review；生产实现只读，只允许更新任务卡 Kimi done
+前签字与交接，不得代签 GLM，不得标 done）。
+
+任务卡：docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md
+实现提交：39ea04cd refactor(editor): adopt canonical object workspaces
+
+先读：AGENTS.md、READ-FIRST、本卡 KW1-KW5 / GM-WD1~WD4 与 Build/Codex accept；git show
+39ea04cd；六业务 TSX/测试、object-workspace-test-utils、design-system-adoption.json、adoption.test、
+editor.css、DS-C.4f。
+
+Kimi职责：
+1. 独立复算终态 27 adopted/0 exception、102 scroll records、20 canonical、legacy 0；六生产文件
+   raw occurrence 0 且各恰1个 DsObjectWorkspace；公共 recipes/audit/index/tokens/DS版本/RF零diff。
+2. 审 wrapped 结构与样式零变化：Project四route；BattleSprite upload/ready/empty；SpriteViewer
+   loading/error/ready；Vars/EnemyTeam/BattleField creating/selected/empty。Hero/notice在content外，
+   domain class/padding/background/height/container保留，私有重复overflow删除不改computed style。
+3. 审焦点与滚动：每态1 direct main/y owner；创建首INPUT；Enemy reorder最近owner；Project
+   scrollIntoView；Sprite快速切资源；bounded bsu grid不冒充main。
+4. 审门禁负例：raw literal/拼接/spread/dynamic、真组件退raw、重复owner、漏9条main记录、stale
+   legacy/status exception回流均红。
+5. 复核证据：受影响8/165、全量186/1562、typecheck/build/gate92/2；浏览器1280×800、
+   900×480、720×700，root/ancestor 0、Hero固定、末项可达、doc横溢0。200%/Firefox/WebKit
+   无可靠环境时保持未实测。
+
+输出：file:line直接证据；通过则任务卡 Kimi 席签 accept并写GLM提示词，否则 counter/返工项。
+不得修改生产实现，不得标done。
+```
 
 ## 历史提示词（GLM 设计审签，已完成）
 
