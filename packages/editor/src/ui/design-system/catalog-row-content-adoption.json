@@ -338,22 +338,6 @@
       "reason": "名称与稳定 ID 构成技能目录所需的最小识别和定位合同。"
     },
     {
-      "id": "sprite-action/preset-catalog",
-      "source": "SpriteActionEditor.tsx",
-      "jsxFingerprint": "77c7bcbc4e7252cd",
-      "family": "sprite-action-definition",
-      "titleKind": "authored-name",
-      "identitySlot": "meta",
-      "idPresentation": "canonical-exact",
-      "summaryKind": "selection-summary",
-      "leading": "none",
-      "title": "动作名称",
-      "meta": "稳定 ActionId",
-      "trailing": "单次或循环与步骤数",
-      "decision": "compliant",
-      "reason": "顺序由列表位置和后续 reorder owner 表达，不把临时 index 塞进动作名称。"
-    },
-    {
       "id": "variables/declared-catalog",
       "source": "VarsTab.tsx",
       "jsxFingerprint": "259dcd64147ebd18",
@@ -420,7 +404,7 @@
     {
       "id": "world-sprite/action-reference-choice",
       "source": "WorldSpriteLibrary.tsx",
-      "jsxFingerprint": "d533bcbb4497ad25",
+      "jsxFingerprint": "7ff6c34d48fed718",
       "family": "sprite-action-definition",
       "titleKind": "authored-name",
       "identitySlot": "meta",

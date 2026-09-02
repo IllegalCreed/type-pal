@@ -2159,6 +2159,7 @@ export function App(props: {
             assetReader={assetReader}
             audioResolver={audioResolver}
             onStatusNotice={setWorkspaceNotice}
+            onRequestSave={() => void save()}
             historyCoordinator={historyCoordinator}
             workspaceId={playWorkspaceId}
             onJumpToEvent={jumpToEvent}

@@ -431,3 +431,49 @@ textarea {
     width: 100%;
   }
 }
+.lab-long-editor-dialog {
+  width: min(1120px, calc(100vw - 32px));
+  height: min(780px, calc(100vh - 32px));
+}
+.lab-long-editor-dialog .ds-overlay__body {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--ds-space-4);
+  overflow: hidden;
+}
+.lab-long-editor-source {
+  display: flex;
+  gap: var(--ds-space-2);
+  overflow-x: auto;
+}
+.lab-long-editor-source button {
+  min-width: var(--ds-hit-target-compact);
+  min-height: var(--ds-hit-target-compact);
+}
+.lab-long-editor-layout {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--ds-space-4);
+}
+.lab-long-editor-detail {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+.lab-long-editor-option {
+  display: grid;
+  min-width: 0;
+  padding: var(--ds-space-2);
+}
+@media (max-width: 720px) {
+  .lab-long-editor-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lab-long-editor-layout > :first-child {
+    display: none;
+  }
+}

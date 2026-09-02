@@ -25,6 +25,16 @@ export function sortedSpriteActions(sprite: SpriteDef | undefined): SortedSprite
     .map(([id, action], index) => ({ id, action, index }))
 }
 
+/** 为同一用途定义生成稳定且空闲的预制动作 ID。 */
+export function nextSpriteActionId(sprite: SpriteDef): string {
+  const ids = new Set(Object.keys(sprite.poses ?? {}))
+  if (!ids.has('action')) return 'action'
+  for (let suffix = 2; ; suffix += 1) {
+    const candidate = `action-${suffix}`
+    if (!ids.has(candidate)) return candidate
+  }
+}
+
 export interface DefaultEntityActionTarget {
   sprite: SpriteDef
   action: SortedSpriteAction

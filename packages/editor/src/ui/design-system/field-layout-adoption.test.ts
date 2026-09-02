@@ -2259,12 +2259,18 @@ function UnusedInspectorDecoy() {
       '@container map-layer-list (width < 320px)|.map-layer-row|max-content minmax(96px, 1fr)',
       '@container map-layer-list (width < 320px)|.map-layer-row:has(.layer-order)|max-content minmax(96px, 1fr)',
     ])
+    const spriteActionTrackIdentities = new Set([
+      '|.sprite-action-editor-layout|280px minmax(0, 1fr)',
+      '@container sprite-action-detail (width < 520px)|.sprite-action-step|48px minmax(0, 1fr)',
+    ])
     for (const entry of manifest.exceptions.nonFormTracks) {
       const identity = `${entry.atRule}|${entry.selector}|${entry.value}`
       expect(entry.owner).toBe(
         layerTrackIdentities.has(identity)
           ? 'card:ED-ACTION-GROUP-ADOPTION-3'
-          : 'card:ED-FIELD-LAYOUT-1',
+          : spriteActionTrackIdentities.has(identity)
+            ? 'card:ED-SPRITE-ACTION-MODAL-1'
+            : 'card:ED-FIELD-LAYOUT-1',
       )
       expect(entry.reason.length).toBeGreaterThan(10)
       expect(entry.responsiveEvidence.length).toBeGreaterThan(10)
@@ -2275,6 +2281,11 @@ function UnusedInspectorDecoy() {
         (entry: { owner: string }) => entry.owner === 'card:ED-ACTION-GROUP-ADOPTION-3',
       ),
     ).toHaveLength(4)
+    expect(
+      manifest.exceptions.nonFormTracks.filter(
+        (entry: { owner: string }) => entry.owner === 'card:ED-SPRITE-ACTION-MODAL-1',
+      ),
+    ).toHaveLength(2)
     for (const entry of manifest.retiredPrivateTracks) {
       expect(Object.keys(entry).sort()).toEqual([
         'disposition',

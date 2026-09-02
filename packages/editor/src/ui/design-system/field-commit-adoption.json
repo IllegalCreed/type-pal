@@ -418,6 +418,7 @@
       "productionFiles": [
         "WorldSpriteLibrary.tsx",
         "SpriteActionEditor.tsx",
+        "SpriteActionEditorDialog.tsx",
         "BattleSpriteLibrary.tsx"
       ],
       "transactions": [
@@ -429,7 +430,7 @@
             "sprites.*.poses.*.label",
             "sprites.*.poses.*.steps.*.durationMs"
           ],
-          "verification": "WorldSpriteLibrary.test.tsx + SpriteActionEditor.test.tsx"
+          "verification": "WorldSpriteLibrary.test.tsx + SpriteActionEditor.test.tsx + SpriteActionEditorDialog.test.tsx"
         },
         {
           "id": "battle-sprite-definition",

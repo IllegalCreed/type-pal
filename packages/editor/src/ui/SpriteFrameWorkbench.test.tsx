@@ -1,12 +1,15 @@
 // @vitest-environment jsdom
 
-import { act } from 'react'
+import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   InstanceBehaviorShelf,
+  inspectSpriteFrameDragPayload,
   SemanticFrameShelf,
+  SPRITE_FRAME_DRAG_MIME,
   type SpriteFrameView,
+  SpriteSourceFramePicker,
 } from './SpriteFrameWorkbench.js'
 
 describe('SemanticFrameShelf', () => {
@@ -215,5 +218,80 @@ describe('SemanticFrameShelf', () => {
     expect(shelf.textContent).not.toContain('6 个实例')
     expect(shelf.querySelectorAll('.semantic-frame-row')).toHaveLength(2)
     expect(shelf.querySelectorAll('.sprite-frame-cell.animated')).toHaveLength(2)
+  })
+
+  test('共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload', async () => {
+    const frames: SpriteFrameView[] = Array.from({ length: 4 }, () => ({
+      canvas: undefined,
+      width: 20,
+      height: 30,
+    }))
+    const scrollIntoView = vi.fn()
+    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+      configurable: true,
+      value: scrollIntoView,
+    })
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+      callback(0)
+      return 1
+    })
+    function Harness() {
+      const [selected, setSelected] = useState(1)
+      return (
+        <SpriteSourceFramePicker
+          asset="sprite.test"
+          frames={frames}
+          selectedFrame={selected}
+          onSelect={setSelected}
+          transferEnabled
+          presentation="rail"
+        />
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    const buttons = [...host.querySelectorAll<HTMLButtonElement>('.sprite-frame-cell')]
+    expect(buttons.map((button) => button.tabIndex)).toEqual([-1, 0, -1, -1])
+    const end = new KeyboardEvent('keydown', { key: 'End', bubbles: true, cancelable: true })
+    await act(async () => buttons[1]!.dispatchEvent(end))
+    expect(end.defaultPrevented).toBe(true)
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('.sprite-frame-cell')].map(
+        (button) => button.tabIndex,
+      ),
+    ).toEqual([-1, -1, -1, 0])
+    expect(scrollIntoView).toHaveBeenCalled()
+    expect(host.querySelector('[role="status"]')?.textContent).toContain('源帧 3')
+    const boundary = new KeyboardEvent('keydown', {
+      key: 'ArrowRight',
+      bubbles: true,
+      cancelable: true,
+    })
+    await act(async () =>
+      host.querySelectorAll<HTMLButtonElement>('.sprite-frame-cell')[3]!.dispatchEvent(boundary),
+    )
+    expect(boundary.defaultPrevented).toBe(true)
+
+    const values = new Map<string, string>()
+    const transfer = {
+      effectAllowed: 'none',
+      setData: (type: string, value: string) => values.set(type, value),
+      getData: (type: string) => values.get(type) ?? '',
+    } as unknown as DataTransfer
+    const drag = new Event('dragstart', { bubbles: true, cancelable: true })
+    Object.defineProperty(drag, 'dataTransfer', { value: transfer })
+    await act(async () => buttons[2]!.dispatchEvent(drag))
+    expect(transfer.effectAllowed).toBe('copy')
+    expect(JSON.parse(values.get(SPRITE_FRAME_DRAG_MIME)!)).toEqual({
+      asset: 'sprite.test',
+      frame: 2,
+    })
+    expect(inspectSpriteFrameDragPayload(transfer)).toEqual({
+      kind: 'payload',
+      value: { asset: 'sprite.test', frame: 2 },
+    })
+    expect(
+      inspectSpriteFrameDragPayload({ getData: () => '{bad' } as Pick<DataTransfer, 'getData'>),
+    ).toEqual({ kind: 'invalid' })
+    vi.unstubAllGlobals()
   })
 })

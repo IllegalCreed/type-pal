@@ -2,8 +2,8 @@
   "version": 2,
   "baseline": {
     "families": 17,
-    "adoptions": 28,
-    "dataPaths": 31,
+    "adoptions": 27,
+    "dataPaths": 30,
     "interactionOwnerFiles": 19
   },
   "interactionOwnerFiles": [
@@ -503,26 +503,6 @@
         "marker": "[reorder-family:sprite-actions]"
       },
       "adoptions": [
-        {
-          "adoptionId": "asset/sprite-action-definitions",
-          "source": "SpriteActionEditor.tsx",
-          "dataPaths": ["sprites[*].poses.*.order"],
-          "adapter": "stable-order",
-          "identity": "ActionId",
-          "commandOwner": "UpdateSpriteCommand",
-          "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/SpriteActionEditor.test.tsx"],
-          "contentSurface": "continuous-structure",
-          "contentOwner": {
-            "file": "SpriteActionEditor.tsx",
-            "fingerprint": "contentClassName=\"sprite-action-catalog-content\""
-          },
-          "railLayout": "inline",
-          "railOwner": {
-            "file": "design-system/reorder.css",
-            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
-          }
-        },
         {
           "adoptionId": "asset/sprite-action-steps",
           "source": "SpriteActionEditor.tsx",

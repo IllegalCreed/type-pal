@@ -263,6 +263,7 @@ describe('SpriteActionEditor field commit boundary', () => {
     state.sprites = [definition]
     const session = new EditSession(state)
     const dispatch = vi.spyOn(session, 'dispatch')
+    const onStatusNotice = vi.fn()
     const frames = Array.from({ length: 3 }, () => ({
       canvas: undefined,
       width: 1,
@@ -281,6 +282,7 @@ describe('SpriteActionEditor field commit boundary', () => {
             session={session}
             selectedActionId="idle"
             onSelectedActionChange={() => {}}
+            onStatusNotice={onStatusNotice}
           />,
         ),
       )
@@ -337,5 +339,27 @@ describe('SpriteActionEditor field commit boundary', () => {
     expect(session.getState().sprites[0]!.poses!.idle!.steps.map((step) => step.frame)).toEqual([
       1, 2, 0, 2,
     ])
+
+    const afterValidTransfer = session.getHistoryVersion()
+    for (const payload of [
+      '{bad',
+      JSON.stringify({ asset: 'sprite.other', frame: 1 }),
+      JSON.stringify({ asset: 'sprite.test', frame: 9 }),
+    ]) {
+      const invalidDrop = new Event('drop', { bubbles: true, cancelable: true })
+      Object.defineProperty(invalidDrop, 'dataTransfer', {
+        value: {
+          getData: (mime: string) => (mime === SPRITE_FRAME_DRAG_MIME ? payload : ''),
+        },
+      })
+      await act(async () =>
+        host.querySelector<HTMLElement>('.sprite-action-drop-end')!.dispatchEvent(invalidDrop),
+      )
+    }
+    expect(session.getHistoryVersion()).toBe(afterValidTransfer)
+    expect(dispatch).toHaveBeenCalledTimes(2)
+    expect(onStatusNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('有效帧') }),
+    )
   })
 })

@@ -13,7 +13,7 @@ import {
   type RleFrame,
   sliceAtlasGrid,
 } from '@type-pal/reforge'
-import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { sha256Hex } from '../core/binary-signature.js'
 import { ReplaceSpriteAssetCommand, type SpriteReplacementProof } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -42,8 +42,7 @@ export interface SpriteResourceLoadProof {
   actualFrameCount: number
 }
 
-/** 原始帧拖入动作时间线时使用的稳定 MIME。 */
-export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame'
+export { SPRITE_FRAME_DRAG_MIME } from './SpriteFrameWorkbench.js'
 
 interface LoadedSnapshot {
   asset: AssetId
@@ -180,11 +179,13 @@ export function SpriteResourceViewer(props: {
   onActionSelect?: (definitionId: string, actionId: string) => void
   onLoaded?: (proof: SpriteResourceLoadProof | undefined) => void
   onFramesLoaded?: (frames: readonly SpriteFrameView[]) => void
+  selectedFrame?: number
   onSelectedFrameChange?: (frame: number) => void
+  enableFrameDrag?: boolean
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
   const [snapshot, setSnapshot] = useState<LoadedSnapshot | null>(null)
-  const [selectedFrame, setSelectedFrame] = useState(0)
+  const [internalSelectedFrame, setInternalSelectedFrame] = useState(0)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [editorMessage, setEditorMessage] = useState('')
@@ -201,15 +202,22 @@ export function SpriteResourceViewer(props: {
   const previousAssetRef = useRef<AssetId | undefined>(undefined)
   const loaded =
     snapshot?.asset === props.asset && snapshot.revision === props.revision ? snapshot : undefined
-
-  useEffect(() => {
-    props.onSelectedFrameChange?.(selectedFrame)
-  }, [props.onSelectedFrameChange, selectedFrame])
+  const selectedFrame = props.selectedFrame ?? internalSelectedFrame
+  const selectedFrameRef = useRef(selectedFrame)
+  selectedFrameRef.current = selectedFrame
+  const selectFrame = useCallback(
+    (frame: number): void => {
+      selectedFrameRef.current = frame
+      setInternalSelectedFrame(frame)
+      props.onSelectedFrameChange?.(frame)
+    },
+    [props.onSelectedFrameChange],
+  )
 
   useEffect(() => {
     let alive = true
     if (previousAssetRef.current !== props.asset) {
-      setSelectedFrame(0)
+      selectFrame(0)
     }
     previousAssetRef.current = props.asset
     setSnapshot(null)
@@ -237,7 +245,7 @@ export function SpriteResourceViewer(props: {
           palette,
           frames,
         })
-        setSelectedFrame((index) => Math.min(index, sprite.frames.length - 1))
+        selectFrame(Math.min(selectedFrameRef.current, sprite.frames.length - 1))
         props.onLoaded?.({
           asset: props.asset,
           revision: props.revision,
@@ -263,6 +271,7 @@ export function SpriteResourceViewer(props: {
     props.onLoaded,
     props.onFramesLoaded,
     props.revision,
+    selectFrame,
   ])
 
   const groups = useMemo(
@@ -382,7 +391,7 @@ export function SpriteResourceViewer(props: {
         return
       await commitFrames([...loaded.sprite.frames, ...appended], `追加源帧 ×${appended.length}`)
       setAppendDraft(undefined)
-      setSelectedFrame(loaded.sprite.frames.length)
+      selectFrame(loaded.sprite.frames.length)
     } catch (reason) {
       reportError(reason)
     }
@@ -411,7 +420,7 @@ export function SpriteResourceViewer(props: {
         plan,
       )
       const next = Math.min(index, loaded.sprite.frames.length - 2)
-      setSelectedFrame(next)
+      selectFrame(next)
     } catch (reason) {
       reportError(reason)
     }
@@ -553,17 +562,11 @@ export function SpriteResourceViewer(props: {
           frames={loaded.frames}
           selectedFrame={selectedFrame}
           consumerCount={props.consumers.length}
-          onSelect={setSelectedFrame}
+          onSelect={selectFrame}
           onAppend={() => appendFileRef.current?.click()}
           onReplace={() => replaceFileRef.current?.click()}
           onDelete={() => void deleteSelected()}
-          onFrameDragStart={(event, frame) => {
-            event.dataTransfer.effectAllowed = 'copy'
-            event.dataTransfer.setData(
-              SPRITE_FRAME_DRAG_MIME,
-              JSON.stringify({ asset: props.asset, frame }),
-            )
-          }}
+          draggableFrames={props.enableFrameDrag}
           busy={busy}
           editorMessage={editorMessage}
           editorMessageKind={editorMessageKind}
@@ -575,7 +578,7 @@ export function SpriteResourceViewer(props: {
           groups={groups}
           onGroupSelect={props.onDefinitionSelect}
           onActionSelect={props.onActionSelect}
-          onFrameSelect={setSelectedFrame}
+          onFrameSelect={selectFrame}
         />
       </div>
     </div>

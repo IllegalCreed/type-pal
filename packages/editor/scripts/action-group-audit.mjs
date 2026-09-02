@@ -141,11 +141,11 @@ export function validateActionGroupAdoption(document, overrides = {}) {
     ]
 
   const expectedBaseline = {
-    groups: 13,
-    moveButtons: 44,
-    adoptedMoveButtons: 22,
-    rawMoveButtons: 22,
-    candidateSurfaces: 11,
+    groups: 15,
+    moveButtons: 42,
+    adoptedMoveButtons: 24,
+    rawMoveButtons: 18,
+    candidateSurfaces: 9,
   }
   if (JSON.stringify(document.baseline) !== JSON.stringify(expectedBaseline))
     problems.push(`action-group baseline must equal ${JSON.stringify(expectedBaseline)}`)

@@ -380,6 +380,8 @@ describe('editor design-system static boundary', () => {
     const poison = readFileSync(join(here, '..', 'PoisonTab.tsx'), 'utf8')
     const project = readFileSync(join(here, '..', 'ProjectWorkbenchTab.tsx'), 'utf8')
     const layerStack = readFileSync(join(here, '..', 'LayerStackControls.tsx'), 'utf8')
+    const spriteAction = readFileSync(join(here, '..', 'SpriteActionEditor.tsx'), 'utf8')
+    const spriteDialog = readFileSync(join(here, '..', 'SpriteActionEditorDialog.tsx'), 'utf8')
     const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
     const designLabCss = readFileSync(join(here, '../../design-lab/design-lab.css'), 'utf8')
     const specification = readFileSync(
@@ -433,8 +435,8 @@ describe('editor design-system static boundary', () => {
     expect(designLab).toContain("'RF-27'")
     expect(designLab).toContain('<ActionGroupFixture />')
     expect(designLab).toContain('至少保留 1 项，当前项目不能删除。')
-    expect(specification).toContain('#### DS-C.2a 同项动作组（v2.23.0）')
-    expect(specification).toContain('13 组 / 22 枚移动动作；其余 22 枚移动动作按 11 个候选 surface')
+    expect(specification).toContain('#### DS-C.2a 同项动作组（v2.24.0）')
+    expect(specification).toContain('15 组 / 24 枚移动动作；其余 18 枚移动动作按 9 个候选 surface')
     expect(poison).toContain('<DsActionGroup density="compact" className="ef-ops">')
     expect(project).toContain(
       '<DsActionGroup density="compact" className="project-entry-row-actions">',
@@ -453,6 +455,17 @@ describe('editor design-system static boundary', () => {
     )
     expect(layerStack).toContain('data-layer-id={layer.id}')
     expect(layerStack).toContain('aria-label={`选择图层：${layer.name}（${layer.id}）`}')
+    expect(spriteAction).toContain(
+      '<DsActionGroup density="compact" className="sprite-action-current-actions">',
+    )
+    expect(spriteAction).toContain(
+      '<DsActionGroup density="compact" className="sprite-action-step-buttons">',
+    )
+    expect(spriteAction).not.toMatch(/sprite-action-catalog-(?:actions|content)/)
+    expect(spriteAction).not.toContain('asset/sprite-action-definitions')
+    expect(spriteAction).not.toMatch(/className="icon-only danger-action"|>\s*×\s*</)
+    expect(spriteDialog).toContain('className="sprite-action-dialog"')
+    expect(spriteDialog).toContain('title="放弃新动作？"')
     const layerList = cssRuleBodies(businessCss, '.map-layer-list')[0]!
     expect(cssDeclaration(layerList, 'container-name')).toBe('map-layer-list')
     expect(cssDeclaration(layerList, 'container-type')).toBe('inline-size')
@@ -745,9 +758,9 @@ describe('editor design-system static boundary', () => {
     expect(projectCardRule).toMatch(/container-type:\s*inline-size;/)
     expect(businessCss).not.toMatch(/\.project-orphan-seed-values\s*\{[^}]*white-space:\s*nowrap/)
 
-    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.23.0'")
-    expect(tokens).toContain('--ds-version: "2.23.0";')
-    expect(specification).toContain('Status: implemented v2.23.0')
+    expect(index).toContain("EDITOR_DESIGN_SYSTEM_VERSION = '2.24.0'")
+    expect(tokens).toContain('--ds-version: "2.24.0";')
+    expect(specification).toContain('Status: implemented v2.24.0')
     expect(specification).toContain('ED-PROJECT-STARTUP-IA-1（v2.11.0）')
     expect(specification).toContain('ED-REORDER-DRAG-1（v2.12.0）')
     expect(specification).toContain('ED-ADD-PICKER-DIALOG-1（v2.13.0）')
@@ -756,6 +769,9 @@ describe('editor design-system static boundary', () => {
     expect(specification).toContain('ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）')
     expect(specification).toContain('ED-ACTION-GROUP-SPEC-1（v2.22.0）')
     expect(specification).toContain('ED-ACTION-GROUP-ADOPTION-3（v2.23.0）')
+    expect(specification).toContain('ED-SPRITE-ACTION-MODAL-1（v2.24.0）')
+    expect(specification).toContain('唯一长流程')
+    expect(specification).toContain('| RF-28 |')
     expect(specification).toContain('DS-C.5b Checkbox、Switch 与状态按钮语义边界')
     expect(primitives).toMatch(
       /\.ds-add-picker-dialog \.ds-overlay__body\s*\{[\s\S]*?overflow:\s*hidden;/,
@@ -1406,7 +1422,6 @@ describe('editor design-system static boundary', () => {
       'BattleSpriteLibrary.tsx',
       'ItemTab.tsx',
       'ShopTab.tsx',
-      'SpriteActionEditor.tsx',
       'WorldSpriteLibrary.tsx',
     ]
 

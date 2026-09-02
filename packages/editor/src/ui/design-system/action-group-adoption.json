@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": {
-    "groups": 13,
-    "moveButtons": 44,
-    "adoptedMoveButtons": 22,
-    "rawMoveButtons": 22,
-    "candidateSurfaces": 11
+    "groups": 15,
+    "moveButtons": 42,
+    "adoptedMoveButtons": 24,
+    "rawMoveButtons": 18,
+    "candidateSurfaces": 9
   },
   "adopted": [
     {
@@ -137,6 +137,26 @@
       "actionMode": "icon-only",
       "moveButtonCount": 2,
       "verification": "LayerStackControls.test.tsx"
+    },
+    {
+      "id": "asset/sprite-action-current/actions",
+      "source": "SpriteActionEditor.tsx",
+      "fingerprint": "className=\"sprite-action-current-actions\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 0,
+      "verification": "SpriteActionEditorDialog.test.tsx"
+    },
+    {
+      "id": "asset/sprite-action-steps/actions",
+      "source": "SpriteActionEditor.tsx",
+      "fingerprint": "className=\"sprite-action-step-buttons\"",
+      "occurrence": 1,
+      "density": "compact",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "SpriteActionEditor.test.tsx"
     }
   ],
   "candidates": [
@@ -260,30 +280,6 @@
       "reason": "旧动作 rail 使用私有 raw buttons、20×18px 命中区与 hover 隐藏。",
       "verification": "ScriptTree.test.ts",
       "removalCondition": "随 legacy 脚本树动作统一任务删除私有按钮和 hover-only rail。"
-    },
-    {
-      "id": "asset/sprite-action-definitions/actions",
-      "source": "SpriteActionEditor.tsx",
-      "fingerprint": "className=\"sprite-action-catalog-actions\"",
-      "occurrence": 1,
-      "moveButtonCount": 2,
-      "disposition": "deferred",
-      "owner": "sprite-action-catalog-actions",
-      "reason": "目录尾部原子簇仍为 30px 移动按钮与 2px gap。",
-      "verification": "SpriteActionEditor.test.tsx",
-      "removalCondition": "迁移到 DsActionGroup 或证明目录尾部 owner 达到等价合同。"
-    },
-    {
-      "id": "asset/sprite-action-steps/actions",
-      "source": "SpriteActionEditor.tsx",
-      "fingerprint": "className=\"sprite-action-step-buttons\"",
-      "occurrence": 1,
-      "moveButtonCount": 2,
-      "disposition": "deferred",
-      "owner": "sprite-action-step-buttons",
-      "reason": "移动按钮 30px、删除 28px、3px gap，且删除仍为 secondary 文字 glyph。",
-      "verification": "SpriteActionEditor.test.tsx",
-      "removalCondition": "另卡统一步骤动作的尺寸、危险语义与纯图标模式。"
     }
   ]
 }

@@ -6520,7 +6520,165 @@ button.sprite-frame-cell[draggable="true"]:active {
 
 .sprite-action-editor {
   display: grid;
+  flex: 1 1 auto;
   min-width: 0;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.sprite-action-dialog {
+  width: min(1120px, calc(100dvw - 32px));
+  max-width: none;
+  height: min(780px, calc(100dvh - 32px));
+  max-height: none;
+  overflow: hidden;
+}
+.sprite-action-dialog .ds-overlay__body {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.sprite-action-dialog-content {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  gap: var(--ds-space-4);
+  overflow: hidden;
+}
+.sprite-action-dialog-error {
+  margin: 0;
+  padding: var(--ds-space-3) var(--ds-space-4);
+  border: 1px solid var(--err);
+  border-radius: var(--ds-radius-control);
+  color: var(--err);
+  background: color-mix(in srgb, var(--err) 8%, transparent);
+}
+.sprite-action-source {
+  display: grid;
+  flex: none;
+  min-width: 0;
+  gap: var(--ds-space-3);
+}
+.sprite-action-source > header,
+.sprite-action-editor-head,
+.sprite-action-current-head,
+.sprite-action-reference-block {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-4);
+}
+.sprite-action-source > header span,
+.sprite-action-editor-head span {
+  color: var(--faint);
+  font: var(--ds-font-caption);
+}
+.sprite-source-frame-picker[data-presentation="rail"] {
+  display: flex;
+  min-width: 0;
+  gap: var(--ds-space-3);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px;
+  scroll-padding-inline: 4px;
+  overscroll-behavior-inline: contain;
+}
+.sprite-source-frame-picker[data-presentation="rail"] .sprite-frame-cell {
+  flex: 0 0 90px;
+}
+.sprite-action-editor-head {
+  padding: 0 4px var(--ds-space-3);
+  border-bottom: 1px solid var(--line);
+}
+.sprite-action-editor-head > div {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-1);
+}
+.sprite-action-editor-layout {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--ds-space-4);
+  overflow: hidden;
+}
+.sprite-action-directory {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--ds-space-3);
+  overflow: hidden;
+  padding: 4px;
+  border-right: 1px solid var(--line);
+}
+.sprite-action-directory .ds-virtual-listbox {
+  min-height: 0;
+}
+.sprite-action-option {
+  box-sizing: border-box;
+  display: grid;
+  min-width: 0;
+  height: 100%;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  grid-template-rows: auto auto;
+  align-content: center;
+  gap: 1px var(--ds-space-3);
+  padding: 0;
+}
+.sprite-action-option strong,
+.sprite-action-option code {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sprite-action-option code {
+  grid-row: 2;
+  color: var(--faint);
+  font: var(--ds-font-caption);
+}
+.sprite-action-option span {
+  grid-row: 1 / -1;
+  grid-column: 2;
+  align-self: center;
+  color: var(--dim);
+  font: var(--ds-font-caption);
+}
+.sprite-action-directory-empty {
+  color: var(--faint);
+  font: var(--ds-font-body-sm);
+}
+.sprite-action-detail-pane {
+  container: sprite-action-detail / inline-size;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  overflow: auto;
+  padding: 4px;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.sprite-action-current-head > div {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-1);
+}
+.sprite-action-current-head h3 {
+  margin: 0;
+}
+.sprite-action-current-head code {
+  color: var(--faint);
+}
+.sprite-action-reference-block {
+  flex-wrap: wrap;
+  padding: var(--ds-space-3) var(--ds-space-4);
+  border: 1px solid var(--warn);
+  border-radius: var(--ds-radius-control);
+  color: var(--warn);
 }
 .sprite-action-detail {
   display: grid;
@@ -6528,8 +6686,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   gap: 10px;
 }
 .sprite-action-timeline-head,
-.sprite-action-timeline-head > div,
-.sprite-action-footer {
+.sprite-action-timeline-head > div {
   display: flex;
   min-width: 0;
   align-items: center;
@@ -6575,49 +6732,34 @@ button.sprite-frame-cell[draggable="true"]:active {
   min-width: 0;
 }
 .sprite-action-step-buttons {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-.sprite-action-step-buttons .icon-only,
-.sprite-action-cues .icon-only {
-  display: inline-grid;
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  padding: 0;
-  place-items: center;
+  grid-column: 3;
+  justify-self: end;
 }
 .sprite-action-cues {
   grid-column: 2 / -1;
 }
 .sprite-action-drop-boundary {
   display: grid;
-  height: 6px;
-  margin: -3px 0;
+  min-height: var(--ds-hit-target-compact);
   place-items: center;
   border-radius: 4px;
-}
-.sprite-action-drop-boundary:focus-within,
-.sprite-action-drop-boundary:hover {
-  height: 28px;
-  margin: 0;
-  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
 }
 .sprite-action-drop-boundary button {
   width: 100%;
-  height: 100%;
-  padding: 0;
+  min-height: var(--ds-hit-target-compact);
+  padding: 0 var(--ds-space-3);
   overflow: hidden;
-  border: 0;
+  border: 1px dashed color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-radius: var(--ds-radius-control);
   background: transparent;
-  color: transparent;
+  color: var(--accent);
   cursor: pointer;
   font-size: 9px;
 }
-.sprite-action-drop-boundary:focus-within button,
-.sprite-action-drop-boundary:hover button {
-  color: var(--accent);
+.sprite-action-drop-boundary button:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
 }
 .sprite-action-drop-end {
   display: flex;
@@ -6632,7 +6774,8 @@ button.sprite-frame-cell[draggable="true"]:active {
   text-align: center;
 }
 .sprite-action-drop-end button {
-  padding: 3px 6px;
+  min-height: var(--ds-hit-target-compact);
+  padding: var(--ds-space-2) var(--ds-space-3);
   border: 1px solid var(--line);
   border-radius: 4px;
   background: var(--panel);
@@ -6640,24 +6783,21 @@ button.sprite-frame-cell[draggable="true"]:active {
   cursor: pointer;
   font: inherit;
 }
-.sprite-action-drop-end button:hover:not(:disabled),
+.sprite-action-drop-end button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--fg);
+}
 .sprite-action-drop-end button:focus-visible {
   border-color: var(--accent);
   color: var(--fg);
-  outline: none;
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
 }
 .sprite-action-drop-end button:disabled {
   cursor: default;
   opacity: 0.4;
 }
-.sprite-action-footer {
-  flex-wrap: wrap;
-  padding-top: 3px;
-}
-.sprite-action-footer .spacer {
-  flex: 1 1 auto;
-}
-@container (max-width: 360px) {
+@container sprite-action-detail (width < 520px) {
   .sprite-action-step {
     grid-template-columns: 48px minmax(0, 1fr);
   }
@@ -6672,15 +6812,22 @@ button.sprite-frame-cell[draggable="true"]:active {
     flex-direction: column;
   }
 }
-.sprite-action-catalog-actions {
-  display: flex;
-  align-items: center;
-  gap: var(--ds-space-1);
-}
-.sprite-action-catalog-content {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
+@media (max-width: 720px) {
+  .sprite-action-dialog {
+    width: calc(100dvw - 16px);
+    height: calc(100dvh - 16px);
+  }
+  .sprite-action-dialog .ds-overlay__header,
+  .sprite-action-dialog .ds-overlay__body,
+  .sprite-action-dialog .ds-overlay__footer {
+    padding: var(--ds-space-4);
+  }
+  .sprite-action-editor-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sprite-action-directory {
+    border-right: 0;
+  }
 }
 .sprite-reference-path {
   display: block;

@@ -1078,6 +1078,16 @@
           "verification": "editor.css .bsu-frame-grid owns overflow-y:auto and max-height:220px。"
         },
         {
+          "region": "overlay.world-action.detail",
+          "axis": "y",
+          "owner": "custom:.sprite-action-detail-pane",
+          "source": "SpriteActionEditor.tsx",
+          "component": "SpriteActionEditor",
+          "callsite": "class:sprite-action-detail-pane",
+          "reason": "预制动作长流程弹窗的详情页是宽态第二个、窄态唯一的纵向滚动owner。",
+          "verification": "SpriteActionEditorDialog测试与editor.css冻结detail pane overflow:auto。"
+        },
+        {
           "region": "inspector.battle",
           "axis": "y",
           "owner": "DsInspectorTabs",
@@ -2288,6 +2298,7 @@
         "BattleSpriteLibrary.tsx",
         "BattleSpriteUploader.tsx",
         "SpriteActionEditor.tsx",
+        "SpriteActionEditorDialog.tsx",
         "SpriteFrameWorkbench.tsx",
         "SpriteResourceViewer.tsx",
         "SpriteUploadWizard.tsx",
@@ -2297,7 +2308,7 @@
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsVirtualList + legacy sprite workspace exceptions + custom:.dscroll + custom:.bsu-frame-grid + DsInspectorTabs",
-        "overlay": "DsFloatingLayer",
+        "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsFieldGroup + DsFileInput + DsFilePicker + DsNumberInput + DsPropertyRow + DsRangeInput + DsSelect + DsSelectField + DsTextField + DsTextInput",
         "action": "DsButton + DsIconButton"
       },
@@ -2321,7 +2332,7 @@
           {
             "source": "WorldSpriteLibrary.tsx",
             "component": "WorldSpriteLibrary",
-            "kinds": ["anchored-popup"]
+            "kinds": ["anchored-popup", "modal"]
           }
         ]
       }

@@ -13,7 +13,7 @@
     {
       "file": "SpriteFrameWorkbench.tsx",
       "rule": "native-draggable-transfer",
-      "fingerprint": "draggable={!!props.onFrameDragStart}",
+      "fingerprint": "draggable={Boolean(props.transferEnabled && (props.asset || props.onFrameDragStart))}",
       "owner": "card:ED-REORDER-DRAG-1",
       "reason": "源帧复制到动作槽，不改变源集合顺序。",
       "verification": "onFrameDragStart 只写资源 transfer payload。",
@@ -108,6 +108,15 @@
       "reason": "用户批准恢复整张帧卡 native drag；按稳定 frame.id 重排本地 draft。",
       "verification": "visible window、DataTransfer、stable frame.id、单条 draft history 与 selection/anchor 测试。",
       "removalCondition": "用户撤回原始形态，或该面重新采用具备等价视觉与交互的公共排序 owner。"
+    },
+    {
+      "file": "SpriteActionEditor.tsx",
+      "rule": "selected-item-reorder-action",
+      "fingerprint": "className=\"sprite-action-current-actions\"",
+      "owner": "card:ED-SPRITE-ACTION-MODAL-1",
+      "reason": "动作目录是搜索单选列表；只允许当前动作标题栏按稳定 ActionId 前移/后移，避免逐行排序控件破坏单焦点目录。",
+      "verification": "SpriteActionEditorDialog.test.tsx 证明过滤后仍按完整稳定 ActionId 集合单命令排序并可 undo。",
+      "removalCondition": "动作排序移除，或公共 selected-item reorder owner 提供同等单焦点目录与稳定身份合同。"
     }
   ]
 }

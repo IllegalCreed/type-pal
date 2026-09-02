@@ -27,19 +27,48 @@ vi.mock('./SpriteResourceViewer.js', async () => {
       revision: string
       consumers: readonly SpriteDef[]
       activeDefinitionId?: string
+      activeActionId?: string
+      selectedFrame?: number
+      enableFrameDrag?: boolean
+      headerActions?: React.ReactNode
       onLoaded?: (proof: { asset: string; revision: string; actualFrameCount: number }) => void
+      onFramesLoaded?: (
+        frames: readonly { canvas: undefined; width: number; height: number }[],
+      ) => void
+      onActionSelect?: (definitionId: string, actionId: string) => void
       automaticBehaviors?: ReadonlyMap<string, readonly SpriteAutomaticScriptBehaviorSummary[]>
       onAutomaticBehaviorLocations?: (definitionId: string) => void
     }) => {
       React.useEffect(() => {
         props.onLoaded?.({ asset: props.asset, revision: props.revision, actualFrameCount: 20 })
-      }, [props.asset, props.onLoaded, props.revision])
+        props.onFramesLoaded?.(
+          Array.from({ length: 20 }, () => ({ canvas: undefined, width: 32, height: 48 })),
+        )
+      }, [props.asset, props.onFramesLoaded, props.onLoaded, props.revision])
       return (
         <div
           data-world-resource={props.asset}
           data-world-active-definition={props.activeDefinitionId}
           data-world-consumer-count={props.consumers.length}
+          data-world-selected-frame={props.selectedFrame}
+          data-world-frame-drag={String(props.enableFrameDrag)}
         >
+          {props.headerActions}
+          {props.consumers.flatMap((definition) =>
+            Object.entries(definition.poses ?? {}).map(([actionId, action]) => (
+              <button
+                key={`${definition.id}:${actionId}`}
+                type="button"
+                aria-label={`打开预制动作 ${action.label}`}
+                aria-pressed={
+                  definition.id === props.activeDefinitionId && actionId === props.activeActionId
+                }
+                onClick={() => props.onActionSelect?.(definition.id, actionId)}
+              >
+                {action.label}
+              </button>
+            )),
+          )}
           {[...(props.automaticBehaviors?.entries() ?? [])].flatMap(([definitionId, summaries]) =>
             summaries.map((summary) => (
               <div key={`${definitionId}:${summary.label}`}>
@@ -185,6 +214,7 @@ function library(
   options: {
     view?: 'definition' | 'asset'
     focusObjectId?: string
+    focusActionId?: string
     catalog?: AssetCatalogV1
     onActionFocus?: (spriteId: string, actionId: string) => void
     onJumpReference?: (reference: SpriteDefinitionReference) => void
@@ -205,6 +235,7 @@ function library(
       tabBar={null}
       view={options.view ?? 'definition'}
       focusObjectId={options.focusObjectId}
+      focusActionId={options.focusActionId}
       onViewChange={options.onViewChange ?? vi.fn()}
       onBattleDomain={options.onBattleDomain ?? vi.fn()}
       onActionFocus={options.onActionFocus}
@@ -217,6 +248,144 @@ function library(
 }
 
 describe('WorldSpriteLibrary', () => {
+  test('中央 Hero 与语义动作行打开同一个 Dialog，Inspector 只保留用途', async () => {
+    const withAction: SpriteDef = {
+      ...definitions[0]!,
+      poses: {
+        idle: { label: '待机', steps: [{ frame: 0, durationMs: 250 }] },
+      },
+    }
+    const session = new EditSession(editorState([withAction]))
+    await act(async () =>
+      root.render(library([withAction], session, { focusObjectId: withAction.id })),
+    )
+    expect(button('用途')).toBeDefined()
+    expect(host.querySelector('.world-sprite-inspector .sprite-action-editor')).toBeNull()
+    expect(button('新建预制动作')).toBeDefined()
+    expect(button('编辑预制动作（1）')).toBeDefined()
+
+    await act(async () => button('编辑预制动作（1）').click())
+    expect(document.querySelectorAll('dialog[aria-label="编辑预制动作"]')).toHaveLength(1)
+    const resource = host.querySelector<HTMLElement>('[data-world-resource="sprite.shared"]')!
+    expect(resource.dataset.worldFrameDrag).toBe('false')
+    const modalFrames = [
+      ...document.querySelectorAll<HTMLButtonElement>(
+        'dialog[aria-label="编辑预制动作"] .sprite-action-source .sprite-frame-cell',
+      ),
+    ]
+    expect(modalFrames.every((frame) => frame.draggable)).toBe(true)
+    await act(async () => modalFrames[3]!.click())
+    expect(resource.dataset.worldSelectedFrame).toBe('3')
+    expect(modalFrames[3]!.getAttribute('aria-pressed')).toBe('true')
+    await act(async () =>
+      document.querySelector<HTMLButtonElement>('[aria-label="完成动作编辑"]')!.click(),
+    )
+    expect(document.querySelector('dialog[aria-label="编辑预制动作"]')).toBeNull()
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="打开预制动作 待机"]')!.click(),
+    )
+    expect(document.querySelectorAll('dialog[aria-label="编辑预制动作"]')).toHaveLength(1)
+  })
+
+  test('valid action deep-link opens its dialog while invalid action reports without fallback', async () => {
+    const withAction: SpriteDef = {
+      ...definitions[0]!,
+      poses: {
+        idle: { label: '待机', steps: [{ frame: 0, durationMs: 250 }] },
+      },
+    }
+    const session = new EditSession(editorState([withAction]))
+    const notice = vi.fn()
+    await act(async () =>
+      root.render(
+        library([withAction], session, {
+          focusObjectId: withAction.id,
+          focusActionId: 'idle',
+          onStatusNotice: notice,
+        }),
+      ),
+    )
+    expect(document.querySelector('dialog[aria-label="编辑预制动作"]')).not.toBeNull()
+    await act(async () => root.unmount())
+    root = createRoot(host)
+    await act(async () =>
+      root.render(
+        library([withAction], session, {
+          focusObjectId: withAction.id,
+          focusActionId: 'missing/action',
+          onStatusNotice: notice,
+        }),
+      ),
+    )
+    expect(document.querySelector('dialog[aria-label="编辑预制动作"]')).toBeNull()
+    expect(notice).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        kind: 'error',
+        message: expect.stringContaining('missing/action'),
+      }),
+    )
+  })
+
+  test('同一实例的动作深链会 A→B 同步，并在外部清空 action 时关闭 route-owned Dialog', async () => {
+    const withActions: SpriteDef = {
+      ...definitions[0]!,
+      poses: {
+        idle: { label: '待机', order: 0, steps: [{ frame: 0, durationMs: 250 }] },
+        wave: { label: '挥手', order: 1, steps: [{ frame: 1, durationMs: 250 }] },
+      },
+    }
+    const session = new EditSession(editorState([withActions]))
+    function Harness() {
+      const [focusActionId, setFocusActionId] = useState<string | undefined>('idle')
+      return (
+        <>
+          <button type="button" onClick={() => setFocusActionId('wave')}>
+            外部定位挥手
+          </button>
+          <button type="button" onClick={() => setFocusActionId(undefined)}>
+            外部清空动作
+          </button>
+          {library([withActions], session, {
+            focusObjectId: withActions.id,
+            focusActionId,
+            onActionFocus: (_spriteId, actionId) => setFocusActionId(actionId),
+            onViewChange: () => undefined,
+          })}
+        </>
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    expect(document.querySelector('dialog[aria-label="编辑预制动作"] h3')?.textContent).toBe('待机')
+    await act(async () => button('外部定位挥手').click())
+    expect(document.querySelector('dialog[aria-label="编辑预制动作"] h3')?.textContent).toBe('挥手')
+    await act(async () => button('外部清空动作').click())
+    expect(document.querySelector('dialog[aria-label="编辑预制动作"]')).toBeNull()
+  })
+
+  test('从 edit 进入新建会先清 action 地址并保持 create Dialog', async () => {
+    const withAction: SpriteDef = {
+      ...definitions[0]!,
+      poses: {
+        idle: { label: '待机', steps: [{ frame: 0, durationMs: 250 }] },
+      },
+    }
+    const session = new EditSession(editorState([withAction]))
+    function Harness() {
+      const [focusActionId, setFocusActionId] = useState<string | undefined>('idle')
+      return library([withAction], session, {
+        focusObjectId: withAction.id,
+        focusActionId,
+        onActionFocus: (_spriteId, actionId) => setFocusActionId(actionId),
+        onViewChange: () => setFocusActionId(undefined),
+      })
+    }
+    await act(async () => root.render(<Harness />))
+    expect(document.querySelector('dialog[aria-label="编辑预制动作"]')).not.toBeNull()
+    await act(async () => button('新建预制动作').click())
+    expect(document.querySelector('dialog[aria-label="新建预制动作"]')).not.toBeNull()
+    expect(document.querySelector('dialog[aria-label="编辑预制动作"]')).toBeNull()
+  })
   test('目标定义被移除后的 dispatch noop 会回灌 canonical 草稿', async () => {
     const session = new EditSession(editorState(definitions))
     const onStatusNotice = vi.fn()
@@ -338,9 +507,7 @@ describe('WorldSpriteLibrary', () => {
     const session = new EditSession(editorState(definitions))
     await act(async () => root.render(library(definitions, session)))
 
-    const rows = host.querySelectorAll<HTMLElement>(
-      '.world-sprite-outliner .sprite-resource-row',
-    )
+    const rows = host.querySelectorAll<HTMLElement>('.world-sprite-outliner .sprite-resource-row')
     expect(rows).toHaveLength(2)
     expect([...rows].map((row) => row.dataset.leading)).toEqual(['none', 'none'])
     expect(host.querySelector('.sprite-library-switch')).toBeNull()
@@ -367,7 +534,9 @@ describe('WorldSpriteLibrary', () => {
     const blankCatalog = structuredClone(catalog)
     blankCatalog.assets['sprite.raw']!.label = '   '
     const session = new EditSession(editorState([]))
-    await act(async () => root.render(library([], session, { view: 'asset', catalog: blankCatalog })))
+    await act(async () =>
+      root.render(library([], session, { view: 'asset', catalog: blankCatalog })),
+    )
 
     const row = [...host.querySelectorAll('.sprite-resource-row')].find(
       (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent === 'sprite.raw',
@@ -414,7 +583,7 @@ describe('WorldSpriteLibrary', () => {
     expect(host.querySelector('[data-world-resource]')?.getAttribute('data-world-resource')).toBe(
       'sprite.raw',
     )
-    await act(async () => button('动作').click())
+    await act(async () => button('用途').click())
     await act(async () => button('新增用途定义').click())
     await act(async () =>
       host
@@ -452,11 +621,7 @@ describe('WorldSpriteLibrary', () => {
       [...host.querySelectorAll<HTMLElement>('.ds-overflow-text.ds-inspector-readonly')].map(
         (value) => value.textContent,
       ),
-    ).toEqual([
-      'sprite.shared',
-      'assets/authored/sprites/shared.rle',
-      'a'.repeat(64),
-    ])
+    ).toEqual(['sprite.shared', 'assets/authored/sprites/shared.rle', 'a'.repeat(64)])
     expect(host.querySelector('.ds-overflow-text[title]')).toBeNull()
 
     await act(async () => button('引用').click())
@@ -479,7 +644,7 @@ describe('WorldSpriteLibrary', () => {
     ).not.toContain('先选择一个用途定义')
   })
 
-  test('从源资源进入动作时默认选中首个用途，不要求再次点击用途卡片', async () => {
+  test('从源资源进入用途时默认选中首个用途，不要求再次点击用途卡片', async () => {
     const session = new EditSession(editorState(definitions))
     await act(async () =>
       root.render(
@@ -494,7 +659,7 @@ describe('WorldSpriteLibrary', () => {
       host.querySelector('[data-world-resource]')?.getAttribute('data-world-active-definition'),
     ).toBeNull()
 
-    await act(async () => button('动作').click())
+    await act(async () => button('用途').click())
 
     expect(
       host.querySelector('[data-world-resource]')?.getAttribute('data-world-active-definition'),
@@ -546,7 +711,7 @@ describe('WorldSpriteLibrary', () => {
   test('检查器 tab 使用单一 Tab 停靠点并支持方向键切换', async () => {
     const session = new EditSession(editorState(definitions))
     await act(async () => root.render(library(definitions, session)))
-    await verifyInspectorTabs(host, '大世界精灵检查器', ['动作', /^引用 \d+$/, '源资源'])
+    await verifyInspectorTabs(host, '大世界精灵检查器', ['用途', /^引用 \d+$/, '源资源'])
   })
 
   test('current 世界状态外观和跟随队列分别说明其引用角色', async () => {

@@ -188,8 +188,8 @@ describe('reorder adoption gate', () => {
     expect(manifest.version).toBe(2)
     expect(manifest.baseline).toEqual({
       families: 17,
-      adoptions: 28,
-      dataPaths: 31,
+      adoptions: 27,
+      dataPaths: 30,
       interactionOwnerFiles: 19,
     })
     expect(manifest.families).toHaveLength(manifest.baseline.families)
@@ -258,7 +258,7 @@ describe('reorder adoption gate', () => {
     }
   })
 
-  test('keeps the three canonical order declarations represented by stable-order adoptions', () => {
+  test('keeps canonical order declarations represented by two adoptions and one selected-item exception', () => {
     const manifest = JSON.parse(readFileSync(join(here, 'reorder-adoption.json'), 'utf8'))
     const registeredIds = new Set(
       manifest.families.flatMap((family) =>
@@ -279,12 +279,20 @@ describe('reorder adoption gate', () => {
       { source: 'author-script-core.ts', declaration: 'order: number' },
       { source: 'sprite.ts', declaration: 'order?: number' },
     ])
-    for (const adoptionId of [
-      'story/entity-behavior-schemes',
-      'story/scene-hook-variants',
-      'asset/sprite-action-definitions',
-    ])
+    for (const adoptionId of ['story/entity-behavior-schemes', 'story/scene-hook-variants'])
       expect(registeredIds.has(adoptionId), adoptionId).toBe(true)
+    const allowlist = JSON.parse(readFileSync(join(here, 'reorder-allowlist.json'), 'utf8'))
+    expect(
+      allowlist.entries.filter(
+        (entry: { rule: string }) => entry.rule === 'selected-item-reorder-action',
+      ),
+    ).toEqual([
+      expect.objectContaining({
+        file: 'SpriteActionEditor.tsx',
+        fingerprint: 'className="sprite-action-current-actions"',
+        owner: 'card:ED-SPRITE-ACTION-MODAL-1',
+      }),
+    ])
   })
 
   test('keeps native transfer and spatial movement exceptions evidence-bound and fresh', () => {
@@ -312,7 +320,7 @@ describe('reorder adoption gate', () => {
     }
 
     expect(allowlist.version).toBe(1)
-    expect(allowlist.entries).toHaveLength(12)
+    expect(allowlist.entries).toHaveLength(13)
     expect(new Set(allowlist.entries.map((entry) => entry.rule))).toEqual(
       new Set([
         'asset-transfer-drop',
@@ -322,6 +330,7 @@ describe('reorder adoption gate', () => {
         'native-draggable-reorder',
         'pan-zoom-gesture',
         'resize-gesture',
+        'selected-item-reorder-action',
         'spatial-move-action',
       ]),
     )
@@ -395,6 +404,9 @@ describe('reorder adoption gate', () => {
   test('rejects private movement actions, handles, glyphs, and hand-built button intents', () => {
     const allowlist = JSON.parse(readFileSync(join(here, 'reorder-allowlist.json'), 'utf8'))
     const spatial = allowlist.entries.filter((entry) => entry.rule === 'spatial-move-action')
+    const selectedItem = allowlist.entries.filter(
+      (entry) => entry.rule === 'selected-item-reorder-action',
+    )
     const movement = /上移|下移|前移|后移(?!除)|移到最前|移到最后|置顶|置底/
     const actionTags = new Set(['button', 'DsButton', 'DsIconButton', 'DsPressable'])
     const violations: string[] = []
@@ -417,9 +429,20 @@ describe('reorder adoption gate', () => {
             ts.isJsxOpeningElement(node) && ts.isJsxElement(node.parent) ? node.parent : node
           const text = normalized(fullNode.getText(sourceFile))
           if (actionTags.has(tag) && movement.test(text)) {
-            const allowed = spatial.some(
-              (entry) => entry.file === source && text.includes(entry.fingerprint),
-            )
+            let ancestor: ts.Node | undefined = node
+            const selectedAllowed = selectedItem.some((entry) => {
+              if (entry.file !== source) return false
+              ancestor = node
+              while (ancestor) {
+                if (normalized(ancestor.getText(sourceFile)).includes(entry.fingerprint))
+                  return true
+                ancestor = ancestor.parent
+              }
+              return false
+            })
+            const allowed =
+              selectedAllowed ||
+              spatial.some((entry) => entry.file === source && text.includes(entry.fingerprint))
             if (!allowed) violations.push(`${source}: private movement action ${text}`)
           }
         }

@@ -1,8 +1,8 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.23.0 layer action-group and responsive track contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.24.0 bounded long-flow editor modal contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）/ ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）/ ED-ACTION-GROUP-SPEC-1（v2.22.0）/ ED-ACTION-GROUP-ADOPTION-3（v2.23.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3、v2.14.1～v2.14.2、v2.20.0～v2.20.1）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-PROJECT-STARTUP-IA-1（v2.11.0）/ ED-REORDER-DRAG-1（v2.12.0）/ ED-ADD-PICKER-DIALOG-1（v2.13.0）/ ED-FIELD-LAYOUT-1（v2.14.0、v2.19.0）/ ED-CATALOG-ROW-IA-1（v2.15.0 / DS-C.4c 内容与身份层级）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）/ ED-NUMBER-FIELD-1（v2.17.0）/ ED-TEXT-OVERFLOW-1（v2.18.0）/ ED-FIELD-LABEL-TRACK-WIDE-1（v2.21.0）/ ED-ACTION-GROUP-SPEC-1（v2.22.0）/ ED-ACTION-GROUP-ADOPTION-3（v2.23.0）/ ED-SPRITE-ACTION-MODAL-1（v2.24.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -426,7 +426,7 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - `tool`、`btn`、`mini`、`mini-txt`、`pv-btn`、`item-action-button` 及业务页自造的
   `*-primary-action` / `*-danger-action` 都是迁移期遗留类，不是获准的新变体；新增代码禁止使用，存量只能减少。
 
-#### DS-C.2a 同项动作组（v2.23.0）
+#### DS-C.2a 同项动作组（v2.24.0）
 
 - 同一对象、同一作用域且必须共同保留的相邻离散命令使用 `DsActionGroup`。它只持有布局与动作几何，不拥有
   command、disabled、tooltip 或业务状态，也不是 toolbar、表单字段组或新的 ARIA 交互 role；子按钮继续按
@@ -448,7 +448,7 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   tooltip 不能代替业务禁用原因。无解决动作且不会随当前对象变化的静态集合不变量（如图层至少保留一层）
   可由集合标题旁的 `DsHelpTip` 说明，不应长期占用列表正文；隐藏、锁定、未接管等可恢复阻塞仍必须直接显示。
 - `action-group-adoption.json` 双向枚举正式采用和所有 production `DsReorderMoveButton`：当前正式采用为
-  13 组 / 22 枚移动动作；其余 22 枚移动动作按 11 个候选 surface 逐项登记
+  15 组 / 24 枚移动动作；其余 18 枚移动动作按 9 个候选 surface 逐项登记
   `equivalent-owner | deferred | N/A`。未消费 ActionGroup
   不自动等于违规；只有具备真实 DOM/CSS/响应式证据的专用 owner 才能登记 equivalent/N/A，deferred 必须写
   removalCondition。新增单枚 raw move、漏登、重复、stale fingerprint、动态 density、非动作 child、模式混用
@@ -550,7 +550,7 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 只有作者维护的 canonical 顺序可以采用排序；搜索结果、按名称/ID 派生的目录顺序、集合/多重集、空间移动、
   数值拖动和资源 transfer 不得伪装成 reorder。生产采用真源为 `reorder-adoption.json`，合法原生 transfer 与
   空间移动例外为 `reorder-allowlist.json`；新增、删除或改名后未同步、重复或陈旧条目都必须 fail-closed。
-- 当前机器基线为 **17 个交互家族 / 28 个 adoption / 31 条数据路径 / 19 个领域 owner 文件**；这些数字是
+- 当前机器基线为 **17 个交互家族 / 27 个 adoption / 30 条数据路径 / 19 个领域 owner 文件**；这些数字是
   registry 自身复算结果，不是未来可手改的常量。每条 adoption 必须登记 adapter、身份、command/revision owner
   与验证文件；每条例外必须具备 `{file,rule,fingerprint,owner,reason,verification,removalCondition}` 七字段，
   fingerprint 缺失、重复、未命中或命中多次均视为无效/陈旧例外。
@@ -564,9 +564,12 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - `grip` 使用公共矢量图标和至少 `32×32px` 命中区，只在手柄自身设置 `touch-action:none`。禁止整行
   `draggable`、文本 `≡`、领域私有 handle CSS 或复制 pointer 状态机。手柄必须有可见 hover/focus、
   `grab/grabbing`、disabled 与 picked/drop-target 状态。
-- 唯一用户批准例外是 `ED-FRAME-TIMELINE-UX-RESTORE-1`：帧动画恢复72×76帧卡整卡native drag、
+- 帧时间线用户批准例外 `ED-FRAME-TIMELINE-UX-RESTORE-1`：帧动画恢复72×76帧卡整卡native drag、
   visible window与本地draft history，并以`native-draggable-reorder`登记。它不具公共handle/键盘/touch排序
   合同，不构成推荐pattern，也不得类推到其它集合。
+- `ED-SPRITE-ACTION-MODAL-1` 是第二个有界例外：搜索单焦点动作目录本身不排序，只允许当前动作标题栏通过
+  `selected-item-reorder-action` 按稳定 ActionId 前移/后移。例外必须唯一绑定该header、直接按钮和单命令/
+  undo证据；不得把数组index、逐行移动按钮或目录grip重新带回，也不得类推到其它搜索列表。
 - pointer 采用 Pointer Events、pointer capture 和统一 `6 CSS px` 阈值。pointermove/hover/边缘自动滚动只更新
   本地投影；有效 pointerup 才向领域 owner 发送一次 intent。原位、越界、不可落点、Escape、pointercancel、
   lost capture、window blur、document hidden、scope/revision/对象变化与 unmount 都取消且产生零命令。
@@ -805,7 +808,9 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 
 ### DS-C.9 Modal、drawer 与危险操作
 
-- modal 用于需要阻断背景的短决策；drawer 用于保留上下文的长表单/Inspector；不得互换滥用。
+- modal 默认用于需要阻断背景的短决策；drawer 用于保留上下文的长表单/Inspector；不得互换滥用。唯一长流程
+  modal例外是用户明确批准的`ED-SPRITE-ACTION-MODAL-1`：中央专用编辑器、固定header/footer、明确且有界的
+  宽态双/窄态单scroll owner、route/focus/dirty/create事务边界与独立审签必须同时成立，缺一即不得类推。
 - modal 打开后焦点进入标题或首个字段，Tab 困在内部，Esc 可关闭非破坏性 modal；关闭返回触发点。
 - 删除确认必须展示对象、影响和引用数量；输入确认词只用于高影响批量/不可恢复操作。
 - 删除被引用对象默认阻断并给出引用清单，不得自动级联清理，除非领域任务明确设计并签字。
@@ -1086,7 +1091,8 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-21 | Ordered collection default/compact + repeat-row/object-card/edge-to-edge/continuous + inline/overlay rail + catalog/fixed/nested/timeline + disabled/empty/single/52 项长列表 | grip 位于 item 边界内且不占 media leading；同构字段项逐项完整边框；对象卡保留 identity、状态/摘要与详情槽且不拉成 collection 全宽；连续列表贴合单一外框且仅用 divider；insert/swap 实时让位只有一个 indicator，提交无回跳；pointer/keyboard/click 同 owner，nested scope、水平 timeline、真实 scroll owner 与长名称无裁切 | v2.12 排序合同 |
 | RF-22 | Add Picker 0/1/234 + rich-row media/detail/trailing + active/selected/disabled/all-disabled/empty/long | 标题动作稳定；固定 ID + detail 截断、60px 两行 rich row、direct searchable listbox、80 阈值、明确 footer confirm、分层 Escape、single command、唯一滚动与 focus return 通过 | v2.13 候选追加合同 |
 | RF-23 | default 480/479 + wide 560/559 FieldGroup；最长标签/required/HelpTip/help/error/短数值 + Inspector PropertyRow 对照 | default：480px共享96px轨、479px stacked；wide：560px共享160px轨且最长标签单行、559px整组stacked；control起点不漂移，help/error与control同列；Inspector仅以具名60px紧凑轨存在 | v2.14 default + v2.21 wide字段布局合同 |
-| RF-24 | 28 个 catalog surface + EnemyTeam 重复/混合/空/缺失成员 + Shop 空/单/多/缺失货品 + 5 资源无 label + 295/enemy-468/team-0 | 普通对象可读 title / 精确 canonical ID meta；派生 title 不进入 identity 消费；资源缺 label 时 title 与 meta 不重复；scene root / undeclared reference 例外有界；伪 `skill.pal.*` / `enemy.pal.*` / `team.pal.*` 零命中 | v2.15 目录身份合同 |
+| RF-24 | 27 个 catalog surface + EnemyTeam 重复/混合/空/缺失成员 + Shop 空/单/多/缺失货品 + 5 资源无 label + 295/enemy-468/team-0 | 普通对象可读 title / 精确 canonical ID meta；派生 title 不进入 identity 消费；资源缺 label 时 title 与 meta 不重复；scene root / undeclared reference 例外有界；伪 `skill.pal.*` / `enemy.pal.*` / `team.pal.*` 零命中 | v2.15 目录身份合同 |
+| RF-28 | 预制动作0/1/52项、步骤1/52项、长名称/ActionId、1280/900/720/高480 | 中央单一Dialog；create零写/确认1，edit全局undo；52项虚拟单焦点目录；宽2/窄1纵向owner；源帧rail、trap/return、footer与零横溢通过 | v2.24 长流程编辑modal例外 |
 | RF-25 | NumberField default/compact/disabled/readonly/error/empty/negative/zero/large + 1000/720/480/320px 数字网格 | 同壳 stepper 与可见焦点；integer/decimal/inputMode、min/max/step、wheel、单命令通过；控件不超过 10rem，列由 12rem auto-fit 随容器变化且无横向溢出 | v2.17 数字字段合同 |
 | RF-26 | Item use/throw/equipment、Skill base/execution、Actor casualty 六族效果链；560/480/320px 卡容器；普通/无参数/full-span/preview/重复项/独占类型 | 共享父头/body 层级；手柄与标题中线重合；动作同尺寸；字段按容器分列/降列且无溢出；稳定 key、删除/独占切换焦点与 adoption 负例通过 | v2.19 效果卡层级合同 |
 | RF-27 | ActionGroup 480/320 + default/compact + 2/3 动作 + 纯图标/图标与文案/纯文案 + danger/disabled reason/长 identity | root intrinsic 且 nowrap；default icon 36×36、compact icon 32×32、text 仅最小尺寸；320 整组下沉；native button、accessible name/tooltip、SVG hidden、Tab/focus-visible、描述关系与 focus containment 通过 | v2.22 同项动作组合同 |

@@ -9,6 +9,7 @@ import type {
 import { collectSpriteActionReferences, collectSpriteDefinitionReferences } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import {
   AddSpriteDefinitionCommand,
   DeleteUnusedSpriteAssetCommand,
@@ -16,9 +17,9 @@ import {
   type SpriteLayoutEditProof,
   UpdateSpriteCommand,
 } from '../core/commands.js'
-import { editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { sortedSpriteActions } from '../core/sprite-actions.js'
 import {
   type CanonicalSpritePreviewState,
   collectAutomaticScriptSpriteInstanceSites,
@@ -30,10 +31,10 @@ import {
   DsButton,
   DsCatalogControls,
   DsCatalogRow,
-  DsInspectorSection,
-  DsInspectorTabs,
   DsDraftNumberInput,
   DsInspectorHost,
+  DsInspectorSection,
+  DsInspectorTabs,
   DsOverflowText,
   DsPropertyGrid,
   DsPropertyRow,
@@ -42,12 +43,12 @@ import {
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
-  DsTag,
   DsTabs,
+  DsTag,
   DsTextInput,
   DsVirtualList,
 } from './design-system/index.js'
-import { SpriteActionEditor } from './SpriteActionEditor.js'
+import { SpriteActionEditorDialog } from './SpriteActionEditorDialog.js'
 import type { SpriteFrameView } from './SpriteFrameWorkbench.js'
 import { type SpriteResourceLoadProof, SpriteResourceViewer } from './SpriteResourceViewer.js'
 import { SpriteUploadWizard } from './SpriteUploadWizard.js'
@@ -55,6 +56,14 @@ import { SpriteUploadWizard } from './SpriteUploadWizard.js'
 type AuthorableLayoutKind = 'directional' | 'static'
 type KindFilter = 'all' | AuthorableLayoutKind | 'actions' | 'looping' | 'scripted' | 'unconfigured'
 type InspectorTab = 'layout' | 'references' | 'source'
+type ActionDialogState = {
+  revision: number
+  kind: 'create' | 'edit'
+  owner: 'browse' | 'route'
+  definition: SpriteDef
+  proof: SpriteLayoutEditProof
+  frames: readonly SpriteFrameView[]
+}
 
 const KIND_LABEL: Record<SpriteLayout['kind'], string> = {
   directional: '四向',
@@ -146,6 +155,7 @@ export function WorldSpriteLibrary(props: {
   onJumpActionReference?: (reference: SpriteActionReference) => void
   onJumpAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+  onRequestSave?: () => void
   canonical?: CanonicalSpritePreviewState
 }) {
   const assets = useMemo(
@@ -189,6 +199,13 @@ export function WorldSpriteLibrary(props: {
   const [draftLabel, setDraftLabel] = useState('')
   const [draftKind, setDraftKind] = useState<AuthorableLayoutKind>('static')
   const [selectedActionId, setSelectedActionId] = useState<string | undefined>(props.focusActionId)
+  const [referenceActionId, setReferenceActionId] = useState<string | undefined>(
+    props.focusActionId,
+  )
+  const [actionDialog, setActionDialog] = useState<ActionDialogState | undefined>()
+  const actionDialogRevisionRef = useRef(0)
+  const previousFocusActionIdRef = useRef(props.focusActionId)
+  const pendingActionRouteRef = useRef<{ actionId: string | undefined } | undefined>(undefined)
   const lastSyncedLocation = useRef(
     `${props.view}:${props.focusObjectId ?? ''}:${props.focusActionId ?? ''}`,
   )
@@ -201,10 +218,6 @@ export function WorldSpriteLibrary(props: {
     [definitionsByAsset, selectedAsset],
   )
   const definition = consumers.find((entry) => entry.id === selectedId)
-  const selectAction = (actionId: string | undefined): void => {
-    setSelectedActionId(actionId)
-    if (actionId && definition?.poses?.[actionId]) props.onActionFocus?.(definition.id, actionId)
-  }
   const record = props.catalog.assets[selectedAsset]
   const editorState = props.session.getState()
   const spritePreviewState = useMemo(
@@ -244,8 +257,8 @@ export function WorldSpriteLibrary(props: {
   const nonAutomaticReferences = references.filter(
     (reference) => !automaticSiteKeys.has(reference.site),
   )
-  const selectedActionReferences = selectedActionId
-    ? actionReferences.filter((reference) => reference.action === selectedActionId)
+  const selectedActionReferences = referenceActionId
+    ? actionReferences.filter((reference) => reference.action === referenceActionId)
     : []
   const totalReferenceCount = references.length + actionReferences.length
   const loadedProof = useMemo<SpriteLayoutEditProof | undefined>(() => {
@@ -262,13 +275,59 @@ export function WorldSpriteLibrary(props: {
   useEffect(() => {
     if (!definition) {
       setSelectedActionId(undefined)
+      setReferenceActionId(undefined)
+      if (actionDialog?.kind === 'edit') setActionDialog(undefined)
+      previousFocusActionIdRef.current = props.focusActionId
       return
     }
-    if (props.focusActionId && definition.poses?.[props.focusActionId]) {
+    if (actionDialog?.kind === 'create') {
+      if (!props.focusActionId) previousFocusActionIdRef.current = undefined
+      return
+    }
+    const pendingRoute = pendingActionRouteRef.current
+    if (pendingRoute && props.focusActionId !== pendingRoute.actionId) return
+    if (pendingRoute) pendingActionRouteRef.current = undefined
+    if (props.focusActionId) {
+      if (!definition.poses?.[props.focusActionId]) {
+        setSelectedActionId(props.focusActionId)
+        setActionDialog(undefined)
+        props.onStatusNotice?.({
+          kind: 'error',
+          message: `预制动作 ${props.focusActionId} 不存在；未自动选择其它动作。`,
+        })
+        previousFocusActionIdRef.current = props.focusActionId
+        return
+      }
       setSelectedActionId(props.focusActionId)
-      setInspectorTab('layout')
+      setReferenceActionId(props.focusActionId)
+      if (loadedProof)
+        setActionDialog((current) => {
+          if (
+            current?.kind === 'edit' &&
+            current.definition.id === definition.id &&
+            current.owner === 'route'
+          )
+            return current
+          actionDialogRevisionRef.current += 1
+          return {
+            revision: actionDialogRevisionRef.current,
+            kind: 'edit',
+            owner: 'route',
+            definition,
+            proof: loadedProof,
+            frames: sourceFrames,
+          }
+        })
+      previousFocusActionIdRef.current = props.focusActionId
       return
     }
+    if (
+      previousFocusActionIdRef.current &&
+      actionDialog?.kind === 'edit' &&
+      actionDialog.owner === 'route'
+    )
+      setActionDialog(undefined)
+    previousFocusActionIdRef.current = undefined
     if (selectedActionId && definition.poses?.[selectedActionId]) return
     const first = Object.entries(definition.poses ?? {}).sort(
       ([leftId, left], [rightId, right]) =>
@@ -276,7 +335,16 @@ export function WorldSpriteLibrary(props: {
         leftId.localeCompare(rightId),
     )[0]?.[0]
     setSelectedActionId(first)
-  }, [definition, props.focusActionId, selectedActionId])
+    setReferenceActionId((current) => (current && definition.poses?.[current] ? current : first))
+  }, [
+    actionDialog,
+    definition,
+    loadedProof,
+    props.focusActionId,
+    props.onStatusNotice,
+    selectedActionId,
+    sourceFrames,
+  ])
   const handleResourceProof = useCallback((proof: SpriteResourceLoadProof | undefined) => {
     setResourceProof(proof)
   }, [])
@@ -382,6 +450,8 @@ export function WorldSpriteLibrary(props: {
     setShowUsageMenu(false)
     setInspectorTab('source')
     setSelectedActionId(undefined)
+    setReferenceActionId(undefined)
+    setActionDialog(undefined)
     props.onViewChange('asset', asset)
     props.onObjectFocus?.(asset)
   }
@@ -394,8 +464,66 @@ export function WorldSpriteLibrary(props: {
     setShowUsageMenu(false)
     setInspectorTab('layout')
     setSelectedActionId(undefined)
+    setReferenceActionId(Object.keys(next.poses ?? {})[0])
+    setActionDialog(undefined)
     props.onViewChange('definition', next.id)
     props.onObjectFocus?.(next.id)
+  }
+
+  const openCreateAction = (): void => {
+    if (!definition || !loadedProof) {
+      props.onStatusNotice?.({ kind: 'error', message: '源帧尚未读取完成，不能新建动作。' })
+      return
+    }
+    pendingActionRouteRef.current = { actionId: undefined }
+    props.onViewChange('definition', definition.id)
+    actionDialogRevisionRef.current += 1
+    setActionDialog({
+      revision: actionDialogRevisionRef.current,
+      kind: 'create',
+      owner: 'browse',
+      definition,
+      proof: loadedProof,
+      frames: sourceFrames,
+    })
+  }
+
+  const openEditAction = (next: SpriteDef, actionId?: string): void => {
+    const targetId = actionId ?? sortedSpriteActions(next)[0]?.id
+    if (!targetId || !next.poses?.[targetId]) {
+      props.onStatusNotice?.({ kind: 'error', message: '当前用途尚无可编辑的预制动作。' })
+      return
+    }
+    setSelectedAsset(next.asset)
+    setSelectedId(next.id)
+    setSelectedActionId(targetId)
+    setReferenceActionId(targetId)
+    if (!loadedProof) {
+      props.onStatusNotice?.({ kind: 'error', message: '源帧尚未读取完成，不能编辑动作。' })
+      return
+    }
+    actionDialogRevisionRef.current += 1
+    setActionDialog({
+      revision: actionDialogRevisionRef.current,
+      kind: 'edit',
+      owner: 'browse',
+      definition: next,
+      proof: loadedProof,
+      frames: sourceFrames,
+    })
+    pendingActionRouteRef.current = { actionId: targetId }
+    props.onViewChange('definition', next.id)
+    props.onObjectFocus?.(next.id)
+    props.onActionFocus?.(next.id, targetId)
+  }
+
+  const closeActionDialog = (): void => {
+    const definitionId = actionDialog?.definition.id
+    setActionDialog(undefined)
+    if (definitionId && props.focusActionId) {
+      pendingActionRouteRef.current = { actionId: undefined }
+      props.onViewChange('definition', definitionId)
+    }
   }
 
   const beginUsage = (nextKind: AuthorableLayoutKind): void => {
@@ -507,6 +635,15 @@ export function WorldSpriteLibrary(props: {
     props.onViewChange('definition', nextDefinition.id)
     props.onObjectFocus?.(nextDefinition.id)
   }
+
+  const dialogLiveDefinition = actionDialog
+    ? props.definitions.find((entry) => entry.id === actionDialog.definition.id)
+    : undefined
+  const dialogLiveProof =
+    actionDialog && dialogLiveDefinition?.id === definition?.id ? loadedProof : undefined
+  const dialogActionReferences = actionDialog
+    ? allActionReferences.filter((reference) => reference.sprite === actionDialog.definition.id)
+    : []
 
   return (
     <>
@@ -632,6 +769,26 @@ export function WorldSpriteLibrary(props: {
                 {definition ? (
                   <DsButton
                     size="compact"
+                    variant="secondary"
+                    disabled={!loadedProof}
+                    onClick={openCreateAction}
+                  >
+                    新建预制动作
+                  </DsButton>
+                ) : null}
+                {definition && Object.keys(definition.poses ?? {}).length ? (
+                  <DsButton
+                    size="compact"
+                    variant="primary"
+                    disabled={!loadedProof}
+                    onClick={() => openEditAction(definition, selectedActionId)}
+                  >
+                    编辑预制动作（{Object.keys(definition.poses ?? {}).length}）
+                  </DsButton>
+                ) : null}
+                {definition ? (
+                  <DsButton
+                    size="compact"
                     variant="danger"
                     disabled={references.length > 0}
                     title={
@@ -658,13 +815,13 @@ export function WorldSpriteLibrary(props: {
             onActionSelect={(definitionId, actionId) => {
               const next = consumers.find((entry) => entry.id === definitionId)
               if (!next) return
-              focusDefinition(next)
-              setSelectedActionId(actionId)
-              props.onActionFocus?.(definitionId, actionId)
+              openEditAction(next, actionId)
             }}
             onLoaded={handleResourceProof}
             onFramesLoaded={setSourceFrames}
+            selectedFrame={selectedSourceFrame}
             onSelectedFrameChange={setSelectedSourceFrame}
+            enableFrameDrag={false}
             onStatusNotice={props.onStatusNotice}
           />
         ) : (
@@ -687,7 +844,7 @@ export function WorldSpriteLibrary(props: {
           items={[
             {
               id: 'layout',
-              label: '动作',
+              label: '用途',
               panel: (
                 <div className="world-sprite-inspector-content">
                   <DsInspectorSection
@@ -796,98 +953,79 @@ export function WorldSpriteLibrary(props: {
                       </div>
                     </DsInspectorSection>
                   ) : definition ? (
-                    <>
-                      <DsInspectorSection
-                        title="帧布局"
-                        description={`${definition.label} · ${definition.id}`}
-                      >
-                        <DsPropertyGrid>
-                          <DsPropertyRow label="布局类型" labelFor="world-sprite-layout-kind">
-                            <DsSelect
-                              id="world-sprite-layout-kind"
+                    <DsInspectorSection
+                      title="帧布局"
+                      description={`${definition.label} · ${definition.id}`}
+                    >
+                      <DsPropertyGrid>
+                        <DsPropertyRow label="布局类型" labelFor="world-sprite-layout-kind">
+                          <DsSelect
+                            id="world-sprite-layout-kind"
+                            size="compact"
+                            value={definition.layout.kind}
+                            disabled={!loadedProof}
+                            options={[
+                              {
+                                value: 'directional',
+                                label: '四向行走',
+                                disabled: (actualFrameCount ?? 0) < 4,
+                              },
+                              {
+                                value: 'static',
+                                label: '默认定格（默认 #0，可由脚本切帧）',
+                              },
+                              ...(definition.layout.kind === 'loop'
+                                ? [
+                                    {
+                                      value: 'loop',
+                                      label: '旧定义级循环（请转换为预制动作）',
+                                      disabled: true,
+                                    },
+                                  ]
+                                : []),
+                            ]}
+                            onValueChange={(value) =>
+                              loadedProof &&
+                              dispatchLayout(
+                                defaultLayout(
+                                  value as AuthorableLayoutKind,
+                                  loadedProof.actualFrameCount,
+                                ),
+                              )
+                            }
+                          />
+                        </DsPropertyRow>
+                        {definition.layout.kind === 'directional' ? (
+                          <DsPropertyRow label="每向帧数" labelFor="world-sprite-frames-per-dir">
+                            <DsDraftNumberInput
+                              id="world-sprite-frames-per-dir"
+                              name="world-sprite-frames-per-dir"
                               size="compact"
-                              value={definition.layout.kind}
+                              draftKey={`sprite:${definition.id}:layout:framesPerDir`}
+                              syncToken={props.session.getHistoryVersion()}
+                              min={1}
+                              max={Math.max(1, Math.floor((actualFrameCount ?? 0) / 4))}
+                              integer
                               disabled={!loadedProof}
-                              options={[
-                                {
-                                  value: 'directional',
-                                  label: '四向行走',
-                                  disabled: (actualFrameCount ?? 0) < 4,
-                                },
-                                {
-                                  value: 'static',
-                                  label: '默认定格（默认 #0，可由脚本切帧）',
-                                },
-                                ...(definition.layout.kind === 'loop'
-                                  ? [
-                                      {
-                                        value: 'loop',
-                                        label: '旧定义级循环（请转换为预制动作）',
-                                        disabled: true,
-                                      },
-                                    ]
-                                  : []),
-                              ]}
-                              onValueChange={(value) =>
-                                loadedProof &&
-                                dispatchLayout(
-                                  defaultLayout(
-                                    value as AuthorableLayoutKind,
-                                    loadedProof.actualFrameCount,
-                                  ),
-                                )
-                              }
+                              value={definition.layout.framesPerDir}
+                              onCommit={(value) => {
+                                if (value !== undefined && Number.isInteger(value) && value > 0)
+                                  return dispatchLayout({
+                                    kind: 'directional',
+                                    framesPerDir: value,
+                                  })
+                                return false
+                              }}
                             />
                           </DsPropertyRow>
-                          {definition.layout.kind === 'directional' ? (
-                            <DsPropertyRow label="每向帧数" labelFor="world-sprite-frames-per-dir">
-                              <DsDraftNumberInput
-                                id="world-sprite-frames-per-dir"
-                                name="world-sprite-frames-per-dir"
-                                size="compact"
-                                draftKey={`sprite:${definition.id}:layout:framesPerDir`}
-                                syncToken={props.session.getHistoryVersion()}
-                                min={1}
-                                max={Math.max(1, Math.floor((actualFrameCount ?? 0) / 4))}
-                                integer
-                                disabled={!loadedProof}
-                                value={definition.layout.framesPerDir}
-                                onCommit={(value) => {
-                                  if (value !== undefined && Number.isInteger(value) && value > 0)
-                                    return dispatchLayout({
-                                      kind: 'directional',
-                                      framesPerDir: value,
-                                    })
-                                  return false
-                                }}
-                              />
-                            </DsPropertyRow>
-                          ) : null}
-                        </DsPropertyGrid>
-                        <p className="ds-inspector-supporting-copy">
-                          {loadedProof
-                            ? `${layoutDescription(definition.layout)} · 源帧容器共 ${loadedProof.actualFrameCount} 帧`
-                            : '正在读取实际帧数；载入完成后可编辑。'}
-                        </p>
-                      </DsInspectorSection>
-                      <SpriteActionEditor
-                        definition={definition}
-                        catalog={props.catalog}
-                        proof={loadedProof}
-                        frames={sourceFrames}
-                        selectedSourceFrame={selectedSourceFrame}
-                        references={actionReferences}
-                        session={props.session}
-                        selectedActionId={selectedActionId}
-                        onSelectedActionChange={selectAction}
-                        onOpenReferences={(actionId) => {
-                          setSelectedActionId(actionId)
-                          props.onActionFocus?.(definition.id, actionId)
-                          setInspectorTab('references')
-                        }}
-                        onStatusNotice={props.onStatusNotice}
-                      />
-                    </>
+                        ) : null}
+                      </DsPropertyGrid>
+                      <p className="ds-inspector-supporting-copy">
+                        {loadedProof
+                          ? `${layoutDescription(definition.layout)} · 源帧容器共 ${loadedProof.actualFrameCount} 帧`
+                          : '正在读取实际帧数；载入完成后可编辑。'}
+                      </p>
+                    </DsInspectorSection>
                   ) : null}
                 </div>
               ),
@@ -935,14 +1073,14 @@ export function WorldSpriteLibrary(props: {
                               .map(([actionId, action]) => (
                                 <DsCatalogRow
                                   key={actionId}
-                                  selected={selectedActionId === actionId}
+                                  selected={referenceActionId === actionId}
                                   title={action.label}
                                   meta={actionId}
-                                  onClick={() => setSelectedActionId(actionId)}
+                                  onClick={() => setReferenceActionId(actionId)}
                                 />
                               ))}
                           </div>
-                          {selectedActionId ? (
+                          {referenceActionId ? (
                             selectedActionReferences.length ? (
                               <DsReferenceList>
                                 {selectedActionReferences.map((reference) => (
@@ -1122,12 +1260,20 @@ export function WorldSpriteLibrary(props: {
                     <DsInspectorSection title="资源信息">
                       <DsPropertyGrid>
                         <DsPropertyRow label="AssetId">
-                          <DsOverflowText as="code" className="ds-inspector-readonly" translate="no">
+                          <DsOverflowText
+                            as="code"
+                            className="ds-inspector-readonly"
+                            translate="no"
+                          >
                             {selectedAsset}
                           </DsOverflowText>
                         </DsPropertyRow>
                         <DsPropertyRow label="路径">
-                          <DsOverflowText as="code" className="ds-inspector-readonly" translate="no">
+                          <DsOverflowText
+                            as="code"
+                            className="ds-inspector-readonly"
+                            translate="no"
+                          >
                             {record.path}
                           </DsOverflowText>
                         </DsPropertyRow>
@@ -1158,6 +1304,50 @@ export function WorldSpriteLibrary(props: {
           ]}
         />
       </DsInspectorHost>
+      {actionDialog ? (
+        <SpriteActionEditorDialog
+          key={`${actionDialog.definition.id}:${actionDialog.revision}`}
+          definition={actionDialog.definition}
+          liveDefinition={dialogLiveDefinition}
+          catalog={props.catalog}
+          proof={actionDialog.proof}
+          liveProof={dialogLiveProof}
+          frames={actionDialog.frames}
+          selectedSourceFrame={selectedSourceFrame}
+          references={dialogActionReferences}
+          session={props.session}
+          initialMode={actionDialog.kind}
+          selectedActionId={selectedActionId}
+          onSelectedActionChange={(actionId) => {
+            setSelectedActionId(actionId)
+            setReferenceActionId(actionId)
+            pendingActionRouteRef.current = { actionId }
+            if (actionId) {
+              setActionDialog((current) =>
+                current ? { ...current, kind: 'edit', owner: 'browse' } : current,
+              )
+              props.onActionFocus?.(actionDialog.definition.id, actionId)
+            } else {
+              setActionDialog((current) =>
+                current?.kind === 'edit' ? { ...current, owner: 'browse' } : current,
+              )
+              props.onViewChange('definition', actionDialog.definition.id)
+            }
+          }}
+          onSelectedSourceFrameChange={setSelectedSourceFrame}
+          onRequestCreate={openCreateAction}
+          onOpenReferences={(actionId) => {
+            setReferenceActionId(actionId)
+            setInspectorTab('references')
+            setActionDialog(undefined)
+            pendingActionRouteRef.current = { actionId: undefined }
+            props.onViewChange('definition', actionDialog.definition.id)
+          }}
+          onRequestSave={props.onRequestSave}
+          onClose={closeActionDialog}
+          onStatusNotice={props.onStatusNotice}
+        />
+      ) : null}
     </>
   )
 }

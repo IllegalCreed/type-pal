@@ -57,6 +57,7 @@ import {
   DsToolbar,
   type DsToolbarCommand,
   DsVirtualList,
+  DsVirtualListbox,
   DsWorkbench,
   EDITOR_DESIGN_SYSTEM_VERSION,
   reorderDsItems,
@@ -69,6 +70,7 @@ const FIXTURES = [
   'RF-23',
   'RF-25',
   'RF-27',
+  'RF-28',
 ]
 const FORM_OPTIONS: DsOption[] = [
   { value: 'li-xiaoyao', label: '李逍遥', description: 'li-xiaoyao' },
@@ -1209,6 +1211,76 @@ function ActionGroupFixture() {
   )
 }
 
+function LongEditorModalFixture() {
+  const sourceFrames = [
+    'source-frame-0',
+    'source-frame-1',
+    'source-frame-2',
+    'source-frame-3',
+    'source-frame-4',
+    'source-frame-5',
+    'source-frame-6',
+    'source-frame-7',
+  ] as const
+  const actions = useMemo(
+    () =>
+      Array.from({ length: 52 }, (_, index) => ({
+        id: `action-${String(index + 1).padStart(2, '0')}`,
+        label: index === 0 ? '二十字中文动作名称用于检查弹窗目录截断表现' : `动作 ${index + 1}`,
+      })),
+    [],
+  )
+  const [selected, setSelected] = useState(actions[0]!.id)
+  return (
+    <DsDialog
+      open
+      title="预制动作编辑器"
+      className="lab-long-editor-dialog"
+      onClose={() => undefined}
+      footer={<DsButton variant="primary">完成</DsButton>}
+    >
+      <div className="lab-long-editor-source" role="toolbar" aria-label="源帧选择 rail">
+        {sourceFrames.map((frameId, index) => (
+          <button type="button" key={frameId} aria-pressed={index === 0}>
+            #{index}
+          </button>
+        ))}
+      </div>
+      <div className="lab-long-editor-layout">
+        <DsVirtualListbox
+          label="52 个预制动作"
+          items={actions}
+          itemHeight={48}
+          height={420}
+          fill
+          virtualizeAbove={50}
+          getKey={(action) => action.id}
+          selectedKey={selected}
+          onSelect={(action) => setSelected(action.id)}
+          renderItem={(action) => (
+            <div className="lab-long-editor-option">
+              <strong>{action.label}</strong>
+              <code>{action.id}</code>
+            </div>
+          )}
+        />
+        <section className="lab-long-editor-detail">
+          <h3>{actions.find((action) => action.id === selected)?.label}</h3>
+          <DsFieldGroup>
+            <DsField label="名称">
+              <DsTextInput value="动作名称" readOnly />
+            </DsField>
+            <DsField label="ActionId">
+              <code>action-id-64-characters-modal-fixture</code>
+            </DsField>
+          </DsFieldGroup>
+          <DsEmptyState title="步骤时间线" description="1 / 52 步；固定 footer 始终可达。" />
+        </section>
+      </div>
+    </DsDialog>
+  )
+}
+
 function AddPickerFixture() {
   const [revision, setRevision] = useState(0)
   const [lastAdded, setLastAdded] = useState('尚未确认候选')
@@ -1371,6 +1443,8 @@ function FixtureBody(props: { fixture: string }) {
       return <NumberFieldFixture />
     case 'RF-27':
       return <ActionGroupFixture />
+    case 'RF-28':
+      return <LongEditorModalFixture />
     default:
       return null
   }
@@ -1382,7 +1456,7 @@ export function DesignLab() {
     return (
       <main className="lab-error">
         <DsStatus tone="error" action={<a href="?fixture=RF-01">返回 RF-01</a>}>
-          未知 fixture。请使用 RF-01～RF-17、RF-21～RF-23、RF-25、RF-27。
+          未知 fixture。请使用 RF-01～RF-17、RF-21～RF-23、RF-25、RF-27～RF-28。
         </DsStatus>
       </main>
     )

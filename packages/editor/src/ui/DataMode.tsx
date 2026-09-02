@@ -155,6 +155,7 @@ export function DataMode(props: {
   onJumpWorldSpriteAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
   onJumpBattleSpriteReference?: (reference: BattleSpriteDefinitionReference) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+  onRequestSave?: () => void
   script?: {
     state: ScriptEditorState
     session: ScriptEditSession
@@ -219,6 +220,7 @@ export function DataMode(props: {
     onJumpWorldSpriteAutomaticScriptInstance,
     onJumpBattleSpriteReference,
     onStatusNotice,
+    onRequestSave,
     script,
   } = props
   const variableReferences = props.derivedData?.worldVariableReferences ?? {
@@ -757,6 +759,7 @@ export function DataMode(props: {
         onJumpActionReference={onJumpWorldSpriteActionReference}
         onJumpAutomaticScriptInstance={onJumpWorldSpriteAutomaticScriptInstance}
         onStatusNotice={onStatusNotice}
+        onRequestSave={onRequestSave}
         canonical={script?.state}
       />
     )

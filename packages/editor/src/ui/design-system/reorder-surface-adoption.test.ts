@@ -93,7 +93,7 @@ function jsxOwners(file: string, fingerprint: string): JsxOwner[] {
 }
 
 describe('reorder visible surface adoption gate', () => {
-  test('freezes all 28 adoptions on independently evidenced content and rail axes', () => {
+  test('freezes all 27 adoptions on independently evidenced content and rail axes', () => {
     const manifest = JSON.parse(source('design-system/reorder-adoption.json'))
     const adoptions = manifest.families.flatMap(
       (family: { adoptions: unknown[] }) => family.adoptions,
@@ -109,7 +109,7 @@ describe('reorder visible surface adoption gate', () => {
     ])
 
     expect(manifest.version).toBe(2)
-    expect(adoptions).toHaveLength(28)
+    expect(adoptions).toHaveLength(27)
     expect(
       Object.fromEntries(
         [...surfaces].map((surface) => [
@@ -121,7 +121,7 @@ describe('reorder visible surface adoption gate', () => {
       'repeat-row': 8,
       'object-card': 12,
       'edge-to-edge-list': 3,
-      'continuous-structure': 5,
+      'continuous-structure': 4,
     })
     for (const adoption of adoptions) {
       expect(surfaces.has(adoption.contentSurface), adoption.adoptionId).toBe(true)
@@ -150,7 +150,6 @@ describe('reorder visible surface adoption gate', () => {
         .map((entry) => entry.adoptionId)
         .sort(),
     ).toEqual([
-      'asset/sprite-action-definitions',
       'map/layer-stack',
       'project/entry-points',
       'script/canonical-siblings',

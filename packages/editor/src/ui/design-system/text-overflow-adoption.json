@@ -2813,6 +2813,54 @@
     },
     {
       "source": "editor.css",
+      "selectorText": ".sprite-action-option code",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "SpriteActionEditor.tsx",
+        "component": "SpriteActionEditor",
+        "callsite": "class:sprite-action-option"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "动作目录保持固定宽度；选中动作的完整稳定 ID 会在右侧详情中显示。",
+      "verification": "SpriteActionEditorDialog.test.tsx#filtered header movement keeps every stable ActionId and dispatches one command"
+    },
+    {
+      "source": "editor.css",
+      "selectorText": ".sprite-action-option strong",
+      "condition": "default",
+      "declarations": [
+        "text-overflow:ellipsis",
+        "white-space:nowrap"
+      ],
+      "specificity": [
+        0,
+        1,
+        1
+      ],
+      "producer": {
+        "source": "SpriteActionEditor.tsx",
+        "component": "SpriteActionEditor",
+        "callsite": "class:sprite-action-option"
+      },
+      "policy": "selection-summary",
+      "contentKind": "selection-summary",
+      "reveal": "selected-detail",
+      "reason": "动作目录保持固定宽度；选中动作的完整名称会在右侧详情中显示。",
+      "verification": "SpriteActionEditorDialog.test.tsx#filtered header movement keeps every stable ActionId and dispatches one command"
+    },
+    {
+      "source": "editor.css",
       "selectorText": ".sprite-frame-cell-caption small",
       "condition": "default",
       "declarations": [

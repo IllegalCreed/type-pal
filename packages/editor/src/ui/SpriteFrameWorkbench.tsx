@@ -10,6 +10,41 @@ import {
 import { DsButton, DsIconButton, DsPressable, DsTag } from './design-system/controls.js'
 import { DsObjectHero } from './design-system/recipes.js'
 
+/** 大世界源帧在同一编辑器内复制到动作步骤时使用的稳定 MIME。 */
+export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame'
+
+export interface SpriteFrameDragPayload {
+  asset: string
+  frame: number
+}
+
+export type SpriteFrameDragReadResult =
+  | { kind: 'absent' }
+  | { kind: 'invalid' }
+  | { kind: 'payload'; value: SpriteFrameDragPayload }
+
+export function inspectSpriteFrameDragPayload(
+  dataTransfer: Pick<DataTransfer, 'getData'>,
+): SpriteFrameDragReadResult {
+  const raw = dataTransfer.getData(SPRITE_FRAME_DRAG_MIME)
+  if (!raw) return { kind: 'absent' }
+  try {
+    const payload = JSON.parse(raw) as Partial<SpriteFrameDragPayload>
+    return typeof payload.asset === 'string' && Number.isInteger(payload.frame)
+      ? { kind: 'payload', value: { asset: payload.asset, frame: payload.frame! } }
+      : { kind: 'invalid' }
+  } catch {
+    return { kind: 'invalid' }
+  }
+}
+
+export function readSpriteFrameDragPayload(
+  dataTransfer: Pick<DataTransfer, 'getData'>,
+): SpriteFrameDragPayload | undefined {
+  const result = inspectSpriteFrameDragPayload(dataTransfer)
+  return result.kind === 'payload' ? result.value : undefined
+}
+
 export interface SpriteFrameView {
   canvas: HTMLCanvasElement | undefined
   width: number
@@ -168,6 +203,9 @@ function FrameCell(props: {
   onSelect?: (index: number) => void
   draggable?: boolean
   onDragStart?: (event: ReactDragEvent<HTMLButtonElement>, index: number) => void
+  tabIndex?: number
+  buttonRef?: (element: HTMLButtonElement | null) => void
+  onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => void
 }) {
   const exists = props.index >= 0 && props.index < props.frames.length
   const safeIndex = exists ? props.index : 0
@@ -185,6 +223,7 @@ function FrameCell(props: {
     return <figure className={`sprite-frame-cell${exists ? '' : ' missing'}`}>{body}</figure>
   return (
     <DsPressable
+      ref={props.buttonRef}
       type="button"
       className={`sprite-frame-cell${props.selected ? ' selected' : ''}${exists ? '' : ' missing'}`}
       aria-pressed={props.selected}
@@ -194,11 +233,102 @@ function FrameCell(props: {
           : `帧 ${props.index} 缺失，运行时回退到第 0 帧`
       }
       draggable={props.draggable}
+      tabIndex={props.tabIndex}
+      data-source-frame-index={props.index}
       onDragStart={(event) => props.onDragStart?.(event, props.index)}
+      onKeyDown={(event) => props.onKeyDown?.(event, props.index)}
       onClick={() => props.onSelect?.(props.index)}
     >
       {body}
     </DsPressable>
+  )
+}
+
+/**
+ * 中央源帧池与动作弹窗共用的单一选择/键盘/拖拽 owner。
+ * 只有选中帧进入 Tab 序列；方向键、Home/End 在同一轨道内移动并保持可见。
+ */
+export function SpriteSourceFramePicker(props: {
+  asset?: string
+  frames: readonly SpriteFrameView[]
+  selectedFrame: number
+  onSelect: (index: number) => void
+  transferEnabled?: boolean
+  onFrameDragStart?: (event: ReactDragEvent<HTMLButtonElement>, index: number) => void
+  ariaLabel?: string
+  presentation?: 'grid' | 'rail'
+}) {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const total = props.frames.length
+  const safeFrame = Math.min(Math.max(0, props.selectedFrame), Math.max(0, total - 1))
+  const focusFrame = (index: number): void => {
+    const next = Math.max(0, Math.min(total - 1, index))
+    props.onSelect(next)
+    const focus = (): void => {
+      const button = rootRef.current?.querySelector<HTMLButtonElement>(
+        `[data-source-frame-index="${next}"]`,
+      )
+      button?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' })
+      button?.focus()
+    }
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(focus)
+    else window.setTimeout(focus, 0)
+  }
+  const onKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number): void => {
+    const next =
+      event.key === 'ArrowLeft' || event.key === 'ArrowUp'
+        ? index - 1
+        : event.key === 'ArrowRight' || event.key === 'ArrowDown'
+          ? index + 1
+          : event.key === 'Home'
+            ? 0
+            : event.key === 'End'
+              ? total - 1
+              : undefined
+    if (next === undefined || total === 0) return
+    event.preventDefault()
+    const clamped = Math.max(0, Math.min(total - 1, next))
+    if (clamped === index) return
+    focusFrame(clamped)
+  }
+  const onDragStart = (event: ReactDragEvent<HTMLButtonElement>, index: number): void => {
+    if (props.onFrameDragStart) {
+      props.onFrameDragStart(event, index)
+      return
+    }
+    if (!props.asset) return
+    event.dataTransfer.effectAllowed = 'copy'
+    event.dataTransfer.setData(
+      SPRITE_FRAME_DRAG_MIME,
+      JSON.stringify({ asset: props.asset, frame: index }),
+    )
+  }
+
+  return (
+    <div
+      ref={rootRef}
+      className="sprite-source-frame-picker sprite-resource-frame-grid"
+      data-presentation={props.presentation ?? 'grid'}
+      role="toolbar"
+      aria-label={props.ariaLabel ?? '选择源帧'}
+    >
+      {props.frames.map((_, index) => (
+        <FrameCell
+          key={index}
+          frames={props.frames}
+          index={index}
+          selected={index === safeFrame}
+          onSelect={focusFrame}
+          draggable={Boolean(props.transferEnabled && (props.asset || props.onFrameDragStart))}
+          onDragStart={onDragStart}
+          tabIndex={index === safeFrame ? 0 : -1}
+          onKeyDown={onKeyDown}
+        />
+      ))}
+      <span className="ds-visually-hidden" role="status" aria-live="polite">
+        {total ? `已选择源帧 ${safeFrame}，共 ${total} 帧` : '没有可用源帧'}
+      </span>
+    </div>
   )
 }
 
@@ -217,6 +347,7 @@ export function RawFrameInspector(props: {
   editorMessageKind?: 'info' | 'error'
   editorPanel?: React.ReactNode
   showHero?: boolean
+  draggableFrames?: boolean
   onFrameDragStart?: (event: ReactDragEvent<HTMLButtonElement>, index: number) => void
 }) {
   const listId = useId()
@@ -328,19 +459,15 @@ export function RawFrameInspector(props: {
             </div>
             <b>{total}</b>
           </div>
-          <div className="sprite-resource-frame-grid">
-            {props.frames.map((_, index) => (
-              <FrameCell
-                key={index}
-                frames={props.frames}
-                index={index}
-                selected={index === safeFrame}
-                onSelect={props.onSelect}
-                draggable={!!props.onFrameDragStart}
-                onDragStart={props.onFrameDragStart}
-              />
-            ))}
-          </div>
+          <SpriteSourceFramePicker
+            asset={props.asset}
+            frames={props.frames}
+            selectedFrame={safeFrame}
+            onSelect={props.onSelect}
+            transferEnabled={props.draggableFrames || !!props.onFrameDragStart}
+            onFrameDragStart={props.onFrameDragStart}
+            ariaLabel="全部源帧"
+          />
         </section>
       </div>
     </section>

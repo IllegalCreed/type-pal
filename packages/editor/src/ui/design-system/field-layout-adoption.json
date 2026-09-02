@@ -95,7 +95,7 @@
     {
       "source": "SpriteActionEditor.tsx",
       "component": "SpriteActionEditor",
-      "responsive": 2,
+      "responsive": 3,
       "stacked": 0
     },
     {
@@ -322,20 +322,6 @@
         "reason": "地图选区摘要、视觉实例和碰撞属性属于地图 Inspector。",
         "responsiveEvidence": "MapSelectionInspector 仅由 MapMode Inspector panel 消费。",
         "removalCondition": "选区编辑器移出 Inspector 时迁入主工作区字段合同。"
-      },
-      {
-        "source": "SpriteActionEditor.tsx",
-        "component": "SpriteActionEditor",
-        "propertyGrids": 1,
-        "host": {
-          "source": "WorldSpriteLibrary.tsx",
-          "component": "WorldSpriteLibrary",
-          "kind": "public-inspector-tabs"
-        },
-        "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "精灵预制动作属性属于行走图 Inspector 的用途定义面板。",
-        "responsiveEvidence": "SpriteActionEditor 仅由 WorldSpriteLibrary Inspector panel 消费。",
-        "removalCondition": "动作编辑器进入中央主工作区时迁入 DsFieldGroup。"
       },
       {
         "source": "StampContentEditor.tsx",
@@ -567,13 +553,24 @@
       },
       {
         "source": "editor.css",
+        "selector": ".sprite-action-editor-layout",
+        "atRule": "",
+        "property": "grid-template-columns",
+        "value": "280px minmax(0, 1fr)",
+        "owner": "card:ED-SPRITE-ACTION-MODAL-1",
+        "reason": "两轨分别承载动作目录与完整详情工作区，不拆分字段标签和控件。",
+        "responsiveEvidence": "720px 以下只挂载目录或详情单页；宽态详情内部字段继续由 DsFieldGroup 持有。",
+        "removalCondition": "动作目录与详情由新的公共主从编辑器 recipe 接管时删除。"
+      },
+      {
+        "source": "editor.css",
         "selector": ".sprite-action-step",
-        "atRule": "@container (max-width: 360px)",
+        "atRule": "@container sprite-action-detail (width < 520px)",
         "property": "grid-template-columns",
         "value": "48px minmax(0, 1fr)",
-        "owner": "card:ED-FIELD-LAYOUT-1",
+        "owner": "card:ED-SPRITE-ACTION-MODAL-1",
         "reason": "窄容器下第一轨是步骤序号，第二轨是完整步骤内容，不是字段标签与控件。",
-        "responsiveEvidence": "宽态还包含独立动作轨；360px 时动作换行但序号身份不变。",
+        "responsiveEvidence": "详情宽度低于 520px 时动作组换到第二轨，字段本身仍由 DsFieldGroup 持有。",
         "removalCondition": "序号轨开始承载字段标签时迁入公共字段 owner。"
       },
       {

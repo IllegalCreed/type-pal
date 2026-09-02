@@ -22,17 +22,17 @@ function unwrapActionGroup(value: string, opening: string): string {
 }
 
 describe('action group adoption gate', () => {
-  test('closes thirteen adopted groups and classifies every raw move-button surface', () => {
+  test('closes fifteen adopted groups and classifies every raw move-button surface', () => {
     expect(validateActionGroupAdoption(manifest)).toEqual([])
     expect(manifest.baseline).toEqual({
-      groups: 13,
-      moveButtons: 44,
-      adoptedMoveButtons: 22,
-      rawMoveButtons: 22,
-      candidateSurfaces: 11,
+      groups: 15,
+      moveButtons: 42,
+      adoptedMoveButtons: 24,
+      rawMoveButtons: 18,
+      candidateSurfaces: 9,
     })
-    expect(manifest.adopted).toHaveLength(13)
-    expect(manifest.candidates).toHaveLength(11)
+    expect(manifest.adopted).toHaveLength(15)
+    expect(manifest.candidates).toHaveLength(9)
     expect(
       Object.fromEntries(
         ['equivalent-owner', 'deferred', 'N/A'].map((disposition) => [
@@ -42,7 +42,7 @@ describe('action group adoption gate', () => {
           ).length,
         ]),
       ),
-    ).toEqual({ 'equivalent-owner': 1, deferred: 10, 'N/A': 0 })
+    ).toEqual({ 'equivalent-owner': 1, deferred: 8, 'N/A': 0 })
     expect(
       manifest.candidates.find(
         (entry: { id: string }) => entry.id === 'project/startup-inventory/actions',
@@ -83,6 +83,7 @@ describe('action group adoption gate', () => {
     expect(zeroMoveGroups.map((entry: { id: string }) => entry.id)).toEqual([
       'map/layer-stack/header-actions',
       'map/layer-stack/state-actions',
+      'asset/sprite-action-current/actions',
     ])
 
     for (const invalid of [-1, 0.5]) {
@@ -102,6 +103,17 @@ describe('action group adoption gate', () => {
     expect(validateActionGroupAdoption(drift).join('\n')).toMatch(
       /map\/layer-stack\/header-actions owns 0 move buttons, expected 1/,
     )
+
+    const spriteDrift = cloneManifest()
+    spriteDrift.adopted.find(
+      (entry: { id: string }) => entry.id === 'asset/sprite-action-current/actions',
+    ).moveButtonCount = 1
+    spriteDrift.adopted.find(
+      (entry: { id: string }) => entry.id === 'asset/sprite-action-steps/actions',
+    ).moveButtonCount = 3
+    const spriteProblems = validateActionGroupAdoption(spriteDrift).join('\n')
+    expect(spriteProblems).toMatch(/sprite-action-current\/actions owns 0 move buttons, expected 1/)
+    expect(spriteProblems).toMatch(/sprite-action-steps\/actions owns 2 move buttons, expected 3/)
 
     const missing = cloneManifest()
     missing.adopted = missing.adopted.filter(
@@ -203,7 +215,7 @@ describe('action group adoption gate', () => {
     const file = 'EnemyTab.tsx'
     const mutated = `${source(file)}\nconst ActionGroupSingleMoveFixture = () => (\n  <DsReorderMoveButton itemKey="fixture" direction="backward" />\n)\n`
     const problems = validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')
-    expect(problems).toMatch(/production move buttons 45|raw move buttons 23/)
+    expect(problems).toMatch(/production move buttons 43|raw move buttons 19/)
     expect(problems).toMatch(/raw move button must map to exactly one candidate owner/)
   })
 
@@ -225,7 +237,7 @@ describe('action group adoption gate', () => {
     const problems = validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')
     expect(problems).toMatch(new RegExp(`${id.replaceAll('/', '\\/')} must bind exactly one`))
     expect(problems).toMatch(
-      /production action groups 12|adopted move buttons 20|raw move buttons 24/,
+      /production action groups 14|adopted move buttons 22|raw move buttons 20/,
     )
     expect(problems).toMatch(/raw move button must map to exactly one candidate owner/)
   })
@@ -233,21 +245,34 @@ describe('action group adoption gate', () => {
   test.each([
     {
       id: 'map/layer-stack/header-actions',
+      file: 'LayerStackControls.tsx',
       opening: '<DsActionGroup density="compact" className="map-layer-header-actions">',
     },
     {
       id: 'map/layer-stack/state-actions',
+      file: 'LayerStackControls.tsx',
       opening: '<DsActionGroup density="compact" className="layer-state-actions">',
     },
     {
       id: 'map/layer-stack/actions',
+      file: 'LayerStackControls.tsx',
       opening: '<DsActionGroup density="compact" className="layer-order">',
     },
-  ])('rejects $id wrapper regression', ({ id, opening }) => {
-    const mutated = unwrapActionGroup(source('LayerStackControls.tsx'), opening)
-    expect(
-      validateActionGroupAdoption(manifest, { 'LayerStackControls.tsx': mutated }).join('\n'),
-    ).toMatch(new RegExp(`${id.replaceAll('/', '\\/')} must bind exactly one`))
+    {
+      id: 'asset/sprite-action-current/actions',
+      file: 'SpriteActionEditor.tsx',
+      opening: '<DsActionGroup density="compact" className="sprite-action-current-actions">',
+    },
+    {
+      id: 'asset/sprite-action-steps/actions',
+      file: 'SpriteActionEditor.tsx',
+      opening: '<DsActionGroup density="compact" className="sprite-action-step-buttons">',
+    },
+  ])('rejects $id wrapper regression', ({ id, file, opening }) => {
+    const mutated = unwrapActionGroup(source(file), opening)
+    expect(validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')).toMatch(
+      new RegExp(`${id.replaceAll('/', '\\/')} must bind exactly one`),
+    )
   })
 
   test('rejects moving one adopted move button between groups while the global total stays fixed', () => {
@@ -292,13 +317,13 @@ describe('action group adoption gate', () => {
   })
 
   test('rejects candidate pairs that lose or gain one move button', () => {
-    const file = 'SpriteActionEditor.tsx'
+    const file = 'CasualtyEditor.tsx'
     const mutated = source(file).replace(
-      '<DsReorderMoveButton itemKey={reorderKey} direction="forward" />',
+      /<DsReorderMoveButton\s+itemKey=\{reorderKey\}\s+direction="forward"\s+label=\{`下移第 \$\{index \+ 1\} 个概率分支`\}\s*\/>/,
       '<DsIconButton label="错误替代" icon="delete" />',
     )
     expect(validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')).toMatch(
-      /candidate asset\/sprite-action-steps\/actions owns 1 move buttons/,
+      /candidate actor\/casualty-gates\/actions owns 1 move buttons/,
     )
   })
 })
