@@ -1,6 +1,6 @@
 # ED-SPRITE-ACTION-MODAL-1 - 大世界精灵预制动作中心弹窗编辑器
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: Editor world-sprite action authoring（不改变content schema/capability-map）
 Coding Owner: Codex
@@ -264,9 +264,9 @@ Target Design-System Version: `2.24.0`（用户批准中心长流程modal，扩�
       `selected-item-reorder-action` 例外限本 Dialog header 稳定 ActionId 不扩散；DS 四处
       一致 **2.24.0** 且 DS-C.9 例外写明边界；200% zoom 无法可靠触发时保持未实测口径。
 - 用户裁决: approved（2026-09-01，“按以上弹窗和动作目录方案执行”）
-- build准入: **blocked（2026-09-01 Codex + Kimi + GLM 三方 design 签字齐、无 counter；仍依赖
-  ED-FRAME-TIMELINE-UX-RESTORE-1 与 ED-ACTION-GROUP-ADOPTION-3 完成后按新基线起算——依赖
-  齐前不得 build）**
+- build准入: **allowed（2026-09-02 Codex + Kimi + GLM 三方 design 签字齐、无 counter；用户明确
+  “做吧”；ED-FRAME-TIMELINE-UX-RESTORE-1 与 ED-ACTION-GROUP-ADOPTION-3 均done，Codex为唯一
+  Coding Owner）**
 
 ### 进入 done 前
 
@@ -278,6 +278,8 @@ Target Design-System Version: `2.24.0`（用户批准中心长流程modal，扩�
 
 ## 交接日志
 
+- 2026-09-02 User + Codex: 用户明确“做吧”；两张依赖卡均done，三方design签字和用户形态裁决齐。
+  本卡转build，Codex按中央入口/单一Dialog/源帧选择/搜索目录三批连续实现，不再重复开工签字。
 - 2026-09-01 GLM: 联合审签（同 ADOPTION-3）。独立直读 before 实锤（:690 动作 tab 挂完整
   editor :873、createAction :189 立即 commitPoses、definitions/steps 两条 reorder adoption
   并存）并自 ADOPTION-3 冻结目标复算三链算术——ActionGroup 15/42/24/18/9（1 eq + 8 def）、
