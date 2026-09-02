@@ -108,11 +108,65 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
     覆盖四 route，BattleSprite 一处覆盖三分支，SpriteViewer 收敛三次 early return；复杂三页以 hero fragment
     固定 notice/selected Hero、children ternary 切正文。公共 API/DS 版本零变；两批实现与 registry/测试/视觉
     矩阵闭合。可推翻观察为 Hero/notice 滚动、重复 owner、focus 掉 body 或 route-live 无法追到 helper。
-- Kimi: pending
+- Kimi:
+  - premise: **verified（2026-09-02，本人复算 registry 与逐文件直读六处 callsite/分支，非复述
+    Codex）**：
+    1. **census 本人复算（design-system-adoption.json 直读）**:27 pages = 19 adopted +
+       **8 exception**——正好映射六文件：Project 四 route（overview/startup/entrypoint/advanced）
+       + asset/sprite + story/vars + battle/enemy-team + battle/battlefield;scroll records 总数
+       **102**;`workspaceLegacyExceptions` 恰 **6 entries / 12 selectors / 22 occurrences**
+       （Project 1+1、BattleSprite 1+1、Vars 1+3、SpriteViewer 3+3、EnemyTeam 1+3、BattleField
+       1+3);canonical `DsObjectWorkspaceContent` records 现 **11**——目标 27+0、legacy 全 0、
+       9 条 main legacy records 原位换 owner 后 11+9=**20**,算术逐字一致。
+    2. **六文件结构逐一直读**:
+       - ProjectWorkbenchTab.tsx:300-320 的 `ProjectPageWorkspace` helper——单一
+         `<main.ds-object-workspace>` + 单 Hero + `.project-scroll` content,**一处覆盖四 route**;
+       - BattleSpriteLibrary.tsx:1128-1177——单 Hero(uploading 条件 props)+ content ternary,
+         `.bsu-frame-grid` 为既有 bounded subviewport 登记,非第二 main owner;
+       - SpriteResourceViewer.tsx:448-469,532-535——error/loading/ready **三次 early return**
+         各自重复 shell(root×3 + content×3),可收敛为一处 workspace + ternary;
+       - VarsTab.tsx:360-408、EnemyTeamTab.tsx:365-427、BattleFieldTab.tsx:278-338——同型:
+         notice(role=alert 固定于 main 顶部) + creating content vs selected(单 Hero + content),
+         恰好匹配 `hero={<>{notice}{selected && Hero}</>}` + children ternary。
+    3. **wrapped API 充足性实锤**:recipes.tsx:130-178 的 `DsObjectWorkspace` 现有
+       `as/label/hero/children/className/contentClassName/contentMode` 已够——hero 是
+       ReactNode,fragment 可同时承载 notice 与 selected Hero 且**不新增 DOM 层**;
+       wrapped mode 恒生成一个带 `data-ds-scroll-owner="main"` / `data-ds-scroll-axis="y"`
+       的 canonical content——六文件每个运行态都只有一个 content div,**无一需要 manual mode**;
+       公共 API/DS 版本零变成立。
+    4. **风险点直读**:EnemyTeam content 内含 DsReorderCollection(:432-438)——迁后最近滚动
+       owner 仍是 canonical content,语义不变;SpriteViewer asset 切换走 props 变化不重建
+       workspace(收敛后单 callsite);Project 若用 scrollIntoView,目标仍在 canonical content 内。
+    5. **可推翻观察**:任一分支迁后出现第二个 y owner;notice/Hero 进入可滚层;分支切换焦点
+       掉 body;route-live 门禁追不到 Project helper;registry 复算不等于 27+0 / 102 / 0 / 20——
+       任一本签字失效。
+  - design: **agree（2026-09-02，附 KW1-KW5 必落钉）**：
+    - **KW1（统一 wrapped 钉）**:六文件一律使用现有 `DsObjectWorkspace` wrapped mode;
+      **禁止 manual mode 与手写 `DsObjectWorkspaceContent`**;hero fragment 承载
+      notice+selected Hero;children ternary 在 creating/selected/empty/loading/error 间切换
+      正文但**永不替换 content owner identity**;DS 保持 2.24.0、公共 API 零变——实现若需要
+      任何新增公共 prop(notice/branch 槽位）立即停线回本卡重签,不得顺手放宽。
+    - **KW2（census 钉）**:27 pages 19 adopted+8 exception → **27+0**;102 scroll records
+      总数不变;legacy **6 entries / 12 selectors / 22 occurrences / 9 main records → 0**;
+      canonical `DsObjectWorkspaceContent` records **11 → 20**;recipes.tsx/css、
+      design-system-audit.mjs、index/tokens、DS 版本与 Design Lab/RF 零 diff。
+    - **KW3（分支与焦点钉）**:每个运行态恰 1 root + 1 个 direct
+      `data-ds-scroll-owner="main"` y owner;notice/Hero 固定在 hero 槽不随内容滚动;
+      creating→selected、empty→creating、删除→empty 的焦点回退有测试;Project 四 route 与
+      repair、BattleSprite upload/ready/empty、SpriteViewer loading/error/ready、
+      Vars/EnemyTeam/BattleField 三态（含引用/preview loading/error）均有 DOM owner 断言。
+    - **KW4（门禁回流钉）**:raw literal/拼接/spread/dynamic class、真组件退回 raw、重复
+      content owner、漏登 9 条 main owner、stale legacy 与 `status:exception` 回流全部必红;
+      `.bsu-frame-grid` bounded 继续独立登记、不得被误判为第二 main owner;六文件的
+      `.project-scroll`、`.world-variable-scroll`、`.enemy-team-scroll` 等私有 y-overflow
+      声明删除,领域 padding/背景/height/container 保留。
+    - **KW5（视觉矩阵钉）**:1280×800、900×720、720×700、高 480:Hero/notice rect 固定,
+      content 可滚到底,root/祖先 scrollTop=0,document 横溢 0,focus 只滚中央 content;
+      catalog/Inspector 与 bounded `.bsu-frame-grid` 各自独立。
 - GLM: pending
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: blocked（2026-09-02 Codex + Kimi 已签;缺 GLM premise verified + design agree）
 
 ### 进入 done 前：审查签字
 
@@ -157,6 +211,14 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 
 ## 交接日志
 
+- 2026-09-02 Kimi: 独立复算 registry(27 pages=19+8 exception 恰映射六文件四 route+四面、
+  102 scroll records、legacy 6/12/22、canonical content 11)并逐文件直读六处结构（Project
+  helper 一处四 route、BattleSprite 单 Hero ternary、SpriteViewer 三次 early return 可收敛、
+  Vars/EnemyTeam/BattleField 同型 notice+creating/selected)。压测确认现有 wrapped API 充足、
+  无一需要 manual mode 或新公共 prop。签 premise verified + design agree(KW1 统一 wrapped
+  禁 manual / KW2 census 27+0·102·0·20 / KW3 分支与焦点 / KW4 门禁回流 / KW5 视觉矩阵),
+  完成独立反证。未修改实现,未代签 GLM。Next: GLM 复算 census/测试矩阵后三签齐,Codex 方可
+  build。
 - 2026-09-02 User + Codex：用户明确“做吧”。Codex 完成六文件/22 occurrence、互斥分支、CSS 与 registry
   一手审计，确认现有 wrapped API 足够且公共 API / DS 版本零变，签 premise verified + design agree。
   卡仍为 draft/build blocked。Next：Kimi 独立设计审查；不得实现。
@@ -166,27 +228,34 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 ## 下一位 Agent 提示词
 
 ```text
-审查 ED-WORKSPACE-ADOPTION-DEBT-1（Kimi 席，draft；生产实现只读，只允许更新任务卡 Kimi 设计签字
-与交接，不得代签 GLM，不得转 build/done）。
+审签 ED-WORKSPACE-ADOPTION-DEBT-1（GLM 席，draft；生产实现只读，只允许更新任务卡签字/交接；
+不得代签，不得标 build/done）。
 
 任务卡：docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md
-当前：用户“做吧”与 Codex premise verified + design agree 在案；Kimi/GLM 未签，build blocked。
+当前：用户“做吧”与 Codex + Kimi（KW1-KW5）已签；你的 GLM premise/design pending。
+三签齐前不得实现。
 
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、ED-CATALOG 卡 308-380 与 1320-1380、
-packages/editor/src/ui/design-system/recipes.tsx:132-178、design-system-adoption.json、adoption.test.ts。
+先读：AGENTS.md、READ-FIRST、本卡全文（含 Kimi 签节与 census 复算）、
+ED-CATALOG-ROW-IA-1 卡 :308-380,:1320-1380、recipes.tsx:130-178、
+design-system-adoption.json、adoption.test.ts。
 
-Kimi职责（独立证据）：
-1. 复算现状/目标：27 pages 19 adopted+8 exception→27+0；102 scroll records不变；legacy
-   6 entries/12 selectors/22 occurrences/9 pairs→0；9 main legacy records→DsObjectWorkspaceContent，
-   canonical content records 11→20。
-2. 逐文件核 Project/BattleSprite/SpriteViewer 与 Vars/EnemyTeam/BattleField 的 Hero、notice、
-   creating/selected/empty/loading/error 分支及现有 CSS y owner。
-3. 压测统一 wrapped 方案：hero fragment 承载 notice+selected Hero、children ternary正文；确认六文件都不需
-   manual mode、公共 API 或 DS 升版。若认为必须扩 API，签 counter，不能顺手放宽。
-4. 审测试/门禁：每态恰1 root+1 direct main owner；Hero/notice固定；focus fallback；Project四route；
-   Battle upload bounded grid；Sprite快速切资源；raw/拼接/spread/dynamic/重复owner/stale legacy回流必红。
-5. 审视觉矩阵 1280/900/720/高480；catalog/main/Inspector独立、末项可达、root/祖先不滚、横溢0。
-
-输出：直接 file:line + 可证伪观察；通过则在任务卡 Kimi 席签 premise verified + design agree，并写下一位
-GLM提示词；否则签 counter/列阻塞。不得修改实现，不得标 build/done。
+你的分工（独立证据，不复述 Codex/Kimi）：
+1. 复算 registry 迁移前后数值：27 pages 19 adopted+8 exception → 27+0；
+   102 scroll records 总数不变；workspaceLegacyExceptions 6 entries / 12 selectors /
+   22 occurrences / 9 main records → 0；canonical DsObjectWorkspaceContent records 11→20；
+   8 个 exception page（Project 四 route + asset/sprite + story/vars + battle/enemy-team +
+   battle/battlefield）状态翻转与 owner 文案同步；status:exception 回流必红。
+2. 测试矩阵：六文件每运行态恰 1 root + 1 direct data-ds-scroll-owner="main" y owner；
+   Hero/notice 固定不滚；creating/selected/empty/loading/error 分支焦点回退；Project 四
+   route + repair、BattleSprite upload/ready/empty、SpriteViewer loading/error/ready、
+   Vars/EnemyTeam/BattleField 三态；raw literal/拼接/spread/dynamic class、真组件退回 raw、
+   重复 content owner、漏登 9 条 main owner、stale legacy 全部必红；`.bsu-frame-grid`
+   bounded 不误判第二 main owner；route-live 能追到 Project helper。
+3. CSS 复核：`.project-scroll`、`.world-variable-scroll`、`.enemy-team-scroll` 等私有
+   y-overflow 与重复 root flex/grid 声明删除；领域 padding/背景/height/container 保留；
+   无嵌套同轴滚动。
+4. 视觉矩阵复核：1280×800、900×720、720×700、高 480 的 Hero/notice rect 固定、末项可达、
+   root/祖先 scrollTop=0、横溢 0、catalog/main/Inspector 独立；200% 无法可靠触发时保持
+   “未实测”口径。
+输出：GLM 席 premise verified + design agree，或 counter + file:line/反例。
 ```
