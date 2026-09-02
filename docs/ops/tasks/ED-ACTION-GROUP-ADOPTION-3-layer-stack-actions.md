@@ -1,6 +1,6 @@
 # ED-ACTION-GROUP-ADOPTION-3 - 地图与组合库图层动作组及窄栏合同
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor design-system action-group governance（不改变 capability-map）
 Coding Owner: Codex
@@ -331,11 +331,13 @@ workspace显隐/锁定状态与undo边界不变。
   - **诚实声明**：**200% zoom 未实测**（环境同限），不以 pinch/等效冒充；Map 七档 + Stamp
     三档 + 双活态 193px 已覆盖换轨全部分支。
   无返工项；未修改实现/测试（容器注入仅本会话页面态并已复原），未代签 Kimi，未填用户验收。
-- 用户验收: pending
-- done 准入: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
+- 用户验收: **accept（2026-09-02）**——用户确认两行窄栏为预期设计后明确“通过”。
+- done 准入: **allowed（Codex + Kimi + GLM 三方 accept 与用户验收齐）**
 
 ## 交接日志
 
+- 2026-09-02 User: 确认`<320px`排序动作整组进入第二行是刻意的窄栏设计后验收通过；本卡转done，
+  `ED-SPRITE-ACTION-MODAL-1`依赖正式解除。
 - 2026-09-02 GLM: 只读终审 `44c0cfd5`，签 **accept**。独立证据：registry node 复算 13/44/22/22/11
   + 1 equivalent + 10 deferred、三条 layer 登记 header/state=0 order=2 compact/icon-only、
   其余 11 candidates 生产文件零 diff；validator adopted 非负整数+AST 实数（漂移负例
@@ -386,31 +388,5 @@ workspace显隐/锁定状态与undo边界不变。
 ## 下一位 Agent 提示词
 
 ```text
-终审 ED-ACTION-GROUP-ADOPTION-3（GLM 席，review；生产实现只读，不得修改实现/测试，不得代签，
-不得标 done）。
-
-任务卡：docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md
-实现提交：44c0cfd5 feat(editor): unify layer stack action groups
-当前状态：review；Codex accept 与 Kimi accept（2026-09-02，含三组实机/七档断点/registry 复算）
-均已签，仅余你的 GLM accept 与用户验收。
-
-先读：AGENTS.md、READ-FIRST、本卡全部签节（KC3-1~KC3-5、Kimi accept 实机口径）、DS-C.2a
-v2.23.0、`git show 44c0cfd5` 全 diff、action-group-adoption.json、action-group-audit.mjs。
-
-你的分工（独立证据，不复述 Codex/Kimi）：
-1. registry/audit 复算：13 groups / 44 / adopted 22 / raw 22 / 11 candidates 与 1 equivalent +
-   10 deferred + 0 N/A；三条 layer 登记（header/state=0 moves、order=2 moves，compact/icon-only）
-   与 adopted「非负整数且等于 AST 实数」、candidate 仍恰 2 的 validator 负例矩阵（0 合法、
-   负数/小数/漏登记/漂移）先红后绿；其余 11 candidates 生产零 diff；allowlist 行号现行。
-2. 组件测试矩阵复核：LayerStackControls 三组指纹、32×32、稳定 label+aria-pressed、danger、
-   useId 原因+describedby 与共享去重、名称钮 aria-label+data-layer-id；Map 排序恰一条
-   MoveProjectMapLayerCommand、删除确认取消零写/确认一步 undo；Stamp 未接管禁用原因可见、
-   结构排序/删除恰一条 ReplaceStampTemplateCommand、显隐/锁定零 history；方向映射不变。
-3. 几何验收复核：360/320 同排、319/257 order 下沉、216 名称>=96、215/140 三层且名称正宽、
-   非活动行零空轨、reorder rail inset 与 4px focus 归属、row/list/document 溢出 0；
-   Map/Stamp 双 consumer 各档（含 Stamp host 230/360）；200% 无法可靠触发时保持“未实测”口径。
-4. 测试证据：Kimi 已复跑 LayerStackControls/MapMode/StampLibraryTab/action-group/boundary/
-   field-layout → 6 files / 176 tests 全绿、typecheck 通过、DS gate 91 files / 2 exceptions；
-   你可聚焦复核，不要重复 editor 全量。
-输出：GLM 席 accept 或 counter + file:line/复现；写回“进入 done 前”GLM 行与交接记录。
+无下一位 Agent 提示词；三方accept与用户验收齐，本卡已done。
 ```
