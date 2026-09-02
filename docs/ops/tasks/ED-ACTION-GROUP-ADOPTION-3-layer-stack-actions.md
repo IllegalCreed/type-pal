@@ -289,12 +289,65 @@ workspace显隐/锁定状态与undo边界不变。
     `pnpm --filter @type-pal/editor typecheck` 通过;`audit:design-system` →
     **91 files / 2 evidence-bound exceptions passed**。
   无返工项；未修改实现，未代签 GLM。
-- GLM: pending
+- GLM: **accept（2026-09-02，只读终审 `44c0cfd5` + registry/validator/DOM/CSS 独立复算 + 本人
+  Map 七档实机几何 + 聚焦复跑，非复述 Codex/Kimi；与 Kimi 口径各自独立取得后收敛）**。按
+  GM-A3-1~A3-4 逐钉核验：
+  - **registry/audit 复算 ✓（GM-A3-1/5）**：baseline 恰 **13 groups / 44 moves / adopted 22 /
+    raw 22 / 11 candidates（1 equivalent + 10 deferred + 0 N/A）**（本人 node 复算 22+22=44）；
+    三条 layer 登记——`map/layer-stack/header-actions`（**0 moves**）、`state-actions`
+    （**0 moves**）、`actions`（2 moves），均 compact/icon-only；`layer-order` candidate 已移除
+    （candidates 零残留）；**其余 11 candidates 生产文件零 diff**（本人对提交文件面逐一核对，
+    Casualty/Cutscene/EffectEditor/Poison/ProjectWorkbench/Script×2/Sprite×2/FrameAnimation
+    全部不在 diff）。**validator 真模型**：adopted 改「非负整数且等于 AST 实数」（audit diff
+    直读，负例 `owns 0 move buttons, expected 1` 漂移红实证）、candidate 仍恰 2（:225 原样）；
+    负例矩阵复跑绿——0-move 合法正例（恰 header/state）、candidate-zero 红、生产 45/raw 23
+    漂移红、两组 wrapper regression 红、既有全家族继续有效。
+  - **组件 DOM/命名 ✓（GM-A3-3）**：useId 原因 + `aria-describedby`，且**同文案共享去重**
+    （add/delete 同 reason 时共用同一 id——diff 直读）；稳定 label 实机——`图层可见：上层` +
+    `aria-pressed`、名称钮 `选择图层：上层（layer-1）` + `data-layer-id`、danger 删除
+    `删除选中图层：下层`（实机逐字）；三组全部 `DsActionGroup density="compact"`。
+  - **命令/测试矩阵 ✓（GM-A3-4）**：Map 排序恰一条 `MoveProjectMapLayerCommand`（MapMode.test
+    :929「按稳定 ID 只派发一条」）、删除确认链、显隐/锁定零 history、Stamp
+    `ReplaceStampTemplateCommand` 与未接管禁用原因——全部在本人复跑的 **6 files / 176 tests**
+    内绿（LayerStackControls 245 行新测试含三组指纹/32×32/pressed/danger/describedby）。
+  - **Map 七档实机几何 ✓（GM-A3-2，本席独立测量；真实实现 + 容器注入变宽，测后复原）**：
+    **360/320** 三列同排（state/名称/order 同 top，row 高 40）、名称 170/130px ≥96；
+    **319/257** order 整组第二层右对齐（row 高 76）、名称 201/139 ≥96；**216** 两层、名称
+    **98 ≥96**（`minmax(96px,1fr)` 轨下限生效的最紧档）；**215/140** 三层（row 高 112）、
+    `.layer-name > span` 正宽 157/82px 可见字符；**非活动行无空轨**（两层档非活动行高 40=
+    自身两行内容、无 order 占位；三层档单列）；**focus 外扩（4px）全部落在 row 内**七档全真；
+    list/body 溢出 0 七档全真；活态 193px（<216）三层档全部按钮恰 **32px** 零混高、复原干净。
+  - **测试证据自洽 ✓**：本人复跑 LayerStackControls + MapMode + StampLibraryTab +
+    action-group + boundary + field-layout **6 files / 176 tests 全绿** + typecheck 干净 +
+    design-system gate **91 files / 2 evidence-bound exceptions**；DS 版本四处一致
+    **2.23.0**（index/tokens/spec Status/Owner 链本人直读）。
+  - **Stamp consumer 实机几何 ✓（GM-A3-2，本席经 `?ui_samples=1` 评审样例补测；sandbox
+    workspace 内存注入、零仓库写入）**：开发基线组合库为空，改用 `?ui_samples=1`
+    （main.tsx:39,96-103——内存评审数据 + `createSandboxWorkspaceContext`，无 PAL proof 权限）
+    打开评审组合的 StampContentEditor host——活态 **193px**（<216 三层）全钮 32×32、header 组
+    在场、名称 147/span 135 正宽、focus 归属、双溢出 0；注入 **360/320** 同排（与 Map consumer
+    同一换轨行为，名称 170/130 ≥96）、**230** 两层 order 下沉（名称 **112 ≥96**、span 100
+    正宽）、三档 focus/溢出全 0、复原干净——**双 consumer 换轨合同一致闭合**。
+  - **诚实声明**：**200% zoom 未实测**（环境同限），不以 pinch/等效冒充；Map 七档 + Stamp
+    三档 + 双活态 193px 已覆盖换轨全部分支。
+  无返工项；未修改实现/测试（容器注入仅本会话页面态并已复原），未代签 Kimi，未填用户验收。
 - 用户验收: pending
-- done 准入: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
+- done 准入: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
 
 ## 交接日志
 
+- 2026-09-02 GLM: 只读终审 `44c0cfd5`，签 **accept**。独立证据：registry node 复算 13/44/22/22/11
+  + 1 equivalent + 10 deferred、三条 layer 登记 header/state=0 order=2 compact/icon-only、
+  其余 11 candidates 生产文件零 diff；validator adopted 非负整数+AST 实数（漂移负例
+  `owns 0, expected 1` 红）与 candidate 仍恰 2、负例矩阵复跑绿；useId 原因共享去重与稳定命名
+  （图层可见/锁定、选择图层：名称（ID）+data-layer-id、danger 删除带图层名）实机逐字；
+  Map 七档实机——360/320 同排（名称 170/130≥96）、319/257 两层（201/139）、216 两层最紧档
+  名称 **98≥96**、215/140 三层 span 正宽、非活动行零空轨、4px focus 归属、双溢出 0、活态
+  193px 全 32px、复原干净；Stamp consumer 经 `?ui_samples=1`（sandbox 内存评审数据，零仓库
+  写入）补测——活态 193px 三层全 32px、360/320 同排（名称 170/130≥96）、230 两层（名称
+  112≥96）、focus/溢出 0、复原干净，双 consumer 换轨一致；复跑 6 files / 176 tests +
+  typecheck + 91-file gate 全绿、DS 2.23.0四处一致。200% 未实测口径保持。无返工项；未修改实现/测试，未代签 Kimi，未填用户验收。
+  三方 accept 齐，仅剩用户验收；无下一位 Agent 提示词，等待用户验收/收口。
 - 2026-09-02 Kimi: 只读终审 `44c0cfd5`，签 **accept**。独立证据：三组实机全 32×32 无 30px
   残留、header 删除含层名 danger、状态钮稳定 label+aria-pressed+SVG hidden、order 含完整层名、
   名称钮含 ID 的 aria-label+data-layer-id、useId 原因+describedby 与共享去重（均实机/diff);
