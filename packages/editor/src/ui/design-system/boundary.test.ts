@@ -448,6 +448,9 @@ describe('editor design-system static boundary', () => {
     expect(layerStack).not.toMatch(/<DsIconButton\b[^>]*\bsize=/)
     expect(layerStack).toContain('label={`图层可见：${layer.name}`}')
     expect(layerStack).toContain('label={`图层锁定：${layer.name}`}')
+    expect(layerStack).toContain(
+      '<DsHelpTip label="图层删除规则">{MINIMUM_LAYER_REASON}</DsHelpTip>',
+    )
     expect(layerStack).toContain('data-layer-id={layer.id}')
     expect(layerStack).toContain('aria-label={`选择图层：${layer.name}（${layer.id}）`}')
     const layerList = cssRuleBodies(businessCss, '.map-layer-list')[0]!

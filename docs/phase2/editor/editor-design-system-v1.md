@@ -445,7 +445,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 领域 class 只能为完整 root 指定 `grid-area/grid-column/justify-self/align-self` 等放置属性，不得覆写公共
   gap、wrap、order、宽高或命中区。因业务规则而 disabled 且原因不显然的动作必须有邻近可读原因；排序首尾
   位置使前移/后移不可用属于从当前顺序即可理解的边界状态，不强制重复说明。不可聚焦 disabled button 的
-  tooltip 不能代替业务禁用原因。
+  tooltip 不能代替业务禁用原因。无解决动作且不会随当前对象变化的静态集合不变量（如图层至少保留一层）
+  可由集合标题旁的 `DsHelpTip` 说明，不应长期占用列表正文；隐藏、锁定、未接管等可恢复阻塞仍必须直接显示。
 - `action-group-adoption.json` 双向枚举正式采用和所有 production `DsReorderMoveButton`：当前正式采用为
   13 组 / 22 枚移动动作；其余 22 枚移动动作按 11 个候选 surface 逐项登记
   `equivalent-owner | deferred | N/A`。未消费 ActionGroup

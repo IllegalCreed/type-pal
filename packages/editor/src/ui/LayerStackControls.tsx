@@ -4,12 +4,15 @@ import {
   DsButton,
   DsControlGroup,
   DsField,
+  DsHelpTip,
   DsIconButton,
   DsPressable,
   DsRangeInput,
   DsTag,
 } from './design-system/index.js'
 import { DsReorderCollection, DsReorderItem, DsReorderMoveButton } from './design-system/reorder.js'
+
+const MINIMUM_LAYER_REASON = '至少保留一个图层。'
 
 export interface LayerStackControlItem {
   id: string
@@ -99,12 +102,14 @@ export function LayerStackControls(props: {
   const addReasonId = useId()
   const deleteReasonId = useId()
   const activeLayer = props.items.find((layer) => layer.id === props.activeId)
+  const minimumLayerRule = props.deleteDisabledReason === MINIMUM_LAYER_REASON
+  const visibleDeleteDisabledReason = minimumLayerRule ? undefined : props.deleteDisabledReason
   const sharedDisabledReason =
-    props.addDisabledReason && props.addDisabledReason === props.deleteDisabledReason
+    props.addDisabledReason && props.addDisabledReason === visibleDeleteDisabledReason
       ? props.addDisabledReason
       : undefined
   const addDescriptionId = props.addDisabledReason ? addReasonId : undefined
-  const deleteDescriptionId = props.deleteDisabledReason
+  const deleteDescriptionId = visibleDeleteDisabledReason
     ? sharedDisabledReason
       ? addReasonId
       : deleteReasonId
@@ -115,6 +120,9 @@ export function LayerStackControls(props: {
       <div className="pane-h map-layer-panel__header">
         <span className="t">图层</span>
         <DsTag tone="neutral">{props.items.length} 层</DsTag>
+        {minimumLayerRule ? (
+          <DsHelpTip label="图层删除规则">{MINIMUM_LAYER_REASON}</DsHelpTip>
+        ) : null}
         <span className="spacer" />
         <DsActionGroup density="compact" className="map-layer-header-actions">
           <DsIconButton
@@ -146,9 +154,9 @@ export function LayerStackControls(props: {
               {props.addDisabledReason}
             </p>
           ) : null}
-          {props.deleteDisabledReason ? (
+          {visibleDeleteDisabledReason ? (
             <p className="layer-stack-disabled-reason" id={deleteReasonId}>
-              {props.deleteDisabledReason}
+              {visibleDeleteDisabledReason}
             </p>
           ) : null}
         </>

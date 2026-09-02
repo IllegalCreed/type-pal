@@ -230,16 +230,19 @@ describe('LayerStackControls', () => {
     ).toBe(true)
   })
 
-  test('keeps an unrelated action enabled while explaining the disabled delete action', async () => {
+  test('moves the static minimum-layer rule into conceptual help without a persistent reason row', async () => {
     await renderControls({ deleteDisabledReason: '至少保留一个图层。' })
 
     const add = host.querySelector<HTMLButtonElement>('[aria-label="新增图层"]')!
     const remove = host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层：上层"]')!
     expect(add.disabled).toBe(false)
     expect(remove.disabled).toBe(true)
-    const reasonElement = host.querySelector<HTMLElement>('.layer-stack-disabled-reason')!
-    expect(add.getAttribute('aria-describedby')!.split(/\s+/)).not.toContain(reasonElement.id)
-    expect(remove.getAttribute('aria-describedby')!.split(/\s+/)).toContain(reasonElement.id)
-    expect(reasonElement.textContent).toBe('至少保留一个图层。')
+    expect(host.querySelector('.layer-stack-disabled-reason')).toBeNull()
+    const help = host.querySelector<HTMLButtonElement>('[aria-label="图层删除规则说明"]')!
+    expect(help).not.toBeNull()
+    const helpDescription = document.getElementById(help.getAttribute('aria-describedby')!)!
+    expect(helpDescription.getAttribute('role')).toBe('tooltip')
+    expect(helpDescription.textContent).toBe('至少保留一个图层。')
+    expect(remove.getAttribute('aria-describedby')!.split(/\s+/)).not.toContain(helpDescription.id)
   })
 })

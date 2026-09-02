@@ -352,8 +352,8 @@ export function DsTooltip(props: { label: string; shortcut?: string; children: R
 }
 
 /**
- * Low-frequency conceptual help. Current state, validation, blocking reasons and next actions
- * must remain visible content instead of being hidden behind this control.
+ * Low-frequency conceptual help and static invariants. Current state, validation, recoverable
+ * blocking reasons and next actions must remain visible content instead of being hidden here.
  */
 export function DsHelpTip(props: { label: string; children: ReactNode }) {
   const tooltipId = useId()

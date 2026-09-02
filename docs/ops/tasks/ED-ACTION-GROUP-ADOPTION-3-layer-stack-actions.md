@@ -118,7 +118,9 @@ workspace显隐/锁定状态与undo边界不变。
 
 - 实现提交：`44c0cfd5`。`LayerStackControls`新增header/state/order三个compact `DsActionGroup`；状态
   accessible name稳定并以`aria-pressed`表达状态；名称按钮带完整name/id与`data-layer-id`；删除保持danger
-  并随active稳定命名。新增/删除boolean改为可见reason + `aria-describedby`，Stamp相同接管原因只渲染一次。
+  并随active稳定命名。新增/删除boolean改为reason语义；隐藏、锁定、未接管等可恢复阻塞直接显示并以
+  `aria-describedby`关联，Stamp相同接管原因只渲染一次。用户验收后追加小改：静态“至少保留一个图层”规则
+  移入标题旁`DsHelpTip`，不再常驻占用列表正文，删除按钮仍保持禁用。
 - 响应式：`.map-layer-list`为唯一named inline-size container；`width < 320px`排序组完整进入第二行，
   `width < 216px`按state/name/order三层排列；非active行没有空`.layer-order`。三领域ActionGroup class静态门禁
   仅允许placement属性，公共32×32/4px/nowrap几何未被业务CSS接管。
@@ -336,6 +338,10 @@ workspace显隐/锁定状态与undo边界不变。
 
 ## 交接日志
 
+- 2026-09-02 User + Codex（post-done小改）: 用户要求“至少保留一个图层”不要一直显示；改为图层标题旁
+  32×32圆圈问号，正文reason row=0，help文本逐字保留；隐藏/锁定/未接管等可恢复阻塞仍直接显示。
+  组件/action/boundary单线程87项、Map/Stamp功能测试、typecheck与91-file gate通过；真实`ui_samples`
+  单层组合实测help存在、删除disabled、常驻reason=0。未重开设计或外部签字。
 - 2026-09-02 User: 确认`<320px`排序动作整组进入第二行是刻意的窄栏设计后验收通过；本卡转done，
   `ED-SPRITE-ACTION-MODAL-1`依赖正式解除。
 - 2026-09-02 GLM: 只读终审 `44c0cfd5`，签 **accept**。独立证据：registry node 复算 13/44/22/22/11
