@@ -1,6 +1,6 @@
 # ED-SPRITE-ACTION-MODAL-1 - 大世界精灵预制动作中心弹窗编辑器
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor world-sprite action authoring（不改变content schema/capability-map）
 Coding Owner: Codex
@@ -371,12 +371,14 @@ Target Design-System Version: `2.24.0`（用户批准中心长流程modal，扩�
     typecheck 干净；design-system gate **92 files / 2 evidence-bound exceptions** 通过；
     Codex 串行全量 186/1556 采信，按纪律未重复。
   无返工项；未修改实现/测试，未代签 Kimi，未填用户验收。
-- 用户验收: pending
-- done准入: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收——建议验收时顺带确认
-  create 初焦点真 Chrome 行为，不得标 done）
+- 用户验收: **accept（2026-09-02，“验收通过”）**
+- done准入: **allowed / closed（Codex + Kimi + GLM 三方 accept 与用户验收齐）**
 
 ## 交接日志
 
+- 2026-09-02 User + Codex: 用户明确“验收通过”。三方 done 前 accept 已齐，无 counter；本卡由
+  review 转 done，同步看板并完成 git 收口。真实 200% 与 Firefox/WebKit modal trap 继续保留为
+  已知未实测环境项，不阻断本次用户验收。无下一位 Agent 提示词。
 - 2026-09-02 GLM: 只读终审 `f8420026`，签 **accept**。独立证据：三链 registry node 复算
   （ActionGroup 15/42/24/18/9 + sprite current 0-move/steps 2-move、reorder 17/27/30/19、
   allowlist 13/9 有界、catalog 27、DS 2.24.0 四处）+ 其余 candidates 零 diff；create 八条重读
@@ -426,6 +428,10 @@ Target Design-System Version: `2.24.0`（用户批准中心长流程modal，扩�
   owner、步骤控件与scroll/focus合同；未修改实现。Next: Kimi/GLM设计审签。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方审查与用户验收均已完成，任务已收口。
+
+## 历史提示词（GLM 终审，已完成）
 
 ```text
 终审 ED-SPRITE-ACTION-MODAL-1（GLM 席，review；生产实现只读，不得修改实现/测试，不得代签，
