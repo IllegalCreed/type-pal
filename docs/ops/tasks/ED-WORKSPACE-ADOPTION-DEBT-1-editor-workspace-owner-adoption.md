@@ -1,6 +1,6 @@
 # ED-WORKSPACE-ADOPTION-DEBT-1 - 编辑器旧工作区滚动壳真实采用清零
 
-Status: draft（由 ED-CATALOG-ROW-IA-1 的 bounded legacy exception 建立；未完成三方 build 前签字，不得实现）
+Status: build
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -227,7 +227,7 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 
 ## Draft: 设计与风险
 
-- 设计结论: **Codex agree，待 Kimi / GLM 独立签字**。现有 `as / label / hero / className /
+- 设计结论: **Codex / Kimi / GLM 三方 agree，无 counter**。现有 `as / label / hero / className /
   contentClassName` wrapped API 足够；六文件都不得使用 manual mode 或手写 `DsObjectWorkspaceContent`。
 - 第一批：Project helper、BattleSprite、SpriteViewer。三者分别保持四 route、三业务分支、三加载状态的单一
   workspace callsite；SpriteViewer 先把 early return 归一为一处 final workspace。
@@ -240,7 +240,7 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（build 准入签字齐后开始）
+- Coding Owner: Codex（2026-09-02 开始；唯一实现 owner）
 - 修改文件: pending
 - 实现摘要: pending
 - 测试结果: pending
@@ -259,6 +259,9 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 
 ## 交接日志
 
+- 2026-09-02 User + Codex：用户再次确认本卡“只是统一组件，理论上样式不会变”，Codex明确将
+  **样式与交互零可见变化**作为硬验收条件；随后用户“签了”。Kimi/GLM设计签字提交已推送，三签齐、
+  无 counter，卡转 build。Codex按两批连续实现；无下一位 Agent 提示词。
 - 2026-09-02 GLM: 设计审签。独立以真实 JSON 结构解析复算全部基线——27 pages（19+8，exception
   registry 精确映射六文件）、scroll records 总和 102、canonical DsObjectWorkspaceContent 11
   （+9 main legacy = 20）、legacy 6/12/22；六文件 raw 字面 22 处 grep 闭合；wrapped API
@@ -284,6 +287,10 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
   本卡实现。Next：完成四向真值与逐文件设计后送 Codex / Kimi / GLM build 前签字；三签齐前不得实现。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方 build 前签字已齐，由 Codex 作为唯一 Coding Owner 连续实现。
+
+## 历史提示词（GLM 设计审签，已完成）
 
 ```text
 审签 ED-WORKSPACE-ADOPTION-DEBT-1（GLM 席，draft；生产实现只读，只允许更新任务卡签字/交接；

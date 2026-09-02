@@ -35,7 +35,7 @@
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | done | 三方 accept + 用户复验齐，整卡收口 | 数量改为可见字段 + 公共 short-number measure，三动作成为原子槽；其余验收通过 |
 | ARCH-ACTOR-CONDITION-SEED-1 | 入口与剧情入队角色当前状态播种 | done | 三方 accept + 用户验收齐，整卡收口 | content19 三 carrier 全链闭合；三路只读审计无剩余 blocker，PAL replay 为零 |
 | ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | done | 三方 accept + 用户复验齐，整卡收口 | Hero 56px 复用 idle.start，同缓存防串图；EnemyTeam/Vars 无媒体，六面 census 闭合 |
-| ED-WORKSPACE-ADOPTION-DEBT-1 | 编辑器旧工作区滚动壳真实采用清零 | draft | 三方 design 签字齐（签字面 allowed，用户「做吧」在案）；Codex 可开工转 build | 六文件22 raw→0；27 pages全adopted；公共API/DS版本零变 |
+| ED-WORKSPACE-ADOPTION-DEBT-1 | 编辑器旧工作区滚动壳真实采用清零 | build | 三方design签字齐、用户重申样式零变化；Codex两批实现 | 六文件22 raw→0；27 pages全adopted；公共API/DS版本零变 |
 | MIG-PAL-MAP-NAME-1 | PAL 一阶段考据地图名迁入二阶段 | done | 三方 accept + 用户验收齐，整卡收口 | 222/294/221/223/2、s230/s243 双钉、shared 专用边界、104/164 精确占位与 replay 全 0 均已终审 |
 | MIG-PAL-ITEM-SCHEME-LABEL-1 | PAL 物品剧情方案作者命名收口 | done | 三方 accept + 用户验收齐，整卡收口 | 53 label-only 两侧镜像、49/11/4 闭包、292×13/273×12 消歧、machine-inner 同步、转换器/upgrader/fallback 清零均双席独立复算 |
 | MIG-PAL-STORE0-SHOP-BOUNDARY-1 | PAL Store[0] 奖励表与商店边界收口 | done | 三方 accept + 用户验收齐，整卡收口 | Shop 20家；writes=1→双零计划；sell shop0 原值保留；migrate 391 全绿 |
