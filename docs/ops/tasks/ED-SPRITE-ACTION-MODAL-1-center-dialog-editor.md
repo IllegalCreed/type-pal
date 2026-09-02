@@ -284,13 +284,65 @@ Target Design-System Version: `2.24.0`（用户批准中心长流程modal，扩�
   - 已知补验：内置浏览器无法可靠改变真实页面 zoom，1280@200% 与 Firefox/WebKit native modal trap
     保持待 Kimi/用户补验；未以缩视口冒充。全仓 Biome 仍有 319 个本卡外既存诊断；本卡新建/核心文件
     的定向 Biome、typecheck、测试与 build 均通过。
-- Kimi: pending
+- Kimi: **accept（2026-09-02，只读终审 `f8420026` 全 diff + 真实 Dialog create/edit/窄态实机
+  复核 + registry 复算与本人聚焦复跑，非复述 Codex）**。按 KM1-KM5 与六项职责逐项核验：
+  - **create baseline 保护与连续编辑 ✓（职责 1）**:`createSnapshot` 冻结
+    baselineHistoryVersion/baselinePoses/actionId/asset/proofRevision
+    （SpriteActionEditorDialog.tsx:32-61）;`confirmCreate` 先 flush，再重读 session 并逐项校验
+    current.asset、historyVersion、poses 与 baseline 相等、生成 ID 仍空闲、record.kind/sha256
+    （:263-286)——任一漂移 `reportError` + 聚焦名称框 + **零命令、草稿保留**;create→edit 经
+    `createdDefinition` 桥接并在 live 追上后清除（:118-126,:150-156）,`commitEditPoses` 在
+    dispatch 前重读当前 session(:222-225)——**连续编辑提交永远对当前状态而非旧快照**。
+  - **dispatch 失败阻止 ✓（职责 2）**:`mutationRejectedRef` 由 `handleMutationResult` 置位
+    (:245-261),`flushFocusedField` 在其为真时统一拒绝（:185-188)——完成
+    (`requestClose`:198)、查看引用（`openReferences`:306)、切动作
+    （`onBeforeContextChange`:397)、新建（`confirmCreate`:264）与 ⌘S（:311-324）共用同一
+    guard;成功路径清除标记。edit ⌘S 先 flush 后保存、create ⌘S 仅提示“请先创建动作”
+    并聚焦（:316-319）。
+  - **route/browse ✓（职责 3）**:invalid 深链保留原 id + 明确报错“未自动选择其它动作”且
+    不开 Dialog(WorldSpriteLibrary.tsx:290-300);valid 深链复用/新建 route-owned edit
+    （:301-322);外部清 action 只关 route-owned 对话框、browse-owned 保留（:324-330);
+    create 模式下焦点 action 变化不杀草稿（:283-286);选择 fallback 按 order+id 取首项
+    （:331-338)。
+  - **窄态/几何/焦点 ✓（职责 4，实机）**:create 初焦点在名称 INPUT;宽态实机 **2 个**
+    scroll owner + body `overflow:hidden`、1120×619;窄态 700px 实机**单页单 scroll owner**、
+    684px(100dvw-16)、docOverflow 0;pristine 取消与无编辑“完成”均**零命令**（dirty 前后
+    均 false）且 close 只清 `action=`;footer 常驻（create=取消+创建动作、edit=完成）。
+  - **单一 source owner ✓（职责 5）**:`SpriteSourceFramePicker` 唯一导出于
+    SpriteFrameWorkbench.tsx:251，中央池（:462）与 Dialog（Dialog.tsx:372）双消费;
+    实机 rail 12 按钮恰 1 个 Tab stop(roving),Arrow/Home/End 键盘 + scrollIntoView +
+    live 播报（:277-293,:328-330）;MIME 单常量（:14）与 absent/invalid/payload 三态解析
+    （:26-39)——错误 payload 零命令;drag 仅在 transferEnabled+asset 时启用（:322）。
+  - **registry/版本 ✓（职责 6，本人复算）**:ActionGroup baseline 恰
+    `15 groups / 42 moves / 24 adopted / 18 raw / 9 candidates`(1 equivalent + 8 deferred);
+    reorder 恰 `17 families / 27 adoptions / 30 paths / 19 owner files`;allowlist
+    **13 entries / 9 rules**（含 selected-item-reorder-action 与 native-draggable-reorder）;
+    catalog-row-content **27 entries**;DS **2.24.0** index.ts 实测;edit header 实机
+    `前移/后移/删除预制动作：PAL 自动循环` 具体 label。
+  - **200% zoom（诚实声明）**：与前卡同一环境限制——真实 UI zoom 不可可靠设置、MCP 窗口
+    钳制 ≥700,**真实 200% 与 Firefox/WebKit native modal trap 未实测**,Codex 卡面同样明写，
+    未以缩窄视口冒充。
+  - **验证（本人执行）**:SpriteActionEditorDialog + SpriteActionEditor + WorldSpriteLibrary +
+    SpriteFrameWorkbench + action-group-adoption + reorder-adoption + boundary +
+    field-layout-adoption → **8 files / 143 tests 全绿**;editor 串行全量 186 files / 1556、
+    typecheck、build、DS gate 92/2 采用 Codex 记录，按纪律未重复全量。
+  无返工项；未修改实现，未代签 GLM。
 - GLM: pending
 - 用户验收: pending
-- done准入: blocked
+- done准入: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
 
 ## 交接日志
 
+- 2026-09-02 Kimi: 只读终审 `f8420026`，签 **accept**。独立证据：createSnapshot 全量冻结 +
+  confirmCreate 重读校验（asset/historyVersion/poses/ID 空闲/record sha256）漂移零命令保稿;
+  commitEditPoses 提交前重读 session（连续编辑不对旧快照）;mutationRejectedRef 统一阻止
+  完成/引用/切动作/新建/⌘S;invalid 深链报错不偷选不开窗、外部清 action 只关 route-owned;
+  实机 create 初焦点在名称、pristine 取消与无编辑完成均零命令且 close 只清 action=、宽态
+  2 scroll owner+body hidden、窄态 700px 单页单 owner 零溢出;rail 12 钮 1 Tab stop、
+  键盘+live 播报、MIME 三态解析错误零命令;edit header“前移/后移/删除预制动作：PAL 自动
+  循环”;registry 复算 15/42/24/18/9 + reorder 17/27/30/19 + allowlist 13/9 + catalog 27 +
+  DS 2.24.0;200% 与 Firefox/WebKit trap 未实测（同前卡口径）。本人复跑 8 files / 143 tests
+  全绿。无返工项；未修改实现，未代签 GLM，未标 done。Next: GLM 终审与用户验收。
 - 2026-09-02 Codex: 完成中央单一 Dialog、用途 Inspector 收口、共享源帧 picker、搜索虚拟目录、
   create/edit 事务与 route/focus/dirty 边界、步骤控件和 DS 2.24 / registry 联动；提交 `f8420026`。
   串行全量 1556 项、typecheck、build、design-system gate 与四档真实浏览器矩阵通过；Codex 签 accept，
@@ -321,41 +373,38 @@ Target Design-System Version: `2.24.0`（用户批准中心长流程modal，扩�
 ## 下一位 Agent 提示词
 
 ```text
-审查 ED-SPRITE-ACTION-MODAL-1（Kimi 席，状态 review；只读实现，允许更新任务卡 Kimi 签字与交接，
-不得代签 GLM，不得标 done）。
+终审 ED-SPRITE-ACTION-MODAL-1（GLM 席，review；生产实现只读，不得修改实现/测试，不得代签，
+不得标 done）。
 
 任务卡：docs/ops/tasks/ED-SPRITE-ACTION-MODAL-1-center-dialog-editor.md
 实现提交：f8420026 feat(editor): move sprite actions into central dialog
+当前状态：review；Codex accept 与 Kimi accept（2026-09-02，含 create/route/几何/registry
+实机口径）均已签，仅余你的 GLM accept 与用户验收。
 
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部裁决/验收/签字；重点代码：
-- packages/editor/src/ui/WorldSpriteLibrary.tsx
-- packages/editor/src/ui/SpriteActionEditorDialog.tsx
-- packages/editor/src/ui/SpriteActionEditor.tsx
-- packages/editor/src/ui/SpriteFrameWorkbench.tsx
-- packages/editor/src/ui/SpriteResourceViewer.tsx
-- packages/editor/src/ui/editor.css
-- 对应四个 test 文件与 design-system registry/boundary/spec 2.24。
+先读：AGENTS.md、READ-FIRST、本卡全部签节（KM1-KM5、Kimi accept 的 file:line 证据）、
+DS-C.2a/DS-C.9 v2.24.0、`git show f8420026` 全 diff、action-group-adoption.json、
+reorder-adoption.json、reorder-allowlist.json。
 
-Codex已完成：中央 Hero/语义行/深链共用单一 Dialog；Inspector 只留用途；create baseline/history/proof
-本地事务与 dirty alert；edit live undo；完成/引用/切动作/新建/⌘S commit guard；route A→B/clear；删除
-next→previous→empty；宽窄动态焦点；共享 source picker；目录虚拟化；步骤 32px ActionGroup；DS 2.24。
-证据：f8420026；editor 串行 186 files / 1556 tests 全绿；typecheck、Vite build、design-system gate
-92 files / 2 evidence-bound exceptions 全绿。浏览器 1280×800、900×720、720×700、720×480 通过；
-真实 200% 与 Firefox/WebKit trap 未实测，禁止拿缩视口替代。
-
-Kimi职责：
-1. 独立审查 create→edit 连续编辑无旧快照覆盖；poses/history/ID/proof 漂移零 command 且保稿；
-   dispatch false/throw 后完成、查看引用、切动作、新建、⌘S 均不得离开。
-2. 审 route-owned/browse 状态：valid A→B、external clear、create 清旧 action、delete-last 留空态；
-   invalid deep link 不 fallback。
-3. 审窄态 list/detail 单挂载、动态宽窄 focused draft、返回 active-descendant、删除焦点 fallback、
-   fixed footer/scroll owner/focus ring；能做真实 200% 时补验并记录，不能则保持 pending。
-4. 审单一 SpriteSourceFramePicker 双 consumer/MIME/键盘/drag；背景不可拖；错误 payload 零命令可见报错。
-5. 复算门禁：ActionGroup 15/42/24/18/9、reorder 17/27/30/19、allowlist 13/9、catalog 27、
-   DS 2.24；确认旧 Inspector editor、definition reorder、旧 step 控件回流必红。
-
-输出：直接证据 file:line + 可证伪结论；通过则在任务卡 Kimi 席签 accept，并写下一位 GLM 提示词；
-否则签 counter/列返工。不得修改生产实现；不得标 done。
+你的分工（独立证据，不复述 Codex/Kimi）：
+1. registry 复算：ActionGroup 15/42/24/18/9（1 equivalent + 8 deferred）、reorder
+   17/27/30/19、allowlist 13/9（selected-item-reorder-action 有界不扩散）、catalog 27、
+   DS 2.24.0 四处一致；旧 Inspector editor、definition 逐行 reorder、旧 step 控件与双入口
+   回流在门禁负例中必红；其余 reorder/action candidates 零 diff。
+2. create/edit 事务测试矩阵复核：baselinePoses/historyVersion 捕获与确认时重读校验
+   （poses 相等、生成 ID 空闲、asset/proof sha256、record kind）每条漂移路径零 command 且
+   保稿聚焦；pristine 零写、dirty alertdialog 零 command、edit 一次一条 + global undo、
+   close/IME/invalid/commit-rejection 的 flush guard 覆盖完成/引用/切动作/新建/⌘S 五路；
+   create ⌘S 只提示不创建。
+3. route 与目录：valid/invalid 深链、A→B、外部 clear（只关 route-owned）、create 草稿不被
+   焦点变化杀死、删除 next→previous→empty、selection fallback order+id；52 项虚拟 listbox
+   mounted DOM 预算与 active-descendant。
+4. 几何与焦点验收：宽 2 窄 1 scroll owner、body overflow:hidden、footer 常驻、focus ring
+   不裁、背景不滚不拖；窄态 list→detail 标题/首字段、detail→搜索 owner + selected
+   active-descendant 逐条；source rail roving/End 同步两处/错误 payload 零命令可见报错。
+5. 200% zoom 与 Firefox/WebKit native modal trap：Kimi 与 Codex 均明写未实测（CDP
+   pageScaleFactor 为 pinch 式、MCP 窗口钳制），你若同样无法可靠设置请保持“未实测”口径，
+   不得以缩窄视口或 pinch 冒充。
+输出：GLM 席 accept 或 counter + file:line/复现；写回“进入 done 前”GLM 行与交接记录。
 ```
 
 ## 历史提示词（设计审签，已完成）

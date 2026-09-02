@@ -28,7 +28,7 @@
 | ED-ACTION-GROUP-ADOPTION-2 | 帧动画时间线动作组与纵向可见边界 | cancelled | 用户否决大卡/独立grip/左右按钮；由RESTORE-1替代 | 未实现；旧186px方案失效 |
 | ED-FRAME-TIMELINE-UX-RESTORE-1 | 帧动画原始卡片拖拽形态恢复 | done | 用户验收通过；Kimi/GLM签字豁免在案，整卡收口 | `f019ba8d`：72×76/78/86/visible/native drag恢复；1523全绿，三档实机通过 |
 | ED-ACTION-GROUP-ADOPTION-3 | 地图与组合库图层动作组及窄栏合同 | done | `44c0cfd5` 三方 accept + 用户验收齐；静态末层规则问号小改完成 | 三组+320/216换轨；1534全绿，DS2.23.0与13/44/22/22/11闭合 |
-| ED-SPRITE-ACTION-MODAL-1 | 大世界精灵预制动作中心弹窗编辑器 | review | Kimi 独立代码/视觉审查；随后 GLM 覆盖审查 | 实现 f8420026；串行1556项、build、DS gate与四档浏览器矩阵通过；真实200%/Firefox/WebKit待补验 |
+| ED-SPRITE-ACTION-MODAL-1 | 大世界精灵预制动作中心弹窗编辑器 | review | `f8420026` Codex + Kimi accept；待 GLM 覆盖审查与用户验收 | 实现 f8420026；串行1556项、build、DS gate与四档浏览器矩阵通过；真实200%/Firefox/WebKit待补验 |
 | ED-FRAME-TIMELINE-VIRTUALIZATION-1 | 长帧动画时间线 DOM windowing | cancelled | 用户恢复旧形态后合并入RESTORE-1；历史卡保留 | RESTORE-1接管visible window与410帧DOM上界验收 |
 | ED-FIELD-LABEL-TRACK-WIDE-1 | 编辑器整组宽标签轨合同 | done | 三方 accept + 用户验收齐，整卡收口 | `6e7999ef`：wide=160px/<560 stacked；RoleBindings 唯一采用；DS 2.21.0 |
 | ED-ITEM-ALCHEMY-SURFACE-1 | 炼蛊皿与紫金葫芦双炼化工作台 | done | 全部增量三方accept + 用户验收齐，整卡收口 | Craft header/handle/formula稳定对齐；Stepper outer与控件统一36px，三态/高对比闭合 |
