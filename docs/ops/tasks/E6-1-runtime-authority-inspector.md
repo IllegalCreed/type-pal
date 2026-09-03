@@ -260,7 +260,9 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
     close 后 Escape 仍被吞——任一成立签字失效。
 - counter / 分歧处理: 无；若 reviewer 发现遗漏控制源、快捷键冲突或 DEV-only 泄漏，留在 draft 修订。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（2026-09-03 Codex + GLM 已签；缺 Kimi premise/design 签字）**
+- build 准入结论: **allowed（2026-09-03 Codex + GLM + Kimi 三签齐；GLM 两条必改项——
+  ① 编外 follower 缺 def/帧时 slot 仍须入快照、② Backquote 守卫测试显式含 contenteditable
+  祖先与 event.code 布局无关性——纳入 build 落实条件；用户 2026-09-03 裁决在案）**
 
 ### 进入 done 前:审查签字
 
@@ -312,16 +314,26 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 ### 主审立场
 
 - Reviewer: Kimi（架构/输入所有权/视觉主审）；GLM（对象族覆盖与测试矩阵）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **agree（2026-09-03 Kimi）**。设计骨架（单一快照生产者/判别联合四类对象/两层
+  controller/Backquote 只重开/DEV-only 硬门）与一手代码吻合；Esc capture 残留真 bug
+  随本卡删除且不留第二条 Escape 路径，hide 后游戏输入零影响；紧凑列表复用 `.tpd-panel`
+  唯一 scroll owner，不新增嵌套滚动、不重做几何，仅修正 dev-tools.md 的 720px 文档漂移。
+- 必改项: 沿用 GLM 两条（① 编外 follower 缺 def/帧时 slot 仍须入快照——captureMotionState
+  必须直读 `runtimeScript.followers` 而非渲染 sprites 数组；② Backquote 守卫测试显式含
+  contenteditable 祖先与 `event.code` 布局无关性，capture 移除以「close 后 Escape 到达
+  游戏」行为断言钉死）；架构/输入所有权面无新增阻塞项。
+- 是否建议进入 build: **是（三签齐，两条必改项作为 build 落实条件随卡走）**
 
 ### 三方争议记录(按需)
 
 - Codex: 同意单一值 DTO、partyMove/两类 follower/entity 完整投影、hide/show + dispose 两层
   controller、Backquote 只重开和 DEV-only 边界。
-- Kimi: pending
-- GLM: pending
+- Kimi: 同意设计骨架；背书 GLM 两条必改项，架构/输入所有权面无新增阻塞项。
+  补充三点实现注意（非必改）：① Backquote 在 open 态整键忽略（含面板内 console 输入框）；
+  ② controller 常驻且 capture listener 唯一，hide/show 不增删 listener；③ build 期重跑
+  写点普查 grep 确认仍只有五族控制源，新写点必须过 canWrite/authority。
+- GLM: 同意，附 GM-E1~E4 钉与两条必改项（缺 def 编外 follower 入快照；contenteditable
+  祖先 + event.code 布局无关性守卫测试）。
 - 用户拍板: 2026-09-03，运行态展示与反引号重开合并为 E6，按第二阶段队列优先实施。
 
 ## 额度 / 代班记录(如适用)
@@ -377,6 +389,15 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 
 ## 交接日志
 
+- 2026-09-03 Kimi: 完成架构/输入所有权/功能界面主审，签 premise verified + design
+  agree。独立证据：`player.pos` 六写点/实体五写点 grep 普查（控制源恰五族，spawn/teleport
+  为瞬时写）；Esc capture 残留 bug 独立实锤（:303 capture 注册 vs :274 裸移除 → 游戏菜单
+  Esc 被吞至刷新）；`Backquote|backquote` 全域零命中、F9=quickLoad :6723；DEV 动态 import
+  门 :6935 + `__tpE2e` :6777；dev-tools.md「720px」与实际 `min(420px,100vw-24px)` :119 +
+  480px 媒体查询漂移核实；`.tpd-panel` 唯一 scroll owner :176。背书 GLM 两条必改项，
+  补三点实现注意（open 态 Backquote 整键忽略；controller 常驻 listener 唯一；build 期
+  重跑写点普查）。未修改实现，未代签 GLM。三签齐，build 准入 allowed。Next: Codex
+  按卡 build，落实 GLM 两条必改项与三点实现注意。
 - 2026-09-03 GLM: 独立完成数据覆盖/遗漏审计与测试矩阵审查，签 premise verified + design
   agree。证据：四类对象运行态逐处直读（party authority 键+partyMove、followerAuth 三型+
   followerPos、编外 followers :5951-5984、live entities+gates）；epoch 字段在
@@ -394,30 +415,22 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 
 ## 下一位 Agent 提示词
 
-### Kimi
+### Codex（build）
 
 ```text
 接手任务: E6-1 实体位置控制权运行态检视与调试面板重开
 任务卡: docs/ops/tasks/E6-1-runtime-authority-inspector.md
-当前状态: draft
-你的角色: 架构、输入所有权与功能界面设计主审；独立完成 premise/design 签字
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；任务卡；docs/phase2/foundation/e6-position-authority-design.md；docs/phase2/dev-tools.md；packages/reforge/src/main.ts:520-533,1684-1723,3988-4080,6776-6804,6933-6965；packages/reforge/src/debug-tools.ts:49-82,258-303,442-476
-已完成: Codex 已核实 E6 运行态存在、面板展示缺失、Esc 后只能刷新，并起草单一快照 + 两层 controller + Backquote 只重开方案；尚未改实现。
-请你做: 直接读取一手代码，独立验证完整控制源、快照边界、close/reopen 生命周期、快捷键冲突、DEV-only tree-shake 与紧凑列表布局；把证据、可证伪观察、必改项和 premise verified/design agree 或 counter 写回任务卡。
-不要做: 不修改实现；不代签 GLM；不扩成位置修改器、画布 overlay、时间旅行或整体调试面板重设计；签字未齐不得开始 build。
-输出要求: 提交并推送任务卡签字；回复 commit hash，以及 agree 或 counter + 理由，并给下一位 Agent 提示词。
-```
-
-### GLM
-
-```text
-接手任务: E6-1 实体位置控制权运行态检视与调试面板重开
-任务卡: docs/ops/tasks/E6-1-runtime-authority-inspector.md
-当前状态: draft
-你的角色: 数据覆盖、遗漏审计与测试矩阵审查；独立完成 premise/design 签字
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；任务卡；docs/phase2/foundation/e6-position-authority-design.md；docs/phase2/dev-tools.md；packages/reforge/src/main.ts:520-533,1684-1723,3988-4080,6776-6804；packages/reforge/src/debug-tools.ts:49-82,258-303,442-476；packages/reforge/src/debug-tools.test.ts；packages/reforge/src/motion-runtime-coordinator.test.ts
-已完成: Codex 已核实当前 dump 只含实体、状态页无运动快照、close 销毁可见面板且无重开；尚未改实现。
-请你做: 独立枚举队长/队伍跟随成员/编外跟随精灵/live entity 与 world/script/follow/mount、partyMove、各类 epoch、entity script/auto 注册信息和 gate 的覆盖；压力测试默认值、排序、刷新、输入守卫、多轮 cleanup 和生产剥离矩阵；把独立证据、可证伪观察、必改项和 premise verified/design agree 或 counter 写回任务卡。
-不要做: 不修改实现；不代签 Kimi；不扩 schema/save/migration/Q1 E2E；签字未齐不得开始 build。
-输出要求: 提交并推送任务卡签字；回复 commit hash，以及 agree 或 counter + 理由。
+当前状态: draft；Codex + GLM + Kimi 三签齐，build 准入 allowed；你是唯一 Coding Owner，可以开始实现。
+先读: AGENTS.md；docs/phase2/READ-FIRST.md；任务卡全部签字、GM-E1~E4 钉、两条必改项与 Kimi 三点实现注意；docs/phase2/dev-tools.md；packages/reforge/src/main.ts:520-533,1417,1684-1738,3988-4083,4246-4267,5951-5984,6776-6804,6933-6965；packages/reforge/src/debug-tools.ts 全文；packages/reforge/src/motion-runtime-coordinator.ts；packages/reforge/src/debug-tools.test.ts。
+已完成: 三方设计签字齐（均 premise verified + design agree）；未改任何实现。
+必须落实:
+1. 单一 captureMotionState() 生产者，__tpE2e.dumpMotionState 与面板状态页共用；DTO 纯值，禁 cancel/resolve/commit 函数。
+2. 必改项①: 编外 follower 缺 def/帧时 slot 仍入快照——直读 runtimeScript.followers，不读渲染 sprites 数组。
+3. 必改项②: Backquote 守卫测试显式含 contenteditable 祖先与 event.code 布局无关性；capture 移除以「close 后 Escape 到达游戏」行为断言钉死。
+4. Esc/关闭=hide（blur + frameStep reset，保留 DOM 与在途）；Backquote(hidden)=刷新快照+show；dispose 集中 abort 在途、幂等、stale disposer 不碰新实例；删除旧 capture 移除参数不一致路径，不留第二条 Escape 监听。
+5. Kimi 三点注意：open 态 Backquote 整键忽略（含 console 输入框）；controller 常驻且 capture listener 唯一；build 期重跑写点普查 grep 确认仍五族控制源。
+6. 验收矩阵按卡面：四类对象、固定排序、刷新同拍、epoch 分类、Esc→Backquote、三轮 hide/show、重装/幂等 dispose；reforge 全量 + typecheck + build；Reforge 与 Editor 生产构建 grep `tp-debug|installDebugTools|实体位置控制权` 零命中。
+7. 更新 dev-tools.md（状态页运动区、实际响应式宽度、Esc/反引号行为）；E6 capability-map ⚠️→✅ 在 done 前同步。
+不要做: 不改 authority/跟随/挂载/移动/碰撞业务逻辑；不改 schema/save/migration；不做位置修改器、画布 overlay、时间旅行；不重做面板整体视觉。
+输出: build 记录写回任务卡（修改文件/运行命令/浏览器检查），卡转 review；回复 commit hash 与自测证据。
 ```
