@@ -1,6 +1,6 @@
 # ED-WORKSPACE-ADOPTION-DEBT-1 - 编辑器旧工作区滚动壳真实采用清零
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -300,7 +300,7 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
   无返工项；未修改实现/测试，未代签 Kimi，未填用户验收。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
+- done 准入结论: **allowed / closed（Codex + Kimi + GLM 三方 accept 与用户验收齐）**
 
 ## Draft: 设计与风险
 
@@ -334,17 +334,20 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex / Kimi / GLM 三方 accept
+- 必须返工项: 无
+- Accept / rework: accept
 
 ## 用户验收
 
-- 用户结论: 已批准开工方向；最终功能验收 pending
+- 用户结论: **accept（2026-09-03，“验收通过”）**
 - 后续任务: N/A
 
 ## 交接日志
 
+- 2026-09-03 User + Codex：用户明确“验收通过”。三方 done 前 accept 已齐、无 counter，任务由
+  review 转 done；同步看板并完成 git 收口。200% / Firefox / WebKit 未实测环境项保留为诚实记录，
+  不阻断本次用户验收。无下一位 Agent 提示词。
 - 2026-09-03 GLM: 只读终审 `39ea04cd`，签 **accept**。独立证据：终态 registry node 解析
   27+0/102/canonical 20/legacy 0 逐数闭合；六文件 raw 0、组件恰 1、manual 0；公共层零 diff、
   DS 2.24.0；editor.css −21 行恰删 9 条 main 壳声明，现存 3 处均为既有域规则非本提交新增；
@@ -392,6 +395,10 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
   本卡实现。Next：完成四向真值与逐文件设计后送 Codex / Kimi / GLM build 前签字；三签齐前不得实现。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方审查与用户验收均已完成，任务已收口。
+
+## 历史提示词（GLM 终审，已完成）
 
 ```text
 终审 ED-WORKSPACE-ADOPTION-DEBT-1（GLM 席，review；生产实现只读，只允许更新任务卡 GLM done
