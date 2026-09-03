@@ -269,11 +269,46 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 - Codex: **accept（2026-09-03，候选 `de19b7f8`）**。单一纯值快照、四类对象、partyMove/
   entity slots 分界、epoch 分类、hide/show + dispose、Backquote 守卫、在途操作 ownership 与
   production 剥离均已实现；自动与浏览器证据见 Build/视觉记录。
-- Kimi: pending
+- Kimi: **accept（2026-09-03，只读终审 `de19b7f8` 全 diff + 本人复跑与实机抽验，非复述
+  Codex）**。按六项职责逐项核验：
+  1. **单一快照与四类对象 ✓**：`captureMotionState` 唯一生产者同供 `__tpE2e.dumpMotionState`
+     与 `DebugToolsContext.motionState`(`main.ts:6799,6883,7019`);DTO 纯值（slot 只投影
+     source/kind/commandEpoch/sceneSessionId/activation*/authorityEpochAtEnqueue/
+     pausedByAuthority，无 cancel/resolve);partyMove 只投影 to+speed。实机 s213:41 行，
+     序=队长→队员→实体按 id；必改项①落实——编外用 `renderable` 标记而非丢行（测试断言
+     `资源未就绪` 行在）。
+  2. **partyMove/slots/epoch 分界 ✓**：队长行显 `authority@2` + partyMove 行；队员行
+     （实机 anu）不伪造 epoch/slot；slot 文案 `auto move#12 owner e-owner@3 authority@2
+     （被控制权暂停）` 把三类 epoch 分字段、只标已注册（测试断言）;pausedByAuthority=
+     `auto && authority.has(id)` 与 E6 拍板一致。
+  3. **hide/show/dispose/stale ✓**：两层分离——hide(frameStep reset + blur + 停 badge +
+     `root.hidden`)/show（刷新 + 起 badge + 聚焦）/dispose（幂等、集中 abort
+     panelOperations、`removeEventListener(...,true)` 与注册匹配、style 以
+     `getElementById===ownedStyle` 身份守卫、activeDebugCleanup 身份守卫）；旧 capture
+     泄漏路径已删，无双路径；测试钉三轮 hide/show、重装、双 dispose、stale 不碰新实例、
+     hide 保留在途/dispose abort。
+  4. **输入所有权 ✓（实机逐项）**:Esc→`root.hidden=true`、computed `display:none`
+     (`[hidden]` CSS 修复生效）、DOM 保留；Backquote→重显且快照真实刷新（tick 0→337)、
+     恰 1 root + 1 style；隐藏后下一次 Escape 到达游戏（测试行为断言）；守卫=hidden-only +
+     `event.code` + 非 repeat/composing/无修饰/无 editable 祖先（contenteditable 经
+     `closest` 覆盖，测试含后代节点）;open 态 console 输入框键入反引号落字符 `` ` `` 且面板
+     不动（实机）。
+  5. **DEV-only ✓（本人双构建复核）**:`pnpm --filter @type-pal/reforge build` 与 editor
+     build 均过；`rg 'tp-debug|installDebugTools|实体位置控制权' dist -g '*.js'` 两包零
+     命中；深查 `captureMotionState`/`pausedByAuthority` 亦零命中（闭包被 tree-shake);
+     残留的 `authorityEpochAtEnqueue` 是运行时 slot 属性（生产路径既有）,非 debug 泄漏。
+  6. **视觉 ✓（实机两档）**：默认 1280×720——root 422px、root/panel 横溢 0、紧凑分割线
+     列表无行卡片；320×640——root 306px、root/panel/list 横溢 0、长 gate 折行、页头徽标
+     按媒体查询换行；document 横溢 960 全部来自游戏 canvas（既有，范围外）;console 0
+     error。截图：`output/playwright/e6-1/e6-1-kimi-authority-default.jpg`、
+     `e6-1-kimi-authority-320x640.jpg`。
+  复跑：`debug-tools + motion-runtime-coordinator + motion-runtime-wiring` **3 files /
+  38 tests 全绿**;Reforge 全量 93/857 与 typecheck 采信 Codex 记录未重复。
+  无返工项；未修改实现，未代签 GLM。
 - GLM: pending
-- counter / 返工处理: pending
+- counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
 
 ## Draft: 设计与风险
 
@@ -419,6 +454,16 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 
 ## 交接日志
 
+- 2026-09-03 Kimi: 只读终审 `de19b7f8`，签 final **accept**。独立证据：全 diff 直读（单一
+  captureMotionState 双消费、DTO 纯值、编外 renderable 不丢行、slot 三 epoch 分字段、
+  两层 controller、capture 移除带 true、style/身份双守卫）；复跑 debug-tools+coordinator+
+  wiring **3 files / 38 tests 全绿**；本人重跑 Reforge + Editor 生产构建，卡门三字符串与
+  `captureMotionState`/`pausedByAuthority` 均零命中（`authorityEpochAtEnqueue` 为运行时
+  slot 属性，非泄漏）；实机 s213——41 行固定排序、Esc→display:none、Backquote→重显且
+  tick 0→337 真实刷新、console 输入反引号落字符不动面板、1280×720 与 320×640 两档
+  root/panel/list 横溢 0（document 横溢全部来自既有游戏 canvas，范围外）、console 0
+  error；截图 `output/playwright/e6-1/e6-1-kimi-authority-{default,320x640}.jpg`。
+  无返工项；未修改实现，未代签 GLM，未标 done。Next: GLM 覆盖/测试复验与用户验收。
 - 2026-09-03 Kimi: 完成架构/输入所有权/功能界面主审，签 premise verified + design
   agree。独立证据：`player.pos` 六写点/实体五写点 grep 普查（控制源恰五族，spawn/teleport
   为瞬时写）；Esc capture 残留 bug 独立实锤（:303 capture 注册 vs :274 裸移除 → 游戏菜单
@@ -452,26 +497,12 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 
 ## 下一位 Agent 提示词
 
-### Kimi（实现/视觉复验）
-
-```text
-接手任务: E6-1 实体位置控制权运行态检视与调试面板重开
-任务卡: docs/ops/tasks/E6-1-runtime-authority-inspector.md
-当前状态: review；实现候选 de19b7f8，Codex 已签 accept，Kimi/GLM final accept 尚缺。
-你的角色: 架构、输入所有权、代码与功能界面视觉复验。
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；任务卡全部设计签字、Build 与视觉记录；候选 de19b7f8；packages/reforge/src/main.ts 的 captureMotionState；packages/reforge/src/debug-tools.ts 全文及测试；docs/phase2/dev-tools.md。
-已完成: 单一纯值快照覆盖四类对象；状态页紧凑列表；Esc hide/Backquote show；listener 泄漏修复；7 条组件测试；Reforge 93 files/857 tests；双 build 与 production grep；真实 s213/e3613 mount、归还、320px 视觉证据。
-请你做: 独立审查 de19b7f8，重点核单一真值、partyMove/slots/epoch、hide/show/dispose 与在途操作、Backquote 输入所有权、stale disposer、DEV tree-shake；复核默认与 320px 截图/必要时实机抽验。把 final accept 或 counter、证据、返工项写回任务卡。
-不要做: 不改实现；不代签 GLM；不把 E6 标 done；不扩 schema/save/migration/overlay/时间旅行。
-输出要求: 提交并推送任务卡 review 签字，回复 commit hash 与 accept 或 counter；若 accept，附 GLM 下一位提示词。
-```
-
 ### GLM（覆盖/测试复验）
 
 ```text
 接手任务: E6-1 实体位置控制权运行态检视与调试面板重开
 任务卡: docs/ops/tasks/E6-1-runtime-authority-inspector.md
-当前状态: review；实现候选 de19b7f8，Codex 已签 accept，等待 Kimi/GLM final accept。
+当前状态: review；实现候选 de19b7f8，Codex + Kimi 已签 accept，等待 GLM final accept 与用户验收。
 你的角色: 四类对象覆盖、测试矩阵、文档与遗漏复验。
 先读: AGENTS.md；docs/phase2/READ-FIRST.md；最新任务卡；候选 de19b7f8；packages/reforge/src/main.ts 的 captureMotionState；packages/reforge/src/debug-tools.ts；packages/reforge/src/debug-tools.test.ts；docs/phase2/dev-tools.md。
 已完成: Codex 已落实 GM-E1~E4 和两条必改项；自动与浏览器证据写在任务卡 Build/视觉记录。
