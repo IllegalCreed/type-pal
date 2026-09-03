@@ -265,10 +265,42 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
     按纪律未重复全量。**200% 与 Firefox/WebKit 未实测**（同前卡环境限制，CDP pageScaleFactor
     为 pinch 式、MCP 窗口钳制，未以缩视口冒充）。
   无返工项；未修改生产实现，未代签 GLM。
-- GLM: pending
+- GLM: **accept（2026-09-03，只读终审 `39ea04cd` + 终态 registry 逐数独立解析 + CSS 删留
+  边界 + 测试矩阵/门禁负例直读 + 聚焦复跑，非复述 Codex/Kimi；与 Kimi 口径收敛）**。按
+  GM-WD1~WD4 逐钉核验（本席重点：registry/census/门禁/测试矩阵）：
+  - **终态 registry 复算 ✓（GM-WD1）**：本人 node 解析——pages 恰 **27 全 adopted / 0
+    exception**（逐页 status 断言）；`workspaceLegacyExceptions` **0**；scroll records 总和
+    恰 **102** 不变；canonical `DsObjectWorkspaceContent` 恰 **20**（11+9）；legacy main
+    **0**。六生产文件 `ds-object-workspace` 字面 **0 命中**、各恰 **1 个 `<DsObjectWorkspace>`**、
+    **0 处 `contentMode="manual"`**（本人逐文件 grep）；公共 `recipes.tsx/css`、
+    `design-system-audit.mjs`、`index.ts`、`tokens.css` **零 diff**（commit stat 直证），
+    DS 恒 **2.24.0**，spec 仅 +4 行 census 注记——与冻结目标 27+0/102/0/20 逐数一致。
+  - **CSS 删留边界 ✓（职责 2）**：editor.css **−21 行**恰删 9 条 main 壳声明与重复 root
+    flex/grid（如 `.world-variable-workbench .ds-object-workspace` 仅删
+    `display:flex; flex-direction:column` 而保留 `height:100%`）；现存 3 处
+    `ds-object-workspace` 均为**既有域规则**（本提交未新增、`git show` 逐条证实；2 处
+    Vars 高度/min-size 属「领域 height 保留」允许类、1 处 `battle-data-form…__content
+    max-width` 为卡范围外的既有域微调未触碰）——「无残留」按 9 条 main 声明口径成立。
+  - **测试矩阵 ✓（GM-WD2，直读 + 复跑）**：`verifyCanonicalObjectWorkspace` 机器断言
+    （恰 1 direct `data-ds-scroll-owner="main"` y owner + hero/notice **不在 content 内**）在
+    六测试文件共 **25 处**调用；分支覆盖——EnemyTeam/BattleField/Vars「selected/creating/
+    empty 共用唯一 canonical main owner」、BattleSprite「ready/upload/empty」、SpriteViewer
+    「加载失败仍保留同一 workspace 与 content owner」+ loading/ready；深链不偷换选择；**创建
+    分支首输入获焦断言实证**（BattleField:213 / Vars:164 `activeElement === creating
+    content input`、Project adder 系列）；Project `scrollIntoView` 保留（:2145）。
+  - **门禁负例 ✓（GM-WD3）**：`workspaceLegacyExceptions` 长度 0、102 records、27 页逐页
+    adopted 断言；`closes every raw object workspace debt`——逐源禁 raw 字面 + 恰 1 个组件
+    调用；漏 Project owner → **精确失败清单**；伪造 `status:'exception'` →
+    `'story/vars status must be adopted'` 红；stale legacy selector → 精确消息红。
+  - **复跑与证据采信 ✓**：本人复跑六业务测试 + adoption 门禁 **7 files / 104 tests 全绿**
+    + typecheck 干净 + design-system gate **92 files / 2 evidence-bound exceptions**；
+    Codex 记录的 186 files / 1562 全量、build 与四档浏览器矩阵（root/祖先 scrollTop=0、
+    Hero 固定、末项可达、横溢 0）按纪律采信；**真实 200% 与 Firefox/WebKit 未实测**——
+    与 Codex/Kimi 统一口径，非缺陷申报。
+  无返工项；未修改实现/测试，未代签 Kimi，未填用户验收。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
+- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
 
 ## Draft: 设计与风险
 
@@ -313,6 +345,14 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 
 ## 交接日志
 
+- 2026-09-03 GLM: 只读终审 `39ea04cd`，签 **accept**。独立证据：终态 registry node 解析
+  27+0/102/canonical 20/legacy 0 逐数闭合；六文件 raw 0、组件恰 1、manual 0；公共层零 diff、
+  DS 2.24.0；editor.css −21 行恰删 9 条 main 壳声明，现存 3 处均为既有域规则非本提交新增；
+  `verifyCanonicalObjectWorkspace` 六文件 25 处机器断言 + 分支/深链/创建首输入获焦实证
+  （BattleField:213/Vars:164）；门禁负例（漏 owner 精确清单/伪造 exception 红/stale 红/
+  raw 字面闭零/逐源恰 1 组件）直读；本人复跑 7 files / 104 tests + typecheck + gate 92/2
+  全绿；200% 与 Firefox/WebKit 未实测统一口径。无返工项；未修改实现/测试，未代签 Kimi，
+  未填用户验收。三方 accept 齐，仅剩用户验收；无下一位 Agent 提示词，等待用户验收/收口。
 - 2026-09-03 Kimi: 只读终审 `39ea04cd`，签 **accept**。独立证据：终态复算 27 adopted/0、
   102 scroll、20 canonical、legacy 0（本人 node 复算）；六文件 raw class 零命中、各恰 1
   组件、0 manual;Project helper 与 EnemyTeam hero fragment 直读（notice+selected Hero 固定
