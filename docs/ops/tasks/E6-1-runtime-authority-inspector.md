@@ -1,6 +1,6 @@
 # E6-1 - 实体位置控制权运行态检视与调试面板重开
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: E6 实体定位权威
 Coding Owner: Codex
@@ -412,6 +412,9 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 - 2026-09-03 Codex: 按用户确认的第二阶段唯一队列开 E6-1；完成当前实现/调试入口与历史 O2 的
   一手核验，冻结单一快照、完整四类对象、两层 controller、Backquote 输入守卫和 production 剥离门禁。
   Evidence: 本卡前提矩阵与代码锚点。Next: Kimi、GLM 独立设计审查；签字不齐不得开始实现。
+- 2026-09-03 Codex: 检查 `d69f7160`（GLM）与 `1b91aeb7`（Kimi），确认三方 premise/design、
+  独立反证与 GM-E1~E4 齐全；状态转 build。Evidence: 本卡推进签字。Next: Codex 作为唯一
+  Coding Owner 实现并自测；无需再补设计签。
 
 ## 下一位 Agent 提示词
 
@@ -420,7 +423,7 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 ```text
 接手任务: E6-1 实体位置控制权运行态检视与调试面板重开
 任务卡: docs/ops/tasks/E6-1-runtime-authority-inspector.md
-当前状态: draft；Codex + GLM + Kimi 三签齐，build 准入 allowed；你是唯一 Coding Owner，可以开始实现。
+当前状态: build；Codex + GLM + Kimi 三签齐，build 准入 allowed；你是唯一 Coding Owner，可以开始实现。
 先读: AGENTS.md；docs/phase2/READ-FIRST.md；任务卡全部签字、GM-E1~E4 钉、两条必改项与 Kimi 三点实现注意；docs/phase2/dev-tools.md；packages/reforge/src/main.ts:520-533,1417,1684-1738,3988-4083,4246-4267,5951-5984,6776-6804,6933-6965；packages/reforge/src/debug-tools.ts 全文；packages/reforge/src/motion-runtime-coordinator.ts；packages/reforge/src/debug-tools.test.ts。
 已完成: 三方设计签字齐（均 premise verified + design agree）；未改任何实现。
 必须落实:

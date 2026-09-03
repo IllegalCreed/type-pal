@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| E6-1 | [实体位置控制权运行态检视与调试面板重开](tasks/E6-1-runtime-authority-inspector.md) | draft | 三签齐，Codex build | 单一只读快照；Esc 关闭后反引号重开；GLM 两条必改项随 build 落实 |
+| E6-1 | [实体位置控制权运行态检视与调试面板重开](tasks/E6-1-runtime-authority-inspector.md) | build | Codex 实现与自测 | 单一只读快照；Esc 关闭后反引号重开；GLM 两条必改项随 build 落实 |
 
 ## 看板规则
 
