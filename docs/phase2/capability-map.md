@@ -102,7 +102,7 @@
 | N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done；async 解释器+预览。可执行 `unmigrated`、旧 opcode 第二解释器和带版本后缀的脚本产品模型均已退役；当前 content19 直接使用 `AuthorCommand` / `AuthorScriptFlow` / `WorldScriptState`，并以稳定 ActorId 的结构化命令施加/清除剧情入队角色当前状态。 |
 | N4 | 事件模板库 | — | ✅ | — | done;编辑器产物,引擎无依赖 |
 | N5 | 条件/变量/flag | ✅ | ✅ | 全局 flag | 引擎 done;编辑器(2026-07-05):数据模式「变量」页(flag/var 总览+读写明细)+ 物品页「被事件引用」区(737 处),点引用跳事件模式定位源(ref-index 全脚本递归扫描,含 branch/confirm/startBattle 子命令与 hostile.onLose) |
-| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **done**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开均已落地；canonical 库为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不保存 chunk；脚本分片和“迁移内部实现”已从当前产品删除。 |
+| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **N6 v1 done**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开均已落地；canonical 库为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不保存 chunk；脚本分片和“迁移内部实现”已从当前产品删除。用户提出的 N6b 强类型脚本模式库仍处于开放设计，不反向降级 v1。 |
 | N7 | **演出接管** | ✅ | ✅ | 隐龙窟/试炼窟 | done(2026-07-07):显式 take/release(E6b)+ mount/follow 权威,非冻帧。两考题实测:隐龙窟门口演出全链(对话/转向/切场景/setParty)+ 试炼窟芦苇漂共乘 |
 | N8 | 过场编排(mp4/帧动画 CG) | ✅ | ✅ | 开场 CG/帧动画序列 | **done（A7-3，2026-07-17）**：视频与完整帧动画使用稳定 AssetId 和工程内文件；运行时支持全段/分段/帧率/显式预览跳过，剧情默认不可跳；编辑器支持双列表、内嵌视频、完整帧时间轴、导入/替换/量化/多选重排/时长/引用保护/保存重开。C1-C5 返工、LAN HTTPS/FSA、OPFS 真句柄 round-trip、三方审查与用户验收完成。BGM/SFX 仍由脚本编排，不绑素材 |
 
