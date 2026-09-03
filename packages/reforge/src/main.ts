@@ -6773,35 +6773,114 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
   saveMetasReady = refreshSaveMetas().catch((error: unknown) => {
     console.warn('[save] 初始存档浏览缓存加载失败:', error)
   }) // 预载已有存档 metas + 缩略图(浏览界面首开即有内容)
+  const captureRegisteredMotion = (entityId: string, slot: EntityMotionSlot | undefined) =>
+    slot
+      ? {
+          source: slot.source,
+          kind: slot.kind,
+          commandEpoch: slot.commandEpoch,
+          sceneSessionId: slot.sceneSessionId,
+          ...(slot.activationOwnerId !== undefined
+            ? { activationOwnerId: slot.activationOwnerId }
+            : {}),
+          ...(slot.activationEpoch !== undefined ? { activationEpoch: slot.activationEpoch } : {}),
+          ...('authorityEpochAtEnqueue' in slot && slot.authorityEpochAtEnqueue !== undefined
+            ? { authorityEpochAtEnqueue: slot.authorityEpochAtEnqueue }
+            : {}),
+          pausedByAuthority: slot.source === 'auto' && authority.has(entityId),
+        }
+      : undefined
+  const captureAuthority = (id: string) => {
+    const owner = authority.get(id)
+    return owner?.kind === 'mount'
+      ? { kind: 'mount' as const, parent: owner.parent, dx: owner.dx, dy: owner.dy }
+      : { kind: owner?.kind ?? ('world' as const) }
+  }
+  const captureMotionState = () => {
+    const leader = expectDefined(world.party[0])
+    return {
+      scene: scene.id,
+      worldTick: worldTickNum,
+      player: {
+        id: leader.id,
+        template: leader.template,
+        pos: { ...player.pos },
+        facing,
+        walking,
+        authority: captureAuthority('party'),
+        authorityEpoch: motionRuntime.epoch('party'),
+        ...(partyMove ? { partyMove: { to: { ...partyMove.to }, speed: partyMove.speed } } : {}),
+      },
+      followers: world.party.slice(1).map((member, offset) => {
+        const partyIndex = offset + 1
+        const owner = followerAuth.get(partyIndex) ?? { kind: 'follow' as const }
+        const current = followerPos[partyIndex]
+        const followerAuthority =
+          owner.kind === 'mount'
+            ? { kind: 'mount' as const, parent: owner.parent, dx: owner.dx, dy: owner.dy }
+            : { kind: owner.kind }
+        return {
+          partyIndex,
+          id: member.id,
+          template: member.template,
+          pos: { ...(current?.pos ?? player.pos) },
+          facing: current?.facing ?? facing,
+          authority: followerAuthority,
+        }
+      }),
+      extraFollowers: (runtimeScript.followers ?? []).map((spriteId, runtimeSlot) => {
+        const trailIndex = world.party.length + runtimeSlot
+        const derived = computeFollowerPos(
+          { party: player.pos, trail, walking, frozenOffset: followerFrozen },
+          trailIndex,
+          (col, row) => !isBlocked({ col, row, height: 0 }),
+        )
+        const definition = project.spritesById[spriteId]
+        return {
+          runtimeSlot,
+          spriteId,
+          pos: { ...(derived?.pos ?? player.pos) },
+          facing: derived?.dir ?? facing,
+          authority: { kind: 'follow' as const },
+          renderable:
+            definition !== undefined &&
+            spriteCache.get(project.assetResolver, definition.asset) !== undefined,
+        }
+      }),
+      entities: scene.entities
+        .map((entity) => {
+          const scriptMotion = captureRegisteredMotion(entity.id, scriptMotionSlots.get(entity.id))
+          const autoMotion = captureRegisteredMotion(entity.id, autoMotionSlots.get(entity.id))
+          return {
+            id: entity.id,
+            pos: { ...entity.pos },
+            facing: entity.facing ?? ('down' as const),
+            gates: {
+              ...entityLifecycleGates(entity, {
+                hasAuto: !!entity.pages?.[0]?.auto,
+                hasHostile: !!entity.hostile,
+              }),
+            },
+            authority: captureAuthority(entity.id),
+            authorityEpoch: motionRuntime.epoch(entity.id),
+            ...(scriptMotion ? { scriptMotion } : {}),
+            ...(autoMotion ? { autoMotion } : {}),
+            gait: entityWalkPhase.get(entity.id) ?? null,
+          }
+        })
+        .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)),
+      pendingTouch: pendingTouchTrigger.pending,
+      pendingChase: [...pendingChaseTerminal.keys()].sort(),
+      hostileBusy,
+      runnerActive: runner !== null,
+    }
+  }
   // e2e checkpoint / D15 motion trace：collision 模式才采样，避免普通 DEV 游戏积累诊断数据。
   if (import.meta.env.DEV) {
     ;(window as unknown as { __tpE2e: unknown }).__tpE2e = {
       dumpSave: buildCurrentSavePayload,
       dumpMotionTrace: () => structuredClone(motionTrace),
-      dumpMotionState: () => ({
-        scene: scene.id,
-        worldTick: worldTickNum,
-        player: { pos: { ...player.pos }, facing, walking },
-        entities: scene.entities
-          .map((entity) => ({
-            id: entity.id,
-            pos: { ...entity.pos },
-            facing: entity.facing ?? 'down',
-            gates: entityLifecycleGates(entity, {
-              hasAuto: !!entity.pages?.[0]?.auto,
-              hasHostile: !!entity.hostile,
-            }),
-            authority: authority.get(entity.id)?.kind ?? 'world',
-            scriptMotion: scriptMotionSlots.get(entity.id)?.kind ?? null,
-            autoMotion: autoMotionSlots.get(entity.id)?.kind ?? null,
-            gait: entityWalkPhase.get(entity.id) ?? null,
-          }))
-          .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)),
-        pendingTouch: pendingTouchTrigger.pending,
-        pendingChase: [...pendingChaseTerminal.keys()].sort(),
-        hostileBusy,
-        runnerActive: runner !== null,
-      }),
+      dumpMotionState: captureMotionState,
       clearMotionTrace: () => {
         motionTrace.length = 0
       },
@@ -6937,6 +7016,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
       const { installDebugTools } = await import('./debug-tools.js')
       installDebugTools({
         world: () => world,
+        motionState: captureMotionState,
         sceneId: () => scene.id,
         scene: () => canonicalSceneCache.get(scene.id),
         canonicalProject,

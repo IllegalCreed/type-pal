@@ -12,7 +12,10 @@
 import type {
   ActivePoison,
   CharacterInstance,
+  Facing,
+  GridPos,
   RuntimeSceneDef,
+  WalkSpeed,
   WorldState,
 } from '@type-pal/content'
 import { isCarryableStatusId } from '@type-pal/content'
@@ -33,6 +36,74 @@ export interface DebugLayers {
   triggers: boolean
 }
 
+export type DebugMotionAuthority =
+  | { kind: 'world' | 'script' | 'follow' }
+  | { kind: 'mount'; parent: string; dx: number; dy: number }
+
+export interface DebugRegisteredMotion {
+  source: 'script' | 'auto'
+  kind: 'move' | 'step' | 'chase'
+  commandEpoch: number
+  sceneSessionId: string
+  activationOwnerId?: string
+  activationEpoch?: number
+  authorityEpochAtEnqueue?: number
+  pausedByAuthority: boolean
+}
+
+export interface DebugMotionSnapshot {
+  scene: string
+  worldTick: number
+  player: {
+    id: string
+    template: string
+    pos: GridPos
+    facing: Facing
+    walking: boolean
+    authority: Exclude<DebugMotionAuthority, { kind: 'follow' }>
+    authorityEpoch: number
+    partyMove?: { to: GridPos; speed: WalkSpeed }
+  }
+  followers: Array<{
+    partyIndex: number
+    id: string
+    template: string
+    pos: GridPos
+    facing: Facing
+    authority: Exclude<DebugMotionAuthority, { kind: 'world' }>
+  }>
+  extraFollowers: Array<{
+    runtimeSlot: number
+    spriteId: string
+    pos: GridPos
+    facing: Facing
+    authority: { kind: 'follow' }
+    renderable: boolean
+  }>
+  entities: Array<{
+    id: string
+    pos: GridPos
+    facing: Facing
+    authority: Exclude<DebugMotionAuthority, { kind: 'follow' }>
+    authorityEpoch: number
+    scriptMotion?: DebugRegisteredMotion
+    autoMotion?: DebugRegisteredMotion
+    gait: number | null
+    gates: {
+      visible: boolean
+      collidable: boolean
+      manualInteractable: boolean
+      touchTriggerable: boolean
+      autoAllowed: boolean
+      hostileAllowed: boolean
+    }
+  }>
+  pendingTouch: boolean
+  pendingChase: string[]
+  hostileBusy: boolean
+  runnerActive: boolean
+}
+
 export interface DebugPresetMember {
   actorId: string
   level?: number
@@ -48,6 +119,7 @@ export interface DebugPresetMember {
 
 export interface DebugToolsContext {
   world(): WorldState
+  motionState(): DebugMotionSnapshot
   sceneId(): string
   /** current canonical 场景定义（触发器/脚本枚举与触发用）。 */
   scene(): RuntimeSceneDef | undefined
@@ -123,6 +195,7 @@ export function injectDebugToolsStyles(): void {
   font:12px/1.45 ui-monospace,"SF Mono",Menlo,Monaco,Consolas,monospace;
   color-scheme:dark;
 }
+#${ROOT_ID}[hidden] { display:none; }
 #${ROOT_ID} * { box-sizing:border-box; }
 #${ROOT_ID} .tpd-main { flex:1 1 auto; min-width:0; min-height:0; display:flex; flex-direction:column; }
 #${ROOT_ID} .tpd-header {
@@ -210,6 +283,26 @@ export function injectDebugToolsStyles(): void {
 #${ROOT_ID} .tpd-console { height:160px; }
 #${ROOT_ID} .tpd-inspector { height:390px; }
 #${ROOT_ID} .tpd-console-line { display:block; }
+#${ROOT_ID} .tpd-motion-list { margin:0 0 6px; background:var(--tpd-surface); }
+#${ROOT_ID} .tpd-motion-row {
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:2px 8px; padding:6px;
+  border-bottom:1px solid var(--tpd-border);
+}
+#${ROOT_ID} .tpd-motion-row:last-child { border-bottom:0; }
+#${ROOT_ID} .tpd-motion-identity { min-width:0; overflow-wrap:anywhere; }
+#${ROOT_ID} .tpd-motion-identity strong { margin-right:6px; color:var(--tpd-text); }
+#${ROOT_ID} .tpd-motion-identity code { color:var(--tpd-info); font:inherit; }
+#${ROOT_ID} .tpd-motion-authority {
+  align-self:start; padding:1px 5px; border:1px solid currentColor; border-radius:999px;
+  color:var(--tpd-section); font-size:10px; white-space:nowrap;
+}
+#${ROOT_ID} .tpd-motion-authority[data-authority="script"] { color:var(--tpd-warn); }
+#${ROOT_ID} .tpd-motion-authority[data-authority="mount"] { color:var(--tpd-accent); }
+#${ROOT_ID} .tpd-motion-authority[data-authority="follow"] { color:var(--tpd-success); }
+#${ROOT_ID} .tpd-motion-meta {
+  grid-column:1 / -1; min-width:0; color:var(--tpd-text-dim); font-size:10px;
+  line-height:1.45; overflow-wrap:anywhere;
+}
 #${ROOT_ID} .tpd-scrollbox { max-height:180px; overflow:auto; padding:6px;
   background:var(--tpd-surface); border:1px solid var(--tpd-border); border-radius:4px; }
 #${ROOT_ID} .tpd-scrollbox-compact { max-height:110px; }
@@ -258,33 +351,89 @@ export function injectDebugToolsStyles(): void {
 export function installDebugTools(ctx: DebugToolsContext): () => void {
   activeDebugCleanup?.()
   injectDebugToolsStyles()
+  const ownedStyle = document.getElementById(STYLE_ID)
 
   const root = document.createElement('div')
   root.id = ROOT_ID
 
-  let closed = false
+  let hidden = false
+  let disposed = false
   let badgeTimer: ReturnType<typeof setInterval> | undefined
+  const panelOperations = new Set<AbortController>()
 
-  const close = (): void => {
-    if (closed) return
-    closed = true
+  const stopBadgePolling = (): void => {
+    if (badgeTimer === undefined) return
+    clearInterval(badgeTimer)
+    badgeTimer = undefined
+  }
+  const hidePanel = (): void => {
+    if (disposed || hidden) return
+    hidden = true
     ctx.frameStep.setActive(false)
     ctx.frameStep.reset()
-    if (badgeTimer !== undefined) clearInterval(badgeTimer)
-    window.removeEventListener('keydown', closeOnEscCapture)
-    root.remove()
-    document.getElementById(STYLE_ID)?.remove()
-    if (activeDebugCleanup === close) activeDebugCleanup = undefined
+    stopBadgePolling()
+    const focused = document.activeElement
+    if (focused instanceof HTMLElement && root.contains(focused)) focused.blur()
+    root.hidden = true
   }
-  activeDebugCleanup = close
-  // K1：表单字段键入时屏蔽游戏快捷键；Esc 只关 overlay。其余按键透传（不吞游戏对话推进键）。
-  root.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      e.preventDefault()
-      e.stopPropagation()
-      close()
+  const showPanel = (): void => {
+    if (disposed || !hidden) return
+    hidden = false
+    root.hidden = false
+    refreshInspect()
+    startBadgePolling()
+    tabButtons.get(activeTab)?.focus()
+  }
+  const dispose = (): void => {
+    if (disposed) return
+    if (!hidden) hidePanel()
+    disposed = true
+    stopBadgePolling()
+    for (const operation of panelOperations) operation.abort()
+    panelOperations.clear()
+    window.removeEventListener('keydown', onControllerKeyDown, true)
+    root.remove()
+    if (ownedStyle?.isConnected && document.getElementById(STYLE_ID) === ownedStyle)
+      ownedStyle.remove()
+    if (activeDebugCleanup === dispose) activeDebugCleanup = undefined
+  }
+  activeDebugCleanup = dispose
+
+  const editableTarget = (target: EventTarget | null): boolean => {
+    if (!(target instanceof Element)) return false
+    return (
+      target.closest('input,select,textarea,[contenteditable]:not([contenteditable="false"])') !==
+      null
+    )
+  }
+  function onControllerKeyDown(event: KeyboardEvent): void {
+    if (disposed) return
+    if (!hidden && event.key === 'Escape') {
+      event.preventDefault()
+      event.stopImmediatePropagation()
+      hidePanel()
       return
     }
+    if (
+      !hidden ||
+      event.code !== 'Backquote' ||
+      event.repeat ||
+      event.isComposing ||
+      event.shiftKey ||
+      event.ctrlKey ||
+      event.altKey ||
+      event.metaKey ||
+      editableTarget(event.target)
+    )
+      return
+    event.preventDefault()
+    event.stopImmediatePropagation()
+    showPanel()
+  }
+  window.addEventListener('keydown', onControllerKeyDown, { capture: true })
+
+  // K1：表单字段键入时屏蔽游戏快捷键。Esc 由唯一 controller capture listener 处理。
+  root.addEventListener('keydown', (e) => {
     const target = e.target as HTMLElement | null
     if (target?.matches('input, select, textarea')) e.stopPropagation()
   })
@@ -292,16 +441,6 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     const target = e.target as HTMLElement | null
     if (target?.matches('input, select, textarea')) e.stopPropagation()
   })
-  // 焦点不在面板内时 Esc 也关 overlay（不触游戏菜单：capture 早于游戏 bubble 监听，且 preventDefault）。
-  const closeOnEscCapture = (e: KeyboardEvent): void => {
-    if (e.key !== 'Escape') return
-    if (root.contains(e.target as Node)) return
-    e.preventDefault()
-    e.stopPropagation()
-    close()
-  }
-  window.addEventListener('keydown', closeOnEscCapture, { capture: true })
-
   function el<K extends keyof HTMLElementTagNameMap>(
     tag: K,
     attrs: { className?: string; html?: string; text?: string } = {},
@@ -341,7 +480,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   const closeButton = el('button', { className: 'tpd-close', text: '×' })
   closeButton.type = 'button'
   closeButton.setAttribute('aria-label', '关闭调试面板（Esc）')
-  closeButton.addEventListener('click', close)
+  closeButton.addEventListener('click', hidePanel)
   headerMeta.append(runnerBadge, dialogBadge, status)
   header.append(title, headerMeta, closeButton)
 
@@ -414,13 +553,32 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     dialogBadge.textContent = db ? '对话进行中' : '对话空闲'
     dialogBadge.dataset.state = db ? 'busy' : 'idle'
   }
-  refreshBadges()
-  badgeTimer = setInterval(refreshBadges, 500)
+  function startBadgePolling(): void {
+    if (badgeTimer !== undefined || disposed || hidden) return
+    refreshBadges()
+    badgeTimer = setInterval(refreshBadges, 500)
+  }
+  startBadgePolling()
 
   // ── 命令状态行（K3：触发状态上屏） ──
   const setStatus = (text: string, color = '#9fb3c8'): void => {
+    if (disposed) return
     status.textContent = text
     status.dataset.tone = debugTone(color)
+  }
+  const createPanelOperation = (): AbortController => {
+    const controller = new AbortController()
+    panelOperations.add(controller)
+    return controller
+  }
+  const runPanelOperation = <T>(invoke: (signal: AbortSignal) => Promise<T>): Promise<T> => {
+    const controller = createPanelOperation()
+    try {
+      return invoke(controller.signal).finally(() => panelOperations.delete(controller))
+    } catch (error) {
+      panelOperations.delete(controller)
+      return Promise.reject(error)
+    }
   }
 
   // ── 1. cheat console（G4 命令集覆盖矩阵见 docs/phase2/dev-tools.md） ──
@@ -439,11 +597,139 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   consoleSection.appendChild(input)
   panelFor('commands').appendChild(consoleSection)
 
-  // ── 2. 世界变量检视（只读） ──
+  // ── 2. 世界与 E6 定位权威检视（只读） ──
+  const motionSection = section('实体位置控制权（运行态，只读）')
+  const motionList = el('div', { className: 'tpd-motion-list' })
+  motionList.setAttribute('role', 'list')
+  motionSection.appendChild(motionList)
+
+  const authorityText = (authority: DebugMotionAuthority): string => {
+    switch (authority.kind) {
+      case 'world':
+        return '世界'
+      case 'script':
+        return '脚本'
+      case 'follow':
+        return '跟随'
+      case 'mount':
+        return `载具 ${authority.parent} (${authority.dx},${authority.dy})`
+    }
+  }
+  const positionText = (pos: GridPos): string =>
+    `${formatDebugNumber(pos.col)},${formatDebugNumber(pos.row)},${formatDebugNumber(pos.height)}`
+  const registeredMotionText = (motion: DebugRegisteredMotion): string => {
+    const owner = motion.activationOwnerId
+      ? ` owner ${motion.activationOwnerId}@${String(motion.activationEpoch ?? '—')}`
+      : ''
+    const queuedAuthority =
+      motion.authorityEpochAtEnqueue === undefined
+        ? ''
+        : ` authority@${motion.authorityEpochAtEnqueue}`
+    return `${motion.source} ${motion.kind}#${motion.commandEpoch}${owner}${queuedAuthority}${
+      motion.pausedByAuthority ? '（被控制权暂停）' : ''
+    }`
+  }
+  const appendMotionRow = (input: {
+    kind: 'leader' | 'party-follower' | 'extra-follower' | 'entity'
+    id: string
+    title: string
+    authority: DebugMotionAuthority
+    details: string[]
+  }): void => {
+    const row = el('div', { className: 'tpd-motion-row' })
+    row.setAttribute('role', 'listitem')
+    row.dataset.motionKind = input.kind
+    row.dataset.motionId = input.id
+    row.dataset.authority = input.authority.kind
+    const identity = el('div', { className: 'tpd-motion-identity' })
+    identity.appendChild(el('strong', { text: input.title }))
+    identity.appendChild(el('code', { text: input.id }))
+    const authority = el('span', {
+      className: 'tpd-motion-authority',
+      text: authorityText(input.authority),
+    })
+    authority.dataset.authority = input.authority.kind
+    row.append(identity, authority)
+    row.appendChild(
+      el('div', {
+        className: 'tpd-motion-meta',
+        text: input.details.filter(Boolean).join(' · '),
+      }),
+    )
+    motionList.appendChild(row)
+  }
+  const renderMotionState = (snapshot: DebugMotionSnapshot): void => {
+    motionList.replaceChildren()
+    appendMotionRow({
+      kind: 'leader',
+      id: snapshot.player.id,
+      title: '队长',
+      authority: snapshot.player.authority,
+      details: [
+        snapshot.player.template !== snapshot.player.id ? `角色 ${snapshot.player.template}` : '',
+        `位置 ${positionText(snapshot.player.pos)}`,
+        `朝向 ${snapshot.player.facing}`,
+        `authority@${snapshot.player.authorityEpoch}`,
+        snapshot.player.partyMove
+          ? `partyMove → ${positionText(snapshot.player.partyMove.to)} ${snapshot.player.partyMove.speed}`
+          : '',
+        snapshot.player.walking ? 'walking' : 'idle',
+        `scene ${snapshot.scene} · tick ${snapshot.worldTick}`,
+      ],
+    })
+    for (const follower of snapshot.followers)
+      appendMotionRow({
+        kind: 'party-follower',
+        id: follower.id,
+        title: `队员 ${follower.partyIndex}`,
+        authority: follower.authority,
+        details: [
+          follower.template !== follower.id ? `角色 ${follower.template}` : '',
+          `位置 ${positionText(follower.pos)}`,
+          `朝向 ${follower.facing}`,
+        ],
+      })
+    for (const follower of snapshot.extraFollowers)
+      appendMotionRow({
+        kind: 'extra-follower',
+        id: follower.spriteId,
+        title: `编外跟随 ${follower.runtimeSlot + 1}`,
+        authority: follower.authority,
+        details: [
+          `runtime slot ${follower.runtimeSlot}`,
+          `位置 ${positionText(follower.pos)}`,
+          `朝向 ${follower.facing}`,
+          follower.renderable ? '资源已就绪' : '资源未就绪',
+        ],
+      })
+    for (const entity of snapshot.entities) {
+      const enabledGates = Object.entries(entity.gates)
+        .filter(([, enabled]) => enabled)
+        .map(([name]) => name)
+        .join(',')
+      appendMotionRow({
+        kind: 'entity',
+        id: entity.id,
+        title: '实体',
+        authority: entity.authority,
+        details: [
+          `位置 ${positionText(entity.pos)}`,
+          `朝向 ${entity.facing}`,
+          `authority@${entity.authorityEpoch}`,
+          entity.scriptMotion ? `已注册 ${registeredMotionText(entity.scriptMotion)}` : '',
+          entity.autoMotion ? `已注册 ${registeredMotionText(entity.autoMotion)}` : '',
+          entity.gait === null ? '' : `gait ${entity.gait}`,
+          `gate ${enabledGates || '全部关闭'}`,
+        ],
+      })
+    }
+  }
+
   const inspectSection = section('世界变量检视（只读）')
   const inspectEl = el('pre', { className: 'tpd-inspector' })
   const refreshInspect = (): void => {
     const w = ctx.world()
+    const motion = ctx.motionState()
     inspectEl.textContent = JSON.stringify(
       {
         money: w.money,
@@ -466,6 +752,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       null,
       1,
     )
+    renderMotionState(motion)
   }
   refreshInspect()
   const inspectBtn = el('button', { text: '刷新状态' })
@@ -473,7 +760,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   inspectBtn.addEventListener('click', refreshInspect)
   inspectSection.appendChild(inspectEl)
   inspectSection.appendChild(inspectBtn)
-  panelFor('status').appendChild(inspectSection)
+  panelFor('status').append(motionSection, inspectSection)
 
   // ── 3. 脚本 / 触发器一键触发（K3：detached + 状态上屏 + 占用确认） ──
   const triggerSection = section('脚本 / 触发器（再次点击可取消）')
@@ -497,7 +784,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       )
         return
     }
-    const ac = new AbortController()
+    const ac = createPanelOperation()
     const runId = ++triggerSeq
     setStatus(`[${runId}] ${item.label} … running`, '#8fd0ff')
     const button = el('button', { className: 'tpd-trigger-button', text: `${item.label} ` })
@@ -508,6 +795,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     triggerList.appendChild(button)
     button.addEventListener('click', () => runTriggerItem(item))
     const finish = (statusText: string, color: string): void => {
+      panelOperations.delete(ac)
       runningButtons.delete(key)
       button.remove()
       setStatus(`[${runId}] ${item.label} → ${statusText}`, color)
@@ -755,12 +1043,11 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       setStatus('请选择敌队或自定义敌人', '#ff5f56')
       return
     }
-    const ac = new AbortController()
     const preset = ctx.buildPresetParty(actorIds, seedStats)
     applyPresetOverrides(preset.party, presetMembers)
     setStatus('战斗启动中…', '#8fd0ff')
-    void ctx
-      .startBattleDev(
+    void runPanelOperation((signal) =>
+      ctx.startBattleDev(
         {
           enemyTeamId: customEnemies ? 'debug-custom' : teamSel.value,
           ...(customEnemies ? { enemyOverride: customEnemies } : {}),
@@ -769,8 +1056,9 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
             : { partyPreset: preset }),
           ...(fields.length ? { fieldId } : {}),
         },
-        ac.signal,
-      )
+        signal,
+      ),
+    )
       .then((r) => setStatus(`战斗结束: ${r}（世界已恢复战前）`, '#3ddc84'))
       .catch((error: unknown) =>
         setStatus(`战斗失败/取消: ${String(error).slice(0, 80)}`, '#ff5f56'),
@@ -880,10 +1168,9 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     const parts = line.trim().split(/\s+/)
     const cmd = (parts[0] ?? '').toLowerCase()
     const arg = (i: number): string | undefined => parts[i]
-    const signal = new AbortController()
     const detached = <T>(
       invoke: (runtime: ScriptProjectRuntime, s: AbortSignal) => Promise<T>,
-    ): Promise<T> => ctx.runDetached(signal.signal, invoke)
+    ): Promise<T> => runPanelOperation((signal) => ctx.runDetached(signal, invoke))
     const sceneSwitch = (): boolean =>
       cmd === 'scene' || cmd === 'run-script' || cmd === 'run-trigger'
 
@@ -1009,8 +1296,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
           return
         }
         setStatus(`battle ${enemyTeamId} …`, '#8fd0ff')
-        void ctx
-          .startBattleDev({ enemyTeamId }, new AbortController().signal)
+        void runPanelOperation((signal) => ctx.startBattleDev({ enemyTeamId }, signal))
           .then((r) => setStatus(`battle done: ${r}`, '#3ddc84'))
           .catch((e: unknown) => setStatus(`battle: ${String(e).slice(0, 80)}`, '#ff5f56'))
         return
@@ -1075,16 +1361,13 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
         runCommand(line)
       }
       input.value = ''
-    } else if (e.key === 'Escape') {
-      e.preventDefault()
-      close()
     }
   })
 
   document.body.appendChild(root)
   tabButtons.get(activeTab)?.focus()
 
-  return close
+  return dispose
 }
 
 function debugTone(color: string): 'success' | 'warn' | 'error' | 'info' | '' {
@@ -1100,6 +1383,10 @@ function debugTone(color: string): 'success' | 'warn' | 'error' | 'info' | '' {
     default:
       return ''
   }
+}
+
+function formatDebugNumber(value: number): string {
+  return String(Number.isInteger(value) ? value : Math.round(value * 1000) / 1000)
 }
 
 function parseDebugPosition(

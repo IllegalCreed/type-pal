@@ -13,9 +13,18 @@ reforge dev 页:     http://localhost:6051/?debug
 编辑器「引擎试玩」:   play.html?project=pal&debug （同源试玩页参数原样生效）
 ```
 
-面板右侧固定 720px，五个区：① cheat console ② 世界变量检视（只读）③ 脚本/触发器一键触发
-④ 战斗态构建器 ⑤ 图层/帧步进。Esc 只关面板，不触游戏菜单；表单字段键入时屏蔽游戏快捷键；
-面板打开时其余按键透传（不吞对话推进键）。
+面板位于左上，宽度上限 420px，并在 480px 以下收窄到视口宽度。五个 tab：① 状态 ② 指令
+③ 触发 ④ 战斗 ⑤ 图层。Esc 隐藏面板并退出帧步进，不触游戏菜单；隐藏后按反引号重新显示，
+无需刷新页面。表单字段键入时屏蔽游戏快捷键；面板打开时其余按键透传（不吞对话推进键）。
+
+## 状态页
+
+- **实体位置控制权（运行态，只读）**：按队长、队伍跟随成员、编外跟随精灵、当前场景实体的顺序，
+  显示位置、朝向和 `world/script/follow/mount` 控制权。载具显示 parent 与偏移；队长显示
+  `partyMove`；实体显示 authority epoch、已注册的 script/auto motion 和有效 lifecycle gate。
+- **世界变量检视（只读）**：显示队伍、金钱、背包、技能、灵葫值、flag/var 与实体状态统计。
+- “刷新状态”同时刷新以上两区。motion slot 是已注册/待执行信息，不等同于当前控制权；例如实体被
+  script 接管时，暂停中的 auto slot 仍会保留并如实显示。
 
 ## cheat console 命令（G4 覆盖矩阵）
 
@@ -62,7 +71,7 @@ reforge dev 页:     http://localhost:6051/?debug
 
 ## DEV guard（K4/G1）
 
-- 面板经 `if (import.meta.env.DEV && params.get('debug')) await import('./debug-tools.js')`
+- 面板经 `if (import.meta.env.DEV && params.has('debug')) await import('./debug-tools.js')`
   动态引入；主包静态链不触及 debug 模块。
 - 构建产物验证：`pnpm --filter @type-pal/reforge build` 后 `rg 'tp-debug|installDebugTools'
   dist/assets/*.js` 零命中（vite 把 `import.meta.env.DEV` 替换 false + tree-shake 死分支，
