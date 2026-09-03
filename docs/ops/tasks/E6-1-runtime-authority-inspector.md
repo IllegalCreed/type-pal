@@ -163,18 +163,104 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
   - premise: **verified**。证据：`capability-map.md:77`；`main.ts:520-533,1684-1723,6776-6804`；`debug-tools.ts:258-303,442-476`；`D13-1:416-420`。
   - design: **agree**。只做单一只读投影与 DEV controller，不动业务状态、schema 或 production 路径。
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-09-03，架构/输入所有权视角一手直读，非复述 Codex/GLM）**：
+    1. **控制源完备（本人 grep 写点普查）**：`player.pos` 写点恰六处——spawn(`main.ts:1131`)/
+       teleport(`:2852`)/nudgeParty(`:3390`)/mount 派生(`:4007`)/partyMove(`:4252`)/
+       planner commit(`:4697`，输入与 passive-yield 路径，受 `!authority.has('party')` 门控
+       `:4691-4693`)；实体写点恰五处——spawn(`:1591`)/stepEntity(`:3341`)/nudgeEntity(`:3353`)/
+       mount(`:4011`)/commit(`:4670`)；队员 `followerPos` 纯派生(`:4057-4083`)；编外 trail
+       派生(`:5951-5984`)。持续控制源恰五族（输入=world 缺省/partyMove/script/mount/follow），
+       spawn/teleport 是瞬时写非控制源——快照四类对象 + partyMove + mount parent/offset 无遗漏。
+    2. **展示缺口**：现有 `dumpMotionState`(`:6781-6804`)只有 entities 区，缺队长 authority/
+       partyMove、两类跟随者与 mount parent/offset；状态页只渲染世界 JSON(`debug-tools.ts:442-476`)。
+    3. **Esc 泄漏真 bug（本人独立实锤）**：`debug-tools.ts:303` `{ capture: true }` 注册 vs
+       `:274` 裸 `removeEventListener`——capture 不匹配，listener 永久残留；root 已 remove 后
+       `root.contains(target)` 恒 false → 后续每次 Esc 都 preventDefault + stopPropagation，
+       游戏菜单 Esc 被吞至刷新。历史 O2(`D13-1:416-420,504-516`)「只能刷新重开，不修」属实。
+    4. **键位**：reforge src 全域 grep `Backquote|backquote` 零命中；游戏键位仅
+       Escape/Space/Enter/F5/F9/`[`/`]`/arrows(`main.ts:4163-4169,6421-6745`)；F9=quickLoad
+       (`:6723`)，不用 F9 正确。
+    5. **DEV-only 与布局真值**：安装门 `import.meta.env.DEV && params.has('debug')` 动态
+       import(`main.ts:6935-6937`)，`__tpE2e` 同门(`:6777`)；dev-tools.md:16「固定 720px」
+       与实际 `width:min(420px, calc(100vw-24px))`(`debug-tools.ts:119`) + 480px 媒体查询
+       (`:241-246`) 漂移属实，文档修正属范围内；`.tpd-panel` 是唯一 scroll owner(`:176`)。
+  - design: **agree（2026-09-03；背书 GLM GM-E1~E4 与两条必改项，架构/输入所有权面无阻塞
+    必改项）**。单一 captureMotionState 生产者双消费（DebugToolsContext 是 DEV-only 上下文
+    接口，不构成跨包公共接口扩张）、DTO 纯值禁函数、epoch 三字段分类、hide/show 与 dispose
+    两层 controller、Backquote 只在 hidden 态重开（open 态整键忽略，无 toggle 歧义）、
+    DEV tree-shake 硬门，均与一手代码吻合且无更小合法方案。
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-09-03，四类对象与全部控制源逐处直读复算 + 现有 dump/状态页缺口
+    逐项比对 + capture listener 残留 bug 实锤 + 三个锚点测试文件地基评估，非复述 Codex）**：
+    1. **四类对象运行态全部实在（本人直读）**：队长——`player.pos/facing/walking` +
+       authority Map `'party'` 键（`deriveMounts` :4009 `id === 'party'` 分支）+ 独立
+       `partyMove`（:1417，不进实体 slots）；队伍跟随成员——`followerAuth`
+       `Map<number, {kind:'follow'}|{kind:'mount',parent,dx,dy,facing}|{kind:'script',pos,facing}>`
+       缺省 follow + `followerPos`（:531-533）；编外跟随精灵——`runtimeScript.followers`
+       渲染循环 :5951-5984（runtime slot `k` + spriteId + `computeFollowerPos` 派生）；
+       live 实体——`scene.entities` + `entityLifecycleGates`（:1531）。
+    2. **epoch 字段实证**：`motion-runtime.ts` DTO 真含 `commandEpoch` / `activationOwnerId` /
+       `activationEpoch` / `authorityEpochAtEnqueue`，coordinator 持 `authorityEpoch` Map
+       （:34）——「明确区分 authorityEpoch、slot commandEpoch、activationOwnerId/
+       activationEpoch」有真实字段基础，非臆造分类。
+    3. **现有 dump 缺口逐项比对（:6781-6804 本人直读）**：现 dump 覆盖 player pos/facing/
+       walking + 实体 id/pos/facing/gates/authority(**仅 kind**)/scriptMotion/autoMotion/
+       gait（按 id 排序）+ pendingTouch/pendingChase/hostileBusy/runnerActive——**缺**
+       队长 authority/partyMove、队伍与编外跟随者、mount parent/dx/dy、全部 epoch、slot
+       注册详情（activation lineage）——与卡面「现有 dump 缺…」逐字一致；状态页
+       （debug-tools.ts:442-476）只渲染 world JSON，无运动区 ✓。
+    4. **capture listener 残留 bug 实锤**：debug-tools.ts:303
+       `addEventListener('keydown', closeOnEscCapture, { capture: true })` vs :274
+       `removeEventListener('keydown', closeOnEscCapture)` **未带 capture**——按 DOM 匹配
+       规则该 capture 监听器 close 后真实残留（后续 Escape 被吞），卡面 bug 定性成立；
+       `close()` 同时删 root+style 且无重开路径 ✓ 只能刷新。
+    5. **DEV 门与历史**：`import.meta.env.DEV && params.has('debug')` 动态 import（:6935）
+       可 tree-shake ✓；F9 快速读档在 :6721-6725 区域占用 ✓；D13-1 历史 O2（无重开热键）
+       延后未解决属实。
+    6. **控制源闭合枚举（遗漏审计）**：本人沿 main.ts 排查定位写入点——`player.pos` 写入
+       仅 partyMove/deriveMounts('party')；实体 pos 写入仅 authority 驱动（mount 派生/slot
+       commit）；跟随者位置仅 computeFollowerPos/followerAuth script 分支；**未发现**绕过
+       partyMove/authority/followerAuth/编外派生/scriptSlots/autoSlots 的第五控制源
+       （`motionSideSticks`/`entityGaitOwner` 为移动指令瞬态与外观 owner，非定位权威）。
+    7. **可证伪观察**：发现任一不经上述六通道的定位写入点；反引号在守卫后仍被游戏/输入法
+       路径消费；production bundle 出现 `tp-debug|installDebugTools|实体位置控制权` 任一
+       字符串；close 后 Escape 仍被吞——任一成立本签字失效。
+  - design: **agree（2026-09-03，附 GM-E1~E4 必落钉 + 两条必改项，与卡面设计收敛）**：
+    - **GM-E1（快照合同钉）**：单一 `captureMotionState()` 同时供 `__tpE2e` 与
+      `DebugToolsContext.motionState`；DTO 纯值（structuredClone），断言不含
+      cancel/resolve/commit 函数；四类对象判别联合 + 四种控制权 + mount parent/dx/dy +
+      三类 epoch 分字段；「authority 缺项即 world / followerAuth 缺项即 follow」为合同
+      语义不报异常；**编外 follower 的 def/帧查找失败时 slot 仍必须列入快照**
+      （渲染循环 :5965-5970 会 `continue` 跳过缺 def 精灵，快照不得同样跳过——
+      **必改项 ①**：诊断身份与渲染可达性是两个 concerns，缺 def 恰是最需要诊断的状态）。
+    - **GM-E2（排序与刷新钉）**：固定序 队长→队伍顺序→编外 runtime slot→entity id；
+      测试必须包含「空队伍跟随 + 多编外」「全空」两档排序；「刷新状态」一次刷新世界与
+      运动两区且两区数据来自同一次快照调用（断言同拍一致性）。
+    - **GM-E3（生命周期与输入守卫钉）**：hide/show 与 dispose 两层分离；三轮 hide/show 后
+      恰 1 root/1 style/1 listener；重复 install 先完整 dispose 旧 controller；dispose
+      幂等（连调两次无害）；**stale disposer 不得删新实例**；修复后的 capture 移除必须带
+      `{ capture: true }` 且以「close 后再派发 Escape 能到达游戏」的行为断言钉死（不能只
+      断言 removeEventListener 被调用）；Backquote 仅 hidden + `event.code` + 非
+      repeat/composing/无修饰键/无 editable 祖先时处理——**必改项 ②**：守卫测试必须
+      显式包含 contenteditable 祖先（卡面文案有、测试清单未点名）与 `event.code` 布局
+      无关性断言。
+    - **GM-E4（测试与剥离矩阵钉）**：debug-tools.test 在现有 3 测（style/tabs、battle
+      fail-closed、close/reset）之上扩展卡面 12 项矩阵；coordinator/wiring 现有 16 测
+      （take/release epoch、mount/teardown、activation lineage）作回归地基零改动预期；
+      `pnpm --filter @type-pal/reforge test` + typecheck + build；**Reforge 与 Editor 两个
+      生产构建**分别 grep `tp-debug|installDebugTools|实体位置控制权` 零命中为 done 硬门。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+  - 审查者: GLM（2026-09-03，完成——四类对象/控制源/epoch 字段/缺口比对/capture 残留
+    bug/DEV 门/控制源闭合枚举全部本人直读；Kimi 席位保留）
+  - 独立证据锚点: `main.ts:531-533,1417,1684-1726,3988-4010,5951-5984,6776-6804,6933-6965`；
+    `motion-runtime.ts:6-19,34`（commandEpoch/activationOwnerId/activationEpoch/
+    authorityEpochAtEnqueue/authorityEpoch）；`debug-tools.ts:258-303`（:274 裸移除 vs
+    :303 capture 注册）、`:442-476`；三个锚点测试文件矩阵清单。
+  - 可证伪观察: 第五定位控制源出现；反引号守卫后仍冲突；production 泄漏任一字符串；
+    close 后 Escape 仍被吞——任一成立签字失效。
 - counter / 分歧处理: 无；若 reviewer 发现遗漏控制源、快捷键冲突或 DEV-only 泄漏，留在 draft 修订。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（等待 Kimi、GLM 独立前提与设计签字）**
+- build 准入结论: **blocked（2026-09-03 Codex + GLM 已签；缺 Kimi premise/design 签字）**
 
 ### 进入 done 前:审查签字
 
@@ -291,6 +377,17 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 
 ## 交接日志
 
+- 2026-09-03 GLM: 独立完成数据覆盖/遗漏审计与测试矩阵审查，签 premise verified + design
+  agree。证据：四类对象运行态逐处直读（party authority 键+partyMove、followerAuth 三型+
+  followerPos、编外 followers :5951-5984、live entities+gates）；epoch 字段在
+  motion-runtime.ts 实证（commandEpoch/activationOwnerId/activationEpoch/
+  authorityEpochAtEnqueue/authorityEpoch Map）；现有 dump :6781-6804 缺口与卡面逐字一致；
+  **capture listener 残留 bug 实锤**（:303 capture 注册 vs :274 裸移除）；控制源闭合枚举
+  未发现第五定位写入点；三个锚点测试文件地基评估（debug 3 测 + coordinator/wiring 16 测）。
+  附 GM-E1~E4 钉与两条必改项（① 编外 follower 缺 def 时 slot 仍须入快照——渲染 continue
+  不等于诊断跳过；② Backquote 守卫测试显式含 contenteditable 祖先 + event.code 布局
+  无关性，capture 移除以「close 后 Escape 到达游戏」行为断言钉死）。未修改实现，未代签
+  Kimi。Next: Kimi 架构/输入所有权主审；三签齐后 Codex 方可 build。
 - 2026-09-03 Codex: 按用户确认的第二阶段唯一队列开 E6-1；完成当前实现/调试入口与历史 O2 的
   一手核验，冻结单一快照、完整四类对象、两层 controller、Backquote 输入守卫和 production 剥离门禁。
   Evidence: 本卡前提矩阵与代码锚点。Next: Kimi、GLM 独立设计审查；签字不齐不得开始实现。
