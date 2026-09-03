@@ -231,11 +231,44 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
     1280×800、900×480、720×700；每页 main owner 恰 1、root/祖先 scrollTop=0、Hero y不动、
     长内容末端可聚焦、document横溢0。domain class、padding（24/16，Vars 14）、背景与 root/content
     overflow 保持原合同；三个创建分支焦点均落 INPUT。200% / Firefox / WebKit 未实测，不以缩视口冒充。
-- Kimi: pending
+- Kimi: **accept（2026-09-03，只读终审 `39ea04cd` 全 diff + 终态 registry 复算 + 两代表页
+  实机滚动真值与本人聚焦复跑，非复述 Codex）**。按 KW1-KW5 与五项职责逐项核验：
+  - **终态复算 ✓（职责 1，本人复算）**:27 pages 全 adopted / 0 exception;scroll records 总数
+    恰 **102** 不变;canonical `DsObjectWorkspaceContent` records 恰 **20**(11+9);
+    `workspaceLegacyExceptions` 归零；六生产文件 raw `ds-object-workspace*` class 属性**零命中**
+    且各恰 **1 个** `<DsObjectWorkspace>`、**0 个 manual mode**；业务全域 raw class 零命中;
+    commit stat 无 `recipes.tsx/css`、`design-system-audit.mjs`、`index.ts`、`tokens.css`、
+    Design Lab/RF——公共 API 与 DS 版本零 diff 成立（spec 仅 +4 行 census 注记）。
+  - **结构与样式零变化 ✓（职责 2）**:`ProjectPageWorkspace` 一处 helper
+    (`as="main" label="项目设置工作区" className="canvas-wrap data-body project-center"
+    contentClassName="project-scroll"` + 单 Hero）覆盖四 route;EnemyTeam 的 hero fragment
+    (`{notice && <div role=alert>}` + `{!creating && selected && <DsObjectHero/>}`）把 notice 与
+    仅选中出现的 Hero 同时固定在 hero 槽——**实机证实 hero 不在 content 内**；领域 class、
+    padding、background、height、container 全部原样保留；BattleSprite/Vars/BattleField/
+    SpriteViewer 同型（diff 直读）。
+  - **焦点与滚动 ✓（职责 3，实机）**:Project startup 页 1280 档——content 滚到底后 Hero
+    top 41→41 不动、末项完整可见、document/body scrollTop=0、横溢 0;EnemyTeam 720×700
+    team-0 选中态——同型固定、5 槽末槽可见、**恰 1 direct + 1 total main owner**;
+    `verifyCanonicalObjectWorkspace`（object-workspace-test-utils.ts）把“1 direct owner +
+    hero/notice 不在 content 内”锁成跨页机器断言；创建分支首输入获焦（Codex 记录）;
+    EnemyTeam content 内的 reorder 最近 owner 仍是 canonical content;`.bsu-frame-grid`
+    bounded 未被计入 main owner。
+  - **门禁负例 ✓（职责 4）**:adoption.test.ts 新增——27 pages 全 adopted 状态断言;
+    “closes every raw object workspace debt behind one real owner per source”;漏 Project
+    owner 精确失败清单;伪造 `story/vars` 的 `status='exception'` 必红;stale legacy 推入以
+    精确消息 `workspace legacy selector VarsTab.tsx#main.ds-object-workspace expected 1,
+    rendered 0` 打红——raw/退回 raw/重复 owner/漏登/stale/exception 回流全部有钉。
+  - **证据 ✓（职责 5）**:本人复跑 ProjectWorkbenchTab + BattleSpriteLibrary +
+    SpriteResourceViewer + VarsTab + EnemyTeamTab + BattleFieldTab + adoption →
+    **7 files / 104 tests 全绿**;`audit:design-system` → **92 files / 2 evidence-bound
+    exceptions passed**;editor 全量 186/1562、typecheck、production build 采用 Codex 记录，
+    按纪律未重复全量。**200% 与 Firefox/WebKit 未实测**（同前卡环境限制，CDP pageScaleFactor
+    为 pinch 式、MCP 窗口钳制，未以缩视口冒充）。
+  无返工项；未修改生产实现，未代签 GLM。
 - GLM: pending
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
 
 ## Draft: 设计与风险
 
@@ -280,6 +313,14 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 
 ## 交接日志
 
+- 2026-09-03 Kimi: 只读终审 `39ea04cd`，签 **accept**。独立证据：终态复算 27 adopted/0、
+  102 scroll、20 canonical、legacy 0（本人 node 复算）；六文件 raw class 零命中、各恰 1
+  组件、0 manual;Project helper 与 EnemyTeam hero fragment 直读（notice+selected Hero 固定
+  在 hero 槽）;Project 1280 与 EnemyTeam 720×700 实机——content 滚到底 Hero 不动、末项可见、
+  root/祖先 scrollTop=0、横溢 0、恰 1 main owner;verifyCanonicalObjectWorkspace 机器断言;
+  adoption.test 的 stale legacy 精确消息、伪造 exception 必红、漏 Project owner 失败清单;
+  本人复跑 7 files / 104 tests 全绿、DS gate 92/2 通过。200%/Firefox/WebKit 未实测（同前卡
+  口径）。无返工项；未修改实现，未代签 GLM，未标 done。Next: GLM 终审与用户验收。
 - 2026-09-02 Codex：完成两批实现并提交 `39ea04cd`。六文件22 raw与legacy全清，27 pages全adopted，
   公共API/DS版本零变；受影响165项、全量1562项、typecheck/build/gate与三档九route浏览器矩阵通过。
   Codex签accept，卡转review。Next：Kimi只读终审；不得标done。
@@ -313,32 +354,42 @@ Design-System Version: `2.24.0`（纯采用清债，不改公共合同，不升�
 ## 下一位 Agent 提示词
 
 ```text
-终审 ED-WORKSPACE-ADOPTION-DEBT-1（Kimi 席，review；生产实现只读，只允许更新任务卡 Kimi done
-前签字与交接，不得代签 GLM，不得标 done）。
+终审 ED-WORKSPACE-ADOPTION-DEBT-1（GLM 席，review；生产实现只读，只允许更新任务卡 GLM done
+前签字与交接，不得代签 Kimi，不得标 done）。
 
 任务卡：docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md
 实现提交：39ea04cd refactor(editor): adopt canonical object workspaces
+当前：review；Codex + Kimi accept 已签，GLM accept 与用户验收 pending。
 
-先读：AGENTS.md、READ-FIRST、本卡 KW1-KW5 / GM-WD1~WD4 与 Build/Codex accept；git show
-39ea04cd；六业务 TSX/测试、object-workspace-test-utils、design-system-adoption.json、adoption.test、
-editor.css、DS-C.4f。
+先读：AGENTS.md、READ-FIRST、本卡 KW1-KW5 / GM-WD1~WD4、Build/Codex accept 与 Kimi done
+前 accept；git show 39ea04cd；六业务 TSX/测试、object-workspace-test-utils、
+design-system-adoption.json、adoption.test、editor.css。
 
-Kimi职责：
-1. 独立复算终态 27 adopted/0 exception、102 scroll records、20 canonical、legacy 0；六生产文件
-   raw occurrence 0 且各恰1个 DsObjectWorkspace；公共 recipes/audit/index/tokens/DS版本/RF零diff。
-2. 审 wrapped 结构与样式零变化：Project四route；BattleSprite upload/ready/empty；SpriteViewer
-   loading/error/ready；Vars/EnemyTeam/BattleField creating/selected/empty。Hero/notice在content外，
-   domain class/padding/background/height/container保留，私有重复overflow删除不改computed style。
-3. 审焦点与滚动：每态1 direct main/y owner；创建首INPUT；Enemy reorder最近owner；Project
-   scrollIntoView；Sprite快速切资源；bounded bsu grid不冒充main。
-4. 审门禁负例：raw literal/拼接/spread/dynamic、真组件退raw、重复owner、漏9条main记录、stale
-   legacy/status exception回流均红。
-5. 复核证据：受影响8/165、全量186/1562、typecheck/build/gate92/2；浏览器1280×800、
-   900×480、720×700，root/ancestor 0、Hero固定、末项可达、doc横溢0。200%/Firefox/WebKit
-   无可靠环境时保持未实测。
+GLM 职责（与 Kimi 分工：你核 registry/census/门禁/测试矩阵）：
+1. 独立复算 registry：node -e 核 design-system-adoption.json 27 pages 全 adopted /
+   0 exception、scroll records 总和 102、canonical DsObjectWorkspaceContent records 恰 20、
+   workspaceLegacyExceptions 0；六生产文件 raw ds-object-workspace class 属性 0 命中、
+   各恰 1 个 <DsObjectWorkspace> 且 contentMode="manual" 0 处；其余业务文件与公共
+   recipes/audit/index/tokens 零 diff；DS 版本 2.24.0、RF 零漂移、spec 仅 census 注记。
+2. 审 editor.css：9 条 main ds-object-workspace* 声明全删除无残留；域内
+   padding/background/height/container 声明保留。
+3. 逐文件审测试矩阵：verifyCanonicalObjectWorkspace 机器断言（恰 1 direct main y owner、
+   hero/notice 不在 content 内）覆盖各页；EnemyTeam creating/selected/empty 六态与
+   selection/creating 回归；BattleSprite upload→select、SpriteViewer loading/error/ready、
+   Vars/BattleField 分支；创建分支首输入获焦（项目名/战斗形象名/变量名/字段名）；
+   Enemy reorder 焦点回最近 owner；.bsu-frame-grid bounded 不冒充 main；Project
+   scrollIntoView 保留；无 object 深链空态不伪造 main owner（带 &object= 深链才有 main）。
+4. 审 adoption.test.ts 负例：漏 Project owner 精确失败清单、伪造 exception 必红、
+   stale legacy 精确消息打红、raw occurrence 闭零、27 pages adopted 断言、
+   "closes every raw object workspace debt" 断言。
+5. 复核证据：可聚焦复跑（受影响 8 files/165、7 files/104）不重复全量；Codex 记录的
+   186 files/1562 tests、typecheck、build、gate 92/2 按纪律采信；浏览器 1280×800/
+   900×480/720×700 root/祖先 scrollTop=0、Hero 固定、末项可达、横溢 0；真实 200% 与
+   Firefox/WebKit 未实测且不以缩视口/pinch 冒充——统一口径，不是缺陷。
 
-输出：file:line直接证据；通过则任务卡 Kimi 席签 accept并写GLM提示词，否则 counter/返工项。
-不得修改生产实现，不得标done。
+输出：file:line 证据与可证伪观察；通过则任务卡"进入 done 前"GLM 行签 accept 并追加
+交接日志、同步看板；否则 counter + P0/P1/P2、file:line、复现命令。不得修改实现、
+不得代签另一席、不得填写用户验收、不得标记 done。
 ```
 
 ## 历史提示词（GLM 设计审签，已完成）
