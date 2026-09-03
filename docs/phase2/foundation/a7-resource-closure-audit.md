@@ -5,6 +5,7 @@
 > editor/reforge 不再读取 extracted 或 `assets.legacy`。以下“仍剩 effect-sprite/image”等结论只描述
 > 旧审计时间点，不再是当前产品事实。MIG-PAL-ACTOR-FACE-1 另勘误 A7-2：只有五张真实 face，
 > 盖罗娇的透明槽不进入 catalog；历史签字与当时运行数字保留，不回写成现行 census。
+> 2026-09-03 用户进一步裁决：A7 只管工程资源闭包；原版版权素材的实际批量替换已移交第三阶段。
 >
 > 审计日期: 2026-07-16；最近更新:2026-07-31（A7-3W、A7-3B 均已 done；A7-4 候选版本顺延至 v11）
 > 范围: `packages/content`、`packages/reforge`、`packages/editor`、`packages/migrate`、`projects/pal` 的资源声明、加载、克隆、保存与迁移链。

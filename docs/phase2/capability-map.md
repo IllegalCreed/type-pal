@@ -153,7 +153,7 @@
 
 | 格 | 名字 | 引擎 | 编辑器 | 备注 |
 |---|---|---|---|---|
-| A1 | 预制素材库(服务器端 + 版本化) | — | ❌ | 服务器托管 RGBA 素材包,带版本号;开发期=原版烘色,完成期=自有替代美术(避版权) |
+| A1 | 预制素材库(服务器端 + 版本化) | — | ❌ | 服务器托管带版本号的预制工程资源包；第二阶段只管下载/导入基础设施，原版版权素材的实际替换归第三阶段。 |
 | A2 | 新建工程:下载预制库写进工程 | — | ✅ | `cloneFromPal` 流式逐文件下载当前 catalog→写本地工程；所有资源族（含 effect sprite/image）走同一 catalog 字节链，不再复制 extracted 清单或 legacy lane。 |
 | A3 | 新建工程向导(空白/加载预制 二选) | — | ✅ | **P4 落地**:ProjectPicker 启动屏(从 pal 克隆 / 打开本地 / 新建空白〔高级,gated on 地图模块〕/ 最近工程 + 克隆进度条)。非 Chromium 提示换浏览器 |
 | A4 | 用户上传自有素材 | — | ✅ | **已覆盖精灵、瓦片集、角色/敌人战斗外观、音乐、SFX、视频、完整帧动画及四类静态图**：A7-2 图像工作台支持立绘/头像/物品图标导入替换，战场真彩图在导入边界确定性量化并预览工程效果；引用保护、undo/redo、pending blob 与保存重开共用 catalog 链。默认字体/UI 属引擎，不是工程上传能力 |
@@ -161,7 +161,7 @@
 | A6 | 预制库主动更新检查(可选) | — | ❌ | 用户显式触发:检查服务器新版 → 选择是否拉取覆盖。非自动;非 MVP |
 | A7 | 工程资源闭包与稳定资源注册表 | ✅ | ✅ | **done（ARCH-CURRENT-ONLY-1）**：content19 manifest 的资源配置只含 catalog/roles，PAL 1,934 records；tileset/world sprite/battle sprite/effect sprite/image 均走 AssetId→catalog→AssetResolver/FileSource 单链，clone/save/export/runtime 无 extracted 或 legacy fallback。历史批次数字见[资源闭包审计](foundation/a7-resource-closure-audit.md)。 |
 
-> A1-A6 是编辑器侧的素材与分发动作，故 `引擎—`；A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。未决子问题(A1 版权策略与素材规模 / A2 下载协议与进度 / A4 支持的素材格式)留「做 A 领域」那轮 brainstorm 细化。
+> A1-A6 是编辑器侧的素材与分发动作，故 `引擎—`；A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。未决子问题（A1 托管/版本/素材规模、A2 下载协议与进度、A4 支持格式）留「做 A 领域」时细化；版权素材实际替换不再作为 A1/A7 或第二阶段完成条件。
 
 ### 3.1 议题（backlog）→ 能力格 映射（2026-08-06 立）
 
