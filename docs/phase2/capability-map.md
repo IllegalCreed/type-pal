@@ -1,7 +1,11 @@
 # 能力地图（Capability Map）— 第二阶段的进度真值表
 
 > **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。
-> **(最近补账:2026-08-30 —— 当前唯一格式已切到 content19 / SAVE8；ARCH-ENTRYPOINT-CANONICAL-1 将启动配置收敛为非空真实入口、`defaultEntryId` 直接启动选择器和每入口独立 StartWorld，content19 再加入入口与剧情角色当前状态作者链。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime fallback 继续保持删除；PAL catalog 为 1,934 条，含 56 个 effect sprite。A7 最终 ✅ 仍等 ARCH-CURRENT-ONLY-1 三方 review accept 后更新。此前各批次历史见任务卡和资源闭包审计。)**
+> **最近对账：2026-09-03。** 当前唯一格式为 content19 / SAVE8；入口、角色当前状态与 current-only
+> 架构均已完成三方审查和用户验收。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime
+> fallback 保持删除；PAL catalog 为 1,934 条，含 56 个 effect sprite。X4/A7 已随
+> `ARCH-CURRENT-ONLY-1` 收口为 ✅。本轮对账见
+> [OPS-MAP-3](../ops/tasks/OPS-MAP-3-current-truth-reconciliation.md)；历史批次见各任务卡和资源闭包审计。
 > 配套阅读:[北极星与用法](roadmap.md) §8–§9 / [铁律](READ-FIRST.md) / [决策 D20](decisions.md)。
 > 状态符号:`✅done` `⚠️半done(一边done一边缺)` `❌缺(两边都缺)` `—不适用`。
 >
@@ -54,8 +58,8 @@
 | W1 | 地图渲染(tile 墙面) | ✅ | ✅ | 客栈/盛渔村市集 + ProjectMap v4 | **当前单格式闭环**：PAL 223 张旧图已一次切到 ProjectMap v4；content/reforge/editor 不认识旧地图格式。运行时按 map id 懒加载 `tilesetRefs` 并逐格解析来源，同图同层不同瓦片集的同号 tileId 可并存；N 层、所有层实例高度与独立碰撞均走同一渲染路径。共享内容/相对高度见 [ED-STAMP-MAP-MODEL-1](../ops/tasks/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md)，多来源见 [ED-MAP-MULTI-TILESET-1](../ops/tasks/ED-MAP-MULTI-TILESET-1-multi-tileset-map-authoring.md) |
 | W2 | 移动与碰撞 | ✅ | ✅ | 走路/撞墙 | done |
 | W3 | 多场景切换 | ✅ | ✅ | 余杭→客栈传送 | done;switchScene/LRU/相机 |
-| W4 | 入口/传送 | ✅ | ✅ | 门触发 | 编辑器(2026-07-05):场景检查器「命名入口」区(增删改名/坐标/朝向,空表收敛)+ loadScene 专表单(296 场景下拉/落点自定或进场点/朝向);画布拖拽摆点留后续打磨。**W4-1 build中(2026-07-15)**：命名落点闭环(非实体空间锚点+稳定id/label分离+loadScene三态+迁移去重 all.json 污染+画布marker)，build 后 W4 编辑器侧升级 |
-| W5 | 音乐/氛围 | ✅ | ✅ | 场景 BGM | **A7-0/A7-0A(2026-07-15/16)**：场景/脚本/战斗/胜利曲、标题菜单曲与读档恢复统一使用 AssetId/null/显式 stop；`audio.openingMenuMusic` 只包住“新的故事 / 旧的回忆”菜单生命周期。编辑器音乐页从单一 catalog 派生，支持导入、改名、替换、引用保护删除、同 resolver 试听与保存重开。氛围表沿用既有闭环。A7 总体仍未完成，不代表其他资源族已闭包 |
+| W4 | 入口/传送 | ✅ | ✅ | 门触发 | **W4-1 done**：场景检查器「命名入口」支持增删、改名、坐标、朝向与空表；`loadScene` 具备场景/落点/朝向三态。命名落点采用非实体空间锚点与稳定 id/label 分离，迁移去重、画布 marker、引用与保存闭环均已完成。 |
+| W5 | 音乐/氛围 | ✅ | ✅ | 场景 BGM | 场景/脚本/战斗/胜利曲、标题菜单曲与读档恢复统一使用 AssetId/null/显式 stop；编辑器音乐页支持导入、改名、替换、引用保护删除、同 resolver 试听与保存重开。D12-1 已补动态过渡/分层，A7 资源闭包与 current-only 架构均已完成。 |
 | W6 | 时间/天气/昼夜 | ⚠️ | ⚠️ | 隐龙窟外夜景(0x54) | **昼夜切片 done(2026-07-10 W6)**:氛围系统 = 全帧 multiply 滤镜 + content 氛围表(`ambiences.json`,作者可自定义) —— 核心考证:**原版夜盘在数学上就是均匀乘法**(R×0.458/G×0.899/B×1.0 拟合自 palette 0),clean 版一条合成复现、零调色盘概念。`setAmbience` 指令(0x53/54 clean 表达,13 处挂账手补)/ 全局态随存档 / 夜战斗同染 / 编辑器「🌗 氛围」页+指令表单。s042 考题实测 A/B。⚠ 半done口径:**时间流逝/天气未做**(设计 §9 记录在案,有真内容需求再立项);夜色观感终审留用户(氛围页可直接调) |
 | W7 | 地图库与基础绘制 | ✅ | ✅ | 地图库 + 共享地图/组合编辑器 | 稳定 MapIndex、CRUD、懒加载/copy-through、N 视觉层、每格来源/实例高度、独立碰撞、图层与高度导航、吸管和撤销均已接入。2026-08-19 组合已从稀疏成员表纠偏为带锚点的局部 `IsometricMapContent`，直接复用地图画布、网格、工具栏、图层控件与瓦片 picker；组合 H 为相对值，放置实际 H=`base+relative`，不存在查看/编辑双态。随机笔刷/autotile 仍属后续增强 |
 | W8 | 地图内容选择与实例属性编辑 | — | ✅ | map-020 多图层/多来源/多高度：修改并撤销、保存重开 | 专用选择工具、单/多格 Inspector、显隐/锁定/活动层命中、透明像素与 Alt 候选、分通道原子 patch、移动/复制/剪切/粘贴/重复/删除及 undo/save-reopen 已闭环。当前 patch/clipboard/transform 同步搬运 tileset 来源、tileId、height 和 collision；组合放置删除全局 tileset mismatch，支持多来源快照与 relative H。历史 W8 证据见 [W8 任务卡](../ops/tasks/W8-map-content-selection-inspector.md)，本次切版证据见 ED-STAMP-MAP-MODEL-1 / ED-MAP-MULTI-TILESET-1。 |
@@ -115,7 +119,7 @@
 | B8 | 野外遇敌 | ✅ | ✅ | 野怪追人→碰撞开战→胜负回流 | s292 全链实测:追逐(chasePlayer 声明式)→touch 开战→败(渐红+胜败乃兵家常事也+读最近档)/胜(入账+怪消失 80s 重生);未翻译 7390→1947;概率停顿演出细节 lossy;编辑器经通用命令编辑覆盖 |
 | B9 | 数据驱动敌对行为 | ✅ | ✅ | 林天南撑7回合/原地怪/重生窗 | `EntityDef.hostile{enemyTeamId,battleFieldId,chase,onLose,onVictory,onPlayerFlee}` 零脚本驱动；**ED-ENEMY-1 done（2026-08-17 用户验收）**：hostile 只持稳定字符串敌队引用，场景 picker/缺失态/typed 引用/删除阻断/明雷触发/保存重开与 `?battle=` 同一 ID，PAL 828 处 hostile + 174 处 startBattle 全部 exact join、0 悬空。生命周期/重现见 W9。 |
 | B7 | 战斗结算 | ✅ | ✅ | 经验/掉落 | B7a 入账/升级/学技能/半恢复 + B7b 忠实结算屏(经验金钱/升级8属性old→cur/练成) + B7c 隐藏经验(行为养成→属性提升弹窗)——原版 Phase A/B/D/E/F 全落。**ED-ENEMY-1 done（2026-08-17 用户验收）**：编辑器结构化维护逐敌 exp/cash/collectValue、无/金钱/物品偷取三态及单源 `onDefeated` 额外物品奖励；敌队无第二份奖励权威，只读汇总对重复成员累计。 |
-| B10 | 状态/异常(毒·乱·定·眠·封) | ✅ | ✅ | 中毒 DoT/毒药相生相克 | 引擎(2026-07-06):中毒=数据化 tick 序列(非字节码)+ 毒抗门(巫抗致死门)+ 相生相克(致死对/相克环,bytecode 反汇编不硬码)+ 养蛊/下毒投掷 + 乱定眠封状态字 + 中毒头像染色 + 世界毒态携带桥(大世界毒带入战斗 + 战后三件套清)。**编辑器(2026-07-10 B10):数据模式「毒」页** —— 毒定义全字段结构化(可解度三档/染色/玩家·敌人双 tick 序列增删移/致死配对·所克下拉)+ 右栏关系总览数据推导(致死对对称性校验标 ⚠/相克链闭环 ⟲/点名跳转)。**content19（ARCH-ACTOR-CONDITION-SEED-1，review）**：九状态单一 typed registry、八种大世界可携带状态、入口 condition seed、剧情稳定 ActorId 施加/清除、三 carrier 入战及战后/读档双轨清理已闭合；`puppet` 明确排除。**B10-1（2026-08-10）**已完成“乱”敌人攻击同伴；剧情/战斗视觉集中到冻结后的 E2E。 |
+| B10 | 状态/异常(毒·乱·定·眠·封) | ✅ | ✅ | 中毒 DoT/毒药相生相克 | 中毒为数据化 tick 序列，毒抗/巫抗、致死对/相克环、养蛊/下毒投掷、乱定眠封状态字、中毒头像染色与世界→战斗携带桥均已闭合；编辑器「毒」页可维护全部结构。`ARCH-ACTOR-CONDITION-SEED-1` 已完成九状态 registry、入口/剧情 seed、三 carrier 与战后/读档清理；B10-1 已完成混乱敌人攻击同伴。 |
 | B11 | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying） | ✅ | — | 阵亡→援护者 friendDeath 台词+增益；濒死→自己 dying 对白 | **done（2026-08-05）**：content schema `BattlerSpec.casualty?`（friendDeath/dying 结构化脚本，概率门 75/66/50 + 兜底、台词、heal、temp buff）+ `coveredBy` 六条补迁移（B9 替挡首次在 PAL 数据真正生效）；battle-core 每 action 后 casualty sweep（双阈值 prevHp 防重入、auto 门、0x30 未 buff 基数）；session 战斗内对话展示与暂停。三方 accept + 用户验收确认；视觉演出补验留 Kimi（环境受限，见卡）。编辑器侧编辑归 **E18**（done 2026-08-14）。证据见 [B11-1 任务卡](../ops/tasks/B11-1-player-casualty-scripts.md)。 |
 
 ### 元层(Meta)— 8 格
@@ -128,10 +132,10 @@
 | X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前唯一格式为 **SAVE 8 / contentVersion 19 / minimumSaveVersion 8**；loader 与 codec 直接验证 canonical current。角色临时毒/状态/毒抗在 restore 时对 party+reserve 全清且不重播入口 seed，战后则只解到 severe，两条边界独立。正式上线前不保留 SAVE1..7/content1..18 的 upgrader、sidecar、fixture 或产品入口，历史由 Git 保存。 |
 | X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化。编辑器支持音乐/音效导入、替换、改名、试听、选择、引用保护删除、保存重开与旧工程一次性升级；数字文件名、应用根 soundfont、`legacy.sounds` 和运行时音效字面量已退役。边界:X2=音频基建与资源生命周期，W5=场景侧引用与切换；未实现的战斗表现事件继续记 B5，不反向降级 X2 |
 | X3 | 标题/流程/结局 | ✅ | — | 新游戏/通关 | 主菜单标题屏(FBP2 底图 + entryPoints 竖排)+「新的故事」新游戏流 +「旧的回忆」读档(→存档浏览→doLoad 跳开场)；**X3-1 done(2026-07-15)**：场景入场呈现事务(Prepare→Reveal→Body 显式元数据、SceneEntrySession 生命周期、编辑器三区编辑)；**结局流 done（R2，2026-07-14）**：原版 0xA0 迁为作者可编辑的 `quitToTitle(videos[])`，PAL s281 播 `video.pal.004/005/006` 后回 `?menu`，双路径 E2E、三方审查与用户验收完成。持续通关回归归 Q1 全流程 E2E，不另开 X3 产品卡。开局数据侧见 X7 |
-| X4 | 资源管线(RGBA 化) | ⚠️ | — | — | current-only 实现已 catalog-only：PAL 1,934 条资产记录；56 个 effect sprite（652,870 B / 922 帧）由 migrate 确定性物化；editor/reforge 不再读取 extracted、`assets.legacy` 或目录 fallback。ARCH-CURRENT-ONLY-1 尚待三方 review accept，因此本表暂保留 ⚠️。 |
+| X4 | 资源管线(RGBA 化) | ✅ | — | — | **done（ARCH-CURRENT-ONLY-1）**：当前实现为 catalog-only；PAL 1,934 条资产记录，56 个 effect sprite（652,870 B / 922 帧）由 migrate 确定性物化；editor/reforge 不读取 extracted、`assets.legacy` 或目录 fallback，旧版本兼容层已删除。 |
 | X6 | 工程生命周期 | ✅ | ✅ | — | **P1–P4 落地(2026-07-09)**:FileSource 抽象(httpSource/fsaSource,覆盖内容+素材)→ 启动屏 ProjectPicker(克隆/空白·打开本地·最近)→ 增量保存(快照-diff)+ IndexedDB 句柄(手势重连)+ 编辑器内「工程」菜单(新建/打开/另存为)。真实用户本地 app 闭环。见 editor/project-lifecycle-{design,p1..p4}。打包导出 zip 已由 A5 完成 |
 | X5 | **跳转预览/沙盒启动** | ✅ | ✅ | 跳任意演出 | v1:编辑器「🎮 引擎试玩」→ ?scene&pos&facing 落事件现场;?pos = dev 语义跳过 onEnter。**本地工程试玩修复(2026-07-10)**:曾写死 6051(永远 pal → 空白工程开出李逍遥,作者报);FSA 句柄跨不了源 → 引擎入口拆 `bootGame(project)` + 编辑器**同源 play.html**(IndexedDB 句柄→手势授权→fsaSource 磁盘启动;无句柄回退 dev 种子 http),试玩/试打/试放三处全改同源。世界态前置(flag 快照)待补 |
-| X7 | 入口点/开局档(多DLC入口) | ✅ | ✅ | 新游戏开局 | **done（X7-1；ARCH-ENTRYPOINT-CANONICAL-1 于 2026-08-22 收敛，ARCH-ENTRY-ACTOR-SEED-1 于 2026-08-25 收口；ARCH-ACTOR-CONDITION-SEED-1 当前 review）**：content19 以非空 `entryPoints` 为唯一入口真值，每项完整拥有 scene / introVideo / StartWorld；稳定 `defaultEntryId` 只选择无参数直接启动项，不承担继承。入口页编辑队伍顺序、背包、金钱、世界资源、当前 HP/MP 与每名开局队员的当前 condition seed；角色页仍是基线、属性、装备与初始技能的唯一作者入口。seed 只由新建世界消费一次，读档不重播；PAL 直接启动入口恢复原版种子。 |
+| X7 | 入口点/开局档(多DLC入口) | ✅ | ✅ | 新游戏开局 | **done**：X7-1、`ARCH-ENTRYPOINT-CANONICAL-1`、`ARCH-ENTRY-ACTOR-SEED-1` 与 `ARCH-ACTOR-CONDITION-SEED-1` 均已收口。content19 以非空 `entryPoints` 为唯一入口真值，每项拥有 scene / introVideo / StartWorld；入口页维护队伍、背包、金钱、世界资源、当前 HP/MP 与 condition seed。seed 只在新建世界消费一次，读档不重播。 |
 
 ### 迁移器(Migrator)— 工具域,完成期退役 — 2 格
 
@@ -155,7 +159,7 @@
 | A4 | 用户上传自有素材 | — | ✅ | **已覆盖精灵、瓦片集、角色/敌人战斗外观、音乐、SFX、视频、完整帧动画及四类静态图**：A7-2 图像工作台支持立绘/头像/物品图标导入替换，战场真彩图在导入边界确定性量化并预览工程效果；引用保护、undo/redo、pending blob 与保存重开共用 catalog 链。默认字体/UI 属引擎，不是工程上传能力 |
 | A5 | 工程自包含分发(打包导出) | — | ✅ | **done(2026-07-10 A5)**:工程菜单「🗜 导出 zip」= FSA 目录递归原样打包下载(零依赖 zip 器:原生 deflate/CRC32/UTF-8 名/时间恒1980 可复现;读磁盘,dirty 提醒先保存;dev 种子工程禁用)。「另存为」丢磁盘素材债已修(整树拷贝+覆写,见 A5 卡) |
 | A6 | 预制库主动更新检查(可选) | — | ❌ | 用户显式触发:检查服务器新版 → 选择是否拉取覆盖。非自动;非 MVP |
-| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **实现完成，审查中**：content19 manifest 的资源配置只含 catalog/roles，PAL 1,934 records；tileset/world sprite/battle sprite/effect sprite/image 均走 AssetId→catalog→AssetResolver/FileSource 单链，clone/save/export/runtime 无 extracted 或 legacy fallback。ARCH-CURRENT-ONLY-1 三方 review accept 前暂不标 ✅；历史批次数字见[资源闭包审计](foundation/a7-resource-closure-audit.md)。 |
+| A7 | 工程资源闭包与稳定资源注册表 | ✅ | ✅ | **done（ARCH-CURRENT-ONLY-1）**：content19 manifest 的资源配置只含 catalog/roles，PAL 1,934 records；tileset/world sprite/battle sprite/effect sprite/image 均走 AssetId→catalog→AssetResolver/FileSource 单链，clone/save/export/runtime 无 extracted 或 legacy fallback。历史批次数字见[资源闭包审计](foundation/a7-resource-closure-audit.md)。 |
 
 > A1-A6 是编辑器侧的素材与分发动作，故 `引擎—`；A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。未决子问题(A1 版权策略与素材规模 / A2 下载协议与进度 / A4 支持的素材格式)留「做 A 领域」那轮 brainstorm 细化。
 
@@ -165,12 +169,12 @@
 
 | 议题 | backlog 方向 | 落点（能力格 / 已落地模块） | 状态 |
 |---|---|---|---|
-| 议题 5（演出/cutscene 建模） | 统一 CutsceneController | **D14-2 卡**（P0 演出建模）；裂进 dialogue/fade-driver/async-intent（已落地）+ 剩余演出意图协议 | D14-2 draft |
-| 议题 6（遮挡现代化） | 遮挡半透明（方案 A） | **D6-1 卡**（渲染层，无独立格——归 W1 渲染增强） | D6-1 draft |
-| 议题 12（音视频多媒体统一） | 动态音乐过渡/分层 + 统一控制器 | **D12-1 卡**（音频侧，落 X2 增量）+ D14-2（控制器侧）；X2 基建已 done | D12-1 draft |
-| 议题 13（开发/调试工具） | cheat console / 检视 / 战斗构建器 / 触发区可视化 / 帧步进 | **D13-1 卡**（P1 工具层，无独立格——工具域，不进 8 领域格表） | D13-1 draft（GLM agree） |
-| 议题 14（脚本系统重构） | 子系统隔离 + 意图通信 | **主体已落地**（dialogue/fade-driver/input/follower/gameplay-clock/async-intent、AbortSignal 贯穿、N3-1 退役内部脚本）；D14-1 对话外观已完成，剩余 = D14-2（演出意图协议）+ D14-3（奖励/事件总线） | D14-1 done；D14-2/3 draft |
-| 议题 15（NPC 自主移动） | 动态碰撞 + 互相让路 + 转向动画 | **D15-1 done**（落 E2 增量，无独立格）；D15-2 已取消 | authored 巡逻/演出穿墙；地面敌人追击碰撞，floating 追击跳过地形与阻挡实体 |
+| 议题 5（演出/cutscene 建模） | 统一 CutsceneController | **D14-2 done**：演出意图协议与统一 CutsceneController 已落地。 | done |
+| 议题 6（遮挡现代化） | 遮挡半透明（方案 A） | **D6-1 done**（渲染层，无独立格——归 W1 渲染增强）。 | done |
+| 议题 12（音视频多媒体统一） | 动态音乐过渡/分层 + 统一控制器 | **D12-1 + D14-2 done**：音频过渡/分层与视频/动画控制器均已完成；X2 基建保持 done。 | done |
+| 议题 13（开发/调试工具） | cheat console / 检视 / 战斗构建器 / 触发区可视化 / 帧步进 | **D13-1 done**（P1 工具层，无独立格）；时间旅行仍是按需增强，不反向降级首批能力。 | 首批 done；时间旅行按需 |
+| 议题 14（脚本系统重构） | 子系统隔离 + 意图通信 | 主体及三个收尾均已落地：D14-1 对话外观、D14-2 演出意图、D14-3 奖励事件总线。 | done |
+| 议题 15（NPC 自主移动） | 动态碰撞 + 互相让路 + 转向动画 | **D15-1 done**（落 E2 增量，无独立格）；D15-2 已取消。authored 巡逻/演出保留 bypass，地面敌人追击碰撞，floating 追击跳过障碍。 | done |
 | 议题 18（reforge 战斗引擎缺口） | 实体生命周期 / 战斗字段编辑等 | 18a 已由 B10-1 关闭；18b 落 W9（实体暂离/重现，新格）；18e 落 E18（编辑器角色战斗字段，新格）；其余缺口「已覆盖确认」见 backlog | **W9 done；E18 done（2026-08-14 用户验收）** |
 
 > 纪律：议题型卡开建时，若产出新能力（而非既有格的增量），必须按 §8 发现协议**先在本地图开格**再开工（W9/B11/E18 就是这次补登的例）。纯增量（如 D6-1 渲染增强、D12-1 X2 增量）不必开新格，但本表要登记落点。
@@ -184,16 +188,18 @@
    - E6(引擎) → E7/E8 → N7 → C7：定位权威、载具/跟随、演出接管、队伍管理
    - W1/W7/W8：单一地图格式、基础绘制、内容选择与实例属性编辑
    - B8/B9/W9：明雷追击、战斗回流、语义生命周期与编辑器策略闭环
-   - X1 → X5：SAVE8/content15 与跳转预览
+   - X1 → X5：SAVE8/content19 与跳转预览
 
    当前 ⚠️ 候选池（不是已承诺任务）:
-   - B2：缺战场条目的完整编辑器 CRUD 七环
-   - X4/A7：current-only 与 catalog-only 实现已完成；等待 ARCH-CURRENT-ONLY-1 三方 review 收口
-   - B5：战斗表现仍有精调与未落演出
+   - B5：战斗表现仍有精调与未落演出；旧审计含已修项目，开卡前必须重新 census
 
    明确低优先/按需:
    - E6 编辑器侧仅缺 authority 运行态可视化（调试器增强）
    - W6 的时间流逝/天气等待真实内容需求
+
+   已在本轮对账移出候选:
+   - B2：战场编辑器 CRUD 七环已完成并验收
+   - X4/A7：ARCH-CURRENT-ONLY-1 已完成三方审查和用户验收
 ```
 
 > 以上只表达当前依赖与候选池。W1、E2、C3、B10、N7 的旧“待闭合”文字已随对应能力完成而移除；
@@ -224,16 +230,19 @@
 
 选择器这一轮给出的格,**钉死做完(或明确判定不做)才进下一轮**。不允许「做一半又怀疑该不该做」——否则又陷入「是不是该做 E6 而不是 B1」的无限纠结。选择器是承诺机制,不只是建议。
 
-### 2026-08-13 对账后重跑（候选，不是承诺）
+### 2026-09-03 对账后重跑（候选，不是承诺）
 
-- 扫描结果：W9、C8、N3 已从陈旧状态恢复真实完成；E18 因缺用户验收继续 fail-closed；C1-1 已于
-  2026-08-14 完成三方审查与用户验收；B2 又于 2026-08-15 完成用户验收。剩余 `⚠️` 为
-  W6、E6、B5、X4/A7。
+- 当前正式任务卡全部为 `done` / `cancelled`，看板已恢复为只显示进行中或阻塞任务。
+- X4/A7、B2、W9、E18、D6-1、D12-1、D13-1、D14-2/3、D15-1 与
+  `ARCH-ACTOR-CONDITION-SEED-1` 的陈旧状态已按任务卡和 Git 收口事实更正。
+- 剩余真实 `⚠️` 为 W6、E6、B5：W6 明确等待真实时间/天气内容需求，E6 仅缺低优先调试可视化；
+  因此选择器给出的下一候选是 **B5 战斗表现**。
+- B5 不得直接照 2026-07-05 审计开工：其中多项已被后续 B10-1、A7-1、A7-3B、D14-2 等任务关闭。
+  下一步先对当前代码、任务卡和代表战斗做一次只读 gap census，再将仍真实缺失的演出拆成有界任务卡。
 - X3 已从产品候选移除：结局流在 R2 已实现并验收；s281 最终战→结局演出→回标题属于 Q1 全流程
   E2E 的最终段，不是待开发能力。
-- C1、B2 与 ED-DS-1 已完成并移出候选；编辑器设计规范 v1.0.0 于 2026-08-15 经用户六项裁决冻结，
-  下一步为 **ED-DS-2 tokens/primitives/Design Lab**，
-  再以规范为尺推进视觉统一、全模块七环和 Reforge/Editor 代码质量三条审查线。禁止逐模块凭感觉翻新。
+- 编辑器设计系统及其 adoption debt 已全部收口；不得继续逐模块凭感觉翻新。后续 UI 修改必须由真实
+  产品能力或明确缺陷驱动。
 
 ---
 

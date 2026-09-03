@@ -11,12 +11,12 @@
 
 | # | 议题 | 现状痛点（旧引擎，仅作参考） | 第二阶段方向 | 归属 | 状态 |
 |---|---|---|---|---|---|
-| 1 | 核心系统重写 | 对话 / 战斗 / 存档 / 事件系统耦合重（事件 ↔ 存档 ↔ 战斗绑死） | 全部重写、解耦 | P1 | 待设计 |
+| 1 | 核心系统重写 | 对话 / 战斗 / 存档 / 事件系统耦合重（事件 ↔ 存档 ↔ 战斗绑死） | 全部重写、解耦 | P1 | **主体已落地**：content/reforge/editor 已形成独立包与显式协议；剩余问题按具体能力格发现，不再以总括“全部重写”议题立项。 |
 | 2 | 动态时间 | 仅脚本静态切昼夜调色板（nightPalette），不是真时间 | 真正流动的时间轴，作世界态一等公民；事件 / 渲染 / 场景可响应 | P0 世界态 + P1 | 待设计（非首刀，按内容需要） |
 | 3 | 天气 | 无 | 全新天气世界态，影响渲染 / 场景 / 遭遇 | P0 世界态 + P1 | 待设计（非首刀，按内容需要） |
-| 4 | 地图分层扩展 + 尺寸可变 | 仅 lower/upper 2 视觉层 + tile 内单 bit 障碍；立交 / 楼层靠两张图 + 传送 fake；**所有图被 C 定长数组 `Tiles[128][64][2]` 焊成恒定 64×128**，小场景背满空格 | N 视觉层（z 序 + 是否遮挡角色）+ 独立碰撞 / 地形层；支持真立交 / 楼层 / 丰富地形；**每图尺寸可变**（有限网格 = 层次 A，现在做；超大无缝 / 分块流式 = 层次 B 留口不做） | P0 地图 schema + P1 | 尺寸可变已拍板（[D3](decisions.md)）；多层 / 立交方向待确认 |
-| 5 | 演出 / cutscene 系统 | 黑屏语义纠缠：冻结型（死亡 / 切场景）、遮罩型（借黑屏移精灵）、叙事型（水月宫一夜过去）混用 `blackScreenHold`/`needToFadeIn`/`sceneLoading`/`paletteFadeState`；精灵移动、触发器拼凑式，杂乱 | 拆正交两维（底层冻结与否 × 遮罩层内容）；统一**声明式演出时间线**（清晰 action 词汇：淡入淡出 / 移精灵 / 等待 / 文本 / 镜头，可组合）；**触发器与演出分离**（触发器只管「何时」）；分层视觉合成（世界 / 遮罩 / 文字层） | P0 事件 & 演出建模 + P1 执行 + P2 可视化编排 | 待设计（**讲故事的核心**，内容驱动） |
-| 6 | 遮挡的现代化处理 | 原版人物被前景挡住就完全看不见 | 被遮挡时前景半透明 / 或角色描轮廓剪影（二选一是**审美选择**，P1 渲染时定）；schema 保证遮挡关系可判定 | P1 渲染 + P0 留位 | 待设计（审美已拍：**方案 A 前景半透明**，[D27](decisions.md)；P1 渲染定阈值） |
+| 4 | 地图分层扩展 + 尺寸可变 | 仅 lower/upper 2 视觉层 + tile 内单 bit 障碍；立交 / 楼层靠两张图 + 传送 fake；**所有图被 C 定长数组 `Tiles[128][64][2]` 焊成恒定 64×128**，小场景背满空格 | N 视觉层（z 序 + 是否遮挡角色）+ 独立碰撞 / 地形层；支持真立交 / 楼层 / 丰富地形；**每图尺寸可变**（有限网格 = 层次 A，现在做；超大无缝 / 分块流式 = 层次 B 留口不做） | P0 地图 schema + P1 | **done**：ProjectMap v4 已支持可变尺寸、N 视觉层、每格来源/高度/独立碰撞；组合与地图共用内容模型。超大无缝/分块流式仍属第三阶段留口。 |
+| 5 | 演出 / cutscene 系统 | 黑屏语义纠缠：冻结型（死亡 / 切场景）、遮罩型（借黑屏移精灵）、叙事型（水月宫一夜过去）混用 `blackScreenHold`/`needToFadeIn`/`sceneLoading`/`paletteFadeState`；精灵移动、触发器拼凑式，杂乱 | 拆正交两维（底层冻结与否 × 遮罩层内容）；统一**声明式演出时间线**（清晰 action 词汇：淡入淡出 / 移精灵 / 等待 / 文本 / 镜头，可组合）；**触发器与演出分离**（触发器只管「何时」）；分层视觉合成（世界 / 遮罩 / 文字层） | P0 事件 & 演出建模 + P1 执行 + P2 可视化编排 | **done（D14-2）**：演出意图协议与 CutsceneController 已统一现存对话、淡入淡出、镜头、帧动画、视频和等待能力；编辑器蓝图/可视化编排不属于本议题完成判据。 |
+| 6 | 遮挡的现代化处理 | 原版人物被前景挡住就完全看不见 | 被遮挡时前景半透明 / 或角色描轮廓剪影（二选一是**审美选择**，P1 渲染时定）；schema 保证遮挡关系可判定 | P1 渲染 + P0 留位 | **done（D6-1）**：方案 A 前景半透明、迟滞恢复、角色判据与代表场景视觉验收均已完成。 |
 | 7 | ~~标签 + 相性 / 克制系统~~ | — | **→ 移交第三阶段**（种族 / 门派 / 五灵克制的骨架，属玩法系统）。见 [docs/phase3](../phase3/future-gameplay-and-mmo-backlog.md) | 第三阶段 | 移出 |
 
 ### 引擎现代化（议题 10–13）
@@ -27,8 +27,8 @@
 |---|---|---|---|---|---|
 | 10 | 国际化（i18n）管线 | 原版文本靠 WORD.DAT 字面下标，硬编码 | 所有面向玩家文本（对话 / 物品名 / 仙术描述 / UI）走**稳定 text id**，运行时按 locale 查表；与 [p0 schema §2 稳定身份](foundation/content-schema.md) 一脉相承 | P0 schema（text id）+ P1 运行时查表 | 已定（[D9](decisions.md)）；做中文同人为先，多语言可后补，但文本字段一律走 id |
 | 11 | 可访问性（A11y） | 原版无 | 文字速度 / 自动播放 / 对话回看日志；高对比度 UI 主题；全键盘 / 手柄 / 触屏 / 鼠标输入重映射 | P1 输入 + UI | 方向已定：可选，非阻塞主干 |
-| 12 | 音视频多媒体系统统一 | 四个 player（avi/rng/fbp/ending）各自 `flushToCanvas` 绕过 present、各自 `await sleep()` 两套时钟（audit P0-9）；音频意图边界干净（audit A-1）但缺现代能力 | 统一多媒体管线：音频在 A-1 「意图队列」上加动态音乐过渡 / 分层；视频 / 动画走统一 CutsceneController（呼应议题 5），不再各自为政 | P1 多媒体 + P0 演出建模 | 待设计（A-1 是干净继承起点） |
-| 13 | 开发 / 调试工具 | 无 | 时间旅行调试（effect 溯源回放，受益于 [D2](decisions.md) 的「意图→纯函数判定→结果」+ 注入时钟）；帧步进、碰撞层 / 触发区可视化、cheat console、世界变量检视器；编辑器时代降低内容创作成本 | P1 工具层 | 首刀已实现（[D13-1](../ops/tasks/D13-1-debug-tools-first-batch.md)，2026-08-06：cheat console / 世界变量检视 / 脚本触发器一键触发 / 战斗构建器 / 触发区可视化 / 帧步进，DEV-only）；时间旅行留 D14-2 之后 |
+| 12 | 音视频多媒体系统统一 | 四个 player（avi/rng/fbp/ending）各自 `flushToCanvas` 绕过 present、各自 `await sleep()` 两套时钟（audit P0-9）；音频意图边界干净（audit A-1）但缺现代能力 | 统一多媒体管线：音频在 A-1 「意图队列」上加动态音乐过渡 / 分层；视频 / 动画走统一 CutsceneController（呼应议题 5），不再各自为政 | P1 多媒体 + P0 演出建模 | **done（D12-1 + D14-2）**：BGM 过渡/分层与视频、帧动画统一控制器均已落地；更高阶动态配乐编排移交第三阶段。 |
+| 13 | 开发 / 调试工具 | 无 | 时间旅行调试（effect 溯源回放，受益于 [D2](decisions.md) 的「意图→纯函数判定→结果」+ 注入时钟）；帧步进、碰撞层 / 触发区可视化、cheat console、世界变量检视器；编辑器时代降低内容创作成本 | P1 工具层 | **首批 done（D13-1）**：cheat console、世界变量检视、脚本触发、战斗构建器、触发区可视化与帧步进已完成；时间旅行现为独立按需增强，不反向降级首批状态。 |
 
 ### 引擎架构（议题 14）
 
@@ -36,7 +36,7 @@
 
 | # | 议题 | 现状痛点（第一阶段引擎考古实证） | 第二阶段方向 | 归属 | 状态 |
 |---|---|---|---|---|---|
-| 14 | **场景事件 / 脚本系统重构 — 根治子系统共享可变状态** | 原版（及第一阶段忠实复刻）靠 `mode`（explore/event/battle/menu）+ `waiting`（undefined/frame-wait/dialog/fade-screen/scene-load/palette-fade/camera-pan）+ `sceneLoading` + `needToFadeIn` **四个全局标志位交织**，每帧靠 `shouldRunAutoScripts = !sceneLoading && mode==='event' && (w∈{undefined,frame-wait,scene-fade,camera-pan})` 这类组合条件决定跑什么（见 [mode.ts:38-43](../../packages/game/src/core/mode.ts)）。对话 / RNG / 淡入淡出 / 立绘 / 走位 / 跟随者 / 吞键 全共享这组状态 → 任何分支漏判即 bug | **子系统隔离 + 意图通信**：①对话（纯状态机）；②演出/特效（fade/RNG/分镜）；③奖励/事件（物品获得、世界变量）；④跟随者/走位。各自封装状态，靠「意图→纯函数判定→结果」消息通信，不再共享可变全局 | P1 引擎核心 | **主体已落地（2026-08-06 核实）**：reforge 已隔离 dialogue/fade-driver/input/follower/gameplay-clock/async-intent，script-runner 无 waiting 枚举、AbortSignal 贯穿；N3-1 退役内部脚本。**剩余 = ①对话外观继承子项（见下，作者明确要求）+ ③奖励/事件总线统一收尾（物品提示两套 UI）+ ②演出意图协议完整性（分镜/RNG/镜头 pan）** |
+| 14 | **场景事件 / 脚本系统重构 — 根治子系统共享可变状态** | 原版（及第一阶段忠实复刻）靠 `mode`（explore/event/battle/menu）+ `waiting`（undefined/frame-wait/dialog/fade-screen/scene-load/palette-fade/camera-pan）+ `sceneLoading` + `needToFadeIn` **四个全局标志位交织**，每帧靠 `shouldRunAutoScripts = !sceneLoading && mode==='event' && (w∈{undefined,frame-wait,scene-fade,camera-pan})` 这类组合条件决定跑什么（见 [mode.ts:38-43](../../packages/game/src/core/mode.ts)）。对话 / RNG / 淡入淡出 / 立绘 / 走位 / 跟随者 / 吞键 全共享这组状态 → 任何分支漏判即 bug | **子系统隔离 + 意图通信**：①对话（纯状态机）；②演出/特效（fade/RNG/分镜）；③奖励/事件（物品获得、世界变量）；④跟随者/走位。各自封装状态，靠「意图→纯函数判定→结果」消息通信，不再共享可变全局 | P1 引擎核心 | **done**：主体隔离与 N3-1 退役内部脚本完成；D14-1 对话外观、D14-2 演出意图/CutsceneController、D14-3 奖励事件总线三个收尾均已完成。 |
 
 #### 议题 14 的真实 bug 证据（第一阶段 fix 记录考古）
 
@@ -69,7 +69,9 @@
 
 **结论**：这五类 bug 症状各异，但根因同一个 —— **多个子系统读写同一组全局标志位，靠组合条件碰运气**。新引擎把这组状态拆进各自模块 + 用意图消息通信，这五类 bug 从架构层根除。
 
-#### 议题 14 的解法方向（待 spec 细化）
+#### 议题 14 的历史解法方向（已由 D14-1/2/3 落地）
+
+> 以下保留立项时的设计推导作为背景，不再表示待办；当前完成状态以上方议题表和三张任务卡为准。
 
 1. **对话系统**：reforge `dialogue.ts` 已示范（纯状态机、不碰 DOM/RNG、独立单测）。✅ 方向验证
 2. **演出/特效系统**：fade、RNG、分镜、镜头 pan 各成独立模块，状态自管；对上层暴露"开始/进行中/完成"的意图，不共享 `needToFadeIn` 这种全局。
@@ -92,7 +94,7 @@
 | 上/下显示 | setDialogStyleTop（求雨 RNG / 结局用） | ✅ 已继承 | D14-1 done |
 | 字体 | 原版字模（FONT_COLOR_DEFAULT 0x4F + shadow） | ✅ 已继承 | D14-1 done |
 | 自动播放 vs 交互 | 0x09 wait（自动延时）vs wait-key | ✅ 已区分 | D14-1 done |
-| 物品提示 UI | **独立 UI**（非 dialog）— 见议题 14 解法 ③ | ❌ 未涉及 | 随事件系统设计 |
+| 物品提示 UI | **独立 UI**（非 dialog）— 见议题 14 解法 ③ | ✅ 已统一 reward-gain 呈现 | D14-3 done |
 
 > **原则**：对话**行为/状态**重构（议题 14 主体），对话**外观/资产**继承原版（本子项）。两者解耦 —— 外观是数据 + sprite 资产，行为是纯状态机。
 
@@ -102,9 +104,9 @@
 
 | # | 议题 | 现状痛点（旧引擎,仅作参考） | 第二阶段方向 | 归属 | 状态 |
 |---|---|---|---|---|---|
-| 15 | NPC 自主移动 + 动态碰撞 + 错位避让 | 原版 NPC 巡逻/游走(`PAL_NPCWalkOneStep`)、主角撞上移动的 NPC 会错位避让/滑步而非硬卡;reforge 切片 1 NPC 静态、`collide` 曾为死字段 | NPC 移动作**独立子系统**:巡逻/路径行为 + 每帧动态碰撞(NPC 不穿墙、不穿彼此)+ 玩家↔NPC 互相让路 + 转向动画。clean rewrite——拿原版当手感灵感、**不逐帧复刻** | P1 引擎(移动/碰撞/实体行为) | **待设计**(切片 1 不做;静态碰撞先行) |
+| 15 | NPC 自主移动 + 动态碰撞 + 错位避让 | 原版 NPC 巡逻/游走(`PAL_NPCWalkOneStep`)、主角撞上移动的 NPC 会错位避让/滑步而非硬卡;reforge 切片 1 NPC 静态、`collide` 曾为死字段 | NPC 移动作**独立子系统**:巡逻/路径行为 + 每帧动态碰撞(NPC 不穿墙、不穿彼此)+ 玩家↔NPC 互相让路 + 转向动画。clean rewrite——拿原版当手感灵感、**不逐帧复刻** | P1 引擎(移动/碰撞/实体行为) | **done（D15-1）**：动态碰撞、互相让路、地面/浮空追击与转向动画已闭合；authored 巡逻/演出保留显式 bypass。D15-2 已取消。 |
 
-> ⚠ 不阻塞切片 1。静态 NPC 碰撞是切片 1 基础(已单独 plan);本议题(会动的 NPC)等真有巡逻 NPC 的场景再立项 brainstorm + plan。别夹进切片 1 收口顺手做(避免范围蔓延)。
+> D15-1 已完成本议题；D15-2 因前提变化取消。历史“等待立项”口径不再生效。
 
 ### 精灵命名动作消费闭环（议题 16）
 
@@ -152,19 +154,19 @@
 | # | 议题 | 当前缺口 | 方向 | 归属 | 状态 |
 |---|---|---|---|---|---|
 | 18a | 敌人混乱攻击同伴 | `battle-core.ts` 的 `decideEnemyAction` 无混乱分支，导致中了"乱"的敌人仍照常施法、变身、召唤、逃跑或攻击玩家。完整缺口还包括专用结算、lastAction、session 路由和 12 帧专用动画；严格 RNG 还要求保留 confused 前废弃玩家抽样和原始敌队空槽。 | [B10-1 任务卡](../ops/tasks/B10-1-enemy-confused-attack.md) 已完成实现：v11 发布后通过 v11→v12 append-only successor（固定 5 槽 + 动态 wMaxEnemyIndex、召唤/分裂交叉账本、SAVE/editor/oracle 回放）；确定性功能测试、迁移 release/oracle/canary 与编辑器最小功能视觉检查已完成，剧情/战斗演出视觉登记到冻结后的集中 E2E | B4 / B5 / B10 | **done（2026-08-10；三方 implementation accept + release/oracle/canary 全门禁通过）** |
-| 18b | 实体暂离、重现与明雷逃跑冷却 | `main.ts:3234-3263` 用 `respawnSeconds` + detached `host.wait`，且迁移把 `0x4B` / `0x52` 合并成 `vanishEntity`。缺口包括自动触碰冷却、手动确认保留、world-update pause、0x52 toggle、固定 320×320 当前坐标离屏门、跨场景/存档持久和战斗结果接续。 | 已开高风险 [W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md)：用稳定实体地址的语义生命周期状态 + 世界逻辑 reducer，拆分短暂停自动行为/隐藏待重现，区分普通胜利、玩家逃跑、敌逃与 terminate，修迁移上游并全量重生成 | W9 世界 / B8-B9 / X1 | draft，二次真值方案待三方设计签字 |
+| 18b | 实体暂离、重现与明雷逃跑冷却 | `respawnSeconds` + detached wait 与 0x4B/0x52 混义曾造成自动触碰、隐藏重现、跨场景/存档和战斗回流边界不清。 | [W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md) 已以稳定实体地址、四态生命周期和世界 reducer 拆分暂停自动行为/隐藏待重现，并闭合胜利、玩家逃跑、敌逃与 terminate。 | W9 世界 / B8-B9 / X1 | **done（W9）** |
 | 18c | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath/scriptOnDying） | ~~三层全断~~ **已由 B11-1 修复**（提交 `58f8f846`）：① battle-core.ts:717 `runPlayerCasualtySweep`（friendDeath + dying + 健康门 + 每 action/毒 tick 后调用）；② coveredBy 迁移落地（final actors.json 6 actor battler.coveredBy = 正确 slug）；③ BattlerSpec.casualty 结构化数据已生成（pal-casualty-scripts.ts 162 行翻译四个源脚本）。 | [B11-1 任务卡](../ops/tasks/B11-1-player-casualty-scripts.md) 三方实现 accept（2026-08-05）。 | B9 战斗 / R13-Z | **已修复**（B11-1 实现 + R13-Z actor-casualty 证据族关闭 110 site，三方 accept） |
 | 18d | 援护（Cover）数据链断裂 | ~~数据没迁~~ **已由 B11-1 修复**：mapActor coveredBy（migrate-content.ts:314）产物已生效 —— final actors.json li-xiaoyao coveredBy=lin-yueru、gai-luojiao coveredBy=anu 等，main.ts:2239 → battle-core.ts:2341 数据链完整。 | 同 18c（B11-1 coveredBy 迁移）。 | B9 战斗 | **已修复**（B11-1 formal publication 落盘后 coveredBy 有值） |
-| 18e | 编辑器角色战斗字段缺失（coveredBy / casualty / cooperativeMagic） | ActorMode.tsx（480 行）只编辑 baseStats / battleSprite / sounds / initialEquipment / initialMagic，**不编辑 coveredBy、casualty（friendDeath/dying）、cooperativeMagicSkillId**。B11-1 已让 coveredBy + casualty 在数据层/runtime 完整工作，但编辑器无入口 → 作者不能查看/修改/为新角色配置 → **功能未闭环**。参照 SkillTab（R13-6B 已编辑 execution/preShake 结构化字段）可实现。 | 在 ActorMode 增 coveredBy 角色选择器 + casualty 脚本编辑器（gates/lines/effects 结构化，复用 SkillEffect 编辑组件）+ cooperativeMagic 选择器。优先级：coveredBy（简单下拉）> casualty（结构化脚本，较重）> cooperativeMagic。 | ED 编辑器 / B9 | 待立项 |
+| 18e | 编辑器角色战斗字段缺失（coveredBy / casualty / cooperativeMagic） | 角色编辑器曾缺 coveredBy、casualty 与 cooperativeMagic 的作者入口。 | [E18-1 任务卡](../ops/tasks/E18-1-editor-actor-battle-fields.md) 已加入援护者、伤亡脚本与合体技结构化编辑、引用校验和保存闭环。 | ED 编辑器 / B9 | **done（E18-1）** |
 
 边界:
 
-- 18a 优先级高于 18b，但二次真值核对后已不是"纯 battle-core 小改"：要严格保留原始空槽 RNG，需先改 enemy-team schema/migration。18b 仍是 world/save/migration/editor 跨包任务。
+- 18a 已由 B10-1 完成；18b 已由 W9 完成；18c/18d 已由 B11-1 完成；18e 已由 E18-1 完成。
 - **18c/18d 已由 B11-1（`58f8f846` + `0ea144c2`）修复并三方 accept（2026-08-05）**：
   coveredBy 迁移落地 + casualty sweep 实现 + 结构化 casualty 数据生成 + R13-Z
   actor-casualty 证据族关闭 110 site。GLM 2026-08-05 重新审计时一度误报为"全 None /
   三层全断"，实际是审计时工作树未含 B11-1 最新提交；纠正后确认数据链完整。
-- 剩余缺口仅 18b（怪物刷新）；18a 已由 B10-1 完成并关闭。
+- 本表登记的 18a–18e 已全部关闭；新的战斗缺口必须重新取证，不得复用本节历史状态。
 - 一阶段引擎（`packages/game`）全部机制都有完整实现，可作为参照。
 
 **已覆盖确认（2026-08-05 抽样复核通过，非缺口）**：隐藏经验、伤害公式、暴击/会心、主动/自动防御、护体、群体递减、战后 HP/MP 恢复、战场五灵 fieldEffect（数据+注入双全）、合击、身法/出手顺序、吉运/逃跑、特殊技能成功率、紫金葫芦炼丹（Store[0] 九档完整迁移）、五灵/毒抗性、巫术 0x2E（含 ≥ 修复）、异常状态、毒系统（七大毒/相克/致死/无影毒）、大世界状态带入战斗、状态刷新/死亡/复活/梦蛇/明王觉醒、乾坤一掷、敌普攻附带 attackEquivItem。
