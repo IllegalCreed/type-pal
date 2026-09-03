@@ -74,7 +74,7 @@
 | E3 | 可拾取物 | ✅ | ✅ | 宝箱/拾取 | done;拾取模板 |
 | E4 | 触发交互 | ✅ | ✅ | 对话/事件 | done;事件模式 |
 | E5 | 实体动画(loop) | ✅ | ✅ | 火把/流水 | 引擎(2026-07-05):loop 布局壁钟自循环 250ms/帧(loopFrameIndex,演出帧覆盖仍优先);编辑器:精灵库布局可编(C1d)。⚠ 两工程暂无 loop 精灵数据 —— 精灵库切 loop 布局即生效 |
-| E6 | **实体定位权威** | ✅ | ⚠️ | 隐龙窟门口/试炼窟芦苇 | 引擎 done(2026-07-08 两考题全过:E7 芦苇漂 + N7 隐龙窟门口):E6a authority 表+双视图(位移指令隐式接管·脚本收尾统一归还)+ E6b 显式 take/release + E7 mount + E8 follow。编辑器:指令表单/手册 ✅；运行态可视化与 Esc 后反引号重开已开 [E6-1](../ops/tasks/E6-1-runtime-authority-inspector.md)，当前 draft 等待设计签字。 |
+| E6 | **实体定位权威** | ✅ | ⚠️ | 隐龙窟门口/试炼窟芦苇 | 引擎 done(2026-07-08 两考题全过:E7 芦苇漂 + N7 隐龙窟门口):E6a authority 表+双视图(位移指令隐式接管·脚本收尾统一归还)+ E6b 显式 take/release + E7 mount + E8 follow。编辑器:指令表单/手册 ✅；[E6-1](../ops/tasks/E6-1-runtime-authority-inspector.md) 已完成运行态可视化与 Esc 后反引号重开候选 `de19b7f8`，当前 review，三方 accept 后转 ✅。 |
 | E7 | 载具/挂载 | ✅ | ✅ | 试炼窟芦苇漂(共乘)/坐船 | done(2026-07-07):mount 权威 + **全员叠筏**(mountParty/ride 连跟随者一起挂;dismountParty 四路收口:显式/走位即下筏/脚本收尾/强停,零持久态)+ 大世界跟随者(见 E8)。骑乘 opcode 定向翻译(0xA1→mountParty/0x3F·44·97→ride,5 场景 160 处)。考题实测:s213 李逍遥+阿奴共乘逐帧重叠漂流(一阶段掉队闪现 bug 不存在)+ s017 仙灵岛筏;队长恒遮挡队员(z序平局偏置) |
 | E8 | 大世界跟随者(队伍展示) | ✅ | — | 三人队走位/拐弯甩尾 | 新格(2026-07-07):party[1..N] 渲染 + 原版 trail 槽 1:1(基点 slot2 校准=平铺→菱形 2× 粒度;**dir=离开该格方向**,拐弯甩尾逐行对齐原版 —— 8字双轨迹对比法定案,两引擎同场景同腿长无缝换向逐行全等)+ follow/mount/script 三权威。队长恒遮挡队员。编辑器无依赖 |
 | E9 | 商店/当铺(openShop) | ✅ | ✅ | s050 米铺买/s029 当铺卖 | **done(2026-07-11 E9)**:openShop 阻塞式全链 —— content ShopDef+纯结算(买 buyPrice/卖 sellPrice)、21 家店货单迁入 shops.json、买=红框紧凑列表(坐标 1:1 uigame.c,现有/金钱卷轴框、ITEMBOX 带影、确认默认否)、卖=全屏 picker(noDesc+金钱/售价框)。编辑器:ShopTab 货单上架下架 + openShop 表单店下拉。观感对照原版截图三轮校(红框/阴影/定高)。顺手根治 item-list ITEMBOX 缺影(装备/使用菜单同修) |
