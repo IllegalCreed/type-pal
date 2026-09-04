@@ -1,6 +1,6 @@
 # ED-3 - 统一工程引用边与安全删除地基
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: Editor cross-cutting / E1 / W7 / A7 / N5
 Coding Owner: Codex
@@ -76,7 +76,8 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ### 当前缺口 census（2026-09-04 只读核验）
 
-- PAL：294 scenes；987 个 `loadScene`（930 跨场景）、67 个 `selectSceneHooks`（65 跨场景）、
+- PAL：294 scenes；全作者根 987 个 `loadScene`（930 跨来源所属场景），其中 scene 文件内
+  981/924、items 额外 6/6；67 个 `selectSceneHooks`（65 跨场景）、
   1 个 `currentScene`、38,126 个 `EntityAddress`（972 跨场景）、1 个 manifest entry point。
 - PAL：20 个 shop（id 1..20）；35 个 `openShop` = 29 buy（目标 id 1..20）+ 6 sell（均保留
   `shop=0`，运行时不读 shops）。
@@ -333,10 +334,12 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
     hooks 67/65、s230 顶层 mapId=map-162 且全树无 mapId=map-164。
   - 可证伪观察: 见 GLM 签节第 5 条（领域字段无法无损映射 / payload 超预算 / sell 实读
     shop 表 / PAL 暴露真实悬空 / 真树 parity 不可解释差异）。
-- counter / 分歧处理：任一 reviewer 证明统一 edge 丢失领域语义、重复扫描不可接受、buy-only 不成立或
-  保存/删除不能共用同一规则，则保持 draft/blocked，先改合同；不得先实现再补签。
+- counter / 分歧处理：无 counter。GLM 的 `loadScene=981/924` 是 scene 文件口径，Codex 复算确认
+  items 另有 6/6，故全作者根为卡面的 987/930；不是事实冲突。若 build 中证明统一 edge 丢失领域语义、
+  重复扫描不可接受、buy-only 不成立或保存/删除不能共用同一规则，则立即转 blocked 重审。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **allowed（2026-09-04）**。Codex/Kimi/GLM 三方 premise verified + design agree
+  齐、独立反证审查完成、无 counter；Kimi K1-K4 与 GLM GM-E3-1~6 全部纳入 build 硬门。
 
 ### 进入 done 前：审查签字
 
@@ -393,9 +396,17 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 - Reviewer: Kimi（架构、公共合同、revision/save/delete/async proof）+ GLM（覆盖 census、parity、测试矩阵、
   PAL publication）。
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **agree（2026-09-04）**。两席独立确认 ED-3 是现有 derived Worker 上的薄统一层，真实修复
+  map-164 删除漏洞、current-author/shell 分裂、scene/map/shop 缺边与媒体 locator 字符串协议；不改持久 schema。
+- 必改项:
+  - PAL 新 validator 零新增 error、publication 通过、迁移 zero-plan；真实悬空另开上游迁移卡。
+  - A 批记录 Worker payload/构建耗时数值基线和预算，超限改 lazy/compact，不重复物化全图。
+  - sync cold oracle 与 Worker import 同一 builder，并做同 revision differential。
+  - BattleField/EnemyTeam/Poison/World Sprite/Battle Sprite 五组 live-canonical shell-scan 反例。
+  - s230→map-164 具名删除回归；sell shop=0 与 sell nonzero 双负例。
+  - A↔B 场景互引 deletion scope 双向反例；真实 PAL asset/actor/item/entity-address parity。
+  - checking/stale/failed UI 禁删 + 命令同步重验双层行为门。
+- 是否建议进入 build: **是；三签齐，按 A/B/C 串行 build。**
 
 ### 三方争议记录（按需）
 
@@ -467,38 +478,11 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 - 2026-09-04 Codex: 纠正并行交接协议：用户只要求同时给两份提示词，并未要求只读回传。恢复 Kimi/GLM
   各自直接写自己的签字块与交接日志并提交；审查可并行，落盘冲突由 reviewer 自行同步处理，用户无需复制正文。
   Next: 两席把已完成的设计审查直接落卡；Codex 收齐后只推进准入状态。
+- 2026-09-04 Codex: 同步 GLM `242f82dc` 与 Kimi `bfab17d3`；两席均签 premise verified +
+  design agree，无 counter。独立复算解释 `loadScene` 唯一数字差：scenes=981/924，items=6/6，
+  全作者根=987/930。合并 K1-K4 与 GM-E3-1~6 为 build 硬门，状态转 build。Next: Codex 唯一
+  Coding Owner 实施 A 批合同/索引/性能与 parity 地基。
 
 ## 下一位 Agent 提示词
 
-以下两份提示词钉同一任务卡 revision，可同时转发。两席各自独立审查，并直接把自己的签字、证据和交接日志
-写入任务卡；各席只改自己的区域，Codex 收齐后统一推进准入状态。
-
-### Kimi（并行架构设计审查）
-
-```text
-接手任务: ED-3 统一工程引用边与安全删除地基
-任务卡: docs/ops/tasks/ED-3-project-reference-index.md
-当前状态: draft
-固定设计版本: d8c5bf14
-你的角色: 架构、跨包公共合同、current-author/revision、保存/删除 fail-closed 与异步 proof 主审。
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；最新任务卡；ED-1、ED-REFERENCE-UI-1、ED-INPUT-PERF-1、W7E 相关卡；project-diagnostics.ts:650-759；editor-derived-{contract,core,store}.ts；script-editor.ts canonical visitor；现有 *-references.ts；commands.ts map/delete paths；tileset-references.ts；App.tsx reference navigation。
-已完成: Codex + 三路只读核验确认现有 derived Worker/typed collectors 可复用，但没有统一 edge/index；scene/map/shop 有缺边，媒体 locator 解析字符串。已提出 A/B/C 三批薄统一层，不改 content19/SAVE8，不造巨型 walker。
-请你做: 独立验证前提；压力测试 edge/target/source/locator/deletePolicy/deletionScope 合同，current main+script author 真值、Worker vs cold builder、保存/删除同步复核、async map/tileset/stamp batch/proof、旧 DTO 退役与性能边界。特别检查完整 ED-3 是否必须补 content validate typed leaf、但仍能保持 schema/migration 数据零变化。输出 premise verified + design agree，或 counter；附直接 file:line 证据、必改钉、可证伪观察和是否允许 build。
-不要做: 不修改实现/生成数据；不读取或复述 GLM 结论；不改 GLM 签字、共享准入结论或 Status；不标 build/done；签字未齐不得开始实现。
-输出要求: 把 Kimi 的 premise/design verdict、直接证据、必改项、风险与可证伪观察直接写入任务卡 Kimi 签字块，并追加一条 Kimi 交接日志；提交前同步最新 main、保留其他改动，commit + push 后回复提交 hash。你若已经完成审查，只需落盘现有结论，不要重复审查。
-```
-
-### GLM（并行覆盖与测试设计审查）
-
-```text
-接手任务: ED-3 统一工程引用边与安全删除地基
-任务卡: docs/ops/tasks/ED-3-project-reference-index.md
-当前状态: draft
-固定设计版本: d8c5bf14
-你的角色: 全域引用 census、adapter parity、数据/validator/publication 与测试矩阵主审。
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；最新任务卡；ED-1、ED-REFERENCE-UI-1、ED-INPUT-PERF-1、W7E；project-diagnostics/editor-derived；全部 editor/content reference collectors；validate-refs.ts；PAL current publication；scene/shop/map runtime 与命令代码。
-已完成: 只读 census 已钉 PAL 294 scenes、scene command/entity-address 规模、20 shops、35 openShop=29 buy+6 sell；确认 sell shop=0 不读 shops、map override 和 shop target 缺边、媒体无统一 locator。设计按 A/B/C 分批且不改 schema。
-请你做: 独立复算目标/来源覆盖矩阵与 PAL 关键 census；检查所有既有 collector 能否无损 adapter parity，scene/map/shop 缺边是否完整，buy-only 规则、self/companion scope、三种删除策略、current/stale/failed、async coverage、media locator、保存 validator 与 PAL zero-plan 测试是否足够。输出 premise verified + design agree，或 counter；附直接 file:line 证据、必须补的矩阵/负例、可证伪观察和是否允许 build。
-不要做: 不修改实现/生成数据；不读取或复述 Kimi 结论；不改 Kimi 签字、共享准入结论或 Status；不标 build/done；签字未齐不得开始实现。
-输出要求: 把 GLM 的 premise/design verdict、直接证据、覆盖缺口、必改测试和可证伪观察直接写入任务卡 GLM 签字块，并追加一条 GLM 交接日志；提交前同步最新 main、保留其他改动，commit + push 后回复提交 hash。你若已经完成审查，只需落盘现有结论，不要重复审查。
-```
+无下一位 Agent 提示词；三方设计签字已齐，Codex 正在按 A/B/C 串行 build。

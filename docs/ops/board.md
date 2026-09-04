@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-3 | [统一工程引用边与安全删除地基](tasks/ED-3-project-reference-index.md) | draft | Kimi + GLM 并行设计审查 | 薄 edge/index 层；不改 schema，后续场景/商店分卡闭环 |
+| ED-3 | [统一工程引用边与安全删除地基](tasks/ED-3-project-reference-index.md) | build | Codex 实施 A 批 | 三方设计签字齐；先做统一 edge/index、性能与 parity 地基 |
 
 ## 看板规则
 
