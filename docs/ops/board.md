@@ -13,6 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| ED-SCENE-LIFECYCLE-1 | [场景生命周期闭环](tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) | draft | 用户裁决 content20 顺序 | Codex 前提门完成；批准后 Kimi/GLM 并行设计审查 |
 
 ## 看板规则
 

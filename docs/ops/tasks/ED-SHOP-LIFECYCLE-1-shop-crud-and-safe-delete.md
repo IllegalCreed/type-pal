@@ -13,13 +13,13 @@ Branch: main
 
 ## 目标
 
-让作者在商店工作区内完成商店的新建、复制、可读命名、安全删除、撤销/重做、保存重开和独立试买；
+让作者在商店工作区内完成商店的新建、复制、安全删除、撤销/重做、保存重开和独立试买；
 删除前只把真实读取 `ShopDef` 的 buy 指令作为引用，并直接消费 ED-3 的统一 `ProjectReferenceIndex`。
 
 ## 范围
 
 - 范围内:
-  - 商店目录的新建、复制、作者可读名称编辑与稳定数值 id 展示。
+  - 商店目录的新建、复制与稳定数值 id 展示；继续使用货单内容派生的可读目录标题。
   - 安全删除、统一引用面板与结构化跳转；`openShop(mode='buy')` 阻断，sell 的历史 `shop` 值不形成引用。
   - 货单保持有序且允许重复，全部操作可 undo/redo、保存重开。
   - 使用正式 Reforge 商店结算做独立试买，覆盖余额充足/不足、物品入包和价格真值。
@@ -30,13 +30,13 @@ Branch: main
 - 明确不做:
   - 不把 sell `shop=0` 或任意非零历史字段解释成商店引用。
   - 不自动改写 `openShop`、不级联删除、不把目录派生标题当稳定身份。
-  - 不保留旧 schema/upgrader/fallback；若切换 canonical 版本，按开发期版本纪律原子完成并清理旧版本。
+  - 不为本卡新增 ShopDef 名称、schema/contentVersion、upgrader 或 fallback；原用户范围没有要求可编辑商店名。
 
 ## 前提真值门
 
 ### 一句话行为 / 工程前提
 
-当前 `AddShopCommand` 只能追加空货单，ShopTab 可编辑货单但没有复制、名称、删除、引用守卫或独立试买；
+当前 `AddShopCommand` 只能追加空货单，ShopTab 可编辑货单但没有复制、删除、引用守卫或独立试买；
 ED-3 已证明运行时 buy 查商店而 sell 只查背包，并提供 buy-only 统一引用边。
 
 ### 真值矩阵
@@ -46,13 +46,13 @@ ED-3 已证明运行时 buy 查商店而 sell 只查背包，并提供 buy-only 
 | 原版 / primary source | 买入读取店铺货单和物品买价；卖出读取背包与物品卖价，不读取商店表。 | `packages/content/src/shop.ts`; `packages/reforge/src/main.ts:3442-3452` |
 | 第一阶段 | 只提供游戏内商店/当铺运行行为，没有二阶段作者 CRUD。 | `docs/phase1/game-mechanics.md`; `docs/phase2/READ-FIRST.md` |
 | 当前二阶段 | `ShopDef` 只有数值 id 与 items；`AddShopCommand` 新建空货单，ShopTab 目录标题从首件货品派生，无复制/删除/试玩。 | `packages/content/src/shop.ts:11`; `packages/editor/src/core/commands.ts:4057`; `packages/editor/src/ui/ShopTab.tsx:100-165` |
-| 本任务目标 | 复用 ED-3 buy-only edge/index 闭合七环，并先核显示名是否需要 canonical schema 切换及 PAL ownership。 | `docs/ops/tasks/ED-3-project-reference-index.md`; 本卡范围 |
+| 本任务目标 | 复用 ED-3 buy-only edge/index 闭合七环，并先核 PAL 商店作者 ownership；目录继续使用真实货单派生标题，不新增名称 schema。 | `docs/ops/tasks/ED-3-project-reference-index.md`; 本卡范围 |
 
 ### 反证与替代解释
 
-- 最强替代解释: 目录的首件货品派生标题已足够，不需要商店显示名；或者可以直接改数值 id。
-- 什么观察会推翻当前前提: 若真实作者任务无法区分同货单/空货单，派生标题不足；若所有 buy 引用可安全
-  原子重写才可能允许改 id。否则保持稳定 id，只增加显示名。该选择与 PAL ownership 未核实前不得 build。
+- 最强替代解释: 商店生命周期必须顺带新增可编辑显示名。
+- 什么观察会推翻当前前提: 若真实工作流证明货单派生标题 + 稳定数值 id 仍无法辨识商店，再单独提交
+  产品裁决；本卡不据生命周期模板擅自新增用户未要求的持久字段。PAL ownership 未核实前不得 build。
 - audit 红项如适用，已排查的替代根因:
   - runtime 语义 / 命令分类: ED-3 已用一手 runtime 分支和 29 buy/6 sell census 固定 buy-only。
   - 原版 / 第一阶段理解: 只约束结算真值，不推导编辑器 IA。
@@ -62,9 +62,9 @@ ED-3 已证明运行时 buy 查商店而 sell 只查背包，并提供 buy-only 
 ### 用户可见偏离
 
 - 是否主动偏离已核真值: yes（补齐二阶段作者工作流，不改变买卖结算机制）
-- `before -> after` 一句话: 只能新建和改货单 -> 可复制、辨识、安全删除、保存重开并用正式结算试买。
-- 代表场景: 复制一间有重复货品的商店，修改名称和顺序；buy 引用阻止删除，sell 不阻止；解除 buy 后删除并 undo。
-- 用户裁决: 2026-09-04 用户已将商店生命周期列为第二阶段必须项；显示名/schema 与 PAL ownership 方案 pending。
+- `before -> after` 一句话: 只能新建和改货单 -> 可复制、安全删除、保存重开并用正式结算试买。
+- 代表场景: 复制一间有重复货品的商店并修改顺序；buy 引用阻止删除，sell 不阻止；解除 buy 后删除并 undo。
+- 用户裁决: 2026-09-04 用户已将商店生命周期列为第二阶段必须项；PAL ownership 方案 pending。
 
 ## 上下文锚点
 
@@ -85,7 +85,7 @@ ED-3 已证明运行时 buy 查商店而 sell 只查背包，并提供 buy-only 
 ## 验收条件
 
 - 功能:
-  - 新建/复制/命名/删除均通过 Command；复制精确保留货单顺序与重复项并生成新稳定 id。
+  - 新建/复制/删除均通过 Command；复制精确保留货单顺序与重复项并生成新稳定 id。
   - 删除前由 ED-3 index 展示全部 buy 引用；sell `shop=0` 与 sell 非零 fixture 均不成为引用。
   - checking/stale/failed/current-without-index 全部 fail-closed；确认后 live 新引用和 redo 均重新验真。
   - 保存重开与 current publication 后作者数据不丢；迁移 dry-run 四零。
@@ -123,16 +123,17 @@ ED-3 已证明运行时 buy 查商店而 sell 只查背包，并提供 buy-only 
 
 ### 设计结论
 
-pending。先核显示名/schema、数值 id 分配、PAL ownership 与正式试买入口；引用查询、定位和删除策略只消费 ED-3。
+pending。先核数值 id 分配、PAL ownership 与正式试买入口；引用查询、定位和删除策略只消费 ED-3，
+不新增 ShopDef 名称或 contentVersion。
 
 ### 已知风险
 
-- 风险: ShopDef 无显示名，可能触发 canonical 版本切换；PAL 重迁可能覆盖作者修改；试买若另写模拟会漂移。
-- 缓解: 前提门先核 publication merge；复用正式结算/运行壳；版本切换若必要则 current-only 原子完成。
+- 风险: PAL 重迁当前直接重建 shops 表，可能覆盖作者复制/货单修改；试买若另写模拟会漂移。
+- 缓解: 前提门先核 publication merge/ownership；复用正式结算与运行壳；保持 schema-neutral。
 
 ### 主审立场
 
-- Reviewer: Kimi（schema/ownership）+ GLM（数据/测试矩阵）
+- Reviewer: Kimi（ownership/运行链）+ GLM（数据/测试矩阵）
 - 结论: pending
 - 必改项: pending
 - 是否建议进入 build: pending
