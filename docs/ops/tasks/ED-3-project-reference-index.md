@@ -422,7 +422,7 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 - Coding Owner: Codex（唯一实现方）
 - A 批状态: **完成（`ee173e13` + `be083df2` + `55a7fe84`）**。
 - B 批状态: **进行中**；地图纵切完成（`03767dda`），战场 / 敌队 / 氛围纵切完成
-  （`4a0aba45`）。下一纵切为 skill / enemy / poison。
+  （`4a0aba45`），skill / enemy / poison 纵切完成（`f0f88b19`）。下一纵切为 actor。
 - A 批修改文件:
   - `packages/content/src/command-target-reference.ts` + tests：有界 tagged target leaf；scene/entry/hook/
     entity/map/shop/team/field/ambience，sell 任意 shop 值均不发 shop edge。
@@ -477,6 +477,16 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   - PAL index：6,928 rows；battle-field-use=141、enemy-team-use=1,002、ambience-use=42；sync/Worker
     deep equality 通过。隔离性能复跑在预算内；索引 JSON 2,462,318B，后续纳域必须同步退役旧 DTO，
     不得机械抬高 2.5MB 门。
+  - 战斗数据纵切：旧 collector 的 1,179 条边与统一索引真树 parity；另补旧系统漏掉的 PAL
+    `learnSkill` 15 条，以及 fixture 覆盖的 world learnedSkills / skillUseCounts / party+reserve active poison。
+    skill=338、enemy=791、poison=65；Enemy/Poison self edge 由 deletion scope 排除，外部边仍阻断。
+  - Skill / Enemy / Poison 三页与三个删除命令已统一 current-author oracle、四态、TOCTOU、provider
+    failure、missing target、undo/redo；`onOpenBattleDataReference` 与 Worker `poisonReferenceIndex` 退役。
+  - 新增 content typed leaf 供 validator 与 editor 共用：技能 base/player/enemy 三层毒引用、毒关系、
+    world 战斗数据与 `learnSkill`；PAL publication/store 与迁移 dry-run 继续零新增 error / 四零。
+  - 索引叠加 1,194 rows 后一度超 2.5MB；通过 source key 派生重建、移除重复 targetKeys、detail intern
+    与省略空尾槽压回 2,365,516B。最终 8,122 rows / 9,898 buckets，完整 reply 5,502,785B；隔离
+    snapshot p50/p95=629.435/672.606ms、derived=616.444/717.467ms，均过冻结预算。
 
 ## 视觉验证记录
 
@@ -546,6 +556,12 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   全部 fail-closed，live canonical/redo/provider failure 有命令与 UI 双层回归，旧三套 collector 退役。
   11 files / 271 tests、typecheck、build、DS gate、PAL publication/store 与 dry-run 四零通过。
   Next: B 批 skill / enemy / poison 战斗数据纵切，并同步移除 poisonReferenceIndex 旧 Worker payload。
+- 2026-09-04 Codex: 完成 B 批战斗数据纵切 `f0f88b19`。统一 skill/enemy/poison 1,194 条 PAL 边，
+  补 `learnSkill` 与运行态技能/毒引用，validator 共用 typed leaves；三个页面与删除命令改用统一 index，
+  self scope/live canonical/redo/四态/过期 locator 全闭环，旧 poison DTO 与专用 App handler 退役。
+  compact wire 在不抬 2.5MB 门下把 index 压至 2,365,516B。Content 49 + Editor 268 + DS 66 tests、
+  双 typecheck、build、publication/store、dry-run 四零均通过；只读终审 accept、无返工。
+  Next: B 批 actor 纵切并同步退役 actorReferenceIndex。
 
 ## 下一位 Agent 提示词
 
