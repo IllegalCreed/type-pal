@@ -1,16 +1,54 @@
 // @vitest-environment jsdom
 
 import type { AuthorCommand, AuthorSceneDef } from '@type-pal/content'
-import { act, useState } from 'react'
+import { act, type ComponentProps, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
+  buildCanonicalSchemeReferenceIndexesFromVisits,
+  collectCanonicalScriptCommandVisits,
   type ScriptEditorCommand,
   type ScriptEditorState,
   ScriptEditSession,
 } from '../core/script-editor.js'
-import { BehaviorSelectionEditor, ScriptBehaviorInspector } from './ScriptBehaviorInspector.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+} from '../core/project-reference.js'
+import { canonicalSchemeReferenceEdges } from '../core/project-reference-adapters.js'
+import {
+  BehaviorSelectionEditor,
+  ScriptBehaviorInspector as ScriptBehaviorInspectorContent,
+} from './ScriptBehaviorInspector.js'
+import { ScriptSchemeDetailsDialog } from './ScriptEditor.js'
+
+function ScriptBehaviorInspector(
+  props: Omit<ComponentProps<typeof ScriptBehaviorInspectorContent>, 'referenceStatus'> & {
+    referenceStatus?: ComponentProps<typeof ScriptBehaviorInspectorContent>['referenceStatus']
+  },
+) {
+  const index =
+    props.referenceIndex ??
+    createProjectReferenceIndex(
+      buildProjectReferenceSnapshot(
+        canonicalSchemeReferenceEdges(
+          buildCanonicalSchemeReferenceIndexesFromVisits(
+            props.state,
+            collectCanonicalScriptCommandVisits(props.state),
+          ),
+          props.state,
+        ),
+      ),
+    )
+  return (
+    <ScriptBehaviorInspectorContent
+      {...props}
+      referenceIndex={index}
+      referenceStatus={props.referenceStatus ?? 'current'}
+    />
+  )
+}
 
 const target = { scene: 's001', entity: 'e1' }
 
@@ -254,25 +292,33 @@ describe('ScriptBehaviorInspector', () => {
     )
 
     await act(async () => button(host, '方案详情').click())
-    expect(host.textContent).toContain('场景 s001 / 实体 e1 / 页面“默认” / 使用交互脚本')
-    expect(host.textContent).toContain('可复用脚本“路线” / 第 1 条指令「切换实体脚本方案」')
+    expect(host.textContent).toContain('场景 s001 · 实体 e1 · 页面 default')
+    expect(host.textContent).toContain('共享脚本 shared/user/route')
     const sharedReference = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
-      (candidate) => candidate.textContent?.includes('可复用脚本“路线”'),
+      (candidate) => candidate.textContent?.includes('共享脚本 shared/user/route'),
     )!
     expect(sharedReference.textContent).toContain('打开')
     expect(sharedReference.querySelector('.ds-icon')).not.toBeNull()
 
     await act(async () => sharedReference.click())
-    expect(onOpenReference).toHaveBeenCalledWith({
-      kind: 'command',
-      path: 'sharedScripts.shared/user/route.body[0]',
-      locator: {
-        kind: 'command',
-        owner: { kind: 'shared-script', scriptId: 'shared/user/route' },
-        container: { kind: 'body' },
-        commandPath: '0',
-      },
-    })
+    expect(onOpenReference).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({ kind: 'entity-behavior', behaviorId: 'talk' }),
+        locator: {
+          kind: 'canonical-script',
+          reference: {
+            kind: 'command',
+            path: 'sharedScripts.shared/user/route.body[0]',
+            locator: {
+              kind: 'command',
+              owner: { kind: 'shared-script', scriptId: 'shared/user/route' },
+              container: { kind: 'body' },
+              commandPath: '0',
+            },
+          },
+        },
+      }),
+    )
     expect(host.querySelector('[role="dialog"]')).toBeNull()
   })
 
@@ -412,6 +458,35 @@ describe('ScriptBehaviorInspector', () => {
     await act(async () => button(host, '删除方案').click())
     await act(async () => button(host, '确认删除方案').click())
     expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.unused).toBeUndefined()
+  })
+
+  test('rechecks the reference gate while delete confirmation is already open', async () => {
+    const onDelete = vi.fn()
+    const render = async (referencesKnown: boolean): Promise<void> => {
+      await act(async () =>
+        root.render(
+          <ScriptSchemeDetailsDialog
+            selectedName="临时方案"
+            references={[]}
+            referencesKnown={referencesKnown}
+            onClose={() => {}}
+            onSave={() => true}
+            onDelete={onDelete}
+          />,
+        ),
+      )
+    }
+
+    await render(true)
+    await act(async () => button(host, '删除方案').click())
+    expect(button(host, '确认删除方案').disabled).toBe(false)
+
+    await render(false)
+    const confirm = button(host, '确认删除方案')
+    expect(confirm.disabled).toBe(true)
+    expect(confirm.title).toBe('引用仍在检查，暂不能删除。')
+    await act(async () => confirm.click())
+    expect(onDelete).not.toHaveBeenCalled()
   })
 
   test('uses the canonical visual editor for flow bodies and commits through validation', async () => {

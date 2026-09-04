@@ -13,6 +13,7 @@ import {
   type ScriptCommandOwner,
   type ScriptEditorState,
   ScriptEditSession,
+  SetEntityPageBehaviorCommand,
   UpdateEntityBehaviorCommand,
   UpdateSharedScriptCommand,
 } from '../core/script-editor.js'
@@ -618,26 +619,158 @@ describe('App item reference navigation', () => {
     expect(host.textContent).toContain('实体 missing-entity 不再存在')
   })
 
-  test('统一 scene-page locator 按稳定 PageId 定位并拒绝过期页面', async () => {
+  test('统一场景子对象 locator 精确打开命名落点、实体行为与场景方案', async () => {
     const shell = shellState()
+    shell.scenes[0]!.entries = {
+      gate: {
+        label: '城门',
+        pos: { col: 4, row: 5, height: 0 },
+        facing: 'left',
+      },
+    }
     const canonical = canonicalState()
-    const entity = canonical.scenes[0]!.entities[0]!
-    entity.initialPage = 'animated'
-    entity.pages = [{ id: 'animated', label: '动画页' }]
+    canonical.scenes[0]!.hooks = {
+      onEnter: {
+        initial: 'alternate',
+        variants: {
+          alternate: {
+            label: '备用进场',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'initial',
+              stages: [{ id: 'initial', body: [] }],
+            },
+          },
+        },
+      },
+    }
+    canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.alternate = {
+      label: '备用交互',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'initial',
+        stages: [{ id: 'initial', body: [] }],
+      },
+    }
     await renderApp(shell, canonical)
     const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
       .onOpenProjectReference
 
     await act(async () =>
       openReference(
-        projectLocatorReference({
-          kind: 'scene-page',
-          sceneId: 's047',
-          entityId: 'e760',
-          pageId: 'animated',
+        projectObjectReference({ kind: 'scene-entry', sceneId: 's047', entryId: 'gate' }),
+      ),
+    )
+    expect(window.location.search).toContain('module=scene')
+    expect(host.querySelector('.scene-outline-action-row.selected')?.textContent).toContain('城门')
+
+    const behavior = {
+      kind: 'entity-behavior' as const,
+      sceneId: 's047',
+      entityId: 'e760',
+      channel: 'trigger' as const,
+      behaviorId: 'alternate',
+    }
+    await act(async () => openReference(projectObjectReference(behavior)))
+    expect(probes.sceneWorkspace.mock.calls.at(-1)?.[0]).toMatchObject({
+      selectedEntityId: 'e760',
+      focusOwner: { owner: behavior },
+    })
+
+    const hook = {
+      kind: 'scene-hook' as const,
+      sceneId: 's047',
+      slot: 'onEnter' as const,
+      hookId: 'alternate',
+    }
+    await act(async () => openReference(projectObjectReference(hook)))
+    expect(probes.sceneWorkspace.mock.calls.at(-1)?.[0]).toMatchObject({
+      focusOwner: { owner: hook },
+    })
+  })
+
+  test('过期子对象定位保持既有场景焦点，不先清空再报错', async () => {
+    const canonical = canonicalState()
+    canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.alternate = {
+      label: '备用交互',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'initial',
+        stages: [{ id: 'initial', body: [] }],
+      },
+    }
+    await renderApp(shellState(), canonical)
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+    const behavior = {
+      kind: 'entity-behavior' as const,
+      sceneId: 's047',
+      entityId: 'e760',
+      channel: 'trigger' as const,
+      behaviorId: 'alternate',
+    }
+
+    await act(async () => openReference(projectObjectReference(behavior)))
+    await act(async () =>
+      openReference(
+        projectObjectReference({
+          ...behavior,
+          behaviorId: 'removed-after-scan',
         }),
       ),
     )
+
+    expect(window.location.search).toContain('module=scene')
+    expect(host.textContent).toContain(
+      '引用位置已变化：实体行为 s047/e760/trigger/removed-after-scan 不再存在',
+    )
+    expect(probes.sceneWorkspace.mock.calls.at(-1)?.[0]).toMatchObject({
+      focusOwner: { owner: behavior },
+    })
+  })
+
+  test('统一 scene-page locator 按稳定 PageId 定位并拒绝过期页面', async () => {
+    const shell = shellState()
+    const canonical = canonicalState()
+    const entity = canonical.scenes[0]!.entities[0]!
+    entity.initialPage = 'animated'
+    entity.pages = [{ id: 'animated', label: '动画页', trigger: 'default' }]
+    entity.behaviors!.trigger!.alternate = {
+      label: '备用交互',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'initial',
+        stages: [{ id: 'initial', body: [] }],
+      },
+    }
+    await renderApp(shell, canonical)
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+
+    const pageBindingTarget = {
+        kind: 'entity-behavior' as const,
+        sceneId: 's047',
+        entityId: 'e760',
+        channel: 'trigger' as const,
+        behaviorId: 'default',
+    }
+    const pageBindingReference = {
+      ...projectObjectReference(pageBindingTarget),
+      target: pageBindingTarget,
+      locator: {
+        kind: 'scene-page' as const,
+        sceneId: 's047',
+        entityId: 'e760',
+        pageId: 'animated',
+        channel: 'trigger' as const,
+      },
+    }
+
+    await act(async () => openReference(pageBindingReference))
     expect(window.location.search).toContain('module=scene')
     await act(async () => button('脚本', host.querySelector('.toolbar')!).click())
     expect(probes.sceneWorkspace.mock.calls.at(-1)?.[0]).toMatchObject({
@@ -656,6 +789,89 @@ describe('App item reference navigation', () => {
       ),
     )
     expect(host.textContent).toContain('实体页面 s047/e760/missing 不再存在')
+
+    const behavior = {
+      kind: 'entity-behavior' as const,
+      sceneId: 's047',
+      entityId: 'e760',
+      channel: 'trigger' as const,
+      behaviorId: 'alternate',
+    }
+    await act(async () => openReference(projectObjectReference(behavior)))
+    await act(async () =>
+      renderedScriptSession.dispatch(
+        new SetEntityPageBehaviorCommand(
+          { scene: 's047', entity: 'e760' },
+          'animated',
+          'trigger',
+          undefined,
+        ),
+      ),
+    )
+    await act(async () => openReference(pageBindingReference))
+    expect(host.textContent).toContain('实体页面 s047/e760/animated 不再存在')
+    expect(probes.sceneWorkspace.mock.calls.at(-1)?.[0]).toMatchObject({
+      focusOwner: { owner: behavior },
+    })
+  })
+
+  test('scene-hook initial 与项目 startup locator 都验证当前稳定目标', async () => {
+    const canonical = canonicalState()
+    canonical.scenes[0]!.hooks = {
+      onEnter: {
+        initial: 'main',
+        variants: {
+          main: {
+            label: '主进场',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'initial',
+              stages: [{ id: 'initial', body: [] }],
+            },
+          },
+        },
+      },
+    }
+    await renderApp(shellState(), canonical)
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+
+    await act(async () =>
+      openReference(
+        projectLocatorReference({
+          kind: 'scene-hook-initial',
+          sceneId: 's047',
+          slot: 'onEnter',
+          hookId: 'main',
+        }),
+      ),
+    )
+    expect(window.location.search).toContain('module=scene')
+    expect(probes.sceneWorkspace.mock.calls.at(-1)?.[0]).toMatchObject({
+      focusReference: {
+        reference: { locator: { kind: 'scene-hook-initial', hookId: 'main' } },
+      },
+    })
+
+    await act(async () =>
+      openReference({
+        ...projectObjectReference({ kind: 'project', id: 'test' }),
+        locator: {
+          kind: 'object',
+          object: { kind: 'project', id: 'test' },
+          section: 'startup',
+        },
+      }),
+    )
+    expect(new URL(window.location.href).searchParams.get('page')).toBe('startup')
+
+    const before = window.location.search
+    await act(async () =>
+      openReference(projectObjectReference({ kind: 'project', id: 'removed-project' })),
+    )
+    expect(window.location.search).toBe(before)
+    expect(host.textContent).toContain('引用位置已变化：项目 removed-project 不再存在')
   })
 
   test('统一对象 locator 对过期战斗数据来源明确报错且不误回退到首项', async () => {
@@ -677,6 +893,54 @@ describe('App item reference navigation', () => {
       expect(window.location.search).toContain('module=item')
       expect(host.textContent).toContain(`引用位置已变化：${label} 不再存在`)
     }
+  })
+
+  test('统一资源 locator 按真实资源类型进入精确工作区并拒绝过期资源', async () => {
+    const shell = shellState()
+    shell.assetCatalog.assets = Object.fromEntries(
+      [
+        ['music.probe', 'music'],
+        ['sound.probe', 'sound'],
+        ['portrait.probe', 'portrait'],
+        ['video.probe', 'video'],
+        ['sprite.probe', 'sprite'],
+        ['battle.probe', 'battle-sprite'],
+        ['tileset.probe', 'tileset'],
+      ].map(([id, kind]) => [id, { id, kind, path: `assets/${id}` }]),
+    ) as EditorState['assetCatalog']['assets']
+    shell.tilesets = [{ id: 'tileset-a', name: '瓦片集 A', asset: 'tileset.probe' }] as never
+    await renderApp(shell)
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+
+    for (const [id, expected] of [
+      ['music.probe', { module: 'asset', page: 'music' }],
+      ['sound.probe', { module: 'asset', page: 'sound' }],
+      ['portrait.probe', { module: 'asset', page: 'image' }],
+      ['video.probe', { module: 'asset', page: 'cutscene' }],
+      ['sprite.probe', { module: 'asset', page: 'sprite', domain: 'world', view: 'asset' }],
+      ['battle.probe', { module: 'asset', page: 'sprite', domain: 'battle', view: 'asset' }],
+      ['tileset.probe', { module: 'map', page: 'tileset' }],
+    ] as const) {
+      await act(async () =>
+        openReference(projectObjectReference({ kind: 'asset', id })),
+      )
+      const location = new URL(window.location.href)
+      expect(location.searchParams.get('module')).toBe(expected.module)
+      expect(location.searchParams.get('page')).toBe(expected.page)
+      expect(location.searchParams.get('object')).toBe(
+        id === 'tileset.probe' ? 'tileset-a' : id,
+      )
+      if ('domain' in expected) expect(location.searchParams.get('domain')).toBe(expected.domain)
+      if ('view' in expected) expect(location.searchParams.get('view')).toBe(expected.view)
+    }
+
+    const before = window.location.search
+    await act(async () =>
+      openReference(projectObjectReference({ kind: 'asset', id: 'asset.removed' })),
+    )
+    expect(window.location.search).toBe(before)
+    expect(host.textContent).toContain('引用位置已变化：资源 asset.removed 不再存在')
   })
 
   test('统一战斗数据对象 locator 可导航到精确 skill/enemy/poison route', async () => {

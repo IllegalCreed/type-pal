@@ -3,6 +3,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import {
   catalogControlsAssetCatalog,
   catalogControlsEditorState,
@@ -10,6 +11,14 @@ import {
   setCatalogSearch,
 } from './catalog-controls-test-utils.js'
 import { ImageTab } from './ImageTab.js'
+
+function deferred<T>() {
+  let resolve!: (value: T) => void
+  const promise = new Promise<T>((done) => {
+    resolve = done
+  })
+  return { promise, resolve }
+}
 
 let root: Root
 let host: HTMLDivElement
@@ -35,8 +44,9 @@ describe('ImageTab catalog controls', () => {
       root.render(
         <ImageTab
           assetDiagnostics={[]}
-          assetReferences={[]}
-          assetReferenceStatus="current"
+          referenceIndex={collectCurrentProjectReferenceIndex(session.getState())}
+          referenceStatus="current"
+          getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
           assetBase={{} as never}
           catalog={catalog}
           reader={catalogControlsReader as never}
@@ -102,8 +112,9 @@ describe('ImageTab catalog controls', () => {
       root.render(
         <ImageTab
           assetDiagnostics={[]}
-          assetReferences={[]}
-          assetReferenceStatus="current"
+          referenceIndex={collectCurrentProjectReferenceIndex(session.getState())}
+          referenceStatus="current"
+          getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader as never}
@@ -147,28 +158,15 @@ describe('ImageTab catalog controls', () => {
       root.render(
         <ImageTab
           assetDiagnostics={[]}
-          assetReferences={[]}
-          assetReferenceStatus="failed"
-          assetReferenceMessage="scan exploded"
+          referenceStatus="failed"
+          getCurrentReferenceIndex={() => {
+            throw new Error('scan exploded')
+          }}
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={{ ...catalogControlsReader, readBytes } as never}
           session={session}
           focusObjectId="portrait.primary"
-          currentAuthor={
-            {
-              scenes: [],
-              items: [],
-              sharedScripts: new Proxy(
-                {},
-                {
-                  ownKeys: () => {
-                    throw new Error('scan exploded')
-                  },
-                },
-              ),
-            } as never
-          }
         />,
       )
       await Promise.resolve()
@@ -193,5 +191,48 @@ describe('ImageTab catalog controls', () => {
     expect(readBytes).toHaveBeenCalledTimes(readsBeforeDelete)
     expect(session.getHistoryVersion()).toBe(historyBefore)
     expect(session.getState().assetCatalog.assets['portrait.primary']).toBeDefined()
+  })
+
+  test('does not commit deletion when the live oracle changes during the byte read', async () => {
+    const session = new EditSession(catalogControlsEditorState())
+    const staleIndex = collectCurrentProjectReferenceIndex(session.getState())
+    const pendingBytes = deferred<ArrayBuffer>()
+    const reader = { ...catalogControlsReader, readBytes: vi.fn(() => pendingBytes.promise) }
+    let stale = false
+    const getCurrentReferenceIndex = () => {
+      if (stale) throw new Error('图片引用在读取期间发生变化')
+      return staleIndex
+    }
+    await act(async () =>
+      root.render(
+        <ImageTab
+          assetDiagnostics={[]}
+          referenceIndex={staleIndex}
+          referenceStatus="current"
+          getCurrentReferenceIndex={getCurrentReferenceIndex}
+          assetBase={{} as never}
+          catalog={catalogControlsAssetCatalog}
+          reader={reader as never}
+          session={session}
+          focusObjectId="portrait.primary"
+        />,
+      ),
+    )
+    const deleteButton = [...host.querySelectorAll<HTMLButtonElement>('.ds-object-hero button')].find(
+      (button) => button.textContent?.trim() === '删除',
+    )!
+    await act(async () => deleteButton.click())
+    const confirm = [...host.querySelectorAll<HTMLButtonElement>('[role="dialog"] button')].find(
+      (button) => button.textContent?.trim() === '删除图片',
+    )!
+    await act(async () => confirm.click())
+    expect(reader.readBytes).toHaveBeenCalledWith('portrait.primary', 'portrait')
+
+    stale = true
+    await act(async () => pendingBytes.resolve(new ArrayBuffer(4)))
+    await vi.waitFor(() => expect(host.textContent).toContain('图片引用在读取期间发生变化'))
+    expect(session.getState().assetCatalog.assets['portrait.primary']).toBeDefined()
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('主要立绘')
   })
 })

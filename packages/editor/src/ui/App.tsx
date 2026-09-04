@@ -74,10 +74,6 @@ import {
 } from '../core/editor-derived-store.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import {
-  collectEntityAddressReferences,
-  entityAddressReferenceBlocksDeletion,
-} from '../core/entity-address-references.js'
-import {
   activePageTriggerActivation,
   createCanonicalPlacedEntity,
   createPlacedEntity,
@@ -114,10 +110,6 @@ import {
   projectActiveScriptEditorState,
 } from '../core/script-editor-projection.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
-import {
-  buildCanonicalSceneEntryReferenceIndex,
-  sceneEntryReferenceKey,
-} from '../core/script-references.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
 import type { WorkspaceContext } from '../core/workspace-context.js'
 import { workspaceModeLabel } from '../core/workspace-context.js'
@@ -698,44 +690,17 @@ export function App(props: {
     },
     [applyEditorLocation, scriptSession, session],
   )
-  const openScriptReference = (id: string, commandPath?: string): void => {
+  const openScriptReference = (id: string): void => {
     const currentState = session.getState()
     const currentScriptState = projectActiveScriptEditorState(
       scriptSession.getStateSnapshot(),
       currentState.items,
     )
-    setCanonicalOwnerFocus(undefined)
-    if (currentScriptState.sharedScripts[id] || currentState.scriptIndex?.library?.[id]) {
-      if (commandPath)
-        setSharedScriptFocus({
-          id,
-          path: commandPath,
-          revision: nextPreciseFocusRevision(),
-        })
-      else setSharedScriptFocus(undefined)
-      applyEditorLocation(editorLinks.sharedScript(id))
+    if (!currentScriptState.sharedScripts[id]) {
+      rejectChangedProjectReference('共享脚本', id)
       return
     }
-    const sceneId = /^scene\/([^/]+)\//.exec(id)?.[1]
-    const targetScene = currentState.scenes.find((candidate) => candidate.id === sceneId)
-    if (!sceneId || !targetScene) return
-    const entityRoot = /\/entity-([^/]+)\/page-(\d+)\/(trigger|auto)(?:\/|$)/.exec(id)
-    const entityId = entityRoot?.[1] ?? id.split('/').find((part) => /^e\d+$/.test(part))
-    setPlaceSceneId(sceneId)
-    applyEditorLocation(editorLinks.scene(sceneId))
-    setSelected(
-      entityId && targetScene.entities.some((entity) => entity.id === entityId)
-        ? { kind: 'entity', id: entityId }
-        : SCENE_SELECTION,
-    )
-    setPlacingEntity(false)
-    setDrawer({
-      open: true,
-      src: null,
-      internalScriptId: id,
-      commandPath: commandPath ?? null,
-      focusRevision: nextPreciseFocusRevision(),
-    })
+    openSharedScript(id)
   }
   const openCanonicalReference = (reference: CanonicalScriptReference): void => {
     const currentState = session.getState()
@@ -908,6 +873,8 @@ export function App(props: {
       })
       return false
     }
+    setWorkspaceNotice(undefined)
+    setCanonicalOwnerFocus(undefined)
     setPlaceSceneId(sceneId)
     setPlacingEntity(false)
     setSelected(entityId ? { kind: 'entity', id: entityId } : SCENE_SELECTION)
@@ -927,14 +894,8 @@ export function App(props: {
       scriptSession.getStateSnapshot(),
       currentState.items,
     )
-    setWorkspaceNotice(undefined)
-    setCanonicalOwnerFocus(undefined)
     if (locator.kind === 'canonical-script') {
       openCanonicalReference(locator.reference)
-      return
-    }
-    if (locator.kind === 'legacy-script') {
-      openScriptReference(locator.scriptId, locator.commandPath)
       return
     }
     if (locator.kind === 'scene-page') {
@@ -943,7 +904,20 @@ export function App(props: {
         ?.entities.find((entity) => entity.id === locator.entityId)
       const pageIndex =
         canonicalEntity?.pages?.findIndex((page) => page.id === locator.pageId) ?? -1
-      if (pageIndex < 0 || !openProjectSceneReference(locator.sceneId, locator.entityId)) {
+      const page = pageIndex >= 0 ? canonicalEntity?.pages?.[pageIndex] : undefined
+      const bindingTarget = reference.target
+      const channelBindingCurrent =
+        !locator.channel ||
+        (bindingTarget.kind === 'entity-behavior' &&
+          bindingTarget.sceneId === locator.sceneId &&
+          bindingTarget.entityId === locator.entityId &&
+          bindingTarget.channel === locator.channel &&
+          page?.[locator.channel] === bindingTarget.behaviorId)
+      if (
+        pageIndex < 0 ||
+        !channelBindingCurrent ||
+        !openProjectSceneReference(locator.sceneId, locator.entityId)
+      ) {
         rejectChangedProjectReference(
           '实体页面',
           `${locator.sceneId}/${locator.entityId}/${locator.pageId}`,
@@ -952,6 +926,21 @@ export function App(props: {
       }
       const revision = nextPreciseFocusRevision()
       setSelectedPage(locator.pageId)
+      if (locator.channel) {
+        setScriptChannel(locator.channel)
+        setSelectedBehavior(
+          bindingTarget.kind === 'entity-behavior' ? bindingTarget.behaviorId : undefined,
+        )
+        setCanonicalPageFocus({
+          sceneId: locator.sceneId,
+          entityId: locator.entityId,
+          pageId: locator.pageId,
+          channel: locator.channel,
+          behaviorId:
+            bindingTarget.kind === 'entity-behavior' ? bindingTarget.behaviorId : undefined,
+          revision,
+        })
+      }
       setEntityPageFocus({
         sceneId: locator.sceneId,
         entityId: locator.entityId,
@@ -964,6 +953,14 @@ export function App(props: {
         internalScriptId: null,
         commandPath: null,
         focusRevision: revision,
+      })
+      return
+    }
+    if (locator.kind === 'scene-hook-initial') {
+      openCanonicalReference({
+        kind: 'initial',
+        path: `scenes.${locator.sceneId}.hooks.${locator.slot}.initial`,
+        locator,
       })
       return
     }
@@ -1079,9 +1076,83 @@ export function App(props: {
       case 'scene':
         openProjectSceneReference(object.id)
         return
+      case 'scene-entry': {
+        const targetScene = currentState.scenes.find((scene) => scene.id === object.sceneId)
+        if (!targetScene?.entries?.[object.entryId]) {
+          rejectChangedProjectReference('场景命名落点', `${object.sceneId}/${object.entryId}`)
+          return
+        }
+        if (!openProjectSceneReference(object.sceneId)) return
+        selectSceneEntry({ kind: 'named-entry', id: object.entryId })
+        return
+      }
       case 'entity':
         openProjectSceneReference(object.sceneId, object.entityId)
         return
+      case 'entity-behavior': {
+        const behavior = currentScriptState.scenes
+          .find((scene) => scene.id === object.sceneId)
+          ?.entities.find((entity) => entity.id === object.entityId)
+          ?.behaviors?.[object.channel]?.[object.behaviorId]
+        if (!behavior) {
+          rejectChangedProjectReference(
+            '实体行为',
+            `${object.sceneId}/${object.entityId}/${object.channel}/${object.behaviorId}`,
+          )
+          return
+        }
+        if (!openProjectSceneReference(object.sceneId, object.entityId)) return
+        const owner = {
+          kind: 'entity-behavior' as const,
+          sceneId: object.sceneId,
+          entityId: object.entityId,
+          channel: object.channel,
+          behaviorId: object.behaviorId,
+        }
+        const revision = nextPreciseFocusRevision()
+        setScriptChannel(object.channel)
+        setSelectedBehavior(object.behaviorId)
+        setCanonicalReferenceFocus(undefined)
+        setCanonicalOwnerFocus({ owner, revision })
+        setDrawer({
+          open: true,
+          src: null,
+          internalScriptId: null,
+          commandPath: null,
+          focusRevision: revision,
+        })
+        return
+      }
+      case 'scene-hook': {
+        const hook = currentScriptState.scenes
+          .find((scene) => scene.id === object.sceneId)
+          ?.hooks?.[object.slot]?.variants[object.hookId]
+        if (!hook) {
+          rejectChangedProjectReference(
+            '场景脚本方案',
+            `${object.sceneId}/${object.slot}/${object.hookId}`,
+          )
+          return
+        }
+        if (!openProjectSceneReference(object.sceneId)) return
+        const owner = {
+          kind: 'scene-hook' as const,
+          sceneId: object.sceneId,
+          slot: object.slot,
+          hookId: object.hookId,
+        }
+        const revision = nextPreciseFocusRevision()
+        setCanonicalReferenceFocus(undefined)
+        setCanonicalOwnerFocus({ owner, revision })
+        setDrawer({
+          open: true,
+          src: null,
+          internalScriptId: null,
+          commandPath: null,
+          focusRevision: revision,
+        })
+        return
+      }
       case 'entry-point':
         if (!currentState.manifest.entryPoints.some((entry) => entry.id === object.id)) {
           rejectChangedProjectReference('入口', object.id)
@@ -1227,13 +1298,50 @@ export function App(props: {
         }
         applyEditorLocation(editorLinks.battleSprite(object.id))
         return
+      case 'asset': {
+        const asset = currentState.assetCatalog.assets[object.id]
+        if (!asset) {
+          rejectChangedProjectReference('资源', object.id)
+          return
+        }
+        setWorkspaceNotice(undefined)
+        setCanonicalOwnerFocus(undefined)
+        if (asset.kind === 'music') applyEditorLocation(editorLinks.music(object.id))
+        else if (asset.kind === 'sound') applyEditorLocation(editorLinks.sound(object.id))
+        else if (
+          asset.kind === 'portrait' ||
+          asset.kind === 'face' ||
+          asset.kind === 'item-icon' ||
+          asset.kind === 'battle-background'
+        )
+          applyEditorLocation(editorLinks.image(object.id))
+        else if (asset.kind === 'video' || asset.kind === 'frame-animation')
+          applyEditorLocation(editorLinks.cutscene(object.id))
+        else if (asset.kind === 'sprite')
+          applyEditorLocation(editorLinks.worldSpriteAsset(object.id))
+        else if (asset.kind === 'battle-sprite')
+          applyEditorLocation(editorLinks.battleSpriteAsset(object.id))
+        else if (asset.kind === 'tileset') {
+          const tileset = (currentState.tilesets ?? []).find((entry) => entry.asset === object.id)
+          applyEditorLocation(tileset ? editorLinks.tileset(tileset.id) : editorLinks.project('advanced'))
+        } else applyEditorLocation(editorLinks.project('startup'))
+        return
+      }
       case 'project':
-        applyEditorLocation(editorLinks.project())
+        if (object.id !== currentState.manifest.id) {
+          rejectChangedProjectReference('项目', object.id)
+          return
+        }
+        setWorkspaceNotice(undefined)
+        setCanonicalOwnerFocus(undefined)
+        applyEditorLocation(
+          editorLinks.project(locator.section === 'startup' ? 'startup' : 'overview'),
+        )
         return
       default:
         setWorkspaceNotice({
-          kind: 'info',
-          message: `引用位置 ${reference.where} 尚未接入统一导航。`,
+          kind: 'error',
+          message: `引用位置 ${reference.where} 的定位类型不受支持。`,
         })
     }
   }
@@ -1555,14 +1663,6 @@ export function App(props: {
     () => createCurrentProjectReferenceIndexProvider(() => scriptSession.getStateSnapshot()),
     [scriptSession],
   )
-  const canonicalBehaviorReferenceIndex = useMemo(
-    () => new Map(derivedData?.canonicalBehaviorReferences ?? []),
-    [derivedData?.canonicalBehaviorReferences],
-  )
-  const canonicalSceneHookReferenceIndex = useMemo(
-    () => new Map(derivedData?.canonicalSceneHookReferences ?? []),
-    [derivedData?.canonicalSceneHookReferences],
-  )
   const currentDerivedRevision = {
     mainHistoryVersion: session.getHistoryVersion(),
     scriptHistoryVersion: scriptSession.getHistoryVersion(),
@@ -1632,18 +1732,10 @@ export function App(props: {
         setWorkspaceNotice({ kind: 'info', message: '正在刷新实体引用，请稍后再删除。' })
         return
       }
-      const currentReferenceState = mergeEditorProjectionWithCurrentAuthorState(
-        scriptSession.getStateSnapshot(),
-        session.getState(),
-      )
-      const currentReferences = collectEntityAddressReferences(currentReferenceState).filter(
-        (reference) =>
-          entityAddressReferenceBlocksDeletion(reference, { scene: scene.id, entity: entityId }),
-      )
-      if (currentReferences.length) return
+      if (entityReferences(entityId).length) return
       historyCoordinator.dispatch(
         new DeleteSceneEntityDefinitionCommand(scene.id, entityId),
-        new DeleteEntityCommand(scene.id, entityId, currentReferenceState),
+        new DeleteEntityCommand(scene.id, entityId, currentProjectReferenceIndex),
       )
       setSelected(SCENE_SELECTION)
       setWorkspaceNotice({ kind: 'info', message: `已删除实体 ${entityId}；可撤销。` })
@@ -1654,8 +1746,7 @@ export function App(props: {
       historyCoordinator,
       placingEntity,
       scene,
-      scriptSession,
-      session,
+      currentProjectReferenceIndex,
     ],
   )
   const deleteNamedEntry = useCallback(
@@ -1665,20 +1756,20 @@ export function App(props: {
         setWorkspaceNotice({ kind: 'info', message: '正在刷新脚本引用，请稍后再删除。' })
         return
       }
-      const currentIndex = buildCanonicalSceneEntryReferenceIndex(scriptSession.getStateSnapshot())
-      const references = currentIndex.get(sceneEntryReferenceKey(scene.id, entryId)) ?? []
-      if (references.length) return
-      session.dispatch(
-        new DeleteSceneEntryCommand(scene.id, entryId, (_state, targetSceneId, targetEntryId) => {
-          const fresh = buildCanonicalSceneEntryReferenceIndex(scriptSession.getStateSnapshot())
-          return fresh.get(sceneEntryReferenceKey(targetSceneId, targetEntryId)) ?? []
-        }),
-      )
+      if (entryReferencesById.get(entryId)?.length) return
+      session.dispatch(new DeleteSceneEntryCommand(scene.id, entryId, currentProjectReferenceIndex))
       setSelected(SCENE_SELECTION)
       setWorkspaceNotice({ kind: 'info', message: `已删除命名落点 ${entryId}；可撤销。` })
       requestAnimationFrame(() => sceneOutlineRowRef.current?.focus())
     },
-    [derivedReferenceSnapshotCurrent, placingEntity, scene, scriptSession, session],
+    [
+      currentProjectReferenceIndex,
+      derivedReferenceSnapshotCurrent,
+      entryReferencesById,
+      placingEntity,
+      scene,
+      session,
+    ],
   )
   // 删除键与行尾动作共用同一删除入口；输入控件内不劫持。
   useEffect(() => {
@@ -2316,7 +2407,6 @@ export function App(props: {
             onOpenEnemyTeam={(id) => applyEditorLocation(editorLinks.enemyTeam(id))}
             onOpenScript={openScriptReference}
             onOpenWorldVariable={(id) => applyEditorLocation(editorLinks.variable(id))}
-            onOpenCanonicalReference={openCanonicalReference}
             onOpenItem={(id) => applyEditorLocation(editorLinks.item(id))}
             onOpenItemAlchemy={(surface, itemId) =>
               applyEditorLocation(
@@ -2709,10 +2799,10 @@ export function App(props: {
                     ghosts: canvasLayers.ghosts,
                   }}
                   editorContext={canonicalScriptEditorContext}
-                  behaviorReferenceIndex={canonicalBehaviorReferenceIndex}
-                  sceneHookReferenceIndex={canonicalSceneHookReferenceIndex}
+                  projectReferenceIndex={projectReferenceIndex}
+                  referenceStatus={effectiveDerivedStatus}
                   onDispatch={(command) => scriptSession.dispatch(command)}
-                  onOpenReference={openCanonicalReference}
+                  onOpenReference={openProjectReference}
                   focusReference={canonicalReferenceFocus}
                   focusOwner={canonicalOwnerFocus}
                   onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
@@ -2963,8 +3053,9 @@ export function App(props: {
                             onSelectBehavior={setSelectedBehavior}
                             onDispatch={(command) => scriptSession.dispatch(command)}
                             editorContext={canonicalScriptEditorContext}
-                            referenceIndex={canonicalBehaviorReferenceIndex}
-                            onOpenReference={openCanonicalReference}
+                            referenceIndex={projectReferenceIndex}
+                            referenceStatus={effectiveDerivedStatus}
+                            onOpenReference={openProjectReference}
                             onOpenFlow={(behaviorId) =>
                               setWorkspaceNotice({
                                 kind: 'info',

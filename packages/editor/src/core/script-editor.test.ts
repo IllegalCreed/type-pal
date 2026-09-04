@@ -7,6 +7,12 @@ import type {
 } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceSource,
+  createProjectReferenceIndex,
+} from './project-reference.js'
+import { sharedScriptReferenceEdges } from './project-reference-adapters.js'
+import {
   AddEntityBehaviorCommand,
   AddItemPrivateScriptCommand,
   AddSceneEntityDefinitionCommand,
@@ -15,6 +21,8 @@ import {
   behaviorReferences,
   CopyEntityBehaviorCommand,
   CopySceneHookCommand,
+  collectCanonicalScriptCommandVisits,
+  collectCanonicalSharedScriptReferencesFromVisits,
   collectCanonicalScriptTransitionVisits,
   collectScriptReferenceIssues,
   DeleteEntityBehaviorCommand,
@@ -43,6 +51,18 @@ import {
   UpdateSharedScriptCommand,
   UpdateSharedScriptMetadataCommand,
 } from './script-editor.js'
+
+const currentSharedScriptReferences = (state: ScriptEditorState) => {
+  const visits = collectCanonicalScriptCommandVisits(state)
+  return createProjectReferenceIndex(
+    buildProjectReferenceSnapshot(
+      sharedScriptReferenceEdges(
+        collectCanonicalSharedScriptReferencesFromVisits(state, visits),
+        state,
+      ),
+    ),
+  )
+}
 
 const target = { scene: 's001', entity: 'e1' }
 type AuthorEntityBehavior = NonNullable<AuthorEntityBehaviors['trigger']>[string]
@@ -634,13 +654,67 @@ describe('canonical script editor commands', () => {
         body: [{ kind: 'callScript', script: 'shared/user/book' }],
       }),
     )
-    expect(() => session.dispatch(new DeleteSharedScriptCommand('shared/user/book'))).toThrow(
-      /不在当前脚本库/,
-    )
+    expect(() =>
+      session.dispatch(
+        new DeleteSharedScriptCommand('shared/user/book', currentSharedScriptReferences),
+      ),
+    ).toThrow(/仍有 1 个引用/)
     expect(session.getState().sharedScripts['shared/user/book']).toBeDefined()
     session.dispatch(new UpdateSharedScriptCommand('shared/user/select-talk', { body: [] }))
-    session.dispatch(new DeleteSharedScriptCommand('shared/user/book'))
+    session.dispatch(new DeleteSharedScriptCommand('shared/user/book', currentSharedScriptReferences))
     expect(session.getState().sharedScripts['shared/user/book']).toBeUndefined()
+  })
+
+  test('shared-script delete rechecks the current oracle on redo without consuming redo', () => {
+    const session = new ScriptEditSession(editorState())
+    session.dispatch(
+      new AddSharedScriptCommand('shared/user/book', {
+        name: '读天书',
+        self: 'none',
+        body: [],
+      }),
+    )
+    let externallyReferenced = false
+    const provider = (state: ScriptEditorState) => {
+      const visits = collectCanonicalScriptCommandVisits(state)
+      return createProjectReferenceIndex(
+        buildProjectReferenceSnapshot([
+          ...sharedScriptReferenceEdges(
+            collectCanonicalSharedScriptReferencesFromVisits(state, visits),
+            state,
+          ),
+          ...(externallyReferenced
+            ? [
+                {
+                  target: { kind: 'shared-script' as const, id: 'shared/user/book' },
+                  source: createProjectReferenceSource(
+                    { kind: 'item' as const, id: 'item-a' },
+                    '物品 item-a',
+                  ),
+                  relation: {
+                    kind: 'script-reference' as const,
+                    use: 'binding' as const,
+                    explicitSelf: false,
+                  },
+                  where: 'items.item-a.use.effects[0].script',
+                  locator: {
+                    kind: 'object' as const,
+                    object: { kind: 'item' as const, id: 'item-a' },
+                  },
+                  deletePolicy: 'replace-suggest' as const,
+                },
+              ]
+            : []),
+        ]),
+      )
+    }
+
+    session.dispatch(new DeleteSharedScriptCommand('shared/user/book', provider))
+    expect(session.undo()).toBe(true)
+    externallyReferenced = true
+    expect(() => session.redo()).toThrow(/仍有 1 个引用/)
+    expect(session.getState().sharedScripts['shared/user/book']).toBeDefined()
+    expect(session.canRedo()).toBe(true)
   })
 
   test('updates shared-script metadata with structure sharing and exact undo/redo', () => {

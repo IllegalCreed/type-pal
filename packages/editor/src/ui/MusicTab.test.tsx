@@ -3,6 +3,7 @@ import { act, StrictMode } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import {
   catalogControlsAssetCatalog,
   catalogControlsEditorState,
@@ -38,6 +39,9 @@ describe('MusicTab catalog controls', () => {
         <StrictMode>
           <MusicTab
             assetDiagnostics={[]}
+            referenceIndex={collectCurrentProjectReferenceIndex(session.getState())}
+            referenceStatus="current"
+            getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
             catalog={catalogControlsAssetCatalog}
             reader={reader as never}
             session={session}

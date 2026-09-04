@@ -4,6 +4,7 @@ import {
   type AssetCatalogV1,
   collectAssetReferences,
   collectCommandAssetReferences,
+  commandAssetTaggedReferencesAtNode,
   groupAssetReferencesBySite,
   type ManifestAssetConfig,
   PAL_PHYSICAL_EFFECT_ASSET_ID,
@@ -293,6 +294,20 @@ test('项目 schema 不再接受 catalog 外资源族', () => {
 
 test('命令级 walker 与全工程 walker 共用深层递归', () => {
   expect(
+    commandAssetTaggedReferencesAtNode(
+      { kind: 'playSound', asset: 'sound.node' },
+      'body[0]',
+    ),
+  ).toEqual([
+    { asset: 'sound.node', expectedKind: 'sound', where: 'body[0].asset' },
+  ])
+  expect(
+    commandAssetTaggedReferencesAtNode(
+      { kind: 'unrelated', asset: 'sound.false-positive' },
+      'body[0]',
+    ),
+  ).toEqual([])
+  expect(
     collectCommandAssetReferences(
       [{ kind: 'branch', then: [{ kind: 'playSound', asset: 'sound.deep' }] }],
       'body',
@@ -465,12 +480,14 @@ describe('typed 资源引用与文件闭包', () => {
       expectedKind: 'portrait',
       where: 'actors[0].portraits.expressions["hurt"]',
       site: 'actor:li-xiaoyao:portraits',
+      origin: { kind: 'actor', id: 'li-xiaoyao', section: 'portraits' },
     })
     expect(refs).toContainEqual({
       asset: 'portrait.pal.006',
       expectedKind: 'portrait',
       where: 'worlds[0].reserve[0].appearance.portrait',
       site: 'world:0:character:zhao-linger:appearance',
+      origin: { kind: 'runtime-world' },
     })
   })
 
@@ -572,84 +589,98 @@ describe('typed 资源引用与文件闭包', () => {
       expectedKind: 'music',
       where: 'manifest.assets.roles.audio.openingMenuMusic',
       site: 'manifest.assets.roles.audio.openingMenuMusic',
+      origin: { kind: 'manifest-role', role: 'audio.openingMenuMusic' },
     })
     expect(refs).toContainEqual({
       asset: 'video.pal.001',
       expectedKind: 'video',
       where: 'entryPoints[0].introVideo',
       site: 'entryPoint:new-game:introVideo',
+      origin: { kind: 'entry-point', id: 'new-game' },
     })
     expect(refs).toContainEqual({
       asset: 'video.pal.001',
       expectedKind: 'video',
       where: 'scenes[0].onEnter[0].body[1].onLose[1].asset',
       site: 'scene:s:onEnter',
+      origin: { kind: 'scene', id: 's', section: 'onEnter' },
     })
     expect(refs).toContainEqual({
       asset: 'sound.pal.029',
       expectedKind: 'sound',
       where: 'scenes[0].onEnter[0].body[1].onLose[4].asset',
       site: 'scene:s:onEnter',
+      origin: { kind: 'scene', id: 's', section: 'onEnter' },
     })
     expect(refs).toContainEqual({
       asset: 'sound.pal.045',
       expectedKind: 'sound',
       where: 'actors[0].battler.sounds.attack',
       site: 'actor:li-xiaoyao:sounds',
+      origin: { kind: 'actor', id: 'li-xiaoyao', section: 'sounds' },
     })
     expect(refs).toContainEqual({
       asset: 'sound.pal.174',
       expectedKind: 'sound',
       where: 'enemies[0].sounds.magic',
       site: 'enemy:enemy-1:sounds',
+      origin: { kind: 'enemy', id: 'enemy-1', section: 'sounds' },
     })
     expect(refs).toContainEqual({
       asset: 'sound.pal.174',
       expectedKind: 'sound',
       where: 'skills[0].animation.sound',
       site: 'skill:377:animation',
+      origin: { kind: 'skill', id: '377', side: 'base', section: 'animation' },
     })
     expect(refs).toContainEqual({
       asset: 'sound.pal.301',
       expectedKind: 'sound',
       where: 'skills[0].effects[1].sound',
       site: 'skill:377:effects',
+      origin: { kind: 'skill', id: '377', side: 'base', section: 'effects' },
     })
     expect(refs).toContainEqual({
       asset: 'sound.pal.029',
       expectedKind: 'sound',
       where: 'skills[0].execution.player.animation.sound',
       site: 'skill:377:execution:player:animation',
+      origin: { kind: 'skill', id: '377', side: 'player', section: 'animation' },
     })
     expect(refs).toContainEqual({
       asset: 'sound.pal.045',
       expectedKind: 'sound',
       where: 'skills[0].execution.player.effects[0].sound',
       site: 'skill:377:execution:player:effects',
+      origin: { kind: 'skill', id: '377', side: 'player', section: 'effects' },
     })
     expect(refs).toContainEqual({
       asset: 'sound.pal.045',
       expectedKind: 'sound',
       where: 'items[0].use.sound',
       site: 'item:151:use',
+      origin: { kind: 'item', id: '151', section: 'use' },
     })
     expect(refs).toContainEqual({
       asset: 'sound.pal.301',
       expectedKind: 'sound',
       where: 'items[0].throw.presentation.animation.sound',
       site: 'item:151:throw',
+      origin: { kind: 'item', id: '151', section: 'throw' },
     })
     expect(refs).toContainEqual({
       asset: 'video.pal.004',
       expectedKind: 'video',
       where: 'scenes[0].onEnter[0].body[1].onLose[3].videos[0]',
       site: 'scene:s:onEnter',
+      origin: { kind: 'scene', id: 's', section: 'onEnter' },
     })
     expect(refs).toContainEqual({
       asset: 'frame-animation.pal.003',
       expectedKind: 'frame-animation',
       where: 'scenes[0].onEnter[0].body[1].onLose[2].asset',
       site: 'scene:s:onEnter',
+      origin: { kind: 'scene', id: 's', section: 'onEnter' },
     })
     expect(validateAssetReferenceClosure(catalog, refs)).toContainEqual(
       expect.objectContaining({ code: 'missing-asset', severity: 'error' }),
@@ -693,18 +724,21 @@ describe('typed 资源引用与文件闭包', () => {
         expectedKind: 'sprite',
         where: 'sprites[0].asset',
         site: 'sprite:hero:asset',
+        origin: { kind: 'world-sprite', id: 'hero' },
       },
       {
         asset: 'sound.pal.135',
         expectedKind: 'sound',
         where: 'sprites[0].poses["forge/loop"].steps[1].cues[0].asset',
         site: 'sprite:hero:action:forge/loop',
+        origin: { kind: 'world-sprite-action', spriteId: 'hero', actionId: 'forge/loop' },
       },
       {
         asset: 'sprite.pal.002',
         expectedKind: 'sprite',
         where: 'sprites[1].asset',
         site: 'sprite:hero-alt-layout:asset',
+        origin: { kind: 'world-sprite', id: 'hero-alt-layout' },
       },
     ])
   })
@@ -858,24 +892,28 @@ test('walker 按敌 hook 通道保留深层资源的精确路径与站点', () =
         expectedKind: 'sound',
         where: 'enemies[0].ai.hooks.ready.states.ready.body[0].asset',
         site: 'enemy:enemy-hook:hook:ready',
+        origin: { kind: 'enemy', id: 'enemy-hook', section: 'hook-ready' },
       },
       {
         asset: 'portrait.hook.ready',
         expectedKind: 'portrait',
         where: 'enemies[0].ai.hooks.ready.states.ready.body[1].cue.portrait.asset',
         site: 'enemy:enemy-hook:hook:ready',
+        origin: { kind: 'enemy', id: 'enemy-hook', section: 'hook-ready' },
       },
       {
         asset: 'music.hook.turn',
         expectedKind: 'music',
         where: 'enemies[0].ai.hooks.turnStart.states.turn.body[0].asset',
         site: 'enemy:enemy-hook:hook:turnStart',
+        origin: { kind: 'enemy', id: 'enemy-hook', section: 'hook-turnStart' },
       },
       {
         asset: 'sound.enemy.defeated',
         expectedKind: 'sound',
         where: 'enemies[0].onDefeated[0].then[0].asset',
         site: 'enemy:enemy-hook:onDefeated',
+        origin: { kind: 'enemy', id: 'enemy-hook', section: 'onDefeated' },
       },
     ]),
   )
@@ -915,5 +953,6 @@ test('walker 按 canonical 场景 hook 方案保留精确资源路径与站点',
     expectedKind: 'video',
     where: 'scenes[0].hooks.onEnter.variants["intro"].flow.stages[0].body[0].asset',
     site: 'scene:scene-hook:hook:onEnter:intro',
+    origin: { kind: 'scene-hook', sceneId: 'scene-hook', slot: 'onEnter', hookId: 'intro' },
   })
 })

@@ -2,11 +2,7 @@ import type { AuthorSceneDef, EntityAddress, Selection } from '@type-pal/content
 import { useMemo, useState } from 'react'
 import {
   AddEntityBehaviorCommand,
-  behaviorReferences,
-  canonicalBehaviorReferenceKey,
-  type CanonicalScriptReference,
   DeleteEntityBehaviorCommand,
-  describeCanonicalScriptReference,
   presentSelection,
   ReorderEntityBehaviorSchemesCommand,
   type ScriptCommandLocator,
@@ -14,6 +10,8 @@ import {
   type ScriptEditorState,
   UpdateEntityBehaviorCommand,
 } from '../core/script-editor.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import { DsButton, DsHelpTip, DsSelect } from './design-system/controls.js'
 import { reorderDsItems, type DsReorderIntent } from './design-system/reorder.js'
 import {
@@ -118,12 +116,13 @@ export function ScriptBehaviorInspector(props: {
   selectedBehaviorId?: string
   onSelectBehavior?: (behaviorId: string) => void
   onDispatch: (command: ScriptEditorCommand) => void
-  onOpenReference?: (reference: CanonicalScriptReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   onOpenFlow?: (behaviorId: string) => void
   focusCommand?: { locator: ScriptCommandLocator; revision: number }
   onError?: (message: string) => void
   editorContext?: CanonicalScriptEditorContext
-  referenceIndex?: ReadonlyMap<string, readonly CanonicalScriptReference[]>
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
 }) {
   const entity = entityOf(props.state, props.target)
   const registry = entity?.behaviors?.[props.channel] ?? {}
@@ -142,13 +141,17 @@ export function ScriptBehaviorInspector(props: {
   const selected = registry[selectedId]
   const [detailsId, setDetailsId] = useState<string>()
   const detailsScheme = detailsId ? registry[detailsId] : undefined
-  const detailsReferences = detailsScheme
-    ? props.referenceIndex
-      ? (props.referenceIndex.get(
-          canonicalBehaviorReferenceKey(props.target, props.channel, detailsId!),
-        ) ?? [])
-      : behaviorReferences(props.state, props.target, props.channel, detailsId!)
-    : []
+  const referencesReady = props.referenceStatus === 'current' && props.referenceIndex !== undefined
+  const detailsReferences =
+    detailsScheme && props.referenceIndex
+      ? props.referenceIndex.referencesTo({
+          kind: 'entity-behavior',
+          sceneId: props.target.scene,
+          entityId: props.target.entity,
+          channel: props.channel,
+          behaviorId: detailsId!,
+        })
+      : []
   const [createOpen, setCreateOpen] = useState(false)
   const title = props.channel === 'trigger' ? '交互脚本' : '自动行为'
   const description =
@@ -278,11 +281,12 @@ export function ScriptBehaviorInspector(props: {
       {detailsId && detailsScheme ? (
         <ScriptSchemeDetailsDialog
           selectedName={detailsScheme.label}
-          references={detailsReferences.map((reference, index) => ({
-            key: `${reference.kind}:${reference.path}:${index}`,
+          references={detailsReferences.map((reference) => ({
+            key: String(reference.id),
             reference,
-            label: describeCanonicalScriptReference(props.state, reference),
+            label: reference.source.label,
           }))}
+          referencesKnown={referencesReady}
           onOpenReference={(reference) => {
             setDetailsId(undefined)
             props.onOpenReference?.(reference)

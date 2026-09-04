@@ -34,6 +34,7 @@ import {
   updateAuthorCommandAt,
 } from '../core/author-command-edit.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { ProjectReferenceEdge } from '../core/project-reference.js'
 import type {
   CanonicalScriptReference,
   ScriptCommandLocator,
@@ -122,7 +123,7 @@ export interface CanonicalScriptEditorContext {
 export interface ScriptSchemeReferencePresentation {
   key: string
   label: string
-  reference: CanonicalScriptReference
+  reference: ProjectReferenceEdge
 }
 
 export function nextGeneratedScriptSchemeId(ids: readonly string[], prefix = 'scheme'): string {
@@ -281,6 +282,7 @@ export function ScriptSchemeStrip(props: {
 export function ScriptSchemeDetailsDialog(props: {
   selectedName: string
   references: readonly ScriptSchemeReferencePresentation[]
+  referencesKnown: boolean
   onClose: () => void
   onSave: (name: string, isDefault: boolean | undefined) => boolean
   onDelete: () => void
@@ -289,12 +291,18 @@ export function ScriptSchemeDetailsDialog(props: {
     activeCopy: string
     inactiveCopy: string
   }
-  onOpenReference?: (reference: CanonicalScriptReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
 }) {
   const [nameDraft, setNameDraft] = useState(props.selectedName)
   const [defaultDraft, setDefaultDraft] = useState(props.defaultControl?.isDefault ?? false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const nameInputId = useId()
+  const deleteBlocked = !props.referencesKnown || props.references.length > 0
+  const deleteBlockedReason = !props.referencesKnown
+    ? '引用仍在检查，暂不能删除。'
+    : props.references.length
+      ? '这套方案仍在使用中，请先处理上方列出的引用。'
+      : undefined
 
   useEffect(() => setNameDraft(props.selectedName), [props.selectedName])
   useEffect(
@@ -326,7 +334,15 @@ export function ScriptSchemeDetailsDialog(props: {
             <DsButton size="compact" variant="secondary" onClick={() => setConfirmDelete(false)}>
               取消删除
             </DsButton>
-            <DsButton size="compact" variant="danger" onClick={props.onDelete}>
+            <DsButton
+              size="compact"
+              variant="danger"
+              disabled={deleteBlocked}
+              title={deleteBlockedReason}
+              onClick={() => {
+                if (!deleteBlocked) props.onDelete()
+              }}
+            >
               确认删除方案
             </DsButton>
           </>
@@ -336,10 +352,8 @@ export function ScriptSchemeDetailsDialog(props: {
               size="compact"
               variant="danger"
               className="script-scheme-delete"
-              disabled={props.references.length > 0}
-              title={
-                props.references.length ? '这套方案仍在使用中，请先处理上方列出的引用。' : undefined
-              }
+              disabled={deleteBlocked}
+              title={deleteBlockedReason}
               onClick={() => setConfirmDelete(true)}
             >
               删除方案
@@ -405,7 +419,9 @@ export function ScriptSchemeDetailsDialog(props: {
               页面或脚本指令可能正在使用这套方案。先改掉这些位置，才能安全删除方案。
             </DsHelpTip>
           </header>
-          {props.references.length ? (
+          {!props.referencesKnown ? (
+            <p>引用正在检查；完成前不能删除这套方案。</p>
+          ) : props.references.length ? (
             <>
               <p>当前有 {props.references.length} 处正在使用这个方案，因此暂时不能删除。</p>
               <ul aria-label="方案使用位置">

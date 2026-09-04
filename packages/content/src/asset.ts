@@ -295,6 +295,42 @@ export interface AssetReference {
   site: string
 }
 
+export type AssetReferenceOrigin =
+  | { kind: 'manifest-role'; role: AssetRole }
+  | { kind: 'entry-point'; id: string }
+  | {
+      kind: 'scene'
+      id: string
+      section: 'music' | 'battleMusic' | 'onEnter' | 'onTeleport' | 'entities'
+    }
+  | { kind: 'scene-hook'; sceneId: string; slot: 'onEnter' | 'onTeleport'; hookId: string }
+  | { kind: 'script-chunk'; chunkId: string; scriptId: string }
+  | { kind: 'shared-script'; id: string }
+  | { kind: 'actor'; id: string; section: 'portraits' | 'face' | 'sounds' }
+  | {
+      kind: 'enemy'
+      id: string
+      section: 'sounds' | 'choreography' | 'onDefeated' | 'hook-ready' | 'hook-turnStart'
+    }
+  | { kind: 'item'; id: string; section: 'commands' | 'icon' | 'use' | 'throw' }
+  | {
+      kind: 'skill'
+      id: string
+      side: 'base' | 'player' | 'enemy'
+      section: 'animation' | 'effects'
+    }
+  | { kind: 'battle-field'; id: string }
+  | { kind: 'tileset'; id: string }
+  | { kind: 'world-sprite'; id: string }
+  | { kind: 'world-sprite-action'; spriteId: string; actionId: string }
+  | { kind: 'battle-sprite'; id: string }
+  | { kind: 'runtime-world' }
+
+/** 全工程 walker 的有来源边；where/site 只用于诊断与旧分组，禁止反解析导航。 */
+export interface LocatedAssetReference extends AssetReference {
+  origin: AssetReferenceOrigin
+}
+
 export interface AssetReferenceSite {
   asset: AssetId
   expectedKind: AssetKind
@@ -336,72 +372,36 @@ const BATTLER_SOUND_FIELDS = [
 ] as const
 const ENEMY_SOUND_FIELDS = ['attack', 'action', 'magic', 'death', 'call'] as const
 
-function pushAssetReference(
-  out: AssetReference[],
-  reference: Omit<AssetReference, 'site'>,
-  site: string,
-): void {
-  out.push({ ...reference, site })
+export interface CommandAssetTaggedReference {
+  asset: AssetId
+  expectedKind: AssetKind
+  where: string
 }
 
-function collectCommandAssets(
-  node: unknown,
+/** Inspect one tagged command node only; canonical callers own nested command traversal. */
+export function commandAssetTaggedReferencesAtNode(
+  value: unknown,
   where: string,
-  out: AssetReference[],
-  site = where,
-): void {
-  if (Array.isArray(node)) {
-    node.forEach((value, index) => {
-      collectCommandAssets(value, `${where}[${index}]`, out, site)
-    })
-    return
+): CommandAssetTaggedReference[] {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return []
+  const record = value as Record<string, unknown>
+  const references: CommandAssetTaggedReference[] = []
+  const push = (asset: unknown, expectedKind: AssetKind, suffix: string): void => {
+    if (typeof asset === 'string') references.push({ asset, expectedKind, where: `${where}${suffix}` })
   }
-  if (!node || typeof node !== 'object') return
-  const record = node as Record<string, unknown>
-  if (record.kind === 'playMusic' && typeof record.asset === 'string')
-    pushAssetReference(
-      out,
-      { asset: record.asset, expectedKind: 'music', where: `${where}.asset` },
-      site,
-    )
-  if (record.kind === 'playSound' && typeof record.asset === 'string')
-    pushAssetReference(
-      out,
-      { asset: record.asset, expectedKind: 'sound', where: `${where}.asset` },
-      site,
-    )
-  if (record.kind === 'startBattle' && typeof record.music === 'string')
-    pushAssetReference(
-      out,
-      { asset: record.music, expectedKind: 'music', where: `${where}.music` },
-      site,
-    )
-  if (record.kind === 'playVideo' && typeof record.asset === 'string')
-    pushAssetReference(
-      out,
-      { asset: record.asset, expectedKind: 'video', where: `${where}.asset` },
-      site,
-    )
-  if (record.kind === 'playFrameAnimation' && typeof record.asset === 'string')
-    pushAssetReference(
-      out,
-      { asset: record.asset, expectedKind: 'frame-animation', where: `${where}.asset` },
-      site,
-    )
+  if (record.kind === 'playMusic') push(record.asset, 'music', '.asset')
+  if (record.kind === 'playSound') push(record.asset, 'sound', '.asset')
+  if (record.kind === 'startBattle') push(record.music, 'music', '.music')
+  if (record.kind === 'playVideo') push(record.asset, 'video', '.asset')
+  if (record.kind === 'playFrameAnimation') push(record.asset, 'frame-animation', '.asset')
   if (record.kind === 'dialog') {
     const cue = record.cue
     if (cue && typeof cue === 'object' && !Array.isArray(cue)) {
-      const portrait = (cue as Record<string, unknown>).portrait
-      if (portrait && typeof portrait === 'object' && !Array.isArray(portrait)) {
-        const asset = (portrait as Record<string, unknown>).asset
-        if (typeof asset === 'string')
-          pushAssetReference(
-            out,
-            { asset, expectedKind: 'portrait', where: `${where}.cue.portrait.asset` },
-            site,
-          )
-      }
-      const identity = (cue as Record<string, unknown>).identity
+      const cueRecord = cue as Record<string, unknown>
+      const portrait = cueRecord.portrait
+      if (portrait && typeof portrait === 'object' && !Array.isArray(portrait))
+        push((portrait as Record<string, unknown>).asset, 'portrait', '.cue.portrait.asset')
+      const identity = cueRecord.identity
       if (identity && typeof identity === 'object' && !Array.isArray(identity)) {
         const identityRecord = identity as Record<string, unknown>
         const directPortrait = identityRecord.portrait
@@ -410,36 +410,54 @@ function collectCommandAssets(
           directPortrait &&
           typeof directPortrait === 'object' &&
           !Array.isArray(directPortrait)
-        ) {
-          const asset = (directPortrait as Record<string, unknown>).asset
-          if (typeof asset === 'string')
-            pushAssetReference(
-              out,
-              { asset, expectedKind: 'portrait', where: `${where}.cue.identity.portrait.asset` },
-              site,
-            )
-        }
+        )
+          push(
+            (directPortrait as Record<string, unknown>).asset,
+            'portrait',
+            '.cue.identity.portrait.asset',
+          )
       }
     }
   }
-  if (record.kind === 'setActorAppearance' && typeof record.portrait === 'string')
-    pushAssetReference(
-      out,
-      { asset: record.portrait, expectedKind: 'portrait', where: `${where}.portrait` },
-      site,
-    )
-  if (record.kind === 'quitToTitle' && Array.isArray(record.videos)) {
-    record.videos.forEach((asset, index) => {
-      if (typeof asset === 'string')
-        pushAssetReference(
-          out,
-          { asset, expectedKind: 'video', where: `${where}.videos[${index}]` },
-          site,
-        )
-    })
+  if (record.kind === 'setActorAppearance') push(record.portrait, 'portrait', '.portrait')
+  if (record.kind === 'quitToTitle' && Array.isArray(record.videos))
+    record.videos.forEach((asset, index) => push(asset, 'video', `.videos[${index}]`))
+  return references
+}
+
+/** Legacy/enemy tree walker; canonical author scripts use one-node visits instead. */
+export function collectCommandAssetTaggedReferences(
+  node: unknown,
+  where: string,
+): CommandAssetTaggedReference[] {
+  const references: CommandAssetTaggedReference[] = []
+  const visit = (value: unknown, path: string): void => {
+    if (Array.isArray(value)) {
+      value.forEach((entry, index) => visit(entry, `${path}[${index}]`))
+      return
+    }
+    if (!value || typeof value !== 'object') return
+    references.push(...commandAssetTaggedReferencesAtNode(value, path))
+    for (const [key, child] of Object.entries(value as Record<string, unknown>))
+      visit(child, `${path}.${key}`)
   }
-  for (const [key, value] of Object.entries(record))
-    collectCommandAssets(value, `${where}.${key}`, out, site)
+  visit(node, where)
+  return references
+}
+
+/** One canonical command visit, including startBattle choreography but never normal nested arms. */
+export function collectCanonicalCommandAssetTaggedReferences(
+  command: unknown,
+  where: string,
+): CommandAssetTaggedReference[] {
+  const references = commandAssetTaggedReferencesAtNode(command, where)
+  if (!command || typeof command !== 'object' || Array.isArray(command)) return references
+  const record = command as Record<string, unknown>
+  if (record.kind === 'startBattle' && record.choreography !== undefined)
+    references.push(
+      ...collectCommandAssetTaggedReferences(record.choreography, `${where}.choreography`),
+    )
+  return references
 }
 
 /** 单棵命令树的 typed 资源边；运行时 readiness 与全工程 walker 共用同一递归语义。 */
@@ -448,23 +466,30 @@ export function collectCommandAssetReferences(
   where = 'commands',
   site = where,
 ): AssetReference[] {
-  const references: AssetReference[] = []
-  collectCommandAssets(node, where, references, site)
-  return references
+  return collectCommandAssetTaggedReferences(node, where).map((reference) => ({
+    ...reference,
+    site,
+  }))
 }
 
 function appendCommandAssetReferences(
-  out: AssetReference[],
+  out: LocatedAssetReference[],
   node: unknown,
   where: string,
   site: string,
+  origin: AssetReferenceOrigin,
 ): void {
-  out.push(...collectCommandAssetReferences(node, where, site))
+  out.push(
+    ...collectCommandAssetReferences(node, where, site).map((reference) => ({
+      ...reference,
+      origin,
+    })),
+  )
 }
 
 /** 递归收集所有 typed AssetId 引用；删除保护、闭包检查和引用面板共用这一张边表。 */
-export function collectAssetReferences(source: AssetReferenceSource): AssetReference[] {
-  const references: AssetReference[] = []
+export function collectAssetReferences(source: AssetReferenceSource): LocatedAssetReference[] {
+  const references: LocatedAssetReference[] = []
   if (source.assets) {
     for (const role of ASSET_ROLES) {
       const asset = source.assets.roles[role]
@@ -474,6 +499,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
           expectedKind: ASSET_ROLE_KINDS[role],
           where: `manifest.assets.roles.${role}`,
           site: `manifest.assets.roles.${role}`,
+          origin: { kind: 'manifest-role', role },
         })
     }
   }
@@ -484,6 +510,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         expectedKind: 'video',
         where: `entryPoints[${index}].introVideo`,
         site: `entryPoint:${entryPoint.id}:introVideo`,
+        origin: { kind: 'entry-point', id: entryPoint.id },
       })
   })
   source.scenes?.forEach((scene, index) => {
@@ -493,6 +520,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         expectedKind: 'music',
         where: `scenes[${index}].music`,
         site: `scenes[${index}].music`,
+        origin: { kind: 'scene', id: scene.id, section: 'music' },
       })
     if (typeof scene.battleMusic === 'string')
       references.push({
@@ -500,24 +528,28 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         expectedKind: 'music',
         where: `scenes[${index}].battleMusic`,
         site: `scenes[${index}].battleMusic`,
+        origin: { kind: 'scene', id: scene.id, section: 'battleMusic' },
       })
     appendCommandAssetReferences(
       references,
       scene.onEnter,
       `scenes[${index}].onEnter`,
       `scene:${scene.id}:onEnter`,
+      { kind: 'scene', id: scene.id, section: 'onEnter' },
     )
     appendCommandAssetReferences(
       references,
       scene.onTeleport,
       `scenes[${index}].onTeleport`,
       `scene:${scene.id}:onTeleport`,
+      { kind: 'scene', id: scene.id, section: 'onTeleport' },
     )
     appendCommandAssetReferences(
       references,
       scene.entities,
       `scenes[${index}].entities`,
       `scene:${scene.id}:entities`,
+      { kind: 'scene', id: scene.id, section: 'entities' },
     )
     const hooks = (scene as unknown as { hooks?: AuthorSceneDef['hooks'] }).hooks
     for (const slot of ['onEnter', 'onTeleport'] as const) {
@@ -529,6 +561,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
           hook.flow,
           `scenes[${index}].hooks.${slot}.variants[${JSON.stringify(hookId)}].flow`,
           `scene:${scene.id}:hook:${slot}:${hookId}`,
+          { kind: 'scene-hook', sceneId: scene.id, slot, hookId },
         )
     }
   })
@@ -542,6 +575,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         body,
         `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
         `script:${chunkId}:${scriptId}`,
+        { kind: 'script-chunk', chunkId, scriptId },
       )
     }
   })
@@ -551,6 +585,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       script.body,
       `sharedScripts[${JSON.stringify(scriptId)}].body`,
       `sharedScript:${scriptId}`,
+      { kind: 'shared-script', id: scriptId },
     )
   source.actors?.forEach((actor, index) => {
     if (actor.portraits) {
@@ -559,6 +594,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         expectedKind: 'portrait',
         where: `actors[${index}].portraits.default`,
         site: `actor:${actor.id}:portraits`,
+        origin: { kind: 'actor', id: actor.id, section: 'portraits' },
       })
       for (const [expression, asset] of Object.entries(actor.portraits.expressions ?? {}))
         references.push({
@@ -566,6 +602,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
           expectedKind: 'portrait',
           where: `actors[${index}].portraits.expressions[${JSON.stringify(expression)}]`,
           site: `actor:${actor.id}:portraits`,
+          origin: { kind: 'actor', id: actor.id, section: 'portraits' },
         })
     }
     if (actor.face)
@@ -574,6 +611,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         expectedKind: 'face',
         where: `actors[${index}].face`,
         site: `actor:${actor.id}:face`,
+        origin: { kind: 'actor', id: actor.id, section: 'face' },
       })
     for (const field of BATTLER_SOUND_FIELDS) {
       const asset = actor.battler?.sounds?.[field]
@@ -583,6 +621,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
           expectedKind: 'sound',
           where: `actors[${index}].battler.sounds.${field}`,
           site: `actor:${actor.id}:sounds`,
+          origin: { kind: 'actor', id: actor.id, section: 'sounds' },
         })
     }
   })
@@ -595,6 +634,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
           expectedKind: 'sound',
           where: `enemies[${index}].sounds.${field}`,
           site: `enemy:${enemy.id}:sounds`,
+          origin: { kind: 'enemy', id: enemy.id, section: 'sounds' },
         })
     }
     appendCommandAssetReferences(
@@ -602,12 +642,14 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       enemy.choreography,
       `enemies[${index}].choreography`,
       `enemy:${enemy.id}:choreography`,
+      { kind: 'enemy', id: enemy.id, section: 'choreography' },
     )
     appendCommandAssetReferences(
       references,
       enemy.onDefeated,
       `enemies[${index}].onDefeated`,
       `enemy:${enemy.id}:onDefeated`,
+      { kind: 'enemy', id: enemy.id, section: 'onDefeated' },
     )
     for (const channel of ['ready', 'turnStart'] as const) {
       const hook = enemy.ai.hooks?.[channel]
@@ -617,17 +659,27 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         hook,
         `enemies[${index}].ai.hooks.${channel}`,
         `enemy:${enemy.id}:hook:${channel}`,
+        {
+          kind: 'enemy',
+          id: enemy.id,
+          section: channel === 'ready' ? 'hook-ready' : 'hook-turnStart',
+        },
       )
     }
   })
   source.items?.forEach((item, index) => {
-    appendCommandAssetReferences(references, item, `items[${index}]`, `item:${item.id}`)
+    appendCommandAssetReferences(references, item, `items[${index}]`, `item:${item.id}`, {
+      kind: 'item',
+      id: item.id,
+      section: 'commands',
+    })
     if (item.icon)
       references.push({
         asset: item.icon,
         expectedKind: 'item-icon',
         where: `items[${index}].icon`,
         site: `item:${item.id}:icon`,
+        origin: { kind: 'item', id: item.id, section: 'icon' },
       })
     for (const field of ['use', 'throw'] as const) {
       const asset = item[field]?.sound
@@ -637,6 +689,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
           expectedKind: 'sound',
           where: `items[${index}].${field}.sound`,
           site: `item:${item.id}:${field}`,
+          origin: { kind: 'item', id: item.id, section: field },
         })
     }
     const throwAnimationSound = item.throw?.presentation?.animation.sound
@@ -646,6 +699,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         expectedKind: 'sound',
         where: `items[${index}].throw.presentation.animation.sound`,
         site: `item:${item.id}:throw`,
+        origin: { kind: 'item', id: item.id, section: 'throw' },
       })
   })
   source.skills?.forEach((skill, index) => {
@@ -660,6 +714,12 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
             layer.side === 'base'
               ? `skill:${skill.id}:animation`
               : `skill:${skill.id}:execution:${layer.side}:animation`,
+          origin: {
+            kind: 'skill',
+            id: skill.id,
+            side: layer.side,
+            section: 'animation',
+          },
         })
       ;(layer.effects ?? []).forEach((effect, effectIndex) => {
         if (effect.kind === 'summon' && typeof effect.sound === 'string')
@@ -671,6 +731,12 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
               layer.side === 'base'
                 ? `skill:${skill.id}:effects`
                 : `skill:${skill.id}:execution:${layer.side}:effects`,
+            origin: {
+              kind: 'skill',
+              id: skill.id,
+              side: layer.side,
+              section: 'effects',
+            },
           })
       })
     }
@@ -682,6 +748,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         expectedKind: 'battle-background',
         where: `battleFields[${index}].background`,
         site: `battleField:${field.id}:background`,
+        origin: { kind: 'battle-field', id: String(field.id) },
       })
   })
   source.tilesets?.forEach((tileset, index) => {
@@ -690,6 +757,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       expectedKind: 'tileset',
       where: `tilesets[${index}].asset`,
       site: `tileset:${tileset.id}:asset`,
+      origin: { kind: 'tileset', id: tileset.id },
     })
   })
   source.sprites?.forEach((sprite, index) => {
@@ -698,6 +766,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       expectedKind: 'sprite',
       where: `sprites[${index}].asset`,
       site: `sprite:${sprite.id}:asset`,
+      origin: { kind: 'world-sprite', id: sprite.id },
     })
     for (const [actionId, action] of Object.entries(sprite.poses ?? {})) {
       action.steps.forEach((step, stepIndex) => {
@@ -707,6 +776,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
             expectedKind: 'sound',
             where: `sprites[${index}].poses[${JSON.stringify(actionId)}].steps[${stepIndex}].cues[${cueIndex}].asset`,
             site: `sprite:${sprite.id}:action:${actionId}`,
+            origin: { kind: 'world-sprite-action', spriteId: sprite.id, actionId },
           })
         })
       })
@@ -718,6 +788,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       expectedKind: 'battle-sprite',
       where: `battleSprites[${index}].asset`,
       site: `battleSprite:${sprite.id}:asset`,
+      origin: { kind: 'battle-sprite', id: sprite.id },
     })
   })
   source.worlds?.forEach((world, worldIndex) => {
@@ -733,6 +804,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
             expectedKind: 'portrait',
             where: `worlds[${worldIndex}].${collection}[${characterIndex}].appearance.portrait`,
             site: `world:${worldIndex}:character:${character.id}:appearance`,
+            origin: { kind: 'runtime-world' },
           })
       })
     }

@@ -8,8 +8,11 @@ import {
   type ScriptEditSession,
   UpdateSharedScriptCommand,
   UpdateSharedScriptMetadataCommand,
+  type CurrentScriptProjectReferenceIndexProvider,
   type SharedScriptMetadataPatch,
 } from '../core/script-editor.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
   CanonicalScriptBodyEditor,
   CanonicalScriptDialog,
@@ -27,6 +30,9 @@ import {
   DsHelpTip,
   DsObjectHero,
   DsObjectWorkspace,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
   DsSelect,
   DsTag,
   DsTextInput,
@@ -62,6 +68,10 @@ export function CanonicalSharedScriptTab(props: {
   focusRevision?: number
   onSelectedScriptId?: (id: string | undefined) => void
   onError?: (message: string) => void
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentScriptProjectReferenceIndexProvider
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
 }) {
   const ids = useMemo(
     () => Object.keys(props.state.sharedScripts).sort(),
@@ -87,6 +97,16 @@ export function CanonicalSharedScriptTab(props: {
   const createScriptIdInputRef = useRef<HTMLInputElement>(null)
   const createWasOpenRef = useRef(false)
   const selected = props.state.sharedScripts[selectedId]
+  const referenceReady =
+    props.referenceStatus === 'current' && props.referenceIndex !== undefined
+  const selectedReferences = (() => {
+    if (!selected || !props.referenceIndex) return []
+    const target = { kind: 'shared-script' as const, id: selectedId }
+    return props.referenceIndex.deletionImpact(
+      target,
+      props.referenceIndex.deletionScopeFor([target]),
+    ).blockers
+  })()
   const shown = ids.filter((id) => {
     const script = props.state.sharedScripts[id]
     const needle = filter.trim().toLowerCase()
@@ -188,9 +208,10 @@ export function CanonicalSharedScriptTab(props: {
   }
 
   const deleteSelectedScript = (): void => {
+    if (!referenceReady || selectedReferences.length) return
     if (!selected || !window.confirm(`删除“${selected.name}”？存在引用时会阻断；成功后仍可撤销。`))
       return
-    if (dispatch(new DeleteSharedScriptCommand(selectedId))) {
+    if (dispatch(new DeleteSharedScriptCommand(selectedId, props.getCurrentReferenceIndex))) {
       const next = ids.find((id) => id !== selectedId) ?? ''
       select(next)
     }
@@ -268,6 +289,14 @@ export function CanonicalSharedScriptTab(props: {
                   size="compact"
                   variant="danger"
                   icon="delete"
+                  disabled={!referenceReady || selectedReferences.length > 0}
+                  title={
+                    !referenceReady
+                      ? '引用仍在检查，暂不能删除'
+                      : selectedReferences.length
+                        ? `仍有 ${selectedReferences.length} 处引用，不能删除`
+                        : '删除当前可复用脚本'
+                  }
                   onClick={deleteSelectedScript}
                 >
                   删除脚本
@@ -353,6 +382,53 @@ export function CanonicalSharedScriptTab(props: {
             <p className="hint">
               stable ScriptId 创建后保持不变；调用方只保存这个 id，显示名可随时修改。
             </p>
+            <DsReferencePanel
+              state={
+                !referenceReady ? 'loading' : selectedReferences.length ? 'ready' : 'empty'
+              }
+              count={
+                referenceReady
+                  ? { kind: 'exact', value: selectedReferences.length }
+                  : { kind: 'unknown' }
+              }
+              impact={{
+                kind: 'blocking',
+                description: !referenceReady
+                  ? '引用仍在检查；完成前不能删除脚本。'
+                  : selectedReferences.length
+                    ? '先处理所有调用与绑定位置，才能删除脚本。'
+                    : '当前脚本没有外部调用或绑定。',
+              }}
+            >
+              {selectedReferences.length ? (
+                <DsReferenceList>
+                  {selectedReferences.map((reference) => (
+                    <DsReferenceRow
+                      key={reference.id}
+                      title={reference.source.label}
+                      path={reference.where}
+                      labels={[
+                        {
+                          label:
+                            reference.relation.kind === 'script-reference' &&
+                            reference.relation.use === 'call'
+                              ? '调用'
+                              : '绑定',
+                        },
+                      ]}
+                      action={
+                        reference.locator.kind !== 'unavailable' && props.onOpenReference
+                          ? {
+                              label: '打开',
+                              onActivate: () => props.onOpenReference?.(reference),
+                            }
+                          : undefined
+                      }
+                    />
+                  ))}
+                </DsReferenceList>
+              ) : null}
+            </DsReferencePanel>
           </div>
         ) : (
           <div className="insp-empty">没有选中的共享脚本</div>

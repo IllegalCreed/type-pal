@@ -15,6 +15,7 @@ import {
   validateAuthorScenes,
 } from '@type-pal/content'
 import { getAuthorCommandAt, parseAuthorCommandPath } from './author-command-edit.js'
+import type { ProjectReferenceIndex } from './project-reference.js'
 
 type AuthorSceneEntityDef = AuthorSceneDef['entities'][number]
 type AuthorHostileBehavior = NonNullable<AuthorSceneEntityDef['hostile']>
@@ -50,6 +51,10 @@ export interface ScriptEditorCommand {
   apply(state: ScriptEditorState): ScriptEditorState
   invert(state: ScriptEditorState): ScriptEditorState
 }
+
+export type CurrentScriptProjectReferenceIndexProvider = (
+  state: ScriptEditorState,
+) => ProjectReferenceIndex
 
 export interface ScriptTransactionReceipt {
   /** 仅供跨 session coordinator 的同步失败回滚；不进入 redo。 */
@@ -551,6 +556,51 @@ export interface ScriptReferenceIssue {
   message: string
 }
 
+export type CanonicalSharedScriptReferenceEntry =
+  | {
+      scriptId: string
+      use: 'binding'
+      explicitSelf: false
+      path: string
+      source: { kind: 'item'; itemId: string }
+    }
+  | {
+      scriptId: string
+      use: 'call'
+      explicitSelf: boolean
+      path: string
+      source: { kind: 'command'; owner: ScriptCommandOwner }
+      reference: Extract<CanonicalScriptReference, { kind: 'command' }>
+    }
+
+export function collectCanonicalSharedScriptReferencesFromVisits(
+  state: ScriptEditorState,
+  visits: readonly CanonicalScriptCommandVisit[],
+): CanonicalSharedScriptReferenceEntry[] {
+  const references: CanonicalSharedScriptReferenceEntry[] = []
+  for (const item of state.items)
+    for (const [index, effect] of (item.use?.effects ?? []).entries())
+      if (effect.kind === 'runScript')
+        references.push({
+          scriptId: effect.script,
+          use: 'binding',
+          explicitSelf: false,
+          path: `items.${item.id}.use.effects[${index}].script`,
+          source: { kind: 'item', itemId: item.id },
+        })
+  for (const { command, path, locator } of visits)
+    if (command.kind === 'callScript')
+      references.push({
+        scriptId: command.script,
+        use: 'call',
+        explicitSelf: command.self !== undefined,
+        path: `${path}.script`,
+        source: { kind: 'command', owner: locator.owner },
+        reference: { kind: 'command', path: `${path}.script`, locator },
+      })
+  return references
+}
+
 /**
  * 当前共享脚本引用闭包。`__author-script-runtime` ScriptRef 只是 UI/宿主投影，
  * 不能拿旧 ScriptChunk 校验器判断；真正的作者引用必须在这里按稳定 ScriptId 对 sharedScripts 验证。
@@ -558,6 +608,7 @@ export interface ScriptReferenceIssue {
 export function collectScriptReferenceIssuesFromVisits(
   state: ScriptEditorState,
   visits: readonly CanonicalScriptCommandVisit[],
+  references = collectCanonicalSharedScriptReferencesFromVisits(state, visits),
 ): ScriptReferenceIssue[] {
   const issues: ScriptReferenceIssue[] = []
   const sharedIds = new Set(Object.keys(state.sharedScripts))
@@ -569,14 +620,8 @@ export function collectScriptReferenceIssuesFromVisits(
         message: `共享脚本 "${scriptId}" 不在当前脚本库`,
       })
   }
-  for (const item of state.items) {
-    for (const [index, effect] of (item.use?.effects ?? []).entries()) {
-      if (effect.kind === 'runScript')
-        check(effect.script, `items.${item.id}.use.effects[${index}].script`)
-    }
-  }
+  for (const reference of references) check(reference.scriptId, reference.path)
   for (const { command, path } of visits) {
-    if (command.kind === 'callScript') check(command.script, `${path}.script`)
     if (command.kind !== 'selectEntityBehavior') continue
     const scene = state.scenes.find((candidate) => candidate.id === command.target.scene)
     const entity = scene?.entities.find((candidate) => candidate.id === command.target.entity)
@@ -746,6 +791,24 @@ export function canonicalSceneHookReferenceKey(
 export interface CanonicalSchemeReferenceIndexes {
   behavior: Map<string, CanonicalScriptReference[]>
   sceneHook: Map<string, CanonicalScriptReference[]>
+  behaviorEntries: CanonicalBehaviorReferenceEntry[]
+  sceneHookEntries: CanonicalSceneHookReferenceEntry[]
+}
+
+export interface CanonicalBehaviorReferenceEntry {
+  target: EntityAddress
+  channel: 'trigger' | 'auto'
+  behaviorId: string
+  use: 'page-binding' | 'select-behavior' | 'cursor-handoff'
+  reference: CanonicalScriptReference
+}
+
+export interface CanonicalSceneHookReferenceEntry {
+  sceneId: string
+  slot: SceneHookSlot
+  hookId: string
+  use: 'hook-initial' | 'select-hook'
+  reference: CanonicalScriptReference
 }
 
 /** Build all behavior/hook reverse references from the shared one-pass command materialization. */
@@ -755,12 +818,30 @@ export function buildCanonicalSchemeReferenceIndexesFromVisits(
 ): CanonicalSchemeReferenceIndexes {
   const behavior = new Map<string, CanonicalScriptReference[]>()
   const sceneHook = new Map<string, CanonicalScriptReference[]>()
+  const behaviorEntries: CanonicalBehaviorReferenceEntry[] = []
+  const sceneHookEntries: CanonicalSceneHookReferenceEntry[] = []
   const push = (
     index: Map<string, CanonicalScriptReference[]>,
     key: string,
     reference: CanonicalScriptReference,
   ): void => {
     index.set(key, [...(index.get(key) ?? []), reference])
+  }
+  const pushBehavior = (entry: CanonicalBehaviorReferenceEntry): void => {
+    behaviorEntries.push(entry)
+    push(
+      behavior,
+      canonicalBehaviorReferenceKey(entry.target, entry.channel, entry.behaviorId),
+      entry.reference,
+    )
+  }
+  const pushSceneHook = (entry: CanonicalSceneHookReferenceEntry): void => {
+    sceneHookEntries.push(entry)
+    push(
+      sceneHook,
+      canonicalSceneHookReferenceKey(entry.sceneId, entry.slot, entry.hookId),
+      entry.reference,
+    )
   }
 
   for (const scene of state.scenes) {
@@ -769,14 +850,12 @@ export function buildCanonicalSchemeReferenceIndexesFromVisits(
         for (const channel of ['trigger', 'auto'] as const) {
           const behaviorId = page[channel]
           if (!behaviorId) continue
-          push(
-            behavior,
-            canonicalBehaviorReferenceKey(
-              { scene: scene.id, entity: entity.id },
-              channel,
-              behaviorId,
-            ),
-            {
+          pushBehavior({
+            target: { scene: scene.id, entity: entity.id },
+            channel,
+            behaviorId,
+            use: 'page-binding',
+            reference: {
               kind: 'page',
               path: `scenes.${scene.id}.entities.${entity.id}.pages.${page.id}.${channel}`,
               locator: {
@@ -787,17 +866,23 @@ export function buildCanonicalSchemeReferenceIndexesFromVisits(
                 channel,
               },
             },
-          )
+          })
         }
       }
     }
     for (const slot of ['onEnter', 'onTeleport'] as const) {
       const hookId = scene.hooks?.[slot]?.initial
       if (!hookId) continue
-      push(sceneHook, canonicalSceneHookReferenceKey(scene.id, slot, hookId), {
-        kind: 'initial',
-        path: `scenes.${scene.id}.hooks.${slot}.initial`,
-        locator: { kind: 'scene-hook-initial', sceneId: scene.id, slot, hookId },
+      pushSceneHook({
+        sceneId: scene.id,
+        slot,
+        hookId,
+        use: 'hook-initial',
+        reference: {
+          kind: 'initial',
+          path: `scenes.${scene.id}.hooks.${slot}.initial`,
+          locator: { kind: 'scene-hook-initial', sceneId: scene.id, slot, hookId },
+        },
       })
     }
   }
@@ -806,31 +891,41 @@ export function buildCanonicalSchemeReferenceIndexesFromVisits(
     if (command.kind === 'selectEntityBehavior') {
       const selectionId = command.selection.kind === 'use' ? command.selection.value : undefined
       if (selectionId)
-        push(
-          behavior,
-          canonicalBehaviorReferenceKey(command.target, command.channel, selectionId),
-          { kind: 'command', path, locator },
-        )
+        pushBehavior({
+          target: command.target,
+          channel: command.channel,
+          behaviorId: selectionId,
+          use: 'select-behavior',
+          reference: { kind: 'command', path, locator },
+        })
       const sourceId = command.cursorHandoff?.fromBehavior
       if (sourceId && sourceId !== selectionId)
-        push(behavior, canonicalBehaviorReferenceKey(command.target, command.channel, sourceId), {
-          kind: 'command',
-          path: `${path}.cursorHandoff.fromBehavior`,
-          locator,
+        pushBehavior({
+          target: command.target,
+          channel: command.channel,
+          behaviorId: sourceId,
+          use: 'cursor-handoff',
+          reference: {
+            kind: 'command',
+            path: `${path}.cursorHandoff.fromBehavior`,
+            locator,
+          },
         })
     }
     if (command.kind !== 'selectSceneHooks') continue
     for (const slot of ['onEnter', 'onTeleport'] as const) {
       const selection = command.selection[slot]
       if (selection?.kind !== 'use') continue
-      push(sceneHook, canonicalSceneHookReferenceKey(command.scene, slot, selection.value), {
-        kind: 'command',
-        path,
-        locator,
+      pushSceneHook({
+        sceneId: command.scene,
+        slot,
+        hookId: selection.value,
+        use: 'select-hook',
+        reference: { kind: 'command', path, locator },
       })
     }
   }
-  return { behavior, sceneHook }
+  return { behavior, sceneHook, behaviorEntries, sceneHookEntries }
 }
 
 const COMMAND_PATH_LABELS: Readonly<Record<string, string>> = {
@@ -1264,9 +1359,11 @@ export class ScriptEditSession {
   }
 
   redo(): boolean {
-    const command = this.future.pop()
+    const command = this.future.at(-1)
     if (!command) return false
-    this.state = command.apply(this.state)
+    const next = command.apply(this.state)
+    this.future.pop()
+    this.state = next
     this.past.push(command)
     this.dirty = true
     this.historyVersion += 1
@@ -1945,19 +2042,35 @@ export class UpdateSharedScriptMetadataCommand implements ScriptEditorCommand {
   }
 }
 
-export class DeleteSharedScriptCommand extends SnapshotCommand {
+export class DeleteSharedScriptCommand implements ScriptEditorCommand {
   readonly label = '删除共享脚本'
+  private before?: ScriptEditorState
   get affectedRecords() {
     return { sharedScripts: [this.scriptId] }
   }
 
-  constructor(private readonly scriptId: string) {
-    super()
+  constructor(
+    private readonly scriptId: string,
+    private readonly currentReferences: CurrentScriptProjectReferenceIndexProvider,
+  ) {}
+
+  apply(state: ScriptEditorState): ScriptEditorState {
+    if (!state.sharedScripts[this.scriptId]) throw new Error(`共享脚本不存在 ${this.scriptId}`)
+    const target = { kind: 'shared-script' as const, id: this.scriptId }
+    const index = this.currentReferences(state)
+    const references = index.deletionImpact(target, index.deletionScopeFor([target])).blockers
+    if (references.length)
+      throw new Error(`共享脚本 ${this.scriptId} 仍有 ${references.length} 个引用`)
+    this.before = state
+    const next = clone(state)
+    delete next.sharedScripts[this.scriptId]
+    validateState(next)
+    return next
   }
 
-  protected transform(state: ScriptEditorState): void {
-    if (!state.sharedScripts[this.scriptId]) throw new Error(`共享脚本不存在 ${this.scriptId}`)
-    delete state.sharedScripts[this.scriptId]
+  invert(_state: ScriptEditorState): ScriptEditorState {
+    if (!this.before) throw new Error(`${this.label}: 尚未 apply`)
+    return this.before
   }
 }
 

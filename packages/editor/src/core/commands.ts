@@ -79,7 +79,6 @@ import {
   updateProjectMapLayer,
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
-import { blockingEntityAddressReferences } from './entity-address-references.js'
 import { createEmptyScriptStages } from './entity-placement.js'
 import {
   applyPreparedProjectMapPatch,
@@ -98,12 +97,7 @@ import {
   type CurrentProjectReferenceIndexProvider,
   collectCurrentProjectDeletionImpact,
 } from './project-reference-adapters.js'
-import type { ScriptEditorState } from './script-editor.js'
-import {
-  findSceneEntryReferences,
-  findScriptReferences,
-  type SceneEntryReferenceEntry,
-} from './script-references.js'
+import { findScriptReferences } from './script-references.js'
 import {
   resolveStampStructureOperation,
   type StampStructureResolutionOptions,
@@ -115,10 +109,6 @@ import {
   type TilesetRemovalProof,
   type TilesetReplacementProof,
 } from './tileset-references.js'
-import {
-  collectWorldVariableReferencesV1,
-  worldVariableScriptStateFromEditorStateV1,
-} from './world-variable-references.js'
 
 /**
  * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
@@ -221,21 +211,17 @@ export class DeleteWorldVariableCommand implements Command {
 
   constructor(
     private readonly id: string,
-    private readonly currentScriptState:
-      | (() => ScriptEditorState | undefined)
-      | undefined = undefined,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
   ) {}
 
   apply(state: EditorState): EditorState {
     const current = state.worldVariables?.[this.id]
     if (!current) return state
-    const currentScriptState = this.currentScriptState?.()
-    if (this.currentScriptState && !currentScriptState)
-      throw new Error('删除世界变量前无法读取当前脚本引用')
-    const references = collectWorldVariableReferencesV1(
-      currentScriptState ?? worldVariableScriptStateFromEditorStateV1(state),
-    ).byId.get(this.id)
-    if (references?.length) throw new WorldVariableInUseError(this.id, references.length)
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'world-variable',
+      id: this.id,
+    }).blockers
+    if (references.length) throw new WorldVariableInUseError(this.id, references.length)
     if (!this.previous) this.previous = structuredClone(current)
     const worldVariables = { ...(state.worldVariables ?? {}) }
     delete worldVariables[this.id]
@@ -452,21 +438,15 @@ export class DeleteEntityCommand implements Command {
   readonly label = '删除实体'
   private readonly sceneId: string
   private readonly entityId: string
-  private readonly guardedReferences: ReturnType<typeof blockingEntityAddressReferences> | undefined
   private removed: { entity: EntityDef; index: number } | undefined
 
   constructor(
     sceneId: string,
     entityId: string,
-    referenceState?: Pick<EditorState, 'scenes' | 'items' | 'enemies' | 'sharedScripts' | 'worlds'>,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
   ) {
     this.sceneId = sceneId
     this.entityId = entityId
-    // App 同时维护主工作副本与 canonical ScriptEditSession。调用方显式传入合并态时，
-    // 删除命令必须固化同一份阻断集合，不能在 apply 时退回扫描尚未同步的 shell。
-    this.guardedReferences = referenceState
-      ? blockingEntityAddressReferences(referenceState, { scene: sceneId, entity: entityId })
-      : undefined
   }
 
   apply(state: EditorState): EditorState {
@@ -475,24 +455,21 @@ export class DeleteEntityCommand implements Command {
     const index = scene.entities.findIndex((e) => e.id === this.entityId)
     if (index === -1) return state
     const entity = scene.entities[index]!
-    const next = withEntities(
+    const target = { kind: 'entity' as const, sceneId: this.sceneId, entityId: this.entityId }
+    const currentIndex = this.currentReferences(state)
+    const references = currentIndex.deletionImpact(
+      target,
+      currentIndex.deletionScopeFor([target]),
+    ).blockers
+    if (references.length)
+      throw new Error(`实体 "${this.sceneId}/${this.entityId}" 仍被引用：${references[0]!.where}`)
+    // 首次成功 apply 才捕获被删实体 + 原索引；失败的引用保护不得污染 undo 历史。
+    if (!this.removed) this.removed = { entity: structuredClone(entity), index }
+    return withEntities(
       state,
       this.sceneId,
       scene.entities.filter((_, i) => i !== index),
     )
-    const references =
-      this.guardedReferences ??
-      blockingEntityAddressReferences(state, {
-        scene: this.sceneId,
-        entity: this.entityId,
-      })
-    if (references.length)
-      throw new Error(
-        '实体 "' + this.sceneId + '/' + this.entityId + '" 仍被引用：' + references[0]!.path,
-      )
-    // 首次成功 apply 才捕获被删实体 + 原索引；失败的引用保护不得污染 undo 历史。
-    if (!this.removed) this.removed = { entity: structuredClone(entity), index }
-    return next
   }
 
   invert(state: EditorState): EditorState {
@@ -696,7 +673,7 @@ export class SceneEntryInUseError extends Error {
   constructor(
     readonly sceneId: string,
     readonly entryId: string,
-    readonly references: ReturnType<typeof findSceneEntryReferences>,
+    readonly references: readonly ProjectReferenceEdge[],
   ) {
     super(`落点 ${sceneId}/${entryId} 正被 ${references.length} 处脚本引用`)
     this.name = 'SceneEntryInUseError'
@@ -711,18 +688,18 @@ export class DeleteSceneEntryCommand implements Command {
   constructor(
     private readonly sceneId: string,
     private readonly entryId: string,
-    private readonly currentReferences: (
-      state: EditorState,
-      sceneId: string,
-      entryId: string,
-    ) => SceneEntryReferenceEntry[] = findSceneEntryReferences,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
   ) {}
 
   apply(state: EditorState): EditorState {
     const scene = findScene(state, this.sceneId)
     const entry = scene?.entries?.[this.entryId]
     if (!scene || !entry) return state
-    const references = this.currentReferences(state, this.sceneId, this.entryId)
+    const references = this.currentReferences(state).deletionImpact({
+      kind: 'scene-entry',
+      sceneId: this.sceneId,
+      entryId: this.entryId,
+    }).blockers
     if (references.length) throw new SceneEntryInUseError(this.sceneId, this.entryId, references)
     if (!this.removed) this.removed = structuredClone(entry)
     const entries = { ...(scene.entries ?? {}) }
@@ -3115,7 +3092,17 @@ export class UpsertAssetCommand implements Command {
   }
 }
 
-/** 删除未被内容引用的资源；引用保护由调用方在 dispatch 前执行。 */
+export class AssetInUseError extends Error {
+  constructor(
+    readonly assetId: AssetId,
+    readonly references: readonly ProjectReferenceEdge[],
+  ) {
+    super(`资源 ${assetId} 仍被 ${references.length} 处引用，不能删除`)
+    this.name = 'AssetInUseError'
+  }
+}
+
+/** 删除未被内容引用的资源；每次 apply/redo 都用 current-author 统一索引复核。 */
 export class DeleteAssetCommand implements Command {
   readonly label = '删除资源'
   private oldCatalog: EditorState['assetCatalog'] | undefined
@@ -3123,12 +3110,18 @@ export class DeleteAssetCommand implements Command {
 
   constructor(
     private readonly assetId: AssetId,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
     /** 删除前预读磁盘字节，避免保存删文件后撤销只恢复空 record。 */
     private readonly previousBytes?: ArrayBuffer,
   ) {}
 
   apply(state: EditorState): EditorState {
     if (!state.assetCatalog.assets[this.assetId]) return state
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'asset',
+      id: this.assetId,
+    }).blockers
+    if (references.length) throw new AssetInUseError(this.assetId, references)
     if (!this.oldCatalog) {
       this.oldCatalog = state.assetCatalog
       this.oldBlobs = state.assetBlobs
@@ -3968,14 +3961,20 @@ export class DeleteUnusedSpriteAssetCommand implements Command {
 
   constructor(
     private readonly asset: AssetId,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
     private readonly persistedBytes?: ArrayBuffer,
   ) {}
 
   apply(state: EditorState): EditorState {
-    if (state.sprites.some((sprite) => sprite.asset === this.asset))
-      throw new Error(`精灵资产 ${this.asset} 仍被定义引用`)
     const record = state.assetCatalog.assets[this.asset]
     if (!record) return state
+    if (state.sprites.some((sprite) => sprite.asset === this.asset))
+      throw new Error(`精灵资产 ${this.asset} 仍被定义引用`)
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'asset',
+      id: this.asset,
+    }).blockers
+    if (references.length) throw new AssetInUseError(this.asset, references)
     if (record.kind !== 'sprite') throw new Error(`AssetId ${this.asset} 不是 sprite`)
     this.oldCatalog ??= state.assetCatalog
     this.oldBlobs ??= state.assetBlobs
@@ -4385,14 +4384,20 @@ export class DeleteUnusedBattleSpriteAssetCommand implements Command {
 
   constructor(
     private readonly asset: AssetId,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
     private readonly persistedBytes?: ArrayBuffer,
   ) {}
 
   apply(state: EditorState): EditorState {
-    if (state.battleSprites.some((entry) => entry.asset === this.asset))
-      throw new Error(`战斗精灵资产 ${this.asset} 仍被定义引用`)
     const record = state.assetCatalog.assets[this.asset]
     if (!record) return state
+    if (state.battleSprites.some((entry) => entry.asset === this.asset))
+      throw new Error(`战斗精灵资产 ${this.asset} 仍被定义引用`)
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'asset',
+      id: this.asset,
+    }).blockers
+    if (references.length) throw new AssetInUseError(this.asset, references)
     if (record.kind !== 'battle-sprite') throw new Error(`AssetId ${this.asset} 不是 battle-sprite`)
     this.oldCatalog ??= state.assetCatalog
     this.oldBlobs ??= state.assetBlobs

@@ -86,6 +86,7 @@ describe('editor asset reference source', () => {
       expectedKind: 'sound',
       where: 'sharedScripts["shared/test"].body[0].asset',
       site: 'sharedScript:shared/test',
+      origin: { kind: 'shared-script', id: 'shared/test' },
     })
     expect(
       collectEditorAssetReferences(state)

@@ -1,7 +1,7 @@
 import {
-  type AssetReference,
   type AssetReferenceSource,
   collectAssetReferences,
+  type LocatedAssetReference,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import type { ScriptEditorState } from './script-editor.js'
@@ -15,7 +15,7 @@ export type EditorCurrentAuthorReferenceSlices = Pick<
 export interface EditorAssetReferenceSnapshot {
   /** 同一份 source 同时供资源页展示、删除门禁和保存诊断消费。 */
   source: AssetReferenceSource
-  references: AssetReference[]
+  references: LocatedAssetReference[]
 }
 
 export type EditorAssetReferenceResult =
@@ -52,6 +52,7 @@ export function editorAssetReferenceSourceFromSlices(
     tilesets: state.tilesets,
     sprites: state.sprites,
     battleSprites: state.battleSprites,
+    worlds: state.worlds,
   }
 }
 
@@ -89,6 +90,6 @@ export function tryCollectEditorAssetReferenceSnapshot(
 export function collectEditorAssetReferences(
   state: EditorState,
   currentAuthor?: ScriptEditorState,
-): AssetReference[] {
+): LocatedAssetReference[] {
   return collectEditorAssetReferenceSnapshot(state, currentAuthor).references
 }

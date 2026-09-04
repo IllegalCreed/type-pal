@@ -125,7 +125,7 @@ const DIAGNOSTIC_DIFFERENTIAL_FIXTURES = [
     valid: (state: ReturnType<typeof catalogControlsEditorState>) => {
       state.manifest.entryPoints[0]!.introVideo = 'video.ok'
     },
-    matches: (issue: { path: string }) => issue.path === 'entryPoint:main:introVideo',
+    matches: (issue: { path: string }) => issue.path === 'entryPoints[0].introVideo',
     saveError: /保存前资源引用校验失败/,
   },
   {
@@ -251,10 +251,6 @@ function synchronousData(
     statusIssues: snapshot.statusIssues,
     projectIssues: snapshot.projectIssues,
     projectReferences: snapshot.projectReferences,
-    assetReferences: snapshot.assetSnapshot.references,
-    worldVariableReferences: snapshot.worldVariableReferences,
-    canonicalBehaviorReferences: [...snapshot.canonicalSchemeReferenceIndexes.behavior],
-    canonicalSceneHookReferences: [...snapshot.canonicalSchemeReferenceIndexes.sceneHook],
     assetDiagnostics: snapshot.assetDiagnostics,
   }
 }

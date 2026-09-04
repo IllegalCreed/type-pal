@@ -328,9 +328,49 @@ describe('ED-3 PAL project reference index', () => {
       (edge) => edge.relation.kind === 'world-sprite-action-use',
     )
     const battleSpriteEdges = edges.filter((edge) => edge.relation.kind === 'battle-sprite-use')
+    const assetEdges = edges.filter((edge) => edge.relation.kind === 'asset-use')
     expect(worldSpriteEdges).toHaveLength(3_824)
     expect(worldSpriteActionEdges).toHaveLength(385)
     expect(battleSpriteEdges).toHaveLength(180)
+    expect(assetEdges).toHaveLength(6_002)
+    const oldAssetReferences = diagnostics.assetSnapshot.references
+    const canonicalAssetOrigin = (origin: (typeof oldAssetReferences)[number]['origin']): boolean =>
+      origin.kind === 'shared-script' ||
+      origin.kind === 'scene-hook' ||
+      (origin.kind === 'scene' && origin.section === 'entities') ||
+      (origin.kind === 'item' && origin.section === 'commands')
+    expect(
+      assetEdges
+        .filter((edge) => edge.source.owner.kind !== 'script-owner')
+        .map((edge) => {
+          if (edge.target.kind !== 'asset' || edge.relation.kind !== 'asset-use')
+            throw new Error('预期资源引用边')
+          return `${edge.target.id}\0${edge.relation.expectedKind}\0${edge.where}`
+        })
+        .sort(),
+    ).toEqual(
+      oldAssetReferences
+        .filter((reference) => !canonicalAssetOrigin(reference.origin))
+        .map(
+          (reference) => `${reference.asset}\0${reference.expectedKind}\0${reference.where}`,
+        )
+        .sort(),
+    )
+    expect(
+      assetEdges
+        .filter((edge) => edge.source.owner.kind === 'script-owner')
+        .map((edge) => {
+          if (edge.target.kind !== 'asset' || edge.relation.kind !== 'asset-use')
+            throw new Error('预期资源引用边')
+          return `${edge.target.id}\0${edge.relation.expectedKind}`
+        })
+        .sort(),
+    ).toEqual(
+      oldAssetReferences
+        .filter((reference) => canonicalAssetOrigin(reference.origin))
+        .map((reference) => `${reference.asset}\0${reference.expectedKind}`)
+        .sort(),
+    )
     const oldWorldSpriteReferences = collectSpriteDefinitionReferences(state)
     const oldWorldStructuralReferences = oldWorldSpriteReferences.filter(
       (reference) =>
@@ -487,8 +527,10 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(14_501)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(16_662)
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_459)
+    expect(edges.filter((edge) => edge.relation.kind === 'scene-hook-reference')).toHaveLength(293)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_188)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_089)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(
@@ -507,5 +549,9 @@ describe('ED-3 PAL project reference index', () => {
     expect(reply.data.projectReferences).toEqual(diagnostics.projectReferences)
     expect('entityAddressReferences' in reply.data).toBe(false)
     expect('sceneEntryReferences' in reply.data).toBe(false)
+    expect('assetReferences' in reply.data).toBe(false)
+    expect('worldVariableReferences' in reply.data).toBe(false)
+    expect('canonicalBehaviorReferences' in reply.data).toBe(false)
+    expect('canonicalSceneHookReferences' in reply.data).toBe(false)
   }, 30_000)
 })

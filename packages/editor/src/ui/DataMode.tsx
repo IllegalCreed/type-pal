@@ -19,17 +19,14 @@ import type { EditorDerivedData } from '../core/editor-derived-contract.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { ManifestLike, ProjectIssue } from '../core/project-diagnostics.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
-import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
-import type {
-  CanonicalScriptReference,
-  ScriptEditorState,
-  ScriptEditSession,
-} from '../core/script-editor.js'
-import { projectCurrentAuthorScriptEditorState } from '../core/script-editor-projection.js'
+import {
+  collectCurrentProjectReferenceIndex,
+  type CurrentProjectReferenceIndexProvider,
+} from '../core/project-reference-adapters.js'
+import type { ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
-import { worldVariableScriptStateFromEditorStateV1 } from '../core/world-variable-references.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
@@ -137,7 +134,6 @@ export function DataMode(props: {
   onOpenEnemyTeam?: (id: string) => void
   onOpenScript?: (id: string) => void
   onOpenWorldVariable?: (id: string) => void
-  onOpenCanonicalReference?: (reference: CanonicalScriptReference) => void
   onOpenItem?: (id: string) => void
   onOpenItemAlchemy?: (surface: 'crafting' | 'spirit-gourd', itemId: string) => void
   onOpenProjectIssues?: () => void
@@ -199,7 +195,6 @@ export function DataMode(props: {
     onOpenBattleField,
     onOpenScript,
     onOpenWorldVariable,
-    onOpenCanonicalReference,
     onOpenItem,
     onOpenItemAlchemy,
     onOpenProjectIssues,
@@ -208,16 +203,7 @@ export function DataMode(props: {
     onRequestSave,
     script,
   } = props
-  const variableReferences = props.derivedData?.worldVariableReferences ?? {
-    all: [],
-    byId: new Map(),
-  }
-  const assetReferences = props.derivedData?.assetReferences ?? []
   const assetDiagnostics = props.derivedData?.assetDiagnostics ?? []
-  const getCurrentScriptState = () =>
-    script
-      ? projectCurrentAuthorScriptEditorState(script.session.getStateSnapshot(), session.getState())
-      : worldVariableScriptStateFromEditorStateV1(session.getState())
   const [spriteDomain, setSpriteDomain] = useState<'world' | 'battle'>(
     () =>
       controlledSpriteDomain ??
@@ -500,15 +486,14 @@ export function DataMode(props: {
         catalog={assetCatalog}
         reader={assetReader}
         session={session}
-        assetReferences={assetReferences}
         assetDiagnostics={assetDiagnostics}
-        assetReferenceStatus={props.projectDiagnosticsStatus}
-        assetReferenceMessage={props.derivedDiagnosticsMessage}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
+        onOpenReference={onOpenProjectReference}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        currentAuthor={script?.state}
-        getCurrentAuthor={() => script?.session.getState()}
       />
     )
   }
@@ -520,15 +505,14 @@ export function DataMode(props: {
         catalog={assetCatalog}
         reader={assetReader}
         session={session}
-        assetReferences={assetReferences}
         assetDiagnostics={assetDiagnostics}
-        assetReferenceStatus={props.projectDiagnosticsStatus}
-        assetReferenceMessage={props.derivedDiagnosticsMessage}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
+        onOpenReference={onOpenProjectReference}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        currentAuthor={script?.state}
-        getCurrentAuthor={() => script?.session.getState()}
       />
     )
   }
@@ -539,15 +523,14 @@ export function DataMode(props: {
         catalog={assetCatalog}
         reader={assetReader}
         session={session}
-        assetReferences={assetReferences}
         assetDiagnostics={assetDiagnostics}
-        assetReferenceStatus={props.projectDiagnosticsStatus}
-        assetReferenceMessage={props.derivedDiagnosticsMessage}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
+        onOpenReference={onOpenProjectReference}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        currentAuthor={script?.state}
-        getCurrentAuthor={() => script?.session.getState()}
       />
     )
   }
@@ -559,15 +542,14 @@ export function DataMode(props: {
         catalog={assetCatalog}
         reader={assetReader}
         session={session}
-        assetReferences={assetReferences}
         assetDiagnostics={assetDiagnostics}
-        assetReferenceStatus={props.projectDiagnosticsStatus}
-        assetReferenceMessage={props.derivedDiagnosticsMessage}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
+        onOpenReference={onOpenProjectReference}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        currentAuthor={script?.state}
-        getCurrentAuthor={() => script?.session.getState()}
       />
     )
   }
@@ -599,13 +581,13 @@ export function DataMode(props: {
     return (
       <VarsTab
         variables={session.getState().worldVariables ?? {}}
-        references={variableReferences}
-        referenceStatus={props.projectDiagnosticsStatus}
-        getCurrentScriptState={getCurrentScriptState}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
         session={session}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        onOpenReference={onOpenCanonicalReference}
+        onOpenReference={onOpenProjectReference}
         tabBar={tabBar}
       />
     )
@@ -648,6 +630,12 @@ export function DataMode(props: {
           focusRevision={focusScriptRevision}
           onSelectedScriptId={onObjectFocus}
           onError={(message) => onStatusNotice?.({ kind: 'error', message })}
+          referenceIndex={projectReferenceIndex}
+          referenceStatus={projectReferenceStatus}
+          getCurrentReferenceIndex={(canonical) =>
+            collectCurrentProjectReferenceIndex(session.getState(), canonical)
+          }
+          onOpenReference={onOpenProjectReference}
           context={{
             state: script.state,
             shellScenes: scenes,

@@ -1,15 +1,64 @@
 // @vitest-environment jsdom
 
 import type { AssetCatalogV1, SceneDef } from '@type-pal/content'
-import { act, useSyncExternalStore } from 'react'
+import { act, type ComponentProps, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { afterEach, beforeEach, describe, expect, test } from 'vitest'
-import { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { UpdateItemCommand } from '../core/commands.js'
+import { type EditorState, EditSession } from '../core/edit-session.js'
+import {
+  collectCanonicalScriptCommandVisits,
+  collectCanonicalSharedScriptReferencesFromVisits,
+  type ScriptEditorState,
+  ScriptEditSession,
+} from '../core/script-editor.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+} from '../core/project-reference.js'
+import {
+  collectCurrentProjectReferenceIndex,
+  sharedScriptReferenceEdges,
+} from '../core/project-reference-adapters.js'
 import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
-import { CanonicalSharedScriptTab } from './SharedScriptTab.js'
+import { CanonicalSharedScriptTab as CanonicalSharedScriptTabContent } from './SharedScriptTab.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
+
+function currentSharedScriptReferences(candidate: ScriptEditorState) {
+  const visits = collectCanonicalScriptCommandVisits(candidate)
+  return createProjectReferenceIndex(
+    buildProjectReferenceSnapshot(
+      sharedScriptReferenceEdges(
+        collectCanonicalSharedScriptReferencesFromVisits(candidate, visits),
+        candidate,
+      ),
+    ),
+  )
+}
+
+function CanonicalSharedScriptTab(
+  props: Omit<
+    ComponentProps<typeof CanonicalSharedScriptTabContent>,
+    'referenceStatus' | 'getCurrentReferenceIndex'
+  > & {
+    referenceStatus?: ComponentProps<typeof CanonicalSharedScriptTabContent>['referenceStatus']
+    getCurrentReferenceIndex?: ComponentProps<
+      typeof CanonicalSharedScriptTabContent
+    >['getCurrentReferenceIndex']
+  },
+) {
+  const index = props.referenceIndex ?? currentSharedScriptReferences(props.state)
+  return (
+    <CanonicalSharedScriptTabContent
+      {...props}
+      referenceIndex={index}
+      referenceStatus={props.referenceStatus ?? 'current'}
+      getCurrentReferenceIndex={props.getCurrentReferenceIndex ?? currentSharedScriptReferences}
+    />
+  )
+}
 
 const state: ScriptEditorState = {
   scenes: [],
@@ -250,6 +299,105 @@ describe('CanonicalSharedScriptTab', () => {
     )!
     await act(async () => optional.click())
     expect(session.getState().sharedScripts['shared/user/book']?.self).toBe('optional')
+  })
+
+  test('delete rechecks a main-session item binding that appeared after the derived snapshot', async () => {
+    const canonical = structuredClone(state)
+    const scriptSession = new ScriptEditSession(canonical)
+    const item = {
+      id: 'item-a',
+      name: '调用物品',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+    }
+    const mainState = {
+      manifest: {
+        id: 'test',
+        name: 'Test',
+        contentVersion: 19,
+        minimumSaveVersion: 8,
+        defaultEntryId: 'main',
+        content: {},
+        assets: { catalog: 'assets/index.json', roles: {} },
+        entryPoints: [],
+      },
+      scenes: [],
+      actors: [],
+      skills: [],
+      levelUp: {},
+      items: [item],
+      locale: {},
+      sprites: [],
+      battleSprites: [],
+      enemies: [],
+      enemyTeams: [],
+      battleFields: [],
+      maps: {},
+      mapIndex: { version: 1, maps: [] },
+      tilesets: [],
+      tilesetBlobs: {},
+      assetCatalog: { version: 1, assets: {} },
+      assetBlobs: {},
+      scriptChunks: {},
+      sharedScripts: {},
+      stamps: [],
+      shops: [],
+      poisons: [],
+      ambiences: [],
+    } as unknown as EditorState
+    const mainSession = new EditSession(mainState)
+    const staleIndex = currentSharedScriptReferences(canonical)
+    const onError = vi.fn()
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+
+    function Harness() {
+      useSyncExternalStore(
+        (listener) => scriptSession.subscribe(listener),
+        () => scriptSession.getVersion(),
+      )
+      const editorState = scriptSession.getState()
+      return (
+        <CanonicalSharedScriptTab
+          tabBar={null}
+          state={editorState}
+          session={scriptSession}
+          context={{ ...context, state: editorState }}
+          referenceIndex={staleIndex}
+          getCurrentReferenceIndex={(candidate) =>
+            collectCurrentProjectReferenceIndex(mainSession.getState(), candidate)
+          }
+          onError={onError}
+          {...projectProps}
+        />
+      )
+    }
+
+    await act(async () => root.render(<Harness />))
+    expect(host.querySelector<HTMLButtonElement>('button[title="删除当前可复用脚本"]')?.disabled).toBe(
+      false,
+    )
+    mainSession.dispatch(
+      new UpdateItemCommand('item-a', {
+        use: {
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'runScript',
+              script: { chunk: '__author-script-runtime', id: 'shared/user/book' },
+            },
+          ],
+        },
+      }),
+    )
+
+    await act(async () => host.querySelector<HTMLButtonElement>('button[title="删除当前可复用脚本"]')!.click())
+
+    expect(scriptSession.getState().sharedScripts['shared/user/book']).toBeDefined()
+    expect(scriptSession.getHistoryVersion()).toBe(0)
+    expect(onError).toHaveBeenCalledWith(expect.stringMatching(/仍有 1 个引用/))
   })
 
   test('does not invent a scene owner or mount playback in the project-level library', () => {

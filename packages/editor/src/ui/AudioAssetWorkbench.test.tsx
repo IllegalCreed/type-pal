@@ -4,7 +4,9 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { claimEditorAudioPreview, stopEditorAudioPreview } from '../core/audio-preview-session.js'
+import { UpdateManifestAssetRolesCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import {
   AudioAssetWorkbench,
   type AudioAssetWorkbenchStrategy,
@@ -83,16 +85,19 @@ describe('AudioAssetWorkbench async selection lifecycle', () => {
       prepareImport: vi.fn(),
       allocateId: () => 'music.authored.test',
       createTransport: () => transport,
-      describeReference: (reference) => ({ title: reference.site, kind: '音乐引用' }),
     }
+    const session = new EditSession(catalogControlsEditorState())
 
     await act(async () => {
       root.render(
         <AudioAssetWorkbench
           assetDiagnostics={[]}
+          referenceIndex={collectCurrentProjectReferenceIndex(session.getState())}
+          referenceStatus="current"
+          getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader}
-          session={new EditSession(catalogControlsEditorState())}
+          session={session}
           strategy={strategy}
           focusObjectId="music.opening"
         />,
@@ -165,7 +170,6 @@ describe('AudioAssetWorkbench timeline completion', () => {
       prepareImport: vi.fn(),
       allocateId: () => 'sound.authored.test',
       createTransport: () => transport,
-      describeReference: (reference) => ({ title: reference.site, kind: '音效引用' }),
     }
     const catalog = structuredClone(catalogControlsAssetCatalog)
     delete catalog.assets['sound.heal']!.label
@@ -175,6 +179,9 @@ describe('AudioAssetWorkbench timeline completion', () => {
       root.render(
         <AudioAssetWorkbench
           assetDiagnostics={[]}
+          referenceIndex={collectCurrentProjectReferenceIndex(session.getState())}
+          referenceStatus="current"
+          getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
           catalog={catalog}
           reader={catalogControlsReader}
           session={session}
@@ -217,5 +224,75 @@ describe('AudioAssetWorkbench timeline completion', () => {
     const stopsBeforeReplacement = vi.mocked(transport.stop).mock.calls.length
     claimEditorAudioPreview({ stop: vi.fn() })
     expect(transport.stop).toHaveBeenCalledTimes(stopsBeforeReplacement + 1)
+  })
+
+  test('rechecks live references after the asynchronous delete byte read', async () => {
+    const pendingBytes = deferred<ArrayBuffer>()
+    const reader = {
+      ...catalogControlsReader,
+      readBytes: vi.fn(() => pendingBytes.promise),
+    }
+    const transport: AudioWorkbenchTransport = {
+      load: vi.fn(async () => activity(1, 1)),
+      play: vi.fn(async () => {}),
+      pause: vi.fn(),
+      stop: vi.fn(),
+      seek: vi.fn(),
+      snapshot: vi.fn(() => ({ currentTime: 0, duration: 1, paused: true })),
+      dispose: vi.fn(),
+    }
+    const strategy: AudioAssetWorkbenchStrategy = {
+      kind: 'sound',
+      title: '音效',
+      unit: '项',
+      formatLabel: 'WAV',
+      importLabel: '导入 WAV',
+      accept: '.wav,audio/wav',
+      emptyLabel: '没有音效。',
+      prepareImport: vi.fn(),
+      allocateId: () => 'sound.authored.test',
+      createTransport: () => transport,
+    }
+    const session = new EditSession(catalogControlsEditorState())
+    const staleIndex = collectCurrentProjectReferenceIndex(session.getState())
+
+    await act(async () =>
+      root.render(
+        <AudioAssetWorkbench
+          assetDiagnostics={[]}
+          referenceIndex={staleIndex}
+          referenceStatus="current"
+          getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
+          catalog={catalogControlsAssetCatalog}
+          reader={reader}
+          session={session}
+          strategy={strategy}
+          focusObjectId="sound.hit"
+        />,
+      ),
+    )
+    const deleteButton = [...host.querySelectorAll<HTMLButtonElement>('.ds-object-hero button')].find(
+      (candidate) => candidate.textContent?.trim() === '删除',
+    )!
+    await act(async () => deleteButton.click())
+    const dialog = host.querySelector<HTMLDialogElement>('dialog[aria-label="删除音效"]')!
+    const confirm = [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent?.trim() === '删除音效',
+    )!
+    await act(async () => confirm.click())
+    expect(reader.readBytes).toHaveBeenCalledWith('sound.hit', 'sound')
+
+    session.dispatch(
+      new UpdateManifestAssetRolesCommand({ 'audio.battleItemUseSound': 'sound.hit' }),
+    )
+    const historyAfterReference = session.getHistoryVersion()
+    await act(async () => pendingBytes.resolve(new ArrayBuffer(4)))
+    await vi.waitFor(() =>
+      expect(host.textContent).toContain('资源 sound.hit 仍被 1 处引用，不能删除'),
+    )
+
+    expect(session.getState().assetCatalog.assets['sound.hit']).toBeDefined()
+    expect(session.getHistoryVersion()).toBe(historyAfterReference)
+    expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('命中音效')
   })
 })

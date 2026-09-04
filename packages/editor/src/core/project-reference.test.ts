@@ -79,14 +79,14 @@ describe('project reference contract', () => {
     ])
     expect('targetKeys' in snapshot).toBe(false)
     expect('key' in snapshot.sources[0]!).toBe(false)
-    expect(snapshot.sources[0]?.[0]).toEqual(['scene', 'source'])
+    expect(snapshot.sources[0]?.[0]).toEqual([2, 'source'])
     expect(snapshot.sources[0]?.[4]).toBe('source.')
-    expect(snapshot.rows.map((row) => row[5])).toEqual(['one', 'two'])
-    expect(snapshot.deletionTargets).toEqual([
-      projectReferenceTargetKey({ kind: 'scene', id: 'source' }),
-    ])
+    expect(snapshot.whereSuffixes).toEqual(['one', 'two'])
+    expect(snapshot.rows.map((row) => row[4])).toEqual([0, 1])
+    expect('deletionTargets' in snapshot).toBe(false)
+    expect(snapshot.targets).not.toContainEqual([2, 'source'])
     expect(snapshot.details).toEqual(['重复说明'])
-    expect(snapshot.rows.map((row) => row[6])).toEqual([0, 0])
+    expect(snapshot.rows.map((row) => row[5])).toEqual([0, 0])
     const decoded = createProjectReferenceIndex(snapshot).allReferences()
     expect(decoded.map((reference) => reference.detail)).toEqual(['重复说明', '重复说明'])
     expect(decoded.map((reference) => reference.where)).toEqual(['source.one', 'source.two'])
@@ -100,10 +100,16 @@ describe('project reference contract', () => {
       container: { kind: 'body' },
       commandPath: '0',
     } as const
+    const canonicalSource = createProjectReferenceSource(
+      { kind: 'script-owner', owner: commandLocator.owner },
+      '共享脚本 shared/test',
+      { deletedWith: [{ kind: 'shared-script', id: 'shared/test' }] },
+    )
     const inputs: ProjectReferenceEdgeInput[] = [
       edge(
         { kind: 'skill', id: 'exact' },
         {
+          source: canonicalSource,
           where: 'shared.test.body[0].skill',
           locator: {
             kind: 'canonical-script',
@@ -118,6 +124,7 @@ describe('project reference contract', () => {
       edge(
         { kind: 'skill', id: 'root-path' },
         {
+          source: canonicalSource,
           where: 'shared.test.body[0].skill',
           locator: {
             kind: 'canonical-script',
@@ -159,18 +166,11 @@ describe('project reference contract', () => {
           locator: { kind: 'scene-page', sceneId: 'scene', entityId: 'entity', pageId: 'page' },
         },
       ),
-      edge(
-        { kind: 'actor', id: 'legacy' },
-        {
-          where: 'legacy',
-          locator: { kind: 'legacy-script', scriptId: 'old', commandPath: '' },
-        },
-      ),
       edge({ kind: 'actor', id: 'readonly' }, { where: 'readonly', locator: unavailable }),
     ]
     const snapshot = buildProjectReferenceSnapshot(inputs)
     const canonicalLocators = snapshot.locators.filter((locator) => locator[0] === 1)
-    expect(canonicalLocators.map((locator) => locator.length)).toEqual([2, 3])
+    expect(canonicalLocators.map((locator) => locator.length)).toEqual([3, 4])
     expect(
       createProjectReferenceIndex(snapshot)
         .allReferences()

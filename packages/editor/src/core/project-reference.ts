@@ -11,7 +11,6 @@ import type {
   SceneHookSlot,
   ScriptCommandContainer,
   ScriptCommandOwner,
-  ScriptReferenceLocator,
 } from './script-editor.js'
 
 export type ProjectReferenceSimpleKind =
@@ -50,19 +49,10 @@ export type ProjectReferenceTarget =
   | { kind: 'scene-hook'; sceneId: string; slot: SceneHookSlot; hookId: string }
   | { kind: 'world-sprite-action'; spriteId: string; actionId: string }
 
-export type ProjectReferenceTargetSnapshot =
-  | readonly [kind: ProjectReferenceSimpleKind, id: string]
-  | readonly [kind: 'entity', sceneId: string, entityId: string]
-  | readonly [kind: 'scene-entry', sceneId: string, entryId: string]
-  | readonly [
-      kind: 'entity-behavior',
-      sceneId: string,
-      entityId: string,
-      channel: 'trigger' | 'auto',
-      behaviorId: string,
-    ]
-  | readonly [kind: 'scene-hook', sceneId: string, slot: SceneHookSlot, hookId: string]
-  | readonly [kind: 'world-sprite-action', spriteId: string, actionId: string]
+export type ProjectReferenceTargetSnapshot = readonly [
+  kind: number,
+  ...parts: readonly (string | number)[],
+]
 
 export type ProjectReferenceSourceOwner =
   | { kind: 'project-part'; id: string }
@@ -111,59 +101,48 @@ export type ScriptCommandContainerSnapshot =
   | readonly [kind: 1, stepId: string, section: 0 | 1]
   | readonly [kind: 2, machineId: string, stateId: string, section: 0 | 1]
 
-export type ScriptReferenceLocatorSnapshot =
-  | readonly [
-      kind: 0,
-      owner: ScriptCommandOwnerSnapshot,
-      container: ScriptCommandContainerSnapshot,
-      commandPath: string,
-    ]
-  | readonly [kind: 1, sceneId: string, entityId: string, pageId: string, channel: 0 | 1]
-  | readonly [kind: 2, sceneId: string, slot: 0 | 1, hookId: string]
-
-type ProjectReferenceIdSourceOwnerKind = Exclude<
-  ProjectReferenceSourceOwner['kind'],
-  | 'scene-entity'
-  | 'scene-page'
-  | 'world-sprite-action'
-  | 'script-owner'
-  | 'script-chunk'
-  | 'runtime-world'
->
-
-export type ProjectReferenceSourceOwnerSnapshot =
-  | readonly [kind: ProjectReferenceIdSourceOwnerKind, id: string]
-  | readonly [kind: 'scene-entity', sceneId: string, entityId: string]
-  | readonly [kind: 'scene-page', sceneId: string, entityId: string, pageId: string]
-  | readonly [kind: 'world-sprite-action', spriteId: string, actionId: string]
-  | readonly [kind: 'script-owner', owner: ScriptCommandOwnerSnapshot]
-  | readonly [kind: 'script-chunk', chunkId: string, scriptId: string]
-  | readonly [kind: 'runtime-world']
+export type ProjectReferenceSourceOwnerSnapshot = readonly [kind: number, ...parts: readonly unknown[]]
 
 /** Worker wire tuple; deletedWith entries index `deletionTargets`, wherePrefix prefixes row paths. */
 export type ProjectReferenceSourceSnapshot = readonly [
   owner: ProjectReferenceSourceOwnerSnapshot,
   label: string | 0,
-  deletedWith: readonly number[],
+  deletedWith: readonly number[] | 0,
   section: string | 0,
-  wherePrefix: string,
+  wherePrefix: string | 0,
 ]
 
 export type ProjectReferenceLocator =
   | { kind: 'object'; object: ProjectReferenceTarget; section?: string }
-  | { kind: 'scene-page'; sceneId: string; entityId: string; pageId: string }
-  | { kind: 'canonical-script'; reference: CanonicalScriptReference }
+  | {
+      kind: 'scene-page'
+      sceneId: string
+      entityId: string
+      pageId: string
+      channel?: 'trigger' | 'auto'
+    }
+  | { kind: 'scene-hook-initial'; sceneId: string; slot: SceneHookSlot; hookId: string }
+  | {
+      kind: 'canonical-script'
+      reference: Extract<CanonicalScriptReference, { kind: 'command' }>
+    }
   | { kind: 'script-owner'; owner: ScriptCommandOwner }
-  | { kind: 'legacy-script'; scriptId: string; commandPath?: string }
   | { kind: 'unavailable'; reason: string }
 
 export type ProjectReferenceLocatorSnapshot =
   | readonly [kind: 0, object: ProjectReferenceTargetSnapshot, section?: string]
-  | readonly [kind: 1, locator: ScriptReferenceLocatorSnapshot, path?: string]
+  | readonly [
+      kind: 1,
+      container: ScriptCommandContainerSnapshot,
+      commandPath: string,
+      path?: string,
+    ]
   | readonly [kind: 2, owner: ScriptCommandOwnerSnapshot]
-  | readonly [kind: 3, scriptId: string, commandPath?: string]
   | readonly [kind: 4, reason: string]
-  | readonly [kind: 5, sceneId: string, entityId: string, pageId: string]
+  | readonly [kind: 5]
+  | readonly [kind: 5, sceneId: string, entityId: string, pageId: string, channel?: 0 | 1]
+  | readonly [kind: 6, hookId: string]
+  | readonly [kind: 6, sceneId: string, slot: 0 | 1, hookId: string]
 
 export type ProjectReferenceItemAccess =
   | 'read'
@@ -193,9 +172,8 @@ export type ProjectReferenceRelation =
     }
   | {
       kind: 'script-reference'
-      use: 'call' | 'jump' | 'binding'
-      expectedChunk: string
-      explicitSelf?: string
+      use: 'call' | 'binding'
+      explicitSelf: boolean
     }
   | {
       kind: 'battle-field-use'
@@ -233,18 +211,18 @@ type ProjectReferenceRow = readonly [
   sourceIndex: number,
   relationIndex: number,
   locatorIndex: number,
-  policy: 0 | 1 | 2,
-  where: string,
-  detailIndex?: number,
+  whereSuffixIndex: number,
+  /** undefined = replace-suggest without detail; -1/-2 = block/warn; otherwise detailIndex*3+policy. */
+  tail?: number,
 ]
 
 export interface ProjectReferenceSnapshotV1 {
   version: 1
   targets: readonly ProjectReferenceTargetSnapshot[]
   sources: readonly ProjectReferenceSourceSnapshot[]
-  deletionTargets: readonly string[]
   relations: readonly ProjectReferenceRelation[]
   locators: readonly ProjectReferenceLocatorSnapshot[]
+  whereSuffixes: readonly string[]
   details: readonly string[]
   rows: readonly ProjectReferenceRow[]
   /** target bucket i occupies targetEdgeIds[targetOffsets[i]..targetOffsets[i+1]). */
@@ -265,6 +243,65 @@ export interface ProjectReferenceDeletionImpact {
 function tupleKey(values: readonly string[]): string {
   return JSON.stringify(values)
 }
+
+const SIMPLE_TARGET_KINDS = [
+  'project',
+  'entry-point',
+  'scene',
+  'map',
+  'shop',
+  'actor',
+  'item',
+  'skill',
+  'enemy',
+  'poison',
+  'battle-field',
+  'enemy-team',
+  'ambience',
+  'world-variable',
+  'shared-script',
+  'asset',
+  'tileset',
+  'stamp',
+  'world-sprite',
+  'battle-sprite',
+] as const satisfies readonly ProjectReferenceSimpleKind[]
+const SIMPLE_TARGET_KIND_CODE = new Map(
+  SIMPLE_TARGET_KINDS.map((kind, index) => [kind, index] as const),
+)
+const ENTITY_TARGET_CODE = SIMPLE_TARGET_KINDS.length
+const SCENE_ENTRY_TARGET_CODE = ENTITY_TARGET_CODE + 1
+const ENTITY_BEHAVIOR_TARGET_CODE = ENTITY_TARGET_CODE + 2
+const SCENE_HOOK_TARGET_CODE = ENTITY_TARGET_CODE + 3
+const WORLD_SPRITE_ACTION_TARGET_CODE = ENTITY_TARGET_CODE + 4
+
+const ID_SOURCE_OWNER_KINDS = [
+  'project-part',
+  'entry-point',
+  'scene',
+  'actor',
+  'item',
+  'skill',
+  'enemy',
+  'poison',
+  'shop',
+  'battle-field',
+  'enemy-team',
+  'tileset',
+  'stamp',
+  'world-sprite',
+  'battle-sprite',
+  'shared-script',
+] as const
+const ID_SOURCE_OWNER_KIND_CODE = new Map(
+  ID_SOURCE_OWNER_KINDS.map((kind, index) => [kind, index] as const),
+)
+const SCENE_ENTITY_SOURCE_CODE = ID_SOURCE_OWNER_KINDS.length
+const SCENE_PAGE_SOURCE_CODE = SCENE_ENTITY_SOURCE_CODE + 1
+const WORLD_SPRITE_ACTION_SOURCE_CODE = SCENE_ENTITY_SOURCE_CODE + 2
+const SCRIPT_OWNER_SOURCE_CODE = SCENE_ENTITY_SOURCE_CODE + 3
+const SCRIPT_CHUNK_SOURCE_CODE = SCENE_ENTITY_SOURCE_CODE + 4
+const RUNTIME_WORLD_SOURCE_CODE = SCENE_ENTITY_SOURCE_CODE + 5
 
 export function projectReferenceTargetKey(target: ProjectReferenceTarget): string {
   switch (target.kind) {
@@ -294,17 +331,31 @@ function encodeProjectReferenceTarget(
 ): ProjectReferenceTargetSnapshot {
   switch (target.kind) {
     case 'entity':
-      return [target.kind, target.sceneId, target.entityId]
+      return [ENTITY_TARGET_CODE, target.sceneId, target.entityId]
     case 'scene-entry':
-      return [target.kind, target.sceneId, target.entryId]
+      return [SCENE_ENTRY_TARGET_CODE, target.sceneId, target.entryId]
     case 'entity-behavior':
-      return [target.kind, target.sceneId, target.entityId, target.channel, target.behaviorId]
+      return [
+        ENTITY_BEHAVIOR_TARGET_CODE,
+        target.sceneId,
+        target.entityId,
+        target.channel === 'trigger' ? 0 : 1,
+        target.behaviorId,
+      ]
     case 'scene-hook':
-      return [target.kind, target.sceneId, target.slot, target.hookId]
+      return [
+        SCENE_HOOK_TARGET_CODE,
+        target.sceneId,
+        target.slot === 'onEnter' ? 0 : 1,
+        target.hookId,
+      ]
     case 'world-sprite-action':
-      return [target.kind, target.spriteId, target.actionId]
-    default:
-      return [target.kind, target.id]
+      return [WORLD_SPRITE_ACTION_TARGET_CODE, target.spriteId, target.actionId]
+    default: {
+      const code = SIMPLE_TARGET_KIND_CODE.get(target.kind)
+      if (code === undefined) throw new Error(`未知引用目标类型 ${target.kind}`)
+      return [code, target.id]
+    }
   }
 }
 
@@ -312,24 +363,67 @@ function decodeProjectReferenceTarget(
   target: ProjectReferenceTargetSnapshot,
 ): ProjectReferenceTarget {
   switch (target[0]) {
+    case ENTITY_TARGET_CODE:
+      return { kind: 'entity', sceneId: String(target[1]), entityId: String(target[2]) }
+    case SCENE_ENTRY_TARGET_CODE:
+      return { kind: 'scene-entry', sceneId: String(target[1]), entryId: String(target[2]) }
+    case ENTITY_BEHAVIOR_TARGET_CODE:
+      return {
+        kind: 'entity-behavior',
+        sceneId: String(target[1]),
+        entityId: String(target[2]),
+        channel: target[3] === 0 ? 'trigger' : 'auto',
+        behaviorId: String(target[4]),
+      }
+    case SCENE_HOOK_TARGET_CODE:
+      return {
+        kind: 'scene-hook',
+        sceneId: String(target[1]),
+        slot: target[2] === 0 ? 'onEnter' : 'onTeleport',
+        hookId: String(target[3]),
+      }
+    case WORLD_SPRITE_ACTION_TARGET_CODE:
+      return {
+        kind: 'world-sprite-action',
+        spriteId: String(target[1]),
+        actionId: String(target[2]),
+      }
+    default: {
+      const kind = SIMPLE_TARGET_KINDS[target[0]]
+      if (!kind) throw new Error(`未知引用目标编码 ${target[0]}`)
+      return { kind, id: String(target[1]) }
+    }
+  }
+}
+
+function decodeProjectReferenceTargetKey(key: string): ProjectReferenceTarget {
+  const [kind, ...parts] = JSON.parse(key) as string[]
+  switch (kind) {
     case 'entity':
-      return { kind: target[0], sceneId: target[1], entityId: target[2] }
+      return { kind, sceneId: parts[0]!, entityId: parts[1]! }
     case 'scene-entry':
-      return { kind: target[0], sceneId: target[1], entryId: target[2] }
+      return { kind, sceneId: parts[0]!, entryId: parts[1]! }
     case 'entity-behavior':
       return {
-        kind: target[0],
-        sceneId: target[1],
-        entityId: target[2],
-        channel: target[3],
-        behaviorId: target[4],
+        kind,
+        sceneId: parts[0]!,
+        entityId: parts[1]!,
+        channel: parts[2] === 'trigger' ? 'trigger' : 'auto',
+        behaviorId: parts[3]!,
       }
     case 'scene-hook':
-      return { kind: target[0], sceneId: target[1], slot: target[2], hookId: target[3] }
+      return {
+        kind,
+        sceneId: parts[0]!,
+        slot: parts[1] === 'onEnter' ? 'onEnter' : 'onTeleport',
+        hookId: parts[2]!,
+      }
     case 'world-sprite-action':
-      return { kind: target[0], spriteId: target[1], actionId: target[2] }
+      return { kind, spriteId: parts[0]!, actionId: parts[1]! }
     default:
-      return { kind: target[0], id: target[1] }
+      if (!SIMPLE_TARGET_KIND_CODE.has(kind as ProjectReferenceSimpleKind))
+        throw new Error(`未知引用目标 key ${key}`)
+      return { kind: kind as ProjectReferenceSimpleKind, id: parts[0]! }
   }
 }
 
@@ -346,6 +440,112 @@ function scriptOwnerKey(owner: ScriptCommandOwner): readonly string[] {
     case 'shared-script':
       return [owner.kind, owner.scriptId]
   }
+}
+
+function defaultProjectReferenceSourceDeletedWith(
+  owner: ProjectReferenceSourceOwner,
+): readonly string[] {
+  let targets: ProjectReferenceTarget[]
+  switch (owner.kind) {
+    case 'project-part':
+    case 'script-chunk':
+    case 'runtime-world':
+      targets = []
+      break
+    case 'scene-entity':
+      targets = [
+        { kind: 'entity', sceneId: owner.sceneId, entityId: owner.entityId },
+        { kind: 'scene', id: owner.sceneId },
+      ]
+      break
+    case 'scene-page':
+      targets = [
+        { kind: 'entity', sceneId: owner.sceneId, entityId: owner.entityId },
+        { kind: 'scene', id: owner.sceneId },
+      ]
+      break
+    case 'world-sprite-action':
+      targets = [
+        {
+          kind: 'world-sprite-action',
+          spriteId: owner.spriteId,
+          actionId: owner.actionId,
+        },
+        { kind: 'world-sprite', id: owner.spriteId },
+      ]
+      break
+    case 'script-owner': {
+      const script = owner.owner
+      switch (script.kind) {
+        case 'entity-behavior':
+          targets = [
+            {
+              kind: 'entity-behavior',
+              sceneId: script.sceneId,
+              entityId: script.entityId,
+              channel: script.channel,
+              behaviorId: script.behaviorId,
+            },
+            { kind: 'entity', sceneId: script.sceneId, entityId: script.entityId },
+            { kind: 'scene', id: script.sceneId },
+          ]
+          break
+        case 'scene-hook':
+          targets = [
+            {
+              kind: 'scene-hook',
+              sceneId: script.sceneId,
+              slot: script.slot,
+              hookId: script.hookId,
+            },
+            { kind: 'scene', id: script.sceneId },
+          ]
+          break
+        case 'entity-hostile-on-lose':
+          targets = [
+            { kind: 'entity', sceneId: script.sceneId, entityId: script.entityId },
+            { kind: 'scene', id: script.sceneId },
+          ]
+          break
+        case 'item-private-script':
+          targets = [{ kind: 'item', id: script.itemId }]
+          break
+        case 'shared-script':
+          targets = [{ kind: 'shared-script', id: script.scriptId }]
+          break
+      }
+      break
+    }
+    default:
+      targets = [{ kind: owner.kind, id: owner.id }]
+      break
+  }
+  return [...new Set(targets.map(projectReferenceTargetKey))].sort()
+}
+
+function sameStrings(left: readonly string[], right: readonly string[]): boolean {
+  return left.length === right.length && left.every((value, index) => value === right[index])
+}
+
+function defaultProjectReferenceSourceWherePrefix(
+  owner: ProjectReferenceSourceOwner,
+  section: string | undefined,
+): string | undefined {
+  if (owner.kind === 'scene-page' && (section === 'trigger' || section === 'auto'))
+    return `scenes.${owner.sceneId}.entities.${owner.entityId}.pages.${owner.pageId}.${section}`
+  if (owner.kind === 'scene' && section?.startsWith('hook-initial:'))
+    return `scenes.${owner.id}.hooks.${section.slice('hook-initial:'.length)}.initial`
+  if (owner.kind === 'script-owner') {
+    const script = owner.owner
+    if (script.kind === 'entity-behavior')
+      return `scenes.${script.sceneId}.entities.${script.entityId}.behaviors.${script.channel}.${script.behaviorId}.flow`
+    if (script.kind === 'scene-hook')
+      return `scenes.${script.sceneId}.hooks.${script.slot}.variants.${script.hookId}.flow`
+    if (script.kind === 'entity-hostile-on-lose')
+      return `scenes.${script.sceneId}.entities.${script.entityId}.hostile.onLose`
+    if (script.kind === 'shared-script') return `sharedScripts.${script.scriptId}.body`
+  }
+  return undefined
 }
 
 export function projectReferenceSourceOwnerKey(owner: ProjectReferenceSourceOwner): string {
@@ -478,12 +678,7 @@ function projectReferenceRelationKey(relation: ProjectReferenceRelation): string
     case 'world-variable':
       return tupleKey([relation.kind, relation.variableKind, relation.access])
     case 'script-reference':
-      return tupleKey([
-        relation.kind,
-        relation.use,
-        relation.expectedChunk,
-        relation.explicitSelf ?? '',
-      ])
+      return tupleKey([relation.kind, relation.use, relation.explicitSelf ? '1' : '0'])
     case 'world-sprite-action-use':
       return tupleKey([relation.kind, relation.actionId])
     case 'battle-sprite-use':
@@ -591,77 +786,27 @@ function decodeScriptCommandContainer(
   }
 }
 
-function encodeScriptReferenceLocator(
-  locator: ScriptReferenceLocator,
-): ScriptReferenceLocatorSnapshot {
-  switch (locator.kind) {
-    case 'command':
-      return [
-        0,
-        encodeScriptCommandOwner(locator.owner),
-        encodeScriptCommandContainer(locator.container),
-        locator.commandPath,
-      ]
-    case 'entity-page':
-      return [
-        1,
-        locator.sceneId,
-        locator.entityId,
-        locator.pageId,
-        locator.channel === 'trigger' ? 0 : 1,
-      ]
-    case 'scene-hook-initial':
-      return [2, locator.sceneId, locator.slot === 'onEnter' ? 0 : 1, locator.hookId]
-  }
-}
-
-function decodeScriptReferenceLocator(
-  locator: ScriptReferenceLocatorSnapshot,
-): ScriptReferenceLocator {
-  switch (locator[0]) {
-    case 0:
-      return {
-        kind: 'command',
-        owner: decodeScriptCommandOwner(locator[1]),
-        container: decodeScriptCommandContainer(locator[2]),
-        commandPath: locator[3],
-      }
-    case 1:
-      return {
-        kind: 'entity-page',
-        sceneId: locator[1],
-        entityId: locator[2],
-        pageId: locator[3],
-        channel: locator[4] === 0 ? 'trigger' : 'auto',
-      }
-    case 2:
-      return {
-        kind: 'scene-hook-initial',
-        sceneId: locator[1],
-        slot: locator[2] === 0 ? 'onEnter' : 'onTeleport',
-        hookId: locator[3],
-      }
-  }
-}
-
 function encodeProjectReferenceSourceOwner(
   owner: ProjectReferenceSourceOwner,
 ): ProjectReferenceSourceOwnerSnapshot {
   switch (owner.kind) {
     case 'scene-entity':
-      return [owner.kind, owner.sceneId, owner.entityId]
+      return [SCENE_ENTITY_SOURCE_CODE, owner.sceneId, owner.entityId]
     case 'scene-page':
-      return [owner.kind, owner.sceneId, owner.entityId, owner.pageId]
+      return [SCENE_PAGE_SOURCE_CODE, owner.sceneId, owner.entityId, owner.pageId]
     case 'world-sprite-action':
-      return [owner.kind, owner.spriteId, owner.actionId]
+      return [WORLD_SPRITE_ACTION_SOURCE_CODE, owner.spriteId, owner.actionId]
     case 'script-owner':
-      return [owner.kind, encodeScriptCommandOwner(owner.owner)]
+      return [SCRIPT_OWNER_SOURCE_CODE, encodeScriptCommandOwner(owner.owner)]
     case 'script-chunk':
-      return [owner.kind, owner.chunkId, owner.scriptId]
+      return [SCRIPT_CHUNK_SOURCE_CODE, owner.chunkId, owner.scriptId]
     case 'runtime-world':
-      return [owner.kind]
-    default:
-      return [owner.kind, owner.id]
+      return [RUNTIME_WORLD_SOURCE_CODE]
+    default: {
+      const code = ID_SOURCE_OWNER_KIND_CODE.get(owner.kind)
+      if (code === undefined) throw new Error(`未知引用来源类型 ${owner.kind}`)
+      return [code, owner.id]
+    }
   }
 }
 
@@ -669,26 +814,42 @@ function decodeProjectReferenceSourceOwner(
   owner: ProjectReferenceSourceOwnerSnapshot,
 ): ProjectReferenceSourceOwner {
   switch (owner[0]) {
-    case 'scene-entity':
-      return { kind: owner[0], sceneId: owner[1], entityId: owner[2] }
-    case 'scene-page':
-      return { kind: owner[0], sceneId: owner[1], entityId: owner[2], pageId: owner[3] }
-    case 'world-sprite-action':
-      return { kind: owner[0], spriteId: owner[1], actionId: owner[2] }
-    case 'script-owner':
-      return { kind: owner[0], owner: decodeScriptCommandOwner(owner[1]) }
-    case 'script-chunk':
-      return { kind: owner[0], chunkId: owner[1], scriptId: owner[2] }
-    case 'runtime-world':
-      return { kind: owner[0] }
-    default:
-      return { kind: owner[0], id: owner[1] } as ProjectReferenceSourceOwner
+    case SCENE_ENTITY_SOURCE_CODE:
+      return { kind: 'scene-entity', sceneId: String(owner[1]), entityId: String(owner[2]) }
+    case SCENE_PAGE_SOURCE_CODE:
+      return {
+        kind: 'scene-page',
+        sceneId: String(owner[1]),
+        entityId: String(owner[2]),
+        pageId: String(owner[3]),
+      }
+    case WORLD_SPRITE_ACTION_SOURCE_CODE:
+      return {
+        kind: 'world-sprite-action',
+        spriteId: String(owner[1]),
+        actionId: String(owner[2]),
+      }
+    case SCRIPT_OWNER_SOURCE_CODE:
+      return {
+        kind: 'script-owner',
+        owner: decodeScriptCommandOwner(owner[1] as ScriptCommandOwnerSnapshot),
+      }
+    case SCRIPT_CHUNK_SOURCE_CODE:
+      return { kind: 'script-chunk', chunkId: String(owner[1]), scriptId: String(owner[2]) }
+    case RUNTIME_WORLD_SOURCE_CODE:
+      return { kind: 'runtime-world' }
+    default: {
+      const kind = ID_SOURCE_OWNER_KINDS[owner[0]]
+      if (!kind) throw new Error(`未知引用来源编码 ${owner[0]}`)
+      return { kind, id: String(owner[1]) }
+    }
   }
 }
 
 function encodeProjectReferenceLocator(
   locator: ProjectReferenceLocator,
   where: string,
+  source: ProjectReferenceSource,
 ): ProjectReferenceLocatorSnapshot {
   switch (locator.kind) {
     case 'object':
@@ -696,17 +857,44 @@ function encodeProjectReferenceLocator(
         ? [0, encodeProjectReferenceTarget(locator.object), locator.section]
         : [0, encodeProjectReferenceTarget(locator.object)]
     case 'scene-page':
-      return [5, locator.sceneId, locator.entityId, locator.pageId]
-    case 'canonical-script':
+      if (
+        source.owner.kind === 'scene-page' &&
+        source.owner.sceneId === locator.sceneId &&
+        source.owner.entityId === locator.entityId &&
+        source.owner.pageId === locator.pageId &&
+        source.section === locator.channel
+      )
+        return [5]
+      return locator.channel
+        ? [
+            5,
+            locator.sceneId,
+            locator.entityId,
+            locator.pageId,
+            locator.channel === 'trigger' ? 0 : 1,
+          ]
+        : [5, locator.sceneId, locator.entityId, locator.pageId]
+    case 'scene-hook-initial':
+      if (
+        source.owner.kind === 'scene' &&
+        source.owner.id === locator.sceneId &&
+        source.section === `hook-initial:${locator.slot}`
+      )
+        return [6, locator.hookId]
+      return [6, locator.sceneId, locator.slot === 'onEnter' ? 0 : 1, locator.hookId]
+    case 'canonical-script': {
+      const command = locator.reference.locator
       return locator.reference.path === where
-        ? [1, encodeScriptReferenceLocator(locator.reference.locator)]
-        : [1, encodeScriptReferenceLocator(locator.reference.locator), locator.reference.path]
+        ? [1, encodeScriptCommandContainer(command.container), command.commandPath]
+        : [
+            1,
+            encodeScriptCommandContainer(command.container),
+            command.commandPath,
+            locator.reference.path,
+          ]
+    }
     case 'script-owner':
       return [2, encodeScriptCommandOwner(locator.owner)]
-    case 'legacy-script':
-      return locator.commandPath !== undefined
-        ? [3, locator.scriptId, locator.commandPath]
-        : [3, locator.scriptId]
     case 'unavailable':
       return [4, locator.reason]
   }
@@ -715,6 +903,7 @@ function encodeProjectReferenceLocator(
 function decodeProjectReferenceLocator(
   locator: ProjectReferenceLocatorSnapshot,
   where: string,
+  source: ProjectReferenceSource,
 ): ProjectReferenceLocator {
   switch (locator[0]) {
     case 0:
@@ -722,33 +911,66 @@ function decodeProjectReferenceLocator(
         ? { kind: 'object', object: decodeProjectReferenceTarget(locator[1]), section: locator[2] }
         : { kind: 'object', object: decodeProjectReferenceTarget(locator[1]) }
     case 1: {
-      const value = decodeScriptReferenceLocator(locator[1])
-      const path = locator[2] ?? where
-      if (value.kind === 'command')
-        return {
-          kind: 'canonical-script',
-          reference: { kind: 'command', path, locator: value },
-        }
-      if (value.kind === 'entity-page')
-        return {
-          kind: 'canonical-script',
-          reference: { kind: 'page', path, locator: value },
-        }
+      if (source.owner.kind !== 'script-owner')
+        throw new Error('canonical locator 的来源不是 script owner')
       return {
         kind: 'canonical-script',
-        reference: { kind: 'initial', path, locator: value },
+        reference: {
+          kind: 'command',
+          path: locator[3] ?? where,
+          locator: {
+            kind: 'command',
+            owner: source.owner.owner,
+            container: decodeScriptCommandContainer(locator[1]),
+            commandPath: locator[2],
+          },
+        },
       }
     }
     case 2:
       return { kind: 'script-owner', owner: decodeScriptCommandOwner(locator[1]) }
-    case 3:
-      return locator[2] !== undefined
-        ? { kind: 'legacy-script', scriptId: locator[1], commandPath: locator[2] }
-        : { kind: 'legacy-script', scriptId: locator[1] }
     case 4:
       return { kind: 'unavailable', reason: locator[1] }
     case 5:
-      return { kind: 'scene-page', sceneId: locator[1], entityId: locator[2], pageId: locator[3] }
+      if (locator.length === 1) {
+        if (source.owner.kind !== 'scene-page')
+          throw new Error('derived scene-page locator 的来源不是 scene page')
+        return {
+          kind: 'scene-page',
+          sceneId: source.owner.sceneId,
+          entityId: source.owner.entityId,
+          pageId: source.owner.pageId,
+          ...(source.section === 'trigger' || source.section === 'auto'
+            ? { channel: source.section }
+            : {}),
+        }
+      }
+      return {
+        kind: 'scene-page',
+        sceneId: locator[1],
+        entityId: locator[2],
+        pageId: locator[3],
+        ...(locator[4] === undefined
+          ? {}
+          : { channel: locator[4] === 0 ? ('trigger' as const) : ('auto' as const) }),
+      }
+    case 6:
+      if (locator.length === 2) {
+        if (source.owner.kind !== 'scene' || !source.section?.startsWith('hook-initial:'))
+          throw new Error('derived scene-hook locator 的来源不是 hook initial')
+        return {
+          kind: 'scene-hook-initial',
+          sceneId: source.owner.id,
+          slot: source.section.slice('hook-initial:'.length) as SceneHookSlot,
+          hookId: locator[1],
+        }
+      }
+      return {
+        kind: 'scene-hook-initial',
+        sceneId: locator[1],
+        slot: locator[2] === 0 ? 'onEnter' : 'onTeleport',
+        hookId: locator[3],
+      }
   }
 }
 
@@ -779,6 +1001,29 @@ const POLICY_CODE: Readonly<Record<ProjectReferenceDeletePolicy, 0 | 1 | 2>> = {
 }
 
 const CODE_POLICY = ['block', 'replace-suggest', 'warn'] as const
+
+function encodeProjectReferenceRowTail(
+  policy: 0 | 1 | 2,
+  detailIndex: number | undefined,
+): number | undefined {
+  if (detailIndex !== undefined) return detailIndex * 3 + policy
+  if (policy === 0) return -1
+  if (policy === 2) return -2
+  return undefined
+}
+
+function decodeProjectReferenceRowTail(tail: number | undefined): {
+  policy: 0 | 1 | 2
+  detailIndex?: number
+} {
+  if (tail === undefined) return { policy: 1 }
+  if (tail === -1) return { policy: 0 }
+  if (tail === -2) return { policy: 2 }
+  return {
+    policy: (tail % 3) as 0 | 1 | 2,
+    detailIndex: Math.floor(tail / 3),
+  }
+}
 
 /** Deterministic, serializable and compact: one edge row can be indexed under child and parent targets. */
 export function buildProjectReferenceSnapshot(
@@ -813,7 +1058,7 @@ export function buildProjectReferenceSnapshot(
       throw new Error(`引用来源 ${edge.source.key} 不是 owner/section 的稳定派生 key`)
     const targetKey = projectReferenceTargetKey(edge.target)
     const relationKey = projectReferenceRelationKey(edge.relation)
-    const encodedLocator = encodeProjectReferenceLocator(edge.locator, edge.where)
+    const encodedLocator = encodeProjectReferenceLocator(edge.locator, edge.where, edge.source)
     const locatorKey = JSON.stringify(encodedLocator)
     if (!options.assumeUnique) {
       const identity = tupleKey([
@@ -881,6 +1126,13 @@ export function buildProjectReferenceSnapshot(
     ])
   }
 
+  for (const source of sourceInputs) {
+    const deletedWith = [...source.deletedWith].sort()
+    if (sameStrings(deletedWith, defaultProjectReferenceSourceDeletedWith(source.owner))) continue
+    for (const targetKey of deletedWith)
+      if (!targetByKey.has(targetKey))
+        targetByKey.set(targetKey, decodeProjectReferenceTargetKey(targetKey))
+  }
   const targetKeys = [...targetByKey.keys()].sort()
   const targets = targetKeys.map((key) => encodeProjectReferenceTarget(targetByKey.get(key)!))
   const targetIndexes = new Map(targetKeys.map((key, index) => [key, index]))
@@ -896,18 +1148,33 @@ export function buildProjectReferenceSnapshot(
     }
     return first.slice(0, length)
   }
-  const deletionTargets = [...new Set(sourceInputs.flatMap((source) => source.deletedWith))].sort()
-  const deletionTargetIndexes = new Map(deletionTargets.map((key, index) => [key, index]))
-  const sourceWherePrefixes = sourceWheres.map(commonPrefix)
-  const sources: ProjectReferenceSourceSnapshot[] = sourceInputs.map((source, index) => [
-    encodeProjectReferenceSourceOwner(source.owner),
-    source.label === defaultProjectReferenceSourceLabel(source.owner) ? 0 : source.label,
-    source.deletedWith.map((key) => deletionTargetIndexes.get(key)!),
-    source.section ?? 0,
-    sourceWherePrefixes[index]!,
-  ])
+  const sourceWherePrefixes = sourceWheres.map((wheres, index) => {
+    const source = sourceInputs[index]!
+    const derived = defaultProjectReferenceSourceWherePrefix(source.owner, source.section)
+    return derived && wheres.every((where) => where.startsWith(derived))
+      ? derived
+      : commonPrefix(wheres)
+  })
+  const sources: ProjectReferenceSourceSnapshot[] = sourceInputs.map((source, index) => {
+    const deletedWith = [...source.deletedWith].sort()
+    const defaultDeletedWith = defaultProjectReferenceSourceDeletedWith(source.owner)
+    const wherePrefix = sourceWherePrefixes[index]!
+    return [
+      encodeProjectReferenceSourceOwner(source.owner),
+      source.label === defaultProjectReferenceSourceLabel(source.owner) ? 0 : source.label,
+      sameStrings(deletedWith, defaultDeletedWith)
+        ? 0
+        : deletedWith.map((key) => targetIndexes.get(key)!),
+      source.section ?? 0,
+      wherePrefix === defaultProjectReferenceSourceWherePrefix(source.owner, source.section)
+        ? 0
+        : wherePrefix,
+    ]
+  })
   const details: string[] = []
   const detailIndexes = new Map<string, number>()
+  const whereSuffixes: string[] = []
+  const whereSuffixIndexes = new Map<string, number>()
   const rows: ProjectReferenceRow[] = rowInputs.map(
     ([targetKey, sourceIndex, relationIndex, locatorIndex, policy, where, detail]) => {
       let detailIndex: number | undefined
@@ -919,15 +1186,22 @@ export function buildProjectReferenceSnapshot(
           detailIndexes.set(detail, detailIndex)
         }
       }
+      const whereSuffix = where.slice(sourceWherePrefixes[sourceIndex]!.length)
+      let whereSuffixIndex = whereSuffixIndexes.get(whereSuffix)
+      if (whereSuffixIndex === undefined) {
+        whereSuffixIndex = whereSuffixes.length
+        whereSuffixes.push(whereSuffix)
+        whereSuffixIndexes.set(whereSuffix, whereSuffixIndex)
+      }
       const row = [
         targetIndexes.get(targetKey)!,
         sourceIndex,
         relationIndex,
         locatorIndex,
-        policy,
-        where.slice(sourceWherePrefixes[sourceIndex]!.length),
+        whereSuffixIndex,
       ] as const
-      return detailIndex === undefined ? row : ([...row, detailIndex] as const)
+      const tail = encodeProjectReferenceRowTail(policy, detailIndex)
+      return tail === undefined ? row : ([...row, tail] as const)
     },
   )
   const targetOffsets = [0]
@@ -940,9 +1214,9 @@ export function buildProjectReferenceSnapshot(
     version: 1,
     targets,
     sources,
-    deletionTargets,
     relations,
     locators,
+    whereSuffixes,
     details,
     rows,
     targetOffsets,
@@ -965,18 +1239,28 @@ export class ProjectReferenceIndex {
     this.targetIndexes = new Map(
       this.targets.map((target, index) => [projectReferenceTargetKey(target), index]),
     )
-    this.sourceWherePrefixes = snapshot.sources.map((source) => source[4])
     this.sources = snapshot.sources.map((source) => {
       const owner = decodeProjectReferenceSourceOwner(source[0])
       const section = source[3] === 0 ? undefined : source[3]
       return {
         owner,
         label: source[1] === 0 ? defaultProjectReferenceSourceLabel(owner) : source[1],
-        deletedWith: source[2].map((index) => snapshot.deletionTargets[index]!),
+        deletedWith:
+          source[2] === 0
+            ? defaultProjectReferenceSourceDeletedWith(owner)
+            : source[2].map((index) => projectReferenceTargetKey(this.targets[index]!)),
         ...(section ? { section } : {}),
         key: projectReferenceSourceKey(owner, section),
       }
     })
+    this.sourceWherePrefixes = snapshot.sources.map((source, index) =>
+      source[4] === 0
+        ? (defaultProjectReferenceSourceWherePrefix(
+            this.sources[index]!.owner,
+            this.sources[index]!.section,
+          ) ?? '')
+        : source[4],
+    )
   }
 
   referencesTo(target: ProjectReferenceTarget): ProjectReferenceEdge[] {
@@ -1019,22 +1303,19 @@ export class ProjectReferenceIndex {
   private edge(id: number): ProjectReferenceEdge {
     const row = this.snapshot.rows[id]
     if (!row) throw new Error(`引用边 ${id} 不存在`)
-    const [
-      targetIndex,
-      sourceIndex,
-      relationIndex,
-      locatorIndex,
-      policy,
-      whereSuffix,
-      detailIndex,
-    ] = row
-    const where = `${this.sourceWherePrefixes[sourceIndex]!}${whereSuffix}`
+    const [targetIndex, sourceIndex, relationIndex, locatorIndex, whereSuffixIndex, tail] = row
+    const { policy, detailIndex } = decodeProjectReferenceRowTail(tail)
+    const where = `${this.sourceWherePrefixes[sourceIndex]!}${this.snapshot.whereSuffixes[whereSuffixIndex]!}`
     return {
       id,
       target: this.targets[targetIndex]!,
       source: this.sources[sourceIndex]!,
       relation: this.snapshot.relations[relationIndex]!,
-      locator: decodeProjectReferenceLocator(this.snapshot.locators[locatorIndex]!, where),
+      locator: decodeProjectReferenceLocator(
+        this.snapshot.locators[locatorIndex]!,
+        where,
+        this.sources[sourceIndex]!,
+      ),
       deletePolicy: CODE_POLICY[policy],
       where,
       ...(detailIndex === undefined ? {} : { detail: this.snapshot.details[detailIndex]! }),

@@ -213,6 +213,8 @@ export function WorldSpriteLibrary(props: {
   const referenceReady = props.referenceStatus === 'current' && props.referenceIndex !== undefined
   const effectiveReferenceStatus =
     props.referenceStatus === 'current' && !props.referenceIndex ? 'failed' : props.referenceStatus
+  const selectedAssetReferences =
+    props.referenceIndex?.referencesTo({ kind: 'asset', id: selectedAsset }) ?? []
   const automaticScriptDefinitionIds = useMemo(
     () => new Set(automaticScriptSites.map((site) => site.spriteId)),
     [automaticScriptSites],
@@ -617,12 +619,25 @@ export function WorldSpriteLibrary(props: {
   }
 
   const deleteAsset = async (): Promise<void> => {
-    if (!record || record.kind !== 'sprite' || consumers.length) return
+    if (
+      !record ||
+      record.kind !== 'sprite' ||
+      consumers.length ||
+      !referenceReady ||
+      selectedAssetReferences.length
+    )
+      return
     if (!window.confirm(`永久移除未使用源资源“${record.label ?? selectedAsset}”？此操作可撤销。`))
       return
     try {
       const bytes = await props.assetReader.readBytes(selectedAsset, 'sprite')
-      props.session.dispatch(new DeleteUnusedSpriteAssetCommand(selectedAsset, bytes))
+      props.session.dispatch(
+        new DeleteUnusedSpriteAssetCommand(
+          selectedAsset,
+          props.getCurrentReferenceIndex,
+          bytes,
+        ),
+      )
       const next = assets.find(([asset]) => asset !== selectedAsset)?.[0] ?? ''
       setSelectedAsset(next)
       setSelectedId('')
@@ -826,7 +841,19 @@ export function WorldSpriteLibrary(props: {
                   </DsButton>
                 ) : null}
                 {!consumers.length ? (
-                  <DsButton size="compact" variant="danger" onClick={() => void deleteAsset()}>
+                  <DsButton
+                    size="compact"
+                    variant="danger"
+                    disabled={!referenceReady || selectedAssetReferences.length > 0}
+                    title={
+                      !referenceReady
+                        ? '正在刷新资源引用，暂不能删除'
+                        : selectedAssetReferences.length
+                          ? `仍有 ${selectedAssetReferences.length} 处资源引用，不能删除`
+                          : '删除当前源资源'
+                    }
+                    onClick={() => void deleteAsset()}
+                  >
                     删除源资源
                   </DsButton>
                 ) : null}

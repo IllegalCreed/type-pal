@@ -12,11 +12,8 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import type { CanonicalScriptReference, ScriptEditorState } from '../core/script-editor.js'
-import type {
-  WorldVariableReferenceIndexV1,
-  WorldVariableReferenceV1,
-} from '../core/world-variable-references.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   DsButton,
   DsCheckbox,
@@ -58,34 +55,50 @@ function typeLabel(kind: WorldVariableKindV1): string {
 }
 
 function refsFor(
-  references: WorldVariableReferenceIndexV1,
+  references: ReadonlyMap<string, readonly ProjectReferenceEdge[]>,
   id: string | undefined,
-): readonly WorldVariableReferenceV1[] {
-  return id ? (references.byId.get(id) ?? []) : []
+): readonly ProjectReferenceEdge[] {
+  return id ? (references.get(id) ?? []) : []
 }
 
 export function VarsTab(props: {
   variables: WorldVariableRegistryV1
-  references: WorldVariableReferenceIndexV1
+  referenceIndex?: ProjectReferenceIndex
   referenceStatus: EditorDerivedStatus
-  getCurrentScriptState: () => ScriptEditorState | undefined
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
   session: EditSession
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  onOpenReference?: (reference: CanonicalScriptReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   tabBar?: React.ReactNode
 }) {
   const {
     variables,
-    references,
+    referenceIndex,
     referenceStatus,
-    getCurrentScriptState,
+    getCurrentReferenceIndex,
     session,
     focusObjectId,
     onObjectFocus,
     onOpenReference,
     tabBar,
   } = props
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
+  const references = useMemo(() => {
+    const byId = new Map<string, ProjectReferenceEdge[]>()
+    for (const reference of referenceIndex?.allReferences() ?? []) {
+      if (
+        reference.target.kind !== 'world-variable' ||
+        reference.relation.kind !== 'world-variable'
+      )
+        continue
+      const entries = byId.get(reference.target.id) ?? []
+      entries.push(reference)
+      byId.set(reference.target.id, entries)
+    }
+    return byId
+  }, [referenceIndex])
   const [filter, setFilter] = useState('')
   const [selectedId, setSelectedId] = useState(
     focusObjectId && variables[focusObjectId] ? focusObjectId : (Object.keys(variables)[0] ?? ''),
@@ -98,19 +111,19 @@ export function VarsTab(props: {
   const selected = variables[selectedId]
   const selectedRefs = refsFor(references, selected ? selectedId : undefined)
   const referenceCount =
-    referenceStatus === 'current'
+    effectiveReferenceStatus === 'current'
       ? { kind: 'exact' as const, value: selectedRefs.length }
       : selectedRefs.length
         ? { kind: 'at-least' as const, value: selectedRefs.length }
         : { kind: 'unknown' as const }
   const referencePanelState =
-    referenceStatus === 'current'
+    effectiveReferenceStatus === 'current'
       ? selectedRefs.length
         ? ('ready' as const)
         : ('empty' as const)
-      : referenceStatus === 'failed'
+      : effectiveReferenceStatus === 'failed'
         ? ('error' as const)
-        : referenceStatus === 'stale'
+        : effectiveReferenceStatus === 'stale'
           ? ('partial' as const)
           : ('loading' as const)
   const [draft, setDraft] = useState<Draft>(() =>
@@ -156,12 +169,16 @@ export function VarsTab(props: {
 
   const undeclared = useMemo(
     () =>
-      [...references.byId.entries()]
+      [...references.entries()]
         .filter(([id]) => !variables[id])
         .map(([id, entries]) => ({
           id,
           entries,
-          kinds: new Set(entries.map((entry) => entry.kind)),
+          kinds: new Set(
+            entries.flatMap((entry) =>
+              entry.relation.kind === 'world-variable' ? [entry.relation.variableKind] : [],
+            ),
+          ),
         }))
         .sort((left, right) => left.id.localeCompare(right.id)),
     [references, variables],
@@ -239,7 +256,7 @@ export function VarsTab(props: {
   }
   const remove = (): void => {
     if (!selected) return
-    if (referenceStatus !== 'current') {
+    if (effectiveReferenceStatus !== 'current') {
       setNotice('变量引用仍在检查，暂不能删除。')
       return
     }
@@ -248,7 +265,7 @@ export function VarsTab(props: {
     const index = ids.indexOf(selectedId)
     const nextId = ids[index + 1] ?? ids[index - 1] ?? ''
     try {
-      session.dispatch(new DeleteWorldVariableCommand(selectedId, getCurrentScriptState))
+      session.dispatch(new DeleteWorldVariableCommand(selectedId, getCurrentReferenceIndex))
       setSelectedId(nextId)
       onObjectFocus?.(nextId || undefined)
     } catch (error) {
@@ -264,8 +281,10 @@ export function VarsTab(props: {
 
   const renderRows = (entries: Array<[string, WorldVariableDefinitionV1]>): React.ReactNode =>
     entries.map(([id, definition]) => {
-      const entriesForId = references.byId.get(id) ?? []
-      const reads = entriesForId.filter((entry) => entry.access === 'read').length
+      const entriesForId = references.get(id) ?? []
+      const reads = entriesForId.filter(
+        (entry) => entry.relation.kind === 'world-variable' && entry.relation.access === 'read',
+      ).length
       return (
         <DsCatalogRow
           key={id}
@@ -278,26 +297,42 @@ export function VarsTab(props: {
       )
     })
 
-  const reads = selectedRefs.filter((reference) => reference.access === 'read')
-  const writes = selectedRefs.filter((reference) => reference.access === 'write')
-  const renderReference = (reference: WorldVariableReferenceV1): React.ReactNode => (
+  const reads = selectedRefs.filter(
+    (reference) =>
+      reference.relation.kind === 'world-variable' && reference.relation.access === 'read',
+  )
+  const writes = selectedRefs.filter(
+    (reference) =>
+      reference.relation.kind === 'world-variable' && reference.relation.access === 'write',
+  )
+  const renderReference = (reference: ProjectReferenceEdge): React.ReactNode => (
     <DsReferenceRow
-      key={`${reference.access}:${reference.path}`}
-      title={reference.ownerLabel}
-      detail={`${reference.sourceLabel} · ${reference.detail}`}
-      path={reference.path}
-      labels={[{ label: reference.access === 'read' ? '读取' : '写入' }]}
+      key={reference.id}
+      title={reference.source.label}
+      detail={reference.detail}
+      path={reference.where}
+      labels={[
+        {
+          label:
+            reference.relation.kind === 'world-variable' && reference.relation.access === 'read'
+              ? '读取'
+              : '写入',
+        },
+      ]}
       action={
-        reference.reference && onOpenReference
-          ? { label: '打开', onActivate: () => onOpenReference(reference.reference!) }
+        reference.locator.kind !== 'unavailable' && onOpenReference
+          ? { label: '打开', onActivate: () => onOpenReference(reference) }
           : undefined
       }
       status={
-        reference.reference && onOpenReference
+        reference.locator.kind !== 'unavailable' && onOpenReference
           ? undefined
           : {
               label: '精确位置只读',
-              reason: '该引用位于状态转移条件，当前编辑器尚无命令焦点入口。',
+              reason:
+                reference.locator.kind === 'unavailable'
+                  ? reference.locator.reason
+                  : '当前引用没有可编辑的精确位置。',
             }
       }
     />
@@ -345,7 +380,13 @@ export function VarsTab(props: {
                       setNotice(`变量 ${id} 同时按开关和数值使用，不能自动创建定义。`)
                       return
                     }
-                    beginCreate(id, entries[0]!.kind, id)
+                    beginCreate(
+                      id,
+                      entries[0]!.relation.kind === 'world-variable'
+                        ? entries[0]!.relation.variableKind
+                        : 'flag',
+                      id,
+                    )
                   }}
                 />
               ))}
@@ -380,9 +421,9 @@ export function VarsTab(props: {
                     <DsButton
                       variant="danger"
                       icon="delete"
-                      disabled={referenceStatus !== 'current' || selectedRefs.length > 0}
+                      disabled={effectiveReferenceStatus !== 'current' || selectedRefs.length > 0}
                       title={
-                        referenceStatus !== 'current'
+                        effectiveReferenceStatus !== 'current'
                           ? '变量引用仍在检查，暂不能删除'
                           : selectedRefs.length
                             ? `仍有 ${selectedRefs.length} 处引用，请先从右侧处理`

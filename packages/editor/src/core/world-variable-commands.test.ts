@@ -6,6 +6,7 @@ import {
   WorldVariableInUseError,
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
+import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 
 function state(): EditorState {
   return {
@@ -104,12 +105,18 @@ describe('world variable EditSession commands', () => {
 
   test('delete blocks every referenced definition and keeps zero-reference deletion undoable', () => {
     const session = new EditSession(state())
-    expect(() => session.dispatch(new DeleteWorldVariableCommand('used'))).toThrow(
+    expect(() =>
+      session.dispatch(new DeleteWorldVariableCommand('used', collectCurrentProjectReferenceIndex)),
+    ).toThrow(
       WorldVariableInUseError,
     )
     expect(session.getState().worldVariables).toHaveProperty('used')
 
-    expect(session.dispatch(new DeleteWorldVariableCommand('unused'))).toBe(true)
+    expect(
+      session.dispatch(
+        new DeleteWorldVariableCommand('unused', collectCurrentProjectReferenceIndex),
+      ),
+    ).toBe(true)
     expect(session.getState().worldVariables).not.toHaveProperty('unused')
     expect(session.undo()).toBe(true)
     expect(session.getState().worldVariables).toHaveProperty('unused')
@@ -129,11 +136,42 @@ describe('world variable EditSession commands', () => {
         },
       },
     }
-    expect(() => new DeleteWorldVariableCommand('unused', () => canonical).apply(current)).toThrow(
-      WorldVariableInUseError,
-    )
-    expect(() => new DeleteWorldVariableCommand('unused', () => undefined).apply(current)).toThrow(
-      /无法读取当前脚本引用/,
-    )
+    expect(() =>
+      new DeleteWorldVariableCommand('unused', (state) =>
+        collectCurrentProjectReferenceIndex(state, canonical),
+      ).apply(current),
+    ).toThrow(WorldVariableInUseError)
+    expect(() =>
+      new DeleteWorldVariableCommand('unused', () => {
+        throw new Error('无法读取当前脚本引用')
+      }).apply(current),
+    ).toThrow(/无法读取当前脚本引用/)
+  })
+
+  test('delete redo rechecks newly added canonical references and preserves redo on failure', () => {
+    const current = state()
+    current.sharedScripts = {}
+    const canonical = {
+      scenes: [],
+      items: [],
+      sharedScripts: {} as Record<
+        string,
+        { name: string; self: 'none'; body: { kind: 'setVar'; var: string; value: number }[] }
+      >,
+    }
+    const session = new EditSession(current)
+    const provider = (state: EditorState) => collectCurrentProjectReferenceIndex(state, canonical)
+
+    session.dispatch(new DeleteWorldVariableCommand('unused', provider))
+    expect(session.undo()).toBe(true)
+    canonical.sharedScripts.live = {
+      name: '当前正文',
+      self: 'none',
+      body: [{ kind: 'setVar', var: 'unused', value: 1 }],
+    }
+
+    expect(() => session.redo()).toThrow(WorldVariableInUseError)
+    expect(session.getState().worldVariables).toHaveProperty('unused')
+    expect(session.canRedo()).toBe(true)
   })
 })

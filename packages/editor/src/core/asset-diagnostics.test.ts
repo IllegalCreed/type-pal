@@ -1,4 +1,4 @@
-import type { AssetCatalogV1, AssetReference } from '@type-pal/content'
+import type { AssetCatalogV1, LocatedAssetReference } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   collectEditorAssetDiagnostics,
@@ -50,18 +50,20 @@ describe('编辑器资源诊断展示', () => {
         },
       },
     }
-    const references: AssetReference[] = [
+    const references: LocatedAssetReference[] = [
       {
         asset: 'music.missing',
         expectedKind: 'music',
         where: 'scenes[0].music',
         site: 'scene:s001:music',
+        origin: { kind: 'scene', id: 's001', section: 'music' },
       },
       {
         asset: 'music.wrong',
         expectedKind: 'music',
         where: 'scenes[1].music',
         site: 'scene:s002:music',
+        origin: { kind: 'scene', id: 's002', section: 'music' },
       },
     ]
 

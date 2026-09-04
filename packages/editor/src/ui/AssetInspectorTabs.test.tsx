@@ -7,6 +7,7 @@ import { collectEditorAssetDiagnostics } from '../core/asset-diagnostics.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import { ImageTab } from './ImageTab.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -167,10 +168,15 @@ const reader = {
   urlFor: vi.fn(async () => ''),
 }
 
+const referenceState = state()
 const assetReferenceProps = {
-  assetReferences: collectEditorAssetReferences(state()),
-  assetDiagnostics: collectEditorAssetDiagnostics(catalog, collectEditorAssetReferences(state())),
-  assetReferenceStatus: 'current' as const,
+  referenceIndex: collectCurrentProjectReferenceIndex(referenceState),
+  referenceStatus: 'current' as const,
+  getCurrentReferenceIndex: collectCurrentProjectReferenceIndex,
+  assetDiagnostics: collectEditorAssetDiagnostics(
+    catalog,
+    collectEditorAssetReferences(referenceState),
+  ),
 }
 
 let root: Root
@@ -207,9 +213,8 @@ describe('asset inspectors shared tabs', () => {
     await verifyInspectorTabs(host, '图片检查器', ['属性', '引用 2', '诊断 0'], {
       identity: 'workbench-hero',
     })
-    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
+    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(2)
     expect(host.querySelector('.ds-reference-row')?.tagName).toBe('ARTICLE')
-    expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
     expect(host.querySelector('.ds-diagnostic-panel[data-state="clear"]')).not.toBeNull()
     expect(
       host.querySelectorAll('[role="tablist"][aria-label="图片检查器"] [role="tab"]'),
@@ -232,8 +237,7 @@ describe('asset inspectors shared tabs', () => {
     await verifyInspectorTabs(host, '音乐检查器', ['引用 2', '诊断 0'], {
       identity: 'workbench-hero',
     })
-    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
-    expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
+    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(2)
   })
 
   test('SoundTab 使用资源/引用 canonical Inspector', async () => {
@@ -252,8 +256,7 @@ describe('asset inspectors shared tabs', () => {
     await verifyInspectorTabs(host, '音效检查器', ['引用 2', '诊断 0'], {
       identity: 'workbench-hero',
     })
-    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
-    expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
+    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(2)
     expect(host.querySelector('.ds-diagnostic-panel[data-state="clear"]')).not.toBeNull()
     expect(
       host.querySelectorAll('[role="tablist"][aria-label="音效检查器"] [role="tab"]'),
@@ -278,8 +281,7 @@ describe('asset inspectors shared tabs', () => {
     await verifyInspectorTabs(host, '过场资源检查器', ['属性', '引用 2', /^诊断 \d+$/], {
       identity: 'workbench-hero',
     })
-    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
-    expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
+    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(2)
     expect(host.querySelector('.ds-diagnostic-panel[data-state="clear"]')).not.toBeNull()
   })
 

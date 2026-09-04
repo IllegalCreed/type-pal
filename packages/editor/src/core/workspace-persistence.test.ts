@@ -35,6 +35,7 @@ vi.mock('./handle-store.js', () => ({
 import { sha256Hex } from './binary-signature.js'
 import { DeleteAssetCommand } from './commands.js'
 import { EditSession } from './edit-session.js'
+import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import { serializeProject, toEditorState, writeFile, writeProject } from './project-io.js'
 import {
   assertSamePalDevelopmentProof,
@@ -708,7 +709,11 @@ describe('workspace persistence policy', () => {
     })
     const session = new EditSession({ ...baseline, assetBlobs: {} })
     session.markSaved()
-    expect(session.dispatch(new DeleteAssetCommand(assetId, previousBytes))).toBe(true)
+    expect(
+      session.dispatch(
+        new DeleteAssetCommand(assetId, collectCurrentProjectReferenceIndex, previousBytes),
+      ),
+    ).toBe(true)
     expect(session.getDeletedAssetPaths()).toEqual([assetPath])
 
     snapshot = await writeProject(

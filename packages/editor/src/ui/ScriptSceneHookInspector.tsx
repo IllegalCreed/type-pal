@@ -2,10 +2,7 @@ import type { AuthorSceneDef } from '@type-pal/content'
 import { useMemo, useState } from 'react'
 import {
   AddSceneHookCommand,
-  type CanonicalScriptReference,
-  canonicalSceneHookReferenceKey,
   DeleteSceneHookCommand,
-  describeCanonicalScriptReference,
   SaveSceneHookDetailsCommand,
   ReorderSceneHookVariantsCommand,
   type SceneHookSlot,
@@ -15,6 +12,8 @@ import {
   sceneHookReferences,
   UpdateSceneHookCommand,
 } from '../core/script-editor.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import { DsButton, DsHelpTip } from './design-system/index.js'
 import { reorderDsItems, type DsReorderIntent } from './design-system/reorder.js'
 import {
@@ -71,11 +70,12 @@ export function ScriptSceneHookInspector(props: {
   selectedHookId?: string
   onSelectHook?: (hookId: string | undefined) => void
   onDispatch: (command: ScriptEditorCommand) => void
-  onOpenReference?: (reference: CanonicalScriptReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   focusCommand?: { locator: ScriptCommandLocator; revision: number }
   onError?: (message: string) => void
   editorContext?: CanonicalScriptEditorContext
-  referenceIndex?: ReadonlyMap<string, readonly CanonicalScriptReference[]>
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
 }) {
   const scene = props.state.scenes.find((candidate) => candidate.id === props.sceneId)
   const channel = scene?.hooks?.[props.slot]
@@ -95,13 +95,16 @@ export function ScriptSceneHookInspector(props: {
   const selected = variants[selectedId]
   const [detailsId, setDetailsId] = useState<string>()
   const detailsScheme = detailsId ? variants[detailsId] : undefined
-  const detailsReferences = detailsScheme
-    ? props.referenceIndex
-      ? (props.referenceIndex.get(
-          canonicalSceneHookReferenceKey(props.sceneId, props.slot, detailsId!),
-        ) ?? [])
-      : sceneHookReferences(props.state, props.sceneId, props.slot, detailsId!)
-    : []
+  const referencesReady = props.referenceStatus === 'current' && props.referenceIndex !== undefined
+  const detailsReferences =
+    detailsScheme && props.referenceIndex
+      ? props.referenceIndex.referencesTo({
+          kind: 'scene-hook',
+          sceneId: props.sceneId,
+          slot: props.slot,
+          hookId: detailsId!,
+        })
+      : []
   const [createOpen, setCreateOpen] = useState(false)
   const copy = sourceCopy(props.slot)
 
@@ -219,11 +222,12 @@ export function ScriptSceneHookInspector(props: {
       {detailsId && detailsScheme ? (
         <ScriptSchemeDetailsDialog
           selectedName={detailsScheme.label}
-          references={detailsReferences.map((reference, index) => ({
-            key: `${reference.kind}:${reference.path}:${index}`,
+          references={detailsReferences.map((reference) => ({
+            key: String(reference.id),
             reference,
-            label: describeCanonicalScriptReference(props.state, reference),
+            label: reference.source.label,
           }))}
+          referencesKnown={referencesReady}
           defaultControl={{
             isDefault: channel?.initial === detailsId,
             activeCopy: copy.defaultActiveCopy,

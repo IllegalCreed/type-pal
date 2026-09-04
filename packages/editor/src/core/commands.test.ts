@@ -87,6 +87,11 @@ import {
   type EntityPlacement,
 } from './entity-placement.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+  createProjectReferenceSource,
+} from './project-reference.js'
 import type { ScriptEditorState } from './script-editor.js'
 import { findSceneEntryReferences } from './script-references.js'
 import { buildBlankProject } from './seed.js'
@@ -149,6 +154,23 @@ function st(): EditorState {
 }
 
 const currentReferences = (state: EditorState) => collectCurrentProjectReferenceIndex(state)
+
+const sceneEntryReferenceIndex = (sceneId: string, entryId: string, count: number) =>
+  createProjectReferenceIndex(
+    buildProjectReferenceSnapshot(
+      Array.from({ length: count }, (_, index) => ({
+        target: { kind: 'scene-entry' as const, sceneId, entryId },
+        source: createProjectReferenceSource(
+          { kind: 'project-part', id: 'entry-reference-test' },
+          '落点引用测试',
+        ),
+        relation: { kind: 'command-target' as const, use: 'load-scene-entry' as const },
+        where: `references[${index}]`,
+        locator: { kind: 'unavailable' as const, reason: '测试引用' },
+        deletePolicy: 'block' as const,
+      })),
+    ),
+  )
 
 function stActor(): EditorState {
   const base = st() as EditorState & { actors: ActorDef[] }
@@ -258,7 +280,7 @@ describe('布置命令集 · 不可变 + invert', () => {
   // ── DeleteEntityCommand ────────────────────────────────────
   test('DeleteEntity:移除 + 源不变;invert 插回原索引(非末尾)', () => {
     const s0 = st()
-    const cmd = new DeleteEntityCommand('s', 'a') // 删索引 0
+    const cmd = new DeleteEntityCommand('s', 'a', currentReferences) // 删索引 0
     const s1 = cmd.apply(s0)
 
     expect(ids(s1)).toEqual(['b'])
@@ -271,7 +293,7 @@ describe('布置命令集 · 不可变 + invert', () => {
   test('DeleteEntity:删中间项,invert 仍插回原位(保序)', () => {
     const s0 = st()
     s0.scenes[0]!.entities = [ent('a'), ent('b'), ent('c')]
-    const cmd = new DeleteEntityCommand('s', 'b') // 删索引 1
+    const cmd = new DeleteEntityCommand('s', 'b', currentReferences) // 删索引 1
     const s1 = cmd.apply(s0)
 
     expect(ids(s1)).toEqual(['a', 'c'])
@@ -416,7 +438,7 @@ describe('布置命令集 · 不可变 + invert', () => {
   // ── 防御:目标不存在时 noop(返回原 state)─────────────────
   test('防御:sceneId/entityId 不存在 → noop 返回原态', () => {
     const s0 = st()
-    const a1 = new DeleteEntityCommand('s', 'nope').apply(s0)
+    const a1 = new DeleteEntityCommand('s', 'nope', currentReferences).apply(s0)
     expect(a1).toBe(s0) // 同引用 = 未改
     const a2 = new UpdateEntityCommand('nope', 'a', { collide: true }).apply(s0)
     expect(a2).toBe(s0)
@@ -1117,7 +1139,7 @@ describe('A7-3W 精灵 catalog 命令(共享安全 + undo)', () => {
     expect(s1.assetBlobs[heroRecord.path]).toBeDefined()
     expect(cmd.invert(s1).sprites.at(-1)?.id).toBe('my-hero')
 
-    const deleted = new DeleteUnusedSpriteAssetCommand(heroDef.asset, blob)
+    const deleted = new DeleteUnusedSpriteAssetCommand(heroDef.asset, currentReferences, blob)
     const withoutAsset = deleted.apply(s1)
     expect(withoutAsset.assetCatalog.assets[heroDef.asset]).toBeUndefined()
     expect(deleted.invert(withoutAsset).assetBlobs[heroRecord.path]).toEqual(blob)
@@ -1568,11 +1590,17 @@ describe('A7-3B 战斗精灵定义/资产生命周期', () => {
     session.dispatch(new AddBattleSpriteCommand(definition, record, bytes, 10))
     session.dispatch(new AddBattleSpriteCommand(second, record, bytes, 10))
     expect(() =>
-      new DeleteUnusedBattleSpriteAssetCommand(definition.asset, bytes).apply(session.getState()),
+      new DeleteUnusedBattleSpriteAssetCommand(
+        definition.asset,
+        currentReferences,
+        bytes,
+      ).apply(session.getState()),
     ).toThrow(/仍被定义引用/)
     session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id, currentReferences))
     session.dispatch(new RemoveBattleSpriteDefinitionCommand(second.id, currentReferences))
-    session.dispatch(new DeleteUnusedBattleSpriteAssetCommand(definition.asset, bytes))
+    session.dispatch(
+      new DeleteUnusedBattleSpriteAssetCommand(definition.asset, currentReferences, bytes),
+    )
     expect(session.getState().assetCatalog.assets[definition.asset]).toBeUndefined()
     session.undo()
     expect(session.getState().assetCatalog.assets[definition.asset]).toEqual(record)
@@ -1852,7 +1880,9 @@ describe('A7-3B 战斗精灵定义/资产生命周期', () => {
     session.dispatch(new AddBattleSpriteCommand(definition, record, bytes, 10))
     session.markSaved()
     session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id, currentReferences))
-    session.dispatch(new DeleteUnusedBattleSpriteAssetCommand(definition.asset, bytes))
+    session.dispatch(
+      new DeleteUnusedBattleSpriteAssetCommand(definition.asset, currentReferences, bytes),
+    )
     expect(session.getState().battleSprites).toEqual([])
     expect(session.getState().assetCatalog.assets[definition.asset]).toBeUndefined()
     expect(session.getDeletedAssetPaths()).toEqual([record.path])
@@ -2186,7 +2216,7 @@ describe('A7 音乐资源(AssetId 引用 + 注册表命令)', () => {
     expect(s1.assetBlobs[record.path]).toEqual(bytes)
     expect(upsert.invert(s1)).toEqual(s0)
 
-    const remove = new DeleteAssetCommand('music.demo.theme')
+    const remove = new DeleteAssetCommand('music.demo.theme', currentReferences)
     const s2 = remove.apply(s1)
     expect(s2.assetCatalog.assets['music.demo.theme']).toBeUndefined()
     expect(remove.invert(s2).assetCatalog.assets['music.demo.theme']).toEqual(record)
@@ -2201,7 +2231,7 @@ describe('A7 音乐资源(AssetId 引用 + 注册表命令)', () => {
     const restoredReplace = replaced.invert(afterReplace)
     expect(restoredReplace.assetBlobs[record.path]).toEqual(oldBytes)
 
-    const removed = new DeleteAssetCommand('music.demo.theme', oldBytes)
+    const removed = new DeleteAssetCommand('music.demo.theme', currentReferences, oldBytes)
     const afterDelete = removed.apply(stMusic())
     const restoredDelete = removed.invert(afterDelete)
     expect(restoredDelete.assetBlobs[record.path]).toEqual(oldBytes)
@@ -2319,8 +2349,12 @@ test('W4-1 改名/移动不改变两处引用的稳定 id；引用落点禁止�
     { kind: 'loadScene', scene: 's', entryId: 'used' },
     { kind: 'loadScene', scene: 's', entryId: 'used' },
   ])
-  expect(() => new DeleteSceneEntryCommand('s', 'used').apply(updated)).toThrow(/正被 2 处脚本引用/)
-  const command = new DeleteSceneEntryCommand('s', 'free')
+  expect(() =>
+    new DeleteSceneEntryCommand('s', 'used', () => sceneEntryReferenceIndex('s', 'used', 2)).apply(
+      updated,
+    ),
+  ).toThrow(/正被 2 处脚本引用/)
+  const command = new DeleteSceneEntryCommand('s', 'free', currentReferences)
   const s1 = command.apply(updated)
   expect(s1.scenes[0]?.entries?.free).toBeUndefined()
   expect(command.invert(s1).scenes[0]?.entries?.free?.label).toBe('无引用')
@@ -2333,17 +2367,8 @@ test('W4-1 删除落点 redo 会重新核对当前 canonical 引用', () => {
     entries: { target: { label: '目标', pos: { col: 1, row: 2, height: 0 } } },
   }
   let referenced = false
-  const command = new DeleteSceneEntryCommand('s', 'target', (_state, sceneId, entryId) =>
-    referenced
-      ? [
-          {
-            targetSceneId: sceneId,
-            entryId,
-            caller: { type: 'global', sourceKey: 'canonical:test', label: '当前 canonical 脚本' },
-            path: 'sharedScripts.test.body[0]',
-          },
-        ]
-      : [],
+  const command = new DeleteSceneEntryCommand('s', 'target', () =>
+    sceneEntryReferenceIndex('s', 'target', referenced ? 1 : 0),
   )
   const session = new EditSession(initial)
   session.dispatch(command)

@@ -806,6 +806,7 @@ describe('X7 项目诊断与保存门', () => {
       expectedKind: 'sound',
       where: 'items[0].throw.presentation.animation.sound',
       site: 'item:item:throw',
+      origin: { kind: 'item', id: 'item', section: 'throw' },
     })
     expect(() => assertProjectSaveValid(withEverySoundSite)).not.toThrow()
 

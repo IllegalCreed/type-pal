@@ -1,6 +1,7 @@
 import type { CurrentManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
+import { collectEditorAssetReferences } from './editor-asset-references.js'
 import type { EntityAddressReference } from './entity-address-references.js'
 import {
   buildProjectReferenceSnapshot,
@@ -9,6 +10,7 @@ import {
 } from './project-reference.js'
 import {
   actorReferenceEdges,
+  assetReferenceEdges,
   battleDataReferenceEdges,
   buildProjectReferenceSnapshotFromProjection,
   canonicalCommandTargetEdges,
@@ -18,11 +20,35 @@ import {
   spriteReferenceEdges,
   structuralProjectReferenceEdges,
 } from './project-reference-adapters.js'
-import type {
-  CanonicalScriptCommandVisit,
-  CanonicalScriptTransitionVisit,
-  ScriptEditorState,
+import {
+  buildCanonicalSchemeReferenceIndexesFromVisits,
+  collectCanonicalScriptCommandVisits,
+  collectCanonicalScriptTransitionVisits,
+  collectCanonicalSharedScriptReferencesFromVisits,
+  type CanonicalScriptCommandVisit,
+  type CanonicalScriptTransitionVisit,
+  type ScriptEditorState,
 } from './script-editor.js'
+import {
+  collectWorldVariableReferencesV1FromVisits,
+  type WorldVariableReferenceIndexV1,
+} from './world-variable-references.js'
+/*
+ * Every projection caller must state all synchronized reference domains explicitly. Keeping this
+ * fixture in the tests makes a newly added domain fail at compile time instead of silently
+ * disappearing behind an optional default.
+ */
+const emptyProjectionReferences = {
+  assetReferences: [],
+  worldVariableReferences: { all: [], byId: new Map() } as WorldVariableReferenceIndexV1,
+  canonicalSchemeReferences: {
+    behavior: new Map(),
+    sceneHook: new Map(),
+    behaviorEntries: [],
+    sceneHookEntries: [],
+  },
+  sharedScriptReferences: [],
+}
 
 const commandVisit = (
   command: CanonicalScriptCommandVisit['command'],
@@ -63,6 +89,7 @@ describe('project reference adapters', () => {
       commandVisit({ kind: 'loadScene', scene: 'next', entryId: 'door' }, 'shared.test.body[0]'),
     ])
     const snapshot = buildProjectReferenceSnapshotFromProjection({
+      ...emptyProjectionReferences,
       state: { manifest: noEntryManifest, scenes: [], scriptChunks: {} } as unknown as EditorState,
       scriptState: { scenes: [], items: [], sharedScripts: {} },
       commandVisits: [
@@ -236,6 +263,7 @@ describe('project reference adapters', () => {
     ]
     const edges = entityAddressReferenceEdges(references)
     const snapshot = buildProjectReferenceSnapshotFromProjection({
+      ...emptyProjectionReferences,
       state: { manifest: noEntryManifest, scenes: [], scriptChunks: {} } as unknown as EditorState,
       scriptState: { scenes: [], items: [], sharedScripts: {} },
       commandVisits: [],
@@ -305,6 +333,7 @@ describe('project reference adapters', () => {
       locator: { kind: 'world', worldId: 'save-1' },
     }
     const snapshot = buildProjectReferenceSnapshotFromProjection({
+      ...emptyProjectionReferences,
       state: {
         manifest: noEntryManifest,
         scenes: [],
@@ -432,6 +461,7 @@ describe('project reference adapters', () => {
     } as unknown as EditorState
     const scriptState: ScriptEditorState = { scenes: [], items: [], sharedScripts: {} }
     const snapshot = buildProjectReferenceSnapshotFromProjection({
+      ...emptyProjectionReferences,
       state,
       scriptState,
       commandVisits: [
@@ -1052,6 +1082,105 @@ describe('project reference adapters', () => {
     ).toBe('enemies[0](enemy).onDefeated[0].action')
   })
 
+  test('asset origins and canonical visits produce structured owners without parsing ids', () => {
+    const actorId = 'actor:with/slash'
+    const state = {
+      manifest: {
+        ...noEntryManifest,
+        assets: {
+          catalog: 'assets/index.json',
+          roles: { 'video.startupSplash': 'video.role' },
+        },
+      },
+      scenes: [],
+      actors: [{ id: actorId, spriteId: 'world', face: 'face.actor' }],
+      items: [],
+      skills: [],
+      enemies: [],
+      battleFields: [],
+      tilesets: [],
+      sprites: [],
+      battleSprites: [],
+      scriptChunks: {},
+      sharedScripts: {
+        'shared:with/slash': {
+          name: '共享',
+          self: 'none',
+          body: [
+            { kind: 'playSound', asset: 'sound.same' },
+            {
+              kind: 'startBattle',
+              enemyTeamId: 'team',
+              music: 'music.battle',
+              choreography: [
+                { at: 'battleStart', body: [{ kind: 'playSound', asset: 'sound.same' }] },
+              ],
+            },
+          ],
+        },
+      },
+      worlds: [
+        {
+          party: [{ id: 'runtime', appearance: { portrait: 'portrait.runtime' } }],
+          reserve: [],
+          inventory: [],
+        },
+      ],
+    } as unknown as EditorState
+    const scriptState = {
+      scenes: [],
+      items: [],
+      sharedScripts: state.sharedScripts,
+    } as unknown as ScriptEditorState
+    const visits: CanonicalScriptCommandVisit[] = [
+      {
+        command: scriptState.sharedScripts['shared:with/slash']!.body[0]!,
+        path: 'sharedScripts["shared:with/slash"].body[0]',
+        locator: {
+          kind: 'command',
+          owner: { kind: 'shared-script', scriptId: 'shared:with/slash' },
+          container: { kind: 'body' },
+          commandPath: '0',
+        },
+      },
+      {
+        command: scriptState.sharedScripts['shared:with/slash']!.body[1]!,
+        path: 'sharedScripts["shared:with/slash"].body[1]',
+        locator: {
+          kind: 'command',
+          owner: { kind: 'shared-script', scriptId: 'shared:with/slash' },
+          container: { kind: 'body' },
+          commandPath: '1',
+        },
+      },
+    ]
+    const index = createProjectReferenceIndex(
+      buildProjectReferenceSnapshot(
+        assetReferenceEdges(state, collectEditorAssetReferences(state), visits, scriptState),
+      ),
+    )
+
+    expect(index.referencesTo({ kind: 'asset', id: 'face.actor' })[0]).toMatchObject({
+      source: { owner: { kind: 'actor', id: actorId } },
+      locator: { kind: 'object', object: { kind: 'actor', id: actorId } },
+    })
+    expect(index.referencesTo({ kind: 'asset', id: 'portrait.runtime' })[0]).toMatchObject({
+      source: { owner: { kind: 'runtime-world' } },
+      locator: { kind: 'unavailable' },
+      deletePolicy: 'block',
+    })
+    expect(
+      index
+        .referencesTo({ kind: 'asset', id: 'sound.same' })
+        .map((reference) =>
+          reference.locator.kind === 'canonical-script'
+            ? reference.locator.reference.locator.commandPath
+            : 'missing',
+        ),
+    ).toEqual(['0', '1'])
+    expect(index.referencesTo({ kind: 'asset', id: 'music.battle' })).toHaveLength(1)
+  })
+
   test('canonical source deletion scope includes exact behavior and hook targets', () => {
     const behaviorVisit: CanonicalScriptCommandVisit = {
       ...commandVisit({ kind: 'learnSkill', role: 0, skill: 'skill-live' }, 'behavior'),
@@ -1097,19 +1226,157 @@ describe('project reference adapters', () => {
     )
   })
 
-  test('builder accepts the same projection inputs in sync and worker callers', () => {
-    const state = { manifest, scenes: [], scriptChunks: {} } as unknown as EditorState
-    const scriptState: ScriptEditorState = { scenes: [], items: [], sharedScripts: {} }
-    const visits = [commandVisit({ kind: 'openShop', shop: 1, mode: 'buy' }, 'buy')]
-    const input = {
-      state,
-      scriptState,
-      commandVisits: visits,
-      transitionVisits: [],
-      entityAddressReferences: [],
+  test('builder requires and preserves every synchronized reference domain', () => {
+    const flow = {
+      kind: 'stages' as const,
+      initial: 'initial',
+      stages: [{ id: 'initial', body: [] }],
     }
-    expect(buildProjectReferenceSnapshotFromProjection(input)).toEqual(
-      buildProjectReferenceSnapshotFromProjection(input),
+    const scriptState = {
+      scenes: [
+        {
+          id: 'scene-a',
+          mapId: 'map-a',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          hooks: {
+            onEnter: {
+              initial: 'alternate',
+              variants: { alternate: { label: '备用进场', order: 0, flow } },
+            },
+          },
+          entities: [
+            {
+              id: 'entity-a',
+              zone: true,
+              pos: { col: 0, row: 0, height: 0 },
+              pages: [{ id: 'page-a', trigger: 'alternate' }],
+              behaviors: {
+                trigger: { alternate: { label: '备用交互', order: 0, flow } },
+              },
+            },
+          ],
+        },
+      ],
+      items: [
+        {
+          id: 'item-a',
+          name: '物品',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: {
+            target: 'scene',
+            consuming: false,
+            effects: [{ kind: 'runScript', script: 'shared/target' }],
+          },
+        },
+      ],
+      sharedScripts: {
+        'shared/target': { name: '目标', self: 'none', body: [] },
+        'shared/caller': {
+          name: '调用方',
+          self: 'none',
+          body: [
+            { kind: 'setFlag', flag: 'quest.ready', value: true },
+            {
+              kind: 'selectEntityBehavior',
+              target: { scene: 'scene-a', entity: 'entity-a' },
+              channel: 'trigger',
+              selection: { kind: 'use', value: 'alternate' },
+            },
+            {
+              kind: 'selectSceneHooks',
+              scene: 'scene-a',
+              selection: { onEnter: { kind: 'use', value: 'alternate' } },
+            },
+            { kind: 'callScript', script: 'shared/target' },
+          ],
+        },
+      },
+    } as unknown as ScriptEditorState
+    const state = {
+      manifest: {
+        ...noEntryManifest,
+        assets: {
+          catalog: 'assets/index.json',
+          roles: { 'audio.openingMenuMusic': 'music.probe' },
+        },
+      },
+      scenes: scriptState.scenes,
+      actors: [],
+      items: scriptState.items,
+      skills: [],
+      enemies: [],
+      battleFields: [],
+      tilesets: [],
+      sprites: [],
+      battleSprites: [],
+      worlds: [],
+      scriptChunks: {},
+      sharedScripts: scriptState.sharedScripts,
+    } as unknown as EditorState
+    const commandVisits = collectCanonicalScriptCommandVisits(scriptState)
+    const transitionVisits = collectCanonicalScriptTransitionVisits(scriptState)
+    const index = createProjectReferenceIndex(
+      buildProjectReferenceSnapshotFromProjection({
+        state,
+        scriptState,
+        commandVisits,
+        transitionVisits,
+        entityAddressReferences: [],
+        assetReferences: collectEditorAssetReferences(state),
+        worldVariableReferences: collectWorldVariableReferencesV1FromVisits(
+          scriptState,
+          commandVisits,
+        ),
+        canonicalSchemeReferences: buildCanonicalSchemeReferenceIndexesFromVisits(
+          scriptState,
+          commandVisits,
+        ),
+        sharedScriptReferences: collectCanonicalSharedScriptReferencesFromVisits(
+          scriptState,
+          commandVisits,
+        ),
+      }),
     )
+
+    expect(index.referencesTo({ kind: 'asset', id: 'music.probe' })).toHaveLength(1)
+    expect(index.referencesTo({ kind: 'world-variable', id: 'quest.ready' })).toMatchObject([
+      { relation: { kind: 'world-variable', variableKind: 'flag', access: 'write' } },
+    ])
+    expect(
+      index.referencesTo({
+        kind: 'entity-behavior',
+        sceneId: 'scene-a',
+        entityId: 'entity-a',
+        channel: 'trigger',
+        behaviorId: 'alternate',
+      }),
+    ).toMatchObject([
+      {
+        relation: { kind: 'behavior-reference', use: 'page-binding' },
+        locator: { kind: 'scene-page' },
+      },
+      {
+        relation: { kind: 'behavior-reference', use: 'select-behavior' },
+        locator: { kind: 'canonical-script' },
+      },
+    ])
+    expect(
+      index.referencesTo({
+        kind: 'scene-hook',
+        sceneId: 'scene-a',
+        slot: 'onEnter',
+        hookId: 'alternate',
+      }),
+    ).toMatchObject([
+      { relation: { kind: 'scene-hook-reference', use: 'hook-initial' } },
+      { relation: { kind: 'scene-hook-reference', use: 'select-hook' } },
+    ])
+    expect(index.referencesTo({ kind: 'shared-script', id: 'shared/target' })).toMatchObject([
+      { relation: { kind: 'script-reference', use: 'binding' } },
+      { relation: { kind: 'script-reference', use: 'call' } },
+    ])
   })
 })

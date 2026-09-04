@@ -10,6 +10,8 @@ import type {
 import type { AssetBase, ProjectMap } from '@type-pal/reforge'
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import { activePageTriggerActivation } from '../core/entity-placement.js'
 import { Playback } from '../core/playback.js'
 import type {
@@ -55,12 +57,12 @@ export function CanonicalSceneScriptWorkspace(props: {
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   editorContext?: CanonicalScriptEditorContext
   onDispatch: (command: ScriptEditorCommand) => void
-  onOpenReference?: (reference: CanonicalScriptReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   focusReference?: { reference: CanonicalScriptReference; revision: number }
   focusOwner?: { owner: SceneScriptOwner; revision: number }
   onError?: (message: string) => void
-  behaviorReferenceIndex?: ReadonlyMap<string, readonly CanonicalScriptReference[]>
-  sceneHookReferenceIndex?: ReadonlyMap<string, readonly CanonicalScriptReference[]>
+  projectReferenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
 }) {
   const [owner, setOwner] = useState<'scene' | 'entity'>(
     props.selectedEntityId ? 'entity' : 'scene',
@@ -340,7 +342,8 @@ export function CanonicalSceneScriptWorkspace(props: {
                   : undefined
               }
               onError={props.onError}
-              referenceIndex={props.sceneHookReferenceIndex}
+              referenceIndex={props.projectReferenceIndex}
+              referenceStatus={props.referenceStatus}
               editorContext={
                 props.editorContext
                   ? {
@@ -374,7 +377,8 @@ export function CanonicalSceneScriptWorkspace(props: {
                   : undefined
               }
               onError={props.onError}
-              referenceIndex={props.behaviorReferenceIndex}
+              referenceIndex={props.projectReferenceIndex}
+              referenceStatus={props.referenceStatus}
               editorContext={
                 props.editorContext
                   ? {

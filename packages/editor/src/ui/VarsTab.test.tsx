@@ -4,10 +4,18 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+  createProjectReferenceSource,
+} from '../core/project-reference.js'
+import {
+  collectCurrentProjectReferenceIndex,
+  type CurrentProjectReferenceIndexProvider,
+} from '../core/project-reference-adapters.js'
 import type { ScriptEditorState } from '../core/script-editor.js'
 import {
   type WorldVariableReferenceIndexV1,
-  worldVariableScriptStateFromEditorStateV1,
 } from '../core/world-variable-references.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
@@ -51,6 +59,27 @@ const references: WorldVariableReferenceIndexV1 = {
 ;(references.byId as Map<string, typeof references.all>).set('quest.started', [references.all[0]!])
 ;(references.byId as Map<string, typeof references.all>).set('score.total', [references.all[1]!])
 ;(references.byId as Map<string, typeof references.all>).set('missing.value', [references.all[2]!])
+
+const referenceIndex = createProjectReferenceIndex(
+  buildProjectReferenceSnapshot(
+    references.all.map((reference) => ({
+      target: { kind: 'world-variable' as const, id: reference.id },
+      source: createProjectReferenceSource(
+        { kind: 'script-owner', owner: reference.owner },
+        reference.ownerLabel,
+      ),
+      relation: {
+        kind: 'world-variable' as const,
+        variableKind: reference.kind,
+        access: reference.access,
+      },
+      where: reference.path,
+      detail: reference.detail,
+      locator: { kind: 'script-owner' as const, owner: reference.owner },
+      deletePolicy: 'replace-suggest' as const,
+    })),
+  ),
+)
 
 function state(): EditorState {
   return {
@@ -130,16 +159,16 @@ afterEach(async () => {
 async function render(
   focusObjectId?: string,
   referenceStatus: EditorDerivedStatus = 'current',
-  getCurrentScriptState: () => ScriptEditorState | undefined = () =>
-    worldVariableScriptStateFromEditorStateV1(session.getState()),
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider =
+    collectCurrentProjectReferenceIndex,
 ): Promise<void> {
   await act(async () =>
     root.render(
       <VarsTab
         variables={session.getState().worldVariables ?? {}}
-        references={references}
+        referenceIndex={referenceIndex}
         referenceStatus={referenceStatus}
-        getCurrentScriptState={getCurrentScriptState}
+        getCurrentReferenceIndex={getCurrentReferenceIndex}
         session={session}
         focusObjectId={focusObjectId}
       />,
@@ -190,7 +219,9 @@ describe('VarsTab world variable workbench', () => {
         },
       },
     }
-    await render('unused', 'current', () => canonical)
+    await render('unused', 'current', (state) =>
+      collectCurrentProjectReferenceIndex(state, canonical),
+    )
     const currentDelete = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
       (button) => button.textContent?.trim() === '删除变量',
     )!

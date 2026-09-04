@@ -7,6 +7,7 @@ import {
   collectEntityAddressReferences,
   collectMissingEntityAddressReferences,
 } from './entity-address-references.js'
+import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 
 function currentState(): EditorState {
   return {
@@ -233,7 +234,9 @@ describe('current entity address editor closure', () => {
   test('delete is fail-loud while lifecycle references exist and remains undoable after cleanup', () => {
     const state = currentState()
     const session = new EditSession(state)
-    expect(() => session.dispatch(new DeleteEntityCommand('s', 'b'))).toThrow(
+    expect(() =>
+      session.dispatch(new DeleteEntityCommand('s', 'b', collectCurrentProjectReferenceIndex)),
+    ).toThrow(
       /hideEntity.*target|仍被引用/,
     )
     expect(session.getState().scenes[0]!.entities.map((entity) => entity.id)).toEqual(['a', 'b'])
@@ -251,7 +254,11 @@ describe('current entity address editor closure', () => {
     scene.entities[0]!.behaviors!.trigger!.main!.flow.stages[0]!.body = []
     cleaned.sharedScripts = {}
     const cleanSession = new EditSession(cleaned)
-    expect(cleanSession.dispatch(new DeleteEntityCommand('s', 'b'))).toBe(true)
+    expect(
+      cleanSession.dispatch(
+        new DeleteEntityCommand('s', 'b', collectCurrentProjectReferenceIndex),
+      ),
+    ).toBe(true)
     expect(cleanSession.getState().scenes[0]!.entities.map((entity) => entity.id)).toEqual(['a'])
     expect(cleanSession.undo()).toBe(true)
     expect(cleanSession.getState().scenes[0]!.entities.map((entity) => entity.id)).toEqual([

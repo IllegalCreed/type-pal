@@ -6,7 +6,6 @@
  * UI、保存前校验和测试都消费同一组纯函数。
  */
 import {
-  ASSET_ROLES,
   type AssetKind,
   type AssetRole,
   type CurrentManifest,
@@ -47,6 +46,7 @@ import {
   type CanonicalSchemeReferenceIndexes,
   type CanonicalScriptCommandVisit,
   type CanonicalScriptTransitionVisit,
+  collectCanonicalSharedScriptReferencesFromVisits,
   collectCanonicalScriptCommandVisits,
   collectCanonicalScriptTransitionVisits,
   collectScriptReferenceIssuesFromVisits,
@@ -413,13 +413,10 @@ function collectProjectIssuesFromScan(
 
   // 调用统一引用收集器 + closure validator，确保诊断覆盖脚本/场景/敌人引用；本页只展示摘要。
   for (const closure of catalogValid ? scan.assetDiagnostics : []) {
-    const reference = closure.reference
-    const isIntro =
-      reference?.site.startsWith('entryPoint:') ?? closure.where.includes('introVideo')
-    const isRole = reference?.site.startsWith('manifest.assets.roles.') ?? false
-    const assetRole = isRole
-      ? ASSET_ROLES.find((role) => reference?.site === `manifest.assets.roles.${role}`)
-      : undefined
+    const origin = closure.origin
+    const isIntro = origin?.kind === 'entry-point'
+    const isRole = origin?.kind === 'manifest-role'
+    const assetRole = origin?.kind === 'manifest-role' ? origin.role : undefined
     const isUnused = closure.code === 'unused-asset'
     const code: ProjectIssueCode = isUnused
       ? 'unused-asset'
@@ -435,25 +432,10 @@ function collectProjectIssuesFromScan(
             ? 'missing-role-asset'
             : 'missing-asset'
     const assetId = closure.assetId
-    const entryId =
-      reference?.site.startsWith('entryPoint:') && reference.site.endsWith(':introVideo')
-        ? reference.site.slice('entryPoint:'.length, -':introVideo'.length)
-        : undefined
+    const entryId = origin?.kind === 'entry-point' ? origin.id : undefined
     const expectedKind = closure.expectedKind
-    const spriteDefinitionIndex = reference
-      ? /^sprites\[(\d+)\]\.asset$/.exec(reference.where)?.[1]
-      : undefined
-    const spriteDefinitionId =
-      spriteDefinitionIndex === undefined
-        ? undefined
-        : state.sprites[Number(spriteDefinitionIndex)]?.id
-    const battleSpriteDefinitionIndex = reference
-      ? /^battleSprites\[(\d+)\]\.asset$/.exec(reference.where)?.[1]
-      : undefined
-    const battleSpriteDefinitionId =
-      battleSpriteDefinitionIndex === undefined
-        ? undefined
-        : state.battleSprites[Number(battleSpriteDefinitionIndex)]?.id
+    const spriteDefinitionId = origin?.kind === 'world-sprite' ? origin.id : undefined
+    const battleSpriteDefinitionId = origin?.kind === 'battle-sprite' ? origin.id : undefined
     const actualKind = closure.actualKind
     const targetKind = actualKind ?? expectedKind
     const assetPage =
@@ -477,7 +459,7 @@ function collectProjectIssuesFromScan(
       severity: closure.severity,
       code,
       message: closure.title,
-      path: reference?.site ?? closure.where,
+      path: closure.where,
       ...(assetId
         ? {
             asset: {
@@ -653,6 +635,7 @@ export interface EditorDiagnosticsDependencies {
   collectEditorAssetDiagnostics: typeof collectEditorAssetDiagnostics
   collectCanonicalScriptCommandVisits: typeof collectCanonicalScriptCommandVisits
   collectCanonicalScriptTransitionVisits: typeof collectCanonicalScriptTransitionVisits
+  collectCanonicalSharedScriptReferencesFromVisits: typeof collectCanonicalSharedScriptReferencesFromVisits
   collectScriptReferenceIssuesFromVisits: typeof collectScriptReferenceIssuesFromVisits
   collectWorldVariableReferencesV1FromVisits: typeof collectWorldVariableReferencesV1FromVisits
   collectEntityAddressReferences: typeof collectEntityAddressReferences
@@ -675,6 +658,7 @@ export function createEditorDiagnosticsSnapshotCollector(
     collectEditorAssetDiagnostics,
     collectCanonicalScriptCommandVisits,
     collectCanonicalScriptTransitionVisits,
+    collectCanonicalSharedScriptReferencesFromVisits,
     collectScriptReferenceIssuesFromVisits,
     collectWorldVariableReferencesV1FromVisits,
     collectEntityAddressReferences,
@@ -704,6 +688,8 @@ export function createEditorDiagnosticsSnapshotCollector(
       dependencies.collectCanonicalScriptCommandVisits(scriptState)
     const transitionVisits: CanonicalScriptTransitionVisit[] =
       dependencies.collectCanonicalScriptTransitionVisits(scriptState)
+    const sharedScriptReferences =
+      dependencies.collectCanonicalSharedScriptReferencesFromVisits(scriptState, commandVisits)
     const assetSnapshot = dependencies.collectEditorAssetReferenceSnapshotFromSlices(
       currentAuthorState,
       author,
@@ -714,7 +700,11 @@ export function createEditorDiagnosticsSnapshotCollector(
     )
     const entityAddressReferences = dependencies.collectEntityAddressReferences(currentAuthorState)
     const scriptReferenceIssues = canonical
-      ? dependencies.collectScriptReferenceIssuesFromVisits(scriptState, commandVisits)
+      ? dependencies.collectScriptReferenceIssuesFromVisits(
+          scriptState,
+          commandVisits,
+          sharedScriptReferences,
+        )
       : []
     const worldVariableReferences = dependencies.collectWorldVariableReferencesV1FromVisits(
       scriptState,
@@ -725,13 +715,17 @@ export function createEditorDiagnosticsSnapshotCollector(
       : new Map<string, SceneEntryReferenceEntry[]>()
     const canonicalSchemeReferenceIndexes = canonical
       ? dependencies.buildCanonicalSchemeReferenceIndexesFromVisits(scriptState, commandVisits)
-      : { behavior: new Map(), sceneHook: new Map() }
+      : { behavior: new Map(), sceneHook: new Map(), behaviorEntries: [], sceneHookEntries: [] }
     const projectReferences = dependencies.buildProjectReferenceSnapshotFromProjection({
       state: currentAuthorState,
       scriptState,
       commandVisits,
       transitionVisits,
       entityAddressReferences,
+      assetReferences: assetSnapshot.references,
+      worldVariableReferences,
+      canonicalSchemeReferences: canonicalSchemeReferenceIndexes,
+      sharedScriptReferences,
     })
     const scan = { referenceIssues, assetSnapshot, assetDiagnostics }
     const projectIssues = collectProjectIssuesFromScan(currentAuthorState, scan)

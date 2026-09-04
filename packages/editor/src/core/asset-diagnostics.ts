@@ -3,8 +3,9 @@ import {
   type AssetClosureIssue,
   type AssetId,
   type AssetKind,
+  type AssetReferenceOrigin,
   type AssetRecordV1,
-  type AssetReference,
+  type LocatedAssetReference,
   validateAssetReferenceClosure,
 } from '@type-pal/content'
 
@@ -42,7 +43,7 @@ export interface EditorAssetDiagnostic extends AssetClosureIssue {
   assetLabel?: string
   expectedKind?: AssetKind
   actualKind?: AssetKind
-  reference?: AssetReference
+  origin?: AssetReferenceOrigin
   /** 作者界面使用的中文单句；稳定 code/where 仍保留用于分类、去重和定位。 */
   title: string
 }
@@ -86,7 +87,7 @@ function diagnosticTitle(
  */
 export function collectEditorAssetDiagnostics(
   catalog: AssetCatalogV1,
-  references: readonly AssetReference[],
+  references: readonly LocatedAssetReference[],
 ): EditorAssetDiagnostic[] {
   const referenceByWhere = new Map(references.map((reference) => [reference.where, reference]))
   const unusedAssetByWhere = new Map(
@@ -104,7 +105,7 @@ export function collectEditorAssetDiagnostics(
       ...(record?.label ? { assetLabel: record.label } : {}),
       ...(expectedKind ? { expectedKind } : {}),
       ...(actualKind ? { actualKind } : {}),
-      ...(reference ? { reference } : {}),
+      ...(reference ? { origin: reference.origin } : {}),
       title: diagnosticTitle(issue, assetId, record?.label, expectedKind, actualKind),
     }
   })

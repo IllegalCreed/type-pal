@@ -518,6 +518,13 @@ export const editorLinks = {
     domain: 'world',
     view: 'definition',
   }),
+  worldSpriteAsset: (assetId: string): EditorLocation => ({
+    module: 'asset',
+    subpage: 'sprite',
+    objectId: assetId,
+    domain: 'world',
+    view: 'asset',
+  }),
   worldSpriteAction: (spriteId: string, actionId: string): EditorLocation => ({
     module: 'asset',
     subpage: 'sprite',
@@ -602,9 +609,19 @@ export const editorLinks = {
     subpage: 'sound',
     objectId: assetId,
   }),
+  music: (assetId: string): EditorLocation => ({
+    module: 'asset',
+    subpage: 'music',
+    objectId: assetId,
+  }),
   image: (assetId: string): EditorLocation => ({
     module: 'asset',
     subpage: 'image',
+    objectId: assetId,
+  }),
+  cutscene: (assetId: string): EditorLocation => ({
+    module: 'asset',
+    subpage: 'cutscene',
     objectId: assetId,
   }),
   sharedScript: (scriptId: string): EditorLocation => ({

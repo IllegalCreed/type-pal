@@ -1,16 +1,50 @@
 // @vitest-environment jsdom
 
 import type { AuthorSceneDef } from '@type-pal/content'
-import { act, useState } from 'react'
+import { act, type ComponentProps, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
+  buildCanonicalSchemeReferenceIndexesFromVisits,
+  collectCanonicalScriptCommandVisits,
   type ScriptEditorCommand,
   type ScriptEditorState,
   ScriptEditSession,
 } from '../core/script-editor.js'
-import { ScriptSceneHookInspector } from './ScriptSceneHookInspector.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+} from '../core/project-reference.js'
+import { canonicalSchemeReferenceEdges } from '../core/project-reference-adapters.js'
+import { ScriptSceneHookInspector as ScriptSceneHookInspectorContent } from './ScriptSceneHookInspector.js'
+
+function ScriptSceneHookInspector(
+  props: Omit<ComponentProps<typeof ScriptSceneHookInspectorContent>, 'referenceStatus'> & {
+    referenceStatus?: ComponentProps<typeof ScriptSceneHookInspectorContent>['referenceStatus']
+  },
+) {
+  const index =
+    props.referenceIndex ??
+    createProjectReferenceIndex(
+      buildProjectReferenceSnapshot(
+        canonicalSchemeReferenceEdges(
+          buildCanonicalSchemeReferenceIndexesFromVisits(
+            props.state,
+            collectCanonicalScriptCommandVisits(props.state),
+          ),
+          props.state,
+        ),
+      ),
+    )
+  return (
+    <ScriptSceneHookInspectorContent
+      {...props}
+      referenceIndex={index}
+      referenceStatus={props.referenceStatus ?? 'current'}
+    />
+  )
+}
 
 const scene: AuthorSceneDef = {
   id: 's001',

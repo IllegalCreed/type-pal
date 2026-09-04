@@ -51,11 +51,7 @@ function collect(input: EditorDerivedInput): EditorDerivedData {
     statusIssues: snapshot.statusIssues,
     projectIssues: snapshot.projectIssues,
     projectReferences: snapshot.projectReferences,
-    assetReferences: snapshot.assetSnapshot.references,
     assetDiagnostics: snapshot.assetDiagnostics,
-    worldVariableReferences: snapshot.worldVariableReferences,
-    canonicalBehaviorReferences: [...snapshot.canonicalSchemeReferenceIndexes.behavior],
-    canonicalSceneHookReferences: [...snapshot.canonicalSchemeReferenceIndexes.sceneHook],
   }
 }
 

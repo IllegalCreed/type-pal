@@ -1,10 +1,8 @@
-import type { AssetReference } from '@type-pal/content'
 import type { EditorAssetDiagnostic } from './asset-diagnostics.js'
 import type { EditorState } from './edit-session.js'
 import type { EditorStatusIssue, ProjectIssue } from './project-diagnostics.js'
 import type { ProjectReferenceSnapshotV1 } from './project-reference.js'
-import type { CanonicalScriptReference, ScriptEditorState } from './script-editor.js'
-import type { WorldVariableReferenceIndexV1 } from './world-variable-references.js'
+import type { ScriptEditorState } from './script-editor.js'
 
 export interface EditorDerivedRevision {
   mainHistoryVersion: number
@@ -47,11 +45,7 @@ export interface EditorDerivedData {
   statusIssues: EditorStatusIssue[]
   projectIssues: ProjectIssue[]
   projectReferences: ProjectReferenceSnapshotV1
-  assetReferences: AssetReference[]
   assetDiagnostics: EditorAssetDiagnostic[]
-  worldVariableReferences: WorldVariableReferenceIndexV1
-  canonicalBehaviorReferences: Array<[string, CanonicalScriptReference[]]>
-  canonicalSceneHookReferences: Array<[string, CanonicalScriptReference[]]>
 }
 
 interface EditorDerivedRequestBase {

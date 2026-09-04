@@ -4,6 +4,7 @@ import { act, createElement } from 'react'
 import { createRoot } from 'react-dom/client'
 import { describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import {
   catalogControlsAssetCatalog,
   catalogControlsEditorState,
@@ -59,6 +60,9 @@ describe('A7-1 SoundTab WAV 导入', () => {
         root.render(
           createElement(SoundTab, {
             assetDiagnostics: [],
+            referenceIndex: collectCurrentProjectReferenceIndex(session.getState()),
+            referenceStatus: 'current',
+            getCurrentReferenceIndex: collectCurrentProjectReferenceIndex,
             catalog: catalogControlsAssetCatalog,
             reader: catalogControlsReader,
             session,

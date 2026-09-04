@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
+import { isDeepStrictEqual } from 'node:util'
 import { fileURLToPath } from 'node:url'
 import { serialize } from 'node:v8'
 import { createServer } from 'vite'
@@ -61,23 +62,37 @@ try {
   const { editorDiagnosticState } = await vite.ssrLoadModule(
     '/packages/editor/src/core/editor-derived-store.ts',
   )
-  const { collectCanonicalScriptCommandVisits, collectCanonicalScriptTransitionVisits } =
-    await vite.ssrLoadModule('/packages/editor/src/core/script-editor.ts')
+  const {
+    buildCanonicalSchemeReferenceIndexesFromVisits,
+    collectCanonicalScriptCommandVisits,
+    collectCanonicalScriptTransitionVisits,
+    collectCanonicalSharedScriptReferencesFromVisits,
+  } = await vite.ssrLoadModule('/packages/editor/src/core/script-editor.ts')
   const { projectCurrentAuthorReferenceSlices, scriptEditorStateFromCurrentAuthorSlices } =
     await vite.ssrLoadModule('/packages/editor/src/core/script-editor-projection.ts')
   const { collectEntityAddressReferences } = await vite.ssrLoadModule(
     '/packages/editor/src/core/entity-address-references.ts',
   )
+  const { collectEditorAssetReferences } = await vite.ssrLoadModule(
+    '/packages/editor/src/core/editor-asset-references.ts',
+  )
+  const { collectWorldVariableReferencesV1FromVisits } = await vite.ssrLoadModule(
+    '/packages/editor/src/core/world-variable-references.ts',
+  )
   const {
     actorReferenceEdges,
+    assetReferenceEdges,
     battleDataReferenceEdges,
     buildProjectReferenceSnapshotFromProjection,
+    canonicalSchemeReferenceEdges,
     canonicalCommandTargetEdges,
     entityAddressReferenceEdges,
     itemReferenceEdges,
     legacyScriptChunkTargetEdges,
+    sharedScriptReferenceEdges,
     spriteReferenceEdges,
     structuralProjectReferenceEdges,
+    worldVariableReferenceEdges,
   } = await vite.ssrLoadModule('/packages/editor/src/core/project-reference-adapters.ts')
   const { buildProjectReferenceSnapshot } = await vite.ssrLoadModule(
     '/packages/editor/src/core/project-reference.ts',
@@ -123,6 +138,16 @@ try {
   const commandVisits = collectCanonicalScriptCommandVisits(scriptState)
   const transitionVisits = collectCanonicalScriptTransitionVisits(scriptState)
   const entityAddressReferences = collectEntityAddressReferences(currentAuthorState)
+  const assetReferenceRun = timed(() => collectEditorAssetReferences(currentAuthorState))
+  const worldVariableReferenceRun = timed(() =>
+    collectWorldVariableReferencesV1FromVisits(scriptState, commandVisits),
+  )
+  const canonicalSchemeReferenceRun = timed(() =>
+    buildCanonicalSchemeReferenceIndexesFromVisits(scriptState, commandVisits),
+  )
+  const sharedScriptReferenceRun = timed(() =>
+    collectCanonicalSharedScriptReferencesFromVisits(scriptState, commandVisits),
+  )
   const structuralEdgeRun = timed(() => structuralProjectReferenceEdges(currentAuthorState))
   const canonicalEdgeRun = timed(() => canonicalCommandTargetEdges(commandVisits, scriptState))
   const legacyEdgeRun = timed(() => legacyScriptChunkTargetEdges(currentAuthorState.scriptChunks))
@@ -138,6 +163,23 @@ try {
   const spriteEdgeRun = timed(() =>
     spriteReferenceEdges(currentAuthorState, commandVisits, scriptState),
   )
+  const assetEdgeRun = timed(() =>
+    assetReferenceEdges(
+      currentAuthorState,
+      assetReferenceRun.value,
+      commandVisits,
+      scriptState,
+    ),
+  )
+  const worldVariableEdgeRun = timed(() =>
+    worldVariableReferenceEdges(worldVariableReferenceRun.value, scriptState),
+  )
+  const canonicalSchemeEdgeRun = timed(() =>
+    canonicalSchemeReferenceEdges(canonicalSchemeReferenceRun.value, scriptState),
+  )
+  const sharedScriptEdgeRun = timed(() =>
+    sharedScriptReferenceEdges(sharedScriptReferenceRun.value, scriptState),
+  )
   const entityEdgeRun = timed(() => entityAddressReferenceEdges(entityAddressReferences))
   const compactRun = timed(() =>
     buildProjectReferenceSnapshot(
@@ -149,6 +191,10 @@ try {
         ...actorEdgeRun.value,
         ...itemEdgeRun.value,
         ...spriteEdgeRun.value,
+        ...assetEdgeRun.value,
+        ...worldVariableEdgeRun.value,
+        ...canonicalSchemeEdgeRun.value,
+        ...sharedScriptEdgeRun.value,
         ...entityEdgeRun.value,
       ],
       { assumeUnique: true },
@@ -164,11 +210,17 @@ try {
           commandVisits,
           transitionVisits,
           entityAddressReferences,
+          assetReferences: assetReferenceRun.value,
+          worldVariableReferences: worldVariableReferenceRun.value,
+          canonicalSchemeReferences: canonicalSchemeReferenceRun.value,
+          sharedScriptReferences: sharedScriptReferenceRun.value,
         }),
       ).ms,
   )
 
   const firstSnapshot = timed(() => collectEditorDiagnosticsSnapshot(state, canonical))
+  if (!isDeepStrictEqual(compactRun.value, firstSnapshot.value.projectReferences))
+    throw new Error('分项引用边与生产快照不一致；benchmark 已漏算同步引用域')
   const snapshotSamples = Array.from(
     { length: samples },
     () => timed(() => collectEditorDiagnosticsSnapshot(state, canonical)).ms,
@@ -233,6 +285,14 @@ try {
           actorMs: Number(actorEdgeRun.ms.toFixed(3)),
           itemMs: Number(itemEdgeRun.ms.toFixed(3)),
           spriteMs: Number(spriteEdgeRun.ms.toFixed(3)),
+          assetCollectMs: Number(assetReferenceRun.ms.toFixed(3)),
+          assetMs: Number(assetEdgeRun.ms.toFixed(3)),
+          worldVariableCollectMs: Number(worldVariableReferenceRun.ms.toFixed(3)),
+          worldVariableMs: Number(worldVariableEdgeRun.ms.toFixed(3)),
+          canonicalSchemeCollectMs: Number(canonicalSchemeReferenceRun.ms.toFixed(3)),
+          canonicalSchemeMs: Number(canonicalSchemeEdgeRun.ms.toFixed(3)),
+          sharedScriptCollectMs: Number(sharedScriptReferenceRun.ms.toFixed(3)),
+          sharedScriptMs: Number(sharedScriptEdgeRun.ms.toFixed(3)),
           entityMs: Number(entityEdgeRun.ms.toFixed(3)),
           compactMs: Number(compactRun.ms.toFixed(3)),
         },
@@ -258,10 +318,20 @@ try {
           projectReferenceRelations: projectReferences.relations.length,
           projectReferenceLocators: projectReferences.locators.length,
           projectReferenceTargetBuckets: projectReferences.targetEdgeIds.length,
-          assetReferences: derived.assetReferences.length,
-          worldVariableReferences: derived.worldVariableReferences.all.length,
-          behaviorReferences: sumPairs(derived.canonicalBehaviorReferences),
-          sceneHookReferences: sumPairs(derived.canonicalSceneHookReferences),
+          projectReferenceEmptyWhereSuffixes: projectReferences.rows.filter(
+            (row: readonly number[]) => projectReferences.whereSuffixes[row[4]] === '',
+          ).length,
+          projectReferenceUniqueWhereSuffixes: projectReferences.whereSuffixes.length,
+          projectReferenceWhereSuffixDictionaryJson: jsonBytes(projectReferences.whereSuffixes),
+          assetReferences: assetReferenceRun.value.length,
+          worldVariableReferences: firstSnapshot.value.worldVariableReferences.all.length,
+          behaviorReferences: sumPairs([
+            ...firstSnapshot.value.canonicalSchemeReferenceIndexes.behavior,
+          ]),
+          sceneHookReferences: sumPairs([
+            ...firstSnapshot.value.canonicalSchemeReferenceIndexes.sceneHook,
+          ]),
+          sharedScriptReferences: sharedScriptReferenceRun.value.length,
         },
       },
       null,

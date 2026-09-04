@@ -462,8 +462,8 @@ type DataStateProps`,
     const dataModeSource = readFileSync(join(here, '../DataMode.tsx'), 'utf8')
 
     const shadowedMusicDispatcher = dataModeSource.replace(
-      '  const variableReferences =',
-      '  const MusicTab = () => <div />\n  const variableReferences =',
+      '  const assetDiagnostics =',
+      '  const MusicTab = () => <div />\n  const assetDiagnostics =',
     )
     expect(validateAdoption(matrix, { 'DataMode.tsx': shadowedMusicDispatcher })).toContain(
       'DataMode.tsx route music/default must have 1 reachable return(s) and exactly one imported dispatcher',
@@ -472,8 +472,8 @@ type DataStateProps`,
     const forgedTab = dataModeSource
       .replace('    tab,\n', '')
       .replace(
-        '  const variableReferences =',
-        "  const tab = 'item' as const\n  const variableReferences =",
+        '  const assetDiagnostics =',
+        "  const tab = 'item' as const\n  const assetDiagnostics =",
       )
     expect(validateAdoption(matrix, { 'DataMode.tsx': forgedTab })).toContain(
       'DataMode.tsx tab and spriteDomain must come from canonical props/state bindings',
@@ -489,8 +489,8 @@ type DataStateProps`,
     )
 
     const helperMutatesTab = dataModeSource.replace(
-      '  const variableReferences =',
-      "  const forceItem = () => { tab = 'item' }\n  forceItem()\n  const variableReferences =",
+      '  const assetDiagnostics =',
+      "  const forceItem = () => { tab = 'item' }\n  forceItem()\n  const assetDiagnostics =",
     )
     expect(helperMutatesTab).not.toBe(dataModeSource)
     expect(validateAdoption(matrix, { 'DataMode.tsx': helperMutatesTab })).toContain(

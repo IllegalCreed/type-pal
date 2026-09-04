@@ -119,11 +119,7 @@ function derivedData(referenceCount: number): EditorDerivedData {
         deletePolicy: 'block' as const,
       })),
     ),
-    assetReferences: [],
     assetDiagnostics: [],
-    worldVariableReferences: { all: [], byId: new Map() },
-    canonicalBehaviorReferences: [],
-    canonicalSceneHookReferences: [],
   }
 }
 

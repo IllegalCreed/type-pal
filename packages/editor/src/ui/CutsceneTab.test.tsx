@@ -3,7 +3,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
-import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import {
   catalogControlsAssetCatalog,
@@ -18,6 +18,14 @@ vi.mock('./FrameAnimationEditor.js', () => ({
     </button>
   ),
 }))
+
+function deferred<T>() {
+  let resolve!: (value: T) => void
+  const promise = new Promise<T>((done) => {
+    resolve = done
+  })
+  return { promise, resolve }
+}
 
 let root: Root
 let host: HTMLDivElement
@@ -43,8 +51,9 @@ describe('CutsceneTab catalog controls', () => {
       root.render(
         <CutsceneTab
           assetDiagnostics={[]}
-          assetReferences={[]}
-          assetReferenceStatus="current"
+          referenceIndex={collectCurrentProjectReferenceIndex(session.getState())}
+          referenceStatus="current"
+          getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
           assetBase={{} as never}
           catalog={catalog}
           reader={catalogControlsReader as never}
@@ -98,8 +107,9 @@ describe('CutsceneTab catalog controls', () => {
       root.render(
         <CutsceneTab
           assetDiagnostics={[]}
-          assetReferences={[]}
-          assetReferenceStatus="current"
+          referenceIndex={collectCurrentProjectReferenceIndex(session.getState())}
+          referenceStatus="current"
+          getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
           assetBase={{} as never}
           catalog={emptyCatalog}
           reader={catalogControlsReader as never}
@@ -132,14 +142,16 @@ describe('CutsceneTab catalog controls', () => {
       root.render(
         <CutsceneTab
           assetDiagnostics={[]}
-          assetReferences={collectEditorAssetReferences(session.getState(), currentAuthor)}
-          assetReferenceStatus="current"
+          referenceIndex={collectCurrentProjectReferenceIndex(session.getState(), currentAuthor)}
+          referenceStatus="current"
+          getCurrentReferenceIndex={(state) =>
+            collectCurrentProjectReferenceIndex(state, currentAuthor)
+          }
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={{ ...catalogControlsReader, readBytes } as never}
           session={session}
           focusObjectId="video.opening"
-          currentAuthor={currentAuthor}
         />,
       )
       await Promise.resolve()
@@ -165,14 +177,67 @@ describe('CutsceneTab catalog controls', () => {
     expect(readBytes).toHaveBeenCalledTimes(readsBeforeConfirm)
   })
 
+  test('does not commit deletion when the live oracle changes during the video byte read', async () => {
+    const session = new EditSession(catalogControlsEditorState())
+    const staleIndex = collectCurrentProjectReferenceIndex(session.getState())
+    const pendingBytes = deferred<ArrayBuffer>()
+    let holdDeleteRead = false
+    const reader = {
+      ...catalogControlsReader,
+      readBytes: vi.fn(() =>
+        holdDeleteRead ? pendingBytes.promise : Promise.resolve(new ArrayBuffer(4)),
+      ),
+    }
+    let stale = false
+    const getCurrentReferenceIndex = () => {
+      if (stale) throw new Error('过场引用在读取期间发生变化')
+      return staleIndex
+    }
+    await act(async () =>
+      root.render(
+        <CutsceneTab
+          assetDiagnostics={[]}
+          referenceIndex={staleIndex}
+          referenceStatus="current"
+          getCurrentReferenceIndex={getCurrentReferenceIndex}
+          assetBase={{} as never}
+          catalog={catalogControlsAssetCatalog}
+          reader={reader as never}
+          session={session}
+          focusObjectId="video.opening"
+        />,
+      ),
+    )
+    const deleteButton = [...host.querySelectorAll<HTMLButtonElement>('.ds-object-hero button')].find(
+      (button) => button.textContent?.trim() === '删除',
+    )!
+    await act(async () => deleteButton.click())
+    const confirm = [...host.querySelectorAll<HTMLButtonElement>('[role="dialog"] button')].find(
+      (button) => button.textContent?.trim() === '删除资源',
+    )!
+    holdDeleteRead = true
+    await act(async () => confirm.click())
+    await vi.waitFor(() =>
+      expect(reader.readBytes).toHaveBeenLastCalledWith('video.opening', 'video'),
+    )
+
+    stale = true
+    await act(async () => pendingBytes.resolve(new ArrayBuffer(4)))
+    await vi.waitFor(() => expect(host.textContent).toContain('过场引用在读取期间发生变化'))
+    expect(session.getState().assetCatalog.assets['video.opening']).toBeDefined()
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('开场视频')
+  })
+
   test('keeps frame edits dirty when replacement is confirmed but the file picker is cancelled', async () => {
     const session = new EditSession(catalogControlsEditorState())
     await act(async () => {
       root.render(
         <CutsceneTab
           assetDiagnostics={[]}
-          assetReferences={[]}
-          assetReferenceStatus="current"
+          referenceIndex={collectCurrentProjectReferenceIndex(session.getState())}
+          referenceStatus="current"
+          getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader as never}
@@ -220,8 +285,9 @@ describe('CutsceneTab catalog controls', () => {
       root.render(
         <CutsceneTab
           assetDiagnostics={[]}
-          assetReferences={[]}
-          assetReferenceStatus="current"
+          referenceIndex={collectCurrentProjectReferenceIndex(session.getState())}
+          referenceStatus="current"
+          getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader as never}

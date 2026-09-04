@@ -203,6 +203,7 @@ describe('CanonicalSceneScriptWorkspace', () => {
           assetCatalog={{} as never}
           assetReader={{} as never}
           projectId="test"
+          referenceStatus="current"
           onDispatch={() => {}}
           focusReference={options?.focusReference}
           focusOwner={options?.focusOwner}

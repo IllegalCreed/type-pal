@@ -3,10 +3,7 @@ import {
   type AssetCatalogV1,
   type AssetId,
   type AssetRecordV1,
-  type AssetReference,
-  type AssetReferenceSite,
   FRAME_SEQUENCE_MEDIA_TYPE,
-  groupAssetReferencesBySite,
 } from '@type-pal/content'
 import { type AssetBase, loadStandardPalette } from '@type-pal/reforge'
 import {
@@ -25,7 +22,6 @@ import {
 } from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { tryCollectEditorAssetReferenceSnapshot } from '../core/editor-asset-references.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { FrameAnimationEncodeFrame } from '../core/frame-animation-codec.js'
 import type { FrameQuantization } from '../core/frame-animation-draft.js'
@@ -34,7 +30,8 @@ import {
   encodeFrameAnimationInWorker,
   quantizeFrameAnimationInWorker,
 } from '../core/frame-animation-worker-client.js'
-import type { ScriptEditorState } from '../core/script-editor.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import { mp4HasAudioTrack } from '../core/video-metadata.js'
 import {
   DsButton,
@@ -292,49 +289,6 @@ function EmbeddedVideo(props: {
   )
 }
 
-const CUTSCENE_ROLE_LABELS: Readonly<Record<string, string>> = {
-  'manifest.assets.roles.video.startupTrademark': '启动商标视频',
-  'manifest.assets.roles.video.startupSplash': '启动开场视频',
-}
-
-function describeReference(
-  reference: AssetReferenceSite,
-  state: ReturnType<EditSession['getState']>,
-): { kind: string; owner: string } {
-  const where = reference.where
-  const roleLabel = CUTSCENE_ROLE_LABELS[where]
-  if (roleLabel) return { kind: roleLabel, owner: '项目清单' }
-  const entryPoint = /^entryPoints\[(\d+)]\.introVideo$/.exec(where)
-  if (entryPoint)
-    return {
-      kind: '入口剧情视频',
-      owner: `入口点 ${state.manifest.entryPoints[Number(entryPoint[1])]?.id ?? `#${entryPoint[1]}`}`,
-    }
-  const commandKind = reference.expectedKind === 'video' ? '播放视频' : '播放帧动画'
-  const scene = /^scenes\[(\d+)](.*)$/.exec(where)
-  if (scene)
-    return {
-      kind: commandKind,
-      owner: `场景 ${state.scenes[Number(scene[1])]?.id ?? `#${scene[1]}`}`,
-    }
-  const chunk = /^scriptChunks\[(?:"([^"]+)"|(\d+))]\.scripts\[(?:"([^"]+)"|(\d+))]/.exec(where)
-  if (chunk) {
-    const chunkId = chunk[1] ?? chunk[2] ?? '#?'
-    const scriptId = chunk[3] ?? chunk[4] ?? '#?'
-    return {
-      kind: commandKind,
-      owner: `脚本 ${scriptId}（${chunkId}）`,
-    }
-  }
-  const enemy = /^enemies\[(\d+)](.*)$/.exec(where)
-  if (enemy)
-    return {
-      kind: commandKind,
-      owner: `敌人 ${state.enemies?.[Number(enemy[1])]?.id ?? `#${enemy[1]}`}`,
-    }
-  return { kind: '过场引用', owner: where }
-}
-
 export function CutsceneTab(props: {
   assetBase: AssetBase
   catalog: AssetCatalogV1
@@ -343,12 +297,11 @@ export function CutsceneTab(props: {
   tabBar?: ReactNode
   focusObjectId?: AssetId
   onObjectFocus?: (id: string | undefined) => void
-  currentAuthor?: ScriptEditorState
-  getCurrentAuthor?: () => ScriptEditorState | undefined
-  assetReferences?: readonly AssetReference[]
   assetDiagnostics: readonly EditorAssetDiagnostic[]
-  assetReferenceStatus?: EditorDerivedStatus
-  assetReferenceMessage?: string
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
 }) {
   const {
     assetBase,
@@ -358,12 +311,11 @@ export function CutsceneTab(props: {
     tabBar,
     focusObjectId,
     onObjectFocus,
-    currentAuthor,
-    getCurrentAuthor,
-    assetReferences = [],
     assetDiagnostics,
-    assetReferenceStatus = 'checking',
-    assetReferenceMessage,
+    referenceIndex,
+    referenceStatus,
+    getCurrentReferenceIndex,
+    onOpenReference,
   } = props
   const videos = useMemo(() => entriesOf(catalog, 'video'), [catalog])
   const animations = useMemo(() => entriesOf(catalog, 'frame-animation'), [catalog])
@@ -454,31 +406,26 @@ export function CutsceneTab(props: {
     if (!selected && allEntries[0]) setSelectedId(allEntries[0].id)
   }, [allEntries, selected])
 
-  const state = session.getState()
-  const allReferences = assetReferences
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
   const referenceScanError =
-    assetReferenceStatus === 'current'
+    effectiveReferenceStatus === 'current'
       ? undefined
-      : assetReferenceStatus === 'failed'
-        ? (assetReferenceMessage ?? '派生引用检查失败')
-        : assetReferenceStatus === 'stale'
+      : effectiveReferenceStatus === 'failed'
+        ? '派生引用检查失败'
+        : effectiveReferenceStatus === 'stale'
           ? '引用正在刷新，当前仅保留上一版结果'
           : '引用正在检查'
   const references = useMemo(() => {
-    const result = new Map<AssetId, AssetReferenceSite[]>()
-    for (const reference of groupAssetReferencesBySite(allReferences)) {
-      const list = result.get(reference.asset) ?? []
-      list.push(reference)
-      result.set(reference.asset, list)
-    }
+    const result = new Map<AssetId, ProjectReferenceEdge[]>()
+    if (!referenceIndex) return result
+    for (const entry of allEntries)
+      result.set(entry.id, referenceIndex.referencesTo({ kind: 'asset', id: entry.id }))
     return result
-  }, [allReferences])
+  }, [allEntries, referenceIndex])
   const closureIssues = assetDiagnostics
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
-  const selectedReferenceCount = selectedReferences.reduce(
-    (total, reference) => total + reference.occurrences,
-    0,
-  )
+  const selectedReferenceCount = selectedReferences.length
   const selectedIssues = selected
     ? closureIssues.filter((issue) => issue.assetId === selected.id)
     : []
@@ -620,32 +567,13 @@ export function CutsceneTab(props: {
   const deleteSelected = async (): Promise<void> => {
     if (!deleteTarget) return
     const targetId = deleteTarget.id
-    const scan = (): ReturnType<typeof tryCollectEditorAssetReferenceSnapshot> =>
-      tryCollectEditorAssetReferenceSnapshot(
-        session.getState(),
-        getCurrentAuthor?.() ?? currentAuthor,
-      )
-    const firstScan = scan()
-    if (firstScan.status === 'error') {
-      setError(`引用扫描失败，未删除：${firstScan.message}`)
-      return
-    }
-    if (firstScan.snapshot.references.some((reference) => reference.asset === targetId)) {
-      setError('资源已有引用，未删除。')
-      return
-    }
     setDeleteBusy(true)
     try {
       const previousBytes = await reader.readBytes(targetId, deleteTarget.record.kind)
-      const finalScan = scan()
-      if (finalScan.status === 'error')
-        throw new Error(`引用扫描失败，未删除：${finalScan.message}`)
-      if (finalScan.snapshot.references.some((reference) => reference.asset === targetId))
-        throw new Error('读取资源期间新增了引用，未删除。')
       const targetIndex = allEntries.findIndex((entry) => entry.id === targetId)
       const remaining = allEntries.filter((entry) => entry.id !== targetId)
       const next = remaining[Math.min(targetIndex, remaining.length - 1)]
-      session.dispatch(new DeleteAssetCommand(targetId, previousBytes))
+      session.dispatch(new DeleteAssetCommand(targetId, getCurrentReferenceIndex, previousBytes))
       setFrameEditorDirty(false)
       setSelectedId(next?.id)
       onObjectFocus?.(next?.id)
@@ -916,22 +844,42 @@ export function CutsceneTab(props: {
                     >
                       {selectedReferences.length ? (
                         <DsReferenceList>
-                          {selectedReferences.map((reference) => {
-                            const description = describeReference(reference, state)
-                            return (
-                              <DsReferenceRow
-                                key={`${reference.site}:${reference.where}`}
-                                title={description.owner}
-                                path={reference.where}
-                                labels={[{ label: description.kind }]}
-                                occurrenceCount={reference.occurrences}
-                                status={{
-                                  label: '只读',
-                                  reason: '过场引用暂不支持从资源页精确定位。',
-                                }}
-                              />
-                            )
-                          })}
+                          {selectedReferences.map((reference) => (
+                            <DsReferenceRow
+                              key={reference.id}
+                              title={reference.source.label}
+                              path={reference.where}
+                              labels={[
+                                {
+                                  label:
+                                    reference.relation.kind === 'asset-use' &&
+                                    reference.relation.expectedKind === 'video'
+                                      ? '播放视频'
+                                      : '播放帧动画',
+                                },
+                              ]}
+                              action={
+                                reference.locator.kind !== 'unavailable' && onOpenReference
+                                  ? {
+                                      label: '打开',
+                                      ariaLabel: `打开引用：${reference.source.label}`,
+                                      onActivate: () => onOpenReference(reference),
+                                    }
+                                  : undefined
+                              }
+                              status={
+                                reference.locator.kind !== 'unavailable' && onOpenReference
+                                  ? undefined
+                                  : {
+                                      label: '只读',
+                                      reason:
+                                        reference.locator.kind === 'unavailable'
+                                          ? reference.locator.reason
+                                          : '当前引用没有可编辑的精确位置。',
+                                    }
+                              }
+                            />
+                          ))}
                         </DsReferenceList>
                       ) : null}
                     </DsReferencePanel>
@@ -1006,10 +954,7 @@ export function CutsceneTab(props: {
           lifecycleRequest?.kind === 'delete' && referenceScanError
             ? 'unknown'
             : lifecycleRequest?.kind === 'delete'
-              ? (references.get(lifecycleRequest.targetId) ?? []).reduce(
-                  (total, reference) => total + reference.occurrences,
-                  0,
-                )
+              ? (references.get(lifecycleRequest.targetId)?.length ?? 0)
               : 0
         }
         confirmLabel={lifecycleRequest?.kind === 'delete' ? '删除资源' : '放弃并继续'}

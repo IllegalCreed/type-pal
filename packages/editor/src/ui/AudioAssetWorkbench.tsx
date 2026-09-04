@@ -3,9 +3,6 @@ import {
   type AssetId,
   type AssetKind,
   type AssetRecordV1,
-  type AssetReference,
-  type AssetReferenceSite,
-  groupAssetReferencesBySite,
 } from '@type-pal/content'
 import type { MidiNoteActivity, MidiPreviewTransport } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -24,11 +21,11 @@ import {
   releaseEditorAudioPreview,
 } from '../core/audio-preview-session.js'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
-import type { EditorState, EditSession } from '../core/edit-session.js'
+import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { tryCollectEditorAssetReferenceSnapshot } from '../core/editor-asset-references.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import type { ScriptEditorState } from '../core/script-editor.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   DsButton,
   DsCatalogControls,
@@ -85,10 +82,6 @@ export interface AudioAssetWorkbenchStrategy {
   prepareImport(file: File, previousLabel?: string): Promise<PreparedAudioImport>
   allocateId(catalog: AssetCatalogV1, hash: string): AssetId
   createTransport(reader: EditorAssetReader): AudioWorkbenchTransport
-  describeReference(
-    reference: AssetReferenceSite,
-    state: EditorState,
-  ): { title: string; kind: string }
 }
 
 const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
@@ -391,12 +384,11 @@ export function AudioAssetWorkbench(props: {
   tabBar?: React.ReactNode
   focusObjectId?: AssetId
   onObjectFocus?: (id: string | undefined) => void
-  currentAuthor?: ScriptEditorState
-  getCurrentAuthor?: () => ScriptEditorState | undefined
-  assetReferences?: readonly AssetReference[]
   assetDiagnostics: readonly EditorAssetDiagnostic[]
-  assetReferenceStatus?: EditorDerivedStatus
-  assetReferenceMessage?: string
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
 }) {
   const {
     catalog,
@@ -406,14 +398,12 @@ export function AudioAssetWorkbench(props: {
     tabBar,
     focusObjectId,
     onObjectFocus,
-    currentAuthor,
-    getCurrentAuthor,
-    assetReferences = [],
     assetDiagnostics,
-    assetReferenceStatus = 'checking',
-    assetReferenceMessage,
+    referenceIndex,
+    referenceStatus,
+    getCurrentReferenceIndex,
+    onOpenReference,
   } = props
-  const state = session.getState()
   const entries = useMemo(
     () =>
       Object.entries(catalog.assets)
@@ -421,24 +411,24 @@ export function AudioAssetWorkbench(props: {
         .map(([id, record]) => ({ id, record })),
     [catalog.assets, strategy.kind],
   )
-  const allReferences = assetReferences
+  const referenceReady = referenceStatus === 'current' && referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
   const referenceScanError =
-    assetReferenceStatus === 'current'
+    effectiveReferenceStatus === 'current'
       ? undefined
-      : assetReferenceStatus === 'failed'
-        ? (assetReferenceMessage ?? '派生引用检查失败')
-        : assetReferenceStatus === 'stale'
+      : effectiveReferenceStatus === 'failed'
+        ? '派生引用检查失败'
+        : effectiveReferenceStatus === 'stale'
           ? '引用正在刷新，当前仅保留上一版结果'
           : '引用正在检查'
   const references = useMemo(() => {
-    const byAsset = new Map<AssetId, AssetReferenceSite[]>()
-    for (const reference of groupAssetReferencesBySite(allReferences)) {
-      const list = byAsset.get(reference.asset) ?? []
-      list.push(reference)
-      byAsset.set(reference.asset, list)
-    }
+    const byAsset = new Map<AssetId, ProjectReferenceEdge[]>()
+    if (!referenceIndex) return byAsset
+    for (const entry of entries)
+      byAsset.set(entry.id, referenceIndex.referencesTo({ kind: 'asset', id: entry.id }))
     return byAsset
-  }, [allReferences])
+  }, [entries, referenceIndex])
   const closureIssues = assetDiagnostics
   const [filter, setFilter] = useState('')
   const [error, setError] = useState('')
@@ -478,10 +468,7 @@ export function AudioAssetWorkbench(props: {
   }, [entries, selectedId])
 
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
-  const selectedReferenceCount = selectedReferences.reduce(
-    (total, reference) => total + reference.occurrences,
-    0,
-  )
+  const selectedReferenceCount = selectedReferences.length
   const selectedIssues = selected
     ? closureIssues.filter((issue) => issue.assetId === selected.id)
     : []
@@ -513,32 +500,13 @@ export function AudioAssetWorkbench(props: {
   const deleteSelected = async (): Promise<void> => {
     if (!deleteTarget) return
     const targetId = deleteTarget.id
-    const scan = (): ReturnType<typeof tryCollectEditorAssetReferenceSnapshot> =>
-      tryCollectEditorAssetReferenceSnapshot(
-        session.getState(),
-        getCurrentAuthor?.() ?? currentAuthor,
-      )
-    const firstScan = scan()
-    if (firstScan.status === 'error') {
-      setError(`引用扫描失败，未删除：${firstScan.message}`)
-      return
-    }
-    if (firstScan.snapshot.references.some((reference) => reference.asset === targetId)) {
-      setError('资源已有引用，未删除。')
-      return
-    }
     setDeleteBusy(true)
     try {
       const previousBytes = await reader.readBytes(targetId, strategy.kind)
-      const finalScan = scan()
-      if (finalScan.status === 'error')
-        throw new Error(`引用扫描失败，未删除：${finalScan.message}`)
-      if (finalScan.snapshot.references.some((reference) => reference.asset === targetId))
-        throw new Error('读取资源期间新增了引用，未删除。')
       const targetIndex = entries.findIndex((entry) => entry.id === targetId)
       const remaining = entries.filter((entry) => entry.id !== targetId)
       const next = remaining[Math.min(targetIndex, remaining.length - 1)]
-      session.dispatch(new DeleteAssetCommand(targetId, previousBytes))
+      session.dispatch(new DeleteAssetCommand(targetId, getCurrentReferenceIndex, previousBytes))
       setSelectedId(next?.id ?? null)
       onObjectFocus?.(next?.id)
       setDeleteTargetId(undefined)
@@ -607,10 +575,7 @@ export function AudioAssetWorkbench(props: {
             selectedKey={selected?.id}
             onSelect={(entry) => select(entry.id)}
             renderItem={(entry, _index, control) => {
-              const count = (references.get(entry.id) ?? []).reduce(
-                (total, reference) => total + reference.occurrences,
-                0,
-              )
+              const count = referenceReady ? (references.get(entry.id)?.length ?? 0) : undefined
               return (
                 <DsCatalogRow
                   tabIndex={control.tabIndex}
@@ -765,22 +730,34 @@ export function AudioAssetWorkbench(props: {
                     >
                       {selectedReferences.length ? (
                         <DsReferenceList>
-                          {selectedReferences.map((reference) => {
-                            const description = strategy.describeReference(reference, state)
-                            return (
-                              <DsReferenceRow
-                                key={`${reference.site}:${reference.where}`}
-                                title={description.title}
-                                path={reference.where}
-                                labels={[{ label: description.kind }]}
-                                occurrenceCount={reference.occurrences}
-                                status={{
-                                  label: '只读',
-                                  reason: `${strategy.title}引用暂不支持从资源页精确定位。`,
-                                }}
-                              />
-                            )
-                          })}
+                          {selectedReferences.map((reference) => (
+                            <DsReferenceRow
+                              key={reference.id}
+                              title={reference.source.label}
+                              path={reference.where}
+                              labels={[{ label: `${strategy.title}引用` }]}
+                              action={
+                                reference.locator.kind !== 'unavailable' && onOpenReference
+                                  ? {
+                                      label: '打开',
+                                      ariaLabel: `打开引用：${reference.source.label}`,
+                                      onActivate: () => onOpenReference(reference),
+                                    }
+                                  : undefined
+                              }
+                              status={
+                                reference.locator.kind !== 'unavailable' && onOpenReference
+                                  ? undefined
+                                  : {
+                                      label: '只读',
+                                      reason:
+                                        reference.locator.kind === 'unavailable'
+                                          ? reference.locator.reason
+                                          : '当前引用没有可编辑的精确位置。',
+                                    }
+                              }
+                            />
+                          ))}
                         </DsReferenceList>
                       ) : null}
                     </DsReferencePanel>
@@ -848,10 +825,7 @@ export function AudioAssetWorkbench(props: {
           referenceScanError
             ? 'unknown'
             : deleteTarget
-              ? (references.get(deleteTarget.id) ?? []).reduce(
-                  (total, reference) => total + reference.occurrences,
-                  0,
-                )
+              ? (references.get(deleteTarget.id)?.length ?? 0)
               : 0
         }
         confirmLabel={`删除${strategy.title}`}
