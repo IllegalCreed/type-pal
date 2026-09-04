@@ -1,6 +1,6 @@
 # MIG-PAL-INPARTY-ID-1 - PAL 四条队伍角色条件稳定 ID 修复
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: N5 / C1 / MG2
 Coding Owner: Codex
@@ -178,23 +178,76 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
     MIG-PAL-ITEM-SCHEME-LABEL-1 先例同型,是当前-only 纪律下最小合法方案;无 runtime
     fallback/upgrader 引入。三条实现钉(非必改,见主审立场)。
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-09-04，四站点/全树 census、四元 shape、映射链、豁免、运行时与
+    校验器全部本人独立复算直读，非复述 Codex/Kimi；与 Kimi census 逐字收敛）**：
+    1. **四站点 census（本人 grep + 逐处原文直读）**：current 与 baseline 各恰 **4 个**数字
+       actorId 且**行号级镜像**——s023:2107=`"37"`、s202:615/824=`"39"`、s213:3658=`"37"`；
+       全 PAL 两树 `"actorId": "[0-9]*"` 命中**恰 8 处**、仅这 3 个 scene 文件——无第五站点。
+       四处真实 shape 逐字比对：s023 = `states.initial.next.cond`（stateMachine transition
+       cond，then→continuation-001）；s202:615 = `stages[0].body[0].cond`；s202:824 =
+       `legacy-002` stage `body[0].cond`（**同实体双 stage**）；s213:3658 =
+       `stages[0].body[3].cond`，then 首命令为 `learnSkill role 1 skill 389`——与卡面/豁免
+       路径逐字一致。
+    2. **映射链一手直读**：sdlpal `case 0x0079` 遍历队伍比
+       `PlayerRoles.rgwName[wPlayerRole] == operand`（script.c:2230-2243）——operand 是
+       名字 WORD 非下标；`source-facts.ts` `ROLE_NAME_WORD_TO_SLUG` 恰含
+       `37:'zhao-linger'`、`39:'anu'`（注释同引 script.c）；目标 id 实在——
+       `actors.json:258 zhao-linger / :987 anu`，actors 全表无数字 id。
+    3. **translator 已正确（抽查）**：`translate-events.ts:1936` stable-id 路径调用
+       `roleSlugForNameWord`；测试 `0x79 队伍角色名字对象映射`（:91-）含六映射与未知
+       WORD（:99）fail-loud——根因不在 translator，「不修改 0x79 翻译」范围裁定成立。
+    4. **豁免恰四条且路径互证**：`PAL_CURRENT_KNOWN_REFERENCE_ERRORS`（
+       pal-current-publication.ts:73-78）四条消息的 flow 路径与我的四站点 census
+       **逐字互证**（含 s202 `stages[0]/stages[1]` 双条与 s213 `stages[0].body[3]`）；
+       新 error 仍 fail（:348-354 区域）。
+    5. **运行时无数字映射**：`main.ts:3946-3947`
+       `world.party.some(c => c.id === actorId || c.template === actorId)`——精确匹配，
+       数字恒不命中（四条件恒假、三个剧情分支被跳过的行为推断成立）；
+       `validate-refs.ts` `case 'inParty'` 校验 actorId ∈ actorIds，错误文案与豁免一致。
+    6. **可证伪观察**：独立 dry-run 生成 scenes 的对应条件 ≠ zhao-linger/anu（translator
+       回归/根因误判）；exact diff 超 4 叶值或 3 scene hash；删豁免后报出第五条 reference
+       error（豁免曾掩盖更多悬空）；运行时出现数字→ActorId 映射——任一成立本签字失效。
+  - design: **agree（2026-09-04，附 GM-I1~GM-I4 必落钉；与 Kimi 三条实现钉收敛互补）**：
+    - **GM-I1（census 与 exact-diff 钉，含 Kimi 钉①③）**：四站点以「场景 + 实体 id +
+      flow 路径 + 期望旧值」四元组作为 rewrite 与豁免的**单一事实来源**，两者同步退役防
+      半退役态；exact-diff 断言 current/baseline 各恰 4 actorId 叶值 + baseline state 仅
+      3 scene hash + 两表逐字镜像；**s202 同实体双 stage（stages[0] 与 legacy-002）都必须
+      命中**；diff 对齐按实体 id 而非豁免路径中的 `entities[10]/[26]` 下标（防发布重排序
+      造成索引漂移的假红/假绿）。
+    - **GM-I2（递归 invariant 钉，含 Kimi 钉②）**：永久 invariant **复用
+      validate-refs 的 condition walker**（同一遍历域：stages body、stateMachine
+      states/next、嵌套 then/else/loop 与 all/any/not 复合），禁止第二套递归漂移；负例
+      矩阵逐类先红后绿——数字 actorId、悬空 actorId、stateMachine transition 内、嵌套
+      branch/loop 臂、all/any/not 复合；并断言全 PAL 两树数字 inParty actorId 归零且
+      **豁免消息集合为空**（不是跳过）。
+    - **GM-I3（发布矩阵钉）**：正式 `migrate:content --write` 原子发布回执 + 进程内 replay
+      四零 + **删除 converter 与豁免后的独立第二进程 dry-run 零计划**；非场景内容与资产
+      零变化；`test:fast` + `test:pal` + typecheck；translator 六映射与未知 WORD fail-loud
+      测试保持不变（根因层零改动验证）。
+    - **GM-I4（行为验证分层钉）**：运行时用脚本金丝雀直接验证 `inParty(zhao-linger/anu)`
+      true/false 两态（不点长剧情、不用人工剧情替代迁移闭环）；Q1 三场景用例（s023/e433、
+      s202/e3392、s213/e3638）登记集中 E2E。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
   - 审查者: Kimi（2026-09-04，完成——原版/一阶段/translator/生产核配置/publication/
-    runtime/actors/豁免八处一手直读 + 本人 rg/python census 复算；GLM 席位保留）
-  - 独立证据锚点: `reference/sdlpal/script.c:2230-2243`；`event-system.ts:4812-4817`；
-    `source-facts.ts:42-49`；`translate-events.ts:1929-1949` + `translate-events.test.ts:91-127`；
-    `pal-migration.ts:396,421,504`（生产核 stable-id）；`pal-current-publication.ts:73-78,99-109,348-354`；
-    `reforge/main.ts:3944-3947`；`actors.json:258,987`；current/baseline 四站点行号镜像
-    （s023:2107、s202:615、s202:824、s213:3658，实体 e433/e3392/e3392/e3638）。
+    runtime/actors/豁免八处一手直读 + 本人 rg/python census 复算）；
+    GLM（2026-09-04，完成——四站点 grep + 逐处原文直读 + 全树 8 命中闭合、四 shape 与
+    豁免路径逐字互证、映射链/translator 抽查/runtime 精确匹配/validate-refs 直读；两席
+    census 独立取得后逐字收敛）
+  - 独立证据锚点: `reference/sdlpal/script.c:2230-2243`；`source-facts.ts:42-49`；
+    `translate-events.ts:1936` + `translate-events.test.ts:91-112`；
+    `pal-current-publication.ts:73-78,348-354`；`reforge/main.ts:3946-3947`；
+    `validate-refs.ts:1102-1108`；`actors.json:258,987`；current/baseline 四站点行号镜像
+    （s023:2107、s202:615/824、s213:3658，shape：stateMachine next.cond / stages[0].body[0] /
+    legacy-002 body[0] / stages[0].body[3]→learnSkill 389）。
   - 可证伪观察: ① 当前生产核（stable-id）dry-run 生成的对应条件若不是 zhao-linger/anu，
     说明 translator 回归、根因层误判；② exact diff 出现四叶值或 3 scene hash 之外任何变化；
-    ③ 删豁免后 publication 报出四条以外 reference error（豁免曾掩盖更多悬空）;④ 运行时
+    ③ 删豁免后 publication 报出四条以外 reference error（豁免曾掩盖更多悬空）; ④ 运行时
     出现数字→ActorId 的实际映射。任一成立本签字失效。
 - counter / 分歧处理: 若四站点来源、name WORD 映射或 exact-diff 边界不成立，留 draft/blocked 重审。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（等待 Kimi、GLM 独立 premise/design 签字）**
+- build 准入结论: **allowed（签字面）（2026-09-04，Codex + Kimi（三条实现钉）+ GLM
+  （GM-I1~I4）三方 premise verified + design agree 齐、无 counter。Codex 开工时状态转
+  build，仍为唯一 Coding Owner。）**
 
 ### 进入 done 前:审查签字
 
@@ -312,6 +365,18 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
 
 ## 交接日志
 
+- 2026-09-04 GLM: 独立完成四站点 census、递归 invariant 与发布测试矩阵审查，签 premise
+  verified + design agree。证据：current/baseline 各恰 4 数字 actorId 且行号级镜像
+  （s023:2107/s202:615,824/s213:3658）、全 PAL 两树恰 8 命中无第五站点；四 shape 逐处
+  原文直读（stateMachine next.cond、stages[0].body[0]、legacy-002 双 stage、
+  stages[0].body[3]→learnSkill role 1 skill 389）与豁免路径逐字互证；映射链
+  （sdlpal 0x79 name-WORD + source-facts 37/39 + actors.json 目标 id + runtime 精确
+  id/template 匹配）与 translator :1936 抽查全实。附 GM-I1（四元组单一事实来源 + 按实体
+  id 对齐 diff 防索引漂移 + s202 双 stage 必命中）/GM-I2（invariant 复用 validate-refs
+  walker + 五类负例 + 豁免消息集合为空）/GM-I3（write+replay 四零 + 删 converter 后独立
+  dry-run 零计划 + translator 测试不变）/GM-I4（脚本金丝雀 true/false 两态 + Q1 登记）。
+  未修改实现/生成产物，未代签 Kimi。三签齐，build 准入（签字面）allowed。
+  Next: Codex 按钉 build。
 - 2026-09-04 Kimi: 完成 current-only migration 架构/rewrite 退休/exact-diff 主审，签
   premise verified + design agree。独立证据：0x79 原版/一阶段 name-WORD 语义直读；
   生产核 `pal-migration.ts:396,421,504` 确认为 stable-id（数字只可能来自历史 run）;
@@ -324,19 +389,11 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
 - 2026-09-04 Codex: E6-1 用户验收后按唯一队列开本卡；完成原版、一阶段、stable translator、
   current-publication、runtime 与 current/baseline census 六向核验，签 premise verified/design agree。
   Evidence: 本卡真值矩阵。Next: Kimi/GLM 独立设计审查；签字未齐不得修改迁移实现或生成产物。
+- 2026-09-04 Codex: 收齐 Kimi 与 GLM 独立审查；GLM 因并行共享工作树未单独提交，由 Codex 按原文
+  登记其 premise/design、GM-I1~I4 与证据，不构成代签。三方无 counter，状态转 build。
+  Evidence: 本卡推进签字；协议更新 `3bdd26ba`。Next: Codex 唯一 Coding Owner 按钉实施。
 
 ## 下一位 Agent 提示词
 
-### GLM
-
-```text
-接手任务: MIG-PAL-INPARTY-ID-1 PAL 四条队伍角色条件稳定 ID 修复
-任务卡: docs/ops/tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md
-当前状态: draft
-你的角色: 四站点数据 census、递归 invariant 与发布测试矩阵审查；完成 premise/design 签字。
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；最新任务卡；source-facts.ts:38-52；translate-events.test.ts:91-127；pal-current-publication.ts；pal-current-publication.pal.test.ts；current/baseline 的 s023/s202/s213 四处。
-已完成: Codex 已核 current/baseline 各 4 值且豁免恰四条；方案只改四叶值、删除临时 converter 和豁免、保留永久递归门禁。
-请你做: 独立复算站点、路径、37/39 映射、current↔baseline 镜像；压力测试 stages/stateMachine transition/嵌套 branch-loop/all-any-not 覆盖、旧值漂移/缺站/多站 fail-loud、exact diff、baseline state hash、正式 write+replay+删除 converter 后 dry-run。把 premise verified/design agree 或 counter、证据、可证伪观察和必改项写回任务卡。
-不要做: 不修改实现或生成产物；不代签 Kimi；不放宽引用校验；签字未齐不得 build。
-输出要求: 提交并推送任务卡签字，回复 commit hash 与 agree 或 counter。
-```
+无下一位 Agent 提示词；当前由 Codex 作为唯一 Coding Owner 执行 build。进入 review 后按新协议同时
+提供 Kimi、GLM 两份只读终审提示词。
