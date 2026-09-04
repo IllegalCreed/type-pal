@@ -411,14 +411,18 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 ### 三方争议记录（按需）
 
 - Codex: 支持薄统一层与 A/B/C 分批；反对另写全仓递归器、持久 graph 或把 scene/shop schema 偷带入本卡。
-- Kimi: pending
-- GLM: pending
+- Kimi: premise verified + design agree；要求 PAL 零新增 error、数值性能门、单一 builder 与五组
+  live-canonical 反例，均已纳入 build 硬门。
+- GLM: premise verified + design agree；要求 s230 具名回归、sell 双负例、deletion scope、Worker payload、
+  PAL parity 与四态 fail-closed，均已纳入 build 硬门。
 - 用户拍板: 2026-09-04 批准继续推进该队列；若 reviewer 对合同/范围有 counter，再提交用户裁决。
 
 ## Build: 实现与自测
 
 - Coding Owner: Codex（唯一实现方）
 - A 批状态: **完成（`ee173e13` + `be083df2` + `55a7fe84`）**。
+- B 批状态: **进行中**；地图纵切完成（`03767dda`），战场 / 敌队 / 氛围纵切完成
+  （`4a0aba45`）。下一纵切为 skill / enemy / poison。
 - A 批修改文件:
   - `packages/content/src/command-target-reference.ts` + tests：有界 tagged target leaf；scene/entry/hook/
     entity/map/shop/team/field/ambience，sell 任意 shop 值均不发 shop edge。
@@ -453,6 +457,26 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   async map/tileset/stamp 在 C 批统一浏览器验证。
 - 跳过的检查及原因: editor/content 全量测试留到 C 批最终一次；A 批只跑风险相关聚焦矩阵，避免每批
   重复全量。
+- B 批已完成纵切:
+  - 地图：`scene.mapId` 与 current canonical `setSceneMapOverride` 共用统一索引；删除命令在 apply/redo
+    同步重建 current-author 索引，s230→map-164 与 s243→map-165 具名回归通过。
+  - 战场 / 敌队 / 氛围：结构边补齐 project-default、scene-default、hostile 与 runtime world；
+    `startBattle`、`setAmbience`、`toggleDayNight` 使用领域 relation，canonical 可精确定位，legacy/runtime
+    明确只读。
+  - 三页和地图页统一 current/checking/stale/failed；`current + index 缺失` 也按 error/unknown
+    fail-closed。命令级覆盖 live canonical、provider failure、missing target、undo/redo 与 TOCTOU。
+  - `battle-field-references.ts`、`enemy-team-references.ts`、`ambience-references.ts` 及两套旧测试已退役；
+    App 的旧专用跳转 handler 删除，统一 scene/entity locator 会退出放置模式、展开 Inspector，并对过期
+    目标明确报错。
+- B 批当前验证:
+  - editor typecheck：pass；11 个聚焦文件 **271 tests passed**；production build：pass。
+  - design-system gate：92 files / 2 evidence-bound exceptions，pass；changed-file Biome 与
+    `git diff --check`：pass（全仓 lint 仍有本卡外既存债）。
+  - PAL publication/store：2 files / 3 tests，pass；`migrate:content` dry-run：managed=537，
+    writes/deletes/conflicts/asset-deletes=0，reference-warnings=0。
+  - PAL index：6,928 rows；battle-field-use=141、enemy-team-use=1,002、ambience-use=42；sync/Worker
+    deep equality 通过。隔离性能复跑在预算内；索引 JSON 2,462,318B，后续纳域必须同步退役旧 DTO，
+    不得机械抬高 2.5MB 门。
 
 ## 视觉验证记录
 
@@ -517,6 +541,11 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   落地。PAL blocker parity、s230 map override、buy-only、sync/Worker deep equality与 publication 全绿；
   final 20 轮性能/体积全部过预算，dry-run 四零。Next: B 批迁移保存/删除 consumer，优先修复
   map-164 删除漏洞与五组 live-canonical shell 分裂。
+- 2026-09-04 Codex: 完成 B 批前两条纵切 `03767dda` + `4a0aba45`。地图、战场、敌队、氛围的展示与
+  删除守卫已统一到 ProjectReferenceIndex；修复 runtime-world source 定义冲突，四态/current-without-index
+  全部 fail-closed，live canonical/redo/provider failure 有命令与 UI 双层回归，旧三套 collector 退役。
+  11 files / 271 tests、typecheck、build、DS gate、PAL publication/store 与 dry-run 四零通过。
+  Next: B 批 skill / enemy / poison 战斗数据纵切，并同步移除 poisonReferenceIndex 旧 Worker payload。
 
 ## 下一位 Agent 提示词
 
