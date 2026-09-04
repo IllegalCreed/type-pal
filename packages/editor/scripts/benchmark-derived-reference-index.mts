@@ -28,6 +28,7 @@ const percentile = (values: readonly number[], p: number): number => {
 }
 const stats = (values: readonly number[]) => ({
   n: values.length,
+  samplesMs: values.map((value) => Number(value.toFixed(3))),
   minMs: Number(Math.min(...values).toFixed(3)),
   p50Ms: Number(percentile(values, 0.5).toFixed(3)),
   p95Ms: Number(percentile(values, 0.95).toFixed(3)),
