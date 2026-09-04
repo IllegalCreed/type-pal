@@ -1,6 +1,7 @@
 import { type StampTemplate, validateStampTemplates } from '@type-pal/content'
 import type { Command } from './commands.js'
-import type { EditorState } from './edit-session.js'
+import type { CurrentMapReferenceBatchProvider, EditorState } from './edit-session.js'
+import { assertStampDeletionAllowed, type StampDeletionProof } from './tileset-references.js'
 
 const STAMPS_CONTENT_PATH = 'content/stamps.json'
 
@@ -8,8 +9,16 @@ function cloneTemplate(template: StampTemplate): StampTemplate {
   return structuredClone(template)
 }
 
-function validateNext(templates: readonly StampTemplate[]): StampTemplate[] {
-  return validateStampTemplates(templates.map(cloneTemplate))
+function validateNext(
+  templates: readonly StampTemplate[],
+  changedIds?: readonly string[],
+): StampTemplate[] {
+  const validated = validateStampTemplates(templates.map(cloneTemplate))
+  if (!changedIds) return validated
+  const changed = new Set(changedIds)
+  return validated.map((template, index) =>
+    changed.has(template.id) ? template : (templates[index] ?? template),
+  )
 }
 
 export class AddStampTemplateCommand implements Command {
@@ -19,6 +28,10 @@ export class AddStampTemplateCommand implements Command {
   private previousManifestPath: string | undefined
   private manifestPathCaptured = false
 
+  get mapReferenceStampIds(): readonly string[] {
+    return [this.template.id]
+  }
+
   constructor(template: StampTemplate) {
     this.template = validateNext([template])[0]!
   }
@@ -26,7 +39,7 @@ export class AddStampTemplateCommand implements Command {
   apply(state: EditorState): EditorState {
     if (state.stamps.some((candidate) => candidate.id === this.template.id))
       throw new Error(`图章模板 id "${this.template.id}" 已存在。`)
-    const stamps = validateNext([...state.stamps, this.template])
+    const stamps = validateNext([...state.stamps, this.template], [this.template.id])
     if (!this.manifestPathCaptured) {
       this.previousManifestPath = state.manifest.content.stamps
       this.manifestPathCaptured = true
@@ -68,6 +81,10 @@ export class ReplaceStampTemplateCommand implements Command {
   private readonly takeOwnership: boolean
   private previous: StampTemplate | undefined
 
+  get mapReferenceStampIds(): readonly string[] {
+    return [this.template.id]
+  }
+
   constructor(template: StampTemplate, options: ReplaceStampTemplateOptions = {}) {
     this.template = validateNext([template])[0]!
     this.takeOwnership = options.takeOwnership === true
@@ -87,7 +104,7 @@ export class ReplaceStampTemplateCommand implements Command {
     if (JSON.stringify(current) === JSON.stringify(this.template)) return state
     const stamps = [...state.stamps]
     stamps[index] = this.template
-    return { ...state, stamps: validateNext(stamps) }
+    return { ...state, stamps: validateNext(stamps, [this.template.id]) }
   }
 
   invert(state: EditorState): EditorState {
@@ -96,7 +113,7 @@ export class ReplaceStampTemplateCommand implements Command {
     if (index < 0) return state
     const stamps = [...state.stamps]
     stamps[index] = this.previous
-    return { ...state, stamps: validateNext(stamps) }
+    return { ...state, stamps: validateNext(stamps, [this.template.id]) }
   }
 }
 
@@ -107,6 +124,10 @@ export class DuplicateStampTemplateCommand implements Command {
   private readonly targetId: string
   private readonly targetName: string | undefined
   private delegate: AddStampTemplateCommand | undefined
+
+  get mapReferenceStampIds(): readonly string[] {
+    return [this.targetId]
+  }
 
   constructor(sourceId: string, targetId: string, targetName?: string) {
     this.sourceId = sourceId
@@ -138,13 +159,22 @@ export class DeleteStampTemplateCommand implements Command {
   private readonly templateId: string
   private removed: { template: StampTemplate; index: number } | undefined
 
-  constructor(templateId: string) {
+  get mapReferenceStampIds(): readonly string[] {
+    return [this.templateId]
+  }
+
+  constructor(
+    templateId: string,
+    private readonly proof: StampDeletionProof,
+    private readonly currentBatch: CurrentMapReferenceBatchProvider,
+  ) {
     this.templateId = templateId
   }
 
   apply(state: EditorState): EditorState {
     const index = state.stamps.findIndex((candidate) => candidate.id === this.templateId)
     if (index < 0) return state
+    assertStampDeletionAllowed(state, this.templateId, this.proof, this.currentBatch)
     if (!this.removed) this.removed = { template: cloneTemplate(state.stamps[index]!), index }
     return {
       ...state,
@@ -157,6 +187,6 @@ export class DeleteStampTemplateCommand implements Command {
       return state
     const stamps = [...state.stamps]
     stamps.splice(this.removed.index, 0, this.removed.template)
-    return { ...state, stamps: validateNext(stamps) }
+    return { ...state, stamps: validateNext(stamps, [this.templateId]) }
   }
 }

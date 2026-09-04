@@ -58,6 +58,7 @@ export type ProjectReferenceSourceOwner =
   | { kind: 'project-part'; id: string }
   | { kind: 'entry-point'; id: string }
   | { kind: 'scene'; id: string }
+  | { kind: 'map'; id: string }
   | { kind: 'scene-entity'; sceneId: string; entityId: string }
   | { kind: 'scene-page'; sceneId: string; entityId: string; pageId: string }
   | { kind: 'actor'; id: string }
@@ -101,7 +102,10 @@ export type ScriptCommandContainerSnapshot =
   | readonly [kind: 1, stepId: string, section: 0 | 1]
   | readonly [kind: 2, machineId: string, stateId: string, section: 0 | 1]
 
-export type ProjectReferenceSourceOwnerSnapshot = readonly [kind: number, ...parts: readonly unknown[]]
+export type ProjectReferenceSourceOwnerSnapshot = readonly [
+  kind: number,
+  ...parts: readonly unknown[],
+]
 
 /** Worker wire tuple; deletedWith entries index `deletionTargets`, wherePrefix prefixes row paths. */
 export type ProjectReferenceSourceSnapshot = readonly [
@@ -188,6 +192,8 @@ export type ProjectReferenceRelation =
   | { kind: 'battle-sprite-use'; expectedProfile: BattleSpriteProfileKind }
   | { kind: 'behavior-reference'; use: 'page-binding' | 'select-behavior' | 'cursor-handoff' }
   | { kind: 'scene-hook-reference'; use: 'hook-initial' | 'select-hook' }
+  | { kind: 'tileset-use'; use: 'map' | 'stamp' }
+  | { kind: 'stamp-placement-source' }
 
 export type ProjectReferenceDeletePolicy = 'block' | 'replace-suggest' | 'warn'
 
@@ -292,6 +298,7 @@ const ID_SOURCE_OWNER_KINDS = [
   'world-sprite',
   'battle-sprite',
   'shared-script',
+  'map',
 ] as const
 const ID_SOURCE_OWNER_KIND_CODE = new Map(
   ID_SOURCE_OWNER_KINDS.map((kind, index) => [kind, index] as const),
@@ -590,6 +597,8 @@ export function defaultProjectReferenceSourceLabel(owner: ProjectReferenceSource
       return `入口 ${owner.id}`
     case 'scene':
       return `场景 ${owner.id}`
+    case 'map':
+      return `地图 ${owner.id}`
     case 'scene-entity':
       return `场景 ${owner.sceneId} · 实体 ${owner.entityId}`
     case 'scene-page':
@@ -668,6 +677,7 @@ function projectReferenceRelationKey(relation: ProjectReferenceRelation): string
     case 'ambience-use':
     case 'behavior-reference':
     case 'scene-hook-reference':
+    case 'tileset-use':
       return tupleKey([relation.kind, relation.use])
     case 'asset-use':
       return tupleKey([relation.kind, relation.expectedKind])
@@ -687,16 +697,13 @@ function projectReferenceRelationKey(relation: ProjectReferenceRelation): string
     case 'scene-map':
     case 'entry-point-scene':
     case 'world-sprite-use':
+    case 'stamp-placement-source':
       return tupleKey([relation.kind])
   }
 }
 
 function projectReferenceSourceDefinitionKey(source: ProjectReferenceSource): string {
-  return tupleKey([
-    source.label,
-    source.section ?? '',
-    ...[...source.deletedWith].sort(),
-  ])
+  return tupleKey([source.label, source.section ?? '', ...[...source.deletedWith].sort()])
 }
 
 function encodeScriptCommandOwner(owner: ScriptCommandOwner): ScriptCommandOwnerSnapshot {

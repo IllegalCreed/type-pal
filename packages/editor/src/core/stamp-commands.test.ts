@@ -8,6 +8,7 @@ import {
   DuplicateStampTemplateCommand,
   ReplaceStampTemplateCommand,
 } from './stamp-commands.js'
+import { StampDeletionProof } from './tileset-references.js'
 
 function template(id = 'tree', origin: StampTemplate['origin'] = 'authored'): StampTemplate {
   return {
@@ -43,6 +44,14 @@ function state(stamps: StampTemplate[] = []): EditorState {
     scriptChunks: {},
     stamps,
   } as EditorState
+}
+
+function deleteCommand(session: EditSession, id: string): DeleteStampTemplateCommand {
+  return new DeleteStampTemplateCommand(
+    id,
+    StampDeletionProof.fromBatch(session.getMapReferenceBatch(), id),
+    (current) => session.getCurrentMapReferenceBatch(current),
+  )
 }
 
 describe('stamp template commands', () => {
@@ -88,10 +97,58 @@ describe('stamp template commands', () => {
     expect(session.getState().stamps[1]?.origin).toBe('authored')
   })
 
+  test('地图引用 batch 同 revision 复用缓存，组合更新只替换目标 facts', () => {
+    const session = new EditSession(state([template('a'), template('b')]))
+    const before = session.getMapReferenceBatch()
+    expect(session.getMapReferenceBatch()).toBe(before)
+    const beforeB = before.stampFacts.find((facts) => facts.stampId === 'b')
+
+    session.dispatch(
+      new ReplaceStampTemplateCommand({
+        ...template('a'),
+        name: 'A 改',
+        tilesetRefs: ['tiles-next'],
+      }),
+    )
+    const after = session.getMapReferenceBatch()
+    expect(after).not.toBe(before)
+    expect(after.stampFacts.find((facts) => facts.stampId === 'b')).toBe(beforeB)
+    expect(after.stampFacts.find((facts) => facts.stampId === 'a')).toMatchObject({
+      stampName: 'A 改',
+      tilesetIds: ['tiles-next'],
+    })
+    expect(session.getMapReferenceBatch()).toBe(after)
+  })
+
+  test('错误的 affected stamp 元数据只会令 batch 失效，按需扫描后才恢复', async () => {
+    const session = new EditSession(state([template('a')]))
+    session.getMapReferenceBatch()
+    session.dispatch({
+      label: '模拟未来错误命令',
+      mapReferenceStampIds: ['wrong-id'],
+      apply: (current) => ({
+        ...current,
+        stamps: current.stamps.map((stamp) =>
+          stamp.id === 'a' ? { ...stamp, name: 'A 新名称' } : stamp,
+        ),
+      }),
+      invert: (current) => current,
+    })
+
+    expect(session.getMapReferenceBatch()).toMatchObject({
+      done: false,
+      stampCompleted: 0,
+      stampTotal: 1,
+    })
+    const repaired = await session.ensureMapReferencesIndexed()
+    expect(repaired).toMatchObject({ done: true, stampCompleted: 1, stampTotal: 1 })
+    expect(repaired.stampFacts[0]?.stampName).toBe('A 新名称')
+  })
+
   test('删除保留原索引并可撤销；不存在时 no-op', () => {
     const session = new EditSession(state([template('a'), template('b')]))
-    expect(session.dispatch(new DeleteStampTemplateCommand('missing'))).toBe(false)
-    session.dispatch(new DeleteStampTemplateCommand('a'))
+    expect(session.dispatch(deleteCommand(session, 'missing'))).toBe(false)
+    session.dispatch(deleteCommand(session, 'a'))
     expect(session.getState().stamps.map((stamp) => stamp.id)).toEqual(['b'])
     session.undo()
     expect(session.getState().stamps.map((stamp) => stamp.id)).toEqual(['a', 'b'])

@@ -184,7 +184,10 @@ function Harness(props: {
       session={session}
       mapIndex={current.mapIndex}
       onObjectFocus={onObjectFocus}
-      onOpenMap={onOpenMap ?? vi.fn()}
+      onOpenReference={(reference) => {
+        if (reference.locator.kind === 'object' && reference.locator.object.kind === 'map')
+          onOpenMap?.(reference.locator.object.id)
+      }}
       onStatusNotice={onStatusNotice}
     />
   )

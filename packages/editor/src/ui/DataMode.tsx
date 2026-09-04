@@ -20,8 +20,8 @@ import type { EditorHistoryCoordinator } from '../core/editor-history-coordinato
 import type { ManifestLike, ProjectIssue } from '../core/project-diagnostics.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
-  collectCurrentProjectReferenceIndex,
   type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectReferenceIndex,
 } from '../core/project-reference-adapters.js'
 import type { ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
@@ -125,9 +125,6 @@ export function DataMode(props: {
   ) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
-  onOpenMap?: (id: string) => void
-  onOpenTileset?: (id: string) => void
-  onOpenStamp?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
   onOpenBattleField?: (id: number) => void
   onOpenEnemy?: (id: string) => void
@@ -189,8 +186,6 @@ export function DataMode(props: {
     onSpriteLocation,
     onOpenSound,
     onOpenImage,
-    onOpenMap,
-    onOpenStamp,
     onOpenBattleSprite,
     onOpenBattleField,
     onOpenScript,
@@ -453,12 +448,10 @@ export function DataMode(props: {
         assetBase={assetBase}
         session={session}
         mapIndex={mapIndex}
-        stamps={stamps}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        onOpenMap={onOpenMap}
-        onOpenStamp={onOpenStamp}
+        onOpenReference={onOpenProjectReference}
       />
     )
   }
@@ -476,7 +469,7 @@ export function DataMode(props: {
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        onOpenMap={onOpenMap}
+        onOpenReference={onOpenProjectReference}
       />
     )
   }

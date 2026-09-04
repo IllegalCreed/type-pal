@@ -752,11 +752,11 @@ describe('App item reference navigation', () => {
       .onOpenProjectReference
 
     const pageBindingTarget = {
-        kind: 'entity-behavior' as const,
-        sceneId: 's047',
-        entityId: 'e760',
-        channel: 'trigger' as const,
-        behaviorId: 'default',
+      kind: 'entity-behavior' as const,
+      sceneId: 's047',
+      entityId: 'e760',
+      channel: 'trigger' as const,
+      behaviorId: 'default',
     }
     const pageBindingReference = {
       ...projectObjectReference(pageBindingTarget),
@@ -922,15 +922,11 @@ describe('App item reference navigation', () => {
       ['battle.probe', { module: 'asset', page: 'sprite', domain: 'battle', view: 'asset' }],
       ['tileset.probe', { module: 'map', page: 'tileset' }],
     ] as const) {
-      await act(async () =>
-        openReference(projectObjectReference({ kind: 'asset', id })),
-      )
+      await act(async () => openReference(projectObjectReference({ kind: 'asset', id })))
       const location = new URL(window.location.href)
       expect(location.searchParams.get('module')).toBe(expected.module)
       expect(location.searchParams.get('page')).toBe(expected.page)
-      expect(location.searchParams.get('object')).toBe(
-        id === 'tileset.probe' ? 'tileset-a' : id,
-      )
+      expect(location.searchParams.get('object')).toBe(id === 'tileset.probe' ? 'tileset-a' : id)
       if ('domain' in expected) expect(location.searchParams.get('domain')).toBe(expected.domain)
       if ('view' in expected) expect(location.searchParams.get('view')).toBe(expected.view)
     }
@@ -980,6 +976,51 @@ describe('App item reference navigation', () => {
     ] as const) {
       await act(async () => openReference(projectObjectReference(object)))
       const location = new URL(window.location.href)
+      expect(location.searchParams.get('page')).toBe(page)
+      expect(location.searchParams.get('object')).toBe(id)
+    }
+
+    const before = window.location.search
+    for (const [object, label] of [
+      [{ kind: 'map', id: 'map-removed' }, '地图 map-removed'],
+      [{ kind: 'tileset', id: 'tiles-removed' }, '瓦片集 tiles-removed'],
+      [{ kind: 'stamp', id: 'stamp-removed' }, '组合 stamp-removed'],
+    ] as const) {
+      await act(async () => openReference(projectObjectReference(object)))
+      expect(window.location.search).toBe(before)
+      expect(host.textContent).toContain(`引用位置已变化：${label} 不再存在`)
+    }
+  })
+
+  test('异步地图引用 edge 的 map、tileset、stamp locator 进入精确对象', async () => {
+    const shell = shellState()
+    shell.mapIndex.maps = [{ id: 'map-a', name: '地图 A', path: 'content/maps/map-a.json' }]
+    shell.tilesets = [{ id: 'tiles-a', name: '瓦片 A', category: 'test', asset: 'tileset.a' }]
+    shell.stamps = [
+      {
+        id: 'stamp-a',
+        name: '组合 A',
+        origin: 'authored',
+        width: 1,
+        height: 1,
+        anchor: { row: 0, col: 0 },
+        tilesetRefs: ['tiles-a'],
+        layers: [{ id: 'floor', name: '地面', tiles: [[0], [null]], sources: [[0], [null]] }],
+        collision: [[null], [null]],
+      },
+    ]
+    await renderApp(shell)
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+
+    for (const [object, page, id] of [
+      [{ kind: 'map', id: 'map-a' }, 'workspace', 'map-a'],
+      [{ kind: 'tileset', id: 'tiles-a' }, 'tileset', 'tiles-a'],
+      [{ kind: 'stamp', id: 'stamp-a' }, 'stamp', 'stamp-a'],
+    ] as const) {
+      await act(async () => openReference(projectObjectReference(object)))
+      const location = new URL(window.location.href)
+      expect(location.searchParams.get('module')).toBe('map')
       expect(location.searchParams.get('page')).toBe(page)
       expect(location.searchParams.get('object')).toBe(id)
     }

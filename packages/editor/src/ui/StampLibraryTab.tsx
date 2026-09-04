@@ -4,6 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
+  createProjectReferenceIndex,
+  type ProjectReferenceEdge,
+} from '../core/project-reference.js'
+import {
   AddStampTemplateCommand,
   DeleteStampTemplateCommand,
   DuplicateStampTemplateCommand,
@@ -11,6 +15,7 @@ import {
 } from '../core/stamp-commands.js'
 import { createBlankStampDraft } from '../core/stamp-draft.js'
 import { nextStampTemplateId } from '../core/stamp-template.js'
+import { StampDeletionProof, stampPlacementReferences } from '../core/tileset-references.js'
 import {
   DsButton,
   DsCatalogControls,
@@ -49,7 +54,7 @@ export function StampLibraryTab(props: {
   tabBar?: React.ReactNode
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  onOpenMap?: (mapId: string) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
   const {
@@ -63,7 +68,7 @@ export function StampLibraryTab(props: {
     tabBar,
     focusObjectId,
     onObjectFocus,
-    onOpenMap,
+    onOpenReference,
     onStatusNotice,
   } = props
   const initialSelectedId = focusObjectId ?? stamps[0]?.id ?? ''
@@ -90,12 +95,12 @@ export function StampLibraryTab(props: {
   const deleteTriggerRef = useRef<HTMLElement | null>(null)
   const deleteCancelRef = useRef<HTMLButtonElement>(null)
 
-  const subscribeStampUsage = useCallback(
-    (listener: () => void) => session.subscribeStampUsage(listener),
+  const subscribeMapReferences = useCallback(
+    (listener: () => void) => session.subscribeMapReferences(listener),
     [session],
   )
-  const readStampUsageVersion = useCallback(() => session.getStampUsageVersion(), [session])
-  useSyncExternalStore(subscribeStampUsage, readStampUsageVersion, readStampUsageVersion)
+  const readMapReferenceVersion = useCallback(() => session.getMapReferenceVersion(), [session])
+  useSyncExternalStore(subscribeMapReferences, readMapReferenceVersion, readMapReferenceVersion)
 
   const selected = stamps.find((template) => template.id === selectedId)
   const inspectorTemplate = contentEditor?.template ?? selected
@@ -136,11 +141,20 @@ export function StampLibraryTab(props: {
   const pageCount = Math.max(1, Math.ceil(shown.length / STAMP_PAGE_SIZE))
   const safePage = Math.min(page, pageCount - 1)
   const pagedShown = shown.slice(safePage * STAMP_PAGE_SIZE, (safePage + 1) * STAMP_PAGE_SIZE)
+  const focusTemplate = useCallback(
+    (id: string): void => {
+      const template = stamps.find((candidate) => candidate.id === id)
+      setSelectedId(id)
+      onObjectFocus?.(id)
+      setContentEditor(template ? { mode: 'edit', template: structuredClone(template) } : undefined)
+    },
+    [onObjectFocus, stamps],
+  )
 
   useEffect(() => {
     if (focusObjectId === undefined || focusObjectId === selectedId) return
     focusTemplate(focusObjectId)
-  }, [focusObjectId, selectedId])
+  }, [focusObjectId, focusTemplate, selectedId])
   useEffect(() => {
     if (selectedId && stamps.some((template) => template.id === selectedId)) return
     const next = stamps[0]?.id ?? ''
@@ -157,11 +171,53 @@ export function StampLibraryTab(props: {
     setError('')
   }, [selectedId])
 
+  const mapReferenceBatch = session.getMapReferenceBatch()
   useEffect(() => {
-    void mapIndex
-    void session.ensureStampUsageIndexed()
-  }, [mapIndex, session])
-  const scan = session.getStampUsageScanSnapshot()
+    if (!mapReferenceBatch.done && !mapReferenceBatch.running)
+      void session.ensureMapReferencesIndexed()
+  }, [mapReferenceBatch.done, mapReferenceBatch.running, session])
+  const mapReferenceIndex = useMemo(
+    () => createProjectReferenceIndex(mapReferenceBatch.projectReferences),
+    [mapReferenceBatch],
+  )
+  const allPlacementReferences = mapReferenceIndex
+    .allReferences()
+    .filter((reference) => reference.relation.kind === 'stamp-placement-source')
+  const usage = useMemo(() => {
+    const stampIds = new Set(stamps.map((template) => template.id))
+    const ids = new Set(
+      allPlacementReferences.flatMap((reference) =>
+        reference.target.kind === 'stamp' ? [reference.target.id] : [],
+      ),
+    )
+    const byStampId = Object.fromEntries(
+      [...ids].sort().map((id) => {
+        const references = allPlacementReferences.filter(
+          (reference) => reference.target.kind === 'stamp' && reference.target.id === id,
+        )
+        return [
+          id,
+          {
+            placementCount: references.length,
+            mapIds: [
+              ...new Set(
+                references.flatMap((reference) =>
+                  reference.source.owner.kind === 'map' ? [reference.source.owner.id] : [],
+                ),
+              ),
+            ].sort(),
+          },
+        ]
+      }),
+    )
+    return {
+      byStampId,
+      missingSources: Object.entries(byStampId)
+        .filter(([id]) => !stampIds.has(id))
+        .map(([sourceStampId, value]) => ({ sourceStampId, ...value })),
+    }
+  }, [allPlacementReferences, stamps])
+  const scan = mapReferenceBatch
   useEffect(() => {
     onStatusNotice?.(
       scan.done && scan.failures.length
@@ -182,15 +238,11 @@ export function StampLibraryTab(props: {
     if (deleteTargetId) deleteCancelRef.current?.focus()
   }, [deleteTargetId])
 
-  const usage = session.getStampTemplateUsageIndex(stamps)
   const scanComplete = scan.done && scan.failures.length === 0
+  const selectedReferences = selected
+    ? stampPlacementReferences(mapReferenceBatch, selected.id)
+    : []
   const selectedUsage = selected ? usage.byStampId[selected.id] : undefined
-  const focusTemplate = (id: string): void => {
-    const template = stamps.find((candidate) => candidate.id === id)
-    setSelectedId(id)
-    onObjectFocus?.(id)
-    setContentEditor(template ? { mode: 'edit', template: structuredClone(template) } : undefined)
-  }
   const requestFocusTemplate = (id: string): void => {
     if (!contentEditor || contentEditor.template.id === id) {
       focusTemplate(id)
@@ -273,16 +325,27 @@ export function StampLibraryTab(props: {
     }
   }
   const remove = (id: string): void => {
-    const nextId = stamps.find((template) => template.id !== id)?.id
-    session.dispatch(new DeleteStampTemplateCommand(id))
-    if (selected?.id === id) {
-      setSelectedId(nextId ?? '')
-      onObjectFocus?.(nextId)
-      const next = stamps.find((template) => template.id === nextId)
-      setContentEditor(next ? { mode: 'edit', template: structuredClone(next) } : undefined)
+    try {
+      const proof = StampDeletionProof.fromBatch(session.getMapReferenceBatch(), id)
+      const nextId = stamps.find((template) => template.id !== id)?.id
+      session.dispatch(
+        new DeleteStampTemplateCommand(id, proof, (state) =>
+          session.getCurrentMapReferenceBatch(state),
+        ),
+      )
+      if (selected?.id === id) {
+        setSelectedId(nextId ?? '')
+        onObjectFocus?.(nextId)
+        const next = stamps.find((template) => template.id === nextId)
+        setContentEditor(next ? { mode: 'edit', template: structuredClone(next) } : undefined)
+      }
+      setDeleteTargetId(undefined)
+      setError('')
+    } catch (cause) {
+      const message = cause instanceof Error ? cause.message : String(cause)
+      setError(message)
+      onStatusNotice?.({ kind: 'error', message })
     }
-    setDeleteTargetId(undefined)
-    setError('')
   }
   const sourceDiagnostics = usage.missingSources.length ? (
     <section className="stamp-source-info">
@@ -298,15 +361,31 @@ export function StampLibraryTab(props: {
             {scanComplete ? item.placementCount : `至少 ${item.placementCount}`} 处
           </span>
           <div>
-            {item.mapIds.map((mapId) => (
-              <DsPressable key={mapId} type="button" onClick={() => onOpenMap?.(mapId)}>
-                {mapIndex.maps.find((asset) => asset.id === mapId)?.name ?? mapId}
-                <span>
-                  <DsIcon name="open" />
-                  打开
-                </span>
-              </DsPressable>
-            ))}
+            {item.mapIds.map((mapId) => {
+              const reference = allPlacementReferences.find(
+                (candidate) =>
+                  candidate.target.kind === 'stamp' &&
+                  candidate.target.id === item.sourceStampId &&
+                  candidate.source.owner.kind === 'map' &&
+                  candidate.source.owner.id === mapId,
+              )
+              return (
+                <DsPressable
+                  key={mapId}
+                  type="button"
+                  disabled={!reference || !onOpenReference}
+                  onClick={() => {
+                    if (reference) onOpenReference?.(reference)
+                  }}
+                >
+                  {mapIndex.maps.find((asset) => asset.id === mapId)?.name ?? mapId}
+                  <span>
+                    <DsIcon name="open" />
+                    打开
+                  </span>
+                </DsPressable>
+              )
+            })}
           </div>
         </div>
       ))}
@@ -321,7 +400,7 @@ export function StampLibraryTab(props: {
     )
       return
     setContentEditor({ mode: 'edit', template: structuredClone(selected) })
-  }, [contentEditor?.mode, contentEditor?.template, selected])
+  }, [contentEditor?.template, selected])
 
   return (
     <>
@@ -454,7 +533,7 @@ export function StampLibraryTab(props: {
                     {template.origin === 'migrated' ? '预置' : '作者'}
                   </span>
                 </DsPressable>
-                <div className="stamp-library-row-actions" aria-label={`${template.name} 操作`}>
+                <div className="stamp-library-row-actions">
                   <DsIconButton
                     size="compact"
                     variant="secondary"
@@ -600,7 +679,7 @@ export function StampLibraryTab(props: {
                               size="compact"
                               variant="secondary"
                               onClick={() =>
-                                void session.ensureStampUsageIndexed({ retryFailures: true })
+                                void session.ensureMapReferencesIndexed({ retryFailures: true })
                               }
                             >
                               重试扫描
@@ -608,30 +687,26 @@ export function StampLibraryTab(props: {
                           ) : undefined
                         }
                       >
-                        {(selectedUsage?.mapIds.length ?? 0) > 0 ? (
-                          <DsReferenceGroup
-                            title="已放置地图"
-                            count={selectedUsage?.placementCount ?? 0}
-                          >
+                        {selectedReferences.length > 0 ? (
+                          <DsReferenceGroup title="已放置地图" count={selectedReferences.length}>
                             <DsReferenceList>
-                              {(selectedUsage?.mapIds ?? []).map((mapId) => (
+                              {selectedReferences.map((reference) => (
                                 <DsReferenceRow
-                                  key={mapId}
-                                  title={
-                                    mapIndex.maps.find((asset) => asset.id === mapId)?.name ?? mapId
-                                  }
-                                  detail={mapId}
+                                  key={reference.id}
+                                  title={reference.source.label}
+                                  detail={reference.detail}
+                                  path={reference.where}
                                   labels={[{ label: '来源快照' }]}
                                   action={
-                                    onOpenMap
+                                    onOpenReference
                                       ? {
                                           label: '打开地图',
-                                          onActivate: () => onOpenMap(mapId),
+                                          onActivate: () => onOpenReference(reference),
                                         }
                                       : undefined
                                   }
                                   status={
-                                    onOpenMap
+                                    onOpenReference
                                       ? undefined
                                       : {
                                           label: '暂不可定位',

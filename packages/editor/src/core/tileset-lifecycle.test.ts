@@ -9,11 +9,7 @@ import {
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
 import { buildSeedAssets } from './seed-assets.js'
-import {
-  scanTilesetReferences,
-  TilesetRemovalProof,
-  TilesetReplacementProof,
-} from './tileset-references.js'
+import { TilesetRemovalProof, TilesetReplacementProof } from './tileset-references.js'
 
 const EMPTY_INDEX: MapIndexV1 = { version: 1, maps: [] }
 const seedAssets = await buildSeedAssets()
@@ -84,6 +80,8 @@ function map(tilesetId: string, tileId: number): ProjectMap {
     collision: [[0], [0]],
   }
 }
+
+const currentBatch = (state: EditorState) => new EditSession(state).getMapReferenceBatch()
 
 describe('A7-3T 瓦片集命令事务', () => {
   test('导入定义/record/pending bytes 原子入库，EditSession undo/redo 完整恢复', async () => {
@@ -156,40 +154,86 @@ describe('A7-3T 瓦片集命令事务', () => {
       records: { 'tileset.shared': meta },
       blobs: { [meta.path]: bytes },
     })
-    const scan = await scanTilesetReferences({
-      tilesetId: 'forest',
-      mapIndex: EMPTY_INDEX,
-      stamps: [],
-      loadMap: async () => {
-        throw new Error('无地图')
-      },
-    })
     const first = new RemoveTilesetCommand(
       'forest',
-      TilesetRemovalProof.fromScan(scan, EMPTY_INDEX),
+      TilesetRemovalProof.fromBatch(currentBatch(before), before, 'forest'),
+      currentBatch,
     )
     const shared = first.apply(before)
     expect(shared.tilesets!.map(({ id }) => id)).toEqual(['forest-night'])
     expect(shared.assetCatalog.assets['tileset.shared']).toEqual(meta)
     expect(shared.assetBlobs[meta.path]).toBe(bytes)
 
-    const scanLast = await scanTilesetReferences({
-      tilesetId: 'forest-night',
-      mapIndex: EMPTY_INDEX,
-      stamps: [],
-      loadMap: async () => {
-        throw new Error('无地图')
-      },
-    })
     const last = new RemoveTilesetCommand(
       'forest-night',
-      TilesetRemovalProof.fromScan(scanLast, EMPTY_INDEX),
+      TilesetRemovalProof.fromBatch(currentBatch(shared), shared, 'forest-night'),
+      currentBatch,
       bytes,
     )
     const removed = last.apply(shared)
     expect(removed.assetCatalog.assets['tileset.shared']).toBeUndefined()
     expect(removed.assetBlobs[meta.path]).toBeUndefined()
     expect(last.invert(removed).assetCatalog.assets['tileset.shared']).toEqual(meta)
+  })
+
+  test('删除许可绑定定义集合与资源身份，最后定义必须带可恢复 bytes', async () => {
+    const bytes = new Uint8Array([1, 2]).buffer
+    const meta = record('assets/authored/tilesets/forest.rle', bytes, await sha256Hex(bytes))
+    const definition = {
+      id: 'forest',
+      name: '森林',
+      category: 'outdoor',
+      asset: 'tileset.forest',
+    }
+    const before = state({
+      definitions: [definition],
+      records: { 'tileset.forest': meta },
+    })
+    const proof = TilesetRemovalProof.fromBatch(currentBatch(before), before, 'forest')
+    const command = (persistedBytes: ArrayBuffer | undefined) =>
+      new RemoveTilesetCommand('forest', proof, currentBatch, persistedBytes)
+
+    expect(() =>
+      command(bytes).apply({
+        ...before,
+        tilesets: [{ ...definition, asset: 'tileset.other' }],
+        assetCatalog: {
+          version: 1,
+          assets: { 'tileset.other': { ...meta, path: 'assets/other.rle' } },
+        },
+      }),
+    ).toThrow(/定义或源资源已变化/)
+    expect(() =>
+      command(bytes).apply({
+        ...before,
+        assetCatalog: {
+          version: 1,
+          assets: { 'tileset.forest': { ...meta, sha256: 'f'.repeat(64) } },
+        },
+      }),
+    ).toThrow(/定义或源资源已变化/)
+    expect(() =>
+      command(bytes).apply({
+        ...before,
+        tilesets: [definition, { ...definition, id: 'forest-night', name: '夜林' }],
+      }),
+    ).toThrow(/定义或源资源已变化/)
+
+    const session = new EditSession(before)
+    const sessionProof = TilesetRemovalProof.fromBatch(
+      session.getMapReferenceBatch(),
+      session.getState(),
+      'forest',
+    )
+    expect(() =>
+      session.dispatch(
+        new RemoveTilesetCommand('forest', sessionProof, (current) =>
+          session.getCurrentMapReferenceBatch(current),
+        ),
+      ),
+    ).toThrow(/可恢复的源资源/)
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(session.getState().tilesets).toEqual([definition])
   })
 
   test('共享资产缩帧先列出完整范围并阻断越界；合法替换保持两层稳定 id', async () => {
@@ -221,24 +265,18 @@ describe('A7-3T 瓦片集命令事务', () => {
       mapIndex,
       maps: { 'map-a': projectMap },
     })
-    const scan = await scanTilesetReferences({
-      tilesetId: 'forest',
-      tilesetIds: definitions.map(({ id }) => id),
-      mapIndex,
-      stamps: [],
-      loadMap: async () => projectMap,
-    })
+    const batch = currentBatch(before)
     expect(() =>
-      TilesetReplacementProof.fromScan(scan, mapIndex, 2, {
+      TilesetReplacementProof.fromBatch(batch, 'forest', 2, {
         asset: 'tileset.shared',
-        previousSha256: oldRecord.sha256,
+        previousRecord: oldRecord,
         definitions,
       }),
-    ).toThrow(/地图“地图 A” #2/)
+    ).toThrow(/地图“map-a” #2/)
 
-    const proof = TilesetReplacementProof.fromScan(scan, mapIndex, 3, {
+    const proof = TilesetReplacementProof.fromBatch(batch, 'forest', 3, {
       asset: 'tileset.shared',
-      previousSha256: oldRecord.sha256,
+      previousRecord: oldRecord,
       definitions,
     })
     const bare = new Uint8Array([4, 5, 6]).buffer
@@ -251,8 +289,29 @@ describe('A7-3T 瓦片集命令事务', () => {
         bare,
         oldBytes,
         proof,
+        currentBatch,
       ).apply(before),
     ).toThrow(/canonical gzip/)
+    expect(() =>
+      new ReplaceTilesetAssetCommand(
+        'forest',
+        'tileset.shared',
+        nextRecord,
+        nextBytes,
+        oldBytes,
+        proof,
+        currentBatch,
+      ).apply({
+        ...before,
+        assetCatalog: {
+          ...before.assetCatalog,
+          assets: {
+            ...before.assetCatalog.assets,
+            'tileset.shared': { ...oldRecord, label: '等待期间改名' },
+          },
+        },
+      }),
+    ).toThrow(/资源已变化/)
     const command = new ReplaceTilesetAssetCommand(
       'forest',
       'tileset.shared',
@@ -260,6 +319,7 @@ describe('A7-3T 瓦片集命令事务', () => {
       nextBytes,
       oldBytes,
       proof,
+      currentBatch,
     )
     const replaced = command.apply(before)
     expect(replaced.tilesets).toEqual(definitions)
@@ -278,5 +338,63 @@ describe('A7-3T 瓦片集命令事务', () => {
         },
       }),
     ).toThrow(/已变化/)
+  })
+
+  test('替换 undo 后 hydrate 出现越界瓦片时 redo fail-closed 并保留 future', async () => {
+    const oldBytes = seedAssets.tilesetRle.slice(0)
+    const nextBytes = seedAssets.spriteRle.slice(0)
+    const oldRecord = record(
+      'assets/authored/tilesets/old-redo.rle',
+      oldBytes,
+      await sha256Hex(oldBytes),
+    )
+    const nextRecord = record(
+      'assets/authored/tilesets/next-redo.rle',
+      nextBytes,
+      await sha256Hex(nextBytes),
+    )
+    const definition = {
+      id: 'forest',
+      name: '森林',
+      category: 'outdoor',
+      asset: 'tileset.forest',
+    }
+    const mapIndex: MapIndexV1 = {
+      version: 1,
+      maps: [{ id: 'map-a', name: '地图 A', path: 'content/maps/a.json' }],
+    }
+    let diskMap = map('forest', 1)
+    const session = new EditSession(
+      state({
+        definitions: [definition],
+        records: { 'tileset.forest': oldRecord },
+        blobs: { [oldRecord.path]: oldBytes },
+        mapIndex,
+      }),
+      { loadMap: async () => diskMap },
+    )
+    const batch = await session.ensureMapReferencesIndexed()
+    const proof = TilesetReplacementProof.fromBatch(batch, 'forest', 3, {
+      asset: 'tileset.forest',
+      previousRecord: oldRecord,
+      definitions: [definition],
+    })
+    const command = new ReplaceTilesetAssetCommand(
+      'forest',
+      'tileset.forest',
+      nextRecord,
+      nextBytes,
+      oldBytes,
+      proof,
+      (current) => session.getCurrentMapReferenceBatch(current),
+    )
+
+    session.dispatch(command)
+    expect(session.undo()).toBe(true)
+    diskMap = map('forest', 3)
+    await session.ensureMapLoaded('map-a')
+    expect(() => session.redo()).toThrow(/事实已变化|越界引用/)
+    expect(session.canRedo()).toBe(true)
+    expect(session.getState().assetCatalog.assets['tileset.forest']).toEqual(oldRecord)
   })
 })

@@ -996,6 +996,10 @@ describe('editor design-system static boundary', () => {
     expect(tileset).toMatch(/<DsObjectHero\b/)
     expect(stampLibrary).not.toMatch(/stamp-workspace-head|编辑组合内容|退出内容编辑/)
     expect(tileset).not.toMatch(/tileset-workspace-head/)
+    expect(tileset).not.toMatch(/ensureMapLoaded|scanTilesetReferences/)
+    expect(stampLibrary).not.toMatch(/ensureStampUsageIndexed|getStampTemplateUsageIndex/)
+    expect(tileset).toMatch(/ensureMapReferencesIndexed/)
+    expect(stampLibrary).toMatch(/ensureMapReferencesIndexed/)
     for (const source of [stampEditor, mapMode]) {
       expect(source).toMatch(/<LayerStackControls\b/)
       expect(source).toMatch(/<IsometricEditorCanvas\b/)

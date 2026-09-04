@@ -4,6 +4,8 @@ import { buildBlankProjectMap, loadTilesetAsset, type TilesetDef } from '@type-p
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { sha256Hex } from '../core/binary-signature.js'
+import { UpsertAssetCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
@@ -27,6 +29,15 @@ const tilesets: TilesetDef[] = [
   { id: 'tiles-b', name: '保留瓦片', category: 'production', asset: 'tileset.b' },
 ]
 
+const assetBytes = {
+  'tileset.a': new Uint8Array([1]).buffer,
+  'tileset.b': new Uint8Array([2]).buffer,
+}
+const assetHashes = {
+  a: await sha256Hex(assetBytes['tileset.a']),
+  b: await sha256Hex(assetBytes['tileset.b']),
+}
+
 const assetCatalog = {
   version: 1 as const,
   assets: Object.fromEntries(
@@ -37,7 +48,7 @@ const assetCatalog = {
         path: `assets/authored/tilesets/${id}.rle`,
         mediaType: 'application/vnd.type-pal.rle',
         bytes: 1,
-        sha256: id.repeat(64),
+        sha256: assetHashes[id as keyof typeof assetHashes],
         origin: { kind: 'authored' as const },
       },
     ]),
@@ -46,9 +57,17 @@ const assetCatalog = {
 const assetReader = {
   projectId: 'test',
   record: (asset: string) => assetCatalog.assets[asset]!,
-  readBytes: async () => new ArrayBuffer(1),
+  readBytes: async (asset: keyof typeof assetBytes) => assetBytes[asset].slice(0),
   readRoleBytes: async () => new ArrayBuffer(0),
   urlFor: async () => '',
+}
+
+function deferred<T>() {
+  let resolve!: (value: T) => void
+  const promise = new Promise<T>((done) => {
+    resolve = done
+  })
+  return { promise, resolve }
 }
 
 const mapIndex: MapIndexV1 = {
@@ -103,6 +122,7 @@ async function mountTilesetTab(input: {
   onOpenMap?: (id: string) => void
   onOpenStamp?: (id: string) => void
   loadMap?: (id: string) => Promise<ProjectMap>
+  reader?: typeof assetReader
 }) {
   const loadMap = vi.fn(
     input.loadMap ??
@@ -125,13 +145,17 @@ async function mountTilesetTab(input: {
         <TilesetTab
           tilesets={tilesets}
           assetCatalog={catalog}
-          assetReader={assetReader}
+          assetReader={input.reader ?? assetReader}
           assetBase={{} as never}
           session={session}
           mapIndex={mapIndex}
-          stamps={input.stamps ?? []}
-          onOpenMap={input.onOpenMap}
-          onOpenStamp={input.onOpenStamp}
+          onOpenReference={(reference) => {
+            if (reference.locator.kind !== 'object') return
+            if (reference.locator.object.kind === 'map')
+              input.onOpenMap?.(reference.locator.object.id)
+            if (reference.locator.object.kind === 'stamp')
+              input.onOpenStamp?.(reference.locator.object.id)
+          }}
         />,
       )
       await Promise.resolve()
@@ -159,12 +183,12 @@ async function chooseSelectOption(host: HTMLElement, label: string, optionText: 
   await act(async () => option.click())
 }
 
-async function runReferenceScan(host: HTMLElement): Promise<void> {
-  await act(async () => {
-    button(host, '检查引用后移除').click()
-    await new Promise((resolve) => window.setTimeout(resolve, 0))
-    await new Promise((resolve) => window.setTimeout(resolve, 0))
-  })
+async function runReferenceScan(host: HTMLElement, session: EditSession): Promise<void> {
+  const referencesTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+    (candidate) => candidate.textContent?.trim().startsWith('引用'),
+  )!
+  await act(async () => referencesTab.click())
+  await vi.waitFor(() => expect(session.getMapReferenceBatch().done).toBe(true))
 }
 
 beforeEach(() => {
@@ -214,7 +238,7 @@ describe('TilesetTab 全项目引用删除', () => {
 
   test('选中态使用共享资源/引用 Tab，上传工作流不虚构 Tab', async () => {
     const mounted = await mountTilesetTab({ mapB: buildBlankProjectMap(1, 1, 'tiles-b') })
-    await verifyInspectorTabs(mounted.host, '瓦片集检查器', ['资源', '引用'])
+    await verifyInspectorTabs(mounted.host, '瓦片集检查器', ['资源', '引用 0'])
     await act(async () =>
       mounted.host.querySelector<HTMLButtonElement>('[aria-label^="上传 PNG"]')!.click(),
     )
@@ -249,6 +273,15 @@ describe('TilesetTab 全项目引用删除', () => {
     expect(session.isDirty()).toBe(true)
   })
 
+  test('进入替换流程但尚未选择文件时不伪报 0 帧越界', async () => {
+    const { host } = await mountTilesetTab({
+      mapB: buildBlankProjectMap(1, 1, 'tiles-a'),
+    })
+    await act(async () => button(host, '替换图像').click())
+    expect(host.textContent).not.toContain('新图集只有 0 帧')
+    expect(host.textContent).not.toContain('无法缩减帧数')
+  })
+
   test('同 AssetId/path 但 record sha 改变时重新载入工作台预览', async () => {
     const mounted = await mountTilesetTab({ mapB: buildBlankProjectMap(1, 1, 'tiles-b') })
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
@@ -264,6 +297,43 @@ describe('TilesetTab 全项目引用删除', () => {
     expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledTimes(2)
   })
 
+  test('页面已挂载时地图 undo/redo 失效事实，只异步补当前变化地图并恢复精确计数', async () => {
+    const { host, session, loadMap } = await mountTilesetTab({
+      mapB: buildBlankProjectMap(1, 1, 'tiles-b'),
+    })
+    await vi.waitFor(() => expect(session.getMapReferenceBatch().done).toBe(true))
+    const beforeLoads = loadMap.mock.calls.length
+    const beforeMap = session.getState().maps['map-a']!
+    const changedMap = buildBlankProjectMap(1, 1, 'tiles-a')
+    session.dispatch({
+      label: '改变当前地图瓦片集',
+      apply: (current) => ({
+        ...current,
+        maps: { ...current.maps, 'map-a': changedMap },
+      }),
+      invert: (current) => ({
+        ...current,
+        maps: { ...current.maps, 'map-a': beforeMap },
+      }),
+    })
+    expect(session.getMapReferenceBatch().done).toBe(false)
+    await vi.waitFor(() => expect(session.getMapReferenceBatch().done).toBe(true))
+    await vi.waitFor(() =>
+      expect(
+        [...host.querySelectorAll('[role="tab"]')].map((tab) => tab.textContent?.trim()),
+      ).toContain('引用 1'),
+    )
+    expect(loadMap).toHaveBeenCalledTimes(beforeLoads)
+
+    await act(async () => session.undo())
+    await vi.waitFor(() => expect(session.getMapReferenceBatch().done).toBe(true))
+    await vi.waitFor(() =>
+      expect(
+        [...host.querySelectorAll('[role="tab"]')].map((tab) => tab.textContent?.trim()),
+      ).toContain('引用 0'),
+    )
+  })
+
   test('扫描未加载地图和组合模板，列出可跳转引用并保持删除禁用', async () => {
     const onOpenMap = vi.fn()
     const onOpenStamp = vi.fn()
@@ -273,12 +343,12 @@ describe('TilesetTab 全项目引用删除', () => {
       onOpenMap,
       onOpenStamp,
     })
-    await runReferenceScan(host)
+    await runReferenceScan(host, session)
 
     expect(loadMap).toHaveBeenCalledOnce()
     expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('地图 B')
     expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('树木组合')
-    expect(button(host, '重新检查后移除').closest('.ds-object-hero')).not.toBeNull()
+    expect(button(host, '查看 2 处阻断引用').closest('.ds-object-hero')).not.toBeNull()
     expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
 
     await act(async () => button(host, '地图 B').click())
@@ -297,7 +367,7 @@ describe('TilesetTab 全项目引用删除', () => {
         return buildBlankProjectMap(1, 1, 'tiles-b')
       },
     })
-    await runReferenceScan(host)
+    await runReferenceScan(host, session)
     expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('已保守禁止移除')
     expect(
       host.querySelector('[role="tablist"][aria-label="瓦片集检查器"] .ds-tab__count'),
@@ -306,16 +376,57 @@ describe('TilesetTab 全项目引用删除', () => {
     expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
 
     await act(async () => {
-      button(host, '重新检查后移除').click()
+      button(host, '重新检查引用').click()
       await new Promise((resolve) => window.setTimeout(resolve, 0))
       await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
     expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('均未引用')
 
     await act(async () => button(host, '确认移除').click())
-    expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-b'])
+    await vi.waitFor(() =>
+      expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-b']),
+    )
     expect(session.isDirty()).toBe(true)
     await act(async () => session.undo())
     expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
+  })
+
+  test('删除读取 bytes 期间资源变化时不提交旧许可或错配恢复字节', async () => {
+    const pendingBytes = deferred<ArrayBuffer>()
+    const reader = {
+      ...assetReader,
+      readBytes: vi.fn(async () => pendingBytes.promise),
+    }
+    const { host, session } = await mountTilesetTab({
+      mapB: buildBlankProjectMap(1, 1, 'tiles-b'),
+      reader,
+    })
+    await vi.waitFor(() => expect(session.getMapReferenceBatch().done).toBe(true))
+    await vi.waitFor(() => expect(button(host, '确认移除')).toBeDefined())
+    await act(async () => button(host, '确认移除').click())
+    await vi.waitFor(() => expect(reader.readBytes).toHaveBeenCalledWith('tileset.a', 'tileset'))
+
+    const replacementBytes = new Uint8Array([9]).buffer
+    const currentRecord = session.getState().assetCatalog.assets['tileset.a']!
+    session.dispatch(
+      new UpsertAssetCommand(
+        'tileset.a',
+        {
+          ...currentRecord,
+          path: 'assets/authored/tilesets/a-new.rle',
+          bytes: replacementBytes.byteLength,
+          sha256: await sha256Hex(replacementBytes),
+        },
+        replacementBytes,
+        assetBytes['tileset.a'],
+      ),
+    )
+    const historyAfterReplacement = session.getHistoryVersion()
+    await act(async () => pendingBytes.resolve(assetBytes['tileset.a'].slice(0)))
+    await vi.waitFor(() => expect(host.textContent).toContain('瓦片集或源资源已变化'))
+
+    expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
+    expect(session.getHistoryVersion()).toBe(historyAfterReplacement)
+    expect(session.getState().assetCatalog.assets['tileset.a']?.path).toContain('a-new.rle')
   })
 })

@@ -6,7 +6,7 @@
  * 新上传与已落盘资源统一经 EditorAssetReader + AssetId 读取；record.sha256 驱动缓存失效。
  */
 
-import type { AssetCatalogV1, AssetRecordV1, MapIndexV1, StampTemplate } from '@type-pal/content'
+import type { AssetCatalogV1, AssetRecordV1, MapIndexV1 } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame, TilesetDef } from '@type-pal/reforge'
 import {
   bakeFrame,
@@ -17,7 +17,16 @@ import {
   quantizeToRleFrame,
   sliceAtlasGrid,
 } from '@type-pal/reforge'
-import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react'
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react'
 import { sha256Hex } from '../core/binary-signature.js'
 import {
   AddTilesetCommand,
@@ -27,11 +36,11 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { ProjectReferenceEdge } from '../core/project-reference.js'
 import {
-  scanTilesetReferences,
-  type TilesetReferenceScan,
   TilesetRemovalProof,
   TilesetReplacementProof,
+  tilesetUsageReferences,
 } from '../core/tileset-references.js'
 import {
   DsButton,
@@ -41,17 +50,17 @@ import {
   DsInspectorTabs,
   DsNumberInput,
   DsObjectHero,
+  DsPressable,
   DsPropertyGrid,
   DsPropertyRow,
+  DsReadonlyValue,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
-  DsReadonlyValue,
   DsSelect,
   DsTag,
   DsTextInput,
-  DsPressable,
 } from './design-system/index.js'
 
 const FRAME_PAGE_SIZE = 128
@@ -177,12 +186,10 @@ export function TilesetTab(props: {
   assetBase: AssetBase
   session: EditSession
   mapIndex: MapIndexV1
-  stamps: readonly StampTemplate[]
   tabBar?: React.ReactNode
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  onOpenMap?: (id: string) => void
-  onOpenStamp?: (id: string) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
 }) {
   const {
     tilesets,
@@ -191,12 +198,10 @@ export function TilesetTab(props: {
     assetBase,
     session,
     mapIndex,
-    stamps,
     tabBar,
     focusObjectId,
     onObjectFocus,
-    onOpenMap,
-    onOpenStamp,
+    onOpenReference,
   } = props
   const [selectedId, setSelectedId] = useState<string | null>(
     focusObjectId ?? tilesets[0]?.id ?? null,
@@ -215,10 +220,6 @@ export function TilesetTab(props: {
   const [editName, setEditName] = useState('')
   const [editCategory, setEditCategory] = useState('')
   const [err, setErr] = useState('')
-  const [removalScan, setRemovalScan] = useState<TilesetReferenceScan>()
-  const [replacementScan, setReplacementScan] = useState<TilesetReferenceScan>()
-  const [removalScanning, setRemovalScanning] = useState(false)
-  const removalScanTokenRef = useRef(0)
   const [palette, setPalette] = useState<Palette | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const tileWidthId = useId()
@@ -295,15 +296,24 @@ export function TilesetTab(props: {
     onObjectFocus?.(nextId ?? undefined)
   }, [onObjectFocus, selectedId, tilesets])
 
+  const subscribeMapReferences = useCallback(
+    (listener: () => void) => session.subscribeMapReferences(listener),
+    [session],
+  )
+  const readMapReferenceVersion = useCallback(() => session.getMapReferenceVersion(), [session])
+  useSyncExternalStore(subscribeMapReferences, readMapReferenceVersion, readMapReferenceVersion)
+  const mapReferenceBatch = session.getMapReferenceBatch()
   useEffect(() => {
-    void mapIndex
-    void selectedId
-    void session
-    void stamps
-    removalScanTokenRef.current += 1
-    setRemovalScan(undefined)
-    setRemovalScanning(false)
-  }, [mapIndex, selectedId, session, stamps])
+    if (!mapReferenceBatch.done && !mapReferenceBatch.running)
+      void session.ensureMapReferencesIndexed()
+  }, [mapReferenceBatch.done, mapReferenceBatch.running, session])
+  const selectedReferences = selected ? tilesetUsageReferences(mapReferenceBatch, selected.id) : []
+  const removalMapReferences = selectedReferences.filter(
+    (reference) => reference.source.owner.kind === 'map',
+  )
+  const removalStampReferences = selectedReferences.filter(
+    (reference) => reference.source.owner.kind === 'stamp',
+  )
 
   // 量化预览帧(draft + 参数变化即重算;纯函数,同色缓存后毫秒级)
   const quantized = useMemo(() => {
@@ -316,14 +326,53 @@ export function TilesetTab(props: {
       return []
     }
   }, [draft, palette, tileW, tileH])
-  const replacementOutOfRangeMaps =
-    replacementScan?.mapReferences.filter((entry) => entry.maxTileId >= quantized.length) ?? []
-  const replacementOutOfRangeStamps =
-    replacementScan?.stampReferences.filter((entry) => entry.maxTileId >= quantized.length) ?? []
+  const replacementTilesetIds = new Set(sharedDefinitions.map((entry) => entry.id))
+  const replacementReferences = sharedDefinitions.flatMap((entry) =>
+    tilesetUsageReferences(mapReferenceBatch, entry.id),
+  )
+  const replacementOutOfRangeMaps = mapReferenceBatch.facts.flatMap((fact) =>
+    fact.tilesetIds.flatMap((tilesetId) => {
+      const maxTileId = fact.maxTileIdByTileset[tilesetId] ?? -1
+      if (!replacementTilesetIds.has(tilesetId) || maxTileId < quantized.length) return []
+      return [
+        {
+          mapId: fact.mapId,
+          mapName: mapIndex.maps.find((entry) => entry.id === fact.mapId)?.name ?? fact.mapId,
+          maxTileId,
+          reference: replacementReferences.find(
+            (reference) =>
+              reference.target.kind === 'tileset' &&
+              reference.target.id === tilesetId &&
+              reference.source.owner.kind === 'map' &&
+              reference.source.owner.id === fact.mapId,
+          ),
+        },
+      ]
+    }),
+  )
+  const replacementOutOfRangeStamps = mapReferenceBatch.stampFacts.flatMap((stamp) =>
+    stamp.tilesetIds.flatMap((tilesetId) => {
+      const maxTileId = stamp.maxTileIdByTileset[tilesetId] ?? -1
+      if (!replacementTilesetIds.has(tilesetId) || maxTileId < quantized.length) return []
+      return [
+        {
+          id: stamp.stampId,
+          name: stamp.stampName,
+          maxTileId,
+          reference: replacementReferences.find(
+            (reference) =>
+              reference.target.kind === 'tileset' &&
+              reference.target.id === tilesetId &&
+              reference.source.owner.kind === 'stamp' &&
+              reference.source.owner.id === stamp.stampId,
+          ),
+        },
+      ]
+    }),
+  )
 
   const pickFile = async (file: File): Promise<void> => {
     setErr('')
-    setReplacementScan(undefined)
     try {
       const bitmap = await createImageBitmap(file)
       const cvs = document.createElement('canvas')
@@ -375,26 +424,31 @@ export function TilesetTab(props: {
       if (replaceTargetId) {
         const target = replaceTarget
         if (!target) throw new Error('待替换瓦片集已不存在')
-        const oldRecord = assetCatalog.assets[target.asset]
+        const capturedAsset = target.asset
+        const oldRecord = assetCatalog.assets[capturedAsset]
         if (!oldRecord || oldRecord.kind !== 'tileset') throw new Error('待替换资源不在 catalog')
-        const scan = await scanTilesetReferences({
-          tilesetId: target.id,
-          tilesetIds: tilesets
-            .filter((entry) => entry.asset === target.asset)
-            .map((entry) => entry.id),
-          mapIndex,
-          stamps,
-          loadMap: (mapId) => session.ensureMapLoaded(mapId),
-        })
-        setReplacementScan(scan)
-        const proof = TilesetReplacementProof.fromScan(scan, mapIndex, quantized.length, {
-          asset: target.asset,
-          previousSha256: oldRecord.sha256,
-          definitions: tilesets.filter((entry) => entry.asset === target.asset),
-        })
         const previousBytes = await assetReader.readBytes(target.asset, 'tileset')
+        const previousBytesSha256 = await sha256Hex(previousBytes)
+        const batch = await session.ensureMapReferencesIndexed({ retryFailures: true })
+        const liveState = session.getState()
+        const liveTarget = liveState.tilesets?.find((entry) => entry.id === target.id)
+        const liveRecord = liveTarget ? liveState.assetCatalog.assets[liveTarget.asset] : undefined
+        if (
+          liveTarget?.asset !== capturedAsset ||
+          liveRecord?.kind !== 'tileset' ||
+          liveRecord.sha256 !== previousBytesSha256
+        )
+          throw new Error('待替换瓦片集或源资源已变化；请重新选择文件。')
+        const liveDefinitions = (liveState.tilesets ?? []).filter(
+          (entry) => entry.asset === capturedAsset,
+        )
+        const proof = TilesetReplacementProof.fromBatch(batch, target.id, quantized.length, {
+          asset: capturedAsset,
+          previousRecord: liveRecord,
+          definitions: liveDefinitions,
+        })
         const record: AssetRecordV1 = {
-          ...oldRecord,
+          ...liveRecord,
           path,
           bytes: buf.byteLength,
           sha256: hash,
@@ -404,11 +458,12 @@ export function TilesetTab(props: {
         session.dispatch(
           new ReplaceTilesetAssetCommand(
             target.id,
-            target.asset,
+            capturedAsset,
             record,
             buf,
             previousBytes,
             proof,
+            (state) => session.getCurrentMapReferenceBatch(state),
           ),
         )
       } else {
@@ -438,7 +493,6 @@ export function TilesetTab(props: {
       }
       setUploading(false)
       setReplaceTargetId(undefined)
-      setReplacementScan(undefined)
       setDraft(null)
       setSelectedId(id)
       onObjectFocus?.(id)
@@ -449,65 +503,58 @@ export function TilesetTab(props: {
 
   const scanRemovalReferences = async (): Promise<void> => {
     if (!selected) return
-    const token = removalScanTokenRef.current + 1
-    removalScanTokenRef.current = token
     setErr('')
-    setRemovalScanning(true)
-    setRemovalScan(undefined)
-    const result = await scanTilesetReferences({
-      tilesetId: selected.id,
-      mapIndex,
-      stamps,
-      loadMap: (mapId) => session.ensureMapLoaded(mapId),
-      onProgress: (progress) => {
-        if (removalScanTokenRef.current === token) setRemovalScan(progress)
-      },
-    })
-    if (removalScanTokenRef.current !== token) return
-    setRemovalScan(result)
-    setRemovalScanning(false)
+    try {
+      await session.ensureMapReferencesIndexed({ retryFailures: true })
+    } catch (cause) {
+      setErr(cause instanceof Error ? cause.message : String(cause))
+    }
   }
 
   const removeSelected = async (): Promise<void> => {
-    if (!selected || !removalScan) return
+    if (!selected) return
     try {
-      const proof = TilesetRemovalProof.fromScan(removalScan, mapIndex)
-      const nextId = tilesets.find((candidate) => candidate.id !== selected.id)?.id
-      const bytes =
-        selectedRecord && sharedDefinitions.length === 1
-          ? await assetReader.readBytes(selected.asset, 'tileset')
-          : undefined
-      session.dispatch(new RemoveTilesetCommand(selected.id, proof, bytes))
+      const capturedAsset = selected.asset
+      const capturedRecord = selectedRecord
+      if (!capturedRecord) throw new Error('瓦片集源资源已不存在。')
+      const bytes = await assetReader.readBytes(capturedAsset, 'tileset')
+      const bytesSha256 = await sha256Hex(bytes)
+      const batch = await session.ensureMapReferencesIndexed({ retryFailures: true })
+      const liveState = session.getState()
+      const proof = TilesetRemovalProof.fromBatch(batch, liveState, selected.id)
+      if (proof.asset !== capturedAsset || proof.recordSha256 !== bytesSha256)
+        throw new Error('瓦片集或源资源已变化；请重新检查后移除。')
+      const nextId = liveState.tilesets?.find((candidate) => candidate.id !== selected.id)?.id
+      session.dispatch(
+        new RemoveTilesetCommand(
+          selected.id,
+          proof,
+          (state) => session.getCurrentMapReferenceBatch(state),
+          bytes,
+        ),
+      )
       setSelectedId(nextId ?? null)
       onObjectFocus?.(nextId)
-      setRemovalScan(undefined)
       setErr('')
     } catch (cause) {
       setErr(cause instanceof Error ? cause.message : String(cause))
-      setRemovalScan(undefined)
     }
   }
 
   const removalComplete = Boolean(
-    removalScan?.done &&
-      removalScan.failures.length === 0 &&
-      removalScan.completed === removalScan.total,
+    mapReferenceBatch.done &&
+      mapReferenceBatch.failures.length === 0 &&
+      mapReferenceBatch.completed === mapReferenceBatch.total,
   )
-  const removalHasReferences = Boolean(
-    removalScan && (removalScan.mapReferences.length > 0 || removalScan.stampReferences.length > 0),
-  )
-  const removalReferenceCount = removalScan
-    ? removalScan.mapReferences.length + removalScan.stampReferences.length
-    : 0
-  const removalPanelState = !removalScan
-    ? 'partial'
-    : removalScanning
-      ? 'loading'
-      : removalScan.failures.length
-        ? 'partial'
-        : removalComplete && removalReferenceCount === 0
-          ? 'empty'
-          : 'ready'
+  const removalHasReferences = selectedReferences.length > 0
+  const removalReferenceCount = selectedReferences.length
+  const removalPanelState = mapReferenceBatch.running
+    ? 'loading'
+    : mapReferenceBatch.failures.length || !removalComplete
+      ? 'partial'
+      : removalReferenceCount === 0
+        ? 'empty'
+        : 'ready'
 
   const beginSelectedReplacement = (): void => {
     if (!selected || !selectedRecord) return
@@ -519,7 +566,6 @@ export function TilesetTab(props: {
     )
       return
     setReplaceTargetId(selected.id)
-    setReplacementScan(undefined)
     setUploading(true)
     setDraft(null)
     setNewId(selected.id)
@@ -531,7 +577,7 @@ export function TilesetTab(props: {
   const runRemovalLifecycle = (): void => {
     setInspectorTab('references')
     if (removalComplete && !removalHasReferences) void removeSelected()
-    else void scanRemovalReferences()
+    else if (!removalComplete) void scanRemovalReferences()
   }
 
   return (
@@ -550,7 +596,6 @@ export function TilesetTab(props: {
               onClick: () => {
                 setUploading(true)
                 setReplaceTargetId(undefined)
-                setReplacementScan(undefined)
                 setDraft(null)
                 setErr('')
               },
@@ -688,15 +733,17 @@ export function TilesetTab(props: {
                 <DsButton
                   size="compact"
                   variant="danger"
-                  busy={removalScanning}
+                  busy={mapReferenceBatch.running}
                   title="检查全项目引用后从注册表移除；操作可撤销"
                   onClick={runRemovalLifecycle}
                 >
                   {removalComplete && !removalHasReferences
                     ? '确认移除'
-                    : removalScan
-                      ? '重新检查后移除'
-                      : '检查引用后移除'}
+                    : removalComplete
+                      ? `查看 ${removalReferenceCount} 处阻断引用`
+                      : mapReferenceBatch.completed > 0
+                        ? '重新检查引用'
+                        : '检查引用'}
                 </DsButton>
               </>
             }
@@ -738,7 +785,6 @@ export function TilesetTab(props: {
                     value={tileW}
                     onChange={(event) => {
                       setTileW(Math.floor(event.target.valueAsNumber) || 0)
-                      setReplacementScan(undefined)
                     }}
                   />
                 </DsPropertyRow>
@@ -753,7 +799,6 @@ export function TilesetTab(props: {
                     value={tileH}
                     onChange={(event) => {
                       setTileH(Math.floor(event.target.valueAsNumber) || 0)
-                      setReplacementScan(undefined)
                     }}
                   />
                 </DsPropertyRow>
@@ -763,7 +808,9 @@ export function TilesetTab(props: {
               </div>
             </section>
             {replaceTargetId &&
-            replacementScan &&
+            draft &&
+            quantized.length > 0 &&
+            removalComplete &&
             (replacementOutOfRangeMaps.length > 0 || replacementOutOfRangeStamps.length > 0) ? (
               <section className="section tileset-removal-check" aria-label="替换越界引用">
                 <h4>无法缩减帧数</h4>
@@ -779,15 +826,15 @@ export function TilesetTab(props: {
                           title={reference.mapName}
                           detail={`${reference.mapId} · #${reference.maxTileId}`}
                           action={
-                            onOpenMap
+                            onOpenReference && reference.reference
                               ? {
                                   label: '打开',
-                                  onActivate: () => onOpenMap(reference.mapId),
+                                  onActivate: () => onOpenReference(reference.reference!),
                                 }
                               : undefined
                           }
                           status={
-                            onOpenMap
+                            onOpenReference && reference.reference
                               ? undefined
                               : {
                                   label: '暂不可定位',
@@ -809,15 +856,15 @@ export function TilesetTab(props: {
                           title={reference.name}
                           detail={`${reference.id} · #${reference.maxTileId}`}
                           action={
-                            onOpenStamp
+                            onOpenReference && reference.reference
                               ? {
                                   label: '打开',
-                                  onActivate: () => onOpenStamp(reference.id),
+                                  onActivate: () => onOpenReference(reference.reference!),
                                 }
                               : undefined
                           }
                           status={
-                            onOpenStamp
+                            onOpenReference && reference.reference
                               ? undefined
                               : {
                                   label: '暂不可定位',
@@ -885,7 +932,6 @@ export function TilesetTab(props: {
                 onClick={() => {
                   setUploading(false)
                   setReplaceTargetId(undefined)
-                  setReplacementScan(undefined)
                   setDraft(null)
                   setErr('')
                 }}
@@ -982,46 +1028,41 @@ export function TilesetTab(props: {
                         count={
                           removalComplete
                             ? { kind: 'exact', value: removalReferenceCount }
-                            : removalScan
-                              ? { kind: 'at-least', value: removalReferenceCount }
-                              : { kind: 'unknown' }
+                            : { kind: 'at-least', value: removalReferenceCount }
                         }
                         impact={{
                           kind: 'blocking',
-                          description: !removalScan
-                            ? '移除前必须检查全部已加载和未加载地图，以及组合模板的硬引用。'
-                            : removalScan.failures.length
-                              ? `${removalScan.failures.length} 张地图读取失败，已保守禁止移除。`
-                              : removalScanning
-                                ? `已检查 ${removalScan.completed}/${removalScan.total} 张地图。`
+                          description: mapReferenceBatch.failures.length
+                            ? `${mapReferenceBatch.failures.length} 张地图读取失败，已保守禁止移除。`
+                            : mapReferenceBatch.running
+                              ? `已检查 ${mapReferenceBatch.completed}/${mapReferenceBatch.total} 张地图。`
+                              : !removalComplete
+                                ? '移除前必须检查全部已加载和未加载地图，以及组合模板的硬引用。'
                                 : removalReferenceCount
                                   ? '先处理地图和组合模板中的引用，再重新检查。'
                                   : '全部地图与组合模板均未引用此瓦片集。',
                         }}
                       >
-                        {removalScan?.mapReferences.length ? (
-                          <DsReferenceGroup
-                            title="引用地图"
-                            count={removalScan.mapReferences.length}
-                          >
+                        {removalMapReferences.length ? (
+                          <DsReferenceGroup title="引用地图" count={removalMapReferences.length}>
                             <DsReferenceList>
-                              {removalScan.mapReferences.map((reference) => (
+                              {removalMapReferences.map((reference) => (
                                 <DsReferenceRow
-                                  key={reference.mapId}
-                                  title={reference.mapName}
-                                  detail={reference.mapId}
-                                  path={reference.path}
+                                  key={reference.id}
+                                  title={reference.source.label}
+                                  detail={reference.detail}
+                                  path={reference.where}
                                   action={
-                                    onOpenMap
+                                    onOpenReference
                                       ? {
                                           label: '打开',
-                                          ariaLabel: `打开地图 ${reference.mapId}`,
-                                          onActivate: () => onOpenMap(reference.mapId),
+                                          ariaLabel: `打开${reference.source.label}`,
+                                          onActivate: () => onOpenReference(reference),
                                         }
                                       : undefined
                                   }
                                   status={
-                                    onOpenMap
+                                    onOpenReference
                                       ? undefined
                                       : {
                                           label: '暂不可定位',
@@ -1034,28 +1075,29 @@ export function TilesetTab(props: {
                             </DsReferenceList>
                           </DsReferenceGroup>
                         ) : null}
-                        {removalScan?.stampReferences.length ? (
+                        {removalStampReferences.length ? (
                           <DsReferenceGroup
                             title="引用组合模板"
-                            count={removalScan.stampReferences.length}
+                            count={removalStampReferences.length}
                           >
                             <DsReferenceList>
-                              {removalScan.stampReferences.map((reference) => (
+                              {removalStampReferences.map((reference) => (
                                 <DsReferenceRow
                                   key={reference.id}
-                                  title={reference.name}
-                                  path={reference.id}
+                                  title={reference.source.label}
+                                  detail={reference.detail}
+                                  path={reference.where}
                                   action={
-                                    onOpenStamp
+                                    onOpenReference
                                       ? {
                                           label: '打开',
-                                          ariaLabel: `打开组合 ${reference.id}`,
-                                          onActivate: () => onOpenStamp(reference.id),
+                                          ariaLabel: `打开${reference.source.label}`,
+                                          onActivate: () => onOpenReference(reference),
                                         }
                                       : undefined
                                   }
                                   status={
-                                    onOpenStamp
+                                    onOpenReference
                                       ? undefined
                                       : {
                                           label: '暂不可定位',
@@ -1069,18 +1111,14 @@ export function TilesetTab(props: {
                           </DsReferenceGroup>
                         ) : null}
                       </DsReferencePanel>
-                      {removalScan ? (
+                      {!removalComplete ? (
                         <DsPressable
                           type="button"
                           className="tileset-secondary-action"
-                          onClick={() => {
-                            removalScanTokenRef.current += 1
-                            setRemovalScan(undefined)
-                            setRemovalScanning(false)
-                            setErr('')
-                          }}
+                          disabled={mapReferenceBatch.running}
+                          onClick={() => void scanRemovalReferences()}
                         >
-                          取消移除
+                          {mapReferenceBatch.failures.length ? '重试扫描' : '继续扫描'}
                         </DsPressable>
                       ) : null}
                     </section>

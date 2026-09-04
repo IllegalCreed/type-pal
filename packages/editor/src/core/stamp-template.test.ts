@@ -8,7 +8,6 @@ import { describe, expect, test } from 'vitest'
 import type { MapSelection } from './map-selection.js'
 import {
   buildStampTemplateFromSelection,
-  collectStampTemplateUsage,
   defaultStampTemplateAnchor,
   nextStampTemplateId,
 } from './stamp-template.js'
@@ -119,44 +118,4 @@ describe('buildStampTemplateFromSelection', () => {
     expect(nextStampTemplateId('tree', ['tree', 'tree-2'])).toBe('tree-3')
     expect(nextStampTemplateId('///', [])).toBe('stamp')
   })
-})
-
-test('collectStampTemplateUsage 统计已加载地图并把悬空来源作为软信息', () => {
-  const { map, selection } = fixture()
-  const template = buildStampTemplateFromSelection({
-    map,
-    selection,
-    id: 'tree',
-    name: '树',
-    anchor: defaultStampTemplateAnchor(selection)!,
-    includeCollision: false,
-  })
-  const placed = {
-    ...map,
-    version: 4 as const,
-    authoring: {
-      version: 1 as const,
-      stampPlacements: [
-        {
-          id: 'p1',
-          sourceStampId: 'tree',
-          anchor: { row: 0, col: 0 },
-          visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
-          gridPoints: [],
-        },
-        {
-          id: 'p2',
-          sourceStampId: 'deleted',
-          anchor: { row: 1, col: 0 },
-          visualSlots: [{ layerId: 'floor', row: 1, col: 0 }],
-          gridPoints: [],
-        },
-      ],
-    },
-  }
-  const usage = collectStampTemplateUsage({ map: placed }, [template])
-  expect(usage.byStampId.tree).toEqual({ placementCount: 1, mapIds: ['map'] })
-  expect(usage.missingSources).toEqual([
-    { sourceStampId: 'deleted', placementCount: 1, mapIds: ['map'] },
-  ])
 })

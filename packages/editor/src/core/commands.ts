@@ -78,7 +78,7 @@ import {
   removeProjectMapLayer,
   updateProjectMapLayer,
 } from '@type-pal/reforge'
-import type { EditorState } from './edit-session.js'
+import type { CurrentMapReferenceBatchProvider, EditorState } from './edit-session.js'
 import { createEmptyScriptStages } from './entity-placement.js'
 import {
   applyPreparedProjectMapPatch,
@@ -116,6 +116,8 @@ import {
  */
 export interface Command {
   readonly label: string
+  /** 仅供 EditSession 增量维护组合模板引用事实；未声明但改 stamps 时会安全回退全量。 */
+  readonly mapReferenceStampIds?: readonly string[]
   apply(s: EditorState): EditorState
   invert(s: EditorState): EditorState
 }
@@ -1380,7 +1382,8 @@ export class RemoveTilesetCommand implements Command {
 
   constructor(
     private readonly tilesetId: string,
-    private readonly proof?: TilesetRemovalProof,
+    private readonly proof: TilesetRemovalProof,
+    private readonly currentBatch: CurrentMapReferenceBatchProvider,
     private readonly persistedBytes?: ArrayBuffer,
   ) {}
 
@@ -1388,7 +1391,13 @@ export class RemoveTilesetCommand implements Command {
     const list = state.tilesets ?? []
     const index = list.findIndex((t) => t.id === this.tilesetId)
     if (index < 0) return state
-    assertTilesetRemovalAllowed(state, this.tilesetId, this.proof)
+    assertTilesetRemovalAllowed(
+      state,
+      this.tilesetId,
+      this.proof,
+      this.currentBatch,
+      this.persistedBytes,
+    )
     if (!this.removed) {
       this.removed = structuredClone(list[index])
       this.removedIndex = index
@@ -1479,8 +1488,9 @@ export class ReplaceTilesetAssetCommand implements Command {
     private readonly asset: AssetId,
     private readonly record: AssetRecordV1,
     private readonly bytes: ArrayBuffer,
-    private readonly previousBytes?: ArrayBuffer,
-    private readonly proof?: TilesetReplacementProof,
+    private readonly previousBytes: ArrayBuffer | undefined,
+    private readonly proof: TilesetReplacementProof,
+    private readonly currentBatch: CurrentMapReferenceBatchProvider,
   ) {}
 
   apply(state: EditorState): EditorState {
@@ -1494,7 +1504,13 @@ export class ReplaceTilesetAssetCommand implements Command {
     if (pathOwner) throw new Error(`瓦片集替换路径已由 ${pathOwner[0]} 登记`)
     const target = (state.tilesets ?? []).find((entry) => entry.id === this.tilesetId)
     if (!target || target.asset !== this.asset) throw new Error('瓦片集定义与待替换 AssetId 不一致')
-    assertTilesetReplacementAllowed(state, this.tilesetId, this.asset, this.proof)
+    assertTilesetReplacementAllowed(
+      state,
+      this.tilesetId,
+      this.asset,
+      this.proof,
+      this.currentBatch,
+    )
     if (!this.oldCatalog) {
       this.oldCatalog = state.assetCatalog
       this.oldBlobs = state.assetBlobs

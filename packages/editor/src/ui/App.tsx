@@ -1092,8 +1092,9 @@ export function App(props: {
       case 'entity-behavior': {
         const behavior = currentScriptState.scenes
           .find((scene) => scene.id === object.sceneId)
-          ?.entities.find((entity) => entity.id === object.entityId)
-          ?.behaviors?.[object.channel]?.[object.behaviorId]
+          ?.entities.find((entity) => entity.id === object.entityId)?.behaviors?.[object.channel]?.[
+          object.behaviorId
+        ]
         if (!behavior) {
           rejectChangedProjectReference(
             '实体行为',
@@ -1124,8 +1125,7 @@ export function App(props: {
         return
       }
       case 'scene-hook': {
-        const hook = currentScriptState.scenes
-          .find((scene) => scene.id === object.sceneId)
+        const hook = currentScriptState.scenes.find((scene) => scene.id === object.sceneId)
           ?.hooks?.[object.slot]?.variants[object.hookId]
         if (!hook) {
           rejectChangedProjectReference(
@@ -1323,7 +1323,9 @@ export function App(props: {
           applyEditorLocation(editorLinks.battleSpriteAsset(object.id))
         else if (asset.kind === 'tileset') {
           const tileset = (currentState.tilesets ?? []).find((entry) => entry.asset === object.id)
-          applyEditorLocation(tileset ? editorLinks.tileset(tileset.id) : editorLinks.project('advanced'))
+          applyEditorLocation(
+            tileset ? editorLinks.tileset(tileset.id) : editorLinks.project('advanced'),
+          )
         } else applyEditorLocation(editorLinks.project('startup'))
         return
       }
@@ -2398,9 +2400,6 @@ export function App(props: {
             }
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
             onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
-            onOpenMap={(id) => applyEditorLocation(editorLinks.map(id))}
-            onOpenTileset={(id) => applyEditorLocation(editorLinks.tileset(id))}
-            onOpenStamp={(id) => applyEditorLocation(editorLinks.stamp(id))}
             onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
             onOpenBattleField={(id) => applyEditorLocation(editorLinks.battleField(id))}
             onOpenEnemy={(id) => applyEditorLocation(editorLinks.enemy(id))}

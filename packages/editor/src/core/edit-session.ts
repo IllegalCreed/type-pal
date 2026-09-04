@@ -19,7 +19,15 @@ import type {
   WorldVariableRegistryV1,
 } from '@type-pal/content'
 import type { Command } from './commands.js'
-import type { StampTemplateUsageIndex } from './stamp-template.js'
+import {
+  buildMapReferenceEdgeBatch,
+  extractProjectMapReferenceFacts,
+  extractProjectStampReferenceFacts,
+  type MapReferenceEdgeBatch,
+  type MapReferenceScanFailure,
+  type ProjectMapReferenceFacts,
+  type ProjectStampReferenceFacts,
+} from './map-reference-facts.js'
 
 export type { Command } from './commands.js'
 // commands.ts 引 EditorState(type),本文件引 Command(type) —— 仅类型,运行期无环。
@@ -60,8 +68,8 @@ export type MapDocumentStatus =
   | { state: 'error'; message: string }
 
 export interface EditSessionOptions {
-  /** 按稳定 id 读一张 ProjectMap；缺省时只能编辑已注入/新建地图。 */
-  loadMap?: (mapId: string) => Promise<ProjectMap>
+  /** 按稳定 id + 当前索引路径读一张 ProjectMap；缺省时只能编辑已注入/新建地图。 */
+  loadMap?: (mapId: string, path: string) => Promise<ProjectMap>
   /** 仅淘汰从未编辑的干净文档；脏地图和撤销链触及地图永不静默丢弃。 */
   maxLoadedMaps?: number
 }
@@ -71,40 +79,9 @@ export interface EditSessionTransactionReceipt {
   rollback(): void
 }
 
-export interface StampUsageScanFailure {
-  mapId: string
-  message: string
-}
+export type CurrentMapReferenceBatchProvider = (state: EditorState) => MapReferenceEdgeBatch
 
-/**
- * 组合来源反向索引的覆盖状态。索引是当前 EditSession 的可丢弃派生数据，地图 JSON
- * 中的 sourceStampId 仍是唯一真值。
- */
-export interface StampUsageScanSnapshot {
-  completed: number
-  total: number
-  failures: StampUsageScanFailure[]
-  running: boolean
-  done: boolean
-}
-
-function stampSourceCounts(map: ProjectMap): Map<string, number> {
-  const counts = new Map<string, number>()
-  for (const placement of map.authoring?.stampPlacements ?? []) {
-    if (!placement.sourceStampId) continue
-    counts.set(placement.sourceStampId, (counts.get(placement.sourceStampId) ?? 0) + 1)
-  }
-  return counts
-}
-
-function sameStampSourceCounts(
-  left: ReadonlyMap<string, number> | undefined,
-  right: ReadonlyMap<string, number>,
-): boolean {
-  if (!left || left.size !== right.size) return false
-  for (const [id, count] of left) if (right.get(id) !== count) return false
-  return true
-}
+const MAP_REFERENCE_SCAN_CONCURRENCY = 6
 
 /** 编辑会话:不可变工作副本 + undo/redo 栈 + 订阅 + 脏标记。 */
 export class EditSession {
@@ -115,10 +92,20 @@ export class EditSession {
   private dirty = false
   private readonly dirtyMapIds = new Set<string>()
   private readonly pinnedMapIds = new Set<string>()
-  private readonly loadMap?: (mapId: string) => Promise<ProjectMap>
+  private readonly loadMap?: (mapId: string, path: string) => Promise<ProjectMap>
   private readonly maxLoadedMaps: number
-  private readonly mapLoads = new Map<string, Promise<ProjectMap>>()
-  private readonly mapErrors = new Map<string, string>()
+  private readonly mapLoads = new Map<
+    string,
+    { path: string; mapRevision: number; token: symbol; promise: Promise<ProjectMap> }
+  >()
+  private readonly mapReads = new Map<
+    string,
+    { path: string; mapRevision: number; token: symbol; promise: Promise<ProjectMap> }
+  >()
+  private readonly mapErrors = new Map<
+    string,
+    { path: string; mapRevision: number; message: string }
+  >()
   /** 每张地图独立、单调递增的内存 revision；含 dispatch / undo / redo / hydrate。 */
   private readonly mapRevisions = new Map<string, number>()
   private mapLru: string[]
@@ -130,15 +117,19 @@ export class EditSession {
   /** 只在 dispatch/undo/redo 时递增；markSaved/hydrate 不得篡改全局撤销归属。 */
   private historyVersion = 0
   private readonly listeners = new Set<() => void>()
-  /** 每张地图只保留轻量来源计数；地图被 LRU 淘汰后索引仍然有效。 */
-  private readonly stampUsageByMap = new Map<string, ReadonlyMap<string, number>>()
-  /** sourceStampId -> (mapId -> placement count)，供 UI O(引用数) 查询。 */
-  private readonly stampUsageByStamp = new Map<string, Map<string, number>>()
-  private readonly stampUsageFailures = new Map<string, string>()
-  private stampUsageScanRunning = false
-  private stampUsageScanPromise?: Promise<void>
-  private stampUsageVersion = 0
-  private readonly stampUsageListeners = new Set<() => void>()
+  /** 地图正文只读事实；与已加载地图/LRU 分离，不把全量正文 hydrate 进 EditorState。 */
+  private readonly mapReferenceFacts = new Map<string, ProjectMapReferenceFacts>()
+  private readonly mapReferenceFailures = new Map<string, MapReferenceScanFailure>()
+  private mapReferenceScanRunning = false
+  private mapReferenceScanPromise?: Promise<void>
+  private mapReferenceGeneration = 0
+  private mapReferenceVersion = 0
+  private readonly mapReferenceListeners = new Set<() => void>()
+  private readonly stampReferenceFacts = new Map<
+    string,
+    { stamp: StampTemplate; facts: ProjectStampReferenceFacts }
+  >()
+  private mapReferenceBatchCache?: MapReferenceEdgeBatch
 
   constructor(initial: EditorState, options: EditSessionOptions = {}) {
     this.state = initial
@@ -149,9 +140,23 @@ export class EditSession {
     this.persistedAssetPaths = new Set(
       Object.values(initial.assetCatalog.assets).map((asset) => asset.path),
     )
-    const indexedMapIds = new Set(initial.mapIndex.maps.map(({ id }) => id))
-    for (const [mapId, map] of Object.entries(initial.maps))
-      if (indexedMapIds.has(mapId)) this.updateStampUsageForMap(mapId, map, false)
+    const indexedMaps = new Map(initial.mapIndex.maps.map((entry) => [entry.id, entry] as const))
+    for (const [mapId, map] of Object.entries(initial.maps)) {
+      const asset = indexedMaps.get(mapId)
+      if (!asset) continue
+      this.mapReferenceFacts.set(
+        mapId,
+        extractProjectMapReferenceFacts(map, {
+          mapId,
+          path: asset.path,
+          mapRevision: this.getMapRevision(mapId),
+        }),
+      )
+    }
+    for (const stamp of initial.stamps ?? []) {
+      const facts = extractProjectStampReferenceFacts([stamp])[0]
+      if (facts) this.stampReferenceFacts.set(stamp.id, { stamp, facts })
+    }
   }
 
   /** 当前状态(返回引用;调用方不得 mutate —— 要改发 Command)。 */
@@ -181,7 +186,7 @@ export class EditSession {
     const next = cmd.apply(this.state)
     if (next === previous) return false
     this.state = next
-    this.trackMapChanges(previous, this.state)
+    this.trackMapChanges(previous, this.state, cmd.mapReferenceStampIds)
     this.past.push(cmd)
     this.future = []
     this.dirty = true
@@ -204,6 +209,10 @@ export class EditSession {
       pinnedMapIds: new Set(this.pinnedMapIds),
       mapRevisions: new Map(this.mapRevisions),
       mapLru: [...this.mapLru],
+      mapReferenceFacts: new Map(this.mapReferenceFacts),
+      mapReferenceFailures: new Map(this.mapReferenceFailures),
+      stampReferenceFacts: new Map(this.stampReferenceFacts),
+      mapReferenceGeneration: this.mapReferenceGeneration,
     }
     if (!this.dispatch(cmd)) return undefined
     let active = true
@@ -213,7 +222,6 @@ export class EditSession {
         if (this.past.at(-1) !== cmd)
           throw new Error(`无法回滚事务：main history 顶部不是「${cmd.label}」`)
         active = false
-        const rollbackFrom = this.state
         this.state = before.state
         this.past = before.past
         this.future = before.future
@@ -225,7 +233,16 @@ export class EditSession {
         this.mapRevisions.clear()
         for (const [id, revision] of before.mapRevisions) this.mapRevisions.set(id, revision)
         this.mapLru = before.mapLru
-        this.syncStampUsageAfterStateChange(rollbackFrom, this.state)
+        this.mapReferenceFacts.clear()
+        for (const [id, facts] of before.mapReferenceFacts) this.mapReferenceFacts.set(id, facts)
+        this.mapReferenceFailures.clear()
+        for (const [id, failure] of before.mapReferenceFailures)
+          this.mapReferenceFailures.set(id, failure)
+        this.stampReferenceFacts.clear()
+        for (const [id, record] of before.stampReferenceFacts)
+          this.stampReferenceFacts.set(id, record)
+        this.mapReferenceGeneration = before.mapReferenceGeneration
+        this.emitMapReferenceUpdate()
         this.historyVersion += 1
         this.notify()
       },
@@ -257,7 +274,7 @@ export class EditSession {
     const next = cmd.invert(this.state)
     this.past.pop()
     this.state = next
-    this.trackMapChanges(previous, this.state)
+    this.trackMapChanges(previous, this.state, cmd.mapReferenceStampIds)
     this.future.push(cmd)
     this.dirty = true
     this.historyVersion += 1
@@ -273,7 +290,7 @@ export class EditSession {
     const next = cmd.apply(this.state)
     this.future.pop()
     this.state = next
-    this.trackMapChanges(previous, this.state)
+    this.trackMapChanges(previous, this.state, cmd.mapReferenceStampIds)
     this.past.push(cmd)
     this.dirty = true
     this.historyVersion += 1
@@ -295,118 +312,158 @@ export class EditSession {
     return this.mapRevisions.get(mapId) ?? 0
   }
 
-  /** 当前组合来源索引的扫描覆盖；读取不触发地图 hydrate 或 React 全局刷新。 */
-  getStampUsageScanSnapshot(): StampUsageScanSnapshot {
-    const ids = new Set(this.state.mapIndex.maps.map(({ id }) => id))
-    const failures = this.state.mapIndex.maps.flatMap(({ id }) => {
-      const message = this.stampUsageFailures.get(id)
-      return message ? [{ mapId: id, message }] : []
-    })
-    let indexed = 0
-    for (const id of ids) if (this.stampUsageByMap.has(id)) indexed++
-    const completed = indexed + failures.length
-    return {
-      completed,
-      total: ids.size,
-      failures,
-      running: this.stampUsageScanRunning,
-      done: !this.stampUsageScanRunning && completed === ids.size,
-    }
+  getMapReferenceVersion(): number {
+    return this.mapReferenceVersion
   }
 
-  getStampUsageVersion(): number {
-    return this.stampUsageVersion
-  }
-
-  subscribeStampUsage(fn: () => void): () => void {
-    this.stampUsageListeners.add(fn)
+  subscribeMapReferences(fn: () => void): () => void {
+    this.mapReferenceListeners.add(fn)
     return () => {
-      this.stampUsageListeners.delete(fn)
+      this.mapReferenceListeners.delete(fn)
     }
   }
 
-  /**
-   * 返回会话级反向索引快照。模板只参与“悬空来源”分类，不会令地图索引失效。
-   */
-  getStampTemplateUsageIndex(templates: readonly StampTemplate[]): StampTemplateUsageIndex {
-    const templateIds = new Set(templates.map(({ id }) => id))
-    const byStampId = Object.fromEntries(
-      [...this.stampUsageByStamp]
-        .sort(([left], [right]) => (left === right ? 0 : left < right ? -1 : 1))
-        .map(([id, mapCounts]) => [
-          id,
-          {
-            placementCount: [...mapCounts.values()].reduce((sum, count) => sum + count, 0),
-            mapIds: [...mapCounts.keys()].sort(),
-          },
-        ]),
-    )
-    return {
-      byStampId,
-      missingSources: Object.entries(byStampId)
-        .filter(([id]) => !templateIds.has(id))
-        .map(([sourceStampId, usage]) => ({ sourceStampId, ...usage })),
+  getMapReferenceBatch(): MapReferenceEdgeBatch {
+    if (this.mapReferenceBatchCache) return this.mapReferenceBatchCache
+    const facts: ProjectMapReferenceFacts[] = []
+    const failures: MapReferenceScanFailure[] = []
+    let currentMapLoadRunning = false
+    for (const asset of this.state.mapIndex.maps) {
+      const revision = this.getMapRevision(asset.id)
+      const pending = this.mapLoads.get(asset.id)
+      if (pending?.path === asset.path && pending.mapRevision === revision) {
+        currentMapLoadRunning = true
+        continue
+      }
+      const fact = this.mapReferenceFacts.get(asset.id)
+      if (fact && fact.path === asset.path && fact.mapRevision === revision) {
+        facts.push(fact)
+        continue
+      }
+      const failure = this.mapReferenceFailures.get(asset.id)
+      if (failure && failure.path === asset.path && failure.mapRevision === revision)
+        failures.push(failure)
     }
+    this.mapReferenceBatchCache = buildMapReferenceEdgeBatch({
+      generation: this.mapReferenceGeneration,
+      running: this.mapReferenceScanRunning || currentMapLoadRunning,
+      mapIndex: this.state.mapIndex,
+      facts,
+      failures,
+      stampFacts: (this.state.stamps ?? []).flatMap((stamp) => {
+        const record = this.stampReferenceFacts.get(stamp.id)
+        return record?.stamp === stamp ? [record.facts] : []
+      }),
+      stampTotal: (this.state.stamps ?? []).length,
+    })
+    return this.mapReferenceBatchCache
+  }
+
+  /** 破坏性命令的同步 current provider；非本会话 state 一律拒绝。 */
+  getCurrentMapReferenceBatch(state: EditorState): MapReferenceEdgeBatch {
+    if (state !== this.state) throw new Error('地图引用许可不属于当前编辑会话。')
+    return this.getMapReferenceBatch()
   }
 
   /**
-   * 一次性补齐尚未索引的地图。直接走只读 loader，不把 223 张地图塞进 EditorState，
-   * 也不污染 LRU/revision/dirty；同一会话重复调用共享结果和在途 Promise。
+   * 补齐当前 mapIndex 的轻量事实。未加载地图只走 path-bound loader，不 hydrate、不碰 LRU/history。
+   * 扫描期间索引或 revision 变化时丢弃迟到结果，并继续循环直到覆盖最新索引。
    */
-  async ensureStampUsageIndexed(
+  async ensureMapReferencesIndexed(
     options: { retryFailures?: boolean } = {},
-  ): Promise<StampUsageScanSnapshot> {
-    if (this.stampUsageScanPromise) {
-      await this.stampUsageScanPromise
-      return this.getStampUsageScanSnapshot()
-    }
-    const indexedIds = new Set(this.state.mapIndex.maps.map(({ id }) => id))
-    for (const mapId of [...this.stampUsageByMap.keys()])
-      if (!indexedIds.has(mapId)) this.removeStampUsageForMap(mapId, false)
-    for (const mapId of [...this.stampUsageFailures.keys()])
-      if (!indexedIds.has(mapId)) this.stampUsageFailures.delete(mapId)
+  ): Promise<MapReferenceEdgeBatch> {
+    let retryFailures = options.retryFailures === true
+    while (true) {
+      if (this.mapReferenceScanPromise) {
+        await this.mapReferenceScanPromise
+        continue
+      }
+      this.repairStampReferenceFacts()
+      this.pruneMapReferenceFacts()
+      const targets = this.state.mapIndex.maps.filter((asset) => {
+        const revision = this.getMapRevision(asset.id)
+        const pending = this.mapLoads.get(asset.id)
+        if (pending?.path === asset.path && pending.mapRevision === revision) return true
+        const fact = this.mapReferenceFacts.get(asset.id)
+        if (fact?.path === asset.path && fact.mapRevision === revision) return false
+        const failure = this.mapReferenceFailures.get(asset.id)
+        return !(!retryFailures && failure?.path === asset.path && failure.mapRevision === revision)
+      })
+      if (!targets.length) return this.getMapReferenceBatch()
+      if (retryFailures) for (const target of targets) this.mapReferenceFailures.delete(target.id)
+      retryFailures = false
 
-    const targets = this.state.mapIndex.maps.filter(
-      ({ id }) =>
-        !this.stampUsageByMap.has(id) &&
-        (options.retryFailures === true || !this.stampUsageFailures.has(id)),
-    )
-    if (!targets.length) return this.getStampUsageScanSnapshot()
-    if (options.retryFailures) for (const { id } of targets) this.stampUsageFailures.delete(id)
-
-    this.stampUsageScanRunning = true
-    this.emitStampUsageUpdate()
-    const run = async (): Promise<void> => {
-      for (let index = 0; index < targets.length; index++) {
-        const { id } = targets[index]!
-        try {
-          const loaded = this.state.maps[id]
-          const pending = this.mapLoads.get(id)
-          const map = loaded ?? (pending ? await pending : await this.readMapForStampUsage(id))
-          // 扫描等待期间地图可能已被作者命令替换；实时工作副本优先于刚读到的磁盘快照。
-          this.updateStampUsageForMap(id, this.state.maps[id] ?? map, false)
-          this.stampUsageFailures.delete(id)
-        } catch (cause) {
-          const current = this.state.maps[id]
-          if (current) {
-            this.updateStampUsageForMap(id, current, false)
-            this.stampUsageFailures.delete(id)
-          } else if (this.state.mapIndex.maps.some((asset) => asset.id === id)) {
-            this.stampUsageFailures.set(id, cause instanceof Error ? cause.message : String(cause))
+      const captured = targets.map((asset) => ({
+        mapId: asset.id,
+        path: asset.path,
+        mapRevision: this.getMapRevision(asset.id),
+      }))
+      this.mapReferenceScanRunning = true
+      this.emitMapReferenceUpdate()
+      const run = async (): Promise<void> => {
+        let nextIndex = 0
+        let completed = 0
+        const processTarget = async (target: (typeof captured)[number]): Promise<void> => {
+          if (!this.mapReferenceTargetIsCurrent(target)) return
+          try {
+            const loaded = this.state.maps[target.mapId]
+            const pending = this.mapLoads.get(target.mapId)
+            const map =
+              loaded ??
+              (pending?.path === target.path && pending?.mapRevision === target.mapRevision
+                ? await pending.promise
+                : await this.readMapForReferences(target.mapId, target.path, target.mapRevision))
+            if (!this.mapReferenceTargetIsCurrent(target)) return
+            const currentMap = this.state.maps[target.mapId] ?? map
+            this.mapReferenceFacts.set(
+              target.mapId,
+              extractProjectMapReferenceFacts(currentMap, target),
+            )
+            this.mapReferenceFailures.delete(target.mapId)
+            this.bumpMapReferenceGeneration()
+          } catch (cause) {
+            if (!this.mapReferenceTargetIsCurrent(target)) return
+            const currentMap = this.state.maps[target.mapId]
+            if (currentMap) {
+              this.mapReferenceFacts.set(
+                target.mapId,
+                extractProjectMapReferenceFacts(currentMap, target),
+              )
+              this.mapReferenceFailures.delete(target.mapId)
+            } else {
+              this.mapReferenceFacts.delete(target.mapId)
+              this.mapReferenceFailures.set(target.mapId, {
+                ...target,
+                message: cause instanceof Error ? cause.message : String(cause),
+              })
+            }
+            this.bumpMapReferenceGeneration()
           }
         }
-        // 进度按批通知，避免 223 张地图触发 223 次整页 React 渲染。
-        if ((index + 1) % 8 === 0 || index === targets.length - 1) this.emitStampUsageUpdate()
+        const worker = async (): Promise<void> => {
+          while (true) {
+            const index = nextIndex++
+            const target = captured[index]
+            if (!target) return
+            await processTarget(target)
+            completed++
+            if (completed % 8 === 0) this.emitMapReferenceUpdate()
+          }
+        }
+        await Promise.all(
+          Array.from({ length: Math.min(MAP_REFERENCE_SCAN_CONCURRENCY, captured.length) }, () =>
+            worker(),
+          ),
+        )
       }
+      const promise = run().finally(() => {
+        this.mapReferenceScanRunning = false
+        this.mapReferenceScanPromise = undefined
+        this.emitMapReferenceUpdate()
+      })
+      this.mapReferenceScanPromise = promise
+      await promise
     }
-    const promise = run().finally(() => {
-      this.stampUsageScanRunning = false
-      this.stampUsageScanPromise = undefined
-      this.emitStampUsageUpdate()
-    })
-    this.stampUsageScanPromise = promise
-    await promise
-    return this.getStampUsageScanSnapshot()
   }
 
   /**
@@ -432,9 +489,14 @@ export class EditSession {
 
   getMapDocumentStatus(mapId: string): MapDocumentStatus {
     if (this.state.maps[mapId]) return { state: 'ready', dirty: this.dirtyMapIds.has(mapId) }
+    const path = this.state.mapIndex.maps.find((entry) => entry.id === mapId)?.path
     const error = this.mapErrors.get(mapId)
-    if (error) return { state: 'error', message: error }
-    return this.mapLoads.has(mapId) ? { state: 'loading' } : { state: 'unloaded' }
+    if (error && error.path === path && error.mapRevision === this.getMapRevision(mapId))
+      return { state: 'error', message: error.message }
+    const pending = this.mapLoads.get(mapId)
+    return pending?.path === path && pending?.mapRevision === this.getMapRevision(mapId)
+      ? { state: 'loading' }
+      : { state: 'unloaded' }
   }
 
   /** 按需 hydrate 不是作者操作：不入 undo、不置脏，并去重并发读。 */
@@ -444,34 +506,62 @@ export class EditSession {
       this.touchMap(mapId)
       return ready
     }
+    const asset = this.state.mapIndex.maps.find((entry) => entry.id === mapId)
+    if (!asset) throw new Error(`地图 "${mapId}" 不在 map index`)
+    const loadRevision = this.getMapRevision(mapId)
     const pending = this.mapLoads.get(mapId)
-    if (pending) return pending
-    if (!this.state.mapIndex.maps.some((asset) => asset.id === mapId))
-      throw new Error(`地图 "${mapId}" 不在 map index`)
+    if (pending?.path === asset.path && pending.mapRevision === loadRevision) return pending.promise
     if (!this.loadMap) throw new Error(`未配置地图加载器，无法打开 "${mapId}"`)
 
     this.mapErrors.delete(mapId)
-    const promise = this.loadMap(mapId)
+    const path = asset.path
+    const token = Symbol(`map-load:${mapId}`)
+    const promise = this.readMapSource(mapId, path, loadRevision)
       .then((map) => {
-        if (this.state.mapIndex.maps.some((asset) => asset.id === mapId)) {
-          this.state = { ...this.state, maps: { ...this.state.maps, [mapId]: map } }
-          this.updateStampUsageForMap(mapId, map)
-          this.bumpMapRevision(mapId)
-          this.touchMap(mapId)
-          this.evictCleanMaps(mapId)
-        }
-        this.mapLoads.delete(mapId)
+        const current = this.state.mapIndex.maps.find((entry) => entry.id === mapId)
+        const active = this.mapLoads.get(mapId)
+        if (
+          active?.token !== token ||
+          current?.path !== path ||
+          this.getMapRevision(mapId) !== loadRevision
+        )
+          throw new Error(`地图 "${mapId}" 已变化；已丢弃旧读取结果。`)
+        this.state = { ...this.state, maps: { ...this.state.maps, [mapId]: map } }
+        this.bumpMapRevision(mapId)
+        this.updateMapReferenceFact(mapId, map)
+        this.emitMapReferenceUpdate()
+        this.touchMap(mapId)
+        this.evictCleanMaps(mapId)
+        if (this.mapLoads.get(mapId)?.token === token) this.mapLoads.delete(mapId)
         this.notify()
         return map
       })
       .catch((error: unknown) => {
-        this.mapLoads.delete(mapId)
-        const message = error instanceof Error ? error.message : String(error)
-        this.mapErrors.set(mapId, message)
-        this.notify()
+        const active = this.mapLoads.get(mapId)
+        const current = this.state.mapIndex.maps.find((entry) => entry.id === mapId)
+        const identityCurrent =
+          current?.path === path && this.getMapRevision(mapId) === loadRevision
+        if (active?.token === token) {
+          this.mapLoads.delete(mapId)
+          if (identityCurrent) {
+            const message = error instanceof Error ? error.message : String(error)
+            this.mapErrors.set(mapId, { path, mapRevision: loadRevision, message })
+            this.mapReferenceFacts.delete(mapId)
+            this.mapReferenceFailures.set(mapId, {
+              mapId,
+              path,
+              mapRevision: loadRevision,
+              message,
+            })
+            this.bumpMapReferenceGeneration()
+          }
+          if (identityCurrent) this.emitMapReferenceUpdate()
+        }
+        if (active?.token === token) this.notify()
         throw error
       })
-    this.mapLoads.set(mapId, promise)
+    this.mapLoads.set(mapId, { path, mapRevision: loadRevision, token, promise })
+    this.emitMapReferenceUpdate()
     this.notify()
     return promise
   }
@@ -490,86 +580,193 @@ export class EditSession {
     return [...this.persistedAssetPaths].filter((path) => !current.has(path))
   }
 
-  private trackMapChanges(before: EditorState, after: EditorState): void {
-    if (before.maps === after.maps && before.mapIndex === after.mapIndex) return
-    const ids = new Set([...Object.keys(before.maps), ...Object.keys(after.maps)])
+  private trackMapChanges(
+    before: EditorState,
+    after: EditorState,
+    stampIds?: readonly string[],
+  ): void {
+    if (
+      before.maps === after.maps &&
+      before.mapIndex === after.mapIndex &&
+      before.stamps === after.stamps
+    )
+      return
+    const beforeAssets = new Map(before.mapIndex.maps.map((entry) => [entry.id, entry] as const))
+    const afterAssets = new Map(after.mapIndex.maps.map((entry) => [entry.id, entry] as const))
+    const ids = new Set([
+      ...Object.keys(before.maps),
+      ...Object.keys(after.maps),
+      ...beforeAssets.keys(),
+      ...afterAssets.keys(),
+    ])
+    let mapReferencesChanged = before.stamps !== after.stamps || before.mapIndex !== after.mapIndex
     for (const id of ids) {
-      if (before.maps[id] === after.maps[id]) continue
+      const mapChanged = before.maps[id] !== after.maps[id]
+      const indexChanged = beforeAssets.get(id)?.path !== afterAssets.get(id)?.path
+      if (!mapChanged && !indexChanged) continue
       this.bumpMapRevision(id)
-      this.dirtyMapIds.add(id)
-      this.pinnedMapIds.add(id)
-      this.touchMap(id)
+      this.invalidateMapReferenceFact(id)
+      if (mapChanged) {
+        this.dirtyMapIds.add(id)
+        this.pinnedMapIds.add(id)
+        this.touchMap(id)
+      }
+      mapReferencesChanged = true
     }
-    this.syncStampUsageAfterStateChange(before, after)
+    if (before.stamps !== after.stamps) {
+      this.syncStampReferenceFacts(after.stamps ?? [], stampIds)
+      this.bumpMapReferenceGeneration()
+    }
+    if (before.mapIndex !== after.mapIndex) this.bumpMapReferenceGeneration()
+    if (mapReferencesChanged) this.emitMapReferenceUpdate()
   }
 
-  private async readMapForStampUsage(mapId: string): Promise<ProjectMap> {
-    if (!this.state.mapIndex.maps.some((asset) => asset.id === mapId))
-      throw new Error(`地图 "${mapId}" 不在 map index`)
-    if (!this.loadMap) throw new Error(`未配置地图加载器，无法读取 "${mapId}"`)
-    return this.loadMap(mapId)
+  private mapReferenceTargetIsCurrent(target: {
+    mapId: string
+    path: string
+    mapRevision: number
+  }): boolean {
+    const asset = this.state.mapIndex.maps.find((entry) => entry.id === target.mapId)
+    return asset?.path === target.path && this.getMapRevision(target.mapId) === target.mapRevision
   }
 
-  private syncStampUsageAfterStateChange(before: EditorState, after: EditorState): void {
-    const beforeValidIds = new Set(before.mapIndex.maps.map(({ id }) => id))
-    const validIds = new Set(after.mapIndex.maps.map(({ id }) => id))
+  private pruneMapReferenceFacts(): void {
+    const current = new Map(
+      this.state.mapIndex.maps.map((entry) => [
+        entry.id,
+        { path: entry.path, revision: this.getMapRevision(entry.id) },
+      ]),
+    )
     let changed = false
-    for (const mapId of [...this.stampUsageByMap.keys()])
-      if (!validIds.has(mapId)) changed = this.removeStampUsageForMap(mapId, false) || changed
-    for (const mapId of [...this.stampUsageFailures.keys()])
-      if (!validIds.has(mapId)) {
-        this.stampUsageFailures.delete(mapId)
+    for (const [mapId, fact] of this.mapReferenceFacts) {
+      const expected = current.get(mapId)
+      if (expected?.path === fact.path && expected.revision === fact.mapRevision) continue
+      this.mapReferenceFacts.delete(mapId)
+      changed = true
+    }
+    for (const [mapId, failure] of this.mapReferenceFailures) {
+      const expected = current.get(mapId)
+      if (expected?.path === failure.path && expected.revision === failure.mapRevision) continue
+      this.mapReferenceFailures.delete(mapId)
+      changed = true
+    }
+    if (changed) {
+      this.bumpMapReferenceGeneration()
+      this.emitMapReferenceUpdate()
+    }
+  }
+
+  private invalidateMapReferenceFact(mapId: string): void {
+    const removedFact = this.mapReferenceFacts.delete(mapId)
+    const removedFailure = this.mapReferenceFailures.delete(mapId)
+    const changed = removedFact || removedFailure
+    if (changed) this.bumpMapReferenceGeneration()
+  }
+
+  private updateMapReferenceFact(mapId: string, map: ProjectMap): void {
+    const asset = this.state.mapIndex.maps.find((entry) => entry.id === mapId)
+    if (!asset) {
+      this.invalidateMapReferenceFact(mapId)
+      return
+    }
+    this.mapReferenceFacts.set(
+      mapId,
+      extractProjectMapReferenceFacts(map, {
+        mapId,
+        path: asset.path,
+        mapRevision: this.getMapRevision(mapId),
+      }),
+    )
+    this.mapReferenceFailures.delete(mapId)
+    this.bumpMapReferenceGeneration()
+  }
+
+  private syncStampReferenceFacts(
+    stamps: readonly StampTemplate[],
+    stampIds: readonly string[] | undefined,
+  ): void {
+    if (!stampIds) {
+      this.stampReferenceFacts.clear()
+      for (const stamp of stamps) {
+        const facts = extractProjectStampReferenceFacts([stamp])[0]
+        if (facts) this.stampReferenceFacts.set(stamp.id, { stamp, facts })
+      }
+      return
+    }
+    const affected = new Set(stampIds)
+    const currentIds = new Set(stamps.map((stamp) => stamp.id))
+    for (const stampId of [...this.stampReferenceFacts.keys()])
+      if (!currentIds.has(stampId)) this.stampReferenceFacts.delete(stampId)
+    for (const stamp of stamps) {
+      const previous = this.stampReferenceFacts.get(stamp.id)
+      if (!affected.has(stamp.id) && previous) {
+        continue
+      }
+      const facts = extractProjectStampReferenceFacts([stamp])[0]
+      if (facts) this.stampReferenceFacts.set(stamp.id, { stamp, facts })
+    }
+  }
+
+  private repairStampReferenceFacts(): void {
+    const currentStamps = this.state.stamps ?? []
+    const currentIds = new Set(currentStamps.map((stamp) => stamp.id))
+    let changed = false
+    for (const id of [...this.stampReferenceFacts.keys()])
+      if (!currentIds.has(id)) {
+        this.stampReferenceFacts.delete(id)
         changed = true
       }
-    for (const mapId of validIds) {
-      const map = after.maps[mapId]
-      if (!map) continue
-      if (beforeValidIds.has(mapId) && before.maps[mapId] === map) continue
-      changed = this.updateStampUsageForMap(mapId, map, false) || changed
+    for (const stamp of currentStamps) {
+      if (this.stampReferenceFacts.get(stamp.id)?.stamp === stamp) continue
+      const facts = extractProjectStampReferenceFacts([stamp])[0]
+      if (facts) this.stampReferenceFacts.set(stamp.id, { stamp, facts })
+      changed = true
     }
-    if (changed) this.emitStampUsageUpdate()
+    if (changed) {
+      this.bumpMapReferenceGeneration()
+      this.emitMapReferenceUpdate()
+    }
   }
 
-  private updateStampUsageForMap(mapId: string, map: ProjectMap, notify = true): boolean {
-    const next = stampSourceCounts(map)
-    const previous = this.stampUsageByMap.get(mapId)
-    if (sameStampSourceCounts(previous, next)) {
-      this.stampUsageFailures.delete(mapId)
-      return false
-    }
-    if (previous)
-      for (const stampId of previous.keys()) {
-        const maps = this.stampUsageByStamp.get(stampId)
-        maps?.delete(mapId)
-        if (maps?.size === 0) this.stampUsageByStamp.delete(stampId)
-      }
-    this.stampUsageByMap.set(mapId, next)
-    for (const [stampId, count] of next) {
-      const maps = this.stampUsageByStamp.get(stampId) ?? new Map<string, number>()
-      maps.set(mapId, count)
-      this.stampUsageByStamp.set(stampId, maps)
-    }
-    this.stampUsageFailures.delete(mapId)
-    if (notify) this.emitStampUsageUpdate()
-    return true
+  private emitMapReferenceUpdate(): void {
+    this.mapReferenceBatchCache = undefined
+    this.mapReferenceVersion++
+    for (const fn of this.mapReferenceListeners) fn()
   }
 
-  private removeStampUsageForMap(mapId: string, notify = true): boolean {
-    const previous = this.stampUsageByMap.get(mapId)
-    if (!previous) return false
-    this.stampUsageByMap.delete(mapId)
-    for (const stampId of previous.keys()) {
-      const maps = this.stampUsageByStamp.get(stampId)
-      maps?.delete(mapId)
-      if (maps?.size === 0) this.stampUsageByStamp.delete(stampId)
-    }
-    if (notify) this.emitStampUsageUpdate()
-    return true
+  private bumpMapReferenceGeneration(): void {
+    this.mapReferenceGeneration++
+    this.mapReferenceBatchCache = undefined
   }
 
-  private emitStampUsageUpdate(): void {
-    this.stampUsageVersion++
-    for (const fn of this.stampUsageListeners) fn()
+  private async readMapForReferences(
+    mapId: string,
+    path: string,
+    mapRevision: number,
+  ): Promise<ProjectMap> {
+    return this.readMapSource(mapId, path, mapRevision)
+  }
+
+  private readMapSource(mapId: string, path: string, mapRevision: number): Promise<ProjectMap> {
+    const current = this.mapReads.get(mapId)
+    if (current?.path === path && current.mapRevision === mapRevision) return current.promise
+    const loader = this.loadMap
+    if (!loader) return Promise.reject(new Error(`未配置地图加载器，无法读取 "${mapId}"`))
+    const token = Symbol(`map-read:${mapId}`)
+    const promise = Promise.resolve()
+      .then(() => loader(mapId, path))
+      .then(
+        (map) => {
+          if (this.mapReads.get(mapId)?.token === token) this.mapReads.delete(mapId)
+          return map
+        },
+        (cause: unknown) => {
+          if (this.mapReads.get(mapId)?.token === token) this.mapReads.delete(mapId)
+          throw cause
+        },
+      )
+    this.mapReads.set(mapId, { path, mapRevision, token, promise })
+    return promise
   }
 
   private touchMap(mapId: string): void {

@@ -2,8 +2,8 @@ import { execFileSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
-import { isDeepStrictEqual } from 'node:util'
 import { fileURLToPath } from 'node:url'
+import { isDeepStrictEqual } from 'node:util'
 import { serialize } from 'node:v8'
 import { createServer } from 'vite'
 
@@ -40,6 +40,10 @@ const timed = <T,>(run: () => T): { value: T; ms: number } => {
   const started = performance.now()
   return { value: run(), ms: performance.now() - started }
 }
+const timedAsync = async <T,>(run: () => Promise<T>): Promise<{ value: T; ms: number }> => {
+  const started = performance.now()
+  return { value: await run(), ms: performance.now() - started }
+}
 const jsonReplacer = (_key: string, value: unknown): unknown =>
   value instanceof Map ? [...value] : value
 const jsonBytes = (value: unknown): number => {
@@ -52,6 +56,8 @@ const sumPairs = (pairs: readonly [string, readonly unknown[]][]): number =>
 
 try {
   const loader = await vite.ssrLoadModule('/packages/reforge/src/project-loader.ts')
+  const { loadProjectMap } = await vite.ssrLoadModule('/packages/reforge/src/assets.ts')
+  const { EditSession } = await vite.ssrLoadModule('/packages/editor/src/core/edit-session.ts')
   const { toEditorState } = await vite.ssrLoadModule('/packages/editor/src/core/project-io.ts')
   const { collectEditorDiagnosticsSnapshot } = await vite.ssrLoadModule(
     '/packages/editor/src/core/project-diagnostics.ts',
@@ -79,6 +85,8 @@ try {
   const { collectWorldVariableReferencesV1FromVisits } = await vite.ssrLoadModule(
     '/packages/editor/src/core/world-variable-references.ts',
   )
+  const { buildMapReferenceEdgeBatch, extractProjectStampReferenceFacts } =
+    await vite.ssrLoadModule('/packages/editor/src/core/map-reference-facts.ts')
   const {
     actorReferenceEdges,
     assetReferenceEdges,
@@ -94,7 +102,7 @@ try {
     structuralProjectReferenceEdges,
     worldVariableReferenceEdges,
   } = await vite.ssrLoadModule('/packages/editor/src/core/project-reference-adapters.ts')
-  const { buildProjectReferenceSnapshot } = await vite.ssrLoadModule(
+  const { buildProjectReferenceSnapshot, createProjectReferenceIndex } = await vite.ssrLoadModule(
     '/packages/editor/src/core/project-reference.ts',
   )
 
@@ -164,12 +172,7 @@ try {
     spriteReferenceEdges(currentAuthorState, commandVisits, scriptState),
   )
   const assetEdgeRun = timed(() =>
-    assetReferenceEdges(
-      currentAuthorState,
-      assetReferenceRun.value,
-      commandVisits,
-      scriptState,
-    ),
+    assetReferenceEdges(currentAuthorState, assetReferenceRun.value, commandVisits, scriptState),
   )
   const worldVariableEdgeRun = timed(() =>
     worldVariableReferenceEdges(worldVariableReferenceRun.value, scriptState),
@@ -259,14 +262,102 @@ try {
       .map(([name, value]) => [name, { json: jsonBytes(value), v8: v8Bytes(value) }] as const)
       .sort((left, right) => right[1].v8 - left[1].v8),
   )
+  const mapReferenceSession = new EditSession(state, {
+    loadMap: (_mapId: string, path: string) => loadProjectMap(project.assetBase, path),
+  })
+  const mapReferenceScan = await timedAsync(() => mapReferenceSession.ensureMapReferencesIndexed())
+  if (
+    !mapReferenceScan.value.done ||
+    mapReferenceScan.value.completed !== mapReferenceScan.value.total ||
+    mapReferenceScan.value.failures.length !== 0 ||
+    mapReferenceScan.value.facts.length !== mapReferenceScan.value.total ||
+    mapReferenceScan.value.stampCompleted !== mapReferenceScan.value.stampTotal
+  )
+    throw new Error('异步地图引用扫描没有完整覆盖 PAL mapIndex')
+  if (
+    Object.keys(mapReferenceSession.getState().maps).length !== 0 ||
+    mapReferenceSession.getHistoryVersion() !== 0 ||
+    mapReferenceSession.getVersion() !== 0 ||
+    mapReferenceSession.isDirty()
+  )
+    throw new Error('异步地图引用扫描污染了 EditorState、history、version 或 dirty')
+  const mapReferenceBatchSamples = Array.from(
+    { length: samples },
+    () => timed(() => mapReferenceSession.getMapReferenceBatch()).ms,
+  )
+  const mapReferenceForcedBuildSamples = Array.from(
+    { length: samples },
+    () =>
+      timed(() =>
+        buildMapReferenceEdgeBatch({
+          generation: mapReferenceScan.value.generation,
+          running: false,
+          mapIndex: state.mapIndex,
+          facts: mapReferenceScan.value.facts,
+          failures: [],
+          stampFacts: mapReferenceScan.value.stampFacts,
+          stampTotal: mapReferenceScan.value.stampTotal,
+        }),
+      ).ms,
+  )
+  const mapReferenceQuerySamples = Array.from(
+    { length: samples },
+    () =>
+      timed(() =>
+        createProjectReferenceIndex(mapReferenceScan.value.projectReferences).referencesTo({
+          kind: 'tileset',
+          id: 'tileset-001',
+        }),
+      ).ms,
+  )
+  const authoredStampProbe = {
+    id: 'benchmark-stamp',
+    name: 'Benchmark Stamp',
+    origin: 'authored',
+    width: 1,
+    height: 1,
+    anchor: { row: 0, col: 0 },
+    tilesetRefs: ['tileset-001'],
+    layers: [{ id: 'floor', name: 'Floor', tiles: [[0], [null]], sources: [[0], [null]] }],
+    collision: [[null], [null]],
+  }
+  const authoredStampFactSamples = Array.from(
+    { length: samples },
+    () => timed(() => extractProjectStampReferenceFacts([authoredStampProbe])).ms,
+  )
+  const authoredStampFacts = extractProjectStampReferenceFacts([authoredStampProbe])
+  const authoredStampBatch = buildMapReferenceEdgeBatch({
+    generation: mapReferenceScan.value.generation,
+    running: false,
+    mapIndex: state.mapIndex,
+    facts: mapReferenceScan.value.facts.map((fact: { mapId: string }) =>
+      fact.mapId === state.mapIndex.maps[0]?.id
+        ? {
+            ...fact,
+            stampSources: [
+              ...(fact.stampSources ?? []),
+              { placementId: 'benchmark-placement', sourceStampId: 'benchmark-stamp' },
+            ],
+          }
+        : fact,
+    ),
+    failures: [],
+    stampFacts: authoredStampFacts,
+    stampTotal: 1,
+  })
+  const benchmarkCommit = execFileSync('git', ['rev-parse', 'HEAD'], {
+    cwd: repoRoot,
+    encoding: 'utf8',
+  }).trim()
+  const worktreeDirty =
+    execFileSync('git', ['status', '--porcelain'], { cwd: repoRoot, encoding: 'utf8' }).trim()
+      .length > 0
 
   console.log(
     JSON.stringify(
       {
-        commit: execFileSync('git', ['rev-parse', 'HEAD'], {
-          cwd: repoRoot,
-          encoding: 'utf8',
-        }).trim(),
+        commit: benchmarkCommit,
+        worktreeDirty,
         environment: { platform: process.platform, arch: process.arch, node: process.version },
         project: projectRoot,
         setupMs: Number(setupMs.toFixed(3)),
@@ -277,6 +368,26 @@ try {
           readyReply: stats(outputCloneSamples),
         },
         projectReferenceBuild: stats(referenceBuildSamples),
+        asyncMapReferences: {
+          source: 'Node file reads; lower bound for browser HTTP/FSA',
+          initialScanMs: Number(mapReferenceScan.ms.toFixed(3)),
+          cachedBatchBuild: stats(mapReferenceBatchSamples),
+          forcedBatchBuild: stats(mapReferenceForcedBuildSamples),
+          indexDecodeAndQuery: stats(mapReferenceQuerySamples),
+          rows: mapReferenceScan.value.projectReferences.rows.length,
+          completed: mapReferenceScan.value.completed,
+          total: mapReferenceScan.value.total,
+          failures: mapReferenceScan.value.failures.length,
+          projectReferenceJsonBytes: jsonBytes(mapReferenceScan.value.projectReferences),
+          fullBatchJsonBytes: jsonBytes(mapReferenceScan.value),
+          stampFacts: mapReferenceScan.value.stampFacts.length,
+          authoredStampProbe: {
+            shape: 'one 1x1 authored stamp + one map placement',
+            factCollect: stats(authoredStampFactSamples),
+            rows: authoredStampBatch.projectReferences.rows.length,
+            fullBatchJsonBytes: jsonBytes(authoredStampBatch),
+          },
+        },
         projectReferenceBuildBreakdown: {
           structuralMs: Number(structuralEdgeRun.ms.toFixed(3)),
           canonicalMs: Number(canonicalEdgeRun.ms.toFixed(3)),

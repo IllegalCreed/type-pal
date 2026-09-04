@@ -10,7 +10,7 @@ import {
   httpSource,
   loadAllAuthorScenes,
   loadCurrentProjectFrom,
-  loadProjectMapById,
+  loadProjectMap,
   loadStampTemplates,
 } from '@type-pal/reforge'
 import { StrictMode, useEffect, useState } from 'react'
@@ -123,7 +123,7 @@ function Root() {
         session: new EditSession(
           toEditorState(reviewProject, reviewData.scenes, {}, {}, reviewData.stamps),
           {
-            loadMap: (mapId) => loadProjectMapById(reviewProject, mapId),
+            loadMap: (_mapId, path) => loadProjectMap(reviewProject.assetBase, path),
           },
         ),
         project: reviewProject,
@@ -151,7 +151,7 @@ function Root() {
     const canonical = currentCanonicalScriptState(project, o.scenes)
     setBoot({
       session: new EditSession(toEditorState(project, o.scenes, {}, {}, o.stamps), {
-        loadMap: (mapId) => loadProjectMapById(project, mapId),
+        loadMap: (_mapId, path) => loadProjectMap(project.assetBase, path),
       }),
       project,
       script: {

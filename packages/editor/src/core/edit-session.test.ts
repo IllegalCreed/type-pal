@@ -8,6 +8,7 @@ import { expect, test, vi } from 'vitest'
 import type { Command } from './commands.js'
 import { ApplyProjectMapPatchCommand, PaintTilesCommand } from './commands.js'
 import { type EditorState, EditSession, MoveEntityCommand } from './edit-session.js'
+import { stampPlacementReferences, tilesetUsageReferences } from './tileset-references.js'
 
 // 最小 EditorState fixture(字段不全,as 断言 —— 测的是 command/undo 引擎,不是数据形状)。
 function mkState(): EditorState {
@@ -160,7 +161,7 @@ test('非地图命令不读取地图内容或重建组合来源索引', () => {
   expect(session.getMapRevision('map-a')).toBe(0)
 })
 
-test('地图变化只读取 identity 改变的地图，mapIndex 改名零读取', () => {
+test('地图变化只失效 identity，异步补事实时才读取变化地图，mapIndex 改名零读取', async () => {
   const state = withMapIndex('a', 'b')
   const beforeA = mapWithStampSources('tree')
   const afterA = mapWithStampSources('rock')
@@ -193,6 +194,9 @@ test('地图变化只读取 identity 改变的地图，mapIndex 改名零读取'
     invert: (current) => ({ ...current, maps: { ...current.maps, a: beforeA } }),
   }
   session.dispatch(replaceA)
+  expect(afterAReads).toBe(0)
+  expect(session.getMapReferenceBatch().done).toBe(false)
+  await session.ensureMapReferencesIndexed()
   expect(afterAReads).toBe(1)
   expect(mapBReads).toBe(0)
 
@@ -341,6 +345,14 @@ function withMapIndex(...ids: string[]) {
   return state
 }
 
+function deferred<T>() {
+  let resolve!: (value: T) => void
+  const promise = new Promise<T>((done) => {
+    resolve = done
+  })
+  return { promise, resolve }
+}
+
 function mapWithStampSources(...sourceStampIds: string[]): ProjectMap {
   const map = buildBlankProjectMap(2, 2, 'tileset-001')
   return {
@@ -359,7 +371,7 @@ function mapWithStampSources(...sourceStampIds: string[]): ProjectMap {
   }
 }
 
-test('组合来源索引直接读取轻量快照、同会话复用，且不 hydrate 地图或刷新全局 session', async () => {
+test('地图引用事实直接读取轻量快照、同会话复用，且不 hydrate 地图或刷新全局 session', async () => {
   const maps = {
     a: mapWithStampSources('tree', 'tree'),
     b: mapWithStampSources('rock'),
@@ -369,7 +381,8 @@ test('组合来源索引直接读取轻量快照、同会话复用，且不 hydr
   const globalListener = vi.fn()
   sess.subscribe(globalListener)
 
-  await expect(sess.ensureStampUsageIndexed()).resolves.toMatchObject({
+  const batch = await sess.ensureMapReferencesIndexed()
+  expect(batch).toMatchObject({
     completed: 2,
     total: 2,
     failures: [],
@@ -377,22 +390,14 @@ test('组合来源索引直接读取轻量快照、同会话复用，且不 hydr
   })
   expect(sess.getState().maps).toEqual({})
   expect(globalListener).not.toHaveBeenCalled()
-  expect(sess.getStampTemplateUsageIndex([])).toEqual({
-    byStampId: {
-      rock: { placementCount: 1, mapIds: ['b'] },
-      tree: { placementCount: 2, mapIds: ['a'] },
-    },
-    missingSources: [
-      { sourceStampId: 'rock', placementCount: 1, mapIds: ['b'] },
-      { sourceStampId: 'tree', placementCount: 2, mapIds: ['a'] },
-    ],
-  })
+  expect(stampPlacementReferences(batch, 'rock')).toHaveLength(1)
+  expect(stampPlacementReferences(batch, 'tree')).toHaveLength(2)
 
-  await sess.ensureStampUsageIndexed()
+  await sess.ensureMapReferencesIndexed()
   expect(loadMap).toHaveBeenCalledTimes(2)
 })
 
-test('组合来源索引随地图命令、undo/redo 增量更新', () => {
+test('地图引用事实随地图命令、undo/redo 失效并按需异步更新', async () => {
   const before = mapWithStampSources('tree')
   const after = mapWithStampSources('rock', 'rock')
   const initial = withMapIndex('a')
@@ -404,21 +409,17 @@ test('组合来源索引随地图命令、undo/redo 增量更新', () => {
     invert: (state) => ({ ...state, maps: { ...state.maps, a: before } }),
   }
 
-  expect(sess.getStampTemplateUsageIndex([]).byStampId).toEqual({
-    tree: { placementCount: 1, mapIds: ['a'] },
-  })
+  expect(stampPlacementReferences(sess.getMapReferenceBatch(), 'tree')).toHaveLength(1)
   sess.dispatch(replace)
-  expect(sess.getStampTemplateUsageIndex([]).byStampId).toEqual({
-    rock: { placementCount: 2, mapIds: ['a'] },
-  })
+  expect(sess.getMapReferenceBatch().done).toBe(false)
+  await sess.ensureMapReferencesIndexed()
+  expect(stampPlacementReferences(sess.getMapReferenceBatch(), 'rock')).toHaveLength(2)
   sess.undo()
-  expect(sess.getStampTemplateUsageIndex([]).byStampId).toEqual({
-    tree: { placementCount: 1, mapIds: ['a'] },
-  })
+  await sess.ensureMapReferencesIndexed()
+  expect(stampPlacementReferences(sess.getMapReferenceBatch(), 'tree')).toHaveLength(1)
   sess.redo()
-  expect(sess.getStampTemplateUsageIndex([]).byStampId).toEqual({
-    rock: { placementCount: 2, mapIds: ['a'] },
-  })
+  await sess.ensureMapReferencesIndexed()
+  expect(stampPlacementReferences(sess.getMapReferenceBatch(), 'rock')).toHaveLength(2)
 })
 
 test('地图按需加载去重；hydrate 不进 undo、也不置脏', async () => {
@@ -432,6 +433,61 @@ test('地图按需加载去重；hydrate 不进 undo、也不置脏', async () =
   expect(sess.getMapDocumentStatus('a')).toEqual({ state: 'ready', dirty: false })
   expect(sess.canUndo()).toBe(false)
   expect(sess.isDirty()).toBe(false)
+})
+
+test('地图按需加载绑定当前 path，旧路径的在途结果不能满足新路径', async () => {
+  const oldRead = deferred<ProjectMap>()
+  const newRead = deferred<ProjectMap>()
+  const loadMap = vi
+    .fn<(id: string, path: string) => Promise<ProjectMap>>()
+    .mockImplementationOnce(() => oldRead.promise)
+    .mockImplementationOnce(() => newRead.promise)
+  const initial = withMapIndex('a')
+  const sess = new EditSession(initial, { loadMap })
+  const oldResult = sess.ensureMapLoaded('a')
+  sess.dispatch({
+    label: '更新地图路径',
+    apply: (state) => ({
+      ...state,
+      mapIndex: {
+        version: 1,
+        maps: [{ id: 'a', name: 'a', path: 'content/maps/a-new.json' }],
+      },
+    }),
+    invert: (state) => state,
+  })
+  const newResult = sess.ensureMapLoaded('a')
+  await vi.waitFor(() => expect(loadMap).toHaveBeenCalledTimes(2))
+  expect(loadMap.mock.calls).toEqual([
+    ['a', 'content/maps/a.json'],
+    ['a', 'content/maps/a-new.json'],
+  ])
+
+  oldRead.resolve(buildBlankProjectMap(1, 1, 'old'))
+  await expect(oldResult).rejects.toThrow(/已变化/)
+  expect(sess.getState().maps.a).toBeUndefined()
+  newRead.resolve(buildBlankProjectMap(1, 1, 'new'))
+  await expect(newResult).resolves.toBeDefined()
+  expect(sess.getState().maps.a?.tilesetRefs).toEqual(['new'])
+})
+
+test('同 path 的在途加载也不能覆盖更新的会话地图正文', async () => {
+  const pending = deferred<ProjectMap>()
+  const loadMap = vi.fn(() => pending.promise)
+  const sess = new EditSession(withMapIndex('a'), { loadMap })
+  const result = sess.ensureMapLoaded('a')
+  await vi.waitFor(() => expect(loadMap).toHaveBeenCalledOnce())
+  const edited = buildBlankProjectMap(1, 1, 'edited')
+  sess.dispatch({
+    label: '编辑同路径地图',
+    apply: (state) => ({ ...state, maps: { ...state.maps, a: edited } }),
+    invert: (state) => state,
+  })
+
+  pending.resolve(buildBlankProjectMap(1, 1, 'stale'))
+  await expect(result).rejects.toThrow(/已变化/)
+  expect(sess.getState().maps.a).toBe(edited)
+  expect(sess.getMapDocumentStatus('a')).toEqual({ state: 'ready', dirty: true })
 })
 
 test('加载失败可重试，并保留明确错误状态', async () => {
@@ -451,14 +507,18 @@ test('加载失败可重试，并保留明确错误状态', async () => {
 })
 
 test('干净地图可被 LRU 淘汰；撤销链触及的地图保存后仍 pin，切图后可 undo', async () => {
+  const cleanLoad = vi.fn(async () => buildBlankProjectMap(2, 2, 'tileset-001'))
   const clean = new EditSession(withMapIndex('a', 'b'), {
     maxLoadedMaps: 1,
-    loadMap: async () => buildBlankProjectMap(2, 2, 'tileset-001'),
+    loadMap: cleanLoad,
   })
   await clean.ensureMapLoaded('a')
   await clean.ensureMapLoaded('b')
   expect(clean.getState().maps.a).toBeUndefined()
   expect(clean.getState().maps.b).toBeDefined()
+  expect(tilesetUsageReferences(clean.getMapReferenceBatch(), 'tileset-001')).toHaveLength(2)
+  await clean.ensureMapReferencesIndexed()
+  expect(cleanLoad).toHaveBeenCalledTimes(2)
 
   const sess = new EditSession(withMapIndex('a', 'b'), {
     maxLoadedMaps: 1,

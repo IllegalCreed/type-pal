@@ -23,16 +23,6 @@ export interface BuildStampTemplateInput {
   layerSlotNames?: Readonly<Record<string, string>>
 }
 
-export interface StampTemplateUsage {
-  placementCount: number
-  mapIds: string[]
-}
-
-export interface StampTemplateUsageIndex {
-  byStampId: Record<string, StampTemplateUsage>
-  missingSources: Array<{ sourceStampId: string; placementCount: number; mapIds: string[] }>
-}
-
 export interface StampSelectionSource {
   mapId: string
   selection: Extract<MapSelection, { kind: 'cells' }>
@@ -176,37 +166,4 @@ export function buildStampTemplateFromSelection(input: BuildStampTemplateInput):
   ])
   if (!template) throw new Error('组合模板构建失败。')
   return template
-}
-
-export function collectStampTemplateUsage(
-  maps: Readonly<Record<string, ProjectMap>>,
-  templates: readonly StampTemplate[],
-): StampTemplateUsageIndex {
-  const templateIds = new Set(templates.map(({ id }) => id))
-  const byStampId = new Map<string, { placementCount: number; mapIds: Set<string> }>()
-  for (const [mapId, map] of Object.entries(maps))
-    for (const placement of map.authoring?.stampPlacements ?? []) {
-      if (!placement.sourceStampId) continue
-      const current = byStampId.get(placement.sourceStampId) ?? {
-        placementCount: 0,
-        mapIds: new Set<string>(),
-      }
-      current.placementCount++
-      current.mapIds.add(mapId)
-      byStampId.set(placement.sourceStampId, current)
-    }
-  const normalized = Object.fromEntries(
-    [...byStampId]
-      .sort(([left], [right]) => (left === right ? 0 : left < right ? -1 : 1))
-      .map(([id, usage]) => [
-        id,
-        { placementCount: usage.placementCount, mapIds: [...usage.mapIds].sort() },
-      ]),
-  )
-  return {
-    byStampId: normalized,
-    missingSources: Object.entries(normalized)
-      .filter(([id]) => !templateIds.has(id))
-      .map(([sourceStampId, usage]) => ({ sourceStampId, ...usage })),
-  }
 }
