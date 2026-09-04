@@ -16,6 +16,7 @@ import {
   ResizeProjectMapCommand,
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
+import { buildProjectReferenceSnapshot, createProjectReferenceIndex } from './project-reference.js'
 import { inspectStampStructureImpact, resolveStampStructureOperation } from './stamp-lifecycle.js'
 
 function fixtureMap(): ProjectMap {
@@ -78,6 +79,7 @@ function state(map = fixtureMap()): EditorState {
 }
 
 const writable = { hiddenLayerIds: [] as string[], lockedLayerIds: [] as string[] }
+const noReferences = () => createProjectReferenceIndex(buildProjectReferenceSnapshot([]))
 
 describe('W7G-E stamp structure lifecycle', () => {
   test('impact 只包含真正受删层/缩图影响的 placement', () => {
@@ -199,7 +201,7 @@ describe('W7G-E stamp structure lifecycle', () => {
     expect(copied.maps['map-copy']?.layers).not.toBe(before.maps['map-a']?.layers)
     expect(duplicate.invert(copied).maps['map-copy']).toBeUndefined()
 
-    const remove = new DeleteMapAssetCommand('map-a')
+    const remove = new DeleteMapAssetCommand('map-a', noReferences)
     const removed = remove.apply(before)
     expect(removed.maps['map-a']).toBeUndefined()
     expect(

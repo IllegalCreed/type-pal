@@ -16,8 +16,15 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { MoveProjectMapLayerCommand, UpdateProjectMapLayerCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+  createProjectReferenceSource,
+  type ProjectReferenceIndex,
+} from '../core/project-reference.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
-import { mapLayerVisualToStorageIndex, MapMode } from './MapMode.js'
+import { MapMode, mapLayerVisualToStorageIndex } from './MapMode.js'
 
 const stampMiniPreviewRender = vi.hoisted(() => vi.fn())
 
@@ -161,6 +168,9 @@ async function mountMapMode(
     stamps?: StampTemplate[]
     map?: ProjectMap
     referenceSelectedMap?: boolean
+    currentReferenceSelectedMap?: boolean
+    currentReferenceError?: string
+    referenceStatus?: EditorDerivedStatus
     tilesets?: readonly import('@type-pal/reforge').TilesetDef[]
   } = {},
 ): Promise<{
@@ -170,6 +180,7 @@ async function mountMapMode(
   onWorkspaceNotice: ReturnType<typeof vi.fn>
   onRequestInspectorOpen: ReturnType<typeof vi.fn>
   rerenderWithSession: (session: EditSession, stamps?: StampTemplate[]) => Promise<void>
+  rerenderWithReferenceStatus: (status: EditorDerivedStatus) => Promise<void>
 }> {
   const map = options.map ?? fixtureMap()
   const state = editorState(map, options.stamps ?? [])
@@ -185,13 +196,38 @@ async function mountMapMode(
   const root = createRoot(host)
   const onWorkspaceNotice = vi.fn()
   const onRequestInspectorOpen = vi.fn()
+  let referenceStatus = options.referenceStatus ?? 'current'
   mountedRoots.push({ root, host })
+  const mapReferenceIndex = (referenced: boolean): ProjectReferenceIndex =>
+    createProjectReferenceIndex(
+      buildProjectReferenceSnapshot(
+        referenced
+          ? [
+              {
+                target: { kind: 'map', id: 'map-a' },
+                source: createProjectReferenceSource(
+                  { kind: 'scene', id: scene.id },
+                  `场景 ${scene.id}`,
+                  { deletedWith: [{ kind: 'scene', id: scene.id }] },
+                ),
+                relation: { kind: 'scene-map' },
+                where: `scenes.${scene.id}.mapId`,
+                locator: { kind: 'object', object: { kind: 'scene', id: scene.id } },
+                deletePolicy: 'replace-suggest',
+              },
+            ]
+          : [],
+      ),
+    )
   const renderMode = (renderSession: EditSession, renderStamps: StampTemplate[]) => {
     const renderState = renderSession.getState()
+    const referenceIndex = mapReferenceIndex(options.referenceSelectedMap !== false)
+    const currentReferenceIndex = mapReferenceIndex(
+      options.currentReferenceSelectedMap ?? options.referenceSelectedMap !== false,
+    )
     root.render(
       <MapMode
         scene={scene}
-        scenes={options.referenceSelectedMap === false ? [] : [scene]}
         session={renderSession}
         assetBase={{} as never}
         assetCatalog={{ version: 1, assets: {} }}
@@ -200,7 +236,13 @@ async function mountMapMode(
         mapIndex={renderState.mapIndex}
         selectedMapId="map-a"
         onSelectMap={vi.fn()}
-        onOpenScene={vi.fn()}
+        referenceIndex={referenceIndex}
+        referenceStatus={referenceStatus}
+        getCurrentReferenceIndex={() => {
+          if (options.currentReferenceError) throw new Error(options.currentReferenceError)
+          return currentReferenceIndex
+        }}
+        onOpenReference={vi.fn()}
         tilesets={
           options.tilesets ?? [
             { id: 'tiles', name: '测试瓦片', category: 'test', asset: 'tileset.test' },
@@ -223,6 +265,10 @@ async function mountMapMode(
     onRequestInspectorOpen,
     rerenderWithSession: async (nextSession, nextStamps = nextSession.getState().stamps) => {
       await act(async () => renderMode(nextSession, nextStamps))
+    },
+    rerenderWithReferenceStatus: async (status) => {
+      referenceStatus = status
+      await act(async () => renderMode(session, session.getState().stamps))
     },
   }
 }
@@ -1578,6 +1624,88 @@ describe('MapMode 地图内容选择交互', () => {
     expect(nextSession.getState().maps['map-a']).toBeDefined()
     await act(async () => overflowTrigger.click())
     expect(document.querySelector<HTMLButtonElement>('[title="再次点击确认删除"]')).not.toBeNull()
+  })
+
+  test.each([
+    ['checking', 'loading'],
+    ['stale', 'partial'],
+    ['failed', 'error'],
+  ] as const)('%s 引用状态不冒充精确零引用并禁用删除', async (referenceStatus, panelState) => {
+    const { host, session } = await mountMapMode({
+      referenceSelectedMap: false,
+      referenceStatus,
+    })
+    const overflowTrigger = host.querySelector<HTMLButtonElement>(
+      '.map-outliner [aria-label="更多操作"]',
+    )!
+    await act(async () => overflowTrigger.click())
+    const deleteButton = document.querySelector<HTMLButtonElement>(
+      '[title="正在刷新地图引用，暂不允许删除"]',
+    )!
+    expect(deleteButton.disabled).toBe(true)
+
+    const tabs = [
+      ...host.querySelectorAll<HTMLButtonElement>(
+        '[role="tablist"][aria-label="地图右侧面板"] [role="tab"]',
+      ),
+    ]
+    const referenceTab = tabs.find((tab) => tab.textContent?.trim() === '引用')!
+    await act(async () => referenceTab.click())
+    const panel = host.querySelector<HTMLElement>('.map-references-panel .ds-reference-panel')!
+    expect(panel.dataset.state).toBe(panelState)
+    expect(panel.textContent).toContain('数量未知')
+    expect(panel.textContent).not.toContain('0 处')
+    expect(session.getState().maps['map-a']).toBeDefined()
+  })
+
+  test('引用状态或 revision 更新会撤销旧的删除二次确认', async () => {
+    const { host, rerenderWithReferenceStatus } = await mountMapMode({
+      referenceSelectedMap: false,
+    })
+    const overflowTrigger = host.querySelector<HTMLButtonElement>(
+      '.map-outliner [aria-label="更多操作"]',
+    )!
+    await act(async () => overflowTrigger.click())
+    await act(async () => document.querySelector<HTMLButtonElement>('[title="删除地图"]')!.click())
+    await act(async () => overflowTrigger.click())
+    expect(document.querySelector('[title="再次点击确认删除"]')).not.toBeNull()
+
+    await rerenderWithReferenceStatus('stale')
+    expect(document.querySelector('[title="再次点击确认删除"]')).toBeNull()
+    let disabledDelete = document.querySelector<HTMLButtonElement>(
+      '[title="正在刷新地图引用，暂不允许删除"]',
+    )
+    if (!disabledDelete) {
+      await act(async () => overflowTrigger.click())
+      disabledDelete = document.querySelector<HTMLButtonElement>(
+        '[title="正在刷新地图引用，暂不允许删除"]',
+      )
+    }
+    expect(disabledDelete?.disabled).toBe(true)
+  })
+
+  test.each([
+    ['live 引用新增', { currentReferenceSelectedMap: true }],
+    [
+      'provider 失败',
+      { currentReferenceSelectedMap: false, currentReferenceError: 'cold builder boom' },
+    ],
+  ] as const)('二次确认后%s仍保持地图并显示错误', async (_name, options) => {
+    const { host, session, onWorkspaceNotice } = await mountMapMode({
+      referenceSelectedMap: false,
+      ...options,
+    })
+    const overflowTrigger = host.querySelector<HTMLButtonElement>(
+      '.map-outliner [aria-label="更多操作"]',
+    )!
+    await act(async () => overflowTrigger.click())
+    await act(async () => document.querySelector<HTMLButtonElement>('[title="删除地图"]')!.click())
+    await act(async () => overflowTrigger.click())
+    await act(async () =>
+      document.querySelector<HTMLButtonElement>('[title="再次点击确认删除"]')!.click(),
+    )
+    expect(session.getState().maps['map-a']).toBeDefined()
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(expect.objectContaining({ kind: 'error' }))
   })
 
   test.each([

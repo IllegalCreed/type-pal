@@ -8,7 +8,7 @@ import type {
 } from '@type-pal/content'
 import { deriveScriptChunk, getScriptBody } from '@type-pal/content'
 import { buildBlankProjectMap, buildProjectMapLayer, paintProjectMapTiles } from '@type-pal/reforge'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import {
   AddAmbienceCommand,
   AddBattleFieldCommand,
@@ -86,6 +86,7 @@ import {
   createPlacedEntity,
   type EntityPlacement,
 } from './entity-placement.js'
+import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import type { ScriptEditorState } from './script-editor.js'
 import { findSceneEntryReferences } from './script-references.js'
 import { buildBlankProject } from './seed.js'
@@ -2343,6 +2344,36 @@ describe('地图资产命令', () => {
     }
     return state
   }
+  const canonicalMapOverride = (state: EditorState, mapId: string): ScriptEditorState => ({
+    scenes: [
+      {
+        ...structuredClone(state.scenes[0]!),
+        hooks: {
+          onEnter: {
+            initial: 'default',
+            variants: {
+              default: {
+                label: '脚本地图覆盖',
+                order: 0,
+                flow: {
+                  kind: 'stages',
+                  initial: 'start',
+                  stages: [
+                    {
+                      id: 'start',
+                      body: [{ kind: 'setSceneMapOverride', mapId }],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+    ] as ScriptEditorState['scenes'],
+    items: [],
+    sharedScripts: {},
+  })
 
   test('create:零引用资产仍进入 index/maps，undo 恢复原 manifest', () => {
     const s0 = catalog()
@@ -2425,19 +2456,91 @@ describe('地图资产命令', () => {
       map(),
     ).apply(state)
     const bound = new BindSceneMapCommand('s', 'home').apply(state)
-    expect(() => new DeleteMapAssetCommand('home').apply(bound)).toThrow(MapAssetInUseError)
+    expect(() =>
+      new DeleteMapAssetCommand('home', collectCurrentProjectReferenceIndex).apply(bound),
+    ).toThrow(MapAssetInUseError)
     try {
-      new DeleteMapAssetCommand('home').apply(bound)
+      new DeleteMapAssetCommand('home', collectCurrentProjectReferenceIndex).apply(bound)
     } catch (error) {
       expect((error as MapAssetInUseError).sceneIds).toEqual(['s'])
     }
-    const remove = new DeleteMapAssetCommand('unused')
+    const remove = new DeleteMapAssetCommand('unused', collectCurrentProjectReferenceIndex)
     const removed = remove.apply(bound)
     expect(removed.mapIndex.maps.map((asset) => asset.id)).toEqual(['home'])
     expect(removed.maps.unused).toBeUndefined()
     const back = remove.invert(removed)
     expect(back.mapIndex.maps.map((asset) => asset.id)).toEqual(['home', 'unused'])
     expect(back.maps.unused).toBeDefined()
+  })
+
+  test('delete 以 live canonical/legacy override 阻断脚本唯一引用并只调用一次 oracle', () => {
+    let state = new CreateMapAssetCommand(
+      { id: 'map-164', name: '脚本专用图', path: 'content/maps/map-164.json' },
+      map(),
+    ).apply(catalog())
+    const canonical = canonicalMapOverride(state, 'map-164')
+    const current = vi.fn((applyState: EditorState) =>
+      collectCurrentProjectReferenceIndex(applyState, canonical),
+    )
+    expect(() => new DeleteMapAssetCommand('map-164', current).apply(state)).toThrow(
+      MapAssetInUseError,
+    )
+    expect(current).toHaveBeenCalledOnce()
+
+    state = {
+      ...state,
+      scriptChunks: {
+        legacy: {
+          id: 'legacy',
+          scripts: {
+            override: [{ kind: 'setSceneMapOverride', mapId: 'map-164' }],
+          },
+        },
+      } as never,
+    }
+    const legacyOnly = vi.fn((applyState: EditorState) =>
+      collectCurrentProjectReferenceIndex(applyState),
+    )
+    expect(() => new DeleteMapAssetCommand('map-164', legacyOnly).apply(state)).toThrow(
+      MapAssetInUseError,
+    )
+    expect(legacyOnly).toHaveBeenCalledOnce()
+  })
+
+  test('redo rechecks live canonical references and keeps redo/state intact when blocked', () => {
+    const initial = new CreateMapAssetCommand(
+      { id: 'map-164', name: '脚本专用图', path: 'content/maps/map-164.json' },
+      map(),
+    ).apply(catalog())
+    let canonical: ScriptEditorState = { scenes: [], items: [], sharedScripts: {} }
+    const current = (applyState: EditorState) =>
+      collectCurrentProjectReferenceIndex(applyState, canonical)
+    const session = new EditSession(initial)
+    session.dispatch(new DeleteMapAssetCommand('map-164', current))
+    expect(session.getState().maps['map-164']).toBeUndefined()
+    expect(session.undo()).toBe(true)
+    canonical = canonicalMapOverride(session.getState(), 'map-164')
+    expect(() => session.redo()).toThrow(MapAssetInUseError)
+    expect(session.getState().maps['map-164']).toBeDefined()
+    expect(session.canRedo()).toBe(true)
+  })
+
+  test('missing target is a cheap no-op and provider failures never mutate state', () => {
+    const state = catalog()
+    const provider = vi.fn(() => {
+      throw new Error('reference builder unavailable')
+    })
+    expect(new DeleteMapAssetCommand('missing', provider).apply(state)).toBe(state)
+    expect(provider).not.toHaveBeenCalled()
+
+    const withMap = new CreateMapAssetCommand(
+      { id: 'target', name: '目标', path: 'content/maps/target.json' },
+      map(),
+    ).apply(state)
+    expect(() => new DeleteMapAssetCommand('target', provider).apply(withMap)).toThrow(
+      /reference builder unavailable/,
+    )
+    expect(withMap.maps.target).toBeDefined()
   })
 })
 

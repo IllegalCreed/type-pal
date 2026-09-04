@@ -4,14 +4,17 @@ import {
   collectCommandTargetReferences,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
-import type {
-  EntityAddressReference,
-  EntityAddressReferenceLocator,
+import {
+  collectEntityAddressReferences,
+  type EntityAddressReference,
+  type EntityAddressReferenceLocator,
 } from './entity-address-references.js'
 import {
   buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
   createProjectReferenceSource,
   type ProjectReferenceEdgeInput,
+  type ProjectReferenceIndex,
   type ProjectReferenceLocator,
   type ProjectReferenceSnapshotV1,
   type ProjectReferenceSource,
@@ -22,7 +25,12 @@ import type {
   ScriptCommandOwner,
   ScriptEditorState,
 } from './script-editor.js'
-import { describeScriptCommandOwner } from './script-editor.js'
+import { collectCanonicalScriptCommandVisits, describeScriptCommandOwner } from './script-editor.js'
+import {
+  projectCurrentAuthorReferenceSlices,
+  scriptEditorStateFromCurrentAuthorSlices,
+} from './script-editor-projection.js'
+import { worldVariableScriptStateFromEditorStateV1 } from './world-variable-references.js'
 
 function scriptOwnerDeletedWith(owner: ScriptCommandOwner): ProjectReferenceTarget[] {
   switch (owner.kind) {
@@ -343,4 +351,49 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
     ],
     { assumeUnique: true },
   )
+}
+
+/** Synchronous current-author oracle for save and destructive command boundaries. */
+export function collectCurrentProjectReferenceIndex(
+  state: EditorState,
+  canonical?: ScriptEditorState,
+): ProjectReferenceIndex {
+  const author = canonical ? projectCurrentAuthorReferenceSlices(canonical, state) : state
+  const currentAuthorState: EditorState = {
+    ...state,
+    scenes: author.scenes as EditorState['scenes'],
+    items: author.items as EditorState['items'],
+    sharedScripts: author.sharedScripts as EditorState['sharedScripts'],
+  }
+  const scriptState = canonical
+    ? scriptEditorStateFromCurrentAuthorSlices(canonical, author)
+    : worldVariableScriptStateFromEditorStateV1(currentAuthorState)
+  const commandVisits = collectCanonicalScriptCommandVisits(scriptState)
+  const entityAddressReferences = collectEntityAddressReferences(currentAuthorState)
+  return createProjectReferenceIndex(
+    buildProjectReferenceSnapshotFromProjection({
+      state: currentAuthorState,
+      scriptState,
+      commandVisits,
+      entityAddressReferences,
+    }),
+  )
+}
+
+export type CurrentProjectReferenceIndexProvider = (state: EditorState) => ProjectReferenceIndex
+
+export function createCurrentProjectReferenceIndexProvider(
+  getCanonical: () => ScriptEditorState,
+): CurrentProjectReferenceIndexProvider {
+  return (state) => collectCurrentProjectReferenceIndex(state, getCanonical())
+}
+
+export function collectCurrentProjectDeletionImpact(
+  provider: CurrentProjectReferenceIndexProvider,
+  state: EditorState,
+  target: ProjectReferenceTarget,
+  deletedTargets: readonly ProjectReferenceTarget[] = [target],
+) {
+  const index = provider(state)
+  return index.deletionImpact(target, index.deletionScopeFor(deletedTargets))
 }

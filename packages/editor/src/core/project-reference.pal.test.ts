@@ -122,7 +122,40 @@ describe('ED-3 PAL project reference index', () => {
           edge.relation.kind === 'command-target' && edge.relation.use === 'scene-map-override',
       ),
     ).toHaveLength(2)
-    expect(index.referencesTo({ kind: 'map', id: 'map-164' })).toHaveLength(1)
+    expect(index.referencesTo({ kind: 'map', id: 'map-164' })).toMatchObject([
+      {
+        source: {
+          owner: {
+            kind: 'script-owner',
+            owner: {
+              kind: 'scene-hook',
+              sceneId: 's230',
+              slot: 'onEnter',
+              hookId: 'default',
+            },
+          },
+        },
+        locator: {
+          kind: 'canonical-script',
+          reference: { locator: { commandPath: '7' } },
+        },
+      },
+    ])
+    expect(index.referencesTo({ kind: 'map', id: 'map-165' })).toMatchObject([
+      { source: { owner: { kind: 'scene', id: 's244' } } },
+      {
+        source: {
+          owner: {
+            kind: 'script-owner',
+            owner: { kind: 'scene-hook', sceneId: 's243' },
+          },
+        },
+        locator: {
+          kind: 'canonical-script',
+          reference: { locator: { commandPath: '3' } },
+        },
+      },
+    ])
 
     expect(diagnostics.projectReferences.rows).toHaveLength(5_991)
     expect(diagnostics.projectReferences.targetEdgeIds.length).toBeLessThanOrEqual(8_000)

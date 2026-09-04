@@ -36,8 +36,8 @@ import {
   CreateMapAssetCommand,
   DeleteMapAssetCommand,
   DuplicateMapAssetCommand,
+  MapAssetInUseError,
   MoveProjectMapLayerCommand,
-  mapAssetSceneReferences,
   RemoveProjectMapLayerCommand,
   RenameMapAssetCommand,
   ResizeProjectMapCommand,
@@ -45,6 +45,7 @@ import {
 } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import { type IsometricBrushSize, isometricBrushPoints } from '../core/isometric-brush.js'
 import { floodFillIsometricTiles } from '../core/isometric-fill.js'
 import type { ProjectMapPatch } from '../core/map-patch.js'
@@ -82,6 +83,8 @@ import {
   planMapMove,
   planMapPaste,
 } from '../core/map-transform.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   EditStampPlacementCommand,
   TransformStampPlacementsCommand,
@@ -113,6 +116,7 @@ import {
   DsInspectorSection,
   DsInspectorTabs,
   DsNumberInput,
+  DsPressable,
   DsPropertyGrid,
   DsPropertyRow,
   DsReferenceList,
@@ -120,7 +124,6 @@ import {
   DsReferenceRow,
   DsTag,
   DsTextInput,
-  DsPressable,
 } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
@@ -247,7 +250,6 @@ function tileEditsPatch(_map: ProjectMap, edits: readonly ProjectMapTileEdit[]):
 
 export function MapMode(props: {
   scene: SceneDef
-  scenes: SceneDef[]
   session: EditSession
   assetBase: AssetBase
   assetCatalog: AssetCatalogV1
@@ -256,7 +258,10 @@ export function MapMode(props: {
   mapIndex: MapIndexV1
   selectedMapId?: string
   onSelectMap: (id: string | undefined) => void
-  onOpenScene: (id: string) => void
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
+  onOpenReference: (reference: ProjectReferenceEdge) => void
   /** tileset 注册表（供地图逐格来源索引解析与瓦片面板切换）。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   stamps: readonly StampTemplate[]
@@ -267,7 +272,6 @@ export function MapMode(props: {
 }) {
   const {
     scene,
-    scenes,
     session,
     assetBase,
     assetCatalog,
@@ -276,7 +280,10 @@ export function MapMode(props: {
     mapIndex,
     selectedMapId,
     onSelectMap,
-    onOpenScene,
+    referenceIndex,
+    referenceStatus,
+    getCurrentReferenceIndex,
+    onOpenReference,
     tilesets,
     stamps,
     onOpenStampLibrary,
@@ -328,6 +335,13 @@ export function MapMode(props: {
     undefined,
     createMapWorkspaceState,
   )
+  useEffect(() => {
+    if (referenceStatus !== 'current') setPendingDeleteId(undefined)
+  }, [referenceStatus])
+  useEffect(() => {
+    void referenceIndex
+    setPendingDeleteId(undefined)
+  }, [referenceIndex])
   const workspaceMap = mapWorkspaceDocument(workspace, mapId)
   const hiddenLayerIds = useMemo(
     () => new Set(workspaceMap.hiddenLayerIds),
@@ -2336,15 +2350,37 @@ export function MapMode(props: {
 
   const deleteMap = (): void => {
     if (!selectedAsset) return
-    const references = mapAssetSceneReferences(scenes, selectedAsset.id)
-    if (references.length) return
+    if (referenceStatus !== 'current') {
+      onWorkspaceNotice?.({ kind: 'info', message: '正在刷新地图引用，暂不允许删除。' })
+      return
+    }
+    if (selectedReferences.length) return
     if (pendingDeleteId !== selectedAsset.id) {
       setPendingDeleteId(selectedAsset.id)
       return
     }
     const index = mapIndex.maps.findIndex((asset) => asset.id === selectedAsset.id)
     const nextId = mapIndex.maps[index + 1]?.id ?? mapIndex.maps[index - 1]?.id
-    session.dispatch(new DeleteMapAssetCommand(selectedAsset.id))
+    try {
+      const changed = session.dispatch(
+        new DeleteMapAssetCommand(selectedAsset.id, getCurrentReferenceIndex),
+      )
+      if (!changed) {
+        setPendingDeleteId(undefined)
+        onWorkspaceNotice?.({ kind: 'error', message: '地图已变化，未执行删除。' })
+        return
+      }
+    } catch (cause) {
+      setPendingDeleteId(undefined)
+      onWorkspaceNotice?.({
+        kind: 'error',
+        message:
+          cause instanceof MapAssetInUseError
+            ? `${cause.message}；引用已变化，请处理后重试。`
+            : `无法检查当前地图引用：${cause instanceof Error ? cause.message : String(cause)}`,
+      })
+      return
+    }
     dispatchWorkspace({ type: 'remove-map', mapId: selectedAsset.id })
     setPendingDeleteId(undefined)
     onSelectMap(nextId)
@@ -2510,7 +2546,19 @@ export function MapMode(props: {
     selectedMapRowRef.current?.scrollIntoView({ block: 'nearest' })
   }, [selectedMapId, normalizedQuery])
 
-  const selectedReferences = selectedAsset ? mapAssetSceneReferences(scenes, selectedAsset.id) : []
+  const referencesForMap = (id: string): ProjectReferenceEdge[] =>
+    referenceIndex?.deletionImpact({ kind: 'map', id }).blockers ?? []
+  const selectedReferences = selectedAsset ? referencesForMap(selectedAsset.id) : []
+  const referencePanelState =
+    referenceStatus === 'current'
+      ? selectedReferences.length
+        ? 'ready'
+        : 'empty'
+      : referenceStatus === 'checking'
+        ? 'loading'
+        : referenceStatus === 'stale'
+          ? 'partial'
+          : 'error'
   const selectCandidate = (row: MapCandidate): void => {
     if (stampGroupEditPlacementId) {
       closeCandidateMenu()
@@ -2858,13 +2906,19 @@ export function MapMode(props: {
               id: 'delete-map',
               label: pendingDeleteId === selectedAsset?.id ? '确认删除地图' : '删除地图',
               title:
-                selectedReferences.length > 0
-                  ? `仍被 ${selectedReferences.length} 个场景使用，不能删除`
-                  : pendingDeleteId === selectedAsset?.id
-                    ? '再次点击确认删除'
-                    : '删除地图',
+                referenceStatus !== 'current'
+                  ? '正在刷新地图引用，暂不允许删除'
+                  : selectedReferences.length > 0
+                    ? `仍有 ${selectedReferences.length} 处引用，不能删除`
+                    : pendingDeleteId === selectedAsset?.id
+                      ? '再次点击确认删除'
+                      : '删除地图',
               danger: true,
-              disabled: !selectedAsset || !liveMap || selectedReferences.length > 0,
+              disabled:
+                !selectedAsset ||
+                !liveMap ||
+                referenceStatus !== 'current' ||
+                selectedReferences.length > 0,
               onClick: deleteMap,
             },
           ]}
@@ -2877,7 +2931,7 @@ export function MapMode(props: {
         />
         <div className="map-asset-list">
           {filteredAssets.map((asset) => {
-            const references = mapAssetSceneReferences(scenes, asset.id)
+            const references = referencesForMap(asset.id)
             return (
               <DsCatalogRow
                 key={asset.id}
@@ -2885,7 +2939,7 @@ export function MapMode(props: {
                 title={asset.name}
                 meta={asset.id}
                 trailing={
-                  references.length ? (
+                  referenceStatus === 'current' && references.length ? (
                     <DsTag tone="neutral">{references.length} 处使用</DsTag>
                   ) : undefined
                 }
@@ -3608,34 +3662,56 @@ export function MapMode(props: {
             {
               id: 'references',
               label: '引用',
-              count: selectedAsset ? selectedReferences.length : undefined,
+              count:
+                selectedAsset && referenceStatus === 'current'
+                  ? selectedReferences.length
+                  : undefined,
               panel: (
                 <div className="map-inspector-panel map-references-panel">
                   <section className="section" data-ds-density="compact">
-                    <h4>使用场景</h4>
+                    <h4>地图引用</h4>
                     {selectedAsset ? (
                       <DsReferencePanel
-                        state={selectedReferences.length ? 'ready' : 'empty'}
-                        count={{ kind: 'exact', value: selectedReferences.length }}
+                        state={referencePanelState}
+                        count={
+                          referenceStatus === 'current'
+                            ? { kind: 'exact', value: selectedReferences.length }
+                            : { kind: 'unknown' }
+                        }
                         impact={{
                           kind: 'blocking',
-                          description: selectedReferences.length
-                            ? '这些场景绑定了当前地图；先处理绑定关系再移除地图。'
-                            : '尚未绑定场景，地图保存并重开后仍会保留。',
+                          description:
+                            referenceStatus === 'current'
+                              ? selectedReferences.length
+                                ? '先处理全部场景绑定或脚本地图覆盖，再移除地图。'
+                                : '尚未绑定场景，地图保存并重开后仍会保留。'
+                              : referenceStatus === 'stale'
+                                ? '当前显示上次检查结果；刷新完成前不能删除。'
+                                : referenceStatus === 'failed'
+                                  ? '无法读取当前引用；删除已安全禁用。'
+                                  : '正在检查当前地图引用；完成前不能删除。',
                         }}
                       >
                         {selectedReferences.length ? (
                           <DsReferenceList>
-                            {selectedReferences.map((sceneId) => (
+                            {selectedReferences.map((reference) => (
                               <DsReferenceRow
-                                key={sceneId}
-                                title={`场景 ${sceneId}`}
-                                detail="使用当前地图"
-                                action={{
-                                  label: '打开',
-                                  ariaLabel: `打开场景 ${sceneId}`,
-                                  onActivate: () => onOpenScene(sceneId),
-                                }}
+                                key={reference.id}
+                                title={reference.source.label}
+                                detail={reference.where}
+                                action={
+                                  reference.locator.kind !== 'unavailable'
+                                    ? {
+                                        label: '打开',
+                                        onActivate: () => onOpenReference(reference),
+                                      }
+                                    : undefined
+                                }
+                                status={
+                                  reference.locator.kind === 'unavailable'
+                                    ? { label: '只读', reason: reference.locator.reason }
+                                    : undefined
+                                }
                               />
                             ))}
                           </DsReferenceList>
@@ -3677,7 +3753,6 @@ export function MapMode(props: {
           }替换；本次操作仍可一步撤销。`}
           fallbackFocusRef={canvasRef}
           onClose={returnToTransformAdjustment}
-          children={null}
           footer={
             <>
               <DsButton
@@ -3693,7 +3768,9 @@ export function MapMode(props: {
               </DsButton>
             </>
           }
-        />
+        >
+          {null}
+        </DsDialog>
       ) : null}
       {stampStructureIntent ? (
         <DsDialog

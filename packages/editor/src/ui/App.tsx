@@ -75,6 +75,7 @@ import type { EditSession } from '../core/edit-session.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   createEditorDerivedStore,
+  effectiveEditorDerivedStatus,
   isEditorDerivedSnapshotCurrent,
 } from '../core/editor-derived-store.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
@@ -102,6 +103,7 @@ import {
   createProjectReferenceIndex,
   type ProjectReferenceEdge,
 } from '../core/project-reference.js'
+import { createCurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   AddSceneEntityDefinitionCommand,
   type CanonicalScriptReference,
@@ -1533,6 +1535,10 @@ export function App(props: {
         : undefined,
     [derivedData?.projectReferences],
   )
+  const currentProjectReferenceIndex = useMemo(
+    () => createCurrentProjectReferenceIndexProvider(() => scriptSession.getStateSnapshot()),
+    [scriptSession],
+  )
   const canonicalBehaviorReferenceIndex = useMemo(
     () => new Map(derivedData?.canonicalBehaviorReferences ?? []),
     [derivedData?.canonicalBehaviorReferences],
@@ -1546,6 +1552,10 @@ export function App(props: {
     scriptHistoryVersion: scriptSession.getHistoryVersion(),
   }
   const derivedReferenceSnapshotCurrent = isEditorDerivedSnapshotCurrent(
+    derivedSnapshot,
+    currentDerivedRevision,
+  )
+  const effectiveDerivedStatus = effectiveEditorDerivedStatus(
     derivedSnapshot,
     currentDerivedRevision,
   )
@@ -2173,7 +2183,6 @@ export function App(props: {
         ) : activeSubpage.kind === 'map' ? (
           <MapMode
             scene={scene}
-            scenes={state.scenes}
             session={session}
             assetBase={project.assetBase}
             assetCatalog={state.assetCatalog}
@@ -2187,10 +2196,10 @@ export function App(props: {
                 'replace',
               )
             }
-            onOpenScene={(id) => {
-              setPlaceSceneId(id)
-              applyEditorLocation(editorLinks.scene(id))
-            }}
+            referenceIndex={projectReferenceIndex}
+            referenceStatus={effectiveDerivedStatus}
+            getCurrentReferenceIndex={currentProjectReferenceIndex}
+            onOpenReference={openProjectReference}
             tilesets={state.tilesets ?? []}
             stamps={state.stamps}
             onOpenStampLibrary={(id) => applyEditorLocation(editorLinks.stamp(id))}

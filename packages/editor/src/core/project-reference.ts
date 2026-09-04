@@ -256,6 +256,17 @@ export function projectReferenceSourceOwnerKey(owner: ProjectReferenceSourceOwne
   }
 }
 
+export function projectReferenceSourceSceneId(
+  owner: ProjectReferenceSourceOwner,
+): string | undefined {
+  if (owner.kind === 'scene') return owner.id
+  if (owner.kind === 'scene-entity' || owner.kind === 'scene-page') return owner.sceneId
+  if (owner.kind !== 'script-owner') return undefined
+  return owner.owner.kind === 'shared-script' || owner.owner.kind === 'item-private-script'
+    ? undefined
+    : owner.owner.sceneId
+}
+
 export function createProjectReferenceSource(
   owner: ProjectReferenceSourceOwner,
   label: string,

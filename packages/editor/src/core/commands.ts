@@ -113,6 +113,11 @@ import {
   preparedProjectMapPatchChanged,
   prepareProjectMapPatch,
 } from './map-patch.js'
+import { type ProjectReferenceEdge, projectReferenceSourceSceneId } from './project-reference.js'
+import {
+  type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectDeletionImpact,
+} from './project-reference-adapters.js'
 import type { ScriptEditorState } from './script-editor.js'
 import {
   findSceneEntryReferences,
@@ -794,17 +799,16 @@ function removeMapAsset(state: EditorState, id: string): EditorState {
   }
 }
 
-/** 临时窄反查；ED-3 落地统一 ProjectReferenceIndex 后删除。 */
-export function mapAssetSceneReferences(scenes: readonly SceneDef[], mapId: string): string[] {
-  return scenes.filter((scene) => scene.mapId === mapId).map((scene) => scene.id)
-}
-
 export class MapAssetInUseError extends Error {
   constructor(
     readonly mapId: string,
     readonly sceneIds: string[],
+    readonly references: readonly ProjectReferenceEdge[] = [],
   ) {
-    super(`地图 "${mapId}" 正被场景使用: ${sceneIds.join(', ')}`)
+    const sources = references.length
+      ? [...new Set(references.map((reference) => reference.source.label))]
+      : sceneIds
+    super(`地图 "${mapId}" 正被引用: ${sources.join(', ')}`)
     this.name = 'MapAssetInUseError'
   }
 }
@@ -924,14 +928,32 @@ export class DeleteMapAssetCommand implements Command {
   readonly label = '删除地图'
   private removed: { def: MapAssetDefV1; map: ProjectMap; index: number } | undefined
 
-  constructor(private readonly mapId: string) {}
+  constructor(
+    private readonly mapId: string,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
+  ) {}
 
   apply(state: EditorState): EditorState {
-    const references = mapAssetSceneReferences(state.scenes, this.mapId)
-    if (references.length) throw new MapAssetInUseError(this.mapId, references)
     const index = state.mapIndex.maps.findIndex((asset) => asset.id === this.mapId)
     const map = state.maps[this.mapId]
     if (index < 0 || !map) return state
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'map',
+      id: this.mapId,
+    }).blockers
+    if (references.length)
+      throw new MapAssetInUseError(
+        this.mapId,
+        [
+          ...new Set(
+            references.flatMap((reference) => {
+              const sceneId = projectReferenceSourceSceneId(reference.source.owner)
+              return sceneId ? [sceneId] : []
+            }),
+          ),
+        ],
+        references,
+      )
     if (!this.removed)
       this.removed = {
         def: structuredClone(state.mapIndex.maps[index]!),
