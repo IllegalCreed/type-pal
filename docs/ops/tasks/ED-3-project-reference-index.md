@@ -421,9 +421,10 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 - Coding Owner: Codex（唯一实现方）
 - A 批状态: **完成（`ee173e13` + `be083df2` + `55a7fe84`）**。
-- B 批状态: **进行中**；地图纵切完成（`03767dda`），战场 / 敌队 / 氛围纵切完成
-  （`4a0aba45`），skill / enemy / poison 纵切完成（`f0f88b19`），actor 纵切完成（`1806a90f`）。
-  下一纵切为 item / world sprite / battle sprite。
+- B 批状态: **完成**；地图纵切（`03767dda`）、战场 / 敌队 / 氛围（`4a0aba45`）、
+  skill / enemy / poison（`f0f88b19`）、actor（`1806a90f`）、item（`376934e0`）和
+  world sprite / action / battle sprite（`aeb35214` + 性能收口 `d521d965`）均已落地。下一步进入
+  C 批媒体与异步地图域收口。
 - A 批修改文件:
   - `packages/content/src/command-target-reference.ts` + tests：有界 tagged target leaf；scene/entry/hook/
     entity/map/shop/team/field/ambience，sell 任意 shop 值均不发 shop edge。
@@ -505,6 +506,29 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
     通过；PAL migrate 8 files / 17 tests 通过；`migrate:content` dry-run 为 managed=537、
     writes/deletes/conflicts/asset-deletes=0、reference-warnings=0；changed-file Biome 无 error，
     `git diff --check` 通过。
+  - Item 纵切：统一 1,182 条 PAL 物品引用 / 1,169 条 blocker / 13 条随物品删除的 self 边；
+    canonical command 801 条精确 locator、state-machine transition 6 条稳定 owner、敌人对象 161 条。
+    ItemTab 与炼蛊皿 / 紫金葫芦页面统一四态、current-without-index、筛选 unknown、确认失效和
+    current-author 删除复核；旧 `itemReferenceIndex` Worker DTO、专用 App handler 与删除参数已退役。
+  - Item 批同时压缩 target/source/script-owner/container/locator wire，定义侧默认标签按稳定 owner
+    派生；检查点为 10,112 rows / 11,888 buckets，统一索引 1,916,386B、完整 reply 4,246,713B。
+    隔离 n=20：snapshot p50/p95=587.990/657.075ms、derived=598.062/686.503ms、
+    project-reference build=75.200/98.293ms，均过冻结预算。
+  - Sprite 纵切：统一 3,824 条 world definition、385 条 world action 与 180 条 battle sprite 边；
+    action 以单边同时进入稳定 action 与父 definition bucket，573 个 world sprite 的父级引用总数
+    精确为 4,209。场景页 locator 使用稳定 PageId；shared / item-private / enemy / legacy / runtime
+    owner 与只读策略完整，旧 `SpriteActionReferenceLocator.pageIndex` 和编辑器 `site.split` 跳转已退役。
+  - WorldSpriteLibrary、动作弹窗、BattleSpriteLibrary 与 EnemyAnimPreview 已统一四态和 required live
+    provider；定义 / 动作删除覆盖 provider failure、显示零但 live 新引用、undo/redo 再验真；profile ABI
+    在引用未知时显式确认。content 装备边改用结构化 `origin`，不再由 `site` 子串判断。
+  - Sprite 检查点为 14,501 rows / 16,662 buckets，统一索引 2,331,262B（低于 2.5MB 硬门
+    168,738B）、完整 reply 4,661,589B；`d521d965` 的最终隔离 n=20 为 snapshot
+    p50/p95=569.135/689.797ms、derived=568.473/628.512ms、project-reference
+    build=72.372/99.720ms，全部通过冻结预算。
+  - B 批最终验证：content 35 files / 473 tests、editor 189 files / 1,697 tests 全绿；双 typecheck、
+    production build、design-system gate（92 files / 2 evidence-bound exceptions）、PAL migrate
+    8 files / 17 tests 均通过；`migrate:content` dry-run 为 managed=537、
+    writes/deletes/conflicts/asset-deletes=0、reference-warnings=0；`git diff --check` 通过。
 
 ## 视觉验证记录
 
@@ -580,6 +604,12 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   compact wire 在不抬 2.5MB 门下把 index 压至 2,365,516B。Content 49 + Editor 268 + DS 66 tests、
   双 typecheck、build、publication/store、dry-run 四零均通过；只读终审 accept、无返工。
   Next: B 批 actor 纵切并同步退役 actorReferenceIndex。
+- 2026-09-04 Codex: 完成 B 批 actor / item / sprite 后三条纵切。actor=`1806a90f`、
+  item=`376934e0`、sprite=`aeb35214` + perf=`d521d965`；统一索引覆盖全部同步领域消费者，删除与
+  动作 ABI 均改用 current-author cold oracle，旧 Worker DTO / 专用跳转 / pageIndex locator 退出。
+  B 批最终完整回归、
+  PAL publication 与迁移四零通过，索引保持在 2.5MB 门内。Next: C 批迁移媒体引用及异步
+  map / tileset / stamp proof，完成单一 locator resolver、最小浏览器验证和 ED-3 总收口。
 
 ## 下一位 Agent 提示词
 

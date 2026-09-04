@@ -117,3 +117,48 @@ JSON/V8 = 5,380,070/4,845,141B，统一索引 JSON/V8 = 2,432,621/2,133,380B，�
 44 relations；canonical command visits 60,295，state-machine transition visits 5,682。前一轮在并行测试
 与高 CPU 外部进程下得到 derived p50/p95 = 810.934/1,379.069ms，按既定规则视为受扰样本，不作为
 通过证据；停止并发工作后的上述正式样本通过全部冻结门。
+
+## B 批 item 纵切检查点
+
+候选实现提交为 `376934e0`。本纵切把 1,182 条 PAL 物品引用统一进图，其中 1,169 条为外部
+blocker、13 条为随物品删除的 self 边；canonical command 801 条使用精确 locator，另有 6 条
+state-machine transition owner 与 161 条敌人对象来源。旧 `itemReferenceIndex` Worker DTO、页面私有
+反查 map、专用 App 跳转和删除命令旧参数同时退役。
+
+为给后续精灵域留出确定性余量，wire 继续压缩 target、source owner、script owner/container 与 locator；
+默认来源标签由稳定 owner 在消费端派生，不再逐条重复传输。最终检查点为 10,112 rows、11,888 bucket
+entries；统一索引 JSON 1,916,386B，完整 ready reply JSON 4,246,713B。
+
+隔离复跑（n=20）：snapshot p50/p95 = 587.990/657.075ms，derived p50/p95 =
+598.062/686.503ms，project-reference build p50/p95 = 75.200/98.293ms；全部通过 A 批冻结预算。
+
+## B 批 world sprite / action / battle sprite 纵切检查点
+
+候选实现提交为 `aeb35214`。本纵切新增 4,389 条 PAL row：world-sprite-use 3,824、
+world-sprite-action-use 385、battle-sprite-use 180。动作引用以同一 edge id 同时进入 action 与父
+world-sprite bucket，因此额外增加 385 个父 bucket entry；最终为 14,501 rows、16,662 bucket entries。
+573 个 world sprite 的父级引用聚合精确为 4,209，PAL test 直接逐 target 复算；31 个 action target pair
+保持稳定。
+
+场景页引用改用稳定 PageId locator；canonical shared / item-private、enemy choreography / onDefeated、
+legacy chunk 与 runtime world 均有结构化 owner 和定位策略。定义、动作和 battle sprite 删除全部使用
+required current-author provider；UI 覆盖 checking/stale/failed/current-without-index、显示零但 live 新引用、
+provider failure 与 redo 再验真。旧 `SpriteActionReferenceLocator.pageIndex`、编辑器 sync collector consumer
+及 `site.split` 跳转已退役。装备战斗精灵的重复校验豁免改为结构化 `origin: 'equip'`，脚本 ID 含
+`:equip:` 的反例不会再被误跳过。
+
+确定性体积：统一索引 JSON/V8 = 2,331,262/2,298,550B，低于 2.5MB 硬门 168,738B；完整 ready
+reply JSON/V8 = 4,661,589/4,438,967B。最大 JSON 字段依次为 sources 724,288B、rows 633,124B、
+locators 413,156B、deletionTargets 314,919B。
+
+首轮 `aeb35214` 隔离样本的 derived p50 为 625.213ms，比 622.5ms 冻结门慢 2.713ms。没有反复抽样
+碰线，而是追加 `d521d965`：把 compact builder 的通用递归序列化替换为 relation/source/locator 的
+类型化稳定键，输出 JSON 字节与全部 row/bucket 计数保持不变。最终隔离复跑（n=20）：snapshot
+p50/p95 = 569.135/689.797ms，derived p50/p95 = 568.473/628.512ms，project-reference build
+p50/p95 = 72.372/99.720ms；init request clone p50 = 206.672ms，ready reply clone p50 =
+31.194ms，全部通过 A 批冻结预算。单次 adapter 分解样本为 item 8.908ms、sprite 16.849ms、
+compact 58.587ms。
+
+优化后的前一轮同机样本曾在 snapshot 阶段出现 1,574ms 外部抖动（snapshot p50/p95 =
+708.849/915.356ms），而紧随其后的 derived 已回落到 589.308/688.594ms；按既定规则保留记录但不作为
+通过证据。随后无项目测试或 reviewer 进程并发的完整 20 轮得到上述正式通过结果。

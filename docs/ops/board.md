@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-3 | [统一工程引用边与安全删除地基](tasks/ED-3-project-reference-index.md) | build | Codex 实施 B 批 | A 批 compact index/Worker/validator 已完成；迁移删除与保存消费者 |
+| ED-3 | [统一工程引用边与安全删除地基](tasks/ED-3-project-reference-index.md) | build | Codex 实施 C 批 | A/B 批完成；收口媒体与异步地图引用消费者 |
 
 ## 看板规则
 
