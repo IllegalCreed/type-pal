@@ -459,16 +459,49 @@ export function createProjectReferenceSource(
   }
 }
 
-function stableSerialize(value: unknown): string {
-  if (Array.isArray(value)) return `[${value.map(stableSerialize).join(',')}]`
-  if (value && typeof value === 'object') {
-    const record = value as Record<string, unknown>
-    return `{${Object.keys(record)
-      .sort()
-      .map((key) => `${JSON.stringify(key)}:${stableSerialize(record[key])}`)
-      .join(',')}}`
+function projectReferenceRelationKey(relation: ProjectReferenceRelation): string {
+  switch (relation.kind) {
+    case 'command-target':
+    case 'actor-use':
+    case 'battle-field-use':
+    case 'enemy-team-use':
+    case 'ambience-use':
+    case 'behavior-reference':
+    case 'scene-hook-reference':
+      return tupleKey([relation.kind, relation.use])
+    case 'asset-use':
+      return tupleKey([relation.kind, relation.expectedKind])
+    case 'item-use':
+      return tupleKey([relation.kind, relation.access])
+    case 'battle-data-use':
+      return tupleKey([relation.kind, relation.target, relation.use])
+    case 'world-variable':
+      return tupleKey([relation.kind, relation.variableKind, relation.access])
+    case 'script-reference':
+      return tupleKey([
+        relation.kind,
+        relation.use,
+        relation.expectedChunk,
+        relation.explicitSelf ?? '',
+      ])
+    case 'world-sprite-action-use':
+      return tupleKey([relation.kind, relation.actionId])
+    case 'battle-sprite-use':
+      return tupleKey([relation.kind, relation.expectedProfile])
+    case 'entity-address':
+    case 'scene-map':
+    case 'entry-point-scene':
+    case 'world-sprite-use':
+      return tupleKey([relation.kind])
   }
-  return JSON.stringify(value)
+}
+
+function projectReferenceSourceDefinitionKey(source: ProjectReferenceSource): string {
+  return tupleKey([
+    source.label,
+    source.section ?? '',
+    ...[...source.deletedWith].sort(),
+  ])
 }
 
 function encodeScriptCommandOwner(owner: ScriptCommandOwner): ScriptCommandOwnerSnapshot {
@@ -774,22 +807,14 @@ export function buildProjectReferenceSnapshot(
   > = []
   const bucketEdges = new Map<string, number[]>()
   const seenEdges = new Set<string>()
-  const serializedObjects = new WeakMap<object, string>()
-  const serializeIdentity = (value: object): string => {
-    const cached = serializedObjects.get(value)
-    if (cached !== undefined) return cached
-    const serialized = stableSerialize(value)
-    serializedObjects.set(value, serialized)
-    return serialized
-  }
 
   for (const edge of rawEdges) {
     if (edge.source.key !== projectReferenceSourceKey(edge.source.owner, edge.source.section))
       throw new Error(`引用来源 ${edge.source.key} 不是 owner/section 的稳定派生 key`)
     const targetKey = projectReferenceTargetKey(edge.target)
-    const relationKey = serializeIdentity(edge.relation)
+    const relationKey = projectReferenceRelationKey(edge.relation)
     const encodedLocator = encodeProjectReferenceLocator(edge.locator, edge.where)
-    const locatorKey = serializeIdentity(encodedLocator)
+    const locatorKey = JSON.stringify(encodedLocator)
     if (!options.assumeUnique) {
       const identity = tupleKey([
         targetKey,
@@ -804,7 +829,7 @@ export function buildProjectReferenceSnapshot(
       seenEdges.add(identity)
     }
 
-    const sourceDefinition = serializeIdentity(edge.source)
+    const sourceDefinition = projectReferenceSourceDefinitionKey(edge.source)
     const previousSourceDefinition = sourceDefinitions.get(edge.source.key)
     if (previousSourceDefinition && previousSourceDefinition !== sourceDefinition)
       throw new Error(`引用来源 ${edge.source.key} 的定义不一致`)
