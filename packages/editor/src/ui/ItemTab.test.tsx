@@ -89,9 +89,10 @@ function Harness(props: {
     itemId: string
     ability: 'use' | 'throw'
     scriptId: string
-    commandPath: string
+    commandPath?: string
     revision: number
   }
+  onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   assetReader?: EditorAssetReader
   script?: {
     state: ScriptEditorState
@@ -133,6 +134,7 @@ function Harness(props: {
       onOpenItemReference={props.onOpenItemReference}
       onOpenItemAlchemy={props.onOpenItemAlchemy}
       onOpenProjectIssues={props.onOpenProjectIssues}
+      onStatusNotice={props.onStatusNotice}
       script={
         props.script && activeScriptState
           ? { state: props.script.session.getStateSnapshot(), session: props.script.session }
@@ -1259,7 +1261,7 @@ describe('ItemTab', () => {
     ])
   })
 
-  test('同一物品的私有脚本引用可按 revision 重复定位并明显高亮目标指令', async () => {
+  test('同一物品的私有脚本引用可按 revision 定位脚本容器或具体指令', async () => {
     vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
       callback(0)
       return 1
@@ -1363,6 +1365,29 @@ describe('ItemTab', () => {
     expect(target.classList.contains('reference-focus-even')).toBe(true)
     expect(document.activeElement).toBe(target)
     expect(scrollIntoView).toHaveBeenCalledTimes(2)
+
+    const onStatusNotice = vi.fn()
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          script={script}
+          focusObjectId="private"
+          focusPrivateScript={{
+            itemId: 'private',
+            ability: 'use',
+            scriptId: 'use',
+            revision: 3,
+          }}
+          onStatusNotice={onStatusNotice}
+        />,
+      ),
+    )
+    const privateScript = host.querySelector<HTMLElement>('[data-item-private-script="私有正文"]')!
+    expect(privateScript.classList.contains('item-private-script--reference-focus-odd')).toBe(true)
+    expect(document.activeElement).toBe(privateScript)
+    expect(scrollIntoView).toHaveBeenCalledTimes(3)
+    expect(onStatusNotice).not.toHaveBeenCalled()
   })
 
   test('引用页合并 canonical 脚本中的物品引用并传出精确落点', async () => {

@@ -9,7 +9,6 @@ import type {
 import { validateReferences } from '@type-pal/content'
 import { runtimeScriptRef } from '@type-pal/reforge'
 import { describe, expect, test, vi } from 'vitest'
-import { blockingActorReferenceMap } from './actor-references.js'
 import { collectEditorAssetDiagnostics } from './asset-diagnostics.js'
 import type { EditorState } from './edit-session.js'
 import {
@@ -31,6 +30,7 @@ import { buildProjectReferenceSnapshotFromProjection } from './project-reference
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   collectCanonicalScriptCommandVisits,
+  collectCanonicalScriptTransitionVisits,
   collectScriptReferenceIssuesFromVisits,
   type ScriptEditorState,
 } from './script-editor.js'
@@ -185,12 +185,12 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   const collectAssets = vi.fn(collectEditorAssetReferenceSnapshotFromSlices)
   const collectAssetDiagnostics = vi.fn(collectEditorAssetDiagnostics)
   const collectVisits = vi.fn(collectCanonicalScriptCommandVisits)
+  const collectTransitions = vi.fn(collectCanonicalScriptTransitionVisits)
   const collectScriptIssues = vi.fn(collectScriptReferenceIssuesFromVisits)
   const collectWorldVariables = vi.fn(collectWorldVariableReferencesV1FromVisits)
   const collectEntities = vi.fn(collectEntityAddressReferences)
   const buildEntryIndex = vi.fn(buildCanonicalSceneEntryReferenceIndexFromVisits)
   const buildSchemeIndexes = vi.fn(buildCanonicalSchemeReferenceIndexesFromVisits)
-  const collectActors = vi.fn(blockingActorReferenceMap)
   const collectItems = vi.fn(itemReferenceMap)
   const buildProjectReferences = vi.fn(buildProjectReferenceSnapshotFromProjection)
   const collect = createEditorDiagnosticsSnapshotCollector({
@@ -199,12 +199,12 @@ test('combined diagnostics runs each full scanner once per revision', () => {
     collectEditorAssetReferenceSnapshotFromSlices: collectAssets,
     collectEditorAssetDiagnostics: collectAssetDiagnostics,
     collectCanonicalScriptCommandVisits: collectVisits,
+    collectCanonicalScriptTransitionVisits: collectTransitions,
     collectScriptReferenceIssuesFromVisits: collectScriptIssues,
     collectWorldVariableReferencesV1FromVisits: collectWorldVariables,
     collectEntityAddressReferences: collectEntities,
     buildCanonicalSceneEntryReferenceIndexFromVisits: buildEntryIndex,
     buildCanonicalSchemeReferenceIndexesFromVisits: buildSchemeIndexes,
-    blockingActorReferenceMap: collectActors,
     itemReferenceMap: collectItems,
     buildProjectReferenceSnapshotFromProjection: buildProjectReferences,
   })
@@ -233,12 +233,12 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(collectAssets).toHaveBeenCalledOnce()
   expect(collectAssetDiagnostics).toHaveBeenCalledOnce()
   expect(collectVisits).toHaveBeenCalledOnce()
+  expect(collectTransitions).toHaveBeenCalledOnce()
   expect(collectScriptIssues).toHaveBeenCalledOnce()
   expect(collectWorldVariables).toHaveBeenCalledOnce()
   expect(collectEntities).toHaveBeenCalledOnce()
   expect(buildEntryIndex).toHaveBeenCalledOnce()
   expect(buildSchemeIndexes).toHaveBeenCalledOnce()
-  expect(collectActors).toHaveBeenCalledOnce()
   expect(collectItems).toHaveBeenCalledOnce()
   expect(buildProjectReferences).toHaveBeenCalledOnce()
   expect(
@@ -250,12 +250,12 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   collectAssets.mockClear()
   collectAssetDiagnostics.mockClear()
   collectVisits.mockClear()
+  collectTransitions.mockClear()
   collectScriptIssues.mockClear()
   collectWorldVariables.mockClear()
   collectEntities.mockClear()
   buildEntryIndex.mockClear()
   buildSchemeIndexes.mockClear()
-  collectActors.mockClear()
   collectItems.mockClear()
   buildProjectReferences.mockClear()
   collect(shell)
@@ -264,12 +264,12 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(collectAssets).toHaveBeenCalledOnce()
   expect(collectAssetDiagnostics).toHaveBeenCalledOnce()
   expect(collectVisits).toHaveBeenCalledOnce()
+  expect(collectTransitions).toHaveBeenCalledOnce()
   expect(collectScriptIssues).not.toHaveBeenCalled()
   expect(collectWorldVariables).toHaveBeenCalledOnce()
   expect(collectEntities).toHaveBeenCalledOnce()
   expect(buildEntryIndex).not.toHaveBeenCalled()
   expect(buildSchemeIndexes).not.toHaveBeenCalled()
-  expect(collectActors).toHaveBeenCalledOnce()
   expect(collectItems).toHaveBeenCalledOnce()
   expect(buildProjectReferences).toHaveBeenCalledOnce()
 })

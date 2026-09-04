@@ -10,8 +10,11 @@ import type { ItemReference } from '../core/item-references.js'
 import type { ProjectReferenceEdge, ProjectReferenceTarget } from '../core/project-reference.js'
 import {
   type CanonicalScriptReference,
+  DeleteEntityBehaviorCommand,
+  type ScriptCommandOwner,
   type ScriptEditorState,
   ScriptEditSession,
+  UpdateEntityBehaviorCommand,
   UpdateSharedScriptCommand,
 } from '../core/script-editor.js'
 import { mergeEditorProjectionWithCurrentAuthorState } from '../core/script-editor-projection.js'
@@ -251,7 +254,7 @@ type DataModeProbe = {
     itemId: string
     ability: 'use' | 'throw'
     scriptId: string
-    commandPath: string
+    commandPath?: string
     revision: number
   }
 }
@@ -273,9 +276,17 @@ function projectObjectReference(object: ProjectReferenceTarget): ProjectReferenc
   }
 }
 
+function projectLocatorReference(locator: ProjectReferenceEdge['locator']): ProjectReferenceEdge {
+  return { ...projectObjectReference({ kind: 'actor', id: 'hero' }), locator }
+}
+
 type SceneWorkspaceProbe = {
   selectedEntityId?: string | null
   focusReference?: { reference: CanonicalScriptReference; revision: number }
+  focusOwner?: {
+    owner: Extract<ScriptCommandOwner, { kind: 'entity-behavior' | 'scene-hook' }>
+    revision: number
+  }
 }
 
 type SceneCanvasProbe = {
@@ -425,7 +436,7 @@ describe('App item reference navigation', () => {
         },
       ],
     }
-    const session = await renderApp(shell)
+    await renderApp(shell)
 
     expect(host.querySelector('.project-center h1')?.textContent).toBe('直接入口')
   })
@@ -666,6 +677,136 @@ describe('App item reference navigation', () => {
       expect(location.searchParams.get('page')).toBe(page)
       expect(location.searchParams.get('object')).toBe(id)
     }
+  })
+
+  test('统一 script-owner locator 验证并打开稳定实体行为 owner', async () => {
+    const canonical = canonicalState()
+    canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.alternate = {
+      label: '备用触发行为',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'initial',
+        stages: [{ id: 'initial', body: [] }],
+      },
+    }
+    await renderApp(shellState(), canonical)
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+    const owner = {
+      kind: 'entity-behavior',
+      sceneId: 's047',
+      entityId: 'e760',
+      channel: 'trigger',
+      behaviorId: 'alternate',
+    } as const
+
+    await act(async () =>
+      openReference(
+        projectLocatorReference({
+          kind: 'script-owner',
+          owner: { ...owner, behaviorId: 'missing' },
+        }),
+      ),
+    )
+    expect(window.location.search).toContain('module=item')
+    expect(host.textContent).toContain('实体行为 s047/e760/trigger/missing 不再存在')
+
+    await act(async () => openReference(projectLocatorReference({ kind: 'script-owner', owner })))
+    expect(window.location.search).toContain('module=scene')
+    expect(window.location.search).toContain('object=s047')
+    expect(probes.sceneWorkspace.mock.calls.at(-1)?.[0]).toMatchObject({
+      selectedEntityId: 'e760',
+      focusOwner: { owner },
+    })
+  })
+
+  test('统一 object locator 保留人物工作区分区', async () => {
+    const shell = shellState()
+    shell.actors = [{ id: 'hero', name: 'actor.hero', spriteId: 'sprite.hero' }]
+    await renderApp(shell)
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+
+    await act(async () =>
+      openReference({
+        ...projectObjectReference({ kind: 'actor', id: 'hero' }),
+        locator: {
+          kind: 'object',
+          object: { kind: 'actor', id: 'hero' },
+          section: 'relationships',
+        },
+      }),
+    )
+
+    const location = new URL(window.location.href)
+    expect(location.searchParams.get('module')).toBe('actor')
+    expect(location.searchParams.get('object')).toBe('hero')
+    expect(location.searchParams.get('action')).toBe('relationships')
+  })
+
+  test('统一 script-owner locator 会定位物品的具体私有脚本', async () => {
+    await renderApp()
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+
+    await act(async () =>
+      openReference(
+        projectLocatorReference({
+          kind: 'script-owner',
+          owner: {
+            kind: 'item-private-script',
+            itemId: '289',
+            ability: 'use',
+            scriptId: 'use',
+          },
+        }),
+      ),
+    )
+
+    expect(probes.dataMode.mock.calls.at(-1)?.[0]).toMatchObject({
+      focusItemPrivateScript: {
+        itemId: '289',
+        ability: 'use',
+        scriptId: 'use',
+      },
+    })
+  })
+
+  test('统一引用定位在根组件未重渲染时仍读取最新 canonical owner', async () => {
+    await renderApp()
+    await act(async () => {
+      renderedScriptSession.dispatch(
+        new UpdateEntityBehaviorCommand({ scene: 's047', entity: 'e760' }, 'trigger', 'default', {
+          label: '第一次修改',
+        }),
+      )
+    })
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+    await act(async () => {
+      renderedScriptSession.dispatch(
+        new DeleteEntityBehaviorCommand({ scene: 's047', entity: 'e760' }, 'trigger', 'default'),
+      )
+    })
+
+    await act(async () =>
+      openReference(
+        projectLocatorReference({
+          kind: 'script-owner',
+          owner: {
+            kind: 'entity-behavior',
+            sceneId: 's047',
+            entityId: 'e760',
+            channel: 'trigger',
+            behaviorId: 'default',
+          },
+        }),
+      ),
+    )
+
+    expect(window.location.search).toContain('module=item')
+    expect(host.textContent).toContain('实体行为 s047/e760/trigger/default 不再存在')
   })
 
   test('场景地图控件标明缺失引用并可换绑、启用复制与打开新地图', async () => {

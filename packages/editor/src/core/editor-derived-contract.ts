@@ -1,5 +1,4 @@
 import type { AssetReference } from '@type-pal/content'
-import type { ActorReference } from './actor-references.js'
 import type { EditorAssetDiagnostic } from './asset-diagnostics.js'
 import type { EditorState } from './edit-session.js'
 import type { ItemReference } from './item-references.js'
@@ -51,7 +50,6 @@ export interface EditorDerivedData {
   projectReferences: ProjectReferenceSnapshotV1
   assetReferences: AssetReference[]
   assetDiagnostics: EditorAssetDiagnostic[]
-  actorReferenceIndex: Array<[string, ActorReference[]]>
   itemReferenceIndex: Array<[string, ItemReference[]]>
   worldVariableReferences: WorldVariableReferenceIndexV1
   canonicalBehaviorReferences: Array<[string, CanonicalScriptReference[]]>

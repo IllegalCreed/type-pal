@@ -86,6 +86,84 @@ describe('project reference contract', () => {
     expect(decoded.every((reference) => reference.source.key === source.key)).toBe(true)
   })
 
+  test('compact locators round-trip every variant and only retain a distinct canonical path', () => {
+    const commandLocator = {
+      kind: 'command',
+      owner: { kind: 'shared-script', scriptId: 'shared/test' },
+      container: { kind: 'body' },
+      commandPath: '0',
+    } as const
+    const inputs: ProjectReferenceEdgeInput[] = [
+      edge(
+        { kind: 'skill', id: 'exact' },
+        {
+          where: 'shared.test.body[0].skill',
+          locator: {
+            kind: 'canonical-script',
+            reference: {
+              kind: 'command',
+              path: 'shared.test.body[0].skill',
+              locator: commandLocator,
+            },
+          },
+        },
+      ),
+      edge(
+        { kind: 'skill', id: 'root-path' },
+        {
+          where: 'shared.test.body[0].skill',
+          locator: {
+            kind: 'canonical-script',
+            reference: { kind: 'command', path: 'shared.test.body[0]', locator: commandLocator },
+          },
+        },
+      ),
+      edge(
+        { kind: 'actor', id: 'object' },
+        {
+          where: 'object',
+          locator: {
+            kind: 'object',
+            object: { kind: 'actor', id: 'object' },
+            section: 'relationships',
+          },
+        },
+      ),
+      edge(
+        { kind: 'actor', id: 'owner' },
+        {
+          where: 'owner',
+          locator: {
+            kind: 'script-owner',
+            owner: {
+              kind: 'entity-behavior',
+              sceneId: 'scene',
+              entityId: 'entity',
+              channel: 'trigger',
+              behaviorId: 'default',
+            },
+          },
+        },
+      ),
+      edge(
+        { kind: 'actor', id: 'legacy' },
+        {
+          where: 'legacy',
+          locator: { kind: 'legacy-script', scriptId: 'old', commandPath: '' },
+        },
+      ),
+      edge({ kind: 'actor', id: 'readonly' }, { where: 'readonly', locator: unavailable }),
+    ]
+    const snapshot = buildProjectReferenceSnapshot(inputs)
+    const canonicalLocators = snapshot.locators.filter((locator) => locator[0] === 1)
+    expect(canonicalLocators.map((locator) => locator.length)).toEqual([2, 3])
+    expect(
+      createProjectReferenceIndex(snapshot)
+        .allReferences()
+        .map((reference) => reference.locator),
+    ).toEqual(inputs.map((input) => input.locator))
+  })
+
   test('indexes one composite entity edge under entity and ancestor scene without duplicating rows', () => {
     const target = { kind: 'entity', sceneId: 'target', entityId: 'guard' } as const
     const snapshot = buildProjectReferenceSnapshot([

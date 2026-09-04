@@ -256,7 +256,6 @@ function synchronousData(
     canonicalBehaviorReferences: [...snapshot.canonicalSchemeReferenceIndexes.behavior],
     canonicalSceneHookReferences: [...snapshot.canonicalSchemeReferenceIndexes.sceneHook],
     assetDiagnostics: snapshot.assetDiagnostics,
-    actorReferenceIndex: [...snapshot.actorReferenceIndex],
     itemReferenceIndex: [...snapshot.itemReferenceIndex],
   }
 }

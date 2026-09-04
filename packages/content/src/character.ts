@@ -105,6 +105,35 @@ export function collectWorldBattleDataReferences(
   return references
 }
 
+export interface WorldActorReference {
+  actorId: string
+  kind: 'world-party-template' | 'world-reserve-template'
+  where: string
+}
+
+/** Runtime/save character template leaves shared by validation and editor deletion protection. */
+export function collectWorldActorReferences(
+  worlds: readonly WorldState[],
+  where = 'worlds',
+): WorldActorReference[] {
+  const references: WorldActorReference[] = []
+  worlds.forEach((world, worldIndex) => {
+    for (const [partyKind, members] of [
+      ['party', world.party],
+      ['reserve', world.reserve ?? []],
+    ] as const)
+      members.forEach((member, memberIndex) => {
+        if (typeof member.template !== 'string' || member.template.length === 0) return
+        references.push({
+          actorId: member.template,
+          kind: partyKind === 'party' ? 'world-party-template' : 'world-reserve-template',
+          where: `${where}[${worldIndex}].${partyKind}[${memberIndex}].template`,
+        })
+      })
+  })
+  return references
+}
+
 /** 入口的初始世界快照 —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
 export interface StartWorld {
   party: string[] // 角色模板 id 列表(顺序 = 入队顺序)

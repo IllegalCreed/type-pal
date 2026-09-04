@@ -5,11 +5,9 @@ import {
   type EditorDerivedStore,
   effectiveEditorDerivedStatus,
 } from '../core/editor-derived-store.js'
+import { createProjectReferenceIndex } from '../core/project-reference.js'
 import type { ScriptEditSession } from '../core/script-editor.js'
-import {
-  mergeEditorProjectionWithCurrentAuthorState,
-  projectActiveScriptEditorState,
-} from '../core/script-editor-projection.js'
+import { projectActiveScriptEditorState } from '../core/script-editor-projection.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode } from './DataMode.js'
 import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
@@ -36,7 +34,8 @@ type ActorStateProps =
   | 'locale'
   | 'levelUp'
   | 'assetCatalog'
-  | 'getCurrentAuthorState'
+  | 'referenceIndex'
+  | 'referenceStatus'
 
 export type ConnectedActorModeProps = Omit<ComponentProps<typeof ActorMode>, ActorStateProps> & {
   derivedStore: EditorDerivedStore
@@ -46,6 +45,20 @@ export type ConnectedActorModeProps = Omit<ComponentProps<typeof ActorMode>, Act
 export function ConnectedActorMode(props: ConnectedActorModeProps) {
   const { derivedStore, scriptSession, session, ...staticProps } = props
   const state = useEditSessionSelector(session, (snapshot) => snapshot.state)
+  useScriptEditSessionSelector(scriptSession, (snapshot) => snapshot.state)
+  const derivedSnapshot = useEditorDerivedSnapshotAfterPaint(derivedStore)
+  const derivedData = lastKnownDerivedData(derivedSnapshot)
+  const referenceIndex = useMemo(
+    () =>
+      derivedData?.projectReferences
+        ? createProjectReferenceIndex(derivedData.projectReferences)
+        : undefined,
+    [derivedData?.projectReferences],
+  )
+  const referenceStatus = effectiveEditorDerivedStatus(derivedSnapshot, {
+    mainHistoryVersion: session.getHistoryVersion(),
+    scriptHistoryVersion: scriptSession.getHistoryVersion(),
+  })
   const items = useMemo(
     () => Object.fromEntries(state.items.map((item) => [item.id, item])),
     [state.items],
@@ -59,8 +72,8 @@ export function ConnectedActorMode(props: ConnectedActorModeProps) {
     <ActorMode
       {...staticProps}
       session={session}
-      scriptSession={scriptSession}
-      derivedStore={derivedStore}
+      referenceIndex={referenceIndex}
+      referenceStatus={referenceStatus}
       actors={state.actors}
       sprites={state.sprites}
       battleSprites={state.battleSprites}
@@ -69,12 +82,6 @@ export function ConnectedActorMode(props: ConnectedActorModeProps) {
       locale={state.locale}
       levelUp={state.levelUp}
       assetCatalog={state.assetCatalog}
-      getCurrentAuthorState={() =>
-        mergeEditorProjectionWithCurrentAuthorState(
-          scriptSession.getStateSnapshot(),
-          session.getState(),
-        )
-      }
     />
   )
 }
@@ -151,6 +158,8 @@ type DataStateProps =
   | 'projectDiagnosticsStatus'
   | 'derivedData'
   | 'derivedDiagnosticsMessage'
+  | 'projectReferenceIndex'
+  | 'projectReferenceStatus'
   | 'actors'
   | 'skillList'
 
@@ -165,6 +174,13 @@ export function ConnectedDataMode(props: ConnectedDataModeProps) {
   const canonical = useScriptEditSessionSelector(scriptSession, (snapshot) => snapshot.state)
   const derivedSnapshot = useEditorDerivedSnapshotAfterPaint(derivedStore)
   const derivedData = lastKnownDerivedData(derivedSnapshot)
+  const projectReferenceIndex = useMemo(
+    () =>
+      derivedData?.projectReferences
+        ? createProjectReferenceIndex(derivedData.projectReferences)
+        : undefined,
+    [derivedData?.projectReferences],
+  )
   const derivedStatus = effectiveEditorDerivedStatus(derivedSnapshot, {
     mainHistoryVersion: session.getHistoryVersion(),
     scriptHistoryVersion: scriptSession.getHistoryVersion(),
@@ -213,6 +229,8 @@ export function ConnectedDataMode(props: ConnectedDataModeProps) {
       derivedDiagnosticsMessage={
         derivedSnapshot.status === 'failed' ? derivedSnapshot.message : undefined
       }
+      projectReferenceIndex={projectReferenceIndex}
+      projectReferenceStatus={derivedStatus}
       actors={state.actors}
       skillList={state.skills}
     />

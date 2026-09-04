@@ -53,7 +53,6 @@ function collect(input: EditorDerivedInput): EditorDerivedData {
     projectReferences: snapshot.projectReferences,
     assetReferences: snapshot.assetSnapshot.references,
     assetDiagnostics: snapshot.assetDiagnostics,
-    actorReferenceIndex: [...snapshot.actorReferenceIndex],
     itemReferenceIndex: [...snapshot.itemReferenceIndex],
     worldVariableReferences: snapshot.worldVariableReferences,
     canonicalBehaviorReferences: [...snapshot.canonicalSchemeReferenceIndexes.behavior],

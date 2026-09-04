@@ -705,7 +705,7 @@ export function ItemTab(props: {
     itemId: string
     ability: 'use' | 'throw'
     scriptId: string
-    commandPath: string
+    commandPath?: string
     revision: number
   }
   onObjectFocus?: (id: string | undefined) => void
@@ -733,7 +733,6 @@ export function ItemTab(props: {
     assetBase,
     audioResolver,
     battleSprites,
-    battleFields = [],
     onOpenSound,
     onOpenImage,
     onOpenScript,
@@ -1123,23 +1122,24 @@ export function ItemTab(props: {
   }
   /** 新建私有脚本是一个跨 session 作者事务；正文与 shell ref 必须成对撤销/重做。 */
   const scriptSession = script?.session
+  const itemId = item?.id
   const addPrivateScript = useCallback((): void => {
-    if (!item || !scriptSession) return
-    const current = session.getState().items.find((candidate) => candidate.id === item.id)
+    if (!itemId || !scriptSession) return
+    const current = session.getState().items.find((candidate) => candidate.id === itemId)
     if (!current?.use) {
       onStatusNotice?.({
         kind: 'error',
-        message: `${item.id}.use 不存在，无法添加当前物品脚本`,
+        message: `${itemId}.use 不存在，无法添加当前物品脚本`,
       })
       return
     }
     const storedItem = scriptSession
       .getStateSnapshot()
-      .items.find((candidate) => candidate.id === item.id)
+      .items.find((candidate) => candidate.id === itemId)
     const exists = (storedItem?.use?.effects ?? []).some(
       (effect) => effect.kind === 'itemPrivateScript',
     )
-    const prefix = `item:${item.id}:`
+    const prefix = `item:${itemId}:`
     const shellHasPrivate = current.use.effects.some(
       (effect) =>
         effect.kind === 'runScript' &&
@@ -1157,17 +1157,17 @@ export function ItemTab(props: {
       if (!historyCoordinator)
         throw new Error('缺 EditorHistoryCoordinator，无法安全添加当前物品脚本')
       historyCoordinator.dispatch(
-        new AddItemPrivateScriptCommand(item.id, `${current.name}使用脚本`, {
+        new AddItemPrivateScriptCommand(itemId, `${current.name}使用脚本`, {
           replaceDetached: exists,
         }),
-        new UpdateItemCommand(item.id, {
+        new UpdateItemCommand(itemId, {
           use: {
             ...current.use,
             effects: [
               ...current.use.effects,
               {
                 kind: 'runScript',
-                script: { chunk: '__author-script-runtime', id: `item:${item.id}:use` },
+                script: { chunk: '__author-script-runtime', id: `item:${itemId}:use` },
               },
             ],
           },
@@ -1183,7 +1183,7 @@ export function ItemTab(props: {
         message: cause instanceof Error ? cause.message : String(cause),
       })
     }
-  }, [historyCoordinator, item?.id, onStatusNotice, scriptSession, session])
+  }, [historyCoordinator, itemId, onStatusNotice, scriptSession, session])
   const reportItemEffectError = useCallback(
     (message: string): void => onStatusNotice?.({ kind: 'error', message }),
     [onStatusNotice],

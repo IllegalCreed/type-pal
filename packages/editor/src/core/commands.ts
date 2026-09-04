@@ -81,7 +81,6 @@ import {
   removeProjectMapLayer,
   updateProjectMapLayer,
 } from '@type-pal/reforge'
-import { blockingActorReferences } from './actor-references.js'
 import type { EditorState } from './edit-session.js'
 import { blockingEntityAddressReferences } from './entity-address-references.js'
 import { createEmptyScriptStages } from './entity-placement.js'
@@ -2146,7 +2145,6 @@ export class AddActorCommand implements Command {
   readonly label = '新增人物'
   private readonly actor: ActorDef
   private readonly requestedIndex: number | undefined
-  private insertedIndex = -1
 
   constructor(actor: ActorDef, index?: number) {
     this.actor = structuredClone(actor)
@@ -2157,7 +2155,6 @@ export class AddActorCommand implements Command {
     assertActorCanBeAdded(state, this.actor)
     const actors = [...state.actors]
     const index = Math.min(Math.max(0, this.requestedIndex ?? actors.length), actors.length)
-    this.insertedIndex = index
     actors.splice(index, 0, structuredClone(this.actor))
     return { ...state, actors }
   }
@@ -2218,6 +2215,21 @@ export class CopyActorCommand implements Command {
 }
 
 /** 删除前重算 Actor 全引用闭包；levelUp 是伴随数据，随人物同事务清理与恢复。 */
+export class ActorInUseError extends Error {
+  constructor(
+    readonly actorId: string,
+    readonly references: readonly ProjectReferenceEdge[],
+  ) {
+    super(
+      `人物 ${actorId} 仍被 ${references.length} 处引用：\n${references
+        .slice(0, 20)
+        .map((reference) => `${reference.source.label} · ${reference.where}`)
+        .join('\n')}`,
+    )
+    this.name = 'ActorInUseError'
+  }
+}
+
 export class DeleteActorCommand implements Command {
   readonly label = '删除人物'
   private removed: ActorDef | undefined
@@ -2227,23 +2239,17 @@ export class DeleteActorCommand implements Command {
 
   constructor(
     private readonly actorId: string,
-    private readonly currentAuthorState: (() => EditorState | undefined) | undefined = undefined,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
   ) {}
 
   apply(state: EditorState): EditorState {
     const index = state.actors.findIndex((actor) => actor.id === this.actorId)
     if (index < 0) return state
-    const currentAuthorState = this.currentAuthorState?.()
-    if (this.currentAuthorState && !currentAuthorState)
-      throw new Error('删除人物前无法读取当前作者态引用')
-    const blockers = blockingActorReferences(currentAuthorState ?? state, this.actorId)
-    if (blockers.length)
-      throw new Error(
-        `人物 ${this.actorId} 仍被 ${blockers.length} 处引用：\n${blockers
-          .slice(0, 20)
-          .map((reference) => `${reference.label} · ${reference.where}`)
-          .join('\n')}`,
-      )
+    const blockers = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'actor',
+      id: this.actorId,
+    }).blockers
+    if (blockers.length) throw new ActorInUseError(this.actorId, blockers)
     if (!this.removed) {
       this.removed = structuredClone(state.actors[index]!)
       this.index = index

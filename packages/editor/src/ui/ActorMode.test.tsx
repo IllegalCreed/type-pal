@@ -1,19 +1,17 @@
 // @vitest-environment jsdom
 import type { ActorDef, CasualtyScript } from '@type-pal/content'
-import { act, useMemo, useSyncExternalStore } from 'react'
+import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { blockingActorReferenceMap } from '../core/actor-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import type {
-  EditorDerivedStore,
-  EditorDerivedStoreSnapshot,
-} from '../core/editor-derived-store.js'
-import { buildProjectReferenceSnapshot } from '../core/project-reference.js'
-import { ScriptEditSession } from '../core/script-editor.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import {
+  type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectReferenceIndex,
+} from '../core/project-reference-adapters.js'
 import { ActorMode } from './ActorMode.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import type { SemanticFrameGroup } from './SpriteFrameWorkbench.js'
@@ -181,61 +179,19 @@ function Harness(props: {
   onOpenSprite?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
   referenceStatus?: EditorDerivedStatus
-  referenceIndex?: ReturnType<typeof blockingActorReferenceMap>
-  getCurrentAuthorState?: () => EditorState | undefined
+  referenceIndex?: ProjectReferenceIndex
+  omitReferenceIndex?: boolean
+  getCurrentReferenceIndex?: CurrentProjectReferenceIndexProvider
+  onOpenActorReference?: (reference: ProjectReferenceEdge) => void
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
-  const scriptSession = useMemo(
-    () => new ScriptEditSession({ scenes: [], items: [], sharedScripts: {} }),
-    [],
-  )
-  const referenceData = {
-    statusIssues: [],
-    projectIssues: [],
-    projectReferences: buildProjectReferenceSnapshot([]),
-    assetReferences: [],
-    assetDiagnostics: [],
-    actorReferenceIndex: [...(props.referenceIndex ?? blockingActorReferenceMap(current))] as never,
-    itemReferenceIndex: [],
-    worldVariableReferences: { all: [], byId: new Map() },
-    canonicalBehaviorReferences: [],
-    canonicalSceneHookReferences: [],
-  }
-  const revision = {
-    mainHistoryVersion: props.session.getHistoryVersion(),
-    scriptHistoryVersion: scriptSession.getHistoryVersion(),
-  }
-  const referenceStatus = props.referenceStatus ?? 'current'
-  const snapshot: EditorDerivedStoreSnapshot =
-    referenceStatus === 'current'
-      ? { status: 'current', revision, data: referenceData }
-      : referenceStatus === 'failed'
-        ? {
-            status: 'failed',
-            targetRevision: revision,
-            message: '测试诊断失败',
-            lastKnown: { revision, data: referenceData },
-          }
-        : referenceStatus === 'checking'
-          ? { status: 'checking', targetRevision: revision }
-          : {
-              status: 'stale',
-              targetRevision: revision,
-              lastKnown: { revision, data: referenceData },
-            }
-  const derivedStore = useMemo<EditorDerivedStore>(
-    () => ({
-      start: () => () => undefined,
-      retry: () => undefined,
-      subscribe: () => () => false,
-      getSnapshot: () => snapshot,
-    }),
-    [snapshot],
-  )
+  const referenceIndex = props.omitReferenceIndex
+    ? undefined
+    : (props.referenceIndex ?? collectCurrentProjectReferenceIndex(current))
   return (
     <ActorMode
       actors={current.actors}
@@ -251,9 +207,12 @@ function Harness(props: {
       onOpenSprite={props.onOpenSprite}
       onOpenBattleSprite={props.onOpenBattleSprite}
       levelUp={current.levelUp}
-      derivedStore={derivedStore}
-      scriptSession={scriptSession}
-      getCurrentAuthorState={props.getCurrentAuthorState ?? (() => props.session.getState())}
+      referenceIndex={referenceIndex}
+      referenceStatus={props.referenceStatus ?? 'current'}
+      getCurrentReferenceIndex={
+        props.getCurrentReferenceIndex ?? ((state) => collectCurrentProjectReferenceIndex(state))
+      }
+      onOpenActorReference={props.onOpenActorReference}
     />
   )
 }
@@ -861,14 +820,105 @@ describe('ActorMode 人物预制 CRUD', () => {
         <Harness
           session={session}
           referenceStatus="current"
-          referenceIndex={new Map()}
-          getCurrentAuthorState={() => currentAuthor}
+          getCurrentReferenceIndex={() => collectCurrentProjectReferenceIndex(currentAuthor)}
         />,
       )
     })
     expect(button('删除人物').disabled).toBe(false)
     await act(async () => button('删除人物').click())
     expect(session.getState().actors.some((actor) => actor.id === 'hero')).toBe(true)
-    expect(host.textContent).toContain('live-scene / 实体 live')
+    expect(host.textContent).toContain('live-scene · 实体 live')
+  })
+
+  test.each([
+    ['checking', 'loading'],
+    ['stale', 'partial'],
+    ['failed', 'error'],
+  ] as const)('%s 引用快照不冒充零引用并禁用删除', async (status, panelState) => {
+    const session = new EditSession(
+      state([{ id: 'hero', name: 'name.hero', spriteId: 'hero-sprite' }]),
+    )
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} referenceStatus={status} />)
+    })
+    const panel = host.querySelector<HTMLElement>('.actor-reference-section .ds-reference-panel')!
+    expect(panel.dataset.state).toBe(panelState)
+    expect(panel.textContent).toContain('数量未知')
+    expect(button('删除人物').disabled).toBe(true)
+  })
+
+  test('current 但索引缺失时按 error/unknown fail-closed', async () => {
+    const session = new EditSession(
+      state([{ id: 'hero', name: 'name.hero', spriteId: 'hero-sprite' }]),
+    )
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} omitReferenceIndex />)
+    })
+    const panel = host.querySelector<HTMLElement>('.actor-reference-section .ds-reference-panel')!
+    expect(panel.dataset.state).toBe('error')
+    expect(panel.textContent).toContain('数量未知')
+    expect(button('删除人物').disabled).toBe(true)
+  })
+
+  test('coveredBy 自引用与 levelUp 伴随边不会让人物自锁', async () => {
+    const list = actors()
+    list[0] = {
+      ...list[0]!,
+      battler: { ...list[0]!.battler!, coveredBy: 'hero' },
+    }
+    const current = state(list)
+    current.levelUp.hero = [{ level: 8, skillId: '99' }]
+    const session = new EditSession(current)
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} />)
+    })
+    expect(button('删除人物').disabled).toBe(false)
+    expect(host.querySelector('[role="tab"]')?.textContent).not.toContain('引用 2')
+  })
+
+  test('运行态队伍模板是只读 blocker 且不伪造打开动作', async () => {
+    const current = state([{ id: 'hero', name: 'name.hero', spriteId: 'hero-sprite' }])
+    current.worlds = [
+      {
+        party: [{ template: 'hero' }],
+        reserve: [],
+        money: 0,
+        learnedSkills: {},
+        inventory: [],
+      },
+    ] as never
+    const session = new EditSession(current)
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} />)
+    })
+    expect(button('删除人物').disabled).toBe(true)
+    const row = host.querySelector<HTMLElement>('.actor-reference-section .ds-reference-row')!
+    expect(row.tagName).toBe('ARTICLE')
+    expect(row.textContent).toContain('运行态/存档')
+    expect(row.textContent).toContain('只读')
+  })
+
+  test('live oracle 失败时保留人物并显示具体错误', async () => {
+    const session = new EditSession(
+      state([{ id: 'hero', name: 'name.hero', spriteId: 'hero-sprite' }]),
+    )
+    await act(async () => {
+      root = createRoot(host)
+      root.render(
+        <Harness
+          session={session}
+          getCurrentReferenceIndex={() => {
+            throw new Error('oracle down')
+          }}
+        />,
+      )
+    })
+    await act(async () => button('删除人物').click())
+    expect(session.getState().actors).toHaveLength(1)
+    expect(host.querySelector('[role="alert"]')?.textContent).toContain('oracle down')
   })
 })

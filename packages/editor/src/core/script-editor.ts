@@ -1,11 +1,11 @@
 import type {
-  AuthorItemData,
   AuthorCommand,
+  AuthorItemData,
   AuthorSceneDef,
+  AuthorScriptFlow,
   AuthorScriptLibrary,
   EntityAddress,
   FlowCursor,
-  AuthorScriptFlow,
   Selection,
   TriggerActivation,
 } from '@type-pal/content'
@@ -25,7 +25,7 @@ type AuthorSceneHook = NonNullable<
   NonNullable<NonNullable<AuthorSceneDef['hooks']>['onEnter']>['variants']
 >[string]
 type AuthorSharedScript = AuthorScriptLibrary[string]
-type AuthorStateTransition = Extract<
+export type AuthorStateTransition = Extract<
   AuthorScriptFlow,
   { kind: 'stateMachine' }
 >['machine']['states'][string]['next']
@@ -361,6 +361,12 @@ export interface CanonicalScriptCommandVisit {
   locator: ScriptCommandLocator
 }
 
+export interface CanonicalScriptTransitionVisit {
+  transition: AuthorStateTransition
+  path: string
+  owner: Extract<ScriptCommandOwner, { kind: 'entity-behavior' | 'scene-hook' }>
+}
+
 /** Materialize one canonical command walk so every derived index for a revision can reuse it. */
 export function collectCanonicalScriptCommandVisits(
   state: ScriptEditorState,
@@ -369,6 +375,54 @@ export function collectCanonicalScriptCommandVisits(
   visitCanonicalScriptCommands(state, (command, path, locator) => {
     visits.push({ command, path, locator })
   })
+  return visits
+}
+
+function appendFlowTransitionVisits(
+  visits: CanonicalScriptTransitionVisit[],
+  flow: AuthorScriptFlow,
+  path: string,
+  owner: CanonicalScriptTransitionVisit['owner'],
+): void {
+  if (flow.kind !== 'stateMachine') return
+  for (const [stateId, state] of Object.entries(flow.machine.states))
+    visits.push({
+      transition: state.next,
+      path: `${path}.machine.states.${stateId}.next`,
+      owner,
+    })
+}
+
+/** Materialize state-machine transitions, whose condition leaves are not command visits. */
+export function collectCanonicalScriptTransitionVisits(
+  state: ScriptEditorState,
+): CanonicalScriptTransitionVisit[] {
+  const visits: CanonicalScriptTransitionVisit[] = []
+  for (const scene of state.scenes) {
+    for (const entity of scene.entities)
+      for (const channel of ['trigger', 'auto'] as const)
+        for (const [id, value] of Object.entries(entity.behaviors?.[channel] ?? {}))
+          appendFlowTransitionVisits(
+            visits,
+            value.flow,
+            `scenes.${scene.id}.entities.${entity.id}.behaviors.${channel}.${id}.flow`,
+            {
+              kind: 'entity-behavior',
+              sceneId: scene.id,
+              entityId: entity.id,
+              channel,
+              behaviorId: id,
+            },
+          )
+    for (const slot of ['onEnter', 'onTeleport'] as const)
+      for (const [id, value] of Object.entries(scene.hooks?.[slot]?.variants ?? {}))
+        appendFlowTransitionVisits(
+          visits,
+          value.flow,
+          `scenes.${scene.id}.hooks.${slot}.variants.${id}.flow`,
+          { kind: 'scene-hook', sceneId: scene.id, slot, hookId: id },
+        )
+  }
   return visits
 }
 

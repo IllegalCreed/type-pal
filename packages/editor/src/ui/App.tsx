@@ -52,7 +52,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { ActorReference } from '../core/actor-references.js'
 import {
   AddEntityCommand,
   AddSceneCommand,
@@ -107,6 +106,7 @@ import {
   canonicalScriptReferenceDestinationExists,
   DeleteSceneEntityDefinitionCommand,
   describeCanonicalScriptReference,
+  type ScriptCommandOwner,
   type ScriptEditorState,
   type ScriptEditSession,
   SetEntityHostileOnLoseCommand,
@@ -184,6 +184,8 @@ import { EditorDiagnosticsBar } from './EditorDiagnosticsBar.js'
 import { ENTITY_FACING_OPTIONS, EntityFacingHelpTip } from './EntityFacingHelp.js'
 import { EntityPageAnimationFields } from './EntityPageAnimationEditor.js'
 import {
+  ACTOR_WORKSPACE_SECTIONS,
+  type ActorWorkspaceSection,
   decodeEditorLocation,
   EDITOR_MODULES,
   type EditorLocation,
@@ -621,11 +623,15 @@ export function App(props: {
     reference: CanonicalScriptReference
     revision: number
   }>()
+  const [canonicalOwnerFocus, setCanonicalOwnerFocus] = useState<{
+    owner: Extract<ScriptCommandOwner, { kind: 'entity-behavior' | 'scene-hook' }>
+    revision: number
+  }>()
   const [itemPrivateScriptFocus, setItemPrivateScriptFocus] = useState<{
     itemId: string
     ability: 'use' | 'throw'
     scriptId: string
-    commandPath: string
+    commandPath?: string
     revision: number
   }>()
   const [entityHostileFocus, setEntityHostileFocus] = useState<{
@@ -767,14 +773,26 @@ export function App(props: {
   ): void => jumpToEvent(site.sceneId, `${site.entityId}:auto`)
   const openSharedScript = useCallback(
     (id: string): void => {
-      if (!scriptState?.sharedScripts[id] && !state.scriptIndex?.library?.[id]) return
+      const currentState = session.getState()
+      const currentScriptState = projectActiveScriptEditorState(
+        scriptSession.getStateSnapshot(),
+        currentState.items,
+      )
+      if (!currentScriptState.sharedScripts[id] && !currentState.scriptIndex?.library?.[id]) return
       setSharedScriptFocus(undefined)
+      setCanonicalOwnerFocus(undefined)
       applyEditorLocation(editorLinks.sharedScript(id))
     },
-    [applyEditorLocation, scriptState?.sharedScripts, state.scriptIndex?.library],
+    [applyEditorLocation, scriptSession, session],
   )
   const openScriptReference = (id: string, commandPath?: string): void => {
-    if (scriptState?.sharedScripts[id] || state.scriptIndex?.library?.[id]) {
+    const currentState = session.getState()
+    const currentScriptState = projectActiveScriptEditorState(
+      scriptSession.getStateSnapshot(),
+      currentState.items,
+    )
+    setCanonicalOwnerFocus(undefined)
+    if (currentScriptState.sharedScripts[id] || currentState.scriptIndex?.library?.[id]) {
       if (commandPath)
         setSharedScriptFocus({
           id,
@@ -786,7 +804,7 @@ export function App(props: {
       return
     }
     const sceneId = /^scene\/([^/]+)\//.exec(id)?.[1]
-    const targetScene = state.scenes.find((candidate) => candidate.id === sceneId)
+    const targetScene = currentState.scenes.find((candidate) => candidate.id === sceneId)
     if (!sceneId || !targetScene) return
     const entityRoot = /\/entity-([^/]+)\/page-(\d+)\/(trigger|auto)(?:\/|$)/.exec(id)
     const entityId = entityRoot?.[1] ?? id.split('/').find((part) => /^e\d+$/.test(part))
@@ -807,7 +825,12 @@ export function App(props: {
     })
   }
   const openCanonicalReference = (reference: CanonicalScriptReference): void => {
-    if (!scriptState || !canonicalScriptReferenceDestinationExists(scriptState, reference)) {
+    const currentState = session.getState()
+    const currentScriptState = projectActiveScriptEditorState(
+      scriptSession.getStateSnapshot(),
+      currentState.items,
+    )
+    if (!canonicalScriptReferenceDestinationExists(currentScriptState, reference)) {
       setWorkspaceNotice({
         kind: 'error',
         message: '引用位置已变化，请重新打开方案详情。',
@@ -817,18 +840,19 @@ export function App(props: {
     const revision = nextPreciseFocusRevision()
     const locator = reference.locator
     setWorkspaceNotice(undefined)
+    setCanonicalOwnerFocus(undefined)
     const confirmReferenceLocation = (): void =>
       setWorkspaceNotice({
         kind: 'info',
-        message: `已定位到：${describeCanonicalScriptReference(scriptState, reference)}。`,
+        message: `已定位到：${describeCanonicalScriptReference(currentScriptState, reference)}。`,
       })
 
     if (locator.kind === 'entity-page') {
-      const targetScene = state.scenes.find((candidate) => candidate.id === locator.sceneId)
+      const targetScene = currentState.scenes.find((candidate) => candidate.id === locator.sceneId)
       const targetEntity = targetScene?.entities.find(
         (candidate) => candidate.id === locator.entityId,
       )
-      const canonicalEntity = scriptState.scenes
+      const canonicalEntity = currentScriptState.scenes
         .find((candidate) => candidate.id === locator.sceneId)
         ?.entities.find((candidate) => candidate.id === locator.entityId)
       const pageIndex =
@@ -1002,44 +1026,9 @@ export function App(props: {
         return
     }
   }
-  const openActorReference = (reference: ActorReference): void => {
-    const locator = reference.locator
-    if (!locator) {
-      setWorkspaceNotice({
-        kind: 'info',
-        message: reference.unavailableReason ?? `${reference.where} 当前没有可编辑的精确位置。`,
-      })
-      return
-    }
-    switch (locator.kind) {
-      case 'scene-entity':
-        setPlaceSceneId(locator.sceneId)
-        setSelected({ kind: 'entity', id: locator.entityId })
-        applyEditorLocation(editorLinks.scene(locator.sceneId))
-        return
-      case 'scene':
-        setPlaceSceneId(locator.sceneId)
-        applyEditorLocation(editorLinks.scene(locator.sceneId))
-        return
-      case 'shared-script':
-        openScriptReference(locator.scriptId)
-        return
-      case 'entry-point':
-        applyEditorLocation(editorLinks.entryPoint(locator.entryPointId))
-        return
-      case 'actor':
-        applyEditorLocation(editorLinks.actor(locator.actorId))
-        return
-      case 'item':
-        applyEditorLocation(editorLinks.item(locator.itemId))
-        return
-      case 'enemy':
-        applyEditorLocation(editorLinks.enemy(locator.enemyId))
-        return
-    }
-  }
   const openProjectSceneReference = (sceneId: string, entityId?: string): boolean => {
-    const targetScene = state.scenes.find((candidate) => candidate.id === sceneId)
+    const currentState = session.getState()
+    const targetScene = currentState.scenes.find((candidate) => candidate.id === sceneId)
     if (!targetScene) {
       setWorkspaceNotice({
         kind: 'error',
@@ -1061,9 +1050,20 @@ export function App(props: {
     applyEditorLocation(editorLinks.scene(sceneId))
     return true
   }
+  const rejectChangedProjectReference = (label: string, id: string): void =>
+    setWorkspaceNotice({
+      kind: 'error',
+      message: `引用位置已变化：${label} ${id} 不再存在。`,
+    })
   const openProjectReference = (reference: ProjectReferenceEdge): void => {
     const locator = reference.locator
+    const currentState = session.getState()
+    const currentScriptState = projectActiveScriptEditorState(
+      scriptSession.getStateSnapshot(),
+      currentState.items,
+    )
     setWorkspaceNotice(undefined)
+    setCanonicalOwnerFocus(undefined)
     if (locator.kind === 'canonical-script') {
       openCanonicalReference(locator.reference)
       return
@@ -1075,19 +1075,103 @@ export function App(props: {
     if (locator.kind === 'script-owner') {
       const owner = locator.owner
       if (owner.kind === 'shared-script') {
+        if (!currentScriptState.sharedScripts[owner.scriptId]) {
+          rejectChangedProjectReference('共享脚本', owner.scriptId)
+          return
+        }
         openSharedScript(owner.scriptId)
         return
       }
       if (owner.kind === 'item-private-script') {
+        const item = currentScriptState.items.find((candidate) => candidate.id === owner.itemId)
+        const effects = owner.ability === 'use' ? item?.use?.effects : item?.throw?.effects
+        if (
+          !effects?.some(
+            (effect) => effect.kind === 'itemPrivateScript' && effect.script.id === owner.scriptId,
+          )
+        ) {
+          rejectChangedProjectReference('物品私有脚本', `${owner.itemId}/${owner.scriptId}`)
+          return
+        }
+        setItemPrivateScriptFocus({
+          itemId: owner.itemId,
+          ability: owner.ability,
+          scriptId: owner.scriptId,
+          revision: nextPreciseFocusRevision(),
+        })
         applyEditorLocation(editorLinks.item(owner.itemId))
         return
       }
-      openProjectSceneReference(
-        owner.sceneId,
-        owner.kind === 'entity-behavior' || owner.kind === 'entity-hostile-on-lose'
-          ? owner.entityId
-          : undefined,
+      const canonicalScene = currentScriptState.scenes.find(
+        (candidate) => candidate.id === owner.sceneId,
       )
+      if (owner.kind === 'scene-hook') {
+        if (!canonicalScene?.hooks?.[owner.slot]?.variants[owner.hookId]) {
+          rejectChangedProjectReference(
+            '场景脚本方案',
+            `${owner.sceneId}/${owner.slot}/${owner.hookId}`,
+          )
+          return
+        }
+        if (!openProjectSceneReference(owner.sceneId)) return
+        const revision = nextPreciseFocusRevision()
+        setCanonicalReferenceFocus(undefined)
+        setCanonicalOwnerFocus({ owner, revision })
+        setDrawer({
+          open: true,
+          src: null,
+          internalScriptId: null,
+          commandPath: null,
+          focusRevision: revision,
+        })
+        return
+      }
+      const canonicalEntity = canonicalScene?.entities.find(
+        (candidate) => candidate.id === owner.entityId,
+      )
+      if (owner.kind === 'entity-behavior') {
+        if (!canonicalEntity?.behaviors?.[owner.channel]?.[owner.behaviorId]) {
+          rejectChangedProjectReference(
+            '实体行为',
+            `${owner.sceneId}/${owner.entityId}/${owner.channel}/${owner.behaviorId}`,
+          )
+          return
+        }
+        if (!openProjectSceneReference(owner.sceneId, owner.entityId)) return
+        const revision = nextPreciseFocusRevision()
+        setScriptChannel(owner.channel)
+        setSelectedBehavior(owner.behaviorId)
+        setCanonicalReferenceFocus(undefined)
+        setCanonicalOwnerFocus({ owner, revision })
+        setDrawer({
+          open: true,
+          src: null,
+          internalScriptId: null,
+          commandPath: null,
+          focusRevision: revision,
+        })
+        return
+      }
+      if (!canonicalEntity?.hostile || !Array.isArray(canonicalEntity.hostile.onLose)) {
+        rejectChangedProjectReference('敌对失败脚本', `${owner.sceneId}/${owner.entityId}`)
+        return
+      }
+      if (!openProjectSceneReference(owner.sceneId, owner.entityId)) return
+      const revision = nextPreciseFocusRevision()
+      setCanonicalOwnerFocus(undefined)
+      setEntityHostileFocus({
+        sceneId: owner.sceneId,
+        entityId: owner.entityId,
+        commandPath: '',
+        revision,
+      })
+      setDrawer({
+        open: false,
+        src: null,
+        internalScriptId: null,
+        commandPath: null,
+        focusRevision: revision,
+      })
       return
     }
     if (locator.kind === 'unavailable') {
@@ -1096,11 +1180,6 @@ export function App(props: {
     }
 
     const object = locator.object
-    const rejectMissingObject = (label: string, id: string): void =>
-      setWorkspaceNotice({
-        kind: 'error',
-        message: `引用位置已变化：${label} ${id} 不再存在。`,
-      })
     switch (object.kind) {
       case 'scene':
         openProjectSceneReference(object.id)
@@ -1109,133 +1188,140 @@ export function App(props: {
         openProjectSceneReference(object.sceneId, object.entityId)
         return
       case 'entry-point':
-        if (!state.manifest.entryPoints.some((entry) => entry.id === object.id)) {
-          rejectMissingObject('入口', object.id)
+        if (!currentState.manifest.entryPoints.some((entry) => entry.id === object.id)) {
+          rejectChangedProjectReference('入口', object.id)
           return
         }
         applyEditorLocation(editorLinks.entryPoint(object.id))
         return
       case 'map':
-        if (!state.mapIndex.maps.some((map) => map.id === object.id)) {
-          rejectMissingObject('地图', object.id)
+        if (!currentState.mapIndex.maps.some((map) => map.id === object.id)) {
+          rejectChangedProjectReference('地图', object.id)
           return
         }
         applyEditorLocation(editorLinks.map(object.id))
         return
       case 'shop':
-        if (!(state.shops ?? []).some((shop) => String(shop.id) === object.id)) {
-          rejectMissingObject('商店', object.id)
+        if (!(currentState.shops ?? []).some((shop) => String(shop.id) === object.id)) {
+          rejectChangedProjectReference('商店', object.id)
           return
         }
         applyEditorLocation(editorLinks.shop(Number(object.id)))
         return
       case 'actor':
-        if (!state.actors.some((actor) => actor.id === object.id)) {
-          rejectMissingObject('角色', object.id)
+        if (!currentState.actors.some((actor) => actor.id === object.id)) {
+          rejectChangedProjectReference('角色', object.id)
           return
         }
-        applyEditorLocation(editorLinks.actor(object.id))
+        applyEditorLocation(
+          editorLinks.actor(
+            object.id,
+            ACTOR_WORKSPACE_SECTIONS.includes(locator.section as ActorWorkspaceSection)
+              ? (locator.section as ActorWorkspaceSection)
+              : undefined,
+          ),
+        )
         return
       case 'item':
-        if (!state.items.some((item) => item.id === object.id)) {
-          rejectMissingObject('物品', object.id)
+        if (!currentState.items.some((item) => item.id === object.id)) {
+          rejectChangedProjectReference('物品', object.id)
           return
         }
         applyEditorLocation(editorLinks.item(object.id))
         return
       case 'skill':
-        if (!state.skills.some((skill) => skill.id === object.id)) {
-          rejectMissingObject('技能', object.id)
+        if (!currentState.skills.some((skill) => skill.id === object.id)) {
+          rejectChangedProjectReference('技能', object.id)
           return
         }
         applyEditorLocation(editorLinks.skill(object.id))
         return
       case 'enemy':
-        if (!(state.enemies ?? []).some((enemy) => enemy.id === object.id)) {
-          rejectMissingObject('敌人', object.id)
+        if (!(currentState.enemies ?? []).some((enemy) => enemy.id === object.id)) {
+          rejectChangedProjectReference('敌人', object.id)
           return
         }
         applyEditorLocation(editorLinks.enemy(object.id))
         return
       case 'poison':
-        if (!(state.poisons ?? []).some((poison) => String(poison.id) === object.id)) {
-          rejectMissingObject('毒', object.id)
+        if (!(currentState.poisons ?? []).some((poison) => String(poison.id) === object.id)) {
+          rejectChangedProjectReference('毒', object.id)
           return
         }
         applyEditorLocation(editorLinks.poison(Number(object.id)))
         return
       case 'battle-field':
-        if (!(state.battleFields ?? []).some((field) => String(field.id) === object.id)) {
-          rejectMissingObject('战场', object.id)
+        if (!(currentState.battleFields ?? []).some((field) => String(field.id) === object.id)) {
+          rejectChangedProjectReference('战场', object.id)
           return
         }
         applyEditorLocation(editorLinks.battleField(Number(object.id)))
         return
       case 'enemy-team':
-        if (!(state.enemyTeams ?? []).some((team) => team.id === object.id)) {
-          rejectMissingObject('敌队', object.id)
+        if (!(currentState.enemyTeams ?? []).some((team) => team.id === object.id)) {
+          rejectChangedProjectReference('敌队', object.id)
           return
         }
         applyEditorLocation(editorLinks.enemyTeam(object.id))
         return
       case 'ambience':
-        if (!(state.ambiences ?? []).some((ambience) => ambience.id === object.id)) {
-          rejectMissingObject('氛围', object.id)
+        if (!(currentState.ambiences ?? []).some((ambience) => ambience.id === object.id)) {
+          rejectChangedProjectReference('氛围', object.id)
           return
         }
         applyEditorLocation(editorLinks.ambience(object.id))
         return
       case 'world-variable':
-        if (!state.worldVariables?.[object.id]) {
-          rejectMissingObject('世界变量', object.id)
+        if (!currentState.worldVariables?.[object.id]) {
+          rejectChangedProjectReference('世界变量', object.id)
           return
         }
         applyEditorLocation(editorLinks.variable(object.id))
         return
       case 'shared-script':
-        if (!scriptState?.sharedScripts[object.id]) {
-          rejectMissingObject('共享脚本', object.id)
+        if (!currentScriptState.sharedScripts[object.id]) {
+          rejectChangedProjectReference('共享脚本', object.id)
           return
         }
         openSharedScript(object.id)
         return
       case 'tileset':
-        if (!(state.tilesets ?? []).some((tileset) => tileset.id === object.id)) {
-          rejectMissingObject('瓦片集', object.id)
+        if (!(currentState.tilesets ?? []).some((tileset) => tileset.id === object.id)) {
+          rejectChangedProjectReference('瓦片集', object.id)
           return
         }
         applyEditorLocation(editorLinks.tileset(object.id))
         return
       case 'stamp':
-        if (!state.stamps.some((stamp) => stamp.id === object.id)) {
-          rejectMissingObject('组合', object.id)
+        if (!currentState.stamps.some((stamp) => stamp.id === object.id)) {
+          rejectChangedProjectReference('组合', object.id)
           return
         }
         applyEditorLocation(editorLinks.stamp(object.id))
         return
       case 'world-sprite':
-        if (!state.sprites.some((sprite) => sprite.id === object.id)) {
-          rejectMissingObject('世界精灵', object.id)
+        if (!currentState.sprites.some((sprite) => sprite.id === object.id)) {
+          rejectChangedProjectReference('世界精灵', object.id)
           return
         }
         applyEditorLocation(editorLinks.actorSprite(object.id))
         return
       case 'world-sprite-action': {
-        const worldSprite = state.sprites.find((sprite) => sprite.id === object.spriteId)
+        const worldSprite = currentState.sprites.find((sprite) => sprite.id === object.spriteId)
         if (!worldSprite) {
-          rejectMissingObject('世界精灵', object.spriteId)
+          rejectChangedProjectReference('世界精灵', object.spriteId)
           return
         }
         if (!worldSprite.poses?.[object.actionId]) {
-          rejectMissingObject('世界精灵动作', `${object.spriteId}/${object.actionId}`)
+          rejectChangedProjectReference('世界精灵动作', `${object.spriteId}/${object.actionId}`)
           return
         }
         applyEditorLocation(editorLinks.worldSpriteAction(object.spriteId, object.actionId))
         return
       }
       case 'battle-sprite':
-        if (!state.battleSprites.some((sprite) => sprite.id === object.id)) {
-          rejectMissingObject('战斗精灵', object.id)
+        if (!currentState.battleSprites.some((sprite) => sprite.id === object.id)) {
+          rejectChangedProjectReference('战斗精灵', object.id)
           return
         }
         applyEditorLocation(editorLinks.battleSprite(object.id))
@@ -2253,7 +2339,8 @@ export function App(props: {
             assetReader={assetReader}
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
             onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
-            onOpenActorReference={openActorReference}
+            getCurrentReferenceIndex={currentProjectReferenceIndex}
+            onOpenActorReference={openProjectReference}
           />
         ) : activeSubpage.kind === 'project' && activeSubpage.projectPage ? (
           <ConnectedProjectWorkbench
@@ -2277,8 +2364,6 @@ export function App(props: {
             onStatusNotice={setWorkspaceNotice}
             onRequestSave={() => void save()}
             historyCoordinator={historyCoordinator}
-            projectReferenceIndex={projectReferenceIndex}
-            projectReferenceStatus={effectiveDerivedStatus}
             getCurrentProjectReferenceIndex={currentProjectReferenceIndex}
             onOpenProjectReference={openProjectReference}
             workspaceId={playWorkspaceId}
@@ -2732,6 +2817,7 @@ export function App(props: {
                   onDispatch={(command) => scriptSession.dispatch(command)}
                   onOpenReference={openCanonicalReference}
                   focusReference={canonicalReferenceFocus}
+                  focusOwner={canonicalOwnerFocus}
                   onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
                 />
               ) : (

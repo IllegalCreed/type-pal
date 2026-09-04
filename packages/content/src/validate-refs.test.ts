@@ -1398,8 +1398,20 @@ describe('validateReferences · battle data closure', () => {
     }
     bundle.worlds = [
       {
-        party: [{ id: 'hero-instance', poisons: [{ poisonId: 996, tickIndex: 0 }] }],
-        reserve: [{ id: 'reserve-instance', poisons: [{ poisonId: 1, tickIndex: 0 }] }],
+        party: [
+          {
+            id: 'hero-instance',
+            template: 'missing-party-actor',
+            poisons: [{ poisonId: 996, tickIndex: 0 }],
+          },
+        ],
+        reserve: [
+          {
+            id: 'reserve-instance',
+            template: 'hero',
+            poisons: [{ poisonId: 1, tickIndex: 0 }],
+          },
+        ],
         money: 0,
         learnedSkills: { 'hero-instance': ['missing-learned-skill'] },
         skillUseCounts: { 'hero-instance': { 'missing-counted-skill': 1, '1': 2 } },
@@ -1425,6 +1437,8 @@ describe('validateReferences · battle data closure', () => {
     )
     expect(joined).toContain('party[0].poisons[0].poisonId:毒 "996" 不在 poisons')
     expect(joined).not.toContain('reserve[0].poisons[0].poisonId')
+    expect(joined).toContain('worlds[0].party[0].template:角色 "missing-party-actor" 不在 actors')
+    expect(joined).not.toContain('worlds[0].reserve[0].template')
   })
 })
 

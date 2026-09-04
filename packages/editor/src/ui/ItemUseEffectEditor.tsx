@@ -12,7 +12,15 @@ import type {
   UseSpec,
 } from '@type-pal/content'
 import { itemUseEffectSupportsContext } from '@type-pal/content'
-import { type ComponentProps, createContext, memo, type ReactNode, useContext } from 'react'
+import {
+  type ComponentProps,
+  createContext,
+  memo,
+  type ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react'
 import {
   DsButton,
   DsCheckbox,
@@ -126,8 +134,35 @@ function ItemPrivateScriptBodyEditor(props: {
   binding: ItemPrivateScriptBinding
   onError?: (message: string) => void
 }) {
+  const ownerRef = useRef<HTMLDivElement>(null)
+  const lastOwnerFocusRevisionRef = useRef<number | undefined>(undefined)
+  const ownerFocusRevision =
+    props.binding.focusCommandPath === undefined ? props.binding.focusRevision : undefined
+  useEffect(() => {
+    if (
+      ownerFocusRevision === undefined ||
+      lastOwnerFocusRevisionRef.current === ownerFocusRevision
+    )
+      return
+    lastOwnerFocusRevisionRef.current = ownerFocusRevision
+    window.requestAnimationFrame(() => {
+      if (lastOwnerFocusRevisionRef.current !== ownerFocusRevision) return
+      ownerRef.current?.scrollIntoView({ block: 'center', inline: 'nearest' })
+      ownerRef.current?.focus({ preventScroll: true })
+    })
+  }, [ownerFocusRevision])
+
   return (
-    <div className="item-private-script" data-item-private-script={props.binding.label}>
+    <div
+      ref={ownerRef}
+      className={`item-private-script${
+        ownerFocusRevision === undefined
+          ? ''
+          : ` item-private-script--reference-focus-${ownerFocusRevision % 2 ? 'odd' : 'even'}`
+      }`}
+      data-item-private-script={props.binding.label}
+      tabIndex={-1}
+    >
       <div>
         <strong>{props.binding.label}</strong>
         <span>只用于当前物品，可与其他效果一起执行</span>

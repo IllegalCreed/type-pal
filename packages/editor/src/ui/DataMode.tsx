@@ -119,7 +119,7 @@ export function DataMode(props: {
     itemId: string
     ability: 'use' | 'throw'
     scriptId: string
-    commandPath: string
+    commandPath?: string
     revision: number
   }
   focusActionId?: string
@@ -206,7 +206,6 @@ export function DataMode(props: {
     onOpenSound,
     onOpenImage,
     onOpenMap,
-    onOpenTileset,
     onOpenStamp,
     onOpenBattleSprite,
     onOpenBattleField,

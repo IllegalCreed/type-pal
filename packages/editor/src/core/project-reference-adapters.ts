@@ -1,12 +1,16 @@
 import {
+  ACTOR_REFERENCE_POLICIES,
   actorConditionPoisonReferenceAtNode,
   type CommandTargetReference,
   collectActorConditionPoisonReferences,
+  collectActorTaggedReferences,
+  collectCanonicalActorTaggedReferences,
   collectCanonicalCommandTargetReferences,
   collectCommandTargetReferences,
   collectWorldBattleDataReferences,
   DEFAULT_BATTLE_FIELD_ID,
 } from '@type-pal/content'
+import { type ActorReference, collectActorReferences } from './actor-references.js'
 import { type BattleDataReference, collectBattleDataReferences } from './battle-data-references.js'
 import type { EditorState } from './edit-session.js'
 import {
@@ -27,10 +31,15 @@ import {
 } from './project-reference.js'
 import type {
   CanonicalScriptCommandVisit,
+  CanonicalScriptTransitionVisit,
   ScriptCommandOwner,
   ScriptEditorState,
 } from './script-editor.js'
-import { collectCanonicalScriptCommandVisits, describeScriptCommandOwner } from './script-editor.js'
+import {
+  collectCanonicalScriptCommandVisits,
+  collectCanonicalScriptTransitionVisits,
+  describeScriptCommandOwner,
+} from './script-editor.js'
 import {
   projectCurrentAuthorReferenceSlices,
   scriptEditorStateFromCurrentAuthorSlices,
@@ -471,6 +480,200 @@ export function battleDataReferenceEdges(
   ]
 }
 
+function actorReferenceSource(reference: ActorReference): {
+  source: ProjectReferenceSource
+  locator: ProjectReferenceLocator
+} {
+  const locator = reference.locator
+  if (!locator) {
+    if (reference.kind === 'world-party-template' || reference.kind === 'world-reserve-template')
+      return {
+        source: runtimeWorldSource(),
+        locator: {
+          kind: 'unavailable',
+          reason: reference.unavailableReason ?? '运行态存档只读，没有作者对象可供精确编辑。',
+        },
+      }
+    if (reference.kind === 'level-up-owner') {
+      const id = reference.ownerActorId ?? reference.actorId
+      const object = { kind: 'actor', id } as const
+      return {
+        source: createProjectReferenceSource({ kind: 'actor', id }, `人物 ${id}`, {
+          deletedWith: [object],
+        }),
+        locator: { kind: 'object', object, section: 'battle' },
+      }
+    }
+    throw new Error(`人物引用缺少结构化来源：${reference.kind} · ${reference.where}`)
+  }
+  switch (locator.kind) {
+    case 'scene-entity': {
+      const object = {
+        kind: 'entity',
+        sceneId: locator.sceneId,
+        entityId: locator.entityId,
+      } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'scene-entity', sceneId: locator.sceneId, entityId: locator.entityId },
+          `场景 ${locator.sceneId} · 实体 ${locator.entityId}`,
+          { deletedWith: [object, { kind: 'scene', id: locator.sceneId }] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'scene':
+    case 'shared-script':
+      throw new Error(`人物脚本引用未使用 canonical/legacy adapter：${reference.where}`)
+    case 'entry-point': {
+      if (!locator.entryPointId)
+        throw new Error(`人物入口引用缺少稳定 EntryPointId：${reference.where}`)
+      const object = { kind: 'entry-point', id: locator.entryPointId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'entry-point', id: locator.entryPointId },
+          `入口 ${locator.entryPointId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'actor': {
+      const object = { kind: 'actor', id: locator.actorId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'actor', id: locator.actorId },
+          `人物 ${locator.actorId}`,
+          { deletedWith: [object] },
+        ),
+        locator:
+          reference.kind === 'actor-covered-by'
+            ? { kind: 'object', object, section: 'relationships' }
+            : { kind: 'object', object },
+      }
+    }
+    case 'item': {
+      const object = { kind: 'item', id: locator.itemId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'item', id: locator.itemId },
+          `物品 ${locator.itemId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'enemy': {
+      const object = { kind: 'enemy', id: locator.enemyId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'enemy', id: locator.enemyId },
+          `敌人 ${locator.enemyId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+  }
+}
+
+function actorReferenceEdge(reference: ActorReference): ProjectReferenceEdgeInput {
+  const mapped = actorReferenceSource(reference)
+  return {
+    target: { kind: 'actor', id: reference.actorId },
+    source: mapped.source,
+    relation: { kind: 'actor-use', use: reference.kind },
+    where: reference.where,
+    detail:
+      reference.kind === 'scene-entity-actor' || reference.label === mapped.source.label
+        ? reference.detail
+        : `${reference.label} · ${reference.detail}`,
+    locator: mapped.locator,
+    deletePolicy: mapped.locator.kind === 'unavailable' ? 'block' : 'replace-suggest',
+  }
+}
+
+function canonicalActorReferenceEdges(
+  visits: readonly CanonicalScriptCommandVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  return visits.flatMap((visit) => {
+    const references = collectCanonicalActorTaggedReferences(visit.command, visit.path)
+    if (!references.length) return []
+    const source = sourceForScriptOwner(visit.locator.owner, scriptState)
+    return references.map((reference) => ({
+      target: { kind: 'actor' as const, id: reference.actorId },
+      source,
+      relation: { kind: 'actor-use' as const, use: reference.kind },
+      where: reference.where,
+      detail: ACTOR_REFERENCE_POLICIES[reference.kind].label,
+      locator: {
+        kind: 'canonical-script' as const,
+        reference: { kind: 'command' as const, path: reference.where, locator: visit.locator },
+      },
+      deletePolicy: 'replace-suggest' as const,
+    }))
+  })
+}
+
+function legacyActorReferenceEdges(
+  chunks: EditorState['scriptChunks'],
+): ProjectReferenceEdgeInput[] {
+  return Object.entries(chunks ?? {}).flatMap(([chunkId, chunk]) =>
+    Object.entries(chunk.scripts).flatMap(([scriptId, body]) => {
+      const source = legacyScriptChunkSource(chunkId, scriptId)
+      const locator: ProjectReferenceLocator = {
+        kind: 'unavailable',
+        reason: '运行时脚本分片只读，没有作者对象可供精确编辑。',
+      }
+      const where = `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`
+      return collectActorTaggedReferences(body, where).map((reference) => ({
+        target: { kind: 'actor' as const, id: reference.actorId },
+        source,
+        relation: { kind: 'actor-use' as const, use: reference.kind },
+        where: reference.where,
+        detail: ACTOR_REFERENCE_POLICIES[reference.kind].label,
+        locator,
+        deletePolicy: 'block' as const,
+      }))
+    }),
+  )
+}
+
+function canonicalActorTransitionReferenceEdges(
+  visits: readonly CanonicalScriptTransitionVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  return visits.flatMap((visit) => {
+    const references = collectActorTaggedReferences(visit.transition, visit.path)
+    if (!references.length) return []
+    const source = sourceForScriptOwner(visit.owner, scriptState)
+    return references.map((reference) => ({
+      target: { kind: 'actor' as const, id: reference.actorId },
+      source,
+      relation: { kind: 'actor-use' as const, use: reference.kind },
+      where: reference.where,
+      detail: ACTOR_REFERENCE_POLICIES[reference.kind].label,
+      locator: { kind: 'script-owner' as const, owner: visit.owner },
+      deletePolicy: 'replace-suggest' as const,
+    }))
+  })
+}
+
+export function actorReferenceEdges(
+  state: EditorState,
+  visits: readonly CanonicalScriptCommandVisit[],
+  transitionVisits: readonly CanonicalScriptTransitionVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  return [
+    ...collectActorReferences(state, { includeScriptCommands: false }).map(actorReferenceEdge),
+    ...canonicalActorReferenceEdges(visits, scriptState),
+    ...canonicalActorTransitionReferenceEdges(transitionVisits, scriptState),
+    ...legacyActorReferenceEdges(state.scriptChunks),
+  ]
+}
+
 function entitySource(locator: EntityAddressReferenceLocator): {
   source: ProjectReferenceSource
   locator: ProjectReferenceLocator
@@ -688,6 +891,7 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
   state: EditorState
   scriptState: ScriptEditorState
   commandVisits: readonly CanonicalScriptCommandVisit[]
+  transitionVisits: readonly CanonicalScriptTransitionVisit[]
   entityAddressReferences: readonly EntityAddressReference[]
 }): ProjectReferenceSnapshotV1 {
   return buildProjectReferenceSnapshot(
@@ -696,6 +900,12 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
       ...canonicalCommandTargetEdges(input.commandVisits, input.scriptState),
       ...legacyScriptChunkTargetEdges(input.state.scriptChunks),
       ...battleDataReferenceEdges(input.state, input.commandVisits, input.scriptState),
+      ...actorReferenceEdges(
+        input.state,
+        input.commandVisits,
+        input.transitionVisits,
+        input.scriptState,
+      ),
       ...entityAddressReferenceEdges(input.entityAddressReferences),
     ],
     { assumeUnique: true },
@@ -718,12 +928,14 @@ export function collectCurrentProjectReferenceIndex(
     ? scriptEditorStateFromCurrentAuthorSlices(canonical, author)
     : worldVariableScriptStateFromEditorStateV1(currentAuthorState)
   const commandVisits = collectCanonicalScriptCommandVisits(scriptState)
+  const transitionVisits = collectCanonicalScriptTransitionVisits(scriptState)
   const entityAddressReferences = collectEntityAddressReferences(currentAuthorState)
   return createProjectReferenceIndex(
     buildProjectReferenceSnapshotFromProjection({
       state: currentAuthorState,
       scriptState,
       commandVisits,
+      transitionVisits,
       entityAddressReferences,
     }),
   )

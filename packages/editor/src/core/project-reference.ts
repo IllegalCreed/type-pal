@@ -92,6 +92,13 @@ export type ProjectReferenceLocator =
   | { kind: 'legacy-script'; scriptId: string; commandPath?: string }
   | { kind: 'unavailable'; reason: string }
 
+export type ProjectReferenceLocatorSnapshot =
+  | readonly [kind: 0, object: ProjectReferenceTarget, section?: string]
+  | readonly [kind: 1, locator: CanonicalScriptReference['locator'], path?: string]
+  | readonly [kind: 2, owner: ScriptCommandOwner]
+  | readonly [kind: 3, scriptId: string, commandPath?: string]
+  | readonly [kind: 4, reason: string]
+
 export type ProjectReferenceItemAccess =
   | 'read'
   | 'lose'
@@ -170,7 +177,7 @@ export interface ProjectReferenceSnapshotV1 {
   targets: readonly ProjectReferenceTarget[]
   sources: readonly ProjectReferenceSourceSnapshot[]
   relations: readonly ProjectReferenceRelation[]
-  locators: readonly ProjectReferenceLocator[]
+  locators: readonly ProjectReferenceLocatorSnapshot[]
   details: readonly string[]
   rows: readonly ProjectReferenceRow[]
   /** target bucket i occupies targetEdgeIds[targetOffsets[i]..targetOffsets[i+1]). */
@@ -290,6 +297,66 @@ function stableSerialize(value: unknown): string {
   return JSON.stringify(value)
 }
 
+function encodeProjectReferenceLocator(
+  locator: ProjectReferenceLocator,
+  where: string,
+): ProjectReferenceLocatorSnapshot {
+  switch (locator.kind) {
+    case 'object':
+      return locator.section ? [0, locator.object, locator.section] : [0, locator.object]
+    case 'canonical-script':
+      return locator.reference.path === where
+        ? [1, locator.reference.locator]
+        : [1, locator.reference.locator, locator.reference.path]
+    case 'script-owner':
+      return [2, locator.owner]
+    case 'legacy-script':
+      return locator.commandPath !== undefined
+        ? [3, locator.scriptId, locator.commandPath]
+        : [3, locator.scriptId]
+    case 'unavailable':
+      return [4, locator.reason]
+  }
+}
+
+function decodeProjectReferenceLocator(
+  locator: ProjectReferenceLocatorSnapshot,
+  where: string,
+): ProjectReferenceLocator {
+  switch (locator[0]) {
+    case 0:
+      return locator[2]
+        ? { kind: 'object', object: locator[1], section: locator[2] }
+        : { kind: 'object', object: locator[1] }
+    case 1: {
+      const value = locator[1]
+      const path = locator[2] ?? where
+      if (value.kind === 'command')
+        return {
+          kind: 'canonical-script',
+          reference: { kind: 'command', path, locator: value },
+        }
+      if (value.kind === 'entity-page')
+        return {
+          kind: 'canonical-script',
+          reference: { kind: 'page', path, locator: value },
+        }
+      return {
+        kind: 'canonical-script',
+        reference: { kind: 'initial', path, locator: value },
+      }
+    }
+    case 2:
+      return { kind: 'script-owner', owner: locator[1] }
+    case 3:
+      return locator[2] !== undefined
+        ? { kind: 'legacy-script', scriptId: locator[1], commandPath: locator[2] }
+        : { kind: 'legacy-script', scriptId: locator[1] }
+    case 4:
+      return { kind: 'unavailable', reason: locator[1] }
+  }
+}
+
 function targetAncestors(target: ProjectReferenceTarget): ProjectReferenceTarget[] {
   switch (target.kind) {
     case 'entity':
@@ -329,7 +396,7 @@ export function buildProjectReferenceSnapshot(
   const sourceDefinitions = new Map<string, string>()
   const relations: ProjectReferenceRelation[] = []
   const relationIndexes = new Map<string, number>()
-  const locators: ProjectReferenceLocator[] = []
+  const locators: ProjectReferenceLocatorSnapshot[] = []
   const locatorIndexes = new Map<string, number>()
   const rowInputs: Array<
     readonly [
@@ -358,7 +425,8 @@ export function buildProjectReferenceSnapshot(
       throw new Error(`引用来源 ${edge.source.key} 不是 owner/section 的稳定派生 key`)
     const targetKey = projectReferenceTargetKey(edge.target)
     const relationKey = serializeIdentity(edge.relation)
-    const locatorKey = serializeIdentity(edge.locator)
+    const encodedLocator = encodeProjectReferenceLocator(edge.locator, edge.where)
+    const locatorKey = serializeIdentity(encodedLocator)
     if (!options.assumeUnique) {
       const identity = tupleKey([
         targetKey,
@@ -399,7 +467,7 @@ export function buildProjectReferenceSnapshot(
     let locatorIndex = locatorIndexes.get(locatorKey)
     if (locatorIndex === undefined) {
       locatorIndex = locators.length
-      locators.push(edge.locator)
+      locators.push(encodedLocator)
       locatorIndexes.set(locatorKey, locatorIndex)
     }
 
@@ -538,7 +606,7 @@ export class ProjectReferenceIndex {
       target: this.snapshot.targets[targetIndex]!,
       source: this.sources[sourceIndex]!,
       relation: this.snapshot.relations[relationIndex]!,
-      locator: this.snapshot.locators[locatorIndex]!,
+      locator: decodeProjectReferenceLocator(this.snapshot.locators[locatorIndex]!, where),
       deletePolicy: CODE_POLICY[policy],
       where,
       ...(detailIndex === undefined ? {} : { detail: this.snapshot.details[detailIndex]! }),

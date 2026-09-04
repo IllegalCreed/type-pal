@@ -1,7 +1,8 @@
 import type { ActorDef, EntityDef, SpriteDef } from '@type-pal/content'
 import { resolveEntitySpriteId } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import {
+  ActorInUseError,
   AddActorCommand,
   CompositeCommand,
   CopyActorCommand,
@@ -12,6 +13,7 @@ import {
   UpdateLocaleCommand,
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
+import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 
 const sprite: SpriteDef = {
   id: 'sprite.hero',
@@ -66,6 +68,8 @@ function state(actors: ActorDef[] = []): EditorState {
 function actor(id = 'hero', name = 'name.hero'): ActorDef {
   return { id, name, spriteId: sprite.id }
 }
+
+const currentReferences = (state: EditorState) => collectCurrentProjectReferenceIndex(state)
 
 describe('人物 CRUD 与解除关联', () => {
   test('空白项目以 locale + Actor 单事务创建第一人，undo/redo 对称且默认无 levelUp', () => {
@@ -153,7 +157,7 @@ describe('人物 CRUD 与解除关联', () => {
     current.locale = { 'name.hero': '主角' }
     current.levelUp = { hero: [{ level: 2, skillId: 'skill' }] }
     const session = new EditSession(current)
-    session.dispatch(new DeleteActorCommand('hero'))
+    session.dispatch(new DeleteActorCommand('hero', currentReferences))
     expect(session.getState().actors).toEqual([])
     expect(session.getState().levelUp.hero).toBeUndefined()
     session.undo()
@@ -167,7 +171,9 @@ describe('人物 CRUD 与解除关联', () => {
     const current = state([actor()])
     current.locale = { 'name.hero': '主角' }
     current.scenes[0]!.entities = [{ id: 'e', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' }]
-    expect(() => new DeleteActorCommand('hero').apply(current)).toThrow(/场景 s \/ 实体 e/)
+    expect(() => new DeleteActorCommand('hero', currentReferences).apply(current)).toThrow(
+      /场景 s · 实体 e/,
+    )
     expect(current.actors).toEqual([actor()])
   })
 
@@ -177,12 +183,87 @@ describe('人物 CRUD 与解除关联', () => {
     currentAuthor.scenes[0]!.entities = [
       { id: 'live', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' },
     ]
-    expect(() => new DeleteActorCommand('hero', () => currentAuthor).apply(shell)).toThrow(
-      /场景 s \/ 实体 live/,
+    expect(() =>
+      new DeleteActorCommand('hero', () =>
+        collectCurrentProjectReferenceIndex(currentAuthor),
+      ).apply(shell),
+    ).toThrow(/场景 s · 实体 live/)
+    expect(() =>
+      new DeleteActorCommand('hero', () => {
+        throw new Error('oracle down')
+      }).apply(shell),
+    ).toThrow(/oracle down/)
+  })
+
+  test('DeleteActor 缺目标跳过 oracle，provider 失败不写历史', () => {
+    const current = state([actor()])
+    const unused = vi.fn(() => {
+      throw new Error('不应调用')
+    })
+    expect(new DeleteActorCommand('missing', unused).apply(current)).toBe(current)
+    expect(unused).not.toHaveBeenCalled()
+
+    const session = new EditSession(current)
+    expect(() =>
+      session.dispatch(
+        new DeleteActorCommand('hero', () => {
+          throw new Error('oracle down')
+        }),
+      ),
+    ).toThrow('oracle down')
+    expect(session.getState()).toBe(current)
+    expect(session.getHistoryVersion()).toBe(0)
+  })
+
+  test('coveredBy 自引用与 levelUp 伴随边随人物删除，外部 coveredBy 仍阻断', () => {
+    const self = state([
+      {
+        ...actor(),
+        battler: {
+          battleSprite: 'battle.hero',
+          baseStats: {} as never,
+          initialEquipment: {},
+          initialMagic: [],
+          coveredBy: 'hero',
+        },
+      },
+    ])
+    self.levelUp.hero = [{ level: 2, skillId: 'skill' }]
+    const deleted = new DeleteActorCommand('hero', currentReferences).apply(self)
+    expect(deleted.actors).toEqual([])
+    expect(deleted.levelUp.hero).toBeUndefined()
+
+    const external = state([
+      actor(),
+      {
+        ...actor('guard', 'name.guard'),
+        battler: {
+          battleSprite: 'battle.guard',
+          baseStats: {} as never,
+          initialEquipment: {},
+          initialMagic: [],
+          coveredBy: 'hero',
+        },
+      },
+    ])
+    expect(() => new DeleteActorCommand('hero', currentReferences).apply(external)).toThrow(
+      ActorInUseError,
     )
-    expect(() => new DeleteActorCommand('hero', () => undefined).apply(shell)).toThrow(
-      /无法读取当前作者态引用/,
+  })
+
+  test('redo 会按最新 oracle 重验并在新增引用时保留人物与 redo', () => {
+    const initial = state([actor()])
+    let live = initial
+    const session = new EditSession(initial)
+    session.dispatch(
+      new DeleteActorCommand('hero', () => collectCurrentProjectReferenceIndex(live)),
     )
+    expect(session.undo()).toBe(true)
+    live = structuredClone(session.getState())
+    live.scenes[0]!.entities = [{ id: 'live', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' }]
+    expect(() => session.redo()).toThrow(ActorInUseError)
+    expect(session.getState().actors.some((entry) => entry.id === 'hero')).toBe(true)
+    expect(session.canRedo()).toBe(true)
   })
 
   test('解除人物关联只替换 actor→sprite，所有实例字段与行为保持并可 undo/redo', () => {

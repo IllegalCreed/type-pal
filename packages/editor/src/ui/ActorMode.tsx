@@ -19,8 +19,8 @@ import type {
 import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { memo, type ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
-import type { ActorReference } from '../core/actor-references.js'
 import {
+  ActorInUseError,
   AddActorCommand,
   CompositeCommand,
   CopyActorCommand,
@@ -29,13 +29,11 @@ import {
   UpdateActorCommand,
   UpdateLocaleCommand,
 } from '../core/commands.js'
-import type { EditorState, EditSession } from '../core/edit-session.js'
+import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import {
-  type EditorDerivedStore,
-  effectiveEditorDerivedStatus,
-} from '../core/editor-derived-store.js'
-import type { ScriptEditSession } from '../core/script-editor.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import { BattleSpriteInlinePreview } from './BattleSpriteInlinePreview.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { battleSpriteSemanticGroup } from './battle-sprite-action-preview.js'
@@ -86,7 +84,6 @@ import { LevelingEditor } from './LevelingEditor.js'
 import { PortraitEditor } from './PortraitEditor.js'
 import { SoundPicker } from './SoundPicker.js'
 import { SpriteFrames } from './SpriteFrames.js'
-import { useEditorDerivedSnapshotAfterPaint } from './session-selector.js'
 
 type ActorInspectorTab = 'summary' | 'references'
 
@@ -187,10 +184,10 @@ export function ActorMode(props: {
   onOpenBattleSprite?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
-  onOpenActorReference?: (reference: ActorReference) => void
-  derivedStore: EditorDerivedStore
-  scriptSession: ScriptEditSession
-  getCurrentAuthorState: () => EditorState | undefined
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
+  onOpenActorReference?: (reference: ProjectReferenceEdge) => void
 }) {
   const {
     actors,
@@ -213,10 +210,10 @@ export function ActorMode(props: {
     onOpenBattleSprite,
     onOpenSound,
     onOpenImage,
+    referenceIndex,
+    referenceStatus,
+    getCurrentReferenceIndex,
     onOpenActorReference,
-    derivedStore,
-    scriptSession,
-    getCurrentAuthorState,
   } = props
   const [selId, setSelId] = useState(focusActorId ?? actors[0]?.id ?? '')
   const [section, setSection] = useState<ActorWorkspaceSection>(() => actorSection(focusSection))
@@ -237,6 +234,18 @@ export function ActorMode(props: {
   const actor = actors.find((candidate) => candidate.id === selId)
   const sprite = actor ? spriteById.get(actor.spriteId) : undefined
   const battler = actor?.battler
+  const references = actor
+    ? (() => {
+        const target = { kind: 'actor', id: actor.id } as const
+        return (
+          referenceIndex?.deletionImpact(target, referenceIndex.deletionScopeFor([target]))
+            .blockers ?? []
+        )
+      })()
+    : []
+  const referenceReady = referenceStatus === 'current' && referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
 
   useEffect(() => {
     if (focusActorId !== undefined) {
@@ -415,7 +424,7 @@ export function ActorMode(props: {
           ]}
         />
         {actorDraft ? (
-          <div
+          <section
             className="actor-create-panel"
             aria-label={actorDraft.mode === 'copy' ? '复制人物' : '新建人物'}
           >
@@ -468,7 +477,7 @@ export function ActorMode(props: {
                 取消
               </DsButton>
             </div>
-          </div>
+          </section>
         ) : null}
         {mutationError ? (
           <div className="actor-mutation-error" role="alert">
@@ -556,9 +565,9 @@ export function ActorMode(props: {
                 <ActorDeleteButton
                   actorId={actor.id}
                   session={session}
-                  scriptSession={scriptSession}
-                  derivedStore={derivedStore}
-                  getCurrentAuthorState={getCurrentAuthorState}
+                  references={references}
+                  status={effectiveReferenceStatus}
+                  getCurrentReferenceIndex={getCurrentReferenceIndex}
                   onError={setMutationError}
                   onDeleted={(fallback) => {
                     setMutationError('')
@@ -581,7 +590,7 @@ export function ActorMode(props: {
 
             <div className="actor-workspace-scroll">
               {section === 'overview' ? (
-                <div className="actor-dashboard-grid" aria-label="角色总览">
+                <section className="actor-dashboard-grid" aria-label="角色总览">
                   <ActorPanel
                     className="actor-card-identity"
                     eyebrow="身份"
@@ -767,7 +776,7 @@ export function ActorMode(props: {
                       <p>它仍可用于场景实例、对话立绘和剧情演出；当前没有队伍、战斗或成长数据。</p>
                     </ActorPanel>
                   )}
-                </div>
+                </section>
               ) : null}
 
               {section === 'battle' ? (
@@ -1066,9 +1075,9 @@ export function ActorMode(props: {
         actor={actor}
         sprite={sprite}
         displayName={actor ? nm(actor.name) : '未选择'}
-        session={session}
-        scriptSession={scriptSession}
-        derivedStore={derivedStore}
+        references={references}
+        status={effectiveReferenceStatus}
+        referenceReady={referenceReady}
         onOpenSprite={onOpenSprite}
         onOpenActorReference={onOpenActorReference}
       />
@@ -1076,44 +1085,16 @@ export function ActorMode(props: {
   )
 }
 
-function useActorReferenceState(
-  actorId: string | undefined,
-  session: EditSession,
-  scriptSession: ScriptEditSession,
-  derivedStore: EditorDerivedStore,
-) {
-  const snapshot = useEditorDerivedSnapshotAfterPaint(derivedStore)
-  const data =
-    snapshot.status === 'current'
-      ? snapshot.data
-      : snapshot.status === 'stale' || snapshot.status === 'failed'
-        ? snapshot.lastKnown?.data
-        : undefined
-  const references = actorId
-    ? (data?.actorReferenceIndex.find(([id]) => id === actorId)?.[1] ?? [])
-    : []
-  const status = effectiveEditorDerivedStatus(snapshot, {
-    mainHistoryVersion: session.getHistoryVersion(),
-    scriptHistoryVersion: scriptSession.getHistoryVersion(),
-  })
-  return { references, status }
-}
-
 function ActorDeleteButton(props: {
   actorId: string
   session: EditSession
-  scriptSession: ScriptEditSession
-  derivedStore: EditorDerivedStore
-  getCurrentAuthorState: () => EditorState | undefined
+  references: readonly ProjectReferenceEdge[]
+  status: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
   onError: (message: string) => void
   onDeleted: (fallbackActorId: string) => void
 }) {
-  const { references, status } = useActorReferenceState(
-    props.actorId,
-    props.session,
-    props.scriptSession,
-    props.derivedStore,
-  )
+  const { references, status } = props
   return (
     <DsButton
       variant="danger"
@@ -1134,13 +1115,22 @@ function ActorDeleteButton(props: {
         try {
           if (
             !props.session.dispatch(
-              new DeleteActorCommand(props.actorId, props.getCurrentAuthorState),
+              new DeleteActorCommand(props.actorId, props.getCurrentReferenceIndex),
             )
-          )
+          ) {
+            props.onError('人物已变化，未执行删除。')
             return
+          }
           props.onDeleted(props.session.getState().actors[0]?.id ?? '')
         } catch (error) {
-          props.onError(error instanceof Error ? error.message : String(error))
+          props.onError(
+            error instanceof ActorInUseError
+              ? `人物 ${props.actorId} 仍被 ${error.references.length} 处引用：${error.references
+                  .slice(0, 3)
+                  .map((reference) => reference.source.label)
+                  .join('、')}`
+              : `无法检查当前人物引用：${error instanceof Error ? error.message : String(error)}`,
+          )
         }
       }}
     >
@@ -1153,27 +1143,19 @@ function ActorInspector(props: {
   actor: ActorDef | undefined
   sprite: SpriteDef | undefined
   displayName: string
-  session: EditSession
-  scriptSession: ScriptEditSession
-  derivedStore: EditorDerivedStore
+  references: readonly ProjectReferenceEdge[]
+  status: EditorDerivedStatus
+  referenceReady: boolean
   onOpenSprite?: (id: string) => void
-  onOpenActorReference?: (reference: ActorReference) => void
+  onOpenActorReference?: (reference: ProjectReferenceEdge) => void
 }) {
   const [activeTab, setActiveTab] = useState<ActorInspectorTab>('summary')
-  const { references, status } = useActorReferenceState(
-    props.actor?.id,
-    props.session,
-    props.scriptSession,
-    props.derivedStore,
-  )
+  const { references, status, referenceReady } = props
   const actor = props.actor
   const battler = actor?.battler
-  const referenceCount =
-    status === 'current'
-      ? { kind: 'exact' as const, value: references.length }
-      : references.length
-        ? { kind: 'at-least' as const, value: references.length }
-        : { kind: 'unknown' as const }
+  const referenceCount = referenceReady
+    ? { kind: 'exact' as const, value: references.length }
+    : { kind: 'unknown' as const }
   const referencePanelState =
     status === 'current'
       ? references.length
@@ -1257,7 +1239,7 @@ function ActorInspector(props: {
             {
               id: 'references',
               label: '引用',
-              count: references.length,
+              count: referenceReady ? references.length : undefined,
               panel: (
                 <section className="section actor-reference-section">
                   <DsReferencePanel
@@ -1265,21 +1247,24 @@ function ActorInspector(props: {
                     count={referenceCount}
                     impact={{
                       kind: 'blocking',
-                      description: references.length
-                        ? '解除外部引用后才能删除人物。'
-                        : '删除人物不会回收共享精灵、立绘或 locale 文本。',
+                      description:
+                        status === 'current'
+                          ? references.length
+                            ? '解除外部引用后才能删除人物。'
+                            : '删除人物不会回收共享精灵、立绘或 locale 文本。'
+                          : '引用结果尚非当前版本；刷新完成前删除已禁用。',
                     }}
                   >
                     {references.length ? (
                       <DsReferenceList>
                         {references.map((reference) => (
                           <DsReferenceRow
-                            key={`${reference.kind}:${reference.where}`}
-                            title={reference.label}
+                            key={reference.id}
+                            title={reference.source.label}
                             detail={reference.detail}
                             path={reference.where}
                             action={
-                              reference.locator && props.onOpenActorReference
+                              reference.locator.kind !== 'unavailable' && props.onOpenActorReference
                                 ? {
                                     label: '打开',
                                     onActivate: () => props.onOpenActorReference?.(reference),
@@ -1287,12 +1272,14 @@ function ActorInspector(props: {
                                 : undefined
                             }
                             status={
-                              reference.locator && props.onOpenActorReference
+                              reference.locator.kind !== 'unavailable' && props.onOpenActorReference
                                 ? undefined
                                 : {
                                     label: '暂不可定位',
                                     reason:
-                                      reference.unavailableReason ?? '当前没有可编辑的精确位置。',
+                                      reference.locator.kind === 'unavailable'
+                                        ? reference.locator.reason
+                                        : '当前没有可编辑的精确位置。',
                                     tone: 'warning',
                                   }
                             }
@@ -1608,6 +1595,7 @@ const InitialMagicEditor = memo(
     const skillIds = useMemo(() => Object.keys(props.skills), [props.skills])
     const valueKey = props.value.join('\0')
     const hasAddableSkills = skillIds.some((skillId) => !props.value.includes(skillId))
+    // biome-ignore lint/correctness/useExhaustiveDependencies: valueKey intentionally preserves memoized options across equivalent cloned arrays.
     const rowOptions = useMemo(
       () =>
         props.value.map((skillId, index) => [
@@ -1626,8 +1614,6 @@ const InitialMagicEditor = memo(
               description: candidate,
             })),
         ]),
-      // See valueKey above; identical cloned arrays intentionally reuse the option collections.
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [props.skills, skillIds, valueKey],
     )
     const reorderMagic = (intent: DsReorderIntent): boolean => {
@@ -1697,9 +1683,7 @@ const InitialMagicEditor = memo(
               layout="embedded"
               title="暂无初始仙术"
               description={
-                skillIds.length > 0
-                  ? '可从右上角添加初始仙术。'
-                  : '当前项目没有可添加的仙术。'
+                skillIds.length > 0 ? '可从右上角添加初始仙术。' : '当前项目没有可添加的仙术。'
               }
             />
           ) : null}

@@ -140,6 +140,60 @@ export interface ActorTaggedReference {
   where: string
 }
 
+/** Inspect one tagged command/condition node only; callers own recursive traversal. */
+export function actorTaggedReferencesAtNode(value: unknown, path: string): ActorTaggedReference[] {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return []
+  const out: ActorTaggedReference[] = []
+  const record = value as Record<string, unknown>
+  const push = (actorId: unknown, kind: ActorTaggedReference['kind'], leaf: string): void => {
+    if (typeof actorId === 'string' && actorId.length > 0)
+      out.push({ actorId, kind, where: `${path}.${leaf}` })
+  }
+  switch (record.kind) {
+    case 'inParty':
+      push(record.actorId, 'condition-in-party', 'actorId')
+      break
+    case 'playerInParty':
+      push(record.role, 'enemy-condition-player-in-party', 'role')
+      break
+    case 'setActorSprite':
+      push(record.actor, 'command-set-actor-sprite', 'actor')
+      break
+    case 'setActorAppearance':
+      push(record.actor, 'command-set-actor-appearance', 'actor')
+      break
+    case 'setParty':
+      if (Array.isArray(record.members))
+        record.members.forEach((actorId, index) => {
+          push(actorId, 'command-set-party-member', `members[${index}]`)
+        })
+      break
+    case 'applyActorCondition':
+    case 'clearActorCondition':
+      push(record.actor, 'command-actor-condition', 'actor')
+      break
+    case 'applyActorGrowth':
+      push(record.actor, 'enemy-apply-actor-growth', 'actor')
+      break
+    case 'playActorCastEffect':
+      push(record.actor, 'enemy-play-actor-cast-effect', 'actor')
+      break
+    case 'dialog': {
+      const cue = record.cue
+      if (!cue || typeof cue !== 'object' || Array.isArray(cue)) break
+      const identity = (cue as Record<string, unknown>).identity
+      if (!identity || typeof identity !== 'object' || Array.isArray(identity)) break
+      const identityRecord = identity as Record<string, unknown>
+      if (identityRecord.kind === 'actor')
+        push(identityRecord.actor, 'dialogue-actor', 'cue.identity.actor')
+      break
+    }
+    default:
+      break
+  }
+  return out
+}
+
 /** command / condition / enemy choreography 共用的 actor id 叶扫描器。 */
 export function collectActorTaggedReferences(
   value: unknown,
@@ -148,61 +202,34 @@ export function collectActorTaggedReferences(
   const out: ActorTaggedReference[] = []
   const visit = (node: unknown, path: string): void => {
     if (Array.isArray(node)) {
-      node.forEach((entry, index) => visit(entry, `${path}[${index}]`))
+      node.forEach((entry, index) => {
+        visit(entry, `${path}[${index}]`)
+      })
       return
     }
     if (!node || typeof node !== 'object') return
     const record = node as Record<string, unknown>
-    const push = (actorId: unknown, kind: ActorTaggedReference['kind'], leaf: string): void => {
-      if (typeof actorId === 'string' && actorId.length > 0)
-        out.push({ actorId, kind, where: `${path}.${leaf}` })
-    }
-    switch (record.kind) {
-      case 'inParty':
-        push(record.actorId, 'condition-in-party', 'actorId')
-        break
-      case 'playerInParty':
-        push(record.role, 'enemy-condition-player-in-party', 'role')
-        break
-      case 'setActorSprite':
-        push(record.actor, 'command-set-actor-sprite', 'actor')
-        break
-      case 'setActorAppearance':
-        push(record.actor, 'command-set-actor-appearance', 'actor')
-        break
-      case 'setParty':
-        if (Array.isArray(record.members))
-          record.members.forEach((actorId, index) =>
-            push(actorId, 'command-set-party-member', `members[${index}]`),
-          )
-        break
-      case 'applyActorCondition':
-      case 'clearActorCondition':
-        push(record.actor, 'command-actor-condition', 'actor')
-        break
-      case 'applyActorGrowth':
-        push(record.actor, 'enemy-apply-actor-growth', 'actor')
-        break
-      case 'playActorCastEffect':
-        push(record.actor, 'enemy-play-actor-cast-effect', 'actor')
-        break
-      case 'dialog': {
-        const cue = record.cue
-        if (!cue || typeof cue !== 'object' || Array.isArray(cue)) break
-        const identity = (cue as Record<string, unknown>).identity
-        if (!identity || typeof identity !== 'object' || Array.isArray(identity)) break
-        const identityRecord = identity as Record<string, unknown>
-        if (identityRecord.kind === 'actor')
-          push(identityRecord.actor, 'dialogue-actor', 'cue.identity.actor')
-        break
-      }
-      default:
-        break
-    }
+    out.push(...actorTaggedReferencesAtNode(record, path))
     for (const [key, child] of Object.entries(record)) visit(child, `${path}.${key}`)
   }
   visit(value, where)
   return out
+}
+
+/** One canonical command visit: direct command leaves plus its condition tree, never nested arms. */
+export function collectCanonicalActorTaggedReferences(
+  command: unknown,
+  where: string,
+): ActorTaggedReference[] {
+  const references = actorTaggedReferencesAtNode(command, where)
+  if (!command || typeof command !== 'object' || Array.isArray(command)) return references
+  const record = command as Record<string, unknown>
+  const condition = record.cond
+  if (condition !== undefined)
+    references.push(...collectActorTaggedReferences(condition, `${where}.cond`))
+  if (record.kind === 'startBattle' && record.choreography !== undefined)
+    references.push(...collectActorTaggedReferences(record.choreography, `${where}.choreography`))
+  return references
 }
 
 export interface DialoguePortraitReference {
@@ -220,7 +247,9 @@ export function collectDialoguePortraitReferences(
   const out: DialoguePortraitReference[] = []
   const visit = (node: unknown, path: string): void => {
     if (Array.isArray(node)) {
-      node.forEach((entry, index) => visit(entry, `${path}[${index}]`))
+      node.forEach((entry, index) => {
+        visit(entry, `${path}[${index}]`)
+      })
       return
     }
     if (!node || typeof node !== 'object') return

@@ -4,7 +4,11 @@ import type { AuthorSceneDef, AuthorScriptFlow, SceneDef, ScriptStage } from '@t
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { CanonicalScriptReference, ScriptEditorState } from '../core/script-editor.js'
+import type {
+  CanonicalScriptReference,
+  ScriptCommandOwner,
+  ScriptEditorState,
+} from '../core/script-editor.js'
 import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
 
 type PreviewProbeProps = {
@@ -175,6 +179,10 @@ describe('CanonicalSceneScriptWorkspace', () => {
       state?: ScriptEditorState
       selectedPageId?: string
       focusReference?: { reference: CanonicalScriptReference; revision: number }
+      focusOwner?: {
+        owner: Extract<ScriptCommandOwner, { kind: 'entity-behavior' | 'scene-hook' }>
+        revision: number
+      }
     },
   ): Promise<void> => {
     await act(async () =>
@@ -197,6 +205,7 @@ describe('CanonicalSceneScriptWorkspace', () => {
           projectId="test"
           onDispatch={() => {}}
           focusReference={options?.focusReference}
+          focusOwner={options?.focusOwner}
         />,
       ),
     )
@@ -368,5 +377,72 @@ describe('CanonicalSceneScriptWorkspace', () => {
     expect(row.classList.contains('sel')).toBe(true)
     expect(row.classList.contains('reference-focus-odd')).toBe(true)
     expect(document.activeElement).toBe(row)
+  })
+
+  test('owner 定位会选择非默认实体行为与非首场景钩子', async () => {
+    const focusState = structuredClone(state)
+    const canonical = focusState.scenes.find((candidate) => candidate.id === 'sB')!
+    const targetEntity = canonical.entities.find((candidate) => candidate.id === 'e1')!
+    targetEntity.behaviors ??= {}
+    targetEntity.behaviors.trigger ??= {}
+    targetEntity.behaviors.trigger.target = {
+      label: '目标交互方案',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'start',
+        stages: [{ id: 'start', body: [{ kind: 'setFlag', flag: 'target-owner', value: true }] }],
+      },
+    }
+    canonical.hooks ??= {}
+    canonical.hooks.onEnter ??= { initial: 'default', variants: {} }
+    canonical.hooks.onEnter.variants.target = {
+      label: '目标进场方案',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'start',
+        stages: [{ id: 'start', body: [{ kind: 'setFlag', flag: 'target-hook', value: true }] }],
+      },
+    }
+
+    await renderWorkspace(sceneB, 'e1', {
+      state: focusState,
+      focusOwner: {
+        owner: {
+          kind: 'entity-behavior',
+          sceneId: 'sB',
+          entityId: 'e1',
+          channel: 'trigger',
+          behaviorId: 'target',
+        },
+        revision: 7,
+      },
+    })
+    expect(host.querySelector<HTMLElement>('.script-scheme-card.active strong')?.textContent).toBe(
+      '目标交互方案',
+    )
+    expect((previewRender.mock.calls.at(-1)?.[0] as PreviewProbeProps).sourceKey).toBe(
+      'canonical:entity:sB:e1:trigger:target',
+    )
+
+    await renderWorkspace(sceneB, null, {
+      state: focusState,
+      focusOwner: {
+        owner: {
+          kind: 'scene-hook',
+          sceneId: 'sB',
+          slot: 'onEnter',
+          hookId: 'target',
+        },
+        revision: 8,
+      },
+    })
+    expect(host.querySelector<HTMLElement>('.script-scheme-card.active strong')?.textContent).toBe(
+      '目标进场方案',
+    )
+    expect((previewRender.mock.calls.at(-1)?.[0] as PreviewProbeProps).sourceKey).toBe(
+      's:sB:canonical:target',
+    )
   })
 })

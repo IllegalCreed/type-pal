@@ -61,15 +61,15 @@ try {
   const { editorDiagnosticState } = await vite.ssrLoadModule(
     '/packages/editor/src/core/editor-derived-store.ts',
   )
-  const { collectCanonicalScriptCommandVisits } = await vite.ssrLoadModule(
-    '/packages/editor/src/core/script-editor.ts',
-  )
+  const { collectCanonicalScriptCommandVisits, collectCanonicalScriptTransitionVisits } =
+    await vite.ssrLoadModule('/packages/editor/src/core/script-editor.ts')
   const { projectCurrentAuthorReferenceSlices, scriptEditorStateFromCurrentAuthorSlices } =
     await vite.ssrLoadModule('/packages/editor/src/core/script-editor-projection.ts')
   const { collectEntityAddressReferences } = await vite.ssrLoadModule(
     '/packages/editor/src/core/entity-address-references.ts',
   )
   const {
+    actorReferenceEdges,
     battleDataReferenceEdges,
     buildProjectReferenceSnapshotFromProjection,
     canonicalCommandTargetEdges,
@@ -119,12 +119,16 @@ try {
   }
   const scriptState = scriptEditorStateFromCurrentAuthorSlices(canonical, author)
   const commandVisits = collectCanonicalScriptCommandVisits(scriptState)
+  const transitionVisits = collectCanonicalScriptTransitionVisits(scriptState)
   const entityAddressReferences = collectEntityAddressReferences(currentAuthorState)
   const structuralEdgeRun = timed(() => structuralProjectReferenceEdges(currentAuthorState))
   const canonicalEdgeRun = timed(() => canonicalCommandTargetEdges(commandVisits, scriptState))
   const legacyEdgeRun = timed(() => legacyScriptChunkTargetEdges(currentAuthorState.scriptChunks))
   const battleDataEdgeRun = timed(() =>
     battleDataReferenceEdges(currentAuthorState, commandVisits, scriptState),
+  )
+  const actorEdgeRun = timed(() =>
+    actorReferenceEdges(currentAuthorState, commandVisits, transitionVisits, scriptState),
   )
   const entityEdgeRun = timed(() => entityAddressReferenceEdges(entityAddressReferences))
   const compactRun = timed(() =>
@@ -134,6 +138,7 @@ try {
         ...canonicalEdgeRun.value,
         ...legacyEdgeRun.value,
         ...battleDataEdgeRun.value,
+        ...actorEdgeRun.value,
         ...entityEdgeRun.value,
       ],
       { assumeUnique: true },
@@ -147,6 +152,7 @@ try {
           state: currentAuthorState,
           scriptState,
           commandVisits,
+          transitionVisits,
           entityAddressReferences,
         }),
       ).ms,
@@ -214,6 +220,7 @@ try {
           canonicalMs: Number(canonicalEdgeRun.ms.toFixed(3)),
           legacyMs: Number(legacyEdgeRun.ms.toFixed(3)),
           battleDataMs: Number(battleDataEdgeRun.ms.toFixed(3)),
+          actorMs: Number(actorEdgeRun.ms.toFixed(3)),
           entityMs: Number(entityEdgeRun.ms.toFixed(3)),
           compactMs: Number(compactRun.ms.toFixed(3)),
         },
@@ -232,6 +239,7 @@ try {
             0,
           ),
           commandVisits: commandVisits.length,
+          transitionVisits: transitionVisits.length,
           projectReferenceRows: projectReferences.rows.length,
           projectReferenceTargets: projectReferences.targets.length,
           projectReferenceSources: projectReferences.sources.length,
@@ -239,7 +247,6 @@ try {
           projectReferenceLocators: projectReferences.locators.length,
           projectReferenceTargetBuckets: projectReferences.targetEdgeIds.length,
           assetReferences: derived.assetReferences.length,
-          actorReferences: sumPairs(derived.actorReferenceIndex),
           itemReferences: sumPairs(derived.itemReferenceIndex),
           worldVariableReferences: derived.worldVariableReferences.all.length,
           behaviorReferences: sumPairs(derived.canonicalBehaviorReferences),

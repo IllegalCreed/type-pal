@@ -5,6 +5,7 @@ import {
   loadStampTemplates,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { actorReferenceBlocksDeletion, collectActorReferences } from './actor-references.js'
 import { collectBattleDataReferences } from './battle-data-references.js'
 import { createEditorDerivedWorkerRuntime } from './editor-derived-core.js'
 import { editorDiagnosticState } from './editor-derived-store.js'
@@ -169,6 +170,109 @@ describe('ED-3 PAL project reference index', () => {
       })
       .sort()
     expect(unifiedBattleDataKeys).toEqual(oldBattleDataKeys)
+    const actorEdges = edges.filter((edge) => edge.relation.kind === 'actor-use')
+    expect(actorEdges).toHaveLength(808)
+    const oldActorReferences = collectActorReferences(state)
+    const oldActorKeys = oldActorReferences
+      .map((reference) => `${reference.actorId}\0${reference.kind}`)
+      .sort()
+    const unifiedActorKeys = actorEdges
+      .map((edge) => {
+        if (edge.relation.kind !== 'actor-use' || edge.target.kind !== 'actor')
+          throw new Error('预期人物引用边')
+        return `${edge.target.id}\0${edge.relation.use}`
+      })
+      .sort()
+    expect(unifiedActorKeys).toEqual(oldActorKeys)
+    const structuralActorKinds = new Set([
+      'scene-entity-actor',
+      'entry-point-party',
+      'entry-point-seed-stats',
+      'entry-point-seed-condition',
+      'actor-covered-by',
+      'item-equipable-by',
+      'item-battle-sprite-by-actor',
+      'level-up-owner',
+      'world-party-template',
+      'world-reserve-template',
+    ])
+    expect(
+      actorEdges
+        .filter(
+          (edge) =>
+            edge.relation.kind === 'actor-use' && structuralActorKinds.has(edge.relation.use),
+        )
+        .map(
+          (edge) =>
+            `${edge.target.kind === 'actor' ? edge.target.id : ''}\0${edge.relation.kind === 'actor-use' ? edge.relation.use : ''}\0${edge.where}`,
+        )
+        .sort(),
+    ).toEqual(
+      oldActorReferences
+        .filter((reference) => structuralActorKinds.has(reference.kind))
+        .map((reference) => `${reference.actorId}\0${reference.kind}\0${reference.where}`)
+        .sort(),
+    )
+    expect(oldActorReferences.filter(actorReferenceBlocksDeletion)).toHaveLength(804)
+    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(516)
+    expect(actorEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(1)
+    expect(
+      state.actors.reduce((count, actor) => {
+        const target = { kind: 'actor', id: actor.id } as const
+        return (
+          count + index.deletionImpact(target, index.deletionScopeFor([target])).blockers.length
+        )
+      }, 0),
+    ).toBe(804)
+    expect(
+      Object.fromEntries(
+        [
+          ...new Set(
+            actorEdges.map((edge) => edge.relation.kind === 'actor-use' && edge.relation.use),
+          ),
+        ]
+          .filter(Boolean)
+          .map((kind) => [
+            kind,
+            actorEdges.filter(
+              (edge) => edge.relation.kind === 'actor-use' && edge.relation.use === kind,
+            ).length,
+          ]),
+      ),
+    ).toMatchObject({
+      'scene-entity-actor': 6,
+      'entry-point-party': 1,
+      'condition-in-party': 4,
+      'enemy-condition-player-in-party': 4,
+      'actor-covered-by': 6,
+      'item-equipable-by': 261,
+      'item-battle-sprite-by-actor': 7,
+      'command-set-actor-sprite': 122,
+      'command-set-actor-appearance': 9,
+      'command-set-party-member': 219,
+      'enemy-apply-actor-growth': 1,
+      'enemy-play-actor-cast-effect': 1,
+      'dialogue-actor': 163,
+      'level-up-owner': 4,
+    })
+    expect(
+      actorEdges.find(
+        (edge) =>
+          edge.target.kind === 'actor' &&
+          edge.target.id === 'zhao-linger' &&
+          edge.where.includes('.machine.states.') &&
+          edge.where.includes('.next.'),
+      ),
+    ).toMatchObject({
+      source: {
+        owner: {
+          kind: 'script-owner',
+          owner: { kind: 'entity-behavior', sceneId: 's023', entityId: 'e433' },
+        },
+      },
+      relation: { kind: 'actor-use', use: 'condition-in-party' },
+      locator: { kind: 'script-owner' },
+    })
     expect(index.referencesTo({ kind: 'map', id: 'map-164' })).toMatchObject([
       {
         source: {
@@ -204,8 +308,8 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(8_122)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(9_898)
+    expect(diagnostics.projectReferences.rows).toHaveLength(8_930)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(10_706)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

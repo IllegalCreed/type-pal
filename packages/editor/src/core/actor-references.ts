@@ -3,6 +3,7 @@ import {
   type ActorReferenceKind,
   collectActorTaggedReferences,
   collectDialoguePortraitReferences,
+  collectWorldActorReferences,
   type DialoguePortraitReference,
   type StartWorld,
 } from '@type-pal/content'
@@ -77,9 +78,9 @@ function scanStartWorld(
   context: ScanContext,
   out: ActorReference[],
 ): void {
-  world.party.forEach((actorId, index) =>
-    add(out, actorId, 'entry-point-party', `${prefix}.party[${index}]`, context),
-  )
+  world.party.forEach((actorId, index) => {
+    add(out, actorId, 'entry-point-party', `${prefix}.party[${index}]`, context)
+  })
   for (const actorId of Object.keys(world.seedStats ?? {}))
     add(out, actorId, 'entry-point-seed-stats', `${prefix}.seedStats.${actorId}`, context)
   for (const actorId of Object.keys(world.seedConditions ?? {}))
@@ -87,10 +88,14 @@ function scanStartWorld(
 }
 
 /** 作者外部位置 + levelUp 伴随表 + 可选运行态位置的唯一编辑器 collector。 */
-export function collectActorReferences(state: EditorState): ActorReference[] {
+export function collectActorReferences(
+  state: EditorState,
+  options: { includeScriptCommands?: boolean } = {},
+): ActorReference[] {
   const out: ActorReference[] = []
+  const includeScriptCommands = options.includeScriptCommands !== false
 
-  state.scenes.forEach((scene, sceneIndex) => {
+  ;(state.scenes ?? []).forEach((scene, sceneIndex) => {
     const sceneWhere = `scenes[${sceneIndex}](${scene.id})`
     scene.entities.forEach((entity, entityIndex) => {
       if ('actor' in entity)
@@ -106,15 +111,16 @@ export function collectActorReferences(state: EditorState): ActorReference[] {
           '人物预制实例',
         )
     })
-    scanActorTaggedNodes(
-      scene,
-      sceneWhere,
-      { label: `场景 ${scene.id}`, locator: { kind: 'scene', sceneId: scene.id } },
-      out,
-    )
+    if (includeScriptCommands)
+      scanActorTaggedNodes(
+        scene,
+        sceneWhere,
+        { label: `场景 ${scene.id}`, locator: { kind: 'scene', sceneId: scene.id } },
+        out,
+      )
   })
 
-  state.manifest.entryPoints.forEach((entry, entryIndex) => {
+  ;(state.manifest.entryPoints ?? []).forEach((entry, entryIndex) => {
     scanStartWorld(
       entry.startWorld,
       `manifest.entryPoints[${entryIndex}](${entry.id}).startWorld`,
@@ -123,7 +129,7 @@ export function collectActorReferences(state: EditorState): ActorReference[] {
     )
   })
 
-  state.actors.forEach((actor, actorIndex) => {
+  ;(state.actors ?? []).forEach((actor, actorIndex) => {
     if (actor.battler?.coveredBy)
       add(
         out,
@@ -136,20 +142,20 @@ export function collectActorReferences(state: EditorState): ActorReference[] {
       )
   })
 
-  state.items.forEach((item, itemIndex) => {
+  ;(state.items ?? []).forEach((item, itemIndex) => {
     const context: ScanContext = {
       label: `物品 ${item.name}`,
       locator: { kind: 'item', itemId: item.id },
     }
-    item.equip?.equipableBy.forEach((actorId, actorIndex) =>
+    item.equip?.equipableBy.forEach((actorId, actorIndex) => {
       add(
         out,
         actorId,
         'item-equipable-by',
         `items[${itemIndex}](${item.id}).equip.equipableBy[${actorIndex}]`,
         context,
-      ),
-    )
+      )
+    })
     item.equip?.effects.forEach((effect, effectIndex) => {
       if (effect.kind !== 'battleSprite') return
       for (const actorId of Object.keys(effect.byActor))
@@ -161,37 +167,40 @@ export function collectActorReferences(state: EditorState): ActorReference[] {
           context,
         )
     })
-    scanActorTaggedNodes(item, `items[${itemIndex}](${item.id})`, context, out)
+    if (includeScriptCommands)
+      scanActorTaggedNodes(item, `items[${itemIndex}](${item.id})`, context, out)
   })
 
-  for (const [chunkId, chunk] of Object.entries(state.scriptChunks ?? {}))
-    for (const [scriptId, body] of Object.entries(chunk.scripts))
-      scanActorTaggedNodes(
-        body,
-        `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
-        { label: `脚本 ${scriptId}`, locator: { kind: 'shared-script', scriptId } },
-        out,
-      )
+  if (includeScriptCommands) {
+    for (const [chunkId, chunk] of Object.entries(state.scriptChunks ?? {}))
+      for (const [scriptId, body] of Object.entries(chunk.scripts))
+        scanActorTaggedNodes(
+          body,
+          `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
+          { label: `脚本 ${scriptId}`, locator: { kind: 'shared-script', scriptId } },
+          out,
+        )
 
-  if (state.sharedScripts)
-    for (const [scriptId, script] of Object.entries(state.sharedScripts))
-      scanActorTaggedNodes(
-        script.body,
-        `sharedScripts.${scriptId}.body`,
-        { label: `共享脚本 ${script.name}`, locator: { kind: 'shared-script', scriptId } },
-        out,
-      )
+    if (state.sharedScripts)
+      for (const [scriptId, script] of Object.entries(state.sharedScripts))
+        scanActorTaggedNodes(
+          script.body,
+          `sharedScripts.${scriptId}.body`,
+          { label: `共享脚本 ${script.name}`, locator: { kind: 'shared-script', scriptId } },
+          out,
+        )
+  }
 
-  ;(state.enemies ?? []).forEach((enemy, enemyIndex) =>
+  ;(state.enemies ?? []).forEach((enemy, enemyIndex) => {
     scanActorTaggedNodes(
       enemy,
       `enemies[${enemyIndex}](${enemy.id})`,
       { label: `敌人 ${enemy.id}`, locator: { kind: 'enemy', enemyId: enemy.id } },
       out,
-    ),
-  )
+    )
+  })
 
-  for (const actorId of Object.keys(state.levelUp))
+  for (const actorId of Object.keys(state.levelUp ?? {}))
     add(
       out,
       actorId,
@@ -202,67 +211,18 @@ export function collectActorReferences(state: EditorState): ActorReference[] {
       actorId,
     )
 
-  state.worlds?.forEach((world, worldIndex) => {
-    world.party.forEach((character, characterIndex) =>
-      add(
-        out,
-        character.template,
-        'world-party-template',
-        `worlds[${worldIndex}].party[${characterIndex}].template`,
-        {
-          label: `运行态 ${worldIndex + 1} / 队伍`,
-          unavailableReason: '运行态存档只读，没有作者对象可供跳转。',
-        },
-      ),
-    )
-    ;(world.reserve ?? []).forEach((character, characterIndex) =>
-      add(
-        out,
-        character.template,
-        'world-reserve-template',
-        `worlds[${worldIndex}].reserve[${characterIndex}].template`,
-        {
-          label: `运行态 ${worldIndex + 1} / 后备`,
-          unavailableReason: '运行态存档只读，没有作者对象可供跳转。',
-        },
-      ),
-    )
-  })
+  for (const reference of collectWorldActorReferences(state.worlds ?? []))
+    add(out, reference.actorId, reference.kind, reference.where, {
+      label: '运行态/存档',
+      unavailableReason: '运行态存档只读，没有作者对象可供跳转。',
+    })
 
   return out
-}
-
-export function blockingActorReferences(state: EditorState, actorId: string): ActorReference[] {
-  return collectActorReferences(state).filter(
-    (reference) => reference.actorId === actorId && actorReferenceBlocksDeletion(reference),
-  )
 }
 
 export function actorReferenceBlocksDeletion(reference: ActorReference): boolean {
   const ownership = ACTOR_REFERENCE_POLICIES[reference.kind].ownership
   return ownership !== 'companion' && reference.ownerActorId !== reference.actorId
-}
-
-/** 删除门与人物检查器共用的一次性阻断引用索引。 */
-export function blockingActorReferenceMap(state: EditorState): Map<string, ActorReference[]> {
-  const result = new Map<string, ActorReference[]>()
-  for (const reference of collectActorReferences(state)) {
-    if (!actorReferenceBlocksDeletion(reference)) continue
-    const list = result.get(reference.actorId) ?? []
-    list.push(reference)
-    result.set(reference.actorId, list)
-  }
-  return result
-}
-
-export function actorReferenceMap(state: EditorState): Map<string, ActorReference[]> {
-  const result = new Map<string, ActorReference[]>()
-  for (const reference of collectActorReferences(state)) {
-    const list = result.get(reference.actorId) ?? []
-    list.push(reference)
-    result.set(reference.actorId, list)
-  }
-  return result
 }
 
 export interface EditorDialoguePortraitReference extends DialoguePortraitReference {
@@ -284,18 +244,18 @@ export function collectEditorDialoguePortraitReferences(
     for (const reference of collectDialoguePortraitReferences(value, where))
       out.push({ ...reference, label, locator })
   }
-  state.scenes.forEach((scene, index) =>
+  state.scenes.forEach((scene, index) => {
     append(scene, `scenes[${index}](${scene.id})`, `场景 ${scene.id}`, {
       kind: 'scene',
       sceneId: scene.id,
-    }),
-  )
-  state.items.forEach((item, index) =>
+    })
+  })
+  state.items.forEach((item, index) => {
     append(item, `items[${index}](${item.id})`, `物品 ${item.name}`, {
       kind: 'item',
       itemId: item.id,
-    }),
-  )
+    })
+  })
   if (state.sharedScripts)
     for (const [scriptId, script] of Object.entries(state.sharedScripts))
       append(script, `sharedScripts.${scriptId}`, `共享脚本 ${script.name}`, {
@@ -310,11 +270,11 @@ export function collectEditorDialoguePortraitReferences(
         `脚本 ${scriptId}`,
         { kind: 'shared-script', scriptId },
       )
-  ;(state.enemies ?? []).forEach((enemy, index) =>
+  ;(state.enemies ?? []).forEach((enemy, index) => {
     append(enemy, `enemies[${index}](${enemy.id})`, `敌人 ${enemy.id}`, {
       kind: 'enemy',
       enemyId: enemy.id,
-    }),
-  )
+    })
+  })
   return out
 }

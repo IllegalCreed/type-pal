@@ -8,6 +8,7 @@ import {
   projectReferenceTargetKey,
 } from './project-reference.js'
 import {
+  actorReferenceEdges,
   battleDataReferenceEdges,
   buildProjectReferenceSnapshotFromProjection,
   canonicalCommandTargetEdges,
@@ -61,6 +62,7 @@ describe('project reference adapters', () => {
       commandVisits: [
         commandVisit({ kind: 'loadScene', scene: 'next', entryId: 'door' }, 'shared.test.body[0]'),
       ],
+      transitionVisits: [],
       entityAddressReferences: [],
     })
     const index = createProjectReferenceIndex(snapshot)
@@ -231,6 +233,7 @@ describe('project reference adapters', () => {
       state: { manifest: noEntryManifest, scenes: [], scriptChunks: {} } as unknown as EditorState,
       scriptState: { scenes: [], items: [], sharedScripts: {} },
       commandVisits: [],
+      transitionVisits: [],
       entityAddressReferences: references,
     })
     const index = createProjectReferenceIndex(snapshot)
@@ -313,6 +316,7 @@ describe('project reference adapters', () => {
       } as unknown as EditorState,
       scriptState: { scenes: [], items: [], sharedScripts: {} },
       commandVisits: [],
+      transitionVisits: [],
       entityAddressReferences: [runtimeReference],
     })
     const runtimeSources = snapshot.sources.filter(
@@ -430,6 +434,7 @@ describe('project reference adapters', () => {
         commandVisit({ kind: 'learnSkill', role: 0, skill: 'skill-live' }, 'live-learn'),
         livePoison,
       ],
+      transitionVisits: [],
       entityAddressReferences: [],
     })
     const index = createProjectReferenceIndex(snapshot)
@@ -469,6 +474,164 @@ describe('project reference adapters', () => {
     expect(
       poisonReferences.find((reference) => reference.locator.kind === 'unavailable')?.deletePolicy,
     ).toBe('block')
+  })
+
+  test('canonical actor leaves include battle choreography without rescanning nested command arms', () => {
+    const nestedParty: CanonicalScriptCommandVisit['command'] = {
+      kind: 'setParty',
+      members: ['actor-on-lose'],
+    }
+    const battle: CanonicalScriptCommandVisit['command'] = {
+      kind: 'startBattle',
+      enemyTeamId: 'team-boss',
+      choreography: [
+        {
+          at: 'battleStart',
+          when: { kind: 'playerInParty', role: 'actor-when' },
+          body: [
+            {
+              kind: 'applyActorGrowth',
+              actor: 'actor-growth',
+              delta: {
+                level: 0,
+                maxHP: 0,
+                maxMP: 0,
+                attack: 0,
+                magicAttack: 0,
+                defense: 0,
+                speed: 0,
+                luck: 0,
+              },
+            },
+            {
+              kind: 'playActorCastEffect',
+              actor: 'actor-cast',
+              effect: 'pre-magic-white-flash',
+            },
+            {
+              kind: 'dialog',
+              cue: {
+                identity: { kind: 'actor', actor: 'actor-dialog' },
+                slot: 'bottom',
+                rows: [{ text: 'dialog.actor' }],
+              },
+            },
+          ],
+        },
+      ],
+      onLose: [nestedParty],
+    }
+    const parent = commandVisit(battle, 'sharedScripts.shared/test.body[0]')
+    const nested: CanonicalScriptCommandVisit = {
+      command: nestedParty,
+      path: 'sharedScripts.shared/test.body[0].onLose[0]',
+      locator: {
+        ...parent.locator,
+        commandPath: '0/onLose/0',
+      },
+    }
+    const scriptState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/test': {
+          name: '战斗演出',
+          self: 'none',
+          body: [battle],
+        },
+      },
+    } as unknown as ScriptEditorState
+    const state = {
+      manifest: noEntryManifest,
+      scenes: [],
+      actors: [],
+      levelUp: {},
+      skills: [],
+      items: [],
+      enemies: [],
+      enemyTeams: [],
+      poisons: [],
+      scriptChunks: {},
+      worlds: [],
+    } as unknown as EditorState
+
+    const edges = actorReferenceEdges(state, [parent, nested], [], scriptState)
+    expect(
+      edges.map((edge) =>
+        edge.target.kind === 'actor'
+          ? `${edge.target.id}:${edge.relation.kind === 'actor-use' ? edge.relation.use : ''}`
+          : '',
+      ),
+    ).toEqual([
+      'actor-when:enemy-condition-player-in-party',
+      'actor-growth:enemy-apply-actor-growth',
+      'actor-cast:enemy-play-actor-cast-effect',
+      'actor-dialog:dialogue-actor',
+      'actor-on-lose:command-set-party-member',
+    ])
+    expect(edges.every((edge) => edge.locator.kind === 'canonical-script')).toBe(true)
+    expect(
+      edges.filter((edge) => edge.target.kind === 'actor' && edge.target.id === 'actor-on-lose'),
+    ).toHaveLength(1)
+  })
+
+  test('legacy and runtime actor references remain explicit readonly blockers', () => {
+    const state = {
+      manifest: noEntryManifest,
+      scenes: [],
+      actors: [{ id: 'hero' }],
+      levelUp: {},
+      skills: [],
+      items: [],
+      enemies: [],
+      enemyTeams: [],
+      poisons: [],
+      scriptChunks: {
+        legacy: {
+          id: 'legacy',
+          scripts: { old: [{ kind: 'setParty', members: ['hero'] }] },
+        },
+      },
+      worlds: [
+        {
+          party: [{ id: 'party-instance', template: 'hero' }],
+          reserve: [{ id: 'reserve-instance', template: 'hero' }],
+          money: 0,
+          inventory: [],
+        },
+      ],
+    } as unknown as EditorState
+    const edges = actorReferenceEdges(state, [], [], {
+      scenes: [],
+      items: [],
+      sharedScripts: {},
+    }).filter((edge) => edge.target.kind === 'actor' && edge.target.id === 'hero')
+
+    expect(edges).toHaveLength(3)
+    expect(edges).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          source: expect.objectContaining({
+            owner: { kind: 'script-chunk', chunkId: 'legacy', scriptId: 'old' },
+          }),
+          relation: { kind: 'actor-use', use: 'command-set-party-member' },
+          locator: expect.objectContaining({ kind: 'unavailable' }),
+          deletePolicy: 'block',
+        }),
+        expect.objectContaining({
+          source: expect.objectContaining({ owner: { kind: 'runtime-world' } }),
+          relation: { kind: 'actor-use', use: 'world-party-template' },
+          locator: expect.objectContaining({ kind: 'unavailable' }),
+          deletePolicy: 'block',
+        }),
+        expect.objectContaining({
+          source: expect.objectContaining({ owner: { kind: 'runtime-world' } }),
+          relation: { kind: 'actor-use', use: 'world-reserve-template' },
+          locator: expect.objectContaining({ kind: 'unavailable' }),
+          deletePolicy: 'block',
+        }),
+      ]),
+    )
   })
 
   test('canonical source deletion scope includes exact behavior and hook targets', () => {
@@ -520,7 +683,13 @@ describe('project reference adapters', () => {
     const state = { manifest, scenes: [], scriptChunks: {} } as unknown as EditorState
     const scriptState: ScriptEditorState = { scenes: [], items: [], sharedScripts: {} }
     const visits = [commandVisit({ kind: 'openShop', shop: 1, mode: 'buy' }, 'buy')]
-    const input = { state, scriptState, commandVisits: visits, entityAddressReferences: [] }
+    const input = {
+      state,
+      scriptState,
+      commandVisits: visits,
+      transitionVisits: [],
+      entityAddressReferences: [],
+    }
     expect(buildProjectReferenceSnapshotFromProjection(input)).toEqual(
       buildProjectReferenceSnapshotFromProjection(input),
     )

@@ -1,6 +1,6 @@
 import type { ActorReferenceKind } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { blockingActorReferences, collectActorReferences } from './actor-references.js'
+import { actorReferenceBlocksDeletion, collectActorReferences } from './actor-references.js'
 import type { EditorState } from './edit-session.js'
 
 function state(): EditorState {
@@ -155,8 +155,13 @@ const EXTERNAL_KINDS = [
 ] as const satisfies readonly ActorReferenceKind[]
 
 describe('Actor 引用闭包', () => {
+  const blockingReferences = (current: EditorState, actorId: string) =>
+    collectActorReferences(current).filter(
+      (reference) => reference.actorId === actorId && actorReferenceBlocksDeletion(reference),
+    )
+
   test('16 个作者外部定位变体逐项进入删除门禁并都有可跳转 locator', () => {
-    const references = blockingActorReferences(state(), 'hero')
+    const references = blockingReferences(state(), 'hero')
     expect(new Set(references.map((reference) => reference.kind))).toEqual(new Set(EXTERNAL_KINDS))
     for (const kind of EXTERNAL_KINDS) {
       const found = references.find((reference) => reference.kind === kind)
@@ -181,7 +186,7 @@ describe('Actor 引用闭包', () => {
     current.actors = current.actors.filter((actor) => actor.id === 'hero')
     current.items = []
     current.enemies = []
-    expect(blockingActorReferences(current, 'hero')).toEqual([])
+    expect(blockingReferences(current, 'hero')).toEqual([])
   })
 
   test('物品私有脚本中的人物命令进入删除门禁', () => {
@@ -218,7 +223,7 @@ describe('Actor 引用闭包', () => {
       },
     ] as never
     current.enemies = []
-    const reference = blockingActorReferences(current, 'hero').find(
+    const reference = blockingReferences(current, 'hero').find(
       (entry) => entry.kind === 'command-set-party-member',
     )
     expect(reference).toMatchObject({
@@ -239,7 +244,7 @@ describe('Actor 引用闭包', () => {
         reserve: collection === 'reserve' ? [{ template: 'hero' }] : [],
       },
     ] as never
-    const reference = blockingActorReferences(current, 'hero').find((entry) => entry.kind === kind)
+    const reference = blockingReferences(current, 'hero').find((entry) => entry.kind === kind)
     expect(reference).toMatchObject({ kind, locator: undefined })
     expect(reference?.unavailableReason).toMatch(/只读/)
   })

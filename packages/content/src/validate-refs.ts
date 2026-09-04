@@ -14,7 +14,7 @@
 import { isActorEntity } from './actor.js'
 import { ACTOR_STATUS_DEFINITIONS, isCarryableStatusId } from './actor-condition.js'
 import { ACTOR_REFERENCE_POLICIES, collectActorTaggedReferences } from './actor-reference.js'
-import { collectWorldBattleDataReferences } from './character.js'
+import { collectWorldActorReferences, collectWorldBattleDataReferences } from './character.js'
 import { visitCommandTargetReferences } from './command-target-reference.js'
 import type {
   ActorDef,
@@ -1631,6 +1631,13 @@ export function validateReferences(b: ContentBundle): Issue[] {
         message: `毒 "${reference.id}" 不在 poisons`,
       })
   }
+  for (const reference of collectWorldActorReferences(b.worlds ?? []))
+    if (!actorIds.has(reference.actorId))
+      issues.push({
+        severity: ACTOR_REFERENCE_POLICIES[reference.kind].danglingSeverity,
+        where: reference.where,
+        message: `角色 "${reference.actorId}" 不在 actors`,
+      })
 
   // ── levelUp ─────────────────────────────────────────────
   for (const [cid, list] of Object.entries(b.levelUp)) {

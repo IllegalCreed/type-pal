@@ -15,15 +15,16 @@ import { Playback } from '../core/playback.js'
 import type {
   CanonicalScriptReference,
   SceneHookSlot,
+  ScriptCommandOwner,
   ScriptEditorCommand,
   ScriptEditorState,
 } from '../core/script-editor.js'
-import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { DsTabs } from './design-system/index.js'
 import { PanelResizeHandle, useStoredPanelNumber } from './PanelResizeHandle.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 import { clampPanelSize } from './panel-layout.js'
 import { ScriptBehaviorInspector } from './ScriptBehaviorInspector.js'
+import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { ScriptSceneHookInspector } from './ScriptSceneHookInspector.js'
 
 const EMPTY_STAGES: readonly ScriptStage[] = []
@@ -31,6 +32,8 @@ const DRAWER_DEFAULT_HEIGHT = 420
 const DRAWER_MIN_HEIGHT = 220
 const PREVIEW_MIN_HEIGHT = 140
 const RESIZER_SIZE = 1
+
+type SceneScriptOwner = Extract<ScriptCommandOwner, { kind: 'entity-behavior' | 'scene-hook' }>
 
 export function CanonicalSceneScriptWorkspace(props: {
   scene: SceneDef
@@ -54,6 +57,7 @@ export function CanonicalSceneScriptWorkspace(props: {
   onDispatch: (command: ScriptEditorCommand) => void
   onOpenReference?: (reference: CanonicalScriptReference) => void
   focusReference?: { reference: CanonicalScriptReference; revision: number }
+  focusOwner?: { owner: SceneScriptOwner; revision: number }
   onError?: (message: string) => void
   behaviorReferenceIndex?: ReadonlyMap<string, readonly CanonicalScriptReference[]>
   sceneHookReferenceIndex?: ReadonlyMap<string, readonly CanonicalScriptReference[]>
@@ -90,18 +94,28 @@ export function CanonicalSceneScriptWorkspace(props: {
   }, [props.scene.id, props.selectedEntityId])
 
   useEffect(() => {
-    const focus = props.focusReference
-    if (!focus) return
-    const locator = focus.reference.locator
-    if (locator.kind === 'scene-hook-initial') {
+    const referenceFocus = props.focusReference
+    const ownerFocus = props.focusOwner
+    if (!referenceFocus && !ownerFocus) return
+    if (
+      referenceFocus &&
+      (!ownerFocus || referenceFocus.revision > ownerFocus.revision) &&
+      referenceFocus.reference.locator.kind === 'scene-hook-initial'
+    ) {
+      const locator = referenceFocus.reference.locator
       if (locator.sceneId !== props.scene.id) return
       setOwner('scene')
       setHookSlot(locator.slot)
       setSelectedHooks((current) => ({ ...current, [locator.slot]: locator.hookId }))
       return
     }
-    if (locator.kind !== 'command') return
-    const commandOwner = locator.owner
+    const commandOwner =
+      ownerFocus && (!referenceFocus || ownerFocus.revision >= referenceFocus.revision)
+        ? ownerFocus.owner
+        : referenceFocus?.reference.locator.kind === 'command'
+          ? referenceFocus.reference.locator.owner
+          : undefined
+    if (!commandOwner) return
     if (commandOwner.kind === 'scene-hook' && commandOwner.sceneId === props.scene.id) {
       setOwner('scene')
       setHookSlot(commandOwner.slot)
@@ -123,7 +137,7 @@ export function CanonicalSceneScriptWorkspace(props: {
         [commandOwner.channel]: commandOwner.behaviorId,
       }))
     }
-  }, [props.focusReference, props.scene.id, props.selectedEntityId])
+  }, [props.focusOwner, props.focusReference, props.scene.id, props.selectedEntityId])
 
   const canonicalScene = props.state.scenes.find((candidate) => candidate.id === props.scene.id)
   const canonicalEntity = canonicalScene?.entities.find(

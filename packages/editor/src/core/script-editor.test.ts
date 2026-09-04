@@ -8,13 +8,14 @@ import type {
 import { describe, expect, test, vi } from 'vitest'
 import {
   AddEntityBehaviorCommand,
-  AddSceneEntityDefinitionCommand,
   AddItemPrivateScriptCommand,
+  AddSceneEntityDefinitionCommand,
   AddSceneHookCommand,
   AddSharedScriptCommand,
   behaviorReferences,
   CopyEntityBehaviorCommand,
   CopySceneHookCommand,
+  collectCanonicalScriptTransitionVisits,
   collectScriptReferenceIssues,
   DeleteEntityBehaviorCommand,
   DeleteItemPrivateScriptCommand,
@@ -38,7 +39,6 @@ import {
   SetSceneHookInitialCommand,
   sceneHookReferences,
   stateTransitionExecutionLabel,
-  UpdateEntityBehaviorCommand,
   UpdateSceneHookCommand,
   UpdateSharedScriptCommand,
   UpdateSharedScriptMetadataCommand,
@@ -478,6 +478,53 @@ describe('canonical script editor commands', () => {
         commandPath: 'not-a-command-path',
       }),
     ).toBeUndefined()
+  })
+
+  test('collects state-machine transitions with stable owner and exact path', () => {
+    const state = editorState()
+    state.scenes[0]!.entities[0]!.behaviors!.trigger!.source = {
+      label: '连续来源',
+      order: 1,
+      flow: {
+        kind: 'stateMachine',
+        machine: {
+          id: 'conversation',
+          label: '连续交谈',
+          initial: 'opening',
+          states: {
+            opening: {
+              label: '开场',
+              body: [],
+              next: {
+                kind: 'branch',
+                cond: { kind: 'inParty', actorId: 'hero' },
+                then: { kind: 'stay' },
+                else: { kind: 'restart' },
+              },
+            },
+          },
+        },
+      },
+    }
+
+    expect(collectCanonicalScriptTransitionVisits(state)).toEqual([
+      {
+        transition: {
+          kind: 'branch',
+          cond: { kind: 'inParty', actorId: 'hero' },
+          then: { kind: 'stay' },
+          else: { kind: 'restart' },
+        },
+        path: 'scenes.s001.entities.e1.behaviors.trigger.source.flow.machine.states.opening.next',
+        owner: {
+          kind: 'entity-behavior',
+          sceneId: 's001',
+          entityId: 'e1',
+          channel: 'trigger',
+          behaviorId: 'source',
+        },
+      },
+    ])
   })
 
   test('copies and deletes only unreferenced behaviors', () => {

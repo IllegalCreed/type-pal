@@ -27,7 +27,6 @@ import {
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import { isRuntimeScriptRef } from '@type-pal/reforge'
-import { type ActorReference, blockingActorReferenceMap } from './actor-references.js'
 import { collectEditorAssetDiagnostics, type EditorAssetDiagnostic } from './asset-diagnostics.js'
 import type { EditorState } from './edit-session.js'
 import {
@@ -48,7 +47,9 @@ import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   type CanonicalSchemeReferenceIndexes,
   type CanonicalScriptCommandVisit,
+  type CanonicalScriptTransitionVisit,
   collectCanonicalScriptCommandVisits,
+  collectCanonicalScriptTransitionVisits,
   collectScriptReferenceIssuesFromVisits,
   type ScriptEditorState,
   type ScriptReferenceIssue,
@@ -640,7 +641,6 @@ export interface EditorDiagnosticsSnapshot {
   assetSnapshot: EditorAssetReferenceSnapshot
   assetDiagnostics: EditorAssetDiagnostic[]
   entityAddressReferences: EntityAddressReference[]
-  actorReferenceIndex: Map<string, ActorReference[]>
   itemReferenceIndex: Map<string, ItemReference[]>
   worldVariableReferences: WorldVariableReferenceIndexV1
   sceneEntryReferenceIndex: Map<string, SceneEntryReferenceEntry[]>
@@ -654,12 +654,12 @@ export interface EditorDiagnosticsDependencies {
   collectEditorAssetReferenceSnapshotFromSlices: typeof collectEditorAssetReferenceSnapshotFromSlices
   collectEditorAssetDiagnostics: typeof collectEditorAssetDiagnostics
   collectCanonicalScriptCommandVisits: typeof collectCanonicalScriptCommandVisits
+  collectCanonicalScriptTransitionVisits: typeof collectCanonicalScriptTransitionVisits
   collectScriptReferenceIssuesFromVisits: typeof collectScriptReferenceIssuesFromVisits
   collectWorldVariableReferencesV1FromVisits: typeof collectWorldVariableReferencesV1FromVisits
   collectEntityAddressReferences: typeof collectEntityAddressReferences
   buildCanonicalSceneEntryReferenceIndexFromVisits: typeof buildCanonicalSceneEntryReferenceIndexFromVisits
   buildCanonicalSchemeReferenceIndexesFromVisits: typeof buildCanonicalSchemeReferenceIndexesFromVisits
-  blockingActorReferenceMap: typeof blockingActorReferenceMap
   itemReferenceMap: typeof itemReferenceMap
   buildProjectReferenceSnapshotFromProjection: typeof buildProjectReferenceSnapshotFromProjection
 }
@@ -677,12 +677,12 @@ export function createEditorDiagnosticsSnapshotCollector(
     collectEditorAssetReferenceSnapshotFromSlices,
     collectEditorAssetDiagnostics,
     collectCanonicalScriptCommandVisits,
+    collectCanonicalScriptTransitionVisits,
     collectScriptReferenceIssuesFromVisits,
     collectWorldVariableReferencesV1FromVisits,
     collectEntityAddressReferences,
     buildCanonicalSceneEntryReferenceIndexFromVisits,
     buildCanonicalSchemeReferenceIndexesFromVisits,
-    blockingActorReferenceMap,
     itemReferenceMap,
     buildProjectReferenceSnapshotFromProjection,
     ...overrides,
@@ -706,6 +706,8 @@ export function createEditorDiagnosticsSnapshotCollector(
     })
     const commandVisits: CanonicalScriptCommandVisit[] =
       dependencies.collectCanonicalScriptCommandVisits(scriptState)
+    const transitionVisits: CanonicalScriptTransitionVisit[] =
+      dependencies.collectCanonicalScriptTransitionVisits(scriptState)
     const assetSnapshot = dependencies.collectEditorAssetReferenceSnapshotFromSlices(
       currentAuthorState,
       author,
@@ -728,7 +730,6 @@ export function createEditorDiagnosticsSnapshotCollector(
     const canonicalSchemeReferenceIndexes = canonical
       ? dependencies.buildCanonicalSchemeReferenceIndexesFromVisits(scriptState, commandVisits)
       : { behavior: new Map(), sceneHook: new Map() }
-    const actorReferenceIndex = dependencies.blockingActorReferenceMap(currentAuthorState)
     const itemReferenceIndex = dependencies.itemReferenceMap(
       currentAuthorState,
       canonical ? scriptState : undefined,
@@ -737,6 +738,7 @@ export function createEditorDiagnosticsSnapshotCollector(
       state: currentAuthorState,
       scriptState,
       commandVisits,
+      transitionVisits,
       entityAddressReferences,
     })
     const scan = { referenceIssues, assetSnapshot, assetDiagnostics }
@@ -756,7 +758,6 @@ export function createEditorDiagnosticsSnapshotCollector(
       assetSnapshot,
       assetDiagnostics,
       entityAddressReferences,
-      actorReferenceIndex,
       itemReferenceIndex,
       worldVariableReferences,
       sceneEntryReferenceIndex,
