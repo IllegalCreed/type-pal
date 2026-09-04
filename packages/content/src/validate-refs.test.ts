@@ -3,6 +3,8 @@ import {
   type ContentBundle,
   collectBattleSpriteDefinitionReferences,
   collectSpriteActionReferences,
+  collectSpriteDefinitionReferences,
+  commandSpriteTaggedReferencesAtNode,
   validateReferences,
 } from './validate-refs.js'
 
@@ -300,6 +302,100 @@ test('技能 execution 分支的 summon/trance 进入 BattleSpriteDef 静态引�
     ]),
   )
 })
+
+test('canonical shared 与 item-private 的世界/动作/战斗精灵叶进入保存闭包', () => {
+  const b = clone(base)
+  b.sharedScripts = {
+    shared: {
+      name: '共享演出',
+      self: 'none',
+      body: [
+        { kind: 'setActorSprite', actor: 'hero', sprite: 'missing-shared-world' },
+        {
+          kind: 'setActorAppearance',
+          actor: 'hero',
+          battleSprite: 'missing-shared-battle',
+        },
+        {
+          kind: 'playEntityAction',
+          target: { scene: 's', entity: 'e' },
+          sprite: 'ghost',
+          action: 'missing-action',
+          loop: false,
+        },
+      ],
+    },
+    'foo:equip:bar': {
+      name: '名称碰巧含 equip 的共享脚本',
+      self: 'none',
+      body: [
+        {
+          kind: 'setActorAppearance',
+          actor: 'hero',
+          battleSprite: 'missing-equip-token-battle',
+        },
+      ],
+    },
+  }
+  b.items = [
+    {
+      id: 'private',
+      name: '私有演出',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'scene',
+        consuming: false,
+        effects: [
+          {
+            kind: 'itemPrivateScript',
+            script: {
+              id: 'use',
+              label: '私有正文',
+              body: [
+                {
+                  kind: 'setActorAppearance',
+                  actor: 'hero',
+                  spriteId: 'missing-item-world',
+                  battleSprite: 'missing-item-battle',
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ] as never
+
+  expect(
+    commandSpriteTaggedReferencesAtNode(
+      { kind: 'unrelated', sprite: 'not-a-reference', battleSprite: 'not-a-reference' },
+      'command',
+    ),
+  ).toEqual([])
+  expect(collectSpriteDefinitionReferences(b).map((reference) => reference.sprite)).toEqual(
+    expect.arrayContaining(['missing-shared-world', 'missing-item-world']),
+  )
+  expect(collectSpriteActionReferences(b).map((reference) => reference.action)).toContain(
+    'missing-action',
+  )
+  expect(
+    collectBattleSpriteDefinitionReferences(b).map((reference) => reference.battleSprite),
+  ).toEqual(expect.arrayContaining(['missing-shared-battle', 'missing-item-battle']))
+  const errors = validateReferences(b).filter((issue) => issue.severity === 'error')
+  expect(
+    [
+      'missing-shared-world',
+      'missing-item-world',
+      'missing-shared-battle',
+      'missing-item-battle',
+      'missing-equip-token-battle',
+      'missing-action',
+    ].filter((id) => !errors.some((issue) => issue.message.includes(id))),
+  ).toEqual([])
+})
 test('敌脚本逻辑引用递归保留精确路径并拒绝非战斗角色', () => {
   const b = enemyReferenceBundle()
   b.actors.push({ id: 'villager', name: 'name.hero', spriteId: 'ghost' })
@@ -540,7 +636,7 @@ test('页绑定与嵌套命令按 (sprite, action) 复合引用校验', () => {
   expect(errors.some((issue) => issue.where.includes('.pages[0].animation.action'))).toBe(true)
   expect(errors.some((issue) => issue.where.includes('.onEnter'))).toBe(true)
 })
-test('动作引用保留场景页与 ScriptTree 精确路径', () => {
+test('动作引用保留场景页与嵌套命令的精确校验路径', () => {
   const b = clone(base)
   b.scenes[0]!.entities[0]!.pages = [
     {},
@@ -616,28 +712,16 @@ test('动作引用保留场景页与 ScriptTree 精确路径', () => {
     library: { wave: { name: '测试动作', self: 'none' } },
   }
 
-  expect(collectSpriteActionReferences(b).map((reference) => reference.locator)).toEqual(
+  expect(collectSpriteActionReferences(b).map((reference) => reference.where)).toEqual(
     expect.arrayContaining([
-      { kind: 'page-animation', sceneId: 's', entityId: 'e', pageIndex: 1 },
-      {
-        kind: 'scene-command',
-        sceneId: 's',
-        sourceKey: 'e:trigger',
-        entityId: 'e',
-        pageIndex: 1,
-        path: '0/0/then/0',
-      },
-      {
-        kind: 'scene-command',
-        sceneId: 's',
-        sourceKey: '__onEnter__',
-        path: '0/entry/prepare/0',
-      },
-      { kind: 'script-command', scriptId: 'wave', path: '0/0/onNo/0' },
+      'scenes[0].entities[0].pages[1].animation.action',
+      'scenes[0].entities[0].pages[1].trigger.stages[0].body[0].then[0].action',
+      'scenes[0].onEnter[0].entry.prepare[0].action',
+      'scriptChunks["shared"].scripts["wave"][0].onNo[0].action',
     ]),
   )
 })
-test('未登记的内部共享脚本动作引用保持只读，不伪造不可达定位', () => {
+test('未登记的内部共享脚本动作引用仍进入校验闭包', () => {
   const b = clone(base)
   b.scriptChunks = {
     shared: {
@@ -658,7 +742,6 @@ test('未登记的内部共享脚本动作引用保持只读，不伪造不可�
   }
   const references = collectSpriteActionReferences(b)
   expect(references).toEqual([expect.objectContaining({ action: 'idle' })])
-  expect(references[0]?.locator).toBeUndefined()
 })
 test('canonical 行为、hooks 与共享脚本动作可校验且不会把 behavior id 当 inline stages', () => {
   const b = clone(base)
@@ -753,7 +836,7 @@ test('canonical 行为、hooks 与共享脚本动作可校验且不会把 behavi
     expect.arrayContaining(['behavior-action', 'hook-action', 'shared-action']),
   )
 })
-test('动态脚本绑定内联 stages 的动作仍进入校验与删除保护，但不伪造 ScriptTree 路径', () => {
+test('动态脚本绑定内联 stages 的动作仍进入校验与删除保护', () => {
   const b = clone(base)
   b.scenes[0]!.onEnter = [
     {
@@ -782,7 +865,6 @@ test('动态脚本绑定内联 stages 的动作仍进入校验与删除保护，
   expect(references).toEqual([
     expect.objectContaining({ action: 'missing-inline-action', sprite: 'ghost' }),
   ])
-  expect(references[0]?.locator).toBeUndefined()
   expect(validateReferences(b)).toEqual(
     expect.arrayContaining([
       expect.objectContaining({ message: expect.stringContaining('missing-inline-action') }),

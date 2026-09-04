@@ -15,6 +15,7 @@ import {
   entityAddressReferenceEdges,
   itemReferenceEdges,
   legacyScriptChunkTargetEdges,
+  spriteReferenceEdges,
   structuralProjectReferenceEdges,
 } from './project-reference-adapters.js'
 import type {
@@ -846,6 +847,209 @@ describe('project reference adapters', () => {
         section: 'spirit-gourd',
       },
     })
+  })
+
+  test('page animation is one stable action edge shared by action and definition buckets', () => {
+    const state = {
+      manifest: noEntryManifest,
+      scenes: [
+        {
+          id: 'scene',
+          mapId: 'map',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: 'entity',
+              actor: 'hero',
+              pos: { col: 0, row: 0, height: 0 },
+              pages: [
+                {
+                  id: 'page-two',
+                  animation: { sprite: 'sprite', action: 'wave', loop: false },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      actors: [],
+      items: [],
+      skills: [],
+      enemies: [],
+      worlds: [],
+      scriptChunks: {},
+    } as unknown as EditorState
+    const edges = spriteReferenceEdges(state, [], { scenes: [], items: [], sharedScripts: {} })
+    const snapshot = buildProjectReferenceSnapshot(edges)
+    const index = createProjectReferenceIndex(snapshot)
+    const action = index.referencesTo({
+      kind: 'world-sprite-action',
+      spriteId: 'sprite',
+      actionId: 'wave',
+    })
+    const definition = index.referencesTo({ kind: 'world-sprite', id: 'sprite' })
+
+    expect(snapshot.rows).toHaveLength(1)
+    expect(action).toHaveLength(1)
+    expect(definition).toHaveLength(1)
+    expect(action[0]?.id).toBe(definition[0]?.id)
+    expect(action[0]?.locator).toEqual({
+      kind: 'scene-page',
+      sceneId: 'scene',
+      entityId: 'entity',
+      pageId: 'page-two',
+    })
+  })
+
+  test('canonical shared/item-private and legacy/runtime sprite leaves keep exact ownership', () => {
+    const sharedWorld = commandVisit(
+      { kind: 'setActorSprite', actor: 'hero', sprite: 'world-shared' },
+      'sharedScripts.shared.body[0]',
+    )
+    const sharedBattle = commandVisit(
+      {
+        kind: 'setActorAppearance',
+        actor: 'hero',
+        battleSprite: 'battle-shared',
+      },
+      'sharedScripts.shared.body[1]',
+    )
+    const itemAction: CanonicalScriptCommandVisit = {
+      command: {
+        kind: 'playEntityAction',
+        target: { scene: 'scene', entity: 'entity' },
+        sprite: 'world-item',
+        action: 'wave',
+        loop: false,
+      },
+      path: 'items.item.use.effects[0].script.body[0]',
+      locator: {
+        kind: 'command',
+        owner: { kind: 'item-private-script', itemId: 'item', ability: 'use', scriptId: 'use' },
+        container: { kind: 'body' },
+        commandPath: '0',
+      },
+    }
+    const state = {
+      manifest: noEntryManifest,
+      scenes: [],
+      actors: [],
+      items: [],
+      skills: [],
+      enemies: [],
+      worlds: [
+        {
+          party: [
+            {
+              id: 'hero-instance',
+              appearance: { spriteId: 'world-runtime', battleSprite: 'battle-runtime' },
+            },
+          ],
+          reserve: [],
+          inventory: [],
+        },
+      ],
+      scriptChunks: {
+        legacy: {
+          id: 'legacy',
+          scripts: {
+            old: [
+              { kind: 'setActorSprite', actor: 'hero', sprite: 'world-legacy' },
+              {
+                kind: 'setActorAppearance',
+                actor: 'hero',
+                battleSprite: 'battle-legacy',
+              },
+            ],
+          },
+        },
+      },
+    } as unknown as EditorState
+    const scriptState = {
+      scenes: [],
+      items: [],
+      sharedScripts: { shared: { name: '共享', self: 'none', body: [] } },
+    } as ScriptEditorState
+    const index = createProjectReferenceIndex(
+      buildProjectReferenceSnapshot(
+        spriteReferenceEdges(state, [sharedWorld, sharedBattle, itemAction], scriptState),
+      ),
+    )
+
+    expect(index.referencesTo({ kind: 'world-sprite', id: 'world-shared' })).toMatchObject([
+      { locator: { kind: 'canonical-script' } },
+    ])
+    expect(
+      index.referencesTo({
+        kind: 'world-sprite-action',
+        spriteId: 'world-item',
+        actionId: 'wave',
+      }),
+    ).toMatchObject([
+      {
+        source: { owner: { kind: 'script-owner', owner: { kind: 'item-private-script' } } },
+        locator: { kind: 'canonical-script' },
+      },
+    ])
+    expect(index.referencesTo({ kind: 'battle-sprite', id: 'battle-shared' })).toMatchObject([
+      {
+        relation: { kind: 'battle-sprite-use', expectedProfile: 'player-fighter' },
+        locator: { kind: 'canonical-script' },
+      },
+    ])
+    for (const [kind, id] of [
+      ['world-sprite', 'world-legacy'],
+      ['battle-sprite', 'battle-legacy'],
+      ['world-sprite', 'world-runtime'],
+      ['battle-sprite', 'battle-runtime'],
+    ] as const)
+      expect(index.referencesTo({ kind, id })).toMatchObject([
+        { locator: { kind: 'unavailable' }, deletePolicy: 'block' },
+      ])
+  })
+
+  test('enemy sprite command edges retain the real choreography and defeated paths', () => {
+    const state = {
+      manifest: noEntryManifest,
+      scenes: [],
+      actors: [],
+      items: [],
+      skills: [],
+      enemies: [
+        {
+          id: 'enemy',
+          battleSprite: 'battle',
+          choreography: [{ kind: 'setActorSprite', actor: 'hero', sprite: 'world-choreography' }],
+          onDefeated: [
+            {
+              kind: 'playEntityAction',
+              target: { scene: 'scene', entity: 'entity' },
+              sprite: 'world-defeated',
+              action: 'fall',
+              loop: false,
+            },
+          ],
+        },
+      ],
+      worlds: [],
+      scriptChunks: {},
+    } as unknown as EditorState
+    const index = createProjectReferenceIndex(
+      buildProjectReferenceSnapshot(
+        spriteReferenceEdges(state, [], { scenes: [], items: [], sharedScripts: {} }),
+      ),
+    )
+
+    expect(index.referencesTo({ kind: 'world-sprite', id: 'world-choreography' })[0]?.where).toBe(
+      'enemies[0](enemy).choreography[0].sprite',
+    )
+    expect(
+      index.referencesTo({
+        kind: 'world-sprite-action',
+        spriteId: 'world-defeated',
+        actionId: 'fall',
+      })[0]?.where,
+    ).toBe('enemies[0](enemy).onDefeated[0].action')
   })
 
   test('canonical source deletion scope includes exact behavior and hook targets', () => {

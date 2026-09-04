@@ -1,21 +1,21 @@
 import type {
   ActorDef,
   AuthorCommand,
+  AuthorSceneDef,
+  AuthorScriptFlow,
+  AuthorScriptLibrary,
   Command,
   EntityDef,
-  AuthorSceneDef,
   ScriptChunkV1,
   ScriptCondition,
-  AuthorScriptFlow,
   ScriptRef,
   ScriptStage,
-  AuthorScriptLibrary,
   SpriteDef,
-  SpriteDefinitionReference,
 } from '@type-pal/content'
 import { resolveEntitySpriteId } from '@type-pal/content'
 import { actualFrameIndex } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
+import type { ProjectReferenceEdge } from './project-reference.js'
 
 type AuthorSceneEntityDef = AuthorSceneDef['entities'][number]
 
@@ -76,9 +76,13 @@ export interface SpriteAutomaticScriptInstanceSite {
   via: 'direct' | 'actor'
 }
 
-function referencedSceneEntity(state: EditorState, reference: SpriteDefinitionReference) {
-  const [, sceneId, entityKind, entityId] = reference.site.split(':')
-  if (!sceneId || entityKind !== 'entity' || !entityId) return undefined
+function referencedSceneEntity(state: EditorState, reference: ProjectReferenceEdge) {
+  const owner = reference.source.owner
+  const sceneId =
+    owner.kind === 'scene-entity' || owner.kind === 'scene-page' ? owner.sceneId : undefined
+  const entityId =
+    owner.kind === 'scene-entity' || owner.kind === 'scene-page' ? owner.entityId : undefined
+  if (!sceneId || !entityId) return undefined
   const entity = state.scenes
     .find((scene) => scene.id === sceneId)
     ?.entities.find((candidate) => candidate.id === entityId)
@@ -1170,7 +1174,7 @@ export function collectSpriteAutomaticScriptBehaviors(
  */
 export function describeSpriteReferenceBehavior(
   state: EditorState,
-  reference: SpriteDefinitionReference,
+  reference: ProjectReferenceEdge,
   definition: SpriteDef,
   actualFrameCount?: number,
 ): SpriteReferenceBehavior {
@@ -1197,25 +1201,23 @@ export function describeSpriteReferenceBehavior(
       detail: '默认显示 #0；剧情脚本仍可临时切换同容器中的其它帧',
     }
   }
-  if (reference.site.startsWith('actor:'))
+  if (reference.source.owner.kind === 'actor')
     return { kind: 'reference', label: '角色基础外观', detail: '角色实例通过此用途取得大世界外观' }
-  if (reference.site.startsWith('script:'))
+  if (
+    reference.source.owner.kind === 'script-owner' ||
+    reference.source.owner.kind === 'script-chunk' ||
+    reference.source.owner.kind === 'shared-script'
+  )
     return { kind: 'script', label: '剧情脚本引用', detail: '脚本可在运行时切换到此用途定义' }
-  if (reference.site.startsWith('world:')) {
-    const [, , role, subjectId] = reference.site.split(':')
-    if (role === 'character' && subjectId)
-      return {
-        kind: 'reference',
-        label: '角色运行态外观',
-        detail: `世界状态中的角色 ${subjectId} 以此用途定义覆盖基础外观`,
-      }
-    if (role === 'followers')
-      return {
-        kind: 'reference',
-        label: '跟随队列外观',
-        detail: '世界状态的编外跟随者队列直接引用此用途定义',
-      }
-    return { kind: 'reference', label: '世界状态引用', detail: '世界状态正在引用此用途定义' }
+  if (reference.source.owner.kind === 'runtime-world')
+    return {
+      kind: 'reference',
+      label: '运行态外观',
+      detail: reference.detail ?? '世界状态正在引用此用途定义',
+    }
+  return {
+    kind: 'reference',
+    label: '内容引用',
+    detail: reference.detail ?? '由对应内容对象使用此用途定义',
   }
-  return { kind: 'reference', label: '内容引用', detail: '由对应内容对象使用此用途定义' }
 }

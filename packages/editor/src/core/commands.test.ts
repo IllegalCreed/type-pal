@@ -641,7 +641,7 @@ describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
       ).apply(debt),
     ).not.toThrow()
     expect(() =>
-      new UpdateSpriteCommand('li', { poses: undefined }, proof).apply(debt),
+      new UpdateSpriteCommand('li', { poses: undefined }, proof, currentReferences).apply(debt),
     ).not.toThrow()
   })
   test('共享 AssetId 下语义名称与二进制资源名称互不串改', () => {
@@ -1110,7 +1110,7 @@ describe('A7-3W 精灵 catalog 命令(共享安全 + undo)', () => {
   test('删除定义不静默删资产；独立删除未使用资产可撤销', () => {
     const blob = bytes(8)
     const s0 = new AddSpriteCommand(heroDef, heroRecord, blob).apply(stS())
-    const cmd = new RemoveSpriteDefinitionCommand('my-hero')
+    const cmd = new RemoveSpriteDefinitionCommand('my-hero', currentReferences)
     const s1 = cmd.apply(s0)
     expect(s1.sprites.some((sprite) => sprite.id === 'my-hero')).toBe(false)
     expect(s1.assetCatalog.assets[heroDef.asset]).toBeDefined()
@@ -1205,9 +1205,9 @@ describe('A7-3W 精灵 catalog 命令(共享安全 + undo)', () => {
         },
       },
     }
-    expect(() => new RemoveSpriteDefinitionCommand(heroDef.id).apply(referenced)).toThrow(
-      /仍被 1 处引用.*scriptChunks/,
-    )
+    expect(() =>
+      new RemoveSpriteDefinitionCommand(heroDef.id, currentReferences).apply(referenced),
+    ).toThrow(/仍被 1 处引用.*scriptChunks/s)
   })
   test('替换保持 id/AssetId，校验消费者与帧数，并可恢复旧 record/bytes', () => {
     const prev = bytes(8)
@@ -1570,8 +1570,8 @@ describe('A7-3B 战斗精灵定义/资产生命周期', () => {
     expect(() =>
       new DeleteUnusedBattleSpriteAssetCommand(definition.asset, bytes).apply(session.getState()),
     ).toThrow(/仍被定义引用/)
-    session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id))
-    session.dispatch(new RemoveBattleSpriteDefinitionCommand(second.id))
+    session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id, currentReferences))
+    session.dispatch(new RemoveBattleSpriteDefinitionCommand(second.id, currentReferences))
     session.dispatch(new DeleteUnusedBattleSpriteAssetCommand(definition.asset, bytes))
     expect(session.getState().assetCatalog.assets[definition.asset]).toBeUndefined()
     session.undo()
@@ -1844,14 +1844,14 @@ describe('A7-3B 战斗精灵定义/资产生命周期', () => {
     const { definition, record, bytes, actor } = await fixture()
     const added = new AddBattleSpriteCommand(definition, record, bytes, 10).apply(st())
     const referenced: EditorState = { ...added, actors: [actor] }
-    expect(() => new RemoveBattleSpriteDefinitionCommand(definition.id).apply(referenced)).toThrow(
-      /仍被 1 处引用.*actors/,
-    )
+    expect(() =>
+      new RemoveBattleSpriteDefinitionCommand(definition.id, currentReferences).apply(referenced),
+    ).toThrow(/仍被 1 处引用.*actors/s)
 
     const session = new EditSession(st())
     session.dispatch(new AddBattleSpriteCommand(definition, record, bytes, 10))
     session.markSaved()
-    session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id))
+    session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id, currentReferences))
     session.dispatch(new DeleteUnusedBattleSpriteAssetCommand(definition.asset, bytes))
     expect(session.getState().battleSprites).toEqual([])
     expect(session.getState().assetCatalog.assets[definition.asset]).toBeUndefined()

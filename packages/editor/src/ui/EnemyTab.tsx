@@ -966,6 +966,9 @@ export function EnemyTab(props: {
                     assetBase={assetBase}
                     assetReader={assetReader}
                     session={session}
+                    referenceIndex={referenceIndex}
+                    referenceStatus={referenceStatus}
+                    getCurrentReferenceIndex={getCurrentReferenceIndex}
                     onOpenDefinition={onOpenBattleSprite}
                   />
                 </DsWorkbenchSection>

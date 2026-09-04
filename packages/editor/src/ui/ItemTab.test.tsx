@@ -1618,8 +1618,8 @@ describe('ItemTab', () => {
     await act(async () =>
       button('引用 2', host.querySelector('[role="tablist"][aria-label="物品检查器"]')!).click(),
     )
-    expect(host.textContent).toContain('场景 s151 / 进场脚本“默认进场行为”')
-    expect(host.textContent).toContain('场景 s154 / 实体 e2493 / 交互脚本“触发行为 1”')
+    expect(host.textContent).toContain('场景 s151 · 进场脚本 default')
+    expect(host.textContent).toContain('场景 s154 · 实体 e2493 · 交互脚本 legacy-001')
     const openButtons = [
       ...host.querySelectorAll<HTMLButtonElement>('.ds-reference-row[data-actionable="true"]'),
     ]

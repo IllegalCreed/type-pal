@@ -1,5 +1,4 @@
 import type { BattleSpriteDef, EnemyBattleSpriteProfile, EnemyDef } from '@type-pal/content'
-import { collectBattleSpriteDefinitionReferences } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import {
   BattleSpriteAssetCache,
@@ -18,6 +17,9 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { DsButton, DsDraftNumberInput, DsField, DsTag } from './design-system/controls.js'
@@ -105,6 +107,9 @@ export function EnemyAnimPreview(props: {
   assetReader: EditorAssetReader
   session: EditSession
   onOpenDefinition?: (id: string) => void
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
 }) {
   const { enemy, definitions, assetBase, assetReader, session } = props
   const fieldIdPrefix = useId()
@@ -118,11 +123,10 @@ export function EnemyAnimPreview(props: {
   }>()
   const [loadError, setLoadError] = useState('')
   const [editError, setEditError] = useState('')
-  const referenceCount = definition
-    ? collectBattleSpriteDefinitionReferences(session.getState()).filter(
-        (reference) => reference.battleSprite === definition.id,
-      ).length
-    : 0
+  const referenceCount =
+    definition && props.referenceStatus === 'current' && props.referenceIndex
+      ? props.referenceIndex.referencesTo({ kind: 'battle-sprite', id: definition.id }).length
+      : undefined
   const [mode, setMode] = useState<Mode>('idle')
   const [tick, setTick] = useState(0)
   const [uploading, setUploading] = useState(false)
@@ -218,6 +222,12 @@ export function EnemyAnimPreview(props: {
   const patchProfile = (next: EnemyBattleSpriteProfile): boolean => {
     if (!definition || !revision || !frames.length) return false
     if (
+      referenceCount === undefined &&
+      !window.confirm('战斗精灵引用仍在刷新；修改动作 ABI 会影响全部使用位置。继续吗？')
+    )
+      return false
+    if (
+      referenceCount !== undefined &&
       referenceCount > 1 &&
       !window.confirm(`该定义被 ${referenceCount} 处内容共享，修改动作 ABI 会同时生效。继续吗？`)
     )
@@ -229,6 +239,7 @@ export function EnemyAnimPreview(props: {
             definition.id,
             { profile: next },
             { asset: definition.asset, sha256: revision, actualFrameCount: frames.length },
+            props.getCurrentReferenceIndex,
           ),
         )
       ) {
@@ -276,7 +287,9 @@ export function EnemyAnimPreview(props: {
             ariaLabel="敌人战斗精灵"
           />
           {frames.length ? <DsTag tone="neutral">{frames.length} 帧</DsTag> : null}
-          {referenceCount > 1 ? <DsTag tone="neutral">共享 {referenceCount} 处</DsTag> : null}
+          {(referenceCount ?? 0) > 1 ? (
+            <DsTag tone="neutral">共享 {referenceCount} 处</DsTag>
+          ) : null}
           <DsButton
             variant="secondary"
             icon="upload"

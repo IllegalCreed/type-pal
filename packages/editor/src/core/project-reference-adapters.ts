@@ -1,14 +1,19 @@
 import {
   ACTOR_REFERENCE_POLICIES,
   actorConditionPoisonReferenceAtNode,
+  authoredSkillExecutionLayers,
+  type CommandSpriteTaggedReference,
   type CommandTargetReference,
   collectActorConditionPoisonReferences,
   collectActorTaggedReferences,
   collectCanonicalActorTaggedReferences,
   collectCanonicalCommandTargetReferences,
+  collectCommandSpriteTaggedReferences,
   collectCommandTargetReferences,
   collectWorldBattleDataReferences,
+  commandSpriteTaggedReferencesAtNode,
   DEFAULT_BATTLE_FIELD_ID,
+  isActorEntity,
 } from '@type-pal/content'
 import { type ActorReference, collectActorReferences } from './actor-references.js'
 import { type BattleDataReference, collectBattleDataReferences } from './battle-data-references.js'
@@ -29,6 +34,7 @@ import {
   buildProjectReferenceSnapshot,
   createProjectReferenceIndex,
   createProjectReferenceSource,
+  defaultProjectReferenceSourceLabel,
   type ProjectReferenceEdgeInput,
   type ProjectReferenceIndex,
   type ProjectReferenceLocator,
@@ -45,7 +51,6 @@ import type {
 import {
   collectCanonicalScriptCommandVisits,
   collectCanonicalScriptTransitionVisits,
-  describeScriptCommandOwner,
 } from './script-editor.js'
 import {
   projectCurrentAuthorReferenceSlices,
@@ -91,11 +96,12 @@ function scriptOwnerDeletedWith(owner: ScriptCommandOwner): ProjectReferenceTarg
 
 function sourceForScriptOwner(
   owner: ScriptCommandOwner,
-  scriptState?: ScriptEditorState,
+  _scriptState?: ScriptEditorState,
 ): ProjectReferenceSource {
+  const sourceOwner = { kind: 'script-owner', owner } as const
   return createProjectReferenceSource(
-    { kind: 'script-owner', owner },
-    scriptState ? describeScriptCommandOwner(scriptState, owner) : `脚本 ${owner.kind}`,
+    sourceOwner,
+    defaultProjectReferenceSourceLabel(sourceOwner),
     { deletedWith: scriptOwnerDeletedWith(owner) },
   )
 }
@@ -857,6 +863,293 @@ export function itemReferenceEdges(
   ]
 }
 
+function spriteTaggedReferenceEdge(
+  reference: CommandSpriteTaggedReference,
+  source: ProjectReferenceSource,
+  locator: ProjectReferenceLocator,
+): ProjectReferenceEdgeInput {
+  const common = {
+    source,
+    where: reference.where,
+    locator,
+    deletePolicy:
+      locator.kind === 'unavailable' ? ('block' as const) : ('replace-suggest' as const),
+  }
+  switch (reference.kind) {
+    case 'world-sprite':
+      return {
+        ...common,
+        target: { kind: 'world-sprite', id: reference.sprite },
+        relation: { kind: 'world-sprite-use' },
+        detail: '脚本切换世界精灵',
+      }
+    case 'world-sprite-action':
+      return {
+        ...common,
+        target: {
+          kind: 'world-sprite-action',
+          spriteId: reference.sprite,
+          actionId: reference.action,
+        },
+        relation: { kind: 'world-sprite-action-use', actionId: reference.action },
+        detail: `播放动作 ${reference.action}`,
+      }
+    case 'battle-sprite':
+      return {
+        ...common,
+        target: { kind: 'battle-sprite', id: reference.battleSprite },
+        relation: { kind: 'battle-sprite-use', expectedProfile: reference.expectedProfile },
+        detail: '脚本切换战斗精灵',
+      }
+  }
+}
+
+function objectReferenceSource(
+  owner: ProjectReferenceSource['owner'],
+  label: string,
+  deletedWith: readonly ProjectReferenceTarget[],
+): ProjectReferenceSource {
+  return createProjectReferenceSource(owner, label, { deletedWith })
+}
+
+function structuralSpriteReferenceEdges(state: EditorState): ProjectReferenceEdgeInput[] {
+  const edges: ProjectReferenceEdgeInput[] = []
+  for (const [actorIndex, actor] of (state.actors ?? []).entries()) {
+    const actorTarget = { kind: 'actor', id: actor.id } as const
+    const source = objectReferenceSource({ kind: 'actor', id: actor.id }, `人物 ${actor.id}`, [
+      actorTarget,
+    ])
+    edges.push({
+      target: { kind: 'world-sprite', id: actor.spriteId },
+      source,
+      relation: { kind: 'world-sprite-use' },
+      where: `actors[${actorIndex}](${actor.id}).spriteId`,
+      detail: '人物默认世界精灵',
+      locator: { kind: 'object', object: actorTarget, section: 'appearance' },
+      deletePolicy: 'replace-suggest',
+    })
+    if (actor.battler?.battleSprite)
+      edges.push({
+        target: { kind: 'battle-sprite', id: actor.battler.battleSprite },
+        source,
+        relation: { kind: 'battle-sprite-use', expectedProfile: 'player-fighter' },
+        where: `actors[${actorIndex}](${actor.id}).battler.battleSprite`,
+        detail: '人物默认战斗精灵',
+        locator: { kind: 'object', object: actorTarget, section: 'battle' },
+        deletePolicy: 'replace-suggest',
+      })
+  }
+  for (const [sceneIndex, scene] of state.scenes.entries()) {
+    const sceneTarget = { kind: 'scene', id: scene.id } as const
+    for (const [entityIndex, entity] of scene.entities.entries()) {
+      const entityTarget = { kind: 'entity', sceneId: scene.id, entityId: entity.id } as const
+      const entitySource = objectReferenceSource(
+        { kind: 'scene-entity', sceneId: scene.id, entityId: entity.id },
+        `场景 ${scene.id} · 实体 ${entity.id}`,
+        [entityTarget, sceneTarget],
+      )
+      if (!isActorEntity(entity) && 'sprite' in entity)
+        edges.push({
+          target: { kind: 'world-sprite', id: entity.sprite },
+          source: entitySource,
+          relation: { kind: 'world-sprite-use' },
+          where: `scenes[${sceneIndex}].entities[${entityIndex}].sprite`,
+          detail: '场景实体世界精灵',
+          locator: { kind: 'object', object: entityTarget },
+          deletePolicy: 'replace-suggest',
+        })
+      for (const [pageIndex, page] of (entity.pages ?? []).entries()) {
+        if (!page.animation) continue
+        const pageId = (page as { id?: string }).id
+        const source = pageId
+          ? objectReferenceSource(
+              {
+                kind: 'scene-page',
+                sceneId: scene.id,
+                entityId: entity.id,
+                pageId,
+              },
+              `场景 ${scene.id} · 实体 ${entity.id} · 页面 ${pageId}`,
+              [entityTarget, sceneTarget],
+            )
+          : entitySource
+        const locator: ProjectReferenceLocator = pageId
+          ? { kind: 'scene-page', sceneId: scene.id, entityId: entity.id, pageId }
+          : { kind: 'object', object: entityTarget }
+        edges.push({
+          target: {
+            kind: 'world-sprite-action',
+            spriteId: page.animation.sprite,
+            actionId: page.animation.action,
+          },
+          source,
+          relation: { kind: 'world-sprite-action-use', actionId: page.animation.action },
+          where: `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].animation.action`,
+          detail: '实体页面默认动作',
+          locator,
+          deletePolicy: 'replace-suggest',
+        })
+      }
+    }
+  }
+  for (const [enemyIndex, enemy] of (state.enemies ?? []).entries()) {
+    const target = { kind: 'enemy', id: enemy.id } as const
+    const source = objectReferenceSource({ kind: 'enemy', id: enemy.id }, `敌人 ${enemy.id}`, [
+      target,
+    ])
+    edges.push({
+      target: { kind: 'battle-sprite', id: enemy.battleSprite },
+      source,
+      relation: { kind: 'battle-sprite-use', expectedProfile: 'enemy' },
+      where: `enemies[${enemyIndex}](${enemy.id}).battleSprite`,
+      detail: '敌人战斗精灵',
+      locator: { kind: 'object', object: target },
+      deletePolicy: 'replace-suggest',
+    })
+    const commandReferences = [
+      ...collectCommandSpriteTaggedReferences(
+        enemy.choreography,
+        `enemies[${enemyIndex}](${enemy.id}).choreography`,
+      ),
+      ...collectCommandSpriteTaggedReferences(
+        enemy.onDefeated,
+        `enemies[${enemyIndex}](${enemy.id}).onDefeated`,
+      ),
+    ]
+    for (const reference of commandReferences)
+      edges.push(spriteTaggedReferenceEdge(reference, source, { kind: 'object', object: target }))
+  }
+  for (const [itemIndex, item] of (state.items ?? []).entries()) {
+    const target = { kind: 'item', id: item.id } as const
+    const source = objectReferenceSource({ kind: 'item', id: item.id }, `物品 ${item.id}`, [target])
+    item.equip?.effects.forEach((effect, effectIndex) => {
+      if (effect.kind !== 'battleSprite') return
+      for (const [actorId, battleSprite] of Object.entries(effect.byActor))
+        edges.push({
+          target: { kind: 'battle-sprite', id: battleSprite },
+          source,
+          relation: { kind: 'battle-sprite-use', expectedProfile: 'player-fighter' },
+          where: `items[${itemIndex}](${item.id}).equip.effects[${effectIndex}].byActor.${actorId}`,
+          detail: `装备战斗形象覆写 · ${actorId}`,
+          locator: { kind: 'object', object: target },
+          deletePolicy: 'replace-suggest',
+        })
+    })
+  }
+  for (const [skillIndex, skill] of (state.skills ?? []).entries()) {
+    const target = { kind: 'skill', id: skill.id } as const
+    const source = objectReferenceSource({ kind: 'skill', id: skill.id }, `技能 ${skill.id}`, [
+      target,
+    ])
+    for (const layer of authoredSkillExecutionLayers(skill))
+      (layer.effects ?? []).forEach((effect, effectIndex) => {
+        if (effect.kind !== 'summon' && effect.kind !== 'trance') return
+        const layerPath = layer.side === 'base' ? 'effects' : `execution.${layer.side}.effects`
+        edges.push({
+          target: { kind: 'battle-sprite', id: effect.battleSprite },
+          source,
+          relation: {
+            kind: 'battle-sprite-use',
+            expectedProfile: effect.kind === 'summon' ? 'summon' : 'player-fighter',
+          },
+          where: `skills[${skillIndex}](${skill.id}).${layerPath}[${effectIndex}].battleSprite`,
+          detail: effect.kind === 'summon' ? '召唤战斗精灵' : '变身战斗精灵',
+          locator: { kind: 'object', object: target },
+          deletePolicy: 'replace-suggest',
+        })
+      })
+  }
+  const runtimeSource = runtimeWorldSource()
+  const runtimeLocator = {
+    kind: 'unavailable',
+    reason: '运行态存档只读，没有作者对象可供精确编辑。',
+  } as const
+  state.worlds?.forEach((world, worldIndex) => {
+    for (const collection of ['party', 'reserve'] as const)
+      (world[collection] ?? []).forEach((character, characterIndex) => {
+        if (character.appearance?.spriteId)
+          edges.push({
+            target: { kind: 'world-sprite', id: character.appearance.spriteId },
+            source: runtimeSource,
+            relation: { kind: 'world-sprite-use' },
+            where: `worlds[${worldIndex}].${collection}[${characterIndex}].appearance.spriteId`,
+            detail: '运行态角色世界精灵覆写',
+            locator: runtimeLocator,
+            deletePolicy: 'block',
+          })
+        if (character.appearance?.battleSprite)
+          edges.push({
+            target: { kind: 'battle-sprite', id: character.appearance.battleSprite },
+            source: runtimeSource,
+            relation: { kind: 'battle-sprite-use', expectedProfile: 'player-fighter' },
+            where: `worlds[${worldIndex}].${collection}[${characterIndex}].appearance.battleSprite`,
+            detail: '运行态角色战斗精灵覆写',
+            locator: runtimeLocator,
+            deletePolicy: 'block',
+          })
+      })
+    world.script?.followers?.forEach((sprite, index) => {
+      edges.push({
+        target: { kind: 'world-sprite', id: sprite },
+        source: runtimeSource,
+        relation: { kind: 'world-sprite-use' },
+        where: `worlds[${worldIndex}].script.followers[${index}]`,
+        detail: '运行态编外跟随精灵',
+        locator: runtimeLocator,
+        deletePolicy: 'block',
+      })
+    })
+  })
+  return edges
+}
+
+function canonicalSpriteReferenceEdges(
+  visits: readonly CanonicalScriptCommandVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  return visits.flatMap((visit) => {
+    const references = commandSpriteTaggedReferencesAtNode(visit.command, visit.path)
+    if (!references.length) return []
+    const source = sourceForScriptOwner(visit.locator.owner, scriptState)
+    return references.map((reference) =>
+      spriteTaggedReferenceEdge(reference, source, {
+        kind: 'canonical-script',
+        reference: { kind: 'command', path: reference.where, locator: visit.locator },
+      }),
+    )
+  })
+}
+
+function legacySpriteReferenceEdges(
+  chunks: EditorState['scriptChunks'],
+): ProjectReferenceEdgeInput[] {
+  return Object.entries(chunks ?? {}).flatMap(([chunkId, chunk]) =>
+    Object.entries(chunk.scripts).flatMap(([scriptId, body]) => {
+      const source = legacyScriptChunkSource(chunkId, scriptId)
+      const locator: ProjectReferenceLocator = {
+        kind: 'unavailable',
+        reason: '运行时脚本分片只读，没有作者对象可供精确编辑。',
+      }
+      return collectCommandSpriteTaggedReferences(
+        body,
+        `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
+      ).map((reference) => spriteTaggedReferenceEdge(reference, source, locator))
+    }),
+  )
+}
+
+export function spriteReferenceEdges(
+  state: EditorState,
+  commandVisits: readonly CanonicalScriptCommandVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  return [
+    ...structuralSpriteReferenceEdges(state),
+    ...canonicalSpriteReferenceEdges(commandVisits, scriptState),
+    ...legacySpriteReferenceEdges(state.scriptChunks),
+  ]
+}
+
 function entitySource(locator: EntityAddressReferenceLocator): {
   source: ProjectReferenceSource
   locator: ProjectReferenceLocator
@@ -988,7 +1281,7 @@ export function structuralProjectReferenceEdges(
     locator: { kind: 'unavailable', reason: '项目默认战场是当前运行约定，没有独立编辑字段。' },
     deletePolicy: 'block',
   })
-  for (const entry of state.manifest.entryPoints) {
+  for (const entry of state.manifest.entryPoints ?? []) {
     const entryTarget = { kind: 'entry-point', id: entry.id } as const
     edges.push({
       target: { kind: 'scene', id: entry.scene },
@@ -1095,6 +1388,7 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
         input.transitionVisits,
         input.scriptState,
       ),
+      ...spriteReferenceEdges(input.state, input.commandVisits, input.scriptState),
       ...entityAddressReferenceEdges(input.entityAddressReferences),
     ],
     { assumeUnique: true },

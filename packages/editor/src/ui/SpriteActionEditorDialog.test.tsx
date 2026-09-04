@@ -1,12 +1,18 @@
 // @vitest-environment jsdom
 
-import type { SpriteActionReference, SpriteDef } from '@type-pal/content'
+import type { SpriteDef } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { SpriteLayoutEditProof } from '../core/commands.js'
 import { UpdateSpriteCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge } from '../core/project-reference.js'
+import {
+  type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectReferenceIndex,
+} from '../core/project-reference-adapters.js'
 import { catalogControlsEditorState } from './catalog-controls-test-utils.js'
 import { SpriteActionEditorDialog } from './SpriteActionEditorDialog.js'
 import { SPRITE_FRAME_DRAG_MIME } from './SpriteFrameWorkbench.js'
@@ -106,7 +112,9 @@ function renderDialog(options: {
   onOpenReferences?: (actionId: string) => void
   liveDefinition?: SpriteDef | null
   liveProof?: SpriteLayoutEditProof | null
-  references?: readonly SpriteActionReference[]
+  references?: readonly ProjectReferenceEdge[]
+  referenceStatus?: EditorDerivedStatus
+  getCurrentReferenceIndex?: CurrentProjectReferenceIndexProvider
 }) {
   const sprite = options.sprite ?? definition()
   const session = options.session ?? sessionFor(sprite)
@@ -130,6 +138,10 @@ function renderDialog(options: {
         frames={frames}
         selectedSourceFrame={2}
         references={options.references ?? []}
+        referenceStatus={options.referenceStatus ?? 'current'}
+        getCurrentReferenceIndex={
+          options.getCurrentReferenceIndex ?? collectCurrentProjectReferenceIndex
+        }
         session={session}
         initialMode={options.mode}
         selectedActionId={options.selectedActionId}
@@ -145,6 +157,79 @@ function renderDialog(options: {
 }
 
 describe('SpriteActionEditorDialog', () => {
+  test.each([
+    ['checking', '正在检查'],
+    ['stale', '待刷新'],
+    ['failed', '检查失败'],
+  ] as const)('%s 引用状态不会把未知冒充成零并开放动作删除', async (status, message) => {
+    const current = definition()
+    const view = renderDialog({
+      sprite: current,
+      mode: 'edit',
+      selectedActionId: 'idle',
+      referenceStatus: status,
+    })
+    await act(async () => root.render(view.node))
+
+    expect(
+      host.querySelector<HTMLButtonElement>('[aria-label="删除预制动作：待机"]')!.disabled,
+    ).toBe(true)
+    expect(host.textContent).toContain(message)
+  })
+
+  test.each([
+    {
+      name: 'provider failure',
+      provider: (() => {
+        throw new Error('oracle unavailable')
+      }) as CurrentProjectReferenceIndexProvider,
+      message: 'oracle unavailable',
+    },
+    {
+      name: 'live canonical reference',
+      provider: ((state) =>
+        collectCurrentProjectReferenceIndex(state, {
+          scenes: [],
+          items: [],
+          sharedScripts: {
+            live: {
+              name: '实时引用',
+              self: 'none',
+              body: [
+                {
+                  kind: 'playEntityAction',
+                  target: { scene: 'scene', entity: 'entity' },
+                  sprite: 'sprite.dialog',
+                  action: 'idle',
+                  loop: false,
+                },
+              ],
+            },
+          },
+        })) as CurrentProjectReferenceIndexProvider,
+      message: '仍被 1 处引用',
+    },
+  ])('动作删除 $name 会显示真实原因并保持项目不变', async ({ provider, message }) => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const current = definition()
+    const session = sessionFor(current)
+    const view = renderDialog({
+      sprite: current,
+      session,
+      mode: 'edit',
+      selectedActionId: 'idle',
+      getCurrentReferenceIndex: provider,
+    })
+    await act(async () => root.render(view.node))
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="删除预制动作：待机"]')!.click(),
+    )
+
+    expect(host.querySelector('[role="alert"]')?.textContent).toContain(message)
+    expect(session.getState().sprites[0]?.poses?.idle).toBeDefined()
+    expect(session.getHistoryVersion()).toBe(0)
+  })
+
   test('pristine create closes with zero commands while dirty create requires explicit discard', async () => {
     const clean = renderDialog({ mode: 'create' })
     await act(async () => root.render(clean.node))
@@ -358,7 +443,22 @@ describe('SpriteActionEditorDialog', () => {
       onClose,
       onOpenReferences,
       onRequestSave,
-      references: [{ sprite: current.id, action: 'idle', site: 'scene:test', where: '测试引用' }],
+      references: [
+        {
+          id: 0,
+          target: { kind: 'world-sprite-action', spriteId: current.id, actionId: 'idle' },
+          source: {
+            key: 'test',
+            owner: { kind: 'project-part', id: 'test' },
+            label: '测试来源',
+            deletedWith: [],
+          },
+          relation: { kind: 'world-sprite-action-use', actionId: 'idle' },
+          where: '测试引用',
+          locator: { kind: 'unavailable', reason: '测试只读' },
+          deletePolicy: 'block',
+        },
+      ],
     })
     await act(async () => root.render(view.node))
     const name = host.querySelector<HTMLInputElement>('[name="sprite-action-name"]')!

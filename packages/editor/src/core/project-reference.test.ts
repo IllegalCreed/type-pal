@@ -48,8 +48,8 @@ describe('project reference contract', () => {
     const snapshot = buildProjectReferenceSnapshot([duplicate, first])
     expect(snapshot.rows).toHaveLength(1)
     expect(snapshot.sources).toHaveLength(1)
-    expect(snapshot.targets.map(projectReferenceTargetKey)).toEqual(
-      snapshot.targets.map(projectReferenceTargetKey).sort(),
+    expect(snapshot.targets.map((target) => JSON.stringify(target))).toEqual(
+      snapshot.targets.map((target) => JSON.stringify(target)).sort(),
     )
 
     expect(() =>
@@ -153,6 +153,13 @@ describe('project reference contract', () => {
         },
       ),
       edge(
+        { kind: 'world-sprite-action', spriteId: 'sprite', actionId: 'idle' },
+        {
+          where: 'page',
+          locator: { kind: 'scene-page', sceneId: 'scene', entityId: 'entity', pageId: 'page' },
+        },
+      ),
+      edge(
         { kind: 'actor', id: 'legacy' },
         {
           where: 'legacy',
@@ -187,6 +194,47 @@ describe('project reference contract', () => {
     expect(index.referencesTo({ kind: 'scene', id: 'target' })[0]?.id).toBe(
       index.referencesTo(target)[0]?.id,
     )
+  })
+
+  test('compact source sentinel preserves an explicit empty label', () => {
+    const source = createProjectReferenceSource({ kind: 'scene', id: 'source' }, '')
+    const index = createProjectReferenceIndex(
+      buildProjectReferenceSnapshot([
+        edge({ kind: 'scene', id: 'target' }, { source, where: 'empty-label' }),
+      ]),
+    )
+
+    expect(index.allReferences()[0]?.source.label).toBe('')
+  })
+
+  test('world action aliases its definition unless the source is deleted with that definition', () => {
+    const definition = { kind: 'world-sprite', id: 'sprite' } as const
+    const action = { kind: 'world-sprite-action', spriteId: 'sprite', actionId: 'wave' } as const
+    const external = edge(action, {
+      relation: { kind: 'world-sprite-action-use', actionId: 'wave' },
+      where: 'external.action',
+    })
+    const owned = edge(action, {
+      source: createProjectReferenceSource(
+        { kind: 'world-sprite', id: 'sprite' },
+        '世界精灵 sprite',
+        {
+          deletedWith: [definition],
+        },
+      ),
+      relation: { kind: 'world-sprite-action-use', actionId: 'wave' },
+      where: 'owned.action',
+    })
+    const index = createProjectReferenceIndex(buildProjectReferenceSnapshot([external, owned]))
+
+    expect(index.referencesTo(action).map((reference) => reference.where)).toEqual([
+      'external.action',
+      'owned.action',
+    ])
+    expect(index.referencesTo(definition).map((reference) => reference.where)).toEqual([
+      'external.action',
+    ])
+    expect(index.referencesTo(action)[0]?.id).toBe(index.referencesTo(definition)[0]?.id)
   })
 
   test('deletion impact blocks block/replace-suggest, preserves warn and excludes explicit sources', () => {

@@ -12,7 +12,6 @@ import type {
   AuthorEntityPage,
   AuthorSceneDef,
   BattleFieldDef,
-  BattleSpriteDefinitionReference,
   EnemyTeamDef,
   EntityDef,
   Facing,
@@ -23,9 +22,7 @@ import type {
   RuntimeHostileBehavior,
   SceneDef,
   SceneEntryPoint,
-  SpriteActionReference,
   SpriteDef,
-  SpriteDefinitionReference,
   TriggerActivation,
 } from '@type-pal/content'
 import {
@@ -684,89 +681,6 @@ export function App(props: {
       focusRevision: nextPreciseFocusRevision(),
     })
   }
-  const jumpToBattleSpriteReference = (reference: BattleSpriteDefinitionReference): void => {
-    const [domain, id] = reference.site.split(':')
-    if (!id) return
-    if (domain === 'actor') applyEditorLocation(editorLinks.actor(id))
-    else if (domain === 'enemy') applyEditorLocation(editorLinks.enemy(id))
-    else if (domain === 'item') applyEditorLocation(editorLinks.item(id))
-    else if (domain === 'skill') applyEditorLocation(editorLinks.skill(id))
-    else if (domain === 'scene') {
-      setPlaceSceneId(id)
-      applyEditorLocation(editorLinks.scene(id))
-    } else if (domain === 'script') {
-      const payload = reference.site.slice('script:'.length)
-      const separator = payload.indexOf(':')
-      const scriptId = separator >= 0 ? payload.slice(separator + 1) : ''
-      if (scriptId) openScriptReference(scriptId)
-    } else
-      setWorkspaceNotice({
-        kind: 'info',
-        message: `引用位置 ${reference.where} 当前没有可编辑的持久内容页。`,
-      })
-  }
-  const jumpToWorldSpriteReference = (reference: SpriteDefinitionReference): void => {
-    const [domain, id, entityKind, entityId] = reference.site.split(':')
-    if (!id) return
-    if (domain === 'actor') applyEditorLocation(editorLinks.actor(id))
-    else if (domain === 'enemy') applyEditorLocation(editorLinks.enemy(id))
-    else if (domain === 'scene') {
-      setPlaceSceneId(id)
-      applyEditorLocation(editorLinks.scene(id))
-      setSelected(
-        entityKind === 'entity' && entityId ? { kind: 'entity', id: entityId } : SCENE_SELECTION,
-      )
-      setPlacingEntity(false)
-      setDrawer({
-        open: false,
-        src: null,
-        internalScriptId: null,
-        commandPath: null,
-        focusRevision: drawer.focusRevision,
-      })
-    } else if (domain === 'script') {
-      const payload = reference.site.slice('script:'.length)
-      const separator = payload.indexOf(':')
-      const scriptId = separator >= 0 ? payload.slice(separator + 1) : ''
-      if (scriptId) openScriptReference(scriptId)
-    } else
-      setWorkspaceNotice({
-        kind: 'info',
-        message: `使用位置 ${reference.where} 当前没有可编辑的持久内容页。`,
-      })
-  }
-  const jumpToWorldSpriteActionReference = (reference: SpriteActionReference): void => {
-    const locator = reference.locator
-    if (!locator) {
-      setWorkspaceNotice({
-        kind: 'info',
-        message: `动作引用 ${reference.where} 来自只读兼容数据，当前没有可编辑的精确位置。`,
-      })
-      return
-    }
-    if (locator.kind === 'page-animation') {
-      const revision = nextPreciseFocusRevision()
-      setPlaceSceneId(locator.sceneId)
-      applyEditorLocation(editorLinks.scene(locator.sceneId))
-      setSelected({ kind: 'entity', id: locator.entityId })
-      setPlacingEntity(false)
-      setInspectorCollapsed(false)
-      setEntityPageFocus({ ...locator, revision })
-      setDrawer({
-        open: false,
-        src: null,
-        internalScriptId: null,
-        commandPath: null,
-        focusRevision: revision,
-      })
-      return
-    }
-    if (locator.kind === 'scene-command') {
-      jumpToEvent(locator.sceneId, locator.sourceKey, locator.path, locator.pageIndex ?? 0)
-      return
-    }
-    openScriptReference(locator.scriptId, locator.path)
-  }
   const jumpToWorldSpriteAutomaticScriptInstance = (
     site: SpriteAutomaticScriptInstanceSite,
   ): void => jumpToEvent(site.sceneId, `${site.entityId}:auto`)
@@ -1021,6 +935,36 @@ export function App(props: {
     }
     if (locator.kind === 'legacy-script') {
       openScriptReference(locator.scriptId, locator.commandPath)
+      return
+    }
+    if (locator.kind === 'scene-page') {
+      const canonicalEntity = currentScriptState.scenes
+        .find((scene) => scene.id === locator.sceneId)
+        ?.entities.find((entity) => entity.id === locator.entityId)
+      const pageIndex =
+        canonicalEntity?.pages?.findIndex((page) => page.id === locator.pageId) ?? -1
+      if (pageIndex < 0 || !openProjectSceneReference(locator.sceneId, locator.entityId)) {
+        rejectChangedProjectReference(
+          '实体页面',
+          `${locator.sceneId}/${locator.entityId}/${locator.pageId}`,
+        )
+        return
+      }
+      const revision = nextPreciseFocusRevision()
+      setSelectedPage(locator.pageId)
+      setEntityPageFocus({
+        sceneId: locator.sceneId,
+        entityId: locator.entityId,
+        pageIndex,
+        revision,
+      })
+      setDrawer({
+        open: false,
+        src: null,
+        internalScriptId: null,
+        commandPath: null,
+        focusRevision: revision,
+      })
       return
     }
     if (locator.kind === 'script-owner') {
@@ -2384,10 +2328,7 @@ export function App(props: {
             onOpenProjectIssues={() =>
               applyEditorLocation({ module: 'project', subpage: 'advanced' })
             }
-            onJumpWorldSpriteReference={jumpToWorldSpriteReference}
-            onJumpWorldSpriteActionReference={jumpToWorldSpriteActionReference}
             onJumpWorldSpriteAutomaticScriptInstance={jumpToWorldSpriteAutomaticScriptInstance}
-            onJumpBattleSpriteReference={jumpToBattleSpriteReference}
           />
         ) : (
           <>

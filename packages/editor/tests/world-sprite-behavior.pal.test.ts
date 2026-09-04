@@ -2,14 +2,15 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import {
   type AssetRecordV1,
-  emptyWorldScriptState,
   type BaseSceneDef,
   type BaseScriptLibrary,
+  emptyWorldScriptState,
   type SpriteDef,
 } from '@type-pal/content'
-import { decodeWorldSpriteAssetBytes, baseSceneView } from '@type-pal/reforge'
+import { baseSceneView, decodeWorldSpriteAssetBytes } from '@type-pal/reforge'
 import { expect, test } from 'vitest'
 import type { EditorState } from '../src/core/edit-session.js'
+import type { ProjectReferenceEdge } from '../src/core/project-reference.js'
 import {
   collectSpriteAutomaticScriptBehaviors,
   describeSpriteReferenceBehavior,
@@ -139,16 +140,24 @@ test('PAL 曾漏预览的 102 个安全 auto 实例全部生成有效帧预览',
       if (!entity) throw new Error(`缺 PAL 实例 ${site}`)
       if (!('sprite' in entity) || entity.sprite !== definitionId)
         throw new Error(`${site} 未引用 ${definitionId}`)
-      const behavior = describeSpriteReferenceBehavior(
-        state,
-        {
-          sprite: definitionId,
-          where: `scene:${sceneId}:entity:${entityId}`,
-          site: `scene:${sceneId}:entity:${entityId}`,
+      const reference: ProjectReferenceEdge = {
+        id: 0,
+        target: { kind: 'world-sprite', id: definitionId },
+        source: {
+          key: `scene-entity\0${sceneId}\0${entityId}`,
+          owner: { kind: 'scene-entity', sceneId: sceneId!, entityId: entityId! },
+          label: `场景 ${sceneId} · 实体 ${entityId}`,
+          deletedWith: [],
         },
-        definition,
-        frameCount,
-      )
+        relation: { kind: 'world-sprite-use' },
+        where: `scenes.${sceneId}.entities.${entityId}.sprite`,
+        locator: {
+          kind: 'object',
+          object: { kind: 'entity', sceneId: sceneId!, entityId: entityId! },
+        },
+        deletePolicy: 'replace-suggest',
+      }
+      const behavior = describeSpriteReferenceBehavior(state, reference, definition, frameCount)
       expect(behavior.preview?.kind, `${definitionId} ${site}`).not.toBe('unavailable')
       if (!behavior.preview) throw new Error(`${definitionId} ${site} 缺预览`)
       const steps =

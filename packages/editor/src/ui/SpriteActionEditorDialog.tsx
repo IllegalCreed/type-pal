@@ -1,13 +1,11 @@
-import type {
-  AssetCatalogV1,
-  SpriteActionDef,
-  SpriteActionReference,
-  SpriteDef,
-} from '@type-pal/content'
+import type { AssetCatalogV1, SpriteActionDef, SpriteDef } from '@type-pal/content'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { type SpriteLayoutEditProof, UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import { nextSpriteActionId, sortedSpriteActions } from '../core/sprite-actions.js'
 import { DsButton, DsDialog } from './design-system/index.js'
 import { SpriteActionEditor } from './SpriteActionEditor.js'
@@ -68,7 +66,9 @@ export function SpriteActionEditorDialog(props: {
   liveProof?: SpriteLayoutEditProof
   frames: readonly SpriteFrameView[]
   selectedSourceFrame: number
-  references: readonly SpriteActionReference[]
+  references: readonly ProjectReferenceEdge[]
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
   session: EditSession
   initialMode: 'create' | 'edit'
   selectedActionId?: string
@@ -223,23 +223,20 @@ export function SpriteActionEditorDialog(props: {
       .getState()
       .sprites.find((candidate) => candidate.id === snapshot.definitionId)
     if (!current || current.asset !== snapshot.asset) return false
-    try {
-      const changed = props.session.dispatch(
-        new UpdateSpriteCommand(
-          current.id,
-          { poses: poses && Object.keys(poses).length ? poses : undefined },
-          props.proof,
-        ),
-      )
-      if (changed)
-        setCreatedDefinition({
-          ...current,
-          poses: poses && Object.keys(poses).length ? structuredClone(poses) : undefined,
-        })
-      return changed
-    } catch {
-      return false
-    }
+    const changed = props.session.dispatch(
+      new UpdateSpriteCommand(
+        current.id,
+        { poses: poses && Object.keys(poses).length ? poses : undefined },
+        props.proof,
+        props.getCurrentReferenceIndex,
+      ),
+    )
+    if (changed)
+      setCreatedDefinition({
+        ...current,
+        poses: poses && Object.keys(poses).length ? structuredClone(poses) : undefined,
+      })
+    return changed
   }
 
   const handleMutationResult = (result: { ok: boolean; reason?: unknown }): void => {
@@ -286,7 +283,12 @@ export function SpriteActionEditorDialog(props: {
     }
     try {
       const changed = props.session.dispatch(
-        new UpdateSpriteCommand(current.id, { poses: localPoses }, props.proof),
+        new UpdateSpriteCommand(
+          current.id,
+          { poses: localPoses },
+          props.proof,
+          props.getCurrentReferenceIndex,
+        ),
       )
       if (!changed) {
         reportError('精灵用途定义已变化，新动作尚未创建。')
@@ -386,6 +388,8 @@ export function SpriteActionEditorDialog(props: {
             frames={props.frames}
             selectedSourceFrame={props.selectedSourceFrame}
             references={props.references}
+            referenceStatus={props.referenceStatus}
+            getCurrentReferenceIndex={props.getCurrentReferenceIndex}
             session={props.session}
             selectedActionId={editorActionId}
             mode={mode}

@@ -1,7 +1,6 @@
 import type {
   AssetCatalogV1,
   SpriteActionDef,
-  SpriteActionReference,
   SpriteActionStep,
   SpriteDef,
 } from '@type-pal/content'
@@ -16,6 +15,9 @@ import {
 } from 'react'
 import { type SpriteLayoutEditProof, UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import { nextSpriteActionId, sortedSpriteActions } from '../core/sprite-actions.js'
 import {
   DsActionGroup,
@@ -86,7 +88,9 @@ export function SpriteActionEditor(props: {
   proof: SpriteLayoutEditProof | undefined
   frames: readonly SpriteFrameView[]
   selectedSourceFrame: number
-  references: readonly SpriteActionReference[]
+  references: readonly ProjectReferenceEdge[]
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
   session: EditSession
   selectedActionId?: string
   mode?: 'create' | 'edit'
@@ -154,14 +158,26 @@ export function SpriteActionEditor(props: {
   const actionNumber = actionId ? actions.findIndex(([id]) => id === actionId) : -1
   const actionReferences = actionId
     ? props.references.filter(
-        (reference) => reference.sprite === props.definition.id && reference.action === actionId,
+        (reference) =>
+          reference.target.kind === 'world-sprite-action' &&
+          reference.target.spriteId === props.definition.id &&
+          reference.target.actionId === actionId,
       )
     : []
+  const referenceUnavailableReason =
+    props.referenceStatus === 'checking'
+      ? '正在检查当前动作的引用；完成前不能删除。'
+      : props.referenceStatus === 'stale'
+        ? '动作引用结果待刷新；刷新完成前不能删除。'
+        : props.referenceStatus === 'failed'
+          ? '动作引用检查失败；恢复后才能删除。'
+          : undefined
   const actionBlockedReason = !props.proof
     ? '源帧尚未读取完成，不能修改动作。'
-    : actionReferences.length
-      ? `当前动作有 ${actionReferences.length} 个引用，处理引用后才能删除。`
-      : undefined
+    : (referenceUnavailableReason ??
+      (actionReferences.length
+        ? `当前动作有 ${actionReferences.length} 个引用，处理引用后才能删除。`
+        : undefined))
   useEffect(() => {
     if (props.selectedActionId === undefined) props.onSelectedActionChange?.(actions[0]?.[0])
   }, [actions, props.onSelectedActionChange, props.selectedActionId])
@@ -187,9 +203,16 @@ export function SpriteActionEditor(props: {
 
   const commitPoses = (poses: Record<string, SpriteActionDef> | undefined): boolean => {
     if (props.onCommitPoses) {
-      const changed = props.onCommitPoses(poses)
-      props.onMutationResult?.({ ok: changed, reason: changed ? undefined : '动作修改未能提交。' })
-      return changed
+      try {
+        const changed = props.onCommitPoses(poses)
+        props.onMutationResult?.({
+          ok: changed,
+          reason: changed ? undefined : '动作修改未能提交。',
+        })
+        return changed
+      } catch (reason) {
+        return rejectMutation(reason)
+      }
     }
     if (!props.proof) {
       return rejectMutation('源帧尚未读取完成，不能编辑动作。')
@@ -201,6 +224,7 @@ export function SpriteActionEditor(props: {
             props.definition.id,
             { poses: poses && Object.keys(poses).length ? poses : undefined },
             props.proof,
+            props.getCurrentReferenceIndex,
           ),
         )
       ) {
@@ -265,7 +289,8 @@ export function SpriteActionEditor(props: {
   }
 
   const deleteAction = (): void => {
-    if (!actionId || !action || actionReferences.length) return
+    if (!actionId || !action || props.referenceStatus !== 'current' || actionReferences.length)
+      return
     if (props.onBeforeContextChange?.() === false) return
     if (!window.confirm(`删除预制动作“${action.label}”（${actionId}）？`)) return
     const nextActionId = actions[actionNumber + 1]?.[0] ?? actions[actionNumber - 1]?.[0]
@@ -485,7 +510,11 @@ export function SpriteActionEditor(props: {
                     label={`删除预制动作：${action.label}`}
                     icon="delete"
                     variant="danger"
-                    disabled={!props.proof || actionReferences.length > 0}
+                    disabled={
+                      !props.proof ||
+                      props.referenceStatus !== 'current' ||
+                      actionReferences.length > 0
+                    }
                     aria-describedby={actionBlockedReason ? actionDeleteReasonId : undefined}
                     onClick={deleteAction}
                   />
@@ -495,7 +524,7 @@ export function SpriteActionEditor(props: {
             {actionBlockedReason ? (
               <div className="sprite-action-reference-block" id={actionDeleteReasonId}>
                 <span>{actionBlockedReason}</span>
-                {actionReferences.length ? (
+                {props.referenceStatus === 'current' && actionReferences.length ? (
                   <DsButton variant="secondary" onClick={() => props.onOpenReferences?.(actionId)}>
                     查看引用
                   </DsButton>

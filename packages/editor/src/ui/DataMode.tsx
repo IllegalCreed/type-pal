@@ -4,14 +4,12 @@ import type {
   AssetCatalogV1,
   BattleFieldDef,
   BattleSpriteDef,
-  BattleSpriteDefinitionReference,
   EnemyDef,
   EnemyTeamDef,
   Locale,
   SceneDef,
   SkillDataMap,
   SpriteDef,
-  SpriteDefinitionReference,
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useState } from 'react'
@@ -143,12 +141,7 @@ export function DataMode(props: {
   onOpenItem?: (id: string) => void
   onOpenItemAlchemy?: (surface: 'crafting' | 'spirit-gourd', itemId: string) => void
   onOpenProjectIssues?: () => void
-  onJumpWorldSpriteReference?: (reference: SpriteDefinitionReference) => void
-  onJumpWorldSpriteActionReference?: (
-    reference: import('@type-pal/content').SpriteActionReference,
-  ) => void
   onJumpWorldSpriteAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
-  onJumpBattleSpriteReference?: (reference: BattleSpriteDefinitionReference) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   onRequestSave?: () => void
   script?: {
@@ -210,10 +203,7 @@ export function DataMode(props: {
     onOpenItem,
     onOpenItemAlchemy,
     onOpenProjectIssues,
-    onJumpWorldSpriteReference,
-    onJumpWorldSpriteActionReference,
     onJumpWorldSpriteAutomaticScriptInstance,
-    onJumpBattleSpriteReference,
     onStatusNotice,
     onRequestSave,
     script,
@@ -718,7 +708,10 @@ export function DataMode(props: {
           onSpriteLocation?.('world', view, id)
           if (!onSpriteLocation) onObjectFocus?.(id)
         }}
-        onJumpReference={onJumpBattleSpriteReference}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
+        onOpenReference={onOpenProjectReference}
         onStatusNotice={onStatusNotice}
       />
     )
@@ -751,8 +744,10 @@ export function DataMode(props: {
           onSpriteLocation?.('battle', view, id)
           if (!onSpriteLocation) onObjectFocus?.(id)
         }}
-        onJumpReference={onJumpWorldSpriteReference}
-        onJumpActionReference={onJumpWorldSpriteActionReference}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
+        onOpenReference={onOpenProjectReference}
         onJumpAutomaticScriptInstance={onJumpWorldSpriteAutomaticScriptInstance}
         onStatusNotice={onStatusNotice}
         onRequestSave={onRequestSave}

@@ -6,6 +6,7 @@ import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import { catalogControlsEditorState } from './catalog-controls-test-utils.js'
 import { EnemyAnimPreview } from './EnemyAnimPreview.js'
 
@@ -126,6 +127,7 @@ describe('EnemyAnimPreview field commit boundary', () => {
         () => session.getVersion(),
       )
       const current = session.getState()
+      const referenceIndex = collectCurrentProjectReferenceIndex(current)
       return (
         <EnemyAnimPreview
           enemy={current.enemies?.[0] ?? enemy}
@@ -133,6 +135,9 @@ describe('EnemyAnimPreview field commit boundary', () => {
           assetBase={{} as never}
           assetReader={reader}
           session={session}
+          referenceIndex={referenceIndex}
+          referenceStatus="current"
+          getCurrentReferenceIndex={collectCurrentProjectReferenceIndex}
         />
       )
     }

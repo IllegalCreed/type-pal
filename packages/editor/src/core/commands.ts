@@ -40,9 +40,6 @@ import type {
 import {
   battleSpriteDefinitionFrameDemand,
   checkCommands,
-  collectBattleSpriteDefinitionReferences,
-  collectSpriteActionReferences,
-  collectSpriteDefinitionReferences,
   createScriptIndex,
   DEFAULT_BATTLE_FIELD_ID,
   findScriptOwnerChunk,
@@ -1578,6 +1575,21 @@ export interface SpriteLayoutEditProof {
   actualFrameCount: number
 }
 
+export class SpriteInUseError extends Error {
+  constructor(
+    readonly targetLabel: string,
+    readonly references: readonly ProjectReferenceEdge[],
+  ) {
+    super(
+      `${targetLabel} 仍被 ${references.length} 处引用：\n${references
+        .slice(0, 20)
+        .map((reference) => `${reference.source.label} · ${reference.where}`)
+        .join('\n')}`,
+    )
+    this.name = 'SpriteInUseError'
+  }
+}
+
 function assertSpriteEditShape(sprite: Pick<SpriteDef, 'id' | 'layout' | 'poses'>): void {
   if (
     sprite.layout.kind === 'loop' ||
@@ -1622,6 +1634,7 @@ export class UpdateSpriteCommand implements Command {
     spriteId: string,
     patch: SpritePatch,
     private readonly proof?: SpriteLayoutEditProof,
+    private readonly currentReferences?: CurrentProjectReferenceIndexProvider,
   ) {
     this.spriteId = spriteId
     this.patch = structuredClone(patch)
@@ -1649,13 +1662,21 @@ export class UpdateSpriteCommand implements Command {
           (actionId) => !next.poses?.[actionId],
         )
         if (removedActionIds.length) {
-          const blocking = collectSpriteActionReferences(state).filter(
-            (reference) =>
-              reference.sprite === sp.id && removedActionIds.includes(reference.action),
+          if (!this.currentReferences)
+            throw new Error('删除预制动作前无法读取 current-author 引用索引')
+          const referenceIndex = this.currentReferences(state)
+          const blocking = removedActionIds.flatMap(
+            (actionId) =>
+              referenceIndex.deletionImpact({
+                kind: 'world-sprite-action',
+                spriteId: sp.id,
+                actionId,
+              }).blockers,
           )
           if (blocking.length)
-            throw new Error(
-              `动作 ${blocking[0]!.action} 仍被 ${blocking[0]!.where} 引用，不能删除或更换 ActionId`,
+            throw new SpriteInUseError(
+              `精灵 ${sp.id} 的动作 ${removedActionIds.join('、')}`,
+              blocking,
             )
         }
       }
@@ -3908,21 +3929,21 @@ export class RemoveSpriteDefinitionCommand implements Command {
   private removed: SpriteDef | undefined
   private removedIndex: number | undefined
 
-  constructor(private readonly spriteId: string) {}
+  constructor(
+    private readonly spriteId: string,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
+  ) {}
 
   apply(state: EditorState): EditorState {
     const index = state.sprites.findIndex((s) => s.id === this.spriteId)
     if (index < 0) return state
-    const def = state.sprites[index]!
-    const references = collectSpriteDefinitionReferences(state).filter(
-      (reference) => reference.sprite === this.spriteId,
-    )
-    if (references.length)
-      throw new Error(
-        `精灵定义 ${this.spriteId} 仍被 ${references.length} 处引用：${references[0]!.where}`,
-      )
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'world-sprite',
+      id: this.spriteId,
+    }).blockers
+    if (references.length) throw new SpriteInUseError(`精灵定义 ${this.spriteId}`, references)
     if (!this.removed) {
-      this.removed = structuredClone(def)
+      this.removed = structuredClone(state.sprites[index]!)
       this.removedIndex = index
     }
     return {
@@ -4130,6 +4151,7 @@ export class UpdateBattleSpriteDefinitionCommand implements Command {
     private readonly definitionId: string,
     private readonly patch: BattleSpritePatch,
     private readonly proof?: BattleSpriteEditProof,
+    private readonly currentReferences?: CurrentProjectReferenceIndexProvider,
   ) {}
 
   apply(state: EditorState): EditorState {
@@ -4144,11 +4166,18 @@ export class UpdateBattleSpriteDefinitionCommand implements Command {
         throw new Error('战斗精灵 ABI 证明缺失或已过期，请等待资源重新载入')
       assertBattleSpriteDefinition(next, state.assetCatalog, this.proof.actualFrameCount)
     } else validateBattleSprites([next], state.assetCatalog)
-    const wrongReference = collectBattleSpriteDefinitionReferences(state).find(
-      (reference) =>
-        reference.battleSprite === this.definitionId &&
-        reference.expectedProfile !== next.profile.kind,
-    )
+    const profileKindChanged = next.profile.kind !== current.profile.kind
+    if (profileKindChanged && !this.currentReferences)
+      throw new Error('修改战斗精灵 profile 类型前无法读取 current-author 引用索引')
+    const wrongReference = profileKindChanged
+      ? this.currentReferences!(state)
+          .referencesTo({ kind: 'battle-sprite', id: this.definitionId })
+          .find(
+            (reference) =>
+              reference.relation.kind === 'battle-sprite-use' &&
+              reference.relation.expectedProfile !== next.profile.kind,
+          )
+      : undefined
     if (wrongReference)
       throw new Error(
         `战斗精灵定义 ${this.definitionId} 的 profile 与引用 ${wrongReference.where} 不兼容`,
@@ -4260,14 +4289,6 @@ export class ReplaceBattleSpriteAssetCommand implements Command {
         )
         return next
       })
-      const wrongReference = collectBattleSpriteDefinitionReferences(state).find((reference) => {
-        const definition = definitions.find((candidate) => candidate.id === reference.battleSprite)
-        return (
-          definition?.asset === this.asset && reference.expectedProfile !== definition.profile.kind
-        )
-      })
-      if (wrongReference)
-        throw new Error(`缩帧修复与引用 ${wrongReference.where} 的 profile 不兼容`)
     } else {
       for (const entry of definitions.filter((candidate) => candidate.asset === this.asset))
         assertBattleSpriteDefinition(
@@ -4326,18 +4347,20 @@ export class RemoveBattleSpriteDefinitionCommand implements Command {
   private removed: BattleSpriteDef | undefined
   private removedIndex: number | undefined
 
-  constructor(private readonly definitionId: string) {}
+  constructor(
+    private readonly definitionId: string,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
+  ) {}
 
   apply(state: EditorState): EditorState {
     const index = state.battleSprites.findIndex((entry) => entry.id === this.definitionId)
     if (index < 0) return state
-    const references = collectBattleSpriteDefinitionReferences(state).filter(
-      (reference) => reference.battleSprite === this.definitionId,
-    )
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'battle-sprite',
+      id: this.definitionId,
+    }).blockers
     if (references.length)
-      throw new Error(
-        `战斗精灵定义 ${this.definitionId} 仍被 ${references.length} 处引用：${references[0]!.where}`,
-      )
+      throw new SpriteInUseError(`战斗精灵定义 ${this.definitionId}`, references)
     this.removed ??= structuredClone(state.battleSprites[index]!)
     this.removedIndex ??= index
     return {

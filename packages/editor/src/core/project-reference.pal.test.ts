@@ -1,4 +1,9 @@
 import {
+  collectBattleSpriteDefinitionReferences,
+  collectSpriteActionReferences,
+  collectSpriteDefinitionReferences,
+} from '@type-pal/content'
+import {
   type FileSource,
   loadAllAuthorScenes,
   loadCurrentProjectFrom,
@@ -318,6 +323,135 @@ describe('ED-3 PAL project reference index', () => {
         (edge) => edge.source.owner.kind === 'enemy' && edge.locator.kind === 'object',
       ),
     ).toHaveLength(161)
+    const worldSpriteEdges = edges.filter((edge) => edge.relation.kind === 'world-sprite-use')
+    const worldSpriteActionEdges = edges.filter(
+      (edge) => edge.relation.kind === 'world-sprite-action-use',
+    )
+    const battleSpriteEdges = edges.filter((edge) => edge.relation.kind === 'battle-sprite-use')
+    expect(worldSpriteEdges).toHaveLength(3_824)
+    expect(worldSpriteActionEdges).toHaveLength(385)
+    expect(battleSpriteEdges).toHaveLength(180)
+    const oldWorldSpriteReferences = collectSpriteDefinitionReferences(state)
+    const oldWorldStructuralReferences = oldWorldSpriteReferences.filter(
+      (reference) =>
+        reference.site.startsWith('actor:') ||
+        /^scenes\[\d+\]\.entities\[\d+\](?:\.sprite|\.pages\[\d+\]\.animation\.sprite)$/.test(
+          reference.where,
+        ),
+    )
+    expect(
+      [
+        ...worldSpriteEdges
+          .filter(
+            (edge) =>
+              edge.source.owner.kind === 'actor' || edge.source.owner.kind === 'scene-entity',
+          )
+          .map((edge) => {
+            if (edge.target.kind !== 'world-sprite') throw new Error('预期世界精灵引用边')
+            return `${edge.target.id}\0${edge.where}`
+          }),
+        ...worldSpriteActionEdges
+          .filter((edge) => edge.source.owner.kind === 'scene-page')
+          .map((edge) => {
+            if (edge.target.kind !== 'world-sprite-action')
+              throw new Error('预期世界精灵动作引用边')
+            return `${edge.target.spriteId}\0${edge.where.replace(/\.action$/, '.sprite')}`
+          }),
+      ].sort(),
+    ).toEqual(
+      oldWorldStructuralReferences
+        .map((reference) => `${reference.sprite}\0${reference.where}`)
+        .sort(),
+    )
+    expect(
+      worldSpriteEdges
+        .filter((edge) => edge.source.owner.kind === 'script-owner')
+        .map((edge) => (edge.target.kind === 'world-sprite' ? edge.target.id : ''))
+        .sort(),
+    ).toEqual(
+      oldWorldSpriteReferences
+        .filter((reference) => !oldWorldStructuralReferences.includes(reference))
+        .map((reference) => reference.sprite)
+        .sort(),
+    )
+    expect(
+      worldSpriteActionEdges
+        .map((edge) => {
+          if (
+            edge.target.kind !== 'world-sprite-action' ||
+            edge.relation.kind !== 'world-sprite-action-use'
+          )
+            throw new Error('预期世界精灵动作引用边')
+          return `${edge.target.spriteId}\0${edge.target.actionId}\0${edge.where}`
+        })
+        .sort(),
+    ).toEqual(
+      collectSpriteActionReferences(state)
+        .map((reference) => `${reference.sprite}\0${reference.action}\0${reference.where}`)
+        .sort(),
+    )
+    const oldBattleSpriteReferences = collectBattleSpriteDefinitionReferences(state)
+    expect(
+      battleSpriteEdges
+        .filter((edge) => edge.source.owner.kind !== 'script-owner')
+        .map((edge) => {
+          if (edge.target.kind !== 'battle-sprite' || edge.relation.kind !== 'battle-sprite-use')
+            throw new Error('预期战斗精灵引用边')
+          return `${edge.target.id}\0${edge.relation.expectedProfile}\0${edge.where}`
+        })
+        .sort(),
+    ).toEqual(
+      oldBattleSpriteReferences
+        .filter((reference) => !reference.site.startsWith('scene:'))
+        .map(
+          (reference) =>
+            `${reference.battleSprite}\0${reference.expectedProfile}\0${reference.where}`,
+        )
+        .sort(),
+    )
+    expect(
+      battleSpriteEdges
+        .filter((edge) => edge.source.owner.kind === 'script-owner')
+        .map((edge) => {
+          if (edge.target.kind !== 'battle-sprite' || edge.relation.kind !== 'battle-sprite-use')
+            throw new Error('预期战斗精灵引用边')
+          return `${edge.target.id}\0${edge.relation.expectedProfile}`
+        })
+        .sort(),
+    ).toEqual(
+      oldBattleSpriteReferences
+        .filter((reference) => reference.site.startsWith('scene:'))
+        .map((reference) => `${reference.battleSprite}\0${reference.expectedProfile}`)
+        .sort(),
+    )
+    const worldSpriteIds = new Set(oldWorldSpriteReferences.map((reference) => reference.sprite))
+    expect(worldSpriteIds.size).toBe(573)
+    expect(
+      [...worldSpriteIds].reduce(
+        (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
+        0,
+      ),
+    ).toBe(4_209)
+    expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
+      171,
+    )
+    expect(
+      new Set(
+        worldSpriteActionEdges.map((edge) =>
+          edge.target.kind === 'world-sprite-action'
+            ? `${edge.target.spriteId}\0${edge.target.actionId}`
+            : '',
+        ),
+      ).size,
+    ).toBe(31)
+    expect(
+      index.referencesTo({
+        kind: 'world-sprite-action',
+        spriteId: 'sprite-486',
+        actionId: 'pal-auto-v1-2898ab1f6e18d521',
+      }),
+    ).toEqual([])
+    expect(index.referencesTo({ kind: 'world-sprite', id: 'sprite-486' })).not.toEqual([])
     expect(index.referencesTo({ kind: 'map', id: 'map-164' })).toMatchObject([
       {
         source: {
@@ -353,8 +487,8 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(10_112)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(11_888)
+    expect(diagnostics.projectReferences.rows).toHaveLength(14_501)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(16_662)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

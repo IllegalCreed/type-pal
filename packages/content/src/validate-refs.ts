@@ -121,32 +121,7 @@ export interface SpriteDefinitionReference {
 /** 一条限定到 SpriteDef 内稳定 ActionId 的复合引用。 */
 export interface SpriteActionReference extends SpriteDefinitionReference {
   action: string
-  /** 可编辑来源的精确定位；只读兼容来源允许缺省，UI 不得猜跳转目标。 */
-  locator?: SpriteActionReferenceLocator
 }
-
-export type SpriteActionReferenceLocator =
-  | {
-      kind: 'page-animation'
-      sceneId: string
-      entityId: string
-      pageIndex: number
-    }
-  | {
-      kind: 'scene-command'
-      sceneId: string
-      sourceKey: '__onEnter__' | '__onTeleport__' | `${string}:trigger` | `${string}:auto`
-      entityId?: string
-      pageIndex?: number
-      /** ScriptTree 路径，例如 `0/1/then/0`。 */
-      path: string
-    }
-  | {
-      kind: 'script-command'
-      scriptId: string
-      /** 共享/内部脚本以虚拟 stage 0 开头，例如 `0/2/onNo/0`。 */
-      path: string
-    }
 
 /** 一条 BattleSpriteDef 语义引用；expectedProfile 同时阻止 player/enemy 同号串线。 */
 export interface BattleSpriteDefinitionReference {
@@ -154,6 +129,95 @@ export interface BattleSpriteDefinitionReference {
   expectedProfile: BattleSpriteProfileKind
   where: string
   site: string
+  /** 装备边由更强的角色/equipableBy/profile 联合校验器负责，必须结构化区分。 */
+  origin?: 'equip'
+}
+
+export type CommandSpriteTaggedReference =
+  | { kind: 'world-sprite'; sprite: string; where: string }
+  | {
+      kind: 'world-sprite-action'
+      sprite: string
+      action: string
+      where: string
+      spriteWhere: string
+    }
+  | {
+      kind: 'battle-sprite'
+      battleSprite: string
+      expectedProfile: 'player-fighter'
+      where: string
+    }
+
+/** Inspect one tagged command node only; canonical callers own nested command traversal. */
+export function commandSpriteTaggedReferencesAtNode(
+  value: unknown,
+  where: string,
+): CommandSpriteTaggedReference[] {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return []
+  const record = value as Record<string, unknown>
+  const references: CommandSpriteTaggedReference[] = []
+  if (record.kind === 'setActorSprite' && typeof record.sprite === 'string')
+    references.push({ kind: 'world-sprite', sprite: record.sprite, where: `${where}.sprite` })
+  if (record.kind === 'setActorAppearance') {
+    if (typeof record.spriteId === 'string')
+      references.push({
+        kind: 'world-sprite',
+        sprite: record.spriteId,
+        where: `${where}.spriteId`,
+      })
+    if (typeof record.battleSprite === 'string')
+      references.push({
+        kind: 'battle-sprite',
+        battleSprite: record.battleSprite,
+        expectedProfile: 'player-fighter',
+        where: `${where}.battleSprite`,
+      })
+  }
+  if (record.kind === 'setFollowers' && Array.isArray(record.sprites))
+    record.sprites.forEach((sprite, index) => {
+      if (typeof sprite === 'string')
+        references.push({
+          kind: 'world-sprite',
+          sprite,
+          where: `${where}.sprites[${index}]`,
+        })
+    })
+  if (
+    record.kind === 'playEntityAction' &&
+    typeof record.sprite === 'string' &&
+    typeof record.action === 'string'
+  )
+    references.push({
+      kind: 'world-sprite-action',
+      sprite: record.sprite,
+      action: record.action,
+      where: `${where}.action`,
+      spriteWhere: `${where}.sprite`,
+    })
+  return references
+}
+
+/** Legacy/enemy/runtime command tree walker; canonical author scripts use one-node visits instead. */
+export function collectCommandSpriteTaggedReferences(
+  value: unknown,
+  where: string,
+): CommandSpriteTaggedReference[] {
+  const references: CommandSpriteTaggedReference[] = []
+  const visit = (node: unknown, path: string): void => {
+    if (Array.isArray(node)) {
+      node.forEach((entry, index) => {
+        visit(entry, `${path}[${index}]`)
+      })
+      return
+    }
+    if (!node || typeof node !== 'object') return
+    references.push(...commandSpriteTaggedReferencesAtNode(node, path))
+    for (const [key, child] of Object.entries(node as Record<string, unknown>))
+      visit(child, `${path}.${key}`)
+  }
+  visit(value, where)
+  return references
 }
 
 /**
@@ -213,29 +277,20 @@ export function validateEquipBattleSpriteReferences(
   return issues
 }
 
-function collectCommandBattleSpriteReferences(
+export function collectCommandBattleSpriteReferences(
   node: unknown,
   where: string,
   site: string,
   out: BattleSpriteDefinitionReference[],
 ): void {
-  if (Array.isArray(node)) {
-    node.forEach((value, index) => {
-      collectCommandBattleSpriteReferences(value, `${where}[${index}]`, site, out)
-    })
-    return
-  }
-  if (!node || typeof node !== 'object') return
-  const record = node as Record<string, unknown>
-  if (record.kind === 'setActorAppearance' && typeof record.battleSprite === 'string')
-    out.push({
-      battleSprite: record.battleSprite,
-      expectedProfile: 'player-fighter',
-      where: `${where}.battleSprite`,
-      site,
-    })
-  for (const [key, value] of Object.entries(record))
-    collectCommandBattleSpriteReferences(value, `${where}.${key}`, site, out)
+  for (const reference of collectCommandSpriteTaggedReferences(node, where))
+    if (reference.kind === 'battle-sprite')
+      out.push({
+        battleSprite: reference.battleSprite,
+        expectedProfile: reference.expectedProfile,
+        where: reference.where,
+        site,
+      })
 }
 
 /**
@@ -245,7 +300,14 @@ function collectCommandBattleSpriteReferences(
 export function collectBattleSpriteDefinitionReferences(
   source: Pick<
     ContentBundle,
-    'actors' | 'enemies' | 'items' | 'skills' | 'scenes' | 'scriptChunks' | 'worlds'
+    | 'actors'
+    | 'enemies'
+    | 'items'
+    | 'skills'
+    | 'scenes'
+    | 'scriptChunks'
+    | 'sharedScripts'
+    | 'worlds'
   >,
 ): BattleSpriteDefinitionReference[] {
   const references: BattleSpriteDefinitionReference[] = []
@@ -288,8 +350,15 @@ export function collectBattleSpriteDefinitionReferences(
             expectedProfile: 'player-fighter',
             where: `items[${itemIndex}](${item.id}).equip.effects[${effectIndex}].byActor.${actorId}`,
             site: `item:${item.id}:equip:${actorId}`,
+            origin: 'equip',
           })
     })
+    collectCommandBattleSpriteReferences(
+      item,
+      `items[${itemIndex}](${item.id})`,
+      `item:${item.id}`,
+      references,
+    )
   })
   source.skills.forEach((skill, skillIndex) => {
     for (const layer of authoredSkillExecutionLayers(skill))
@@ -325,6 +394,13 @@ export function collectBattleSpriteDefinitionReferences(
       references,
     )
   })
+  for (const [scriptId, script] of Object.entries(source.sharedScripts ?? {}))
+    collectCommandBattleSpriteReferences(
+      script.body,
+      `sharedScripts[${JSON.stringify(scriptId)}].body`,
+      `sharedScript:${scriptId}`,
+      references,
+    )
   for (const [chunkId, chunk] of Object.entries(source.scriptChunks ?? {})) {
     for (const [scriptId, body] of Object.entries(chunk.scripts))
       collectCommandBattleSpriteReferences(
@@ -351,63 +427,34 @@ export function collectBattleSpriteDefinitionReferences(
   return references
 }
 
-function collectCommandSpriteReferences(
+export function collectCommandSpriteReferences(
   node: unknown,
   where: string,
   site: string,
   out: SpriteDefinitionReference[],
 ): void {
-  if (Array.isArray(node)) {
-    node.forEach((value, index) => {
-      collectCommandSpriteReferences(value, `${where}[${index}]`, site, out)
-    })
-    return
+  for (const reference of collectCommandSpriteTaggedReferences(node, where)) {
+    if (reference.kind === 'world-sprite')
+      out.push({ sprite: reference.sprite, where: reference.where, site })
+    if (reference.kind === 'world-sprite-action')
+      out.push({ sprite: reference.sprite, where: reference.spriteWhere, site })
   }
-  if (!node || typeof node !== 'object') return
-  const record = node as Record<string, unknown>
-  if (record.kind === 'setActorSprite' && typeof record.sprite === 'string')
-    out.push({ sprite: record.sprite, where: `${where}.sprite`, site })
-  if (record.kind === 'setActorAppearance' && typeof record.spriteId === 'string')
-    out.push({ sprite: record.spriteId, where: `${where}.spriteId`, site })
-  if (record.kind === 'setFollowers' && Array.isArray(record.sprites)) {
-    record.sprites.forEach((sprite, index) => {
-      if (typeof sprite === 'string')
-        out.push({ sprite, where: `${where}.sprites[${index}]`, site })
-    })
-  }
-  if (record.kind === 'playEntityAction' && typeof record.sprite === 'string')
-    out.push({ sprite: record.sprite, where: `${where}.sprite`, site })
-  for (const [key, value] of Object.entries(record))
-    collectCommandSpriteReferences(value, `${where}.${key}`, site, out)
 }
 
-function collectUnlocatedCommandSpriteActionReferences(
+export function collectUnlocatedCommandSpriteActionReferences(
   node: unknown,
   where: string,
   site: string,
   out: SpriteActionReference[],
 ): void {
-  if (Array.isArray(node)) {
-    node.forEach((value, index) => {
-      collectUnlocatedCommandSpriteActionReferences(value, `${where}[${index}]`, site, out)
-    })
-    return
-  }
-  if (!node || typeof node !== 'object') return
-  const record = node as Record<string, unknown>
-  if (
-    record.kind === 'playEntityAction' &&
-    typeof record.sprite === 'string' &&
-    typeof record.action === 'string'
-  )
-    out.push({
-      sprite: record.sprite,
-      action: record.action,
-      where: `${where}.action`,
-      site,
-    })
-  for (const [key, value] of Object.entries(record))
-    collectUnlocatedCommandSpriteActionReferences(value, `${where}.${key}`, site, out)
+  for (const reference of collectCommandSpriteTaggedReferences(node, where))
+    if (reference.kind === 'world-sprite-action')
+      out.push({
+        sprite: reference.sprite,
+        action: reference.action,
+        where: reference.where,
+        site,
+      })
 }
 
 function commandArms(command: Command): Array<[string, readonly Command[] | undefined]> {
@@ -431,8 +478,6 @@ function commandArms(command: Command): Array<[string, readonly Command[] | unde
   }
 }
 
-type ActionLocatorFactory = (path: string) => SpriteActionReferenceLocator
-
 function inlineBindingStages(command: Command): readonly ScriptStage[] | undefined {
   switch (command.kind) {
     case 'setEntityAuto':
@@ -448,22 +493,19 @@ function inlineBindingStages(command: Command): readonly ScriptStage[] | undefin
 function collectActionCommandBody(
   body: readonly Command[],
   where: string,
-  pathPrefix: string,
   site: string,
-  locator: ActionLocatorFactory,
   out: SpriteActionReference[],
 ): void {
   body.forEach((command, index) => {
-    const path = `${pathPrefix}/${index}`
     const commandWhere = `${where}[${index}]`
-    if (command.kind === 'playEntityAction')
-      out.push({
-        sprite: command.sprite,
-        action: command.action,
-        where: `${commandWhere}.action`,
-        site,
-        locator: locator(path),
-      })
+    for (const reference of commandSpriteTaggedReferencesAtNode(command, commandWhere))
+      if (reference.kind === 'world-sprite-action')
+        out.push({
+          sprite: reference.sprite,
+          action: reference.action,
+          where: reference.where,
+          site,
+        })
     const inlineStages = inlineBindingStages(command)
     if (inlineStages)
       collectUnlocatedCommandSpriteActionReferences(
@@ -474,14 +516,7 @@ function collectActionCommandBody(
       )
     for (const [arm, nested] of commandArms(command)) {
       if (!nested?.length) continue
-      collectActionCommandBody(
-        nested,
-        `${commandWhere}.${arm}`,
-        `${path}/${arm}`,
-        site,
-        locator,
-        out,
-      )
+      collectActionCommandBody(nested, `${commandWhere}.${arm}`, site, out)
     }
   })
 }
@@ -490,7 +525,6 @@ function collectActionStages(
   stages: readonly ScriptStage[] | undefined,
   where: string,
   site: string,
-  locator: ActionLocatorFactory,
   out: SpriteActionReference[],
 ): void {
   // Canonical pages bind a behavior id string instead of embedding `{ stages }`.
@@ -502,19 +536,10 @@ function collectActionStages(
       collectActionCommandBody(
         stage.entry.prepare,
         `${where}[${stageIndex}].entry.prepare`,
-        `${stageIndex}/entry/prepare`,
         site,
-        locator,
         out,
       )
-    collectActionCommandBody(
-      stage.body,
-      `${where}[${stageIndex}].body`,
-      `${stageIndex}`,
-      site,
-      locator,
-      out,
-    )
+    collectActionCommandBody(stage.body, `${where}[${stageIndex}].body`, site, out)
   })
 }
 
@@ -522,7 +547,7 @@ function collectActionStages(
 export function collectSpriteActionReferences(
   source: Pick<
     ContentBundle,
-    'scenes' | 'scriptChunks' | 'scriptIndex' | 'sharedScripts' | 'enemies' | 'worlds'
+    'scenes' | 'items' | 'scriptChunks' | 'scriptIndex' | 'sharedScripts' | 'enemies' | 'worlds'
   >,
 ): SpriteActionReference[] {
   const references: SpriteActionReference[] = []
@@ -535,26 +560,12 @@ export function collectSpriteActionReferences(
             action: page.animation.action,
             where: `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].animation.action`,
             site: `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}`,
-            locator: {
-              kind: 'page-animation',
-              sceneId: scene.id,
-              entityId: entity.id,
-              pageIndex,
-            },
           })
         if (page.trigger)
           collectActionStages(
             page.trigger.stages,
             `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].trigger.stages`,
             `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}:trigger`,
-            (path) => ({
-              kind: 'scene-command',
-              sceneId: scene.id,
-              sourceKey: `${entity.id}:trigger`,
-              entityId: entity.id,
-              pageIndex,
-              path,
-            }),
             references,
           )
         if (page.auto)
@@ -562,14 +573,6 @@ export function collectSpriteActionReferences(
             page.auto.stages,
             `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].auto.stages`,
             `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}:auto`,
-            (path) => ({
-              kind: 'scene-command',
-              sceneId: scene.id,
-              sourceKey: `${entity.id}:auto`,
-              entityId: entity.id,
-              pageIndex,
-              path,
-            }),
             references,
           )
       })
@@ -587,12 +590,6 @@ export function collectSpriteActionReferences(
         scene.onEnter,
         `scenes[${sceneIndex}].onEnter`,
         `scene:${scene.id}:onEnter`,
-        (path) => ({
-          kind: 'scene-command',
-          sceneId: scene.id,
-          sourceKey: '__onEnter__',
-          path,
-        }),
         references,
       )
     if (scene.onTeleport)
@@ -600,12 +597,6 @@ export function collectSpriteActionReferences(
         scene.onTeleport,
         `scenes[${sceneIndex}].onTeleport`,
         `scene:${scene.id}:onTeleport`,
-        (path) => ({
-          kind: 'scene-command',
-          sceneId: scene.id,
-          sourceKey: '__onTeleport__',
-          path,
-        }),
         references,
       )
     const canonicalHooks = (scene as unknown as { hooks?: unknown }).hooks
@@ -624,20 +615,19 @@ export function collectSpriteActionReferences(
       `sharedScript:${scriptId}`,
       references,
     )
+  source.items.forEach((item, index) => {
+    collectUnlocatedCommandSpriteActionReferences(
+      item,
+      `items[${index}](${item.id})`,
+      `item:${item.id}`,
+      references,
+    )
+  })
   for (const [chunkId, chunk] of Object.entries(source.scriptChunks ?? {}))
     for (const [scriptId, body] of Object.entries(chunk.scripts)) {
       const where = `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`
       const site = `script:${chunkId}:${scriptId}`
-      if (scriptId.startsWith('scene/') || source.scriptIndex?.library?.[scriptId])
-        collectActionCommandBody(
-          body,
-          where,
-          '0',
-          site,
-          (path) => ({ kind: 'script-command', scriptId, path }),
-          references,
-        )
-      else collectUnlocatedCommandSpriteActionReferences(body, where, site, references)
+      collectActionCommandBody(body, where, site, references)
     }
   source.enemies?.forEach((enemy, index) => {
     collectUnlocatedCommandSpriteActionReferences(
@@ -658,7 +648,10 @@ export function collectSpriteActionReferences(
 
 /** 递归收集 Actor/Entity/appearance/followers 与所有 inline/chunk 命令中的 SpriteDef.id 边。 */
 export function collectSpriteDefinitionReferences(
-  source: Pick<ContentBundle, 'actors' | 'scenes' | 'scriptChunks' | 'enemies' | 'worlds'>,
+  source: Pick<
+    ContentBundle,
+    'actors' | 'scenes' | 'items' | 'scriptChunks' | 'sharedScripts' | 'enemies' | 'worlds'
+  >,
 ): SpriteDefinitionReference[] {
   const references: SpriteDefinitionReference[] = []
   source.actors.forEach((actor, index) => {
@@ -687,6 +680,21 @@ export function collectSpriteDefinitionReferences(
     })
     collectCommandSpriteReferences(scene, `scenes[${sceneIndex}]`, `scene:${scene.id}`, references)
   })
+  source.items.forEach((item, itemIndex) => {
+    collectCommandSpriteReferences(
+      item,
+      `items[${itemIndex}](${item.id})`,
+      `item:${item.id}`,
+      references,
+    )
+  })
+  for (const [scriptId, script] of Object.entries(source.sharedScripts ?? {}))
+    collectCommandSpriteReferences(
+      script.body,
+      `sharedScripts[${JSON.stringify(scriptId)}].body`,
+      `sharedScript:${scriptId}`,
+      references,
+    )
   for (const [chunkId, chunk] of Object.entries(source.scriptChunks ?? {})) {
     for (const [scriptId, body] of Object.entries(chunk.scripts))
       collectCommandSpriteReferences(
@@ -1466,7 +1474,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
 
   // ── BattleSpriteDef 语义边（profile 同时做 channel/usage 门禁）──
   for (const reference of collectBattleSpriteDefinitionReferences(b)) {
-    if (reference.site.startsWith('item:')) continue
+    if (reference.origin === 'equip') continue
     const definition = battleSpritesById.get(reference.battleSprite)
     if (!definition)
       issues.push({

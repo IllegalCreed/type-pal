@@ -286,6 +286,7 @@ function projectLocatorReference(locator: ProjectReferenceEdge['locator']): Proj
 
 type SceneWorkspaceProbe = {
   selectedEntityId?: string | null
+  selectedPageId?: string
   focusReference?: { reference: CanonicalScriptReference; revision: number }
   focusOwner?: {
     owner: Extract<ScriptCommandOwner, { kind: 'entity-behavior' | 'scene-hook' }>
@@ -615,6 +616,46 @@ describe('App item reference navigation', () => {
     )
     expect(window.location.search).toContain('module=item')
     expect(host.textContent).toContain('实体 missing-entity 不再存在')
+  })
+
+  test('统一 scene-page locator 按稳定 PageId 定位并拒绝过期页面', async () => {
+    const shell = shellState()
+    const canonical = canonicalState()
+    const entity = canonical.scenes[0]!.entities[0]!
+    entity.initialPage = 'animated'
+    entity.pages = [{ id: 'animated', label: '动画页' }]
+    await renderApp(shell, canonical)
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+
+    await act(async () =>
+      openReference(
+        projectLocatorReference({
+          kind: 'scene-page',
+          sceneId: 's047',
+          entityId: 'e760',
+          pageId: 'animated',
+        }),
+      ),
+    )
+    expect(window.location.search).toContain('module=scene')
+    await act(async () => button('脚本', host.querySelector('.toolbar')!).click())
+    expect(probes.sceneWorkspace.mock.calls.at(-1)?.[0]).toMatchObject({
+      selectedEntityId: 'e760',
+      selectedPageId: 'animated',
+    })
+
+    await act(async () =>
+      openReference(
+        projectLocatorReference({
+          kind: 'scene-page',
+          sceneId: 's047',
+          entityId: 'e760',
+          pageId: 'missing',
+        }),
+      ),
+    )
+    expect(host.textContent).toContain('实体页面 s047/e760/missing 不再存在')
   })
 
   test('统一对象 locator 对过期战斗数据来源明确报错且不误回退到首项', async () => {
@@ -1624,7 +1665,7 @@ describe('App item reference navigation', () => {
     expect(panel.textContent).toContain('1 处引用')
     expect(row.tagName).toBe('BUTTON')
     expect(row.getAttribute('aria-disabled')).toBeNull()
-    expect(row.textContent).toContain('进场落点引用')
+    expect(row.textContent).toContain('进场脚本 entry-reference')
 
     await act(async () => deleteButton.click())
     await act(async () =>

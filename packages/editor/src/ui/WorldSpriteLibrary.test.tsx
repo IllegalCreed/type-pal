@@ -1,16 +1,14 @@
 // @vitest-environment jsdom
-import type {
-  AssetCatalogV1,
-  SpriteActionReference,
-  SpriteDef,
-  SpriteDefinitionReference,
-} from '@type-pal/content'
+import type { AssetCatalogV1, SpriteDef } from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { RemoveSpriteDefinitionCommand, UpsertAssetCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import type {
   SpriteAutomaticScriptBehaviorSummary,
   SpriteAutomaticScriptInstanceSite,
@@ -217,14 +215,18 @@ function library(
     focusActionId?: string
     catalog?: AssetCatalogV1
     onActionFocus?: (spriteId: string, actionId: string) => void
-    onJumpReference?: (reference: SpriteDefinitionReference) => void
-    onJumpActionReference?: (reference: SpriteActionReference) => void
+    onOpenReference?: (reference: ProjectReferenceEdge) => void
+    referenceIndex?: ProjectReferenceIndex
+    referenceStatus?: EditorDerivedStatus
+    omitReferenceIndex?: boolean
+    getCurrentReferenceIndex?: typeof collectCurrentProjectReferenceIndex
     onJumpAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
     onViewChange?: (view: 'definition' | 'asset', objectId?: string) => void
     onBattleDomain?: () => void
     onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   } = {},
 ) {
+  const referenceIndex = collectCurrentProjectReferenceIndex(session.getState())
   return (
     <WorldSpriteLibrary
       definitions={entries}
@@ -239,8 +241,14 @@ function library(
       onViewChange={options.onViewChange ?? vi.fn()}
       onBattleDomain={options.onBattleDomain ?? vi.fn()}
       onActionFocus={options.onActionFocus}
-      onJumpReference={options.onJumpReference}
-      onJumpActionReference={options.onJumpActionReference}
+      referenceIndex={
+        options.omitReferenceIndex ? undefined : (options.referenceIndex ?? referenceIndex)
+      }
+      referenceStatus={options.referenceStatus ?? 'current'}
+      getCurrentReferenceIndex={
+        options.getCurrentReferenceIndex ?? collectCurrentProjectReferenceIndex
+      }
+      onOpenReference={options.onOpenReference}
       onJumpAutomaticScriptInstance={options.onJumpAutomaticScriptInstance}
       onStatusNotice={options.onStatusNotice}
     />
@@ -248,6 +256,120 @@ function library(
 }
 
 describe('WorldSpriteLibrary', () => {
+  test.each([
+    ['checking', 'loading'],
+    ['stale', 'partial'],
+    ['failed', 'error'],
+  ] as const)('%s 引用快照不冒充零引用并禁用定义删除', async (status, panelState) => {
+    const session = new EditSession(editorState([definitions[0]!]))
+    await act(async () =>
+      root.render(library([definitions[0]!], session, { referenceStatus: status })),
+    )
+    expect(button('删除用途').disabled).toBe(true)
+    await act(async () => button('引用').click())
+    const panel = host.querySelector<HTMLElement>('.ds-reference-panel')!
+    expect(panel.dataset.state).toBe(panelState)
+    expect(panel.textContent).toContain('数量未知')
+  })
+
+  test('current 但索引缺失时按 error/unknown fail-closed', async () => {
+    const session = new EditSession(editorState([definitions[0]!]))
+    await act(async () =>
+      root.render(library([definitions[0]!], session, { omitReferenceIndex: true })),
+    )
+    expect(button('删除用途').disabled).toBe(true)
+    await act(async () => button('引用').click())
+    const panel = host.querySelector<HTMLElement>('.ds-reference-panel')!
+    expect(panel.dataset.state).toBe('error')
+    expect(panel.textContent).toContain('数量未知')
+  })
+
+  test('current 但索引缺失时动作弹窗也不会把未知引用当成零', async () => {
+    const withAction: SpriteDef = {
+      ...definitions[0]!,
+      poses: { idle: { label: '待机', steps: [{ frame: 0, durationMs: 250 }] } },
+    }
+    const session = new EditSession(editorState([withAction]))
+    await act(async () =>
+      root.render(
+        library([withAction], session, {
+          focusObjectId: withAction.id,
+          omitReferenceIndex: true,
+        }),
+      ),
+    )
+
+    await act(async () => button('编辑预制动作（1）').click())
+    const remove = document.querySelector<HTMLButtonElement>(
+      'dialog[aria-label="编辑预制动作"] [aria-label="删除预制动作：待机"]',
+    )!
+    expect(remove.disabled).toBe(true)
+    expect(document.querySelector('dialog[aria-label="编辑预制动作"]')?.textContent).toContain(
+      '检查失败',
+    )
+  })
+
+  test('live reference provider 失败时保留定义并显示原因', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(editorState([definitions[0]!]))
+    const onStatusNotice = vi.fn()
+    await act(async () =>
+      root.render(
+        library([definitions[0]!], session, {
+          onStatusNotice,
+          getCurrentReferenceIndex: () => {
+            throw new Error('oracle unavailable')
+          },
+        }),
+      ),
+    )
+    await act(async () => button('删除用途').click())
+    expect(session.getState().sprites).toHaveLength(1)
+    expect(onStatusNotice).toHaveBeenLastCalledWith({
+      kind: 'error',
+      message: 'oracle unavailable',
+    })
+  })
+
+  test('展示索引为零但 live canonical 新增引用时拒绝删除', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(editorState([definitions[0]!]))
+    const onStatusNotice = vi.fn()
+    await act(async () =>
+      root.render(
+        library([definitions[0]!], session, {
+          onStatusNotice,
+          getCurrentReferenceIndex: (state) =>
+            collectCurrentProjectReferenceIndex(state, {
+              scenes: [],
+              items: [],
+              sharedScripts: {
+                live: {
+                  name: '实时引用',
+                  self: 'none',
+                  body: [
+                    {
+                      kind: 'setActorSprite',
+                      actor: 'hero',
+                      sprite: definitions[0]!.id,
+                    },
+                  ],
+                },
+              },
+            }),
+        }),
+      ),
+    )
+
+    await act(async () => button('删除用途').click())
+    expect(session.getState().sprites).toHaveLength(1)
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(onStatusNotice).toHaveBeenLastCalledWith({
+      kind: 'error',
+      message: '仍有 1 处引用，无法删除精灵用途。',
+    })
+  })
+
   test('中央 Hero 与语义动作行打开同一个 Dialog，Inspector 只保留用途', async () => {
     const withAction: SpriteDef = {
       ...definitions[0]!,
@@ -394,7 +516,9 @@ describe('WorldSpriteLibrary', () => {
     )
     const field = host.querySelector<HTMLInputElement>('#world-sprite-frames-per-dir')!
     await act(async () => {
-      session.dispatch(new RemoveSpriteDefinitionCommand('hero-walk'))
+      session.dispatch(
+        new RemoveSpriteDefinitionCommand('hero-walk', collectCurrentProjectReferenceIndex),
+      )
     })
     const beforeRejected = session.getHistoryVersion()
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
@@ -748,10 +872,10 @@ describe('WorldSpriteLibrary', () => {
 
     await act(async () => button('引用').click())
     const text = host.querySelector('#world-sprite-inspector-panel-references')?.textContent ?? ''
-    expect(text).toContain('世界状态 0 · 角色 hero-save 外观')
-    expect(text).toContain('角色运行态外观')
-    expect(text).toContain('世界状态 0 · 跟随者队列')
-    expect(text).toContain('跟随队列外观')
+    expect(text).toContain('运行态/存档')
+    expect(text).toContain('运行态角色世界精灵覆写')
+    expect(text).toContain('运行态编外跟随精灵')
+    expect(text).toContain('运行态外观')
   })
 
   test('动作引用按钮传出可编辑来源的精确 locator，而不是降级成定义级跳转', async () => {
@@ -778,15 +902,16 @@ describe('WorldSpriteLibrary', () => {
                 sprite: actionDefinition.id,
                 pos: { col: 1, row: 1, height: 0 },
                 pages: [
-                  {},
+                  { id: 'default' },
                   {
+                    id: 'animated',
                     animation: {
                       sprite: actionDefinition.id,
                       action: 'idle',
                       loop: true,
                     },
                   },
-                ],
+                ] as never,
               },
             ],
           },
@@ -794,12 +919,12 @@ describe('WorldSpriteLibrary', () => {
         scriptChunks: {},
       }),
     )
-    const onJumpActionReference = vi.fn()
+    const onOpenReference = vi.fn()
     await act(async () =>
       root.render(
         library([actionDefinition], session, {
           focusObjectId: actionDefinition.id,
-          onJumpActionReference,
+          onOpenReference,
         }),
       ),
     )
@@ -814,15 +939,18 @@ describe('WorldSpriteLibrary', () => {
     )!
     expect(actionReference.tagName).toBe('BUTTON')
     await act(async () => actionReference.click())
-    expect(onJumpActionReference).toHaveBeenCalledWith(
+    expect(onOpenReference).toHaveBeenCalledWith(
       expect.objectContaining({
-        sprite: actionDefinition.id,
-        action: 'idle',
+        target: {
+          kind: 'world-sprite-action',
+          spriteId: actionDefinition.id,
+          actionId: 'idle',
+        },
         locator: {
-          kind: 'page-animation',
+          kind: 'scene-page',
           sceneId: 's-action',
           entityId: 'e-action',
-          pageIndex: 1,
+          pageId: 'animated',
         },
       }),
     )
@@ -948,13 +1076,13 @@ describe('WorldSpriteLibrary', () => {
         },
       }),
     )
-    const onJumpReference = vi.fn()
+    const onOpenReference = vi.fn()
     const onJumpAutomaticScriptInstance = vi.fn()
     await act(async () =>
       root.render(
         library([definitions[1]!], session, {
           focusObjectId: 'hero-static',
-          onJumpReference,
+          onOpenReference,
           onJumpAutomaticScriptInstance,
         }),
       ),
@@ -983,7 +1111,7 @@ describe('WorldSpriteLibrary', () => {
         entityId: 'e364',
       }),
     )
-    expect(onJumpReference).not.toHaveBeenCalled()
+    expect(onOpenReference).not.toHaveBeenCalled()
   })
 
   test('预制循环动作与实例自动脚本保持两套独立筛选语义', async () => {

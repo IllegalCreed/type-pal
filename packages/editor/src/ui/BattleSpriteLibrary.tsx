@@ -2,12 +2,10 @@ import type {
   AssetCatalogV1,
   AssetRecordV1,
   BattleSpriteDef,
-  BattleSpriteDefinitionReference,
   BattleSpriteProfile,
   BattleSpriteProfileKind,
   PlayerFighterFrames,
 } from '@type-pal/content'
-import { collectBattleSpriteDefinitionReferences } from '@type-pal/content'
 import {
   type AssetBase,
   compressGzip,
@@ -38,10 +36,14 @@ import {
   DeleteUnusedBattleSpriteAssetCommand,
   RemoveBattleSpriteDefinitionCommand,
   ReplaceBattleSpriteAssetCommand,
+  SpriteInUseError,
   UpdateBattleSpriteDefinitionCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   BattleSpriteInlinePreview,
   type BattleSpritePreviewProof,
@@ -185,20 +187,6 @@ async function imageFileToRgba(file: File): Promise<{ rgba: Uint8Array; w: numbe
     w: canvas.width,
     h: canvas.height,
   }
-}
-
-function referenceLabel(reference: BattleSpriteDefinitionReference): string {
-  const [kind, id, detail] = reference.site.split(':')
-  const kindLabel: Record<string, string> = {
-    actor: '角色',
-    enemy: '敌人',
-    item: '物品',
-    skill: '技能',
-    scene: '场景',
-    script: '剧情脚本',
-    world: '开局',
-  }
-  return `${kindLabel[kind ?? ''] ?? '内容'} ${id ?? reference.site}${detail ? ` · ${detail}` : ''}`
 }
 
 function definitionIdStem(value: string): string {
@@ -376,7 +364,10 @@ export function BattleSpriteLibrary(props: {
   onViewChange: (view: 'definition' | 'asset', objectId?: string) => void
   onObjectFocus?: (id: string | undefined) => void
   onWorldDomain: () => void
-  onJumpReference?: (reference: BattleSpriteDefinitionReference) => void
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
   const assets = useMemo(
@@ -446,10 +437,19 @@ export function BattleSpriteLibrary(props: {
   const consumers = definitionsByAsset.get(selectedAsset) ?? []
   const definition = consumers.find((entry) => entry.id === selectedId) ?? consumers[0]
   const record = props.catalog.assets[selectedAsset]
-  const allReferences = collectBattleSpriteDefinitionReferences(props.session.getState())
+  const referenceReady = props.referenceStatus === 'current' && props.referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    props.referenceStatus === 'current' && !props.referenceIndex ? 'failed' : props.referenceStatus
   const references = definition
-    ? allReferences.filter((reference) => reference.battleSprite === definition.id)
+    ? (props.referenceIndex?.referencesTo({ kind: 'battle-sprite', id: definition.id }) ?? [])
     : []
+  const blockingReferences =
+    definition && props.referenceIndex
+      ? props.referenceIndex.deletionImpact(
+          { kind: 'battle-sprite', id: definition.id },
+          props.referenceIndex.deletionScopeFor([{ kind: 'battle-sprite', id: definition.id }]),
+        ).blockers
+      : []
   const proofReady =
     record?.kind === 'battle-sprite' &&
     previewProof?.asset === selectedAsset &&
@@ -636,6 +636,13 @@ export function BattleSpriteLibrary(props: {
         const profileChanged = JSON.stringify(draftProfile) !== JSON.stringify(definition.profile)
         if (
           profileChanged &&
+          !referenceReady &&
+          !window.confirm('战斗精灵引用仍在刷新；修改动作 ABI 会影响全部使用位置。继续吗？')
+        )
+          return
+        if (
+          profileChanged &&
+          referenceReady &&
           references.length > 1 &&
           !window.confirm(
             `当前用途被 ${references.length} 处内容引用，修改动作会同时影响这些引用。继续吗？`,
@@ -651,6 +658,7 @@ export function BattleSpriteLibrary(props: {
               sha256: previewProof.sha256,
               actualFrameCount: previewProof.actualFrameCount,
             },
+            props.getCurrentReferenceIndex,
           ),
         )
       }
@@ -661,10 +669,17 @@ export function BattleSpriteLibrary(props: {
   }
 
   const deleteDefinition = (): void => {
-    if (!definition || references.length || creatingUsage) return
+    if (!definition || !referenceReady || blockingReferences.length || creatingUsage) return
     if (!window.confirm(`删除用途“${definition.label}”？源文件会保留。`)) return
     try {
-      props.session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id))
+      if (
+        !props.session.dispatch(
+          new RemoveBattleSpriteDefinitionCommand(definition.id, props.getCurrentReferenceIndex),
+        )
+      ) {
+        props.onStatusNotice?.({ kind: 'error', message: '战斗精灵用途已变化，未执行删除。' })
+        return
+      }
       const nextDefinition = consumers.find((entry) => entry.id !== definition.id)
       setSelectedId(nextDefinition?.id ?? '')
       setInspectorTab(nextDefinition ? 'actions' : 'source')
@@ -674,7 +689,11 @@ export function BattleSpriteLibrary(props: {
       )
       props.onObjectFocus?.(nextDefinition?.id ?? selectedAsset)
     } catch (reason) {
-      reportError(reason)
+      reportError(
+        reason instanceof SpriteInUseError
+          ? `仍有 ${reason.references.length} 处引用，无法删除战斗精灵用途。`
+          : reason,
+      )
     }
   }
 
@@ -1165,11 +1184,13 @@ export function BattleSpriteLibrary(props: {
                     <DsButton
                       size="compact"
                       variant="danger"
-                      disabled={references.length > 0 || creatingUsage}
+                      disabled={!referenceReady || blockingReferences.length > 0 || creatingUsage}
                       title={
-                        references.length
-                          ? `仍有 ${references.length} 处用途引用，不能删除`
-                          : '删除当前用途，保留共享源文件'
+                        !referenceReady
+                          ? '正在刷新战斗精灵引用，暂不能删除'
+                          : blockingReferences.length
+                            ? `仍有 ${blockingReferences.length} 处用途引用，不能删除`
+                            : '删除当前用途，保留共享源文件'
                       }
                       onClick={deleteDefinition}
                     >
@@ -1607,46 +1628,73 @@ export function BattleSpriteLibrary(props: {
             {
               id: 'references',
               label: '引用',
-              count: references.length,
+              count: referenceReady ? references.length : undefined,
               panel: (
                 <div>
                   <div className="section sprite-definition-lifecycle">
                     <DsReferencePanel
-                      state={references.length ? 'ready' : 'empty'}
-                      count={{ kind: 'exact', value: references.length }}
+                      state={
+                        referenceReady
+                          ? references.length
+                            ? 'ready'
+                            : 'empty'
+                          : effectiveReferenceStatus === 'failed'
+                            ? 'error'
+                            : effectiveReferenceStatus === 'stale'
+                              ? 'partial'
+                              : 'loading'
+                      }
+                      count={
+                        referenceReady
+                          ? { kind: 'exact', value: references.length }
+                          : { kind: 'unknown' }
+                      }
                       impact={{
                         kind: 'blocking',
                         description: !definition
                           ? '尚无用途定义，因此没有内容引用。'
-                          : references.length
-                            ? '先处理所有用途引用，才能删除战斗精灵用途定义。'
-                            : '当前用途尚未被使用。',
+                          : !referenceReady
+                            ? '引用结果尚非当前版本；刷新完成前删除已禁用。'
+                            : blockingReferences.length
+                              ? '先处理所有用途引用，才能删除战斗精灵用途定义。'
+                              : '当前用途尚未被使用。',
                       }}
                     >
                       {references.length ? (
                         <DsReferenceList>
                           {references.map((reference) => (
                             <DsReferenceRow
-                              key={`${reference.site}:${reference.where}`}
-                              title={referenceLabel(reference)}
+                              key={reference.id}
+                              title={reference.source.label}
+                              detail={reference.detail}
                               path={reference.where}
                               labels={[
-                                { label: BATTLE_SPRITE_PROFILE_LABEL[reference.expectedProfile] },
+                                {
+                                  label:
+                                    reference.relation.kind === 'battle-sprite-use'
+                                      ? BATTLE_SPRITE_PROFILE_LABEL[
+                                          reference.relation.expectedProfile
+                                        ]
+                                      : '战斗精灵引用',
+                                },
                               ]}
                               action={
-                                props.onJumpReference
+                                props.onOpenReference && reference.locator.kind !== 'unavailable'
                                   ? {
                                       label: '打开',
-                                      onActivate: () => props.onJumpReference?.(reference),
+                                      onActivate: () => props.onOpenReference?.(reference),
                                     }
                                   : undefined
                               }
                               status={
-                                props.onJumpReference
+                                props.onOpenReference && reference.locator.kind !== 'unavailable'
                                   ? undefined
                                   : {
                                       label: '暂不可定位',
-                                      reason: '当前宿主没有提供战斗精灵引用定位能力。',
+                                      reason:
+                                        reference.locator.kind === 'unavailable'
+                                          ? reference.locator.reason
+                                          : '当前宿主没有提供战斗精灵引用定位能力。',
                                       tone: 'warning',
                                     }
                               }

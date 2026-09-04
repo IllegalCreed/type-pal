@@ -1,12 +1,4 @@
-import type {
-  AssetCatalogV1,
-  AssetId,
-  SpriteActionReference,
-  SpriteDef,
-  SpriteDefinitionReference,
-  SpriteLayout,
-} from '@type-pal/content'
-import { collectSpriteActionReferences, collectSpriteDefinitionReferences } from '@type-pal/content'
+import type { AssetCatalogV1, AssetId, SpriteDef, SpriteLayout } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
@@ -14,11 +6,15 @@ import {
   AddSpriteDefinitionCommand,
   DeleteUnusedSpriteAssetCommand,
   RemoveSpriteDefinitionCommand,
+  SpriteInUseError,
   type SpriteLayoutEditProof,
   UpdateSpriteCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import { sortedSpriteActions } from '../core/sprite-actions.js'
 import {
   type CanonicalSpritePreviewState,
@@ -118,25 +114,6 @@ function layoutDescription(layout: SpriteLayout): string {
   return '默认显示源帧 #0；场景脚本仍可切换其它帧'
 }
 
-function referenceLabel(site: string): string {
-  if (site.startsWith('actor:')) return `角色 · ${site.slice('actor:'.length)}`
-  if (site.startsWith('scene:')) {
-    const [, sceneId, entityKind, entityId] = site.split(':')
-    return entityKind === 'entity' && entityId
-      ? `场景 ${sceneId} · 实体 ${entityId}`
-      : `场景 · ${sceneId ?? site}`
-  }
-  if (site.startsWith('script:')) return `脚本 · ${site.slice('script:'.length)}`
-  if (site.startsWith('enemy:')) return `敌人 · ${site.split(':')[1] ?? site}`
-  if (site.startsWith('world:')) {
-    const [, worldIndex, role, subjectId] = site.split(':')
-    if (role === 'character' && subjectId) return `世界状态 ${worldIndex} · 角色 ${subjectId} 外观`
-    if (role === 'followers') return `世界状态 ${worldIndex} · 跟随者队列`
-    return `世界状态 · ${worldIndex ?? site}`
-  }
-  return site
-}
-
 export function WorldSpriteLibrary(props: {
   definitions: readonly SpriteDef[]
   catalog: AssetCatalogV1
@@ -151,8 +128,10 @@ export function WorldSpriteLibrary(props: {
   onObjectFocus?: (id: string | undefined) => void
   onActionFocus?: (spriteId: string, actionId: string) => void
   onBattleDomain: () => void
-  onJumpReference?: (reference: SpriteDefinitionReference) => void
-  onJumpActionReference?: (reference: SpriteActionReference) => void
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   onJumpAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   onRequestSave?: () => void
@@ -231,36 +210,59 @@ export function WorldSpriteLibrary(props: {
     () => collectAutomaticScriptSpriteInstanceSites(spritePreviewState),
     [spritePreviewState],
   )
-  const allReferences = useMemo(() => collectSpriteDefinitionReferences(editorState), [editorState])
-  const allActionReferences = useMemo(
-    () => collectSpriteActionReferences(editorState),
-    [editorState],
-  )
+  const referenceReady = props.referenceStatus === 'current' && props.referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    props.referenceStatus === 'current' && !props.referenceIndex ? 'failed' : props.referenceStatus
   const automaticScriptDefinitionIds = useMemo(
     () => new Set(automaticScriptSites.map((site) => site.spriteId)),
     [automaticScriptSites],
   )
   const automaticScriptSiteIndex = useMemo(
-    () => new Map(automaticScriptSites.map((site) => [`${site.spriteId}\0${site.site}`, site])),
+    () =>
+      new Map(
+        automaticScriptSites.map((site) => [
+          `${site.spriteId}\0${site.sceneId}\0${site.entityId}`,
+          site,
+        ]),
+      ),
     [automaticScriptSites],
   )
   const references = definition
-    ? allReferences.filter((reference) => reference.sprite === definition.id)
+    ? (props.referenceIndex?.referencesTo({ kind: 'world-sprite', id: definition.id }) ?? [])
     : []
-  const actionReferences: SpriteActionReference[] = definition
-    ? allActionReferences.filter((reference) => reference.sprite === definition.id)
-    : []
+  const blockingReferences =
+    definition && props.referenceIndex
+      ? props.referenceIndex.deletionImpact(
+          { kind: 'world-sprite', id: definition.id },
+          props.referenceIndex.deletionScopeFor([{ kind: 'world-sprite', id: definition.id }]),
+        ).blockers
+      : []
+  const actionReferences = references.filter(
+    (reference) => reference.relation.kind === 'world-sprite-action-use',
+  )
+  const definitionReferences = references.filter(
+    (reference) => reference.relation.kind === 'world-sprite-use',
+  )
   const automaticSitesForDefinition = definition
     ? automaticScriptSites.filter((site) => site.spriteId === definition.id)
     : []
-  const automaticSiteKeys = new Set(automaticSitesForDefinition.map((site) => site.site))
-  const nonAutomaticReferences = references.filter(
-    (reference) => !automaticSiteKeys.has(reference.site),
+  const automaticSiteKeys = new Set(
+    automaticSitesForDefinition.map((site) => `${site.sceneId}\0${site.entityId}`),
   )
+  const nonAutomaticReferences = definitionReferences.filter((reference) => {
+    const owner = reference.source.owner
+    return !(
+      owner.kind === 'scene-entity' && automaticSiteKeys.has(`${owner.sceneId}\0${owner.entityId}`)
+    )
+  })
   const selectedActionReferences = referenceActionId
-    ? actionReferences.filter((reference) => reference.action === referenceActionId)
+    ? actionReferences.filter(
+        (reference) =>
+          reference.target.kind === 'world-sprite-action' &&
+          reference.target.actionId === referenceActionId,
+      )
     : []
-  const totalReferenceCount = references.length + actionReferences.length
+  const totalReferenceCount = references.length
   const loadedProof = useMemo<SpriteLayoutEditProof | undefined>(() => {
     if (record?.kind !== 'sprite') return undefined
     if (resourceProof?.asset === selectedAsset && resourceProof.revision === record.sha256)
@@ -564,7 +566,14 @@ export function WorldSpriteLibrary(props: {
     }
     try {
       if (
-        !props.session.dispatch(new UpdateSpriteCommand(definition.id, { layout }, loadedProof))
+        !props.session.dispatch(
+          new UpdateSpriteCommand(
+            definition.id,
+            { layout },
+            loadedProof,
+            props.getCurrentReferenceIndex,
+          ),
+        )
       ) {
         props.onStatusNotice?.({
           kind: 'error',
@@ -581,18 +590,29 @@ export function WorldSpriteLibrary(props: {
   }
 
   const deleteDefinition = (): void => {
-    if (!definition || references.length) return
+    if (!definition || !referenceReady || blockingReferences.length) return
     if (!window.confirm(`删除用途“${definition.label}”（${definition.id}）？源资源会保留。`)) return
     try {
       const next = consumers.find((candidate) => candidate.id !== definition.id)
-      props.session.dispatch(new RemoveSpriteDefinitionCommand(definition.id))
+      if (
+        !props.session.dispatch(
+          new RemoveSpriteDefinitionCommand(definition.id, props.getCurrentReferenceIndex),
+        )
+      ) {
+        props.onStatusNotice?.({ kind: 'error', message: '精灵用途定义已变化，未执行删除。' })
+        return
+      }
       setSelectedId(next?.id ?? '')
       setInspectorTab(next ? 'layout' : 'source')
       props.onViewChange(next ? 'definition' : 'asset', next?.id ?? selectedAsset)
       props.onObjectFocus?.(next?.id ?? selectedAsset)
       props.onStatusNotice?.({ kind: 'info', message: '用途已删除；源资源仍保留。' })
     } catch (reason) {
-      reportError(reason)
+      reportError(
+        reason instanceof SpriteInUseError
+          ? `仍有 ${reason.references.length} 处引用，无法删除精灵用途。`
+          : reason,
+      )
     }
   }
 
@@ -642,7 +662,9 @@ export function WorldSpriteLibrary(props: {
   const dialogLiveProof =
     actionDialog && dialogLiveDefinition?.id === definition?.id ? loadedProof : undefined
   const dialogActionReferences = actionDialog
-    ? allActionReferences.filter((reference) => reference.sprite === actionDialog.definition.id)
+    ? (props.referenceIndex
+        ?.referencesTo({ kind: 'world-sprite', id: actionDialog.definition.id })
+        .filter((reference) => reference.relation.kind === 'world-sprite-action-use') ?? [])
     : []
 
   return (
@@ -790,11 +812,13 @@ export function WorldSpriteLibrary(props: {
                   <DsButton
                     size="compact"
                     variant="danger"
-                    disabled={references.length > 0}
+                    disabled={!referenceReady || blockingReferences.length > 0}
                     title={
-                      references.length
-                        ? `仍有 ${references.length} 处用途引用，不能删除`
-                        : '删除当前用途定义，保留共享源资源'
+                      !referenceReady
+                        ? '正在刷新精灵引用，暂不能删除'
+                        : blockingReferences.length
+                          ? `仍有 ${blockingReferences.length} 处用途引用，不能删除`
+                          : '删除当前用途定义，保留共享源资源'
                     }
                     onClick={deleteDefinition}
                   >
@@ -1033,26 +1057,45 @@ export function WorldSpriteLibrary(props: {
             {
               id: 'references',
               label: '引用',
-              count: totalReferenceCount,
+              count: referenceReady ? totalReferenceCount : undefined,
               panel: (
                 <div>
                   <div className="section sprite-definition-lifecycle">
                     <DsReferencePanel
-                      state={totalReferenceCount ? 'ready' : 'empty'}
-                      count={{ kind: 'exact', value: totalReferenceCount }}
+                      state={
+                        referenceReady
+                          ? totalReferenceCount
+                            ? 'ready'
+                            : 'empty'
+                          : effectiveReferenceStatus === 'failed'
+                            ? 'error'
+                            : effectiveReferenceStatus === 'stale'
+                              ? 'partial'
+                              : 'loading'
+                      }
+                      count={
+                        referenceReady
+                          ? { kind: 'exact', value: totalReferenceCount }
+                          : { kind: 'unknown' }
+                      }
                       impact={{
-                        kind: references.length ? 'blocking' : 'informational',
+                        kind:
+                          referenceReady && blockingReferences.length
+                            ? 'blocking'
+                            : 'informational',
                         description: !definition
                           ? consumers.length
                             ? '选择一个用途定义，查看它的引用与场景实例。'
                             : '这个源资源尚无用途定义，因此没有可追踪的使用位置。'
-                          : references.length
-                            ? '用途引用会阻断删除；动作与实例行为仍按各自定位能力呈现。'
-                            : '当前用途定义尚未被任何内容使用。',
+                          : !referenceReady
+                            ? '引用结果尚非当前版本；刷新完成前删除已禁用。'
+                            : blockingReferences.length
+                              ? '用途引用会阻断删除；动作与实例行为仍按各自定位能力呈现。'
+                              : '当前用途定义尚未被任何内容使用。',
                       }}
                       summary={
-                        references.length
-                          ? `${references.length} 处用途引用会阻断删除 · 共 ${totalReferenceCount} 处引用`
+                        referenceReady && blockingReferences.length
+                          ? `${blockingReferences.length} 处用途引用会阻断删除 · 共 ${totalReferenceCount} 处引用`
                           : undefined
                       }
                     >
@@ -1085,34 +1128,38 @@ export function WorldSpriteLibrary(props: {
                               <DsReferenceList>
                                 {selectedActionReferences.map((reference) => (
                                   <DsReferenceRow
-                                    key={`action:${reference.site}:${reference.where}`}
-                                    title={referenceLabel(reference.site)}
+                                    key={reference.id}
+                                    title={reference.source.label}
                                     path={reference.where}
                                     labels={[
                                       {
                                         label:
-                                          definition.poses?.[reference.action]?.label ??
-                                          reference.action,
+                                          reference.target.kind === 'world-sprite-action'
+                                            ? (definition.poses?.[reference.target.actionId]
+                                                ?.label ?? reference.target.actionId)
+                                            : '动作引用',
                                       },
                                     ]}
                                     action={
-                                      props.onJumpActionReference && reference.locator
+                                      props.onOpenReference &&
+                                      reference.locator.kind !== 'unavailable'
                                         ? {
                                             label: '打开引用',
-                                            onActivate: () =>
-                                              props.onJumpActionReference?.(reference),
+                                            onActivate: () => props.onOpenReference?.(reference),
                                           }
                                         : undefined
                                     }
                                     status={
-                                      props.onJumpActionReference && reference.locator
+                                      props.onOpenReference &&
+                                      reference.locator.kind !== 'unavailable'
                                         ? undefined
                                         : {
-                                            label: reference.locator ? '暂不可定位' : '只读',
-                                            reason: reference.locator
-                                              ? '当前宿主没有提供动作引用定位能力。'
-                                              : '兼容引用没有可编辑的精确位置。',
-                                            tone: reference.locator ? 'warning' : 'neutral',
+                                            label: '暂不可定位',
+                                            reason:
+                                              reference.locator.kind === 'unavailable'
+                                                ? reference.locator.reason
+                                                : '当前宿主没有提供动作引用定位能力。',
+                                            tone: 'warning',
                                           }
                                     }
                                   />
@@ -1127,7 +1174,7 @@ export function WorldSpriteLibrary(props: {
                         </DsReferenceGroup>
                       ) : null}
                       {definition || consumers.length ? (
-                        <DsReferenceGroup title="用途定义引用" count={references.length}>
+                        <DsReferenceGroup title="用途定义引用" count={definitionReferences.length}>
                           {consumers.length ? (
                             <div
                               className="ds-inspector-choice-list"
@@ -1164,12 +1211,12 @@ export function WorldSpriteLibrary(props: {
                           ) : (
                             <p className="hint2">选择上方某个用途定义，查看它的引用与场景实例。</p>
                           )}
-                          {definition && references.length ? (
+                          {definition && definitionReferences.length ? (
                             <DsReferenceList>
                               {automaticSitesForDefinition.map((site) => (
                                 <DsReferenceRow
-                                  key={`automatic:${site.site}`}
-                                  title={referenceLabel(site.site)}
+                                  key={`automatic:${site.sceneId}:${site.entityId}`}
+                                  title={`场景 ${site.sceneId} · 实体 ${site.entityId}`}
                                   detail="保留的真实场景脚本；可继续查看和编辑"
                                   path={site.where}
                                   labels={[{ label: '实例行为脚本' }]}
@@ -1200,16 +1247,23 @@ export function WorldSpriteLibrary(props: {
                                   definition,
                                   actualFrameCount,
                                 )
-                                const automaticSite = automaticScriptSiteIndex.get(
-                                  `${definition.id}\0${reference.site}`,
-                                )
+                                const owner = reference.source.owner
+                                const automaticSite =
+                                  owner.kind === 'scene-entity'
+                                    ? automaticScriptSiteIndex.get(
+                                        `${definition.id}\0${owner.sceneId}\0${owner.entityId}`,
+                                      )
+                                    : undefined
                                 const canOpenAutomatic =
                                   !!automaticSite && !!props.onJumpAutomaticScriptInstance
-                                const canOpen = canOpenAutomatic || !!props.onJumpReference
+                                const canOpen =
+                                  canOpenAutomatic ||
+                                  (reference.locator.kind !== 'unavailable' &&
+                                    !!props.onOpenReference)
                                 return (
                                   <DsReferenceRow
-                                    key={`${reference.site}:${reference.where}`}
-                                    title={referenceLabel(reference.site)}
+                                    key={reference.id}
+                                    title={reference.source.label}
                                     detail={behavior.detail}
                                     path={reference.where}
                                     labels={[{ label: behavior.label }]}
@@ -1223,7 +1277,7 @@ export function WorldSpriteLibrary(props: {
                                                 props.onJumpAutomaticScriptInstance
                                               )
                                                 props.onJumpAutomaticScriptInstance(automaticSite)
-                                              else props.onJumpReference?.(reference)
+                                              else props.onOpenReference?.(reference)
                                             },
                                           }
                                         : undefined
@@ -1233,7 +1287,10 @@ export function WorldSpriteLibrary(props: {
                                         ? undefined
                                         : {
                                             label: '暂不可定位',
-                                            reason: '当前宿主没有提供用途引用定位能力。',
+                                            reason:
+                                              reference.locator.kind === 'unavailable'
+                                                ? reference.locator.reason
+                                                : '当前宿主没有提供用途引用定位能力。',
                                             tone: 'warning',
                                           }
                                     }
@@ -1315,6 +1372,8 @@ export function WorldSpriteLibrary(props: {
           frames={actionDialog.frames}
           selectedSourceFrame={selectedSourceFrame}
           references={dialogActionReferences}
+          referenceStatus={effectiveReferenceStatus}
+          getCurrentReferenceIndex={props.getCurrentReferenceIndex}
           session={props.session}
           initialMode={actionDialog.kind}
           selectedActionId={selectedActionId}

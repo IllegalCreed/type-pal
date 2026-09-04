@@ -5,6 +5,9 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceIndex } from '../core/project-reference.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import type { BattleSpriteResourceSnapshot } from './BattleSpriteInlinePreview.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
@@ -229,26 +232,147 @@ function library(
     onViewChange?: (view: 'definition' | 'asset', objectId?: string) => void
     onObjectFocus?: (objectId: string | undefined) => void
     onWorldDomain?: () => void
+    referenceIndex?: ProjectReferenceIndex
+    referenceStatus?: EditorDerivedStatus
+    omitReferenceIndex?: boolean
+    getCurrentReferenceIndex?: typeof collectCurrentProjectReferenceIndex
   } = {},
 ) {
+  const session = new EditSession(state(entries))
+  const referenceIndex = collectCurrentProjectReferenceIndex(session.getState())
   return (
     <BattleSpriteLibrary
       definitions={entries}
       catalog={options.catalog ?? catalog}
       assetBase={{} as never}
       assetReader={{} as never}
-      session={new EditSession(state(entries))}
+      session={session}
       tabBar={null}
       view={options.view ?? 'definition'}
       focusObjectId={options.focusObjectId}
       onViewChange={options.onViewChange ?? vi.fn()}
       onObjectFocus={options.onObjectFocus}
       onWorldDomain={options.onWorldDomain ?? vi.fn()}
+      referenceIndex={
+        options.omitReferenceIndex ? undefined : (options.referenceIndex ?? referenceIndex)
+      }
+      referenceStatus={options.referenceStatus ?? 'current'}
+      getCurrentReferenceIndex={
+        options.getCurrentReferenceIndex ?? collectCurrentProjectReferenceIndex
+      }
     />
   )
 }
 
 describe('BattleSpriteLibrary', () => {
+  test.each([
+    ['checking', 'loading'],
+    ['stale', 'partial'],
+    ['failed', 'error'],
+  ] as const)('%s 引用快照不冒充零引用并禁用定义删除', async (status, panelState) => {
+    await act(async () => root.render(library(definitions, { referenceStatus: status })))
+    expect(button('删除用途').disabled).toBe(true)
+    await act(async () => button('引用').click())
+    const panel = host.querySelector<HTMLElement>('.ds-reference-panel')!
+    expect(panel.dataset.state).toBe(panelState)
+    expect(panel.textContent).toContain('数量未知')
+  })
+
+  test('current 但索引缺失时按 error/unknown fail-closed', async () => {
+    await act(async () => root.render(library(definitions, { omitReferenceIndex: true })))
+    expect(button('删除用途').disabled).toBe(true)
+    await act(async () => button('引用').click())
+    const panel = host.querySelector<HTMLElement>('.ds-reference-panel')!
+    expect(panel.dataset.state).toBe('error')
+    expect(panel.textContent).toContain('数量未知')
+  })
+
+  test('live reference provider 失败时保留定义并显示原因', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const onStatusNotice = vi.fn()
+    const session = new EditSession(state(definitions))
+    const referenceIndex = collectCurrentProjectReferenceIndex(session.getState())
+    await act(async () =>
+      root.render(
+        <BattleSpriteLibrary
+          definitions={session.getState().battleSprites}
+          catalog={catalog}
+          assetBase={{} as never}
+          assetReader={{} as never}
+          session={session}
+          tabBar={null}
+          view="definition"
+          onViewChange={vi.fn()}
+          onWorldDomain={vi.fn()}
+          referenceIndex={referenceIndex}
+          referenceStatus="current"
+          getCurrentReferenceIndex={() => {
+            throw new Error('oracle unavailable')
+          }}
+          onStatusNotice={onStatusNotice}
+        />,
+      ),
+    )
+    await act(async () => button('删除用途').click())
+    expect(session.getState().battleSprites).toHaveLength(definitions.length)
+    expect(onStatusNotice).toHaveBeenLastCalledWith({
+      kind: 'error',
+      message: 'oracle unavailable',
+    })
+  })
+
+  test('展示索引为零但 live canonical 新增引用时拒绝删除', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const onStatusNotice = vi.fn()
+    const session = new EditSession(state(definitions))
+    const referenceIndex = collectCurrentProjectReferenceIndex(session.getState())
+    await act(async () =>
+      root.render(
+        <BattleSpriteLibrary
+          definitions={session.getState().battleSprites}
+          catalog={catalog}
+          assetBase={{} as never}
+          assetReader={{} as never}
+          session={session}
+          tabBar={null}
+          view="definition"
+          onViewChange={vi.fn()}
+          onWorldDomain={vi.fn()}
+          referenceIndex={referenceIndex}
+          referenceStatus="current"
+          getCurrentReferenceIndex={(state) =>
+            collectCurrentProjectReferenceIndex(state, {
+              scenes: [],
+              items: [],
+              sharedScripts: {
+                live: {
+                  name: '实时引用',
+                  self: 'none',
+                  body: [
+                    {
+                      kind: 'setActorAppearance',
+                      actor: 'hero',
+                      battleSprite: definitions[0]!.id,
+                    },
+                  ],
+                },
+              },
+            })
+          }
+          onStatusNotice={onStatusNotice}
+        />,
+      ),
+    )
+
+    await act(async () => button('删除用途').click())
+    expect(session.getState().battleSprites).toHaveLength(definitions.length)
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(onStatusNotice).toHaveBeenLastCalledWith({
+      kind: 'error',
+      message: '仍有 1 处引用，无法删除战斗精灵用途。',
+    })
+  })
+
   test('领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择', async () => {
     const onWorldDomain = vi.fn()
     await act(async () => root.render(library(definitions, { onWorldDomain })))
@@ -506,6 +630,24 @@ describe('BattleSpriteLibrary', () => {
     expect(actionFrames('防御')).toEqual([3])
     await act(async () => buttonContaining('偷窃').click())
     expect(actionFrames('偷窃')).toEqual([10, 0])
+  })
+
+  test('引用结果未知时修改共享动作 ABI 必须显式确认', async () => {
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
+    await act(async () => root.render(library([definitions[0]!], { referenceStatus: 'stale' })))
+    await act(async () => buttonContaining('普通攻击').click())
+    await act(async () => button('选择帧 #4').click())
+    const rush = [...host.querySelectorAll<HTMLLIElement>('.battle-action-stage-list > li')].find(
+      (item) => item.textContent?.includes('冲刺'),
+    )!
+    await act(async () =>
+      [...rush.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('用已选 #4'))!
+        .click(),
+    )
+    await act(async () => button('应用修改').click())
+
+    expect(confirm).toHaveBeenCalledWith(expect.stringContaining('引用仍在刷新'))
   })
 
   test('原始帧缩短后会同步收紧右侧已选帧，不保留越界索引', async () => {

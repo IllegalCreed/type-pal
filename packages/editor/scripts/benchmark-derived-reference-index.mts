@@ -76,6 +76,7 @@ try {
     entityAddressReferenceEdges,
     itemReferenceEdges,
     legacyScriptChunkTargetEdges,
+    spriteReferenceEdges,
     structuralProjectReferenceEdges,
   } = await vite.ssrLoadModule('/packages/editor/src/core/project-reference-adapters.ts')
   const { buildProjectReferenceSnapshot } = await vite.ssrLoadModule(
@@ -134,6 +135,9 @@ try {
   const itemEdgeRun = timed(() =>
     itemReferenceEdges(currentAuthorState, commandVisits, transitionVisits, scriptState),
   )
+  const spriteEdgeRun = timed(() =>
+    spriteReferenceEdges(currentAuthorState, commandVisits, scriptState),
+  )
   const entityEdgeRun = timed(() => entityAddressReferenceEdges(entityAddressReferences))
   const compactRun = timed(() =>
     buildProjectReferenceSnapshot(
@@ -144,6 +148,7 @@ try {
         ...battleDataEdgeRun.value,
         ...actorEdgeRun.value,
         ...itemEdgeRun.value,
+        ...spriteEdgeRun.value,
         ...entityEdgeRun.value,
       ],
       { assumeUnique: true },
@@ -227,6 +232,7 @@ try {
           battleDataMs: Number(battleDataEdgeRun.ms.toFixed(3)),
           actorMs: Number(actorEdgeRun.ms.toFixed(3)),
           itemMs: Number(itemEdgeRun.ms.toFixed(3)),
+          spriteMs: Number(spriteEdgeRun.ms.toFixed(3)),
           entityMs: Number(entityEdgeRun.ms.toFixed(3)),
           compactMs: Number(compactRun.ms.toFixed(3)),
         },

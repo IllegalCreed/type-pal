@@ -626,7 +626,7 @@ export function collectItemReferences(
     })
   })
 
-  state.manifest.entryPoints.forEach((entry, entryIndex) => {
+  ;(state.manifest.entryPoints ?? []).forEach((entry, entryIndex) => {
     scanInventory(
       entry.startWorld.inventory,
       `入口 ${entry.label}`,

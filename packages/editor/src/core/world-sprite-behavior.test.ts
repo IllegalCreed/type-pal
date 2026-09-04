@@ -17,9 +17,21 @@ const definition: SpriteDef = {
 }
 
 const reference = {
-  sprite: definition.id,
+  id: 0,
+  target: { kind: 'world-sprite' as const, id: definition.id },
+  source: {
+    key: 'scene-entity',
+    owner: { kind: 'scene-entity' as const, sceneId: 's001', entityId: 'e001' },
+    label: '场景 s001 · 实体 e001',
+    deletedWith: [],
+  },
+  relation: { kind: 'world-sprite-use' as const },
   where: 'scenes[0].entities[0].sprite',
-  site: 'scene:s001:entity:e001',
+  locator: {
+    kind: 'object' as const,
+    object: { kind: 'entity' as const, sceneId: 's001', entityId: 'e001' },
+  },
+  deletePolicy: 'replace-suggest' as const,
 }
 
 function state(
@@ -315,9 +327,10 @@ describe('collectAutomaticScriptSpriteDefinitionIds', () => {
     editorState.scenes[0]!.entities[0]!.pages = [{ auto: 'default' }] as never
 
     expect(collectAutomaticScriptSpriteInstanceSites(editorState)).toEqual([])
-    expect(
-      describeSpriteReferenceBehavior(editorState, reference, definition, 16),
-    ).toMatchObject({ kind: 'default', label: '默认定格' })
+    expect(describeSpriteReferenceBehavior(editorState, reference, definition, 16)).toMatchObject({
+      kind: 'default',
+      label: '默认定格',
+    })
   })
 })
 

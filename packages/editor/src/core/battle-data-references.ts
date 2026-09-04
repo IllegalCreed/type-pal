@@ -193,7 +193,7 @@ function collectPoisonReferences(
       })
   }
 
-  state.manifest.entryPoints.forEach((entry, entryIndex) => {
+  ;(state.manifest.entryPoints ?? []).forEach((entry, entryIndex) => {
     for (const [actorId, seed] of Object.entries(entry.startWorld.seedConditions ?? {}))
       seed.poisonIds?.forEach((poisonId, poisonIndex) => {
         add(output, 'poison', poisonId, {

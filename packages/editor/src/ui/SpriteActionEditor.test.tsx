@@ -5,15 +5,33 @@ import { act, type ComponentProps } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import { catalogControlsEditorState } from './catalog-controls-test-utils.js'
 import { DsInspectorHost } from './design-system/index.js'
 import { SpriteActionEditor as SpriteActionEditorContent } from './SpriteActionEditor.js'
 import { SPRITE_FRAME_DRAG_MIME } from './SpriteResourceViewer.js'
 
-function SpriteActionEditor(props: ComponentProps<typeof SpriteActionEditorContent>) {
+type TestEditorProps = Omit<
+  ComponentProps<typeof SpriteActionEditorContent>,
+  'referenceStatus' | 'getCurrentReferenceIndex'
+> &
+  Partial<
+    Pick<
+      ComponentProps<typeof SpriteActionEditorContent>,
+      'referenceStatus' | 'getCurrentReferenceIndex'
+    >
+  >
+
+function SpriteActionEditor(props: TestEditorProps) {
   return (
     <DsInspectorHost>
-      <SpriteActionEditorContent {...props} />
+      <SpriteActionEditorContent
+        {...props}
+        referenceStatus={props.referenceStatus ?? 'current'}
+        getCurrentReferenceIndex={
+          props.getCurrentReferenceIndex ?? collectCurrentProjectReferenceIndex
+        }
+      />
     </DsInspectorHost>
   )
 }
