@@ -218,8 +218,59 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   - design: **agree**。采用“现有 typed leaf walker → 统一 edge adapter → revision index → 既有 Reference UI”
     四层，按 A/B/C 三批实现，不改 content19/SAVE8，不造全仓新 walker。
 - Kimi：
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-09-04，架构/合同/revision 视角一手直读 + 本人 census 复算，
+    针对固定设计版本 `d8c5bf14`，非复述 Codex）**：
+    1. **地基实在、缺统一边**：`collectEditorDiagnosticsSnapshot` 对同一 revision 只做一次
+       current-author 投影 + 一次 canonical visits（`project-diagnostics.ts:689-760`）；
+       `EditorDerivedData` 公开 10+ 引用 DTO 形状（`editor-derived-contract.ts:56-69`）；
+       Worker revision=`{mainHistoryVersion, scriptHistoryVersion}` 且 maps/assetBlobs/
+       tilesetBlobs 已剥离（`editor-derived-store.ts:114-129`）。统一的是 edge/index 外壳、
+       不是再造 walker，前提成立。
+    2. **缺边与真实漏洞（本人复算）**：`mapAssetSceneReferences` 只查 `scene.mapId`
+       （`commands.ts:797-800`，注释自标“临时窄反查”），`DeleteMapAssetCommand.apply` 仅依此
+       放行（`:929-931`）；s230 `setSceneMapOverride→map-164`（`s230.json:2118-2119`）而
+       全 PAL **scene 顶层 `mapId=map-164` 为 0**（本人 python 复算）——删除漏洞为真。
+       census 复算：openShop 恰 35=29 buy（目标 id 1..20）+ 6 sell（全 `shop=0`）；运行时
+       buy 查 shops、sell 只查背包（`reforge/main.ts:3442-3452`），buy-only 规则成立。
+    3. **字符串协议两处实锤**：App 跳转 `site.split(':')` 分派（`App.tsx:682-731`）；
+       MusicTab 正则 `^scenes\[(\d+)]` + 数组下标反查 owner（`MusicTab.tsx:69-100`）；
+       tileset 异步扫描带 done/failures/lazy loadMap（`tileset-references.ts:33-52`），正文
+       不入 Worker 属实。
+    4. **可复用合同已在**：`ScriptCommandLocator`（owner 五型 + container + commandPath，
+       `script-editor.ts:69-128`）与 `SpriteActionReference.locator` 消费先例（`App.tsx:733`）；
+       validate-refs 仅 `currentScene`（:1110）与 `shop.items→item`（:1498-1508），
+       loadScene/openShop/selectSceneHooks/setSceneMapOverride 命令边全缺，而 schema 类型
+       （`script.ts:70,129,214`）已存在——**补 typed leaf 是纯代码增量，content19/SAVE8/迁移
+       数据零变化成立**，PAL publication 复用同一 validator，zero-plan 即可证。
+    5. **保存/删除 fail-closed 先例**：ED-INPUT-PERF-1 已定“异步快照只服务展示，保存与破坏性
+       动作在 current revision 同步重验”（`ED-INPUT-PERF-1:362-363,373`），ED-3 设计结论 4
+       与其一致；五组 shell-scan 反例（BattleField/EnemyTeam/Poison/World/Battle Sprite）
+       census 与代码路径吻合。
+  - design: **agree（2026-09-04；三签齐后允许 build）**。四层边界（content typed leaf
+    walker → editor edge adapter → revision index → 既有 Reference UI）是不造第二套巨型
+    递归的最小合法形态；edge/target/source/locator/deletePolicy/deletionScope 合同
+    （稳定 key、`where` 仅显示、scope 显式排除随删来源、block/replace-suggest/warn 语义、
+    runtime-readonly 明示 unavailable）完整覆盖现有 collector 语义且无可预见的无损性缺口；
+    cold builder oracle + Worker 同 builder、async batch 带 coverage/revision proof、
+    A/B/C 同 Owner 串行均成立。必改钉（build 落实条件，非阻塞）：
+    ① **PAL 零新增 error 硬门**：B 批 validator 补强合入前，`pal-current-publication.pal.test`
+      必须通过且 PAL 全量新规则 census 零新增 error；每条新边 severity（error/warn）逐条登记
+      理由；任一真实悬空暴露即停线另开 migration 上游卡，不在 ED-3 手改 PAL 或放宽规则。
+    ② **A 批性能基线**：PAL（38k+ entity-address 边）Worker payload 尺寸/构建耗时与 A 批前
+      基线对比必须写入 Build 记录；超阈值按-target lazy adapter 降级，不物化全图。
+    ③ **单一 builder 钉**：sync oracle 与 Worker 必须 import 同一 builder/adapter 函数，测试
+      断言同 revision 两次调用结果深等；禁止保存/删除路径与 Worker 各自实例化近似逻辑。
+    ④ **五组 shell-scan 反例专测**：BattleField/EnemyTeam/Poison/World Sprite/Battle Sprite
+      各钉一条“script session 已改、Worker 未投影时删除仍按 current-author fail-closed”负例。
+  - 可证伪观察：
+    ① 任一域 adapter parity 无法无损（丢 expected kind/access/owner/canonical locator）→
+      该域停止迁移、合同重议，不得用字符串 extras 糊；
+    ② PAL publication 因新规则报出真实悬空 → zero-plan 被打破，停线开 migration 卡而非降级
+      severity；
+    ③ 运行时 sell 开始消费 shop 表 → buy-only 规则失效，回用户裁决；
+    ④ A 批基线显著放大且 lazy adapter 仍超 → 统一 index 物化范围收缩重审；
+    ⑤ `mapAssetSceneReferences`/媒体 `where` 正则/App `split(':')` 任一在 done 时仍存活 →
+      退役承诺失效，不得 done。
 - GLM：
   - premise: **verified（2026-09-04，固定设计版本 `d8c5bf14`；PAL 关键 census、DTO/删除命令/
     validator/媒体解析现状全部本人独立复算直读，非复述 Codex）**：
@@ -387,6 +438,18 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ## 交接日志
 
+- 2026-09-04 Kimi: 完成 ED-3 架构/公共合同/revision/保存删除 fail-closed/异步 proof 设计
+  主审（固定版本 `d8c5bf14`），签 premise verified + design agree。独立证据：diagnostics
+  单投影单 visits（`project-diagnostics.ts:689-760`）、10+ DTO（`editor-derived-contract.ts
+  :56-69`）、Worker revision 协议（`editor-derived-store.ts:114-129`）；本人 python 复算
+  openShop 恰 35=29 buy（id 1..20）+6 sell（全 shop=0）、全树 scene 顶层 `mapId=map-164`
+  为 0（s230 删除漏洞为真）；buy/sell 运行时分支（`reforge/main.ts:3442-3452`）、App
+  `split(':')`（`App.tsx:682-731`）、MusicTab 正则下标（`MusicTab.tsx:69-100`）、
+  `ScriptCommandLocator` 现存合同（`script-editor.ts:69-128`）、validate-refs 命令边全缺
+  （仅 :1110/:1498-1508，schema 已在 `script.ts:70,129,214`——补 typed leaf 数据零变化
+  成立）。附四条必改钉（PAL 零新增 error 硬门 / A 批性能基线 / 单一 builder / 五组
+  shell-scan 负例专测）与五条可证伪观察。只改 Kimi 签字块与本条日志，未改 GLM 签字、
+  共享准入结论或 Status。Next: Codex 确认三签齐后推进 build 准入。
 - 2026-09-04 GLM: 完成 ED-3 设计审查（固定版本 `d8c5bf14`），签 premise verified + design
   agree。独立证据：PAL 关键 census 逐项复核（20 shops id 1..20、openShop 29 buy + 6 sell
   全 shop=0、map override 恰 2 条、hooks 67/65、294 scenes）；**s230→map-164 真实删除漏洞
