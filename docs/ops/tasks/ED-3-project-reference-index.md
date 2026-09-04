@@ -349,7 +349,58 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   collector/DTO/字符串 locator 无 fallback。最终 clean n=20、全量/聚焦测试、三包 typecheck、build、
   DS gate、publication、dry-run 四零与 1280/720 抽验通过；无已知实现返工项。
 - Kimi: pending
-- GLM: pending
+- GLM: **accept（2026-09-05，只读终审候选 `01512c84` 相对设计基线 `d8c5bf14` + 证据文件
+  ED-3A + 确定性 PAL 门与负例矩阵本人复跑，非复述 Codex/Kimi；本人设计期 GM-E3-1~6 六钉
+  逐条验证落实）**：
+  - **PAL 数据不变与 census 复算 ✓**：本人重算——shops 恰 20、openShop **29 buy + 6 sell**、
+    map override 恰 **2**（s230→map-164、s243→map-165）与设计期逐字一致（统一层零内容漂移）；
+    本人独立 dry-run `managed=537 writes=0 deletes=0 conflicts=0 asset-deletes=0`、
+    reference-warnings=0、运行后工作树干净——validator/typed 新规则未偷改 PAL 内容。
+  - **确定性规模门 ✓**：`project-reference.pal.test.ts` 以真实 PAL 钉 **25,188 rows**
+    （:539）与统一索引 JSON **≤2,500,000B** 硬门（:544-545）；各域真树 parity 逐域断言——
+    entity blocker 相等（:118）、battle-data/actor keys 与旧 collector 相等（:179/:193）、
+    actor blocker **804**、item blocker **1,169** + relation 计数 46/39/9/899/34/155、
+    world sprite **573/4,209** 聚合、**asset 多重集 parity 恰 6,002**
+    （`[asset, expectedKind, origin, site]` 身份与旧 collector 排序相等 :336-344）——
+    GM-E3-5 真树 oracle 落实。
+  - **6,002 split ✓**：证据 2,121 structural + 3,881 canonical = 6,002，结构 walker 不再对
+    60,295 canonical visits 二次递归（`01512c84` 复用 visits 的 perf 提交）；canonical where
+    改稳定作者路径为**有意差异**且已声明，不宣称字节等价——诚实口径。
+  - **scene/map/shop 缺边与真漏洞闭合 ✓（GM-E3-1）**：`referencesTo({kind:'map', id:
+    'map-164'})` 真树断言命中 s230 override 边（pal :502-509）+ 最小 fixture（adapters :125
+    's230-style script map override is visible without a scene.mapId edge'）——s230 具名回归
+    双钉；sell **zero 与 nonzero 双负例**（adapters :116-120 'buy creates a shop edge while
+    sell zero/nonzero never does'——GM-E3-2 落实）；`scene-map-override` relation 进图。
+  - **退役与字符串协议清零 ✓**：`mapAssetSceneReferences` 全库零命中；MusicTab `where`
+    正则零命中；App `reference.site.split(':')` 分派已删（现存 :662 `srcKey.split(':')[0]`
+    为场景 drawer 源键协议、非 reference site——非本卡验收对象，如实记录不构成 counter）。
+  - **async/partial/TOCTOU/fail-closed ✓（GM-E3-6）**：tileset 测试族——'fails closed on
+    read errors and never creates a proof from partial coverage'（:143）、'discards a late
+    old-path result'（:166）、'does not start a stale read…identity changes'（:212）、
+    'prefers an in-session map edit over a late disk scan'（:257）；223/223 maps 完成下界
+    + 浏览器 6010 实测（证据 C 批异步节）；stamp 以 `?ui_samples` authored 探针验证、
+    不冒充 PAL 内容。
+  - **删除策略/scope/undo-redo ✓（GM-E3-3）**：'deletion impact blocks block/replace-suggest,
+    preserves warn and excludes explicit sources' + 'A↔B scope excludes A sources while
+    preserving B→A'；asset-reference-commands/enemy-team/entity-address/tileset-lifecycle
+    测试含 apply/redo 再复核（本人复跑 31 tests 绿）。
+  - **opaque-ID 反例 ✓**：tuple key 无分隔符碰撞/无显示名身份（'uses tuple keys without
+    delimiter collisions or display/path identity'）；装备战斗精灵豁免改结构化
+    `origin:'equip'`，脚本 ID 含 `:equip:` 不再误跳过（证据 C 批）；诊断投影按
+    `[issue code, where]` 关联而非 where 唯一身份，直接反例与
+    `validateAuthorScenes → visits → diagnostics` 端到端反例已钉。
+  - **性能预算纪律 ✓（GM-E3-4）**：A 批冻结预算 + 2.5MB 索引硬门全程未机械抬高——B 批
+    触线时压缩 wire format（source key 消费端重建/重复 targetKeys 删除/detail 入表），
+    加 1,194 rows 后完整 reply 反减 109,914B；最终 C 候选 clean n=20 全预算 pass、
+    `worktreeDirty=false` 自报；耗时只作同机手工回归不进 CI（易抖样本如实保留记录）。
+  - **本人复跑**：project-reference.pal + project-reference + adapters + asset-diagnostics
+    **4 files / 37 tests 全绿**；asset-reference-commands + tileset-lifecycle +
+    editor-derived-store **3 files / 31 tests 全绿**；migrate dry-run 零计划（含
+    reference-warnings=0——新 validator 规则未暴露 PAL 真实悬空，stop-line 未触发）。
+  - **可证伪观察**：重跑 pal 门任一计数/parity 断言失败；dry-run 非零计划或
+    reference-warnings>0；s230/map-164 或 sell 负例回归；2.5MB 门被机械抬高或旧 DTO
+    回流；TOCTOU 四测任一删失——任一出现本 accept 失效。
+  无返工项；未修改实现/生成数据，未代签 Kimi，未填用户验收。
 - counter / 返工处理: 无 Codex counter；等待 Kimi/GLM。
 - 缺签豁免: N/A
 - done 准入结论: blocked
@@ -605,6 +656,16 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ## 交接日志
 
+- 2026-09-05 GLM: 只读终审候选 `01512c84`（相对设计基线 `d8c5bf14`），签 **accept**。独立
+  证据：PAL census 复算不变（20 shops / 29 buy + 6 sell / 2 override）；25,188 rows 与
+  2.5MB JSON 为真树确定性门；6,002 asset 多重集 parity 与旧 collector 真树相等、2,121+3,881
+  split 有意差异如实声明；s230→map-164 真树 + fixture 双钉（GM-E3-1）、sell zero/nonzero
+  双负例（GM-E3-2）、A↔B scope（GM-E3-3）、2.5MB 纪律不机械抬阈值（GM-E3-4）、六域真树
+  parity oracle（GM-E3-5）、TOCTOU 四测 + fail-closed（GM-E3-6）；mapAssetSceneReferences/
+  MusicTab where 正则/reference.site.split 全退役；undo-redo 再复核与 opaque-ID（tuple key
+  碰撞/`:equip:` 结构化豁免/issue-code+where 关联）反例齐；本人复跑 4+3 files / 68 tests
+  全绿 + migrate dry-run 四零（reference-warnings=0）。无返工项；未修改实现/生成数据，未
+  代签 Kimi，未填用户验收。Next: Kimi 终审与用户验收。
 - 2026-09-04 Kimi: 完成 ED-3 架构/公共合同/revision/保存删除 fail-closed/异步 proof 设计
   主审（固定版本 `d8c5bf14`），签 premise verified + design agree。独立证据：diagnostics
   单投影单 visits（`project-diagnostics.ts:689-760`）、10+ DTO（`editor-derived-contract.ts
