@@ -194,17 +194,17 @@
    2026-09-04 三方终审并经用户验收完成。
 
    当前第二阶段唯一队列（2026-09-05）:
-   1. [ED-3](../ops/tasks/ED-3-project-reference-index.md) 统一引用边与安全删除地基已完成实现候选、正在终审；随后按
-      [场景生命周期](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) 与
-      [商店生命周期](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md) 闭合下游七环
-   2. R4 薄 E2E：runner、001-010、四种取物 canary、编辑器保存重开试玩
-   3. N6b：四种内置取物意图 + content20；复跑薄基线，第三阶段再做通用化
-   4. Q2 完整战斗专项五批（B5 并入）→ Q1 完整通关链
-   5. 敌队大目录虚拟滚动（编辑器综合 E2E 前）
-   6. 编辑器综合工作流 E2E
-   7. `capture` profile + Content Studio 窄录制适配 + 分镜映射
-   8. A1 服务器版本化预制工程资源库
-   9. A8 独立可玩包与干净环境代表性 E2E
+   [ED-3](../ops/tasks/ED-3-project-reference-index.md) 已于 2026-09-05 三方 accept + 用户验收完成。
+   1. [场景生命周期](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md)
+   2. [商店生命周期](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)
+   3. R4 薄 E2E：runner、001-010、四种取物 canary、编辑器保存重开试玩
+   4. N6b：四种内置取物意图 + content20；复跑薄基线，第三阶段再做通用化
+   5. Q2 完整战斗专项五批（B5 并入）→ Q1 完整通关链
+   6. 敌队大目录虚拟滚动（编辑器综合 E2E 前）
+   7. 编辑器综合工作流 E2E
+   8. `capture` profile + Content Studio 窄录制适配 + 分镜映射
+   9. A1 服务器版本化预制工程资源库
+   10. A8 独立可玩包与干净环境代表性 E2E
 
    已移交第三阶段（不再进入第二阶段选择器）:
    - W6 的真实时间流逝/天气
@@ -250,7 +250,7 @@
 
 ### 2026-09-03 对账后重跑（候选，不是承诺）
 
-- 该句是 2026-09-03 对账时点快照；此后已新开 ED-3 并于 2026-09-05 完成 A/B/C 候选进入 review，
+- 该句是 2026-09-03 对账时点快照；此后 ED-3 已于 2026-09-05 完成三方/用户验收，
   两张场景/商店生命周期卡已建为 draft。实时状态以任务看板为准。
 - X4/A7、B2、W9、E18、D6-1、D12-1、D13-1、D14-2/3、D15-1 与
   `ARCH-ACTOR-CONDITION-SEED-1` 的陈旧状态已按任务卡和 Git 收口事实更正。

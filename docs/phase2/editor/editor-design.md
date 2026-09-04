@@ -268,7 +268,7 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
 - 资源帧拖入动作槽仍是 copy transfer，不属于排序；地图实体坐标、面板 resize、视口 pan/zoom、成员归属和按等级
   派生顺序同样排除。生产采用矩阵与证据型 allowlist 是边界真源，不能从“底层恰好是数组”推导新交互能力。
 
-### 5.8 统一工程引用边与安全删除地基（ED-3，2026-09-05 候选）
+### 5.8 统一工程引用边与安全删除地基（ED-3，2026-09-05 done）
 
 - 引用能力固定为四层：content typed leaf rule 只识别 schema 语义；editor adapter 补稳定 target/source、
   relation、结构化 locator 和 delete policy；同一 builder 同时供 revision Worker 与破坏动作的同步

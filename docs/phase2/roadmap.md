@@ -201,26 +201,24 @@ R4 薄基线通过后、R5 数百段扩展前插入 **N6b-v20 原子切换**：�
 工程和版本绑定 checkpoint，再用同一 R4 业务断言回归。完整 Q1、Q2、编辑器综合 E2E、`capture` 和
 A1/A8 一律建立在 content20 上，避免先铺满 content19 资产再整体重做。
 
-E6-1 与四条 PAL 数字角色条件引用已闭合；ED-3 的 A/B/C 实现候选已完成并进入终审，随后以统一引用边
-为地基依次闭合场景/商店生命周期。完成这些确定性欠账后才进入 R4 薄 E2E 基线。上述 N6b 插入顺序只描述 R4 之后的版本切换
+E6-1、四条 PAL 数字角色条件引用与 ED-3 统一引用边均已闭合；当前以 ED-3 为地基依次完成
+场景/商店生命周期。完成这些确定性欠账后才进入 R4 薄 E2E 基线。上述 N6b 插入顺序只描述 R4 之后的版本切换
 位置，不得据此越过前置欠账。
 
 **2026-09-03 当前第二阶段完整队列（用户以历史清单复核）**：
 
-1. [ED-3](../ops/tasks/ED-3-project-reference-index.md) 统一工程引用边；复用既有 typed collectors，
-   不另造一次全仓巨型扫描器。
-2. 在 ED-3 地基上按
-   [场景生命周期](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) 与
-   [商店生命周期](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md) 两张正式卡，闭合复制、
-   命名、引用反查、安全删除、撤销、保存重开与试运行。
+1. [场景生命周期](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md)：复制、可读命名、
+   引用反查、安全删除、撤销、保存重开与试玩。
+2. [商店生命周期](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)：复制、可读命名、
+   buy-only 引用保护、安全删除、保存重开与正式试买。
 3. R4 薄 E2E：Q1 runner + 001-010、四种取物 canary、一条编辑器保存重开试玩链。
 4. N6b 窄版 content20 原子切换，并复跑同一薄基线。
 5. Q2 完整战斗专项五批（吸收 B5 和已知战斗操作/动画/音效缺口），随后扩 Q1 全通关链。
 6. 敌队大目录虚拟滚动；必须在编辑器综合工作流 E2E 前完成。
 7. 编辑器综合 E2E：空白工程创建完整 RPG 内容、保存、重开并试玩。
 8. Q1/Q2 验证完成后建设 `capture` profile、Content Studio 窄录制适配与分镜映射。
-10. A1 服务器版本化预制工程资源库。
-11. A8 独立可玩包；以干净环境代表性 E2E 作为第二阶段最终退出门。
+9. A1 服务器版本化预制工程资源库。
+10. A8 独立可玩包；以干净环境代表性 E2E 作为第二阶段最终退出门。
 
 E6-1 已于 2026-09-04 三方 accept + 用户验收 done，故从当前队列移出；历史证据保留在任务卡。
 
@@ -242,7 +240,7 @@ ProjectMapV2。[R2 事件脚本单一模型与 unmigrated 退役](../ops/tasks/R
 |---:|---|---|---|
 | 1 | **R2 脚本单一模型** | **done（2026-07-14，三方复验 + 用户验收）**：原 66 个残余全部归类收口；17 个假缺失改按数组地址解析；产物零可执行 `unmigrated`，旧 opcode 第二解释器已删除 | R3/R7 |
 | 2 | **R3/A7 + R7 资源闭包/注册表** | **done**：current-only 实现与 ARCH-CURRENT-ONLY-1 三方/用户验收均已完成；当前 schema 为 content19 / SAVE8。PAL 1,934 catalog records，56 个 effect sprite 已物化；editor/reforge 无 extracted/legacy fallback，旧版本发布链已删除 | ED-3；同时具备启动 Q1 的资源前提 |
-| 3 | **ED-3 工程引用图** | **review（候选 `01512c84`）**：同步领域、媒体 locator 与异步 map/tileset/stamp proof 已统一；临时 map helper、旧 DTO/scanner/string parser 已退役，等待三方终审与用户验收 | 场景/商店生命周期 |
+| 3 | **ED-3 工程引用图** | **done（2026-09-05，三方 accept + 用户验收）**：同步领域、媒体 locator 与异步 map/tileset/stamp proof 已统一；临时 map helper、旧 DTO/scanner/string parser 已退役 | 场景/商店生命周期 |
 | 4 | **创作生命周期** | 角色、物品、技能、毒等既有生命周期已闭合；场景与商店仍缺复制、可读命名、安全删除、保存重开和独立试运行 | ED-SCENE-LIFECYCLE-1 / ED-SHOP-LIFECYCLE-1 |
 | 5 | **W8 地图内容选择与属性编辑 → W7G 组合地物图章 + 效率层** | **done（2026-07-18 后续批次）**：单/多格选择、实例属性、持久组合模板/placement、整体变换、生命周期与统一排序控件均已闭合；当前 ProjectMap v4 继续使用同一运行格式 | ED-3 与当前生命周期欠账 |
 

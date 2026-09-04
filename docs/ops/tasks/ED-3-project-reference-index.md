@@ -1,6 +1,6 @@
 # ED-3 - 统一工程引用边与安全删除地基
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor cross-cutting / E1 / E9 / W7 / A7 / N5
 Coding Owner: Codex
@@ -441,7 +441,7 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   无返工项；未修改实现/生成数据，未代签 Kimi，未填用户验收。
 - counter / 返工处理: 三方均无 counter、无必须返工项。
 - 缺签豁免: N/A
-- done 准入结论: **allowed（2026-09-05）**。Codex/Kimi/GLM 三方 accept 已齐；只等待用户最终验收后收口状态。
+- done 准入结论: **done（2026-09-05）**。Codex/Kimi/GLM 三方 accept 与用户最终验收均已齐。
 
 ## Draft: 设计与风险
 
@@ -681,11 +681,11 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 - Reviewer: Kimi + GLM
 - 审查结论: **Codex / Kimi / GLM 三方 accept（2026-09-05）**。
 - 必须返工项: 无。
-- Accept / rework: **accept；等待用户最终验收**。
+- Accept / rework: **accept；用户已验收，正式收口**。
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **通过（2026-09-05）**。批准提交推送并继续既定第二阶段队列。
 - 后续任务:
   [`ED-SCENE-LIFECYCLE-1`](ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md)（双 session
   新建/复制/显示名/安全删除/文件清理/保存重开/试玩）；
@@ -694,6 +694,9 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ## 交接日志
 
+- 2026-09-05 User/Codex: 用户确认“通过，提交推送”；ED-3 `review → done`，从进行中看板移除，
+  roadmap/capability-map/README 同步为完成真值。Next: 按队列启动 ED-SCENE-LIFECYCLE-1 前提真值门，
+  先核显示名/schema 与复制/删除双 session 事务边界。
 - 2026-09-05 Codex: 同步 GLM `2c435d3a` 与 Kimi `afbd09e1`；两席均对固定候选 `01512c84`
   独立终审 accept、无返工项。三方 done 签字齐，统一结论更新为 done allowed；Status 保持 review，
   不替用户填写验收。Next: 用户最终验收后由 Codex 标记 done、移出看板并启动场景生命周期前提门。
@@ -782,4 +785,4 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；三方技术验收已齐，等待用户最终验收/收口。
+无下一位 Agent 提示词；ED-3 已完成。下一项是 ED-SCENE-LIFECYCLE-1，等待用户确认开始。
