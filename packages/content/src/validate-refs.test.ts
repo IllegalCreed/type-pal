@@ -1372,3 +1372,122 @@ describe('validateReferences · battleField 三层引用(B2-1)', () => {
     )
   })
 })
+
+describe('validateReferences · ED-3 command target closure', () => {
+  function targetBundle(): ContentBundle {
+    const bundle = clone(base)
+    ;(bundle.scenes[0] as unknown as Record<string, unknown>).hooks = {
+      onEnter: {
+        initial: 'default',
+        variants: {
+          default: {
+            label: '目标引用',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [
+                    { kind: 'loadScene', scene: 'missing-scene' },
+                    { kind: 'loadScene', scene: 's', entryId: 'missing-entry' },
+                    { kind: 'setSceneMapOverride', mapId: 'missing-map' },
+                    { kind: 'openShop', shop: 9, mode: 'buy' },
+                    { kind: 'openShop', shop: 999, mode: 'sell' },
+                    { kind: 'startBattle', enemyTeamId: 'missing-team' },
+                    { kind: 'setAmbience', ambience: 'missing-ambience' },
+                    {
+                      kind: 'branch',
+                      cond: { kind: 'currentScene', scene: 'missing-condition-scene' },
+                      then: [
+                        {
+                          kind: 'hideEntity',
+                          target: { scene: 's', entity: 'missing-entity' },
+                          ticks: 1,
+                        },
+                        {
+                          kind: 'selectSceneHooks',
+                          scene: 's',
+                          selection: { onEnter: { kind: 'use', value: 'missing-hook' } },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    }
+    return bundle
+  }
+
+  test('rejects missing scene/map/buy-shop/team/entity/entry/hook and warns missing ambience', () => {
+    const issues = validateReferences(targetBundle())
+    const joined = issues
+      .map((issue) => `${issue.severity}:${issue.where}:${issue.message}`)
+      .join('\n')
+    expect(joined).toContain('场景 "missing-scene" 不在 scenes')
+    expect(joined).toContain('命名落点 "s/missing-entry" 不在 scenes')
+    expect(joined).toContain('地图 "missing-map" 不在 map index')
+    expect(joined).toContain('商店 9 不在 shops')
+    expect(joined).not.toContain('商店 999')
+    expect(joined).toContain('敌队 "missing-team" 不在 enemyTeams')
+    expect(joined).toContain('场景 "missing-condition-scene" 不在 scenes')
+    expect(joined).toContain('实体 "s/missing-entity" 不在 scenes')
+    expect(joined).toContain('场景脚本方案 "s/onEnter/missing-hook" 不存在')
+    expect(joined).toContain('warn:')
+    expect(joined).toContain('氛围 "missing-ambience" 不在 ambiences')
+  })
+
+  test('accepts declared targets and never treats sell shop as a ShopDef edge', () => {
+    const bundle = targetBundle()
+    bundle.scenes.push({
+      id: 'missing-scene',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+    })
+    bundle.scenes.push({
+      id: 'missing-condition-scene',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+    })
+    bundle.scenes[0]!.entries = {
+      'missing-entry': { pos: { col: 0, row: 0, height: 0 } },
+    }
+    bundle.scenes[0]!.entities.push({
+      id: 'missing-entity',
+      pos: { col: 0, row: 0, height: 0 },
+      zone: true,
+      pages: [],
+    })
+    const hook = (bundle.scenes[0] as unknown as { hooks: { onEnter: { variants: object } } }).hooks
+      .onEnter
+    hook.variants = {
+      ...(hook.variants as object),
+      'missing-hook': {
+        label: '存在方案',
+        order: 1,
+        flow: { kind: 'stages', initial: 'start', stages: [{ id: 'start', body: [] }] },
+      },
+    }
+    bundle.mapIndex.maps.push({
+      id: 'missing-map',
+      name: '脚本地图',
+      path: 'content/maps/missing-map.json',
+    })
+    bundle.shops = [{ id: 9, items: [] }]
+    bundle.enemyTeams = [{ id: 'missing-team', slots: [] } as never]
+    bundle.ambiences = [{ id: 'missing-ambience', label: '缺省', color: '#fff' } as never]
+    const relevant = validateReferences(bundle).filter((issue) =>
+      /missing-(scene|entry|map|team|condition-scene|entity|hook|ambience)|商店 (9|999)/.test(
+        issue.message,
+      ),
+    )
+    expect(relevant).toEqual([])
+  })
+})

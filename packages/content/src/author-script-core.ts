@@ -711,6 +711,13 @@ export function checkBaseAuthorCommands(
       if (command.choreography !== undefined)
         checkBattleChoreography(command.choreography, `${commandPath}.choreography`)
     }
+    if (kind === 'openShop') {
+      exactKeys(command, ['kind', 'shop', 'mode'], commandPath)
+      if (!Number.isSafeInteger(command.shop) || Number(command.shop) < 0)
+        throw new Error(`${commandPath}.shop: 期望非负安全整数`)
+      if (command.mode !== 'buy' && command.mode !== 'sell')
+        throw new Error(`${commandPath}.mode: 期望 buy|sell`)
+    }
     if (kind === 'teleportOut' && command.onFail !== undefined)
       checkBaseAuthorCommands(command.onFail, `${commandPath}.onFail`, options)
     if (kind === 'confirm') {

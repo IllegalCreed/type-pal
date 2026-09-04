@@ -8,6 +8,7 @@
     "dev": "VITE_PROJECT_ID=pal vite --port 6010 --strictPort",
     "dev:lan": "EDITOR_LAN_HTTPS=1 VITE_PROJECT_ID=pal vite --host 0.0.0.0 --port 6010 --strictPort",
     "build": "vite build",
+    "benchmark:references": "tsx scripts/benchmark-derived-reference-index.mts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",

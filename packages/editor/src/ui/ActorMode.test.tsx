@@ -12,6 +12,7 @@ import type {
   EditorDerivedStore,
   EditorDerivedStoreSnapshot,
 } from '../core/editor-derived-store.js'
+import { buildProjectReferenceSnapshot } from '../core/project-reference.js'
 import { ScriptEditSession } from '../core/script-editor.js'
 import { ActorMode } from './ActorMode.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -195,8 +196,7 @@ function Harness(props: {
   const referenceData = {
     statusIssues: [],
     projectIssues: [],
-    sceneEntryReferences: [],
-    entityAddressReferences: [],
+    projectReferences: buildProjectReferenceSnapshot([]),
     assetReferences: [],
     assetDiagnostics: [],
     actorReferenceIndex: [...(props.referenceIndex ?? blockingActorReferenceMap(current))] as never,
@@ -307,7 +307,9 @@ describe('ActorMode 初始状态唯一所有权', () => {
     const addMagic = [...setupPanel.querySelectorAll<HTMLButtonElement>('button')].find(
       (candidate) => candidate.textContent?.trim() === '添加初始仙术',
     )!
-    expect(setupPanel.querySelector('.ds-workbench-section__actions')?.contains(addMagic)).toBe(true)
+    expect(setupPanel.querySelector('.ds-workbench-section__actions')?.contains(addMagic)).toBe(
+      true,
+    )
     expect(setupPanel.querySelector('.actor-initial-magic-editor')?.contains(addMagic)).toBe(false)
     expect(addMagic.querySelector('.ds-icon')).not.toBeNull()
     const emptyState = setupPanel.querySelector<HTMLElement>(
@@ -410,13 +412,11 @@ describe('ActorMode 初始状态唯一所有权', () => {
     expect(appearancePanel.querySelector('.ds-workbench-section__actions')).toBeNull()
     expect(appearancePanel.textContent).not.toContain('导入战斗形象')
     expect(appearancePanel.textContent).not.toContain('上传新的帧带定义')
-    expect(
-      appearancePanel.querySelector('button[aria-label^="打开战斗精灵"]'),
-    ).toBeNull()
+    expect(appearancePanel.querySelector('button[aria-label^="打开战斗精灵"]')).toBeNull()
     const openDefinition = button('在资源库编辑')
-    expect(appearancePanel.querySelector('.ds-control-group__actions')?.contains(openDefinition)).toBe(
-      true,
-    )
+    expect(
+      appearancePanel.querySelector('.ds-control-group__actions')?.contains(openDefinition),
+    ).toBe(true)
     expect(openDefinition.classList).not.toContain('ds-button--compact')
     expect(openDefinition.querySelector('.ds-icon')).not.toBeNull()
     expect(appearancePanel.querySelector('input[type="file"]')).toBeNull()
@@ -430,7 +430,9 @@ describe('ActorMode 初始状态唯一所有权', () => {
     expect(bindingField.querySelector<HTMLLabelElement>('.ds-field__label')?.textContent).toBe(
       '战斗精灵',
     )
-    expect(bindingField.querySelector<HTMLLabelElement>('.ds-field__label')?.htmlFor).toBe(picker.id)
+    expect(bindingField.querySelector<HTMLLabelElement>('.ds-field__label')?.htmlFor).toBe(
+      picker.id,
+    )
     expect(picker.classList).not.toContain('ds-select--compact')
     expect(picker.textContent).toContain('主角战斗精灵')
     expect(picker.textContent).toContain('hero-battle-sprite · 玩家战斗 · 8 个动作')
@@ -439,9 +441,7 @@ describe('ActorMode 初始状态唯一所有权', () => {
     const bindingHelpButton = bindingField.querySelector<HTMLButtonElement>(
       'button[aria-label="战斗精灵说明"]',
     )!
-    const bindingHelp = document.getElementById(
-      bindingHelpButton.getAttribute('aria-describedby')!,
-    )
+    const bindingHelp = document.getElementById(bindingHelpButton.getAttribute('aria-describedby')!)
     expect(bindingHelp?.textContent).toBe(
       '这里只更换角色引用；帧、动作与源资源请在战斗精灵库管理。',
     )
@@ -510,7 +510,9 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
     expect(host.querySelector('.actor-frame-card')).not.toBeNull()
     expect(host.textContent).toContain('行走图与动作帧')
     expect(host.textContent).toContain('选择角色使用的行走精灵')
-    const worldSpriteField = host.querySelector<HTMLElement>('.actor-world-sprite-binding .ds-field')!
+    const worldSpriteField = host.querySelector<HTMLElement>(
+      '.actor-world-sprite-binding .ds-field',
+    )!
     expect(comboboxByLabel('行走精灵')).not.toBeNull()
     expect(worldSpriteField.querySelector('.ds-field__help')).toBeNull()
     const worldHelpButton = worldSpriteField.querySelector<HTMLButtonElement>(

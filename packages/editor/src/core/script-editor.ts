@@ -885,7 +885,10 @@ export function canonicalScriptReferenceDestinationExists(
   )
 }
 
-function commandOwnerLabel(state: ScriptEditorState, owner: ScriptCommandOwner): string {
+export function describeScriptCommandOwner(
+  state: ScriptEditorState,
+  owner: ScriptCommandOwner,
+): string {
   if (owner.kind === 'entity-behavior') {
     const behavior = state.scenes
       .find((scene) => scene.id === owner.sceneId)
@@ -982,7 +985,7 @@ export function describeCanonicalScriptReference(
         ? '切换实体脚本方案'
         : undefined
   return [
-    commandOwnerLabel(state, locator.owner),
+    describeScriptCommandOwner(state, locator.owner),
     ...(container ? [container] : []),
     `${commandPositionLabel(locator.commandPath)}${commandLabel ? `「${commandLabel}」` : ''}`,
   ].join(' / ')

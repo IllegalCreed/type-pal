@@ -1,4 +1,4 @@
-import { collectEditorDiagnosticsSnapshot } from './project-diagnostics.js'
+import type { EditorState } from './edit-session.js'
 import type {
   EditorDerivedData,
   EditorDerivedInput,
@@ -9,7 +9,7 @@ import type {
   RecordPatch,
 } from './editor-derived-contract.js'
 import { sameEditorDerivedRevision } from './editor-derived-contract.js'
-import type { EditorState } from './edit-session.js'
+import { collectEditorDiagnosticsSnapshot } from './project-diagnostics.js'
 
 function applyIdArrayPatch<T extends { id: string }>(
   current: readonly T[],
@@ -50,8 +50,7 @@ function collect(input: EditorDerivedInput): EditorDerivedData {
   return {
     statusIssues: snapshot.statusIssues,
     projectIssues: snapshot.projectIssues,
-    sceneEntryReferences: [...snapshot.sceneEntryReferenceIndex],
-    entityAddressReferences: snapshot.entityAddressReferences,
+    projectReferences: snapshot.projectReferences,
     assetReferences: snapshot.assetSnapshot.references,
     assetDiagnostics: snapshot.assetDiagnostics,
     actorReferenceIndex: [...snapshot.actorReferenceIndex],
@@ -99,10 +98,7 @@ export function createEditorDerivedWorkerRuntime(): EditorDerivedWorkerRuntime {
                 ...input.canonical,
                 ...(request.script.scenes
                   ? {
-                      scenes: applyIdArrayPatch(
-                        input.canonical.scenes,
-                        request.script.scenes,
-                      ),
+                      scenes: applyIdArrayPatch(input.canonical.scenes, request.script.scenes),
                     }
                   : {}),
                 ...(request.script.items

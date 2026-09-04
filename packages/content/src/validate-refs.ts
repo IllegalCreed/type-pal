@@ -14,13 +14,14 @@
 import { isActorEntity } from './actor.js'
 import { ACTOR_STATUS_DEFINITIONS, isCarryableStatusId } from './actor-condition.js'
 import { ACTOR_REFERENCE_POLICIES, collectActorTaggedReferences } from './actor-reference.js'
-import { collectBattleFieldTaggedReferences } from './battle-field-reference.js'
+import { visitCommandTargetReferences } from './command-target-reference.js'
 import type {
   ActorDef,
   AiAction,
   AiCond,
   AmbienceDef,
   AuthorCondition,
+  AuthorSceneDef,
   BattleChoreographyAction,
   BattleFieldDef,
   BattleSpriteDef,
@@ -942,6 +943,9 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const poisonIds = new Set((b.poisons ?? []).map((poison) => String(poison.id)))
   const numericPoisonIds = new Set((b.poisons ?? []).map((poison) => poison.id))
   const battleFieldIds = new Set((b.battleFields ?? []).map((field) => field.id))
+  const enemyTeamIds = new Set((b.enemyTeams ?? []).map((team) => team.id))
+  const shopIds = new Set((b.shops ?? []).map((shop) => shop.id))
+  const ambienceIds = new Set((b.ambiences ?? []).map((ambience) => ambience.id))
 
   const validateBattleField = (fieldId: number, where: string): void => {
     if (!battleFieldIds.has(fieldId))
@@ -1166,6 +1170,14 @@ export function validateReferences(b: ContentBundle): Issue[] {
   })
 
   // ── scenes ──────────────────────────────────────────────
+  b.entryPoints.forEach((entry, index) => {
+    if (!scenesById.has(entry.scene))
+      issues.push({
+        severity: 'error',
+        where: `entryPoints[${index}](${entry.id}).scene`,
+        message: `场景 "${entry.scene}" 不在 scenes`,
+      })
+  })
   b.scenes.forEach((scene, si) => {
     if (scene.battleFieldId !== undefined)
       validateBattleField(scene.battleFieldId, `scenes[${si}].battleFieldId`)
@@ -1179,6 +1191,12 @@ export function validateReferences(b: ContentBundle): Issue[] {
       const where = `scenes[${si}].entities[${ei}]`
       if (e.hostile?.battleFieldId !== undefined)
         validateBattleField(e.hostile.battleFieldId, `${where}.hostile.battleFieldId`)
+      if (e.hostile && !enemyTeamIds.has(e.hostile.enemyTeamId))
+        issues.push({
+          severity: 'error',
+          where: `${where}.hostile.enemyTeamId`,
+          message: `敌队 "${e.hostile.enemyTeamId}" 不在 enemyTeams`,
+        })
       if (isActorEntity(e)) {
         // actor → actors 表(缺 = error:引擎解析精灵会 throw)
         if (!actorIds.has(e.actor))
@@ -1191,37 +1209,84 @@ export function validateReferences(b: ContentBundle): Issue[] {
     })
   })
 
-  // ── startBattle.fieldId ─────────────────────────────────
-  // 叶扫描器覆盖当前 content12/13/14 的 stages、machine states、entry.prepare 与全部递归 command arm。
-  // enemy ai hooks/choreography/onDefeated 当前命令闭集不含 startBattle；仍扫描完整 enemy 对象，未来若
-  // schema 扩集也会立刻进入同一引用门，而不是静默漏掉。
-  const battleFieldTagged = [
-    ...b.scenes.flatMap((scene, index) =>
-      collectBattleFieldTaggedReferences(scene, `scenes[${index}](${scene.id})`),
-    ),
-    ...b.items.flatMap((item, index) =>
-      collectBattleFieldTaggedReferences(item, `items[${index}](${item.id})`),
-    ),
-    ...Object.entries(b.scriptChunks ?? {}).flatMap(([chunkId, chunk]) =>
-      Object.entries(chunk.scripts).flatMap(([scriptId, body]) =>
-        collectBattleFieldTaggedReferences(
-          body,
-          `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
-        ),
-      ),
-    ),
-    ...Object.entries(b.sharedScripts ?? {}).flatMap(([scriptId, script]) =>
-      collectBattleFieldTaggedReferences(
-        script.body,
-        `sharedScripts[${JSON.stringify(scriptId)}].body`,
-      ),
-    ),
-    ...(b.enemies ?? []).flatMap((enemy, index) =>
-      collectBattleFieldTaggedReferences(enemy, `enemies[${index}](${enemy.id})`),
-    ),
+  // ── canonical/legacy command target leaves ──────────────
+  // 一个有界 tagged walker 同时覆盖 scene/map/shop/team/field/ambience 与 EntityAddress；
+  // editor adapter 复用相同 leaf 规则并额外附 owner/locator/delete policy。
+  const commandTargetRoots: Array<{ value: unknown; where: string }> = [
+    ...b.scenes.map((scene, index) => ({ value: scene, where: `scenes[${index}](${scene.id})` })),
+    ...b.items.map((item, index) => ({ value: item, where: `items[${index}](${item.id})` })),
+    ...Object.entries(b.scriptChunks ?? {}).map(([chunkId, chunk]) => ({
+      value: chunk,
+      where: `scriptChunks[${JSON.stringify(chunkId)}]`,
+    })),
+    ...Object.entries(b.sharedScripts ?? {}).map(([scriptId, script]) => ({
+      value: script.body,
+      where: `sharedScripts[${JSON.stringify(scriptId)}].body`,
+    })),
+    ...(b.enemies ?? []).map((enemy, index) => ({
+      value: enemy,
+      where: `enemies[${index}](${enemy.id})`,
+    })),
+    ...(b.worlds ?? []).map((world, index) => ({ value: world, where: `worlds[${index}]` })),
   ]
-  for (const reference of battleFieldTagged)
-    validateBattleField(reference.fieldId, reference.where)
+  const addTargetIssue = (severity: Issue['severity'], where: string, message: string): void => {
+    if (issues.some((issue) => issue.where === where && issue.message === message)) return
+    issues.push({ severity, where, message })
+  }
+  for (const root of commandTargetRoots)
+    visitCommandTargetReferences(root.value, root.where, (reference) => {
+      const target = reference.target
+      if (target.kind === 'scene') {
+        if (!scenesById.has(target.id))
+          addTargetIssue('error', reference.where, `场景 "${target.id}" 不在 scenes`)
+        return
+      }
+      if (target.kind === 'scene-entry') {
+        const scene = scenesById.get(target.sceneId)
+        if (scene && !scene.entries?.[target.entryId])
+          addTargetIssue(
+            'error',
+            reference.where,
+            `命名落点 "${target.sceneId}/${target.entryId}" 不在 scenes`,
+          )
+        return
+      }
+      if (target.kind === 'scene-hook') {
+        const scene = scenesById.get(target.sceneId) as AuthorSceneDef | undefined
+        if (scene && !scene.hooks?.[target.slot]?.variants[target.hookId])
+          addTargetIssue(
+            'error',
+            reference.where,
+            `场景脚本方案 "${target.sceneId}/${target.slot}/${target.hookId}" 不存在`,
+          )
+        return
+      }
+      if (target.kind === 'entity') {
+        validateEntityAddress({ scene: target.sceneId, entity: target.entityId }, reference.where)
+        return
+      }
+      if (target.kind === 'map') {
+        if (!mapIds.has(target.id))
+          addTargetIssue('error', reference.where, `地图 "${target.id}" 不在 map index`)
+        return
+      }
+      if (target.kind === 'shop') {
+        if (!shopIds.has(target.id))
+          addTargetIssue('error', reference.where, `商店 ${target.id} 不在 shops`)
+        return
+      }
+      if (target.kind === 'enemy-team') {
+        if (!enemyTeamIds.has(target.id))
+          addTargetIssue('error', reference.where, `敌队 "${target.id}" 不在 enemyTeams`)
+        return
+      }
+      if (target.kind === 'battle-field') {
+        validateBattleField(target.id, reference.where)
+        return
+      }
+      if (target.id !== 'day' && !ambienceIds.has(target.id))
+        addTargetIssue('warn', reference.where, `氛围 "${target.id}" 不在 ambiences`)
+    })
 
     // ── enemies / enemyTeams(M4c-3)────────────────────────
   ;(b.enemies ?? []).forEach((e, ei) => {

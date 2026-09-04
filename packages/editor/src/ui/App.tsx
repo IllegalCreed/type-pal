@@ -75,14 +75,12 @@ import type { EditSession } from '../core/edit-session.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   createEditorDerivedStore,
-  effectiveEditorDerivedStatus,
   isEditorDerivedSnapshotCurrent,
 } from '../core/editor-derived-store.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import {
   collectEntityAddressReferences,
-  type EntityAddressReference,
   entityAddressReferenceBlocksDeletion,
 } from '../core/entity-address-references.js'
 import {
@@ -100,6 +98,10 @@ import { exportProjectZip } from '../core/export-zip.js'
 import type { ItemReference } from '../core/item-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
+import {
+  createProjectReferenceIndex,
+  type ProjectReferenceEdge,
+} from '../core/project-reference.js'
 import {
   AddSceneEntityDefinitionCommand,
   type CanonicalScriptReference,
@@ -119,7 +121,6 @@ import {
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
   buildCanonicalSceneEntryReferenceIndex,
-  type SceneEntryReferenceEntry,
   sceneEntryReferenceKey,
 } from '../core/script-references.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
@@ -1109,6 +1110,115 @@ export function App(props: {
     setSelected({ kind: 'entity', id: locator.entityId })
     setInspectorCollapsed(false)
   }
+  const openProjectReference = (reference: ProjectReferenceEdge): void => {
+    const locator = reference.locator
+    setWorkspaceNotice(undefined)
+    if (locator.kind === 'canonical-script') {
+      openCanonicalReference(locator.reference)
+      return
+    }
+    if (locator.kind === 'legacy-script') {
+      openScriptReference(locator.scriptId, locator.commandPath)
+      return
+    }
+    if (locator.kind === 'script-owner') {
+      const owner = locator.owner
+      if (owner.kind === 'shared-script') {
+        openSharedScript(owner.scriptId)
+        return
+      }
+      if (owner.kind === 'item-private-script') {
+        applyEditorLocation(editorLinks.item(owner.itemId))
+        return
+      }
+      setPlaceSceneId(owner.sceneId)
+      applyEditorLocation(editorLinks.scene(owner.sceneId))
+      if (owner.kind === 'entity-behavior' || owner.kind === 'entity-hostile-on-lose')
+        setSelected({ kind: 'entity', id: owner.entityId })
+      else setSelected(SCENE_SELECTION)
+      return
+    }
+    if (locator.kind === 'unavailable') {
+      setWorkspaceNotice({ kind: 'info', message: locator.reason })
+      return
+    }
+
+    const object = locator.object
+    switch (object.kind) {
+      case 'scene':
+        setPlaceSceneId(object.id)
+        setSelected(SCENE_SELECTION)
+        applyEditorLocation(editorLinks.scene(object.id))
+        return
+      case 'entity':
+        setPlaceSceneId(object.sceneId)
+        setSelected({ kind: 'entity', id: object.entityId })
+        applyEditorLocation(editorLinks.scene(object.sceneId))
+        return
+      case 'entry-point':
+        applyEditorLocation(editorLinks.entryPoint(object.id))
+        return
+      case 'map':
+        applyEditorLocation(editorLinks.map(object.id))
+        return
+      case 'shop':
+        applyEditorLocation(editorLinks.shop(Number(object.id)))
+        return
+      case 'actor':
+        applyEditorLocation(editorLinks.actor(object.id))
+        return
+      case 'item':
+        applyEditorLocation(editorLinks.item(object.id))
+        return
+      case 'skill':
+        applyEditorLocation(editorLinks.skill(object.id))
+        return
+      case 'enemy':
+        applyEditorLocation(editorLinks.enemy(object.id))
+        return
+      case 'poison':
+        applyEditorLocation(editorLinks.poison(Number(object.id)))
+        return
+      case 'battle-field':
+        applyEditorLocation(editorLinks.battleField(Number(object.id)))
+        return
+      case 'enemy-team':
+        applyEditorLocation(editorLinks.enemyTeam(object.id))
+        return
+      case 'ambience':
+        applyEditorLocation(editorLinks.ambience(object.id))
+        return
+      case 'world-variable':
+        applyEditorLocation(editorLinks.variable(object.id))
+        return
+      case 'shared-script':
+        openSharedScript(object.id)
+        return
+      case 'tileset':
+        applyEditorLocation(editorLinks.tileset(object.id))
+        return
+      case 'stamp':
+        applyEditorLocation(editorLinks.stamp(object.id))
+        return
+      case 'world-sprite':
+        applyEditorLocation(editorLinks.actorSprite(object.id))
+        return
+      case 'world-sprite-action':
+        applyEditorLocation(editorLinks.worldSpriteAction(object.spriteId, object.actionId))
+        return
+      case 'battle-sprite':
+        applyEditorLocation(editorLinks.battleSprite(object.id))
+        return
+      case 'project':
+        applyEditorLocation(editorLinks.project())
+        return
+      default:
+        setWorkspaceNotice({
+          kind: 'info',
+          message: `引用位置 ${reference.where} 尚未接入统一导航。`,
+        })
+    }
+  }
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
   const actorsById = useMemo(
     () => Object.fromEntries(state.actors.map((a) => [a.id, a])) as Record<string, ActorDef>,
@@ -1416,9 +1526,12 @@ export function App(props: {
   }, [canonicalEntity?.pages, entityPageFocus, scene?.id, selEntity?.id])
   const selectedNamedEntryId = selected.kind === 'named-entry' ? selected.id : undefined
   const sceneReferencesActive = activeSubpage.kind === 'scene'
-  const sceneEntryReferenceIndex = useMemo(
-    () => new Map(derivedData?.sceneEntryReferences ?? []),
-    [derivedData?.sceneEntryReferences],
+  const projectReferenceIndex = useMemo(
+    () =>
+      derivedData?.projectReferences
+        ? createProjectReferenceIndex(derivedData.projectReferences)
+        : undefined,
+    [derivedData?.projectReferences],
   )
   const canonicalBehaviorReferenceIndex = useMemo(
     () => new Map(derivedData?.canonicalBehaviorReferences ?? []),
@@ -1436,10 +1549,6 @@ export function App(props: {
     derivedSnapshot,
     currentDerivedRevision,
   )
-  const effectiveDerivedStatus = effectiveEditorDerivedStatus(
-    derivedSnapshot,
-    currentDerivedRevision,
-  )
   const selectedAnchor: SceneAnchorSelection | null =
     selected.kind === 'default-entry'
       ? { kind: 'default' }
@@ -1449,10 +1558,13 @@ export function App(props: {
   const selectedEntryReferences = useMemo(
     () =>
       scene && selectedNamedEntryId && sceneReferencesActive
-        ? (sceneEntryReferenceIndex.get(sceneEntryReferenceKey(scene.id, selectedNamedEntryId)) ??
-          [])
+        ? (projectReferenceIndex?.deletionImpact({
+            kind: 'scene-entry',
+            sceneId: scene.id,
+            entryId: selectedNamedEntryId,
+          }).blockers ?? [])
         : [],
-    [scene, sceneEntryReferenceIndex, sceneReferencesActive, selectedNamedEntryId],
+    [projectReferenceIndex, scene, sceneReferencesActive, selectedNamedEntryId],
   )
   const entryReferencesById = useMemo(
     () =>
@@ -1460,59 +1572,25 @@ export function App(props: {
         ? new Map(
             Object.keys(scene.entries ?? {}).map((entryId) => [
               entryId,
-              sceneEntryReferenceIndex.get(sceneEntryReferenceKey(scene.id, entryId)) ?? [],
+              projectReferenceIndex?.deletionImpact({
+                kind: 'scene-entry',
+                sceneId: scene.id,
+                entryId,
+              }).blockers ?? [],
             ]),
           )
-        : new Map<string, SceneEntryReferenceEntry[]>(),
-    [scene, sceneEntryReferenceIndex, sceneReferencesActive],
+        : new Map<string, ProjectReferenceEdge[]>(),
+    [projectReferenceIndex, scene, sceneReferencesActive],
   )
-  const entityReferencesByTarget = useMemo(() => {
-    const grouped = new Map<string, EntityAddressReference[]>()
-    if (!sceneReferencesActive) return grouped
-    for (const reference of derivedData?.entityAddressReferences ?? []) {
-      const target = { scene: reference.sceneId, entity: reference.entityId }
-      if (!entityAddressReferenceBlocksDeletion(reference, target)) continue
-      const key = `${reference.sceneId}\u0000${reference.entityId}`
-      const bucket = grouped.get(key)
-      if (bucket) bucket.push(reference)
-      else grouped.set(key, [reference])
-    }
-    return grouped
-  }, [derivedData?.entityAddressReferences, sceneReferencesActive])
-  const entityReferences = (entityId: string): EntityAddressReference[] =>
-    entityReferencesByTarget.get(`${scene.id}\u0000${entityId}`) ?? []
-  const selectedEntityReferences = selEntity ? entityReferences(selEntity.id) : []
-  const openEntityAddressReference = (reference: EntityAddressReference): void => {
-    const locator = reference.locator
-    setWorkspaceNotice(undefined)
-    if (locator.kind === 'scene' || locator.kind === 'scene-entity') {
-      setPlaceSceneId(locator.sceneId)
-      applyEditorLocation(editorLinks.scene(locator.sceneId))
-      setSelected(
-        locator.kind === 'scene-entity'
-          ? { kind: 'entity', id: locator.entityId }
-          : SCENE_SELECTION,
-      )
-      setPlacingEntity(false)
-      return
-    }
-    if (locator.kind === 'shared-script') {
-      openSharedScript(locator.scriptId)
-      return
-    }
-    if (locator.kind === 'item') {
-      applyEditorLocation(editorLinks.item(locator.itemId))
-      return
-    }
-    if (locator.kind === 'enemy') {
-      applyEditorLocation(editorLinks.enemy(locator.enemyId))
-      return
-    }
-    setWorkspaceNotice({
-      kind: 'info',
-      message: `世界配置 ${locator.worldId ?? ''} 当前只读；引用路径为 ${reference.path}。`,
-    })
+  const entityReferences = (entityId: string): ProjectReferenceEdge[] => {
+    if (!sceneReferencesActive || !projectReferenceIndex) return []
+    const target = { kind: 'entity', sceneId: scene.id, entityId } as const
+    return projectReferenceIndex.deletionImpact(
+      target,
+      projectReferenceIndex.deletionScopeFor([target]),
+    ).blockers
   }
+  const selectedEntityReferences = selEntity ? entityReferences(selEntity.id) : []
   const canonicalEntitiesById = new Map(
     (canonicalScene?.entities ?? []).map((entity) => [entity.id, entity]),
   )
@@ -2880,7 +2958,7 @@ export function App(props: {
                   references={
                     <EntityReferencePanel
                       references={selectedEntityReferences}
-                      onOpen={openEntityAddressReference}
+                      onOpen={openProjectReference}
                     />
                   }
                   referenceCount={selectedEntityReferences.length}
@@ -2895,9 +2973,7 @@ export function App(props: {
                   entry={scene.entries[selected.id]!}
                   references={selectedEntryReferences}
                   session={session}
-                  onJumpToEvent={jumpToEvent}
-                  onOpenScript={openScriptReference}
-                  onOpenCanonicalReference={openCanonicalReference}
+                  onOpenReference={openProjectReference}
                 />
               ) : (
                 <SceneInspector
@@ -3208,27 +3284,9 @@ function PlacePalette(props: {
   )
 }
 
-function entityReferenceSourceLabel(reference: EntityAddressReference): string {
-  const locator = reference.locator
-  switch (locator.kind) {
-    case 'scene':
-      return `场景 ${locator.sceneId}`
-    case 'scene-entity':
-      return `场景 ${locator.sceneId} · 实体 ${locator.entityId}`
-    case 'shared-script':
-      return `共享脚本 ${locator.scriptId}`
-    case 'item':
-      return `物品 ${locator.itemId}`
-    case 'enemy':
-      return `敌人 ${locator.enemyId}`
-    case 'world':
-      return `世界配置 ${locator.worldId ?? ''}`.trim()
-  }
-}
-
 function EntityReferencePanel(props: {
-  references: readonly EntityAddressReference[]
-  onOpen: (reference: EntityAddressReference) => void
+  references: readonly ProjectReferenceEdge[]
+  onOpen: (reference: ProjectReferenceEdge) => void
 }) {
   const { references, onOpen } = props
   return (
@@ -3246,12 +3304,14 @@ function EntityReferencePanel(props: {
         {references.length ? (
           <DsReferenceList>
             {references.map((reference) => {
-              const canOpen = reference.locator.kind !== 'world'
+              const unavailableReason =
+                reference.locator.kind === 'unavailable' ? reference.locator.reason : undefined
+              const canOpen = unavailableReason === undefined
               return (
                 <DsReferenceRow
-                  key={`${reference.path}:${reference.sceneId}:${reference.entityId}`}
-                  title={entityReferenceSourceLabel(reference)}
-                  detail={reference.path || '/'}
+                  key={reference.id}
+                  title={reference.source.label}
+                  detail={reference.where || '/'}
                   labels={[{ label: '实体引用' }]}
                   action={
                     canOpen
@@ -3266,7 +3326,7 @@ function EntityReferencePanel(props: {
                       ? undefined
                       : {
                           label: '只读',
-                          reason: '世界配置当前没有可编辑的精确内容页。',
+                          reason: unavailableReason,
                         }
                   }
                 />
@@ -4205,37 +4265,15 @@ function SceneInspector(props: {
   )
 }
 
-function sceneEntryReferenceIdentity(reference: SceneEntryReferenceEntry): string {
-  const caller = reference.caller
-  const owner =
-    caller.type === 'scene'
-      ? `${caller.sceneId}:${caller.sourceKey}`
-      : caller.type === 'script'
-        ? caller.scriptId
-        : caller.sourceKey
-  return `${caller.type}:${owner}:${reference.path}`
-}
-
 function NamedEntryInspector(props: {
   scene: SceneDef
   entryId: string
   entry: SceneEntryPoint
-  references: SceneEntryReferenceEntry[]
+  references: ProjectReferenceEdge[]
   session: EditSession
-  onJumpToEvent: (sceneId: string, sourceKey: string) => void
-  onOpenScript: (scriptId: string) => void
-  onOpenCanonicalReference: (reference: CanonicalScriptReference) => void
+  onOpenReference: (reference: ProjectReferenceEdge) => void
 }) {
-  const {
-    scene,
-    entryId,
-    entry,
-    references,
-    session,
-    onJumpToEvent,
-    onOpenScript,
-    onOpenCanonicalReference,
-  } = props
+  const { scene, entryId, entry, references, session, onOpenReference } = props
   const syncToken = session.getHistoryVersion()
   const patch = (next: Partial<SceneEntryPoint>): void => {
     session.dispatch(
@@ -4324,25 +4362,20 @@ function NamedEntryInspector(props: {
           {references.length ? (
             <DsReferenceList>
               {references.map((reference) => {
-                const canOpen =
-                  reference.canonical !== undefined || reference.caller.type !== 'global'
+                const unavailableReason =
+                  reference.locator.kind === 'unavailable' ? reference.locator.reason : undefined
+                const canOpen = unavailableReason === undefined
                 return (
                   <DsReferenceRow
-                    key={sceneEntryReferenceIdentity(reference)}
-                    title={reference.caller.label}
-                    detail={reference.path || '/'}
+                    key={reference.id}
+                    title={reference.source.label}
+                    detail={reference.where || '/'}
                     labels={[{ label: '脚本引用' }]}
                     action={
                       canOpen
                         ? {
                             label: '打开',
-                            onActivate: () => {
-                              if (reference.canonical) onOpenCanonicalReference(reference.canonical)
-                              else if (reference.caller.type === 'scene')
-                                onJumpToEvent(reference.caller.sceneId, reference.caller.sourceKey)
-                              else if (reference.caller.type === 'script')
-                                onOpenScript(reference.caller.scriptId)
-                            },
+                            onActivate: () => onOpenReference(reference),
                           }
                         : undefined
                     }
@@ -4351,7 +4384,7 @@ function NamedEntryInspector(props: {
                         ? undefined
                         : {
                             label: '只读',
-                            reason: '全局调用当前没有可编辑的持久内容页。',
+                            reason: unavailableReason,
                           }
                     }
                   />

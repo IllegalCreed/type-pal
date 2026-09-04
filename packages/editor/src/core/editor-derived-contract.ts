@@ -1,17 +1,13 @@
-import type { EditorState } from './edit-session.js'
-import type { EditorAssetDiagnostic } from './asset-diagnostics.js'
+import type { AssetReference } from '@type-pal/content'
 import type { ActorReference } from './actor-references.js'
-import type { EntityAddressReference } from './entity-address-references.js'
-import type {
-  EditorStatusIssue,
-  ProjectIssue,
-} from './project-diagnostics.js'
-import type { ScriptEditorState } from './script-editor.js'
-import type { CanonicalScriptReference } from './script-editor.js'
-import type { SceneEntryReferenceEntry } from './script-references.js'
-import type { WorldVariableReferenceIndexV1 } from './world-variable-references.js'
-import type { ItemReference } from './item-references.js'
+import type { EditorAssetDiagnostic } from './asset-diagnostics.js'
 import type { BattleDataReference } from './battle-data-references.js'
+import type { EditorState } from './edit-session.js'
+import type { ItemReference } from './item-references.js'
+import type { EditorStatusIssue, ProjectIssue } from './project-diagnostics.js'
+import type { ProjectReferenceSnapshotV1 } from './project-reference.js'
+import type { CanonicalScriptReference, ScriptEditorState } from './script-editor.js'
+import type { WorldVariableReferenceIndexV1 } from './world-variable-references.js'
 
 export interface EditorDerivedRevision {
   mainHistoryVersion: number
@@ -20,10 +16,7 @@ export interface EditorDerivedRevision {
 
 export type EditorDerivedStatus = 'checking' | 'stale' | 'current' | 'failed'
 
-export type EditorDiagnosticState = Omit<
-  EditorState,
-  'maps' | 'assetBlobs' | 'tilesetBlobs'
->
+export type EditorDiagnosticState = Omit<EditorState, 'maps' | 'assetBlobs' | 'tilesetBlobs'>
 
 export interface EditorDerivedInput {
   state: EditorDiagnosticState
@@ -56,8 +49,7 @@ export interface ScriptEditorStatePatch {
 export interface EditorDerivedData {
   statusIssues: EditorStatusIssue[]
   projectIssues: ProjectIssue[]
-  sceneEntryReferences: Array<[string, SceneEntryReferenceEntry[]]>
-  entityAddressReferences: EntityAddressReference[]
+  projectReferences: ProjectReferenceSnapshotV1
   assetReferences: AssetReference[]
   assetDiagnostics: EditorAssetDiagnostic[]
   actorReferenceIndex: Array<[string, ActorReference[]]>
@@ -112,4 +104,3 @@ export function sameEditorDerivedRevision(
     left.scriptHistoryVersion === right.scriptHistoryVersion
   )
 }
-import type { AssetReference } from '@type-pal/content'

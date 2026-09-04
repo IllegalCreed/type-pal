@@ -43,6 +43,8 @@ import {
   missingEntityAddressReferencesFrom,
 } from './entity-address-references.js'
 import { type ItemReference, itemReferenceMap } from './item-references.js'
+import type { ProjectReferenceSnapshotV1 } from './project-reference.js'
+import { buildProjectReferenceSnapshotFromProjection } from './project-reference-adapters.js'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   type CanonicalSchemeReferenceIndexes,
@@ -645,6 +647,7 @@ export interface EditorDiagnosticsSnapshot {
   worldVariableReferences: WorldVariableReferenceIndexV1
   sceneEntryReferenceIndex: Map<string, SceneEntryReferenceEntry[]>
   canonicalSchemeReferenceIndexes: CanonicalSchemeReferenceIndexes
+  projectReferences: ProjectReferenceSnapshotV1
 }
 
 export interface EditorDiagnosticsDependencies {
@@ -661,6 +664,7 @@ export interface EditorDiagnosticsDependencies {
   blockingActorReferenceMap: typeof blockingActorReferenceMap
   itemReferenceMap: typeof itemReferenceMap
   blockingPoisonReferenceMap: typeof blockingPoisonReferenceMap
+  buildProjectReferenceSnapshotFromProjection: typeof buildProjectReferenceSnapshotFromProjection
 }
 
 /**
@@ -684,6 +688,7 @@ export function createEditorDiagnosticsSnapshotCollector(
     blockingActorReferenceMap,
     itemReferenceMap,
     blockingPoisonReferenceMap,
+    buildProjectReferenceSnapshotFromProjection,
     ...overrides,
   }
   return (state, canonical) => {
@@ -733,6 +738,12 @@ export function createEditorDiagnosticsSnapshotCollector(
       canonical ? scriptState : undefined,
     )
     const poisonReferenceIndex = dependencies.blockingPoisonReferenceMap(currentAuthorState)
+    const projectReferences = dependencies.buildProjectReferenceSnapshotFromProjection({
+      state: currentAuthorState,
+      scriptState,
+      commandVisits,
+      entityAddressReferences,
+    })
     const scan = { referenceIssues, assetSnapshot, assetDiagnostics }
     const projectIssues = collectProjectIssuesFromScan(currentAuthorState, scan)
     const statusIssues = collectEditorStatusIssuesFromScan(
@@ -756,6 +767,7 @@ export function createEditorDiagnosticsSnapshotCollector(
       worldVariableReferences,
       sceneEntryReferenceIndex,
       canonicalSchemeReferenceIndexes,
+      projectReferences,
     }
   }
 }

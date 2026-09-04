@@ -1,6 +1,8 @@
 import * as content from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import { catalogControlsEditorState } from '../ui/catalog-controls-test-utils.js'
 import { RenameProjectCommand } from './commands.js'
+import { type Command, EditSession } from './edit-session.js'
 import * as assetReferences from './editor-asset-references.js'
 import type {
   EditorDerivedData,
@@ -11,25 +13,20 @@ import type {
 import { createEditorDerivedWorkerRuntime } from './editor-derived-core.js'
 import {
   createEditorDerivedStore,
+  type EditorDerivedWorkerPort,
   editorDiagnosticState,
   effectiveEditorDerivedStatus,
-  type EditorDerivedWorkerPort,
 } from './editor-derived-store.js'
-import { EditSession, type Command } from './edit-session.js'
 import * as entityReferences from './entity-address-references.js'
 import * as diagnostics from './project-diagnostics.js'
-import {
-  assertProjectSaveValid,
-  collectEditorDiagnosticsSnapshot,
-} from './project-diagnostics.js'
-import * as projection from './script-editor-projection.js'
+import { assertProjectSaveValid, collectEditorDiagnosticsSnapshot } from './project-diagnostics.js'
 import {
   AddSharedScriptCommand,
-  ScriptEditSession,
   type ScriptEditorState,
+  ScriptEditSession,
   UpdateSharedScriptMetadataCommand,
 } from './script-editor.js'
-import { catalogControlsEditorState } from '../ui/catalog-controls-test-utils.js'
+import * as projection from './script-editor-projection.js'
 
 class ManualWorker implements EditorDerivedWorkerPort {
   onmessage: ((event: { data: EditorDerivedReply }) => void) | null = null
@@ -55,7 +52,10 @@ function canonical(): ScriptEditorState {
   return { scenes: [], items: [], sharedScripts: {} }
 }
 
-function fixture(): { state: ReturnType<typeof catalogControlsEditorState>; canonical: ScriptEditorState } {
+function fixture(): {
+  state: ReturnType<typeof catalogControlsEditorState>
+  canonical: ScriptEditorState
+} {
   const state = catalogControlsEditorState()
   state.scenes = [
     {
@@ -141,7 +141,7 @@ const DIAGNOSTIC_DIFFERENTIAL_FIXTURES = [
   },
   {
     name: 'dangling entity address',
-    invalid: (state: ReturnType<typeof catalogControlsEditorState>, script: ScriptEditorState) => {
+    invalid: (_state: ReturnType<typeof catalogControlsEditorState>, script: ScriptEditorState) => {
       script.sharedScripts.bad = {
         name: 'bad',
         self: 'none',
@@ -154,7 +154,7 @@ const DIAGNOSTIC_DIFFERENTIAL_FIXTURES = [
         ],
       }
     },
-    valid: (state: ReturnType<typeof catalogControlsEditorState>, script: ScriptEditorState) => {
+    valid: (_state: ReturnType<typeof catalogControlsEditorState>, script: ScriptEditorState) => {
       script.sharedScripts.good = {
         name: 'good',
         self: 'none',
@@ -172,14 +172,14 @@ const DIAGNOSTIC_DIFFERENTIAL_FIXTURES = [
   },
   {
     name: 'missing canonical shared script',
-    invalid: (state: ReturnType<typeof catalogControlsEditorState>, script: ScriptEditorState) => {
+    invalid: (_state: ReturnType<typeof catalogControlsEditorState>, script: ScriptEditorState) => {
       script.sharedScripts.bad = {
         name: 'bad',
         self: 'none',
         body: [{ kind: 'callScript', script: 'shared/missing' }],
       }
     },
-    valid: (state: ReturnType<typeof catalogControlsEditorState>, script: ScriptEditorState) => {
+    valid: (_state: ReturnType<typeof catalogControlsEditorState>, script: ScriptEditorState) => {
       script.sharedScripts.target = { name: 'target', self: 'none', body: [] }
       script.sharedScripts.good = {
         name: 'good',
@@ -192,7 +192,7 @@ const DIAGNOSTIC_DIFFERENTIAL_FIXTURES = [
   },
   {
     name: 'undeclared world variable',
-    invalid: (state: ReturnType<typeof catalogControlsEditorState>, script: ScriptEditorState) => {
+    invalid: (_state: ReturnType<typeof catalogControlsEditorState>, script: ScriptEditorState) => {
       script.sharedScripts.bad = {
         name: 'bad',
         self: 'none',
@@ -250,8 +250,7 @@ function synchronousData(
   return {
     statusIssues: snapshot.statusIssues,
     projectIssues: snapshot.projectIssues,
-    sceneEntryReferences: [...snapshot.sceneEntryReferenceIndex],
-    entityAddressReferences: snapshot.entityAddressReferences,
+    projectReferences: snapshot.projectReferences,
     assetReferences: snapshot.assetSnapshot.references,
     worldVariableReferences: snapshot.worldVariableReferences,
     canonicalBehaviorReferences: [...snapshot.canonicalSchemeReferenceIndexes.behavior],
@@ -318,15 +317,9 @@ describe('editor derived worker store', () => {
         projection,
         'mergeEditorProjectionWithCurrentAuthorState',
       ),
-      collectEntityAddressReferences: vi.spyOn(
-        entityReferences,
-        'collectEntityAddressReferences',
-      ),
+      collectEntityAddressReferences: vi.spyOn(entityReferences, 'collectEntityAddressReferences'),
       collectProjectIssues: vi.spyOn(diagnostics, 'collectProjectIssues'),
-      collectEditorAssetReferences: vi.spyOn(
-        assetReferences,
-        'collectEditorAssetReferences',
-      ),
+      collectEditorAssetReferences: vi.spyOn(assetReferences, 'collectEditorAssetReferences'),
     }
     const main = new EditSession(catalogControlsEditorState())
     const script = new ScriptEditSession(canonical())
@@ -678,64 +671,63 @@ describe('editor derived worker store', () => {
     stop()
   })
 
-  test.each(DIAGNOSTIC_DIFFERENTIAL_FIXTURES)(
-    'stale worker cannot authorize save for $name',
-    async ({ invalid, saveError }) => {
-      const current = fixture()
-      const broken = fixture()
-      current.state.manifest.content.worldVariables = 'content/world-variables.json'
-      broken.state.manifest.content.worldVariables = 'content/world-variables.json'
-      invalid(broken.state, broken.canonical)
-      const main = new EditSession(current.state)
-      const script = new ScriptEditSession(current.canonical)
-      const worker = new ManualWorker()
-      const runtime = createEditorDerivedWorkerRuntime()
-      const store = createEditorDerivedStore({
-        mainSession: main,
-        scriptSession: script,
-        workerFactory: () => worker,
-      })
-      const stop = store.start()
-      worker.reply(runtime.handle(worker.requests[0]!))
-      expect(store.getSnapshot().status).toBe('current')
-      expect(() =>
-        assertProjectSaveValid(
-          projection.mergeEditorProjectionWithCurrentAuthorState(
-            script.getStateSnapshot(),
-            main.getState(),
-          ),
+  test.each(
+    DIAGNOSTIC_DIFFERENTIAL_FIXTURES,
+  )('stale worker cannot authorize save for $name', async ({ invalid, saveError }) => {
+    const current = fixture()
+    const broken = fixture()
+    current.state.manifest.content.worldVariables = 'content/world-variables.json'
+    broken.state.manifest.content.worldVariables = 'content/world-variables.json'
+    invalid(broken.state, broken.canonical)
+    const main = new EditSession(current.state)
+    const script = new ScriptEditSession(current.canonical)
+    const worker = new ManualWorker()
+    const runtime = createEditorDerivedWorkerRuntime()
+    const store = createEditorDerivedStore({
+      mainSession: main,
+      scriptSession: script,
+      workerFactory: () => worker,
+    })
+    const stop = store.start()
+    worker.reply(runtime.handle(worker.requests[0]!))
+    expect(store.getSnapshot().status).toBe('current')
+    expect(() =>
+      assertProjectSaveValid(
+        projection.mergeEditorProjectionWithCurrentAuthorState(
+          script.getStateSnapshot(),
+          main.getState(),
         ),
-      ).not.toThrow()
+      ),
+    ).not.toThrow()
 
-      const beforeMain = main.getState()
-      main.dispatch({
-        label: '注入保存门非法 main fixture',
-        apply: () => broken.state,
-        invert: () => beforeMain,
-      })
-      const beforeScript = script.getStateSnapshot()
-      script.dispatch({
-        label: '注入保存门非法 canonical fixture',
-        affectedRecords: { all: true },
-        apply: () => broken.canonical,
-        invert: () => beforeScript,
-      })
-      await flushRefresh()
-      expect(store.getSnapshot()).toMatchObject({
-        status: 'stale',
-        targetRevision: { mainHistoryVersion: 1, scriptHistoryVersion: 1 },
-      })
-      expect(() =>
-        assertProjectSaveValid(
-          projection.mergeEditorProjectionWithCurrentAuthorState(
-            script.getStateSnapshot(),
-            main.getState(),
-          ),
+    const beforeMain = main.getState()
+    main.dispatch({
+      label: '注入保存门非法 main fixture',
+      apply: () => broken.state,
+      invert: () => beforeMain,
+    })
+    const beforeScript = script.getStateSnapshot()
+    script.dispatch({
+      label: '注入保存门非法 canonical fixture',
+      affectedRecords: { all: true },
+      apply: () => broken.canonical,
+      invert: () => beforeScript,
+    })
+    await flushRefresh()
+    expect(store.getSnapshot()).toMatchObject({
+      status: 'stale',
+      targetRevision: { mainHistoryVersion: 1, scriptHistoryVersion: 1 },
+    })
+    expect(() =>
+      assertProjectSaveValid(
+        projection.mergeEditorProjectionWithCurrentAuthorState(
+          script.getStateSnapshot(),
+          main.getState(),
         ),
-      ).toThrow(saveError)
-      stop()
-    },
-  )
+      ),
+    ).toThrow(saveError)
+    stop()
+  })
 
   test('publishes only the affected canonical record after script edits', async () => {
     const main = new EditSession(catalogControlsEditorState())
@@ -782,22 +774,25 @@ describe('editor derived worker store', () => {
     expect(diagnostic).not.toHaveProperty('tilesetBlobs')
   })
 
-  test.each(DIAGNOSTIC_DIFFERENTIAL_FIXTURES)(
-    'worker/sync differential covers $name positive and negative fixtures',
-    ({ invalid, valid, matches }) => {
-      const broken = fixture()
-      invalid(broken.state, broken.canonical)
-      const workerBroken = fullWorkerData(broken.state, broken.canonical)
-      expect(workerBroken).toEqual(synchronousData(broken.state, broken.canonical))
-      expect(workerBroken.statusIssues.some(matches)).toBe(true)
+  test.each(
+    DIAGNOSTIC_DIFFERENTIAL_FIXTURES,
+  )('worker/sync differential covers $name positive and negative fixtures', ({
+    invalid,
+    valid,
+    matches,
+  }) => {
+    const broken = fixture()
+    invalid(broken.state, broken.canonical)
+    const workerBroken = fullWorkerData(broken.state, broken.canonical)
+    expect(workerBroken).toEqual(synchronousData(broken.state, broken.canonical))
+    expect(workerBroken.statusIssues.some(matches)).toBe(true)
 
-      const healthy = fixture()
-      valid(healthy.state, healthy.canonical)
-      const workerHealthy = fullWorkerData(healthy.state, healthy.canonical)
-      expect(workerHealthy).toEqual(synchronousData(healthy.state, healthy.canonical))
-      expect(workerHealthy.statusIssues.some(matches)).toBe(false)
-    },
-  )
+    const healthy = fixture()
+    valid(healthy.state, healthy.canonical)
+    const workerHealthy = fullWorkerData(healthy.state, healthy.canonical)
+    expect(workerHealthy).toEqual(synchronousData(healthy.state, healthy.canonical))
+    expect(workerHealthy.statusIssues.some(matches)).toBe(false)
+  })
 
   test('20 seeded random mutations from one base keep patches equal to cold worker and sync', async () => {
     let seed = 0x1

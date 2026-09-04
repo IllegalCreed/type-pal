@@ -28,6 +28,7 @@ import {
   getRepairableEntryIndexes,
   validateManifestEntryPoints,
 } from './project-diagnostics.js'
+import { buildProjectReferenceSnapshotFromProjection } from './project-reference-adapters.js'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   collectCanonicalScriptCommandVisits,
@@ -193,6 +194,7 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   const collectActors = vi.fn(blockingActorReferenceMap)
   const collectItems = vi.fn(itemReferenceMap)
   const collectPoisons = vi.fn(blockingPoisonReferenceMap)
+  const buildProjectReferences = vi.fn(buildProjectReferenceSnapshotFromProjection)
   const collect = createEditorDiagnosticsSnapshotCollector({
     validateReferences: validate,
     projectCurrentAuthorReferenceSlices: project,
@@ -207,6 +209,7 @@ test('combined diagnostics runs each full scanner once per revision', () => {
     blockingActorReferenceMap: collectActors,
     itemReferenceMap: collectItems,
     blockingPoisonReferenceMap: collectPoisons,
+    buildProjectReferenceSnapshotFromProjection: buildProjectReferences,
   })
   const shell = state()
   const canonical: ScriptEditorState = {
@@ -241,6 +244,7 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(collectActors).toHaveBeenCalledOnce()
   expect(collectItems).toHaveBeenCalledOnce()
   expect(collectPoisons).toHaveBeenCalledOnce()
+  expect(buildProjectReferences).toHaveBeenCalledOnce()
   expect(
     [...snapshot.sceneEntryReferenceIndex.keys()].filter((key) => key.includes('perf-entry-')),
   ).toHaveLength(31)
@@ -258,6 +262,7 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   collectActors.mockClear()
   collectItems.mockClear()
   collectPoisons.mockClear()
+  buildProjectReferences.mockClear()
   collect(shell)
   expect(validate).toHaveBeenCalledOnce()
   expect(project).not.toHaveBeenCalled()
@@ -272,6 +277,7 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(collectActors).toHaveBeenCalledOnce()
   expect(collectItems).toHaveBeenCalledOnce()
   expect(collectPoisons).toHaveBeenCalledOnce()
+  expect(buildProjectReferences).toHaveBeenCalledOnce()
 })
 
 test('current-author projection excludes canonical item records deleted from the shell', () => {

@@ -283,6 +283,34 @@ describe('canonical author script schema', () => {
     ).toThrow(/commands\[0\]\.choreography\[0\]\.body\[0\].*battle context/)
   })
 
+  test('openShop accepts exact non-negative ids and validates mode independently of reference use', () => {
+    expect(() =>
+      checkBaseAuthorCommands(
+        [
+          { kind: 'openShop', shop: 7, mode: 'buy' },
+          { kind: 'openShop', shop: 0, mode: 'sell' },
+          { kind: 'openShop', shop: 99, mode: 'sell' },
+        ],
+        'commands',
+      ),
+    ).not.toThrow()
+    for (const command of [
+      { kind: 'openShop', shop: 1.5, mode: 'buy' },
+      { kind: 'openShop', shop: -1, mode: 'buy' },
+      { kind: 'openShop', shop: '1', mode: 'buy' },
+    ])
+      expect(() => checkBaseAuthorCommands([command], 'commands')).toThrow(/shop: 期望非负安全整数/)
+    expect(() =>
+      checkBaseAuthorCommands([{ kind: 'openShop', shop: 1, mode: 'trade' }], 'commands'),
+    ).toThrow(/mode: 期望 buy\|sell/)
+    expect(() =>
+      checkBaseAuthorCommands(
+        [{ kind: 'openShop', shop: 1, mode: 'buy', legacy: true }],
+        'commands',
+      ),
+    ).toThrow(/legacy: 未知字段/)
+  })
+
   test.each([
     [{ kind: 'startBattle', enemyTeamId: 'team-1', partyPreset: 42 }, /partyPreset: 未知字段/],
     [
