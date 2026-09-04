@@ -221,12 +221,67 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   - premise: pending
   - design: pending
 - GLM：
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-09-04，固定设计版本 `d8c5bf14`；PAL 关键 census、DTO/删除命令/
+    validator/媒体解析现状全部本人独立复算直读，非复述 Codex）**：
+    1. **PAL 关键 census 逐项复核**：shops 恰 **20、id 恰 1..20**；openShop 全场景递归恰
+       **29 buy + 6 sell、sell 全部 shop=0**（sell shop≠0 命中 0）——buy-only 规则数据基础
+       成立（runtime buy/sell 分支本人在 STORE0 卡终审已直读 main.ts:3442-3452）；**map
+       override 恰 2 条：s230→map-164、s243→map-165**；selectSceneHooks 恰 **67（65 跨场景）**
+       逐字一致；scenes 295 文件 = 294 scene + index.json ✓。loadScene 本人快捷口径 981/924
+       （与卡面 987/930 同量级、差值为本人 scene 键归一化方法差异）；currentScene/38,126
+       EntityAddress 为 Codex census、本人未同口径复算，但上述多项精确吻合佐证其方法可靠。
+    2. **s230 删除漏洞实锤**：s230 顶层 `mapId=map-162`，**全 PAL 无任何场景顶层
+       `mapId=map-164`**（逐一解析命中 0）；而 `mapAssetSceneReferences`
+       （commands.ts:797-800，注释自认「临时窄反查；ED-3 落地后删除」）只过滤
+       `scene.mapId`、`DeleteMapAssetCommand`（:930）据此放行——**map-164 仅被脚本
+       override 引用却可被删除**，真实漏洞成立。
+    3. **架构现状实锤**：`EditorDerivedData`（editor-derived-contract.ts:56-68+）公开
+       **9+ 种互不相容引用 DTO**；`validate-refs.ts:1498-1508` shops 段只查
+       `shop.items → item`，全文件 grep `setSceneMapOverride|loadScene` **零命中**——
+       scene target 边与 map override 边在保存校验缺失；删除命令 shell 分裂有结构基础
+       （DeleteBattleField/EnemyTeam/Poison :2646/:2912/:4570 作用于主 shell，UI 侧
+       battle-field/enemy-team-references 收集器独立消费 merged/scriptState）；媒体字符串
+       解析实锤——MusicTab.tsx:73-91 以 `where` 正则反查 owner、App.tsx:668/683/704 三处
+       `reference.site.split(':')` 分派。
+    4. **adapter parity 可行性**：content typed leaf walker 路线已被本项目验证
+       （`collectActorTaggedReferences` 为 kind-tagged + 递归 where 的全结构访问器，
+       validate-refs 与 migrate invariant 已双消费同一 walker——本人 INPARTY 卡终审直读），
+       「content 持 typed 规则、editor adapter 只补 owner/locator/policy」有直接先例支撑。
+    5. **可证伪观察**：任一领域字段（expected kind/access/owner/async proof/canonical
+       locator）无法无损映射进统一 edge 需字符串 extras 糊合；PAL 真树 Worker payload/
+       耗时超预算且 lazy/tuple 化不能闭合；runtime/primary 证明 sell 实际读 shop 表；新
+       validator 规则在 PAL publication 暴露真实悬空致 zero-plan 失败；真树 parity 出现
+       不可解释差异——任一成立本签字失效（后者按卡面停线另开上游卡，不在 ED-3 手改 PAL）。
+  - design: **agree（2026-09-04，附 GM-E3-1~6 必改测试钉；三签齐后允许 build）**：
+    - **GM-E3-1（s230 具名回归钉）**：「地图删除被 scene 与 map override 分别阻断」必须
+      显式钉真实 s230→map-164 漏洞（或最小复刻 fixture）为具名回归，防 override 边再漏。
+    - **GM-E3-2（sell 历史字段双负例）**：不仅 `sell shop=0`；须有 `sell shop=<非零/指向
+      已删商店>` legacy fixture 断言其**既不入 index 也不报 error**（范围外条款需正反两钉）。
+    - **GM-E3-3（deletion scope 双向 fixture）**：互引场景对 A↔B——删 A 时 A 自身发出的
+      loadScene/entity-address 边被 scope 排除、B 指向 A 的边仍 block；防 scope 过宽
+      （漏保护）与过窄（自锁）。
+    - **GM-E3-4（Worker payload 数值预算钉）**：A 批把 38k entity-address 放大风险落成
+      **数值断言**（PAL 真树 payload/耗时基线 + 预算上限），超限即触发 lazy/tuple 改道，
+      不允许只作文字记录。
+    - **GM-E3-5（parity oracle 用真树）**：每域 adapter parity 除最小 fixture 外，至少
+      asset/actor/item/entity-address 四大域在**真实 PAL current**上做旧 collector vs 新
+      index 集合比对（差异逐条解释），防 fixture 绿而真树漂移。
+    - **GM-E3-6（stale/failed 删除守卫行为钉）**：index 处于 checking/stale/failed 时
+      删除禁用 + 命令层独立同步复核双层，任一层单独放行即红——「不得误报零引用」需行为
+      断言而非类型断言。
 - 独立反证审查（至少一位非 Coding Owner 必填）：
-  - 审查者: pending（Kimi 或 GLM 至少一位须独立直读 current code）。
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+  - 审查者: GLM（2026-09-04，完成——PAL 关键 census（shops/openShop/override/s230 漏洞/
+    hooks/scenes）、九 DTO、map helper 与 DeleteMapAssetCommand、validate-refs 缺边、删除
+    命令 shell 分裂、媒体 where/site 字符串解析全部本人独立直读；Kimi 席位保留）。
+  - 独立证据锚点: `commands.ts:797-800,930`（map helper 只过滤 scene.mapId + 删除放行）；
+    `validate-refs.ts:1498-1508`（shops 只查 items→item，override/loadScene 零命中）；
+    `editor-derived-contract.ts:56-68+`（9+ DTO）；`commands.ts:2646,2912,4570`（shell 删除
+    命令）与 `battle-field/enemy-team-references.ts`（UI 独立收集器）；`MusicTab.tsx:73-91`
+    （where 正则）；`App.tsx:668,683,704`（site.split(':')）；PAL census：20 shops id1..20、
+    openShop 29 buy + 6 sell 全 shop=0、override 恰 2（s230→map-164、s243→map-165）、
+    hooks 67/65、s230 顶层 mapId=map-162 且全树无 mapId=map-164。
+  - 可证伪观察: 见 GLM 签节第 5 条（领域字段无法无损映射 / payload 超预算 / sell 实读
+    shop 表 / PAL 暴露真实悬空 / 真树 parity 不可解释差异）。
 - counter / 分歧处理：任一 reviewer 证明统一 edge 丢失领域语义、重复扫描不可接受、buy-only 不成立或
   保存/删除不能共用同一规则，则保持 draft/blocked，先改合同；不得先实现再补签。
 - 缺签豁免: N/A
@@ -332,6 +387,16 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ## 交接日志
 
+- 2026-09-04 GLM: 完成 ED-3 设计审查（固定版本 `d8c5bf14`），签 premise verified + design
+  agree。独立证据：PAL 关键 census 逐项复核（20 shops id 1..20、openShop 29 buy + 6 sell
+  全 shop=0、map override 恰 2 条、hooks 67/65、294 scenes）；**s230→map-164 真实删除漏洞
+  实锤**（s230 顶层 mapId=map-162、全树无场景引用 map-164，而 mapAssetSceneReferences 只
+  过滤 scene.mapId → DeleteMapAssetCommand 放行）；validate-refs 零 scene/override 边、
+  9+ DTO、删除命令 shell 分裂、媒体 where/site 字符串解析全部直读。附 GM-E3-1~6 必改测试
+  钉（s230 具名回归 / sell 非零双负例 / deletion scope 双向 / Worker payload 数值预算 /
+  真树 parity oracle / stale-failed 行为守卫）。adapter parity 可行性以 typed walker 双消费
+  先例（validate-refs + migrate invariant）佐证。未修改实现/生成数据，未读取他席结论；
+  Kimi premise/design 仍 pending，共享准入结论维持 blocked。Next: Kimi 并行架构主审。
 - 2026-09-04 Codex: MIG-PAL-INPARTY-ID-1 用户验收后启动 ED-3；并行完成统一引用、场景生命周期、
   商店生命周期三路只读核验。确认 derived Worker 是地基而非统一图，scene/map/shop 有硬缺边，媒体 locator
   仍靠字符串，shop sell 不读 shops；据此开本卡并签 premise verified/design agree。现状基线聚焦
