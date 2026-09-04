@@ -190,19 +190,19 @@
    - B8/B9/W9：明雷追击、战斗回流、语义生命周期与编辑器策略闭环
    - X1 → X5：SAVE8/content19 与跳转预览
 
-   当前第二阶段唯一队列（2026-09-03 用户复核）:
-   1. [MIG-PAL-INPARTY-ID-1](../ops/tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md)：
-      PAL 四条错误角色条件引用候选 `31a8c81c` 已修 current-publication 上游、重生成并删除四条豁免；
-      当前 review，等待 Kimi/GLM 并行终审
-   2. ED-3 统一引用边 + 场景/商店生命周期分片闭合
-   3. R4 薄 E2E：runner、001-010、四种取物 canary、编辑器保存重开试玩
-   4. N6b：四种内置取物意图 + content20；复跑薄基线，第三阶段再做通用化
-   5. Q2 完整战斗专项五批（B5 并入）→ Q1 完整通关链
-   6. 敌队大目录虚拟滚动（编辑器综合 E2E 前）
-   7. 编辑器综合工作流 E2E
-   8. `capture` profile + Content Studio 窄录制适配 + 分镜映射
-   9. A1 服务器版本化预制工程资源库
-   10. A8 独立可玩包与干净环境代表性 E2E
+   [MIG-PAL-INPARTY-ID-1](../ops/tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md) 已于
+   2026-09-04 三方终审并经用户验收完成。
+
+   当前第二阶段唯一队列（2026-09-04）:
+   1. ED-3 统一引用边 + 场景/商店生命周期分片闭合
+   2. R4 薄 E2E：runner、001-010、四种取物 canary、编辑器保存重开试玩
+   3. N6b：四种内置取物意图 + content20；复跑薄基线，第三阶段再做通用化
+   4. Q2 完整战斗专项五批（B5 并入）→ Q1 完整通关链
+   5. 敌队大目录虚拟滚动（编辑器综合 E2E 前）
+   6. 编辑器综合工作流 E2E
+   7. `capture` profile + Content Studio 窄录制适配 + 分镜映射
+   8. A1 服务器版本化预制工程资源库
+   9. A8 独立可玩包与干净环境代表性 E2E
 
    已移交第三阶段（不再进入第二阶段选择器）:
    - W6 的真实时间流逝/天气

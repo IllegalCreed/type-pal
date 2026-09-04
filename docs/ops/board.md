@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| MIG-PAL-INPARTY-ID-1 | [PAL 四条队伍角色条件稳定 ID 修复](tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md) | review | Kimi + GLM 并行只读终审 | 候选 `31a8c81c`；exact diff/事务/零计划/全量测试通过 |
+| ED-3 | 统一引用边 + 场景/商店生命周期分片闭合 | draft | Codex 前提核验并开卡 | 复用既有 typed collectors，先统一引用真值再闭合生命周期 |
 
 ## 看板规则
 
