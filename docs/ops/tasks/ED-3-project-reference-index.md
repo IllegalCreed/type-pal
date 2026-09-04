@@ -90,7 +90,9 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   共 2 条 map override。
 - current-author 删除真值也不一致：BattleField/EnemyTeam UI 会使用 live `scriptState`，但其 Delete Command
   只扫主 `EditorState` shell；Poison UI 使用 merged-current Worker index，DeletePoisonCommand 仍只扫 shell。
-  Actor/Item/Entity/WorldVariable/Ambience 则各自用 callback/merged state 局部补洞。
+  World/Battle Sprite 的引用页和动作/定义删除同样直接重扫 shell，可能漏掉尚未投影的 canonical
+  `playEntityAction/setActorAppearance`；Actor/Item/Entity/WorldVariable/Ambience 则各自用 callback/merged
+  state 局部补洞。
 - 图片/音乐/音效/过场已能显示引用路径，但 `MusicTab`/`CutsceneTab` 仍按数组下标正则反查 owner；
   App 的 sprite/battle-sprite 跳转按 `site.split(':')` 分派，不能作为稳定 locator 合同。
 
@@ -269,9 +271,9 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
     不同时保留旧 DTO 与新 DTO 到 done。
 - 风险：adapter 迁移时旧/新 collector 并存，发生计数或删除判断漂移。
   - 缓解：每域先 parity，再切 consumer，最后删除旧公开 DTO/callsite；静态门禁阻止新增页面私扫。
-- 风险：UI 展示使用 live canonical 引用，而 Delete Command 只扫 main shell，作者最新脚本引用仍可能被漏删。
+- 风险：UI 展示或 Delete Command 只扫 main shell，作者最新脚本引用仍可能被漏删。
   - 缓解：统一删除 proof 必须从同一 main/script revision 的 cold builder 生成；命令不再自行选择 shell 或
-    callback 口径，专测 BattleField/EnemyTeam/Poison 三个现存反例。
+    callback 口径，专测 BattleField/EnemyTeam/Poison/World Sprite/Battle Sprite 五组现存反例。
 - 风险：媒体 `where/site` 历史字符串无法无损映射到 exact command。
   - 缓解：从 canonical command visits 现场生成 locator；只读 chunks 明示不可编辑，不反向 parse。
 - 风险：异步地图扫描与 main/script revision 不同轴，旧 proof 误授权。
