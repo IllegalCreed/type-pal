@@ -53,7 +53,6 @@ import {
   useState,
 } from 'react'
 import type { ActorReference } from '../core/actor-references.js'
-import type { BattleDataReference } from '../core/battle-data-references.js'
 import {
   AddEntityCommand,
   AddSceneCommand,
@@ -1039,43 +1038,6 @@ export function App(props: {
         return
     }
   }
-  const openBattleDataReference = (reference: BattleDataReference): void => {
-    const locator = reference.locator
-    if (!locator) {
-      setWorkspaceNotice({
-        kind: 'info',
-        message: `${reference.where} 当前没有可编辑的精确位置。`,
-      })
-      return
-    }
-    switch (locator.kind) {
-      case 'actor':
-        applyEditorLocation(editorLinks.actor(locator.actorId))
-        return
-      case 'item':
-        applyEditorLocation(editorLinks.item(locator.itemId))
-        return
-      case 'skill':
-        applyEditorLocation(editorLinks.skill(locator.skillId))
-        return
-      case 'enemy':
-        applyEditorLocation(editorLinks.enemy(locator.enemyId))
-        return
-      case 'poison':
-        applyEditorLocation(editorLinks.poison(locator.poisonId))
-        return
-      case 'scene':
-        setPlaceSceneId(locator.sceneId)
-        applyEditorLocation(editorLinks.scene(locator.sceneId))
-        return
-      case 'shared-script':
-        openSharedScript(locator.scriptId)
-        return
-      case 'entry-point':
-        applyEditorLocation(editorLinks.entryPoint(locator.entryPointId))
-        return
-    }
-  }
   const openProjectSceneReference = (sceneId: string, entityId?: string): boolean => {
     const targetScene = state.scenes.find((candidate) => candidate.id === sceneId)
     if (!targetScene) {
@@ -1134,6 +1096,11 @@ export function App(props: {
     }
 
     const object = locator.object
+    const rejectMissingObject = (label: string, id: string): void =>
+      setWorkspaceNotice({
+        kind: 'error',
+        message: `引用位置已变化：${label} ${id} 不再存在。`,
+      })
     switch (object.kind) {
       case 'scene':
         openProjectSceneReference(object.id)
@@ -1142,57 +1109,135 @@ export function App(props: {
         openProjectSceneReference(object.sceneId, object.entityId)
         return
       case 'entry-point':
+        if (!state.manifest.entryPoints.some((entry) => entry.id === object.id)) {
+          rejectMissingObject('入口', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.entryPoint(object.id))
         return
       case 'map':
+        if (!state.mapIndex.maps.some((map) => map.id === object.id)) {
+          rejectMissingObject('地图', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.map(object.id))
         return
       case 'shop':
+        if (!(state.shops ?? []).some((shop) => String(shop.id) === object.id)) {
+          rejectMissingObject('商店', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.shop(Number(object.id)))
         return
       case 'actor':
+        if (!state.actors.some((actor) => actor.id === object.id)) {
+          rejectMissingObject('角色', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.actor(object.id))
         return
       case 'item':
+        if (!state.items.some((item) => item.id === object.id)) {
+          rejectMissingObject('物品', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.item(object.id))
         return
       case 'skill':
+        if (!state.skills.some((skill) => skill.id === object.id)) {
+          rejectMissingObject('技能', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.skill(object.id))
         return
       case 'enemy':
+        if (!(state.enemies ?? []).some((enemy) => enemy.id === object.id)) {
+          rejectMissingObject('敌人', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.enemy(object.id))
         return
       case 'poison':
+        if (!(state.poisons ?? []).some((poison) => String(poison.id) === object.id)) {
+          rejectMissingObject('毒', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.poison(Number(object.id)))
         return
       case 'battle-field':
+        if (!(state.battleFields ?? []).some((field) => String(field.id) === object.id)) {
+          rejectMissingObject('战场', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.battleField(Number(object.id)))
         return
       case 'enemy-team':
+        if (!(state.enemyTeams ?? []).some((team) => team.id === object.id)) {
+          rejectMissingObject('敌队', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.enemyTeam(object.id))
         return
       case 'ambience':
+        if (!(state.ambiences ?? []).some((ambience) => ambience.id === object.id)) {
+          rejectMissingObject('氛围', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.ambience(object.id))
         return
       case 'world-variable':
+        if (!state.worldVariables?.[object.id]) {
+          rejectMissingObject('世界变量', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.variable(object.id))
         return
       case 'shared-script':
+        if (!scriptState?.sharedScripts[object.id]) {
+          rejectMissingObject('共享脚本', object.id)
+          return
+        }
         openSharedScript(object.id)
         return
       case 'tileset':
+        if (!(state.tilesets ?? []).some((tileset) => tileset.id === object.id)) {
+          rejectMissingObject('瓦片集', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.tileset(object.id))
         return
       case 'stamp':
+        if (!state.stamps.some((stamp) => stamp.id === object.id)) {
+          rejectMissingObject('组合', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.stamp(object.id))
         return
       case 'world-sprite':
+        if (!state.sprites.some((sprite) => sprite.id === object.id)) {
+          rejectMissingObject('世界精灵', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.actorSprite(object.id))
         return
-      case 'world-sprite-action':
+      case 'world-sprite-action': {
+        const worldSprite = state.sprites.find((sprite) => sprite.id === object.spriteId)
+        if (!worldSprite) {
+          rejectMissingObject('世界精灵', object.spriteId)
+          return
+        }
+        if (!worldSprite.poses?.[object.actionId]) {
+          rejectMissingObject('世界精灵动作', `${object.spriteId}/${object.actionId}`)
+          return
+        }
         applyEditorLocation(editorLinks.worldSpriteAction(object.spriteId, object.actionId))
         return
+      }
       case 'battle-sprite':
+        if (!state.battleSprites.some((sprite) => sprite.id === object.id)) {
+          rejectMissingObject('战斗精灵', object.id)
+          return
+        }
         applyEditorLocation(editorLinks.battleSprite(object.id))
         return
       case 'project':
@@ -2283,7 +2328,6 @@ export function App(props: {
             onOpenBattleField={(id) => applyEditorLocation(editorLinks.battleField(id))}
             onOpenEnemy={(id) => applyEditorLocation(editorLinks.enemy(id))}
             onOpenEnemyTeam={(id) => applyEditorLocation(editorLinks.enemyTeam(id))}
-            onOpenBattleDataReference={openBattleDataReference}
             onOpenScript={openScriptReference}
             onOpenWorldVariable={(id) => applyEditorLocation(editorLinks.variable(id))}
             onOpenCanonicalReference={openCanonicalReference}

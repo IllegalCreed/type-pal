@@ -11,7 +11,6 @@ import { runtimeScriptRef } from '@type-pal/reforge'
 import { describe, expect, test, vi } from 'vitest'
 import { blockingActorReferenceMap } from './actor-references.js'
 import { collectEditorAssetDiagnostics } from './asset-diagnostics.js'
-import { blockingPoisonReferenceMap } from './battle-data-references.js'
 import type { EditorState } from './edit-session.js'
 import {
   collectEditorAssetReferenceSnapshotFromSlices,
@@ -193,7 +192,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   const buildSchemeIndexes = vi.fn(buildCanonicalSchemeReferenceIndexesFromVisits)
   const collectActors = vi.fn(blockingActorReferenceMap)
   const collectItems = vi.fn(itemReferenceMap)
-  const collectPoisons = vi.fn(blockingPoisonReferenceMap)
   const buildProjectReferences = vi.fn(buildProjectReferenceSnapshotFromProjection)
   const collect = createEditorDiagnosticsSnapshotCollector({
     validateReferences: validate,
@@ -208,7 +206,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
     buildCanonicalSchemeReferenceIndexesFromVisits: buildSchemeIndexes,
     blockingActorReferenceMap: collectActors,
     itemReferenceMap: collectItems,
-    blockingPoisonReferenceMap: collectPoisons,
     buildProjectReferenceSnapshotFromProjection: buildProjectReferences,
   })
   const shell = state()
@@ -243,7 +240,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(buildSchemeIndexes).toHaveBeenCalledOnce()
   expect(collectActors).toHaveBeenCalledOnce()
   expect(collectItems).toHaveBeenCalledOnce()
-  expect(collectPoisons).toHaveBeenCalledOnce()
   expect(buildProjectReferences).toHaveBeenCalledOnce()
   expect(
     [...snapshot.sceneEntryReferenceIndex.keys()].filter((key) => key.includes('perf-entry-')),
@@ -261,7 +257,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   buildSchemeIndexes.mockClear()
   collectActors.mockClear()
   collectItems.mockClear()
-  collectPoisons.mockClear()
   buildProjectReferences.mockClear()
   collect(shell)
   expect(validate).toHaveBeenCalledOnce()
@@ -276,7 +271,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(buildSchemeIndexes).not.toHaveBeenCalled()
   expect(collectActors).toHaveBeenCalledOnce()
   expect(collectItems).toHaveBeenCalledOnce()
-  expect(collectPoisons).toHaveBeenCalledOnce()
   expect(buildProjectReferences).toHaveBeenCalledOnce()
 })
 

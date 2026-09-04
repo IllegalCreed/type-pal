@@ -49,6 +49,62 @@ export interface WorldState {
   entityLifecycles?: EntityLifecycleTable
 }
 
+export type WorldBattleDataReference =
+  | {
+      target: 'skill'
+      id: string
+      kind: 'world-learned-skill' | 'world-skill-use-count'
+      where: string
+    }
+  | {
+      target: 'poison'
+      id: string
+      kind: 'world-active-poison'
+      where: string
+    }
+
+/** Runtime/save battle-data leaves shared by validation and editor deletion protection. */
+export function collectWorldBattleDataReferences(
+  worlds: readonly WorldState[],
+  where = 'worlds',
+): WorldBattleDataReference[] {
+  const references: WorldBattleDataReference[] = []
+  worlds.forEach((world, worldIndex) => {
+    for (const [instanceId, skills] of Object.entries(world.learnedSkills ?? {}))
+      skills.forEach((skillId, skillIndex) => {
+        references.push({
+          target: 'skill',
+          id: skillId,
+          kind: 'world-learned-skill',
+          where: `${where}[${worldIndex}].learnedSkills[${JSON.stringify(instanceId)}][${skillIndex}]`,
+        })
+      })
+    for (const [instanceId, counts] of Object.entries(world.skillUseCounts ?? {}))
+      for (const skillId of Object.keys(counts))
+        references.push({
+          target: 'skill',
+          id: skillId,
+          kind: 'world-skill-use-count',
+          where: `${where}[${worldIndex}].skillUseCounts[${JSON.stringify(instanceId)}][${JSON.stringify(skillId)}]`,
+        })
+    for (const [partyKind, members] of [
+      ['party', world.party],
+      ['reserve', world.reserve ?? []],
+    ] as const)
+      members.forEach((member, memberIndex) => {
+        member.poisons?.forEach((poison, poisonIndex) => {
+          references.push({
+            target: 'poison',
+            id: String(poison.poisonId),
+            kind: 'world-active-poison',
+            where: `${where}[${worldIndex}].${partyKind}[${memberIndex}].poisons[${poisonIndex}].poisonId`,
+          })
+        })
+      })
+  })
+  return references
+}
+
 /** 入口的初始世界快照 —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
 export interface StartWorld {
   party: string[] // 角色模板 id 列表(顺序 = 入队顺序)

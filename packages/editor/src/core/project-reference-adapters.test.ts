@@ -2,8 +2,13 @@ import type { CurrentManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
 import type { EntityAddressReference } from './entity-address-references.js'
-import { buildProjectReferenceSnapshot, createProjectReferenceIndex } from './project-reference.js'
 import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+  projectReferenceTargetKey,
+} from './project-reference.js'
+import {
+  battleDataReferenceEdges,
   buildProjectReferenceSnapshotFromProjection,
   canonicalCommandTargetEdges,
   entityAddressReferenceEdges,
@@ -319,6 +324,196 @@ describe('project reference adapters', () => {
     expect(
       index.referencesTo({ kind: 'entity', sceneId: 'arena', entityId: 'guard' }),
     ).toHaveLength(1)
+  })
+
+  test('battle data self edges stay visible but deletion scope only preserves external blockers', () => {
+    const state = {
+      manifest: noEntryManifest,
+      scenes: [],
+      actors: [],
+      levelUp: {},
+      skills: [],
+      items: [],
+      enemies: [
+        {
+          id: 'self',
+          ai: { rules: [{ at: 'act', do: { kind: 'transform', enemyId: 'self' } }] },
+        },
+        {
+          id: 'other',
+          ai: { rules: [{ at: 'act', do: { kind: 'summon', enemyId: 'self', count: 1 } }] },
+        },
+      ],
+      enemyTeams: [],
+      poisons: [
+        { id: 1, name: '一号毒', curability: 'common', color: 0, counters: 1 },
+        { id: 2, name: '二号毒', curability: 'common', color: 0, lethalWith: 1 },
+      ],
+      scriptChunks: {},
+    } as unknown as EditorState
+    const edges = battleDataReferenceEdges(state, [], { scenes: [], items: [], sharedScripts: {} })
+    const index = createProjectReferenceIndex(buildProjectReferenceSnapshot(edges))
+
+    const enemyTarget = { kind: 'enemy', id: 'self' } as const
+    expect(index.referencesTo(enemyTarget)).toHaveLength(2)
+    expect(
+      index.deletionImpact(enemyTarget, index.deletionScopeFor([enemyTarget])).blockers,
+    ).toMatchObject([
+      {
+        source: { owner: { kind: 'enemy', id: 'other' } },
+        relation: { kind: 'battle-data-use', use: 'enemy-summon' },
+      },
+    ])
+
+    const poisonTarget = { kind: 'poison', id: '1' } as const
+    expect(index.referencesTo(poisonTarget)).toHaveLength(2)
+    expect(
+      index.deletionImpact(poisonTarget, index.deletionScopeFor([poisonTarget])).blockers,
+    ).toMatchObject([
+      {
+        source: { owner: { kind: 'poison', id: '2' } },
+        relation: { kind: 'battle-data-use', use: 'poison-lethal-pair' },
+      },
+    ])
+  })
+
+  test('learn-skill, actor-condition poison and runtime battle data keep exact/read-only locators', () => {
+    const livePoison = commandVisit(
+      {
+        kind: 'applyActorCondition',
+        actor: 'hero',
+        condition: { kind: 'poison', poisonId: 9 },
+      },
+      'live-poison',
+    )
+    const state = {
+      manifest: noEntryManifest,
+      scenes: [],
+      actors: [],
+      levelUp: {},
+      skills: [],
+      items: [],
+      enemies: [],
+      enemyTeams: [],
+      poisons: [],
+      scriptChunks: {
+        legacy: {
+          id: 'legacy',
+          scripts: {
+            old: [
+              { kind: 'learnSkill', role: 0, skill: 'skill-live' },
+              {
+                kind: 'applyActorCondition',
+                actor: 'hero',
+                condition: { kind: 'poison', poisonId: 9 },
+              },
+            ],
+          },
+        },
+      },
+      worlds: [
+        {
+          party: [{ id: 'hero-instance', poisons: [{ poisonId: 9, tickIndex: 0 }] }],
+          reserve: [{ id: 'reserve-instance', poisons: [{ poisonId: 9, tickIndex: 1 }] }],
+          money: 0,
+          learnedSkills: { 'hero-instance': ['skill-live'] },
+          skillUseCounts: { 'hero-instance': { 'skill-live': 2 } },
+          inventory: [],
+        },
+      ],
+    } as unknown as EditorState
+    const scriptState: ScriptEditorState = { scenes: [], items: [], sharedScripts: {} }
+    const snapshot = buildProjectReferenceSnapshotFromProjection({
+      state,
+      scriptState,
+      commandVisits: [
+        commandVisit({ kind: 'learnSkill', role: 0, skill: 'skill-live' }, 'live-learn'),
+        livePoison,
+      ],
+      entityAddressReferences: [],
+    })
+    const index = createProjectReferenceIndex(snapshot)
+
+    const skillReferences = index.referencesTo({ kind: 'skill', id: 'skill-live' })
+    expect(skillReferences).toHaveLength(4)
+    expect(skillReferences.map((reference) => reference.relation)).toEqual(
+      expect.arrayContaining([
+        { kind: 'battle-data-use', target: 'skill', use: 'command-learn-skill' },
+        { kind: 'battle-data-use', target: 'skill', use: 'world-learned-skill' },
+        { kind: 'battle-data-use', target: 'skill', use: 'world-skill-use-count' },
+      ]),
+    )
+    expect(
+      skillReferences.filter((reference) => reference.locator.kind === 'canonical-script'),
+    ).toHaveLength(1)
+    expect(
+      skillReferences.filter(
+        (reference) =>
+          reference.locator.kind === 'unavailable' &&
+          reference.source.owner.kind === 'script-chunk',
+      ),
+    ).toHaveLength(1)
+
+    const poisonReferences = index.referencesTo({ kind: 'poison', id: '9' })
+    expect(poisonReferences).toHaveLength(4)
+    expect(
+      poisonReferences.filter((reference) => reference.locator.kind === 'canonical-script'),
+    ).toHaveLength(1)
+    expect(
+      poisonReferences.filter(
+        (reference) =>
+          reference.relation.kind === 'battle-data-use' &&
+          reference.relation.use === 'world-active-poison',
+      ),
+    ).toHaveLength(2)
+    expect(
+      poisonReferences.find((reference) => reference.locator.kind === 'unavailable')?.deletePolicy,
+    ).toBe('block')
+  })
+
+  test('canonical source deletion scope includes exact behavior and hook targets', () => {
+    const behaviorVisit: CanonicalScriptCommandVisit = {
+      ...commandVisit({ kind: 'learnSkill', role: 0, skill: 'skill-live' }, 'behavior'),
+      locator: {
+        kind: 'command',
+        owner: {
+          kind: 'entity-behavior',
+          sceneId: 'scene-a',
+          entityId: 'entity-a',
+          channel: 'trigger',
+          behaviorId: 'default',
+        },
+        container: { kind: 'body' },
+        commandPath: '0',
+      },
+    }
+    const hookVisit: CanonicalScriptCommandVisit = {
+      ...commandVisit({ kind: 'learnSkill', role: 0, skill: 'skill-live' }, 'hook'),
+      locator: {
+        kind: 'command',
+        owner: { kind: 'scene-hook', sceneId: 'scene-a', slot: 'onEnter', hookId: 'default' },
+        container: { kind: 'body' },
+        commandPath: '0',
+      },
+    }
+    const edges = canonicalCommandTargetEdges([behaviorVisit, hookVisit])
+    expect(edges[0]?.source.deletedWith).toContain(
+      projectReferenceTargetKey({
+        kind: 'entity-behavior',
+        sceneId: 'scene-a',
+        entityId: 'entity-a',
+        channel: 'trigger',
+        behaviorId: 'default',
+      }),
+    )
+    expect(edges[1]?.source.deletedWith).toContain(
+      projectReferenceTargetKey({
+        kind: 'scene-hook',
+        sceneId: 'scene-a',
+        slot: 'onEnter',
+        hookId: 'default',
+      }),
+    )
   })
 
   test('builder accepts the same projection inputs in sync and worker callers', () => {

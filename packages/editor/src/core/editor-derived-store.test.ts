@@ -258,7 +258,6 @@ function synchronousData(
     assetDiagnostics: snapshot.assetDiagnostics,
     actorReferenceIndex: [...snapshot.actorReferenceIndex],
     itemReferenceIndex: [...snapshot.itemReferenceIndex],
-    poisonReferenceIndex: [...snapshot.poisonReferenceIndex],
   }
 }
 

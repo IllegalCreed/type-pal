@@ -200,6 +200,37 @@ export function authoredSkillExecutionLayers(skill: SkillData): AuthoredSkillExe
   return layers
 }
 
+export interface SkillPoisonReference {
+  poisonId: string
+  use: 'apply' | 'cure'
+  where: string
+}
+
+/** Public/base and both authored execution overrides share this poison reference truth. */
+export function collectSkillPoisonReferences(
+  skill: SkillData,
+  where: string,
+): SkillPoisonReference[] {
+  const references: SkillPoisonReference[] = []
+  for (const layer of authoredSkillExecutionLayers(skill)) {
+    const effectsWhere =
+      layer.side === 'base' ? `${where}.effects` : `${where}.execution.${layer.side}.effects`
+    layer.effects?.forEach((effect, index) => {
+      if (
+        (effect.kind === 'applyPoison' || effect.kind === 'curePoison') &&
+        typeof effect.poisonId === 'string' &&
+        effect.poisonId.length > 0
+      )
+        references.push({
+          poisonId: effect.poisonId,
+          use: effect.kind === 'applyPoison' ? 'apply' : 'cure',
+          where: `${effectsWhere}[${index}].poisonId`,
+        })
+    })
+  }
+  return references
+}
+
 /** 技能数据表(id → SkillData)。去全局化:操作技能的函数收这个类型(显式注入),不再默认吃 DEMO_SKILLS。 */
 export type SkillDataMap = Record<string, SkillData>
 

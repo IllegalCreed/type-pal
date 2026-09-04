@@ -61,6 +61,11 @@ export type CommandTargetReference =
       relation: 'set-ambience' | 'toggle-day-night'
       where: string
     }
+  | {
+      target: { kind: 'skill'; id: string }
+      relation: 'learn-skill'
+      where: string
+    }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
@@ -214,6 +219,14 @@ export function commandTargetReferencesAtNode(
           target: { kind: 'ambience', id },
           relation: 'toggle-day-night',
           where,
+        })
+      break
+    case 'learnSkill':
+      if (nonEmptyString(value.skill))
+        references.push({
+          target: { kind: 'skill', id: value.skill },
+          relation: 'learn-skill',
+          where: `${where}.skill`,
         })
       break
   }

@@ -3,9 +3,20 @@ import type { EnemyDef, EnemyTeamDef, ItemData } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+  createProjectReferenceSource,
+  type ProjectReferenceEdge,
+  type ProjectReferenceIndex,
+} from '../core/project-reference.js'
+import {
+  type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectReferenceIndex,
+} from '../core/project-reference-adapters.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { EnemyTab } from './EnemyTab.js'
@@ -149,14 +160,22 @@ function state(): EditorState {
 function Harness(props: {
   session: EditSession
   focusObjectId?: string
-  onOpenReference?: (reference: BattleDataReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   withAssetBase?: boolean
+  referenceStatus?: EditorDerivedStatus
+  referenceIndex?: ProjectReferenceIndex
+  omitReferenceIndex?: boolean
+  getCurrentReferenceIndex?: CurrentProjectReferenceIndexProvider
+  onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
+  const referenceIndex = props.omitReferenceIndex
+    ? undefined
+    : (props.referenceIndex ?? collectCurrentProjectReferenceIndex(current))
   return (
     <EnemyTab
       enemies={current.enemies ?? []}
@@ -171,8 +190,34 @@ function Harness(props: {
       battleSprites={current.battleSprites}
       projectId="test-project"
       focusObjectId={props.focusObjectId}
+      referenceIndex={referenceIndex}
+      referenceStatus={props.referenceStatus ?? 'current'}
+      getCurrentReferenceIndex={
+        props.getCurrentReferenceIndex ?? ((state) => collectCurrentProjectReferenceIndex(state))
+      }
       onOpenReference={props.onOpenReference}
+      onStatusNotice={props.onStatusNotice}
     />
+  )
+}
+
+function enemyBlockingIndex(enemyId: string): ProjectReferenceIndex {
+  return createProjectReferenceIndex(
+    buildProjectReferenceSnapshot([
+      {
+        target: { kind: 'enemy', id: enemyId },
+        source: createProjectReferenceSource(
+          { kind: 'enemy-team', id: 'external-team' },
+          '敌队 external-team',
+          { deletedWith: [{ kind: 'enemy-team', id: 'external-team' }] },
+        ),
+        relation: { kind: 'battle-data-use', target: 'enemy', use: 'enemy-team-slot' },
+        where: 'enemyTeams.external-team.slots[0]',
+        detail: '敌队槽位 1',
+        locator: { kind: 'object', object: { kind: 'enemy-team', id: 'external-team' } },
+        deletePolicy: 'replace-suggest',
+      },
+    ]),
   )
 }
 
@@ -351,7 +396,9 @@ describe('EnemyTab shared workbench', () => {
     expect(reference).toBeDefined()
     await act(async () => reference!.click())
     expect(open).toHaveBeenCalledWith(
-      expect.objectContaining({ locator: { kind: 'enemy', enemyId: 'enemy-b' } }),
+      expect.objectContaining({
+        locator: { kind: 'object', object: { kind: 'enemy', id: 'enemy-b' } },
+      }),
     )
   })
 
@@ -618,6 +665,97 @@ describe('EnemyTab shared workbench', () => {
     await act(async () => expect(session.redo()).toBe(true))
     expect(host.querySelector('dialog.enemy-defeated-events-dialog')?.textContent).toContain(
       '60% 概率时',
+    )
+  })
+})
+
+describe('EnemyTab unified reference guard', () => {
+  const removeButton = () =>
+    [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '删除敌人',
+    )!
+
+  test.each([
+    ['checking', 'loading'],
+    ['stale', 'partial'],
+    ['failed', 'error'],
+  ] as const)('%s 快照不冒充精确引用并禁用删除', async (status, panelState) => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} referenceStatus={status} />))
+    const referencesTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+      (tab) => tab.textContent?.includes('引用'),
+    )!
+    await act(async () => referencesTab.click())
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe(panelState)
+    expect(host.textContent).toContain('数量未知')
+    expect(removeButton().disabled).toBe(true)
+  })
+
+  test('current 但索引缺失时按 error/unknown fail-closed', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} omitReferenceIndex />))
+    const referencesTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+      (tab) => tab.textContent?.includes('引用'),
+    )!
+    await act(async () => referencesTab.click())
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe('error')
+    expect(host.textContent).toContain('数量未知')
+    expect(removeButton().disabled).toBe(true)
+  })
+
+  test('self transform remains visible without self-locking the delete button', async () => {
+    const current = state()
+    current.enemyTeams = []
+    current.enemies = [enemy('enemy-self', 'enemy-self')]
+    current.locale = { 'name.enemy-self': '自变身敌人' }
+    const session = new EditSession(current)
+    await act(async () => root.render(<Harness session={session} />))
+    expect(removeButton().disabled).toBe(false)
+    expect(host.textContent).not.toContain('引用 1')
+  })
+
+  test('展示为零后删除仍按 live oracle 阻断并报告数量', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(state())
+    const notices = vi.fn()
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          focusObjectId="enemy-b"
+          getCurrentReferenceIndex={() => enemyBlockingIndex('enemy-b')}
+          onStatusNotice={notices}
+        />,
+      ),
+    )
+    expect(removeButton().disabled).toBe(false)
+    await act(async () => removeButton().click())
+    expect(session.getState().enemies?.some((entry) => entry.id === 'enemy-b')).toBe(true)
+    expect(notices).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('1 处引用') }),
+    )
+  })
+
+  test('live oracle 失败时保留敌人并显示具体错误', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(state())
+    const notices = vi.fn()
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          focusObjectId="enemy-b"
+          getCurrentReferenceIndex={() => {
+            throw new Error('oracle down')
+          }}
+          onStatusNotice={notices}
+        />,
+      ),
+    )
+    await act(async () => removeButton().click())
+    expect(session.getState().enemies?.some((entry) => entry.id === 'enemy-b')).toBe(true)
+    expect(notices).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('oracle down') }),
     )
   })
 })

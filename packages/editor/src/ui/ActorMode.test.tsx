@@ -201,7 +201,6 @@ function Harness(props: {
     assetDiagnostics: [],
     actorReferenceIndex: [...(props.referenceIndex ?? blockingActorReferenceMap(current))] as never,
     itemReferenceIndex: [],
-    poisonReferenceIndex: [],
     worldVariableReferences: { all: [], byId: new Map() },
     canonicalBehaviorReferences: [],
     canonicalSceneHookReferences: [],

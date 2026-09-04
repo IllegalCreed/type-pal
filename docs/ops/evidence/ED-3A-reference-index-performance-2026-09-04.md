@@ -79,3 +79,21 @@ ready reply JSON/V8 = 5,612,699/5,035,325B，projectReferences JSON/V8 =
 在隔离复跑前的一轮同机样本受其他测试负载影响，snapshot p50/p95 = 636.619/725.167ms、derived
 p50/p95 = 675.556/817.795ms；前者通过、后者超手工时间预算。时间门不进 CI，因此保留该抖动记录；
 确定性门与随后隔离复跑均通过，若后续隔离复跑再次稳定超限则按卡面约定收缩物化范围。
+
+## B 批 skill / enemy / poison 纵切检查点
+
+本纵切新增 1,194 条真实 PAL 战斗数据边：skill 338（含旧 collector 漏掉的 `learnSkill` 15）、
+enemy 791、poison 65。直接叠加后的统一索引一度达到 2,800,349B，触发 2.5MB 硬门；没有抬高
+预算，而是继续压 compact wire format：source key 改为由 `owner + section` 在消费端稳定重建、删除
+重复 `targetKeys`、detail 字符串入表，并让无 detail row 省略尾槽。同步退役旧
+`poisonReferenceIndex` Worker DTO。
+
+最终隔离复跑（n=20）：snapshot p50/p95 = 629.435/672.606ms，derived p50/p95 =
+616.444/717.467ms，project-reference build p50/p95 = 47.547/62.527ms，均在冻结预算内；单次
+battle-data adapter 分解样本 12.631ms。ready reply JSON/V8 = 5,502,785/5,012,485B，统一索引
+JSON/V8 = 2,365,516/2,108,012B。相对上一 B 检查点，增加 1,194 rows 后完整 reply 反而减少
+109,914B，统一索引减少 96,802B；没有用双份 DTO 换取页面迁移。
+
+最终规模：8,122 rows、3,218 targets、3,293 sources、3,419 locators、9,898 bucket entries、
+30 relations。benchmark 现在同时输出统一索引各字段体积；当前最大项为 rows 758,174B、sources
+733,928B、locators 642,238B，后续域继续以完整 reply 净变化和 2.5MB 索引门双重约束。

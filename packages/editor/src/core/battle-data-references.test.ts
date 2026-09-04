@@ -1,10 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import {
-  blockingEnemyReferences,
-  blockingPoisonReferenceMap,
-  blockingPoisonReferences,
-  blockingSkillReferences,
-} from './battle-data-references.js'
+import { collectBattleDataReferences } from './battle-data-references.js'
 import type { EditorState } from './edit-session.js'
 
 function fixture(): EditorState {
@@ -167,8 +162,11 @@ function fixture(): EditorState {
 }
 
 describe('battle data deletion references', () => {
+  const referencesTo = (state: EditorState, target: 'skill' | 'enemy' | 'poison', id: string) =>
+    collectBattleDataReferences(state, target).filter((reference) => reference.targetId === id)
+
   test('collects every typed skill owner without guessing ordinary string fields', () => {
-    const references = blockingSkillReferences(fixture(), 'skill-a')
+    const references = referencesTo(fixture(), 'skill', 'skill-a')
     expect(references.map((entry) => entry.kind)).toEqual([
       'actor-cooperative-magic',
       'actor-initial-magic',
@@ -177,19 +175,20 @@ describe('battle data deletion references', () => {
     ])
   })
 
-  test('blocks enemy team and cross-enemy actions but ignores owner-internal self references', () => {
+  test('collects enemy team, cross-enemy and owner-internal self references', () => {
     const state = fixture()
     state.enemies![1]!.ai.rules = [
       { at: 'act', do: { kind: 'summon', enemyId: 'enemy-b', count: 1 } },
     ]
-    expect(blockingEnemyReferences(state, 'enemy-b').map((entry) => entry.kind)).toEqual([
+    expect(referencesTo(state, 'enemy', 'enemy-b').map((entry) => entry.kind)).toEqual([
       'enemy-transform',
+      'enemy-summon',
       'enemy-team-slot',
     ])
   })
 
   test('collects entry seed, story commands, skill effects and poison relations as blocking poison references', () => {
-    expect(blockingPoisonReferences(fixture(), 9).map((entry) => entry.kind)).toEqual([
+    expect(referencesTo(fixture(), 'poison', '9').map((entry) => entry.kind)).toEqual([
       'entry-point-seed-poison',
       'poison-lethal-pair',
       'command-actor-condition-poison',
@@ -198,18 +197,20 @@ describe('battle data deletion references', () => {
     ])
   })
 
-  test('builds one poison index with single-target parity and ignores owner self-edges', () => {
+  test('retains owner self-edges for the unified deletion scope to classify', () => {
     const state = fixture()
     state.poisons![0]!.counters = 9
-    const index = blockingPoisonReferenceMap(state)
-    expect(index.get('9')).toEqual(blockingPoisonReferences(state, 9))
-    expect(index.get('9')?.map((entry) => entry.kind)).toEqual([
+    const references = referencesTo(state, 'poison', '9')
+    expect(references.map((entry) => entry.kind)).toEqual([
       'entry-point-seed-poison',
+      'poison-counter',
       'poison-lethal-pair',
       'command-actor-condition-poison',
       'command-actor-condition-poison',
       'skill-poison',
     ])
-    expect(index.get('9')?.some((entry) => entry.ownerId === entry.targetId)).toBe(false)
+    expect(
+      references.some((entry) => entry.locator?.kind === 'poison' && entry.locator.poisonId === 9),
+    ).toBe(true)
   })
 })

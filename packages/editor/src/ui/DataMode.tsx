@@ -15,7 +15,6 @@ import type {
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
-import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedData } from '../core/editor-derived-contract.js'
@@ -148,7 +147,6 @@ export function DataMode(props: {
   onOpenItemReference?: (reference: ItemReference) => void
   onOpenItem?: (id: string) => void
   onOpenItemAlchemy?: (surface: 'crafting' | 'spirit-gourd', itemId: string) => void
-  onOpenBattleDataReference?: (reference: BattleDataReference) => void
   onOpenProjectIssues?: () => void
   onJumpWorldSpriteReference?: (reference: SpriteDefinitionReference) => void
   onJumpWorldSpriteActionReference?: (
@@ -237,10 +235,6 @@ export function DataMode(props: {
     () => new Map(props.derivedData?.itemReferenceIndex ?? []),
     [props.derivedData?.itemReferenceIndex],
   )
-  const poisonReferenceIndex = useMemo(
-    () => new Map(props.derivedData?.poisonReferenceIndex ?? []),
-    [props.derivedData?.poisonReferenceIndex],
-  )
   const getCurrentAuthorState = () =>
     script
       ? mergeEditorProjectionWithCurrentAuthorState(
@@ -302,8 +296,12 @@ export function DataMode(props: {
         onOpenBattleSprite={onOpenBattleSprite}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
+        onStatusNotice={onStatusNotice}
         onOpenSound={onOpenSound}
-        onOpenReference={props.onOpenBattleDataReference}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
+        onOpenReference={onOpenProjectReference}
         onOpenEnemyTeam={props.onOpenEnemyTeam}
       />
     )
@@ -419,7 +417,10 @@ export function DataMode(props: {
         onObjectFocus={onObjectFocus}
         onStatusNotice={onStatusNotice}
         onOpenSound={onOpenSound}
-        onOpenReference={props.onOpenBattleDataReference}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
+        onOpenReference={onOpenProjectReference}
       />
     )
   }
@@ -430,11 +431,13 @@ export function DataMode(props: {
         poisons={poisons}
         items={itemList}
         session={session}
-        referenceIndex={poisonReferenceIndex}
-        referenceStatus={props.projectDiagnosticsStatus}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        onOpenReference={props.onOpenBattleDataReference}
+        onStatusNotice={onStatusNotice}
+        onOpenReference={onOpenProjectReference}
       />
     )
   }

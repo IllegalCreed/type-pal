@@ -5,6 +5,7 @@ import {
   loadStampTemplates,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { collectBattleDataReferences } from './battle-data-references.js'
 import { createEditorDerivedWorkerRuntime } from './editor-derived-core.js'
 import { editorDiagnosticState } from './editor-derived-store.js'
 import type { EntityAddressReferenceLocator } from './entity-address-references.js'
@@ -125,6 +126,49 @@ describe('ED-3 PAL project reference index', () => {
     expect(edges.filter((edge) => edge.relation.kind === 'battle-field-use')).toHaveLength(141)
     expect(edges.filter((edge) => edge.relation.kind === 'enemy-team-use')).toHaveLength(1_002)
     expect(edges.filter((edge) => edge.relation.kind === 'ambience-use')).toHaveLength(42)
+    const battleDataEdges = edges.filter((edge) => edge.relation.kind === 'battle-data-use')
+    expect(
+      battleDataEdges.filter(
+        (edge) => edge.relation.kind === 'battle-data-use' && edge.relation.target === 'skill',
+      ),
+    ).toHaveLength(338)
+    expect(
+      battleDataEdges.filter(
+        (edge) => edge.relation.kind === 'battle-data-use' && edge.relation.target === 'enemy',
+      ),
+    ).toHaveLength(791)
+    expect(
+      battleDataEdges.filter(
+        (edge) => edge.relation.kind === 'battle-data-use' && edge.relation.target === 'poison',
+      ),
+    ).toHaveLength(65)
+    expect(
+      battleDataEdges.filter(
+        (edge) =>
+          edge.relation.kind === 'battle-data-use' && edge.relation.use === 'command-learn-skill',
+      ),
+    ).toHaveLength(15)
+    const oldBattleDataKeys = (['skill', 'enemy', 'poison'] as const)
+      .flatMap((target) => collectBattleDataReferences(state, target))
+      .map(
+        (reference) =>
+          `${reference.target}\0${reference.targetId}\0${reference.kind}\0${reference.where}`,
+      )
+      .sort()
+    const unifiedBattleDataKeys = battleDataEdges
+      .filter(
+        (edge) =>
+          edge.relation.kind === 'battle-data-use' &&
+          edge.relation.use !== 'command-learn-skill' &&
+          !edge.relation.use.startsWith('world-'),
+      )
+      .map((edge) => {
+        if (edge.relation.kind !== 'battle-data-use') throw new Error('预期战斗数据边')
+        if (edge.target.kind !== edge.relation.target) throw new Error('战斗数据 target 不一致')
+        return `${edge.relation.target}\0${edge.target.id}\0${edge.relation.use}\0${edge.where}`
+      })
+      .sort()
+    expect(unifiedBattleDataKeys).toEqual(oldBattleDataKeys)
     expect(index.referencesTo({ kind: 'map', id: 'map-164' })).toMatchObject([
       {
         source: {
@@ -160,8 +204,10 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(6_928)
-    expect(diagnostics.projectReferences.targetEdgeIds.length).toBeLessThanOrEqual(9_000)
+    expect(diagnostics.projectReferences.rows).toHaveLength(8_122)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(9_898)
+    expect('targetKeys' in diagnostics.projectReferences).toBe(false)
+    expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(
       new TextEncoder().encode(JSON.stringify(diagnostics.projectReferences)).byteLength,
     ).toBeLessThanOrEqual(2_500_000)

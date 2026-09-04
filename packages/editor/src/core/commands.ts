@@ -82,12 +82,6 @@ import {
   updateProjectMapLayer,
 } from '@type-pal/reforge'
 import { blockingActorReferences } from './actor-references.js'
-import {
-  type BattleDataReference,
-  blockingEnemyReferences,
-  blockingPoisonReferences,
-  blockingSkillReferences,
-} from './battle-data-references.js'
 import type { EditorState } from './edit-session.js'
 import { blockingEntityAddressReferences } from './entity-address-references.js'
 import { createEmptyScriptStages } from './entity-placement.js'
@@ -2812,9 +2806,9 @@ export class AddEnemyCommand implements Command {
 
 /** 删除敌人。apply 记原索引,invert 插回原位。 */
 export class BattleDataInUseError extends Error {
-  readonly references: readonly BattleDataReference[]
+  readonly references: readonly ProjectReferenceEdge[]
 
-  constructor(kind: string, id: string, references: readonly BattleDataReference[]) {
+  constructor(kind: string, id: string, references: readonly ProjectReferenceEdge[]) {
     super(`${kind} ${id} 仍被 ${references.length} 处引用`)
     this.name = 'BattleDataInUseError'
     this.references = references
@@ -2825,14 +2819,20 @@ export class DeleteEnemyCommand implements Command {
   readonly label = '删除敌人'
   private readonly enemyId: string
   private removed: { enemy: EnemyDef; index: number } | undefined
-  constructor(enemyId: string) {
+  constructor(
+    enemyId: string,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
+  ) {
     this.enemyId = enemyId
   }
   apply(state: EditorState): EditorState {
     const list = state.enemies ?? []
     const index = list.findIndex((e) => e.id === this.enemyId)
     if (index === -1) return state
-    const references = blockingEnemyReferences(state, this.enemyId)
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'enemy',
+      id: this.enemyId,
+    }).blockers
     if (references.length) throw new BattleDataInUseError('敌人', this.enemyId, references)
     if (!this.removed) this.removed = { enemy: structuredClone(list[index]!), index }
     return { ...state, enemies: list.filter((_, i) => i !== index) }
@@ -3419,12 +3419,18 @@ export class DeleteSkillCommand implements Command {
   readonly label = '删除技能'
   private removed: { skill: SkillData; index: number } | undefined
 
-  constructor(private readonly skillId: string) {}
+  constructor(
+    private readonly skillId: string,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
+  ) {}
 
   apply(state: EditorState): EditorState {
     const index = state.skills.findIndex((skill) => skill.id === this.skillId)
     if (index < 0) return state
-    const references = blockingSkillReferences(state, this.skillId)
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'skill',
+      id: this.skillId,
+    }).blockers
     if (references.length) throw new BattleDataInUseError('技能', this.skillId, references)
     if (!this.removed) this.removed = { skill: structuredClone(state.skills[index]!), index }
     return { ...state, skills: state.skills.filter((skill) => skill.id !== this.skillId) }
@@ -4596,13 +4602,19 @@ export class DeletePoisonCommand implements Command {
   readonly label = '删除毒'
   private removed: { poison: PoisonDef; index: number } | undefined
 
-  constructor(private readonly poisonId: number) {}
+  constructor(
+    private readonly poisonId: number,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
+  ) {}
 
   apply(state: EditorState): EditorState {
     const list = state.poisons ?? []
     const index = list.findIndex((poison) => poison.id === this.poisonId)
     if (index < 0) return state
-    const references = blockingPoisonReferences(state, this.poisonId)
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'poison',
+      id: String(this.poisonId),
+    }).blockers
     if (references.length) throw new BattleDataInUseError('毒', String(this.poisonId), references)
     if (!this.removed) this.removed = { poison: structuredClone(list[index]!), index }
     return { ...state, poisons: list.filter((poison) => poison.id !== this.poisonId) }

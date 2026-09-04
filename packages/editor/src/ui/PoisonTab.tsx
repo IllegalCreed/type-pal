@@ -6,7 +6,6 @@
  */
 import type { ItemData, PoisonCurability, PoisonDef, PoisonTick } from '@type-pal/content'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { BattleDataReference } from '../core/battle-data-references.js'
 import {
   AddPoisonCommand,
   BattleDataInUseError,
@@ -15,6 +14,8 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   DsButton,
   DsCheckbox,
@@ -353,11 +354,13 @@ export function PoisonTab(props: {
   poisons: PoisonDef[]
   items: ItemData[]
   session: EditSession
-  referenceIndex: ReadonlyMap<string, readonly BattleDataReference[]>
+  referenceIndex?: ProjectReferenceIndex
   referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  onOpenReference?: (reference: BattleDataReference) => void
+  onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
 }) {
   const {
     poisons,
@@ -365,8 +368,10 @@ export function PoisonTab(props: {
     session,
     referenceIndex,
     referenceStatus,
+    getCurrentReferenceIndex,
     focusObjectId,
     onObjectFocus,
+    onStatusNotice,
     onOpenReference,
   } = props
   const [filter, setFilter] = useState('')
@@ -380,21 +385,29 @@ export function PoisonTab(props: {
   )
   const poison = poisons.find((p) => p.id === selId) ?? shown[0]
   const syncToken = session.getHistoryVersion()
-  const references = poison ? (referenceIndex.get(String(poison.id)) ?? []) : []
-  const referenceCount =
-    referenceStatus === 'current'
-      ? { kind: 'exact' as const, value: references.length }
-      : references.length
-        ? { kind: 'at-least' as const, value: references.length }
-        : { kind: 'unknown' as const }
+  const references = poison
+    ? (() => {
+        const target = { kind: 'poison', id: String(poison.id) } as const
+        return (
+          referenceIndex?.deletionImpact(target, referenceIndex.deletionScopeFor([target]))
+            .blockers ?? []
+        )
+      })()
+    : []
+  const referenceReady = referenceStatus === 'current' && referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
+  const referenceCount = referenceReady
+    ? { kind: 'exact' as const, value: references.length }
+    : { kind: 'unknown' as const }
   const referencePanelState =
-    referenceStatus === 'current'
+    effectiveReferenceStatus === 'current'
       ? references.length
         ? ('ready' as const)
         : ('empty' as const)
-      : referenceStatus === 'failed'
+      : effectiveReferenceStatus === 'failed'
         ? ('error' as const)
-        : referenceStatus === 'stale'
+        : effectiveReferenceStatus === 'stale'
           ? ('partial' as const)
           : ('loading' as const)
   const others = poisons.filter((p) => p.id !== poison?.id)
@@ -431,19 +444,41 @@ export function PoisonTab(props: {
     [patch],
   )
   const removePoison = (): void => {
-    if (!poison || referenceStatus !== 'current' || references.length) return
+    if (!poison) return
+    if (!referenceReady) {
+      onStatusNotice?.({ kind: 'info', message: '正在刷新毒引用，暂不允许删除。' })
+      return
+    }
+    if (references.length) {
+      onStatusNotice?.({
+        kind: 'error',
+        message: `仍有 ${references.length} 处引用，请先从右侧处理。`,
+      })
+      return
+    }
     if (!window.confirm(`删除毒 ${poison.name}(${poison.id})？此操作可以撤销。`)) return
     const index = poisons.findIndex((entry) => entry.id === poison.id)
     const next = poisons[index + 1] ?? poisons[index - 1]
     try {
-      session.dispatch(new DeletePoisonCommand(poison.id))
+      const changed = session.dispatch(new DeletePoisonCommand(poison.id, getCurrentReferenceIndex))
+      if (!changed) {
+        onStatusNotice?.({ kind: 'error', message: '毒定义已变化，未执行删除。' })
+        return
+      }
       if (next) selectPoison(next.id)
       else {
         setSelId(0)
         onObjectFocus?.(undefined)
       }
+      onStatusNotice?.(undefined)
     } catch (error) {
-      if (!(error instanceof BattleDataInUseError)) throw error
+      onStatusNotice?.({
+        kind: 'error',
+        message:
+          error instanceof BattleDataInUseError
+            ? `仍有 ${error.references.length} 处引用，无法删除。`
+            : `无法检查当前毒引用：${error instanceof Error ? error.message : String(error)}`,
+      })
     }
   }
 
@@ -513,9 +548,9 @@ export function PoisonTab(props: {
                 <DsButton
                   variant="danger"
                   icon="delete"
-                  disabled={referenceStatus !== 'current' || references.length > 0}
+                  disabled={!referenceReady || references.length > 0}
                   title={
-                    referenceStatus !== 'current'
+                    !referenceReady
                       ? '毒引用仍在检查，暂不能删除'
                       : references.length
                         ? `仍有 ${references.length} 处引用，请先从右侧处理`
@@ -659,7 +694,7 @@ export function PoisonTab(props: {
             {
               id: 'references',
               label: '引用',
-              count: references.length,
+              count: referenceReady ? references.length : undefined,
               panel: (
                 <DsInspectorSection
                   title="引用"
@@ -670,24 +705,23 @@ export function PoisonTab(props: {
                     count={referenceCount}
                     impact={{
                       kind: 'blocking',
-                      description:
-                        referenceStatus !== 'current'
-                          ? '引用结果尚未刷新完成；当前仅展示上一份已知结果，暂不能删除。'
-                          : references.length
-                            ? '解除技能、物品或其他毒定义中的关系边后才能删除。'
-                            : '当前毒定义可以安全删除。',
+                      description: !referenceReady
+                        ? '引用结果尚未刷新完成；当前仅展示上一份已知结果，暂不能删除。'
+                        : references.length
+                          ? '解除技能、物品或其他毒定义中的关系边后才能删除。'
+                          : '当前毒定义可以安全删除。',
                     }}
                   >
                     {references.length ? (
                       <DsReferenceList>
                         {references.map((reference) => (
                           <DsReferenceRow
-                            key={`${reference.where}:${reference.kind}`}
-                            title={reference.label}
+                            key={reference.id}
+                            title={reference.source.label}
                             detail={reference.detail}
                             path={reference.where}
                             action={
-                              reference.locator && onOpenReference
+                              reference.locator.kind !== 'unavailable' && onOpenReference
                                 ? {
                                     label: '打开',
                                     onActivate: () => onOpenReference(reference),
@@ -695,11 +729,14 @@ export function PoisonTab(props: {
                                 : undefined
                             }
                             status={
-                              reference.locator && onOpenReference
+                              reference.locator.kind !== 'unavailable' && onOpenReference
                                 ? undefined
                                 : {
                                     label: '暂不可定位',
-                                    reason: '当前没有可编辑的精确位置。',
+                                    reason:
+                                      reference.locator.kind === 'unavailable'
+                                        ? reference.locator.reason
+                                        : '当前没有可编辑的精确位置。',
                                     tone: 'warning',
                                   }
                             }

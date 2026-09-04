@@ -3,12 +3,18 @@ import type { PoisonDef, SkillData } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import {
-  type BattleDataReference,
-  blockingPoisonReferenceMap,
-} from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+  type ProjectReferenceEdge,
+  type ProjectReferenceIndex,
+} from '../core/project-reference.js'
+import {
+  type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectReferenceIndex,
+} from '../core/project-reference-adapters.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -29,6 +35,8 @@ const poisonSkill: SkillData = {
   effects: [{ kind: 'applyPoison', poisonId: '1' }],
   animation: { effectSprite: 0 },
 }
+
+const emptyReferenceIndex = createProjectReferenceIndex(buildProjectReferenceSnapshot([]))
 
 function state(): EditorState {
   return {
@@ -74,24 +82,34 @@ function state(): EditorState {
 function Harness(props: {
   session: EditSession
   focusObjectId?: string
-  onOpenReference?: (reference: BattleDataReference) => void
-  referenceIndex?: ReadonlyMap<string, readonly BattleDataReference[]>
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
+  referenceIndex?: ProjectReferenceIndex
   referenceStatus?: 'checking' | 'stale' | 'current' | 'failed'
+  omitReferenceIndex?: boolean
+  getCurrentReferenceIndex?: CurrentProjectReferenceIndexProvider
+  onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
+  const referenceIndex = props.omitReferenceIndex
+    ? undefined
+    : (props.referenceIndex ?? collectCurrentProjectReferenceIndex(current))
   return (
     <PoisonTab
       poisons={current.poisons ?? []}
       items={current.items}
       session={props.session}
-      referenceIndex={props.referenceIndex ?? blockingPoisonReferenceMap(current)}
+      referenceIndex={referenceIndex}
       referenceStatus={props.referenceStatus ?? 'current'}
+      getCurrentReferenceIndex={
+        props.getCurrentReferenceIndex ?? ((state) => collectCurrentProjectReferenceIndex(state))
+      }
       focusObjectId={props.focusObjectId}
       onOpenReference={props.onOpenReference}
+      onStatusNotice={props.onStatusNotice}
     />
   )
 }
@@ -214,7 +232,9 @@ describe('PoisonTab shared workbench', () => {
     )!
     await act(async () => reference.click())
     expect(open).toHaveBeenCalledWith(
-      expect.objectContaining({ locator: { kind: 'skill', skillId: 'skill-poison' } }),
+      expect.objectContaining({
+        locator: { kind: 'object', object: { kind: 'skill', id: 'skill-poison' } },
+      }),
     )
   })
 
@@ -324,9 +344,7 @@ describe('PoisonTab shared workbench', () => {
 
     const playerVersion = session.getHistoryVersion()
     await act(async () =>
-      collection('player')
-        .querySelector<HTMLButtonElement>('[aria-label="删除回合 1"]')!
-        .click(),
+      collection('player').querySelector<HTMLButtonElement>('[aria-label="删除回合 1"]')!.click(),
     )
     expect(session.getHistoryVersion()).toBe(playerVersion + 1)
     expect(session.getState().poisons?.[0]?.playerTicks).toEqual([{ hpDelta: -9 }])
@@ -339,9 +357,7 @@ describe('PoisonTab shared workbench', () => {
 
     const enemyVersion = session.getHistoryVersion()
     await act(async () =>
-      collection('enemy')
-        .querySelector<HTMLButtonElement>('[aria-label="删除回合 1"]')!
-        .click(),
+      collection('enemy').querySelector<HTMLButtonElement>('[aria-label="删除回合 1"]')!.click(),
     )
     expect(session.getHistoryVersion()).toBe(enemyVersion + 1)
     expect(session.getState().poisons?.[0]?.playerTicks).toEqual([{ hpDelta: -9 }])
@@ -360,7 +376,7 @@ describe('PoisonTab shared workbench', () => {
         <Harness
           session={session}
           focusObjectId="2"
-          referenceIndex={new Map()}
+          referenceIndex={emptyReferenceIndex}
           referenceStatus="stale"
         />,
       ),
@@ -378,7 +394,7 @@ describe('PoisonTab shared workbench', () => {
         <Harness
           session={session}
           focusObjectId="2"
-          referenceIndex={new Map()}
+          referenceIndex={emptyReferenceIndex}
           referenceStatus="failed"
         />,
       ),
@@ -387,16 +403,57 @@ describe('PoisonTab shared workbench', () => {
     expect(host.textContent).toContain('无法完成引用检查')
   })
 
-  test('派生索引漏掉当前引用时，删除命令仍同步重验并阻断', async () => {
-    vi.spyOn(window, 'confirm').mockReturnValue(true)
+  test('checking 与 current-without-index 同样使用 unknown 并禁用删除', async () => {
     const session = new EditSession(state())
     await act(async () =>
       root.render(
         <Harness
           session={session}
+          focusObjectId="2"
+          referenceIndex={emptyReferenceIndex}
+          referenceStatus="checking"
+        />,
+      ),
+    )
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe('loading')
+    expect(host.textContent).toContain('数量未知')
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+        (button) => button.textContent === '删除毒',
+      )?.disabled,
+    ).toBe(true)
+
+    await act(async () =>
+      root.render(<Harness session={session} focusObjectId="2" omitReferenceIndex />),
+    )
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe('error')
+    expect(host.textContent).toContain('数量未知')
+  })
+
+  test('self poison relation remains visible without self-locking deletion', async () => {
+    const current = state()
+    current.skills = []
+    current.poisons = [{ id: 1, name: '自指毒', curability: 'common', color: 0, counters: 1 }]
+    const session = new EditSession(current)
+    await act(async () => root.render(<Harness session={session} focusObjectId="1" />))
+    const remove = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '删除毒',
+    )!
+    expect(remove.disabled).toBe(false)
+  })
+
+  test('派生索引漏掉当前引用时，删除命令仍同步重验并阻断', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(state())
+    const notices = vi.fn()
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
           focusObjectId="1"
-          referenceIndex={new Map()}
+          referenceIndex={emptyReferenceIndex}
           referenceStatus="current"
+          onStatusNotice={notices}
         />,
       ),
     )
@@ -406,5 +463,34 @@ describe('PoisonTab shared workbench', () => {
     expect(remove.disabled).toBe(false)
     await act(async () => remove.click())
     expect(session.getState().poisons?.some((entry) => entry.id === 1)).toBe(true)
+    expect(notices).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('1 处引用') }),
+    )
+  })
+
+  test('live oracle 失败时保留毒并显示具体错误', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(state())
+    const notices = vi.fn()
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          focusObjectId="2"
+          getCurrentReferenceIndex={() => {
+            throw new Error('oracle down')
+          }}
+          onStatusNotice={notices}
+        />,
+      ),
+    )
+    const remove = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '删除毒',
+    )!
+    await act(async () => remove.click())
+    expect(session.getState().poisons?.some((entry) => entry.id === 2)).toBe(true)
+    expect(notices).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('oracle down') }),
+    )
   })
 })

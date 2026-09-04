@@ -1373,6 +1373,61 @@ describe('validateReferences · battleField 三层引用(B2-1)', () => {
   })
 })
 
+describe('validateReferences · battle data closure', () => {
+  test('checks skill layers, poison relations and runtime world references from typed leaves', () => {
+    const bundle = clone(base)
+    bundle.poisons = [
+      {
+        id: 1,
+        name: '一号毒',
+        curability: 'common',
+        color: 0,
+        lethalWith: 999,
+        counters: 1,
+      },
+    ]
+    bundle.skills[0] = {
+      ...bundle.skills[0]!,
+      effects: [{ kind: 'applyPoison', poisonId: '998' }],
+      execution: {
+        player: { effects: [{ kind: 'curePoison', poisonId: '997' }] },
+        enemy: {
+          effects: [{ kind: 'curePoison' }, { kind: 'applyPoison', poisonId: '995' }],
+        },
+      },
+    }
+    bundle.worlds = [
+      {
+        party: [{ id: 'hero-instance', poisons: [{ poisonId: 996, tickIndex: 0 }] }],
+        reserve: [{ id: 'reserve-instance', poisons: [{ poisonId: 1, tickIndex: 0 }] }],
+        money: 0,
+        learnedSkills: { 'hero-instance': ['missing-learned-skill'] },
+        skillUseCounts: { 'hero-instance': { 'missing-counted-skill': 1, '1': 2 } },
+        inventory: [],
+      } as never,
+    ]
+
+    const issues = validateReferences(bundle)
+    const joined = issues.map((issue) => `${issue.where}:${issue.message}`).join('\n')
+    expect(joined).toContain('skills[0](1).effects[0].poisonId:毒 "998" 不在 poisons')
+    expect(joined).toContain(
+      'skills[0](1).execution.player.effects[0].poisonId:毒 "997" 不在 poisons',
+    )
+    expect(joined).not.toContain('execution.enemy.effects[0].poisonId')
+    expect(joined).toContain(
+      'skills[0](1).execution.enemy.effects[1].poisonId:毒 "995" 不在 poisons',
+    )
+    expect(joined).toContain('poisons[0](1).lethalWith:毒 999 不在 poisons')
+    expect(joined).not.toContain('poisons[0](1).counters')
+    expect(joined).toContain('learnedSkills["hero-instance"][0]:技能 "missing-learned-skill"')
+    expect(joined).toContain(
+      'skillUseCounts["hero-instance"]["missing-counted-skill"]:技能 "missing-counted-skill"',
+    )
+    expect(joined).toContain('party[0].poisons[0].poisonId:毒 "996" 不在 poisons')
+    expect(joined).not.toContain('reserve[0].poisons[0].poisonId')
+  })
+})
+
 describe('validateReferences · ED-3 command target closure', () => {
   function targetBundle(): ContentBundle {
     const bundle = clone(base)
@@ -1397,6 +1452,7 @@ describe('validateReferences · ED-3 command target closure', () => {
                     { kind: 'openShop', shop: 999, mode: 'sell' },
                     { kind: 'startBattle', enemyTeamId: 'missing-team' },
                     { kind: 'setAmbience', ambience: 'missing-ambience' },
+                    { kind: 'learnSkill', role: 0, skill: 'missing-skill' },
                     {
                       kind: 'branch',
                       cond: { kind: 'currentScene', scene: 'missing-condition-scene' },
@@ -1440,6 +1496,7 @@ describe('validateReferences · ED-3 command target closure', () => {
     expect(joined).toContain('场景脚本方案 "s/onEnter/missing-hook" 不存在')
     expect(joined).toContain('warn:')
     expect(joined).toContain('氛围 "missing-ambience" 不在 ambiences')
+    expect(joined).toContain('技能 "missing-skill" 不在 skills')
   })
 
   test('accepts declared targets and never treats sell shop as a ShopDef edge', () => {
@@ -1483,8 +1540,9 @@ describe('validateReferences · ED-3 command target closure', () => {
     bundle.shops = [{ id: 9, items: [] }]
     bundle.enemyTeams = [{ id: 'missing-team', slots: [] } as never]
     bundle.ambiences = [{ id: 'missing-ambience', label: '缺省', color: '#fff' } as never]
+    bundle.skills.push({ ...bundle.skills[0]!, id: 'missing-skill' })
     const relevant = validateReferences(bundle).filter((issue) =>
-      /missing-(scene|entry|map|team|condition-scene|entity|hook|ambience)|商店 (9|999)/.test(
+      /missing-(scene|entry|map|team|condition-scene|entity|hook|ambience|skill)|商店 (9|999)/.test(
         issue.message,
       ),
     )

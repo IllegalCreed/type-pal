@@ -1,9 +1,13 @@
 import {
+  actorConditionPoisonReferenceAtNode,
   type CommandTargetReference,
+  collectActorConditionPoisonReferences,
   collectCanonicalCommandTargetReferences,
   collectCommandTargetReferences,
+  collectWorldBattleDataReferences,
   DEFAULT_BATTLE_FIELD_ID,
 } from '@type-pal/content'
+import { type BattleDataReference, collectBattleDataReferences } from './battle-data-references.js'
 import type { EditorState } from './edit-session.js'
 import {
   collectEntityAddressReferences,
@@ -36,13 +40,32 @@ import { worldVariableScriptStateFromEditorStateV1 } from './world-variable-refe
 function scriptOwnerDeletedWith(owner: ScriptCommandOwner): ProjectReferenceTarget[] {
   switch (owner.kind) {
     case 'entity-behavior':
+      return [
+        {
+          kind: 'entity-behavior',
+          sceneId: owner.sceneId,
+          entityId: owner.entityId,
+          channel: owner.channel,
+          behaviorId: owner.behaviorId,
+        },
+        { kind: 'entity', sceneId: owner.sceneId, entityId: owner.entityId },
+        { kind: 'scene', id: owner.sceneId },
+      ]
     case 'entity-hostile-on-lose':
       return [
         { kind: 'entity', sceneId: owner.sceneId, entityId: owner.entityId },
         { kind: 'scene', id: owner.sceneId },
       ]
     case 'scene-hook':
-      return [{ kind: 'scene', id: owner.sceneId }]
+      return [
+        {
+          kind: 'scene-hook',
+          sceneId: owner.sceneId,
+          slot: owner.slot,
+          hookId: owner.hookId,
+        },
+        { kind: 'scene', id: owner.sceneId },
+      ]
     case 'item-private-script':
       return [{ kind: 'item', id: owner.itemId }]
     case 'shared-script':
@@ -65,12 +88,20 @@ function runtimeWorldSource(): ProjectReferenceSource {
   return createProjectReferenceSource({ kind: 'runtime-world' }, '运行态/存档')
 }
 
+function legacyScriptChunkSource(chunkId: string, scriptId: string): ProjectReferenceSource {
+  return createProjectReferenceSource(
+    { kind: 'script-chunk', chunkId, scriptId },
+    `只读脚本 ${scriptId}（${chunkId}）`,
+  )
+}
+
 function normalizeCommandTarget(target: CommandTargetReference['target']): ProjectReferenceTarget {
   switch (target.kind) {
     case 'scene':
     case 'map':
     case 'enemy-team':
     case 'ambience':
+    case 'skill':
       return target
     case 'shop':
     case 'battle-field':
@@ -130,7 +161,13 @@ function commandReferenceEdge(
                 use:
                   reference.relation === 'toggle-day-night' ? 'toggle-day-night' : 'set-ambience',
               } as const)
-            : ({ kind: 'command-target', use: reference.relation } as const)
+            : reference.target.kind === 'skill'
+              ? ({
+                  kind: 'battle-data-use',
+                  target: 'skill',
+                  use: 'command-learn-skill',
+                } as const)
+              : ({ kind: 'command-target', use: reference.relation } as const)
   return {
     target,
     source,
@@ -155,6 +192,7 @@ export function canonicalCommandTargetEdges(
       kind !== 'startBattle' &&
       kind !== 'setAmbience' &&
       kind !== 'toggleDayNight' &&
+      kind !== 'learnSkill' &&
       kind !== 'branch' &&
       kind !== 'loop'
     )
@@ -180,10 +218,7 @@ export function legacyScriptChunkTargetEdges(
 ): ProjectReferenceEdgeInput[] {
   return Object.entries(chunks ?? {}).flatMap(([chunkId, chunk]) =>
     Object.entries(chunk.scripts).flatMap(([scriptId, body]) => {
-      const source = createProjectReferenceSource(
-        { kind: 'script-chunk', chunkId, scriptId },
-        `只读脚本 ${scriptId}（${chunkId}）`,
-      )
+      const source = legacyScriptChunkSource(chunkId, scriptId)
       const locator: ProjectReferenceLocator = {
         kind: 'unavailable',
         reason: '运行时脚本分片只读，没有作者对象可供精确编辑。',
@@ -196,6 +231,244 @@ export function legacyScriptChunkTargetEdges(
       ).map((target) => commandReferenceEdge(target, source, locator))
     }),
   )
+}
+
+function battleDataReferenceSource(reference: BattleDataReference): {
+  source: ProjectReferenceSource
+  locator: ProjectReferenceLocator
+} {
+  const locator = reference.locator
+  if (!locator)
+    throw new Error(`战斗数据引用缺少结构化来源：${reference.kind} · ${reference.where}`)
+  switch (locator.kind) {
+    case 'actor': {
+      const object = { kind: 'actor', id: locator.actorId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'actor', id: locator.actorId },
+          `人物 ${locator.actorId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'item': {
+      const object = { kind: 'item', id: locator.itemId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'item', id: locator.itemId },
+          `物品 ${locator.itemId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'skill': {
+      const object = { kind: 'skill', id: locator.skillId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'skill', id: locator.skillId },
+          `技能 ${locator.skillId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'enemy': {
+      const object = { kind: 'enemy', id: locator.enemyId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'enemy', id: locator.enemyId },
+          `敌人 ${locator.enemyId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'poison': {
+      const object = { kind: 'poison', id: String(locator.poisonId) } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'poison', id: String(locator.poisonId) },
+          `毒 ${locator.poisonId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'scene': {
+      const object = { kind: 'scene', id: locator.sceneId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'scene', id: locator.sceneId },
+          `场景 ${locator.sceneId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'shared-script': {
+      const object = { kind: 'shared-script', id: locator.scriptId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'shared-script', id: locator.scriptId },
+          `共享脚本 ${locator.scriptId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'entry-point': {
+      const object = { kind: 'entry-point', id: locator.entryPointId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'entry-point', id: locator.entryPointId },
+          `入口 ${locator.entryPointId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+    case 'enemy-team': {
+      const object = { kind: 'enemy-team', id: locator.enemyTeamId } as const
+      return {
+        source: createProjectReferenceSource(
+          { kind: 'enemy-team', id: locator.enemyTeamId },
+          `敌队 ${locator.enemyTeamId}`,
+          { deletedWith: [object] },
+        ),
+        locator: { kind: 'object', object },
+      }
+    }
+  }
+}
+
+function battleDataReferenceEdge(reference: BattleDataReference): ProjectReferenceEdgeInput {
+  const mapped = battleDataReferenceSource(reference)
+  return {
+    target: { kind: reference.target, id: reference.targetId },
+    source: mapped.source,
+    relation: {
+      kind: 'battle-data-use',
+      target: reference.target,
+      use: reference.kind,
+    },
+    where: reference.where,
+    detail:
+      reference.label === mapped.source.label
+        ? reference.detail
+        : `${reference.label} · ${reference.detail}`,
+    locator: mapped.locator,
+    deletePolicy: 'replace-suggest',
+  }
+}
+
+function canonicalActorConditionPoisonEdges(
+  visits: readonly CanonicalScriptCommandVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  return visits.flatMap((visit) => {
+    const reference = actorConditionPoisonReferenceAtNode(visit.command, visit.path)
+    if (!reference) return []
+    const source = sourceForScriptOwner(visit.locator.owner, scriptState)
+    const locator: ProjectReferenceLocator = {
+      kind: 'canonical-script',
+      reference: { kind: 'command', path: reference.where, locator: visit.locator },
+    }
+    return [
+      {
+        target: { kind: 'poison' as const, id: String(reference.poisonId) },
+        source,
+        relation: {
+          kind: 'battle-data-use' as const,
+          target: 'poison' as const,
+          use: 'command-actor-condition-poison' as const,
+        },
+        where: reference.where,
+        detail: '剧情施毒或指定解毒',
+        locator,
+        deletePolicy: 'replace-suggest' as const,
+      },
+    ]
+  })
+}
+
+function legacyActorConditionPoisonEdges(
+  chunks: EditorState['scriptChunks'],
+): ProjectReferenceEdgeInput[] {
+  return Object.entries(chunks ?? {}).flatMap(([chunkId, chunk]) =>
+    Object.entries(chunk.scripts).flatMap(([scriptId, body]) => {
+      const where = `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`
+      const source = legacyScriptChunkSource(chunkId, scriptId)
+      const locator: ProjectReferenceLocator = {
+        kind: 'unavailable',
+        reason: '运行时脚本分片只读，没有作者对象可供精确编辑。',
+      }
+      return collectActorConditionPoisonReferences(body, where).map((reference) => ({
+        target: { kind: 'poison' as const, id: String(reference.poisonId) },
+        source,
+        relation: {
+          kind: 'battle-data-use' as const,
+          target: 'poison' as const,
+          use: 'command-actor-condition-poison' as const,
+        },
+        where: reference.where,
+        detail: '剧情施毒或指定解毒',
+        locator,
+        deletePolicy: 'block' as const,
+      }))
+    }),
+  )
+}
+
+function runtimeBattleDataReferenceEdges(
+  worlds: EditorState['worlds'],
+): ProjectReferenceEdgeInput[] {
+  const source = runtimeWorldSource()
+  const locator: ProjectReferenceLocator = {
+    kind: 'unavailable',
+    reason: '运行态存档只读，没有作者对象可供精确编辑。',
+  }
+  return collectWorldBattleDataReferences(worlds ?? []).map((reference) => ({
+    target: { kind: reference.target, id: reference.id },
+    source,
+    relation: {
+      kind: 'battle-data-use',
+      target: reference.target,
+      use: reference.kind,
+    },
+    where: reference.where,
+    detail:
+      reference.kind === 'world-learned-skill'
+        ? '运行态已习得技能'
+        : reference.kind === 'world-skill-use-count'
+          ? '运行态技能终身使用计数'
+          : '运行态角色当前中毒',
+    locator,
+    deletePolicy: 'block',
+  }))
+}
+
+export function battleDataReferenceEdges(
+  state: EditorState,
+  visits: readonly CanonicalScriptCommandVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  const coarse = (['skill', 'enemy', 'poison'] as const)
+    .flatMap((target) =>
+      collectBattleDataReferences(state, target, { includeScriptCommands: false }),
+    )
+    .filter(
+      (reference) =>
+        reference.kind !== 'command-actor-condition-poison' || reference.locator?.kind === 'enemy',
+    )
+    .map(battleDataReferenceEdge)
+  return [
+    ...coarse,
+    ...canonicalActorConditionPoisonEdges(visits, scriptState),
+    ...legacyActorConditionPoisonEdges(state.scriptChunks),
+    ...runtimeBattleDataReferenceEdges(state.worlds),
+  ]
 }
 
 function entitySource(locator: EntityAddressReferenceLocator): {
@@ -422,6 +695,7 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
       ...structuralProjectReferenceEdges(input.state),
       ...canonicalCommandTargetEdges(input.commandVisits, input.scriptState),
       ...legacyScriptChunkTargetEdges(input.state.scriptChunks),
+      ...battleDataReferenceEdges(input.state, input.commandVisits, input.scriptState),
       ...entityAddressReferenceEdges(input.entityAddressReferences),
     ],
     { assumeUnique: true },

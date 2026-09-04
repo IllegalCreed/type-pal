@@ -5,6 +5,7 @@ import type {
   CommandTargetReference,
   WorldVariableKindV1,
 } from '@type-pal/content'
+import type { BattleDataReferenceKind } from './battle-data-references.js'
 import type {
   CanonicalScriptReference,
   SceneHookSlot,
@@ -78,7 +79,11 @@ export interface ProjectReferenceSource {
   label: string
   /** Targets whose removal also removes this source. Used to construct explicit deletion scopes. */
   deletedWith: readonly string[]
+  /** Stable discriminator for distinct semantic sections owned by the same object. */
+  section?: string
 }
+
+export type ProjectReferenceSourceSnapshot = Omit<ProjectReferenceSource, 'key'>
 
 export type ProjectReferenceLocator =
   | { kind: 'object'; object: ProjectReferenceTarget; section?: string }
@@ -95,19 +100,7 @@ export type ProjectReferenceItemAccess =
   | 'hold'
   | 'configure'
 
-export type ProjectReferenceBattleDataUse =
-  | 'actor-initial-magic'
-  | 'actor-cooperative-magic'
-  | 'level-up'
-  | 'item-grant-skill'
-  | 'enemy-cast'
-  | 'enemy-team-slot'
-  | 'poison-counter'
-  | 'poison-lethal-pair'
-  | 'entry-point-seed-poison'
-  | 'command-actor-condition-poison'
-  | 'skill-poison'
-  | 'item-poison'
+export type ProjectReferenceBattleDataUse = BattleDataReferenceKind
 
 export type ProjectReferenceRelation =
   | { kind: 'command-target'; use: CommandTargetReference['relation'] }
@@ -169,16 +162,16 @@ type ProjectReferenceRow = readonly [
   locatorIndex: number,
   policy: 0 | 1 | 2,
   where: string,
-  detail?: string,
+  detailIndex?: number,
 ]
 
 export interface ProjectReferenceSnapshotV1 {
   version: 1
   targets: readonly ProjectReferenceTarget[]
-  targetKeys: readonly string[]
-  sources: readonly ProjectReferenceSource[]
+  sources: readonly ProjectReferenceSourceSnapshot[]
   relations: readonly ProjectReferenceRelation[]
   locators: readonly ProjectReferenceLocator[]
+  details: readonly string[]
   rows: readonly ProjectReferenceRow[]
   /** target bucket i occupies targetEdgeIds[targetOffsets[i]..targetOffsets[i+1]). */
   targetOffsets: readonly number[]
@@ -256,6 +249,10 @@ export function projectReferenceSourceOwnerKey(owner: ProjectReferenceSourceOwne
   }
 }
 
+function projectReferenceSourceKey(owner: ProjectReferenceSourceOwner, section?: string): string {
+  return tupleKey([projectReferenceSourceOwnerKey(owner), section ?? ''])
+}
+
 export function projectReferenceSourceSceneId(
   owner: ProjectReferenceSourceOwner,
 ): string | undefined {
@@ -272,12 +269,12 @@ export function createProjectReferenceSource(
   label: string,
   options: { section?: string; deletedWith?: readonly ProjectReferenceTarget[] } = {},
 ): ProjectReferenceSource {
-  const ownerKey = projectReferenceSourceOwnerKey(owner)
   return {
-    key: tupleKey([ownerKey, options.section ?? '']),
+    key: projectReferenceSourceKey(owner, options.section),
     owner,
     label,
     deletedWith: [...new Set((options.deletedWith ?? []).map(projectReferenceTargetKey))].sort(),
+    ...(options.section ? { section: options.section } : {}),
   }
 }
 
@@ -327,7 +324,7 @@ export function buildProjectReferenceSnapshot(
   options: { assumeUnique?: boolean } = {},
 ): ProjectReferenceSnapshotV1 {
   const targetByKey = new Map<string, ProjectReferenceTarget>()
-  const sources: ProjectReferenceSource[] = []
+  const sources: ProjectReferenceSourceSnapshot[] = []
   const sourceIndexes = new Map<string, number>()
   const sourceDefinitions = new Map<string, string>()
   const relations: ProjectReferenceRelation[] = []
@@ -357,6 +354,8 @@ export function buildProjectReferenceSnapshot(
   }
 
   for (const edge of rawEdges) {
+    if (edge.source.key !== projectReferenceSourceKey(edge.source.owner, edge.source.section))
+      throw new Error(`引用来源 ${edge.source.key} 不是 owner/section 的稳定派生 key`)
     const targetKey = projectReferenceTargetKey(edge.target)
     const relationKey = serializeIdentity(edge.relation)
     const locatorKey = serializeIdentity(edge.locator)
@@ -381,7 +380,12 @@ export function buildProjectReferenceSnapshot(
     let sourceIndex = sourceIndexes.get(edge.source.key)
     if (sourceIndex === undefined) {
       sourceIndex = sources.length
-      sources.push(edge.source)
+      sources.push({
+        owner: edge.source.owner,
+        label: edge.source.label,
+        deletedWith: edge.source.deletedWith,
+        ...(edge.source.section ? { section: edge.source.section } : {}),
+      })
       sourceIndexes.set(edge.source.key, sourceIndex)
       sourceDefinitions.set(edge.source.key, sourceDefinition)
     }
@@ -427,16 +431,29 @@ export function buildProjectReferenceSnapshot(
   const targetKeys = [...targetByKey.keys()].sort()
   const targets = targetKeys.map((key) => targetByKey.get(key)!)
   const targetIndexes = new Map(targetKeys.map((key, index) => [key, index]))
+  const details: string[] = []
+  const detailIndexes = new Map<string, number>()
   const rows: ProjectReferenceRow[] = rowInputs.map(
-    ([targetKey, sourceIndex, relationIndex, locatorIndex, policy, where, detail]) => [
-      targetIndexes.get(targetKey)!,
-      sourceIndex,
-      relationIndex,
-      locatorIndex,
-      policy,
-      where,
-      detail,
-    ],
+    ([targetKey, sourceIndex, relationIndex, locatorIndex, policy, where, detail]) => {
+      let detailIndex: number | undefined
+      if (detail !== undefined) {
+        detailIndex = detailIndexes.get(detail)
+        if (detailIndex === undefined) {
+          detailIndex = details.length
+          details.push(detail)
+          detailIndexes.set(detail, detailIndex)
+        }
+      }
+      const row = [
+        targetIndexes.get(targetKey)!,
+        sourceIndex,
+        relationIndex,
+        locatorIndex,
+        policy,
+        where,
+      ] as const
+      return detailIndex === undefined ? row : ([...row, detailIndex] as const)
+    },
   )
   const targetOffsets = [0]
   const targetEdgeIds: number[] = []
@@ -447,10 +464,10 @@ export function buildProjectReferenceSnapshot(
   return {
     version: 1,
     targets,
-    targetKeys,
     sources,
     relations,
     locators,
+    details,
     rows,
     targetOffsets,
     targetEdgeIds,
@@ -459,13 +476,20 @@ export function buildProjectReferenceSnapshot(
 
 export class ProjectReferenceIndex {
   private readonly targetIndexes: ReadonlyMap<string, number>
+  private readonly sources: readonly ProjectReferenceSource[]
 
   constructor(readonly snapshot: ProjectReferenceSnapshotV1) {
     if (snapshot.targetOffsets.length !== snapshot.targets.length + 1)
       throw new Error('引用索引 targetOffsets 长度不匹配')
     if (snapshot.targetOffsets.at(-1) !== snapshot.targetEdgeIds.length)
       throw new Error('引用索引 targetOffsets 尾界不匹配')
-    this.targetIndexes = new Map(snapshot.targetKeys.map((key, index) => [key, index]))
+    this.targetIndexes = new Map(
+      snapshot.targets.map((target, index) => [projectReferenceTargetKey(target), index]),
+    )
+    this.sources = snapshot.sources.map((source) => ({
+      ...source,
+      key: projectReferenceSourceKey(source.owner, source.section),
+    }))
   }
 
   referencesTo(target: ProjectReferenceTarget): ProjectReferenceEdge[] {
@@ -498,7 +522,7 @@ export class ProjectReferenceIndex {
     const targetKeys = new Set(targets.map(projectReferenceTargetKey))
     return {
       removedSourceKeys: new Set(
-        this.snapshot.sources
+        this.sources
           .filter((source) => source.deletedWith.some((key) => targetKeys.has(key)))
           .map((source) => source.key),
       ),
@@ -508,16 +532,16 @@ export class ProjectReferenceIndex {
   private edge(id: number): ProjectReferenceEdge {
     const row = this.snapshot.rows[id]
     if (!row) throw new Error(`引用边 ${id} 不存在`)
-    const [targetIndex, sourceIndex, relationIndex, locatorIndex, policy, where, detail] = row
+    const [targetIndex, sourceIndex, relationIndex, locatorIndex, policy, where, detailIndex] = row
     return {
       id,
       target: this.snapshot.targets[targetIndex]!,
-      source: this.snapshot.sources[sourceIndex]!,
+      source: this.sources[sourceIndex]!,
       relation: this.snapshot.relations[relationIndex]!,
       locator: this.snapshot.locators[locatorIndex]!,
       deletePolicy: CODE_POLICY[policy],
       where,
-      ...(detail === undefined ? {} : { detail }),
+      ...(detailIndex === undefined ? {} : { detail: this.snapshot.details[detailIndex]! }),
     }
   }
 }

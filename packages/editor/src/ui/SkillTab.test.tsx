@@ -5,6 +5,13 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceIndex } from '../core/project-reference.js'
+import {
+  type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectReferenceIndex,
+} from '../core/project-reference-adapters.js'
+import type { ScriptEditorState } from '../core/script-editor.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -89,12 +96,23 @@ function state(skills = [skill()], items: ItemData[] = ITEMS): EditorState {
   } as unknown as EditorState
 }
 
-function Harness(props: { session: EditSession; focusObjectId?: string }) {
+function Harness(props: {
+  session: EditSession
+  focusObjectId?: string
+  referenceStatus?: EditorDerivedStatus
+  referenceIndex?: ProjectReferenceIndex
+  omitReferenceIndex?: boolean
+  getCurrentReferenceIndex?: CurrentProjectReferenceIndexProvider
+  onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+}) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
+  const referenceIndex = props.omitReferenceIndex
+    ? undefined
+    : (props.referenceIndex ?? collectCurrentProjectReferenceIndex(current))
   return (
     <SkillTab
       skills={current.skills}
@@ -104,7 +122,13 @@ function Harness(props: { session: EditSession; focusObjectId?: string }) {
       assetCatalog={current.assetCatalog}
       assetReader={{} as never}
       battleSprites={current.battleSprites}
+      referenceIndex={referenceIndex}
+      referenceStatus={props.referenceStatus ?? 'current'}
+      getCurrentReferenceIndex={
+        props.getCurrentReferenceIndex ?? ((state) => collectCurrentProjectReferenceIndex(state))
+      }
       focusObjectId={props.focusObjectId}
+      onStatusNotice={props.onStatusNotice}
     />
   )
 }
@@ -587,5 +611,88 @@ describe('SkillTab · 敌方 execution 能力边界', () => {
     ])
     expect(enemyKinds).not.toContain('召唤')
     expect(enemyKinds).not.toContain('回真气')
+  })
+})
+
+describe('SkillTab · 统一引用与删除门禁', () => {
+  const removeButton = () =>
+    [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '删除技能',
+    )!
+
+  test.each([
+    ['checking', 'loading'],
+    ['stale', 'partial'],
+    ['failed', 'error'],
+  ] as const)('%s 快照不冒充零引用并禁用删除', async (status, panelState) => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} referenceStatus={status} />))
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe(panelState)
+    expect(host.textContent).toContain('数量未知')
+    expect(removeButton().disabled).toBe(true)
+  })
+
+  test('current 但索引缺失时按 error/unknown fail-closed', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} omitReferenceIndex />))
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe('error')
+    expect(host.textContent).toContain('数量未知')
+    expect(removeButton().disabled).toBe(true)
+  })
+
+  test('展示为零后删除仍读取 live canonical learnSkill', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(state())
+    const notices = vi.fn()
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        live: {
+          name: '实时习得',
+          self: 'none',
+          body: [{ kind: 'learnSkill', role: 0, skill: '352' }],
+        },
+      },
+    }
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          getCurrentReferenceIndex={(editorState) =>
+            collectCurrentProjectReferenceIndex(editorState, canonical)
+          }
+          onStatusNotice={notices}
+        />,
+      ),
+    )
+    expect(removeButton().disabled).toBe(false)
+    await act(async () => removeButton().click())
+    expect(session.getState().skills.some((entry) => entry.id === '352')).toBe(true)
+    expect(notices).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('1 处引用') }),
+    )
+  })
+
+  test('live oracle 失败时保留技能并显示具体错误', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(state())
+    const notices = vi.fn()
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          getCurrentReferenceIndex={() => {
+            throw new Error('oracle down')
+          }}
+          onStatusNotice={notices}
+        />,
+      ),
+    )
+    await act(async () => removeButton().click())
+    expect(session.getState().skills).toHaveLength(1)
+    expect(notices).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('oracle down') }),
+    )
   })
 })

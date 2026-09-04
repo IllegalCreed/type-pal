@@ -14,6 +14,7 @@
 import { isActorEntity } from './actor.js'
 import { ACTOR_STATUS_DEFINITIONS, isCarryableStatusId } from './actor-condition.js'
 import { ACTOR_REFERENCE_POLICIES, collectActorTaggedReferences } from './actor-reference.js'
+import { collectWorldBattleDataReferences } from './character.js'
 import { visitCommandTargetReferences } from './command-target-reference.js'
 import type {
   ActorDef,
@@ -52,8 +53,10 @@ import type {
   TilesetDef,
   WorldState,
 } from './index.js'
+import { collectPoisonDefinitionReferences } from './poison.js'
 import {
   authoredSkillExecutionLayers,
+  collectSkillPoisonReferences,
   isEnemyRuntimeSkillEffect,
   resolveSkillExecution,
 } from './skill.js'
@@ -855,6 +858,23 @@ export interface ActorConditionPoisonReference {
   where: string
 }
 
+/** Inspect one command node only; recursive callers own traversal and canonical owner identity. */
+export function actorConditionPoisonReferenceAtNode(
+  value: unknown,
+  where: string,
+): ActorConditionPoisonReference | undefined {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined
+  const record = value as Record<string, unknown>
+  if (record.kind !== 'applyActorCondition' && record.kind !== 'clearActorCondition')
+    return undefined
+  const condition = record.condition
+  if (!condition || typeof condition !== 'object' || Array.isArray(condition)) return undefined
+  const typedCondition = condition as Record<string, unknown>
+  if (typedCondition.kind !== 'poison' || typeof typedCondition.poisonId !== 'number')
+    return undefined
+  return { poisonId: typedCondition.poisonId, where: `${where}.condition.poisonId` }
+}
+
 export function collectActorConditionPoisonReferences(
   value: unknown,
   where: string,
@@ -869,17 +889,8 @@ export function collectActorConditionPoisonReferences(
     }
     if (!node || typeof node !== 'object') return
     const record = node as Record<string, unknown>
-    if (record.kind === 'applyActorCondition' || record.kind === 'clearActorCondition') {
-      const condition = record.condition
-      if (condition && typeof condition === 'object' && !Array.isArray(condition)) {
-        const typedCondition = condition as Record<string, unknown>
-        if (typedCondition.kind === 'poison' && typeof typedCondition.poisonId === 'number')
-          references.push({
-            poisonId: typedCondition.poisonId,
-            where: `${path}.condition.poisonId`,
-          })
-      }
-    }
+    const reference = actorConditionPoisonReferenceAtNode(record, path)
+    if (reference) references.push(reference)
     for (const [key, child] of Object.entries(record)) visit(child, `${path}.${key}`)
   }
   visit(value, where)
@@ -1284,6 +1295,11 @@ export function validateReferences(b: ContentBundle): Issue[] {
         validateBattleField(target.id, reference.where)
         return
       }
+      if (target.kind === 'skill') {
+        if (!skillIds.has(target.id))
+          addTargetIssue('error', reference.where, `技能 "${target.id}" 不在 skills`)
+        return
+      }
       if (target.id !== 'day' && !ambienceIds.has(target.id))
         addTargetIssue('warn', reference.where, `氛围 "${target.id}" 不在 ambiences`)
     })
@@ -1584,7 +1600,37 @@ export function validateReferences(b: ContentBundle): Issue[] {
           message: `消耗物品 "${entry.itemId}" 不在 items`,
         })
     })
+    for (const reference of collectSkillPoisonReferences(skill, where))
+      if (!poisonIds.has(reference.poisonId))
+        issues.push({
+          severity: 'error',
+          where: reference.where,
+          message: `毒 "${reference.poisonId}" 不在 poisons`,
+        })
   })
+
+  for (const reference of collectPoisonDefinitionReferences(b.poisons ?? []))
+    if (!numericPoisonIds.has(reference.poisonId))
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `毒 ${reference.poisonId} 不在 poisons`,
+      })
+
+  for (const reference of collectWorldBattleDataReferences(b.worlds ?? [])) {
+    if (reference.target === 'skill' && !skillIds.has(reference.id))
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `技能 "${reference.id}" 不在 skills`,
+      })
+    if (reference.target === 'poison' && !poisonIds.has(reference.id))
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `毒 "${reference.id}" 不在 poisons`,
+      })
+  }
 
   // ── levelUp ─────────────────────────────────────────────
   for (const [cid, list] of Object.entries(b.levelUp)) {

@@ -48,7 +48,9 @@ describe('project reference contract', () => {
     const snapshot = buildProjectReferenceSnapshot([duplicate, first])
     expect(snapshot.rows).toHaveLength(1)
     expect(snapshot.sources).toHaveLength(1)
-    expect(snapshot.targetKeys).toEqual([...snapshot.targetKeys].sort())
+    expect(snapshot.targets.map(projectReferenceTargetKey)).toEqual(
+      snapshot.targets.map(projectReferenceTargetKey).sort(),
+    )
 
     expect(() =>
       buildProjectReferenceSnapshot([
@@ -59,6 +61,29 @@ describe('project reference contract', () => {
         },
       ]),
     ).toThrow(/定义不一致/)
+    expect(() =>
+      buildProjectReferenceSnapshot([
+        { ...first, source: { ...first.source, key: 'display-derived-or-random' } },
+      ]),
+    ).toThrow(/不是 owner\/section 的稳定派生 key/)
+  })
+
+  test('omits derived source/target keys and interns repeated detail without changing decoded edges', () => {
+    const source = createProjectReferenceSource({ kind: 'scene', id: 'source' }, '来源场景', {
+      section: 'battle-data',
+      deletedWith: [{ kind: 'scene', id: 'source' }],
+    })
+    const snapshot = buildProjectReferenceSnapshot([
+      edge({ kind: 'skill', id: 'one' }, { source, where: 'one', detail: '重复说明' }),
+      edge({ kind: 'skill', id: 'two' }, { source, where: 'two', detail: '重复说明' }),
+    ])
+    expect('targetKeys' in snapshot).toBe(false)
+    expect('key' in snapshot.sources[0]!).toBe(false)
+    expect(snapshot.details).toEqual(['重复说明'])
+    expect(snapshot.rows.map((row) => row[6])).toEqual([0, 0])
+    const decoded = createProjectReferenceIndex(snapshot).allReferences()
+    expect(decoded.map((reference) => reference.detail)).toEqual(['重复说明', '重复说明'])
+    expect(decoded.every((reference) => reference.source.key === source.key)).toBe(true)
   })
 
   test('indexes one composite entity edge under entity and ancestor scene without duplicating rows', () => {

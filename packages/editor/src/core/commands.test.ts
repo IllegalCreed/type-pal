@@ -811,7 +811,7 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
     const s1 = add.apply(s0)
     expect(s1.enemies!.map((e) => e.id)).toEqual(['enemy-1', 'enemy-2', 'enemy-9'])
     expect(add.invert(s1).enemies!.length).toBe(2)
-    const del = new DeleteEnemyCommand('enemy-1')
+    const del = new DeleteEnemyCommand('enemy-1', currentReferences)
     expect(() => del.apply(s0)).toThrow(BattleDataInUseError)
     const unreferenced = { ...s0, enemyTeams: [] }
     const s2 = del.apply(unreferenced)

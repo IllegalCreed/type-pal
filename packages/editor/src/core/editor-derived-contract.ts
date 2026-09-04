@@ -1,7 +1,6 @@
 import type { AssetReference } from '@type-pal/content'
 import type { ActorReference } from './actor-references.js'
 import type { EditorAssetDiagnostic } from './asset-diagnostics.js'
-import type { BattleDataReference } from './battle-data-references.js'
 import type { EditorState } from './edit-session.js'
 import type { ItemReference } from './item-references.js'
 import type { EditorStatusIssue, ProjectIssue } from './project-diagnostics.js'
@@ -54,7 +53,6 @@ export interface EditorDerivedData {
   assetDiagnostics: EditorAssetDiagnostic[]
   actorReferenceIndex: Array<[string, ActorReference[]]>
   itemReferenceIndex: Array<[string, ItemReference[]]>
-  poisonReferenceIndex: Array<[string, BattleDataReference[]]>
   worldVariableReferences: WorldVariableReferenceIndexV1
   canonicalBehaviorReferences: Array<[string, CanonicalScriptReference[]]>
   canonicalSceneHookReferences: Array<[string, CanonicalScriptReference[]]>

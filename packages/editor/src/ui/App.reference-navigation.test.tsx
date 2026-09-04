@@ -605,6 +605,69 @@ describe('App item reference navigation', () => {
     expect(host.textContent).toContain('实体 missing-entity 不再存在')
   })
 
+  test('统一对象 locator 对过期战斗数据来源明确报错且不误回退到首项', async () => {
+    await renderApp()
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+    const missing = [
+      [{ kind: 'skill', id: 'missing-skill' }, '技能 missing-skill'],
+      [{ kind: 'enemy', id: 'missing-enemy' }, '敌人 missing-enemy'],
+      [{ kind: 'poison', id: '999' }, '毒 999'],
+      [{ kind: 'actor', id: 'missing-actor' }, '角色 missing-actor'],
+      [{ kind: 'item', id: 'missing-item' }, '物品 missing-item'],
+      [{ kind: 'enemy-team', id: 'missing-team' }, '敌队 missing-team'],
+      [{ kind: 'entry-point', id: 'missing-entry' }, '入口 missing-entry'],
+      [{ kind: 'shared-script', id: 'missing-script' }, '共享脚本 missing-script'],
+    ] as const
+    for (const [object, label] of missing) {
+      await act(async () => openReference(projectObjectReference(object)))
+      expect(window.location.search).toContain('module=item')
+      expect(host.textContent).toContain(`引用位置已变化：${label} 不再存在`)
+    }
+  })
+
+  test('统一战斗数据对象 locator 可导航到精确 skill/enemy/poison route', async () => {
+    const shell = shellState()
+    shell.skills = [
+      {
+        id: 'skill-a',
+        name: '技能甲',
+        desc: '',
+        cost: {},
+        usableOutsideBattle: false,
+        target: 'oneEnemy',
+        effects: [],
+        animation: { effectSprite: 0 },
+      },
+    ]
+    shell.enemies = [
+      {
+        id: 'enemy-a',
+        name: '敌人甲',
+        battleSprite: 'battle.enemy',
+        yPosOffset: 0,
+        stats: {} as never,
+        ai: { resistanceToSorcery: 0 },
+        sounds: {},
+      },
+    ]
+    shell.poisons = [{ id: 9, name: '九号毒', curability: 'common', color: 0 }]
+    await renderApp(shell)
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+
+    for (const [object, page, id] of [
+      [{ kind: 'skill', id: 'skill-a' }, 'skill', 'skill-a'],
+      [{ kind: 'enemy', id: 'enemy-a' }, 'enemy', 'enemy-a'],
+      [{ kind: 'poison', id: '9' }, 'poison', '9'],
+    ] as const) {
+      await act(async () => openReference(projectObjectReference(object)))
+      const location = new URL(window.location.href)
+      expect(location.searchParams.get('page')).toBe(page)
+      expect(location.searchParams.get('object')).toBe(id)
+    }
+  })
+
   test('场景地图控件标明缺失引用并可换绑、启用复制与打开新地图', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const shell = shellState()

@@ -18,10 +18,6 @@ import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  type BattleDataReference,
-  blockingSkillReferences,
-} from '../core/battle-data-references.js'
-import {
   AddSkillCommand,
   BattleDataInUseError,
   DeleteSkillCommand,
@@ -29,7 +25,10 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import { playProjectQuery } from '../core/play-url.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import {
   DsActionLink,
@@ -50,10 +49,10 @@ import {
   DsCatalogControls,
   DsCatalogRow,
   DsCatalogWorkspace,
-  DsNumberFieldGrid,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
+  DsNumberFieldGrid,
   DsObjectHero,
   DsObjectWorkspace,
   DsObjectWorkspaceContent,
@@ -64,9 +63,9 @@ import {
 } from './design-system/recipes.js'
 import {
   DsReorderCollection,
+  type DsReorderIntent,
   reorderDsItems,
   sameDsSerializableValue,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/reorder.js'
 import {
@@ -817,10 +816,7 @@ function ExecutionOverrideEditor(props: {
           revision={syncToken}
           onReorder={reorderEffects}
         >
-          <ol
-            className="effect-editor-list skill-effect-chain"
-            data-skill-effect-chain={side}
-          >
+          <ol className="effect-editor-list skill-effect-chain" data-skill-effect-chain={side}>
             {effects.map((effect, index) => {
               const reorderKey = reorderKeys.keys[index]!
               return (
@@ -836,10 +832,7 @@ function ExecutionOverrideEditor(props: {
                       aria-label={`效果 ${index + 1} 类型`}
                       value={effect.kind}
                       onValueChange={(kind) =>
-                        setEffect(
-                          index,
-                          defaultEffect(kind as SkillEffect['kind'], battleSprites),
-                        )
+                        setEffect(index, defaultEffect(kind as SkillEffect['kind'], battleSprites))
                       }
                       options={availableEffectKinds.map((kind) => ({
                         value: kind.v,
@@ -915,7 +908,10 @@ export function SkillTab(props: {
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
-  onOpenReference?: (reference: BattleDataReference) => void
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   /** 项目 id(同源试玩页;缺省 pal 兼容旧调用)。 */
   projectId?: string
   workspaceId?: string
@@ -933,6 +929,9 @@ export function SkillTab(props: {
     focusObjectId,
     onObjectFocus,
     onStatusNotice,
+    referenceIndex,
+    referenceStatus,
+    getCurrentReferenceIndex,
     onOpenReference,
     projectId = 'pal',
     workspaceId,
@@ -956,11 +955,31 @@ export function SkillTab(props: {
     [skills, filter],
   )
   const skill = skills.find((s) => s.id === selId) ?? shown[0]
-  const effectReorderKeys = useDsReorderKeys(
-    skill?.effects ?? [],
-    (effect) => JSON.stringify(effect),
+  const effectReorderKeys = useDsReorderKeys(skill?.effects ?? [], (effect) =>
+    JSON.stringify(effect),
   )
-  const references = skill ? blockingSkillReferences(session.getState(), skill.id) : []
+  const references = skill
+    ? (() => {
+        const target = { kind: 'skill', id: skill.id } as const
+        return (
+          referenceIndex?.deletionImpact(target, referenceIndex.deletionScopeFor([target]))
+            .blockers ?? []
+        )
+      })()
+    : []
+  const referenceReady = referenceStatus === 'current' && referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
+  const referencePanelState =
+    effectiveReferenceStatus === 'current'
+      ? references.length
+        ? 'ready'
+        : 'empty'
+      : effectiveReferenceStatus === 'checking'
+        ? 'loading'
+        : effectiveReferenceStatus === 'stale'
+          ? 'partial'
+          : 'error'
   const patch = (p: Partial<Omit<SkillData, 'id'>>): void => {
     if (skill) session.dispatch(new UpdateSkillCommand(skill.id, p))
   }
@@ -997,6 +1016,10 @@ export function SkillTab(props: {
   }
   const removeSkill = (): void => {
     if (!skill) return
+    if (!referenceReady) {
+      onStatusNotice?.({ kind: 'info', message: '正在刷新技能引用，暂不允许删除。' })
+      return
+    }
     if (references.length) {
       onStatusNotice?.({
         kind: 'error',
@@ -1008,7 +1031,11 @@ export function SkillTab(props: {
     const index = skills.findIndex((entry) => entry.id === skill.id)
     const next = skills[index + 1] ?? skills[index - 1]
     try {
-      session.dispatch(new DeleteSkillCommand(skill.id))
+      const changed = session.dispatch(new DeleteSkillCommand(skill.id, getCurrentReferenceIndex))
+      if (!changed) {
+        onStatusNotice?.({ kind: 'error', message: '技能已变化，未执行删除。' })
+        return
+      }
       setSelId(next?.id ?? '')
       onObjectFocus?.(next?.id)
       onStatusNotice?.(undefined)
@@ -1099,11 +1126,13 @@ export function SkillTab(props: {
                   <DsButton
                     variant="danger"
                     icon="delete"
-                    disabled={references.length > 0}
+                    disabled={!referenceReady || references.length > 0}
                     title={
-                      references.length
-                        ? `仍有 ${references.length} 处引用，请先从右侧处理`
-                        : '删除技能'
+                      !referenceReady
+                        ? '正在刷新技能引用，暂不允许删除'
+                        : references.length
+                          ? `仍有 ${references.length} 处引用，请先从右侧处理`
+                          : '删除技能'
                     }
                     onClick={removeSkill}
                   >
@@ -1303,10 +1332,7 @@ export function SkillTab(props: {
                 title="效果链"
                 description="效果按顺序执行；「条件门」失败会截断其后的效果（与原版 jump-on-fail 同构）。"
               >
-                <EffectEditorChain
-                  family="skill/base-effects"
-                  label="技能基础效果"
-                >
+                <EffectEditorChain family="skill/base-effects" label="技能基础效果">
                   {skill.effects.length > 0 ? (
                     <DsReorderCollection
                       adoptionId="skill/base-effects"
@@ -1483,32 +1509,38 @@ export function SkillTab(props: {
             {
               id: 'references',
               label: '引用',
-              count: references.length,
+              count: referenceReady ? references.length : undefined,
               panel: (
                 <DsInspectorSection
                   title="引用"
                   description="删除会被任何角色、道具、敌人或开局配置中的引用阻断。"
                 >
                   <DsReferencePanel
-                    state={references.length ? 'ready' : 'empty'}
-                    count={{ kind: 'exact', value: references.length }}
+                    state={referencePanelState}
+                    count={
+                      referenceReady
+                        ? { kind: 'exact', value: references.length }
+                        : { kind: 'unknown' }
+                    }
                     impact={{
                       kind: 'blocking',
-                      description: references.length
-                        ? '解除角色、道具、敌人或开局配置中的引用后才能删除。'
-                        : '当前技能可以安全删除。',
+                      description: referenceReady
+                        ? references.length
+                          ? '解除角色、道具、敌人或开局配置中的引用后才能删除。'
+                          : '当前技能可以安全删除。'
+                        : '引用结果尚非当前版本；刷新完成前删除已禁用。',
                     }}
                   >
                     {references.length ? (
                       <DsReferenceList>
                         {references.map((reference) => (
                           <DsReferenceRow
-                            key={`${reference.where}:${reference.kind}`}
-                            title={reference.label}
+                            key={reference.id}
+                            title={reference.source.label}
                             detail={reference.detail}
                             path={reference.where}
                             action={
-                              reference.locator && onOpenReference
+                              reference.locator.kind !== 'unavailable' && onOpenReference
                                 ? {
                                     label: '打开',
                                     onActivate: () => onOpenReference(reference),
@@ -1516,11 +1548,14 @@ export function SkillTab(props: {
                                 : undefined
                             }
                             status={
-                              reference.locator && onOpenReference
+                              reference.locator.kind !== 'unavailable' && onOpenReference
                                 ? undefined
                                 : {
                                     label: '暂不可定位',
-                                    reason: '当前没有可编辑的精确位置。',
+                                    reason:
+                                      reference.locator.kind === 'unavailable'
+                                        ? reference.locator.reason
+                                        : '当前没有可编辑的精确位置。',
                                     tone: 'warning',
                                   }
                             }

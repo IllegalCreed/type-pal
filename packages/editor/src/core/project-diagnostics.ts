@@ -29,7 +29,6 @@ import {
 import { isRuntimeScriptRef } from '@type-pal/reforge'
 import { type ActorReference, blockingActorReferenceMap } from './actor-references.js'
 import { collectEditorAssetDiagnostics, type EditorAssetDiagnostic } from './asset-diagnostics.js'
-import { type BattleDataReference, blockingPoisonReferenceMap } from './battle-data-references.js'
 import type { EditorState } from './edit-session.js'
 import {
   collectEditorAssetReferenceSnapshotFromSlices,
@@ -643,7 +642,6 @@ export interface EditorDiagnosticsSnapshot {
   entityAddressReferences: EntityAddressReference[]
   actorReferenceIndex: Map<string, ActorReference[]>
   itemReferenceIndex: Map<string, ItemReference[]>
-  poisonReferenceIndex: Map<string, BattleDataReference[]>
   worldVariableReferences: WorldVariableReferenceIndexV1
   sceneEntryReferenceIndex: Map<string, SceneEntryReferenceEntry[]>
   canonicalSchemeReferenceIndexes: CanonicalSchemeReferenceIndexes
@@ -663,7 +661,6 @@ export interface EditorDiagnosticsDependencies {
   buildCanonicalSchemeReferenceIndexesFromVisits: typeof buildCanonicalSchemeReferenceIndexesFromVisits
   blockingActorReferenceMap: typeof blockingActorReferenceMap
   itemReferenceMap: typeof itemReferenceMap
-  blockingPoisonReferenceMap: typeof blockingPoisonReferenceMap
   buildProjectReferenceSnapshotFromProjection: typeof buildProjectReferenceSnapshotFromProjection
 }
 
@@ -687,7 +684,6 @@ export function createEditorDiagnosticsSnapshotCollector(
     buildCanonicalSchemeReferenceIndexesFromVisits,
     blockingActorReferenceMap,
     itemReferenceMap,
-    blockingPoisonReferenceMap,
     buildProjectReferenceSnapshotFromProjection,
     ...overrides,
   }
@@ -737,7 +733,6 @@ export function createEditorDiagnosticsSnapshotCollector(
       currentAuthorState,
       canonical ? scriptState : undefined,
     )
-    const poisonReferenceIndex = dependencies.blockingPoisonReferenceMap(currentAuthorState)
     const projectReferences = dependencies.buildProjectReferenceSnapshotFromProjection({
       state: currentAuthorState,
       scriptState,
@@ -763,7 +758,6 @@ export function createEditorDiagnosticsSnapshotCollector(
       entityAddressReferences,
       actorReferenceIndex,
       itemReferenceIndex,
-      poisonReferenceIndex,
       worldVariableReferences,
       sceneEntryReferenceIndex,
       canonicalSchemeReferenceIndexes,

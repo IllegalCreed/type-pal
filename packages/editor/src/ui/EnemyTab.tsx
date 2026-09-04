@@ -25,10 +25,6 @@ import type {
 import { lookupText } from '@type-pal/content'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
-  type BattleDataReference,
-  blockingEnemyReferences,
-} from '../core/battle-data-references.js'
-import {
   AddEnemyCommand,
   BattleDataInUseError,
   CompositeCommand,
@@ -38,7 +34,10 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import { playProjectQuery } from '../core/play-url.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   DsActionLink,
   DsButton,
@@ -557,7 +556,11 @@ export function EnemyTab(props: {
   onOpenBattleSprite?: (id: string) => void
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  onOpenReference?: (reference: BattleDataReference) => void
+  onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   onOpenEnemyTeam?: (id: string) => void
 }) {
   const {
@@ -577,6 +580,10 @@ export function EnemyTab(props: {
     onOpenBattleSprite,
     focusObjectId,
     onObjectFocus,
+    onStatusNotice,
+    referenceIndex,
+    referenceStatus,
+    getCurrentReferenceIndex,
     onOpenReference,
     onOpenEnemyTeam,
   } = props
@@ -652,7 +659,28 @@ export function EnemyTab(props: {
   const enemyBattleSpriteRecord = enemyBattleSprite
     ? assetCatalog.assets[enemyBattleSprite.asset]
     : undefined
-  const references = enemy ? blockingEnemyReferences(session.getState(), enemy.id) : []
+  const references = enemy
+    ? (() => {
+        const target = { kind: 'enemy', id: enemy.id } as const
+        return (
+          referenceIndex?.deletionImpact(target, referenceIndex.deletionScopeFor([target]))
+            .blockers ?? []
+        )
+      })()
+    : []
+  const referenceReady = referenceStatus === 'current' && referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
+  const referencePanelState =
+    effectiveReferenceStatus === 'current'
+      ? references.length
+        ? 'ready'
+        : 'empty'
+      : effectiveReferenceStatus === 'checking'
+        ? 'loading'
+        : effectiveReferenceStatus === 'stale'
+          ? 'partial'
+          : 'error'
   const nameOf = (e: EnemyDef): string => lookupText(e.name, locale)
   const teamsOfSel = useMemo(
     () => (enemy ? enemyTeams.filter((t) => t.slots.includes(enemy.id)) : []),
@@ -727,16 +755,37 @@ export function EnemyTab(props: {
   }
   const removeEnemy = (): void => {
     if (!enemy) return
-    if (references.length) return
+    if (!referenceReady) {
+      onStatusNotice?.({ kind: 'info', message: '正在刷新敌人引用，暂不允许删除。' })
+      return
+    }
+    if (references.length) {
+      onStatusNotice?.({
+        kind: 'error',
+        message: `仍有 ${references.length} 处引用，请先从右侧处理。`,
+      })
+      return
+    }
     if (!window.confirm(`删除敌人 ${nameOf(enemy)}(${enemy.id})？此操作可以撤销。`)) return
     const index = enemies.findIndex((entry) => entry.id === enemy.id)
     const next = enemies[index + 1] ?? enemies[index - 1]
     try {
-      session.dispatch(new DeleteEnemyCommand(enemy.id))
+      const changed = session.dispatch(new DeleteEnemyCommand(enemy.id, getCurrentReferenceIndex))
+      if (!changed) {
+        onStatusNotice?.({ kind: 'error', message: '敌人已变化，未执行删除。' })
+        return
+      }
       setSelId(next?.id ?? '')
       onObjectFocus?.(next?.id)
+      onStatusNotice?.(undefined)
     } catch (error) {
-      if (!(error instanceof BattleDataInUseError)) throw error
+      onStatusNotice?.({
+        kind: 'error',
+        message:
+          error instanceof BattleDataInUseError
+            ? `仍有 ${error.references.length} 处引用，无法删除。`
+            : `无法检查当前敌人引用：${error instanceof Error ? error.message : String(error)}`,
+      })
     }
   }
 
@@ -868,11 +917,13 @@ export function EnemyTab(props: {
                   <DsButton
                     variant="danger"
                     icon="delete"
-                    disabled={references.length > 0}
+                    disabled={!referenceReady || references.length > 0}
                     title={
-                      references.length
-                        ? `仍有 ${references.length} 处引用，请先从右侧处理`
-                        : '删除敌人'
+                      !referenceReady
+                        ? '正在刷新敌人引用，暂不允许删除'
+                        : references.length
+                          ? `仍有 ${references.length} 处引用，请先从右侧处理`
+                          : '删除敌人'
                     }
                     onClick={removeEnemy}
                   >
@@ -1377,32 +1428,38 @@ export function EnemyTab(props: {
             {
               id: 'references',
               label: '引用',
-              count: references.length,
+              count: referenceReady ? references.length : undefined,
               panel: (
                 <DsInspectorSection
                   title="引用"
                   description="敌队槽位、其他敌人的变身或召唤目标都会阻断删除。"
                 >
                   <DsReferencePanel
-                    state={references.length ? 'ready' : 'empty'}
-                    count={{ kind: 'exact', value: references.length }}
+                    state={referencePanelState}
+                    count={
+                      referenceReady
+                        ? { kind: 'exact', value: references.length }
+                        : { kind: 'unknown' }
+                    }
                     impact={{
                       kind: 'blocking',
-                      description: references.length
-                        ? '解除敌队槽位、变身或召唤目标中的引用后才能删除。'
-                        : '当前敌人可以安全删除。',
+                      description: referenceReady
+                        ? references.length
+                          ? '解除敌队槽位、变身或召唤目标中的引用后才能删除。'
+                          : '当前敌人可以安全删除。'
+                        : '引用结果尚非当前版本；刷新完成前删除已禁用。',
                     }}
                   >
                     {references.length ? (
                       <DsReferenceList>
                         {references.map((reference) => (
                           <DsReferenceRow
-                            key={`${reference.where}:${reference.kind}`}
-                            title={reference.label}
+                            key={reference.id}
+                            title={reference.source.label}
                             detail={reference.detail}
                             path={reference.where}
                             action={
-                              reference.locator && onOpenReference
+                              reference.locator.kind !== 'unavailable' && onOpenReference
                                 ? {
                                     label: '打开',
                                     onActivate: () => onOpenReference(reference),
@@ -1410,11 +1467,14 @@ export function EnemyTab(props: {
                                 : undefined
                             }
                             status={
-                              reference.locator && onOpenReference
+                              reference.locator.kind !== 'unavailable' && onOpenReference
                                 ? undefined
                                 : {
                                     label: '暂不可定位',
-                                    reason: '当前没有可编辑的精确位置。',
+                                    reason:
+                                      reference.locator.kind === 'unavailable'
+                                        ? reference.locator.reason
+                                        : '当前没有可编辑的精确位置。',
                                     tone: 'warning',
                                   }
                             }

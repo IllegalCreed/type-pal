@@ -37,6 +37,7 @@ describe('command target reference leaves', () => {
                   { kind: 'startBattle', enemyTeamId: 'team-a', fieldId: 24 },
                   { kind: 'setAmbience', ambience: 'warm' },
                   { kind: 'toggleDayNight', ms: 0 },
+                  { kind: 'learnSkill', role: 0, skill: 'skill-new' },
                 ],
               },
             ],
@@ -97,6 +98,11 @@ describe('command target reference leaves', () => {
           target: { kind: 'ambience', id: 'night' },
           relation: 'toggle-day-night',
           where: 'root.stages[0].body[0].then[5]',
+        },
+        {
+          target: { kind: 'skill', id: 'skill-new' },
+          relation: 'learn-skill',
+          where: 'root.stages[0].body[0].then[6].skill',
         },
       ]),
     )

@@ -70,6 +70,7 @@ try {
     '/packages/editor/src/core/entity-address-references.ts',
   )
   const {
+    battleDataReferenceEdges,
     buildProjectReferenceSnapshotFromProjection,
     canonicalCommandTargetEdges,
     entityAddressReferenceEdges,
@@ -122,6 +123,9 @@ try {
   const structuralEdgeRun = timed(() => structuralProjectReferenceEdges(currentAuthorState))
   const canonicalEdgeRun = timed(() => canonicalCommandTargetEdges(commandVisits, scriptState))
   const legacyEdgeRun = timed(() => legacyScriptChunkTargetEdges(currentAuthorState.scriptChunks))
+  const battleDataEdgeRun = timed(() =>
+    battleDataReferenceEdges(currentAuthorState, commandVisits, scriptState),
+  )
   const entityEdgeRun = timed(() => entityAddressReferenceEdges(entityAddressReferences))
   const compactRun = timed(() =>
     buildProjectReferenceSnapshot(
@@ -129,6 +133,7 @@ try {
         ...structuralEdgeRun.value,
         ...canonicalEdgeRun.value,
         ...legacyEdgeRun.value,
+        ...battleDataEdgeRun.value,
         ...entityEdgeRun.value,
       ],
       { assumeUnique: true },
@@ -181,6 +186,11 @@ try {
       .sort((left, right) => right[1].v8 - left[1].v8),
   )
   const projectReferences = derived.projectReferences
+  const projectReferenceFields = Object.fromEntries(
+    Object.entries(projectReferences)
+      .map(([name, value]) => [name, { json: jsonBytes(value), v8: v8Bytes(value) }] as const)
+      .sort((left, right) => right[1].v8 - left[1].v8),
+  )
 
   console.log(
     JSON.stringify(
@@ -203,6 +213,7 @@ try {
           structuralMs: Number(structuralEdgeRun.ms.toFixed(3)),
           canonicalMs: Number(canonicalEdgeRun.ms.toFixed(3)),
           legacyMs: Number(legacyEdgeRun.ms.toFixed(3)),
+          battleDataMs: Number(battleDataEdgeRun.ms.toFixed(3)),
           entityMs: Number(entityEdgeRun.ms.toFixed(3)),
           compactMs: Number(compactRun.ms.toFixed(3)),
         },
@@ -212,6 +223,7 @@ try {
           readyReplyJsonWithMapEntries: jsonBytes(firstDerived.value),
           readyReplyV8: v8Bytes(firstDerived.value),
           outputFields,
+          projectReferenceFields,
         },
         counts: {
           scenes: state.scenes.length,
@@ -229,7 +241,6 @@ try {
           assetReferences: derived.assetReferences.length,
           actorReferences: sumPairs(derived.actorReferenceIndex),
           itemReferences: sumPairs(derived.itemReferenceIndex),
-          poisonReferences: sumPairs(derived.poisonReferenceIndex),
           worldVariableReferences: derived.worldVariableReferences.all.length,
           behaviorReferences: sumPairs(derived.canonicalBehaviorReferences),
           sceneHookReferences: sumPairs(derived.canonicalSceneHookReferences),

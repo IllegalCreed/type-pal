@@ -55,7 +55,6 @@ function collect(input: EditorDerivedInput): EditorDerivedData {
     assetDiagnostics: snapshot.assetDiagnostics,
     actorReferenceIndex: [...snapshot.actorReferenceIndex],
     itemReferenceIndex: [...snapshot.itemReferenceIndex],
-    poisonReferenceIndex: [...snapshot.poisonReferenceIndex],
     worldVariableReferences: snapshot.worldVariableReferences,
     canonicalBehaviorReferences: [...snapshot.canonicalSchemeReferenceIndexes.behavior],
     canonicalSceneHookReferences: [...snapshot.canonicalSchemeReferenceIndexes.sceneHook],

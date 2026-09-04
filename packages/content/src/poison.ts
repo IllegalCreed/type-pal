@@ -66,6 +66,39 @@ export interface PoisonDef {
   counters?: number
 }
 
+export interface PoisonDefinitionReference {
+  ownerId: number
+  poisonId: number
+  kind: 'poison-lethal-pair' | 'poison-counter'
+  where: string
+}
+
+/** Typed relation leaves shared by validation and editor reference adapters. */
+export function collectPoisonDefinitionReferences(
+  poisons: readonly PoisonDef[],
+  where = 'poisons',
+): PoisonDefinitionReference[] {
+  const references: PoisonDefinitionReference[] = []
+  poisons.forEach((poison, index) => {
+    const ownerWhere = `${where}[${index}](${poison.id})`
+    if (poison.lethalWith !== undefined)
+      references.push({
+        ownerId: poison.id,
+        poisonId: poison.lethalWith,
+        kind: 'poison-lethal-pair',
+        where: `${ownerWhere}.lethalWith`,
+      })
+    if (poison.counters !== undefined)
+      references.push({
+        ownerId: poison.id,
+        poisonId: poison.counters,
+        kind: 'poison-counter',
+        where: `${ownerWhere}.counters`,
+      })
+  })
+  return references
+}
+
 /** 战斗单位身上一条活跃毒(tickIndex = 脚本指针的数据化)。 */
 export interface ActivePoison {
   poisonId: number
