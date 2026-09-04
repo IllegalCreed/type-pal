@@ -34,16 +34,22 @@ import {
   AddItemCommand,
   CompositeCommand,
   DeleteItemCommand,
+  ItemInUseError,
   UpdateItemCommand,
   UpsertAssetCommand,
 } from '../core/commands.js'
-import type { EditorState, EditSession } from '../core/edit-session.js'
+import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import { nextAuthoredImageId, prepareAuthoredImage } from '../core/image-import.js'
 import { cloneItemForAuthoring, createBlankItem } from '../core/item-authoring.js'
-import type { ItemReference } from '../core/item-references.js'
+import type {
+  ProjectReferenceEdge,
+  ProjectReferenceIndex,
+  ProjectReferenceItemAccess,
+} from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   AddItemPrivateScriptCommand,
   DeleteItemPrivateScriptCommand,
@@ -83,7 +89,6 @@ import {
   DsPropertyRow,
   DsReadoutList,
   DsReadoutRow,
-  DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -412,20 +417,7 @@ const ITEM_FILTERS: { value: ItemFilter; label: string }[] = [
   { value: 'pending', label: '待迁移' },
 ]
 
-const SOURCE_LABEL: Record<ItemReference['source'], string> = {
-  scene: '场景',
-  script: '共享/内部脚本',
-  shop: '商店',
-  entry: '入口与开局',
-  actor: '角色',
-  skill: '技能',
-  enemy: '敌人',
-  poison: '毒',
-  item: '物品',
-  save: '运行态存档',
-}
-
-const ACCESS_LABEL: Record<ItemReference['access'], string> = {
+const ACCESS_LABEL: Record<ProjectReferenceItemAccess, string> = {
   read: '判断',
   lose: '失去',
   consume: '消耗',
@@ -563,19 +555,6 @@ function summarizeUse(item: ItemData): string[] {
   ]
 }
 
-function groupReferences(references: readonly ItemReference[]): Array<{
-  source: ItemReference['source']
-  entries: ItemReference[]
-}> {
-  const grouped = new Map<ItemReference['source'], ItemReference[]>()
-  for (const reference of references) {
-    const entries = grouped.get(reference.source) ?? []
-    entries.push(reference)
-    grouped.set(reference.source, entries)
-  }
-  return [...grouped].map(([source, entries]) => ({ source, entries }))
-}
-
 function ItemIconBrowser(props: {
   value?: AssetId
   catalog: AssetCatalogV1
@@ -697,7 +676,7 @@ export function ItemTab(props: {
   onOpenScript?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
   onOpenBattleField?: (id: number) => void
-  onOpenItemReference?: (reference: ItemReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   onOpenItemAlchemy?: (surface: 'crafting' | 'spirit-gourd', itemId: string) => void
   onOpenProjectIssues?: () => void
   focusObjectId?: string
@@ -716,10 +695,9 @@ export function ItemTab(props: {
     session: ScriptEditSession
   }
   historyCoordinator?: EditorHistoryCoordinator
-  itemReferenceIndex: ReadonlyMap<string, readonly ItemReference[]>
-  itemReferenceStatus: EditorDerivedStatus
-  getCurrentAuthorState: () => EditorState | undefined
-  getCurrentScriptState: () => ScriptEditorState | undefined
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
 }) {
   const {
     items,
@@ -738,7 +716,7 @@ export function ItemTab(props: {
     onOpenScript,
     onOpenBattleSprite,
     onOpenBattleField,
-    onOpenItemReference,
+    onOpenReference,
     onOpenItemAlchemy,
     onOpenProjectIssues,
     focusObjectId,
@@ -748,10 +726,9 @@ export function ItemTab(props: {
     tabBar,
     script,
     historyCoordinator,
-    itemReferenceIndex,
-    itemReferenceStatus,
-    getCurrentAuthorState,
-    getCurrentScriptState,
+    referenceIndex,
+    referenceStatus,
+    getCurrentReferenceIndex,
   } = props
   const [filter, setFilter] = useState('')
   const [filterMode, setFilterMode] = useState<ItemFilter>('all')
@@ -761,7 +738,9 @@ export function ItemTab(props: {
   const iconInputRef = useRef<HTMLInputElement>(null)
   const deletedSelectionRef = useRef<{ id: string; sawAbsent: boolean } | undefined>(undefined)
   const editorState = session.getState()
-  const referenceMap = itemReferenceIndex
+  const referenceReady = referenceStatus === 'current' && referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
   const diagnostics = editorState.migrationDiagnostics?.diagnostics ?? []
   const pendingIds = new Set(
     diagnostics
@@ -773,7 +752,10 @@ export function ItemTab(props: {
   )
 
   useEffect(() => {
-    if (focusObjectId && items.some((entry) => entry.id === focusObjectId)) setSelId(focusObjectId)
+    if (focusObjectId && items.some((entry) => entry.id === focusObjectId)) {
+      setSelId(focusObjectId)
+      setConfirmDeleteId(undefined)
+    }
   }, [focusObjectId, items])
   useEffect(() => {
     if (selId && items.some((entry) => entry.id === selId)) return
@@ -794,6 +776,10 @@ export function ItemTab(props: {
     onObjectFocus?.(deleted.id)
     deletedSelectionRef.current = undefined
   }, [items, onObjectFocus])
+  // biome-ignore lint/correctness/useExhaustiveDependencies: any published reference revision invalidates an open destructive confirmation.
+  useEffect(() => {
+    setConfirmDeleteId(undefined)
+  }, [referenceIndex, referenceStatus])
 
   const shown = (() => {
     const needle = filter.trim().toLowerCase()
@@ -807,30 +793,35 @@ export function ItemTab(props: {
       if (filterMode === 'equip') return !!candidate.equip
       if (filterMode === 'use') return !!candidate.use
       if (filterMode === 'throw') return !!candidate.throw
-      if (filterMode === 'referenced') return !!referenceMap.get(candidate.id)?.length
+      if (filterMode === 'referenced')
+        return (
+          !referenceReady ||
+          !!referenceIndex?.referencesTo({ kind: 'item', id: candidate.id }).length
+        )
       if (filterMode === 'pending') return pendingIds.has(candidate.id)
       return true
     })
   })()
   const item = items.find((candidate) => candidate.id === selId)
-  const itemReferences = item ? (referenceMap.get(item.id) ?? []) : []
-  const blockers = itemReferences.filter((reference) => reference.ownerItemId !== item?.id)
-  const itemReferenceCount =
-    itemReferenceStatus === 'current'
-      ? { kind: 'exact' as const, value: itemReferences.length }
-      : itemReferences.length
-        ? { kind: 'at-least' as const, value: itemReferences.length }
-        : { kind: 'unknown' as const }
-  const itemReferencePanelState =
-    itemReferenceStatus === 'current'
-      ? itemReferences.length
-        ? ('ready' as const)
-        : ('empty' as const)
-      : itemReferenceStatus === 'failed'
-        ? ('error' as const)
-        : itemReferenceStatus === 'stale'
-          ? ('partial' as const)
-          : ('loading' as const)
+  const itemTarget = item ? ({ kind: 'item', id: item.id } as const) : undefined
+  const itemReferences = itemTarget ? (referenceIndex?.referencesTo(itemTarget) ?? []) : []
+  const blockers =
+    itemTarget && referenceIndex
+      ? referenceIndex.deletionImpact(itemTarget, referenceIndex.deletionScopeFor([itemTarget]))
+          .blockers
+      : []
+  const itemReferenceCount = referenceReady
+    ? { kind: 'exact' as const, value: itemReferences.length }
+    : { kind: 'unknown' as const }
+  const itemReferencePanelState = referenceReady
+    ? itemReferences.length
+      ? ('ready' as const)
+      : ('empty' as const)
+    : effectiveReferenceStatus === 'failed'
+      ? ('error' as const)
+      : effectiveReferenceStatus === 'stale'
+        ? ('partial' as const)
+        : ('loading' as const)
   const itemDiagnostics = item
     ? diagnostics.filter(
         (diagnostic) =>
@@ -1093,7 +1084,7 @@ export function ItemTab(props: {
   }
   const deleteItem = (): void => {
     if (!item) return
-    if (itemReferenceStatus !== 'current') {
+    if (!referenceReady) {
       onStatusNotice?.({ kind: 'error', message: '物品引用仍在检查，暂不能删除。' })
       return
     }
@@ -1101,22 +1092,24 @@ export function ItemTab(props: {
     const next = items[index + 1]?.id ?? items[index - 1]?.id ?? ''
     try {
       deletedSelectionRef.current = { id: item.id, sawAbsent: false }
-      session.dispatch(
-        new DeleteItemCommand(
-          item.id,
-          script ? getCurrentScriptState : undefined,
-          getCurrentAuthorState,
-        ),
-      )
+      if (!session.dispatch(new DeleteItemCommand(item.id, getCurrentReferenceIndex))) {
+        deletedSelectionRef.current = undefined
+        onStatusNotice?.({ kind: 'error', message: '物品已变化，未执行删除。' })
+        return
+      }
       setSelId(next)
       setConfirmDeleteId(undefined)
       onObjectFocus?.(next || undefined)
       onStatusNotice?.({ kind: 'info', message: `已删除 ${item.name}；可用撤销恢复。` })
     } catch (cause) {
+      deletedSelectionRef.current = undefined
       setInspectorTab('references')
       onStatusNotice?.({
         kind: 'error',
-        message: cause instanceof Error ? cause.message : String(cause),
+        message:
+          cause instanceof ItemInUseError
+            ? `物品 ${item.id} 仍被 ${cause.references.length} 处引用，无法删除。`
+            : `无法检查当前物品引用：${cause instanceof Error ? cause.message : String(cause)}`,
       })
     }
   }
@@ -1277,7 +1270,11 @@ export function ItemTab(props: {
                   onValueChange={(value) => setFilterMode(value as ItemFilter)}
                   options={ITEM_FILTERS.map((entry) => ({
                     value: entry.value,
-                    label: entry.label,
+                    label:
+                      entry.value === 'referenced' && !referenceReady
+                        ? '有引用（待刷新）'
+                        : entry.label,
+                    disabled: entry.value === 'referenced' && !referenceReady,
                   }))}
                 />
               }
@@ -1349,7 +1346,7 @@ export function ItemTab(props: {
                   {abilityTags(item).map((tag) => (
                     <DsTag key={tag}>{tag}</DsTag>
                   ))}
-                  <DsTag tone="neutral">引用 {itemReferences.length}</DsTag>
+                  <DsTag tone="neutral">引用 {referenceReady ? itemReferences.length : '—'}</DsTag>
                   {itemDiagnostics.length ? (
                     <DsTag tone="warning">待迁移 {itemDiagnostics.length}</DsTag>
                   ) : null}
@@ -1366,7 +1363,7 @@ export function ItemTab(props: {
                       <DsButton
                         variant="danger"
                         icon="delete"
-                        disabled={itemReferenceStatus !== 'current' || blockers.length > 0}
+                        disabled={!referenceReady || blockers.length > 0}
                         onClick={deleteItem}
                       >
                         确认
@@ -1379,9 +1376,9 @@ export function ItemTab(props: {
                     <DsButton
                       variant="danger"
                       icon="delete"
-                      disabled={itemReferenceStatus !== 'current' || blockers.length > 0}
+                      disabled={!referenceReady || blockers.length > 0}
                       title={
-                        itemReferenceStatus !== 'current'
+                        !referenceReady
                           ? '物品引用仍在检查，暂不能删除'
                           : blockers.length
                             ? `仍有 ${blockers.length} 处引用，请先从右侧处理`
@@ -2034,78 +2031,79 @@ export function ItemTab(props: {
               {
                 id: 'references',
                 label: '引用',
-                count: itemReferences.length,
+                count: referenceReady ? itemReferences.length : undefined,
                 panel: (
                   <div className="item-inspector-scroll">
                     <DsReferencePanel
                       state={itemReferencePanelState}
                       count={itemReferenceCount}
                       impact={{
-                        kind: blockers.length ? 'blocking' : 'informational',
-                        label: blockers.length ? '阻断删除' : '仅信息',
-                        description: itemReferences.length
-                          ? '保留来源分组与判断、获得、失去、消耗、持有或配置语义。'
-                          : '全项目没有判断、获得、失去、消耗、持有或配置此物品。',
+                        kind: referenceReady && blockers.length ? 'blocking' : 'informational',
+                        label: referenceReady
+                          ? blockers.length
+                            ? '阻断删除'
+                            : '可安全删除'
+                          : '等待引用刷新',
+                        description: referenceReady
+                          ? itemReferences.length
+                            ? '保留判断、获得、失去、消耗、持有或配置语义；物品自身拥有的引用随对象一起删除。'
+                            : '全项目没有判断、获得、失去、消耗、持有或配置此物品。'
+                          : '引用结果尚非当前版本；刷新完成前删除已禁用。',
                       }}
                       summary={
-                        blockers.length
+                        referenceReady && blockers.length
                           ? `${blockers.length} 处会阻断删除 · 共 ${itemReferences.length} 处引用`
                           : undefined
                       }
                     >
-                      {itemReferences.length
-                        ? groupReferences(itemReferences).map((group) => (
-                            <DsReferenceGroup
-                              key={group.source}
-                              title={SOURCE_LABEL[group.source]}
-                              count={group.entries.length}
-                            >
-                              <DsReferenceList>
-                                {group.entries.map((reference) => {
-                                  const blocksDelete = reference.ownerItemId !== item?.id
-                                  return (
-                                    <DsReferenceRow
-                                      key={`${reference.where}:${reference.detail}`}
-                                      title={reference.label}
-                                      detail={reference.detail}
-                                      path={reference.where}
-                                      labels={[
-                                        { label: ACCESS_LABEL[reference.access] },
-                                        {
-                                          label: blocksDelete ? '阻断删除' : '内部引用',
-                                          tone: blocksDelete ? 'warning' : 'neutral',
-                                        },
-                                      ]}
-                                      action={
-                                        reference.locator && onOpenItemReference
-                                          ? {
-                                              label: '打开',
-                                              onActivate: () => onOpenItemReference(reference),
-                                            }
-                                          : undefined
+                      {itemReferences.length ? (
+                        <DsReferenceList>
+                          {itemReferences.map((reference) => {
+                            const blocksDelete = blockers.some(
+                              (blocker) => blocker.id === reference.id,
+                            )
+                            const access =
+                              reference.relation.kind === 'item-use'
+                                ? ACCESS_LABEL[reference.relation.access]
+                                : '引用'
+                            return (
+                              <DsReferenceRow
+                                key={reference.id}
+                                title={reference.source.label}
+                                detail={reference.detail}
+                                path={reference.where}
+                                labels={[
+                                  { label: access },
+                                  {
+                                    label: blocksDelete ? '阻断删除' : '内部引用',
+                                    tone: blocksDelete ? 'warning' : 'neutral',
+                                  },
+                                ]}
+                                action={
+                                  reference.locator.kind !== 'unavailable' && onOpenReference
+                                    ? {
+                                        label: '打开',
+                                        onActivate: () => onOpenReference(reference),
                                       }
-                                      status={
-                                        reference.locator && onOpenItemReference
-                                          ? undefined
-                                          : {
-                                              label: reference.unavailableReason
-                                                ? '暂不可定位'
-                                                : '只读',
-                                              reason:
-                                                reference.unavailableReason ??
-                                                '当前来源没有可编辑的精确位置。',
-                                              tone: reference.unavailableReason
-                                                ? 'warning'
-                                                : 'neutral',
-                                            }
+                                    : undefined
+                                }
+                                status={
+                                  reference.locator.kind !== 'unavailable' && onOpenReference
+                                    ? undefined
+                                    : {
+                                        label: '暂不可定位',
+                                        reason:
+                                          reference.locator.kind === 'unavailable'
+                                            ? reference.locator.reason
+                                            : '当前来源没有可编辑的精确位置。',
+                                        tone: 'warning',
                                       }
-                                    />
-                                  )
-                                })}
-                              </DsReferenceList>
-                            </DsReferenceGroup>
-                          ))
-                        : null}
+                                }
+                              />
+                            )
+                          })}
+                        </DsReferenceList>
+                      ) : null}
                     </DsReferencePanel>
                   </div>
                 ),

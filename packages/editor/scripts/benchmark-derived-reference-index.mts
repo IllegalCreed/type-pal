@@ -74,6 +74,7 @@ try {
     buildProjectReferenceSnapshotFromProjection,
     canonicalCommandTargetEdges,
     entityAddressReferenceEdges,
+    itemReferenceEdges,
     legacyScriptChunkTargetEdges,
     structuralProjectReferenceEdges,
   } = await vite.ssrLoadModule('/packages/editor/src/core/project-reference-adapters.ts')
@@ -130,6 +131,9 @@ try {
   const actorEdgeRun = timed(() =>
     actorReferenceEdges(currentAuthorState, commandVisits, transitionVisits, scriptState),
   )
+  const itemEdgeRun = timed(() =>
+    itemReferenceEdges(currentAuthorState, commandVisits, transitionVisits, scriptState),
+  )
   const entityEdgeRun = timed(() => entityAddressReferenceEdges(entityAddressReferences))
   const compactRun = timed(() =>
     buildProjectReferenceSnapshot(
@@ -139,6 +143,7 @@ try {
         ...legacyEdgeRun.value,
         ...battleDataEdgeRun.value,
         ...actorEdgeRun.value,
+        ...itemEdgeRun.value,
         ...entityEdgeRun.value,
       ],
       { assumeUnique: true },
@@ -221,6 +226,7 @@ try {
           legacyMs: Number(legacyEdgeRun.ms.toFixed(3)),
           battleDataMs: Number(battleDataEdgeRun.ms.toFixed(3)),
           actorMs: Number(actorEdgeRun.ms.toFixed(3)),
+          itemMs: Number(itemEdgeRun.ms.toFixed(3)),
           entityMs: Number(entityEdgeRun.ms.toFixed(3)),
           compactMs: Number(compactRun.ms.toFixed(3)),
         },
@@ -247,7 +253,6 @@ try {
           projectReferenceLocators: projectReferences.locators.length,
           projectReferenceTargetBuckets: projectReferences.targetEdgeIds.length,
           assetReferences: derived.assetReferences.length,
-          itemReferences: sumPairs(derived.itemReferenceIndex),
           worldVariableReferences: derived.worldVariableReferences.all.length,
           behaviorReferences: sumPairs(derived.canonicalBehaviorReferences),
           sceneHookReferences: sumPairs(derived.canonicalSceneHookReferences),

@@ -11,6 +11,7 @@ import { createEditorDerivedWorkerRuntime } from './editor-derived-core.js'
 import { editorDiagnosticState } from './editor-derived-store.js'
 import type { EntityAddressReferenceLocator } from './entity-address-references.js'
 import { entityAddressReferenceBlocksDeletion } from './entity-address-references.js'
+import { collectItemReferences } from './item-references.js'
 import { collectEditorDiagnosticsSnapshot } from './project-diagnostics.js'
 import { toEditorState } from './project-io.js'
 import { createProjectReferenceIndex, projectReferenceSourceOwnerKey } from './project-reference.js'
@@ -273,6 +274,50 @@ describe('ED-3 PAL project reference index', () => {
       relation: { kind: 'actor-use', use: 'condition-in-party' },
       locator: { kind: 'script-owner' },
     })
+    const itemEdges = edges.filter((edge) => edge.relation.kind === 'item-use')
+    const oldItemReferences = collectItemReferences(state, canonical)
+    expect(itemEdges).toHaveLength(1_182)
+    expect(
+      itemEdges
+        .map((edge) => {
+          if (edge.target.kind !== 'item' || edge.relation.kind !== 'item-use')
+            throw new Error('预期物品引用边')
+          return `${edge.target.id}\0${edge.relation.access}\0${edge.where}`
+        })
+        .sort(),
+    ).toEqual(
+      oldItemReferences
+        .map((reference) => `${reference.itemId}\0${reference.access}\0${reference.where}`)
+        .sort(),
+    )
+    expect(
+      oldItemReferences.filter((reference) => reference.ownerItemId !== reference.itemId),
+    ).toHaveLength(1_169)
+    expect(
+      state.items.reduce((count, item) => {
+        const target = { kind: 'item', id: item.id } as const
+        return (
+          count + index.deletionImpact(target, index.deletionScopeFor([target])).blockers.length
+        )
+      }, 0),
+    ).toBe(1_169)
+    expect(
+      Object.fromEntries(
+        (['read', 'lose', 'consume', 'reward', 'hold', 'configure'] as const).map((access) => [
+          access,
+          itemEdges.filter(
+            (edge) => edge.relation.kind === 'item-use' && edge.relation.access === access,
+          ).length,
+        ]),
+      ),
+    ).toEqual({ read: 46, lose: 39, consume: 9, reward: 899, hold: 34, configure: 155 })
+    expect(itemEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(801)
+    expect(itemEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(6)
+    expect(
+      itemEdges.filter(
+        (edge) => edge.source.owner.kind === 'enemy' && edge.locator.kind === 'object',
+      ),
+    ).toHaveLength(161)
     expect(index.referencesTo({ kind: 'map', id: 'map-164' })).toMatchObject([
       {
         source: {
@@ -308,8 +353,8 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(8_930)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(10_706)
+    expect(diagnostics.projectReferences.rows).toHaveLength(10_112)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(11_888)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

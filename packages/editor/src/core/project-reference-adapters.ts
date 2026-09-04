@@ -19,6 +19,13 @@ import {
   type EntityAddressReferenceLocator,
 } from './entity-address-references.js'
 import {
+  collectCanonicalItemTaggedReferences,
+  collectCanonicalItemTransitionTaggedReferences,
+  collectItemReferences,
+  collectLegacyItemReferences,
+  type ItemReference,
+} from './item-references.js'
+import {
   buildProjectReferenceSnapshot,
   createProjectReferenceIndex,
   createProjectReferenceSource,
@@ -674,6 +681,182 @@ export function actorReferenceEdges(
   ]
 }
 
+function itemReferenceSource(reference: ItemReference): {
+  source: ProjectReferenceSource
+  locator: ProjectReferenceLocator
+} {
+  const locator = reference.locator
+  if (!locator) {
+    if (reference.source === 'save')
+      return {
+        source: runtimeWorldSource(),
+        locator: {
+          kind: 'unavailable',
+          reason: reference.unavailableReason ?? '运行态存档只读，没有作者对象可供精确编辑。',
+        },
+      }
+    throw new Error(`物品引用缺少结构化来源：${reference.source} · ${reference.where}`)
+  }
+  const objectSource = (
+    object: ProjectReferenceTarget,
+    owner: ProjectReferenceSource['owner'],
+    label: string,
+    section?: string,
+  ): { source: ProjectReferenceSource; locator: ProjectReferenceLocator } => ({
+    source: createProjectReferenceSource(owner, label, {
+      deletedWith: [object],
+      ...(section ? { section } : {}),
+    }),
+    locator: { kind: 'object', object, ...(section ? { section } : {}) },
+  })
+  switch (locator.kind) {
+    case 'shop':
+      return objectSource(
+        { kind: 'shop', id: String(locator.shopId) },
+        { kind: 'shop', id: String(locator.shopId) },
+        `商店 ${locator.shopId}`,
+      )
+    case 'actor':
+      return objectSource(
+        { kind: 'actor', id: locator.actorId },
+        { kind: 'actor', id: locator.actorId },
+        `人物 ${locator.actorId}`,
+      )
+    case 'skill':
+      return objectSource(
+        { kind: 'skill', id: locator.skillId },
+        { kind: 'skill', id: locator.skillId },
+        `技能 ${locator.skillId}`,
+      )
+    case 'enemy':
+      return objectSource(
+        { kind: 'enemy', id: locator.enemyId },
+        { kind: 'enemy', id: locator.enemyId },
+        `敌人 ${locator.enemyId}`,
+      )
+    case 'poison':
+      return objectSource(
+        { kind: 'poison', id: String(locator.poisonId) },
+        { kind: 'poison', id: String(locator.poisonId) },
+        `毒 ${locator.poisonId}`,
+      )
+    case 'entry-point': {
+      if (!locator.entryPointId)
+        throw new Error(`物品入口引用缺少稳定 EntryPointId：${reference.where}`)
+      return objectSource(
+        { kind: 'entry-point', id: locator.entryPointId },
+        { kind: 'entry-point', id: locator.entryPointId },
+        `入口 ${locator.entryPointId}`,
+      )
+    }
+    case 'item':
+      return objectSource(
+        { kind: 'item', id: locator.itemId },
+        { kind: 'item', id: locator.itemId },
+        `物品 ${locator.itemId}`,
+      )
+    case 'item-crafting':
+      return objectSource(
+        { kind: 'item', id: locator.itemId },
+        { kind: 'item', id: locator.itemId },
+        `物品 ${locator.itemId}`,
+        'crafting',
+      )
+    case 'item-spirit-gourd':
+      return objectSource(
+        { kind: 'item', id: locator.itemId },
+        { kind: 'item', id: locator.itemId },
+        `物品 ${locator.itemId}`,
+        'spirit-gourd',
+      )
+    case 'script-chunk':
+      return {
+        source: legacyScriptChunkSource(locator.chunkId, locator.scriptId),
+        locator: {
+          kind: 'unavailable',
+          reason: reference.unavailableReason ?? '运行时脚本分片只读，没有作者对象可供精确编辑。',
+        },
+      }
+    case 'scene-script':
+    case 'shared-script':
+    case 'canonical-script':
+      throw new Error(`物品脚本引用未使用 canonical/legacy adapter：${reference.where}`)
+  }
+}
+
+function itemReferenceEdge(reference: ItemReference): ProjectReferenceEdgeInput {
+  const mapped = itemReferenceSource(reference)
+  return {
+    target: { kind: 'item', id: reference.itemId },
+    source: mapped.source,
+    relation: { kind: 'item-use', access: reference.access },
+    where: reference.where,
+    detail: reference.detail,
+    locator: mapped.locator,
+    deletePolicy: mapped.locator.kind === 'unavailable' ? 'block' : 'replace-suggest',
+  }
+}
+
+function canonicalItemReferenceEdges(
+  visits: readonly CanonicalScriptCommandVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  return visits.flatMap((visit) => {
+    const references = collectCanonicalItemTaggedReferences(visit.command, visit.path)
+    if (!references.length) return []
+    const source = sourceForScriptOwner(visit.locator.owner, scriptState)
+    return references.map((reference) => ({
+      target: { kind: 'item' as const, id: reference.itemId },
+      source,
+      relation: { kind: 'item-use' as const, access: reference.access },
+      where: reference.where,
+      detail: reference.detail,
+      locator: {
+        kind: 'canonical-script' as const,
+        reference: { kind: 'command' as const, path: reference.where, locator: visit.locator },
+      },
+      deletePolicy: 'replace-suggest' as const,
+    }))
+  })
+}
+
+function canonicalItemTransitionReferenceEdges(
+  visits: readonly CanonicalScriptTransitionVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  return visits.flatMap((visit) => {
+    const references = collectCanonicalItemTransitionTaggedReferences(visit.transition, visit.path)
+    if (!references.length) return []
+    const source = sourceForScriptOwner(visit.owner, scriptState)
+    return references.map((reference) => ({
+      target: { kind: 'item' as const, id: reference.itemId },
+      source,
+      relation: { kind: 'item-use' as const, access: reference.access },
+      where: reference.where,
+      detail: reference.detail,
+      locator: { kind: 'script-owner' as const, owner: visit.owner },
+      deletePolicy: 'replace-suggest' as const,
+    }))
+  })
+}
+
+export function itemReferenceEdges(
+  state: EditorState,
+  commandVisits: readonly CanonicalScriptCommandVisit[],
+  transitionVisits: readonly CanonicalScriptTransitionVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  return [
+    ...collectItemReferences(state, undefined, {
+      includeSceneScripts: false,
+      includeLegacyScripts: false,
+    }).map(itemReferenceEdge),
+    ...canonicalItemReferenceEdges(commandVisits, scriptState),
+    ...canonicalItemTransitionReferenceEdges(transitionVisits, scriptState),
+    ...collectLegacyItemReferences(state).map(itemReferenceEdge),
+  ]
+}
+
 function entitySource(locator: EntityAddressReferenceLocator): {
   source: ProjectReferenceSource
   locator: ProjectReferenceLocator
@@ -901,6 +1084,12 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
       ...legacyScriptChunkTargetEdges(input.state.scriptChunks),
       ...battleDataReferenceEdges(input.state, input.commandVisits, input.scriptState),
       ...actorReferenceEdges(
+        input.state,
+        input.commandVisits,
+        input.transitionVisits,
+        input.scriptState,
+      ),
+      ...itemReferenceEdges(
         input.state,
         input.commandVisits,
         input.transitionVisits,

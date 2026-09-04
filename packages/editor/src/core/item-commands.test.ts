@@ -1,14 +1,16 @@
 import type { AssetRecordV1, ItemData } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import {
   AddItemCommand,
   CompositeCommand,
   DeleteItemCommand,
+  ItemInUseError,
   UpdateItemCommand,
   UpsertAssetCommand,
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
+import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import type { ScriptEditorState } from './script-editor.js'
 
 const item = (id: string): ItemData => ({
@@ -57,6 +59,9 @@ function state(items: ItemData[] = []): EditorState {
 }
 
 describe('物品 CRUD 命令', () => {
+  const references = (current: EditorState, canonical?: ScriptEditorState) =>
+    collectCurrentProjectReferenceIndex(current, canonical)
+
   test('AddItem 深拷贝、按位置插入并拒绝 id 冲突', () => {
     const source: ItemData = {
       ...item('new'),
@@ -76,7 +81,7 @@ describe('物品 CRUD 命令', () => {
     const current = state([item('used')])
     current.manifest.entryPoints[0].startWorld.inventory = [{ itemId: 'used', count: 1 }]
 
-    expect(() => new DeleteItemCommand('used').apply(current)).toThrow(/入口 主要入口/)
+    expect(() => new DeleteItemCommand('used', references).apply(current)).toThrow(ItemInUseError)
     expect(current.items.map((entry) => entry.id)).toEqual(['used'])
   })
 
@@ -143,7 +148,7 @@ describe('物品 CRUD 命令', () => {
     },
   ])('DeleteItem 会阻断 $name 引用', ({ owner }) => {
     const current = state([item('used'), item('material'), item('product'), owner])
-    expect(() => new DeleteItemCommand('used').apply(current)).toThrow(/物品/)
+    expect(() => new DeleteItemCommand('used', references).apply(current)).toThrow(ItemInUseError)
     expect(current.items.some((entry) => entry.id === 'used')).toBe(true)
   })
 
@@ -160,20 +165,71 @@ describe('物品 CRUD 命令', () => {
         },
       },
     }
-    const command = new DeleteItemCommand(
-      'used',
-      () => canonical,
-      () => current,
-    )
+    const command = new DeleteItemCommand('used', (state) => references(state, canonical))
 
-    expect(() => command.apply(current)).toThrow(/可复用脚本“奖励”.*获得 ×1/s)
+    expect(() => command.apply(current)).toThrow(ItemInUseError)
     canonical.sharedScripts['shared/user/reward']!.body = []
     expect(command.apply(current).items).toHaveLength(0)
   })
 
+  test('DeleteItem 缺目标不调用 oracle，provider 失败不产生半删除', () => {
+    const current = state([item('used')])
+    const provider = vi.fn(() => {
+      throw new Error('reference oracle unavailable')
+    })
+
+    expect(new DeleteItemCommand('missing', provider).apply(current)).toBe(current)
+    expect(provider).not.toHaveBeenCalled()
+    expect(() => new DeleteItemCommand('used', provider).apply(current)).toThrow(
+      /reference oracle unavailable/,
+    )
+    expect(current.items.map((entry) => entry.id)).toEqual(['used'])
+  })
+
+  test('DeleteItem 的物品内部边随 owner 删除，不会造成自锁', () => {
+    const owner = {
+      ...item('vessel'),
+      use: {
+        target: 'scene' as const,
+        consuming: false,
+        effects: [
+          {
+            kind: 'craftRecipe' as const,
+            recipes: [
+              {
+                ingredients: [{ itemId: 'vessel', count: 1 }],
+                products: [{ itemId: 'vessel', count: 1 }],
+              },
+            ],
+          },
+        ],
+      },
+    }
+    expect(new DeleteItemCommand('vessel', references).apply(state([owner])).items).toEqual([])
+  })
+
+  test('DeleteItem redo 会按最新 canonical oracle 重验并保留 redo', () => {
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        reward: { name: '奖励', self: 'none', body: [] },
+      },
+    }
+    const session = new EditSession(state([item('a'), item('b')]))
+    const command = new DeleteItemCommand('b', (current) => references(current, canonical))
+
+    expect(session.dispatch(command)).toBe(true)
+    expect(session.undo()).toBe(true)
+    canonical.sharedScripts.reward!.body = [{ kind: 'giveItem', itemId: 'b' }]
+    expect(() => session.redo()).toThrow(ItemInUseError)
+    expect(session.getState().items.map((entry) => entry.id)).toEqual(['a', 'b'])
+    expect(session.canRedo()).toBe(true)
+  })
+
   test('EditSession 删除、撤销和重做保持原位置与内容', () => {
     const session = new EditSession(state([item('a'), item('b'), item('c')]))
-    expect(session.dispatch(new DeleteItemCommand('b'))).toBe(true)
+    expect(session.dispatch(new DeleteItemCommand('b', references))).toBe(true)
     expect(session.getState().items.map((entry) => entry.id)).toEqual(['a', 'c'])
     expect(session.undo()).toBe(true)
     expect(session.getState().items.map((entry) => entry.id)).toEqual(['a', 'b', 'c'])
@@ -217,7 +273,7 @@ describe('物品 CRUD 命令', () => {
     const before = structuredClone(current.migrationDiagnostics)
     const session = new EditSession(current)
 
-    expect(session.dispatch(new DeleteItemCommand('b'))).toBe(true)
+    expect(session.dispatch(new DeleteItemCommand('b', references))).toBe(true)
     expect(session.getState().items.map((entry) => entry.id)).toEqual(['a'])
     expect(session.getState().migrationDiagnostics?.diagnostics.map((row) => row.id)).toEqual([
       'item-use:a',

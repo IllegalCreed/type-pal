@@ -5,6 +5,11 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import { findItemAlchemyEffect } from '../core/item-alchemy.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+  createProjectReferenceSource,
+} from '../core/project-reference.js'
 import { CraftRecipeList, ResourceRewardTierList } from './ItemAlchemyEditors.js'
 import { CraftingAlchemyTab, SpiritGourdAlchemyTab } from './ItemAlchemyTab.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -108,6 +113,65 @@ function session(items = palItems()): EditSession {
 }
 
 describe('[reorder-family:item-alchemy-details] 双炼化工作台', () => {
+  test('机制摘要只在 current 索引下显示精确物品引用数', async () => {
+    const edit = session()
+    const referenceIndex = createProjectReferenceIndex(
+      buildProjectReferenceSnapshot([
+        {
+          target: { kind: 'item', id: '268' },
+          source: createProjectReferenceSource({ kind: 'shop', id: '1' }, '商店 1'),
+          relation: { kind: 'item-use', access: 'configure' },
+          where: 'shops.1.items[0]',
+          locator: { kind: 'object', object: { kind: 'shop', id: '1' } },
+          deletePolicy: 'replace-suggest',
+        },
+      ]),
+    )
+    await act(async () =>
+      root.render(
+        <CraftingAlchemyTab
+          items={edit.getState().items}
+          session={edit}
+          focusObjectId="268"
+          referenceIndex={referenceIndex}
+          referenceStatus="current"
+        />,
+      ),
+    )
+    expect(host.textContent).toContain('物品引用1 处')
+
+    for (const [status, label] of [
+      ['checking', '正在检查'],
+      ['stale', '结果待刷新'],
+      ['failed', '检查失败'],
+    ] as const) {
+      await act(async () =>
+        root.render(
+          <CraftingAlchemyTab
+            items={edit.getState().items}
+            session={edit}
+            focusObjectId="268"
+            referenceIndex={referenceIndex}
+            referenceStatus={status}
+          />,
+        ),
+      )
+      expect(host.textContent).toContain(`物品引用${label}`)
+    }
+
+    await act(async () =>
+      root.render(
+        <CraftingAlchemyTab
+          items={edit.getState().items}
+          session={edit}
+          focusObjectId="268"
+          referenceStatus="current"
+        />,
+      ),
+    )
+    expect(host.textContent).toContain('物品引用检查失败')
+  })
+
   test('唯一配方与唯一奖励档位的禁用删除显示可读原因', async () => {
     const items = palItems()
     const craft = findItemAlchemyEffect(

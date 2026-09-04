@@ -1,12 +1,17 @@
 import type { Command } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
-import {
-  blockingItemReferences,
-  collectCanonicalItemReferences,
-  collectItemReferences,
-} from './item-references.js'
+import { collectCanonicalItemReferences, collectItemReferences } from './item-references.js'
 import type { ScriptEditorState } from './script-editor.js'
+
+const blockingItemReferences = (
+  current: EditorState,
+  itemId: string,
+  canonical?: ScriptEditorState,
+) =>
+  collectItemReferences(current, canonical).filter(
+    (reference) => reference.itemId === itemId && reference.ownerItemId !== itemId,
+  )
 
 function state(): EditorState {
   return {
@@ -420,7 +425,12 @@ describe('collectItemReferences', () => {
       source: 'script',
       access: 'reward',
       where: 'scriptChunks["shared"].scripts["shared/use"]0/0.itemId',
-      locator: { kind: 'shared-script', scriptId: 'shared/use', commandPath: '0/0' },
+      locator: {
+        kind: 'script-chunk',
+        chunkId: 'shared',
+        scriptId: 'shared/use',
+        commandPath: '0/0',
+      },
     },
     {
       name: '商店货单',
@@ -476,7 +486,7 @@ describe('collectItemReferences', () => {
       source: 'enemy',
       access: 'lose',
       where: 'enemies[0](enemy).onDefeated/0.itemId',
-      locator: undefined,
+      locator: { kind: 'enemy', enemyId: 'enemy' },
     },
     {
       name: '玩家中毒产物',
@@ -575,7 +585,7 @@ describe('collectItemReferences', () => {
     ).toMatchObject({
       source: 'script',
       access,
-      locator: { kind: 'shared-script', scriptId: 'shared/recursive' },
+      locator: { kind: 'script-chunk', chunkId: 'recursive', scriptId: 'shared/recursive' },
     })
   })
 
@@ -632,7 +642,7 @@ describe('collectItemReferences', () => {
     expect(
       refs.some(
         (reference) =>
-          reference.locator?.kind === 'shared-script' && reference.locator.commandPath === '0/0',
+          reference.locator?.kind === 'script-chunk' && reference.locator.commandPath === '0/0',
       ),
     ).toBe(true)
     const nestedConditions = refs.filter(

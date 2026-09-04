@@ -14,12 +14,11 @@ import type {
   SpriteDefinitionReference,
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
-import { type ReactNode, useEffect, useMemo, useState } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedData } from '../core/editor-derived-contract.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
-import type { ItemReference } from '../core/item-references.js'
 import type { ManifestLike, ProjectIssue } from '../core/project-diagnostics.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
@@ -28,10 +27,7 @@ import type {
   ScriptEditorState,
   ScriptEditSession,
 } from '../core/script-editor.js'
-import {
-  mergeEditorProjectionWithCurrentAuthorState,
-  projectCurrentAuthorScriptEditorState,
-} from '../core/script-editor-projection.js'
+import { projectCurrentAuthorScriptEditorState } from '../core/script-editor-projection.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
@@ -144,7 +140,6 @@ export function DataMode(props: {
   onOpenScript?: (id: string) => void
   onOpenWorldVariable?: (id: string) => void
   onOpenCanonicalReference?: (reference: CanonicalScriptReference) => void
-  onOpenItemReference?: (reference: ItemReference) => void
   onOpenItem?: (id: string) => void
   onOpenItemAlchemy?: (surface: 'crafting' | 'spirit-gourd', itemId: string) => void
   onOpenProjectIssues?: () => void
@@ -212,7 +207,6 @@ export function DataMode(props: {
     onOpenScript,
     onOpenWorldVariable,
     onOpenCanonicalReference,
-    onOpenItemReference,
     onOpenItem,
     onOpenItemAlchemy,
     onOpenProjectIssues,
@@ -230,17 +224,6 @@ export function DataMode(props: {
   }
   const assetReferences = props.derivedData?.assetReferences ?? []
   const assetDiagnostics = props.derivedData?.assetDiagnostics ?? []
-  const itemReferenceIndex = useMemo(
-    () => new Map(props.derivedData?.itemReferenceIndex ?? []),
-    [props.derivedData?.itemReferenceIndex],
-  )
-  const getCurrentAuthorState = () =>
-    script
-      ? mergeEditorProjectionWithCurrentAuthorState(
-          script.session.getStateSnapshot(),
-          session.getState(),
-        )
-      : session.getState()
   const getCurrentScriptState = () =>
     script
       ? projectCurrentAuthorScriptEditorState(script.session.getStateSnapshot(), session.getState())
@@ -340,7 +323,8 @@ export function DataMode(props: {
         onObjectFocus={onObjectFocus}
         onOpenItem={onOpenItem}
         tabBar={tabBar}
-        itemReferenceIndex={itemReferenceIndex}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
         onStatusNotice={onStatusNotice}
       />
     )
@@ -355,7 +339,8 @@ export function DataMode(props: {
         onObjectFocus={onObjectFocus}
         onOpenItem={onOpenItem}
         tabBar={tabBar}
-        itemReferenceIndex={itemReferenceIndex}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
         onStatusNotice={onStatusNotice}
       />
     )
@@ -385,16 +370,15 @@ export function DataMode(props: {
         onOpenSound={onOpenSound}
         onOpenImage={onOpenImage}
         onOpenScript={onOpenScript}
-        onOpenItemReference={onOpenItemReference}
+        onOpenReference={onOpenProjectReference}
         onOpenItemAlchemy={onOpenItemAlchemy}
         onOpenProjectIssues={onOpenProjectIssues}
         tabBar={tabBar}
         script={script}
         historyCoordinator={props.historyCoordinator}
-        itemReferenceIndex={itemReferenceIndex}
-        itemReferenceStatus={props.projectDiagnosticsStatus}
-        getCurrentAuthorState={getCurrentAuthorState}
-        getCurrentScriptState={getCurrentScriptState}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
       />
     )
   }

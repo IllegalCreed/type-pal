@@ -8,13 +8,17 @@ import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
-import { type ItemReference, itemReferenceMap } from '../core/item-references.js'
-import { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
-  mergeEditorProjectionWithCurrentAuthorState,
-  projectActiveScriptEditorState,
-  projectCurrentAuthorScriptEditorState,
-} from '../core/script-editor-projection.js'
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+} from '../core/project-reference.js'
+import {
+  type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectReferenceIndex,
+} from '../core/project-reference-adapters.js'
+import { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
+import { projectActiveScriptEditorState } from '../core/script-editor-projection.js'
 import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { ItemTab } from './ItemTab.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -77,12 +81,14 @@ function state(items: ItemData[] = [item()]): EditorState {
   } as unknown as EditorState
 }
 
+const emptyReferenceIndex = createProjectReferenceIndex(buildProjectReferenceSnapshot([]))
+
 function Harness(props: {
   session: EditSession
   focusObjectId?: string
   onOpenScript?: (id: string) => void
   onOpenImage?: (id: string) => void
-  onOpenItemReference?: (reference: ItemReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   onOpenItemAlchemy?: (surface: 'crafting' | 'spirit-gourd', itemId: string) => void
   onOpenProjectIssues?: () => void
   focusPrivateScript?: {
@@ -100,9 +106,9 @@ function Harness(props: {
   }
   historyCoordinator?: EditorHistoryCoordinator
   referenceStatus?: EditorDerivedStatus
-  referenceIndex?: ReturnType<typeof itemReferenceMap>
-  getCurrentAuthorState?: () => EditorState | undefined
-  getCurrentScriptState?: () => ScriptEditorState | undefined
+  referenceIndex?: ProjectReferenceIndex
+  omitReferenceIndex?: boolean
+  getCurrentReferenceIndex?: CurrentProjectReferenceIndexProvider
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
@@ -131,7 +137,7 @@ function Harness(props: {
       focusPrivateScript={props.focusPrivateScript}
       onOpenScript={props.onOpenScript}
       onOpenImage={props.onOpenImage}
-      onOpenItemReference={props.onOpenItemReference}
+      onOpenReference={props.onOpenReference}
       onOpenItemAlchemy={props.onOpenItemAlchemy}
       onOpenProjectIssues={props.onOpenProjectIssues}
       onStatusNotice={props.onStatusNotice}
@@ -141,27 +147,17 @@ function Harness(props: {
           : undefined
       }
       historyCoordinator={props.historyCoordinator}
-      itemReferenceIndex={props.referenceIndex ?? itemReferenceMap(current, activeScriptState)}
-      itemReferenceStatus={props.referenceStatus ?? 'current'}
-      getCurrentAuthorState={
-        props.getCurrentAuthorState ??
-        (() =>
-          props.script
-            ? mergeEditorProjectionWithCurrentAuthorState(
-                props.script.session.getStateSnapshot(),
-                props.session.getState(),
-              )
-            : props.session.getState())
+      referenceIndex={
+        props.omitReferenceIndex
+          ? undefined
+          : (props.referenceIndex ??
+            collectCurrentProjectReferenceIndex(current, props.script?.session.getStateSnapshot()))
       }
-      getCurrentScriptState={
-        props.getCurrentScriptState ??
-        (() =>
-          props.script
-            ? projectCurrentAuthorScriptEditorState(
-                props.script.session.getStateSnapshot(),
-                props.session.getState(),
-              )
-            : undefined)
+      referenceStatus={props.referenceStatus ?? 'current'}
+      getCurrentReferenceIndex={
+        props.getCurrentReferenceIndex ??
+        ((state) =>
+          collectCurrentProjectReferenceIndex(state, props.script?.session.getStateSnapshot()))
       }
     />
   )
@@ -387,7 +383,9 @@ describe('ItemTab', () => {
     current.shops = []
     const session = new EditSession(current)
     await act(async () =>
-      root.render(<Harness session={session} referenceStatus="stale" referenceIndex={new Map()} />),
+      root.render(
+        <Harness session={session} referenceStatus="stale" referenceIndex={emptyReferenceIndex} />,
+      ),
     )
     expect(button('删除', host.querySelector('.item-title-actions')!).disabled).toBe(true)
 
@@ -409,13 +407,154 @@ describe('ItemTab', () => {
           session={session}
           script={{ state: canonical, session: scriptSession }}
           referenceStatus="current"
-          referenceIndex={new Map()}
+          referenceIndex={emptyReferenceIndex}
         />,
       ),
     )
     await act(async () => button('删除', host.querySelector('.item-title-actions')!).click())
     await act(async () => button('确认', host.querySelector('.item-title-actions')!).click())
     expect(session.getState().items.some((item) => item.id === 'item-a')).toBe(true)
+  })
+
+  test.each([
+    ['checking', 'loading'],
+    ['stale', 'partial'],
+    ['failed', 'error'],
+  ] as const)('%s 引用快照不冒充零引用并禁用删除', async (status, panelState) => {
+    const current = state()
+    current.shops = []
+    const session = new EditSession(current)
+    await act(async () => root.render(<Harness session={session} referenceStatus={status} />))
+    const referenceTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find((tab) =>
+      tab.textContent?.includes('引用'),
+    )!
+    await act(async () => referenceTab.click())
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe(panelState)
+    expect(host.textContent).toContain('数量未知')
+    expect(button('删除', host.querySelector('.item-title-actions')!).disabled).toBe(true)
+  })
+
+  test('current 但索引缺失时按 error/unknown fail-closed', async () => {
+    const current = state()
+    current.shops = []
+    const session = new EditSession(current)
+    await act(async () => root.render(<Harness session={session} omitReferenceIndex />))
+    const referenceTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find((tab) =>
+      tab.textContent?.includes('引用'),
+    )!
+    await act(async () => referenceTab.click())
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe('error')
+    expect(host.textContent).toContain('数量未知')
+    expect(button('删除', host.querySelector('.item-title-actions')!).disabled).toBe(true)
+  })
+
+  test('引用 revision 变化会关闭旧确认，live oracle 失败保留物品并显示原因', async () => {
+    const current = state()
+    current.shops = []
+    const session = new EditSession(current)
+    await act(async () => root.render(<Harness session={session} />))
+    await act(async () => button('删除', host.querySelector('.item-title-actions')!).click())
+    expect(host.querySelector('.item-delete-confirm')).not.toBeNull()
+
+    const refreshedIndex = createProjectReferenceIndex(buildProjectReferenceSnapshot([]))
+    await act(async () =>
+      root.render(<Harness session={session} referenceIndex={refreshedIndex} />),
+    )
+    expect(host.querySelector('.item-delete-confirm')).toBeNull()
+    await act(async () => button('删除', host.querySelector('.item-title-actions')!).click())
+    expect(host.querySelector('.item-delete-confirm')).not.toBeNull()
+
+    await act(async () => root.render(<Harness session={session} referenceStatus="stale" />))
+    expect(host.querySelector('.item-delete-confirm')).toBeNull()
+
+    const onStatusNotice = vi.fn()
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          referenceIndex={emptyReferenceIndex}
+          onStatusNotice={onStatusNotice}
+          getCurrentReferenceIndex={() => {
+            throw new Error('oracle unavailable')
+          }}
+        />,
+      ),
+    )
+    await act(async () => button('删除', host.querySelector('.item-title-actions')!).click())
+    await act(async () => button('确认', host.querySelector('.item-title-actions')!).click())
+    expect(session.getState().items.some((item) => item.id === 'item-a')).toBe(true)
+    expect(onStatusNotice).toHaveBeenLastCalledWith({
+      kind: 'error',
+      message: '无法检查当前物品引用：oracle unavailable',
+    })
+  })
+
+  test('self-only 引用显示为内部引用且不阻断删除', async () => {
+    const owner = {
+      ...item('vessel'),
+      use: {
+        target: 'scene' as const,
+        consuming: false,
+        effects: [
+          {
+            kind: 'craftRecipe' as const,
+            recipes: [
+              {
+                ingredients: [{ itemId: 'vessel', count: 1 }],
+                products: [{ itemId: 'vessel', count: 1 }],
+              },
+            ],
+          },
+        ],
+      },
+    }
+    const current = state([owner])
+    current.shops = []
+    const session = new EditSession(current)
+    await act(async () => root.render(<Harness session={session} />))
+    expect(button('删除', host.querySelector('.item-title-actions')!).disabled).toBe(false)
+
+    const referenceTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find((tab) =>
+      tab.textContent?.includes('引用'),
+    )!
+    await act(async () => referenceTab.click())
+    expect(host.textContent).toContain('可安全删除')
+    expect(host.textContent).toContain('内部引用')
+    expect(host.textContent).not.toContain('处引用会阻断删除')
+  })
+
+  test('外部焦点切换 A→B→A 不会恢复旧删除确认', async () => {
+    const current = state([item('a'), item('b')])
+    current.shops = []
+    const session = new EditSession(current)
+    await act(async () => root.render(<Harness session={session} focusObjectId="a" />))
+    await act(async () => button('删除', host.querySelector('.item-title-actions')!).click())
+    expect(host.querySelector('.item-delete-confirm')).not.toBeNull()
+
+    await act(async () => root.render(<Harness session={session} focusObjectId="b" />))
+    expect(host.querySelector('.item-delete-confirm')).toBeNull()
+    await act(async () => root.render(<Harness session={session} focusObjectId="a" />))
+    expect(host.querySelector('.item-delete-confirm')).toBeNull()
+  })
+
+  test('有引用筛选在快照非 current 时显示待刷新且不把 unknown 过滤成空表', async () => {
+    const current = state([item('item-a'), item('item-b')])
+    current.shops = [{ id: 7, items: ['item-a'] }]
+    const session = new EditSession(current)
+    await act(async () => root.render(<Harness session={session} />))
+    await chooseComboboxOption(combobox('按物品能力筛选', host), '有引用')
+    expect([...host.querySelectorAll('.ds-catalog-row')].map((row) => row.textContent)).toEqual([
+      expect.stringContaining('item-a'),
+    ])
+
+    await act(async () => root.render(<Harness session={session} referenceStatus="checking" />))
+    expect(combobox('按物品能力筛选', host).textContent).toContain('有引用（待刷新）')
+    expect(host.textContent).not.toContain('没有匹配项')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(2)
+
+    await act(async () => root.render(<Harness session={session} omitReferenceIndex />))
+    expect(combobox('按物品能力筛选', host).textContent).toContain('有引用（待刷新）')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(2)
   })
 
   test('目录搜索和全部能力筛选覆盖组合、空结果与清空恢复，且不偷换选择', async () => {
@@ -747,14 +886,14 @@ describe('ItemTab', () => {
     }
     const scriptSession = new ScriptEditSession(canonical)
     const onOpenScript = vi.fn()
-    const onOpenItemReference = vi.fn()
+    const onOpenReference = vi.fn()
     await act(async () =>
       root.render(
         <Harness
           session={session}
           script={{ state: canonical, session: scriptSession }}
           onOpenScript={onOpenScript}
-          onOpenItemReference={onOpenItemReference}
+          onOpenReference={onOpenReference}
         />,
       ),
     )
@@ -771,8 +910,10 @@ describe('ItemTab', () => {
     const referenceRow = host.querySelector<HTMLButtonElement>('.ds-reference-row')!
     expect(referenceRow.textContent).toContain('打开')
     await act(async () => referenceRow.click())
-    expect(onOpenItemReference).toHaveBeenCalledWith(
-      expect.objectContaining({ locator: { kind: 'shop', shopId: 7 } }),
+    expect(onOpenReference).toHaveBeenCalledWith(
+      expect.objectContaining({
+        locator: { kind: 'object', object: { kind: 'shop', id: '7' } },
+      }),
     )
   })
 
@@ -1462,39 +1603,29 @@ describe('ItemTab', () => {
       items: [],
       sharedScripts: {},
     }
+    initial.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
     const script = {
       state: canonical,
       session: new ScriptEditSession(canonical),
     }
-    const onOpenItemReference = vi.fn()
+    const onOpenReference = vi.fn()
 
     await act(async () =>
-      root.render(
-        <Harness session={session} script={script} onOpenItemReference={onOpenItemReference} />,
-      ),
+      root.render(<Harness session={session} script={script} onOpenReference={onOpenReference} />),
     )
 
     expect(host.querySelector('.ds-catalog-row')?.textContent).not.toContain('引用 2')
     await act(async () =>
       button('引用 2', host.querySelector('[role="tablist"][aria-label="物品检查器"]')!).click(),
     )
-    expect(host.textContent).toContain(
-      '场景 s151 / 进场脚本“默认进场行为” / 步骤 1 / 脚本正文 / 第 1 条指令',
-    )
-    expect(host.textContent).toContain(
-      '场景 s154 / 实体 e2493 / 交互脚本“触发行为 1” / 步骤 1 / 脚本正文 / 第 1 条指令',
-    )
-    const groupOccurrenceCounts = [
-      ...host.querySelectorAll<HTMLElement>('.ds-reference-group__count'),
-    ].map((node) => Number.parseInt(node.textContent ?? '0', 10))
-    expect(groupOccurrenceCounts.reduce((sum, count) => sum + count, 0)).toBe(2)
-
+    expect(host.textContent).toContain('场景 s151 / 进场脚本“默认进场行为”')
+    expect(host.textContent).toContain('场景 s154 / 实体 e2493 / 交互脚本“触发行为 1”')
     const openButtons = [
       ...host.querySelectorAll<HTMLButtonElement>('.ds-reference-row[data-actionable="true"]'),
     ]
     expect(openButtons).toHaveLength(2)
     await act(async () => openButtons[0]!.click())
-    expect(onOpenItemReference).toHaveBeenCalledWith(
+    expect(onOpenReference).toHaveBeenCalledWith(
       expect.objectContaining({
         locator: expect.objectContaining({
           kind: 'canonical-script',

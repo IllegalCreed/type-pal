@@ -84,7 +84,6 @@ import {
 import type { EditorState } from './edit-session.js'
 import { blockingEntityAddressReferences } from './entity-address-references.js'
 import { createEmptyScriptStages } from './entity-placement.js'
-import { blockingItemReferences } from './item-references.js'
 import {
   applyPreparedProjectMapPatch,
   cloneMapPatchPermission,
@@ -2417,7 +2416,22 @@ export class AddItemCommand implements Command {
   }
 }
 
-/** 删除前每次从当前 EditorState 重算完整引用闭包；任何外部引用都拒绝删除。 */
+/** 删除前每次从 current-author 统一索引重验；物品内部边由 deletion scope 排除。 */
+export class ItemInUseError extends Error {
+  constructor(
+    readonly itemId: string,
+    readonly references: readonly ProjectReferenceEdge[],
+  ) {
+    super(
+      `物品 ${itemId} 仍被 ${references.length} 处引用：\n${references
+        .slice(0, 20)
+        .map((reference) => `${reference.source.label} · ${reference.where}`)
+        .join('\n')}`,
+    )
+    this.name = 'ItemInUseError'
+  }
+}
+
 export class DeleteItemCommand implements Command {
   readonly label = '删除物品'
   private removed: ItemData | undefined
@@ -2427,31 +2441,17 @@ export class DeleteItemCommand implements Command {
 
   constructor(
     private readonly itemId: string,
-    private readonly canonicalState: (() => ScriptEditorState | undefined) | undefined = undefined,
-    private readonly currentAuthorState: (() => EditorState | undefined) | undefined = undefined,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
   ) {}
 
   apply(state: EditorState): EditorState {
     const index = state.items.findIndex((item) => item.id === this.itemId)
     if (index < 0) return state
-    const currentAuthorState = this.currentAuthorState?.()
-    if (this.currentAuthorState && !currentAuthorState)
-      throw new Error('删除物品前无法读取当前作者态引用')
-    const canonicalState = this.canonicalState?.()
-    if (this.canonicalState && !canonicalState)
-      throw new Error('删除物品前无法读取 canonical 脚本引用')
-    const blockers = blockingItemReferences(
-      currentAuthorState ?? state,
-      this.itemId,
-      canonicalState,
-    )
-    if (blockers.length)
-      throw new Error(
-        `物品 ${this.itemId} 仍被 ${blockers.length} 处引用：\n${blockers
-          .slice(0, 20)
-          .map((reference) => `${reference.label} · ${reference.detail}`)
-          .join('\n')}`,
-      )
+    const blockers = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'item',
+      id: this.itemId,
+    }).blockers
+    if (blockers.length) throw new ItemInUseError(this.itemId, blockers)
     if (!this.removed) {
       this.removed = structuredClone(state.items[index]!)
       this.index = index

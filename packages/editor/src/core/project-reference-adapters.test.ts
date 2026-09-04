@@ -13,10 +13,15 @@ import {
   buildProjectReferenceSnapshotFromProjection,
   canonicalCommandTargetEdges,
   entityAddressReferenceEdges,
+  itemReferenceEdges,
   legacyScriptChunkTargetEdges,
   structuralProjectReferenceEdges,
 } from './project-reference-adapters.js'
-import type { CanonicalScriptCommandVisit, ScriptEditorState } from './script-editor.js'
+import type {
+  CanonicalScriptCommandVisit,
+  CanonicalScriptTransitionVisit,
+  ScriptEditorState,
+} from './script-editor.js'
 
 const commandVisit = (
   command: CanonicalScriptCommandVisit['command'],
@@ -319,12 +324,10 @@ describe('project reference adapters', () => {
       transitionVisits: [],
       entityAddressReferences: [runtimeReference],
     })
-    const runtimeSources = snapshot.sources.filter(
-      (source) => source.owner.kind === 'runtime-world',
-    )
-    expect(runtimeSources).toEqual([expect.objectContaining({ label: '运行态/存档' })])
     const index = createProjectReferenceIndex(snapshot)
-    expect(index.referencesTo({ kind: 'ambience', id: 'night' })).toHaveLength(1)
+    expect(index.referencesTo({ kind: 'ambience', id: 'night' })).toMatchObject([
+      { source: { owner: { kind: 'runtime-world' }, label: '运行态/存档' } },
+    ])
     expect(
       index.referencesTo({ kind: 'entity', sceneId: 'arena', entityId: 'guard' }),
     ).toHaveLength(1)
@@ -632,6 +635,217 @@ describe('project reference adapters', () => {
         }),
       ]),
     )
+  })
+
+  test('canonical item command and transition leaves keep exact owner locators', () => {
+    const command = commandVisit(
+      {
+        kind: 'branch',
+        cond: { kind: 'hasItem', itemId: 'target', atLeast: 2 },
+        then: [],
+      },
+      'sharedScripts.shared/test.body[0]',
+    )
+    const transition: CanonicalScriptTransitionVisit = {
+      transition: {
+        kind: 'branch',
+        cond: { kind: 'ownsItem', itemId: 'target', atLeast: 1 },
+        then: { kind: 'stay' },
+        else: { kind: 'restart' },
+      },
+      path: 'scenes.scene.entities.entity.behaviors.trigger.flow.machine.states.open.next',
+      owner: {
+        kind: 'entity-behavior',
+        sceneId: 'scene',
+        entityId: 'entity',
+        channel: 'trigger',
+        behaviorId: 'flow',
+      },
+    }
+    const scriptState = {
+      scenes: [
+        {
+          id: 'scene',
+          mapId: 'map',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: 'entity',
+              pos: { col: 0, row: 0, height: 0 },
+              behaviors: {
+                trigger: {
+                  flow: {
+                    label: '连续行为',
+                    order: 0,
+                    flow: {
+                      kind: 'stateMachine',
+                      machine: {
+                        id: 'machine',
+                        label: '连续流程',
+                        initial: 'open',
+                        states: { open: { label: '开场', body: [], next: transition.transition } },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      ],
+      items: [],
+      sharedScripts: {
+        'shared/test': { name: '物品判断', self: 'none', body: [command.command] },
+      },
+    } as unknown as ScriptEditorState
+    const state = {
+      manifest: noEntryManifest,
+      scenes: [],
+      actors: [],
+      items: [],
+      skills: [],
+      enemies: [],
+      poisons: [],
+      shops: [],
+      worlds: [],
+      scriptChunks: {},
+    } as unknown as EditorState
+
+    const edges = itemReferenceEdges(state, [command], [transition], scriptState)
+    expect(edges).toHaveLength(2)
+    expect(edges).toMatchObject([
+      {
+        target: { kind: 'item', id: 'target' },
+        relation: { kind: 'item-use', access: 'read' },
+        locator: { kind: 'canonical-script' },
+      },
+      {
+        target: { kind: 'item', id: 'target' },
+        relation: { kind: 'item-use', access: 'read' },
+        locator: { kind: 'script-owner', owner: transition.owner },
+      },
+    ])
+  })
+
+  test('item structural, self, legacy and runtime references preserve deletion ownership', () => {
+    const state = {
+      manifest: noEntryManifest,
+      scenes: [],
+      actors: [
+        {
+          id: 'hero',
+          battler: { initialEquipment: { weapon: 'target' } },
+        },
+      ],
+      items: [
+        {
+          id: 'target',
+          name: '目标',
+          use: {
+            target: 'scene',
+            consuming: false,
+            effects: [
+              {
+                kind: 'craftRecipe',
+                recipes: [
+                  {
+                    ingredients: [{ itemId: 'target', count: 1 }],
+                    products: [{ itemId: 'other', count: 1 }],
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        { id: 'other', name: '其他' },
+        {
+          id: 'gourd',
+          name: '葫芦',
+          use: {
+            target: 'scene',
+            consuming: false,
+            effects: [
+              {
+                kind: 'drawFromResourcePool',
+                resource: 'collectValue',
+                maxRoll: 1,
+                rewards: [{ itemId: 'target', count: 1 }],
+              },
+            ],
+          },
+        },
+      ],
+      skills: [],
+      enemies: [
+        {
+          id: 'enemy',
+          onDefeated: [{ kind: 'giveItem', itemId: 'target', count: 1 }],
+        },
+      ],
+      poisons: [],
+      shops: [{ id: 1, items: ['target'] }],
+      worlds: [
+        {
+          inventory: [{ itemId: 'target', count: 1 }],
+          party: [{ id: 'hero-instance', equipment: { weapon: 'target' } }],
+          reserve: [],
+        },
+      ],
+      scriptChunks: {
+        legacy: {
+          id: 'legacy',
+          scripts: { old: [{ kind: 'giveItem', itemId: 'target', count: 1 }] },
+        },
+      },
+    } as unknown as EditorState
+    const index = createProjectReferenceIndex(
+      buildProjectReferenceSnapshot(
+        itemReferenceEdges(state, [], [], { scenes: [], items: [], sharedScripts: {} }),
+      ),
+    )
+    const target = { kind: 'item', id: 'target' } as const
+    const references = index.referencesTo(target)
+
+    expect(references).toHaveLength(8)
+    expect(index.deletionImpact(target, index.deletionScopeFor([target])).blockers).toHaveLength(7)
+    expect(
+      references.filter(
+        (reference) =>
+          reference.source.owner.kind === 'runtime-world' &&
+          reference.locator.kind === 'unavailable' &&
+          reference.deletePolicy === 'block',
+      ),
+    ).toHaveLength(2)
+    expect(
+      references.find((reference) => reference.source.owner.kind === 'script-chunk'),
+    ).toMatchObject({ locator: { kind: 'unavailable' }, deletePolicy: 'block' })
+    expect(references.find((reference) => reference.source.owner.kind === 'enemy')).toMatchObject({
+      locator: { kind: 'object', object: { kind: 'enemy', id: 'enemy' } },
+    })
+    expect(
+      references.find(
+        (reference) =>
+          reference.source.owner.kind === 'item' && reference.source.owner.id === 'target',
+      ),
+    ).toMatchObject({
+      locator: {
+        kind: 'object',
+        object: { kind: 'item', id: 'target' },
+        section: 'crafting',
+      },
+    })
+    expect(
+      references.find(
+        (reference) =>
+          reference.source.owner.kind === 'item' && reference.source.owner.id === 'gourd',
+      ),
+    ).toMatchObject({
+      locator: {
+        kind: 'object',
+        object: { kind: 'item', id: 'gourd' },
+        section: 'spirit-gourd',
+      },
+    })
   })
 
   test('canonical source deletion scope includes exact behavior and hook targets', () => {

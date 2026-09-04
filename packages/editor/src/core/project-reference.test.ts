@@ -74,15 +74,22 @@ describe('project reference contract', () => {
       deletedWith: [{ kind: 'scene', id: 'source' }],
     })
     const snapshot = buildProjectReferenceSnapshot([
-      edge({ kind: 'skill', id: 'one' }, { source, where: 'one', detail: '重复说明' }),
-      edge({ kind: 'skill', id: 'two' }, { source, where: 'two', detail: '重复说明' }),
+      edge({ kind: 'skill', id: 'one' }, { source, where: 'source.one', detail: '重复说明' }),
+      edge({ kind: 'skill', id: 'two' }, { source, where: 'source.two', detail: '重复说明' }),
     ])
     expect('targetKeys' in snapshot).toBe(false)
     expect('key' in snapshot.sources[0]!).toBe(false)
+    expect(snapshot.sources[0]?.[0]).toEqual(['scene', 'source'])
+    expect(snapshot.sources[0]?.[4]).toBe('source.')
+    expect(snapshot.rows.map((row) => row[5])).toEqual(['one', 'two'])
+    expect(snapshot.deletionTargets).toEqual([
+      projectReferenceTargetKey({ kind: 'scene', id: 'source' }),
+    ])
     expect(snapshot.details).toEqual(['重复说明'])
     expect(snapshot.rows.map((row) => row[6])).toEqual([0, 0])
     const decoded = createProjectReferenceIndex(snapshot).allReferences()
     expect(decoded.map((reference) => reference.detail)).toEqual(['重复说明', '重复说明'])
+    expect(decoded.map((reference) => reference.where)).toEqual(['source.one', 'source.two'])
     expect(decoded.every((reference) => reference.source.key === source.key)).toBe(true)
   })
 

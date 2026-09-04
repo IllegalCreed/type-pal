@@ -40,7 +40,6 @@ import {
   type EntityAddressReference,
   missingEntityAddressReferencesFrom,
 } from './entity-address-references.js'
-import { type ItemReference, itemReferenceMap } from './item-references.js'
 import type { ProjectReferenceSnapshotV1 } from './project-reference.js'
 import { buildProjectReferenceSnapshotFromProjection } from './project-reference-adapters.js'
 import {
@@ -641,7 +640,6 @@ export interface EditorDiagnosticsSnapshot {
   assetSnapshot: EditorAssetReferenceSnapshot
   assetDiagnostics: EditorAssetDiagnostic[]
   entityAddressReferences: EntityAddressReference[]
-  itemReferenceIndex: Map<string, ItemReference[]>
   worldVariableReferences: WorldVariableReferenceIndexV1
   sceneEntryReferenceIndex: Map<string, SceneEntryReferenceEntry[]>
   canonicalSchemeReferenceIndexes: CanonicalSchemeReferenceIndexes
@@ -660,7 +658,6 @@ export interface EditorDiagnosticsDependencies {
   collectEntityAddressReferences: typeof collectEntityAddressReferences
   buildCanonicalSceneEntryReferenceIndexFromVisits: typeof buildCanonicalSceneEntryReferenceIndexFromVisits
   buildCanonicalSchemeReferenceIndexesFromVisits: typeof buildCanonicalSchemeReferenceIndexesFromVisits
-  itemReferenceMap: typeof itemReferenceMap
   buildProjectReferenceSnapshotFromProjection: typeof buildProjectReferenceSnapshotFromProjection
 }
 
@@ -683,7 +680,6 @@ export function createEditorDiagnosticsSnapshotCollector(
     collectEntityAddressReferences,
     buildCanonicalSceneEntryReferenceIndexFromVisits,
     buildCanonicalSchemeReferenceIndexesFromVisits,
-    itemReferenceMap,
     buildProjectReferenceSnapshotFromProjection,
     ...overrides,
   }
@@ -730,10 +726,6 @@ export function createEditorDiagnosticsSnapshotCollector(
     const canonicalSchemeReferenceIndexes = canonical
       ? dependencies.buildCanonicalSchemeReferenceIndexesFromVisits(scriptState, commandVisits)
       : { behavior: new Map(), sceneHook: new Map() }
-    const itemReferenceIndex = dependencies.itemReferenceMap(
-      currentAuthorState,
-      canonical ? scriptState : undefined,
-    )
     const projectReferences = dependencies.buildProjectReferenceSnapshotFromProjection({
       state: currentAuthorState,
       scriptState,
@@ -758,7 +750,6 @@ export function createEditorDiagnosticsSnapshotCollector(
       assetSnapshot,
       assetDiagnostics,
       entityAddressReferences,
-      itemReferenceIndex,
       worldVariableReferences,
       sceneEntryReferenceIndex,
       canonicalSchemeReferenceIndexes,

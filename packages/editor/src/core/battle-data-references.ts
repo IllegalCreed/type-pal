@@ -84,7 +84,7 @@ function visitTagged(
 function collectSkillReferences(state: EditorState): BattleDataReference[] {
   const output: BattleDataReference[] = []
   ;(state.actors ?? []).forEach((actor, actorIndex) => {
-    actor.battler?.initialMagic.forEach((skillId, index) => {
+    actor.battler?.initialMagic?.forEach((skillId, index) => {
       add(output, 'skill', skillId, {
         kind: 'actor-initial-magic',
         label: `人物 ${actor.id}`,

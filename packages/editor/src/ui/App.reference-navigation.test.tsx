@@ -6,7 +6,6 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
-import type { ItemReference } from '../core/item-references.js'
 import type { ProjectReferenceEdge, ProjectReferenceTarget } from '../core/project-reference.js'
 import {
   type CanonicalScriptReference,
@@ -207,15 +206,21 @@ function canonicalState(): ScriptEditorState {
 function itemReference(
   source: 'scene' | 'item',
   reference: Extract<CanonicalScriptReference, { kind: 'command' }>,
-): ItemReference {
+): ProjectReferenceEdge {
   return {
-    itemId: '289',
-    access: source === 'scene' ? 'reward' : 'lose',
-    source,
-    label: '石钥匙',
+    id: 0,
+    target: { kind: 'item', id: '289' },
+    source: {
+      key: 'item-test-source',
+      owner: { kind: 'project-part', id: 'item-test-source' },
+      label: '石钥匙',
+      deletedWith: [],
+    },
+    relation: { kind: 'item-use', access: source === 'scene' ? 'reward' : 'lose' },
     where: reference.path,
     detail: source === 'scene' ? '获得 ×1' : '失去 ×1',
     locator: { kind: 'canonical-script', reference },
+    deletePolicy: 'replace-suggest',
   }
 }
 
@@ -248,7 +253,6 @@ const sceneReference: Extract<CanonicalScriptReference, { kind: 'command' }> = {
 }
 
 type DataModeProbe = {
-  onOpenItemReference: (reference: ItemReference) => void
   onOpenProjectReference: (reference: ProjectReferenceEdge) => void
   focusItemPrivateScript?: {
     itemId: string
@@ -465,7 +469,7 @@ describe('App item reference navigation', () => {
   test('当前物品的私有引用可重复产生新定位令牌并显示成功位置', async () => {
     await renderApp()
     const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
-      .onOpenItemReference
+      .onOpenProjectReference
 
     await act(async () => openReference(itemReference('item', itemPrivateReference)))
     const first = probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe
@@ -489,32 +493,29 @@ describe('App item reference navigation', () => {
   test('炼蛊配方与灵葫奖励引用分别跳到两个精确机制 route', async () => {
     await renderApp()
     const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
-      .onOpenItemReference
-    const referenceBase = {
-      itemId: '289',
-      access: 'reward' as const,
-      source: 'item' as const,
-      label: '石钥匙',
-      where: 'items[0].use.effects[0]',
-      detail: '机制引用',
-      ownerItemId: '289',
-    }
+      .onOpenProjectReference
 
     await act(async () =>
-      openReference({
-        ...referenceBase,
-        locator: { kind: 'item-crafting', itemId: '289' },
-      }),
+      openReference(
+        projectLocatorReference({
+          kind: 'object',
+          object: { kind: 'item', id: '289' },
+          section: 'crafting',
+        }),
+      ),
     )
     expect(window.location.search).toContain('module=item')
     expect(window.location.search).toContain('page=crafting')
     expect(window.location.search).toContain('object=289')
 
     await act(async () =>
-      openReference({
-        ...referenceBase,
-        locator: { kind: 'item-spirit-gourd', itemId: '289' },
-      }),
+      openReference(
+        projectLocatorReference({
+          kind: 'object',
+          object: { kind: 'item', id: '289' },
+          section: 'spirit-gourd',
+        }),
+      ),
     )
     expect(window.location.search).toContain('page=spirit-gourd')
     expect(window.location.search).toContain('object=289')
@@ -539,7 +540,7 @@ describe('App item reference navigation', () => {
   test('场景引用会同时切换场景、实体、脚本抽屉和精确指令', async () => {
     await renderApp()
     const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
-      .onOpenItemReference
+      .onOpenProjectReference
 
     await act(async () => openReference(itemReference('scene', sceneReference)))
 

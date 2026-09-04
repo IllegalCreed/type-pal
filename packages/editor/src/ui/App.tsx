@@ -92,7 +92,6 @@ import {
   triggerActivationSummary,
 } from '../core/entity-placement.js'
 import { exportProjectZip } from '../core/export-zip.js'
-import type { ItemReference } from '../core/item-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
@@ -978,54 +977,6 @@ export function App(props: {
     })
     confirmReferenceLocation()
   }
-  const openItemReference = (reference: ItemReference): void => {
-    const locator = reference.locator
-    if (!locator) {
-      setWorkspaceNotice({
-        kind: 'info',
-        message: reference.unavailableReason ?? `${reference.where} 当前没有可编辑的精确位置。`,
-      })
-      return
-    }
-    switch (locator.kind) {
-      case 'canonical-script':
-        openCanonicalReference(locator.reference)
-        return
-      case 'scene-script':
-        jumpToEvent(locator.sceneId, locator.sourceKey, locator.commandPath, locator.pageIndex ?? 0)
-        return
-      case 'shared-script':
-        openScriptReference(locator.scriptId, locator.commandPath)
-        return
-      case 'shop':
-        applyEditorLocation(editorLinks.shop(locator.shopId))
-        return
-      case 'actor':
-        applyEditorLocation(editorLinks.actor(locator.actorId))
-        return
-      case 'skill':
-        applyEditorLocation(editorLinks.skill(locator.skillId))
-        return
-      case 'enemy':
-        applyEditorLocation(editorLinks.enemy(locator.enemyId))
-        return
-      case 'poison':
-        applyEditorLocation(editorLinks.poison(locator.poisonId))
-        return
-      case 'entry-point':
-        applyEditorLocation(editorLinks.entryPoint(locator.entryPointId))
-        return
-      case 'item':
-        applyEditorLocation(editorLinks.item(locator.itemId))
-        return
-      case 'item-crafting':
-        applyEditorLocation(editorLinks.itemCrafting(locator.itemId))
-        return
-      case 'item-spirit-gourd':
-        applyEditorLocation(editorLinks.spiritGourd(locator.itemId))
-        return
-    }
-  }
   const openProjectSceneReference = (sceneId: string, entityId?: string): boolean => {
     const currentState = session.getState()
     const targetScene = currentState.scenes.find((candidate) => candidate.id === sceneId)
@@ -1227,7 +1178,13 @@ export function App(props: {
           rejectChangedProjectReference('物品', object.id)
           return
         }
-        applyEditorLocation(editorLinks.item(object.id))
+        applyEditorLocation(
+          locator.section === 'crafting'
+            ? editorLinks.itemCrafting(object.id)
+            : locator.section === 'spirit-gourd'
+              ? editorLinks.spiritGourd(object.id)
+              : editorLinks.item(object.id),
+        )
         return
       case 'skill':
         if (!currentState.skills.some((skill) => skill.id === object.id)) {
@@ -2416,7 +2373,6 @@ export function App(props: {
             onOpenScript={openScriptReference}
             onOpenWorldVariable={(id) => applyEditorLocation(editorLinks.variable(id))}
             onOpenCanonicalReference={openCanonicalReference}
-            onOpenItemReference={openItemReference}
             onOpenItem={(id) => applyEditorLocation(editorLinks.item(id))}
             onOpenItemAlchemy={(surface, itemId) =>
               applyEditorLocation(

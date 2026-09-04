@@ -1,6 +1,7 @@
 import type { ItemData } from '@type-pal/content'
 import { useEffect, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import {
   assertSingleInputOutputCraftRecipes,
   type CraftRecipeEffect,
@@ -11,7 +12,7 @@ import {
   type ResourcePoolEffect,
   resizeResourcePoolEffect,
 } from '../core/item-alchemy.js'
-import type { ItemReference } from '../core/item-references.js'
+import type { ProjectReferenceIndex } from '../core/project-reference.js'
 import {
   DsButton,
   DsDraftNumberField,
@@ -72,7 +73,8 @@ export interface ItemAlchemyTabProps {
   onObjectFocus?: (id: string | undefined) => void
   onOpenItem?: (id: string) => void
   tabBar?: React.ReactNode
-  itemReferenceIndex?: ReadonlyMap<string, readonly ItemReference[]>
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus?: EditorDerivedStatus
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }
 
@@ -124,7 +126,15 @@ export function ItemAlchemyTab(props: ItemAlchemyTabProps) {
     if (!focusObjectId && canonicalOwner) onObjectFocus?.(canonicalOwner.id)
   }, [canonicalOwner, focusObjectId, onObjectFocus])
 
-  const references = selectedItem ? (props.itemReferenceIndex?.get(selectedItem.id) ?? []) : []
+  const effectiveReferenceStatus =
+    props.referenceStatus === 'current' && !props.referenceIndex
+      ? 'failed'
+      : (props.referenceStatus ?? 'checking')
+  const referenceReady =
+    effectiveReferenceStatus === 'current' && props.referenceIndex !== undefined
+  const references = selectedItem
+    ? (props.referenceIndex?.referencesTo({ kind: 'item', id: selectedItem.id }) ?? [])
+    : []
   const missingReferences = effect
     ? [...new Set(referencedItemIds(effect))].filter(
         (itemId) => !items.some((item) => item.id === itemId),
@@ -415,7 +425,15 @@ export function ItemAlchemyTab(props: ItemAlchemyTabProps) {
                           <code translate="no">{effect.resource}</code>
                         </DsPropertyRow>
                       ) : null}
-                      <DsPropertyRow label="物品引用">{references.length} 处</DsPropertyRow>
+                      <DsPropertyRow label="物品引用">
+                        {referenceReady
+                          ? `${references.length} 处`
+                          : effectiveReferenceStatus === 'checking'
+                            ? '正在检查'
+                            : effectiveReferenceStatus === 'stale'
+                              ? '结果待刷新'
+                              : '检查失败'}
+                      </DsPropertyRow>
                       <DsPropertyRow label="缺失引用">
                         {missingReferences.length ? missingReferences.join('、') : '0'}
                       </DsPropertyRow>

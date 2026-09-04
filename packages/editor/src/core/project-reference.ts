@@ -9,7 +9,9 @@ import type { BattleDataReferenceKind } from './battle-data-references.js'
 import type {
   CanonicalScriptReference,
   SceneHookSlot,
+  ScriptCommandContainer,
   ScriptCommandOwner,
+  ScriptReferenceLocator,
 } from './script-editor.js'
 
 export type ProjectReferenceSimpleKind =
@@ -83,7 +85,55 @@ export interface ProjectReferenceSource {
   section?: string
 }
 
-export type ProjectReferenceSourceSnapshot = Omit<ProjectReferenceSource, 'key'>
+export type ScriptCommandOwnerSnapshot =
+  | readonly [kind: 0, sceneId: string, entityId: string, channel: 0 | 1, behaviorId: string]
+  | readonly [kind: 1, sceneId: string, slot: 0 | 1, hookId: string]
+  | readonly [kind: 2, sceneId: string, entityId: string]
+  | readonly [kind: 3, itemId: string, ability: 0 | 1, scriptId: string]
+  | readonly [kind: 4, scriptId: string]
+
+export type ScriptCommandContainerSnapshot =
+  | readonly [kind: 0]
+  | readonly [kind: 1, stepId: string, section: 0 | 1]
+  | readonly [kind: 2, machineId: string, stateId: string, section: 0 | 1]
+
+export type ScriptReferenceLocatorSnapshot =
+  | readonly [
+      kind: 0,
+      owner: ScriptCommandOwnerSnapshot,
+      container: ScriptCommandContainerSnapshot,
+      commandPath: string,
+    ]
+  | readonly [kind: 1, sceneId: string, entityId: string, pageId: string, channel: 0 | 1]
+  | readonly [kind: 2, sceneId: string, slot: 0 | 1, hookId: string]
+
+type ProjectReferenceIdSourceOwnerKind = Exclude<
+  ProjectReferenceSourceOwner['kind'],
+  | 'scene-entity'
+  | 'scene-page'
+  | 'world-sprite-action'
+  | 'script-owner'
+  | 'script-chunk'
+  | 'runtime-world'
+>
+
+export type ProjectReferenceSourceOwnerSnapshot =
+  | readonly [kind: ProjectReferenceIdSourceOwnerKind, id: string]
+  | readonly [kind: 'scene-entity', sceneId: string, entityId: string]
+  | readonly [kind: 'scene-page', sceneId: string, entityId: string, pageId: string]
+  | readonly [kind: 'world-sprite-action', spriteId: string, actionId: string]
+  | readonly [kind: 'script-owner', owner: ScriptCommandOwnerSnapshot]
+  | readonly [kind: 'script-chunk', chunkId: string, scriptId: string]
+  | readonly [kind: 'runtime-world']
+
+/** Worker wire tuple; deletedWith entries index `deletionTargets`, wherePrefix prefixes row paths. */
+export type ProjectReferenceSourceSnapshot = readonly [
+  owner: ProjectReferenceSourceOwnerSnapshot,
+  label: string,
+  deletedWith: readonly number[],
+  section: string | 0,
+  wherePrefix: string,
+]
 
 export type ProjectReferenceLocator =
   | { kind: 'object'; object: ProjectReferenceTarget; section?: string }
@@ -94,8 +144,8 @@ export type ProjectReferenceLocator =
 
 export type ProjectReferenceLocatorSnapshot =
   | readonly [kind: 0, object: ProjectReferenceTarget, section?: string]
-  | readonly [kind: 1, locator: CanonicalScriptReference['locator'], path?: string]
-  | readonly [kind: 2, owner: ScriptCommandOwner]
+  | readonly [kind: 1, locator: ScriptReferenceLocatorSnapshot, path?: string]
+  | readonly [kind: 2, owner: ScriptCommandOwnerSnapshot]
   | readonly [kind: 3, scriptId: string, commandPath?: string]
   | readonly [kind: 4, reason: string]
 
@@ -176,6 +226,7 @@ export interface ProjectReferenceSnapshotV1 {
   version: 1
   targets: readonly ProjectReferenceTarget[]
   sources: readonly ProjectReferenceSourceSnapshot[]
+  deletionTargets: readonly string[]
   relations: readonly ProjectReferenceRelation[]
   locators: readonly ProjectReferenceLocatorSnapshot[]
   details: readonly string[]
@@ -297,6 +348,188 @@ function stableSerialize(value: unknown): string {
   return JSON.stringify(value)
 }
 
+function encodeScriptCommandOwner(owner: ScriptCommandOwner): ScriptCommandOwnerSnapshot {
+  switch (owner.kind) {
+    case 'entity-behavior':
+      return [
+        0,
+        owner.sceneId,
+        owner.entityId,
+        owner.channel === 'trigger' ? 0 : 1,
+        owner.behaviorId,
+      ]
+    case 'scene-hook':
+      return [1, owner.sceneId, owner.slot === 'onEnter' ? 0 : 1, owner.hookId]
+    case 'entity-hostile-on-lose':
+      return [2, owner.sceneId, owner.entityId]
+    case 'item-private-script':
+      return [3, owner.itemId, owner.ability === 'use' ? 0 : 1, owner.scriptId]
+    case 'shared-script':
+      return [4, owner.scriptId]
+  }
+}
+
+function decodeScriptCommandOwner(owner: ScriptCommandOwnerSnapshot): ScriptCommandOwner {
+  switch (owner[0]) {
+    case 0:
+      return {
+        kind: 'entity-behavior',
+        sceneId: owner[1],
+        entityId: owner[2],
+        channel: owner[3] === 0 ? 'trigger' : 'auto',
+        behaviorId: owner[4],
+      }
+    case 1:
+      return {
+        kind: 'scene-hook',
+        sceneId: owner[1],
+        slot: owner[2] === 0 ? 'onEnter' : 'onTeleport',
+        hookId: owner[3],
+      }
+    case 2:
+      return { kind: 'entity-hostile-on-lose', sceneId: owner[1], entityId: owner[2] }
+    case 3:
+      return {
+        kind: 'item-private-script',
+        itemId: owner[1],
+        ability: owner[2] === 0 ? 'use' : 'throw',
+        scriptId: owner[3],
+      }
+    case 4:
+      return { kind: 'shared-script', scriptId: owner[1] }
+  }
+}
+
+function encodeScriptCommandContainer(
+  container: ScriptCommandContainer,
+): ScriptCommandContainerSnapshot {
+  switch (container.kind) {
+    case 'body':
+      return [0]
+    case 'step':
+      return [1, container.stepId, container.section === 'prepare' ? 0 : 1]
+    case 'state':
+      return [2, container.machineId, container.stateId, container.section === 'prepare' ? 0 : 1]
+  }
+}
+
+function decodeScriptCommandContainer(
+  container: ScriptCommandContainerSnapshot,
+): ScriptCommandContainer {
+  switch (container[0]) {
+    case 0:
+      return { kind: 'body' }
+    case 1:
+      return {
+        kind: 'step',
+        stepId: container[1],
+        section: container[2] === 0 ? 'prepare' : 'body',
+      }
+    case 2:
+      return {
+        kind: 'state',
+        machineId: container[1],
+        stateId: container[2],
+        section: container[3] === 0 ? 'prepare' : 'body',
+      }
+  }
+}
+
+function encodeScriptReferenceLocator(
+  locator: ScriptReferenceLocator,
+): ScriptReferenceLocatorSnapshot {
+  switch (locator.kind) {
+    case 'command':
+      return [
+        0,
+        encodeScriptCommandOwner(locator.owner),
+        encodeScriptCommandContainer(locator.container),
+        locator.commandPath,
+      ]
+    case 'entity-page':
+      return [
+        1,
+        locator.sceneId,
+        locator.entityId,
+        locator.pageId,
+        locator.channel === 'trigger' ? 0 : 1,
+      ]
+    case 'scene-hook-initial':
+      return [2, locator.sceneId, locator.slot === 'onEnter' ? 0 : 1, locator.hookId]
+  }
+}
+
+function decodeScriptReferenceLocator(
+  locator: ScriptReferenceLocatorSnapshot,
+): ScriptReferenceLocator {
+  switch (locator[0]) {
+    case 0:
+      return {
+        kind: 'command',
+        owner: decodeScriptCommandOwner(locator[1]),
+        container: decodeScriptCommandContainer(locator[2]),
+        commandPath: locator[3],
+      }
+    case 1:
+      return {
+        kind: 'entity-page',
+        sceneId: locator[1],
+        entityId: locator[2],
+        pageId: locator[3],
+        channel: locator[4] === 0 ? 'trigger' : 'auto',
+      }
+    case 2:
+      return {
+        kind: 'scene-hook-initial',
+        sceneId: locator[1],
+        slot: locator[2] === 0 ? 'onEnter' : 'onTeleport',
+        hookId: locator[3],
+      }
+  }
+}
+
+function encodeProjectReferenceSourceOwner(
+  owner: ProjectReferenceSourceOwner,
+): ProjectReferenceSourceOwnerSnapshot {
+  switch (owner.kind) {
+    case 'scene-entity':
+      return [owner.kind, owner.sceneId, owner.entityId]
+    case 'scene-page':
+      return [owner.kind, owner.sceneId, owner.entityId, owner.pageId]
+    case 'world-sprite-action':
+      return [owner.kind, owner.spriteId, owner.actionId]
+    case 'script-owner':
+      return [owner.kind, encodeScriptCommandOwner(owner.owner)]
+    case 'script-chunk':
+      return [owner.kind, owner.chunkId, owner.scriptId]
+    case 'runtime-world':
+      return [owner.kind]
+    default:
+      return [owner.kind, owner.id]
+  }
+}
+
+function decodeProjectReferenceSourceOwner(
+  owner: ProjectReferenceSourceOwnerSnapshot,
+): ProjectReferenceSourceOwner {
+  switch (owner[0]) {
+    case 'scene-entity':
+      return { kind: owner[0], sceneId: owner[1], entityId: owner[2] }
+    case 'scene-page':
+      return { kind: owner[0], sceneId: owner[1], entityId: owner[2], pageId: owner[3] }
+    case 'world-sprite-action':
+      return { kind: owner[0], spriteId: owner[1], actionId: owner[2] }
+    case 'script-owner':
+      return { kind: owner[0], owner: decodeScriptCommandOwner(owner[1]) }
+    case 'script-chunk':
+      return { kind: owner[0], chunkId: owner[1], scriptId: owner[2] }
+    case 'runtime-world':
+      return { kind: owner[0] }
+    default:
+      return { kind: owner[0], id: owner[1] } as ProjectReferenceSourceOwner
+  }
+}
+
 function encodeProjectReferenceLocator(
   locator: ProjectReferenceLocator,
   where: string,
@@ -306,10 +539,10 @@ function encodeProjectReferenceLocator(
       return locator.section ? [0, locator.object, locator.section] : [0, locator.object]
     case 'canonical-script':
       return locator.reference.path === where
-        ? [1, locator.reference.locator]
-        : [1, locator.reference.locator, locator.reference.path]
+        ? [1, encodeScriptReferenceLocator(locator.reference.locator)]
+        : [1, encodeScriptReferenceLocator(locator.reference.locator), locator.reference.path]
     case 'script-owner':
-      return [2, locator.owner]
+      return [2, encodeScriptCommandOwner(locator.owner)]
     case 'legacy-script':
       return locator.commandPath !== undefined
         ? [3, locator.scriptId, locator.commandPath]
@@ -329,7 +562,7 @@ function decodeProjectReferenceLocator(
         ? { kind: 'object', object: locator[1], section: locator[2] }
         : { kind: 'object', object: locator[1] }
     case 1: {
-      const value = locator[1]
+      const value = decodeScriptReferenceLocator(locator[1])
       const path = locator[2] ?? where
       if (value.kind === 'command')
         return {
@@ -347,7 +580,7 @@ function decodeProjectReferenceLocator(
       }
     }
     case 2:
-      return { kind: 'script-owner', owner: locator[1] }
+      return { kind: 'script-owner', owner: decodeScriptCommandOwner(locator[1]) }
     case 3:
       return locator[2] !== undefined
         ? { kind: 'legacy-script', scriptId: locator[1], commandPath: locator[2] }
@@ -391,7 +624,8 @@ export function buildProjectReferenceSnapshot(
   options: { assumeUnique?: boolean } = {},
 ): ProjectReferenceSnapshotV1 {
   const targetByKey = new Map<string, ProjectReferenceTarget>()
-  const sources: ProjectReferenceSourceSnapshot[] = []
+  const sourceInputs: ProjectReferenceSource[] = []
+  const sourceWheres: string[][] = []
   const sourceIndexes = new Map<string, number>()
   const sourceDefinitions = new Map<string, string>()
   const relations: ProjectReferenceRelation[] = []
@@ -447,16 +681,13 @@ export function buildProjectReferenceSnapshot(
       throw new Error(`引用来源 ${edge.source.key} 的定义不一致`)
     let sourceIndex = sourceIndexes.get(edge.source.key)
     if (sourceIndex === undefined) {
-      sourceIndex = sources.length
-      sources.push({
-        owner: edge.source.owner,
-        label: edge.source.label,
-        deletedWith: edge.source.deletedWith,
-        ...(edge.source.section ? { section: edge.source.section } : {}),
-      })
+      sourceIndex = sourceInputs.length
+      sourceInputs.push(edge.source)
+      sourceWheres.push([])
       sourceIndexes.set(edge.source.key, sourceIndex)
       sourceDefinitions.set(edge.source.key, sourceDefinition)
     }
+    sourceWheres[sourceIndex]!.push(edge.where)
 
     let relationIndex = relationIndexes.get(relationKey)
     if (relationIndex === undefined) {
@@ -499,6 +730,28 @@ export function buildProjectReferenceSnapshot(
   const targetKeys = [...targetByKey.keys()].sort()
   const targets = targetKeys.map((key) => targetByKey.get(key)!)
   const targetIndexes = new Map(targetKeys.map((key, index) => [key, index]))
+  const commonPrefix = (values: readonly string[]): string => {
+    const first = values[0] ?? ''
+    let length = first.length
+    for (let valueIndex = 1; valueIndex < values.length && length > 0; valueIndex += 1) {
+      const value = values[valueIndex]!
+      length = Math.min(length, value.length)
+      let index = 0
+      while (index < length && first[index] === value[index]) index += 1
+      length = index
+    }
+    return first.slice(0, length)
+  }
+  const deletionTargets = [...new Set(sourceInputs.flatMap((source) => source.deletedWith))].sort()
+  const deletionTargetIndexes = new Map(deletionTargets.map((key, index) => [key, index]))
+  const sourceWherePrefixes = sourceWheres.map(commonPrefix)
+  const sources: ProjectReferenceSourceSnapshot[] = sourceInputs.map((source, index) => [
+    encodeProjectReferenceSourceOwner(source.owner),
+    source.label,
+    source.deletedWith.map((key) => deletionTargetIndexes.get(key)!),
+    source.section ?? 0,
+    sourceWherePrefixes[index]!,
+  ])
   const details: string[] = []
   const detailIndexes = new Map<string, number>()
   const rows: ProjectReferenceRow[] = rowInputs.map(
@@ -518,7 +771,7 @@ export function buildProjectReferenceSnapshot(
         relationIndex,
         locatorIndex,
         policy,
-        where,
+        where.slice(sourceWherePrefixes[sourceIndex]!.length),
       ] as const
       return detailIndex === undefined ? row : ([...row, detailIndex] as const)
     },
@@ -533,6 +786,7 @@ export function buildProjectReferenceSnapshot(
     version: 1,
     targets,
     sources,
+    deletionTargets,
     relations,
     locators,
     details,
@@ -545,6 +799,7 @@ export function buildProjectReferenceSnapshot(
 export class ProjectReferenceIndex {
   private readonly targetIndexes: ReadonlyMap<string, number>
   private readonly sources: readonly ProjectReferenceSource[]
+  private readonly sourceWherePrefixes: readonly string[]
 
   constructor(readonly snapshot: ProjectReferenceSnapshotV1) {
     if (snapshot.targetOffsets.length !== snapshot.targets.length + 1)
@@ -554,10 +809,18 @@ export class ProjectReferenceIndex {
     this.targetIndexes = new Map(
       snapshot.targets.map((target, index) => [projectReferenceTargetKey(target), index]),
     )
-    this.sources = snapshot.sources.map((source) => ({
-      ...source,
-      key: projectReferenceSourceKey(source.owner, source.section),
-    }))
+    this.sourceWherePrefixes = snapshot.sources.map((source) => source[4])
+    this.sources = snapshot.sources.map((source) => {
+      const owner = decodeProjectReferenceSourceOwner(source[0])
+      const section = source[3] || undefined
+      return {
+        owner,
+        label: source[1],
+        deletedWith: source[2].map((index) => snapshot.deletionTargets[index]!),
+        ...(section ? { section } : {}),
+        key: projectReferenceSourceKey(owner, section),
+      }
+    })
   }
 
   referencesTo(target: ProjectReferenceTarget): ProjectReferenceEdge[] {
@@ -600,7 +863,16 @@ export class ProjectReferenceIndex {
   private edge(id: number): ProjectReferenceEdge {
     const row = this.snapshot.rows[id]
     if (!row) throw new Error(`引用边 ${id} 不存在`)
-    const [targetIndex, sourceIndex, relationIndex, locatorIndex, policy, where, detailIndex] = row
+    const [
+      targetIndex,
+      sourceIndex,
+      relationIndex,
+      locatorIndex,
+      policy,
+      whereSuffix,
+      detailIndex,
+    ] = row
+    const where = `${this.sourceWherePrefixes[sourceIndex]!}${whereSuffix}`
     return {
       id,
       target: this.snapshot.targets[targetIndex]!,

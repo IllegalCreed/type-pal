@@ -16,7 +16,6 @@ import {
   collectEditorAssetReferences,
 } from './editor-asset-references.js'
 import { collectEntityAddressReferences } from './entity-address-references.js'
-import { itemReferenceMap } from './item-references.js'
 import {
   assertProjectSaveValid,
   collectEditorStatusIssues,
@@ -26,6 +25,7 @@ import {
   getRepairableEntryIndexes,
   validateManifestEntryPoints,
 } from './project-diagnostics.js'
+import { createProjectReferenceIndex } from './project-reference.js'
 import { buildProjectReferenceSnapshotFromProjection } from './project-reference-adapters.js'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
@@ -191,7 +191,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   const collectEntities = vi.fn(collectEntityAddressReferences)
   const buildEntryIndex = vi.fn(buildCanonicalSceneEntryReferenceIndexFromVisits)
   const buildSchemeIndexes = vi.fn(buildCanonicalSchemeReferenceIndexesFromVisits)
-  const collectItems = vi.fn(itemReferenceMap)
   const buildProjectReferences = vi.fn(buildProjectReferenceSnapshotFromProjection)
   const collect = createEditorDiagnosticsSnapshotCollector({
     validateReferences: validate,
@@ -205,7 +204,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
     collectEntityAddressReferences: collectEntities,
     buildCanonicalSceneEntryReferenceIndexFromVisits: buildEntryIndex,
     buildCanonicalSchemeReferenceIndexesFromVisits: buildSchemeIndexes,
-    itemReferenceMap: collectItems,
     buildProjectReferenceSnapshotFromProjection: buildProjectReferences,
   })
   const shell = state()
@@ -239,7 +237,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(collectEntities).toHaveBeenCalledOnce()
   expect(buildEntryIndex).toHaveBeenCalledOnce()
   expect(buildSchemeIndexes).toHaveBeenCalledOnce()
-  expect(collectItems).toHaveBeenCalledOnce()
   expect(buildProjectReferences).toHaveBeenCalledOnce()
   expect(
     [...snapshot.sceneEntryReferenceIndex.keys()].filter((key) => key.includes('perf-entry-')),
@@ -256,7 +253,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   collectEntities.mockClear()
   buildEntryIndex.mockClear()
   buildSchemeIndexes.mockClear()
-  collectItems.mockClear()
   buildProjectReferences.mockClear()
   collect(shell)
   expect(validate).toHaveBeenCalledOnce()
@@ -270,7 +266,6 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(collectEntities).toHaveBeenCalledOnce()
   expect(buildEntryIndex).not.toHaveBeenCalled()
   expect(buildSchemeIndexes).not.toHaveBeenCalled()
-  expect(collectItems).toHaveBeenCalledOnce()
   expect(buildProjectReferences).toHaveBeenCalledOnce()
 })
 
@@ -318,7 +313,12 @@ test('current-author projection excludes canonical item records deleted from the
     sharedScripts: {},
   }
   const snapshot = createEditorDiagnosticsSnapshotCollector()(shell, canonical)
-  expect(snapshot.itemReferenceIndex.get('target')).toBeUndefined()
+  expect(
+    createProjectReferenceIndex(snapshot.projectReferences).referencesTo({
+      kind: 'item',
+      id: 'target',
+    }),
+  ).toEqual([])
   expect(snapshot.statusIssues.some((issue) => issue.message.includes('deleted-owner'))).toBe(false)
 })
 

@@ -1,7 +1,6 @@
 import type { AssetReference } from '@type-pal/content'
 import type { EditorAssetDiagnostic } from './asset-diagnostics.js'
 import type { EditorState } from './edit-session.js'
-import type { ItemReference } from './item-references.js'
 import type { EditorStatusIssue, ProjectIssue } from './project-diagnostics.js'
 import type { ProjectReferenceSnapshotV1 } from './project-reference.js'
 import type { CanonicalScriptReference, ScriptEditorState } from './script-editor.js'
@@ -50,7 +49,6 @@ export interface EditorDerivedData {
   projectReferences: ProjectReferenceSnapshotV1
   assetReferences: AssetReference[]
   assetDiagnostics: EditorAssetDiagnostic[]
-  itemReferenceIndex: Array<[string, ItemReference[]]>
   worldVariableReferences: WorldVariableReferenceIndexV1
   canonicalBehaviorReferences: Array<[string, CanonicalScriptReference[]]>
   canonicalSceneHookReferences: Array<[string, CanonicalScriptReference[]]>

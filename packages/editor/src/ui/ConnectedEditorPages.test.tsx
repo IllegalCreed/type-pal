@@ -121,7 +121,6 @@ function derivedData(referenceCount: number): EditorDerivedData {
     ),
     assetReferences: [],
     assetDiagnostics: [],
-    itemReferenceIndex: [],
     worldVariableReferences: { all: [], byId: new Map() },
     canonicalBehaviorReferences: [],
     canonicalSceneHookReferences: [],
