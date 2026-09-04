@@ -4,6 +4,7 @@
 
 - 第一阶段在线试玩：<https://pal.illegalscreed.cn/>
 - 当前开发主线：**第二阶段 Reforge（新运行时 + 内容编辑器 + 迁移器）**
+- 本页状态快照：**2026-09-04**；实时进度以能力地图和任务看板为准。
 - 完整原版游戏数据不在仓库中；运行 PAL 内容需要自行准备合法取得的原版数据。现有 demo / 回归 fixture 含少量入库的 PAL 派生素材，不代表版权清理或用户种子已经完成。
 
 ## 仓库里有什么
@@ -21,9 +22,9 @@
 1. **第一阶段 · 忠实还原（v1.0.0 已上线）**
    以原版数据和实际行为为首要事实来源，参考 sdlpal 与一阶段考证，在 TypeScript 中重建游戏。`@type-pal/game` 当前冻结，保留为已发布产品、一阶段知识库和第二阶段 UX 参考。
 2. **第二阶段 · Reforge（活跃开发）**
-   从现代内容契约出发重写运行时和编辑器，让作者能创建、编辑、运行并分发自有内容工程。PAL 是试炼场、迁移样本和第一份内容包，不是新架构的实现模板。
+   从现代内容契约出发重写运行时和编辑器，让作者能创建、编辑和运行自有内容工程，并补齐自包含分发地基。PAL 是试炼场、迁移样本和第一份内容包，不是新架构的实现模板；无需源码仓库的独立可玩包仍是本阶段收口项，尚未完成。
 3. **第三阶段 · 产品化（规划中）**
-   官网、离线桌面发行、用户系统、在线工程托管与本地化工作台。MMO 和深度玩法属于更远期设想，不是第三阶段当前承诺。
+   按发行范围替换版权资源，再建设官网、离线桌面发行、用户系统、在线工程托管与本地化工作台。MMO 和深度玩法属于更远期设想，不是第三阶段当前承诺。
 
 开始工作前请先选对阶段：
 
@@ -39,20 +40,38 @@
 
 能力格数量、任务状态和 canonical 格式版本会持续变化；根 README 不复制这些活账，以上述状态文档和迁移器说明为准。
 
+## 当前开发状态
+
+第二阶段已经不再是概念验证：Reforge 可以运行自包含的现代内容工程，编辑器已经具备场景、地图、剧情、
+角色、物品、战斗、资源和工程设置等主要工作台，以及本地工程打开/保存、撤销/重做、引用诊断、试玩和
+统一设计系统。PAL 全量迁移使用事务发布与三方合并；开发期运行时、编辑器、工程和存档只接受当前
+canonical 版本。
+
+当前正在补齐的是“能编辑”之后的完整创作闭环：统一工程引用边与删除保护，然后完成场景、商店生命周期。
+此后依次进入薄 E2E 基线、窄版意图式脚本能力、战斗专项与完整通关 E2E、编辑器综合工作流、录制适配，
+最后再做服务器版本化预制工程和独立可玩包。准确顺序见
+[`docs/phase2/capability-map.md`](docs/phase2/capability-map.md)；正在执行的单卡见
+[`docs/ops/board.md`](docs/ops/board.md)。
+
+第二阶段暂不处理真实时间/天气、随机笔刷、时间旅行调试、无障碍设置、完整对话/演出专用工作台及
+版权资源批量替换；这些已经明确移交第三阶段，不应从旧文档或历史任务误判为当前欠项。
+
 ## 快速开始
 
 需要本地安装 Node.js、pnpm 和 Git。
 
-### 无需本地原版数据：运行内置 demo
+### 无需本地原版数据：运行 demo 或创建空白工程
 
 [`projects/demo/`](projects/demo/) 的运行依赖已随工程自包含，因此不需要本地 `data/raw/`；其中仍含少量 PAL 派生示例素材：
 
 ```sh
 pnpm install
 
-# 二选一；分别在独立终端启动
-pnpm --filter @type-pal/editor dev:demo  # 编辑器 + demo，http://localhost:6011
-pnpm --filter @type-pal/reforge dev      # Reforge + demo，http://localhost:6050
+# Reforge 自动载入自包含 demo
+pnpm --filter @type-pal/reforge dev      # http://localhost:6050
+
+# 编辑器启动页；可新建空白工程或打开本地当前格式工程，不会自动载入 demo
+pnpm --filter @type-pal/editor dev:demo  # http://localhost:6011
 ```
 
 ### 使用 PAL 开发工程
@@ -83,9 +102,21 @@ pnpm --filter @type-pal/game dev        # 第一阶段运行时，https://localh
 |---|---|---|
 | PAL 开发基线 | `http://localhost:6010/` | 首次保存必须手动选择并通过校验的真实 `projects/pal` 目录；绑定后才允许正式回写。 |
 | 评审 / 沙盒 | `http://localhost:6010/?ui_samples=1` | 首次保存到新建 / 空目录；之后可保存和重开，但绝不回写 `projects/pal`。 |
-| 内置 demo | `http://localhost:6011/` | 通过 HTTP 载入入库 demo；首次持久化需另存到新建 / 空目录，不能直接覆盖仓库中的非空 `projects/demo`。 |
+| 独立启动页 | `http://localhost:6011/` | `dev:demo` 只使用独立端口，不会自动载入 `projects/demo`；可新建空白工程、打开本地当前格式工程或从 PAL 开发快照创建副本。 |
 
 `projects/pal` 目前是持续变化的**开发快照**，不是稳定的用户初始种子。不要把评审沙盒中的修改误当成 PAL 基线改动。
+
+## Reforge 开发调试
+
+开发构建可在 URL 加 `?debug` 打开调试面板：
+
+```text
+http://localhost:6051/?debug
+```
+
+面板提供控制台、检视器、触发器、战斗构建器、图层和运行态位置控制权信息。按 `Esc` 隐藏，按反引号
+重新打开；该工具只存在于开发构建，不进入生产包。完整说明见
+[`docs/phase2/dev-tools.md`](docs/phase2/dev-tools.md)。
 
 ## 数据流
 
@@ -110,9 +141,9 @@ projects/demo ──────────────────────
 
 ```sh
 # 全仓门禁
-pnpm check          # 各 workspace 的 typecheck + test，随后 lint
+pnpm check          # 完整维护者门禁；迁移器完整测试需要本地 PAL 提取数据
 pnpm typecheck      # 全 workspace TypeScript 检查
-pnpm test           # 全 workspace 测试
+pnpm test           # 全 workspace 测试；其中 migrate PAL 项需要本地提取数据
 pnpm lint           # biome check .
 
 # 格式化
@@ -121,13 +152,16 @@ pnpm format:all     # 格式化整个仓库
 
 # PAL 数据与当前内容工程
 pnpm extract
+pnpm bake                                                # 单独重建可再生资产
 pnpm --filter @type-pal/migrate migrate:content          # dry-run
 pnpm --filter @type-pal/migrate migrate:content --write  # 发布到 projects/pal
 
 # 单包验证示例
 pnpm --filter @type-pal/editor check
+pnpm --filter @type-pal/editor audit:design-system
 pnpm --filter @type-pal/reforge check
 pnpm --filter @type-pal/migrate test:fast
+pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数据的较重验证
 ```
 
 视觉、音频、浏览器文件系统、长剧情和完整游玩路线不能只靠单元测试判断，仍需按相应任务的浏览器 / E2E 验收记录执行。
@@ -139,10 +173,10 @@ pnpm --filter @type-pal/migrate test:fast
 | [`packages/shared`](packages/shared/) | 底层 PAL 数据、资源类型和解码能力；由提取器、旧运行时以及部分二阶段工具复用。 |
 | [`packages/pal-extract`](packages/pal-extract/) | 把原版输入离线提取为 `data/extracted/` 中的结构化数据和网页可用资源。 |
 | [`packages/game`](packages/game/) | 第一阶段 Vite 浏览器运行时。 |
-| [`packages/content`](packages/content/) | 第二阶段 canonical 内容契约、schema、校验、引用和纯数据逻辑。 |
+| [`packages/content`](packages/content/) | 第二阶段 canonical 内容契约、校验、typed 引用规则和纯数据逻辑。 |
 | [`packages/reforge`](packages/reforge/) | 第二阶段运行时与编辑器预览能力。 |
-| [`packages/editor`](packages/editor/) | React 可视化编辑器、本地工程工作流、撤销/重做和试玩入口。 |
-| [`packages/migrate`](packages/migrate/) | 从提取数据生成并事务发布当前 `projects/pal` 的离线迁移器。运行时和编辑器不依赖它。 |
+| [`packages/editor`](packages/editor/) | React 可视化编辑器、本地工程工作流、统一设计系统、撤销/重做、诊断和试玩入口。 |
+| [`packages/migrate`](packages/migrate/) | 从提取数据生成并事务发布当前 `projects/pal` 的离线迁移器，负责增量三方合并与重迁零计划验证。运行时和编辑器不依赖它。 |
 
 | 工程 | 作用 |
 |---|---|
