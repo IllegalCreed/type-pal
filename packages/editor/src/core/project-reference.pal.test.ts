@@ -122,6 +122,9 @@ describe('ED-3 PAL project reference index', () => {
           edge.relation.kind === 'command-target' && edge.relation.use === 'scene-map-override',
       ),
     ).toHaveLength(2)
+    expect(edges.filter((edge) => edge.relation.kind === 'battle-field-use')).toHaveLength(141)
+    expect(edges.filter((edge) => edge.relation.kind === 'enemy-team-use')).toHaveLength(1_002)
+    expect(edges.filter((edge) => edge.relation.kind === 'ambience-use')).toHaveLength(42)
     expect(index.referencesTo({ kind: 'map', id: 'map-164' })).toMatchObject([
       {
         source: {
@@ -157,8 +160,8 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(5_991)
-    expect(diagnostics.projectReferences.targetEdgeIds.length).toBeLessThanOrEqual(8_000)
+    expect(diagnostics.projectReferences.rows).toHaveLength(6_928)
+    expect(diagnostics.projectReferences.targetEdgeIds.length).toBeLessThanOrEqual(9_000)
     expect(
       new TextEncoder().encode(JSON.stringify(diagnostics.projectReferences)).byteLength,
     ).toBeLessThanOrEqual(2_500_000)

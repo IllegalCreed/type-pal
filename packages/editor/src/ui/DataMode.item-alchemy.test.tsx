@@ -4,6 +4,10 @@ import { act, type ComponentProps } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+} from '../core/project-reference.js'
 import { DataMode } from './DataMode.js'
 
 let root: Root
@@ -85,6 +89,7 @@ function fixture() {
 describe('DataMode dual item mechanism routes', () => {
   test('crafting 与 spirit-gourd 分别挂载独立机制页', async () => {
     const { items, session } = fixture()
+    const projectReferenceIndex = createProjectReferenceIndex(buildProjectReferenceSnapshot([]))
     const base: Omit<ComponentProps<typeof DataMode>, 'tab' | 'focusObjectId'> = {
       sprites: [],
       battleSprites: [],
@@ -127,6 +132,10 @@ describe('DataMode dual item mechanism routes', () => {
       },
       projectIssues: [],
       projectDiagnosticsStatus: 'current',
+      projectReferenceIndex,
+      projectReferenceStatus: 'current',
+      getCurrentProjectReferenceIndex: () => projectReferenceIndex,
+      onOpenProjectReference: vi.fn(),
       actors: [],
       onJumpToEvent: vi.fn(),
       tabBar: null,

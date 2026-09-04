@@ -3,11 +3,7 @@
  * 右侧只承载引用与说明。预览上下文属于会话状态，不进入撤销或保存。
  */
 import { AMBIENCE_IDENTITY, type AmbienceDef, isIdentityTint } from '@type-pal/content'
-import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react'
-import {
-  type BlockingAmbienceReference,
-  collectAmbienceReferenceIndex,
-} from '../core/ambience-references.js'
+import { type ReactNode, useEffect, useId, useRef, useState } from 'react'
 import {
   AddAmbienceCommand,
   AmbienceInUseError,
@@ -15,11 +11,9 @@ import {
   UpdateAmbienceCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import type {
-  CanonicalScriptReference,
-  ScriptEditorState,
-  ScriptEditSession,
-} from '../core/script-editor.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import { AmbienceScenePreview, type AmbienceScenePreviewProps } from './AmbienceScenePreview.js'
 import {
   DsButton,
@@ -35,11 +29,11 @@ import {
   DsNumberInput,
   DsObjectHero,
   DsObjectWorkspace,
+  DsReadoutList,
+  DsReadoutRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
-  DsReadoutList,
-  DsReadoutRow,
   DsStatus,
   DsTag,
   DsTextField,
@@ -274,17 +268,21 @@ export function AmbienceTab(props: {
   ambiences: AmbienceDef[]
   session: EditSession
   preview?: PreviewProps
-  script?: { state?: ScriptEditorState; session: ScriptEditSession }
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  onOpenReference?: (reference: CanonicalScriptReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
   tabBar?: ReactNode
 }) {
   const {
     ambiences,
     session,
     preview,
-    script,
+    referenceIndex,
+    referenceStatus,
+    getCurrentReferenceIndex,
     focusObjectId,
     onObjectFocus,
     onOpenReference,
@@ -302,7 +300,7 @@ export function AmbienceTab(props: {
   const [deleteTarget, setDeleteTarget] = useState<{
     id: string
     name: string
-    references: BlockingAmbienceReference[]
+    references: ProjectReferenceEdge[]
     scanError?: string
   }>()
   const deleteTriggerRef = useRef<HTMLButtonElement | null>(null)
@@ -329,21 +327,30 @@ export function AmbienceTab(props: {
     if (selected) setPreviewTint(selected.tint)
   }, [selected])
 
-  const editorState = session.getState()
-  const scriptState = script?.state ?? script?.session.getState()
-  const referenceScan = useMemo(() => {
-    try {
-      return {
-        index: collectAmbienceReferenceIndex(editorState, scriptState),
-        error: '',
-      }
-    } catch (cause) {
-      return {
-        index: new Map<string, BlockingAmbienceReference[]>(),
-        error: cause instanceof Error ? cause.message : String(cause),
-      }
-    }
-  }, [editorState, scriptState])
+  const referencesForAmbience = (id: string): ProjectReferenceEdge[] =>
+    referenceIndex?.deletionImpact({ kind: 'ambience', id }).blockers ?? []
+  const selectedReferences = selected ? referencesForAmbience(selected.id) : []
+  const referenceReady = referenceStatus === 'current' && referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
+  const referencePanelState =
+    effectiveReferenceStatus === 'current'
+      ? selectedReferences.length
+        ? 'ready'
+        : 'empty'
+      : effectiveReferenceStatus === 'checking'
+        ? 'loading'
+        : effectiveReferenceStatus === 'stale'
+          ? 'partial'
+          : 'error'
+
+  useEffect(() => {
+    if (!referenceReady) setDeleteTarget(undefined)
+  }, [referenceReady])
+  useEffect(() => {
+    void referenceIndex
+    setDeleteTarget(undefined)
+  }, [referenceIndex])
 
   const selectAmbience = (id: string | undefined): void => {
     setSelectedId(id ?? '')
@@ -375,12 +382,12 @@ export function AmbienceTab(props: {
   }
 
   const beginDelete = (ambience: AmbienceDef, trigger: HTMLButtonElement): void => {
+    if (!referenceReady) return
     deleteTriggerRef.current = trigger
     setDeleteTarget({
       id: ambience.id,
       name: ambience.name,
-      references: referenceScan.index.get(ambience.id) ?? [],
-      scanError: referenceScan.error || undefined,
+      references: referencesForAmbience(ambience.id),
     })
   }
 
@@ -390,16 +397,25 @@ export function AmbienceTab(props: {
   }
 
   const confirmDelete = (): void => {
-    if (!deleteTarget || deleteTarget.scanError || deleteTarget.references.length) return
+    if (
+      !referenceReady ||
+      !deleteTarget ||
+      deleteTarget.scanError ||
+      deleteTarget.references.length
+    )
+      return
     const targetIndex = ambiences.findIndex((ambience) => ambience.id === deleteTarget.id)
     const nextId = ambiences[targetIndex + 1]?.id ?? ambiences[targetIndex - 1]?.id
     try {
-      session.dispatch(
-        new DeleteAmbienceCommand(
-          deleteTarget.id,
-          script ? () => script.session.getState() : undefined,
-        ),
+      const changed = session.dispatch(
+        new DeleteAmbienceCommand(deleteTarget.id, getCurrentReferenceIndex),
       )
+      if (changed === false) {
+        setDeleteTarget((current) =>
+          current ? { ...current, scanError: '氛围已变化，未执行删除。' } : current,
+        )
+        return
+      }
       setDeleteTarget(undefined)
       selectAmbience(nextId)
       requestAnimationFrame(() => {
@@ -411,14 +427,17 @@ export function AmbienceTab(props: {
         deleteTriggerRef.current = null
       })
     } catch (error) {
-      if (!(error instanceof AmbienceInUseError)) throw error
-      setDeleteTarget((current) =>
-        current ? { ...current, references: [...error.references] } : current,
-      )
+      setDeleteTarget((current) => {
+        if (!current) return current
+        if (error instanceof AmbienceInUseError)
+          return { ...current, references: [...error.references], scanError: undefined }
+        return {
+          ...current,
+          scanError: error instanceof Error ? error.message : String(error),
+        }
+      })
     }
   }
-
-  const selectedReferences = selected ? (referenceScan.index.get(selected.id) ?? []) : []
 
   return (
     <>
@@ -446,35 +465,39 @@ export function AmbienceTab(props: {
           </>
         }
       >
-          {ambiences.map((ambience) => {
-            const count = referenceScan.index.get(ambience.id)?.length ?? 0
-            return (
-              <DsCatalogRow
-                key={ambience.id}
-                ref={(node) => {
-                  if (node) rowRefs.current.set(ambience.id, node)
-                  else rowRefs.current.delete(ambience.id)
-                }}
-                selected={selected?.id === ambience.id}
-                leading={
-                  <span
-                    className="ambience-swatch"
-                    style={{
-                      backgroundColor: toHex(
-                        selected?.id === ambience.id ? previewTint : ambience.tint,
-                      ),
-                    }}
-                    aria-hidden="true"
-                  />
-                }
-                title={ambience.name}
-                meta={ambience.id}
-                trailing={<DsTag tone="neutral">{count}</DsTag>}
-                onClick={() => selectAmbience(ambience.id)}
-              />
-            )
-          })}
-          {!ambiences.length ? <div className="insp-empty">项目中还没有氛围定义。</div> : null}
+        {ambiences.map((ambience) => {
+          const count = referencesForAmbience(ambience.id).length
+          return (
+            <DsCatalogRow
+              key={ambience.id}
+              ref={(node) => {
+                if (node) rowRefs.current.set(ambience.id, node)
+                else rowRefs.current.delete(ambience.id)
+              }}
+              selected={selected?.id === ambience.id}
+              leading={
+                <span
+                  className="ambience-swatch"
+                  style={{
+                    backgroundColor: toHex(
+                      selected?.id === ambience.id ? previewTint : ambience.tint,
+                    ),
+                  }}
+                  aria-hidden="true"
+                />
+              }
+              title={ambience.name}
+              meta={ambience.id}
+              trailing={
+                <DsTag tone="neutral">
+                  {referenceReady ? count : effectiveReferenceStatus === 'checking' ? '…' : '?'}
+                </DsTag>
+              }
+              onClick={() => selectAmbience(ambience.id)}
+            />
+          )
+        })}
+        {!ambiences.length ? <div className="insp-empty">项目中还没有氛围定义。</div> : null}
       </DsCatalogWorkspace>
 
       <DsObjectWorkspace
@@ -496,13 +519,19 @@ export function AmbienceTab(props: {
                   aria-label={`当前乘色 ${toHex(previewTint)}`}
                 />
               }
-              meta={<DsTag tone="neutral">{selectedReferences.length} 处引用</DsTag>}
+              meta={
+                <DsTag tone="neutral">
+                  {referenceReady ? `${selectedReferences.length} 处引用` : '引用数量未知'}
+                </DsTag>
+              }
               actions={
                 <DsButton
                   size="compact"
                   variant="danger"
                   icon="delete"
                   aria-label={`删除氛围 ${selected.name}`}
+                  disabled={!referenceReady}
+                  title={referenceReady ? '删除氛围' : '正在刷新氛围引用，暂不允许删除'}
                   onClick={(event) => beginDelete(selected, event.currentTarget)}
                 >
                   删除
@@ -572,63 +601,66 @@ export function AmbienceTab(props: {
               {
                 id: 'references',
                 label: '引用',
-                count: referenceScan.error ? undefined : selectedReferences.length,
+                count: referenceReady ? selectedReferences.length : undefined,
                 panel: (
                   <DsInspectorSection title="引用">
                     <DsReferencePanel
-                      state={
-                        referenceScan.error
-                          ? 'error'
-                          : selectedReferences.length
-                            ? 'ready'
-                            : 'empty'
-                      }
+                      state={referencePanelState}
                       count={
-                        referenceScan.error
-                          ? { kind: 'unknown' }
-                          : { kind: 'exact', value: selectedReferences.length }
+                        referenceReady
+                          ? { kind: 'exact', value: selectedReferences.length }
+                          : { kind: 'unknown' }
                       }
                       impact={{
                         kind: 'blocking',
-                        description: referenceScan.error
-                          ? `引用扫描失败：${referenceScan.error}。为防止误删，删除已关闭。`
-                          : selectedReferences.length
+                        description: referenceReady
+                          ? selectedReferences.length
                             ? '这些脚本或运行态正在使用当前稳定 ID；解除全部引用后才能删除。'
-                            : '当前作者快照没有引用这个氛围。',
+                            : '当前作者快照没有引用这个氛围。'
+                          : effectiveReferenceStatus === 'stale'
+                            ? '当前显示上次检查结果；刷新完成前不能删除。'
+                            : effectiveReferenceStatus === 'failed'
+                              ? '无法读取当前引用；删除已安全禁用。'
+                              : '正在检查当前氛围引用；完成前不能删除。',
                       }}
                     >
                       {selectedReferences.length ? (
                         <DsReferenceList>
-                          {selectedReferences.map((reference, index) => (
+                          {selectedReferences.map((reference) => (
                             <DsReferenceRow
-                              key={`${reference.kind}:${reference.where}:${index}`}
-                              title={reference.label}
+                              key={reference.id}
+                              title={reference.source.label}
                               path={reference.where}
                               labels={[
                                 {
                                   label:
-                                    reference.kind === 'world-state'
+                                    reference.relation.kind === 'ambience-use' &&
+                                    reference.relation.use === 'world-state'
                                       ? '运行态'
-                                      : reference.kind === 'toggle-day-night'
+                                      : reference.relation.kind === 'ambience-use' &&
+                                          reference.relation.use === 'toggle-day-night'
                                         ? '昼夜切换'
                                         : '剧情脚本',
                                 },
                               ]}
                               action={
-                                reference.locator && onOpenReference
+                                reference.locator.kind !== 'unavailable' && onOpenReference
                                   ? {
                                       label: '打开',
-                                      ariaLabel: `打开引用：${reference.label}`,
-                                      onActivate: () => onOpenReference(reference.locator!),
+                                      ariaLabel: `打开引用：${reference.source.label}`,
+                                      onActivate: () => onOpenReference(reference),
                                     }
                                   : undefined
                               }
                               status={
-                                reference.locator && onOpenReference
+                                reference.locator.kind !== 'unavailable' && onOpenReference
                                   ? undefined
                                   : {
                                       label: '只读',
-                                      reason: '当前引用没有可编辑的精确位置。',
+                                      reason:
+                                        reference.locator.kind === 'unavailable'
+                                          ? reference.locator.reason
+                                          : '当前引用没有可编辑的精确位置。',
                                     }
                               }
                             />
@@ -737,6 +769,7 @@ export function AmbienceTab(props: {
               variant="danger"
               disabled={
                 !deleteTarget ||
+                !referenceReady ||
                 Boolean(deleteTarget.scanError) ||
                 deleteTarget.references.length > 0
               }
@@ -757,23 +790,39 @@ export function AmbienceTab(props: {
             impact={{ kind: 'blocking', description: '删除会使稳定 ID 失去定义。' }}
           >
             <DsReferenceList initialVisibleCount={3}>
-              {deleteTarget.references.map((reference, index) => (
+              {deleteTarget.references.map((reference) => (
                 <DsReferenceRow
-                  key={`${reference.kind}:${reference.where}:${index}`}
-                  title={reference.label}
+                  key={reference.id}
+                  title={reference.source.label}
                   path={reference.where}
-                  labels={[{ label: reference.kind === 'world-state' ? '运行态' : '剧情脚本' }]}
+                  labels={[
+                    {
+                      label:
+                        reference.relation.kind === 'ambience-use' &&
+                        reference.relation.use === 'world-state'
+                          ? '运行态'
+                          : reference.relation.kind === 'ambience-use' &&
+                              reference.relation.use === 'toggle-day-night'
+                            ? '昼夜切换'
+                            : '剧情脚本',
+                    },
+                  ]}
                   action={
-                    reference.locator && onOpenReference
+                    reference.locator.kind !== 'unavailable' && onOpenReference
                       ? {
                           label: '打开',
-                          ariaLabel: `打开引用：${reference.label}`,
+                          ariaLabel: `打开引用：${reference.source.label}`,
                           onActivate: () => {
                             setDeleteTarget(undefined)
                             deleteTriggerRef.current = null
-                            onOpenReference(reference.locator!)
+                            onOpenReference(reference)
                           },
                         }
+                      : undefined
+                  }
+                  status={
+                    reference.locator.kind === 'unavailable'
+                      ? { label: '只读', reason: reference.locator.reason }
                       : undefined
                   }
                 />

@@ -54,7 +54,6 @@ import {
 } from 'react'
 import type { ActorReference } from '../core/actor-references.js'
 import type { BattleDataReference } from '../core/battle-data-references.js'
-import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import {
   AddEntityCommand,
   AddSceneCommand,
@@ -79,7 +78,6 @@ import {
   isEditorDerivedSnapshotCurrent,
 } from '../core/editor-derived-store.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
-import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import {
   collectEntityAddressReferences,
   entityAddressReferenceBlocksDeletion,
@@ -1078,39 +1076,28 @@ export function App(props: {
         return
     }
   }
-  const openBattleFieldReference = (reference: BlockingBattleFieldReference): void => {
-    const locator = reference.locator
-    if (!locator) {
-      setWorkspaceNotice({ kind: 'info', message: reference.label })
-      return
+  const openProjectSceneReference = (sceneId: string, entityId?: string): boolean => {
+    const targetScene = state.scenes.find((candidate) => candidate.id === sceneId)
+    if (!targetScene) {
+      setWorkspaceNotice({
+        kind: 'error',
+        message: `引用位置已变化：场景 ${sceneId} 不再存在。`,
+      })
+      return false
     }
-    if (locator.kind === 'canonical-script') {
-      openCanonicalReference(locator.reference)
-      return
+    if (entityId && !targetScene.entities.some((entity) => entity.id === entityId)) {
+      setWorkspaceNotice({
+        kind: 'error',
+        message: `引用位置已变化：场景 ${sceneId} 中的实体 ${entityId} 不再存在。`,
+      })
+      return false
     }
-    setPlaceSceneId(locator.sceneId)
-    applyEditorLocation(editorLinks.scene(locator.sceneId))
+    setPlaceSceneId(sceneId)
     setPlacingEntity(false)
-    setSelected(
-      locator.kind === 'scene-entity' ? { kind: 'entity', id: locator.entityId } : SCENE_SELECTION,
-    )
+    setSelected(entityId ? { kind: 'entity', id: entityId } : SCENE_SELECTION)
     setInspectorCollapsed(false)
-  }
-  const openEnemyTeamReference = (reference: BlockingEnemyTeamReference): void => {
-    const locator = reference.locator
-    if (!locator) {
-      setWorkspaceNotice({ kind: 'info', message: reference.label })
-      return
-    }
-    if (locator.kind === 'canonical-script') {
-      openCanonicalReference(locator.reference)
-      return
-    }
-    setPlaceSceneId(locator.sceneId)
-    applyEditorLocation(editorLinks.scene(locator.sceneId))
-    setPlacingEntity(false)
-    setSelected({ kind: 'entity', id: locator.entityId })
-    setInspectorCollapsed(false)
+    applyEditorLocation(editorLinks.scene(sceneId))
+    return true
   }
   const openProjectReference = (reference: ProjectReferenceEdge): void => {
     const locator = reference.locator
@@ -1133,11 +1120,12 @@ export function App(props: {
         applyEditorLocation(editorLinks.item(owner.itemId))
         return
       }
-      setPlaceSceneId(owner.sceneId)
-      applyEditorLocation(editorLinks.scene(owner.sceneId))
-      if (owner.kind === 'entity-behavior' || owner.kind === 'entity-hostile-on-lose')
-        setSelected({ kind: 'entity', id: owner.entityId })
-      else setSelected(SCENE_SELECTION)
+      openProjectSceneReference(
+        owner.sceneId,
+        owner.kind === 'entity-behavior' || owner.kind === 'entity-hostile-on-lose'
+          ? owner.entityId
+          : undefined,
+      )
       return
     }
     if (locator.kind === 'unavailable') {
@@ -1148,14 +1136,10 @@ export function App(props: {
     const object = locator.object
     switch (object.kind) {
       case 'scene':
-        setPlaceSceneId(object.id)
-        setSelected(SCENE_SELECTION)
-        applyEditorLocation(editorLinks.scene(object.id))
+        openProjectSceneReference(object.id)
         return
       case 'entity':
-        setPlaceSceneId(object.sceneId)
-        setSelected({ kind: 'entity', id: object.entityId })
-        applyEditorLocation(editorLinks.scene(object.sceneId))
+        openProjectSceneReference(object.sceneId, object.entityId)
         return
       case 'entry-point':
         applyEditorLocation(editorLinks.entryPoint(object.id))
@@ -2248,6 +2232,10 @@ export function App(props: {
             onStatusNotice={setWorkspaceNotice}
             onRequestSave={() => void save()}
             historyCoordinator={historyCoordinator}
+            projectReferenceIndex={projectReferenceIndex}
+            projectReferenceStatus={effectiveDerivedStatus}
+            getCurrentProjectReferenceIndex={currentProjectReferenceIndex}
+            onOpenProjectReference={openProjectReference}
             workspaceId={playWorkspaceId}
             onJumpToEvent={jumpToEvent}
             focusScriptId={activeSubpage.dataPage === 'scripts' ? location.objectId : undefined}
@@ -2293,8 +2281,6 @@ export function App(props: {
             onOpenStamp={(id) => applyEditorLocation(editorLinks.stamp(id))}
             onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
             onOpenBattleField={(id) => applyEditorLocation(editorLinks.battleField(id))}
-            onOpenBattleFieldReference={openBattleFieldReference}
-            onOpenEnemyTeamReference={openEnemyTeamReference}
             onOpenEnemy={(id) => applyEditorLocation(editorLinks.enemy(id))}
             onOpenEnemyTeam={(id) => applyEditorLocation(editorLinks.enemyTeam(id))}
             onOpenBattleDataReference={openBattleDataReference}

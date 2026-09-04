@@ -16,14 +16,14 @@ import type {
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import type { BattleDataReference } from '../core/battle-data-references.js'
-import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedData } from '../core/editor-derived-contract.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
-import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import type { ItemReference } from '../core/item-references.js'
 import type { ManifestLike, ProjectIssue } from '../core/project-diagnostics.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import type {
   CanonicalScriptReference,
   ScriptEditorState,
@@ -99,6 +99,10 @@ export function DataMode(props: {
   projectDiagnosticsStatus: 'checking' | 'stale' | 'current' | 'failed'
   derivedData?: EditorDerivedData
   derivedDiagnosticsMessage?: string
+  projectReferenceIndex?: ProjectReferenceIndex
+  projectReferenceStatus: 'checking' | 'stale' | 'current' | 'failed'
+  getCurrentProjectReferenceIndex: CurrentProjectReferenceIndexProvider
+  onOpenProjectReference: (reference: ProjectReferenceEdge) => void
   workspaceId?: string
   /** 角色定义(入口点 startWorld 队伍选人)。 */
   actors: import('@type-pal/content').ActorDef[]
@@ -136,8 +140,6 @@ export function DataMode(props: {
   onOpenStamp?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
   onOpenBattleField?: (id: number) => void
-  onOpenBattleFieldReference?: (reference: BlockingBattleFieldReference) => void
-  onOpenEnemyTeamReference?: (reference: BlockingEnemyTeamReference) => void
   onOpenEnemy?: (id: string) => void
   onOpenEnemyTeam?: (id: string) => void
   onOpenScript?: (id: string) => void
@@ -187,6 +189,10 @@ export function DataMode(props: {
     workspaceId,
     actors,
     skillList,
+    projectReferenceIndex,
+    projectReferenceStatus,
+    getCurrentProjectReferenceIndex,
+    onOpenProjectReference,
     focusScriptId,
     focusScriptRevision,
     focusScriptCommandPath,
@@ -206,8 +212,6 @@ export function DataMode(props: {
     onOpenStamp,
     onOpenBattleSprite,
     onOpenBattleField,
-    onOpenBattleFieldReference,
-    onOpenEnemyTeamReference,
     onOpenScript,
     onOpenWorldVariable,
     onOpenCanonicalReference,
@@ -319,11 +323,13 @@ export function DataMode(props: {
         projectId={manifest.id}
         workspaceId={workspaceId}
         session={session}
-        scriptState={script?.state}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
         onOpenEnemy={props.onOpenEnemy}
-        onOpenReference={onOpenEnemyTeamReference}
+        onOpenReference={onOpenProjectReference}
       />
     )
   }
@@ -438,10 +444,12 @@ export function DataMode(props: {
       <AmbienceTab
         ambiences={ambiences}
         session={session}
-        script={script}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        onOpenReference={onOpenCanonicalReference}
+        onOpenReference={onOpenProjectReference}
         tabBar={tabBar}
         preview={{
           manifest,
@@ -597,10 +605,12 @@ export function DataMode(props: {
         assetCatalog={assetCatalog}
         assetReader={assetReader}
         onOpenImage={onOpenImage}
-        onOpenBattleFieldReference={onOpenBattleFieldReference}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
+        onOpenBattleFieldReference={onOpenProjectReference}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        scriptState={script?.state}
       />
     )
   }

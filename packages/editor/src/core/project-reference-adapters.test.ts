@@ -2,7 +2,7 @@ import type { CurrentManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
 import type { EntityAddressReference } from './entity-address-references.js'
-import { createProjectReferenceIndex } from './project-reference.js'
+import { buildProjectReferenceSnapshot, createProjectReferenceIndex } from './project-reference.js'
 import {
   buildProjectReferenceSnapshotFromProjection,
   canonicalCommandTargetEdges,
@@ -60,11 +60,14 @@ describe('project reference adapters', () => {
     })
     const index = createProjectReferenceIndex(snapshot)
     expect(edges).toHaveLength(1)
-    expect(snapshot.rows).toHaveLength(1)
-    expect(
-      index.referencesTo({ kind: 'scene-entry', sceneId: 'next', entryId: 'door' }),
-    ).toHaveLength(1)
-    expect(index.referencesTo({ kind: 'scene', id: 'next' })[0]?.id).toBe(0)
+    expect(snapshot.rows).toHaveLength(2)
+    const entryReference = index.referencesTo({
+      kind: 'scene-entry',
+      sceneId: 'next',
+      entryId: 'door',
+    })[0]
+    expect(entryReference).toBeDefined()
+    expect(index.referencesTo({ kind: 'scene', id: 'next' })[0]?.id).toBe(entryReference?.id)
   })
 
   test('buy creates a shop edge while sell zero/nonzero never does', () => {
@@ -96,10 +99,111 @@ describe('project reference adapters', () => {
       ],
     } as Pick<EditorState, 'manifest' | 'scenes'>)
     expect(edges.map((edge) => edge.target)).toEqual([
+      { kind: 'battle-field', id: '24' },
       { kind: 'scene', id: 'start' },
       { kind: 'map', id: 'map-start' },
     ])
     expect(edges.every((edge) => !edge.source.key.includes('主入口'))).toBe(true)
+  })
+
+  test('structural battle field, enemy team and runtime ambience edges preserve ownership', () => {
+    const edges = structuralProjectReferenceEdges({
+      manifest: noEntryManifest,
+      scenes: [
+        {
+          id: 'arena',
+          mapId: 'map-arena',
+          battleFieldId: 25,
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: 'guard',
+              sprite: 'guard',
+              pos: { col: 1, row: 2, height: 0 },
+              hostile: { enemyTeamId: 'team-guard', battleFieldId: 26 },
+            },
+          ],
+        },
+      ],
+      worlds: [
+        {
+          ambience: 'night',
+          party: [],
+          reserve: [],
+          money: 0,
+          learnedSkills: {},
+          inventory: [],
+        },
+      ],
+    } as Pick<EditorState, 'manifest' | 'scenes' | 'worlds'>)
+    const index = createProjectReferenceIndex(buildProjectReferenceSnapshot(edges))
+
+    expect(index.referencesTo({ kind: 'battle-field', id: '24' })).toMatchObject([
+      {
+        relation: { kind: 'battle-field-use', use: 'project-default' },
+        locator: { kind: 'unavailable' },
+        deletePolicy: 'block',
+      },
+    ])
+    expect(index.referencesTo({ kind: 'battle-field', id: '25' })).toMatchObject([
+      {
+        source: { owner: { kind: 'scene', id: 'arena' } },
+        relation: { kind: 'battle-field-use', use: 'scene-default' },
+        locator: {
+          kind: 'object',
+          object: { kind: 'scene', id: 'arena' },
+          section: 'battle-field',
+        },
+      },
+    ])
+    expect(index.referencesTo({ kind: 'battle-field', id: '26' })).toMatchObject([
+      {
+        source: { owner: { kind: 'scene-entity', sceneId: 'arena', entityId: 'guard' } },
+        relation: { kind: 'battle-field-use', use: 'hostile' },
+        locator: {
+          kind: 'object',
+          object: { kind: 'entity', sceneId: 'arena', entityId: 'guard' },
+        },
+      },
+    ])
+    expect(index.referencesTo({ kind: 'enemy-team', id: 'team-guard' })).toMatchObject([
+      { relation: { kind: 'enemy-team-use', use: 'hostile' } },
+    ])
+    expect(index.referencesTo({ kind: 'ambience', id: 'night' })).toMatchObject([
+      {
+        source: { owner: { kind: 'runtime-world' } },
+        relation: { kind: 'ambience-use', use: 'world-state' },
+        locator: { kind: 'unavailable' },
+        deletePolicy: 'block',
+      },
+    ])
+  })
+
+  test('canonical battle and ambience commands use domain relations with exact locators', () => {
+    const edges = canonicalCommandTargetEdges([
+      commandVisit({ kind: 'startBattle', enemyTeamId: 'team-boss', fieldId: 30 }, 'battle'),
+      commandVisit({ kind: 'setAmbience', ambience: 'warm' }, 'ambience'),
+      commandVisit({ kind: 'toggleDayNight', ms: 800 }, 'toggle'),
+    ])
+    const index = createProjectReferenceIndex(buildProjectReferenceSnapshot(edges))
+
+    expect(index.referencesTo({ kind: 'enemy-team', id: 'team-boss' })).toMatchObject([
+      {
+        relation: { kind: 'enemy-team-use', use: 'start-battle' },
+        locator: { kind: 'canonical-script' },
+        deletePolicy: 'replace-suggest',
+      },
+    ])
+    expect(index.referencesTo({ kind: 'battle-field', id: '30' })).toMatchObject([
+      { relation: { kind: 'battle-field-use', use: 'start-battle' } },
+    ])
+    expect(index.referencesTo({ kind: 'ambience', id: 'warm' })).toMatchObject([
+      { relation: { kind: 'ambience-use', use: 'set-ambience' } },
+    ])
+    for (const id of ['day', 'night'])
+      expect(index.referencesTo({ kind: 'ambience', id })).toMatchObject([
+        { relation: { kind: 'ambience-use', use: 'toggle-day-night' } },
+      ])
   })
 
   test('self entity addresses are omitted while cross-owner addresses stay queryable', () => {
@@ -127,7 +231,7 @@ describe('project reference adapters', () => {
     const index = createProjectReferenceIndex(snapshot)
     expect(edges).toHaveLength(1)
     expect(edges[0]?.where).toBe('scenes[0].entities[1].target')
-    expect(snapshot.rows).toHaveLength(1)
+    expect(snapshot.rows).toHaveLength(2)
     expect(index.referencesTo({ kind: 'scene', id: 'start' })).toHaveLength(0)
     const entity = { kind: 'entity', sceneId: 'start', entityId: 'door' } as const
     expect(index.deletionImpact(entity, index.deletionScopeFor([entity])).blockers).toHaveLength(1)
@@ -151,6 +255,70 @@ describe('project reference adapters', () => {
       locator: { kind: 'unavailable' },
       deletePolicy: 'block',
     })
+  })
+
+  test('legacy battle and ambience targets keep domain relations but remain readonly blockers', () => {
+    const edges = legacyScriptChunkTargetEdges({
+      c0: {
+        id: 'c0',
+        scripts: {
+          legacy: [
+            { kind: 'startBattle', enemyTeamId: 'team-old', fieldId: 31 },
+            { kind: 'setAmbience', ambience: 'warm' },
+            { kind: 'toggleDayNight', ms: 800 },
+          ],
+        },
+      },
+    } as never)
+    expect(edges).toHaveLength(5)
+    expect(edges.every((edge) => edge.locator.kind === 'unavailable')).toBe(true)
+    expect(edges.every((edge) => edge.deletePolicy === 'block')).toBe(true)
+    expect(edges.map((edge) => edge.relation)).toEqual(
+      expect.arrayContaining([
+        { kind: 'enemy-team-use', use: 'start-battle' },
+        { kind: 'battle-field-use', use: 'start-battle' },
+        { kind: 'ambience-use', use: 'set-ambience' },
+        { kind: 'ambience-use', use: 'toggle-day-night' },
+      ]),
+    )
+  })
+
+  test('runtime world entity and ambience edges share one stable source definition', () => {
+    const runtimeReference: EntityAddressReference = {
+      sceneId: 'arena',
+      entityId: 'guard',
+      path: 'worlds[0].script.followers[0]',
+      locator: { kind: 'world', worldId: 'save-1' },
+    }
+    const snapshot = buildProjectReferenceSnapshotFromProjection({
+      state: {
+        manifest: noEntryManifest,
+        scenes: [],
+        scriptChunks: {},
+        worlds: [
+          {
+            ambience: 'night',
+            party: [],
+            reserve: [],
+            money: 0,
+            learnedSkills: {},
+            inventory: [],
+          },
+        ],
+      } as unknown as EditorState,
+      scriptState: { scenes: [], items: [], sharedScripts: {} },
+      commandVisits: [],
+      entityAddressReferences: [runtimeReference],
+    })
+    const runtimeSources = snapshot.sources.filter(
+      (source) => source.owner.kind === 'runtime-world',
+    )
+    expect(runtimeSources).toEqual([expect.objectContaining({ label: '运行态/存档' })])
+    const index = createProjectReferenceIndex(snapshot)
+    expect(index.referencesTo({ kind: 'ambience', id: 'night' })).toHaveLength(1)
+    expect(
+      index.referencesTo({ kind: 'entity', sceneId: 'arena', entityId: 'guard' }),
+    ).toHaveLength(1)
   })
 
   test('builder accepts the same projection inputs in sync and worker callers', () => {

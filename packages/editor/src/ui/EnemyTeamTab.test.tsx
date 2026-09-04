@@ -5,6 +5,13 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceIndex } from '../core/project-reference.js'
+import {
+  type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectReferenceIndex,
+} from '../core/project-reference-adapters.js'
+import type { ScriptEditorState } from '../core/script-editor.js'
 import { EnemyTeamTab } from './EnemyTeamTab.js'
 import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
 
@@ -89,14 +96,23 @@ function state(): EditorState {
 
 function Harness(props: {
   session: EditSession
+  focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   onOpenEnemy?: (id: string) => void
+  referenceStatus?: EditorDerivedStatus
+  referenceIndex?: ProjectReferenceIndex
+  omitReferenceIndex?: boolean
+  getCurrentReferenceIndex?: CurrentProjectReferenceIndexProvider
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
+  const currentReferences = (next: EditorState) => collectCurrentProjectReferenceIndex(next)
+  const index = props.omitReferenceIndex
+    ? undefined
+    : (props.referenceIndex ?? currentReferences(current))
   return (
     <EnemyTeamTab
       enemyTeams={current.enemyTeams ?? []}
@@ -109,6 +125,10 @@ function Harness(props: {
       scenes={current.scenes}
       projectId="demo"
       session={props.session}
+      referenceIndex={index}
+      referenceStatus={props.referenceStatus ?? 'current'}
+      getCurrentReferenceIndex={props.getCurrentReferenceIndex ?? currentReferences}
+      focusObjectId={props.focusObjectId}
       onObjectFocus={props.onObjectFocus}
       onOpenEnemy={props.onOpenEnemy}
     />
@@ -224,7 +244,8 @@ describe('EnemyTeamTab authoring closure', () => {
     expect(host.textContent).toContain('10 经验')
     expect(host.textContent).toContain('20 金钱')
     expect(host.textContent).toContain('30 收妖值')
-    expect(host.textContent).toContain('场景 s001 / 实体 e1 的敌队')
+    expect(host.textContent).toContain('场景 s001 · 实体 e1')
+    expect(host.textContent).toContain('敌对实体')
     expect(host.querySelector<HTMLAnchorElement>('a[href*="battle="]')?.getAttribute('href')).toBe(
       'play.html?project=demo&battle=team-c1',
     )
@@ -404,5 +425,90 @@ describe('EnemyTeamTab authoring closure', () => {
       fourth.querySelector<HTMLButtonElement>('[aria-label="槽 4 下移"]')!.click(),
     )
     expect(session.getHistoryVersion()).toBe(history)
+  })
+
+  test.each([
+    ['checking', 'loading'],
+    ['stale', 'partial'],
+    ['failed', 'error'],
+  ] as const)('%s 引用快照不冒充零引用并禁用删除', async (status, panelState) => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} referenceStatus={status} />))
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe(panelState)
+    expect(host.textContent).toContain('数量未知')
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+        candidate.textContent?.includes('删除敌队'),
+      )?.disabled,
+    ).toBe(true)
+  })
+
+  test('current 但索引缺失时仍按失败态关闭删除', async () => {
+    const session = new EditSession(state())
+    await act(async () =>
+      root.render(<Harness session={session} omitReferenceIndex referenceStatus="current" />),
+    )
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe('error')
+    expect(host.textContent).toContain('数量未知')
+  })
+
+  test('展示为零后删除仍以 live canonical oracle 为准', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const current = state()
+    current.scenes = []
+    current.enemyTeams = [{ id: 'team-c2', slots: [] }]
+    const session = new EditSession(current)
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/live': {
+          name: '实时开战',
+          self: 'none',
+          body: [{ kind: 'startBattle', enemyTeamId: 'team-c2' }],
+        },
+      },
+    }
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          getCurrentReferenceIndex={(editorState) =>
+            collectCurrentProjectReferenceIndex(editorState, canonical)
+          }
+        />,
+      ),
+    )
+    const remove = [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+      candidate.textContent?.includes('删除敌队'),
+    )!
+    expect(remove.disabled).toBe(false)
+    await act(async () => remove.click())
+    expect(session.getState().enemyTeams?.some((team) => team.id === 'team-c2')).toBe(true)
+    expect(host.textContent).toContain('仍有 1 处引用')
+  })
+
+  test('live oracle 失败时保留敌队并显示错误', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const current = state()
+    current.scenes = []
+    current.enemyTeams = [{ id: 'team-c2', slots: [] }]
+    const session = new EditSession(current)
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          getCurrentReferenceIndex={() => {
+            throw new Error('oracle down')
+          }}
+        />,
+      ),
+    )
+    const remove = [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+      candidate.textContent?.includes('删除敌队'),
+    )!
+    await act(async () => remove.click())
+    expect(session.getState().enemyTeams?.some((team) => team.id === 'team-c2')).toBe(true)
+    expect(host.textContent).toContain('oracle down')
   })
 })

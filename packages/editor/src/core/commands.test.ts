@@ -148,6 +148,8 @@ function st(): EditorState {
   } as never
 }
 
+const currentReferences = (state: EditorState) => collectCurrentProjectReferenceIndex(state)
+
 function stActor(): EditorState {
   const base = st() as EditorState & { actors: ActorDef[] }
   base.assetCatalog = {
@@ -895,20 +897,22 @@ describe('D24 战场命令(不可变 + invert)', () => {
         magicEffect: { wind: 1, thunder: 0, water: 0, fire: 0, earth: 0 },
       },
     ]
-    const remove25 = new DeleteBattleFieldCommand(25)
+    const remove25 = new DeleteBattleFieldCommand(25, currentReferences)
     const s1 = remove25.apply(s0)
     expect(s1.battleFields!.map((field) => field.id)).toEqual([24])
     expect(remove25.invert(s1).battleFields).toEqual(s0.battleFields)
 
     const only25 = { ...s0, battleFields: [s0.battleFields[1]!] }
-    const empty = new DeleteBattleFieldCommand(25).apply(only25)
+    const empty = new DeleteBattleFieldCommand(25, currentReferences).apply(only25)
     expect(empty.battleFields).toEqual([])
     expect(empty.manifest.content.battleFields).toBe(BATTLE_FIELDS_PATH)
   })
 
   test('系统默认、场景默认、hostile 与嵌套 startBattle 都会阻断删除', () => {
     const system = stF()
-    expect(() => new DeleteBattleFieldCommand(24).apply(system)).toThrow(BattleFieldInUseError)
+    expect(() => new DeleteBattleFieldCommand(24, currentReferences).apply(system)).toThrow(
+      BattleFieldInUseError,
+    )
 
     const referenced = stF()
     referenced.battleFields!.push(
@@ -934,11 +938,17 @@ describe('D24 战场命令(不可变 + invert)', () => {
       entities: [
         {
           ...referenced.scenes[0]!.entities[0]!,
-          hostile: { battleFieldId: 26 } as never,
+          hostile: { enemyTeamId: 'team-1', battleFieldId: 26 },
         },
       ],
-      onEnter: [
-        {
+    }
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/battle': {
+          name: '战场引用',
+          self: 'none',
           body: [
             {
               kind: 'branch',
@@ -948,17 +958,104 @@ describe('D24 战场命令(不可变 + invert)', () => {
             },
           ],
         },
-      ],
+      },
     }
+    const referencesWithCanonical = (state: EditorState) =>
+      collectCurrentProjectReferenceIndex(state, canonical)
     for (const id of [25, 26, 27]) {
       try {
-        new DeleteBattleFieldCommand(id).apply(referenced)
+        new DeleteBattleFieldCommand(id, referencesWithCanonical).apply(referenced)
         throw new Error('预期引用阻断')
       } catch (error) {
         expect(error).toBeInstanceOf(BattleFieldInUseError)
         expect((error as BattleFieldInUseError).references.length).toBeGreaterThan(0)
       }
     }
+  })
+
+  test('DeleteBattleField 在 apply 时读取 live canonical 精确引用', () => {
+    const state = stF()
+    state.battleFields!.push({
+      id: 25,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    })
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/live': {
+          name: '实时战场引用',
+          self: 'none',
+          body: [{ kind: 'startBattle', enemyTeamId: 'team-live', fieldId: 25 }],
+        },
+      },
+    }
+    const provider = vi.fn((current: EditorState) =>
+      collectCurrentProjectReferenceIndex(current, canonical),
+    )
+    try {
+      new DeleteBattleFieldCommand(25, provider).apply(state)
+      throw new Error('预期引用阻断')
+    } catch (error) {
+      expect(error).toBeInstanceOf(BattleFieldInUseError)
+      expect((error as BattleFieldInUseError).references).toMatchObject([
+        {
+          relation: { kind: 'battle-field-use', use: 'start-battle' },
+          locator: { kind: 'canonical-script' },
+        },
+      ])
+    }
+    expect(provider).toHaveBeenCalledTimes(1)
+    expect(state.battleFields!.some((field) => field.id === 25)).toBe(true)
+  })
+
+  test('DeleteBattleField 缺目标跳过 oracle，失败零写，redo 重验最新引用', () => {
+    const state = stF()
+    state.battleFields!.push({
+      id: 25,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    })
+    const unusedProvider = vi.fn(() => {
+      throw new Error('不应调用')
+    })
+    expect(new DeleteBattleFieldCommand(999, unusedProvider).apply(state)).toBe(state)
+    expect(unusedProvider).not.toHaveBeenCalled()
+
+    const failed = new EditSession(state)
+    expect(() =>
+      failed.dispatch(
+        new DeleteBattleFieldCommand(25, () => {
+          throw new Error('oracle down')
+        }),
+      ),
+    ).toThrow('oracle down')
+    expect(failed.getState().battleFields).toEqual(state.battleFields)
+    expect(failed.getHistoryVersion()).toBe(0)
+
+    let canonical: ScriptEditorState = { scenes: [], items: [], sharedScripts: {} }
+    const session = new EditSession(state)
+    session.dispatch(
+      new DeleteBattleFieldCommand(25, (current) =>
+        collectCurrentProjectReferenceIndex(current, canonical),
+      ),
+    )
+    expect(session.undo()).toBe(true)
+    canonical = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/live': {
+          name: '后加入引用',
+          self: 'none',
+          body: [{ kind: 'startBattle', enemyTeamId: 'team-live', fieldId: 25 }],
+        },
+      },
+    }
+    expect(() => session.redo()).toThrow(BattleFieldInUseError)
+    expect(session.getState().battleFields!.some((field) => field.id === 25)).toBe(true)
+    expect(session.canRedo()).toBe(true)
   })
 
   test('UpdateBattleField 在命令边界拒绝非法五行结构', () => {
@@ -1863,7 +1960,7 @@ describe('W6 氛围命令(不可变 + invert)', () => {
   })
   test('DeleteAmbience:零引用时删除;invert 按原索引恢复且源不变', () => {
     const s0 = stA()
-    const cmd = new DeleteAmbienceCommand('day')
+    const cmd = new DeleteAmbienceCommand('day', currentReferences)
     const s1 = cmd.apply(s0)
     expect(s1.ambiences?.map((ambience) => ambience.id)).toEqual(['night'])
     expect(s0.ambiences?.map((ambience) => ambience.id)).toEqual(['day', 'night'])
@@ -1878,7 +1975,9 @@ describe('W6 氛围命令(不可变 + invert)', () => {
         body: [{ kind: 'setAmbience', ambience: 'day' }],
       },
     }
-    expect(() => new DeleteAmbienceCommand('day').apply(explicit)).toThrow(AmbienceInUseError)
+    expect(() => new DeleteAmbienceCommand('day', currentReferences).apply(explicit)).toThrow(
+      AmbienceInUseError,
+    )
     expect(explicit.ambiences).toHaveLength(2)
 
     const implicit = stA()
@@ -1889,7 +1988,9 @@ describe('W6 氛围命令(不可变 + invert)', () => {
         scripts: { 'shared/day-night': [{ kind: 'toggleDayNight', ms: 800 }] },
       },
     }
-    expect(() => new DeleteAmbienceCommand('night').apply(implicit)).toThrow(/仍被 1 处引用/)
+    expect(() => new DeleteAmbienceCommand('night', currentReferences).apply(implicit)).toThrow(
+      /仍被 1 处引用/,
+    )
 
     const runtime = stA()
     runtime.worlds = [
@@ -1902,7 +2003,9 @@ describe('W6 氛围命令(不可变 + invert)', () => {
         inventory: [],
       },
     ]
-    expect(() => new DeleteAmbienceCommand('day').apply(runtime)).toThrow(/仍被 1 处引用/)
+    expect(() => new DeleteAmbienceCommand('day', currentReferences).apply(runtime)).toThrow(
+      /仍被 1 处引用/,
+    )
   })
   test('DeleteAmbience:删除时重读独立脚本会话并阻断尚未投影的引用', () => {
     const s0 = stA()
@@ -1917,9 +2020,66 @@ describe('W6 氛围命令(不可变 + invert)', () => {
         },
       },
     }
-    expect(() => new DeleteAmbienceCommand('day', () => canonical).apply(s0)).toThrow(
-      AmbienceInUseError,
+    const provider = vi.fn((state: EditorState) =>
+      collectCurrentProjectReferenceIndex(state, canonical),
     )
+    try {
+      new DeleteAmbienceCommand('day', provider).apply(s0)
+      throw new Error('预期引用阻断')
+    } catch (error) {
+      expect(error).toBeInstanceOf(AmbienceInUseError)
+      expect((error as AmbienceInUseError).references).toMatchObject([
+        {
+          relation: { kind: 'ambience-use', use: 'set-ambience' },
+          locator: { kind: 'canonical-script' },
+        },
+      ])
+    }
+    expect(provider).toHaveBeenCalledTimes(1)
+    expect(s0.ambiences).toHaveLength(2)
+  })
+
+  test('DeleteAmbience:缺目标跳过 oracle，失败零写，redo 重验最新引用', () => {
+    const s0 = stA()
+    const unusedProvider = vi.fn(() => {
+      throw new Error('不应调用')
+    })
+    expect(new DeleteAmbienceCommand('missing', unusedProvider).apply(s0)).toBe(s0)
+    expect(unusedProvider).not.toHaveBeenCalled()
+
+    const failed = new EditSession(s0)
+    expect(() =>
+      failed.dispatch(
+        new DeleteAmbienceCommand('day', () => {
+          throw new Error('oracle down')
+        }),
+      ),
+    ).toThrow('oracle down')
+    expect(failed.getState().ambiences).toEqual(s0.ambiences)
+    expect(failed.getHistoryVersion()).toBe(0)
+
+    let canonical: ScriptEditorState = { scenes: [], items: [], sharedScripts: {} }
+    const session = new EditSession(s0)
+    session.dispatch(
+      new DeleteAmbienceCommand('day', (state) =>
+        collectCurrentProjectReferenceIndex(state, canonical),
+      ),
+    )
+    expect(session.undo()).toBe(true)
+    canonical = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/live': {
+          name: '后加入引用',
+          self: 'none',
+          body: [{ kind: 'setAmbience', ambience: 'day' }],
+        },
+      },
+    }
+    expect(() => session.redo()).toThrow(AmbienceInUseError)
+    expect(session.getState().ambiences?.some((ambience) => ambience.id === 'day')).toBe(true)
+    expect(session.canRedo()).toBe(true)
   })
 })
 

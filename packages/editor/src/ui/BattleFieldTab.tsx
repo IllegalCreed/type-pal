@@ -10,10 +10,6 @@ import type { AssetBase } from '@type-pal/reforge'
 import { loadBattleBg, loadStandardPalette } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
-  type BlockingBattleFieldReference,
-  battleFieldReferences,
-} from '../core/battle-field-references.js'
-import {
   AddBattleFieldCommand,
   BattleFieldInUseError,
   type BattleFieldPatch,
@@ -24,7 +20,9 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import type { ScriptEditorState } from '../core/script-editor.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   DsButton,
   DsDraftNumberField,
@@ -111,10 +109,12 @@ export function BattleFieldTab(props: {
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
   onOpenImage?: (asset: AssetId) => void
-  onOpenBattleFieldReference?: (reference: BlockingBattleFieldReference) => void
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
+  onOpenBattleFieldReference?: (reference: ProjectReferenceEdge) => void
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  scriptState?: ScriptEditorState
 }) {
   const {
     battleFields,
@@ -123,10 +123,12 @@ export function BattleFieldTab(props: {
     assetCatalog,
     assetReader,
     onOpenImage,
+    referenceIndex,
+    referenceStatus,
+    getCurrentReferenceIndex,
     onOpenBattleFieldReference,
     focusObjectId,
     onObjectFocus,
-    scriptState,
   } = props
   const sorted = useMemo(
     () => [...battleFields].sort((left, right) => left.id - right.id),
@@ -153,10 +155,26 @@ export function BattleFieldTab(props: {
   const references = useMemo(
     () =>
       field
-        ? battleFieldReferences(session.getState(), field.id, scriptState)
-        : ([] as BlockingBattleFieldReference[]),
-    [field, scriptState, session],
+        ? (referenceIndex?.deletionImpact({
+            kind: 'battle-field',
+            id: String(field.id),
+          }).blockers ?? [])
+        : [],
+    [field, referenceIndex],
   )
+  const referenceReady = referenceStatus === 'current' && referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
+  const referencePanelState =
+    effectiveReferenceStatus === 'current'
+      ? references.length
+        ? 'ready'
+        : 'empty'
+      : effectiveReferenceStatus === 'checking'
+        ? 'loading'
+        : effectiveReferenceStatus === 'stale'
+          ? 'partial'
+          : 'error'
   const hasDefault = battleFields.some((candidate) => candidate.id === DEFAULT_BATTLE_FIELD_ID)
 
   useEffect(() => {
@@ -218,9 +236,24 @@ export function BattleFieldTab(props: {
     selectField(id)
   }
   const remove = (): void => {
-    if (!field || !window.confirm(`删除“${fieldTitle(field)}”？此操作可以撤销。`)) return
+    if (!field) return
+    if (!referenceReady) {
+      setNotice('正在刷新战场引用，暂不允许删除。')
+      return
+    }
+    if (references.length) {
+      setNotice(`仍有 ${references.length} 处引用，请先从右侧引用列表处理。`)
+      return
+    }
+    if (!window.confirm(`删除“${fieldTitle(field)}”？此操作可以撤销。`)) return
     try {
-      session.dispatch(new DeleteBattleFieldCommand(field.id))
+      const changed = session.dispatch(
+        new DeleteBattleFieldCommand(field.id, getCurrentReferenceIndex),
+      )
+      if (!changed) {
+        setNotice('战场已变化，未执行删除。')
+        return
+      }
       setNotice(undefined)
     } catch (error) {
       if (error instanceof BattleFieldInUseError)
@@ -295,7 +328,19 @@ export function BattleFieldTab(props: {
                   objectId={`#${String(field.id).padStart(3, '0')}`}
                   summary="负责战斗画面与环境参数；角色、敌人的站位仍由各自战斗数据管理。"
                   actions={
-                    <DsButton variant="danger" icon="delete" onClick={remove}>
+                    <DsButton
+                      variant="danger"
+                      icon="delete"
+                      disabled={!referenceReady || references.length > 0}
+                      title={
+                        !referenceReady
+                          ? '正在刷新战场引用，暂不允许删除'
+                          : references.length
+                            ? `仍有 ${references.length} 处引用`
+                            : '删除战场'
+                      }
+                      onClick={remove}
+                    >
                       删除战场
                     </DsButton>
                   }
@@ -446,36 +491,43 @@ export function BattleFieldTab(props: {
         </header>
         {field ? (
           <DsReferencePanel
-            state={references.length ? 'ready' : 'empty'}
-            count={{ kind: 'exact', value: references.length }}
+            state={referencePanelState}
+            count={
+              referenceReady ? { kind: 'exact', value: references.length } : { kind: 'unknown' }
+            }
             impact={{
               kind: 'blocking',
-              description: references.length
-                ? '删除会被任意引用阻断；先跳转处理，再回到这里删除。'
-                : '当前战场可以安全删除。',
+              description: referenceReady
+                ? references.length
+                  ? '删除会被任意引用阻断；先跳转处理，再回到这里删除。'
+                  : '当前战场可以安全删除。'
+                : '引用结果尚非当前版本；刷新完成前删除已禁用。',
             }}
           >
             {references.length ? (
               <DsReferenceList>
                 {references.map((reference) => (
                   <DsReferenceRow
-                    key={`${reference.kind}:${reference.where}`}
-                    title={reference.label}
+                    key={reference.id}
+                    title={reference.source.label}
                     path={reference.where}
                     labels={[
                       {
                         label:
-                          reference.kind === 'project-default'
+                          reference.relation.kind === 'battle-field-use' &&
+                          reference.relation.use === 'project-default'
                             ? '系统默认'
-                            : reference.kind === 'scene-default'
+                            : reference.relation.kind === 'battle-field-use' &&
+                                reference.relation.use === 'scene-default'
                               ? '场景默认'
-                              : reference.kind === 'hostile'
+                              : reference.relation.kind === 'battle-field-use' &&
+                                  reference.relation.use === 'hostile'
                                 ? '敌对实体'
                                 : '剧情开战',
                       },
                     ]}
                     action={
-                      reference.locator && onOpenBattleFieldReference
+                      reference.locator.kind !== 'unavailable' && onOpenBattleFieldReference
                         ? {
                             label: '打开',
                             onActivate: () => onOpenBattleFieldReference(reference),
@@ -483,11 +535,14 @@ export function BattleFieldTab(props: {
                         : undefined
                     }
                     status={
-                      reference.locator && onOpenBattleFieldReference
+                      reference.locator.kind !== 'unavailable' && onOpenBattleFieldReference
                         ? undefined
                         : {
                             label: '暂不可定位',
-                            reason: '当前没有可编辑的精确位置。',
+                            reason:
+                              reference.locator.kind === 'unavailable'
+                                ? reference.locator.reason
+                                : '当前没有可编辑的精确位置。',
                             tone: 'warning',
                           }
                     }

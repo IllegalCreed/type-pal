@@ -61,3 +61,21 @@ ready reply structuredClone:
 耗时只作同机手工回归，不进入易抖 CI。CI 使用确定性门：PAL blocker parity、rows/target buckets、
 统一快照 JSON 上限、sync/Worker deep equality，以及 Worker reply 不同时携带旧 entity/scene-entry DTO。
 
+## B 批战场 / 敌队 / 氛围纵切检查点
+
+工作树基于 `03767dda`，加入 project-default / scene-default / hostile 的战场边、hostile 敌队边、
+runtime world 氛围边，并把 startBattle / setAmbience / toggleDayNight 映射到领域 relation。真实 PAL
+确定性规模变为 6,928 rows、2,961 targets、2,769 sources、2,889 locators、8,704 bucket entries；
+其中新增 937 rows = 项目默认战场 1 + 场景默认战场 108 + hostile 敌队 828。领域 census 为
+battle-field-use 141、enemy-team-use 1,002、ambience-use 42。
+
+隔离复跑（n=20）结果：snapshot p50/p95 = 598.126/659.089ms，derived p50/p95 =
+598.248/733.232ms，project-reference build p50/p95 = 32.247/43.107ms；均在 A 批冻结预算内。
+ready reply JSON/V8 = 5,612,699/5,035,325B，projectReferences JSON/V8 =
+2,462,318/2,118,980B，request payload 仍为 16,556,593/15,511,159B。索引 JSON 距 2.5MB
+确定性门只余 37,682B，后续 B/C 不得机械抬阈值：必须随 adopter 迁移同步退役旧 DTO，并以完整 reply
+净体积和冷/Worker 同构结果共同判断。
+
+在隔离复跑前的一轮同机样本受其他测试负载影响，snapshot p50/p95 = 636.619/725.167ms、derived
+p50/p95 = 675.556/817.795ms；前者通过、后者超手工时间预算。时间门不进 CI，因此保留该抖动记录；
+确定性门与随后隔离复跑均通过，若后续隔离复跑再次稳定超限则按卡面约定收缩物化范围。

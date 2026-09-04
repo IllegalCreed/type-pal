@@ -7,6 +7,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import type { ItemReference } from '../core/item-references.js'
+import type { ProjectReferenceEdge, ProjectReferenceTarget } from '../core/project-reference.js'
 import {
   type CanonicalScriptReference,
   type ScriptEditorState,
@@ -245,12 +246,30 @@ const sceneReference: Extract<CanonicalScriptReference, { kind: 'command' }> = {
 
 type DataModeProbe = {
   onOpenItemReference: (reference: ItemReference) => void
+  onOpenProjectReference: (reference: ProjectReferenceEdge) => void
   focusItemPrivateScript?: {
     itemId: string
     ability: 'use' | 'throw'
     scriptId: string
     commandPath: string
     revision: number
+  }
+}
+
+function projectObjectReference(object: ProjectReferenceTarget): ProjectReferenceEdge {
+  return {
+    id: 0,
+    target: { kind: 'battle-field', id: '24' },
+    source: {
+      key: 'test-source',
+      owner: { kind: 'project-part', id: 'test-source' },
+      label: '测试引用',
+      deletedWith: [],
+    },
+    relation: { kind: 'battle-field-use', use: 'scene-default' },
+    where: 'test.reference',
+    locator: { kind: 'object', object },
+    deletePolicy: 'replace-suggest',
   }
 }
 
@@ -535,6 +554,55 @@ describe('App item reference navigation', () => {
     expect((probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).placingEntity).toBe(
       false,
     )
+  })
+
+  test('统一 scene/entity locator 会退出放置模式、展开检查器并验证目标仍存在', async () => {
+    await renderApp()
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+
+    await act(async () => openReference(projectObjectReference({ kind: 'scene', id: 's047' })))
+    const addEntity = host.querySelector<HTMLButtonElement>('[aria-label="添加实体"]')!
+    await act(async () => addEntity.click())
+    expect((probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).placingEntity).toBe(true)
+
+    const inspectorToggle = host.querySelector<HTMLButtonElement>(
+      'header button[aria-label="Inspector"]',
+    )!
+    await act(async () => inspectorToggle.click())
+    expect(host.querySelector('section.body')?.classList).toContain('inspector-collapsed')
+
+    await act(async () =>
+      openReference(projectObjectReference({ kind: 'entity', sceneId: 's047', entityId: 'e760' })),
+    )
+    expect(window.location.search).toContain('object=s047')
+    expect((probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).placingEntity).toBe(
+      false,
+    )
+    expect((probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedEntityId).toBe(
+      'e760',
+    )
+    expect(host.querySelector('section.body')?.classList).not.toContain('inspector-collapsed')
+  })
+
+  test('统一 scene/entity locator 对过期目标明确报错且不误导航', async () => {
+    await renderApp()
+    const openReference = (probes.dataMode.mock.calls.at(-1)?.[0] as DataModeProbe)
+      .onOpenProjectReference
+
+    await act(async () =>
+      openReference(projectObjectReference({ kind: 'scene', id: 'missing-scene' })),
+    )
+    expect(window.location.search).toContain('module=item')
+    expect(host.textContent).toContain('引用位置已变化：场景 missing-scene 不再存在')
+
+    await act(async () =>
+      openReference(
+        projectObjectReference({ kind: 'entity', sceneId: 's047', entityId: 'missing-entity' }),
+      ),
+    )
+    expect(window.location.search).toContain('module=item')
+    expect(host.textContent).toContain('实体 missing-entity 不再存在')
   })
 
   test('场景地图控件标明缺失引用并可换绑、启用复制与打开新地图', async () => {
@@ -946,7 +1014,7 @@ describe('App item reference navigation', () => {
     expect(panel.textContent).toContain('2 处引用会阻断删除')
     expect(panel.textContent).toContain('共享脚本 shared/user/hide-e760')
     const worldRow = [...panel.querySelectorAll<HTMLElement>('.ds-reference-row')].find((row) =>
-      row.textContent?.includes('世界配置 world-main'),
+      row.textContent?.includes('运行态/存档'),
     )!
     expect(worldRow.tagName).toBe('ARTICLE')
     expect(worldRow.querySelector('button')).toBeNull()

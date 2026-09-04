@@ -336,8 +336,8 @@ export function MapMode(props: {
     createMapWorkspaceState,
   )
   useEffect(() => {
-    if (referenceStatus !== 'current') setPendingDeleteId(undefined)
-  }, [referenceStatus])
+    if (referenceStatus !== 'current' || !referenceIndex) setPendingDeleteId(undefined)
+  }, [referenceIndex, referenceStatus])
   useEffect(() => {
     void referenceIndex
     setPendingDeleteId(undefined)
@@ -2350,7 +2350,7 @@ export function MapMode(props: {
 
   const deleteMap = (): void => {
     if (!selectedAsset) return
-    if (referenceStatus !== 'current') {
+    if (!referenceReady) {
       onWorkspaceNotice?.({ kind: 'info', message: '正在刷新地图引用，暂不允许删除。' })
       return
     }
@@ -2549,14 +2549,17 @@ export function MapMode(props: {
   const referencesForMap = (id: string): ProjectReferenceEdge[] =>
     referenceIndex?.deletionImpact({ kind: 'map', id }).blockers ?? []
   const selectedReferences = selectedAsset ? referencesForMap(selectedAsset.id) : []
+  const referenceReady = referenceStatus === 'current' && referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
   const referencePanelState =
-    referenceStatus === 'current'
+    effectiveReferenceStatus === 'current'
       ? selectedReferences.length
         ? 'ready'
         : 'empty'
-      : referenceStatus === 'checking'
+      : effectiveReferenceStatus === 'checking'
         ? 'loading'
-        : referenceStatus === 'stale'
+        : effectiveReferenceStatus === 'stale'
           ? 'partial'
           : 'error'
   const selectCandidate = (row: MapCandidate): void => {
@@ -2905,20 +2908,16 @@ export function MapMode(props: {
             {
               id: 'delete-map',
               label: pendingDeleteId === selectedAsset?.id ? '确认删除地图' : '删除地图',
-              title:
-                referenceStatus !== 'current'
-                  ? '正在刷新地图引用，暂不允许删除'
-                  : selectedReferences.length > 0
-                    ? `仍有 ${selectedReferences.length} 处引用，不能删除`
-                    : pendingDeleteId === selectedAsset?.id
-                      ? '再次点击确认删除'
-                      : '删除地图',
+              title: !referenceReady
+                ? '正在刷新地图引用，暂不允许删除'
+                : selectedReferences.length > 0
+                  ? `仍有 ${selectedReferences.length} 处引用，不能删除`
+                  : pendingDeleteId === selectedAsset?.id
+                    ? '再次点击确认删除'
+                    : '删除地图',
               danger: true,
               disabled:
-                !selectedAsset ||
-                !liveMap ||
-                referenceStatus !== 'current' ||
-                selectedReferences.length > 0,
+                !selectedAsset || !liveMap || !referenceReady || selectedReferences.length > 0,
               onClick: deleteMap,
             },
           ]}
@@ -2939,7 +2938,7 @@ export function MapMode(props: {
                 title={asset.name}
                 meta={asset.id}
                 trailing={
-                  referenceStatus === 'current' && references.length ? (
+                  referenceReady && references.length ? (
                     <DsTag tone="neutral">{references.length} 处使用</DsTag>
                   ) : undefined
                 }
@@ -3662,10 +3661,7 @@ export function MapMode(props: {
             {
               id: 'references',
               label: '引用',
-              count:
-                selectedAsset && referenceStatus === 'current'
-                  ? selectedReferences.length
-                  : undefined,
+              count: selectedAsset && referenceReady ? selectedReferences.length : undefined,
               panel: (
                 <div className="map-inspector-panel map-references-panel">
                   <section className="section" data-ds-density="compact">
@@ -3674,22 +3670,21 @@ export function MapMode(props: {
                       <DsReferencePanel
                         state={referencePanelState}
                         count={
-                          referenceStatus === 'current'
+                          referenceReady
                             ? { kind: 'exact', value: selectedReferences.length }
                             : { kind: 'unknown' }
                         }
                         impact={{
                           kind: 'blocking',
-                          description:
-                            referenceStatus === 'current'
-                              ? selectedReferences.length
-                                ? '先处理全部场景绑定或脚本地图覆盖，再移除地图。'
-                                : '尚未绑定场景，地图保存并重开后仍会保留。'
-                              : referenceStatus === 'stale'
-                                ? '当前显示上次检查结果；刷新完成前不能删除。'
-                                : referenceStatus === 'failed'
-                                  ? '无法读取当前引用；删除已安全禁用。'
-                                  : '正在检查当前地图引用；完成前不能删除。',
+                          description: referenceReady
+                            ? selectedReferences.length
+                              ? '先处理全部场景绑定或脚本地图覆盖，再移除地图。'
+                              : '尚未绑定场景，地图保存并重开后仍会保留。'
+                            : effectiveReferenceStatus === 'stale'
+                              ? '当前显示上次检查结果；刷新完成前不能删除。'
+                              : effectiveReferenceStatus === 'failed'
+                                ? '无法读取当前引用；删除已安全禁用。'
+                                : '正在检查当前地图引用；完成前不能删除。',
                         }}
                       >
                         {selectedReferences.length ? (

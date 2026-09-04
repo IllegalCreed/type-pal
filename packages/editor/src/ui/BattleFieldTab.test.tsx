@@ -3,10 +3,16 @@ import type { BattleFieldDef } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import {
+  type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectReferenceIndex,
+} from '../core/project-reference-adapters.js'
+import type { ScriptEditorState } from '../core/script-editor.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
@@ -77,13 +83,21 @@ function state(fields: BattleFieldDef[], declared = true): EditorState {
 function Harness(props: {
   session: EditSession
   focusObjectId?: string
-  onOpenReference?: (reference: BlockingBattleFieldReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
+  referenceStatus?: EditorDerivedStatus
+  referenceIndex?: ProjectReferenceIndex
+  omitReferenceIndex?: boolean
+  getCurrentReferenceIndex?: CurrentProjectReferenceIndexProvider
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
+  const currentReferences = (next: EditorState) => collectCurrentProjectReferenceIndex(next)
+  const index = props.omitReferenceIndex
+    ? undefined
+    : (props.referenceIndex ?? currentReferences(current))
   return (
     <BattleFieldTab
       battleFields={current.battleFields ?? []}
@@ -91,6 +105,9 @@ function Harness(props: {
       session={props.session}
       assetCatalog={current.assetCatalog}
       assetReader={{} as EditorAssetReader}
+      referenceIndex={index}
+      referenceStatus={props.referenceStatus ?? 'current'}
+      getCurrentReferenceIndex={props.getCurrentReferenceIndex ?? currentReferences}
       focusObjectId={props.focusObjectId}
       onOpenBattleFieldReference={props.onOpenReference}
     />
@@ -227,13 +244,93 @@ describe('BattleFieldTab B2-1 authoring closure', () => {
     await act(async () => root.render(<Harness session={session} onOpenReference={open} />))
     expect(host.textContent).toContain('2 处引用会阻断删除')
     expect(host.textContent).toContain('系统默认')
-    expect(host.textContent).toContain('场景 s001 的默认战场')
-    await act(async () => button('场景 s001 的默认战场').click())
+    expect(host.textContent).toContain('场景 s001')
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('.ds-reference-row[data-actionable="true"]')?.click(),
+    )
     expect(open).toHaveBeenCalledWith(
       expect.objectContaining({
-        kind: 'scene-default',
-        locator: { kind: 'scene', sceneId: 's001' },
+        relation: { kind: 'battle-field-use', use: 'scene-default' },
+        locator: {
+          kind: 'object',
+          object: { kind: 'scene', id: 's001' },
+          section: 'battle-field',
+        },
       }),
     )
+  })
+
+  test.each([
+    ['checking', 'loading'],
+    ['stale', 'partial'],
+    ['failed', 'error'],
+  ] as const)('%s 引用快照不冒充零引用并禁用删除', async (status, panelState) => {
+    const session = new EditSession(state([field(6, '待检查战场')]))
+    await act(async () => root.render(<Harness session={session} referenceStatus={status} />))
+
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe(panelState)
+    expect(host.textContent).toContain('数量未知')
+    expect(button('删除战场').disabled).toBe(true)
+  })
+
+  test('current 但索引缺失时仍按失败态关闭删除', async () => {
+    const session = new EditSession(state([field(6, '缺失索引')]))
+    await act(async () =>
+      root.render(<Harness session={session} omitReferenceIndex referenceStatus="current" />),
+    )
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe('error')
+    expect(host.textContent).toContain('数量未知')
+    expect(button('删除战场').disabled).toBe(true)
+  })
+
+  test('展示为零后删除仍以 live canonical oracle 为准', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(state([field(24, '默认战场'), field(25, '实时引用战场')]))
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/live': {
+          name: '实时开战',
+          self: 'none',
+          body: [{ kind: 'startBattle', enemyTeamId: 'team-live', fieldId: 25 }],
+        },
+      },
+    }
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          focusObjectId="25"
+          getCurrentReferenceIndex={(current) =>
+            collectCurrentProjectReferenceIndex(current, canonical)
+          }
+        />,
+      ),
+    )
+    expect(button('删除战场').disabled).toBe(false)
+    await act(async () => button('删除战场').click())
+    expect(session.getState().battleFields?.some((candidate) => candidate.id === 25)).toBe(true)
+    expect(host.textContent).toContain('仍有 1 处引用')
+  })
+
+  test('live oracle 失败时保留战场并显示可恢复错误', async () => {
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(state([field(24, '默认战场'), field(25, '待删除战场')]))
+    const provider = vi.fn(() => {
+      throw new Error('oracle down')
+    })
+    await act(async () =>
+      root.render(
+        <Harness session={session} focusObjectId="25" getCurrentReferenceIndex={provider} />,
+      ),
+    )
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('.ds-object-hero__actions button')?.click(),
+    )
+    expect(confirm).toHaveBeenCalledTimes(1)
+    expect(provider).toHaveBeenCalledTimes(1)
+    expect(session.getState().battleFields?.some((candidate) => candidate.id === 25)).toBe(true)
+    expect(host.textContent).toContain('oracle down')
   })
 })

@@ -2,6 +2,7 @@ import {
   type CommandTargetReference,
   collectCanonicalCommandTargetReferences,
   collectCommandTargetReferences,
+  DEFAULT_BATTLE_FIELD_ID,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import {
@@ -60,6 +61,10 @@ function sourceForScriptOwner(
   )
 }
 
+function runtimeWorldSource(): ProjectReferenceSource {
+  return createProjectReferenceSource({ kind: 'runtime-world' }, '运行态/存档')
+}
+
 function normalizeCommandTarget(target: CommandTargetReference['target']): ProjectReferenceTarget {
   switch (target.kind) {
     case 'scene':
@@ -111,13 +116,25 @@ function commandReferenceEdge(
   source: ProjectReferenceSource,
   locator: ProjectReferenceLocator,
 ): ProjectReferenceEdgeInput {
+  const target = normalizeCommandTarget(reference.target)
+  const relation =
+    reference.target.kind === 'entity'
+      ? ({ kind: 'entity-address' } as const)
+      : reference.target.kind === 'battle-field'
+        ? ({ kind: 'battle-field-use', use: 'start-battle' } as const)
+        : reference.target.kind === 'enemy-team'
+          ? ({ kind: 'enemy-team-use', use: 'start-battle' } as const)
+          : reference.target.kind === 'ambience'
+            ? ({
+                kind: 'ambience-use',
+                use:
+                  reference.relation === 'toggle-day-night' ? 'toggle-day-night' : 'set-ambience',
+              } as const)
+            : ({ kind: 'command-target', use: reference.relation } as const)
   return {
-    target: normalizeCommandTarget(reference.target),
+    target,
     source,
-    relation:
-      reference.relation === 'entity-address'
-        ? { kind: 'entity-address' }
-        : { kind: 'command-target', use: reference.relation },
+    relation,
     where: reference.where,
     locator,
     deletePolicy: locator.kind === 'unavailable' ? 'block' : 'replace-suggest',
@@ -249,10 +266,7 @@ function entitySource(locator: EntityAddressReferenceLocator): {
     }
     case 'world':
       return {
-        source: createProjectReferenceSource(
-          { kind: 'runtime-world' },
-          `世界配置 ${locator.worldId ?? ''}`.trim(),
-        ),
+        source: runtimeWorldSource(),
         locator: {
           kind: 'unavailable',
           reason: '世界配置当前没有可编辑的精确内容页。',
@@ -301,9 +315,20 @@ export function entityAddressReferenceEdges(
 }
 
 export function structuralProjectReferenceEdges(
-  state: Pick<EditorState, 'manifest' | 'scenes'>,
+  state: Pick<EditorState, 'manifest' | 'scenes' | 'worlds'>,
 ): ProjectReferenceEdgeInput[] {
   const edges: ProjectReferenceEdgeInput[] = []
+  edges.push({
+    target: { kind: 'battle-field', id: String(DEFAULT_BATTLE_FIELD_ID) },
+    source: createProjectReferenceSource(
+      { kind: 'project-part', id: 'default-battle-field' },
+      `项目默认战场 #${DEFAULT_BATTLE_FIELD_ID}`,
+    ),
+    relation: { kind: 'battle-field-use', use: 'project-default' },
+    where: 'project.defaultBattleFieldId',
+    locator: { kind: 'unavailable', reason: '项目默认战场是当前运行约定，没有独立编辑字段。' },
+    deletePolicy: 'block',
+  })
   for (const entry of state.manifest.entryPoints) {
     const entryTarget = { kind: 'entry-point', id: entry.id } as const
     edges.push({
@@ -332,7 +357,57 @@ export function structuralProjectReferenceEdges(
       locator: { kind: 'object', object: sceneTarget, section: 'map' },
       deletePolicy: 'replace-suggest',
     })
+    if (scene.battleFieldId !== undefined)
+      edges.push({
+        target: { kind: 'battle-field', id: String(scene.battleFieldId) },
+        source: createProjectReferenceSource({ kind: 'scene', id: scene.id }, `场景 ${scene.id}`, {
+          section: 'battle-field',
+          deletedWith: [sceneTarget],
+        }),
+        relation: { kind: 'battle-field-use', use: 'scene-default' },
+        where: `scenes.${scene.id}.battleFieldId`,
+        locator: { kind: 'object', object: sceneTarget, section: 'battle-field' },
+        deletePolicy: 'replace-suggest',
+      })
+    for (const entity of scene.entities) {
+      if (!entity.hostile) continue
+      const entityTarget = { kind: 'entity', sceneId: scene.id, entityId: entity.id } as const
+      const source = createProjectReferenceSource(
+        { kind: 'scene-entity', sceneId: scene.id, entityId: entity.id },
+        `场景 ${scene.id} · 实体 ${entity.id}`,
+        { deletedWith: [entityTarget, sceneTarget] },
+      )
+      const locator = { kind: 'object', object: entityTarget } as const
+      edges.push({
+        target: { kind: 'enemy-team', id: entity.hostile.enemyTeamId },
+        source,
+        relation: { kind: 'enemy-team-use', use: 'hostile' },
+        where: `scenes.${scene.id}.entities.${entity.id}.hostile.enemyTeamId`,
+        locator,
+        deletePolicy: 'replace-suggest',
+      })
+      if (entity.hostile.battleFieldId !== undefined)
+        edges.push({
+          target: { kind: 'battle-field', id: String(entity.hostile.battleFieldId) },
+          source,
+          relation: { kind: 'battle-field-use', use: 'hostile' },
+          where: `scenes.${scene.id}.entities.${entity.id}.hostile.battleFieldId`,
+          locator,
+          deletePolicy: 'replace-suggest',
+        })
+    }
   }
+  state.worlds?.forEach((world, index) => {
+    if (!world.ambience) return
+    edges.push({
+      target: { kind: 'ambience', id: world.ambience },
+      source: runtimeWorldSource(),
+      relation: { kind: 'ambience-use', use: 'world-state' },
+      where: `worlds[${index}].ambience`,
+      locator: { kind: 'unavailable', reason: '运行态存档只读，没有作者对象可供精确编辑。' },
+      deletePolicy: 'block',
+    })
+  })
   return edges
 }
 

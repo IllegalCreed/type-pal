@@ -83,21 +83,12 @@ import {
 } from '@type-pal/reforge'
 import { blockingActorReferences } from './actor-references.js'
 import {
-  type BlockingAmbienceReference,
-  blockingAmbienceReferences,
-} from './ambience-references.js'
-import {
   type BattleDataReference,
   blockingEnemyReferences,
   blockingPoisonReferences,
   blockingSkillReferences,
 } from './battle-data-references.js'
-import {
-  type BlockingBattleFieldReference,
-  blockingBattleFieldReferences,
-} from './battle-field-references.js'
 import type { EditorState } from './edit-session.js'
-import { blockingEnemyTeamReferences } from './enemy-team-references.js'
 import { blockingEntityAddressReferences } from './entity-address-references.js'
 import { createEmptyScriptStages } from './entity-placement.js'
 import { blockingItemReferences } from './item-references.js'
@@ -2654,9 +2645,9 @@ export class CopyBattleFieldCommand implements Command {
 
 export class BattleFieldInUseError extends Error {
   readonly fieldId: number
-  readonly references: readonly BlockingBattleFieldReference[]
+  readonly references: readonly ProjectReferenceEdge[]
 
-  constructor(fieldId: number, references: readonly BlockingBattleFieldReference[]) {
+  constructor(fieldId: number, references: readonly ProjectReferenceEdge[]) {
     super(`战场 ${fieldId} 仍被 ${references.length} 处引用，不能删除`)
     this.name = 'BattleFieldInUseError'
     this.fieldId = fieldId
@@ -2670,14 +2661,20 @@ export class DeleteBattleFieldCommand implements Command {
   private readonly fieldId: number
   private before: BattleFieldTableSnapshot | undefined
 
-  constructor(fieldId: number) {
+  constructor(
+    fieldId: number,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
+  ) {
     this.fieldId = fieldId
   }
 
   apply(state: EditorState): EditorState {
     const index = (state.battleFields ?? []).findIndex((field) => field.id === this.fieldId)
     if (index < 0) return state
-    const references = blockingBattleFieldReferences(state, this.fieldId)
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'battle-field',
+      id: String(this.fieldId),
+    }).blockers
     if (references.length > 0) throw new BattleFieldInUseError(this.fieldId, references)
     this.before ??= captureBattleFieldTable(state)
     return {
@@ -2922,8 +2919,8 @@ export class UpdateEnemyTeamCommand implements Command {
 }
 
 export class EnemyTeamInUseError extends Error {
-  readonly references: ReturnType<typeof blockingEnemyTeamReferences>
-  constructor(teamId: string, references: ReturnType<typeof blockingEnemyTeamReferences>) {
+  readonly references: readonly ProjectReferenceEdge[]
+  constructor(teamId: string, references: readonly ProjectReferenceEdge[]) {
     super(`敌队 ${teamId} 仍被 ${references.length} 处引用`)
     this.name = 'EnemyTeamInUseError'
     this.references = references
@@ -2934,12 +2931,18 @@ export class EnemyTeamInUseError extends Error {
 export class DeleteEnemyTeamCommand implements Command {
   readonly label = '删除敌队'
   private removed: { team: EnemyTeamDef; index: number } | undefined
-  constructor(private readonly teamId: string) {}
+  constructor(
+    private readonly teamId: string,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
+  ) {}
   apply(state: EditorState): EditorState {
     const teams = state.enemyTeams ?? []
     const index = teams.findIndex((candidate) => candidate.id === this.teamId)
     if (index === -1) return state
-    const references = blockingEnemyTeamReferences(state, this.teamId)
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'enemy-team',
+      id: this.teamId,
+    }).blockers
     if (references.length) throw new EnemyTeamInUseError(this.teamId, references)
     if (!this.removed) this.removed = { team: structuredClone(teams[index]!), index }
     return { ...state, enemyTeams: teams.filter((_, candidateIndex) => candidateIndex !== index) }
@@ -4513,9 +4516,9 @@ export class AddAmbienceCommand implements Command {
 
 export class AmbienceInUseError extends Error {
   readonly ambienceId: string
-  readonly references: readonly BlockingAmbienceReference[]
+  readonly references: readonly ProjectReferenceEdge[]
 
-  constructor(ambienceId: string, references: readonly BlockingAmbienceReference[]) {
+  constructor(ambienceId: string, references: readonly ProjectReferenceEdge[]) {
     super(`氛围 ${ambienceId} 仍被 ${references.length} 处引用，不能删除`)
     this.name = 'AmbienceInUseError'
     this.ambienceId = ambienceId
@@ -4530,17 +4533,17 @@ export class DeleteAmbienceCommand implements Command {
 
   constructor(
     private readonly ambienceId: string,
-    private readonly canonicalState: (() => ScriptEditorState | undefined) | undefined = undefined,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
   ) {}
 
   apply(state: EditorState): EditorState {
     const ambiences = state.ambiences ?? []
     const index = ambiences.findIndex((ambience) => ambience.id === this.ambienceId)
     if (index < 0) return state
-    const canonicalState = this.canonicalState?.()
-    if (this.canonicalState && !canonicalState)
-      throw new Error('删除氛围前无法读取 canonical 脚本引用')
-    const references = blockingAmbienceReferences(state, this.ambienceId, canonicalState)
+    const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
+      kind: 'ambience',
+      id: this.ambienceId,
+    }).blockers
     if (references.length) throw new AmbienceInUseError(this.ambienceId, references)
     if (!this.removed) this.removed = { ambience: structuredClone(ambiences[index]!), index }
     return {

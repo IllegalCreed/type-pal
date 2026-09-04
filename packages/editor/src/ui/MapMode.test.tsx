@@ -171,6 +171,7 @@ async function mountMapMode(
     currentReferenceSelectedMap?: boolean
     currentReferenceError?: string
     referenceStatus?: EditorDerivedStatus
+    omitReferenceIndex?: boolean
     tilesets?: readonly import('@type-pal/reforge').TilesetDef[]
   } = {},
 ): Promise<{
@@ -236,7 +237,7 @@ async function mountMapMode(
         mapIndex={renderState.mapIndex}
         selectedMapId="map-a"
         onSelectMap={vi.fn()}
-        referenceIndex={referenceIndex}
+        referenceIndex={options.omitReferenceIndex ? undefined : referenceIndex}
         referenceStatus={referenceStatus}
         getCurrentReferenceIndex={() => {
           if (options.currentReferenceError) throw new Error(options.currentReferenceError)
@@ -1656,6 +1657,31 @@ describe('MapMode 地图内容选择交互', () => {
     expect(panel.textContent).toContain('数量未知')
     expect(panel.textContent).not.toContain('0 处')
     expect(session.getState().maps['map-a']).toBeDefined()
+  })
+
+  test('current 但引用索引缺失时按失败态关闭删除', async () => {
+    const { host } = await mountMapMode({
+      referenceSelectedMap: false,
+      referenceStatus: 'current',
+      omitReferenceIndex: true,
+    })
+    const overflowTrigger = host.querySelector<HTMLButtonElement>(
+      '.map-outliner [aria-label="更多操作"]',
+    )!
+    await act(async () => overflowTrigger.click())
+    expect(
+      document.querySelector<HTMLButtonElement>('[title="正在刷新地图引用，暂不允许删除"]')
+        ?.disabled,
+    ).toBe(true)
+    const referenceTab = [
+      ...host.querySelectorAll<HTMLButtonElement>(
+        '[role="tablist"][aria-label="地图右侧面板"] [role="tab"]',
+      ),
+    ].find((tab) => tab.textContent?.trim() === '引用')!
+    await act(async () => referenceTab.click())
+    const panel = host.querySelector<HTMLElement>('.map-references-panel .ds-reference-panel')!
+    expect(panel.dataset.state).toBe('error')
+    expect(panel.textContent).toContain('数量未知')
   })
 
   test('引用状态或 revision 更新会撤销旧的删除二次确认', async () => {

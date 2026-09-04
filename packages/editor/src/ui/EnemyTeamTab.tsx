@@ -19,12 +19,10 @@ import {
   UpdateEnemyTeamCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import {
-  type BlockingEnemyTeamReference,
-  enemyTeamReferences,
-} from '../core/enemy-team-references.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import { playProjectQuery } from '../core/play-url.js'
-import type { ScriptEditorState } from '../core/script-editor.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   DsActionLink,
   DsButton,
@@ -123,11 +121,13 @@ export function EnemyTeamTab(props: {
   projectId: string
   workspaceId?: string
   session: EditSession
-  scriptState?: ScriptEditorState
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus: EditorDerivedStatus
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   onOpenEnemy?: (id: string) => void
-  onOpenReference?: (reference: BlockingEnemyTeamReference) => void
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
 }) {
   const {
     enemyTeams,
@@ -141,7 +141,9 @@ export function EnemyTeamTab(props: {
     projectId,
     workspaceId,
     session,
-    scriptState,
+    referenceIndex,
+    referenceStatus,
+    getCurrentReferenceIndex,
     focusObjectId,
     onObjectFocus,
     onOpenEnemy,
@@ -175,10 +177,23 @@ export function EnemyTeamTab(props: {
   const references = useMemo(
     () =>
       selected
-        ? enemyTeamReferences(session.getState(), selected.id, scriptState)
-        : ([] as BlockingEnemyTeamReference[]),
-    [scriptState, selected, session],
+        ? (referenceIndex?.deletionImpact({ kind: 'enemy-team', id: selected.id }).blockers ?? [])
+        : [],
+    [referenceIndex, selected],
   )
+  const referenceReady = referenceStatus === 'current' && referenceIndex !== undefined
+  const effectiveReferenceStatus =
+    referenceStatus === 'current' && !referenceIndex ? 'failed' : referenceStatus
+  const referencePanelState =
+    effectiveReferenceStatus === 'current'
+      ? references.length
+        ? 'ready'
+        : 'empty'
+      : effectiveReferenceStatus === 'checking'
+        ? 'loading'
+        : effectiveReferenceStatus === 'stale'
+          ? 'partial'
+          : 'error'
   const members = useMemo(
     () =>
       selected?.slots.flatMap((enemyId) => {
@@ -268,6 +283,10 @@ export function EnemyTeamTab(props: {
   }
   const remove = (): void => {
     if (!selected) return
+    if (!referenceReady) {
+      setNotice('正在刷新敌队引用，暂不允许删除。')
+      return
+    }
     if (references.length) {
       setNotice(`仍有 ${references.length} 处引用，请先从右侧处理。`)
       return
@@ -276,12 +295,21 @@ export function EnemyTeamTab(props: {
     const index = enemyTeams.findIndex((team) => team.id === selected.id)
     const next = enemyTeams[index + 1] ?? enemyTeams[index - 1]
     try {
-      session.dispatch(new DeleteEnemyTeamCommand(selected.id))
+      const changed = session.dispatch(
+        new DeleteEnemyTeamCommand(selected.id, getCurrentReferenceIndex),
+      )
+      if (!changed) {
+        setNotice('敌队已变化，未执行删除。')
+        return
+      }
       setSelectedId(next?.id ?? '')
       onObjectFocus?.(next?.id)
     } catch (error) {
-      if (!(error instanceof EnemyTeamInUseError)) throw error
-      setNotice(`仍有 ${error.references.length} 处引用，请先从右侧处理。`)
+      setNotice(
+        error instanceof EnemyTeamInUseError
+          ? `仍有 ${error.references.length} 处引用，请先从右侧处理。`
+          : `无法检查当前敌队引用：${error instanceof Error ? error.message : String(error)}`,
+      )
     }
   }
   const slots = selected ? semanticSlots(selected) : []
@@ -395,7 +423,14 @@ export function EnemyTeamTab(props: {
                       <DsButton
                         variant="danger"
                         icon="delete"
-                        disabled={references.length > 0}
+                        disabled={!referenceReady || references.length > 0}
+                        title={
+                          !referenceReady
+                            ? '正在刷新敌队引用，暂不允许删除'
+                            : references.length
+                              ? `仍有 ${references.length} 处引用`
+                              : '删除敌队'
+                        }
                         onClick={remove}
                       >
                         删除敌队
@@ -535,34 +570,49 @@ export function EnemyTeamTab(props: {
         </header>
         {selected ? (
           <DsReferencePanel
-            state={references.length ? 'ready' : 'empty'}
-            count={{ kind: 'exact', value: references.length }}
+            state={referencePanelState}
+            count={
+              referenceReady ? { kind: 'exact', value: references.length } : { kind: 'unknown' }
+            }
             impact={{
               kind: 'blocking',
-              description: references.length
-                ? '删除会被任意引用阻断；先跳转处理。'
-                : '当前敌队可以安全删除。',
+              description: referenceReady
+                ? references.length
+                  ? '删除会被任意引用阻断；先跳转处理。'
+                  : '当前敌队可以安全删除。'
+                : '引用结果尚非当前版本；刷新完成前删除已禁用。',
             }}
           >
             {references.length ? (
               <DsReferenceList>
                 {references.map((reference) => (
                   <DsReferenceRow
-                    key={`${reference.kind}:${reference.where}`}
-                    title={reference.label}
+                    key={reference.id}
+                    title={reference.source.label}
                     path={reference.where}
-                    labels={[{ label: reference.kind === 'hostile' ? '敌对实体' : '剧情开战' }]}
+                    labels={[
+                      {
+                        label:
+                          reference.relation.kind === 'enemy-team-use' &&
+                          reference.relation.use === 'hostile'
+                            ? '敌对实体'
+                            : '剧情开战',
+                      },
+                    ]}
                     action={
-                      reference.locator && onOpenReference
+                      reference.locator.kind !== 'unavailable' && onOpenReference
                         ? { label: '打开', onActivate: () => onOpenReference(reference) }
                         : undefined
                     }
                     status={
-                      reference.locator && onOpenReference
+                      reference.locator.kind !== 'unavailable' && onOpenReference
                         ? undefined
                         : {
                             label: '暂不可定位',
-                            reason: '当前没有可编辑的精确位置。',
+                            reason:
+                              reference.locator.kind === 'unavailable'
+                                ? reference.locator.reason
+                                : '当前没有可编辑的精确位置。',
                             tone: 'warning',
                           }
                     }

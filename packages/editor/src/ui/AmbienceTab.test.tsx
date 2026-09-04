@@ -9,21 +9,52 @@ import {
   DeleteAmbienceCommand,
   UpdateAmbienceCommand,
 } from '../core/commands.js'
-import type { EditorState, EditSession } from '../core/edit-session.js'
-import type { ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
+import { type EditorState, EditSession } from '../core/edit-session.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+  createProjectReferenceSource,
+  type ProjectReferenceEdgeInput,
+} from '../core/project-reference.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 
 const day: AmbienceDef = { id: 'day', name: '白天', tint: [255, 255, 255] }
 const review: AmbienceDef = { id: '123', name: '123', tint: [255, 255, 255] }
 
+function referenceIndex(edges: readonly ProjectReferenceEdgeInput[] = []) {
+  return createProjectReferenceIndex(buildProjectReferenceSnapshot(edges))
+}
+
+const emptyReferenceIndex = referenceIndex()
+const defaultReferenceProps = {
+  referenceIndex: emptyReferenceIndex,
+  referenceStatus: 'current' as const,
+  getCurrentReferenceIndex: () => emptyReferenceIndex,
+}
+
 function editorState(overrides: Partial<EditorState> = {}): EditorState {
   return {
+    manifest: {
+      id: 'test',
+      name: 'Test',
+      contentVersion: 19,
+      defaultEntryId: 'main',
+      content: {},
+      assets: { catalog: 'assets/index.json', roles: {} },
+      entryPoints: [],
+    },
     scenes: [],
     items: [],
     sharedScripts: {},
     scriptChunks: {},
     ambiences: [day, review],
+    maps: {},
+    mapIndex: { version: 1, maps: [] },
+    stamps: [],
+    tilesetBlobs: {},
+    assetCatalog: { version: 1, assets: {} },
+    assetBlobs: {},
     ...overrides,
   } as unknown as EditorState
 }
@@ -68,6 +99,7 @@ describe('AmbienceTab creation dialog', () => {
     await act(async () => {
       root.render(
         <AmbienceTab
+          {...defaultReferenceProps}
           ambiences={[day]}
           session={sessionFor(editorState({ ambiences: [day] }), dispatch)}
         />,
@@ -136,7 +168,9 @@ describe('AmbienceTab creation dialog', () => {
     const confirm = vi.spyOn(window, 'confirm')
     const session = sessionFor(editorState(), dispatch)
     await act(async () => {
-      root.render(<AmbienceTab ambiences={[day, review]} session={session} />)
+      root.render(
+        <AmbienceTab {...defaultReferenceProps} ambiences={[day, review]} session={session} />,
+      )
     })
 
     await act(async () => catalogRow(host, '123').click())
@@ -174,27 +208,27 @@ describe('AmbienceTab creation dialog', () => {
     const dispatch = vi.fn()
     const openReference = vi.fn()
     const state = editorState()
-    const scriptState: ScriptEditorState = {
-      scenes: [],
-      items: [],
-      sharedScripts: {
-        'shared/review': {
-          name: '评审脚本',
-          self: 'none',
-          body: [{ kind: 'setAmbience', ambience: '123' }],
-        },
+    const usedReferenceIndex = referenceIndex([
+      {
+        target: { kind: 'ambience', id: '123' },
+        source: createProjectReferenceSource(
+          { kind: 'shared-script', id: 'shared/review' },
+          '共享脚本 评审脚本',
+        ),
+        relation: { kind: 'ambience-use', use: 'set-ambience' },
+        where: 'sharedScripts["shared/review"].body[0].ambience',
+        locator: { kind: 'object', object: { kind: 'shared-script', id: 'shared/review' } },
+        deletePolicy: 'replace-suggest',
       },
-    }
+    ])
     await act(async () => {
       root.render(
         <AmbienceTab
           ambiences={[day, review]}
           session={sessionFor(state, dispatch)}
-          script={{
-            session: {
-              getState: () => scriptState,
-            } as unknown as ScriptEditSession,
-          }}
+          referenceIndex={usedReferenceIndex}
+          referenceStatus="current"
+          getCurrentReferenceIndex={() => usedReferenceIndex}
           onOpenReference={openReference}
         />,
       )
@@ -227,7 +261,14 @@ describe('AmbienceTab creation dialog', () => {
   test('opens an exact deep link and reports a missing target without falling back', async () => {
     const session = sessionFor(editorState())
     await act(async () => {
-      root.render(<AmbienceTab ambiences={[day, review]} session={session} focusObjectId="123" />)
+      root.render(
+        <AmbienceTab
+          {...defaultReferenceProps}
+          ambiences={[day, review]}
+          session={session}
+          focusObjectId="123"
+        />,
+      )
     })
 
     expect(host.querySelector('.ds-object-hero')?.textContent).toContain('123')
@@ -237,7 +278,12 @@ describe('AmbienceTab creation dialog', () => {
 
     await act(async () => {
       root.render(
-        <AmbienceTab ambiences={[day, review]} session={session} focusObjectId="missing" />,
+        <AmbienceTab
+          {...defaultReferenceProps}
+          ambiences={[day, review]}
+          session={session}
+          focusObjectId="missing"
+        />,
       )
     })
 
@@ -251,6 +297,7 @@ describe('AmbienceTab creation dialog', () => {
     await act(async () => {
       root.render(
         <AmbienceTab
+          {...defaultReferenceProps}
           ambiences={[day]}
           session={sessionFor(editorState({ ambiences: [day] }), dispatch)}
         />,
@@ -278,6 +325,7 @@ describe('AmbienceTab creation dialog', () => {
     await act(async () => {
       root.render(
         <AmbienceTab
+          {...defaultReferenceProps}
           ambiences={[day]}
           session={sessionFor(editorState({ ambiences: [day] }), dispatch)}
         />,
@@ -302,6 +350,7 @@ describe('AmbienceTab creation dialog', () => {
     await act(async () => {
       root.render(
         <AmbienceTab
+          {...defaultReferenceProps}
           ambiences={[tinted]}
           session={sessionFor(editorState({ ambiences: [tinted] }))}
         />,
@@ -319,6 +368,7 @@ describe('AmbienceTab creation dialog', () => {
     await act(async () => {
       root.render(
         <AmbienceTab
+          {...defaultReferenceProps}
           ambiences={[day]}
           session={sessionFor(editorState({ ambiences: [day] }), dispatch)}
         />,
@@ -361,5 +411,145 @@ describe('AmbienceTab creation dialog', () => {
     await cancel(color, '#405060')
     expect(color.value).toBe('#ffffff')
     expect(dispatch).not.toHaveBeenCalled()
+  })
+
+  test.each([
+    ['checking', 'loading'],
+    ['stale', 'partial'],
+    ['failed', 'error'],
+  ] as const)('%s 引用快照不冒充零引用并禁用删除', async (status, panelState) => {
+    await act(async () =>
+      root.render(
+        <AmbienceTab
+          {...defaultReferenceProps}
+          referenceStatus={status}
+          ambiences={[day]}
+          session={sessionFor(editorState({ ambiences: [day] }))}
+        />,
+      ),
+    )
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe(panelState)
+    expect(host.textContent).toContain('引用数量未知')
+    expect(
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 白天"]')?.disabled,
+    ).toBe(true)
+  })
+
+  test('current 但索引缺失时仍按失败态关闭删除', async () => {
+    await act(async () =>
+      root.render(
+        <AmbienceTab
+          {...defaultReferenceProps}
+          referenceIndex={undefined}
+          ambiences={[day]}
+          session={sessionFor(editorState({ ambiences: [day] }))}
+        />,
+      ),
+    )
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe('error')
+    expect(host.textContent).toContain('引用数量未知')
+    expect(
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 白天"]')?.disabled,
+    ).toBe(true)
+  })
+
+  test('展示为零后确认删除仍按 live oracle 更新阻断引用', async () => {
+    const liveReferenceIndex = referenceIndex([
+      {
+        target: { kind: 'ambience', id: '123' },
+        source: createProjectReferenceSource(
+          { kind: 'shared-script', id: 'shared/live' },
+          '共享脚本 实时引用',
+        ),
+        relation: { kind: 'ambience-use', use: 'set-ambience' },
+        where: 'sharedScripts["shared/live"].body[0].ambience',
+        locator: { kind: 'object', object: { kind: 'shared-script', id: 'shared/live' } },
+        deletePolicy: 'replace-suggest',
+      },
+    ])
+    const session = new EditSession(editorState())
+    await act(async () =>
+      root.render(
+        <AmbienceTab
+          ambiences={session.getState().ambiences ?? []}
+          session={session}
+          referenceIndex={emptyReferenceIndex}
+          referenceStatus="current"
+          getCurrentReferenceIndex={() => liveReferenceIndex}
+        />,
+      ),
+    )
+    await act(async () => catalogRow(host, '123').click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 123"]')?.click(),
+    )
+    const dialog = host.querySelector<HTMLDialogElement>(
+      'dialog[open][aria-label="删除氛围“123”？"]',
+    )!
+    const confirm = [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent === '确认删除',
+    )!
+    await act(async () => confirm.click())
+    expect(session.getState().ambiences?.some((ambience) => ambience.id === '123')).toBe(true)
+    expect(dialog.textContent).toContain('仍有 1 处引用')
+    expect(dialog.textContent).toContain('共享脚本 实时引用')
+    expect(confirm.disabled).toBe(true)
+  })
+
+  test('live oracle 失败时保留氛围并在确认框内 fail-closed', async () => {
+    const session = new EditSession(editorState())
+    await act(async () =>
+      root.render(
+        <AmbienceTab
+          ambiences={session.getState().ambiences ?? []}
+          session={session}
+          referenceIndex={emptyReferenceIndex}
+          referenceStatus="current"
+          getCurrentReferenceIndex={() => {
+            throw new Error('oracle down')
+          }}
+        />,
+      ),
+    )
+    await act(async () => catalogRow(host, '123').click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 123"]')?.click(),
+    )
+    const dialog = host.querySelector<HTMLDialogElement>(
+      'dialog[open][aria-label="删除氛围“123”？"]',
+    )!
+    const confirm = [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent === '确认删除',
+    )!
+    await act(async () => confirm.click())
+    expect(session.getState().ambiences?.some((ambience) => ambience.id === '123')).toBe(true)
+    expect(dialog.textContent).toContain('oracle down')
+    expect(confirm.disabled).toBe(true)
+  })
+
+  test('引用状态或索引变化会关闭旧删除确认', async () => {
+    const session = sessionFor(editorState())
+    await act(async () =>
+      root.render(
+        <AmbienceTab {...defaultReferenceProps} ambiences={[day, review]} session={session} />,
+      ),
+    )
+    await act(async () => catalogRow(host, '123').click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 123"]')?.click(),
+    )
+    expect(host.querySelector('dialog[open][aria-label="删除氛围“123”？"]')).not.toBeNull()
+
+    await act(async () =>
+      root.render(
+        <AmbienceTab
+          {...defaultReferenceProps}
+          referenceStatus="stale"
+          ambiences={[day, review]}
+          session={session}
+        />,
+      ),
+    )
+    expect(host.querySelector('dialog[open][aria-label="删除氛围“123”？"]')).toBeNull()
   })
 })
