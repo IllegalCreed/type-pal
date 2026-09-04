@@ -1,6 +1,6 @@
 # E6-1 - 实体位置控制权运行态检视与调试面板重开
 
-Status: review
+Status: done
 Phase: phase2
 Capability: E6 实体定位权威
 Coding Owner: Codex
@@ -351,7 +351,7 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
   无返工项；未修改实现，未代签 Kimi，未填用户验收。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
+- done 准入结论: **allowed（2026-09-04 Codex + Kimi + GLM accept 齐，用户验收通过）**
 
 ## Draft: 设计与风险
 
@@ -492,7 +492,7 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **accept（2026-09-04，“验收通过”）**。
 - 后续任务: 四条 PAL 数字角色条件引用上游修复。
 
 ## 交接日志
@@ -550,6 +550,8 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 - 2026-09-04 Codex: 检查 `7174fe21`（Kimi）与 `1825b2c2`（GLM），确认两席 final accept、
   独立证据与无返工结论齐全。Evidence: 本卡 done 前签字。Next: 仅待用户按最小清单验收；
   用户未明确通过前保持 review。
+- 2026-09-04 User: 按最小清单验收通过。Codex据此确认 done 准入并收口 E6-1。Next: 按第二阶段
+  唯一队列进入四条 PAL 数字角色条件引用的上游修复。
 
 ## 下一位 Agent 提示词
 
