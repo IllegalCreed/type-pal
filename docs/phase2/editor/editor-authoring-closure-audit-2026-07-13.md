@@ -239,6 +239,12 @@ ED-3 验收必须把该调用改接统一 `ProjectReferenceIndex`，随后删除
 禁止在临时 helper 中继续加入 tileset、sprite、script 等引用域。引用边同时携带
 `block / warn / replace-suggest` 删除策略元数据。
 
+> **2026-09-05 current-state 注记**：ED-3 候选 `01512c84` 已完成上述收编。同步作者领域、媒体
+> 结构化 locator 与 map/tileset/stamp 异步 coverage proof 均由统一 edge/index 消费；
+> `mapAssetSceneReferences`、旧领域 Worker DTO/页面 scanner、媒体 `where/site` 反解已退役。
+> 场景和商店的复制、可读命名、安全删除、保存重开与独立试运行仍由
+> `ED-SCENE-LIFECYCLE-1` / `ED-SHOP-LIFECYCLE-1` 后续卡闭合，不能把引用地基冒充七环完成。
+
 ### 7.2 空态即验收入口
 
 每个模块必须用空白工程验收：列表为空时不是一句“无数据”，而是可创建第一条、导入或解释为什么该领域不适用。

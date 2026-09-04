@@ -1,4 +1,4 @@
-# ED-3A PAL 引用索引性能证据（2026-09-04）
+# ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）
 
 环境：Apple M3 Pro / 18GB，Darwin arm64 24.6.0，Node 22.19.0，pnpm 10.29.2。基线与候选均通过
 Vite SSR 载入真实 `projects/pal`（294 scenes、5,077 entities）；文件 IO、loader 校验和初始组装不计入
@@ -162,3 +162,85 @@ compact 58.587ms。
 优化后的前一轮同机样本曾在 snapshot 阶段出现 1,574ms 外部抖动（snapshot p50/p95 =
 708.849/915.356ms），而紧随其后的 derived 已回落到 589.308/688.594ms；按既定规则保留记录但不作为
 通过证据。随后无项目测试或 reviewer 进程并发的完整 20 轮得到上述正式通过结果。
+
+## C 批同步域、媒体与最终 compact 检查点
+
+实现提交为 `3fe000eb`（剩余同步领域、媒体结构化定位与单一 resolver）、`cf552331`（异步地图事实）和
+`01512c84`（复用 canonical asset visits 与最终性能收口）。最终统一索引覆盖 asset、world-variable、
+behavior、scene-hook、shared-script，并退役旧 Worker DTO、媒体 `where/site` 反解和 App 专用跳转旁路。
+`where` 只保留作者可读诊断路径，导航由 typed source/locator 完成。
+
+最终 clean 候选 `01512c8481bc74ea89f2d0c844599ea9b65c308c` 在同机隔离运行，benchmark 自报
+`worktreeDirty=false`。与 A 批冻结预算对照：
+
+| 指标 | C 批最终值 | 冻结预算 | 结论 |
+|---|---:|---:|---|
+| snapshot warm p50 / p95 | 595.130 / 677.743ms | ≤647.8 / 784.6ms | pass |
+| derived warm p50 / p95 | 598.759 / 725.320ms | ≤622.5 / 765.5ms | pass |
+| project reference build p50 / p95 | 108.841 / 155.442ms | 记录型；总门不得超限 | pass |
+| init request clone p50 | 207.383ms | ≤245ms | pass |
+| ready reply clone p50 | 19.805ms | ≤55ms | pass |
+| projectReferences JSON / V8 | 2,372,327 / 2,328,260B | JSON ≤2,500,000B | pass |
+| ready reply JSON / V8 | 2,523,748 / 2,473,131B | JSON ≤13,345,844B | pass |
+
+最终确定性规模为 25,188 rows、10,579 targets、13,497 sources、101 relations、8,362 locators 和
+28,089 target bucket entries；canonical command visits 60,295，transition visits 5,682，资源引用
+6,002，behavior/scene-hook 分别 4,459/293。完整 reply 不再同时携带任一旧领域引用 DTO。
+
+资源引用不再对 60,295 个 canonical command 做第二次递归：结构资源 walker 只收 2,121 条非 canonical
+引用，既有 visits 产出 3,881 条 canonical 引用。PAL differential 对
+`asset + expectedKind + origin + owner-level site` 做多重集比较，合计仍精确为 6,002；canonical `where`
+从数组位置改为稳定作者路径是有意差异，不宣称完整 `LocatedAssetReference` 字节等价。合法 opaque ID
+可能产生相同显示路径，因此诊断投影使用 `[issue code, where]` 下按 validator 顺序逐条关联，而不再把
+`where` 当唯一身份；直接反例和 `validateAuthorScenes → visits → diagnostics` 端到端反例均已钉住。
+
+最终单次 adapter 分解样本（ms）：structural 1.760、canonical target 10.458、battle-data 12.476、
+actor 15.173、item 9.669、sprite 16.039、asset structural collect 3.960、canonical asset collect
+10.496、asset edges 8.452、world-variable collect 13.589、scheme collect/edges 8.068/7.148、
+shared-script collect 1.967、entity 2.940、compact 95.321。
+
+clean n=20 原始时间样本（ms）：
+
+```text
+snapshot:
+578.527, 584.177, 600.767, 578.752, 586.284, 603.283, 677.743, 562.665,
+621.953, 603.785, 582.242, 588.556, 602.318, 635.627, 634.729, 765.950,
+595.130, 559.213, 570.463, 605.987
+
+derived:
+643.968, 647.337, 606.039, 619.954, 725.320, 596.166, 565.475, 597.121,
+603.909, 579.889, 585.111, 601.583, 598.759, 613.569, 753.036, 605.111,
+562.845, 566.915, 581.813, 583.026
+
+project reference build:
+152.048, 155.442, 106.649, 104.898, 108.841, 110.517, 106.793, 106.569,
+106.480, 106.609, 107.585, 105.350, 108.376, 110.445, 112.611, 111.696,
+114.745, 115.206, 118.989, 164.137
+```
+
+## C 批异步地图事实检查点
+
+地图正文不进入 Worker，也不为引用扫描 hydrate 到 `EditorState.maps`。`EditSession` 维护独立的
+`mapId + path + mapRevision + generation` facts，扫描和 hydrate 共享同一原始读取；迟到结果、换 path、
+在途 hydrate、partial/failure 及 revision 漂移全部令删除 proof fail-closed。地图笔画只失效当前地图，
+stamp facts 由命令的稳定 stamp id 增量维护；页面订阅独立 facts revision 并自动续扫。Tileset 删除/替换
+proof 另钉 asset record、path、SHA、共享 definition 与真实 bytes，Stamp 删除钉当前 placement 数量，
+apply/redo 均同步复核。
+
+clean Node 文件读取下界：223/223 maps 完成、failures=0、初扫 1,128.795ms；扫描后 maps cache 仍为空，
+history/version/dirty 均未变化。缓存 batch p50/p95=0/0.001ms，强制 batch 重建 p50/p95=
+0.624/0.860ms，index decode + tileset query p50/p95=0.169/0.604ms。异步 project-reference 部分
+41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +
+1 个 map placement”探针，得到 225 rows、93,330B，fact collect p50/p95=0.001/0.007ms。
+
+Node 初扫明确只作浏览器 HTTP/FSA 的下界。真实 6010 PAL 页面从进入到首次 tileset 引用可见约 3.16s，
+全新页面冷启约 4s；之后同 revision 查询为缓存命中。1280/720 实测 Tileset 引用均可见且能打开
+`map-001`，页面无横向溢出；PAL 无 authored stamp，`?ui_samples` 的 6 个 authored stamp 用于验证
+Stamp 页完整 coverage 表现，不冒充 PAL 内容。
+
+媒体最终抽验：`music.pal.004` 打开 project/startup，`sound.pal.001` 打开
+`actor/li-xiaoyao/battle`，`portrait.pal.001` 打开 `actor/li-xiaoyao/appearance`，
+`video.pal.003` 打开入口 `new-game`，`video.pal.004` 精确定位到 s281/e4800/default 第 82 条指令。
+1280/720 的 document/body `scrollWidth === clientWidth`，引用打开按钮均在视口内，console error 为 0。
+截图：[`cutscene-reference-1280.jpg`](ED-3/cutscene-reference-1280.jpg)、
+[`cutscene-reference-720.jpg`](ED-3/cutscene-reference-720.jpg)。

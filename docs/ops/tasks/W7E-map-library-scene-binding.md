@@ -349,3 +349,9 @@ type SceneMap =
 ## 下一位 Agent 提示词
 
 无。本卡已取消；后续只按 `docs/ops/tasks/W7F-canonical-map-pipeline.md` 推进。
+
+## 后续收编回执（2026-09-05）
+
+W7F 当时保留的 `mapAssetSceneReferences` 临时窄反查已由 ED-3 提交 `03767dda` 退役；地图引用与删除
+现消费 current-author `ProjectReferenceIndex`，同时覆盖 `scene.mapId` 和 canonical
+`setSceneMapOverride.mapId`。本节只记录历史债清偿，不重开已取消的 W7E。

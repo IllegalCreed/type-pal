@@ -1,8 +1,8 @@
 # ED-3 - 统一工程引用边与安全删除地基
 
-Status: build
+Status: review
 Phase: phase2
-Capability: Editor cross-cutting / E1 / W7 / A7 / N5
+Capability: Editor cross-cutting / E1 / E9 / W7 / A7 / N5
 Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: Kimi + GLM
@@ -205,7 +205,8 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   - 建后续 scene/shop lifecycle 卡，引用本卡合同，不再各自新增 collector/locator/policy。
 - 视觉 / 手工验证：
   - 真实编辑器最小验证：音乐、音效、图像、过场各抽一条作者引用点击后抵达正确对象/脚本；
-    map/shop/scene 引用列表与禁删原因使用既有统一 Reference UI，不改变整体样式。
+    map 引用列表与禁删原因使用既有统一 Reference UI，不改变整体样式。scene/shop 本卡只验统一 edge、
+    validator、locator 与删除查询；它们尚无删除 UI，真实列表/禁删视觉由两张后续 lifecycle 卡验收。
   - 1280 与 720 宽度检查引用操作无溢出；失败/只读状态文案可见。仅保留完成判断所需截图。
 - E2E 用例登记：N/A；本卡是功能性作者工具地基，不含剧情/演出观感。场景/商店真实工作流在后续卡登记。
 
@@ -343,10 +344,13 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept（2026-09-05）**。完整检查 `d8c5bf14..01512c84` 与最终 PAL/浏览器证据；A/B/C
+  均保持单一 typed edge/index、current-author cold oracle、revision Worker 与 async coverage proof，旧
+  collector/DTO/字符串 locator 无 fallback。最终 clean n=20、全量/聚焦测试、三包 typecheck、build、
+  DS gate、publication、dry-run 四零与 1280/720 抽验通过；无已知实现返工项。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: pending
+- counter / 返工处理: 无 Codex counter；等待 Kimi/GLM。
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -423,8 +427,9 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 - A 批状态: **完成（`ee173e13` + `be083df2` + `55a7fe84`）**。
 - B 批状态: **完成**；地图纵切（`03767dda`）、战场 / 敌队 / 氛围（`4a0aba45`）、
   skill / enemy / poison（`f0f88b19`）、actor（`1806a90f`）、item（`376934e0`）和
-  world sprite / action / battle sprite（`aeb35214` + 性能收口 `d521d965`）均已落地。下一步进入
-  C 批媒体与异步地图域收口。
+  world sprite / action / battle sprite（`aeb35214` + 性能收口 `d521d965`）均已落地。
+- C 批状态: **完成**；剩余同步引用域与媒体/单一 resolver（`3fe000eb`）、异步 map/tileset/stamp
+  facts + proof（`cf552331`）、canonical asset visits 复用与最终性能收口（`01512c84`）均已落地。
 - A 批修改文件:
   - `packages/content/src/command-target-reference.ts` + tests：有界 tagged target leaf；scene/entry/hook/
     entity/map/shop/team/field/ambience，sell 任意 shop 值均不发 shop edge。
@@ -529,29 +534,74 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
     production build、design-system gate（92 files / 2 evidence-bound exceptions）、PAL migrate
     8 files / 17 tests 均通过；`migrate:content` dry-run 为 managed=537、
     writes/deletes/conflicts/asset-deletes=0、reference-warnings=0；`git diff --check` 通过。
+- C 批实现与最终验证:
+  - C 批同步收口：asset、world-variable、behavior、scene-hook、shared-script 全部进入统一 snapshot；
+    媒体页只消费结构化 source/locator，App 单一 resolver 覆盖 object、canonical script、scene page/hook、
+    project 和 unavailable，不再解析 `where/site`。旧领域 Worker DTO、旧页面 collector 和专用 handler
+    均已退役。
+  - C 批异步收口：session 级 map facts 绑定 `mapId + path + mapRevision + generation`，scan/hydrate
+    共享读盘但事实不 hydrate/LRU/history/dirty；失败、partial、迟到结果、在途 hydrate 与旧 revision
+    均 fail-closed。地图改动只失效当前事实，stamp facts 按稳定 id 增量维护，Tileset/Stamp 页面自动续扫。
+  - Tileset remove/replace proof 钉 coverage、asset/path/SHA、共享 definition 与真实 bytes；Stamp delete
+    proof 钉当前 placement count，三类 command 在 apply/redo 均重新验真。旧 `scanTilesetReferences`、
+    `TilesetReferenceScan`、stamp usage cache/API、`collectStampTemplateUsage` 与页面私有 scan state 零残留。
+  - canonical asset 复用：结构 walker 2,121 + existing visits 3,881 = PAL 6,002；与默认全量 walker
+    按 asset/kind/origin/site 多重集完全一致。canonical `where` 改为稳定作者路径是有意差异；合法 opaque
+    ID 同路径时诊断用 `[code, where]` 顺序队列关联，避免把错误归到另一 owner。locator 继续使用
+    collision-safe JSON tuple，NUL 边界有 round-trip 回归。
+  - 最终 clean `01512c84` n=20：25,188 rows / 10,579 target buckets / 28,089 target bucket entries，index JSON/V8=
+    2,372,327/2,328,260B；snapshot p50/p95=595.130/677.743ms，derived=598.759/725.320ms，
+    project-reference build=108.841/155.442ms，全部通过 A 批冻结门。异步 Node 下界 223/223、零失败、
+    1,128.795ms；cached/forced/query p50=0/0.624/0.169ms，完整 batch 92,632B；authored stamp 探针
+    225 rows / 93,330B。完整证据见
+    [`ED-3 A-C 性能证据`](../evidence/ED-3A-reference-index-performance-2026-09-04.md)。
+  - 最终验证：content 35 files / 473 tests；editor **190 files / 1,729 tests**（`--maxWorkers=2`）全绿；
+    默认高并发下两个全仓源码扫描测试只发生 timeout，单独 31/31 及受控全量均通过，未放宽时限或断言。
+    content/editor/migrate typecheck、editor production build、design-system gate（92 files / 2 exceptions）、
+    changed-file Biome 与 `git diff --check` 均通过。PAL migrate 8 files / 17 tests 通过；dry-run=
+    managed 537、writes/deletes/conflicts/asset-deletes/reference-warnings 全 0，scenes 294、maps 223、
+    assets 1,934、既有 unused asset warnings 182。全仓 `pnpm lint` 仍被本卡外既有 269 errors / 52 warnings /
+    15 infos 阻断；本卡 13 个实现文件定向 Biome 为 0 diagnostics，未顺手格式化无关文件。
+  - 后续正式卡已建立：
+    [`ED-SCENE-LIFECYCLE-1`](ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) 与
+    [`ED-SHOP-LIFECYCLE-1`](ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)。两卡只复用本卡 index，
+    不各造 collector；均保持 draft/blocked，未提前签设计或实施。
 
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: 6010 真实 PAL 编辑器，DOM/URL/可见性/overflow/console + 1280/720 截图；另以
+  `?ui_samples` 验证 PAL 缺失的 authored stamp 表面。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径:
+  [`1280`](../evidence/ED-3/cutscene-reference-1280.jpg)、
+  [`720`](../evidence/ED-3/cutscene-reference-720.jpg)。
+- 结论: **pass（2026-09-05）**。音乐 `music.pal.004` → project/startup；音效 `sound.pal.001` →
+  li-xiaoyao/battle；图像 `portrait.pal.001` → li-xiaoyao/appearance；视频 `video.pal.003` →
+  new-game entry；`video.pal.004` → s281/e4800/default 第 82 条指令。Tileset 引用可打开 map-001；
+  1280/720 document/body 无横向溢出，引用动作位于视口，console error=0。
+- 未完成项: 无本卡阻塞。PAL 本身没有 authored stamp、legacy script chunk 或 runtime-world 媒体引用，
+  不能伪造真树行；
+  authored stamp 用只在内存的 `?ui_samples` 验证，unavailable 行由组件/locator fixture 自动测试覆盖。
+  scene/shop 引用列表与删除 UI 按本卡范围明确属于两张后续生命周期卡；本卡以 PAL index/validator/命令
+  自动证据完成其 edge 地基，不把尚未实现的下游 UI 冒充本卡视觉通过。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex self-review accept；Kimi/GLM final review pending。
+- 必须返工项: Codex 自验无；等待两席独立终审。
+- Accept / rework: pending（未满足 done 三签）
 
 ## 用户验收
 
 - 用户结论: pending
-- 后续任务: scene lifecycle（双 session 新建/复制/显示名/安全删除/文件清理/保存重开/试玩）；
-  shop lifecycle（buy-only 引用、复制/安全删除/保存重开/真实试买、PAL 重迁 ownership 决策）。
+- 后续任务:
+  [`ED-SCENE-LIFECYCLE-1`](ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md)（双 session
+  新建/复制/显示名/安全删除/文件清理/保存重开/试玩）；
+  [`ED-SHOP-LIFECYCLE-1`](ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)（buy-only 引用、
+  复制/安全删除/保存重开/真实试买、PAL 重迁 ownership 决策）。
 
 ## 交接日志
 
@@ -610,7 +660,33 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   B 批最终完整回归、
   PAL publication 与迁移四零通过，索引保持在 2.5MB 门内。Next: C 批迁移媒体引用及异步
   map / tileset / stamp proof，完成单一 locator resolver、最小浏览器验证和 ED-3 总收口。
+- 2026-09-05 Codex: 完成 C 批 `3fe000eb` / `cf552331` / `01512c84`。同步媒体与所有剩余领域
+  已统一，异步 map/tileset/stamp 使用 session facts + coverage proof，旧 scanner/DTO/字符串协议退役；
+  opaque-ID 资源诊断错归因在最终性能审计中发现并修复。clean n=20 全过冻结预算，editor 190/1,729、
+  content 35/473、PAL 8/17、三包 typecheck、build、DS gate、dry-run 四零及 1280/720 浏览器抽验通过。
+  两张下游生命周期卡已建立，ED-3 转 review。Next: Kimi/GLM 只对完整候选做一次并行终审并直接写卡，
+  不按 A/B/C 重复签字，不让用户复制审查正文。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；三方设计签字已齐，Codex 正在按 A/B/C 串行 build。
+Kimi 与 GLM 并行终审完整候选；两席均直接修改本卡自己的 done 签字与交接日志并提交，用户无需复制意见。
+固定实现候选为 `01512c84`，设计基线为 `d8c5bf14`；不得修改实现文件或标记 done。
+
+```text
+Kimi：终审 docs/ops/tasks/ED-3-project-reference-index.md。先读 AGENTS.md、docs/phase2/READ-FIRST.md、
+任务卡、docs/ops/evidence/ED-3A-reference-index-performance-2026-09-04.md；对固定实现候选 01512c84
+相对设计基线 d8c5bf14 做完整架构/公共合同/revision/save-delete/async proof 终审。独立复核 typed leaf →
+edge/index → Worker/cold oracle → Reference UI 四层边界、旧 DTO/scanner/string parser 零残留、current-author
+与 apply/redo fail-closed、2.5MB/时间门及浏览器证据。只修改任务卡 Kimi done 签字和自己的交接日志并提交；
+不得改实现、不得改 GLM/Codex 签字、不得标 done。输出 accept/counter、直接证据、可证伪观察和返工项。
+```
+
+```text
+GLM：终审 docs/ops/tasks/ED-3-project-reference-index.md。先读 AGENTS.md、docs/phase2/READ-FIRST.md、
+任务卡、docs/ops/evidence/ED-3A-reference-index-performance-2026-09-04.md；对固定实现候选 01512c84
+相对设计基线 d8c5bf14 做完整覆盖/数据/parity/测试矩阵终审。独立复算 PAL scene/map/shop/media/
+asset/actor/item/sprite 等集合、29 buy/6 sell、map override、6,002 asset split parity、25,188 rows、
+223/223 async coverage、publication/dry-run 零计划；核验 partial/failure/TOCTOU/undo-redo 与 opaque-ID
+反例。只修改任务卡 GLM done 签字和自己的交接日志并提交；不得改实现、不得改 Kimi/Codex 签字、
+不得标 done。输出 accept/counter、直接证据、可证伪观察和返工项。
+```

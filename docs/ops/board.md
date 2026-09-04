@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-3 | [统一工程引用边与安全删除地基](tasks/ED-3-project-reference-index.md) | build | Codex 实施 C 批 | A/B 批完成；收口媒体与异步地图引用消费者 |
+| ED-3 | [统一工程引用边与安全删除地基](tasks/ED-3-project-reference-index.md) | review | Kimi + GLM 并行终审 | A/B/C 候选 `01512c84` 与全量、性能、视觉证据已齐 |
 
 ## 看板规则
 

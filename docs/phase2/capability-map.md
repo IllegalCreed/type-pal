@@ -1,7 +1,7 @@
 # 能力地图（Capability Map）— 第二阶段的进度真值表
 
 > **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。
-> **最近对账：2026-09-03。** 当前唯一格式为 content19 / SAVE8；入口、角色当前状态与 current-only
+> **最近对账：2026-09-05。** 当前唯一格式为 content19 / SAVE8；入口、角色当前状态与 current-only
 > 架构均已完成三方审查和用户验收。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime
 > fallback 保持删除；PAL catalog 为 1,934 条，含 56 个 effect sprite。X4/A7 已随
 > `ARCH-CURRENT-ONLY-1` 收口为 ✅。本轮对账见
@@ -69,7 +69,7 @@
 
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
-| E1 | 实体定义与摆放 | ✅ | ✅ | NPC/家具/宝箱 | **ED-4A done(2026-07-15)**：精灵(actor/sprite 来源)与触发区(touch/interact zone)四形态创建闭环——画布放置/树选择/检查器/拖动/撤销重做/保存重开/引用保护删除全接通；通用精灵 ID 从 `npc-*` 中性化为 `sprite-*`(迁移器上游改名+闭包门禁)；表现形态(精灵/触发区)与玩法职责(NPC/敌人/物件…)正交分离，职责轴后续可扩展不编码进 ID |
+| E1 | 实体定义与摆放 | ✅ | ⚠️ | NPC/家具/宝箱 | **实体对象本身已闭合**：ED-4A 完成精灵/触发区四形态创建、画布放置/树选择/检查器/拖动/撤销重做/保存重开/引用保护删除；表现形态与玩法职责正交。**场景容器生命周期仍缺**复制、可读命名、安全删除、文件事务与独立试玩，故按七环判据保持 ⚠️，由 [ED-SCENE-LIFECYCLE-1](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) 收口。 |
 | E2 | NPC 行为(走位/巡逻) | ✅ | ✅ | 市集游走 | autoScript;编辑器:脚本抽屉可编 auto stages + 实体检查器「行为脚本」一键跳转;**巡逻模板(2026-07-11 E2)**:插入菜单「巡逻」组四模板 —— 来回走 A↔B / 环线四角 / 驻足张望四向 / 随机游走一步(两层五五开),形状提炼自 pal 真实市集游走(s004 e76/e83),展开为普通指令组不引黑盒;auto 跑完整套自动重跑 = 天然循环零「循环」指令 |
 | E3 | 可拾取物 | ✅ | ✅ | 宝箱/拾取 | done;拾取模板 |
 | E4 | 触发交互 | ✅ | ✅ | 对话/事件 | done;事件模式 |
@@ -77,7 +77,7 @@
 | E6 | **实体定位权威** | ✅ | ✅ | 隐龙窟门口/试炼窟芦苇 | 引擎 done(2026-07-08 两考题全过:E7 芦苇漂 + N7 隐龙窟门口):E6a authority 表+双视图(位移指令隐式接管·脚本收尾统一归还)+ E6b 显式 take/release + E7 mount + E8 follow。[E6-1](../ops/tasks/E6-1-runtime-authority-inspector.md) 于 2026-09-04 完成运行态可视化、Esc 后反引号重开、listener 泄漏修复及 DEV-only 剥离，三方 accept + 用户验收通过。 |
 | E7 | 载具/挂载 | ✅ | ✅ | 试炼窟芦苇漂(共乘)/坐船 | done(2026-07-07):mount 权威 + **全员叠筏**(mountParty/ride 连跟随者一起挂;dismountParty 四路收口:显式/走位即下筏/脚本收尾/强停,零持久态)+ 大世界跟随者(见 E8)。骑乘 opcode 定向翻译(0xA1→mountParty/0x3F·44·97→ride,5 场景 160 处)。考题实测:s213 李逍遥+阿奴共乘逐帧重叠漂流(一阶段掉队闪现 bug 不存在)+ s017 仙灵岛筏;队长恒遮挡队员(z序平局偏置) |
 | E8 | 大世界跟随者(队伍展示) | ✅ | — | 三人队走位/拐弯甩尾 | 新格(2026-07-07):party[1..N] 渲染 + 原版 trail 槽 1:1(基点 slot2 校准=平铺→菱形 2× 粒度;**dir=离开该格方向**,拐弯甩尾逐行对齐原版 —— 8字双轨迹对比法定案,两引擎同场景同腿长无缝换向逐行全等)+ follow/mount/script 三权威。队长恒遮挡队员。编辑器无依赖 |
-| E9 | 商店/当铺(openShop) | ✅ | ✅ | s050 米铺买/s029 当铺卖 | **done(2026-07-11 E9)**:openShop 阻塞式全链 —— content ShopDef+纯结算(买 buyPrice/卖 sellPrice)、21 家店货单迁入 shops.json、买=红框紧凑列表(坐标 1:1 uigame.c,现有/金钱卷轴框、ITEMBOX 带影、确认默认否)、卖=全屏 picker(noDesc+金钱/售价框)。编辑器:ShopTab 货单上架下架 + openShop 表单店下拉。观感对照原版截图三轮校(红框/阴影/定高)。顺手根治 item-list ITEMBOX 缺影(装备/使用菜单同修) |
+| E9 | 商店/当铺(openShop) | ✅ | ⚠️ | s050 米铺买/s029 当铺卖 | 运行链已完成：content ShopDef+正式买卖结算，当前 canonical 为 **20 家店（id 1..20）**；游戏内买卖表现已验收。编辑器已有 ShopTab 货单上架/下架和 openShop 选择，但缺复制、可读命名、安全删除、保存重开与独立试买，故按七环判据保持 ⚠️，由 [ED-SHOP-LIFECYCLE-1](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md) 收口。 |
 | E18 | 编辑器角色战斗字段（coveredBy/casualty/cooperativeMagic） | — | ✅ | B11-1 三个战斗字段的编辑器编辑与校验 | **done（2026-08-14 用户验收通过）**：`coveredBy`（援护者）/`casualty`（伤亡脚本 friendDeath/dying）/`cooperativeMagic`（合体技）的结构化编辑、引用校验与保存闭环；三方技术 `accept`（2026-08-07）+ 用户产品验收（2026-08-14 会话确认）四证齐，OPS-MAP-1 遗留的 fail-closed 已解除。依赖 B11-1 已 done；见 [E18-1 任务卡](../ops/tasks/E18-1-editor-actor-battle-fields.md)。注：原卡 Capability 写「18e」，本格定为 **E18**（Entity 域续号）。 |
 
 ### 角色(Character)— 8 格
@@ -193,8 +193,10 @@
    [MIG-PAL-INPARTY-ID-1](../ops/tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md) 已于
    2026-09-04 三方终审并经用户验收完成。
 
-   当前第二阶段唯一队列（2026-09-04）:
-   1. [ED-3](../ops/tasks/ED-3-project-reference-index.md) 统一引用边与安全删除地基；再分片闭合场景/商店生命周期
+   当前第二阶段唯一队列（2026-09-05）:
+   1. [ED-3](../ops/tasks/ED-3-project-reference-index.md) 统一引用边与安全删除地基已完成实现候选、正在终审；随后按
+      [场景生命周期](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) 与
+      [商店生命周期](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md) 闭合下游七环
    2. R4 薄 E2E：runner、001-010、四种取物 canary、编辑器保存重开试玩
    3. N6b：四种内置取物意图 + content20；复跑薄基线，第三阶段再做通用化
    4. Q2 完整战斗专项五批（B5 并入）→ Q1 完整通关链
@@ -248,14 +250,16 @@
 
 ### 2026-09-03 对账后重跑（候选，不是承诺）
 
-- 当前正式任务卡全部为 `done` / `cancelled`，看板已恢复为只显示进行中或阻塞任务。
+- 该句是 2026-09-03 对账时点快照；此后已新开 ED-3 并于 2026-09-05 完成 A/B/C 候选进入 review，
+  两张场景/商店生命周期卡已建为 draft。实时状态以任务看板为准。
 - X4/A7、B2、W9、E18、D6-1、D12-1、D13-1、D14-2/3、D15-1 与
   `ARCH-ACTOR-CONDITION-SEED-1` 的陈旧状态已按任务卡和 Git 收口事实更正。
 - 用户于 2026-09-03 将 W6 真实时间/天气、A6、X5 世界状态预设、W7 随机笔刷/自动拼接和 D13
   时间旅行调试统一移交第三阶段；W6 在第二阶段只指已完成的昼夜氛围，A6 不再计入第二阶段缺口。
 - 同日追加裁决：无障碍设置/脚本树键盘导航和 C1/C2 内容语义补标也移交第三阶段；敌队大目录
   虚拟滚动仍属第二阶段性能增强，`capture`/Content Studio 录制协作仍属第二阶段发布链且必须后于 E2E。
-- 当前表内真实 `⚠️` 只剩 B5；真实 `❌` 只剩最终收口 A1，但这只是能力格状态，不能替代 §4
+- 当前表内真实 `⚠️` 为 E1（场景生命周期）、E9（商店生命周期）与 B5；真实 `❌` 只剩最终收口 A1，
+  但这只是能力格状态，不能替代 §4
   对迁移缺陷、ED-3、生命周期、E2E 和发布任务的完整队列。
 - 2026-09-03 用户确认后续应执行 **Q2 完整战斗专项 E2E**，用于补齐会跳过真实战斗或让战斗直接
   胜利的 Q1 完整通关 E2E。Q2 覆盖测试入口与台账、规则与操作、AI/状态/特殊机制、动画与音画表现、

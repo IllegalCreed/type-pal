@@ -110,7 +110,8 @@ interface EditorMode {
 - 场景检查器通过 `SceneDef.mapId` 选择已有地图，并提供创建并绑定、复制并绑定和打开地图。不存在
   “原版复用图”或只读分支；迁移图与作者图是同一种可编辑文档。多场景可共享一图。
 - 创建、复制、改名、绑定、删除均走不可变 Command；删除命令同时维护 index、内存地图和文件 diff，
-  被场景引用时先列出引用并阻止。当前窄反查由 ED-3 的统一 `ProjectReferenceIndex` 接管后删除。
+  被场景引用时先列出引用并阻止。ED-3 已由 current-author `ProjectReferenceIndex` 接管该判断，包含
+  `scene.mapId` 与 canonical `setSceneMapOverride`；原 `mapAssetSceneReferences` 窄反查已删除。
 - 编辑器启动只加载 map index；选择地图时异步 hydrate 正文。干净文档受 LRU 管理，脏文档和仍被
   undo/redo 栈引用的文档固定驻留；hydrate 不进入撤销历史。
 - 保存、clone 与 ZIP 对未加载地图按原始字节 copy-through，不为输出而全量解析；修改过的地图使用
@@ -267,6 +268,21 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
 - 资源帧拖入动作槽仍是 copy transfer，不属于排序；地图实体坐标、面板 resize、视口 pan/zoom、成员归属和按等级
   派生顺序同样排除。生产采用矩阵与证据型 allowlist 是边界真源，不能从“底层恰好是数组”推导新交互能力。
 
+### 5.8 统一工程引用边与安全删除地基（ED-3，2026-09-05 候选）
+
+- 引用能力固定为四层：content typed leaf rule 只识别 schema 语义；editor adapter 补稳定 target/source、
+  relation、结构化 locator 和 delete policy；同一 builder 同时供 revision Worker 与破坏动作的同步
+  current-author oracle；页面只用既有 Reference UI 呈现和跳转。`where` 是可读路径，不是身份或导航协议。
+- 同步索引覆盖 scene/map/shop、asset、actor/item/skill/enemy/poison、battle field/team/ambience、
+  entity address、world variable、behavior/hook/shared script 及 world/battle sprite；旧领域 Worker DTO、
+  页面私有 scanner、媒体 `where/site` 解析与 App 专用 handler 已退役。
+- 地图正文保持懒加载，不塞回 Worker。session 级 map/stamp facts 生成带 path/revision/generation/coverage 的
+  edge batch；partial、failure、迟到读取和在途 hydrate 均不能授权删除。Tileset/Stamp 的领域 proof 继续
+  额外约束 bytes/SHA/definition/frame/placement，并在 apply/redo 同步复核。
+- 索引是当前 revision 的非持久化派生物，不写 graph 文件、不改 content19/SAVE8，也不保留旧版本 fallback。
+  场景/商店的复制、可读命名、删除文件、保存重开和独立试运行属于后续生命周期卡，不能在页面旁路复制
+  collector/locator/policy。
+
 ## 6. 校验层(第四根)—— 编辑器的核心价值
 
 现 `content/validate.ts` 只查形状。**投查在 demo 数据里当场抓到 2 个悬空引用**:`skills.json` 的 `levelUp` 指向不存在的技能(349/311/…);土灵珠(267)的 `grantSkill` 指向不存在的 336。形状校验放过了它们。
@@ -337,7 +353,7 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
 - **左·Outliner(对象树)**:「场景里有什么」= 场景根 → 进场点 → 各实体;`＋` 加实体在此;下接图层/显隐。
 - **中·工具栏 + 画布**:工具栏放**动作/工具**(选择·移动 / 添加实体 / 删除)+ 视图开关(网格 / 禁入 / 选中置顶 / 亮度);画布复用渲染器画场景 + 模式叠加层。
 - **右·Inspector**:**只放当前选中项的属性**(选实体→实体属性;选场景根→地图/调色板/进场点)。留 `▸ 状态/条件` 折叠位给 §10.5 的 B2。
-- **底·状态条**:统一汇总内容跨表引用、manifest/入口不变式和资产闭包诊断；有待处理项时显示数量与摘要，只有零项时显示“引用与工程诊断无问题”。这里仍消费现有校验器与 `collectAssetReferences`，不在状态条另建扫描器。
+- **底·状态条**:统一汇总内容跨表引用、manifest/入口不变式和资产闭包诊断；有待处理项时显示数量与摘要，只有零项时显示“引用与工程诊断无问题”。这里消费同 revision 的 diagnostics snapshot 与统一 `ProjectReferenceIndex`，不在状态条另建扫描器；异步地图正文引用另由带完整 coverage/revision 的 proof batch 提供，partial/failed 不得冒充零引用。
 
 **IA 铁律(v1/v2 违反过,记牢)**:① Inspector 只放选中项属性,全局动作(增/删)一律进工具栏 / 对象树头;② 「场景里有什么」进 Outliner,不塞 Inspector;③ 选谁右侧就显谁。所有编辑动作 = Command → undo/redo(接 §4)。像素细节留 B1 实现时浏览器实测 + 逐版微调。
 
