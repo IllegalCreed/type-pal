@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| MIG-PAL-INPARTY-ID-1 | [PAL 四条队伍角色条件稳定 ID 修复](tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md) | draft | Kimi + GLM 设计审查 | current/baseline 各 3 scene/4 values；只修上游，不得手改产物 |
+| MIG-PAL-INPARTY-ID-1 | [PAL 四条队伍角色条件稳定 ID 修复](tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md) | draft | GLM 设计审查（Kimi 已签） | current/baseline 各 3 scene/4 values；只修上游，不得手改产物 |
 
 ## 看板规则
 

@@ -152,15 +152,46 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
   - design: **agree**。使用临时 exact rewrite 经正式 transaction 发布，最终只留永久 invariant 并删除豁免；
     不改 schema/runtime/translator，不保留 converter。
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-09-04，五层一手直读 + 本人 census 复算，非复述 Codex）**:
+    1. **0x79 语义**:原版遍历队伍比 `PlayerRoles.rgwName[role] == operand`
+       (`reference/sdlpal/script.c:2230-2243`),operand 是名字 WORD 非下标;一阶段同语义
+       (`event-system.ts:4812-4817`);`source-facts.ts:42-49` 37→`zhao-linger`、39→`anu`。
+    2. **translator 已正确**:stable-id 路径经 `roleSlugForNameWord` 转换、未知名字 WORD
+       `gap()` fail-loud(`translate-events.ts:1929-1949`);测试六映射全钉 + 未知 fail-loud +
+       legacy schema 有意保留数字(`translate-events.test.ts:91-127`);生产核
+       `palSemanticProfile='current-r13-6b'` + `palReferenceSchema:'stable-id'`
+       (`pal-migration.ts:396,421,504`)——重迁产物就是稳定 ID,数字只可能来自历史 run。
+    3. **根因层正确**:publication baseline-first(`pal-current-publication.ts:99-109`
+       `files = new Map(baseline.files)`),作者 scenes 从 baseline 保留、只有可重建分区回灌——
+       历史数字留在作者树。根因在 publication 缺一次性 canonicalization,不在 translator;
+       不存在"运行时自行映射"(`main.ts:3944-3947` 精确 id/template 匹配,actors.json 无
+       数字 actor,`zhao-linger`:258/`anu`:987)。
+    4. **站点 census(本人 rg+python 复算)**:current 与 baseline 各恰 4 个数字 actorId、
+       同行号镜像——s023:2107="37"(e433,stateMachine `initial.next.cond`)、s202:615="39"
+       (e3392,stages[0].body[0])、s202:824="39"(e3392,`legacy-002` body[0])、
+       s213:3658="37"(e3638,stages[0].body[3]→learnSkill role 1 skill 389);分支语义与
+       映射一致(灵儿学技/阿奴守卫)。豁免恰四条、路径+消息精确钉住
+       (`pal-current-publication.ts:73-78`),新 error 仍 fail(:348-354);
+       `validate-refs.ts:1102-1108` inParty 通用校验实在。
+  - design: **agree(2026-09-04)**。根因层不误修(translator 不动);一次性 exact rewrite
+    经正式 transaction 同写两表面、converter 与豁免同步退役、永久 invariant + 零计划,与
+    MIG-PAL-ITEM-SCHEME-LABEL-1 先例同型,是当前-only 纪律下最小合法方案;无 runtime
+    fallback/upgrader 引入。三条实现钉(非必改,见主审立场)。
 - GLM:
   - premise: pending
   - design: pending
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+  - 审查者: Kimi（2026-09-04，完成——原版/一阶段/translator/生产核配置/publication/
+    runtime/actors/豁免八处一手直读 + 本人 rg/python census 复算；GLM 席位保留）
+  - 独立证据锚点: `reference/sdlpal/script.c:2230-2243`；`event-system.ts:4812-4817`；
+    `source-facts.ts:42-49`；`translate-events.ts:1929-1949` + `translate-events.test.ts:91-127`；
+    `pal-migration.ts:396,421,504`（生产核 stable-id）；`pal-current-publication.ts:73-78,99-109,348-354`；
+    `reforge/main.ts:3944-3947`；`actors.json:258,987`；current/baseline 四站点行号镜像
+    （s023:2107、s202:615、s202:824、s213:3658，实体 e433/e3392/e3392/e3638）。
+  - 可证伪观察: ① 当前生产核（stable-id）dry-run 生成的对应条件若不是 zhao-linger/anu，
+    说明 translator 回归、根因层误判；② exact diff 出现四叶值或 3 scene hash 之外任何变化；
+    ③ 删豁免后 publication 报出四条以外 reference error（豁免曾掩盖更多悬空）;④ 运行时
+    出现数字→ActorId 的实际映射。任一成立本签字失效。
 - counter / 分歧处理: 若四站点来源、name WORD 映射或 exact-diff 边界不成立，留 draft/blocked 重审。
 - 缺签豁免: N/A
 - build 准入结论: **blocked（等待 Kimi、GLM 独立 premise/design 签字）**
@@ -206,14 +237,25 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
 ### 主审立场
 
 - Reviewer: Kimi（current-only 架构、rewrite 退休、exact-diff）；GLM（四站点 census、递归覆盖、发布矩阵）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **agree（2026-09-04 Kimi）**。根因层（baseline-first publication 未做一次性
+  stable-ID canonicalization）认定正确，translator/runtime/validate-refs 三层均无误修；
+  一次性 rewrite→正式 transaction→converter 与四条豁免同步退役→永久 invariant→独立
+  零计划的链条与 ITEM-SCHEME-LABEL-1 先例同型，exact-diff（各 3 scene / 恰 4 叶值、
+  `_state.json` 仅 3 scene hash、两表镜像）可证明可回滚。
+- 必改项: 无阻塞必改项。三条实现钉（build 落实条件）:
+  ① rewrite 的四条站点地址与豁免集合路径必须单一事实来源，converter 删除时豁免同步归零，
+     不得出现 converter 已删而豁免残留（或反向）的半退役态；
+  ② 永久 invariant 的 condition 遍历域必须与 `validate-refs.ts` 实际覆盖域一致或复用其
+     walker（stages、stateMachine transition、嵌套 branch/loop/not/all/any），禁止两套递归漂移；
+  ③ exact-diff 断言必须含 s202 同一实体 e3392 两个 stage（stages[0] 与 legacy-002）都命中，
+     防止只修一条的半修复。
+- 是否建议进入 build: **是（待 GLM 签字后三签齐）**
 
 ### 三方争议记录(按需)
 
 - Codex: premise verified / design agree；支持一次性 exact rewrite + 永久 invariant，反对 runtime 兼容。
-- Kimi: pending
+- Kimi: premise verified / design agree；根因层与先例同型认定成立，附三条实现钉
+  （单一事实来源同步退役、invariant 遍历域与 validate-refs 对齐、s202 双 stage 命中断言）。
 - GLM: pending
 - 用户拍板: 2026-09-03/04，本项属于第二阶段必修并在 E6 后按序开始。
 
@@ -270,25 +312,20 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
 
 ## 交接日志
 
+- 2026-09-04 Kimi: 完成 current-only migration 架构/rewrite 退休/exact-diff 主审，签
+  premise verified + design agree。独立证据：0x79 原版/一阶段 name-WORD 语义直读；
+  生产核 `pal-migration.ts:396,421,504` 确认为 stable-id（数字只可能来自历史 run）;
+  publication baseline-first `:99-109` 与四条豁免 `:73-78` 直读；runtime 精确匹配
+  `main.ts:3944-3947`;actors.json 无数字 actor；本人 rg+python 复算 current/baseline
+  各恰 4 站点、行号镜像、实体 e433/e3392/e3638 与分支语义（灵儿学技/阿奴守卫）一致。
+  无阻塞必改项；三条实现钉（单一事实来源同步退役、invariant 遍历域对齐 validate-refs、
+  s202 双 stage 命中断言）。未修改实现/baseline/projects/pal，未代签 GLM。Next: GLM
+  四站点 census/递归覆盖/发布矩阵审查；三签齐后 Codex 方可 build。
 - 2026-09-04 Codex: E6-1 用户验收后按唯一队列开本卡；完成原版、一阶段、stable translator、
   current-publication、runtime 与 current/baseline census 六向核验，签 premise verified/design agree。
   Evidence: 本卡真值矩阵。Next: Kimi/GLM 独立设计审查；签字未齐不得修改迁移实现或生成产物。
 
 ## 下一位 Agent 提示词
-
-### Kimi
-
-```text
-接手任务: MIG-PAL-INPARTY-ID-1 PAL 四条队伍角色条件稳定 ID 修复
-任务卡: docs/ops/tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md
-当前状态: draft
-你的角色: current-only migration 架构、一次性 rewrite 退休与 exact-diff 主审；完成 premise/design 签字。
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；任务卡；reference/sdlpal/script.c:2230-2243；packages/game/src/core/event-system.ts:4815-4816；packages/migrate/src/source-facts.ts:38-52；translate-events.ts:1929-1948；pal-current-publication.ts:73-78,94-109,131-179,348-354；MIG-PAL-ITEM-SCHEME-LABEL-1 同型先例。
-已完成: Codex 已确认 current/baseline 各 3 scene/4 numeric actorId，stable translator 已正确，runtime 只认稳定 id，根因位于 baseline-first current publication；尚未改实现或产物。
-请你做: 独立读取一手证据，反证数字是否可能合法、根因层是否正确；审查临时 exact rewrite→正式 transaction→删除 converter→永久 invariant→零计划方案，给出 exact-diff/退休/回滚必落钉。把 premise verified/design agree 或 counter、直接证据、可证伪观察和必改项写回任务卡。
-不要做: 不修改实现/baseline/projects/pal；不代签 GLM；不引入 runtime fallback/upgrader；签字未齐不得 build。
-输出要求: 提交并推送任务卡签字，回复 commit hash 与 agree 或 counter，并给 GLM 下一位提示词。
-```
 
 ### GLM
 
