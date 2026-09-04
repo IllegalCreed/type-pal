@@ -97,3 +97,23 @@ JSON/V8 = 2,365,516/2,108,012B。相对上一 B 检查点，增加 1,194 rows �
 最终规模：8,122 rows、3,218 targets、3,293 sources、3,419 locators、9,898 bucket entries、
 30 relations。benchmark 现在同时输出统一索引各字段体积；当前最大项为 rows 758,174B、sources
 733,928B、locators 642,238B，后续域继续以完整 reply 净变化和 2.5MB 索引门双重约束。
+
+## B 批 actor 纵切检查点
+
+候选实现提交为 `1806a90f`。本纵切将人物结构引用、canonical command、
+`startBattle.choreography`、state-machine transition、
+legacy chunk 与 runtime party/reserve template 收敛进统一索引，并退役 Worker/UI/删除命令边界的旧
+`actorReferenceIndex`。PAL 独立对账为 808 条人物引用、804 条删除 blocker；其中 canonical command
+精确 locator 516 条、state-machine owner locator 1 条、随人物删除的 `levelUp` companion 4 条。
+旧 collector 与统一索引按 `actorId + kind` multiset 等价，结构类引用另做 exact where 对账。
+
+最终隔离复跑（n=20）：snapshot p50/p95 = 576.269/641.747ms，derived p50/p95 =
+554.072/626.202ms，project-reference build p50/p95 = 55.618/74.266ms；均在冻结预算内。单次 adapter
+分解样本：actor 15.488ms、battle-data 11.425ms、entity 2.951ms、compact 46.555ms。ready reply
+JSON/V8 = 5,380,070/4,845,141B，统一索引 JSON/V8 = 2,432,621/2,133,380B，仍低于 2.5MB
+硬门；init request 保持 16,556,593/15,511,159B。
+
+最终规模：8,930 rows、3,226 targets、3,459 sources、3,962 locators、10,706 bucket entries、
+44 relations；canonical command visits 60,295，state-machine transition visits 5,682。前一轮在并行测试
+与高 CPU 外部进程下得到 derived p50/p95 = 810.934/1,379.069ms，按既定规则视为受扰样本，不作为
+通过证据；停止并发工作后的上述正式样本通过全部冻结门。

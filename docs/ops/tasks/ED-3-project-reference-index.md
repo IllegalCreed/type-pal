@@ -422,7 +422,8 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 - Coding Owner: Codex（唯一实现方）
 - A 批状态: **完成（`ee173e13` + `be083df2` + `55a7fe84`）**。
 - B 批状态: **进行中**；地图纵切完成（`03767dda`），战场 / 敌队 / 氛围纵切完成
-  （`4a0aba45`），skill / enemy / poison 纵切完成（`f0f88b19`）。下一纵切为 actor。
+  （`4a0aba45`），skill / enemy / poison 纵切完成（`f0f88b19`），actor 纵切完成（`1806a90f`）。
+  下一纵切为 item / world sprite / battle sprite。
 - A 批修改文件:
   - `packages/content/src/command-target-reference.ts` + tests：有界 tagged target leaf；scene/entry/hook/
     entity/map/shop/team/field/ambience，sell 任意 shop 值均不发 shop edge。
@@ -487,6 +488,23 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   - 索引叠加 1,194 rows 后一度超 2.5MB；通过 source key 派生重建、移除重复 targetKeys、detail intern
     与省略空尾槽压回 2,365,516B。最终 8,122 rows / 9,898 buckets，完整 reply 5,502,785B；隔离
     snapshot p50/p95=629.435/672.606ms、derived=616.444/717.467ms，均过冻结预算。
+  - Actor 纵切：统一 808 条 PAL 人物引用 / 804 条 blocker；补齐 canonical `startBattle.choreography`
+    与 state-machine transition 两个真实漏口。当前作者 command 516 条精确定位；唯一 transition
+    `s023/e433 → zhao-linger` 定位到稳定 script owner；legacy/runtime 明确只读。
+  - DeleteActor 与 ActorMode 已改用 live current index provider、deletion scope 与统一四态；self
+    `coveredBy`、`levelUp` companion 不自锁，外部 `coveredBy`、runtime template 仍阻断，redo 重新验真。
+  - 引用定位点击时从 main/script session 读取最新快照，避免 selector-owned 页面根组件未重渲染时使用
+    stale closure；script-owner 可真正选中非默认 behavior / 非首 hook，item-private owner 选中具体脚本，
+    actor object 保留 `battle` / `relationships` 分区。
+  - Connected Actor/Data 页面直接订阅 derived store 和双 session revision；store-only 回包会刷新索引，
+    session 先变化时立即 stale，Worker 同 revision 回包后恢复 current。新增可证伪组件回归。
+  - Actor 检查点最终为 8,930 rows / 10,706 buckets，统一索引 2,432,621B、完整 reply
+    5,380,070B；隔离 snapshot p50/p95=576.269/641.747ms、derived=554.072/626.202ms，均过冻结预算。
+  - Actor 批验证：content 35 files / 472 tests、editor 188 files / 1,654 tests（`--maxWorkers=2`）
+    全绿；双 typecheck、production build、design-system gate（92 files / 2 evidence-bound exceptions）
+    通过；PAL migrate 8 files / 17 tests 通过；`migrate:content` dry-run 为 managed=537、
+    writes/deletes/conflicts/asset-deletes=0、reference-warnings=0；changed-file Biome 无 error，
+    `git diff --check` 通过。
 
 ## 视觉验证记录
 
