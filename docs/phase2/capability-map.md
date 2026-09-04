@@ -192,7 +192,8 @@
 
    当前第二阶段唯一队列（2026-09-03 用户复核）:
    1. [MIG-PAL-INPARTY-ID-1](../ops/tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md)：
-      PAL 四条错误角色条件引用，修 current-publication 上游、重生成、删四条豁免（draft）
+      PAL 四条错误角色条件引用候选 `31a8c81c` 已修 current-publication 上游、重生成并删除四条豁免；
+      当前 review，等待 Kimi/GLM 并行终审
    2. ED-3 统一引用边 + 场景/商店生命周期分片闭合
    3. R4 薄 E2E：runner、001-010、四种取物 canary、编辑器保存重开试玩
    4. N6b：四种内置取物意图 + content20；复跑薄基线，第三阶段再做通用化

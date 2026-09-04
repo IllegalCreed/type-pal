@@ -1,6 +1,6 @@
 # MIG-PAL-INPARTY-ID-1 - PAL 四条队伍角色条件稳定 ID 修复
 
-Status: build
+Status: review
 Phase: phase2
 Capability: N5 / C1 / MG2
 Coding Owner: Codex
@@ -251,7 +251,9 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-09-04，候选 `31a8c81c`）**。上游 current-only transaction、各表面
+  exact diff、转换器/豁免同步退役、永久 invariant、完整 migrate 门禁与运行时 true/false 金丝雀均通过；
+  长剧情视觉按 Q1 登记延后。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: pending
@@ -290,7 +292,7 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
 ### 主审立场
 
 - Reviewer: Kimi（current-only 架构、rewrite 退休、exact-diff）；GLM（四站点 census、递归覆盖、发布矩阵）
-- 结论: **agree（2026-09-04 Kimi）**。根因层（baseline-first publication 未做一次性
+- 结论: **agree（2026-09-04 Kimi + GLM）**。根因层（baseline-first publication 未做一次性
   stable-ID canonicalization）认定正确，translator/runtime/validate-refs 三层均无误修；
   一次性 rewrite→正式 transaction→converter 与四条豁免同步退役→永久 invariant→独立
   零计划的链条与 ITEM-SCHEME-LABEL-1 先例同型，exact-diff（各 3 scene / 恰 4 叶值、
@@ -302,14 +304,15 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
      walker（stages、stateMachine transition、嵌套 branch/loop/not/all/any），禁止两套递归漂移；
   ③ exact-diff 断言必须含 s202 同一实体 e3392 两个 stage（stages[0] 与 legacy-002）都命中，
      防止只修一条的半修复。
-- 是否建议进入 build: **是（待 GLM 签字后三签齐）**
+- 是否建议进入 build: **是（三签齐，GM-I1~I4 与 Kimi 三条实现钉均纳入 build）**
 
 ### 三方争议记录(按需)
 
 - Codex: premise verified / design agree；支持一次性 exact rewrite + 永久 invariant，反对 runtime 兼容。
 - Kimi: premise verified / design agree；根因层与先例同型认定成立，附三条实现钉
   （单一事实来源同步退役、invariant 遍历域与 validate-refs 对齐、s202 双 stage 命中断言）。
-- GLM: pending
+- GLM: premise verified / design agree；附 GM-I1~I4（四元组 census/exact diff、复用 typed walker、
+  write+replay+独立 dry-run、runtime 金丝雀/Q1 分层）。
 - 用户拍板: 2026-09-03/04，本项属于第二阶段必修并在 E6 后按序开始。
 
 ## 额度 / 代班记录(如适用)
@@ -325,11 +328,36 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending（剧情观感按 E2E 延后）
-- 跳过的检查及原因: pending
+- 修改文件:
+  - `packages/migrate/src/pal-current-publication.ts`
+  - `packages/migrate/src/pal-inparty-actor-id-invariant.ts`
+  - `packages/migrate/src/pal-inparty-actor-id-invariant.test.ts`
+  - `packages/migrate/src/pal-inparty-actor-id-invariant.pal.test.ts`
+  - current/baseline 的 `s023.json`、`s202.json`、`s213.json`
+  - `packages/migrate/baselines/pal/_state.json`
+- 实现摘要:
+  - build 期临时 exact rewrite 以 sceneId + entityId + state/stageId + commandIndex + old/new 值
+    四元组钉住四站点；旧值漂移、缺 stage、第五数字站点均 fail-loud。正式 transaction 完成后已删除
+    converter 与其旧输入测试，最终 Git 树零残留。
+  - 正式发布将 current/baseline 各 4 值改为 `zhao-linger/anu/anu/zhao-linger`；baseline state 只更新
+    3 个 scene hash，1934 资产全部 unchanged。
+  - 删除 `PAL_CURRENT_KNOWN_REFERENCE_ERRORS` 四条豁免；所有 reference error 重新直接阻断发布。
+  - 永久 invariant 复用 `collectActorTaggedReferences` typed walker，拒绝数字和悬空 inParty ActorId；
+    单测覆盖 stages/stateMachine transition/branch/loop/all/any/not，PAL 测试钉四站点、两表镜像和全根 census。
+- 运行命令:
+  - 临时 rewrite + invariant 定向：2 files / 5 tests；migrate typecheck 通过。
+  - 发布前 dry-run：`managed=537 writes=3 deletes=0 conflicts=0 asset-deletes=0`。
+  - `migrate:content --write`：`transaction-changes=7`；1934 assets written=0/unchanged=1934；
+    进程内 replay `writes/deletes/conflicts/asset-deletes=0/0/0/0`。
+  - 删除 converter 后独立 `migrate:content`：`537/0/0/0`，closure 294 scenes / 223 maps /
+    1934 assets，reference-warnings=0。
+  - 最终 `typecheck`；`test:fast` 44 files / 397 tests；`test:pal` 8 files / 17 tests，全部通过。
+  - Reforge 金丝雀读取真实四条件：actorIds=`zhao-linger,anu,anu,zhao-linger`；目标角色在队
+    allTrue=true，空队 allFalse=true。
+  - Biome 定向检查与 `git diff --check` 通过。
+- 浏览器 / 手工检查: 按视觉分层不跑长剧情；数据/runtime 金丝雀完成，三场景已登记 Q1。
+- 跳过的检查及原因: 未逐卡手动走 s023/s202/s213 剧情画面；按项目纪律集中到 Q1，当前身份、引用、
+  transaction 与 runtime 条件行为已自动闭环。
 
 ## 资源生成记录(如适用)
 
@@ -348,14 +376,14 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
 - 验证方式: Q1 集中验证三场景条件分支；本卡只做数据/runtime 金丝雀。
 - 集中 E2E 用例 / 批次: s023/e433、s202/e3392、s213/e3638。
 - 截图 / 像素检查路径: 待 Q1。
-- 结论: pending（不阻塞本卡的数据/运行时正确性收口）
+- 结论: 数据/runtime 验证通过；视觉按既定 Q1 用例延后，不阻塞本卡正确性收口。
 - 未完成项: Q1 视觉/剧情节拍抽验。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
+- 审查结论: 候选 `31a8c81c` 已提交，等待 Kimi/GLM 对同一 revision 并行只读终审。
+- 必须返工项: pending（Codex 自审无已知 blocker）
 - Accept / rework: pending
 
 ## 用户验收
@@ -392,8 +420,43 @@ current-publication 未完成的一次性 canonicalization，而不是合法运�
 - 2026-09-04 Codex: 收齐 Kimi 与 GLM 独立审查；GLM 因并行共享工作树未单独提交，由 Codex 按原文
   登记其 premise/design、GM-I1~I4 与证据，不构成代签。三方无 counter，状态转 build。
   Evidence: 本卡推进签字；协议更新 `3bdd26ba`。Next: Codex 唯一 Coding Owner 按钉实施。
+- 2026-09-04 Codex: 完成候选 `31a8c81c`。正式 publication transaction 只写 3 scene、7 transaction
+  changes、资产 1934/0 written；current/baseline 各恰 4 个 actorId 叶值变化且三 scene 正文镜像。
+  临时 converter 与四豁免归零，永久 typed-walker invariant/单元/PAL 镜像测试落地；最终 unit
+  44/397、PAL 8/17、typecheck、独立 dry-run 四零与 runtime true/false 金丝雀全过。Status 转 review，
+  Codex 签 accept。Next: Kimi/GLM 钉同一候选并行只读终审；收齐后由 Codex 一次写回。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；当前由 Codex 作为唯一 Coding Owner 执行 build。进入 review 后按新协议同时
-提供 Kimi、GLM 两份只读终审提示词。
+以下两份提示词钉同一候选 `31a8c81c`，可同时转发。两席只读返回结构化结论，不争写任务卡；Codex
+收齐后一次登记。
+
+### Kimi（并行只读终审）
+
+```text
+接手任务: MIG-PAL-INPARTY-ID-1 PAL 四条队伍角色条件稳定 ID 修复
+任务卡: docs/ops/tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md
+当前状态: review
+固定候选: 31a8c81c
+你的角色: current-only migration 架构、exact-diff、转换器/豁免退休与代码终审。
+先读: AGENTS.md；docs/phase2/READ-FIRST.md；最新任务卡；候选 31a8c81c 全 diff；pal-current-publication.ts；pal-inparty-actor-id-invariant.ts 及两类测试；三个 current/baseline scene 与 baseline _state.json。
+已完成: 正式 transaction 只写 3 scene，current/baseline 各 4 actorId；临时 converter 与四豁免已删除；永久 typed-walker invariant 已接 publication；unit 44/397、PAL 8/17、typecheck、独立 dry-run 四零、runtime true/false 金丝雀通过。
+请你做: 独立核验根因层未误修、最终树无 converter/upgrader/fallback、四豁免确实归零、current/baseline exact diff 仅四叶值 + 三 hash、s202 双 stage 均修、publication 仍保留作者内容、零计划和回滚边界成立。输出 final accept 或 counter、直接证据、返工项与可证伪观察。
+不要做: 只读审查，不修改文件、不提交、不读取或复述 GLM 结论；不标 done。
+输出要求: 直接回复可原样登记的 Kimi final review 文本，明确 accept 或 counter。Codex 将与 GLM 结果一起写回任务卡。
+```
+
+### GLM（并行只读终审）
+
+```text
+接手任务: MIG-PAL-INPARTY-ID-1 PAL 四条队伍角色条件稳定 ID 修复
+任务卡: docs/ops/tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md
+当前状态: review
+固定候选: 31a8c81c
+你的角色: 四站点数据、递归 invariant、测试/发布矩阵与 Q1 登记终审。
+先读: AGENTS.md；docs/phase2/READ-FIRST.md；最新任务卡；候选 31a8c81c 全 diff；pal-inparty-actor-id-invariant.ts/.test.ts/.pal.test.ts；pal-current-publication.ts；current/baseline s023/s202/s213 与 _state.json。
+已完成: current/baseline 数字 inParty 为 0、三 scene 逐字镜像；四豁免删除；typed walker 覆盖 stages/stateMachine/branch/loop/all/any/not；正式 write/replay、删 converter 后 dry-run、全量测试和真实四条件 runtime 金丝雀均通过。
+请你做: 独立复算四站点映射和 exact diff，检查缺资源无关域未变、baseline state 只三 hash、所有作者根数字/悬空引用门禁、反例矩阵、translator 测试未回退、Q1 三用例登记完整；输出 final accept 或 counter、直接证据、返工项与可证伪观察。
+不要做: 只读审查，不修改文件、不提交、不读取或复述 Kimi 结论；不标 done。
+输出要求: 直接回复可原样登记的 GLM final review 文本，明确 accept 或 counter。Codex 将与 Kimi 结果一起写回任务卡。
+```
