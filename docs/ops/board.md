@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| E6-1 | [实体位置控制权运行态检视与调试面板重开](tasks/E6-1-runtime-authority-inspector.md) | review | GLM 实现复验与用户验收 | 候选 `de19b7f8`；Codex + Kimi accept；等待 GLM accept |
+| E6-1 | [实体位置控制权运行态检视与调试面板重开](tasks/E6-1-runtime-authority-inspector.md) | review | 用户产品验收 | 候选 `de19b7f8`；Codex/Kimi/GLM accept 齐，无返工项 |
 
 ## 看板规则
 

@@ -486,9 +486,9 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex build 候选已提交，等待 Kimi/GLM 独立实现复验。
-- 必须返工项: pending（当前 Coding Owner 自审无已知 blocker）
-- Accept / rework: pending
+- 审查结论: **三方 accept 齐**（Codex `de19b7f8`；Kimi `7174fe21`；GLM `1825b2c2`）。
+- 必须返工项: 无。
+- Accept / rework: **accept；等待用户产品验收后方可标 done**。
 
 ## 用户验收
 
@@ -547,19 +547,10 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
   build 与 production debug grep；真实 `s213/e3613` 验证 mount、script→world 归还、Esc→Backquote、
   输入框守卫及 360/320px 零横溢出，console 0。Status 转 review，Codex 签 accept。Next: Kimi
   实现/视觉复验与 GLM 覆盖复验；两席均 accept 前不得标 done。
+- 2026-09-04 Codex: 检查 `7174fe21`（Kimi）与 `1825b2c2`（GLM），确认两席 final accept、
+  独立证据与无返工结论齐全。Evidence: 本卡 done 前签字。Next: 仅待用户按最小清单验收；
+  用户未明确通过前保持 review。
 
 ## 下一位 Agent 提示词
 
-### GLM（覆盖/测试复验）
-
-```text
-接手任务: E6-1 实体位置控制权运行态检视与调试面板重开
-任务卡: docs/ops/tasks/E6-1-runtime-authority-inspector.md
-当前状态: review；实现候选 de19b7f8，Codex + Kimi 已签 accept，等待 GLM final accept 与用户验收。
-你的角色: 四类对象覆盖、测试矩阵、文档与遗漏复验。
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；最新任务卡；候选 de19b7f8；packages/reforge/src/main.ts 的 captureMotionState；packages/reforge/src/debug-tools.ts；packages/reforge/src/debug-tools.test.ts；docs/phase2/dev-tools.md。
-已完成: Codex 已落实 GM-E1~E4 和两条必改项；自动与浏览器证据写在任务卡 Build/视觉记录。
-请你做: 独立确认缺 def 编外 follower 仍入快照、四类排序、默认控制权、epoch/slot 纯值、同次刷新、contenteditable+event.code 守卫、close 后 Escape 到达游戏、三轮 hide/show、重复安装/幂等 dispose、在途 abort、双生产构建剥离；把 final accept 或 counter、证据、返工项写回任务卡。
-不要做: 不改实现；不代签 Kimi；不标 done；不扩任务范围。
-输出要求: 提交并推送任务卡 review 签字，回复 commit hash 与 accept 或 counter。
-```
+无下一位 Agent 提示词；三方技术 accept 已齐，等待用户验收/收口。
