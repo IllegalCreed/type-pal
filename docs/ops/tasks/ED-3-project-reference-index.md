@@ -346,6 +346,7 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 接手任务: ED-3 统一工程引用边与安全删除地基
 任务卡: docs/ops/tasks/ED-3-project-reference-index.md
 当前状态: draft
+固定设计版本: 00a403d7
 你的角色: 架构、跨包公共合同、current-author/revision、保存/删除 fail-closed 与异步 proof 主审。
 先读: AGENTS.md；docs/phase2/READ-FIRST.md；最新任务卡；ED-1、ED-REFERENCE-UI-1、ED-INPUT-PERF-1、W7E 相关卡；project-diagnostics.ts:650-759；editor-derived-{contract,core,store}.ts；script-editor.ts canonical visitor；现有 *-references.ts；commands.ts map/delete paths；tileset-references.ts；App.tsx reference navigation。
 已完成: Codex + 三路只读核验确认现有 derived Worker/typed collectors 可复用，但没有统一 edge/index；scene/map/shop 有缺边，媒体 locator 解析字符串。已提出 A/B/C 三批薄统一层，不改 content19/SAVE8，不造巨型 walker。
@@ -360,6 +361,7 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 接手任务: ED-3 统一工程引用边与安全删除地基
 任务卡: docs/ops/tasks/ED-3-project-reference-index.md
 当前状态: draft
+固定设计版本: 00a403d7
 你的角色: 全域引用 census、adapter parity、数据/validator/publication 与测试矩阵主审。
 先读: AGENTS.md；docs/phase2/READ-FIRST.md；最新任务卡；ED-1、ED-REFERENCE-UI-1、ED-INPUT-PERF-1、W7E；project-diagnostics/editor-derived；全部 editor/content reference collectors；validate-refs.ts；PAL current publication；scene/shop/map runtime 与命令代码。
 已完成: 只读 census 已钉 PAL 294 scenes、scene command/entity-address 规模、20 shops、35 openShop=29 buy+6 sell；确认 sell shop=0 不读 shops、map override 和 shop target 缺边、媒体无统一 locator。设计按 A/B/C 分批且不改 schema。
