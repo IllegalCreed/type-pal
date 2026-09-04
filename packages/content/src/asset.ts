@@ -359,6 +359,8 @@ export interface AssetReferenceSource {
   battleSprites?: readonly BattleSpriteDef[]
   /** 存档/运行态删除保护可选输入；工程内容闭包本身不传此槽。 */
   worlds?: readonly WorldState[]
+  /** Editor canonical visits already own these roots; false avoids a second recursive traversal. */
+  includeCanonicalAuthorCommands?: boolean
 }
 
 const BATTLER_SOUND_FIELDS = [
@@ -387,7 +389,8 @@ export function commandAssetTaggedReferencesAtNode(
   const record = value as Record<string, unknown>
   const references: CommandAssetTaggedReference[] = []
   const push = (asset: unknown, expectedKind: AssetKind, suffix: string): void => {
-    if (typeof asset === 'string') references.push({ asset, expectedKind, where: `${where}${suffix}` })
+    if (typeof asset === 'string')
+      references.push({ asset, expectedKind, where: `${where}${suffix}` })
   }
   if (record.kind === 'playMusic') push(record.asset, 'music', '.asset')
   if (record.kind === 'playSound') push(record.asset, 'sound', '.asset')
@@ -421,7 +424,9 @@ export function commandAssetTaggedReferencesAtNode(
   }
   if (record.kind === 'setActorAppearance') push(record.portrait, 'portrait', '.portrait')
   if (record.kind === 'quitToTitle' && Array.isArray(record.videos))
-    record.videos.forEach((asset, index) => push(asset, 'video', `.videos[${index}]`))
+    record.videos.forEach((asset, index) => {
+      push(asset, 'video', `.videos[${index}]`)
+    })
   return references
 }
 
@@ -433,7 +438,9 @@ export function collectCommandAssetTaggedReferences(
   const references: CommandAssetTaggedReference[] = []
   const visit = (value: unknown, path: string): void => {
     if (Array.isArray(value)) {
-      value.forEach((entry, index) => visit(entry, `${path}[${index}]`))
+      value.forEach((entry, index) => {
+        visit(entry, `${path}[${index}]`)
+      })
       return
     }
     if (!value || typeof value !== 'object') return
@@ -490,6 +497,7 @@ function appendCommandAssetReferences(
 /** 递归收集所有 typed AssetId 引用；删除保护、闭包检查和引用面板共用这一张边表。 */
 export function collectAssetReferences(source: AssetReferenceSource): LocatedAssetReference[] {
   const references: LocatedAssetReference[] = []
+  const includeCanonicalAuthorCommands = source.includeCanonicalAuthorCommands !== false
   if (source.assets) {
     for (const role of ASSET_ROLES) {
       const asset = source.assets.roles[role]
@@ -544,25 +552,27 @@ export function collectAssetReferences(source: AssetReferenceSource): LocatedAss
       `scene:${scene.id}:onTeleport`,
       { kind: 'scene', id: scene.id, section: 'onTeleport' },
     )
-    appendCommandAssetReferences(
-      references,
-      scene.entities,
-      `scenes[${index}].entities`,
-      `scene:${scene.id}:entities`,
-      { kind: 'scene', id: scene.id, section: 'entities' },
-    )
-    const hooks = (scene as unknown as { hooks?: AuthorSceneDef['hooks'] }).hooks
-    for (const slot of ['onEnter', 'onTeleport'] as const) {
-      const variants = hooks?.[slot]?.variants
-      if (!variants) continue
-      for (const [hookId, hook] of Object.entries(variants))
-        appendCommandAssetReferences(
-          references,
-          hook.flow,
-          `scenes[${index}].hooks.${slot}.variants[${JSON.stringify(hookId)}].flow`,
-          `scene:${scene.id}:hook:${slot}:${hookId}`,
-          { kind: 'scene-hook', sceneId: scene.id, slot, hookId },
-        )
+    if (includeCanonicalAuthorCommands) {
+      appendCommandAssetReferences(
+        references,
+        scene.entities,
+        `scenes[${index}].entities`,
+        `scene:${scene.id}:entities`,
+        { kind: 'scene', id: scene.id, section: 'entities' },
+      )
+      const hooks = (scene as unknown as { hooks?: AuthorSceneDef['hooks'] }).hooks
+      for (const slot of ['onEnter', 'onTeleport'] as const) {
+        const variants = hooks?.[slot]?.variants
+        if (!variants) continue
+        for (const [hookId, hook] of Object.entries(variants))
+          appendCommandAssetReferences(
+            references,
+            hook.flow,
+            `scenes[${index}].hooks.${slot}.variants[${JSON.stringify(hookId)}].flow`,
+            `scene:${scene.id}:hook:${slot}:${hookId}`,
+            { kind: 'scene-hook', sceneId: scene.id, slot, hookId },
+          )
+      }
     }
   })
   const chunks = Array.isArray(source.scriptChunks)
@@ -579,14 +589,15 @@ export function collectAssetReferences(source: AssetReferenceSource): LocatedAss
       )
     }
   })
-  for (const [scriptId, script] of Object.entries(source.sharedScripts ?? {}))
-    appendCommandAssetReferences(
-      references,
-      script.body,
-      `sharedScripts[${JSON.stringify(scriptId)}].body`,
-      `sharedScript:${scriptId}`,
-      { kind: 'shared-script', id: scriptId },
-    )
+  if (includeCanonicalAuthorCommands)
+    for (const [scriptId, script] of Object.entries(source.sharedScripts ?? {}))
+      appendCommandAssetReferences(
+        references,
+        script.body,
+        `sharedScripts[${JSON.stringify(scriptId)}].body`,
+        `sharedScript:${scriptId}`,
+        { kind: 'shared-script', id: scriptId },
+      )
   source.actors?.forEach((actor, index) => {
     if (actor.portraits) {
       references.push({
@@ -668,11 +679,12 @@ export function collectAssetReferences(source: AssetReferenceSource): LocatedAss
     }
   })
   source.items?.forEach((item, index) => {
-    appendCommandAssetReferences(references, item, `items[${index}]`, `item:${item.id}`, {
-      kind: 'item',
-      id: item.id,
-      section: 'commands',
-    })
+    if (includeCanonicalAuthorCommands)
+      appendCommandAssetReferences(references, item, `items[${index}]`, `item:${item.id}`, {
+        kind: 'item',
+        id: item.id,
+        section: 'commands',
+      })
     if (item.icon)
       references.push({
         asset: item.icon,

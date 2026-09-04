@@ -14,6 +14,7 @@ import {
   battleDataReferenceEdges,
   buildProjectReferenceSnapshotFromProjection,
   canonicalCommandTargetEdges,
+  collectCanonicalAssetReferenceEntries,
   entityAddressReferenceEdges,
   itemReferenceEdges,
   legacyScriptChunkTargetEdges,
@@ -22,17 +23,18 @@ import {
 } from './project-reference-adapters.js'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
+  type CanonicalScriptCommandVisit,
+  type CanonicalScriptTransitionVisit,
   collectCanonicalScriptCommandVisits,
   collectCanonicalScriptTransitionVisits,
   collectCanonicalSharedScriptReferencesFromVisits,
-  type CanonicalScriptCommandVisit,
-  type CanonicalScriptTransitionVisit,
   type ScriptEditorState,
 } from './script-editor.js'
 import {
   collectWorldVariableReferencesV1FromVisits,
   type WorldVariableReferenceIndexV1,
 } from './world-variable-references.js'
+
 /*
  * Every projection caller must state all synchronized reference domains explicitly. Keeping this
  * fixture in the tests makes a newly added domain fail at compile time instead of silently
@@ -40,6 +42,7 @@ import {
  */
 const emptyProjectionReferences = {
   assetReferences: [],
+  canonicalAssetReferences: [],
   worldVariableReferences: { all: [], byId: new Map() } as WorldVariableReferenceIndexV1,
   canonicalSchemeReferences: {
     behavior: new Map(),
@@ -1156,7 +1159,14 @@ describe('project reference adapters', () => {
     ]
     const index = createProjectReferenceIndex(
       buildProjectReferenceSnapshot(
-        assetReferenceEdges(state, collectEditorAssetReferences(state), visits, scriptState),
+        assetReferenceEdges(
+          state,
+          collectEditorAssetReferences(state, undefined, {
+            includeCanonicalAuthorCommands: false,
+          }),
+          collectCanonicalAssetReferenceEntries(visits),
+          scriptState,
+        ),
       ),
     )
 
@@ -1326,6 +1336,7 @@ describe('project reference adapters', () => {
         transitionVisits,
         entityAddressReferences: [],
         assetReferences: collectEditorAssetReferences(state),
+        canonicalAssetReferences: collectCanonicalAssetReferenceEntries(commandVisits),
         worldVariableReferences: collectWorldVariableReferencesV1FromVisits(
           scriptState,
           commandVisits,

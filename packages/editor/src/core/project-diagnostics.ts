@@ -40,15 +40,18 @@ import {
   missingEntityAddressReferencesFrom,
 } from './entity-address-references.js'
 import type { ProjectReferenceSnapshotV1 } from './project-reference.js'
-import { buildProjectReferenceSnapshotFromProjection } from './project-reference-adapters.js'
+import {
+  buildProjectReferenceSnapshotFromProjection,
+  collectCanonicalAssetReferenceEntries,
+} from './project-reference-adapters.js'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   type CanonicalSchemeReferenceIndexes,
   type CanonicalScriptCommandVisit,
   type CanonicalScriptTransitionVisit,
-  collectCanonicalSharedScriptReferencesFromVisits,
   collectCanonicalScriptCommandVisits,
   collectCanonicalScriptTransitionVisits,
+  collectCanonicalSharedScriptReferencesFromVisits,
   collectScriptReferenceIssuesFromVisits,
   type ScriptEditorState,
   type ScriptReferenceIssue,
@@ -635,6 +638,7 @@ export interface EditorDiagnosticsDependencies {
   collectEditorAssetDiagnostics: typeof collectEditorAssetDiagnostics
   collectCanonicalScriptCommandVisits: typeof collectCanonicalScriptCommandVisits
   collectCanonicalScriptTransitionVisits: typeof collectCanonicalScriptTransitionVisits
+  collectCanonicalAssetReferenceEntries: typeof collectCanonicalAssetReferenceEntries
   collectCanonicalSharedScriptReferencesFromVisits: typeof collectCanonicalSharedScriptReferencesFromVisits
   collectScriptReferenceIssuesFromVisits: typeof collectScriptReferenceIssuesFromVisits
   collectWorldVariableReferencesV1FromVisits: typeof collectWorldVariableReferencesV1FromVisits
@@ -658,6 +662,7 @@ export function createEditorDiagnosticsSnapshotCollector(
     collectEditorAssetDiagnostics,
     collectCanonicalScriptCommandVisits,
     collectCanonicalScriptTransitionVisits,
+    collectCanonicalAssetReferenceEntries,
     collectCanonicalSharedScriptReferencesFromVisits,
     collectScriptReferenceIssuesFromVisits,
     collectWorldVariableReferencesV1FromVisits,
@@ -688,12 +693,18 @@ export function createEditorDiagnosticsSnapshotCollector(
       dependencies.collectCanonicalScriptCommandVisits(scriptState)
     const transitionVisits: CanonicalScriptTransitionVisit[] =
       dependencies.collectCanonicalScriptTransitionVisits(scriptState)
-    const sharedScriptReferences =
-      dependencies.collectCanonicalSharedScriptReferencesFromVisits(scriptState, commandVisits)
+    const sharedScriptReferences = dependencies.collectCanonicalSharedScriptReferencesFromVisits(
+      scriptState,
+      commandVisits,
+    )
     const assetSnapshot = dependencies.collectEditorAssetReferenceSnapshotFromSlices(
       currentAuthorState,
       author,
+      { includeCanonicalAuthorCommands: false },
     )
+    const canonicalAssetReferences =
+      dependencies.collectCanonicalAssetReferenceEntries(commandVisits)
+    assetSnapshot.references.push(...canonicalAssetReferences.map((entry) => entry.reference))
     const assetDiagnostics = dependencies.collectEditorAssetDiagnostics(
       currentAuthorState.assetCatalog,
       assetSnapshot.references,
@@ -723,6 +734,7 @@ export function createEditorDiagnosticsSnapshotCollector(
       transitionVisits,
       entityAddressReferences,
       assetReferences: assetSnapshot.references,
+      canonicalAssetReferences,
       worldVariableReferences,
       canonicalSchemeReferences: canonicalSchemeReferenceIndexes,
       sharedScriptReferences,

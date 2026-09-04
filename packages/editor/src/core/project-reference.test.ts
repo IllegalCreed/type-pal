@@ -68,6 +68,28 @@ describe('project reference contract', () => {
     ).toThrow(/不是 owner\/section 的稳定派生 key/)
   })
 
+  test('keeps arbitrary action ids collision-free while interning relation rows', () => {
+    const first = edge(
+      { kind: 'world-sprite-action', spriteId: 'sprite', actionId: 'a:b' },
+      {
+        relation: { kind: 'world-sprite-action-use', actionId: 'a:b' },
+        where: 'first',
+      },
+    )
+    const second = edge(
+      { kind: 'world-sprite-action', spriteId: 'sprite', actionId: 'a' },
+      {
+        relation: { kind: 'world-sprite-action-use', actionId: 'a\0b' },
+        where: 'second',
+      },
+    )
+    const snapshot = buildProjectReferenceSnapshot([first, second])
+    expect(snapshot.relations).toEqual([
+      { kind: 'world-sprite-action-use', actionId: 'a:b' },
+      { kind: 'world-sprite-action-use', actionId: 'a\0b' },
+    ])
+  })
+
   test('omits derived source/target keys and interns repeated detail without changing decoded edges', () => {
     const source = createProjectReferenceSource({ kind: 'scene', id: 'source' }, '来源场景', {
       section: 'battle-data',
@@ -164,6 +186,26 @@ describe('project reference contract', () => {
         {
           where: 'page',
           locator: { kind: 'scene-page', sceneId: 'scene', entityId: 'entity', pageId: 'page' },
+        },
+      ),
+      edge(
+        { kind: 'actor', id: 'nul-one' },
+        {
+          where: 'nul-one',
+          locator: {
+            kind: 'object',
+            object: { kind: 'entity', sceneId: 'a\0b', entityId: 'c' },
+          },
+        },
+      ),
+      edge(
+        { kind: 'actor', id: 'nul-two' },
+        {
+          where: 'nul-two',
+          locator: {
+            kind: 'object',
+            object: { kind: 'entity', sceneId: 'a', entityId: 'b\0c' },
+          },
         },
       ),
       edge({ kind: 'actor', id: 'readonly' }, { where: 'readonly', locator: unavailable }),

@@ -12,6 +12,7 @@ import {
 import { describe, expect, test } from 'vitest'
 import { actorReferenceBlocksDeletion, collectActorReferences } from './actor-references.js'
 import { collectBattleDataReferences } from './battle-data-references.js'
+import { collectEditorAssetReferences } from './editor-asset-references.js'
 import { createEditorDerivedWorkerRuntime } from './editor-derived-core.js'
 import { editorDiagnosticState } from './editor-derived-store.js'
 import type { EntityAddressReferenceLocator } from './entity-address-references.js'
@@ -333,8 +334,16 @@ describe('ED-3 PAL project reference index', () => {
     expect(worldSpriteActionEdges).toHaveLength(385)
     expect(battleSpriteEdges).toHaveLength(180)
     expect(assetEdges).toHaveLength(6_002)
-    const oldAssetReferences = diagnostics.assetSnapshot.references
-    const canonicalAssetOrigin = (origin: (typeof oldAssetReferences)[number]['origin']): boolean =>
+    const baselineAssetReferences = collectEditorAssetReferences(state, canonical)
+    const optimizedAssetReferences = diagnostics.assetSnapshot.references
+    const assetReferenceIdentity = (reference: (typeof baselineAssetReferences)[number]): string =>
+      JSON.stringify([reference.asset, reference.expectedKind, reference.origin, reference.site])
+    expect(optimizedAssetReferences.map(assetReferenceIdentity).sort()).toEqual(
+      baselineAssetReferences.map(assetReferenceIdentity).sort(),
+    )
+    const canonicalAssetOrigin = (
+      origin: (typeof optimizedAssetReferences)[number]['origin'],
+    ): boolean =>
       origin.kind === 'shared-script' ||
       origin.kind === 'scene-hook' ||
       (origin.kind === 'scene' && origin.section === 'entities') ||
@@ -349,11 +358,9 @@ describe('ED-3 PAL project reference index', () => {
         })
         .sort(),
     ).toEqual(
-      oldAssetReferences
+      optimizedAssetReferences
         .filter((reference) => !canonicalAssetOrigin(reference.origin))
-        .map(
-          (reference) => `${reference.asset}\0${reference.expectedKind}\0${reference.where}`,
-        )
+        .map((reference) => `${reference.asset}\0${reference.expectedKind}\0${reference.where}`)
         .sort(),
     )
     expect(
@@ -366,7 +373,7 @@ describe('ED-3 PAL project reference index', () => {
         })
         .sort(),
     ).toEqual(
-      oldAssetReferences
+      optimizedAssetReferences
         .filter((reference) => canonicalAssetOrigin(reference.origin))
         .map((reference) => `${reference.asset}\0${reference.expectedKind}`)
         .sort(),

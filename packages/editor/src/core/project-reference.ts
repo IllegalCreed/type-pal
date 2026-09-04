@@ -678,32 +678,28 @@ function projectReferenceRelationKey(relation: ProjectReferenceRelation): string
     case 'behavior-reference':
     case 'scene-hook-reference':
     case 'tileset-use':
-      return tupleKey([relation.kind, relation.use])
+      return `${relation.kind}:${relation.use}`
     case 'asset-use':
-      return tupleKey([relation.kind, relation.expectedKind])
+      return `${relation.kind}:${relation.expectedKind}`
     case 'item-use':
-      return tupleKey([relation.kind, relation.access])
+      return `${relation.kind}:${relation.access}`
     case 'battle-data-use':
-      return tupleKey([relation.kind, relation.target, relation.use])
+      return `${relation.kind}:${relation.target}:${relation.use}`
     case 'world-variable':
-      return tupleKey([relation.kind, relation.variableKind, relation.access])
+      return `${relation.kind}:${relation.variableKind}:${relation.access}`
     case 'script-reference':
-      return tupleKey([relation.kind, relation.use, relation.explicitSelf ? '1' : '0'])
+      return `${relation.kind}:${relation.use}:${relation.explicitSelf ? 1 : 0}`
     case 'world-sprite-action-use':
-      return tupleKey([relation.kind, relation.actionId])
+      return `${relation.kind}:${JSON.stringify(relation.actionId)}`
     case 'battle-sprite-use':
-      return tupleKey([relation.kind, relation.expectedProfile])
+      return `${relation.kind}:${relation.expectedProfile}`
     case 'entity-address':
     case 'scene-map':
     case 'entry-point-scene':
     case 'world-sprite-use':
     case 'stamp-placement-source':
-      return tupleKey([relation.kind])
+      return relation.kind
   }
-}
-
-function projectReferenceSourceDefinitionKey(source: ProjectReferenceSource): string {
-  return tupleKey([source.label, source.section ?? '', ...[...source.deletedWith].sort()])
 }
 
 function encodeScriptCommandOwner(owner: ScriptCommandOwner): ScriptCommandOwnerSnapshot {
@@ -981,26 +977,6 @@ function decodeProjectReferenceLocator(
   }
 }
 
-function targetAncestors(target: ProjectReferenceTarget): ProjectReferenceTarget[] {
-  switch (target.kind) {
-    case 'entity':
-      return [{ kind: 'scene', id: target.sceneId }]
-    case 'scene-entry':
-      return [{ kind: 'scene', id: target.sceneId }]
-    case 'entity-behavior':
-      return [
-        { kind: 'entity', sceneId: target.sceneId, entityId: target.entityId },
-        { kind: 'scene', id: target.sceneId },
-      ]
-    case 'scene-hook':
-      return [{ kind: 'scene', id: target.sceneId }]
-    case 'world-sprite-action':
-      return [{ kind: 'world-sprite', id: target.spriteId }]
-    default:
-      return []
-  }
-}
-
 const POLICY_CODE: Readonly<Record<ProjectReferenceDeletePolicy, 0 | 1 | 2>> = {
   block: 0,
   'replace-suggest': 1,
@@ -1039,9 +1015,8 @@ export function buildProjectReferenceSnapshot(
 ): ProjectReferenceSnapshotV1 {
   const targetByKey = new Map<string, ProjectReferenceTarget>()
   const sourceInputs: ProjectReferenceSource[] = []
-  const sourceWheres: string[][] = []
+  const sourceCommonPrefixes: Array<string | undefined> = []
   const sourceIndexes = new Map<string, number>()
-  const sourceDefinitions = new Map<string, string>()
   const relations: ProjectReferenceRelation[] = []
   const relationIndexes = new Map<string, number>()
   const locators: ProjectReferenceLocatorSnapshot[] = []
@@ -1059,10 +1034,44 @@ export function buildProjectReferenceSnapshot(
   > = []
   const bucketEdges = new Map<string, number[]>()
   const seenEdges = new Set<string>()
+  const appendTargetBucket = (
+    key: string,
+    target: ProjectReferenceTarget,
+    edgeIndex: number,
+  ): void => {
+    if (!targetByKey.has(key)) targetByKey.set(key, target)
+    const bucket = bucketEdges.get(key)
+    if (bucket) bucket.push(edgeIndex)
+    else bucketEdges.set(key, [edgeIndex])
+  }
+  const appendAncestorBucket = (
+    source: ProjectReferenceSource,
+    target: ProjectReferenceTarget,
+    edgeIndex: number,
+  ): void => {
+    const key = projectReferenceTargetKey(target)
+    if (!source.deletedWith.includes(key)) appendTargetBucket(key, target, edgeIndex)
+  }
 
   for (const edge of rawEdges) {
-    if (edge.source.key !== projectReferenceSourceKey(edge.source.owner, edge.source.section))
-      throw new Error(`引用来源 ${edge.source.key} 不是 owner/section 的稳定派生 key`)
+    let sourceIndex = sourceIndexes.get(edge.source.key)
+    if (sourceIndex === undefined) {
+      if (edge.source.key !== projectReferenceSourceKey(edge.source.owner, edge.source.section))
+        throw new Error(`引用来源 ${edge.source.key} 不是 owner/section 的稳定派生 key`)
+      sourceIndex = sourceInputs.length
+      sourceInputs.push(edge.source)
+      sourceCommonPrefixes.push(undefined)
+      sourceIndexes.set(edge.source.key, sourceIndex)
+    } else {
+      const previous = sourceInputs[sourceIndex]!
+      if (
+        previous.label !== edge.source.label ||
+        previous.section !== edge.source.section ||
+        previous.deletedWith.length !== edge.source.deletedWith.length ||
+        previous.deletedWith.some((target) => !edge.source.deletedWith.includes(target))
+      )
+        throw new Error(`引用来源 ${edge.source.key} 的定义不一致`)
+    }
     const targetKey = projectReferenceTargetKey(edge.target)
     const relationKey = projectReferenceRelationKey(edge.relation)
     const encodedLocator = encodeProjectReferenceLocator(edge.locator, edge.where, edge.source)
@@ -1080,20 +1089,15 @@ export function buildProjectReferenceSnapshot(
       if (seenEdges.has(identity)) continue
       seenEdges.add(identity)
     }
-
-    const sourceDefinition = projectReferenceSourceDefinitionKey(edge.source)
-    const previousSourceDefinition = sourceDefinitions.get(edge.source.key)
-    if (previousSourceDefinition && previousSourceDefinition !== sourceDefinition)
-      throw new Error(`引用来源 ${edge.source.key} 的定义不一致`)
-    let sourceIndex = sourceIndexes.get(edge.source.key)
-    if (sourceIndex === undefined) {
-      sourceIndex = sourceInputs.length
-      sourceInputs.push(edge.source)
-      sourceWheres.push([])
-      sourceIndexes.set(edge.source.key, sourceIndex)
-      sourceDefinitions.set(edge.source.key, sourceDefinition)
+    const previousPrefix = sourceCommonPrefixes[sourceIndex]
+    if (previousPrefix === undefined) sourceCommonPrefixes[sourceIndex] = edge.where
+    else {
+      const length = Math.min(previousPrefix.length, edge.where.length)
+      let prefixLength = 0
+      while (prefixLength < length && previousPrefix[prefixLength] === edge.where[prefixLength])
+        prefixLength++
+      sourceCommonPrefixes[sourceIndex] = previousPrefix.slice(0, prefixLength)
     }
-    sourceWheres[sourceIndex]!.push(edge.where)
 
     let relationIndex = relationIndexes.get(relationKey)
     if (relationIndex === undefined) {
@@ -1108,19 +1112,33 @@ export function buildProjectReferenceSnapshot(
       locatorIndexes.set(locatorKey, locatorIndex)
     }
 
-    targetByKey.set(targetKey, edge.target)
-    const aliases = [
-      edge.target,
-      ...targetAncestors(edge.target).filter(
-        (ancestor) => !edge.source.deletedWith.includes(projectReferenceTargetKey(ancestor)),
-      ),
-    ]
-    for (const target of aliases) {
-      const aliasKey = projectReferenceTargetKey(target)
-      targetByKey.set(aliasKey, target)
-      const bucket = bucketEdges.get(aliasKey) ?? []
-      bucket.push(rowInputs.length)
-      bucketEdges.set(aliasKey, bucket)
+    const edgeIndex = rowInputs.length
+    appendTargetBucket(targetKey, edge.target, edgeIndex)
+    switch (edge.target.kind) {
+      case 'entity':
+      case 'scene-entry':
+      case 'scene-hook':
+        appendAncestorBucket(edge.source, { kind: 'scene', id: edge.target.sceneId }, edgeIndex)
+        break
+      case 'entity-behavior':
+        appendAncestorBucket(
+          edge.source,
+          {
+            kind: 'entity',
+            sceneId: edge.target.sceneId,
+            entityId: edge.target.entityId,
+          },
+          edgeIndex,
+        )
+        appendAncestorBucket(edge.source, { kind: 'scene', id: edge.target.sceneId }, edgeIndex)
+        break
+      case 'world-sprite-action':
+        appendAncestorBucket(
+          edge.source,
+          { kind: 'world-sprite', id: edge.target.spriteId },
+          edgeIndex,
+        )
+        break
     }
     rowInputs.push([
       targetKey,
@@ -1133,9 +1151,22 @@ export function buildProjectReferenceSnapshot(
     ])
   }
 
-  for (const source of sourceInputs) {
-    const deletedWith = [...source.deletedWith].sort()
-    if (sameStrings(deletedWith, defaultProjectReferenceSourceDeletedWith(source.owner))) continue
+  const sourceDeletedWith = sourceInputs.map((source) => {
+    if (source.deletedWith.length < 2) return source.deletedWith
+    for (let index = 1; index < source.deletedWith.length; index++)
+      if (source.deletedWith[index - 1]! > source.deletedWith[index]!)
+        return [...source.deletedWith].sort()
+    return source.deletedWith
+  })
+  const sourceDefaultDeletedWith = sourceInputs.map((source) =>
+    defaultProjectReferenceSourceDeletedWith(source.owner),
+  )
+  const sourceDefaultWherePrefixes = sourceInputs.map((source) =>
+    defaultProjectReferenceSourceWherePrefix(source.owner, source.section),
+  )
+  for (let sourceIndex = 0; sourceIndex < sourceInputs.length; sourceIndex++) {
+    const deletedWith = sourceDeletedWith[sourceIndex]!
+    if (sameStrings(deletedWith, sourceDefaultDeletedWith[sourceIndex]!)) continue
     for (const targetKey of deletedWith)
       if (!targetByKey.has(targetKey))
         targetByKey.set(targetKey, decodeProjectReferenceTargetKey(targetKey))
@@ -1143,28 +1174,13 @@ export function buildProjectReferenceSnapshot(
   const targetKeys = [...targetByKey.keys()].sort()
   const targets = targetKeys.map((key) => encodeProjectReferenceTarget(targetByKey.get(key)!))
   const targetIndexes = new Map(targetKeys.map((key, index) => [key, index]))
-  const commonPrefix = (values: readonly string[]): string => {
-    const first = values[0] ?? ''
-    let length = first.length
-    for (let valueIndex = 1; valueIndex < values.length && length > 0; valueIndex += 1) {
-      const value = values[valueIndex]!
-      length = Math.min(length, value.length)
-      let index = 0
-      while (index < length && first[index] === value[index]) index += 1
-      length = index
-    }
-    return first.slice(0, length)
-  }
-  const sourceWherePrefixes = sourceWheres.map((wheres, index) => {
-    const source = sourceInputs[index]!
-    const derived = defaultProjectReferenceSourceWherePrefix(source.owner, source.section)
-    return derived && wheres.every((where) => where.startsWith(derived))
-      ? derived
-      : commonPrefix(wheres)
+  const sourceWherePrefixes = sourceCommonPrefixes.map((commonPrefix, index) => {
+    const derived = sourceDefaultWherePrefixes[index]
+    return derived && commonPrefix?.startsWith(derived) ? derived : (commonPrefix ?? '')
   })
   const sources: ProjectReferenceSourceSnapshot[] = sourceInputs.map((source, index) => {
-    const deletedWith = [...source.deletedWith].sort()
-    const defaultDeletedWith = defaultProjectReferenceSourceDeletedWith(source.owner)
+    const deletedWith = sourceDeletedWith[index]!
+    const defaultDeletedWith = sourceDefaultDeletedWith[index]!
     const wherePrefix = sourceWherePrefixes[index]!
     return [
       encodeProjectReferenceSourceOwner(source.owner),
@@ -1173,9 +1189,7 @@ export function buildProjectReferenceSnapshot(
         ? 0
         : deletedWith.map((key) => targetIndexes.get(key)!),
       source.section ?? 0,
-      wherePrefix === defaultProjectReferenceSourceWherePrefix(source.owner, source.section)
-        ? 0
-        : wherePrefix,
+      wherePrefix === sourceDefaultWherePrefixes[index] ? 0 : wherePrefix,
     ]
   })
   const details: string[] = []

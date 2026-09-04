@@ -26,7 +26,10 @@ import {
   validateManifestEntryPoints,
 } from './project-diagnostics.js'
 import { createProjectReferenceIndex } from './project-reference.js'
-import { buildProjectReferenceSnapshotFromProjection } from './project-reference-adapters.js'
+import {
+  buildProjectReferenceSnapshotFromProjection,
+  collectCanonicalAssetReferenceEntries,
+} from './project-reference-adapters.js'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   collectCanonicalScriptCommandVisits,
@@ -186,6 +189,7 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   const collectAssetDiagnostics = vi.fn(collectEditorAssetDiagnostics)
   const collectVisits = vi.fn(collectCanonicalScriptCommandVisits)
   const collectTransitions = vi.fn(collectCanonicalScriptTransitionVisits)
+  const collectCanonicalAssets = vi.fn(collectCanonicalAssetReferenceEntries)
   const collectScriptIssues = vi.fn(collectScriptReferenceIssuesFromVisits)
   const collectWorldVariables = vi.fn(collectWorldVariableReferencesV1FromVisits)
   const collectEntities = vi.fn(collectEntityAddressReferences)
@@ -199,6 +203,7 @@ test('combined diagnostics runs each full scanner once per revision', () => {
     collectEditorAssetDiagnostics: collectAssetDiagnostics,
     collectCanonicalScriptCommandVisits: collectVisits,
     collectCanonicalScriptTransitionVisits: collectTransitions,
+    collectCanonicalAssetReferenceEntries: collectCanonicalAssets,
     collectScriptReferenceIssuesFromVisits: collectScriptIssues,
     collectWorldVariableReferencesV1FromVisits: collectWorldVariables,
     collectEntityAddressReferences: collectEntities,
@@ -232,6 +237,7 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(collectAssetDiagnostics).toHaveBeenCalledOnce()
   expect(collectVisits).toHaveBeenCalledOnce()
   expect(collectTransitions).toHaveBeenCalledOnce()
+  expect(collectCanonicalAssets).toHaveBeenCalledOnce()
   expect(collectScriptIssues).toHaveBeenCalledOnce()
   expect(collectWorldVariables).toHaveBeenCalledOnce()
   expect(collectEntities).toHaveBeenCalledOnce()
@@ -248,6 +254,7 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   collectAssetDiagnostics.mockClear()
   collectVisits.mockClear()
   collectTransitions.mockClear()
+  collectCanonicalAssets.mockClear()
   collectScriptIssues.mockClear()
   collectWorldVariables.mockClear()
   collectEntities.mockClear()
@@ -261,6 +268,7 @@ test('combined diagnostics runs each full scanner once per revision', () => {
   expect(collectAssetDiagnostics).toHaveBeenCalledOnce()
   expect(collectVisits).toHaveBeenCalledOnce()
   expect(collectTransitions).toHaveBeenCalledOnce()
+  expect(collectCanonicalAssets).toHaveBeenCalledOnce()
   expect(collectScriptIssues).not.toHaveBeenCalled()
   expect(collectWorldVariables).toHaveBeenCalledOnce()
   expect(collectEntities).toHaveBeenCalledOnce()

@@ -1,7 +1,7 @@
 import {
   ACTOR_REFERENCE_POLICIES,
-  actorConditionPoisonReferenceAtNode,
   type AssetReferenceOrigin,
+  actorConditionPoisonReferenceAtNode,
   authoredSkillExecutionLayers,
   type CommandSpriteTaggedReference,
   type CommandTargetReference,
@@ -48,17 +48,17 @@ import {
 } from './project-reference.js'
 import type {
   CanonicalSchemeReferenceIndexes,
-  CanonicalSharedScriptReferenceEntry,
   CanonicalScriptCommandVisit,
   CanonicalScriptTransitionVisit,
+  CanonicalSharedScriptReferenceEntry,
   ScriptCommandOwner,
   ScriptEditorState,
 } from './script-editor.js'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
-  collectCanonicalSharedScriptReferencesFromVisits,
   collectCanonicalScriptCommandVisits,
   collectCanonicalScriptTransitionVisits,
+  collectCanonicalSharedScriptReferencesFromVisits,
 } from './script-editor.js'
 import {
   projectCurrentAuthorReferenceSlices,
@@ -1132,15 +1132,66 @@ function assetReferenceEdge(
   }
 }
 
-function canonicalAssetReferenceEdges(
+export interface CanonicalAssetReferenceEntry {
+  visit: CanonicalScriptCommandVisit
+  reference: LocatedAssetReference
+}
+
+function canonicalAssetOrigin(owner: ScriptCommandOwner): AssetReferenceOrigin {
+  switch (owner.kind) {
+    case 'shared-script':
+      return { kind: 'shared-script', id: owner.scriptId }
+    case 'scene-hook':
+      return {
+        kind: 'scene-hook',
+        sceneId: owner.sceneId,
+        slot: owner.slot,
+        hookId: owner.hookId,
+      }
+    case 'item-private-script':
+      return { kind: 'item', id: owner.itemId, section: 'commands' }
+    case 'entity-behavior':
+    case 'entity-hostile-on-lose':
+      return { kind: 'scene', id: owner.sceneId, section: 'entities' }
+  }
+}
+
+function canonicalAssetSite(owner: ScriptCommandOwner): string {
+  switch (owner.kind) {
+    case 'shared-script':
+      return `sharedScript:${owner.scriptId}`
+    case 'scene-hook':
+      return `scene:${owner.sceneId}:hook:${owner.slot}:${owner.hookId}`
+    case 'item-private-script':
+      return `item:${owner.itemId}`
+    case 'entity-behavior':
+    case 'entity-hostile-on-lose':
+      return `scene:${owner.sceneId}:entities`
+  }
+}
+
+export function collectCanonicalAssetReferenceEntries(
   visits: readonly CanonicalScriptCommandVisit[],
+): CanonicalAssetReferenceEntry[] {
+  return visits.flatMap((visit) =>
+    collectCanonicalCommandAssetTaggedReferences(visit.command, visit.path).map((reference) => ({
+      visit,
+      reference: {
+        ...reference,
+        site: canonicalAssetSite(visit.locator.owner),
+        origin: canonicalAssetOrigin(visit.locator.owner),
+      },
+    })),
+  )
+}
+
+function canonicalAssetReferenceEdges(
+  entries: readonly CanonicalAssetReferenceEntry[],
   scriptState: ScriptEditorState,
 ): ProjectReferenceEdgeInput[] {
-  return visits.flatMap((visit) => {
-    const references = collectCanonicalCommandAssetTaggedReferences(visit.command, visit.path)
-    if (!references.length) return []
+  return entries.map(({ visit, reference }) => {
     const source = sourceForScriptOwner(visit.locator.owner, scriptState)
-    return references.map((reference) => ({
+    return {
       target: { kind: 'asset' as const, id: reference.asset },
       source,
       relation: { kind: 'asset-use' as const, expectedKind: reference.expectedKind },
@@ -1150,14 +1201,14 @@ function canonicalAssetReferenceEdges(
         reference: { kind: 'command' as const, path: reference.where, locator: visit.locator },
       },
       deletePolicy: 'replace-suggest' as const,
-    }))
+    }
   })
 }
 
 export function assetReferenceEdges(
   state: EditorState,
   references: readonly LocatedAssetReference[],
-  commandVisits: readonly CanonicalScriptCommandVisit[],
+  canonicalReferences: readonly CanonicalAssetReferenceEntry[],
   scriptState: ScriptEditorState,
 ): ProjectReferenceEdgeInput[] {
   const structural = references.flatMap((reference) => {
@@ -1165,7 +1216,7 @@ export function assetReferenceEdges(
     if (isCanonicalAssetOrigin(origin)) return []
     return [assetReferenceEdge(reference, assetReferenceLocation(origin, state.manifest.id))]
   })
-  return [...structural, ...canonicalAssetReferenceEdges(commandVisits, scriptState)]
+  return [...structural, ...canonicalAssetReferenceEdges(canonicalReferences, scriptState)]
 }
 
 export function worldVariableReferenceEdges(
@@ -1184,9 +1235,10 @@ export function worldVariableReferenceEdges(
       },
       where: reference.path,
       detail: reference.detail,
-      locator: reference.reference?.kind === 'command'
-        ? ({ kind: 'canonical-script' as const, reference: reference.reference })
-        : ({ kind: 'script-owner' as const, owner: reference.owner }),
+      locator:
+        reference.reference?.kind === 'command'
+          ? { kind: 'canonical-script' as const, reference: reference.reference }
+          : { kind: 'script-owner' as const, owner: reference.owner },
       deletePolicy: 'replace-suggest' as const,
     }
   })
@@ -1783,6 +1835,7 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
   transitionVisits: readonly CanonicalScriptTransitionVisit[]
   entityAddressReferences: readonly EntityAddressReference[]
   assetReferences: readonly LocatedAssetReference[]
+  canonicalAssetReferences: readonly CanonicalAssetReferenceEntry[]
   worldVariableReferences: WorldVariableReferenceIndexV1
   canonicalSchemeReferences: CanonicalSchemeReferenceIndexes
   sharedScriptReferences: readonly CanonicalSharedScriptReferenceEntry[]
@@ -1809,17 +1862,11 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
       ...assetReferenceEdges(
         input.state,
         input.assetReferences,
-        input.commandVisits,
+        input.canonicalAssetReferences,
         input.scriptState,
       ),
-      ...worldVariableReferenceEdges(
-        input.worldVariableReferences,
-        input.scriptState,
-      ),
-      ...canonicalSchemeReferenceEdges(
-        input.canonicalSchemeReferences,
-        input.scriptState,
-      ),
+      ...worldVariableReferenceEdges(input.worldVariableReferences, input.scriptState),
+      ...canonicalSchemeReferenceEdges(input.canonicalSchemeReferences, input.scriptState),
       ...sharedScriptReferenceEdges(input.sharedScriptReferences, input.scriptState),
       ...entityAddressReferenceEdges(input.entityAddressReferences),
     ],
@@ -1845,7 +1892,10 @@ export function collectCurrentProjectReferenceIndex(
   const commandVisits = collectCanonicalScriptCommandVisits(scriptState)
   const transitionVisits = collectCanonicalScriptTransitionVisits(scriptState)
   const entityAddressReferences = collectEntityAddressReferences(currentAuthorState)
-  const assetReferences = collectEditorAssetReferences(currentAuthorState)
+  const assetReferences = collectEditorAssetReferences(currentAuthorState, undefined, {
+    includeCanonicalAuthorCommands: false,
+  })
+  const canonicalAssetReferences = collectCanonicalAssetReferenceEntries(commandVisits)
   const worldVariableReferences = collectWorldVariableReferencesV1FromVisits(
     scriptState,
     commandVisits,
@@ -1866,6 +1916,7 @@ export function collectCurrentProjectReferenceIndex(
       transitionVisits,
       entityAddressReferences,
       assetReferences,
+      canonicalAssetReferences,
       worldVariableReferences,
       canonicalSchemeReferences,
       sharedScriptReferences,

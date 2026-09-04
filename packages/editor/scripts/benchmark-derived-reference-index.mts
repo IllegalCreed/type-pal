@@ -92,6 +92,7 @@ try {
     assetReferenceEdges,
     battleDataReferenceEdges,
     buildProjectReferenceSnapshotFromProjection,
+    collectCanonicalAssetReferenceEntries,
     canonicalSchemeReferenceEdges,
     canonicalCommandTargetEdges,
     entityAddressReferenceEdges,
@@ -146,7 +147,36 @@ try {
   const commandVisits = collectCanonicalScriptCommandVisits(scriptState)
   const transitionVisits = collectCanonicalScriptTransitionVisits(scriptState)
   const entityAddressReferences = collectEntityAddressReferences(currentAuthorState)
-  const assetReferenceRun = timed(() => collectEditorAssetReferences(currentAuthorState))
+  const assetReferenceRun = timed(() =>
+    collectEditorAssetReferences(currentAuthorState, undefined, {
+      includeCanonicalAuthorCommands: false,
+    }),
+  )
+  const canonicalAssetReferenceRun = timed(() =>
+    collectCanonicalAssetReferenceEntries(commandVisits),
+  )
+  const baselineAssetReferences = collectEditorAssetReferences(currentAuthorState)
+  const assetReferenceIdentity = (reference: {
+    asset: string
+    expectedKind: string
+    origin: unknown
+    site: string
+  }): string =>
+    JSON.stringify([reference.asset, reference.expectedKind, reference.origin, reference.site])
+  if (
+    !isDeepStrictEqual(
+      [
+        ...assetReferenceRun.value,
+        ...canonicalAssetReferenceRun.value.map(
+          (entry: { reference: (typeof baselineAssetReferences)[number] }) => entry.reference,
+        ),
+      ]
+        .map(assetReferenceIdentity)
+        .sort(),
+      baselineAssetReferences.map(assetReferenceIdentity).sort(),
+    )
+  )
+    throw new Error('复用 canonical visits 后的资源引用丢失 asset/kind/origin/site 语义')
   const worldVariableReferenceRun = timed(() =>
     collectWorldVariableReferencesV1FromVisits(scriptState, commandVisits),
   )
@@ -172,7 +202,12 @@ try {
     spriteReferenceEdges(currentAuthorState, commandVisits, scriptState),
   )
   const assetEdgeRun = timed(() =>
-    assetReferenceEdges(currentAuthorState, assetReferenceRun.value, commandVisits, scriptState),
+    assetReferenceEdges(
+      currentAuthorState,
+      assetReferenceRun.value,
+      canonicalAssetReferenceRun.value,
+      scriptState,
+    ),
   )
   const worldVariableEdgeRun = timed(() =>
     worldVariableReferenceEdges(worldVariableReferenceRun.value, scriptState),
@@ -214,6 +249,7 @@ try {
           transitionVisits,
           entityAddressReferences,
           assetReferences: assetReferenceRun.value,
+          canonicalAssetReferences: canonicalAssetReferenceRun.value,
           worldVariableReferences: worldVariableReferenceRun.value,
           canonicalSchemeReferences: canonicalSchemeReferenceRun.value,
           sharedScriptReferences: sharedScriptReferenceRun.value,
@@ -397,6 +433,7 @@ try {
           itemMs: Number(itemEdgeRun.ms.toFixed(3)),
           spriteMs: Number(spriteEdgeRun.ms.toFixed(3)),
           assetCollectMs: Number(assetReferenceRun.ms.toFixed(3)),
+          canonicalAssetCollectMs: Number(canonicalAssetReferenceRun.ms.toFixed(3)),
           assetMs: Number(assetEdgeRun.ms.toFixed(3)),
           worldVariableCollectMs: Number(worldVariableReferenceRun.ms.toFixed(3)),
           worldVariableMs: Number(worldVariableEdgeRun.ms.toFixed(3)),
@@ -434,7 +471,7 @@ try {
           ).length,
           projectReferenceUniqueWhereSuffixes: projectReferences.whereSuffixes.length,
           projectReferenceWhereSuffixDictionaryJson: jsonBytes(projectReferences.whereSuffixes),
-          assetReferences: assetReferenceRun.value.length,
+          assetReferences: assetReferenceRun.value.length + canonicalAssetReferenceRun.value.length,
           worldVariableReferences: firstSnapshot.value.worldVariableReferences.all.length,
           behaviorReferences: sumPairs([
             ...firstSnapshot.value.canonicalSchemeReferenceIndexes.behavior,

@@ -35,6 +35,7 @@ export function editorAssetReferenceSource(
 export function editorAssetReferenceSourceFromSlices(
   state: EditorState,
   author: EditorCurrentAuthorReferenceSlices,
+  options: { includeCanonicalAuthorCommands?: boolean } = {},
 ): AssetReferenceSource {
   return {
     assets: state.manifest.assets,
@@ -53,6 +54,7 @@ export function editorAssetReferenceSourceFromSlices(
     sprites: state.sprites,
     battleSprites: state.battleSprites,
     worlds: state.worlds,
+    includeCanonicalAuthorCommands: options.includeCanonicalAuthorCommands,
   }
 }
 
@@ -67,8 +69,9 @@ export function collectEditorAssetReferenceSnapshot(
 export function collectEditorAssetReferenceSnapshotFromSlices(
   state: EditorState,
   author: EditorCurrentAuthorReferenceSlices,
+  options: { includeCanonicalAuthorCommands?: boolean } = {},
 ): EditorAssetReferenceSnapshot {
-  const source = editorAssetReferenceSourceFromSlices(state, author)
+  const source = editorAssetReferenceSourceFromSlices(state, author, options)
   return { source, references: collectAssetReferences(source) }
 }
 
@@ -90,6 +93,8 @@ export function tryCollectEditorAssetReferenceSnapshot(
 export function collectEditorAssetReferences(
   state: EditorState,
   currentAuthor?: ScriptEditorState,
+  options: { includeCanonicalAuthorCommands?: boolean } = {},
 ): LocatedAssetReference[] {
-  return collectEditorAssetReferenceSnapshot(state, currentAuthor).references
+  const source = editorAssetReferenceSource(state, currentAuthor)
+  return collectAssetReferences({ ...source, ...options })
 }

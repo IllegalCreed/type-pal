@@ -294,13 +294,8 @@ test('项目 schema 不再接受 catalog 外资源族', () => {
 
 test('命令级 walker 与全工程 walker 共用深层递归', () => {
   expect(
-    commandAssetTaggedReferencesAtNode(
-      { kind: 'playSound', asset: 'sound.node' },
-      'body[0]',
-    ),
-  ).toEqual([
-    { asset: 'sound.node', expectedKind: 'sound', where: 'body[0].asset' },
-  ])
+    commandAssetTaggedReferencesAtNode({ kind: 'playSound', asset: 'sound.node' }, 'body[0]'),
+  ).toEqual([{ asset: 'sound.node', expectedKind: 'sound', where: 'body[0].asset' }])
   expect(
     commandAssetTaggedReferencesAtNode(
       { kind: 'unrelated', asset: 'sound.false-positive' },
@@ -955,4 +950,18 @@ test('walker 按 canonical 场景 hook 方案保留精确资源路径与站点',
     site: 'scene:scene-hook:hook:onEnter:intro',
     origin: { kind: 'scene-hook', sceneId: 'scene-hook', slot: 'onEnter', hookId: 'intro' },
   })
+  expect(
+    collectAssetReferences({
+      scenes: [{ ...scene, music: 'music.scene' }] as never,
+      includeCanonicalAuthorCommands: false,
+    }),
+  ).toEqual([
+    {
+      asset: 'music.scene',
+      expectedKind: 'music',
+      where: 'scenes[0].music',
+      site: 'scenes[0].music',
+      origin: { kind: 'scene', id: 'scene-hook', section: 'music' },
+    },
+  ])
 })
