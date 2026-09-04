@@ -348,7 +348,45 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   均保持单一 typed edge/index、current-author cold oracle、revision Worker 与 async coverage proof，旧
   collector/DTO/字符串 locator 无 fallback。最终 clean n=20、全量/聚焦测试、三包 typecheck、build、
   DS gate、publication、dry-run 四零与 1280/720 抽验通过；无已知实现返工项。
-- Kimi: pending
+- Kimi: **accept（2026-09-05，只读终审候选 `01512c84` 相对设计基线 `d8c5bf14` 全范围 +
+  本人独立复跑/实机，非复述 Codex）**。逐项核验：
+  1. **四层边界 ✓**：content typed leaf（`command-target-reference.ts:185-187` openShop 仅
+     buy+非负安全整数成边）→ editor edge/index（`project-reference.ts:38-197`：稳定
+     target/source（`deletedWith` 显式 scope、`where` 仅显示）、判别 relation 保 expected
+     kind/access、locator 五型含 unavailable）→ 单一 builder 双消费（sync oracle
+     `collectCurrentProjectReferenceIndex` 与 Worker 快照同调
+     `buildProjectReferenceSnapshotFromProjection`，`project-reference-adapters.ts:1878-1933`
+     + `project-diagnostics.ts:730`——设计期单一 builder 钉落实）→ 既有 Reference UI。
+  2. **旧物零残留 ✓（本人 grep）**：`mapAssetSceneReferences`、`jumpToBattle/WorldSpriteReference`、
+     `blockingActorReferenceMap|itemReferenceMap|blockingPoisonReferenceMap`（定义与消费）、
+     Worker 旧 DTO（derived-contract/project-diagnostics 零命中）、媒体 `where` 正则、
+     `scanTilesetReferences|collectStampTemplateUsage` 全部零命中；现存 `actor/item/battle-data-
+     references.ts` 是统一层 adapter 输入的领域 collector（设计内形态，非 fallback）；App.tsx:662
+     的 `split(':')` 属场景抽屉 srcKey 协议（检查器既有设施），非退役目标的引用导航分派。
+  3. **current-author 与 apply/redo fail-closed ✓**:`DeleteMapAssetCommand` 构造注入
+     `CurrentProjectReferenceIndexProvider`,`apply()` 内同步
+     `collectCurrentProjectDeletionImpact(...).blockers`（`commands.ts:890-915`）——apply/redo
+     均重新验真；7+ 删除命令同模式；五组 shell-scan 反例专测在案（battle-data-delete-commands
+     等本人复跑通过）。
+  4. **2.5MB/确定性门 ✓（本人两轮 benchmark 复跑）**:payload 与 Codex 记录**字节一致**——
+     initRequest JSON/V8=16,556,593/15,511,159B、readyReply=2,523,748/2,473,131B、
+     projectReferences=**2,372,327/2,328,260B（2.5MB 硬门余 127,673B）**;counts 一致
+     （25,188 rows/10,579 targets/13,497 sources/101 relations/8,362 locators/28,089
+     buckets）；异步 facts(mapRevision/generation/coverage,`map-reference-facts.ts`）合同在。
+     **时间门诚实记录**：本机 load≈6（多 Agent 并发）下本人两轮样本 snapshot
+     630.975/915.005、derived 645.343/842.107 超冻结手工预算，但 projectReferenceBuild
+     115.820/151.474 与记录 108.841/155.442 同量级——按证据文档既定规则判定为**受扰样本**,
+     不冒充通过也不误判回归；通过依据=Codex 隔离 clean 记录 + 确定性门字节一致。
+  5. **PAL 零新增 error ✓（本人复跑）**:`pal-current-publication.pal.test.ts` 2 测通过
+     （~37s 真实发布）;migrate dry-run 四零采信 Codex/GLM 已核记录。
+  6. **浏览器证据 ✓（本人实机抽验）**:6010 真实 PAL——过场 `video.pal.004` 引用 tab 显示
+     结构化行（s281/e4800/default + 稳定作者路径 + 阻断删除警示），点击「打开」实际导航至
+     `?module=scene&page=workspace&object=s281`、e4800 在页、抽屉展开、横溢 0、console 0
+     error;Codex 两档截图复核（1280/720 布局与统一 Reference UI 一致，无样式重造）。
+  复跑：聚焦 **7 files / 76 tests 全绿**（project-reference×3、diagnostics、battle-data-
+  delete、tileset/stamp-lifecycle);editor 全量 190/1729、typecheck、build、DS gate 采信
+  Codex 记录未重复。设计期四条必改钉（零新增 error/性能基线/单一 builder/五组反例）逐条
+  落实。**返工项：无**；未修改实现，未标 done。
 - GLM: **accept（2026-09-05，只读终审候选 `01512c84` 相对设计基线 `d8c5bf14` + 证据文件
   ED-3A + 确定性 PAL 门与负例矩阵本人复跑，非复述 Codex/Kimi；本人设计期 GM-E3-1~6 六钉
   逐条验证落实）**：
@@ -656,6 +694,17 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ## 交接日志
 
+- 2026-09-05 Kimi: 只读终审候选 `01512c84`（相对设计基线 `d8c5bf14`），签 **accept**。
+  独立证据：四层边界直读（typed leaf `command-target-reference.ts:185-187` → 合同
+  `project-reference.ts:38-197` → 单一 builder `project-reference-adapters.ts:1878-1933`
+  双消费 → Reference UI）；本人 grep 零残留（map helper/旧 sprite handler/旧 blocking map/
+  旧 Worker DTO/媒体正则/tileset-stamp 旧扫描 API）；删除命令 apply 内同步复核
+  （`commands.ts:890-915`）;**两轮 benchmark 复跑 payload/ counts 与记录字节一致**
+  （projectReferences JSON 2,372,327B ≤2.5MB 门），时间门在本机 load≈6 下两轮超手工
+  预算、按既定规则判为受扰样本并如实记录；PAL publication 本人复跑 2 测通过；实机
+  6010 验证 video.pal.004 引用行结构化呈现 + 打开导航落点 s281/e4800、横溢 0、
+  console 0；聚焦复跑 7 files / 76 tests 全绿。设计期四钉逐条落实。返工项无；只改
+  Kimi 签字与本条日志，未改实现、未标 done。Next: 用户验收。
 - 2026-09-05 GLM: 只读终审候选 `01512c84`（相对设计基线 `d8c5bf14`），签 **accept**。独立
   证据：PAL census 复算不变（20 shops / 29 buy + 6 sell / 2 override）；25,188 rows 与
   2.5MB JSON 为真树确定性门；6,002 asset 多重集 parity 与旧 collector 真树相等、2,121+3,881
