@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-3 | 统一引用边 + 场景/商店生命周期分片闭合 | draft | Codex 前提核验并开卡 | 复用既有 typed collectors，先统一引用真值再闭合生命周期 |
+| ED-3 | [统一工程引用边与安全删除地基](tasks/ED-3-project-reference-index.md) | draft | Kimi + GLM 并行设计审查 | 薄 edge/index 层；不改 schema，后续场景/商店分卡闭环 |
 
 ## 看板规则
 
