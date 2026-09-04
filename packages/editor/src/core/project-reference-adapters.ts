@@ -121,6 +121,19 @@ export function canonicalCommandTargetEdges(
   scriptState?: ScriptEditorState,
 ): ProjectReferenceEdgeInput[] {
   return visits.flatMap((visit) => {
+    const kind = visit.command.kind
+    if (
+      kind !== 'loadScene' &&
+      kind !== 'setSceneMapOverride' &&
+      kind !== 'selectSceneHooks' &&
+      kind !== 'openShop' &&
+      kind !== 'startBattle' &&
+      kind !== 'setAmbience' &&
+      kind !== 'toggleDayNight' &&
+      kind !== 'branch' &&
+      kind !== 'loop'
+    )
+      return []
     const targets = withoutRedundantLoadSceneParent(
       collectCanonicalCommandTargetReferences(visit.command, visit.path),
     ).filter((target) => target.target.kind !== 'entity')

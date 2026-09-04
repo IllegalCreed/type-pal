@@ -89,22 +89,21 @@ function isExactEntityAddress(record: Record<string, unknown>): boolean {
 export function commandTargetReferencesAtNode(
   value: unknown,
   where: string,
+  references: CommandTargetReference[] = [],
 ): CommandTargetReference[] {
   if (!isRecord(value)) return []
-  if (isExactEntityAddress(value))
-    return [
-      {
-        target: {
-          kind: 'entity',
-          sceneId: value.scene as string,
-          entityId: value.entity as string,
-        },
-        relation: 'entity-address',
-        where,
+  if (isExactEntityAddress(value)) {
+    references.push({
+      target: {
+        kind: 'entity',
+        sceneId: value.scene as string,
+        entityId: value.entity as string,
       },
-    ]
-
-  const references: CommandTargetReference[] = []
+      relation: 'entity-address',
+      where,
+    })
+    return references
+  }
   switch (value.kind) {
     case 'currentScene':
       if (nonEmptyString(value.scene))
@@ -236,6 +235,7 @@ export function visitCommandTargetReferences(
   where: string,
   visitReference: (reference: CommandTargetReference) => void,
 ): void {
+  const nodeReferences: CommandTargetReference[] = []
   const visit = (node: unknown, path: string): void => {
     if (Array.isArray(node)) {
       node.forEach((entry, index) => {
@@ -244,7 +244,9 @@ export function visitCommandTargetReferences(
       return
     }
     if (!isRecord(node)) return
-    for (const reference of commandTargetReferencesAtNode(node, path)) visitReference(reference)
+    nodeReferences.length = 0
+    commandTargetReferencesAtNode(node, path, nodeReferences)
+    for (const reference of nodeReferences) visitReference(reference)
     for (const [key, child] of Object.entries(node)) visit(child, `${path}.${key}`)
   }
   visit(value, where)
