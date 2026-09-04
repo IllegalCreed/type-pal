@@ -305,10 +305,53 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
   复跑：`debug-tools + motion-runtime-coordinator + motion-runtime-wiring` **3 files /
   38 tests 全绿**;Reforge 全量 93/857 与 typecheck 采信 Codex 记录未重复。
   无返工项；未修改实现，未代签 GLM。
-- GLM: pending
+- GLM: **accept（2026-09-04，只读终审 `de19b7f8` + 八点逐项独立直读复算 + 本人复跑与双包
+  生产构建 grep，非复述 Codex/Kimi；两条必改项均已落实）**。按 GM-E1~E4 逐钉核验：
+  - **必改项 ① 落实 ✓（缺资源编外 follower 入快照）**：`captureMotionState` 的
+    extraFollowers 无条件 map `runtimeScript.followers`（main.ts:6831-6849），def/帧查找
+    结果只进 **`renderable: boolean`** 标记（definition + spriteCache 双查 :6845-6847），
+    slot 永不因缺资源被跳过——渲染 `continue` 与诊断身份两个 concerns 正确分离；测试
+    fixture 含 `renderable: false` 项（debug-tools.test:221）。
+  - **四类对象顺序/默认值/partyMove/epoch/slot 语义 ✓**：数组结构天然固定序
+    队长→followers(partyIndex 1..)→extraFollowers(runtimeSlot)→entities(按 id sort
+    :6871)；默认控制权三族正确——leader `captureAuthority('party')` 缺项 world、
+    follower `followerAuth.get ?? {kind:'follow'}`（:6816）、entity 缺项 world；
+    partyMove 条件展开（:6812，无则无键）；epoch 分字段——authorityEpoch（leader+
+    entity）、slot 的 commandEpoch/activationOwnerId/activationEpoch/
+    authorityEpochAtEnqueue 条件展开 + `pausedByAuthority`（auto 且被接管，:6853-6866）；
+    slot 语义为注册信息不反推控制权，文档同口径。
+  - **纯值与单一生产者 ✓**：DTO 全部字面量/浅拷贝（`{...pos}`、条件展开），slot 经
+    `captureRegisteredMotion` 只取纯字段，无 cancel/resolve/commit 函数；测试 harness
+    `readMotion = () => structuredClone(motion)`（:65）钉 UI 不可反向修改；**两个入口同一
+    函数引用**——`dumpMotionState: captureMotionState`（:6883）与 ctx
+    `motionState: captureMotionState`（:7019）。
+  - **必改项 ② 落实 ✓（守卫矩阵）**：`event.code !== 'Backquote'`（布局无关）+ repeat +
+    isComposing + Shift/Ctrl/Alt/Meta + `editableTarget`（closest
+    `input,select,textarea,[contenteditable]:not([contenteditable="false"])`）+ **仅
+    hidden 态**（debug-tools.ts:409-432）；测试显式覆盖 contenteditable 祖先（:312）。
+  - **关闭后 Escape 到达游戏 ✓**：hidden 态 controller 对 Escape 不消费直落游戏——测试
+    「Esc capture 不泄漏到关闭态」+ 多处 hidden 后 Escape 断言（:300-303,357,418,437）；
+    原 capture 注册/移除不匹配泄漏已修——`dispose` 以 `removeEventListener(…, true)`
+    匹配 capture 注册（:394 对 :433）。
+  - **生命周期矩阵 ✓**：三轮 hide/show 后单实例（hide 仅 `root.hidden=true`+frameStep
+    reset+blur+停轮询，DOM 与在途操作保留；show 恢复+刷新+焦点回 tab）；重复 install 经
+    `activeDebugCleanup` 先完整 dispose 旧 controller；dispose 幂等（`if (disposed) return`）
+    且集中 abort panelOperations（hide 不 abort——专项测试「hide 保留在途调试操作，dispose
+    才集中 abort」）；**stale disposer 守卫**——ownedStyle 以
+    `getElementById(STYLE_ID) === ownedStyle` 身份比对，旧 disposer 不删新实例样式（:396-397）；
+    build 期实机发现的 `[hidden]{display:none}` 覆盖已补永久测试。
+  - **生产剥离 ✓（本人双包构建）**：Reforge 与 Editor 各自 `pnpm build` 成功后对 dist/
+    grep `tp-debug|installDebugTools|实体位置控制权`——**两包均零命中**。
+  - **文档一致 ✓**：dev-tools.md 更新为真实响应式宽度（上限 420px、480 以下收窄）、四类
+    顺序、world/script/follow/mount 徽标、partyMove、epoch/slot「已注册/待执行不等同控制权」、
+    Esc/反引号行为与动态 import DEV 门——与实现及卡面 Build 摘要一致。
+  - **本人复跑**：debug-tools + motion-runtime-coordinator + motion-runtime-wiring
+    **3 files / 38 tests 全绿** + reforge typecheck 干净；Codex 记录的 Reforge 全量
+    93/857 采信，按纪律未重复。
+  无返工项；未修改实现，未代签 Kimi，未填用户验收。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked（Codex + Kimi accept 已签；缺 GLM accept 与用户验收）
+- done 准入结论: blocked（Codex + Kimi + GLM 三方 accept 齐；缺用户验收，不得标 done）
 
 ## Draft: 设计与风险
 
@@ -454,6 +497,16 @@ E6 的定位权威、挂载和跟随运行态已经存在且工作，本任务�
 
 ## 交接日志
 
+- 2026-09-04 GLM: 只读终审 `de19b7f8`，签 final **accept**。独立证据：八点逐项——缺资源
+  编外 follower 以 `renderable:false` 入快照（必改①落实，测试 :221）；四类顺序/三族默认
+  控制权/partyMove 条件键/epoch 分字段+pausedByAuthority/slot 注册语义；DTO 纯值 + 双入口
+  同一 `captureMotionState` 引用（:6883/:7019）+ structuredClone harness；守卫矩阵
+  （event.code/repeat/IME/四修饰键/contenteditable closest/仅 hidden，必改②落实 :312）；
+  hidden 态 Escape 不消费直落游戏 + capture 移除带 true（:394/:433）；三轮 hide/show、
+  重复 install、幂等 dispose、stale disposer 样式身份比对、在途 abort 分层；Reforge 与
+  Editor 双包生产构建 grep 三字符串零命中；dev-tools.md 与实现逐项一致。复跑 3 files /
+  38 tests + typecheck 全绿。无返工项；未修改实现，未代签 Kimi，未填用户验收。三方 accept
+  齐，仅剩用户验收；无下一位 Agent 提示词，等待用户验收/收口。
 - 2026-09-03 Kimi: 只读终审 `de19b7f8`，签 final **accept**。独立证据：全 diff 直读（单一
   captureMotionState 双消费、DTO 纯值、编外 renderable 不丢行、slot 三 epoch 分字段、
   两层 controller、capture 移除带 true、style/身份双守卫）；复跑 debug-tools+coordinator+
