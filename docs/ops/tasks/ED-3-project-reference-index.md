@@ -417,12 +417,42 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（签字齐后唯一实现方）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex（唯一实现方）
+- A 批状态: **完成（`ee173e13` + `be083df2` + `55a7fe84`）**。
+- A 批修改文件:
+  - `packages/content/src/command-target-reference.ts` + tests：有界 tagged target leaf；scene/entry/hook/
+    entity/map/shop/team/field/ambience，sell 任意 shop 值均不发 shop edge。
+  - `packages/content/src/{validate-refs,author-script-core}.ts` + tests：补保存/publication 缺边与 openShop
+    strict shape；不改 schema/contentVersion。
+  - `packages/editor/src/core/project-reference*.ts` + tests：稳定 target/source、判别 relation、非空 locator、
+    delete policy、复合 target 父 bucket、compact snapshot/index 与 current-author adapter。
+  - `packages/editor/src/core/{project-diagnostics,editor-derived-*}.ts`、`App.tsx`：同一次 projection/visits
+    生成统一 Worker snapshot；entity/scene-entry 旧 DTO 退出 reply，两个现有面板消费 index。
+  - `packages/editor/scripts/benchmark-derived-reference-index.mts`：可复现 PAL 性能/payload 原始样本。
+- A 批实现摘要:
+  - 一条 entity edge 同时支持 entity 查询及必要的父 scene 查询；同 owner self/companion 地址不进入删除图，
+    但完整 content 校验仍扫描全部 38,126 条。
+  - canonical command 复用 `collectCanonicalScriptCommandVisits` 的 exact locator；readonly chunk 显式
+    unavailable。loadScene+entry 与 selectSceneHooks+hook 只物化 composite edge，父场景复用同 edge id。
+  - openShop guard 严格校验非负安全整数及 buy/sell；只有 buy 形成 ShopDef 引用。
+  - 单一 builder 同时供 sync diagnostics 与 Worker；PAL test 断言 deep equality、4,362 blocker parity、
+    795 entry、29 buy、2 map override 和 s230→map-164。
+- A 批性能:
+  - 证据：[`ED-3A-reference-index-performance-2026-09-04.md`](../evidence/ED-3A-reference-index-performance-2026-09-04.md)。
+  - final n=20：index build p50/p95=28.067/39.715ms；snapshot=623.729/749.724ms；
+    derived=608.590/663.234ms；所有签字预算通过。
+  - Worker reply V8 9,154,977B→4,685,416B；新 index V8 1,769,283B；request 零增长。
+- A 批运行命令:
+  - content focused：3 files / 77 tests；editor focused：9 files / 107 tests；PAL index：1 test，pass。
+  - `@type-pal/content`、`@type-pal/editor` typecheck：pass。
+  - migrate PAL publication/store：2 files / 3 tests，pass。
+  - `migrate:content` dry-run：managed=537，writes/deletes/conflicts/asset-deletes=0，
+    reference-warnings=0。
+  - targeted Biome、`git diff --check`：pass（App 三条既有 noUselessFragments info 不阻塞）。
+- 浏览器 / 手工检查: A 批只迁移既有实体/命名落点引用呈现合同，DOM 回归测试通过；真实媒体导航和
+  async map/tileset/stamp 在 C 批统一浏览器验证。
+- 跳过的检查及原因: editor/content 全量测试留到 C 批最终一次；A 批只跑风险相关聚焦矩阵，避免每批
+  重复全量。
 
 ## 视觉验证记录
 
@@ -482,6 +512,11 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
   design agree，无 counter。独立复算解释 `loadScene` 唯一数字差：scenes=981/924，items=6/6，
   全作者根=987/930。合并 K1-K4 与 GM-E3-1~6 为 build 硬门，状态转 build。Next: Codex 唯一
   Coding Owner 实施 A 批合同/索引/性能与 parity 地基。
+- 2026-09-04 Codex: 完成 A 批 `ee173e13`/`be083df2`/`55a7fe84`。统一 compact index 接入
+  derived Worker，entity/scene-entry 旧 reply DTO 退役；content target leaf、保存校验与 openShop shape
+  落地。PAL blocker parity、s230 map override、buy-only、sync/Worker deep equality与 publication 全绿；
+  final 20 轮性能/体积全部过预算，dry-run 四零。Next: B 批迁移保存/删除 consumer，优先修复
+  map-164 删除漏洞与五组 live-canonical shell 分裂。
 
 ## 下一位 Agent 提示词
 
