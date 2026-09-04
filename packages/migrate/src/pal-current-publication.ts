@@ -47,6 +47,7 @@ import {
   applyPalGeneratedResourcePoolMessages,
   applyPalItemOverlays,
 } from './pal-authored-overlays.js'
+import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invariant.js'
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
 import { buildPalMigration, type MigrationJson, type PalMigrationSources } from './pal-migration.js'
 import { assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
@@ -70,13 +71,6 @@ export interface PalCurrentPublicationValidation {
 }
 
 const FORBIDDEN_CURRENT_PATH = /^(?:_transitions\/|content\/migrations\/|content\/scripts\/)/
-const PAL_CURRENT_KNOWN_REFERENCE_ERRORS = new Set([
-  'scenes[23](s023).entities[10].behaviors.trigger.default.flow.machine.states.initial.next.cond.actorId\0角色 "37" 不在 actors',
-  'scenes[202](s202).entities[10].behaviors.trigger.default.flow.stages[0].body[0].cond.actorId\0角色 "39" 不在 actors',
-  'scenes[202](s202).entities[10].behaviors.trigger.default.flow.stages[1].body[0].cond.actorId\0角色 "39" 不在 actors',
-  'scenes[213](s213).entities[26].behaviors.trigger.default.flow.stages[0].body[3].cond.actorId\0角色 "37" 不在 actors',
-])
-
 function asJson(value: unknown): MigrationJson {
   return JSON.parse(JSON.stringify(value)) as MigrationJson
 }
@@ -287,6 +281,10 @@ export function validatePalCurrentPublication(args: {
   const sharedScripts = validateAuthorSharedScripts(
     required(files, requiredPath(manifest.content.sharedScripts, 'sharedScripts')),
   )
+  assertPalInPartyActorIdInvariant({
+    actors,
+    commandRoots: [authorScenes, authorItems, authorEnemies, sharedScripts],
+  })
   validateAuthorDialogueReferences({
     scenes: authorScenes,
     items: authorItems,
@@ -345,13 +343,7 @@ export function validatePalCurrentPublication(args: {
     sharedScripts: runtimeSharedScripts as never,
     migrationDiagnostics,
   })
-  // 这四条是 current PAL 已公开在编辑器诊断栏的源内容缺口；ARCH 只保持行为，不在架构
-  // 收口中伪造角色。精确钉住路径和消息，任何新增 reference error 仍会阻断发布。
-  const referenceErrors = referenceIssues.filter(
-    (issue) =>
-      issue.severity === 'error' &&
-      !PAL_CURRENT_KNOWN_REFERENCE_ERRORS.has(`${issue.where}\0${issue.message}`),
-  )
+  const referenceErrors = referenceIssues.filter((issue) => issue.severity === 'error')
   if (referenceErrors.length)
     throw new Error(
       `PAL current 跨引用失败:\n${referenceErrors
