@@ -439,9 +439,9 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
     reference-warnings>0；s230/map-164 或 sell 负例回归；2.5MB 门被机械抬高或旧 DTO
     回流；TOCTOU 四测任一删失——任一出现本 accept 失效。
   无返工项；未修改实现/生成数据，未代签 Kimi，未填用户验收。
-- counter / 返工处理: 无 Codex counter；等待 Kimi/GLM。
+- counter / 返工处理: 三方均无 counter、无必须返工项。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **allowed（2026-09-05）**。Codex/Kimi/GLM 三方 accept 已齐；只等待用户最终验收后收口状态。
 
 ## Draft: 设计与风险
 
@@ -679,9 +679,9 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex self-review accept；Kimi/GLM final review pending。
-- 必须返工项: Codex 自验无；等待两席独立终审。
-- Accept / rework: pending（未满足 done 三签）
+- 审查结论: **Codex / Kimi / GLM 三方 accept（2026-09-05）**。
+- 必须返工项: 无。
+- Accept / rework: **accept；等待用户最终验收**。
 
 ## 用户验收
 
@@ -694,6 +694,9 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ## 交接日志
 
+- 2026-09-05 Codex: 同步 GLM `2c435d3a` 与 Kimi `afbd09e1`；两席均对固定候选 `01512c84`
+  独立终审 accept、无返工项。三方 done 签字齐，统一结论更新为 done allowed；Status 保持 review，
+  不替用户填写验收。Next: 用户最终验收后由 Codex 标记 done、移出看板并启动场景生命周期前提门。
 - 2026-09-05 Kimi: 只读终审候选 `01512c84`（相对设计基线 `d8c5bf14`），签 **accept**。
   独立证据：四层边界直读（typed leaf `command-target-reference.ts:185-187` → 合同
   `project-reference.ts:38-197` → 单一 builder `project-reference-adapters.ts:1878-1933`
@@ -779,24 +782,4 @@ scene / map / shop 三个生命周期必需的入边，再由后续场景、商�
 
 ## 下一位 Agent 提示词
 
-Kimi 与 GLM 并行终审完整候选；两席均直接修改本卡自己的 done 签字与交接日志并提交，用户无需复制意见。
-固定实现候选为 `01512c84`，设计基线为 `d8c5bf14`；不得修改实现文件或标记 done。
-
-```text
-Kimi：终审 docs/ops/tasks/ED-3-project-reference-index.md。先读 AGENTS.md、docs/phase2/READ-FIRST.md、
-任务卡、docs/ops/evidence/ED-3A-reference-index-performance-2026-09-04.md；对固定实现候选 01512c84
-相对设计基线 d8c5bf14 做完整架构/公共合同/revision/save-delete/async proof 终审。独立复核 typed leaf →
-edge/index → Worker/cold oracle → Reference UI 四层边界、旧 DTO/scanner/string parser 零残留、current-author
-与 apply/redo fail-closed、2.5MB/时间门及浏览器证据。只修改任务卡 Kimi done 签字和自己的交接日志并提交；
-不得改实现、不得改 GLM/Codex 签字、不得标 done。输出 accept/counter、直接证据、可证伪观察和返工项。
-```
-
-```text
-GLM：终审 docs/ops/tasks/ED-3-project-reference-index.md。先读 AGENTS.md、docs/phase2/READ-FIRST.md、
-任务卡、docs/ops/evidence/ED-3A-reference-index-performance-2026-09-04.md；对固定实现候选 01512c84
-相对设计基线 d8c5bf14 做完整覆盖/数据/parity/测试矩阵终审。独立复算 PAL scene/map/shop/media/
-asset/actor/item/sprite 等集合、29 buy/6 sell、map override、6,002 asset split parity、25,188 rows、
-223/223 async coverage、publication/dry-run 零计划；核验 partial/failure/TOCTOU/undo-redo 与 opaque-ID
-反例。只修改任务卡 GLM done 签字和自己的交接日志并提交；不得改实现、不得改 Kimi/Codex 签字、
-不得标 done。输出 accept/counter、直接证据、可证伪观察和返工项。
-```
+无下一位 Agent 提示词；三方技术验收已齐，等待用户最终验收/收口。

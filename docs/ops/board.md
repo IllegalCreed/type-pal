@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-3 | [统一工程引用边与安全删除地基](tasks/ED-3-project-reference-index.md) | review | Kimi + GLM 并行终审 | A/B/C 候选 `01512c84` 与全量、性能、视觉证据已齐 |
+| ED-3 | [统一工程引用边与安全删除地基](tasks/ED-3-project-reference-index.md) | review | 用户最终验收 | 三方 accept、无返工项；候选 `01512c84` 与证据已齐 |
 
 ## 看板规则
 
