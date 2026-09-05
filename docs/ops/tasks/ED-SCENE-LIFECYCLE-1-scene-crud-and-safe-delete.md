@@ -280,8 +280,57 @@ Branch: main
   Evidence: 本卡真值矩阵/census。Next: 用户版本顺序裁决；未批准前不得发 build 审查或改实现。
 - 2026-09-05 User: 批准版本顺序：SceneIndex content20 → R4 content20 薄基线 → N6b content21。
   Codex 同步当前规划文档；Next: Kimi/GLM 钉同一 revision 并行做 premise/design 审查，未齐签前不得实现。
+- 2026-09-05 Codex: 版本顺序与当前权威规划已同步并提交为 `8a283b39`；以下两席提示词均钉该设计候选。
+  Next: 两席独立核验并直接落自己的签字/证据；Codex 待齐签后统一判断 build 准入。
 
 ## 下一位 Agent 提示词
 
-Kimi/GLM 并行设计审查提示词将在版本裁决同步提交后钉定同一 revision；两席必须独立读取一手证据，
-只修改自己的签字块与交接日志并提交推送，不得开始实现、改任务状态或标记 done。
+### 给 Kimi（并行，架构 / schema / transaction 主审）
+
+> 你是三贤人系统中的 Kimi。请对任务卡
+> `docs/ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md` 做进入 build 前的独立
+> premise/design 审查。审查候选固定为 `8a283b39`；任务仍为 `draft`，用户已批准
+> `SceneIndex content20 → R4 content20 薄基线 → N6b content21`。不得开始实现、不得改任务状态、
+> 不得标记 build/done，也不要读取或复述 GLM 的结论。
+>
+> 先完整阅读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、本任务卡、
+> `docs/ops/tasks/ED-3-project-reference-index.md`、`docs/phase2/roadmap.md`、
+> `docs/phase2/foundation/content-schema.md`、`docs/phase2/editor/project-design.md` 与
+> `docs/phase2/editor/editor-design.md`。然后必须直接读取并给出自己的 `file:line` 证据，至少核验：
+> `SceneDef`/现有 string[] scene index、Reforge 入口与懒加载、editor serializer/removePaths、
+> main-only AddScene 与 script scene 前置条件、`EditorHistoryCoordinator` 的补偿/undo/redo、
+> ED-3 current exact deletion proof。重点压力测试：SceneIndex 是否应是唯一目录真值；name 是否确实不应
+> 进入 SceneDef；显式 path 与 current-only content20 是否完整；create/copy/delete 两会话事务与磁盘写序
+> 是否 fail-closed；typed self-reference rewrite 是否与 ED-3 target recognition 同源且不漏
+> EntityAddress/currentScene/loadScene/selectSceneHooks/setSceneMapOverride 及递归子体；入口场景、
+> save-as/copy-through、dirty trial 和共享地图是否有未定义边界。写出最强替代解释、可证伪观察和必改项。
+>
+> 结论只能是：带独立证据的 `premise verified` + `design agree`，或明确 `counter`。完成后先同步最新
+> `main`，只修改任务卡中 Kimi 自己的 build 前签字行，并在交接日志追加一条 Kimi 记录；不得修改
+> Codex/GLM 签字、主审汇总结论、build 准入结论、看板或实现文件。提交并 push `main`；若遇并发 push，
+> 自行 rebase/retry 并保留另一席已落内容。最终只报告结论、证据、返工项与提交号；不要让用户搬运正文。
+
+### 给 GLM（并行，数据 / migration / 测试矩阵主审）
+
+> 你是三贤人系统中的 GLM。请对任务卡
+> `docs/ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md` 做进入 build 前的独立
+> premise/design 审查。审查候选固定为 `8a283b39`；任务仍为 `draft`，用户已批准
+> `SceneIndex content20 → R4 content20 薄基线 → N6b content21`。不得开始实现、不得改任务状态、
+> 不得标记 build/done，也不要读取或复述 Kimi 的结论。
+>
+> 先完整阅读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、本任务卡、
+> `docs/ops/tasks/ED-3-project-reference-index.md`、`docs/phase2/roadmap.md`、
+> `projects/pal/e2e-checkpoints/README.md`、`docs/phase2/foundation/content-schema.md` 与
+> `docs/phase2/editor/project-design.md`。然后必须直接读取代码/工程并给出自己的 `file:line`、命令与计数
+> 证据，不采信 Codex census：独立复算 current 工程 scene 数、id/path/index/body 闭包、共享地图、PAL
+> scene self/cross typed references（尤其 s108 极值与复制所需自引用集合）；检查 migrate publication 的
+> baseline-first/author ownership，证明 SceneIndex name/path 能保留作者修改且生成字段归属明确。重点审查
+> content20 全量切换覆盖 PAL current/baseline、demo、e2e-own、blank seed、fixture/test 的清单；零旧 parser/
+> upgrader/fallback 门；loader/serializer/validator、typed transformer、双 session transaction、文件删除
+> 生命周期、redo live blocker、UI/视觉、PAL 镜像与双跑 zero-plan 测试矩阵；确认 R4 尚无可执行存档链，
+> 因此前移 content20 不会作废既有 E2E。写出最强替代解释、可证伪观察、遗漏清单和必改项。
+>
+> 结论只能是：带独立证据的 `premise verified` + `design agree`，或明确 `counter`。完成后先同步最新
+> `main`，只修改任务卡中 GLM 自己的 build 前签字行，并在交接日志追加一条 GLM 记录；不得修改
+> Codex/Kimi 签字、主审汇总结论、build 准入结论、看板或实现文件。提交并 push `main`；若遇并发 push，
+> 自行 rebase/retry 并保留另一席已落内容。最终只报告结论、证据、返工项与提交号；不要让用户搬运正文。
