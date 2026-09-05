@@ -272,8 +272,98 @@ sell999反例直接调用 `assertPalStoreBoundaryInvariant`，未另跑完整pla
   生成/作者校验拆分、current-only结构验证、命令闭环和live删除守卫、正式菜单早分支隔离、公共字段/列表均落地。
   宽屏功能视觉已验；720宽因当前浏览器工具无法实际改变viewport，明确交Kimi补验，不冒称已通过。
   编辑器重型规范测试的超时与重跑情况完整记录在Build，不掩盖首轮失败。仍待两席终审及用户验收，不标done。
-- Kimi: pending
-- GLM: pending
+- Kimi: **accept（2026-09-05，只读终审候选 `7e6f935a`（对比 `0980f90d`）+ 设计四钉独立
+  直读复算 + 本人 720 实机补验与聚焦复跑，非复述 Codex）**：
+  1. **钉① 生成/作者校验分离 ✓**:`buildPalCurrentPublication` 在合并前的 generated 侧跑
+     完整固定 census（29/6/sell0 + 禁 ShopDef0 + 新增逐店货单与源一致
+     `pal-store-boundary.ts:157-161`），注释明确"never apply to merged author target";
+     target 侧仅 `validateShops` 结构门 + `assertPalAlchemyBoundaryInvariant`
+     （`pal-current-publication.ts:207-219,343-357`);buy→shop/shop.items→item 通用引用
+     规则原样。
+  2. **Store0 保护 ✓**:Store0 唯一/奖励非零/灵葫/炼蛊断言经
+     `assertPalAlchemyBoundaryInvariant` 在生成侧与 target 侧双调用，item268/270 保护
+     零漂移。
+  3. **buy-only 实时删除守卫 ✓**:`DeleteShopCommand.apply` 每次（含 redo）经
+     `collectCurrentProjectDeletionImpact(currentReferences, …)` 冷复核并 throw
+     ShopInUseError(`commands.ts:4273-4301`);UI 按钮 disabled(!current/有 blocker/无
+     provider)、确认时再查 + 命令再验双层（`ShopTab.tsx` submitIntent);sell 0/999 不入
+     引用（ED-3 typed leaf 不变）。
+  4. **钉④ redo 固定快照 ✓**:`DuplicateShopCommand` 首次 apply 以
+     `this.copy ?? { ...structuredClone(source), id: targetId }` 捕获深拷与固定目标 id,
+     redo 不重新编号、不重读源货单（`commands.ts:4245-4271`);previousManifest 一次捕获。
+  5. **钉⑤ 正式试买隔离 ✓**:`bootGame` 首行分支 `parseShopTrialParameters → runShopTrial
+     → return`(`main.ts:349-353`),先于 SaveStore(:578）与剧情/auto(:6940);
+     `params.has('shop-trial')` 不吞 id0、仅允许 4 参数、非负安全整数严校验
+     （`shop-trial.ts:15-29`)；正式 `openShopUi→shopInput→shopBuy→drawShop` 直用、局部
+     world、无 SaveStore/剧情；空表 cursor 钉 0 且非空导航不变（`shop-box.ts:120-124`);
+     退出/pagehide 清理 rAF/监听。
+  6. **兼容审查 ✓**:content 仅新增 `validateShops`（非负安全整数唯一 id、货单非空字符串
+     数组、重复合法）,ShopDef 形状/manifest 可选 shops 路径/content20/SAVE8 不变；
+     diff 内 upgrader/legacy/fallback/content19 零命中（`fallbackFocusRef` 为焦点 API,
+     adoption 测试 stale-legacy 负例是门禁本职）。
+  7. **720 实机补验 ✓（本人 playwright,viewport 720×720 实测 innerWidth=720）**:
+     Hero 三动作（复制/试买/删除）完整可见不裁切；店3引用 tab 面板滚动
+     511→639/scrollTop 0→128.5、末项 bottom 663≤panel 680 可达、tablist 固定 y=120;
+     试买弹窗 520×282 完整在视口、只读店号 + `初始金钱` label 关联 + −/+ stepper 均
+     36×36、取消正常关闭（前次"未关"为同帧测量假象，分帧复查已关）;document/body
+     横溢 0、console error 0。截图 `docs/ops/evidence/ED-SHOP/shop-trial-dialog-720.jpg`。
+  复跑：editor 4 files / 22 tests、reforge 试买 2 files / 10 tests、migrate 3 files /
+  9 tests（含"protects the fixed generated seed while author shops need not mirror" PAL
+  钉测试与 publication ~34s）全绿；全量 content 488/reforge 869/editor 1747+1/migrate
+  424、typecheck、双 build、DS gate、双 dry-run 四零采信 Codex 记录未重复。
+  **返工项：无**；未修改实现，未标 done。
+- GLM: **accept（2026-09-05，只读终审候选 `7e6f935a`（对比 `0980f90d`）+ GM-SH1~SH4 逐钉
+  独立直读复算与聚焦复跑，非复述 Codex/Kimi）**：
+  - **GM-SH1 双层门禁拆分 ✓**：`assertPalStoreBoundaryInvariant` 现带注释「Generated PAL seed
+    only; never apply this fixed census to a merged author target」，在 publication 的
+    **generated 侧**（theirs，合并前）继续跑完整固定 census（29/6/sell0 + 禁 ShopDef0 +
+    生成店货单与源逐店一致 `生成商店 N 货单与源不一致` 新断言）；**merged target 侧改调
+    `assertPalAlchemyBoundaryInvariant`**——只保 item268/270 机制保护（SpiritGourd/
+    VesselRecipes），固定店数/buy/sell census 不再施于作者 target（publication diff 逐行
+    核）；`validateShops`（shop.ts:17-31）共享结构门——非负安全整数、重复 id fail-loud、
+    items 非空字符串数组**重复合法**——loader（project-loader.ts:280 `?? []` 空集合合法）、
+    保存、发布三处复用；item 机制回归未降（pal-store-boundary.pal 仍绿）。
+  - **GM-SH2 复制/删除命令 ✓**：`DuplicateShopCommand`（:4244）首次 apply 深拷贝 + 固定
+    id，**redo survives changed or deleted source**（测试名实证——redo 不重读源）；
+    `DeleteShopCommand`（:4284）捕获原位恢复、删最后一家合法、**redo rechecks canonical
+    buy**；provider failure 与 live unsaved buy 均不授权删除（shop-lifecycle 四测直读）；
+    sell `shop=999` 双负例在命令层（shop-lifecycle.test:107）与 publication 层
+    （pal-current-publication.pal.test:46 把 canonical sell 改 999 仍通过——历史值不形成
+    引用/错误）；AddShop 首店登记 manifest shops 路径（commands.ts:4176-4178）。
+  - **GM-SH3 试买隔离矩阵 ✓**：`bootGame` 首分支识别 shop-trial 后 `await runShopTrial` +
+    `return`（main.ts diff 直读——位于 world/SaveStore 初始化之前）；测试以真实 bootGame +
+    **sentinel probes**（`buildWorld/IndexedDbSaveStore/MemorySaveStore/runtimeProjectView`
+    注入探针 :42-47）与 `indexedDB.open` spy（:77,162 `expect(openDb).not.toHaveBeenCalled()`
+    + save/world/projection 全零调用）钉死隔离——比「显示菜单即算」强一档；参数严校验
+    id0 ≠ 无试玩、与其他 boot 模式互斥拒绝（首个测试名）；**空货单 cursor 修复**——
+    `if (s.list.length === 0) { s.cursor = 0; s.scrollTop = 0; return }`（shop-box.ts diff）
+    消除 `min(-1,1)=-1` 边界（本人设计期复算的 bug 已修）；shop-box.test 83 行含正式
+    shopInput 路径；退出/pagehide/draw error 均清理 rAF/监听（三个专项测试）。
+  - **GM-SH4 合并 fixture 与发布 ✓**：shop-author-merge.test 覆盖——作者新建 id3/id0
+    （含重复 `['b','a','b']`）/改序/清空 `[]` 四形态保留 + **双跑 replay 零计划**；同店
+    双改 value 冲突 `/@number:1/items`；**delete-modify 冲突** `/@number:2`；重复 id
+    invalid-identity；id3 双方不同 value 冲突——设计期两条易漏 fixture 均落；
+    pal-current-publication.pal 补「作者 id0 空店 target 通过 + 悬空 buy 拒绝」。
+  - **PAL 数据零漂移 + 零计划复算 ✓**：本人独立 dry-run `managed=537 writes=0 deletes=0
+    conflicts=0 asset-deletes=0`、reference-warnings=0；PAL shops 仍恰 20 家 id 1..20；
+    **未向 PAL 开发基线写入任何测试商店**（工作树仅 evidence 目录未跟踪文件）。
+  - **旧版本兼容审查 ✓**：无旧类型/版本分支/upgrader/升级入口/fallback；manifest 未声明
+    shops = 当前格式的合法空集合（loader `?? []`），非兼容 shim；content20/SAVE8 未动。
+  - **测试诚实性 ✓**：Build 节如实记录首轮 5 项扫描超时 + 1 处登记未同步 → 修正后串行
+    43 测过 → `--maxWorkers=2` 1747 过 → 余 1 项九次超时加 15s 预算（与相邻扫描测试一致、
+    断言不变）单独过——不称「一次全绿」，推荐复跑命令如实；**planner 零计划未被当作
+    target 验证替代**——完整 publication 验证在 pal.test 内跑真实 target。
+  - **本人复跑**：migrate 门禁三件（shop-author-merge + pal-store-boundary.pal +
+    pal-current-publication.pal）**3 files / 9 tests**、editor 生命周期四件
+    （shop-lifecycle + ShopTab + project-io + play-workspace）**4 files / 22 tests**、
+    reforge 试买双件 **2 files / 10 tests**、content shop **1 file / 16 tests**——全绿
+    （合计 10 files / 57 tests）+ reforge typecheck 干净。
+  - **可证伪观察**：固定 census 从 generated 侧消失或 item 机制保护降级；作者合法 shop
+    差异被真实 merge 丢弃；试买路径触碰 `indexedDB.open`/save/world 探针；空表 cursor
+    再越界；sell 历史值重新成为引用/错误；PAL 双跑非零——任一出现本 accept 失效。
+  - **遗留（非返工项）**：720 宽视觉由 Kimi 补验（卡面已登记）；FSA 写盘→重开→试玩完整
+    自动化链登记 R4/编辑器综合工作流（核心序列化→loader 重开与同源身份测试已在）。
+  无返工项；未修改实现/生成数据，未代签 Kimi，未填用户验收。
 - counter / 返工处理: pending
 - 缺签豁免: N/A
 - done 准入结论: blocked
@@ -432,6 +522,19 @@ build期使用聚焦Vitest（`pnpm --filter <package> exec vitest run <files>`�
 
 ## 交接日志
 
+- 2026-09-05 GLM: 只读终审候选 `7e6f935a`（对比 `0980f90d`），签 **accept**。GM-SH1~SH4
+  逐钉验证：固定 census 移至 generated 侧（合并前 theirs）并新增生成店货单与源逐店一致
+  断言，target 侧只保 item 机制 + `validateShops` 共享结构门（loader/保存/发布三复用，
+  空集合合法）；Duplicate/Delete 命令深拷贝固定 id、redo 不重读源、redo 重查 canonical
+  buy、provider 失败与 live buy 不授权；试买以真实 bootGame + sentinel 探针
+  （save/world/projection/indexedDB.open 全零调用）钉隔离，空表 cursor 修复直读；
+  合并 fixture 覆盖 id0/空表/重复/delete-modify/invalid-identity + 双跑 replay 零计划；
+  sell 999 双负例（命令层 + publication 层 canonical 改 999 仍通过）。PAL shops 20/1..20
+  未动、本人独立 dry-run 四零、无测试商店写入基线。旧版本兼容审查 pass（无 upgrader/
+  fallback/版本分支）。复跑 10 files / 57 tests + reforge typecheck 全绿；测试超时与
+  时间预算调整的记录诚实（未称一次全绿、planner 零计划未替代 target 验证）。遗留 720
+  宽 Kimi 补验与 R4 综合链登记（非返工项）。无返工项；未修改实现，未代签 Kimi，未填
+  用户验收。Next: Kimi 终审（含 720 宽）与用户验收。
 - 2026-09-05 Codex: shop-impl-r1进入review。正式`pnpm --filter @type-pal/migrate migrate:content --write`完成：
   transaction-changes=0，1934资产written=0/unchanged=1934；内置replay writes/deletes/conflicts/asset-deletes四零。
   git核对baseline、PAL content与manifest均无diff。最终聚焦editor三文件19测、reforge两文件10测通过；
