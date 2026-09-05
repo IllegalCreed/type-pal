@@ -47,7 +47,7 @@ function state(): EditorState {
     manifest: {
       id: 'sprite-refs',
       name: 'sprite-refs',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -68,6 +68,7 @@ function state(): EditorState {
     poisons: [],
     ambiences: [],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},
@@ -159,9 +160,9 @@ describe('sprite unified reference commands', () => {
     ])
     const provider = (next: EditorState) => collectCurrentProjectReferenceIndex(next, scripts)
 
-    expect(() => new RemoveBattleSpriteDefinitionCommand('battle', provider).apply(current)).toThrow(
-      SpriteInUseError,
-    )
+    expect(() =>
+      new RemoveBattleSpriteDefinitionCommand('battle', provider).apply(current),
+    ).toThrow(SpriteInUseError)
     expect(() =>
       new UpdateBattleSpriteDefinitionCommand(
         'battle',
@@ -219,9 +220,9 @@ describe('sprite unified reference commands', () => {
     const scripts = canonical([])
     const provider = (next: EditorState) => collectCurrentProjectReferenceIndex(next, scripts)
     const session = new EditSession(state())
-    expect(session.dispatch(new UpdateSpriteCommand('world', { poses: undefined }, proof, provider))).toBe(
-      true,
-    )
+    expect(
+      session.dispatch(new UpdateSpriteCommand('world', { poses: undefined }, proof, provider)),
+    ).toBe(true)
     expect(session.undo()).toBe(true)
     scripts.sharedScripts.shared!.body = [
       {

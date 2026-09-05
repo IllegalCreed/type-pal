@@ -71,6 +71,7 @@ export function DataMode(props: {
   /** W7G 图章模板与地图索引；图章库做 CRUD 和全项目来源扫描。 */
   stamps: import('@type-pal/content').StampTemplate[]
   mapIndex: import('@type-pal/content').MapIndexV1
+  sceneIndex?: import('@type-pal/content').SceneIndexV1
   /** 战场表(战场页;D24;项目没带 = 空)。 */
   battleFields: BattleFieldDef[]
   /** 毒定义表(毒页,B10;项目没带 = 空)。 */
@@ -159,6 +160,7 @@ export function DataMode(props: {
     tilesets,
     stamps,
     mapIndex,
+    sceneIndex,
     battleFields,
     poisons,
     ambiences,
@@ -417,6 +419,7 @@ export function DataMode(props: {
           assetCatalog,
           assetReader,
           mapIndex,
+          sceneIndex,
           tilesets,
           projectKey: `${manifest.id}:${workspaceId ?? ''}`,
         }}

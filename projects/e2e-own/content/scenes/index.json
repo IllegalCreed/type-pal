@@ -1,3 +1,10 @@
-[
-  "start"
-]
+{
+  "version": 1,
+  "scenes": [
+    {
+      "id": "start",
+      "name": "烟测起始场景",
+      "path": "content/scenes/start.json"
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import type {
   CurrentManifest,
   MapIndexV1,
   ProjectMap,
+  SceneIndexV1,
   ScriptChunkV1,
   ScriptIndexV1,
   StampTemplate,
@@ -47,6 +48,8 @@ export interface EditorState extends Omit<ContentBundle, 'entryPoints'> {
   maps: Record<string, ProjectMap>
   /** 地图资产发现真值；包含零场景引用地图。 */
   mapIndex: MapIndexV1
+  /** 场景发现、作者显示名与正文路径的唯一真值。 */
+  sceneIndex: SceneIndexV1
   /**
    * 历史名称：尚未 catalog 化的 effect-sprite RLE 上传暂存。
    * tileset、world sprite 与 battle-sprite 已迁到 assetCatalog + assetBlobs，不得再消费此字段。
@@ -109,6 +112,7 @@ export class EditSession {
   /** 每张地图独立、单调递增的内存 revision；含 dispatch / undo / redo / hydrate。 */
   private readonly mapRevisions = new Map<string, number>()
   private mapLru: string[]
+  private persistedScenePaths: Set<string>
   private persistedMapPaths: Set<string>
   private persistedAssetPaths: Set<string>
   /** 每次 notify 自增。useSyncExternalStore 的 snapshot 用它 —— 因为 markSaved/undo 等
@@ -136,6 +140,7 @@ export class EditSession {
     this.loadMap = options.loadMap
     this.maxLoadedMaps = Math.max(1, options.maxLoadedMaps ?? 12)
     this.mapLru = Object.keys(initial.maps)
+    this.persistedScenePaths = new Set(initial.sceneIndex.scenes.map((asset) => asset.path))
     this.persistedMapPaths = new Set(initial.mapIndex.maps.map((asset) => asset.path))
     this.persistedAssetPaths = new Set(
       Object.values(initial.assetCatalog.assets).map((asset) => asset.path),
@@ -173,6 +178,7 @@ export class EditSession {
   markSaved(): void {
     this.dirty = false
     this.dirtyMapIds.clear()
+    this.persistedScenePaths = new Set(this.state.sceneIndex.scenes.map((asset) => asset.path))
     this.persistedMapPaths = new Set(this.state.mapIndex.maps.map((asset) => asset.path))
     this.persistedAssetPaths = new Set(
       Object.values(this.state.assetCatalog.assets).map((asset) => asset.path),
@@ -564,6 +570,12 @@ export class EditSession {
     this.emitMapReferenceUpdate()
     this.notify()
     return promise
+  }
+
+  /** 原目录中曾存在、但当前索引已删除的 map 文件；首次增量保存也能精确删除。 */
+  getDeletedScenePaths(): string[] {
+    const current = new Set(this.state.sceneIndex.scenes.map((asset) => asset.path))
+    return [...this.persistedScenePaths].filter((path) => !current.has(path))
   }
 
   /** 原目录中曾存在、但当前索引已删除的 map 文件；首次增量保存也能精确删除。 */

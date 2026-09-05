@@ -122,7 +122,7 @@ function state(actorsList: ActorDef[]): EditorState {
     manifest: {
       id: 'test',
       name: '测试项目',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -145,6 +145,7 @@ function state(actorsList: ActorDef[]): EditorState {
     sprites: [],
     battleSprites: [],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},

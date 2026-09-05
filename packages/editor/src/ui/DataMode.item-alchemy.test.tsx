@@ -79,6 +79,7 @@ function fixture() {
   const session = new EditSession({
     items,
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     assetCatalog: { version: 1, assets: {} },
     assetBlobs: {},
@@ -116,7 +117,7 @@ describe('DataMode dual item mechanism routes', () => {
       manifest: {
         id: 'test',
         name: 'test',
-        contentVersion: 19,
+        contentVersion: 20,
         minimumSaveVersion: 8,
         defaultEntryId: 'main',
         content: {},

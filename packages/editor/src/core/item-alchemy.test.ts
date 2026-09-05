@@ -46,6 +46,7 @@ function state(items: ItemData[]): EditorState {
   return {
     items,
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     assetCatalog: { version: 1, assets: {} },
     assetBlobs: {},

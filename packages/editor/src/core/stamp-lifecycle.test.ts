@@ -65,6 +65,7 @@ function state(map = fixtureMap()): EditorState {
     locale: {},
     sprites: [],
     maps: { 'map-a': map },
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: {
       version: 1,
       maps: [{ id: 'map-a', name: '地图 A', path: 'content/maps/map-a.json' }],

@@ -20,6 +20,7 @@ import type {
   ProjectMap,
   RuntimeSceneDef,
   RuntimeScriptLibrary,
+  SceneIndexV1,
   ShopDef,
   SkillDataMap,
   SpriteDef,
@@ -31,6 +32,7 @@ import {
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   mapAssetById,
   resolveAuthorDialogueTree,
+  sceneAssetById,
   validateActorConditionCommandReferences,
   validateActorInitialMagicReferences,
   validateActors,
@@ -51,6 +53,7 @@ import {
   validateMapIndex,
   validateMigrationDiagnostics,
   validatePoisons,
+  validateSceneIndex,
   validateSkills,
   validateSprites,
   validateStampTemplates,
@@ -65,7 +68,7 @@ import { ProjectImageCache } from './project-image-cache.js'
 
 export interface CurrentContentJsons {
   actors: unknown
-  sceneIds: unknown
+  sceneIndex: unknown
   entryScenes: Record<string, unknown>
   skills: unknown
   items: unknown
@@ -100,6 +103,8 @@ export interface LoadedCurrentProjectCore {
   manifest: CurrentManifest
   projectRoot: string
   sceneIds: string[]
+  /** 场景发现、显示名与正文路径的唯一真值；sceneIds 仅为其派生只读视图。 */
+  sceneIndex: SceneIndexV1
   /** 从 manifest.defaultEntryId 派生的运行时缓存；不得回写 manifest。 */
   entryScene: RuntimeSceneDef
   authorContent: CurrentAuthorContent
@@ -137,20 +142,9 @@ function indexById<T extends { id: string }>(values: readonly T[]): Record<strin
   return Object.fromEntries(values.map((value) => [value.id, value]))
 }
 
-function sceneIds(value: unknown): string[] {
-  if (
-    !Array.isArray(value) ||
-    value.some((entry) => typeof entry !== 'string' || entry.trim().length === 0)
-  )
-    throw new Error('scenes/index.json: 期望 string[]')
-  const ids = value as string[]
-  const duplicate = ids.find((id, index) => ids.indexOf(id) !== index)
-  if (duplicate) throw new Error(`scenes/index.json: 场景 id "${duplicate}" 重复`)
-  return ids
-}
-
 function scenesDir(manifest: CurrentManifest): string {
-  const dir = manifest.content.scenes ?? 'content/scenes/'
+  const dir = manifest.content.scenes
+  if (!dir) throw new Error(`工程 "${manifest.id}": manifest 缺 scenes 目录`)
   return dir.endsWith('/') ? dir : `${dir}/`
 }
 
@@ -197,7 +191,9 @@ export function assembleCurrentProject(
     throw new Error(`工程 "${manifest.id}": manifest 缺 worldVariables 注册表路径`)
   if (!manifest.content.maps) throw new Error(`工程 "${manifest.id}": manifest 缺地图索引路径`)
 
-  const ids = sceneIds(jsons.sceneIds)
+  const sceneIndexPath = `${scenesDir(manifest)}index.json`
+  const sceneIndex = validateSceneIndex(jsons.sceneIndex, sceneIndexPath)
+  const ids = sceneIndex.scenes.map((entry) => entry.id)
   const { defaultEntry } = validateCurrentManifestStartup(manifest, ids)
 
   const assetCatalog = validateAssetCatalog(jsons.assetCatalog)
@@ -291,6 +287,7 @@ export function assembleCurrentProject(
     manifest,
     projectRoot: `projects/${manifest.id}`,
     sceneIds: ids,
+    sceneIndex,
     entryScene,
     authorContent: {
       entryScenes: authorEntryScenes,
@@ -330,46 +327,46 @@ export async function loadCurrentProjectFrom(source: FileSource): Promise<Loaded
       `工程 "${manifest.id}": current loader 只接受 contentVersion ${CONTENT_VERSION}`,
     )
   const content = manifest.content
-  for (const key of [
-    'actors',
-    'skills',
-    'items',
-    'locale',
-    'sprites',
-    'battleSprites',
-    'tilesets',
-    'maps',
-    'sharedScripts',
-    'worldVariables',
-  ] as const)
-    if (!content[key]) throw new Error(`工程 "${manifest.id}": manifest 缺 ${key} 路径`)
-
-  const actorsPath = content.actors!
-  const skillsPath = content.skills!
-  const itemsPath = content.items!
-  const localePath = content.locale!
-  const spritesPath = content.sprites!
-  const battleSpritesPath = content.battleSprites!
-  const tilesetsPath = content.tilesets!
-  const mapsPath = content.maps!
-  const sharedScriptsPath = content.sharedScripts!
-  const worldVariablesPath = content.worldVariables!
+  const requiredContentPath = (key: string): string => {
+    const path = content[key]
+    if (!path) throw new Error(`工程 "${manifest.id}": manifest 缺 ${key} 路径`)
+    return path
+  }
+  requiredContentPath('scenes')
+  const actorsPath = requiredContentPath('actors')
+  const skillsPath = requiredContentPath('skills')
+  const itemsPath = requiredContentPath('items')
+  const localePath = requiredContentPath('locale')
+  const spritesPath = requiredContentPath('sprites')
+  const battleSpritesPath = requiredContentPath('battleSprites')
+  const tilesetsPath = requiredContentPath('tilesets')
+  const mapsPath = requiredContentPath('maps')
+  const sharedScriptsPath = requiredContentPath('sharedScripts')
+  const worldVariablesPath = requiredContentPath('worldVariables')
 
   const dir = scenesDir(manifest)
-  const rawSceneIds = await source.readJson<unknown>(`${dir}index.json`)
-  const ids = sceneIds(rawSceneIds)
+  const sceneIndexPath = `${dir}index.json`
+  const sceneIndex = validateSceneIndex(
+    await source.readJson<unknown>(sceneIndexPath),
+    sceneIndexPath,
+  )
+  const ids = sceneIndex.scenes.map((entry) => entry.id)
   validateCurrentManifestStartup(manifest, ids)
 
   const entryScenes = Object.fromEntries(
     await Promise.all(
       [...new Set(manifest.entryPoints.map((entry) => entry.scene))].map(async (sceneId) => {
-        const owner = manifest.entryPoints.find((entry) => entry.scene === sceneId)!
+        const owner = manifest.entryPoints.find((entry) => entry.scene === sceneId)
+        if (!owner) throw new Error(`manifest.entryPoints: 场景 "${sceneId}" 缺入口 owner`)
+        const asset = sceneAssetById(sceneIndex, sceneId)
+        if (!asset)
+          throw new Error(`manifest.entryPoints[${owner.id}].scene: 未登记场景 "${sceneId}"`)
         try {
-          return [sceneId, await source.readJson(`${dir}${sceneId}.json`)] as const
+          return [sceneId, await source.readJson(asset.path)] as const
         } catch (error) {
           const detail = error instanceof Error ? error.message : String(error)
           throw new Error(
-            `manifest.entryPoints[${owner.id}].scene: 无法读取 "${sceneId}.json": ${detail}`,
+            `manifest.entryPoints[${owner.id}].scene: 无法读取 "${asset.path}": ${detail}`,
           )
         }
       }),
@@ -418,7 +415,7 @@ export async function loadCurrentProjectFrom(source: FileSource): Promise<Loaded
   ])
   const core = assembleCurrentProject(manifest, {
     actors,
-    sceneIds: ids,
+    sceneIndex,
     entryScenes,
     skills,
     items,
@@ -462,13 +459,15 @@ export async function loadAuthorScene(
   project: LoadedCurrentProject,
   sceneId: string,
 ): Promise<AuthorSceneDef> {
-  const raw = await project.source.readJson(`${scenesDir(project.manifest)}${sceneId}.json`)
+  const asset = sceneAssetById(project.sceneIndex, sceneId)
+  if (!asset) throw new Error(`loadAuthorScene: SceneId "${sceneId}" 不在 scene index`)
+  const raw = await project.source.readJson(asset.path)
   const scene = validateAuthorScene(
     raw,
     Object.values(project.actorsById),
     project.poisons,
     project.mapIndex,
-    `scene ${sceneId}`,
+    asset.path,
   )
   if (scene.id !== sceneId)
     throw new Error(`loadAuthorScene: 场景文件 id 不符(期望 "${sceneId}",得 "${scene.id}")`)

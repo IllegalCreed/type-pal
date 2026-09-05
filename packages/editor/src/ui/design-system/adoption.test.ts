@@ -34,7 +34,7 @@ describe('design-system adoption gate', () => {
     expect(new Set(adopted).size).toBe(adopted.length)
     expect(matrix.pages).toHaveLength(27)
     const scrollRecords = matrix.catalogScrollOwners.flatMap((page) => page.scroll)
-    expect(scrollRecords).toHaveLength(102)
+    expect(scrollRecords).toHaveLength(103)
     expect(
       scrollRecords.filter((record) => record.owner === 'DsObjectWorkspaceContent'),
     ).toHaveLength(20)

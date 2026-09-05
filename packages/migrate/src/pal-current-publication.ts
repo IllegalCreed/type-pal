@@ -5,6 +5,7 @@ import type {
   ItemData,
   MigrationDiagnosticsV1,
   RuntimeSceneDef,
+  SceneIndexV1,
   ShopDef,
 } from '@type-pal/content'
 import {
@@ -13,6 +14,7 @@ import {
   collectAssetReferences,
   mapAssetById,
   resolveAuthorDialogueTree,
+  sceneAssetById,
   validateActors,
   validateAssetCatalog,
   validateAssetReferenceClosure,
@@ -33,6 +35,7 @@ import {
   validatePoisons,
   validateProjectMap,
   validateReferences,
+  validateSceneIndex,
   validateSkills,
   validateSprites,
   validateStampTemplates,
@@ -50,6 +53,7 @@ import {
 import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invariant.js'
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
 import { buildPalMigration, type MigrationJson, type PalMigrationSources } from './pal-migration.js'
+import { assertPalSceneIndexOwnership } from './pal-scene-index.js'
 import { assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
 import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES } from './pal-world-sprite-layouts.js'
 import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'
@@ -124,15 +128,27 @@ export function buildPalCurrentPublication(
 
   const currentSprites = validateSprites(required(files, 'content/sprites.json'))
   const generatedSprites = validateSprites(required(generated.files, 'content/sprites.json'))
-  const sceneValues = (source: ReadonlyMap<string, MigrationJson>, label: string) => {
-    const ids = required(source, 'content/scenes/index.json')
-    if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'string'))
-      throw new Error(`${label}: content/scenes/index.json 期望 string[]`)
-    return ids.map((id) => required(source, `content/scenes/${id as string}.json`))
+  const sceneSurface = (source: ReadonlyMap<string, MigrationJson>, label: string) => {
+    const index = validateSceneIndex(required(source, 'content/scenes/index.json'))
+    return {
+      index,
+      values: index.scenes.map((entry) => {
+        try {
+          return required(source, entry.path)
+        } catch (cause) {
+          throw new Error(`${label}: SceneIndex ${entry.id} 缺正文 ${entry.path}`, { cause })
+        }
+      }),
+    }
   }
-  const currentScenes = validateAuthorScenes(sceneValues(files, 'PAL current baseline'))
-  const generatedSceneValues = sceneValues(generated.files, 'PAL generated publication')
-  const generatedScenes = generatedSceneValues.map((value, index) => {
+  const currentSceneSurface = sceneSurface(files, 'PAL current baseline')
+  const generatedSceneSurface = sceneSurface(generated.files, 'PAL generated publication')
+  assertPalSceneIndexOwnership({
+    current: currentSceneSurface.index,
+    generated: generatedSceneSurface.index,
+  })
+  const currentScenes = validateAuthorScenes(currentSceneSurface.values)
+  const generatedScenes = generatedSceneSurface.values.map((value, index) => {
     if (!value || typeof value !== 'object')
       throw new Error(`PAL generated publication: scenes[${index}] 期望 object`)
     const scene = value as Record<string, unknown>
@@ -169,8 +185,11 @@ export function buildPalCurrentPublication(
   )
   put('content/shops.json', required(generated.files, 'content/shops.json'))
   put('content/sprites.json', spriteAliases.sprites)
-  for (const [sceneId, scene] of spriteAliases.updatedScenes)
-    put(`content/scenes/${sceneId}.json`, scene)
+  for (const [sceneId, scene] of spriteAliases.updatedScenes) {
+    const asset = sceneAssetById(currentSceneSurface.index, sceneId)
+    if (!asset) throw new Error(`PAL current SceneIndex 缺更新目标 ${sceneId}`)
+    put(asset.path, scene)
+  }
   put('content/maps/index.json', required(generated.files, 'content/maps/index.json'))
   put('content/tilesets.json', required(generated.files, 'content/tilesets.json'))
   const generatedMapPaths = [...generated.managedFiles]
@@ -258,16 +277,20 @@ export function validatePalCurrentPublication(args: {
       if (!tilesetIds.has(tileset)) throw new Error(`${entry.path} 引用未知瓦片集 ${tileset}`)
   }
 
-  const sceneIds = required(files, 'content/scenes/index.json')
-  if (!Array.isArray(sceneIds) || sceneIds.some((id) => typeof id !== 'string'))
-    throw new Error('content/scenes/index.json: 期望 string[]')
-  validateCurrentManifestStartup(manifest, sceneIds as string[])
+  const scenesDir = `${requiredPath(manifest.content.scenes, 'scenes').replace(/\/?$/, '/')}`
+  const sceneIndexPath = `${scenesDir}index.json`
+  const sceneIndex: SceneIndexV1 = validateSceneIndex(
+    required(files, sceneIndexPath),
+    sceneIndexPath,
+  )
+  const sceneIds = sceneIndex.scenes.map((entry) => entry.id)
+  validateCurrentManifestStartup(manifest, sceneIds)
   const authorScenes = validateAuthorScenes(
-    (sceneIds as string[]).map((id) => required(files, `content/scenes/${id}.json`)),
+    sceneIndex.scenes.map((entry) => required(files, entry.path)),
   )
   authorScenes.forEach((scene, index) => {
-    if (scene.id !== sceneIds[index])
-      throw new Error(`场景 index/id 不符 ${String(sceneIds[index])}`)
+    if (scene.id !== sceneIndex.scenes[index]?.id)
+      throw new Error(`场景 index/id 不符 ${String(sceneIndex.scenes[index]?.id)}`)
     if (!mapAssetById(mapIndex, scene.mapId))
       throw new Error(`场景 ${scene.id} 引用未知地图 ${scene.mapId}`)
   })

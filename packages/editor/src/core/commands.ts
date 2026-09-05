@@ -28,6 +28,7 @@ import type {
   LevelUpSkill,
   MapAssetDefV1,
   PoisonDef,
+  SceneAssetDefV1,
   SceneDef,
   SceneEntryPoint,
   Command as ScriptCommand,
@@ -50,6 +51,7 @@ import {
   nextMapAssetId,
   normalizeScriptLibrary,
   removeAuthoredScript,
+  rewriteExplicitSceneReferences,
   spriteDefinitionFrameDemand,
   spriteDefinitionFrameIndices,
   upsertAuthoredScript,
@@ -58,6 +60,7 @@ import {
   validateBattleSprites,
   validateMapIndex,
   validateProjectRelativePath,
+  validateSceneIndex,
   validateSprites,
   validateStartWorld,
   validateWorldVariableIdV1,
@@ -3379,32 +3382,171 @@ export class UpdateSkillCommand implements Command {
 }
 
 /**
- * 新建场景(完整复用当前地图引用;entry 给定落点;空实体/对话)。invert 删回。
- * id 由 UI 保证唯一(重复 = no-op 防御)。
+ * 新建场景 shell + SceneIndex 元数据；canonical 正文由同一跨会话事务的脚本命令持有。
  */
+function validateEditorSceneIndex(
+  state: EditorState,
+  scenes: readonly SceneAssetDefV1[],
+): EditorState['sceneIndex'] {
+  const dir = state.manifest.content.scenes?.replace(/\/?$/, '/') ?? 'content/scenes/'
+  return validateSceneIndex({ version: 1, scenes }, `${dir}index.json`)
+}
+
 export class AddSceneCommand implements Command {
   readonly label = '新建场景'
+  private readonly asset: SceneAssetDefV1
   private readonly scene: SceneDef
   private added = false
 
-  constructor(id: string, mapId: string, entry: SceneDef['entry']) {
-    this.scene = {
-      id,
-      mapId,
-      entry: structuredClone(entry),
-      entities: [],
-    }
+  constructor(asset: SceneAssetDefV1, scene: SceneDef) {
+    this.asset = structuredClone(asset)
+    this.scene = structuredClone(scene)
   }
 
   apply(state: EditorState): EditorState {
-    if (state.scenes.some((s) => s.id === this.scene.id)) return state // 重名防御
+    if (
+      state.scenes.some((scene) => scene.id === this.scene.id) ||
+      state.sceneIndex.scenes.some((asset) => asset.id === this.asset.id)
+    )
+      throw new Error(`场景 id "${this.scene.id}" 已存在`)
+    if (this.asset.id !== this.scene.id)
+      throw new Error(`场景 index/id 不符 "${this.asset.id}" / "${this.scene.id}"`)
+    const sceneIndex = validateEditorSceneIndex(state, [...state.sceneIndex.scenes, this.asset])
     this.added = true
-    return { ...state, scenes: [...state.scenes, structuredClone(this.scene)] }
+    return {
+      ...state,
+      sceneIndex,
+      scenes: [...state.scenes, structuredClone(this.scene)],
+    }
   }
 
   invert(state: EditorState): EditorState {
     if (!this.added) return state
-    return { ...state, scenes: state.scenes.filter((s) => s.id !== this.scene.id) }
+    return {
+      ...state,
+      sceneIndex: {
+        version: 1,
+        scenes: state.sceneIndex.scenes.filter((asset) => asset.id !== this.asset.id),
+      },
+      scenes: state.scenes.filter((scene) => scene.id !== this.scene.id),
+    }
+  }
+}
+
+/** 复制场景 shell；脚本作者态由 DuplicateSceneDefinitionCommand 在同一事务中复制。 */
+export class DuplicateSceneCommand implements Command {
+  readonly label = '复制场景'
+  private added = false
+
+  constructor(
+    private readonly sourceSceneId: string,
+    private readonly asset: SceneAssetDefV1,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const source = state.scenes.find((scene) => scene.id === this.sourceSceneId)
+    if (!source) throw new Error(`场景不存在 ${this.sourceSceneId}`)
+    if (
+      state.scenes.some((scene) => scene.id === this.asset.id) ||
+      state.sceneIndex.scenes.some((asset) => asset.id === this.asset.id)
+    )
+      throw new Error(`场景 id "${this.asset.id}" 已存在`)
+    const copy = rewriteExplicitSceneReferences(source, this.sourceSceneId, this.asset.id)
+    copy.id = this.asset.id
+    const sceneIndex = validateEditorSceneIndex(state, [...state.sceneIndex.scenes, this.asset])
+    this.added = true
+    return { ...state, sceneIndex, scenes: [...state.scenes, copy] }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.added) return state
+    return {
+      ...state,
+      sceneIndex: {
+        version: 1,
+        scenes: state.sceneIndex.scenes.filter((asset) => asset.id !== this.asset.id),
+      },
+      scenes: state.scenes.filter((scene) => scene.id !== this.asset.id),
+    }
+  }
+}
+
+/** 可重做的场景名称快照命令。 */
+export class UpdateSceneNameCommand implements Command {
+  readonly label = '修改场景名称'
+  private previous?: string
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly name: string,
+  ) {}
+
+  private replace(state: EditorState, name: string): EditorState {
+    const index = state.sceneIndex.scenes.findIndex((asset) => asset.id === this.sceneId)
+    if (index < 0) throw new Error(`场景不存在 ${this.sceneId}`)
+    const scenes = [...state.sceneIndex.scenes]
+    scenes[index] = { ...scenes[index]!, name }
+    return { ...state, sceneIndex: validateEditorSceneIndex(state, scenes) }
+  }
+
+  apply(state: EditorState): EditorState {
+    const asset = state.sceneIndex.scenes.find((candidate) => candidate.id === this.sceneId)
+    if (!asset) throw new Error(`场景不存在 ${this.sceneId}`)
+    const name = this.name.trim()
+    if (!name) throw new Error('场景显示名不能为空')
+    if (asset.name === name) return state
+    this.previous ??= asset.name
+    return this.replace(state, name)
+  }
+
+  invert(state: EditorState): EditorState {
+    if (this.previous === undefined) return state
+    return this.replace(state, this.previous)
+  }
+}
+
+export class SceneInUseError extends Error {
+  constructor(
+    readonly sceneId: string,
+    readonly references: readonly ProjectReferenceEdge[],
+  ) {
+    super(`场景 "${sceneId}" 仍有 ${references.length} 个外部引用`)
+    this.name = 'SceneInUseError'
+  }
+}
+
+/** 删除场景 shell + SceneIndex；每次 apply/redo 都用 current ED-3 index 再验真。 */
+export class DeleteSceneCommand implements Command {
+  readonly label = '删除场景'
+  private before?: EditorState
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly currentReferences: CurrentProjectReferenceIndexProvider,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    if (!state.scenes.some((scene) => scene.id === this.sceneId))
+      throw new Error(`场景不存在 ${this.sceneId}`)
+    if (!state.sceneIndex.scenes.some((asset) => asset.id === this.sceneId))
+      throw new Error(`SceneIndex 未登记场景 ${this.sceneId}`)
+    const target = { kind: 'scene' as const, id: this.sceneId }
+    const impact = collectCurrentProjectDeletionImpact(this.currentReferences, state, target)
+    if (impact.blockers.length) throw new SceneInUseError(this.sceneId, impact.blockers)
+    this.before = state
+    return {
+      ...state,
+      sceneIndex: {
+        version: 1,
+        scenes: state.sceneIndex.scenes.filter((asset) => asset.id !== this.sceneId),
+      },
+      scenes: state.scenes.filter((scene) => scene.id !== this.sceneId),
+    }
+  }
+
+  invert(_state: EditorState): EditorState {
+    if (!this.before) throw new Error(`${this.label}: 尚未 apply`)
+    return this.before
   }
 }
 

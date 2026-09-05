@@ -14,7 +14,7 @@ function currentState(): EditorState {
     manifest: {
       id: 'current-editor-test',
       name: 'Current editor test',
-      contentVersion: 19,
+      contentVersion: 20,
       defaultEntryId: 'main',
       content: {
         scenes: 'content/scenes/',
@@ -95,6 +95,7 @@ function currentState(): EditorState {
     sprites: [],
     battleSprites: [],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     assetCatalog: { version: 1, assets: {} },
     assetBlobs: {},
@@ -236,9 +237,7 @@ describe('current entity address editor closure', () => {
     const session = new EditSession(state)
     expect(() =>
       session.dispatch(new DeleteEntityCommand('s', 'b', collectCurrentProjectReferenceIndex)),
-    ).toThrow(
-      /hideEntity.*target|仍被引用/,
-    )
+    ).toThrow(/hideEntity.*target|仍被引用/)
     expect(session.getState().scenes[0]!.entities.map((entity) => entity.id)).toEqual(['a', 'b'])
     expect(session.canUndo()).toBe(false)
 
@@ -255,9 +254,7 @@ describe('current entity address editor closure', () => {
     cleaned.sharedScripts = {}
     const cleanSession = new EditSession(cleaned)
     expect(
-      cleanSession.dispatch(
-        new DeleteEntityCommand('s', 'b', collectCurrentProjectReferenceIndex),
-      ),
+      cleanSession.dispatch(new DeleteEntityCommand('s', 'b', collectCurrentProjectReferenceIndex)),
     ).toBe(true)
     expect(cleanSession.getState().scenes[0]!.entities.map((entity) => entity.id)).toEqual(['a'])
     expect(cleanSession.undo()).toBe(true)

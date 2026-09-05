@@ -11,6 +11,7 @@ import type {
 } from '@type-pal/content'
 import {
   checkAuthorScriptLibrary,
+  rewriteExplicitSceneReferences,
   validateAuthorItems,
   validateAuthorScenes,
 } from '@type-pal/content'
@@ -1163,6 +1164,81 @@ abstract class SnapshotCommand implements ScriptEditorCommand {
     this.transform(next)
     validateState(next)
     this.after = next
+    return next
+  }
+
+  invert(_state: ScriptEditorState): ScriptEditorState {
+    if (!this.before) throw new Error(`${this.label}: 尚未 apply`)
+    return this.before
+  }
+}
+
+/** 新建 current canonical 场景；与主会话 AddSceneCommand 成对提交。 */
+export class AddSceneDefinitionCommand extends SnapshotCommand {
+  readonly label = '新增 canonical 场景'
+  get affectedRecords() {
+    return { scenes: [this.scene.id] }
+  }
+
+  constructor(private readonly scene: AuthorSceneDef) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorState): void {
+    if (state.scenes.some((candidate) => candidate.id === this.scene.id))
+      throw new Error(`场景已存在 ${this.scene.id}`)
+    state.scenes.push(clone(this.scene))
+  }
+}
+
+/** 复制 canonical 场景；只改 typed source-scene 自引用，局部 id 与外部目标保持不变。 */
+export class DuplicateSceneDefinitionCommand extends SnapshotCommand {
+  readonly label = '复制 canonical 场景'
+  get affectedRecords() {
+    return { scenes: [this.sourceSceneId, this.copySceneId] }
+  }
+
+  constructor(
+    private readonly sourceSceneId: string,
+    private readonly copySceneId: string,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorState): void {
+    const source = sceneById(state, this.sourceSceneId)
+    if (state.scenes.some((candidate) => candidate.id === this.copySceneId))
+      throw new Error(`场景已存在 ${this.copySceneId}`)
+    const copy = rewriteExplicitSceneReferences(source, this.sourceSceneId, this.copySceneId)
+    copy.id = this.copySceneId
+    state.scenes.push(copy)
+  }
+}
+
+/** 删除 canonical 场景；每次 apply/redo 都用 current ED-3 index 再验真。 */
+export class DeleteSceneDefinitionCommand implements ScriptEditorCommand {
+  readonly label = '删除 canonical 场景'
+  private before?: ScriptEditorState
+  get affectedRecords() {
+    return { scenes: [this.sceneId] }
+  }
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly currentReferences: CurrentScriptProjectReferenceIndexProvider,
+  ) {}
+
+  apply(state: ScriptEditorState): ScriptEditorState {
+    if (!state.scenes.some((candidate) => candidate.id === this.sceneId))
+      throw new Error(`场景不存在 ${this.sceneId}`)
+    const target = { kind: 'scene' as const, id: this.sceneId }
+    const index = this.currentReferences(state)
+    const blockers = index.deletionImpact(target, index.deletionScopeFor([target])).blockers
+    if (blockers.length) throw new Error(`场景 ${this.sceneId} 仍有 ${blockers.length} 个外部引用`)
+    this.before = state
+    const next = clone(state)
+    next.scenes = next.scenes.filter((scene) => scene.id !== this.sceneId)
+    validateState(next)
     return next
   }
 

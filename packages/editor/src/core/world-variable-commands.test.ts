@@ -13,7 +13,7 @@ function state(): EditorState {
     manifest: {
       id: 'variables',
       name: 'Variables',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: { worldVariables: 'content/world-variables.json' },
@@ -26,6 +26,10 @@ function state(): EditorState {
           startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
+    },
+    sceneIndex: {
+      version: 1,
+      scenes: [{ id: 's', name: '场景', path: 'content/scenes/s.json' }],
     },
     worldVariables: {
       used: { kind: 'flag', name: '被引用', description: '', initial: false },
@@ -107,9 +111,7 @@ describe('world variable EditSession commands', () => {
     const session = new EditSession(state())
     expect(() =>
       session.dispatch(new DeleteWorldVariableCommand('used', collectCurrentProjectReferenceIndex)),
-    ).toThrow(
-      WorldVariableInUseError,
-    )
+    ).toThrow(WorldVariableInUseError)
     expect(session.getState().worldVariables).toHaveProperty('used')
 
     expect(

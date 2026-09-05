@@ -70,7 +70,7 @@ interface SkillData {
 }
 ```
 
-### 当前状态 registry（content19）
+### 当前状态 registry（content20）
 
 `StatusId` 的作者元数据不再由技能、物品、入口和脚本页面各复制一份。content 的
 `ACTOR_STATUS_DEFINITIONS` 是唯一 registry，集中提供中文名、好/坏/死人专用分类、效果说明、可携带性与

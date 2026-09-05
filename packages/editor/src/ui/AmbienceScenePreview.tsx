@@ -5,6 +5,7 @@ import type {
   CurrentManifest,
   MapIndexV1,
   SceneDef,
+  SceneIndexV1,
   SpriteDef,
 } from '@type-pal/content'
 import type { AssetBase, ProjectMap, TilesetDef } from '@type-pal/reforge'
@@ -32,6 +33,7 @@ export interface AmbienceScenePreviewProps {
   session: EditSession
   manifest: CurrentManifest
   scenes: readonly SceneDef[]
+  sceneIndex?: SceneIndexV1
   actors: readonly ActorDef[]
   sprites: readonly SpriteDef[]
   assetBase: AssetBase
@@ -307,7 +309,13 @@ export function AmbienceScenePreview(props: AmbienceScenePreviewProps) {
         size="compact"
         fieldClassName="ambience-preview-scene-field"
         value={scene.id}
-        options={props.scenes.map((candidate) => ({ value: candidate.id, label: candidate.id }))}
+        options={props.scenes.map((candidate) => {
+          const asset = props.sceneIndex?.scenes.find((entry) => entry.id === candidate.id)
+          return {
+            value: candidate.id,
+            label: asset ? `${asset.name} · ${candidate.id}` : candidate.id,
+          }
+        })}
         onValueChange={setSelectedSceneId}
       />
       <LoadedAmbienceScenePreview

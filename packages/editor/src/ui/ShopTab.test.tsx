@@ -54,6 +54,7 @@ describe('ShopTab shared object workspace', () => {
     const session = new EditSession({
       shops,
       maps: {},
+      sceneIndex: { version: 1, scenes: [] },
       mapIndex: { version: 1, maps: [] },
       assetCatalog: { version: 1, assets: {} },
       assetBlobs: {},
@@ -61,12 +62,7 @@ describe('ShopTab shared object workspace', () => {
 
     await act(async () =>
       root.render(
-        <ShopTab
-          shops={shops}
-          items={items}
-          session={session}
-          onObjectFocus={onObjectFocus}
-        />,
+        <ShopTab shops={shops} items={items} session={session} onObjectFocus={onObjectFocus} />,
       ),
     )
     const rows = [...host.querySelectorAll<HTMLButtonElement>('.shop-catalog .ds-catalog-row')]
@@ -94,6 +90,7 @@ describe('ShopTab shared object workspace', () => {
     const session = new EditSession({
       shops,
       maps: {},
+      sceneIndex: { version: 1, scenes: [] },
       mapIndex: { version: 1, maps: [] },
       assetCatalog: { version: 1, assets: {} },
       assetBlobs: {},
@@ -152,6 +149,7 @@ describe('ShopTab shared object workspace', () => {
     const session = new EditSession({
       shops,
       maps: {},
+      sceneIndex: { version: 1, scenes: [] },
       mapIndex: { version: 1, maps: [] },
       assetCatalog,
       assetBlobs: {},
@@ -260,6 +258,7 @@ describe('ShopTab shared object workspace', () => {
     const session = new EditSession({
       shops,
       maps: {},
+      sceneIndex: { version: 1, scenes: [] },
       mapIndex: { version: 1, maps: [] },
       assetCatalog: { version: 1, assets: {} },
       assetBlobs: {},
@@ -306,6 +305,7 @@ describe('ShopTab shared object workspace', () => {
     const session = new EditSession({
       shops,
       maps: {},
+      sceneIndex: { version: 1, scenes: [] },
       mapIndex: { version: 1, maps: [] },
       assetCatalog: { version: 1, assets: {} },
       assetBlobs: {},
@@ -339,6 +339,7 @@ describe('ShopTab shared object workspace', () => {
     const session = new EditSession({
       shops: [{ id: 0, items: ['item-a', 'item-b', 'item-a'] }],
       maps: {},
+      sceneIndex: { version: 1, scenes: [] },
       mapIndex: { version: 1, maps: [] },
       assetCatalog: { version: 1, assets: {} },
       assetBlobs: {},

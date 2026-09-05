@@ -38,7 +38,7 @@ function editorState(overrides: Partial<EditorState> = {}): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 19,
+      contentVersion: 20,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -50,6 +50,7 @@ function editorState(overrides: Partial<EditorState> = {}): EditorState {
     scriptChunks: {},
     ambiences: [day, review],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     stamps: [],
     tilesetBlobs: {},

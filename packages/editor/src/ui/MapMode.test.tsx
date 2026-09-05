@@ -142,6 +142,7 @@ function editorState(map: ProjectMap, stamps: StampTemplate[] = []): EditorState
   return {
     manifest: { content: {} } as never,
     scenes: [],
+    sceneIndex: { version: 1, scenes: [] },
     actors: [],
     skills: [],
     levelUp: {},

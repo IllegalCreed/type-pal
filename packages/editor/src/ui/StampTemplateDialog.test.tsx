@@ -65,6 +65,7 @@ function state(stamps: StampTemplate[] = []): EditorState {
       content: stamps.length ? { stamps: 'content/stamps.json' } : {},
     } as EditorState['manifest'],
     scenes: [],
+    sceneIndex: { version: 1, scenes: [] },
     actors: [],
     skills: [],
     levelUp: {},

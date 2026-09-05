@@ -151,6 +151,14 @@ function editorState(
   return {
     manifest: { assets: { roles: {} } } as never,
     scenes: options.scenes,
+    sceneIndex: {
+      version: 1,
+      scenes: options.scenes.map((scene) => ({
+        id: scene.id,
+        name: scene.id,
+        path: `content/scenes/${scene.id}.json`,
+      })),
+    },
     actors: options.actors ?? [],
     skills: [],
     levelUp: {},

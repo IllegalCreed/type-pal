@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { isAbsolute, relative, resolve, sep } from 'node:path'
+import { validateSceneIndex } from '@type-pal/content'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import { sha256 } from './migration-baseline.js'
 import type { MigrationJson } from './pal-migration.js'
@@ -28,12 +29,8 @@ export function discoverProjectManagedFiles(repo: string, seed: ReadonlySet<stri
     }
   }
   const sceneIndex = readOptional('content/scenes/index.json')
-  if (Array.isArray(sceneIndex)) {
-    for (const id of sceneIndex) {
-      if (typeof id !== 'string') throw new Error('content/scenes/index.json: 期望 string[]')
-      managed.add(`content/scenes/${id}.json`)
-    }
-  }
+  if (sceneIndex !== undefined)
+    for (const entry of validateSceneIndex(sceneIndex).scenes) managed.add(entry.path)
   const scriptIndex = readOptional('content/scripts/index.json') as
     | { chunks?: Record<string, { path?: unknown }> }
     | undefined

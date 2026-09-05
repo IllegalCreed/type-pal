@@ -77,6 +77,7 @@ function state(map: ProjectMap): EditorState {
     locale: {},
     sprites: [],
     maps: { 'map-a': map },
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: {
       version: 1,
       maps: [{ id: 'map-a', name: 'A', path: 'content/maps/map-a.json' }],

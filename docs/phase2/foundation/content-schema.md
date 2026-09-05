@@ -5,9 +5,9 @@
 >
 > **每条决策的「为什么旧引擎不行」证据**见 [engine-debt-audit.md](engine-debt-audit.md)（文末有「schema 决策 ↔ finding」反查表）。本文只定「应该长什么样」，那份定「为什么必须这样」。
 
-## 当前 canonical 项目入口（contentVersion 19，2026-08-30）
+## 当前 canonical 项目入口（contentVersion 20，2026-09-05）
 
-当前产品只接受 contentVersion 19。`manifest.entryPoints` 必填且非空；每个真实入口完整保存稳定 `id`、
+当前产品只接受 contentVersion 20。`manifest.entryPoints` 必填且非空；每个真实入口完整保存稳定 `id`、
 显示名、启动场景、可选开场视频和必填 `StartWorld`。`manifest.defaultEntryId` 必须命中其中一项，只决定无
 `menu` / `entry` 参数时直接启动哪一项；它不是父入口或模板。当前 manifest 不含顶层 `entryScene`、顶层
 `startWorld`，入口间也没有继承、合成或 fallback。SAVE 版本独立保持 8，payload 记录完整世界与位置，不记录入口 id。
@@ -26,7 +26,7 @@
 `severe`（`incurable` 保留），从存档恢复时则对 party 与 reserve 全部清除，包括不可解毒。剧情变化使用
 稳定 ActorId 的显式施加/清除命令，`setParty` 仍只负责阵容，不隐式播种或清理 condition。
 
-旧内容版本 1..18、旧顶层字段、可选入口表和缺省 StartWorld 不属于当前输入合同；开发期历史由 Git 保存，不在产品
+旧内容版本 1..19、旧顶层字段、可选入口表和缺省 StartWorld 不属于当前输入合同；开发期历史由 Git 保存，不在产品
 loader、editor 或 migrate publication 中保留 upgrader。
 
 ## 0. 这份文档定下什么（大白话）
@@ -73,11 +73,32 @@ loader、editor 或 migrate publication 中保留 upgrader。
 
 ## 4. 场景包（自包含）
 
+### 4.1 SceneIndex：发现、名称与路径真值（content20）
+
+`manifest.content.scenes` 指向场景目录，目录内 `index.json` 是唯一的场景发现、作者显示名和正文路径真值：
+
+```jsonc
+{
+  "version": 1,
+  "scenes": [
+    { "id": "inn", "name": "余杭客栈", "path": "content/scenes/inn.json" }
+  ]
+}
+```
+
+- `SceneAssetDefV1.id` 是脚本、入口、URL 与存档位置使用的稳定 SceneId；显示名修改不改变它。
+- `name` 只属于目录元数据，不进入 `SceneDef` 正文；列出场景不需要加载全部正文。
+- `path` 是规范化后的工程相对 JSON 路径。loader、保存、克隆和物理删除只能从 SceneIndex 解析，
+  不得从 SceneId 拼接文件名。
+- 重复/非法 id、空名称、重复/越界 path、缺正文、正文 id 不符和输出路径冲突全部 fail-loud。
+- PAL 初次迁移用地图可读名按稳定场景顺序确定性消歧；之后 publication 以 baseline-first 保留作者修改的
+  `name/path`。当前产品不保留 content19 string[] parser、upgrader 或 fallback。
+
 一个场景 = 一个自包含的包：
 
 ```
 scene = {
-  id, name,
+  id,
   mapId: <稳定地图 id，见 §5>,
   entities: [ <实体：稳定 id、位置、精灵、可选 碰撞 / 交互 / AI…> ],
   cutscenes:[ <脚本 / 演出，见 §6> ],
@@ -367,7 +388,7 @@ interface BattleSpriteDef {
 PAL 冻结结果为 172 个物理文件、171 个定义、179 条直接语义引用、171 个已用定义、5 个共享定义和唯一
 未引用资源 enemy 98；压缩源 900,973 B、有效帧 775、历史坏尾槽 6，combined tuple digest 为
 `ecbec106c6540de74adeec799bad19a22e7198272245c98b130522b0ac37a685`。本段是战斗精灵切片的历史冻结
-结果；当前 content19 工程已完成全资源 catalog-only 收口。
+结果；当前 content20 工程已完成全资源 catalog-only 收口。
 
 ## 7. 内容工程目录结构
 

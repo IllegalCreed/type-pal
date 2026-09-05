@@ -29,11 +29,16 @@ vi.mock('@type-pal/reforge', async (importOriginal) => ({
 import { finishOpen, newBlankProject, newFromPal, saveProjectAs } from './open-actions.js'
 import { createLocalWorkspaceContext } from './workspace-context.js'
 
+const sceneIndex = (ids: string[]) => ({
+  version: 1,
+  scenes: ids.map((id) => ({ id, name: id, path: `content/scenes/${id}.json` })),
+})
+
 const PAL_WORKSPACE_ID = 'b71e6905-4422-4f0b-9bc4-a65f23f4c721'
 const palManifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 19,
+  contentVersion: 20,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   assets: { catalog: 'assets/index.json', roles: {} },
@@ -58,7 +63,7 @@ function palJsonFiles(): Record<string, unknown> {
     },
     'manifest.json': palManifest,
     'assets/index.json': { version: 1, assets: {} },
-    'content/scenes/index.json': ['s001'],
+    'content/scenes/index.json': sceneIndex(['s001']),
     'content/maps/index.json': { version: 1, maps: [] },
   }
 }
@@ -246,7 +251,7 @@ describe('project creation and Save As target policy', () => {
     buildBlankProjectMock.mockResolvedValue({
       'manifest.json': {
         version: 1,
-        contentVersion: 19,
+        contentVersion: 20,
         minimumSaveVersion: 8,
         id: 'blank',
         name: 'Blank',
@@ -451,7 +456,7 @@ describe('project creation and Save As target policy', () => {
     const dir = jsonDirectory(targetFiles)
     httpSourceMock.mockReturnValue(sourceFromJson(httpFiles))
     openLocalProjectMock.mockImplementationOnce(async () => {
-      httpFiles['content/scenes/index.json'] = ['s001', 'publication-change']
+      httpFiles['content/scenes/index.json'] = sceneIndex(['s001', 'publication-change'])
       return { project: { manifest: palManifest } }
     })
 

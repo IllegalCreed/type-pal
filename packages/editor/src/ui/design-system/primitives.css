@@ -1273,13 +1273,14 @@
 }
 
 .ds-list-header__title {
+  min-width: 2em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .ds-list-header__count {
-  padding: var(--ds-space-1) var(--ds-space-4);
+  padding: var(--ds-space-1) var(--ds-space-3);
   border: 1px solid var(--ds-border-subtle);
   border-radius: 999px;
   color: var(--ds-text-secondary);

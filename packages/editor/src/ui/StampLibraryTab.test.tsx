@@ -132,6 +132,7 @@ function state(stamps: StampTemplate[], maps: Record<string, ProjectMap>): Edito
   return {
     manifest: { content: { stamps: 'content/stamps.json' } } as unknown as EditorState['manifest'],
     scenes: [],
+    sceneIndex: { version: 1, scenes: [] },
     actors: [],
     skills: [],
     levelUp: {},

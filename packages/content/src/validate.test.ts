@@ -1218,7 +1218,7 @@ describe('validateLocale · 对话行边界', () => {
   })
 })
 
-describe('validateCurrentManifestStartup · canonical content19 startup model', () => {
+describe('validateCurrentManifestStartup · canonical content20 startup model', () => {
   const world = () => ({ party: [], money: 0, inventory: [] })
   const entry = (id: string, scene = `scene-${id}`) => ({
     id,
@@ -1229,7 +1229,7 @@ describe('validateCurrentManifestStartup · canonical content19 startup model', 
   const manifest = () => ({
     id: 'demo',
     name: 'Demo',
-    contentVersion: 19,
+    contentVersion: 20,
     minimumSaveVersion: 8,
     defaultEntryId: 'main',
     entryPoints: [entry('main')],
@@ -1257,7 +1257,7 @@ describe('validateCurrentManifestStartup · canonical content19 startup model', 
     ],
     [{ ...manifest(), entryScene: 'scene-main' }, /entryScene: 未知字段/],
     [{ ...manifest(), startWorld: world() }, /startWorld: 未知字段/],
-    [{ ...manifest(), contentVersion: 18 }, /contentVersion: 期望 19/],
+    [{ ...manifest(), contentVersion: 19 }, /contentVersion: 期望 20/],
     [
       {
         ...manifest(),

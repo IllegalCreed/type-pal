@@ -1,7 +1,12 @@
 import { existsSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { SceneDef, SpriteActionCue, SpriteDef } from '@type-pal/content'
+import {
+  type SceneDef,
+  type SpriteActionCue,
+  type SpriteDef,
+  validateSceneIndex,
+} from '@type-pal/content'
 import { EntityActionPlayer } from '@type-pal/reforge/entity-action-player'
 import { describe, expect, test } from 'vitest'
 import { buildPalMigration } from './pal-migration.js'
@@ -48,10 +53,11 @@ function assertMaterializedActionOracle(migration: ReturnType<typeof buildPalMig
   const materialization = migration.report.spriteActionMaterialization
   const sprites = migration.files.get('content/sprites.json') as unknown as SpriteDef[]
   const spriteById = new Map(sprites.map((sprite) => [sprite.id, sprite]))
+  const sceneIndex = validateSceneIndex(migration.files.get('content/scenes/index.json'))
   const sceneById = new Map(
-    (migration.files.get('content/scenes/index.json') as unknown as string[]).map((sceneId) => [
-      sceneId,
-      migration.files.get(`content/scenes/${sceneId}.json`) as unknown as SceneDef,
+    sceneIndex.scenes.map((entry) => [
+      entry.id,
+      migration.files.get(entry.path) as unknown as SceneDef,
     ]),
   )
 

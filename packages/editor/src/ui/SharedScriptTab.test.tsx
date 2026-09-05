@@ -8,12 +8,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { UpdateItemCommand } from '../core/commands.js'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import {
-  collectCanonicalScriptCommandVisits,
-  collectCanonicalSharedScriptReferencesFromVisits,
-  type ScriptEditorState,
-  ScriptEditSession,
-} from '../core/script-editor.js'
-import {
   buildProjectReferenceSnapshot,
   createProjectReferenceIndex,
 } from '../core/project-reference.js'
@@ -21,10 +15,16 @@ import {
   collectCurrentProjectReferenceIndex,
   sharedScriptReferenceEdges,
 } from '../core/project-reference-adapters.js'
-import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
-import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
-import { CanonicalSharedScriptTab as CanonicalSharedScriptTabContent } from './SharedScriptTab.js'
+import {
+  collectCanonicalScriptCommandVisits,
+  collectCanonicalSharedScriptReferencesFromVisits,
+  type ScriptEditorState,
+  ScriptEditSession,
+} from '../core/script-editor.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
+import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
+import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
+import { CanonicalSharedScriptTab as CanonicalSharedScriptTabContent } from './SharedScriptTab.js'
 
 function currentSharedScriptReferences(candidate: ScriptEditorState) {
   const visits = collectCanonicalScriptCommandVisits(candidate)
@@ -98,6 +98,7 @@ const context: CanonicalScriptEditorContext = {
 const projectProps = {
   projectId: 'test',
   projectMaps: {},
+  sceneIndex: { version: 1, scenes: [] },
   mapIndex: { version: 1 as const, maps: [] },
   tilesets: [],
 }
@@ -316,7 +317,7 @@ describe('CanonicalSharedScriptTab', () => {
       manifest: {
         id: 'test',
         name: 'Test',
-        contentVersion: 19,
+        contentVersion: 20,
         minimumSaveVersion: 8,
         defaultEntryId: 'main',
         content: {},
@@ -335,6 +336,7 @@ describe('CanonicalSharedScriptTab', () => {
       enemyTeams: [],
       battleFields: [],
       maps: {},
+      sceneIndex: { version: 1, scenes: [] },
       mapIndex: { version: 1, maps: [] },
       tilesets: [],
       tilesetBlobs: {},
@@ -375,9 +377,9 @@ describe('CanonicalSharedScriptTab', () => {
     }
 
     await act(async () => root.render(<Harness />))
-    expect(host.querySelector<HTMLButtonElement>('button[title="删除当前可复用脚本"]')?.disabled).toBe(
-      false,
-    )
+    expect(
+      host.querySelector<HTMLButtonElement>('button[title="删除当前可复用脚本"]')?.disabled,
+    ).toBe(false)
     mainSession.dispatch(
       new UpdateItemCommand('item-a', {
         use: {
@@ -393,7 +395,9 @@ describe('CanonicalSharedScriptTab', () => {
       }),
     )
 
-    await act(async () => host.querySelector<HTMLButtonElement>('button[title="删除当前可复用脚本"]')!.click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[title="删除当前可复用脚本"]')!.click(),
+    )
 
     expect(scriptSession.getState().sharedScripts['shared/user/book']).toBeDefined()
     expect(scriptSession.getHistoryVersion()).toBe(0)

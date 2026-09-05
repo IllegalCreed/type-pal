@@ -20,6 +20,7 @@ import type {
   Locale,
   MapAssetDefV1,
   RuntimeHostileBehavior,
+  SceneAssetDefV1,
   SceneDef,
   SceneEntryPoint,
   SpriteDef,
@@ -27,8 +28,10 @@ import type {
 } from '@type-pal/content'
 import {
   isActorEntity,
+  isSceneId,
   lookupText,
   nextMapAssetIdentity,
+  nextSceneAssetIdentity,
   resolveEntitySpriteId,
 } from '@type-pal/content'
 import {
@@ -55,14 +58,17 @@ import {
   BindSceneMapCommand,
   CreateMapAssetCommand,
   DeleteEntityCommand,
+  DeleteSceneCommand,
   DeleteSceneEntryCommand,
   DetachActorEntityCommand,
   DuplicateMapAssetCommand,
+  DuplicateSceneCommand,
   MoveEntityCommand,
   RenameProjectCommand,
   SetEntitySpriteCommand,
   UpdateEntityCommand,
   UpdateSceneCommand,
+  UpdateSceneNameCommand,
   UpsertSceneEntryCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -86,17 +92,24 @@ import {
 } from '../core/entity-placement.js'
 import { exportProjectZip } from '../core/export-zip.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
+import { playProjectQuery } from '../core/play-url.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
   createProjectReferenceIndex,
   type ProjectReferenceEdge,
 } from '../core/project-reference.js'
-import { createCurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
+  collectCurrentProjectReferenceIndex,
+  createCurrentProjectReferenceIndexProvider,
+} from '../core/project-reference-adapters.js'
+import {
+  AddSceneDefinitionCommand,
   AddSceneEntityDefinitionCommand,
   type CanonicalScriptReference,
   canonicalScriptReferenceDestinationExists,
+  DeleteSceneDefinitionCommand,
   DeleteSceneEntityDefinitionCommand,
+  DuplicateSceneDefinitionCommand,
   describeCanonicalScriptReference,
   type ScriptCommandOwner,
   type ScriptEditorState,
@@ -148,8 +161,10 @@ import {
   DsCatalogRow,
   DsCheckbox,
   DsControlGroup,
+  DsDialog,
   DsDraftNumberInput,
   DsDraftTextInput,
+  DsField,
   DsFieldMeasure,
   DsIconButton,
   DsInspectorHost,
@@ -216,6 +231,11 @@ type SceneSelection =
   | { kind: 'default-entry' }
   | { kind: 'named-entry'; id: string }
   | { kind: 'entity'; id: string }
+
+type SceneLifecycleIntent =
+  | { kind: 'create'; id: string; name: string }
+  | { kind: 'copy'; sourceSceneId: string; id: string; name: string }
+  | { kind: 'delete'; sceneId: string; name: string }
 
 const SCENE_SELECTION: SceneSelection = { kind: 'scene' }
 const DEFAULT_ENTRY_SELECTION: Extract<SceneSelection, { kind: 'default-entry' }> = {
@@ -509,6 +529,8 @@ export function App(props: {
   }, [activeScrollKey])
 
   const [selected, setSelected] = useState<SceneSelection>(SCENE_SELECTION)
+  const [sceneLifecycleIntent, setSceneLifecycleIntent] = useState<SceneLifecycleIntent>()
+  const createSceneButtonRef = useRef<HTMLButtonElement>(null)
   const sceneOutlineRowRef = useRef<HTMLButtonElement>(null)
   const [placingEntity, setPlacingEntity] = useState(false)
   const [scriptChannel, setScriptChannel] = useState<'trigger' | 'auto'>('trigger')
@@ -1358,6 +1380,7 @@ export function App(props: {
       state: scriptState,
       currentSceneId: scene.id,
       shellScenes: state.scenes,
+      sceneIndex: state.sceneIndex,
       locale: state.locale,
       assetCatalog: state.assetCatalog,
       audioResolver,
@@ -1415,6 +1438,7 @@ export function App(props: {
     state.mapIndex,
     state.poisons,
     state.scenes,
+    state.sceneIndex,
     state.shops,
     state.skills,
     state.sprites,
@@ -1665,6 +1689,11 @@ export function App(props: {
     () => createCurrentProjectReferenceIndexProvider(() => scriptSession.getStateSnapshot()),
     [scriptSession],
   )
+  const currentScriptProjectReferenceIndex = useMemo(
+    () => (canonical: ScriptEditorState) =>
+      collectCurrentProjectReferenceIndex(session.getState(), canonical),
+    [session],
+  )
   const currentDerivedRevision = {
     mainHistoryVersion: session.getHistoryVersion(),
     scriptHistoryVersion: scriptSession.getHistoryVersion(),
@@ -1677,6 +1706,103 @@ export function App(props: {
     derivedSnapshot,
     currentDerivedRevision,
   )
+  const sceneDeletionReferences = useMemo(() => {
+    if (!scene || !projectReferenceIndex) return []
+    const target = { kind: 'scene' as const, id: scene.id }
+    return projectReferenceIndex.deletionImpact(
+      target,
+      projectReferenceIndex.deletionScopeFor([target]),
+    ).blockers
+  }, [projectReferenceIndex, scene])
+  const sceneReferencePanelState = derivedReferenceSnapshotCurrent
+    ? sceneDeletionReferences.length
+      ? ('ready' as const)
+      : ('empty' as const)
+    : effectiveDerivedStatus === 'failed'
+      ? ('error' as const)
+      : effectiveDerivedStatus === 'stale'
+        ? ('partial' as const)
+        : ('loading' as const)
+
+  const openSceneTrial = (entry?: SceneDef['entry'] | SceneEntryPoint): void => {
+    if (!scene) return
+    if (
+      editorDirty &&
+      !window.confirm(
+        '引擎试玩只读取磁盘中最后一次保存的项目；当前未保存改动不会进入试玩。仍要继续吗？',
+      )
+    )
+      return
+    const spawn = entry
+      ? `&pos=${entry.pos.col},${entry.pos.row}&facing=${entry.facing ?? scene.entry.facing}`
+      : ''
+    window.open(
+      `play.html?${playProjectQuery(state.manifest.id, playWorkspaceId)}&scene=${encodeURIComponent(scene.id)}${spawn}`,
+      '_blank',
+    )
+  }
+
+  const submitSceneLifecycle = (): void => {
+    const intent = sceneLifecycleIntent
+    if (!intent || !scene) return
+    try {
+      if (intent.kind === 'delete') {
+        if (!derivedReferenceSnapshotCurrent) throw new Error('场景引用仍在刷新，当前不能删除。')
+        if (sceneDeletionReferences.length)
+          throw new Error(`场景仍有 ${sceneDeletionReferences.length} 个外部引用，请先逐条处理。`)
+        const currentIndex = state.sceneIndex.scenes.findIndex(
+          (asset) => asset.id === intent.sceneId,
+        )
+        const nextSceneId =
+          state.sceneIndex.scenes[currentIndex + 1]?.id ??
+          state.sceneIndex.scenes[currentIndex - 1]?.id
+        historyCoordinator.dispatch(
+          new DeleteSceneDefinitionCommand(intent.sceneId, currentScriptProjectReferenceIndex),
+          new DeleteSceneCommand(intent.sceneId, currentProjectReferenceIndex),
+        )
+        if (nextSceneId) switchPlaceScene(nextSceneId)
+        setWorkspaceNotice({ kind: 'info', message: `已删除场景 ${intent.name}；可撤销。` })
+      } else {
+        const id = intent.id.trim()
+        const name = intent.name.trim()
+        if (!isSceneId(id)) throw new Error('SceneId 只能使用字母、数字、点、下划线或连字符。')
+        if (!name) throw new Error('场景名称不能为空。')
+        if (state.sceneIndex.scenes.some((asset) => asset.id === id))
+          throw new Error(`场景 "${id}" 已存在。`)
+        const dir = state.manifest.content.scenes?.replace(/\/?$/, '/') ?? 'content/scenes/'
+        const asset: SceneAssetDefV1 = { id, name, path: `${dir}${id}.json` }
+        if (intent.kind === 'create') {
+          const blank: AuthorSceneDef = {
+            id,
+            mapId: scene.mapId,
+            entry: structuredClone(scene.entry),
+            entities: [],
+          }
+          historyCoordinator.dispatch(
+            new AddSceneDefinitionCommand(blank),
+            new AddSceneCommand(asset, blank as SceneDef),
+          )
+        } else {
+          historyCoordinator.dispatch(
+            new DuplicateSceneDefinitionCommand(intent.sourceSceneId, id),
+            new DuplicateSceneCommand(intent.sourceSceneId, asset),
+          )
+        }
+        switchPlaceScene(id)
+        setWorkspaceNotice({
+          kind: 'info',
+          message: `${intent.kind === 'create' ? '已新建' : '已复制'}场景 ${name}；可撤销。`,
+        })
+      }
+      setSceneLifecycleIntent(undefined)
+      requestAnimationFrame(() => sceneOutlineRowRef.current?.focus())
+    } catch (error) {
+      setWorkspaceNotice({
+        kind: 'error',
+        message: error instanceof Error ? error.message : String(error),
+      })
+    }
+  }
   const selectedAnchor: SceneAnchorSelection | null =
     selected.kind === 'default-entry'
       ? { kind: 'default' }
@@ -1710,14 +1836,17 @@ export function App(props: {
         : new Map<string, ProjectReferenceEdge[]>(),
     [projectReferenceIndex, scene, sceneReferencesActive],
   )
-  const entityReferences = (entityId: string): ProjectReferenceEdge[] => {
-    if (!sceneReferencesActive || !projectReferenceIndex) return []
-    const target = { kind: 'entity', sceneId: scene.id, entityId } as const
-    return projectReferenceIndex.deletionImpact(
-      target,
-      projectReferenceIndex.deletionScopeFor([target]),
-    ).blockers
-  }
+  const entityReferences = useCallback(
+    (entityId: string): ProjectReferenceEdge[] => {
+      if (!sceneReferencesActive || !projectReferenceIndex) return []
+      const target = { kind: 'entity', sceneId: scene.id, entityId } as const
+      return projectReferenceIndex.deletionImpact(
+        target,
+        projectReferenceIndex.deletionScopeFor([target]),
+      ).blockers
+    },
+    [projectReferenceIndex, scene, sceneReferencesActive],
+  )
   const selectedEntityReferences = selEntity ? entityReferences(selEntity.id) : []
   const canonicalEntitiesById = new Map(
     (canonicalScene?.entities ?? []).map((entity) => [entity.id, entity]),
@@ -1745,6 +1874,7 @@ export function App(props: {
     },
     [
       derivedReferenceSnapshotCurrent,
+      entityReferences,
       historyCoordinator,
       placingEntity,
       scene,
@@ -1951,7 +2081,11 @@ export function App(props: {
       const savedState = session.getState()
       const savedScriptState = scriptSession?.getState()
       const savedScriptVersion = scriptSession?.getVersion()
-      const removePaths = [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()]
+      const removePaths = [
+        ...session.getDeletedScenePaths(),
+        ...session.getDeletedMapPaths(),
+        ...session.getDeletedAssetPaths(),
+      ]
       setSaveErr('')
       setSaveActivity({ phase: 'preparing' })
       // 先让原生 modal 进入 top layer，再开始可能较重的全项目序列化。
@@ -2026,7 +2160,11 @@ export function App(props: {
     try {
       const savedState = session.getState()
       const savedScriptState = scriptSession?.getState()
-      const removePaths = [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()]
+      const removePaths = [
+        ...session.getDeletedScenePaths(),
+        ...session.getDeletedMapPaths(),
+        ...session.getDeletedAssetPaths(),
+      ]
       const sourceDir = dirHandleRef.current ?? undefined
       // 必须在点击调用栈内同步启动，File System Access 的目录选择器才保有用户激活。
       const operation = saveProjectAs(
@@ -2424,22 +2562,74 @@ export function App(props: {
             <div className="outliner outliner--split">
               <DsListHeader
                 title="场景"
-                count={state.scenes.length}
+                count={state.sceneIndex.scenes.length}
                 unit="个"
                 actions={[
                   {
                     id: 'create-scene',
                     label: '新建场景',
                     icon: 'add',
+                    buttonRef: createSceneButtonRef,
                     onClick: () => {
-                      const id = window.prompt('新场景 id(kebab-case):', '')?.trim()
-                      if (!id) return
-                      if (state.scenes.some((candidate) => candidate.id === id)) {
-                        window.alert(`场景 "${id}" 已存在`)
-                        return
-                      }
-                      session.dispatch(new AddSceneCommand(id, scene.mapId, scene.entry))
-                      switchPlaceScene(id)
+                      const dir =
+                        state.manifest.content.scenes?.replace(/\/?$/, '/') ?? 'content/scenes/'
+                      const identity = nextSceneAssetIdentity(state.sceneIndex, 'scene', dir)
+                      setSceneLifecycleIntent({
+                        kind: 'create',
+                        id: identity.id,
+                        name: '新场景',
+                      })
+                    },
+                  },
+                ]}
+                overflowActions={[
+                  {
+                    id: 'copy-scene',
+                    label: '复制当前场景',
+                    disabled: !scene,
+                    onClick: () => {
+                      if (!scene) return
+                      const currentAsset = state.sceneIndex.scenes.find(
+                        (asset) => asset.id === scene.id,
+                      )
+                      const dir =
+                        state.manifest.content.scenes?.replace(/\/?$/, '/') ?? 'content/scenes/'
+                      const identity = nextSceneAssetIdentity(
+                        state.sceneIndex,
+                        `${scene.id}-copy`,
+                        dir,
+                      )
+                      setSceneLifecycleIntent({
+                        kind: 'copy',
+                        sourceSceneId: scene.id,
+                        id: identity.id,
+                        name: `${currentAsset?.name ?? scene.id} 副本`,
+                      })
+                    },
+                  },
+                  {
+                    id: 'delete-scene',
+                    label: '删除当前场景',
+                    danger: true,
+                    disabled:
+                      !scene ||
+                      !derivedReferenceSnapshotCurrent ||
+                      sceneDeletionReferences.length > 0,
+                    title: !derivedReferenceSnapshotCurrent
+                      ? '正在刷新场景引用，暂不允许删除'
+                      : sceneDeletionReferences.length
+                        ? `仍有 ${sceneDeletionReferences.length} 个外部引用；请到右侧引用页处理`
+                        : '删除当前场景',
+                    onClick: () => {
+                      if (!scene) return
+                      const currentAsset = state.sceneIndex.scenes.find(
+                        (asset) => asset.id === scene.id,
+                      )
+                      setSceneLifecycleIntent({
+                        kind: 'delete',
+                        sceneId: scene.id,
+                        name: currentAsset?.name ?? scene.id,
+                      })
                     },
                   },
                 ]}
@@ -2448,12 +2638,15 @@ export function App(props: {
                 <DsSelect
                   size="compact"
                   value={placeSceneId}
-                  options={state.scenes.map((candidate) => ({
-                    value: candidate.id,
-                    label: `${candidate.id}${
-                      candidate.id === defaultEntry?.scene ? '(直接启动)' : ''
-                    } · ${candidate.entities.length} 实体`,
-                  }))}
+                  options={state.sceneIndex.scenes.map((asset) => {
+                    const candidate = state.scenes.find((scene) => scene.id === asset.id)
+                    return {
+                      value: asset.id,
+                      label: `${asset.name} · ${asset.id}${
+                        asset.id === defaultEntry?.scene ? '（直接启动）' : ''
+                      } · ${candidate?.entities.length ?? 0} 实体`,
+                    }
+                  })}
                   aria-label="切换编辑场景"
                   title="切换编辑场景"
                   searchable
@@ -2464,8 +2657,10 @@ export function App(props: {
                 <DsCatalogRow
                   ref={sceneOutlineRowRef}
                   selected={selected.kind === 'scene'}
-                  title={scene.id}
-                  meta={`${scene.entities.length} 个实体`}
+                  title={
+                    state.sceneIndex.scenes.find((asset) => asset.id === scene.id)?.name ?? scene.id
+                  }
+                  meta={`${scene.id} · ${scene.entities.length} 个实体`}
                   onClick={() => setSelected(SCENE_SELECTION)}
                 />
                 <DsCatalogGroupHeader
@@ -2850,7 +3045,11 @@ export function App(props: {
             </div>
 
             <DsInspectorHost
-              className={`inspector${!placingEntity && selEntity ? ' inspector--tabbed' : ''}`}
+              className={`inspector${
+                !placingEntity && (selEntity || selected.kind === 'scene')
+                  ? ' inspector--tabbed'
+                  : ''
+              }`}
             >
               {placingEntity ? (
                 <PlacePalette
@@ -3086,10 +3285,12 @@ export function App(props: {
                   references={selectedEntryReferences}
                   session={session}
                   onOpenReference={openProjectReference}
+                  onTrial={() => openSceneTrial(scene.entries?.[selected.id])}
                 />
               ) : (
                 <SceneInspector
                   scene={scene}
+                  asset={state.sceneIndex.scenes.find((asset) => asset.id === scene.id)!}
                   session={session}
                   assetCatalog={state.assetCatalog}
                   audioResolver={audioResolver}
@@ -3097,6 +3298,10 @@ export function App(props: {
                   projectMaps={state.maps}
                   tilesets={state.tilesets ?? []}
                   battleFields={state.battleFields ?? []}
+                  references={sceneDeletionReferences}
+                  referenceState={sceneReferencePanelState}
+                  onOpenReference={openProjectReference}
+                  onTrial={() => openSceneTrial(scene.entry)}
                   onOpenMap={(mapId) => applyEditorLocation(editorLinks.map(mapId))}
                   onOpenBattleField={(fieldId) =>
                     applyEditorLocation(editorLinks.battleField(fieldId))
@@ -3153,6 +3358,103 @@ export function App(props: {
         saveError={saveErr}
         busy={saveActivity !== null}
       />
+
+      {sceneLifecycleIntent ? (
+        <DsDialog
+          open
+          role={sceneLifecycleIntent.kind === 'delete' ? 'alertdialog' : 'dialog'}
+          title={
+            sceneLifecycleIntent.kind === 'create'
+              ? '新建场景'
+              : sceneLifecycleIntent.kind === 'copy'
+                ? '复制场景'
+                : '删除场景'
+          }
+          description={
+            sceneLifecycleIntent.kind === 'delete'
+              ? '场景正文会从目录中移除，并在下次保存时删除对应文件；本次操作仍可撤销。'
+              : '名称供作者识别；稳定 SceneId 创建后不会随名称变化。'
+          }
+          fallbackFocusRef={
+            sceneLifecycleIntent.kind === 'create' ? createSceneButtonRef : sceneOutlineRowRef
+          }
+          onClose={() => setSceneLifecycleIntent(undefined)}
+          footer={
+            <>
+              <DsButton variant="secondary" onClick={() => setSceneLifecycleIntent(undefined)}>
+                取消
+              </DsButton>
+              <DsButton
+                variant={sceneLifecycleIntent.kind === 'delete' ? 'danger' : 'primary'}
+                disabled={
+                  sceneLifecycleIntent.kind === 'delete'
+                    ? !derivedReferenceSnapshotCurrent || sceneDeletionReferences.length > 0
+                    : !isSceneId(sceneLifecycleIntent.id.trim()) ||
+                      !sceneLifecycleIntent.name.trim() ||
+                      state.sceneIndex.scenes.some(
+                        (asset) => asset.id === sceneLifecycleIntent.id.trim(),
+                      )
+                }
+                onClick={submitSceneLifecycle}
+              >
+                {sceneLifecycleIntent.kind === 'create'
+                  ? '创建场景'
+                  : sceneLifecycleIntent.kind === 'copy'
+                    ? '复制场景'
+                    : '删除场景'}
+              </DsButton>
+            </>
+          }
+        >
+          {sceneLifecycleIntent.kind === 'delete' ? (
+            <div className="scene-lifecycle-confirmation">
+              <strong>{sceneLifecycleIntent.name}</strong>
+              <code>{sceneLifecycleIntent.sceneId}</code>
+              <span>
+                {derivedReferenceSnapshotCurrent
+                  ? `外部引用 ${sceneDeletionReferences.length} 处`
+                  : '正在确认外部引用'}
+              </span>
+            </div>
+          ) : (
+            <div className="scene-lifecycle-form">
+              <DsField label="名称" help="可随时修改，不会改变脚本引用或试玩地址。">
+                {(control) => (
+                  <DsTextInput
+                    {...control}
+                    autoFocus
+                    value={sceneLifecycleIntent.name}
+                    onChange={(event) =>
+                      setSceneLifecycleIntent({
+                        ...sceneLifecycleIntent,
+                        name: event.currentTarget.value,
+                      })
+                    }
+                  />
+                )}
+              </DsField>
+              <DsField
+                label="稳定 SceneId"
+                help="只能使用字母、数字、点、下划线或连字符；创建后保持不变。"
+              >
+                {(control) => (
+                  <DsTextInput
+                    {...control}
+                    value={sceneLifecycleIntent.id}
+                    invalid={!isSceneId(sceneLifecycleIntent.id.trim())}
+                    onChange={(event) =>
+                      setSceneLifecycleIntent({
+                        ...sceneLifecycleIntent,
+                        id: event.currentTarget.value,
+                      })
+                    }
+                  />
+                )}
+              </DsField>
+            </div>
+          )}
+        </DsDialog>
+      ) : null}
 
       {saveActivity && saveActivity.phase !== 'choosing-directory' ? (
         <ProjectSaveDialog activity={saveActivity} />
@@ -4230,6 +4532,7 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
 
 function SceneInspector(props: {
   scene: SceneDef
+  asset: SceneAssetDefV1
   session: EditSession
   assetCatalog: AssetCatalogV1
   audioResolver: import('@type-pal/reforge').AudioAssetReader
@@ -4237,11 +4540,16 @@ function SceneInspector(props: {
   projectMaps: Record<string, ProjectMap>
   tilesets: readonly TilesetDef[]
   battleFields: readonly BattleFieldDef[]
+  references: readonly ProjectReferenceEdge[]
+  referenceState: 'ready' | 'empty' | 'loading' | 'partial' | 'error'
+  onOpenReference: (reference: ProjectReferenceEdge) => void
+  onTrial: () => void
   onOpenMap: (mapId: string) => void
   onOpenBattleField: (fieldId: number) => void
 }) {
   const {
     scene,
+    asset,
     session,
     assetCatalog,
     audioResolver,
@@ -4249,9 +4557,14 @@ function SceneInspector(props: {
     projectMaps,
     tilesets,
     battleFields,
+    references,
+    referenceState,
+    onOpenReference,
+    onTrial,
     onOpenMap,
     onOpenBattleField,
   } = props
+  const [inspectorTab, setInspectorTab] = useState('summary')
   const mapId = scene.mapId
   const currentAsset = maps.find((asset) => asset.id === mapId)
   const mapSelectId = `scene-map-${scene.id}`
@@ -4291,89 +4604,189 @@ function SceneInspector(props: {
     onOpenMap(id)
   }
   return (
-    <>
+    <DsInspectorHost className="scene-inspector">
       <div className="insp-head">
         <div className="what">选中场景</div>
-        <div className="who">{scene.id}</div>
+        <div className="who">{asset.name}</div>
       </div>
-      <div className="section">
-        <h4>场景</h4>
-        <DsPropertyGrid>
-          <DsPropertyRow label="地图" labelFor={mapSelectId}>
-            <div className="scene-map-control">
-              <DsControlGroup
-                control={
-                  <DsSelect
-                    id={mapSelectId}
-                    value={mapId}
-                    invalid={!currentAsset}
-                    options={[
-                      ...(!currentAsset ? [{ value: mapId, label: `${mapId} (缺失)` }] : []),
-                      ...maps.map((asset) => ({
-                        value: asset.id,
-                        label: `${asset.name} (${asset.id})`,
-                      })),
-                    ]}
-                    onValueChange={(nextMapId) => {
-                      if (nextMapId) {
-                        session.dispatch(new BindSceneMapCommand(scene.id, nextMapId))
-                      }
-                    }}
-                  />
-                }
-                actions={
-                  <DsIconButton
-                    label={`打开地图 ${mapId}`}
-                    title="在地图模块打开"
-                    icon="open"
-                    variant="secondary"
-                    onClick={() => onOpenMap(mapId)}
-                  />
-                }
-              />
-              <div className="scene-map-actions">
-                <DsButton variant="secondary" icon="add" onClick={createAndBind}>
-                  创建并绑定
-                </DsButton>
-                <DsButton
-                  variant="secondary"
-                  icon="copy"
-                  disabled={!currentAsset}
-                  onClick={() => void duplicateAndBind()}
+      <DsInspectorTabs
+        id={`scene-${scene.id}-inspector`}
+        label="场景属性分区"
+        activeId={inspectorTab}
+        onChange={setInspectorTab}
+        items={[
+          {
+            id: 'summary',
+            label: '摘要',
+            panel: (
+              <>
+                <div className="section">
+                  <h4>场景</h4>
+                  <DsPropertyGrid>
+                    <DsPropertyRow label="名称" labelFor={`scene-name-${scene.id}`}>
+                      <DsDraftTextInput
+                        id={`scene-name-${scene.id}`}
+                        draftKey={`scene:${scene.id}:name`}
+                        syncToken={session.getHistoryVersion()}
+                        value={asset.name}
+                        validate={(name) => (name.trim() ? undefined : '场景名称不能为空')}
+                        onCommit={(name) => {
+                          if (name.trim() && name.trim() !== asset.name)
+                            session.dispatch(new UpdateSceneNameCommand(scene.id, name))
+                        }}
+                      />
+                    </DsPropertyRow>
+                    <DsPropertyRow label="稳定 ID">
+                      <DsReadonlyValue monospace>{scene.id}</DsReadonlyValue>
+                    </DsPropertyRow>
+                    <DsPropertyRow label="正文路径">
+                      <DsReadonlyValue monospace>{asset.path}</DsReadonlyValue>
+                    </DsPropertyRow>
+                    <DsPropertyRow label="地图" labelFor={mapSelectId}>
+                      <div className="scene-map-control">
+                        <DsControlGroup
+                          control={
+                            <DsSelect
+                              id={mapSelectId}
+                              value={mapId}
+                              invalid={!currentAsset}
+                              options={[
+                                ...(!currentAsset
+                                  ? [{ value: mapId, label: `${mapId} (缺失)` }]
+                                  : []),
+                                ...maps.map((map) => ({
+                                  value: map.id,
+                                  label: `${map.name} (${map.id})`,
+                                })),
+                              ]}
+                              onValueChange={(nextMapId) => {
+                                if (nextMapId)
+                                  session.dispatch(new BindSceneMapCommand(scene.id, nextMapId))
+                              }}
+                            />
+                          }
+                          actions={
+                            <DsIconButton
+                              label={`打开地图 ${mapId}`}
+                              title="在地图模块打开"
+                              icon="open"
+                              variant="secondary"
+                              onClick={() => onOpenMap(mapId)}
+                            />
+                          }
+                        />
+                        <div className="scene-map-actions">
+                          <DsButton variant="secondary" icon="add" onClick={createAndBind}>
+                            创建并绑定
+                          </DsButton>
+                          <DsButton
+                            variant="secondary"
+                            icon="copy"
+                            disabled={!currentAsset}
+                            onClick={() => void duplicateAndBind()}
+                          >
+                            复制并绑定
+                          </DsButton>
+                        </div>
+                      </div>
+                    </DsPropertyRow>
+                    <DsPropertyRow label="音乐" labelFor={musicSelectId}>
+                      <MusicPicker
+                        id={musicSelectId}
+                        value={scene.music}
+                        onChange={(music) =>
+                          session.dispatch(new UpdateSceneCommand(scene.id, { music }))
+                        }
+                        catalog={assetCatalog}
+                        resolver={audioResolver}
+                        allowUnset
+                        allowStop
+                      />
+                    </DsPropertyRow>
+                    <DsPropertyRow label="默认战场" labelFor={battleFieldSelectId}>
+                      <BattleFieldPicker
+                        id={battleFieldSelectId}
+                        value={scene.battleFieldId}
+                        fields={battleFields}
+                        unsetLabel="项目默认战场 #024"
+                        ariaLabel="场景默认战场"
+                        onOpen={onOpenBattleField}
+                        onChange={(battleFieldId) =>
+                          session.dispatch(new UpdateSceneCommand(scene.id, { battleFieldId }))
+                        }
+                      />
+                    </DsPropertyRow>
+                  </DsPropertyGrid>
+                </div>
+                <div className="section">
+                  <DsButton variant="secondary" icon="open" onClick={onTrial}>
+                    从默认落点引擎试玩
+                  </DsButton>
+                </div>
+                <div className="insp-empty">
+                  点左侧落点或实体查看属性；从“实体”分组新增后，点画布放置。
+                </div>
+              </>
+            ),
+          },
+          {
+            id: 'references',
+            label: '引用',
+            count: references.length,
+            panel: (
+              <section className="section entity-reference-section">
+                <DsReferencePanel
+                  state={referenceState}
+                  count={
+                    referenceState === 'ready' || referenceState === 'empty'
+                      ? { kind: 'exact', value: references.length }
+                      : { kind: 'unknown' }
+                  }
+                  impact={{
+                    kind: 'blocking',
+                    description:
+                      referenceState !== 'ready' && referenceState !== 'empty'
+                        ? '引用结果尚未确认；删除保持禁用。'
+                        : references.length
+                          ? '先处理全部外部引用，才能删除场景。'
+                          : '当前没有外部引用；可以安全删除。',
+                  }}
                 >
-                  复制并绑定
-                </DsButton>
-              </div>
-            </div>
-          </DsPropertyRow>
-          <DsPropertyRow label="音乐" labelFor={musicSelectId}>
-            <MusicPicker
-              id={musicSelectId}
-              value={scene.music}
-              onChange={(music) => session.dispatch(new UpdateSceneCommand(scene.id, { music }))}
-              catalog={assetCatalog}
-              resolver={audioResolver}
-              allowUnset
-              allowStop
-            />
-          </DsPropertyRow>
-          <DsPropertyRow label="默认战场" labelFor={battleFieldSelectId}>
-            <BattleFieldPicker
-              id={battleFieldSelectId}
-              value={scene.battleFieldId}
-              fields={battleFields}
-              unsetLabel="项目默认战场 #024"
-              ariaLabel="场景默认战场"
-              onOpen={onOpenBattleField}
-              onChange={(battleFieldId) =>
-                session.dispatch(new UpdateSceneCommand(scene.id, { battleFieldId }))
-              }
-            />
-          </DsPropertyRow>
-        </DsPropertyGrid>
-      </div>
-      <div className="insp-empty">点左侧落点或实体查看属性；从“实体”分组新增后，点画布放置。</div>
-    </>
+                  {references.length ? (
+                    <DsReferenceList>
+                      {references.map((reference) => {
+                        const unavailableReason =
+                          reference.locator.kind === 'unavailable'
+                            ? reference.locator.reason
+                            : undefined
+                        return (
+                          <DsReferenceRow
+                            key={reference.id}
+                            title={reference.source.label}
+                            detail={reference.where || '/'}
+                            labels={[{ label: '外部引用' }]}
+                            action={
+                              unavailableReason
+                                ? undefined
+                                : { label: '打开', onActivate: () => onOpenReference(reference) }
+                            }
+                            status={
+                              unavailableReason
+                                ? { label: '只读', reason: unavailableReason }
+                                : undefined
+                            }
+                          />
+                        )
+                      })}
+                    </DsReferenceList>
+                  ) : null}
+                </DsReferencePanel>
+              </section>
+            ),
+          },
+        ]}
+      />
+    </DsInspectorHost>
   )
 }
 
@@ -4384,8 +4797,9 @@ function NamedEntryInspector(props: {
   references: ProjectReferenceEdge[]
   session: EditSession
   onOpenReference: (reference: ProjectReferenceEdge) => void
+  onTrial: () => void
 }) {
-  const { scene, entryId, entry, references, session, onOpenReference } = props
+  const { scene, entryId, entry, references, session, onOpenReference, onTrial } = props
   const syncToken = session.getHistoryVersion()
   const patch = (next: Partial<SceneEntryPoint>): void => {
     session.dispatch(
@@ -4458,6 +4872,11 @@ function NamedEntryInspector(props: {
             />
           </DsPropertyRow>
         </DsPropertyGrid>
+        <div className="scene-entry-trial-action">
+          <DsButton variant="secondary" icon="open" onClick={onTrial}>
+            从此落点引擎试玩
+          </DsButton>
+        </div>
       </div>
       <div className="section">
         <h4>脚本引用</h4>

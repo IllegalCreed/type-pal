@@ -75,7 +75,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
   const manifest: CurrentManifest = {
     id: 'test',
     name: 'Test',
-    contentVersion: 19,
+    contentVersion: 20,
     minimumSaveVersion: 8,
     defaultEntryId: 'new-game',
     content: {
@@ -105,6 +105,10 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
   const base: EditorState & { manifest: CurrentManifest } = {
     manifest,
     scenes,
+    sceneIndex: {
+      version: 1,
+      scenes: [{ id: 's000', name: '起始场景', path: 'content/scenes/s000.json' }],
+    },
     actors: [hero],
     skills: [],
     levelUp: {},
@@ -1210,13 +1214,13 @@ describe('X7 项目诊断与保存门', () => {
     )
   })
 
-  test('content19 保存门要求 registry 路径，并阻断未登记与错型变量引用', () => {
+  test('content20 保存门要求 registry 路径，并阻断未登记与错型变量引用', () => {
     const legacy = state()
     const current: EditorState = {
       ...legacy,
       manifest: {
         ...legacy.manifest,
-        contentVersion: 19,
+        contentVersion: 20,
         minimumSaveVersion: 8,
         content: {
           ...legacy.manifest.content,

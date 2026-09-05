@@ -66,6 +66,7 @@ function state(value = actor()): EditorState {
     assetCatalog: catalog,
     assetBlobs: {},
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},

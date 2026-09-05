@@ -156,7 +156,7 @@ function projectState(): EditorState {
     manifest: {
       id: 'project-test',
       name: '测试项目',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -174,6 +174,7 @@ function projectState(): EditorState {
     sprites: [],
     battleSprites: [],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},
@@ -1797,7 +1798,7 @@ describe('项目设置工作区', () => {
       ),
     )
 
-    expect(host.textContent).toContain('内容版本 19')
+    expect(host.textContent).toContain('内容版本 20')
     expect(host.textContent).toContain('最低存档版本 8')
 
     await act(async () =>

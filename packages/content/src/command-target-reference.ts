@@ -90,6 +90,23 @@ function isExactEntityAddress(record: Record<string, unknown>): boolean {
   )
 }
 
+/** 与 collector 共用的显式 SceneId 识别口；复制场景不得另写一套字段名扫描。 */
+function explicitSceneIdAtNode(record: Record<string, unknown>): string | undefined {
+  if (isExactEntityAddress(record)) return record.scene as string
+  switch (record.kind) {
+    case 'currentScene':
+    case 'loadScene':
+    case 'selectSceneHooks':
+    case 'setSceneMapOverride':
+    case 'setSceneOnEnter':
+    case 'setSceneOnTeleport':
+    case 'clearSceneScripts':
+      return nonEmptyString(record.scene) ? record.scene : undefined
+    default:
+      return undefined
+  }
+}
+
 /** Inspect one tagged node only; nested values are not traversed. */
 export function commandTargetReferencesAtNode(
   value: unknown,
@@ -98,10 +115,12 @@ export function commandTargetReferencesAtNode(
 ): CommandTargetReference[] {
   if (!isRecord(value)) return []
   if (isExactEntityAddress(value)) {
+    const sceneId = explicitSceneIdAtNode(value)
+    if (!sceneId) return references
     references.push({
       target: {
         kind: 'entity',
-        sceneId: value.scene as string,
+        sceneId,
         entityId: value.entity as string,
       },
       relation: 'entity-address',
@@ -109,34 +128,35 @@ export function commandTargetReferencesAtNode(
     })
     return references
   }
+  const sceneId = explicitSceneIdAtNode(value)
   switch (value.kind) {
     case 'currentScene':
-      if (nonEmptyString(value.scene))
+      if (sceneId)
         references.push({
-          target: { kind: 'scene', id: value.scene },
+          target: { kind: 'scene', id: sceneId },
           relation: 'condition-current-scene',
           where: `${where}.scene`,
         })
       break
     case 'loadScene':
-      if (nonEmptyString(value.scene)) {
+      if (sceneId) {
         references.push({
-          target: { kind: 'scene', id: value.scene },
+          target: { kind: 'scene', id: sceneId },
           relation: 'load-scene',
           where: `${where}.scene`,
         })
         if (nonEmptyString(value.entryId))
           references.push({
-            target: { kind: 'scene-entry', sceneId: value.scene, entryId: value.entryId },
+            target: { kind: 'scene-entry', sceneId, entryId: value.entryId },
             relation: 'load-scene-entry',
             where: `${where}.entryId`,
           })
       }
       break
     case 'selectSceneHooks':
-      if (nonEmptyString(value.scene)) {
+      if (sceneId) {
         references.push({
-          target: { kind: 'scene', id: value.scene },
+          target: { kind: 'scene', id: sceneId },
           relation: 'select-scene-hooks',
           where: `${where}.scene`,
         })
@@ -147,7 +167,7 @@ export function commandTargetReferencesAtNode(
               references.push({
                 target: {
                   kind: 'scene-hook',
-                  sceneId: value.scene,
+                  sceneId,
                   slot,
                   hookId: selection.value,
                 },
@@ -158,9 +178,9 @@ export function commandTargetReferencesAtNode(
       }
       break
     case 'setSceneMapOverride':
-      if (nonEmptyString(value.scene))
+      if (sceneId)
         references.push({
-          target: { kind: 'scene', id: value.scene },
+          target: { kind: 'scene', id: sceneId },
           relation: 'scene-map-override',
           where: `${where}.scene`,
         })
@@ -175,9 +195,9 @@ export function commandTargetReferencesAtNode(
     case 'setSceneOnTeleport':
     case 'clearSceneScripts':
       // 这三种只允许出现在只读 ScriptChunk；current author guard 已明确退役。
-      if (nonEmptyString(value.scene))
+      if (sceneId)
         references.push({
-          target: { kind: 'scene', id: value.scene },
+          target: { kind: 'scene', id: sceneId },
           relation: 'legacy-scene-script-binding',
           where: `${where}.scene`,
         })
@@ -231,6 +251,27 @@ export function commandTargetReferencesAtNode(
       break
   }
   return references
+}
+
+/**
+ * 复制场景专用：只重写 collector 能识别的显式 source SceneId，保留外部目标与所有局部 id。
+ * 返回完整深拷，绝不 mutate 输入；隐式“当前场景”字段没有持久 SceneId，天然随复制体生效。
+ */
+export function rewriteExplicitSceneReferences<T>(
+  value: T,
+  sourceSceneId: string,
+  targetSceneId: string,
+): T {
+  if (!nonEmptyString(sourceSceneId) || !nonEmptyString(targetSceneId))
+    throw new Error('rewriteExplicitSceneReferences: source/target SceneId 必须非空')
+  const visit = (node: unknown): unknown => {
+    if (Array.isArray(node)) return node.map(visit)
+    if (!isRecord(node)) return node
+    const next = Object.fromEntries(Object.entries(node).map(([key, child]) => [key, visit(child)]))
+    if (explicitSceneIdAtNode(node) === sourceSceneId) next.scene = targetSceneId
+    return next
+  }
+  return visit(value) as T
 }
 
 /** Full recursive content/legacy walker used by validation and read-only chunk adapters. */

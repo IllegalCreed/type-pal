@@ -89,6 +89,7 @@ export function ConnectedActorMode(props: ConnectedActorModeProps) {
 type ProjectStateProps =
   | 'manifest'
   | 'scenes'
+  | 'sceneIndex'
   | 'actors'
   | 'items'
   | 'poisons'
@@ -123,6 +124,7 @@ export function ConnectedProjectWorkbench(props: ConnectedProjectWorkbenchProps)
       session={session}
       manifest={state.manifest}
       scenes={state.scenes}
+      sceneIndex={state.sceneIndex}
       actors={state.actors}
       items={state.items}
       poisons={state.poisons ?? []}
@@ -147,6 +149,7 @@ type DataStateProps =
   | 'tilesetBlobs'
   | 'stamps'
   | 'mapIndex'
+  | 'sceneIndex'
   | 'script'
   | 'battleFields'
   | 'poisons'
@@ -216,6 +219,7 @@ export function ConnectedDataMode(props: ConnectedDataModeProps) {
       tilesetBlobs={state.tilesetBlobs}
       stamps={state.stamps}
       mapIndex={state.mapIndex}
+      sceneIndex={state.sceneIndex}
       script={scriptState ? { state: scriptState, session: scriptSession } : undefined}
       battleFields={state.battleFields ?? []}
       poisons={state.poisons ?? []}

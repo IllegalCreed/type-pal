@@ -38,7 +38,7 @@ function state(
     manifest: {
       id: 'tileset-test',
       name: 'Tileset Test',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json', tilesets: 'content/tilesets.json' },
@@ -60,6 +60,7 @@ function state(
     locale: {},
     sprites: [],
     maps: options.maps ?? {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: options.mapIndex ?? EMPTY_INDEX,
     tilesets: options.definitions ?? [],
     tilesetBlobs: {},

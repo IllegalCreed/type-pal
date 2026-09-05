@@ -44,7 +44,7 @@ function state(
     manifest: {
       id: 'map-reference-test',
       name: 'Map Reference Test',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: { maps: 'content/maps.json' },
@@ -52,6 +52,7 @@ function state(
       entryPoints: [],
     },
     scenes: [],
+    sceneIndex: { version: 1, scenes: [] },
     actors: [],
     skills: [],
     levelUp: {},

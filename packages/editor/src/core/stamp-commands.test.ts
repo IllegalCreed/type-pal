@@ -28,6 +28,7 @@ function state(stamps: StampTemplate[] = []): EditorState {
   return {
     manifest: { content: {} } as EditorState['manifest'],
     scenes: [],
+    sceneIndex: { version: 1, scenes: [] },
     actors: [],
     skills: [],
     levelUp: {},

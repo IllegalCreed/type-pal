@@ -19,7 +19,7 @@ describe('editor asset reference source', () => {
       manifest: {
         id: 'shared-script-reference',
         name: '共享脚本资源引用',
-        contentVersion: 19,
+        contentVersion: 20,
         minimumSaveVersion: 8,
         defaultEntryId: 'main',
         content: {
@@ -45,6 +45,7 @@ describe('editor asset reference source', () => {
       sprites: [],
       battleSprites: [],
       maps: {},
+      sceneIndex: { version: 1, scenes: [] },
       mapIndex: {
         version: 1,
         maps: [{ id: 'map.test', name: '测试地图', path: 'content/maps/map.test.json' }],
@@ -128,7 +129,7 @@ describe('editor asset reference source', () => {
       manifest: {
         id: 'live-reference-state',
         name: '实时引用作者态',
-        contentVersion: 19,
+        contentVersion: 20,
         minimumSaveVersion: 8,
         defaultEntryId: 'main',
         content: {

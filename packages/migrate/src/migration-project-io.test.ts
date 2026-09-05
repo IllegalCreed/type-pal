@@ -85,14 +85,18 @@ describe('PAL 迁移工程快照', () => {
 
   test('只发现 index 明示引用的额外场景和 chunk', () => {
     const repo = tempRepo()
-    put(repo, 'content/scenes/index.json', '["s000","manual"]\n')
+    put(
+      repo,
+      'content/scenes/index.json',
+      '{"version":1,"scenes":[{"id":"s000","name":"起点","path":"content/scenes/s000.json"},{"id":"manual","name":"手工","path":"content/authored/manual.json"}]}\n',
+    )
     put(repo, 'content/scripts/index.json', '{"chunks":{"manual":{"path":"chunks/manual.json"}}}\n')
     put(repo, 'content/scripts/chunks/unreferenced.json', '{}\n')
     const managed = discoverProjectManagedFiles(
       repo,
       new Set(['content/scenes/index.json', 'content/scripts/index.json']),
     )
-    expect(managed).toContain('content/scenes/manual.json')
+    expect(managed).toContain('content/authored/manual.json')
     expect(managed).toContain('content/scripts/chunks/manual.json')
     expect(managed).not.toContain('content/scripts/chunks/unreferenced.json')
   })

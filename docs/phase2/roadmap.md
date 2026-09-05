@@ -241,7 +241,7 @@ ProjectMapV2。[R2 事件脚本单一模型与 unmigrated 退役](../ops/tasks/R
 | 顺序 | 工作 | 已确认的问题 | 完成后进入 |
 |---:|---|---|---|
 | 1 | **R2 脚本单一模型** | **done（2026-07-14，三方复验 + 用户验收）**：原 66 个残余全部归类收口；17 个假缺失改按数组地址解析；产物零可执行 `unmigrated`，旧 opcode 第二解释器已删除 | R3/R7 |
-| 2 | **R3/A7 + R7 资源闭包/注册表** | **done**：current-only 实现与 ARCH-CURRENT-ONLY-1 三方/用户验收均已完成；当前 schema 为 content19 / SAVE8。PAL 1,934 catalog records，56 个 effect sprite 已物化；editor/reforge 无 extracted/legacy fallback，旧版本发布链已删除 | ED-3；同时具备启动 Q1 的资源前提 |
+| 2 | **R3/A7 + R7 资源闭包/注册表** | **done**：current-only 实现与 ARCH-CURRENT-ONLY-1 三方/用户验收均已完成；当前 schema 为 content20 / SAVE8。PAL 1,934 catalog records，56 个 effect sprite 已物化；editor/reforge 无 extracted/legacy fallback，旧版本发布链已删除 | ED-3；同时具备启动 Q1 的资源前提 |
 | 3 | **ED-3 工程引用图** | **done（2026-09-05，三方 accept + 用户验收）**：同步领域、媒体 locator 与异步 map/tileset/stamp proof 已统一；临时 map helper、旧 DTO/scanner/string parser 已退役 | 场景/商店生命周期 |
 | 4 | **创作生命周期** | 角色、物品、技能、毒等既有生命周期已闭合；场景仍缺复制/可读命名/安全删除，商店仍缺复制/安全删除；两者均缺保存重开和独立试运行 | ED-SCENE-LIFECYCLE-1 / ED-SHOP-LIFECYCLE-1 |
 | 5 | **W8 地图内容选择与属性编辑 → W7G 组合地物图章 + 效率层** | **done（2026-07-18 后续批次）**：单/多格选择、实例属性、持久组合模板/placement、整体变换、生命周期与统一排序控件均已闭合；当前 ProjectMap v4 继续使用同一运行格式 | ED-3 与当前生命周期欠账 |

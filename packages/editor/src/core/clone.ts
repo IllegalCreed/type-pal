@@ -3,7 +3,12 @@
  * 逐文件下载→写(流式,单文件在内存,207MB 不 OOM);素材经 src 绝对透传(种子 httpSource)读。
  * manifest 单独相对化写(assets 指向本地 assets/**),使克隆后经 fsaSource 离线渲染。
  */
-import { type CurrentManifest, validateAssetCatalog, validateMapIndex } from '@type-pal/content'
+import {
+  type CurrentManifest,
+  validateAssetCatalog,
+  validateMapIndex,
+  validateSceneIndex,
+} from '@type-pal/content'
 import { decodeBattleSpriteAssetBytes, type FileSource } from '@type-pal/reforge'
 import { sha256Hex } from './binary-signature.js'
 import { writeFile } from './project-io.js'
@@ -44,12 +49,13 @@ export async function cloneFromPal(
   onProgress: (done: number, total: number) => void,
 ): Promise<void> {
   const manifest = await seed.readJson<CurrentManifest>('manifest.json')
-  const sceneIds = await seed.readJson<string[]>(`${scenesDir(manifest)}index.json`)
+  const sceneIndexPath = `${scenesDir(manifest)}index.json`
+  const sceneIndex = validateSceneIndex(await seed.readJson(sceneIndexPath), sceneIndexPath)
   const mapIndex = manifest.content.maps
     ? validateMapIndex(await seed.readJson(manifest.content.maps))
     : undefined
   const catalog = validateAssetCatalog(await seed.readJson(manifest.assets.catalog))
-  const files = enumerateSeedFiles(manifest, sceneIds, mapIndex, catalog)
+  const files = enumerateSeedFiles(manifest, sceneIndex, mapIndex, catalog)
   const total = files.reduce((s, f) => s + f.size, 0)
 
   await withAuthorizedWorkspaceMutation(target, async (mutation) => {

@@ -15,7 +15,7 @@ function shell(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 19,
+      contentVersion: 20,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json' },
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -42,6 +42,7 @@ function shell(): EditorState {
     scriptChunks: {},
     sharedScripts: {},
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     stamps: [],
     tilesetBlobs: {},

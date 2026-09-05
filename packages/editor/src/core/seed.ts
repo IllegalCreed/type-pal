@@ -8,11 +8,12 @@ import {
   type AssetCatalogV1,
   type AssetRecordV1,
   CONTENT_VERSION,
-  type CurrentManifest,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
+  type CurrentManifest,
   formatProjectMap,
   type MapIndexV1,
   type ProjectMap,
+  type SceneIndexV1,
 } from '@type-pal/content'
 import { sha256Hex } from './binary-signature.js'
 import { buildSeedAssets } from './seed-assets.js'
@@ -158,7 +159,10 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
     'content/shared-scripts.json': {},
     'content/world-variables.json': {},
     'content/locale.json': { 'name.hero': '主角' },
-    'content/scenes/index.json': ['start'],
+    'content/scenes/index.json': {
+      version: 1,
+      scenes: [{ id: 'start', name: '起始场景', path: 'content/scenes/start.json' }],
+    },
     'content/scenes/start.json': {
       id: 'start',
       mapId: 'start',
@@ -268,7 +272,7 @@ export function scenesDir(m: CurrentManifest): string {
  */
 export function enumerateSeedFiles(
   manifest: CurrentManifest,
-  sceneIds: string[],
+  sceneIndex: SceneIndexV1,
   mapIndex?: MapIndexV1,
   catalog?: AssetCatalogV1,
 ): SeedFile[] {
@@ -288,10 +292,10 @@ export function enumerateSeedFiles(
     if (key === 'scenes' || typeof val !== 'string') continue
     json(val)
   }
-  // 场景 index + 每场景
+  // 场景正文必须先于 index；中断只会留下未发布 orphan，不会让 index 指向缺正文。
   const dir = scenesDir(manifest)
+  for (const scene of sceneIndex.scenes) json(scene.path)
   json(`${dir}index.json`)
-  for (const id of sceneIds) json(`${dir}${id}.json`)
   // map index 本身已由 manifest.content 循环加入；这里补齐其登记的所有地图 JSON。
   for (const asset of mapIndex?.maps ?? []) json(asset.path)
   for (const [id, record] of Object.entries(catalog?.assets ?? {}))

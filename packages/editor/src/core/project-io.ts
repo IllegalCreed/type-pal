@@ -23,10 +23,12 @@ import {
   type ProjectMap,
   type RuntimeSceneDef,
   type SceneDef,
+  type SceneIndexV1,
   type ScriptChunkV1,
   type StampTemplate,
   validateAssetCatalog,
   validateMapIndex,
+  validateSceneIndex,
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import {
@@ -69,6 +71,7 @@ export function toEditorState(
   return {
     // M2a-2:场景懒加载后 LoadedProject 不再带全量 → 编辑器 loadAllScenes 拉齐后传入
     scenes: scenes as SceneDef[],
+    sceneIndex: structuredClone(project.sceneIndex),
     assetCatalog: structuredClone(project.assetCatalog),
     assetBlobs: {},
     maps: projectMaps,
@@ -158,14 +161,26 @@ export function serializeProject(
   if (!content.stamps && state.stamps.length > 0)
     throw new Error('serializeProject: 项目有图章模板但 manifest.content.stamps 未登记')
 
-  // M2a-2:scenes 走 per-scene 目录(index.json + <id>.json);其余表域单文件。
+  // content20:SceneIndex 是唯一发现/名称/路径真值；正文必须先于 index 写出。
   const dir = (content.scenes ?? 'content/scenes/').replace(/\/?$/, '/')
-  addFile(
-    `${dir}index.json`,
-    state.scenes.map((s) => s.id),
-    '场景索引',
+  const sceneIndexPath = `${dir}index.json`
+  const sceneIndex: SceneIndexV1 = validateSceneIndex(state.sceneIndex, sceneIndexPath)
+  const scenesById = new Map(state.scenes.map((scene) => [scene.id, scene] as const))
+  for (const asset of sceneIndex.scenes) {
+    const scene = scenesById.get(asset.id)
+    if (!scene) throw new Error(`serializeProject: SceneIndex 登记场景缺正文 "${asset.id}"`)
+    if (scene.id !== asset.id)
+      throw new Error(`serializeProject: 场景 index/id 不符 "${asset.id}" / "${scene.id}"`)
+    addFile(asset.path, scene, `场景 ${asset.id}`)
+  }
+  const orphanScenes = state.scenes.filter(
+    (scene) => !sceneIndex.scenes.some((asset) => asset.id === scene.id),
   )
-  for (const s of state.scenes) addFile(`${dir}${s.id}.json`, s, `场景 ${s.id}`)
+  if (orphanScenes.length)
+    throw new Error(
+      `serializeProject: scenes 存在未登记正文: ${orphanScenes.map((scene) => scene.id).join(', ')}`,
+    )
+  addFile(sceneIndexPath, sceneIndex, '场景索引')
   const mapIndex = validateMapIndex(state.mapIndex)
   const mapIndexRel = content.maps
   if (mapIndexRel) {

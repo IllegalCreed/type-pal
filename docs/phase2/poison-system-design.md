@@ -69,7 +69,7 @@ poisons: ActivePoison[]              // 独立列表,非 status
 interface ActivePoison { poisonId: number; tickIndex: number }  // 指针 = tickIndex
 ```
 
-### 入口与剧情作者入口（content19，2026-08-30）
+### 入口与剧情作者入口（content20，2026-09-05）
 
 - 入口 `StartWorld.seedConditions[actorId].poisonIds` 只保存稳定 `PoisonDef.id`，并只允许开局队员。
   `buildWorld` 新建世界时一次性物化为 `ActivePoison { tickIndex: 0 }`；这是确定性当前快照，不执行相克、

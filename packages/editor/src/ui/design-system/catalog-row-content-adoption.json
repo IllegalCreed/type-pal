@@ -36,18 +36,18 @@
     {
       "id": "scene/current-outline-root",
       "source": "App.tsx",
-      "jsxFingerprint": "918066e6c058a9c0",
+      "jsxFingerprint": "938cfe5add7c6a07",
       "family": "scene-outline",
-      "titleKind": "canonical-id",
-      "identitySlot": "title",
+      "titleKind": "authored-name",
+      "identitySlot": "meta",
       "idPresentation": "canonical-exact",
       "summaryKind": "structural-summary",
       "leading": "none",
-      "title": "SceneId",
-      "meta": "实体数量",
+      "title": "作者场景名称",
+      "meta": "稳定 SceneId + 实体数量",
       "trailing": "无",
-      "decision": "bounded-exception",
-      "reason": "当前场景树只有一个根节点，并非多 SceneDef 对象目录；SceneDef 无显示名，SceneId 是唯一标题，实体数是树根结构摘要。未来出现多场景 catalog 时必须重新适用普通对象身份合同。"
+      "decision": "compliant",
+      "reason": "content20 SceneIndex 已提供作者名称；场景树根以名称为标题，并在 meta 同时保留稳定 SceneId 与实体数。"
     },
     {
       "id": "audio/asset-catalog",

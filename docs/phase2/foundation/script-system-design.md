@@ -147,7 +147,7 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 
 ### 当前加载与发布边界
 
-- HTTP/runtime/editor loader 只接受 contentVersion 19；存档只接受 SAVE 8 / content19。
+- HTTP/runtime/editor loader 只接受 contentVersion 20；存档只接受 SAVE 8 / content20。
 - 迁移器从真实提取输入与当前作者 baseline 直接构建 current publication，三方 merge、完整闭包预检后
   最后提交 manifest；不发布脚本分片、版本 transition 或 migration sidecar。
 - 旧工程和旧开发期存档可由 Git 取回对应历史代码重建，但不进入当前产品路径。发现版本不匹配时

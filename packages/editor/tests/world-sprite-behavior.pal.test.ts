@@ -5,6 +5,7 @@ import {
   type BaseSceneDef,
   type BaseScriptLibrary,
   emptyWorldScriptState,
+  type SceneIndexV1,
   type SpriteDef,
 } from '@type-pal/content'
 import { baseSceneView, decodeWorldSpriteAssetBytes } from '@type-pal/reforge'
@@ -102,14 +103,15 @@ async function actualFrameCount(
 }
 
 function palPreviewState(): EditorState {
-  const sceneIds = readJson<string[]>('projects/pal/content/scenes/index.json')
-  const canonicalScenes = sceneIds.map((id) =>
-    readJson<BaseSceneDef>(`projects/pal/content/scenes/${id}.json`),
+  const sceneIndex = readJson<SceneIndexV1>('projects/pal/content/scenes/index.json')
+  const canonicalScenes = sceneIndex.scenes.map((entry) =>
+    readJson<BaseSceneDef>(`projects/pal/${entry.path}`),
   )
   const world = emptyWorldScriptState()
   const shell = {
     actors: readJson('projects/pal/content/actors.json'),
     scenes: canonicalScenes.map((scene) => baseSceneView(scene, world)),
+    sceneIndex,
     scriptChunks: {},
   } as unknown as EditorState
   return projectCanonicalSpritePreviewState(shell, {

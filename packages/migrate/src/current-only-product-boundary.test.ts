@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, extname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { validateCurrentManifestStartup } from '@type-pal/content'
+import { validateCurrentManifestStartup, validateSceneIndex } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '../../..')
@@ -35,7 +35,7 @@ const migrationSources = ['packages/migrate/src', 'packages/migrate/scripts'].fl
   productionSources,
 )
 
-const retiredVersionNumber = '(?:5|8|9|1[0-8])'
+const retiredVersionNumber = '(?:5|8|9|1[0-9])'
 const retiredEpochPathToken = new RegExp(
   `(?:^|[/_.-])(?:v${retiredVersionNumber}|(?:content|manifest|project|save)[-_.]?v?${retiredVersionNumber})(?=$|[/_.-])`,
   'i',
@@ -78,16 +78,18 @@ function hasRetiredPublicSymbol(line: string): boolean {
 }
 
 describe('current-only product boundary', () => {
-  test.each(['demo', 'e2e-own', 'pal'])('%s manifest is canonical content19 startup data', (id) => {
+  test.each(['demo', 'e2e-own', 'pal'])('%s manifest is canonical content20 startup data', (id) => {
     const manifestPath = join(repoRoot, `projects/${id}/manifest.json`)
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as Record<string, unknown>
     const content = manifest.content as Record<string, string>
     const scenesPath = content.scenes
     if (!scenesPath) throw new Error(`${id}: manifest 缺 content.scenes`)
     const sceneDir = scenesPath.endsWith('/') ? scenesPath : `${scenesPath}/`
-    const ids = JSON.parse(
-      readFileSync(join(repoRoot, `projects/${id}/${sceneDir}index.json`), 'utf8'),
-    ) as string[]
+    const sceneIndex = validateSceneIndex(
+      JSON.parse(readFileSync(join(repoRoot, `projects/${id}/${sceneDir}index.json`), 'utf8')),
+      `${sceneDir}index.json`,
+    )
+    const ids = sceneIndex.scenes.map((entry) => entry.id)
     expect(() =>
       validateCurrentManifestStartup(manifest, ids, `projects/${id}/manifest.json`),
     ).not.toThrow()
@@ -127,7 +129,7 @@ describe('current-only product boundary', () => {
       const rel = relative(repoRoot, path)
       const lines = source.split('\n')
       lines.forEach((line, index) => {
-        const oldContentBranch = /\bcontentVersion\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-9]|1[0-8])\b/
+        const oldContentBranch = /\bcontentVersion\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-9]|1[0-9])\b/
         const oldMinimumSaveBranch = /\bminimumSaveVersion\s*(?:===|!==|<=|>=|<|>)\s*[1-7]\b/
         const retiredStartWorldSkills = /\.startWorld\.learnedSkills|startWorld[^\n]*learnedSkills/
         const oldProjectLoader =
@@ -163,7 +165,7 @@ describe('current-only product boundary', () => {
       source.split('\n').forEach((line, index) => {
         const historicalPublicationPath = /(?:_transitions\/|content\/migrations\/|script-v4-v5)/
         const oldContentBranch =
-          /(?:\bcontentVersion\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-9]|1[0-8])\b|\b(?:[1-9]|1[0-8])\s*(?:===|!==|<=|>=|<|>)\s*(?:\w+\.)*contentVersion\b)/
+          /(?:\bcontentVersion\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-9]|1[0-9])\b|\b(?:[1-9]|1[0-9])\s*(?:===|!==|<=|>=|<|>)\s*(?:\w+\.)*contentVersion\b)/
         const oldMinimumSaveBranch =
           /(?:\bminimumSaveVersion\s*(?:===|!==|<=|>=|<|>)\s*[1-7]\b|\b[1-7]\s*(?:===|!==|<=|>=|<|>)\s*(?:\w+\.)*minimumSaveVersion\b)/
         const oldPublicationApi =
@@ -211,7 +213,6 @@ describe('current-only product boundary', () => {
 
   test.each([
     'packages/migrate/src/legacy-dialog.ts',
-    'packages/migrate/src/content19-parser.ts',
     'packages/migrate/src/current-project.ts',
   ])('current or raw-input migration path remains allowed: %s', (path) => {
     expect(hasRetiredEpochPath(path)).toBe(false)

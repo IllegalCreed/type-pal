@@ -17,13 +17,10 @@ import {
   palTilesetAssetId,
   spriteDefinitionFrameDemand,
   validateBattleSprites,
+  validateSceneIndex,
 } from '@type-pal/content'
 import { itemScriptCommandRoots } from './item-script-roots.js'
-import type {
-  MigrateSources,
-  SourceCmd,
-  SourceScene,
-} from './migrate-content.js'
+import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
 import {
   mapRoleSpritesByNumber,
   mapScenesStatic,
@@ -45,6 +42,8 @@ import {
   type SourceObjectPoison,
   type SourceStore,
 } from './pal-derived-content.js'
+import { mapNameFromSourceNumber } from './pal-map-names.js'
+import { buildPalSceneIndex } from './pal-scene-index.js'
 import { auditPalSpriteActions } from './pal-sprite-action-census.js'
 import { materializePalSpriteActions } from './pal-sprite-action-materialize.js'
 import {
@@ -56,11 +55,7 @@ import {
   type ProjectMapAuditReport,
   type SourceMapAuditEntry,
 } from './project-map-audit.js'
-import {
-  mapIdFromSourceNumber,
-  tilesetIdFromSourceNumber,
-} from './project-map-converter.js'
-import { mapNameFromSourceNumber } from './pal-map-names.js'
+import { mapIdFromSourceNumber, tilesetIdFromSourceNumber } from './project-map-converter.js'
 import { makeGlobalScriptRoots } from './script-graph.js'
 import {
   assertScriptLibraryAudit,
@@ -365,28 +360,28 @@ function assertPalBattleSpriteBaseline(args: {
   if (missingTargets.length) throw new Error(`PAL 敌 AI 间接边缺目标: ${missingTargets.join(',')}`)
   const uniqueTargets = [...new Set(indirectEdges.map(({ target }) => target))].sort()
   const expectedTargets = [
-          'enemy-403',
-          'enemy-407',
-          'enemy-410',
-          'enemy-419',
-          'enemy-420',
-          'enemy-421',
-          'enemy-433',
-          'enemy-434',
-          'enemy-441',
-          'enemy-442',
-          'enemy-448',
-          'enemy-452',
-          'enemy-453',
-          'enemy-461',
-          'enemy-470',
-          'enemy-490',
-          'enemy-492',
-          'enemy-493',
-          'enemy-503',
-          'enemy-511',
-          'enemy-512',
-        ]
+    'enemy-403',
+    'enemy-407',
+    'enemy-410',
+    'enemy-419',
+    'enemy-420',
+    'enemy-421',
+    'enemy-433',
+    'enemy-434',
+    'enemy-441',
+    'enemy-442',
+    'enemy-448',
+    'enemy-452',
+    'enemy-453',
+    'enemy-461',
+    'enemy-470',
+    'enemy-490',
+    'enemy-492',
+    'enemy-493',
+    'enemy-503',
+    'enemy-511',
+    'enemy-512',
+  ]
   if (JSON.stringify(uniqueTargets) !== JSON.stringify(expectedTargets))
     throw new Error(`PAL 敌 AI 间接目标集漂移: ${JSON.stringify(uniqueTargets)}`)
 }
@@ -612,10 +607,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   put('content/migration-diagnostics.json', migrationDiagnostics)
   put('content/skills.json', skills)
   put('content/enemies.json', boss.enemies)
-  put(
-    'content/enemy-teams.json',
-    migrated.enemyTeams,
-  )
+  put('content/enemy-teams.json', migrated.enemyTeams)
   put('content/locale.json', {
     ...migrated.localeNames,
     ...sceneOutput.scriptLocale,
@@ -662,10 +654,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   // PAL 提取真值只有逐格 tile/height/collision，没有命名组合、锚点或成员语义。
   // 因此保持空表；不得用邻接/图案相似度猜预置图章。未来预置须来自显式策展的上游描述源。
   put('content/stamps.json', [])
-  put(
-    'content/scenes/index.json',
-    spriteActionMaterialization.scenes.map((scene) => scene.id),
-  )
+  put('content/scenes/index.json', buildPalSceneIndex(spriteActionMaterialization.scenes, mapIndex))
   for (const scene of spriteActionMaterialization.scenes)
     put(`content/scenes/${scene.id}.json`, scene)
   put('content/scripts/index.json', scripts.index)
@@ -713,8 +702,6 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
 
 /** 审计与测试用：抽取纯文件集内的场景，不经 projects/pal 回读。 */
 export function migrationScenes(fileSet: MigrationFileSet): SceneDef[] {
-  const ids = fileSet.files.get('content/scenes/index.json') as string[] | undefined
-  return (ids ?? []).map(
-    (id) => fileSet.files.get(`content/scenes/${id}.json`) as unknown as SceneDef,
-  )
+  const index = validateSceneIndex(fileSet.files.get('content/scenes/index.json'))
+  return index.scenes.map((entry) => fileSet.files.get(entry.path) as unknown as SceneDef)
 }

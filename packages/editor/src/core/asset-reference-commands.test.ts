@@ -11,7 +11,7 @@ function state(): EditorState {
     manifest: {
       id: 'asset-delete',
       name: 'asset-delete',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -33,6 +33,7 @@ function state(): EditorState {
     poisons: [],
     ambiences: [],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},
@@ -82,8 +83,7 @@ describe('asset deletion uses the unified current-author oracle', () => {
 
   test('live canonical references block apply and redo without losing the redo future', () => {
     const scripts = canonical([{ kind: 'playMusic', asset: assetId }])
-    const provider = (current: EditorState) =>
-      collectCurrentProjectReferenceIndex(current, scripts)
+    const provider = (current: EditorState) => collectCurrentProjectReferenceIndex(current, scripts)
     expect(() => new DeleteAssetCommand(assetId, provider).apply(state())).toThrow(AssetInUseError)
 
     scripts.sharedScripts.shared!.body = []

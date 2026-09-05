@@ -5,6 +5,7 @@ import type {
   PoisonCurability,
   PoisonDef,
   SceneDef,
+  SceneIndexV1,
   ScriptRef,
   StatusId,
   ThrowEffect,
@@ -418,6 +419,7 @@ function EffectFields(props: {
   subjectItemId?: string
   consuming?: boolean
   scenes?: readonly SceneDef[]
+  sceneIndex?: SceneIndexV1
   draftScope?: string
   syncToken?: string | number
 }) {
@@ -788,7 +790,10 @@ function EffectFields(props: {
                 : []),
               ...scenes.map((candidate) => ({
                 value: candidate.id,
-                label: candidate.id,
+                label: (() => {
+                  const asset = props.sceneIndex?.scenes.find((entry) => entry.id === candidate.id)
+                  return asset ? `${asset.name} · ${candidate.id}` : candidate.id
+                })(),
                 description: candidate.entities.length ? undefined : '无可放置实体',
                 disabled: candidate.entities.length === 0,
               })),
@@ -862,6 +867,7 @@ interface ItemUseEffectChainEditorProps {
   /** item-private effect 的 canonical 正文；索引与运行时投影中的占位 runScript 对齐。 */
   privateScripts?: Readonly<Record<number, ItemPrivateScriptBinding>>
   scenes?: readonly SceneDef[]
+  sceneIndex?: SceneIndexV1
   draftScope?: string
   syncToken?: string | number
 }
@@ -1136,6 +1142,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
                         subjectItemId={props.itemId}
                         consuming={use.consuming}
                         scenes={props.scenes}
+                        sceneIndex={props.sceneIndex}
                       />
                     </ItemEffectDraftScope>
                   )}

@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { ActorDef, AuthorCondition, AuthorSceneDef } from '@type-pal/content'
+import type { ActorDef, AuthorCondition, AuthorSceneDef, SceneIndexV1 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invariant.js'
 
@@ -18,8 +18,10 @@ function loadSurface(root: string): {
   scenes: AuthorSceneDef[]
   commandRoots: unknown[]
 } {
-  const sceneIds = readJson<string[]>(resolve(root, 'scenes/index.json'))
-  const scenes = sceneIds.map((id) => readJson<AuthorSceneDef>(resolve(root, `scenes/${id}.json`)))
+  const sceneIndex = readJson<SceneIndexV1>(resolve(root, 'scenes/index.json'))
+  const scenes = sceneIndex.scenes.map((entry) =>
+    readJson<AuthorSceneDef>(resolve(root, entry.path.replace(/^content\//, ''))),
+  )
   const actors = readJson<ActorDef[]>(resolve(root, 'actors.json'))
   return {
     actors,

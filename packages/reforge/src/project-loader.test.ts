@@ -1,7 +1,11 @@
 import type { CurrentManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { FileSource } from './file-source.js'
-import { assembleCurrentProject, loadCurrentProjectFrom } from './project-loader.js'
+import {
+  assembleCurrentProject,
+  loadAuthorScene,
+  loadCurrentProjectFrom,
+} from './project-loader.js'
 
 const scene = {
   id: 's001',
@@ -44,7 +48,10 @@ const sharedScripts = {
 
 const baseJsons = {
   actors,
-  sceneIds: ['s001'],
+  sceneIndex: {
+    version: 1 as const,
+    scenes: [{ id: 's001', name: '起始场景', path: 'content/scenes/s001.json' }],
+  },
   entryScenes: { s001: scene },
   skills: { skills: [], levelUp: {} },
   items: [],
@@ -85,7 +92,7 @@ function manifest(over: Partial<CurrentManifest> = {}): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 19,
+    contentVersion: 20,
     minimumSaveVersion: 8,
     defaultEntryId: 'new-game',
     entryPoints: [
@@ -140,9 +147,14 @@ function files(projectManifest = manifest()): Record<string, unknown> {
   const projectFiles: Record<string, unknown> = {
     'manifest.json': projectManifest,
     [content.actors!]: baseJsons.actors,
-    [content.scenes! + 'index.json']: [
-      ...new Set(projectManifest.entryPoints.map((entry) => entry.scene)),
-    ],
+    [`${content.scenes!}index.json`]: {
+      version: 1,
+      scenes: [...new Set(projectManifest.entryPoints.map((entry) => entry.scene))].map((id) => ({
+        id,
+        name: `场景 ${id}`,
+        path: `${content.scenes!}${id}.json`,
+      })),
+    },
     [content.skills!]: baseJsons.skills,
     [content.items!]: baseJsons.items,
     [content.locale!]: baseJsons.locale,
@@ -155,14 +167,14 @@ function files(projectManifest = manifest()): Record<string, unknown> {
     [projectManifest.assets.catalog]: baseJsons.assetCatalog,
   }
   for (const entry of projectManifest.entryPoints)
-    projectFiles[content.scenes! + `${entry.scene}.json`] = { ...scene, id: entry.scene }
+    projectFiles[`${content.scenes!}${entry.scene}.json`] = { ...scene, id: entry.scene }
   return projectFiles
 }
 
 describe('current project loader', () => {
   test('retains author identity and creates the runtime dialogue projection directly', () => {
     const project = assembleCurrentProject(manifest(), baseJsons)
-    expect(project.manifest.contentVersion).toBe(19)
+    expect(project.manifest.contentVersion).toBe(20)
     expect(project.authorContent.sharedScripts.hello?.body[0]).toHaveProperty(
       'cue.identity.actor',
       'actor.li',
@@ -214,8 +226,41 @@ describe('current project loader', () => {
 
   test('loads only current content without reading a migration sidecar', async () => {
     const loaded = await loadCurrentProjectFrom(memorySource(files()))
-    expect(loaded.manifest.contentVersion).toBe(19)
+    expect(loaded.manifest.contentVersion).toBe(20)
     expect(loaded.sharedScripts.hello?.body[0]).toHaveProperty('cue.speaker', 'name.li')
+  })
+
+  test('loads entry and lazy scenes only from explicit SceneIndex paths', async () => {
+    const projectFiles = files()
+    const index = projectFiles['content/scenes/index.json'] as {
+      version: 1
+      scenes: Array<{ id: string; name: string; path: string }>
+    }
+    index.scenes[0]!.path = 'content/authored/opening.json'
+    projectFiles['content/authored/opening.json'] = projectFiles['content/scenes/s001.json']
+    delete projectFiles['content/scenes/s001.json']
+    const loaded = await loadCurrentProjectFrom(memorySource(projectFiles))
+    expect(loaded.sceneIndex.scenes[0]?.name).toBe('场景 s001')
+    await expect(loadAuthorScene(loaded, 's001')).resolves.toMatchObject({ id: 's001' })
+    await expect(loadAuthorScene(loaded, 'missing')).rejects.toThrow('不在 scene index')
+  })
+
+  test('lazy scene path missing or body id mismatch fails loud at the indexed path', async () => {
+    const projectFiles = files()
+    const index = projectFiles['content/scenes/index.json'] as {
+      version: 1
+      scenes: Array<{ id: string; name: string; path: string }>
+    }
+    index.scenes.push(
+      { id: 's002', name: '错配', path: 'content/authored/s002.json' },
+      { id: 's003', name: '缺失', path: 'content/authored/s003.json' },
+    )
+    projectFiles['content/authored/s002.json'] = { ...scene, id: 'different' }
+    const loaded = await loadCurrentProjectFrom(memorySource(projectFiles))
+    await expect(loadAuthorScene(loaded, 's002')).rejects.toThrow('场景文件 id 不符')
+    await expect(loadAuthorScene(loaded, 's003')).rejects.toThrow(
+      'missing content/authored/s003.json',
+    )
   })
 
   test('loads and validates every real entry while deriving runtime cache from defaultEntryId', () => {
@@ -239,7 +284,13 @@ describe('current project loader', () => {
     })
     const project = assembleCurrentProject(projectManifest, {
       ...baseJsons,
-      sceneIds: ['s001', 's002'],
+      sceneIndex: {
+        version: 1,
+        scenes: [
+          ...baseJsons.sceneIndex.scenes,
+          { id: 's002', name: '第二场景', path: 'content/scenes/s002.json' },
+        ],
+      },
       entryScenes: { s001: scene, s002: second },
     })
     expect(project.entryScene.id).toBe('s002')
@@ -261,7 +312,13 @@ describe('current project loader', () => {
     expect(() =>
       assembleCurrentProject(projectManifest, {
         ...baseJsons,
-        sceneIds: ['s001', 's002'],
+        sceneIndex: {
+          version: 1,
+          scenes: [
+            ...baseJsons.sceneIndex.scenes,
+            { id: 's002', name: '第二场景', path: 'content/scenes/s002.json' },
+          ],
+        },
         entryScenes: { s001: scene, s002: { ...scene, id: 's002' } },
       }),
     ).toThrow(/entryPoints\[broken\].*missing-actor/)
@@ -287,9 +344,9 @@ describe('current project loader', () => {
   })
 
   test('rejects pre-current content at the only product boundary', async () => {
-    const oldManifest = { ...manifest(), contentVersion: 18 }
+    const oldManifest = { ...manifest(), contentVersion: 19 }
     await expect(
       loadCurrentProjectFrom(memorySource(files(oldManifest as CurrentManifest))),
-    ).rejects.toThrow(/contentVersion: 期望 19/)
+    ).rejects.toThrow(/contentVersion: 期望 20/)
   })
 })

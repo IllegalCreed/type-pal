@@ -10,13 +10,11 @@ import {
   createProjectReferenceSource,
 } from '../core/project-reference.js'
 import {
-  collectCurrentProjectReferenceIndex,
   type CurrentProjectReferenceIndexProvider,
+  collectCurrentProjectReferenceIndex,
 } from '../core/project-reference-adapters.js'
 import type { ScriptEditorState } from '../core/script-editor.js'
-import {
-  type WorldVariableReferenceIndexV1,
-} from '../core/world-variable-references.js'
+import type { WorldVariableReferenceIndexV1 } from '../core/world-variable-references.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
 import { VarsTab } from './VarsTab.js'
@@ -86,7 +84,7 @@ function state(): EditorState {
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: { worldVariables: 'content/world-variables.json' },
@@ -99,6 +97,10 @@ function state(): EditorState {
           startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
+    },
+    sceneIndex: {
+      version: 1,
+      scenes: [{ id: 's', name: '场景', path: 'content/scenes/s.json' }],
     },
     worldVariables: {
       'quest.started': {
@@ -159,8 +161,7 @@ afterEach(async () => {
 async function render(
   focusObjectId?: string,
   referenceStatus: EditorDerivedStatus = 'current',
-  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider =
-    collectCurrentProjectReferenceIndex,
+  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider = collectCurrentProjectReferenceIndex,
 ): Promise<void> {
   await act(async () =>
     root.render(

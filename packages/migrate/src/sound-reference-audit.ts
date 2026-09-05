@@ -11,9 +11,10 @@ import {
   validateActors,
   validateAssetCatalog,
   validateAssetReferenceClosure,
+  validateAuthorItemCore,
   validateBattleSprites,
   validateEnemies,
-  validateAuthorItemCore,
+  validateSceneIndex,
   validateScenes,
   validateSkills,
   validateSprites,
@@ -191,8 +192,8 @@ export function auditPalSoundReferences(args: {
     required(files, 'content/battle-sprites.json'),
     catalog,
   )
-  const sceneIds = required(files, 'content/scenes/index.json') as string[]
-  const scenes = validateScenes(sceneIds.map((id) => required(files, `content/scenes/${id}.json`)))
+  const sceneIndex = validateSceneIndex(required(files, 'content/scenes/index.json'))
+  const scenes = validateScenes(sceneIndex.scenes.map((entry) => required(files, entry.path)))
   const scriptIndex = required(files, 'content/scripts/index.json') as ScriptIndexV1
   const scriptChunks: Record<string, ScriptChunkV1> = {}
   for (const [id, meta] of Object.entries(scriptIndex.chunks))

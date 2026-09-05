@@ -24,6 +24,7 @@ const legacyState = (): EditorState =>
   ({
     items: [legacyItem()],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     assetCatalog: { version: 1, assets: {} },
     assetBlobs: {},
@@ -31,7 +32,7 @@ const legacyState = (): EditorState =>
     stamps: [],
     manifest: {
       id: 'test',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},

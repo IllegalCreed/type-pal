@@ -156,6 +156,7 @@ function state(entries: readonly BattleSpriteDef[]): EditorState {
   return {
     manifest: { assets: { roles: {} } } as never,
     scenes: [],
+    sceneIndex: { version: 1, scenes: [] },
     actors: [],
     skills: [],
     levelUp: {},

@@ -1,6 +1,6 @@
 # ED-SCENE-LIFECYCLE-1 - 场景生命周期闭环
 
-Status: build
+Status: review
 Phase: phase2
 Capability: E1 / Editor scene lifecycle
 Coding Owner: Codex
@@ -342,7 +342,8 @@ Branch: main
    deleted scene paths；SceneIndex 先于 manifest 写，物理删除最后执行，失败最多留 orphan。
 7. **UI 复用现有组件**：DsListHeader 主新增 + overflow 复制/危险删除，DsDialog 表单/确认，
    DsInspectorTabs + DsReferencePanel；不重画面板或私造控件。
-8. **试玩复用正式入口**：不做模拟器；普通场景使用默认落点，命名落点附 entry 参数。dirty 时明确确认。
+8. **试玩复用正式入口**：不做模拟器；普通场景使用默认落点，命名落点转换为正式 `pos/facing` 查询参数。
+   dirty 时明确确认只读取磁盘项目。
 
 ### 已知风险
 
@@ -368,28 +369,64 @@ Branch: main
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: 进行中
-- 实现摘要: 已通过 build 准入；按 content → reforge/migrate → editor core → UI → 全量迁移/验证顺序实施。
-- 运行命令: 准入期只读 census；实现测试待记录
-- 浏览器 / 手工检查: 未开始
-- 跳过的检查及原因: build 签字未齐，不得修改实现
+- 修改文件:
+  - content：`scene-index.ts`、`command-target-reference.ts`、`character.ts` 与测试。
+  - reforge：`project-loader.ts` 及 current SAVE/loader 测试。
+  - editor core：`edit-session.ts`、`project-io.ts`、`seed.ts`、`clone.ts`、main/script lifecycle commands、
+    跨会话与 FSA 文件生命周期测试。
+  - editor UI：`App.tsx`、Script/Item/Project/Ambience 场景选择器、设计系统 adoption 与窄栏标题约束。
+  - migrate/data：PAL SceneIndex seed/ownership、publication/managed-file/write-order、PAL 真树 differential、
+    三个 current manifest/index、PAL baseline/index/state。
+  - docs：content/save/script/project/editor/roadmap/capability 当前 content20 口径。
+- 实现摘要:
+  - 新增唯一 `SceneIndexV1`，SceneDef 不加 name；loader/save/clone 全部按显式 path，`sceneIds` 只作派生视图。
+  - content20 原子切换 PAL/demo/e2e-own/blank/fixtures；PAL 294 个名称由地图名稳定消歧，之后 baseline-first
+    保留作者 name/path；旧 string[] merge/parser/fallback 最终树退役。
+  - create/copy/delete 通过现有 coordinator 同时修改 main/script；copy transformer 与 ED-3 target leaf
+    共用识别口，保留局部 id/外部目标；delete 两侧 apply/redo 都读取 current index。
+  - 场景正文 → SceneIndex → manifest → removePaths 的安全写序覆盖 editor/clone/migrate；中断测试只留 orphan。
+  - 场景目录、脚本/物品/入口/氛围选择器显示 `name + SceneId`；DsListHeader overflow、DsDialog、
+    DsInspectorTabs/DsReferencePanel、默认/命名落点正式试玩均闭合。
+- 运行命令:
+  - `pnpm typecheck`：7/7 workspace 包通过。
+  - `pnpm --filter @type-pal/content test`：36 files / 477 tests。
+  - `pnpm --filter @type-pal/reforge test`：93 files / 859 tests。
+  - `pnpm --filter @type-pal/editor test`：192 files / 1,738 tests。
+  - `pnpm --filter @type-pal/migrate test`：54 files / 418 tests。
+  - `pnpm --filter @type-pal/reforge build`、`pnpm --filter @type-pal/editor build`：通过；只有既有 chunk-size warning。
+  - `pnpm --filter @type-pal/editor audit:design-system`：92 files，2 个既有 evidence-bound exceptions，通过。
+  - changed-file Biome format/check + `git diff --check`：通过（仅既有 warning/info，无 error）。
+  - `pnpm --filter @type-pal/migrate migrate:content` 连续两次：均 `managed=537 writes=0 deletes=0
+    conflicts=0 asset-deletes=0`，`scenes=294 maps=223 assets=1934 reference-warnings=0`。
+- 浏览器 / 手工检查: Codex in-app browser，PAL `s047`，1280×720；检查目录名称+ID、294 数量、overflow
+  复制/禁删菜单、create dialog、焦点恢复、Scene Inspector 摘要/引用 5 条、默认落点试玩。发现列表头“场景”
+  被压缩后，修公共标题最小两字宽与 count padding；复查完整显示、无横向溢出。
+- 跳过的检查及原因: 未真实写入 `projects/pal`，避免视觉检查污染作者项目；FSA 首存/删除/撤销/中断由内存
+  directory handle 集成测试覆盖。未实际启动游戏窗口，正式 `play.html?project&scene&pos&facing` URL 由 UI
+  测试精确断言，运行 loader/build 已单独通过。
 
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: 本地 Vite + Codex in-app browser，显式 1280×720 viewport，AX tree + screenshot；核心 UI 测试
+  另覆盖 create/copy/delete、引用四态、dirty trial、undo/redo。
 - 集中 E2E 用例 / 批次: 编辑器综合工作流前置子链
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: 全部 build 后项目
+- 截图 / 像素检查路径: 当前会话内联 CUA 截图（未持久化仓库文件）。
+- 结论: **pass**。标题、控件、弹窗、菜单、引用面板与滚动 owner 均使用已登记设计系统组件；1280×720
+  无水平溢出，窄栏标题修复后完整显示。
+- 未完成项: 无；剧情/游戏演出视觉不属于本功能页任务。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- 审查结论:
+  - Codex: **accept（2026-09-05）**。实现满足三方设计和 Kimi/GLM 全部硬钉；全量测试、双 dry-run、
+    production build、DS gate 与 1280×720 实机检查通过。
+  - Kimi: pending
+  - GLM: pending
 - 必须返工项: pending
-- Accept / rework: pending
+- Accept / rework: **review**（等待 Kimi/GLM 独立终审）
 
 ## 用户验收
 
@@ -435,11 +472,15 @@ Branch: main
   design agree，无 counter；实现硬门见签字块。
 - 2026-09-05 Codex: 复核三方签字并消解 selectSceneHooks 统计口径：直接 jq 真树复算 67 commands =
   self 2 + cross 65。任务进入 build；Coding Owner 仅 Codex。
+- 2026-09-05 Codex: 完成 content20 SceneIndex、显式 loader/save/clone、PAL ownership、main/script CRUD、
+  ED-3 安全删除、场景 UI/试玩及全部硬门。PAL 294-scene differential、s108 6,897 self 删除 scope、FSA
+  中断安全、54/418 migrate、192/1,738 editor、双 dry-run zero-plan 与 1280×720 实机均通过。Next:
+  提交实现候选后钉 revision 并行交 Kimi/GLM 终审；两席签字前不得标记 done。
 
 ## 下一位 Agent 提示词
 
-以下两份并行提示词已由 Kimi/GLM 完成，不要重复转发。当前无下一位 Agent 提示词；Codex 作为唯一
-Coding Owner 继续 build，待自验证完成后再一次性提供两席终审提示词。
+以下 build 前两份并行提示词已由 Kimi/GLM 完成，不要重复转发。实现终审提示词将在候选提交后钉定同一
+revision；两席只读审查并直接写自己的 review 签字与交接日志，不得修改实现、任务状态或 done 结论。
 
 ### 给 Kimi（并行，架构 / schema / transaction 主审）
 

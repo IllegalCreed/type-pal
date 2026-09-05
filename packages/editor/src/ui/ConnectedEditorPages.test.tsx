@@ -53,7 +53,7 @@ function editorState(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       entryPoints: [
@@ -79,6 +79,7 @@ function editorState(): EditorState {
     enemyTeams: [],
     battleFields: [],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},

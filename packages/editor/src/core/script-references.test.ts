@@ -27,7 +27,7 @@ function baseState(): EditorState {
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {
@@ -71,6 +71,7 @@ function baseState(): EditorState {
     sprites: [],
     battleSprites: [],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},

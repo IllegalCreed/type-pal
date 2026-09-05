@@ -101,7 +101,7 @@ function state(): EditorState {
     manifest: {
       id: 'test-project',
       name: '测试项目',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -146,6 +146,7 @@ function state(): EditorState {
       },
     ],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},

@@ -66,9 +66,20 @@
           "source": "App.tsx",
           "component": "App",
           "callsite": "class:inspector",
-          "variant": "non-entity",
-          "reason": "非实体场景分支由基础 Inspector 外壳滚动。",
-          "verification": "该分支不添加 inspector--tabbed，editor.css .inspector owns overflow-y:auto。"
+          "variant": "entry",
+          "reason": "落点与放置 palette 分支由基础 Inspector 外壳滚动。",
+          "verification": "非 scene/entity 选择不添加 inspector--tabbed，editor.css .inspector owns overflow-y:auto。"
+        },
+        {
+          "region": "inspector",
+          "axis": "y",
+          "owner": "DsInspectorTabs",
+          "source": "App.tsx",
+          "component": "SceneInspector",
+          "callsite": "tag:DsInspectorTabs",
+          "variant": "scene",
+          "reason": "场景摘要与统一引用面板由选中 tab panel 持有 Inspector 滚动。",
+          "verification": "selected.kind=scene 分支 route-live 到 SceneInspector。"
         },
         {
           "region": "inspector",

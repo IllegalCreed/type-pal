@@ -2560,6 +2560,27 @@ html[data-panel-resize="horizontal"] * {
 .scene-switch > .ds-select {
   width: 100%;
 }
+.scene-lifecycle-form {
+  display: grid;
+  gap: var(--ds-space-6);
+}
+.scene-lifecycle-confirmation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-2) var(--ds-space-4);
+  align-items: center;
+}
+.scene-lifecycle-confirmation > strong {
+  flex: 1;
+  min-width: 0;
+}
+.scene-lifecycle-confirmation > span {
+  flex-basis: 100%;
+  color: var(--ds-text-secondary);
+}
+.scene-entry-trial-action {
+  margin-top: var(--ds-space-5);
+}
 
 /* ── 角色模式(C1) ── */
 .actor-list {

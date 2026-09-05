@@ -6,7 +6,7 @@ import { buildBlankProject, enumerateSeedFiles, relativizeManifest } from './see
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 19,
+  contentVersion: 20,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: {
@@ -40,6 +40,10 @@ describe('relativizeManifest', () => {
 })
 
 describe('enumerateSeedFiles', () => {
+  const sceneIndex = (ids: string[]) => ({
+    version: 1 as const,
+    scenes: ids.map((id) => ({ id, name: id, path: `content/scenes/${id}.json` })),
+  })
   const catalog = {
     version: 1 as const,
     assets: {
@@ -53,7 +57,7 @@ describe('enumerateSeedFiles', () => {
       },
     },
   }
-  const seed = enumerateSeedFiles(manifest, ['s1', 's2'], undefined, catalog)
+  const seed = enumerateSeedFiles(manifest, sceneIndex(['s1', 's2']), undefined, catalog)
 
   test('汇总:内容表 + scenes index + 每场景 + catalog 静态图', () => {
     const rels = seed.map((f) => f.rel)
@@ -62,6 +66,9 @@ describe('enumerateSeedFiles', () => {
     expect(rels).toContain('content/scenes/index.json')
     expect(rels).toContain('content/scenes/s1.json')
     expect(rels).toContain('content/scenes/s2.json')
+    expect(rels.indexOf('content/scenes/s2.json')).toBeLessThan(
+      rels.indexOf('content/scenes/index.json'),
+    )
     expect(rels).toContain('assets/migrated/portraits/001.png')
     expect(rels).not.toContain('content/scenes/') // scenes 是目录,不作文件
     expect(rels).toContain('assets/index.json')
@@ -84,7 +91,7 @@ describe('enumerateSeedFiles', () => {
       ...manifest,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
-    const files = enumerateSeedFiles(withMaps, ['s1'], {
+    const files = enumerateSeedFiles(withMaps, sceneIndex(['s1']), {
       version: 1,
       maps: [{ id: 'unused', name: '未引用', path: 'content/maps/unused.json' }],
     })
@@ -94,7 +101,7 @@ describe('enumerateSeedFiles', () => {
   })
 
   test('未登记在 catalog 的外部资源不会进入克隆文件集', () => {
-    const files = enumerateSeedFiles(manifest, ['s1'])
+    const files = enumerateSeedFiles(manifest, sceneIndex(['s1']))
     expect(files.map((file) => file.rel).some((path) => path.includes('extracted'))).toBe(false)
   })
 })
@@ -116,7 +123,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
-    expect(m.contentVersion).toBe(19)
+    expect(m.contentVersion).toBe(20)
     expect(m.content.worldVariables).toBe('content/world-variables.json')
     expect(files['content/world-variables.json']).toEqual({})
     expect(m.minimumSaveVersion).toBe(8)

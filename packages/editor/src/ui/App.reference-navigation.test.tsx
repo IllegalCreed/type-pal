@@ -97,7 +97,7 @@ function shellState(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -123,6 +123,10 @@ function shellState(): EditorState {
     enemyTeams: [],
     battleFields: [],
     maps: {},
+    sceneIndex: {
+      version: 1,
+      scenes: [{ id: 's047', name: '测试场景', path: 'content/scenes/s047.json' }],
+    },
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},
@@ -381,7 +385,7 @@ describe('App item reference navigation', () => {
   ): Promise<EditSession> => {
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
     } as EditorState['manifest']
     const source = {
@@ -1767,7 +1771,7 @@ describe('App item reference navigation', () => {
     )
     expect(session.getState().scenes[0]!.entities).toHaveLength(0)
     expect(renderedScriptSession.getState().scenes[0]!.entities).toHaveLength(0)
-    expect(host.querySelector('[role="status"]')?.textContent).toContain('已删除实体 e760；可撤销')
+    expect(host.querySelector('.valbar-status')?.textContent).toContain('已删除实体 e760；可撤销')
     expect(
       (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedEntityId,
     ).toBeNull()
@@ -1786,7 +1790,7 @@ describe('App item reference navigation', () => {
     expect(document.activeElement).toBe(namedEntryDelete)
     await act(async () => namedEntryDelete.click())
     expect(Object.keys(session.getState().scenes[0]!.entries ?? {})).toHaveLength(0)
-    expect(host.querySelector('[role="status"]')?.textContent).toContain(
+    expect(host.querySelector('.valbar-status')?.textContent).toContain(
       '已删除命名落点 camp；可撤销',
     )
     expect(document.activeElement).toBe(tree.querySelector('.ds-catalog-row'))
@@ -1811,6 +1815,11 @@ describe('App item reference navigation', () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const shell = shellState()
     shell.scenes.push({ ...shellScene(), id: 's048', mapId: 'm048', entities: [] })
+    shell.sceneIndex.scenes.push({
+      id: 's048',
+      name: '第二场景',
+      path: 'content/scenes/s048.json',
+    })
     const session = await renderApp(shell)
     const tree = host.querySelector<HTMLElement>('.outliner .tree')!
     const toolbar = host.querySelector<HTMLElement>('.toolbar')!
@@ -1925,6 +1934,60 @@ describe('App item reference navigation', () => {
     expect(canvas().selectedEntityId).toBeNull()
   })
 
+  test('场景名称目录、弹窗 create/copy/delete、双会话与正式试玩形成闭环', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const open = vi.spyOn(window, 'open').mockImplementation(() => null)
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = await renderApp()
+
+    expect(host.textContent).toContain('测试场景')
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="新建场景"]')!.click())
+    expect(document.querySelector('dialog[aria-label="新建场景"]')).not.toBeNull()
+    await act(async () => button('创建场景', document).click())
+    expect(session.getState().sceneIndex.scenes.at(-1)).toMatchObject({
+      id: 'scene',
+      name: '新场景',
+      path: 'content/scenes/scene.json',
+    })
+    expect(renderedScriptSession.getState().scenes.some((scene) => scene.id === 'scene')).toBe(true)
+
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="更多操作"]')!.click())
+    await act(async () => button('复制当前场景', document).click())
+    expect(document.querySelector('dialog[aria-label="复制场景"]')).not.toBeNull()
+    await act(async () => button('复制场景', document).click())
+    expect(session.getState().sceneIndex.scenes.at(-1)).toMatchObject({
+      id: 'scene-copy',
+      name: '新场景 副本',
+    })
+    expect(renderedScriptSession.getState().scenes.some((scene) => scene.id === 'scene-copy')).toBe(
+      true,
+    )
+
+    await waitForAssertion(() => {
+      expect(host.querySelector<HTMLButtonElement>('[aria-label="更多操作"]')?.disabled).toBe(false)
+    })
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="更多操作"]')!.click())
+    const deleteMenuItem = [
+      ...document.querySelectorAll<HTMLButtonElement>('[role="menuitem"]'),
+    ].find((candidate) => candidate.textContent?.includes('删除当前场景'))!
+    expect(deleteMenuItem.disabled).toBe(false)
+    await act(async () => deleteMenuItem.click())
+    expect(document.querySelector('dialog[aria-label="删除场景"]')).not.toBeNull()
+    await act(async () => button('删除场景', document).click())
+    expect(session.getState().sceneIndex.scenes.some((scene) => scene.id === 'scene-copy')).toBe(
+      false,
+    )
+    expect(renderedScriptSession.getState().scenes.some((scene) => scene.id === 'scene-copy')).toBe(
+      false,
+    )
+
+    await act(async () => button('从默认落点引擎试玩', host).click())
+    expect(open).toHaveBeenCalledWith(
+      'play.html?project=test&scene=scene&pos=0,0&facing=down',
+      '_blank',
+    )
+  })
+
   test('命名落点引用使用 canonical 面板与真实按钮语义', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const shell = shellState()
@@ -1983,7 +2046,7 @@ describe('App item reference navigation', () => {
     expect(host.querySelector('[role="status"]')?.textContent).not.toContain('已删除')
   })
 
-  test('content19 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
+  test('content20 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const canonical = canonicalState()
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
@@ -2007,7 +2070,7 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       content: { ...shell.manifest.content, sharedScripts: 'content/shared-scripts.json' },
     } as EditorState['manifest']
@@ -2057,7 +2120,7 @@ describe('App item reference navigation', () => {
     )
   })
 
-  test('content19 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
+  test('content20 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
     const canonical = canonicalState()
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
       kind: 'stages',
@@ -2080,7 +2143,7 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
@@ -2094,7 +2157,7 @@ describe('App item reference navigation', () => {
     }
 
     const merged = mergeEditorProjectionWithCurrentAuthorState(canonical, shell)
-    expect(merged.manifest.contentVersion).toBe(19)
+    expect(merged.manifest.contentVersion).toBe(20)
     expect(merged.scenes[0]!.entry.pos).toEqual({ col: 9, row: 8, height: 0 })
     expect(
       (merged.scenes[0] as unknown as ScriptEditorState['scenes'][number]).entities[0]!.behaviors!

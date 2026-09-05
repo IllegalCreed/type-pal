@@ -4,6 +4,12 @@
 > **本文件是设计(架构与决策的记录),非实现。** GLM 开工照 [project-foundation-plan.md](project-foundation-plan.md)。
 > 状态:设计(已复审,待 GLM 再审)。先读 [READ-FIRST](../READ-FIRST.md)——本阶段无「真值锚 / 对齐原版」,只要架构干净、好扩展、迁来的内容能正确跑。
 
+> **当前实现补充（2026-09-05，content20）**：下文 v1 单文件示例保留为历史设计。当前 manifest 的
+> `content.scenes` 指向场景目录，目录 `index.json` 使用 `SceneIndexV1` 显式保存稳定 SceneId、作者名称与
+> 项目相对正文路径；Reforge/editor/clone/save 只按 index path 读取或写入，不再从 id 推导文件名。
+> SceneDef 正文不保存显示名。场景新建、复制和删除同时修改 main/script 两个 session；物理删除在新正文、
+> SceneIndex 与 manifest 成功提交后执行，中断最多留下未被 index 引用的安全 orphan。
+
 ## 0. 为什么要做(现状痛点)
 
 当前引擎与游戏内容是**编译期绑死**的:

@@ -29,7 +29,11 @@ export function buildMigrationTransactionChanges(args: {
 }): TransactionChange[] {
   const { repo, plan, previousBaseline, nextBaseline, nextManifest } = args
   const changes: TransactionChange[] = []
-  for (const [path, value] of [...plan.writes].sort(([a], [b]) => a.localeCompare(b))) {
+  const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 1 : 0)
+  for (const [path, value] of [...plan.writes].sort(
+    ([left], [right]) =>
+      projectWriteOrder(left) - projectWriteOrder(right) || left.localeCompare(right),
+  )) {
     changes.push({
       target: `projects/pal/${path}`,
       scope: 'project',
@@ -39,13 +43,14 @@ export function buildMigrationTransactionChanges(args: {
   for (const path of [...plan.deletes].sort()) {
     changes.push({ target: `projects/pal/${path}`, scope: 'project' })
   }
-  for (const retirement of [...(args.retiredAssets ?? [])].sort((a, b) =>
-    a.path.localeCompare(b.path) || a.id.localeCompare(b.id))) {
+  for (const retirement of [...(args.retiredAssets ?? [])].sort(
+    (a, b) => a.path.localeCompare(b.path) || a.id.localeCompare(b.id),
+  )) {
     if (
-      retirement.path.includes('\\')
-      || retirement.path.split('/').some((part) => part === '' || part === '.' || part === '..')
-      || !retirement.path.startsWith('assets/migrated/')
-      || !/^[a-f0-9]{64}$/.test(retirement.expectedSha256)
+      retirement.path.includes('\\') ||
+      retirement.path.split('/').some((part) => part === '' || part === '.' || part === '..') ||
+      !retirement.path.startsWith('assets/migrated/') ||
+      !/^[a-f0-9]{64}$/.test(retirement.expectedSha256)
     )
       throw new Error(`退役迁移资源计划无效: ${retirement.id} -> ${retirement.path}`)
     changes.push({

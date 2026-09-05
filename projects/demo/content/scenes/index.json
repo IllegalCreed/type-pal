@@ -1,3 +1,10 @@
-[
-  "guijie-minju"
-]
+{
+  "version": 1,
+  "scenes": [
+    {
+      "id": "guijie-minju",
+      "name": "鬼界民居",
+      "path": "content/scenes/guijie-minju.json"
+    }
+  ]
+}

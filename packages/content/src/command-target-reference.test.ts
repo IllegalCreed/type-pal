@@ -3,6 +3,7 @@ import {
   collectCanonicalCommandTargetReferences,
   collectCommandTargetReferences,
   commandTargetReferencesAtNode,
+  rewriteExplicitSceneReferences,
 } from './command-target-reference.js'
 
 describe('command target reference leaves', () => {
@@ -201,5 +202,62 @@ describe('command target reference leaves', () => {
     )
     expect(commandTargetReferencesAtNode({ kind: 'loadScene', scene: '' }, 'x')).toEqual([])
     expect(commandTargetReferencesAtNode({ scene: 's', entity: 'e', extra: true }, 'x')).toEqual([])
+  })
+
+  test('copy rewrite只改 typed self scene targets，保留 external targets 与输入', () => {
+    const source = {
+      flow: {
+        kind: 'branch',
+        cond: {
+          kind: 'all',
+          of: [
+            { kind: 'currentScene', scene: 'source' },
+            { kind: 'currentScene', scene: 'external' },
+          ],
+        },
+        then: [
+          { kind: 'loadScene', scene: 'source', entryId: 'door' },
+          {
+            kind: 'selectSceneHooks',
+            scene: 'source',
+            selection: { onEnter: { kind: 'use', value: 'night' } },
+          },
+          { kind: 'moveEntity', target: { scene: 'source', entity: 'npc' } },
+          { kind: 'moveEntity', target: { scene: 'external', entity: 'npc-2' } },
+          { kind: 'setSceneMapOverride', scene: 'source', mapId: 'map-a' },
+          { kind: 'setSceneMapOverride', mapId: 'map-current' },
+        ],
+        else: [],
+      },
+    }
+    const before = JSON.parse(JSON.stringify(source))
+    const rewritten = rewriteExplicitSceneReferences(source, 'source', 'copy')
+
+    expect(source).toEqual(before)
+    expect(collectCommandTargetReferences(rewritten, 'root')).toEqual(
+      collectCommandTargetReferences(source, 'root').map((reference) => {
+        switch (reference.target.kind) {
+          case 'scene':
+            return reference.target.id === 'source'
+              ? { ...reference, target: { ...reference.target, id: 'copy' } }
+              : reference
+          case 'scene-entry':
+          case 'scene-hook':
+          case 'entity':
+            return reference.target.sceneId === 'source'
+              ? { ...reference, target: { ...reference.target, sceneId: 'copy' } }
+              : reference
+          default:
+            return reference
+        }
+      }),
+    )
+    expect(rewritten.flow.then[0]).toMatchObject({ scene: 'copy', entryId: 'door' })
+    expect(rewritten.flow.then[1]).toMatchObject({
+      scene: 'copy',
+      selection: { onEnter: { value: 'night' } },
+    })
+    expect(rewritten.flow.then[3]).toMatchObject({ target: { scene: 'external', entity: 'npc-2' } })
+    expect(rewritten.flow.then[5]).not.toHaveProperty('scene')
   })
 })

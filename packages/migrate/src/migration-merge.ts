@@ -42,7 +42,7 @@ function snapshot(node: Node): VersionedJson {
 }
 
 function arrayMode(file: string, path: string): ArrayMode {
-  if (file === 'content/scenes/index.json' && path === '') return 'scene-index'
+  if (file === 'content/scenes/index.json' && path === '/scenes') return 'scene-index'
   if (file === 'content/maps/index.json' && path === '/maps') return 'id'
   if (
     path === '' &&
@@ -252,6 +252,7 @@ function mergeIdentityArray(
   path: string,
   ctx: MergeContext,
   primitive: boolean,
+  strictOrder = primitive,
 ): Node {
   const read = primitive ? primitiveIdentityMaps : identityMaps
   const baseState = read(base.value)
@@ -262,7 +263,7 @@ function mergeIdentityArray(
     return cloneNode(ours)
   }
   if (
-    primitive &&
+    strictOrder &&
     changedOrder(baseState.order, oursState.order) &&
     changedOrder(baseState.order, theirsState.order) &&
     !isDeepStrictEqual(oursState.order, theirsState.order)
@@ -374,7 +375,8 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
     const mode = arrayMode(ctx.file, path)
     const empty = present([]) as Node & { value: MigrationJson[] }
     if (mode === 'id') return mergeIdentityArray(empty, ours, theirs, path, ctx, false)
-    if (mode === 'scene-index') return mergeIdentityArray(empty, ours, theirs, path, ctx, true)
+    if (mode === 'scene-index')
+      return mergeIdentityArray(empty, ours, theirs, path, ctx, false, true)
     if (
       (mode === 'pages' || mode === 'stages') &&
       identityMaps(ours.value) &&
@@ -385,7 +387,8 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
   if (isArray(base) && isArray(ours) && isArray(theirs)) {
     const mode = arrayMode(ctx.file, path)
     if (mode === 'id') return mergeIdentityArray(base, ours, theirs, path, ctx, false)
-    if (mode === 'scene-index') return mergeIdentityArray(base, ours, theirs, path, ctx, true)
+    if (mode === 'scene-index')
+      return mergeIdentityArray(base, ours, theirs, path, ctx, false, true)
     if (mode === 'pages') {
       if (identityMaps(base.value) && identityMaps(ours.value) && identityMaps(theirs.value))
         return mergeIdentityArray(base, ours, theirs, path, ctx, false)

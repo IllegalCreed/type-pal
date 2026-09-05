@@ -18,7 +18,7 @@ function state(): EditorState {
     manifest: {
       id: 'refs',
       name: 'refs',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -267,6 +267,7 @@ function state(): EditorState {
       },
     ],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     stamps: [],
     tilesetBlobs: {},

@@ -13,6 +13,7 @@ import type {
   EntityAddress,
   Locale,
   SceneDef,
+  SceneIndexV1,
   ScriptCondition,
   ShopDef,
   SpriteDef,
@@ -35,11 +36,7 @@ import {
 } from '../core/author-command-edit.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ProjectReferenceEdge } from '../core/project-reference.js'
-import type {
-  CanonicalScriptReference,
-  ScriptCommandLocator,
-  ScriptEditorState,
-} from '../core/script-editor.js'
+import type { ScriptCommandLocator, ScriptEditorState } from '../core/script-editor.js'
 import { stateTransitionExecutionLabel } from '../core/script-editor.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
@@ -95,6 +92,7 @@ export interface CanonicalScriptEditorContext {
   state: ScriptEditorState
   currentSceneId?: string
   shellScenes: SceneDef[]
+  sceneIndex?: SceneIndexV1
   locale: Locale
   assetCatalog: AssetCatalogV1
   audioResolver: AudioAssetReader
@@ -118,6 +116,11 @@ export interface CanonicalScriptEditorContext {
   onOpenBattleSprite?: (id: string) => void
   onOpenBattleField?: (id: number) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
+}
+
+function sceneDisplayLabel(sceneIndex: SceneIndexV1 | undefined, sceneId: string): string {
+  const asset = sceneIndex?.scenes.find((candidate) => candidate.id === sceneId)
+  return asset ? `${asset.name} · ${sceneId}` : sceneId
 }
 
 export interface ScriptSchemeReferencePresentation {
@@ -945,9 +948,7 @@ function CommandRows(props: {
   const reorderKeys = useDsReorderKeys(props.body)
   if (!props.body.length && props.showEmptyAction === false)
     return (
-      <p className="canonical-script-editor-empty">
-        当前脚本还没有指令；请使用右上角“添加指令”。
-      </p>
+      <p className="canonical-script-editor-empty">当前脚本还没有指令；请使用右上角“添加指令”。</p>
     )
   if (!props.body.length)
     return (
@@ -1048,9 +1049,7 @@ function CommandRows(props: {
                 <section className="canonical-command-child" key={child.key}>
                   <header className="canonical-command-child__header">
                     <span className="canonical-command-child__label">{child.label}</span>
-                    <span className="canonical-command-child__count">
-                      {child.body.length} 条
-                    </span>
+                    <span className="canonical-command-child__count">{child.body.length} 条</span>
                   </header>
                   <CommandRows
                     body={child.body}
@@ -1152,6 +1151,7 @@ function entitySupportsFacing(entity: ScriptEditorEntity): boolean {
 function EntityAddressEditor(props: {
   value: EntityAddress
   state?: ScriptEditorState
+  sceneIndex?: SceneIndexV1
   entityFilter?: (entity: ScriptEditorEntity) => boolean
   onChange: (value: EntityAddress) => void
 }) {
@@ -1190,7 +1190,7 @@ function EntityAddressEditor(props: {
                 : []),
               ...selectableScenes.map((candidate) => ({
                 value: candidate.id,
-                label: candidate.id,
+                label: sceneDisplayLabel(props.sceneIndex, candidate.id),
               })),
             ]}
             onValueChange={(sceneId) => {
@@ -1253,6 +1253,7 @@ function EntityAddressEditor(props: {
 function ConditionEditor(props: {
   value: AuthorCondition
   state?: ScriptEditorState
+  sceneIndex?: SceneIndexV1
   references?: ScriptReferenceCatalog
   worldVariables?: WorldVariableRegistryV1
   onOpenWorldVariable?: (id: string) => void
@@ -1374,7 +1375,10 @@ function ConditionEditor(props: {
                 ...(!props.state.scenes.some((scene) => scene.id === currentScene.scene)
                   ? [{ value: currentScene.scene, label: `${currentScene.scene}（引用失效）` }]
                   : []),
-                ...props.state.scenes.map((scene) => ({ value: scene.id, label: scene.id })),
+                ...props.state.scenes.map((scene) => ({
+                  value: scene.id,
+                  label: sceneDisplayLabel(props.sceneIndex, scene.id),
+                })),
               ]}
               onValueChange={(scene) => patch({ scene })}
             />
@@ -1435,6 +1439,7 @@ function ConditionEditor(props: {
         <EntityAddressEditor
           value={target}
           state={props.state}
+          sceneIndex={props.sceneIndex}
           onChange={(next) => patch({ target: next })}
         />
       ) : null}
@@ -1464,6 +1469,7 @@ function ConditionEditor(props: {
               key={index}
               value={condition}
               state={props.state}
+              sceneIndex={props.sceneIndex}
               references={props.references}
               worldVariables={props.worldVariables}
               onOpenWorldVariable={props.onOpenWorldVariable}
@@ -1495,6 +1501,7 @@ function ConditionEditor(props: {
         <ConditionEditor
           value={props.value.cond}
           state={props.state}
+          sceneIndex={props.sceneIndex}
           references={props.references}
           worldVariables={props.worldVariables}
           onOpenWorldVariable={props.onOpenWorldVariable}
@@ -1782,6 +1789,7 @@ function CanonicalCommandForm(props: {
         <ConditionEditor
           value={command.cond}
           state={context?.state}
+          sceneIndex={context?.sceneIndex}
           references={context?.references}
           worldVariables={context?.worldVariables}
           onOpenWorldVariable={context?.onOpenWorldVariable}
@@ -1825,6 +1833,7 @@ function CanonicalCommandForm(props: {
             <EntityAddressEditor
               value={command.self}
               state={context?.state}
+              sceneIndex={context?.sceneIndex}
               onChange={(self) => props.onChange({ ...command, self })}
             />
             <DsButton
@@ -2126,8 +2135,10 @@ function CanonicalCommandForm(props: {
             value={command.scene ?? ''}
             options={[
               { value: '', label: '当前场景' },
-              ...(context?.state.scenes.map((scene) => ({ value: scene.id, label: scene.id })) ??
-                []),
+              ...(context?.state.scenes.map((scene) => ({
+                value: scene.id,
+                label: sceneDisplayLabel(context.sceneIndex, scene.id),
+              })) ?? []),
             ]}
             onValueChange={(scene) => props.onChange({ ...command, scene: scene || undefined })}
           />
@@ -2196,6 +2207,7 @@ function CanonicalCommandForm(props: {
           <EntityAddressEditor
             value={target}
             state={context?.state}
+            sceneIndex={context?.sceneIndex}
             entityFilter={command.kind === 'setEntityFacing' ? entitySupportsFacing : undefined}
             onChange={(next) =>
               props.onChange(stripCursorHandoff({ ...command, target: next } as AuthorCommand))
@@ -2442,6 +2454,7 @@ function CanonicalCommandForm(props: {
             key={`${target.scene}/${target.entity}/${index}`}
             value={target}
             state={context?.state}
+            sceneIndex={context?.sceneIndex}
             onChange={(next) => {
               const targets = [...command.targets]
               targets[index] = next
@@ -2526,7 +2539,7 @@ function CanonicalCommandForm(props: {
             options={
               context?.state.scenes.map((candidate) => ({
                 value: candidate.id,
-                label: candidate.id,
+                label: sceneDisplayLabel(context.sceneIndex, candidate.id),
               })) ?? []
             }
             onValueChange={(scene) => props.onChange({ ...command, scene })}
@@ -3194,7 +3207,7 @@ export function CanonicalScriptBodyEditor(props: {
         !getAuthorCommandAt(props.body, parseAuthorCommandPath(editingDraft.path)))
     )
       setEditingDraft(undefined)
-  }, [props.body, selectedPath, editingDraft])
+  }, [props.body, selectedPath, editingDraft, props.focusRevision])
 
   useEffect(() => {
     if (props.focusRevision === undefined || props.focusCommandPath === undefined) return
@@ -3244,12 +3257,7 @@ export function CanonicalScriptBodyEditor(props: {
       <span className="canonical-script-editor-summary">
         {props.body.length} 条顶层指令 · 双击指令可编辑
       </span>
-      <DsButton
-        size="compact"
-        variant="secondary"
-        icon="add"
-        onClick={openInsertAtEnd}
-      >
+      <DsButton size="compact" variant="secondary" icon="add" onClick={openInsertAtEnd}>
         添加指令
       </DsButton>
     </>
@@ -3618,6 +3626,7 @@ function TransitionEditor(props: {
           <ConditionEditor
             value={transition.cond}
             state={props.context?.state}
+            sceneIndex={props.context?.sceneIndex}
             references={props.context?.references}
             worldVariables={props.context?.worldVariables}
             onOpenWorldVariable={props.context?.onOpenWorldVariable}

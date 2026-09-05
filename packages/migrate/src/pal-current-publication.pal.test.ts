@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { ActorDef, ItemData, ShopDef } from '@type-pal/content'
+import { type ActorDef, type ItemData, type ShopDef, validateSceneIndex } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
 import {
@@ -13,7 +13,7 @@ import { loadPalMigrationSources } from './pal-migration-io.js'
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
 describe('PAL current-only publication', () => {
-  it('publishes the current baseline and raw-owned partitions directly as content19/SAVE8', () => {
+  it('publishes the current baseline and raw-owned partitions directly as content20/SAVE8', () => {
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
     const sources = loadPalMigrationSources(repo)
@@ -34,12 +34,34 @@ describe('PAL current-only publication', () => {
     if (stalePool.kind !== 'drawFromResourcePool') throw new Error('expected resource pool')
     delete stalePool.unavailableMessage
     const staleBaseline = { ...baseline!, files: new Map(baseline!.files) }
+    staleBaseline.managedFiles = new Set(baseline!.managedFiles)
     staleBaseline.files.set('content/items.json', staleItems as never)
+    const sceneIndex = validateSceneIndex(staleBaseline.files.get('content/scenes/index.json'))
+    const authoredScene = sceneIndex.scenes[0]!
+    const previousScenePath = authoredScene.path
+    const authoredScenePath = 'content/authored/opening.json'
+    authoredScene.name = '作者命名的开场'
+    authoredScene.path = authoredScenePath
+    staleBaseline.files.set('content/scenes/index.json', sceneIndex as never)
+    staleBaseline.files.set(authoredScenePath, staleBaseline.files.get(previousScenePath)!)
+    staleBaseline.files.delete(previousScenePath)
+    staleBaseline.managedFiles.delete(previousScenePath)
+    staleBaseline.managedFiles.add(authoredScenePath)
     const publication = buildPalCurrentPublication(staleBaseline, sources)
     const manifest = buildPalCurrentManifest(sources.assetCatalog)
     const report = validatePalCurrentPublication({ publication, manifest, sources })
 
     expect(report).toMatchObject({ scenes: 294, maps: 223, assets: 1_934 })
+    const publishedSceneIndex = validateSceneIndex(
+      publication.files.get('content/scenes/index.json'),
+    )
+    expect(publishedSceneIndex.scenes[0]).toEqual({
+      id: authoredScene.id,
+      name: '作者命名的开场',
+      path: authoredScenePath,
+    })
+    expect(publication.files.has(authoredScenePath)).toBe(true)
+    expect(publication.files.has(previousScenePath)).toBe(false)
     const actors = publication.files.get('content/actors.json') as unknown as ActorDef[]
     expect(actors.map(({ id }) => id)).toEqual([
       'li-xiaoyao',

@@ -22,6 +22,10 @@ function mkState(): EditorState {
         entities: [{ id: 'e', pos: { col: 1, row: 1, height: 0 }, sprite: 'ghost' }],
       },
     ],
+    sceneIndex: {
+      version: 1,
+      scenes: [{ id: 's', name: '场景', path: 'content/scenes/s.json' }],
+    },
     actors: [],
     skills: [],
     levelUp: {},

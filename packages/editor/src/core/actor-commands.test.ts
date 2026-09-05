@@ -27,7 +27,7 @@ function state(actors: ActorDef[] = []): EditorState {
     manifest: {
       id: 'actor-crud',
       name: 'actor crud',
-      contentVersion: 19,
+      contentVersion: 20,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -56,6 +56,7 @@ function state(actors: ActorDef[] = []): EditorState {
     sprites: [sprite],
     battleSprites: [],
     maps: {},
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     stamps: [],
     tilesetBlobs: {},

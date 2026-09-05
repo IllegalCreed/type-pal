@@ -7,7 +7,7 @@ function makeState(overrides: Partial<EditorState> = {}): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 19,
+      contentVersion: 20,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       entryPoints: [
@@ -28,6 +28,7 @@ function makeState(overrides: Partial<EditorState> = {}): EditorState {
     tilesets: [],
     stamps: [],
     ambiences: [],
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     assetCatalog: { version: 1, assets: {} },
     ...overrides,

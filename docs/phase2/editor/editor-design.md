@@ -279,9 +279,14 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
 - 地图正文保持懒加载，不塞回 Worker。session 级 map/stamp facts 生成带 path/revision/generation/coverage 的
   edge batch；partial、failure、迟到读取和在途 hydrate 均不能授权删除。Tileset/Stamp 的领域 proof 继续
   额外约束 bytes/SHA/definition/frame/placement，并在 apply/redo 同步复核。
-- 索引是当前 revision 的非持久化派生物，不写 graph 文件、不改 content19/SAVE8，也不保留旧版本 fallback。
+- 引用索引是当前 revision 的非持久化派生物，不写 graph 文件、不改 content20/SAVE8，也不保留旧版本 fallback。
   场景的复制/可读命名、商店的复制/货单派生目录标题，以及两者的删除文件、保存重开和独立试运行属于后续生命周期卡，不能在页面旁路复制
   collector/locator/policy。
+- 场景生命周期使用 `SceneIndexV1`：目录和所有场景选择器显示 `name + SceneId`，Scene Inspector 复用
+  `DsInspectorTabs + DsReferencePanel`；新建/复制/危险删除使用 `DsListHeader` 与 `DsDialog`。名称只改目录
+  元数据；复制共享地图/资产并通过 content typed transformer 改写复制体内部显式自引用；删除在 UI 与
+  command apply/redo 两层消费 ED-3 current exact proof。列表内容区无额外面板内边距，表单仍使用标准
+  Inspector 属性间距。
 
 ## 6. 校验层(第四根)—— 编辑器的核心价值
 

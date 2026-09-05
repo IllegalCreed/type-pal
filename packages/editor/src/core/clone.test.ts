@@ -38,6 +38,11 @@ async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
+const sceneIndex = (ids: string[]) => ({
+  version: 1,
+  scenes: ids.map((id) => ({ id, name: id, path: `content/scenes/${id}.json` })),
+})
+
 function recordingDir(): { dir: FileSystemDirectoryHandle; written: Map<string, unknown> } {
   const written = new Map<string, unknown>()
   const make = (prefix: string): FileSystemDirectoryHandle =>
@@ -80,7 +85,7 @@ async function localTarget(dir: FileSystemDirectoryHandle) {
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 19,
+  contentVersion: 20,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: { actors: 'content/actors.json', scenes: 'content/scenes/' },
@@ -103,7 +108,7 @@ describe('cloneFromPal', () => {
       '.type-pal/pal-development.json': { workspaceId: 'must-not-clone' },
       '.type-pal/workspace.json': { workspaceId: 'must-not-clone' },
       'manifest.json': manifest,
-      'content/scenes/index.json': ['s1'],
+      'content/scenes/index.json': sceneIndex(['s1']),
       'content/actors.json': [{ id: 'a' }],
       'content/scenes/s1.json': { id: 's1' },
       'assets/index.json': {
@@ -146,7 +151,7 @@ describe('cloneFromPal', () => {
         ...manifest,
         content: { ...manifest.content, tilesets: 'content/tilesets.json' },
       },
-      'content/scenes/index.json': ['s1'],
+      'content/scenes/index.json': sceneIndex(['s1']),
       'content/scenes/s1.json': { id: 's1' },
       'content/actors.json': [],
       'content/tilesets.json': [
@@ -185,7 +190,7 @@ describe('cloneFromPal', () => {
         ...manifest,
         content: { ...manifest.content, battleSprites: 'content/battle-sprites.json' },
       },
-      'content/scenes/index.json': ['s1'],
+      'content/scenes/index.json': sceneIndex(['s1']),
       'content/scenes/s1.json': { id: 's1' },
       'content/actors.json': [],
       'content/battle-sprites.json': [
@@ -230,7 +235,7 @@ describe('cloneFromPal', () => {
         ...manifest,
         content: { ...manifest.content, maps: 'content/maps/index.json' },
       },
-      'content/scenes/index.json': ['s1'],
+      'content/scenes/index.json': sceneIndex(['s1']),
       'content/scenes/s1.json': { id: 's1' },
       'content/actors.json': [],
       'content/maps/index.json': mapIndex,

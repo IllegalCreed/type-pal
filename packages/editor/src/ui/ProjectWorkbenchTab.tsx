@@ -111,6 +111,7 @@ export interface ProjectWorkbenchTabProps {
   page: ProjectWorkbenchPage
   manifest: ManifestLike
   scenes: SceneDef[]
+  sceneIndex?: import('@type-pal/content').SceneIndexV1
   actors: ActorDef[]
   items: ItemData[]
   poisons: PoisonDef[]
@@ -1762,6 +1763,14 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
     ? assetCatalog.assets[selected.introVideo]
     : undefined
   const sceneIds = useMemo(() => scenes.map((scene) => scene.id).sort(), [scenes])
+  const sceneChoices = useMemo(
+    () =>
+      sceneIds.map((id) => {
+        const asset = props.sceneIndex?.scenes.find((entry) => entry.id === id)
+        return { value: id, label: asset ? `${asset.name} · ${id}` : id }
+      }),
+    [props.sceneIndex, sceneIds],
+  )
   const videoAssets = useMemo(
     () =>
       Object.entries(assetCatalog.assets)
@@ -2030,7 +2039,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                     ...(!sceneIds.includes(selected.scene)
                       ? [{ value: selected.scene, label: `${selected.scene}（缺失）` }]
                       : []),
-                    ...sceneIds.map((id) => ({ value: id, label: id })),
+                    ...sceneChoices,
                   ]}
                   onValueChange={(value) => patchEntry(selected.id, { scene: value })}
                 />

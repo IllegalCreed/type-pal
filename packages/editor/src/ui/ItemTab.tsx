@@ -1834,6 +1834,7 @@ export function ItemTab(props: {
                       onError={reportItemEffectError}
                       itemId={item.id}
                       scenes={editorState.scenes as readonly SceneDef[]}
+                      sceneIndex={editorState.sceneIndex}
                       privateScripts={privateScripts('use')}
                       onAddPrivateScript={script ? addPrivateScript : undefined}
                       draftScope={`item:${item.id}:use`}

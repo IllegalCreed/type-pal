@@ -33,10 +33,10 @@ vi.mock('./handle-store.js', () => ({
 }))
 
 import { sha256Hex } from './binary-signature.js'
-import { DeleteAssetCommand } from './commands.js'
+import { AddSceneCommand, DeleteAssetCommand, DeleteSceneCommand } from './commands.js'
 import { EditSession } from './edit-session.js'
-import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import { serializeProject, toEditorState, writeFile, writeProject } from './project-io.js'
+import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import {
   assertSamePalDevelopmentProof,
   createLocalWorkspaceContext,
@@ -161,6 +161,52 @@ function dirHandle(node: MemDir): FileSystemDirectoryHandle {
   } as unknown as FileSystemDirectoryHandle
 }
 
+/** close 指定文件前注入失败；用于证明发布索引失败时只能留下安全 orphan。 */
+function faultBeforeClose(
+  base: FileSystemDirectoryHandle,
+  targetPath: string,
+  prefix = '',
+): FileSystemDirectoryHandle {
+  return {
+    kind: 'directory',
+    name: base.name,
+    async isSameEntry(other: FileSystemHandle) {
+      return base.isSameEntry(other)
+    },
+    async *entries() {
+      yield* base.entries()
+    },
+    async getDirectoryHandle(name: string, options?: { create?: boolean }) {
+      return faultBeforeClose(
+        await base.getDirectoryHandle(name, options),
+        targetPath,
+        `${prefix}${name}/`,
+      )
+    },
+    async getFileHandle(name: string, options?: { create?: boolean }) {
+      const file = await base.getFileHandle(name, options)
+      if (`${prefix}${name}` !== targetPath) return file
+      return {
+        kind: 'file',
+        name,
+        getFile: () => file.getFile(),
+        async createWritable() {
+          const writable = await file.createWritable()
+          return {
+            write: (value: unknown) => writable.write(value as never),
+            async close() {
+              throw new Error(`fault before close ${targetPath}`)
+            },
+          }
+        },
+      } as unknown as FileSystemFileHandle
+    },
+    removeEntry: (name: string, options?: FileSystemRemoveOptions) =>
+      base.removeEntry(name, options),
+    __node: (base as unknown as { __node?: MemDir }).__node,
+  } as unknown as FileSystemDirectoryHandle
+}
+
 function fileHandle(parent: MemDir, file: MemFile): FileSystemFileHandle {
   return {
     kind: 'file',
@@ -190,7 +236,7 @@ const LOCAL_ID = '55555555-5555-4555-8555-555555555555'
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 19,
+  contentVersion: 20,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: {
@@ -220,7 +266,14 @@ function palFiles(): Record<string, unknown> {
     [PAL_DEVELOPMENT_SENTINEL_PATH]: sentinel,
     'manifest.json': manifest,
     'assets/index.json': { version: 1, assets: {} },
-    'content/scenes/index.json': ['s001', 's002'],
+    'content/scenes/index.json': {
+      version: 1,
+      scenes: ['s001', 's002'].map((id) => ({
+        id,
+        name: id,
+        path: `content/scenes/${id}.json`,
+      })),
+    },
     'content/maps/index.json': { version: 1, maps: ['m001', 'm002'] },
   }
 }
@@ -670,7 +723,10 @@ describe('workspace persistence policy', () => {
     }
     const loaded = assembleCurrentProject(lifecycleManifest, {
       actors: [],
-      sceneIds: ['s001'],
+      sceneIndex: {
+        version: 1,
+        scenes: [{ id: 's001', name: '场景', path: 'content/scenes/s001.json' }],
+      },
       entryScenes: { s001: scene },
       skills: { skills: [], levelUp: {} },
       items: [],
@@ -754,6 +810,127 @@ describe('workspace persistence policy', () => {
     expect(getFile(root, assetPath)?.bytes).toEqual(new Uint8Array(previousBytes))
     expect(snapshot.has(assetPath)).toBe(true)
     expect(session.isDirty()).toBe(false)
+  })
+
+  test('场景 delete→save 与 undo→save 精确删除并复活显式 SceneIndex path', async () => {
+    const lifecycleManifest: CurrentManifest = {
+      ...manifest,
+      id: 'scene-lifecycle',
+      name: '场景文件生命周期',
+      content: {
+        ...manifest.content,
+        sharedScripts: 'content/shared-scripts.json',
+        worldVariables: 'content/world-variables.json',
+      },
+    }
+    const s001 = {
+      id: 's001',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' as const },
+      entities: [],
+    }
+    const s002 = { ...s001, id: 's002' }
+    const loaded = assembleCurrentProject(lifecycleManifest, {
+      actors: [],
+      sceneIndex: {
+        version: 1,
+        scenes: [
+          { id: 's001', name: '入口', path: 'content/scenes/s001.json' },
+          { id: 's002', name: '可删除', path: 'content/authored/optional.json' },
+        ],
+      },
+      entryScenes: { s001 },
+      skills: { skills: [], levelUp: {} },
+      items: [],
+      locale: {},
+      sprites: [],
+      battleSprites: [],
+      tilesets: [],
+      maps: {
+        version: 1,
+        maps: [{ id: 'map-001', name: '地图', path: 'content/maps/map-001.json' }],
+      },
+      sharedScripts: {},
+      worldVariables: {},
+      assetCatalog: { version: 1, assets: {} },
+    })
+    const initial = toEditorState(loaded, [s001, s002])
+    const mapCopies = { 'content/maps/map-001.json': '{"version":4}\n' }
+    const root = emptyDir('scene-lifecycle')
+    const handle = dirHandle(root)
+    const workspace = createLocalWorkspaceContext(lifecycleManifest.id, 'save-as', LOCAL_ID)
+    let snapshot = await writeProject(
+      await authorizeFirstSaveTarget(workspace, handle),
+      serializeProject(initial, { mapCopies }),
+    )
+    expect(getFile(root, 'content/authored/optional.json')).toBeDefined()
+
+    handleStore.load.mockResolvedValue({
+      workspaceId: LOCAL_ID,
+      projectId: lifecycleManifest.id,
+      mode: 'local-project',
+      source: 'save-as',
+      handle,
+    })
+    const session = new EditSession(initial)
+    session.markSaved()
+    expect(
+      session.dispatch(
+        new DeleteSceneCommand('s002', (state) => collectCurrentProjectReferenceIndex(state)),
+      ),
+    ).toBe(true)
+    expect(session.getDeletedScenePaths()).toEqual(['content/authored/optional.json'])
+    snapshot = await writeProject(
+      await authorizeBoundWorkspaceTarget(workspace, handle),
+      serializeProject(session.getState(), { mapCopies }),
+      { prevSnapshot: snapshot, removePaths: session.getDeletedScenePaths() },
+    )
+    session.markSaved()
+    expect(getFile(root, 'content/authored/optional.json')).toBeUndefined()
+    expect(
+      JSON.parse(new TextDecoder().decode(getFile(root, 'content/scenes/index.json')!.bytes)),
+    ).toMatchObject({ scenes: [{ id: 's001' }] })
+    expect(getFile(root, 'manifest.json')).toBeDefined()
+
+    expect(session.undo()).toBe(true)
+    expect(session.getDeletedScenePaths()).toEqual([])
+    snapshot = await writeProject(
+      await authorizeBoundWorkspaceTarget(workspace, handle),
+      serializeProject(session.getState(), { mapCopies }),
+      { prevSnapshot: snapshot, removePaths: session.getDeletedScenePaths() },
+    )
+    session.markSaved()
+    expect(getFile(root, 'content/authored/optional.json')).toBeDefined()
+    expect(snapshot.has('content/authored/optional.json')).toBe(true)
+
+    expect(
+      session.dispatch(
+        new AddSceneCommand(
+          { id: 's003', name: '中断场景', path: 'content/authored/interrupted.json' },
+          { ...s001, id: 's003' },
+        ),
+      ),
+    ).toBe(true)
+    const faultingHandle = faultBeforeClose(handle, 'content/scenes/index.json')
+    handleStore.load.mockResolvedValue({
+      workspaceId: LOCAL_ID,
+      projectId: lifecycleManifest.id,
+      mode: 'local-project',
+      source: 'save-as',
+      handle: faultingHandle,
+    })
+    await expect(
+      writeProject(
+        await authorizeBoundWorkspaceTarget(workspace, faultingHandle),
+        serializeProject(session.getState(), { mapCopies }),
+        { prevSnapshot: snapshot },
+      ),
+    ).rejects.toThrow('fault before close content/scenes/index.json')
+    expect(getFile(root, 'content/authored/interrupted.json')).toBeDefined()
+    const diskIndex = JSON.parse(
+      new TextDecoder().decode(getFile(root, 'content/scenes/index.json')!.bytes),
+    ) as { scenes: Array<{ id: string }> }
+    expect(diskIndex.scenes.map(({ id }) => id)).toEqual(['s001', 's002'])
   })
 
   test('sandbox marker source 必须是严格字符串而非可 String 化值', () => {

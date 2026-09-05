@@ -1,7 +1,7 @@
 # 能力地图（Capability Map）— 第二阶段的进度真值表
 
 > **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。
-> **最近对账：2026-09-05。** 当前唯一格式为 content19 / SAVE8；入口、角色当前状态与 current-only
+> **最近对账：2026-09-05。** 当前唯一格式为 content20 / SAVE8；入口、角色当前状态与 current-only
 > 架构均已完成三方审查和用户验收。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime
 > fallback 保持删除；PAL catalog 为 1,934 条，含 56 个 effect sprite。X4/A7 已随
 > `ARCH-CURRENT-ONLY-1` 收口为 ✅。本轮对账见
@@ -89,7 +89,7 @@
 | C3 | 装备 | ✅ | ✅ | 6 槽装备 | 引擎(2026-07-05/06):equipItem 装上扣包/旧件回包/职业·持有校验(item.test 9 测)+ 菜单流 7 测 + **装备效果 live 派生全链**(五灵/毒抗插 calcMagicDamage、grantSkill 授术[土/圣灵珠]、dualAttack 连击双打、attackAll 长鞭全体、keepEffect 万剑诀插剑复活);作者游戏内手感验收通过(2026-07-11)→ 引擎列 ✅。**编辑器(2026-07-10 C3):装备结构化(可装备开关/槽位/可装角色/效果链增删排序,照 SkillTab)+ 说明正名风味 + 「玩家看到」只读派生预览**;**数值单一真相源 = effects**(content `describeEquipEffects`,编辑器/游戏详情框/装备菜单同源;desc 去手拼效果、种子洗 105 件;详情框 >3 行自动上滚)——根治「说明写+14、实际 delta 不一定」脱节 |
 | C4 | 头像/立绘 | ✅ | ✅ | 对话立绘 | A7-2 已把 88 张立绘与 6 张战斗头像改为稳定 AssetId；对话、持久换形象、角色与战斗头像走同一 catalog/resolver。图像工作台支持预览、导入/替换、引用定位和安全删除；角色侧继续提供立绘组编辑 |
 | C5 | 技能持有 | ✅ | ✅ | 仙术菜单 | 引擎 done(learnedSkills);编辑器(2026-07-05):SkillTab(90 技能列表/名字·说明·战外可用/消耗·目标·效果·动画 JSON 兜底,UpdateSkillCommand 可 undo) |
-| C7 | 队伍管理(入队/离队) | ✅ | ✅ | 0x75 setParty(隐龙窟门口) | done(2026-07-07,D22 reserve 方案):applySetParty 纯函数(在队保留原实例/reserve 搬回带状态/新人实例化/落选不清数据)+ setParty 指令 + 队伍精灵动态解析/懒加载/LRU 保护;reserve 随存档。迁移 0x75→setParty(102 处/63 场景)。content19 的角色 condition 使用独立稳定 ActorId 指令，`setParty` 仍只负责阵容，不隐式播种或清理状态。编辑器:指令表单(中文名下拉有序表)。真机:隐龙窟门口全链 |
+| C7 | 队伍管理(入队/离队) | ✅ | ✅ | 0x75 setParty(隐龙窟门口) | done(2026-07-07,D22 reserve 方案):applySetParty 纯函数(在队保留原实例/reserve 搬回带状态/新人实例化/落选不清数据)+ setParty 指令 + 队伍精灵动态解析/懒加载/LRU 保护;reserve 随存档。迁移 0x75→setParty(102 处/63 场景)。content20 的角色 condition 使用独立稳定 ActorId 指令，`setParty` 仍只负责阵容，不隐式播种或清理状态。编辑器:指令表单(中文名下拉有序表)。真机:隐龙窟门口全链 |
 | C6 | 成长/升级 | ✅ | ✅ | 升级 | 引擎:B7a 战后 exp/升级成长/学技能/半恢复(原版公式,实测);编辑器(2026-07-05):角色模式「升级」区(expTable 曲线 textarea 失焦提交·非法数字拦截 + 升级学技能行:等级/技能下拉/增删,UpdateLevelUpCommand 可 undo) |
 | C8 | 物品用途与机制 | ✅ | ✅ | 土灵珠/炼蛊皿/紫金葫芦 | **done（2026-08-06 联合验收）**：100 个源 usable ID = 100 个可运行 use ID，item-use diagnostics=0；剩余 20 件/21 个源根、无影毒 throw、物品私有脚本创作闭环与工作台回归均已完成。N3-1 终态依赖解除后，Codex/Kimi/GLM 三方 `accept` 与用户对 C8/ED-5I 的联合验收齐；提交 `e70987d6` 已收口。证据见 [C8](../ops/tasks/C8-item-use-mechanisms.md)、[ED-5I](../ops/tasks/ED-5I-item-workbench.md) 与 [N3-1](../ops/tasks/N3-1-script-control-flow-modernization.md)。 |
 
@@ -99,7 +99,7 @@
 |---|---|---|---|---|---|
 | N1 | 对话播放 | ✅ | ✅ | 客栈开场李大娘 | done(N1-1,2026-07-15):唯一 `DialogueCue + rows` 模型、旧码只在 migrate、全量 PAL 重生成、MG2 零计划、三方复验与用户验收完成 |
 | N2 | 事件触发 | ✅ | ✅ | onEnter/物品触发 | done；实体 Page、trigger/auto Behavior 与 onEnter/onTeleport Hook variant 使用 stable-id canonical 当前模型，编辑器可选择、引用和回链；历史 N3-1/R13 验收结论继续有效。 |
-| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done；async 解释器+预览。可执行 `unmigrated`、旧 opcode 第二解释器和带版本后缀的脚本产品模型均已退役；当前 content19 直接使用 `AuthorCommand` / `AuthorScriptFlow` / `WorldScriptState`，并以稳定 ActorId 的结构化命令施加/清除剧情入队角色当前状态。 |
+| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done；async 解释器+预览。可执行 `unmigrated`、旧 opcode 第二解释器和带版本后缀的脚本产品模型均已退役；当前 content20 直接使用 `AuthorCommand` / `AuthorScriptFlow` / `WorldScriptState`，并以稳定 ActorId 的结构化命令施加/清除剧情入队角色当前状态。 |
 | N4 | 事件模板库 | — | ✅ | — | done;编辑器产物,引擎无依赖 |
 | N5 | 条件/变量/flag | ✅ | ✅ | 全局 flag | 引擎 done;编辑器(2026-07-05):数据模式「变量」页(flag/var 总览+读写明细)+ 物品页「被事件引用」区(737 处),点引用跳事件模式定位源(ref-index 全脚本递归扫描,含 branch/confirm/startBattle 子命令与 hostile.onLose) |
 | N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **N6 v1 done**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开均已落地；canonical 库为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不保存 chunk；脚本分片和“迁移内部实现”已从当前产品删除。N6b 已拍板为第二阶段薄基线后的窄版 content21 意图式创作（SceneIndex 先占 content20），仍未开实现卡且不反向降级 v1；通用化扩展归第三阶段。 |
@@ -135,7 +135,7 @@
 | X4 | 资源管线(RGBA 化) | ✅ | — | — | **done（ARCH-CURRENT-ONLY-1）**：当前实现为 catalog-only；PAL 1,934 条资产记录，56 个 effect sprite（652,870 B / 922 帧）由 migrate 确定性物化；editor/reforge 不读取 extracted、`assets.legacy` 或目录 fallback，旧版本兼容层已删除。 |
 | X6 | 工程生命周期 | ✅ | ✅ | — | **P1–P4 落地(2026-07-09)**:FileSource 抽象(httpSource/fsaSource,覆盖内容+素材)→ 启动屏 ProjectPicker(克隆/空白·打开本地·最近)→ 增量保存(快照-diff)+ IndexedDB 句柄(手势重连)+ 编辑器内「工程」菜单(新建/打开/另存为)。真实用户本地 app 闭环。见 editor/project-lifecycle-{design,p1..p4}。打包导出 zip 已由 A5 完成 |
 | X5 | **跳转预览/沙盒启动** | ✅ | ✅ | 跳任意演出 | v1:编辑器「🎮 引擎试玩」→ ?scene&pos&facing 落事件现场;?pos = dev 语义跳过 onEnter。**本地工程试玩修复(2026-07-10)**:曾写死 6051(永远 pal → 空白工程开出李逍遥,作者报);FSA 句柄跨不了源 → 引擎入口拆 `bootGame(project)` + 编辑器**同源 play.html**(IndexedDB 句柄→手势授权→fsaSource 磁盘启动;无句柄回退 dev 种子 http),试玩/试打/试放三处全改同源。试玩前配置世界变量/剧情标志等前置状态已移交第三阶段，不降级本格。 |
-| X7 | 入口点/开局档(多DLC入口) | ✅ | ✅ | 新游戏开局 | **done**：X7-1、`ARCH-ENTRYPOINT-CANONICAL-1`、`ARCH-ENTRY-ACTOR-SEED-1` 与 `ARCH-ACTOR-CONDITION-SEED-1` 均已收口。content19 以非空 `entryPoints` 为唯一入口真值，每项拥有 scene / introVideo / StartWorld；入口页维护队伍、背包、金钱、世界资源、当前 HP/MP 与 condition seed。seed 只在新建世界消费一次，读档不重播。 |
+| X7 | 入口点/开局档(多DLC入口) | ✅ | ✅ | 新游戏开局 | **done**：X7-1、`ARCH-ENTRYPOINT-CANONICAL-1`、`ARCH-ENTRY-ACTOR-SEED-1` 与 `ARCH-ACTOR-CONDITION-SEED-1` 均已收口。content20 以非空 `entryPoints` 为唯一入口真值，每项拥有 scene / introVideo / StartWorld；入口页维护队伍、背包、金钱、世界资源、当前 HP/MP 与 condition seed。seed 只在新建世界消费一次，读档不重播。 |
 
 ### 迁移器(Migrator)— 工具域,完成期退役 — 2 格
 
@@ -159,7 +159,7 @@
 | A4 | 用户上传自有素材 | — | ✅ | **已覆盖精灵、瓦片集、角色/敌人战斗外观、音乐、SFX、视频、完整帧动画及四类静态图**：A7-2 图像工作台支持立绘/头像/物品图标导入替换，战场真彩图在导入边界确定性量化并预览工程效果；引用保护、undo/redo、pending blob 与保存重开共用 catalog 链。默认字体/UI 属引擎，不是工程上传能力 |
 | A5 | 工程自包含分发(打包导出) | — | ✅ | **done(2026-07-10 A5)**:工程菜单「🗜 导出 zip」= FSA 目录递归原样打包下载(零依赖 zip 器:原生 deflate/CRC32/UTF-8 名/时间恒1980 可复现;读磁盘,dirty 提醒先保存;dev 种子工程禁用)。「另存为」丢磁盘素材债已修(整树拷贝+覆写,见 A5 卡) |
 | A6 | 预制库主动更新检查（→第三阶段） | — | — | 用户显式检查服务器新版并选择是否导入；不得自动覆盖工程。按用户 2026-09-03 裁决移交第三阶段，不是第二阶段缺口。 |
-| A7 | 工程资源闭包与稳定资源注册表 | ✅ | ✅ | **done（ARCH-CURRENT-ONLY-1）**：content19 manifest 的资源配置只含 catalog/roles，PAL 1,934 records；tileset/world sprite/battle sprite/effect sprite/image 均走 AssetId→catalog→AssetResolver/FileSource 单链，clone/save/export/runtime 无 extracted 或 legacy fallback。历史批次数字见[资源闭包审计](foundation/a7-resource-closure-audit.md)。 |
+| A7 | 工程资源闭包与稳定资源注册表 | ✅ | ✅ | **done（ARCH-CURRENT-ONLY-1）**：content20 manifest 的资源配置只含 catalog/roles，PAL 1,934 records；tileset/world sprite/battle sprite/effect sprite/image 均走 AssetId→catalog→AssetResolver/FileSource 单链，clone/save/export/runtime 无 extracted 或 legacy fallback。历史批次数字见[资源闭包审计](foundation/a7-resource-closure-audit.md)。 |
 
 > A1-A5 是第二阶段编辑器侧的素材与分发动作，故 `引擎—`；A6 保留历史格号但已移交第三阶段。A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。A1 保留为第二阶段最后的发布收口门，当前不提前实施；未决子问题（托管/版本/素材规模、A2 下载协议与进度、A4 支持格式）届时细化。版权素材实际替换不作为 A1/A7 或第二阶段完成条件。
 
@@ -188,7 +188,7 @@
    - E6(引擎) → E7/E8 → N7 → C7：定位权威、载具/跟随、演出接管、队伍管理
    - W1/W7/W8：单一地图格式、基础绘制、内容选择与实例属性编辑
    - B8/B9/W9：明雷追击、战斗回流、语义生命周期与编辑器策略闭环
-   - X1 → X5：SAVE8/content19 与跳转预览
+   - X1 → X5：SAVE8/content20 与跳转预览
 
    [MIG-PAL-INPARTY-ID-1](../ops/tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md) 已于
    2026-09-04 三方终审并经用户验收完成。

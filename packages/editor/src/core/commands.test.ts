@@ -86,12 +86,12 @@ import {
   createPlacedEntity,
   type EntityPlacement,
 } from './entity-placement.js'
-import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import {
   buildProjectReferenceSnapshot,
   createProjectReferenceIndex,
   createProjectReferenceSource,
 } from './project-reference.js'
+import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import type { ScriptEditorState } from './script-editor.js'
 import { findSceneEntryReferences } from './script-references.js'
 import { buildBlankProject } from './seed.js'
@@ -108,7 +108,7 @@ function st(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 19,
+      contentVersion: 20,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json' },
       assets: {
@@ -132,6 +132,10 @@ function st(): EditorState {
         entities: [ent('a'), ent('b')],
       },
     ],
+    sceneIndex: {
+      version: 1,
+      scenes: [{ id: 's', name: '场景 s', path: 'content/scenes/s.json' }],
+    },
     actors: [],
     skills: [],
     levelUp: {},
@@ -449,11 +453,20 @@ describe('新场景继承稳定地图引用', () => {
   test('空白项目自有地图经 dispatch/undo/redo 始终保持 mapId', async () => {
     const files = await buildBlankProject('W7E Test')
     const source = structuredClone(files['content/scenes/start.json']) as SceneDef
+    const sourceIndex = structuredClone(
+      files['content/scenes/index.json'],
+    ) as EditorState['sceneIndex']
     const initial = st()
     initial.scenes = [source]
+    initial.sceneIndex = sourceIndex
     const session = new EditSession(initial)
 
-    session.dispatch(new AddSceneCommand('s001', source.mapId, source.entry))
+    session.dispatch(
+      new AddSceneCommand(
+        { id: 's001', name: '新场景', path: 'content/scenes/s001.json' },
+        { id: 's001', mapId: source.mapId, entry: source.entry, entities: [] },
+      ),
+    )
     const added = session.getState().scenes.find((scene) => scene.id === 's001')
     expect(added?.mapId).toBe('start')
     expect(source.mapId).toBe('start')
@@ -467,10 +480,15 @@ describe('新场景继承稳定地图引用', () => {
   })
 
   test('显式 mapId 原样写入且可撤销', () => {
-    const command = new AddSceneCommand('map-copy', 'map-056', {
-      pos: { col: 90, row: 14, height: 0 },
-      facing: 'down',
-    })
+    const command = new AddSceneCommand(
+      { id: 'map-copy', name: '地图副本', path: 'content/scenes/map-copy.json' },
+      {
+        id: 'map-copy',
+        mapId: 'map-056',
+        entry: { pos: { col: 90, row: 14, height: 0 }, facing: 'down' },
+        entities: [],
+      },
+    )
     const changed = command.apply(st())
     expect(changed.scenes.find((scene) => scene.id === 'map-copy')?.mapId).toBe('map-056')
     expect(command.invert(changed).scenes.some((scene) => scene.id === 'map-copy')).toBe(false)
@@ -1590,11 +1608,9 @@ describe('A7-3B 战斗精灵定义/资产生命周期', () => {
     session.dispatch(new AddBattleSpriteCommand(definition, record, bytes, 10))
     session.dispatch(new AddBattleSpriteCommand(second, record, bytes, 10))
     expect(() =>
-      new DeleteUnusedBattleSpriteAssetCommand(
-        definition.asset,
-        currentReferences,
-        bytes,
-      ).apply(session.getState()),
+      new DeleteUnusedBattleSpriteAssetCommand(definition.asset, currentReferences, bytes).apply(
+        session.getState(),
+      ),
     ).toThrow(/仍被定义引用/)
     session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id, currentReferences))
     session.dispatch(new RemoveBattleSpriteDefinitionCommand(second.id, currentReferences))
@@ -2569,13 +2585,13 @@ describe('地图资产命令', () => {
     const s1 = command.apply(s0)
     expect(s1.mapIndex.maps).toEqual([{ id: 'home', name: '民居', path: 'content/maps/home.json' }])
     expect(s1.maps.home).toBeDefined()
-    expect(s1.manifest.contentVersion).toBe(19)
+    expect(s1.manifest.contentVersion).toBe(20)
     expect(s1.manifest.content.maps).toBe('content/maps/index.json')
     expect(s0.mapIndex.maps).toEqual([])
     const back = command.invert(s1)
     expect(back.mapIndex.maps).toEqual([])
     expect(back.maps.home).toBeUndefined()
-    expect(back.manifest.contentVersion).toBe(19)
+    expect(back.manifest.contentVersion).toBe(20)
     expect(back.manifest.content.maps).toBe('content/maps/index.json')
   })
 

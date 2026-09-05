@@ -70,7 +70,7 @@ const commandVisit = (
 const manifest = {
   id: 'test',
   name: 'Test',
-  contentVersion: 19,
+  contentVersion: 20,
   defaultEntryId: 'main',
   entryPoints: [
     {

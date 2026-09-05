@@ -2,17 +2,20 @@ import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import type {
   BaseAuthorCommand,
-  BaseSceneEntryPresentation,
   BaseSceneDef,
+  BaseSceneEntryPresentation,
   BaseScriptFlow,
+  SceneIndexV1,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 const readJson = <T>(rel: string): T => JSON.parse(readFileSync(root + rel, 'utf8')) as T
 
-const sceneIds = readJson<string[]>('projects/pal/content/scenes/index.json')
-const scenes = sceneIds.map((id) => readJson<BaseSceneDef>(`projects/pal/content/scenes/${id}.json`))
+const sceneIndex = readJson<SceneIndexV1>('projects/pal/content/scenes/index.json')
+const scenes = sceneIndex.scenes.map((entry) =>
+  readJson<BaseSceneDef>(`projects/pal/${entry.path}`),
+)
 
 function visitCommands(
   body: readonly BaseAuthorCommand[],

@@ -269,20 +269,6 @@
       },
       {
         "source": "App.tsx",
-        "component": "SceneInspector",
-        "propertyGrids": 1,
-        "host": {
-          "source": "App.tsx",
-          "component": "App",
-          "kind": "business-shell"
-        },
-        "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "场景基本属性 Inspector。",
-        "responsiveEvidence": "由 scene inspector 右侧栏消费。",
-        "removalCondition": "移出 Inspector 时改用 DsFieldGroup。"
-      },
-      {
-        "source": "App.tsx",
         "component": "NamedEntryInspector",
         "propertyGrids": 1,
         "host": {
@@ -370,6 +356,10 @@
         "component": "SceneEntityInspectorTabs"
       },
       {
+        "source": "App.tsx",
+        "component": "SceneInspector"
+      },
+      {
         "source": "AudioAssetWorkbench.tsx",
         "component": "AudioAssetWorkbench"
       },
@@ -438,6 +428,10 @@
       {
         "source": "App.tsx",
         "component": "SceneEntityInspectorTabs"
+      },
+      {
+        "source": "App.tsx",
+        "component": "SceneInspector"
       },
       {
         "source": "AudioAssetWorkbench.tsx",

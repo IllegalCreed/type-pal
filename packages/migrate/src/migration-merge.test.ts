@@ -316,13 +316,43 @@ describe('mergeManagedFile', () => {
   })
 
   test('scene index 双边不同重排冲突', () => {
+    const index = (ids: string[]) => ({
+      version: 1,
+      scenes: ids.map((id) => ({ id, name: id, path: `content/scenes/${id}.json` })),
+    })
     const result = mergeManagedFile(
       'content/scenes/index.json',
-      jsonPresent(['s1', 's2', 's3']),
-      jsonPresent(['s2', 's1', 's3']),
-      jsonPresent(['s1', 's3', 's2']),
+      jsonPresent(index(['s1', 's2', 's3'])),
+      jsonPresent(index(['s2', 's1', 's3'])),
+      jsonPresent(index(['s1', 's3', 's2'])),
     )
-    expect(result.conflicts).toMatchObject([{ path: '/', type: 'array-order' }])
+    expect(result.conflicts).toMatchObject([{ path: '/scenes', type: 'array-order' }])
+  })
+
+  test('SceneIndex name/path 按稳定 SceneId 合并独立作者与生成侧修改', () => {
+    const base = {
+      version: 1,
+      scenes: [{ id: 's1', name: '旧名', path: 'content/scenes/s1.json' }],
+    }
+    const ours = {
+      version: 1,
+      scenes: [{ id: 's1', name: '作者名', path: 'content/scenes/s1.json' }],
+    }
+    const theirs = {
+      version: 1,
+      scenes: [{ id: 's1', name: '旧名', path: 'content/authored/s1.json' }],
+    }
+    const result = mergeManagedFile(
+      'content/scenes/index.json',
+      jsonPresent(base),
+      jsonPresent(ours),
+      jsonPresent(theirs),
+    )
+    expect(result.conflicts).toEqual([])
+    expect(result.value.value).toEqual({
+      version: 1,
+      scenes: [{ id: 's1', name: '作者名', path: 'content/authored/s1.json' }],
+    })
   })
 
   test('pages 槽位支持尾部新增与独立字段修改', () => {

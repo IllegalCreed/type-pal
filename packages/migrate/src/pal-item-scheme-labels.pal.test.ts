@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { validateAuthorItems, validateAuthorScenes } from '@type-pal/content'
+import { validateAuthorItems, validateAuthorScenes, validateSceneIndex } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
@@ -11,26 +11,20 @@ const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 function baselineContent() {
   const baseline = loadPalBaseline(repo)
   if (!baseline) throw new Error('缺 PAL baseline')
-  const sceneIds = baseline.files.get('content/scenes/index.json')
-  if (!Array.isArray(sceneIds)) throw new Error('PAL baseline scene index 不是数组')
+  const sceneIndex = validateSceneIndex(baseline.files.get('content/scenes/index.json'))
   return {
     items: validateAuthorItems(baseline.files.get('content/items.json')),
-    scenes: validateAuthorScenes(
-      sceneIds.map((id) => baseline.files.get(`content/scenes/${String(id)}.json`)),
-    ),
+    scenes: validateAuthorScenes(sceneIndex.scenes.map((entry) => baseline.files.get(entry.path))),
   }
 }
 
 function projectContent() {
   const readJson = (path: string): unknown =>
     JSON.parse(readFileSync(resolve(repo, 'projects/pal', path), 'utf8')) as unknown
-  const sceneIds = readJson('content/scenes/index.json')
-  if (!Array.isArray(sceneIds)) throw new Error('PAL project scene index 不是数组')
+  const sceneIndex = validateSceneIndex(readJson('content/scenes/index.json'))
   return {
     items: validateAuthorItems(readJson('content/items.json')),
-    scenes: validateAuthorScenes(
-      sceneIds.map((id) => readJson(`content/scenes/${String(id)}.json`)),
-    ),
+    scenes: validateAuthorScenes(sceneIndex.scenes.map((entry) => readJson(entry.path))),
   }
 }
 

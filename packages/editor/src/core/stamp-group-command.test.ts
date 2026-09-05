@@ -52,6 +52,7 @@ function state(map = fixtureMap()): EditorState {
     locale: {},
     sprites: [],
     maps: { 'map-a': map },
+    sceneIndex: { version: 1, scenes: [] },
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},

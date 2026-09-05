@@ -20,7 +20,7 @@ const alternateScene = {
 const manifest: CurrentManifest = {
   id: 'demo',
   name: 'Demo',
-  contentVersion: 19,
+  contentVersion: 20,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: {
@@ -49,7 +49,10 @@ const manifest: CurrentManifest = {
 
 const jsons = {
   actors: [],
-  sceneIds: ['s001'],
+  sceneIndex: {
+    version: 1 as const,
+    scenes: [{ id: 's001', name: '起始场景', path: 'content/scenes/s001.json' }],
+  },
   entryScenes: { s001: scene },
   skills: { skills: [], levelUp: {} },
   items: [],
@@ -71,7 +74,8 @@ describe('current editor project IO', () => {
     const loaded = assembleCurrentProject(manifest, jsons)
     const state = toEditorState(loaded, [loaded.authorContent.entryScene])
 
-    expect(state.manifest.contentVersion).toBe(19)
+    expect(state.manifest.contentVersion).toBe(20)
+    expect(state.sceneIndex).toEqual(jsons.sceneIndex)
     expect(state.scenes).toEqual([scene])
     expect(state.scriptIndex).toBeUndefined()
     expect(state.scriptChunks).toEqual({})
@@ -86,7 +90,13 @@ describe('current editor project IO', () => {
     })
 
     expect(files['manifest.json']).toBe(manifest)
-    expect(files['content/scenes/index.json']).toEqual(['s001'])
+    expect(files['content/scenes/index.json']).toEqual(jsons.sceneIndex)
+    expect(Object.keys(files).indexOf('content/scenes/s001.json')).toBeLessThan(
+      Object.keys(files).indexOf('content/scenes/index.json'),
+    )
+    expect(Object.keys(files).indexOf('content/scenes/index.json')).toBeLessThan(
+      Object.keys(files).indexOf('manifest.json'),
+    )
     expect(files['content/shared-scripts.json']).toEqual({})
     expect(files['content/world-variables.json']).toEqual({})
     expect(Object.keys(files).some((path) => path.includes('migration'))).toBe(false)
@@ -109,7 +119,13 @@ describe('current editor project IO', () => {
     }
     const multiJsons = {
       ...jsons,
-      sceneIds: ['s001', 's002'],
+      sceneIndex: {
+        version: 1 as const,
+        scenes: [
+          ...jsons.sceneIndex.scenes,
+          { id: 's002', name: '备用场景', path: 'content/scenes/custom-s002.json' },
+        ],
+      },
       entryScenes: { s001: scene, s002: alternateScene },
       maps: {
         version: 1,
@@ -130,9 +146,37 @@ describe('current editor project IO', () => {
     const written = files['manifest.json'] as Record<string, unknown>
 
     expect(state.scenes.map((candidate) => candidate.id)).toEqual(['s001', 's002'])
+    expect(files['content/scenes/custom-s002.json']).toEqual(alternateScene)
+    expect(files['content/scenes/s002.json']).toBeUndefined()
     expect(written.defaultEntryId).toBe('alternate')
     expect(written.entryPoints).toEqual(multiManifest.entryPoints)
     expect(written).not.toHaveProperty('entryScene')
     expect(written).not.toHaveProperty('startWorld')
+  })
+
+  test('SceneIndex 与正文必须双向一一对应且 id 相同', () => {
+    const loaded = assembleCurrentProject(manifest, jsons)
+    const state = toEditorState(loaded, [loaded.authorContent.entryScene])
+    expect(() =>
+      serializeProject({
+        ...state,
+        sceneIndex: {
+          version: 1,
+          scenes: [
+            ...state.sceneIndex.scenes,
+            { id: 'missing', name: '缺正文', path: 'content/scenes/missing.json' },
+          ],
+        },
+      }),
+    ).toThrow('缺正文')
+    expect(() => serializeProject({ ...state, sceneIndex: { version: 1, scenes: [] } })).toThrow(
+      '未登记正文',
+    )
+    expect(() =>
+      serializeProject({
+        ...state,
+        scenes: [{ ...state.scenes[0]!, id: 'different' }],
+      }),
+    ).toThrow(/入口点|缺正文|index\/id/)
   })
 })
