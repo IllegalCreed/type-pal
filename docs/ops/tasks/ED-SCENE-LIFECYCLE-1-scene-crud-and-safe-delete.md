@@ -1,6 +1,6 @@
 # ED-SCENE-LIFECYCLE-1 - 场景生命周期闭环
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: E1 / Editor scene lifecycle
 Coding Owner: Codex
@@ -306,10 +306,14 @@ Branch: main
       undo→save、**首次保存无 prevSnapshot 时以显式 removePaths 保证删除**、save-as 整树
       复制后清理；写序 SceneIndex 先于 manifest、物理删除最后；中断只留 orphan、index
       永不指向缺正文——五路径逐条测试。
-- 独立反证审查: pending
-- counter / 分歧处理: pending
+- 独立反证审查: **complete**（Kimi 直接读取 schema/loader/serializer/transaction/ED-3；GLM 独立复算
+  三工程闭包、PAL typed census、publication ownership 与 R4 存档现状；两席均给出可证伪观察）
+- counter / 分歧处理: **none**。GLM 报告的 selectSceneHooks cross=64 与 Codex/Kimi 口径差已由 Codex
+  直接复算消解：PAL 真树共有 67 个 `selectSceneHooks` command，按正文所属 scene 对比 command.scene，
+  恰为 self=2、cross=65；不改变任何设计结论或测试硬门。
 - 缺签豁免: N/A
-- build 准入结论: **blocked**（用户版本裁决已齐；Kimi/GLM premise/design 均未齐）
+- build 准入结论: **passed（2026-09-05）**。Codex/Kimi/GLM 三方均已 premise verified + design agree；
+  用户版本裁决已齐；Kimi 三项与 GLM GM-SL1~GM-SL5 全部升级为 build 验收硬门。
 
 ### 进入 done 前:审查签字
 
@@ -355,16 +359,18 @@ Branch: main
 ### 主审立场
 
 - Reviewer: Kimi（SceneIndex/schema/loader/transaction/version）+ GLM（PAL census/migration/测试矩阵）
-- 结论: Codex 推荐方案与用户版本裁决均已形成；等待两席并行独立审查。
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: 三方 premise/design 一致，无 counter；采用 SceneIndexV1/content20、typed copy rewrite、
+  双 session transaction、ED-3 fail-closed deletion 与显式 scene removePaths。
+- 必改项: Kimi ①安全写序、②PAL 全真树 copy differential、③s108 高自引用删除；GLM
+  GM-SL1~GM-SL5（ownership、typed transformer、双 session、content20 全量 current-only、文件生命周期）。
+- 是否建议进入 build: **yes（2026-09-05）**
 
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: 未开始
-- 实现摘要: 未开始
-- 运行命令: 当前只读 census；未运行 build 测试
+- 修改文件: 进行中
+- 实现摘要: 已通过 build 准入；按 content → reforge/migrate → editor core → UI → 全量迁移/验证顺序实施。
+- 运行命令: 准入期只读 census；实现测试待记录
 - 浏览器 / 手工检查: 未开始
 - 跳过的检查及原因: build 签字未齐，不得修改实现
 
@@ -425,8 +431,15 @@ Branch: main
   Codex 同步当前规划文档；Next: Kimi/GLM 钉同一 revision 并行做 premise/design 审查，未齐签前不得实现。
 - 2026-09-05 Codex: 版本顺序与当前权威规划已同步并提交为 `8a283b39`；以下两席提示词均钉该设计候选。
   Next: 两席独立核验并直接落自己的签字/证据；Codex 待齐签后统一判断 build 准入。
+- 2026-09-05 Kimi/GLM: 两席分别以 `3590f1f5` / `f95be360` 落卡，均签 premise verified +
+  design agree，无 counter；实现硬门见签字块。
+- 2026-09-05 Codex: 复核三方签字并消解 selectSceneHooks 统计口径：直接 jq 真树复算 67 commands =
+  self 2 + cross 65。任务进入 build；Coding Owner 仅 Codex。
 
 ## 下一位 Agent 提示词
+
+以下两份并行提示词已由 Kimi/GLM 完成，不要重复转发。当前无下一位 Agent 提示词；Codex 作为唯一
+Coding Owner 继续 build，待自验证完成后再一次性提供两席终审提示词。
 
 ### 给 Kimi（并行，架构 / schema / transaction 主审）
 
