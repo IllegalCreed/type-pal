@@ -280,7 +280,7 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
   edge batch；partial、failure、迟到读取和在途 hydrate 均不能授权删除。Tileset/Stamp 的领域 proof 继续
   额外约束 bytes/SHA/definition/frame/placement，并在 apply/redo 同步复核。
 - 引用索引是当前 revision 的非持久化派生物，不写 graph 文件、不改 content20/SAVE8，也不保留旧版本 fallback。
-  场景生命周期已由 ED-SCENE-LIFECYCLE-1 收口，商店生命周期已实现、待 ED-SHOP-LIFECYCLE-1 终审；页面继续共用
+  场景生命周期已由 ED-SCENE-LIFECYCLE-1 收口，商店 ED-SHOP-LIFECYCLE-1 三方终审及720宽补验通过、待产品验收；页面继续共用
   collector/locator/policy。
 - 场景生命周期使用 `SceneIndexV1`：目录和所有场景选择器显示 `name + SceneId`，Scene Inspector 复用
   `DsInspectorTabs + DsReferencePanel`；新建/复制/危险删除使用 `DsListHeader` 与 `DsDialog`。名称只改目录
@@ -288,7 +288,7 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
   command apply/redo 两层消费 ED-3 current exact proof。列表内容区无额外面板内边距，表单仍使用标准
   Inspector 属性间距。
 
-### 5.9 商店生命周期（ED-SHOP-LIFECYCLE-1，2026-09-05 review）
+### 5.9 商店生命周期（ED-SHOP-LIFECYCLE-1，2026-09-05 三方终审通过、待产品验收）
 
 - 保持现有货单派生目录标题和列表样式；Hero是复制、独立试买、删除的唯一动作owner。商店只存稳定数值id与
   有序items，复制保留重复项，新增id取max+1（空目录为0），redo固定首次捕获的id/货单。统计“种类”按去重数，

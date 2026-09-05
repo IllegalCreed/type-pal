@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-SHOP-LIFECYCLE-1 | 商店生命周期闭环 | review | Kimi + GLM 并行终审；Kimi补720宽 | shop-impl-r1已实现；生成/作者校验分离，复制/安全删除/隔离试买；content20不变，待终审验收。 |
+| ED-SHOP-LIFECYCLE-1 | 商店生命周期闭环 | review | User 最终产品验收；无需再签 | 7e6f935a三方accept、720宽补验通过，无返工项；content20不变。 |
 
 商店闭环后进入第一、第二阶段全仓审计及 E2E 阻断项修复，再做 R4 content20 薄 E2E；顺序不变。
 

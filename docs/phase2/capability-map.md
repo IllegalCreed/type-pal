@@ -77,7 +77,7 @@
 | E6 | **实体定位权威** | ✅ | ✅ | 隐龙窟门口/试炼窟芦苇 | 引擎 done(2026-07-08 两考题全过:E7 芦苇漂 + N7 隐龙窟门口):E6a authority 表+双视图(位移指令隐式接管·脚本收尾统一归还)+ E6b 显式 take/release + E7 mount + E8 follow。[E6-1](../ops/tasks/E6-1-runtime-authority-inspector.md) 于 2026-09-04 完成运行态可视化、Esc 后反引号重开、listener 泄漏修复及 DEV-only 剥离，三方 accept + 用户验收通过。 |
 | E7 | 载具/挂载 | ✅ | ✅ | 试炼窟芦苇漂(共乘)/坐船 | done(2026-07-07):mount 权威 + **全员叠筏**(mountParty/ride 连跟随者一起挂;dismountParty 四路收口:显式/走位即下筏/脚本收尾/强停,零持久态)+ 大世界跟随者(见 E8)。骑乘 opcode 定向翻译(0xA1→mountParty/0x3F·44·97→ride,5 场景 160 处)。考题实测:s213 李逍遥+阿奴共乘逐帧重叠漂流(一阶段掉队闪现 bug 不存在)+ s017 仙灵岛筏;队长恒遮挡队员(z序平局偏置) |
 | E8 | 大世界跟随者(队伍展示) | ✅ | — | 三人队走位/拐弯甩尾 | 新格(2026-07-07):party[1..N] 渲染 + 原版 trail 槽 1:1(基点 slot2 校准=平铺→菱形 2× 粒度;**dir=离开该格方向**,拐弯甩尾逐行对齐原版 —— 8字双轨迹对比法定案,两引擎同场景同腿长无缝换向逐行全等)+ follow/mount/script 三权威。队长恒遮挡队员。编辑器无依赖 |
-| E9 | 商店/当铺(openShop) | ✅ | ⚠️ | s050 米铺买/s029 当铺卖 | 游戏买卖运行链已验收；PAL生成种子为 **20 家店（id 1..20）**，作者目录不受固定店数限制。编辑器复制/安全删除、ED-3引用、保存重开与隔离试买已实现，待终审及720宽补验，暂保持⚠️；目录仍从货单派生标题，不新增名称或版本。[ED-SHOP-LIFECYCLE-1](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)。 |
+| E9 | 商店/当铺(openShop) | ✅ | ⚠️ | s050 米铺买/s029 当铺卖 | 游戏买卖运行链已验收；PAL生成种子为 **20 家店（id 1..20）**，作者目录不受固定店数限制。编辑器复制/安全删除、ED-3引用、保存重开与隔离试买三方终审及720宽补验已通过，仅待最终产品验收，暂保持⚠️；目录仍从货单派生标题，不新增名称或版本。[ED-SHOP-LIFECYCLE-1](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)。 |
 | E18 | 编辑器角色战斗字段（coveredBy/casualty/cooperativeMagic） | — | ✅ | B11-1 三个战斗字段的编辑器编辑与校验 | **done（2026-08-14 用户验收通过）**：`coveredBy`（援护者）/`casualty`（伤亡脚本 friendDeath/dying）/`cooperativeMagic`（合体技）的结构化编辑、引用校验与保存闭环；三方技术 `accept`（2026-08-07）+ 用户产品验收（2026-08-14 会话确认）四证齐，OPS-MAP-1 遗留的 fail-closed 已解除。依赖 B11-1 已 done；见 [E18-1 任务卡](../ops/tasks/E18-1-editor-actor-battle-fields.md)。注：原卡 Capability 写「18e」，本格定为 **E18**（Entity 域续号）。 |
 
 ### 角色(Character)— 8 格
@@ -252,7 +252,7 @@
 ### 2026-09-03 对账后重跑（候选，不是承诺）
 
 - 该句是 2026-09-03 对账时点快照；此后 ED-3 与场景生命周期已于 2026-09-05 收口，
-  商店生命周期卡已实现、进入 review。实时状态以任务看板为准。
+  商店生命周期三方终审及720宽补验通过，review仅待最终产品验收。实时状态以任务看板为准。
 - X4/A7、B2、W9、E18、D6-1、D12-1、D13-1、D14-2/3、D15-1 与
   `ARCH-ACTOR-CONDITION-SEED-1` 的陈旧状态已按任务卡和 Git 收口事实更正。
 - 用户于 2026-09-03 将 W6 真实时间/天气、A6、X5 世界状态预设、W7 随机笔刷/自动拼接和 D13
