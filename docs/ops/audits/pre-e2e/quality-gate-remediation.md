@@ -35,8 +35,9 @@
 
 ## 验证
 
-- `pnpm check` 独立完整执行通过：七包 537 个测试文件 / 6,175 项测试（含 PAL 真数据与静态门禁），
-  以及文档工具、覆盖率工具、各包 typecheck 和 lint。编辑器为 194 文件 / 1,755 项。
+- 主修复 `90b74f34` 的 `pnpm check` 独立完整执行通过：七包 537 个测试文件 / 6,175 项测试
+  （含 PAL 真数据与静态门禁），以及文档工具、覆盖率工具、各包 typecheck 和 lint。
+  后续完整检查在最终实现 `67df612d` 再次通过：537 文件 / 6,176 项，编辑器为 194 文件 / 1,756 项。
 - Biome 最终为 **0 error / 50 warning / 11 info**。50 条 warning 仍属后续清理，未把它们说成已消除。
 - 新增标签关联测试直接检查 `label.control` 与原生 `input/textarea.labels`，覆盖六种 Ds 输入控件；
   目录行用同一 DOM 节点重渲染验证 option / toggle button 的 aria-selected / aria-pressed 切换，共 7 项。
@@ -84,6 +85,10 @@
 不调用字段 focus、不重复关闭、不残留滚动锁。该回归不更改生产实现。
 最终 `coverage:ratchet` 通过，608 个生产文件 / 5,691 项测试；全仓 statements 为 52,073/78,182、
 branches 为 37,331/61,578（比主修复基线各多命中 1 项），lines/functions 不变。当前累计新增 16 项回归。
+
+最终实现 `67df612d` 的 [Linux 类型检查、lint 与 fast 覆盖率 CI](https://github.com/IllegalCreed/type-pal/actions/runs/33992670277)
+和[文档 CI](https://github.com/IllegalCreed/type-pal/actions/runs/33992670257)均通过；不是重试旧失败候选，
+也没有放宽原断言或覆盖率门禁。后续收口提交仅补本回执与覆盖率文档的最终测试计数。
 
 既有审计的存档/迁移/战斗业务缺陷尚未修复，下一步先做存档与作者数据安全的修复准入。
 无下一位 Agent 提示词，本轮为同 Owner 常规维护自验证收口；不代替下一批高风险任务的设计/审查签字。
