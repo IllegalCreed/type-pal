@@ -2,7 +2,7 @@
 
 | 文件 | 类型 |
 |---|---|
-| [content-schema.md](content-schema.md) | **现行内容格式契约**（content20/SAVE8 各节）+ 历史 P0 设计（文首分层标注） |
+| [content-schema.md](content-schema.md) | 当前项目入口、地图/组合与 tileset 规范；其余旧设计按文首分界阅读 |
 | [save-system-design.md](save-system-design.md) | 存档系统设计（现行契约节 + 历史计划） |
 | [script-system-design.md](script-system-design.md) | 剧情脚本系统（现行契约 + 历史 v0 草稿） |
 | [actor-model-design.md](actor-model-design.md) / [actor-c0-plan.md](actor-c0-plan.md) | 角色模型设计与计划（已实现，历史标注） |
@@ -45,4 +45,3 @@
 - [w-render-audit.md](w-render-audit.md)
 - [x-shell-audit.md](x-shell-audit.md)
 - [x3-scene-entry-migration-audit.md](x3-scene-entry-migration-audit.md)
-

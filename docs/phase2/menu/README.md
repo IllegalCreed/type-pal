@@ -1,7 +1,7 @@
 # docs/phase2/menu/ — 菜单系统（D17）
 
-D17 菜单设计及其面板族 TDD 计划。design.md 为设计真值参考；各 `*-plan.md` 是已实现的
-历史计划存档（顶部带历史标注）。菜单族已全部收口（见 [capability-map](../capability-map.md) C 域）。
+D17 菜单设计及其面板族 TDD 计划均为历史记录，单人 demo 的占位、排期与接口不代表当前实现。
+当前菜单能力见 [capability-map](../capability-map.md) C 域；后续缺陷仍见 [代码审计](../../ops/audits/pre-e2e/summary.md)。
 
 ## 目录文件索引
 

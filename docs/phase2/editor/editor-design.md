@@ -2,10 +2,11 @@
 
 > 第二阶段 Reforge。2026-07-01 头脑风暴(用户 + Claude)+ 两份代码投查(渲染复用 / 数据模型)。
 > **本文件 = 整个编辑器的架构设计(防返工用),非某一期实现。** 先读 [READ-FIRST](../READ-FIRST.md);工程地基见 [project-design.md](project-design.md)。
-> 状态:设计(待用户审)。分工:核心/地基(非视觉)可交 GLM,壳+模式(canvas 视觉)Claude 做。
+> 状态：滚动架构记录，包含早期设计与后续已落地合同。原 2026-07 的“待用户审”和分工不作当前任务入口；
+> §5 的现行工作台合同与后续任务一起维护，早期缺口/分期按当时日期阅读。当前行动以任务看板为准。
 
 > 2026-08-15：本文件继续负责编辑器产品/数据/模式架构；视觉、组件、响应式、媒体、无障碍和验收的
-> normative candidate 已迁到 [`editor-design-system-v1.md`](editor-design-system-v1.md)。两者冲突时，
+> 已冻结界面规范由 [`editor-design-system-v1.md`](editor-design-system-v1.md) 维护。两者冲突时，
 > 先判断是产品架构还是界面合同；界面合同以新规范为准。
 
 ## 0. 这是什么 / 不是什么

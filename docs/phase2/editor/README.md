@@ -4,7 +4,7 @@
 |---|---|
 | [editor-design.md](editor-design.md) | 编辑器总体设计（现行滚动规范，含设计系统采用史） |
 | [editor-design-system-v1.md](editor-design-system-v1.md) | **设计系统规范 v1**（现行合同：DS 条款 + RF fixture，随版本演进） |
-| [project-design.md](project-design.md) | 工程结构 / 壳肉分离 / 资源目录设计（现行） |
+| [project-design.md](project-design.md) | SceneIndex 现行更新 + 工程化历史设计；阅读时遵守顶部章节分界 |
 | [project-lifecycle-design.md](project-lifecycle-design.md) | 工程生命周期设计（现行；§1–18 含历史推进记录） |
 | [shared-script-author-guide.md](shared-script-author-guide.md) | 脚本库作者手册（现行） |
 | [actor-presets.md](actor-presets.md) / [battlefield-authoring.md](battlefield-authoring.md) / [scene-entry-authoring.md](scene-entry-authoring.md) / [cutscene-asset-workbench-design.md](cutscene-asset-workbench-design.md) | 领域作者指南/设计 |

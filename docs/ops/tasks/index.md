@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [DOC-GOV-1 - 文档审计整改与自动检查](DOC-GOV-1-documentation-cleanup.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [DOC-GOV-1 - 文档审计整改与自动检查](DOC-GOV-1-documentation-cleanup.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

@@ -36,12 +36,12 @@ Branch: chore/docs-migrate-cleanup（沿用当前工作树；用户要求持续�
   - `AGENTS.md` / `docs/ops/agent-workflow.md`：这是跨测试边界与性能门禁的高风险任务，须三方设计签字后进入 build；
   - 用户 2026-08-02：不能接受每个小功能都花一天重新优化测试，要求彻底解决测试技术债。
 - 代码锚点(`file:line`):
-  - ``packages/migrate/vitest.tests.ts:1-29``（历史路径 `f1466374:packages/migrate/vitest.tests.ts`，已被 current-only 收编删除）：当前 unit / pal-shared / pal-fresh 分类；
+  - `packages/migrate/vitest.tests.ts:1-29`（历史路径 `f1466374^:packages/migrate/vitest.tests.ts`，已被 current-only 收编删除）：当前 unit / pal-shared / pal-fresh 分类；
   - [`packages/migrate/vitest.config.ts:15-50`](../../../packages/migrate/vitest.config.ts)：当前 worker、isolate、hookTimeout 和 fileParallelism；
-  - ``packages/migrate/src/experimental/script-v5/pal-test-fixture.ts:72-148``（历史路径 `f1466374:packages/migrate/src/experimental/script-v5/pal-test-fixture.ts`，已被 current-only 收编删除）：真实 PAL fixture 的重复构建入口；
-  - ``packages/migrate/src/experimental/script-v5/r13-source-semantics-mg2.pal.test.ts:84-150``（历史路径 `f1466374:packages/migrate/src/experimental/script-v5/r13-source-semantics-mg2.pal.test.ts`，已被 current-only 收编删除）：完整 source-backed authority 初始化；
-  - ``packages/migrate/src/experimental/script-v5/r13-source-semantics-mg2.ts:157-275``（历史路径 `f1466374:packages/migrate/src/experimental/script-v5/r13-source-semantics-mg2.ts`，已被 current-only 收编删除）：source input digest、prepared authority 与 replay 边界；
-  - ``packages/migrate/src/experimental/script-v5/stable-json.ts``（历史路径 `f1466374:packages/migrate/src/experimental/script-v5/stable-json.ts`，已被 current-only 收编删除）：发布 digest 与 process-local fast sentinel 的区别。
+  - `packages/migrate/src/experimental/script-v5/pal-test-fixture.ts:72-148`（历史路径 `f1466374^:packages/migrate/src/experimental/script-v5/pal-test-fixture.ts`，已被 current-only 收编删除）：真实 PAL fixture 的重复构建入口；
+  - `packages/migrate/src/experimental/script-v5/r13-source-semantics-mg2.pal.test.ts:84-150`（历史路径 `f1466374^:packages/migrate/src/experimental/script-v5/r13-source-semantics-mg2.pal.test.ts`，已被 current-only 收编删除）：完整 source-backed authority 初始化；
+  - `packages/migrate/src/experimental/script-v5/r13-source-semantics-mg2.ts:157-275`（历史路径 `f1466374^:packages/migrate/src/experimental/script-v5/r13-source-semantics-mg2.ts`，已被 current-only 收编删除）：source input digest、prepared authority 与 replay 边界；
+  - `packages/migrate/src/experimental/script-v5/stable-json.ts`（历史路径 `f1466374^:packages/migrate/src/experimental/script-v5/stable-json.ts`，已被 current-only 收编删除）：发布 digest 与 process-local fast sentinel 的区别。
 - 已知坑 / 审计文档:
   - N3-1 任务卡 R13-6A 性能边界：真实 PAL 冷启动约 6–9 分钟、单核满载、RSS 约 1GB+；prepared replay 已优化但不能代表冷启动已解决；
   - 提交 `91d6cfff`：已关闭 repeated prepared replay、历史矩阵污染和 anti-tamper 内容身份缺口；不要把这些修复回退成无校验缓存；

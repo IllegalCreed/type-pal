@@ -50,12 +50,4 @@
 - [03-development-plan.md](03-development-plan.md)
 - [05-events-schema.md](05-events-schema.md)
 
-## plans/ 内补充历史计划
-
-- [plans/2026-06-13-canvas-resolution-setting.md](plans/2026-06-13-canvas-resolution-setting.md)
-- [plans/2026-06-13-offline-precache-sw.md](plans/2026-06-13-offline-precache-sw.md)
-- [plans/2026-06-13-prod-tools-panel.md](plans/2026-06-13-prod-tools-panel.md)
-- [plans/2026-06-14-unified-precache-progress-gate-impl.md](plans/2026-06-14-unified-precache-progress-gate-impl.md)
-- [plans/2026-06-14-unified-precache-progress-gate.md](plans/2026-06-14-unified-precache-progress-gate.md)
-- [plans/2026-06-18-speedrun-timer-design.md](plans/2026-06-18-speedrun-timer-design.md)
-- [plans/2026-06-18-speedrun-timer.md](plans/2026-06-18-speedrun-timer.md)
+历史计划的完整索引统一维护在 [plans/README](plans/README.md)。

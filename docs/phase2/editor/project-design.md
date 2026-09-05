@@ -1,8 +1,10 @@
 # 工程化架构设计(engine project / 「一工程一游戏」)
 
 > 第二阶段 Reforge。2026-06-30 设计(用户 + 助手)→ Claude 复审纠正(包拓扑 / 地基决策 / 范围)。
-> **本文件是设计(架构与决策的记录),非实现。** GLM 开工照 [project-foundation-plan.md](project-foundation-plan.md)。
-> 状态:设计(已复审,待 GLM 再审)。先读 [READ-FIRST](../READ-FIRST.md)——本阶段无「真值锚 / 对齐原版」,只要架构干净、好扩展、迁来的内容能正确跑。
+> **本文包含历史工程化设计与后续实现记录。** [project-foundation-plan.md](project-foundation-plan.md) 是历史计划，
+> 不再作为 GLM 开工指令；下方 §0–§10 的“当前痛点/待审”按 2026-07 起草时点阅读。
+> 现行工程合同见下方 SceneIndex 更新、[生命周期 §19–§20](project-lifecycle-design.md) 与
+> [当前内容格式](../foundation/content-schema.md)；架构遵守 [READ-FIRST](../READ-FIRST.md)。
 
 > **当前实现补充（2026-09-05，content20）**：下文 v1 单文件示例保留为历史设计。当前 manifest 的
 > `content.scenes` 指向场景目录，目录 `index.json` 使用 `SceneIndexV1` 显式保存稳定 SceneId、作者名称与
@@ -39,7 +41,7 @@
 
 ### 2.1 包拓扑(复审的核心纠正)
 
-现状已经是干净的:`content` 是**零依赖叶子**(类型 + 纯逻辑 + 数据),`reforge` 和 `editor` **都只依赖它**;连存档层都从它取类型([save/types.ts:1](../../../packages/reforge/src/save/types.ts#L1))。editor 自己写明边界(`editor/src/index.ts`（历史路径 `d0a42191:packages/editor/src/index.ts`；现行职责说明见 packages/editor/README.md）):「依赖 content 数据模型,将来**嵌** reforge 预览,不碰 shared/game」。
+现状已经是干净的:`content` 是**零依赖叶子**(类型 + 纯逻辑 + 数据),`reforge` 和 `editor` **都只依赖它**;连存档层都从它取类型([save/types.ts:1](../../../packages/reforge/src/save/types.ts#L1))。editor 自己写明边界(`editor/src/index.ts`（历史路径 `57ae2b95^:packages/editor/src/index.ts`；现行职责说明见 packages/editor/README.md）):「依赖 content 数据模型,将来**嵌** reforge 预览,不碰 shared/game」。
 
 ```
 现状(干净):                           ❌ 初版计划(把 schema 搬进 reforge):

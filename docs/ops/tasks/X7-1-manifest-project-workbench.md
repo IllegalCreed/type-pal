@@ -57,7 +57,7 @@ Branch: main
   - [`packages/content/src/asset.ts:266-435`](../../../packages/content/src/asset.ts)：资源引用来源收集；不得在工程页复制一份引用规则。
   - [`packages/editor/src/ui/editor-navigation.ts:52-155`](../../../packages/editor/src/ui/editor-navigation.ts)：模块/子页定义与工程模块当前仅有 `entrypoint` 的导航模型。
   - [`packages/editor/src/ui/editor-navigation.ts:185-252`](../../../packages/editor/src/ui/editor-navigation.ts)：`module/page/object` 深链接解析和生成约定。
-  - ``packages/editor/src/ui/EntryPointTab.tsx:1-362``（历史路径 `d0a42191:packages/editor/src/ui/EntryPointTab.tsx`，已由 ProjectWorkbenchTab 取代）：当前入口点页的局部索引选择、整表命令、默认开局子表单和缺失 UI；这是重构对象，不是新的数据真源。
+  - `packages/editor/src/ui/EntryPointTab.tsx:1-362`（历史路径 `d0a42191^:packages/editor/src/ui/EntryPointTab.tsx`，已由 ProjectWorkbenchTab 取代）：当前入口点页的局部索引选择、整表命令、默认开局子表单和缺失 UI；这是重构对象，不是新的数据真源。
   - [`packages/editor/src/core/commands.ts:2175-2262`](../../../packages/editor/src/core/commands.ts)：现有 manifest 名称、初始技能和入口点命令；新增命令必须保持 apply/invert 不可变约定。
   - [`packages/editor/src/core/project-io.ts:95-187`](../../../packages/editor/src/core/project-io.ts)：保存时按 manifest/content 输出文件并整体写回 `manifest.json`；不得因 UI 重构丢失未编辑字段或资源二进制。
   - [`packages/editor/src/core/edit-session.ts:25-47`](../../../packages/editor/src/core/edit-session.ts)：编辑会话中 manifest、资源注册表、二进制和脚本工作副本的所有权。
@@ -134,7 +134,7 @@ Branch: main
     关=删字段回落)已是"缺字段=继承、有字段=完整覆盖"雏形;设计 #3 formalize 为复制默认/清除覆盖两显式
     动作 + 共享 StartWorldEditor,是对既有模式的正确收敛,不靠空对象/下标猜。
   - **启动链无重复播放**:三类视频源实证互斥且触发点不同——manifest 角色 startupTrademark/Splash(001/002)、
-    entryPoints[].introVideo(003)、quitToTitle.videos``（`004/005/006,脚本级`）;设计 #4 把启动流程定为
+    entryPoints[].introVideo(003)、quitToTitle.videos\[](004/005/006,脚本级);设计 #4 把启动流程定为
     **只读解释层、可编辑项只回写 manifest 字段、脚本内 video/RNG/BGM 仍归脚本模块**——正确规避了
     "预览变第二运行时"的重复播放陷阱。
   - **命令/序列化**:现有 manifest 命令(RenameProjectCommand/UpdateStartSkillsCommand/SetEntryPointsCommand,

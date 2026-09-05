@@ -91,7 +91,7 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 > - ? 自动 grep 有 keyword match,**待手工核**
 
 正在逐文件填,初始批量自动状态(grep keyword 在 ts code 内是否出现)在
-``/tmp/audit-state/funcs.tsv``（`file:///tmp/audit-state/funcs.tsv`）;本文档为
+\[`/tmp/audit-state/funcs.tsv`](file:///tmp/audit-state/funcs.tsv);本文档为
 权威版本,初始批量结果会被人工核审覆盖。
 
 ### audio.c(19 函数)

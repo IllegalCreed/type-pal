@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| DOC-GOV-1 | 文档审计整改与自动检查 | build | GLM：文档整改；Codex：检查工具与终审 | [任务卡](tasks/DOC-GOV-1-documentation-cleanup.md)；用户指定两席并行，保留历史签字与审计证据。 |
+| DOC-GOV-1 | 文档审计整改与自动检查 | review | Codex：修正复核遗漏，等待远端 CI 收口 | [任务卡](tasks/DOC-GOV-1-documentation-cleanup.md)；GLM 已交付，文档实质复核与本地检查通过。 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 当前顺序：文档整改 → 审计缺陷修复与覆盖率补测 → R4 content20 薄基线 → N6b content21 → 完整 E2E。

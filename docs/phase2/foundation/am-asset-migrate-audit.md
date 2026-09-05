@@ -527,7 +527,7 @@
 - `UseSpec = { target?, consuming, effects }`(item.ts:111-)。
 
 #### `packages/migrate/src/migrate-content.ts::translateUseScript`(migrate-content.ts:685-)
-- 翻译 item.scriptOnUse → ItemUseEffect``;`pendingReason` / `lossyNotes` 上报不可翻项。
+- 翻译 item.scriptOnUse → ItemUseEffect\[](扁化);`pendingReason` / `lossyNotes` 上报不可翻项。
 
 | C 步骤 | reforge 对照 | 状态 |
 |---|---|---|

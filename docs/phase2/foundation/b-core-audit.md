@@ -470,7 +470,7 @@
 - **影响**:战后脚本(如敌人掉落道具对话)在 reforge 不触发。M4 headless 范围可接受。
 
 #### `buildSettlementScreens`(settlement.ts:45-80)屏序
-- **exp-cash**(settlement.ts:54,`exp>0`)→ per levelUp:`level-up → hidden-up(逐条)→ learn-magic`（`settlement.ts:62-77`）→ 未升级角色的 hidden-up 排尾(settlement.ts:78)。
+- **exp-cash**(settlement.ts:54,`exp>0`)→ per levelUp:\[level-up → hidden-up(逐条)→ learn-magic](settlement.ts:62-77)→ 未升级角色的 hidden-up 排尾(settlement.ts:78)。
 - ✅ 对齐一阶段 battle-system.ts:3162-3173 + sdlpal per-role 序。
 - **⚠️ 细节差异**:sdlpal `CHECK_HIDDEN_EXP` 对**所有活役**跑(不依赖升级,battle.c:1088 循环内 1226),故未升级角色的 hidden 提升在 sdlpal 是**穿插在 per-role 循环中**(该角色无 level-up 屏,直接放 hidden 屏)。reforge `settlement.ts:78` 把未升级角色的 hidden 排**最后**,与 sdlpal 该角色在 party 顺序中的位置不一致。**屏序轻微偏差**,但所有屏都放。
 

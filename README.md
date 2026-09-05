@@ -51,7 +51,9 @@ canonical 版本。
 第一、第二阶段五批首轮只读代码审计已收口，发现与修复建议见[审计总报告](docs/ops/audits/pre-e2e/summary.md)；修复尚未开始。
 Vitest/V8 全生产源码覆盖率基线与只升不降门禁已经建立，fast/full 口径和当前数字见
 [`docs/ops/coverage.md`](docs/ops/coverage.md)；覆盖率不替代业务断言与 E2E。
-下一步先处理 E2E 阻断问题，再依次进入薄 E2E 基线、窄版意图式脚本能力、战斗专项与完整通关 E2E、编辑器综合工作流、录制适配，
+文档审计整改及自动检查见 [`DOC-GOV-1`](docs/ops/tasks/DOC-GOV-1-documentation-cleanup.md)；
+`pnpm check:docs` 已加入日常门禁，检查本地链接、目录索引、任务状态和选定现行合同版本。
+下一步处理 E2E 阻断问题并同步补回归、提高覆盖率，再依次进入薄 E2E 基线、窄版意图式脚本能力、战斗专项与完整通关 E2E、编辑器综合工作流、录制适配，
 最后再做服务器版本化预制工程和独立可玩包。准确顺序见
 [`docs/phase2/capability-map.md`](docs/phase2/capability-map.md)；正在执行的单卡见
 [`docs/ops/board.md`](docs/ops/board.md)。
@@ -148,6 +150,7 @@ pnpm check          # 完整维护者门禁；迁移器完整测试需要本地 
 pnpm typecheck      # 全 workspace TypeScript 检查
 pnpm test           # 全 workspace 测试；其中 migrate PAL 项需要本地提取数据
 pnpm lint           # biome check .
+pnpm check:docs     # 文档链接、索引、任务状态与现行版本；无需 PAL 素材
 pnpm coverage:fast  # 全生产源码 V8 覆盖率 + 每包/全仓只升不降门禁
 pnpm coverage:full  # 在 fast 基础上加入 PAL 真数据 Vitest 测试
 

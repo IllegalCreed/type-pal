@@ -50,7 +50,7 @@
 
 ## 3. 架构:FileSource 抽象(核心,覆盖内容+素材)
 
-现状分裂:内容走 `loadProject` 里 `fetch(projects/${id}/...)`(`loader.ts:170`（历史路径 `f1466374:packages/reforge/src/loader.ts`，现行入口为 project-loader.ts）),素材走 `assets.ts` 里 `fetch(assetBase 绝对URL)`([assets.ts:36](../../../packages/reforge/src/assets.ts#L36))。要让本地工程**离线自包含**,两者统一到一个「从哪读」的接口:
+现状分裂:内容走 `loadProject` 里 `fetch(projects/${id}/...)`(`loader.ts:170`（历史路径 `f1466374^:packages/reforge/src/loader.ts`，现行入口为 project-loader.ts）),素材走 `assets.ts` 里 `fetch(assetBase 绝对URL)`([assets.ts:36](../../../packages/reforge/src/assets.ts#L36))。要让本地工程**离线自包含**,两者统一到一个「从哪读」的接口:
 
 ```ts
 interface FileSource {

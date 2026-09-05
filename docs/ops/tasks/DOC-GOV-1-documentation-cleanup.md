@@ -1,6 +1,6 @@
 # DOC-GOV-1 - 文档审计整改与自动检查
 
-Status: build
+Status: review
 Owner: Codex（检查脚本、集成与终审）
 Contributor: GLM（文档整改）
 Phase: ops
@@ -67,8 +67,8 @@ Codex 独占：
 
 - Codex：工程前提 verified（审计对照源码版本与入口内容）；design agree。普通文档治理，无产品行为变更。
 - 用户流程授权：本轮指定 GLM 整改 + Codex 终审，按此两席推进；未代签 Kimi/GLM。
-- GLM：整改 pending。
-- Codex：终审 pending；检查工具 pending。完成前不标 done。
+- GLM：文档整改已交付，候选 `e1314089`；原回执保留如下。
+- Codex：已复核并修正下列遗漏；本地检查通过，待最终远端 CI 回执后收口。
 
 ## GLM 整改回执
 
@@ -160,16 +160,37 @@ tasks/README 扩展维护说明并链接生成的 `index.md`。
 
 ## Codex 验证与终审
 
-检查器已经可运行：`node scripts/docs/check.mjs`（或 `pnpm check:docs`）；JSON 报告加 `--json`。
-本卡仍在整改期，全仓检查报错是待处理清单，不是已通过。根 check/CI 在清零并终审后接入。
-GLM 可直接用当前工作树工具核对，代码围栏/行内代码不计链接；`数组[下标](注释)` 若被 Markdown
-解释成真实链接，请只加代码标记修正呈现。主题 README 应链接其目录全部直接 Markdown；
-任务索引由 Codex 生成，GLM 只需在 tasks/README.md 链接 `index.md`。
+### 独立复核（2026-09-06）
 
-现行版本检查限定合同段：若重写了段标题/分界，请在回执说明，由 Codex 同步检查配置。
-Codex 已完成工具自验证：`pnpm test:docs-tools` 11/11 通过；`pnpm exec biome check scripts/docs package.json`
-通过；定向 `git diff --check` 通过。生成索引已逐卡读取顶部状态，没有把正文历史状态计作活动任务。
-全仓文档仍有整改项，未接入根 check/CI；待 GLM 交付后完成全仓清零检查与文档实质终审。
+已读取 GLM 候选 `995244d1..e1314089` 的实际 diff，并复跑检查。原回执中的统计以 Git 为准：
+**84 个 Markdown 文件，14 个新增 README**（不是 89/16）；没有修改产品代码、内容 JSON、
+原审计报告、AGENTS 协议或能力状态。GLM 候选的机器检查确为 362 Markdown / 1598 local links / 0 issues。
+
+机器检查仍漏掉了叙述与证据问题，Codex 已完成以下修正：
+
+1. **阶段和门禁**：D21 的浏览器 Web 编辑器仍属二阶段；三阶段是登录/云存档等用户系统。依据决策正文
+   与 phase3 backlog 修正新增索引；D22/D24/D25/D26 指向后续取代关系，不再笼统标“全部有效”。
+   CLAUDE 的“lint 不阻塞”说法与 package.json 矛盾，已改为失败会令完整 check 失败。
+2. **历史引用**：逐项 `git cat-file -e` 检查 GLM 新写的历史路径；文件删除提交本身不再包含文件。
+   migrate/loader 改 `f1466374^`；EntryPointTab 改 `d0a42191^`；editor/index 改
+   `57ae2b95^`。全部验证存在，不恢复旧实现。
+3. **证据文字完整**：部分伪链接清理丢失数组括号及括号说明，例如 `trail[m](=队长+m×offset)`。
+   已从 `995244d1` 原稿恢复，仅转义 Markdown 链接起始括号，保留原文字与公式；五张早期终态卡恢复
+   原中文状态标签，维持既定历史读取例外。
+4. **遗漏和过度历史化**：补齐菜单/B0/B1/FSA 等漏标历史计划；旧 WebGL 切片是“被取代”而非“已按计划完成”。
+   content-schema 按实际章节明确当前与历史，roadmap 不再把现行硬约束一起降为历史；N6b 是已拍板未实现。
+5. **入口与持续维护**：补缺失的 pal-extract README，修正 shared 的领域边界与 editor 的绝对化说明；
+   删除重复的历史计划二次索引，根 README/路线图/审计索引/看板同步到本轮队列。
+
+### 验证与边界
+
+- `pnpm check:docs`：全仓通过；工具反例测试 11/11（链接解析、历史状态、版本边界、索引漂移、例外失效）。
+- `pnpm exec biome check scripts/docs package.json` 与 `git diff --check`：通过。
+- 本地链接的仓库可发现性复核：不存在靠本机未入库文件才成立的目标。
+- `check:docs` 已加入根 check/check:fast；Documentation CI 用 Node 直接执行，无 PAL 素材或新依赖。
+- 覆盖率基线与生产源码范围未改；本轮不需要重跑产品浏览器/剧情 E2E。全仓既有 lint 债仍由 E-06 处理，
+  不将文档检查通过称为整个 `pnpm check` 通过。
+- 远端 CI：待最终候选推送后的实际回执。
 
 ## 交接日志
 
@@ -188,7 +209,11 @@ Codex 已完成工具自验证：`pnpm test:docs-tools` 11/11 通过；`pnpm exe
   GLM 可用 `pnpm check:docs` 查看实时整改项，完成后由 Codex 终审并接入 CI。只提交 Codex 负责文件，
   保留 GLM 工作树改动。
 
-## 下一位 Agent 提示词（GLM，可直接转发）
+## 下一位 Agent 提示词
+
+GLM 整改已交付，无下一位 Agent 提示词；Codex 正在完成远端检查与收口。下方首次交接仅保留历史。
+
+### 历史：首次 GLM 交接
 
 ```text
 请在 /Users/zhangxu/illegal/type-pal 接手 DOC-GOV-1 的 GLM 文档整改。

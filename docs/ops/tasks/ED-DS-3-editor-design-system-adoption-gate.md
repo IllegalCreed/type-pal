@@ -1,6 +1,6 @@
 # ED-DS-3 编辑器设计系统全量采用与防回流门禁
 
-Status: done（2026-08-25 Codex / Kimi / GLM 三方 `accept` 齐）
+> **状态**：done（2026-08-25 Codex / Kimi / GLM 三方 `accept` 齐）
 > **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（公共组件 / 交互架构）、GLM（页面覆盖 / 规则审计）
 > **能力格**：ED2 编辑器设计系统与交互基础设施

@@ -1,5 +1,8 @@
 # 编辑器 B0 地基 · 实现计划(给 GLM 开工)
 
+> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。
+> 当前能力见 [能力地图](../capability-map.md)，实际工作从 [看板](../../ops/board.md) 进入。
+
 > **执行者**:GLM(全非视觉:补包出口 / schema / 校验 / 纯 TS 核 / 脚手架)。**Claude** 做每个动到引擎渲染或需启动验证的 gate 的**浏览器实测**,并逐任务审。步骤用 `- [ ]` 勾选跟踪。
 > **设计依据**:[editor-design.md](editor-design.md)(先读);工程地基背景 [project-design.md](project-design.md);第二阶段铁律 [READ-FIRST](../READ-FIRST.md)。
 

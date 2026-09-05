@@ -52,9 +52,8 @@
 - 截至 2026-09-06，本目录 130+ 张卡绝大多数已 `done` / `cancelled`：它们是**历史交接记录**，
   卡内的「当前状态 build/review」「下一位 Agent 提示词」「pending 签字」等文字是**写作当时
   的快照**，顶部 `Status:` 行覆盖正文局部状态——局部搜索命中旧状态时以顶部终态为准。
-- 5 张早期卡的状态行原为 `> **状态**：` 引用块格式，已归一为模板的 `Status:` 字段
-  （值不变：ARCH-ENTRY-ACTOR-SEED-1、ED-DS-3、MIG-PAL-ITEM-SCHEME-LABEL-1、
-  MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1、MIG-PAL-WORLD-SPRITE-ALIAS-1）。
+- 5 张早期终态卡保留原来的 `> **状态**：` 标签；检查器按确切文件名单识别它们，
+  不为统一工具格式改写历史。新任务使用模板的 `Status:` 字段。
 - 生成的机器索引见 [`index.md`](index.md)（由检查工具维护）。
 - 关闭卡的签字、审查结论与用户裁决**不追溯改写**；引用断链的目标已被删除时，以
   `git log -- <path>` 追溯历史版本，不恢复旧实现。

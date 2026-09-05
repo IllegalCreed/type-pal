@@ -1,5 +1,8 @@
 # 使用面板 实现计划(替"使用·开发中"占位)
 
+> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。
+> 当前能力见 [能力地图](../capability-map.md)，实际工作从 [看板](../../ops/board.md) 进入。
+
 > **分工**:Task A(content 世界操作 + demo 数据)+ Task B(reforge 状态机)= **GLM**;Task C(Canvas UI + 集成 + bake)+ Task D(浏览器对齐)= **Claude**。
 > **依赖**:物品地基([item-data-design](../foundation/item-data-design.md))已就位(`ItemUseEffect` 联合已定);多级菜单已就位(`物品 → 使用`,`openPanel==='use'` 现为"使用·开发中"占位);两阶段范式见装备 pick-role + 仙术 pick-target。
 > **视觉参考**:复用装备列表布局(`equip-box` list)+ 仙术选目标(`magic-box` player-box + 红箭头)。第二阶段 Reforge,先读 [READ-FIRST](../READ-FIRST.md)。

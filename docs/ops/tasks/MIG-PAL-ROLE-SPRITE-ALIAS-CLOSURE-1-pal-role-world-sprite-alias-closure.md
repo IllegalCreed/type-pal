@@ -1,6 +1,6 @@
 # MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 PAL 角色大世界精灵语义别名全量闭包
 
-Status: done（2026-08-24 三方 accept 与用户验收齐）
+> **状态**：done（2026-08-24 三方 accept 与用户验收齐）
 > **负责人**：Codex（Coding Owner，已完成）
 > **参与审查**：Kimi（迁移规则 / 闭包不变量）、GLM（全角色 / 全场景 census）
 > **能力格**：C2 内容迁移 / MG2 生成一致性

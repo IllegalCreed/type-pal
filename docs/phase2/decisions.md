@@ -17,11 +17,12 @@
 | D18 | 包架构 + 阶段隔离 | 有效（content/reforge/editor/migrate 四包现行） |
 | D19 | 引擎 ⊥ 叙事并行 | 有效 |
 | D20 | 能力地图取代复刻验收 | 有效；roadmap §8 已同步重组 |
-| D21 | 在线编辑器架构 + 工程自包含 | 工程自包含有效；在线编辑器归第三阶段 |
-| D22–D23 | 主线排期 + 指令/事件术语 | 有效 |
-| D24 | 战斗配置三层化、`sys:battleField` 退役 | 有效；迁移烘干见 READ-FIRST 铁律 4 |
-| D25 | 资产调色盘方针 | 有效 |
-| D26 | ProjectMapV2、高度属格实例 | 有效（现行地图格式轴 version 4） |
+| D21 | 浏览器访问 Web 编辑器，工程存用户本地；工程资源自包含 | 第二阶段继续有效；登录、云存档等用户系统归第三阶段。旧 app-absolute 素材补充已被 A7 catalog-only 与 current-only 收口取代，见 [当前发布模型](../../packages/migrate/README.md) |
+| D22 | 当时的 E6/C7/MG2 排期与方案 | 属历史推进；现行顺序见路线图。reserve 与三方合并保留，旧存档缺省兼容已被 current-only 取代 |
+| D23 | 指令 / 事件术语 | 有效 |
+| D24 | 战斗配置三层化、`sys:battleField` 退役 | 以本决策的 2026-07-07 补充为准：持久 `sceneBattleOverrides` 已退役 |
+| D25 | 资产色彩与压缩方针 | 以补²/补³为准：小道具图保留真彩；帧动画作者模型为完整真彩帧，旧“RNG 不烘 RGBA”不再约束它 |
+| D26 | 唯一地图模型、高度属于实例 | 原则有效；ProjectMapV2 为当时格式，现行共享地图/组合采用 version 4，见 D29 与 [内容规范 §5](foundation/content-schema.md) |
 | D27 | 遮挡前景半透明 | 有效 |
 | D28 | 演出分段 e2e 优先 | 有效；视觉验证分层见 AGENTS.md |
 | D29 | 地图/组合共享内容与相对高度 | 有效（现行 stamp/map 模型） |

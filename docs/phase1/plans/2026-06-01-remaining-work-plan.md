@@ -66,7 +66,7 @@
 | 项 | effort | gap | 落点 |
 |---|---|---|---|
 | **C2 Quit 二次确认** | S | menu-driver.ts:373 quit 直接清栈无确认 | classic 走 **2 项 ConfirmMenu**(uigame.c:2059-2076 `#else` 分支,默认 No);push confirm-quit,复用 draw-confirm.ts:26(2 项已对) |
-| **C1/C2 菜单 label → getWord(id)** | M | in-game-menu.ts:25-48 硬编码字串,id 是 0-based 下标≠真 WORD id | 改真 id(状态=3/仙术=4/物品=5/系统=6;SAVE=11..QUIT=15)+ getWord(id) 读 words.json flat``;波及 opening-menu/inventory-action-menu/draw-* |
+| **C1/C2 菜单 label → getWord(id)** | M | in-game-menu.ts:25-48 硬编码字串,id 是 0-based 下标≠真 WORD id | 改真 id(状态=3/仙术=4/物品=5/系统=6;SAVE=11..QUIT=15)+ getWord(id) 读 words.json flat\[](已提取,字符串现碰巧对但架构断);波及 opening-menu/inventory-action-menu/draw-* |
 | **A4 OpeningMenu 坐标公式** | S | draw-opening-menu.ts:39 硬编码 x=125;真值 `125-(w>4?(w-4)*8:0)`,w=PAL_WordWidth | port wordWidth helper(ui.c:836)。⚠️ '新的故事'4 字 → w=4 → x=125 **可能已对**,gap 仅缺公式防漂移;OpeningMenu 本就无 box(9-slice 前提不成立)|
 | **F1 默认新游戏字段核对** | M | (标题"非 SAVEDGAME 反序列化"是误解:sdlpal 新游戏读 MKF chunk + 字段初始化,非读存档)真活 = 逐字段核 ts hydrate 齐 global.c:434-467 默认值 | bootstrap.ts:1150 startNewGameFromPrimary + game-state.ts hydrate;**本轮未实读全文,先核**:dwCash=0/wNumScene=1/viewport=(0,0)/party=[]/Exp.level=rgwLevel |
 | ~~C16 TripleMenu~~ | — | **不做**(classic 无 config-page 消费点);保留 primitive 加注释 | — |

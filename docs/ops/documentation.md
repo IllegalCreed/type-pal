@@ -52,8 +52,9 @@ Markdown 链接、图片、引用式链接的本地文件目标，忽略代码�
 
 ## 例外与准入
 
-本轮先报告现有问题，完成整改后由 Codex 将 `check:docs` 接入根 `check/check:fast` 和 CI。
-在完整文档检查清零之前，不宣称文档治理通过。
+`check:docs` 已接入根 `check/check:fast`；GitHub 的 Documentation workflow 在 PR、main 推送及手动触发时
+执行同一组工具测试与仓库检查，不依赖 pnpm 安装、PAL 素材或浏览器。首次接入与远端回执见 DOC-GOV-1。
+文档检查通过不等于产品缺陷修复，也不代表全仓 lint/E2E 已通过。
 
 允许的例外只精确到 `source + target + reason`，当前仅记录未改写的 vendored SDLPal 上游断链。
 例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。

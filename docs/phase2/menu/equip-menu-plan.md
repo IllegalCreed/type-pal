@@ -1,5 +1,8 @@
 # 装备面板 实现计划(替占位面板)
 
+> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。
+> 当前能力见 [能力地图](../capability-map.md)，实际工作从 [看板](../../ops/board.md) 进入。
+
 > **分工**:Task A(content 世界操作)+ Task B(reforge 状态机)= **GLM**;Task C(Canvas UI)+ Task D(浏览器对齐)= **Claude**。
 > **依赖**:装备地基([item-data-design](../foundation/item-data-design.md))已就位;多级菜单已就位(`openPanel==='equip'` 进本面板,现为"装备·开发中"占位)。
 > **视觉参考**:原版装备界面(作者截图,Task D 对齐)。第二阶段 Reforge,先读 [READ-FIRST](../READ-FIRST.md)。

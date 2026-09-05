@@ -1,9 +1,10 @@
 # 内容 Schema（现行契约 + 历史设计）
 
 > **文档分层（2026-09-06 标注）**：本文是「活规范 + 历史设计」合体文件——
-> **现行契约**自「当前 canonical 项目入口」一节起（含后续追加的 contentVersion/save/script 各节），
-> 版本常量以 `packages/content/src/character.ts` 为准（当前 content20 / SAVE8）；
-> 标题与开头「P0 设计初稿 / 草案」字样是 2026-06-18 起草时的历史状态，**不降低现行节效力**。
+> **现行契约入口**为紧接下方的「当前 canonical 项目入口」，地图/组合合同见 §5，tileset 见末节。
+> §0–§4、§6–§10 保留早期设计与各日期的增量记录，旧接口和升级叙述不是当前字段合同。
+> 脚本以 [canonical script 契约](script-system-design.md) 为准，存档以 [当前存档契约](save-system-design.md)
+> 为准；版本常量以 `packages/content/src/character.ts` 为准（当前 content20 / SAVE8）。
 > 铁律见 [READ-FIRST.md](../READ-FIRST.md)；总纲见 [roadmap.md](../roadmap.md)；议题池见 [design-backlog.md](../design-backlog.md)。
 > 本文定义**新引擎（reforge）与编辑器（editor）共用的内容数据模型**，以及从 `data/extracted/` 一次性迁移的方案。是 P1 / P2 的地基。
 >

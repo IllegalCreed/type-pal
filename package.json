@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "pnpm test:coverage-tools && pnpm -r run check && pnpm lint",
-    "check:fast": "pnpm test:coverage-tools && pnpm -r run typecheck && pnpm -r run test && pnpm lint",
+    "check": "pnpm check:docs && pnpm test:coverage-tools && pnpm -r run check && pnpm lint",
+    "check:fast": "pnpm check:docs && pnpm test:coverage-tools && pnpm -r run typecheck && pnpm -r run test && pnpm lint",
     "typecheck": "pnpm -r run typecheck",
     "test": "pnpm test:coverage-tools && pnpm -r run test",
     "test:coverage-tools": "node --test scripts/coverage/*.test.mjs",

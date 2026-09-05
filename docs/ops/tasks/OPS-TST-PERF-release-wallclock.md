@@ -209,14 +209,14 @@ B/C 已于 2026-08-22 因 current-only 删除实施对象而取消；不再等�
 - **B / shared-fresh 进程与文件隔离（P1）**：本卡 `:56-60,72-75` 的 “independent processes”
   还必须钉死每个子进程的 `TYPE_PAL_MIGRATE_TEST_GATE`、唯一 `TMPDIR`/Vitest JSON report/log/
   transaction root，以及 shared 失败时 sibling 取消、信号/OOM/缺报告的 aggregate non-zero。
-  shared 的真实 lease 仍只允许进程内复用（``vitest.release.config.ts:41-66``（历史路径，已被 current-only 收编删除，见 git f1466374:packages/migrate/vitest.release.config.ts）、
-  ``pal-test-fixture.ts:65-88,128-160,205-221``（历史路径，已被 current-only 收编删除，见 git f1466374:packages/migrate/src/experimental/script-v5/pal-test-fixture.ts）），
-  fresh 的磁盘事务必须保持独占临时根（``pal-migration-integration.test.ts:110-118,591-600``（历史路径，已被 current-only 收编删除，见 git f1466374:packages/migrate/src/pal-migration-integration.test.ts））。
+  shared 的真实 lease 仍只允许进程内复用（`vitest.release.config.ts:41-66`（历史路径，已被 current-only 收编删除，见 git f1466374^:packages/migrate/vitest.release.config.ts）、
+  `pal-test-fixture.ts:65-88,128-160,205-221`（历史路径，已被 current-only 收编删除，见 git f1466374^:packages/migrate/src/experimental/script-v5/pal-test-fixture.ts）），
+  fresh 的磁盘事务必须保持独占临时根（`pal-migration-integration.test.ts:110-118,591-600`（历史路径，已被 current-only 收编删除，见 git f1466374^:packages/migrate/src/pal-migration-integration.test.ts））。
   验收钉：注入 child failure/SIGTERM/OOM/路径冲突，两个 child 的报告与日志均保留，runner 非零且不得静默改跑串行。
 - **B / RSS fail-closed（P1）**：`machine safety budget`（`:72-75`）没有数值、进程树采样方式、
   单位或不可用 telemetry 的处理。必须分别钉 shared、fresh、合计预算；采样 fork descendants 的 peak RSS；
   RSS 不可读、超预算、被信号杀死或 V8 OOM 一律 non-zero。当前 canary 仅有 V8 old-space 2048MiB
-  （``vitest.canary.config.ts:16-22``（历史路径，已被 current-only 收编删除，见 git f1466374:packages/migrate/vitest.canary.config.ts）），不能把旧卡
+  （`vitest.canary.config.ts:16-22`（历史路径，已被 current-only 收编删除，见 git f1466374^:packages/migrate/vitest.canary.config.ts）），不能把旧卡
   `1168MiB` 当 RSS 门槛（旧证据 [`OPS-TST-PERF-test-fixture-stratification.md:195-207`](OPS-TST-PERF-test-fixture-stratification.md)）。
 - **A / 阶段报告（P2）**：`:48-52,72` 未定义 monotonic `t0/t1`、manifest/canary/release 的边界、
   稳定 JSON report schema、skipped/pending 计数和缺报告行为。`package.json:14,17` 明确 manifest 是
@@ -229,7 +229,7 @@ B/C 已于 2026-08-22 因 current-only 删除实施对象而取消；不再等�
   自洽，不能独立证明 source producer 正确。每阶段仍须独立 fresh default/reversed build（不可在同一
   lease 上 reverse 或原地 mutate），比较 canonical source/baseline/route/schema/method/profile digest、
   IR、ledger、文件、authority/seal，以及 author-conflict、half-state、tamper 反例；旧 shared 137 条
-  必须按测试标题一一唯一映射。顶层 fixture 目前只浅冻结（``pal-test-fixture.ts:100-125``（历史路径，已被 current-only 收编删除，见 git f1466374:packages/migrate/src/experimental/script-v5/pal-test-fixture.ts）），
+  必须按测试标题一一唯一映射。顶层 fixture 目前只浅冻结（`pal-test-fixture.ts:100-125`（历史路径，已被 current-only 收编删除，见 git f1466374^:packages/migrate/src/experimental/script-v5/pal-test-fixture.ts）），
   因此反序输入必须使用深冻结/COW 独立快照。验收钉：consolidated probe 缺失、digest 不等或任一旧标题无
   唯一 successor 时 release 失败；三次 parallel 结果另须与 canonical serial control 的 digest、清单、
   writes/deletes/conflicts 完全相等。

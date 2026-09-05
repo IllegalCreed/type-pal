@@ -1,5 +1,8 @@
 # 菜单系统设计（menu design）
 
+> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。
+> 当前能力见 [能力地图](../capability-map.md)，实际工作从 [看板](../../ops/board.md) 进入。
+
 > 状态：设计（2026-06-28）。依据 [D17](../decisions.md)（菜单设计定调）、[D16](../decisions.md)（渲染地基已就位）、[content-schema §9](../foundation/content-schema.md)（角色实例化）。
 > 长在 D16 地基上：格坐标 / 物理 1280 + `ctx.scale(4)` / 数据驱动 / 阶段隔离。
 

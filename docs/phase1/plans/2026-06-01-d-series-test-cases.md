@@ -322,8 +322,8 @@ startBattle 真流程(逐行已读):按 enemyTeamId 找 team(找不到 throw,lin
 ### D11-2 fixture-levelup 连升多级 → 升级屏 + 升级即满 HP/MP + 各属性成长
 - **前置**: ?skip-intro=1 进房间,开 devpanel。本场用 fixture-levelup(专为 D11 做:李逍遥 lv1 + 6000 经验 vs 灯笼 30HP,攻击 999 一击秒)。按 B 选该 fixture 后(战斗中)console 记下 window.__game.gs.PlayerRolesRuntime.rgwLevel[0] / rgwMaxHP[0] / rgwAttackStrength[0] / rgwDexterity[0] 与 gs.Exp.rgPrimaryExp[0].wExp。
 - **操作**: (1) 按 B 选「fixture-levelup: 升级测试(lv1 + 6000 经验 vs 灯笼 30HP)」;(2) 进战斗后按 A 围攻一击秒敌;(3) 结算先出 exp-cash 屏,接着出「升级」屏(level old→new + 修行/体力/真气/武术/灵力/防御/身法/吉运 8 属性 old→new,HP/MP cur/max);(4) 按 Confirm 逐屏翻完回 explore;(5) console 读战后值。
-- **预期**: sdlpal battle.c:1090-1116:6000 exp 远大于低级 rgLevelUpExp[level] → while 连续扣阈值 level++ 连升多级(label 声明到 lv12)+ 每级 PAL_PlayerLevelUp 属性成长(global.c:2347-2454)+ 升级即 HP/MP 回满。ts battleWonLevelUp(battle-system.ts:2350-2375):dwExp=wExp+expGained,while dwExp>=levelUpExp[level] 扣阈值 level++ → 成长(2361-2367)+ rt.rgwHP[0]=rt.rgwMaxHP[0]、rt.rgwMP[0]=rt.rgwMaxMP`0`。
-- **验证**: (a) 肉眼:结算出「升级」屏,等级从 1 跳到 ~12 + 各属性 old→new 增长。(b) 数据级 console(战后 window.__game.gs.PlayerRolesRuntime):rgwLevel[0] 远大于 1(约 12);rgwHP[0] === rgwMaxHP[0] 且 rgwMP[0] === rgwMaxMP`0`（`升级满血满蓝,battle-system.ts:2373-2374`）;rgwMaxHP[0]/rgwMaxMP[0]/rgwAttackStrength[0]/rgwMagicStrength[0]/rgwDefense[0]/rgwDexterity[0]/rgwFleeRate[0] 都 >> 战前(多级累加正值);window.__game.gs.Exp.rgPrimaryExp[0].wLevel === rgwLevel`0`（`battle-system.ts:2381`）,wExp = 扣完多级阈值后余数。注:未传 rngSeed → 成长量随机,只验增长/满血/level 同步,不对数值。
+- **预期**: sdlpal battle.c:1090-1116:6000 exp 远大于低级 rgLevelUpExp\[level] → while 连续扣阈值 level++ 连升多级(label 声明到 lv12)+ 每级 PAL_PlayerLevelUp 属性成长(global.c:2347-2454)+ 升级即 HP/MP 回满。ts battleWonLevelUp(battle-system.ts:2350-2375):dwExp=wExp+expGained,while dwExp>=levelUpExp\[level] 扣阈值 level++ → 成长(2361-2367)+ rt.rgwHP\[0]=rt.rgwMaxHP\[0]、rt.rgwMP\[0]=rt.rgwMaxMP\[0](2373-2374)。
+- **验证**: (a) 肉眼:结算出「升级」屏,等级从 1 跳到 ~12 + 各属性 old→new 增长。(b) 数据级 console(战后 window.__game.gs.PlayerRolesRuntime):rgwLevel\[0] 远大于 1(约 12);rgwHP\[0] === rgwMaxHP\[0] 且 rgwMP\[0] === rgwMaxMP\[0](升级满血满蓝,battle-system.ts:2373-2374);rgwMaxHP\[0]/rgwMaxMP\[0]/rgwAttackStrength\[0]/rgwMagicStrength\[0]/rgwDefense\[0]/rgwDexterity\[0]/rgwFleeRate\[0] 都 >> 战前(多级累加正值);window.__game.gs.Exp.rgPrimaryExp\[0].wLevel === rgwLevel\[0](battle-system.ts:2381),wExp = 扣完多级阈值后余数。注:未传 rngSeed → 成长量随机,只验增长/满血/level 同步,不对数值。
 
 ### D11-3 升级后学新法术(fixture-levelup 李逍遥 lv10 凝神归元)
 - **前置**: ?skip-intro=1,开 devpanel。同用 fixture-levelup(label 明说连升跨 lv10 会学「凝神归元」)。按 B 选该 fixture 后(战斗中)console 记下 window.__game.gs.PlayerRolesRuntime.rgwMagic(二维 [magicSlot][roleId],battle-system.ts:2429)中 roleId=0 的现有条目。
@@ -346,7 +346,7 @@ startBattle 真流程(逐行已读):按 enemyTeamId 找 team(找不到 throw,lin
 
 1. fleeRate 现取 `getPlayerFleeRate(gs, roleId)`(base + 装备加成),可核 sdlpal `PAL_GetPlayerFleeRate` 有效逃跑率；旧版 raw base 注释已过时。
 
-2. 16 步每步像素位移**主动偏离 sdlpal**。battle-system.ts:1385-1391 fleeStepDelta 返回统一 `5,4`,代码注释明示这是 user 2026-05-31 拍板"忠于原版三人同向",**故意不照** sdlpal battle.c:1486-1505 的扇形 p0 +4/+6·p1 +4/+4·p2 +6/+3。**不要逐像素对齐 sdlpal**,这是有意设计偏离;可核的是"16 步右下移 + 末步移出屏"这个结构。
+2. 16 步每步像素位移**主动偏离 sdlpal**。battle-system.ts:1385-1391 fleeStepDelta 返回统一 \[5,4](全员右下同向同速),代码注释明示这是 user 2026-05-31 拍板"忠于原版三人同向",**故意不照** sdlpal battle.c:1486-1505 的扇形 p0 +4/+6·p1 +4/+4·p2 +6/+3。**不要逐像素对齐 sdlpal**,这是有意设计偏离;可核的是"16 步右下移 + 末步移出屏"这个结构。
 
 3. 逃跑失败动画+文字。flee.ts 走 buildFleeFailTimeline(3 步右下挪+濒死帧),末帧同步 showBattleMessage('逃跑失败',320ms),对应 sdlpal fight.c:4155-4170(3 步 dash + frame 1 + BATTLE_LABEL_ESCAPEFAIL)。
 
@@ -652,7 +652,7 @@ devpanel 键的精确行为(B 选敌队/P 三人/I 加道具/M 学法术/L 满�
 - **前置**: URL 加 ?skip-intro=1 进李逍遥房间。开 devpanel(Cmd/Ctrl+Shift+D)。按 B(KeyB)打开敌队 picker(dev-panel.ts:119-120 openBattlePicker),键入一个会魔法的敌队 id 数字、按 Enter 进战斗(dev-panel.ts:100-104)。进战斗后立刻按 L 满血满蓝防被秒。停在选择行动主菜单。
 - **操作**: 1) console 跑 window.__game.gs.battleState.enemies.map(e=>({id:e.e.id,magic:e.e.magic,rate:e.e.magicRate})),记下每只敌初始 magic/magicRate(找出 magic!=0 的敌)。2) 给己方全员选 D=Defend、Confirm 提交全队行动,进 perform 放敌人行动。3) 连续观察 3-5 个回合(每回合都防御),肉眼看 magic!=0 的敌头上是否出现魔法特效/队员掉血 vs magic=0 的敌只物理冲刺。
 - **预期**: sdlpal script.c:2016-2023(0x67):敌脚本把 e.wMagic=operand[0]、e.wMagicRate=(operand[1]==0?10:operand[1])。fight.c:4656-4658 敌行动时 wMagic!=0 && RandomLong(0,9)<wMagicRate && silence==0 才进魔法分支。ts 1:1:battle-opcodes.ts:1016-1024 OP_ENEMY_USE_MAGIC 写 enemy.e.magic/magicRate(rate 缺省=10);enemy-ai.ts:96-106 enemy.magic!==0 && silence===0 && rng.range(0,10)<enemy.magicRate → {type:'magic'},否则 {type:'attack'}。
-- **验证**: (a) 肉眼:magic!=0 且 rate 高的敌多数回合放魔法(屏幕魔法特效 + 队员掉 HP);magic=0 的敌永远只物理冲刺。(b) 数据级:每回合 perform 前 console 查 window.__game.gs.battleState.enemies[i].e.magic 与 .e.magicRate(字段名 resources.ts:144-145,挂 BattleEnemy.e);被打队员 HP 降 → 先 window.__game.gs.battleState.players 找该敌目标 roleId,再 window.__game.gs.PlayerRolesRuntime.rgwHP`roleId`（`game-state.ts:869+430`）应较行动前减少。
+- **验证**: (a) 肉眼:magic!=0 且 rate 高的敌多数回合放魔法(屏幕魔法特效 + 队员掉 HP);magic=0 的敌永远只物理冲刺。(b) 数据级:每回合 perform 前 console 查 window.__game.gs.battleState.enemies\[i].e.magic 与 .e.magicRate(字段名 resources.ts:144-145,挂 BattleEnemy.e);被打队员 HP 降 → 先 window.__game.gs.battleState.players 找该敌目标 roleId,再 window.__game.gs.PlayerRolesRuntime.rgwHP\[roleId](game-state.ts:869+430)应较行动前减少。
 
 ### D23-2 magicRate 边界:rate=10 恒放魔法 vs rate=0 恒物理(console 注入 0x67 等价效果)
 - **前置**: ?skip-intro=1 进房间,开 devpanel,按 B 键入任意敌队 id+Enter 进战斗,进战后按 L 满血满蓝,停在选择行动主菜单。

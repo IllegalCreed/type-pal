@@ -3868,7 +3868,7 @@ P0 全 6 项 done(原 design 5 项 + wScriptOnEnter 升 6)。
 
 **key icon blink period = 16 帧:** sdlpal text.c PAL_DialogWaitForKey g_TextLib.bIcon 每 16 帧 toggle。
 
-**字阴影色 = palette 50:** sdlpal 真值 palette`0`（`通常黑/最深`）;M5 用 50 暗灰作占位,M6 映射真色。
+**字阴影色 = palette 50:** sdlpal 真值 palette\[0](通常黑/最深);M5 用 50 暗灰作占位,M6 映射真色。
 
 **头像(portrait)M5 占位:** M4 P2 dump 的 92 头像未在 M5 接入真 RLE blit;`drawDialogBox` 当 `portraitIcon` 非 undefined 时画 32×32 占位框(白边),并把文本 X 偏移到 rect.x+40。真 RLE blit 留 M6。
 

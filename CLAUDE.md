@@ -32,7 +32,8 @@ pnpm workspace, three packages:
 ## Commands
 
 ```bash
-pnpm check          # coverage-tools + 各包 typecheck/test + pnpm lint（biome）—— the gating check
+pnpm check          # docs + coverage-tools + 各包 typecheck/test + pnpm lint（biome）
+pnpm check:docs     # 文档链接、目录索引、任务状态与现行版本检查
 pnpm lint           # biome check（也被 `check` 末步运行；单独跑用于快速检查）
 pnpm format         # biome format --write
 pnpm extract        # regenerate data/extracted/ from the original MKF archives
@@ -117,5 +118,5 @@ When a behavior question can't be settled from the extracted data — or sdlpal 
 ## Notes
 
 - `game/src/dev/dev-panel.ts` is a DEV-only debug overlay (battle / scene / party / effect pickers), dead-code-eliminated in production via `import.meta.env.DEV`.
-- The repo is not fully biome-clean (import ordering, non-null assertions are tolerated); `pnpm check` runs biome, but failures in those tolerated categories are addressed opportunistically rather than gating.
-- `docs/phase1/plans/` is a **historical archive** (per-milestone design/impl plans + audits, dated at time of writing) — it does **not** reflect current state. For "what's true now" read the status tables in `docs/` (`feature-status` / `opcode-status` / `resource-status` / `item-status` / `magic-status` / `cutscene-status` / `game-mechanics`) plus `04-decisions.md`; open `plans/` only to trace original design/plan rationale. Index + per-file status: `docs/phase1/plans/README.md`.
+- The repo is not fully biome-clean. Biome failures make `pnpm check` / `check:fast` fail; passing typecheck or tests alone is not a passing full check. Known lint findings are tracked in `docs/ops/audits/pre-e2e/engineering.md`.
+- `docs/phase1/plans/` is a historical archive; its plans and audit snapshots do not describe current tasks. `docs/phase1/status/` contains dated v1.0 coverage snapshots, and subsequent defects are tracked in `docs/ops/audits/pre-e2e/summary.md`. Use `docs/phase1/game-mechanics.md` for sourced mechanics, `docs/phase1/04-decisions.md` for decisions, and `docs/phase1/plans/README.md` for historical rationale.
