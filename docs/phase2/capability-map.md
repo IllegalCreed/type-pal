@@ -69,7 +69,7 @@
 
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
-| E1 | 实体定义与摆放 | ✅ | ⚠️ | NPC/家具/宝箱 | **实体对象本身已闭合**：ED-4A 完成精灵/触发区四形态创建、画布放置/树选择/检查器/拖动/撤销重做/保存重开/引用保护删除；表现形态与玩法职责正交。**场景容器生命周期仍缺**复制、可读命名、安全删除、文件事务与独立试玩，故按七环判据保持 ⚠️，由 [ED-SCENE-LIFECYCLE-1](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) 收口。 |
+| E1 | 实体定义与摆放 | ✅ | ✅ | NPC/家具/宝箱 | **done（2026-09-05）**：ED-4A 已闭合实体四形态与编辑七环；[ED-SCENE-LIFECYCLE-1](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) 补齐 content20 场景目录、名称/稳定 ID/显式路径、新建/复制/安全删除、双会话撤销重做、文件保存重开与正式试玩入口。原候选三方 accept，用户免亲自复验直接通过；追加长引用页滚动缺陷已修复并实机补验。 |
 | E2 | NPC 行为(走位/巡逻) | ✅ | ✅ | 市集游走 | autoScript;编辑器:脚本抽屉可编 auto stages + 实体检查器「行为脚本」一键跳转;**巡逻模板(2026-07-11 E2)**:插入菜单「巡逻」组四模板 —— 来回走 A↔B / 环线四角 / 驻足张望四向 / 随机游走一步(两层五五开),形状提炼自 pal 真实市集游走(s004 e76/e83),展开为普通指令组不引黑盒;auto 跑完整套自动重跑 = 天然循环零「循环」指令 |
 | E3 | 可拾取物 | ✅ | ✅ | 宝箱/拾取 | done;拾取模板 |
 | E4 | 触发交互 | ✅ | ✅ | 对话/事件 | done;事件模式 |
@@ -129,7 +129,7 @@
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
 | X0 | 主菜单四项 | ✅ | — | 状态/装备/术/系统 | done;引擎 UI |
-| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前唯一格式为 **SAVE 8 / contentVersion 19 / minimumSaveVersion 8**；loader 与 codec 直接验证 canonical current。角色临时毒/状态/毒抗在 restore 时对 party+reserve 全清且不重播入口 seed，战后则只解到 severe，两条边界独立。正式上线前不保留 SAVE1..7/content1..18 的 upgrader、sidecar、fixture 或产品入口，历史由 Git 保存。 |
+| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前唯一格式为 **SAVE 8 / contentVersion 20 / minimumSaveVersion 8**；loader 与 codec 直接验证 canonical current。角色临时毒/状态/毒抗在 restore 时对 party+reserve 全清且不重播入口 seed，战后则只解到 severe，两条边界独立。正式上线前不保留 SAVE1..7/content1..19 的 upgrader、sidecar、fixture 或产品入口，历史由 Git 保存。 |
 | X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化。编辑器支持音乐/音效导入、替换、改名、试听、选择、引用保护删除、保存重开与旧工程一次性升级；数字文件名、应用根 soundfont、`legacy.sounds` 和运行时音效字面量已退役。边界:X2=音频基建与资源生命周期，W5=场景侧引用与切换；未实现的战斗表现事件继续记 B5，不反向降级 X2 |
 | X3 | 标题/流程/结局 | ✅ | — | 新游戏/通关 | 主菜单标题屏(FBP2 底图 + entryPoints 竖排)+「新的故事」新游戏流 +「旧的回忆」读档(→存档浏览→doLoad 跳开场)；**X3-1 done(2026-07-15)**：场景入场呈现事务(Prepare→Reveal→Body 显式元数据、SceneEntrySession 生命周期、编辑器三区编辑)；**结局流 done（R2，2026-07-14）**：原版 0xA0 迁为作者可编辑的 `quitToTitle(videos[])`，PAL s281 播 `video.pal.004/005/006` 后回 `?menu`，双路径 E2E、三方审查与用户验收完成。持续通关回归归 Q1 全流程 E2E，不另开 X3 产品卡。开局数据侧见 X7 |
 | X4 | 资源管线(RGBA 化) | ✅ | — | — | **done（ARCH-CURRENT-ONLY-1）**：当前实现为 catalog-only；PAL 1,934 条资产记录，56 个 effect sprite（652,870 B / 922 帧）由 migrate 确定性物化；editor/reforge 不读取 extracted、`assets.legacy` 或目录 fallback，旧版本兼容层已删除。 |
@@ -195,9 +195,10 @@
 
    当前第二阶段唯一队列（2026-09-05）:
    [ED-3](../ops/tasks/ED-3-project-reference-index.md) 已于 2026-09-05 三方 accept + 用户验收完成。
-   1. [场景生命周期](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md)
-   2. [商店生命周期](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)
-   3. R4 薄 E2E：runner、001-010、四种取物 canary、编辑器保存重开试玩
+   [场景生命周期](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) 同日终审及用户直接通过，滚动修复补验后收口。
+   1. [商店生命周期](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)
+   2. 第一、第二阶段全仓代码审计及 E2E 阻断项修复；一般优化单列排期
+   3. R4 content20 薄 E2E：runner、001-010、四种取物 canary、编辑器保存重开试玩
    4. N6b：四种内置取物意图 + content21；复跑薄基线，第三阶段再做通用化
    5. Q2 完整战斗专项五批（B5 并入）→ Q1 完整通关链
    6. 敌队大目录虚拟滚动（编辑器综合 E2E 前）
@@ -250,15 +251,15 @@
 
 ### 2026-09-03 对账后重跑（候选，不是承诺）
 
-- 该句是 2026-09-03 对账时点快照；此后 ED-3 已于 2026-09-05 完成三方/用户验收，
-  两张场景/商店生命周期卡已建为 draft。实时状态以任务看板为准。
+- 该句是 2026-09-03 对账时点快照；此后 ED-3 与场景生命周期已于 2026-09-05 收口，
+  商店生命周期卡为 draft。实时状态以任务看板为准。
 - X4/A7、B2、W9、E18、D6-1、D12-1、D13-1、D14-2/3、D15-1 与
   `ARCH-ACTOR-CONDITION-SEED-1` 的陈旧状态已按任务卡和 Git 收口事实更正。
 - 用户于 2026-09-03 将 W6 真实时间/天气、A6、X5 世界状态预设、W7 随机笔刷/自动拼接和 D13
   时间旅行调试统一移交第三阶段；W6 在第二阶段只指已完成的昼夜氛围，A6 不再计入第二阶段缺口。
 - 同日追加裁决：无障碍设置/脚本树键盘导航和 C1/C2 内容语义补标也移交第三阶段；敌队大目录
   虚拟滚动仍属第二阶段性能增强，`capture`/Content Studio 录制协作仍属第二阶段发布链且必须后于 E2E。
-- 当前表内真实 `⚠️` 为 E1（场景生命周期）、E9（商店生命周期）与 B5；真实 `❌` 只剩最终收口 A1，
+- 当前表内真实 `⚠️` 为 E9（商店生命周期）与 B5；真实 `❌` 只剩最终收口 A1，
   但这只是能力格状态，不能替代 §4
   对迁移缺陷、ED-3、生命周期、E2E 和发布任务的完整队列。
 - 2026-09-03 用户确认后续应执行 **Q2 完整战斗专项 E2E**，用于补齐会跳过真实战斗或让战斗直接

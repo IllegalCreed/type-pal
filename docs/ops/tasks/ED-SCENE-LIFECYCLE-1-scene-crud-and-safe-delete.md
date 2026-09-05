@@ -1,6 +1,6 @@
 # ED-SCENE-LIFECYCLE-1 - 场景生命周期闭环
 
-Status: review
+Status: done
 Phase: phase2
 Capability: E1 / Editor scene lifecycle
 Coding Owner: Codex
@@ -317,7 +317,9 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-09-05）**。候选 `f0e7b2b9` 的实现/全量自测证据见 Build；补验用户指出的
+  s005 长引用列表滚动缺陷，修复 `.scene-inspector` 中间高度约束，实机确认 39 条末项可达、标题固定与
+  Tab 往返保持滚动位置。小范围修复沿用用户“小需求无需三签”规则，原候选两席签字仍仅针对原候选。
 - Kimi: **accept（2026-09-05，只读终审候选 `f0e7b2b9` 全范围 + 本人独立复跑，非复述
   Codex)**。按八项职责逐项核验：
   1. **SceneIndex 唯一目录真值 ✓**:`SceneIndexV1{version:1,scenes:[{id,name,path}]}` +
@@ -361,10 +363,13 @@ Branch: main
   发现漏改 target；四态任一删除被放行；重迁覆盖作者 name/path 或二跑非零；写序中断产生
   index→缺正文——任一成立本签字失效。
   **返工项：无 P0/P1/P2**；未修改实现，未标 done。
-- GLM: pending
-- counter / 返工处理: pending
+- GLM: **accept（2026-09-05，候选 `f0e7b2b9`）**。本人独立终审正文已在下方 Review 章节签署，
+  提交 `6d2756e1`；此处由 Codex 同步既有签字状态，不代签新候选。
+- counter / 返工处理: 原候选两席无 counter/返工；用户发现的引用页滚动问题已局部修复并补实机验证，
+  其余已通过项保留。未重开设计，不要求用户重复手工验收。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **done allowed（2026-09-05）**。原候选三方 accept；用户明确直接通过；
+  滚动修复由 Codex 按既定小修复流程验证。
 
 ## Draft: 设计与风险
 
@@ -440,9 +445,10 @@ Branch: main
   - changed-file Biome format/check + `git diff --check`：通过（仅既有 warning/info，无 error）。
   - `pnpm --filter @type-pal/migrate migrate:content` 连续两次：均 `managed=537 writes=0 deletes=0
     conflicts=0 asset-deletes=0`，`scenes=294 maps=223 assets=1934 reference-warnings=0`。
-- 浏览器 / 手工检查: Codex in-app browser，PAL `s047`，1280×720；检查目录名称+ID、294 数量、overflow
+- 浏览器 / 手工检查: 初轮 Codex in-app browser，PAL `s047`，1280×720；检查目录名称+ID、294 数量、overflow
   复制/禁删菜单、create dialog、焦点恢复、Scene Inspector 摘要/引用 5 条、默认落点试玩。发现列表头“场景”
-  被压缩后，修公共标题最小两字宽与 count padding；复查完整显示、无横向溢出。
+  被压缩后，修公共标题最小两字宽与 count padding；复查完整显示、无横向溢出。此轮未验证长列表实际滚动；
+  用户反例后的 s005 补验见视觉验证记录。
 - 跳过的检查及原因: 未真实写入 `projects/pal`，避免视觉检查污染作者项目；FSA 首存/删除/撤销/中断由内存
   directory handle 集成测试覆盖。未实际启动游戏窗口，正式 `play.html?project&scene&pos&facing` URL 由 UI
   测试精确断言，运行 loader/build 已单独通过。
@@ -454,9 +460,13 @@ Branch: main
 - 验证方式: 本地 Vite + Codex in-app browser，显式 1280×720 viewport，AX tree + screenshot；核心 UI 测试
   另覆盖 create/copy/delete、引用四态、dirty trial、undo/redo。
 - 集中 E2E 用例 / 批次: 编辑器综合工作流前置子链
-- 截图 / 像素检查路径: 当前会话内联 CUA 截图（未持久化仓库文件）。
-- 结论: **pass**。标题、控件、弹窗、菜单、引用面板与滚动 owner 均使用已登记设计系统组件；1280×720
-  无水平溢出，窄栏标题修复后完整显示。
+- 截图 / 像素检查路径: 当前会话内联 CUA 截图（未持久化仓库文件）；补验测量如下。
+- 补验：PAL `s005`「引用 39」，外层高度 653px；修复后内部面板 clientHeight=525、首屏
+  scrollHeight=1,803，滚轮后 scrollTop=1,278。点击“显示其余 27 条”，再次滚到底后
+  scrollHeight=5,727、scrollTop=5,202；39 个引用按钮全部挂载，最后一条 `s020/e349` 完整位于
+  面板视口内，Tab 顶部始终 y=120。摘要→引用往返仍保留 scrollTop=5,202。
+- 结论: **pass（用户反例后的局部修复）**。`.scene-inspector` 复用既有实体 Inspector 的
+  flex/min-height:0/overflow:hidden 高度链，只有当前 tabpanel 纵向滚动；实际滚轮、展开和末项可达已验证。
 - 未完成项: 无；剧情/游戏演出视觉不属于本功能页任务。
 
 ## Review: 审查与返工
@@ -465,7 +475,7 @@ Branch: main
 - 审查结论:
   - Codex: **accept（2026-09-05）**。实现满足三方设计和 Kimi/GLM 全部硬钉；全量测试、双 dry-run、
     production build、DS gate 与 1280×720 实机检查通过。
-  - Kimi: pending
+  - Kimi: **accept（2026-09-05，候选 `f0e7b2b9`，提交 `52c4f130`）**；独立终审全文见上方推进签字。
   - GLM: **accept（2026-09-05，只读终审候选 `f0e7b2b9` 相对设计基线 + 本人独立脚本复算与
     聚焦复跑，非复述 Codex/Kimi；GM-SL1~SL5 逐钉验证落实）**：
     - **content20 全量切换 ✓（核 1/3）**：三 current manifest 均 `contentVersion: 20`（本人
@@ -509,15 +519,30 @@ Branch: main
       重迁覆盖作者 name 或丢 raw SceneId（ownership 断言红）；copy differential 任一计数/
       多重集断言失败；双 dry-run 非零；dist 出现真 string[] parser——任一出现本 accept 失效。
     无返工项；未修改实现/生成数据，未代签 Kimi，未填用户验收。
-- 必须返工项: pending
-- Accept / rework: **review**（等待 Kimi/GLM 独立终审）
+- 必须返工项: 已处理用户追加的场景引用页滚动缺陷；无剩余返工项。
+- Accept / rework: **accept**（两席原候选终审完成，Codex 补验局部滚动修复；用户免亲自复验直接通过）。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: 商店生命周期；R4 薄 E2E。
+- 用户结论: 2026-09-05 用户在两席终审后明确免亲自复验、直接通过；随后指出 s005 场景引用页
+  39 条内容无法滚动。此缺陷已由 Codex 修复并实机验证，其他通过项保持有效；不要求用户重复验收。
+- 后续任务: 商店生命周期；第一/第二阶段全仓审计及 E2E 阻断项修复；R4 content20 薄 E2E。
 
 ## 交接日志
+
+- 2026-09-05 Codex（收口）: 核对 Kimi `52c4f130` 与 GLM `6d2756e1` 均针对 `f0e7b2b9`
+  accept、无返工，统一两处签字汇总。用户免亲自复验直接通过，其后局部滚动缺陷按既定小修复规则处理。
+  修复 s005「引用 39」高度链后，实机展开全部引用、滚到第 39 条并验证 Tab 往返；相关设计系统
+  CSS/Inspector/布局测试 3 files / 4 selected tests 通过（87 不相关项未重跑），DS gate 92/2 通过。
+  只改 `editor.css` 四组共用选择器；数据、schema 与删除算法无改动。任务 done；下一项商店生命周期，
+  商店闭环后进行两阶段全仓审计及 E2E 阻断项整改，再进入 R4。
+
+- 2026-09-05 Codex（滚动返工）: 用户截图复现于 s005 的 39 条引用；浏览器测得 `.scene-inspector`
+  为默认 block/min-height:auto，高 1,931px，外层 `.inspector--tabbed` 高 653px 并裁切；内部 panel
+  clientHeight=scrollHeight=1,803px，因未受约束而无滚动范围。此前 s047 五条引用的“视觉 pass”未验证
+  长列表滚动，不能作为此项证据。修复只补已有 Inspector 高度链，不改数据/schema/删除语义；按用户
+  已定“小需求无需三签”执行同卡局部修复，由 Codex 补实机滚轮/末条可达/Tab 切换验证，原候选终审
+  结论保留，修复前不标 done。
 
 - 2026-09-05 GLM: 只读终审候选 `f0e7b2b9`，签 **accept**。独立复算：三 manifest content20、
   PAL SceneIndex 字节镜像 + 294 id/name/path 全唯一 + 正文闭包 + 重名 0、name 确定性消歧
@@ -586,6 +611,10 @@ Branch: main
   钉该候选，直接写自己的 done 前签字与交接日志。Next: Kimi/GLM 并行终审；Codex 齐签后统一收口。
 
 ## 下一位 Agent 提示词
+
+本卡原候选两席终审已完成，以下提示词保留作历史记录，无需再次转发。当前无下一位 Agent 提示词，
+用户已免亲自复验直接通过，Codex 完成局部滚动修复后收口。下一项为商店生命周期，之后按用户裁决
+开展两阶段全仓审计，再进入 E2E。
 
 ### 给 Kimi（并行终审，架构 / schema / transaction / UI）
 

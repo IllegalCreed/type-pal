@@ -1220,6 +1220,7 @@ html[data-panel-resize="horizontal"] * {
 .inspector--tabbed > .insp-head {
   flex: 0 0 auto;
 }
+.scene-inspector,
 .scene-entity-inspector {
   display: flex;
   width: 100%;
@@ -1229,6 +1230,7 @@ html[data-panel-resize="horizontal"] * {
   flex-direction: column;
   overflow: hidden;
 }
+.scene-inspector > .insp-head,
 .scene-entity-inspector > .insp-head {
   flex: 0 0 auto;
 }
@@ -1238,9 +1240,11 @@ html[data-panel-resize="horizontal"] * {
   border-bottom: 1px solid var(--line);
 }
 .inspector--tabbed > .ds-inspector-tabs,
+.scene-inspector > .ds-inspector-tabs,
 .scene-entity-inspector > .ds-inspector-tabs {
   flex: 1 1 auto;
 }
+.scene-inspector .section,
 .scene-entity-inspector .section {
   min-width: 0;
 }

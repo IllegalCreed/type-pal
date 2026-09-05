@@ -13,7 +13,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-SCENE-LIFECYCLE-1 | [场景生命周期闭环](tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) | review | Kimi/GLM 并行终审 | Codex 自验证通过；两席 accept 后等待用户验收 |
+
+当前无进行中任务；下一项为场景收口后的商店生命周期，顺序见能力地图。
 
 ## 看板规则
 

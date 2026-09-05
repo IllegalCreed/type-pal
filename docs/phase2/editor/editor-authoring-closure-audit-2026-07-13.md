@@ -242,8 +242,8 @@ ED-3 验收必须把该调用改接统一 `ProjectReferenceIndex`，随后删除
 > **2026-09-05 current-state 注记**：ED-3 `01512c84` 已经三方/用户验收并完成上述收编。同步作者领域、媒体
 > 结构化 locator 与 map/tileset/stamp 异步 coverage proof 均由统一 edge/index 消费；
 > `mapAssetSceneReferences`、旧领域 Worker DTO/页面 scanner、媒体 `where/site` 反解已退役。
-> 场景和商店的复制、可读命名、安全删除、保存重开与独立试运行仍由
-> `ED-SCENE-LIFECYCLE-1` / `ED-SHOP-LIFECYCLE-1` 后续卡闭合，不能把引用地基冒充七环完成。
+> 场景复制、可读命名、安全删除、保存重开与正式试玩入口已由 `ED-SCENE-LIFECYCLE-1` 同日收口。
+> 商店生命周期仍由 `ED-SHOP-LIFECYCLE-1` 后续卡闭合（沿用货单派生标题，不新增名称字段）。
 
 ### 7.2 空态即验收入口
 
