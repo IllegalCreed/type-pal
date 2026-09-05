@@ -100,7 +100,8 @@ Branch: main
   id 保留；跨场景目标不变；解除外部入边后删除并保存重开。
 - 用户裁决:
   - 2026-09-04 已批准场景生命周期属于第二阶段。
-  - **pending**：是否批准 SceneIndex 占用 content20，并把 N6b 原子切换顺延为 content21。
+  - **2026-09-05 已批准版本顺序**：SceneIndex 占用 content20；R4 薄基线直接建立在 content20；
+    N6b 保持在薄基线之后并把原子切换顺延为 content21。
 
 ## 上下文锚点
 
@@ -184,13 +185,13 @@ Branch: main
     AddScene、双 session 与 removePaths 缺口；三个 current 工程和 PAL typed self/cross census 见本卡。
   - design: **agree（推荐方案）**。采用 SceneIndexV1/content20、typed self-reference rewrite、现有
     cross-session coordinator 与 ED-3 deletion scope；不改 SceneId 充当名称，不把 name 放 SceneDef。
-    版本顺序改变仍须用户批准，故本签字单独不授权 build。
+    版本顺序已由用户于 2026-09-05 批准；本签字仍须与 Kimi/GLM 独立签字共同构成 build 准入。
 - Kimi: premise pending | design pending
 - GLM: premise pending | design pending
 - 独立反证审查: pending
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
-- build 准入结论: **blocked**（用户 content20→content21 裁决 + Kimi/GLM premise/design 均未齐）
+- build 准入结论: **blocked**（用户版本裁决已齐；Kimi/GLM premise/design 均未齐）
 
 ### 进入 done 前:审查签字
 
@@ -224,7 +225,8 @@ Branch: main
 ### 已知风险
 
 - 风险: content20 原计划属于 N6b。
-  - 缓解: R4 尚未开始；只调整版本号，不改变“薄基线先于 N6b”的回归策略。必须用户裁决并同步全部文档。
+  - 缓解: R4 尚未开始；只调整版本号，不改变“薄基线先于 N6b”的回归策略。用户已于 2026-09-05
+    批准，并同步路线图、能力地图、design backlog 与 E2E README。
 - 风险: copy rewrite 漏一个 scene-bearing command/condition。
   - 缓解: transformer 与 ED-3 target recognition 同模块；做 collector differential 和全递归反例，漏边即红。
 - 风险: SceneIndex 与正文/磁盘三真值漂移。
@@ -235,7 +237,7 @@ Branch: main
 ### 主审立场
 
 - Reviewer: Kimi（SceneIndex/schema/loader/transaction/version）+ GLM（PAL census/migration/测试矩阵）
-- 结论: Codex 推荐方案已形成；等待用户版本裁决后两席并行独立审查。
+- 结论: Codex 推荐方案与用户版本裁决均已形成；等待两席并行独立审查。
 - 必改项: pending
 - 是否建议进入 build: pending
 
@@ -276,8 +278,10 @@ Branch: main
   不是 SceneDef 展示字段或稳定 id 重写；发现 main-only AddScene 与 scene removePaths 两个真实闭环缺口。
   PAL 245/294 scenes 含自引用，复制必须 typed rewrite。推荐 SceneIndex 占 content20、N6b 顺延 content21。
   Evidence: 本卡真值矩阵/census。Next: 用户版本顺序裁决；未批准前不得发 build 审查或改实现。
+- 2026-09-05 User: 批准版本顺序：SceneIndex content20 → R4 content20 薄基线 → N6b content21。
+  Codex 同步当前规划文档；Next: Kimi/GLM 钉同一 revision 并行做 premise/design 审查，未齐签前不得实现。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；当前等待用户裁决“SceneIndex 使用 content20，N6b 顺延 content21”。批准后再一次性
-提供 Kimi/GLM 两份并行设计审查提示词。
+Kimi/GLM 并行设计审查提示词将在版本裁决同步提交后钉定同一 revision；两席必须独立读取一手证据，
+只修改自己的签字块与交接日志并提交推送，不得开始实现、改任务状态或标记 done。

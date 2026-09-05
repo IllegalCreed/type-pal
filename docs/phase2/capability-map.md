@@ -77,7 +77,7 @@
 | E6 | **实体定位权威** | ✅ | ✅ | 隐龙窟门口/试炼窟芦苇 | 引擎 done(2026-07-08 两考题全过:E7 芦苇漂 + N7 隐龙窟门口):E6a authority 表+双视图(位移指令隐式接管·脚本收尾统一归还)+ E6b 显式 take/release + E7 mount + E8 follow。[E6-1](../ops/tasks/E6-1-runtime-authority-inspector.md) 于 2026-09-04 完成运行态可视化、Esc 后反引号重开、listener 泄漏修复及 DEV-only 剥离，三方 accept + 用户验收通过。 |
 | E7 | 载具/挂载 | ✅ | ✅ | 试炼窟芦苇漂(共乘)/坐船 | done(2026-07-07):mount 权威 + **全员叠筏**(mountParty/ride 连跟随者一起挂;dismountParty 四路收口:显式/走位即下筏/脚本收尾/强停,零持久态)+ 大世界跟随者(见 E8)。骑乘 opcode 定向翻译(0xA1→mountParty/0x3F·44·97→ride,5 场景 160 处)。考题实测:s213 李逍遥+阿奴共乘逐帧重叠漂流(一阶段掉队闪现 bug 不存在)+ s017 仙灵岛筏;队长恒遮挡队员(z序平局偏置) |
 | E8 | 大世界跟随者(队伍展示) | ✅ | — | 三人队走位/拐弯甩尾 | 新格(2026-07-07):party[1..N] 渲染 + 原版 trail 槽 1:1(基点 slot2 校准=平铺→菱形 2× 粒度;**dir=离开该格方向**,拐弯甩尾逐行对齐原版 —— 8字双轨迹对比法定案,两引擎同场景同腿长无缝换向逐行全等)+ follow/mount/script 三权威。队长恒遮挡队员。编辑器无依赖 |
-| E9 | 商店/当铺(openShop) | ✅ | ⚠️ | s050 米铺买/s029 当铺卖 | 运行链已完成：content ShopDef+正式买卖结算，当前 canonical 为 **20 家店（id 1..20）**；游戏内买卖表现已验收。编辑器已有 ShopTab 货单上架/下架和 openShop 选择，但缺复制、可读命名、安全删除、保存重开与独立试买，故按七环判据保持 ⚠️，由 [ED-SHOP-LIFECYCLE-1](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md) 收口。 |
+| E9 | 商店/当铺(openShop) | ✅ | ⚠️ | s050 米铺买/s029 当铺卖 | 运行链已完成：content ShopDef+正式买卖结算，当前 canonical 为 **20 家店（id 1..20）**；游戏内买卖表现已验收。编辑器已有 ShopTab 货单上架/下架和 openShop 选择，但缺复制、安全删除、保存重开与独立试买；目录继续使用货单内容派生标题，不新增 ShopDef 名称。故按七环判据保持 ⚠️，由 [ED-SHOP-LIFECYCLE-1](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md) 收口。 |
 | E18 | 编辑器角色战斗字段（coveredBy/casualty/cooperativeMagic） | — | ✅ | B11-1 三个战斗字段的编辑器编辑与校验 | **done（2026-08-14 用户验收通过）**：`coveredBy`（援护者）/`casualty`（伤亡脚本 friendDeath/dying）/`cooperativeMagic`（合体技）的结构化编辑、引用校验与保存闭环；三方技术 `accept`（2026-08-07）+ 用户产品验收（2026-08-14 会话确认）四证齐，OPS-MAP-1 遗留的 fail-closed 已解除。依赖 B11-1 已 done；见 [E18-1 任务卡](../ops/tasks/E18-1-editor-actor-battle-fields.md)。注：原卡 Capability 写「18e」，本格定为 **E18**（Entity 域续号）。 |
 
 ### 角色(Character)— 8 格
@@ -102,7 +102,7 @@
 | N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done；async 解释器+预览。可执行 `unmigrated`、旧 opcode 第二解释器和带版本后缀的脚本产品模型均已退役；当前 content19 直接使用 `AuthorCommand` / `AuthorScriptFlow` / `WorldScriptState`，并以稳定 ActorId 的结构化命令施加/清除剧情入队角色当前状态。 |
 | N4 | 事件模板库 | — | ✅ | — | done;编辑器产物,引擎无依赖 |
 | N5 | 条件/变量/flag | ✅ | ✅ | 全局 flag | 引擎 done;编辑器(2026-07-05):数据模式「变量」页(flag/var 总览+读写明细)+ 物品页「被事件引用」区(737 处),点引用跳事件模式定位源(ref-index 全脚本递归扫描,含 branch/confirm/startBattle 子命令与 hostile.onLose) |
-| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **N6 v1 done**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开均已落地；canonical 库为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不保存 chunk；脚本分片和“迁移内部实现”已从当前产品删除。N6b 已拍板为第二阶段薄基线后的窄版 content20 意图式创作，仍未开实现卡且不反向降级 v1；通用化扩展归第三阶段。 |
+| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **N6 v1 done**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开均已落地；canonical 库为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不保存 chunk；脚本分片和“迁移内部实现”已从当前产品删除。N6b 已拍板为第二阶段薄基线后的窄版 content21 意图式创作（SceneIndex 先占 content20），仍未开实现卡且不反向降级 v1；通用化扩展归第三阶段。 |
 | N7 | **演出接管** | ✅ | ✅ | 隐龙窟/试炼窟 | done(2026-07-07):显式 take/release(E6b)+ mount/follow 权威,非冻帧。两考题实测:隐龙窟门口演出全链(对话/转向/切场景/setParty)+ 试炼窟芦苇漂共乘 |
 | N8 | 过场编排(mp4/帧动画 CG) | ✅ | ✅ | 开场 CG/帧动画序列 | **done（A7-3，2026-07-17）**：视频与完整帧动画使用稳定 AssetId 和工程内文件；运行时支持全段/分段/帧率/显式预览跳过，剧情默认不可跳；编辑器支持双列表、内嵌视频、完整帧时间轴、导入/替换/量化/多选重排/时长/引用保护/保存重开。C1-C5 返工、LAN HTTPS/FSA、OPFS 真句柄 round-trip、三方审查与用户验收完成。BGM/SFX 仍由脚本编排，不绑素材 |
 
@@ -198,7 +198,7 @@
    1. [场景生命周期](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md)
    2. [商店生命周期](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)
    3. R4 薄 E2E：runner、001-010、四种取物 canary、编辑器保存重开试玩
-   4. N6b：四种内置取物意图 + content20；复跑薄基线，第三阶段再做通用化
+   4. N6b：四种内置取物意图 + content21；复跑薄基线，第三阶段再做通用化
    5. Q2 完整战斗专项五批（B5 并入）→ Q1 完整通关链
    6. 敌队大目录虚拟滚动（编辑器综合 E2E 前）
    7. 编辑器综合工作流 E2E

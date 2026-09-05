@@ -176,10 +176,11 @@
 编译边界降为现有运行时命令；不得顺手建设通用参数语言。作者自定义模式、局部变量、表达式、返回值、
 嵌套组合和模式分发，以及完整对话/演出专用工作台，统一留到第三阶段。
 
-执行顺序由用户同时拍板：先在 content19 上建立薄 E2E 基线（Q1 runner + 前 10 段、四种取物运行态
-canary、一条“编辑→保存→重开→试玩”工作流），再原子切换 content20 并重生成当前工程；用同一组业务
-断言证明语义不变后，才扩完整 Q1、Q2、编辑器综合 E2E、`capture`、A1/A8。版本切换会淘汰 content19
-checkpoint 与 raw JSON fixture，但不得让 fragmentId、操作契约和按业务结果编写的断言作废。
+执行顺序经用户 2026-09-05 追加拍板：SceneIndex 先原子切换 content20；随后在 content20 上建立薄 E2E
+基线（Q1 runner + 前 10 段、四种取物运行态 canary、一条“编辑→保存→重开→试玩”工作流）；再由 N6b
+原子切换 content21 并重生成当前工程。用同一组业务断言证明语义不变后，才扩完整 Q1、Q2、编辑器综合
+E2E、`capture`、A1/A8。版本切换会淘汰 content20 checkpoint 与 raw JSON fixture，但不得让 fragmentId、
+操作契约和按业务结果编写的断言作废。
 
 ### Reforge 战斗引擎缺口（议题 18）
 

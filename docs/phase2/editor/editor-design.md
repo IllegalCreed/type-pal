@@ -280,7 +280,7 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
   edge batch；partial、failure、迟到读取和在途 hydrate 均不能授权删除。Tileset/Stamp 的领域 proof 继续
   额外约束 bytes/SHA/definition/frame/placement，并在 apply/redo 同步复核。
 - 索引是当前 revision 的非持久化派生物，不写 graph 文件、不改 content19/SAVE8，也不保留旧版本 fallback。
-  场景/商店的复制、可读命名、删除文件、保存重开和独立试运行属于后续生命周期卡，不能在页面旁路复制
+  场景的复制/可读命名、商店的复制/货单派生目录标题，以及两者的删除文件、保存重开和独立试运行属于后续生命周期卡，不能在页面旁路复制
   collector/locator/policy。
 
 ## 6. 校验层(第四根)—— 编辑器的核心价值
