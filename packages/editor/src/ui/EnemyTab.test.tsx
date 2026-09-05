@@ -245,6 +245,7 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
+  vi.useRealTimers()
   vi.restoreAllMocks()
 })
 
@@ -572,6 +573,7 @@ describe('EnemyTab shared workbench', () => {
   })
 
   test('击败后事件弹窗按原序完整只读展示，开关查看器不写历史', async () => {
+    vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))
     const historyBefore = session.getHistoryVersion()
@@ -584,6 +586,8 @@ describe('EnemyTab shared workbench', () => {
     await act(async () => trigger.click())
     const dialog = host.querySelector<HTMLDialogElement>('dialog.enemy-defeated-events-dialog')!
     expect(dialog).not.toBeNull()
+    await act(async () => vi.advanceTimersToNextFrame())
+    expect(dialog.contains(document.activeElement)).toBe(true)
     expect(dialog.getAttribute('aria-label')).toBe('赤鬼王 · 击败后事件')
     expect(dialog.textContent).toContain('仅查看')
     expect(dialog.textContent).toContain('75% 概率时')
@@ -618,19 +622,24 @@ describe('EnemyTab shared workbench', () => {
       branchSummary.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
       )
-      await new Promise((resolve) => setTimeout(resolve, 20))
     })
     expect(host.querySelector('dialog.enemy-defeated-events-dialog')).toBeNull()
+    // Closing commits first; the dialog restores the opener on the following animation frame.
+    await act(async () => vi.advanceTimersToNextFrame())
     expect(document.activeElement).toBe(trigger)
     expect(session.getHistoryVersion()).toBe(historyBefore)
 
     await act(async () => trigger.click())
     const reopened = host.querySelector<HTMLDialogElement>('dialog.enemy-defeated-events-dialog')!
+    await act(async () => vi.advanceTimersToNextFrame())
+    expect(reopened.contains(document.activeElement)).toBe(true)
     const close = [...reopened.querySelectorAll<HTMLButtonElement>('button')].find(
       (button) => button.textContent?.trim() === '关闭',
     )!
     await act(async () => close.click())
     expect(host.querySelector('dialog.enemy-defeated-events-dialog')).toBeNull()
+    await act(async () => vi.advanceTimersToNextFrame())
+    expect(document.activeElement).toBe(trigger)
     expect(session.getHistoryVersion()).toBe(historyBefore)
   })
 

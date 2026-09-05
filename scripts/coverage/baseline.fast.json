@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-05T20:39:48.312Z",
+  "generatedAt": "2026-09-05T21:17:34.479Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 608,
-  "testCount": 5690,
+  "testCount": 5691,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2765,7 +2765,7 @@
       ],
       "scopeDigest": "bd41169e567a475248106fa2958ae38a1c23d5caf188439340cb0857a92f9d89",
       "fastTests": {
-        "testCount": 1599,
+        "testCount": 1600,
         "testFileCount": 177,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
@@ -3754,8 +3754,8 @@
           },
           {
             "file": "packages/editor/src/ui/design-system/overlays.test.tsx",
-            "testCount": 6,
-            "identityDigest": "c890834f60a829adbbe6b074d4bcfe39308563ebd7c87873fedc362c36a5ca0f"
+            "testCount": 7,
+            "identityDigest": "8ecc7058b30ebef1c2cd440a89e8e77c2842f81e0d3681443bd9ce2a9a054955"
           },
           {
             "file": "packages/editor/src/ui/design-system/recipes.test.tsx",
@@ -3833,17 +3833,17 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "c9531b9a856c2325cd2c2b229352c2d6d4997f3a173ff873390f438f802cfd7e",
+        "identityDigest": "014259d9153f6366574ce5c88db1e43975a0f520971919fe69bb09faf3819acc",
         "duplicateIdentityCount": 6,
-        "executionDigest": "bd0c9163e2ce9e39e24611811a42bfc3ddbee253a219b2c9832f860db3c72a64"
+        "executionDigest": "a505eb47698d206d1eae4db93219382e73a63c4ee55190171bddcedd6ef9626c"
       },
       "metrics": {
         "statements": {
-          "covered": 23455,
+          "covered": 23456,
           "total": 31407
         },
         "branches": {
-          "covered": 18168,
+          "covered": 18169,
           "total": 27329
         },
         "functions": {
@@ -3859,11 +3859,11 @@
   },
   "total": {
     "statements": {
-      "covered": 52072,
+      "covered": 52073,
       "total": 78182
     },
     "branches": {
-      "covered": 37330,
+      "covered": 37331,
       "total": 61578
     },
     "functions": {

@@ -193,6 +193,51 @@ describe('DsDialog lifecycle contract', () => {
     expect(document.body.style.overflow).toBe('')
   })
 
+  test('cancels pending initial focus on immediate close and ignores an already queued late callback', async () => {
+    let nextFrame = 1
+    const frames = new Map<number, FrameRequestCallback>()
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+      const frame = nextFrame++
+      frames.set(frame, callback)
+      return frame
+    })
+    const cancel = vi.fn((frame: number) => frames.delete(frame))
+    vi.stubGlobal('cancelAnimationFrame', cancel)
+    const closes = vi.fn()
+    const view = (open: boolean) => (
+      <>
+        <button type="button">外部入口</button>
+        <DsDialog open={open} title="立即关闭" onClose={closes}>
+          <input aria-label="尚未聚焦的字段" />
+        </DsDialog>
+      </>
+    )
+    await act(async () => root.render(view(false)))
+    const opener = host.querySelector<HTMLButtonElement>('button')!
+    opener.focus()
+    await act(async () => root.render(view(true)))
+    const [initialFrame, initialFocus] = [...frames.entries()][0]!
+    const focusField = vi.spyOn(host.querySelector<HTMLInputElement>('input')!, 'focus')
+    expect(document.activeElement).toBe(opener)
+    await act(async () => root.render(view(false)))
+    expect(cancel).toHaveBeenCalledWith(initialFrame)
+    expect(frames.has(initialFrame)).toBe(false)
+    expect(host.querySelector('dialog')!.open).toBe(false)
+    expect(document.body.style.overflow).toBe('')
+    expect(closes).not.toHaveBeenCalled()
+
+    // Independently exercise the stale-work guard even if a callback was already dequeued.
+    await act(async () => initialFocus(16))
+    expect(focusField).not.toHaveBeenCalled()
+    expect(document.activeElement).toBe(opener)
+    const restoration = [...frames.entries()]
+    frames.clear()
+    await act(async () => {
+      for (const [frame, callback] of restoration) callback(frame)
+    })
+    expect(document.activeElement).toBe(opener)
+  })
+
   test('reference-counts document scroll lock and restores the original inline overflow', async () => {
     document.body.style.overflow = 'clip'
     const view = (first: boolean, second: boolean) => (
