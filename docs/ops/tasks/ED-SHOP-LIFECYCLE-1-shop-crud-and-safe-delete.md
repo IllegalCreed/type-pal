@@ -522,6 +522,17 @@ build期使用聚焦Vitest（`pnpm --filter <package> exec vitest run <files>`�
 
 ## 交接日志
 
+- 2026-09-05 Kimi: 只读终审候选 `7e6f935a`（对比 `0980f90d`），签 **accept**。设计四钉
+  独立核验：校验分离（generated 侧完整 census + 逐店货单与源一致新断言；target 侧
+  `validateShops` + 炼化门禁 `pal-current-publication.ts:207-219,343-357`）、Store0 双
+  侧保护、buy-only 双层删除守卫（`commands.ts:4273-4301` 冷复核 + UI disabled/确认再查）、
+  redo 固定快照（`commands.ts:4245-4271`）、试买隔离（`main.ts:349-353` 首行分支、
+  `shop-trial.ts:15-29` 严参数不吞 id0、正式 shopInput/shopBuy/drawShop、空表 cursor 钉 0
+  且非空不变）；兼容审查零 upgrader/fallback。**720 宽由本人 playwright 实机补验**
+  （Codex 工具未能改 viewport，不采信其截图）：innerWidth=720 实测，Hero 动作可见、
+  引用末项可达 tablist 固定、试买弹窗 label+36px stepper、横溢 0、console 0；截图
+  `docs/ops/evidence/ED-SHOP/shop-trial-dialog-720.jpg`。复跑 editor 22/reforge 10/
+  migrate 9 全绿。返工项无；只改 Kimi 签字与本条日志。Next: 用户验收。
 - 2026-09-05 GLM: 只读终审候选 `7e6f935a`（对比 `0980f90d`），签 **accept**。GM-SH1~SH4
   逐钉验证：固定 census 移至 generated 侧（合并前 theirs）并新增生成店货单与源逐店一致
   断言，target 侧只保 item 机制 + `validateShops` 共享结构门（loader/保存/发布三复用，
