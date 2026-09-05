@@ -9,10 +9,8 @@ import {
 } from '@type-pal/reforge'
 import { expect, test } from 'vitest'
 import { toEditorState } from '../src/core/project-io.js'
-import {
-  collectCurrentProjectReferenceIndex,
-} from '../src/core/project-reference-adapters.js'
 import { projectReferenceSourceSceneId } from '../src/core/project-reference.js'
+import { collectCurrentProjectReferenceIndex } from '../src/core/project-reference-adapters.js'
 
 const root = resolve(import.meta.dirname, '../../../projects/pal')
 const source: FileSource = {

@@ -188,7 +188,9 @@ describe('canonical author item script validation', () => {
 
   test('rejects non-current ScriptRef ownership and malformed private ownership', () => {
     expect(() =>
-      validateAuthorItemCore([item({ kind: 'runScript', script: { chunk: 'shared/c00', id: 'legacy' } })]),
+      validateAuthorItemCore([
+        item({ kind: 'runScript', script: { chunk: 'shared/c00', id: 'legacy' } }),
+      ]),
     ).toThrow(/稳定 shared script id/)
     expect(() =>
       validateAuthorItemCore([

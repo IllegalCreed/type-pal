@@ -467,29 +467,26 @@ describe('entity motion deterministic arbitration', () => {
     expect(plan.outcomes[0]?.kind).toBe('moved')
   })
 
-  test.each(['script', 'auto'] as const)(
-    'authored %s movement bypasses terrain and bodies but remains explicit in the plan',
-    (source) => {
-      const plan = planEntityMotion({
-        tick: 0,
-        actors: [body('scripted', pos(0)), body('solid', pos(1))],
-        intents: [
-          intent('scripted', pos(0), pos(1), {
-            source,
-            collision: 'scriptedBypass',
-          }),
-        ],
-        terrainBlocked: () => true,
-      })
-      expect(plan.outcomes[0]).toMatchObject({ kind: 'moved', to: pos(1) })
-    },
-  )
+  test.each([
+    'script',
+    'auto',
+  ] as const)('authored %s movement bypasses terrain and bodies but remains explicit in the plan', (source) => {
+    const plan = planEntityMotion({
+      tick: 0,
+      actors: [body('scripted', pos(0)), body('solid', pos(1))],
+      intents: [
+        intent('scripted', pos(0), pos(1), {
+          source,
+          collision: 'scriptedBypass',
+        }),
+      ],
+      terrainBlocked: () => true,
+    })
+    expect(plan.outcomes[0]).toMatchObject({ kind: 'moved', to: pos(1) })
+  })
 
   test.each([
-    [
-      'authored',
-      { source: 'script', collision: 'scriptedBypass', floating: false } as const,
-    ],
+    ['authored', { source: 'script', collision: 'scriptedBypass', floating: false } as const],
     ['floating', { source: 'hostile', collision: 'dynamic', floating: true } as const],
   ])('%s bypass endpoint becomes a same-batch solid blocker for ground pursuit', (_, bypass) => {
     const plan = planEntityMotion({

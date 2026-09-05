@@ -7,7 +7,7 @@ import {
   type CurrentManifest,
 } from '@type-pal/content'
 import { afterEach, describe, expect, test } from 'vitest'
-import { type MigrationSnapshot, sha256 } from './migration-baseline.js'
+import { baselineWrites, type MigrationSnapshot, sha256 } from './migration-baseline.js'
 import { commitMigrationTransaction } from './migration-transaction.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
 import { planPalAssetRetirements } from './pal-assets.js'
@@ -71,6 +71,64 @@ afterEach(() => {
 })
 
 describe('current migration transaction change list', () => {
+  test.each([
+    ['assets/migrated/../author.png', 'a'.repeat(64)],
+    ['assets/migrated//retired.png', 'a'.repeat(64)],
+    ['assets/migrated\\retired.png', 'a'.repeat(64)],
+    ['assets/author.png', 'a'.repeat(64)],
+    ['assets/migrated/retired.png', 'not-a-sha256'],
+  ])('拒绝越界或缺少完整指纹的资源退役计划 %s', (path, expectedSha256) => {
+    const repo = tempRepo()
+    expect(() =>
+      buildMigrationTransactionChanges({
+        repo,
+        plan: { writes: new Map(), deletes: [] },
+        nextBaseline: snapshot({}),
+        retiredAssets: [{ id: 'retired', path, expectedSha256 }],
+      }),
+    ).toThrow('退役迁移资源计划无效')
+    expect(existsSync(resolve(repo, 'packages/migrate/baselines/pal/_state.json'))).toBe(false)
+  })
+
+  test('同一工程文件不能同时写入和删除', () => {
+    expect(() =>
+      buildMigrationTransactionChanges({
+        repo: tempRepo(),
+        plan: { writes: new Map([['content/items.json', []]]), deletes: ['content/items.json'] },
+        nextBaseline: snapshot({}),
+      }),
+    ).toThrow('迁移写入计划包含重复工程目标')
+  })
+
+  test('manifest 发布在没有资源闭包前置条件时拒绝生成计划', () => {
+    expect(() =>
+      buildMigrationTransactionChanges({
+        repo: tempRepo(),
+        plan: { writes: new Map(), deletes: [] },
+        nextBaseline: snapshot({}),
+        nextManifest: manifest(),
+      }),
+    ).toThrow('manifest 变更缺资源闭包前置条件')
+  })
+
+  test('baseline 与 manifest 已相同时不产生重复发布写入', () => {
+    const repo = tempRepo()
+    const nextBaseline = snapshot({ 'content/items.json': [] })
+    for (const [path, content] of baselineWrites(nextBaseline)) put(repo, path, content)
+    const nextManifest = manifest()
+    put(repo, 'projects/pal/manifest.json', `${JSON.stringify(nextManifest, null, 2)}\n`)
+    expect(
+      buildMigrationTransactionChanges({
+        repo,
+        plan: { writes: new Map(), deletes: [] },
+        previousBaseline: nextBaseline,
+        nextBaseline,
+        nextManifest,
+        manifestPreconditions: [{ target: 'projects/pal/assets/index.json', hash: 'a'.repeat(64) }],
+      }),
+    ).toEqual([])
+  })
+
   test('工程、baseline 与 current manifest 同事务且 manifest 最后提交', () => {
     const repo = tempRepo()
     const changes = buildMigrationTransactionChanges({

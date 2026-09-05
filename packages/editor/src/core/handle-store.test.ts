@@ -70,9 +70,7 @@ function installMemoryIndexedDb(): void {
     get: (key: string) => request(() => records.get(key)),
     getAll: () => request(() => [...records.values()]),
   }
-  const transactionStore = (transaction: {
-    oncomplete: ((event: Event) => void) | null
-  }) => ({
+  const transactionStore = (transaction: { oncomplete: ((event: Event) => void) | null }) => ({
     put: (value: { workspaceId: string }) => {
       const result = store.put(value)
       queueMicrotask(() => queueMicrotask(() => transaction.oncomplete?.(new Event('complete'))))

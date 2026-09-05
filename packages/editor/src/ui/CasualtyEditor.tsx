@@ -18,15 +18,15 @@ import {
   DsDraftNumberField,
   DsDraftNumberInput,
   DsDraftTextInput,
+  DsPressable,
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
   DsSelect,
   DsSequenceIndex,
-  DsPressable,
   reorderDsItems,
   sameDsSerializableValue,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/index.js'
 import { EffectEditorCard, EffectEditorChain } from './EffectEditorCard.js'
@@ -520,10 +520,7 @@ function BranchEditor(props: {
         </DsReorderCollection>
       </section>
 
-      <EffectEditorChain
-        family="actor/casualty-effects"
-        label="伤亡状态变化效果"
-      >
+      <EffectEditorChain family="actor/casualty-effects" label="伤亡状态变化效果">
         <header>
           <div>
             <span>状态变化</span>

@@ -35,8 +35,13 @@ describe('current PAL baseline', () => {
     expect(serializeMigrationJson(JSON.parse(map), 'content/maps/map-001.json')).toBe(map)
     const stamps: MigrationJson = [
       {
-        id: 'tree', name: '树', origin: 'migrated', anchor: { row: 0, col: 0 },
-        width: 1, height: 1, tilesetRefs: ['tileset-001'],
+        id: 'tree',
+        name: '树',
+        origin: 'migrated',
+        anchor: { row: 0, col: 0 },
+        width: 1,
+        height: 1,
+        tilesetRefs: ['tileset-001'],
         layers: [{ id: 'ground', name: '地面', tiles: [[1], [null]], sources: [[0], [null]] }],
         collision: [[0], [null]],
       },
@@ -75,7 +80,10 @@ describe('current PAL baseline', () => {
     roots.push(root)
     const baselineRoot = resolve(root, PAL_BASELINE_REL)
     mkdirSync(baselineRoot, { recursive: true })
-    writeFileSync(resolve(baselineRoot, '_state.json'), `${JSON.stringify({ version: 2, managedFiles: [], files: {}, transitions: {} }, null, 2)}\n`)
+    writeFileSync(
+      resolve(baselineRoot, '_state.json'),
+      `${JSON.stringify({ version: 2, managedFiles: [], files: {}, transitions: {} }, null, 2)}\n`,
+    )
     expect(() => loadPalBaseline(root)).toThrow(/格式无效/)
   })
 

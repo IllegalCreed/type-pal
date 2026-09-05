@@ -7,14 +7,8 @@ import {
   useRef,
   useState,
 } from 'react'
-import {
-  type DsControlSize,
-  DsIconButton,
-} from './design-system/controls.js'
-import {
-  DsReorderItem,
-  DsReorderMoveButton,
-} from './design-system/reorder.js'
+import { type DsControlSize, DsIconButton } from './design-system/controls.js'
+import { DsReorderItem, DsReorderMoveButton } from './design-system/reorder.js'
 
 export interface EffectEditorPreview {
   label: string
@@ -26,11 +20,7 @@ type PendingRemovalFocus = {
 }
 
 type EffectEditorChainContextValue = {
-  remove: (
-    trigger: HTMLButtonElement,
-    label: string,
-    onRemove: () => void,
-  ) => void
+  remove: (trigger: HTMLButtonElement, label: string, onRemove: () => void) => void
 }
 
 const EffectEditorChainContext = createContext<EffectEditorChainContextValue | null>(null)
@@ -155,6 +145,7 @@ export function EffectEditorCard(props: {
               {props.kindControl}
             </div>
             <span className="effect-editor-card__spacer" aria-hidden="true" />
+            {/* biome-ignore lint/a11y/useSemanticElements: Named command/menu group, not a form fieldset. */}
             <span
               className="effect-editor-card__actions ds-control-group__actions"
               role="group"
@@ -195,9 +186,7 @@ export function EffectEditorCard(props: {
               data-effect-fields-layout={props.fieldsLayout ?? 'default'}
             >
               {props.children ?? (
-                <span className="effect-editor-card__empty-parameters">
-                  此效果无需设置参数
-                </span>
+                <span className="effect-editor-card__empty-parameters">此效果无需设置参数</span>
               )}
             </div>
           </section>

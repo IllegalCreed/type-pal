@@ -1,15 +1,15 @@
 import {
-  type BaseAuthorCommand,
   type AuthorCondition,
+  type BaseAuthorCommand,
   type BaseSceneEntryPresentation,
+  type BaseScriptFlow,
+  type BaseScriptLibrary,
+  type BaseSharedScript,
+  type BaseStateTransition,
   checkBaseAuthorCommands,
   checkBaseScriptFlow,
   checkBaseScriptLibrary,
   type EntityAddress,
-  type BaseScriptFlow,
-  type BaseSharedScript,
-  type BaseScriptLibrary,
-  type BaseStateTransition,
 } from '@type-pal/content'
 
 export const SCRIPT_COMPILER_VERSION = 2 as const
@@ -123,8 +123,7 @@ export type ExecutableScriptFlowBodyLike<RuntimeLeafCommand> =
       }
     }
 
-export type ExecutableBaseScriptFlowBody =
-  ExecutableScriptFlowBodyLike<BaseRuntimeLeafCommand>
+export type ExecutableBaseScriptFlowBody = ExecutableScriptFlowBodyLike<BaseRuntimeLeafCommand>
 
 export interface ExecutableBaseScriptFlowLike<RuntimeLeafCommand> {
   compilerVersion: typeof SCRIPT_COMPILER_VERSION
@@ -196,7 +195,11 @@ function compileBaseAuthorCommand(
         kind: 'branch',
         cond: clone(command.cond),
         then: compileBaseCommandsUncheckedAfterValidation(command.then, timing, boundaryPolicy),
-        else: compileBaseCommandsUncheckedAfterValidation(command.else ?? [], timing, boundaryPolicy),
+        else: compileBaseCommandsUncheckedAfterValidation(
+          command.else ?? [],
+          timing,
+          boundaryPolicy,
+        ),
         after,
       }
     case 'loop':
@@ -222,10 +225,14 @@ function compileBaseAuthorCommand(
         request: clone(request),
         ...(onLose === undefined
           ? {}
-          : { onLose: compileBaseCommandsUncheckedAfterValidation(onLose, timing, boundaryPolicy) }),
+          : {
+              onLose: compileBaseCommandsUncheckedAfterValidation(onLose, timing, boundaryPolicy),
+            }),
         ...(onFlee === undefined
           ? {}
-          : { onFlee: compileBaseCommandsUncheckedAfterValidation(onFlee, timing, boundaryPolicy) }),
+          : {
+              onFlee: compileBaseCommandsUncheckedAfterValidation(onFlee, timing, boundaryPolicy),
+            }),
         after,
       }
     }
@@ -235,7 +242,11 @@ function compileBaseAuthorCommand(
         ...(command.onFail === undefined
           ? {}
           : {
-              onFail: compileBaseCommandsUncheckedAfterValidation(command.onFail, timing, boundaryPolicy),
+              onFail: compileBaseCommandsUncheckedAfterValidation(
+                command.onFail,
+                timing,
+                boundaryPolicy,
+              ),
             }),
         after,
       }
@@ -375,11 +386,7 @@ export class BaseSharedScriptResolver {
       id,
       name: script.name,
       self: script.self,
-      body: compileBaseCommandsUncheckedAfterValidation(
-        script.body,
-        timing,
-        boundaryPolicy,
-      ),
+      body: compileBaseCommandsUncheckedAfterValidation(script.body, timing, boundaryPolicy),
     }
     this.cache.set(key, compiled)
     return compiled

@@ -1,14 +1,11 @@
 import type {
   EntityAddress,
+  EntityLifecycleCommand,
   EntityLifecycleReferenceIndex,
   EntityLifecycleTable,
-  EntityLifecycleCommand,
   WorldState,
 } from '@type-pal/content'
-import {
-  applyEntityLifecycleMutation,
-  type EntityLifecycleMutation,
-} from './entity-lifecycle.js'
+import { applyEntityLifecycleMutation, type EntityLifecycleMutation } from './entity-lifecycle.js'
 
 /** 当前 runtime lifecycle command 的唯一窄边界。 */
 export type RuntimeEntityLifecycleCommand = EntityLifecycleCommand
@@ -24,10 +21,7 @@ export interface WorldEntityLifecycleCommandCommit {
   resetFrameTarget?: EntityAddress
 }
 
-function assertKnownTarget(
-  target: EntityAddress,
-  references: EntityLifecycleReferenceIndex,
-): void {
+function assertKnownTarget(target: EntityAddress, references: EntityLifecycleReferenceIndex): void {
   const entities = references.get(target.scene)
   if (!entities) throw new Error(`lifecycle command: 未知 scene "${target.scene}"`)
   if (!entities.has(target.entity))
@@ -88,11 +82,7 @@ export function commitWorldEntityEntityLifecycleCommand(
   command: RuntimeEntityLifecycleCommand,
   references: EntityLifecycleReferenceIndex,
 ): WorldEntityLifecycleCommandCommit {
-  const committed = commitEntityEntityLifecycleCommand(
-    world.entityLifecycles,
-    command,
-    references,
-  )
+  const committed = commitEntityEntityLifecycleCommand(world.entityLifecycles, command, references)
   return {
     world: {
       ...structuredClone(world),

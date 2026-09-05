@@ -3022,9 +3022,7 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
       s.pendingActions.set(0, {
         kind: 'cast',
         skillId: definition.id,
-        ...(definition.target === 'oneEnemy'
-          ? { targetEnemyIdx: 0 }
-          : { targetAllyIdx: 0 }),
+        ...(definition.target === 'oneEnemy' ? { targetEnemyIdx: 0 } : { targetAllyIdx: 0 }),
       })
       stepBattle(s, rng)
       expect(s.actionQueue[0]?.isEnemy).toBe(false)

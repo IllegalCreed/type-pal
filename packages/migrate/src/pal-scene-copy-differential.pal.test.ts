@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import {
-  collectCommandTargetReferences,
   type CommandTargetReference,
+  collectCommandTargetReferences,
   rewriteExplicitSceneReferences,
   type SceneDef,
   validateSceneIndex,

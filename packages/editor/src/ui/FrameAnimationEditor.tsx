@@ -198,7 +198,7 @@ export function FrameAnimationEditor(props: {
   const [quantization, setQuantization] = useState<FrameQuantization>('nearest')
   const [viewport, setViewport] = useState({ left: 0, width: 600 })
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const previewStageRef = useRef<HTMLDivElement>(null)
+  const previewStageRef = useRef<HTMLElement>(null)
   const timelineRef = useRef<HTMLDivElement>(null)
   const insertRef = useRef<HTMLInputElement>(null)
   const replaceRef = useRef<HTMLInputElement>(null)
@@ -309,6 +309,7 @@ export function FrameAnimationEditor(props: {
     }
   }, [draft, selectedIndex, sequenceReader])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: fit/zoom change CSS geometry even when the draft and canvas ref stay the same.
   useEffect(() => {
     if (!draft) return
     const canvas = canvasRef.current
@@ -433,14 +434,14 @@ export function FrameAnimationEditor(props: {
     })
   }
 
-  const onPreviewWheel = (event: WheelEvent<HTMLDivElement>): void => {
+  const onPreviewWheel = (event: WheelEvent<HTMLElement>): void => {
     event.preventDefault()
     const current = fit ? renderedZoom : zoom
     const factor = Math.exp(-event.deltaY * 0.0015)
     applyPreviewZoom(current * factor, { clientX: event.clientX, clientY: event.clientY })
   }
 
-  const onPreviewKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+  const onPreviewKeyDown = (event: KeyboardEvent<HTMLElement>): void => {
     const current = fit ? renderedZoom : zoom
     if (event.key === '+' || event.key === '=') {
       event.preventDefault()
@@ -457,7 +458,7 @@ export function FrameAnimationEditor(props: {
     }
   }
 
-  const onPreviewPointerDown = (event: PointerEvent<HTMLDivElement>): void => {
+  const onPreviewPointerDown = (event: PointerEvent<HTMLElement>): void => {
     if (fit || event.button !== 0) return
     panGesture.current = {
       pointerId: event.pointerId,
@@ -470,14 +471,14 @@ export function FrameAnimationEditor(props: {
     setPanning(true)
   }
 
-  const onPreviewPointerMove = (event: PointerEvent<HTMLDivElement>): void => {
+  const onPreviewPointerMove = (event: PointerEvent<HTMLElement>): void => {
     const gesture = panGesture.current
     if (!gesture || gesture.pointerId !== event.pointerId) return
     event.currentTarget.scrollLeft = gesture.scrollLeft - (event.clientX - gesture.clientX)
     event.currentTarget.scrollTop = gesture.scrollTop - (event.clientY - gesture.clientY)
   }
 
-  const endPreviewPan = (event: PointerEvent<HTMLDivElement>): void => {
+  const endPreviewPan = (event: PointerEvent<HTMLElement>): void => {
     if (panGesture.current?.pointerId !== event.pointerId) return
     panGesture.current = null
     if (event.currentTarget.hasPointerCapture(event.pointerId))
@@ -730,9 +731,10 @@ export function FrameAnimationEditor(props: {
         </DsButton>
       </div>
 
-      <div
+      <section
         ref={previewStageRef}
         className={`fa-preview-stage${fit ? ' fit' : ' zoomed'}${panning ? ' panning' : ''}`}
+        // biome-ignore lint/a11y/noNoninteractiveTabindex: This named scroll/zoom region already supports F/0 and pointer navigation; keyboard users must be able to focus it.
         tabIndex={0}
         aria-label="帧动画预览；滚轮缩放，放大后拖拽平移，按 F 适合窗口，按 0 恢复原始大小"
         onWheel={onPreviewWheel}
@@ -763,7 +765,7 @@ export function FrameAnimationEditor(props: {
             }
           />
         </div>
-      </div>
+      </section>
 
       <div className="fa-edit-bar">
         <DsButton variant="secondary" icon="add" onClick={() => insertRef.current?.click()}>

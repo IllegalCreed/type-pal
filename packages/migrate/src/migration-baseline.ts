@@ -84,11 +84,7 @@ function loadPalBaselineInternal(repo: string): MigrationSnapshot | undefined {
   const statePath = resolve(root, '_state.json')
   if (!existsSync(statePath)) return undefined
   const state = JSON.parse(readFileSync(statePath, 'utf8')) as BaselineState
-  if (
-    state.version !== 1 ||
-    !Array.isArray(state.managedFiles) ||
-    !state.files
-  )
+  if (state.version !== 1 || !Array.isArray(state.managedFiles) || !state.files)
     throw new Error('PAL baseline _state.json 格式无效')
   const files = new Map<string, MigrationJson>()
   const hashes = new Map<string, string>()
@@ -114,10 +110,7 @@ export function loadPalBaseline(repo: string): MigrationSnapshot | undefined {
   return loadPalBaselineInternal(repo)
 }
 
-function assertPalBaselineSnapshotCurrentInternal(
-  repo: string,
-  snapshot: MigrationSnapshot,
-): void {
+function assertPalBaselineSnapshotCurrentInternal(repo: string, snapshot: MigrationSnapshot): void {
   const root = resolve(repo, PAL_BASELINE_REL)
   const expectedState = serializeMigrationJson(baselineState(snapshot) as unknown as MigrationJson)
   const statePath = resolve(root, '_state.json')

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-05T17:24:07.898Z",
+  "generatedAt": "2026-09-05T20:39:48.312Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 608,
-  "testCount": 5675,
+  "testCount": 5690,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -428,8 +428,8 @@
           "total": 829
         },
         "lines": {
-          "covered": 4287,
-          "total": 5182
+          "covered": 4288,
+          "total": 5183
         }
       }
     },
@@ -668,7 +668,7 @@
       ],
       "scopeDigest": "dcab4edba049261e3d057459eaa1132c193473dfee56e803a1fce38858c476d3",
       "fastTests": {
-        "testCount": 306,
+        "testCount": 314,
         "testFileCount": 37,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
@@ -767,8 +767,8 @@
           },
           {
             "file": "packages/migrate/src/migration-write-plan.test.ts",
-            "testCount": 4,
-            "identityDigest": "114a8ebe7b12e334c480898c23f7f61c0db860417c686dd1c49f74e6a9503d85"
+            "testCount": 12,
+            "identityDigest": "155b0c939e3522ff183761c965490bc984cb5bf7e8c439bad5bbea16ca34cdae"
           },
           {
             "file": "packages/migrate/src/music-reference-audit.test.ts",
@@ -896,17 +896,17 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "87bde95e21358fc1e26a36cb4414c69d676e9e2fd66836dd90163d3ebf9ab483",
+        "identityDigest": "0e6b9403f46bfcef08fb3570b70fb3d4a072d65b4dced71973c3077ddffd731b",
         "duplicateIdentityCount": 1,
-        "executionDigest": "b09e541ce47c9b9cf0768dc58e1a76096deff181cc84c75f7814a00b089d47d1"
+        "executionDigest": "7a63a294fa706275485e8e3ba4a0ac1347fe19968c701df0f185ecd03245d679"
       },
       "metrics": {
         "statements": {
-          "covered": 3825,
+          "covered": 3829,
           "total": 7659
         },
         "branches": {
-          "covered": 2838,
+          "covered": 2843,
           "total": 6398
         },
         "functions": {
@@ -914,8 +914,8 @@
           "total": 1161
         },
         "lines": {
-          "covered": 3435,
-          "total": 6679
+          "covered": 3436,
+          "total": 6677
         }
       }
     },
@@ -1639,8 +1639,8 @@
       },
       "metrics": {
         "statements": {
-          "covered": 8137,
-          "total": 15868
+          "covered": 8139,
+          "total": 15870
         },
         "branches": {
           "covered": 4939,
@@ -1651,8 +1651,8 @@
           "total": 2351
         },
         "lines": {
-          "covered": 7373,
-          "total": 13840
+          "covered": 7376,
+          "total": 13842
         }
       }
     },
@@ -2765,8 +2765,8 @@
       ],
       "scopeDigest": "bd41169e567a475248106fa2958ae38a1c23d5caf188439340cb0857a92f9d89",
       "fastTests": {
-        "testCount": 1592,
-        "testFileCount": 176,
+        "testCount": 1599,
+        "testFileCount": 177,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2926,6 +2926,7 @@
           "packages/editor/src/ui/design-system/add-picker.test.tsx",
           "packages/editor/src/ui/design-system/controls.test.tsx",
           "packages/editor/src/ui/design-system/floating-layer.test.tsx",
+          "packages/editor/src/ui/design-system/label-association.test.tsx",
           "packages/editor/src/ui/design-system/media.test.tsx",
           "packages/editor/src/ui/design-system/overflow-text.test.tsx",
           "packages/editor/src/ui/design-system/overlays.test.tsx",
@@ -3737,6 +3738,11 @@
             "identityDigest": "5f348f479b691c05994ef593a2be4243d87f779455e21e4047b6ac72eb4f48e9"
           },
           {
+            "file": "packages/editor/src/ui/design-system/label-association.test.tsx",
+            "testCount": 7,
+            "identityDigest": "bce11172a49f073737fa99f4b305b38d3fc86e98462b4e9580a1648386e21262"
+          },
+          {
             "file": "packages/editor/src/ui/design-system/media.test.tsx",
             "testCount": 2,
             "identityDigest": "0a2b46819c5a6d6c5a6cb5d97f7bf0bf3a9fd3655d0e71f5cb840878556bd932"
@@ -3827,46 +3833,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "34daf012a742fb9c6b920f9c0801ca40c987c248cceb488e91a22fdadb383250",
+        "identityDigest": "c9531b9a856c2325cd2c2b229352c2d6d4997f3a173ff873390f438f802cfd7e",
         "duplicateIdentityCount": 6,
-        "executionDigest": "02dbc9ec9550a73755773ad3144af052a791f691dfa54f250b059ca303623a7f"
+        "executionDigest": "bd0c9163e2ce9e39e24611811a42bfc3ddbee253a219b2c9832f860db3c72a64"
       },
       "metrics": {
         "statements": {
-          "covered": 23453,
-          "total": 31405
+          "covered": 23455,
+          "total": 31407
         },
         "branches": {
           "covered": 18168,
-          "total": 27331
+          "total": 27329
         },
         "functions": {
           "covered": 5907,
           "total": 8030
         },
         "lines": {
-          "covered": 21200,
-          "total": 27414
+          "covered": 21199,
+          "total": 27409
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 52064,
-      "total": 78178
+      "covered": 52072,
+      "total": 78182
     },
     "branches": {
-      "covered": 37325,
-      "total": 61580
+      "covered": 37330,
+      "total": 61578
     },
     "functions": {
       "covered": 9859,
       "total": 14375
     },
     "lines": {
-      "covered": 47075,
-      "total": 68391
+      "covered": 47079,
+      "total": 68387
     }
   }
 }

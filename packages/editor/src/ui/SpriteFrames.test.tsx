@@ -110,9 +110,9 @@ describe('SpriteFrames embedded preview', () => {
     expect(shelf.getAttribute('aria-label')).toBe('四向行走与动作帧预览')
     expect(shelf.querySelector(':scope > header')).toBeNull()
     expect(shelf.querySelector('.semantic-frame-group-head')).toBeNull()
-    expect([...shelf.querySelectorAll('.semantic-frame-row-label b')].map((node) => node.textContent)).toEqual(
-      ['下 · 行走', '左 · 行走', '上 · 行走', '右 · 行走', '挥手'],
-    )
+    expect(
+      [...shelf.querySelectorAll('.semantic-frame-row-label b')].map((node) => node.textContent),
+    ).toEqual(['下 · 行走', '左 · 行走', '上 · 行走', '右 · 行走', '挥手'])
     expect(shelf.querySelectorAll('.semantic-frame-row')).toHaveLength(5)
     expect(shelf.textContent).toContain('#0 为站立帧')
     expect(shelf.textContent).toContain('#3 为站立帧')

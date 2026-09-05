@@ -10,8 +10,8 @@ import { currentDirectoryPickerAvailability } from './file-system-access.js'
 import { copyDirRecursive } from './fsa-copy.js'
 import {
   saveWorkspaceHandle,
-  withWorkspaceDiscoveryLock,
   type WorkspaceHandleRecord,
+  withWorkspaceDiscoveryLock,
 } from './handle-store.js'
 import { type OpenedProject, openLocalProject } from './open-local.js'
 import { preflightProjectWriteSet, writeProject } from './project-io.js'
@@ -106,8 +106,7 @@ export async function finishOpen(
       expectedIdentity: options.expectedIdentity,
       forceSandbox: options.forceSandbox,
       loadTrustedPalContext: async () => {
-        if (!finalPalProof)
-          throw new Error('PAL 开发基线打开缺少载入前的可信快照证明')
+        if (!finalPalProof) throw new Error('PAL 开发基线打开缺少载入前的可信快照证明')
         return finalPalProof
       },
     })
@@ -118,11 +117,7 @@ export async function finishOpen(
       workspace.workspaceId === finalMetadata.sandbox.value.workspaceId
     if (options.forceSandbox && !mayBindForcedSandbox) return { ...opened, workspace }
     if (options.registrationMutation)
-      await registerAuthorizedWorkspaceMutation(
-        options.registrationMutation,
-        workspace,
-        dir.name,
-      )
+      await registerAuthorizedWorkspaceMutation(options.registrationMutation, workspace, dir.name)
     else await saveWorkspaceHandle(workspace, dir.name, dir)
     return { ...opened, dir, workspace }
   }
@@ -202,9 +197,7 @@ export async function saveProjectAs(
   const files = await buildFiles()
   await preflightProjectWriteSet(files, removePaths)
   const target = await authorizeFirstSaveTarget(workspace, dir, {
-    additionalVerify: srcDir
-      ? () => assertSaveAsTargetOutsideSource(srcDir, dir)
-      : undefined,
+    additionalVerify: srcDir ? () => assertSaveAsTargetOutsideSource(srcDir, dir) : undefined,
   })
   // A5 债修:目标经空目录门后先整树拷贝源目录(磁盘素材不在编辑器 state,不拷即丢 ——
   // 克隆项目 200MB assets 曾被另存为静默丢掉),再 writeProject 覆写内容文件(当前编辑赢)。

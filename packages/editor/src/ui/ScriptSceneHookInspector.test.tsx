@@ -6,17 +6,17 @@ import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+} from '../core/project-reference.js'
+import { canonicalSchemeReferenceEdges } from '../core/project-reference-adapters.js'
+import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   collectCanonicalScriptCommandVisits,
   type ScriptEditorCommand,
   type ScriptEditorState,
   ScriptEditSession,
 } from '../core/script-editor.js'
-import {
-  buildProjectReferenceSnapshot,
-  createProjectReferenceIndex,
-} from '../core/project-reference.js'
-import { canonicalSchemeReferenceEdges } from '../core/project-reference-adapters.js'
 import { ScriptSceneHookInspector as ScriptSceneHookInspectorContent } from './ScriptSceneHookInspector.js'
 
 function ScriptSceneHookInspector(

@@ -132,9 +132,7 @@ function sessions() {
   const main = new EditSession(editorState())
   const script = new ScriptEditSession(canonicalState())
   const coordinator = new EditorHistoryCoordinator(main, script)
-  const mainReferences = createCurrentProjectReferenceIndexProvider(() =>
-    script.getStateSnapshot(),
-  )
+  const mainReferences = createCurrentProjectReferenceIndexProvider(() => script.getStateSnapshot())
   const scriptReferences = (canonical: ScriptEditorState) =>
     collectCurrentProjectReferenceIndex(main.getState(), canonical)
   return { main, script, coordinator, mainReferences, scriptReferences }
@@ -169,13 +167,17 @@ describe('scene lifecycle across main/script sessions', () => {
       }),
     )
     expect(main.getState().scenes.find((scene) => scene.id === 'created')?.entities).toHaveLength(1)
-    expect(script.getState().scenes.find((scene) => scene.id === 'created')?.entities).toHaveLength(1)
+    expect(script.getState().scenes.find((scene) => scene.id === 'created')?.entities).toHaveLength(
+      1,
+    )
     expect(coordinator.undo()).toBe(true)
     expect(coordinator.undo()).toBe(true)
     expect(main.getState().sceneIndex.scenes.map((entry) => entry.id)).not.toContain('created')
     expect(coordinator.redo()).toBe(true)
     expect(coordinator.redo()).toBe(true)
-    expect(script.getState().scenes.find((scene) => scene.id === 'created')?.entities).toHaveLength(1)
+    expect(script.getState().scenes.find((scene) => scene.id === 'created')?.entities).toHaveLength(
+      1,
+    )
   })
 
   test('copy rewrites only self scene targets, preserves local ids/external targets and input', () => {
@@ -191,8 +193,12 @@ describe('scene lifecycle across main/script sessions', () => {
     )
     const copied = script.getState().scenes.find((scene) => scene.id === 'copy')!
     const refs = collectCommandTargetReferences(copied, 'copy')
-    expect(refs.some((reference) => JSON.stringify(reference.target).includes('source'))).toBe(false)
-    expect(refs.some((reference) => JSON.stringify(reference.target).includes('external'))).toBe(true)
+    expect(refs.some((reference) => JSON.stringify(reference.target).includes('source'))).toBe(
+      false,
+    )
+    expect(refs.some((reference) => JSON.stringify(reference.target).includes('external'))).toBe(
+      true,
+    )
     expect(copied.entities[0]?.id).toBe('npc')
     expect(copied.entries).toHaveProperty('door')
     expect(before).toEqual(sourceScene())

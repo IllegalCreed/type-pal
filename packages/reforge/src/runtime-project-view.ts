@@ -1,24 +1,24 @@
 import type {
-  BaseSceneEntryPresentation,
+  AuthorItemCoreMap,
+  BaseSceneDef,
   BaseSceneEntity,
-  EntityDef,
   BaseSceneEntityDef,
+  BaseSceneEntryPresentation,
+  BaseScriptFlow,
+  EntityDef,
   EntityPage,
   ItemData,
   ItemDataMap,
-  AuthorItemCoreMap,
+  ProjectedWorldScriptState,
   SceneDef,
-  BaseSceneDef,
-  BaseScriptFlow,
   ScriptRef,
   ScriptStage,
-  ProjectedWorldScriptState,
   WorldScriptState,
 } from '@type-pal/content'
 import type { LoadedCurrentProject } from './project-loader.js'
 import {
-  resolveEntityBehavior,
   resolveBaseEntityPage,
+  resolveEntityBehavior,
   resolveEntityTriggerActivation,
   resolveSceneHook,
 } from './script-world.js'
@@ -26,8 +26,7 @@ import {
 const AUTHOR_RUNTIME_SCRIPT_CHUNK = '__author-script-runtime'
 
 /** 当前 canonical 工程供尚未改写的渲染/菜单宿主消费的只读投影。 */
-export interface RuntimeProjectView
-  extends Omit<LoadedCurrentProject, 'entryScene' | 'items'> {
+export interface RuntimeProjectView extends Omit<LoadedCurrentProject, 'entryScene' | 'items'> {
   entryScene: SceneDef
   items: ItemDataMap
   scriptStore?: undefined
@@ -73,7 +72,9 @@ function projectRuntimeItem(item: AuthorItemCoreMap[string]): ItemData {
 }
 
 export function projectItemsView(items: AuthorItemCoreMap): ItemDataMap {
-  return Object.fromEntries(Object.entries(items).map(([id, item]) => [id, projectRuntimeItem(item)]))
+  return Object.fromEntries(
+    Object.entries(items).map(([id, item]) => [id, projectRuntimeItem(item)]),
+  )
 }
 
 function entryAtCursor(
@@ -131,7 +132,11 @@ function projectRuntimePage(
   }
 }
 
-function projectRuntimeEntity(sceneId: string, entity: BaseSceneEntityDef, world: WorldScriptState): EntityDef {
+function projectRuntimeEntity(
+  sceneId: string,
+  entity: BaseSceneEntityDef,
+  world: WorldScriptState,
+): EntityDef {
   const {
     behaviors: _behaviors,
     initialPage: _initialPage,
@@ -189,10 +194,7 @@ export function runtimeSceneView(
   scene: import('@type-pal/content').RuntimeSceneDef,
   world: WorldScriptState,
 ): SceneDef {
-  return baseSceneView(
-    scene as unknown as BaseSceneDef,
-    world,
-  )
+  return baseSceneView(scene as unknown as BaseSceneDef, world)
 }
 
 export function runtimeProjectView(

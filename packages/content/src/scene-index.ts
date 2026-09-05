@@ -37,10 +37,7 @@ export function normalizeSceneAssetPath(value: string): string {
   return normalized
 }
 
-export function validateSceneIndex(
-  value: unknown,
-  indexPath = SCENE_INDEX_PATH,
-): SceneIndexV1 {
+export function validateSceneIndex(value: unknown, indexPath = SCENE_INDEX_PATH): SceneIndexV1 {
   if (!isRecord(value)) throw new Error('sceneIndex: 期望对象')
   if (value.version !== 1)
     throw new Error(`sceneIndex.version: 仅支持 1，收到 ${String(value.version)}`)

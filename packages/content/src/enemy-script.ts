@@ -1,13 +1,13 @@
+import {
+  type AuthorCondition,
+  type BaseAuthorCommand,
+  type CommandValidationOptions,
+  checkAuthorCondition,
+  checkBaseAuthorCommands,
+} from './author-script-core.js'
 import type { AiAction, AiCond } from './enemy-ai.js'
 import type { LevelGrowthDelta } from './rewards.js'
 import { type Command, checkCommands } from './script.js'
-import {
-  type BaseAuthorCommand,
-  type AuthorCondition,
-  type CommandValidationOptions,
-  checkBaseAuthorCommands,
-  checkAuthorCondition,
-} from './author-script-core.js'
 
 export type EnemyHookStateId = string
 export type EnemyHookCommandId = string

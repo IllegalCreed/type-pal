@@ -1,10 +1,12 @@
 import type { AuthorSceneDef } from '@type-pal/content'
 import { useMemo, useState } from 'react'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
   AddSceneHookCommand,
   DeleteSceneHookCommand,
-  SaveSceneHookDetailsCommand,
   ReorderSceneHookVariantsCommand,
+  SaveSceneHookDetailsCommand,
   type SceneHookSlot,
   type ScriptCommandLocator,
   type ScriptEditorCommand,
@@ -12,10 +14,8 @@ import {
   sceneHookReferences,
   UpdateSceneHookCommand,
 } from '../core/script-editor.js'
-import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import { DsButton, DsHelpTip } from './design-system/index.js'
-import { reorderDsItems, type DsReorderIntent } from './design-system/reorder.js'
+import { type DsReorderIntent, reorderDsItems } from './design-system/reorder.js'
 import {
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,

@@ -69,9 +69,7 @@ describe('CutsceneTab catalog controls', () => {
     expect(groups).toHaveLength(2)
     expect(groups[0]?.querySelector('.ds-catalog-group-header__title')?.textContent).toBe('视频')
     expect(groups[0]?.querySelector('.ds-catalog-group-header__count')?.textContent).toBe('2')
-    expect(groups[1]?.querySelector('.ds-catalog-group-header__title')?.textContent).toBe(
-      '帧动画',
-    )
+    expect(groups[1]?.querySelector('.ds-catalog-group-header__title')?.textContent).toBe('帧动画')
     expect(groups[1]?.querySelector('.ds-catalog-group-header__count')?.textContent).toBe('1')
     expect(
       host.querySelector('.cutscene-main > .ds-object-hero .ds-object-hero__title')?.textContent,
@@ -208,9 +206,9 @@ describe('CutsceneTab catalog controls', () => {
         />,
       ),
     )
-    const deleteButton = [...host.querySelectorAll<HTMLButtonElement>('.ds-object-hero button')].find(
-      (button) => button.textContent?.trim() === '删除',
-    )!
+    const deleteButton = [
+      ...host.querySelectorAll<HTMLButtonElement>('.ds-object-hero button'),
+    ].find((button) => button.textContent?.trim() === '删除')!
     await act(async () => deleteButton.click())
     const confirm = [...host.querySelectorAll<HTMLButtonElement>('[role="dialog"] button')].find(
       (button) => button.textContent?.trim() === '删除资源',

@@ -22,9 +22,9 @@ describe('PAL map-name migration truth', () => {
 
     expect(sources.scenes).toHaveLength(294)
     expect(playableMapNums.size).toBe(221)
-    expect(
-      [...authoredMapNums].filter((mapNum) => mapNum > 0).sort((a, b) => a - b),
-    ).toEqual([...playableMapNums].sort((a, b) => a - b))
+    expect([...authoredMapNums].filter((mapNum) => mapNum > 0).sort((a, b) => a - b)).toEqual(
+      [...playableMapNums].sort((a, b) => a - b),
+    )
     expect([...playableMapNums].filter((mapNum) => !authoredMapNums.has(mapNum))).toEqual([])
     expect(physicalMapNums.size).toBe(223)
     expect(physicalMapNums.has(0)).toBe(false)
@@ -62,19 +62,18 @@ describe('PAL map-name migration truth', () => {
       maps: Array<{ id: string; name: string; path: string }>
     }
     expect(index.maps).toHaveLength(223)
-    expect(
-      index.maps.map(({ id }) => Number(id.slice(4))).sort((a, b) => a - b),
-    ).toEqual([...physicalMapNums].sort((a, b) => a - b))
+    expect(index.maps.map(({ id }) => Number(id.slice(4))).sort((a, b) => a - b)).toEqual(
+      [...physicalMapNums].sort((a, b) => a - b),
+    )
     for (const entry of index.maps) {
       const mapNum = Number(entry.id.slice(4))
       expect(entry.id).toBe(`map-${String(mapNum).padStart(3, '0')}`)
       expect(entry.path).toBe(`content/maps/${entry.id}.json`)
       expect(entry.name).toBe(getPalAuthoredMapName(mapNum) ?? `PAL 地图 ${mapNum}`)
     }
-    expect(index.maps.filter(({ name }) => name.startsWith('PAL 地图 ')).map(({ id }) => id)).toEqual([
-      'map-104',
-      'map-164',
-    ])
+    expect(
+      index.maps.filter(({ name }) => name.startsWith('PAL 地图 ')).map(({ id }) => id),
+    ).toEqual(['map-104', 'map-164'])
     expect(index.maps.find(({ id }) => id === 'map-001')?.name).toBe('盛渔村')
     expect(index.maps.find(({ id }) => id === 'map-023')?.name).toBe('苏州城')
     expect(index.maps.find(({ id }) => id === 'map-174')?.name).toBe('女娲神庙外雨季')
@@ -97,11 +96,11 @@ describe('PAL map-name migration truth', () => {
       expect(leftEntry?.id).not.toBe(rightEntry?.id)
     }
 
-    expect(
-      JSON.stringify(migration.files.get('content/scripts/chunks/scene/s230.json')),
-    ).toContain('"mapId":"map-164"')
-    expect(
-      JSON.stringify(migration.files.get('content/scripts/chunks/scene/s243.json')),
-    ).toContain('"mapId":"map-165"')
+    expect(JSON.stringify(migration.files.get('content/scripts/chunks/scene/s230.json'))).toContain(
+      '"mapId":"map-164"',
+    )
+    expect(JSON.stringify(migration.files.get('content/scripts/chunks/scene/s243.json'))).toContain(
+      '"mapId":"map-165"',
+    )
   })
 })

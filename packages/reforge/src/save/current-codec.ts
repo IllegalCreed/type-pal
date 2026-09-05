@@ -1,8 +1,8 @@
 import {
-  checkWorldScriptState,
   CONTENT_VERSION,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   type CurrentManifest,
+  checkWorldScriptState,
   type EntityLifecycleReferenceIndex,
   normalizeEntityLifecycleTable,
 } from '@type-pal/content'

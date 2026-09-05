@@ -1,13 +1,13 @@
 import type {
   AuthorCondition,
-  EntityAddress,
-  FlowCursor,
   BaseScriptFlow,
   BaseScriptLibrary,
+  EntityAddress,
+  FlowCursor,
 } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
-import { compileBaseScriptFlow, BaseSharedScriptResolver } from './script-compiler-core.js'
-import type { FlowCursorController, BaseScriptRuntimeHost } from './script-runner-core.js'
+import { BaseSharedScriptResolver, compileBaseScriptFlow } from './script-compiler-core.js'
+import type { BaseScriptRuntimeHost, FlowCursorController } from './script-runner-core.js'
 import { ScriptRunnerCore } from './script-runner-core.js'
 
 const digest = 'b'.repeat(64)
@@ -92,7 +92,10 @@ function states(
         {
           label: string
           body: Extract<BaseScriptFlow, { kind: 'stages' }>['stages'][number]['body']
-          next: Extract<BaseScriptFlow, { kind: 'stateMachine' }>['machine']['states'][string]['next']
+          next: Extract<
+            BaseScriptFlow,
+            { kind: 'stateMachine' }
+          >['machine']['states'][string]['next']
         }
       >
     : never,

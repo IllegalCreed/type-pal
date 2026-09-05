@@ -20,9 +20,9 @@ describe('PAL authored map names', () => {
     expect(Object.isFrozen(PAL_AUTHORED_MAP_NAMES)).toBe(true)
     expect(entries).toHaveLength(222)
     expect(new Set(entries.map(([mapNum]) => Number(mapNum))).size).toBe(222)
-    expect(entries.every(([mapNum, name]) => Number.isInteger(Number(mapNum)) && name.length > 0)).toBe(
-      true,
-    )
+    expect(
+      entries.every(([mapNum, name]) => Number.isInteger(Number(mapNum)) && name.length > 0),
+    ).toBe(true)
     expect(getPalAuthoredMapName(0)).toBe('梦境')
     expect(getPalAuthoredMapName(1)).toBe('盛渔村')
     expect(getPalAuthoredMapName(23)).toBe('苏州城')

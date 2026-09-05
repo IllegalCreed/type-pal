@@ -66,8 +66,7 @@ const workspaceRegistrationLocks = new WeakMap<object, string>()
  */
 export async function withWorkspaceDiscoveryLock<T>(operation: () => Promise<T>): Promise<T> {
   const locks = typeof navigator === 'undefined' ? undefined : navigator.locks
-  if (locks)
-    return locks.request('type-pal-workspace:discovery', { mode: 'exclusive' }, operation)
+  if (locks) return locks.request('type-pal-workspace:discovery', { mode: 'exclusive' }, operation)
 
   const previous = fallbackDiscoveryTail
   let release!: () => void
@@ -96,8 +95,7 @@ export async function withWorkspaceRegistrationLock<T>(
     }
   }
   const locks = typeof navigator === 'undefined' ? undefined : navigator.locks
-  if (locks)
-    return locks.request(`type-pal-workspace:${workspaceId}`, { mode: 'exclusive' }, run)
+  if (locks) return locks.request(`type-pal-workspace:${workspaceId}`, { mode: 'exclusive' }, run)
 
   // Vitest/non-window fallback. Browsers use Web Locks above, which also serializes tabs.
   const previous = fallbackRegistrationTail

@@ -27,11 +27,11 @@ import {
 } from './battle-core.js'
 import type { BattleLastAction } from './battle-last-action.js'
 import {
-  battleReadinessOverlayText,
   type BattleReadinessErrorContext,
   BattleSession,
   type BattleSessionAssets,
   type BattleTurnReadinessSnapshot,
+  battleReadinessOverlayText,
 } from './battle-session.js'
 
 function mkEnemy(

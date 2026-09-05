@@ -1,7 +1,7 @@
 import type {
   BaseAuthorCommand,
-  RuntimeCommand,
   BaseScriptFlow,
+  RuntimeCommand,
   RuntimeScriptFlow,
   RuntimeScriptLibrary,
 } from '@type-pal/content'
@@ -11,13 +11,13 @@ import {
   checkRuntimeScriptLibrary,
 } from '@type-pal/content'
 import {
+  SCRIPT_COMPILER_VERSION as CORE_SCRIPT_COMPILER_VERSION,
   type CompileBaseScriptFlowOptions,
-  type ExecutableCommandLike,
-  type ExecutableBaseScriptFlowLike,
-  type ExecutableSharedScriptLike,
   compileBaseCommandsUncheckedAfterValidation,
   compileBaseScriptFlowUncheckedAfterValidation,
-  SCRIPT_COMPILER_VERSION as CORE_SCRIPT_COMPILER_VERSION,
+  type ExecutableBaseScriptFlowLike,
+  type ExecutableCommandLike,
+  type ExecutableSharedScriptLike,
   type ScriptBoundaryPolicy,
   type ScriptTiming,
 } from './script-compiler-core.js'

@@ -51,8 +51,8 @@ import {
   FACING_BY_DIR,
   legacyEventObjectEntityId,
   partyPosToGrid,
-  roleSlugForNameWord,
   ROLE_SLUGS,
+  roleSlugForNameWord,
   sceneSlug,
   signExtendI16,
 } from './source-facts.js'
@@ -1791,8 +1791,7 @@ function walkBody(
           body.push({
             kind: 'startBattle',
             ...(ctx.palReferenceSchema === 'legacy' ||
-            (ctx.palReferenceSchema === undefined &&
-              ctx.palSemanticProfile === 'historical-r13-4')
+            (ctx.palReferenceSchema === undefined && ctx.palSemanticProfile === 'historical-r13-4')
               ? { team: o[0] ?? 0 }
               : { enemyTeamId: `team-${o[0] ?? 0}` }),
             ...(onLose?.length ? { onLose } : {}),
@@ -1930,8 +1929,7 @@ function walkBody(
           flush()
           const stableReferences =
             ctx.palReferenceSchema === 'stable-id' ||
-            (ctx.palReferenceSchema === undefined &&
-              ctx.palSemanticProfile !== 'historical-r13-4')
+            (ctx.palReferenceSchema === undefined && ctx.palSemanticProfile !== 'historical-r13-4')
           if (stableReferences) {
             const actorId = roleSlugForNameWord(o[0] ?? 0)
             if (!actorId) gap(`jumpIfPlayerInParty 未知角色名字对象 ${String(o[0] ?? 0)}`)

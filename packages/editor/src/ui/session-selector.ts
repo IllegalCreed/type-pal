@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
-import type { EditSession, EditorState } from '../core/edit-session.js'
+import type { EditorState, EditSession } from '../core/edit-session.js'
 import type {
   EditorDerivedStore,
   EditorDerivedStoreSnapshot,
 } from '../core/editor-derived-store.js'
-import type { ScriptEditSession, ScriptEditorState } from '../core/script-editor.js'
+import type { ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 
 export type SessionSelectorEquality<T> = (left: T, right: T) => boolean
 
@@ -36,21 +36,14 @@ interface VersionedSession {
  * A session notify still reaches every subscriber, but an equal selection preserves
  * the committed reference and therefore does not reconcile that consumer subtree.
  */
-function useVersionedSessionSelector<
-  Session extends VersionedSession,
-  Snapshot,
-  Selection,
->(
+function useVersionedSessionSelector<Session extends VersionedSession, Snapshot, Selection>(
   session: Session,
   read: (session: Session, version: number) => Snapshot,
   selector: (snapshot: Snapshot) => Selection,
   isEqual: SessionSelectorEquality<Selection>,
 ): Selection {
   const committedRef = useRef<{ session: Session; value: Selection } | undefined>(undefined)
-  const subscribe = useCallback(
-    (listener: () => void) => session.subscribe(listener),
-    [session],
-  )
+  const subscribe = useCallback((listener: () => void) => session.subscribe(listener), [session])
   const getSelection = useMemo(() => {
     let hasMemo = false
     let memoVersion = 0
@@ -204,5 +197,7 @@ export function shallowSelectorArrayEqual(
   left: readonly unknown[],
   right: readonly unknown[],
 ): boolean {
-  return left.length === right.length && left.every((value, index) => Object.is(value, right[index]))
+  return (
+    left.length === right.length && left.every((value, index) => Object.is(value, right[index]))
+  )
 }

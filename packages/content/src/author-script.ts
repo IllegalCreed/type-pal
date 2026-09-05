@@ -1,12 +1,12 @@
 import type { ActorDef } from './actor.js'
 import {
-  checkAuthorDialogueCue,
-  resolveDialogueIdentity,
-  resolveAuthorDialogueCue,
   type AuthorDialogueCue,
+  checkAuthorDialogueCue,
+  resolveAuthorDialogueCue,
+  resolveDialogueIdentity,
 } from './author-dialogue.js'
-import type { DialogueCue } from './index.js'
 import type { CommandValidationOptions } from './author-script-core.js'
+import type { DialogueCue } from './index.js'
 import type {
   RuntimeCommand,
   RuntimeEntityBehaviors,
@@ -69,11 +69,7 @@ export function resolveAuthorDialogueTree<T>(
           .filter(([key]) => key !== 'cue')
           .map(([key, child]) => [key, visit(child, `${path}.${key}`)]),
       )
-      next.cue = resolveAuthorDialogueCue(
-        value.cue as AuthorDialogueCue,
-        actorsById,
-        `${path}.cue`,
-      )
+      next.cue = resolveAuthorDialogueCue(value.cue as AuthorDialogueCue, actorsById, `${path}.cue`)
       return next
     }
     return Object.fromEntries(
@@ -91,7 +87,9 @@ export function assertAuthorDialogueReferences(
 ): void {
   const visit = (value: unknown, path: string): void => {
     if (Array.isArray(value)) {
-      value.forEach((entry, index) => visit(entry, `${path}[${index}]`))
+      value.forEach((entry, index) => {
+        visit(entry, `${path}[${index}]`)
+      })
       return
     }
     if (!isRecord(value)) return
@@ -146,7 +144,10 @@ export function checkAuthorEntityPages(
   checkRuntimeEntityPages(pages, behaviors, initialPage, path, authorCommandValidationOptions())
 }
 
-export function checkAuthorSceneHooks(value: unknown, path: string): asserts value is AuthorSceneHooks {
+export function checkAuthorSceneHooks(
+  value: unknown,
+  path: string,
+): asserts value is AuthorSceneHooks {
   checkRuntimeSceneHooks(value, path, authorCommandValidationOptions())
 }
 

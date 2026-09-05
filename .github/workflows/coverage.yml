@@ -29,6 +29,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Check types and lint before coverage
+        run: pnpm typecheck && pnpm lint
       - name: Check coverage against the protected base branch
         if: github.event_name == 'pull_request'
         run: pnpm coverage:fast

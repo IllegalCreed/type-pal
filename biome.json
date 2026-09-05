@@ -78,7 +78,15 @@
             "noLabelWithoutControl": {
               "level": "error",
               "options": {
-                "inputComponents": ["N", "Num", "NumIn"]
+                "inputComponents": [
+                  "Num",
+                  "DsTextInput",
+                  "DsNumberInput",
+                  "DsDraftTextInput",
+                  "DsDraftNumberInput",
+                  "DsTextArea",
+                  "DsDraftTextArea"
+                ]
               }
             }
           },

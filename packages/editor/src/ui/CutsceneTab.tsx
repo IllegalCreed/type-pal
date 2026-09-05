@@ -15,11 +15,8 @@ import {
   useRef,
   useState,
 } from 'react'
+import { type EditorAssetDiagnostic, editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
-import {
-  editorAssetCatalogTitle,
-  type EditorAssetDiagnostic,
-} from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
@@ -44,8 +41,8 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsDialog,
-  DsFileInput,
   DsFieldGroup,
+  DsFileInput,
   DsIconButton,
   DsInspectorHost,
   DsInspectorSection,
@@ -54,16 +51,16 @@ import {
   DsObjectHero,
   DsPropertyGrid,
   DsPropertyRow,
-  DsReorderCollection,
-  DsReorderItem,
-  DsReorderMoveButton,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsReorderCollection,
+  type DsReorderIntent,
+  DsReorderItem,
+  DsReorderMoveButton,
   DsSelectField,
   DsTag,
   reorderDsItems,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './design-system/index.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from './FrameAnimationEditor.js'
@@ -589,11 +586,7 @@ export function CutsceneTab(props: {
     <>
       <div className="outliner data-outliner cutscene-outliner">
         {tabBar}
-        <DsCatalogControls
-          title="过场"
-          count={videos.length + animations.length}
-          unit="项"
-        />
+        <DsCatalogControls title="过场" count={videos.length + animations.length} unit="项" />
         <DsCatalogGroupList label="过场资源分组">
           <AssetList
             title="视频"

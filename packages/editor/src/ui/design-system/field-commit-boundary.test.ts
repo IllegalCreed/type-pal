@@ -326,38 +326,42 @@ describe('editor field draft/commit static boundary', () => {
       for (const transaction of page.transactions) {
         expect(['field-draft', 'aggregate-draft']).toContain(transaction.kind)
         expect(transaction.id.trim()).not.toBe('')
-        expect(transaction.fields.length, `${page.registry}/${transaction.id} fields`).toBeGreaterThan(
-          0,
-        )
+        expect(
+          transaction.fields.length,
+          `${page.registry}/${transaction.id} fields`,
+        ).toBeGreaterThan(0)
         expect(new Set(transaction.fields).size).toBe(transaction.fields.length)
         const evidenceFiles = transaction.verification.match(/[\w.-]+\.test\.tsx?/g) ?? []
-        expect(evidenceFiles.length, `${page.registry}/${transaction.id} verification`).toBeGreaterThan(
-          0,
-        )
+        expect(
+          evidenceFiles.length,
+          `${page.registry}/${transaction.id} verification`,
+        ).toBeGreaterThan(0)
         for (const file of evidenceFiles)
           expect(existsSync(join(uiRoot, file)), `${transaction.id}: ${file}`).toBe(true)
         if (transaction.kind !== 'aggregate-draft') continue
         expect(transaction.owner?.trim(), `${page.registry}/${transaction.id} owner`).toBeTruthy()
-        expect(transaction.files?.length, `${page.registry}/${transaction.id} files`).toBeGreaterThan(
-          0,
-        )
+        expect(
+          transaction.files?.length,
+          `${page.registry}/${transaction.id} files`,
+        ).toBeGreaterThan(0)
         expect(
           transaction.controlOwners?.length,
           `${page.registry}/${transaction.id} controlOwners`,
         ).toBeGreaterThan(0)
         for (const file of transaction.files!)
-          expect(page.productionFiles, `${page.registry}/${transaction.id}: ${file}`).toContain(file)
-        const aggregateSource = transaction.files!
-          .map((file) => readFileSync(join(uiRoot, file), 'utf8'))
+          expect(page.productionFiles, `${page.registry}/${transaction.id}: ${file}`).toContain(
+            file,
+          )
+        const aggregateSource = transaction
+          .files!.map((file) => readFileSync(join(uiRoot, file), 'utf8'))
           .join('\n')
         for (const token of transaction.owner!.split('.'))
-          expect(aggregateSource, `${page.registry}/${transaction.id} owner token ${token}`).toContain(
-            token,
-          )
+          expect(
+            aggregateSource,
+            `${page.registry}/${transaction.id} owner token ${token}`,
+          ).toContain(token)
         for (const owner of transaction.controlOwners!) {
-          const ownerFiles = transaction.files!.filter((file) =>
-            declaresControlOwner(file, owner),
-          )
+          const ownerFiles = transaction.files!.filter((file) => declaresControlOwner(file, owner))
           expect(
             ownerFiles,
             `${page.registry}/${transaction.id} control owner ${owner} must belong to exactly one file`,
@@ -373,9 +377,7 @@ describe('editor field draft/commit static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const adoptedFiles = new Set(
-      adoption.pages.flatMap((page) =>
-        page.status === 'adopted' ? page.productionFiles : [],
-      ),
+      adoption.pages.flatMap((page) => (page.status === 'adopted' ? page.productionFiles : [])),
     )
     const unownedDraftFiles = production
       .filter(hasDraftControl)
@@ -411,9 +413,7 @@ describe('editor field draft/commit static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const adoptedFiles = new Set(
-      adoption.pages.flatMap((page) =>
-        page.status === 'adopted' ? page.productionFiles : [],
-      ),
+      adoption.pages.flatMap((page) => (page.status === 'adopted' ? page.productionFiles : [])),
     )
     const aggregateControlOwners = new Map<string, Set<string>>()
     for (const page of adoption.pages) {
@@ -450,9 +450,10 @@ describe('editor field draft/commit static boundary', () => {
       return false
     })
     expect(unexpected).toEqual([])
-    expect([...allowed.keys()].filter((key) => !used.has(key)), 'stale allowlist entries').toEqual(
-      [],
-    )
+    expect(
+      [...allowed.keys()].filter((key) => !used.has(key)),
+      'stale allowlist entries',
+    ).toEqual([])
   })
 
   test('scopes aggregate exemptions to their declaring function and file', () => {
@@ -473,9 +474,7 @@ describe('editor field draft/commit static boundary', () => {
         'fixture.tsx',
         true,
         new Set(['AggregateOwner', 'DirectOwner']),
-      ).map(
-        ({ line }) => line,
-      ),
+      ).map(({ line }) => line),
     ).toEqual([3, 4])
     expect(
       sourceDeclaresControlOwner(

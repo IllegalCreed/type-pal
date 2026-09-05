@@ -82,9 +82,7 @@ describe('ImageTab catalog controls', () => {
     await act(async () => faceTab.click())
     expect(host.querySelector('.ds-list-header__count')?.textContent).toBe('1 项')
     const unnamedFace = host.querySelector('.image-asset-list .ds-catalog-row')!
-    expect(unnamedFace.querySelector('.ds-catalog-row__title')?.textContent).toBe(
-      '未命名战斗头像',
-    )
+    expect(unnamedFace.querySelector('.ds-catalog-row__title')?.textContent).toBe('未命名战斗头像')
     expect(unnamedFace.querySelector('.ds-catalog-row__meta')?.textContent).toBe('face.primary')
     const itemIconTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
       (button) => button.textContent?.includes('物品图标'),
@@ -218,9 +216,9 @@ describe('ImageTab catalog controls', () => {
         />,
       ),
     )
-    const deleteButton = [...host.querySelectorAll<HTMLButtonElement>('.ds-object-hero button')].find(
-      (button) => button.textContent?.trim() === '删除',
-    )!
+    const deleteButton = [
+      ...host.querySelectorAll<HTMLButtonElement>('.ds-object-hero button'),
+    ].find((button) => button.textContent?.trim() === '删除')!
     await act(async () => deleteButton.click())
     const confirm = [...host.querySelectorAll<HTMLButtonElement>('[role="dialog"] button')].find(
       (button) => button.textContent?.trim() === '删除图片',

@@ -1,5 +1,6 @@
 import type { Tilemap } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
+import { mapNameFromSourceNumber } from './pal-map-names.js'
 import { auditAndConvertSourceMaps } from './project-map-audit.js'
 import {
   convertSourceTilemap,
@@ -9,7 +10,6 @@ import {
   sourceWordFromProjectMap,
   tilesetIdFromSourceNumber,
 } from './project-map-converter.js'
-import { mapNameFromSourceNumber } from './pal-map-names.js'
 
 function source(words: [number, number][]): Tilemap {
   return {

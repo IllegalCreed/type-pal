@@ -10,12 +10,11 @@ import { sha256 } from './migration-baseline.js'
 import {
   formatPalBattleSpriteReport,
   formatPalWorldSpriteReport,
-  loadPalStaticImages,
   loadPalBattleSprites,
   loadPalSoundAssets,
+  loadPalStaticImages,
   loadPalWorldSprites,
   materializePalAssets,
-  planPalAssetRetirements,
   PAL_BATTLE_SPRITE_ENEMY_TUPLE_DIGEST,
   PAL_BATTLE_SPRITE_LEGACY_TAIL_ANOMALIES,
   PAL_BATTLE_SPRITE_PLAYER_TUPLE_DIGEST,
@@ -23,6 +22,7 @@ import {
   PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES,
   PAL_WORLD_SPRITE_TUPLE_DIGEST,
   type PalBinaryAssetSource,
+  planPalAssetRetirements,
 } from './pal-assets.js'
 import {
   PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS,
@@ -393,9 +393,7 @@ describe('PAL 静态图小头像真值', () => {
       })),
     )
     expect(faces.some((source) => source.id === 'face.pal.gai-luojiao')).toBe(false)
-    expect(
-      faces.some(({ record }) => record.origin.ref === 'images/ui/frame-53.png'),
-    ).toBe(false)
+    expect(faces.some(({ record }) => record.origin.ref === 'images/ui/frame-53.png')).toBe(false)
   })
 })
 

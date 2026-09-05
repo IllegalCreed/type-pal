@@ -43,9 +43,9 @@ function collectFrom(
   references: EntityAddressReference[],
 ): void {
   if (Array.isArray(value)) {
-    value.forEach((entry, index) =>
-      collectFrom(entry, path + '[' + index + ']', locator, references),
-    )
+    value.forEach((entry, index) => {
+      collectFrom(entry, `${path}[${index}]`, locator, references)
+    })
     return
   }
   if (!isRecord(value)) return
@@ -66,7 +66,7 @@ function collectFrom(
     return
   }
   for (const [key, child] of Object.entries(value))
-    collectFrom(child, path + '.' + key, locator, references)
+    collectFrom(child, `${path}.${key}`, locator, references)
 }
 
 export function collectEntityAddressReferences(
@@ -81,14 +81,14 @@ export function collectEntityAddressReferences(
       { kind: 'scene', sceneId: scene.id },
       references,
     )
-    entities.forEach((entity, entityIndex) =>
+    entities.forEach((entity, entityIndex) => {
       collectFrom(
         entity,
         `scenes[${sceneIndex}].entities[${entityIndex}]`,
         { kind: 'scene-entity', sceneId: scene.id, entityId: entity.id },
         references,
-      ),
-    )
+      )
+    })
   })
   for (const [scriptId, script] of Object.entries(state.sharedScripts ?? {}))
     collectFrom(
@@ -97,15 +97,15 @@ export function collectEntityAddressReferences(
       { kind: 'shared-script', scriptId },
       references,
     )
-  state.items.forEach((item, index) =>
-    collectFrom(item, `items[${index}]`, { kind: 'item', itemId: item.id }, references),
-  )
+  state.items.forEach((item, index) => {
+    collectFrom(item, `items[${index}]`, { kind: 'item', itemId: item.id }, references)
+  })
   const enemies = state.enemies ?? []
-  enemies.forEach((enemy, index) =>
-    collectFrom(enemy, `enemies[${index}]`, { kind: 'enemy', enemyId: enemy.id }, references),
-  )
+  enemies.forEach((enemy, index) => {
+    collectFrom(enemy, `enemies[${index}]`, { kind: 'enemy', enemyId: enemy.id }, references)
+  })
   const worlds = state.worlds ?? []
-  worlds.forEach((world, index) =>
+  worlds.forEach((world, index) => {
     collectFrom(
       world,
       `worlds[${index}]`,
@@ -114,8 +114,8 @@ export function collectEntityAddressReferences(
         worldId: isRecord(world) && typeof world.id === 'string' ? world.id : undefined,
       },
       references,
-    ),
-  )
+    )
+  })
   return references
 }
 
@@ -145,7 +145,5 @@ export function missingEntityAddressReferencesFrom(
   const entities = new Map(
     scenes.map((scene) => [scene.id, new Set(scene.entities.map((entity) => entity.id))]),
   )
-  return references.filter(
-    (reference) => !entities.get(reference.sceneId)?.has(reference.entityId),
-  )
+  return references.filter((reference) => !entities.get(reference.sceneId)?.has(reference.entityId))
 }

@@ -6,10 +6,7 @@ import {
 } from '@type-pal/content'
 import type { MidiNoteActivity, MidiPreviewTransport } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import {
-  editorAssetCatalogTitle,
-  type EditorAssetDiagnostic,
-} from '../core/asset-diagnostics.js'
+import { type EditorAssetDiagnostic, editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import {
   AudioPreviewCache,
   type PcmPeaks,
@@ -41,11 +38,11 @@ import {
   DsObjectHero,
   DsObjectWorkspace,
   DsRangeInput,
+  DsReadoutList,
+  DsReadoutRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
-  DsReadoutList,
-  DsReadoutRow,
   DsStatus,
   DsTag,
   DsVirtualList,

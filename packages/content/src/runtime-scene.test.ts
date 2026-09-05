@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { checkRuntimeHostileBehavior, checkPositiveSafeInt } from './runtime-scene.js'
+import { checkPositiveSafeInt, checkRuntimeHostileBehavior } from './runtime-scene.js'
 
 const base = {
   enemyTeamId: 'team-3',

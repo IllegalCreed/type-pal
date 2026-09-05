@@ -1,4 +1,4 @@
-import { DsSelect, type DsOption } from './design-system/index.js'
+import { type DsOption, DsSelect } from './design-system/index.js'
 
 const CANONICAL_ENTITY_STATE_OPTIONS: readonly DsOption[] = [
   {

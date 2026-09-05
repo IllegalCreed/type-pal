@@ -1,3 +1,4 @@
+import type { EditorState, EditSession } from './edit-session.js'
 import type {
   EditorDerivedData,
   EditorDerivedInput,
@@ -12,11 +13,10 @@ import type {
 } from './editor-derived-contract.js'
 import { sameEditorDerivedRevision } from './editor-derived-contract.js'
 import { createEditorDerivedWorkerRuntime } from './editor-derived-core.js'
-import type { EditSession, EditorState } from './edit-session.js'
 import type {
-  ScriptEditSession,
   ScriptEditorAffectedRecords,
   ScriptEditorState,
+  ScriptEditSession,
 } from './script-editor.js'
 
 export interface EditorDerivedPublishedSnapshot {
@@ -44,8 +44,7 @@ export function isEditorDerivedSnapshotCurrent(
   currentRevision: EditorDerivedRevision,
 ): snapshot is Extract<EditorDerivedStoreSnapshot, { status: 'current' }> {
   return (
-    snapshot.status === 'current' &&
-    sameEditorDerivedRevision(snapshot.revision, currentRevision)
+    snapshot.status === 'current' && sameEditorDerivedRevision(snapshot.revision, currentRevision)
   )
 }
 
@@ -112,12 +111,7 @@ function defaultWorkerFactory(): EditorDerivedWorkerPort {
 }
 
 export function editorDiagnosticState(state: EditorState): EditorDiagnosticState {
-  const {
-    maps: _maps,
-    assetBlobs: _assetBlobs,
-    tilesetBlobs: _tilesetBlobs,
-    ...diagnostic
-  } = state
+  const { maps: _maps, assetBlobs: _assetBlobs, tilesetBlobs: _tilesetBlobs, ...diagnostic } = state
   return diagnostic
 }
 
@@ -135,9 +129,8 @@ function arrayPatch<T extends { id: string }>(
 ): IdArrayPatch<T> | undefined {
   if (before === after && !affectedIds?.size) return undefined
   const previous = new Map(before.map((record) => [record.id, record]))
-  const upserts = after.filter(
-    (record) =>
-      affectedIds ? affectedIds.has(record.id) : previous.get(record.id) !== record,
+  const upserts = after.filter((record) =>
+    affectedIds ? affectedIds.has(record.id) : previous.get(record.id) !== record,
   )
   const beforeOrder = before.map((record) => record.id)
   const order = after.map((record) => record.id)
@@ -156,9 +149,7 @@ function recordPatch<T>(
   const orderChanged =
     Object.keys(before).length !== keys.length || Object.keys(before).some((key) => !(key in after))
   const upserts = Object.fromEntries(
-    keys.flatMap((key) =>
-      affectedIds.has(key) ? [[key, after[key]!] as const] : [],
-    ),
+    keys.flatMap((key) => (affectedIds.has(key) ? [[key, after[key]!] as const] : [])),
   )
   if (!orderChanged && !Object.keys(upserts).length) return undefined
   return { keys, upserts }
@@ -326,9 +317,7 @@ export function createEditorDerivedStore(options: {
       }
     } else {
       const main = mainPatch(lastSentMain, nextMain)
-      const affected = scriptSession.getAffectedRecordsSince(
-        lastSentRevision.scriptHistoryVersion,
-      )
+      const affected = scriptSession.getAffectedRecordsSince(lastSentRevision.scriptHistoryVersion)
       const script = scriptPatch(lastSentScript, nextScript, affected)
       request = hasPatch(main, script)
         ? {

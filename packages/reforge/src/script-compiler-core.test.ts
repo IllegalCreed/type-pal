@@ -1,6 +1,6 @@
 import type { BaseScriptFlow, BaseScriptLibrary } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { compileBaseScriptFlow, BaseSharedScriptResolver } from './script-compiler-core.js'
+import { BaseSharedScriptResolver, compileBaseScriptFlow } from './script-compiler-core.js'
 
 const digest = 'a'.repeat(64)
 

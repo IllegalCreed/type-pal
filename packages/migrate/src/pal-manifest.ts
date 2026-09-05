@@ -1,8 +1,8 @@
 import {
   type AssetCatalogV1,
   CONTENT_VERSION,
-  type CurrentManifest,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
+  type CurrentManifest,
   validateManifestAssetConfig,
 } from '@type-pal/content'
 import { PAL_ASSET_ROLES } from './pal-assets.js'

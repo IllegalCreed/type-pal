@@ -135,13 +135,7 @@ export function EnemyBattleSpriteThumbnail(props: {
     const context = canvas?.getContext('2d')
     if (!canvas || !context) return
     context.clearRect(0, 0, thumbnailSize, thumbnailSize)
-    if (
-      !visible ||
-      !assetBase ||
-      !definition ||
-      definition.profile.kind !== 'enemy' ||
-      !revision
-    )
+    if (!visible || !assetBase || !definition || definition.profile.kind !== 'enemy' || !revision)
       return
 
     let alive = true
@@ -152,11 +146,7 @@ export function EnemyBattleSpriteThumbnail(props: {
       if (!targetContext || frame.width <= 0 || frame.height <= 0) return
       targetContext.clearRect(0, 0, thumbnailSize, thumbnailSize)
       targetContext.imageSmoothingEnabled = false
-      const scale = Math.min(
-        thumbnailSize / frame.width,
-        thumbnailSize / frame.height,
-        2,
-      )
+      const scale = Math.min(thumbnailSize / frame.width, thumbnailSize / frame.height, 2)
       const width = frame.width * scale
       const height = frame.height * scale
       targetContext.drawImage(
@@ -179,6 +169,7 @@ export function EnemyBattleSpriteThumbnail(props: {
       height={thumbnailSize}
       className="sprite-thumb enemy-battle-sprite-thumbnail"
       data-placement={placement}
+      tabIndex={-1}
       aria-hidden="true"
     />
   )

@@ -1,9 +1,4 @@
-import type {
-  EntityAddress,
-  GridPos,
-  ProjectMap,
-  WorldScriptState,
-} from '@type-pal/content'
+import type { EntityAddress, GridPos, ProjectMap, WorldScriptState } from '@type-pal/content'
 import { isBlockedAt } from './collision.js'
 
 export function planItemEntityPlacement(args: {

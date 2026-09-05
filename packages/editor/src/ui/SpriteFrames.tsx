@@ -34,10 +34,7 @@ export function SpriteFrames(props: {
     let alive = true
     setLoadedResult(null)
     setError('')
-    void Promise.all([
-      loadEditorSprite(assetReader, sprite.asset),
-      loadStandardPalette(assetBase),
-    ])
+    void Promise.all([loadEditorSprite(assetReader, sprite.asset), loadStandardPalette(assetBase)])
       .then(([loadedSprite, palette]) => {
         if (!alive) return
         setLoadedResult({

@@ -26,8 +26,7 @@ function useDsVirtualWindow(
   const [scrollTop, setScrollTop] = useState(0)
   const [viewportHeight, setViewportHeight] = useState(options.height)
   const overscan = Math.max(1, options.overscan ?? 4)
-  const virtual =
-    options.virtualizeAbove === undefined || options.count > options.virtualizeAbove
+  const virtual = options.virtualizeAbove === undefined || options.count > options.virtualizeAbove
   const maximumScrollTop = Math.max(0, options.count * options.itemHeight - viewportHeight)
   const effectiveScrollTop = Math.min(scrollTop, maximumScrollTop)
   const range = useMemo(() => {
@@ -69,8 +68,7 @@ function useDsVirtualWindow(
       const bottom = top + options.itemHeight
       let nextScrollTop = root.scrollTop
       if (top < nextScrollTop) nextScrollTop = top
-      else if (bottom > nextScrollTop + viewportHeight)
-        nextScrollTop = bottom - viewportHeight
+      else if (bottom > nextScrollTop + viewportHeight) nextScrollTop = bottom - viewportHeight
       const changed = root.scrollTop !== nextScrollTop
       if (changed) root.scrollTo({ top: nextScrollTop })
       setScrollTop(nextScrollTop)
@@ -158,6 +156,7 @@ export function DsVirtualList<T>(props: {
   }
 
   return (
+    // biome-ignore lint/a11y/useSemanticElements: Virtual list geometry requires a spacer; explicit list/listitem roles preserve the hierarchy without invalid ul/div markup.
     <div
       ref={rootRef}
       className="ds-virtual-list"
@@ -188,6 +187,7 @@ export function DsVirtualList<T>(props: {
         {visible.map((item, offset) => {
           const index = virtualWindow.range.start + offset
           return (
+            // biome-ignore lint/a11y/useSemanticElements: Virtual list geometry requires a spacer; explicit list/listitem roles preserve the hierarchy without invalid ul/div markup.
             <div
               key={props.getKey(item)}
               className="ds-virtual-list__item"
@@ -327,7 +327,7 @@ export function DsVirtualListbox<T>(props: {
     virtualWindow.ensureIndexVisible,
   ])
 
-  const optionId = (index: number) => `${listboxId}-option-${index}`
+  const optionId = useCallback((index: number) => `${listboxId}-option-${index}`, [listboxId])
   const selectActive = useCallback(() => {
     const item = props.items[activeIndex]
     if (!item || props.getDisabled?.(item)) return
@@ -335,12 +335,15 @@ export function DsVirtualListbox<T>(props: {
   }, [activeIndex, props.getDisabled, props.items, props.onSelect])
 
   const handleNavigation = useCallback(
-    (event: {
-      key: string
-      isComposing?: boolean
-      keyCode?: number
-      preventDefault: () => void
-    }, editableOwner = false) => {
+    (
+      event: {
+        key: string
+        isComposing?: boolean
+        keyCode?: number
+        preventDefault: () => void
+      },
+      editableOwner = false,
+    ) => {
       if (event.isComposing || event.keyCode === 229) return
       if (editableOwner && (event.key === ' ' || event.key === 'Home' || event.key === 'End'))
         return
@@ -388,7 +391,7 @@ export function DsVirtualListbox<T>(props: {
       if (previousActive == null) owner.removeAttribute('aria-activedescendant')
       else owner.setAttribute('aria-activedescendant', previousActive)
     }
-  }, [activeIndex, listboxId, props.keyboardOwnerRef])
+  }, [activeIndex, listboxId, optionId, props.keyboardOwnerRef])
 
   return (
     <div
@@ -453,6 +456,7 @@ export function DsVirtualListbox<T>(props: {
           const selected = key === props.selectedKey
           const active = index === activeIndex
           return (
+            // biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/useFocusableInteractive: APG active-descendant focus stays with the listbox/keyboard owner, which handles keyboard selection.
             <div
               key={key}
               id={optionId(index)}

@@ -4,8 +4,8 @@ import type { EntityPage, SpriteActionBinding, SpriteDef } from '@type-pal/conte
 import { act, type ComponentProps, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { EntityPageAnimationFields } from './EntityPageAnimationEditor.js'
 import { DsInspectorHost, DsPropertyGrid } from './design-system/recipes.js'
+import { EntityPageAnimationFields } from './EntityPageAnimationEditor.js'
 
 const sprite: SpriteDef = {
   id: 'sprite-77',
@@ -141,14 +141,7 @@ describe('EntityPageAnimationFields', () => {
 
   test('无可解析精灵时开关与说明仍归入统一属性值列', async () => {
     await act(async () =>
-      root.render(
-        <TestEditor
-          page={{}}
-          pageIndex={0}
-          sprite={undefined}
-          onChange={() => {}}
-        />,
-      ),
+      root.render(<TestEditor page={{}} pageIndex={0} sprite={undefined} onChange={() => {}} />),
     )
 
     const presetRow = host.querySelector<HTMLElement>('[data-property-label="预制动作"]')!

@@ -1399,6 +1399,7 @@ export function BattleSpriteLibrary(props: {
                     }
                   >
                     {consumers.length > 1 && !creatingUsage ? (
+                      // biome-ignore lint/a11y/useSemanticElements: Named command/menu group, not a form fieldset.
                       <div className="ds-inspector-choice-list" role="group" aria-label="切换用途">
                         {consumers.map((entry) => (
                           <DsCatalogRow
@@ -1413,6 +1414,7 @@ export function BattleSpriteLibrary(props: {
                       </div>
                     ) : null}
                     {showUsageMenu ? (
+                      // biome-ignore lint/a11y/useSemanticElements: Named command/menu group, not a form fieldset.
                       <div
                         className="ds-inspector-option-row"
                         role="group"
@@ -1462,6 +1464,7 @@ export function BattleSpriteLibrary(props: {
                         </DsPropertyGrid>
                       </DsInspectorSection>
                       <DsInspectorSection title="动作">
+                        {/* biome-ignore lint/a11y/useSemanticElements: Named command/menu group, not a form fieldset. */}
                         <div
                           className="ds-inspector-choice-list"
                           role="group"

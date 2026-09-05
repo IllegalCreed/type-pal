@@ -1,8 +1,8 @@
+import type { MotionCollision } from './entity-motion.js'
 import type {
   CoordinatedMotionSlot,
   MotionRuntimeCoordinator,
 } from './motion-runtime-coordinator.js'
-import type { MotionCollision } from './entity-motion.js'
 
 /**
  * Original PAL movement domains are deliberately different:

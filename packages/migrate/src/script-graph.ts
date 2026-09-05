@@ -109,15 +109,13 @@ export function extractPalSourceScriptEdges(commands: readonly SourceCmd[]): Scr
       if (cmd.advance) add(index, index + 1, 'recovery', 'end.advance')
       if (cmd.reset) {
         add(index, cmd.resetTo, 'recovery', 'end.reset')
-        if ((cmd.idleFrames ?? 0) > 0)
-          add(index, index + 1, 'recovery', 'end.reset-idle-advance')
+        if ((cmd.idleFrames ?? 0) > 0) add(index, index + 1, 'recovery', 'end.reset-idle-advance')
       }
       return
     }
     if (cmd.op === 'goto') {
       add(index, addressOf(cmd.to), 'execution', 'goto')
-      if ((cmd.frameDelay ?? 0) > 0)
-        add(index, index + 1, 'execution', 'goto-delay-expiry')
+      if ((cmd.frameDelay ?? 0) > 0) add(index, index + 1, 'execution', 'goto-delay-expiry')
       return
     }
     if (cmd.op !== 'raw' || cmd.opcode === undefined) {

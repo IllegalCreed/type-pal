@@ -18,12 +18,8 @@ describe('shared media preview zoom', () => {
   it('steps symmetrically and respects both boundaries', () => {
     expect(stepMediaPreviewZoom(1, 1)).toBe(1.25)
     expect(stepMediaPreviewZoom(1.25, -1)).toBe(1)
-    expect(stepMediaPreviewZoom(MEDIA_PREVIEW_MIN_ZOOM, -1)).toBe(
-      MEDIA_PREVIEW_MIN_ZOOM,
-    )
-    expect(stepMediaPreviewZoom(MEDIA_PREVIEW_MAX_ZOOM, 1)).toBe(
-      MEDIA_PREVIEW_MAX_ZOOM,
-    )
+    expect(stepMediaPreviewZoom(MEDIA_PREVIEW_MIN_ZOOM, -1)).toBe(MEDIA_PREVIEW_MIN_ZOOM)
+    expect(stepMediaPreviewZoom(MEDIA_PREVIEW_MAX_ZOOM, 1)).toBe(MEDIA_PREVIEW_MAX_ZOOM)
   })
 
   it('fits small and large media into the available viewport', () => {

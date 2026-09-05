@@ -2,6 +2,7 @@ import {
   Fragment,
   type KeyboardEvent,
   type ReactNode,
+  useCallback,
   useEffect,
   useId,
   useRef,
@@ -12,8 +13,8 @@ import {
   type IsometricBrushSize,
   MAX_ISOMETRIC_BRUSH_SIZE,
 } from '../core/isometric-brush.js'
-import { DsButton, DsMenuBar } from './design-system/index.js'
 import { DsFloatingLayer } from './design-system/floating-layer.js'
+import { DsButton, DsMenuBar } from './design-system/index.js'
 
 export type IsometricEditorTool =
   | 'pan'
@@ -69,6 +70,9 @@ function ToolOptionTray<T extends number>(props: {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const layerRef = useRef<HTMLDivElement>(null)
   const optionRefs = useRef(new Map<T, HTMLButtonElement>())
+  const focusOption = useCallback((value: T): void => {
+    requestAnimationFrame(() => optionRefs.current.get(value)?.focus())
+  }, [])
 
   useEffect(() => {
     if (props.disabled) setOpen(false)
@@ -76,11 +80,7 @@ function ToolOptionTray<T extends number>(props: {
 
   useEffect(() => {
     if (open) focusOption(props.value)
-  }, [open, props.value])
-
-  function focusOption(value: T): void {
-    requestAnimationFrame(() => optionRefs.current.get(value)?.focus())
-  }
+  }, [focusOption, open, props.value])
 
   function openTray(): void {
     if (props.disabled) return

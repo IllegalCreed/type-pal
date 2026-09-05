@@ -3,7 +3,7 @@
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { LayerStackControls, type LayerStackControlItem } from './LayerStackControls.js'
+import { type LayerStackControlItem, LayerStackControls } from './LayerStackControls.js'
 
 let host: HTMLDivElement
 let root: Root

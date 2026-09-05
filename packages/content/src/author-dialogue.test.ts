@@ -1,10 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { ActorDef } from './actor.js'
-import {
-  checkAuthorCommands,
-  resolveAuthorDialogueTree,
-} from './author-script.js'
 import { checkAuthorDialogueCue, resolveAuthorDialogueCue } from './author-dialogue.js'
+import { checkAuthorCommands, resolveAuthorDialogueTree } from './author-script.js'
 
 const actor: ActorDef = {
   id: 'actor.li',

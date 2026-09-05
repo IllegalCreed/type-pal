@@ -17,10 +17,7 @@ export function IsometricEditorSurface(props: {
   return (
     <section className={className}>
       <header className="toolbar map-toolbar">{props.toolbar}</header>
-      <div
-        ref={props.viewportRef}
-        className="viewport isometric-editor-surface__viewport"
-      >
+      <div ref={props.viewportRef} className="viewport isometric-editor-surface__viewport">
         {props.children}
         {props.overlay}
       </div>

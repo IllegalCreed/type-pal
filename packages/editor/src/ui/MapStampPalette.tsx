@@ -2,7 +2,7 @@ import type { AssetCatalogV1, StampTemplate } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
 import { memo, useMemo, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { DsButton, DsSelect, DsTextInput, DsPressable } from './design-system/index.js'
+import { DsButton, DsPressable, DsSelect, DsTextInput } from './design-system/index.js'
 import { StampMiniPreview } from './StampPreviewCanvas.js'
 
 const INITIAL_LIMIT = 60

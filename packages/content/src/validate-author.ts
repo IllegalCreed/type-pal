@@ -3,13 +3,13 @@ import type { AuthorEnemyDef } from './author-enemy.js'
 import type { AuthorItemData } from './author-item.js'
 import type { AuthorSceneDef } from './author-scene.js'
 import {
+  type AuthorScriptLibrary,
   assertAuthorDialogueReferences,
   authorCommandValidationOptions,
   checkAuthorScriptLibrary,
-  type AuthorScriptLibrary,
 } from './author-script.js'
+import { validateAuthorItemCore, validateEnemies } from './validate.js'
 import { validateRuntimeScenes } from './validate-runtime.js'
-import { validateEnemies, validateAuthorItemCore } from './validate.js'
 
 export function validateAuthorScenes(json: unknown): AuthorSceneDef[] {
   validateRuntimeScenes(json, authorCommandValidationOptions())

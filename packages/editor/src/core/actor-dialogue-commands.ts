@@ -1,7 +1,7 @@
 import { renameDialoguePortraitExpression } from '@type-pal/content'
-import type { EditorState } from './edit-session.js'
-import type { Command } from './commands.js'
 import { collectEditorDialoguePortraitReferences } from './actor-references.js'
+import type { Command } from './commands.js'
+import type { EditorState } from './edit-session.js'
 
 type DialogueStateSlice = Pick<
   EditorState,
@@ -59,8 +59,7 @@ export class RenameActorPortraitExpressionCommand implements Command {
     const actor = state.actors[actorIndex]
     if (!actor?.portraits?.expressions?.[this.from])
       throw new Error(`人物 ${this.actorId} 不存在表情“${this.from}”`)
-    if (actor.portraits.expressions[to])
-      throw new Error(`人物 ${this.actorId} 已存在表情“${to}”`)
+    if (actor.portraits.expressions[to]) throw new Error(`人物 ${this.actorId} 已存在表情“${to}”`)
     if (!this.previous) this.previous = capture(state)
 
     const expressions = { ...actor.portraits.expressions }
@@ -73,7 +72,7 @@ export class RenameActorPortraitExpressionCommand implements Command {
         : candidate,
     )
     let rewritten = 0
-    const rename = <T,>(value: T): T => {
+    const rename = <T>(value: T): T => {
       const result = renameDialoguePortraitExpression(value, this.actorId, this.from, to)
       rewritten += result.rewritten
       return result.value

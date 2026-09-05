@@ -1,18 +1,18 @@
 import type {
   ActiveBehaviorSlot,
   AuthorCondition,
+  BaseEntityBehavior,
+  BaseEntityPage,
+  BaseSceneDef,
+  BaseSceneEntity,
+  BaseSceneHook,
+  BaseScriptFlow,
   BehaviorId,
   CursorHandoff,
   EntityAddress,
-  BaseSceneEntity,
-  BaseEntityPage,
   FlowCursor,
   HookId,
-  BaseEntityBehavior,
-  BaseSceneHook,
   PageSelection,
-  BaseSceneDef,
-  BaseScriptFlow,
   Selection,
   TriggerActivation,
   WorldEntityBehaviorState,
@@ -201,8 +201,7 @@ export function resolveEntityBehavior(
   const behavior = behaviorRegistry(entity, channel)?.[behaviorId]
   if (!behavior) throw new Error(`entity ${entity.id}: ${channel} behavior 不存在 ${behaviorId}`)
   const saved = state?.[channel]?.cursor
-  const cursor =
-    saved?.behavior === behaviorId ? clone(saved.at) : initialFlowCursor(behavior.flow)
+  const cursor = saved?.behavior === behaviorId ? clone(saved.at) : initialFlowCursor(behavior.flow)
   assertFlowCursor(behavior.flow, cursor)
   return { behaviorId, behavior, cursor }
 }

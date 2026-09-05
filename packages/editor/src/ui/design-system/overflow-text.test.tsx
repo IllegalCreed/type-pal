@@ -72,8 +72,7 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
-  if (documentFontsDescriptor)
-    Object.defineProperty(document, 'fonts', documentFontsDescriptor)
+  if (documentFontsDescriptor) Object.defineProperty(document, 'fonts', documentFontsDescriptor)
   else Reflect.deleteProperty(document, 'fonts')
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
@@ -199,7 +198,11 @@ describe('DsOverflowText', () => {
     const source = await renderOverflowText('font-sensitive-value')
     metrics.set(source, { clientWidth: 100, scrollWidth: 150 })
 
-    await act(async () => listeners.forEach((listener) => listener(new Event('loadingdone'))))
+    await act(async () => {
+      listeners.forEach((listener) => {
+        listener(new Event('loadingdone'))
+      })
+    })
     expect(source.getAttribute('tabindex')).toBe('0')
     metrics.set(source, { clientWidth: 100, scrollWidth: 100 })
     await act(async () => {

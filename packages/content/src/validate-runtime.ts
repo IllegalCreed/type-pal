@@ -1,6 +1,6 @@
+import type { CommandValidationOptions } from './author-script-core.js'
 import type { RuntimeSceneDef } from './runtime-scene.js'
 import { checkRuntimeHostileBehavior } from './runtime-scene.js'
-import type { CommandValidationOptions } from './author-script-core.js'
 import {
   checkRuntimeEntityBehaviors,
   checkRuntimeEntityPages,

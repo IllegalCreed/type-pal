@@ -6,8 +6,8 @@ import {
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { withUiReviewSamples } from './ui-review-samples.js'
 import type { ScriptEditorState } from './script-editor.js'
+import { withUiReviewSamples } from './ui-review-samples.js'
 import { collectWorldVariableReferencesV1 } from './world-variable-references.js'
 
 function scene(): AuthorSceneDef {

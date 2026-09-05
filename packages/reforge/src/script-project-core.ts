@@ -1,10 +1,10 @@
 import type {
   BaseAuthorCommand,
-  EntityAddress,
-  BaseSceneEntity,
-  GridPos,
   BaseSceneDef,
+  BaseSceneEntity,
   BaseScriptLibrary,
+  EntityAddress,
+  GridPos,
   WorldScriptState,
 } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
@@ -13,17 +13,17 @@ import {
   withScriptActivityLineage,
 } from './script-activity-lineage.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
-import { compileBaseScriptFlow, BaseSharedScriptResolver } from './script-compiler-core.js'
-import type { ScriptRuntimeContext, BaseScriptRuntimeHost } from './script-runner-core.js'
+import { BaseSharedScriptResolver, compileBaseScriptFlow } from './script-compiler-core.js'
+import type { BaseScriptRuntimeHost, ScriptRuntimeContext } from './script-runner-core.js'
 import { ScriptRunnerCore } from './script-runner-core.js'
 import {
   evalAuthorCondition,
   FlowRuntimeCoordinator,
   resolveEntityBehavior,
   resolveSceneHook,
-  selectEntityBehavior,
   selectBaseEntityPage,
   selectBaseSceneHooks,
+  selectEntityBehavior,
   setEntityTriggerActivation,
 } from './script-world.js'
 

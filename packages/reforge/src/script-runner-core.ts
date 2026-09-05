@@ -1,22 +1,22 @@
 import type {
   AuthorCondition,
+  BaseStateTransition,
   EntityAddress,
   FlowCursor,
   SceneReveal,
-  BaseStateTransition,
 } from '@type-pal/content'
+import type { BattleResult } from './battle/battle-result.js'
 import {
-  type ExecutableCommandBoundary,
-  type ExecutableBaseCommand,
-  type ExecutableCommandLike,
-  type ExecutableBaseScriptFlowLike,
-  type ExecutableSharedScriptLike,
   type BaseRuntimeLeafCommand,
+  type ExecutableBaseCommand,
+  type ExecutableBaseScriptFlowLike,
+  type ExecutableCommandBoundary,
+  type ExecutableCommandLike,
+  type ExecutableSharedScriptLike,
   SCRIPT_COMPILER_VERSION,
   type ScriptBoundaryPolicy,
   type ScriptTiming,
 } from './script-compiler-core.js'
-import type { BattleResult } from './battle/battle-result.js'
 
 type BattleRequest = Extract<ExecutableBaseCommand, { kind: 'startBattle' }>['request']
 
@@ -412,7 +412,9 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
   ): Promise<void> {
     if (!this.resolver) throw new Error(`ScriptRunnerCore: 无 resolver，无法解析 ${command.script}`)
     if (this.callDepth >= ScriptRunnerCore.MAX_CALL_DEPTH)
-      throw new Error(`ScriptRunnerCore: callScript 调用深度超过 ${ScriptRunnerCore.MAX_CALL_DEPTH}`)
+      throw new Error(
+        `ScriptRunnerCore: callScript 调用深度超过 ${ScriptRunnerCore.MAX_CALL_DEPTH}`,
+      )
     const script = await this.resolver.resolve(
       command.script,
       this.runningTiming,

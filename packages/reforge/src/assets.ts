@@ -9,9 +9,9 @@ import {
   type BattleSpriteDef,
   type BattleSpriteProfileKind,
   battleSpriteDefinitionFrameIndices,
-  palMagicEffectSpriteAssetId,
   PAL_PHYSICAL_EFFECT_ASSET_ID,
   type ProjectMap,
+  palMagicEffectSpriteAssetId,
   validateProjectMap,
 } from '@type-pal/content'
 import {

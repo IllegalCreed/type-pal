@@ -96,8 +96,9 @@ describe('A7-1 SoundTab WAV 导入', () => {
       expect(host.querySelectorAll('.ds-virtual-list__item')).toHaveLength(0)
       await setCatalogSearch(search!, '')
       expect(host.querySelectorAll('.ds-virtual-list__item')).toHaveLength(2)
-      expect(host.querySelector('.ds-catalog-row[data-selected] .ds-catalog-row__title')?.textContent)
-        .toBe('命中音效')
+      expect(
+        host.querySelector('.ds-catalog-row[data-selected] .ds-catalog-row__title')?.textContent,
+      ).toBe('命中音效')
     } finally {
       await act(async () => root.unmount())
       host.remove()

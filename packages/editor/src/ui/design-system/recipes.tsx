@@ -235,14 +235,17 @@ export const DsCatalogRow = forwardRef<
     className,
     ...buttonProps
   } = props
+  const selectionSemantics =
+    buttonProps.role === 'option'
+      ? { 'aria-selected': selected, 'aria-pressed': undefined }
+      : { 'aria-pressed': selected, 'aria-selected': undefined }
   return (
     <button
       type="button"
       {...buttonProps}
       ref={ref}
       className={dsClasses('ds-catalog-row', `ds-catalog-row--${level}`, className)}
-      aria-pressed={buttonProps.role === 'option' ? undefined : selected}
-      aria-selected={buttonProps.role === 'option' ? selected : undefined}
+      {...selectionSemantics}
       data-selected={selected || undefined}
       data-level={level}
       data-density={density}
@@ -1178,6 +1181,7 @@ export function DsInspectorTabs(props: {
               className="ds-inspector-tabs__panel"
               role="tabpanel"
               aria-labelledby={`${props.id}-tab-${item.id}`}
+              // biome-ignore lint/a11y/noNoninteractiveTabindex: APG tab panels are keyboard entry points; hidden panels are excluded by the hidden attribute.
               tabIndex={0}
               hidden={item.id !== props.activeId}
               data-ds-scroll-owner={item.id === props.activeId ? 'inspector' : undefined}

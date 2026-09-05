@@ -271,9 +271,9 @@ describe('AudioAssetWorkbench timeline completion', () => {
         />,
       ),
     )
-    const deleteButton = [...host.querySelectorAll<HTMLButtonElement>('.ds-object-hero button')].find(
-      (candidate) => candidate.textContent?.trim() === '删除',
-    )!
+    const deleteButton = [
+      ...host.querySelectorAll<HTMLButtonElement>('.ds-object-hero button'),
+    ].find((candidate) => candidate.textContent?.trim() === '删除')!
     await act(async () => deleteButton.click())
     const dialog = host.querySelector<HTMLDialogElement>('dialog[aria-label="删除音效"]')!
     const confirm = [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(

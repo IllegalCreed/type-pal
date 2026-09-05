@@ -48,7 +48,9 @@
 canonical 版本。
 
 统一工程引用边、删除保护、场景与商店生命周期均已完成，并通过技术终审和产品验收。
-第一、第二阶段五批首轮只读代码审计已收口，发现与修复建议见[审计总报告](docs/ops/audits/pre-e2e/summary.md)；修复尚未开始。
+第一、第二阶段五批首轮只读代码审计已收口，发现与修复建议见[审计总报告](docs/ops/audits/pre-e2e/summary.md)。
+首批 [E-06 质量门禁修复](docs/ops/audits/pre-e2e/quality-gate-remediation.md)已完成，全仓 `pnpm check` 通过；
+其余业务缺陷尚待逐批修复，不代表审计问题已全部解决。
 Vitest/V8 全生产源码覆盖率基线与只升不降门禁已经建立，fast/full 口径和当前数字见
 [`docs/testing/coverage.md`](docs/testing/coverage.md)；覆盖率不替代业务断言与 E2E。
 文档审计整改及自动检查见 [`DOC-GOV-1`](docs/ops/archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)；

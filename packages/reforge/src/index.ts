@@ -88,9 +88,6 @@ import type { SceneMapAssets } from './scene-map.js'
 // 场景地图解析(ProjectMap + tileset 注册表;引擎 + 编辑器共用)
 import { loadSceneMap } from './scene-map.js'
 
-export type { SceneMapAssets }
-export { loadSceneMap }
-
 export type {
   IsometricMapContent,
   IsometricMapLayer,
@@ -116,6 +113,7 @@ export type { Palette, RleFrame } from '@type-pal/shared'
 // RLE 编码/解析转出口(W7B 上传管线;编辑器不直依赖 shared)
 export { encodeSpriteChunk, parseSpriteChunk, parseSpriteChunkStrict } from '@type-pal/shared'
 export { AssetResolver } from './asset-resolver.js'
+export { tilesFromChunkBytes } from './assets.js'
 export {
   analyzeMidiBytes,
   createBrowserMidiPreviewRuntime,
@@ -127,7 +125,6 @@ export {
   type MidiPreviewSnapshot,
   type MidiPreviewTransport,
 } from './audio/midi-preview.js'
-export { tilesFromChunkBytes } from './assets.js'
 export {
   type BattleResult,
   battleResultHasVictoryRewards,
@@ -157,13 +154,6 @@ export {
 // 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)
 export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
-export {
-  isRuntimeScriptRef,
-  projectItemsView,
-  runtimeProjectView,
-  baseSceneView,
-  runtimeScriptRef,
-} from './runtime-project-view.js'
 export type {
   CurrentAuthorContent,
   CurrentContentJsons,
@@ -213,6 +203,16 @@ export {
 } from './project-map.js'
 // 上传素材量化 + 图集网格切片(W7B;编码器在 shared rle-encode)
 export { quantizeToRleFrame, sliceAtlasGrid } from './quantize.js'
+export {
+  baseSceneView,
+  isRuntimeScriptRef,
+  projectItemsView,
+  runtimeProjectView,
+  runtimeScriptRef,
+} from './runtime-project-view.js'
+export type { SceneMapAssets }
+export { loadSceneMap }
+
 // 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移)
 import { buildIsBlocked, isBlockedAt, sameGrid, sameLatticeCell } from './collision.js'
 
@@ -223,13 +223,13 @@ import { bootGame } from './main.js'
 import type { RenderSceneFrameArgs } from './render-scene.js'
 import { renderSceneFrame } from './render-scene.js'
 
+export {
+  type AmbienceTint,
+  compositeAmbienceTint,
+} from './ambience-compositor.js'
 export type { RenderSceneFrameArgs }
 // 引擎启动函数(编辑器 play 页同源试玩;页面须备 <canvas id="screen">)
 export { bootGame, renderSceneFrame }
-export {
-  compositeAmbienceTint,
-  type AmbienceTint,
-} from './ambience-compositor.js'
 
 // 精灵帧下标计算(C0 布局数据化;editor 画布/角色模式走路预览共用,单一真源)
 import {
@@ -255,15 +255,15 @@ import type { ScriptHost, StepEvent } from './script-runner.js'
 import { evalCondition, ScriptRunner } from './script-runner.js'
 
 export * from './item-use-executor.js'
+export * from './runtime-script-compiler.js'
+export * from './runtime-script-project.js'
+export * from './runtime-script-runner.js'
 export type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 export { MemoryScriptResolver, ScriptChunkStore } from './script-chunk-store.js'
 export * from './script-compiler-core.js'
-export * from './runtime-script-compiler.js'
 export * from './script-host-adapter.js'
 export * from './script-project-core.js'
-export * from './runtime-script-project.js'
 export * from './script-runner-core.js'
-export * from './runtime-script-runner.js'
 export * from './script-world.js'
 export type { ScriptHost, StepEvent }
 export { evalCondition, ScriptRunner }

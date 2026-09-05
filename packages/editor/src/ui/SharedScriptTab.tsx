@@ -1,23 +1,18 @@
 import type { AuthorScriptLibrary, MapIndexV1 } from '@type-pal/content'
 import type { ProjectMap, TilesetDef } from '@type-pal/reforge'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
-import {
-  AddSharedScriptCommand,
-  DeleteSharedScriptCommand,
-  type ScriptEditorState,
-  type ScriptEditSession,
-  UpdateSharedScriptCommand,
-  UpdateSharedScriptMetadataCommand,
-  type CurrentScriptProjectReferenceIndexProvider,
-  type SharedScriptMetadataPatch,
-} from '../core/script-editor.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
-  CanonicalScriptBodyEditor,
-  CanonicalScriptDialog,
-  type CanonicalScriptEditorContext,
-} from './ScriptEditor.js'
+  AddSharedScriptCommand,
+  type CurrentScriptProjectReferenceIndexProvider,
+  DeleteSharedScriptCommand,
+  type ScriptEditorState,
+  type ScriptEditSession,
+  type SharedScriptMetadataPatch,
+  UpdateSharedScriptCommand,
+  UpdateSharedScriptMetadataCommand,
+} from '../core/script-editor.js'
 import {
   DsButton,
   DsCatalogControls,
@@ -37,6 +32,11 @@ import {
   DsTag,
   DsTextInput,
 } from './design-system/index.js'
+import {
+  CanonicalScriptBodyEditor,
+  CanonicalScriptDialog,
+  type CanonicalScriptEditorContext,
+} from './ScriptEditor.js'
 
 type AuthorSharedScript = AuthorScriptLibrary[string]
 
@@ -97,8 +97,7 @@ export function CanonicalSharedScriptTab(props: {
   const createScriptIdInputRef = useRef<HTMLInputElement>(null)
   const createWasOpenRef = useRef(false)
   const selected = props.state.sharedScripts[selectedId]
-  const referenceReady =
-    props.referenceStatus === 'current' && props.referenceIndex !== undefined
+  const referenceReady = props.referenceStatus === 'current' && props.referenceIndex !== undefined
   const selectedReferences = (() => {
     if (!selected || !props.referenceIndex) return []
     const target = { kind: 'shared-script' as const, id: selectedId }
@@ -249,19 +248,19 @@ export function CanonicalSharedScriptTab(props: {
           </>
         }
       >
-          {shown.map((id) => {
-            const script = props.state.sharedScripts[id]!
-            return (
-              <DsCatalogRow
-                key={id}
-                selected={id === selectedId}
-                title={script.name}
-                meta={<code>{id}</code>}
-                onClick={() => select(id)}
-              />
-            )
-          })}
-          {!shown.length ? <div className="insp-empty">没有匹配的可复用脚本</div> : null}
+        {shown.map((id) => {
+          const script = props.state.sharedScripts[id]!
+          return (
+            <DsCatalogRow
+              key={id}
+              selected={id === selectedId}
+              title={script.name}
+              meta={<code>{id}</code>}
+              onClick={() => select(id)}
+            />
+          )
+        })}
+        {!shown.length ? <div className="insp-empty">没有匹配的可复用脚本</div> : null}
       </DsCatalogWorkspace>
 
       <DsObjectWorkspace
@@ -383,9 +382,7 @@ export function CanonicalSharedScriptTab(props: {
               stable ScriptId 创建后保持不变；调用方只保存这个 id，显示名可随时修改。
             </p>
             <DsReferencePanel
-              state={
-                !referenceReady ? 'loading' : selectedReferences.length ? 'ready' : 'empty'
-              }
+              state={!referenceReady ? 'loading' : selectedReferences.length ? 'ready' : 'empty'}
               count={
                 referenceReady
                   ? { kind: 'exact', value: selectedReferences.length }

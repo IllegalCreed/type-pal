@@ -39,10 +39,7 @@ describe('PAL defeated event coverage', () => {
         allNodes(presentation.nodes).every((node) => !node.invalid),
       ),
     ).toBe(true)
-    expect(teams.find((team) => team.id === 'team-4')?.slots).toEqual([
-      'enemy-403',
-      'enemy-403',
-    ])
+    expect(teams.find((team) => team.id === 'team-4')?.slots).toEqual(['enemy-403', 'enemy-403'])
     expect(
       presentEnemyDefeatedEvents(
         enemies.find((enemy) => enemy.id === 'enemy-403').onDefeated,

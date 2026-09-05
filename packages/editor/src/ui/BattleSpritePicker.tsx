@@ -1,5 +1,6 @@
 import type { BattleSpriteDef, BattleSpriteProfileKind } from '@type-pal/content'
 import { memo, useMemo } from 'react'
+import { battleSpriteProfileSummary } from './battle-sprite-action-preview.js'
 import {
   DsButton,
   DsControlGroup,
@@ -7,7 +8,6 @@ import {
   DsIconButton,
   DsSelect,
 } from './design-system/controls.js'
-import { battleSpriteProfileSummary } from './battle-sprite-action-preview.js'
 
 function BattleSpritePickerImpl(props: {
   id?: string
@@ -33,9 +33,7 @@ function BattleSpritePickerImpl(props: {
   const incompatible = !!selected && selected.profile.kind !== props.kind
   const options = useMemo(
     () => [
-      ...(props.allowUnset
-        ? [{ value: '', label: props.unsetLabel ?? '（不改战斗形象）' }]
-        : []),
+      ...(props.allowUnset ? [{ value: '', label: props.unsetLabel ?? '（不改战斗形象）' }] : []),
       ...(missing && props.value
         ? [
             {

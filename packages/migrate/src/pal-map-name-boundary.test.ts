@@ -39,9 +39,7 @@ const packageNames = readdirSync(packagesDir).filter((packageName) => {
   const root = join(packagesDir, packageName)
   return statSync(root).isDirectory() && existsSync(join(root, 'package.json'))
 })
-const packageSources = packageNames.flatMap((packageName) =>
-  files(join(packagesDir, packageName)),
-)
+const packageSources = packageNames.flatMap((packageName) => files(join(packagesDir, packageName)))
 type Manifest = {
   dependencies?: Record<string, string>
   devDependencies?: Record<string, string>

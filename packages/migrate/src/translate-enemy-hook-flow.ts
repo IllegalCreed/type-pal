@@ -15,7 +15,7 @@ import {
 } from './legacy-dialog.js'
 import { resolveSoundAsset } from './sound-migration.js'
 import type { SourceCmd } from './source-facts.js'
-import { roleSlugForNameWord, ROLE_SLUGS, signExtendI16 } from './source-facts.js'
+import { ROLE_SLUGS, roleSlugForNameWord, signExtendI16 } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
 
 const ENEMY_SPEAKER_RE = /[∶:：]\s*$/

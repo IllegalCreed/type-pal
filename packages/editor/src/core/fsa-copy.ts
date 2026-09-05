@@ -3,17 +3,17 @@
  * 既有素材不在编辑器 state,另存即丢)。另存为 = 先整树拷贝源目录,再覆写内容文件。
  */
 
+import { isWorkspaceIdentityPath } from './workspace-context.js'
 /** src 全部文件/子目录递归拷进 dst(同名覆盖,他文件保留)。返回拷贝文件数。 */
 import {
   type AuthorizedWorkspaceInput,
   type AuthorizedWorkspaceMutation,
-  WORKSPACE_IDENTITY_COPY_EXCLUDES,
   authorizedDirectory,
   beginAuthorizedWorkspaceMutation,
   recordAuthorizedWorkspaceWriteCompleted,
+  WORKSPACE_IDENTITY_COPY_EXCLUDES,
   withAuthorizedWorkspaceMutation,
 } from './workspace-persistence.js'
-import { isWorkspaceIdentityPath } from './workspace-context.js'
 
 interface SourceCopySnapshot {
   directories: string[]
@@ -39,12 +39,7 @@ async function collectDirectoryContents(
       snapshot.files.push({ path: rel, file })
     } else {
       snapshot.directories.push(rel)
-      await collectDirectoryContents(
-        handle as FileSystemDirectoryHandle,
-        rel,
-        excludes,
-        snapshot,
-      )
+      await collectDirectoryContents(handle as FileSystemDirectoryHandle, rel, excludes, snapshot)
     }
   }
 }
@@ -86,10 +81,7 @@ export async function copyDirRecursive(
   target: AuthorizedWorkspaceInput,
   opts: { excludePaths?: readonly string[] } = {},
 ): Promise<number> {
-  const excludes = new Set([
-    ...WORKSPACE_IDENTITY_COPY_EXCLUDES,
-    ...(opts.excludePaths ?? []),
-  ])
+  const excludes = new Set([...WORKSPACE_IDENTITY_COPY_EXCLUDES, ...(opts.excludePaths ?? [])])
   return withAuthorizedWorkspaceMutation(target, async (mutation) => {
     const snapshot: SourceCopySnapshot = { directories: [], files: [] }
     await collectDirectoryContents(src, '', excludes, snapshot)

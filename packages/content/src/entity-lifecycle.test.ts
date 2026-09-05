@@ -62,12 +62,8 @@ describe('entity lifecycle table', () => {
   test('rejects unknown scene and entity references without mutating the input', () => {
     const unknownScene = { s999: { e001: { phase: 'removed' as const } } }
     const unknownEntity = { s001: { e999: { phase: 'removed' as const } } }
-    expect(() => normalizeEntityLifecycleTable(unknownScene, references)).toThrow(
-      /未知 scene id/,
-    )
-    expect(() => normalizeEntityLifecycleTable(unknownEntity, references)).toThrow(
-      /未知 entity id/,
-    )
+    expect(() => normalizeEntityLifecycleTable(unknownScene, references)).toThrow(/未知 scene id/)
+    expect(() => normalizeEntityLifecycleTable(unknownEntity, references)).toThrow(/未知 entity id/)
 
     const source = { s001: { e001: { phase: 'removed' as const } } }
     const normalized = normalizeEntityLifecycleTable(source, references)

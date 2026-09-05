@@ -1,14 +1,8 @@
-import type {
-  AssetId,
-  CharacterInstance,
-  Facing,
-  GridPos,
-  WorldState,
-} from '@type-pal/content'
+import type { AssetId, CharacterInstance, Facing, GridPos, WorldState } from '@type-pal/content'
 import { CONTENT_VERSION } from '@type-pal/content'
 import {
-  SAVE_VERSION,
   type CurrentSavePayload,
+  SAVE_VERSION,
   type SaveMeta,
   type SlotId,
   slotKind,

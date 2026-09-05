@@ -164,12 +164,7 @@ export type DsOverflowTextProps = Omit<
  * Do not use this for command labels or large catalog rows.
  */
 export function DsOverflowText(props: DsOverflowTextProps) {
-  const {
-    as: Element = 'span',
-    children,
-    className,
-    ...elementProps
-  } = props
+  const { as: Element = 'span', children, className, ...elementProps } = props
   const tooltipId = useId()
   const anchorRef = useRef<HTMLElement>(null)
   const layerRef = useRef<HTMLDivElement>(null)
@@ -188,6 +183,7 @@ export function DsOverflowText(props: DsOverflowTextProps) {
     setClipped(next)
   }, [])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a tag change replaces the observed DOM node even though access is through a stable ref.
   useLayoutEffect(() => {
     const node = anchorRef.current
     if (!node) return
@@ -211,6 +207,7 @@ export function DsOverflowText(props: DsOverflowTextProps) {
     }
   }, [Element, measure])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: new text must be measured even if the element's outer box does not resize.
   useLayoutEffect(() => {
     measure()
   }, [children, measure])
@@ -1947,6 +1944,12 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
   const displayLabel =
     selected?.label ?? (value === '' ? placeholder || '请选择' : `${value}（缺失）`)
   const description = selected?.description
+  // Keep active-descendant semantics on the element that currently owns combobox focus.
+  const triggerSemantics = {
+    role: hasSearch && open ? undefined : ('combobox' as const),
+    'aria-activedescendant': !hasSearch && open ? activeOptionId : undefined,
+    'aria-required': required || undefined,
+  }
 
   return (
     <>
@@ -1955,7 +1958,7 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
         ref={setTriggerNode}
         id={controlId}
         type="button"
-        role={hasSearch && open ? undefined : 'combobox'}
+        {...triggerSemantics}
         className={classes(
           'ds-select',
           size === 'compact' && 'ds-select--compact',
@@ -1965,9 +1968,7 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listboxId}
-        aria-activedescendant={!hasSearch && open ? activeOptionId : undefined}
         aria-invalid={invalid || undefined}
-        aria-required={required || undefined}
         data-missing={missing || undefined}
         onClick={(event) => {
           onClick?.(event)
@@ -2110,6 +2111,7 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
                   const selectedOption = option.value === value
                   const activeOption = option.value === activeValue
                   return (
+                    // biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/useFocusableInteractive: APG active-descendant focus stays on the combobox/listbox; the owner handles keyboard selection for every option.
                     <div
                       key={`${option.value}-${sourceIndex}`}
                       id={optionId}

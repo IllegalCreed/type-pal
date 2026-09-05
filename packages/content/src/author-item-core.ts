@@ -1,6 +1,6 @@
+import type { ScriptId } from './author-script-core.js'
 import type { ItemData, ItemUseContext, ItemUseEffect, ThrowSpec, UseSpec } from './item.js'
 import { ITEM_USE_EFFECT_KINDS, itemUseEffectSupportsContext } from './item.js'
-import type { ScriptId } from './author-script-core.js'
 import type { RuntimeCommand } from './runtime-script.js'
 
 export interface ItemPrivateScript {
@@ -42,7 +42,10 @@ export function authorItemUseEffectSupportsContext(
   return itemUseEffectSupportsContext(effect, context)
 }
 
-export function authorItemUseSupportsContext(use: AuthorItemUseSpec, context: ItemUseContext): boolean {
+export function authorItemUseSupportsContext(
+  use: AuthorItemUseSpec,
+  context: ItemUseContext,
+): boolean {
   if (context === 'world' && use.battleOnly) return false
   return (
     use.effects.length > 0 &&

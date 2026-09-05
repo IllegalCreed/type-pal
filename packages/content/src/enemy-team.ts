@@ -19,8 +19,7 @@ export function validateEnemyTeamStructure(value: unknown): EnemyTeamDef[] {
     const path = `enemyTeams[${index}]`
     const team = record(raw, path)
     exactKeys(team, ['id', 'slots'], path)
-    if (typeof team.id !== 'string' || !team.id)
-      throw new Error(`${path}.id: 期望非空 string`)
+    if (typeof team.id !== 'string' || !team.id) throw new Error(`${path}.id: 期望非空 string`)
     if (seen.has(team.id)) throw new Error(`${path}.id: 重复敌队 id "${team.id}"`)
     seen.add(team.id)
     if (!Array.isArray(team.slots)) throw new Error(`${path}.slots: 期望数组`)
@@ -47,10 +46,7 @@ export function validateEnemyTeamReferences(
   })
 }
 
-export function validateEnemyTeams(
-  value: unknown,
-  enemyIds?: ReadonlySet<string>,
-): EnemyTeamDef[] {
+export function validateEnemyTeams(value: unknown, enemyIds?: ReadonlySet<string>): EnemyTeamDef[] {
   const teams = validateEnemyTeamStructure(value)
   if (enemyIds) validateEnemyTeamReferences(teams, enemyIds)
   return teams

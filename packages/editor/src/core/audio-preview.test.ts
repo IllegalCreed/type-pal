@@ -107,9 +107,9 @@ describe('WAV preview transport', () => {
     expect(backend.decode).toHaveBeenCalledOnce()
 
     const cached = { ...peaks, minimums: [-0.25], maximums: [0.25] }
-    await expect(
-      transport.load('sound.test', 'project\0sound.test\0sha-b', cached),
-    ).resolves.toBe(cached)
+    await expect(transport.load('sound.test', 'project\0sound.test\0sha-b', cached)).resolves.toBe(
+      cached,
+    )
     expect(reader.readBytes).toHaveBeenCalledTimes(2)
     expect(backend.decode).toHaveBeenCalledTimes(2)
   })

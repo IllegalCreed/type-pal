@@ -1,19 +1,15 @@
-import {
-  type AssetCatalogV1,
-  type AssetId,
-  type AssetRecordV1,
-} from '@type-pal/content'
+import { type AssetCatalogV1, type AssetId, type AssetRecordV1 } from '@type-pal/content'
 import { createMidiPreviewTransport } from '@type-pal/reforge'
-import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
+import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
-  asAudioWorkbenchTransport,
   AudioAssetWorkbench,
   type AudioAssetWorkbenchStrategy,
+  asAudioWorkbenchTransport,
 } from './AudioAssetWorkbench.js'
 
 async function sha256Hex(bytes: ArrayBuffer): Promise<string> {

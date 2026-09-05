@@ -83,9 +83,9 @@ import {
   reviveBattlePlayer,
   stepBattle,
 } from './battle-core.js'
-import type { BattleResult } from './battle-result.js'
 import type { BattleFailureFeedback, BattleLastAction } from './battle-last-action.js'
 import { getPlayerBasePos } from './battle-positions.js'
+import type { BattleResult } from './battle-result.js'
 import {
   type BattleMenuRow,
   drawBattleGrid,
@@ -158,9 +158,7 @@ type UiPhase =
  * 正常 SFX readiness 是一条内部异步屏障，保持当前战场帧即可，不应向玩家闪现技术文案。
  * 只有 fail-loud 错误态才显示可操作提示。
  */
-export function battleReadinessOverlayText(
-  phase: 'preparing' | 'readinessError',
-): string | null {
+export function battleReadinessOverlayText(phase: 'preparing' | 'readinessError'): string | null {
   return phase === 'readinessError' ? '音效工作集错误' : null
 }
 
@@ -2376,7 +2374,8 @@ export class BattleSession {
     const feedback = this.pendingFailureFeedback
     this.pendingFailureFeedback = null
     if (!feedback) return
-    const text = feedback === 'statusIneffective' ? '攻击无效' : assertNever(feedback, '战斗失败反馈')
+    const text =
+      feedback === 'statusIneffective' ? '攻击无效' : assertNever(feedback, '战斗失败反馈')
     const box = this.assets.dialogBox
     if (box) {
       box.open(
@@ -2907,13 +2906,11 @@ export class BattleSession {
     if (!dialogActive && readinessOverlayText) {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.72)'
       ctx.fillRect(48, 76, 224, 58)
-      renderSpans(
-        ctx,
-        [{ text: readinessOverlayText }],
-        104,
-        88,
-        { glyphs: g, shadow: true, forceRgba: [255, 255, 255] },
-      )
+      renderSpans(ctx, [{ text: readinessOverlayText }], 104, 88, {
+        glyphs: g,
+        shadow: true,
+        forceRgba: [255, 255, 255],
+      })
       renderSpans(ctx, [{ text: '按 Enter 或 Esc 返回' }], 80, 109, {
         glyphs: g,
         shadow: true,

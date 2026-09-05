@@ -1,7 +1,4 @@
-import type {
-  EntityLifecycleEntry,
-  EntityLifecycleTable,
-} from '@type-pal/content'
+import type { EntityLifecycleEntry, EntityLifecycleTable } from '@type-pal/content'
 
 export type LifecycleTriggerKind = 'manual' | 'touch'
 
@@ -37,9 +34,10 @@ export function deriveEntityLifecycleGates(input: EntityLifecycleGateInput): Ent
   // An explicit entityState is a persisted script override of the static definition (the
   // historical setEntityState command can reveal an initially hidden anchor). Only when the
   // override is absent do we consult the pristine static flags. Lifecycle then gates the result.
-  const hasState = input.entityState !== undefined
-  const visibleByStatic = hasState ? input.entityState! > 0 : input.staticHidden !== true
-  const collidableByStatic = hasState ? input.entityState! >= 2 : input.staticCollide === true
+  const entityState = input.entityState
+  const visibleByStatic = entityState !== undefined ? entityState > 0 : input.staticHidden !== true
+  const collidableByStatic =
+    entityState !== undefined ? entityState >= 2 : input.staticCollide === true
   const phase = lifecyclePhase(input.lifecycle)
   const hiddenLifecycle = phase === 'despawned' || phase === 'awaitingExit' || phase === 'removed'
   const suspended = phase === 'suspended'
@@ -48,8 +46,7 @@ export function deriveEntityLifecycleGates(input: EntityLifecycleGateInput): Ent
   return {
     visible,
     collidable,
-    manualInteractable:
-      visible && input.hasTrigger === true && input.triggerKind === 'manual',
+    manualInteractable: visible && input.hasTrigger === true && input.triggerKind === 'manual',
     touchTriggerable:
       visible && !suspended && input.hasTrigger === true && input.triggerKind === 'touch',
     autoAllowed: visible && !suspended && input.hasAuto === true,
@@ -85,7 +82,9 @@ export function applyEntityLifecycleMutation(
   const next = cloneTable(table)
   if (!mutation.scene || !mutation.entity)
     throw new Error('lifecycle mutation: scene/entity 不得为空')
-  const entities = (next[mutation.scene] ??= {})
+  const scene = mutation.scene
+  next[scene] ??= {}
+  const entities = next[scene]
   switch (mutation.kind) {
     case 'suspendEntity':
       assertPositiveTicks(mutation.ticks)
@@ -119,7 +118,8 @@ export function tickEntityLifecycles(
   const current = table[context.currentScene]
   if (!current) return { table, changed: false }
   const next = cloneTable(table)
-  const entities = next[context.currentScene]!
+  // current was checked above; cloneTable copies every scene and entry without dropping keys.
+  const entities = next[context.currentScene] as typeof current
   let changed = false
   for (const [entity, entry] of Object.entries(entities)) {
     if (entry.phase !== 'suspended' && entry.phase !== 'despawned') continue
@@ -178,8 +178,7 @@ export function advanceEntityLifecycleWorldStep(
   table: EntityLifecycleTable,
   context: EntityLifecycleWorldStepContext,
 ): EntityLifecycleWorldStepResult {
-  if (!context.eligible)
-    return { table, changed: false, reappearedEntities: [] }
+  if (!context.eligible) return { table, changed: false, reappearedEntities: [] }
 
   const awaitingBefore = Object.entries(table[context.currentScene] ?? {})
     .filter(([, entry]) => entry.phase === 'awaitingExit')

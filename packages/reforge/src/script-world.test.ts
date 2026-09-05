@@ -1,21 +1,21 @@
 import {
+  type BaseSceneDef,
+  type BaseSceneEntity,
   type CursorHandoff,
   type EntityAddress,
-  type BaseSceneEntity,
   emptyWorldScriptState,
   type FlowCursor,
-  type BaseSceneDef,
 } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import {
   evalAuthorCondition,
   FlowRuntimeCoordinator,
-  resolveEntityBehavior,
   resolveBaseEntityPage,
+  resolveEntityBehavior,
   resolveSceneHook,
-  selectEntityBehavior,
   selectBaseEntityPage,
   selectBaseSceneHooks,
+  selectEntityBehavior,
   setEntityTriggerActivation,
 } from './script-world.js'
 
@@ -684,9 +684,7 @@ describe('canonical script world authority', () => {
       facingEntity: vi.fn(() => true),
     }
 
-    expect(evalAuthorCondition({ kind: 'entityState', target, is: 2 }, { world, query })).toBe(
-      true,
-    )
+    expect(evalAuthorCondition({ kind: 'entityState', target, is: 2 }, { world, query })).toBe(true)
     expect(
       evalAuthorCondition(
         {

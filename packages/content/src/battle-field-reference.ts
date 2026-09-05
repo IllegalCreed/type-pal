@@ -32,7 +32,9 @@ export function collectBattleFieldTaggedReferences(
   const references: BattleFieldTaggedReference[] = []
   const visit = (node: unknown, path: string): void => {
     if (Array.isArray(node)) {
-      node.forEach((entry, index) => visit(entry, `${path}[${index}]`))
+      node.forEach((entry, index) => {
+        visit(entry, `${path}[${index}]`)
+      })
       return
     }
     if (!node || typeof node !== 'object') return

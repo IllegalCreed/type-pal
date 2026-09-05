@@ -11,9 +11,9 @@ import type { AssetBase, ProjectMap } from '@type-pal/reforge'
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import { activePageTriggerActivation } from '../core/entity-placement.js'
 import { Playback } from '../core/playback.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type {
   CanonicalScriptReference,
   SceneHookSlot,

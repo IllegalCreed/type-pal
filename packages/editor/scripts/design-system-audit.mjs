@@ -89,14 +89,14 @@ function effectKindConstant(source, constantName, property) {
     new RegExp(`const\\s+${constantName}\\s*:[^=]+?=\\s*\\[([\\s\\S]*?)\\n\\]`),
   )
   if (!match) return undefined
-  return [...match[1].matchAll(new RegExp(`\\b${property}\\s*:\\s*['\"]([^'\"]+)['\"]`, 'g'))]
-    .map((entry) => entry[1])
+  return [...match[1].matchAll(new RegExp(`\\b${property}\\s*:\\s*['\"]([^'\"]+)['\"]`, 'g'))].map(
+    (entry) => entry[1],
+  )
 }
 
 function effectKindsForFamily(id, source) {
   if (id === 'item/use-effects') return effectKindConstant(source, 'EFFECT_KINDS', 'value')
-  if (id === 'item/throw-effects')
-    return effectKindConstant(source, 'THROW_EFFECT_KINDS', 'value')
+  if (id === 'item/throw-effects') return effectKindConstant(source, 'THROW_EFFECT_KINDS', 'value')
   if (id === 'item/equipment-effects') return effectKindConstant(source, 'EFFECT_KINDS', 'v')
   if (id === 'skill/base-effects' || id === 'skill/execution-effects')
     return effectKindConstant(source, 'EFFECT_KINDS', 'v')
@@ -105,9 +105,7 @@ function effectKindsForFamily(id, source) {
       /aria-label=\{`第 \$\{index \+ 1\} 个效果类型`\}[\s\S]*?options=\{\[([\s\S]*?)\]\}/,
     )
     return typeOptions
-      ? [...typeOptions[1].matchAll(/\bvalue\s*:\s*['\"]([^'\"]+)['\"]/g)].map(
-          (entry) => entry[1],
-        )
+      ? [...typeOptions[1].matchAll(/\bvalue\s*:\s*['\"]([^'\"]+)['\"]/g)].map((entry) => entry[1])
       : undefined
   }
   return undefined
@@ -227,7 +225,8 @@ export function validateEffectCardAdoption(document, overrides = {}) {
   }
   for (const id of manifestIds) {
     if (!actualAdoption.has(id)) problems.push(`stale effect-card family ${id}`)
-    if (!actualChains.has(id)) problems.push(`effect-card family ${id} has no EffectEditorChain owner`)
+    if (!actualChains.has(id))
+      problems.push(`effect-card family ${id} has no EffectEditorChain owner`)
     if ((actualChains.get(id) ?? []).length !== 1)
       problems.push(`effect-card family ${id} must have exactly one EffectEditorChain owner`)
   }
@@ -240,7 +239,11 @@ export function validateEffectCardAdoption(document, overrides = {}) {
     const source = effectCardSource(family.source, overrides)
     const chainBlocks = effectCardChainBlocks(source, family.id)
     const chain = chainBlocks[0] ?? ''
-    if (!/import\s*\{[\s\S]*?\bEffectEditorCard\b[\s\S]*?\bEffectEditorChain\b[\s\S]*?\}\s*from\s*['\"]\.\/EffectEditorCard\.js['\"]/.test(source))
+    if (
+      !/import\s*\{[\s\S]*?\bEffectEditorCard\b[\s\S]*?\bEffectEditorChain\b[\s\S]*?\}\s*from\s*['\"]\.\/EffectEditorCard\.js['\"]/.test(
+        source,
+      )
+    )
       problems.push(`${family.id} must import the canonical EffectEditorCard and EffectEditorChain`)
     if (chainBlocks.length !== 1)
       problems.push(`${family.id} must own exactly one statically scoped EffectEditorChain`)
@@ -268,7 +271,10 @@ export function validateEffectCardAdoption(document, overrides = {}) {
     else if (JSON.stringify(actualKinds) !== JSON.stringify(family.kinds))
       problems.push(`${family.id} kind census differs from its route-live source`)
     for (const previewKind of family.previewKinds ?? [])
-      if (!family.kinds.includes(previewKind) || !source.includes(`effect.kind === '${previewKind}'`))
+      if (
+        !family.kinds.includes(previewKind) ||
+        !source.includes(`effect.kind === '${previewKind}'`)
+      )
         problems.push(`${family.id} preview kind ${previewKind} is not route-live`)
     if (
       family.privateBranch &&
@@ -306,9 +312,7 @@ export function validateEffectCardAdoption(document, overrides = {}) {
   )
   if (
     !responsiveHandleRule ||
-    !/block-size:\s*calc\([^)]*var\(--ds-control-height-compact\)/.test(
-      responsiveHandleRule[1],
-    )
+    !/block-size:\s*calc\([^)]*var\(--ds-control-height-compact\)/.test(responsiveHandleRule[1])
   )
     problems.push('EffectEditorCard responsive overlay handle is not first-row aligned')
   const fullSpanRule = editorCss.match(
@@ -3860,23 +3864,22 @@ function textOverflowRouteTruth(overrides = {}) {
   for (const source of importedSources) visitedSources.add(source)
   const seenRoots = new Set()
   for (const root of roots) {
-      const rootIdentity = `${root.source}@${root.component}#${root.initialNode?.pos ?? 'root'}`
-      if (seenRoots.has(rootIdentity)) continue
-      seenRoots.add(rootIdentity)
-      const reachable = cachedReachableJsxOwners(root.source, root.component, {
-        initialNode: root.initialNode,
-        manifest,
-        overrides,
-      })
-      for (const source of reachable.visitedSources) visitedSources.add(source)
-      for (const element of reachable.elements ?? [])
-        {
-          components.add(`${element.source}@${element.component}`)
-          if (element.governed && element.tag.startsWith('Ds'))
-            canonicalDesignSystemTags.add(element.tag)
-        }
-      for (const callsite of reachable.callsites ?? [])
-        callsites.add(`${callsite.source}@${callsite.component}#${callsite.callsite}`)
+    const rootIdentity = `${root.source}@${root.component}#${root.initialNode?.pos ?? 'root'}`
+    if (seenRoots.has(rootIdentity)) continue
+    seenRoots.add(rootIdentity)
+    const reachable = cachedReachableJsxOwners(root.source, root.component, {
+      initialNode: root.initialNode,
+      manifest,
+      overrides,
+    })
+    for (const source of reachable.visitedSources) visitedSources.add(source)
+    for (const element of reachable.elements ?? []) {
+      components.add(`${element.source}@${element.component}`)
+      if (element.governed && element.tag.startsWith('Ds'))
+        canonicalDesignSystemTags.add(element.tag)
+    }
+    for (const callsite of reachable.callsites ?? [])
+      callsites.add(`${callsite.source}@${callsite.component}#${callsite.callsite}`)
   }
   const result = { callsites, components, canonicalDesignSystemTags, visitedSources }
   if (!hasRouteOverrides) canonicalTextOverflowRouteTruth = result
@@ -3941,7 +3944,11 @@ function textOverflowProducerHasCallsite(producer, overrides = {}) {
     ? producer.callsite.slice('class:'.length)
     : undefined
   if (!token) return false
-  return Boolean(textOverflowProducerFacts(producer.source, overrides)?.componentTokens.get(producer.component)?.has(token))
+  return Boolean(
+    textOverflowProducerFacts(producer.source, overrides)
+      ?.componentTokens.get(producer.component)
+      ?.has(token),
+  )
 }
 
 function sharedTextOverflowProducerHasCallsite(producer, overrides = {}) {
@@ -4115,29 +4122,23 @@ export function validateTextOverflowAdoption(document, overrides = {}) {
       } else {
         if (!textOverflowProducerHasCallsite(entry.producer, overrides))
           problems.push(`${context}.producer is not an exact business-component class owner`)
-        if (!routeTruth.callsites.has(producerIdentity) && !routeTruth.visitedSources.has(entry.producer.source))
+        if (
+          !routeTruth.callsites.has(producerIdentity) &&
+          !routeTruth.visitedSources.has(entry.producer.source)
+        )
           problems.push(`${context}.producer is not reachable from a registered editor route`)
       }
     }
-    if (
-      entry.policy === 'command-label' &&
-      entry.declarations.includes('text-overflow:ellipsis')
-    )
+    if (entry.policy === 'command-label' && entry.declarations.includes('text-overflow:ellipsis'))
       problems.push(`${context} command-label must not use text-overflow:ellipsis`)
-    if (
-      entry.policy === 'informational-truncate' &&
-      entry.reveal !== 'DsOverflowText'
-    )
+    if (entry.policy === 'informational-truncate' && entry.reveal !== 'DsOverflowText')
       problems.push(`${context} informational-truncate must use same-value DsOverflowText reveal`)
     if (
       entry.policy === 'informational-truncate' &&
       entry.producer?.callsite !== 'class:ds-overflow-text'
     )
       problems.push(`${context} informational-truncate reveal must be owned by ds-overflow-text`)
-    if (
-      entry.policy === 'selection-summary' &&
-      !['lazy', 'selected-detail'].includes(entry.reveal)
-    )
+    if (entry.policy === 'selection-summary' && !['lazy', 'selected-detail'].includes(entry.reveal))
       problems.push(`${context} selection-summary reveal must be lazy or selected-detail`)
     if (
       ['compact-token', 'structural-nowrap', 'command-label'].includes(entry.policy) &&
@@ -4149,10 +4150,7 @@ export function validateTextOverflowAdoption(document, overrides = {}) {
       entry.declarations.includes('text-overflow:ellipsis')
     )
       problems.push(`${context} structural-nowrap must not use ellipsis`)
-    if (
-      entry.policy === 'compact-token' &&
-      entry.declarations.includes('text-overflow:ellipsis')
-    )
+    if (entry.policy === 'compact-token' && entry.declarations.includes('text-overflow:ellipsis'))
       problems.push(`${context} compact-token with ellipsis must use an informational owner`)
     if (entry.policy === 'wrap-required' || entry.policy === 'stale-css')
       problems.push(`${context} ${entry.policy} must be fixed in CSS instead of registered`)
@@ -5160,10 +5158,7 @@ const overlayKinds = new Set([
 function enclosingNamedComponent(node) {
   let current = node
   while (current) {
-    if (
-      (ts.isFunctionDeclaration(current) || ts.isFunctionExpression(current)) &&
-      current.name
-    )
+    if ((ts.isFunctionDeclaration(current) || ts.isFunctionExpression(current)) && current.name)
       return current.name.text
     if (
       (ts.isArrowFunction(current) || ts.isFunctionExpression(current)) &&
@@ -5302,7 +5297,8 @@ function validateOverlayExceptions(exceptions, expectedRegistries, overlayTruth,
     if (seenIds.has(entry.id)) problems.push(`duplicate overlay exception id ${entry.id}`)
     seenIds.add(entry.id)
     const identity = `${entry.source}@${entry.component}#${entry.callsite}@${entry.occurrence}`
-    if (seenCallsites.has(identity)) problems.push(`duplicate overlay exception callsite ${identity}`)
+    if (seenCallsites.has(identity))
+      problems.push(`duplicate overlay exception callsite ${identity}`)
     seenCallsites.add(identity)
     registeredCallsites.add(identity)
     let source
@@ -5342,7 +5338,9 @@ function validateOverlayExceptions(exceptions, expectedRegistries, overlayTruth,
         const role = literalAttribute(node, 'role')
         const popup = literalAttribute(node, 'aria-haspopup')
         const component = enclosingNamedComponent(node)
-        const rawSemanticRole = ['dialog', 'alertdialog', 'menu', 'listbox', 'tooltip'].includes(role)
+        const rawSemanticRole = ['dialog', 'alertdialog', 'menu', 'listbox', 'tooltip'].includes(
+          role,
+        )
         if (/^[a-z]/.test(tag) && rawSemanticRole) {
           const ownerTag = ['dialog', 'alertdialog'].includes(role) ? 'DsDialog' : 'DsFloatingLayer'
           const classes = classTokens(node)
@@ -5362,10 +5360,7 @@ function validateOverlayExceptions(exceptions, expectedRegistries, overlayTruth,
         }
         if (popup && ['dialog', 'menu', 'listbox'].includes(popup)) {
           const ownerTag = popup === 'dialog' ? 'DsDialog' : 'DsFloatingLayer'
-          if (
-            !component ||
-            !componentDirectlyRendersOwner(source, component, ownerTag, imports)
-          )
+          if (!component || !componentDirectlyRendersOwner(source, component, ownerTag, imports))
             problems.push(
               `${sourcePath}@${component ?? '(anonymous)'} declares aria-haspopup=${popup} without directly rendering ${ownerTag}`,
             )
@@ -5392,11 +5387,13 @@ function validateOverlayExceptions(exceptions, expectedRegistries, overlayTruth,
   const css = readUiSource('editor.css', overrides)
   const semanticPositionedRules = []
   const rulePattern = /([^{}]+)\{([^{}]*)\}/g
-  let match
-  while ((match = rulePattern.exec(css))) {
+  for (const match of css.matchAll(rulePattern)) {
     if (!/position:\s*(?:absolute|fixed)\s*;/.test(match[2])) continue
     if (!/(?:menu|popover|dialog|tooltip|overlay|tray|backdrop)/.test(match[1])) continue
-    semanticPositionedRules.push({ selector: match[1].trim(), classes: selectorClassTokens(match[1]) })
+    semanticPositionedRules.push({
+      selector: match[1].trim(),
+      classes: selectorClassTokens(match[1]),
+    })
   }
   const registeredPositionedClasses = new Set(
     exceptions
@@ -5538,8 +5535,9 @@ export function validateAdoption(document, overrides = {}) {
     if (!Array.isArray(overlayScopes) || !overlayScopes.length)
       problems.push(`pages[${index}].ownerEvidence.overlay must be a non-empty array`)
     const validOverlayScopes = []
-    for (const [scopeIndex, scope] of (
-      Array.isArray(overlayScopes) ? overlayScopes : []
+    for (const [scopeIndex, scope] of (Array.isArray(overlayScopes)
+      ? overlayScopes
+      : []
     ).entries()) {
       if (
         !scope ||

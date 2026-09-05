@@ -6,11 +6,11 @@ import type {
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import type {
-  CanonicalScriptReference,
   CanonicalScriptCommandVisit,
-  ScriptEditorState,
+  CanonicalScriptReference,
   ScriptCommandLocator,
   ScriptCommandOwner,
+  ScriptEditorState,
 } from './script-editor.js'
 import { collectCanonicalScriptCommandVisits } from './script-editor.js'
 

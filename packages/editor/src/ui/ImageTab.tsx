@@ -1,8 +1,4 @@
-import {
-  type AssetCatalogV1,
-  type AssetId,
-  type AssetRecordV1,
-} from '@type-pal/content'
+import { type AssetCatalogV1, type AssetId, type AssetRecordV1 } from '@type-pal/content'
 import { type AssetBase, loadStandardPalette } from '@type-pal/reforge'
 import {
   type KeyboardEvent,
@@ -13,11 +9,8 @@ import {
   useState,
   type WheelEvent,
 } from 'react'
+import { type EditorAssetDiagnostic, editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
-import {
-  editorAssetCatalogTitle,
-  type EditorAssetDiagnostic,
-} from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
@@ -89,7 +82,7 @@ function ImageWorkspacePreview(props: {
   assetBase: AssetBase
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const stageRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLElement>(null)
   const panGesture = useRef<{
     pointerId: number
     clientX: number
@@ -213,7 +206,7 @@ function ImageWorkspacePreview(props: {
     window.requestAnimationFrame(() => stageRef.current?.scrollTo({ left: 0, top: 0 }))
   }
 
-  const onWheel = (event: WheelEvent<HTMLDivElement>): void => {
+  const onWheel = (event: WheelEvent<HTMLElement>): void => {
     event.preventDefault()
     applyZoom(renderedZoom * Math.exp(-event.deltaY * 0.0015), {
       clientX: event.clientX,
@@ -221,7 +214,7 @@ function ImageWorkspacePreview(props: {
     })
   }
 
-  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+  const onKeyDown = (event: KeyboardEvent<HTMLElement>): void => {
     if (event.key === '+' || event.key === '=') {
       event.preventDefault()
       applyZoom(stepMediaPreviewZoom(renderedZoom, 1))
@@ -237,7 +230,7 @@ function ImageWorkspacePreview(props: {
     }
   }
 
-  const onPointerDown = (event: PointerEvent<HTMLDivElement>): void => {
+  const onPointerDown = (event: PointerEvent<HTMLElement>): void => {
     if (fit || event.button !== 0) return
     panGesture.current = {
       pointerId: event.pointerId,
@@ -250,14 +243,14 @@ function ImageWorkspacePreview(props: {
     setPanning(true)
   }
 
-  const onPointerMove = (event: PointerEvent<HTMLDivElement>): void => {
+  const onPointerMove = (event: PointerEvent<HTMLElement>): void => {
     const gesture = panGesture.current
     if (!gesture || gesture.pointerId !== event.pointerId) return
     event.currentTarget.scrollLeft = gesture.scrollLeft - (event.clientX - gesture.clientX)
     event.currentTarget.scrollTop = gesture.scrollTop - (event.clientY - gesture.clientY)
   }
 
-  const endPan = (event: PointerEvent<HTMLDivElement>): void => {
+  const endPan = (event: PointerEvent<HTMLElement>): void => {
     if (panGesture.current?.pointerId !== event.pointerId) return
     panGesture.current = null
     if (event.currentTarget.hasPointerCapture(event.pointerId))
@@ -284,9 +277,10 @@ function ImageWorkspacePreview(props: {
           onActualSize={() => applyZoom(1)}
         />
       </div>
-      <div
+      <section
         ref={stageRef}
         className={`image-preview-stage${fit ? ' fit' : ' zoomed'}${panning ? ' panning' : ''}`}
+        // biome-ignore lint/a11y/noNoninteractiveTabindex: This named scroll/zoom region already supports F/0 and pointer navigation; keyboard users must be able to focus it.
         tabIndex={0}
         aria-label="图片预览；滚轮缩放，放大后拖拽平移，按 F 适合窗口，按 0 恢复原始大小"
         onWheel={onWheel}
@@ -321,7 +315,7 @@ function ImageWorkspacePreview(props: {
           />
         </div>
         {error ? <div className="cf-err image-preview-error">{error}</div> : null}
-      </div>
+      </section>
     </div>
   )
 }

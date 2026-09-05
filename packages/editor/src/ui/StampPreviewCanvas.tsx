@@ -1,4 +1,3 @@
-import { DsPressable } from './design-system/index.js'
 import {
   type AssetCatalogV1,
   mapInstanceHeight,
@@ -21,6 +20,7 @@ import {
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { DsPressable } from './design-system/index.js'
 
 export interface StampPreviewAssets {
   palette: Palette

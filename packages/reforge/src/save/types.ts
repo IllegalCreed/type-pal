@@ -1,9 +1,4 @@
-import type {
-  CONTENT_VERSION,
-  Facing,
-  GridPos,
-  WorldState,
-} from '@type-pal/content'
+import type { CONTENT_VERSION, Facing, GridPos, WorldState } from '@type-pal/content'
 
 export type SlotKind = 'auto' | 'quick' | 'manual'
 export type SlotId = string // 'auto' | 'quick' | 'm01'..'m28'

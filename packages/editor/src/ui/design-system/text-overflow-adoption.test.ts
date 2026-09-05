@@ -22,16 +22,17 @@ describe('text-overflow adoption gate', () => {
     const census = deriveTextOverflowCssCensus()
     expect(validateTextOverflowAdoption(document)).toEqual([])
     expect(document.entries).toHaveLength(census.length)
-    expect(new Set(document.entries.map((entry) => `${entry.source}|${entry.condition}|${entry.selectorText}`)).size)
-      .toBe(document.entries.length)
+    expect(
+      new Set(
+        document.entries.map((entry) => `${entry.source}|${entry.condition}|${entry.selectorText}`),
+      ).size,
+    ).toBe(document.entries.length)
     expect(new Set(census.map((entry) => entry.condition))).toEqual(new Set(['default']))
     expect(
       deriveTextOverflowAdoptionSeed().map(
         (entry) => `${entry.source}|${entry.condition}|${entry.selectorText}`,
       ),
-    ).toEqual(
-      census.map((entry) => `${entry.source}|${entry.condition}|${entry.selectorText}`),
-    )
+    ).toEqual(census.map((entry) => `${entry.source}|${entry.condition}|${entry.selectorText}`))
   }, 30_000)
 
   test('fails closed for an unregistered arm, stale registry, declaration drift, and duplicate registry', () => {
@@ -47,7 +48,9 @@ describe('text-overflow adoption gate', () => {
 
     const drift = structuredClone(document)
     drift.entries[0].declarations = ['white-space:nowrap']
-    expect(validateTextOverflowAdoption(drift).join('\n')).toContain('declaration signature is stale')
+    expect(validateTextOverflowAdoption(drift).join('\n')).toContain(
+      'declaration signature is stale',
+    )
 
     const duplicate = structuredClone(document)
     duplicate.entries.push(structuredClone(duplicate.entries[0]))
@@ -82,7 +85,9 @@ describe('text-overflow adoption gate', () => {
     )
 
     const informational = structuredClone(document)
-    const overflow = informational.entries.find((entry) => entry.policy === 'informational-truncate')
+    const overflow = informational.entries.find(
+      (entry) => entry.policy === 'informational-truncate',
+    )
     overflow.reveal = 'aria-label'
     expect(validateTextOverflowAdoption(informational).join('\n')).toContain('reveal is invalid')
   }, 30_000)
@@ -124,9 +129,9 @@ describe('text-overflow adoption gate', () => {
       (entry) => entry.policy === 'selection-summary',
     )
     expect(selectionEntries.length).toBeGreaterThan(0)
-    expect(selectionEntries.every((entry) => ['lazy', 'selected-detail'].includes(entry.reveal))).toBe(
-      true,
-    )
+    expect(
+      selectionEntries.every((entry) => ['lazy', 'selected-detail'].includes(entry.reveal)),
+    ).toBe(true)
 
     const productionOverflowOwners = [
       'WorldSpriteLibrary.tsx',
@@ -135,14 +140,15 @@ describe('text-overflow adoption gate', () => {
       'SpriteActionEditor.tsx',
     ].reduce(
       (count, source) =>
-        count + (readFileSync(join(uiRoot, source), 'utf8').match(/<DsOverflowText\b/g) ?? []).length,
+        count +
+        (readFileSync(join(uiRoot, source), 'utf8').match(/<DsOverflowText\b/g) ?? []).length,
       0,
     )
     expect(productionOverflowOwners).toBe(8)
     for (const source of ['recipes.tsx', 'add-picker.tsx', 'multi-select.tsx', 'virtual-list.tsx'])
       expect(readFileSync(join(here, source), 'utf8'), source).not.toContain('<DsOverflowText')
     expect(
-      (readFileSync(join(here, 'virtual-list.tsx'), 'utf8').match(/new ResizeObserver\b/g) ?? []),
+      readFileSync(join(here, 'virtual-list.tsx'), 'utf8').match(/new ResizeObserver\b/g) ?? [],
     ).toHaveLength(1)
   })
 

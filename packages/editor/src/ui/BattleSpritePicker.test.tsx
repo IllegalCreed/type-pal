@@ -67,14 +67,13 @@ describe('BattleSpritePicker action ownership', () => {
     expect(host.querySelector('button[aria-label^="打开战斗精灵"]')).toBeNull()
     await act(async () => picker.click())
     const listbox = document.getElementById(picker.getAttribute('aria-controls')!)
-    const option = listbox?.querySelector<HTMLElement>('[role="option"]')!
+    expect(listbox).not.toBeNull()
+    const option = listbox!.querySelector<HTMLElement>('[role="option"]')!
     expect(option.querySelector('.ds-select-option__label')?.textContent).toBe('测试战斗精灵')
     expect(option.querySelector('.ds-select-option__description')?.textContent).toBe(
       'battle.player.test · 玩家战斗 · 8 个动作',
     )
-    expect(option.title).toBe(
-      '测试战斗精灵 · battle.player.test · 玩家战斗 · 8 个动作',
-    )
+    expect(option.title).toBe('测试战斗精灵 · battle.player.test · 玩家战斗 · 8 个动作')
     await act(async () => picker.click())
 
     await act(async () => root.render(render(true)))

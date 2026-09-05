@@ -1,5 +1,9 @@
-import type { ActorDef } from './actor.js'
 import { describe, expect, test } from 'vitest'
+import type { ActorDef } from './actor.js'
+import {
+  checkAuthorCommands as checkCurrentAuthorCommands,
+  resolveAuthorDialogueTree as resolveDialogueTree,
+} from './author-script.js'
 import {
   checkRuntimeCommands as checkAuthorCommands,
   checkRuntimeEntityBehaviors as checkEntityBehaviors,
@@ -8,10 +12,6 @@ import {
   checkRuntimeScriptFlow as checkScriptFlow,
   checkRuntimeScriptLibrary as checkSharedScriptLibrary,
 } from './runtime-script.js'
-import {
-  checkAuthorCommands as checkCurrentAuthorCommands,
-  resolveAuthorDialogueTree as resolveDialogueTree,
-} from './author-script.js'
 
 const target = { scene: 's001', entity: 'e001' }
 
@@ -78,7 +78,9 @@ describe('current author-script contract before version-layer removal', () => {
       ),
     ).not.toThrow()
     expect(() =>
-      checkSharedScriptLibrary({ shared: { name: 'shared', self: 'none', body: flow.stages[0]!.body } }),
+      checkSharedScriptLibrary({
+        shared: { name: 'shared', self: 'none', body: flow.stages[0]!.body },
+      }),
     ).not.toThrow()
   })
 

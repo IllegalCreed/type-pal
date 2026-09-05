@@ -1,9 +1,9 @@
 import {
-  createContext,
   type CSSProperties,
+  createContext,
   type KeyboardEvent as ReactKeyboardEvent,
-  type PointerEvent as ReactPointerEvent,
   type ReactNode,
+  type PointerEvent as ReactPointerEvent,
   useCallback,
   useContext,
   useEffect,
@@ -13,8 +13,7 @@ import {
   useState,
 } from 'react'
 import { createPortal } from 'react-dom'
-import { dsClasses } from './controls.js'
-import { DsIconButton } from './controls.js'
+import { DsIconButton, dsClasses } from './controls.js'
 import { resolveDsPortalHost } from './floating-layer.js'
 import { DsIcon } from './icons.js'
 
@@ -694,7 +693,7 @@ export function DsReorderCollection(props: {
       )
       focusLogicalItem(snapshot.sourceKey, snapshot.projectedIndex)
     },
-    [beginSettling, cancel, focusLogicalItem, sameSnapshot, stopAutoScroll],
+    [beginSettling, cancel, focusLogicalItem, props.adoptionId, sameSnapshot, stopAutoScroll],
   )
 
   const runAutoScroll = useCallback(() => {
@@ -1051,6 +1050,7 @@ export function DsReorderCollection(props: {
   )
 
   const signature = props.entries.map((entry) => entry.key).join('\u0000')
+  // biome-ignore lint/correctness/useExhaustiveDependencies: revision/key changes invalidate ref-held sessions even when callback identities remain stable.
   useEffect(() => {
     const pointer = pointerRef.current
     const snapshot = pointer?.snapshot ?? keyboardRef.current
@@ -1330,12 +1330,12 @@ export function useDsReorderKeys<T>(
     unused.delete(entry)
   }
   // Reserve every exact object/value match before any positional fallback can steal its token.
-  items.forEach((item, itemIndex) =>
+  items.forEach((item, itemIndex) => {
     assign(
       itemIndex,
       previous.find((entry) => unused.has(entry) && Object.is(entry.item, item)),
-    ),
-  )
+    )
+  })
   // Immutable record replacement can opt into a unique semantic identity.
   items.forEach((_item, itemIndex) => {
     if (assigned[itemIndex]) return

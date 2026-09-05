@@ -18,6 +18,7 @@ import {
   encodeFrameSequenceSync,
   FRAME_SEQUENCE_MEDIA_TYPE,
   type ManifestAssetConfig,
+  PAL_PHYSICAL_EFFECT_ASSET_ID,
   palBattleBackgroundAssetId,
   palBattleSpriteAssetId,
   palFaceAssetId,
@@ -25,7 +26,6 @@ import {
   palItemIconAssetId,
   palMagicEffectSpriteAssetId,
   palMusicAssetId,
-  PAL_PHYSICAL_EFFECT_ASSET_ID,
   palPortraitAssetId,
   palSoundAssetId,
   palSpriteAssetId,
@@ -538,11 +538,7 @@ function loadPalEffectSprites(repo: string): {
       }),
     )
   }
-  if (
-    binaries.length !== 56 ||
-    effectSpriteBytes !== 652_870 ||
-    effectSpriteFrames !== 922
-  )
+  if (binaries.length !== 56 || effectSpriteBytes !== 652_870 || effectSpriteFrames !== 922)
     throw new Error(
       `PAL 特效精灵基线漂移: assets=${binaries.length} bytes=${effectSpriteBytes} frames=${effectSpriteFrames}`,
     )
@@ -1145,10 +1141,10 @@ export interface PalAssetRetirement {
 
 function assertRetirableMigratedPath(path: string): void {
   if (
-    isAbsolute(path)
-    || path.includes('\\')
-    || path.split('/').some((part) => part === '' || part === '.' || part === '..')
-    || !path.startsWith('assets/migrated/')
+    isAbsolute(path) ||
+    path.includes('\\') ||
+    path.split('/').some((part) => part === '' || part === '.' || part === '..') ||
+    !path.startsWith('assets/migrated/')
   )
     throw new Error(`退役迁移资源路径越界: ${path}`)
 }

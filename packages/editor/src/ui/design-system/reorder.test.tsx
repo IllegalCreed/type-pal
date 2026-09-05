@@ -4,11 +4,11 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   DsReorderCollection,
+  type DsReorderIntent,
   DsReorderItem,
   DsReorderMoveButton,
   reorderDsItems,
   sameDsSerializableValue,
-  type DsReorderIntent,
   useDsReorderKeys,
 } from './reorder.js'
 
@@ -689,7 +689,7 @@ describe('DsReorderCollection', () => {
     })
     expect(onReorder).not.toHaveBeenCalled()
 
-    const escape = new KeyboardEvent('keydown', {
+    const escapeEvent = new KeyboardEvent('keydown', {
       key: 'Escape',
       bubbles: true,
       cancelable: true,
@@ -697,9 +697,9 @@ describe('DsReorderCollection', () => {
     await act(async () => {
       handle.dispatchEvent(pointerEvent('pointerdown', { x: 10, y: 10 }))
       handle.dispatchEvent(pointerEvent('pointermove', { x: 30, y: 20 }))
-      window.dispatchEvent(escape)
+      window.dispatchEvent(escapeEvent)
     })
-    expect(escape.defaultPrevented).toBe(true)
+    expect(escapeEvent.defaultPrevented).toBe(true)
     expect(handle.getAttribute('data-dragging')).toBeNull()
     expect(onReorder).not.toHaveBeenCalled()
 

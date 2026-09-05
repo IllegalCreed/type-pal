@@ -1,7 +1,7 @@
 import { type KeyboardEvent, type ReactNode, useRef, useState } from 'react'
-import { DsIcon, type DsIconName } from './icons.js'
 import { type DsControlSize, DsTooltip, dsClasses } from './controls.js'
 import { DsFloatingLayer } from './floating-layer.js'
+import { DsIcon, type DsIconName } from './icons.js'
 
 export interface DsMenuItem {
   id: string
@@ -157,6 +157,7 @@ export function DsMenuBar(props: {
             >
               <div className="ds-menu-group-flow" role="presentation">
                 {groupMenuItems(menu.items).map((group) => (
+                  // biome-ignore lint/a11y/useSemanticElements: Named command/menu group, not a form fieldset.
                   <div
                     className="ds-menu-group"
                     role="group"

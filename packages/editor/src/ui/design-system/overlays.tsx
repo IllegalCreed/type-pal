@@ -1,12 +1,5 @@
 // biome-ignore-all lint/a11y/noRedundantRoles: jsdom does not expose native dialog roles, while consumers and tests rely on an explicit public dialog contract.
-import {
-  type ReactNode,
-  type RefObject,
-  useCallback,
-  useEffect,
-  useId,
-  useRef,
-} from 'react'
+import { type ReactNode, type RefObject, useCallback, useEffect, useId, useRef } from 'react'
 import { DsIconButton } from './controls.js'
 
 let documentScrollLockCount = 0
@@ -40,6 +33,10 @@ function canRestoreFocus(element: HTMLElement | null): element is HTMLElement {
   return true
 }
 
+function cancelFrame(frame: number | null): void {
+  if (frame != null && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(frame)
+}
+
 interface DialogOpenCycle {
   opener: HTMLElement | null
   releaseScroll: () => void
@@ -65,10 +62,6 @@ function useDialogState(
   onCloseRef.current = onClose
   fallbackFocusRefRef.current = fallbackFocusRef
 
-  const cancelFrame = (frame: number | null) => {
-    if (frame != null && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(frame)
-  }
-
   const finishCycle = useCallback((restoreFocus: boolean) => {
     const cycle = cycleRef.current
     if (!cycle || cycle.finished) return
@@ -90,25 +83,28 @@ function useDialogState(
     })
   }, [])
 
-  const startCycle = useCallback((dialog: HTMLDialogElement) => {
-    cancelFrame(restoreFocusFrameRef.current)
-    restoreFocusFrameRef.current = null
-    if (cycleRef.current) finishCycle(false)
-    const activeElement = document.activeElement as HTMLElement | null
-    const externalOpener =
-      activeElement && !dialog.contains(activeElement) && activeElement !== document.body
-        ? activeElement
-        : lastExternalOpenerRef.current
-    if (externalOpener) lastExternalOpenerRef.current = externalOpener
-    const cycle: DialogOpenCycle = {
-      opener: externalOpener,
-      releaseScroll: acquireDocumentScrollLock(),
-      initialFocusFrame: null,
-      initialFocusScheduled: false,
-      finished: false,
-    }
-    cycleRef.current = cycle
-  }, [finishCycle])
+  const startCycle = useCallback(
+    (dialog: HTMLDialogElement) => {
+      cancelFrame(restoreFocusFrameRef.current)
+      restoreFocusFrameRef.current = null
+      if (cycleRef.current) finishCycle(false)
+      const activeElement = document.activeElement as HTMLElement | null
+      const externalOpener =
+        activeElement && !dialog.contains(activeElement) && activeElement !== document.body
+          ? activeElement
+          : lastExternalOpenerRef.current
+      if (externalOpener) lastExternalOpenerRef.current = externalOpener
+      const cycle: DialogOpenCycle = {
+        opener: externalOpener,
+        releaseScroll: acquireDocumentScrollLock(),
+        initialFocusFrame: null,
+        initialFocusScheduled: false,
+        finished: false,
+      }
+      cycleRef.current = cycle
+    },
+    [finishCycle],
+  )
 
   const scheduleInitialFocus = useCallback((dialog: HTMLDialogElement) => {
     const cycle = cycleRef.current

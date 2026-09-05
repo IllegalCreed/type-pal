@@ -8,8 +8,8 @@ import type {
 import { describe, expect, test, vi } from 'vitest'
 import {
   buildProjectReferenceSnapshot,
-  createProjectReferenceSource,
   createProjectReferenceIndex,
+  createProjectReferenceSource,
 } from './project-reference.js'
 import { sharedScriptReferenceEdges } from './project-reference-adapters.js'
 import {
@@ -22,8 +22,8 @@ import {
   CopyEntityBehaviorCommand,
   CopySceneHookCommand,
   collectCanonicalScriptCommandVisits,
-  collectCanonicalSharedScriptReferencesFromVisits,
   collectCanonicalScriptTransitionVisits,
+  collectCanonicalSharedScriptReferencesFromVisits,
   collectScriptReferenceIssues,
   DeleteEntityBehaviorCommand,
   DeleteItemPrivateScriptCommand,
@@ -661,7 +661,9 @@ describe('canonical script editor commands', () => {
     ).toThrow(/仍有 1 个引用/)
     expect(session.getState().sharedScripts['shared/user/book']).toBeDefined()
     session.dispatch(new UpdateSharedScriptCommand('shared/user/select-talk', { body: [] }))
-    session.dispatch(new DeleteSharedScriptCommand('shared/user/book', currentSharedScriptReferences))
+    session.dispatch(
+      new DeleteSharedScriptCommand('shared/user/book', currentSharedScriptReferences),
+    )
     expect(session.getState().sharedScripts['shared/user/book']).toBeUndefined()
   })
 

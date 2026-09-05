@@ -182,7 +182,12 @@ describe('EnemyBattleSpriteThumbnail', () => {
     })
 
     expect(TestIntersectionObserver.instances[0]!.disconnect).toHaveBeenCalledOnce()
-    expect(mocks.loadDefinition).toHaveBeenCalledWith(expect.anything(), reader, definition(), 'enemy')
+    expect(mocks.loadDefinition).toHaveBeenCalledWith(
+      expect.anything(),
+      reader,
+      definition(),
+      'enemy',
+    )
     expect(mocks.prune).toHaveBeenCalledWith(new Set(['battle.enemy.a.asset']))
     expect(mocks.bakeFrame).toHaveBeenCalledOnce()
     expect(mocks.bakeFrame).toHaveBeenCalledWith(

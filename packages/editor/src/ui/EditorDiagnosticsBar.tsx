@@ -1,14 +1,14 @@
+import type { EditSession } from '../core/edit-session.js'
 import type { EditorDerivedStoreSnapshot } from '../core/editor-derived-store.js'
 import {
-  effectiveEditorDerivedStatus,
   type EditorDerivedStore,
+  effectiveEditorDerivedStatus,
 } from '../core/editor-derived-store.js'
-import type { EditSession } from '../core/edit-session.js'
 import type { ScriptEditSession } from '../core/script-editor.js'
 import { DsButton } from './design-system/index.js'
 import {
-  useEditSessionSelector,
   useEditorDerivedSelector,
+  useEditSessionSelector,
   useScriptEditSessionSelector,
 } from './session-selector.js'
 
@@ -71,9 +71,7 @@ export function EditorDiagnosticsBar(props: {
       ) : derivedStatus === 'stale' ? (
         <>
           <span className="pill warn">⟳ 正在重新检查</span>
-          <span className="msg">
-            上一版 {derivedData?.statusIssues.length ?? 0} 项结果仅供查看
-          </span>
+          <span className="msg">上一版 {derivedData?.statusIssues.length ?? 0} 项结果仅供查看</span>
         </>
       ) : (
         <>

@@ -217,9 +217,7 @@ describe('enemy defeated event presenter', () => {
       missingActorNameContext,
     )
     expect(missingActorName.nodes[0]).toMatchObject({ invalid: true })
-    expect(missingActorName.nodes[0]?.detail).toContain(
-      '角色名引用缺失：name.actor.missing',
-    )
+    expect(missingActorName.nodes[0]?.detail).toContain('角色名引用缺失：name.actor.missing')
   })
 
   test.each([
@@ -262,10 +260,7 @@ describe('enemy defeated event presenter', () => {
           kind: 'branch' as const,
           cond: {
             kind: 'all' as const,
-            of: [
-              { kind: 'chance' as const, percent: 89 },
-              { kind: 'allFullHp' as const },
-            ],
+            of: [{ kind: 'chance' as const, percent: 89 }, { kind: 'allFullHp' as const }],
           },
           then: [{ kind: 'stopScript' as const }],
         },
@@ -406,10 +401,7 @@ describe('enemy defeated event presenter', () => {
 
   test('摘要不展示 stopScript 后不可达的奖励', () => {
     const stopped = presentEnemyDefeatedEvents(
-      [
-        { kind: 'stopScript' },
-        { kind: 'giveItem', itemId: '115' },
-      ],
+      [{ kind: 'stopScript' }, { kind: 'giveItem', itemId: '115' }],
       context,
     )
     expect(stopped.compactSummary).toBe('击败后：结束本敌槽后续事件')
@@ -460,9 +452,9 @@ describe('enemy defeated event presenter', () => {
   })
 
   test('单个非结果事件不会在摘要中重复概括自身', () => {
-    expect(
-      presentEnemyDefeatedEvents([{ kind: 'wait', ms: 250 }], context).compactSummary,
-    ).toBe('击败后：等待 250 毫秒')
+    expect(presentEnemyDefeatedEvents([{ kind: 'wait', ms: 250 }], context).compactSummary).toBe(
+      '击败后：等待 250 毫秒',
+    )
   })
 })
 

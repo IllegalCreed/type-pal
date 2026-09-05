@@ -1,25 +1,25 @@
-import type { SceneReveal } from './script.js'
 import type {
-  BaseAuthorCommand,
   AuthorCondition,
+  BaseAuthorCommand,
   BaseAuthorStage,
-  CommandValidationOptions,
-  EntityAddress,
-  BaseEntityPage,
   BaseEntityBehavior,
+  BaseEntityPage,
   BaseSceneHook,
   BaseScriptStateMachine,
+  CommandValidationOptions,
+  EntityAddress,
 } from './author-script-core.js'
 import {
   BASE_AUTHOR_COMMAND_KINDS,
   checkBaseAuthorCommands,
-  checkEntityAddress,
   checkBaseEntityBehaviors,
   checkBaseEntityPages,
   checkBaseSceneHooks,
   checkBaseScriptFlow,
   checkBaseScriptLibrary,
+  checkEntityAddress,
 } from './author-script-core.js'
+import type { SceneReveal } from './script.js'
 
 export type EntityLifecycleCommand =
   | { kind: 'suspendEntity'; target: EntityAddress; ticks: number }

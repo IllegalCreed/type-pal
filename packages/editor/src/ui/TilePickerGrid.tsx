@@ -1,7 +1,7 @@
 import type { Palette, RleFrame } from '@type-pal/reforge'
 import { bakeFrame } from '@type-pal/reforge'
 import { memo, useLayoutEffect, useRef } from 'react'
-import { DsButton, DsSelect, DsPressable } from './design-system/index.js'
+import { DsButton, DsPressable, DsSelect } from './design-system/index.js'
 
 export interface TilePickerGridProps {
   ariaLabel: string

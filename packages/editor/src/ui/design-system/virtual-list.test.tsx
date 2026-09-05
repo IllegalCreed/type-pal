@@ -175,9 +175,9 @@ describe('DsVirtualListbox semantic contract', () => {
       search.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })),
     )
     expect(document.activeElement).toBe(search)
-    expect(document.getElementById(search.getAttribute('aria-activedescendant')!)?.textContent).toContain(
-      '项目 2',
-    )
+    expect(
+      document.getElementById(search.getAttribute('aria-activedescendant')!)?.textContent,
+    ).toContain('项目 2')
     expect(listbox.tabIndex).toBe(-1)
     expect(onSelect).not.toHaveBeenCalled()
     await act(async () =>
@@ -327,9 +327,9 @@ describe('DsVirtualListbox semantic contract', () => {
     await act(async () =>
       listbox.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })),
     )
-    expect(document.getElementById(listbox.getAttribute('aria-activedescendant')!)?.textContent).toContain(
-      '项目 1',
-    )
+    expect(
+      document.getElementById(listbox.getAttribute('aria-activedescendant')!)?.textContent,
+    ).toContain('项目 1')
 
     const moved = [original[0]!, ...original.slice(2), original[1]!]
     await act(async () => root.render(view(moved)))

@@ -238,6 +238,7 @@ function EnemyDefeatedEventTree(props: {
           >
             {node.arms ? (
               <details className="enemy-defeated-event-tree__branch" open>
+                {/* biome-ignore lint/a11y/noStaticElementInteractions: native summary is keyboard-interactive; preserve Enter/Space toggling in browsers and jsdom. */}
                 <summary
                   onKeyDown={(event) => {
                     if (event.key !== 'Enter' && event.key !== ' ') return
@@ -594,6 +595,7 @@ export function EnemyTab(props: {
   const fieldPrefix = useId()
   const appliedFocusObjectId = useRef<string | undefined>(undefined)
   const defeatedViewerTriggerRef = useRef<HTMLButtonElement>(null)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: source identity replaces the cache when switching project readers; the factory intentionally starts empty.
   const enemyThumbnailCache = useMemo(
     () => new EnemyBattleSpriteThumbnailCache(),
     [assetBase, assetReader],
@@ -699,6 +701,7 @@ export function EnemyTab(props: {
       ? 'money'
       : 'item'
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: selecting another enemy closes the previous enemy's viewer even though the reset value is constant.
   useEffect(() => {
     setDefeatedViewerOpen(false)
   }, [enemy?.id])
@@ -1376,8 +1379,9 @@ export function EnemyTab(props: {
           }
           onClose={() => setDefeatedViewerOpen(false)}
         >
-          <div
+          <section
             className="enemy-defeated-events-viewer"
+            aria-label="击败后事件内容"
             onKeyDown={(event) => {
               if (event.key !== 'Escape') return
               event.preventDefault()
@@ -1389,7 +1393,7 @@ export function EnemyTab(props: {
               <span>修改奖励字段后，本视图会直接从当前敌人事件重新生成。</span>
             </div>
             <EnemyDefeatedEventTree nodes={defeatedPresentation.nodes} />
-          </div>
+          </section>
         </DsDialog>
       ) : null}
 
@@ -1496,7 +1500,8 @@ export function EnemyTab(props: {
                 <DsInspectorSection title="从头造新敌人">
                   <p className="hint">
                     ＋ 新建 → 改名/数值 → 配 AI 规则(变身/施法/集火都在下拉里)→ 建敌队 → **💾 保存**
-                    → ⚔ 试打(试打读磁盘项目;需 reforge dev:pal 在跑,见 docs/ops/guides/dev-servers.md)。
+                    → ⚔ 试打(试打读磁盘项目;需 reforge dev:pal 在跑,见
+                    docs/ops/guides/dev-servers.md)。
                   </p>
                 </DsInspectorSection>
               ),

@@ -1,4 +1,3 @@
-import { DsPressable } from './design-system/index.js'
 import {
   type Dispatch,
   type KeyboardEvent as ReactKeyboardEvent,
@@ -8,6 +7,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import { DsPressable } from './design-system/index.js'
 
 type Orientation = 'vertical' | 'horizontal'
 type ToggleDirection = 'up' | 'down' | 'left' | 'right'

@@ -38,9 +38,7 @@ export function BattleFieldPicker(props: {
           invalid={!known}
           value={props.value == null ? '' : String(props.value)}
           options={options}
-          onValueChange={(value) =>
-            props.onChange(value === '' ? undefined : Number(value))
-          }
+          onValueChange={(value) => props.onChange(value === '' ? undefined : Number(value))}
         />
       }
       actions={

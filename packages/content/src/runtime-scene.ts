@@ -1,13 +1,5 @@
-import type { EntityRef } from './index.js'
-import type {
-  BaseSceneEntity,
-  BaseHostileBehavior,
-  BaseSceneDef,
-  HostilePlayerFleePolicy,
-  HostileVictoryPolicy,
-  PositiveSafeInt,
-} from './scene-core.js'
 import type { CommandValidationOptions } from './author-script-core.js'
+import type { EntityRef } from './index.js'
 import type {
   RuntimeCommand,
   RuntimeEntityBehaviors,
@@ -15,8 +7,20 @@ import type {
   RuntimeSceneHooks,
 } from './runtime-script.js'
 import { checkRuntimeCommands } from './runtime-script.js'
+import type {
+  BaseHostileBehavior,
+  BaseSceneDef,
+  BaseSceneEntity,
+  HostilePlayerFleePolicy,
+  HostileVictoryPolicy,
+  PositiveSafeInt,
+} from './scene-core.js'
 
-export type { HostilePlayerFleePolicy, HostileVictoryPolicy, PositiveSafeInt } from './scene-core.js'
+export type {
+  HostilePlayerFleePolicy,
+  HostileVictoryPolicy,
+  PositiveSafeInt,
+} from './scene-core.js'
 
 /** 运行态 hostile 使用显式胜利与逃跑策略。 */
 export interface RuntimeHostileBehavior extends Omit<BaseHostileBehavior, 'onLose'> {
@@ -59,10 +63,7 @@ export function checkPositiveSafeInt(
   if (!Number.isSafeInteger(value) || Number(value) <= 0) throw new Error(`${path}: 期望正安全整数`)
 }
 
-function checkVictoryPolicy(
-  value: unknown,
-  path: string,
-): asserts value is HostileVictoryPolicy {
+function checkVictoryPolicy(value: unknown, path: string): asserts value is HostileVictoryPolicy {
   const policy = record(value, path)
   if (policy.kind === 'hide') {
     exactKeys(policy, ['kind', 'ticks'], path)

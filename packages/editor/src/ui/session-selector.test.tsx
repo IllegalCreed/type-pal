@@ -6,10 +6,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { RenameProjectCommand, UpdateItemCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
-import {
-  ScriptEditSession,
-  UpdateSharedScriptMetadataCommand,
-} from '../core/script-editor.js'
+import { ScriptEditSession, UpdateSharedScriptMetadataCommand } from '../core/script-editor.js'
 import { catalogControlsEditorState } from './catalog-controls-test-utils.js'
 import {
   shallowSelectorArrayEqual,

@@ -1,5 +1,10 @@
+import type {
+  BaseAuthorCommand,
+  BaseEntityBehaviors,
+  BaseEntityPage,
+  BaseSceneHooks,
+} from './author-script-core.js'
 import type { EntityBase, EntityRef, SceneDef } from './index.js'
-import type { BaseAuthorCommand, BaseEntityBehaviors, BaseEntityPage, BaseSceneHooks } from './author-script-core.js'
 
 /** JSON 仍以 number 表示；所有入口由 current scene validator 校验正安全整数。 */
 export type PositiveSafeInt = number

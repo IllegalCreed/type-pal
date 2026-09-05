@@ -1,9 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import {
-  nextSceneAssetIdentity,
-  normalizeSceneAssetPath,
-  validateSceneIndex,
-} from './index.js'
+import { nextSceneAssetIdentity, normalizeSceneAssetPath, validateSceneIndex } from './index.js'
 
 describe('SceneIndexV1', () => {
   test('规范化并保持稳定 id、作者名称与显式路径', () => {

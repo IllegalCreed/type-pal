@@ -2,9 +2,9 @@ import {
   findWorkspaceRecordByHandle,
   loadWorkspaceRecord,
   saveWorkspaceHandleUnderLock,
+  type WorkspaceHandleRecord,
   withWorkspaceDiscoveryLock,
   withWorkspaceRegistrationLock,
-  type WorkspaceHandleRecord,
 } from './handle-store.js'
 import {
   createLocalWorkspaceContext,
@@ -166,8 +166,7 @@ export function authorizedDirectory(
   mutation: AuthorizedWorkspaceMutation,
 ): FileSystemDirectoryHandle {
   const state = mutation && authorizedMutations.get(mutation)
-  if (!state?.active)
-    throw new Error('拒绝未经 active workspace mutation 授权的目录访问')
+  if (!state?.active) throw new Error('拒绝未经 active workspace mutation 授权的目录访问')
   return state.target.dir
 }
 
@@ -307,10 +306,7 @@ export async function registerAuthorizedWorkspaceMutation(
   )
     throw new Error('写入会话与待登记 workspace identity 不一致')
   const pending = state.pendingRegistration
-  if (
-    pending &&
-    (pending.context !== context || pending.name !== name)
-  )
+  if (pending && (pending.context !== context || pending.name !== name))
     throw new Error('同一 workspace mutation 不能登记多个 recent identity')
   state.pendingRegistration = { context, name }
 }
@@ -369,8 +365,7 @@ async function assertPalDevelopmentTarget(
   if (sentinel.workspaceId !== context.workspaceId || sentinel.projectId !== context.projectId)
     throw new Error('PAL 开发基线 sentinel 与当前会话不一致')
   const actual = await palDevelopmentTargetFingerprint(context, dir)
-  const expected =
-    palExpectedFingerprints.get(context) ?? context.palProof.expectedFingerprint
+  const expected = palExpectedFingerprints.get(context) ?? context.palProof.expectedFingerprint
   if (actual !== expected)
     throw new Error('目标 PAL 开发基线关键快照与本次会话预期不一致，拒绝覆盖')
 }

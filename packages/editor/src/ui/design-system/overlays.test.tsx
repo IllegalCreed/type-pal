@@ -64,12 +64,12 @@ describe('DsDialog lifecycle contract', () => {
     expect(new Set(titleIds).size).toBe(2)
     expect(new Set(descriptionIds).size).toBe(2)
     for (const dialog of dialogs) {
-      expect(document.getElementById(dialog.getAttribute('aria-labelledby')!)?.closest('dialog')).toBe(
-        dialog,
-      )
-      expect(document.getElementById(dialog.getAttribute('aria-describedby')!)?.closest('dialog')).toBe(
-        dialog,
-      )
+      expect(
+        document.getElementById(dialog.getAttribute('aria-labelledby')!)?.closest('dialog'),
+      ).toBe(dialog)
+      expect(
+        document.getElementById(dialog.getAttribute('aria-describedby')!)?.closest('dialog'),
+      ).toBe(dialog)
     }
   })
 

@@ -632,11 +632,7 @@ export function WorldSpriteLibrary(props: {
     try {
       const bytes = await props.assetReader.readBytes(selectedAsset, 'sprite')
       props.session.dispatch(
-        new DeleteUnusedSpriteAssetCommand(
-          selectedAsset,
-          props.getCurrentReferenceIndex,
-          bytes,
-        ),
+        new DeleteUnusedSpriteAssetCommand(selectedAsset, props.getCurrentReferenceIndex, bytes),
       )
       const next = assets.find(([asset]) => asset !== selectedAsset)?.[0] ?? ''
       setSelectedAsset(next)
@@ -911,6 +907,7 @@ export function WorldSpriteLibrary(props: {
                     }
                   >
                     {consumers.length && !creatingUsage ? (
+                      // biome-ignore lint/a11y/useSemanticElements: Named command/menu group, not a form fieldset.
                       <div
                         className="ds-inspector-choice-list"
                         role="group"
@@ -929,6 +926,7 @@ export function WorldSpriteLibrary(props: {
                       </div>
                     ) : null}
                     {showUsageMenu ? (
+                      // biome-ignore lint/a11y/useSemanticElements: Named command/menu group, not a form fieldset.
                       <div
                         className="ds-inspector-option-row"
                         role="group"
@@ -1128,6 +1126,7 @@ export function WorldSpriteLibrary(props: {
                     >
                       {definition && Object.keys(definition.poses ?? {}).length ? (
                         <DsReferenceGroup title="动作引用" count={actionReferences.length}>
+                          {/* biome-ignore lint/a11y/useSemanticElements: Named command/menu group, not a form fieldset. */}
                           <div
                             className="ds-inspector-choice-list"
                             role="group"
@@ -1203,6 +1202,7 @@ export function WorldSpriteLibrary(props: {
                       {definition || consumers.length ? (
                         <DsReferenceGroup title="用途定义引用" count={definitionReferences.length}>
                           {consumers.length ? (
+                            // biome-ignore lint/a11y/useSemanticElements: Named command/menu group, not a form fieldset.
                             <div
                               className="ds-inspector-choice-list"
                               role="group"

@@ -1,4 +1,3 @@
-import { DsPressable } from './design-system/index.js'
 import type { AssetId, BattleSpriteDef, BattleSpriteProfileKind } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame } from '@type-pal/reforge'
 import {
@@ -9,6 +8,7 @@ import {
 } from '@type-pal/reforge'
 import { type DragEvent as ReactDragEvent, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { DsPressable } from './design-system/index.js'
 import {
   RawFrameInspector,
   type SemanticFrameGroup,

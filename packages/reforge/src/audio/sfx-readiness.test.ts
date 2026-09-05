@@ -21,10 +21,7 @@ const play = (asset: string): Extract<RuntimeCommand, { kind: 'playSound' }> => 
 })
 const library = (scripts: Record<string, RuntimeCommand[]>): RuntimeScriptLibrary =>
   Object.fromEntries(
-    Object.entries(scripts).map(([id, body]) => [
-      id,
-      { name: id, self: 'none' as const, body },
-    ]),
+    Object.entries(scripts).map(([id, body]) => [id, { name: id, self: 'none' as const, body }]),
   )
 
 const enemy = (id: string, rules: EnemyDef['ai']['rules'] = []): EnemyDef => ({

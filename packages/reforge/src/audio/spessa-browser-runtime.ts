@@ -17,9 +17,7 @@ export async function initializeBrowserSpessaSynth(
 ): Promise<WorkletSynthesizer> {
   if (!context.audioWorklet) {
     const secure = typeof window !== 'undefined' ? window.isSecureContext : false
-    throw new Error(
-      `AudioWorklet 不可用（secure context=${secure}），请使用 HTTPS 或 localhost。`,
-    )
+    throw new Error(`AudioWorklet 不可用（secure context=${secure}），请使用 HTTPS 或 localhost。`)
   }
   await context.audioWorklet.addModule('/spessasynth_processor.min.js')
   const { WorkletSynthesizer } = await import('spessasynth_lib')

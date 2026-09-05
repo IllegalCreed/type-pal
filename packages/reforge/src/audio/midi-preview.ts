@@ -63,7 +63,12 @@ export function createMidiNoteActivity(
   const count = Math.max(1, Math.floor(bucketCount))
   const values = Array.from({ length: count }, () => 0)
   if (safeDuration <= 0 || notes.length === 0)
-    return { kind: 'note-activity', duration: safeDuration, buckets: values, noteCount: notes.length }
+    return {
+      kind: 'note-activity',
+      duration: safeDuration,
+      buckets: values,
+      noteCount: notes.length,
+    }
 
   for (const note of notes) {
     const start = clamp(note.start, 0, safeDuration)
@@ -71,7 +76,9 @@ export function createMidiNoteActivity(
     const first = clamp(Math.floor((start / safeDuration) * count), 0, count - 1)
     const last = clamp(Math.floor((end / safeDuration) * count), first, count - 1)
     const weight = clamp(note.velocity / 127, 0.05, 1)
-    for (let bucket = first; bucket <= last; bucket++) values[bucket]! += weight
+    // first/last are clamped to the initialized bucket range.
+    for (let bucket = first; bucket <= last; bucket++)
+      values[bucket] = (values[bucket] as number) + weight
   }
   const peak = Math.max(1, ...values)
   return {
@@ -318,10 +325,10 @@ export function createMidiPreviewTransport(
       const currentTime = hasExplicitPosition
         ? position
         : finished
-        ? duration()
-        : sequencer && loadedAsset === asset
-          ? sequencer.currentTime
-          : position
+          ? duration()
+          : sequencer && loadedAsset === asset
+            ? sequencer.currentTime
+            : position
       return {
         asset,
         currentTime: clamp(currentTime, 0, duration()),

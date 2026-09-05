@@ -74,10 +74,7 @@ function checkDirectPortrait(
   checkSide(portrait.side, `${path}.side`)
 }
 
-function checkActorPortrait(
-  value: unknown,
-  path: string,
-): asserts value is DialogueActorPortrait {
+function checkActorPortrait(value: unknown, path: string): asserts value is DialogueActorPortrait {
   const portrait = record(value, path)
   if (portrait.kind === 'default') {
     exactKeys(portrait, ['kind', 'side'], path)
@@ -124,7 +121,10 @@ export function checkDialogueIdentity(
 /**
  * 作者 cue 的唯一形状守卫；不接受身份旧字段的半迁移状态。
  */
-export function checkAuthorDialogueCue(value: unknown, path: string): asserts value is AuthorDialogueCue {
+export function checkAuthorDialogueCue(
+  value: unknown,
+  path: string,
+): asserts value is AuthorDialogueCue {
   const cue = record(value, path)
   exactKeys(cue, ['identity', 'rows', 'autoAdvance', 'slot', 'cursorFrame'], path)
   checkDialogueIdentity(cue.identity, `${path}.identity`)
@@ -134,12 +134,17 @@ export function checkAuthorDialogueCue(value: unknown, path: string): asserts va
     const row = record(rawRow, `${path}.rows[${index}]`)
     exactKeys(row, ['text', 'speed'], `${path}.rows[${index}]`)
     nonEmptyString(row.text, `${path}.rows[${index}].text`)
-    if (row.speed !== undefined && (typeof row.speed !== 'number' || !Number.isFinite(row.speed) || row.speed < 0))
+    if (
+      row.speed !== undefined &&
+      (typeof row.speed !== 'number' || !Number.isFinite(row.speed) || row.speed < 0)
+    )
       throw new Error(`${path}.rows[${index}].speed: 期望非负有限数`)
   })
   if (
     cue.autoAdvance !== undefined &&
-    (typeof cue.autoAdvance !== 'number' || !Number.isFinite(cue.autoAdvance) || cue.autoAdvance < 0)
+    (typeof cue.autoAdvance !== 'number' ||
+      !Number.isFinite(cue.autoAdvance) ||
+      cue.autoAdvance < 0)
   )
     throw new Error(`${path}.autoAdvance: 期望非负有限数`)
   if (
@@ -150,7 +155,12 @@ export function checkAuthorDialogueCue(value: unknown, path: string): asserts va
     cue.slot !== 'center'
   )
     throw new Error(`${path}.slot: 期望 top|bottom|narration|center`)
-  if (cue.cursorFrame !== undefined && cue.cursorFrame !== 0 && cue.cursorFrame !== 1 && cue.cursorFrame !== 2)
+  if (
+    cue.cursorFrame !== undefined &&
+    cue.cursorFrame !== 0 &&
+    cue.cursorFrame !== 1 &&
+    cue.cursorFrame !== 2
+  )
     throw new Error(`${path}.cursorFrame: 期望 0|1|2`)
 }
 
@@ -165,9 +175,7 @@ export function resolveDialogueIdentity(
   if (identity.kind === 'unbound')
     return {
       ...(identity.speaker !== undefined ? { speaker: identity.speaker } : {}),
-      ...(identity.portrait !== undefined
-        ? { portrait: { ...identity.portrait } }
-        : {}),
+      ...(identity.portrait !== undefined ? { portrait: { ...identity.portrait } } : {}),
     }
 
   const actor = actorsById[identity.actor]

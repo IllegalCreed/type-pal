@@ -32,7 +32,9 @@ describe('current lifecycle commands', () => {
           {
             kind: 'branch',
             cond: { kind: 'flag', flag: 'x', is: true },
-            then: [{ kind: 'startBattle', enemyTeamId: 'team-1', onFlee: [{ kind: 'vanishEntity' }] }],
+            then: [
+              { kind: 'startBattle', enemyTeamId: 'team-1', onFlee: [{ kind: 'vanishEntity' }] },
+            ],
           },
         ],
         'script',

@@ -1,15 +1,15 @@
 import {
-  type RuntimeCommand,
+  type AuthorItemCoreMap,
+  type BaseSceneDef,
   type BaseSceneEntity,
-  type RuntimeEntityDef,
+  type EntityLifecycleCommand,
   type EntityLifecycleReferenceIndex,
   emptyWorldScriptState,
-  type AuthorItemCoreMap,
-  type EntityLifecycleCommand,
+  type RuntimeCommand,
   type RuntimeEntityBehavior,
-  type RuntimeSceneHook,
-  type BaseSceneDef,
+  type RuntimeEntityDef,
   type RuntimeSceneDef,
+  type RuntimeSceneHook,
   type WorldScriptState,
   type WorldState,
 } from '@type-pal/content'
@@ -19,25 +19,21 @@ import {
   type EntityLifecycleCommandCommit,
 } from './entity-lifecycle-command.js'
 import type { LoadedCurrentProjectCore } from './project-loader.js'
+import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
+import { compileRuntimeScriptFlow, RuntimeSharedScriptResolver } from './runtime-script-compiler.js'
+import { RuntimeScriptRunner, type ScriptRuntimeHost } from './runtime-script-runner.js'
 import {
   withRegisteredScriptActivityLineage,
   withScriptActivityLineage,
 } from './script-activity-lineage.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
-import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
-import { compileRuntimeScriptFlow, RuntimeSharedScriptResolver } from './runtime-script-compiler.js'
 import {
   type BaseProjectScriptHostOptions,
   BaseProjectScriptRuntimeHost,
   type ScriptEffectCommitControl,
 } from './script-project-core.js'
 import type { ScriptRuntimeContext } from './script-runner-core.js'
-import { RuntimeScriptRunner, type ScriptRuntimeHost } from './runtime-script-runner.js'
-import {
-  FlowRuntimeCoordinator,
-  resolveEntityBehavior,
-  resolveSceneHook,
-} from './script-world.js'
+import { FlowRuntimeCoordinator, resolveEntityBehavior, resolveSceneHook } from './script-world.js'
 
 export interface ProjectScriptHostOptions
   extends Omit<BaseProjectScriptHostOptions, 'executeEffect' | 'worldChanged' | 'scene'> {
@@ -78,8 +74,7 @@ function retainedBaseCommand(command: RuntimeLeafCommand): BaseRuntimeLeafComman
 }
 
 function runtimeCommand(command: BaseRuntimeLeafCommand): RuntimeLeafCommand {
-  if (command.kind === 'vanishEntity')
-    throw new Error('当前 runtime 禁止 vanishEntity')
+  if (command.kind === 'vanishEntity') throw new Error('当前 runtime 禁止 vanishEntity')
   return command as unknown as RuntimeLeafCommand
 }
 
@@ -111,8 +106,7 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
         options.executeEffect(runtimeCommand(command), context, signal, commitControl),
       ...(worldChanged
         ? {
-            worldChanged: (command, context) =>
-              worldChanged(runtimeCommand(command), context),
+            worldChanged: (command, context) => worldChanged(runtimeCommand(command), context),
           }
         : {}),
     })
@@ -198,7 +192,10 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
   }
 }
 
-function entityAt(scene: RuntimeSceneDef, target: { scene: string; entity: string }): RuntimeEntityDef {
+function entityAt(
+  scene: RuntimeSceneDef,
+  target: { scene: string; entity: string },
+): RuntimeEntityDef {
   if (scene.id !== target.scene)
     throw new Error(`script target scene 不匹配: ${target.scene} / ${scene.id}`)
   const entity = scene.entities.find((candidate) => candidate.id === target.entity)

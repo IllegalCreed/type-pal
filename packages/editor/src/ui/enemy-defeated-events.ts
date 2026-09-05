@@ -13,10 +13,7 @@ import { lookupText, parseRichText } from '@type-pal/content'
 
 export type PresentableEnemyDefeatedCommand = NonNullable<AuthorEnemyDef['onDefeated']>[number]
 
-type PresentableEnemyDefeatedDialog = Extract<
-  PresentableEnemyDefeatedCommand,
-  { kind: 'dialog' }
->
+type PresentableEnemyDefeatedDialog = Extract<PresentableEnemyDefeatedCommand, { kind: 'dialog' }>
 
 export interface EnemyDefeatedResolvedReference {
   id: string
@@ -37,9 +34,7 @@ export interface EnemyDefeatedPresentationContext {
   actor: (id: string) => EnemyDefeatedResolvedReference
   scene: (id: string) => EnemyDefeatedResolvedReference
   entity: (sceneId: string, entityId: string) => EnemyDefeatedResolvedReference
-  dialog: (
-    command: PresentableEnemyDefeatedDialog,
-  ) => EnemyDefeatedResolvedDialogue
+  dialog: (command: PresentableEnemyDefeatedDialog) => EnemyDefeatedResolvedDialogue
 }
 
 export interface EnemyDefeatedEventArm {
@@ -232,11 +227,7 @@ function strictSkipPercent(
 function exactItemReward(
   commands: readonly PresentableEnemyDefeatedCommand[],
 ): EnemyDefeatedItemReward | undefined {
-  if (
-    commands.length === 2 &&
-    commands[0]?.kind === 'giveItem' &&
-    commands[1]?.kind === 'dialog'
-  )
+  if (commands.length === 2 && commands[0]?.kind === 'giveItem' && commands[1]?.kind === 'dialog')
     return {
       itemId: commands[0].itemId,
       count: commands[0].count ?? 1,
@@ -328,13 +319,15 @@ function describeCondition(
     case 'ownsItem': {
       const reference = context.item(condition.itemId)
       return {
-        label: `持有 ${reference.label} ×${condition.atLeast ?? 1}`, invalid: reference.invalid,
+        label: `持有 ${reference.label} ×${condition.atLeast ?? 1}`,
+        invalid: reference.invalid,
       }
     }
     case 'itemEquipped': {
       const reference = context.item(condition.itemId)
       return {
-        label: `已装备 ${reference.label} ×${condition.atLeast ?? 1}`, invalid: reference.invalid,
+        label: `已装备 ${reference.label} ×${condition.atLeast ?? 1}`,
+        invalid: reference.invalid,
       }
     }
     case 'allFullHp':
@@ -516,8 +509,7 @@ function presentCommand(
       return {
         path,
         kind: command.kind,
-        label:
-          command.cond.kind === 'chance' ? `${condition.label}时` : `如果 ${condition.label}`,
+        label: command.cond.kind === 'chance' ? `${condition.label}时` : `如果 ${condition.label}`,
         ...(condition.invalid ? { invalid: true } : {}),
         arms,
         branchReachability:
@@ -599,9 +591,7 @@ function analyzeSummaryNode(
   conditional: boolean,
 ): EnemyDefeatedSummaryFlow {
   const category = summaryCategoryByKind[node.kind]
-  const ownCategories = category
-    ? [{ path: node.path, kind: node.kind, label: category }]
-    : []
+  const ownCategories = category ? [{ path: node.path, kind: node.kind, label: category }] : []
   if (node.kind === 'stopScript') {
     return {
       candidates: [],
@@ -730,10 +720,7 @@ export function findEditableEnemyDefeatedItemReward(
   )
   if (giveIndexes.length !== 1) return undefined
   const giveIndex = giveIndexes[0]!
-  const give = commands[giveIndex] as Extract<
-    PresentableEnemyDefeatedCommand,
-    { kind: 'giveItem' }
-  >
+  const give = commands[giveIndex] as Extract<PresentableEnemyDefeatedCommand, { kind: 'giveItem' }>
   const skipPercent = strictSkipPercent(commands[giveIndex - 1], false)
   if (commands[giveIndex - 1]?.kind === 'branch' && skipPercent === undefined) return undefined
   const startIndex = skipPercent === undefined ? giveIndex : giveIndex - 1

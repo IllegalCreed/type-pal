@@ -1,5 +1,7 @@
 import type { AuthorSceneDef, EntityAddress, Selection } from '@type-pal/content'
 import { useMemo, useState } from 'react'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
   AddEntityBehaviorCommand,
   DeleteEntityBehaviorCommand,
@@ -10,10 +12,8 @@ import {
   type ScriptEditorState,
   UpdateEntityBehaviorCommand,
 } from '../core/script-editor.js'
-import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import { DsButton, DsHelpTip, DsSelect } from './design-system/controls.js'
-import { reorderDsItems, type DsReorderIntent } from './design-system/reorder.js'
+import { type DsReorderIntent, reorderDsItems } from './design-system/reorder.js'
 import {
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,

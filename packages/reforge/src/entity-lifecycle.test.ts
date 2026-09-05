@@ -68,9 +68,9 @@ describe('entity lifecycle reducer and derived gates', () => {
     expect(hidden).toEqual({ s001: { e001: { phase: 'despawned', remainingTicks: 2 } } })
     const restored = applyEntityLifecycleMutation(hidden, { ...target, kind: 'restoreEntity' })
     expect(restored).toEqual({})
-    expect(() => applyEntityLifecycleMutation({}, { ...target, kind: 'suspendEntity', ticks: 0 })).toThrow(
-      /正安全整数/,
-    )
+    expect(() =>
+      applyEntityLifecycleMutation({}, { ...target, kind: 'suspendEntity', ticks: 0 }),
+    ).toThrow(/正安全整数/)
   })
 
   test('explicit entityState overrides a static hidden/collision definition before lifecycle gates', () => {

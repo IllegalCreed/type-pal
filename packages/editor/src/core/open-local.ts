@@ -3,8 +3,8 @@
  * 对应生成/迁移工具重建，编辑器本身不再携带版本升级器或双读分支。
  */
 import {
-  CONTENT_VERSION,
   type AuthorSceneDef,
+  CONTENT_VERSION,
   type ScriptChunkV1,
   type StampTemplate,
 } from '@type-pal/content'

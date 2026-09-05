@@ -69,7 +69,8 @@ describe('MusicTab catalog controls', () => {
     expect(host.querySelectorAll('.ds-virtual-list__item')).toHaveLength(0)
     await setCatalogSearch(search, '')
     expect(host.querySelectorAll('.ds-virtual-list__item')).toHaveLength(2)
-    expect(host.querySelector('.ds-catalog-row[data-selected] .ds-catalog-row__title')?.textContent)
-      .toBe('开场音乐')
+    expect(
+      host.querySelector('.ds-catalog-row[data-selected] .ds-catalog-row__title')?.textContent,
+    ).toBe('开场音乐')
   })
 })

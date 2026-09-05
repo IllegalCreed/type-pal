@@ -1479,8 +1479,9 @@ export function ScriptDrawer(props: {
                 </div>
               ) : null}
               {selCmd && selPath && activeCommandDraft ? (
-                <div
+                <section
                   className="section"
+                  aria-label="指令编辑"
                   onKeyDown={(event) => {
                     if (
                       event.defaultPrevented ||
@@ -1577,7 +1578,7 @@ export function ScriptDrawer(props: {
                       完成
                     </DsButton>
                   </div>
-                </div>
+                </section>
               ) : null}
               {playback.view.logs.length > 0 ? (
                 <div className="section">

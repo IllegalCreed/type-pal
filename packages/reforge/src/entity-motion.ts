@@ -1070,9 +1070,7 @@ export function planEntityMotion(input: MotionPlanInput): MotionPlan {
   const partyActor = actorsByKey.get(partyKey)
   const partyIntent = intentsByKey.get(partyKey)
   const dynamicExcluded = new Set(
-    intents
-      .filter(intentBypassesCollision)
-      .map((intent) => motionActorKey(intent.actor)),
+    intents.filter(intentBypassesCollision).map((intent) => motionActorKey(intent.actor)),
   )
   let manualPartyBlock: MotionBlockReason | undefined
   let solve: DynamicSolveResult

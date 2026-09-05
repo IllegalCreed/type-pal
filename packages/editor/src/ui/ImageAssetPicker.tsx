@@ -185,9 +185,7 @@ export function ImageAssetPicker(props: {
           aria-label={props.ariaLabel ?? `${props.kind} 图片`}
           invalid={!!props.value && !currentValid}
           value={selected}
-          onValueChange={(value) =>
-            props.onChange(value === UNSET ? undefined : value)
-          }
+          onValueChange={(value) => props.onChange(value === UNSET ? undefined : value)}
           options={[
             ...(props.allowUnset ? [{ value: UNSET, label: '(无)' }] : []),
             ...(props.value && !currentValid

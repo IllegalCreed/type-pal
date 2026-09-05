@@ -1,7 +1,4 @@
-import {
-  buildEntityLifecycleReferenceIndex,
-  type WorldState,
-} from '@type-pal/content'
+import { buildEntityLifecycleReferenceIndex, type WorldState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   applyWorldEntityEntityLifecycleCommand,
@@ -34,7 +31,9 @@ describe('current lifecycle command adapter', () => {
       { kind: 'suspendEntity', target: { scene: 's002', entity: 'e002' }, ticks: 15 },
       references,
     )
-    expect(next.entityLifecycles).toEqual({ s002: { e002: { phase: 'suspended', remainingTicks: 15 } } })
+    expect(next.entityLifecycles).toEqual({
+      s002: { e002: { phase: 'suspended', remainingTicks: 15 } },
+    })
     expect(next.script).toEqual(world.script)
     expect(next).not.toBe(world)
     expect(world.entityLifecycles).toBeUndefined()
@@ -89,11 +88,7 @@ describe('current lifecycle command adapter', () => {
     { scene: 's001', entity: 'missing' },
   ])('rejects unknown target before writing: %o', (target) => {
     expect(() =>
-      reduceEntityEntityLifecycleCommand(
-        {},
-        { kind: 'removeEntity', target },
-        references,
-      ),
+      reduceEntityEntityLifecycleCommand({}, { kind: 'removeEntity', target }, references),
     ).toThrow(/未知/)
   })
 })
