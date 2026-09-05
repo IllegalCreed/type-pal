@@ -10,7 +10,7 @@
     "build": "vite build",
     "benchmark:references": "tsx scripts/benchmark-derived-reference-index.mts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --passWithNoTests --maxWorkers=2",
     "check": "pnpm typecheck && pnpm test",
     "dev:demo": "vite --port 6011 --strictPort"
   },

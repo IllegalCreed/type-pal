@@ -274,7 +274,8 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
     await playRng({
       chunkIdx: 6,
       frameDelayMs: 0,
-      initialFadeInMs: 1,
+      // 两次 performance.now() 之间无 await；20ms 保证至少走一次 sleep，避免覆盖率随机器时序抖动。
+      initialFadeInMs: 20,
       fb,
       canvasCtx: ctx,
       palette,
