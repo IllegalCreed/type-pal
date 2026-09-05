@@ -1,6 +1,6 @@
 # DOC-GOV-1 - 文档审计整改与自动检查
 
-Status: review
+Status: done
 Owner: Codex（检查脚本、集成与终审）
 Contributor: GLM（文档整改）
 Phase: ops
@@ -68,7 +68,7 @@ Codex 独占：
 - Codex：工程前提 verified（审计对照源码版本与入口内容）；design agree。普通文档治理，无产品行为变更。
 - 用户流程授权：本轮指定 GLM 整改 + Codex 终审，按此两席推进；未代签 Kimi/GLM。
 - GLM：文档整改已交付，候选 `e1314089`；原回执保留如下。
-- Codex：已复核并修正下列遗漏；本地检查通过，待最终远端 CI 回执后收口。
+- Codex：accept（2026-09-06，复核并修正下列遗漏；文档与覆盖率 CI 均通过，按本轮用户授权收口）。
 
 ## GLM 整改回执
 
@@ -190,10 +190,15 @@ tasks/README 扩展维护说明并链接生成的 `index.md`。
 - `check:docs` 已加入根 check/check:fast；Documentation CI 用 Node 直接执行，无 PAL 素材或新依赖。
 - 覆盖率基线与生产源码范围未改；本轮不需要重跑产品浏览器/剧情 E2E。全仓既有 lint 债仍由 E-06 处理，
   不将文档检查通过称为整个 `pnpm check` 通过。
-- 远端 CI：待最终候选推送后的实际回执。
+- 远端候选 `042228d8`： [Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/33984102907)
+  与 [Coverage ratchet](https://github.com/IllegalCreed/type-pal/actions/runs/33984102999) 均 success。
+  文档门禁在不安装依赖、不提供 PAL 素材的 Linux 干净环境通过。
+- 收口：DOC-01～09 文档整改及检查工具完成；代码审计原有业务缺陷未被本卡标为已修复。
 
 ## 交接日志
 
+- 2026-09-06 Codex：对 GLM 候选完成实质终审，修正阶段误读、证据文字损失、不可解析 Git 引用与历史分界遗漏。
+  `042228d8` 文档/覆盖率 CI 均通过；按用户指定的 GLM 整改 + Codex 终审流程 accept，移出进行中看板。
 - 2026-09-06 GLM：完成 DOC-01～09 全部文档整改并按 Codex 已落检查器清零——
   `node scripts/docs/check.mjs` → **PASS (0 issues)**。要点：六份现行文档 content19→20
   分段修正（残留仅为合法历史叙述）；phase2/README 重写为稳定导航；roadmap 历史/当前分层 +
@@ -211,7 +216,7 @@ tasks/README 扩展维护说明并链接生成的 `index.md`。
 
 ## 下一位 Agent 提示词
 
-GLM 整改已交付，无下一位 Agent 提示词；Codex 正在完成远端检查与收口。下方首次交接仅保留历史。
+无下一位 Agent 提示词；本卡已由 Codex 复核并收口，无需用户再做技术验收。下方首次交接仅保留历史。
 
 ### 历史：首次 GLM 交接
 

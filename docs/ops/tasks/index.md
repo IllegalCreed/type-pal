@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [DOC-GOV-1 - 文档审计整改与自动检查](DOC-GOV-1-documentation-cleanup.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -46,6 +45,7 @@
 | [D14-3 - 奖励/事件总线统一收尾（议题 14 剩余③）](D14-3-reward-event-bus.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D15-1 - NPC 移动补全：动态碰撞 + 互相让路 + 转向动画（议题 15）](D15-1-npc-movement-dynamic-collision.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D6-1 - 遮挡半透明（方案 A，议题 6）](D6-1-occlusion-semi-transparent.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [DOC-GOV-1 - 文档审计整改与自动检查](DOC-GOV-1-documentation-cleanup.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E18-1 - 编辑器角色战斗字段（coveredBy / casualty / cooperativeMagic）](E18-1-editor-actor-battle-fields.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2 - 巡逻模板(轻量卡)](E2-patrol-templates.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-1 - 空白工程可玩性:烟测缝隙全清](E2E-1-blank-project-playable.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -152,4 +152,3 @@
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
-

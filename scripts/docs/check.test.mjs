@@ -138,6 +138,10 @@ const run = (documents, exceptions = []) =>
 
 test('clean document tree and task index pass without generated assets or node_modules', () => {
   assert.deepEqual(run(fixture()).issues, [])
+  const documents = fixture()
+  const index = 'docs/ops/tasks/index.md'
+  documents.set(index, documents.get(index).trimEnd())
+  assert.deepEqual(run(documents).issues, [])
 })
 
 test('missing files, unindexed documents and active task absent from board fail independently', () => {

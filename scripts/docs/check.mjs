@@ -165,7 +165,7 @@ export function auditDocuments({
       add(task.file, 1, '历史中文状态例外只用于终态卡，活动卡必须使用 Status')
   }
   const expectedIndex = renderTaskIndex(tasks)
-  if (documents.get(taskIndex) !== expectedIndex)
+  if (documents.get(taskIndex)?.trimEnd() !== expectedIndex.trimEnd())
     add(taskIndex, 1, '任务索引与卡片顶部状态不一致，请重新生成')
   const board = 'docs/ops/board.md'
   if (!documents.has(board)) add(board, 1, '当前任务看板不存在')
