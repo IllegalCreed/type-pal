@@ -244,7 +244,68 @@ Branch: main
     → fail-closed 失效；
   ④ 重迁保留作者 SceneIndex.name/path 失败或第二次 dry-run 非零 → ownership 边界失效；
   ⑤ 写序中断测试产生 index→缺正文 → 写序设计不成立。
-- GLM: premise pending | design pending
+- GLM:
+  - premise: **verified（2026-09-05，固定候选 `8a283b39`；三工程闭包/共享地图/typed self-cross
+    census/publication 归属/R4 存档链全部本人独立脚本复算，不采信 Codex census）**：
+    1. **三工程 scene 闭包（本人 node 复算）**：PAL **294** scenes / 294 文件，orphan 0 /
+       missing 0 / 非法 id 0 / 正文 id 不符 0；demo **1**、e2e-own **1** 同样全零——三库
+       index 均为 `string[]`，全部正文恰位于 `content/scenes/<id>.json`，显式 path 迁移
+       无孤儿/缺正文负担。
+    2. **共享地图（本人复算）**：294 场景引用 **221** 个不同 mapId，其中 **59 张被 >1
+       场景共享、单图最多 4 场景**，全库 223 张地图——与卡面逐字一致；「场景名 ≠ 地图名
+       身份」成立，地图名只可作 name 种子。
+    3. **typed self/cross census（本人以 content `collectCommandTargetReferences`
+       walker 复算，非字段名 grep）**：同场景 EntityAddress **37,154**、跨场景 **836**；
+       同场景 loadScene **57**、跨 **924**；同场景 selectSceneHooks **2**、跨 64（卡面 65，
+       ±1 为方法口径差、不影响结论）；**245/294 场景含自引用；极值恰为 s108 = 6,897**
+       （top5：s108/s019/s176/s052/s186）——「复制只换 scene.id 不重写 typed 自引用会得到
+       行为错误的复制体」由真树数据实锤，且 s108 可作复制 transformer 的极值回归 fixture。
+    4. **publication baseline-first/作者归属（本人直读）**：`files = new Map(baseline.files)`
+       （pal-current-publication.ts:96）——作者 scenes 自 baseline 保留、generated 只回灌
+       特定分区；scene 段校验 index string[] + id/body/map 闭包（:261-275）——与
+       item-scheme-label/inparty 先例同构，作者改过的 SceneIndex name/path 在重迁中可保留、
+       生成字段归属可以显式声明（前提是 build 补 field-ownership 不变量，见 GM-SL1）。
+    5. **R4 无可执行存档链（本人实测）**：`projects/pal/e2e-checkpoints/` **仅 README.md、
+       `*.save.json` 计数为 0**；roadmap R4 仅为 001-010 文字边界 + Q1 runner 未建；e2e
+       README 明文「checkpoint 只消费当前 canonical，版本切换后从上游重新生成」——**前移
+       content20 不作废任何既有 E2E**；版本顺序 SceneIndex content20 → R4 → N6b content21
+       在 roadmap :300-306 与 e2e README :49-52 均已一致更新。
+    6. **两个闭环缺口直读**：`AddSceneCommand`（commands.ts:3386-3408）只写
+       `state.scenes` 主会话 shell、无 script 侧配对——而实体新增要求 canonical scene 已在
+       script session（script-editor.ts:1175「与主会话 AddEntityCommand 成对提交」前置）；
+       loader（project-loader.ts:145-153）以 string[] index + `<dir>/<id>.json` 推导路径、
+       :186/:330 已拒非 current 版本——「单边新建 + 隐式路径」缺口属实且 current-only
+       版本拒斥已有先例可扩。
+    7. **可证伪观察**：重迁后作者改过的 SceneIndex.name/path 被生成分区覆盖（ownership
+       声明失败）；typed transformer 漏任一 scene-bearing target（collector differential
+       红）；content20 双跑 zero-plan 失败或最终树残留 content19 parser/upgrader/fallback；
+       R4 出现已绑定 content19 的可执行 checkpoint（现为 0）——任一成立本签字失效。
+  - design: **agree（2026-09-05，附 GM-SL1~GM-SL5 必落钉）**：
+    - **GM-SL1（SceneIndex 迁移归属钉）**：publication 必须显式声明 SceneIndex 字段归属——
+      id/path 生成种子为 raw-owned、作者 name/path 编辑经 baseline-first 保留——并加
+      PAL 不变量（同 item-scheme-label 先例）；294 条 name 由地图可读名按稳定场景顺序
+      确定性消歧（重名后缀规则冻结）并以确定性测试钉死，不允许快照漂移。
+    - **GM-SL2（typed transformer 同源钉）**：copy transformer 与
+      `command-target-reference.ts` 的 target recognition **同模块/同源**；collector
+      differential 测试——对源场景 collect 出的 self scene-bearing 集合（EntityAddress/
+      currentScene/loadScene(+entry)/selectSceneHooks/setSceneMapOverride/scene-entry）
+      逐一断言改写为新 SceneId、cross 集合逐字节不变、输入不被 mutate；递归覆盖
+      branch/confirm/loop/startBattle 子体与 all/any/not；**以 s108（6,897 自引用极值）
+      与 top5 场景作真树回归 fixture**，不得只用玩具 fixture。
+    - **GM-SL3（双 session 事务钉）**：create/copy/delete 经
+      `EditorHistoryCoordinator` 成对提交，第二笔失败补偿、undo/redo 一步对称；**delete
+      的 redo 用 ED-3 current provider 再验真 blocker**（不信任 undo 期间的过期索引）；
+      新建后立即 add entity/hook 的端到端测试（canonical 缺失不再复现）。
+    - **GM-SL4（content20 全量切换钉）**：一次切换更新 PAL current/baseline + demo +
+      e2e-own + blank seed + 全部 fixtures/tests；最终树 content19 parser/upgrader/
+      fallback **零残留**（扩 current-only-product-boundary 门）；loader/serializer/
+      validator 双向校验（重复 id/path、非法 id/path、缺正文、正文 id 不符 fail-loud）；
+      连续第二次 migrate dry-run **writes/deletes/conflicts/asset-deletes=0** 且
+      current/baseline 镜像。
+    - **GM-SL5（文件生命周期钉）**：delete→save、save→undo→save（正文复活）、copy→save→
+      undo→save、**首次保存无 prevSnapshot 时以显式 removePaths 保证删除**、save-as 整树
+      复制后清理；写序 SceneIndex 先于 manifest、物理删除最后；中断只留 orphan、index
+      永不指向缺正文——五路径逐条测试。
 - 独立反证审查: pending
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
@@ -331,6 +392,17 @@ Branch: main
 
 ## 交接日志
 
+- 2026-09-05 GLM: 完成 PAL census/migration/测试矩阵并行设计主审（固定候选 `8a283b39`），
+  签 premise verified + design agree。独立复算（不采信 Codex census）：三工程闭包全零
+  （PAL 294/demo 1/e2e-own 1，均 string[] index）；共享地图 59/223、max 4；typed
+  self/cross 37,154-836 EntityAddress、57-924 loadScene、2-64 hooks，245/294 含自引用、
+  **s108 极值 6,897** 与卡面逐字吻合；publication baseline-first（:96）与 scene 闭包校验
+  （:261-275）支撑 SceneIndex 作者归属；R4 checkpoints 目录 `*.save.json` 计数 0——
+  content20 前移不作废任何 E2E；AddSceneCommand main-only（:3386-3408）与 loader 隐式
+  路径（:145-153）缺口直读。附 GM-SL1~SL5（SceneIndex 字段归属不变量与 name 确定性消歧 /
+  transformer 与 target recognition 同源 + s108 真树 differential / 双 session 事务与
+  redo live-blocker / content20 全量切换零残留双跑零计划 / 文件生命周期五路径含首次保存
+  removePaths）。未读取 Kimi 结论；未修改实现。Next: 三签齐后 Codex 统一判断 build 准入。
 - 2026-09-05 Kimi: 完成 SceneIndex/schema/loader/transaction/version 并行设计主审（固定候选
   `8a283b39`），签 premise verified + design agree。独立证据：SceneDef 无展示名
   （`content/src/index.ts:120-149`）、string[] index 与 id 推导路径
