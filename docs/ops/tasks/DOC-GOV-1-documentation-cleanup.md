@@ -76,11 +76,23 @@ Codex 独占：
 
 ## Codex 验证与终审
 
-待完成。
+检查器已经可运行：`node scripts/docs/check.mjs`（或 `pnpm check:docs`）；JSON 报告加 `--json`。
+本卡仍在整改期，全仓检查报错是待处理清单，不是已通过。根 check/CI 在清零并终审后接入。
+GLM 可直接用当前工作树工具核对，代码围栏/行内代码不计链接；`数组[下标](注释)` 若被 Markdown
+解释成真实链接，请只加代码标记修正呈现。主题 README 应链接其目录全部直接 Markdown；
+任务索引由 Codex 生成，GLM 只需在 tasks/README.md 链接 `index.md`。
+
+现行版本检查限定合同段：若重写了段标题/分界，请在回执说明，由 Codex 同步检查配置。
+Codex 已完成工具自验证：`pnpm test:docs-tools` 11/11 通过；`pnpm exec biome check scripts/docs package.json`
+通过；定向 `git diff --check` 通过。生成索引已逐卡读取顶部状态，没有把正文历史状态计作活动任务。
+全仓文档仍有整改项，未接入根 check/CI；待 GLM 交付后完成全仓清零检查与文档实质终审。
 
 ## 交接日志
 
 - 2026-09-06 Codex：按用户指定划分文件所有权；GLM 负责文档，Codex 同步建设自动检查工具。
+- 2026-09-06 Codex：交付无新增依赖的文档检查器、生成任务索引和维护规则；反例测试 11/11。
+  GLM 可用 `pnpm check:docs` 查看实时整改项，完成后由 Codex 终审并接入 CI。只提交 Codex 负责文件，
+  保留 GLM 工作树改动。
 
 ## 下一位 Agent 提示词（GLM，可直接转发）
 

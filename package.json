@@ -8,6 +8,8 @@
     "typecheck": "pnpm -r run typecheck",
     "test": "pnpm test:coverage-tools && pnpm -r run test",
     "test:coverage-tools": "node --test scripts/coverage/*.test.mjs",
+    "test:docs-tools": "node --test scripts/docs/*.test.mjs",
+    "check:docs": "pnpm test:docs-tools && node scripts/docs/check.mjs",
     "coverage:fast": "pnpm test:coverage-tools && node scripts/coverage/run.mjs fast",
     "coverage:full": "pnpm test:coverage-tools && node scripts/coverage/run.mjs full",
     "coverage:ratchet": "pnpm test:coverage-tools && node scripts/coverage/run.mjs fast --ratchet",
