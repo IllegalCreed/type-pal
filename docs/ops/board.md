@@ -2,8 +2,7 @@
 
 这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
 
-> **2026-08-15 额度状态：Kimi、GLM 均可用。** ED-DS-2 恢复完整三贤人流程：Kimi 主审架构/视觉，
-> GLM 主审覆盖/测试；两席对最新版重签后才可 build，不再走额度豁免。
+额度按接手时实际状态确认；历史额度快照不作为当前准入依据。
 
 工作流: [`agent-workflow.md`](agent-workflow.md)
 任务卡模板: [`tasks/TASK-template.md`](tasks/TASK-template.md)
@@ -13,10 +12,11 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| PRE-E2E-AUDIT-1 | 两阶段全仓只读审计 | review（审计已收口，修复未开工） | Codex：按总收口进入首批修复方案 | [总收口](audits/pre-e2e/summary.md)：A–E取证完成；存档/作者数据优先，Q2与一阶段分列；U-02待证；lint仍红。 |
+| DOC-GOV-1 | 文档审计整改与自动检查 | build | GLM：文档整改；Codex：检查工具与终审 | [任务卡](tasks/DOC-GOV-1-documentation-cleanup.md)；用户指定两席并行，保留历史签字与审计证据。 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
-按[总收口](audits/pre-e2e/summary.md)区分首批安全修复、对应工作流接入前修复、Q2、一阶段及可后置优化，再进入R4 content20薄E2E。
+当前顺序：文档整改 → 审计缺陷修复与覆盖率补测 → R4 content20 薄基线 → N6b content21 → 完整 E2E。
+修复分组见[总收口](audits/pre-e2e/summary.md)；U-02 待证，第一阶段缺陷与可后置优化分别保留。
 
 ## 看板规则
 
