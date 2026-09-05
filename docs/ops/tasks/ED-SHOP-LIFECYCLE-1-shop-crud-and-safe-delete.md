@@ -145,7 +145,57 @@ sell999反例直接调用 `assertPalStoreBoundaryInvariant`，未另跑完整pla
   已直接读正式输入/结算、current-author引用接口和CLI合并→target校验→纯theirs baseline全链；
   内存反例证明问题在固定census门而非merge覆盖。支持下述schema-neutral方案及生成/作者双层门禁，
   独立试买早分支无SaveStore/剧情。只完成设计，不宣称实现/验收完成；Kimi/GLM仍须独立取证。
-- Kimi: premise pending | design pending
+- Kimi: premise **verified**（2026-09-05，ownership/运行链视角一手直读，针对
+  shop-design-r1 / 实现基线 `dc332df4` / 文档候选 `30ecc092`，非复述 Codex）:
+  1. **缺陷定位正确（固定 census 误施于作者 target，非合并覆盖）**:
+     - 合并本身保留作者:`mergeAtomicNode` 在 theirs==base 时取 ours
+       （`migration-merge.ts:111-120`),shops.json 在 id-mode 名单（`:49`）按店 id 分店
+       ownership；同店双改/删改冲突显式登记（`:122-124`)。
+     - baseline 保持纯生成:`buildPalCurrentPublication` 的 shops 直接取 generated
+       （`pal-current-publication.ts:186`)。
+     - 误拦点在 CLI 链:plan.target（合并后作者目标）交给
+       `validatePalCurrentPublication`(`migrate-content.mts:78-94`),validator 读 shops
+       并调用 `assertPalStoreBoundaryInvariant({expectedBuyCalls:29, expectedSellCalls:6})`
+       （`pal-current-publication.ts:327,338-344`)；该 invariant 强制 真实店恰为 1..20、
+       禁 ShopDef0、固定 29/6 指令数与 sell shop=0(`pal-store-boundary.ts:140-168`)——
+       作者增删店/id0/增删 buy/sell 非零全部被误拦，与 r1 诊断表逐项一致。
+  2. **生成保护与作者 target 可安全拆分**:源侧断言（Store0 唯一/奖励非零/源真实店
+     1..20/112·72 buyPrice=0/灵葫/炼蛊保护）保护的是生成数据，必须留；target 侧安全网
+     已在通用 validator——dangling buy = error(`validate-refs.ts:1292-1294` 经 ED-3
+     typed walker,buy-only 识别 `command-target-reference.ts:185-192`),
+     shop.items→item = error(`:1588-1593`)。移除 target census 后悬空 buy 仍 fail-loud,
+     作者自由编辑不再被冻结。
+  3. **buy-only 与 id0/Store0 边界**:运行时 buy 查店、sell 只查背包
+     （`reforge/main.ts:3442-3452`,ED-3 已核）;sell 的 0/非零历史值不成引用；
+     `:140` 禁 ShopDef0 防的是迁移把源 Store0 再生成为商店（伪店），作者显式 id0 是合法
+     稳定 id（非负安全整数）,r1 "作者 id0 ≠ 源 Store0 回生、绝不新增隐式回退"边界成立。
+  4. **独立试买复用正式结算且可隔离**:正式 `shopInput/shopBuy/drawShop` 为可导入函数
+     （`menu/shop-box.ts:76-151`；默认否 `:137`、不足不进确认 `:135`、确认 Esc 回货单
+     `:93-97`、货单 Esc 关店 `:119`)——无需新结算模拟器；空货单 Down 使 cursor=-1 的
+     边界 bug 真实存在（`:122` `Math.min(-1, …)`）且修复范围正确；早分支可行——
+     SaveStore 创建于 `main.ts:578`、剧情/auto 起于 `:6940-6941`
+     （applyWorldToScene/startAutoRunners)，参数在 `:570` 区域已可用，分支先于此即可
+     不触存档/剧情;play.html workspace 身份链现成（`editor/src/play.ts:33-77`)；
+     不新增持久字段/contentVersion/boot 公共签名。
+- Kimi: design **agree**（2026-09-05；三签齐后允许 build）。目录与命令、安全删除
+  fail-closed、生成/作者双层门禁、隔离试买与实现顺序均是最小合法方案；必改钉（build
+  落实条件，非阻塞）:
+  ① **门禁拆分归属钉**:源侧断言继续对纯生成 publication 跑（生成基线回归不削弱）;
+     target 侧被删的每条 census（恰 20/29/6/sell=0/禁 id0）在 diff 逐条可见，不得静默
+     连坐删源侧断言；item268/270 保护原样保留。
+  ② **隔离试早分支证明**:集成测试必须断言 SaveStore 未构造、applyWorldToScene/
+     startAutoRunners 未调用、IndexedDB 槽零读写（spy/探针），不得只断言"显示了商店";
+     `shop-trial=0` 与缺参数区分测试（id0 不得被 truthy 吞掉）。
+  ③ **空货单边界**:修 `:122` 不得改变有货列表导航；空表 Up/Down/Escape/确认四键各
+     一条测试。
+  ④ **redo 不重新编号/不重读源**:`DuplicateShopCommand` 首次 apply 捕获目标 id 与
+     货单深拷,redo 用捕获值——源店已改/已删后 redo 仍恢复同一复制体专测。
+- 可证伪观察:
+  ① 合法作者差异在 source/base 不变时被 merge 丢弃 → 前提推翻，停线；
+  ② 移除 target census 后 dangling buy 通过 target 验证 → 安全网失效，停线；
+  ③ 隔离试买触及 SaveStore/IndexedDB/剧情 runner → 隔离失败；
+  ④ sell 非零历史值被 ED-3 或 target 校验当成引用/错误 → buy-only 边界失效；
+  ⑤ 重迁二跑非零或作者 shops 被生成覆盖 → ownership 失效。
 - GLM: premise pending | design pending
 - 独立反证审查: pending
 - counter / 分歧处理: pending
@@ -280,6 +330,18 @@ build期使用聚焦Vitest（`pnpm --filter <package> exec vitest run <files>`�
 
 ## 交接日志
 
+- 2026-09-05 Kimi: 完成 shop-design-r1 ownership/运行链并行前提/设计主审（基线
+  `dc332df4`、文档候选 `30ecc092`），签 premise verified + design agree。独立证据：
+  merge 保留作者（`migration-merge.ts:111-120`、id-mode `:49`）、baseline 纯生成
+  （`pal-current-publication.ts:186`）、误拦链 plan.target→validator→固定 census
+  （`migrate-content.mts:78-94`、`pal-current-publication.ts:327,338-344`、
+  `pal-store-boundary.ts:140-168`);dangling buy/货单引用安全网已在通用 validator
+  （`validate-refs.ts:1292-1294,:1588-1593`);buy-only 运行时与 ED-3 typed 识别复核；
+  正式 `shopInput/shopBuy/drawShop`(`menu/shop-box.ts:76-151`）与空表 Down cursor=-1
+  真 bug(`:122`)；早分支先于 SaveStore(`main.ts:578`）与剧情/auto(`:6940-6941`)
+  可行；play workspace 链（`play.ts:33-77`)。附四钉：门禁拆分归属、隔离分支探针、
+  空货单四键、redo 不重新编号。只改 Kimi 签字块与本条日志；未读/复述 GLM 结论，
+  未改实现/Status/准入结论。Next: GLM 并行数据/测试矩阵主审；三签齐后 Codex 推进。
 - 2026-09-05 Codex: ED-3 收口时建立后续正式卡，只固定范围、地基和验收边界；未做前提/设计签字，
   不授权 build。Next: 场景生命周期后按第二阶段队列启动本卡前提真值门。
 - 2026-09-05 Codex: 场景已在dc332df4收口，用户要求推进。完成shop-design-r1：纠正“重迁覆盖”的初版猜测，
