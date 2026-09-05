@@ -196,7 +196,69 @@ sell999反例直接调用 `assertPalStoreBoundaryInvariant`，未另跑完整pla
   ③ 隔离试买触及 SaveStore/IndexedDB/剧情 runner → 隔离失败；
   ④ sell 非零历史值被 ED-3 或 target 校验当成引用/错误 → buy-only 边界失效；
   ⑤ 重迁二跑非零或作者 shops 被生成覆盖 → ownership 失效。
-- GLM: premise pending | design pending
+- GLM:
+  - premise: **verified（2026-09-05，shop-design-r1 / 基线 `dc332df4`；全部口径与反例本人独立
+    复算——数字 census、raw 货单/价格、真实 `createMigrationPlan` 内存实测与
+    `assertPalStoreBoundaryInvariant` 直调，非复述 Codex）**：
+    1. **数字口径一手复算（核 1）**：raw `all.json` 全扫 opcode 0x26 恰 **23 次**、operand
+       值域恰 **1..20**、零 0；canonical（作者根递归）恰 **29 buy + 6 sell、sell 全
+       shop=0**——两种口径确为「原始字节码 vs canonical 作者根展开」，不可混称。
+    2. **原始货单/价格一手复算**：raw store1 items = `[87,99,105,95,90]` 与 current shop1
+       逐项一致；raw items price 87→50 / 99→50 / 105→200 / 95→550 / 90→3000 与 current
+       `buyPrice` **逐项相等**——真值矩阵 primary source 行属实。
+    3. **三方合并保留作者——真实 planner 实测（核 2，本人 vitest 探针跑真实
+       `createMigrationPlan`，6 反例全绿后探针即删未入库）**：作者新建 **id21 空店** →
+       零冲突、target 精确保留 `{id:21,items:[]}`；**复制 shop1→id22 含重复货品** →
+       target items 恰 `['87','99','105','95','90','87','87']`（顺序+重复逐字保留、
+       无 Set 去重）；**删除原店 20** → 零冲突、target 不含 id20；**shop1 改序+加重复** →
+       精确保存 `['90','95','105','99','87','87']`；**同店货单双改**（ours id1=['87'] vs
+       theirs id1=['99']）→ **value 冲突落在 shops 路径**——「merge 保留作者、同店双改
+       冲突、重迁并非必然覆盖」全部实测成立。
+    4. **固定 census 误拦作者 target——invariant 直调实锤（核 2/3）**：合并后 target
+       （含 id21）交 `assertPalStoreBoundaryInvariant` → 抛 `真实商店 id/顺序漂移
+       1..20,21 != 1..20`（pal-store-boundary.ts:145-148 硬等 `sameStrings`）；构造 sell
+       `shop=999` 单根直调 → 抛 `sell shop 应为 0`——「作者 CRUD/增删 buy/sell 被固定
+       PAL census 拒绝、根因在 target 校验层不在 merge」实锤；发布链直读——publisher
+       `put('content/shops.json', generated)`（pal-current-publication.ts:186）+ merge 按
+       id 三方合并（migration-merge.ts:49 shops 'id' 模式）+ CLI 对 plan.target 调
+       validatePalCurrentPublication（migrate-content.mts:89）→ :337-342 固定 29/6/0——
+       「拆生成保护与作者 target 校验」双层结构成立；**Store0 生成保护不退化**——
+       pal-store-boundary.ts:132-135 禁 ShopDef0、源真实店 1..20 序列校验、源 Store0
+       奖励闭包均在生成侧门内，拆分后须原样保留。
+    5. **试买隔离锚点直读（核 3 部分）**：main.ts:578 SaveStore 创建与 :6940
+       `startAutoRunners()` 在 boot 尾段——早分支前 return 时序有据；`shopBuy`
+       （shop.ts:17-25）独立 buyPrice、判 `money < buyPrice`（**0 价合法**）、入包叠加
+       语义清晰；`shopInput` list 相 Down `Math.min(len-1, cursor+1)`（shop-box.ts:122）
+       ——**空表 len=0 时 cursor 推到 -1**（本人复算 min(-1,1)=-1），卡面局部边界缺陷
+       属实；现有命令层仅 `UpdateShop/AddShop`（commands.ts:4163,4199）——无复制/删除，
+       缺口属实。
+    6. **可证伪观察**：合法作者 shop 差异在 source/base 不变时被真实 merge 丢弃（本人
+       实测未发生）；隔离试买触及 SaveStore/buildWorld/runner 或 IndexedDB 槽；移除固定
+       census 后悬空 buy 仍通过 validateReferences；空表 Down 修复后仍越界；已有重复货品
+       在复制/保存/replay 任一环被去重——任一出现本签字失效。
+  - design: **agree（2026-09-05，附 GM-SH1~GM-SH4 必落钉；与卡面矩阵收敛互补）**：
+    - **GM-SH1（双层门禁拆分钉）**：生成侧门（源 Store0 资源池、真实店 1..20 货单/顺序
+      vs raw stores、canonical 29/6/sell0）保留且继续跑固定种子基线；作者 target 侧只施
+      ShopDef 结构验证（unique 非负安全整数 id、items 可空/非空 string/重复合法）+
+      validateReferences 既有 buy→shop、shop.items→item——**buy 增/删、sell 任意历史值、
+      店数变化、作者 id0 均不得再触发固定 census**；item268/270 机制保护不受拆分影响；
+      旧「current==baseline 全等」测试改固定生成基线断言、生成回归门不降。
+    - **GM-SH2（复制/删除命令钉）**：DuplicateShopCommand 首次 apply 深拷贝+固定目标 id
+      （max+1、空集 0、溢出/冲突 fail-loud），redo 不重读源不重编号；DeleteShopCommand
+      捕获完整记录+原位索引、undo 原位恢复；删最后一家 → 显式空表合法；取消零命令、焦点
+      归还、深链不指向消失对象；删除经 ED-3 index 复核（current exact + blockers=0 +
+      apply/redo 冷复核），sell 0/999 双负例不阻断。
+    - **GM-SH3（试买隔离矩阵钉）**：早分支在 SaveStore/buildWorld/runner 之前 return（时序
+      已证可行）；参数严校验（id0 不得 truthy 吞掉、与其他启动模式互斥拒绝、workspace
+      身份同源）；dirty 拒绝且弹窗打开后再改工程也拒绝（启动瞬间复检）；测试矩阵——默认
+      否/确认是、余额恰好/不足（不进确认不扣钱不入包）、**0 价合法**、新入包/叠加、
+      **重复货品分次购买**、**空表 Up/Down/Escape（修 cursor=-1 并以 min/max 断言钉死）**、
+      确认态 Escape 回货单、结束清理 rAF/listeners；旧 IndexedDB 槽字节不变断言。
+    - **GM-SH4（验收矩阵钉 + 两补充）**：Command/UI/引用/保存重开/合并发布/上游冲突六层
+      按卡面表逐项落地；**补充①**——合并层 fixture 必须含「作者删店而上游改同店 →
+      delete-modify 冲突写盘前停线」与「作者显式 id0 合法（生成侧门以源数据而非 target
+      判 Store0 回流）」两个易漏项；**补充②**——「长引用末项可滚到、tab/header 不滚」
+      须真实浏览器实测并登记为 done 前必查项。
 - 独立反证审查: pending
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
@@ -330,6 +392,19 @@ build期使用聚焦Vitest（`pnpm --filter <package> exec vitest run <files>`�
 
 ## 交接日志
 
+- 2026-09-05 GLM: 完成 shop-design-r1 数据/覆盖/测试矩阵并行主审（基线 `dc332df4`、文档
+  候选 `30ecc092`），签 premise verified + design agree。独立证据：raw 0x26 恰 23 次
+  operand 1..20 vs canonical 29 buy + 6 sell 全 shop=0 两口径一手复算；raw store1 货单
+  `[87,99,105,95,90]` 与 5 物价 50/50/200/550/3000 同 current buyPrice 逐项相等；**真实
+  `createMigrationPlan` 内存实测 6 反例全绿**（新建 id21/复制含重复/删店20/改序加重复/
+  同店双改 value 冲突/sell999 invariant 拒绝），探针即删未入库；固定 census 拒绝点
+  （pal-store-boundary.ts:145-148 硬等）与发布链（publisher theirs→id merge→CLI target
+  validate 固定 29/6/0）直读；试买隔离锚点（SaveStore :578 / runners :6940 / shopBuy
+  0 价合法 / shopInput 空表 Down cursor=-1 复算）属实；命令层无复制/删除缺口属实。
+  附 GM-SH1~SH4 钉（双层门禁拆分保生成回归 / 复制删除命令与 ED-3 复核 / 试买隔离矩阵
+  含 0 价重复货品空表 / 验收矩阵含 delete-modify 与作者 id0 两个易漏 fixture + 引用滚动
+  真浏览器必查）。未读取 Kimi 结论；未修改实现/生成数据。Next: 三签齐后 Codex 统一
+  判断 build 准入。
 - 2026-09-05 Kimi: 完成 shop-design-r1 ownership/运行链并行前提/设计主审（基线
   `dc332df4`、文档候选 `30ecc092`），签 premise verified + design agree。独立证据：
   merge 保留作者（`migration-merge.ts:111-120`、id-mode `:49`）、baseline 纯生成
