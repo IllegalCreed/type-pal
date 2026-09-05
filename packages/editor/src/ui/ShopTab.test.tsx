@@ -5,9 +5,35 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import {
+  buildProjectReferenceSnapshot,
+  createProjectReferenceIndex,
+  createProjectReferenceSource,
+} from '../core/project-reference.js'
 import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { ShopTab } from './ShopTab.js'
+
+function lifecycleSession() {
+  return new EditSession({
+    manifest: { id: 'shop-test', content: {} },
+    shops: [{ id: 0, items: ['a', 'b', 'a'] }],
+    scenes: [],
+    sceneIndex: { version: 1, scenes: [] },
+    mapIndex: { version: 1, maps: [] },
+    maps: {},
+    assetCatalog: { version: 1, assets: {} },
+    assetBlobs: {},
+  } as unknown as EditorState)
+}
+const emptyIndex = () => createProjectReferenceIndex(buildProjectReferenceSnapshot([]))
+function clickButton(label: string) {
+  const button = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+    (node) => node.textContent?.trim() === label || node.getAttribute('aria-label') === label,
+  )
+  expect(button, label).toBeDefined()
+  button!.click()
+}
 
 let root: Root
 let host: HTMLDivElement
@@ -39,6 +65,170 @@ afterEach(async () => {
 })
 
 describe('ShopTab shared object workspace', () => {
+  test('lifecycle copy/delete/cancel stays command-driven, preserves stock and handles empty directory', async () => {
+    const session = lifecycleSession()
+    const index = emptyIndex()
+    const render = () =>
+      root.render(
+        <ShopTab
+          shops={session.getState().shops!}
+          items={[]}
+          session={session}
+          referenceIndex={index}
+          referenceStatus="current"
+          getCurrentReferenceIndex={() => index}
+        />,
+      )
+    await act(async () => render())
+    await act(async () => {
+      clickButton('复制店铺')
+      render()
+    })
+    expect(session.getState().shops?.[1]).toEqual({ id: 1, items: ['a', 'b', 'a'] })
+    expect(host.querySelector('.ds-object-hero .ds-tag')?.textContent).toBe('2 种货')
+    expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('#1')
+    const revision = session.getHistoryVersion()
+    await act(async () => clickButton('删除店铺'))
+    await act(async () => clickButton('取消'))
+    expect(session.getHistoryVersion()).toBe(revision)
+    await act(async () => clickButton('删除店铺'))
+    await act(async () => {
+      clickButton('确认删除')
+      render()
+    })
+    expect(session.getState().shops).toHaveLength(1)
+    expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('#0')
+    await act(async () => clickButton('删除店铺'))
+    await act(async () => {
+      clickButton('确认删除')
+      render()
+    })
+    expect(session.getState().shops).toEqual([])
+    expect(host.textContent).toContain('还没有商店')
+    await act(async () => {
+      session.undo()
+      render()
+    })
+    expect(session.getState().shops?.[0]?.id).toBe(0)
+  })
+  test('checking/stale/failed/current without index fail closed; final confirmation calls live provider', async () => {
+    const session = lifecycleSession()
+    const index = emptyIndex()
+    const provider = vi.fn(() => {
+      throw new Error('新引用阻止删除')
+    })
+    for (const status of ['checking', 'stale', 'failed', 'current'] as const) {
+      await act(async () =>
+        root.render(
+          <ShopTab
+            shops={session.getState().shops!}
+            items={[]}
+            session={session}
+            referenceStatus={status}
+            getCurrentReferenceIndex={provider}
+          />,
+        ),
+      )
+      expect(
+        [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+          (b) => b.textContent === '删除店铺',
+        )?.disabled,
+      ).toBe(true)
+    }
+    await act(async () =>
+      root.render(
+        <ShopTab
+          shops={session.getState().shops!}
+          items={[]}
+          session={session}
+          referenceStatus="current"
+          referenceIndex={index}
+          getCurrentReferenceIndex={provider}
+        />,
+      ),
+    )
+    await act(async () => clickButton('删除店铺'))
+    await act(async () => clickButton('确认删除'))
+    expect(provider).toHaveBeenCalledTimes(1)
+    expect(host.querySelector('dialog [role="alert"]')?.textContent).toContain('新引用阻止删除')
+    expect(session.getHistoryVersion()).toBe(0)
+  })
+  test('buy references are navigable and block deletion', async () => {
+    const session = lifecycleSession()
+    const index = createProjectReferenceIndex(
+      buildProjectReferenceSnapshot([
+        {
+          target: { kind: 'shop', id: '0' },
+          source: createProjectReferenceSource({ kind: 'scene', id: 's' }, '场景 s'),
+          relation: { kind: 'command-target', use: 'open-shop-buy' },
+          where: 'scene.s.buy',
+          locator: { kind: 'object', object: { kind: 'scene', id: 's' } },
+          deletePolicy: 'block',
+        },
+      ]),
+    )
+    const open = vi.fn()
+    await act(async () =>
+      root.render(
+        <ShopTab
+          shops={session.getState().shops!}
+          items={[]}
+          session={session}
+          referenceStatus="current"
+          referenceIndex={index}
+          getCurrentReferenceIndex={() => index}
+          onOpenReference={open}
+        />,
+      ),
+    )
+    await act(async () => clickButton('查看引用'))
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('.ds-reference-row[data-actionable="true"]')!.click(),
+    )
+    expect(open).toHaveBeenCalledWith(expect.objectContaining({ where: 'scene.s.buy' }))
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+        (b) => b.textContent === '删除店铺',
+      )?.disabled,
+    ).toBe(true)
+  })
+  test('isolated trial uses canonical labeled stepper and rechecks dirty state at final start', async () => {
+    const session = lifecycleSession()
+    let dirty = false
+    const open = vi.spyOn(window, 'open').mockImplementation(() => null)
+    await act(async () =>
+      root.render(
+        <ShopTab
+          shops={session.getState().shops!}
+          items={[]}
+          session={session}
+          projectId="shop-test"
+          workspaceId="local-id"
+          isProjectDirty={() => dirty}
+        />,
+      ),
+    )
+    await act(async () => clickButton('独立试买'))
+    const dialog = host.querySelector('dialog[open]')!
+    expect(dialog.querySelector('.ds-number-stepper')).not.toBeNull()
+    expect(dialog.querySelector('label')?.textContent).toBe('初始金钱')
+    expect(dialog.querySelector<HTMLInputElement>('input[type="number"]')?.value).toBe('1000')
+    dirty = true // updated after opening, without rerendering the disabled state
+    await act(async () => clickButton('开始试买'))
+    expect(open).not.toHaveBeenCalled()
+    expect(dialog.textContent).toContain('请先保存项目')
+    dirty = false
+    await act(async () => clickButton('取消'))
+    await act(async () => clickButton('独立试买'))
+    await act(async () => clickButton('开始试买'))
+    expect(open).toHaveBeenCalledWith(
+      'play.html?project=shop-test&workspace=local-id&shop-trial=0&money=1000',
+      '_blank',
+      'noopener,noreferrer',
+    )
+    expect(session.getHistoryVersion()).toBe(0)
+    open.mockRestore()
+  })
   test('目录以真实货单派生标题，第二行保留精确数值 ShopId', async () => {
     const shops = [
       { id: 7, items: ['item-a', 'item-b'] },
@@ -122,7 +312,7 @@ describe('ShopTab shared object workspace', () => {
     const remove = stockPanel.querySelector<HTMLButtonElement>('button[aria-label^="下架 "]')!
     expect(remove.classList).toContain('ds-icon-button--danger')
     expect(remove.querySelector('.ds-icon')).not.toBeNull()
-    await verifyInspectorTabs(host, '商店检查器', ['摘要', '说明'])
+    await verifyInspectorTabs(host, '商店检查器', ['摘要', '引用', '说明'])
 
     const helpTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
       (tab) => tab.textContent?.trim() === '说明',

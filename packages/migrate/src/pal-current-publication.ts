@@ -6,7 +6,6 @@ import type {
   MigrationDiagnosticsV1,
   RuntimeSceneDef,
   SceneIndexV1,
-  ShopDef,
 } from '@type-pal/content'
 import {
   CONTENT_VERSION,
@@ -36,6 +35,7 @@ import {
   validateProjectMap,
   validateReferences,
   validateSceneIndex,
+  validateShops,
   validateSkills,
   validateSprites,
   validateStampTemplates,
@@ -54,7 +54,10 @@ import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invaria
 import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
 import { buildPalMigration, type MigrationJson, type PalMigrationSources } from './pal-migration.js'
 import { assertPalSceneIndexOwnership } from './pal-scene-index.js'
-import { assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
+import {
+  assertPalAlchemyBoundaryInvariant,
+  assertPalStoreBoundaryInvariant,
+} from './pal-store-boundary.js'
 import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES } from './pal-world-sprite-layouts.js'
 import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'
 import type { ProjectMapAuditReport } from './project-map-audit.js'
@@ -201,6 +204,22 @@ export function buildPalCurrentPublication(
     )
   for (const path of generatedMapPaths) put(path, required(generated.files, path))
 
+  // This is the generated side (theirs), before author edits are merged. Fixed PAL census
+  // protects regeneration here, not the editable target handed to the publication validator.
+  assertPalStoreBoundaryInvariant({
+    sourceStores: sources.stores,
+    shops: validateShops(required(files, 'content/shops.json')),
+    items: validateAuthorItems(required(files, 'content/items.json')),
+    commandRoots: [
+      currentSceneSurface.index.scenes.map((entry) => required(files, entry.path)),
+      required(files, 'content/items.json'),
+      required(files, 'content/enemies.json'),
+      required(files, 'content/shared-scripts.json'),
+    ],
+    expectedBuyCalls: 29,
+    expectedSellCalls: 6,
+    expectedSellShopId: 0,
+  })
   return { files, managedFiles, mapReport: generated.report.maps }
 }
 
@@ -324,7 +343,7 @@ export function validatePalCurrentPublication(args: {
   const poisons = validatePoisons(
     required(files, requiredPath(manifest.content.poisons, 'poisons')),
   )
-  const shops = required(files, requiredPath(manifest.content.shops, 'shops')) as ShopDef[]
+  const shops = validateShops(required(files, requiredPath(manifest.content.shops, 'shops')))
   const ambiences = required(
     files,
     requiredPath(manifest.content.ambiences, 'ambiences'),
@@ -335,14 +354,9 @@ export function validatePalCurrentPublication(args: {
   validateWorldVariableRegistryV1(
     required(files, requiredPath(manifest.content.worldVariables, 'worldVariables')),
   )
-  assertPalStoreBoundaryInvariant({
+  assertPalAlchemyBoundaryInvariant({
     sourceStores: args.sources.stores,
-    shops,
     items: authorItems,
-    commandRoots: [authorScenes, authorItems, authorEnemies, sharedScripts],
-    expectedBuyCalls: 29,
-    expectedSellCalls: 6,
-    expectedSellShopId: 0,
   })
   const referenceIssues = validateReferences({
     scenes: scenes as never,

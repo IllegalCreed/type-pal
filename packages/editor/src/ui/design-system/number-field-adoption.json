@@ -1,12 +1,12 @@
 {
   "version": 1,
   "baseline": {
-    "files": 37,
-    "leafCalls": 115,
+    "files": 38,
+    "leafCalls": 116,
     "controls": {
       "DsNumberInput": 55,
       "DsDraftNumberInput": 28,
-      "DsNumberField": 4,
+      "DsNumberField": 5,
       "DsDraftNumberField": 28
     }
   },
@@ -19,6 +19,20 @@
     "bounded-exception"
   ],
   "entries": [
+    {
+      "source": "ShopTab.tsx",
+      "component": "ShopTab",
+      "match": { "context": "field-group", "fieldClass": "" },
+      "count": 1,
+      "mode": "main-form-short",
+      "control": "DsNumberField",
+      "measure": "canonical-short",
+      "grid": "single",
+      "owner": "card:ED-SHOP-LIFECYCLE-1",
+      "reason": "独立试买弹窗的初始金钱使用统一有标签stepper；不写作者数据。",
+      "verification": "ShopTab.test.tsx#isolated trial",
+      "removalCondition": "独立试买取消时删除。"
+    },
     {
       "source": "ActorMode.tsx",
       "component": "ActorStatField",

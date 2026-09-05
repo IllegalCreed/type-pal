@@ -117,6 +117,11 @@ export function shopInput(
   }
   // list 相
   if (esc) return 'close'
+  if (s.list.length === 0) {
+    s.cursor = 0
+    s.scrollTop = 0
+    return
+  }
   if (s.mode === 'buy') {
     if (pressed.has('ArrowUp')) s.cursor = Math.max(0, s.cursor - 1)
     if (pressed.has('ArrowDown')) s.cursor = Math.min(s.list.length - 1, s.cursor + 1)

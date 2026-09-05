@@ -12,6 +12,15 @@ const record = {
 } as const
 
 describe('local play workspace identity', () => {
+  test('missing workspace handle cannot fall back to a same-id HTTP project', async () => {
+    await expect(
+      resolvePlayWorkspaceRecord(
+        record.workspaceId,
+        'pal',
+        vi.fn(async () => null),
+      ),
+    ).rejects.toThrow()
+  })
   test('workspace query must agree with the stored project identity', async () => {
     await expect(
       resolvePlayWorkspaceRecord(

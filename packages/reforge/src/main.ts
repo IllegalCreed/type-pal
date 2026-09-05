@@ -253,6 +253,7 @@ import { executeScriptHostEffect } from './script-host-adapter.js'
 import type { ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost, ScriptRunner } from './script-runner.js'
 import type { ScriptRuntimeContext } from './script-runner-core.js'
+import { parseShopTrialParameters, runShopTrial } from './shop-trial.js'
 import {
   actualFrameIndex,
   animFrameIndex,
@@ -345,6 +346,11 @@ let ctx!: CanvasRenderingContext2D
  * ⚠ 模块级严禁碰 DOM/location:barrel 导出后,node 测试环境 import 本模块即执行模块级代码。
  */
 export async function bootGame(inputProject: LoadedCurrentProject): Promise<void> {
+  const trial = parseShopTrialParameters(new URLSearchParams(location.search))
+  if (trial) {
+    await runShopTrial(inputProject, trial)
+    return
+  }
   // Product input has exactly one current shape. The renderer still consumes a flattened scene
   // view, but that projection is never an alternate project version or persistence authority.
   const canonicalProject = inputProject

@@ -1,6 +1,7 @@
 {
   "version": 1,
   "adoptions": [
+    { "source": "ShopTab.tsx", "component": "ShopTab", "responsive": 1, "stacked": 0 },
     {
       "source": "BattleSpriteLibrary.tsx",
       "component": "BattleSpriteLibrary",

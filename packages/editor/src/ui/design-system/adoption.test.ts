@@ -1083,8 +1083,8 @@ type DataStateProps`,
       <DsCatalogWorkspace`,
       )
       .replace(
-        '          >\n            <div ref={stockSectionRef} tabIndex={-1}>',
-        `          >
+        '            <div ref={stockSectionRef} tabIndex={-1}>',
+        `
             <div className="future-nested-owner" />
             <div className="future-fake-bounded-owner" />
             <div className="future-percent-bounded-owner" />
@@ -1209,8 +1209,8 @@ type DataStateProps`,
       <DsCatalogWorkspace`,
       )
       .replace(
-        '          >\n            <div ref={stockSectionRef} tabIndex={-1}>',
-        '          >\n            <div className="future-bounded-owner" />\n            <div ref={stockSectionRef} tabIndex={-1}>',
+        '            <div ref={stockSectionRef} tabIndex={-1}>',
+        '            <div className="future-bounded-owner" />\n            <div ref={stockSectionRef} tabIndex={-1}>',
       )
     const valid = structuredClone(matrix)
     shopScroll(valid).push(
@@ -1361,7 +1361,8 @@ type DataStateProps`,
     expect(validateAdoption(staleLegacy)).toContain(
       'workspace legacy selector VarsTab.tsx#main.ds-object-workspace expected 1, rendered 0',
     )
-  })
+    // Nine full route/CSS scans are correctness checks, not a 5-second performance budget.
+  }, 15_000)
 
   test('keeps the editor root outside every focus-driven scroll chain', () => {
     const css = readFileSync(join(here, '../editor.css'), 'utf8')

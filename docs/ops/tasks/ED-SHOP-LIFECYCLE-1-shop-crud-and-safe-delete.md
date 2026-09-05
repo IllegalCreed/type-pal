@@ -1,16 +1,17 @@
 # ED-SHOP-LIFECYCLE-1 - 商店生命周期闭环
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: E9 / Editor shop lifecycle
 Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: Kimi + GLM
-Visual Verification Owner: Codex
+Visual Verification Owner: Codex（1280×720）+ Kimi（720宽补验）
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
 Design Revision: shop-design-r1（2026-09-05；实现基线 dc332df4）
+Implementation Revision: shop-impl-r1（终审候选提交见下一位提示词）
 
 ## 目标
 
@@ -135,7 +136,8 @@ sell999反例直接调用 `assertPalStoreBoundaryInvariant`，未另跑完整pla
   - editor/content/migrate typecheck、聚焦测试、最终 editor 全量、production build、design-system gate。
 - 文档: 更新 editor design、roadmap、capability-map 与商店/当铺说明；不把炼化机制混回商店。
 - 视觉 / 手工验证: 空商店、有货商店、被 buy 引用商店；1280/720；引用跳转、删除确认与试买反馈。
-- E2E 用例登记: 空白工程 → 新建/复制商店 → 上架重复货品 → 保存重开 → 正式试买 → 安全删除。
+- E2E 用例登记: 空白项目 → 新建/复制商店 → 上架货品 → 保存重开 → 正式试买 → 安全删除；
+  已有重复货单通过fixture验证，不声称UI新增重复上架能力。
 
 ## 推进签字
 
@@ -259,14 +261,17 @@ sell999反例直接调用 `assertPalStoreBoundaryInvariant`，未另跑完整pla
       delete-modify 冲突写盘前停线」与「作者显式 id0 合法（生成侧门以源数据而非 target
       判 Store0 回流）」两个易漏项；**补充②**——「长引用末项可滚到、tab/header 不滚」
       须真实浏览器实测并登记为 done 前必查项。
-- 独立反证审查: pending
-- counter / 分歧处理: pending
+- 独立反证审查: Kimi与GLM已分别读取一手调用链，GLM另独立复算raw/canonical与真实planner反例；两席均通过。
+- counter / 分歧处理: 无counter；Kimi四钉与GM-SH1~SH4全部纳入build验收。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **build allowed（2026-09-05；三方对shop-design-r1签字齐，用户“签了”后推进）**。
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-09-05，shop-impl-r1；实现与下述已完成验证）**。三签设计已落实：
+  生成/作者校验拆分、current-only结构验证、命令闭环和live删除守卫、正式菜单早分支隔离、公共字段/列表均落地。
+  宽屏功能视觉已验；720宽因当前浏览器工具无法实际改变viewport，明确交Kimi补验，不冒称已通过。
+  编辑器重型规范测试的超时与重跑情况完整记录在Build，不掩盖首轮失败。仍待两席终审及用户验收，不标done。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: pending
@@ -355,28 +360,60 @@ build期使用聚焦Vitest（`pnpm --filter <package> exec vitest run <files>`�
 ### 主审立场
 
 - Reviewer: Kimi（ownership/运行链）+ GLM（数据/测试矩阵）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: 两席独立premise verified + design agree（090b47be、0980f90d），无阻塞。
+- 必改项: 生成/target门禁归属、独立试买隔离探针、空表四键、稳定复制redo及GM-SH1~SH4矩阵。
+- 是否建议进入 build: yes
 
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改范围：content `shop.ts`与测试；editor `commands/project-io/ShopTab/DataMode`、生命周期/重开/身份测试与DS采用矩阵；
+  migrate `pal-store-boundary/pal-current-publication`及生成/作者合并测试；reforge `project-loader/main/shop-trial/menu/shop-box`及测试。
+  没改ShopDef持久字段、content20/SAVE8、合并算法、源货单、物品/配方/奖励数据或任何ED-3公共合同。
+- 实现摘要：`validateShops`共享结构门；Add登记shops路径，Duplicate捕获固定id/货单，Delete经ED-3每次apply/redo冷复核；
+  货单只在展示种类数时去重，真实items不去重；引用复用公共InspectorSection/Tabs/Reference。
+  `bootGame`第一分支识别显式shop-trial，正常world/SaveStore初始化全部跳过；正式输入/结算/绘制直接复用，
+  无项目/存档写入。空货单游标不再变负；退出/pagehide/error清理rAF与监听。菜单按窗口使用1..4整数倍，不裁掉下缘。
+- 验证：
+  - `pnpm typecheck`：7包通过；最后editor/reforge增量typecheck再过。
+  - content全量：36 files / 488 tests；reforge全量：95 / 869；migrate全量（unit+PAL）：55 / 424，通过。
+  - editor全量：193 files / 1748 tests均已执行。首次默认并发有5项扫描超时与1处新数字字段登记context未同步；
+    登记修正后4个规范文件串行43测通过。随后`--maxWorkers=2`整套1747通过，剩1项九次全仓扫描超出默认5秒；
+    该测试只加与相邻扫描测试一致的15秒预算，全部反例/断言保持不变，单独重跑通过（10.66s）。
+    不将首轮失败说成“一次全绿”；推荐复跑用`pnpm --filter @type-pal/editor exec vitest run --maxWorkers=2`。
+  - 聚焦：shop生命周期/保存→真实assembleCurrentProject重开/ShopTab、正式shopInput与真正bootGame早分支均通过；
+    试买测试用SaveStore/buildWorld/runtimeProjectView抛错sentinel与`indexedDB.open` spy钉零调用，不仅测“显示菜单”。
+    本地workspace句柄读取与游戏存档库不同；禁止的是`type-pal-saves`，不把合法句柄读取算泄漏。
+  - editor/reforge production build通过（保留既有大chunk提示）；design-system gate：92 files、2个既有证据型例外；
+    数字采用38 files / 116 leaf calls，新表单落`DsNumberField + DsFieldGroup`，不加裸input例外。
+  - Biome变更文件error-level检查与`git diff --check`通过。AST反例注入锚点改为稳定stockSectionRef，不删反例、不降低规范规则。
+  - PAL发布核验：两次dry-run均managed537、writes0/deletes0/conflicts0/asset-deletes0，294scenes/223maps/1934assets，
+    reference-warnings0；182个既有unused资产警告不属于本卡。正式`--write`与随后零计划结果在交接日志补记。
+- 浏览器：下节记录真实动作/几何证据；未保存任何测试商店到PAL开发基线，临时新店通过undo恢复并关闭验证标签页。
+- 旧版本兼容审查：pass；没有新增旧类型/版本分支/升级入口/fallback；manifest未声明shops的空集合是当前格式可选能力。
+- 未完成：720宽视觉、真实本地FSA写盘→重开→试玩的完整自动化链未在本轮浏览器重复执行；前者交Kimi补验，
+  后者已有核心序列化→loader重开及同源身份测试，完整从空白项目链登记到R4/编辑器综合工作流。
 
 ## 视觉验证记录
 
-- Visual Verification Owner: Codex
+- Visual Verification Owner: Codex（已验宽屏）+ Kimi（720宽）
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: CUA后台浏览器，真实localhost:6010页面；截图与只读DOM几何，不靠jsdom判滚动/像素。
 - 集中 E2E 用例 / 批次: 编辑器综合工作流前置子链
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查: 本会话工具截图（已实际查看）；可复现入口及测量如下，不虚构落盘PNG路径。
+  - `?module=item&page=shop&object=13`：复制为21、9项货单保留；未保存时试买明确禁用；删除确认→撤销原位恢复21；
+    再undo复制恢复20家。未点击保存PAL开发基线。
+  - 独立试买弹窗：只读编号与金钱共用96px标签轨，公共stepper完整边框、同高、清楚label；与现货单外观保持一致。
+  - `play.html?project=pal&shop-trial=13&money=12000`：1280×720窗口按3倍完整显示320×200菜单；金童剑价格12000，
+    默认否→选是后现有0→1、钱12000→0；再次Enter不进确认/不入包；Escape显示结束，不进入剧情。
+    CUA未保留window.open弹出的页，实际通过同一已验证URL打开临时标签检查；URL调用另有UI测试钉死。
+  - 店3引用：3条，tabpanel clientHeight525/scrollHeight597；滚轮及Home/End使scrollTop在0..72变化，
+    tablist y=120固定、root.scrollTop=0，末项bottom677小于panelBottom694。最后一条打开后实际定位到
+    s276/e4734/默认触发行为/after-checkpoint/body[1]“商店3 买”指令，状态条确认精确位置。
+  - 两个验证页console新增error为0，临时标签已关闭。
+- 结论: 1280×720功能视觉通过。viewport capability设置720宽/480高后实际innerWidth/innerHeight仍为1280×720，
+  新临时页也相同；已reset覆盖。因此不把截图当窄窗证据，720宽由Kimi补验。
+- 未完成项: Kimi检查720宽Hero动作、引用滚动/定位和试买弹窗布局；成功落卡后才满足该项验收。
 
 ## Review: 审查与返工
 
@@ -389,9 +426,18 @@ build期使用聚焦Vitest（`pnpm --filter <package> exec vitest run <files>`�
 
 - 用户结论: pending
 - 后续任务: 第一、第二阶段全仓代码审计及 E2E 阻断项修复；R4 content20 薄 E2E。
+- 终审通过后最小复验（无需重验场景生命周期）：物品→商店→复制任一店，检查新编号/货单与删除撤销；
+  店3→引用→末项打开应到s276木匠脚本；已保存的店13→独立试买→金钱12000买金童剑一次，余额0/现有1并可退出。
+  不要求用户代跑类型检查、迁移或测试；720宽专项由Kimi补验，不转嫁用户。
 
 ## 交接日志
 
+- 2026-09-05 Codex: shop-impl-r1进入review。正式`pnpm --filter @type-pal/migrate migrate:content --write`完成：
+  transaction-changes=0，1934资产written=0/unchanged=1934；内置replay writes/deletes/conflicts/asset-deletes四零。
+  git核对baseline、PAL content与manifest均无diff。最终聚焦editor三文件19测、reforge两文件10测通过；
+  唯一重型规范用例独立15秒预算后反例全部通过。宽屏视觉与精确引用定位已验，720宽交Kimi补验。
+  Next: 两席对同一实现候选并行终审，直接各自落卡/提交推送，不改实现/Status，不标done。
+- 2026-09-05 Codex: 已读取两席完整签字及必落钉，统一判定shop-design-r1准入；开始build，Coding Owner仍为Codex。
 - 2026-09-05 GLM: 完成 shop-design-r1 数据/覆盖/测试矩阵并行主审（基线 `dc332df4`、文档
   候选 `30ecc092`），签 premise verified + design agree。独立证据：raw 0x26 恰 23 次
   operand 1..20 vs canonical 29 buy + 6 sell 全 shop=0 两口径一手复算；raw store1 货单
@@ -424,9 +470,9 @@ build期使用聚焦Vitest（`pnpm --filter <package> exec vitest run <files>`�
   内部只读协作完成raw/第一阶段/runtime与merge/target反例核验，不代表Kimi/GLM签字。仅更新文档，未开始实现。
   Next: Kimi与GLM并行独立前提/设计审查，直接各自落卡并提交推送。
 
-## 下一位 Agent 提示词
+## 设计阶段提示词（历史，已完成，不再转发）
 
-两席审查同一 `shop-design-r1`，实现基线 `dc332df4`；本卡仍为draft。两席只写自己的签字块与交接日志，
+当时两席审查同一 `shop-design-r1`，实现基线 `dc332df4`、状态draft。两席只写自己的签字块与交接日志，
 不读/复述另一席结论，不改Status或共享准入结论，Codex在双方落卡后统一推进。
 
 ### 给 Kimi

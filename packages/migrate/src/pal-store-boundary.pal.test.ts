@@ -8,11 +8,15 @@ import {
   validateAuthorScenes,
   validateAuthorSharedScripts,
   validateSceneIndex,
+  validateShops,
 } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
-import { assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
+import {
+  assertPalAlchemyBoundaryInvariant,
+  assertPalStoreBoundaryInvariant,
+} from './pal-store-boundary.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
@@ -51,7 +55,7 @@ function projectContent() {
 }
 
 describe('PAL Store0 publication boundary', () => {
-  it('keeps baseline/current mirrored at exact item268 recipes/message and item270 source closure', () => {
+  it('protects the fixed generated seed while current author shops are not required to mirror it', () => {
     const sources = loadPalMigrationSources(repo)
     const expected = {
       sourceStores: sources.stores,
@@ -60,10 +64,10 @@ describe('PAL Store0 publication boundary', () => {
       expectedSellShopId: 0,
     }
     const baseline = assertPalStoreBoundaryInvariant({ ...baselineContent(), ...expected })
-    const project = assertPalStoreBoundaryInvariant({ ...projectContent(), ...expected })
+    const project = projectContent()
+    assertPalAlchemyBoundaryInvariant({ sourceStores: sources.stores, items: project.items })
+    validateShops(project.shops)
 
     expect(baseline).toEqual({ buyCalls: 29, sellCalls: 6 })
-    expect(project).toEqual(baseline)
-    expect(projectContent().shops).toEqual(baselineContent().shops)
   })
 })

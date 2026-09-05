@@ -127,16 +127,25 @@ function collectOpenShops(
   for (const nested of Object.values(record)) collectOpenShops(nested, shops, report)
 }
 
-export function assertPalStoreBoundaryInvariant(
-  args: PalStoreBoundaryArgs,
-): PalStoreBoundaryReport {
+/** Item mechanisms stay protected independently of the authored shop directory. */
+export function assertPalAlchemyBoundaryInvariant(
+  args: Pick<PalStoreBoundaryArgs, 'sourceStores' | 'items'>,
+): void {
   const store0 = args.sourceStores.filter(({ id }) => id === 0)
   if (store0.length !== 1)
     throw new Error(`PAL Store0 invariant: 源 Store0 数量 ${store0.length} != 1`)
   const sourceRewards = store0[0]!.items.map(String)
   if (sourceRewards.some((itemId) => itemId === '0'))
     throw new Error('PAL Store0 invariant: 源 Store0 奖励不得为 0')
+  assertSpiritGourd(sourceRewards, args.items)
+  assertVesselRecipes(args.items)
+}
 
+/** Generated PAL seed only; never apply this fixed census to a merged author target. */
+export function assertPalStoreBoundaryInvariant(
+  args: PalStoreBoundaryArgs,
+): PalStoreBoundaryReport {
+  assertPalAlchemyBoundaryInvariant(args)
   if (args.shops.some(({ id }) => id === 0))
     throw new Error('PAL Store0 invariant: 禁止发布 ShopDef0')
   const expectedIds = Array.from({ length: 20 }, (_, index) => index + 1)
@@ -148,8 +157,11 @@ export function assertPalStoreBoundaryInvariant(
     throw new Error(
       `PAL Store0 invariant: 真实商店 id/顺序漂移 ${actualIds.join(',')} != ${expectedIds.join(',')}`,
     )
-  assertSpiritGourd(sourceRewards, args.items)
-  assertVesselRecipes(args.items)
+  for (const shop of args.shops) {
+    const source = args.sourceStores.find(({ id }) => id === shop.id)
+    if (!source || !sameStrings(shop.items, source.items.map(String)))
+      throw new Error(`PAL Store0 invariant: 生成商店 ${shop.id} 货单与源不一致`)
+  }
 
   const shopIds = new Set(args.shops.map(({ id }) => id))
   const report: PalStoreBoundaryReport = { buyCalls: 0, sellCalls: 0 }

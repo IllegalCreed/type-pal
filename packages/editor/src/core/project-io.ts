@@ -29,6 +29,7 @@ import {
   validateAssetCatalog,
   validateMapIndex,
   validateSceneIndex,
+  validateShops,
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import {
@@ -229,7 +230,7 @@ export function serializeProject(
     stamps: formatStampTemplates(state.stamps),
     poisons: state.poisons ?? [],
     ambiences: state.ambiences ?? [],
-    shops: state.shops ?? [],
+    shops: validateShops(state.shops ?? []),
     migrationDiagnostics: {
       version: 1,
       diagnostics: (state.migrationDiagnostics?.diagnostics ?? []).filter((diagnostic) => {

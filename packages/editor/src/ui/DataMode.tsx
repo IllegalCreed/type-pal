@@ -435,6 +435,13 @@ export function DataMode(props: {
         session={session}
         assetCatalog={assetCatalog}
         assetReader={assetReader}
+        referenceIndex={projectReferenceIndex}
+        referenceStatus={projectReferenceStatus}
+        getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
+        onOpenReference={onOpenProjectReference}
+        projectId={manifest.id}
+        workspaceId={workspaceId}
+        isProjectDirty={() => session.isDirty() || (script?.session.isDirty() ?? false)}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
         tabBar={tabBar}

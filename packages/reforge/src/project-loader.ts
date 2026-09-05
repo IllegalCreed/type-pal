@@ -54,6 +54,7 @@ import {
   validateMigrationDiagnostics,
   validatePoisons,
   validateSceneIndex,
+  validateShops,
   validateSkills,
   validateSprites,
   validateStampTemplates,
@@ -276,7 +277,7 @@ export function assembleCurrentProject(
     jsons.battleFields === undefined ? [] : validateBattleFields(jsons.battleFields)
   const tilesets = validateTilesets(jsons.tilesets, assetCatalog)
   const ambiences = Array.isArray(jsons.ambiences) ? (jsons.ambiences as AmbienceDef[]) : []
-  const shops = Array.isArray(jsons.shops) ? (jsons.shops as ShopDef[]) : []
+  const shops = validateShops(jsons.shops === undefined ? [] : jsons.shops)
   const migrationDiagnostics =
     jsons.migrationDiagnostics === undefined
       ? { version: 1 as const, diagnostics: [] }

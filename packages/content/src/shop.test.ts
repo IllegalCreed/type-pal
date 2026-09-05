@@ -1,7 +1,35 @@
 import { describe, expect, test } from 'vitest'
 import type { WorldState } from './character.js'
 import type { ItemDataMap } from './item.js'
-import { sellableItems, shopBuy, shopSell } from './shop.js'
+import { sellableItems, shopBuy, shopSell, validateShops } from './shop.js'
+
+describe('validateShops current table', () => {
+  test('empty tables, id0 and repeated stock occurrences remain intact', () => {
+    expect(validateShops([])).toEqual([])
+    const table = [
+      { id: 0, items: ['a', 'b', 'a'] },
+      { id: 2, items: [] },
+    ]
+    expect(validateShops(table)).toEqual(table)
+  })
+  test.each([
+    null,
+    {},
+    [{ id: -1, items: [] }],
+    [{ id: 0.5, items: [] }],
+    [{ id: Number.MAX_SAFE_INTEGER + 1, items: [] }],
+    [{ id: '0', items: [] }],
+    [
+      { id: 0, items: [] },
+      { id: 0, items: [] },
+    ],
+    [{ id: 0, items: [''] }],
+    [{ id: 0, items: [1] }],
+    [{ id: 0, items: null }],
+  ])('rejects malformed current tables %j', (value) => {
+    expect(() => validateShops(value)).toThrow()
+  })
+})
 
 const ITEMS: ItemDataMap = {
   '166': {

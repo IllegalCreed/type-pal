@@ -2024,7 +2024,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + DsInspectorTabs",
         "overlay": "DsDialog",
-        "field": "DsAddPickerDialog + DsPropertyRow",
+        "field": "DsAddPickerDialog + DsFieldGroup + DsNumberField + DsPropertyRow + DsReadoutList",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

@@ -6,16 +6,35 @@
  */
 import type { AssetCatalogV1, ItemData, ShopDef } from '@type-pal/content'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { AddShopCommand, UpdateShopCommand } from '../core/commands.js'
+import {
+  AddShopCommand,
+  DeleteShopCommand,
+  DuplicateShopCommand,
+  nextShopId,
+  UpdateShopCommand,
+} from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import { playProjectQuery } from '../core/play-url.js'
+import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
+import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
   ItemPickerThumbnail,
   itemPickerDescription,
   itemPickerSearchText,
 } from './add-picker-option-presentation.js'
 import { DsAddPickerDialog } from './design-system/add-picker.js'
-import { DsEmptyState, DsIconButton, DsTag } from './design-system/controls.js'
+import {
+  DsButton,
+  DsEmptyState,
+  DsFieldGroup,
+  DsIconButton,
+  DsNumberField,
+  DsStatus,
+  DsTag,
+} from './design-system/controls.js'
+import { DsDialog } from './design-system/overlays.js'
 import {
   DsActionGroup,
   DsCatalogControls,
@@ -28,6 +47,11 @@ import {
   DsObjectWorkspace,
   DsPropertyGrid,
   DsPropertyRow,
+  DsReadoutList,
+  DsReadoutRow,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
   DsSequenceIndex,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
@@ -40,13 +64,14 @@ import {
   useDsReorderKeys,
 } from './design-system/reorder.js'
 
-type ShopInspectorTab = 'summary' | 'help'
+type ShopInspectorTab = 'summary' | 'references' | 'help'
 
 function shopCatalogTitle(shop: ShopDef, itemsById: ReadonlyMap<string, ItemData>): string {
   const firstItemId = shop.items[0]
   if (!firstItemId) return '空货单'
   const firstItemName = itemsById.get(firstItemId)?.name.trim() || firstItemId
-  return shop.items.length > 1 ? `${firstItemName}等 ${shop.items.length} 种货品` : firstItemName
+  const kinds = new Set(shop.items).size
+  return kinds > 1 ? `${firstItemName}等 ${kinds} 种货品` : firstItemName
 }
 
 export function ShopTab(props: {
@@ -58,13 +83,48 @@ export function ShopTab(props: {
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   tabBar?: React.ReactNode
+  referenceIndex?: ProjectReferenceIndex
+  referenceStatus?: EditorDerivedStatus
+  getCurrentReferenceIndex?: CurrentProjectReferenceIndexProvider
+  onOpenReference?: (reference: ProjectReferenceEdge) => void
+  projectId?: string
+  workspaceId?: string
+  isProjectDirty?: () => boolean
 }) {
   const { shops, items, session, assetCatalog, assetReader, focusObjectId, onObjectFocus, tabBar } =
     props
   const [selId, setSelId] = useState<number>(shops[0]?.id ?? 0)
   const [inspectorTab, setInspectorTab] = useState<ShopInspectorTab>('summary')
+  const [intent, setIntent] = useState<{ kind: 'delete' | 'trial'; shopId: number }>()
+  const [money, setMoney] = useState('1000')
+  const [notice, setNotice] = useState<string>()
   const stockSectionRef = useRef<HTMLDivElement>(null)
+  const emptyRef = useRef<HTMLDivElement>(null)
   const shop = shops.find((x) => x.id === selId) ?? shops[0]
+  const stockKinds = new Set(shop?.items ?? []).size
+  const referenceReady = props.referenceStatus === 'current' && props.referenceIndex !== undefined
+  const references = shop
+    ? (props.referenceIndex?.deletionImpact({ kind: 'shop', id: String(shop.id) }).blockers ?? [])
+    : []
+  const referencePanelState = referenceReady
+    ? references.length
+      ? 'ready'
+      : 'empty'
+    : props.referenceStatus === 'stale'
+      ? 'partial'
+      : props.referenceStatus === 'checking'
+        ? 'loading'
+        : 'error'
+  const dirty = props.isProjectDirty?.() ?? session.isDirty()
+  const validMoney = /^\d+$/.test(money) && Number.isSafeInteger(Number(money))
+  const act = (action: () => void): void => {
+    try {
+      action()
+      setNotice(undefined)
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : String(error))
+    }
+  }
   const stockReorderKeys = useDsReorderKeys(shop?.items ?? [])
   const itemsById = useMemo(() => new Map(items.map((i) => [i.id, i])), [items])
   const stockItemOptions = useMemo(
@@ -83,6 +143,7 @@ export function ShopTab(props: {
   )
   const selectShop = (id: number): void => {
     setSelId(id)
+    setIntent(undefined)
     onObjectFocus?.(String(id))
   }
 
@@ -92,6 +153,41 @@ export function ShopTab(props: {
       setSelId(id)
     }
   }, [focusObjectId, shops])
+
+  useEffect(() => {
+    if (
+      focusObjectId !== undefined &&
+      !shops.some((candidate) => String(candidate.id) === focusObjectId)
+    ) {
+      onObjectFocus?.(shop ? String(shop.id) : undefined)
+    }
+    if (intent && intent.shopId !== shop?.id) setIntent(undefined)
+  }, [focusObjectId, shops, shop, onObjectFocus, intent])
+
+  const submitIntent = (): void =>
+    act(() => {
+      if (!intent || intent.shopId !== shop?.id) throw new Error('当前店铺已变化，请重新操作。')
+      const latest = session.getState()
+      if (intent.kind === 'delete') {
+        if (!referenceReady || !props.getCurrentReferenceIndex)
+          throw new Error('引用尚未完成刷新，当前不能删除。')
+        if (references.length) throw new Error('请先处理全部买入引用。')
+        const index = latest.shops?.findIndex(({ id }) => id === intent.shopId) ?? -1
+        const next = latest.shops?.[index + 1] ?? latest.shops?.[index - 1]
+        session.dispatch(new DeleteShopCommand(intent.shopId, props.getCurrentReferenceIndex))
+        if (next) selectShop(next.id)
+        else onObjectFocus?.(undefined)
+      } else {
+        if (props.isProjectDirty?.() ?? session.isDirty()) throw new Error('请先保存项目，再试买。')
+        if (!props.projectId || !validMoney) throw new Error('初始金钱必须为非负安全整数。')
+        window.open(
+          `play.html?${playProjectQuery(props.projectId, props.workspaceId)}&shop-trial=${intent.shopId}&money=${Number(money)}`,
+          '_blank',
+          'noopener,noreferrer',
+        )
+      }
+      setIntent(undefined)
+    })
 
   const setItems = (next: string[]): void => {
     if (shop) session.dispatch(new UpdateShopCommand(shop.id, next))
@@ -125,10 +221,11 @@ export function ShopTab(props: {
                   label: '新建店铺',
                   icon: 'add',
                   onClick: () => {
-                    const id =
-                      shops.reduce((maximum, candidate) => Math.max(maximum, candidate.id), -1) + 1
-                    session.dispatch(new AddShopCommand(id))
-                    selectShop(id)
+                    act(() => {
+                      const id = nextShopId(session.getState().shops ?? [])
+                      session.dispatch(new AddShopCommand(id))
+                      selectShop(id)
+                    })
                   },
                 },
               ]}
@@ -160,10 +257,60 @@ export function ShopTab(props: {
                 title="货单"
                 objectId={`#${shop.id}`}
                 summary="配置这家店出售的物品及展示顺序；售价直接引用物品数据。"
-                meta={<DsTag tone="neutral">{shop.items.length} 种货</DsTag>}
+                meta={<DsTag tone="neutral">{stockKinds} 种货</DsTag>}
+                actions={
+                  <>
+                    <DsButton
+                      icon="copy"
+                      onClick={() =>
+                        act(() => {
+                          const id = nextShopId(session.getState().shops ?? [])
+                          session.dispatch(new DuplicateShopCommand(shop.id, id))
+                          selectShop(id)
+                        })
+                      }
+                    >
+                      复制店铺
+                    </DsButton>
+                    <DsButton
+                      icon="open"
+                      disabled={!props.projectId}
+                      onClick={() => {
+                        setNotice(undefined)
+                        setMoney('1000')
+                        setIntent({ kind: 'trial', shopId: shop.id })
+                      }}
+                    >
+                      独立试买
+                    </DsButton>
+                    <DsButton
+                      icon="delete"
+                      variant="danger"
+                      disabled={
+                        !referenceReady || references.length > 0 || !props.getCurrentReferenceIndex
+                      }
+                      onClick={() => {
+                        setNotice(undefined)
+                        setIntent({ kind: 'delete', shopId: shop.id })
+                      }}
+                    >
+                      删除店铺
+                    </DsButton>
+                  </>
+                }
               />
             }
           >
+            {notice ? <DsStatus tone="error">{notice}</DsStatus> : null}
+            {!referenceReady ? (
+              <DsStatus>引用尚未完成刷新，当前不能删除店铺。</DsStatus>
+            ) : references.length ? (
+              <DsStatus
+                action={<DsButton onClick={() => setInspectorTab('references')}>查看引用</DsButton>}
+              >
+                {references.length} 处买入引用会阻止删除。
+              </DsStatus>
+            ) : null}
             <div ref={stockSectionRef} tabIndex={-1}>
               <DsWorkbenchSection
                 className="shop-stock-card"
@@ -262,7 +409,7 @@ export function ShopTab(props: {
             </div>
           </DsObjectWorkspace>
         ) : (
-          <div className="shop-empty-state">
+          <div ref={emptyRef} tabIndex={-1} className="shop-empty-state">
             <span aria-hidden="true">🏪</span>
             <h2>还没有商店</h2>
             <p>点击左侧“新建店铺”创建第一份货单。</p>
@@ -289,13 +436,69 @@ export function ShopTab(props: {
                   {shop ? (
                     <DsInspectorSection title="当前店铺" description={`店 ${shop.id}`}>
                       <DsPropertyGrid>
-                        <DsPropertyRow label="在售物品">{shop.items.length} 种</DsPropertyRow>
+                        <DsPropertyRow label="在售物品">{stockKinds} 种</DsPropertyRow>
                         <DsPropertyRow label="引用编号">#{shop.id}</DsPropertyRow>
                       </DsPropertyGrid>
                     </DsInspectorSection>
                   ) : (
                     <div className="insp-empty">还没有商店。</div>
                   )}
+                </div>
+              ),
+            },
+            {
+              id: 'references',
+              label: '引用',
+              panel: (
+                <div className="shop-inspector-body">
+                  <DsInspectorSection title="买入引用">
+                    <DsReferencePanel
+                      state={referencePanelState}
+                      count={
+                        referenceReady
+                          ? { kind: 'exact', value: references.length }
+                          : { kind: 'unknown' }
+                      }
+                      impact={{
+                        kind: 'blocking',
+                        description: referenceReady
+                          ? references.length
+                            ? '先处理全部买入引用，才能删除店铺。'
+                            : '当前店铺没有买入引用。'
+                          : '引用结果不是当前版本，删除已禁用。',
+                      }}
+                    >
+                      {references.length ? (
+                        <DsReferenceList>
+                          {references.map((reference) => (
+                            <DsReferenceRow
+                              key={reference.id}
+                              title={reference.source.label}
+                              path={reference.where}
+                              labels={[{ label: '买入引用' }]}
+                              action={
+                                reference.locator.kind !== 'unavailable' && props.onOpenReference
+                                  ? {
+                                      label: '打开',
+                                      onActivate: () => props.onOpenReference!(reference),
+                                    }
+                                  : undefined
+                              }
+                              status={
+                                reference.locator.kind === 'unavailable'
+                                  ? {
+                                      label: '暂不可定位',
+                                      reason: reference.locator.reason,
+                                      tone: 'warning',
+                                    }
+                                  : undefined
+                              }
+                            />
+                          ))}
+                        </DsReferenceList>
+                      ) : null}
+                    </DsReferencePanel>
+                  </DsInspectorSection>
                 </div>
               ),
             },
@@ -326,6 +529,64 @@ export function ShopTab(props: {
           ]}
         />
       </DsInspectorHost>
+      <DsDialog
+        open={intent !== undefined}
+        title={intent?.kind === 'delete' ? '删除店铺' : '独立试买'}
+        description={
+          intent?.kind === 'delete'
+            ? '仅删除这份货单，不删除物品。删除后可以撤销。'
+            : '读取已保存项目，背包从空开始；本次金钱与物品不会保存，不运行剧情。'
+        }
+        fallbackFocusRef={shop ? stockSectionRef : emptyRef}
+        onClose={() => {
+          setIntent(undefined)
+          setNotice(undefined)
+        }}
+        footer={
+          <>
+            <DsButton
+              onClick={() => {
+                setIntent(undefined)
+                setNotice(undefined)
+              }}
+            >
+              取消
+            </DsButton>
+            <DsButton
+              variant={intent?.kind === 'delete' ? 'danger' : 'primary'}
+              disabled={
+                intent?.kind === 'delete'
+                  ? !referenceReady || references.length > 0
+                  : dirty || !validMoney || !props.projectId
+              }
+              onClick={submitIntent}
+            >
+              {intent?.kind === 'delete' ? '确认删除' : '开始试买'}
+            </DsButton>
+          </>
+        }
+      >
+        <DsFieldGroup>
+          <DsReadoutList>
+            <DsReadoutRow label="店铺编号">#{intent?.shopId}</DsReadoutRow>
+          </DsReadoutList>
+          {intent?.kind === 'trial' ? (
+            <>
+              <DsNumberField
+                label="初始金钱"
+                value={money}
+                min={0}
+                max={Number.MAX_SAFE_INTEGER}
+                integer
+                onChange={(event) => setMoney(event.currentTarget.value)}
+                help="单位：文。只用于本次试买。"
+              />
+              {dirty ? <DsStatus tone="warning">请先保存项目，再试买。</DsStatus> : null}
+            </>
+          ) : null}
+          {notice ? <DsStatus tone="error">{notice}</DsStatus> : null}
+        </DsFieldGroup>
+      </DsDialog>
     </>
   )
 }

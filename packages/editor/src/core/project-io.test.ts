@@ -1,7 +1,14 @@
 import type { CurrentManifest } from '@type-pal/content'
 import { assembleCurrentProject } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import {
+  AddShopCommand,
+  DeleteShopCommand,
+  DuplicateShopCommand,
+  UpdateShopCommand,
+} from './commands.js'
 import { serializeProject, toEditorState } from './project-io.js'
+import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 
 const scene = {
   id: 's001',
@@ -70,6 +77,45 @@ const jsons = {
 }
 
 describe('current editor project IO', () => {
+  test('shop create/copy/stock/delete save and reopen preserves occurrences and an explicit empty table', () => {
+    const items = ['a', 'b'].map((id) => ({
+      id,
+      name: id,
+      desc: [],
+      buyPrice: 1,
+      sellPrice: 0,
+      sellable: false,
+    }))
+    const loaded = assembleCurrentProject(manifest, { ...jsons, items })
+    let state = toEditorState(loaded, [loaded.authorContent.entryScene])
+    state = new AddShopCommand(0).apply(state)
+    state = new UpdateShopCommand(0, ['a', 'b', 'a']).apply(state)
+    state = new DuplicateShopCommand(0, 1).apply(state)
+    const roundtrip = () => {
+      const files = serializeProject(state, {
+        mapCopies: { 'content/maps/map-001.json': '{"version":4}' },
+      })
+      const reopened = assembleCurrentProject(files['manifest.json'] as CurrentManifest, {
+        ...jsons,
+        items,
+        shops: files['content/shops.json'],
+      })
+      expect(reopened.shops).toEqual(state.shops)
+      expect(Object.keys(files)).not.toContain('content/migrations.json')
+      return toEditorState(reopened, [reopened.authorContent.entryScene])
+    }
+    state = roundtrip()
+    expect(state.shops).toEqual([
+      { id: 0, items: ['a', 'b', 'a'] },
+      { id: 1, items: ['a', 'b', 'a'] },
+    ])
+    state = new DeleteShopCommand(0, collectCurrentProjectReferenceIndex).apply(state)
+    state = new DeleteShopCommand(1, collectCurrentProjectReferenceIndex).apply(state)
+    state = roundtrip()
+    expect(state.shops).toEqual([])
+    expect(state.manifest.content.shops).toBe('content/shops.json')
+    expect(() => assembleCurrentProject(manifest, { ...jsons, shops: {} })).toThrow(/shops/)
+  })
   test('projects a current loaded project into one current editor state', () => {
     const loaded = assembleCurrentProject(manifest, jsons)
     const state = toEditorState(loaded, [loaded.authorContent.entryScene])

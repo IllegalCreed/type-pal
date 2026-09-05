@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 import { type ActorDef, type ItemData, type ShopDef, validateSceneIndex } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
+import { createMigrationPlan, snapshotOf } from './migration-plan.js'
 import {
   buildPalCurrentPublication,
   validatePalCurrentPublication,
@@ -13,6 +14,69 @@ import { loadPalMigrationSources } from './pal-migration-io.js'
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
 describe('PAL current-only publication', () => {
+  it('accepts merged author shop lifecycle and command changes, retaining the pure generated baseline', () => {
+    const baseline = loadPalBaseline(repo)!
+    const sources = loadPalMigrationSources(repo)
+    const publication = buildPalCurrentPublication(baseline, sources)
+    const manifest = buildPalCurrentManifest(sources.assetCatalog)
+    const authored = structuredClone(baseline)
+    const shops = structuredClone(authored.files.get('content/shops.json')) as unknown as ShopDef[]
+    const copied = { id: 21, items: [...shops[0]!.items].reverse().concat(shops[0]!.items[0]!) }
+    authored.files.set('content/shops.json', [
+      ...shops.filter(({ id }) => id !== 20),
+      { id: 0, items: [] },
+      copied,
+    ] as never)
+    let addedBuy = false
+    function editCalls(value: unknown, clear: boolean): void {
+      if (Array.isArray(value)) {
+        const buy =
+          !clear && !addedBuy
+            ? value.find((entry) => entry?.kind === 'openShop' && entry.mode === 'buy')
+            : undefined
+        if (buy) {
+          value.push(structuredClone(buy))
+          addedBuy = true
+        }
+        value.forEach((entry) => editCalls(entry, clear))
+      } else if (value && typeof value === 'object') {
+        const record = value as Record<string, unknown>
+        if (record.kind === 'openShop') {
+          if (clear) record.mode = 'sell'
+          if (record.mode === 'sell') record.shop = 999
+          else if (record.shop === 20) record.shop = 21
+        }
+        Object.values(record).forEach((entry) => editCalls(entry, clear))
+      }
+    }
+    for (const value of authored.files.values()) editCalls(value, false)
+    expect(addedBuy).toBe(true)
+    const plan = createMigrationPlan(baseline, authored, publication)
+    expect(plan.conflicts).toEqual([])
+    expect(plan.target.get('content/shops.json')).toEqual(authored.files.get('content/shops.json'))
+    const target = { ...publication, files: plan.target, managedFiles: new Set(plan.target.keys()) }
+    expect(() =>
+      validatePalCurrentPublication({ publication: target, manifest, sources }),
+    ).not.toThrow()
+    const replay = createMigrationPlan(snapshotOf(publication), snapshotOf(target), publication)
+    expect(replay.summary).toMatchObject({ writes: 0, deletes: 0, conflicts: 0 })
+    expect(replay.target.get('content/shops.json')).toEqual(target.files.get('content/shops.json'))
+    expect(
+      (publication.files.get('content/shops.json') as unknown as ShopDef[]).map(({ id }) => id),
+    ).toEqual(Array.from({ length: 20 }, (_, i) => i + 1))
+
+    const dangling = { ...target, files: new Map(target.files) }
+    dangling.files.set('content/shops.json', [{ id: 0, items: [] }] as never)
+    expect(() =>
+      validatePalCurrentPublication({ publication: dangling, manifest, sources }),
+    ).toThrow(/商店 .*不在 shops/)
+    const empty = structuredClone(target)
+    empty.files.set('content/shops.json', [])
+    for (const value of empty.files.values()) editCalls(value, true)
+    expect(() =>
+      validatePalCurrentPublication({ publication: empty, manifest, sources }),
+    ).not.toThrow()
+  })
   it('publishes the current baseline and raw-owned partitions directly as content20/SAVE8', () => {
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
