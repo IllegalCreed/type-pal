@@ -1,0 +1,3872 @@
+{
+  "schemaVersion": 2,
+  "profile": "fast",
+  "generatedAt": "2026-09-05T17:24:07.898Z",
+  "provider": {
+    "name": "v8",
+    "vitest": "4.1.7",
+    "coverageV8": "4.1.7"
+  },
+  "sourceFileCount": 608,
+  "testCount": 5675,
+  "packages": {
+    "shared": {
+      "name": "@type-pal/shared",
+      "directory": "packages/shared",
+      "include": ["src/**/*.{ts,tsx}"],
+      "exclude": [
+        "**/__tests__/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.d.ts"
+      ],
+      "sourceFileCount": 11,
+      "sourceFiles": [
+        "packages/shared/src/events.ts",
+        "packages/shared/src/index.ts",
+        "packages/shared/src/input.ts",
+        "packages/shared/src/mkf.ts",
+        "packages/shared/src/pal-authored-map-names.ts",
+        "packages/shared/src/resources.ts",
+        "packages/shared/src/rle-encode.ts",
+        "packages/shared/src/rle.ts",
+        "packages/shared/src/rng.ts",
+        "packages/shared/src/tables.ts",
+        "packages/shared/src/yj2.ts"
+      ],
+      "scopeDigest": "f3ef4476e6c1be8555817d7c6434f3ba3b2f88ec0d22776a5f3c6f8521d1a6de",
+      "fastTests": {
+        "testCount": 79,
+        "testFileCount": 9,
+        "files": [
+          "packages/shared/src/events.test.ts",
+          "packages/shared/src/index.test.ts",
+          "packages/shared/src/input.test.ts",
+          "packages/shared/src/pal-map-names.test.ts",
+          "packages/shared/src/resources.test.ts",
+          "packages/shared/src/rle-encode.test.ts",
+          "packages/shared/src/rle.test.ts",
+          "packages/shared/src/rng.test.ts",
+          "packages/shared/src/tables.test.ts"
+        ],
+        "fileEntries": [
+          {
+            "file": "packages/shared/src/events.test.ts",
+            "testCount": 9,
+            "identityDigest": "974732a822a14e0f152142ce9c061cecd963ba364e5f9206f0c6bd81a085ec09"
+          },
+          {
+            "file": "packages/shared/src/index.test.ts",
+            "testCount": 2,
+            "identityDigest": "f0cbb6c02654b58a38dafaaaa8ee5f92c01b4e2d998170102ba56bfa13969e79"
+          },
+          {
+            "file": "packages/shared/src/input.test.ts",
+            "testCount": 4,
+            "identityDigest": "11f6b38e10a3ee6978487bf6e5e3ac8a4841019d5df6fd7cc420ecd58415d9ab"
+          },
+          {
+            "file": "packages/shared/src/pal-map-names.test.ts",
+            "testCount": 2,
+            "identityDigest": "aa1a341473c019d0b330d8a27ad6f99f979afd7f36505dc8e13b48780f90545c"
+          },
+          {
+            "file": "packages/shared/src/resources.test.ts",
+            "testCount": 28,
+            "identityDigest": "d9ceab0f1146131c587ac92d5d12ed0af132d915f1fd15f86cb63b3d7b5faca4"
+          },
+          {
+            "file": "packages/shared/src/rle-encode.test.ts",
+            "testCount": 8,
+            "identityDigest": "acecc3000d7ba3e1d971be6e7623d3869b435b6e4255c320826fa34d15732a46"
+          },
+          {
+            "file": "packages/shared/src/rle.test.ts",
+            "testCount": 18,
+            "identityDigest": "778946222b0aad8384e5b25b3bc02eca43abe84d188007aa8dabac4779d5157b"
+          },
+          {
+            "file": "packages/shared/src/rng.test.ts",
+            "testCount": 7,
+            "identityDigest": "c82002802a1d8ed74b892153bb9044c639050feac85457c28c582dda4b46446e"
+          },
+          {
+            "file": "packages/shared/src/tables.test.ts",
+            "testCount": 1,
+            "identityDigest": "3b5622f69e3e3c26bce2769a95851786ee1ee6987dbd4aa76b937a381d1d6351"
+          }
+        ],
+        "identityDigest": "2d85f0d807c04d9f91ac28889f1865ff6125966185105176945cda1093e6cf2c",
+        "duplicateIdentityCount": 0,
+        "executionDigest": "e5153e4d78d911eee9afc698873341dee5f6b6660a0ad91c2f29f68481e20bd4"
+      },
+      "metrics": {
+        "statements": {
+          "covered": 217,
+          "total": 406
+        },
+        "branches": {
+          "covered": 107,
+          "total": 177
+        },
+        "functions": {
+          "covered": 14,
+          "total": 21
+        },
+        "lines": {
+          "covered": 196,
+          "total": 356
+        }
+      }
+    },
+    "content": {
+      "name": "@type-pal/content",
+      "directory": "packages/content",
+      "include": ["src/**/*.{ts,tsx}"],
+      "exclude": [
+        "**/__tests__/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.d.ts"
+      ],
+      "sourceFileCount": 50,
+      "sourceFiles": [
+        "packages/content/src/actor-condition.ts",
+        "packages/content/src/actor-reference.ts",
+        "packages/content/src/actor.ts",
+        "packages/content/src/ambience.ts",
+        "packages/content/src/asset.ts",
+        "packages/content/src/author-dialogue.ts",
+        "packages/content/src/author-enemy.ts",
+        "packages/content/src/author-item-core.ts",
+        "packages/content/src/author-item.ts",
+        "packages/content/src/author-scene.ts",
+        "packages/content/src/author-script-core.ts",
+        "packages/content/src/author-script.ts",
+        "packages/content/src/battle-field-reference.ts",
+        "packages/content/src/battle-formulas.ts",
+        "packages/content/src/battle-sprite.ts",
+        "packages/content/src/character.ts",
+        "packages/content/src/command-target-reference.ts",
+        "packages/content/src/enemy-ai.ts",
+        "packages/content/src/enemy-script.ts",
+        "packages/content/src/enemy-team-reference.ts",
+        "packages/content/src/enemy-team.ts",
+        "packages/content/src/enemy.ts",
+        "packages/content/src/entity-lifecycle.ts",
+        "packages/content/src/frame-sequence.ts",
+        "packages/content/src/grid.ts",
+        "packages/content/src/index.ts",
+        "packages/content/src/item.ts",
+        "packages/content/src/locale.ts",
+        "packages/content/src/map-index.ts",
+        "packages/content/src/migration-diagnostic.ts",
+        "packages/content/src/poison.ts",
+        "packages/content/src/project-map.ts",
+        "packages/content/src/rewards.ts",
+        "packages/content/src/rich-text.ts",
+        "packages/content/src/runtime-scene.ts",
+        "packages/content/src/runtime-script.ts",
+        "packages/content/src/scene-core.ts",
+        "packages/content/src/scene-index.ts",
+        "packages/content/src/script-library.ts",
+        "packages/content/src/script.ts",
+        "packages/content/src/shop.ts",
+        "packages/content/src/skill.ts",
+        "packages/content/src/sprite.ts",
+        "packages/content/src/stamp.ts",
+        "packages/content/src/tileset.ts",
+        "packages/content/src/validate-author.ts",
+        "packages/content/src/validate-refs.ts",
+        "packages/content/src/validate-runtime.ts",
+        "packages/content/src/validate.ts",
+        "packages/content/src/world-variable.ts"
+      ],
+      "scopeDigest": "9c46fa90991cc75a97d5fac51edc8a6b0f66201a2c2d531fcb939d61db3af93c",
+      "fastTests": {
+        "testCount": 488,
+        "testFileCount": 36,
+        "files": [
+          "packages/content/src/actor-condition.test.ts",
+          "packages/content/src/actor.test.ts",
+          "packages/content/src/ambience.test.ts",
+          "packages/content/src/asset.test.ts",
+          "packages/content/src/author-dialogue.test.ts",
+          "packages/content/src/author-script-core.test.ts",
+          "packages/content/src/author-script.current-characterization.test.ts",
+          "packages/content/src/battle-field-reference.test.ts",
+          "packages/content/src/battle-formulas.test.ts",
+          "packages/content/src/battle-sprite.test.ts",
+          "packages/content/src/character.test.ts",
+          "packages/content/src/command-target-reference.test.ts",
+          "packages/content/src/enemy-ai.test.ts",
+          "packages/content/src/enemy-script.test.ts",
+          "packages/content/src/entity-lifecycle.test.ts",
+          "packages/content/src/frame-sequence.test.ts",
+          "packages/content/src/grid.test.ts",
+          "packages/content/src/item.test.ts",
+          "packages/content/src/locale.test.ts",
+          "packages/content/src/map-index.test.ts",
+          "packages/content/src/migration-diagnostic.test.ts",
+          "packages/content/src/project-map.test.ts",
+          "packages/content/src/rewards.test.ts",
+          "packages/content/src/rich-text.test.ts",
+          "packages/content/src/runtime-scene.test.ts",
+          "packages/content/src/runtime-script-lifecycle.test.ts",
+          "packages/content/src/scene-index.test.ts",
+          "packages/content/src/script-library.test.ts",
+          "packages/content/src/shop.test.ts",
+          "packages/content/src/stamp.test.ts",
+          "packages/content/src/tileset.test.ts",
+          "packages/content/src/validate-author.test.ts",
+          "packages/content/src/validate-refs.test.ts",
+          "packages/content/src/validate-runtime.test.ts",
+          "packages/content/src/validate.test.ts",
+          "packages/content/src/world-variable.test.ts"
+        ],
+        "fileEntries": [
+          {
+            "file": "packages/content/src/actor-condition.test.ts",
+            "testCount": 11,
+            "identityDigest": "90e6a1711d3e840867d03bf10c897c63717fb56f3d6fead492a56fd857d23d2f"
+          },
+          {
+            "file": "packages/content/src/actor.test.ts",
+            "testCount": 4,
+            "identityDigest": "cee9cc1e9d3a410aa29b151d0ecb440e70104dd39404953748af988fc883ea00"
+          },
+          {
+            "file": "packages/content/src/ambience.test.ts",
+            "testCount": 5,
+            "identityDigest": "672beb4e47e11021552816531365d03ce922672b9dab804b15fb18123700082b"
+          },
+          {
+            "file": "packages/content/src/asset.test.ts",
+            "testCount": 27,
+            "identityDigest": "c89dac72cd881d682063e4110bab32739160141cb30759ea40ad24c183448a38"
+          },
+          {
+            "file": "packages/content/src/author-dialogue.test.ts",
+            "testCount": 5,
+            "identityDigest": "cecc1299125f200820dd91e0322abdc38767fd6916ad630aea7692d2ed84c7e2"
+          },
+          {
+            "file": "packages/content/src/author-script-core.test.ts",
+            "testCount": 29,
+            "identityDigest": "5ae993ecc1564c1ee1e538e5b33a428358b17066e24c4faa07b7dafa7bbccdf3"
+          },
+          {
+            "file": "packages/content/src/author-script.current-characterization.test.ts",
+            "testCount": 4,
+            "identityDigest": "9e038ba65ead275252c423164fe928026f64dafb948d7504ff8a7195841643a1"
+          },
+          {
+            "file": "packages/content/src/battle-field-reference.test.ts",
+            "testCount": 2,
+            "identityDigest": "13bd3a2c6e6dfd2e801d09eb7880ec867efec35652987b9c4ba4276dfb30d019"
+          },
+          {
+            "file": "packages/content/src/battle-formulas.test.ts",
+            "testCount": 25,
+            "identityDigest": "ca92d883bb2963470343c75efa24b3ce13df7279804d355b8e121fca3faaca13"
+          },
+          {
+            "file": "packages/content/src/battle-sprite.test.ts",
+            "testCount": 5,
+            "identityDigest": "e00a9256d235b82eddb49a5974cc47964e4019bbb623479b49dc63431a857613"
+          },
+          {
+            "file": "packages/content/src/character.test.ts",
+            "testCount": 25,
+            "identityDigest": "ddcdee5473c2bd87f0311821e5577d47275fe1c9a85c61677fb22a0c51b37377"
+          },
+          {
+            "file": "packages/content/src/command-target-reference.test.ts",
+            "testCount": 5,
+            "identityDigest": "c14a2cf3cfa9f763b376da4e8d5b333fc1f8100fe30b730f4f97841c34a2a2a3"
+          },
+          {
+            "file": "packages/content/src/enemy-ai.test.ts",
+            "testCount": 9,
+            "identityDigest": "fc73d1d2ac7f31ecb043c9073ab42f591e55eebf686f1a7524db91134156f87e"
+          },
+          {
+            "file": "packages/content/src/enemy-script.test.ts",
+            "testCount": 6,
+            "identityDigest": "522677e7ad837a295e07c8593efbb2a505b4715864e7990a31c55ad7a5636ab2"
+          },
+          {
+            "file": "packages/content/src/entity-lifecycle.test.ts",
+            "testCount": 9,
+            "identityDigest": "ff63d96f6e3fbb7895b957666cc66f3836ab81db5ad85eae816e48c95d8416f0"
+          },
+          {
+            "file": "packages/content/src/frame-sequence.test.ts",
+            "testCount": 13,
+            "identityDigest": "f1c8d2e364130bdc399555ecb46339bd8be86573b6024a42ab61bfd21697e1ed"
+          },
+          {
+            "file": "packages/content/src/grid.test.ts",
+            "testCount": 11,
+            "identityDigest": "5f83ce41281090ac103c49bab2fa8eaae96b94bb281c4bc00f796a2896508a13"
+          },
+          {
+            "file": "packages/content/src/item.test.ts",
+            "testCount": 51,
+            "identityDigest": "b4b838ef40156cfcdf470cbdce31fd7a49c6b4bb1e7ff678d7788bbd774d8c95"
+          },
+          {
+            "file": "packages/content/src/locale.test.ts",
+            "testCount": 2,
+            "identityDigest": "4a135998e553b612295508a1641255db270154ee4566653b4d297371a754238b"
+          },
+          {
+            "file": "packages/content/src/map-index.test.ts",
+            "testCount": 5,
+            "identityDigest": "9d3f9c055729714051e0808ac916345160d4fe2b404f86550550d150f12a04d8"
+          },
+          {
+            "file": "packages/content/src/migration-diagnostic.test.ts",
+            "testCount": 2,
+            "identityDigest": "76e7534f078644e117d2c304a23a21062d5116fce67bf534a8bb9049ac83b330"
+          },
+          {
+            "file": "packages/content/src/project-map.test.ts",
+            "testCount": 6,
+            "identityDigest": "649ae7ffa444f001ec4c375e56c149db90ac93476fd9255e9f7281c8802ee22b"
+          },
+          {
+            "file": "packages/content/src/rewards.test.ts",
+            "testCount": 6,
+            "identityDigest": "8fd01e808bc0e385f566ad7d869deee0f4d52bb87f420d3780f009c94edac348"
+          },
+          {
+            "file": "packages/content/src/rich-text.test.ts",
+            "testCount": 6,
+            "identityDigest": "2ec70c6842e2697e956c3e150701fc3428ce8a5ff883c5cb22670c2f5cb6ef40"
+          },
+          {
+            "file": "packages/content/src/runtime-scene.test.ts",
+            "testCount": 9,
+            "identityDigest": "ac040d1a63abb81ad7cf63766d6ad416c9e59fa26f7e36adb34e8c4f05e976b4"
+          },
+          {
+            "file": "packages/content/src/runtime-script-lifecycle.test.ts",
+            "testCount": 5,
+            "identityDigest": "4cf27ad724f53b9d249b560a2305446831d8fb2edecfbe2e96c855d301e92465"
+          },
+          {
+            "file": "packages/content/src/scene-index.test.ts",
+            "testCount": 3,
+            "identityDigest": "bfd284772010f73190bf6d9fd37b4bd25b9ee189f7c8bdbb7137c4b18bbf3c78"
+          },
+          {
+            "file": "packages/content/src/script-library.test.ts",
+            "testCount": 19,
+            "identityDigest": "7cad7f10a5544e8df72c299ceb630afd299149d8ace9f886f067308d6d740e45"
+          },
+          {
+            "file": "packages/content/src/shop.test.ts",
+            "testCount": 16,
+            "identityDigest": "67920e8d6a36dfad5fa734c2e1f5e82c71d1b096b99b0591991bd80a8143e4a8"
+          },
+          {
+            "file": "packages/content/src/stamp.test.ts",
+            "testCount": 3,
+            "identityDigest": "70556675d141e3418ab7e5cfa753ec153b45bd716c60f0b00d9c0262b0916c0a"
+          },
+          {
+            "file": "packages/content/src/tileset.test.ts",
+            "testCount": 3,
+            "identityDigest": "d3ab165e7fe043e949b6f2be31340a1816b66242b01dfb0f6e2d75c6389c45d1"
+          },
+          {
+            "file": "packages/content/src/validate-author.test.ts",
+            "testCount": 7,
+            "identityDigest": "cd60ef7c5a22adf5f9a0396777c9c2b1225deb3ef12de49bdf71fd60eb8f38f3"
+          },
+          {
+            "file": "packages/content/src/validate-refs.test.ts",
+            "testCount": 46,
+            "identityDigest": "b835fb8d554f5632ec5fdf63e67c8c4c8feed2dec9b8a4198232a8c001b235e4"
+          },
+          {
+            "file": "packages/content/src/validate-runtime.test.ts",
+            "testCount": 3,
+            "identityDigest": "e31a27c772929455ac68ce8fd197395e3d0fd819994fc7cae29bd3c826efb507"
+          },
+          {
+            "file": "packages/content/src/validate.test.ts",
+            "testCount": 93,
+            "identityDigest": "e154be4c77f8897fd58838f4990bb693f5c076abf8bbde0dff7f650df1c1773f"
+          },
+          {
+            "file": "packages/content/src/world-variable.test.ts",
+            "testCount": 8,
+            "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
+          }
+        ],
+        "identityDigest": "265cbc76465b77abb0246046245cd7e794be0ba620ffbaca6735db4a9ab77d5c",
+        "duplicateIdentityCount": 0,
+        "executionDigest": "452622ec6ae09168518ad2196a2deae181793cfd1df415e8d7d5ffbce3f7c618"
+      },
+      "metrics": {
+        "statements": {
+          "covered": 4682,
+          "total": 5854
+        },
+        "branches": {
+          "covered": 3584,
+          "total": 5016
+        },
+        "functions": {
+          "covered": 742,
+          "total": 829
+        },
+        "lines": {
+          "covered": 4287,
+          "total": 5182
+        }
+      }
+    },
+    "pal-extract": {
+      "name": "@type-pal/pal-extract",
+      "directory": "packages/pal-extract",
+      "include": ["src/**/*.ts", "scripts/extract-videos.ts"],
+      "exclude": [
+        "**/__tests__/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.d.ts"
+      ],
+      "sourceFileCount": 38,
+      "sourceFiles": [
+        "packages/pal-extract/scripts/extract-videos.ts",
+        "packages/pal-extract/src/cli.ts",
+        "packages/pal-extract/src/events/annotate.ts",
+        "packages/pal-extract/src/events/disasm.ts",
+        "packages/pal-extract/src/events/opcodes.ts",
+        "packages/pal-extract/src/events/recompile.ts",
+        "packages/pal-extract/src/events/roundtrip.ts",
+        "packages/pal-extract/src/events/slice.ts",
+        "packages/pal-extract/src/font/bdf-to-json.ts",
+        "packages/pal-extract/src/io/mkf.ts",
+        "packages/pal-extract/src/io/msg.ts",
+        "packages/pal-extract/src/io/rle.ts",
+        "packages/pal-extract/src/io/sss.ts",
+        "packages/pal-extract/src/io/word.ts",
+        "packages/pal-extract/src/io/yj2.ts",
+        "packages/pal-extract/src/resources/asset-manifest.ts",
+        "packages/pal-extract/src/resources/battle-sprite.ts",
+        "packages/pal-extract/src/resources/enemy-pos.ts",
+        "packages/pal-extract/src/resources/map.ts",
+        "packages/pal-extract/src/resources/palette.ts",
+        "packages/pal-extract/src/resources/parsers/_utils.ts",
+        "packages/pal-extract/src/resources/parsers/ball.ts",
+        "packages/pal-extract/src/resources/parsers/battle-fields.ts",
+        "packages/pal-extract/src/resources/parsers/data-misc.ts",
+        "packages/pal-extract/src/resources/parsers/enemies.ts",
+        "packages/pal-extract/src/resources/parsers/enemy-teams.ts",
+        "packages/pal-extract/src/resources/parsers/fire.ts",
+        "packages/pal-extract/src/resources/parsers/items.ts",
+        "packages/pal-extract/src/resources/parsers/player-roles.ts",
+        "packages/pal-extract/src/resources/parsers/rgm.ts",
+        "packages/pal-extract/src/resources/parsers/rng-frames.ts",
+        "packages/pal-extract/src/resources/parsers/sounds.ts",
+        "packages/pal-extract/src/resources/parsers/spells.ts",
+        "packages/pal-extract/src/resources/parsers/stores.ts",
+        "packages/pal-extract/src/resources/scene.ts",
+        "packages/pal-extract/src/resources/sprite.ts",
+        "packages/pal-extract/src/resources/tables.ts",
+        "packages/pal-extract/src/utils/gbk.ts"
+      ],
+      "scopeDigest": "6fda780f908c771fe0dc983993854eef090115057a9d26cb08a487be2e490680",
+      "fastTests": {
+        "testCount": 91,
+        "testFileCount": 14,
+        "files": [
+          "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+          "packages/pal-extract/src/events/annotate.test.ts",
+          "packages/pal-extract/src/events/disasm.test.ts",
+          "packages/pal-extract/src/events/opcodes.test.ts",
+          "packages/pal-extract/src/events/recompile.test.ts",
+          "packages/pal-extract/src/events/slice.test.ts",
+          "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+          "packages/pal-extract/src/io/mkf.test.ts",
+          "packages/pal-extract/src/io/rle.test.ts",
+          "packages/pal-extract/src/resources/battle-sprite.test.ts",
+          "packages/pal-extract/src/resources/palette.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
+          "packages/pal-extract/src/resources/scene.test.ts",
+          "packages/pal-extract/src/utils/gbk.test.ts"
+        ],
+        "fileEntries": [
+          {
+            "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+            "testCount": 3,
+            "identityDigest": "705afc3b56efee29e2b13d84330155b8c5649cbe73223d006b659a6ddf9e6fda"
+          },
+          {
+            "file": "packages/pal-extract/src/events/annotate.test.ts",
+            "testCount": 9,
+            "identityDigest": "a209db9c0916cd71bcd4b6890576e6ad6f7e6ef234cf9e2fe540f37f2457812f"
+          },
+          {
+            "file": "packages/pal-extract/src/events/disasm.test.ts",
+            "testCount": 13,
+            "identityDigest": "e87473e1d23fb7f81d899f379f4876930e81837e63fd065560895bfa918b73be"
+          },
+          {
+            "file": "packages/pal-extract/src/events/opcodes.test.ts",
+            "testCount": 21,
+            "identityDigest": "795bf26d3bc965b6bef6f8a32b63d3af1160dfb5a724bf6ac696c6e0f9e329b3"
+          },
+          {
+            "file": "packages/pal-extract/src/events/recompile.test.ts",
+            "testCount": 3,
+            "identityDigest": "030c81eb6e62846945f5ef2cdcacd17d7aa14143f9405a9f797b6827e159b066"
+          },
+          {
+            "file": "packages/pal-extract/src/events/slice.test.ts",
+            "testCount": 12,
+            "identityDigest": "0d012e10a0253b39ff256a386fdbe25acb2e28328e9a430f7743b5922bcfaee2"
+          },
+          {
+            "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+            "testCount": 2,
+            "identityDigest": "6425f15ef52f6ae8b40a6a935b681135fd32f543868dbe503ff04246003f9db0"
+          },
+          {
+            "file": "packages/pal-extract/src/io/mkf.test.ts",
+            "testCount": 3,
+            "identityDigest": "b6913e146f2e43b05c6ba7a41f0914f951f0b49d5880dc61afae52e9a7c6345a"
+          },
+          {
+            "file": "packages/pal-extract/src/io/rle.test.ts",
+            "testCount": 3,
+            "identityDigest": "89cb40d8b1829accec2a93a68df4cf412aed9e214614fa7a74476eb423140fad"
+          },
+          {
+            "file": "packages/pal-extract/src/resources/battle-sprite.test.ts",
+            "testCount": 3,
+            "identityDigest": "69797829a04a1e71fef95128626776865a7156fa50a7230c29e0265982471162"
+          },
+          {
+            "file": "packages/pal-extract/src/resources/palette.test.ts",
+            "testCount": 3,
+            "identityDigest": "75b4e5882ee05777ba3cdba7da7b992e6b80c58e5b2ba91378c21b353e838def"
+          },
+          {
+            "file": "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
+            "testCount": 1,
+            "identityDigest": "b04fe30263c5d745e7e04da469ff94257be712c1cb829d0777af87637a545ce7"
+          },
+          {
+            "file": "packages/pal-extract/src/resources/scene.test.ts",
+            "testCount": 5,
+            "identityDigest": "e38950e400c0826b63c6586c882c6b8ce3d73422e4c194dce86ffe9db5f2037d"
+          },
+          {
+            "file": "packages/pal-extract/src/utils/gbk.test.ts",
+            "testCount": 10,
+            "identityDigest": "ab56364e7991a21f62ce4ffab6501ff41205a84d08c720cf23efe858ec21e8ee"
+          }
+        ],
+        "identityDigest": "83d85ee996871ff8a721ad44edf960b37144e34daf51e8012474ebd21e266aa5",
+        "duplicateIdentityCount": 0,
+        "executionDigest": "eb7be6730037241e63cc381e8fa7456df0eea82bcd36de4c1a36da67ea3e033e"
+      },
+      "metrics": {
+        "statements": {
+          "covered": 371,
+          "total": 1492
+        },
+        "branches": {
+          "covered": 209,
+          "total": 539
+        },
+        "functions": {
+          "covered": 49,
+          "total": 140
+        },
+        "lines": {
+          "covered": 329,
+          "total": 1316
+        }
+      }
+    },
+    "migrate": {
+      "name": "@type-pal/migrate",
+      "directory": "packages/migrate",
+      "include": ["src/**/*.ts", "scripts/migrate-content.mts", "scripts/bake-assets.mts"],
+      "exclude": [
+        "**/__tests__/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.d.ts"
+      ],
+      "sourceFileCount": 50,
+      "sourceFiles": [
+        "packages/migrate/scripts/bake-assets.mts",
+        "packages/migrate/scripts/migrate-content.mts",
+        "packages/migrate/src/bake-indexed-rgba.ts",
+        "packages/migrate/src/index.ts",
+        "packages/migrate/src/item-script-roots.ts",
+        "packages/migrate/src/legacy-dialog.ts",
+        "packages/migrate/src/migrate-content.ts",
+        "packages/migrate/src/migrate-enemies.ts",
+        "packages/migrate/src/migration-baseline.ts",
+        "packages/migrate/src/migration-merge.ts",
+        "packages/migrate/src/migration-plan.ts",
+        "packages/migrate/src/migration-project-io.ts",
+        "packages/migrate/src/migration-transaction.ts",
+        "packages/migrate/src/migration-write-plan.ts",
+        "packages/migrate/src/music-reference-audit.ts",
+        "packages/migrate/src/pal-assets.ts",
+        "packages/migrate/src/pal-authored-overlays.ts",
+        "packages/migrate/src/pal-battle-sprites.ts",
+        "packages/migrate/src/pal-boss-overlay.ts",
+        "packages/migrate/src/pal-casualty-scripts.ts",
+        "packages/migrate/src/pal-current-publication.ts",
+        "packages/migrate/src/pal-derived-content.ts",
+        "packages/migrate/src/pal-inparty-actor-id-invariant.ts",
+        "packages/migrate/src/pal-item-scheme-labels.ts",
+        "packages/migrate/src/pal-manifest.ts",
+        "packages/migrate/src/pal-map-names.ts",
+        "packages/migrate/src/pal-migration-io.ts",
+        "packages/migrate/src/pal-migration.ts",
+        "packages/migrate/src/pal-palette-sites.ts",
+        "packages/migrate/src/pal-scene-index.ts",
+        "packages/migrate/src/pal-sprite-action-census.ts",
+        "packages/migrate/src/pal-sprite-action-materialize.ts",
+        "packages/migrate/src/pal-store-boundary.ts",
+        "packages/migrate/src/pal-world-sprite-layouts.ts",
+        "packages/migrate/src/pal-world-sprite-semantic-alias.ts",
+        "packages/migrate/src/project-map-audit.ts",
+        "packages/migrate/src/project-map-converter.ts",
+        "packages/migrate/src/scene-entry-normalize.ts",
+        "packages/migrate/src/scene-entry.ts",
+        "packages/migrate/src/script-control-flow-audit.ts",
+        "packages/migrate/src/script-graph.ts",
+        "packages/migrate/src/script-library-audit.ts",
+        "packages/migrate/src/script-library-normalize.ts",
+        "packages/migrate/src/script-overlays.ts",
+        "packages/migrate/src/sound-migration.ts",
+        "packages/migrate/src/sound-reference-audit.ts",
+        "packages/migrate/src/source-facts.ts",
+        "packages/migrate/src/translate-enemy-hook-flow.ts",
+        "packages/migrate/src/translate-enemy-scripts.ts",
+        "packages/migrate/src/translate-events.ts"
+      ],
+      "scopeDigest": "dcab4edba049261e3d057459eaa1132c193473dfee56e803a1fce38858c476d3",
+      "fastTests": {
+        "testCount": 306,
+        "testFileCount": 37,
+        "files": [
+          "packages/migrate/src/bake-indexed-rgba.test.ts",
+          "packages/migrate/src/current-only-product-boundary.test.ts",
+          "packages/migrate/src/demo-project.test.ts",
+          "packages/migrate/src/engine-chrome-assets.test.ts",
+          "packages/migrate/src/item-script-roots.test.ts",
+          "packages/migrate/src/legacy-dialog.test.ts",
+          "packages/migrate/src/migration-baseline.test.ts",
+          "packages/migrate/src/migration-merge.test.ts",
+          "packages/migrate/src/migration-plan.test.ts",
+          "packages/migrate/src/migration-project-io.test.ts",
+          "packages/migrate/src/migration-transaction.test.ts",
+          "packages/migrate/src/migration-write-plan.test.ts",
+          "packages/migrate/src/music-reference-audit.test.ts",
+          "packages/migrate/src/pal-authored-overlays.test.ts",
+          "packages/migrate/src/pal-boss-overlay.test.ts",
+          "packages/migrate/src/pal-derived-content.test.ts",
+          "packages/migrate/src/pal-inparty-actor-id-invariant.test.ts",
+          "packages/migrate/src/pal-item-scheme-labels.test.ts",
+          "packages/migrate/src/pal-manifest.test.ts",
+          "packages/migrate/src/pal-map-name-boundary.test.ts",
+          "packages/migrate/src/pal-scene-index.test.ts",
+          "packages/migrate/src/pal-sprite-action-census.test.ts",
+          "packages/migrate/src/pal-sprite-action-materialize.test.ts",
+          "packages/migrate/src/pal-store-boundary.test.ts",
+          "packages/migrate/src/pal-world-sprite-layouts.test.ts",
+          "packages/migrate/src/pal-world-sprite-semantic-alias.test.ts",
+          "packages/migrate/src/project-map-converter.test.ts",
+          "packages/migrate/src/scene-entry-normalize.test.ts",
+          "packages/migrate/src/scene-entry.test.ts",
+          "packages/migrate/src/script-control-flow-audit.test.ts",
+          "packages/migrate/src/script-graph.test.ts",
+          "packages/migrate/src/script-library-normalize.test.ts",
+          "packages/migrate/src/script-overlays.test.ts",
+          "packages/migrate/src/shop-author-merge.test.ts",
+          "packages/migrate/src/translate-enemy-scripts.test.ts",
+          "packages/migrate/src/translate-events.test.ts",
+          "packages/migrate/src/world-sprite-layout-registry.test.ts"
+        ],
+        "fileEntries": [
+          {
+            "file": "packages/migrate/src/bake-indexed-rgba.test.ts",
+            "testCount": 3,
+            "identityDigest": "b69e26f6fce1b48c0d17bebbea7d6273af281fe211691eefad76a2024ef7649c"
+          },
+          {
+            "file": "packages/migrate/src/current-only-product-boundary.test.ts",
+            "testCount": 21,
+            "identityDigest": "7958dd3467f55d0fad13165f39f18bf69c6a58c22ab23785498057f86232057c"
+          },
+          {
+            "file": "packages/migrate/src/demo-project.test.ts",
+            "testCount": 4,
+            "identityDigest": "b8076dfa2b9db5a0cd050b13859c92aec3eaa56f7dbe297fc40bf21a973dc7be"
+          },
+          {
+            "file": "packages/migrate/src/engine-chrome-assets.test.ts",
+            "testCount": 2,
+            "identityDigest": "78d159df68110037d4c123e48f0db10bf3ebab30ec3edee3b6dcc45b2854cca9"
+          },
+          {
+            "file": "packages/migrate/src/item-script-roots.test.ts",
+            "testCount": 1,
+            "identityDigest": "57f3c40f82a1b3466ce556c8ea963e53cb1ec935b44aa187bb1635bab9647d73"
+          },
+          {
+            "file": "packages/migrate/src/legacy-dialog.test.ts",
+            "testCount": 8,
+            "identityDigest": "79e0147255a4df3dda2bfd62ae7546a019fb9f6655a5a7bbf5875e4f9042fd52"
+          },
+          {
+            "file": "packages/migrate/src/migration-baseline.test.ts",
+            "testCount": 4,
+            "identityDigest": "76dfcd5fe395358b38f845f335ccc9b0bd8395a32758c3f059de8d4393e46a76"
+          },
+          {
+            "file": "packages/migrate/src/migration-merge.test.ts",
+            "testCount": 22,
+            "identityDigest": "f64d2c7be225c9d5f6c0c53eec4a3a66c671c36a5870d3e4e3acbfd638752712"
+          },
+          {
+            "file": "packages/migrate/src/migration-plan.test.ts",
+            "testCount": 15,
+            "identityDigest": "30d86b5148e228619dc996d448e074d0050cccc97177ea75d7e228e45e2e2eca"
+          },
+          {
+            "file": "packages/migrate/src/migration-project-io.test.ts",
+            "testCount": 6,
+            "identityDigest": "4ca5853fb567b63e337e2891c1b9c1d4fc5af1c7e9fb5b143d329a704bad13f1"
+          },
+          {
+            "file": "packages/migrate/src/migration-transaction.test.ts",
+            "testCount": 8,
+            "identityDigest": "a9f5bc5c95512ec6684c4a7d763720821540df260dbbc6c870ce166171ac799b"
+          },
+          {
+            "file": "packages/migrate/src/migration-write-plan.test.ts",
+            "testCount": 4,
+            "identityDigest": "114a8ebe7b12e334c480898c23f7f61c0db860417c686dd1c49f74e6a9503d85"
+          },
+          {
+            "file": "packages/migrate/src/music-reference-audit.test.ts",
+            "testCount": 1,
+            "identityDigest": "9bb286f57b8884c0985a8d8805c8746cd72afdbc779f03cfb9e985f4435e2ba0"
+          },
+          {
+            "file": "packages/migrate/src/pal-authored-overlays.test.ts",
+            "testCount": 9,
+            "identityDigest": "780bbc530a2977c1c7de6f3eb811a1ff59dc437b1a60213bc65566bf2942a575"
+          },
+          {
+            "file": "packages/migrate/src/pal-boss-overlay.test.ts",
+            "testCount": 1,
+            "identityDigest": "db9242926b85d6d2d960c42110f3e60271030fa3060e6bb1a4081b124340b53f"
+          },
+          {
+            "file": "packages/migrate/src/pal-derived-content.test.ts",
+            "testCount": 1,
+            "identityDigest": "76223c26198d72abcbc0d1c4077a7dea6cc374f0b64da39be45549781b6e676f"
+          },
+          {
+            "file": "packages/migrate/src/pal-inparty-actor-id-invariant.test.ts",
+            "testCount": 3,
+            "identityDigest": "2d0ba90d2260f5910916266e6fae03b0b38fbaa952ba13826a89cd95f91974ec"
+          },
+          {
+            "file": "packages/migrate/src/pal-item-scheme-labels.test.ts",
+            "testCount": 6,
+            "identityDigest": "19d4ec28652b9da185bcd57ae675574853abfc3ed0a1261aad054d7591ccd483"
+          },
+          {
+            "file": "packages/migrate/src/pal-manifest.test.ts",
+            "testCount": 2,
+            "identityDigest": "dac73ef1c6d6ac7d5ad99a09f101ca99577f2df3fe5950fd359a4cf06fe27327"
+          },
+          {
+            "file": "packages/migrate/src/pal-map-name-boundary.test.ts",
+            "testCount": 2,
+            "identityDigest": "8a4f31ea16b87fd4cc30a1f773e1a578b7808c01f7af5c0cedb22a1c7e9d93dc"
+          },
+          {
+            "file": "packages/migrate/src/pal-scene-index.test.ts",
+            "testCount": 2,
+            "identityDigest": "843ac97a5fbdcaa8f681d72cb53aa9db52dfa1d341d26b8a992207f872c6af98"
+          },
+          {
+            "file": "packages/migrate/src/pal-sprite-action-census.test.ts",
+            "testCount": 18,
+            "identityDigest": "e002554e22e744fe25b86811e3bac69a0d3e28bb5acaed91ad349d2cc53c9f6d"
+          },
+          {
+            "file": "packages/migrate/src/pal-sprite-action-materialize.test.ts",
+            "testCount": 4,
+            "identityDigest": "b79b7c2471f842982bfd7da96f4d9ac35b0bcd2a3a32cd244c664685dde31b05"
+          },
+          {
+            "file": "packages/migrate/src/pal-store-boundary.test.ts",
+            "testCount": 11,
+            "identityDigest": "e0bff57c9c27b225c4bdfce0aa4cd5d9d802a3850ddd7769fc85eaed5f698e83"
+          },
+          {
+            "file": "packages/migrate/src/pal-world-sprite-layouts.test.ts",
+            "testCount": 3,
+            "identityDigest": "a094b0149d7d897a259c894b67d92bce247b65defbc09341b29b2230032193da"
+          },
+          {
+            "file": "packages/migrate/src/pal-world-sprite-semantic-alias.test.ts",
+            "testCount": 4,
+            "identityDigest": "724f3db66dff5dcc4b051cd37e0d6bb59cf581ce794e8b262b3f8aad8a59332b"
+          },
+          {
+            "file": "packages/migrate/src/project-map-converter.test.ts",
+            "testCount": 5,
+            "identityDigest": "15eb30060cfcad8fcc85dbe13645ab2d3f00f8dc6edcccb12349f299b569cab7"
+          },
+          {
+            "file": "packages/migrate/src/scene-entry-normalize.test.ts",
+            "testCount": 4,
+            "identityDigest": "355821e03036b27ac2596e9902217092bfcc52dbbb916667938cbae617aa8442"
+          },
+          {
+            "file": "packages/migrate/src/scene-entry.test.ts",
+            "testCount": 4,
+            "identityDigest": "f88fc4ce780a640f3e7e7d24a16b51aa90ae0960a067d481f4b2770046f81fcd"
+          },
+          {
+            "file": "packages/migrate/src/script-control-flow-audit.test.ts",
+            "testCount": 10,
+            "identityDigest": "344e8291fb162d57f3419793a6ac8365e6b7a4ddc956f1664f6d370e7309ca1e"
+          },
+          {
+            "file": "packages/migrate/src/script-graph.test.ts",
+            "testCount": 5,
+            "identityDigest": "0feaf02daff5109eb355e16988a3d80027e5b7a7d74d04ffabc81a55f460df62"
+          },
+          {
+            "file": "packages/migrate/src/script-library-normalize.test.ts",
+            "testCount": 4,
+            "identityDigest": "46199d68282938bfc3761a548b90a31552cf079a6003fc4d1429143231754f50"
+          },
+          {
+            "file": "packages/migrate/src/script-overlays.test.ts",
+            "testCount": 2,
+            "identityDigest": "a7b4fbc62dd38f043bcaf703ebd8b1cf6a307dd585eee530774bdedc07211606"
+          },
+          {
+            "file": "packages/migrate/src/shop-author-merge.test.ts",
+            "testCount": 5,
+            "identityDigest": "ade489a6c7d308557f56aa4653713ff81d44cc1364f05781f92b0e39d565b215"
+          },
+          {
+            "file": "packages/migrate/src/translate-enemy-scripts.test.ts",
+            "testCount": 12,
+            "identityDigest": "14373f854165f6653b082ad67a3dab850b0ec8225f4044b4537bb3dc2686fed5"
+          },
+          {
+            "file": "packages/migrate/src/translate-events.test.ts",
+            "testCount": 78,
+            "identityDigest": "65692b290d6b6d0da23c23f502c80c834d19e9419669f40bc9ecc8cb51c79cec"
+          },
+          {
+            "file": "packages/migrate/src/world-sprite-layout-registry.test.ts",
+            "testCount": 12,
+            "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
+          }
+        ],
+        "identityDigest": "87bde95e21358fc1e26a36cb4414c69d676e9e2fd66836dd90163d3ebf9ab483",
+        "duplicateIdentityCount": 1,
+        "executionDigest": "b09e541ce47c9b9cf0768dc58e1a76096deff181cc84c75f7814a00b089d47d1"
+      },
+      "metrics": {
+        "statements": {
+          "covered": 3825,
+          "total": 7659
+        },
+        "branches": {
+          "covered": 2838,
+          "total": 6398
+        },
+        "functions": {
+          "covered": 597,
+          "total": 1161
+        },
+        "lines": {
+          "covered": 3435,
+          "total": 6679
+        }
+      }
+    },
+    "reforge": {
+      "name": "@type-pal/reforge",
+      "directory": "packages/reforge",
+      "include": ["src/**/*.{ts,tsx}"],
+      "exclude": [
+        "**/__tests__/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.d.ts"
+      ],
+      "sourceFileCount": 121,
+      "sourceFiles": [
+        "packages/reforge/src/actor-condition-lifecycle.ts",
+        "packages/reforge/src/actor-condition-runtime.ts",
+        "packages/reforge/src/ambience-compositor.ts",
+        "packages/reforge/src/asset-resolver.ts",
+        "packages/reforge/src/assets.ts",
+        "packages/reforge/src/async-intent.ts",
+        "packages/reforge/src/audio/bgm.ts",
+        "packages/reforge/src/audio/midi-preview.ts",
+        "packages/reforge/src/audio/sfx-readiness.ts",
+        "packages/reforge/src/audio/sfx.ts",
+        "packages/reforge/src/audio/spessa-browser-runtime.ts",
+        "packages/reforge/src/battle/battle-anim.ts",
+        "packages/reforge/src/battle/battle-core.ts",
+        "packages/reforge/src/battle/battle-last-action.ts",
+        "packages/reforge/src/battle/battle-positions.ts",
+        "packages/reforge/src/battle/battle-result.ts",
+        "packages/reforge/src/battle/battle-session.ts",
+        "packages/reforge/src/battle/battle-sprite-readiness.ts",
+        "packages/reforge/src/battle/battle-ui.ts",
+        "packages/reforge/src/battle/enemy-closure.ts",
+        "packages/reforge/src/battle/enemy-hook-runtime.ts",
+        "packages/reforge/src/battle/present-battle.ts",
+        "packages/reforge/src/battle/settlement.ts",
+        "packages/reforge/src/boot.ts",
+        "packages/reforge/src/collision.ts",
+        "packages/reforge/src/cutscene-controller.ts",
+        "packages/reforge/src/debug-tools.ts",
+        "packages/reforge/src/deferred-trigger.ts",
+        "packages/reforge/src/defined.ts",
+        "packages/reforge/src/dev-preset.ts",
+        "packages/reforge/src/dialog/dialog-assets.ts",
+        "packages/reforge/src/dialog/dialog-box.ts",
+        "packages/reforge/src/dialog/layout.ts",
+        "packages/reforge/src/dialog/narration-scroll.ts",
+        "packages/reforge/src/dialog/slot.ts",
+        "packages/reforge/src/dialogue.ts",
+        "packages/reforge/src/dither-transition.ts",
+        "packages/reforge/src/engine-chrome/registry.ts",
+        "packages/reforge/src/entity-action-player.ts",
+        "packages/reforge/src/entity-lifecycle-command.ts",
+        "packages/reforge/src/entity-lifecycle.ts",
+        "packages/reforge/src/entity-motion.ts",
+        "packages/reforge/src/entity-walk.ts",
+        "packages/reforge/src/equip-menu-state.ts",
+        "packages/reforge/src/fade-driver.ts",
+        "packages/reforge/src/file-source.ts",
+        "packages/reforge/src/follower.ts",
+        "packages/reforge/src/frame-animation-player.ts",
+        "packages/reforge/src/frame-animation-presentation.ts",
+        "packages/reforge/src/fsa-source.ts",
+        "packages/reforge/src/game-over-dialog.ts",
+        "packages/reforge/src/gameplay-clock.ts",
+        "packages/reforge/src/hash.ts",
+        "packages/reforge/src/index.ts",
+        "packages/reforge/src/input.ts",
+        "packages/reforge/src/item-use-executor.ts",
+        "packages/reforge/src/item-use-placement.ts",
+        "packages/reforge/src/latest-snapshot-transaction.ts",
+        "packages/reforge/src/magic-menu-state.ts",
+        "packages/reforge/src/main.ts",
+        "packages/reforge/src/menu-state.ts",
+        "packages/reforge/src/menu/equip-box.ts",
+        "packages/reforge/src/menu/item-list.ts",
+        "packages/reforge/src/menu/item-use-result.ts",
+        "packages/reforge/src/menu/magic-box.ts",
+        "packages/reforge/src/menu/menu-box.ts",
+        "packages/reforge/src/menu/reward-gain-queue.ts",
+        "packages/reforge/src/menu/reward-gain.ts",
+        "packages/reforge/src/menu/save-browser-box.ts",
+        "packages/reforge/src/menu/shop-box.ts",
+        "packages/reforge/src/menu/system-box.ts",
+        "packages/reforge/src/menu/use-box.ts",
+        "packages/reforge/src/motion-batch.ts",
+        "packages/reforge/src/motion-runtime-coordinator.ts",
+        "packages/reforge/src/motion-runtime-wiring.ts",
+        "packages/reforge/src/movement.ts",
+        "packages/reforge/src/opening-menu.ts",
+        "packages/reforge/src/presentation-intent.ts",
+        "packages/reforge/src/project-image-cache.ts",
+        "packages/reforge/src/project-loader.ts",
+        "packages/reforge/src/project-map.ts",
+        "packages/reforge/src/quantize.ts",
+        "packages/reforge/src/render-scene.ts",
+        "packages/reforge/src/render.ts",
+        "packages/reforge/src/runnable-project-loader.ts",
+        "packages/reforge/src/runtime-project-view.ts",
+        "packages/reforge/src/runtime-script-compiler.ts",
+        "packages/reforge/src/runtime-script-project.ts",
+        "packages/reforge/src/runtime-script-runner.ts",
+        "packages/reforge/src/save/browser-state.ts",
+        "packages/reforge/src/save/current-codec.ts",
+        "packages/reforge/src/save/ops.ts",
+        "packages/reforge/src/save/store.ts",
+        "packages/reforge/src/save/types.ts",
+        "packages/reforge/src/scene-entry-session.ts",
+        "packages/reforge/src/scene-map.ts",
+        "packages/reforge/src/scene-switch-transaction.ts",
+        "packages/reforge/src/scene-transition.ts",
+        "packages/reforge/src/screen-fx.ts",
+        "packages/reforge/src/screen-hold-transaction.ts",
+        "packages/reforge/src/screen-wave.ts",
+        "packages/reforge/src/script-activity-lineage.ts",
+        "packages/reforge/src/script-chunk-store.ts",
+        "packages/reforge/src/script-compiler-core.ts",
+        "packages/reforge/src/script-confirm-modal.ts",
+        "packages/reforge/src/script-host-adapter.ts",
+        "packages/reforge/src/script-project-core.ts",
+        "packages/reforge/src/script-runner-core.ts",
+        "packages/reforge/src/script-runner.ts",
+        "packages/reforge/src/script-world.ts",
+        "packages/reforge/src/shop-trial.ts",
+        "packages/reforge/src/sprite-anim.ts",
+        "packages/reforge/src/startup-entry.ts",
+        "packages/reforge/src/system-menu-state.ts",
+        "packages/reforge/src/test-fixtures.ts",
+        "packages/reforge/src/text/glyph.ts",
+        "packages/reforge/src/text/palette-color.ts",
+        "packages/reforge/src/text/text-render.ts",
+        "packages/reforge/src/text/typewriter.ts",
+        "packages/reforge/src/use-menu-state.ts",
+        "packages/reforge/src/video-player.ts"
+      ],
+      "scopeDigest": "b8edc015c4c30850643aabd98056fe97db277ca18983fe7a74262e404948823a",
+      "fastTests": {
+        "testCount": 869,
+        "testFileCount": 95,
+        "files": [
+          "packages/reforge/src/actor-condition-lifecycle.test.ts",
+          "packages/reforge/src/actor-condition-runtime.test.ts",
+          "packages/reforge/src/ambience-compositor.test.ts",
+          "packages/reforge/src/asset-resolver.test.ts",
+          "packages/reforge/src/assets.test.ts",
+          "packages/reforge/src/async-intent.test.ts",
+          "packages/reforge/src/audio/bgm.test.ts",
+          "packages/reforge/src/audio/midi-preview.test.ts",
+          "packages/reforge/src/audio/sfx-readiness.test.ts",
+          "packages/reforge/src/audio/sfx.test.ts",
+          "packages/reforge/src/battle/battle-anim.test.ts",
+          "packages/reforge/src/battle/battle-casualty.test.ts",
+          "packages/reforge/src/battle/battle-core.test.ts",
+          "packages/reforge/src/battle/battle-enemy-confused.test.ts",
+          "packages/reforge/src/battle/battle-last-action.test.ts",
+          "packages/reforge/src/battle/battle-result.test.ts",
+          "packages/reforge/src/battle/battle-session.test.ts",
+          "packages/reforge/src/battle/battle-sprite-readiness.test.ts",
+          "packages/reforge/src/battle/enemy-hook-runtime.test.ts",
+          "packages/reforge/src/battle/present-battle.test.ts",
+          "packages/reforge/src/battle/r13-six-b-battle.test.ts",
+          "packages/reforge/src/collision.test.ts",
+          "packages/reforge/src/cutscene-controller.test.ts",
+          "packages/reforge/src/debug-tools.test.ts",
+          "packages/reforge/src/deferred-trigger.test.ts",
+          "packages/reforge/src/dev-preset.test.ts",
+          "packages/reforge/src/dialog/dialog-assets.test.ts",
+          "packages/reforge/src/dialog/dialog-box.test.ts",
+          "packages/reforge/src/dialog/layout.test.ts",
+          "packages/reforge/src/dialog/narration-scroll.test.ts",
+          "packages/reforge/src/dialog/slot.test.ts",
+          "packages/reforge/src/dialogue.test.ts",
+          "packages/reforge/src/dither-transition.test.ts",
+          "packages/reforge/src/engine-chrome/registry.test.ts",
+          "packages/reforge/src/entity-action-player.test.ts",
+          "packages/reforge/src/entity-lifecycle-command.test.ts",
+          "packages/reforge/src/entity-lifecycle.test.ts",
+          "packages/reforge/src/entity-motion.test.ts",
+          "packages/reforge/src/entity-walk.test.ts",
+          "packages/reforge/src/equip-menu-state.test.ts",
+          "packages/reforge/src/fade-driver.test.ts",
+          "packages/reforge/src/file-source.test.ts",
+          "packages/reforge/src/follower.test.ts",
+          "packages/reforge/src/frame-animation-player.test.ts",
+          "packages/reforge/src/frame-animation-presentation.test.ts",
+          "packages/reforge/src/fsa-source.test.ts",
+          "packages/reforge/src/game-over-dialog.test.ts",
+          "packages/reforge/src/gameplay-clock.test.ts",
+          "packages/reforge/src/item-use-executor.test.ts",
+          "packages/reforge/src/item-use-placement.test.ts",
+          "packages/reforge/src/latest-snapshot-transaction.test.ts",
+          "packages/reforge/src/magic-menu-state.test.ts",
+          "packages/reforge/src/menu-state.test.ts",
+          "packages/reforge/src/menu/item-use-result.test.ts",
+          "packages/reforge/src/menu/reward-gain-queue.test.ts",
+          "packages/reforge/src/menu/shop-box.test.ts",
+          "packages/reforge/src/motion-batch.test.ts",
+          "packages/reforge/src/motion-runtime-coordinator.test.ts",
+          "packages/reforge/src/motion-runtime-wiring.test.ts",
+          "packages/reforge/src/movement.test.ts",
+          "packages/reforge/src/opening-menu.test.ts",
+          "packages/reforge/src/project-image-cache.test.ts",
+          "packages/reforge/src/project-loader.test.ts",
+          "packages/reforge/src/project-map.test.ts",
+          "packages/reforge/src/quantize.test.ts",
+          "packages/reforge/src/render-scene.test.ts",
+          "packages/reforge/src/render.test.ts",
+          "packages/reforge/src/runtime-project-view.test.ts",
+          "packages/reforge/src/runtime-script-project.test.ts",
+          "packages/reforge/src/save/browser-state.test.ts",
+          "packages/reforge/src/save/current-save.current-characterization.test.ts",
+          "packages/reforge/src/save/ops.test.ts",
+          "packages/reforge/src/save/store.test.ts",
+          "packages/reforge/src/scene-entry-session.test.ts",
+          "packages/reforge/src/scene-map.test.ts",
+          "packages/reforge/src/scene-switch-transaction.test.ts",
+          "packages/reforge/src/scene-transition.test.ts",
+          "packages/reforge/src/screen-fx.test.ts",
+          "packages/reforge/src/screen-hold-transaction.test.ts",
+          "packages/reforge/src/screen-wave.test.ts",
+          "packages/reforge/src/script-chunk-store.test.ts",
+          "packages/reforge/src/script-compiler-core.test.ts",
+          "packages/reforge/src/script-confirm-modal.test.ts",
+          "packages/reforge/src/script-host-adapter.test.ts",
+          "packages/reforge/src/script-runner-core.test.ts",
+          "packages/reforge/src/script-runner.test.ts",
+          "packages/reforge/src/script-world.test.ts",
+          "packages/reforge/src/shop-trial.test.ts",
+          "packages/reforge/src/sprite-anim.test.ts",
+          "packages/reforge/src/startup-entry.test.ts",
+          "packages/reforge/src/system-menu-state.test.ts",
+          "packages/reforge/src/text/glyph.test.ts",
+          "packages/reforge/src/text/palette-color.test.ts",
+          "packages/reforge/src/text/typewriter.test.ts",
+          "packages/reforge/src/use-menu-state.test.ts"
+        ],
+        "fileEntries": [
+          {
+            "file": "packages/reforge/src/actor-condition-lifecycle.test.ts",
+            "testCount": 6,
+            "identityDigest": "5cf44193c47a86f3adc18119c30702a0f17173dec28b248f77d53cc1f0668ca8"
+          },
+          {
+            "file": "packages/reforge/src/actor-condition-runtime.test.ts",
+            "testCount": 2,
+            "identityDigest": "5c910f6f88e10ff789c04234e7611a3e48cc9ef2d709a68e16af18562e1e9d61"
+          },
+          {
+            "file": "packages/reforge/src/ambience-compositor.test.ts",
+            "testCount": 4,
+            "identityDigest": "44fc6d5a0fbc062ddf074514df4a4a023baf800956d3c0f1e40a5dbf967872b5"
+          },
+          {
+            "file": "packages/reforge/src/asset-resolver.test.ts",
+            "testCount": 3,
+            "identityDigest": "c8d183ccb3e9beee670dc03ba5d116efa1a7d66a32838bf5bf8240594f8dd04c"
+          },
+          {
+            "file": "packages/reforge/src/assets.test.ts",
+            "testCount": 9,
+            "identityDigest": "c7e69a7b8f695d24c6b201bf7f2a3e4cf13f01ad7e5921ca491685533972d061"
+          },
+          {
+            "file": "packages/reforge/src/async-intent.test.ts",
+            "testCount": 3,
+            "identityDigest": "ad4fe548d0fb4268e78ed9e4cde6a1c8cb2a106f1f8b80f39f143a630b458765"
+          },
+          {
+            "file": "packages/reforge/src/audio/bgm.test.ts",
+            "testCount": 11,
+            "identityDigest": "4436bb7b7399c23373f63c0a0fde5cad95c3a163d240f75bbf130e472ebbdc00"
+          },
+          {
+            "file": "packages/reforge/src/audio/midi-preview.test.ts",
+            "testCount": 8,
+            "identityDigest": "fee8fc4e895374ddfffe0ac46516dab651dc825fe5d1df06de444942b431327a"
+          },
+          {
+            "file": "packages/reforge/src/audio/sfx-readiness.test.ts",
+            "testCount": 9,
+            "identityDigest": "a993682025326e3f3cc720cb56688881388ff3fc5029c7acaceafd142a406ee8"
+          },
+          {
+            "file": "packages/reforge/src/audio/sfx.test.ts",
+            "testCount": 12,
+            "identityDigest": "31d200ba82badd17c9f51f0952e7e3116e06cca5337234ffa99d711319031172"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-anim.test.ts",
+            "testCount": 21,
+            "identityDigest": "e1402ac5e6dae44a82b3789dd62e32403f09877b832f25ce98934c3d57bdc3be"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-casualty.test.ts",
+            "testCount": 16,
+            "identityDigest": "e4736063c6ecc98c8e3bd8be7a8aa94358c37658d99c939048716bcb27fc39cd"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-core.test.ts",
+            "testCount": 113,
+            "identityDigest": "2e6cfe940e6e914171487e1dbba8b3e932ad4e23b0e561fbfd300c4222aeb469"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-enemy-confused.test.ts",
+            "testCount": 13,
+            "identityDigest": "95f449458e2e02ab70617af88d195c23cb3dea16bc56f0446d91448b9581cfae"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-last-action.test.ts",
+            "testCount": 1,
+            "identityDigest": "da27ccfbc95ab8e8f2bfcdc978d9dd975ababdbc6985f2c9c9902fae071da6f6"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-result.test.ts",
+            "testCount": 2,
+            "identityDigest": "238e0e18475160a033f2336764dd3fe217416000ab6842de54d731462ee4849b"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-session.test.ts",
+            "testCount": 43,
+            "identityDigest": "673cf64a9fd9d128f5efeac85522fa85a7effc876aa5ec5fbefc9ee79f1d76b0"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-sprite-readiness.test.ts",
+            "testCount": 4,
+            "identityDigest": "addc59b0beabe5ef7dec2b5146dd37d95d4c5d31fba79efc00adffc069146547"
+          },
+          {
+            "file": "packages/reforge/src/battle/enemy-hook-runtime.test.ts",
+            "testCount": 4,
+            "identityDigest": "ee06b3647b1ba1fbc6d740ffa6348e7317c44a0eeff61ab2c8c4d4a76c2298b3"
+          },
+          {
+            "file": "packages/reforge/src/battle/present-battle.test.ts",
+            "testCount": 2,
+            "identityDigest": "ec1bd4b63207c41ed93c2080e1c4de3bfbb61967c29e566938286fec71ec08b4"
+          },
+          {
+            "file": "packages/reforge/src/battle/r13-six-b-battle.test.ts",
+            "testCount": 10,
+            "identityDigest": "11cf9e9a4459a912417a4025fc637086f566dfa91b3e447b4a1e8f7397a9267f"
+          },
+          {
+            "file": "packages/reforge/src/collision.test.ts",
+            "testCount": 6,
+            "identityDigest": "d0239b7765a03015da4a7c2e150640afcb4e0f3a271d9f9fa4c5cabce12c6b34"
+          },
+          {
+            "file": "packages/reforge/src/cutscene-controller.test.ts",
+            "testCount": 6,
+            "identityDigest": "fa84ae39f8410effa0a8787b21fe844e142e60add023eb99b513766fb639ca05"
+          },
+          {
+            "file": "packages/reforge/src/debug-tools.test.ts",
+            "testCount": 7,
+            "identityDigest": "1dfa7e83facd443b1e0762a1dd389ac579b590ef4e8fe18c3ab1e9c1ef275b6a"
+          },
+          {
+            "file": "packages/reforge/src/deferred-trigger.test.ts",
+            "testCount": 6,
+            "identityDigest": "c868820508d2b477a151baaf0d2a6e906e5c0ca6b55fdfdb598523d287ee5d2f"
+          },
+          {
+            "file": "packages/reforge/src/dev-preset.test.ts",
+            "testCount": 3,
+            "identityDigest": "4c59191aee96623823fcf641894710d7ba9691eb39bd5b3c45e461b4f6f9d2f0"
+          },
+          {
+            "file": "packages/reforge/src/dialog/dialog-assets.test.ts",
+            "testCount": 2,
+            "identityDigest": "9677229786f3fc33530234277b694ef91bad31678947eba050112ef3205becdb"
+          },
+          {
+            "file": "packages/reforge/src/dialog/dialog-box.test.ts",
+            "testCount": 1,
+            "identityDigest": "660a8c66b8892aa23bac3d31669cb669fab1f9aeea9091ed466067cfa66a820d"
+          },
+          {
+            "file": "packages/reforge/src/dialog/layout.test.ts",
+            "testCount": 11,
+            "identityDigest": "d1e6e0a6fd033fe1c3b4d4a61a9567944427298e2fd0b352f163494f99a87e87"
+          },
+          {
+            "file": "packages/reforge/src/dialog/narration-scroll.test.ts",
+            "testCount": 2,
+            "identityDigest": "63b30bd5aa30e4283783b65d4a21e6a8c0fc8f179def0525c224a0be2f3449fe"
+          },
+          {
+            "file": "packages/reforge/src/dialog/slot.test.ts",
+            "testCount": 6,
+            "identityDigest": "59bd8717d30248482f00e496ed4c8bd701e7b47c0c3297a10802557b8c6222b5"
+          },
+          {
+            "file": "packages/reforge/src/dialogue.test.ts",
+            "testCount": 3,
+            "identityDigest": "a0a99d6e555b52e68039823ecd53a6b823eda6257164bae3d907dc760bd1e0cc"
+          },
+          {
+            "file": "packages/reforge/src/dither-transition.test.ts",
+            "testCount": 11,
+            "identityDigest": "9e55079150d0aaf402a0a0124e8ab39940446566c0ad5150ff7f047c6ab68e17"
+          },
+          {
+            "file": "packages/reforge/src/engine-chrome/registry.test.ts",
+            "testCount": 3,
+            "identityDigest": "1d600484c307de75b4702a9b8041e77d9369e519685019417b83ef7d2d172913"
+          },
+          {
+            "file": "packages/reforge/src/entity-action-player.test.ts",
+            "testCount": 11,
+            "identityDigest": "427d63b4c4abd4293366561ee6a404dbc26d823ead328411ebf4c595f564ee30"
+          },
+          {
+            "file": "packages/reforge/src/entity-lifecycle-command.test.ts",
+            "testCount": 5,
+            "identityDigest": "748662f99380f7ab63f0d4667212b3fb9b46521bed2663af958c8cffbb22efb7"
+          },
+          {
+            "file": "packages/reforge/src/entity-lifecycle.test.ts",
+            "testCount": 8,
+            "identityDigest": "00da36b15eb3b922cd4cb04536d2af3908ec6fe62818d61442b55fcbef98fce7"
+          },
+          {
+            "file": "packages/reforge/src/entity-motion.test.ts",
+            "testCount": 45,
+            "identityDigest": "7db71044396e9f01d932c57a9e19a0c06c8cd76c72a19594ac3fea4771362650"
+          },
+          {
+            "file": "packages/reforge/src/entity-walk.test.ts",
+            "testCount": 6,
+            "identityDigest": "1b4e43456793fded2a0f41432075a44a15863e9f8aeacebe8ade55ba9561523b"
+          },
+          {
+            "file": "packages/reforge/src/equip-menu-state.test.ts",
+            "testCount": 7,
+            "identityDigest": "f2c593ca2a43a212ff32d28e07da128afde9ad6e98b32ab1e1458d5acfd7ee7b"
+          },
+          {
+            "file": "packages/reforge/src/fade-driver.test.ts",
+            "testCount": 6,
+            "identityDigest": "ad0edcfb4ddcc40ad2e4971a513586061f6bf9356ba0dc8e2cc13dc0e350feba"
+          },
+          {
+            "file": "packages/reforge/src/file-source.test.ts",
+            "testCount": 6,
+            "identityDigest": "05fd550b4ac2322c957b72ad8b08c098c95d401d171fcb261c4b95a2297c3275"
+          },
+          {
+            "file": "packages/reforge/src/follower.test.ts",
+            "testCount": 14,
+            "identityDigest": "5a9a960a27f2f8a0fb9bcb5915876d31b08ddc78f5a12ff126bb7bc1481443aa"
+          },
+          {
+            "file": "packages/reforge/src/frame-animation-player.test.ts",
+            "testCount": 7,
+            "identityDigest": "d05ab09eb99e1c49faa7ab32a7683d5b2aeb3898bf571e0062a6eeacaee6be3e"
+          },
+          {
+            "file": "packages/reforge/src/frame-animation-presentation.test.ts",
+            "testCount": 3,
+            "identityDigest": "2c42a231537e81e5aecb49da5269a2fcdd19c1a41e32159c07ad37e74a922551"
+          },
+          {
+            "file": "packages/reforge/src/fsa-source.test.ts",
+            "testCount": 6,
+            "identityDigest": "bb89fca56509503db2bf3c7fe1675a5bdfd366df2e614ace253e6e86aad16af6"
+          },
+          {
+            "file": "packages/reforge/src/game-over-dialog.test.ts",
+            "testCount": 1,
+            "identityDigest": "673e4136cf7c7c357a711ae7ffac60859ac48e9234397783543a92a86a6ef910"
+          },
+          {
+            "file": "packages/reforge/src/gameplay-clock.test.ts",
+            "testCount": 2,
+            "identityDigest": "040971e33a242d9d0f2b3277b437a803bd538832f6302414f43c65dc8c001a66"
+          },
+          {
+            "file": "packages/reforge/src/item-use-executor.test.ts",
+            "testCount": 17,
+            "identityDigest": "9678667b15a605e66f327caf9e9ed0befa9f5adec2b0f10518748884f0f55191"
+          },
+          {
+            "file": "packages/reforge/src/item-use-placement.test.ts",
+            "testCount": 2,
+            "identityDigest": "498f5235da04532f57376a13e53e9074a7666ed6b9e857285a4cb8d0b5c05fd4"
+          },
+          {
+            "file": "packages/reforge/src/latest-snapshot-transaction.test.ts",
+            "testCount": 3,
+            "identityDigest": "b8697090256db13fcc43c7c1fab151629107f7eabf090c05fd58ae235efe4430"
+          },
+          {
+            "file": "packages/reforge/src/magic-menu-state.test.ts",
+            "testCount": 21,
+            "identityDigest": "a34954cc7f6373cb9a9262905baa257614413cefda6c43b86ff25d4206b3e5e6"
+          },
+          {
+            "file": "packages/reforge/src/menu-state.test.ts",
+            "testCount": 8,
+            "identityDigest": "87c6b278759492097d13333fb361f30a880c98690a27329d74677c8dd771f721"
+          },
+          {
+            "file": "packages/reforge/src/menu/item-use-result.test.ts",
+            "testCount": 2,
+            "identityDigest": "edf0c81a9f094b8a8eb30154be936bf70560bf21951fd3b93810d08707bba88f"
+          },
+          {
+            "file": "packages/reforge/src/menu/reward-gain-queue.test.ts",
+            "testCount": 5,
+            "identityDigest": "690a24708491a7339ed3733498c80c997e76545499ffafa3355b412971af2961"
+          },
+          {
+            "file": "packages/reforge/src/menu/shop-box.test.ts",
+            "testCount": 6,
+            "identityDigest": "79779c6f097c8669a6542d9f51435e59e41b9d8449f26b9223b1f7ad86afa201"
+          },
+          {
+            "file": "packages/reforge/src/motion-batch.test.ts",
+            "testCount": 8,
+            "identityDigest": "377559e286ee794e64b59268ae2bf36da63cd56798218dafa0cc4e9211490f0c"
+          },
+          {
+            "file": "packages/reforge/src/motion-runtime-coordinator.test.ts",
+            "testCount": 9,
+            "identityDigest": "3b60ddc9fcd62075b3dbeb5ad5bb0fc0c5508302f2ec88e5cc114d39f2f0e3b1"
+          },
+          {
+            "file": "packages/reforge/src/motion-runtime-wiring.test.ts",
+            "testCount": 22,
+            "identityDigest": "673952f6cf719d23380df5eec6fbbb6e6b75356155391c5c2a0e008190f1f394"
+          },
+          {
+            "file": "packages/reforge/src/movement.test.ts",
+            "testCount": 4,
+            "identityDigest": "d2b871529c9731d7334267344b0c15d2c87f5eadf106ca8791f89c186c5495a3"
+          },
+          {
+            "file": "packages/reforge/src/opening-menu.test.ts",
+            "testCount": 2,
+            "identityDigest": "7d2be1ac0962208478273f1d12ec34f9637edeaddb10f2c9b07ed332f12d4143"
+          },
+          {
+            "file": "packages/reforge/src/project-image-cache.test.ts",
+            "testCount": 1,
+            "identityDigest": "bc4d3a74927203d78a15f7a14a5d80b9959e3c2b3029af3241bf0d56e3c4cff1"
+          },
+          {
+            "file": "packages/reforge/src/project-loader.test.ts",
+            "testCount": 10,
+            "identityDigest": "6e36db78eeed5c6310b49783da2ef300994e4e8c87e0a2a11ff1fe2b9b619fbe"
+          },
+          {
+            "file": "packages/reforge/src/project-map.test.ts",
+            "testCount": 13,
+            "identityDigest": "b8e13b799bc97154f695a3d685c4867d2a2d7448f7c330717da3432083042ab4"
+          },
+          {
+            "file": "packages/reforge/src/quantize.test.ts",
+            "testCount": 3,
+            "identityDigest": "3406c26285812f67e76984c9a9a7619da45bd34aa205108d7565c25e5a3013d8"
+          },
+          {
+            "file": "packages/reforge/src/render-scene.test.ts",
+            "testCount": 2,
+            "identityDigest": "d1088857d6b3499cc2264b25cdc3df3eb2eedc259d3b982acc6903b42ded0f42"
+          },
+          {
+            "file": "packages/reforge/src/render.test.ts",
+            "testCount": 5,
+            "identityDigest": "9d10d12f28431582e8c59f761f4f03296f9e621129ff30389321edbe89d62deb"
+          },
+          {
+            "file": "packages/reforge/src/runtime-project-view.test.ts",
+            "testCount": 4,
+            "identityDigest": "ca9e54baa43d0b3d3de4be35836cab145727f0b276bfd6369c11b2647621e7c5"
+          },
+          {
+            "file": "packages/reforge/src/runtime-script-project.test.ts",
+            "testCount": 7,
+            "identityDigest": "cee2bd76565662b8bb3b4c394bd57e1bd6fbe12c68044a9bef32687513524c0a"
+          },
+          {
+            "file": "packages/reforge/src/save/browser-state.test.ts",
+            "testCount": 6,
+            "identityDigest": "96e7c6052a074b9d18351924a88958ef43f09f96a45a1823da16f1d84cb1b4ea"
+          },
+          {
+            "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+            "testCount": 5,
+            "identityDigest": "a9375e09f47347ad741a9fa14c71b184530d2609e0af80842302420236b46b52"
+          },
+          {
+            "file": "packages/reforge/src/save/ops.test.ts",
+            "testCount": 4,
+            "identityDigest": "946fdb200d7799334cd0e1d6fd43380a58d0e3ef6b640afd0aa4eba438901518"
+          },
+          {
+            "file": "packages/reforge/src/save/store.test.ts",
+            "testCount": 3,
+            "identityDigest": "ee253a3b38c205a61462f75f49384627ffaf33c14332e59ca8068541bd6b9f98"
+          },
+          {
+            "file": "packages/reforge/src/scene-entry-session.test.ts",
+            "testCount": 9,
+            "identityDigest": "110efdd952edd1ac3be0501fedc3dffef3983ea7806512817460ab23217a53a4"
+          },
+          {
+            "file": "packages/reforge/src/scene-map.test.ts",
+            "testCount": 2,
+            "identityDigest": "29354fa7cdf7884f7083f87b9cbcde1b9a14f0794ff6e7558f78f375485adfcc"
+          },
+          {
+            "file": "packages/reforge/src/scene-switch-transaction.test.ts",
+            "testCount": 14,
+            "identityDigest": "b755546f11fe6defc71264020a0a2b8cc6ec1f3eeaa2dbd71bff463b29b9deb1"
+          },
+          {
+            "file": "packages/reforge/src/scene-transition.test.ts",
+            "testCount": 7,
+            "identityDigest": "59a1fda78bd353ef40e368e698f97b0cdc676e3db6e3fa9aea3bc71d9efdd10f"
+          },
+          {
+            "file": "packages/reforge/src/screen-fx.test.ts",
+            "testCount": 4,
+            "identityDigest": "360c26ee7e93fee427db0bcdda8166e599d274ce7880d08c4fe4052de35a0f91"
+          },
+          {
+            "file": "packages/reforge/src/screen-hold-transaction.test.ts",
+            "testCount": 7,
+            "identityDigest": "c2d72957627756d2317ffd9d8ddee33aeecba159ef232694d8b3893b164b0247"
+          },
+          {
+            "file": "packages/reforge/src/screen-wave.test.ts",
+            "testCount": 3,
+            "identityDigest": "b48e95f9de88d9140a6bf2a70827172426bc18d5171e297d5ba4613d27a00851"
+          },
+          {
+            "file": "packages/reforge/src/script-chunk-store.test.ts",
+            "testCount": 5,
+            "identityDigest": "2ac2b838015eafa43e8aaf15de4ece52342d5c01fc4102d4613b5c40e4d1b4c6"
+          },
+          {
+            "file": "packages/reforge/src/script-compiler-core.test.ts",
+            "testCount": 4,
+            "identityDigest": "c7cff4082e307f0846d3a517808774b79a9a1c428c0061ca9fd668a298565543"
+          },
+          {
+            "file": "packages/reforge/src/script-confirm-modal.test.ts",
+            "testCount": 4,
+            "identityDigest": "cba0850aa4307c57bf511947ab97ce9942711df7e0582b7de71482b0acfbee89"
+          },
+          {
+            "file": "packages/reforge/src/script-host-adapter.test.ts",
+            "testCount": 6,
+            "identityDigest": "423a27d3df6d93acd5c3250c9ba19d3ee45c441eb8d81eb613a0703766a8a917"
+          },
+          {
+            "file": "packages/reforge/src/script-runner-core.test.ts",
+            "testCount": 17,
+            "identityDigest": "fdcb7170f7969ea3b472c64b35f85a854bcfad7cdaafdd8af6bd31488d469ac5"
+          },
+          {
+            "file": "packages/reforge/src/script-runner.test.ts",
+            "testCount": 49,
+            "identityDigest": "b03c00cd7fceb04d01d74396918238a2113a8db41e3fe7738f3878752700bfff"
+          },
+          {
+            "file": "packages/reforge/src/script-world.test.ts",
+            "testCount": 15,
+            "identityDigest": "32466b8856fa1cdbd366d9396d95736c8da13f1e379c9c168919110c2d426c76"
+          },
+          {
+            "file": "packages/reforge/src/shop-trial.test.ts",
+            "testCount": 4,
+            "identityDigest": "b1c44db8c7954a3691a8cfffc132135a38dac5b39ad06262d54c8198dee2281c"
+          },
+          {
+            "file": "packages/reforge/src/sprite-anim.test.ts",
+            "testCount": 22,
+            "identityDigest": "ed3f10fb4afbd13abeb7e2e547acda67ffd904e11f263c5826efe4ecc9ad9bbf"
+          },
+          {
+            "file": "packages/reforge/src/startup-entry.test.ts",
+            "testCount": 5,
+            "identityDigest": "6f052a255dbf7717a7c806c7db454ebb98e34c06d5384bbe7bf5d8cb67d2f9e5"
+          },
+          {
+            "file": "packages/reforge/src/system-menu-state.test.ts",
+            "testCount": 9,
+            "identityDigest": "31f5c6e8c6fac5b8c898e0c204dd1a481c10dd09d89717a7910bb63f5d94eb23"
+          },
+          {
+            "file": "packages/reforge/src/text/glyph.test.ts",
+            "testCount": 5,
+            "identityDigest": "b2fefd203e63214eb027357f2624addd09bc48af0e2de372253a0b9c54960eb6"
+          },
+          {
+            "file": "packages/reforge/src/text/palette-color.test.ts",
+            "testCount": 2,
+            "identityDigest": "a1c81c904b16ef13a0b3e1cdecb788fdf29252d1344274100735289631b69a05"
+          },
+          {
+            "file": "packages/reforge/src/text/typewriter.test.ts",
+            "testCount": 7,
+            "identityDigest": "45e8b3baadaa7682e3f96660b52df55f0789b4a376d4ff6fc329682e7e71bf9c"
+          },
+          {
+            "file": "packages/reforge/src/use-menu-state.test.ts",
+            "testCount": 7,
+            "identityDigest": "339c8c24a0c9301e8ec865cfc971095bfe28c65d8135a4fbd62263cd10d73767"
+          }
+        ],
+        "identityDigest": "0a54c52399f4b4abdb29ed69417f0b82a11beae93694639b94d88220952bef57",
+        "duplicateIdentityCount": 0,
+        "executionDigest": "9cdc240f1497799e681970dbf453a33239e0d0eec051e62757196748282fee01"
+      },
+      "metrics": {
+        "statements": {
+          "covered": 8137,
+          "total": 15868
+        },
+        "branches": {
+          "covered": 4939,
+          "total": 10838
+        },
+        "functions": {
+          "covered": 1248,
+          "total": 2351
+        },
+        "lines": {
+          "covered": 7373,
+          "total": 13840
+        }
+      }
+    },
+    "game": {
+      "name": "@type-pal/game",
+      "directory": "packages/game",
+      "include": ["src/**/*.{ts,tsx}"],
+      "exclude": [
+        "**/__tests__/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.d.ts"
+      ],
+      "sourceFileCount": 125,
+      "sourceFiles": [
+        "packages/game/src/analytics/analytics-consent-ui.ts",
+        "packages/game/src/analytics/analytics-consent.ts",
+        "packages/game/src/analytics/google-analytics.ts",
+        "packages/game/src/analytics/install-analytics.ts",
+        "packages/game/src/assets/dialog-assets.ts",
+        "packages/game/src/assets/loader.ts",
+        "packages/game/src/assets/png.ts",
+        "packages/game/src/assets/rle-decode.ts",
+        "packages/game/src/assets/tileset-blob.ts",
+        "packages/game/src/core/battle/actions/attack-mate.ts",
+        "packages/game/src/core/battle/actions/attack.ts",
+        "packages/game/src/core/battle/actions/coop-magic.ts",
+        "packages/game/src/core/battle/actions/defend.ts",
+        "packages/game/src/core/battle/actions/flee.ts",
+        "packages/game/src/core/battle/actions/item.ts",
+        "packages/game/src/core/battle/actions/magic.ts",
+        "packages/game/src/core/battle/actions/throw-item.ts",
+        "packages/game/src/core/battle/anim-timeline.ts",
+        "packages/game/src/core/battle/battle-anim-driver.ts",
+        "packages/game/src/core/battle/battle-opcodes.ts",
+        "packages/game/src/core/battle/battle-positions.ts",
+        "packages/game/src/core/battle/battle-settlement.ts",
+        "packages/game/src/core/battle/battle-state.ts",
+        "packages/game/src/core/battle/battle-system.ts",
+        "packages/game/src/core/battle/enemy-ai.ts",
+        "packages/game/src/core/battle/formulas.ts",
+        "packages/game/src/core/battle/magic-damage.ts",
+        "packages/game/src/core/battle/magic-object.ts",
+        "packages/game/src/core/battle/status.ts",
+        "packages/game/src/core/battle/turn-queue.ts",
+        "packages/game/src/core/command-bus.ts",
+        "packages/game/src/core/dialog-history.ts",
+        "packages/game/src/core/equip-effect.ts",
+        "packages/game/src/core/event-system.ts",
+        "packages/game/src/core/game-state.ts",
+        "packages/game/src/core/inspect/battle-inspect.ts",
+        "packages/game/src/core/menu/equip-menu.ts",
+        "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "packages/game/src/core/menu/in-game-menu.ts",
+        "packages/game/src/core/menu/inventory-action-menu.ts",
+        "packages/game/src/core/menu/inventory-menu.ts",
+        "packages/game/src/core/menu/item-select.ts",
+        "packages/game/src/core/menu/magic-script.ts",
+        "packages/game/src/core/menu/magic-select.ts",
+        "packages/game/src/core/menu/menu-driver.ts",
+        "packages/game/src/core/menu/menu-mode.ts",
+        "packages/game/src/core/menu/opening-menu.ts",
+        "packages/game/src/core/menu/player-status.ts",
+        "packages/game/src/core/menu/primitives.ts",
+        "packages/game/src/core/menu/save-slot-menu.ts",
+        "packages/game/src/core/menu/script-desc.ts",
+        "packages/game/src/core/menu/sell-menu.ts",
+        "packages/game/src/core/menu/shop-menu.ts",
+        "packages/game/src/core/mode.ts",
+        "packages/game/src/core/palette-fade.ts",
+        "packages/game/src/core/rng.ts",
+        "packages/game/src/core/save/api.ts",
+        "packages/game/src/core/save/indexed-db.ts",
+        "packages/game/src/core/scene-system-search.ts",
+        "packages/game/src/core/scene-system.ts",
+        "packages/game/src/core/word-lookup.ts",
+        "packages/game/src/dev/dev-panel.ts",
+        "packages/game/src/dev/state-dump.ts",
+        "packages/game/src/main.ts",
+        "packages/game/src/present/battle/draw-battle-bg.ts",
+        "packages/game/src/present/battle/draw-battle-effect.ts",
+        "packages/game/src/present/battle/draw-battle-num.ts",
+        "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "packages/game/src/present/battle/draw-battle-ui.ts",
+        "packages/game/src/present/battle/present-battle.ts",
+        "packages/game/src/present/dialog-box.ts",
+        "packages/game/src/present/dither-fade.ts",
+        "packages/game/src/present/draw-number.ts",
+        "packages/game/src/present/draw-sprite.ts",
+        "packages/game/src/present/draw-tilemap.ts",
+        "packages/game/src/present/follower-pos.ts",
+        "packages/game/src/present/follower-render.ts",
+        "packages/game/src/present/font.ts",
+        "packages/game/src/present/framebuffer.ts",
+        "packages/game/src/present/menu/draw-box.ts",
+        "packages/game/src/present/menu/draw-confirm.ts",
+        "packages/game/src/present/menu/draw-equip.ts",
+        "packages/game/src/present/menu/draw-inventory.ts",
+        "packages/game/src/present/menu/draw-magic.ts",
+        "packages/game/src/present/menu/draw-menu.ts",
+        "packages/game/src/present/menu/draw-opening-menu.ts",
+        "packages/game/src/present/menu/draw-player-status.ts",
+        "packages/game/src/present/menu/draw-shop.ts",
+        "packages/game/src/present/present.ts",
+        "packages/game/src/present/screen-shake.ts",
+        "packages/game/src/present/screen-wave.ts",
+        "packages/game/src/shell/audio-midi.ts",
+        "packages/game/src/shell/audio-volume.ts",
+        "packages/game/src/shell/audio.ts",
+        "packages/game/src/shell/avi-player.ts",
+        "packages/game/src/shell/boot-loading.ts",
+        "packages/game/src/shell/bootstrap.ts",
+        "packages/game/src/shell/ending-player.ts",
+        "packages/game/src/shell/fbp-player.ts",
+        "packages/game/src/shell/fetch-retry.ts",
+        "packages/game/src/shell/input.ts",
+        "packages/game/src/shell/main-loop.ts",
+        "packages/game/src/shell/precache-client.ts",
+        "packages/game/src/shell/precache-ui.ts",
+        "packages/game/src/shell/rng-player.ts",
+        "packages/game/src/shell/splash-fallback.ts",
+        "packages/game/src/shell/trademark-fallback.ts",
+        "packages/game/src/tools/display-scale.ts",
+        "packages/game/src/tools/fps-overlay.ts",
+        "packages/game/src/tools/map-names.ts",
+        "packages/game/src/tools/minimap.ts",
+        "packages/game/src/tools/quick-save.ts",
+        "packages/game/src/tools/save-io.ts",
+        "packages/game/src/tools/speedrun/checkpoints.ts",
+        "packages/game/src/tools/speedrun/countdown.ts",
+        "packages/game/src/tools/speedrun/detectors.ts",
+        "packages/game/src/tools/speedrun/index.ts",
+        "packages/game/src/tools/speedrun/overlay.ts",
+        "packages/game/src/tools/speedrun/snapshot.ts",
+        "packages/game/src/tools/speedrun/store.ts",
+        "packages/game/src/tools/speedrun/time-format.ts",
+        "packages/game/src/tools/speedrun/timer.ts",
+        "packages/game/src/tools/toast.ts",
+        "packages/game/src/tools/tools-panel.ts"
+      ],
+      "scopeDigest": "172860557359800006b54684305c95556da2645892e450c2d5b4891297aba98e",
+      "fastTests": {
+        "testCount": 2250,
+        "testFileCount": 118,
+        "files": [
+          "packages/game/src/analytics/analytics-consent-ui.test.ts",
+          "packages/game/src/analytics/analytics-consent.test.ts",
+          "packages/game/src/analytics/google-analytics.test.ts",
+          "packages/game/src/analytics/install-analytics.test.ts",
+          "packages/game/src/assets/loader.test.ts",
+          "packages/game/src/assets/png.test.ts",
+          "packages/game/src/assets/rle-decode.test.ts",
+          "packages/game/src/assets/tileset-blob.test.ts",
+          "packages/game/src/core/battle/__tests__/actions.test.ts",
+          "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
+          "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+          "packages/game/src/core/battle/__tests__/battle-anim-driver.test.ts",
+          "packages/game/src/core/battle/__tests__/battle-anim-integration.test.ts",
+          "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+          "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+          "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+          "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+          "packages/game/src/core/battle/__tests__/casualty-sounds.test.ts",
+          "packages/game/src/core/battle/__tests__/coop-magic.test.ts",
+          "packages/game/src/core/battle/__tests__/death-fade.test.ts",
+          "packages/game/src/core/battle/__tests__/enemy-ai.test.ts",
+          "packages/game/src/core/battle/__tests__/formulas.test.ts",
+          "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
+          "packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts",
+          "packages/game/src/core/battle/__tests__/runscript-rearm.test.ts",
+          "packages/game/src/core/battle/__tests__/status.test.ts",
+          "packages/game/src/core/battle/__tests__/throw-item.test.ts",
+          "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+          "packages/game/src/core/command-bus.test.ts",
+          "packages/game/src/core/dialog-bug2-skip.test.ts",
+          "packages/game/src/core/dialog-history.test.ts",
+          "packages/game/src/core/equip-effect.test.ts",
+          "packages/game/src/core/event-system.test.ts",
+          "packages/game/src/core/game-state.test.ts",
+          "packages/game/src/core/inspect/battle-inspect.test.ts",
+          "packages/game/src/core/menu/__tests__/inventory-menu.test.ts",
+          "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+          "packages/game/src/core/menu/__tests__/primitives.test.ts",
+          "packages/game/src/core/menu/equip-menu.test.ts",
+          "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+          "packages/game/src/core/menu/in-game-menu.test.ts",
+          "packages/game/src/core/menu/inventory-action-menu.test.ts",
+          "packages/game/src/core/menu/inventory-menu.test.ts",
+          "packages/game/src/core/menu/magic-script.test.ts",
+          "packages/game/src/core/menu/menu-driver.test.ts",
+          "packages/game/src/core/menu/menu-mode.test.ts",
+          "packages/game/src/core/menu/opening-menu.test.ts",
+          "packages/game/src/core/menu/player-status.test.ts",
+          "packages/game/src/core/menu/save-slot-menu.test.ts",
+          "packages/game/src/core/menu/script-desc.test.ts",
+          "packages/game/src/core/menu/sell-menu.test.ts",
+          "packages/game/src/core/menu/shop-menu.test.ts",
+          "packages/game/src/core/mode.test.ts",
+          "packages/game/src/core/palette-fade.test.ts",
+          "packages/game/src/core/rng.test.ts",
+          "packages/game/src/core/save/__tests__/api.test.ts",
+          "packages/game/src/core/scene-system-search.test.ts",
+          "packages/game/src/core/scene-system.test.ts",
+          "packages/game/src/core/word-lookup.test.ts",
+          "packages/game/src/e2e.test.ts",
+          "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+          "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+          "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+          "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+          "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+          "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+          "packages/game/src/present/battle/__tests__/present-battle.test.ts",
+          "packages/game/src/present/dialog-box.test.ts",
+          "packages/game/src/present/dither-fade.test.ts",
+          "packages/game/src/present/draw-number.test.ts",
+          "packages/game/src/present/draw-sprite.test.ts",
+          "packages/game/src/present/draw-tilemap.test.ts",
+          "packages/game/src/present/follower-pos.test.ts",
+          "packages/game/src/present/follower-render.test.ts",
+          "packages/game/src/present/font.test.ts",
+          "packages/game/src/present/framebuffer.test.ts",
+          "packages/game/src/present/menu/draw-box.test.ts",
+          "packages/game/src/present/menu/draw-magic.test.ts",
+          "packages/game/src/present/menu/draw-menu.test.ts",
+          "packages/game/src/present/menu/draw-opening-menu.test.ts",
+          "packages/game/src/present/menu/draw-player-status.test.ts",
+          "packages/game/src/present/present.test.ts",
+          "packages/game/src/present/screen-shake.test.ts",
+          "packages/game/src/present/screen-wave.test.ts",
+          "packages/game/src/shell/audio-volume.test.ts",
+          "packages/game/src/shell/audio.test.ts",
+          "packages/game/src/shell/avi-player.test.ts",
+          "packages/game/src/shell/boot-loading.test.ts",
+          "packages/game/src/shell/bootstrap-audio.test.ts",
+          "packages/game/src/shell/bootstrap-load.test.ts",
+          "packages/game/src/shell/ending-player.test.ts",
+          "packages/game/src/shell/fbp-player.test.ts",
+          "packages/game/src/shell/fetch-retry.test.ts",
+          "packages/game/src/shell/input.test.ts",
+          "packages/game/src/shell/main-loop.test.ts",
+          "packages/game/src/shell/precache-client.test.ts",
+          "packages/game/src/shell/precache-ui.test.ts",
+          "packages/game/src/shell/rng-player.test.ts",
+          "packages/game/src/shell/splash-fallback.test.ts",
+          "packages/game/src/shell/trademark-fallback.test.ts",
+          "packages/game/src/tools/display-scale.test.ts",
+          "packages/game/src/tools/fps-overlay.test.ts",
+          "packages/game/src/tools/map-names.test.ts",
+          "packages/game/src/tools/minimap.test.ts",
+          "packages/game/src/tools/quick-save.test.ts",
+          "packages/game/src/tools/save-io.test.ts",
+          "packages/game/src/tools/speedrun/checkpoints.test.ts",
+          "packages/game/src/tools/speedrun/countdown.test.ts",
+          "packages/game/src/tools/speedrun/detectors.test.ts",
+          "packages/game/src/tools/speedrun/index.test.ts",
+          "packages/game/src/tools/speedrun/overlay.test.ts",
+          "packages/game/src/tools/speedrun/snapshot.test.ts",
+          "packages/game/src/tools/speedrun/store.test.ts",
+          "packages/game/src/tools/speedrun/time-format.test.ts",
+          "packages/game/src/tools/speedrun/timer.test.ts",
+          "packages/game/src/tools/toast.test.ts",
+          "packages/game/src/tools/tools-panel.test.ts"
+        ],
+        "fileEntries": [
+          {
+            "file": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+            "testCount": 3,
+            "identityDigest": "26704ded88e36edc94f88688b0d1d780df5c4860dd22d476ace6179ae33a683b"
+          },
+          {
+            "file": "packages/game/src/analytics/analytics-consent.test.ts",
+            "testCount": 3,
+            "identityDigest": "81ec9e871054677296b3b4b93436dc51c8127ded056590106470ea8a091a1092"
+          },
+          {
+            "file": "packages/game/src/analytics/google-analytics.test.ts",
+            "testCount": 8,
+            "identityDigest": "d2b8084701a67567229ee98d45c3e865ed033964dd86a680d24434aef81e37b7"
+          },
+          {
+            "file": "packages/game/src/analytics/install-analytics.test.ts",
+            "testCount": 2,
+            "identityDigest": "253a77b26a1ad203bf41007e1c84c16f698e61ab674965bce52124d0a854122b"
+          },
+          {
+            "file": "packages/game/src/assets/loader.test.ts",
+            "testCount": 7,
+            "identityDigest": "5f98ca22f6e487c5cc5f4fef1b753d6f1bd87a962c0041c10d08262c34abb431"
+          },
+          {
+            "file": "packages/game/src/assets/png.test.ts",
+            "testCount": 1,
+            "identityDigest": "c0139b2812040d44eb07e456beee6f6e509e6c8b77ed99411442a182d8ba1cd1"
+          },
+          {
+            "file": "packages/game/src/assets/rle-decode.test.ts",
+            "testCount": 6,
+            "identityDigest": "8063dfc7cee361adc79ad0347da407e167cb39f0d817b1c9d3199c8fc0773193"
+          },
+          {
+            "file": "packages/game/src/assets/tileset-blob.test.ts",
+            "testCount": 15,
+            "identityDigest": "7b4dc1698d94e06f095034788959cbc4ff537728a57eb074e2720c5300ca716a"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/actions.test.ts",
+            "testCount": 89,
+            "identityDigest": "d55fd5f0db5a6b28ea94d2f8434ae5c583bd707c35ae166b4362ae2cd66e17f3"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
+            "testCount": 110,
+            "identityDigest": "7b368259a2aca02d796ea07c9a28b502bf9850b5a597fb6b3f85873e4f104155"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+            "testCount": 7,
+            "identityDigest": "6f9cb4807556329438754426833c929d5423967e82d623baa3e61e9d418233bf"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/battle-anim-driver.test.ts",
+            "testCount": 24,
+            "identityDigest": "ce3847075b81254c40b32ef81fd295016c6042c4e3133778f2424bf211f0ff9b"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/battle-anim-integration.test.ts",
+            "testCount": 4,
+            "identityDigest": "4518884a8b414a9c5cf320d28a28ba73705a24e6d729f1e3a8592d8ef9ed9fc2"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+            "testCount": 13,
+            "identityDigest": "d9312ec7b02e005ff9672d5ee6cd7c11e635567afda9e5e72744822eb5aabafa"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+            "testCount": 11,
+            "identityDigest": "da9b264746f564ca9ba6da61de5b6a96655992c538cf36bcf055df7e4c3ff450"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+            "testCount": 158,
+            "identityDigest": "e18a31e1e4cd0ee864239375ec72214237da72a217aa2e30eff74d7071b0e502"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+            "testCount": 14,
+            "identityDigest": "ef401a0f53fa9b842fd594fccb2c3c5ca1b17d7f5ed76f5d452ac786ad0e52d2"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+            "testCount": 184,
+            "identityDigest": "df4bb20e90f47baab8dc67e9edf5672cd997252f05c8007369a923a19480021e"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/casualty-sounds.test.ts",
+            "testCount": 11,
+            "identityDigest": "73670c7707e96e594a2fbdd974db180cce4ac1e0057fe7da08890afb4c910e74"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/coop-magic.test.ts",
+            "testCount": 15,
+            "identityDigest": "04b7b108545c6e0f2d3975fbda2e907de01bfa3899e536cf9f739ef4a3b772bb"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/death-fade.test.ts",
+            "testCount": 16,
+            "identityDigest": "c5848ad4780c9371f32ad9734a057de3776815fa7b94f9a8da4c8b26aedbd141"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/enemy-ai.test.ts",
+            "testCount": 14,
+            "identityDigest": "1be069172f0059524af739cd550221b63ebc0379451967172789d0d2f1faca0f"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+            "testCount": 28,
+            "identityDigest": "25126e82b3f29dc863281996a23d0ac158fc61deb6b4cd57deadc474e7834a9d"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
+            "testCount": 23,
+            "identityDigest": "f96e0dc88e611ef8bd22827ace307a04fe82e21bbd20f32847f96c4e200a3ec3"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts",
+            "testCount": 33,
+            "identityDigest": "cf3a8254a419939da955618062848809cfd97e431d0483f460c0d74fcf5d2bf6"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/runscript-rearm.test.ts",
+            "testCount": 5,
+            "identityDigest": "fcb30a61b7d79a43903ff9e26a4f99c3f8424857c21bbd3bb8fc0e09fae0149c"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/status.test.ts",
+            "testCount": 7,
+            "identityDigest": "76709ea7cc0390278cdbaf304e6f1452cbbac85af302d718c43dc9ca2eafb08b"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/throw-item.test.ts",
+            "testCount": 6,
+            "identityDigest": "c6d588f8e6b8a49cf3aab20ae068ffe5590fdeab9e19dbf980a752c211210fac"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+            "testCount": 9,
+            "identityDigest": "ebec92ae60dd7bbfd3b78d4447c5ff2da47ccaf802f3a3a6858fb4118b3474f8"
+          },
+          {
+            "file": "packages/game/src/core/command-bus.test.ts",
+            "testCount": 9,
+            "identityDigest": "f2af6faf54355e2f5633a0dff4e18fe713f1df6557030db0450c43b9d91df796"
+          },
+          {
+            "file": "packages/game/src/core/dialog-bug2-skip.test.ts",
+            "testCount": 4,
+            "identityDigest": "e1d94ba7b96d81b7d1b506521dfa5ed3d23b1e4f2d0dde8b74514afb162eff90"
+          },
+          {
+            "file": "packages/game/src/core/dialog-history.test.ts",
+            "testCount": 7,
+            "identityDigest": "0a3f04da11ce1a2ff9e780885b834eeafda2a44008e74fc470a3baaaf56ad733"
+          },
+          {
+            "file": "packages/game/src/core/equip-effect.test.ts",
+            "testCount": 36,
+            "identityDigest": "142dbc3758d1429b770ee8b19ea5d788f73ba6e10fd3219aa0027c1b2226e889"
+          },
+          {
+            "file": "packages/game/src/core/event-system.test.ts",
+            "testCount": 326,
+            "identityDigest": "68f056e30c619c66c55024460db56d431dea80ca6138e6a9ac6346907a62d5ef"
+          },
+          {
+            "file": "packages/game/src/core/game-state.test.ts",
+            "testCount": 61,
+            "identityDigest": "06f63fac0b78f0bf821f780c35fc61fa7cfa05a1663bf9fd8800cd79677359fa"
+          },
+          {
+            "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+            "testCount": 5,
+            "identityDigest": "f79cb5be3283dd72cdcfc89b38f0085687bf7c2a9dc6dd257c9462036cfa78b1"
+          },
+          {
+            "file": "packages/game/src/core/menu/__tests__/inventory-menu.test.ts",
+            "testCount": 8,
+            "identityDigest": "abbb478be65c83d42a44d76d5ff1da4491651aa1a12442a4dbb39f726b09fe98"
+          },
+          {
+            "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+            "testCount": 11,
+            "identityDigest": "f7eb8ac2da235ba950efe122d8c30cd1f7303ad5c0711b42f30624bc8c4145da"
+          },
+          {
+            "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+            "testCount": 18,
+            "identityDigest": "02f0e03fcd5d9af00f5b6b64d1f576581ca42e8a7ed07476c613834e68d8424a"
+          },
+          {
+            "file": "packages/game/src/core/menu/equip-menu.test.ts",
+            "testCount": 17,
+            "identityDigest": "116dcc9fee4a584f28c335d6fefee37b2b599a05ca4bf4dbb83123be359fdf6a"
+          },
+          {
+            "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+            "testCount": 25,
+            "identityDigest": "5988f00a3452ce9c37639651b9c300709aabb15b63e2c5e92bbe38206267a943"
+          },
+          {
+            "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+            "testCount": 14,
+            "identityDigest": "1264d9c09f84c26b0d79da11244f20c50d7dddeab8d9bbc3d43dffab6b75c52b"
+          },
+          {
+            "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+            "testCount": 4,
+            "identityDigest": "b7b86567103606e5a2a4f0a5cc62a1ea28298337b78258c0cd14ccdb54091cd7"
+          },
+          {
+            "file": "packages/game/src/core/menu/inventory-menu.test.ts",
+            "testCount": 23,
+            "identityDigest": "91f4d4f295197df69f612ec80eb7717bf888a25ad04a5d19bf28d777327b509f"
+          },
+          {
+            "file": "packages/game/src/core/menu/magic-script.test.ts",
+            "testCount": 28,
+            "identityDigest": "09f369e59b56f0d78bd5b0e40910c0215dbf0fab669e9b2f3c9e172adb8cd9e7"
+          },
+          {
+            "file": "packages/game/src/core/menu/menu-driver.test.ts",
+            "testCount": 37,
+            "identityDigest": "d6daa58d0709aa58e14b70aa0aa0916c2f13e2681558e6f1e003a81a72de88a5"
+          },
+          {
+            "file": "packages/game/src/core/menu/menu-mode.test.ts",
+            "testCount": 7,
+            "identityDigest": "1b7f17fbd0816993a647c5d33fd5b81c27ab14b4cd051a6f73382fdb44efe8c7"
+          },
+          {
+            "file": "packages/game/src/core/menu/opening-menu.test.ts",
+            "testCount": 6,
+            "identityDigest": "194fdd476344b677ccd75e8dd21f1eafed719b1288008e53cf4bc74270da6728"
+          },
+          {
+            "file": "packages/game/src/core/menu/player-status.test.ts",
+            "testCount": 6,
+            "identityDigest": "a184914bba78968b5e4178f34eae1c81fc17d579905fc39b081b96b00e52cf21"
+          },
+          {
+            "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+            "testCount": 15,
+            "identityDigest": "f8c83187e00a0e5bf0f71a81659c7d4aa219a17414f0851499cd440b2caf6581"
+          },
+          {
+            "file": "packages/game/src/core/menu/script-desc.test.ts",
+            "testCount": 6,
+            "identityDigest": "0f0c5a24ce655c3b2ff35c746f927477393182c1a51953454bba22f3cf8b9c22"
+          },
+          {
+            "file": "packages/game/src/core/menu/sell-menu.test.ts",
+            "testCount": 6,
+            "identityDigest": "7ce4024e76e7d4def169a749ee6620adec2c7a74d9b7deef04fc4296c5f73df5"
+          },
+          {
+            "file": "packages/game/src/core/menu/shop-menu.test.ts",
+            "testCount": 10,
+            "identityDigest": "620140f635091f0edf04f14ad7f53cfc53c10c57f87885181b97ad05c33d6821"
+          },
+          {
+            "file": "packages/game/src/core/mode.test.ts",
+            "testCount": 10,
+            "identityDigest": "113feef6346cfc58d4c13b2b568fd1827e8ea8e950571c427706f15ffe04d5f6"
+          },
+          {
+            "file": "packages/game/src/core/palette-fade.test.ts",
+            "testCount": 16,
+            "identityDigest": "d41fe720e1c35a418342b326923213ca6d0f8d9c97956a4942911704e31bfcef"
+          },
+          {
+            "file": "packages/game/src/core/rng.test.ts",
+            "testCount": 7,
+            "identityDigest": "bd61d854eca035f755ce75d53382ac8ed03570415f4b9d1bea978aa1f6969402"
+          },
+          {
+            "file": "packages/game/src/core/save/__tests__/api.test.ts",
+            "testCount": 8,
+            "identityDigest": "75eb57ac110be8c5377b9c9de8cc095e5822a8d63c94584136fe20bfc1d4bd3b"
+          },
+          {
+            "file": "packages/game/src/core/scene-system-search.test.ts",
+            "testCount": 10,
+            "identityDigest": "a856e06f381d1afec42f44bddf015ec4e7473b9e0d2b30364ca4fdffdf84bee6"
+          },
+          {
+            "file": "packages/game/src/core/scene-system.test.ts",
+            "testCount": 110,
+            "identityDigest": "5e69afe55db6e26fc65517b237c09afe7b7c486c80590e295e922283ade5c26f"
+          },
+          {
+            "file": "packages/game/src/core/word-lookup.test.ts",
+            "testCount": 3,
+            "identityDigest": "44a6a6687e0f0c45c7c722be00dd7bfef6757843334e19c178d82043118c26f9"
+          },
+          {
+            "file": "packages/game/src/e2e.test.ts",
+            "testCount": 1,
+            "identityDigest": "ae317903e65cb2bafadbd0ab1d0dacc89bf306d95e50dfd329004b8ba73ef3ca"
+          },
+          {
+            "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+            "testCount": 3,
+            "identityDigest": "f58f09ba1ea936d306ecd6fc47fda8fc9bb35de24718406006e274ff43028770"
+          },
+          {
+            "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+            "testCount": 7,
+            "identityDigest": "d376604fa3780843226725fd7568f06a062d1d4521ef0a21e5745524aeec2a5a"
+          },
+          {
+            "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+            "testCount": 6,
+            "identityDigest": "38150445e96fa2cca4cc74c403bfccced5cb710078e81987c0b944bfb4da9d17"
+          },
+          {
+            "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+            "testCount": 2,
+            "identityDigest": "344e7f6216361773d3fe4324abd0740a03392dbc64ed19f89cb97a538310e174"
+          },
+          {
+            "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+            "testCount": 51,
+            "identityDigest": "ad981d1daf19bc820424df598189311402fbdb6c5c3537d2cf3652ac7c9aef56"
+          },
+          {
+            "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+            "testCount": 31,
+            "identityDigest": "aa82218faf15e82bb4436380f9c087b58fe8447b2100cfb39ab7f33fa3a3787f"
+          },
+          {
+            "file": "packages/game/src/present/battle/__tests__/present-battle.test.ts",
+            "testCount": 25,
+            "identityDigest": "01b1c8c92a9f600c8c89a3a5ea69bb551637092d5ce7ae454e2afffdeea7a427"
+          },
+          {
+            "file": "packages/game/src/present/dialog-box.test.ts",
+            "testCount": 69,
+            "identityDigest": "f6d9ffd17c974be20f3ec3f3582735926eac4be082e46ee0c61dcdc3a394fe2d"
+          },
+          {
+            "file": "packages/game/src/present/dither-fade.test.ts",
+            "testCount": 3,
+            "identityDigest": "4396f245ed7ec446bd7ec5c39f67045caa7de076d01c9e36ae5fe14b8acdbecf"
+          },
+          {
+            "file": "packages/game/src/present/draw-number.test.ts",
+            "testCount": 8,
+            "identityDigest": "45139c65bb6431e646d40c395b00dc1beef705472dc9846e1c822e5d3bb2c089"
+          },
+          {
+            "file": "packages/game/src/present/draw-sprite.test.ts",
+            "testCount": 6,
+            "identityDigest": "79834be7b03ba673e711f17592f9ef2b038c725c24588534fb3a02203a5dd6e4"
+          },
+          {
+            "file": "packages/game/src/present/draw-tilemap.test.ts",
+            "testCount": 9,
+            "identityDigest": "14688ce66d50cee137297379f4e67408ba2756a2ced869cfd278bc94d1b61479"
+          },
+          {
+            "file": "packages/game/src/present/follower-pos.test.ts",
+            "testCount": 10,
+            "identityDigest": "f13e4b4b9aee465fa9e971e72855969d1fcd5a18b937919f4bd52d7e2aacb5ab"
+          },
+          {
+            "file": "packages/game/src/present/follower-render.test.ts",
+            "testCount": 6,
+            "identityDigest": "4f5f6850ae9933300d702e0219145c0d1f6e41c53e8d82bc89fb61685d2fa32b"
+          },
+          {
+            "file": "packages/game/src/present/font.test.ts",
+            "testCount": 15,
+            "identityDigest": "64c0e0987fa1dbf02d678d704405e0df9309afef0dcb1ee935eb27a508c30ce9"
+          },
+          {
+            "file": "packages/game/src/present/framebuffer.test.ts",
+            "testCount": 3,
+            "identityDigest": "9812d0c5417c62076f7b05038cb9a728a42b92c101207e47210baaa81659545b"
+          },
+          {
+            "file": "packages/game/src/present/menu/draw-box.test.ts",
+            "testCount": 5,
+            "identityDigest": "5d8d0ed914955c8177642e5ea4edf791dc7e32fa6c6c60162d8baa39c8afda5f"
+          },
+          {
+            "file": "packages/game/src/present/menu/draw-magic.test.ts",
+            "testCount": 2,
+            "identityDigest": "2121b4e63a23da50a56ecacd73b90227e62e18bfe0231d58a7de37e4aa3ec514"
+          },
+          {
+            "file": "packages/game/src/present/menu/draw-menu.test.ts",
+            "testCount": 6,
+            "identityDigest": "e657f52f0a3c0eb89406b189dc73c046ddd4bb253f3a84bd0f4e4bcc9568975f"
+          },
+          {
+            "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+            "testCount": 7,
+            "identityDigest": "0f01489a0ffa307688e36c0515eac199b8f77231e20db2230f76d7aab18f0bbd"
+          },
+          {
+            "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+            "testCount": 3,
+            "identityDigest": "cba314dff2accf63f70d1aaa3cc3b59f7706938d58c628806a39e709fd937715"
+          },
+          {
+            "file": "packages/game/src/present/present.test.ts",
+            "testCount": 52,
+            "identityDigest": "f4b034824e8aa3231f827cf53c0bc6e687b35e29dd473bda1a102941f8d5c646"
+          },
+          {
+            "file": "packages/game/src/present/screen-shake.test.ts",
+            "testCount": 6,
+            "identityDigest": "af7db43d48d4075af846b424197df1c5d45355f90a13a0445c18a1cab5cf839c"
+          },
+          {
+            "file": "packages/game/src/present/screen-wave.test.ts",
+            "testCount": 5,
+            "identityDigest": "7848c46807ad12cc7d2b374016f72eb559824047e8ffe214c6dcb06103813bf7"
+          },
+          {
+            "file": "packages/game/src/shell/audio-volume.test.ts",
+            "testCount": 3,
+            "identityDigest": "209f1c9e867c2d0ff8fab38d1dd11ad17ff163d3cb70e88dce199d048eab6e88"
+          },
+          {
+            "file": "packages/game/src/shell/audio.test.ts",
+            "testCount": 17,
+            "identityDigest": "6a2022411dc88c37c8633d0ea29ff06cd3e118a2ad835230ade59d3f4580b13e"
+          },
+          {
+            "file": "packages/game/src/shell/avi-player.test.ts",
+            "testCount": 12,
+            "identityDigest": "c81fb7cbeb7e6da820ce1e48328b783f63e14e7f27cc7ec29d5facd1b1bd137b"
+          },
+          {
+            "file": "packages/game/src/shell/boot-loading.test.ts",
+            "testCount": 9,
+            "identityDigest": "45a6d2b7522819144484d8e0a8dca46fc6b8485b98cd629cea68ba63d95dfd3b"
+          },
+          {
+            "file": "packages/game/src/shell/bootstrap-audio.test.ts",
+            "testCount": 1,
+            "identityDigest": "0faf6814b4d115d1a745cf4dcfac45d0e64f118d9e776cc510ae27fabf8e1c14"
+          },
+          {
+            "file": "packages/game/src/shell/bootstrap-load.test.ts",
+            "testCount": 1,
+            "identityDigest": "e745dab0004e09b242e5e47748ecb5bf768a7f38cab36419fa4767a6a1ca8d0b"
+          },
+          {
+            "file": "packages/game/src/shell/ending-player.test.ts",
+            "testCount": 3,
+            "identityDigest": "ae59d2602e226777362c77060dae315f47a5f0b63f07155d9e76235ceea3e299"
+          },
+          {
+            "file": "packages/game/src/shell/fbp-player.test.ts",
+            "testCount": 7,
+            "identityDigest": "ffc2f88db9d9b1928a8e8b07cca092cae60a83798f5cab60067bcfa1b53ad7cf"
+          },
+          {
+            "file": "packages/game/src/shell/fetch-retry.test.ts",
+            "testCount": 5,
+            "identityDigest": "aae9e84d230bbe4e7c155693fd3374b9eef17d5da21cf2ddaaef7ec9a85b2bb5"
+          },
+          {
+            "file": "packages/game/src/shell/input.test.ts",
+            "testCount": 17,
+            "identityDigest": "147af765e11ee1f27094948ce9f737af138b7c8c22e43b6b22fe38ca0a81294b"
+          },
+          {
+            "file": "packages/game/src/shell/main-loop.test.ts",
+            "testCount": 12,
+            "identityDigest": "6195d94932ded7c9579b63de7736b09212d8eeeb3a6c71e2936ffa56a2920a13"
+          },
+          {
+            "file": "packages/game/src/shell/precache-client.test.ts",
+            "testCount": 7,
+            "identityDigest": "7ee8d8a857f2646f096fa276ef0801ed118d16d44a88c2ec77e261339fc1012a"
+          },
+          {
+            "file": "packages/game/src/shell/precache-ui.test.ts",
+            "testCount": 7,
+            "identityDigest": "4c8a642621e0bc5dc4168d39c42ccaaa893e0567b5bb2b8ce5a41b317669ae48"
+          },
+          {
+            "file": "packages/game/src/shell/rng-player.test.ts",
+            "testCount": 14,
+            "identityDigest": "aff1ae12091f952177311f741a55d3be4014c0f197051f5a172b425a677be4af"
+          },
+          {
+            "file": "packages/game/src/shell/splash-fallback.test.ts",
+            "testCount": 6,
+            "identityDigest": "e6c04c686f97ae13acd7a01054509b1f4a042801b09c293cc524f94e68c40fe1"
+          },
+          {
+            "file": "packages/game/src/shell/trademark-fallback.test.ts",
+            "testCount": 2,
+            "identityDigest": "e882d22e446ded1404bb7b1190768cb4a93f95216a53fb7537591f3ca0fdbae4"
+          },
+          {
+            "file": "packages/game/src/tools/display-scale.test.ts",
+            "testCount": 4,
+            "identityDigest": "b8b0c7b5959342e883106d52e89367519dd51f10184a78209e483335287dd726"
+          },
+          {
+            "file": "packages/game/src/tools/fps-overlay.test.ts",
+            "testCount": 6,
+            "identityDigest": "61d187d17b567029c54db69e758b241edaf36d328124db09d4350edc08c71403"
+          },
+          {
+            "file": "packages/game/src/tools/map-names.test.ts",
+            "testCount": 3,
+            "identityDigest": "b356f65606a38656168c0c634888cccc490350154e311b7d7ac6a38efe4fcf29"
+          },
+          {
+            "file": "packages/game/src/tools/minimap.test.ts",
+            "testCount": 14,
+            "identityDigest": "e3c908199ad5f9cd39355f09ebc79e126e33b721525748a9e4713fb2b8c93ec2"
+          },
+          {
+            "file": "packages/game/src/tools/quick-save.test.ts",
+            "testCount": 4,
+            "identityDigest": "f50ef6436df811bd9013ed7a255c6a6a2e93b60e235ef5a64045979ba7e2b1bf"
+          },
+          {
+            "file": "packages/game/src/tools/save-io.test.ts",
+            "testCount": 3,
+            "identityDigest": "935e323c1df8a36e42ce33f28f29b5a3a235fd6a2f6914b108f8753bbec98ef8"
+          },
+          {
+            "file": "packages/game/src/tools/speedrun/checkpoints.test.ts",
+            "testCount": 3,
+            "identityDigest": "a1908d753ad7e11f7ca63ab8229e5f48514753cced1d4e1ba2ab42a3acffcb1f"
+          },
+          {
+            "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+            "testCount": 2,
+            "identityDigest": "0b1b8923631fab68cb77cb98253394bb8026d2409deb2d99796eb4ce6c9cde14"
+          },
+          {
+            "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+            "testCount": 8,
+            "identityDigest": "3416db45cceb4691c9937bd64937cb1e6a0c011f5d427a70b62a886ddc095cf3"
+          },
+          {
+            "file": "packages/game/src/tools/speedrun/index.test.ts",
+            "testCount": 11,
+            "identityDigest": "b5a87c3d25dd58026f8cbec02cfdb5fd0d6bc676de0151d50c95655dbcba87e4"
+          },
+          {
+            "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+            "testCount": 3,
+            "identityDigest": "7cdfca8de813c0e2904e05dde0d63ba1309cdaf96b9319954e005501e4be12c1"
+          },
+          {
+            "file": "packages/game/src/tools/speedrun/snapshot.test.ts",
+            "testCount": 7,
+            "identityDigest": "e3ccdee9772d5609430dea2f99470dd276ee0e7d6d07874362969aade0762de8"
+          },
+          {
+            "file": "packages/game/src/tools/speedrun/store.test.ts",
+            "testCount": 4,
+            "identityDigest": "dafd04102bafb6253d1c1549ae5572191f3874cf3de8ed4d7cd309b81eebef77"
+          },
+          {
+            "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+            "testCount": 4,
+            "identityDigest": "8f26d761ef5f9e7fe9ec46ab1f78fdd7aab5accf2bd896a42ba3121c9327c99a"
+          },
+          {
+            "file": "packages/game/src/tools/speedrun/timer.test.ts",
+            "testCount": 14,
+            "identityDigest": "0f1dc0b224dbab97b888bc7611ffb745a70117a4a918ce98c8c95b3910045557"
+          },
+          {
+            "file": "packages/game/src/tools/toast.test.ts",
+            "testCount": 3,
+            "identityDigest": "c5baf1c8d06b37b4e4253cf9f4a665917ff0c93759b171f9fa1b789c20b8f04b"
+          },
+          {
+            "file": "packages/game/src/tools/tools-panel.test.ts",
+            "testCount": 14,
+            "identityDigest": "b7f470fb06ce2952389c25dccfb3e7a850644d7a55a187a338136b48cc2222f3"
+          }
+        ],
+        "identityDigest": "20c84cb7a9eb74d88b45b89c4a93577af0f4db12a47cf6806369bb68acbda07e",
+        "duplicateIdentityCount": 0,
+        "executionDigest": "1040d6e314a00d5a2d2fb2ef91feae51a27288de549a4e025a891302ddc2daf7"
+      },
+      "metrics": {
+        "statements": {
+          "covered": 11379,
+          "total": 15494
+        },
+        "branches": {
+          "covered": 7480,
+          "total": 11281
+        },
+        "functions": {
+          "covered": 1302,
+          "total": 1843
+        },
+        "lines": {
+          "covered": 10255,
+          "total": 13604
+        }
+      }
+    },
+    "editor": {
+      "name": "@type-pal/editor",
+      "directory": "packages/editor",
+      "include": ["src/**/*.{ts,tsx}"],
+      "exclude": [
+        "**/__tests__/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.d.ts"
+      ],
+      "sourceFileCount": 213,
+      "sourceFiles": [
+        "packages/editor/src/core/actor-dialogue-commands.ts",
+        "packages/editor/src/core/actor-references.ts",
+        "packages/editor/src/core/asset-diagnostics.ts",
+        "packages/editor/src/core/audio-preview-session.ts",
+        "packages/editor/src/core/audio-preview.ts",
+        "packages/editor/src/core/author-command-edit.ts",
+        "packages/editor/src/core/battle-data-references.ts",
+        "packages/editor/src/core/battle-sprite-import.ts",
+        "packages/editor/src/core/binary-signature.ts",
+        "packages/editor/src/core/clone.ts",
+        "packages/editor/src/core/command-catalog.ts",
+        "packages/editor/src/core/commands.ts",
+        "packages/editor/src/core/edit-session.ts",
+        "packages/editor/src/core/editor-asset-reader.ts",
+        "packages/editor/src/core/editor-asset-references.ts",
+        "packages/editor/src/core/editor-derived-contract.ts",
+        "packages/editor/src/core/editor-derived-core.ts",
+        "packages/editor/src/core/editor-derived-store.ts",
+        "packages/editor/src/core/editor-derived.worker.ts",
+        "packages/editor/src/core/editor-history-coordinator.ts",
+        "packages/editor/src/core/entity-address-references.ts",
+        "packages/editor/src/core/entity-placement.ts",
+        "packages/editor/src/core/export-zip.ts",
+        "packages/editor/src/core/file-system-access.ts",
+        "packages/editor/src/core/frame-animation-codec.ts",
+        "packages/editor/src/core/frame-animation-codec.worker.ts",
+        "packages/editor/src/core/frame-animation-draft.ts",
+        "packages/editor/src/core/frame-animation-images.ts",
+        "packages/editor/src/core/frame-animation-worker-client.ts",
+        "packages/editor/src/core/fsa-copy.ts",
+        "packages/editor/src/core/handle-store.ts",
+        "packages/editor/src/core/hit-test.ts",
+        "packages/editor/src/core/image-import.ts",
+        "packages/editor/src/core/isometric-brush.ts",
+        "packages/editor/src/core/isometric-fill.ts",
+        "packages/editor/src/core/item-alchemy.ts",
+        "packages/editor/src/core/item-authoring.ts",
+        "packages/editor/src/core/item-references.ts",
+        "packages/editor/src/core/load-play-project.ts",
+        "packages/editor/src/core/map-patch.ts",
+        "packages/editor/src/core/map-reference-facts.ts",
+        "packages/editor/src/core/map-selection.ts",
+        "packages/editor/src/core/map-transform.ts",
+        "packages/editor/src/core/open-actions.ts",
+        "packages/editor/src/core/open-local.ts",
+        "packages/editor/src/core/play-url.ts",
+        "packages/editor/src/core/play-workspace.ts",
+        "packages/editor/src/core/playback.ts",
+        "packages/editor/src/core/project-diagnostics.ts",
+        "packages/editor/src/core/project-io.ts",
+        "packages/editor/src/core/project-reference-adapters.ts",
+        "packages/editor/src/core/project-reference.ts",
+        "packages/editor/src/core/scene-script-view.ts",
+        "packages/editor/src/core/script-context.ts",
+        "packages/editor/src/core/script-edit.ts",
+        "packages/editor/src/core/script-editor-projection.ts",
+        "packages/editor/src/core/script-editor.ts",
+        "packages/editor/src/core/script-reference-catalog.ts",
+        "packages/editor/src/core/script-references.ts",
+        "packages/editor/src/core/seed-assets.ts",
+        "packages/editor/src/core/seed.ts",
+        "packages/editor/src/core/shared-script.ts",
+        "packages/editor/src/core/sprite-actions.ts",
+        "packages/editor/src/core/sprite-assets.ts",
+        "packages/editor/src/core/stamp-commands.ts",
+        "packages/editor/src/core/stamp-draft.ts",
+        "packages/editor/src/core/stamp-group-command.ts",
+        "packages/editor/src/core/stamp-group-transform.ts",
+        "packages/editor/src/core/stamp-lifecycle.ts",
+        "packages/editor/src/core/stamp-ownership.ts",
+        "packages/editor/src/core/stamp-placement-command.ts",
+        "packages/editor/src/core/stamp-placement-mutation.ts",
+        "packages/editor/src/core/stamp-placement.ts",
+        "packages/editor/src/core/stamp-template.ts",
+        "packages/editor/src/core/startup-entries.ts",
+        "packages/editor/src/core/static-image.ts",
+        "packages/editor/src/core/tileset-references.ts",
+        "packages/editor/src/core/ui-review-samples.ts",
+        "packages/editor/src/core/video-metadata.ts",
+        "packages/editor/src/core/workspace-context.ts",
+        "packages/editor/src/core/workspace-persistence.ts",
+        "packages/editor/src/core/world-sprite-behavior.ts",
+        "packages/editor/src/core/world-variable-references.ts",
+        "packages/editor/src/core/zip.ts",
+        "packages/editor/src/design-lab/DesignLab.tsx",
+        "packages/editor/src/design-lab/main.tsx",
+        "packages/editor/src/main.tsx",
+        "packages/editor/src/play.ts",
+        "packages/editor/src/ui/ActorMode.tsx",
+        "packages/editor/src/ui/AmbienceScenePreview.tsx",
+        "packages/editor/src/ui/AmbienceTab.tsx",
+        "packages/editor/src/ui/App.tsx",
+        "packages/editor/src/ui/AudioAssetWorkbench.tsx",
+        "packages/editor/src/ui/BattleFieldPicker.tsx",
+        "packages/editor/src/ui/BattleFieldTab.tsx",
+        "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+        "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+        "packages/editor/src/ui/BattleSpritePicker.tsx",
+        "packages/editor/src/ui/BattleSpriteUploader.tsx",
+        "packages/editor/src/ui/CasualtyEditor.tsx",
+        "packages/editor/src/ui/CommandForm.tsx",
+        "packages/editor/src/ui/ConnectedEditorPages.tsx",
+        "packages/editor/src/ui/CutsceneTab.tsx",
+        "packages/editor/src/ui/DataMode.tsx",
+        "packages/editor/src/ui/EditorAppHeader.tsx",
+        "packages/editor/src/ui/EditorDiagnosticsBar.tsx",
+        "packages/editor/src/ui/EffectEditorCard.tsx",
+        "packages/editor/src/ui/EnemyAnimPreview.tsx",
+        "packages/editor/src/ui/EnemyBattleSpriteThumbnail.tsx",
+        "packages/editor/src/ui/EnemyTab.tsx",
+        "packages/editor/src/ui/EnemyTeamTab.tsx",
+        "packages/editor/src/ui/EntityFacingHelp.tsx",
+        "packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+        "packages/editor/src/ui/EntityStateSelect.tsx",
+        "packages/editor/src/ui/EventLibTab.tsx",
+        "packages/editor/src/ui/FireEffectPreview.tsx",
+        "packages/editor/src/ui/FrameAnimationEditor.tsx",
+        "packages/editor/src/ui/ImageAssetPicker.tsx",
+        "packages/editor/src/ui/ImageTab.tsx",
+        "packages/editor/src/ui/IsometricEditorCanvas.tsx",
+        "packages/editor/src/ui/IsometricEditorSurface.tsx",
+        "packages/editor/src/ui/IsometricEditorToolbar.tsx",
+        "packages/editor/src/ui/IsometricViewportStatus.tsx",
+        "packages/editor/src/ui/ItemAlchemyEditors.tsx",
+        "packages/editor/src/ui/ItemAlchemyTab.tsx",
+        "packages/editor/src/ui/ItemTab.tsx",
+        "packages/editor/src/ui/ItemUseEffectEditor.tsx",
+        "packages/editor/src/ui/LayerStackControls.tsx",
+        "packages/editor/src/ui/LevelCurveEditor.tsx",
+        "packages/editor/src/ui/LevelingEditor.tsx",
+        "packages/editor/src/ui/MapContentSelectionPreview.tsx",
+        "packages/editor/src/ui/MapMode.tsx",
+        "packages/editor/src/ui/MapSelectionInspector.tsx",
+        "packages/editor/src/ui/MapStampPalette.tsx",
+        "packages/editor/src/ui/MediaAssetLifecycle.tsx",
+        "packages/editor/src/ui/ModuleNav.tsx",
+        "packages/editor/src/ui/MusicPicker.tsx",
+        "packages/editor/src/ui/MusicTab.tsx",
+        "packages/editor/src/ui/NamedIdPicker.tsx",
+        "packages/editor/src/ui/PanelResizeHandle.tsx",
+        "packages/editor/src/ui/PoisonTab.tsx",
+        "packages/editor/src/ui/PortraitEditor.tsx",
+        "packages/editor/src/ui/PreviewCanvas.tsx",
+        "packages/editor/src/ui/ProjectAudioPreviewButton.tsx",
+        "packages/editor/src/ui/ProjectPicker.tsx",
+        "packages/editor/src/ui/ProjectSaveDialog.tsx",
+        "packages/editor/src/ui/ProjectWorkbenchTab.tsx",
+        "packages/editor/src/ui/SceneCanvas.tsx",
+        "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+        "packages/editor/src/ui/ScriptBehaviorInspector.tsx",
+        "packages/editor/src/ui/ScriptDrawer.tsx",
+        "packages/editor/src/ui/ScriptEditor.tsx",
+        "packages/editor/src/ui/ScriptSceneHookInspector.tsx",
+        "packages/editor/src/ui/ScriptTree.tsx",
+        "packages/editor/src/ui/SharedScriptTab.tsx",
+        "packages/editor/src/ui/ShopTab.tsx",
+        "packages/editor/src/ui/SkillAnimationEditor.tsx",
+        "packages/editor/src/ui/SkillTab.tsx",
+        "packages/editor/src/ui/SoundPicker.tsx",
+        "packages/editor/src/ui/SoundTab.tsx",
+        "packages/editor/src/ui/SpriteActionEditor.tsx",
+        "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
+        "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+        "packages/editor/src/ui/SpriteFrames.tsx",
+        "packages/editor/src/ui/SpriteResourceViewer.tsx",
+        "packages/editor/src/ui/SpriteThumb.tsx",
+        "packages/editor/src/ui/SpriteUploadWizard.tsx",
+        "packages/editor/src/ui/StampContentEditor.tsx",
+        "packages/editor/src/ui/StampLibraryTab.tsx",
+        "packages/editor/src/ui/StampPlacementInspector.tsx",
+        "packages/editor/src/ui/StampPlacementSelectionInspector.tsx",
+        "packages/editor/src/ui/StampPreviewCanvas.tsx",
+        "packages/editor/src/ui/StampTemplateDialog.tsx",
+        "packages/editor/src/ui/SummonPreview.tsx",
+        "packages/editor/src/ui/TilePickerGrid.tsx",
+        "packages/editor/src/ui/TilesetTab.tsx",
+        "packages/editor/src/ui/TrancePreview.tsx",
+        "packages/editor/src/ui/VarsTab.tsx",
+        "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+        "packages/editor/src/ui/add-picker-option-presentation.tsx",
+        "packages/editor/src/ui/app-command-registry.ts",
+        "packages/editor/src/ui/app-layout-commands.ts",
+        "packages/editor/src/ui/battle-sprite-action-preview.ts",
+        "packages/editor/src/ui/catalog-controls-test-utils.ts",
+        "packages/editor/src/ui/catalog-workspace-test-utils.ts",
+        "packages/editor/src/ui/design-system/add-picker.tsx",
+        "packages/editor/src/ui/design-system/collection-search.ts",
+        "packages/editor/src/ui/design-system/controls.tsx",
+        "packages/editor/src/ui/design-system/floating-layer.tsx",
+        "packages/editor/src/ui/design-system/icons.tsx",
+        "packages/editor/src/ui/design-system/index.ts",
+        "packages/editor/src/ui/design-system/media.tsx",
+        "packages/editor/src/ui/design-system/multi-select.tsx",
+        "packages/editor/src/ui/design-system/navigation.tsx",
+        "packages/editor/src/ui/design-system/overlays.tsx",
+        "packages/editor/src/ui/design-system/recipes.tsx",
+        "packages/editor/src/ui/design-system/reorder.tsx",
+        "packages/editor/src/ui/design-system/virtual-list.tsx",
+        "packages/editor/src/ui/editor-navigation.ts",
+        "packages/editor/src/ui/editor-target.ts",
+        "packages/editor/src/ui/enemy-defeated-events.ts",
+        "packages/editor/src/ui/inspector-tabs-test-utils.ts",
+        "packages/editor/src/ui/isometric-map-render.ts",
+        "packages/editor/src/ui/map-selection-overlay.ts",
+        "packages/editor/src/ui/media-preview-viewport.ts",
+        "packages/editor/src/ui/object-workspace-test-utils.ts",
+        "packages/editor/src/ui/panel-layout.ts",
+        "packages/editor/src/ui/project-asset-roles.ts",
+        "packages/editor/src/ui/scene-stage.ts",
+        "packages/editor/src/ui/session-selector.ts",
+        "packages/editor/src/ui/stamp-placement-overlay.ts",
+        "packages/editor/src/ui/stamp-placement-selection-overlay.ts",
+        "packages/editor/src/ui/world-sprite-action-preview.ts"
+      ],
+      "scopeDigest": "bd41169e567a475248106fa2958ae38a1c23d5caf188439340cb0857a92f9d89",
+      "fastTests": {
+        "testCount": 1592,
+        "testFileCount": 176,
+        "files": [
+          "packages/editor/src/core/actor-commands.test.ts",
+          "packages/editor/src/core/actor-dialogue-commands.test.ts",
+          "packages/editor/src/core/actor-references.test.ts",
+          "packages/editor/src/core/asset-diagnostics.test.ts",
+          "packages/editor/src/core/asset-reference-commands.test.ts",
+          "packages/editor/src/core/audio-preview-session.test.ts",
+          "packages/editor/src/core/audio-preview.test.ts",
+          "packages/editor/src/core/author-command-edit.test.ts",
+          "packages/editor/src/core/battle-data-delete-commands.test.ts",
+          "packages/editor/src/core/battle-data-references.test.ts",
+          "packages/editor/src/core/clone.test.ts",
+          "packages/editor/src/core/commands.test.ts",
+          "packages/editor/src/core/edit-session.test.ts",
+          "packages/editor/src/core/editor-asset-reader.test.ts",
+          "packages/editor/src/core/editor-asset-references.test.ts",
+          "packages/editor/src/core/editor-derived-store.test.ts",
+          "packages/editor/src/core/editor-history-coordinator.test.ts",
+          "packages/editor/src/core/enemy-team-references.test.ts",
+          "packages/editor/src/core/entity-address-references.test.ts",
+          "packages/editor/src/core/file-system-access.test.ts",
+          "packages/editor/src/core/frame-animation-codec.test.ts",
+          "packages/editor/src/core/frame-animation-draft.test.ts",
+          "packages/editor/src/core/frame-animation-images.test.ts",
+          "packages/editor/src/core/fsa-copy.test.ts",
+          "packages/editor/src/core/handle-store.test.ts",
+          "packages/editor/src/core/hit-test.test.ts",
+          "packages/editor/src/core/image-import.test.ts",
+          "packages/editor/src/core/isometric-brush.test.ts",
+          "packages/editor/src/core/isometric-fill.test.ts",
+          "packages/editor/src/core/item-alchemy.test.ts",
+          "packages/editor/src/core/item-authoring.test.ts",
+          "packages/editor/src/core/item-commands.test.ts",
+          "packages/editor/src/core/item-references.test.ts",
+          "packages/editor/src/core/load-play-project.test.ts",
+          "packages/editor/src/core/map-patch.test.ts",
+          "packages/editor/src/core/map-selection.test.ts",
+          "packages/editor/src/core/map-transform.test.ts",
+          "packages/editor/src/core/open-actions.test.ts",
+          "packages/editor/src/core/open-local.test.ts",
+          "packages/editor/src/core/play-url.test.ts",
+          "packages/editor/src/core/play-workspace.test.ts",
+          "packages/editor/src/core/playback.test.ts",
+          "packages/editor/src/core/project-diagnostics.test.ts",
+          "packages/editor/src/core/project-io.test.ts",
+          "packages/editor/src/core/project-reference-adapters.test.ts",
+          "packages/editor/src/core/project-reference.test.ts",
+          "packages/editor/src/core/scene-lifecycle.test.ts",
+          "packages/editor/src/core/scene-script-view.test.ts",
+          "packages/editor/src/core/script-context.test.ts",
+          "packages/editor/src/core/script-edit.test.ts",
+          "packages/editor/src/core/script-editor-projection.test.ts",
+          "packages/editor/src/core/script-editor.test.ts",
+          "packages/editor/src/core/script-reference-catalog.test.ts",
+          "packages/editor/src/core/script-references.test.ts",
+          "packages/editor/src/core/seed.test.ts",
+          "packages/editor/src/core/shared-script.test.ts",
+          "packages/editor/src/core/shop-lifecycle.test.ts",
+          "packages/editor/src/core/sprite-actions.test.ts",
+          "packages/editor/src/core/sprite-reference-commands.test.ts",
+          "packages/editor/src/core/stamp-commands.test.ts",
+          "packages/editor/src/core/stamp-draft.test.ts",
+          "packages/editor/src/core/stamp-group-command.test.ts",
+          "packages/editor/src/core/stamp-group-transform.test.ts",
+          "packages/editor/src/core/stamp-lifecycle.test.ts",
+          "packages/editor/src/core/stamp-ownership.test.ts",
+          "packages/editor/src/core/stamp-placement-command.test.ts",
+          "packages/editor/src/core/stamp-placement-mutation.test.ts",
+          "packages/editor/src/core/stamp-placement.test.ts",
+          "packages/editor/src/core/stamp-template.test.ts",
+          "packages/editor/src/core/tileset-lifecycle.test.ts",
+          "packages/editor/src/core/tileset-references.test.ts",
+          "packages/editor/src/core/ui-review-samples.test.ts",
+          "packages/editor/src/core/video-metadata.test.ts",
+          "packages/editor/src/core/workspace-persistence.test.ts",
+          "packages/editor/src/core/world-sprite-behavior.test.ts",
+          "packages/editor/src/core/world-variable-commands.test.ts",
+          "packages/editor/src/core/world-variable-references.test.ts",
+          "packages/editor/src/core/zip.test.ts",
+          "packages/editor/src/ui/ActorMode.test.tsx",
+          "packages/editor/src/ui/AmbienceScenePreview.test.tsx",
+          "packages/editor/src/ui/AmbienceTab.test.tsx",
+          "packages/editor/src/ui/App.reference-navigation.test.tsx",
+          "packages/editor/src/ui/AssetInspectorTabs.test.tsx",
+          "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+          "packages/editor/src/ui/BattleFieldTab.test.tsx",
+          "packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+          "packages/editor/src/ui/BattleSpritePicker.test.tsx",
+          "packages/editor/src/ui/CasualtyEditor.test.tsx",
+          "packages/editor/src/ui/CommandForm.current-characterization.test.tsx",
+          "packages/editor/src/ui/CommandForm.test.ts",
+          "packages/editor/src/ui/ConnectedEditorPages.test.tsx",
+          "packages/editor/src/ui/CutsceneTab.test.tsx",
+          "packages/editor/src/ui/DataMode.item-alchemy.test.tsx",
+          "packages/editor/src/ui/EffectEditorCard.test.tsx",
+          "packages/editor/src/ui/EnemyAnimPreview.test.tsx",
+          "packages/editor/src/ui/EnemyBattleSpriteThumbnail.test.tsx",
+          "packages/editor/src/ui/EnemyTab.test.tsx",
+          "packages/editor/src/ui/EnemyTeamTab.test.tsx",
+          "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+          "packages/editor/src/ui/EventLibTab.test.tsx",
+          "packages/editor/src/ui/FrameAnimationEditor.reorder.test.tsx",
+          "packages/editor/src/ui/FrameAnimationEditor.test.ts",
+          "packages/editor/src/ui/ImageTab.test.tsx",
+          "packages/editor/src/ui/IsometricEditorToolbar.test.tsx",
+          "packages/editor/src/ui/ItemAlchemyTab.test.tsx",
+          "packages/editor/src/ui/ItemTab.test.tsx",
+          "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
+          "packages/editor/src/ui/LayerStackControls.test.tsx",
+          "packages/editor/src/ui/LevelCurveEditor.test.ts",
+          "packages/editor/src/ui/LevelCurveEditor.ui.test.tsx",
+          "packages/editor/src/ui/LevelingEditor.test.tsx",
+          "packages/editor/src/ui/MapContentSelectionPreview.test.tsx",
+          "packages/editor/src/ui/MapMode.test.tsx",
+          "packages/editor/src/ui/MapSelectionInspector.test.tsx",
+          "packages/editor/src/ui/MapStampPalette.test.tsx",
+          "packages/editor/src/ui/MediaAssetLifecycle.test.tsx",
+          "packages/editor/src/ui/MusicPicker.test.tsx",
+          "packages/editor/src/ui/MusicTab.test.tsx",
+          "packages/editor/src/ui/NamedIdPicker.test.tsx",
+          "packages/editor/src/ui/PanelResizeHandle.test.ts",
+          "packages/editor/src/ui/PoisonTab.test.tsx",
+          "packages/editor/src/ui/PortraitEditor.test.tsx",
+          "packages/editor/src/ui/PreviewCanvas.test.tsx",
+          "packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx",
+          "packages/editor/src/ui/ProjectSaveDialog.test.tsx",
+          "packages/editor/src/ui/ProjectWorkbenchTab.test.tsx",
+          "packages/editor/src/ui/SceneCanvas.test.tsx",
+          "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
+          "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
+          "packages/editor/src/ui/ScriptDrawer.test.tsx",
+          "packages/editor/src/ui/ScriptEditor.test.tsx",
+          "packages/editor/src/ui/ScriptSceneHookInspector.test.tsx",
+          "packages/editor/src/ui/ScriptTree.test.ts",
+          "packages/editor/src/ui/SharedScriptTab.test.tsx",
+          "packages/editor/src/ui/ShopTab.test.tsx",
+          "packages/editor/src/ui/SkillTab.test.tsx",
+          "packages/editor/src/ui/SoundPicker.test.ts",
+          "packages/editor/src/ui/SoundTab.test.ts",
+          "packages/editor/src/ui/SpriteActionEditor.test.tsx",
+          "packages/editor/src/ui/SpriteActionEditorDialog.test.tsx",
+          "packages/editor/src/ui/SpriteFrameDeletion.test.ts",
+          "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+          "packages/editor/src/ui/SpriteFrames.test.tsx",
+          "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+          "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
+          "packages/editor/src/ui/StampLibraryTab.test.tsx",
+          "packages/editor/src/ui/StampPlacementInspector.test.tsx",
+          "packages/editor/src/ui/StampPreviewCanvas.test.tsx",
+          "packages/editor/src/ui/StampTemplateDialog.test.tsx",
+          "packages/editor/src/ui/TilesetTab.test.tsx",
+          "packages/editor/src/ui/VarsTab.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+          "packages/editor/src/ui/app-command-registry.test.ts",
+          "packages/editor/src/ui/app-layout-commands.test.ts",
+          "packages/editor/src/ui/design-system/add-picker.test.tsx",
+          "packages/editor/src/ui/design-system/controls.test.tsx",
+          "packages/editor/src/ui/design-system/floating-layer.test.tsx",
+          "packages/editor/src/ui/design-system/media.test.tsx",
+          "packages/editor/src/ui/design-system/overflow-text.test.tsx",
+          "packages/editor/src/ui/design-system/overlays.test.tsx",
+          "packages/editor/src/ui/design-system/recipes.test.tsx",
+          "packages/editor/src/ui/design-system/reorder.test.tsx",
+          "packages/editor/src/ui/design-system/virtual-list.test.tsx",
+          "packages/editor/src/ui/editor-navigation.test.ts",
+          "packages/editor/src/ui/editor-target.test.ts",
+          "packages/editor/src/ui/enemy-defeated-events-boundary.test.mjs",
+          "packages/editor/src/ui/enemy-defeated-events.test.ts",
+          "packages/editor/src/ui/map-selection-overlay.test.ts",
+          "packages/editor/src/ui/panel-layout.test.ts",
+          "packages/editor/src/ui/project-asset-roles.test.ts",
+          "packages/editor/src/ui/project-role-groups.test.ts",
+          "packages/editor/src/ui/scene-stage.test.tsx",
+          "packages/editor/src/ui/session-selector.test.tsx",
+          "packages/editor/src/ui/stamp-placement-overlay.test.ts",
+          "packages/editor/src/ui/stamp-placement-selection-overlay.test.ts"
+        ],
+        "fileEntries": [
+          {
+            "file": "packages/editor/src/core/actor-commands.test.ts",
+            "testCount": 13,
+            "identityDigest": "81300f179a9c68cb9dc3dbd8642926e30746685f0c77ad7f0da3e1ba66eab377"
+          },
+          {
+            "file": "packages/editor/src/core/actor-dialogue-commands.test.ts",
+            "testCount": 3,
+            "identityDigest": "6ae4933ddfe8f3d894e548e02e90fbd9392ba7ec97247a1f20a5676605287abb"
+          },
+          {
+            "file": "packages/editor/src/core/actor-references.test.ts",
+            "testCount": 5,
+            "identityDigest": "045fe5d27c3b87dce535b59c7bd5a9dcbc36a9472764bc1d45e4719a5b39ccfc"
+          },
+          {
+            "file": "packages/editor/src/core/asset-diagnostics.test.ts",
+            "testCount": 4,
+            "identityDigest": "ddb34efb205452f5cb5083f99c3e630b10d725c06ee7ccbcbe191c58e597e9ae"
+          },
+          {
+            "file": "packages/editor/src/core/asset-reference-commands.test.ts",
+            "testCount": 2,
+            "identityDigest": "65f1d81b80793e03f6a41cd00eba38810edf4911c47a755420ff62c52c0fff3c"
+          },
+          {
+            "file": "packages/editor/src/core/audio-preview-session.test.ts",
+            "testCount": 1,
+            "identityDigest": "c1222de9f846cfcab328beac04467225c2cc65d87126321d820403129ea0eab1"
+          },
+          {
+            "file": "packages/editor/src/core/audio-preview.test.ts",
+            "testCount": 7,
+            "identityDigest": "4e9c85c0fd0cc8c4c073cc6e1eb20123121c4472ef0238846326250a80446f11"
+          },
+          {
+            "file": "packages/editor/src/core/author-command-edit.test.ts",
+            "testCount": 11,
+            "identityDigest": "30084642e763487fa2f0f02c1106481936382bd7425dfca06b9daa1ebce45f95"
+          },
+          {
+            "file": "packages/editor/src/core/battle-data-delete-commands.test.ts",
+            "testCount": 6,
+            "identityDigest": "17d681e47a9fc9f8ea7bdeda04124f823a995d750a286cf36f6b87afdbbbd452"
+          },
+          {
+            "file": "packages/editor/src/core/battle-data-references.test.ts",
+            "testCount": 4,
+            "identityDigest": "f4848c64092e27a68c3731ed5add45cee2e9360326d6dfc8de69cd2914c03a09"
+          },
+          {
+            "file": "packages/editor/src/core/clone.test.ts",
+            "testCount": 4,
+            "identityDigest": "6017989bf69eb048719cc25c7bf23f74c4c18f9cc9c764ad8368fcdeee9926f0"
+          },
+          {
+            "file": "packages/editor/src/core/commands.test.ts",
+            "testCount": 114,
+            "identityDigest": "ee1a57f14690de5db0c43c6fc36fde974e6e360dae51f7e363e7722341048a55"
+          },
+          {
+            "file": "packages/editor/src/core/edit-session.test.ts",
+            "testCount": 20,
+            "identityDigest": "652f2127e285c07d2363365a64a2292eeaf7e5e8ee17b736b325a73aa8690284"
+          },
+          {
+            "file": "packages/editor/src/core/editor-asset-reader.test.ts",
+            "testCount": 1,
+            "identityDigest": "c85ff611f0688d32fa6a84c42a72e2e0013f8cbb8098f1d7edaeaec81c0d2319"
+          },
+          {
+            "file": "packages/editor/src/core/editor-asset-references.test.ts",
+            "testCount": 3,
+            "identityDigest": "f155e444e5eb8ba4966e693d58b4e91342f9be64865971c54aa6e29eb2463db4"
+          },
+          {
+            "file": "packages/editor/src/core/editor-derived-store.test.ts",
+            "testCount": 22,
+            "identityDigest": "1251c4058d01a6646359f14c4a6dd0aade2a7268ef0c29add569175563178ee6"
+          },
+          {
+            "file": "packages/editor/src/core/editor-history-coordinator.test.ts",
+            "testCount": 4,
+            "identityDigest": "1539bb7e6f7d2e9e8f023c286666a28091a74b2e18f2e7cee6cc7b0f9fbb4fa9"
+          },
+          {
+            "file": "packages/editor/src/core/enemy-team-references.test.ts",
+            "testCount": 4,
+            "identityDigest": "5b502643c3680f8fb03d2ceee8c7f1ffc6c307c718233ffc60340e20df64fbf3"
+          },
+          {
+            "file": "packages/editor/src/core/entity-address-references.test.ts",
+            "testCount": 5,
+            "identityDigest": "e5ca3f5b8866f5abddaedc92ce584a48ec50e0c6238830c425dadf190e08c198"
+          },
+          {
+            "file": "packages/editor/src/core/file-system-access.test.ts",
+            "testCount": 3,
+            "identityDigest": "0b2a88d59ec92a3feb01ea2a3da487ee7864aafcebebd63ba434067fdcdbcaf6"
+          },
+          {
+            "file": "packages/editor/src/core/frame-animation-codec.test.ts",
+            "testCount": 2,
+            "identityDigest": "a8829bf0066118a5d7a142863fe6f716fd59106c0ad45a1e58d081b026196e65"
+          },
+          {
+            "file": "packages/editor/src/core/frame-animation-draft.test.ts",
+            "testCount": 5,
+            "identityDigest": "7ac69ed9750bed5018fb2f37c9500b595915a3c86e49110400b4e38a781dc9bc"
+          },
+          {
+            "file": "packages/editor/src/core/frame-animation-images.test.ts",
+            "testCount": 1,
+            "identityDigest": "bd8fa1fea0877c5e8b371aff8ae1cb9cf7a8109c73004e4d220c2b7d93bfba06"
+          },
+          {
+            "file": "packages/editor/src/core/fsa-copy.test.ts",
+            "testCount": 6,
+            "identityDigest": "1d46961e6d81558fe661f25bc0ab3291284705847109d70f0269616954299a7d"
+          },
+          {
+            "file": "packages/editor/src/core/handle-store.test.ts",
+            "testCount": 7,
+            "identityDigest": "caec1ed5b8ddd277e5890e37f016d468e30ab5399a0e845bde56488f1cb4dba6"
+          },
+          {
+            "file": "packages/editor/src/core/hit-test.test.ts",
+            "testCount": 3,
+            "identityDigest": "71048c8efc93bcd662717a2df008765af4698412b3e115e118432ef33fed7ecc"
+          },
+          {
+            "file": "packages/editor/src/core/image-import.test.ts",
+            "testCount": 2,
+            "identityDigest": "48266a01441f0cdbb41803fc38735ab29afe7915d99ff3aaea064f9f3d910c24"
+          },
+          {
+            "file": "packages/editor/src/core/isometric-brush.test.ts",
+            "testCount": 4,
+            "identityDigest": "e9f6bfd3881896deebba6a413ed6449ea6e1bd87e874fa58f05d6c06dfa3eca2"
+          },
+          {
+            "file": "packages/editor/src/core/isometric-fill.test.ts",
+            "testCount": 2,
+            "identityDigest": "e82e2536fab14633fda5509eec313848cd02be206d910566ba5e5db16aac4a8a"
+          },
+          {
+            "file": "packages/editor/src/core/item-alchemy.test.ts",
+            "testCount": 4,
+            "identityDigest": "8cb280fdd5a72f721074eee79d80fb37a9c2668e9773bc30246fd1a9f739f405"
+          },
+          {
+            "file": "packages/editor/src/core/item-authoring.test.ts",
+            "testCount": 2,
+            "identityDigest": "30f6d59afbce7b3847054e06ec2af680b5e9ec052cd4c22217550143bc992946"
+          },
+          {
+            "file": "packages/editor/src/core/item-commands.test.ts",
+            "testCount": 12,
+            "identityDigest": "ff8f4bb4c11611dbb6a60f456a91d3d91357ebd64a82e7a5c536376e1b82e1ea"
+          },
+          {
+            "file": "packages/editor/src/core/item-references.test.ts",
+            "testCount": 38,
+            "identityDigest": "65045914825b2d44c6ef25b1e51106808c0cc6aec3f394a163440d5a903f409e"
+          },
+          {
+            "file": "packages/editor/src/core/load-play-project.test.ts",
+            "testCount": 2,
+            "identityDigest": "f1489032897ef3bfa34a5677b2bad7aa8ead369ac580df663e295a961d479415"
+          },
+          {
+            "file": "packages/editor/src/core/map-patch.test.ts",
+            "testCount": 14,
+            "identityDigest": "b39296509e3ed3f5786637c93ba3b0cc5216b29316673618edd4cdeab968ee96"
+          },
+          {
+            "file": "packages/editor/src/core/map-selection.test.ts",
+            "testCount": 15,
+            "identityDigest": "b2904dbce4ea9305c2b58ca1b3e1bf2e10145402df243a139b0c61ca21be0060"
+          },
+          {
+            "file": "packages/editor/src/core/map-transform.test.ts",
+            "testCount": 20,
+            "identityDigest": "fe6df193ccbcbad12265dd1d424cd355fbf0162df291ecf5f12da26aa8acc9a2"
+          },
+          {
+            "file": "packages/editor/src/core/open-actions.test.ts",
+            "testCount": 11,
+            "identityDigest": "c8f1af2b85f9f30510678a2cfa72a4cd927bc0d7c2b513fceff8c95249a868c1"
+          },
+          {
+            "file": "packages/editor/src/core/open-local.test.ts",
+            "testCount": 4,
+            "identityDigest": "1d69ccf676ab7361728979b134cf9d67350ca9dea634dbf01e0ddc71922fb935"
+          },
+          {
+            "file": "packages/editor/src/core/play-url.test.ts",
+            "testCount": 1,
+            "identityDigest": "6f586d40ea15bf2adbf3561d02cad81bea9014628d23c142ba15faeb7f62a18f"
+          },
+          {
+            "file": "packages/editor/src/core/play-workspace.test.ts",
+            "testCount": 3,
+            "identityDigest": "11163be786462aa4f39eb756d15def5b35951423d0fadb45a270ccfd22f023eb"
+          },
+          {
+            "file": "packages/editor/src/core/playback.test.ts",
+            "testCount": 11,
+            "identityDigest": "826bfc774f258d51128dd787193365a29864ea8725042a708442c69e6c95dc85"
+          },
+          {
+            "file": "packages/editor/src/core/project-diagnostics.test.ts",
+            "testCount": 24,
+            "identityDigest": "77fdc4a1710d364d161b43f2c684ee7802453946c3f744ab38bf0077667fb74e"
+          },
+          {
+            "file": "packages/editor/src/core/project-io.test.ts",
+            "testCount": 5,
+            "identityDigest": "cfca2477f01bfb375b2b9b5a5c8ab49ecf9a185f0af5276736274d2a46130e64"
+          },
+          {
+            "file": "packages/editor/src/core/project-reference-adapters.test.ts",
+            "testCount": 22,
+            "identityDigest": "d425ebb9615c09f3fe70adec9d944a0ef571e391149e6b2e09f807277ec34e51"
+          },
+          {
+            "file": "packages/editor/src/core/project-reference.test.ts",
+            "testCount": 10,
+            "identityDigest": "0c057aedaf5782a1c4b27cb228e7ed45d5d578848810c59486814b5b066d6d8a"
+          },
+          {
+            "file": "packages/editor/src/core/scene-lifecycle.test.ts",
+            "testCount": 5,
+            "identityDigest": "03f52443f9c85c5d64631fc266ffb9f12be5b83c687e334f44e470df987ce85b"
+          },
+          {
+            "file": "packages/editor/src/core/scene-script-view.test.ts",
+            "testCount": 4,
+            "identityDigest": "53e8e98c350a12339d12190574c4be6cfdfebc90fe8ef80ec124d41c01572213"
+          },
+          {
+            "file": "packages/editor/src/core/script-context.test.ts",
+            "testCount": 2,
+            "identityDigest": "a7b0ffd0d03952b8c61e99656f668d9066f1e4308be894421313369f6eeda17c"
+          },
+          {
+            "file": "packages/editor/src/core/script-edit.test.ts",
+            "testCount": 14,
+            "identityDigest": "8f2ec4631772115c2d79a3935786420ef5bd6c3ea38f52cb52b640a4e73a1966"
+          },
+          {
+            "file": "packages/editor/src/core/script-editor-projection.test.ts",
+            "testCount": 4,
+            "identityDigest": "39cef21a60ca005e0b2c38858675b037fe0476fa24b0f6f861674a4c8d1a487b"
+          },
+          {
+            "file": "packages/editor/src/core/script-editor.test.ts",
+            "testCount": 27,
+            "identityDigest": "0994f7f2905c5cb255f73c9db4bb71d681838f6b7dec4f61b5225b6a3631acbf"
+          },
+          {
+            "file": "packages/editor/src/core/script-reference-catalog.test.ts",
+            "testCount": 3,
+            "identityDigest": "0a25f6fa475b92b48ccb1e65d7a6e4cc374b8d4553d24754d5b532a1a459a044"
+          },
+          {
+            "file": "packages/editor/src/core/script-references.test.ts",
+            "testCount": 6,
+            "identityDigest": "91022b29b82df7078c137872c4241f7cfd6b72b3505588cc7a9166468db01cda"
+          },
+          {
+            "file": "packages/editor/src/core/seed.test.ts",
+            "testCount": 9,
+            "identityDigest": "367b1a477246bf62e27ce53363ffa42747ed7b74ab62926f0ee18578959a4108"
+          },
+          {
+            "file": "packages/editor/src/core/shared-script.test.ts",
+            "testCount": 2,
+            "identityDigest": "951d411767f92da4ed33d3c179c09a9cb131bdb619d6ddab154502db67565a6b"
+          },
+          {
+            "file": "packages/editor/src/core/shop-lifecycle.test.ts",
+            "testCount": 4,
+            "identityDigest": "f5f7f9e1e91cf561a8a3c69bd6d21282eec0911c67258839e90f426b5021daf3"
+          },
+          {
+            "file": "packages/editor/src/core/sprite-actions.test.ts",
+            "testCount": 3,
+            "identityDigest": "cc6fcefe86cd0ffff1716040b0f4bc06abf3b60b9e183529ad3b92d8072970f4"
+          },
+          {
+            "file": "packages/editor/src/core/sprite-reference-commands.test.ts",
+            "testCount": 4,
+            "identityDigest": "5744142e7a61ac5e6e52224564dcda62034e133e31c34a92caf0e35dd9cfa521"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-commands.test.ts",
+            "testCount": 6,
+            "identityDigest": "66c170420dfb4446e8b8f2c81387c658b9ff8d32e2f32aed106d729c8c03f9ab"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-draft.test.ts",
+            "testCount": 7,
+            "identityDigest": "dc2254938391f75bdd98a2e3c9a23f4516acb397659185baf21ace8bb5280514"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-group-command.test.ts",
+            "testCount": 11,
+            "identityDigest": "6e394e97e84f3de053a7a1453f2200baed509bb8a1804d4bb890437031bf83ec"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-group-transform.test.ts",
+            "testCount": 8,
+            "identityDigest": "3ffa37f399e45efec8eee1ddfb39187da8f6d920201891e99e1b62ca01ad0fde"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-lifecycle.test.ts",
+            "testCount": 6,
+            "identityDigest": "86a4718e2b43af472c76a72b3a0bc99bf09c0b814d606f08272dc180e9054ee7"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-ownership.test.ts",
+            "testCount": 3,
+            "identityDigest": "99898c56accb25b5d2565d05c5cc6d77b64b68fffe2497d0f0d26285e7f8680a"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-placement-command.test.ts",
+            "testCount": 7,
+            "identityDigest": "22b1b4eb2d8f8aa44d1365783a8b1f332cd5b4059dcebfccb92b1beb62fb8114"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-placement-mutation.test.ts",
+            "testCount": 6,
+            "identityDigest": "bb7fae3b18ff98ccc25a3e17771bf959c3379cdc42cfe8031aad011f6fbe416f"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-placement.test.ts",
+            "testCount": 9,
+            "identityDigest": "991d46c1d9093a0aa019a2ad307ca112ad52bbfc48afb34bf3fcdcf64ba82740"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-template.test.ts",
+            "testCount": 3,
+            "identityDigest": "76841dd7dec52b586068ca14e73a8035f21073bd330e5eb762dbfd8401a83640"
+          },
+          {
+            "file": "packages/editor/src/core/tileset-lifecycle.test.ts",
+            "testCount": 7,
+            "identityDigest": "027760dd6995e21a14f4a3b12e325db5addfc633644925d105311094719c2b94"
+          },
+          {
+            "file": "packages/editor/src/core/tileset-references.test.ts",
+            "testCount": 9,
+            "identityDigest": "0052c42a116ae140916f9111450aa0304e6ed000dae38ef71810d80b37435e64"
+          },
+          {
+            "file": "packages/editor/src/core/ui-review-samples.test.ts",
+            "testCount": 3,
+            "identityDigest": "bc11b96bedcdc5a74cae48ee83f23b6f0e3f8eb6641109ec29b499caba7b7ad8"
+          },
+          {
+            "file": "packages/editor/src/core/video-metadata.test.ts",
+            "testCount": 1,
+            "identityDigest": "899322ec873a7778f14c01e3acb2ac0022565ca77ffa60cad38c9f28c15f1996"
+          },
+          {
+            "file": "packages/editor/src/core/workspace-persistence.test.ts",
+            "testCount": 31,
+            "identityDigest": "d369488d15845732becf96a4c78ed2499e878869ed7355e45439104c7031732b"
+          },
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.test.ts",
+            "testCount": 19,
+            "identityDigest": "c836e0cb5c171b9fcbedebbe2c8615fa209ec66a9965d23d1cdbcfa4fe0fdd5a"
+          },
+          {
+            "file": "packages/editor/src/core/world-variable-commands.test.ts",
+            "testCount": 5,
+            "identityDigest": "f440e601bf9d485de1bfc5a359d23fb1c1ff4b44bae8bccb29c7ef6910302977"
+          },
+          {
+            "file": "packages/editor/src/core/world-variable-references.test.ts",
+            "testCount": 3,
+            "identityDigest": "1dd5f1772899ad97f7741ea0e6e91b7b507edf348c3f50f493c1e71578fc4c31"
+          },
+          {
+            "file": "packages/editor/src/core/zip.test.ts",
+            "testCount": 9,
+            "identityDigest": "30643579ca422dba49d17051ccf5664db20b6fc2a747919116cb7ec682dd54f2"
+          },
+          {
+            "file": "packages/editor/src/ui/ActorMode.test.tsx",
+            "testCount": 23,
+            "identityDigest": "ca2ae0a22d61765bbb08d59bf0aa9553f8dd05dcdadfc7262dd5a198676502fb"
+          },
+          {
+            "file": "packages/editor/src/ui/AmbienceScenePreview.test.tsx",
+            "testCount": 5,
+            "identityDigest": "860facadd5de5fe684080b6552d9babab2dcf1ae6e0c4bc0b5efe25eb84d3642"
+          },
+          {
+            "file": "packages/editor/src/ui/AmbienceTab.test.tsx",
+            "testCount": 15,
+            "identityDigest": "2db9adf898ca8410b1288b20c06fc8ebb0ce5c6abaaa05ef2c8b2db3c431d8e7"
+          },
+          {
+            "file": "packages/editor/src/ui/App.reference-navigation.test.tsx",
+            "testCount": 36,
+            "identityDigest": "1b21f9eb8893e601a0881577e8d2a73b56be4aaf2608fc48e90f025905e99801"
+          },
+          {
+            "file": "packages/editor/src/ui/AssetInspectorTabs.test.tsx",
+            "testCount": 6,
+            "identityDigest": "1f23973746015d9d33186c7ca56ec0edc7d02fdb3fb0c307b7a0c8fa592027cb"
+          },
+          {
+            "file": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
+            "testCount": 3,
+            "identityDigest": "cd16a7d2b9c79f4b4af4b627ad5fec5c42dc78bd98cf93bc572ea1a0b9d2a077"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleFieldTab.test.tsx",
+            "testCount": 12,
+            "identityDigest": "81b5df06f4093cdda64831f89bc1cad63d6526bbcbac157ef360e5f8cee7014f"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx",
+            "testCount": 2,
+            "identityDigest": "ebad4eb221f0cc6ffa18e08bd658ece71bbabc5731bdfa7434e8b22b369bf183"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+            "testCount": 19,
+            "identityDigest": "a4804c0e09fc80d1f53e18a826ddd08a682b1c1c11386f93fa21da6cc52b0b2a"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpritePicker.test.tsx",
+            "testCount": 1,
+            "identityDigest": "71f0e3ab963cdb9cb513ac13c6020153159a296dd9b31b57a718c948d4888d93"
+          },
+          {
+            "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+            "testCount": 10,
+            "identityDigest": "c94254247d42af51463688cc0cfffe9f50d1c7d19a9d5bb1bdb6783413c8c46b"
+          },
+          {
+            "file": "packages/editor/src/ui/CommandForm.current-characterization.test.tsx",
+            "testCount": 13,
+            "identityDigest": "4519326a209f9a9bab789dd16c26e16fcef4c9220bf5ac45c76ff2a3cabcc955"
+          },
+          {
+            "file": "packages/editor/src/ui/CommandForm.test.ts",
+            "testCount": 3,
+            "identityDigest": "55b40073aabf31a82f85c36a63df0f31d0ecb4f596e4a93dc7faf761f2cb9c94"
+          },
+          {
+            "file": "packages/editor/src/ui/ConnectedEditorPages.test.tsx",
+            "testCount": 1,
+            "identityDigest": "58765d4295bc2733e316ee07c6e83177e5f2352c51ea9fc32344c418e878787f"
+          },
+          {
+            "file": "packages/editor/src/ui/CutsceneTab.test.tsx",
+            "testCount": 6,
+            "identityDigest": "c5f7bb09167dfc67b59cc0d1614e2f842808a68185c56bf8f4c0108931f74f4a"
+          },
+          {
+            "file": "packages/editor/src/ui/DataMode.item-alchemy.test.tsx",
+            "testCount": 1,
+            "identityDigest": "604f2dbcd075b5b02ebf4d24e4f1bba855998bd9a5422a29620689fb83526200"
+          },
+          {
+            "file": "packages/editor/src/ui/EffectEditorCard.test.tsx",
+            "testCount": 2,
+            "identityDigest": "86ae7e3ffb5082f3744db105bb1cca863c1a100c6ee0801bb10c1ccef5255062"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyAnimPreview.test.tsx",
+            "testCount": 1,
+            "identityDigest": "3d4a6084a827ff26f8e75803340887be7b1ddf88f4f1f7bfbd62f93ca83bb170"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyBattleSpriteThumbnail.test.tsx",
+            "testCount": 5,
+            "identityDigest": "de8728c6b3ecd6bbbb49a9415689420c6f8aceada359049d63caa69e50b7d687"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTab.test.tsx",
+            "testCount": 18,
+            "identityDigest": "471d9969708b6e7acfdda7bd0fc12f62a2ce967ac71bd5026078e353039249a5"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyTeamTab.test.tsx",
+            "testCount": 13,
+            "identityDigest": "1574b7f9ff9b24ad1db61212ee96b662a3cfeaa303e16f4c3573945bb4e4c3e4"
+          },
+          {
+            "file": "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
+            "testCount": 3,
+            "identityDigest": "cd963e24db4227da93569282f2fc63aca26ba05306fcfb101ee872d17983b11f"
+          },
+          {
+            "file": "packages/editor/src/ui/EventLibTab.test.tsx",
+            "testCount": 2,
+            "identityDigest": "ede7aeeec611a2462da3baa2109a0860022dc354ab6d0a475856c2f7756810ce"
+          },
+          {
+            "file": "packages/editor/src/ui/FrameAnimationEditor.reorder.test.tsx",
+            "testCount": 3,
+            "identityDigest": "9bebc5fa7822c174a69346ec24143f93d92c451eb1885db9f6d7d8d12c40f8e2"
+          },
+          {
+            "file": "packages/editor/src/ui/FrameAnimationEditor.test.ts",
+            "testCount": 3,
+            "identityDigest": "d95a772430d3500836215af65f6e9097967bf8c9434c201e57808718925d7b9b"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.test.tsx",
+            "testCount": 4,
+            "identityDigest": "f190aa4a788b46e4269fbe14151cb85a98b55d264d61a4b9a6bdbc615f2226a1"
+          },
+          {
+            "file": "packages/editor/src/ui/IsometricEditorToolbar.test.tsx",
+            "testCount": 3,
+            "identityDigest": "87b47e439500738be5f7a96667ad51773dc74b64f60817d5667f49e6ee3541f5"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemAlchemyTab.test.tsx",
+            "testCount": 12,
+            "identityDigest": "7a2f681909726cc685a16f194f05431da6aea0fc5f817b42eda05c4b85fc4237"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemTab.test.tsx",
+            "testCount": 26,
+            "identityDigest": "57f5551e2504adf251baa56f8293363a5cf920a2d712936ad5a21ed25cbb224b"
+          },
+          {
+            "file": "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
+            "testCount": 12,
+            "identityDigest": "0ad2d4215e914349b3621033c8dad55a7fb6af903f2bfdbd99ae23e5994ddbeb"
+          },
+          {
+            "file": "packages/editor/src/ui/LayerStackControls.test.tsx",
+            "testCount": 6,
+            "identityDigest": "84eed6991c8f61e0844b4eb0896c46452bffa15ff40002624edabc3b0909c226"
+          },
+          {
+            "file": "packages/editor/src/ui/LevelCurveEditor.test.ts",
+            "testCount": 3,
+            "identityDigest": "7e776338fc11ef30d6ef75be1924f3dc3077bce836807cce6042bfed4afc4da7"
+          },
+          {
+            "file": "packages/editor/src/ui/LevelCurveEditor.ui.test.tsx",
+            "testCount": 1,
+            "identityDigest": "966d010be8b7c85e69d4d68f41dad21b041c3dc5cd6918d00d746948e3f63b6e"
+          },
+          {
+            "file": "packages/editor/src/ui/LevelingEditor.test.tsx",
+            "testCount": 3,
+            "identityDigest": "317bf53d8599d3d3bc18098d6085043bda489b372d18ab1891bea1f10b6379af"
+          },
+          {
+            "file": "packages/editor/src/ui/MapContentSelectionPreview.test.tsx",
+            "testCount": 2,
+            "identityDigest": "d44ba2b4469296a1240f7c5facbfd70ebcc2f4cbbc520c8e509391627751d5f5"
+          },
+          {
+            "file": "packages/editor/src/ui/MapMode.test.tsx",
+            "testCount": 72,
+            "identityDigest": "fb7945f520f0f17bbd46aa53b580e2bc74be47ff1ea073328c03fc2967c64598"
+          },
+          {
+            "file": "packages/editor/src/ui/MapSelectionInspector.test.tsx",
+            "testCount": 5,
+            "identityDigest": "9d5b7001000751a7bfd840965bcd18f737e28038e0d024f3ab74349d4e220b2c"
+          },
+          {
+            "file": "packages/editor/src/ui/MapStampPalette.test.tsx",
+            "testCount": 4,
+            "identityDigest": "372eab6f65bf7c7afed34f49c612a536caca6e44dd088cc84f98a4b79bfefc81"
+          },
+          {
+            "file": "packages/editor/src/ui/MediaAssetLifecycle.test.tsx",
+            "testCount": 3,
+            "identityDigest": "a558c5afd02ce6c752c068683ff298748feef829df487a3a4f740c8413ff0f85"
+          },
+          {
+            "file": "packages/editor/src/ui/MusicPicker.test.tsx",
+            "testCount": 1,
+            "identityDigest": "fe4f60606f2733363870e46ba0980f43a86c059eeac01fb05c74aee647b7e256"
+          },
+          {
+            "file": "packages/editor/src/ui/MusicTab.test.tsx",
+            "testCount": 1,
+            "identityDigest": "a65dac413a683772b73bd2991d268d874dba09f365de5cd80fce0e30fd0178bb"
+          },
+          {
+            "file": "packages/editor/src/ui/NamedIdPicker.test.tsx",
+            "testCount": 3,
+            "identityDigest": "ad7492f733296797ab5038b53e8efbaa28a854eab08a1af2354e9e2b1e27acd9"
+          },
+          {
+            "file": "packages/editor/src/ui/PanelResizeHandle.test.ts",
+            "testCount": 2,
+            "identityDigest": "a8e1184fbaa8ae65d600e6cb41b2fd87fc4088d62f099d03185d914612c61203"
+          },
+          {
+            "file": "packages/editor/src/ui/PoisonTab.test.tsx",
+            "testCount": 13,
+            "identityDigest": "2f1aac24f938291ccd13a7da2f0e7b46d5267e6a11f96d77448e8b93d3322d95"
+          },
+          {
+            "file": "packages/editor/src/ui/PortraitEditor.test.tsx",
+            "testCount": 3,
+            "identityDigest": "fbd898a83c8778724b6d723f01d7fc0978f5bfbe96e223cc7c4b6ac9ab4fde4d"
+          },
+          {
+            "file": "packages/editor/src/ui/PreviewCanvas.test.tsx",
+            "testCount": 2,
+            "identityDigest": "0f0acc1bc6543feb64276d0ab46d9e11260e19fc7bc5517485d7dc8469a6d8e2"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx",
+            "testCount": 4,
+            "identityDigest": "1b6ab70a095600931ec952778c8edd18c0829f25707c2d7562428e4154534e65"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectSaveDialog.test.tsx",
+            "testCount": 2,
+            "identityDigest": "56b9711e06879a1e76fe687fe18b82c5957e724f79b0d77f54e80ff55bb8d364"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectWorkbenchTab.test.tsx",
+            "testCount": 46,
+            "identityDigest": "a15728b2be97af060c70b2d43911a10cfe9b40d29311419bf3bb2b32a8d5a307"
+          },
+          {
+            "file": "packages/editor/src/ui/SceneCanvas.test.tsx",
+            "testCount": 2,
+            "identityDigest": "a906c57bdf093e8c5fd981f2f54e4b578e3dde1414fef6c0482d57aa6ca59bbd"
+          },
+          {
+            "file": "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
+            "testCount": 5,
+            "identityDigest": "f76f73f70e848a9bfbb97b5e7901cc72e0dcd6daf61b68f4c7abdc7e9e6e4675"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
+            "testCount": 9,
+            "identityDigest": "35527a173d5356c12b29b2e31ec29e3d505a15fdaa01ea1f632c0be55b0cc2e0"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptDrawer.test.tsx",
+            "testCount": 4,
+            "identityDigest": "31c10a2042abdb192eba0f69aa287d0767ddab5835815e2d7406d43f58bd5320"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptEditor.test.tsx",
+            "testCount": 23,
+            "identityDigest": "70ad48aa6f55f5a5aaadc5d41260c2415c8d69c50bf799daa448f0b9d0254d71"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptSceneHookInspector.test.tsx",
+            "testCount": 3,
+            "identityDigest": "02bc750c25ec4b7f666d2df5f17c84eac478f88a2ce4b5df0bea4b776ef742eb"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptTree.test.ts",
+            "testCount": 4,
+            "identityDigest": "14d88699bd404836f1fed8349548a5185b93d5ca6c7eb888b98cba6fcb2c612e"
+          },
+          {
+            "file": "packages/editor/src/ui/SharedScriptTab.test.tsx",
+            "testCount": 7,
+            "identityDigest": "53cc7f84bd5d4de345a5bbf62943ef689f8c027e114e1ee46624295db1ce0c6a"
+          },
+          {
+            "file": "packages/editor/src/ui/ShopTab.test.tsx",
+            "testCount": 10,
+            "identityDigest": "f8e1b118b90f1a454e31c05af69ecc9d029fd77c3e2501c47c0a43c52f4e0c62"
+          },
+          {
+            "file": "packages/editor/src/ui/SkillTab.test.tsx",
+            "testCount": 21,
+            "identityDigest": "e0897bec2d06c23ca96b721360a5c08e6e43681f8b3405b7cad878ccfded56e9"
+          },
+          {
+            "file": "packages/editor/src/ui/SoundPicker.test.ts",
+            "testCount": 2,
+            "identityDigest": "26e65f6ce298c05a0d6565a2ec5cb99a348560bb102b22d41bc31bbafb2f6668"
+          },
+          {
+            "file": "packages/editor/src/ui/SoundTab.test.ts",
+            "testCount": 3,
+            "identityDigest": "f04b2042099c82246fdfe154eb45844049e283d2e6dcf028d3ddcf7bb75ef260"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditor.test.tsx",
+            "testCount": 4,
+            "identityDigest": "c28b28e2e44044c7541f7bfab21bd56b637c1905eff73d554d5d6619d66dc852"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditorDialog.test.tsx",
+            "testCount": 21,
+            "identityDigest": "39cbc5f7731b827e42b6d691f7d1ec1f77bd6297c6bc4106d191b4bdd415859c"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteFrameDeletion.test.ts",
+            "testCount": 5,
+            "identityDigest": "b4d57744584a215929629b3d50f3da743a64f1f29a70ad84aba8f5b24ca737a2"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+            "testCount": 5,
+            "identityDigest": "49177b641dc9c49a056406da05910fd1199c287dca4623a251e3aa2df51e0e49"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteFrames.test.tsx",
+            "testCount": 1,
+            "identityDigest": "3feade41e5366d226ecc8374fdf510e4542aaf873ae781bd4ab39d525744d7bf"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+            "testCount": 4,
+            "identityDigest": "c0e68516b3d8a4a10a6e8bf556a85a6eb0530d4fb060a1b3c4f0557626be8e58"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
+            "testCount": 2,
+            "identityDigest": "8d9294ae6e5cf14a3a826c000c67b25f513d760e7ec7b8a0f9cdbd1d8b5a9234"
+          },
+          {
+            "file": "packages/editor/src/ui/StampLibraryTab.test.tsx",
+            "testCount": 16,
+            "identityDigest": "1852137b1923f06454693938e1de8baeb39d7c89e317ce6c08b31df3d79b945c"
+          },
+          {
+            "file": "packages/editor/src/ui/StampPlacementInspector.test.tsx",
+            "testCount": 2,
+            "identityDigest": "5a0b1ed70cacf176d276ec763655b6c549e546c3b6d44d47de18768fb501e159"
+          },
+          {
+            "file": "packages/editor/src/ui/StampPreviewCanvas.test.tsx",
+            "testCount": 2,
+            "identityDigest": "d2042b253508d3e7ef056ba41efdda2a4ca41e57537618c3fa98fb75a359247e"
+          },
+          {
+            "file": "packages/editor/src/ui/StampTemplateDialog.test.tsx",
+            "testCount": 6,
+            "identityDigest": "6225c80a52fa0e4a5f93bf054b9c7561d6e8b347b222462c34a0b1b86f11bbdd"
+          },
+          {
+            "file": "packages/editor/src/ui/TilesetTab.test.tsx",
+            "testCount": 9,
+            "identityDigest": "65dfbedfe8c49d08ccb825e84c5ef800b29401893fa53c54b52dd85d897013eb"
+          },
+          {
+            "file": "packages/editor/src/ui/VarsTab.test.tsx",
+            "testCount": 7,
+            "identityDigest": "a591b1c622ac3397de78c23fa3fa1b655a223e121811ac19656ce0a6a09d435d"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+            "testCount": 28,
+            "identityDigest": "63afd84c0903cfa3e6f9a6331d0a90c4c317a66a2c531619f7b3a2f580a817d6"
+          },
+          {
+            "file": "packages/editor/src/ui/app-command-registry.test.ts",
+            "testCount": 4,
+            "identityDigest": "f527e8e6ef46dc4e700645636f0b7e0d4dbcb00bba88aec96b7f664b51a7fad2"
+          },
+          {
+            "file": "packages/editor/src/ui/app-layout-commands.test.ts",
+            "testCount": 7,
+            "identityDigest": "cb47f59abe837a0147bc6afc1cbcacdc0e61c5fa494ae7d484432ba3b1902b5e"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/add-picker.test.tsx",
+            "testCount": 25,
+            "identityDigest": "97b53c2875e201c1702e395c21179e599bb3df36695aa8e14f32d745a63eb592"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/controls.test.tsx",
+            "testCount": 41,
+            "identityDigest": "1467510f54c7513708dd66e3c8aab34e91ffc28c69ef8a968259814bd02b365d"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/floating-layer.test.tsx",
+            "testCount": 6,
+            "identityDigest": "5f348f479b691c05994ef593a2be4243d87f779455e21e4047b6ac72eb4f48e9"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/media.test.tsx",
+            "testCount": 2,
+            "identityDigest": "0a2b46819c5a6d6c5a6cb5d97f7bf0bf3a9fd3655d0e71f5cb840878556bd932"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/overflow-text.test.tsx",
+            "testCount": 6,
+            "identityDigest": "8e8373ac698a4c3bf456f5ddf204fd8a74709c4f5becb0488d67803c5dd4bec5"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/overlays.test.tsx",
+            "testCount": 6,
+            "identityDigest": "c890834f60a829adbbe6b074d4bcfe39308563ebd7c87873fedc362c36a5ca0f"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/recipes.test.tsx",
+            "testCount": 33,
+            "identityDigest": "981a3cd381a5935d2f3a2edf2b3547fa7734382ecf07cac1c6c6e0a0bf094cb2"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/reorder.test.tsx",
+            "testCount": 23,
+            "identityDigest": "659afc9ebb5e95732bc9446d686b5608e9f0bc93721a2e27c4a77ff3faedcbfd"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/virtual-list.test.tsx",
+            "testCount": 11,
+            "identityDigest": "682af94c6f8cd0ceaa91ec3cd81cb3d550c40f63cb3732780cda93f9d0a2c7e1"
+          },
+          {
+            "file": "packages/editor/src/ui/editor-navigation.test.ts",
+            "testCount": 17,
+            "identityDigest": "5a53365382e0510683193d6b075e89b3491d907954e12a68b37b33708c1dc951"
+          },
+          {
+            "file": "packages/editor/src/ui/editor-target.test.ts",
+            "testCount": 10,
+            "identityDigest": "514ad00017ad34a1933e0185114efb668686c2e16de361d560dfe62f6245096c"
+          },
+          {
+            "file": "packages/editor/src/ui/enemy-defeated-events-boundary.test.mjs",
+            "testCount": 1,
+            "identityDigest": "60b6df794f457d1e43740ac5d95a6e53b5e961a3757019a4f5ae7db18b59976e"
+          },
+          {
+            "file": "packages/editor/src/ui/enemy-defeated-events.test.ts",
+            "testCount": 22,
+            "identityDigest": "4c4fd0d9fd7cf134b9e718f9f5522ff33e7a932a09be73bd92e3b248833f1ee7"
+          },
+          {
+            "file": "packages/editor/src/ui/map-selection-overlay.test.ts",
+            "testCount": 3,
+            "identityDigest": "f2758d54ab9a1d1cf156afc1aed017c8e59ef6362593085ae9f3b4b8efbaf13d"
+          },
+          {
+            "file": "packages/editor/src/ui/panel-layout.test.ts",
+            "testCount": 5,
+            "identityDigest": "a504d4035e5dc0d74a82ec4cfd3c74d85d33ec3c331a5d2f7d814f2066d95473"
+          },
+          {
+            "file": "packages/editor/src/ui/project-asset-roles.test.ts",
+            "testCount": 2,
+            "identityDigest": "340a87077b8a59098c40bd4693221d2c358cc7ae5a324e13781ebc7b23b9039b"
+          },
+          {
+            "file": "packages/editor/src/ui/project-role-groups.test.ts",
+            "testCount": 1,
+            "identityDigest": "e9d94e5bd1c1839511eb03ba745bda72b10f3e1410a39a6805f86f8d7fe8efca"
+          },
+          {
+            "file": "packages/editor/src/ui/scene-stage.test.tsx",
+            "testCount": 8,
+            "identityDigest": "98864e1b6698c63b9f485e58276942ed62367fcd9998c4e845e15c9d4848c992"
+          },
+          {
+            "file": "packages/editor/src/ui/session-selector.test.tsx",
+            "testCount": 5,
+            "identityDigest": "a30da1123fae63cd4027bfd6d431f313bcd9268ddc44feeded427dabad3f7e18"
+          },
+          {
+            "file": "packages/editor/src/ui/stamp-placement-overlay.test.ts",
+            "testCount": 2,
+            "identityDigest": "7434c1ae5d7c187c075ed73f956ddcc42e44c75186fb5fadb36b01c729e15382"
+          },
+          {
+            "file": "packages/editor/src/ui/stamp-placement-selection-overlay.test.ts",
+            "testCount": 2,
+            "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
+          }
+        ],
+        "identityDigest": "34daf012a742fb9c6b920f9c0801ca40c987c248cceb488e91a22fdadb383250",
+        "duplicateIdentityCount": 6,
+        "executionDigest": "02dbc9ec9550a73755773ad3144af052a791f691dfa54f250b059ca303623a7f"
+      },
+      "metrics": {
+        "statements": {
+          "covered": 23453,
+          "total": 31405
+        },
+        "branches": {
+          "covered": 18168,
+          "total": 27331
+        },
+        "functions": {
+          "covered": 5907,
+          "total": 8030
+        },
+        "lines": {
+          "covered": 21200,
+          "total": 27414
+        }
+      }
+    }
+  },
+  "total": {
+    "statements": {
+      "covered": 52064,
+      "total": 78178
+    },
+    "branches": {
+      "covered": 37325,
+      "total": 61580
+    },
+    "functions": {
+      "covered": 9859,
+      "total": 14375
+    },
+    "lines": {
+      "covered": 47075,
+      "total": 68391
+    }
+  }
+}

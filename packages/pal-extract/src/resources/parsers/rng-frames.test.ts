@@ -132,16 +132,20 @@ describe.skipIf(!existsSync(RNG_PATH))(
       expect(set.size).toBeGreaterThan(1) // 至少 2 种不同 PNG size(说明帧内容不同)
     })
 
-    it('全 12 chunk 都能解(0 frame chunk 容忍)', () => {
-      const rngMkf = openMkf(rngBuf)
-      const total = chunkCount(rngMkf)
-      let totalFrames = 0
-      for (let i = 0; i < total; i++) {
-        const chunk = readChunk(rngMkf, i)
-        const result = decodeRngAnim(i, chunk)
-        totalFrames += result.frameCount
-      }
-      expect(totalFrames).toBeGreaterThan(0)
-    }, 30_000) // PNG 编码累积慢,给 30s
+    it(
+      '全 12 chunk 都能解(0 frame chunk 容忍)',
+      () => {
+        const rngMkf = openMkf(rngBuf)
+        const total = chunkCount(rngMkf)
+        let totalFrames = 0
+        for (let i = 0; i < total; i++) {
+          const chunk = readChunk(rngMkf, i)
+          const result = decodeRngAnim(i, chunk)
+          totalFrames += result.frameCount
+        }
+        expect(totalFrames).toBeGreaterThan(0)
+      },
+      process.env.TYPE_PAL_COVERAGE === '1' ? 90_000 : 30_000,
+    ) // V8 插桩下仍跑真 12 chunk，只放宽时间预算。
   },
 )
