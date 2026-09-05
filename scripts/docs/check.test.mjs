@@ -3,6 +3,7 @@ import { test } from 'node:test'
 import {
   auditDocuments,
   checkCurrentSection,
+  checkoutTargets,
   localTarget,
   renderTaskIndex,
   taskInfo,
@@ -251,4 +252,21 @@ test('rejecting an old content version is not a declaration of the current versi
     ).join('\n'),
     /不一致/,
   )
+})
+
+test('a local OS metadata file cannot make a non-checkout document link pass', () => {
+  const documents = fixture()
+  documents.set('docs/README.md', '[ops](ops/README.md) [metadata](.DS_Store)')
+  const diskFiles = new Set([...documents.keys(), 'docs/.DS_Store'])
+  const available = checkoutTargets([...documents.keys()])
+  const result = auditDocuments({
+    documents,
+    exists: (path) => diskFiles.has(path) && available.has(path),
+    expectedVersions: { content: 20, save: 8 },
+    sectionRules: [],
+    exceptions: [],
+  })
+  assert.equal(available.has('docs/ops'), true)
+  assert.equal(result.issues.length, 1)
+  assert.match(result.issues[0].message, /无法随仓库检出.*DS_Store/)
 })

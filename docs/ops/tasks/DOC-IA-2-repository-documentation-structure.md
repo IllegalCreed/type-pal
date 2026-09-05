@@ -46,11 +46,13 @@ DOC-GOV-1 已完成纠错与门禁，本卡处理它有意未做的物理归类�
   24 个源码/配置消费文件均验证为仅文档路径替换，无业务实现变化。
 - 章节跳转已另行检查；场景入场指南的“每段都可设置”已按 author-script-core.ts 的 initial 节点校验
   修正，原说法保留在历史内容快照。
-- `pnpm check:docs` 与工具反例测试 19/19 通过；读取设计规范的 boundary/adoption 测试 83/83 通过。
+- `pnpm check:docs` 与工具反例测试 20/20 通过；读取设计规范的 boundary/adoption 测试 83/83 通过。
 - 七包 typecheck 通过；`coverage:fast` 608 个生产文件 / 5,675 项测试通过，四项精确计数与原基线相同。
   未降低覆盖门槛，未改当前内容工程和迁移 baseline；既有 lint 债仍在后续 E-06 范围。
 - [保真与清理回执](../archive/evidence/DOC-IA-2/preservation-report.json) 区分保存、迁移和退役附件；
   [原始映射](../archive/evidence/DOC-IA-2/relocation.json) 与补充映射只作本轮历史记录，不作为未来自动任务。
+- 首轮远端 Documentation 检查发现生成索引误收录本机 `.DS_Store`。已移除该项，并将链接目标校验
+  收紧为“磁盘存在 + Git 可检出范围”，补充反例防止本机元文件/忽略产物制造假绿；重新推送验证。
 
 ### 用户追加清理（2026-09-06）
 

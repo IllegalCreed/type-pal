@@ -60,6 +60,9 @@ node scripts/docs/check.mjs --print-task-index
 Markdown 链接、图片、引用式链接的本地文件目标，忽略代码围栏、行内代码与 HTML 注释。文件锚点
 `#section` / `#L12` 仅剥离后检查目标文件；不检查锚点是否存在、不联网验证 HTTP、不解析任意 HTML/MDX。
 
+链接目标必须属于 Git 跟踪或未忽略的新文件，以及这些文件的父目录；本机存在的 `.DS_Store`、忽略产物或
+空目录不构成有效目标。这样索引不能依赖只在某台开发机上存在的文件。
+
 `scripts/docs/config.mjs` 明确现行合同的检查段，比较源码的 `CONTENT_VERSION` 与
 `CURRENT_PROJECT_MINIMUM_SAVE_VERSION`；不是全文替换版本号。检查段边界消失也报错，需要一起更新规则
 并由 reviewer 核实。历史旧版本、未来 N6b 的版本规划、地图/catalog 的局部格式轴不作为当前产品版本。

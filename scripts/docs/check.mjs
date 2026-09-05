@@ -24,6 +24,20 @@ export function isTaskDocument(file) {
   )
 }
 
+export function checkoutTargets(files) {
+  const targets = new Set(['.'])
+  for (const file of files) {
+    let path = file
+    while (path !== '.') {
+      targets.add(path)
+      const parent = dirname(path)
+      if (parent === path) break
+      path = parent
+    }
+  }
+  return targets
+}
+
 export function localTarget(source, target) {
   if (/^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(target)) return undefined
   const path = decodeURIComponent(target.split(/[?#]/, 1)[0])
@@ -145,7 +159,7 @@ export function auditDocuments({
         if (!exceptions[exception].reason?.trim()) add(file, link.line, '链接例外缺少理由')
         if (exists(target)) add(file, link.line, `链接已恢复，应删除过期例外：${link.target}`)
       } else if (target.startsWith('../') || !exists(target)) {
-        add(file, link.line, `本地目标不存在：${link.target} → ${target}`)
+        add(file, link.line, `本地目标不存在或无法随仓库检出：${link.target} → ${target}`)
       }
     }
     linked.set(file, destinations)
@@ -261,13 +275,15 @@ export function auditDocuments({
 function main(args) {
   if (args.some((arg) => !['--print-task-index', '--json'].includes(arg)))
     throw new Error('用法：node scripts/docs/check.mjs [--json | --print-task-index]')
-  const paths = execFileSync(
+  const files = execFileSync(
     'git',
     ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
     { cwd: repoRoot, encoding: 'utf8' },
   )
     .split('\0')
-    .filter((file) => /\.md$/i.test(file) && existsSync(resolve(repoRoot, file)))
+    .filter((file) => file && existsSync(resolve(repoRoot, file)))
+  const available = checkoutTargets(files)
+  const paths = files.filter((file) => /\.md$/i.test(file))
   const documents = new Map(
     [...new Set(paths)].sort().map((file) => [file, readFileSync(resolve(repoRoot, file), 'utf8')]),
   )
@@ -280,7 +296,7 @@ function main(args) {
     throw new Error('无法读取 canonical 版本常量，停止检查')
   const result = auditDocuments({
     documents,
-    exists: (path) => existsSync(resolve(repoRoot, path)),
+    exists: (path) => available.has(path) && existsSync(resolve(repoRoot, path)),
     expectedVersions: { content, save },
   })
   if (args.includes('--print-task-index')) {
