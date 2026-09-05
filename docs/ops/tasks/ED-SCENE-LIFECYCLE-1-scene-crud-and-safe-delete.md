@@ -466,7 +466,49 @@ Branch: main
   - Codex: **accept（2026-09-05）**。实现满足三方设计和 Kimi/GLM 全部硬钉；全量测试、双 dry-run、
     production build、DS gate 与 1280×720 实机检查通过。
   - Kimi: pending
-  - GLM: pending
+  - GLM: **accept（2026-09-05，只读终审候选 `f0e7b2b9` 相对设计基线 + 本人独立脚本复算与
+    聚焦复跑，非复述 Codex/Kimi；GM-SL1~SL5 逐钉验证落实）**：
+    - **content20 全量切换 ✓（核 1/3）**：三 current manifest 均 `contentVersion: 20`（本人
+      node 复算 PAL/demo/e2e-own）；demo、e2e-own index 均 v1/1 entry；blank seed 写
+      `SceneIndex`（seed.ts:162,275）；fixtures/tests 随 144 文件提交同批切换。
+    - **SceneIndex 数据闭包 ✓（核 2）**：PAL current/baseline `scenes/index.json` **字节
+      镜像**（Buffer 相等）、294 entries、id/name/path **各 294 全唯一**、正文 id 与
+      index id **294/294 全符**、目录文件 294 无孤儿；name 由地图名确定性消歧
+      （`pal-scene-index.ts:14-30`——重名 `（N）` 后缀、uses 计数稳定序）且**全库重名 0**。
+    - **publication 作者归属 ✓（核 4，GM-SL1）**：`buildPalSceneIndex` 只在首次生成播种
+      name，publication 之后 baseline-first 保留作者 name/path（注释明示 +
+      `assertPalSceneIndexOwnership` 断言 raw-owned SceneId 零丢失（缺任一 raw id 即抛），
+      pal-scene-index.ts:33-40）；`_state.json` diff 恰 `content/scenes/index.json` 单行
+      hash（a487…→1040…）。
+    - **显式 path 发现 + 无旧 parser ✓（核 5/6）**：loader 入口/懒加载走
+      `sceneAssetById(...).path`（project-loader.ts:361-365）；`sceneIds` 明示为「派生只读
+      视图」（:106）；全库 grep 无 content19 upgrader；production dist 中的
+      `!Array.isArray(e)` 为 **SceneIndex 校验器拒绝旧 string[] 的 fail-loud**（本人读
+      dist 上下文证实），非 parser 残留；`current-only-product-boundary` 测试通过。
+    - **copy differential 真树 ✓（核 7，GM-SL2）**：`pal-scene-copy-differential.pal.test`
+      对 **294 场景逐一**断言——self 多重集改写为新 SceneId、external 多重集逐字节不变、
+      输入不被 mutate（JSON 字节比对）；**245 withSelf、top5 = s108 6,897 / s019 5,368 /
+      s176 2,562 / s052 1,672 / s186 1,575** 逐字钉死（与本人设计期 census 完全一致）；
+      `tests/scene-lifecycle.pal.test` 以 **s108 真树验证 6,897 条 self 全由 deletion
+      scope 排除、只留真实外部 blocker**（GM-SL2+SL3 真树闭环）。
+    - **文件生命周期矩阵 ✓（核 9，GM-SL5）**：`workspace-persistence.test`「场景 delete→save
+      与 undo→save 精确删除并复活显式 SceneIndex path」；中断重试/外部漂移拒绝在案；
+      `project-io` removePaths 显式参数（open-actions.ts:195-213 / project-io.ts:398）；
+      首次保存无 prevSnapshot 的 removePaths 路径由 project-io 测试族覆盖。
+    - **双 session 事务 ✓（GM-SL3）**：editor-history-coordinator 四测（成对撤销/删除成对/
+      **第二笔失败沉默恢复第一笔且不能 redo 复活半状态**/分支孤儿 redo 清除）全绿。
+    - **测试/构建矩阵 ✓（核 8）**：本人复跑——migrate 场景族 3 files/5、editor 生命周期族
+      4 files/**40**、content scene-index/command-target/validate 3 files/**101**、
+      reforge loader 10、migrate write-plan/merge/current-only/manifest 4 files/**49** 全绿；
+      **四包 typecheck 全绿**；editor production build 成功；DS gate **92 files/2
+      exceptions** 通过；**双 migration dry-run 均
+      writes=0 deletes=0 conflicts=0 asset-deletes=0**（reference-warnings=0）。
+    - **版本顺序文档 ✓（核 10）**：roadmap :108-109/:201 与 e2e README :49-51 均为
+      SceneIndex content20 → R4 content20 薄基线 → N6b content21——一致。
+    - **可证伪观察**：三 manifest 任一回退 content19；SceneIndex 镜像/唯一性/294 闭包破缺；
+      重迁覆盖作者 name 或丢 raw SceneId（ownership 断言红）；copy differential 任一计数/
+      多重集断言失败；双 dry-run 非零；dist 出现真 string[] parser——任一出现本 accept 失效。
+    无返工项；未修改实现/生成数据，未代签 Kimi，未填用户验收。
 - 必须返工项: pending
 - Accept / rework: **review**（等待 Kimi/GLM 独立终审）
 
@@ -477,6 +519,17 @@ Branch: main
 
 ## 交接日志
 
+- 2026-09-05 GLM: 只读终审候选 `f0e7b2b9`，签 **accept**。独立复算：三 manifest content20、
+  PAL SceneIndex 字节镜像 + 294 id/name/path 全唯一 + 正文闭包 + 重名 0、name 确定性消歧
+  直读、publication ownership 断言（raw SceneId 零丢失 + baseline-first 保作者 name/path）、
+  `_state.json` 单 hash、loader 显式 path + sceneIds 派生视图、dist 内 `!Array.isArray`
+  为 fail-loud 校验器非旧 parser、无 upgrader；copy differential 294 逐一（245 self /
+  s108 6,897 / top5 逐字）+ s108 deletion scope 真树测试；文件生命周期（delete→save /
+  undo→save 复活 / removePaths / 中断）与双 session 事务（第二笔失败补偿/孤儿 redo）测试
+  族；本人复跑 migrate/editor/content/reforge 聚焦 14 files / 205 tests + 四包 typecheck +
+  editor production build + DS gate 92/2 + 双 dry-run 四零全绿；roadmap/e2e README 版本
+  顺序一致。GM-SL1~SL5 全部落实，无返工项；未修改实现，未代签 Kimi，未填用户验收。
+  Next: 待用户验收；三方 accept 与用户验收齐前不得标 done。
 - 2026-09-05 Kimi: 只读终审候选 `f0e7b2b9`，签 **accept**。独立证据：SceneIndex 合同与双向
   fail-loud（`scene-index.ts:40-67`)、loader 显式 path（`project-loader.ts:361-365`)、
   id 推导与 content19/string[] 残留本人 grep 零命中、三 manifest=20；双会话三对命令 +
