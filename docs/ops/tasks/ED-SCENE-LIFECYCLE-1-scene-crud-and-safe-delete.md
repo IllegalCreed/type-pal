@@ -318,7 +318,49 @@ Branch: main
 ### 进入 done 前:审查签字
 
 - Codex: pending
-- Kimi: pending
+- Kimi: **accept（2026-09-05，只读终审候选 `f0e7b2b9` 全范围 + 本人独立复跑，非复述
+  Codex)**。按八项职责逐项核验：
+  1. **SceneIndex 唯一目录真值 ✓**:`SceneIndexV1{version:1,scenes:[{id,name,path}]}` +
+     `validateSceneIndex` 双向 fail-loud（版本/非法与重复 id-path/缺正文/覆盖 index 自身,
+     `content/src/scene-index.ts:40-67`);SceneDef 未加 name;`UpdateSceneNameCommand` 只改
+     index.name（`commands.ts:3475-3506`)。
+  2. **不再从 id 推导路径 ✓**:loader 入口与懒加载走 `sceneAssetById(...).path`
+     （`reforge/project-loader.ts:361-365`);serializer 按 `asset.path` 写正文
+     （`project-io.ts:164-181`);`loadAllAuthorScenes` 以 index 派生视图驱动；本人 grep
+     `${dir}${sceneId}.json` 形态在 loader/project-io/clone/migration-project-io 零命中。
+  3. **content20 only ✓**:`validateSceneIndex` version!==1 即 throw;src（含测试）零
+     content19 引用；三个 current manifest 均 20;string[] scene index parser/merge 零残留
+     （唯一 string[] 命中是 `world.followers`，与本卡无关）。
+  4. **双会话事务 ✓**:create/copy/delete 三对 main+script 命令齐备
+     （`commands.ts:3395-3551` × `script-editor.ts:1177-1249`),App.tsx 五处
+     `historyCoordinator.dispatch` 配对；两侧删除命令 apply 内各用 current provider 复核
+     blockers（`commands.ts:3528-3545`、`script-editor.ts:1231-1243`),redo 重跑 apply 即
+     redo live blocker 再验真，coordinator 补偿/孤儿 redo 机制沿用。
+  5. **typed copy rewrite 同源 ✓**:collector 与 `rewriteExplicitSceneReferences` 共用同一
+     识别口 `explicitSceneIdAtNode`(`command-target-reference.ts:93-107,260-275`)——同源
+     要求以共享函数形态落实；返回深拷不 mutate 输入、局部 id 与外部目标不动、隐式自引用
+     天然正确。
+  6. **安全写序 ✓（设计期钉①)**:serializer 先写正文（缺正文/孤儿正文 throw）再写
+     SceneIndex、manifest 最后（`project-io.ts:161-183` 注释契约 + 代码序）;
+     `persistedScenePaths` + `getDeletedScenePaths`(`edit-session.ts:115,143,181,576-579`);
+     中断/孤儿专测在 workspace-persistence.test.ts（含 :909 中断场景与首存删除）。
+  7. **UI ✓**:DsListHeader/DsDialog/DsInspectorTabs/DsReferencePanel 复用；选择器
+     `name · id` 显示（`App.tsx:2641-2652`）与目录头 count;dirty trial 明示
+     （`App.tsx:1732`)；名称字段 help 不改引用/地址（`:3421`)；默认/命名落点正式试玩
+     （`:4723,:4877`)；窄栏标题修复后经 DS gate（本人复跑 92/2 通过）。
+  8. **设计期三钉直接测试 ✓**:② `pal-scene-copy-differential.pal.test.ts`——PAL 294
+     场景逐一 input 不 mutate/source 归零/self 多重集改写/external 多重集不变，并精确钉
+     245 场景与 top5(s108=6897);③ `tests/scene-lifecycle.pal.test.ts`——s108 的 6,897
+     条 self 全由 scope 排除、blockers 全为外部且全指向 s108;① 写序/中断测试如钉①。
+  复跑：editor **8 files / 187 tests 全绿**（含两条 PAL 钉测试）;reforge project-loader
+  10 绿;migrate pal-scene-index+copy-differential 3 绿;**PAL publication 2 测通过**
+  (~32s);DS gate 92/2 通过;editor typecheck 与 production build 通过（仅既有
+  chunk-size warning)。全量 content 477/reforge 859/editor 1738/migrate 418 与双
+  dry-run 四零采信 Codex 记录未重复。
+  **可证伪观察**:loader/serializer 任一位置复活 id 推导路径;copy differential 在真树
+  发现漏改 target；四态任一删除被放行；重迁覆盖作者 name/path 或二跑非零；写序中断产生
+  index→缺正文——任一成立本签字失效。
+  **返工项：无 P0/P1/P2**；未修改实现，未标 done。
 - GLM: pending
 - counter / 返工处理: pending
 - 缺签豁免: N/A
@@ -434,6 +476,17 @@ Branch: main
 - 后续任务: 商店生命周期；R4 薄 E2E。
 
 ## 交接日志
+
+- 2026-09-05 Kimi: 只读终审候选 `f0e7b2b9`，签 **accept**。独立证据：SceneIndex 合同与双向
+  fail-loud（`scene-index.ts:40-67`)、loader 显式 path（`project-loader.ts:361-365`)、
+  id 推导与 content19/string[] 残留本人 grep 零命中、三 manifest=20；双会话三对命令 +
+  两侧删除 current 复核（`commands.ts:3395-3551`、`script-editor.ts:1177-1249`)；copy
+  rewrite 与 collector 共享 `explicitSceneIdAtNode`（`command-target-reference.ts:93-107,
+  260-275`)；写序（正文→index→manifest）与 persistedScenePaths 删除跟踪；UI 复用与
+  name·id/dirty trial 直读。设计期三钉直接测试均在并本人复跑通过（294 场景 copy
+  differential、s108 6,897 scope、写序中断 orphan)；editor 8 files/187 tests、reforge
+  loader 10、migrate 场景 3、PAL publication 2、DS gate 92/2、typecheck/build 全绿。
+  返工项无 P0/P1/P2；只改 Kimi 签字行与本条日志。Next: GLM 并行终审与用户验收。
 
 - 2026-09-05 GLM: 完成 PAL census/migration/测试矩阵并行设计主审（固定候选 `8a283b39`），
   签 premise verified + design agree。独立复算（不采信 Codex census）：三工程闭包全零
