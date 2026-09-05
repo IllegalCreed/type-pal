@@ -11,7 +11,7 @@ Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
 Design Revision: shop-design-r1（2026-09-05；实现基线 dc332df4）
-Implementation Revision: shop-impl-r1（终审候选提交见下一位提示词）
+Implementation Revision: shop-impl-r1 / 7e6f935a（实现前0980f90d；其代码等于dc332df4）
 
 ## 目标
 
@@ -503,4 +503,47 @@ buy增删、sell999为何被当前target校验拒绝，确认三方合并其实�
 已完成只读诊断和设计，未实现。请独立写file:line、可证伪观察，签 premise verified + design agree或counter/具体遗漏；
 不要读取/复述Kimi结论，不改实现，不开始build/标done。直接只写本卡GLM签字和自己的交接日志；同步main保留他人改动，
 提交推送，push竞态自行rebase/retry；无写权限明确报阻塞，不让用户复制审查正文。
+```
+
+## 下一位 Agent 提示词（并行终审）
+
+两席共同候选`7e6f935a`（shop-impl-r1），对比实现前`0980f90d`；当前review，Kimi补720宽视觉。
+本文后续仅记录交接，不改变该实现候选；两席直接各自落卡并推送，用户只转发提示词。
+
+### 给 Kimi
+
+```text
+请终审 ED-SHOP-LIFECYCLE-1，当前 review。
+仓库：/Users/zhangxu/illegal/type-pal
+任务卡：docs/ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md
+实现候选7e6f935a（shop-impl-r1），对比0980f90d；设计shop-design-r1三签已齐。
+先读AGENTS.md、CLAUDE.md、READ-FIRST、agent-workflow、完整任务卡及锚点。不要读取/复述GLM终审结论。
+独立核生成/作者校验拆分、纯theirs baseline、源Store0保护、buy-only安全删除、复制redo固定快照，
+以及bootGame第一分支是否确实不建立SaveStore/世界/剧情而复用正式shopInput/shopBuy/drawShop。
+核你四条设计钉与旧版本兼容残留。宽屏复制删除撤销、未保存禁试买、12000文买金童剑与引用末项定位已实测，
+不重复走相同宽屏流程；请补720宽Hero动作、引用滚动/定位、试买弹窗标签和公共stepper，写实际viewport证据。
+Codex工具设置viewport后实际仍1280×720，未冒报窄窗通过；你若也无法验证，明确登记未完成。
+测试结果及一次重型规范用例5秒→15秒的独立预算理由见Build，全部断言未削弱；按风险复跑，不默认再跑全部重测试。
+输出accept或counter+具体返工项，附file:line、独立证据和旧版本兼容审查结论。
+不得改实现、不改Status/共享准入结论、不标done；只写自己的终审签字与交接日志，提交前同步main并保留另一席改动，
+提交推送，push竞态自行rebase/retry；无写权限明确报告，不让用户搬运审查正文。
+```
+
+### 给 GLM
+
+```text
+请终审 ED-SHOP-LIFECYCLE-1，当前 review。
+仓库：/Users/zhangxu/illegal/type-pal
+任务卡：docs/ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md
+实现候选7e6f935a（shop-impl-r1），对比0980f90d；设计shop-design-r1三签已齐。
+先读AGENTS.md、CLAUDE.md、READ-FIRST、agent-workflow、完整任务卡及锚点。不要读取/复述Kimi终审结论。
+独立核GM-SH1~SH4：生成固定census仍在、作者target允许id0/增删店及buy/sell但拒绝悬空引用；
+同店双改/删改/同id新增冲突不能覆盖作者，baseline仍纯theirs；已有重复货单及保存重开不能丢失。
+核shopInput默认否/不足/免费/重复货品/空表四键，启动隔离spies、dirty瞬间复核与workspace身份失败，
+不得以planner零计划或纯shopBuy单测替代完整target与真正bootGame验证；明确区分游戏存档库与本地句柄库。
+证据：content488/reforge869/migrate424全量通过；editor全1748已执行，最后仅1项重型扫描默认5秒超时，
+保留全部断言并给单例15秒预算后独立通过。正式PAL发布transaction-changes=0、1934资产零写，replay四零。
+请按风险独立复算/复跑并检查文档、矩阵与旧版本兼容残留；720宽由Kimi补验，勿把它写成Codex已通过。
+输出accept或counter+具体遗漏，附file:line和独立证据。不得改实现、不改Status/共享准入结论、不标done；
+只写自己的终审签字与交接日志，同步main保留他人改动，提交推送，竞态自行rebase/retry；无写权限明确报阻塞。
 ```
