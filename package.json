@@ -3,14 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "pnpm test:coverage-tools && pnpm -r run check && pnpm lint",
-    "check:fast": "pnpm test:coverage-tools && pnpm -r run typecheck && pnpm -r run test && pnpm lint",
+    "check": "pnpm -r run check && pnpm lint",
+    "check:fast": "pnpm -r run typecheck && pnpm -r run test && pnpm lint",
     "typecheck": "pnpm -r run typecheck",
-    "test": "pnpm test:coverage-tools && pnpm -r run test",
-    "test:coverage-tools": "node --test scripts/coverage/*.test.mjs",
-    "coverage:fast": "pnpm test:coverage-tools && node scripts/coverage/run.mjs fast",
-    "coverage:full": "pnpm test:coverage-tools && node scripts/coverage/run.mjs full",
-    "coverage:ratchet": "pnpm test:coverage-tools && node scripts/coverage/run.mjs fast --ratchet",
+    "test": "pnpm -r run test",
     "format": "biome format --write --changed --since=HEAD",
     "format:all": "biome format --write .",
     "lint": "biome check .",
@@ -19,10 +15,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
-    "@vitest/coverage-v8": "4.1.7",
     "tsx": "^4.22.3",
     "typescript": "^6.0.3",
-    "vitest": "4.1.7"
+    "vitest": "^4.1.7"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

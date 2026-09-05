@@ -4,7 +4,7 @@
 
 - 第一阶段在线试玩：<https://pal.illegalscreed.cn/>
 - 当前开发主线：**第二阶段 Reforge（新运行时 + 内容编辑器 + 迁移器）**
-- 本页状态快照：**2026-09-06**；实时进度以能力地图和任务看板为准。
+- 本页状态快照：**2026-09-05**；实时进度以能力地图和任务看板为准。
 - 完整原版游戏数据不在仓库中；运行 PAL 内容需要自行准备合法取得的原版数据。现有 demo / 回归 fixture 含少量入库的 PAL 派生素材，不代表版权清理或用户种子已经完成。
 
 ## 仓库里有什么
@@ -49,8 +49,6 @@ canonical 版本。
 
 统一工程引用边、删除保护、场景与商店生命周期均已完成，并通过技术终审和产品验收。
 第一、第二阶段五批首轮只读代码审计已收口，发现与修复建议见[审计总报告](docs/ops/audits/pre-e2e/summary.md)；修复尚未开始。
-Vitest/V8 全生产源码覆盖率基线与只升不降门禁已经建立，fast/full 口径和当前数字见
-[`docs/ops/coverage.md`](docs/ops/coverage.md)；覆盖率不替代业务断言与 E2E。
 下一步先处理 E2E 阻断问题，再依次进入薄 E2E 基线、窄版意图式脚本能力、战斗专项与完整通关 E2E、编辑器综合工作流、录制适配，
 最后再做服务器版本化预制工程和独立可玩包。准确顺序见
 [`docs/phase2/capability-map.md`](docs/phase2/capability-map.md)；正在执行的单卡见
@@ -148,8 +146,6 @@ pnpm check          # 完整维护者门禁；迁移器完整测试需要本地 
 pnpm typecheck      # 全 workspace TypeScript 检查
 pnpm test           # 全 workspace 测试；其中 migrate PAL 项需要本地提取数据
 pnpm lint           # biome check .
-pnpm coverage:fast  # 全生产源码 V8 覆盖率 + 每包/全仓只升不降门禁
-pnpm coverage:full  # 在 fast 基础上加入 PAL 真数据 Vitest 测试
 
 # 格式化
 pnpm format         # 只格式化相对 HEAD 的已改文件
@@ -170,7 +166,6 @@ pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数
 ```
 
 视觉、音频、浏览器文件系统、长剧情和完整游玩路线不能只靠单元测试判断，仍需按相应任务的浏览器 / E2E 验收记录执行。
-覆盖率口径、基线更新规则和长期目标见 [`docs/ops/coverage.md`](docs/ops/coverage.md)。
 
 ## Workspace 结构
 

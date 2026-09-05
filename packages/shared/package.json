@@ -11,7 +11,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests --exclude 'dist/**' --exclude 'build/**'",
+    "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test"
   }
 }

@@ -1,5 +1,5 @@
 import type { Command, Enemy, Item, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battle/battle-state.js'
 import { setGlobalEvents } from '../../../core/event-system.js'
 import { createInitialGameState, type GameState } from '../../../core/game-state.js'
@@ -255,17 +255,6 @@ function topRegionWrites(fb: ReturnType<typeof createFramebuffer>): number {
 const UI = fakeUiFrames() as unknown as Parameters<typeof drawBattleUI>[7]
 
 describe('drawBattleUI(新模型 1:1)', () => {
-  let now = 0
-  beforeEach(() => {
-    now = 0
-    vi.spyOn(Date, 'now').mockImplementation(() => {
-      const current = now
-      now += 40
-      return current
-    })
-  })
-  afterEach(() => vi.restoreAllMocks())
-
   it('selectMove + main —— 画状态栏 + 4 图标(framebuffer 有写入,不抛)', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }

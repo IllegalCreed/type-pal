@@ -2,9 +2,6 @@ node_modules/
 dist/
 build/
 coverage/
-# 根 coverage/ 是运行产物；覆盖率门禁实现与基线本身需要入库。
-!scripts/coverage/
-!scripts/coverage/**
 *.log
 .DS_Store
 .idea/
