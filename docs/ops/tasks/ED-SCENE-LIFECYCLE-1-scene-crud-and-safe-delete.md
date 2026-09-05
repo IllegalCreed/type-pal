@@ -186,7 +186,64 @@ Branch: main
   - design: **agree（推荐方案）**。采用 SceneIndexV1/content20、typed self-reference rewrite、现有
     cross-session coordinator 与 ED-3 deletion scope；不改 SceneId 充当名称，不把 name 放 SceneDef。
     版本顺序已由用户于 2026-09-05 批准；本签字仍须与 Kimi/GLM 独立签字共同构成 build 准入。
-- Kimi: premise pending | design pending
+- Kimi: premise **verified**（2026-09-05，架构/schema/transaction 视角一手直读 + 边界复算，
+  针对固定设计候选 `8a283b39`，非复述 Codex）:
+  1. **SceneDef 与 string[] index**:SceneDef 仅 id/mapId/音乐/战场/entries/entry/entities/
+    onEnter/onTeleport，无展示名（`content/src/index.ts:120-149`);`scenes/index.json` 是
+    string[]、仅查重（`reforge/project-loader.ts:140-150`)；入口急加载与 `loadAuthorScene`
+    懒加载均按 `${dir}${sceneId}.json` 由 id 推导路径（`:358-369,461-476`);startup 以
+    string[] 校验入口（`:361`)。
+  2. **serializer 与 removePaths 缺口**:serializer 写 `index.json=state.scenes.map(id)` +
+    `<id>.json` 正文（`project-io.ts:161-168`);`diffFiles` 的 remove 依赖 prev 快照完整
+    （`:299-313`);EditSession 已有 `persistedMapPaths/persistedAssetPaths` + 精确删除
+    （`edit-session.ts:139-142,569-581`),**但无 scene 等价物**——场景物理删除缺口为真，
+    设计结论 6 沿用同型 persisted-paths 补齐属最小合法扩展。
+  3. **main-only AddScene 与 script 前置**:`AddSceneCommand` 只改 main `state.scenes`
+    （`commands.ts:3385-3409`);`AddSceneEntityDefinitionCommand.transform` 在 canonical
+    scene 缺失时 throw 场景不存在（`script-editor.ts:1189-1194`)——跨 session 缺口为真。
+  4. **跨会话事务机制已备**:`EditorHistoryCoordinator.dispatch(script, main)` 第二笔失败
+    receipt 回滚第一笔（`editor-history-coordinator.ts:23-35`);undo 严格反序 + 主侧补偿
+    redo(:38-58);redo 失败 script 补偿 undo(:60-76);孤儿 redo 丢弃(:78-88)——设计
+    结论 4/5 的 create/copy/delete 配对与回滚有现成承力点，不需新机制。
+  5. **ED-3 删除闭包结构无误**:`collectCurrentProjectDeletionImpact`→`deletionScopeFor`
+    （`project-reference-adapters.ts:1935-1943`);`scriptOwnerDeletedWith` 对 entity 系
+    owner 含 behavior+entity+scene 全祖先链（`:73-91`),scope 以 deletedWith 交集排除
+    （`project-reference.ts:1313-1322`)——场景子树 self/companion 排除在结构上成立；
+    `entry-point-scene` relation 已在合同（`project-reference.ts:189`)，入口场景删除
+    可被外部 blocker 阻断。
+  6. **typed rewrite 同源可行**:`command-target-reference.ts` 已覆盖 EntityAddress 精确
+    形状、currentScene、loadScene+entry、selectSceneHooks+hook、setSceneMapOverride 的
+    scene 与 map 双 target、legacy binding(:82-229)，结构性深递归覆盖 branch/loop/
+    all/any/not 子体；隐式自引用（`setSceneMapOverride` 缺省 scene=运行时当前场景，
+    `script.ts:129`）复制语义天然正确、无需改写——设计"只改显式 sourceScene→copyScene"
+    边界完整。
+  7. **版本与 ownership**:roadmap 已记 2026-09-05 裁决（SceneIndex content20 → R4
+    content20 薄基线 → N6b content21,`roadmap.md:197-216` 追加段）;MapIndex 同形先例
+    （`content-schema.md:133` 稳定身份不由路径反推）支撑 SceneIndex 目录真值形态。
+- Kimi: design **agree**（2026-09-05；三签齐后允许 build）。SceneIndex 作为唯一目录真值、
+  name 不进 SceneDef、显式 path + current-only content20、双 session 事务 + ED-3 删除
+  scope、同源 typed rewrite 均成立；第四替代解释"编辑器私有名称 sidecar"亦被卡面
+  localStorage 禁令正确否决（第二份目录真值、Reforge/迁移不可见）。必改钉（build 落实
+  条件，非阻塞）:
+  ① **磁盘写序钉**：保存写序必须是 场景正文（新/改） → SceneIndex → manifest →
+    removePaths 物理删除；任一中断点不得留下 index 指向缺正文（只允许安全 orphan);
+    专测覆盖 delete→save、save→undo→save、copy→save→undo→save、首次绑定 PAL 目录与
+    save-as 整树复制后清理。
+  ② **真树 copy differential 硬门**:transformer 与 collector 的 differential 除 fixture
+    递归反例外，必须在 PAL 全量真树逐 scene 跑——复制体 source-scene 引用为 0、外部
+    引用多重集不变、输入未 mutate；任一 collector 识别而 transformer 未覆盖的
+    scene-bearing target 即停线，不得以 fixture 绿放行。
+  ③ **高自引用删除专测**:s108 级（单场景最多 6,897 条自引用）场景在 current exact
+    index 下 blockers 恰为外部入边（入口/跨场景/共享脚本/物品/敌人）,self/companion
+    全部由 scope 排除；apply/redo 再验真 + redo live blocker 具名回归。
+- 可证伪观察:
+  ① 切换后 loader/serializer 任一位置仍从 id 推导场景路径（`${dir}${id}.json` 形态复活）
+    → SceneIndex 唯一真值失败；
+  ② PAL 真树 differential 发现漏改 scene-bearing target → 复制功能停线重议合同；
+  ③ current/checking/stale/failed/缺 index 任一态删除被放行，或入口/外部入边场景被放行
+    → fail-closed 失效；
+  ④ 重迁保留作者 SceneIndex.name/path 失败或第二次 dry-run 非零 → ownership 边界失效；
+  ⑤ 写序中断测试产生 index→缺正文 → 写序设计不成立。
 - GLM: premise pending | design pending
 - 独立反证审查: pending
 - counter / 分歧处理: pending
@@ -274,6 +331,20 @@ Branch: main
 
 ## 交接日志
 
+- 2026-09-05 Kimi: 完成 SceneIndex/schema/loader/transaction/version 并行设计主审（固定候选
+  `8a283b39`），签 premise verified + design agree。独立证据：SceneDef 无展示名
+  （`content/src/index.ts:120-149`）、string[] index 与 id 推导路径
+  （`reforge/project-loader.ts:140-150,358-369,461-476`）、serializer 与 scene
+  removePaths 缺口（`project-io.ts:161-168`、`edit-session.ts:139-142,569-581` 仅
+  map/asset）、main-only `AddSceneCommand`(`commands.ts:3385-3409`）与 canonical
+  scene 前置 throw(`script-editor.ts:1189-1194`)、coordinator 补偿/undo/redo
+  （`editor-history-coordinator.ts:23-88`)、ED-3 scope 祖先链闭包
+  （`project-reference-adapters.ts:73-91`、`project-reference.ts:1313-1322`)、
+  scene-bearing target 全覆盖（`command-target-reference.ts:82-229`）与隐式自引用无需
+  改写（`script.ts:129`)。附三钉：磁盘写序（正文→index→manifest→删除）、PAL 真树
+  copy differential 硬门、s108 级高自引用删除专测；五条可证伪观察。只改 Kimi 签字行与
+  本条日志；未改他席签字/准入结论/看板/实现。Next: GLM 并行数据/migration/测试矩阵
+  主审；三签齐后 Codex 统一推进 build 准入。
 - 2026-09-05 Codex: 用户批准开始后完成前提门读码/census。确认正确地基是显式 SceneIndex，
   不是 SceneDef 展示字段或稳定 id 重写；发现 main-only AddScene 与 scene removePaths 两个真实闭环缺口。
   PAL 245/294 scenes 含自引用，复制必须 typed rewrite。推荐 SceneIndex 占 content20、N6b 顺延 content21。
