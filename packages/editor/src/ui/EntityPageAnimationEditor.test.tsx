@@ -59,9 +59,11 @@ describe('EntityPageAnimationFields', () => {
   afterEach(async () => {
     await act(async () => root.unmount())
     host.remove()
+    vi.useRealTimers()
   })
 
   test('从实体页启用复合动作并编辑循环、相位与反跳', async () => {
+    vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })
     const changes: Array<SpriteActionBinding | undefined> = []
     const open = vi.fn()
     function Harness() {
@@ -95,6 +97,9 @@ describe('EntityPageAnimationFields', () => {
     )!
     await act(async () => late.click())
     expect(changes.at(-1)).toEqual({ sprite: 'sprite-77', action: 'late', loop: false })
+    // Complete the select's deferred focus restoration before starting another interaction.
+    await act(async () => vi.advanceTimersToNextFrame())
+    expect(document.activeElement).toBe(select)
 
     const loop = host.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')[1]!
     await act(async () => loop.click())
@@ -107,6 +112,8 @@ describe('EntityPageAnimationFields', () => {
       Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(phase, '240')
       phase.dispatchEvent(new Event('input', { bubbles: true }))
     })
+    await act(async () => vi.advanceTimersToNextFrame())
+    expect(document.activeElement).toBe(phase)
     expect(changes).toHaveLength(changeCountBeforeDraft)
     await act(async () => phase.blur())
     expect(changes).toHaveLength(changeCountBeforeDraft + 1)
