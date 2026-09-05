@@ -1,3 +1,8 @@
+> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、
+> Agent 分工、版本号与“当前状态”均为**当时快照**，不是现行契约或待办；已被后续
+> current-only / canonical 实现取代的方案不恢复。现行真值见 docs/phase2/READ-FIRST.md
+> 与 capability-map.md。
+
 # 角色模型 C0 · 实现计划(给 GLM)
 
 > 设计依据 [actor-model-design.md](actor-model-design.md)(先读,尤其 §2 决策/§3 schema/§4 引擎/§7 迁移);铁律 [READ-FIRST](../READ-FIRST.md)。

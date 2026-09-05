@@ -50,3 +50,7 @@
 - 每条设定标**来源链接**和**可靠性**。
 - 发现冲突 / 版本差异 → 记进 [versions.md](versions.md)，由作者定哪个算正典，不擅自合并。
 - 本库**只升不降**：纠正过的设定覆盖旧值，但保留"曾被误记为 X"的备注，避免重复踩坑。
+
+## 其他设定文档
+
+- [world-rules-ghost-realm.md](world-rules-ghost-realm.md) — 鬼界规则（DLC 引用）

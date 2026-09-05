@@ -32,8 +32,8 @@ pnpm workspace, three packages:
 ## Commands
 
 ```bash
-pnpm check          # typecheck + test across all packages — the gating check
-pnpm lint           # biome check — NOT part of `check`; run it separately
+pnpm check          # coverage-tools + 各包 typecheck/test + pnpm lint（biome）—— the gating check
+pnpm lint           # biome check（也被 `check` 末步运行；单独跑用于快速检查）
 pnpm format         # biome format --write
 pnpm extract        # regenerate data/extracted/ from the original MKF archives
 
@@ -117,5 +117,5 @@ When a behavior question can't be settled from the extracted data — or sdlpal 
 ## Notes
 
 - `game/src/dev/dev-panel.ts` is a DEV-only debug overlay (battle / scene / party / effect pickers), dead-code-eliminated in production via `import.meta.env.DEV`.
-- The repo is not fully biome-clean (import ordering, non-null assertions are tolerated) since `pnpm check` doesn't run biome.
+- The repo is not fully biome-clean (import ordering, non-null assertions are tolerated); `pnpm check` runs biome, but failures in those tolerated categories are addressed opportunistically rather than gating.
 - `docs/phase1/plans/` is a **historical archive** (per-milestone design/impl plans + audits, dated at time of writing) — it does **not** reflect current state. For "what's true now" read the status tables in `docs/` (`feature-status` / `opcode-status` / `resource-status` / `item-status` / `magic-status` / `cutscene-status` / `game-mechanics`) plus `04-decisions.md`; open `plans/` only to trace original design/plan rationale. Index + per-file status: `docs/phase1/plans/README.md`.

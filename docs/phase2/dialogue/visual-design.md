@@ -1,3 +1,8 @@
+> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、
+> Agent 分工、版本号与“当前状态”均为**当时快照**，不是现行契约或待办；已被后续
+> current-only / canonical 实现取代的方案不恢复。现行真值见 docs/phase2/READ-FIRST.md
+> 与 capability-map.md。
+
 # 对话框外观 · ② 实现设计(Canvas2D 适配 + 完整技术点覆盖)
 
 > 状态:草案(2026-06-27 立)。承接 [D11](../decisions.md) ②、[GLM 外观真值 spec](visual-spec.md)、[D13](../decisions.md) 文本分层、[D12](../decisions.md) demo 定位。是「三刀」的**第②刀**(① 数据地基已完成,③ 迁移器留后)。

@@ -1,3 +1,8 @@
+> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、
+> Agent 分工、版本号与“当前状态”均为**当时快照**，不是现行契约或待办；已被后续
+> current-only / canonical 实现取代的方案不恢复。现行真值见 docs/phase2/READ-FIRST.md
+> 与 capability-map.md。
+
 # 第一阶段深度审计跟踪表
 
 > **缘起**（2026-07-05）：作者要求"逐文件、逐系统、事无巨细"的三方深度对照审计（sdlpal C → 一阶段实现 → reforge 实现），确保 reforge 不重复一阶段踩过的坑、不漏移植一阶段已对齐的真值。**作者原话：不希望重复第一阶段的测试员噩梦。**
@@ -146,7 +151,7 @@
 - [am-asset-migrate-audit.md](am-asset-migrate-audit.md) — 资产/提取/迁移 5 单元 + 战斗遗留
 
 **73/73 单元全部审计完成。**
-- [foundation/ec-data-audit.md](foundation/ec-data-audit.md) — 实体/角色数据 8 单元逐函数对照（实体/角色/跟随者/装备/升级/技能/物品/敌人；含卸装清状态缺口 + 战斗 HACK patch 未烘焙）
+- [foundation/ec-data-audit.md](ec-data-audit.md) — 实体/角色数据 8 单元逐函数对照（实体/角色/跟随者/装备/升级/技能/物品/敌人；含卸装清状态缺口 + 战斗 HACK patch 未烘焙）
 - [phase1-knowledge-harvest.md](phase1-knowledge-harvest.md) — 8 领域踩坑+知识（按领域，非逐文件）
 
 ## 审计产出位置

@@ -194,7 +194,7 @@
 
 **复核论证**:差异属实。核对结论:
 
-【TS 侧机制】createInitialGameState(全字段干净默认:dwCash=0/wNumScene=0/wCollectValue=0/menu cursor=0/Exp empty 等,game-state.ts:1545-1610)是 PAL_LoadDefaultGame 的等价物,但只在 boot 调一次(bootstrap.ts:244)。同样只在 boot 跑的还有 gs.partyMembers=[0](247)与 gs.wNumScene=SCENE_ID+1(250)。唯一新游戏入口 startNewGameFromPrimary(bootstrap.ts:1349-1389)只做三件事:hydratePlayerRolesRuntime(game-state.ts:1218,重置 per-role HP/MP/stat/装备/法术)+ initExpLevelsFromLevels(1193,只重置 Exp 各类 wLevel,不动 wExp)+ updateAllEquipments(equip-effect.ts:460,从 rgwEquipment 重算 effect)。这三者均**不**清 dwCash/inventory/rgPoisonStatus/partyMembers/trail/wCollectValue/nFollower/wChaseRange/wLayer/numPalette/nightPalette/wNumScene/iCurMainMenuItem/iCurInvMenuItem/Exp.wExp/rgScene/sceneOnEnterIp/rgEventObject。且 1370/1375/1379 读 gs.wNumScene 作 override-IP 与 onEnterSceneId——二周目时为上一局/结局残留场景号(如 282)。
+【TS 侧机制】createInitialGameState(全字段干净默认:dwCash=0/wNumScene=0/wCollectValue=0/menu cursor=0/Exp empty 等,game-state.ts:1545-1610)是 PAL_LoadDefaultGame 的等价物,但只在 boot 调一次(bootstrap.ts:244)。同样只在 boot 跑的还有 gs.partyMembers=`0`与 gs.wNumScene=SCENE_ID+1(250)。唯一新游戏入口 startNewGameFromPrimary(bootstrap.ts:1349-1389)只做三件事:hydratePlayerRolesRuntime(game-state.ts:1218,重置 per-role HP/MP/stat/装备/法术)+ initExpLevelsFromLevels(1193,只重置 Exp 各类 wLevel,不动 wExp)+ updateAllEquipments(equip-effect.ts:460,从 rgwEquipment 重算 effect)。这三者均**不**清 dwCash/inventory/rgPoisonStatus/partyMembers/trail/wCollectValue/nFollower/wChaseRange/wLayer/numPalette/nightPalette/wNumScene/iCurMainMenuItem/iCurInvMenuItem/Exp.wExp/rgScene/sceneOnEnterIp/rgEventObject。且 1370/1375/1379 读 gs.wNumScene 作 override-IP 与 onEnterSceneId——二周目时为上一局/结局残留场景号(如 282)。
 
 【对比 LOAD 路径】loadGameFromSlot(bootstrap.ts:1429-1475)用 Object.assign(gs, loadedGs) 整体覆盖 gs,故读档干净;新游戏路径无此整体重置——不对称坐实漏洞。
 
@@ -315,9 +315,9 @@ TS 实现：
 
 真实数据可达性(data/extracted)：
 - nSpriteFrames 分布 0:3335 / 1:372 / 2:262 / 3:896 / 4:212，与声称一致；nSF=2 有 autoLabel 的 257/262，nSF=1 有 205/372。
-- id 91 sprite46(nSF=2,8 帧=4×2) autoScript L_36252 = 0x87 / 0x06 / 0x0E(向东 dir=3) / end advance；每循环推进帧 2 次。dir=3 时 TS idx=3*2+{0,1,2,3}={6,7,8,9}，8/9 越界 → 回退 frames[0](朝南站立)；C 封顶 0/1 → idx 6/7 始终在“东”块。玩家看到 NPC 走路途中闪到朝下姿势。
+- id 91 sprite46(nSF=2,8 帧=4×2) autoScript L_36252 = 0x87 / 0x06 / 0x0E(向东 dir=3) / end advance；每循环推进帧 2 次。dir=3 时 TS idx=3*2+{0,1,2,3}={6,7,8,9}，8/9 越界 → 回退 frames`0`；C 封顶 0/1 → idx 6/7 始终在“东”块。玩家看到 NPC 走路途中闪到朝下姿势。
 - id 92 sprite47(nSF=2,18 帧) autoScript L_36275 = 0x87 / 0x06 / 0x0B×2(向南 dir=0)。dir=0 时 TS idx=0*2+{0,1,2,3}，帧 2/3 落入 dir=1(西)块 → 朝南行走时混入朝西帧(串帧)。
-- id 2113 sprite301(nSF=1,4 帧=4×1,dir=3) autoScript L_36524 含推帧 opcode。C 恒 idx=3；TS idx=3*1+{0,1,2,3}={3,4,5,6}，4/5/6 越界 → 回退 frames[0](朝下)，4 步里 3 步显示错向。
+- id 2113 sprite301(nSF=1,4 帧=4×1,dir=3) autoScript L_36524 含推帧 opcode。C 恒 idx=3；TS idx=3*1+{0,1,2,3}={3,4,5,6}，4/5/6 越界 → 回退 frames`0`，4 步里 3 步显示错向。
 
 autoScript 驱动器(event-system.ts:1225-1279 raw 分支 + 1273 applyRawOpcode)每帧跑约一条 op，goto 不耗帧，循环体无限重复，故过度循环的帧 2/3 是持续性命中，非偶发。nSpriteFrames==3、==4 因 mod 4 与 mod(3→4)/mod 4 恰好等价(C 对 3 也是 mod 4)而不出问题，正与声称一致。
 
@@ -359,7 +359,7 @@ TS 侧：event-system.ts:2066-2082 把 0x7F 多帧相对 pan(isPan && frames>1)�
 - **C 依据**:`reference/sdlpal/scene.c:549-567, 818, 835-836`
 - **玩家可感知**:是
 
-**差异**:C 走路碰撞 PAL_UpdateParty 调 PAL_CheckObstacleWithRange(target, TRUE, 0, fCheckRange=TRUE)(scene.c:818)。该函数在 fCheckRange 时(scene.c:551/563-567)用 blockX=partyoffset.x/32=160/32=5、blockY=partyoffset.y/16=112/16=7 做下边界:`if (x<blockX || x>=2048 || y<blockY || y>=2048) return TRUE`(阻挡)。即队首 tile 列<5 或行<7 一律视作障碍,玩家走不进地图左上 5 列 / 上 7 行的边缘带;C 自始至终**不 clamp viewport**(scene.c:835 只做 viewport+=offset),靠这条走路阻挡保证 viewport 不为负、队首恒居屏幕中心(160,112)。TS 的 isWalkable→tilemapIsBlocked 只判 `col<0||col>=width||row<0||row>=height`(scene-system.ts:310),**完全没有** blockX=5/blockY=7 下边界(isWalkable 也无 fCheckRange 形参);取而代之在 syncCameraToParty 里把相机 clamp 到 [0,maxX]×[0,maxY](scene-system.ts:382-383)。后果:TS 允许队首一路走到 col0/row0,而相机停在 0 → 队首脱离屏幕中心向左上角漂移;C 里队首在 col5/row7 处就被挡住、相机始终居中。follower 避障(present.ts:352)同样走无 range 的 isWalkable。注:怪物追击 PAL_CheckObstacle 用 fCheckRange=FALSE,TS 那条反而正确。
+**差异**:C 走路碰撞 PAL_UpdateParty 调 PAL_CheckObstacleWithRange(target, TRUE, 0, fCheckRange=TRUE)(scene.c:818)。该函数在 fCheckRange 时(scene.c:551/563-567)用 blockX=partyoffset.x/32=160/32=5、blockY=partyoffset.y/16=112/16=7 做下边界:`if (x<blockX || x>=2048 || y<blockY || y>=2048) return TRUE`(阻挡)。即队首 tile 列<5 或行<7 一律视作障碍,玩家走不进地图左上 5 列 / 上 7 行的边缘带;C 自始至终**不 clamp viewport**(scene.c:835 只做 viewport+=offset),靠这条走路阻挡保证 viewport 不为负、队首恒居屏幕中心(160,112)。TS 的 isWalkable→tilemapIsBlocked 只判 `col<0||col>=width||row<0||row>=height`(scene-system.ts:310),**完全没有** blockX=5/blockY=7 下边界(isWalkable 也无 fCheckRange 形参);取而代之在 syncCameraToParty 里把相机 clamp 到 [0,maxX]×`0,maxY`（`scene-system.ts:382-383`）。后果:TS 允许队首一路走到 col0/row0,而相机停在 0 → 队首脱离屏幕中心向左上角漂移;C 里队首在 col5/row7 处就被挡住、相机始终居中。follower 避障(present.ts:352)同样走无 range 的 isWalkable。注:怪物追击 PAL_CheckObstacle 用 fCheckRange=FALSE,TS 那条反而正确。
 
 **玩家影响**:大地图左 / 上边缘行走表现明显不同:原版主角永远居中、走到边缘带即被挡住;TS 里主角能贴进左上角且镜头不再跟随,人物滑向屏幕角落,露出地图外/错误 tile,跟随队员定位也随之偏。
 
@@ -815,7 +815,7 @@ reference/sdlpal/scene.c:654 (static int s_iThisStepFrame=0,跨帧持久); scene
 
 C 真值核对(reference/sdlpal/scene.c):
 - PAL_UpdatePartyGestures 中 s_iThisStepFrame 是 `static int`(scene.c:654),跨帧持久。
-- 走路分支 s_iThisStepFrame=(s+1)%4(scene.c:663);leader walkFrames==4 → wFrame=dir*4+s(scene.c:680),walkFrames==3 → 用 iStepFrameLeader,序列即 [0,1,0,2][s](scene.c:664-672/684)。
+- 走路分支 s_iThisStepFrame=(s+1)%4(scene.c:663);leader walkFrames==4 → wFrame=dir*4+s(scene.c:680),walkFrames==3 → 用 iStepFrameLeader,序列即 [0,1,0,2]`s`（`scene.c:664-672/684`）。
 - 站立分支末尾 s_iThisStepFrame &= 2; s_iThisStepFrame ^= 2;(scene.c:773-774):0/1→2，2/3→0(相位翻转)。s_iThisStepFrame 只喂 wFrame(leader 680/684、follower 724/728/742)，不碰 pos/trail/viewport/碰撞。
 - 调用链:PAL_StartFrame"once per video frame"(play.c:519)→ PAL_UpdateParty(play.c:543)→ 站立(无方向键或撞墙)走 PAL_UpdatePartyGestures(FALSE)(scene.c:847)。
 
@@ -2124,7 +2124,7 @@ C 真值核对（全部逐字命中）：
 
 - **TS**:`packages/game/src/present/present.ts:331`　**C**:`reference/sdlpal/scene.c:664-673,728`　**原声称严重度**:medium
 
-**否决依据**:差异声称"队员 rgParty[1..wMaxPartyMemberIndex] 应用反相序列 iStepFrameFollower=[0,2,0,1](scene.c:667)",并以 scene.c:728 为 C 依据。但实际核对 C 源,scene.c:728 这行(正是队员循环 for(i=1;i<=wMaxPartyMemberIndex;i++) 内的帧赋值)写的是 `rgParty[i].wFrame = rgTrail[2].wDirection*3 + iStepFrameLeader` —— 用的是 iStepFrameLeader(序列 [0,1,0,2]),与队长 scene.c:684 完全相同,并非 follower 反相序列。声称所引的 scene.c:667 只是 iStepFrameFollower 的"定义"行;该变量的"唯一消费点"是 scene.c:742,在另一个独立循环 for(i=1;i<=nFollower;i++) 里,给的是 rgParty[wMaxPartyMemberIndex+i] —— 即 opcode 0x98 set-follower 的额外同行 NPC(res.c 路径,sprite 直取 MGO chunk),不是普通队员 1/2。
+**否决依据**:差异声称"队员 rgParty[1..wMaxPartyMemberIndex] 应用反相序列 iStepFrameFollower=`0,2,0,1`（`scene.c:667`）",并以 scene.c:728 为 C 依据。但实际核对 C 源,scene.c:728 这行(正是队员循环 for(i=1;i<=wMaxPartyMemberIndex;i++) 内的帧赋值)写的是 `rgParty[i].wFrame = rgTrail[2].wDirection*3 + iStepFrameLeader` —— 用的是 iStepFrameLeader(序列 [0,1,0,2]),与队长 scene.c:684 完全相同,并非 follower 反相序列。声称所引的 scene.c:667 只是 iStepFrameFollower 的"定义"行;该变量的"唯一消费点"是 scene.c:742,在另一个独立循环 for(i=1;i<=nFollower;i++) 里,给的是 rgParty[wMaxPartyMemberIndex+i] —— 即 opcode 0x98 set-follower 的额外同行 NPC(res.c 路径,sprite 直取 MGO chunk),不是普通队员 1/2。
 
 也就是说 C 真值里:普通队员 1/2 与队长"同相"([0,1,0,2]),只有 0x98 额外跟随者才"反相"([0,2,0,1])。差异把变量的定义点(667)误当成消费点,错误地把 follower 反相序列归给了 wMaxPartyMemberIndex 循环。
 

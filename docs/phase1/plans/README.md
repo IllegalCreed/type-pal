@@ -65,3 +65,13 @@
 | 文件 | 内容 | 状态 |
 |---|---|---|
 | [tileset-atlas-packing](2026-06-22-tileset-atlas-packing.md) | 瓦片资源管线优化:每地图 gzip RLE blob(去图片容器)。S1-S6 全完成,实测 265MB→6.7MB(97.5%)/ 请求 67k→223 / 解码 0 次 canvas / 像素逐字节一致 | ✅ |
+
+## 2026-06 后期计划（历史）
+
+- [2026-06-13-canvas-resolution-setting.md](2026-06-13-canvas-resolution-setting.md)
+- [2026-06-13-offline-precache-sw.md](2026-06-13-offline-precache-sw.md)
+- [2026-06-13-prod-tools-panel.md](2026-06-13-prod-tools-panel.md)
+- [2026-06-14-unified-precache-progress-gate-impl.md](2026-06-14-unified-precache-progress-gate-impl.md)
+- [2026-06-14-unified-precache-progress-gate.md](2026-06-14-unified-precache-progress-gate.md)
+- [2026-06-18-speedrun-timer-design.md](2026-06-18-speedrun-timer-design.md)
+- [2026-06-18-speedrun-timer.md](2026-06-18-speedrun-timer.md)

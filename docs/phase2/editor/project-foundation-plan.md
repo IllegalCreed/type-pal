@@ -1,3 +1,8 @@
+> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、
+> Agent 分工、版本号与“当前状态”均为**当时快照**，不是现行契约或待办；已被后续
+> current-only / canonical 实现取代的方案不恢复。现行真值见 docs/phase2/READ-FIRST.md
+> 与 capability-map.md。
+
 # 工程地基实施计划(A 期)—— 给 GLM 开工
 
 > 设计依据 [project-design.md](project-design.md);开工前先读 [READ-FIRST](../READ-FIRST.md)。

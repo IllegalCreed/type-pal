@@ -1,6 +1,10 @@
-# P0 · 内容 Schema + 迁移器（设计初稿）
+# 内容 Schema（现行契约 + 历史设计）
 
-> 状态：草案（2026-06-18 起草）。第二阶段铁律见 [READ-FIRST.md](../READ-FIRST.md)；总纲见 [roadmap.md](../roadmap.md)；议题池见 [design-backlog.md](../design-backlog.md)。
+> **文档分层（2026-09-06 标注）**：本文是「活规范 + 历史设计」合体文件——
+> **现行契约**自「当前 canonical 项目入口」一节起（含后续追加的 contentVersion/save/script 各节），
+> 版本常量以 `packages/content/src/character.ts` 为准（当前 content20 / SAVE8）；
+> 标题与开头「P0 设计初稿 / 草案」字样是 2026-06-18 起草时的历史状态，**不降低现行节效力**。
+> 铁律见 [READ-FIRST.md](../READ-FIRST.md)；总纲见 [roadmap.md](../roadmap.md)；议题池见 [design-backlog.md](../design-backlog.md)。
 > 本文定义**新引擎（reforge）与编辑器（editor）共用的内容数据模型**，以及从 `data/extracted/` 一次性迁移的方案。是 P1 / P2 的地基。
 >
 > **每条决策的「为什么旧引擎不行」证据**见 [engine-debt-audit.md](engine-debt-audit.md)（文末有「schema 决策 ↔ finding」反查表）。本文只定「应该长什么样」，那份定「为什么必须这样」。

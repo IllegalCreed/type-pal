@@ -1,3 +1,7 @@
+> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行
+> 指令、Agent 分工与“当前状态”是当时快照，不是现行待办。实现结果以 capability-map 与
+> 对应任务卡为准。
+
 # 存档系统 实现计划（「现在能做」阶段）
 
 > **For agentic workers**：逐 Task TDD（失败测试→跑→实现→跑→提交）。第二阶段 Reforge，先读 [READ-FIRST](../READ-FIRST.md) + 设计 [save-system-design.md](save-system-design.md)。

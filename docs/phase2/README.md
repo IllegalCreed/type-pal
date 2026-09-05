@@ -1,8 +1,24 @@
 # docs/phase2/ — 第二阶段（重制引擎 + 编辑器 + 内容）文档
 
 > 本目录服务**第二阶段**：现代化重制引擎 + 内容编辑器 + 自有内容生产。
-> **第一阶段（忠实还原）**的真值表、决策、架构、历史归档在 `docs/` 顶层与 `docs/plans/`，不在此处。两阶段文档不混。
+> **第一阶段（忠实还原）**的真值表、决策、架构、历史归档在 [`docs/phase1/`](../phase1/README.md)
+> 与 [`docs/phase1/plans/`](../phase1/plans/README.md)，不在此处。两阶段文档不混。
 > **第三阶段（MMO + 深度玩法）**的远期设想在 [`docs/phase3/`](../phase3/README.md)——第二阶段不碰、只存放。
+
+> **导航原则（2026-09-06 起）**：本 README 只维护稳定的目录导航与「现状看哪里」，不再手抄
+> 每份计划/设计的实施状态——那是 capability-map 与 roadmap 的职责，手抄必然漂移。
+> 各子目录的 `README.md` 负责本目录内文件的 current / historical / superseded 分类。
+
+## 现状看哪里（权威入口）
+
+| 想知道 | 去哪里 |
+|---|---|
+| 当前队列 / 下一步 | [`roadmap`](roadmap.md) 末节「当前第二阶段队列」+ [`../ops/board.md`](../ops/board.md) |
+| 能力做到哪了 | [`capability-map`](capability-map.md)（进度真值表） |
+| 开工铁律 | [`READ-FIRST`](READ-FIRST.md)（十一条铁律 + 串台自查，开工前必读） |
+| 已拍板决策 | [`decisions`](decisions.md)（D1–D31+，滚动累积） |
+| 当前内容/存档格式 | [`foundation/content-schema`](foundation/content-schema.md) 现行契约节 + `packages/content/src/character.ts` 常量 |
+| 协作流程 | [`../agent-workflow.md`](../ops/agent-workflow.md) 与根 [`AGENTS.md`](../../AGENTS.md) |
 
 ## 文档组织规矩（2026-06-27 立，新增文档照此放）
 
@@ -11,78 +27,42 @@
 | 位置 | 放什么 |
 |---|---|
 | **顶层** | README（本文）+ 方针：`READ-FIRST` / `roadmap` / `capability-map`（进度真值表）/ `decisions` / `design-backlog` |
-| **`foundation/`** | 跨切片地基（内容 schema、美术管线、引擎债审查），长期参照 |
-| **`<主题>/`** | 某子系统 / 切片的工作文档（如 `slice1-indoor/`、`dialogue/`） |
+| **`foundation/`** | 跨切片地基（内容 schema、美术管线、引擎债审查），长期参照——见 [foundation/README](foundation/README.md) |
+| **`<主题>/`** | 某子系统 / 切片的工作文档——见各主题目录 README |
 
 **命名约定：**
 - **顶层方针**：语义名，**无阶段前缀、无日期**。
 - **文件夹内**：用**角色后缀** — `spec`（规格 / 真值）、`design`（架构）、`plan`（TDD 实现步骤）；去掉冗余的 `p0-`/`p1-`/`slice-` 前缀（文件夹已表达），去掉日期（日期进文件内「状态」行）。
 - **多文档子系统**：用「主题前缀 + 角色」区分，如 `dialogue/` 下 `model-design`（数据）/ `visual-plan`（外观）。
-- **新切片 / 子系统**：开一个**文件夹**，放它的 spec / design / plan。
+- **新切片 / 子系统**：开一个**文件夹**，放它的 spec / design / plan，并补一个目录 README 标注 current/historical。
 
-## 索引
+## 目录索引
 
-### 顶层 · 方针（常查 / 滚动）
-| 文件 | 内容 | 状态 |
+| 目录 / 文件 | 职责 | 明细 |
 |---|---|---|
-| [READ-FIRST](READ-FIRST.md) | 六条铁律 + 串台自查（**开工前必读**） | 定稿 |
-| [roadmap](roadmap.md) | 总纲：愿景 / 北极星与原版定位(§8) / 能力地图引用(§9) / 从 N6、全流程 E2E、资源自包含到独立打包的执行路线(§10) | 活文档 |
-| [capability-map](capability-map.md) | **进度真值表**：8 领域 63 格 + 阶梯依赖 + 下一步选择器 + 回归沙盒（活文档，每次开工先读） | 活文档 |
-| [decisions](decisions.md) | 已拍板决策 **D1–D20**（滚动累积） | 滚动 |
-| [design-backlog](design-backlog.md) | 设计议题池（痛点 + 方向 + 归属 + 状态） | 滚动 |
+| [READ-FIRST](READ-FIRST.md) | 十一条铁律 + 串台自查（开工前必读） | — |
+| [roadmap](roadmap.md) | 总纲：愿景 / 北极星 / 执行路线 / 当前队列（活文档） | — |
+| [capability-map](capability-map.md) | 进度真值表：8 领域格 + 阶梯依赖 + 下一步选择器（活文档） | — |
+| [decisions](decisions.md) | 已拍板决策 D1–D31+（滚动累积，含 outcome 索引） | — |
+| [design-backlog](design-backlog.md) | 设计议题池 | — |
+| [foundation/](foundation/README.md) | 跨切片地基：content/save/script/actor 等设计与一阶段知识测绘 | [README](foundation/README.md) |
+| [editor/](editor/README.md) | 编辑器子系统：项目设计、设计系统、作者指南 | [README](editor/README.md) |
+| [dialogue/](dialogue/README.md) | 对话系统（数据模型 + 外观 + 迁移） | [README](dialogue/README.md) |
+| [menu/](menu/README.md) | 菜单系统（D17 起的数据驱动 UI） | [README](menu/README.md) |
+| [migrate/](migrate/README.md) | PAL 内容迁移管线 | [README](migrate/README.md) |
+| [slice1-indoor/](slice1-indoor/README.md) | 切片 1：室内场景（历史启动切片） | [README](slice1-indoor/README.md) |
 
-### foundation/ · 跨切片地基（长期参照）
-| 文件 | 内容 | 状态 |
-|---|---|---|
-| [content-schema](foundation/content-schema.md) | 内容数据模型（三层状态 / 稳定 id / 场景包 / 事件演出 / 角色实例化）+ 迁移器 | 草案 |
-| [art-pipeline](foundation/art-pipeline.md) | 美术资产生图管线（像素风 / 动画现实路径） | 草案 |
-| [engine-debt-audit](foundation/engine-debt-audit.md) | 第一阶段引擎架构债（18 finding + 反查表）—— 重写的反面输入 | 定稿 |
-| [phase1-knowledge-harvest](foundation/phase1-knowledge-harvest.md) | **一阶段知识测绘**：8 领域踩坑+可移植知识+架构红线（动任何格前先读对应段，铁律 #9） | 活文档 |
-| [`../phase1/game-mechanics`](../phase1/game-mechanics.md) | ★ **原版底层机制真值**（作者亲手考证，1218 行）：战斗/数值/机制专题，动战斗格前必读（铁律 #9 首选参考） | 定稿 |
-| [render-foundation-plan](foundation/render-foundation-plan.md) | D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化，7 Task TDD） | 已落地 |
-| [skill-data-design](foundation/skill-data-design.md) | 技能数据三层架构（SkillData + effects[] 联合 / learnedSkills 关系表 / levelUpSkills 等级表） | 已认可 |
-| [skill-data-plan](foundation/skill-data-plan.md) | 技能数据地基 TDD 实现计划（3 Task：定义+demo / 等级表 / magic→learnedSkills 迁移） | 已实现 |
-| [item-data-design](foundation/item-data-design.md) | 物品/装备数据架构（一物多能力块 equip/use/throw + EquipEffect 联合 + 6 槽 + 有效属性） | 已认可 |
-| [equipment-foundation-plan](foundation/equipment-foundation-plan.md) | 装备地基 TDD 计划（item.ts + 6 槽 + inventory + 有效属性，交 GLM） | 待 GLM |
-| [script-system-design](foundation/script-system-design.md) | 剧情脚本系统数据模型 shape（世界=实体+触发器+脚本 / 命令判别联合 / 结构化分支·并行 / 跨场景=全局 flag / 模板=带参实体） | 草稿·待评审 |
+> 本 README 曾逐文件维护 70+ 份子文档的实施状态（草案/待实现/活跃等）。该状态层自
+> 2026-09-06 起由 capability-map、roadmap 当前队列与各子目录 README 承接；历史状态表见
+> Git 历史（`git log -p docs/phase2/README.md`）。
 
-### slice1-indoor/ · 切片 1：室内场景跑通
-| 文件 | 内容 | 状态 |
-|---|---|---|
-| [guijie-minju](slice1-indoor/guijie-minju.md) | **鬼界民居 demo**（Canvas 2D，借原版民居裁一间，走 / 撞 / 对话） | 活跃 |
-| [spec](slice1-indoor/spec.md) | 旧 spec（WebGL / MMO / 通用房间）→ 已被重新聚焦取代 | 存档 |
-| [plan](slice1-indoor/plan.md) | 旧实现计划（1300 行 TDD，旧范围） | 存档 |
+## 顶层专题文档
 
-### dialogue/ · 对话系统（跨 ①②③ 的子系统）
-> 三刀：① 数据结构化(model) → ② 外观 Canvas2D(visual) → ③ 迁移器(留后)。
+- [dev-tools.md](dev-tools.md) — DEV 调试面板合同（五 tab/输入隔离/帧步进/实体位置控制权检视）
 
-| 文件 | 内容 | 状态 |
-|---|---|---|
-| [model-design](dialogue/model-design.md) | ① 对话数据结构化设计（去 in-band 控制符 + i18n + slot） | 已实现 |
-| [model-plan](dialogue/model-plan.md) | ① TDD 实现计划（数据模型 + 状态机） | 已实现 |
-| [visual-spec](dialogue/visual-spec.md) | 对话框外观**真值参考**（原版坐标 / 色值 / 打字时序，GLM 整理） | 参考 |
-| [visual-design](dialogue/visual-design.md) | ② 外观设计（Canvas2D 适配 + slot 共存 + 完整技术点仪表盘） | 已认可 |
-| [visual-plan](dialogue/visual-plan.md) | ② TDD 实现计划（7 Task） | 待实现 |
+## 顶层专题文档（续）
 
-### menu/ · 菜单系统（D17）
-> 角色 schema §9 首次代码化 + 数据驱动 UI + 可切片框原语；长在 D16 地基上。
-
-| 文件 | 内容 | 状态 |
-|---|---|---|
-| [design](menu/design.md) | 角色 schema + 数据驱动布局 + 可切片框原语（九宫格/卷轴）+ 范围 | 已认可 |
-| [plan](menu/plan.md) | TDD 实现计划（5 Task：schema→状态机→资产→UI→集成） | 已实现 |
-| [cash-box-plan](menu/cash-box-plan.md) | 金钱横卷轴（frame 44-46 横卷轴 + 19-28 数字）实现计划 | 已实现 |
-| [status-page-plan](menu/status-page-plan.md) | 状态面板完整还原（立绘 + 9 属性 + 装备格 2×3）实现计划 | 已实现 |
-| [magic-menu-plan](menu/magic-menu-plan.md) | 仙术菜单（接技能地基；状态机=GLM / UI·集成·对齐=Claude） | 已实现 |
-| [equip-menu-plan](menu/equip-menu-plan.md) | 装备面板（世界操作+状态机=GLM / UI·对齐=Claude；多级菜单 openPanel='equip'） | 已实现 |
-| [use-menu-plan](menu/use-menu-plan.md) | 使用面板（useItem+状态机=GLM / UI·集成·bake=Claude；两阶段 pick-item→pick-target，回血/真气+消耗） | A/B 待 GLM |
-
-## 怎么用（阅读路径）
-- **整体方向** → [roadmap](roadmap.md)
-- **做到哪了 / 下一步做啥** → [capability-map](capability-map.md)（**每次开工先读 §5 选择器**）
-- **开工铁律** → [READ-FIRST](READ-FIRST.md)
-- **已拍 / 在议** → [decisions](decisions.md) / [design-backlog](design-backlog.md)
-- **内容格式怎么定** → [foundation/content-schema](foundation/content-schema.md)
-- **当前切片做什么** → [slice1-indoor/guijie-minju](slice1-indoor/guijie-minju.md)
-- **对话系统** → [dialogue/](dialogue/model-design.md)（model 数据 → visual 外观）
-- **旧引擎哪些债必须绕开** → [foundation/engine-debt-audit](foundation/engine-debt-audit.md)
+- [ambience-design.md](ambience-design.md)
+- [battle-config-fills-review.md](battle-config-fills-review.md)
+- [battle-presentation-audit-2026-07-05.md](battle-presentation-audit-2026-07-05.md)
+- [poison-system-design.md](poison-system-design.md)

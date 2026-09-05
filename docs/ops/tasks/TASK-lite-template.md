@@ -1,6 +1,8 @@
 # TASK-ID - 任务标题
 
-Status: build | review | done
+Status: draft | build | review | done
+（特殊状态： blocked / rework / cancelled —— 与正式状态机一致；lite 卡同样遵循
+draft→build 前三签、done 前三 accept 的门禁）
 Owner: Codex | Kimi | GLM
 Reviewer: Kimi | GLM | N/A
 Phase: phase1 | phase2 | ops

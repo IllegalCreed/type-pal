@@ -1,6 +1,6 @@
 # ED-DS-3 编辑器设计系统全量采用与防回流门禁
 
-> **状态**：done（2026-08-25 Codex / Kimi / GLM 三方 `accept` 齐）
+Status: done（2026-08-25 Codex / Kimi / GLM 三方 `accept` 齐）
 > **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（公共组件 / 交互架构）、GLM（页面覆盖 / 规则审计）
 > **能力格**：ED2 编辑器设计系统与交互基础设施
@@ -66,8 +66,8 @@
 - `packages/editor/scripts/audit-legacy-controls.mjs`：现有 legacy audit。
 - `packages/editor/src/ui/design-system/controls.tsx`：当前字段 / 按钮基础组件。
 - `packages/editor/src/ui/design-system/controls.test.tsx`：现有组件测试。
-- `docs/ops/tasks/ED-DS-2-editor-design-system-controls.md`：已完成的基础组件建设，不重开。
-- `docs/ops/tasks/ED-AUDIT-2-editor-full-surface-audit.md`：已完成的历史审计，不把旧完成状态当成当前覆盖证据。
+- `docs/ops/tasks/ED-DS-2-editor-design-system-foundation.md`：已完成的基础组件建设，不重开。
+- `docs/ops/tasks/ED-AUDIT-2-editor-systematic-audit.md`：已完成的历史审计，不把旧完成状态当成当前覆盖证据。
 
 ## 不得重新引入
 

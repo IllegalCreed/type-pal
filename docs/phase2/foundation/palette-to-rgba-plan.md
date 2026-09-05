@@ -1,3 +1,7 @@
+> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行
+> 指令、Agent 分工与“当前状态”是当时快照，不是现行待办。实现结果以 capability-map 与
+> 对应任务卡为准。
+
 # Palette → RGBA 改造计划(运行时去调色板)
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development 或 executing-plans 逐 Task 实现。Steps 用 checkbox(`- [ ]`)跟踪。

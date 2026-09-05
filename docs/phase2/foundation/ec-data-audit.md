@@ -120,7 +120,7 @@ USHORT nSpriteFramesAuto; WORD wScriptIdleFrameCountAuto;
 | 函数 | 一阶段对照 | 状态 |
 |---|---|---|
 | PLAYERROLES SoA(24 行) | PlayerRolesRuntime 24 字段镜像 | ✅ |
-| per-role HP 全局耦合(`rgwHP[roleId]`) | runtime.rgwHP[roleId](同结构,继承耦合) | ⚠️ 继承债(战斗需投影/回写) |
+| per-role HP 全局耦合(`rgwHP[roleId]`) | runtime.rgwHP`roleId` | ⚠️ 继承债(战斗需投影/回写) |
 | rgwName 3/4 对调 | player-roles.ts:240-243 + `ddb28d07` | ✅(C2 fix) |
 | PlayerRolesRuntime vs staticRoles 双轨 | projectRuntimeToBattleRoles + writeBackBattleRolesToRuntime | ⚠️ 三套副本同步地狱(C3) |
 | 战内 0x19/0x1A 加成回灌战斗工作副本 | resyncBattleRoleStatsFromRuntime + `e70f9724` | ✅(C3 镇狱明王 fix) |
@@ -172,7 +172,7 @@ USHORT nSpriteFramesAuto; WORD wScriptIdleFrameCountAuto;
 - **三态**(`follower-pos.ts:33-83`):
   1. **walking + 已捕获 frozenOffset**:位置 = trail[1]+方向偏移(撞墙回退),朝向 = trail[2].dir;捕获 frozenOffset。
   2. **not-walking + 已捕获 frozenOffset**:**位置冻结**(队长+offset),**朝向仍用当前 trail[2].dir**(非冻结朝向)—— 区分船划行(跟队长转)vs 隐龙窟站立(保持走来方向)。
-  3. **not-walking + 无 frozenOffset**(0x46 摆位 / 刚进场景):位置 = trail[m](=队长+m×offset),**非 trail[1]+偏移**(那会多退一格 = 间隙)。
+  3. **not-walking + 无 frozenOffset**(0x46 摆位 / 刚进场景):位置 = trail`m`,**非 trail[1]+偏移**(那会多退一格 = 间隙)。
 - **trail 不足(<=1)→ null**(`:42`)。
 
 #### `packages/game/src/present/follower-render.ts`(70 行)— 0x98 跟随者渲染项
@@ -454,7 +454,7 @@ EquipEffect 联合定义了,但 `effectiveStat` 只算 statBonus。**行动**:**
 
 #### `packages/pal-extract/src/resources/parsers/items.ts`(全文件)
 - **OBJECT_ITEM wrapper**(`parseItems`,`:65-100`):wObjectID 体系(61..294,排除 295=梦蛇);7 字段全 dump。
-- **ItemFlags 拆位**(`parseItemFlags`,`:39-55`):6 bool + equipableBy[6](bit6..11)。
+- **ItemFlags 拆位**(`parseItemFlags`,`:39-55`):6 bool + equipableBy`6`（`bit6..11`）。
 - **id 统一为 wObjectID**(`:62-72` 注释):2026-05-29 改;此前 0-based local id 与 opcode operand 错位 → "调查柜子获得净衣符显示断肠草"根因(`6822295f` fix)。
 - **梦蛇 295 排除**(`:84` `if (id === MENGSHE_OBJ_ID) continue`)—— 法术,归 spells.json。
 
@@ -495,7 +495,7 @@ EquipEffect 联合定义了,但 `effectiveStat` 只算 statBonus。**行动**:**
 ### 8.1 sdlpal C 真值
 
 #### `tagENEMY`(`global.h:257-295`)— 详细 stats(35 WORD = 70 字节)
-- wIdleFrames(0)/ wMagicFrames(2)/ wAttackFrames(4)/ wIdleAnimSpeed(6)/ wActWaitFrames(8)/ wYPosOffset(10)/ wAttackSound(12,SHORT)/ wActionSound(14,SHORT)/ wMagicSound(16,SHORT)/ wDeathSound(18,SHORT)/ wCallSound(20,SHORT)/ wHealth(22)/ wExp(24)/ wCash(26)/ wLevel(28)/ wMagic(30)/ wMagicRate(32)/ wAttackEquivItem(34)/ wAttackEquivItemRate(36)/ wStealItem(38)/ nStealItem(40)/ wAttackStrength(42,SHORT)/ wMagicStrength(44,SHORT)/ wDefense(46,SHORT)/ wDexterity(48,SHORT)/ wFleeRate(50)/ wPoisonResistance(52)/ wElemResistance[5](54/56/58/60/62)/ wPhysicalResistance(64)/ wDualMove(66)/ wCollectValue(68)。
+- wIdleFrames(0)/ wMagicFrames(2)/ wAttackFrames(4)/ wIdleAnimSpeed(6)/ wActWaitFrames(8)/ wYPosOffset(10)/ wAttackSound(12,SHORT)/ wActionSound(14,SHORT)/ wMagicSound(16,SHORT)/ wDeathSound(18,SHORT)/ wCallSound(20,SHORT)/ wHealth(22)/ wExp(24)/ wCash(26)/ wLevel(28)/ wMagic(30)/ wMagicRate(32)/ wAttackEquivItem(34)/ wAttackEquivItemRate(36)/ wStealItem(38)/ nStealItem(40)/ wAttackStrength(42,SHORT)/ wMagicStrength(44,SHORT)/ wDefense(46,SHORT)/ wDexterity(48,SHORT)/ wFleeRate(50)/ wPoisonResistance(52)/ wElemResistance`5`（`54/56/58/60/62`）/ wPhysicalResistance(64)/ wDualMove(66)/ wCollectValue(68)。
 
 #### `tagOBJECT_ENEMY`(`global.h:218-226`)— 5 WORD
 - wEnemyID(0,指向 DATA chunk 1 ENEMY 数组,**1-based**)/ wResistanceToSorcery(2,0..10)/ wScriptOnTurnStart(4)/ wScriptOnBattleEnd(6)/ wScriptOnReady(8)。
@@ -572,7 +572,7 @@ EquipEffect 联合定义了,但 `effectiveStat` 只算 statBonus。**行动**:**
 | # | 风险 | sdlpal 真值 | 一阶段 | reforge | 核实结论 |
 |---|---|---|---|---|---|
 | 1 | per-role HP 全局耦合 | `rgwHP[roleId]`(global.h:303) | PlayerRolesRuntime.rgwHP[roleId] 继承耦合 | CharacterInstance.hp 在实例上 + party 是引用列表 | ✅ **已免疫**(character.ts:71;无 roleId 下标) |
-| 2 | rgwName 3=巫后 4=阿奴对调 | rgwName=[36,37,38,40,39,41](原版数据) | player-roles.ts:240-243 按 rgwName 取名 + `ddb28d07` | 稳定 string id + TextId | ✅ **reforge 免疫**;**迁移器正确处理**(pal-extract/player-roles.ts:240 已 fix) |
+| 2 | rgwName 3=巫后 4=阿奴对调 | rgwName=`36,37,38,40,39,41` | player-roles.ts:240-243 按 rgwName 取名 + `ddb28d07` | 稳定 string id + TextId | ✅ **reforge 免疫**;**迁移器正确处理**(pal-extract/player-roles.ts:240 已 fix) |
 | 3 | PlayerRolesRuntime vs staticRoles 双轨 | 单一 PlayerRoles(战内直接读写) | projectRuntimeToBattleRoles + writeBackBattleRolesToRuntime 三套副本 | 单一 CharacterInstance(无投影/回写) | ✅ **已免疫**(character.ts;战斗直接读实例) |
 | 4 | 装备 effect 累加 vs override | 6 累加(global.c:1736-1935)+ 3 override(global.c:1970-2078) | equip-effect.ts:24-67(6 累加)+ game-state.ts:1577-1592(3 override)+ `8b541469` | effectiveStat 只 statBonus;attackAll/grantSkill/maxPool 定义未消费 | ⚠️ **部分**(item.ts:77 注释明示 phase3;**当前长鞭/圣灵珠/土灵珠无效**) |
 | 5 | 卸装清授出状态/毒 | PAL_RemoveEquipmentEffect Hand→DualAttack / Wear→poison99(global.c:1406-1454) | equip-effect.ts:266-310 + `ddba7bfa`/`9b6feb86` | equipItem 只换槽位不清状态 | ❌ **缺口**(item.ts:140-165;**迁移仙女剑/寿葫芦必撞**) |

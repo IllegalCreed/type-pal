@@ -11,3 +11,13 @@
 
 其余扁平文件是对应任务的历史专项审计。后续新增大范围审计优先使用具名子目录并提供 `README.md`；
 不因整理索引改写历史审查结论。
+
+## 目录文件索引
+
+- [OPS-TST-PERF-g1-coverage-map.md](OPS-TST-PERF-g1-coverage-map.md)
+- [b10-1-source-slot-census-2026-08-09.md](b10-1-source-slot-census-2026-08-09.md)
+- [codex-p7-r13-three-way-adjudication.md](codex-p7-r13-three-way-adjudication.md)
+- [codex-r13-4-confirm-control-flow-audit.md](codex-r13-4-confirm-control-flow-audit.md)
+- [codex-r13-5-enemy-source-semantics-audit.md](codex-r13-5-enemy-source-semantics-audit.md)
+- [glm-p7-r13-source-semantics-audit.md](glm-p7-r13-source-semantics-audit.md)
+- [kimi-p7-r13-source-semantics-audit.md](kimi-p7-r13-source-semantics-audit.md)

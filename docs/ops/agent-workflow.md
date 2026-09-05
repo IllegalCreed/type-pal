@@ -10,9 +10,11 @@
 |---|---|
 | [`../../AGENTS.md`](../../AGENTS.md) | 多 Agent 根协议。 |
 | [`board.md`](board.md) | 当前进行中/阻塞任务看板。 |
-| [`tasks/`](tasks/) | 任务卡目录。 |
+| [`tasks/`](tasks/) | 任务卡目录（索引与终态说明见 [`tasks/README.md`](tasks/README.md)）。 |
 | [`tasks/TASK-template.md`](tasks/TASK-template.md) | 不可逆/高风险任务模板。 |
 | [`tasks/TASK-lite-template.md`](tasks/TASK-lite-template.md) | 中等任务轻量模板。 |
+| [`acceptance-checklist.md`](acceptance-checklist.md) | 历史验收批次记录（2026-07 前后；不作当前待办）。 |
+| [`kimi-verification-manual.md`](kimi-verification-manual.md) | Kimi 视觉验证操作参考（历史整理，随需更新）。 |
 
 ## 角色分工
 

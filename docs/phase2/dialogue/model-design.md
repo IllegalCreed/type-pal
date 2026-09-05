@@ -1,3 +1,8 @@
+> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、
+> Agent 分工、版本号与“当前状态”均为**当时快照**，不是现行契约或待办；已被后续
+> current-only / canonical 实现取代的方案不恢复。现行真值见 docs/phase2/READ-FIRST.md
+> 与 capability-map.md。
+
 # 对话系统结构化数据模型 · 设计
 
 > 状态:N1-1 done（2026-07-15）；C1-2 content14 人物身份 successor 已实现并处于 review（2026-08-14）。第二阶段铁律见 [READ-FIRST.md](../READ-FIRST.md);内容总 schema 见 [content-schema.md](../foundation/content-schema.md);本次决策记录见 [decisions.md](../decisions.md) D11。

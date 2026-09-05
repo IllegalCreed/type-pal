@@ -50,7 +50,7 @@
 
 ## 3. 架构:FileSource 抽象(核心,覆盖内容+素材)
 
-现状分裂:内容走 `loadProject` 里 `fetch(projects/${id}/...)`([loader.ts:170](../../../packages/reforge/src/loader.ts#L170)),素材走 `assets.ts` 里 `fetch(assetBase 绝对URL)`([assets.ts:36](../../../packages/reforge/src/assets.ts#L36))。要让本地工程**离线自包含**,两者统一到一个「从哪读」的接口:
+现状分裂:内容走 `loadProject` 里 `fetch(projects/${id}/...)`(`loader.ts:170`（历史路径 `f1466374:packages/reforge/src/loader.ts`，现行入口为 project-loader.ts）),素材走 `assets.ts` 里 `fetch(assetBase 绝对URL)`([assets.ts:36](../../../packages/reforge/src/assets.ts#L36))。要让本地工程**离线自包含**,两者统一到一个「从哪读」的接口:
 
 ```ts
 interface FileSource {
@@ -323,9 +323,10 @@ A7/R7 总体不能提前标 done。
   manifest；非法 battle/onDefeated 上下文在任何写盘前 fail-loud。
 - contentVersion 5～10 已由 N3-1 P7/R13 占用；A7-4 当前顺延为候选 v11，版本尚未冻结。
 
-## 19. 开发期 current-only 边界（2026-08-20，覆盖 §11–§18 中所有版本/升级口径）
+## 19. 开发期 current-only 边界（2026-08-20，覆盖 §11–§18 中所有版本/升级口径；2026-09-06 复核更新当前版本号）
 
-- 当前唯一产品格式为 `contentVersion: 19` / SAVE 8 / `minimumSaveVersion: 8`。loader、editor、runtime
+- 当前唯一产品格式为 `contentVersion: 20` / SAVE 8 / `minimumSaveVersion: 8`（2026-09-05 起含
+  SceneIndex；本节最初写作 19，版本号以 `packages/content/src/character.ts` 为准）。loader、editor、runtime
   和 save codec 只消费这一组 canonical 类型，不按版本选择实现。
 - 本项目尚未正式上线；旧 content/save upgrader、旧类型、fixture、sidecar、产品升级入口和兼容 fallback
   已删除。历史版本轴只由 Git 和上文的历史记录保存，不能作为新代码的输入契约。

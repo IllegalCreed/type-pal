@@ -1,6 +1,6 @@
 # MIG-PAL-WORLD-SPRITE-ALIAS-1 PAL 大世界角色精灵语义别名收口
 
-> **状态**：done（2026-08-24 Codex / Kimi / GLM accept 齐，用户确认收口）
+Status: done（2026-08-24 Codex / Kimi / GLM accept 齐，用户确认收口）
 > **负责人**：Codex（Coding Owner，已完成）
 > **参与审查**：Kimi（迁移规则 / schema）、GLM（7 场景与生成覆盖）
 > **能力格**：C2 内容迁移 / MG2 生成一致性

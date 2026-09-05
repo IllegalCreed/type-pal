@@ -154,7 +154,7 @@ Branch: `codex/ed-project-startup-ia-1`
   - `packages/editor/src/ui/ProjectWorkbenchTab.tsx:1430`（全局资源与启动）
   - `packages/editor/src/ui/ProjectWorkbenchTab.tsx:1639`（项目概览）
 - 已知坑 / 审计文档:
-  - `docs/ops/tasks/ARCH-ENTRYPOINT-CANONICAL-1-canonical-entry-model.md`
+  - `docs/ops/tasks/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md`
   - `docs/phase2/editor/editor-design.md:210`
   - `docs/phase2/editor/editor-design-system-v1.md:340`
 - 不得重新引入:

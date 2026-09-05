@@ -8,7 +8,7 @@
 - **目标契约已活**:`assembleProject` + `validate*` 就是验收器;`projects/demo/content/*.json` 是小规模样板。M1 = 把同一套文件从 2 角色/9 物品/3 技能长到 **6/234/103**。
 - **技能 103 个的难度分布(M1c 跑完实测,逐条核过 spells.json + magic.json)**:**纯表 57 个**(scriptOnSuccess=0 且 scriptOnUse=0 且非 summon,伤害/目标全从 magic.json 推)· **线性脚本可译 18 个**(heal/revive/status/poison/steal/trance/buff 等封闭 opcode)· **pending 28 个**(summon 9 + scriptOnUse 动态公式 14 + 概率/阈值门类 5)。投查时(M1a 前)曾估「64 纯表 + 12 onUse + 27 onSuccess」,M1c 用解析器取代了部分纯表后实测为 57;**以此实测为准**。门类 5 个(回梦/鬼降/夺魂/灵葫咒/灵血咒)线性 effects[] 表达不了(概率门 0x6/HP 阈值门 0x64/goto 循环),连设计文档的灵葫咒示例都默默丢了两道门 → M1c-2/战斗期。
 - **物品 234**:表字段全直取;**106 件装备效果 = 封闭 6-opcode 集**(equip-effect.ts 已全考证,机械翻译);**100 件使用效果最难**——现 `ItemUseEffect` 缺 ~8 个 kind(giveItems/giveMoney/learnSkill/scenePlace/transform/levelUp/craft/permanentStatBoost),**schema 扩展是前置**。
-- **描述文本**:scriptDesc → all.json 的 `L_<ip>` 标签起 walk 连续 `showDialog` 收 `.text`(M.MSG 已内联)。物品 desc=string[](逐行),技能 desc=string(join)——形状不对称要显式处理。
+- **描述文本**:scriptDesc → all.json 的 `L_<ip>` 标签起 walk 连续 `showDialog` 收 `.text`(M.MSG 已内联)。物品 desc=string``,技能 desc=string(join)——形状不对称要显式处理。
 - **opcode 语义金矿**:别从 script.c 重考证——`battle-opcodes.ts`(全战斗词汇+sdlpal 行号)/ `magic-script.ts`(场外技能实测)/ `equip-effect.ts`(装备 5-opcode)三处**已做对过三遍**,迁移器要的是它们的"静态表亲"(链入 → effects[] 出,非状态突变)。
 - **两个真雷(已核实)**:① `player-roles.ts:130` 的装备槽注释**是错的**——真序 = `[head, cloak, body, weapon, feet, accessory]`(role0 `[196,225,208,166,235,249]` 对 demo 已核物品名逐位验证);② `walkFrames:0` 语义 = 默认 3,非字面 0。roleId 3/4 名字对调 parser 已修,勿再从 words.json 天真重取。
 - `level-up-magic.json` **列主序**(某角色=一列)且仅 5 列对 6 角色;李逍遥列可拿 demo 已核 9 条当 oracle。

@@ -252,7 +252,7 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
   `object=<EntryPoint.id>` 定位指定真实入口。历史
   `page=startworld` 只做 URL 兼容归一化到 `entrypoint`，不保留旧页面。
 - 保存前统一校验入口表非空、id 唯一、`defaultEntryId` 命中、入口 scene、每套 StartWorld 引用、资源角色与
-  typed 资产闭包，错误按稳定入口 id 跳回字段的唯一作者。contentVersion 19 不合成入口、不接受旧顶层字段，
+  typed 资产闭包，错误按稳定入口 id 跳回字段的唯一作者。contentVersion 20 不合成入口、不接受旧顶层字段，
   也不保留任何 contentVersion 1..18 upgrader 或 fallback。
 - “问题”页只消费统一 diagnostics，并按严重度、问题类型与资源类型分组；项目身份和版本信息归“概览”，
   不在问题页重复。locale 编辑与状态归未来独立本地化工作台，问题页不建立第二个入口。

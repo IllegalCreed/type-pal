@@ -1,6 +1,6 @@
 # MIG-PAL-ITEM-SCHEME-LABEL-1 PAL 物品剧情方案作者命名收口
 
-> **状态**：done（2026-08-31，Codex / Kimi / GLM 当前实现 accept + 用户功能验收齐）
+Status: done（2026-08-31，Codex / Kimi / GLM 当前实现 accept + 用户功能验收齐）
 > **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（迁移 / current-only 边界）、GLM（全量引用闭包 / 测试矩阵）
 > **阶段**：phase2

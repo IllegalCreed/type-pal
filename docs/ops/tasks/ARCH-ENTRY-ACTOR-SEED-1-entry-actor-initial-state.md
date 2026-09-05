@@ -1,6 +1,6 @@
 # ARCH-ENTRY-ACTOR-SEED-1 入口角色完整初始状态所有权与快照模型
 
-> **状态**：done（2026-08-26 三方 `accept` + 用户最终验收齐，整卡收口）
+Status: done（2026-08-26 三方 `accept` + 用户最终验收齐，整卡收口）
 > **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（架构 / schema）、GLM（原版与数据覆盖）
 > **能力格**：X7 项目数据与持久化语义

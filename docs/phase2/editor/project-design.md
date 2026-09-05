@@ -39,7 +39,7 @@
 
 ### 2.1 包拓扑(复审的核心纠正)
 
-现状已经是干净的:`content` 是**零依赖叶子**(类型 + 纯逻辑 + 数据),`reforge` 和 `editor` **都只依赖它**;连存档层都从它取类型([save/types.ts:1](../../../packages/reforge/src/save/types.ts#L1))。editor 自己写明边界([editor/src/index.ts](../../../packages/editor/src/index.ts)):「依赖 content 数据模型,将来**嵌** reforge 预览,不碰 shared/game」。
+现状已经是干净的:`content` 是**零依赖叶子**(类型 + 纯逻辑 + 数据),`reforge` 和 `editor` **都只依赖它**;连存档层都从它取类型([save/types.ts:1](../../../packages/reforge/src/save/types.ts#L1))。editor 自己写明边界(`editor/src/index.ts`（历史路径 `d0a42191:packages/editor/src/index.ts`；现行职责说明见 packages/editor/README.md）):「依赖 content 数据模型,将来**嵌** reforge 预览,不碰 shared/game」。
 
 ```
 现状(干净):                           ❌ 初版计划(把 schema 搬进 reforge):

@@ -36,7 +36,7 @@ user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(
 
 - **数据文件**:[data/raw/](../../../data/raw) 14 个 MKF + 4 个 AVI + EXE/DLL/INI/RPG 等
 - **build target**:fIsWIN95 = TRUE(YJ2 压缩,WIN95 data,自动检测 sdlpal `global.c:50-109 PAL_IsWINVersion`);sdlpal 源码编译用 PAL_CLASSIC(关 ATB)— `fIsWIN95` 和 `PAL_CLASSIC` 是两个独立维度
-- **输出根**:[data/extracted/](../../../data/extracted) → 拷到 [packages/game/public/extracted/](../../../packages/game/public/extracted) 给 game runtime fetch
+- **输出根**:`data/extracted/`（本地可再生环境产物，不入库） → 拷到 `packages/game/public/extracted/`（symlink → data/extracted，本地环境） 给 game runtime fetch
 
 ---
 
@@ -161,7 +161,7 @@ user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(
 ## 本 audit 没覆盖的事
 
 - DATA.MKF chunk 15+(count=15 注释说 chunk 15 超出范围,但需 double-check `chunkCount(dataMkf)` 实际返回值是 15 还是 16)
-- FBP.MKF chunk 5 + chunk 58 写 PNG 时空 skip 原因(可能是空 chunk / YJ2 fail / size ≠ 64000)— 看 [battle-bgs.json](../../../packages/game/public/extracted/data/battle-bgs.json) ids 列表确实缺 5 和 58
+- FBP.MKF chunk 5 + chunk 58 写 PNG 时空 skip 原因(可能是空 chunk / YJ2 fail / size ≠ 64000)— 看 `battle-bgs.json`（本地提取产物 `data/extracted/data/battle-bgs.json`） ids 列表确实缺 5 和 58
 - 14 个 MKF 是否覆盖 sdlpal 用的全部资产 — 还有 `MAP.MKF / GOP.MKF / FIRE.MKF` 这些 sdlpal 也有更细的 sub-chunk 解码可能未覆盖
 
 这些等 T20(M5.5 真值 audit v2)再深扫。

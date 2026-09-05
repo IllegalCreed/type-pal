@@ -26,7 +26,7 @@
 
 **音乐**(在 `Musics/` 子目录):
 
-- `001.MID`–`087.MID` —— 86 个 MIDI(缺 029),全套 BGM。运行时用 SpessaSynth 合成,见 `docs/04-decisions.md` 的 D10。
+- `001.MID`–`087.MID` —— 86 个 MIDI(缺 029),全套 BGM。运行时用 SpessaSynth 合成,见 `docs/phase1/04-decisions.md` 的 D10。
 - `TRACK02.ogg`–`TRACK09.ogg` —— 8 个 CD 音轨(Vorbis),网页直接可用。
 
 **视频**:`1.avi`–`6.avi` —— 过场动画(msmpeg4v3 视频 + mp3 音频),用 ffmpeg 转 mp4/webm。
@@ -36,7 +36,7 @@
 - `1.RPG`–`5.RPG` —— 原版存档槽,可当 `pal-extract` 的校验 / 测试素材。
 - `PAL.EXE` `Pal.dll` `PALOLD.DLL` `VB40032.DLL` `*.INI` `LOGO.ICO` `README.txt` —— 原版 Windows 程序与配置,本项目用不到。
 
-> 这一版**没有 RIX 音乐归档**(BGM 是上面的 `.mid`),也**没有独立字库文件**(Win98 版用系统字体,网页版需自备 CJK 字体)。完整核对结论见 `docs/04-decisions.md` 的「数据核对结论」。
+> 这一版**没有 RIX 音乐归档**(BGM 是上面的 `.mid`),也**没有独立字库文件**(Win98 版用系统字体,网页版需自备 CJK 字体)。完整核对结论见 `docs/phase1/04-decisions.md` 的「数据核对结论」。
 
 ## 注意
 

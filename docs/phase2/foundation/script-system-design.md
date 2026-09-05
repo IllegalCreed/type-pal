@@ -1,6 +1,6 @@
 # 剧情脚本系统
 
-> **当前实现（contentVersion 19 / SAVE 8，2026-08-30）**：canonical 脚本模型没有版本后缀，位于
+> **当前实现（contentVersion 20 / SAVE 8，2026-09-06 复核）**：canonical 脚本模型没有版本后缀，位于
 > `packages/content/src/author-script*.ts`、`runtime-script.ts`、`author-scene.ts` 与
 > `runtime-scene.ts`；compiler/runtime/editor/save 直接消费当前模型。正式上线前不支持历史工程或
 > 存档，旧脚本类型、upgrader、sidecar、fixture 和产品迁移入口已删除。本文后半保留的 v0 草稿只用于
@@ -8,7 +8,7 @@
 > 最终验收状态见
 > [`N3-1` 任务卡](../../ops/tasks/N3-1-script-control-flow-modernization.md)。
 
-## contentVersion 19 / canonical script 契约
+## canonical script 契约（当前 contentVersion 20；下文旧版本号为历史快照）
 
 ### 作者身份与存储
 
