@@ -1,6 +1,6 @@
 /**
  * 编辑器外壳。B1.1 壳/渲染 · B1.2 选中/编辑 · B1.3 工具(拖动/添加/删除)。
- * 五区布局照 docs/phase2/editor/mockups/place-mode.html 定稿。
+ * 五区布局照 docs/phase2/archive/mockups/place-mode.html 定稿。
  *
  * 状态源:EditSession(useSyncExternalStore)。选中/工具是 UI 局部 state。
  * 一切编辑走 dispatch(Command) → 自动 undo/redo + 置脏 + 重渲染。

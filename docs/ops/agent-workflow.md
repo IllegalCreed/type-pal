@@ -10,11 +10,11 @@
 |---|---|
 | [`../../AGENTS.md`](../../AGENTS.md) | 多 Agent 根协议。 |
 | [`board.md`](board.md) | 当前进行中/阻塞任务看板。 |
-| [`tasks/`](tasks/) | 任务卡目录（索引与终态说明见 [`tasks/README.md`](tasks/README.md)）。 |
-| [`tasks/TASK-template.md`](tasks/TASK-template.md) | 不可逆/高风险任务模板。 |
-| [`tasks/TASK-lite-template.md`](tasks/TASK-lite-template.md) | 中等任务轻量模板。 |
-| [`acceptance-checklist.md`](acceptance-checklist.md) | 历史验收批次记录（2026-07 前后；不作当前待办）。 |
-| [`kimi-verification-manual.md`](kimi-verification-manual.md) | Kimi 视觉验证操作参考（历史整理，随需更新）。 |
+| [`tasks/`](tasks) | 任务卡目录（索引与终态说明见 [`tasks/README.md`](tasks/README.md)）。 |
+| [`tasks/TASK-template.md`](templates/TASK-template.md) | 不可逆/高风险任务模板。 |
+| [`tasks/TASK-lite-template.md`](templates/TASK-lite-template.md) | 中等任务轻量模板。 |
+| [`acceptance-checklist.md`](archive/acceptance/2026-07-checklist.md) | 历史验收批次记录（2026-07 前后；不作当前待办）。 |
+| [`kimi-verification-manual.md`](guides/browser-verification.md) | Kimi 视觉验证操作参考（历史整理，随需更新）。 |
 
 ## 角色分工
 
@@ -274,7 +274,7 @@ Git 才是历史档案。只有仍有无法重新生成的真实输入且当前�
 第二阶段任务的锚点至少包括:
 
 - `docs/phase2/READ-FIRST.md`。
-- 相关设计/审计文档,包括需要时的 `docs/phase2/foundation/phase1-knowledge-harvest.md`。
+- 相关设计/审计文档,包括需要时的 `docs/phase2/reference/phase1-knowledge-harvest.md`。
 - 一阶段 UX 真值或代码锚点。
 
 常见必带锚点示例:
@@ -394,7 +394,7 @@ Codex 可在本仓库中通过本地 dev server、Playwright/浏览器工具和�
 - 下一位 Agent 提示词。
 - 用户验收或拍板结果。
 
-中等任务可用 [`tasks/TASK-lite-template.md`](tasks/TASK-lite-template.md)。涉及原版/第一阶段机制真值、
+中等任务可用 [`tasks/TASK-lite-template.md`](templates/TASK-lite-template.md)。涉及原版/第一阶段机制真值、
 碰撞/移动语义、migration/schema/save/asset pipeline、大规模 generated rewrite 或主动改变既有用户行为时,
 必须升级完整任务卡。小改可以不建任务卡,但提交说明或最终回复必须写清楚验证结果。
 

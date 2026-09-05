@@ -1,4 +1,4 @@
-// 仙术菜单 Canvas UI(D17 → P2 施法链)。真值坐标见 docs/phase2/menu/magic-menu-plan.md
+// 仙术菜单 Canvas UI(D17 → P2 施法链)。真值坐标见 docs/phase2/archive/plans/magic-menu-plan.md
 // (= game draw-magic.ts,uigame.c:653-875 1:1)。在 320 逻辑坐标画,调用方已 ctx.scale(WORLD_SCALE)。
 // 三阶段:pick-caster(全队信息框 + 选人竖列框)/ pick-spell(网格 + MP box + 描述)/
 // pick-target(同 pick-spell + 队员框顶红箭头)。

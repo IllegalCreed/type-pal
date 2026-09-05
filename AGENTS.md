@@ -6,7 +6,7 @@
 - [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md): 第二阶段 Reforge 开工铁律。
 - [`docs/ops/agent-workflow.md`](docs/ops/agent-workflow.md): 多 Agent 具体工作流。
 - [`docs/ops/board.md`](docs/ops/board.md): 当前任务看板。
-- [`docs/ops/tasks/`](docs/ops/tasks/): 任务卡。
+- [`docs/ops/tasks/`](docs/ops/tasks): 任务卡。
 
 ## 三贤人系统
 
@@ -143,7 +143,7 @@ draft -> build -> review -> done
 第二阶段任务的锚点至少包括:
 
 - [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md)。
-- 相关设计/审计文档,包括需要时的 [`docs/phase2/foundation/phase1-knowledge-harvest.md`](docs/phase2/foundation/phase1-knowledge-harvest.md)。
+- 相关设计/审计文档,包括需要时的 [`docs/phase2/reference/phase1-knowledge-harvest.md`](docs/phase2/reference/phase1-knowledge-harvest.md)。
 - 一阶段 UX 真值或代码锚点。
 
 无上下文锚点的非小改任务不得进入 `build`。

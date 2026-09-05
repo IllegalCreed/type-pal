@@ -1,0 +1,69 @@
+{
+  "baseline": "04fb975e78a613ee597cb9f82f0a9e4797ce0e08",
+  "plannedFiles": 419,
+  "retainedRelocated": 261,
+  "archivedTasksWithPreservedBodyAndSignatures": 134,
+  "otherHistoricalSnapshotsWithPreservedBody": 89,
+  "retainedMediaByteIdentical": 9,
+  "sourceConsumersOnlyPathSubstitution": 24,
+  "gameMechanicsBodyAndFormulasPreserved": true,
+  "historicalProofDigest": "78455eb1f6a99abf6a0ca928565492cb078f60a15f48c633b8da407d5760cd83",
+  "normalization": "Only link destinations and planned repository path substitutions normalized; archival/retirement banners may precede intact original bodies.",
+  "retiredArtifacts": [
+    {
+      "originalPath": "docs/ops/samples/enemy-4f.png",
+      "recoveryRef": "b0930aa7:docs/ops/samples/enemy-4f.png",
+      "sha256": "a755f7443d4405767d54407bd32a82d545d5c2e63e52eade7ae7c08ab98860f9",
+      "reason": "User identified obsolete debug/upload samples; no current code, automated-test or project dependency."
+    },
+    {
+      "originalPath": "docs/ops/samples/flame-loop-4f.png",
+      "recoveryRef": "b0930aa7:docs/ops/samples/flame-loop-4f.png",
+      "sha256": "c85602387c5725184283ad31c5b960f4de80919d76ad0602c9971378fb53620c",
+      "reason": "User identified obsolete debug/upload samples; no current code, automated-test or project dependency."
+    },
+    {
+      "originalPath": "docs/ops/samples/pot-static.png",
+      "recoveryRef": "b0930aa7:docs/ops/samples/pot-static.png",
+      "sha256": "8d0847658d1b79f5fe6d1f6678bbd981510efd92ae27fb481ff0edc227a1c075",
+      "reason": "User identified obsolete debug/upload samples; no current code, automated-test or project dependency."
+    },
+    {
+      "originalPath": "docs/ops/samples/walk-4dir-1action.png",
+      "recoveryRef": "b0930aa7:docs/ops/samples/walk-4dir-1action.png",
+      "sha256": "b9c4074bd4da66be0572b7eec23d9659987c2be5c966e2fb8173f1d52a278460",
+      "reason": "User identified obsolete debug/upload samples; no current code, automated-test or project dependency."
+    },
+    {
+      "originalPath": "docs/ops/samples/walk-4row-3f.png",
+      "recoveryRef": "b0930aa7:docs/ops/samples/walk-4row-3f.png",
+      "sha256": "e64984086258c745fe7a5ec18dffb997051f126ba09765cf931d92a6311962a6",
+      "reason": "User identified obsolete debug/upload samples; no current code, automated-test or project dependency."
+    },
+    {
+      "originalPath": "docs/phase2/foundation/verify-dialog/pal0-dialog.png",
+      "recoveryRef": "d42e781e:docs/phase2/foundation/verify-dialog/pal0-dialog.png",
+      "sha256": "36c4f288d23937b0117ac8dd8ea873c12967462438119a9eab1e602b233475b9",
+      "reason": "User identified obsolete debug/upload samples; no current code, automated-test or project dependency."
+    },
+    {
+      "originalPath": "docs/phase2/foundation/verify-dialog/pal2-dialog.png",
+      "recoveryRef": "d42e781e:docs/phase2/foundation/verify-dialog/pal2-dialog.png",
+      "sha256": "4ca13e066a54545ce2e5b0204adb7924e9c3e8b3e503afced40d1a5955ae7160",
+      "reason": "User identified obsolete debug/upload samples; no current code, automated-test or project dependency."
+    },
+    {
+      "originalPath": "docs/phase2/slice1-indoor/verify-npc-collision/01-collide-and-talk.png",
+      "recoveryRef": "361eef8b:docs/phase2/slice1-indoor/verify-npc-collision/01-collide-and-talk.png",
+      "sha256": "572043b4d6aa12d3b459e99aaae17a3c4cd3f77eeaaeeef24cdcc7f5d346d971",
+      "reason": "User identified obsolete debug/upload samples; no current code, automated-test or project dependency."
+    },
+    {
+      "originalPath": "docs/phase2/slice1-indoor/verify-npc-collision/02-collision-debug.png",
+      "recoveryRef": "361eef8b:docs/phase2/slice1-indoor/verify-npc-collision/02-collision-debug.png",
+      "sha256": "0bfd4bd1971c150116b7aaf1ec49f316b5dd363a5b4419490a7146acc3076510",
+      "reason": "User identified obsolete debug/upload samples; no current code, automated-test or project dependency."
+    }
+  ],
+  "failures": []
+}

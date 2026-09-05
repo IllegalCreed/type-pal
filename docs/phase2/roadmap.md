@@ -31,7 +31,7 @@
 - 现有 `@type-pal/game` 引擎**冻结不动**，新引擎另起 package。
 - 新引擎**现代化**：场景自包含（map + sprites + events 随场景按需加载），跨场景影响走全局层；消除 `all.json` 全局脚本、per-role HP 这类全局耦合。
 - 状态分层按**当前产品需要**设计（玩家私有 / 世界共享边界清晰）；不为 MMO 预留额外口子——
-  第三阶段 backlog 已明确裁决（见 [`docs/phase3/future-gameplay-and-mmo-backlog.md`](../phase3/future-gameplay-and-mmo-backlog.md)）。
+  第三阶段 backlog 已明确裁决（见 [`docs/phase3/backlog.md`](../phase3/backlog.md)）。
 - **开发期 current-only**：正式上线前只支持当前 canonical 内容/存档格式；一次重迁完成后，同任务删除旧
   upgrader、旧类型、fixture、版本分支、产品升级入口与兼容 fallback，历史由 Git 保存。
 
@@ -67,55 +67,13 @@
 
 - 本目录（`docs/phase2/`）= 第二阶段全部文档；`docs/phase1/`（含 `plans/`）冻结为第一阶段资产。
 - **第一阶段文档对第二阶段的定位（重要规矩）**：`docs/phase1/` 是第一阶段真值，做第二阶段时它们**只作「原版 / 旧引擎行为参考」**（性质同 `reference/sdlpal/`），**不可当作第二阶段的现状**。第二阶段的「现状」只看 `docs/phase2/` + 新代码。
-- 子系统文档按主题目录组织；决策记入 `docs/phase2/decisions.md`，能力现状看 capability-map，维护规则见 [文档维护](../ops/documentation.md)。
+- 子系统文档按主题目录组织；决策记入 `docs/phase2/decisions.md`，能力现状看 capability-map，维护规则见 [文档维护](../ops/guides/documentation.md)。
 - 索引见 `docs/phase2/README.md`。
 
-## 7. 决议与待定
+## 7. 决议与历史记录
 
-> **历史边界（2026-09-06 标注）**：本节的各「进展」条目是当时快照，仅供追溯；
-> 其中“下一步”“待建”等表述**不是当前待办**。当前队列只看文末「当前第二阶段完整队列」。
-
-**已决（2026-06-17）**
-
-- ✅ **首个内容目标**：室内小场景（客栈 / 民居）跑通 + 改对话 + 加 NPC（见 §5）。
-- ✅ **代号：Reforge（重铸）** —— 把忠实还原「重铸」为可创作的现代引擎。
-- ✅ **受众**：先按**单人本地工具**设计，不做账号 / 协作 / 云同步 / 分发；但内容工程走「文件 + 版本化（git 友好）」，架构**不堵死**将来协作（与 §3 第 5 条的 MMO 留口一脉相承）。
-- ✅ **package 架构（[D18](decisions.md) 厘清职责 + 阶段隔离）**：`@type-pal/content`（**内容数据模型** = schema + 纯逻辑）、`@type-pal/reforge`（新引擎）、`@type-pal/editor`（编辑器）、`@type-pal/migrate`（**迁移器**，独立成包、不再塞进 content）。内容实例（场景 / 对话数据）= 内容工程数据目录（非 npm 包）。**阶段隔离**：第二阶段代码不碰第一阶段包（shared / game / pal-extract），迁移器是唯一桥。
-
-**已决（2026-06-22）**
-
-- ✅ **P0 schema 草案**：见 [content-schema.md](foundation/content-schema.md)（三层状态 / 稳定 id / 场景包 / 事件演出 / 角色实例化 + 迁移器）。
-- ✅ **第一阶段引擎架构债已审计**：见 [engine-debt-audit.md](foundation/engine-debt-audit.md)（18 条 finding，P0/P1/P2 分级 + 反查表），是 P1 新引擎 spec 的**反面输入**——重写时绕开这些模式，不照搬旧模块结构（铁律第 3 条）。
-
-**进展（2026-06-28 更新）**
-
-- **P1 切片 1 已起**：室内场景跑通（地图 / 移动 / 碰撞含 NPC / 遮挡 / 对话）；对话现代化（结构化 + i18n + 外观 + 去 palette，见 [D11](decisions.md)–[D15](decisions.md)）完成。
-- **前置 [D16](decisions.md) 渲染地基已落地**（2026-06-28）：逻辑 / 显示分离（菱形轴格坐标 `GridPos={col,row,height}` + 物理 1280 + UI 高清化，[render-foundation-plan](foundation/render-foundation-plan.md)）。它是菜单及后续所有 UI / 美术 / 编辑器的底座。**下一步 = [D17](decisions.md) 菜单**（设计已定、地基就绪可落地）。
-- **之后**：菜单 → 多场景 / 事件演出 → 编辑器（P2）。schema 边跑边补（§5 切入策略）；P1 spec 输入 = [content-schema](foundation/content-schema.md) + [engine-debt-audit](foundation/engine-debt-audit.md)。
-
-**进展（2026-07-02 更新）**
-
-- **A 期工程化落地**：壳/肉分离（`projects/<id>/` 工程 = manifest + content JSON + assets 自包含），reforge 零具体游戏 import（[project-design](editor/project-design.md)）。
-- **编辑器 B1 布置模式 MVP 落地**：模式壳 + 画布复用 reforge 渲染 + command/undo + 选/拖/增删/FSA 保存（[editor-design](editor/editor-design.md)）。
-- **角色/精灵动画模型与创作闭环已落**：统一 ActorDef + SpriteLayout（[actor-model-design](foundation/actor-model-design.md)）；C1-1 已于 2026-08-14 完成角色 CRUD、预制人物/自定义实体双轨、引用处置和用户验收；C1-2 完成 content14 结构化对话人物身份；C1-3 第一批经用户 exact digest 审批后发布李大娘/酒剑仙 2 个 NPC Actor、6 个 entity 与 163 个 cue，三方审查和用户验收均完成。未批准候选继续保持 deferred。
-- **编辑器后续整体审查方向已记录（2026-08-14，2026-08-15 用户补充拍板）**：B2 完成后先冻结一份
-  完整、可执行、可验收的编辑器设计规范，再以该规范为尺分三线审查全编辑器——视觉/交互统一、ED-1
-  七环创作闭环、Reforge/Editor 代码质量与重构。角色模块与战场模块是参考输入，不是两套各自扩张的
-  局部标准；资源图像预览（当前挤在上方且不能缩放）和战斗模块布局是首批反例。规范未冻结前不得逐模块
-  凭感觉翻新；B2 与 ED-DS-1 已于 2026-08-15 用户验收 done，设计规范 v1.0.0 已冻结。下一步为
-  ED-DS-2 代码化 tokens、shared primitives 与 Design Lab。见
-  [editor-modernization-follow-up](editor/editor-modernization-follow-up-2026-08-14.md)。
-- **脚本兼容决策拍死（原 content-schema §6 待定项）**：迁移器把原版脚本**翻译**成结构化脚本（[script-system-design](foundation/script-system-design.md) 的 AST），**不建永久 opcode 兼容执行器** —— 双解释器 = [engine-debt-audit](foundation/engine-debt-audit.md) P0-5/P0-6 的债重生。翻不净的意大利面脚本（有限集）迁移器标注 + 编辑器手修。
-
-**进展（2026-07-04 更新）**
-
-- **事件模式编辑闭环落成**：演出预览（播放 / 单步 / 命令高亮 / 日志桩）+ 脚本编辑 v1（选行改参 / 插删移 / undo / 保存）+ 事件模板库（按 4382 段触发脚本形状统计提炼：宝箱 / 拾取 / 得钱 / 跨房间镜头 / 钻洞 / 搭话，插入即展开、「自身」感知）。
-- **事件抽象三层定调（2026-07-04 用户）**：① schema 命令 = opcode 语义抽象（已有）；② 编辑器插入模板 = 成组模式展开（已落地，不做黑盒高层命令）；③ **共享脚本 / 子程序**（callScript 的 clean 版：同一逻辑多处引用、改一处全生效）——**DLC / 批量内容期的刚需，届时立项**；迁移器现按内联展开，升级时需去重提炼。
-- **N6b 意图式创作裁决（2026-09-03 用户拍板）**：第二阶段在薄 E2E 基线后完成四种内置取物意图、
-  类型化参数持久化、业务表单回编辑和单向展开；2026-09-05 因 SceneIndex 先占用 content20，N6b 原子
-  切换顺延为 content21。作者自定义模式、表达式、组合及
-  完整对话/演出工作台留到第三阶段。现有 N6 v1 仍保持完成，N6b 不反向降级它。范围与顺序见
-  [design-backlog N6b](design-backlog.md#n6b-强类型脚本模式库)。
+已拍板决策统一见 [decisions](decisions.md)。早期阶段的分工、当时“下一步”和进展快照完整归入
+[早期推进记录](archive/plans/roadmap-early-history.md)，当前排期只看下方执行路线。
 
 ## 8. 北极星与原版定位（2026-07-04 重组，废原 §8「100% 复刻 = 验收」）
 
@@ -219,7 +177,7 @@ E6-1、四条 PAL 数字角色条件引用、ED-3 统一引用边及场景/商�
 **当前第二阶段完整队列（2026-09-06 更新，含用户审计、补测顺序裁决）**：
 
 1. 文档审计整改与自动检查收口；然后按[代码审计总收口](../ops/audits/pre-e2e/summary.md)处理数据安全、
-   流程阻断及 E2E 假通过问题，同步补回归测试并按[覆盖率报告](../ops/coverage.md)补齐未触达路径。
+   流程阻断及 E2E 假通过问题，同步补回归测试并按[覆盖率报告](../testing/coverage.md)补齐未触达路径。
    可选大重构另行排期；全仓最终覆盖率目标不阻塞下一步薄基线。
 2. R4 薄 E2E：Q1 runner + 001-010、四种取物 canary、一条编辑器保存重开试玩链。
 3. N6b 窄版 content21 原子切换，并复跑同一薄基线。
@@ -255,7 +213,7 @@ Q2 当前已知问题至少包括：敌方全体仙术仍统一落在屏幕中�
 继续发现并登记其他规则、操作、AI、状态、动画、音画和结算问题。
 
 R1 的 N6 已完成。R6 的 ED-2 与 W7F 也已完成，其中 W7E 双格式方案被取消，W7F 已把迁移图和作者图统一为
-ProjectMapV2。[R2 事件脚本单一模型与 unmigrated 退役](../ops/tasks/R2-script-single-model.md) 已于 2026-07-14 完成
+ProjectMapV2。[R2 事件脚本单一模型与 unmigrated 退役](../ops/archive/tasks/done/R2-script-single-model.md) 已于 2026-07-14 完成
 三方复验与用户验收；其 s281 代表 E2E 已证明结局流实现，后续全流程持续回归归 Q1；
 任何 E2E 暴露的迁移器根因仍遵守“先修上游、再重生成”的最高优先级规则。
 
@@ -287,12 +245,12 @@ Q1/Q2 与独立打包目标没有取消：商店生命周期已闭环，接下�
 - 移动、复制、剪切、粘贴、删除和批量属性修改都必须是一次可逆命令。普通选区是否包含独立碰撞必须显式显示，不能因
   碰撞叠加层是否可见而暗中改变操作范围。
 - 选区是编辑器工作区临时态，不写入游戏内容；属性修改才进入 `EditSession` 并保存。完整设计、测试矩阵和三方门禁见
-  [W8 任务卡](../ops/tasks/W8-map-content-selection-inspector.md)。
+  [W8 任务卡](../ops/archive/tasks/done/W8-map-content-selection-inspector.md)。
 
 #### W7G 组合地物 / 图章的已拍板需求
 
 完整 schema 设计、S1-S16 未决题、交互/权限矩阵、测试清单和三方门禁见
-[W7G 任务卡](../ops/tasks/W7G-composite-tile-stamps.md)。该卡已于 2026-07-18 完成三方验收与用户收口；
+[W7G 任务卡](../ops/archive/tasks/done/W7G-composite-tile-stamps.md)。该卡已于 2026-07-18 完成三方验收与用户收口；
 下列内容是已落地设计约束，不是当前 draft。
 
 - 树、桌椅、屋顶、岩壁等由多个 tile 组成的地物，在编辑器里作为一个可预览、可命名、可分类的图章选择；
@@ -348,6 +306,6 @@ A7 必须先于大规模 E2E：否则流程跑到后半段才发现某类头像�
 - 第二阶段只交付资源清单、引用闭包、导入/替换工作流、来源元数据和自包含打包能力，不要求把
   `projects/pal` 的原版受保护素材实际批量替换完。
 - 批量生成或授权素材、逐族替换、视觉回归以及公开发布前的版权门禁统一归
-  [第三阶段版权资源替换](../phase3/future-gameplay-and-mmo-backlog.md#0-发布与版权资源替换)。
+  [第三阶段版权资源替换](../phase3/backlog.md#0-发布与版权资源替换)。
 - 第二阶段不得为了提前清版权而改写已经核实的内容、动画或资源语义；第三阶段替换时仍复用 A7
   已完成的稳定 AssetId、引用图、作者资源和分发链。

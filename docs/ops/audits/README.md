@@ -1,23 +1,9 @@
-# 文档审计索引
+# 当前审计与修复依据
 
-本目录保存跨模块、只读取证的审计结果。审计报告描述某个基线上的事实，不自动授权修改实现、迁移数据、
-改变能力格或重开已经验收的任务；当前执行状态仍以 [`../board.md`](../board.md)、活动任务卡和相应阶段的
-真值文档为准。
+这里只放仍在被当前工作消费的审计台账。已归档报告见 archive/audits；文档治理的结果见任务总索引。
 
-| 审计 | 基线 / 日期 | 状态 | 用途 |
-|---|---|---|---|
-| [两阶段全仓代码审计](pre-e2e/summary.md) | 2026-09-05 | 首轮取证完成，修复未开始 | E2E 前的数据安全、运行、战斗、编辑器与工程风险 |
-| [仓库文档与信息架构审计](documentation-2026-09-06.md) | `4cbbf758` / 2026-09-06 | 取证完成；整改与终审见 [DOC-GOV-1](../tasks/DOC-GOV-1-documentation-cleanup.md) | 原报告保留基线事实，后续处置在整改卡追踪 |
+上级：[协作与工程维护](../README.md)。
 
-其余扁平文件是对应任务的历史专项审计。后续新增大范围审计优先使用具名子目录并提供 `README.md`；
-不因整理索引改写历史审查结论。
+## 分类入口
 
-## 目录文件索引
-
-- [OPS-TST-PERF-g1-coverage-map.md](OPS-TST-PERF-g1-coverage-map.md)
-- [b10-1-source-slot-census-2026-08-09.md](b10-1-source-slot-census-2026-08-09.md)
-- [codex-p7-r13-three-way-adjudication.md](codex-p7-r13-three-way-adjudication.md)
-- [codex-r13-4-confirm-control-flow-audit.md](codex-r13-4-confirm-control-flow-audit.md)
-- [codex-r13-5-enemy-source-semantics-audit.md](codex-r13-5-enemy-source-semantics-audit.md)
-- [glm-p7-r13-source-semantics-audit.md](glm-p7-r13-source-semantics-audit.md)
-- [kimi-p7-r13-source-semantics-audit.md](kimi-p7-r13-source-semantics-audit.md)
+- [pre-e2e](pre-e2e/README.md)

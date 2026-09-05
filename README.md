@@ -11,9 +11,9 @@
 
 | 应用 | 包 | 用途 | 本地端口 |
 |---|---|---|---:|
-| 第一阶段运行时 | [`@type-pal/game`](packages/game/) | 忠实还原版浏览器游戏；已上线，当前作为冻结运行时和行为/UX 参考。 | 6005 |
-| Reforge | [`@type-pal/reforge`](packages/reforge/) | 读取现代内容工程的新运行时，负责场景、脚本、战斗、存档、音频和预览。 | 6050 / 6051 |
-| 编辑器 | [`@type-pal/editor`](packages/editor/) | 可视化编辑地图、场景、剧情、角色、物品、战斗、资源和项目设置。 | 6010 / 6011 |
+| 第一阶段运行时 | [`@type-pal/game`](packages/game) | 忠实还原版浏览器游戏；已上线，当前作为冻结运行时和行为/UX 参考。 | 6005 |
+| Reforge | [`@type-pal/reforge`](packages/reforge) | 读取现代内容工程的新运行时，负责场景、脚本、战斗、存档、音频和预览。 | 6050 / 6051 |
+| 编辑器 | [`@type-pal/editor`](packages/editor) | 可视化编辑地图、场景、剧情、角色、物品、战斗、资源和项目设置。 | 6010 / 6011 |
 
 ## 项目路线
 
@@ -50,9 +50,11 @@ canonical 版本。
 统一工程引用边、删除保护、场景与商店生命周期均已完成，并通过技术终审和产品验收。
 第一、第二阶段五批首轮只读代码审计已收口，发现与修复建议见[审计总报告](docs/ops/audits/pre-e2e/summary.md)；修复尚未开始。
 Vitest/V8 全生产源码覆盖率基线与只升不降门禁已经建立，fast/full 口径和当前数字见
-[`docs/ops/coverage.md`](docs/ops/coverage.md)；覆盖率不替代业务断言与 E2E。
-文档审计整改及自动检查见 [`DOC-GOV-1`](docs/ops/tasks/DOC-GOV-1-documentation-cleanup.md)；
+[`docs/testing/coverage.md`](docs/testing/coverage.md)；覆盖率不替代业务断言与 E2E。
+文档审计整改及自动检查见 [`DOC-GOV-1`](docs/ops/archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)；
 `pnpm check:docs` 已加入日常门禁，检查本地链接、目录索引、任务状态和选定现行合同版本。
+全仓文档按职责归整，入口见 [文档首页](docs/README.md)：第二阶段分现行规范、使用指南、知识参考与
+历史归档；跨阶段测试说明集中到 `docs/testing/`，已关闭任务从活动目录移入归档并保留统一索引。
 下一步处理 E2E 阻断问题并同步补回归、提高覆盖率，再依次进入薄 E2E 基线、窄版意图式脚本能力、战斗专项与完整通关 E2E、编辑器综合工作流、录制适配，
 最后再做服务器版本化预制工程和独立可玩包。准确顺序见
 [`docs/phase2/capability-map.md`](docs/phase2/capability-map.md)；正在执行的单卡见
@@ -67,7 +69,7 @@ Vitest/V8 全生产源码覆盖率基线与只升不降门禁已经建立，fast
 
 ### 无需本地原版数据：运行 demo 或创建空白工程
 
-[`projects/demo/`](projects/demo/) 的运行依赖已随工程自包含，因此不需要本地 `data/raw/`；其中仍含少量 PAL 派生示例素材：
+[`projects/demo/`](projects/demo) 的运行依赖已随工程自包含，因此不需要本地 `data/raw/`；其中仍含少量 PAL 派生示例素材：
 
 ```sh
 pnpm install
@@ -81,7 +83,7 @@ pnpm --filter @type-pal/editor dev:demo  # http://localhost:6011
 
 ### 使用 PAL 开发工程
 
-先把原版数据放入 [`data/raw/`](data/raw/)，文件清单见 [`data/raw/README.md`](data/raw/README.md)。原始文件、提取结果和迁移后的二进制资产不会全部进入 Git，因此 fresh clone 必须完成提取和工程物化：
+先把原版数据放入 [`data/raw/`](data/raw)，文件清单见 [`data/raw/README.md`](data/raw/README.md)。原始文件、提取结果和迁移后的二进制资产不会全部进入 Git，因此 fresh clone 必须完成提取和工程物化：
 
 ```sh
 pnpm install
@@ -121,7 +123,7 @@ http://localhost:6051/?debug
 
 面板提供控制台、检视器、触发器、战斗构建器、图层和运行态位置控制权信息。按 `Esc` 隐藏，按反引号
 重新打开；该工具只存在于开发构建，不进入生产包。完整说明见
-[`docs/phase2/dev-tools.md`](docs/phase2/dev-tools.md)。
+[`docs/phase2/guides/debug-tools.md`](docs/phase2/guides/debug-tools.md)。
 
 ## 数据流
 
@@ -140,7 +142,7 @@ projects/demo ──────────────────────
 - `data/extracted/` 是 `pal-extract` 的可再生输出，不手工修改。
 - `@type-pal/migrate` 是第一阶段提取数据进入第二阶段内容工程的唯一离线桥。
 - `projects/pal` 的迁移分区出现问题时，先修提取器、迁移器或 overlay，再重新发布；不要只给生成结果打补丁。
-- `projects/demo` 和 [`projects/e2e-own/`](projects/e2e-own/) 无需本地 `data/raw/` 即可运行，分别用于内置 demo 与最小内容链路回归；两者目前仍含少量 PAL 派生素材。
+- `projects/demo` 和 [`projects/e2e-own/`](projects/e2e-own) 无需本地 `data/raw/` 即可运行，分别用于内置 demo 与最小内容链路回归；两者目前仍含少量 PAL 派生素材。
 
 ## 常用命令
 
@@ -173,34 +175,34 @@ pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数
 ```
 
 视觉、音频、浏览器文件系统、长剧情和完整游玩路线不能只靠单元测试判断，仍需按相应任务的浏览器 / E2E 验收记录执行。
-覆盖率口径、基线更新规则和长期目标见 [`docs/ops/coverage.md`](docs/ops/coverage.md)。
+覆盖率口径、基线更新规则和长期目标见 [`docs/testing/coverage.md`](docs/testing/coverage.md)。
 
 ## Workspace 结构
 
 | 包 | 作用 |
 |---|---|
-| [`packages/shared`](packages/shared/) | 底层 PAL 数据、资源类型和解码能力；由提取器、旧运行时以及部分二阶段工具复用。 |
-| [`packages/pal-extract`](packages/pal-extract/) | 把原版输入离线提取为 `data/extracted/` 中的结构化数据和网页可用资源。 |
-| [`packages/game`](packages/game/) | 第一阶段 Vite 浏览器运行时。 |
-| [`packages/content`](packages/content/) | 第二阶段 canonical 内容契约、校验、typed 引用规则和纯数据逻辑。 |
-| [`packages/reforge`](packages/reforge/) | 第二阶段运行时与编辑器预览能力。 |
-| [`packages/editor`](packages/editor/) | React 可视化编辑器、本地工程工作流、统一设计系统、撤销/重做、诊断和试玩入口。 |
-| [`packages/migrate`](packages/migrate/) | 从提取数据生成并事务发布当前 `projects/pal` 的离线迁移器，负责增量三方合并与重迁零计划验证。运行时和编辑器不依赖它。 |
+| [`packages/shared`](packages/shared) | 底层 PAL 数据、资源类型和解码能力；由提取器、旧运行时以及部分二阶段工具复用。 |
+| [`packages/pal-extract`](packages/pal-extract) | 把原版输入离线提取为 `data/extracted/` 中的结构化数据和网页可用资源。 |
+| [`packages/game`](packages/game) | 第一阶段 Vite 浏览器运行时。 |
+| [`packages/content`](packages/content) | 第二阶段 canonical 内容契约、校验、typed 引用规则和纯数据逻辑。 |
+| [`packages/reforge`](packages/reforge) | 第二阶段运行时与编辑器预览能力。 |
+| [`packages/editor`](packages/editor) | React 可视化编辑器、本地工程工作流、统一设计系统、撤销/重做、诊断和试玩入口。 |
+| [`packages/migrate`](packages/migrate) | 从提取数据生成并事务发布当前 `projects/pal` 的离线迁移器，负责增量三方合并与重迁零计划验证。运行时和编辑器不依赖它。 |
 
 | 工程 | 作用 |
 |---|---|
-| [`projects/demo`](projects/demo/) | 入库的自包含示例工程；无需本地原版数据，但仍含少量 PAL 派生素材。 |
-| [`projects/e2e-own`](projects/e2e-own/) | 最小内容链路回归 fixture，覆盖地图、瓦片、碰撞与角色；无需本地原版数据，但并非完全自有素材。 |
-| [`projects/pal`](projects/pal/) | 从 PAL 数据生成并持续编辑的开发工程；不是稳定发行种子。 |
+| [`projects/demo`](projects/demo) | 入库的自包含示例工程；无需本地原版数据，但仍含少量 PAL 派生素材。 |
+| [`projects/e2e-own`](projects/e2e-own) | 最小内容链路回归 fixture，覆盖地图、瓦片、碰撞与角色；无需本地原版数据，但并非完全自有素材。 |
+| [`projects/pal`](projects/pal) | 从 PAL 数据生成并持续编辑的开发工程；不是稳定发行种子。 |
 
 其他入口：
 
 | 路径 | 内容 |
 |---|---|
-| [`docs/`](docs/) | 分阶段设计、状态、审计与验收文档。 |
-| [`docs/ops/tasks/`](docs/ops/tasks/) | 带证据和三方签字的任务卡。 |
-| [`reference/sdlpal/`](reference/sdlpal/) | sdlpal 源码副本；是一阶段的重要参考实现，不替代原版实际行为这一首要事实来源。 |
-| [`scripts/`](scripts/) | 仓库维护与辅助脚本；部分命令仅供维护者使用。 |
+| [`docs/`](docs) | 分阶段设计、状态、审计与验收文档。 |
+| [`docs/ops/tasks/`](docs/ops/tasks) | 带证据和三方签字的任务卡。 |
+| [`reference/sdlpal/`](reference/sdlpal) | sdlpal 源码副本；是一阶段的重要参考实现，不替代原版实际行为这一首要事实来源。 |
+| [`scripts/`](scripts) | 仓库维护与辅助脚本；部分命令仅供维护者使用。 |
 
 ## 开发边界
 
@@ -209,7 +211,7 @@ pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数
 - **生成真源优先。** 提取或迁移缺陷修上游并重新生成，不能把 `data/extracted/` 或 `projects/pal` 的局部手改当成最终修复。
 - **工程必须自包含。** 新内容工程不应在运行时偷偷读取仓库级 `data/extracted/` 或其他工程的资源。
 - **提交前跑合适的门禁。** `pnpm check` 是全仓基线；功能性界面、音频和完整路线还要补最小浏览器或 E2E 证据。
-- **协作状态落库。** 任务状态、设计裁决、签字和交接以 [`docs/ops/`](docs/ops/) 为准，不把聊天记录当唯一真相。
+- **协作状态落库。** 任务状态、设计裁决、签字和交接以 [`docs/ops/`](docs/ops) 为准，不把聊天记录当唯一真相。
 
 ## 资产说明
 

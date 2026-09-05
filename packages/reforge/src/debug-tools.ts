@@ -581,7 +581,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     }
   }
 
-  // ── 1. cheat console（G4 命令集覆盖矩阵见 docs/phase2/dev-tools.md） ──
+  // ── 1. cheat console（G4 命令集覆盖矩阵见 docs/phase2/guides/debug-tools.md） ──
   const consoleSection = section('命令控制台')
   const output = el('pre', { className: 'tpd-console' })
   const logLine = (text: string, color = '#c8d4e0'): void => {
@@ -1163,7 +1163,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   layersSection.appendChild(note)
   panelFor('layers').appendChild(layersSection)
 
-  // ── 命令解析（G4 覆盖矩阵见 docs/phase2/dev-tools.md） ──
+  // ── 命令解析（G4 覆盖矩阵见 docs/phase2/guides/debug-tools.md） ──
   const runCommand = (line: string): void => {
     const parts = line.trim().split(/\s+/)
     const cmd = (parts[0] ?? '').toLowerCase()

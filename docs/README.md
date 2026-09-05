@@ -1,17 +1,22 @@
-# docs/ — 文档总入口
+# 文档总入口
 
-本项目分三阶段推进,文档按阶段分文件夹。先选阶段,再进对应目录的 README 找细节。
+先选择阅读目的，再进入对应阶段或工作流。现行规范、操作指南、知识参考和历史记录分开存放；包与工程的说明就地维护。
 
-| 目录 | 阶段 / 内容 | 状态 |
-|---|---|---|
-| **[phase1/](phase1/README.md)** | 第一阶段 · **忠实还原**——真值表 / 设计 / 工程经验 / 历史计划归档 | v1.0.0 已上线并冻结 |
-| **[phase2/](phase2/README.md)** | 第二阶段 · **重制引擎 + 编辑器 + 内容** | 进行中 |
-| **[phase3/](phase3/README.md)** | 第三阶段 · 版权素材替换 / 发行工具 / 远期玩法 | 第二阶段收口后另行实施 |
-| **[lore/](lore/README.md)** | **世界观设定**(跨阶段:角色 / 阵营 / 时间线 / 禁忌 / DLC 设想) | 滚动 |
-| **[ops/](ops/README.md)** | 协作 / 看板 / 审计 / 质量检查与证据 | 执行规范与维护入口 |
+## 分类入口
 
-> **两阶段世界观严禁混用**:第一阶段以 sdlpal / 原版为真值锚、对齐 C 源;第二阶段全新重写、不对齐旧引擎(铁律见 [phase2/READ-FIRST](phase2/READ-FIRST.md))。拿不准当前在哪阶段先问。
+- [lore](lore/README.md)
+- [协作与工程维护](ops/README.md)
+- [phase1](phase1/README.md)
+- [第二阶段 · Reforge 文档](phase2/README.md)
+- [phase3](phase3/README.md)
+- [跨阶段测试与验证](testing/README.md)
 
-## 其他顶层文档
+## 文档与附件
 
-- [dev-servers.md](dev-servers.md) — dev server 端口与启动速查
+- [.DS_Store](.DS_Store)
+
+## 就地维护的说明
+
+- [仓库 README](../README.md) · [协作协议](../AGENTS.md) · [项目开工知识](../CLAUDE.md)
+- 包说明：[content](../packages/content/README.md)、[editor](../packages/editor/README.md)、[reforge](../packages/reforge/README.md)、[migrate](../packages/migrate/README.md)、[game](../packages/game/README.md)、[shared](../packages/shared/README.md)、[pal-extract](../packages/pal-extract/README.md)。
+- 工程与来源：[PAL 检查点](../projects/pal/e2e-checkpoints/README.md)、[自造地图测试工程](../projects/e2e-own/README.md)、[原始素材说明](../data/raw/README.md)、[参考源码](../reference/README.md)、[引擎资源来源](../packages/reforge/src/engine-chrome/assets/PROVENANCE.md)。

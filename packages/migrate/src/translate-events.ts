@@ -1,6 +1,6 @@
 /**
  * M3a · 原版事件字节码 → 结构化脚本 AST 翻译器(线性层 + 门模式)。
- * 设计:docs/phase2/foundation/script-model-m3-design.md §3;编码事实(2026-07-02 实测):
+ * 设计:docs/phase2/archive/designs/script-model-m3-design.md §3;编码事实(2026-07-02 实测):
  *  - 具名 op:showDialog{messageIndex,text} / loadScene{sceneId 0-based} / goto{to,frameDelay}
  *    / giveItem{itemId,count(0=1)} / setDialogStyle{Bottom,Top,Narration,Center} /
  *    end{} | end{advance:true} | end{reset:true,resetTo:<地址>,idleFrames}

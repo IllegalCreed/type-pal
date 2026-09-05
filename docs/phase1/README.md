@@ -13,6 +13,8 @@
 ## 索引
 
 ### 覆盖快照（v1.0 冻结时点；当前缺陷见审计台账）
+
+[状态快照目录](status/README.md) 统一说明各表的记录时点和有效范围。
 | 文件 | 内容 |
 |---|---|
 | [status/feature-status](status/feature-status.md) | 功能完成度总表 |
@@ -39,7 +41,7 @@
 | [plans/](plans/README.md) | per-milestone 计划 / 审查快照（m0–m5 / d-series）——**过程记录，不反映现状**；查现状看上面的 status 表 |
 
 ## 怎么用
-- **现状如何** → status 表 + [game-mechanics](game-mechanics.md)
+- **冻结时的覆盖情况** → status 表；后续问题 → [审计台账](../ops/audits/pre-e2e/summary.md)
 - **为什么这么定** → [04-decisions](04-decisions.md)
 - **踩过的坑** → [engineering-notes](engineering-notes.md)
 - **当年怎么一步步做的** → [plans/](plans/README.md)（历史，慎用）

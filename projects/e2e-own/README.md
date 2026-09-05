@@ -9,4 +9,4 @@ h=2 occlude 矮墙带门)、自造量化 tileset(4 菱形瓦,原版同构 .rle)�
 
 跑法:`VITE_PROJECT_ID=e2e-own pnpm --filter @type-pal/reforge exec vite --port 6052 --strictPort`
 验证点:自有瓦渲染 / 行走 / 碰撞(墙+边界)/ 穿门 / h=2 墙前人盖墙、墙后墙盖脚。
-产生器脚本见 W7 烟测记录(2026-07-10);缝隙清单见 docs/ops/tasks/E2E-1-blank-project-playable.md。
+产生器脚本见 W7 烟测记录(2026-07-10);缝隙清单见 docs/ops/archive/tasks/done/E2E-1-blank-project-playable.md。

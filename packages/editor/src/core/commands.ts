@@ -7,7 +7,7 @@
  * 不可变铁律:命令不得原地 mutate 传入 state(展开/map 构造新对象);测钉「源不变」。
  * 旧值/旧索引在**首次 apply 时捕获**(apply 时的 state 即初始态),供 invert 还原。
  *
- * 见 docs/phase2/editor/editor-design.md §4。
+ * 见 docs/phase2/archive/designs/editor-design.md §4。
  */
 
 import type {

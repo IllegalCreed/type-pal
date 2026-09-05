@@ -1,4 +1,4 @@
-// 技能数据 ① 层:技能定义。见 docs/phase2/foundation/skill-data-design.md。
+// 技能数据 ① 层:技能定义。见 docs/phase2/archive/designs/skill-data-design.md。
 // 阶段隔离(D18):纯 content 数据 + 类型,无 reforge/引擎依赖。
 
 import type { AssetId } from './asset.js'

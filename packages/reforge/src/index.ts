@@ -4,7 +4,7 @@
  * 只导出 editor 复用所需的:渲染器 / 资产加载 / 工程 loader / 碰撞判定 / 画一帧场景。
  * reforge 内部模块(dialog/menu/save/input 等)不在此导出 —— 那是游戏 shell 专属,编辑器不需要。
  *
- * 见 docs/phase2/editor/editor-design.md §3(渲染复用)。
+ * 见 docs/phase2/archive/designs/editor-design.md §3(渲染复用)。
  */
 
 import type {

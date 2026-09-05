@@ -1,0 +1,20 @@
+{
+  "purpose": "Relocate the two retained dialogue reference screenshots so the old mixed foundation directory can be removed.",
+  "directories": {
+    "docs/phase2/foundation/verify-dialog": "docs/phase2/archive/evidence/dialogue"
+  },
+  "entries": [
+    {
+      "from": "docs/phase2/foundation/verify-dialog/pal0-dialog.png",
+      "to": "docs/phase2/archive/evidence/dialogue/pal0-dialog.png",
+      "kind": "attachment",
+      "sha256": "36c4f288d23937b0117ac8dd8ea873c12967462438119a9eab1e602b233475b9"
+    },
+    {
+      "from": "docs/phase2/foundation/verify-dialog/pal2-dialog.png",
+      "to": "docs/phase2/archive/evidence/dialogue/pal2-dialog.png",
+      "kind": "attachment",
+      "sha256": "4ca13e066a54545ce2e5b0204adb7924e9c3e8b3e503afced40d1a5955ae7160"
+    }
+  ]
+}

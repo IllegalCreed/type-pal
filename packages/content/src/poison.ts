@@ -1,5 +1,5 @@
 /**
- * 毒系统数据模型(P2·数据化 DoT,非字节码脚本 —— 见 docs/phase2/poison-system-design.md)。
+ * 毒系统数据模型(P2·数据化 DoT,非字节码脚本 —— 见 docs/phase2/archive/designs/poison-system-design.md)。
  *
  * 毒 ≠ BattleStatus 字段,是独立 {poisonId, tickIndex} 列表:每回合跑当前 tick、**指针推进**。
  * 敌我两套 tick(同毒效果不同);到序列尾重复末项,或 selfCure 移除该毒(三尸蛊暴扣后自除)。

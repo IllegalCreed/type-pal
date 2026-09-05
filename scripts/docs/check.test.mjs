@@ -118,7 +118,7 @@ function fixture() {
   const task = '# T - test\n\nStatus: build\n\n## Evidence\nStatus: done\n'
   const documents = new Map([
     ['docs/README.md', '[ops](ops/README.md)'],
-    ['docs/ops/README.md', '[board](board.md)'],
+    ['docs/ops/README.md', '[board](board.md) [tasks](tasks/README.md)'],
     ['docs/ops/board.md', '[T](tasks/T.md)'],
     ['docs/ops/tasks/README.md', '[index](index.md)'],
     ['docs/ops/tasks/T.md', task],
@@ -192,5 +192,63 @@ test('exceptions are exact and require reasons; stale exceptions fail', () => {
   assert.match(
     run(documents, [{ source: 'vendor.md', target: 'missing.md' }]).issues[0].message,
     /缺少理由/,
+  )
+})
+
+test('archived task remains indexed and cannot silently disappear from the census', () => {
+  const documents = fixture()
+  const old = 'docs/ops/tasks/T.md'
+  const archived = 'docs/ops/archive/tasks/done/T.md'
+  const body = '# T - test\nStatus: done\n'
+  documents.delete(old)
+  documents.set(archived, body)
+  documents.set('docs/ops/board.md', '# No active tasks')
+  documents.set(
+    'docs/ops/README.md',
+    '[board](board.md) [tasks](tasks/README.md) [archive](archive/README.md)',
+  )
+  documents.set('docs/ops/archive/README.md', '[tasks](tasks/README.md)')
+  documents.set('docs/ops/archive/tasks/README.md', '[done](done/README.md)')
+  documents.set('docs/ops/archive/tasks/done/README.md', '[index](../../../tasks/index.md)')
+  const index = renderTaskIndex([taskInfo(archived, body)])
+  documents.set('docs/ops/tasks/index.md', index)
+  assert.match(index, /\.\.\/archive\/tasks\/done\/T\.md/)
+  assert.deepEqual(run(documents).issues, [])
+  documents.set(archived, '# T - test\nStatus: build\n')
+  assert.match(
+    run(documents)
+      .issues.map((issue) => issue.message)
+      .join('\n'),
+    /活动任务不能放在历史/,
+  )
+})
+
+test('phase2 mixed folders and top-level topic drift are rejected', () => {
+  const documents = fixture()
+  documents.set('docs/phase2/README.md', '[topic](old-topic.md) [foundation](foundation/README.md)')
+  documents.set('docs/phase2/old-topic.md', '# Topic')
+  documents.set('docs/phase2/foundation/README.md', '# Old mixed folder')
+  const messages = run(documents)
+    .issues.map((issue) => issue.message)
+    .join('\n')
+  assert.match(messages, /顶层仅保留方针/)
+})
+
+test('rejecting an old content version is not a declaration of the current version', () => {
+  assert.deepEqual(
+    checkCurrentSection(
+      '当前 contentVersion 20。当前产品不保留 content19 parser。',
+      {},
+      { content: 20, save: 8 },
+    ),
+    [],
+  )
+  assert.match(
+    checkCurrentSection(
+      '不支持旧版本，当前 contentVersion 19。',
+      {},
+      { content: 20, save: 8 },
+    ).join('\n'),
+    /不一致/,
   )
 })

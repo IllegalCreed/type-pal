@@ -10,7 +10,7 @@
  * round-trip 是命脉:toEditorState → serializeProject 必须还原原 content JSON(by-id Record
  * 经 Object.values 还原数组,保持原序)。测钉死。
  *
- * 见 docs/phase2/editor/editor-b1-logic-plan.md(契约 + L3)。
+ * 见 docs/phase2/archive/plans/editor-b1-logic-plan.md(契约 + L3)。
  */
 
 import {

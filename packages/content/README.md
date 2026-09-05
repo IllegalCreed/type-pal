@@ -13,4 +13,4 @@ pnpm --filter @type-pal/content typecheck
 ```
 
 边界：不含运行时循环（归 `reforge`）、不含编辑器 UI（归 `editor`）、不做离线迁移（归
-`migrate`）。格式契约见 [content-schema](../../docs/phase2/foundation/content-schema.md)。
+`migrate`）。格式契约见 [content-schema](../../docs/phase2/specs/content-schema.md)。

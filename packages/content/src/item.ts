@@ -1,4 +1,4 @@
-// 物品 / 装备数据 ① 层。见 docs/phase2/foundation/item-data-design.md。
+// 物品 / 装备数据 ① 层。见 docs/phase2/archive/designs/item-data-design.md。
 // 阶段隔离(D18):纯 content 数据 + 类型,无 reforge/引擎依赖。
 
 import type { ActorDef } from './actor.js'

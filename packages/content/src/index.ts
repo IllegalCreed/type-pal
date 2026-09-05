@@ -4,7 +4,7 @@
  * 纯数据 + 类型。reforge 引擎**消费**这层；编辑器（将来）**生产**这层。
  * 地图、实体和脚本均以工程稳定 id 连接；旧资源编号只允许出现在迁移输入端。
  *
- * 见 docs/phase2/slice1-indoor/guijie-minju.md。稳定 id，不用下标。
+ * 见 docs/phase2/archive/slices/indoor/guijie-minju.md。稳定 id，不用下标。
  */
 
 import type { AssetId } from './asset.js'

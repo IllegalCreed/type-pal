@@ -5,7 +5,7 @@
  * 铁律:命令不得原地 mutate 数据(命令返回新态)。React 经 subscribe + useSyncExternalStore
  * 订阅(B1 接),状态变 → 重渲染。
  *
- * 纯 TS + 无 React → 重度单测。见 docs/phase2/editor/editor-design.md §4。
+ * 纯 TS + 无 React → 重度单测。见 docs/phase2/archive/designs/editor-design.md §4。
  */
 import type {
   AssetCatalogV1,

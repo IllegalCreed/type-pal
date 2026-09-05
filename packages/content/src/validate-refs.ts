@@ -8,7 +8,7 @@
  * 资产记录是否有对应物理文件
  * 不在此校验 —— 那是 loader/资产层的事。
  *
- * 见 docs/phase2/editor/editor-design.md §6。
+ * 见 docs/phase2/archive/designs/editor-design.md §6。
  */
 
 import { isActorEntity } from './actor.js'

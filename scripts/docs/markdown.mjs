@@ -42,7 +42,9 @@ function destination(text, start) {
   while (/\s/.test(text[i] ?? '') && i < text.length) i++
   if (text[i] === '<') {
     const end = text.indexOf('>', i + 1)
-    return end < 0 ? undefined : { target: text.slice(i + 1, end), end: end + 1 }
+    return end < 0
+      ? undefined
+      : { target: text.slice(i + 1, end), start: i + 1, targetEnd: end, end: end + 1 }
   }
   const begin = i
   let depth = 0
@@ -55,7 +57,12 @@ function destination(text, start) {
     } else if (/\s/.test(text[i]) && depth === 0) break
   }
   if (depth !== 0) return undefined
-  return { target: text.slice(begin, i).replace(/\\([\s()[\]<>])/g, '$1'), end: i }
+  return {
+    target: text.slice(begin, i).replace(/\\([\s()[\]<>])/g, '$1'),
+    start: begin,
+    targetEnd: i,
+    end: i,
+  }
 }
 
 function inlineDestination(text, start) {
@@ -74,12 +81,12 @@ function inlineDestination(text, start) {
     end++
     while (end < text.length && /\s/.test(text[end])) end++
   }
-  return text[end] === ')' ? parsed.target : undefined
+  return text[end] === ')' ? parsed : undefined
 }
 
 const labelKey = (label) => label.replace(/\s+/g, ' ').trim().toLowerCase()
 
-export function markdownLinks(markdown) {
+export function markdownLinks(markdown, { positions = false } = {}) {
   const text = withoutFences(markdown)
   const lineStarts = [0]
   for (let i = 0; i < text.length; i++) if (text[i] === '\n') lineStarts.push(i + 1)
@@ -97,11 +104,17 @@ export function markdownLinks(markdown) {
   const definitionLines = new Set()
   const links = []
   for (const match of text.matchAll(/^ {0,3}\[([^\]\n]+)\]:[ \t]*(.*)$/gm)) {
-    const target = destination(match[2] || text.slice(match.index + match[0].length), 0)?.target
-    if (!target) continue
-    definitions.set(labelKey(match[1]), target)
+    const offset = match.index + match[0].length - match[2].length
+    const parsed = destination(text, offset)
+    if (!parsed?.target) continue
+    const { target } = parsed
+    definitions.set(labelKey(match[1]), parsed)
     definitionLines.add(lineAt(match.index))
-    links.push({ target, line: lineAt(match.index) })
+    links.push({
+      target,
+      line: lineAt(match.index),
+      ...(positions ? { start: parsed.start, end: parsed.targetEnd } : {}),
+    })
   }
   for (let i = 0; i < text.length; i++) {
     if (text[i] === '\\') {
@@ -122,14 +135,19 @@ export function markdownLinks(markdown) {
     const close = closingBracket(text, i)
     if (close < 0) continue
     const label = text.slice(i + 1, close)
-    let target
+    let parsed
     let end = close
-    if (text[close + 1] === '(') target = inlineDestination(text, close + 2)
+    if (text[close + 1] === '(') parsed = inlineDestination(text, close + 2)
     else if (text[close + 1] === '[') {
       end = text.indexOf(']', close + 2)
-      if (end >= 0) target = definitions.get(labelKey(text.slice(close + 2, end) || label))
-    } else target = definitions.get(labelKey(label))
-    if (target) links.push({ target, line: lineAt(i) })
+      if (end >= 0) parsed = definitions.get(labelKey(text.slice(close + 2, end) || label))
+    } else parsed = definitions.get(labelKey(label))
+    if (parsed?.target)
+      links.push({
+        target: parsed.target,
+        line: lineAt(i),
+        ...(positions ? { start: parsed.start, end: parsed.targetEnd } : {}),
+      })
     i = Math.max(close, end)
   }
   return links

@@ -3,14 +3,14 @@
 > 已拍板的第二阶段架构 / 范围决策。每条 = 决定 + 理由 + 影响。还在讨论的议题见 [design-backlog.md](design-backlog.md)；总纲见 [roadmap.md](roadmap.md)；铁律见 [READ-FIRST.md](READ-FIRST.md)。
 > 这是 roadmap §6 预告的 `decisions.md` 本体，滚动累积。
 >
-> **2026-06-25 重新聚焦**：第二阶段 = **现代化引擎 + 编辑器 + 内容创作**（个人开发者、内容驱动）。MMO 与玩法 / 成长系统设计（原 **D5–D8**）移交 [docs/phase3](../phase3/future-gameplay-and-mmo-backlog.md)，不再占用第二阶段心智。本文只留引擎 / 编辑器 / 内容相关决策。
+> **2026-06-25 重新聚焦**：第二阶段 = **现代化引擎 + 编辑器 + 内容创作**（个人开发者、内容驱动）。MMO 与玩法 / 成长系统设计（原 **D5–D8**）移交 [docs/phase3](../phase3/backlog.md)，不再占用第二阶段心智。本文只留引擎 / 编辑器 / 内容相关决策。
 
 ## 决策 outcome 索引（导航用，2026-09-06 增；正文未改动）
 
 | 决策 | 一句话 outcome | 后续演进 / superseded-by |
 |---|---|---|
 | D1–D4 | 垂直切片开工、切片边界、可变地图、RGBA 一等公民 | 有效；D4 细化于 D15 |
-| D5–D8 | 原 MMO/玩法决策整体移交第三阶段 | superseded by 重新聚焦 + [phase3 backlog](../phase3/future-gameplay-and-mmo-backlog.md) |
+| D5–D8 | 原 MMO/玩法决策整体移交第三阶段 | superseded by 重新聚焦 + [phase3 backlog](../phase3/backlog.md) |
 | D9–D15 | i18n 必做、Canvas 2D 起步、对话结构化/slot、运行时 RGBA | 有效（D11–D14 落地见对话子系统） |
 | D16 | 渲染地基：逻辑/显示分离 + 格坐标 | 有效，已落地 |
 | D17 | 菜单系统设计 | 标题「暂搁」为当时状态：D16 落地后已实现（菜单/金钱/状态/仙术/装备/使用面板均已收口，见 capability-map C 域） |
@@ -22,7 +22,7 @@
 | D23 | 指令 / 事件术语 | 有效 |
 | D24 | 战斗配置三层化、`sys:battleField` 退役 | 以本决策的 2026-07-07 补充为准：持久 `sceneBattleOverrides` 已退役 |
 | D25 | 资产色彩与压缩方针 | 以补²/补³为准：小道具图保留真彩；帧动画作者模型为完整真彩帧，旧“RNG 不烘 RGBA”不再约束它 |
-| D26 | 唯一地图模型、高度属于实例 | 原则有效；ProjectMapV2 为当时格式，现行共享地图/组合采用 version 4，见 D29 与 [内容规范 §5](foundation/content-schema.md) |
+| D26 | 唯一地图模型、高度属于实例 | 原则有效；ProjectMapV2 为当时格式，现行共享地图/组合采用 version 4，见 D29 与 [内容规范 §5](specs/content-schema.md) |
 | D27 | 遮挡前景半透明 | 有效 |
 | D28 | 演出分段 e2e 优先 | 有效；视觉验证分层见 AGENTS.md |
 | D29 | 地图/组合共享内容与相对高度 | 有效（现行 stamp/map 模型） |
@@ -49,7 +49,7 @@
 
 **决定**：每张地图自带 width/height，不是全局常量。**层次 A**（每图有限矩形网格、尺寸可变）现在做；**层次 B**（超大无缝 / 分块流式）MMO 级，留口不做。
 **理由**：原版被 `Tiles[128][64][2]` 焊成恒定 64×128，小场景背满空格；渲染 / 碰撞本就按 width/height 跑，层次 A 近乎白送；编辑器必需。
-**影响**：已补进 [p0-content-schema §5](foundation/content-schema.md) + [backlog 议题 4](design-backlog.md)；切片手写场景按真实小尺寸写。
+**影响**：已补进 [p0-content-schema §5](specs/content-schema.md) + [backlog 议题 4](design-backlog.md)；切片手写场景按真实小尺寸写。
 
 ## D4 · 渲染：RGBA + 后处理一等公民；调色板降级为解码资产（2026-06-24；渲染 API 见 D10）
 
@@ -61,13 +61,13 @@
 
 ## D5–D8 · 已移交第三阶段（2026-06-25）
 
-原 **D5**（MMO 碰撞 / 重叠留口）、**D6**（回合制 + 身法策略轴）、**D7**（多难度绑定 AI 强度）、**D8**（仙术熟练度取代属性经验值）= MMO / 战斗 / 成长**玩法系统**设计，对「引擎 + 编辑器 + 内容」的第二阶段过早。**全文移交** [docs/phase3/future-gameplay-and-mmo-backlog.md](../phase3/future-gameplay-and-mmo-backlog.md)，第二阶段不为其留口。
+原 **D5**（MMO 碰撞 / 重叠留口）、**D6**（回合制 + 身法策略轴）、**D7**（多难度绑定 AI 强度）、**D8**（仙术熟练度取代属性经验值）= MMO / 战斗 / 成长**玩法系统**设计，对「引擎 + 编辑器 + 内容」的第二阶段过早。**全文移交** [docs/phase3/backlog.md](../phase3/backlog.md)，第二阶段不为其留口。
 （D 编号保持空缺不复用，便于回溯。）
 
 ## D9 · 国际化为必做（2026-06-24）
 
 **决定**：所有面向玩家文本（对话 / 物品名 / 仙术描述 / UI）走**稳定 text id** + locale 查表，第二阶段就做。
-**理由**：稳定 id 铁律（[p0 schema §2](foundation/content-schema.md)）天然支持 i18n，零成本留口；仙剑文本量巨大且原版靠 WORD.DAT 字面下标硬编码；晚期做要重构所有文本。
+**理由**：稳定 id 铁律（[p0 schema §2](specs/content-schema.md)）天然支持 i18n，零成本留口；仙剑文本量巨大且原版靠 WORD.DAT 字面下标硬编码；晚期做要重构所有文本。
 **影响**：见 [backlog 议题 10](design-backlog.md)；P0 schema 文本字段一律是 text id 引用，运行时查表。**注**：先做中文同人，多语言可永远不补，但「文本走 id」这个零成本习惯现在就立。
 **2026-06-25 → 06-26 强化**（见 [D11](decisions.md)）：对话正文**也**确认走 text id（原一度倾向「留口、内嵌字面」，作者定第二阶段可能主面向英文用户后作废）；i18n **机制**本次就做、locale 先填 zh，实际译文按需补。
 
@@ -76,7 +76,7 @@
 **决定**：reforge 渲染先用 **Canvas 2D**（`drawImage` 画瓦片 / 精灵、`fillText` 画文字），藏在 `Renderer` 接口后（画瓦片 / 画精灵 / 画文字等方法）。**WebGL 推迟**到真撞上需求（全游戏级昼夜 / 天气 / 光照，或精灵爆量）那天再换——因走接口，换 = 换一个实现类，不波及上层。细化并取代 [D4](decisions.md) 的「渲染走 GPU / WebGL2」部分。
 **理由**：
 - 「现代化」在**架构**（解耦 / 数据驱动 / 编辑器友好 / 状态分层），不在渲染 API；Canvas 2D 不影响引擎是否现代。
-- WebGL 两大卖点——全屏着色器效果、海量精灵性能——前者单机故事 DLC 多半用不到，后者主要是 MMO 的事（已移交 [第三阶段](../phase3/future-gameplay-and-mmo-backlog.md)），最硬的理由已软。
+- WebGL 两大卖点——全屏着色器效果、海量精灵性能——前者单机故事 DLC 多半用不到，后者主要是 MMO 的事（已移交 [第三阶段](../phase3/backlog.md)），最硬的理由已软。
 - 个人开发者、内容驱动：Canvas 2D 到「看得见的结果」最快、在已掌握的地盘（第一阶段就是软件 framebuffer + canvas），把 WebGL 学习成本移出关键路径，降低卡壳与焦虑。
 **影响**：
 - **唯一纪律**：渲染从第一刀就走 `Renderer` 接口，不让 Canvas 2D 细节泄漏到引擎其它部分——这是日后能局部换 WebGL 的前提。
@@ -85,11 +85,11 @@
 
 ## D11 · 对话数据结构化 + i18n 一等公民（2026-06-26）
 
-**决定**：对话从「in-band 控制符扁字符串」（`~30`/`$10`/`"`/末尾冒号）改为**结构化 `DialogueLine`**（`speaker`/`text` = 稳定 `TextId`、`speed`/`autoAdvance` = ms）；功能 / 结构控制符**前移到数据生产期**（迁移器 / 编辑器）解析掉，运行时无 `parseDialogText`。对话正文**也走 text id + locale**（强化 [D9](decisions.md)，面向英文用户）；多色强调用 **locale 富文本成对闭合标记**（`<cyan>…</cyan>`），不进结构化字段。**分支**留演出层（choice action，非对话行）、**DSL** 留口不做。详见 [model-design.md](dialogue/model-design.md)。
+**决定**：对话从「in-band 控制符扁字符串」（`~30`/`$10`/`"`/末尾冒号）改为**结构化 `DialogueLine`**（`speaker`/`text` = 稳定 `TextId`、`speed`/`autoAdvance` = ms）；功能 / 结构控制符**前移到数据生产期**（迁移器 / 编辑器）解析掉，运行时无 `parseDialogText`。对话正文**也走 text id + locale**（强化 [D9](decisions.md)，面向英文用户）；多色强调用 **locale 富文本成对闭合标记**（`<cyan>…</cyan>`），不进结构化字段。**分支**留演出层（choice action，非对话行）、**DSL** 留口不做。详见 [model-design.md](archive/designs/model-design.md)。
 **理由**：in-band 控制符把「控制信息」和「文本内容」焊死，违铁律 4（架构第一）/ 5（杜绝下标式身份）；解析前移让运行时只消费干净数据，比 GLM spec 的「运行时 port `parseDialogText`」干净一级。i18n 一等公民因第二阶段可能主面向英文用户。DSL（类 Ink/Yarn）与可视化 editor 产出的结构化数据重叠、对个人开发者是过度基础设施；分支本质是演出逻辑、不属对话行（强行塞进对话数据 = 新耦合）。
 **影响**：
-- 实现**分三刀，先地基**：**① 数据模型 + 状态机**（本次，含最小 locale 查表 + 鬼话迁 zh，单测验收）→ **② 外观继承**（承接 [GLM 外观 spec](dialogue/visual-spec.md)）→ **③ 迁移器**（原版控制符 → 结构化 + locale zh）。
-- 承接并修订 [visual-spec.md](dialogue/visual-spec.md)：外观真值整体继承，唯把数据源从「控制符字符串」换成「结构化 + locale 查表」（删 `parseDialogText` 移植那步）。
+- 实现**分三刀，先地基**：**① 数据模型 + 状态机**（本次，含最小 locale 查表 + 鬼话迁 zh，单测验收）→ **② 外观继承**（承接 [GLM 外观 spec](reference/dialogue-presentation.md)）→ **③ 迁移器**（原版控制符 → 结构化 + locale zh）。
+- 承接并修订 [visual-spec.md](reference/dialogue-presentation.md)：外观真值整体继承，唯把数据源从「控制符字符串」换成「结构化 + locale 查表」（删 `parseDialogText` 移植那步）。
 - 颜色用语义名（`<cyan>` + 渲染层映射 palette），内容 / locale 层不出现魔法数；时长存真实 ms。
 - 多语言**机制**本次做、locale 先只填 zh，**实际译文按需补**。
 
@@ -115,32 +115,32 @@
 **理由**：原版「上下框共存」只是 framebuffer 不清屏的**副作用**，做成显式 slot 更干净。运行时猜位置 = 隐式魔法（难调试 / 编辑器看不出 / 改不动），违 [D13](decisions.md) / 铁律；自动放创作期 → 手动与自动**统一产出显式数据**，灵活 + 可控 + 可视。
 **影响**：
 - ② `DialogueLine` 加 `slot?` / `portrait?`；渲染层管理多 slot 各自状态（留显 / 活跃）。
-- slot 生命周期：同 slot 翻页覆盖、不同 slot 共存、对话结束清所有；**复杂清屏编排**（任意时点清某 slot、黑屏叠字…）留**演出系统**（[P0 §6](foundation/content-schema.md) timeline action），不塞对话数据。
-- 详见 [visual-design.md](dialogue/visual-design.md) §4。
+- slot 生命周期：同 slot 翻页覆盖、不同 slot 共存、对话结束清所有；**复杂清屏编排**（任意时点清某 slot、黑屏叠字…）留**演出系统**（[P0 §6](specs/content-schema.md) timeline action），不塞对话数据。
+- 详见 [visual-design.md](archive/designs/visual-design.md) §4。
 
 
 ## D15 · 运行时全 RGBA；palette 仅迁移期解码（2026-06-27）
 
-**决定**：第二阶段运行时**彻底无 palette**，美术统一 RGBA。两类来源——① AI 生图天生 RGBA；② 原版 indexed 素材由**第二阶段迁移器**（读 `data/extracted`）烘成 RGBA（indexed + palette → RGBA PNG），属 [P0 §8](foundation/content-schema.md) 迁移器的一步。**`pal-extract`（第一阶段提取器）不动**——它产 indexed + palette 给第一阶段 game，改它会耦合两阶段 + 破坏 game。UI / 对话语义色（字体 / 姓名 / 光标）用**固定 RGBA 常量**，不绑场景 palette。
+**决定**：第二阶段运行时**彻底无 palette**，美术统一 RGBA。两类来源——① AI 生图天生 RGBA；② 原版 indexed 素材由**第二阶段迁移器**（读 `data/extracted`）烘成 RGBA（indexed + palette → RGBA PNG），属 [P0 §8](specs/content-schema.md) 迁移器的一步。**`pal-extract`（第一阶段提取器）不动**——它产 indexed + palette 给第一阶段 game，改它会耦合两阶段 + 破坏 game。UI / 对话语义色（字体 / 姓名 / 光标）用**固定 RGBA 常量**，不绑场景 palette。
 **理由**：palette 是 1995 VGA 省显存遗产，Canvas2D / AI 彩图无此约束，运行时留着是负担 + 一类坑（UI 色绑场景 palette index → 跨场景不一致；实证:pal1 的 UI index 全成灰、pal2 姓名色 0x8C = 纯黑[0,0,0]）。是 [D4](decisions.md)「palette 降级为解码资产」的彻底化（D4 留的「解码时机 构建期 vs 运行期 P1 再定」→ 此定为**迁移期**）。原版 palette 的运行时变色（昼夜 / 水波 / 受伤红屏）改用后处理 / 整屏合成（D4 已定，不靠换盘）。
 **影响**：
 - 链路:`pal-extract`(不动) → `data/extracted`(indexed + palette) → 迁移器(烘 RGBA) → `content/assets`(RGBA) → reforge 吃。
 - **两块错开**:① UI / 对话语义色 → 固定 RGBA 常量,**现在就能改**(`palette-color.ts` / 头像 / 光标,不依赖迁移器);② 美术资产(sprite / tile / 头像)RGBA 化 → **随迁移器建**(③ / 编辑器附近,不是现在)。
 - demo 现状(reforge fetch `data/extracted` 的 indexed + 运行时 palette 解码)是 [D2](decisions.md)「切片复用原版」权宜,留到迁移器那刀转 RGBA。
 - **两阶段资产管线解耦**:`pal-extract` 不为第二阶段改动;烘 RGBA 是第二阶段迁移器的活。
-- [art-pipeline](foundation/art-pipeline.md) 据此更新(留后)。
+- [art-pipeline](../phase3/reference/art-pipeline.md) 据此更新(留后)。
 
 ## D16 · reforge 渲染地基：逻辑 / 显示分离（格坐标 + UI 高清化）（2026-06-28）
 
 **决定**：reforge 渲染分**逻辑层 / 显示层**两层、彻底解耦。
 
 - **逻辑层**（存储 / 游戏逻辑 / 碰撞 / 触发 / 寻路 / 存档 / 编辑器）：实体位置 = **格坐标 `GridPos = { col: number; row: number; height: number }`**（非像素）。`col`/`row` = **菱形轴**（沿菱形两条斜边设轴，非屏幕像素轴）：菱形网格是旋转 45° 的正交网格，走一格 = **单轴 ±1**（只动 col 或只动 row，绝不对角），任意整数 `(col,row)` 都是合法落脚点；`height` = 垂直高度轴，**必填、地面实体写 0**，与平面 col/row 正交（逻辑/碰撞/影子都在地面 `(col,row)`，height 只把 sprite 显示位置沿屏幕正上方移）。GridPos 是实体位置的真值类型——玩家、NPC、entry、编辑器摆点都存它。精灵是三维空间里的东西（平面格子 + 离地高度），`height` 让飞行 / 楼层 / 高台站立的位置可表达，并直接对接渲染遮挡（[render.ts:232](../../packages/reforge/src/render.ts) 瓦片 baseY 已 key 在 `iTileHeight` 上，精灵接入即正确遮挡）。
-  - ⚠ **不要**用屏幕像素轴 `(col=x/16, row=y/8)` 当坐标——菱形格是斜的、屏幕 x/y 是正的，硬塞会让走一格变成对角（col/row 同时变）且半数坐标非法。正解 = 菱形自己的斜边当轴：`gridToPixel(col,row) = (16(col−row), 8(col+row))`。详见 [render-foundation-plan.md](foundation/render-foundation-plan.md)。
+  - ⚠ **不要**用屏幕像素轴 `(col=x/16, row=y/8)` 当坐标——菱形格是斜的、屏幕 x/y 是正的，硬塞会让走一格变成对角（col/row 同时变）且半数坐标非法。正解 = 菱形自己的斜边当轴：`gridToPixel(col,row) = (16(col−row), 8(col+row))`。详见 [render-foundation-plan.md](archive/plans/render-foundation-plan.md)。
 - **显示层**（渲染）：格 → 像素（直接定位）；**移动显示 = 格到格步进、保持原版卡顿感（~10fps 步进），不做平滑插帧** —— 作者明确喜欢卡顿感，插帧留后续可选、非必做。文字渲染走 wall-clock（[typewriter.ts](../../packages/reforge/src/text/typewriter.ts) 按 `performance.now` 算），与移动 10fps tick 本就是**两套独立时钟**，互不拉扯。
 
 ### 关于 `h` / lower-upper（旧引擎遗物，**不进坐标、不进新地图模型**）
 
-旧引擎 tile 数据把「2 视觉层 + 障碍 bit」焊进一个 word，`cell.lower`/`cell.upper` 二分、碰撞靠 `h∈{0,1}` 二选一查障碍（[collision.ts](../../packages/reforge/src/collision.ts) `pixelToTile`）。这是 **[backlog 议题 4](design-backlog.md) 要淘汰的「仅 2 视觉层」硬编码遗迹**——新地图模型是 **N 视觉层 + 独立碰撞 / 地形层**（[p0 schema §5](foundation/content-schema.md)），障碍单独一层，没有 lower/upper 二分。
+旧引擎 tile 数据把「2 视觉层 + 障碍 bit」焊进一个 word，`cell.lower`/`cell.upper` 二分、碰撞靠 `h∈{0,1}` 二选一查障碍（[collision.ts](../../packages/reforge/src/collision.ts) `pixelToTile`）。这是 **[backlog 议题 4](design-backlog.md) 要淘汰的「仅 2 视觉层」硬编码遗迹**——新地图模型是 **N 视觉层 + 独立碰撞 / 地形层**（[p0 schema §5](specs/content-schema.md)），障碍单独一层，没有 lower/upper 二分。
 
 - 故 `h` **不进 `GridPos`**（它不是空间轴，是 `pixelToTile` 从像素解出「查哪个通道」的中间量），**也不进新地图 schema**。
 - 它只属于第一阶段和迁移输入。W7F 已把原图翻成「N 层 + 实例高度 + 独立碰撞层」，reforge 的旧 `pixelToTile`/Tilemap 兼容层已经退役。
@@ -168,7 +168,7 @@
 - **D16 核心 = 世界坐标格化（必做）**：`render.ts` / `movement.ts` / `collision.ts` / `main.ts` 的**实体坐标**改逻辑格 `GridPos`；移动、碰撞随之改。`h`/lower-upper 维持现状（旧格式兼容层，不动）。
 - **D16 连带 = UI 坐标高清化（可单独后做、不绑死同刀）**：dialog-box 现 320 像素布局常量（[dialog-box.ts:20](../../packages/reforge/src/dialog/dialog-box.ts) `POS`）迁到「逻辑坐标 × 倍率」——它是 UI 叠层、不参与世界移动 / 碰撞，故可与世界坐标重构**解耦、单独落地**。先做世界坐标格化，UI 坐标高清化随后（同一机制、不同刀）。
 - **菜单及后续所有 UI / 美术 / 编辑器长在此地基上**；菜单（[D17](decisions.md)）暂搁待此落地。
-- 实施计划见 [foundation/render-foundation-plan.md](foundation/render-foundation-plan.md)。
+- 实施计划见 [foundation/render-foundation-plan.md](archive/plans/render-foundation-plan.md)。
 
 > ✅ **已落地（2026-06-28）**：T1–T7 全部完成。实际实现要点（与 plan 的偏差/补充）：
 > - **`GridPos` + 换算函数归属 content**（[content/src/grid.ts](../../packages/content/src/grid.ts)），非 reforge —— 纯数学 + reforge/editor 共用 + 依赖方向一致（作者纠正）。
@@ -179,14 +179,14 @@
 ## D17 · 菜单系统设计（暂搁，依赖 D16）（2026-06-28）
 
 **决定**：菜单设计定调，但**实现暂搁、待 [D16](decisions.md) 渲染地基落地**（菜单直接长在格坐标 + 高清地基上，不返工）。设计要点：
-- **数据 schema（§9 角色实例化首次代码化）**：`WorldState`(L1 世界态) 持 `party: CharacterInstance[]`（单人 = 李逍遥）；`CharacterInstance`（稳定 id）= level / exp / hp / mp / 攻防法速（**绝对值**，非原版 modifier）/ equipment（可扩展槽）/ magic；`CharacterTemplate`(L2) = 名字 TextId + 初始数据（**数值借原版快照**）。**砍** §9 换装外观计算（留装备字段、不算外观）。属性 / 抗性 / 技能用**可扩展集合**、skill 带 `category`、角色留 `tags` —— 为 [phase3 D9 / 议题16](../phase3/future-gameplay-and-mmo-backlog.md) 留**形状**、不填内容。
+- **数据 schema（§9 角色实例化首次代码化）**：`WorldState`(L1 世界态) 持 `party: CharacterInstance[]`（单人 = 李逍遥）；`CharacterInstance`（稳定 id）= level / exp / hp / mp / 攻防法速（**绝对值**，非原版 modifier）/ equipment（可扩展槽）/ magic；`CharacterTemplate`(L2) = 名字 TextId + 初始数据（**数值借原版快照**）。**砍** §9 换装外观计算（留装备字段、不算外观）。属性 / 抗性 / 技能用**可扩展集合**、skill 带 `category`、角色留 `tags` —— 为 [phase3 D9 / 议题16](../phase3/backlog.md) 留**形状**、不填内容。
 - **UI**：数据驱动**动态布局**（属性 / 装备 / 技能遍历数据排版，加维度自动适配、不返工）；弹出框走**九宫格可拉伸**，全屏状态面板用固定背景图（原版风）。
 - **范围**：主菜单四项框架（状态 / 物品 / 武功 / 系统）+ 仅「队伍状态」能用；物品 / 武功 / 系统占位。**存档**（数据模型未定型）、**走出房间**（需编辑器）、**战斗属性改造**（phase3 D9）均后置。
 
 **理由**：菜单是"落地第二阶段最核心数据地基（角色 / 世界态 schema）"的抓手（roadmap §3.3）；但它依赖 D16（格坐标 + 高清 UI），故**设计先定、实现待地基**。数据驱动动态布局 + schema 留扩展口 = 将来加战斗维度 / 提分辨率都不返工。
 
 **影响**：
-- 待 D16 落地后，菜单走 brainstorm → spec → plan → 实现；角色 / 世界态 schema 届时首次代码化（[content-schema §9](foundation/content-schema.md)）。
+- 待 D16 落地后，菜单走 brainstorm → spec → plan → 实现；角色 / 世界态 schema 届时首次代码化（[content-schema §9](specs/content-schema.md)）。
 - 美术资产：状态背景 + 装备格素材（作者已 AI 生图、选原版风），随 D16 素材管线落位。
 
 ## D18 · 第二阶段包架构 + 阶段隔离（2026-06-28）
@@ -211,11 +211,11 @@
 - **唯一例外 = 迁移器**：依赖 shared 读原版（data/extracted）→ 转 content，是两阶段**唯一**桥。
 - `reforge` 现在 import shared（吃 data/extracted 的原版 RleFrame/Tilemap/Palette）= [D2](decisions.md) 切片**权宜**；[D15](decisions.md) 迁移器把素材转成 content 的 RGBA 后，这条依赖**断掉**（reforge 只依赖 content）。
 
-**理由**：架构优先（第二阶段铁律）。包职责混（工具 / 数据 / 模型缠一起）→ 依赖纠缠、改一处牵全身，正是第一阶段引擎债（见 [engine-debt-audit](foundation/engine-debt-audit.md)）的根。提前拆清、把边界 + 阶段隔离记死，往里加东西时有判据、不返工。editor / migrate 现在建空壳占位（职责钉死），正式实现在各自阶段（P2 / ③）。
+**理由**：架构优先（第二阶段铁律）。包职责混（工具 / 数据 / 模型缠一起）→ 依赖纠缠、改一处牵全身，正是第一阶段引擎债（见 [engine-debt-audit](archive/audits/engine-debt-audit.md)）的根。提前拆清、把边界 + 阶段隔离记死，往里加东西时有判据、不返工。editor / migrate 现在建空壳占位（职责钉死），正式实现在各自阶段（P2 / ③）。
 
 **影响**：
 - 新建 `packages/editor`（空壳，→ content）、`packages/migrate`（空壳，→ content + shared）。
-- `grid.ts` 已在 content（[render-foundation-plan](foundation/render-foundation-plan.md) Task 1）。
+- `grid.ts` 已在 content（[render-foundation-plan](archive/plans/render-foundation-plan.md) Task 1）。
 - content 内容实例（`guijieMinjuScene`/`locale`）演进：暂留 content fixture → 内容工程化后移数据目录。
 - [roadmap §7](roadmap.md) 据此修正（content 定位 + 迁移器独立 + 阶段隔离）。
 
@@ -343,7 +343,7 @@
 | 场景默认 | `SceneDef.battleFieldId/battleMusicId` | 60+29 处 enter 链 set |
 | 项目默认 | field 24(dev 惯例)/music **37**(2.RPG@0x10 新档真值;⚠ 3 是胜利曲) | 无 set 场景靠全局残留继承 → 传播静态化 |
 
-解析优先级自上而下。**迁移器**（未来 MG2 同逻辑）：0x4A/0x45 → `overrideSceneBattle` → 窥孔 fold(邻战≤3,隔轻量演出) + enter 首现 hoist + loadScene 图 fixpoint 传播填「靠残留继承」的场景。**存量补丁** 106 文件（fold 35 / hoist 60+29 / 幸存覆写 11 / 传播填 field 25 + music 32）。传播无解场景（field 15 / music 28,原版值路径依赖 = 全局变量事故实锤）落运行时项目默认，清单见 [battle-config-fills-review.md](battle-config-fills-review.md) 待作者定值。
+解析优先级自上而下。**迁移器**（未来 MG2 同逻辑）：0x4A/0x45 → `overrideSceneBattle` → 窥孔 fold(邻战≤3,隔轻量演出) + enter 首现 hoist + loadScene 图 fixpoint 传播填「靠残留继承」的场景。**存量补丁** 106 文件（fold 35 / hoist 60+29 / 幸存覆写 11 / 传播填 field 25 + music 32）。传播无解场景（field 15 / music 28,原版值路径依赖 = 全局变量事故实锤）落运行时项目默认，清单见 [battle-config-fills-review.md](archive/audits/battle-config-fills-review.md) 待作者定值。
 
 **顺带**：战场五灵加成接通（`battle-fields.json.magicEffect` → session → core 双向 `calcMagicDamage.fieldEffect`，fight.c:244）;`sys:music` 判非管线残留（当前播放曲记账 = 活状态）留任,后续从 vars 袋毕业成显式字段。
 

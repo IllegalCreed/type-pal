@@ -1,5 +1,5 @@
 /**
- * M1 数据表批量迁移器 · 纯函数核(见 docs/phase2/foundation/migrator-m1-plan.md)。
+ * M1 数据表批量迁移器 · 纯函数核(见 docs/phase2/archive/plans/migrator-m1-plan.md)。
  *
  * 输入 = data/extracted 的原始表(player-roles/spells/magic/items/level-up-*)+ events/all.json 命令流;
  * 输出 = projects/<id>/content 的 ActorDef/SkillData/ItemData/SpriteDef/locale 片段(经 content validate 契约)。

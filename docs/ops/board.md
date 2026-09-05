@@ -5,13 +5,14 @@
 额度按接手时实际状态确认；历史额度快照不作为当前准入依据。
 
 工作流: [`agent-workflow.md`](agent-workflow.md)
-任务卡模板: [`tasks/TASK-template.md`](tasks/TASK-template.md)
-轻量模板: [`tasks/TASK-lite-template.md`](tasks/TASK-lite-template.md)
+任务卡模板: [`tasks/TASK-template.md`](templates/TASK-template.md)
+轻量模板: [`tasks/TASK-lite-template.md`](templates/TASK-lite-template.md)
 
 ## 进行中
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| DOC-IA-2 | 全仓文档信息架构整理 | review | Codex：本地验证通过，等待远端 CI 收口 | [任务卡](tasks/DOC-IA-2-repository-documentation-structure.md)；分类、引用与保真检查完成。 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 文档整改已收口，日常检查与 CI 已接入。接下来按总收口处理质量门禁、审计缺陷并补回归/覆盖率，

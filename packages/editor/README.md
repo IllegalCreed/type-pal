@@ -27,4 +27,4 @@ pnpm --filter @type-pal/editor typecheck
 pnpm --filter @type-pal/editor audit:design-system   # 设计系统采用门禁
 ```
 
-见 [decisions D18（包架构）](../../docs/phase2/decisions.md)、[editor 设计](../../docs/phase2/editor/editor-design.md)。
+见 [decisions D18（包架构）](../../docs/phase2/decisions.md)、[editor 设计](../../docs/phase2/specs/editor-architecture.md)。

@@ -1251,7 +1251,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     }
     return waveCanvas
   }
-  // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/ambience-design.md)──
+  // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/archive/designs/ambience-design.md)──
   // world.ambience 是权威(随存档);此处只是显示态:当前乘色 + 300ms 切换过渡。
   // 纯视觉、无输入门、自终止 —— 不属于「需要收尾人的 time-based 状态」。
   const AMBIENCE_FADE_MS = 300
@@ -1687,7 +1687,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     }
   }
 
-  // ══ E6a 实体定位权威(设计:docs/phase2/foundation/e6-position-authority-design.md)══
+  // ══ E6a 实体定位权威(设计:docs/phase2/archive/designs/e6-position-authority-design.md)══
   // 缺省不在表 = world(输入/auto/hostile 可写);'script' = 主脚本演出接管。
   // 拍板(2026-07-05):①仅被接管的实体暂停 auto;②位移指令才隐式接管。
   // 不进存档 —— 权威是演出期瞬时态,读档/切场景随脚本收尾清空。mount 形态 E7 落。

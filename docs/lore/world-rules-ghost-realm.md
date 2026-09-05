@@ -88,6 +88,6 @@
 
 ## 待决
 
-- [ ] **入口位置**：保留鬼阴山（需设定解释）vs 改酆都（时间线问题）vs 第三方案。详见 [dlc-01-guijie/brainstorm.md](dlc-01-guijie/brainstorm.md)。
+- [ ] **入口位置**：保留鬼阴山（需设定解释）vs 改酆都（时间线问题）vs 第三方案。详见 [dlc-01-guijie/brainstorm.md](ideas/guijie/brainstorm.md)。
 - [ ] 进入方式：纯时辰触发（贴官方）vs 铁剑信物共鸣触发（缝合父子物证）。二者可并存。
 - [ ] 十殿阎罗/无常殿在 DLC-01 里是否正面出现（增加设定厚度 vs 增加复杂度）。

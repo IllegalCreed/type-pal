@@ -37,7 +37,7 @@ export interface AssetBase {
 
 /** 资产缺失指路（新 clone 最常见坑：PAL 提取源尚未准备）。 */
 const ASSET_HINT =
-  '资产缺失?新 clone 需先放入 data/raw 并跑:pnpm extract(见 docs/dev-servers.md「新人前置」)'
+  '资产缺失?新 clone 需先放入 data/raw 并跑:pnpm extract(见 docs/ops/guides/dev-servers.md「新人前置」)'
 
 async function readAssetJson<T>(base: AssetBase, path: string): Promise<T> {
   try {

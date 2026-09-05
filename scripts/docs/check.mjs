@@ -12,9 +12,17 @@ import { markdownLinks } from './markdown.mjs'
 
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const taskDirectory = 'docs/ops/tasks/'
+const archivedTaskDirectories = ['docs/ops/archive/tasks/done', 'docs/ops/archive/tasks/cancelled']
 const taskIndex = `${taskDirectory}index.md`
 const statuses = new Set(['draft', 'build', 'review', 'done', 'blocked', 'rework', 'cancelled'])
 const terminal = new Set(['done', 'cancelled'])
+
+export function isTaskDocument(file) {
+  return (
+    [taskDirectory.slice(0, -1), ...archivedTaskDirectories].includes(dirname(file)) &&
+    !['README.md', 'index.md', 'TASK-template.md', 'TASK-lite-template.md'].includes(basename(file))
+  )
+}
 
 export function localTarget(source, target) {
   if (/^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(target)) return undefined
@@ -62,7 +70,7 @@ export function renderTaskIndex(tasks) {
             ? '完成证据、历史签字与交接见原卡。'
             : '以任务卡当前准入与看板分工为准。'
       out.push(
-        `| [${tableText(task.title)}](${basename(task.file)}) | ${task.status} | ${reason} |`,
+        `| [${tableText(task.title)}](${relative(taskDirectory, task.file)}) | ${task.status} | ${reason} |`,
       )
     }
     out.push('')
@@ -93,6 +101,11 @@ export function checkCurrentSection(text, rule, expected) {
     const axis = /^SAVE/i.test(match[1]) ? 'save' : 'content'
     const value = Number(match[2])
     if (axis === 'content' && value === expected.content) currentContent = true
+    const clause = section
+      .slice(0, match.index)
+      .split(/[\n。；;，,]/)
+      .at(-1)
+    if (value !== expected[axis] && /不(?:保留|支持|接受)|拒绝/.test(clause)) continue
     if (value !== expected[axis]) errors.push(`${match[0]} 与源码 ${axis}=${expected[axis]} 不一致`)
   }
   if (!currentContent) errors.push('现行合同缺少明确的 content 版本声明')
@@ -150,19 +163,17 @@ export function auditDocuments({
     if (!documents.has(index)) add(index, 1, '含 Markdown 的文档目录缺少 README 索引')
   }
   const tasks = [...documents.entries()]
-    .filter(
-      ([file]) =>
-        dirname(file) === taskDirectory.slice(0, -1) &&
-        !['README.md', 'index.md', 'TASK-template.md', 'TASK-lite-template.md'].includes(
-          basename(file),
-        ),
-    )
+    .filter(([file]) => isTaskDocument(file))
     .map(([file, text]) => taskInfo(file, text))
   for (const task of tasks) {
     if (!statuses.has(task.status))
       add(task.file, 1, '顶部缺少有效 Status；不要把正文历史状态当成当前状态')
     if (task.historical && !terminal.has(task.status))
       add(task.file, 1, '历史中文状态例外只用于终态卡，活动卡必须使用 Status')
+    if (terminal.has(task.status) && dirname(task.file) !== `docs/ops/archive/tasks/${task.status}`)
+      add(task.file, 1, '终态任务应移入对应 done/cancelled 归档目录，并更新引用与索引')
+    if (!terminal.has(task.status) && dirname(task.file) !== taskDirectory.slice(0, -1))
+      add(task.file, 1, '活动任务不能放在历史归档目录')
   }
   const expectedIndex = renderTaskIndex(tasks)
   if (documents.get(taskIndex)?.trimEnd() !== expectedIndex.trimEnd())
@@ -196,7 +207,8 @@ export function auditDocuments({
     if (
       !file.startsWith('docs/') ||
       basename(file) === 'README.md' ||
-      dirname(file) === 'docs/ops/tasks'
+      isTaskDocument(file) ||
+      file === taskIndex
     )
       continue
     const readme = `${dirname(file)}/README.md`
@@ -205,6 +217,36 @@ export function auditDocuments({
   }
   if (!linked.get(`${taskDirectory}README.md`)?.has(taskIndex))
     add(`${taskDirectory}README.md`, 1, '缺少生成任务索引入口')
+
+  for (const directory of docDirectories) {
+    if (directory === 'docs') continue
+    const parentIndex = `${dirname(directory)}/README.md`
+    if (
+      documents.has(parentIndex) &&
+      !linked.get(parentIndex)?.has(directory) &&
+      !linked.get(parentIndex)?.has(`${directory}/README.md`)
+    ) {
+      add(parentIndex, 1, `子目录未进入导航：${directory}`)
+    }
+  }
+  for (const file of documents.keys()) {
+    if (!file.startsWith('docs/phase2/')) continue
+    const parts = file.slice('docs/phase2/'.length).split('/')
+    const allowed =
+      parts.length === 1
+        ? [
+            'README.md',
+            'READ-FIRST.md',
+            'roadmap.md',
+            'capability-map.md',
+            'decisions.md',
+            'design-backlog.md',
+          ].includes(parts[0])
+        : ['specs', 'guides', 'reference', 'archive'].includes(parts[0])
+    if (!allowed) add(file, 1, '第二阶段文档须归入现行规范、指南、参考或历史归档；顶层仅保留方针')
+    if (parts[0] === 'specs' && /(?:-plan|-audit|-report)\.md$/.test(file))
+      add(file, 1, '计划/审计报告不能作为现行规范存放')
+  }
 
   for (const rule of sectionRules) {
     const text = documents.get(rule.file)

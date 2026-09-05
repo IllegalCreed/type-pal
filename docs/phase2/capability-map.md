@@ -5,12 +5,12 @@
 > 架构均已完成三方审查和用户验收。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime
 > fallback 保持删除；PAL catalog 为 1,934 条，含 56 个 effect sprite。X4/A7 已随
 > `ARCH-CURRENT-ONLY-1` 收口为 ✅。本轮对账见
-> [OPS-MAP-3](../ops/tasks/OPS-MAP-3-current-truth-reconciliation.md)；历史批次见各任务卡和资源闭包审计。
+> [OPS-MAP-3](../ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md)；历史批次见各任务卡和资源闭包审计。
 > 配套阅读:[北极星与用法](roadmap.md) §8–§9 / [铁律](READ-FIRST.md) / [决策 D20](decisions.md)。
 > 状态符号:`✅done` `⚠️半done(一边done一边缺)` `❌缺(两边都缺)` `—不适用`。
 >
 > **「能编」严格判据**(2026-07-05 立):编辑器侧标 ✅ 必须满足——能在编辑器里**真实创建/修改**该能力所需数据,**改动能保存**(dispatch Command → session → 工程文件)、**引擎能消费**。纯展示按钮、灰色 `soon` 占位、`defaultChecked` 假 toggle、空壳标签(点进去"待做")**都不算**——判据同 W1/W2「能开菜单 ≠ 系统能编」。「有 UI 入口但点了无功能」= ❌ 不是 ⚠️。
-> **「创作闭环」补充判据**(2026-07-14 ED-1 三签):对作者可管理的对象,编辑器 ✅ 还须完成发现/选择、创建、引用/绑定、编辑、预览/运行、保存/重开、删除约束七环。仅能修改迁移后的既有条目不算完整创作能力。审计与恢复条件见[编辑器创作闭环审计](editor/editor-authoring-closure-audit-2026-07-13.md)。
+> **「创作闭环」补充判据**(2026-07-14 ED-1 三签):对作者可管理的对象,编辑器 ✅ 还须完成发现/选择、创建、引用/绑定、编辑、预览/运行、保存/重开、删除约束七环。仅能修改迁移后的既有条目不算完整创作能力。审计与恢复条件见[编辑器创作闭环审计](archive/audits/editor-authoring-closure-audit-2026-07-13.md)。
 
 ---
 
@@ -55,30 +55,30 @@
 
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
-| W1 | 地图渲染(tile 墙面) | ✅ | ✅ | 客栈/盛渔村市集 + ProjectMap v4 | **当前单格式闭环**：PAL 223 张旧图已一次切到 ProjectMap v4；content/reforge/editor 不认识旧地图格式。运行时按 map id 懒加载 `tilesetRefs` 并逐格解析来源，同图同层不同瓦片集的同号 tileId 可并存；N 层、所有层实例高度与独立碰撞均走同一渲染路径。共享内容/相对高度见 [ED-STAMP-MAP-MODEL-1](../ops/tasks/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md)，多来源见 [ED-MAP-MULTI-TILESET-1](../ops/tasks/ED-MAP-MULTI-TILESET-1-multi-tileset-map-authoring.md) |
+| W1 | 地图渲染(tile 墙面) | ✅ | ✅ | 客栈/盛渔村市集 + ProjectMap v4 | **当前单格式闭环**：PAL 223 张旧图已一次切到 ProjectMap v4；content/reforge/editor 不认识旧地图格式。运行时按 map id 懒加载 `tilesetRefs` 并逐格解析来源，同图同层不同瓦片集的同号 tileId 可并存；N 层、所有层实例高度与独立碰撞均走同一渲染路径。共享内容/相对高度见 [ED-STAMP-MAP-MODEL-1](../ops/archive/tasks/done/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md)，多来源见 [ED-MAP-MULTI-TILESET-1](../ops/archive/tasks/done/ED-MAP-MULTI-TILESET-1-multi-tileset-map-authoring.md) |
 | W2 | 移动与碰撞 | ✅ | ✅ | 走路/撞墙 | done |
 | W3 | 多场景切换 | ✅ | ✅ | 余杭→客栈传送 | done;switchScene/LRU/相机 |
 | W4 | 入口/传送 | ✅ | ✅ | 门触发 | **W4-1 done**：场景检查器「命名入口」支持增删、改名、坐标、朝向与空表；`loadScene` 具备场景/落点/朝向三态。命名落点采用非实体空间锚点与稳定 id/label 分离，迁移去重、画布 marker、引用与保存闭环均已完成。 |
 | W5 | 音乐/氛围 | ✅ | ✅ | 场景 BGM | 场景/脚本/战斗/胜利曲、标题菜单曲与读档恢复统一使用 AssetId/null/显式 stop；编辑器音乐页支持导入、改名、替换、引用保护删除、同 resolver 试听与保存重开。D12-1 已补动态过渡/分层，A7 资源闭包与 current-only 架构均已完成。 |
 | W6 | 昼夜氛围 | ✅ | ✅ | 隐龙窟外夜景(0x54) | **第二阶段范围 done（2026-07-10）**：全帧 multiply 滤镜 + 可编辑 `ambiences.json`，`setAmbience`、存档、夜战染色和氛围工作台均已闭环。真实时间流逝与天气系统不再属于第二阶段，按用户 2026-09-03 裁决移交第三阶段。 |
 | W7 | 地图库与基础绘制 | ✅ | ✅ | 地图库 + 共享地图/组合编辑器 | 稳定 MapIndex、CRUD、懒加载/copy-through、N 视觉层、每格来源/实例高度、独立碰撞、图层与高度导航、吸管和撤销均已接入。2026-08-19 组合已从稀疏成员表纠偏为带锚点的局部 `IsometricMapContent`，直接复用地图画布、网格、工具栏、图层控件与瓦片 picker；组合 H 为相对值，放置实际 H=`base+relative`，不存在查看/编辑双态。随机笔刷与自动拼接地图块已移交第三阶段，不降级本格。 |
-| W8 | 地图内容选择与实例属性编辑 | — | ✅ | map-020 多图层/多来源/多高度：修改并撤销、保存重开 | 专用选择工具、单/多格 Inspector、显隐/锁定/活动层命中、透明像素与 Alt 候选、分通道原子 patch、移动/复制/剪切/粘贴/重复/删除及 undo/save-reopen 已闭环。当前 patch/clipboard/transform 同步搬运 tileset 来源、tileId、height 和 collision；组合放置删除全局 tileset mismatch，支持多来源快照与 relative H。历史 W8 证据见 [W8 任务卡](../ops/tasks/W8-map-content-selection-inspector.md)，本次切版证据见 ED-STAMP-MAP-MODEL-1 / ED-MAP-MULTI-TILESET-1。 |
-| W9 | 实体暂离/重现/明雷逃跑冷却 | ✅ | ✅ | vanishEntity 语义生命周期（暂停自动触碰 vs 隐藏待重现） | **done（2026-08-12）**：稳定实体地址的四态生命周期与世界 reducer 已替代 `respawnSeconds + host.wait` 临时实现；明雷胜利/玩家逃跑/敌逃走具名 BattleResult 与对应生命周期，SAVE8/content13、迁移 ledger/seal/replay、递归 authority 均闭合。编辑器独立 v12→v13 manifest-last overlay、生命周期命令 CRUD、undo/redo、引用保护、保存/重开和 hostile 胜利/逃跑策略编辑均已完成。三方 implementation `accept`、用户最终复验“没问题了”及提交 `b9de09d0` 四证齐；见 [W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md)。 |
+| W8 | 地图内容选择与实例属性编辑 | — | ✅ | map-020 多图层/多来源/多高度：修改并撤销、保存重开 | 专用选择工具、单/多格 Inspector、显隐/锁定/活动层命中、透明像素与 Alt 候选、分通道原子 patch、移动/复制/剪切/粘贴/重复/删除及 undo/save-reopen 已闭环。当前 patch/clipboard/transform 同步搬运 tileset 来源、tileId、height 和 collision；组合放置删除全局 tileset mismatch，支持多来源快照与 relative H。历史 W8 证据见 [W8 任务卡](../ops/archive/tasks/done/W8-map-content-selection-inspector.md)，本次切版证据见 ED-STAMP-MAP-MODEL-1 / ED-MAP-MULTI-TILESET-1。 |
+| W9 | 实体暂离/重现/明雷逃跑冷却 | ✅ | ✅ | vanishEntity 语义生命周期（暂停自动触碰 vs 隐藏待重现） | **done（2026-08-12）**：稳定实体地址的四态生命周期与世界 reducer 已替代 `respawnSeconds + host.wait` 临时实现；明雷胜利/玩家逃跑/敌逃走具名 BattleResult 与对应生命周期，SAVE8/content13、迁移 ledger/seal/replay、递归 authority 均闭合。编辑器独立 v12→v13 manifest-last overlay、生命周期命令 CRUD、undo/redo、引用保护、保存/重开和 hostile 胜利/逃跑策略编辑均已完成。三方 implementation `accept`、用户最终复验“没问题了”及提交 `b9de09d0` 四证齐；见 [W9 任务卡](../ops/archive/tasks/done/W9-entity-lifecycle-respawn.md)。 |
 
 ### 实体(Entity)— 10 格
 
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
-| E1 | 实体定义与摆放 | ✅ | ✅ | NPC/家具/宝箱 | **done（2026-09-05）**：ED-4A 已闭合实体四形态与编辑七环；[ED-SCENE-LIFECYCLE-1](../ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) 补齐 content20 场景目录、名称/稳定 ID/显式路径、新建/复制/安全删除、双会话撤销重做、文件保存重开与正式试玩入口。原候选三方 accept，用户免亲自复验直接通过；追加长引用页滚动缺陷已修复并实机补验。 |
+| E1 | 实体定义与摆放 | ✅ | ✅ | NPC/家具/宝箱 | **done（2026-09-05）**：ED-4A 已闭合实体四形态与编辑七环；[ED-SCENE-LIFECYCLE-1](../ops/archive/tasks/done/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md) 补齐 content20 场景目录、名称/稳定 ID/显式路径、新建/复制/安全删除、双会话撤销重做、文件保存重开与正式试玩入口。原候选三方 accept，用户免亲自复验直接通过；追加长引用页滚动缺陷已修复并实机补验。 |
 | E2 | NPC 行为(走位/巡逻) | ✅ | ✅ | 市集游走 | autoScript;编辑器:脚本抽屉可编 auto stages + 实体检查器「行为脚本」一键跳转;**巡逻模板(2026-07-11 E2)**:插入菜单「巡逻」组四模板 —— 来回走 A↔B / 环线四角 / 驻足张望四向 / 随机游走一步(两层五五开),形状提炼自 pal 真实市集游走(s004 e76/e83),展开为普通指令组不引黑盒;auto 跑完整套自动重跑 = 天然循环零「循环」指令 |
 | E3 | 可拾取物 | ✅ | ✅ | 宝箱/拾取 | done;拾取模板 |
 | E4 | 触发交互 | ✅ | ✅ | 对话/事件 | done;事件模式 |
 | E5 | 实体动画(loop) | ✅ | ✅ | 火把/流水 | 引擎(2026-07-05):loop 布局壁钟自循环 250ms/帧(loopFrameIndex,演出帧覆盖仍优先);编辑器:精灵库布局可编(C1d)。⚠ 两工程暂无 loop 精灵数据 —— 精灵库切 loop 布局即生效 |
-| E6 | **实体定位权威** | ✅ | ✅ | 隐龙窟门口/试炼窟芦苇 | 引擎 done(2026-07-08 两考题全过:E7 芦苇漂 + N7 隐龙窟门口):E6a authority 表+双视图(位移指令隐式接管·脚本收尾统一归还)+ E6b 显式 take/release + E7 mount + E8 follow。[E6-1](../ops/tasks/E6-1-runtime-authority-inspector.md) 于 2026-09-04 完成运行态可视化、Esc 后反引号重开、listener 泄漏修复及 DEV-only 剥离，三方 accept + 用户验收通过。 |
+| E6 | **实体定位权威** | ✅ | ✅ | 隐龙窟门口/试炼窟芦苇 | 引擎 done(2026-07-08 两考题全过:E7 芦苇漂 + N7 隐龙窟门口):E6a authority 表+双视图(位移指令隐式接管·脚本收尾统一归还)+ E6b 显式 take/release + E7 mount + E8 follow。[E6-1](../ops/archive/tasks/done/E6-1-runtime-authority-inspector.md) 于 2026-09-04 完成运行态可视化、Esc 后反引号重开、listener 泄漏修复及 DEV-only 剥离，三方 accept + 用户验收通过。 |
 | E7 | 载具/挂载 | ✅ | ✅ | 试炼窟芦苇漂(共乘)/坐船 | done(2026-07-07):mount 权威 + **全员叠筏**(mountParty/ride 连跟随者一起挂;dismountParty 四路收口:显式/走位即下筏/脚本收尾/强停,零持久态)+ 大世界跟随者(见 E8)。骑乘 opcode 定向翻译(0xA1→mountParty/0x3F·44·97→ride,5 场景 160 处)。考题实测:s213 李逍遥+阿奴共乘逐帧重叠漂流(一阶段掉队闪现 bug 不存在)+ s017 仙灵岛筏;队长恒遮挡队员(z序平局偏置) |
 | E8 | 大世界跟随者(队伍展示) | ✅ | — | 三人队走位/拐弯甩尾 | 新格(2026-07-07):party[1..N] 渲染 + 原版 trail 槽 1:1(基点 slot2 校准=平铺→菱形 2× 粒度;**dir=离开该格方向**,拐弯甩尾逐行对齐原版 —— 8字双轨迹对比法定案,两引擎同场景同腿长无缝换向逐行全等)+ follow/mount/script 三权威。队长恒遮挡队员。编辑器无依赖 |
-| E9 | 商店/当铺(openShop) | ✅ | ✅ | s050 米铺买/s029 当铺卖 | **done（2026-09-05）**：游戏买卖运行链及编辑器复制/安全删除、ED-3引用、保存重开、隔离试买均闭合；三方accept、720宽补验与用户验收通过。PAL生成种子为 **20 家店（id 1..20）**，作者目录不受固定店数限制；标题仍从货单派生，不新增名称或版本。[ED-SHOP-LIFECYCLE-1](../ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)。 |
-| E18 | 编辑器角色战斗字段（coveredBy/casualty/cooperativeMagic） | — | ✅ | B11-1 三个战斗字段的编辑器编辑与校验 | **done（2026-08-14 用户验收通过）**：`coveredBy`（援护者）/`casualty`（伤亡脚本 friendDeath/dying）/`cooperativeMagic`（合体技）的结构化编辑、引用校验与保存闭环；三方技术 `accept`（2026-08-07）+ 用户产品验收（2026-08-14 会话确认）四证齐，OPS-MAP-1 遗留的 fail-closed 已解除。依赖 B11-1 已 done；见 [E18-1 任务卡](../ops/tasks/E18-1-editor-actor-battle-fields.md)。注：原卡 Capability 写「18e」，本格定为 **E18**（Entity 域续号）。 |
+| E9 | 商店/当铺(openShop) | ✅ | ✅ | s050 米铺买/s029 当铺卖 | **done（2026-09-05）**：游戏买卖运行链及编辑器复制/安全删除、ED-3引用、保存重开、隔离试买均闭合；三方accept、720宽补验与用户验收通过。PAL生成种子为 **20 家店（id 1..20）**，作者目录不受固定店数限制；标题仍从货单派生，不新增名称或版本。[ED-SHOP-LIFECYCLE-1](../ops/archive/tasks/done/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md)。 |
+| E18 | 编辑器角色战斗字段（coveredBy/casualty/cooperativeMagic） | — | ✅ | B11-1 三个战斗字段的编辑器编辑与校验 | **done（2026-08-14 用户验收通过）**：`coveredBy`（援护者）/`casualty`（伤亡脚本 friendDeath/dying）/`cooperativeMagic`（合体技）的结构化编辑、引用校验与保存闭环；三方技术 `accept`（2026-08-07）+ 用户产品验收（2026-08-14 会话确认）四证齐，OPS-MAP-1 遗留的 fail-closed 已解除。依赖 B11-1 已 done；见 [E18-1 任务卡](../ops/archive/tasks/done/E18-1-editor-actor-battle-fields.md)。注：原卡 Capability 写「18e」，本格定为 **E18**（Entity 域续号）。 |
 
 ### 角色(Character)— 8 格
 
@@ -91,7 +91,7 @@
 | C5 | 技能持有 | ✅ | ✅ | 仙术菜单 | 引擎 done(learnedSkills);编辑器(2026-07-05):SkillTab(90 技能列表/名字·说明·战外可用/消耗·目标·效果·动画 JSON 兜底,UpdateSkillCommand 可 undo) |
 | C7 | 队伍管理(入队/离队) | ✅ | ✅ | 0x75 setParty(隐龙窟门口) | done(2026-07-07,D22 reserve 方案):applySetParty 纯函数(在队保留原实例/reserve 搬回带状态/新人实例化/落选不清数据)+ setParty 指令 + 队伍精灵动态解析/懒加载/LRU 保护;reserve 随存档。迁移 0x75→setParty(102 处/63 场景)。content20 的角色 condition 使用独立稳定 ActorId 指令，`setParty` 仍只负责阵容，不隐式播种或清理状态。编辑器:指令表单(中文名下拉有序表)。真机:隐龙窟门口全链 |
 | C6 | 成长/升级 | ✅ | ✅ | 升级 | 引擎:B7a 战后 exp/升级成长/学技能/半恢复(原版公式,实测);编辑器(2026-07-05):角色模式「升级」区(expTable 曲线 textarea 失焦提交·非法数字拦截 + 升级学技能行:等级/技能下拉/增删,UpdateLevelUpCommand 可 undo) |
-| C8 | 物品用途与机制 | ✅ | ✅ | 土灵珠/炼蛊皿/紫金葫芦 | **done（2026-08-06 联合验收）**：100 个源 usable ID = 100 个可运行 use ID，item-use diagnostics=0；剩余 20 件/21 个源根、无影毒 throw、物品私有脚本创作闭环与工作台回归均已完成。N3-1 终态依赖解除后，Codex/Kimi/GLM 三方 `accept` 与用户对 C8/ED-5I 的联合验收齐；提交 `e70987d6` 已收口。证据见 [C8](../ops/tasks/C8-item-use-mechanisms.md)、[ED-5I](../ops/tasks/ED-5I-item-workbench.md) 与 [N3-1](../ops/tasks/N3-1-script-control-flow-modernization.md)。 |
+| C8 | 物品用途与机制 | ✅ | ✅ | 土灵珠/炼蛊皿/紫金葫芦 | **done（2026-08-06 联合验收）**：100 个源 usable ID = 100 个可运行 use ID，item-use diagnostics=0；剩余 20 件/21 个源根、无影毒 throw、物品私有脚本创作闭环与工作台回归均已完成。N3-1 终态依赖解除后，Codex/Kimi/GLM 三方 `accept` 与用户对 C8/ED-5I 的联合验收齐；提交 `e70987d6` 已收口。证据见 [C8](../ops/archive/tasks/done/C8-item-use-mechanisms.md)、[ED-5I](../ops/archive/tasks/done/ED-5I-item-workbench.md) 与 [N3-1](../ops/archive/tasks/done/N3-1-script-control-flow-modernization.md)。 |
 
 ### 叙事(Narrative)— 8 格
 
@@ -120,7 +120,7 @@
 | B9 | 数据驱动敌对行为 | ✅ | ✅ | 林天南撑7回合/原地怪/重生窗 | `EntityDef.hostile{enemyTeamId,battleFieldId,chase,onLose,onVictory,onPlayerFlee}` 零脚本驱动；**ED-ENEMY-1 done（2026-08-17 用户验收）**：hostile 只持稳定字符串敌队引用，场景 picker/缺失态/typed 引用/删除阻断/明雷触发/保存重开与 `?battle=` 同一 ID，PAL 828 处 hostile + 174 处 startBattle 全部 exact join、0 悬空。生命周期/重现见 W9。 |
 | B7 | 战斗结算 | ✅ | ✅ | 经验/掉落 | B7a 入账/升级/学技能/半恢复 + B7b 忠实结算屏(经验金钱/升级8属性old→cur/练成) + B7c 隐藏经验(行为养成→属性提升弹窗)——原版 Phase A/B/D/E/F 全落。**ED-ENEMY-1 done（2026-08-17 用户验收）**：编辑器结构化维护逐敌 exp/cash/collectValue、无/金钱/物品偷取三态及单源 `onDefeated` 额外物品奖励；敌队无第二份奖励权威，只读汇总对重复成员累计。 |
 | B10 | 状态/异常(毒·乱·定·眠·封) | ✅ | ✅ | 中毒 DoT/毒药相生相克 | 中毒为数据化 tick 序列，毒抗/巫抗、致死对/相克环、养蛊/下毒投掷、乱定眠封状态字、中毒头像染色与世界→战斗携带桥均已闭合；编辑器「毒」页可维护全部结构。`ARCH-ACTOR-CONDITION-SEED-1` 已完成九状态 registry、入口/剧情 seed、三 carrier 与战后/读档清理；B10-1 已完成混乱敌人攻击同伴。 |
-| B11 | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying） | ✅ | — | 阵亡→援护者 friendDeath 台词+增益；濒死→自己 dying 对白 | **done（2026-08-05）**：content schema `BattlerSpec.casualty?`（friendDeath/dying 结构化脚本，概率门 75/66/50 + 兜底、台词、heal、temp buff）+ `coveredBy` 六条补迁移（B9 替挡首次在 PAL 数据真正生效）；battle-core 每 action 后 casualty sweep（双阈值 prevHp 防重入、auto 门、0x30 未 buff 基数）；session 战斗内对话展示与暂停。三方 accept + 用户验收确认；视觉演出补验留 Kimi（环境受限，见卡）。编辑器侧编辑归 **E18**（done 2026-08-14）。证据见 [B11-1 任务卡](../ops/tasks/B11-1-player-casualty-scripts.md)。 |
+| B11 | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying） | ✅ | — | 阵亡→援护者 friendDeath 台词+增益；濒死→自己 dying 对白 | **done（2026-08-05）**：content schema `BattlerSpec.casualty?`（friendDeath/dying 结构化脚本，概率门 75/66/50 + 兜底、台词、heal、temp buff）+ `coveredBy` 六条补迁移（B9 替挡首次在 PAL 数据真正生效）；battle-core 每 action 后 casualty sweep（双阈值 prevHp 防重入、auto 门、0x30 未 buff 基数）；session 战斗内对话展示与暂停。三方 accept + 用户验收确认；视觉演出补验留 Kimi（环境受限，见卡）。编辑器侧编辑归 **E18**（done 2026-08-14）。证据见 [B11-1 任务卡](../ops/archive/tasks/done/B11-1-player-casualty-scripts.md)。 |
 
 ### 元层(Meta)— 8 格
 
@@ -142,7 +142,7 @@
 | 格 | 名字 | 引擎 | 编辑器 | 备注 |
 |---|---|---|---|---|
 | MG1 | 全量迁移 | — | — | ✅ done(M1-M4:数据/场景/脚本/敌人)；R2 已把脚本缺口改为写盘前 fail-loud，PAL 正式产物零可执行 `unmigrated`，43,503 源命令覆盖与 `flowCuts=0` 门禁保持 |
-| MG2 | 增量合并 | — | — | ✅ **done(2026-07-13)**：纯生成 + 完整 baseline + 结构化三方合并(base/theirs/ours) + 事务写盘；602 个托管文件建立基线，首轮安全重导 `writes=164/deletes=0/conflicts=0`，二次迁移严格零计划。见 [MG2 任务卡](../ops/tasks/MG2-incremental-migration-merge.md) |
+| MG2 | 增量合并 | — | — | ✅ **done(2026-07-13)**：纯生成 + 完整 baseline + 结构化三方合并(base/theirs/ours) + 事务写盘；602 个托管文件建立基线，首轮安全重导 `writes=164/deletes=0/conflicts=0`，二次迁移严格零计划。见 [MG2 任务卡](../ops/archive/tasks/done/MG2-incremental-migration-merge.md) |
 
 > 迁移器格用 `引擎— 编辑器—`:工具域能力,引擎/编辑器不参与、不知道迁移器存在(阶段隔离铁律 D18)。完成期迁移器退役,MG2 随之废弃。
 
@@ -159,7 +159,7 @@
 | A4 | 用户上传自有素材 | — | ✅ | **已覆盖精灵、瓦片集、角色/敌人战斗外观、音乐、SFX、视频、完整帧动画及四类静态图**：A7-2 图像工作台支持立绘/头像/物品图标导入替换，战场真彩图在导入边界确定性量化并预览工程效果；引用保护、undo/redo、pending blob 与保存重开共用 catalog 链。默认字体/UI 属引擎，不是工程上传能力 |
 | A5 | 工程自包含分发(打包导出) | — | ✅ | **done(2026-07-10 A5)**:工程菜单「🗜 导出 zip」= FSA 目录递归原样打包下载(零依赖 zip 器:原生 deflate/CRC32/UTF-8 名/时间恒1980 可复现;读磁盘,dirty 提醒先保存;dev 种子工程禁用)。「另存为」丢磁盘素材债已修(整树拷贝+覆写,见 A5 卡) |
 | A6 | 预制库主动更新检查（→第三阶段） | — | — | 用户显式检查服务器新版并选择是否导入；不得自动覆盖工程。按用户 2026-09-03 裁决移交第三阶段，不是第二阶段缺口。 |
-| A7 | 工程资源闭包与稳定资源注册表 | ✅ | ✅ | **done（ARCH-CURRENT-ONLY-1）**：content20 manifest 的资源配置只含 catalog/roles，PAL 1,934 records；tileset/world sprite/battle sprite/effect sprite/image 均走 AssetId→catalog→AssetResolver/FileSource 单链，clone/save/export/runtime 无 extracted 或 legacy fallback。历史批次数字见[资源闭包审计](foundation/a7-resource-closure-audit.md)。 |
+| A7 | 工程资源闭包与稳定资源注册表 | ✅ | ✅ | **done（ARCH-CURRENT-ONLY-1）**：content20 manifest 的资源配置只含 catalog/roles，PAL 1,934 records；tileset/world sprite/battle sprite/effect sprite/image 均走 AssetId→catalog→AssetResolver/FileSource 单链，clone/save/export/runtime 无 extracted 或 legacy fallback。历史批次数字见[资源闭包审计](archive/audits/a7-resource-closure-audit.md)。 |
 
 > A1-A5 是第二阶段编辑器侧的素材与分发动作，故 `引擎—`；A6 保留历史格号但已移交第三阶段。A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。A1 保留为第二阶段最后的发布收口门，当前不提前实施；未决子问题（托管/版本/素材规模、A2 下载协议与进度、A4 支持格式）届时细化。版权素材实际替换不作为 A1/A7 或第二阶段完成条件。
 

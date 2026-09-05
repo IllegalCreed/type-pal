@@ -1,5 +1,5 @@
 /**
- * 剧情脚本 schema(M3a)—— 设计:docs/phase2/foundation/script-model-m3-design.md §2。
+ * 剧情脚本 schema(M3a)—— 设计:docs/phase2/archive/designs/script-model-m3-design.md §2。
  *
  * 结构化嵌套 AST(无 IP 跳转);可执行内容只允许本联合中的语义命令。
  * 旧 opcode 的翻译缺口属于迁移期诊断,不得进入工程内容或运行时。

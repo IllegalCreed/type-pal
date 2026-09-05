@@ -1,5 +1,5 @@
 /**
- * 氛围系统(W6 昼夜)数据模型。见 docs/phase2/ambience-design.md。
+ * 氛围系统(W6 昼夜)数据模型。见 docs/phase2/archive/designs/ambience-design.md。
  *
  * 原版「夜晚调色板」实测 = 昼盘逐通道均匀乘法(R×0.458 / G×0.899 / B×1.000,
  * p10–p90 极窄)—— clean 版用全帧 multiply 合成复现,**零调色盘概念**。

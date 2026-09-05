@@ -1,0 +1,2531 @@
+{
+  "baseline": "04fb975e78a613ee597cb9f82f0a9e4797ce0e08",
+  "purpose": "Repository documentation classification and reference relocation; no product behavior changes.",
+  "directories": {
+    "docs/phase2/editor/mockups": "docs/phase2/archive/mockups",
+    "docs/phase2/slice1-indoor": "docs/phase2/archive/slices/indoor",
+    "docs/ops/evidence": "docs/ops/archive/evidence",
+    "docs/lore/dlc-01-guijie": "docs/lore/ideas/guijie",
+    "docs/phase2/foundation": "docs/phase2/specs",
+    "docs/phase2/editor": "docs/phase2/guides",
+    "docs/phase2/dialogue": "docs/phase2/archive/designs",
+    "docs/phase2/menu": "docs/phase2/archive/plans",
+    "docs/phase2/migrate": "docs/phase2/archive/audits"
+  },
+  "entries": [
+    {
+      "from": "docs/ops/tasks/DOC-IA-2-repository-documentation-structure.md",
+      "to": "docs/ops/tasks/DOC-IA-2-repository-documentation-structure.md",
+      "kind": "in-place",
+      "sha256": "d9d1ae6b46c38a9461cdd0b05a45046cc2f09ecbfea91158ef25b73c14ee8d7b"
+    },
+    {
+      "from": "AGENTS.md",
+      "to": "AGENTS.md",
+      "kind": "in-place",
+      "sha256": "56605ef3db438cfaa581098baeef9358fda12fc9bbe94e22fc10ed94e1bba2a3"
+    },
+    {
+      "from": "CLAUDE.md",
+      "to": "CLAUDE.md",
+      "kind": "in-place",
+      "sha256": "fded2ecc03bc7d070608877bdd5b42f27b830e61868a309082381df405533e74"
+    },
+    {
+      "from": "README.md",
+      "to": "README.md",
+      "kind": "index",
+      "sha256": "9984c8954b958b56f155a6c3e2568d1adeaeb970a2ae505b6558ef8283758e1b"
+    },
+    {
+      "from": "data/raw/README.md",
+      "to": "data/raw/README.md",
+      "kind": "index",
+      "sha256": "6de2f5a4603fb20536a398d6423a1242ddc5121118514ca86db575bb54d73e56"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/README.md",
+      "kind": "index",
+      "sha256": "5f8082f478a035caccf307b8dca95e786729d0618d7dd99e791a44b98ada99da"
+    },
+    {
+      "from": "docs/dev-servers.md",
+      "to": "docs/ops/guides/dev-servers.md",
+      "kind": "guide",
+      "sha256": "d638a750084717dc2cf5c7a48b522d3683414a6ccdf2a6fdf497de9b39a0c54b"
+    },
+    {
+      "from": "docs/lore/README.md",
+      "to": "docs/lore/README.md",
+      "kind": "index",
+      "sha256": "9aff991afb26f05d06153653f8fc62b8d541cd45b78ce5bccfd1c45df823f4f3"
+    },
+    {
+      "from": "docs/lore/characters.md",
+      "to": "docs/lore/characters.md",
+      "kind": "in-place",
+      "sha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+    },
+    {
+      "from": "docs/lore/dlc-01-guijie/README.md",
+      "to": "docs/lore/ideas/guijie/README.md",
+      "kind": "index",
+      "sha256": "9dc41f599e9095d73578512fb183097ec16493fb1218116749f8f671787619b6"
+    },
+    {
+      "from": "docs/lore/dlc-01-guijie/beat-sheet.md",
+      "to": "docs/lore/ideas/guijie/beat-sheet.md",
+      "kind": "in-place",
+      "sha256": "c92597c3a9e2ea0937935958a1d19664c2e933baabbc2315eae3b2f70f5f573b"
+    },
+    {
+      "from": "docs/lore/dlc-01-guijie/brainstorm.md",
+      "to": "docs/lore/ideas/guijie/brainstorm.md",
+      "kind": "in-place",
+      "sha256": "ad05027c63ab8a4c1a17d9658afc43432fe13561aa9f95e222c7c6acc3c939b2"
+    },
+    {
+      "from": "docs/lore/dlc-ideas.md",
+      "to": "docs/lore/dlc-ideas.md",
+      "kind": "in-place",
+      "sha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a"
+    },
+    {
+      "from": "docs/lore/factions.md",
+      "to": "docs/lore/factions.md",
+      "kind": "in-place",
+      "sha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8"
+    },
+    {
+      "from": "docs/lore/narrative-workflow.md",
+      "to": "docs/lore/narrative-workflow.md",
+      "kind": "in-place",
+      "sha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d"
+    },
+    {
+      "from": "docs/lore/taboos.md",
+      "to": "docs/lore/taboos.md",
+      "kind": "in-place",
+      "sha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42"
+    },
+    {
+      "from": "docs/lore/timeline.md",
+      "to": "docs/lore/timeline.md",
+      "kind": "in-place",
+      "sha256": "93dd22dfe44be04c2a1c794d1f526cf14c9ff237015a376814bcc109589e83ab"
+    },
+    {
+      "from": "docs/lore/versions.md",
+      "to": "docs/lore/versions.md",
+      "kind": "in-place",
+      "sha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2"
+    },
+    {
+      "from": "docs/lore/world-rules-ghost-realm.md",
+      "to": "docs/lore/world-rules-ghost-realm.md",
+      "kind": "in-place",
+      "sha256": "9e732ee9fd5ef9c96490c5e73a23197b9ed373b3eefcc16428172edcab2a101d"
+    },
+    {
+      "from": "docs/lore/world-rules.md",
+      "to": "docs/lore/world-rules.md",
+      "kind": "in-place",
+      "sha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339"
+    },
+    {
+      "from": "docs/ops/README.md",
+      "to": "docs/ops/README.md",
+      "kind": "index",
+      "sha256": "c84585fea10efb840d88ab5952652a85c762b27e7482716098023951e98ebd91"
+    },
+    {
+      "from": "docs/ops/acceptance-checklist.md",
+      "to": "docs/ops/archive/acceptance/2026-07-checklist.md",
+      "kind": "historical",
+      "sha256": "9d4cf99baa8578c550cd69e1c7cdcdd11377069fb129a2b10e14437d86838d81"
+    },
+    {
+      "from": "docs/ops/agent-workflow.md",
+      "to": "docs/ops/agent-workflow.md",
+      "kind": "in-place",
+      "sha256": "b3cd9e5250588bbc6f6521fb53942681ac0f5e220ab335944552c43127272115"
+    },
+    {
+      "from": "docs/ops/audits/OPS-TST-PERF-g1-coverage-map.md",
+      "to": "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
+      "kind": "historical",
+      "sha256": "38c8f2921086034e0584cd8b0db27bcf996eb9b0efec11a60a62ad159f6c60d3"
+    },
+    {
+      "from": "docs/ops/audits/README.md",
+      "to": "docs/ops/audits/README.md",
+      "kind": "index",
+      "sha256": "ae2ee58a9ef71c73e4b66aaedea9722a18440a24f9513ed2df79d9ef3f4ed9e4"
+    },
+    {
+      "from": "docs/ops/audits/b10-1-source-slot-census-2026-08-09.md",
+      "to": "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md",
+      "kind": "historical",
+      "sha256": "f9e9cb44df82b7231c14ccfb23405c64bba2a848e76a0e68c23f55841e4ba56c"
+    },
+    {
+      "from": "docs/ops/audits/codex-p7-r13-three-way-adjudication.md",
+      "to": "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md",
+      "kind": "historical",
+      "sha256": "a1a7d21996c3658296397279b62e2150d2ad380cb0c7a8182de421d7b4eccfb8"
+    },
+    {
+      "from": "docs/ops/audits/codex-r13-4-confirm-control-flow-audit.md",
+      "to": "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md",
+      "kind": "historical",
+      "sha256": "f0644f9c6174f90bddd86bbed86ff91e6e0d1b5074b443b239101c1cd2331c29"
+    },
+    {
+      "from": "docs/ops/audits/codex-r13-5-enemy-source-semantics-audit.md",
+      "to": "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md",
+      "kind": "historical",
+      "sha256": "172f2eb76b22b3efe77b6509f44fab3b94b37dbad6a210b5e783240e8e0f944f"
+    },
+    {
+      "from": "docs/ops/audits/documentation-2026-09-06.md",
+      "to": "docs/ops/archive/audits/documentation-2026-09-06.md",
+      "kind": "historical",
+      "sha256": "084ad5508854b2b6511203ba866ed0d3c3ea4ee37f49f3293d5d1f7129c80e28"
+    },
+    {
+      "from": "docs/ops/audits/glm-p7-r13-source-semantics-audit.md",
+      "to": "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md",
+      "kind": "historical",
+      "sha256": "b592b6ca150c1a51bee5edeeab6bcd68dbc2941013219c2590813702eb4c34ff"
+    },
+    {
+      "from": "docs/ops/audits/kimi-p7-r13-source-semantics-audit.md",
+      "to": "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md",
+      "kind": "historical",
+      "sha256": "c9d4f16b801da222cdb89399922f9501406e183c1819f8eccc2b6b3e9d6ccbd1"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/README.md",
+      "to": "docs/ops/audits/pre-e2e/README.md",
+      "kind": "index",
+      "sha256": "efdbcb6c502bef4318ce17af49b1dd0d67d56b2570033b5312d7e1c8d4cb1ede"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/battle.md",
+      "to": "docs/ops/audits/pre-e2e/battle.md",
+      "kind": "in-place",
+      "sha256": "6173e8fbe2a62a7fe3bd1fe09ccc7bdfd77daeb44709b55198c2d5287f77a153"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/editor-workflows.md",
+      "to": "docs/ops/audits/pre-e2e/editor-workflows.md",
+      "kind": "in-place",
+      "sha256": "f3b1d09b4c3270d2a46fa17d896b152ab35674ddf3b5761c63d6998adc305ec0"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/engineering.md",
+      "to": "docs/ops/audits/pre-e2e/engineering.md",
+      "kind": "in-place",
+      "sha256": "aebaf1dd5a86487f6f3c99014b6aa9273ab94c83c86d82649b667019ffeb3020"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-battle-core.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-battle-core.mjs",
+      "kind": "attachment",
+      "sha256": "6417b745505da51de6895dfac09fb9a2a1e3f856b47e3212277f99c5d24fd97a"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-battle-session.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-battle-session.mjs",
+      "kind": "attachment",
+      "sha256": "d1f3d808509d1ea82a89ff64cf79832da828f477ed3237cb5c2735688d344264"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-canonical-async.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-canonical-async.mjs",
+      "kind": "attachment",
+      "sha256": "5ef1d8cf385d954f527d4caab6bc3319adb06c10bda81e773506daab7d7231eb"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-editor-history.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-editor-history.mjs",
+      "kind": "attachment",
+      "sha256": "52ff80a1023aaf420cc5790965ec1e49a84c9f1e34ca123648105082f9f8a727"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-editor-persistence.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-editor-persistence.mjs",
+      "kind": "attachment",
+      "sha256": "0d4619c6c62336f84fa6151a419c0c43fb8a2435e1032ca7700ed804888baedd"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-editor-reference-delete.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-editor-reference-delete.mjs",
+      "kind": "attachment",
+      "sha256": "35b969f9822ce497c6112a41bbaaa2bfe87bfdbab29b6db153309ee877e807f5"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-editor-sprite-upload.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-editor-sprite-upload.mjs",
+      "kind": "attachment",
+      "sha256": "799a7ec715b1e296483923af5377416f2b5d410022237f7e2cf920fb247ff257"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-editor-trial.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-editor-trial.mjs",
+      "kind": "attachment",
+      "sha256": "84500afebaafc30ed5767b41c416be549d785c79151420c2658d584799684761"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-migration-boundaries.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-migration-boundaries.mjs",
+      "kind": "attachment",
+      "sha256": "63bccc81b363e9654cac16c7654a7bcca9c77c9b3e034818b0c3a65767568a2a"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-phase1-battle.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-phase1-battle.mjs",
+      "kind": "attachment",
+      "sha256": "774e12ecb1545e40c87ac5ad250039666ae2fb69fb133ada0c79f97af706db68"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-phase1-world-lifecycle.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-phase1-world-lifecycle.mjs",
+      "kind": "attachment",
+      "sha256": "a7741ea2787e8ca5ba741006cc0e8b12806a654ee11bd174f63ef30fd3eb2677"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-precache-progress.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-precache-progress.mjs",
+      "kind": "attachment",
+      "sha256": "013a26905bd50a92a31c0dc257357e248e2cffa95f0d4d6a34b0a8a15e1ed766"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-preview-cache.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-preview-cache.mjs",
+      "kind": "attachment",
+      "sha256": "4c6a967b8b68c20f0ab2ee320e5d23ea9307e6daafd722d3b196861b81f9fd5b"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-reforge-restore.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-reforge-restore.mjs",
+      "kind": "attachment",
+      "sha256": "f188289d0972846ed28906138d7cba4f14bd2eb05cb1327fc2d2cf9c50f3b5c8"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-save-boundaries.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-save-boundaries.mjs",
+      "kind": "attachment",
+      "sha256": "60b65efbb3ef49dd3ee02d3e22a8b25d8a98dda186389844d354a24dae4bc4c5"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-scene-preflight.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-scene-preflight.mjs",
+      "kind": "attachment",
+      "sha256": "ca5a41d86e9e4dd49a4e96730f1b3fca5fa1b359f35d26b9f55ae5136d37ecb9"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-test-gates.config.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-test-gates.config.mjs",
+      "kind": "attachment",
+      "sha256": "0eeab101e91a7b851ad8f00ec1d26a26488d105f8f0a3499868c5900f0520824"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-test-gates.mjs",
+      "to": "docs/ops/audits/pre-e2e/probe-test-gates.mjs",
+      "kind": "attachment",
+      "sha256": "1da9489d71c5ee17eeb89bf08d0cbbd4f68f28fa3fc980da1f1266c7a2be1456"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/probe-test-gates.setup.ts",
+      "to": "docs/ops/audits/pre-e2e/probe-test-gates.setup.ts",
+      "kind": "attachment",
+      "sha256": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/summary.md",
+      "to": "docs/ops/audits/pre-e2e/summary.md",
+      "kind": "in-place",
+      "sha256": "603de04e6913d7608ba0db2412357e847cc6520bb411202722d4d14d2b609ed9"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/world-lifecycle.md",
+      "to": "docs/ops/audits/pre-e2e/world-lifecycle.md",
+      "kind": "in-place",
+      "sha256": "032d612c3bcda71ab30cff9cca46d93027df9ae3e9499fe16186004894e13018"
+    },
+    {
+      "from": "docs/ops/board.md",
+      "to": "docs/ops/board.md",
+      "kind": "in-place",
+      "sha256": "4b04ef0740b5eaa37a90adc400feefec7c803d1ade6ab91adcbee187a47d8598"
+    },
+    {
+      "from": "docs/ops/coverage.md",
+      "to": "docs/testing/coverage.md",
+      "kind": "guide",
+      "sha256": "f7df33cdb1a4ba07b1c9a65eee43e1af3ba4cc07568464601f638803623b61a0"
+    },
+    {
+      "from": "docs/ops/documentation.md",
+      "to": "docs/ops/guides/documentation.md",
+      "kind": "guide",
+      "sha256": "d11ac35d9d1f610897d39d11b544abe271e9f2a19ea0b2bb909d1417bbdf8826"
+    },
+    {
+      "from": "docs/ops/evidence/A7-3/editor-frame-workbench-desktop.png",
+      "to": "docs/ops/archive/evidence/A7-3/editor-frame-workbench-desktop.png",
+      "kind": "attachment",
+      "sha256": "d60b612c8788855ea2da3692b572ae367de6ac07cc7479a8eae8adaec277d85d"
+    },
+    {
+      "from": "docs/ops/evidence/A7-3/reforge-s066-frame-animation.png",
+      "to": "docs/ops/archive/evidence/A7-3/reforge-s066-frame-animation.png",
+      "kind": "attachment",
+      "sha256": "ddcc1ae6d9d66098db16d73659ffad95342e3f653abcfe0098ee43b1a8673039"
+    },
+    {
+      "from": "docs/ops/evidence/A7-3/reforge-s066-skip-cleanup.png",
+      "to": "docs/ops/archive/evidence/A7-3/reforge-s066-skip-cleanup.png",
+      "kind": "attachment",
+      "sha256": "3c2ff977b70ebaf47eae94dfcfd1ec389ea3ad3e1ae3f0dd6337702b879e0b2b"
+    },
+    {
+      "from": "docs/ops/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md",
+      "to": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md",
+      "kind": "historical",
+      "sha256": "472a77a9976cd3243d8474fc63681e87e972ab7dff7652d82786040146516e08"
+    },
+    {
+      "from": "docs/ops/evidence/C1-3-first-batch-proposal.md",
+      "to": "docs/ops/archive/evidence/C1-3-first-batch-proposal.md",
+      "kind": "historical",
+      "sha256": "c1a02e9432ca8196708413fa66daf6c81357e01e44cb4c1c106db59e9e35de44"
+    },
+    {
+      "from": "docs/ops/evidence/ED-3/cutscene-reference-1280.jpg",
+      "to": "docs/ops/archive/evidence/ED-3/cutscene-reference-1280.jpg",
+      "kind": "attachment",
+      "sha256": "1f10bd033a5e6a314577d4e63702196303db915dc51ffb4b54eb203297a4ef39"
+    },
+    {
+      "from": "docs/ops/evidence/ED-3/cutscene-reference-720.jpg",
+      "to": "docs/ops/archive/evidence/ED-3/cutscene-reference-720.jpg",
+      "kind": "attachment",
+      "sha256": "9b7927c838e74ea7d2b949869f33c1f406524aff2f319172204795c6ed8e28ed"
+    },
+    {
+      "from": "docs/ops/evidence/ED-3A-reference-index-performance-2026-09-04.md",
+      "to": "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md",
+      "kind": "historical",
+      "sha256": "3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5"
+    },
+    {
+      "from": "docs/ops/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
+      "to": "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
+      "kind": "historical",
+      "sha256": "c6c8b7e556a30c358e1b5cbeead7adc30c69738a2ff051b65a52ba59ee9ca3d1"
+    },
+    {
+      "from": "docs/ops/evidence/ED-REORDER-DRAG-1/design-lab-live-reflow-2026-08-27.png",
+      "to": "docs/ops/archive/evidence/ED-REORDER-DRAG-1/design-lab-live-reflow-2026-08-27.png",
+      "kind": "attachment",
+      "sha256": "774283c067390a5c0a437a1f7c89f8bbc958f2dd665e08e29180116a24f87dd3"
+    },
+    {
+      "from": "docs/ops/evidence/ED-REORDER-DRAG-1/design-lab-rf21-1280.png",
+      "to": "docs/ops/archive/evidence/ED-REORDER-DRAG-1/design-lab-rf21-1280.png",
+      "kind": "attachment",
+      "sha256": "ddabda290070005dfec2de2fa65b5a43a2bf4a9e6bffc3cfca9f0188447aa631"
+    },
+    {
+      "from": "docs/ops/evidence/ED-REORDER-DRAG-1/pal-startup-party-720.png",
+      "to": "docs/ops/archive/evidence/ED-REORDER-DRAG-1/pal-startup-party-720.png",
+      "kind": "attachment",
+      "sha256": "47a098d0fc8912fd3d153034ab3bd8f9f70edfa623cee435da9945b227278cbb"
+    },
+    {
+      "from": "docs/ops/evidence/ED-SHOP/shop-trial-dialog-720.jpg",
+      "to": "docs/ops/archive/evidence/ED-SHOP/shop-trial-dialog-720.jpg",
+      "kind": "attachment",
+      "sha256": "9969b7180b79bf622fdd6a3fdc73e7ce71b02b73e7402119f0551269c9386418"
+    },
+    {
+      "from": "docs/ops/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md",
+      "to": "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md",
+      "kind": "historical",
+      "sha256": "d9c305e78f78b2553cdeb081f67c302fe4fd960aa025b84e888e10ea1c32bc0e"
+    },
+    {
+      "from": "docs/ops/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md",
+      "to": "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md",
+      "kind": "historical",
+      "sha256": "ae1aae6e47f391b18e5ee5b1bd82bc1426fa217ed4311cae3b02f8af28586f61"
+    },
+    {
+      "from": "docs/ops/evidence/README.md",
+      "to": "docs/ops/archive/evidence/README.md",
+      "kind": "historical",
+      "sha256": "9251b9ef9b86f9c3cb7fd8014e6eeb58c7fc067b8b0bde6a4c839ff529d3df26"
+    },
+    {
+      "from": "docs/ops/kimi-verification-manual.md",
+      "to": "docs/ops/guides/browser-verification.md",
+      "kind": "guide",
+      "sha256": "07fcdddc0e0dbb414a624bc41f46cbed41719add3bb7a56f3cdc9043ba913205"
+    },
+    {
+      "from": "docs/ops/samples/enemy-4f.png",
+      "to": "docs/ops/samples/enemy-4f.png",
+      "kind": "attachment",
+      "sha256": "a755f7443d4405767d54407bd32a82d545d5c2e63e52eade7ae7c08ab98860f9"
+    },
+    {
+      "from": "docs/ops/samples/flame-loop-4f.png",
+      "to": "docs/ops/samples/flame-loop-4f.png",
+      "kind": "attachment",
+      "sha256": "c85602387c5725184283ad31c5b960f4de80919d76ad0602c9971378fb53620c"
+    },
+    {
+      "from": "docs/ops/samples/pot-static.png",
+      "to": "docs/ops/samples/pot-static.png",
+      "kind": "attachment",
+      "sha256": "8d0847658d1b79f5fe6d1f6678bbd981510efd92ae27fb481ff0edc227a1c075"
+    },
+    {
+      "from": "docs/ops/samples/walk-4dir-1action.png",
+      "to": "docs/ops/samples/walk-4dir-1action.png",
+      "kind": "attachment",
+      "sha256": "b9c4074bd4da66be0572b7eec23d9659987c2be5c966e2fb8173f1d52a278460"
+    },
+    {
+      "from": "docs/ops/samples/walk-4row-3f.png",
+      "to": "docs/ops/samples/walk-4row-3f.png",
+      "kind": "attachment",
+      "sha256": "e64984086258c745fe7a5ec18dffb997051f126ba09765cf931d92a6311962a6"
+    },
+    {
+      "from": "docs/ops/tasks/A4-own-sprite-upload.md",
+      "to": "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+      "kind": "historical",
+      "sha256": "1c24fc9fac7ffbeb70ff2d74b5f7b244325ed367357ca3e11d58995ae22b66ea"
+    },
+    {
+      "from": "docs/ops/tasks/A5-project-export-zip.md",
+      "to": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "kind": "historical",
+      "sha256": "b542201977f192485294955dc03801bb13e1df6bfd26afbc963e9db3e3425d48"
+    },
+    {
+      "from": "docs/ops/tasks/A7-0-resource-closure-registry.md",
+      "to": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+      "kind": "historical",
+      "sha256": "a04c622719248c4f4577df377c68b914203c819681227fb0da58eb070a600200"
+    },
+    {
+      "from": "docs/ops/tasks/A7-0A-opening-menu-music-role.md",
+      "to": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+      "kind": "historical",
+      "sha256": "a6062d0c65f00dabff4e87a0b476f00af19f2350dae540f409cbc65957ce65c0"
+    },
+    {
+      "from": "docs/ops/tasks/A7-1-sfx-asset-closure.md",
+      "to": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+      "kind": "historical",
+      "sha256": "356225d3ad9f2a1055f3ab8135d579804694b29013d6ffbe0aa89f5cc857a9a3"
+    },
+    {
+      "from": "docs/ops/tasks/A7-2-static-images-engine-chrome.md",
+      "to": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+      "kind": "historical",
+      "sha256": "e8d9995e60acc90c6f9d389f33912a4457ae7d00b91636294d00a5455f29a0c5"
+    },
+    {
+      "from": "docs/ops/tasks/A7-3-cutscene-asset-workbench.md",
+      "to": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+      "kind": "historical",
+      "sha256": "51bcf8788bf3389516cc106731f7d03680a8a7d28ca5213741578324e4ed71d5"
+    },
+    {
+      "from": "docs/ops/tasks/A7-3B-battle-sprite-asset-closure.md",
+      "to": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+      "kind": "historical",
+      "sha256": "725729287c109b948bce20549162da87a8d13b8457020aef57567690ed48c038"
+    },
+    {
+      "from": "docs/ops/tasks/A7-3T-tileset-asset-closure.md",
+      "to": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+      "kind": "historical",
+      "sha256": "cb70f210fe782b6e50ee3d1d02385deb12edcb087ec32a9f6f8753067334d437"
+    },
+    {
+      "from": "docs/ops/tasks/A7-3W-world-sprite-asset-closure.md",
+      "to": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+      "kind": "historical",
+      "sha256": "9178b7ff79a291a2c3a7f1ab7017cf4317c56abf2e95706f3a0a2f15422beb90"
+    },
+    {
+      "from": "docs/ops/tasks/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md",
+      "to": "docs/ops/archive/tasks/done/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md",
+      "kind": "historical",
+      "sha256": "edb45489a2fe5180051cf5621672e9ee52b6d56b824ef0a2219a216210694af1"
+    },
+    {
+      "from": "docs/ops/tasks/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md",
+      "to": "docs/ops/archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md",
+      "kind": "historical",
+      "sha256": "4550622272434bfd222972359933c6954794d0e226789f905c157807bb107650"
+    },
+    {
+      "from": "docs/ops/tasks/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md",
+      "to": "docs/ops/archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md",
+      "kind": "historical",
+      "sha256": "ef9ec5a830ecee552929de6362acaab6fb13b51e9f54d6d2fa0ca2cb50a36b7e"
+    },
+    {
+      "from": "docs/ops/tasks/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md",
+      "to": "docs/ops/archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md",
+      "kind": "historical",
+      "sha256": "293432c456d3962f16535e9c11c4bd0258c812f9ccd8790861324d5bee77a987"
+    },
+    {
+      "from": "docs/ops/tasks/B10-1-enemy-confused-attack.md",
+      "to": "docs/ops/archive/tasks/done/B10-1-enemy-confused-attack.md",
+      "kind": "historical",
+      "sha256": "ed80df35a4982e70dcdaa263c89afe066ff62e74e3db94a4890dc05f21466082"
+    },
+    {
+      "from": "docs/ops/tasks/B10-poison-structured-editor.md",
+      "to": "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
+      "kind": "historical",
+      "sha256": "ffefd56932946d2d7eb04748313fc021a4f1985d1e32f17524ea08f5976bcee1"
+    },
+    {
+      "from": "docs/ops/tasks/B11-1-player-casualty-scripts.md",
+      "to": "docs/ops/archive/tasks/done/B11-1-player-casualty-scripts.md",
+      "kind": "historical",
+      "sha256": "736960c03bf09a314484eefad5a7fb156bcf8a5e9974ca8b80f8a3149943aacf"
+    },
+    {
+      "from": "docs/ops/tasks/B2-1-battlefield-authoring-closure.md",
+      "to": "docs/ops/archive/tasks/done/B2-1-battlefield-authoring-closure.md",
+      "kind": "historical",
+      "sha256": "4cc5285ef1b4e87ec6513c6767c72007fb5a5ba0a8842a7b8c55bc44d01f3e4f"
+    },
+    {
+      "from": "docs/ops/tasks/C1-1-actor-preset-dual-authoring.md",
+      "to": "docs/ops/archive/tasks/done/C1-1-actor-preset-dual-authoring.md",
+      "kind": "historical",
+      "sha256": "4f3df319045384832e1a946f72dda4b35114cd7d67f781aa4e6b918976d4967d"
+    },
+    {
+      "from": "docs/ops/tasks/C1-2-actor-dialogue-identity.md",
+      "to": "docs/ops/archive/tasks/done/C1-2-actor-dialogue-identity.md",
+      "kind": "historical",
+      "sha256": "fb0502b668c0896643c546e1811c50c94fa82359f39ac2203a0e83c814ca60af"
+    },
+    {
+      "from": "docs/ops/tasks/C1-3-pal-npc-curation-migration.md",
+      "to": "docs/ops/archive/tasks/done/C1-3-pal-npc-curation-migration.md",
+      "kind": "historical",
+      "sha256": "598b25c66e495ff0aff3070d11913e34aa0f22be6272568b22bf308f1b6bc7a1"
+    },
+    {
+      "from": "docs/ops/tasks/C2-ACT-sprite-action-playback.md",
+      "to": "docs/ops/archive/tasks/done/C2-ACT-sprite-action-playback.md",
+      "kind": "historical",
+      "sha256": "2e659257d51c8dc11710a851f8168c19f18649aadedfa0627a93b6c26f78fd48"
+    },
+    {
+      "from": "docs/ops/tasks/C2-PAL-world-sprite-layout-cleanup.md",
+      "to": "docs/ops/archive/tasks/done/C2-PAL-world-sprite-layout-cleanup.md",
+      "kind": "historical",
+      "sha256": "467f991fb3975472d30efbba9ef88363de55ed40f29a429dd85503e13ac8f4cd"
+    },
+    {
+      "from": "docs/ops/tasks/C3-equip-structured-editor.md",
+      "to": "docs/ops/archive/tasks/done/C3-equip-structured-editor.md",
+      "kind": "historical",
+      "sha256": "57744b1d07d54843600d5b95ae3423c9509e26187f9ac34c338506011afc3ea1"
+    },
+    {
+      "from": "docs/ops/tasks/C8-item-use-mechanisms.md",
+      "to": "docs/ops/archive/tasks/done/C8-item-use-mechanisms.md",
+      "kind": "historical",
+      "sha256": "c70ef3bb59b0004d65fc54ae246426dbb226f01fdfb3b7853f4bc971ef61925f"
+    },
+    {
+      "from": "docs/ops/tasks/D12-1-audio-transition-layering.md",
+      "to": "docs/ops/archive/tasks/done/D12-1-audio-transition-layering.md",
+      "kind": "historical",
+      "sha256": "64f530d18f0457365ce09e3274d02dda91a5c73b0155805fc5cce2e50b4082e9"
+    },
+    {
+      "from": "docs/ops/tasks/D13-1-debug-tools-first-batch.md",
+      "to": "docs/ops/archive/tasks/done/D13-1-debug-tools-first-batch.md",
+      "kind": "historical",
+      "sha256": "4394d7d4d6167fcb733d6910f2ab33aaa00304828324884312ccbe2e823623c2"
+    },
+    {
+      "from": "docs/ops/tasks/D14-1-dialogue-appearance-inheritance.md",
+      "to": "docs/ops/archive/tasks/done/D14-1-dialogue-appearance-inheritance.md",
+      "kind": "historical",
+      "sha256": "bc5b1d6aeae0ce956034360492f4906b73f1e6d1a2f69887ccf93c305b833a45"
+    },
+    {
+      "from": "docs/ops/tasks/D14-2-presentation-intent-protocol.md",
+      "to": "docs/ops/archive/tasks/done/D14-2-presentation-intent-protocol.md",
+      "kind": "historical",
+      "sha256": "2e382aa0595aada915633841c41e24a31909c1f6d20a1c43a2656c0595071795"
+    },
+    {
+      "from": "docs/ops/tasks/D14-3-reward-event-bus.md",
+      "to": "docs/ops/archive/tasks/done/D14-3-reward-event-bus.md",
+      "kind": "historical",
+      "sha256": "dfc066dd6c6cf229f53c8d76b797b24fb799434467aaac56093901d0c6eb538a"
+    },
+    {
+      "from": "docs/ops/tasks/D15-1-npc-movement-dynamic-collision.md",
+      "to": "docs/ops/archive/tasks/done/D15-1-npc-movement-dynamic-collision.md",
+      "kind": "historical",
+      "sha256": "1377dcd5bfcdb070b36b955cb6db3cd972a51391a52d9544bb1ba648e7ba3fb5"
+    },
+    {
+      "from": "docs/ops/tasks/D15-2-pal-auto-terrain-route-compat.md",
+      "to": "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",
+      "kind": "historical",
+      "sha256": "52da81107a8d7ec2e74cfd99294b37cb2d20f119bc4c6a78feaf41fc7a5aab63"
+    },
+    {
+      "from": "docs/ops/tasks/D6-1-occlusion-semi-transparent.md",
+      "to": "docs/ops/archive/tasks/done/D6-1-occlusion-semi-transparent.md",
+      "kind": "historical",
+      "sha256": "b12d481bc3fde358dcedf4eb6cb9f1fb422688c2958e80c30f0741cbf2598fe0"
+    },
+    {
+      "from": "docs/ops/tasks/DOC-GOV-1-documentation-cleanup.md",
+      "to": "docs/ops/archive/tasks/done/DOC-GOV-1-documentation-cleanup.md",
+      "kind": "historical",
+      "sha256": "f1411a4c562fc0ac5edbec29e5ecc4fbd49c67742262f49b2db7b3377c124e6d"
+    },
+    {
+      "from": "docs/ops/tasks/E18-1-editor-actor-battle-fields.md",
+      "to": "docs/ops/archive/tasks/done/E18-1-editor-actor-battle-fields.md",
+      "kind": "historical",
+      "sha256": "561ae08cebd7a76b31e669e9e4f9b9480a4217f51de20971007e03c4a38de20b"
+    },
+    {
+      "from": "docs/ops/tasks/E2-patrol-templates.md",
+      "to": "docs/ops/archive/tasks/done/E2-patrol-templates.md",
+      "kind": "historical",
+      "sha256": "1276b799ba6cb6a4300384d507df8ad773beac3f2e5c16bf70fddf39319ec564"
+    },
+    {
+      "from": "docs/ops/tasks/E2E-1-blank-project-playable.md",
+      "to": "docs/ops/archive/tasks/done/E2E-1-blank-project-playable.md",
+      "kind": "historical",
+      "sha256": "7b8154c7b84317640aa1e3786b9d239d2700ea926d8ee369555e4ca1604e952e"
+    },
+    {
+      "from": "docs/ops/tasks/E6-1-runtime-authority-inspector.md",
+      "to": "docs/ops/archive/tasks/done/E6-1-runtime-authority-inspector.md",
+      "kind": "historical",
+      "sha256": "a98efd6ec05353c80dd913eeed057b8de0f31b002876b1a1b9189a92bb94b9b5"
+    },
+    {
+      "from": "docs/ops/tasks/E9-shop-pawnshop.md",
+      "to": "docs/ops/archive/tasks/done/E9-shop-pawnshop.md",
+      "kind": "historical",
+      "sha256": "664233d4b50bd37ca38573adb38752700d05977c70ee18bb22b0444b8d83b3c8"
+    },
+    {
+      "from": "docs/ops/tasks/ED-1-editor-authoring-closure-audit.md",
+      "to": "docs/ops/archive/tasks/done/ED-1-editor-authoring-closure-audit.md",
+      "kind": "historical",
+      "sha256": "28e35aeb610fc67e70dcc850e4dcc1ccbdff41bc8e5ef6ba149206970329c990"
+    },
+    {
+      "from": "docs/ops/tasks/ED-2-editor-primary-modules.md",
+      "to": "docs/ops/archive/tasks/done/ED-2-editor-primary-modules.md",
+      "kind": "historical",
+      "sha256": "701de7ead1031ee7366f66c6105cdc7066d1314ceea3828830221b9eb7ea7f62"
+    },
+    {
+      "from": "docs/ops/tasks/ED-3-project-reference-index.md",
+      "to": "docs/ops/archive/tasks/done/ED-3-project-reference-index.md",
+      "kind": "historical",
+      "sha256": "30f6c107bcc2cbecb63d30e8b6d0416bb9841b715f239135ff5b45c09fd1baba"
+    },
+    {
+      "from": "docs/ops/tasks/ED-4A-entity-kind-role-boundary.md",
+      "to": "docs/ops/archive/tasks/done/ED-4A-entity-kind-role-boundary.md",
+      "kind": "historical",
+      "sha256": "10dcd386af033ce216dfbf55263255ed8206a87e43a3a6692063f0b5cc91a387"
+    },
+    {
+      "from": "docs/ops/tasks/ED-5I-item-workbench.md",
+      "to": "docs/ops/archive/tasks/done/ED-5I-item-workbench.md",
+      "kind": "historical",
+      "sha256": "e8a6ef4000af7690637c1ae7478d70a0243fe10264fe368a7377067a9a7585c5"
+    },
+    {
+      "from": "docs/ops/tasks/ED-5J-item-private-script-create.md",
+      "to": "docs/ops/archive/tasks/done/ED-5J-item-private-script-create.md",
+      "kind": "historical",
+      "sha256": "597381be4f1604df496888cf6f3b92aacca00e2531c83331332b2553f7695772"
+    },
+    {
+      "from": "docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md",
+      "to": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-1-editor-action-group-adoption-batch-1.md",
+      "kind": "historical",
+      "sha256": "250d6bdd99d1545f551fc218430582836852c2bfc63649710b003e12ba587ccb"
+    },
+    {
+      "from": "docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
+      "to": "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
+      "kind": "historical",
+      "sha256": "022dc9cf244d198b44f0f47cc6fe484bc866a8faaf552c62e79898b5bf5bd6bb"
+    },
+    {
+      "from": "docs/ops/tasks/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md",
+      "to": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-ADOPTION-3-layer-stack-actions.md",
+      "kind": "historical",
+      "sha256": "a5b3cc53092b403d762341d4025d9dc170a55eaf9430caa3fe988fa8dc468050"
+    },
+    {
+      "from": "docs/ops/tasks/ED-ACTION-GROUP-SPEC-1-editor-action-group-contract.md",
+      "to": "docs/ops/archive/tasks/done/ED-ACTION-GROUP-SPEC-1-editor-action-group-contract.md",
+      "kind": "historical",
+      "sha256": "235e7328e12ede9059d4bb428af63f4c23650843f8e5b6566b4c4f1349c6cb05"
+    },
+    {
+      "from": "docs/ops/tasks/ED-ADD-PICKER-DIALOG-1-editor-collection-add-picker-dialog.md",
+      "to": "docs/ops/archive/tasks/done/ED-ADD-PICKER-DIALOG-1-editor-collection-add-picker-dialog.md",
+      "kind": "historical",
+      "sha256": "c284c70fe5fe71b3dbb76416d9a369a78a598cb95d6ec2aa96062fbc66fec950"
+    },
+    {
+      "from": "docs/ops/tasks/ED-AMBIENCE-WORKBENCH-1-ambience-filter-workbench.md",
+      "to": "docs/ops/archive/tasks/done/ED-AMBIENCE-WORKBENCH-1-ambience-filter-workbench.md",
+      "kind": "historical",
+      "sha256": "5655bd946b79f56d3ce8474d7b4eb655fda1a4f9dac0c67721a59cbdcf231fc1"
+    },
+    {
+      "from": "docs/ops/tasks/ED-AUDIO-WORKBENCH-1-audio-resource-workbench.md",
+      "to": "docs/ops/archive/tasks/done/ED-AUDIO-WORKBENCH-1-audio-resource-workbench.md",
+      "kind": "historical",
+      "sha256": "7d0e3c845bf2766719ec921c1389ffd00a65efbda1f75309936cb4fa6df6da8a"
+    },
+    {
+      "from": "docs/ops/tasks/ED-AUDIT-2-editor-systematic-audit.md",
+      "to": "docs/ops/archive/tasks/done/ED-AUDIT-2-editor-systematic-audit.md",
+      "kind": "historical",
+      "sha256": "1b7481fc5432fa89b2c9e98c52a2e14a797d4709dc647c42eb9d6d9883c1cda4"
+    },
+    {
+      "from": "docs/ops/tasks/ED-BATTLE-UI-1-skill-workbench-redesign.md",
+      "to": "docs/ops/archive/tasks/done/ED-BATTLE-UI-1-skill-workbench-redesign.md",
+      "kind": "historical",
+      "sha256": "72f41cb532dc5ccaad28f80192ef336d72d01243f1282a89dbf84a66208bb0c9"
+    },
+    {
+      "from": "docs/ops/tasks/ED-CATALOG-CONTROLS-1-global-catalog-controls.md",
+      "to": "docs/ops/archive/tasks/done/ED-CATALOG-CONTROLS-1-global-catalog-controls.md",
+      "kind": "historical",
+      "sha256": "d6557ef45ea3fd09ee397a7b2e9f1e58b4e57fd591fbe05afc23d78b0aa32517"
+    },
+    {
+      "from": "docs/ops/tasks/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md",
+      "to": "docs/ops/archive/tasks/done/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md",
+      "kind": "historical",
+      "sha256": "02202c41fc1e42f7da7789db347175cb800a17f002cdbcb0e2ad17c873aabd1b"
+    },
+    {
+      "from": "docs/ops/tasks/ED-DIAGNOSTIC-UI-1-inspector-diagnostic-presentation.md",
+      "to": "docs/ops/archive/tasks/done/ED-DIAGNOSTIC-UI-1-inspector-diagnostic-presentation.md",
+      "kind": "historical",
+      "sha256": "b4ae00395083523e7ecd66e40fd922faeaf7a56f02e046ba5355c6b70be0ffd3"
+    },
+    {
+      "from": "docs/ops/tasks/ED-DS-1-editor-design-system-spec.md",
+      "to": "docs/ops/archive/tasks/done/ED-DS-1-editor-design-system-spec.md",
+      "kind": "historical",
+      "sha256": "f7950262113b18c08b3a5cd6a47d0315c4dddd44cfcb050de3872697372b52d2"
+    },
+    {
+      "from": "docs/ops/tasks/ED-DS-2-editor-design-system-foundation.md",
+      "to": "docs/ops/archive/tasks/done/ED-DS-2-editor-design-system-foundation.md",
+      "kind": "historical",
+      "sha256": "142e6294f6bc2aa52f405a3de8b0e5df2fc7f76fd9179619a7feb889fd56bd8f"
+    },
+    {
+      "from": "docs/ops/tasks/ED-DS-3-editor-design-system-adoption-gate.md",
+      "to": "docs/ops/archive/tasks/done/ED-DS-3-editor-design-system-adoption-gate.md",
+      "kind": "historical",
+      "sha256": "28216ce7eafc28f473a8f96d27a64c88f252feb4736001e4cd16ac73680ea669"
+    },
+    {
+      "from": "docs/ops/tasks/ED-ENEMY-1-enemy-team-reward-authoring-closure.md",
+      "to": "docs/ops/archive/tasks/done/ED-ENEMY-1-enemy-team-reward-authoring-closure.md",
+      "kind": "historical",
+      "sha256": "5b024769a37c771e85fa0d68c1ac8680b3ae914ad22a3450465d7a576bf6a8c0"
+    },
+    {
+      "from": "docs/ops/tasks/ED-ENEMY-DEFEATED-EVENT-1-enemy-defeated-event-readability.md",
+      "to": "docs/ops/archive/tasks/done/ED-ENEMY-DEFEATED-EVENT-1-enemy-defeated-event-readability.md",
+      "kind": "historical",
+      "sha256": "f698090bfe11c696b459358bf32cf35fac968da34d0d1c948477bd73938f9e6c"
+    },
+    {
+      "from": "docs/ops/tasks/ED-ENTITY-INSPECTOR-IA-1-scene-entity-inspector-command-unification.md",
+      "to": "docs/ops/archive/tasks/done/ED-ENTITY-INSPECTOR-IA-1-scene-entity-inspector-command-unification.md",
+      "kind": "historical",
+      "sha256": "f01856d8073955b86bd90f95c3bdc8bfade1db632f4a60acc85fc9058d7d8446"
+    },
+    {
+      "from": "docs/ops/tasks/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md",
+      "to": "docs/ops/archive/tasks/done/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md",
+      "kind": "historical",
+      "sha256": "82c30c35f90b2264c5055b10dde8ef40a02da079e1310efd0ab8837c1e15441b"
+    },
+    {
+      "from": "docs/ops/tasks/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md",
+      "to": "docs/ops/archive/tasks/done/ED-FIELD-LABEL-TRACK-WIDE-1-editor-wide-field-label-track.md",
+      "kind": "historical",
+      "sha256": "ba25a7f72a9641bd12aa167cc1f1a078dee57f5bda9d721b9d7133f13c5c846a"
+    },
+    {
+      "from": "docs/ops/tasks/ED-FIELD-LAYOUT-1-editor-field-label-layout-contract.md",
+      "to": "docs/ops/archive/tasks/done/ED-FIELD-LAYOUT-1-editor-field-label-layout-contract.md",
+      "kind": "historical",
+      "sha256": "e44581f725fcfd24d7ef6b96736b38369b6a53500c1c06a8b46f26a6fd4afe1e"
+    },
+    {
+      "from": "docs/ops/tasks/ED-FLOATING-LAYER-ADOPTION-1-editor-floating-layer-real-adoption.md",
+      "to": "docs/ops/archive/tasks/done/ED-FLOATING-LAYER-ADOPTION-1-editor-floating-layer-real-adoption.md",
+      "kind": "historical",
+      "sha256": "306a8b36880710397d18cb849eb8d43c198062feb3b8e34efd097936eb0c66b3"
+    },
+    {
+      "from": "docs/ops/tasks/ED-FRAME-TIMELINE-UX-RESTORE-1-original-card-drag.md",
+      "to": "docs/ops/archive/tasks/done/ED-FRAME-TIMELINE-UX-RESTORE-1-original-card-drag.md",
+      "kind": "historical",
+      "sha256": "a621a4a3f6137615d6c5d41f081604e0204e1e44f1cec6c7365f28eab8cd9c02"
+    },
+    {
+      "from": "docs/ops/tasks/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
+      "to": "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
+      "kind": "historical",
+      "sha256": "1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926"
+    },
+    {
+      "from": "docs/ops/tasks/ED-INPUT-PERF-1-editor-input-and-derived-state-latency.md",
+      "to": "docs/ops/archive/tasks/done/ED-INPUT-PERF-1-editor-input-and-derived-state-latency.md",
+      "kind": "historical",
+      "sha256": "e4f9237e99a513d9dc57ece8a1d5057f48e3ef5c3fb3257862f98e9d5a1e7b3a"
+    },
+    {
+      "from": "docs/ops/tasks/ED-INSPECTOR-TABS-1-global-inspector-tabs.md",
+      "to": "docs/ops/archive/tasks/done/ED-INSPECTOR-TABS-1-global-inspector-tabs.md",
+      "kind": "historical",
+      "sha256": "17d63d151c1da19d40661fdab410130897b30d0721e2d36695c3120845306bc5"
+    },
+    {
+      "from": "docs/ops/tasks/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md",
+      "to": "docs/ops/archive/tasks/done/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md",
+      "kind": "historical",
+      "sha256": "813ad7656cb8e246588185f7e3eb1bf69ddfead26a66ea4c7e99b337324b3efc"
+    },
+    {
+      "from": "docs/ops/tasks/ED-MAP-MULTI-TILESET-1-multi-tileset-map-authoring.md",
+      "to": "docs/ops/archive/tasks/done/ED-MAP-MULTI-TILESET-1-multi-tileset-map-authoring.md",
+      "kind": "historical",
+      "sha256": "af884d453657ee9e35ce5710e3d132b2d0f453bac01cea88303dac31fa9565df"
+    },
+    {
+      "from": "docs/ops/tasks/ED-MAP-PALETTE-CONTROLS-1-map-stamp-palette-controls.md",
+      "to": "docs/ops/archive/tasks/done/ED-MAP-PALETTE-CONTROLS-1-map-stamp-palette-controls.md",
+      "kind": "historical",
+      "sha256": "da139263ffa9e23f9d4b4f308cc63329a992cde9e58f6849e1e1b99cae5e27c2"
+    },
+    {
+      "from": "docs/ops/tasks/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md",
+      "to": "docs/ops/archive/tasks/done/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md",
+      "kind": "historical",
+      "sha256": "be5e7dd70ea863f91a764e5df6d1eea9081210ccdb39be53d0aa01c6455d89f8"
+    },
+    {
+      "from": "docs/ops/tasks/ED-NUMBER-FIELD-1-editor-number-control-and-responsive-density.md",
+      "to": "docs/ops/archive/tasks/done/ED-NUMBER-FIELD-1-editor-number-control-and-responsive-density.md",
+      "kind": "historical",
+      "sha256": "b859a249457452eaea8bee0f40b49e51be86f63325dd83d2888ada326fa83fad"
+    },
+    {
+      "from": "docs/ops/tasks/ED-PAL-WORKSPACE-MODES-1-pal-development-sandbox-seed-lifecycle.md",
+      "to": "docs/ops/archive/tasks/done/ED-PAL-WORKSPACE-MODES-1-pal-development-sandbox-seed-lifecycle.md",
+      "kind": "historical",
+      "sha256": "dc10d233601f4f9ec0c0bf5e6b0f1ad7535c1724d407a98a67efc5d711171113"
+    },
+    {
+      "from": "docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md",
+      "to": "docs/ops/archive/tasks/done/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md",
+      "kind": "historical",
+      "sha256": "214b9d3e7d98db81e66bdb44d7dcdd6629138a994f8c30d7b665a445a440a698"
+    },
+    {
+      "from": "docs/ops/tasks/ED-REFERENCE-UI-1-inspector-reference-presentation.md",
+      "to": "docs/ops/archive/tasks/done/ED-REFERENCE-UI-1-inspector-reference-presentation.md",
+      "kind": "historical",
+      "sha256": "140401dd872c4c29bcf634d4d67aef59ae249eeaf8e6a8e0c0467dc8433dd847"
+    },
+    {
+      "from": "docs/ops/tasks/ED-REORDER-DRAG-1-editor-sortable-collection-drag-handles.md",
+      "to": "docs/ops/archive/tasks/done/ED-REORDER-DRAG-1-editor-sortable-collection-drag-handles.md",
+      "kind": "historical",
+      "sha256": "9db70ee043101d9bdf704b3706fd3c384c688dff7f77a9f55faf502add43c832"
+    },
+    {
+      "from": "docs/ops/tasks/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md",
+      "to": "docs/ops/archive/tasks/done/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md",
+      "kind": "historical",
+      "sha256": "55bb81046d959b0d89340f119108f439d041998a2e2249f717971e2aac11e984"
+    },
+    {
+      "from": "docs/ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md",
+      "to": "docs/ops/archive/tasks/done/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md",
+      "kind": "historical",
+      "sha256": "bbf604a1bbf4ba501dbe1a703cb9a01ca28639dd32077898d5f356ccbfe8238d"
+    },
+    {
+      "from": "docs/ops/tasks/ED-SCENE-UX-1-scene-canvas-direct-manipulation.md",
+      "to": "docs/ops/archive/tasks/done/ED-SCENE-UX-1-scene-canvas-direct-manipulation.md",
+      "kind": "historical",
+      "sha256": "d3f50bb25ef72c4d773341be1b1457b671f084c12e344455a1bd04e27ca61251"
+    },
+    {
+      "from": "docs/ops/tasks/ED-SHARED-SCRIPT-UI-1-shared-script-workbench.md",
+      "to": "docs/ops/archive/tasks/done/ED-SHARED-SCRIPT-UI-1-shared-script-workbench.md",
+      "kind": "historical",
+      "sha256": "776a3870e35dcd0e4233ebc2a6e1bc2ed1f2f4d67df86670a614997bc821e570"
+    },
+    {
+      "from": "docs/ops/tasks/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md",
+      "to": "docs/ops/archive/tasks/done/ED-SHOP-LIFECYCLE-1-shop-crud-and-safe-delete.md",
+      "kind": "historical",
+      "sha256": "59dafb9818239404561c7f94f79a2c872e37666bcc327922e03337ba4ca9605f"
+    },
+    {
+      "from": "docs/ops/tasks/ED-SPRITE-ACTION-MODAL-1-center-dialog-editor.md",
+      "to": "docs/ops/archive/tasks/done/ED-SPRITE-ACTION-MODAL-1-center-dialog-editor.md",
+      "kind": "historical",
+      "sha256": "35a3073d310f52b20c29f570679f45b9111a5db16a9127c742e9ed31a6d6784f"
+    },
+    {
+      "from": "docs/ops/tasks/ED-STAMP-EDITOR-1-stamp-template-content-editor.md",
+      "to": "docs/ops/archive/tasks/done/ED-STAMP-EDITOR-1-stamp-template-content-editor.md",
+      "kind": "historical",
+      "sha256": "a8c0c8b81d04d9541a85cff4f85b1a816b86f68e2ff59f991ca96dd81fe475aa"
+    },
+    {
+      "from": "docs/ops/tasks/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md",
+      "to": "docs/ops/archive/tasks/done/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md",
+      "kind": "historical",
+      "sha256": "db66715bfabf331687a90f9452f27ec71044b912a1f6dc608ab69d76528ec1ba"
+    },
+    {
+      "from": "docs/ops/tasks/ED-TEXT-OVERFLOW-1-editor-text-overflow-and-reveal-contract.md",
+      "to": "docs/ops/archive/tasks/done/ED-TEXT-OVERFLOW-1-editor-text-overflow-and-reveal-contract.md",
+      "kind": "historical",
+      "sha256": "47567480e8acca8c66f439989812f9cae88ab2961760c91c62637dd8b77e4b14"
+    },
+    {
+      "from": "docs/ops/tasks/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md",
+      "to": "docs/ops/archive/tasks/done/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md",
+      "kind": "historical",
+      "sha256": "fc0c56e15e964597663f8da9552f522751f6219fe63d2a443d97061a58586637"
+    },
+    {
+      "from": "docs/ops/tasks/ED-WORLD-VARIABLES-1-world-variable-workbench.md",
+      "to": "docs/ops/archive/tasks/done/ED-WORLD-VARIABLES-1-world-variable-workbench.md",
+      "kind": "historical",
+      "sha256": "a36e2d69367a537fe77d4877d1273cf2dfa18a8701b35af7a0f31ad8f064fa2c"
+    },
+    {
+      "from": "docs/ops/tasks/JS1-jiu-shen-nine-use-limit.md",
+      "to": "docs/ops/archive/tasks/done/JS1-jiu-shen-nine-use-limit.md",
+      "kind": "historical",
+      "sha256": "0c2398f479b1a05a27932cadd840c9693283e96f686798ff7169c06b69760df0"
+    },
+    {
+      "from": "docs/ops/tasks/M3-wander-arm-explosion.md",
+      "to": "docs/ops/archive/tasks/done/M3-wander-arm-explosion.md",
+      "kind": "historical",
+      "sha256": "927a09d4249447141439a768c760ff6824b9b342b4ef659d8ce6a2c3f166f078"
+    },
+    {
+      "from": "docs/ops/tasks/MG2-incremental-migration-merge.md",
+      "to": "docs/ops/archive/tasks/done/MG2-incremental-migration-merge.md",
+      "kind": "historical",
+      "sha256": "010898de89b8c30b63995c3d92e5de2bdac5578d147ec78d560316fc63f621a4"
+    },
+    {
+      "from": "docs/ops/tasks/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md",
+      "to": "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md",
+      "kind": "historical",
+      "sha256": "164b52599bc18f4653d9457449ad0e12cab5dcda01759749c3d0b6c7fa2681f3"
+    },
+    {
+      "from": "docs/ops/tasks/MIG-PAL-CRAFT-FAILURE-MESSAGE-1-pal-craft-failure-message.md",
+      "to": "docs/ops/archive/tasks/done/MIG-PAL-CRAFT-FAILURE-MESSAGE-1-pal-craft-failure-message.md",
+      "kind": "historical",
+      "sha256": "03e32cda6b6aef459739524c37ddeb5747d027165725094f86c3e3c968c5a221"
+    },
+    {
+      "from": "docs/ops/tasks/MIG-PAL-GOURD-FAILURE-MESSAGE-1-pal-spirit-gourd-failure-message.md",
+      "to": "docs/ops/archive/tasks/done/MIG-PAL-GOURD-FAILURE-MESSAGE-1-pal-spirit-gourd-failure-message.md",
+      "kind": "historical",
+      "sha256": "deaf98e77345aac1c2db8dac377fe5c7c0aa1a9dfbc6a42277a848f4b4c97deb"
+    },
+    {
+      "from": "docs/ops/tasks/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md",
+      "to": "docs/ops/archive/tasks/done/MIG-PAL-INPARTY-ID-1-pal-actor-condition-ids.md",
+      "kind": "historical",
+      "sha256": "12636e23bc46e8523ec482c0d81e2bd690d824bb8ff7351caf026ffc76950b4b"
+    },
+    {
+      "from": "docs/ops/tasks/MIG-PAL-ITEM-SCHEME-LABEL-1-pal-item-scheme-author-labels.md",
+      "to": "docs/ops/archive/tasks/done/MIG-PAL-ITEM-SCHEME-LABEL-1-pal-item-scheme-author-labels.md",
+      "kind": "historical",
+      "sha256": "6a91fb6fa6a5be769658e65866dcf8afebd653837243a17cb0147b6e0f8a52e4"
+    },
+    {
+      "from": "docs/ops/tasks/MIG-PAL-MAP-NAME-1-phase1-map-name-adoption.md",
+      "to": "docs/ops/archive/tasks/done/MIG-PAL-MAP-NAME-1-phase1-map-name-adoption.md",
+      "kind": "historical",
+      "sha256": "ae00d4bb602e4815565af7bf65f2c49f6d374a5b02c625dd1cbd4aed35c6bdd9"
+    },
+    {
+      "from": "docs/ops/tasks/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md",
+      "to": "docs/ops/archive/tasks/done/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md",
+      "kind": "historical",
+      "sha256": "886fd76bd1fe54d985a52ee7351175d75ec8a0edb7f8abe69d91c52af8803fb0"
+    },
+    {
+      "from": "docs/ops/tasks/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md",
+      "to": "docs/ops/archive/tasks/done/MIG-PAL-STORE0-SHOP-BOUNDARY-1-pal-store-zero-resource-pool.md",
+      "kind": "historical",
+      "sha256": "422563b5a2ec9ae0c69fdcac1f57b41118af4b690675ce23d2fac36c46eaaa3c"
+    },
+    {
+      "from": "docs/ops/tasks/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md",
+      "to": "docs/ops/archive/tasks/done/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md",
+      "kind": "historical",
+      "sha256": "69b95e82c11998a118b36cc5dd105706a358b10fb8b6f2d0515eabf8a7f6ba78"
+    },
+    {
+      "from": "docs/ops/tasks/N1-1-dialogue-control-code-retirement.md",
+      "to": "docs/ops/archive/tasks/done/N1-1-dialogue-control-code-retirement.md",
+      "kind": "historical",
+      "sha256": "208925363b75115008f6dff2d2d6ad5a6002c20dec047ae17cf09950eb978cc4"
+    },
+    {
+      "from": "docs/ops/tasks/N3-1-script-control-flow-modernization.md",
+      "to": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+      "kind": "historical",
+      "sha256": "07a11c9b0d06edb33b04b29e88686e60068299af18f0c27419d06bf3d1f95d30"
+    },
+    {
+      "from": "docs/ops/tasks/N6-shared-script-authoring.md",
+      "to": "docs/ops/archive/tasks/done/N6-shared-script-authoring.md",
+      "kind": "historical",
+      "sha256": "fc47a4ae5713b8b60dd2678ccb42fdf2600b41190246acc48baa0b9bc334dba5"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-0001-agent-workflow-bootstrap.md",
+      "to": "docs/ops/archive/tasks/done/OPS-0001-agent-workflow-bootstrap.md",
+      "kind": "historical",
+      "sha256": "5d2f141a551352e5a472236182aef81f67ee1738d259a89d257dc6c96ad4a1dd"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-GA4-consent-pageviews.md",
+      "to": "docs/ops/archive/tasks/done/OPS-GA4-consent-pageviews.md",
+      "kind": "historical",
+      "sha256": "9f3ebe30e0e5858f7a704427e137c6c5f317626c7d94d49a98261db315dc4070"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-MAP-1-capability-map-truth-reconciliation.md",
+      "to": "docs/ops/archive/tasks/done/OPS-MAP-1-capability-map-truth-reconciliation.md",
+      "kind": "historical",
+      "sha256": "d5aac93047d804945fc1a3ddc9b7401051ccf14fa00276bf19c54e8a1165cb03"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-MAP-2-x3-ending-truth-reconciliation.md",
+      "to": "docs/ops/archive/tasks/done/OPS-MAP-2-x3-ending-truth-reconciliation.md",
+      "kind": "historical",
+      "sha256": "c761ad3c033cbf60681e2064b82e20e1a63bddb88c546c8b2ef0b397f63fcc63"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-MAP-3-current-truth-reconciliation.md",
+      "to": "docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md",
+      "kind": "historical",
+      "sha256": "2b9a476e9d5d3d866005be197ececcedf3dee0d28554f714cf9914b742fd3317"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-RW1-delegated-regression-rework.md",
+      "to": "docs/ops/archive/tasks/done/OPS-RW1-delegated-regression-rework.md",
+      "kind": "historical",
+      "sha256": "a29155d6b4ca0d3c52fe780b298f3b1d2d61a93ff451697cc0bd6f412d6c51b7"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-TRUTH-1-premise-gate.md",
+      "to": "docs/ops/archive/tasks/done/OPS-TRUTH-1-premise-gate.md",
+      "kind": "historical",
+      "sha256": "057bdd10066d220042a0f67f8898a00384437281da7d53dee631144200cce4a9"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-TST-PERF-consolidated-determinism.md",
+      "to": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md",
+      "kind": "historical",
+      "sha256": "12113704cfedb6bf879f1beee32ad86407dd9fce4f9a5312bb9d23cd48e5d6c5"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-TST-PERF-fresh-hook-timeout.md",
+      "to": "docs/ops/archive/tasks/done/OPS-TST-PERF-fresh-hook-timeout.md",
+      "kind": "historical",
+      "sha256": "69c169610e0e4b358f94620fe5483cd4cbbd8ae0e8c9eae8d7afc33b7a241caf"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-TST-PERF-parallel-gates.md",
+      "to": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md",
+      "kind": "historical",
+      "sha256": "1f6b9c5f16b3104fad20c9007b7492f028167c88a0eaaaab436334a2117a1b3d"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-TST-PERF-release-wallclock.md",
+      "to": "docs/ops/archive/tasks/done/OPS-TST-PERF-release-wallclock.md",
+      "kind": "historical",
+      "sha256": "55847d8e4b5dee7356f5c03e3f505bb665de1f55fab28180b742afe16b9d499d"
+    },
+    {
+      "from": "docs/ops/tasks/OPS-TST-PERF-test-fixture-stratification.md",
+      "to": "docs/ops/archive/tasks/done/OPS-TST-PERF-test-fixture-stratification.md",
+      "kind": "historical",
+      "sha256": "3b4bb0af525d76c876d3ecce1a9cd32ff848bd211e712108f31bc32f9ff8bc46"
+    },
+    {
+      "from": "docs/ops/tasks/R13-CANARY-canary-parent-ledger-drift.md",
+      "to": "docs/ops/archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md",
+      "kind": "historical",
+      "sha256": "ea0ea78aa664961ed39b0a6ed386009d441f32c73dcd992766e19e2c129fbd1c"
+    },
+    {
+      "from": "docs/ops/tasks/R2-script-single-model.md",
+      "to": "docs/ops/archive/tasks/done/R2-script-single-model.md",
+      "kind": "historical",
+      "sha256": "f02244ac02736096b803944a19f5e782bfdcc3c9e04f4e3decafde370865be1b"
+    },
+    {
+      "from": "docs/ops/tasks/README.md",
+      "to": "docs/ops/tasks/README.md",
+      "kind": "index",
+      "sha256": "80ee4a8d5eb58d6549f3c216bcf7a1b6ae1fbed9dc788930687d34f7bb81db0f"
+    },
+    {
+      "from": "docs/ops/tasks/TASK-lite-template.md",
+      "to": "docs/ops/templates/TASK-lite-template.md",
+      "kind": "in-place",
+      "sha256": "55d0dd96c102f659d38411fb0076d605abd2e1692985891db85a43203451dd08"
+    },
+    {
+      "from": "docs/ops/tasks/TASK-template.md",
+      "to": "docs/ops/templates/TASK-template.md",
+      "kind": "in-place",
+      "sha256": "0b55df059c1751379ca24bf7e3743c8420d09282745b1692750960769338d474"
+    },
+    {
+      "from": "docs/ops/tasks/W4-1-named-scene-entry-closure.md",
+      "to": "docs/ops/archive/tasks/done/W4-1-named-scene-entry-closure.md",
+      "kind": "historical",
+      "sha256": "5d5e5d0d6820a03c20bb46b3d4f92cb8cb8e10e6df38bab25dace34191a33cce"
+    },
+    {
+      "from": "docs/ops/tasks/W6-ambience-day-night.md",
+      "to": "docs/ops/archive/tasks/done/W6-ambience-day-night.md",
+      "kind": "historical",
+      "sha256": "e2bb8488d23d1211f0b6799df537fde6db05d710c78e525ab8dfd5cfdecf7b7a"
+    },
+    {
+      "from": "docs/ops/tasks/W7B-tileset-library.md",
+      "to": "docs/ops/archive/tasks/done/W7B-tileset-library.md",
+      "kind": "historical",
+      "sha256": "4cdfa0ab48b38b5447aa6ebdc1e95a0b949d8fb93e7bd1a143a2fa8fa5ed1ad4"
+    },
+    {
+      "from": "docs/ops/tasks/W7C-3-dual-layer-collision-brush.md",
+      "to": "docs/ops/archive/tasks/done/W7C-3-dual-layer-collision-brush.md",
+      "kind": "historical",
+      "sha256": "1f4d0d0171ffc6070e2574d9be87ad02ae13bf7d5bb6da022034493fa82909df"
+    },
+    {
+      "from": "docs/ops/tasks/W7D-nlayer-map-schema.md",
+      "to": "docs/ops/archive/tasks/done/W7D-nlayer-map-schema.md",
+      "kind": "historical",
+      "sha256": "1a6f9e239462426de29104a563180907f9889504117700ab80eea8b614f2428a"
+    },
+    {
+      "from": "docs/ops/tasks/W7E-0-blank-scene-map-reference.md",
+      "to": "docs/ops/archive/tasks/done/W7E-0-blank-scene-map-reference.md",
+      "kind": "historical",
+      "sha256": "32d66a7942d41f172fa188db7e63b821bb75ea2f9183e4be37bb153c6a0f52e6"
+    },
+    {
+      "from": "docs/ops/tasks/W7E-map-library-scene-binding.md",
+      "to": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
+      "kind": "historical",
+      "sha256": "0efd0076b9aa11f87262e6d9d1887295596701d89128b77f7afe27d7b3b32194"
+    },
+    {
+      "from": "docs/ops/tasks/W7F-canonical-map-pipeline.md",
+      "to": "docs/ops/archive/tasks/done/W7F-canonical-map-pipeline.md",
+      "kind": "historical",
+      "sha256": "5538b8af0e31475c24dcb4246bb143814a6d73b8a26780cdba39555583ce4e7b"
+    },
+    {
+      "from": "docs/ops/tasks/W7G-composite-tile-stamps.md",
+      "to": "docs/ops/archive/tasks/done/W7G-composite-tile-stamps.md",
+      "kind": "historical",
+      "sha256": "06aba41d8b93e7acd4fcce92a03de0efe9b9086fe3e363b333eab9ba320234b6"
+    },
+    {
+      "from": "docs/ops/tasks/W8-map-content-selection-inspector.md",
+      "to": "docs/ops/archive/tasks/done/W8-map-content-selection-inspector.md",
+      "kind": "historical",
+      "sha256": "347157ebaab184c5c5c3636f9617e1fd72fa8a1c8dfa22faf871bc25102efb3c"
+    },
+    {
+      "from": "docs/ops/tasks/W9-entity-lifecycle-respawn.md",
+      "to": "docs/ops/archive/tasks/done/W9-entity-lifecycle-respawn.md",
+      "kind": "historical",
+      "sha256": "44d25baf3cea59880908ab23bb30fa5cd26e6baea6e52a48721478bac6ba65e5"
+    },
+    {
+      "from": "docs/ops/tasks/X3-1-scene-entry-presentation.md",
+      "to": "docs/ops/archive/tasks/done/X3-1-scene-entry-presentation.md",
+      "kind": "historical",
+      "sha256": "57dc5d20a35a6d0ed1f7f79d323b909cc15bcdd5de80fa393656c1ae4a0209e4"
+    },
+    {
+      "from": "docs/ops/tasks/X3-opening-dither-speaker-inheritance.md",
+      "to": "docs/ops/archive/tasks/done/X3-opening-dither-speaker-inheritance.md",
+      "kind": "historical",
+      "sha256": "69bd2b0307a178cb0c32974122cbc243512acb6eefa73f04021be7e22c11d295"
+    },
+    {
+      "from": "docs/ops/tasks/X7-1-manifest-project-workbench.md",
+      "to": "docs/ops/archive/tasks/done/X7-1-manifest-project-workbench.md",
+      "kind": "historical",
+      "sha256": "9f733c1419c65972b34f15db4b5bd33b4e36ce99aff0b262354b938e736eda61"
+    },
+    {
+      "from": "docs/ops/tasks/index.md",
+      "to": "docs/ops/tasks/index.md",
+      "kind": "in-place",
+      "sha256": "6354c0410c2911e6001babb3119b8bdb08cd169ed9ea6b3f86799f989562e403"
+    },
+    {
+      "from": "docs/phase1/01-feasibility.md",
+      "to": "docs/phase1/01-feasibility.md",
+      "kind": "in-place",
+      "sha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc"
+    },
+    {
+      "from": "docs/phase1/02-architecture.md",
+      "to": "docs/phase1/02-architecture.md",
+      "kind": "in-place",
+      "sha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c"
+    },
+    {
+      "from": "docs/phase1/03-development-plan.md",
+      "to": "docs/phase1/03-development-plan.md",
+      "kind": "in-place",
+      "sha256": "e80f714a55dd90539a661ed04bf568cc514e24e537d1de17be21d5de97f91706"
+    },
+    {
+      "from": "docs/phase1/04-decisions.md",
+      "to": "docs/phase1/04-decisions.md",
+      "kind": "in-place",
+      "sha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479"
+    },
+    {
+      "from": "docs/phase1/05-events-schema.md",
+      "to": "docs/phase1/05-events-schema.md",
+      "kind": "in-place",
+      "sha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58"
+    },
+    {
+      "from": "docs/phase1/06-testing.md",
+      "to": "docs/phase1/06-testing.md",
+      "kind": "in-place",
+      "sha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd"
+    },
+    {
+      "from": "docs/phase1/README.md",
+      "to": "docs/phase1/README.md",
+      "kind": "index",
+      "sha256": "149d7d22b1179da3e4a9a5530b37a347e6dc90074107071693a78cbc8addf3f4"
+    },
+    {
+      "from": "docs/phase1/engineering-notes.md",
+      "to": "docs/phase1/engineering-notes.md",
+      "kind": "in-place",
+      "sha256": "1865808d8c33fb90de4d2800121f8d6ce24a2a713e31399ef59af814904d819a"
+    },
+    {
+      "from": "docs/phase1/game-mechanics.md",
+      "to": "docs/phase1/game-mechanics.md",
+      "kind": "in-place",
+      "sha256": "7627d8a0933a57726de3995ce93ec0a68d25f807d6982949bb2181173a59ca0e"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-23-m0-project-skeleton.md",
+      "to": "docs/phase1/plans/2026-05-23-m0-project-skeleton.md",
+      "kind": "historical",
+      "sha256": "48cd9d8c5fc824ba720e31ba4de4c77c143d40533a4374ef73ff450e5bf9f206"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-23-m1-pal-extract-design.md",
+      "to": "docs/phase1/plans/2026-05-23-m1-pal-extract-design.md",
+      "kind": "historical",
+      "sha256": "176db881be3c7b2e5ccc842903d44a32d3f7d9ca5577a7c6261420b5be18087d"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-23-m1-pal-extract.md",
+      "to": "docs/phase1/plans/2026-05-23-m1-pal-extract.md",
+      "kind": "historical",
+      "sha256": "ac7d9b89b5536107b3d52fbb346cbe96d3b2ad2cfabfcab835e6f5fa32fbacab"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-23-m2-runtime-slice-design.md",
+      "to": "docs/phase1/plans/2026-05-23-m2-runtime-slice-design.md",
+      "kind": "historical",
+      "sha256": "1a41396403e06b0c32c59bd1be1e29d13a8ac9dc6a0b997f5b50aadb31016091"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-23-m2-runtime-slice.md",
+      "to": "docs/phase1/plans/2026-05-23-m2-runtime-slice.md",
+      "kind": "historical",
+      "sha256": "2c1af6fa890e7f841bc166cd75a6923a46bb67e7d15403e6e85cef2849b8fa58"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md",
+      "to": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md",
+      "kind": "historical",
+      "sha256": "d030e218834e3856eaba1a9307d870aa681474a8cb7893cc5a04de43f8d8b43c"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice.md",
+      "to": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice.md",
+      "kind": "historical",
+      "sha256": "8ccaafd4547cc3f82fcf72d3bd40c92af8b0da2dc41d87c4f5f01492a6573753"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter-design.md",
+      "to": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter-design.md",
+      "kind": "historical",
+      "sha256": "22675b3967351b81254862c3bf32699998320c4c7fd565fd9c0cc8ba87be9fdc"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter.md",
+      "to": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter.md",
+      "kind": "historical",
+      "sha256": "b6453eada4c72d17b71b1a82059bdc52c1b65659bf58755bf602bcb3b1dedd17"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete-design.md",
+      "to": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete-design.md",
+      "kind": "historical",
+      "sha256": "378839296d24f2987401e894c21ee425886eeac298f757445014ec3ab8612b5a"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete.md",
+      "to": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete.md",
+      "kind": "historical",
+      "sha256": "6520846aa673fe376f0e9ae1253fe05e86fe4af29ce90434affea62068868b22"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-25-m5-systems-complete-design.md",
+      "to": "docs/phase1/plans/2026-05-25-m5-systems-complete-design.md",
+      "kind": "historical",
+      "sha256": "8041d8de8b30f9dc253469c1d4b18916b848e79ebd43c7cb561ef8382a6e28ea"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-25-m5-systems-complete.md",
+      "to": "docs/phase1/plans/2026-05-25-m5-systems-complete.md",
+      "kind": "historical",
+      "sha256": "69fc28c6f2c1811b9b3a24682a181be89c40f684d006fc27049a10cea5c22688"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-27-m4-extract-audit.md",
+      "to": "docs/phase1/plans/2026-05-27-m4-extract-audit.md",
+      "kind": "historical",
+      "sha256": "f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-27-m5-5-sdlpal-audit.md",
+      "to": "docs/phase1/plans/2026-05-27-m5-5-sdlpal-audit.md",
+      "kind": "historical",
+      "sha256": "d8a912e1098868e26664a68589206412edc0e15398545fa5f83da4eb944e5c88"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
+      "to": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
+      "kind": "historical",
+      "sha256": "9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-27-m5-6-playability.md",
+      "to": "docs/phase1/plans/2026-05-27-m5-6-playability.md",
+      "kind": "historical",
+      "sha256": "96a62624d8763ad21035aefaab3b081d0360026eb6d34389966ef00b5112c56a"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-28-feature-audit-and-replanning.md",
+      "to": "docs/phase1/plans/2026-05-28-feature-audit-and-replanning.md",
+      "kind": "historical",
+      "sha256": "38690783507726aa3ef11b55ff91a830e467a5996ca848c4eedd807e024e7096"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-30-opcode-2-remaining.md",
+      "to": "docs/phase1/plans/2026-05-30-opcode-2-remaining.md",
+      "kind": "historical",
+      "sha256": "b0f560986ed3a7be91e4788dc6bb2250c3f08114b35f35ef194bd67b814ea3af"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md",
+      "to": "docs/phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md",
+      "kind": "historical",
+      "sha256": "06ec22dea6d79a298b59f4c3711f7dcc66ac7aa543a2a924b10a8eb9c6e2f606"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-31-d-batch1-status-behavior.md",
+      "to": "docs/phase1/plans/2026-05-31-d-batch1-status-behavior.md",
+      "kind": "historical",
+      "sha256": "0d968e75990474077ccef9b77e21f8b7c6636638770e5b4ed37e2aab556940d6"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",
+      "to": "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",
+      "kind": "historical",
+      "sha256": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
+      "to": "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
+      "kind": "historical",
+      "sha256": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
+      "to": "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
+      "kind": "historical",
+      "sha256": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f"
+    },
+    {
+      "from": "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
+      "to": "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
+      "kind": "historical",
+      "sha256": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-01-d-series-test-cases.md",
+      "to": "docs/phase1/plans/2026-06-01-d-series-test-cases.md",
+      "kind": "historical",
+      "sha256": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-01-feature-status-audit.md",
+      "to": "docs/phase1/plans/2026-06-01-feature-status-audit.md",
+      "kind": "historical",
+      "sha256": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md",
+      "to": "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md",
+      "kind": "historical",
+      "sha256": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
+      "to": "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
+      "kind": "historical",
+      "sha256": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
+      "to": "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
+      "kind": "historical",
+      "sha256": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-02-item-audit.md",
+      "to": "docs/phase1/plans/2026-06-02-item-audit.md",
+      "kind": "historical",
+      "sha256": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
+      "to": "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
+      "kind": "historical",
+      "sha256": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md",
+      "to": "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md",
+      "kind": "historical",
+      "sha256": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
+      "to": "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
+      "kind": "historical",
+      "sha256": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md",
+      "to": "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md",
+      "kind": "historical",
+      "sha256": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-13-offline-precache-sw.md",
+      "to": "docs/phase1/plans/2026-06-13-offline-precache-sw.md",
+      "kind": "historical",
+      "sha256": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-13-prod-tools-panel.md",
+      "to": "docs/phase1/plans/2026-06-13-prod-tools-panel.md",
+      "kind": "historical",
+      "sha256": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md",
+      "to": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md",
+      "kind": "historical",
+      "sha256": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md",
+      "to": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md",
+      "kind": "historical",
+      "sha256": "0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
+      "to": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
+      "kind": "historical",
+      "sha256": "6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "to": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "kind": "historical",
+      "sha256": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8"
+    },
+    {
+      "from": "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md",
+      "to": "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md",
+      "kind": "historical",
+      "sha256": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91"
+    },
+    {
+      "from": "docs/phase1/plans/README.md",
+      "to": "docs/phase1/plans/README.md",
+      "kind": "historical",
+      "sha256": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82"
+    },
+    {
+      "from": "docs/phase1/sdlpal-runbook.md",
+      "to": "docs/phase1/sdlpal-runbook.md",
+      "kind": "in-place",
+      "sha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81"
+    },
+    {
+      "from": "docs/phase1/status/README.md",
+      "to": "docs/phase1/status/README.md",
+      "kind": "index",
+      "sha256": "2dc16fcb09bb80cceca8708bd129052ba51778e29cfa91037fbb61d87d8254cd"
+    },
+    {
+      "from": "docs/phase1/status/cutscene-status.md",
+      "to": "docs/phase1/status/cutscene-status.md",
+      "kind": "in-place",
+      "sha256": "ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced"
+    },
+    {
+      "from": "docs/phase1/status/feature-status.md",
+      "to": "docs/phase1/status/feature-status.md",
+      "kind": "in-place",
+      "sha256": "ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f"
+    },
+    {
+      "from": "docs/phase1/status/item-status.md",
+      "to": "docs/phase1/status/item-status.md",
+      "kind": "in-place",
+      "sha256": "218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde"
+    },
+    {
+      "from": "docs/phase1/status/magic-status.md",
+      "to": "docs/phase1/status/magic-status.md",
+      "kind": "in-place",
+      "sha256": "1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a"
+    },
+    {
+      "from": "docs/phase1/status/opcode-status.md",
+      "to": "docs/phase1/status/opcode-status.md",
+      "kind": "in-place",
+      "sha256": "40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b"
+    },
+    {
+      "from": "docs/phase1/status/resource-status.md",
+      "to": "docs/phase1/status/resource-status.md",
+      "kind": "in-place",
+      "sha256": "24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e"
+    },
+    {
+      "from": "docs/phase2/READ-FIRST.md",
+      "to": "docs/phase2/READ-FIRST.md",
+      "kind": "in-place",
+      "sha256": "c5b56489630cee0575cbd2fd09e1e56d8cad89f474fa745520fa94f992b1ded0"
+    },
+    {
+      "from": "docs/phase2/README.md",
+      "to": "docs/phase2/README.md",
+      "kind": "index",
+      "sha256": "d46ae05866f9501759b6181855f66834a0956f261f4043c931765c9d97c72d28"
+    },
+    {
+      "from": "docs/phase2/ambience-design.md",
+      "to": "docs/phase2/archive/designs/ambience-design.md",
+      "kind": "historical",
+      "sha256": "7fc897e7bb51fe2fa77d5b6c9c60998ef7c881be9b35c6f3c2fc0f6aa9451def"
+    },
+    {
+      "from": "docs/phase2/battle-config-fills-review.md",
+      "to": "docs/phase2/archive/audits/battle-config-fills-review.md",
+      "kind": "historical",
+      "sha256": "0f93a11a5a9a7667678b2fd1dd4106b366b3506431074596834d97a87e458b75"
+    },
+    {
+      "from": "docs/phase2/battle-presentation-audit-2026-07-05.md",
+      "to": "docs/phase2/archive/audits/battle-presentation-audit-2026-07-05.md",
+      "kind": "historical",
+      "sha256": "4a43071bc28562edd89d85b775330f97a890712cdfcf7f23de0b2c0be5869de2"
+    },
+    {
+      "from": "docs/phase2/capability-map.md",
+      "to": "docs/phase2/capability-map.md",
+      "kind": "in-place",
+      "sha256": "9d2401ac8d50db1dd7a32e139458991462dee16ba5fddb72caf72995f09e2651"
+    },
+    {
+      "from": "docs/phase2/decisions.md",
+      "to": "docs/phase2/decisions.md",
+      "kind": "in-place",
+      "sha256": "78d424e0d7eee715a79ada5cdbbf166403e1600ccc5971bd1fedfcd035b4645d"
+    },
+    {
+      "from": "docs/phase2/design-backlog.md",
+      "to": "docs/phase2/design-backlog.md",
+      "kind": "in-place",
+      "sha256": "8df6ac311f92d8d55bb83a4bb14e3e7fa962ce3b4aab9fa15ca55c6dce3722a7"
+    },
+    {
+      "from": "docs/phase2/dev-tools.md",
+      "to": "docs/phase2/guides/debug-tools.md",
+      "kind": "guide",
+      "sha256": "2e10fbc94515f461fd5c0f629f2c2a3789276a66c8cf433f7ef667091e737529"
+    },
+    {
+      "from": "docs/phase2/dialogue/README.md",
+      "to": "docs/phase2/archive/designs/README.md",
+      "kind": "historical",
+      "sha256": "09204ae289416f383f07b12a5c863b82516cff76e989e7bd3b7654ad2f5079bc"
+    },
+    {
+      "from": "docs/phase2/dialogue/model-design.md",
+      "to": "docs/phase2/archive/designs/model-design.md",
+      "kind": "historical",
+      "sha256": "64f4b21127ed0851a5ddeb7b941b213ace87291764e0aa89a929318cdacc333a"
+    },
+    {
+      "from": "docs/phase2/dialogue/model-plan.md",
+      "to": "docs/phase2/archive/plans/model-plan.md",
+      "kind": "historical",
+      "sha256": "9091cd36a116d5c98330a9cb44a83b7b12bf3b06aecca056a62d40cdfb89e3d2"
+    },
+    {
+      "from": "docs/phase2/dialogue/visual-design.md",
+      "to": "docs/phase2/archive/designs/visual-design.md",
+      "kind": "historical",
+      "sha256": "043f6d97603e61c5bc906acea9c966a8e15cb10699bc6af0b018a01acc7540e0"
+    },
+    {
+      "from": "docs/phase2/dialogue/visual-plan.md",
+      "to": "docs/phase2/archive/plans/visual-plan.md",
+      "kind": "historical",
+      "sha256": "52ac0617aa808f915f32441d5bd637d6675e51855fa356bba8a9c3df8f83de01"
+    },
+    {
+      "from": "docs/phase2/dialogue/visual-spec.md",
+      "to": "docs/phase2/reference/dialogue-presentation.md",
+      "kind": "reference",
+      "sha256": "24bc4efd435f0292d5b6a45e89918a50dc39e49178f4bfe14c92221ce6bddfc0"
+    },
+    {
+      "from": "docs/phase2/editor/README.md",
+      "to": "docs/phase2/guides/README.md",
+      "kind": "index",
+      "sha256": "f24ae2d5f78a184a4d37e98c9ffabd83e918f999fdc672fee4be5a816896276d"
+    },
+    {
+      "from": "docs/phase2/editor/actor-presets.md",
+      "to": "docs/phase2/guides/actor-presets.md",
+      "kind": "guide",
+      "sha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4"
+    },
+    {
+      "from": "docs/phase2/editor/battlefield-authoring.md",
+      "to": "docs/phase2/guides/battlefield-authoring.md",
+      "kind": "guide",
+      "sha256": "bf65e5a5748a4061e697942ab2bcb791631cff815754306828d1c37047be2f42"
+    },
+    {
+      "from": "docs/phase2/editor/cutscene-asset-workbench-design.md",
+      "to": "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+      "kind": "historical",
+      "sha256": "b14f6a109ee706fb994cf8114298e9e2f43c6754c6c09396330705f113d4e51d"
+    },
+    {
+      "from": "docs/phase2/editor/editor-audit-2026-07-05.md",
+      "to": "docs/phase2/archive/audits/editor-audit-2026-07-05.md",
+      "kind": "historical",
+      "sha256": "281c849449b7db11150eda730aa1386cb0549f2161775e278cf21297d06f6770"
+    },
+    {
+      "from": "docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md",
+      "to": "docs/phase2/archive/audits/editor-authoring-closure-audit-2026-07-13.md",
+      "kind": "historical",
+      "sha256": "1a20baa5bb3b489d427e3988fd3be7da9a41371157ac40deaef12be98e03e0cb"
+    },
+    {
+      "from": "docs/phase2/editor/editor-b0-plan.md",
+      "to": "docs/phase2/archive/plans/editor-b0-plan.md",
+      "kind": "historical",
+      "sha256": "08df8ded8bce85132c5c1ddc498ac3ed0df815c55e5d594019f8b7c4b8053bc5"
+    },
+    {
+      "from": "docs/phase2/editor/editor-b1-logic-plan.md",
+      "to": "docs/phase2/archive/plans/editor-b1-logic-plan.md",
+      "kind": "historical",
+      "sha256": "c46c32442f2d76241742179edd203de09da6e0e05867123be0fb5cd99566c91f"
+    },
+    {
+      "from": "docs/phase2/editor/editor-design-system-v1.md",
+      "to": "docs/phase2/specs/editor-design-system.md",
+      "kind": "spec",
+      "sha256": "417a86700e68d329e5c15e16f0c18f7a100e85c3ad97ea0374b975de32e4b5f2"
+    },
+    {
+      "from": "docs/phase2/editor/editor-design.md",
+      "to": "docs/phase2/archive/designs/editor-design.md",
+      "kind": "historical",
+      "sha256": "bce826891f681a96f724bd5048d485498502ae31990317fa7f9fb06418e082e0"
+    },
+    {
+      "from": "docs/phase2/editor/editor-modernization-follow-up-2026-08-14.md",
+      "to": "docs/phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md",
+      "kind": "historical",
+      "sha256": "324090cdafe0772ebac93edad5252461043eda9ce8620e39bdcf5f5e64594495"
+    },
+    {
+      "from": "docs/phase2/editor/editor-ui-audit-2026-08-15.md",
+      "to": "docs/phase2/archive/audits/editor-ui-audit-2026-08-15.md",
+      "kind": "historical",
+      "sha256": "22cb19f69ff64351b09ac7e909a3b04c2ac79eaf7a7c123038673202533dada8"
+    },
+    {
+      "from": "docs/phase2/editor/mockups/actor-mode-v1.html",
+      "to": "docs/phase2/archive/mockups/actor-mode-v1.html",
+      "kind": "attachment",
+      "sha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f"
+    },
+    {
+      "from": "docs/phase2/editor/mockups/actor-mode-v2.html",
+      "to": "docs/phase2/archive/mockups/actor-mode-v2.html",
+      "kind": "attachment",
+      "sha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60"
+    },
+    {
+      "from": "docs/phase2/editor/mockups/place-mode.html",
+      "to": "docs/phase2/archive/mockups/place-mode.html",
+      "kind": "attachment",
+      "sha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d"
+    },
+    {
+      "from": "docs/phase2/editor/project-design.md",
+      "to": "docs/phase2/archive/designs/project-design.md",
+      "kind": "historical",
+      "sha256": "a9dbb36a00644cc7d1fdc2adbd15a84751e382e6a1d69856a42d1dca5052a3ff"
+    },
+    {
+      "from": "docs/phase2/editor/project-foundation-plan.md",
+      "to": "docs/phase2/archive/plans/project-foundation-plan.md",
+      "kind": "historical",
+      "sha256": "11855b8b43e0b3487035a942235002bb6bd8981f6af1619627a0c92054d7a088"
+    },
+    {
+      "from": "docs/phase2/editor/project-lifecycle-design.md",
+      "to": "docs/phase2/archive/designs/project-lifecycle-design.md",
+      "kind": "historical",
+      "sha256": "a1930e9f9164f50e30662a4887984c6be24a74c68d0abc3a9d5398fe21b2a638"
+    },
+    {
+      "from": "docs/phase2/editor/project-lifecycle-p1-filesource-plan.md",
+      "to": "docs/phase2/archive/plans/project-lifecycle-p1-filesource-plan.md",
+      "kind": "historical",
+      "sha256": "f94c52f2cc0256481c96e58839a272e64d2ad0cb16e8d23cdb694ee9368d99e1"
+    },
+    {
+      "from": "docs/phase2/editor/project-lifecycle-p2-assets-source-plan.md",
+      "to": "docs/phase2/archive/plans/project-lifecycle-p2-assets-source-plan.md",
+      "kind": "historical",
+      "sha256": "1201f3986365ec9dbfd98722fecc97732039cc2ac128a965aa83f956be24d89d"
+    },
+    {
+      "from": "docs/phase2/editor/project-lifecycle-p3-fsa-io-plan.md",
+      "to": "docs/phase2/archive/plans/project-lifecycle-p3-fsa-io-plan.md",
+      "kind": "historical",
+      "sha256": "e0874611a30654fcae169a3d815bc3bd338f01732e0e58e835715674641836c4"
+    },
+    {
+      "from": "docs/phase2/editor/project-lifecycle-p4-clone-picker-plan.md",
+      "to": "docs/phase2/archive/plans/project-lifecycle-p4-clone-picker-plan.md",
+      "kind": "historical",
+      "sha256": "0ca080e549d63812ed78932e86f0e5df553d5ac4cd1a720c465234e6acbf7983"
+    },
+    {
+      "from": "docs/phase2/editor/scene-entry-authoring.md",
+      "to": "docs/phase2/guides/scene-entry-authoring.md",
+      "kind": "guide",
+      "sha256": "e2ab7e61f447314adcdbba50ab755ce9d2b7526df4a436b7a4a174303911bd07"
+    },
+    {
+      "from": "docs/phase2/editor/shared-script-author-guide.md",
+      "to": "docs/phase2/guides/shared-script-author-guide.md",
+      "kind": "guide",
+      "sha256": "25f4257f7e39f5b249affc0153c328c494a994283e4edcb90259b1aa0fc2ba43"
+    },
+    {
+      "from": "docs/phase2/foundation/README.md",
+      "to": "docs/phase2/specs/README.md",
+      "kind": "index",
+      "sha256": "492e253d5877b174bd1f2fa16b50f2c02c31864c450ed42105d5c397bab664a7"
+    },
+    {
+      "from": "docs/phase2/foundation/a7-0-music-resource-closure-report.md",
+      "to": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md",
+      "kind": "historical",
+      "sha256": "89ed6d947ed099343e0c10b4a5580e8402117383a1d7c939a6c50feabdec3714"
+    },
+    {
+      "from": "docs/phase2/foundation/a7-2-static-images-engine-chrome-report.md",
+      "to": "docs/phase2/archive/audits/a7-2-static-images-engine-chrome-report.md",
+      "kind": "historical",
+      "sha256": "aeb67e41a5e1c2b78a09b28d425dc80cce3a075baa702adf150350fad8f9f39a"
+    },
+    {
+      "from": "docs/phase2/foundation/a7-resource-closure-audit.md",
+      "to": "docs/phase2/archive/audits/a7-resource-closure-audit.md",
+      "kind": "historical",
+      "sha256": "fcfc0e46e4fcece4cbd7570b3ca90a5329aeb78e4fc0ff14122ef4f11f580b6d"
+    },
+    {
+      "from": "docs/phase2/foundation/actor-c0-plan.md",
+      "to": "docs/phase2/archive/plans/actor-c0-plan.md",
+      "kind": "historical",
+      "sha256": "d8b61262cc1aa8271c7a055bfcf7232b5fb633d3b12a5110393b3ee297869a86"
+    },
+    {
+      "from": "docs/phase2/foundation/actor-model-design.md",
+      "to": "docs/phase2/archive/designs/actor-model-design.md",
+      "kind": "historical",
+      "sha256": "0914c4de7a79cd8b74b334e3f582509b4b30ec9acd5d26cf48ac86251c9842a1"
+    },
+    {
+      "from": "docs/phase2/foundation/am-asset-migrate-audit.md",
+      "to": "docs/phase2/archive/audits/am-asset-migrate-audit.md",
+      "kind": "historical",
+      "sha256": "6dcc3f14e6c7090aa4ad245dce5a2f9693ce757d1dc20edb1033d95a8a2e62e7"
+    },
+    {
+      "from": "docs/phase2/foundation/art-pipeline.md",
+      "to": "docs/phase3/reference/art-pipeline.md",
+      "kind": "reference",
+      "sha256": "991de1b89d79ce01e85607eb7024050b8d8c4807660cb092db01a65e795c8510"
+    },
+    {
+      "from": "docs/phase2/foundation/b-attack-magic-audit.md",
+      "to": "docs/phase2/archive/audits/b-attack-magic-audit.md",
+      "kind": "historical",
+      "sha256": "c6bce2c0737705f112a689c3096cffc6242b7d2e1061823135005ee1ce28eec1"
+    },
+    {
+      "from": "docs/phase2/foundation/b-core-audit.md",
+      "to": "docs/phase2/archive/audits/b-core-audit.md",
+      "kind": "historical",
+      "sha256": "e74776b60006a898b9ff77acf32e7bfb63943686111a2431241b9784bef205e9"
+    },
+    {
+      "from": "docs/phase2/foundation/b-subsystem-audit.md",
+      "to": "docs/phase2/archive/audits/b-subsystem-audit.md",
+      "kind": "historical",
+      "sha256": "24701335261bdff09eac81a24c57dc056888ca1398e5f6123ed0e415fcaa325b"
+    },
+    {
+      "from": "docs/phase2/foundation/battle-model-m4-design.md",
+      "to": "docs/phase2/archive/designs/battle-model-m4-design.md",
+      "kind": "historical",
+      "sha256": "d5e6e7509a35ce680b012129828c82f5e154e638a9b03817580df29aa13e6d37"
+    },
+    {
+      "from": "docs/phase2/foundation/c-menu-audit.md",
+      "to": "docs/phase2/archive/audits/c-menu-audit.md",
+      "kind": "historical",
+      "sha256": "57b8c675aeceaf366b5e09bfb361e9a65bdb4d90bf83ddaf349b9a7fdddb3842"
+    },
+    {
+      "from": "docs/phase2/foundation/content-schema.md",
+      "to": "docs/phase2/archive/designs/content-schema.md",
+      "kind": "historical",
+      "sha256": "bd5e253de7c4140f65008cbe01524c01506616120ce99edd1226f1efe108cde3"
+    },
+    {
+      "from": "docs/phase2/foundation/e6-position-authority-design.md",
+      "to": "docs/phase2/archive/designs/e6-position-authority-design.md",
+      "kind": "historical",
+      "sha256": "99a404f997accf60de7982bf3b579e8053f3a00d96c5972a4260036a9f11a9f7"
+    },
+    {
+      "from": "docs/phase2/foundation/e7-follower-riding-design.md",
+      "to": "docs/phase2/archive/designs/e7-follower-riding-design.md",
+      "kind": "historical",
+      "sha256": "feed1c58414a3f960ed51d06aed81462ffb01803cbe9985f557ac5d4cfd0c854"
+    },
+    {
+      "from": "docs/phase2/foundation/ec-data-audit.md",
+      "to": "docs/phase2/archive/audits/ec-data-audit.md",
+      "kind": "historical",
+      "sha256": "7eaa9fe712ad0fe200b05d5d038abf6c5464d420068fdadcc864a738390f95a1"
+    },
+    {
+      "from": "docs/phase2/foundation/enemy-ai-design.md",
+      "to": "docs/phase2/archive/designs/enemy-ai-design.md",
+      "kind": "historical",
+      "sha256": "ad1523b980f64ec88bf6a45aa961e82f3d65a388584ff9618d7daaec8d85a2a2"
+    },
+    {
+      "from": "docs/phase2/foundation/engine-debt-audit.md",
+      "to": "docs/phase2/archive/audits/engine-debt-audit.md",
+      "kind": "historical",
+      "sha256": "9abfcf50363965c8d4f49a54129932e98576324eed461f9398f07ba7cd02fa72"
+    },
+    {
+      "from": "docs/phase2/foundation/equipment-foundation-plan.md",
+      "to": "docs/phase2/archive/plans/equipment-foundation-plan.md",
+      "kind": "historical",
+      "sha256": "1169fa07667f8ec4ed698721d77019d8241c51a3a78bbe628305c5fd6a14538a"
+    },
+    {
+      "from": "docs/phase2/foundation/item-data-design.md",
+      "to": "docs/phase2/archive/designs/item-data-design.md",
+      "kind": "historical",
+      "sha256": "4d92cd29472961a56a37067ae1b8a1b6b7b19e9a3f72043e7403330c0410f712"
+    },
+    {
+      "from": "docs/phase2/foundation/migrator-m1-plan.md",
+      "to": "docs/phase2/archive/plans/migrator-m1-plan.md",
+      "kind": "historical",
+      "sha256": "2c924059a304604b621afad30661166ea08c94406826372e4d18f282a9358eda"
+    },
+    {
+      "from": "docs/phase2/foundation/n-dialog-text-audit.md",
+      "to": "docs/phase2/archive/audits/n-dialog-text-audit.md",
+      "kind": "historical",
+      "sha256": "02f3b7564859ff82ba081b55b92a0262bdd0f838b17ac1ccd1daa63248ba602e"
+    },
+    {
+      "from": "docs/phase2/foundation/n-event-script-audit.md",
+      "to": "docs/phase2/archive/audits/n-event-script-audit.md",
+      "kind": "historical",
+      "sha256": "10800d26537d9a4cb0475afa1f556c0df750474dd761a7777275788cf06eb309"
+    },
+    {
+      "from": "docs/phase2/foundation/n1-dialogue-migration-audit.md",
+      "to": "docs/phase2/archive/audits/n1-dialogue-migration-audit.md",
+      "kind": "historical",
+      "sha256": "a8c094623ec52500cb5c1fc82f3ea538299c77485ce1ffae53a8d19f69bc76c8"
+    },
+    {
+      "from": "docs/phase2/foundation/palette-to-rgba-plan.md",
+      "to": "docs/phase2/archive/plans/palette-to-rgba-plan.md",
+      "kind": "historical",
+      "sha256": "3a357e8c195df321ff1f39f6e7399d4905d1fbb486d8eb1658ba292ff52187bb"
+    },
+    {
+      "from": "docs/phase2/foundation/phase1-audit-tracker.md",
+      "to": "docs/phase2/archive/audits/phase1-audit-tracker.md",
+      "kind": "historical",
+      "sha256": "9e6fc9dba4e706fe26b689f7b8bb6cee25a0a6b23bcaf8333eabc4eebd9252af"
+    },
+    {
+      "from": "docs/phase2/foundation/phase1-knowledge-harvest.md",
+      "to": "docs/phase2/reference/phase1-knowledge-harvest.md",
+      "kind": "reference",
+      "sha256": "a78bba79d816d66c644a70dd1c0db93b4703b5bc08dbf3aef085bafcc5c13109"
+    },
+    {
+      "from": "docs/phase2/foundation/render-foundation-plan.md",
+      "to": "docs/phase2/archive/plans/render-foundation-plan.md",
+      "kind": "historical",
+      "sha256": "ecb09db3e89c33cae5b37c2d3107c86959986c23adeb2cfd6a2b96450b1ecee0"
+    },
+    {
+      "from": "docs/phase2/foundation/save-system-design.md",
+      "to": "docs/phase2/archive/designs/save-system-design.md",
+      "kind": "historical",
+      "sha256": "5380343907e19d6a6a610271c1725cfcfad009908f31a0f84462b46a435876c1"
+    },
+    {
+      "from": "docs/phase2/foundation/save-system-plan.md",
+      "to": "docs/phase2/archive/plans/save-system-plan.md",
+      "kind": "historical",
+      "sha256": "4f99c5952a2f21d3071b4c125f2d9dcd559e8d24c82f1dfbf848447f04835df5"
+    },
+    {
+      "from": "docs/phase2/foundation/scene-model-m2-design.md",
+      "to": "docs/phase2/archive/designs/scene-model-m2-design.md",
+      "kind": "historical",
+      "sha256": "8f90228cb9205954b9797bbe8610da89402d74df133c5c541886dab53af53821"
+    },
+    {
+      "from": "docs/phase2/foundation/script-census.md",
+      "to": "docs/phase2/archive/audits/script-census.md",
+      "kind": "historical",
+      "sha256": "db49d205547a270941451c69f0794ca2e7528b2df04063bbe1148e919285f98c"
+    },
+    {
+      "from": "docs/phase2/foundation/script-model-m3-design.md",
+      "to": "docs/phase2/archive/designs/script-model-m3-design.md",
+      "kind": "historical",
+      "sha256": "5aa1b91b4958e21a2b5d18afc078a943a3c3070394ca63f5fda9d6a2448ba1e6"
+    },
+    {
+      "from": "docs/phase2/foundation/script-system-design.md",
+      "to": "docs/phase2/archive/designs/script-system-design.md",
+      "kind": "historical",
+      "sha256": "c1e0003edb6e778760db1e85104f67698e12084ca8b9fe538cb6cccc955bfd66"
+    },
+    {
+      "from": "docs/phase2/foundation/skill-data-design.md",
+      "to": "docs/phase2/archive/designs/skill-data-design.md",
+      "kind": "historical",
+      "sha256": "72259bc7ce2bf8b4acabced29e86108ff194032705986ad7f212e5b44ab77d17"
+    },
+    {
+      "from": "docs/phase2/foundation/skill-data-plan.md",
+      "to": "docs/phase2/archive/plans/skill-data-plan.md",
+      "kind": "historical",
+      "sha256": "c03ff7024bd634b237755ac7aafcf0b937f95f684a10ddb349c1d4aa6ff54847"
+    },
+    {
+      "from": "docs/phase2/foundation/verify-dialog/pal0-dialog.png",
+      "to": "docs/phase2/foundation/verify-dialog/pal0-dialog.png",
+      "kind": "attachment",
+      "sha256": "36c4f288d23937b0117ac8dd8ea873c12967462438119a9eab1e602b233475b9"
+    },
+    {
+      "from": "docs/phase2/foundation/verify-dialog/pal2-dialog.png",
+      "to": "docs/phase2/foundation/verify-dialog/pal2-dialog.png",
+      "kind": "attachment",
+      "sha256": "4ca13e066a54545ce2e5b0204adb7924e9c3e8b3e503afced40d1a5955ae7160"
+    },
+    {
+      "from": "docs/phase2/foundation/w-font-palette-audit.md",
+      "to": "docs/phase2/archive/audits/w-font-palette-audit.md",
+      "kind": "historical",
+      "sha256": "58697cc6f2749ecac2865dec01d4e611cb36c490377cd7f59ae3487bfc29581e"
+    },
+    {
+      "from": "docs/phase2/foundation/w-render-audit.md",
+      "to": "docs/phase2/archive/audits/w-render-audit.md",
+      "kind": "historical",
+      "sha256": "7b6305abff5c5175d4c189b13c40b36d880dc01745cf98e43312d680474e64b8"
+    },
+    {
+      "from": "docs/phase2/foundation/x-shell-audit.md",
+      "to": "docs/phase2/archive/audits/x-shell-audit.md",
+      "kind": "historical",
+      "sha256": "1d4c7633020e592b3f33928f58a0de1c477fe821aeaf9b6b7f339b1b23b26e57"
+    },
+    {
+      "from": "docs/phase2/foundation/x3-scene-entry-migration-audit.md",
+      "to": "docs/phase2/archive/audits/x3-scene-entry-migration-audit.md",
+      "kind": "historical",
+      "sha256": "0bdd9f2df99e4217c1b0ff4f18740e7c8ccf3a8090d384029100e0af3d7f5129"
+    },
+    {
+      "from": "docs/phase2/menu/README.md",
+      "to": "docs/phase2/archive/plans/README.md",
+      "kind": "historical",
+      "sha256": "ce664d50f2ee854da107b566fae77dbef7585fab03255710ceaa70e7bc92ee09"
+    },
+    {
+      "from": "docs/phase2/menu/cash-box-plan.md",
+      "to": "docs/phase2/archive/plans/cash-box-plan.md",
+      "kind": "historical",
+      "sha256": "006f4a3a370e9bdda19b8c32cec23a9db8b293b6033a6196ed4f4b31c4e2d3c5"
+    },
+    {
+      "from": "docs/phase2/menu/design.md",
+      "to": "docs/phase2/archive/designs/menu-design.md",
+      "kind": "historical",
+      "sha256": "b9fa9112f9b253e2113d24964f9a1b1865cc8195459c41bc3c92521984793fd1"
+    },
+    {
+      "from": "docs/phase2/menu/equip-menu-plan.md",
+      "to": "docs/phase2/archive/plans/equip-menu-plan.md",
+      "kind": "historical",
+      "sha256": "b82cd15c1d74b21e392049ec515922ed02e039d89afd107b32d9c9b25de9bf2e"
+    },
+    {
+      "from": "docs/phase2/menu/magic-menu-plan.md",
+      "to": "docs/phase2/archive/plans/magic-menu-plan.md",
+      "kind": "historical",
+      "sha256": "bd58466be56b09ab06f741fed91d6c99a2711178fce3e012ecb868db09cede68"
+    },
+    {
+      "from": "docs/phase2/menu/plan.md",
+      "to": "docs/phase2/archive/plans/menu-plan.md",
+      "kind": "historical",
+      "sha256": "0280f8a0968f8f116a1cbcc11f77c8463573a5aa0e4f9fd7efccf9602d734d77"
+    },
+    {
+      "from": "docs/phase2/menu/status-page-plan.md",
+      "to": "docs/phase2/archive/plans/status-page-plan.md",
+      "kind": "historical",
+      "sha256": "e4b5d8e4daf0360929fd60806df05283f086aab3bd87f5d402b28d1a767ea1e0"
+    },
+    {
+      "from": "docs/phase2/menu/system-menu-plan.md",
+      "to": "docs/phase2/archive/plans/system-menu-plan.md",
+      "kind": "historical",
+      "sha256": "2ed50ff776660e38e5e177f655772f199c6a7025c360d33a19dd24e37463ba43"
+    },
+    {
+      "from": "docs/phase2/menu/use-menu-plan.md",
+      "to": "docs/phase2/archive/plans/use-menu-plan.md",
+      "kind": "historical",
+      "sha256": "021b31d9bfb164baddf4fdba3a510de9a1392f0507916af2d77abd589adaccbe"
+    },
+    {
+      "from": "docs/phase2/migrate/README.md",
+      "to": "docs/phase2/archive/audits/README.md",
+      "kind": "historical",
+      "sha256": "9a8d04e2ca80d5eec78ec1051a6f38e2ee6b161d6f16d2b20d5d0befba16838b"
+    },
+    {
+      "from": "docs/phase2/migrate/asset-pipeline.md",
+      "to": "docs/phase2/archive/designs/asset-pipeline.md",
+      "kind": "historical",
+      "sha256": "175c81ef1ea0917d946209573e59b6226955ce62911553c5eb78600909e5a605"
+    },
+    {
+      "from": "docs/phase2/poison-system-design.md",
+      "to": "docs/phase2/archive/designs/poison-system-design.md",
+      "kind": "historical",
+      "sha256": "a31f1b80c4f690f3dc6edb41788c4f228bcd013a0b02948bf8ad2f2eafda085c"
+    },
+    {
+      "from": "docs/phase2/roadmap.md",
+      "to": "docs/phase2/roadmap.md",
+      "kind": "in-place",
+      "sha256": "cf5a41f85b0be744ffe523e4233792b35542e4a7c2b8cbbf126200892e796271"
+    },
+    {
+      "from": "docs/phase2/slice1-indoor/README.md",
+      "to": "docs/phase2/archive/slices/indoor/README.md",
+      "kind": "historical",
+      "sha256": "65ef541ac489aeddc5635d507e1dbb876350ddd072ed1a487c8e0e2e125d356b"
+    },
+    {
+      "from": "docs/phase2/slice1-indoor/guijie-minju.md",
+      "to": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "kind": "historical",
+      "sha256": "86907c649e94c19b0b771eed05a9a99fe3fb99804a370d69663fb05eaddc9248"
+    },
+    {
+      "from": "docs/phase2/slice1-indoor/npc-collision-plan.md",
+      "to": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "kind": "historical",
+      "sha256": "98a06df324c36b8ba6b6f36e2559638ee429b344997ccc5110b18450c4b57b85"
+    },
+    {
+      "from": "docs/phase2/slice1-indoor/plan.md",
+      "to": "docs/phase2/archive/slices/indoor/plan.md",
+      "kind": "historical",
+      "sha256": "a8a793422dde2d02307a038671bdf34a26c278f0020e63717cd73efddb956e45"
+    },
+    {
+      "from": "docs/phase2/slice1-indoor/spec.md",
+      "to": "docs/phase2/archive/slices/indoor/spec.md",
+      "kind": "historical",
+      "sha256": "f8fb8cd9874898774cd473e1f6a8656b671309c7d09d1c65664c36a4b961df73"
+    },
+    {
+      "from": "docs/phase2/slice1-indoor/verify-npc-collision/01-collide-and-talk.png",
+      "to": "docs/phase2/archive/slices/indoor/verify-npc-collision/01-collide-and-talk.png",
+      "kind": "attachment",
+      "sha256": "572043b4d6aa12d3b459e99aaae17a3c4cd3f77eeaaeeef24cdcc7f5d346d971"
+    },
+    {
+      "from": "docs/phase2/slice1-indoor/verify-npc-collision/02-collision-debug.png",
+      "to": "docs/phase2/archive/slices/indoor/verify-npc-collision/02-collision-debug.png",
+      "kind": "attachment",
+      "sha256": "0bfd4bd1971c150116b7aaf1ec49f316b5dd363a5b4419490a7146acc3076510"
+    },
+    {
+      "from": "docs/phase3/README.md",
+      "to": "docs/phase3/README.md",
+      "kind": "index",
+      "sha256": "c1b6a9d130f10a8f568d629543f21aa6dabef154d3c6bfe3dd92f0b2bd720aac"
+    },
+    {
+      "from": "docs/phase3/future-gameplay-and-mmo-backlog.md",
+      "to": "docs/phase3/backlog.md",
+      "kind": "in-place",
+      "sha256": "0e8159f9ff66ac5f88bfc0d5529304b0fd611f18e2b56f59b9f639842d75a68b"
+    },
+    {
+      "from": "packages/content/README.md",
+      "to": "packages/content/README.md",
+      "kind": "index",
+      "sha256": "6ea510b4673853cf5698f7e2b471fee9ae2bbddc79ba3052dc6ca0de19295c22"
+    },
+    {
+      "from": "packages/editor/README.md",
+      "to": "packages/editor/README.md",
+      "kind": "index",
+      "sha256": "3e08c48bb807f31809436559531fc09450c8153f51cf36edee298cf358f155d8"
+    },
+    {
+      "from": "packages/game/README.md",
+      "to": "packages/game/README.md",
+      "kind": "index",
+      "sha256": "4771478b5076e708c4263cba0e83a17d0fbdaf306e1ef9e2e553ed9e0d59ef12"
+    },
+    {
+      "from": "packages/migrate/README.md",
+      "to": "packages/migrate/README.md",
+      "kind": "index",
+      "sha256": "d84e07bb19fc4fbeb898c378bf9b210c3e9ecd8cb389417e6d34f773fb15be42"
+    },
+    {
+      "from": "packages/pal-extract/README.md",
+      "to": "packages/pal-extract/README.md",
+      "kind": "index",
+      "sha256": "ef3fc9f781bbe58504e5bce6b8736162f894ad254b82fce645bb708a5205b3b2"
+    },
+    {
+      "from": "packages/reforge/README.md",
+      "to": "packages/reforge/README.md",
+      "kind": "index",
+      "sha256": "7bd4404051a5868012e7330f3e26fb4c53e04ca8855d1b5aa7cb0ac240a9a2b1"
+    },
+    {
+      "from": "packages/reforge/src/engine-chrome/assets/PROVENANCE.md",
+      "to": "packages/reforge/src/engine-chrome/assets/PROVENANCE.md",
+      "kind": "in-place",
+      "sha256": "68711d275b8d859481256bca959601470d85569455fe890a54392f8f4bad8cc1"
+    },
+    {
+      "from": "packages/shared/README.md",
+      "to": "packages/shared/README.md",
+      "kind": "index",
+      "sha256": "41012ce36f3183d1994950bd2c665e35d96498933afac2cd597a2079b374f89e"
+    },
+    {
+      "from": "projects/e2e-own/README.md",
+      "to": "projects/e2e-own/README.md",
+      "kind": "index",
+      "sha256": "ace50782749b946700aaf5df0b178d3c468d9c488c8282e73dd4fbc7d0692fe0"
+    },
+    {
+      "from": "projects/pal/e2e-checkpoints/README.md",
+      "to": "projects/pal/e2e-checkpoints/README.md",
+      "kind": "index",
+      "sha256": "99ef5aeff0705a1179dd23c7fc63abaaeca20e35a1aa55c59e84797fe12437ea"
+    },
+    {
+      "from": "reference/README.md",
+      "to": "reference/README.md",
+      "kind": "index",
+      "sha256": "6b9f39351d447fed7648e6dfcf0fec2762a3226e45568e3605a8de86f10745ba"
+    },
+    {
+      "from": "biome.json",
+      "to": "biome.json",
+      "kind": "document-path-consumer",
+      "sha256": "1a4a46e1f63a4b3cad5ed7c0d1d05b6262f51fb64bdc7fddc4d51313b9e6b522"
+    },
+    {
+      "from": "packages/content/src/actor.ts",
+      "to": "packages/content/src/actor.ts",
+      "kind": "document-path-consumer",
+      "sha256": "57005ba976ec8861717ac5f77cc7583fd290e8981659220f9066a9d2a1fbf381"
+    },
+    {
+      "from": "packages/content/src/ambience.ts",
+      "to": "packages/content/src/ambience.ts",
+      "kind": "document-path-consumer",
+      "sha256": "4f5595cdcb4f485f5dd47ef5283516555cc14cd313f9417995945b376a3588df"
+    },
+    {
+      "from": "packages/content/src/index.ts",
+      "to": "packages/content/src/index.ts",
+      "kind": "document-path-consumer",
+      "sha256": "3492dffe1d8df767ff9a327adce448fbc059b8226f922ac71954aec8d5b5d706"
+    },
+    {
+      "from": "packages/content/src/item.ts",
+      "to": "packages/content/src/item.ts",
+      "kind": "document-path-consumer",
+      "sha256": "bca4ec8f76041dc2cc90e9f235e8074f6528756b3fd9b799fb77e00dfb497692"
+    },
+    {
+      "from": "packages/content/src/poison.ts",
+      "to": "packages/content/src/poison.ts",
+      "kind": "document-path-consumer",
+      "sha256": "fb27f5785027d86ad99f955c316a18075debe0efd5a9fe2570adfde53716402d"
+    },
+    {
+      "from": "packages/content/src/script.ts",
+      "to": "packages/content/src/script.ts",
+      "kind": "document-path-consumer",
+      "sha256": "e4bd41fe6b8e0c5e80c6be328c3d17e2e7f5bfbb65f81670f0d025801f5616f7"
+    },
+    {
+      "from": "packages/content/src/skill.ts",
+      "to": "packages/content/src/skill.ts",
+      "kind": "document-path-consumer",
+      "sha256": "2fe0cd7a1c07db07a2e29011f351a283989582f3d144702de101bdcf39d0480d"
+    },
+    {
+      "from": "packages/content/src/sprite.ts",
+      "to": "packages/content/src/sprite.ts",
+      "kind": "document-path-consumer",
+      "sha256": "4f26385abce1e98af5c8fba1f7d2724dff4d940d07a0c67ee85e01f7ff395c98"
+    },
+    {
+      "from": "packages/content/src/validate-refs.ts",
+      "to": "packages/content/src/validate-refs.ts",
+      "kind": "document-path-consumer",
+      "sha256": "498f2b25244778195a767740a8e74ccfbf32f36c02c37d01045f3ac69a1f78aa"
+    },
+    {
+      "from": "packages/editor/src/core/commands.ts",
+      "to": "packages/editor/src/core/commands.ts",
+      "kind": "document-path-consumer",
+      "sha256": "356c755ac9820b7bd3ef2511c8ddc4baa41504f4958e03cc1aa462b341cfe49a"
+    },
+    {
+      "from": "packages/editor/src/core/edit-session.ts",
+      "to": "packages/editor/src/core/edit-session.ts",
+      "kind": "document-path-consumer",
+      "sha256": "10d20f9db3b6b5c60bcc06681ba24ccdcd265c8b80b5984cf7c29a6e04842ec3"
+    },
+    {
+      "from": "packages/editor/src/core/project-io.ts",
+      "to": "packages/editor/src/core/project-io.ts",
+      "kind": "document-path-consumer",
+      "sha256": "ecfeaac5f7aa6d013f12f3b46975e92cd9bfe5fddd5f42ed1b8ca856cdecec97"
+    },
+    {
+      "from": "packages/editor/src/ui/App.tsx",
+      "to": "packages/editor/src/ui/App.tsx",
+      "kind": "document-path-consumer",
+      "sha256": "4e541aee604eae5f610000636e17b58797cf451be375024d1289f47172e2d1d7"
+    },
+    {
+      "from": "packages/editor/src/ui/EnemyTab.tsx",
+      "to": "packages/editor/src/ui/EnemyTab.tsx",
+      "kind": "document-path-consumer",
+      "sha256": "e00703f7fbd3e15ad8ebc42a772a7baa8e6a2baae58589b039f14a0acfc39ba3"
+    },
+    {
+      "from": "packages/editor/src/ui/design-system/adoption.test.ts",
+      "to": "packages/editor/src/ui/design-system/adoption.test.ts",
+      "kind": "document-path-consumer",
+      "sha256": "d8b03127645b5bbdc165070dbcc69acfe510f158396fd8f30b871737ac31eb78"
+    },
+    {
+      "from": "packages/editor/src/ui/design-system/boundary.test.ts",
+      "to": "packages/editor/src/ui/design-system/boundary.test.ts",
+      "kind": "document-path-consumer",
+      "sha256": "23f9be784912d0f6e63f86f1af67ccdd41768410c0377ed82a50d5187c4e4c14"
+    },
+    {
+      "from": "packages/migrate/src/migrate-content.ts",
+      "to": "packages/migrate/src/migrate-content.ts",
+      "kind": "document-path-consumer",
+      "sha256": "14fa6653402e1cebd75d1dc9c638a69b66e87b86c7890d42dd73ba2f401adf9c"
+    },
+    {
+      "from": "packages/migrate/src/translate-events.ts",
+      "to": "packages/migrate/src/translate-events.ts",
+      "kind": "document-path-consumer",
+      "sha256": "51fac46815a1436e913c35261aacf65ce275f1d56069caea41ef51162eb630d5"
+    },
+    {
+      "from": "packages/reforge/src/assets.ts",
+      "to": "packages/reforge/src/assets.ts",
+      "kind": "document-path-consumer",
+      "sha256": "a215e16e2715243f9a7fe8ae37c5a25776ae26a3c89c110556305786f5b218f0"
+    },
+    {
+      "from": "packages/reforge/src/debug-tools.ts",
+      "to": "packages/reforge/src/debug-tools.ts",
+      "kind": "document-path-consumer",
+      "sha256": "b8ec9d4ad16531a4995ae71e9c572d94a655d81f8bf9a04d49a2582d9723d1c3"
+    },
+    {
+      "from": "packages/reforge/src/index.ts",
+      "to": "packages/reforge/src/index.ts",
+      "kind": "document-path-consumer",
+      "sha256": "5405e7114f5ede87c4db77fbd19c4be40257fbf724d3f3c86cab6ef4dee669a6"
+    },
+    {
+      "from": "packages/reforge/src/main.ts",
+      "to": "packages/reforge/src/main.ts",
+      "kind": "document-path-consumer",
+      "sha256": "6e6cafa1bfbdffcb54d337f10f2cb623d59d38a9f0eeb049c019b7f82a4f2c3d"
+    },
+    {
+      "from": "packages/reforge/src/menu/magic-box.ts",
+      "to": "packages/reforge/src/menu/magic-box.ts",
+      "kind": "document-path-consumer",
+      "sha256": "e3a0b1bbc6213bbe490260f5e9f2c8d2b4687193c0241a69560ce4eec2990bfc"
+    }
+  ]
+}

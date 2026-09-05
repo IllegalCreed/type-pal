@@ -1,5 +1,5 @@
 /**
- * 精灵注册表(B0 起) + 帧布局模型(C0,见 docs/phase2/foundation/actor-model-design.md §3)。
+ * 精灵注册表(B0 起) + 帧布局模型(C0,见 docs/phase2/archive/designs/actor-model-design.md §3)。
  *
  * `SpriteDef` = 一张大世界精灵图(sheet)的领域登记:语义 id → AssetId + 人读标签 + **帧布局**。
  * 布局挂在精灵表(描述"那张图的结构"),不挂角色——原版把 nSpriteFrames 放 per-object

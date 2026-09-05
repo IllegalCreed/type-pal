@@ -16,7 +16,7 @@
       "!**/pnpm-lock.yaml",
       "!**/*.min.js",
       "!**/public",
-      "!docs/phase2/editor/mockups",
+      "!docs/phase2/archive/mockups",
       "!.qoder",
       "!packages/game/src/dev/fixtures",
       "!packages/migrate/baselines",

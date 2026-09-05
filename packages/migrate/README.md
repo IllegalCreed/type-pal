@@ -55,4 +55,4 @@ journal 前停止。`--write` 前还会做 baseline / project TOCTOU 复核；�
 - `migrate` 只做离线转换/安全重导：运行时逻辑归 `reforge`，数据模型归 `content`，编辑器归
   `editor`。
 
-资产烘焙细节见 [asset-pipeline.md](../../docs/phase2/migrate/asset-pipeline.md)。
+资产烘焙细节见 [asset-pipeline.md](../../docs/phase2/guides/content-publication.md)。

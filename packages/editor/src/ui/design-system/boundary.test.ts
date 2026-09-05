@@ -385,7 +385,7 @@ describe('editor design-system static boundary', () => {
     const designLab = readFileSync(join(here, '../../design-lab/DesignLab.tsx'), 'utf8')
     const designLabCss = readFileSync(join(here, '../../design-lab/design-lab.css'), 'utf8')
     const specification = readFileSync(
-      join(here, '../../../../../docs/phase2/editor/editor-design-system-v1.md'),
+      join(here, '../../../../../docs/phase2/specs/editor-design-system.md'),
       'utf8',
     )
     const root = cssRuleBodies(recipes, '.ds-action-group')
@@ -646,7 +646,7 @@ describe('editor design-system static boundary', () => {
     const businessCss = readFileSync(join(here, '..', 'editor.css'), 'utf8')
     const adoption = JSON.parse(readFileSync(join(here, 'design-system-adoption.json'), 'utf8'))
     const specification = readFileSync(
-      join(here, '../../../../../docs/phase2/editor/editor-design-system-v1.md'),
+      join(here, '../../../../../docs/phase2/specs/editor-design-system.md'),
       'utf8',
     )
 
@@ -796,7 +796,7 @@ describe('editor design-system static boundary', () => {
     const scriptEditor = readFileSync(join(uiRoot, 'ScriptEditor.tsx'), 'utf8')
     const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
     const specification = readFileSync(
-      join(here, '../../../../../docs/phase2/editor/editor-design-system-v1.md'),
+      join(here, '../../../../../docs/phase2/specs/editor-design-system.md'),
       'utf8',
     )
 

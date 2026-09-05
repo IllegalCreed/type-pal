@@ -2,12 +2,13 @@
 
 “三贤人系统”是本项目的多 Agent 协作机制。任务卡是这套机制的持久交接记录。
 
-不可逆/高风险任务在本目录下放一张完整任务卡。中等任务可用轻量任务卡。小改可以不建卡,但提交说明或最终回复必须写清验证结果。
+本目录只放活动任务与总索引。不可逆/高风险任务使用完整模板，常规任务按既定流程选择是否开卡。
+终态卡归入 [历史任务](../archive/tasks/README.md)，模板在 [templates](../templates/README.md)。
 
 新建任务时:
 
-1. 不可逆/高风险任务复制 [`TASK-template.md`](TASK-template.md)。
-2. 中等任务复制 [`TASK-lite-template.md`](TASK-lite-template.md)。
+1. 不可逆/高风险任务复制 [`TASK-template.md`](../templates/TASK-template.md)。
+2. 中等任务复制 [`TASK-lite-template.md`](../templates/TASK-lite-template.md)。
 3. 先完成“前提真值门”,再写详细方案。高风险/用户可见行为任务必须对照原版/primary source、第一阶段、
    当前二阶段和目标,逐项附 `file:line` 或一手证据;关键前提未知时保持 `blocked`。
 4. 如任务正在进行或阻塞,在 [`../board.md`](../board.md) 增加一行。
@@ -49,7 +50,7 @@
 ## 目录状态与阅读须知（2026-09-06 增）
 
 - **活动任务只以 [`../board.md`](../board.md) 为准**——本目录不做活动/终态的手工二次索引。
-- 截至 2026-09-06，本目录 130+ 张卡绝大多数已 `done` / `cancelled`：它们是**历史交接记录**，
+- `done` / `cancelled` 卡已移入历史任务目录：它们是**历史交接记录**，
   卡内的「当前状态 build/review」「下一位 Agent 提示词」「pending 签字」等文字是**写作当时
   的快照**，顶部 `Status:` 行覆盖正文局部状态——局部搜索命中旧状态时以顶部终态为准。
 - 5 张早期终态卡保留原来的 `> **状态**：` 标签；检查器按确切文件名单识别它们，

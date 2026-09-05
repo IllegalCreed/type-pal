@@ -3,21 +3,12 @@
 export const currentSections = [
   { file: 'packages/content/README.md' },
   { file: 'packages/migrate/README.md', end: /^## 当前发布模型/m },
-  { file: 'docs/phase2/editor/shared-script-author-guide.md' },
-  { file: 'docs/phase2/foundation/script-system-design.md', end: /^## 历史/m },
-  { file: 'docs/phase2/foundation/content-schema.md', end: /^## 0\./m },
-  { file: 'docs/phase2/foundation/save-system-design.md', end: /^## 0\.|^## 1\.|^## 历史/m },
-  { file: 'docs/phase2/migrate/asset-pipeline.md', end: /^## 1\./m },
-  {
-    file: 'docs/phase2/editor/project-lifecycle-design.md',
-    start: /^## 19\./m,
-    end: /^## 20\./m,
-  },
-  {
-    file: 'docs/phase2/editor/editor-design.md',
-    start: /^### 5\.6\b/m,
-    end: /^### 5\.7\b/m,
-  },
+  { file: 'docs/phase2/guides/shared-script-author-guide.md' },
+  { file: 'docs/phase2/specs/script-system.md' },
+  { file: 'docs/phase2/specs/content-schema.md' },
+  { file: 'docs/phase2/specs/save-system.md' },
+  { file: 'docs/phase2/specs/project-lifecycle.md' },
+  { file: 'docs/phase2/specs/editor-architecture.md' },
 ]
 
 // Existing closed cards keep their original top-level spelling. New cards use

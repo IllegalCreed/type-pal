@@ -1,5 +1,5 @@
 /**
- * 统一角色定义(C0;设计 docs/phase2/foundation/actor-model-design.md)。
+ * 统一角色定义(C0;设计 docs/phase2/archive/designs/actor-model-design.md)。
  *
  * ActorDef:NPC 与可入队角色**同一类型**(用户拍板)——名字/头像/精灵一处定义,处处引用。
  * 可战斗/可入队的多带 `battler` 块(普通村民 NPC 不带)。
