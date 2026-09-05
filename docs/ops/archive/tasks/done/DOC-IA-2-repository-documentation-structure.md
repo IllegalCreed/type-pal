@@ -1,6 +1,6 @@
 # DOC-IA-2 - 全仓文档信息架构整理
 
-Status: review
+Status: done
 Owner: Codex
 Phase: ops
 Capability: ops（文档职责与引用，不改变能力状态）
@@ -35,7 +35,7 @@ DOC-GOV-1 已完成纠错与门禁，本卡处理它有意未做的物理归类�
 
 ## 验证与回执
 
-本地整理与验证完成，等待远端 CI 收口。
+整理、验证与远端 CI 已完成，Codex 按本轮用户授权验收收口。
 
 - 全量映射登记 419 个文件；最终保留并重定位 261 个文件，九张退役图片按用户意见退出工作树。
 - 第二阶段顶层收敛为六份方针/入口，下面只有 specs / guides / reference / archive；混合合同已提取为
@@ -49,10 +49,13 @@ DOC-GOV-1 已完成纠错与门禁，本卡处理它有意未做的物理归类�
 - `pnpm check:docs` 与工具反例测试 20/20 通过；读取设计规范的 boundary/adoption 测试 83/83 通过。
 - 七包 typecheck 通过；`coverage:fast` 608 个生产文件 / 5,675 项测试通过，四项精确计数与原基线相同。
   未降低覆盖门槛，未改当前内容工程和迁移 baseline；既有 lint 债仍在后续 E-06 范围。
-- [保真与清理回执](../archive/evidence/DOC-IA-2/preservation-report.json) 区分保存、迁移和退役附件；
-  [原始映射](../archive/evidence/DOC-IA-2/relocation.json) 与补充映射只作本轮历史记录，不作为未来自动任务。
+- [保真与清理回执](../../evidence/DOC-IA-2/preservation-report.json) 区分保存、迁移和退役附件；
+  [原始映射](../../evidence/DOC-IA-2/relocation.json) 与补充映射只作本轮历史记录，不作为未来自动任务。
 - 首轮远端 Documentation 检查发现生成索引误收录本机 `.DS_Store`。已移除该项，并将链接目标校验
   收紧为“磁盘存在 + Git 可检出范围”，补充反例防止本机元文件/忽略产物制造假绿；重新推送验证。
+- 最终实现候选 `e550c4e5` 的 [Documentation CI](https://github.com/IllegalCreed/type-pal/actions/runs/33988223981)
+  与 [Coverage CI](https://github.com/IllegalCreed/type-pal/actions/runs/33988223958) 均 success。
+  本卡完成后按新目录规则归档；历史任务和审查不重开，不要求用户重复技术验收。
 
 ### 用户追加清理（2026-09-06）
 
@@ -68,7 +71,8 @@ DOC-GOV-1 已完成纠错与门禁，本卡处理它有意未做的物理归类�
 ## 交接
 
 - 2026-09-06 Codex：用户授权全仓整理，先登记明确映射再执行；不依赖用户重复确认目录细节。
+- 2026-09-06 Codex：全仓职责归类、现行规范提取、旧图片清理、引用与保真验证完成；远端两项 CI 通过，accept/done。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；Codex 完成整理、验证与收口。
+无下一位 Agent 提示词；本轮已完成收口。

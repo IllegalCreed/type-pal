@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [DOC-IA-2 - 全仓文档信息架构整理](DOC-IA-2-repository-documentation-structure.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -47,6 +46,7 @@
 | [D15-1 - NPC 移动补全：动态碰撞 + 互相让路 + 转向动画（议题 15）](../archive/tasks/done/D15-1-npc-movement-dynamic-collision.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D6-1 - 遮挡半透明（方案 A，议题 6）](../archive/tasks/done/D6-1-occlusion-semi-transparent.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOC-GOV-1 - 文档审计整改与自动检查](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [DOC-IA-2 - 全仓文档信息架构整理](../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E18-1 - 编辑器角色战斗字段（coveredBy / casualty / cooperativeMagic）](../archive/tasks/done/E18-1-editor-actor-battle-fields.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2 - 巡逻模板(轻量卡)](../archive/tasks/done/E2-patrol-templates.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-1 - 空白工程可玩性:烟测缝隙全清](../archive/tasks/done/E2E-1-blank-project-playable.md) | done | 完成证据、历史签字与交接见原卡。 |

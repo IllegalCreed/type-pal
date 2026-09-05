@@ -1,7 +1,7 @@
 # 文档维护与自动检查
 
 维护者：当前 Coding Owner。纠错门禁见 [DOC-GOV-1](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)，
-全仓结构整理见 [DOC-IA-2](../tasks/DOC-IA-2-repository-documentation-structure.md)。
+全仓结构整理见 [DOC-IA-2](../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md)。
 本轮依据 [文档审计](../archive/audits/documentation-2026-09-06.md) 修正信息与导航；产品缺陷仍由
 [代码审计台账](../audits/pre-e2e/summary.md) 及后续修复任务追踪。
 
