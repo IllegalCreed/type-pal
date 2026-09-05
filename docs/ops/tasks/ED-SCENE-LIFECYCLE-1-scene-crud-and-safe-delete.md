@@ -476,11 +476,56 @@ Branch: main
   ED-3 安全删除、场景 UI/试玩及全部硬门。PAL 294-scene differential、s108 6,897 self 删除 scope、FSA
   中断安全、54/418 migrate、192/1,738 editor、双 dry-run zero-plan 与 1280×720 实机均通过。Next:
   提交实现候选后钉 revision 并行交 Kimi/GLM 终审；两席签字前不得标记 done。
+- 2026-09-05 Codex: 实现、自验证、content20 数据与 review 状态已提交推送为 `f0e7b2b9`；两席终审均
+  钉该候选，直接写自己的 done 前签字与交接日志。Next: Kimi/GLM 并行终审；Codex 齐签后统一收口。
 
 ## 下一位 Agent 提示词
 
-以下 build 前两份并行提示词已由 Kimi/GLM 完成，不要重复转发。实现终审提示词将在候选提交后钉定同一
-revision；两席只读审查并直接写自己的 review 签字与交接日志，不得修改实现、任务状态或 done 结论。
+### 给 Kimi（并行终审，架构 / schema / transaction / UI）
+
+> 你是三贤人系统中的 Kimi。请对任务卡
+> `docs/ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md` 做进入 done 前的独立终审。
+> 实现候选固定为 `f0e7b2b9`，任务状态为 `review`。不得修改实现文件、任务状态、看板或 done 准入结论；
+> 不要读取或复述 GLM 的结论。
+>
+> 先完整阅读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、本任务卡、候选完整 diff、
+> `docs/ops/tasks/ED-3-project-reference-index.md`、content schema/editor/project/save 文档。必须直接读取
+> 一手代码并自行复跑必要命令，逐项核验：SceneIndex 是唯一目录真值，SceneDef 无 name；loader/serializer/
+> clone 不从 id 推导正文 path；current-only content20 无 content19 parser/upgrader/fallback/string[] merge 残留；
+> create/copy/delete 的 main/script transaction、补偿、undo/redo 与 redo live blocker；typed copy rewrite 和
+> collector 同源、局部 id/外部目标不变；正文→SceneIndex→manifest→删除写序及中断只留 orphan；
+> DsListHeader/DsDialog/DsInspectorTabs/DsReferencePanel、所有场景选择器 name+SceneId、dirty trial 与
+> 1280×720 窄栏修复。重点复跑 scene lifecycle、project IO/workspace、App/DS gate、typecheck/build；检查
+> Kimi 设计期三项硬钉均有直接测试。写出可证伪观察和任何 P0/P1/P2 返工项。
+>
+> 结论只能是 `accept` 或明确 `counter/rework`。完成后先同步最新 `main`，只修改任务卡
+> “进入 done 前:审查签字”的 Kimi 行，并在交接日志追加一条 Kimi 记录；不得修改 Codex/GLM 行、
+> Review 汇总、用户验收或下一步。提交并 push `main`；遇并发 push 自行 rebase/retry，保留另一席内容。
+> 最终只报告结论、证据、返工项和提交号，不要让用户搬运正文。
+
+### 给 GLM（并行终审，数据 / migration / 测试矩阵）
+
+> 你是三贤人系统中的 GLM。请对任务卡
+> `docs/ops/tasks/ED-SCENE-LIFECYCLE-1-scene-crud-and-safe-delete.md` 做进入 done 前的独立终审。
+> 实现候选固定为 `f0e7b2b9`，任务状态为 `review`。不得修改实现文件、任务状态、看板或 done 准入结论；
+> 不要读取或复述 Kimi 的结论。
+>
+> 先完整阅读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、本任务卡、候选完整 diff、roadmap/capability/
+> E2E README、content/save/project 文档。必须独立复算并给出命令/计数/文件证据：三个 current manifest
+> 均 content20；PAL current/baseline SceneIndex 字节镜像、294 id/name/path/body 一一对应、名称唯一且稳定
+> 消歧；demo/e2e-own/blank/fixtures 全切换；publication 保留作者 name/path 且 raw-owned SceneId 不丢；
+> managed discovery 使用显式 path；最终树无旧 string[] parser/merge/upgrader/fallback。复跑 PAL 294-scene
+> copy differential（245 含 self、s108=6,897、top5）、s108 deletion scope、content/reforge/editor/migrate
+> 全量测试、双 migration dry-run zero-plan、current/baseline hash 与 production build/DS gate。逐项核对
+> GM-SL1~GM-SL5、首次保存/save-as/delete→save/save→undo→save/copy→save→undo→save/中断安全矩阵；
+> 检查文档版本顺序为 SceneIndex content20→R4 content20→N6b content21。写出可证伪观察和遗漏/返工项。
+>
+> 结论只能是 `accept` 或明确 `counter/rework`。完成后先同步最新 `main`，只修改任务卡
+> “进入 done 前:审查签字”的 GLM 行，并在交接日志追加一条 GLM 记录；不得修改 Codex/Kimi 行、
+> Review 汇总、用户验收或下一步。提交并 push `main`；遇并发 push 自行 rebase/retry，保留另一席内容。
+> 最终只报告结论、证据、返工项和提交号，不要让用户搬运正文。
+
+以下是已完成的 build 前历史提示词，不要重复转发。
 
 ### 给 Kimi（并行，架构 / schema / transaction 主审）
 
