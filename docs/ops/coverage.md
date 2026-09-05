@@ -92,6 +92,17 @@ Vitest 4.1.7 没有 `coverage.all`。只有显式 `coverage.include` 才会把�
 这说明测试数量很多不等于覆盖率已经高。近期补测收益最高的是 Reforge 的未触达运行路径，以及提取器的
 自包含 fast 单测；content 已是当前最高，但分支覆盖仍只有 71.45%，也不能直接宣布达到目标。
 
+## 门禁稳定性修复（2026-09-06）
+
+GLM 文档提交 `e1314089` 的 [CI](https://github.com/IllegalCreed/type-pal/actions/runs/33983303477)
+曾在 `StampTemplateDialog` 的关闭还焦点用例失败。直接证据是 `overlays.tsx` 的 `finishCycle` 使用
+`requestAnimationFrame` 恢复焦点，而原测试在卸载后立即断言；只改文档也能触发该时序问题。
+现已将该用例的动画帧时钟改成受控推进：先确认打开后焦点进入弹窗，关闭后推进下一帧，再断言返回触发按钮。
+测试结束恢复真实时钟；组件代码、断言目标与覆盖范围不变，不靠重试或跳过用例取得绿色。
+
+验证：相关 6 项测试通过；完整 `coverage:fast` 仍为 608 个生产文件、5,675 项测试，
+四项精确覆盖计数均与原基线相同，未降低或重写基线。
+
 ## 长期目标（本轮不硬卡）
 
 | 范围 | Lines / Statements / Functions | Branches |

@@ -122,6 +122,7 @@ beforeEach(() => {
 
 afterEach(async () => {
   await act(async () => root.unmount())
+  vi.useRealTimers()
   host.remove()
 })
 
@@ -281,6 +282,7 @@ describe('StampTemplateDialog', () => {
   })
 
   test('Esc 关闭 native dialog 并把焦点还给触发按钮', async () => {
+    vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })
     const { map, selection } = fixture()
     const session = new EditSession(state())
     function Harness() {
@@ -307,12 +309,16 @@ describe('StampTemplateDialog', () => {
     const trigger = button('打开')
     trigger.focus()
     await act(async () => trigger.click())
+    await act(async () => vi.advanceTimersToNextFrame())
+    expect(document.querySelector('dialog')!.contains(document.activeElement)).toBe(true)
     await act(async () =>
       document
         .querySelector('dialog')!
         .dispatchEvent(new Event('cancel', { bubbles: false, cancelable: true })),
     )
     expect(document.querySelector('dialog')).toBeNull()
+    // DsDialog restores focus on the next frame, after React removes the dialog.
+    await act(async () => vi.advanceTimersToNextFrame())
     expect(document.activeElement).toBe(trigger)
   })
 })
