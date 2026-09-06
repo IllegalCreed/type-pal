@@ -13,7 +13,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | SAVE-ISOLATION-1 | 工程与工作区存档隔离 | blocked | User：确认同工程不同工作区的试玩存档是否独立 | [任务卡](tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)；A-01 已复现，未开始实现。 |
-| TEST-COVERAGE-DETERMINISM-1 | 编辑器覆盖率计数确定性 | review | Codex：独立复核实现候选；通过后 Kimi 终审 | [任务卡](tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)；GLM 已交白名单候选（24/5,762，三轮诊断恒定），r1 不重签，不得标 done。 |
+| TEST-COVERAGE-DETERMINISM-1 | 编辑器覆盖率计数确定性 | review | Kimi：独立终审；GLM：补本人自测签字 | [任务卡](tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)；7c447c38 已获 Codex accept，指定门禁与独立单点负控制通过；两席完成后由 Codex 汇总。 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)

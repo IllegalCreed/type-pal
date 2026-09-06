@@ -106,6 +106,45 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
 
 ## Build / Review
 
+### Codex 独立实现复核（2026-09-06，候选 `7c447c38`）
+
+**结论：accept，无阻断/返工项。** 对比 `4bc8a3b3`；接手 HEAD `9c6073a2` 与 origin/main 同步、
+工作树干净，其相对候选 packages/ scripts/ 零 diff。r1 不重签、不标 done。
+
+- 实现面仅测试 +94 行与生成基线。内存删除新增块后，测试文件与基线 **逐字节相同**；既有 23 项断言、
+  fixture/钩子未改。生产组件、全局配置、超时/排除规则、两份旧覆盖率诊断探针均零 diff。
+- 新回归 :860–949 使用正常 Harness / 默认 autoScroll，有效 move 只排队一帧；先出队再执行，
+  :907–922 钉住零滚动、零提交、拖动仍有效；:925–935 钉住正确 a→c intent 恰一次。
+  cancel 从 Map 删除，finally 清队列并按描述符恢复 RAF；DOM/指针桩由现有 afterEach 回收。
+  未使用同步 RAF、sleep、autoScroll=false 或绕开真实回调获得覆盖。
+- **独立负控制**：未读取/复用 GLM 的临时 config，另以 TypeScript AST 在 `runAutoScroll` 回调顶层
+  定位唯一 `if (!selected) return`，仅删除该 **21 字符**语句（:730），其余原文保留。
+  完整实现同配置/同过滤 exit 0；移除后仅新回归失败 exit 1，`selected.owner` TypeError 出现在 :732，
+  经新测试 :916 的帧回调触发。控制组源 hash 与磁盘一致；未改共享生产源码、stash 或扩大突变。
+- 基线只有 7 个叶值变化：generatedAt、总/包/文件测试数、该文件/包 identityDigest、executionDigest。
+  七包及全仓四项 covered/total、生产文件集合、include/exclude 均未变。本人未运行 ratchet 或修改基线；
+  严格报告与提交基线逐项一致，fast 总数为 **5,762**。
+- 另读 GLM 三轮报告，statements 23,456 / branches 18,169 与其回执一致；这不冒称本人跑了三轮。
+  本人实际复跑如下，全部串行，无重试取多数：
+
+| 检查 | 本人结果 |
+|---|---|
+| 定向原配置 | 24/24，exit 0 |
+| 单点负控制 / 完整实现控制 | exit 1（上述 TypeError）/ exit 0；各只选择新回归，其他 23 项为过滤跳过 |
+| editor typecheck | exit 0 |
+| 完整 pnpm check | exit 0；539 个 Vitest 文件 / 6,247 项；lint 0 error，50 warnings / 11 infos 既有 |
+| 一次独立 editor fast 范围检查 | 213 生产文件 / 1,601 项全绿；statements 23,456/31,407，branches 18,169/27,329，functions 5,907/8,030，lines 21,199/27,409 |
+| 单次严格 coverage:fast | exit 0；609 生产文件 / 5,762 项；所有包/全仓精确基线一致，无回退 |
+
+本机临时证据：`/tmp/type-pal-cov-det-review.Iw6R9V/` 的 `provenance.json`、`commands.json`、
+`mutation.config.mts`、`control-ast-proof.json` / `remove-ast-proof.json`、`reorder.mutant.tsx`、
+`control.log` / `mutant.log`、`target.json`、`check.log`、`editor-tests.json`、`editor-coverage/`、
+`coverage-fast.log`。临时目录不承诺长期留存，候选/方法/计数以本节和 Git 为持久记录。
+
+旧版本兼容审查：**pass**，未新增版本分支/旧 fixture/兼容 fallback。视觉 **N/A**，生产/UI 行为不变。
+旧探针未改未跑，不要求修复后保持旧 23 项/+1 条件；只确认本卡已知缺口有确定性回归，不宣称所有潜在
+editor 不确定性都已消失。SAVE-ISOLATION-1 产品待决不在本次审查授权内。
+
 ### GLM 实现回执（Coding Owner 自测，2026-09-06，候选 `7c447c38`）
 
 **改动（白名单两文件）：** `packages/editor/src/ui/design-system/reorder.test.tsx` **+94**——仅在既有
@@ -206,7 +245,12 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
   用户缺签豁免：无；**build 准入：allowed（Codex，2026-09-06）**。
   已核 `0013b09f` 与 `d9fa4750` 两席签字均对应 r1、无 counter；相对产品基线 `2ac4a9de`
   packages/ scripts/ pnpm-lock.yaml 零 diff。GLM 为唯一 Coding Owner，只执行 r1 文件白名单。
-- done：Codex pending / Kimi pending / GLM pending；done 准入：blocked。
+- done：
+  - Codex：**accept（2026-09-06，独立复核 `7c447c38` 对比 `4bc8a3b3`）**。
+    白名单、旧断言保留、独立 AST 单点负控制与全部指定门禁通过，详见本人复核；无返工项，不代签。
+  - Kimi：pending（独立终审）。
+  - GLM：pending（待本人实现者自测最终签字，既有回执不由 Codex 代填为 accept；无需重签设计）。
+  - done 准入：blocked，待两席本人落盘；无缺签豁免，任务保持 review。
 
 ## Build 交接澄清（Codex，2026-09-06，不修改 r1 方案）
 
@@ -226,6 +270,13 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 
 ## 交接
 
+- 2026-09-06 Codex（独立实现复核）：同步 `9c6073a2`，核 `4bc8a3b3 → 7c447c38` 白名单两文件，
+  删除新增块后旧测试逐字节恢复；独立 AST 仅删 :730 guard，控制绿/负控制 selected.owner TypeError 红。
+  定向 24、editor typecheck、完整 check 6,247、editor fast 1,601、单次严格七包 fast 5,762 按计划通过，
+  无回退/重试取多数；验证期间工作树/候选/基线不变。签本人 accept，不改 r1/他席签字、不标 done。
+  下一步 Kimi 独立终审；GLM 同时仅补本人最终自测签字，避免收口时再补一轮；两席均钉 `7c447c38`，
+  各写本人席位/日志并提交推送，Codex 汇总后才推进终态。
+  本次签字落盘后文档检查与 git diff --check 通过；仅修改本人复核/签字/日志/后继提示及看板下一步，任务保持 review。
 - 2026-09-06 GLM（Coding Owner）：完成白名单实现并提交候选（reorder.test.tsx +94 一条无容器受控帧
   回归 + ratchet 生成基线），转 review。负控制隔离加载仅删 :730 guard → 新回归 exit 1
   （selected.owner TypeError）；定向 24/24、editor typecheck、完整 check、三轮串行 editor fast 诊断
@@ -264,7 +315,27 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 
 ## 下一位 Agent 提示词
 
-### Codex：独立复核实现候选（当前有效）
+### Kimi：独立终审（当前有效）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 TEST-COVERAGE-DETERMINISM-1。
+任务卡：docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，review，r1 不重签；候选 7c447c38，对比 4bc8a3b3。Codex 已独立 accept。
+先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡方案/Build 澄清/实现回执与 Codex 复核。独立核源码和证据，不以另一席最终签字代替判断。
+重点核：仅新增单条 +94 行回归及生成基线，移除新增块后旧文件逐字节相同；有效拖动内真实排队/出队、无滚动/无提前提交、正确 drop 一次、finally 清理；基线仅测试清单相关 7 叶变化，精确指标/生产范围不变。
+复跑定向 24，并独立核仅删除 reorder.tsx:730 的 if (!selected) return 后新回归 exit 1（selected.owner TypeError）、完整实现 exit 0。Codex 独立 AST 配置与原始证据在 /tmp/type-pal-cov-det-review.Iw6R9V/，可自行重建。完整 check 6,247、editor fast 1,601、严格 fast 5,762 的新鲜日志可复核，无需无差别重复重型全量；异常保留失败核因，不取多数。旧探针不改，视觉 N/A，不重验 UI。
+在本人 done 席位写 accept 或 file:line counter，附直接证据与可证伪观察，更新本人日志并提交推送。只改本人席位/日志，不改产品/测试/基线/其他席位/任务状态，不标 done。GLM 并行补实现者自测签字，各自保留另一席已落改动，由 Codex 最终汇总。
+```
+
+### GLM：仅补本人最终自测签字（当前有效，可与 Kimi 并行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 为 TEST-COVERAGE-DETERMINISM-1 补本人最终自测签字。
+任务卡：docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，review，候选 7c447c38，r1 不重签。你是实现者，Codex 已独立 accept，Kimi 正在终审，本轮不是返工。
+先同步并检查工作树，读 AGENTS.md、本卡 r1 白名单/验收条件及你自己的实现回执，确认产品/测试与候选无漂移。仅根据本人已完成的实际验证在 GLM done 席位签 accept 或 counter，明确“实现者自测，非独立终审”，附候选/证据/未验项。不要读取或复述 Kimi 结论，不把 Codex 复跑当作你亲跑；不要求重复未变的测试或重签设计。
+只改本人签字块和本人日志，提交推送并保留 Kimi 已落改动。不改实现/基线/他席/任务状态，不标 done，完成交 Codex 汇总。SAVE-ISOLATION-1 不在范围内。
+```
+
+### Codex：独立复核实现候选（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 复核 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，状态 review，候选 7c447c38（对比 4bc8a3b3，r1 不重签）。
