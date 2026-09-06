@@ -144,13 +144,126 @@ Evidence Baseline: 5462d01a
   - premise: verified（2026-09-06）：真实 codec/main/follower 上述锚点与 B-04 八项探针复算一致；合法/取消/乱序控制通过。
   - design: agree（r1）：限定当前载荷边界与恢复入口；不切版本、不改数值/移动合同，不承诺任意提交后 rollback。
 - Kimi:
-  - premise: pending。
-  - design: pending。
-  - 独立一手证据 / 可证伪观察：pending。
+  - premise: verified（2026-09-06，基线 5462d01a；本人另核 `5462d01a..HEAD` 源码零 diff，探针即在基线上复算）。
+    独立直读：`current-codec.ts:59-111`（preflight 只验 header；normalize 克隆后仅验 script/awareness/
+    skillUseCounts/lifecycles，money/party/position 形状未验）、`main.ts:5692`（`candidate.party[0]`
+    在 :5702 try 外）、`main.ts:5723-5729`（同步提交序 abortScript→replaceWorld→commitSceneSwitch）、
+    `main.ts:1137-1143` + `follower.ts:51-57`（非法 facing 在 commit 内查 back 表得 undefined 抛 dcol）、
+    `scene-transition.ts:24-43`（不验 facing 枚举）、`main.ts:6730`（F9 `void quickLoad()` 无 catch）、
+    `main.ts:6904-6905`（e2e-load 与槽共路）、`types.ts:35-43`、`character.ts:16-50`/`:187`、
+    `index.ts:14`（Facing 四枚举）、`grid.ts:23`/`:53`（分数格增量合同）、
+    `author-script-core.ts:1255-1261`（entityPos 有限数非整数）、`async-intent.ts:19-34`
+    （begin 递增 serial 使旧 token 失效=latest-wins）、`actor-condition-lifecycle.ts:39-44`
+    （清理只作用于隔离候选）。
+    本人亲跑 `probe-reforge-restore.mjs` 八项全部复现：合法=true；party=null TypeError 无 toast、
+    旧脚本/世界未动；position=null=false 旧态保留；money 字符串=true，真实 shopBuy 得 NaN 且经真实
+    capture/MemorySaveStore 再持久化；facing=sideways dcol TypeError，oldScriptAborted=true、
+    world/scene 已替换、**live facing 已写入 "sideways"（main.ts:1138 先于 1143 抛错执行）**、事件
+    序列停在 prune（camera/bgm/start-auto 未跑 = 半个场景提交态）；F9 形态 unhandledRejection；
+    较新 load 胜出（222/new-save）；调用方 prepare 中取消得 AbortError 且 live 完整。
+    另独立复跑六文件 38 项基线全绿、`probe-save-boundaries.mjs` U-01 codecAccepted=true 佐证。
+  - design: agree（r1）。方案限定 SAVE8 当前载荷结构 guard + 提交前隔离 + 收口反馈 + 三入口共路；
+    不切版本、不引入通用 schema 框架、不拆 main、不承诺任意提交后 rollback，未越界为版本切换或
+    巨大重写；「三轴有限数不取整」「缺必需字段不补默认值」「可选子树按现行类型检查」与现行合同一致，
+    符合 READ-FIRST 铁律 11。卡面自列风险（过度校验/提示覆盖/仅 codec 绿）与缓解对等本人判断成立。
+  - 独立一手证据 / 可证伪观察（本人直读与复算，非复述他席）：
+    1. 若坏 money/facing 在真实调用链均先于 abortScript/replaceWorld 被拒 → 前提不成立
+       （本人探针否定此情形：money 直接入世界，facing 在同步提交段内才抛）。
+    2. 若现行保存器 `captureCurrentSavePayload` 合法 round-trip 被新 guard 拒绝或改写（含分数
+       col/row、HP=0、显式 currentMusic=null、缺省 skillUseCounts/entityLifecycles/reserve）→
+       过度校验，须收窄到恢复实际读取字段。
+    3. 若实现后探针 party=null/facing 行仍出现 oldScriptAborted=true 或 worldReplaced=true →
+       提交前隔离未达成。
+    4. 若 F9 或菜单 browserLoad（`main.ts:5786-5792`，同样无 catch 包 doLoad）对坏槽仍
+       unhandledRejection；或 showToast 单槽覆盖（`main.ts:5423-5425`）使「无快速存档」盖掉
+       「存档队伍为空」/归一化拒绝文案 → 反馈收口未达成。
+    5. 若较新 load 胜出或调用方 AbortError 协议行为改变（旧提交落地/AbortError 被吞成 false+toast）
+       → 异步保护回归。
+    6. position=null 当前 toast 是裸 TypeError 文案（探针实测 "Cannot read properties of null
+       (reading 'sceneId')"）；验收应断言稳定文案，不得以引擎原文充当「准确失败信息」。
+  - 返工项：无。实现期注意（不阻塞签字）：guard 字段清单以 `types.ts:35-43`/`character.ts:16-50`
+    为真源；菜单 browserLoad 与 bootLoadSlot（`main.ts:6934-6935`）同须纳入「无 unhandledRejection」
+    断言，不只 F9；e2e-load 兜底分支（`main.ts:6929-6931`）不得吞掉具体失败原因。
 - GLM:
-  - premise: pending。
-  - design: pending。
-  - 独立一手证据 / 可证伪观察：pending。
+  - premise: **verified（2026-09-06，r1 / 基线 5462d01a；类型清单、codec guards、三个正式入口、
+    prepare/commit 边界与两份探针全部本人独立直读/复跑，非复述 Codex）**：
+    1. **类型清单直读**：`CurrentSavePayload`（types.ts:28-43）= version/projectId/contentVersion/
+       world/position，position = `{sceneId, pos: GridPos, facing: Facing}`；`WorldState`
+       （character.ts:16-50）必需 party/money/learnedSkills/inventory，可选 script?/reserve?/
+       skillUseCounts?/ambience?/collectValue?/resources?/audio?/hostileAwareness?/
+       entityLifecycles?——卡面「现行合法缺省」清单与类型逐字段一致；`CharacterInstance`
+       （character.ts:187+）id/template/level/exp/hp/maxHP/mp/maxMP/attack/defense/magicAttack/
+       speed/luck/equipment/tags + 可选 hiddenExp?/poisons?/extraStatuses?/extraPoisonRes?。
+       `Facing = 'up'|'down'|'left'|'right'` 四枚举（content/index.ts:14）。
+    2. **codec guards 现状直读**：`preflightCurrentSave`（current-codec.ts:57-77）只验
+       manifest/版本/projectId；`normalizeCurrentSave`（:87-110）structuredClone 后仅校验
+       script（checkWorldScriptState）、hostileAwareness、skillUseCounts、entityLifecycles——
+       **money/party/position/learnedSkills/inventory/equipment 等核心子树零运行时校验**，
+       卡面「只校验部分持久子树」逐字成立；U-01 探针 codecAccepted 三例佐证。
+    3. **提交边界直读**：restorePayload（main.ts:5674-5698）`candidate.party[0]` 判空在
+       prepareSceneSwitch try **之外**——party=null 在 try 外抛 TypeError（无 showToast、无
+       catch），与探针 `unhandledRejection`/`TypeError 无提示` 一致；facing 路径——
+       commitSceneSwitch 后 seedFormationTrail 以 facing 索引 back 表（follower.ts:51-58
+       `{left,right,up,down}[facing]`）→ 非法 facing 得 undefined，`back.dcol` TypeError
+       **晚于** abortScript/replaceWorld（main.ts:5727-5730 同步提交段之后），探针
+       `oldScriptAborted:true worldReplaced:true facing:sideways 仍在活动态` 逐字复现。
+    4. **三入口共路直读**：doLoad（:5743，槽恢复）→ restorePayload；e2e-load（:6895+）→
+       normalizeStoredPayload + restorePayload 同链；F9（:6730-6732）`void quickLoad()` 无
+       catch——quickLoad（:5772）`showToast((await doLoad('quick')) ? ...)` 中 doLoad 抛
+       TypeError 即 unhandledRejection + F9 分支没有兜底 toast；探针 feedback 行证实。
+       「槽/e2e-load 已共路、F9 缺顶层兜底」与卡面一致。
+    5. **本人复跑八项探针**（probe-reforge-restore.mjs，与卡面表格逐项一致）：valid=true
+       正常替换；party=null TypeError 无提示且旧态未动；position=null false 有提示旧态未动；
+       **money="not-money" true 且坏值入世界、shopBuy 后 NaN、可再次 persist**
+       （purchase.moneyIsNaN+persistedMoneyIsNaN 实证「读失败零污染」在 money 维度不成立）；
+       facing=sideways dcol TypeError 且旧脚本已 abort/世界已替换；F9 形态 unhandledRejection
+       无 toast；较新读档胜出（old=false/new=true/money 222）；prepare 中 AbortError 且
+       liveWorldPreserved。另复跑 probe-save-boundaries.mjs：U-01 codecAccepted 三例一致。
+    6. **合法边界一手核**：grid.ts:53-58 `pixelDeltaToGridDelta` 产出分数 dcol/drow——
+       **有限分数坐标是现行合同**，guard 不得加整数/非负限制（卡面方案 2 已钉，本人背书）；
+       audio.currentMusic 缺字段≠null（显式静音）语义、collectValue/resources/ambience
+       可选缺省均来自类型注释一手；clearRestoredWorldActorConditions
+       （actor-condition-lifecycle.ts:40-46）只清候选 party+reserve 三件套、不触当前世界——
+       「恢复临时清理不作用于活动态」锚点属实。
+    7. **可证伪观察**：money/facing 在真实调用链先于 abort/replaceWorld 被拒（探针反证：不
+       成立）；合法分数坐标/显式静音/null audio/HP=0 载荷被新 guard 拒绝（过度校验）；
+       较新请求或 AbortError 控制组不成立；F9/槽/e2e-load 任一入口绕过新预检——任一出现
+       本签字失效。
+  - design: **agree（r1，附 GM-SP1~GM-SP4 数据/测试必落钉）**：
+    - **GM-SP1（字段矩阵以类型为真源钉）**：结构 guard 的字段清单必须逐项引用
+      types.ts:28-43 + character.ts:16-50/187+ 现行类型——必需字段缺失即拒、可选字段存在时
+      按形状检查、**可选字段缺席合法**（script?/reserve?/skillUseCounts?/ambience?/
+      collectValue?/resources?/audio?/hostileAwareness?/entityLifecycles? + 实例级
+      hiddenExp?/poisons?/extraStatuses?/extraPoisonRes?）；数值叶（money/hp/maxHP/mp/
+      maxMP/attack/…/exp/level/luck）验**有限数**（Number.isFinite），**不新增**数值上限/
+      取整/非负约束——卡面「不发明数值上限」钉本人独立背书（现行类型仅 `number`，负 exp
+      等更强约束无类型证据）；GridPos 三轴有限数、Facing 四枚举、sceneId 非空 string；
+      inventory `{itemId: string, count: number}`、learnedSkills/skillUseCounts
+      Record<string,string[]/Record<string,number>>、equipment Record<string,string>、
+      tags string[]、poisons 按 ActivePoison 形状。**每个实际 guard 配正负边界**（矩阵
+      「针对每个实际 guard」条款）。
+    - **GM-SP2（四反例 + 三控制先红后绿钉）**：B-04 四反例（money 字符串/sideways/
+      party=null/position=null）必须在**真实调用域**（restorePayload 全链，非 codec 单测）
+      先红后绿；三正向控制（合法 round-trip / 较新请求胜出 / prepare 中 AbortError 零污染）
+      必须保持绿——探针输出可直接固化为回归 fixture；position=null 的现有「false+提示+零污染」
+      行为是**正确的最小形态**，新 guard 只需给它结构化错误信息，不得改变其语义。
+    - **GM-SP3（三入口共路与提示钉）**：菜单槽/F9/e2e-load 全部经同一
+      normalize→结构 guard→restorePayload 预检链（方案 5）；F9 顶层兜底 + doLoad/normalize
+      错误边界区分四态（无存档/损坏/读取失败/被取代）——**测试矩阵「调用入口」行必须断言
+      unhandledRejection=0 与提示不被覆盖**（较新 load 成功后旧失败 toast 不出现，探针乱序
+      控制组扩展）；e2e-load 路径 fetch 失败/非 JSON 也在边界内。
+    - **GM-SP4（合法载荷零扰动钉）**：合法 round-trip 断言必须包含**有限分数坐标原样保持**
+      （构造 dcol/drow 分数的位置，验证不被取整/钳制）、HP=0、显式静音 audio.currentMusic=
+      null、全部可选容器缺省与空数组/空 Record 合法、party+reserve 清理三件套仍执行、
+      输入与输出无别名（structuredClone 独立）；「不重播入口 seed/onEnter」与「输入坐标不
+      被移动」按矩阵「正常玩法」行落测。
+  - 独立一手证据 / 可证伪观察：见 premise 第 1-7 条（探针八项 + U-01 三项 + 六文件/38 项
+    基线本人复跑全绿：save/store、ops、browser-state、current-save characterization、
+    actor-condition-lifecycle、scene-switch-transaction）。
+  - 返工项：无阻塞项。两条测试矩阵补充（非必改，build 期落实）：① 矩阵「异步保护」行建议
+    显式加「**旧失败提示不覆盖新成功结果**」断言（探针乱序控制只证状态胜出，未证 toast 不串）；
+    ② 「角色与已知嵌套结构」行建议把 hiddenExp 的 Partial 形状（键 ∈ 七个 HiddenStatKey）
+    列入正负例，避免 guard 对未知键静默通过或对合法缺省误拒。
 - 独立反证审查：至少一席直接核 current 类型与真实恢复入口并复算控制组，当前未完成。
 - counter / 分歧：暂无；任何核心前提变化重开本 revision 的相关签字。
 - 缺签豁免：无。
@@ -173,7 +286,18 @@ actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；
 
 - 2026-09-06 Codex：基线 5462d01a 复读合同/实际调用链，复跑两份只读内存探针与 38 项既有测试，形成 r1。
 - Kimi：待本人追加，不修改 Codex/GLM 日志。
-- GLM：待本人追加，不修改 Codex/Kimi 日志。
+- GLM：完成 r1 数据/测试覆盖设计审查（2026-09-06），签 premise verified + design agree。
+  独立证据：现行类型清单（CurrentSavePayload/WorldState/CharacterInstance/Facing）逐字段直读；
+  codec guards 现状（preflightCurrentSave + normalizeCurrentSave 只覆盖 script/awareness/
+  skillUseCounts/lifecycles 四子树，money/party/position 核心零校验）；restorePayload
+  party[0] 在 try 外 + facing 错误晚于 abortScript/replaceWorld 的提交序直读；三入口
+  （doLoad 槽/e2e-load 共路、F9 无兜底）直读；本人复跑 probe-reforge-restore 八项与
+  probe-save-boundaries U-01 三项（与卡面逐项一致，money NaN 可再 persist 实证）、六文件
+  38 项基线全绿；grid 分数坐标/audio null 语义/候选清理锚点一手核实。附 GM-SP1~SP4 钉
+  （字段矩阵以类型为真源 + 可选缺省合法 + 有限数不加上限；四反例三控制先红后绿；三入口
+  共路 + unhandledRejection=0 + 提示不串；合法载荷零扰动含分数坐标原样）。两条测试矩阵
+  补充建议（旧失败 toast 不覆盖新成功、hiddenExp Partial 正负例）。未读取 Kimi 结论；
+  未修改实现；SAVE-ISOLATION-1 产品选择未代裁决。Next: 三签齐后 Codex 统一判断 build 准入。
 
 ## 下一位 Agent 提示词
 
