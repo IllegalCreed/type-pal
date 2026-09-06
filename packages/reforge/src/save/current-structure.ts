@@ -25,9 +25,12 @@ function eachIndex(
 }
 
 /**
- * 画布 toast 单行自逻辑 x≈120 起绘；完整字段路径可能超出画布（R4）。
- * `message` 携带完整路径供日志/测试断言；`shortMessage` 只取末段字段名且限长，保证完整可见。
+ * 画布 toast 自逻辑 x=120 起单行绘制（320 宽画布仅余 200px）；带字段路径的文案按真实
+ * 字形宽度可超限（如 hiddenExp["luck"].exp ≈248px，R4 实测），字符数截断不保证像素可见。
+ * 因此 toast 用固定短文案；`message` 仍携带完整路径供 console.warn 与测试断言。
  */
+export const SAVE_STRUCTURE_TOAST_TEXT = '存档损坏，无法读取'
+
 export class CurrentSaveStructureError extends Error {
   readonly field: string
   readonly expected: string
@@ -38,8 +41,7 @@ export class CurrentSaveStructureError extends Error {
     this.name = 'CurrentSaveStructureError'
     this.field = field
     this.expected = expected
-    const leaf = field.split('.').slice(-2).join('.').slice(0, 24)
-    this.shortMessage = `存档损坏：${leaf}`
+    this.shortMessage = SAVE_STRUCTURE_TOAST_TEXT
   }
 }
 

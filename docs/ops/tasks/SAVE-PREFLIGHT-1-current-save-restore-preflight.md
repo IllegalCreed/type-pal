@@ -1,6 +1,6 @@
 # SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: X1（审计 B-04 修复，不新增能力格）
 Coding Owner: GLM
@@ -429,8 +429,9 @@ mutation.config.mjs/mutation.log、browser-smoke.mjs/log、rejected-money/portra
 
 ## Build / Review / 用户验收
 
-已签 r1 的首轮实现 `afa9e0eb` 经 Codex 审查为 counter；返工候选 `1e271b03` 已复核，
-剩 R4 像素宽度与 R2 normalize 测试两项，直接交 GLM 继续返工。Codex 通过后才进行 Kimi 终审；不得标记 done。
+已签 r1 的首轮实现 `afa9e0eb` 经 Codex 审查为 counter；返工候选 `1e271b03` 复核后剩 R4 像素宽度与
+R2 normalize 测试两项，GLM 已完成第二轮返工并提交新候选，当前等待 Codex 复核；通过后才进行 Kimi 终审，
+不得标记 done。
 无 Agent 缺席/额度代班；用户主动调整实现分工，不冒充额度豁免，也不由内部 Codex 分工代签 Kimi/GLM。
 2026-09-06 既有基线测试：save/store、save/ops、save/browser-state、current-save characterization、
 actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；它们尚不覆盖本卡新增反例。
@@ -566,6 +567,48 @@ begin 时可达）；该测试作为合同钉保留，不计入本轮红项。
 
 **返工候选：`1e271b03`。**
 
+### GLM 第二轮返工回执（Coding Owner 自测，2026-09-06，R4 像素宽度 + R2 normalize 测试）
+
+**相对 `1e271b03` 改动：4 文件 +190/−129（current-structure.ts +10、current-structure.test.ts +16、
+restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 零改动**——R2 实现本轮
+未被触碰（Codex 已确认正确）；R1/R3、原探针、SAVE8/content20、公共模型、隔离卡策略全部保持。
+
+**逐项修复：**
+
+- **R4（像素宽度）**：接受 Codex 测量与方案。`shortMessage` 从动态末段路径改为**固定短中文文案**
+  `SAVE_STRUCTURE_TOAST_TEXT = '存档损坏，无法读取'`（current-structure.ts 导出常量）；
+  完整 field/expected/message 保持只进 `.message` 与 console.warn。新增**真实字形像素宽度回归**：
+  以生产 BDF（`data/raw/unifont-cn.bdf?raw`，与 `loadGlyphs` 同源）经 `parseBdfGlyphs` +
+  `measureSpans` 实测——固定文案 **144px ≤ 200px**（320 画布 − main.ts renderSpans x=120）；
+  同表对照上一版动态文案 `存档损坏：appearance.portrait` **232px**、`存档损坏：hiddenExp["luck"].exp`
+  **248px** 均超限，**与 Codex 浏览器实测逐像素一致**，证明测量方法能检出原缺陷。chain 与结构
+  测试中的 `length<=30` 断言全部替换为精确文案断言 + 像素测量。
+- **R2（normalize 测试未达分支）**：gate 从 `getPayload` 移入**归一化内部 await
+  （`getLifecycleReferences` 首次调用）**：旧请求读后 isCurrent 通过、真正进入 normalize 后在
+  `getLifecycleReferences` 内 entered/gate 挂起 → 新 quickLoad 成功 → gate 放行后旧归一化失败。
+  prepare 用例同样改 `getMapAssets` entered 信号，删除 30ms sleep 猜阶段。
+- **先红证据（隔离源码注入，未动共享工作树、未用 stash）**：chain 测试内置**突变负控制**——
+  `sourceWithoutNormalizeGuard()` 在内存中仅移除 normalize catch 的 `isCurrent` 行（锚点
+  `归一化拒绝` 后首个匹配，找不到即抛错），重建 mutant api 工厂跑同一场景，断言
+  **旧归一化失败提示覆盖新成功**（toasts = [已读取快速存档, late-normalize-failure]）。
+  即：正式测试 `toEqual(['已读取快速存档'])` 在移除该防护时必失败——防护被钉为必需，
+  不再依赖「读后提前退出」解释。该负控制随 CI 常驻。
+
+**实跑验证命令与结果：**
+
+- 定向：save 全套 **6 files / 88 tests 绿**（current-structure 50 + chain 20 含负控制与像素回归）；
+  actor-condition-lifecycle/runtime + scene-switch-transaction **3 files / 22 tests 绿**。
+- Reforge `pnpm typecheck`：干净（?raw 导入走 vite/client 类型，不引 node:fs）。
+- 完整 `pnpm check`：**exit 0**（50 warnings / 11 infos 既有，无 error）。
+- 单次严格 `pnpm coverage:fast`：**5761 tests 全过**（reforge 937→939：+负控制 +像素测试）；
+  `pnpm coverage:ratchet`：**提升 8 项、范围变化 2 项、零下降**（无 scope removal，纯增量 +2）。
+  未复现 editor 抖动；单次严格判定，无重试取多数。
+
+**未验项（不变）**：浏览器实机验证（归 Codex dev-functional；Codex 上轮已验坏档可走/好档可恢复，
+本轮文案改短后建议复验一眼截断）；IndexedDB 真实坏库；通用 rollback（按方案不承诺）。
+
+**第二轮返工候选：`<待回填>`。**
+
 ### Coding Owner 交接（2026-09-06）
 
 - 用户请求：确认已签，询问难度，并建议适合时让 GLM 实现、Codex 检查。
@@ -597,6 +640,14 @@ begin 时可达）；该测试作为合同钉保留，不计入本轮红项。
 
 ## 交接日志
 
+- 2026-09-06 GLM（Coding Owner，第二轮返工）：完成剩余两项并提交新候选（4 文件 +190/−129 vs
+  `1e271b03`，main.ts 零改动），转 review。R4：shortMessage 固定为 SAVE_STRUCTURE_TOAST_TEXT，
+  新增生产 BDF 真实字形像素回归（固定文案 144px ≤ 200px；对照动态文案 232/248px 超限，与 Codex
+  浏览器实测一致）；R2：normalize gate 移入 getLifecycleReferences 首调、prepare 改 entered 信号，
+  并内置突变负控制（内存源码注入仅移除 normalize catch isCurrent，断言旧失败覆盖新成功）钉住防护
+  为必需——未用 stash、未动共享工作树。定向 save 88 + 相邻 22 绿、typecheck 干净、完整 check
+  exit 0、单次严格 coverage:fast 5761 全过、ratchet 提升 8 项零下降（纯增量 +2 测试）。
+  未代签、未标 done。Next: Codex 复核新候选，通过后 Kimi 终审。
 - 2026-09-06 Codex（返工候选独立复核）：同步 main 至 `1d8c7c8a`，核 `afa9e0eb → 1e271b03` 全 diff；
   定向 86+22、typecheck、完整 check 6,244、单次严格 fast 5,759 全绿，原探针/产品版本未变。
   独立前后对照证明读/normalize/prepare 旧失败提示的实现已修，R1/R3 通过；但 normalize 正式测试 gate 放错阶段，
@@ -659,7 +710,18 @@ begin 时可达）；该测试作为合同钉保留，不计入本轮红项。
 
 ## 下一位 Agent 提示词
 
-### GLM：仅修剩余两项（当前有效）
+### Codex：复核第二轮返工候选（当前有效）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，第二轮返工候选 <HASH>，对比 1e271b03（r1 设计签字保持有效，不重签）。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡你的返工复核（两项剩余 counter）、GLM 第二轮返工回执与最新交接日志；接手前同步分支。
+本轮只改 4 文件、main.ts 零 diff。逐项核：R4——shortMessage 是否固定为 SAVE_STRUCTURE_TOAST_TEXT（'存档损坏，无法读取'）、完整路径仍只进 .message/console.warn；像素回归是否用生产 BDF（data/raw/unifont-cn.bdf?raw → parseBdfGlyphs + measureSpans）实测（回执 144px ≤ 200；对照 232/248px 超限与你浏览器实测应逐像素一致），而非字符数断言。R2——normalize 用例 gate 是否移入 getLifecycleReferences 首调（旧请求真正进入归一化后挂起）、prepare 是否 entered 信号替代 30ms；chain 内置突变负控制是否钉住防护（移除 normalize catch isCurrent 后断言旧失败覆盖新成功），可独立复算该突变只删那一行。
+保持项核查：R1/R3、三阶段实现、原探针零 diff、SAVE8/content20/公共模型/隔离卡策略不变；你上轮功能验证结论不需重做全量，建议浏览器复验一眼新短文案不再截断。
+复跑定向（save 88、相邻 22）、Reforge typecheck、完整 pnpm check、单次严格 coverage:fast；editor 抖动如复现按确定性缺陷登记，不以多数通过放行。
+通过则在本卡 Codex 席位签 accept 并更新交接日志，给出 Kimi 终审提示词；仍有阻断则签 counter 列明证据，任务转 rework 交回 GLM。不得代签 Kimi/GLM、不标记 done。
+```
+
+### GLM：仅修剩余两项（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 rework，候选 1e271b03 仍为 counter；你是唯一 Coding Owner。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡最新 Codex 返工复核；r1 不重签。
@@ -669,7 +731,7 @@ Codex 已验证 R1/R3、三阶段正确实现、108定向测试、完整check和
 完成后顺序跑定向、typecheck、完整check、单次严格coverage:fast；如确需ratchet，仍不得降指标或缩减生产范围，不以多数通过放行。提交推送新候选，校正本人回执、同步任务/看板/索引，交 Codex 复核。不得代签或标done；Codex通过后才转Kimi。
 ```
 
-### Codex：历史复核交接（1e271b03 已审）
+### Codex：历史复核交接（1e271b03 已审，已被本轮取代）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，返工候选 1e271b03，对比 afa9e0eb（r1 设计签字保持有效，不重签）。

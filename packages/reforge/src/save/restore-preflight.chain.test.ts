@@ -13,6 +13,8 @@
 import * as content from '@type-pal/content'
 import ts from 'typescript'
 import { describe, expect, test } from 'vitest'
+// 生产 BDF 字形源（与 ENGINE_CHROME.fontBdf 同一文件），?raw 在 vitest/Vite 下同步可用。
+import bdfSource from '../../../../data/raw/unifont-cn.bdf?raw'
 import { clearRestoredWorldActorConditions } from '../actor-condition-lifecycle.js'
 import { AsyncIntentController, asyncIntentAbortError } from '../async-intent.js'
 import { collectSceneSoundAssets } from '../audio/sfx-readiness.js'
@@ -26,70 +28,97 @@ import {
   captureSceneSwitchDependencies,
 } from '../scene-switch-transaction.js'
 import { resolveSceneSpawn } from '../scene-transition.js'
+import { parseBdfGlyphs } from '../text/glyph.js'
+import { measureSpans } from '../text/text-render.js'
 import { normalizeCurrentSave, preflightCurrentSave } from './current-codec.js'
-import { CurrentSaveStructureError } from './current-structure.js'
+import { CurrentSaveStructureError, SAVE_STRUCTURE_TOAST_TEXT } from './current-structure.js'
 import { buildCurrentSavePayload, resolveRestoredMusic } from './ops.js'
 import { MemorySaveStore } from './store.js'
 
-const source = mainSource
-const ast = ts.createSourceFile('main.ts', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
-const names = new Set([
-  'isAbortError',
-  'assertRunnerActive',
-  'awaitRunner',
-  'replaceCanonicalScript',
-  'syncRuntimeScriptScratch',
-  'replaceWorld',
-  'requireSpriteDef',
-  'prepareSceneSounds',
-  'runnableStages',
-  'sceneScriptBinding',
-  'bindingSceneEntry',
-  'prepareSceneSwitch',
-  'assertSceneSwitchPlanCurrent',
-  'commitSceneSwitch',
-  'switchScene',
-  'abortScript',
-  'currentWorldSnapshot',
-  'captureCurrentSavePayload',
-  'payloadBelongsToProject',
-  'normalizeStoredPayload',
-  'restorePayload',
-  'doLoad',
-  'quickLoad',
-  'syncAmbience',
-  'refreshCurrentCanonicalBindings',
-  'applyWorldEntityGatesToScene',
-  'applyWorldEntityPositionToScene',
-  'applyWorldToScene',
-])
-const found = new Map<string, string>()
-function walk(node: ts.Node): void {
-  if (
-    (ts.isFunctionDeclaration(node) || ts.isVariableDeclaration(node)) &&
-    node.name &&
-    ts.isIdentifier(node.name) &&
-    names.has(node.name.text)
-  ) {
-    if (found.has(node.name.text)) throw new Error(`ambiguous original function ${node.name.text}`)
-    found.set(
-      node.name.text,
-      ts.isFunctionDeclaration(node) ? node.getText(ast) : `const ${node.getText(ast)};`,
-    )
+interface ChainApi {
+  doLoad: (slotId: string, signal?: AbortSignal) => Promise<'loaded' | 'absent' | 'rejected'>
+  quickLoad: () => Promise<void>
+}
+
+/** 从 main.ts 源码抽出原函数体编译成 api 工厂（与只读审计探针同一技术）。 */
+function extractApiFactory(source: string): (env: Record<string, unknown>) => ChainApi {
+  const ast = ts.createSourceFile('main.ts', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
+  const names = new Set([
+    'isAbortError',
+    'assertRunnerActive',
+    'awaitRunner',
+    'replaceCanonicalScript',
+    'syncRuntimeScriptScratch',
+    'replaceWorld',
+    'requireSpriteDef',
+    'prepareSceneSounds',
+    'runnableStages',
+    'sceneScriptBinding',
+    'bindingSceneEntry',
+    'prepareSceneSwitch',
+    'assertSceneSwitchPlanCurrent',
+    'commitSceneSwitch',
+    'switchScene',
+    'abortScript',
+    'currentWorldSnapshot',
+    'captureCurrentSavePayload',
+    'payloadBelongsToProject',
+    'normalizeStoredPayload',
+    'restorePayload',
+    'doLoad',
+    'quickLoad',
+    'syncAmbience',
+    'refreshCurrentCanonicalBindings',
+    'applyWorldEntityGatesToScene',
+    'applyWorldEntityPositionToScene',
+    'applyWorldToScene',
+  ])
+  const found = new Map<string, string>()
+  function walk(node: ts.Node): void {
+    if (
+      (ts.isFunctionDeclaration(node) || ts.isVariableDeclaration(node)) &&
+      node.name &&
+      ts.isIdentifier(node.name) &&
+      names.has(node.name.text)
+    ) {
+      if (found.has(node.name.text))
+        throw new Error(`ambiguous original function ${node.name.text}`)
+      found.set(
+        node.name.text,
+        ts.isFunctionDeclaration(node) ? node.getText(ast) : `const ${node.getText(ast)};`,
+      )
+    }
+    ts.forEachChild(node, walk)
   }
-  ts.forEachChild(node, walk)
+  walk(ast)
+  for (const name of names) {
+    if (!found.has(name)) throw new Error(`missing original function ${name}`)
+  }
+  const body = ts.transpileModule([...found.values()].join('\n'), {
+    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None },
+  }).outputText
+  return new Function(
+    'env',
+    `with(env) { ${body}; return {doLoad, quickLoad, restorePayload, replaceWorld, captureCurrentSavePayload, switchScene}; }`,
+  ) as (env: Record<string, unknown>) => ChainApi
 }
-walk(ast)
-for (const name of names) {
-  if (!found.has(name)) throw new Error(`missing original function ${name}`)
+
+const factory = extractApiFactory(mainSource)
+
+/**
+ * 负控制用突变源（隔离源码注入，不改共享工作树）：仅移除 normalize catch 内的
+ * isCurrent 收口，用于证明 normalize 竞态测试真的钉住该防护——移除后旧归一化
+ * 失败提示会覆盖新成功提示（R2 返工要求，不得再用“读后提前退出”解释测试有效）。
+ */
+const NORMALIZE_GUARD_SNIPPET = "if (!loadIntent.isCurrent(token)) return 'rejected'"
+function sourceWithoutNormalizeGuard(src: string): string {
+  const anchor = src.indexOf('归一化拒绝')
+  if (anchor < 0) throw new Error('mutant anchor 归一化拒绝 not found')
+  const at = src.indexOf(NORMALIZE_GUARD_SNIPPET, anchor)
+  if (at < 0) throw new Error('mutant normalize guard not found after anchor')
+  return src.slice(0, at) + src.slice(at + NORMALIZE_GUARD_SNIPPET.length)
 }
-const body = ts.transpileModule([...found.values()].join('\n'), {
-  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None },
-}).outputText
-const factory = new Function(
-  'env',
-  `with(env) { ${body}; return {doLoad, quickLoad, restorePayload, replaceWorld, captureCurrentSavePayload, switchScene}; }`,
-)
+const mutantFactory = extractApiFactory(sourceWithoutNormalizeGuard(mainSource))
 
 const actor = {
   id: 'hero',
@@ -131,7 +160,11 @@ const sceneDef = (id: string) => ({
   entities: [],
 })
 
-function harness(raw: unknown, overrides: Record<string, unknown> = {}) {
+function harness(
+  raw: unknown,
+  overrides: Record<string, unknown> = {},
+  apiFactory: (env: Record<string, unknown>) => ChainApi = factory,
+) {
   const events: string[] = []
   const toasts: string[] = []
   const oldAbort = new AbortController()
@@ -263,7 +296,7 @@ function harness(raw: unknown, overrides: Record<string, unknown> = {}) {
     startAutoRunners: () => events.push('start-auto'),
     ...overrides,
   }
-  return { env, api: factory(env), oldAbort, events, toasts }
+  return { env, api: apiFactory(env), oldAbort, events, toasts }
 }
 
 function corrupted(mutate: (p: Payload) => void): unknown {
@@ -308,44 +341,38 @@ describe('SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）'
       (p: Payload) => {
         p.world.money = 'not-money' as unknown as number
       },
-      /money/,
     ],
     [
       'party=null',
       (p: Payload) => {
         p.world.party = null as unknown as Payload['world']['party']
       },
-      /party|队伍/,
     ],
     [
       'position=null',
       (p: Payload) => {
         p.position = null as unknown as Payload['position']
       },
-      /position/,
     ],
     [
       'facing=sideways',
       (p: Payload) => {
         p.position.facing = 'sideways' as unknown as 'down'
       },
-      /facing|朝向|存档损坏/,
     ],
     [
       'R3：inventory 稀疏空洞（new Array(1)）',
       (p: Payload) => {
         p.world.inventory = new Array(1) as unknown as Payload['world']['inventory']
       },
-      /inventory|存档损坏/,
     ],
-  ])('坏载荷 %s：提交前拒绝、稳定文案、零活动态污染', async (_name, mutate, messagePattern) => {
+  ])('坏载荷 %s：提交前拒绝、稳定文案、零活动态污染', async (_name, mutate) => {
     const h = harness(corrupted(mutate))
     const result = await h.api.doLoad('quick')
     expect(result).toBe('rejected')
     expect(h.toasts.length).toBeGreaterThan(0)
-    expect(h.toasts[h.toasts.length - 1]).toMatch(messagePattern)
-    // 不得以引擎原文充当稳定文案
-    expect(h.toasts[h.toasts.length - 1]).not.toMatch(/Cannot read properties|TypeError/)
+    // R4 返工：画布提示为固定短中文文案（字段路径按字形宽度可超限，只进 message/console.warn）。
+    expect(h.toasts[h.toasts.length - 1]).toBe(SAVE_STRUCTURE_TOAST_TEXT)
     expect(h.oldAbort.signal.aborted).toBe(false)
     expect(savedFlag(h.env)).toBeUndefined()
     expect((h.env.scene as { id: string }).id).toBe('live-scene')
@@ -367,7 +394,7 @@ describe('SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）'
     expect(bought && Number.isFinite(bought.money)).toBe(true)
   })
 
-  test('R4：结构错误的 toast 为限长短文案（≤30 字符、不含长路径）', async () => {
+  test('R4：结构错误的 toast 为固定短中文文案（完整路径只进 message/console）', async () => {
     const h = harness(
       corrupted((p) => {
         p.world.party[0]!.hiddenExp = { luck: { exp: Number.NaN, level: 1 } } as never
@@ -375,10 +402,27 @@ describe('SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）'
     )
     expect(await h.api.doLoad('quick')).toBe('rejected')
     const toast = h.toasts[h.toasts.length - 1]!
-    expect(toast).toMatch(/^存档损坏：/)
-    expect(toast.length).toBeLessThanOrEqual(30)
-    expect(toast).not.toContain('载荷')
+    expect(toast).toBe(SAVE_STRUCTURE_TOAST_TEXT)
+    expect(toast).not.toContain('hiddenExp')
     expect(toast).not.toContain('party[0]')
+  })
+
+  test('R4：toast 文案按真实字形宽度可完整显示（200px 可用；上一版动态文案实测超限）', () => {
+    // main.ts 快读提示 renderSpans(ctx, ..., 120, 6) 单行绘制，画布逻辑宽 320 → 可用 200px。
+    // 用生产 BDF（data/raw/unifont-cn.bdf，与 loadGlyphs 同源）的真实字宽测量，不用字符数近似。
+    const glyphs = parseBdfGlyphs(bdfSource)
+    const available = 320 - 120
+    expect(measureSpans([{ text: SAVE_STRUCTURE_TOAST_TEXT }], glyphs)).toBeLessThanOrEqual(
+      available,
+    )
+    // 方法论对照（先红证据）：上一版动态短文案（末两段路径 + 前缀）同一字形表实测超出可用宽，
+    // 证明本测量能检出原缺陷——字符数 ≤30 不能证明像素可见（Codex 浏览器实测 232/248px）。
+    expect(measureSpans([{ text: '存档损坏：appearance.portrait' }], glyphs)).toBeGreaterThan(
+      available,
+    )
+    expect(measureSpans([{ text: '存档损坏：hiddenExp["luck"].exp' }], glyphs)).toBeGreaterThan(
+      available,
+    )
   })
 
   test('position=null 不再暴露裸 TypeError 文案（探针历史记录的稳定化）', async () => {
@@ -447,51 +491,53 @@ describe('SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）'
   describe('R2：旧失败提示不覆盖新成功（读 / normalize / prepare 三阶段）', () => {
     async function lateFailureHarness(
       phase: 'read' | 'normalize' | 'prepare',
+      apiFactory: (env: Record<string, unknown>) => ChainApi = factory,
     ): Promise<{ toasts: string[]; newResult: unknown; oldResult: unknown }> {
-      const h = harness(null)
+      const h = harness(null, {}, apiFactory)
       const gate = deferred<void>()
+      const entered = deferred<void>()
       // 新请求走 quickLoad（只有它对 loaded 显示「已读取快速存档」成功提示），槽位固定为 'quick'。
+      const goodPayload = (slot: string, sceneId?: string) => {
+        const p = makePayload()
+        ;(p.world.script as { flags: Record<string, unknown> }).flags.saved = true
+        if (sceneId) p.position.sceneId = sceneId
+        p.world.money = slot === 'old' ? 111 : 222
+        return p
+      }
       if (phase === 'read') {
+        // 读阶段：old 的 getPayload 挂起，等 new 完成后读取失败（失败发生在 doLoad 读 try 内）。
         ;(h.env.saveStore as { getPayload: (slot: string) => Promise<unknown> }).getPayload =
           async (slot) => {
             if (slot === 'old') {
               await gate.promise
               throw new Error('late-read-failure')
             }
-            const p = makePayload()
-            ;(p.world.script as { flags: Record<string, unknown> }).flags.saved = true
-            p.world.money = 222
-            return p
+            return goodPayload(slot)
           }
       } else if (phase === 'normalize') {
+        // normalize 阶段（R2 返工）：gate 必须放在归一化内部的 await（getLifecycleReferences），
+        // 旧请求读过 isCurrent 后已真正进入 normalize；gate 在 getPayload 会被读后 isCurrent 提前拦下，
+        // 根本到不了 normalize catch——那不是该分支的回归钉。
         ;(h.env.saveStore as { getPayload: (slot: string) => Promise<unknown> }).getPayload =
-          async (slot) => {
-            if (slot === 'old') {
+          async (slot) => goodPayload(slot)
+        let firstCall = true
+        ;(h.env as { getLifecycleReferences: () => Promise<unknown> }).getLifecycleReferences =
+          async () => {
+            if (firstCall) {
+              firstCall = false
+              entered.resolve()
               await gate.promise
-              const bad = makePayload()
-              ;(bad.world.script as { flags: Record<string, unknown> }).flags.saved = true
-              bad.world.money = 'late-normalize-failure' as unknown as number
-              return bad
+              throw new Error('late-normalize-failure')
             }
-            const p = makePayload()
-            ;(p.world.script as { flags: Record<string, unknown> }).flags.saved = true
-            p.world.money = 222
-            return p
+            return content.buildEntityLifecycleReferenceIndex([{ id: 'saved-scene', entities: [] }])
           }
       } else {
-        // prepare 阶段：old 的 getMapAssets 挂起，等 new 完成后再抛场景错误。
+        // prepare 阶段：old 进入 prepare（getMapAssets 被调用）后挂起，等 new 完成再抛场景错误。
         ;(h.env.saveStore as { getPayload: (slot: string) => Promise<unknown> }).getPayload =
-          async (slot) => {
-            const p = makePayload()
-            ;(p.world.script as { flags: Record<string, unknown> }).flags.saved = true
-            p.position.sceneId = slot === 'old' ? 'old-save' : 'new-save'
-            p.world.money = slot === 'old' ? 111 : 222
-            return p
-          }
-        let firstOld = true
+          async (slot) => goodPayload(slot, slot === 'old' ? 'old-save' : 'new-save')
         ;(h.env.getMapAssets as (id: string) => Promise<unknown>) = async (id) => {
-          if (id === 'map.old-save' && firstOld) {
-            firstOld = false
+          if (id === 'map.old-save') {
+            entered.resolve()
             await gate.promise
             throw new Error('late-prepare-failure')
           }
@@ -499,9 +545,10 @@ describe('SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）'
         }
       }
       const old = h.api.doLoad('old')
-      if (phase === 'prepare') {
-        // 等 old 进入 prepare（其 getMapAssets 被调用）再启动 new
-        await new Promise((resolve) => setTimeout(resolve, 30))
+      if (phase !== 'read') {
+        // 等 old 真正到达对应阶段（normalize 内部 await / prepare 的地图加载）再启动 new，
+        // 不用固定 sleep 猜阶段。
+        await entered.promise
       }
       const newer = await h.api.quickLoad()
       gate.resolve()
@@ -516,14 +563,22 @@ describe('SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）'
       expect(toasts).toEqual(['已读取快速存档'])
     })
 
-    test('旧 normalize 失败（晚到）不覆盖新成功提示', async () => {
+    test('旧 normalize 失败（晚到）不覆盖新成功提示（gate 在 getLifecycleReferences 内部 await）', async () => {
       const { toasts, newResult, oldResult } = await lateFailureHarness('normalize')
       expect(newResult).toBeUndefined()
       expect(oldResult).toBe('rejected')
       expect(toasts).toEqual(['已读取快速存档'])
     })
 
-    test('旧 prepare 失败（晚到）不覆盖新成功提示', async () => {
+    test('负控制：仅移除 normalize catch 的 isCurrent 后，旧归一化失败覆盖新成功（防护为必需）', async () => {
+      // R2 返工的先红证据（隔离源码注入，不动共享工作树）：同一场景跑在移除该防护的突变源上，
+      // 旧归一化失败提示必须覆盖新成功——证明上一条测试真的钉住 normalize catch 的 isCurrent。
+      const { toasts, oldResult } = await lateFailureHarness('normalize', mutantFactory)
+      expect(oldResult).toBe('rejected')
+      expect(toasts).toEqual(['已读取快速存档', 'late-normalize-failure'])
+    })
+
+    test('旧 prepare 失败（晚到）不覆盖新成功提示（entered 信号，不用 sleep 猜阶段）', async () => {
       const { toasts, newResult, oldResult } = await lateFailureHarness('prepare')
       expect(newResult).toBeUndefined()
       expect(oldResult).toBe('rejected')

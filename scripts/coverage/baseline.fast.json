@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-06T06:08:50.451Z",
+  "generatedAt": "2026-09-06T07:02:26.889Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 609,
-  "testCount": 5759,
+  "testCount": 5761,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1058,7 +1058,7 @@
       ],
       "scopeDigest": "8e936bbf630a094848bb69320c0bcc3b3540626677db5b4e242c4ded05ceab48",
       "fastTests": {
-        "testCount": 937,
+        "testCount": 939,
         "testFileCount": 97,
         "files": [
           "packages/reforge/src/actor-condition-lifecycle.test.ts",
@@ -1518,7 +1518,7 @@
           {
             "file": "packages/reforge/src/save/current-structure.test.ts",
             "testCount": 50,
-            "identityDigest": "4562be5cd30945c4a6f0e114fe04d249800a01dee3ff720ff3899ee8d188e83a"
+            "identityDigest": "8d2a10ed38579b889d1fae7e0e27cc4f9bdd11b611ce8b104367642751a91367"
           },
           {
             "file": "packages/reforge/src/save/ops.test.ts",
@@ -1527,8 +1527,8 @@
           },
           {
             "file": "packages/reforge/src/save/restore-preflight.chain.test.ts",
-            "testCount": 18,
-            "identityDigest": "001076267f8a8e356179497e53ae722a1af1a0322c804e8012d66bef940c860a"
+            "testCount": 20,
+            "identityDigest": "d4f316f8c8b60b8f21a1f7ab97a3c414941f16e627a0e9c4862987abaa7eeecf"
           },
           {
             "file": "packages/reforge/src/save/store.test.ts",
@@ -1646,25 +1646,25 @@
             "identityDigest": "339c8c24a0c9301e8ec865cfc971095bfe28c65d8135a4fbd62263cd10d73767"
           }
         ],
-        "identityDigest": "523ec3bcd7ab52c8e49f3ef180f85f396edd3faf2dc8df54dccf6609fbd1e692",
+        "identityDigest": "62203b59433fadd6a9f36187d162201270dac08c5b218f86cf9ab6fc33b00d6c",
         "duplicateIdentityCount": 0,
-        "executionDigest": "499ec1d62853f20342928b906db0f73bf1503f987a5a11a9463575c6fed71b13"
+        "executionDigest": "7d35e04e6a1ddb7546ec51ebe2f7f06249891db6822d9be39ecfbdbcd030f3a5"
       },
       "metrics": {
         "statements": {
-          "covered": 8278,
+          "covered": 8283,
           "total": 16033
         },
         "branches": {
-          "covered": 4991,
+          "covered": 4993,
           "total": 10905
         },
         "functions": {
-          "covered": 1286,
+          "covered": 1287,
           "total": 2391
         },
         "lines": {
-          "covered": 7495,
+          "covered": 7500,
           "total": 13982
         }
       }
@@ -3872,19 +3872,19 @@
   },
   "total": {
     "statements": {
-      "covered": 52212,
+      "covered": 52217,
       "total": 78345
     },
     "branches": {
-      "covered": 37383,
+      "covered": 37385,
       "total": 61645
     },
     "functions": {
-      "covered": 9897,
+      "covered": 9898,
       "total": 14415
     },
     "lines": {
-      "covered": 47198,
+      "covered": 47203,
       "total": 68527
     }
   }

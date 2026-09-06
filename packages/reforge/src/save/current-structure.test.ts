@@ -7,7 +7,11 @@
 
 import { buildWorld } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { assertCurrentSaveStructure, CurrentSaveStructureError } from './current-structure.js'
+import {
+  assertCurrentSaveStructure,
+  CurrentSaveStructureError,
+  SAVE_STRUCTURE_TOAST_TEXT,
+} from './current-structure.js'
 import type { CurrentSavePayload } from './types.js'
 
 const actor = {
@@ -144,7 +148,7 @@ describe('current-structure · 合法载荷（正边界）', () => {
     expect(() => assertCurrentSaveStructure(payload)).toThrow(/portrait/)
   })
 
-  test('R4：错误携带完整路径 message 与限长 shortMessage（画布单行完整可见）', () => {
+  test('R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试）', () => {
     const payload = validPayload()
     payload.world.party[0]!.hiddenExp = { luck: { exp: Number.NaN, level: 1 } }
     try {
@@ -154,10 +158,10 @@ describe('current-structure · 合法载荷（正边界）', () => {
       expect(error).toBeInstanceOf(CurrentSaveStructureError)
       const structureError = error as CurrentSaveStructureError
       expect(structureError.message).toMatch(/载荷\.world\.party\[0\]\.hiddenExp\["luck"\]\.exp/)
-      expect(structureError.shortMessage).toMatch(/^存档损坏：.{1,24}$/)
-      // shortMessage 不含长路径——画布 x≈120 起单行绘制完整可见
-      expect(structureError.shortMessage).not.toContain('载荷')
-      expect(structureError.shortMessage.length).toBeLessThanOrEqual(30)
+      // R4 返工：动态字段文案按字形实测 232/248px 超出 200px 可用宽，改为固定短文案；
+      // 完整路径只在 message（console.warn/测试），不进画布。
+      expect(structureError.shortMessage).toBe(SAVE_STRUCTURE_TOAST_TEXT)
+      expect(structureError.shortMessage).not.toContain('hiddenExp')
     }
   })
 
