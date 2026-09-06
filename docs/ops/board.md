@@ -13,7 +13,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | SAVE-ISOLATION-1 | 工程与工作区存档隔离 | blocked | User：确认同工程不同工作区的试玩存档是否独立 | [任务卡](tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)；A-01 已复现，未开始实现。 |
-| SAVE-PREFLIGHT-1 | 当前存档预检与恢复失败隔离 | review | Codex：复核 R1–R4 返工候选；通过后 Kimi 终审 | [任务卡](tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md)；GLM 已交返工候选，r1 不重签，不得标 done。 |
+| SAVE-PREFLIGHT-1 | 当前存档预检与恢复失败隔离 | rework | GLM：修 R4 提示宽度与 R2 normalize 测试；Codex 再复核 | [任务卡](tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md)；1e271b03 counter，已通过项保留，r1 不重签。 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)

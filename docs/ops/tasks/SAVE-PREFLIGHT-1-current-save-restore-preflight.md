@@ -1,6 +1,6 @@
 # SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离
 
-Status: review
+Status: rework
 Phase: phase2
 Capability: X1（审计 B-04 修复，不新增能力格）
 Coding Owner: GLM
@@ -273,13 +273,68 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 
 ### 进入 done 前
 
-- Codex：**counter（2026-09-06，独立审查 `afa9e0eb` 对比 `5f9f92ba`）**。见下方本人审查记录 R1–R4；
-  四个原始坏输入的提交前隔离局部通过，但候选缺少所述恢复链测试，仍有旧失败提示覆盖和结构漏检，不能 accept。
+- Codex：**counter（2026-09-06，复核返工候选 `1e271b03` 对比 `afa9e0eb`）**。
+  R1 重复文件与 R3 漏检已修，R2 实现独立复算通过；仍需补真正的 normalize 竞态回归、完成 R4 像素宽度闭环。
+  见下方最新复核；首轮 `afa9e0eb` counter 作为历史保留，已通过项不要求重复返工。
 - Kimi：pending。
 - GLM：pending。
 - done 准入结论：blocked。
 
-### Codex 实现审查（本人席位，2026-09-06）
+### Codex 返工复核（本人席位，2026-09-06，候选 1e271b03）
+
+同步后 HEAD 为 `1d8c7c8a`，与 origin/main 一致且工作树干净；其相对 `1e271b03` 无产品/测试/配置变化。
+本轮未改实现、测试、原探针或覆盖率基线；没有使用 stash/切回旧工作树，而是在临时验证进程中替换所读源码做对照。
+
+#### 本轮剩余两项
+
+1. **R4 / P2 仍未完成：字符数限制不等于像素宽度限制。**
+   `packages/reforge/src/save/current-structure.ts:41-42` 截断末段到 24 个字符再加中文前缀，
+   但 `main.ts:6175` 仍从逻辑 x=120 单行绘制，320 宽画布仅余 200px。
+   本人用真实 `loadGlyphs()` + `measureSpans()`（`text/text-render.ts:63`）与隔离浏览器截图复算：
+   “存档损坏：world.money”宽 168px、可完整显示；“存档损坏：appearance.portrait”宽 232px、
+   “存档损坏：hiddenExp["luck"].exp”宽 248px，后两者确实在画布右侧截断。
+   后一个正是当前 R4 测试采用的 luck.exp=NaN，不是新增范围。
+   `current-structure.test.ts` 与 chain 的 `length<=30` 断言不能证明“完整可见”。
+   直接用固定短中文失败提示（例如“存档损坏，无法读取”）即可，详细 field/expected/message 留日志；
+   若坚持动态字段，必须按实际可用像素宽度测量并处理。不得再次只凭字符数声称已闭环。
+2. **R2 测试 / P2 仍未完成：normalize 用例未到达 normalize。**
+   `restore-preflight.chain.test.ts:466-480` 把 gate 放在 `saveStore.getPayload`；等新请求完成后
+   才返回旧坏值，因此旧请求在 doLoad 读后 isCurrent 就退出，根本没执行 normalize catch。
+   本人隔离 mutation 仅移除 main.ts normalize catch 的 isCurrent（不改工作树，Vite pre-load 注入
+   实际 `main.ts?raw` 导入，日志确认命中），现有 **18 项仍全绿**，故不能称为该分支的回归钉。
+   独立正确反例在 `getLifecycleReferences` 的内部 await 设置 entered/gate：旧请求已进入归一化 →
+   新 quickLoad 成功 → 旧归一化失败。旧 `afa9e0eb` 会覆盖提示，返工代码不会；必须将这种反例写进正式测试。
+   prepare 用例也改成明确 entered 信号，不靠固定 30ms 猜阶段。此项修测试即可，不要求重写已正确的 R2 实现。
+
+#### 已通过项与独立验证
+
+- R1：两文件已不同 blob（结构 `f4801886`、chain `6dcb3692`）；chain 确为 main.ts 原函数 AST 提取，
+  有 18 项真实调用域断言，不再是 46 项结构矩阵副本。R3：下标遍历覆盖空洞，status 使用 content
+  `isCarryableStatusId` 真源，portrait=null 拒绝，audio.currentMusic=null 合法；对应独立链路反例均拒绝且不 abort 旧脚本。
+- R2 实现：三个 catch 的 isCurrent 均已接入。本人在读、真正的 normalize await、prepare 三阶段
+  各做前后对照：从 Git 读取 `afa9e0eb` 的 main 函数体时三例均红（新成功后出现旧失败提示）；
+  候选三例均绿且金额始终 222。此对照只替换临时进程所读 main 源码，依赖沿用当前模块，不宣称整个旧工作树的全量红绿。
+- 现有 prepare 取消回归通过，AbortError 分支与提交顺序无修改；SAVE8/content20、公共类型、迁移产物未改变。
+  两份原审计探针相对 `afa9e0eb` 与 `1e271b03` 均零 diff。
+- 本人实跑：save **6 文件 / 86 项**、相邻 **3 文件 / 22 项**、Reforge typecheck 全绿。
+  完整 `pnpm check` **exit 0，539 文件 / 6,244 项**；Biome 50 warnings / 11 infos 为既有，无 error。
+  单次严格 `pnpm coverage:fast` **exit 0，609 生产文件 / 5,759 次测试**，与提交基线精确计数一致。
+  未复现 editor 抖动、未重试取多数、未改低基线；不把一次通过说成已修复既有不确定性。
+  清单变化为结构 46→50、误复制 chain 46→真实 18，净 -24；生产统计范围不变，没有保留重复用例凑数。
+- 隔离功能验证：仍用现行 `buildBlankProject('demo')` 内存路由、独立 Chromium context、真实 F5/F9 与
+  IndexedDB，不用用户 profile/存档，不落盘工程或替换运行时。分别造坏 money、portrait=null、hiddenExp：
+  均拒绝并保持 world；玩家 `(12,0,0)` 仍可左移到 `(8,0,0)`，合法档随后恢复坐标与 down 朝向、金额 4321；
+  pageerror=0。money 短提示与成功提示可见；R4 两个较长短提示仍截断，截图已本人查看。
+
+本机临时证据：`/tmp/type-pal-save-rework-review.kUy0T7/`（independent-chain.mjs、before/after.log、
+mutation.config.mjs/mutation.log、browser-smoke.mjs/log、rejected-money/portrait/hiddenExp.png、loaded.png）。
+完整检查日志：`/tmp/type-pal-save-rework-check.jNAQ0E/check.log`；覆盖日志：
+`/tmp/type-pal-save-rework-coverage.jIQIV1/coverage.log`。临时文件不入仓库，上述候选、源码锚点、步骤与计数为持久证据。
+
+**结论：counter，直接回 GLM 修上述两项，任务 rework；不转 Kimi、不标 done、不重签 r1。**
+原 R1/R3 和 R2 正确实现的通过结论保留；新候选由 Codex 复核通过后才交 Kimi。
+
+### Codex 首轮实现审查（历史 counter，2026-09-06，候选 afa9e0eb）
 
 候选：`afa9e0ebbd9057d97c7d0beb8589dc7e7f5e6646`，比较基线 `5f9f92ba`。
 当前 `d7ffea7a` 相对候选无产品/测试/覆盖率配置变化，只增加 GLM 回执；工作树在审查前干净。
@@ -374,8 +429,8 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 
 ## Build / Review / 用户验收
 
-已签 r1 的首轮实现 `afa9e0eb` 经 Codex 独立审查为 counter（R1–R4）；GLM 已完成直接返工并提交新候选，
-当前等待 Codex 复核；Codex 复核通过后再进行 Kimi 终审，用户验收尚未开始，不得标记已修复或 done。
+已签 r1 的首轮实现 `afa9e0eb` 经 Codex 审查为 counter；返工候选 `1e271b03` 已复核，
+剩 R4 像素宽度与 R2 normalize 测试两项，直接交 GLM 继续返工。Codex 通过后才进行 Kimi 终审；不得标记 done。
 无 Agent 缺席/额度代班；用户主动调整实现分工，不冒充额度豁免，也不由内部 Codex 分工代签 Kimi/GLM。
 2026-09-06 既有基线测试：save/store、save/ops、save/browser-state、current-save characterization、
 actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；它们尚不覆盖本卡新增反例。
@@ -542,6 +597,11 @@ begin 时可达）；该测试作为合同钉保留，不计入本轮红项。
 
 ## 交接日志
 
+- 2026-09-06 Codex（返工候选独立复核）：同步 main 至 `1d8c7c8a`，核 `afa9e0eb → 1e271b03` 全 diff；
+  定向 86+22、typecheck、完整 check 6,244、单次严格 fast 5,759 全绿，原探针/产品版本未变。
+  独立前后对照证明读/normalize/prepare 旧失败提示的实现已修，R1/R3 通过；但 normalize 正式测试 gate 放错阶段，
+  移除该 catch 的防护后 18 项仍绿；浏览器实际字形测量与截图证明 portrait/hiddenExp 短提示 232/248px 超过 200px。
+  签 counter，按用户既定流转直接 rework 给 GLM，不送 Kimi 确认。只更新本人席位/日志、后继提示与状态元数据，未改实现。
 - 2026-09-06 GLM（Coding Owner，返工）：完成 R1–R4 直接修复并提交新候选（5 文件 +670/−419 vs
   `afa9e0eb`），转 review。R1 重写 chain test 为真实 AST 调用链回归 18 项（删除 46 项重复 blob）；
   R2 补读/normalize/prepare 三处 isCurrent；R3 改 eachIndex 下标循环 + isCarryableStatusId 枚举真源 +
@@ -599,7 +659,17 @@ begin 时可达）；该测试作为合同钉保留，不计入本轮红项。
 
 ## 下一位 Agent 提示词
 
-### Codex：复核返工候选（当前有效）
+### GLM：仅修剩余两项（当前有效）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 rework，候选 1e271b03 仍为 counter；你是唯一 Coding Owner。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡最新 Codex 返工复核；r1 不重签。
+仅处理剩余两项：R4 的字符限长不保证像素可见，portrait/hiddenExp 短提示实测232/248px而可用仅200px；推荐固定短中文失败提示，详细路径留 message/日志，增加实际宽度回归。R2 实现已正确，但 normalize 测试 gate 放在 getPayload，未到 normalize；改在 getLifecycleReferences 内部 await 用 entered/gate，验证新成功后旧归一化失败不盖提示。prepare 也用明确 entered 信号，不用30ms猜阶段。
+Codex 已验证 R1/R3、三阶段正确实现、108定向测试、完整check和一次严格覆盖率通过；坏档后可走、好档可恢复。这些保持，不重做或扩大为版本/模型/迁移/隔离策略变更。原探针和他席历史结论不改。
+先红后绿必须命中实际缺口：移除 normalize catch 身份检查应使该测试失败，不能再用读后提前退出解释测试为有效；R4 用实际字形/像素宽度而非length<=30证明。不要用stash操作共享工作树，复用隔离测试/源码注入方式。
+完成后顺序跑定向、typecheck、完整check、单次严格coverage:fast；如确需ratchet，仍不得降指标或缩减生产范围，不以多数通过放行。提交推送新候选，校正本人回执、同步任务/看板/索引，交 Codex 复核。不得代签或标done；Codex通过后才转Kimi。
+```
+
+### Codex：历史复核交接（1e271b03 已审）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，返工候选 1e271b03，对比 afa9e0eb（r1 设计签字保持有效，不重签）。
