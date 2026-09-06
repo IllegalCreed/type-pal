@@ -106,7 +106,7 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
 
 ## Build / Review
 
-### GLM 实现回执（Coding Owner 自测，2026-09-06，候选 `<待回填>`）
+### GLM 实现回执（Coding Owner 自测，2026-09-06，候选 `7c447c38`）
 
 **改动（白名单两文件）：** `packages/editor/src/ui/design-system/reorder.test.tsx` **+94**——仅在既有
 auto-scroll 容器用例之后新增一条独立回归 `drag with no scroll owner runs the queued frame without
@@ -267,7 +267,7 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 ### Codex：独立复核实现候选（当前有效）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，状态 review，候选 <HASH>（对比 4bc8a3b3，r1 不重签）。
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，状态 review，候选 7c447c38（对比 4bc8a3b3，r1 不重签）。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡验收条件、GLM 实现回执与最新交接日志；接手先同步分支并检查工作树。
 核对白名单：改动应仅为 reorder.test.tsx 新增一条无容器受控帧回归（既有 23 项断言零修改）+ ratchet 生成的 baseline.fast.json；产品组件、全局配置、超时/排除、旧探针零 diff。
 独立复算负控制：用你自己的隔离加载仅移除 reorder.tsx:730 的 if (!selected) return，新回归必须 exit 1（selected.owner TypeError），完整实现对照绿；GLM 的临时 config/日志在 /tmp/type-pal-cov-det-build/（临时目录，可自行重建）。
