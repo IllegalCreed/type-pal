@@ -311,8 +311,25 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
   read/prepare 两阶段的正向晚到用例在移除各自 isCurrent 时天然转红（阶段真实性由 harness
   结构保证），突变负控制只需钉曾「到不了分支」的 normalize，当前配置合理。
   本 accept 不代签 Codex/GLM、不授权 done、不覆盖 SAVE-ISOLATION-1 产品选择。
-- GLM：pending。
-- done 准入结论：blocked（GLM 本人的最终自测签字仍 pending；无代签、无缺签豁免）。
+- GLM：**accept（2026-09-06，Coding Owner 实现者自测登记，非独立审查——独立复核由 Codex/Kimi 两席完成）**。
+  签字对象：第二轮返工候选 `2c39b1af`（本人提交）。本次登记前核对：`git pull --ff-only` 同步后
+  `git diff --stat 2c39b1af..HEAD -- packages/ scripts/` 为空——当前产品与候选零差异，工作树仅本卡文档改动。
+  本人已完成的实际验证（候选提交时亲跑，本轮不重复已核未变的测试）：
+  - 定向：`pnpm exec vitest run src/save/` 6 文件 / **88 tests 绿**（current-structure 50 + chain 20）；
+    `actor-condition-lifecycle / actor-condition-runtime / scene-switch-transaction` **22 tests 绿**。
+  - `pnpm typecheck`（reforge）干净；完整 `pnpm check` **exit 0**（50 warnings / 11 infos 均既有）。
+  - 单次严格 `pnpm coverage:fast` **5,761 tests 全过**（reforge 937→939，纯增量 +2）；
+    `pnpm coverage:ratchet` **提升 8 项、零下降、无 scope removal**。
+  - R4 像素实测为本人亲跑（生产 BDF + parseBdfGlyphs/measureSpans）：固定文案 144px ≤ 200px，
+    旧动态文案 232/248px 超限；R2 突变负控制为本人实现并亲跑（仅移除 normalize catch 的
+    isCurrent 后断言旧失败覆盖新成功）。第一轮先红证据（git stash 回退实现）：结构 4 红 / chain 5 红。
+  本人未验项（不冒称他席验证为己跑）：浏览器实机验证未亲跑（归 Codex dev-functional，Codex 已完成
+  含 144px 可见复验——引用其结论）；IndexedDB 真实坏库试验未做；通用 rollback 按方案不承诺；
+  editor off-by-one 抖动本人两轮各一次严格 coverage:fast 均未复现，确定性调查按 Codex 登记另卡跟进。
+  知悉 Kimi 两条非阻断观察（codec 非结构错误长文案截断系本卡前既有行为、read/prepare 晚到用例
+  阶段真实性由 harness 结构保证），不构成本席 counter。本 accept 不代签他席、不授权自行标 done。
+- done 准入结论：三席签字齐（Codex 独立 accept + Kimi 独立 accept + GLM 实现者自测 accept，无缺签豁免）；
+  汇总核定、状态推进与收口交 Codex 统一执行（含用户验收安排），本卡在收口前保持 review。
 
 ### Codex 第二轮返工复核（本人席位，2026-09-06，候选 2c39b1af）
 
@@ -518,8 +535,8 @@ mutation.config.mjs/mutation.log、browser-smoke.mjs/log、rejected-money/portra
 ## Build / Review / 用户验收
 
 已签 r1 的前两轮候选及 counter 按历史保留；第二轮返工候选 `2c39b1af` 已由 Codex 独立复核 accept，
-Codex 与 Kimi 均已 accept，无实现返工项；当前只安排 GLM 补本人最终自测签字登记，任务仍为 review，
-不得标记 done。
+Kimi 独立终审 accept，GLM 已补齐实现者自测 accept——done 前三席签字齐。汇总核定、状态推进与收口
+交 Codex 统一执行；收口前任务保持 review，不得由实现方自行标记 done。
 无 Agent 缺席/额度代班；用户主动调整实现分工，不冒充额度豁免，也不由内部 Codex 分工代签 Kimi/GLM。
 2026-09-06 既有基线测试：save/store、save/ops、save/browser-state、current-save characterization、
 actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；它们尚不覆盖本卡新增反例。
@@ -728,6 +745,14 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 
 ## 交接日志
 
+- 2026-09-06 GLM（Coding Owner，done 前最终登记）：补齐本席 accept（实现者自测性质，非独立审查）。
+  登记前核对当前 HEAD 相对候选 `2c39b1af` 的 packages/ scripts/ 零 diff、工作树干净。签字依据仅为
+  本人已完成的实际验证（save 88 + 相邻 22、typecheck、完整 check exit 0、单次严格 coverage:fast
+  5,761 全过、ratchet 提升 8 项零下降、像素 144/232/248px 亲测、突变负控制亲跑、第一轮 stash 先红
+  4/5 红），未验项如实登记（浏览器实机/IDB 坏库/通用 rollback/editor 抖动另卡），未把他席复跑写成
+  己跑，未重复已核未变的产品测试。仅更新本人签字块、本日志与提示词区；未改 Status（保持 review）、
+  未改他席内容、未标 done。done 准入结论行随本席签字由 blocked 更新为三签齐待 Codex 汇总。
+  Next: Codex 统一核定验收与收口（状态推进、看板/索引同步、后续事项登记），无下一位 GLM 工作。
 - 2026-09-06 Codex（终审接收）：用户确认“签了”后同步并核对 `981d0771` 的 Kimi 独立 accept；
   当前 HEAD 相对 `2c39b1af` 产品/测试/配置零变化，工作树干净。Codex/Kimi 均已通过，无新返工。
   GLM 的 done 前席位仍 pending：原实现交接未促成该签名落表，本次仅补 Coding Owner 最终自测登记，
@@ -820,7 +845,17 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 
 ## 下一位 Agent 提示词
 
-### GLM：补实现者最终自测登记（当前有效，不是新一轮审查）
+### Codex：汇总验收与收口（当前有效）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 收口 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，终审候选 2c39b1af。r1 设计签字保持，不重签。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 done 前三席签字（Codex accept / Kimi accept 含两条非阻断观察 / GLM 实现者自测 accept）与最新交接日志；接手先同步分支并检查工作树。
+GLM 已完成最终登记：当前 HEAD 相对 2c39b1af 的 packages/ scripts/ 零 diff，三席签字齐、无缺签豁免。由你统一核定 done 准入、推进任务状态并同步看板/索引。
+按卡面登记后续事项：剧情观感类集中 E2E 批次入口（本卡 R4/Q1 用例已登记）、editor coverage off-by-one 抖动的确定性修复另卡登记、修复回执/文档收口。Kimi 非阻断观察（codec 非结构错误长文案在 200px 提示区可截断，系本卡前既有行为）是否另卡跟进由你收口时判断。
+不得代签、不得把本卡收口扩张为 SAVE-ISOLATION-1 产品裁决或整组修复授权；SAVE-ISOLATION-1 仍等用户拍板。若用户验收有补充要求，按其裁决执行。
+```
+
+### GLM：补实现者最终自测登记（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 补齐 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md 的 done 前 GLM 签字。任务 review，候选 2c39b1af，你是 Coding Owner；Codex/Kimi 已 accept，无返工。
@@ -828,7 +863,7 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 这只是补漏的最终登记，不重签设计、不改实现、不重复已核且未变的测试。只更新自己的签字块与本人日志并提交推送，保留其他席内容，不改任务状态、不标 done；交回 Codex 汇总验收/收口。
 ```
 
-### Codex：历史收口交接（已接收，待 GLM 本人登记）
+### Codex：历史收口交接（登记期版本，已由上方当前版取代）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 收口 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，终审候选 2c39b1af（HEAD 侧无产品变化）。r1 设计签字保持，不重签。
