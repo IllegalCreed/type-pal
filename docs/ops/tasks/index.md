@@ -9,7 +9,7 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [SAVE-ISOLATION-1 - 工程与工作区存档隔离](SAVE-ISOLATION-1-project-workspace-save-scope.md) | blocked | 以任务卡当前准入与看板分工为准。 |
-| [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

@@ -1,6 +1,6 @@
 # TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性
 
-Status: build
+Status: review
 Owner: GLM
 Reviewer: Codex + Kimi
 Phase: ops
@@ -104,6 +104,49 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
    → 基线生成后单次严格 coverage:fast；重型命令不并跑，结果全保留。
    复跑只验证稳定性，不能替代业务断言与根因解释。
 
+## Build / Review
+
+### GLM 实现回执（Coding Owner 自测，2026-09-06，候选 `<待回填>`）
+
+**改动（白名单两文件）：** `packages/editor/src/ui/design-system/reorder.test.tsx` **+94**——仅在既有
+auto-scroll 容器用例之后新增一条独立回归 `drag with no scroll owner runs the queued frame without
+scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fast.json` 由
+`pnpm coverage:ratchet` 自动生成（提升 0 项、范围变化 2 项、零下降）。产品组件、全局 Vite 配置、
+既有 23 项断言、超时/排除规则、原审计探针零改动；未用 stash、未改共享生产源码、未提交/切分支直到验证完成。
+
+**新回归设计：** 默认 Harness（无可滚祖先、非模态——scrollOwners 合法为空）。真实排队/取消 RAF 模型：
+入队 Map、`cancelAnimationFrame` 即从队列删除、**触发即出队**（与浏览器一致）；`finally` 清队列并按
+描述符恢复全局。业务断言：有效 pointerdown/move 后**恰排队一帧**（生产单在途帧 guard）、零提交；
+推进该帧后 body/document `scrollTop` 均为 0（无滚动）、`onReorder` 零调用、`data-dragging` 仍真、
+**不重新排队**（无定时 sleep）；随后有效 pointerup **恰一次** intent（a→c，0→2，input: pointer）。
+实现期一次真实修正：首版 flush 只复制不 dequeue，`frames.size` 断言红——按真实 RAF 语义改为触发即出队后绿。
+
+**单点负控制（隔离加载，未动共享树）：** 临时 vitest config（`enforce: pre` load 钩子）在内存中仅删除
+`reorder.tsx` 的 `if (!selected) return`（钩子断言该串全文件唯一），其余原文不动。定向运行新回归：
+**exit 1**，失败栈 `TypeError: Cannot read properties of null (reading 'owner')`——正是移除 guard 后
+`selected.owner` 的崩溃点；同过滤完整实现对照 **exit 0**。命令、退出码与失败栈存
+`/tmp/type-pal-cov-det-build/`（negative-control.log / control-green.log，临时目录不承诺长期存在）。
+
+**固定串行验证计划实跑结果（全部真实命令与退出码，日志同上目录）：**
+
+| 步骤 | 命令 | 退出码 | 结果 |
+|---|---|---:|---|
+| 定向 | `pnpm --filter @type-pal/editor exec vitest run src/ui/design-system/reorder.test.tsx` | 0 | **24/24 绿**（卡面预期 24 ✓） |
+| 负控制 | 同上 `--config /tmp/cov-det-negative.config.mts -t "no scroll owner"` | **1** | 新回归红（见上） |
+| editor typecheck | `pnpm --filter @type-pal/editor run typecheck` | 0 | 干净 |
+| 完整 check | `pnpm check` | 0 | 50 warnings / 11 infos 均既有 |
+| 3× editor fast 诊断 | 隔离脚本复刻 fast 门禁 editor 范围（同 selection/excludes/include），串行独立报告 | 0 | 三轮完全一致：**1,601/1,601**、statements **23,456**/31,407、branches **18,169**/27,329、functions/lines 与基线逐数相同；运行前后 HEAD 与候选 diff 未变 |
+| coverage:ratchet | `pnpm coverage:ratchet` | 0 | 提升 0 项、范围变化 2 项、零下降（仅测试清单 1,600→1,601 / 总数 5,761→**5,762**） |
+| 严格 coverage:fast | `pnpm coverage:fast` | 0 | **门禁通过**，相对新基线未下降 |
+
+**确定性结论：** 修复前缺口（hold 23,455 / flush 23,456 随机取值）在加入新回归后三轮串行全为 23,456——
+偶发覆盖依赖已消除；计数与卡面预期（定向 24、fast 5,762）逐项吻合，均以提交树实测为准。
+
+**旧探针处置：** `probe-editor-coverage-timing.mjs` 未运行、未修改（其 23 项/+1 断言按 Build 澄清属
+修复前历史证据；新清单 24 项下其数量断言自然不再成立，不为凑绿改探针）。
+
+**未验项：** 无浏览器项（纯测试维护，无 UI/交互变化，卡面 Visual N/A）；无其他未验项。
+
 ## 推进签字
 
 - build：
@@ -183,6 +226,12 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
 
 ## 交接
 
+- 2026-09-06 GLM（Coding Owner）：完成白名单实现并提交候选（reorder.test.tsx +94 一条无容器受控帧
+  回归 + ratchet 生成基线），转 review。负控制隔离加载仅删 :730 guard → 新回归 exit 1
+  （selected.owner TypeError）；定向 24/24、editor typecheck、完整 check、三轮串行 editor fast 诊断
+  （1,601/1,601 ×3，statements 恒 23,456、branches 恒 18,169——偶发依赖消除）、ratchet 零下降、
+  严格 fast 通过，计数与卡面预期逐项吻合。实现期一次 dequeue 语义修正已如实记录。旧探针未动未跑。
+  未代签、未标 done。Next: Codex 独立复核（真实提交树、负控制复算、精确基线）。
 - 2026-09-06 Codex（build 准入汇总）：用户确认签字后同步至 `d9fa4750`，工作树干净、origin/main 一致；
   复核两席独立源码/探针证据、无 counter、r1 白名单未变，三席签字齐且无豁免，draft → build。
   记录旧探针修复后不必保持 +1、act/DS 行号澄清，以及 GLM 一次中止的 HEAD 漂移证据；不改两席签字、
@@ -215,20 +264,18 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
 
 ## 下一位 Agent 提示词
 
-### GLM：r1 白名单实现（当前有效）
+### Codex：独立复核实现候选（当前有效）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 实现 TEST-COVERAGE-DETERMINISM-1。
-任务卡：docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，build。三席 premise verified + design agree 已齐，Codex 已核定 allowed，不重签。
-先同步分支并检查工作树；读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡方案/验收条件/Build 交接澄清、docs/ops/audits/pre-e2e/coverage-determinism.md 与 docs/testing/coverage.md。你是唯一 Coding Owner。
-只在 packages/editor/src/ui/design-system/reorder.test.tsx 新增一条无滚动容器的受控帧回归：有效拖动内已排队一帧，推进后无滚动、无提前提交、拖动仍有效，正确 pointerup 恰一次 intent；取消删除队列，finally/cleanup 恢复全局。不得用 autoScroll=false 或同步 RAF 替代，不改既有 23 项断言。
-负控制只在隔离加载中删除 reorder.tsx 的 if (!selected) return，新回归必须红；保留完整实现绿的对照与命令/退出码/失败栈，不 stash/改回共享生产源码。
-按卡面固定串行验证计划运行定向、typecheck、完整 check、三次 editor fast 范围检查、一次 coverage:ratchet 和更新后单次严格 coverage:fast。禁止取多数、降指标或缩范围；仅由 ratchet 生成 scripts/coverage/baseline.fast.json。预计定向 24、fast 5,762，按提交树实际清单复算，回执不凭记忆写。
-注意旧探针是修复前证据，新回归加入后不要求它继续保持 23 项/+1；不得改旧探针、产品组件、全局配置/超时或排除规则。运行期间固定候选不变，HEAD 漂移导致的诊断失败不能计通过。
-更新本人实现回执、审查候选 SHA、验证证据及必要覆盖率文档；完成后任务转 review，同步看板/索引并提交推送，给 Codex 独立复核提示词。不得代签或标记 done；超出两文件实现白名单先 counter。SAVE-ISOLATION-1 不在本次授权范围。
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，状态 review，候选 <HASH>（对比 4bc8a3b3，r1 不重签）。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡验收条件、GLM 实现回执与最新交接日志；接手先同步分支并检查工作树。
+核对白名单：改动应仅为 reorder.test.tsx 新增一条无容器受控帧回归（既有 23 项断言零修改）+ ratchet 生成的 baseline.fast.json；产品组件、全局配置、超时/排除、旧探针零 diff。
+独立复算负控制：用你自己的隔离加载仅移除 reorder.tsx:730 的 if (!selected) return，新回归必须 exit 1（selected.owner TypeError），完整实现对照绿；GLM 的临时 config/日志在 /tmp/type-pal-cov-det-build/（临时目录，可自行重建）。
+复跑定向（24）、editor typecheck、完整 pnpm check、至少一次 editor fast 范围确定性检查（应为 1,601/1,601、statements 23,456、branches 18,169 恒定）与单次严格 coverage:fast；验证 fast 总数 5,762 与基线清单一致。editor 抖动如复现按确定性缺陷处理，不取多数。
+通过则在 Codex 席位签 accept、更新交接日志并给出 Kimi 终审提示词；有阻断签 counter 列明证据转 rework。不得代签、不标 done。
 ```
 
-### Codex：三签齐后的 build 放行（已完成，历史保留）
+### GLM：r1 白名单实现（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 收口 TEST-COVERAGE-DETERMINISM-1 的 build 准入，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft。

@@ -854,6 +854,100 @@ describe('DsReorderCollection', () => {
         .cancelAnimationFrame
   })
 
+  // TEST-COVERAGE-DETERMINISM-1：默认 Harness 无可滚祖先（scrollOwners 为空），有效拖动内
+  // 自动滚动帧命中 reorder.tsx 的 no-owner 返回；该帧此前靠 RAF 时序偶然覆盖，本用例将其钉为
+  // 确定性回归：排队一帧 → 推进后零滚动零提交 → 有效 pointerup 恰一次 intent。
+  test('drag with no scroll owner runs the queued frame without scrolling or committing, then drop commits once', async () => {
+    const onReorder = vi.fn()
+    // 真实排队/取消模型：入队 Map、取消即从队列删除、每个回调至多推进一次；finally 恢复全局。
+    const frameDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'requestAnimationFrame')
+    const cancelDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'cancelAnimationFrame')
+    const frames = new Map<number, FrameRequestCallback>()
+    let frameId = 0
+    Object.defineProperty(globalThis, 'requestAnimationFrame', {
+      configurable: true,
+      value: (callback: FrameRequestCallback) => {
+        frameId += 1
+        frames.set(frameId, callback)
+        return frameId
+      },
+    })
+    Object.defineProperty(globalThis, 'cancelAnimationFrame', {
+      configurable: true,
+      value: (id: number) => {
+        frames.delete(id)
+      },
+    })
+    try {
+      await act(async () => root.render(<Harness onReorder={onReorder} />))
+      const handle = host.querySelector<HTMLButtonElement>('[data-reorder-key="a"]')!
+      const target = host.querySelector<HTMLElement>('[data-ds-reorder-item][data-item-key="c"]')!
+      vi.spyOn(target, 'getBoundingClientRect').mockReturnValue({
+        x: 0,
+        y: 80,
+        top: 80,
+        left: 0,
+        right: 300,
+        bottom: 120,
+        width: 300,
+        height: 40,
+        toJSON: () => ({}),
+      })
+      document.elementFromPoint = vi.fn(() => target)
+
+      await act(async () => {
+        handle.dispatchEvent(pointerEvent('pointerdown', { x: 10, y: 10 }))
+      })
+      await act(async () => {
+        handle.dispatchEvent(pointerEvent('pointermove', { x: 12, y: 12 }))
+        handle.dispatchEvent(pointerEvent('pointermove', { x: 20, y: 110 }))
+        handle.dispatchEvent(pointerEvent('pointermove', { x: 22, y: 112 }))
+      })
+      // 有效拖动内恰好排队一帧（生产单在途帧 guard），且尚未推进任何回调、零提交。
+      expect(frames.size).toBe(1)
+      expect(onReorder).not.toHaveBeenCalled()
+      expect(handle.getAttribute('data-dragging')).toBe('true')
+
+      // 推进该帧（真实语义：触发即出队）：无滚动 owner → 直接返回，不滚动页面、不提交、
+      // 拖动仍有效、不重新排队。
+      const pending = [...frames.values()]
+      frames.clear()
+      await act(async () => {
+        for (const callback of pending) callback(16)
+      })
+      expect(frames.size).toBe(0)
+      expect(document.body.scrollTop).toBe(0)
+      expect(document.documentElement.scrollTop).toBe(0)
+      expect(onReorder).not.toHaveBeenCalled()
+      expect(handle.getAttribute('data-dragging')).toBe('true')
+
+      // 数据次序在 pointerup 前不被提交；有效 pointerup 恰一次 intent。
+      await act(async () => {
+        handle.dispatchEvent(pointerEvent('pointerup', { x: 40, y: 110 }))
+      })
+      expect(onReorder).toHaveBeenCalledOnce()
+      expect(onReorder.mock.calls[0]?.[0]).toMatchObject({
+        sourceKey: 'a',
+        targetKey: 'c',
+        fromIndex: 0,
+        toIndex: 2,
+        input: 'pointer',
+      })
+    } finally {
+      frames.clear()
+      if (frameDescriptor)
+        Object.defineProperty(globalThis, 'requestAnimationFrame', frameDescriptor)
+      else
+        delete (globalThis as { requestAnimationFrame?: typeof requestAnimationFrame })
+          .requestAnimationFrame
+      if (cancelDescriptor)
+        Object.defineProperty(globalThis, 'cancelAnimationFrame', cancelDescriptor)
+      else
+        delete (globalThis as { cancelAnimationFrame?: typeof cancelAnimationFrame })
+          .cancelAnimationFrame
+    }
+  })
+
   test('composition blocks pointer capture and leaves the field interaction owner untouched', async () => {
     const onReorder = vi.fn()
     await act(async () => root.render(<Harness onReorder={onReorder} />))

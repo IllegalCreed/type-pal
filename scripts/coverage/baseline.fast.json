@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-06T07:02:26.889Z",
+  "generatedAt": "2026-09-06T12:02:21.433Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 609,
-  "testCount": 5761,
+  "testCount": 5762,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2778,7 +2778,7 @@
       ],
       "scopeDigest": "bd41169e567a475248106fa2958ae38a1c23d5caf188439340cb0857a92f9d89",
       "fastTests": {
-        "testCount": 1600,
+        "testCount": 1601,
         "testFileCount": 177,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
@@ -3777,8 +3777,8 @@
           },
           {
             "file": "packages/editor/src/ui/design-system/reorder.test.tsx",
-            "testCount": 23,
-            "identityDigest": "659afc9ebb5e95732bc9446d686b5608e9f0bc93721a2e27c4a77ff3faedcbfd"
+            "testCount": 24,
+            "identityDigest": "df2b0a33d570984cf3e06db50d4a0109d54954e0855d9b3cc9d1a708a7fad5b8"
           },
           {
             "file": "packages/editor/src/ui/design-system/virtual-list.test.tsx",
@@ -3846,9 +3846,9 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "014259d9153f6366574ce5c88db1e43975a0f520971919fe69bb09faf3819acc",
+        "identityDigest": "aa7ac228aa6391459995dfc4291d23c1034a2972b19e44391dadb9d729d6fae8",
         "duplicateIdentityCount": 6,
-        "executionDigest": "a505eb47698d206d1eae4db93219382e73a63c4ee55190171bddcedd6ef9626c"
+        "executionDigest": "648cf671eb09c32a6411cb595ea7b11eaf056f3d53651674cdf42f5b5cff0e0f"
       },
       "metrics": {
         "statements": {
