@@ -607,7 +607,7 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 **未验项（不变）**：浏览器实机验证（归 Codex dev-functional；Codex 上轮已验坏档可走/好档可恢复，
 本轮文案改短后建议复验一眼截断）；IndexedDB 真实坏库；通用 rollback（按方案不承诺）。
 
-**第二轮返工候选：`<待回填>`。**
+**第二轮返工候选：`2c39b1af`。**
 
 ### Coding Owner 交接（2026-09-06）
 
@@ -713,7 +713,7 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 ### Codex：复核第二轮返工候选（当前有效）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，第二轮返工候选 <HASH>，对比 1e271b03（r1 设计签字保持有效，不重签）。
+在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，第二轮返工候选 2c39b1af，对比 1e271b03（r1 设计签字保持有效，不重签）。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡你的返工复核（两项剩余 counter）、GLM 第二轮返工回执与最新交接日志；接手前同步分支。
 本轮只改 4 文件、main.ts 零 diff。逐项核：R4——shortMessage 是否固定为 SAVE_STRUCTURE_TOAST_TEXT（'存档损坏，无法读取'）、完整路径仍只进 .message/console.warn；像素回归是否用生产 BDF（data/raw/unifont-cn.bdf?raw → parseBdfGlyphs + measureSpans）实测（回执 144px ≤ 200；对照 232/248px 超限与你浏览器实测应逐像素一致），而非字符数断言。R2——normalize 用例 gate 是否移入 getLifecycleReferences 首调（旧请求真正进入归一化后挂起）、prepare 是否 entered 信号替代 30ms；chain 内置突变负控制是否钉住防护（移除 normalize catch isCurrent 后断言旧失败覆盖新成功），可独立复算该突变只删那一行。
 保持项核查：R1/R3、三阶段实现、原探针零 diff、SAVE8/content20/公共模型/隔离卡策略不变；你上轮功能验证结论不需重做全量，建议浏览器复验一眼新短文案不再截断。
