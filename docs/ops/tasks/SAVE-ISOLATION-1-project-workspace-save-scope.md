@@ -75,6 +75,17 @@ r2 在 `c09fbfa9` 复跑原探针：A-01 再次输出两个 `type-pal-saves@1`�
 这是用户对上一条推荐的明确继续指令，不从先前异步选项的预选状态推导批准。
 产品阻塞解除，进入 draft；下方 r2 方案须经三席前提/设计签字后才允许实现。
 
+补充裁决（用户，2026-09-06，r2 评审过程中）：
+
+- 现有开发存档没有需要保留的进度，**可以全部作废，不做迁移、恢复或旧档兼容**；新隔离空间可以从空档开始。
+  沿 r2 保持旧未分区库不读不迁，无需另做清库功能；本次没有实际删除数据库。
+- 主要目标是**发布后玩家游玩不同工程时，正常保存不会覆盖其他工程进度**。按工程 ID 选择存储读写空间，
+  并校验归属；不是只在覆盖发生后拒绝读取。开发试玩再加既有工作区 ID，维持已确认的副本隔离。
+- 发布工程 ID 应代表稳定作品身份；不同工程使用不同 ID，不以显示名或每次发布的版本号作身份。
+  不在本卡扩展全局 ID 分配系统、重命名工程或跨源/跨账户存档服务。
+- “开发旧档可废弃”**不适用于未来正式用户存档**，也不是删除其他应用/一阶段数据的授权；正式发布后的
+  格式兼容政策另定。该补充确认 r2 已有边界，不改变存储方案，不重开正在进行的设计签字。
+
 ## r2 方案：身份、入口、存储三处闭合
 
 ### 1. SaveScope 是运行入口参数，不是存档格式字段
@@ -260,7 +271,52 @@ Coding Owner 保持 Codex。可在一张卡内先闭合 scope/Store，再接齐�
     ⑦ savedTimes 不经绑定 Store listMeta 派生 → 跨域泄漏。
   - 返工项：无。非阻断备注：savedTimes 由共享全局变为按 scope 计数是隔离的固有预期后果，
     验收矩阵已覆盖；build 期浏览器最小验证须含同 W HTTP→FSA 库名恒等断言。
-- GLM：r2 premise pending；design pending。
+- GLM：**premise verified / design agree（2026-09-06，r2，独立数据/矩阵审查；全部证据本人直读/亲跑，
+  未读取 Kimi 签字内容——其签字于本人审查中途落地，本人仅确认席位位置）**。
+  独立证据：
+  - **A-01 本人复跑**（洁净树 `c09fbfa9`+方案提交）：探针输出两个 `type-pal-saves@1`、六次同
+    `quick` 键三 store 写入、`oldAOverwritten=true / AReadNowRejected=true`；脚本随后在已修
+    B-04/U-01 旧假设处 exit 1（CurrentSaveStructureError）——只计 A-01 已输出观察，不称全探针通过。
+  - **store.ts 直读**：`DB_NAME='type-pal-saves'` 固定（:34）、三 store 均以 slotId 为键、构造无
+    scope；putSlot 仅 `oncomplete/onerror`（**无 onabort**，方案补强为真实缺口非冗余）；Memory 有
+    克隆但无工程/scope 绑定；`savedTimes` 由 `saveStore.listMeta()` 派生 + 三 store 原子事务成功后
+    单调推进（main.ts:5612-5625）——计数隔离随 store 绑定自动成立，无需全局计数器。
+  - **入口链直读**：main.ts:586 Store 无参创建；boot.ts 独立壳 `bootGame(await loadRunnableProject(...))`
+    单参数；play.ts `!workspaceId` 把**空 `workspace=` 当无 workspace 走 HTTP**（方案明令修复的现状确认）、
+    无重复/互斥参数检查；`resolvePlayWorkspaceRecord` 校验记录存在 + projectId 一致 + manifest 二次校验；
+    parseShopTrialParameters 白名单 `project/workspace/shop-trial/money`，未知键即抛——
+    `save-workspace` 未加白前试买链接会**响亮失败**（不会静默丢身份），shop-trial.ts 改动必须与
+    链接改动同候选落地（方案已如此安排）；runShopTrial 在 bootGame 最前分流返回（main.ts:349-355），
+    早于 Store 创建——独立试买零存档读写保持。
+  - **试玩链接全量枚举（本席独立 grep + 逐点直读）**：`play.html` 构造恰 7 处——App:1740（场景+spawn）、
+    PreviewCanvas:441（+pos）、EnemyTab:912、EnemyTeamTab:416、SkillTab:1120、ShopTab:184（+shop-trial/
+    money）+ 共享 helper play-url.ts；中间 props 载体恰为 DataMode（→Enemy/EnemyTeam/Skill/Shop 及
+    :424 预览缓存 projectKey）、SceneScriptWorkspace（:224-225）、ScriptDrawer（:1089-1090）。与方案
+    editor 文件面 12 文件**一一对应，未发现清单外构造点，也未发现清单内遗漏**。DataMode:424
+    `${manifest.id}:${workspaceId??''}` 预览缓存键为非试玩用途，方案明令不动 ✓。
+  - **身份连续性直读**：App:575 `dirHandleRef.current ? workspaceId : undefined`（未绑定会话当前
+    无存档身份——A-01 未绑定分支根因）；workspace-context isWorkspaceId=UUID 正则（:70）、PAL 基线
+    sentinel.workspaceId（:238）、沙盒 marker；handle-store 登记锁 + 一句柄一身份 + 记录一致性
+    （:121-144）；workspace-persistence :720-751 重开经 marker/句柄找回 identity、不新造 UUID；
+    main.tsx:75-92 PAL sentinel/ui_samples 沙盒上下文在未绑定期已有 identity。方案"未绑定→首存绑定→
+    重开 W 不变"与源码一致。
+  - **真值矩阵其余行**：一阶段 game `DB_NAME='type-pal'` + 数字槽 1..5（api.ts:14 MAX_SAVE_SLOTS=5）、
+    无工作区身份 ✓；reforge types.ts ALL_SLOT_IDS auto/quick/m01..m28 30 槽合同 ✓ 不改；
+    fake-indexeddb 当前 0 处于 pnpm-lock（未安装，与"仅列入待审方案"相符）。
+  design agree：SaveScope 为运行入口参数而非载荷字段（保 SAVE8/content20 零变化）；库名
+  `JSON.stringify(['project',P]) / ['workspace',P,W]` 元组编码对分隔符/Unicode 唯一；内容来源
+  （workspace=）与存档身份（save-workspace=）分责 + 互斥/空/重复拒绝；旧库物理保留不读不迁
+  （符合 READ-FIRST 11 开发期不背兼容）；Memory/IDB 事务收尾补强；测试依赖仅 devDependencies +
+  真实浏览器 dev-functional 补验。
+  可证伪观察：(1) 若存在本席枚举之外的 play.html 构造点或某链接漏传 playIdentity，"所有试玩链接"
+  行失败；(2) 若出现 shop-trial 白名单与链接改动分离的中间提交，未绑定试买将响亮失败——review 时
+  核候选单提交闭合；(3) 若 savedTimes 实现引入任何跨 store 全局计数，计数隔离行失败（当前派生
+  机制已按 store 隔离）；(4) 若同 W 从 HTTP 到 FSA 首存绑定后库名元组变化，连续性行失败；
+  (5) 若 `workspace=` 空值仍落入任一内容路径而非拒绝，互斥行失败。
+  非阻断备注：(a) 一阶段证据行的"`type-pal/save-slots`"措辞把 DB 名（'type-pal'，indexed-db.ts:16）
+  与 store 命名混写，行结论（单游戏/数字槽/无工作区身份）本身经本人核实无误；(b) per-scope 每库
+  一档会使源内 DB 数量随工作区增长，受浏览器逐源配额/清除策略影响（如 Safari ITP），属开发期
+  预期非本卡范围；(c) boot.ts 独立壳在方案入口表有行、矩阵未单列，与"A/B 工程同源同槽"同机制，可接受。
 - 独立反证审查：pending，至少一席须直接读规范与 store/入口代码。
 - 缺签豁免：无。
 - build 准入结论：blocked（产品选择已定，待 Kimi/GLM 独立 r2 前提与设计签字）。
@@ -292,6 +348,15 @@ pnpm --filter @type-pal/editor exec vitest run src/core/workspace-persistence.te
 
 ## 交接日志
 
+- 2026-09-06 Codex（用户裁决补充）：记录旧开发档可全部作废、无需迁移恢复兼容，以及发布后以工程 ID
+  隔离读写保护玩家进度的主要目标。开发试玩仍附加工作区身份；未删除数据库，未修改产品或 r2 方案，
+  不撤销已有签字、不要求重新审签，不将开发期许可延伸到正式用户存档。
+- 2026-09-06 GLM：完成 r2 独立数据/矩阵审查，签 premise verified + design agree，无返工项。
+  A-01 本人复跑（只计已输出观察，其后 B-04 旧假设 exit 1 不算全探针通过）；store/入口/身份链/试买
+  分流逐点直读；试玩链接全量枚举恰 7 构造点 + 3 中间载体，与方案 12 文件面一一对应、无清单外/遗漏；
+  savedTimes 派生机制直读确认按 store 隔离。五条可证伪观察与三条非阻断备注（一阶段措辞、per-scope
+  DB 配额、boot.ts 矩阵未单列）写入签字块。Kimi 签字中途落地，未读其内容。仅更新本人席位与日志；
+  未改实现/他席/任务状态，不标 build/done。Next：三签齐后 Codex 放行 build（实现 Owner Codex）。
 - 2026-09-06 Kimi：完成 r2 独立前提/架构审查，签 premise verified + design agree，无返工项。
   直读 store.ts:34/60-65（同库同键+无 onabort）、main.ts:350-354/586（试买先于存储分流、无参构造）、
   App.tsx:576、main.tsx:75-92、workspace-context/workspace-persistence/handle-store 身份连续性、
