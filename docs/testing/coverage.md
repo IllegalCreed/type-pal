@@ -111,7 +111,7 @@ GLM 文档提交 `e1314089` 的 [CI](https://github.com/IllegalCreed/type-pal/ac
 `coverage:ratchet` 验证 608 个生产文件、486 个 fast 测试文件 / 5,691 项测试，所有包四项指标均未回退；
 本次未重跑 full coverage，前文 Full 表仍为首次基线，不把普通完整 check 当成 full 覆盖率报告。
 
-| 当前 Fast 全仓 | 精确计数 | 展示值 |
+| E-06 时点 Fast 全仓 | 精确计数 | 展示值 |
 |---|---:|---:|
 | Lines | 47,079 / 68,387 | 68.84% |
 | Statements | 52,073 / 78,182 | 66.60% |
@@ -121,6 +121,28 @@ GLM 文档提交 `e1314089` 的 [CI](https://github.com/IllegalCreed/type-pal/ac
 最初的格式清理曾使 migrate 行覆盖从 3,435/6,679 变为 3,433/6,677，ratchet 正确拒绝了这个微小下降；
 补真实守卫回归后达到 3,436/6,677 才接受新基线，没有降低阈值、缩窄生产范围或使用 coverage ignore。
 GitHub Actions 的 fast coverage 前置运行 `pnpm typecheck && pnpm lint`，完整 PAL 回归仍在本地完整检查中运行。
+
+## SAVE-PREFLIGHT-1 增量基线（2026-09-06）
+
+[B-04 修复](../ops/audits/pre-e2e/save-preflight-remediation.md)终审候选 `2c39b1af` 的单次严格 fast
+为 **609 个生产文件 / 5,761 项测试**，各包精确比较通过，生产范围未缩窄；本轮文档收口没有改动基线或重跑覆盖率。
+相对 E-06 净增 70 项：结构矩阵 50 项、真实 main.ts 恢复调用链 20 项。首轮重复矩阵已在返工中替换，
+不沿用初版 5,783 次执行数冒充最终独立用例数。
+
+| 当前 Fast 全仓 | 精确计数 | 展示值 |
+|---|---:|---:|
+| Lines | 47,203 / 68,527 | 68.88% |
+| Statements | 52,217 / 78,345 | 66.65% |
+| Functions | 9,898 / 14,415 | 68.66% |
+| Branches | 37,385 / 61,645 | 60.65% |
+
+新结构 guard 的行/语句/函数均 100%，分支 46/51（90.19%）；不代表整个存档域或全仓已达长期目标。
+本卡未重跑 full coverage，前文 Full 表继续标记首次基线，完整普通 check 不能替代 full 报告。
+
+editor 历史少 1 条语句/分支日志已另立
+[TEST-COVERAGE-DETERMINISM-1](../ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)：
+具体分支/根因和“clean HEAD 同特征”的归因尚待证，不能据现有次数宣称失败概率；最终单次通过也不等于
+历史不确定性已修复。保持精确门禁，复现即停线补证，不重试取多数、不下调基线。
 
 ## 长期目标（本轮不硬卡）
 

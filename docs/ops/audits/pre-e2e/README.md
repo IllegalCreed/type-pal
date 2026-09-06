@@ -1,6 +1,7 @@
 # PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账
 
-后续修复回执：[E-06 质量门禁](quality-gate-remediation.md)。原审计结论按基线保留。
+后续修复回执：[E-06 质量门禁](quality-gate-remediation.md)、[B-04 当前存档预检](save-preflight-remediation.md)。
+以下“未修复/修复尚未开始”均为原审计时点；当前修复状态以回执与[看板](../../board.md)为准，不改原探针和历史结论。
 
 审计基线：`09ee6e3c`（商店已完成；content20 / SAVE8）。
 Owner：Codex；本批使用内部并行只读取证，**不代表 Kimi / GLM 签字**。

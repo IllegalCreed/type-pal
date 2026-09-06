@@ -1,6 +1,6 @@
 # SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离
 
-Status: review
+Status: done
 Phase: phase2
 Capability: X1（审计 B-04 修复，不新增能力格）
 Coding Owner: GLM
@@ -12,11 +12,13 @@ Unavailable Agents: none
 Branch: main
 Revision: r1
 Evidence Baseline: 5462d01a
+Accepted Candidate: 2c39b1af
+Closed: 2026-09-06（Codex 按用户明确授权收口）
 
 ## 目标与范围
 
 损坏的当前版本存档在停止旧脚本、替换世界或提交场景之前被拒绝，并提供稳定错误反馈；合法存档保持现有恢复行为。
-与 [SAVE-ISOLATION-1](SAVE-ISOLATION-1-project-workspace-save-scope.md) 分卡：本卡不定义存档命名空间或副本共享策略。
+与 [SAVE-ISOLATION-1](../../../tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md) 分卡：本卡不定义存档命名空间或副本共享策略。
 初始安排为先落实隔离卡的产品边界、并行审查本卡。2026-09-06 用户确认本卡已签并提出可交 GLM 实现，
 Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此放行当成隔离卡产品选择或整组修复授权。
 
@@ -34,7 +36,7 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 | 维度 | 当前真值 | 一手证据 |
 |---|---|---|
 | 原版 / primary source | 这是 TypeScript 当前合同与实际恢复调用顺序的工程缺陷，不需要从原版推导新的存档格式；IndexedDB 结构化存储不承担应用字段校验。 | `packages/reforge/src/save/types.ts:38`；[IndexedDB 值存储](https://w3c.github.io/IndexedDB/#value-construct)；本卡直接执行真实函数体的探针 |
-| 第一阶段 | 单游戏存档 API 拷贝并存取 GameState，不验证当前 Reforge WorldState；只借鉴“所有恢复入口共路”经验，不移植旧 upgrader。 | `packages/game/src/core/save/api.ts:55`、`:67`；[harvest X9](../../phase2/reference/phase1-knowledge-harvest.md#x9-存档版本化迁移--读档归一化) |
+| 第一阶段 | 单游戏存档 API 拷贝并存取 GameState，不验证当前 Reforge WorldState；只借鉴“所有恢复入口共路”经验，不移植旧 upgrader。 | `packages/game/src/core/save/api.ts:55`、`:67`；[harvest X9](../../../../phase2/reference/phase1-knowledge-harvest.md#x9-存档版本化迁移--读档归一化) |
 | 当前二阶段 | SAVE8/content20 header 有 guard；normalize 深拷贝并校验 script、awareness、skillUseCounts、lifecycles，但不验证 money/party/position 核心形状。 | `packages/reforge/src/save/current-codec.ts:62`、`:91`；`packages/content/src/character.ts:16`、`:187` |
 | 当前提交边界 | party[0] 在恢复准备 try 外；非法 facing 到同步 commit 才使 follower 计算抛错，而 abortScript/replaceWorld 已执行。 | `packages/reforge/src/main.ts:5692`、`:5723`；`packages/reforge/src/scene-transition.ts:24`；`packages/reforge/src/follower.ts:51` |
 | 当前入口 | F9 未 catch quickLoad；槽恢复与 e2e-load 已使用同一 normalize/restore 路径，必须继续共路。 | `packages/reforge/src/main.ts:5743`、`:6730`、`:6895` |
@@ -77,9 +79,9 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 
 ## 上下文锚点与不可回引
 
-- [READ-FIRST](../../phase2/READ-FIRST.md) 第 2/5/8/9/11 条；[AGENTS](../../../AGENTS.md) save 高风险准入与前提门。
-- [B-04 审计](../audits/pre-e2e/world-lifecycle.md#b-04--u-01追证坏核心字段突破恢复边界)、[审计总收口](../audits/pre-e2e/summary.md)。
-- [一阶段工程经验](../../phase1/engineering-notes.md) 的存档/持久值与运行态区别、时间状态收尾；不带入旧版归一化 fallback。
+- [READ-FIRST](../../../../phase2/READ-FIRST.md) 第 2/5/8/9/11 条；[AGENTS](../../../../../AGENTS.md) save 高风险准入与前提门。
+- [B-04 审计](../../../audits/pre-e2e/world-lifecycle.md#b-04--u-01追证坏核心字段突破恢复边界)、[审计总收口](../../../audits/pre-e2e/summary.md)。
+- [一阶段工程经验](../../../../phase1/engineering-notes.md) 的存档/持久值与运行态区别、时间状态收尾；不带入旧版归一化 fallback。
 - `packages/content/src/author-script-core.ts:1222`：复用现有脚本世界态 guard，不能另写第二套脚本 walker。
 - `packages/content/src/grid.ts:53`：脚本有分数格位移；位置不能擅自限定整数/非负/可通行格。
 - `packages/reforge/src/actor-condition-lifecycle.ts:40`：恢复临时状态清理只作用于隔离的候选，不作用于当前世界。
@@ -135,7 +137,8 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
   再加载合法快照成功；使用专用测试存储，不污染用户现有槽。不要求用户做 JSON 造坏档或跑命令。
 - R4/Q1 / Codex：合法 checkpoint → 行走/脚本检查 → 坏 checkpoint 拒绝且保持前一状态 → 正确 checkpoint 成功。
   入口为现有 `e2e-load` 和正式 quick/menu 路径；记录场景、坐标、队伍/金额、脚本活动与关键时序，不以 toast 唯一验收。
-- 视觉当前未执行：draft 未改产品；build 功能验证由 Codex 完成，剧情观感留集中 E2E，不重复走整段剧情。
+- dev-functional 已由 Codex 完成并经 Kimi 复用证据核验；剧情观感仍未执行，归 R4/Q1 集中 E2E。
+  可执行步骤、断言与证据位置已同步到[测试入口](../../../../testing/e2e.md#已登记的存档恢复回归save-preflight-1)，不重复走整段剧情。
 
 ## 推进签字
 
@@ -328,8 +331,10 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
   editor off-by-one 抖动本人两轮各一次严格 coverage:fast 均未复现，确定性调查按 Codex 登记另卡跟进。
   知悉 Kimi 两条非阻断观察（codec 非结构错误长文案截断系本卡前既有行为、read/prepare 晚到用例
   阶段真实性由 harness 结构保证），不构成本席 counter。本 accept 不代签他席、不授权自行标 done。
-- done 准入结论：三席签字齐（Codex 独立 accept + Kimi 独立 accept + GLM 实现者自测 accept，无缺签豁免）；
-  汇总核定、状态推进与收口交 Codex 统一执行（含用户验收安排），本卡在收口前保持 review。
+- done 准入结论：**done allowed → done（Codex，2026-09-06）**。Codex/Kimi 独立 accept 与 GLM
+  实现者自测 accept 三席齐，无缺签豁免、无未解决 counter；r1 前提/设计未变，不重签。
+  接手 HEAD `c0d16e42` 与 origin/main 同步、工作树干净；相对 `2c39b1af` 的 packages/ scripts/ 零 diff。
+  用户明确要求本轮收口，按授权完成技术验收，不将其登记为用户亲自实机复验或整组修复授权。
 
 ### Codex 第二轮返工复核（本人席位，2026-09-06，候选 2c39b1af）
 
@@ -535,11 +540,23 @@ mutation.config.mjs/mutation.log、browser-smoke.mjs/log、rejected-money/portra
 ## Build / Review / 用户验收
 
 已签 r1 的前两轮候选及 counter 按历史保留；第二轮返工候选 `2c39b1af` 已由 Codex 独立复核 accept，
-Kimi 独立终审 accept，GLM 已补齐实现者自测 accept——done 前三席签字齐。汇总核定、状态推进与收口
-交 Codex 统一执行；收口前任务保持 review，不得由实现方自行标记 done。
+Kimi 独立终审 accept，GLM 已补齐实现者自测 accept。2026-09-06 用户明确授权收口，Codex 核定三席
+与候选一致性后推进 done 并归档；没有新增产品/测试/配置改动，也不重复已核且未变的重型测试与浏览器流程。
 无 Agent 缺席/额度代班；用户主动调整实现分工，不冒充额度豁免，也不由内部 Codex 分工代签 Kimi/GLM。
-2026-09-06 既有基线测试：save/store、save/ops、save/browser-state、current-save characterization、
+历史开工基线测试：save/store、save/ops、save/browser-state、current-save characterization、
 actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；它们尚不覆盖本卡新增反例。
+
+### 收口结果与后续（2026-09-06）
+
+- 审计 B-04 已修复；正式回归、独立审查、最小功能验证与保留边界见[修复回执](../../../audits/pre-e2e/save-preflight-remediation.md)。
+- R4/Q1 的坏 checkpoint 拒绝、旧状态可用、好 checkpoint 恢复及剧情观感仍为集中 E2E 待跑项，
+  不能把本卡 done 当作完整通关/E2E 验收。
+- editor coverage 少 1 条语句/分支现象另记
+  [TEST-COVERAGE-DETERMINISM-1](../../../tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)。
+  根因、具体分支与“clean HEAD 同特征”的归因尚待补证；不得用历史失败概率或多数通过放行。
+- Kimi 的非结构 codec 长提示观察登记为[后续项](../../../audits/pre-e2e/save-preflight-remediation.md#后续事项)，
+  不阻断本卡、不立即另开产品实现，不扩大为通用错误 UI 改造；read/prepare 测试观察无需额外返工。
+- SAVE-ISOLATION-1 保持 blocked，只修正其指向本卡的归档链接；工作区存档策略仍等用户拍板。
 
 ### GLM 实现回执（Coding Owner 自测，2026-09-06，候选 `afa9e0eb`）
 
@@ -745,6 +762,14 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 
 ## 交接日志
 
+- 2026-09-06 Codex（统一收口）：同步并核对 `c0d16e42` 的 GLM 本人自测 accept；三席无缺签、
+  无有效 counter，r1 设计保持，终审候选仍为 `2c39b1af`。接手工作树干净，packages/ scripts/ 与候选
+  零 diff，两份原审计探针相对整卡基线 `5f9f92ba` 零 diff。按用户明确授权推进 done、归档并同步
+  看板/索引/修复回执；后续事项单独登记，不实施新修复、不改 SAVE-ISOLATION-1 的产品待决状态。
+  本次 `node --test scripts/docs/*.test.mjs` 20/20 通过，`node scripts/docs/check.mjs` 通过
+  （397 Markdown / 1,776 本地链接 / 138 任务）；`git diff --check` 通过。另以归档前后文本断言确认
+  r1 设计与三席终审签字未改、隔离卡仅重定向链接；此前定向/全 check/单次严格 coverage/最小浏览器证据保持有效。
+  无下一位 Agent 提示词，本卡已收口；历史提示词不再授权执行。
 - 2026-09-06 GLM（Coding Owner，done 前最终登记）：补齐本席 accept（实现者自测性质，非独立审查）。
   登记前核对当前 HEAD 相对候选 `2c39b1af` 的 packages/ scripts/ 零 diff、工作树干净。签字依据仅为
   本人已完成的实际验证（save 88 + 相邻 22、typecheck、完整 check exit 0、单次严格 coverage:fast
@@ -845,10 +870,12 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 
 ## 下一位 Agent 提示词
 
-### Codex：汇总验收与收口（当前有效）
+无下一位 Agent 提示词，本卡已按用户授权收口。以下全部为历史交接记录，不再执行或重签。
+
+### Codex：汇总验收与收口（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 收口 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，终审候选 2c39b1af。r1 设计签字保持，不重签。
+在 /Users/zhangxu/illegal/type-pal 收口 SAVE-PREFLIGHT-1，任务卡 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，终审候选 2c39b1af。r1 设计签字保持，不重签。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 done 前三席签字（Codex accept / Kimi accept 含两条非阻断观察 / GLM 实现者自测 accept）与最新交接日志；接手先同步分支并检查工作树。
 GLM 已完成最终登记：当前 HEAD 相对 2c39b1af 的 packages/ scripts/ 零 diff，三席签字齐、无缺签豁免。由你统一核定 done 准入、推进任务状态并同步看板/索引。
 按卡面登记后续事项：剧情观感类集中 E2E 批次入口（本卡 R4/Q1 用例已登记）、editor coverage off-by-one 抖动的确定性修复另卡登记、修复回执/文档收口。Kimi 非阻断观察（codec 非结构错误长文案在 200px 提示区可截断，系本卡前既有行为）是否另卡跟进由你收口时判断。
@@ -858,7 +885,7 @@ GLM 已完成最终登记：当前 HEAD 相对 2c39b1af 的 packages/ scripts/ �
 ### GLM：补实现者最终自测登记（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 补齐 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md 的 done 前 GLM 签字。任务 review，候选 2c39b1af，你是 Coding Owner；Codex/Kimi 已 accept，无返工。
+在 /Users/zhangxu/illegal/type-pal 补齐 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md 的 done 前 GLM 签字。任务 review，候选 2c39b1af，你是 Coding Owner；Codex/Kimi 已 accept，无返工。
 先读 AGENTS.md、本卡上下文锚点、你自己的第二轮返工回执和最新终审结论，确认当前产品与候选无差异。只依据本人已完成的实际验证，在 GLM 席位登记 accept 或 counter（明确为实现者自测），附原命令/结果、候选和未验项；不要把其他席复跑写成你亲跑。
 这只是补漏的最终登记，不重签设计、不改实现、不重复已核且未变的测试。只更新自己的签字块与本人日志并提交推送，保留其他席内容，不改任务状态、不标 done；交回 Codex 汇总验收/收口。
 ```
@@ -866,7 +893,7 @@ GLM 已完成最终登记：当前 HEAD 相对 2c39b1af 的 packages/ scripts/ �
 ### Codex：历史收口交接（登记期版本，已由上方当前版取代）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 收口 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，终审候选 2c39b1af（HEAD 侧无产品变化）。r1 设计签字保持，不重签。
+在 /Users/zhangxu/illegal/type-pal 收口 SAVE-PREFLIGHT-1，任务卡 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，终审候选 2c39b1af（HEAD 侧无产品变化）。r1 设计签字保持，不重签。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 done 前三席签字与最新交接日志；接手先同步分支并检查工作树。
 现状：done 前 Codex 已 accept、Kimi 已 accept（含两条非阻断观察，见签字块），GLM 的 done 前签字仍 pending——请安排 GLM 以 Coding Owner 身份完成最终签字（自测性质，不冒称独立审查）。
 三席齐后由你统一核定 done 准入结论、同步任务状态/看板/索引，并按卡面登记后续事项：剧情观感类集中 E2E 批次入口（本卡 R4/Q1 用例已登记）、editor coverage off-by-one 抖动的确定性修复另卡登记、修复回执更新。
@@ -877,7 +904,7 @@ Kimi 的非阻断观察（codec 深层错误长文案在 200px 提示区可截�
 ### Kimi：实现终审（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，候选 2c39b1af；本轮对比 1e271b03，整卡实现可对比 5f9f92ba。r1 设计签字保持，不重签。
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-PREFLIGHT-1，任务卡 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，候选 2c39b1af；本轮对比 1e271b03，整卡实现可对比 5f9f92ba。r1 设计签字保持，不重签。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡上下文锚点、GLM 第二轮回执和 Codex 最新 accept。你独立核实际源码/测试，不复述他席结论；接手先同步分支并检查工作树，不使用历史 stash。
 重点核 R1–R4 最终闭环：真实 AST chain；三阶段提示所有权与取消；稀疏数组/状态/portrait 合同；固定短中文提示与真实 BDF 像素测量；normalize entered/gate 确实进入内部 await，内置突变只删除该 catch 的 isCurrent。main.ts 本轮零 diff、SAVE8/content20/公共模型/原探针/隔离策略不变。
 Codex 已独立跑 save88+相邻22、typecheck、完整check6246、一次严格coverage:fast5761；负控制只让normalize失败。隔离浏览器新提示144px，旧对照232/248px，文字完整可见且坏档不改world。证据 /tmp/type-pal-save-final-review.oSt0mR/；复用视觉证据，不重复相同浏览器或剧情流程。
@@ -887,7 +914,7 @@ Codex 已独立跑 save88+相邻22、typecheck、完整check6246、一次严格c
 ### Codex：历史复核交接（2c39b1af 已审）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，第二轮返工候选 2c39b1af，对比 1e271b03（r1 设计签字保持有效，不重签）。
+在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，第二轮返工候选 2c39b1af，对比 1e271b03（r1 设计签字保持有效，不重签）。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡你的返工复核（两项剩余 counter）、GLM 第二轮返工回执与最新交接日志；接手前同步分支。
 本轮只改 4 文件、main.ts 零 diff。逐项核：R4——shortMessage 是否固定为 SAVE_STRUCTURE_TOAST_TEXT（'存档损坏，无法读取'）、完整路径仍只进 .message/console.warn；像素回归是否用生产 BDF（data/raw/unifont-cn.bdf?raw → parseBdfGlyphs + measureSpans）实测（回执 144px ≤ 200；对照 232/248px 超限与你浏览器实测应逐像素一致），而非字符数断言。R2——normalize 用例 gate 是否移入 getLifecycleReferences 首调（旧请求真正进入归一化后挂起）、prepare 是否 entered 信号替代 30ms；chain 内置突变负控制是否钉住防护（移除 normalize catch isCurrent 后断言旧失败覆盖新成功），可独立复算该突变只删那一行。
 保持项核查：R1/R3、三阶段实现、原探针零 diff、SAVE8/content20/公共模型/隔离卡策略不变；你上轮功能验证结论不需重做全量，建议浏览器复验一眼新短文案不再截断。
@@ -898,7 +925,7 @@ Codex 已独立跑 save88+相邻22、typecheck、完整check6246、一次严格c
 ### GLM：仅修剩余两项（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 rework，候选 1e271b03 仍为 counter；你是唯一 Coding Owner。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡最新 Codex 返工复核；r1 不重签。
+在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 rework，候选 1e271b03 仍为 counter；你是唯一 Coding Owner。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡最新 Codex 返工复核；r1 不重签。
 仅处理剩余两项：R4 的字符限长不保证像素可见，portrait/hiddenExp 短提示实测232/248px而可用仅200px；推荐固定短中文失败提示，详细路径留 message/日志，增加实际宽度回归。R2 实现已正确，但 normalize 测试 gate 放在 getPayload，未到 normalize；改在 getLifecycleReferences 内部 await 用 entered/gate，验证新成功后旧归一化失败不盖提示。prepare 也用明确 entered 信号，不用30ms猜阶段。
 Codex 已验证 R1/R3、三阶段正确实现、108定向测试、完整check和一次严格覆盖率通过；坏档后可走、好档可恢复。这些保持，不重做或扩大为版本/模型/迁移/隔离策略变更。原探针和他席历史结论不改。
 先红后绿必须命中实际缺口：移除 normalize catch 身份检查应使该测试失败，不能再用读后提前退出解释测试为有效；R4 用实际字形/像素宽度而非length<=30证明。不要用stash操作共享工作树，复用隔离测试/源码注入方式。
@@ -908,7 +935,7 @@ Codex 已验证 R1/R3、三阶段正确实现、108定向测试、完整check和
 ### Codex：历史复核交接（1e271b03 已审，已被本轮取代）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，返工候选 1e271b03，对比 afa9e0eb（r1 设计签字保持有效，不重签）。
+在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，返工候选 1e271b03，对比 afa9e0eb（r1 设计签字保持有效，不重签）。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡你的 R1–R4 counter、GLM 返工回执与最新交接日志；接手前同步分支。
 逐项核 R1–R4 是否真实修复：chain 文件应为真实 AST 调用链回归（18 项，不再是结构矩阵副本，cmp 与测试名可证）；main.ts 三个失败 toast 前有 isCurrent 收口且 AbortError 协议不变；current-structure.ts 用下标循环覆盖稀疏空洞、status 复用 content 的 isCarryableStatusId、portrait 拒绝 null；CurrentSaveStructureError 的 shortMessage 限长且 message 保留完整路径。核对回执与 diff 是否一致（首轮回执不符问题不得复发）。
 复跑定向测试（save 86 项、相邻 22 项）、Reforge typecheck、完整 pnpm check、单次严格 coverage:fast；GLM 已用 git stash 回退实现验证先红（结构 4 红、chain 5 红），可按同法抽查。既有 editor off-by-one 抖动如复现按确定性缺陷登记，不以多数通过放行。
@@ -919,7 +946,7 @@ Codex 已验证 R1/R3、三阶段正确实现、108定向测试、完整check和
 ### GLM：直接返工（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 rework，你仍是唯一 Coding Owner。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 r1、Codex 对 afa9e0eb 的 R1–R4 counter 与最新交接日志；设计不重签。
+在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 rework，你仍是唯一 Coding Owner。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 r1、Codex 对 afa9e0eb 的 R1–R4 counter 与最新交接日志；设计不重签。
 Codex 已完成独立审查与隔离功能验证。直接修复：R1 恢复链测试误复制、回执与候选不符；R2 旧读取/normalize/prepare失败提示覆盖新成功；R3 稀疏数组、状态枚举和portrait=null结构漏检；R4 长错误提示裁切。不要等待 Kimi 确认这些阻断。
 保留已通过的四个原始坏档隔离、合法分数坐标/HP=0/静音/可选缺席、取消与恢复合同；不改 SAVE8/content20、公共模型、迁移产物、数值/碰撞规则或隔离卡策略。证据与复现步骤在卡内，原审计探针不改。
 按最终提交真实内容补先红后绿回归，校正重复测试清单与本人回执，实跑定向测试、typecheck、完整check及覆盖率；不得手改覆盖率指标、保留重复用例凑数或用“多数通过”代替门禁。同步任务状态、看板与索引。
@@ -929,7 +956,7 @@ Codex 已完成独立审查与隔离功能验证。直接修复：R1 恢复链�
 ### 已撤销的 Kimi 交接（仅保留历史，不再转发）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，候选 afa9e0eb，对比 5f9f92ba；r1 设计不重签。
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-PREFLIGHT-1，任务卡 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，候选 afa9e0eb，对比 5f9f92ba；r1 设计不重签。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡上下文锚点、GLM 实现回执和 Codex 本轮 counter。你负责独立核证最终候选，不复述他席结论。
 重点核 R1：两个新增测试文件同 blob，实际46+46而非46+13；R2：旧读取/normalize/prepare失败提示覆盖新成功；R3：稀疏inventory、任意status、portrait=null漏检；R4：长错误在现有画布提示区截断。核对源类型与真实 doLoad/restore/调用入口，不只看绿色计数。
 Codex 已跑130相关测试、typecheck与一次严格fast coverage，完成隔离空白工程真实F5/F9+IDB功能验证：坏档后可走、好档恢复成功，但提示截断；候选仍 counter。原探针零改动，但合法控制组返回类型变化导致提前停止，不能将该失败直接当作全修证明。
@@ -940,7 +967,7 @@ Codex 已跑130相关测试、typecheck与一次严格fast coverage，完成隔�
 ### GLM：历史实现交接（已完成，r1 方案不变）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md。状态 build，方案 r1 三方设计已签齐；你现在是唯一 Coding Owner，Codex 负责独立检查与功能验证，Kimi 负责终审。
+在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md。状态 build，方案 r1 三方设计已签齐；你现在是唯一 Coding Owner，Codex 负责独立检查与功能验证，Kimi 负责终审。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡全部上下文锚点、两席签字及“Coding Owner 交接/实现交接清单”。接手前同步分支并检查工作树。
 只实现本卡：当前存档结构 guard、提交前失败隔离、正式恢复入口共路与稳定反馈。落实 GM-SP1~SP4，以及菜单 browserLoad、bootLoadSlot、旧失败提示不覆盖新成功、hiddenExp/appearance 等现行字段覆盖。先固化真实调用链反例，再修改实现；不只测 codec。
 不得更改 SAVE8/content20、公共数据模型、生成工程、迁移器、数值/碰撞规则；不得实现 SAVE-ISOLATION-1、决定工作区隔离策略、清库或添加旧版兼容。若需超出已签方案，停下报告，不自行扩大范围。
@@ -953,7 +980,7 @@ Codex 已跑130相关测试、typecheck与一次严格fast coverage，完成隔�
 #### Kimi
 
 ```text
-请在 /Users/zhangxu/illegal/type-pal 审查 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，r1，产品基线 5462d01a，状态 draft。
+请在 /Users/zhangxu/illegal/type-pal 审查 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，r1，产品基线 5462d01a，状态 draft。
 你负责架构/前提设计审查。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡与上下文锚点。
 Codex 已复跑 B-04 真实函数体探针及六文件38项基线；未改实现。请独立先读 current-codec/main 的槽、F9、e2e-load、prepare/commit、follower 与现行 WorldState 类型，复跑 node --import tsx docs/ops/audits/pre-e2e/probe-reforge-restore.mjs。
 重点反证提交前隔离、合法分数坐标/当前可选字段、取消和新请求胜出；检查方案是否越界为版本切换或巨大重写。不要读取或复述 GLM 结论。
@@ -964,7 +991,7 @@ Codex 已复跑 B-04 真实函数体探针及六文件38项基线；未改实现
 #### GLM
 
 ```text
-请在 /Users/zhangxu/illegal/type-pal 审查 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，r1，产品基线 5462d01a，状态 draft。
+请在 /Users/zhangxu/illegal/type-pal 审查 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，r1，产品基线 5462d01a，状态 draft。
 你负责数据/测试覆盖设计审查。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡与上下文锚点。
 Codex 已复跑 B-04 真实函数体探针及六文件38项基线；未改实现。请独立核当前 SAVE8/WorldState/CharacterInstance、既有 guards 和正式恢复入口，复跑 node --import tsx docs/ops/audits/pre-e2e/probe-reforge-restore.mjs。
 重点审字段正负边界、四反例与三个正向控制、读失败零污染、提示不被覆盖、现行合法缺省与有限分数坐标；检查是否把类型断言当作校验、是否遗漏正式入口。不要读取或复述 Kimi 结论。

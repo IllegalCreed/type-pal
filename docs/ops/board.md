@@ -13,11 +13,12 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | SAVE-ISOLATION-1 | 工程与工作区存档隔离 | blocked | User：确认同工程不同工作区的试玩存档是否独立 | [任务卡](tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)；A-01 已复现，未开始实现。 |
-| SAVE-PREFLIGHT-1 | 当前存档预检与恢复失败隔离 | review | GLM：补本人最终自测登记；随后 Codex 收口 | [任务卡](tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md)；2c39b1af 已获 Codex/Kimi accept，无返工、不重签设计，GLM 席位仍 pending。 |
+| TEST-COVERAGE-DETERMINISM-1 | 编辑器覆盖率计数确定性 | blocked | Codex：补可重复调度与逐文件计数证据 | [任务卡](tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)；少 1 条语句/分支已有记录，根因/修复层待证；仅登记，未开始实现。 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)
-已修复，完整 `pnpm check` 通过。接下来按总收口处理审计缺陷并补回归/覆盖率，
+已修复，完整 `pnpm check` 通过；[B-04 存档预检修复](audits/pre-e2e/save-preflight-remediation.md)已三签收口。
+接下来按总收口处理其余审计缺陷并补回归/覆盖率，
 然后进入 R4 content20 薄基线 → N6b content21 → 完整 E2E。
 修复分组见[总收口](audits/pre-e2e/summary.md)；U-02 待证，第一阶段缺陷与可后置优化分别保留。
 

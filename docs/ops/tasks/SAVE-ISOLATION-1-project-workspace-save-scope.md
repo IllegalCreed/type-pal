@@ -17,7 +17,7 @@ Evidence Baseline: 5462d01a
 
 不同工程不能互相覆盖快速、自动、手动存档；存档列表、缩略图、计数与载荷必须使用同一隔离身份。
 本卡处理审计 A-01，不重开 X1 历史验收，不合并成整个存档系统重写。
-坏载荷预检另见 [SAVE-PREFLIGHT-1](SAVE-PREFLIGHT-1-current-save-restore-preflight.md)。
+坏载荷预检另见 [SAVE-PREFLIGHT-1](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md)。
 
 - 范围内：存储命名空间、运行壳与编辑器试玩入口的身份传递、真实 IndexedDB 读写回归。
 - 范围外：编辑器作者文件写盘（A-02/03）、第一阶段存档、云存档、存档 UI 重设计、D-05 技能试放状态策略。
