@@ -1,4 +1,4 @@
-import { type CharacterInstance, HIDDEN_STAT_KEYS } from '@type-pal/content'
+import { type CharacterInstance, HIDDEN_STAT_KEYS, isCarryableStatusId } from '@type-pal/content'
 import { type CurrentSavePayload, SAVE_VERSION } from './types.js'
 
 /**
@@ -12,13 +12,42 @@ import { type CurrentSavePayload, SAVE_VERSION } from './types.js'
  *
  * 深层语义子树（script / hostileAwareness / skillUseCounts / entityLifecycles）仍由
  * current-codec 的既有 guard/normalizer 校验，本模块只验它们的外层形状，不复制第二套解释。
+ * 状态枚举复用 content 的 `isCarryableStatusId` 真源，不另建清单。
  */
+
+/** 数组逐下标校验（含稀疏空洞——forEach 会跳过洞，坏载荷可借此漏检）。 */
+function eachIndex(
+  list: readonly unknown[],
+  path: string,
+  check: (entry: unknown, p: string) => void,
+): void {
+  for (let index = 0; index < list.length; index += 1) check(list[index], `${path}[${index}]`)
+}
+
+/**
+ * 画布 toast 单行自逻辑 x≈120 起绘；完整字段路径可能超出画布（R4）。
+ * `message` 携带完整路径供日志/测试断言；`shortMessage` 只取末段字段名且限长，保证完整可见。
+ */
+export class CurrentSaveStructureError extends Error {
+  readonly field: string
+  readonly expected: string
+  readonly shortMessage: string
+
+  constructor(field: string, expected: string) {
+    super(`存档 ${field} ${expected}`)
+    this.name = 'CurrentSaveStructureError'
+    this.field = field
+    this.expected = expected
+    const leaf = field.split('.').slice(-2).join('.').slice(0, 24)
+    this.shortMessage = `存档损坏：${leaf}`
+  }
+}
 
 const FACINGS = new Set(['up', 'down', 'left', 'right'])
 const HIDDEN_KEYS = new Set<string>(HIDDEN_STAT_KEYS)
 
 function fail(path: string, expected: string): never {
-  throw new Error(`存档 ${path} ${expected}`)
+  throw new CurrentSaveStructureError(path, expected)
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -51,8 +80,8 @@ function requireNonEmptyString(value: unknown, path: string): string {
 
 function requireStringArray(value: unknown, path: string): void {
   const list = requireArray(value, path)
-  list.forEach((entry, index) => {
-    if (typeof entry !== 'string') fail(`${path}[${index}]`, '必须为字符串')
+  eachIndex(list, path, (entry, p) => {
+    if (typeof entry !== 'string') fail(p, '必须为字符串')
   })
 }
 
@@ -85,20 +114,19 @@ function assertGridPos(value: unknown, path: string): void {
 
 function assertCarriedStatuses(value: unknown, path: string): void {
   const list = requireArray(value, path)
-  list.forEach((entry, index) => {
-    const status = requireRecord(entry, `${path}[${index}]`)
-    if (typeof status.status !== 'string' || status.status.length === 0)
-      fail(`${path}[${index}].status`, '必须为非空字符串')
-    requireFiniteNumber(status.turns, `${path}[${index}].turns`)
+  eachIndex(list, path, (entry, p) => {
+    const status = requireRecord(entry, p)
+    if (!isCarryableStatusId(status.status)) fail(`${p}.status`, '必须是可携带状态枚举')
+    requireFiniteNumber(status.turns, `${p}.turns`)
   })
 }
 
 function assertActivePoisons(value: unknown, path: string): void {
   const list = requireArray(value, path)
-  list.forEach((entry, index) => {
-    const poison = requireRecord(entry, `${path}[${index}]`)
-    requireFiniteNumber(poison.poisonId, `${path}[${index}].poisonId`)
-    requireFiniteNumber(poison.tickIndex, `${path}[${index}].tickIndex`)
+  eachIndex(list, path, (entry, p) => {
+    const poison = requireRecord(entry, p)
+    requireFiniteNumber(poison.poisonId, `${p}.poisonId`)
+    requireFiniteNumber(poison.tickIndex, `${p}.tickIndex`)
   })
 }
 
@@ -118,7 +146,9 @@ function assertAppearance(value: unknown, path: string): void {
     if (typeof v !== 'string') fail(p, '必须为字符串')
   })
   optional(appearance.portrait, `${path}.portrait`, (v, p) => {
-    if (v !== null && typeof v !== 'string') fail(p, '必须为字符串或 null（显式无立绘）')
+    // 类型是 AssetId | undefined（string）；null 不在合同内（audio.currentMusic 的显式静音
+    // 语义不外推到这里）。
+    if (typeof v !== 'string') fail(p, '必须为字符串')
   })
   optional(appearance.battleSprite, `${path}.battleSprite`, (v, p) => {
     if (typeof v !== 'string') fail(p, '必须为字符串')
@@ -154,16 +184,15 @@ function assertCharacterInstance(value: unknown, path: string): void {
 
 function assertInstanceList(value: unknown, path: string): void {
   const list = requireArray(value, path)
-  for (let index = 0; index < list.length; index += 1)
-    assertCharacterInstance(list[index], `${path}[${index}]`)
+  eachIndex(list, path, (entry, p) => assertCharacterInstance(entry, p))
 }
 
 function assertInventory(value: unknown, path: string): void {
   const list = requireArray(value, path)
-  list.forEach((entry, index) => {
-    const slot = requireRecord(entry, `${path}[${index}]`)
-    requireNonEmptyString(slot.itemId, `${path}[${index}].itemId`)
-    requireFiniteNumber(slot.count, `${path}[${index}].count`)
+  eachIndex(list, path, (entry, p) => {
+    const slot = requireRecord(entry, p)
+    requireNonEmptyString(slot.itemId, `${p}.itemId`)
+    requireFiniteNumber(slot.count, `${p}.count`)
   })
 }
 

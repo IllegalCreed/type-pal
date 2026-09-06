@@ -7,7 +7,7 @@
 
 import { buildWorld } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { assertCurrentSaveStructure } from './current-structure.js'
+import { assertCurrentSaveStructure, CurrentSaveStructureError } from './current-structure.js'
 import type { CurrentSavePayload } from './types.js'
 
 const actor = {
@@ -94,14 +94,71 @@ describe('current-structure · 合法载荷（正边界）', () => {
     expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
   })
 
-  test('hiddenExp 合法七个属性键 + appearance 三可选字段（含 portrait=null 显式无立绘）', () => {
+  test('hiddenExp 合法七个属性键 + appearance 三可选字段（portrait 为字符串 AssetId）', () => {
     const payload = validPayload()
     payload.world.party[0]!.hiddenExp = {
       maxHP: { exp: 1.5, level: 2 },
       luck: { exp: 0, level: 0 },
     }
-    payload.world.party[0]!.appearance = { portrait: null as unknown as string }
+    payload.world.party[0]!.appearance = { portrait: 'portrait.hero' }
     expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
+  })
+
+  test('R3：稀疏数组空洞逐下标拒绝（inventory/tags/extraStatuses/poisons），不被 forEach 跳过', () => {
+    const sparseInventory = validPayload()
+    sparseInventory.world.inventory = new Array(1) as unknown as { itemId: string; count: number }[]
+    expect(() => assertCurrentSaveStructure(sparseInventory)).toThrow(/inventory\[0\]/)
+
+    const sparseTags = validPayload()
+    sparseTags.world.party[0]!.tags = new Array(1) as unknown as string[]
+    expect(() => assertCurrentSaveStructure(sparseTags)).toThrow(/tags\[0\]/)
+
+    const sparseStatuses = validPayload()
+    sparseStatuses.world.party[0]!.extraStatuses = new Array(1) as unknown as {
+      status: 'protect'
+      turns: number
+    }[]
+    expect(() => assertCurrentSaveStructure(sparseStatuses)).toThrow(/extraStatuses\[0\]/)
+
+    const sparsePoisons = validPayload()
+    sparsePoisons.world.party[0]!.poisons = new Array(1) as unknown as {
+      poisonId: number
+      tickIndex: number
+    }[]
+    expect(() => assertCurrentSaveStructure(sparsePoisons)).toThrow(/poisons\[0\]/)
+  })
+
+  test('R3：CarriedStatus.status 复用 content 枚举真源——合法 id 通过、未知 id 拒绝', () => {
+    const payload = validPayload()
+    payload.world.party[0]!.extraStatuses = [{ status: 'protect', turns: 3 }]
+    expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
+
+    const bogus = validPayload()
+    bogus.world.party[0]!.extraStatuses = [{ status: 'not-a-status' as 'protect', turns: 3 }]
+    expect(() => assertCurrentSaveStructure(bogus)).toThrow(/可携带状态枚举/)
+  })
+
+  test('R3：appearance.portrait=null 不在合同内（AssetId | undefined），拒绝', () => {
+    const payload = validPayload()
+    payload.world.party[0]!.appearance = { portrait: null as unknown as string }
+    expect(() => assertCurrentSaveStructure(payload)).toThrow(/portrait/)
+  })
+
+  test('R4：错误携带完整路径 message 与限长 shortMessage（画布单行完整可见）', () => {
+    const payload = validPayload()
+    payload.world.party[0]!.hiddenExp = { luck: { exp: Number.NaN, level: 1 } }
+    try {
+      assertCurrentSaveStructure(payload)
+      throw new Error('should have thrown')
+    } catch (error) {
+      expect(error).toBeInstanceOf(CurrentSaveStructureError)
+      const structureError = error as CurrentSaveStructureError
+      expect(structureError.message).toMatch(/载荷\.world\.party\[0\]\.hiddenExp\["luck"\]\.exp/)
+      expect(structureError.shortMessage).toMatch(/^存档损坏：.{1,24}$/)
+      // shortMessage 不含长路径——画布 x≈120 起单行绘制完整可见
+      expect(structureError.shortMessage).not.toContain('载荷')
+      expect(structureError.shortMessage.length).toBeLessThanOrEqual(30)
+    }
   })
 
   test('guard 通过后输入与原对象无别名关系（不修改输入）', () => {

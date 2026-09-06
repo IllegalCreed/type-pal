@@ -1,6 +1,6 @@
 # SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: X1（审计 B-04 修复，不新增能力格）
 Coding Owner: GLM
@@ -374,8 +374,8 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 
 ## Build / Review / 用户验收
 
-已签 r1 的首轮实现 `afa9e0eb` 经 Codex 独立审查为 counter，当前由 GLM 直接返工；
-Codex 复核新候选通过后再进行 Kimi 终审，用户验收尚未开始，不得标记已修复或 done。
+已签 r1 的首轮实现 `afa9e0eb` 经 Codex 独立审查为 counter（R1–R4）；GLM 已完成直接返工并提交新候选，
+当前等待 Codex 复核；Codex 复核通过后再进行 Kimi 终审，用户验收尚未开始，不得标记已修复或 done。
 无 Agent 缺席/额度代班；用户主动调整实现分工，不冒充额度豁免，也不由内部 Codex 分工代签 Kimi/GLM。
 2026-09-06 既有基线测试：save/store、save/ops、save/browser-state、current-save characterization、
 actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；它们尚不覆盖本卡新增反例。
@@ -455,6 +455,62 @@ editor.statements 23455/23456）——本人在 clean HEAD 上 10 次复跑中 1
 
 **候选 hash：`afa9e0eb`。**
 
+### GLM 返工回执（Coding Owner 自测，2026-09-06，R1–R4）
+
+**相对 `afa9e0eb` 改动：5 文件 +670/−419（main.ts +15 行内、current-structure.ts +69、
+current-structure.test.ts +63、restore-preflight.chain.test.ts 重写、baseline.fast.json ratchet）。**
+不改 SAVE8/content20、公共模型、迁移产物、数值/碰撞规则、隔离卡策略；原审计探针零改动。
+
+**逐项修复：**
+
+- **R1（chain 误复制）**：删除与结构矩阵同 blob 的旧 `restore-preflight.chain.test.ts`（46 项重复），
+  以真实 AST 提取工具重写为 **18 项**调用链回归：四反例拒绝+稳定文案+零活动态污染、三控制
+  （取消/latest-wins/更新提示所有权）、空队伍/F9、合法加载提交序列、分数坐标、shopBuy 不再 NaN、
+  R3 链路级稀疏 inventory、R4 短文案。工具与审计探针同一技术（抽取 main.ts 原函数体 + env 桩）。
+- **R2（旧失败提示覆盖新成功）**：`main.ts` 在三个失败 toast 前补 `loadIntent.isCurrent(token)` 收口——
+  读 catch、normalize catch、restorePayload prepare catch；AbortError 协议不变。
+- **R3（结构漏检）**：`current-structure.ts` 改用 `eachIndex` 下标循环（稀疏空洞不再被 forEach 跳过，
+  inventory/tags/extraStatuses/poisons/party/reserve 全部生效）；`CarriedStatus.status` 改用
+  `@type-pal/content` 的 `isCarryableStatusId` 枚举真源（packages/content/src/actor-condition.ts:81-98，
+  不再自建清单）；`appearance.portrait` 收紧为 `AssetId | undefined` 仅字符串——**null 不在合同内**，
+  不把 audio.currentMusic 的显式 null=静音语义外推到 portrait（该子树保持 string|null 双合法）。
+- **R4（长文案截断）**：新增 `CurrentSaveStructureError`（`field`/`expected`/`shortMessage`）——
+  `message` 保留完整路径供 console.warn 与测试断言；`shortMessage` 取路径末两段、限 ≤24 字符、
+  前缀「存档损坏：」，画布单行完整可见（≤30 字符）。doLoad normalize catch 优先展示
+  `shortMessage`；非结构错误仍用原 message。
+
+**先红后绿（实跑，非推断）**：以 `git stash` 将两份实现文件（main.ts、current-structure.ts）临时
+回退到 `afa9e0eb` 版本、保留新测试运行——`current-structure.test.ts` **4 failed / 46 passed**
+（红项恰为 R3 稀疏、R3 枚举、R3 portrait=null、R4 错误类）；chain test **5 failed / 13 passed**
+（红项为 R2 读取晚到、R2 prepare 晚到、R3 链路级×2、R4 短文案）。恢复修复后 **50/50 与 18/18 全绿**。
+诚实说明：R2 的 normalize 变体在旧代码上即绿——`afa9e0eb` 在 normalize 之前已有一处 isCurrent
+（doLoad 读后 :5763）先行拦截，normalize catch 的检查属纵深防御（新请求在 normalize 内部 await 期间
+begin 时可达）；该测试作为合同钉保留，不计入本轮红项。
+
+**实跑验证命令与结果：**
+
+- 定向：save 全套 **6 files / 86 tests 绿**（current-structure 50 + chain 18 + store 3 + ops 4 +
+  browser-state + characterization）；actor-condition-lifecycle/runtime + scene-switch-transaction
+  **3 files / 22 tests 绿**。
+- Reforge `pnpm typecheck`：干净。
+- 完整 `pnpm check`：**exit 0**（50 warnings / 11 infos 与基线一致，全部既有；本轮 3 个文件的
+  biome format/import-sort 报错已 `--write` 修复后复跑）。
+- `pnpm coverage:fast`：1600 tests 全过；scope 变化提示（chain 46→18，净 −24 项重复删除）。
+  `pnpm coverage:ratchet --allow-scope-removal`：**提升 8 项、范围变化 2 项、零下降**——
+  显式确认的 scope removal 仅为 chain 文件测试数身份（46→18），对应 R1 删除的重复用例；
+  未手改任何指标、未删有效用例凑数。
+- coverage:fast 的既有 editor off-by-one 抖动未在本轮复跑中出现（单次通过）；按 Codex 上轮
+  意见不以「多数通过」作门槛，本轮判定均取单次严格结果。
+
+**回执勘误（相对 `afa9e0eb` 回执）**：首轮回执「chain test 13 项先红（12 红）后绿」「46+13」清单
+与实际提交不符（实际 chain 文件是 46 项结构矩阵副本）——Codex R1 属实，该回执相应表述作废，
+以本回执与最终 diff 为准。
+
+**未验项（不变）**：浏览器实机验证（归 Codex dev-functional）；IndexedDB 真实坏库试验；
+通用 rollback（按方案不承诺）。
+
+**返工候选：待填（提交后回填 hash）。**
+
 ### Coding Owner 交接（2026-09-06）
 
 - 用户请求：确认已签，询问难度，并建议适合时让 GLM 实现、Codex 检查。
@@ -486,6 +542,14 @@ editor.statements 23455/23456）——本人在 clean HEAD 上 10 次复跑中 1
 
 ## 交接日志
 
+- 2026-09-06 GLM（Coding Owner，返工）：完成 R1–R4 直接修复并提交新候选（5 文件 +670/−419 vs
+  `afa9e0eb`），转 review。R1 重写 chain test 为真实 AST 调用链回归 18 项（删除 46 项重复 blob）；
+  R2 补读/normalize/prepare 三处 isCurrent；R3 改 eachIndex 下标循环 + isCarryableStatusId 枚举真源 +
+  portrait 仅字符串；R4 新增 CurrentSaveStructureError 短文案。先红后绿以 git stash 回退实现实跑验证
+  （结构 4 红/chain 5 红 → 全绿；R2 normalize 变体旧代码即绿已如实注明）。定向 save 86 + 相邻 22 绿、
+  typecheck 干净、完整 check exit 0、coverage:ratchet 提升 8 项零下降（--allow-scope-removal 仅确认
+  chain 46→18 的重复删除）。勘误首轮回执清单不符。浏览器实机验证仍未做（归 Codex）。原 Codex counter
+  未改写、未代签 accept、未标 done。Next: Codex 复核新候选，通过后 Kimi 终审。
 - 2026-09-06 User / Codex：用户指出无需把已有明确阻断再送 Kimi 确认，应直接让 GLM 返工。
   Codex 据此将任务/看板/索引同步为 rework，保留 GLM 为唯一 Coding Owner，撤销上一轮 Kimi 交接。
   当前顺序为 GLM 修复 R1–R4 与回执/清单问题 → Codex 独立复核 → 通过后 Kimi 终审；
@@ -535,7 +599,18 @@ editor.statements 23455/23456）——本人在 clean HEAD 上 10 次复跑中 1
 
 ## 下一位 Agent 提示词
 
-### GLM：直接返工（当前有效）
+### Codex：复核返工候选（当前有效）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，返工候选 <HASH>，对比 afa9e0eb（r1 设计签字保持有效，不重签）。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡你的 R1–R4 counter、GLM 返工回执与最新交接日志；接手前同步分支。
+逐项核 R1–R4 是否真实修复：chain 文件应为真实 AST 调用链回归（18 项，不再是结构矩阵副本，cmp 与测试名可证）；main.ts 三个失败 toast 前有 isCurrent 收口且 AbortError 协议不变；current-structure.ts 用下标循环覆盖稀疏空洞、status 复用 content 的 isCarryableStatusId、portrait 拒绝 null；CurrentSaveStructureError 的 shortMessage 限长且 message 保留完整路径。核对回执与 diff 是否一致（首轮回执不符问题不得复发）。
+复跑定向测试（save 86 项、相邻 22 项）、Reforge typecheck、完整 pnpm check、单次严格 coverage:fast；GLM 已用 git stash 回退实现验证先红（结构 4 红、chain 5 红），可按同法抽查。既有 editor off-by-one 抖动如复现按确定性缺陷登记，不以多数通过放行。
+完成你席位的隔离最小功能验证复核（坏档拒绝后可走、好档恢复、提示不截断）；原审计探针保持零改动。
+通过则在本卡 Codex 席位签 accept 并更新交接日志，给出 Kimi 终审提示词；仍有阻断则签 counter 并列明证据，任务转 rework 交回 GLM。不得代签 Kimi/GLM、不标记 done。
+```
+
+### GLM：直接返工（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 rework，你仍是唯一 Coding Owner。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 r1、Codex 对 afa9e0eb 的 R1–R4 counter 与最新交接日志；设计不重签。

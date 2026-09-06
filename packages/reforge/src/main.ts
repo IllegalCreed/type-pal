@@ -227,6 +227,7 @@ import {
   type SaveBrowserState,
 } from './save/browser-state.js'
 import { normalizeCurrentSave, preflightCurrentSave } from './save/current-codec.js'
+import { CurrentSaveStructureError } from './save/current-structure.js'
 import {
   buildCurrentSavePayload,
   buildMeta,
@@ -5716,6 +5717,8 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
         return false
       }
       console.warn(`[save] ${where} 场景预检失败:`, error)
+      // R2：晚到的预检失败不覆盖新请求的结果/提示——toast 归最新请求所有。
+      if (!loadIntent.isCurrent(token)) return false
       showToast(error instanceof Error ? error.message : '存档场景无法读取')
       return false
     }
@@ -5756,6 +5759,8 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
       // 存储读取失败（IndexedDB 异常等）与“无存档”不同：保留 AbortError 协议，其余给稳定反馈。
       if (isAbortError(err) || signal?.aborted) throw err
       console.warn(`[save] 槽 ${slotId} 读取失败:`, err)
+      // R2：晚到的旧读取失败不覆盖新请求的结果/提示——toast 归最新请求所有。
+      if (!loadIntent.isCurrent(token)) return 'rejected'
       showToast(`存档槽 ${slotId} 读取失败`)
       return 'rejected'
     }
@@ -5773,7 +5778,15 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
       p = await normalizeStoredPayload(raw, where, signal)
     } catch (err) {
       console.warn(`[save] 槽 ${slotId} 归一化拒绝:`, err)
-      showToast(err instanceof Error ? err.message : '存档无法读取')
+      // R2：晚到的归一化失败不覆盖新请求；R4：结构错误用短文案保证画布完整可见。
+      if (!loadIntent.isCurrent(token)) return 'rejected'
+      showToast(
+        err instanceof CurrentSaveStructureError
+          ? err.shortMessage
+          : err instanceof Error
+            ? err.message
+            : '存档无法读取',
+      )
       return 'rejected'
     }
     return (await restorePayload(p, token, where, signal)) ? 'loaded' : 'rejected'
