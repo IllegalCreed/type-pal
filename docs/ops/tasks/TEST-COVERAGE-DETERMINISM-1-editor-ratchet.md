@@ -248,7 +248,32 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 - done：
   - Codex：**accept（2026-09-06，独立复核 `7c447c38` 对比 `4bc8a3b3`）**。
     白名单、旧断言保留、独立 AST 单点负控制与全部指定门禁通过，详见本人复核；无返工项，不代签。
-  - Kimi：pending（独立终审）。
+  - Kimi：**accept（2026-09-06，独立终审候选 `7c447c38` 对比 `4bc8a3b3`；r1 不重签）**。
+    接手 HEAD `3b6adf94` 与 origin/main 一致；候选相对 HEAD 产品/测试/基线零 diff。
+    逐项本人独立核证（GLM done 签字于本人核查完成后落盘，未读其内容、不复述其结论）：
+    - **白名单/旧断言**：候选 diff 仅 reorder.test.tsx +94 纯插入（单 hunk、零删改——移除新增块
+      即逐字节恢复旧文件）+ baseline.fast.json；生产组件、vite 配置、两份旧探针、其余 editor
+      源码全部零 diff（`4bc8a3b3..7c447c38` 实测）。
+    - **新回归帧时序/清理/业务断言**（reorder.test.tsx:857-949 直读）：默认 Harness 无可滚祖先、
+      非模态（scrollOwners 合法为空，autoScroll 默认——命中 :730 而非 :707 早退）；Map 排队模型
+      取消即删、触发即出队（与生产单在途帧语义一致）；有效拖动内恰排队一帧、零提交；推进后
+      body/documentElement scrollTop 均 0、onReorder 零调用、仍 dragging、不重排队；有效
+      pointerup 恰一次 a→c（0→2，input: pointer）intent；finally 清队列并按描述符恢复 RAF；
+      无 sleep、无同步 RAF、未改既有 23 项。
+    - **定向复跑**：24/24 绿（本人实跑 exit 0）。
+    - **本人独立负控制**：自建 /tmp/kimi-cov-det-review/mutant.config.mts（load 钩子断言
+      `    if (!selected) return\n` 全文件唯一——grep 实测仅 :730 一处），内存中仅删该语句：
+      完整实现对照 exit 0（1 passed/23 skipped）；突变 exit 1，恰新回归失败，栈为
+      `TypeError: Cannot read properties of null (reading 'owner')`——正是 :732 `selected.owner`
+      崩溃点。共享工作树零改动（突变后 `git status` 无产品变化）。
+    - **基线清单**：仅 7 个叶值变化（generatedAt、总 5,761→5,762、editor 1,600→1,601、
+      文件 23→24 及其 identityDigest、包 identityDigest、executionDigest）；metrics 节零 diff，
+      无手填/降指标/scope 变化。
+    - **证据交叉核**：Codex /tmp 证据 provenance 候选/基线一致、control-ast-proof 控制组同 hash、
+      editor-tests 1,601/1,601、coverage TOTAL 609 文件/5,762；GLM 回执三轮串行 editor fast 恒
+      23,456/18,169（Codex 已读其报告），原 hold/flush 摆动由真实回归消除——非多数通过凑数。
+    可证伪观察：若后续 editor fast 诊断再现 ±1 摆动，须按审计回执继续逐文件定位，不得因本分支
+    已钉而豁免其他不确定性。返工项：无。本 accept 不代签、不授权 done、不含 SAVE-ISOLATION-1。
   - GLM：**accept（2026-09-06，实现者自测最终签字，非独立终审——独立复核由 Codex 完成、Kimi 终审另行落盘）**。
     签字对象：候选 `7c447c38`（本人实现）。落笔前核对：HEAD `3b6adf94` 相对候选的
     `packages/ scripts/` 零 diff（无漂移），工作树干净；自候选后仅 review 文档提交。
@@ -260,7 +285,7 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
     严格 `pnpm coverage:fast` 0。本轮登记未重跑未变测试。未验项：无浏览器项（纯测试维护，
     卡面 Visual N/A）；Codex 复跑结论归 Codex 席位，不冒称本人结果。本 accept 不代签他席、
     不授权自行标 done。
-  - done 准入：blocked，仅待 Kimi 独立终审落盘；无缺签豁免，任务保持 review。
+  - done 准入：三席 accept 均已落盘，待 Codex 汇总核定；无缺签豁免，任务保持 review，不标 done。
 
 ## Build 交接澄清（Codex，2026-09-06，不修改 r1 方案）
 
@@ -280,6 +305,15 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 
 ## 交接
 
+- 2026-09-06 Kimi（独立终审）：同步 `3b6adf94`、工作树干净后核 `4bc8a3b3 → 7c447c38`——白名单
+  两文件（测试 +94 纯插入、基线 7 叶值），生产/配置/旧探针零 diff；新回归帧时序/清理/业务断言
+  直读（排队一帧→零滚动零提交仍有效→drop 恰一次，finally 恢复，无 sleep/autoScroll=false）；
+  定向 24/24 实跑；本人自建独立负控制（/tmp/kimi-cov-det-review/mutant.config.mts，load 钩子
+  断言 :730 guard 唯一并仅删该句）：完整实现 exit 0、突变 exit 1 且恰新回归
+  `TypeError: Cannot read properties of null (reading 'owner')`；Codex /tmp 证据计数交叉一致
+  （editor 1,601/1,601、coverage 609 文件/5,762）。签 accept，可证伪观察已写入签字块。
+  未改实现/基线/他席/任务状态，未标 done。done 准入行更新为三席齐、待 Codex 汇总。
+  Next：Codex 汇总核定 done 并同步看板/索引。
 - 2026-09-06 GLM（Coding Owner，done 前最终登记）：补齐本席 accept（实现者自测，非独立终审）。
   落笔前核对 HEAD `3b6adf94` 相对候选 `7c447c38` 的产品/脚本零 diff、工作树干净。签字依据仅为
   本人实现轮亲跑验证（定向 24/24、负控制 exit 1 + 对照 exit 0、typecheck、完整 check、三轮串行
@@ -332,7 +366,17 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 
 ## 下一位 Agent 提示词
 
-### Kimi：独立终审（当前有效）
+### Codex：汇总核定 done（当前有效）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 汇总 TEST-COVERAGE-DETERMINISM-1 收口，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，review，终审候选 7c447c38（HEAD 侧无产品变化）；r1 不重签。
+先同步并检查工作树，读本卡 done 前三席签字与最新交接日志。现状：Codex/Kimi/GLM 三席 done 前 accept 均已落盘（GLM 为实现者自测性质，已如实标注），无 counter、无返工项、无缺签豁免。
+请统一核定 done 准入：核对三席签字钉同一候选 7c447c38，将任务推进 done，同步看板/索引与覆盖率文档回执（audit 文档状态可由「已定位未修复」更新为已修复并注明确定性回归位置）。
+保留 Kimi 可证伪观察：后续 editor fast 诊断若再现 ±1 摆动，按审计回执继续逐文件定位，不因本分支已钉豁免其他不确定性。
+不得代签、不把本收口扩张到其他任务；SAVE-ISOLATION-1 仍待用户拍板。
+```
+
+### Kimi：独立终审（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 TEST-COVERAGE-DETERMINISM-1。
