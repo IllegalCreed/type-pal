@@ -273,14 +273,69 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 
 ### 进入 done 前
 
-- Codex：**counter（2026-09-06，复核返工候选 `1e271b03` 对比 `afa9e0eb`）**。
-  R1 重复文件与 R3 漏检已修，R2 实现独立复算通过；仍需补真正的 normalize 竞态回归、完成 R4 像素宽度闭环。
-  见下方最新复核；首轮 `afa9e0eb` counter 作为历史保留，已通过项不要求重复返工。
+- Codex：**accept（2026-09-06，独立复核第二轮返工候选 `2c39b1af` 对比 `1e271b03`）**。
+  R4 真实像素宽度与浏览器复验通过，R2 正式 normalize 竞态/突变负控制已闭环；R1/R3 保持通过。
+  定向 88+22、Reforge typecheck、完整 check、单次严格 fast coverage 均通过，详见本人最新记录。
+  前两轮 counter 保留为历史；本 accept 不代替 Kimi/GLM 签字，不授权 done。
 - Kimi：pending。
 - GLM：pending。
 - done 准入结论：blocked。
 
-### Codex 返工复核（本人席位，2026-09-06，候选 1e271b03）
+### Codex 第二轮返工复核（本人席位，2026-09-06，候选 2c39b1af）
+
+已 fetch 同步；HEAD `ef8e3f0f` 与 origin/main 一致、工作树干净，其相对候选无产品/测试/配置变化。
+独立核查 `1e271b03 → 2c39b1af`：产品/测试/覆盖率层仅四文件；其余 diff 是此前 review/routing 与本次回执文档，
+不把文档历史误归为产品改动。未修改实现、测试、原探针或覆盖率基线，未使用 stash 或回退共享工作树。
+
+#### R4：通过
+
+- `current-structure.ts:32-44` 的 `SAVE_STRUCTURE_TOAST_TEXT` 固定为“存档损坏，无法读取”；
+  `.message` 仍包含完整 field/expected，`.shortMessage` 不带动态路径。main.ts 本轮零 diff，既有 catch
+  继续将结构错误短文案交画布、完整错误交 console.warn，没有改布局或把详情丢掉。
+- `restore-preflight.chain.test.ts:410-425` 导入实际 `data/raw/unifont-cn.bdf?raw`，调用生产
+  `parseBdfGlyphs` + `measureSpans`；该 BDF 已被 Git 跟踪，不依赖本机未入库字体。
+  不再用 `length<=30` 推定可见；旧动态文案作为超宽负对照。
+- 本人隔离浏览器再次加载同一生产字体，对 money、portrait、hiddenExp 三种错误均测得新文案
+  **144px ≤ 200px**；旧两个动态文案仍分别为 **232px / 248px**，与上轮逐像素一致。
+  `rejected-hiddenExp.png` 已本人查看，文字完整且留有右侧余量。短文案与回执、源码、实际画面一致。
+
+#### R2 测试：通过
+
+- `restore-preflight.chain.test.ts:515-551`：normalize 的 gate 位于 `getLifecycleReferences` 首次调用内部，
+  entered 先兑现，再等待 gate；新请求只能在旧请求真正进入归一化后启动。prepare 同样由 getMapAssets
+  明确发出 entered，不再固定等待 30ms。20 项 chain 测试不再有上轮的阶段错置。
+- `:113-121` 的突变器仅删除 normalize catch 的 isCurrent，`:573-578` 负控制跑同一场景并明确断言
+  旧失败覆盖新成功。本人额外用 AST 独立定位该 catch/IfStatement，核实与提交中的文本定位命中同一范围：
+  **main.ts:5782，且只删除 `if (!loadIntent.isCurrent(token)) return 'rejected'` 这一条语句。**
+- 本人隔离源码注入对照：完整实现 read/normalize/prepare 三例均只留下新成功提示；仅删该语句后，
+  read/prepare 仍通过，normalize 出现 `[已读取快速存档, late-normalize-failure]`，按正确合同检查 exit 1。
+  未修改实际 main.ts；没有依靠修改其他路径、提前退出或扩大突变来制造负控制。
+
+#### 保持项与门禁
+
+- R1 的真实 AST 调用链与 R3 的下标遍历、状态枚举真源、portrait 非 null 合同保持；独立稀疏背包/非法 status/
+  portrait=null 反例仍在提交前拒绝，旧 controller 未 abort。
+- main.ts、公共类型、SAVE8/content20、生成工程、隔离卡策略与两份原审计探针本轮均零 diff。
+  原探针的历史断言未改写为“通过”；其旧返回类型/缺陷存在性断言仍不作修复门禁。
+- 本人实跑：save **6 文件 / 88 项**；相邻 **3 文件 / 22 项**；Reforge typecheck 通过。
+  完整 `pnpm check` **exit 0，539 文件 / 6,246 项**；50 warnings / 11 infos 为既有、无 error。
+  单次严格 `pnpm coverage:fast` **exit 0，609 生产文件 / 5,761 次测试**，与候选基线精确一致；
+  没有重试取多数、改低指标或变更生产统计范围，editor baseline 对象未变，本次未复现抖动。
+  新 guard 覆盖 lines 117/117、statements 136/136、functions 38/38、branches 46/51（90.19%）；
+  不把这些数字外推为整个存档域或全仓都达到最终覆盖率目标。
+- 功能性最小复验沿用当前空白工程生成器、内存文件路由、独立 Chromium context、真实 F5/F9 与 IDB；
+  三种坏快照均拒绝且 world 不变，pageerror=0。此次只重新核短文案/字形与拒绝边界，
+  上轮“拒绝后仍可走、合法档恢复金额/位置”的通过证据保留，不重复全量视觉流程或完整剧情 E2E。
+
+本机临时证据：`/tmp/type-pal-save-final-review.oSt0mR/`（独立 AST 对照脚本、mutation/candidate.log、
+browser-smoke.mjs/log、三张 rejected 截图）；完整检查日志 `/tmp/type-pal-save-final-check.MFLtVx/check.log`，
+覆盖率日志 `/tmp/type-pal-save-final-coverage.rKsL65/coverage.log`。临时图片/脚本不入库，本节候选、锚点、步骤和计数是持久记录。
+
+**结论：Codex accept，未发现本轮新增阻断；R1–R4 的本席返工要求全部闭环。**
+任务保持 review，交 Kimi 独立终审；不代签其他席位、不标记 done，不重签未改变的 r1 设计。
+此结论不包含独立的 SAVE-ISOLATION-1 或任意提交后异常通用 rollback。
+
+### Codex 首轮返工复核（历史 counter，2026-09-06，候选 1e271b03）
 
 同步后 HEAD 为 `1d8c7c8a`，与 origin/main 一致且工作树干净；其相对 `1e271b03` 无产品/测试/配置变化。
 本轮未改实现、测试、原探针或覆盖率基线；没有使用 stash/切回旧工作树，而是在临时验证进程中替换所读源码做对照。
@@ -429,8 +484,8 @@ mutation.config.mjs/mutation.log、browser-smoke.mjs/log、rejected-money/portra
 
 ## Build / Review / 用户验收
 
-已签 r1 的首轮实现 `afa9e0eb` 经 Codex 审查为 counter；返工候选 `1e271b03` 复核后剩 R4 像素宽度与
-R2 normalize 测试两项，GLM 已完成第二轮返工并提交新候选，当前等待 Codex 复核；通过后才进行 Kimi 终审，
+已签 r1 的前两轮候选及 counter 按历史保留；第二轮返工候选 `2c39b1af` 已由 Codex 独立复核 accept，
+当前等待 Kimi 终审与各席本人最终签字，任务仍为 review，
 不得标记 done。
 无 Agent 缺席/额度代班；用户主动调整实现分工，不冒充额度豁免，也不由内部 Codex 分工代签 Kimi/GLM。
 2026-09-06 既有基线测试：save/store、save/ops、save/browser-state、current-save characterization、
@@ -640,6 +695,11 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 
 ## 交接日志
 
+- 2026-09-06 Codex（第二轮返工独立复核）：同步至 `ef8e3f0f`，核 `1e271b03 → 2c39b1af` 四处产品/测试/基线变化，
+  main/原探针/公共合同零 diff。实跑 88+22、typecheck、完整 check 6,246 与单次严格 fast 5,761 全绿；
+  AST 独立验证突变只删除 normalize catch 一行，负控制只使 normalize 覆盖提示；真实字体/隔离浏览器确认新提示
+  144px 可见，旧对照仍 232/248px。签 Codex accept，R1–R4 已闭环；保留历史 counter，不改他席签字、不标 done。
+  Next：Kimi 对同一候选独立终审，复用本轮视觉证据，无须重签 r1 或重复剧情/浏览器流程。
 - 2026-09-06 GLM（Coding Owner，第二轮返工）：完成剩余两项并提交新候选（4 文件 +190/−129 vs
   `1e271b03`，main.ts 零改动），转 review。R4：shortMessage 固定为 SAVE_STRUCTURE_TOAST_TEXT，
   新增生产 BDF 真实字形像素回归（固定文案 144px ≤ 200px；对照动态文案 232/248px 超限，与 Codex
@@ -710,7 +770,17 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 
 ## 下一位 Agent 提示词
 
-### Codex：复核第二轮返工候选（当前有效）
+### Kimi：实现终审（当前有效）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，候选 2c39b1af；本轮对比 1e271b03，整卡实现可对比 5f9f92ba。r1 设计签字保持，不重签。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡上下文锚点、GLM 第二轮回执和 Codex 最新 accept。你独立核实际源码/测试，不复述他席结论；接手先同步分支并检查工作树，不使用历史 stash。
+重点核 R1–R4 最终闭环：真实 AST chain；三阶段提示所有权与取消；稀疏数组/状态/portrait 合同；固定短中文提示与真实 BDF 像素测量；normalize entered/gate 确实进入内部 await，内置突变只删除该 catch 的 isCurrent。main.ts 本轮零 diff、SAVE8/content20/公共模型/原探针/隔离策略不变。
+Codex 已独立跑 save88+相邻22、typecheck、完整check6246、一次严格coverage:fast5761；负控制只让normalize失败。隔离浏览器新提示144px，旧对照232/248px，文字完整可见且坏档不改world。证据 /tmp/type-pal-save-final-review.oSt0mR/；复用视觉证据，不重复相同浏览器或剧情流程。
+在本卡 Kimi 席位及本人日志直接写带证据 accept 或 file:line counter、返工项并提交推送；保留其他席内容。不得改实现、代签 Codex/GLM 或标记 done。若有明确实现阻断直接交 GLM 返工；无阻断则交 Codex 汇总后续验收/收口。用户只转发提示词，不搬运意见。
+```
+
+### Codex：历史复核交接（2c39b1af 已审）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，第二轮返工候选 2c39b1af，对比 1e271b03（r1 设计签字保持有效，不重签）。
