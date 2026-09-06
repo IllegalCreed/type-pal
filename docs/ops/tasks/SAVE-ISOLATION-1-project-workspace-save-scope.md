@@ -217,7 +217,49 @@ Coding Owner 保持 Codex。可在一张卡内先闭合 scope/Store，再接齐�
   读取来源与存档身份分责、必填 UI 接线、旧库留存不自动归属及 r2 矩阵。未把模拟库或历史 U-01 退出当实际浏览器通过。
   可证伪观察：同 P/W 首存前后名字变化、遗漏任一试玩 URL、错误身份仍触发 Store、三块/计数跨域、
   旧键自动回读或独立试买创建存储——任一反例即 counter，不能以保存后再拒读冒充隔离。
-- Kimi：r2 premise pending；design pending。
+- Kimi：**r2 premise verified / design agree（2026-09-06，基线 c09fbfa9；全部证据本人直读/复跑，未读 GLM 签字）**。
+  - **同库同键缺陷**：直读 `store.ts:34`（固定 `type-pal-saves`）、`:60-65`（三 store 一事务按 slotId 写、
+    仅 oncomplete/onerror **无 onabort**——事务收尾缺口属实）、`main.ts:586`（无参构造、IDB/Memory
+    二选一）；全仓唯一生产构造点、唯一库名出现处（grep 实证）。本人复跑 probe-save-boundaries：
+    两个真实 IndexedDbSaveStore 均开 `type-pal-saves@1`、六次同 `quick` 键写、
+    `oldAOverwritten=true / AReadNowRejected=true`——A-01 成立；脚本随后在已修 B-04 旧假设处
+    抛 CurrentSaveStructureError，与卡面一致，不当作全探针通过。
+  - **身份连续性**：PAL 基线 workspaceId 取自可信 sentinel（workspace-context.ts
+    createPalDevelopmentWorkspaceContext）；沙盒由 `sandboxMarkerFor` 首存写 marker；
+    重开经 workspace-persistence.ts:720-751 按 record/marker/句柄 isSameEntry 绑定找回既有
+    identity，不新造 UUID；handle-store 主键 workspaceId、冲突登记拒绝。同 W 从 HTTP 到 FSA
+    全过程 identity 不变 → per-scope 库名不变，方案 2 的连续性主张成立。
+  - **未绑定会话割裂**：`App.tsx:576` 仅 dirHandle 存在才发 workspace 参数；`main.tsx:75-92`
+    每个会话都有 WorkspaceContext（PAL sentinel/沙盒/本地）。身份存在但未传递——前提第 41 行
+    「以句柄有无选存档空间会割裂首存前后进度」属实，r2 用 `save-workspace` 参数闭合是正确层。
+  - **入口完备性**：bootGame 调用方恰为 boot.ts:11 + play.ts:36/48（grep 全仓）；
+    六个试玩链接点（App:1740、PreviewCanvas:441、EnemyTab:912、EnemyTeamTab:416、
+    SkillTab:1120、ShopTab:184）全部经同一 `playProjectQuery`——helper 换合同后可穷举核查，
+    入口表无漏项。`play-workspace.ts:3` record 校验与 manifest 身份断言直读在案。
+  - **独立试买**：`main.ts:350-354` 在 SaveStore 创建（:586）前分流；shop-trial.ts 全文零
+    SaveStore/indexedDB 引用；参数白名单当前为 project/workspace/shop-trial/money——方案
+    只补 `save-workspace` 身份元信息即可，零存档合同保持。
+  - **旧库边界**：`type-pal-saves` 字面量仅 store.ts:34 一处；物理保留+不自动读/迁/清、
+    显式 e2e-load 退出路径与铁律 11（无双读双写/兼容 fallback）一致；旧共享档从新 scope
+    不可读是方案明示的用户可见后果，dev 期且用户已批方向，可接受。
+  - **基线复跑**：reforge 保存/试买 4 文件 17 项、editor 试玩/句柄 4 文件 13 项、
+    workspace-persistence/open-actions 2 文件 42 项 = 10 文件/72 项本人实跑全绿；
+    store.test.ts 零 IndexedDbSaveStore 引用（IDB 隔离确无既有证明）。
+  - **设计同意**：SaveScope 判别联合（非空白不修剪、拒绝夹带/未知 kind）、bootGame 必传且
+    存储创建前校验、Store 绑定标量拷贝、putSlot 查 payload.projectId——层次正确无下标身份；
+    `JSON.stringify` 有序元组库名对任意分隔符/Unicode id 无碰撞（元数+前缀+转义）；
+    workspace/save-workspace 互斥与严格拒绝、isWorkspaceId 复用、内容来源与存档归属分责；
+    per-scope DB 同版本三 store、savedTimes 由绑定 Store listMeta 自然按域计数；
+    onabort 拒绝+入队同步异常中止+克隆/绑定先于写入（薄写合同，不建通用回滚）；
+    DataMode:424 预览缓存 projectKey 排除合理（非存档用途）；fake-indexeddb 仅 dev 依赖、
+    单例注入、真实浏览器最小补验——不冒充等价浏览器行为。边界无过度扩张，无漏项。
+  - **可证伪观察**（任一反例即 counter）：① 同源同槽 A/B 写入不同地址且 A 三块完好 → 前提倒；
+    ② 任一试玩 URL 缺身份或未绑定会话落 project scope → 接线漏项；③ 同 W 首存前后库名变化 →
+    连续性断；④ abort 注入下 promise 仍 pending/半写 → 事务收尾未闭合；⑤ 试买带 save-workspace
+    实例化任何存储 → 零存档破；⑥ 任何新代码读/迁/分配旧库记录 → 边界破（库名字面量 grep 应仍唯一）；
+    ⑦ savedTimes 不经绑定 Store listMeta 派生 → 跨域泄漏。
+  - 返工项：无。非阻断备注：savedTimes 由共享全局变为按 scope 计数是隔离的固有预期后果，
+    验收矩阵已覆盖；build 期浏览器最小验证须含同 W HTTP→FSA 库名恒等断言。
 - GLM：r2 premise pending；design pending。
 - 独立反证审查：pending，至少一席须直接读规范与 store/入口代码。
 - 缺签豁免：无。
@@ -250,6 +292,14 @@ pnpm --filter @type-pal/editor exec vitest run src/core/workspace-persistence.te
 
 ## 交接日志
 
+- 2026-09-06 Kimi：完成 r2 独立前提/架构审查，签 premise verified + design agree，无返工项。
+  直读 store.ts:34/60-65（同库同键+无 onabort）、main.ts:350-354/586（试买先于存储分流、无参构造）、
+  App.tsx:576、main.tsx:75-92、workspace-context/workspace-persistence/handle-store 身份连续性、
+  play.ts/play-workspace/play-url 与六个试玩链接点（全经同一 helper，bootGame 调用方恰三处——
+  grep 全仓实证入口表无漏）；复跑 probe-save-boundaries 确认 A-01（B-04 旧假设处抛错与卡面一致，
+  不称全探针通过）；复跑 r2 基线 10 文件/72 项全绿、store.test.ts 仅 Memory。七条可证伪观察
+  与一条非阻断备注（savedTimes 按 scope 计数为固有后果）已写入本人签字块。
+  未改实现/他席/任务状态，未读 GLM 签字。Next：GLM 并行签字；两席齐后 Codex 放行 build。
 - 2026-09-06 Codex：用户按上一条推荐确认各工作区独立；r1 产品阻塞解除，更新为 r2 draft。
   同步至 `c09fbfa9` 洁净树，重读真实存储/所有试玩入口/既有工作区身份，补 HTTP→FSA 身份连续性边界，
   复跑 A-01 确认仍覆盖（原完整探针随后在已修 B-04 旧假设处 exit 1，非全探针通过）。形成显式 scope、
