@@ -509,7 +509,7 @@ begin 时可达）；该测试作为合同钉保留，不计入本轮红项。
 **未验项（不变）**：浏览器实机验证（归 Codex dev-functional）；IndexedDB 真实坏库试验；
 通用 rollback（按方案不承诺）。
 
-**返工候选：待填（提交后回填 hash）。**
+**返工候选：`1e271b03`。**
 
 ### Coding Owner 交接（2026-09-06）
 
@@ -602,7 +602,7 @@ begin 时可达）；该测试作为合同钉保留，不计入本轮红项。
 ### Codex：复核返工候选（当前有效）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，返工候选 <HASH>，对比 afa9e0eb（r1 设计签字保持有效，不重签）。
+在 /Users/zhangxu/illegal/type-pal 复核 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，返工候选 1e271b03，对比 afa9e0eb（r1 设计签字保持有效，不重签）。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡你的 R1–R4 counter、GLM 返工回执与最新交接日志；接手前同步分支。
 逐项核 R1–R4 是否真实修复：chain 文件应为真实 AST 调用链回归（18 项，不再是结构矩阵副本，cmp 与测试名可证）；main.ts 三个失败 toast 前有 isCurrent 收口且 AbortError 协议不变；current-structure.ts 用下标循环覆盖稀疏空洞、status 复用 content 的 isCarryableStatusId、portrait 拒绝 null；CurrentSaveStructureError 的 shortMessage 限长且 message 保留完整路径。核对回执与 diff 是否一致（首轮回执不符问题不得复发）。
 复跑定向测试（save 86 项、相邻 22 项）、Reforge typecheck、完整 pnpm check、单次严格 coverage:fast；GLM 已用 git stash 回退实现验证先红（结构 4 红、chain 5 红），可按同法抽查。既有 editor off-by-one 抖动如复现按确定性缺陷登记，不以多数通过放行。
