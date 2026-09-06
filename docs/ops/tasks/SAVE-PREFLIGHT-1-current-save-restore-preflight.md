@@ -285,7 +285,16 @@ actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；
 ## 交接日志
 
 - 2026-09-06 Codex：基线 5462d01a 复读合同/实际调用链，复跑两份只读内存探针与 38 项既有测试，形成 r1。
-- Kimi：待本人追加，不修改 Codex/GLM 日志。
+- 2026-09-06 Kimi：完成 r1 架构/前提设计审查，签 premise verified + design agree（r1），无返工项。
+  独立证据：直读 current-codec/main 槽（doLoad/quickLoad/browserLoad）、F9（:6730 无 catch）、
+  e2e-load（:6904 共路）、prepareSceneSwitch/assertSceneSwitchPlanCurrent/commitSceneSwitch、
+  follower seedFormationTrail、async-intent、现行 WorldState/CurrentSavePayload/CharacterInstance/
+  Facing/GridPos 类型与 grid:53 分数增量合同；亲跑 probe-reforge-restore 八项全复现（含 facing
+  半提交态：live facing 已写 "sideways"、事件停在 prune）、六文件 38 项基线全绿、
+  probe-save-boundaries U-01 佐证；另核 `5462d01a..HEAD` 源码零 diff。可证伪观察与实现期注意
+  已写入本人签字块（菜单入口同须无 unhandledRejection、position=null 裸 TypeError 文案须换稳定
+  文案等六条）。未改实现/测试/任务状态；SAVE-ISOLATION-1 产品选择未代裁决；本签字不构成整组
+  修复授权。未修改 Codex/GLM 日志。
 - GLM：完成 r1 数据/测试覆盖设计审查（2026-09-06），签 premise verified + design agree。
   独立证据：现行类型清单（CurrentSavePayload/WorldState/CharacterInstance/Facing）逐字段直读；
   codec guards 现状（preflightCurrentSave + normalizeCurrentSave 只覆盖 script/awareness/
