@@ -336,7 +336,34 @@ Coding Owner 保持 Codex。可在一张卡内先闭合 scope/Store，再接齐�
   隔离 Chrome 的正式 F5/F9、HTTP→真实 FSA handle、刷新及三块/计数验证通过，边界与日志见下。
   原探针、SAVE8/content20、DataMode 非试玩缓存键和产品样式零改动；Q1 导出钩子既有误接仅另登缺陷。
   若两席发现遗漏入口、身份割裂、半写/悬挂或证据不符，仍须 counter/rework，不能以本席自测替代审查。
-- Kimi：pending。
+- Kimi：**accept（2026-09-07，独立终审候选 `526eea00` 对比 `68d84d68`；r2 不重签；未读 GLM 本轮结论）**。
+  接手 HEAD `a032c764` 与 origin/main 一致，候选后产品/脚本/锁文件零漂移。
+  - **身份传递**：`scope.ts:11-28` 判别联合精确字段集（Reflect.ownKeys 拒绝夹带/未知 kind）、
+    非空白不改写、冻结快照；`main.ts` bootGame 必传第二参且 `assertSaveScopeProject` 为首语句
+    （副作用前）；`boot.ts` 以已加载 manifest.id 显式 project scope；`play.ts` local→校验后
+    record 的 workspace scope、http→save-workspace 有则 workspace 无则 project，错句柄 fail loud
+    不退 HTTP；`play-url.ts` 必填 EditorPlayIdentity + 重复/互斥/空值/非法拒绝（空 `workspace=`
+    走 isWorkspaceId 拒绝）；App 恒取 WorkspaceContext 身份、句柄只选 source；六个链接点全部
+    经校验后的 `playProjectQuery(playIdentity)`（grep 实测恰好 6 处）；`play-workspace.ts` 补
+    record.workspaceId 一致性；DataMode 预览缓存 projectKey 表达式零 diff（边界外未动）。
+  - **事务原子性**：`store.ts` prepareSlot 克隆+工程归属先于异步 open；oncomplete 才成功、
+    onerror 保留 request.error、**onabort 拒绝**、同步入队异常 abort 且保原错误；IDB 失败不切
+    Memory 假成功。18 项隔离测试直读为真实语义证据：末请求 success 后 abort 且零 request error、
+    下一事件轮前 settle（非 pending）；真实 ConstraintError 全滚回；abort 后同步抛保原错误；
+    VersionError 无版本 fallback；readonly 三读拒绝；旧库三块原值不动且新 scope 读不到。
+  - **HTTP→FSA 连续性与浏览器证据**：browser-result.json 实测 pal/W1=111(次数2)、W2=222、
+    scope-q=333、独立壳 pal project=444 互不串；真实 OPFS handle 注册 + granted，
+    save-workspace=W1 → workspace=W1 后 F9 读回 111/同位置、再存 112 次数 3；
+    **IDB 库名集合**实证旧 `type-pal-saves` 与四个 JSON 元组 scoped 库并存、绑定前后不分裂；
+    legacy 999/99 原值保留；errors=[]。本人亲看 missing-workspace.png：错误可见可操作、
+    未建错误库。证据边界如实（非 OS 目录选择器/非完整 Q1），不重复浏览器流程。
+  - **范围保持**：diff 仅白名单文件；SAVE8/content20、content/migrate/game/projects、原探针、
+    coverage 全局配置零 diff；UI diff 仅参数/类型/接线无样式变化；lock 仅 fake-indexeddb@6.2.5
+    （engines>=18）；试买两种 scope 真实 boot 均断言不建世界/Store、scope 错配在任何工作前拒绝。
+  - **负控制与门禁**：Codex 日志实证基线 store.ts 负控制 14 红/4 绿、完整实现 18 绿；本人实跑
+    reforge 9 文件/141、editor 12 文件/110 全绿，两包 typecheck exit 0；完整 check（542 文件/
+    6,327）与严格 fast（610 文件/5,842）复用其新鲜日志并核对计数一致。
+  返工项：无。本 accept 不代签、不授权 done、不覆盖 dumpSave 另登缺陷与 R4/Q1 集中验证。
 - GLM：pending。
 - done 准入结论：blocked。
 
@@ -431,6 +458,13 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 
 ## 交接日志
 
+- 2026-09-07 Kimi（独立终审）：同步 `a032c764`、工作树干净后核 `68d84d68 → 526eea00`。
+  直读 scope/store/main/boot/play-url/play-workspace/play.ts/App 与六链接点、隔离测试 18 项；
+  复跑 reforge 141 + editor 110 + 两包 typecheck 全绿；交叉核 Codex 负控制（基线 14 红/4 绿、
+  实现 18 绿）、完整 check 6,327、严格 fast 5,842；读浏览器证据 browser-result.json
+  （四空间互不串、HTTP→OPFS/FSA 同 W 连续、库名集合、legacy 999/99、errors=[]）并亲看
+  missing-workspace.png。签 accept，无返工项；身份传递/事务原子性/连续性/范围保持逐项闭环。
+  未改实现/他席/任务状态，未读 GLM 本轮结论。Next：GLM 并行终审落卡后，Codex 统一核定 done。
 - 2026-09-07 Codex（实现 → review）：r2 已签合同实现完毕；定向、完整 check、ratchet 与单次严格 fast 通过，
   最终 Store 负控制 14 红/4 绿、实现 18 绿；原生 IDB/FSA 最小浏览器证据完成。本人签实现者自测 accept，
   Kimi/GLM 终审 pending。同步看板/索引/覆盖率/E2E 与审计进度；Q1 dumpSave 误接仅另登，不扩张本卡。
@@ -466,7 +500,16 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 
 ## 下一位 Agent 提示词
 
-### Kimi：r2 实现终审（可与 GLM 并行）
+### Codex：汇总核定 done（当前有效，待 GLM 落卡后执行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 汇总 SAVE-ISOLATION-1 收口，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，review，终审候选 526eea00（HEAD 侧无产品变化）；r2 不重签。
+先同步并检查工作树，读本卡 done 前三席签字与最新交接日志。现状：Codex（实现者自测）与 Kimi（独立终审）已 accept；GLM 数据/矩阵终审落卡后，请统一核定：三席钉同一候选 526eea00、无 counter/返工项/缺签豁免，将任务推进 done 并同步看板/索引。
+收口时按登记保留后续事项：R4/Q1 多工程/工作区 checkpoint 连续链仍待集中 E2E 批次执行；Q1 dumpSave 误接已另登独立缺陷卡，不属本卡；旧开发档物理保留不读不迁的边界与发布后以工程 ID 隔离保护玩家进度的目标已在卡内，不向正式兼容扩张。
+不得代签任何一席、不把本收口扩张到其他审计缺陷的整组授权。
+```
+
+### Kimi：r2 实现终审（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选 526eea00，对比 68d84d68。
