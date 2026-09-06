@@ -1,6 +1,6 @@
 # SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离
 
-Status: review
+Status: rework
 Phase: phase2
 Capability: X1（审计 B-04 修复，不新增能力格）
 Coding Owner: GLM
@@ -367,12 +367,15 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 
 #### 审查结论 / 下一步
 
-**counter，不得 done。** 保持 review，按用户要求先交 Kimi 对同一候选独立终审核证这些阻断项，
-再由 GLM 返工、提交新候选。不能把本次部分功能通过当成 Codex accept；不重复已有设计签字，除非返工改变前提/方案。
+**counter，不得 done。** 用户已纠正后继流转：明确的实现阻断直接交 GLM 返工，无需先让 Kimi 再确认一次。
+任务转 rework，GLM 提交修复候选后先由 Codex 复核，通过后才交 Kimi 终审。
+此前先转 Kimi 的安排是 Codex 的流程误用，现已撤销；R1–R4 事实与原 counter 保留。
+不重复已有设计签字；本次返工仍在已签 r1 范围内，只有前提/方案实质变化才重新核准。
 
 ## Build / Review / 用户验收
 
-已准入 build，GLM 已完成实现并转 review；Codex/Kimi 审查与用户验收未开始，不得标记已修复或 done。
+已签 r1 的首轮实现 `afa9e0eb` 经 Codex 独立审查为 counter，当前由 GLM 直接返工；
+Codex 复核新候选通过后再进行 Kimi 终审，用户验收尚未开始，不得标记已修复或 done。
 无 Agent 缺席/额度代班；用户主动调整实现分工，不冒充额度豁免，也不由内部 Codex 分工代签 Kimi/GLM。
 2026-09-06 既有基线测试：save/store、save/ops、save/browser-state、current-save characterization、
 actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；它们尚不覆盖本卡新增反例。
@@ -483,12 +486,16 @@ editor.statements 23455/23456）——本人在 clean HEAD 上 10 次复跑中 1
 
 ## 交接日志
 
+- 2026-09-06 User / Codex：用户指出无需把已有明确阻断再送 Kimi 确认，应直接让 GLM 返工。
+  Codex 据此将任务/看板/索引同步为 rework，保留 GLM 为唯一 Coding Owner，撤销上一轮 Kimi 交接。
+  当前顺序为 GLM 修复 R1–R4 与回执/清单问题 → Codex 独立复核 → 通过后 Kimi 终审；
+  r1 设计签字保持有效，不重复签同一设计，不把返工授权扩成版本/范围变更。
 - 2026-09-06 Codex（独立 reviewer）：完成 `5f9f92ba → afa9e0eb` 全 diff 与现行类型核对，
   复跑两文件 92 项/八文件 130 项、Reforge typecheck、单次严格 fast coverage；原探针零 diff 并复跑定位实际停止点。
   发现 chain 文件与结构矩阵同 blob、三阶段旧失败提示覆盖、结构校验空洞/枚举/portrait-null 漏检及画布错误截断，
   签 counter。隔离 current 空白工程真实 F5/F9 + IDB 验证坏 money 拒绝后可行走、合法快照金额/坐标恢复成功，
   pageerror=0，部分通过不抵消阻断。只写本人席位/日志与后继提示词，未改实现、基线、任务状态或他席结论。
-  Next：Kimi 按同一候选独立终审核证，再交 GLM 返工；未达 done。
+  当时误安排 Next 为先 Kimi 再 GLM；已由上述用户裁决改为直接 GLM 返工。原审查结论不变，未达 done。
 - 2026-09-06 GLM（Coding Owner）：完成实现候选 `afa9e0eb`（6 文件 +1197/−41），转 review。
   新增 current-structure.ts 结构 guard（字段以现行类型为真源、有限数不加上限、可选缺席
   合法、分数坐标放行）+ 46 项正负矩阵；normalizeCurrentSave 顶部接入——坏形状在任何恢复
@@ -528,7 +535,17 @@ editor.statements 23455/23456）——本人在 clean HEAD 上 10 次复跑中 1
 
 ## 下一位 Agent 提示词
 
-### Kimi：当前实现终审（Codex counter 后核证）
+### GLM：直接返工（当前有效）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 rework，你仍是唯一 Coding Owner。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 r1、Codex 对 afa9e0eb 的 R1–R4 counter 与最新交接日志；设计不重签。
+Codex 已完成独立审查与隔离功能验证。直接修复：R1 恢复链测试误复制、回执与候选不符；R2 旧读取/normalize/prepare失败提示覆盖新成功；R3 稀疏数组、状态枚举和portrait=null结构漏检；R4 长错误提示裁切。不要等待 Kimi 确认这些阻断。
+保留已通过的四个原始坏档隔离、合法分数坐标/HP=0/静音/可选缺席、取消与恢复合同；不改 SAVE8/content20、公共模型、迁移产物、数值/碰撞规则或隔离卡策略。证据与复现步骤在卡内，原审计探针不改。
+按最终提交真实内容补先红后绿回归，校正重复测试清单与本人回执，实跑定向测试、typecheck、完整check及覆盖率；不得手改覆盖率指标、保留重复用例凑数或用“多数通过”代替门禁。同步任务状态、看板与索引。
+提交推送新候选，在本人回执/日志写清逐项修复、实跑结果、覆盖率/清单变化、未验项和hash，并交回 Codex 复核。不得改写原 Codex counter、代签 accept 或标记 done；Codex 通过后才交 Kimi 终审。
+```
+
+### 已撤销的 Kimi 交接（仅保留历史，不再转发）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，候选 afa9e0eb，对比 5f9f92ba；r1 设计不重签。
