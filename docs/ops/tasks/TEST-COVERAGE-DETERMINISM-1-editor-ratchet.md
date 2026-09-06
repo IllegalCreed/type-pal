@@ -249,8 +249,18 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
   - Codex：**accept（2026-09-06，独立复核 `7c447c38` 对比 `4bc8a3b3`）**。
     白名单、旧断言保留、独立 AST 单点负控制与全部指定门禁通过，详见本人复核；无返工项，不代签。
   - Kimi：pending（独立终审）。
-  - GLM：pending（待本人实现者自测最终签字，既有回执不由 Codex 代填为 accept；无需重签设计）。
-  - done 准入：blocked，待两席本人落盘；无缺签豁免，任务保持 review。
+  - GLM：**accept（2026-09-06，实现者自测最终签字，非独立终审——独立复核由 Codex 完成、Kimi 终审另行落盘）**。
+    签字对象：候选 `7c447c38`（本人实现）。落笔前核对：HEAD `3b6adf94` 相对候选的
+    `packages/ scripts/` 零 diff（无漂移），工作树干净；自候选后仅 review 文档提交。
+    本人已完成的实际验证（实现轮亲跑，命令/退出码/日志见本人实现回执与
+    /tmp/type-pal-cov-det-build/）：定向 24/24（exit 0）；隔离负控制仅删 :730 guard →
+    新回归 exit 1（selected.owner TypeError），完整实现对照 exit 0；editor typecheck 0；
+    完整 `pnpm check` 0；三轮串行 editor fast 诊断 1,601/1,601 ×3、statements 恒 23,456 /
+    branches 恒 18,169（修复前摆动计数已消除）；`pnpm coverage:ratchet` 零下降（清单 5,762）；
+    严格 `pnpm coverage:fast` 0。本轮登记未重跑未变测试。未验项：无浏览器项（纯测试维护，
+    卡面 Visual N/A）；Codex 复跑结论归 Codex 席位，不冒称本人结果。本 accept 不代签他席、
+    不授权自行标 done。
+  - done 准入：blocked，仅待 Kimi 独立终审落盘；无缺签豁免，任务保持 review。
 
 ## Build 交接澄清（Codex，2026-09-06，不修改 r1 方案）
 
@@ -270,6 +280,13 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 
 ## 交接
 
+- 2026-09-06 GLM（Coding Owner，done 前最终登记）：补齐本席 accept（实现者自测，非独立终审）。
+  落笔前核对 HEAD `3b6adf94` 相对候选 `7c447c38` 的产品/脚本零 diff、工作树干净。签字依据仅为
+  本人实现轮亲跑验证（定向 24/24、负控制 exit 1 + 对照 exit 0、typecheck、完整 check、三轮串行
+  诊断恒 23,456/18,169、ratchet 零下降、严格 fast 通过），未重跑未变测试、未把 Codex 复跑当本人
+  结果、未复述 Kimi 结论。仅更新本人签字块与本日志；未改实现/他席内容/任务状态、未标 done。
+  done 准入行随本席落盘更新为仅待 Kimi 终审。Next：Kimi 独立终审（提示词已在卡内当前有效），
+  通过后由 Codex 汇总收口；无下一位 GLM 工作。
 - 2026-09-06 Codex（独立实现复核）：同步 `9c6073a2`，核 `4bc8a3b3 → 7c447c38` 白名单两文件，
   删除新增块后旧测试逐字节恢复；独立 AST 仅删 :730 guard，控制绿/负控制 selected.owner TypeError 红。
   定向 24、editor typecheck、完整 check 6,247、editor fast 1,601、单次严格七包 fast 5,762 按计划通过，
@@ -326,7 +343,7 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 在本人 done 席位写 accept 或 file:line counter，附直接证据与可证伪观察，更新本人日志并提交推送。只改本人席位/日志，不改产品/测试/基线/其他席位/任务状态，不标 done。GLM 并行补实现者自测签字，各自保留另一席已落改动，由 Codex 最终汇总。
 ```
 
-### GLM：仅补本人最终自测签字（当前有效，可与 Kimi 并行）
+### GLM：仅补本人最终自测签字（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 为 TEST-COVERAGE-DETERMINISM-1 补本人最终自测签字。
