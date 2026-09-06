@@ -325,6 +325,25 @@ Git 才是历史档案。只有仍有无法重新生成的真实输入且当前�
   - 新 Owner 必读文档。
 - 第二阶段任务的新 Owner 必读 `docs/phase2/READ-FIRST.md`、任务卡和相关审计/设计文档。
 
+## 共享工作树与 stash
+
+- 接手先读取 `git status`；未提交内容可能属于另一位 Coding Owner。不能为了 pull、切分支或清理工作区，
+  擅自 stash、还原、reset 或覆盖他人的改动。只暂存并提交本任务明确拥有的文件。
+- stash 不是“上次任务的最新进度”。恢复前必须检查其完整 SHA、创建时间、源分支、基础提交、文件清单、
+  对应任务卡状态，以及改动是否已经合入或被后续实现替代；`pending review` 等旧说明不是当前授权。
+- 禁止裸执行 `git stash pop` / `git stash apply`，也禁止把列表第一项当作自己刚保存的内容。
+  确需临时 stash 自己的改动时，记录本次精确 SHA 与任务/Owner；恢复前再次核实对象和文件范围。
+- 无法证明与当前任务相关、属于其他 Owner、或对应任务已 done/cancelled 的 stash，不得自动恢复。
+  不要通过恢复旧 stash 来“修好”当前测试或重建已退役的文档目录。
+- 清理已废弃 stash 时，先保留可恢复备份并验证，再仅移除已确认的精确对象；不得一键清空未审查的 stash 集合。
+  多 Agent 并行期间若 stash 列表变化，停止并重新核对，不能继续按旧序号删除或恢复。
+
+2026-09-06 清理记录：历史 `bd4f4cc1` 属于已验收的
+[ED-CATALOG-ROW-IA-1](archive/tasks/done/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md)。
+20 个文件中 19 个补丁与 `c5cd0f83` 的 stable patch-id 一致，剩余任务卡只是后续增加了集成复核记录；
+不包含当前 SAVE-PREFLIGHT-1 的实现工作。移出活动 stash 列表前已制作并验证本机 Git common directory 下
+`stash-archive-20260906.QzWvnS/bd4f4cc1.bundle`，恢复说明在同目录 README；备份不上传仓库，也不自动重新注册成 stash。
+
 ## 资源生成规则
 
 第二阶段会逐步用自有美术资源替换原有资源。凡涉及 AI 生图、批量生成贴图、立绘、头像、图标、场景素材等任务:
