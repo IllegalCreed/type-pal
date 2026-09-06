@@ -2,7 +2,7 @@
 
 日期：2026-09-06；Owner：Codex；产品/测试基线：`2ac4a9de`，取证前工作树干净。
 状态：**已定位测试覆盖缺口，正式修复未开始**。
-任务：[TEST-COVERAGE-DETERMINISM-1 r1](../../tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)，待三方设计准入。
+任务：[TEST-COVERAGE-DETERMINISM-1 r1](../../tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)，三方设计准入已齐，正式测试实现已交 GLM；本调查回执不是修复完成回执。
 
 ## 结论与因果证据
 
@@ -77,4 +77,4 @@ node docs/ops/audits/pre-e2e/probe-editor-coverage-timing.mjs --full
 ## 下一步
 
 GLM 拟只新增一个独立受控帧测试及自动生成基线；Codex 核提交树、先红负控制和门禁，Kimi 独立审查。
-本回执只完成取证，不授权 build、不宣称缺口已修。设计、文件白名单和两席并行提示词见任务卡。
+本回执只完成取证，不单独授权 build、不宣称缺口已修。设计、白名单、准入汇总和当前实现提示词见任务卡。
