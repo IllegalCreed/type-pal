@@ -124,7 +124,11 @@ function Harness(props: {
       worldVariables={current.worldVariables ?? {}}
       actors={current.actors}
       scenes={current.scenes}
-      projectId="demo"
+      playIdentity={{
+        projectId: 'demo',
+        workspaceId: '11111111-1111-4111-8111-111111111111',
+        source: 'http',
+      }}
       session={props.session}
       referenceIndex={index}
       referenceStatus={props.referenceStatus ?? 'current'}
@@ -248,7 +252,7 @@ describe('EnemyTeamTab authoring closure', () => {
     expect(host.textContent).toContain('场景 s001 · 实体 e1')
     expect(host.textContent).toContain('敌对实体')
     expect(host.querySelector<HTMLAnchorElement>('a[href*="battle="]')?.getAttribute('href')).toBe(
-      'play.html?project=demo&battle=team-c1',
+      'play.html?project=demo&save-workspace=11111111-1111-4111-8111-111111111111&battle=team-c1',
     )
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('button')].find((button) =>

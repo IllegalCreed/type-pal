@@ -202,8 +202,11 @@ describe('ShopTab shared object workspace', () => {
           shops={session.getState().shops!}
           items={[]}
           session={session}
-          projectId="shop-test"
-          workspaceId="local-id"
+          playIdentity={{
+            projectId: 'shop-test',
+            workspaceId: '11111111-1111-4111-8111-111111111111',
+            source: 'local',
+          }}
           isProjectDirty={() => dirty}
         />,
       ),
@@ -222,7 +225,7 @@ describe('ShopTab shared object workspace', () => {
     await act(async () => clickButton('独立试买'))
     await act(async () => clickButton('开始试买'))
     expect(open).toHaveBeenCalledWith(
-      'play.html?project=shop-test&workspace=local-id&shop-trial=0&money=1000',
+      'play.html?project=shop-test&workspace=11111111-1111-4111-8111-111111111111&shop-trial=0&money=1000',
       '_blank',
       'noopener,noreferrer',
     )

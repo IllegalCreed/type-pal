@@ -143,13 +143,33 @@ GitHub Actions 的 fast coverage 前置运行 `pnpm typecheck && pnpm lint`，�
 
 [TEST-COVERAGE-DETERMINISM-1](../ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)已三席验收收口，
 候选 `7c447c38` 新增一条独立受控帧回归，未改生产组件或既有断言。
-当前 fast 为 **609 个生产文件 / 5,762 项测试**，editor 为 **213 个生产文件 / 1,601 项**，定向排序用例 24 项。
+该时点 fast 为 **609 个生产文件 / 5,762 项测试**，editor 为 **213 个生产文件 / 1,601 项**，定向排序用例 24 项。
 基线仅更新测试清单相关信息；上表所有覆盖率计数和百分比保持不变，并非靠增加用例数抬高百分比。
 
 [受控帧调查](../ops/audits/pre-e2e/coverage-determinism.md)已在同一树上精确复得差额，唯一差异为
 `reorder.tsx:730` 的无滚动容器返回。新增测试明确推进该帧，Codex/Kimi 独立移除 guard 均使新回归失败；
 GLM 与 Codex 的实际检查保持 editor statements 23,456/31,407、branches 18,169/27,329，严格 fast 零回退。
 本卡未重跑 full coverage。历史“clean HEAD 次数/概率”并未因此获证，未来其他回退仍停线补证，不重试取多数、不下调基线。
+
+## SAVE-ISOLATION-1 增量基线（2026-09-07，实现候选待终审）
+
+[存档隔离卡](../ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)新增 80 项独立测试：
+scope 29、IDB/Memory 隔离与事务 18、boot/独立试买 2、URL 16、工作区记录 1、真实 play.ts 入口 14。
+`coverage:ratchet` 先与旧基线比较，提升 12 项且无下降，更新为 **610 个生产文件 / 5,842 项测试**；
+随后一次严格 `coverage:fast` exit 0，所有精确计数与新基线一致，无重试取多数。
+
+| 本候选 Fast 全仓 | 精确计数 | 展示值 |
+|---|---:|---:|
+| Lines | 47,323 / 68,582 | 69.00% |
+| Statements | 52,360 / 78,411 | 66.78% |
+| Functions | 9,935 / 14,425 | 68.87% |
+| Branches | 37,467 / 61,711 | 60.71% |
+
+新增纯核 `save/scope.ts` 分支 29/29、`core/play-url.ts` 分支 29/29；工作区记录校验 11/11，
+三者行/语句/函数均 100%。存储层行/语句/函数均 100%，分支 15/16（93.75%）；入口 play.ts 行/语句/
+函数 100%、分支 11/14（78.57%），未把错误展示的剩余分支伪装成已覆盖。没有 coverage ignore 或缩范围。
+editor 为 1,632 项，statements 23,516/31,429、branches 18,210/27,360，两次统计精确一致。
+本次未跑 full coverage；普通完整 `pnpm check` 的 6,327 项与上述 fast 是不同口径，不冒充 full 或浏览器 E2E。
 
 ## 长期目标（本轮不硬卡）
 

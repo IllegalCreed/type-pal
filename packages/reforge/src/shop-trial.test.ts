@@ -51,6 +51,7 @@ let frames: Map<number, FrameRequestCallback>
 let openDb: ReturnType<typeof vi.fn>
 const project = () =>
   ({
+    manifest: { id: 'shop-project' },
     shops: [{ id: 0, items: ['a', 'a'] }],
     items: { a: { id: 'a', name: '药', desc: [], buyPrice: 50, sellPrice: 7, sellable: true } },
     locale: { 'menu.system.no': '否', 'menu.system.yes': '是' },
@@ -131,9 +132,26 @@ describe('isolated shop trial', () => {
         parseShopTrialParameters(new URLSearchParams(`shop-trial=0&money=0&${key}=x`)),
       ).toThrow()
   })
-  test('real bootGame buys through formal shopInput, never creates save/world/scenes, and disposes input/frame', async () => {
-    history.replaceState(null, '', '/play.html?shop-trial=0&money=100')
-    const run = bootGame(project())
+  test.each([
+    'project',
+    'workspace',
+  ] as const)('real bootGame buys with %s scope, never creates save/world/scenes, and disposes input/frame', async (kind) => {
+    history.replaceState(
+      null,
+      '',
+      `/play.html?shop-trial=0&money=100${kind === 'workspace' ? '&save-workspace=11111111-1111-4111-8111-111111111111' : ''}`,
+    )
+    const inputProject = project()
+    const run = bootGame(
+      inputProject,
+      kind === 'workspace'
+        ? {
+            kind,
+            projectId: inputProject.manifest.id,
+            workspaceId: '11111111-1111-4111-8111-111111111111',
+          }
+        : { kind, projectId: inputProject.manifest.id },
+    )
     await vi.waitFor(() => expect(frames.size).toBe(1))
     tick('Enter')
     tick('ArrowRight')
@@ -163,6 +181,17 @@ describe('isolated shop trial', () => {
     expect(probes.save).not.toHaveBeenCalled()
     expect(probes.world).not.toHaveBeenCalled()
     expect(probes.projection).not.toHaveBeenCalled()
+  })
+  test('boot rejects a mismatched or missing scope before any world, assets or storage work', async () => {
+    await expect(bootGame(project(), { kind: 'project', projectId: 'wrong' })).rejects.toThrow(
+      '当前项目',
+    )
+    await expect(bootGame(project(), undefined as never)).rejects.toThrow('存档')
+    expect(probes.world).not.toHaveBeenCalled()
+    expect(probes.projection).not.toHaveBeenCalled()
+    expect(probes.assets).not.toHaveBeenCalled()
+    expect(probes.save).not.toHaveBeenCalled()
+    expect(openDb).not.toHaveBeenCalled()
   })
   test('missing shops/items fail before assets; empty stock exits and pagehide stops rendering', async () => {
     await expect(runShopTrial(project(), { shopId: 9, money: 0 })).rejects.toThrow(/不存在/)

@@ -30,7 +30,7 @@ function payload(): CurrentSavePayload {
 
 describe('MemorySaveStore', () => {
   test('putSlot → listMeta/getPayload/getThumb 往返', async () => {
-    const s = new MemorySaveStore()
+    const s = new MemorySaveStore({ kind: 'project', projectId: 'demo' })
     expect(await s.listMeta()).toEqual([])
     const written = payload()
     await s.putSlot(meta('m01'), written, new Blob(['png']))
@@ -39,12 +39,12 @@ describe('MemorySaveStore', () => {
     expect(await s.getThumb('m01')).toBeInstanceOf(Blob)
   })
   test('缺失槽 → null', async () => {
-    const s = new MemorySaveStore()
+    const s = new MemorySaveStore({ kind: 'project', projectId: 'demo' })
     expect(await s.getPayload('m99')).toBe(null)
     expect(await s.getThumb('m99')).toBe(null)
   })
   test('覆盖写：同槽 putSlot 二次 → listMeta 仍 1 条、payload 更新', async () => {
-    const s = new MemorySaveStore()
+    const s = new MemorySaveStore({ kind: 'project', projectId: 'demo' })
     await s.putSlot(meta('m01'), payload(), new Blob(['a']))
     const p2 = payload()
     p2.position.pos.col = 99

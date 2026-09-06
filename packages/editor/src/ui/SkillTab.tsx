@@ -26,7 +26,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import { playProjectQuery } from '../core/play-url.js'
+import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
@@ -913,8 +913,7 @@ export function SkillTab(props: {
   getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
   onOpenReference?: (reference: ProjectReferenceEdge) => void
   /** 项目 id(同源试玩页;缺省 pal 兼容旧调用)。 */
-  projectId?: string
-  workspaceId?: string
+  playIdentity: EditorPlayIdentity
 }) {
   const {
     skills,
@@ -933,8 +932,7 @@ export function SkillTab(props: {
     referenceStatus,
     getCurrentReferenceIndex,
     onOpenReference,
-    projectId = 'pal',
-    workspaceId,
+    playIdentity,
   } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(skills[0]?.id ?? '')
@@ -1117,7 +1115,7 @@ export function SkillTab(props: {
                     variant="secondary"
                     icon="open"
                     title="开真实战斗临时授此技试放（不改存档/项目数据）"
-                    href={`play.html?${playProjectQuery(projectId, workspaceId)}&scene=s001&battle=0&skill=${encodeURIComponent(skill.id)}`}
+                    href={`play.html?${playProjectQuery(playIdentity)}&scene=s001&battle=0&skill=${encodeURIComponent(skill.id)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

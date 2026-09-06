@@ -92,6 +92,11 @@ describe('DataMode dual item mechanism routes', () => {
     const { items, session } = fixture()
     const projectReferenceIndex = createProjectReferenceIndex(buildProjectReferenceSnapshot([]))
     const base: Omit<ComponentProps<typeof DataMode>, 'tab' | 'focusObjectId'> = {
+      playIdentity: {
+        projectId: 'test',
+        workspaceId: '11111111-1111-4111-8111-111111111111',
+        source: 'http',
+      },
       sprites: [],
       battleSprites: [],
       skills: {},

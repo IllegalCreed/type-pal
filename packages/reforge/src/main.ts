@@ -234,6 +234,7 @@ import {
   captureThumbnail,
   resolveRestoredMusic,
 } from './save/ops.js'
+import { assertSaveScopeProject, type SaveScope } from './save/scope.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
 import { ALL_SLOT_IDS, type SaveMeta, type SlotId, type StoredSavePayload } from './save/types.js'
 import { SceneEntrySession } from './scene-entry-session.js'
@@ -346,7 +347,11 @@ let ctx!: CanvasRenderingContext2D
  * 传 FSA/HTTP source 装出的工程 —— 本地工程句柄跨不了源,试玩必须同源,这就是拆出本函数的原因。
  * ⚠ 模块级严禁碰 DOM/location:barrel 导出后,node 测试环境 import 本模块即执行模块级代码。
  */
-export async function bootGame(inputProject: LoadedCurrentProject): Promise<void> {
+export async function bootGame(
+  inputProject: LoadedCurrentProject,
+  saveScope: SaveScope,
+): Promise<void> {
+  const boundSaveScope = assertSaveScopeProject(saveScope, inputProject.manifest.id)
   const trial = parseShopTrialParameters(new URLSearchParams(location.search))
   if (trial) {
     await runShopTrial(inputProject, trial)
@@ -583,7 +588,9 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
   let bootLoadSlot: SlotId | undefined
   // 存档存储 + 菜单 UI 资产提前建(菜单读档界面即用;总加载量与原先一致,仅提前到菜单前)。
   const saveStore: SaveStore =
-    typeof indexedDB !== 'undefined' ? new IndexedDbSaveStore() : new MemorySaveStore()
+    typeof indexedDB !== 'undefined'
+      ? new IndexedDbSaveStore(boundSaveScope)
+      : new MemorySaveStore(boundSaveScope)
   const defaultPortrait =
     project.actorsById['li-xiaoyao']?.portraits?.default ??
     Object.values(project.actorsById).find((actor) => actor.portraits)?.portraits?.default

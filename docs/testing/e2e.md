@@ -89,6 +89,24 @@
   断言、错误与必要窄截图，按[检查点链与执行回执](#5-检查点链与执行回执)记录路径/摘要。
   此处是计划输出目录，当前未生成；临时产物不提交 Git，持久结果链接回本登记与执行回执。
 
+### 已登记的多项目/工作区存档回归（SAVE-ISOLATION-1）
+
+状态：**R4/Q1 连续链待跑，Owner Codex**；[隔离卡](../ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)
+已有开发期真实浏览器最小功能证据，不等于完整 E2E。
+
+- 同一隔离浏览器存储域启动项目 P 的工作区 W1/W2、项目 Q，以及 P 的独立运行壳；用当前 canonical
+  测试工程，记录实际 `projectId/workspaceId`，不占用用户浏览器槽。
+- 各自保存不同的金额/位置，覆盖 quick/auto/m01；交错写入后经正式 F9/菜单读回，断言场景、坐标/朝向、
+  金额、meta/list、缩略图内容和 savedTimes 各属自己的空间。刷新后结果相同，仍维持既有 30 槽布局。
+- W1 未绑定目录时使用 HTTP `save-workspace=W1`，首次保存绑定本地目录后改走 `workspace=W1`：
+  内容来源变化但存档库名不变，正式读回绑定前进度，再写仅增加自己的次数；W2/Q/独立壳保持原值。
+- 空/重复/冲突工作区参数、缺失/错身份句柄记录可见拒绝，不退回 HTTP 或创建错误存档库；独立试买
+  允许新的身份参数但仍零存档读写。旧未分区库仅可用隔离 sentinel 验证“不读、不迁、不删”。
+- 断言 checkpoint 恢复后继续保存落在选定 scope；**导出钩子当前有已登记误接**，须先按
+  [追加缺陷](../ops/audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)修复并验证合法导出，不能假称当前导出链可用。
+- 后续执行证据写到 `artifacts/e2e/save-isolation/<run-id>/`（计划目录，尚未生成），含候选 SHA、
+  版本/身份元组、逐步快照与断言，失败保留错误栈；N6b 切版重建输入但保留业务断言。
+
 ## 3. 碎片必须携带的剧情语义
 
 碎片不能只有序号和一串按键。每段在进入实现前至少要明确下列信息;具体文件格式和 schema 另开设计任务
@@ -202,8 +220,9 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
 
 ## 9. 已有机制与待建项
 
-- **Reforge 存档导出**:浏览器通过 `window.__tpE2e.dumpSave()` 取得当前 SavePayload,作为下一碎片的
-  checkpoint 候选。
+- **Reforge 存档导出（待修）**：预期通过 `window.__tpE2e.dumpSave()` 取得当前 SavePayload；
+  2026-09-07 发现实际钩子误接有参 builder，零参导出缺 world/position/projectId，当前不能作 checkpoint。
+  见[追加缺陷](../ops/audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)，修复后再建立连续导出链。
 - **Reforge 存档恢复**:`?e2e-load=<save.json url>&e2e-load-scene=<id>` 复用正式读档归一化与恢复事务,
   注入 world 并跳到碎片起点。
 - **机读观察点**:`canvas.dataset.rfScene` / `rfRender` / `rfSceneEntry`、`window.__reforge` 和战斗态

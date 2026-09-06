@@ -1,6 +1,6 @@
 /**
  * 独立 reforge 页入口壳:按 VITE_PROJECT_ID 加载工程 → bootGame。
- * (引擎本体在 main.ts 的 bootGame(project) —— 页面无关可复用;编辑器 play 页同源试玩
+ * (引擎本体在 main.ts 的 bootGame(project, scope) —— 页面无关可复用;编辑器 play 页同源试玩
  * 走同一函数,传 FSA/HTTP source 装出的工程。)
  */
 import { bootGame } from './main.js'
@@ -8,7 +8,8 @@ import { loadRunnableProject } from './runnable-project-loader.js'
 
 async function boot(): Promise<void> {
   const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'demo'
-  await bootGame(await loadRunnableProject(PROJECT_ID))
+  const project = await loadRunnableProject(PROJECT_ID)
+  await bootGame(project, { kind: 'project', projectId: project.manifest.id })
 }
 
 boot().catch((e: unknown) => {

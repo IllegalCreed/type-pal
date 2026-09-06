@@ -17,6 +17,7 @@ import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedData } from '../core/editor-derived-contract.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
+import type { EditorPlayIdentity } from '../core/play-url.js'
 import type { ManifestLike, ProjectIssue } from '../core/project-diagnostics.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
@@ -95,6 +96,7 @@ export function DataMode(props: {
   getCurrentProjectReferenceIndex: CurrentProjectReferenceIndexProvider
   onOpenProjectReference: (reference: ProjectReferenceEdge) => void
   workspaceId?: string
+  playIdentity: EditorPlayIdentity
   /** 角色定义(入口点 startWorld 队伍选人)。 */
   actors: import('@type-pal/content').ActorDef[]
   /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */
@@ -168,6 +170,7 @@ export function DataMode(props: {
     scenes,
     manifest,
     workspaceId,
+    playIdentity,
     actors,
     skillList,
     projectReferenceIndex,
@@ -237,8 +240,7 @@ export function DataMode(props: {
     return (
       <EnemyTab
         assetBase={assetBase}
-        projectId={manifest.id}
-        workspaceId={workspaceId}
+        playIdentity={playIdentity}
         enemies={enemies}
         enemyTeams={enemyTeams}
         skills={Object.values(skills)}
@@ -273,8 +275,7 @@ export function DataMode(props: {
         worldVariables={session.getState().worldVariables ?? {}}
         actors={actors}
         scenes={scenes}
-        projectId={manifest.id}
-        workspaceId={workspaceId}
+        playIdentity={playIdentity}
         session={session}
         referenceIndex={projectReferenceIndex}
         referenceStatus={projectReferenceStatus}
@@ -363,8 +364,7 @@ export function DataMode(props: {
         items={itemList}
         session={session}
         assetBase={assetBase}
-        projectId={manifest.id}
-        workspaceId={workspaceId}
+        playIdentity={playIdentity}
         assetCatalog={assetCatalog}
         assetReader={assetReader}
         battleSprites={battleSprites}
@@ -439,8 +439,7 @@ export function DataMode(props: {
         referenceStatus={projectReferenceStatus}
         getCurrentReferenceIndex={getCurrentProjectReferenceIndex}
         onOpenReference={onOpenProjectReference}
-        projectId={manifest.id}
-        workspaceId={workspaceId}
+        playIdentity={playIdentity}
         isProjectDirty={() => session.isDirty() || (script?.session.isDirty() ?? false)}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}

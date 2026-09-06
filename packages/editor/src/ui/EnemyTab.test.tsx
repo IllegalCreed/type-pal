@@ -189,7 +189,11 @@ function Harness(props: {
       assetReader={{} as never}
       assetBase={props.withAssetBase ? ({} as never) : undefined}
       battleSprites={current.battleSprites}
-      projectId="test-project"
+      playIdentity={{
+        projectId: 'test-project',
+        workspaceId: '11111111-1111-4111-8111-111111111111',
+        source: 'http',
+      }}
       focusObjectId={props.focusObjectId}
       referenceIndex={referenceIndex}
       referenceStatus={props.referenceStatus ?? 'current'}
@@ -371,7 +375,9 @@ describe('EnemyTab shared workbench', () => {
     expect(trials).toHaveLength(1)
     expect(
       trials.every(
-        (trial) => trial.getAttribute('href') === 'play.html?project=test-project&battle=team-7',
+        (trial) =>
+          trial.getAttribute('href') ===
+          'play.html?project=test-project&save-workspace=11111111-1111-4111-8111-111111111111&battle=team-7',
       ),
     ).toBe(true)
     expect(

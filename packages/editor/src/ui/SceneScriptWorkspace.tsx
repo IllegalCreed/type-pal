@@ -12,6 +12,7 @@ import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import { activePageTriggerActivation } from '../core/entity-placement.js'
+import type { EditorPlayIdentity } from '../core/play-url.js'
 import { Playback } from '../core/playback.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type {
@@ -52,8 +53,7 @@ export function CanonicalSceneScriptWorkspace(props: {
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
-  projectId: string
-  workspaceId?: string
+  playIdentity: EditorPlayIdentity
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   editorContext?: CanonicalScriptEditorContext
   onDispatch: (command: ScriptEditorCommand) => void
@@ -221,8 +221,7 @@ export function CanonicalSceneScriptWorkspace(props: {
           scene={props.scene}
           stages={EMPTY_STAGES}
           sourceKey={previewSourceKey}
-          projectId={props.projectId}
-          workspaceId={props.workspaceId}
+          playIdentity={props.playIdentity}
           focusEntityId={owner === 'entity' ? (props.selectedEntityId ?? undefined) : undefined}
           focusTriggerActivation={
             owner === 'entity' ? activePageTriggerActivation(canonicalEntityPage) : undefined

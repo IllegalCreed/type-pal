@@ -1983,7 +1983,7 @@ describe('App item reference navigation', () => {
 
     await act(async () => button('从默认落点引擎试玩', host).click())
     expect(open).toHaveBeenCalledWith(
-      'play.html?project=test&scene=scene&pos=0,0&facing=down',
+      'play.html?project=test&save-workspace=11111111-1111-4111-8111-111111111111&scene=scene&pos=0,0&facing=down',
       '_blank',
     )
   })

@@ -227,6 +227,7 @@ export {
   type AmbienceTint,
   compositeAmbienceTint,
 } from './ambience-compositor.js'
+export type { SaveScope } from './save/scope.js'
 export type { RenderSceneFrameArgs }
 // 引擎启动函数(编辑器 play 页同源试玩;页面须备 <canvas id="screen">)
 export { bootGame, renderSceneFrame }

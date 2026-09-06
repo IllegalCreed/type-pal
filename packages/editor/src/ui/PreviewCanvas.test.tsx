@@ -65,7 +65,11 @@ describe('PreviewCanvas confirm controls', () => {
           scene={scene}
           stages={[]}
           sourceKey="scene:preview-confirm:onEnter:default"
-          projectId="demo"
+          playIdentity={{
+            projectId: 'demo',
+            workspaceId: '11111111-1111-4111-8111-111111111111',
+            source: 'http',
+          }}
           focusEntityId={undefined}
           sprites={[]}
           actorsById={{}}
@@ -147,7 +151,11 @@ describe('PreviewCanvas confirm controls', () => {
           scene={scene}
           stages={[]}
           sourceKey="scene:preview-confirm:onEnter:default"
-          projectId="demo"
+          playIdentity={{
+            projectId: 'demo',
+            workspaceId: '11111111-1111-4111-8111-111111111111',
+            source: 'http',
+          }}
           focusEntityId={undefined}
           sprites={[]}
           actorsById={{}}

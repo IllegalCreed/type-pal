@@ -15,7 +15,7 @@ export interface ShopTrialParameters {
 export function parseShopTrialParameters(params: URLSearchParams): ShopTrialParameters | undefined {
   if (!params.has('shop-trial')) return undefined
   for (const key of params.keys()) {
-    if (!['project', 'workspace', 'shop-trial', 'money'].includes(key))
+    if (!['project', 'workspace', 'save-workspace', 'shop-trial', 'money'].includes(key))
       throw new Error(`独立试买不能同时使用参数 ${key}`)
     if (params.getAll(key).length !== 1) throw new Error(`独立试买参数 ${key} 重复`)
   }

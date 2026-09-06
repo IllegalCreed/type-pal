@@ -202,7 +202,11 @@ describe('CanonicalSceneScriptWorkspace', () => {
           tilesets={[]}
           assetCatalog={{} as never}
           assetReader={{} as never}
-          projectId="test"
+          playIdentity={{
+            projectId: 'test',
+            workspaceId: '11111111-1111-4111-8111-111111111111',
+            source: 'http',
+          }}
           referenceStatus="current"
           onDispatch={() => {}}
           focusReference={options?.focusReference}

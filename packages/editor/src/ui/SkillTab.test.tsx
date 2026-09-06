@@ -116,6 +116,11 @@ function Harness(props: {
     : (props.referenceIndex ?? collectCurrentProjectReferenceIndex(current))
   return (
     <SkillTab
+      playIdentity={{
+        projectId: 'pal',
+        workspaceId: '11111111-1111-4111-8111-111111111111',
+        source: 'http',
+      }}
       skills={current.skills}
       items={current.items}
       session={props.session}
@@ -262,7 +267,9 @@ describe('SkillTab · 施法物品成本', () => {
     )
     expect(link?.classList.contains('tool')).toBe(false)
     expect(link?.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true')
-    expect(link?.getAttribute('href')).toBe('play.html?project=pal&scene=s001&battle=0&skill=352')
+    expect(link?.getAttribute('href')).toBe(
+      'play.html?project=pal&save-workspace=11111111-1111-4111-8111-111111111111&scene=s001&battle=0&skill=352',
+    )
     expect(link?.target).toBe('_blank')
     expect(link?.rel.split(/\s+/).sort()).toEqual(['noopener', 'noreferrer'])
   })

@@ -92,7 +92,7 @@ import {
 } from '../core/entity-placement.js'
 import { exportProjectZip } from '../core/export-zip.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
-import { playProjectQuery } from '../core/play-url.js'
+import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
   createProjectReferenceIndex,
@@ -571,9 +571,13 @@ export function App(props: {
   const saveInFlightRef = useRef(false)
   const saveCommandRef = useRef<EditorAppCommand | null>(null)
   const [exporting, setExporting] = useState(false) // A5 导出 zip 进行中
-  // Only a bound local handle may appear in a local-play URL. Unpersisted PAL/sandbox sessions
-  // deliberately use the explicit HTTP fallback instead of emitting a guaranteed-dead workspace id.
+  // Content transport changes after binding; the workspace's save identity does not.
   const playWorkspaceId = dirHandleRef.current ? props.workspace.workspaceId : undefined
+  const playIdentity: EditorPlayIdentity = {
+    projectId: state.manifest.id,
+    workspaceId: props.workspace.workspaceId,
+    source: dirHandleRef.current ? 'local' : 'http',
+  }
 
   useEffect(() => {
     if (
@@ -1737,7 +1741,7 @@ export function App(props: {
       ? `&pos=${entry.pos.col},${entry.pos.row}&facing=${entry.facing ?? scene.entry.facing}`
       : ''
     window.open(
-      `play.html?${playProjectQuery(state.manifest.id, playWorkspaceId)}&scene=${encodeURIComponent(scene.id)}${spawn}`,
+      `play.html?${playProjectQuery(playIdentity)}&scene=${encodeURIComponent(scene.id)}${spawn}`,
       '_blank',
     )
   }
@@ -2499,6 +2503,7 @@ export function App(props: {
             getCurrentProjectReferenceIndex={currentProjectReferenceIndex}
             onOpenProjectReference={openProjectReference}
             workspaceId={playWorkspaceId}
+            playIdentity={playIdentity}
             onJumpToEvent={jumpToEvent}
             focusScriptId={activeSubpage.dataPage === 'scripts' ? location.objectId : undefined}
             focusScriptRevision={
@@ -2985,8 +2990,7 @@ export function App(props: {
                   tilesets={state.tilesets ?? []}
                   assetCatalog={state.assetCatalog}
                   assetReader={assetReader}
-                  projectId={state.manifest.id}
-                  workspaceId={playWorkspaceId}
+                  playIdentity={playIdentity}
                   layers={{
                     grid: canvasLayers.grid,
                     blocked: canvasLayers.blocked,
@@ -3023,8 +3027,7 @@ export function App(props: {
                   assetCatalog={state.assetCatalog}
                   audioResolver={audioResolver}
                   assetReader={assetReader}
-                  projectId={state.manifest.id}
-                  workspaceId={playWorkspaceId}
+                  playIdentity={playIdentity}
                   ambiences={state.ambiences ?? []}
                   shops={state.shops ?? []}
                   layers={{

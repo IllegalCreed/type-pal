@@ -4,13 +4,14 @@
 产品基线从`09ee6e3c`到本次取证未修改。各批只提交报告与内存/只读边界复现工具。
 没有重开已验收任务、没有由内部Codex分工代签Kimi/GLM；后续修复重新按风险取得实现准入。
 
-## 修复进度（2026-09-06）
+## 修复进度（2026-09-07）
 
 - [E-06 质量门禁](quality-gate-remediation.md)已修复，完整 check 通过。
 - [B-04 当前存档预检](save-preflight-remediation.md)已完成，候选 `2c39b1af` 三席 accept 并按用户授权收口；
   R4/Q1 恢复与剧情观感用例已登记待跑；[editor 已知帧覆盖缺口](coverage-determinism.md)已补确定性回归并三签收口。
-- [A-01 存档隔离](../../tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)已获用户选择“各工作区独立”，r2 方案待设计审查、尚未实现；
-  其余修复分组维持下文顺序，本次没有整组实现授权。
+- [A-01 存档隔离](../../tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)r2 三席设计通过，Codex 已实现并自验证，进入 review，待 Kimi/GLM 独立终审；
+  发布运行按稳定项目 ID、编辑器试玩额外按工作区 ID 隔离，旧开发库不读不迁不删，未改 SAVE8/content20。
+  其余修复分组维持下文顺序，本次没有整组实现授权，也未宣称完整 E2E 通过。
 
 以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。
 
@@ -64,6 +65,16 @@ R4起跑时必须写清实际使用的项目/存档身份、输入校验、作�
   唯一普通入口作为默认；多个入口保留各自落点并指定默认；剧情传送保留显式坐标，不猜地图中心。
   s135默认55,17误取自另一传送链，正确具名入口42,17仍在。**尚未修复，必须修迁移上游后重生成**。
   本条是审计收口后追加的已核实问题，不修改A–E原编号/历史回执，也不以本记录授权开始迁移实现。
+
+## 审计后实现期追加（2026-09-07）
+
+- **Q1 检查点导出钩子接错函数，待修**：`packages/reforge/src/main.ts:6933` 把 `dumpSave`
+  绑定到导入的 `buildCurrentSavePayload(world, position, projectId)`（`save/ops.ts:34`），而不是
+  已有的零参 `captureCurrentSavePayload`（`main.ts:5580`）。浏览器零参调用导出的是缺字段对象，
+  JSON 仅 `{"version":8,"contentVersion":20}`，不能成为合法 checkpoint；正常 F5 使用本地 wrapper，不受此误接影响。
+  独立只读复算：`node --import tsx --input-type=module -e 'import {buildCurrentSavePayload} from "./packages/reforge/src/save/ops.ts"; console.log(JSON.stringify(Reflect.apply(buildCurrentSavePayload,undefined,[])))'`。
+  接线在 SAVE-ISOLATION-1 前已存在，本卡未改；R4/Q1 建立导出链前需另修并钉住真实零参调用链，不能
+  以 builder 单测或 toast 替代。存档隔离的浏览器复核使用正式 F5/F9 和真实 IndexedDB，不以此坏钩子造快照。
 
 ## 需要产品选择的边界
 

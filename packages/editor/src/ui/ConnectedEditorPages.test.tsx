@@ -195,6 +195,11 @@ describe('ConnectedEditorPages reference snapshots', () => {
             getCurrentReferenceIndex={currentIndex}
           />
           <ConnectedDataMode
+            playIdentity={{
+              projectId: 'test',
+              workspaceId: '11111111-1111-4111-8111-111111111111',
+              source: 'http',
+            }}
             derivedStore={store}
             scriptSession={scriptSession}
             session={mainSession}

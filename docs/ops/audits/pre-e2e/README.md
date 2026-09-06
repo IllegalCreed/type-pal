@@ -4,6 +4,8 @@
 以下“未修复/修复尚未开始”均为原审计时点；当前修复状态以回执与[看板](../../board.md)为准，不改原探针和历史结论。
 
 后续修复：[编辑器覆盖率确定性](coverage-determinism.md)已用独立受控帧回归闭环并三签收口，未降低门禁或修改生产行为。
+后续修复：[A-01 存档隔离](../../tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)r2 实现与自验证完成，
+2026-09-07 进入 review，待 Kimi/GLM 独立终审；下文缺陷复现保留修前证据，不代表本候选仍共用存储键。
 
 审计基线：`09ee6e3c`（商店已完成；content20 / SAVE8）。
 Owner：Codex；本批使用内部并行只读取证，**不代表 Kimi / GLM 签字**。

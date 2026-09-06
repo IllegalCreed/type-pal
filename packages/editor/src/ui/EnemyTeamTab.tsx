@@ -20,7 +20,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import { playProjectQuery } from '../core/play-url.js'
+import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
@@ -118,8 +118,7 @@ export function EnemyTeamTab(props: {
   worldVariables: WorldVariableRegistryV1
   actors: readonly ActorDef[]
   scenes: readonly SceneDef[]
-  projectId: string
-  workspaceId?: string
+  playIdentity: EditorPlayIdentity
   session: EditSession
   referenceIndex?: ProjectReferenceIndex
   referenceStatus: EditorDerivedStatus
@@ -138,8 +137,7 @@ export function EnemyTeamTab(props: {
     worldVariables,
     actors,
     scenes,
-    projectId,
-    workspaceId,
+    playIdentity,
     session,
     referenceIndex,
     referenceStatus,
@@ -413,7 +411,7 @@ export function EnemyTeamTab(props: {
                       <DsActionLink
                         variant="secondary"
                         icon="open"
-                        href={`play.html?${playProjectQuery(projectId, workspaceId)}&battle=${encodeURIComponent(selected.id)}`}
+                        href={`play.html?${playProjectQuery(playIdentity)}&battle=${encodeURIComponent(selected.id)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         title="读取磁盘项目；未保存改动不会进入试玩"

@@ -47,6 +47,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorPlayIdentity } from '../core/play-url.js'
 import { Playback } from '../core/playback.js'
 import { materializeSceneStages } from '../core/scene-script-view.js'
 import {
@@ -585,8 +586,7 @@ export function ScriptDrawer(props: {
   audioResolver: AudioAssetReader
   assetReader: EditorAssetReader
   /** 项目 id(同源试玩页 ?project=)。 */
-  projectId: string
-  workspaceId?: string
+  playIdentity: EditorPlayIdentity
   /** 氛围表(setAmbience 表单下拉;W6)。 */
   ambiences?: AmbienceDef[]
   /** 店铺表(openShop 表单店下拉)。 */
@@ -622,8 +622,7 @@ export function ScriptDrawer(props: {
     assetCatalog,
     audioResolver,
     assetReader,
-    projectId,
-    workspaceId,
+    playIdentity,
     ambiences,
     shops,
     layers,
@@ -1086,8 +1085,7 @@ export function ScriptDrawer(props: {
           sourceKey={
             internalScriptId ? `internal:${internalScriptId}` : (active?.key ?? '__none__')
           }
-          projectId={projectId}
-          workspaceId={workspaceId}
+          playIdentity={playIdentity}
           focusEntityId={
             active
               ? sourceRefOf(active.key).kind === 'onEnter' ||

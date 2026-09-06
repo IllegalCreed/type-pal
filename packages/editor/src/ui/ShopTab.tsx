@@ -16,7 +16,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import { playProjectQuery } from '../core/play-url.js'
+import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
@@ -87,8 +87,7 @@ export function ShopTab(props: {
   referenceStatus?: EditorDerivedStatus
   getCurrentReferenceIndex?: CurrentProjectReferenceIndexProvider
   onOpenReference?: (reference: ProjectReferenceEdge) => void
-  projectId?: string
-  workspaceId?: string
+  playIdentity?: EditorPlayIdentity
   isProjectDirty?: () => boolean
 }) {
   const { shops, items, session, assetCatalog, assetReader, focusObjectId, onObjectFocus, tabBar } =
@@ -179,9 +178,9 @@ export function ShopTab(props: {
         else onObjectFocus?.(undefined)
       } else {
         if (props.isProjectDirty?.() ?? session.isDirty()) throw new Error('请先保存项目，再试买。')
-        if (!props.projectId || !validMoney) throw new Error('初始金钱必须为非负安全整数。')
+        if (!props.playIdentity || !validMoney) throw new Error('初始金钱必须为非负安全整数。')
         window.open(
-          `play.html?${playProjectQuery(props.projectId, props.workspaceId)}&shop-trial=${intent.shopId}&money=${Number(money)}`,
+          `play.html?${playProjectQuery(props.playIdentity)}&shop-trial=${intent.shopId}&money=${Number(money)}`,
           '_blank',
           'noopener,noreferrer',
         )
@@ -274,7 +273,7 @@ export function ShopTab(props: {
                     </DsButton>
                     <DsButton
                       icon="open"
-                      disabled={!props.projectId}
+                      disabled={!props.playIdentity}
                       onClick={() => {
                         setNotice(undefined)
                         setMoney('1000')
@@ -557,7 +556,7 @@ export function ShopTab(props: {
               disabled={
                 intent?.kind === 'delete'
                   ? !referenceReady || references.length > 0
-                  : dirty || !validMoney || !props.projectId
+                  : dirty || !validMoney || !props.playIdentity
               }
               onClick={submitIntent}
             >

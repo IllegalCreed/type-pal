@@ -121,7 +121,11 @@ describe('ScriptDrawer command aggregate draft', () => {
           assetCatalog={session.getState().assetCatalog}
           audioResolver={{} as never}
           assetReader={{} as never}
-          projectId="test"
+          playIdentity={{
+            projectId: 'test',
+            workspaceId: '11111111-1111-4111-8111-111111111111',
+            source: 'http',
+          }}
         />
       )
     }
@@ -262,7 +266,11 @@ describe('ScriptDrawer command aggregate draft', () => {
           assetCatalog={current.assetCatalog}
           audioResolver={{} as never}
           assetReader={{} as never}
-          projectId="test"
+          playIdentity={{
+            projectId: 'test',
+            workspaceId: '11111111-1111-4111-8111-111111111111',
+            source: 'http',
+          }}
         />
       )
     }
@@ -357,7 +365,11 @@ describe('ScriptDrawer command aggregate draft', () => {
           assetCatalog={current.assetCatalog}
           audioResolver={{} as never}
           assetReader={{} as never}
-          projectId="test"
+          playIdentity={{
+            projectId: 'test',
+            workspaceId: '11111111-1111-4111-8111-111111111111',
+            source: 'http',
+          }}
         />
       )
     }
@@ -488,7 +500,11 @@ describe('ScriptDrawer command aggregate draft', () => {
           assetCatalog={current.assetCatalog}
           audioResolver={{} as never}
           assetReader={{} as never}
-          projectId="test"
+          playIdentity={{
+            projectId: 'test',
+            workspaceId: '11111111-1111-4111-8111-111111111111',
+            source: 'http',
+          }}
         />
       )
     }

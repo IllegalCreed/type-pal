@@ -28,6 +28,7 @@
     "spessasynth_lib": "^4.3.6"
   },
   "devDependencies": {
+    "fake-indexeddb": "6.2.5",
     "vite": "^8.0.14"
   }
 }

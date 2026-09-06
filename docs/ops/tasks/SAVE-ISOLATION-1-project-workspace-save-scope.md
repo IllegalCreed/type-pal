@@ -1,6 +1,6 @@
 # SAVE-ISOLATION-1 - 工程与工作区存档隔离
 
-Status: build
+Status: review
 Phase: phase2
 Capability: X1（审计 A-01 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,8 +10,10 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r2（2026-09-06，三席前提/设计签字齐，Codex 已核定 build 准入）
+Revision: r2（2026-09-07，实现与自验证完成，待 Kimi/GLM 并行独立终审；设计不重签）
 Evidence Baseline: c09fbfa9
+Implementation Baseline: 68d84d68
+Implementation Candidate: 见本卡实现提交（提交后登记固定 SHA）
 
 ## 目标与边界
 
@@ -184,7 +186,7 @@ Coding Owner 保持 Codex。可在一张卡内先闭合 scope/Store，再接齐�
 - `packages/editor/src/core/workspace-context.ts:95`、`packages/editor/src/core/handle-store.ts:156`：复用已存在的持久工作区身份，不另造临时 ID。
 - `packages/reforge/src/save/store.test.ts:40`：现有主要测试仅覆盖 MemorySaveStore，不能作为 IDB 隔离证明。
 
-## 验收矩阵（r2，签字齐前不得实现）
+## 验收矩阵（r2；设计已签，以下为实现终审合同）
 
 | 情况 | 必须验证 |
 |---|---|
@@ -326,14 +328,23 @@ Coding Owner 保持 Codex。可在一张卡内先闭合 scope/Store，再接齐�
 
 ### 进入 done 前
 
-- Codex：pending。
+- Codex：**accept（2026-09-07，Coding Owner 实现者自测，非独立终审）**。
+  按 r2 接齐所有六类试玩 URL 与独立运行壳；Store 绑定不可变身份、三块同库、克隆准备/abort/错误拒绝，
+  无格式/界面变化。定向 reforge 141 项、editor 110 项；完整 check 542 文件/6,327 项通过；
+  ratchet 先比较旧基线后仅提升，随后一次严格 fast 610 个生产文件/5,842 项精确通过。
+  最终 18 项隔离测试只替换成基线 Store 源码时 14 红/4 绿，完整实现 18 绿；无共享树回退。
+  隔离 Chrome 的正式 F5/F9、HTTP→真实 FSA handle、刷新及三块/计数验证通过，边界与日志见下。
+  原探针、SAVE8/content20、DataMode 非试玩缓存键和产品样式零改动；Q1 导出钩子既有误接仅另登缺陷。
+  若两席发现遗漏入口、身份割裂、半写/悬挂或证据不符，仍须 counter/rework，不能以本席自测替代审查。
 - Kimi：pending。
 - GLM：pending。
 - done 准入结论：blocked。
 
 ## 实现 / 视觉 / 验收
 
-未开始实现；未修改任何产品或存档文件。视觉验证未执行，安排在 build 期最小功能验证；Q1/R4 集中验证保留。
+### 设计期基线（历史）
+
+以下记录为实现前证据，不是当前实现结果：
 早期 r1 的 38 项既有测试记录保留；r2 新鲜基线为 reforge 保存/独立试买 4 文件 / 17 项、
 editor 试玩/句柄 4 文件 / 13 项、workspace-persistence/open-actions 2 文件 / 42 项通过，
 合计 **10 文件 / 72 项**，不代表 A-01 已修复。测试命令为：
@@ -346,11 +357,84 @@ pnpm --filter @type-pal/editor exec vitest run src/core/workspace-persistence.te
 
 首次 editor 过滤参数还包含不存在的 `workspace-context.test.ts`，Vitest 未匹配它；上述计数只含实际四文件，
 不把未执行文件算通过。既有上下文/标记/句柄身份测试实际在 workspace-persistence/open-actions 中补跑。
-新测试依赖尚未安装、生产/配置/锁文件未改；本轮只做证据复核、产品裁决登记与方案。
-无 Agent 缺席/额度代班；用户尚未验收本修复。
+当时新测试依赖未安装、生产/配置/锁文件未改，仅做证据复核、产品裁决登记与方案。
+
+### r2 实现回执（Codex，2026-09-07）
+
+实现基线 `68d84d68`。按已签 r2 一次提交完整实现与试买白名单，不产生“链接已变、试买尚未接受”的中间候选。
+无 Agent 缺席/额度代班；本次进入 review，不代签 Kimi/GLM、不标 done、不声称用户已验收。
+
+- `save/scope.ts`：精确 variant 字段、非空白但不改写 ID、冻结拷贝、工程归属断言及带 tag 的 JSON 元组库名。
+  `main.ts` 只改必传 scope/启动校验和唯一 Store 构造，`boot.ts` 以已加载 manifest.id 显式提供 project scope。
+- `save/store.ts`：构造时固定身份；meta/payload 在异步 open 前克隆并验归属；三 store 单事务，complete 才成功，
+  abort/error 均拒绝，入队同步失败 abort。IDB 请求错误冒泡早于 transaction.error 赋值时保留 request.error，
+  不吞 ConstraintError；失败不切 Memory。Memory 先克隆后写，仍按实例非持久。
+- `play-url.ts`/`play.ts`/`play-workspace.ts`：HTTP 内容与工作区存档身份分离，空/重复/冲突/错记录拒绝；
+  本地句柄/加载 manifest 继续核对，不回退 HTTP。App 始终取既有 WorkspaceContext ID，绑定目录只改变 source。
+  App/PreviewCanvas/EnemyTab/EnemyTeamTab/SkillTab/ShopTab 六处 helper 调用与三个中间 props 逐一接齐；
+  ConnectedEditorPages 自动 spread 继承新合同，无需改其实现。DataMode 的非试玩 `projectKey` 表达式原样保留。
+- UI diff 仅参数/类型/身份接线与对应测试 fixture、预期 URL；无 CSS、组件大小/布局改动。shop-trial 只加
+  save-workspace 白名单，project/workspace 两种 scope 的真实 boot 分流测试均证明不创建世界/Store。
+- `fake-indexeddb@6.2.5` 精确 devDependency，每例独立 IDBFactory；无 auto/polyfill/全局产品配置。
+  安装工具曾顺带更新无关 spessasynth_core，已还原该锁文件漂移并 frozen install；最终 lock 仅 9 行此依赖新增。
+- SAVE8/content20、content/迁移/工程/一阶段、原审计探针及 coverage 全局配置零 diff；旧 type-pal-saves
+  物理保留而不读不迁不删。原探针仍表达修前接口/假设，不修改它来制造 post-fix 绿色。
+
+### 实际验证与反例
+
+证据根目录 `/tmp/type-pal-save-isolation.4QCe6g/`（本机临时日志/脚本/图片，未提交；回执与回归源码入库）。
+
+| 验证 | 实际结果 / 证据 |
+|---|---|
+| 最终 Store 负控制 | `store-baseline.config.mts` 仅在 load hook 读取 `git show 68d84d68:packages/reforge/src/save/store.ts`，其余最终测试/源码不变；`store-before-final18.log` exit 1，14 failed/4 passed；完整实现 `store-control-final18.log` exit 0，18 passed |
+| reforge 定向 | `pnpm --filter @type-pal/reforge exec vitest run src/save src/shop-trial.test.ts`，9 文件/141 项，exit 0；`reforge-targeted-final.log` |
+| editor 定向 | 12 文件/110 项，exit 0；`editor-targeted.log`，精确文件清单见下 |
+| 类型与完整检查 | editor/reforge typecheck 通过；`pnpm check` exit 0，542 Vitest 文件/6,327 项，lint 0 errors、50 warnings/11 infos；`check-final.log` |
+| 覆盖率 | `pnpm coverage:ratchet` exit 0，提升 12 项/范围变动 6 项/零下降；随后单次 `pnpm coverage:fast` exit 0，610 个生产文件/5,842 项，精确计数与新基线一致；`ratchet.log`、`coverage-fast.log` |
+| 原范围保持 | `git diff 68d84d68 -- packages/content packages/migrate packages/game projects docs/ops/audits/pre-e2e/probe* scripts/coverage/config.mjs` 零；无 timeout/排除/ignore 调整 |
+
+editor 定向 12 文件实际为 play-url、play-workspace、play.ts、ConnectedEditorPages、DataMode.item-alchemy、
+EnemyTab、EnemyTeamTab、PreviewCanvas、SceneScriptWorkspace、ScriptDrawer、ShopTab、SkillTab；
+App.reference-navigation 在完整 check/fast 中验证，不把它重复计入定向 110 项。
+
+原先 13 项 Store 用例负控制为 11 红/2 绿；后补真实 open/readonly/request/default-factory 错误后是上表最终 18 项。
+abort 回归在最后一个 thumb 请求 success 后才 abort，并断言零 request error，避免 onerror 掩盖缺 onabort；
+await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实 provider 的三块回滚断言，不手写成功 Map。
+最初完整 check 有两处失败：App 旧 URL 预期未带身份、play-url 文案使用“工程”违反既有“项目”规则；
+均修真实期望/文案后才通过，原失败 `check.log` 保留。没有以重试/多数绿处理 editor 确定性门禁。
+
+新增用例净增 80（reforge 49、editor 31）。scope 分支 29/29、play-url 29/29、play-workspace 11/11，
+行/语句/函数均 100%；store 行/语句/函数 100%、分支 15/16；play.ts 行/语句/函数 100%、分支 11/14，
+不冒称余下错误展示分支已覆盖。完整 fast 精确计数见[覆盖率登记](../../testing/coverage.md#save-isolation-1-增量基线2026-09-07实现候选待终审)。
+普通 check 包含 PAL 测试，但本次未跑 full coverage；最小浏览器验证也不计入 fast 百分比。
+
+### 最小功能 / 视觉验证
+
+`browser.mjs` / `browser.log` / `browser-result.json`：复用既有 localhost:6010 服务，独立 Chrome 新 context，
+路由只在该 context 提供当前 blank 测试工程；未改磁盘 PAL 内容、用户浏览器或原 dev server。
+真正执行 play.ts/standalone boot.ts、F5/F9、IndexedDB；仅以开发观察钩子设可区分测试金额，以真实方向键移动。
+
+- P=pal/W1：111、quick 次数 2、位置 10/0/0；pal/W2：222、次数 1；Q=scope-q：333；
+  独立运行 pal project scope：444。各次交错保存后三块内容/缩略图 hash/次数不串，F9 恢复自己的状态，W2 刷新仍 222。
+- 同 context 创建真实 OPFS directory handle，写当前测试工程与既有沙盒 marker，经真实 handle-store 注册 W1，
+  权限 granted；从 `save-workspace=W1` 转 `workspace=W1`，真实 FSA loader 后 F9 读回 111/同位置，
+  再 F5 保存 112、次数 3；绑定前后游戏数据库名集合相同，其余空间快照不变。
+  **这验证原生 FSA handle/OPFS，不冒称测了操作系统目录选择弹窗或用户磁盘目录首次保存全链。**
+- 旧库 sentinel 金额 999/次数 99 保持原值；缺失工作区显示可操作错误且不新建错误 save DB；pageerror 空。
+- 本人实际看过 `local-workspace-restored.png` 与 `missing-workspace.png`：读档短提示完整、缺句柄错误可见；
+  未改变界面样式、不重复做剧情观感验证。浏览器/context 已关闭，未删除用户数据库。
+
+完整 R4/Q1（含 auto/手动菜单及 checkpoint 连续链）仍按[登记](../../testing/e2e.md#已登记的多项目工作区存档回归save-isolation-1)待跑。
+期间发现既有 Q1 `dumpSave` 误接有参 builder，已在[审计追加](../audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)
+登记独立证据；本卡不修改该钩子、不把合法 builder 或正常 F5 误报成 Q1 导出已闭环。
 
 ## 交接日志
 
+- 2026-09-07 Codex（实现 → review）：r2 已签合同实现完毕；定向、完整 check、ratchet 与单次严格 fast 通过，
+  最终 Store 负控制 14 红/4 绿、实现 18 绿；原生 IDB/FSA 最小浏览器证据完成。本人签实现者自测 accept，
+  Kimi/GLM 终审 pending。同步看板/索引/覆盖率/E2E 与审计进度；Q1 dumpSave 误接仅另登，不扩张本卡。
+  文档工具 20/20、全仓文档链接/状态检查与 git diff --check 通过；提交前 fetch 确认 main 未分叉。
+  下一阶段两席独立读取同候选，各写本人签字/日志并提交推送；不重签 r2、不改他席/状态、不标 done。
 - 2026-09-06 Codex（build 准入）：用户确认三席签字后核定 r2 allowed，draft → build，同步看板/索引。
   接手 `dd940563` 洁净同步树；两席独立证据成立、无返工项。先实现 scope/Store，再接齐全部试玩 URL，
   完整候选中保持试买参数与入口同步；无存档格式/UI 变更，不迁移或删除旧库。实现与全部验证仍由本人完成。
@@ -381,22 +465,24 @@ pnpm --filter @type-pal/editor exec vitest run src/core/workspace-persistence.te
 
 ## 下一位 Agent 提示词
 
-### Kimi：r2 独立前提/架构审查（可与 GLM 并行）
+### Kimi：r2 实现终审（可与 GLM 并行）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，r2，draft，产品基线 c09fbfa9。
-先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡四向真值/用户裁决/r2 方案，及 harvest X9、存档审计 A-01、现行工作区身份源码。用户已按推荐确认同工程不同工作区独立，不重问该选择，不把它当缺签豁免。
-直接核 store.ts 的同库同键、App:576 未绑定目录时 HTTP 分流、WorkspaceContext/handle-store 身份连续性及所有试玩调用域。独立 primary-source 证据必须写入；原 probe-save-boundaries 的 A-01 可复核，但它后来在已修 B-04 旧假设处失败，不能称全探针绿。
-压力测试：显式 SaveScope/per-scope DB 是否足够且无歧义；HTTP save-workspace 与 FSA workspace 分责和互斥；同 W 首存前后连续；公共 bootGame scope 必传及项目绑定；三 store 原子写/abort 收尾；旧库不删不读不迁；独立试买仍零存档。审边界是否有漏项/过度扩张，不预判需要 SAVE9/content21。
-不要读取或复述 GLM 签字。仅写本人 r2 席位的 premise verified + design agree（直接证据/可证伪观察），或 file:line counter 与返工项，更新本人日志并提交推送；各自同步保留另一席改动。不得改实现、他席、任务状态或标 build/done。三签齐后由 Codex 放行。
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选取卡头 Implementation Candidate，对比 68d84d68。
+先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 r2 已签方案/用户裁决/实现回执与最新交接日志、harvest X9。不要读取或复述 GLM 本轮终审结论。
+独立审架构与实现：SaveScope 精确字段/不可变绑定、bootGame 必传且副作用前校验、project/workspace 元组编码；三 store complete/abort/error/同步入队异常及克隆原子性；无 IDB 错误转内存成功；六类 URL/中间 props/独立壳接齐；HTTP save-workspace 与本地 workspace 分责，错句柄身份不退 HTTP，首存来源切换同 W 不分裂；独立试买仍零存档。核旧库不读不迁不删、SAVE8/content20/UI/DataMode 非试玩缓存键/原探针零变化。
+复跑定向 save+shop-trial 141、editor 定向 110（卡内清单）、相关 typecheck、完整 check（Codex 6327）及单次严格 fast（610 个生产文件/5842）；不并跑重型检查、不取多数。按需独立重建隔离负控制：只把 store.ts 换成 git show 68d84d68 的加载内容，最终 18 项为 14 红/4 绿，当前 18 绿；特别核最后 thumb success 后 abort 且零 request error，不能只靠 pending request 的 onerror。不得 stash 回退共享树。
+真实浏览器证据在 /tmp/type-pal-save-isolation.4QCe6g/browser.mjs、browser-result.json 及两张截图，Codex 已验正式 F5/F9、同源多空间/刷新、HTTP→原生 OPFS/FSA handle 同身份。先读证据，只为不确定项补最小验证，不重复完整视觉流程；没有测 OS 目录选择器或完整 Q1。既有 dumpSave 误接仅另登，不在本卡顺手修。
+结论 accept 或带 file:line/直接证据的 counter 写入本人 done 前席位与本人交接日志，提交推送；提交前同步并保留他席，只改自己的签字/日志，不改实现、他席、任务状态、不标 done。两席落卡后由 Codex 统一核定；用户不用搬运审查正文。
 ```
 
-### GLM：r2 独立数据/测试矩阵审查（可与 Kimi 并行）
+### GLM：r2 数据/测试矩阵终审（可与 Kimi 并行）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，r2，draft，产品基线 c09fbfa9。
-先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡四向真值/用户裁决/r2 方案，及存档审计 A-01、coverage 合同。你负责独立矩阵/范围审查；Coding Owner 是 Codex，本轮不实现。
-直接核 store.ts/保存计数/所有试玩 URL、play.ts/record 校验/WorkspaceContext；独立确认 A-01 与 HTTP→FSA 同身份边界。原 probe-save-boundaries 只把已输出 A-01 当证据，其后 B-04 旧假设 exit 1 不算整脚本通过。
-逐项找反例：P/W 组合与特殊字符编码、必填 scope/错误项目、空重复互斥 URL、六类链接及中间 props、首存/重开/另存、三块/列表/计数一致、abort/克隆失败、Memory 非持久、旧库保留不回读、独立试买和 SAVE-PREFLIGHT 保持。审 fake-indexeddb@6.2.5 仅 dev/单例隔离与真实浏览器补验，检查不碰预览缓存等无关 workspaceId 用途。
-不要读取或复述 Kimi 签字。仅写本人 r2 席位的 premise verified + design agree，附直接证据与可证伪观察，或 file:line counter/遗漏矩阵；更新本人日志并提交推送。保留另一席、不改实现/他席/任务状态，不标 build/done。三签齐后由 Codex 放行，不以用户同意产品选择代替设计门禁。
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选取卡头 Implementation Candidate，对比 68d84d68。
+先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡已签 r2/用户裁决/实现回执与最新交接日志，以及 docs/testing/coverage.md。不要读取或复述 Kimi 本轮终审结论。Coding Owner Codex，本轮你只做独立数据/矩阵/范围终审。
+从候选树独立枚举生产 diff、六类 URL 与中间 props，逐项核矩阵：P/W/特殊字符/调用方突变、scope/项目错配副作用前拒绝、空重复互斥参数/错记录/错 manifest、HTTP→FSA 同 W、三块/列表/次数同域、30 槽/多 entry 保持、克隆失败/同步错误/真实 abort 回滚、Memory 非持久、旧库不读不迁不删、独立试买零存档。核 fake-indexeddb@6.2.5 仅 dev、lock 仅该依赖、配置/超时/排除/原探针/格式/UI 与非试玩缓存键不变。
+复跑 scope/store/入口定向与完整 check、单次严格 fast；重型检查不并跑，不取多数。核新增净 80（reforge 49/editor 31）、fast 610 文件/5842 项，scope 与 URL 分支 29/29、store 15/16；回执数字从实际候选树生成。负控制仅隔离加载基线 store.ts：最终 18 项 14 红/4 绿，完整实现 18 绿；核 abort 真正不发 request error、失败不半写，不能用测试注释代替红证据。临时 config/日志 /tmp/type-pal-save-isolation.4QCe6g/，可自行重建，不 stash 共享树。
+阅读 browser.mjs/browser-result.json/截图证据，核原生 IDB/F5/F9、多项目/工作区/独立壳、刷新与 HTTP→OPFS/FSA 绑定连续性的证明范围；不把测试 handle 当 OS 目录选择或全链 E2E。Q1 dumpSave 既有误接已另登，原调用未改，不因此代修范围外产品。
+将 accept 或 file:line counter/证据/返工项直接写入本人 done 前席位和本人日志并提交推送；落盘前同步保留他席，只写自己，不改实现、他席、任务状态、不标 done。两席都落卡后 Codex 统一收口，用户不用复制审查正文。
 ```

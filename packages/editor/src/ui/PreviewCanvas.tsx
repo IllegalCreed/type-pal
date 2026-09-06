@@ -27,7 +27,7 @@ import {
   walkFrameIndex,
 } from '@type-pal/reforge'
 import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
-import { playProjectQuery } from '../core/play-url.js'
+import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { Playback } from '../core/playback.js'
 import { DsButton, DsSelect, DsTag, DsToolbar } from './design-system/index.js'
 import {
@@ -113,9 +113,8 @@ export function PreviewCanvas(props: {
   scene: SceneDef
   stages: readonly ScriptStage[]
   sourceKey: string
-  /** 内容项目 id；本地试玩另带 workspaceId，只有不带 workspace 时才明确走 HTTP dev。 */
-  projectId: string
-  workspaceId?: string
+  /** Content transport and workspace save identity are supplied together, never guessed here. */
+  playIdentity: EditorPlayIdentity
   /** 当前源的触发实体(未播时镜头对准它;onEnter 源 undefined = 对准玩家)。 */
   focusEntityId: string | undefined
   /** 焦点实体当前 canonical 页的静态触发方式，用于共享黄色范围高亮。 */
@@ -148,8 +147,7 @@ export function PreviewCanvas(props: {
     scene,
     stages,
     sourceKey,
-    projectId,
-    workspaceId,
+    playIdentity,
     focusEntityId,
     focusTriggerActivation,
     sprites,
@@ -438,7 +436,7 @@ export function PreviewCanvas(props: {
       : undefined
     const pos = entity ? `&pos=${entity.pos.col},${entity.pos.row + 1}&facing=up` : ''
     window.open(
-      `play.html?${playProjectQuery(projectId, workspaceId)}&scene=${encodeURIComponent(scene.id)}${pos}`,
+      `play.html?${playProjectQuery(playIdentity)}&scene=${encodeURIComponent(scene.id)}${pos}`,
       '_blank',
     )
   }

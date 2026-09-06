@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [SAVE-ISOLATION-1 - 工程与工作区存档隔离](SAVE-ISOLATION-1-project-workspace-save-scope.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [SAVE-ISOLATION-1 - 工程与工作区存档隔离](SAVE-ISOLATION-1-project-workspace-save-scope.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

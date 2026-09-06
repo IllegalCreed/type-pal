@@ -6,6 +6,7 @@
  * 编辑器同源:句柄存 IndexedDB(handle-store),本页取出 → fsaSource → bootGame。
  *
  * 双路:?project=<id> 且没有 workspace = 明确从 HTTP dev 项目启动；
+ * ?save-workspace=<id> 为未绑定目录的编辑会话选择存档空间，不授予文件读取权；
  * ?workspace=<workspaceId>&project=<id> = 只从对应本地句柄启动，句柄丢失时 fail loud，
  * 绝不按同名 project id 静默回退到仓库 PAL。
  * 其余 URL 参数(scene/pos/facing/battle/skill…)由 bootGame 自己读 location.search,原样生效。
@@ -13,6 +14,7 @@
 import { bootGame } from '@type-pal/reforge'
 import { ensurePermission, type WorkspaceHandleRecord } from './core/handle-store.js'
 import { loadPlayProject } from './core/load-play-project.js'
+import { parsePlayProjectLocation } from './core/play-url.js'
 import {
   assertLoadedPlayProjectIdentity,
   resolvePlayWorkspaceRecord,
@@ -33,24 +35,36 @@ function fail(msg: string): void {
 async function bootFromRecord(record: WorkspaceHandleRecord): Promise<void> {
   const project = await loadPlayProject('', record.handle)
   assertLoadedPlayProjectIdentity(record.projectId, project.manifest.id)
-  await bootGame(project)
+  await bootGame(project, {
+    kind: 'workspace',
+    projectId: project.manifest.id,
+    workspaceId: record.workspaceId,
+  })
 }
 
 async function main(): Promise<void> {
-  const params = new URLSearchParams(location.search)
-  const projectId = params.get('project')
-  if (!projectId) return fail('缺 ?project=<项目id> 参数')
-  const workspaceId = params.get('workspace')
+  const target = parsePlayProjectLocation(new URLSearchParams(location.search))
+  const { projectId } = target
 
-  if (!workspaceId) {
+  if (target.source === 'http') {
     // Only an explicit HTTP-dev URL may use repository content. A local workspace that lost its
     // handle must fail loudly instead of silently opening another project with the same id.
-    await bootGame(await loadPlayProject(projectId))
+    const project = await loadPlayProject(projectId)
+    await bootGame(
+      project,
+      target.saveWorkspaceId === undefined
+        ? { kind: 'project', projectId: project.manifest.id }
+        : {
+            kind: 'workspace',
+            projectId: project.manifest.id,
+            workspaceId: target.saveWorkspaceId,
+          },
+    )
     return
   }
   let record: WorkspaceHandleRecord
   try {
-    record = await resolvePlayWorkspaceRecord(workspaceId, projectId)
+    record = await resolvePlayWorkspaceRecord(target.workspaceId, projectId)
   } catch (error) {
     return fail(error instanceof Error ? error.message : String(error))
   }

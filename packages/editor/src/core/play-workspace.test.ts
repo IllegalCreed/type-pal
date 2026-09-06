@@ -44,4 +44,12 @@ describe('local play workspace identity', () => {
     )
     expect(() => assertLoadedPlayProjectIdentity('pal', 'pal')).not.toThrow()
   })
+  test('rejects malformed workspace before looking up a handle and rejects a wrong record key', async () => {
+    const lookup = vi.fn(async () => record)
+    await expect(resolvePlayWorkspaceRecord('', 'pal', lookup)).rejects.toThrow('标识')
+    expect(lookup).not.toHaveBeenCalled()
+    await expect(
+      resolvePlayWorkspaceRecord('22222222-2222-4222-8222-222222222222', 'pal', lookup),
+    ).rejects.toThrow('请求身份')
+  })
 })

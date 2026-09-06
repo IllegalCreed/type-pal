@@ -35,7 +35,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import { playProjectQuery } from '../core/play-url.js'
+import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
@@ -552,8 +552,7 @@ export function EnemyTab(props: {
   /** 资产根(外观预览加载战斗精灵;缺省不渲预览)。 */
   assetBase?: import('@type-pal/reforge').AssetBase
   /** 项目 id(同源试玩页;缺省 pal 兼容旧调用)。 */
-  projectId?: string
-  workspaceId?: string
+  playIdentity: EditorPlayIdentity
   onOpenBattleSprite?: (id: string) => void
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
@@ -576,8 +575,7 @@ export function EnemyTab(props: {
     battleSprites,
     onOpenSound,
     assetBase,
-    projectId = 'pal',
-    workspaceId,
+    playIdentity,
     onOpenBattleSprite,
     focusObjectId,
     onObjectFocus,
@@ -909,7 +907,7 @@ export function EnemyTab(props: {
                     <DsActionLink
                       variant="secondary"
                       icon="open"
-                      href={`play.html?${playProjectQuery(projectId, workspaceId)}&battle=${encodeURIComponent(team.id)}`}
+                      href={`play.html?${playProjectQuery(playIdentity)}&battle=${encodeURIComponent(team.id)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       title="读磁盘项目：改动须先保存"
