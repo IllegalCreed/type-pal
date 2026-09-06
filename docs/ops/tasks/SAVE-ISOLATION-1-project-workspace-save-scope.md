@@ -13,7 +13,7 @@ Branch: main
 Revision: r2（2026-09-07，实现与自验证完成，待 Kimi/GLM 并行独立终审；设计不重签）
 Evidence Baseline: c09fbfa9
 Implementation Baseline: 68d84d68
-Implementation Candidate: 见本卡实现提交（提交后登记固定 SHA）
+Implementation Candidate: 526eea00（对比 68d84d68；后续登记提交仅文档）
 
 ## 目标与边界
 
@@ -361,7 +361,8 @@ pnpm --filter @type-pal/editor exec vitest run src/core/workspace-persistence.te
 
 ### r2 实现回执（Codex，2026-09-07）
 
-实现基线 `68d84d68`。按已签 r2 一次提交完整实现与试买白名单，不产生“链接已变、试买尚未接受”的中间候选。
+实现候选 `526eea00`，基线 `68d84d68`，46 文件（含测试/基线/文档）。按已签 r2 一次提交完整实现与试买白名单，
+不产生“链接已变、试买尚未接受”的中间候选；后续候选 SHA 登记仅文档，packages/ scripts/ 锁文件零 diff。
 无 Agent 缺席/额度代班；本次进入 review，不代签 Kimi/GLM、不标 done、不声称用户已验收。
 
 - `save/scope.ts`：精确 variant 字段、非空白但不改写 ID、冻结拷贝、工程归属断言及带 tag 的 JSON 元组库名。
@@ -468,7 +469,7 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 ### Kimi：r2 实现终审（可与 GLM 并行）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选取卡头 Implementation Candidate，对比 68d84d68。
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选 526eea00，对比 68d84d68。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 r2 已签方案/用户裁决/实现回执与最新交接日志、harvest X9。不要读取或复述 GLM 本轮终审结论。
 独立审架构与实现：SaveScope 精确字段/不可变绑定、bootGame 必传且副作用前校验、project/workspace 元组编码；三 store complete/abort/error/同步入队异常及克隆原子性；无 IDB 错误转内存成功；六类 URL/中间 props/独立壳接齐；HTTP save-workspace 与本地 workspace 分责，错句柄身份不退 HTTP，首存来源切换同 W 不分裂；独立试买仍零存档。核旧库不读不迁不删、SAVE8/content20/UI/DataMode 非试玩缓存键/原探针零变化。
 复跑定向 save+shop-trial 141、editor 定向 110（卡内清单）、相关 typecheck、完整 check（Codex 6327）及单次严格 fast（610 个生产文件/5842）；不并跑重型检查、不取多数。按需独立重建隔离负控制：只把 store.ts 换成 git show 68d84d68 的加载内容，最终 18 项为 14 红/4 绿，当前 18 绿；特别核最后 thumb success 后 abort 且零 request error，不能只靠 pending request 的 onerror。不得 stash 回退共享树。
@@ -479,7 +480,7 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 ### GLM：r2 数据/测试矩阵终审（可与 Kimi 并行）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选取卡头 Implementation Candidate，对比 68d84d68。
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选 526eea00，对比 68d84d68。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡已签 r2/用户裁决/实现回执与最新交接日志，以及 docs/testing/coverage.md。不要读取或复述 Kimi 本轮终审结论。Coding Owner Codex，本轮你只做独立数据/矩阵/范围终审。
 从候选树独立枚举生产 diff、六类 URL 与中间 props，逐项核矩阵：P/W/特殊字符/调用方突变、scope/项目错配副作用前拒绝、空重复互斥参数/错记录/错 manifest、HTTP→FSA 同 W、三块/列表/次数同域、30 槽/多 entry 保持、克隆失败/同步错误/真实 abort 回滚、Memory 非持久、旧库不读不迁不删、独立试买零存档。核 fake-indexeddb@6.2.5 仅 dev、lock 仅该依赖、配置/超时/排除/原探针/格式/UI 与非试玩缓存键不变。
 复跑 scope/store/入口定向与完整 check、单次严格 fast；重型检查不并跑，不取多数。核新增净 80（reforge 49/editor 31）、fast 610 文件/5842 项，scope 与 URL 分支 29/29、store 15/16；回执数字从实际候选树生成。负控制仅隔离加载基线 store.ts：最终 18 项 14 红/4 绿，完整实现 18 绿；核 abort 真正不发 request error、失败不半写，不能用测试注释代替红证据。临时 config/日志 /tmp/type-pal-save-isolation.4QCe6g/，可自行重建，不 stash 共享树。
