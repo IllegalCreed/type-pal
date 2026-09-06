@@ -5740,29 +5740,43 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     return true
   }
 
-  async function doLoad(slotId: SlotId, signal?: AbortSignal): Promise<boolean> {
+  /** doLoad 的结果态：absent=槽空；rejected=损坏/工程不符/被更新请求取代（失败提示已由具体分支显示或归新请求）；loaded=恢复成功。 */
+  type LoadOutcome = 'loaded' | 'absent' | 'rejected'
+  async function doLoad(slotId: SlotId, signal?: AbortSignal): Promise<LoadOutcome> {
     assertRunnerActive(signal, `存档槽 ${slotId} 的 runner 已取消`)
     const token = loadIntent.begin()
-    const raw = await awaitRunner(
-      saveStore.getPayload(slotId),
-      signal,
-      `存档槽 ${slotId} 的 runner 已取消`,
-    )
+    let raw: StoredSavePayload | null
+    try {
+      raw = await awaitRunner(
+        saveStore.getPayload(slotId),
+        signal,
+        `存档槽 ${slotId} 的 runner 已取消`,
+      )
+    } catch (err) {
+      // 存储读取失败（IndexedDB 异常等）与“无存档”不同：保留 AbortError 协议，其余给稳定反馈。
+      if (isAbortError(err) || signal?.aborted) throw err
+      console.warn(`[save] 槽 ${slotId} 读取失败:`, err)
+      showToast(`存档槽 ${slotId} 读取失败`)
+      return 'rejected'
+    }
     assertRunnerActive(signal, `存档槽 ${slotId} 的 runner 已取消`)
-    if (!loadIntent.isCurrent(token)) return false
-    if (!raw) return false
+    if (!loadIntent.isCurrent(token)) return 'rejected'
+    if (!raw) return 'absent'
     const where = `存档槽 ${slotId}`
     // 工程身份先于当前工程专属的 portrait/follower 映射，错误必须稳定指向 projectId。
-    if (!payloadBelongsToProject(raw, where)) return false
+    if (!payloadBelongsToProject(raw, where)) {
+      showToast(`${where} 属于其他工程，已拒绝读取`)
+      return 'rejected'
+    }
     let p: StoredSavePayload
     try {
       p = await normalizeStoredPayload(raw, where, signal)
     } catch (err) {
       console.warn(`[save] 槽 ${slotId} 归一化拒绝:`, err)
       showToast(err instanceof Error ? err.message : '存档无法读取')
-      return false
+      return 'rejected'
     }
-    return restorePayload(p, token, where, signal)
+    return (await restorePayload(p, token, where, signal)) ? 'loaded' : 'rejected'
   }
 
   async function quickSave(): Promise<void> {
@@ -5770,7 +5784,10 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     showToast('已快速存档')
   }
   async function quickLoad(): Promise<void> {
-    showToast((await doLoad('quick')) ? '已读取快速存档' : '无快速存档')
+    // rejected 时具体失败提示已由 doLoad 分支显示，不用「无快速存档」覆盖损坏/队伍为空等原因。
+    const outcome = await doLoad('quick')
+    if (outcome === 'loaded') showToast('已读取快速存档')
+    else if (outcome === 'absent') showToast('无快速存档')
   }
 
   /** 浏览界面写槽:菜单内 canvas 是菜单画面 → 用开菜单时抓的干净帧;存完刷新浏览显示。 */
@@ -5784,7 +5801,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
   }
   /** 浏览界面读槽:成功 → 关菜单回大世界。 */
   async function browserLoad(slotId: SlotId): Promise<void> {
-    if (await doLoad(slotId)) {
+    if ((await doLoad(slotId)) === 'loaded') {
       lastSaveSlot = slotId
       saveBrowser = closeSaveBrowser()
       menu = CLOSED
@@ -6484,7 +6501,12 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
             saveBrowser = r.state
             if (r.action?.kind === 'write')
               void browserWrite(r.action.slotId).catch(reportSaveFailure)
-            else if (r.action?.kind === 'load') void browserLoad(r.action.slotId)
+            else if (r.action?.kind === 'load')
+              // SAVE-PREFLIGHT-1：菜单读槽顶层未预期异常兜底（已知失败已由 doLoad 稳定反馈）。
+              void browserLoad(r.action.slotId).catch((error) => {
+                console.warn('[save] 菜单读档失败:', error)
+                showToast('读档失败')
+              })
           }
           if (esc) saveBrowser = closeSaveBrowser() // 回系统菜单(menu 仍 active)
         }
@@ -6727,7 +6749,11 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
       if (pressed.has('F5')) {
         void quickSave().catch(reportSaveFailure) // 快速存档(快速槽)
       } else if (pressed.has('F9')) {
-        void quickLoad() // 快速读档(快速槽)
+        // SAVE-PREFLIGHT-1：F9 顶层未预期异常兜底；已知坏槽由 doLoad 结构 guard 稳定反馈。
+        void quickLoad().catch((error) => {
+          console.warn('[save] 快速读档失败:', error)
+          showToast('快速读档失败')
+        }) // 快速读档(快速槽)
       } else if (esc) {
         menu = openMenu(lastMainCursor)
         // 抓当前干净游戏帧(此刻菜单尚未画)→ 菜单内存档的缩略图源
@@ -6932,7 +6958,17 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
   }
   // 主菜单「读取进度」开局:doLoad 还原存档世界 + 落存档场景,跳过 onEnter 开场演出 + dev 参数后即入主循环。
   if (bootLoadSlot) {
-    if (!(await doLoad(bootLoadSlot))) {
+    // SAVE-PREFLIGHT-1：开局读档顶层兜底——槽空/损坏/工程不符按既有语义落回新局；
+    // 未预期异常（存储/提交期错误）也不让 boot 崩溃，同样落回并记录。
+    let outcome: 'loaded' | 'absent' | 'rejected'
+    try {
+      outcome = await doLoad(bootLoadSlot)
+    } catch (err) {
+      console.warn(`[save] 开局读档槽 ${bootLoadSlot} 失败:`, err)
+      showToast('开局读档失败，已落回新局')
+      outcome = 'rejected'
+    }
+    if (outcome !== 'loaded') {
       // 读档失败(槽空/归一化拒/工程不符)→ 落回当前已选入口新局:应用世界态 + 跑入口 onEnter。
       applyWorldToScene()
       startAutoRunners()

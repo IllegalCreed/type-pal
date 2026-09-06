@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-05T21:17:34.479Z",
+  "generatedAt": "2026-09-06T03:40:54.524Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 608,
-  "testCount": 5691,
+  "sourceFileCount": 609,
+  "testCount": 5783,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -931,7 +931,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 121,
+      "sourceFileCount": 122,
       "sourceFiles": [
         "packages/reforge/src/actor-condition-lifecycle.ts",
         "packages/reforge/src/actor-condition-runtime.ts",
@@ -1024,6 +1024,7 @@
         "packages/reforge/src/runtime-script-runner.ts",
         "packages/reforge/src/save/browser-state.ts",
         "packages/reforge/src/save/current-codec.ts",
+        "packages/reforge/src/save/current-structure.ts",
         "packages/reforge/src/save/ops.ts",
         "packages/reforge/src/save/store.ts",
         "packages/reforge/src/save/types.ts",
@@ -1055,10 +1056,10 @@
         "packages/reforge/src/use-menu-state.ts",
         "packages/reforge/src/video-player.ts"
       ],
-      "scopeDigest": "b8edc015c4c30850643aabd98056fe97db277ca18983fe7a74262e404948823a",
+      "scopeDigest": "8e936bbf630a094848bb69320c0bcc3b3540626677db5b4e242c4ded05ceab48",
       "fastTests": {
-        "testCount": 869,
-        "testFileCount": 95,
+        "testCount": 961,
+        "testFileCount": 97,
         "files": [
           "packages/reforge/src/actor-condition-lifecycle.test.ts",
           "packages/reforge/src/actor-condition-runtime.test.ts",
@@ -1131,7 +1132,9 @@
           "packages/reforge/src/runtime-script-project.test.ts",
           "packages/reforge/src/save/browser-state.test.ts",
           "packages/reforge/src/save/current-save.current-characterization.test.ts",
+          "packages/reforge/src/save/current-structure.test.ts",
           "packages/reforge/src/save/ops.test.ts",
+          "packages/reforge/src/save/restore-preflight.chain.test.ts",
           "packages/reforge/src/save/store.test.ts",
           "packages/reforge/src/scene-entry-session.test.ts",
           "packages/reforge/src/scene-map.test.ts",
@@ -1513,9 +1516,19 @@
             "identityDigest": "a9375e09f47347ad741a9fa14c71b184530d2609e0af80842302420236b46b52"
           },
           {
+            "file": "packages/reforge/src/save/current-structure.test.ts",
+            "testCount": 46,
+            "identityDigest": "ba44515af9868241749996961f146d9d6e8b317ea11e8312b0325e7677fead29"
+          },
+          {
             "file": "packages/reforge/src/save/ops.test.ts",
             "testCount": 4,
             "identityDigest": "946fdb200d7799334cd0e1d6fd43380a58d0e3ef6b640afd0aa4eba438901518"
+          },
+          {
+            "file": "packages/reforge/src/save/restore-preflight.chain.test.ts",
+            "testCount": 46,
+            "identityDigest": "1fb23470d0edee67ee14512fa690008679988f155ad82cbfc8e34de010da43d5"
           },
           {
             "file": "packages/reforge/src/save/store.test.ts",
@@ -1633,26 +1646,26 @@
             "identityDigest": "339c8c24a0c9301e8ec865cfc971095bfe28c65d8135a4fbd62263cd10d73767"
           }
         ],
-        "identityDigest": "0a54c52399f4b4abdb29ed69417f0b82a11beae93694639b94d88220952bef57",
+        "identityDigest": "76e56082dc4175bf80fbd0a610c0241cc09330f61733838c3446cc39ba71653e",
         "duplicateIdentityCount": 0,
-        "executionDigest": "9cdc240f1497799e681970dbf453a33239e0d0eec051e62757196748282fee01"
+        "executionDigest": "a3b6ab852a9d7b4f1d06643368801f78e353ca52fec1fecc4611ac43430f2234"
       },
       "metrics": {
         "statements": {
-          "covered": 8139,
-          "total": 15870
+          "covered": 8267,
+          "total": 16019
         },
         "branches": {
-          "covered": 4939,
-          "total": 10838
+          "covered": 4988,
+          "total": 10901
         },
         "functions": {
-          "covered": 1248,
-          "total": 2351
+          "covered": 1283,
+          "total": 2388
         },
         "lines": {
-          "covered": 7376,
-          "total": 13842
+          "covered": 7488,
+          "total": 13974
         }
       }
     },
@@ -3859,20 +3872,20 @@
   },
   "total": {
     "statements": {
-      "covered": 52073,
-      "total": 78182
+      "covered": 52201,
+      "total": 78331
     },
     "branches": {
-      "covered": 37331,
-      "total": 61578
+      "covered": 37380,
+      "total": 61641
     },
     "functions": {
-      "covered": 9859,
-      "total": 14375
+      "covered": 9894,
+      "total": 14412
     },
     "lines": {
-      "covered": 47079,
-      "total": 68387
+      "covered": 47191,
+      "total": 68519
     }
   }
 }

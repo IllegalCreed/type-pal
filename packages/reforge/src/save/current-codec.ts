@@ -6,6 +6,7 @@ import {
   type EntityLifecycleReferenceIndex,
   normalizeEntityLifecycleTable,
 } from '@type-pal/content'
+import { assertCurrentSaveStructure } from './current-structure.js'
 import type { CurrentSavePayload } from './types.js'
 
 export interface CurrentSaveResolver {
@@ -83,12 +84,15 @@ export async function preflightCurrentSave(args: {
 /**
  * 验证并克隆当前存档。它不升级、不补旧字段、不读取 sidecar；唯一允许的缺省是当前
  * schema 明确定义为可省略的容器（skillUseCounts、entityLifecycles）。
+ * SAVE-PREFLIGHT-1：进入深拷贝前先过确定性结构 guard——money/party/position 等核心
+ * 子树的坏形状在任何恢复调用（含 party[0] 访问）之前以稳定路径文案拒绝。
  */
 export function normalizeCurrentSave(
   input: CurrentSavePayload,
   resolver: CurrentSaveResolver,
   references: EntityLifecycleReferenceIndex,
 ): CurrentSavePayload {
+  assertCurrentSaveStructure(input)
   if (
     resolver.kind !== 'current' ||
     input.projectId !== resolver.projectId ||
