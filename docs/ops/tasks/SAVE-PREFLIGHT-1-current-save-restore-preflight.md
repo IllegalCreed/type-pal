@@ -312,7 +312,7 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
   结构保证），突变负控制只需钉曾「到不了分支」的 normalize，当前配置合理。
   本 accept 不代签 Codex/GLM、不授权 done、不覆盖 SAVE-ISOLATION-1 产品选择。
 - GLM：pending。
-- done 准入结论：blocked。
+- done 准入结论：blocked（GLM 本人的最终自测签字仍 pending；无代签、无缺签豁免）。
 
 ### Codex 第二轮返工复核（本人席位，2026-09-06，候选 2c39b1af）
 
@@ -518,7 +518,7 @@ mutation.config.mjs/mutation.log、browser-smoke.mjs/log、rejected-money/portra
 ## Build / Review / 用户验收
 
 已签 r1 的前两轮候选及 counter 按历史保留；第二轮返工候选 `2c39b1af` 已由 Codex 独立复核 accept，
-当前等待 Kimi 终审与各席本人最终签字，任务仍为 review，
+Codex 与 Kimi 均已 accept，无实现返工项；当前只安排 GLM 补本人最终自测签字登记，任务仍为 review，
 不得标记 done。
 无 Agent 缺席/额度代班；用户主动调整实现分工，不冒充额度豁免，也不由内部 Codex 分工代签 Kimi/GLM。
 2026-09-06 既有基线测试：save/store、save/ops、save/browser-state、current-save characterization、
@@ -728,6 +728,13 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 
 ## 交接日志
 
+- 2026-09-06 Codex（终审接收）：用户确认“签了”后同步并核对 `981d0771` 的 Kimi 独立 accept；
+  当前 HEAD 相对 `2c39b1af` 产品/测试/配置零变化，工作树干净。Codex/Kimi 均已通过，无新返工。
+  GLM 的 done 前席位仍 pending：原实现交接未促成该签名落表，本次仅补 Coding Owner 最终自测登记，
+  不重签设计、不增加新一轮审查、不要求重复已核且未变的测试，不将他席复跑说成 GLM 本人实跑。
+  在 GLM 本人落盘之前保持 review/done blocked；收到后由 Codex 统一核定验收与收口，不代签。
+  后续事项仍单独保留：editor coverage 抖动需确定性调查，不以多数通过放行；旧 codec 非结构错误长提示为
+  Kimi 非阻断观察，不混入本卡新增 guard 的 R4 已验范围；R4/Q1 集中 E2E 登记保持。
 - 2026-09-06 Kimi（独立终审）：同步至 `20708ceb` 与工作树干净后，核 `1e271b03 → 2c39b1af`（4 产品/测试
   文件、main.ts/原探针零 diff）与整卡 `5f9f92ba → 2c39b1af`（content/公共模型/types 零 diff）。
   逐项独立闭环 R1–R4：chain 为真实 AST 抽取（两文件 MD5 不同、20 项调用域断言）；三阶段 toast
@@ -813,7 +820,15 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 
 ## 下一位 Agent 提示词
 
-### Codex：汇总验收与收口（当前有效）
+### GLM：补实现者最终自测登记（当前有效，不是新一轮审查）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 补齐 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md 的 done 前 GLM 签字。任务 review，候选 2c39b1af，你是 Coding Owner；Codex/Kimi 已 accept，无返工。
+先读 AGENTS.md、本卡上下文锚点、你自己的第二轮返工回执和最新终审结论，确认当前产品与候选无差异。只依据本人已完成的实际验证，在 GLM 席位登记 accept 或 counter（明确为实现者自测），附原命令/结果、候选和未验项；不要把其他席复跑写成你亲跑。
+这只是补漏的最终登记，不重签设计、不改实现、不重复已核且未变的测试。只更新自己的签字块与本人日志并提交推送，保留其他席内容，不改任务状态、不标 done；交回 Codex 汇总验收/收口。
+```
+
+### Codex：历史收口交接（已接收，待 GLM 本人登记）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 收口 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，终审候选 2c39b1af（HEAD 侧无产品变化）。r1 设计签字保持，不重签。
