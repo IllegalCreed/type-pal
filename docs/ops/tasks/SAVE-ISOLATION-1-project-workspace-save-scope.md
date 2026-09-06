@@ -1,6 +1,6 @@
 # SAVE-ISOLATION-1 - 工程与工作区存档隔离
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: X1（审计 A-01 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,7 +10,7 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r2（2026-09-06，工作区独立策略已确认；方案待三席设计准入）
+Revision: r2（2026-09-06，三席前提/设计签字齐，Codex 已核定 build 准入）
 Evidence Baseline: c09fbfa9
 
 ## 目标与边界
@@ -317,9 +317,12 @@ Coding Owner 保持 Codex。可在一张卡内先闭合 scope/Store，再接齐�
   与 store 命名混写，行结论（单游戏/数字槽/无工作区身份）本身经本人核实无误；(b) per-scope 每库
   一档会使源内 DB 数量随工作区增长，受浏览器逐源配额/清除策略影响（如 Safari ITP），属开发期
   预期非本卡范围；(c) boot.ts 独立壳在方案入口表有行、矩阵未单列，与"A/B 工程同源同槽"同机制，可接受。
-- 独立反证审查：pending，至少一席须直接读规范与 store/入口代码。
+- 独立反证审查：Kimi / GLM 均已直读规范、实际 Store/所有入口与身份连续性源码，并复跑 A-01；证据见各自席位。
 - 缺签豁免：无。
-- build 准入结论：blocked（产品选择已定，待 Kimi/GLM 独立 r2 前提与设计签字）。
+- build 准入结论：**allowed（Codex，2026-09-06）**。用户确认“签了”后，同步 `dd940563`、工作树干净，
+  核 `96cbf574` / `ce2a2ef3` 两席 r2 均 premise verified + design agree，无 counter；用户旧开发档可弃的
+  补充未改变 r2 方案。Codex 为唯一 Coding Owner，按已签文件面开始实现，不代签、不提前标 done。
+  非阻断措辞澄清：每 scope 一库、每库仍为既有 30 槽，并非“每库一档”；不改既有槽位合同。
 
 ### 进入 done 前
 
@@ -348,6 +351,9 @@ pnpm --filter @type-pal/editor exec vitest run src/core/workspace-persistence.te
 
 ## 交接日志
 
+- 2026-09-06 Codex（build 准入）：用户确认三席签字后核定 r2 allowed，draft → build，同步看板/索引。
+  接手 `dd940563` 洁净同步树；两席独立证据成立、无返工项。先实现 scope/Store，再接齐全部试玩 URL，
+  完整候选中保持试买参数与入口同步；无存档格式/UI 变更，不迁移或删除旧库。实现与全部验证仍由本人完成。
 - 2026-09-06 Codex（用户裁决补充）：记录旧开发档可全部作废、无需迁移恢复兼容，以及发布后以工程 ID
   隔离读写保护玩家进度的主要目标。开发试玩仍附加工作区身份；未删除数据库，未修改产品或 r2 方案，
   不撤销已有签字、不要求重新审签，不将开发期许可延伸到正式用户存档。
