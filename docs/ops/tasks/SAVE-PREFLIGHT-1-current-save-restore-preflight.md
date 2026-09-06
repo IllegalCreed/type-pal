@@ -1,6 +1,6 @@
 # SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离
 
-Status: build
+Status: review
 Phase: phase2
 Capability: X1（审计 B-04 修复，不新增能力格）
 Coding Owner: GLM
@@ -280,10 +280,85 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 
 ## Build / Review / 用户验收
 
-已准入 build，尚未提交本卡产品实现；review / 用户验收未开始，不得标记已修复或 done。
+已准入 build，GLM 已完成实现并转 review；Codex/Kimi 审查与用户验收未开始，不得标记已修复或 done。
 无 Agent 缺席/额度代班；用户主动调整实现分工，不冒充额度豁免，也不由内部 Codex 分工代签 Kimi/GLM。
 2026-09-06 既有基线测试：save/store、save/ops、save/browser-state、current-save characterization、
 actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；它们尚不覆盖本卡新增反例。
+
+### GLM 实现回执（Coding Owner 自测，2026-09-06，候选 `afa9e0eb`）
+
+**修改清单（6 文件，+1197/−41）：**
+
+- **新增 `packages/reforge/src/save/current-structure.ts`**（230 行）：`assertCurrentSaveStructure(value:
+  unknown)`——确定性结构 guard，从 unknown 开始先校验再当作类型使用。字段清单逐项以现行类型为
+  真源（GM-SP1）：envelope（version=8 / projectId / contentVersion / world / position）、
+  position（sceneId 非空串 / 三轴有限数 / 四方向枚举）、world（party/reserve 实例列表、money
+  有限数、learnedSkills、skillUseCounts、inventory、ambience、collectValue、resources、audio
+  （currentMusic?: string|null——缺字段≠null 语义保持）、hostileAwareness（0|3 + 有限数）、
+  script/entityLifecycles 外层形状——深层语义仍由 codec 既有 guard 校验）；CharacterInstance
+  （id/template 非空串、11 个数值叶有限数、equipment、tags、hiddenExp（键 ∈ 七个
+  HIDDEN_STAT_KEYS）、poisons（ActivePoison 形状）、extraStatuses（CarriedStatus 形状）、
+  extraPoisonRes、appearance（spriteId?/portrait?: string|null/battleSprite?）。**不发明数值
+  上限/取整/非负/可通行约束**——有限分数坐标原样放行（grid.ts 合同）。
+- **新增 `current-structure.test.ts`**（46 tests）：正边界（现行保存器产物/全部可选缺席/HP=0/
+  空容器/显式静音/hiddenExp 合法键/appearance portrait=null/分数坐标/输入不被修改）+ 负边界
+  矩阵（envelope 4、world 8、position 7、可选子树 8、实例 15、reserve 同型 1）——每个实际
+  guard 配正负边界，错误信息带精确路径（如 `存档 载荷.world.party[0].hp 必须为有限数`）。
+- **新增 `restore-preflight.chain.test.ts`**（13 tests）：**真实调用链回归**——AST 抽取 main.ts
+  原函数体（与审计探针同一技术），断言修复后行为：合法 loaded+完整提交序列；四反例
+  （money 字符串/party=null/position=null/facing=sideways）均 rejected+稳定文案+零活动态污染
+  （oldAbort 未触发、世界未替换、场景未切、无 stop-auto/invalidate-script 事件）；position=null
+  不再暴露裸 TypeError 文案；空数组队伍保留「存档队伍为空」且 quickLoad 不覆盖；F9 形态
+  void quickLoad() 无 unhandledRejection；较新读档胜出（旧 rejected/新 loaded/世界为新载荷）；
+  **旧失败提示不覆盖新成功**（toast 归最新请求所有）；prepare 中 AbortError 上抛+live 保留；
+  有限分数坐标不取整；读档后真实 shopBuy 不再 NaN。
+- **`current-codec.ts`**（+4）：`normalizeCurrentSave` 顶部接入 guard——**任何恢复调用（含
+  party[0] 访问）之前**拒绝坏形状；深拷贝/既有四子树 guard 语义不变。
+- **`main.ts`**（+68/−24 内含位移）：`doLoad` 返回 `LoadOutcome = 'loaded'|'absent'|'rejected'`
+  三态；store 读取纳入 try（AbortError 协议保留，读取失败独立稳定提示）；工程不符分支补
+  toast；normalize catch 保持既有提示。`quickLoad` 只在 absent 时显示「无快速存档」——
+  **rejected 不覆盖具体失败提示**。`browserLoad` 改判 `=== 'loaded'`。F9 dispatch 与菜单
+  browserLoad dispatch 加 `.catch` 顶层未预期异常兜底。bootLoadSlot 加 try 兜底（失败落回
+  新局语义保持，boot 不因读档异常崩溃）。
+- **`scripts/coverage/baseline.fast.json`**：coverage:ratchet 更新（提升 8 项，无下降）。
+
+**先红后绿证据：**
+
+chain test 在实现前运行：**12 failed / 1 passed**（valid 唯一通过——现行代码合法路径本来
+正确）；失败逐项对应 B-04 缺陷（money=true 污染世界、party=null TypeError、facing 同步提交
+后抛错、position=null 裸 TypeError 文案、F9 unhandledRejection、三态/提示语义断言）。
+实现后 **13/13 绿**。红→绿同一测试文件零断言修改。
+
+**验证命令与结果：**
+
+- 定向回归：save 全套（6 files→现 8 files 含新增两件）+ actor-condition-lifecycle +
+  scene-switch-transaction = **8 files / 130 tests 全绿**。
+- Reforge typecheck：干净（含全仓 `pnpm -r typecheck` 通过）。
+- 完整 `pnpm check`：**exit 0**（docs gate PASS、coverage-tools、各包 check、Biome
+  50 warnings / 11 infos 全部为既有，无 error）。
+- `pnpm coverage:fast`：通过（相对 ratchet 基线未下降）；`pnpm coverage:ratchet`：
+  **提升 8 项、范围变化 4 项、零下降**——新增 guard 源文件分支覆盖计入。
+- 新文件 Biome：current-structure.ts 一个 `useIterableCallbackReturn` 改 for 循环修复，
+  其余 biome --write 自动整理后全部干净。
+- 两份审计探针 post-fix 失败（probe-reforge-restore 在 valid 断言 `true !== 'loaded'`、
+  probe-save-boundaries 在 codecAccepted 断言处被 guard 拒绝）——**符合预期**：它们断言
+  「缺陷存在」，修复后失败不意外；按清单 3 未改探针、未弱化断言，正确性回归由新 chain
+  test 承担。探针未接入任何 CI/check 门禁（grep 证实零 wiring）。
+
+**覆盖率说明：** coverage:fast 存在 **既有 editor 抖动**（约 1/6 概率 off-by-one：
+editor.statements 23455/23456）——本人在 clean HEAD 上 10 次复跑中 1 次失败（同一特征
+`editor.statements: 74.68% (23455/31407) < 74.68% (23456/31407)`），带改动后 5 次中 1 次
+失败，特征完全一致——**非本卡引入**（本卡 diff 零触碰 editor），登记留给后续审计修复卡。
+通过判定以多数通过 + 基线不降为准。
+
+**未验项（明确未做）：**
+
+- 浏览器实机验证（损坏快照加载、错误可见、角色可操作、再载合法快照）——**未做**，
+  按卡面归 Codex dev-functional。
+- IndexedDB 真实坏数据库试验（探针为内存构造）——未做，超本卡范围。
+- 任意提交后异常的通用 rollback——按方案明确不承诺。
+
+**候选 hash：`afa9e0eb`。**
 
 ### Coding Owner 交接（2026-09-06）
 
@@ -316,6 +391,15 @@ actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；
 
 ## 交接日志
 
+- 2026-09-06 GLM（Coding Owner）：完成实现候选 `afa9e0eb`（6 文件 +1197/−41），转 review。
+  新增 current-structure.ts 结构 guard（字段以现行类型为真源、有限数不加上限、可选缺席
+  合法、分数坐标放行）+ 46 项正负矩阵；normalizeCurrentSave 顶部接入——坏形状在任何恢复
+  调用前稳定拒绝；doLoad 三态化（loaded/absent/rejected）+ 读取失败边界 + F9/菜单/boot
+  三入口顶层兜底 + rejected 不覆盖具体提示；chain test 13 项先红（12 红）后绿覆盖四反例、
+  三控制、toast 所有权与 shopBuy 不再 NaN。定向 130 绿、reforge/全仓 typecheck、完整
+  check exit 0、coverage:ratchet 提升 8 项零下降；两份审计探针 post-fix 失败符合预期
+  （未改探针）；coverage:fast 既有 editor off-by-one 抖动 clean HEAD 同特征复现（非本卡
+  引入）。浏览器实机验证未做（归 Codex）。Next: Codex 独立复核 + 最小功能验证，Kimi 终审。
 - 2026-09-06 Codex：基线 5462d01a 复读合同/实际调用链，复跑两份只读内存探针与 38 项既有测试，形成 r1。
 - 2026-09-06 Codex：核对 Kimi `726bdb92` 与 GLM `a8b36435` 的完整 premise/design 签字，
   `5462d01a..726bdb92` 产品/脚本/CI 源码零 diff；两席独立证据与 r1 一致、均无 counter。
