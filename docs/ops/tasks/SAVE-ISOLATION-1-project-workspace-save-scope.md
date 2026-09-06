@@ -1,6 +1,6 @@
 # SAVE-ISOLATION-1 - 工程与工作区存档隔离
 
-Status: blocked
+Status: draft
 Phase: phase2
 Capability: X1（审计 A-01 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,16 +10,18 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1
-Evidence Baseline: 5462d01a
+Revision: r2（2026-09-06，工作区独立策略已确认；方案待三席设计准入）
+Evidence Baseline: c09fbfa9
 
 ## 目标与边界
 
 不同工程不能互相覆盖快速、自动、手动存档；存档列表、缩略图、计数与载荷必须使用同一隔离身份。
 本卡处理审计 A-01，不重开 X1 历史验收，不合并成整个存档系统重写。
 坏载荷预检另见 [SAVE-PREFLIGHT-1](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md)。
+2026-09-06 用户在“开发基线与评审沙盒是否各自独立存档，建议独立”的选择后回复“按照你推进的推进”，
+按该推荐确认独立策略；不是缺签豁免，也不是其他审计缺陷的整组实现授权。
 
-- 范围内：存储命名空间、运行壳与编辑器试玩入口的身份传递、真实 IndexedDB 读写回归。
+- 范围内：存储命名空间、运行壳与编辑器全部试玩入口的身份传递、存储事务必要收尾、真实 IndexedDB 读写回归。
 - 范围外：编辑器作者文件写盘（A-02/03）、第一阶段存档、云存档、存档 UI 重设计、D-05 技能试放状态策略。
 - 不修改 SAVE8/content20 载荷形状、工程 manifest 或迁移产物；不新增旧键双读/双写或静默迁移。
 - 不删除用户浏览器数据库；旧开发存档如何退出当前读取域必须在最终方案中明示，不将清库当作实现捷径。
@@ -35,8 +37,10 @@ Evidence Baseline: 5462d01a
 | 原版 / primary source | 原版单游戏槽位不能决定编辑器多工程身份。IndexedDB 对象仓库中同键记录唯一，put 的正常覆盖由键决定，不检查应用载荷 projectId。 | [IndexedDB §2.2](https://w3c.github.io/IndexedDB/#object-store-concept)、[§6.1](https://w3c.github.io/IndexedDB/#object-store-storage-operation) |
 | 第一阶段 | 单游戏使用 `type-pal/save-slots` 和数字槽；它没有现代编辑器工作区身份，不能直接照搬。 | `packages/game/src/core/save/indexed-db.ts:16`、`:64`；`packages/game/src/core/save/api.ts:14` |
 | 当前二阶段 | 固定 `type-pal-saves`、三 store 均以 slotId 写入；main 无参数创建 Store。 | `packages/reforge/src/save/store.ts:34`、`:60`；`packages/reforge/src/main.ts:584` |
-| 当前试玩身份 | 本地 workspaceId 已被校验并解析为目录句柄，随后只把 project 传给 bootGame；该身份尚未传给 SaveStore。 | `packages/editor/src/play.ts:33`、`:45`、`:53`；`packages/editor/src/core/handle-store.ts:7`；`packages/editor/src/core/play-workspace.ts:3` |
-| 本任务目标 | 不同 projectId 必须隔离。相同 projectId 的不同 workspace 是否也隔离仍待产品裁决，不能默认当成已批准。 | 用户已批准审计后存档安全修复顺序；[审计总收口的产品边界](../audits/pre-e2e/summary.md#需要产品选择的边界) |
+| 当前试玩身份 | 按本地 workspaceId 查记录并核对 projectId、解析目录句柄后，只把 project 传给 bootGame；该身份尚未传给 SaveStore，URL UUID/record.workspaceId 的额外一致性检查不能冒称当前已有 | `packages/editor/src/play.ts:33`、`:45`、`:53`；`packages/editor/src/core/handle-store.ts:7`；`packages/editor/src/core/play-workspace.ts:3` |
+| 未绑定目录的编辑会话 | App 仅在 dirHandle 存在时传 workspace 到 URL；未绑定 PAL/沙盒走显式 HTTP，但其 WorkspaceContext 已有 identity；直接以是否有句柄选存档空间会割裂首存前后进度 | `packages/editor/src/ui/App.tsx:574-576`、`:1740`；`packages/editor/src/main.tsx:75-92`；`workspace-context.ts:107,227` |
+| 身份连续性 | PAL HTTP 基线取可信 sentinel 的 UUID；沙盒首存写既有 marker；正常本地重开由 marker/句柄绑定找回 identity，不由试玩页新造 UUID | `workspace-context.ts:134,238`；`workspace-persistence.ts:720-751`；`handle-store.ts:121-144,184` |
+| 本任务目标 | 不同工程、同工程的不同工作区均隔离；同工作区从 HTTP 预览到绑定目录及保存重开连续使用自己的空间 | 用户上述明确选择；本卡 r2 映射与反例矩阵 |
 
 ### 直接复现（2026-09-06）
 
@@ -45,6 +49,11 @@ A 先写 quick，B 后写 quick；两个真实 IndexedDbSaveStore 都打开 `typ
 meta/payload/thumb 都写 `quick`；A 读出的 projectId 从 A 变为 B，随后 A 的 preflight 拒绝 B。
 探针只替换 IndexedDB 外围为内存边界，并在启动时拒绝既有真实 IndexedDB；没有写用户数据库。
 探针附带的 A-04/05/06 第一阶段观察不属于本卡修复范围。
+
+r2 在 `c09fbfa9` 复跑原探针：A-01 再次输出两个 `type-pal-saves@1`、六次同 quick 键写入，
+`oldAOverwritten=true / AReadNowRejected=true`。随后脚本在已修复的 B-04/U-01 旧假设处抛
+`CurrentSaveStructureError`，全脚本 exit 1；**只确认已完成的 A-01 观察，不把该退出码说成全探针通过**。
+原探针与所有产品/配置未改，没有碰用户真实 IndexedDB。
 
 ### 反证与替代解释
 
@@ -55,15 +64,104 @@ meta/payload/thumb 都写 `quick`；A 读出的 projectId 从 A 变为 B，随�
 - 提取/解码：用两个内存构造的合法工程即可复现，与 PAL 提取或迁移无关。
 - 审计模型：键由真实 store 选择，桩只执行按数据库/store/key 寻址；仍须 build 期以真实浏览器 IDB 复验。
 
-### 待用户裁决
+### 用户裁决（2026-09-06 已确认）
 
-建议：**同一工程的不同本地工作区也各自保存试玩进度；同一工作区重开仍使用自己的存档。**
+采用：**同一工程的不同工作区各自保存试玩进度；同一工作区重开仍使用自己的存档。**
 代表：PAL 开发基线和 `ui_samples` 评审沙盒即使 manifest.id 都为 pal，也互不覆盖。
-另一选择是所有同 projectId 工作区共用进度。两者不能由 Agent 偷换。
+未保存会话已有 UUID 时沿用该 UUID；保存为工作区时保持既有身份。不为试玩另造随机 ID。
+未保存且没有持久身份的会话在刷新后本来就不是同一已保存工作区；不新增持久化侧车/身份注册系统。
 
-`before -> after`：同源共用槽 → 至少按工程隔离；是否再按现有 workspaceId 隔离由用户选择。
-2026-09-06 已向用户提出选择，**当前 pending**；异步问题的预选项不构成批准。
-因此本卡保持 blocked，仅记录证据与决策边界，尚未制定依赖该选择的详细存储/API 方案。
+`before -> after`：同源共用槽 → 独立运行按工程隔离，编辑器试玩按工程 + 当前工作区隔离。
+这是用户对上一条推荐的明确继续指令，不从先前异步选项的预选状态推导批准。
+产品阻塞解除，进入 draft；下方 r2 方案须经三席前提/设计签字后才允许实现。
+
+## r2 方案：身份、入口、存储三处闭合
+
+### 1. SaveScope 是运行入口参数，不是存档格式字段
+
+- 新增 `packages/reforge/src/save/scope.ts` 的只读判别联合：
+  `{ kind: 'project', projectId }` 与 `{ kind: 'workspace', projectId, workspaceId }`；所有 id 非空白字符串，
+  拒绝空白但不修改有效值（与现有 manifest 非空白合同一致）；不 trim/lowercase/截断，
+  不用数组位置、目录显示名、场景编号作身份。
+  验证器只接受对应 variant 的字段；不能把夹带 workspaceId 的 project 分支或未知 kind 静默归到共享空间。
+- `bootGame(project, saveScope)` 的第二参数必传，经 `index.ts` 导出其类型。入口验证 scope 与
+  `project.manifest.id` 一致，且存储实例创建前完成；无默认共享 scope，不让漏接调用静默成功。
+  boot 只接收已解析参数，不自行解析编辑器 URL/读取 handle-store/猜 workspace。
+- Store 构造器必传 scope，立即校验并拷贝其标量、固定数据库名，不保留可被调用方后续修改的身份对象。
+  putSlot 也检查 payload.projectId 与绑定工程一致；完整载荷合法性仍归现有 preflight，不复制第二套世界校验器。
+- 不改 CurrentSavePayload/SaveMeta、SAVE8/content20、30 槽布局或同工程多个 entry 的存档浏览规则。
+
+### 2. 内容来源与存档归属分开传递
+
+编辑器 `core/play-url.ts` 建立必填 `EditorPlayIdentity { projectId, workspaceId, source: 'http' | 'local' }`，
+替换只有 optional workspace 的 URL 构造合同。App 从当前 WorkspaceContext 提供 workspaceId；
+是否有绑定句柄仅选择 source，不决定存档 identity。所有试玩链接统一经该 helper 生成。
+
+| 入口 | 读工程方式 | 传给 bootGame 的 SaveScope |
+|---|---|---|
+| 独立 reforge boot.ts | 当前 loadRunnableProject | project + 已加载 manifest.id |
+| 编辑器本地试玩 `project=P&workspace=W` | resolvePlayWorkspaceRecord → 权限 → FSA loader，既有 identity 校验保持 | workspace + 已加载 manifest.id + record.workspaceId |
+| 编辑器未绑定目录的试玩 `project=P&save-workspace=W` | 既有显式 HTTP loader，不假装有 FSA handle | workspace + 已加载 manifest.id + 当前 WorkspaceContext 的 W |
+| 手工显式 HTTP `project=P`（无两种 workspace 参数） | 既有 HTTP dev 路径 | project + 已加载 manifest.id |
+
+- `workspace` 仍**只代表本地内容句柄**，无效/丢失必须拒绝，不回退同名 HTTP；`save-workspace`
+  只选择存档空间，不授予文件读取权，不查不存在的目录句柄。两键互斥，任一空值/重复/非法值拒绝，
+  `project` 缺失/重复也拒绝；不能把 `workspace=` 当“没有 workspace”。
+- 编辑器 URL 构造/解析复用 `workspace-context.ts` 的 `isWorkspaceId`，不再写第二份 UUID 正则。
+  本地 record 必须与请求的 workspaceId、projectId 一致，实际加载 manifest 继续校验；失败在存储创建前收口。
+  无新注册表/侧车文件；SaveScope 在引擎中只把工作区 id 当不透明字符串，不反向依赖 editor 包。
+- W 在未绑定 HTTP → 首存绑定 FSA → 重开全过程不变，因此数据库空间不变；另存/复制是否换 W
+  沿既有 workspace-persistence/handle-store 合同，不在本卡重定义或静默修复复制身份冲突。
+- 这不是安全 ACL：同源代码本来能访问 IndexedDB。URL 参数是显式运行上下文，不能据此宣称跨用户鉴权。
+- 覆盖 App 场景试玩、PreviewCanvas、敌人/敌队、技能、商店；以及 DataMode、SceneScriptWorkspace、
+  ScriptDrawer 的中间 props。为试玩增加/传递专用 playIdentity，不全局替换 workspaceId：
+  **DataMode:424 的预览缓存 projectKey、编辑器导航存储等非试玩用途不借机改动**。
+- 不改变当前“试玩只读已保存/HTTP 内容”的规则、未保存提示或内容刷新策略。场景/pos/facing/entry/battle/skill
+  参数原样保留，不顺手修 D-04 技能固定入口或裁决 D-05 临时状态保存策略。
+- `shop-trial.ts` 的参数白名单只补允许 `save-workspace` 这一身份元信息；独立试买仍在 bootGame
+  创建 SaveStore/世界前分流，继续零存档读写，不因新增参数实例化存储或放开 scene/battle 等原禁用参数。
+
+### 3. 每个 scope 一个数据库，三块同域
+
+- 新库名由固定有序元组生成：`type-pal-saves:` + `JSON.stringify(['project', P])` 或
+  `JSON.stringify(['workspace', P, W])`。不用分隔符裸拼/哈希截断，避免 id 含分隔符时碰撞。
+  DB_VERSION 仍为 1，meta/payload/thumb 三个 store 及其 slotId 键不变；listMeta/getPayload/getThumb/putSlot
+  全部访问构造时绑定的库，不靠 UI 过滤别人存档掩盖共用 writer。
+- 同工程不同 entry/scene/战斗入口不分库；同工作区普通试玩/试打/试放不再另分空间，D-05 的临时状态
+  是否禁存/隔离仍另行裁决。内容版本、页面地址、随机会话号不进入 namespace。
+  同一浏览器存储域内，project scope 与 workspace scope 也互不覆盖；跨源不承诺共享。
+  库名身份与事务边界依据 [IndexedDB database](https://w3c.github.io/IndexedDB/#database-concept)
+  与 [transaction](https://w3c.github.io/IndexedDB/#transaction-concept) 合同。
+- `savedTimes` 及缩略图/菜单快照继续由同一个绑定 Store 的 listMeta 派生，主菜单、F9、自动/手动保存
+  均复用它；不新增独立全局计数器或每个入口各造存储。
+- 保持三 store 单事务、成功以 oncomplete 为界；补 onabort 拒绝（当前 store.ts:66–67 仅有 complete/error），
+  请求入队同步抛错时中止事务，不能部分成功或永远 pending。meta/payload 的克隆准备与工程绑定检查先于写入，
+  防止输入在 open 等待期间变化；Memory 实现也先完成克隆/校验再改 Map。
+  这只是薄 Store 写入合同，不建立跨数据库事务、提交后通用回滚、自动重试或任意磁盘故障恢复框架。
+- 无 IndexedDB 的既有 Memory 降级保留，但也必传 scope/校验工程；内存实例不承诺跨刷新持久，
+  不新增全局跨 scope 缓存。IndexedDB 报错不偷偷改走 Memory 伪装保存成功。
+- 旧未分区库 `type-pal-saves` **物理保留，但不自动读取、分配或搬入新 scope**；其记录无法证明原工作区。
+  不删库、不加旧键 fallback/双读/双写、不升级存档格式。当前版本 checkpoint 仍可经已有 e2e-load
+  显式恢复，之后保存进入本次 scope；不是自动旧库迁移，也不承诺新增导入 UI。
+
+## 实施边界与验证工具
+
+Coding Owner 保持 Codex。可在一张卡内先闭合 scope/Store，再接齐入口，最终按一个候选审查；
+不让多位 Owner 并行改实现。GLM 负责独立矩阵/范围审查，Kimi 负责架构与边界审查。
+
+- runtime 文件面：新增 save/scope.ts 及测试，store.ts/测试、main.ts、boot.ts、index.ts、shop-trial.ts/测试；
+  现有 Memory 构造及 bootGame 的测试调用同步显式传 scope，不改无关业务断言。
+- editor 文件面：core/play-url.ts、play-workspace.ts、play.ts；App、DataMode、SceneScriptWorkspace、
+  ScriptDrawer、PreviewCanvas、EnemyTab、EnemyTeamTab、SkillTab、ShopTab 的纯身份接线及相应测试。
+  不改组件样式/尺寸/布局、工作区 marker/handle DB schema、内容加载器版本或作者保存算法。
+- 测试工具：拟在 reforge **devDependencies** 精确加入 `fake-indexeddb@6.2.5`（含类型，当前 Node 22 满足
+  其 >=18 要求；[包清单](https://raw.githubusercontent.com/dumbmatter/fakeIndexedDB/master/package.json)）。
+  只用独立 IDBFactory 注入 Store，每例隔离；不全局 import auto，不作为产品 polyfill 或真实浏览器替身。
+  package.json/pnpm-lock 仅此依赖，覆盖率基线只经 ratchet 自动提高，不手填/降指标/缩范围。
+- 开发期必须另做一次隔离浏览器真实 IDB 最小验证；Node 模拟库只用于确定性单元测试，不宣称等价所有浏览器行为。
+  不新增整套浏览器 coverage/通关 runner，不写用户实际槽，不为本卡重复走剧情。
+
+范围外问题若暴露先登记，不借白名单扩成编辑器生命周期或整组存档改造；新关键前提不成立即停线修订。
 
 ## 上下文锚点
 
@@ -75,32 +173,55 @@ meta/payload/thumb 都写 `quick`；A 读出的 projectId 从 A 变为 B，随�
 - `packages/editor/src/core/workspace-context.ts:95`、`packages/editor/src/core/handle-store.ts:156`：复用已存在的持久工作区身份，不另造临时 ID。
 - `packages/reforge/src/save/store.test.ts:40`：现有主要测试仅覆盖 MemorySaveStore，不能作为 IDB 隔离证明。
 
-## 验收矩阵（身份策略批准后细化，不授权 build）
+## 验收矩阵（r2，签字齐前不得实现）
 
 | 情况 | 必须验证 |
 |---|---|
-| A/B 工程同源同槽 | 各自 payload、meta、thumb、列表与存档次数不串；quick/auto/manual 都覆盖 |
-| 同工程同工作区重开 | 继续读自己的存档，稳定身份不因页签/刷新变化 |
-| 同工程不同工作区 | 按用户裁决；明确 PAL 基线/沙盒与目录副本的预期 |
+| A/B 工程同源同槽 | 各自 payload、meta、thumb、列表与存档次数不串；quick/auto/m01 覆盖，并检查其余槽列表仍为既有 30 槽合同 |
+| 同工程同工作区重开 | 重新实例化 Store / 同浏览器域刷新后读回原值，稳定身份不因页签/运行编号变化 |
+| 同工程不同工作区 | PAL 基线/沙盒 W1/W2 任意交错保存不互相覆盖；三块与 savedTimes 各自正确 |
+| 同 W、HTTP → FSA 首存绑定 | URL 读取路由可变，存档 tuple/库名不变，绑定前保存的测试进度仍在 |
+| 未绑定目录的沙盒 | URL 带自己的 save-workspace，不误用 PAL 基线空间；不谎称未保存内容已进入试玩 |
+| 所有试玩链接 | 场景、PreviewCanvas、敌人/敌队、技能、商店及中间 props 均传当前 playIdentity；不漏一条旧 optional 构造 |
 | 同工程多入口 | 不按 entryId/sceneId 分库，不破坏主线/DLC 同工程存档浏览合同 |
-| 非法/缺失工作区 | 沿现有 fail-loud 合同，不退回同名 HTTP 工程或共享空间 |
-| 部分写失败/事务 abort | 不报告成功，三块数据一致；不因隔离重写破坏原子性 |
-| 旧未分区开发键 | 不静默回读、迁移、清库；按批准方案给出明确退出边界 |
+| project scope 与 workspace scope | 同 P 仍不相撞；分隔符/Unicode id 序列编码唯一，scope 入参被外部改动也不改变已绑定地址 |
+| 非法/缺失工作区 | 非法/空/重复/互斥参数、记录缺失/错 W/错 P、实际 manifest 不一致均失败；不打开存档库、不退 HTTP；无 workspace 的明确 HTTP 入口仍可用 |
+| Store/boot 工程不匹配 | scope 与 project、payload 不一致在副作用前拒绝，已有三个 store 与旧活动态不被覆盖 |
+| 部分写失败/事务 abort | 成功只在 complete；abort/error/同步克隆或入队异常拒绝且不半写，原好槽保留；不创建通用回滚框架 |
+| Memory 与 IDB 不可用 | Memory 深拷贝/绑定工程，明确非持久；IDB 写错不能假成功或静默切内存 |
+| 独立试买 | 新身份参数可解析，仍不创建 SaveStore/不写任何存档，其他原禁用参数仍拒绝 |
+| 旧未分区开发键 | 预置旧库后新 scope 初始为空，旧库三块原值保留；不静默回读、搬迁或清库 |
+| 已有 SAVE-PREFLIGHT-1 / checkpoint | 坏档仍拒绝且旧状态可用，合法当前同工程快照可显式恢复；保存写进选定 scope，不需要 payload 新增 workspace 字段 |
 
 要求新的 scope/key 纯函数尽量 100% 分支，真实 store 与入口接线有独立回归；全仓覆盖率只升不降。
 功能性最小浏览器验证由 Codex 用专用测试 origin/数据库执行，不破坏现有用户存档。
 多工程 checkpoint 与刷新恢复登记到 R4/Q1；不要求用户运行故障注入或技术对账。
 
+验证顺序：scope/URL/Store 单元与真实调用链反例先红后绿 → editor/reforge typecheck → 完整 check →
+单次严格 fast（新增范围由 ratchet 先比较旧基线、零下降才更新）→ 更新后严格验证 → 隔离浏览器最小功能。
+重型检查不并跑，不取多数；每次留候选 SHA、范围、命令/退出码与失败栈。IDB 原子性以真实事务测试与浏览器
+对照证明，不用自己手写一个“保证成功”的 Map 代替。新增模拟库只是可重复单元工具，不替代 dev-functional。
+
+最小功能：同一隔离浏览器 origin 打开 P/W1、P/W2 及 Q，分别保存可区分进度；回到各页用正式读取入口核
+位置/金额/槽元信息/缩略图与计数，刷新重开仍各自正确；验证同 W 从 HTTP 到本地来源的地址连续性与坏身份可见拒绝。
+只用专用工程/存储，视觉无变化的正常画面不重复截图；R4/Q1 扩展为可执行连续链，不能以 toast 代替状态断言。
+
 ## 推进签字
 
 ### 进入 build 前
 
-- Codex：A-01 覆盖缺陷 premise verified（上述真实 store 探针、`store.ts:60`）；目标中的同 ID 工作区合同 pending；design pending。
-- Kimi：premise pending；design pending。
-- GLM：premise pending；design pending。
+- Codex：**premise verified / design agree（2026-09-06，r2）**。
+  直接读 `store.ts:34/44/60` 与 W3C database/object-store/transaction 合同，复跑 A-01 同库同键覆盖；
+  直接读 `App.tsx:576`、play.ts、WorkspaceContext/handle-store 与全部六类 URL 消费，确认未绑定目录也
+  有身份且不能据 source 改 namespace；用户已选择各工作区独立。支持显式 SaveScope/无碰撞库名、
+  读取来源与存档身份分责、必填 UI 接线、旧库留存不自动归属及 r2 矩阵。未把模拟库或历史 U-01 退出当实际浏览器通过。
+  可证伪观察：同 P/W 首存前后名字变化、遗漏任一试玩 URL、错误身份仍触发 Store、三块/计数跨域、
+  旧键自动回读或独立试买创建存储——任一反例即 counter，不能以保存后再拒读冒充隔离。
+- Kimi：r2 premise pending；design pending。
+- GLM：r2 premise pending；design pending。
 - 独立反证审查：pending，至少一席须直接读规范与 store/入口代码。
 - 缺签豁免：无。
-- build 准入结论：blocked（产品选择未定且三签未齐）。
+- build 准入结论：blocked（产品选择已定，待 Kimi/GLM 独立 r2 前提与设计签字）。
 
 ### 进入 done 前
 
@@ -112,14 +233,49 @@ meta/payload/thumb 都写 `quick`；A 读出的 projectId 从 A 变为 B，随�
 ## 实现 / 视觉 / 验收
 
 未开始实现；未修改任何产品或存档文件。视觉验证未执行，安排在 build 期最小功能验证；Q1/R4 集中验证保留。
-38 项既有相关测试已通过，只是证实当前测试基线，不代表 A-01 已修复。
+早期 r1 的 38 项既有测试记录保留；r2 新鲜基线为 reforge 保存/独立试买 4 文件 / 17 项、
+editor 试玩/句柄 4 文件 / 13 项、workspace-persistence/open-actions 2 文件 / 42 项通过，
+合计 **10 文件 / 72 项**，不代表 A-01 已修复。测试命令为：
+
+```sh
+pnpm --filter @type-pal/reforge exec vitest run src/save/store.test.ts src/save/ops.test.ts src/save/browser-state.test.ts src/shop-trial.test.ts
+pnpm --filter @type-pal/editor exec vitest run src/core/play-workspace.test.ts src/core/play-url.test.ts src/core/load-play-project.test.ts src/core/handle-store.test.ts
+pnpm --filter @type-pal/editor exec vitest run src/core/workspace-persistence.test.ts src/core/open-actions.test.ts
+```
+
+首次 editor 过滤参数还包含不存在的 `workspace-context.test.ts`，Vitest 未匹配它；上述计数只含实际四文件，
+不把未执行文件算通过。既有上下文/标记/句柄身份测试实际在 workspace-persistence/open-actions 中补跑。
+新测试依赖尚未安装、生产/配置/锁文件未改；本轮只做证据复核、产品裁决登记与方案。
 无 Agent 缺席/额度代班；用户尚未验收本修复。
 
 ## 交接日志
 
+- 2026-09-06 Codex：用户按上一条推荐确认各工作区独立；r1 产品阻塞解除，更新为 r2 draft。
+  同步至 `c09fbfa9` 洁净树，重读真实存储/所有试玩入口/既有工作区身份，补 HTTP→FSA 身份连续性边界，
+  复跑 A-01 确认仍覆盖（原完整探针随后在已修 B-04 旧假设处 exit 1，非全探针通过）。形成显式 scope、
+  URL 接线与 per-scope DB 方案，签本人 r2，未实施或代签。后继 Kimi/GLM 可并行审同一 r2，直接写各自席位并提交推送。
+  现有相关测试 10 文件 / 72 项、文档工具 20/20、文档链接/状态检查与 git diff --check 通过；
+  packages/ scripts/ pnpm-lock.yaml 零 diff，fake-indexeddb 只查元数据并列入待审方案，未安装。
 - 2026-09-06 Codex：复读 current-only 与工作区身份合同，复跑 A-01 内存边界反例；提出同工程不同工作区的产品选择。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，等待用户身份策略裁决；不要让 Kimi/GLM 对尚未确定的产品选择空签。
-裁决落卡后，再一次性提供两席对同一 revision 的独立设计审查提示词。
+### Kimi：r2 独立前提/架构审查（可与 GLM 并行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，r2，draft，产品基线 c09fbfa9。
+先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡四向真值/用户裁决/r2 方案，及 harvest X9、存档审计 A-01、现行工作区身份源码。用户已按推荐确认同工程不同工作区独立，不重问该选择，不把它当缺签豁免。
+直接核 store.ts 的同库同键、App:576 未绑定目录时 HTTP 分流、WorkspaceContext/handle-store 身份连续性及所有试玩调用域。独立 primary-source 证据必须写入；原 probe-save-boundaries 的 A-01 可复核，但它后来在已修 B-04 旧假设处失败，不能称全探针绿。
+压力测试：显式 SaveScope/per-scope DB 是否足够且无歧义；HTTP save-workspace 与 FSA workspace 分责和互斥；同 W 首存前后连续；公共 bootGame scope 必传及项目绑定；三 store 原子写/abort 收尾；旧库不删不读不迁；独立试买仍零存档。审边界是否有漏项/过度扩张，不预判需要 SAVE9/content21。
+不要读取或复述 GLM 签字。仅写本人 r2 席位的 premise verified + design agree（直接证据/可证伪观察），或 file:line counter 与返工项，更新本人日志并提交推送；各自同步保留另一席改动。不得改实现、他席、任务状态或标 build/done。三签齐后由 Codex 放行。
+```
+
+### GLM：r2 独立数据/测试矩阵审查（可与 Kimi 并行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，r2，draft，产品基线 c09fbfa9。
+先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡四向真值/用户裁决/r2 方案，及存档审计 A-01、coverage 合同。你负责独立矩阵/范围审查；Coding Owner 是 Codex，本轮不实现。
+直接核 store.ts/保存计数/所有试玩 URL、play.ts/record 校验/WorkspaceContext；独立确认 A-01 与 HTTP→FSA 同身份边界。原 probe-save-boundaries 只把已输出 A-01 当证据，其后 B-04 旧假设 exit 1 不算整脚本通过。
+逐项找反例：P/W 组合与特殊字符编码、必填 scope/错误项目、空重复互斥 URL、六类链接及中间 props、首存/重开/另存、三块/列表/计数一致、abort/克隆失败、Memory 非持久、旧库保留不回读、独立试买和 SAVE-PREFLIGHT 保持。审 fake-indexeddb@6.2.5 仅 dev/单例隔离与真实浏览器补验，检查不碰预览缓存等无关 workspaceId 用途。
+不要读取或复述 Kimi 签字。仅写本人 r2 席位的 premise verified + design agree，附直接证据与可证伪观察，或 file:line counter/遗漏矩阵；更新本人日志并提交推送。保留另一席、不改实现/他席/任务状态，不标 build/done。三签齐后由 Codex 放行，不以用户同意产品选择代替设计门禁。
+```
