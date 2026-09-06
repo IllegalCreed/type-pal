@@ -277,7 +277,40 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
   R4 真实像素宽度与浏览器复验通过，R2 正式 normalize 竞态/突变负控制已闭环；R1/R3 保持通过。
   定向 88+22、Reforge typecheck、完整 check、单次严格 fast coverage 均通过，详见本人最新记录。
   前两轮 counter 保留为历史；本 accept 不代替 Kimi/GLM 签字，不授权 done。
-- Kimi：pending。
+- Kimi：**accept（2026-09-06，独立终审第二轮返工候选 `2c39b1af`，本轮对比 `1e271b03`，整卡对比 `5f9f92ba`）**。
+  接手时 HEAD `20708ceb` 与 origin/main 一致、工作树干净，相对候选无产品/测试/配置变化；未使用 stash。
+  R1–R4 逐项本人独立闭环（不复述他席）：
+  - **R1 真实 AST chain**：两测试文件 MD5 不同（`ca106317…`/`fffd9680…`）；chain 经 `main.ts?raw`
+    AST 抽取 28 个原函数（`restore-preflight.chain.test.ts:44-106`，缺函数/重名即抛），20 项真实
+    调用域断言（提交事件序列/零污染/提示所有权/AbortError/分数坐标/shopBuy），本人复跑 20/20 绿。
+  - **R2 三阶段提示所有权与取消**：main.ts diff 逐行核——读 catch 保留 AbortError 上抛且 toast 前
+    isCurrent；normalize catch toast 前 isCurrent + 结构错误走 shortMessage；prepare catch toast 前
+    isCurrent；quickLoad 仅 loaded/absent 出提示；F9/菜单/boot 三入口顶层 catch。测试侧 normalize
+    gate 确在 `getLifecycleReferences` 首调内部 await（chain:517-533），prepare 用 entered 信号无
+    sleep；本人独立复算内置突变：snipp段在 main.ts 出现 3 次、锚点命中最后一次=normalize catch、
+    精确删除 51 字节单语句（脚本实测，上下文为 `归一化拒绝` catch 内），负控制断言旧失败覆盖新成功。
+  - **R3 稀疏/状态/portrait**：`eachIndex` 下标循环（current-structure.ts:19-25）覆盖空洞；
+    status 复用 content `isCarryableStatusId`（actor-condition.ts:85-93 派生自
+    ACTOR_STATUS_DEFINITIONS，非第二份清单）；portrait 仅字符串、null 拒（:150-154），
+    audio.currentMusic=null 显式静音合同保持（:215-218）；链路层稀疏 inventory 提交前拒且
+    shopBuy 有限。结构测试含稀疏×4 数组/not-a-status/portrait=null/hiddenExp 未知键正负边界。
+  - **R4 固定短中文提示 + 真实 BDF 像素**：`SAVE_STRUCTURE_TOAST_TEXT='存档损坏，无法读取'`
+    固定（:32），完整路径只进 message/console.warn；toast 绘制 x=120（main.ts:6175）可用 200px；
+    测试用生产字体同一文件（registry.ts:60 `fontBdf` → data/raw/unifont-cn.bdf，glyph.ts:84
+    loadGlyphs 默认源）+ 生产 parseBdfGlyphs/measureSpans。本人另起**零仓库导入**的独立 BDF
+    解析（57,083 字形）复算：新文案 144px≤200、旧动态文案 232/248px 超限——与浏览器实测逐像素
+    一致。复用视觉证据：已亲看 rejected-hiddenExp.png，文字完整可见、右侧有余量、world 未变。
+  - **保持项**：本轮 main.ts/原两探针零 diff（`1e271b03..2c39b1af` 实测）；整卡
+    `5f9f92ba..2c39b1af` packages/content 与 save/types.ts 零 diff（SAVE8/content20/公共模型
+    不变）；覆盖率基线只增不降（5759→5761，chain 18→20，无 scope removal）；隔离卡策略未触碰。
+  - 本人实跑：save 6 文件 88 + 相邻 3 文件 22 = **110/110 绿**；Reforge typecheck exit 0；
+    `pnpm check:docs` PASS（首轮元数据不一致已消）。完整 check/coverage 复用 Codex 日志
+    （check.log 0 error、coverage TOTAL 609 文件 5,761）并核对计数一致，未重复全量。
+  非阻断观察（不构成本轮返工）：非结构类 codec 错误（如 lifecycle 引用）仍按既有行为以完整
+  message 上 toast，长文案在 200px 区可能截断——属本卡前既有行为，R4 范围是新 guard 文案；
+  read/prepare 两阶段的正向晚到用例在移除各自 isCurrent 时天然转红（阶段真实性由 harness
+  结构保证），突变负控制只需钉曾「到不了分支」的 normalize，当前配置合理。
+  本 accept 不代签 Codex/GLM、不授权 done、不覆盖 SAVE-ISOLATION-1 产品选择。
 - GLM：pending。
 - done 准入结论：blocked。
 
@@ -695,6 +728,16 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 
 ## 交接日志
 
+- 2026-09-06 Kimi（独立终审）：同步至 `20708ceb` 与工作树干净后，核 `1e271b03 → 2c39b1af`（4 产品/测试
+  文件、main.ts/原探针零 diff）与整卡 `5f9f92ba → 2c39b1af`（content/公共模型/types 零 diff）。
+  逐项独立闭环 R1–R4：chain 为真实 AST 抽取（两文件 MD5 不同、20 项调用域断言）；三阶段 toast
+  前 isCurrent + AbortError 协议逐行核，normalize gate 确在 getLifecycleReferences 内部 await；
+  本人独立复算内置突变精确删除 normalize catch 单语句（51 字节、锚点命中 3 次出现中的最后一次）；
+  eachIndex/isCarryableStatusId/portrait 合同直读；零仓库导入的独立 BDF 解析复算 144px≤200、
+  232/248px 超限，与浏览器实测逐像素一致；亲看 rejected-hiddenExp.png 文字完整、world 未变。
+  本人实跑 88+22=110 绿、Reforge typecheck exit 0、check:docs PASS；完整 check/coverage 复用
+  Codex 日志并核对计数。签 **accept**，两条非阻断观察已写入签字块；未改实现/测试/他席内容、
+  未标 done。Next：Codex 汇总后续验收/收口（GLM done 前签字仍 pending）。
 - 2026-09-06 Codex（第二轮返工独立复核）：同步至 `ef8e3f0f`，核 `1e271b03 → 2c39b1af` 四处产品/测试/基线变化，
   main/原探针/公共合同零 diff。实跑 88+22、typecheck、完整 check 6,246 与单次严格 fast 5,761 全绿；
   AST 独立验证突变只删除 normalize catch 一行，负控制只使 normalize 覆盖提示；真实字体/隔离浏览器确认新提示
@@ -770,7 +813,18 @@ restore-preflight.chain.test.ts 重构 +261/−、baseline ratchet）。main.ts 
 
 ## 下一位 Agent 提示词
 
-### Kimi：实现终审（当前有效）
+### Codex：汇总验收与收口（当前有效）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 收口 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，终审候选 2c39b1af（HEAD 侧无产品变化）。r1 设计签字保持，不重签。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 done 前三席签字与最新交接日志；接手先同步分支并检查工作树。
+现状：done 前 Codex 已 accept、Kimi 已 accept（含两条非阻断观察，见签字块），GLM 的 done 前签字仍 pending——请安排 GLM 以 Coding Owner 身份完成最终签字（自测性质，不冒称独立审查）。
+三席齐后由你统一核定 done 准入结论、同步任务状态/看板/索引，并按卡面登记后续事项：剧情观感类集中 E2E 批次入口（本卡 R4/Q1 用例已登记）、editor coverage off-by-one 抖动的确定性修复另卡登记、修复回执更新。
+Kimi 的非阻断观察（codec 深层错误长文案在 200px 提示区可截断，系本卡前既有行为）是否另卡跟进，由你在收口时判断，不属本卡范围扩张。
+不得代签任何一席、不得把本卡收口扩张为 SAVE-ISOLATION-1 产品裁决或整组修复授权；SAVE-ISOLATION-1 仍等用户拍板。
+```
+
+### Kimi：实现终审（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，候选 2c39b1af；本轮对比 1e271b03，整卡实现可对比 5f9f92ba。r1 设计签字保持，不重签。
