@@ -364,8 +364,47 @@ Coding Owner 保持 Codex。可在一张卡内先闭合 scope/Store，再接齐�
     reforge 9 文件/141、editor 12 文件/110 全绿，两包 typecheck exit 0；完整 check（542 文件/
     6,327）与严格 fast（610 文件/5,842）复用其新鲜日志并核对计数一致。
   返工项：无。本 accept 不代签、不授权 done、不覆盖 dumpSave 另登缺陷与 R4/Q1 集中验证。
-- GLM：pending。
-- done 准入结论：blocked。
+- GLM：**accept（2026-09-07，独立数据/矩阵/范围终审候选 `526eea00` 对比 `68d84d68`；r2 不重签；
+  本席证据全部亲自实跑/直读/亲看，Kimi 签字落地不作为本人结论来源）**。
+  独立验证（数字全部从实际候选树生成）：
+  - **白名单/范围**：`git diff 68d84d68..526eea00 -- packages/content packages/migrate packages/game
+    projects docs/ops/audits/pre-e2e/probe* scripts/coverage/config.mjs` 输出 **0 行**；候选后
+    packages/scripts/锁文件零漂移；lock 新增恰 9 行 fake-indexeddb@6.2.5（devDependencies，
+    无 auto/polyfill/全局配置）；DataMode:424 预览缓存 projectKey 候选前后逐字节相同；
+    UI 变更均为参数/类型/身份接线，无 CSS/尺寸/布局 diff。
+  - **源码终审**：scope.ts 判别联合精确键集（Reflect.ownKeys 长度+成员双检）、非空白不改写、
+    冻结拷贝、JSON 元组库名；store.ts 两实现构造即绑定并固化库名、prepareSlot **克隆+工程归属
+    断言先于异步 open**、三 store 单事务 complete/onerror(request.error 兜底)/**onabort**、
+    同步入队异常 abort 保原错误；main.ts `bootGame(project, saveScope)` 第二参必传且
+    `assertSaveScopeProject` 为首语句；boot.ts 显式 project scope；shop-trial 仅 +`save-workspace`
+    白名单且与六类链接同候选闭合（本席 r2 可证伪观察 2 兑现）；play-url.ts 重复/互斥/空值/非法
+    UUID 全拒（空 `workspace=` 不再落 HTTP）、复用 isWorkspaceId；play.ts 三分支 scope 全部
+    manifest 派生；App playIdentity 恒取 WorkspaceContext、句柄只选 source；六构造点 + DataMode
+    四分支 + SceneScriptWorkspace/ScriptDrawer 链 + PreviewCanvas 全部 `playProjectQuery(playIdentity)`
+    （本人 grep 实测恰 6 处）；ShopTab 缺 playIdentity 即抛不静默。
+  - **隔离负控制（本人自建配置重建，未动共享树、未 stash）**：load 钩子仅把 store.ts 换为
+    `git show 68d84d68:...` 内容 → **exit 1，14 红/7 绿**（store.isolation 恰 **14 红/4 绿**，
+    store.test 3 绿）；完整实现同两文件 **21/21 绿 exit 0**。abort 用例直读核实：末次 thumb 请求
+    success 后才 abort、事务 error 监听断言**零触发**（不被 onerror 掩盖）、Promise.race 0ms 证明
+    下一事件轮前已 settle、三块零半写；另有不可克隆 thumb → 真实回滚保好槽用例。
+  - **实跑门禁（串行）**：reforge 定向 save+shop-trial **9 文件/141 绿**；editor 定向 12 文件
+    **110 绿**；editor/reforge typecheck exit 0；完整 `pnpm check` **exit 0**；单次严格
+    `pnpm coverage:fast` **exit 0，610 生产文件/5,842 项**。分支覆盖候选树实测：scope **29/29**、
+    play-url **29/29**、store **15/16**（语句/行/函数 100%）、play.ts **11/14**——与回执逐数一致；
+    净增测试本人复算 reforge 939→988（+49）、editor 1601→1632（+31）、**总 +80**。
+  - **浏览器证据（本人阅读 browser-result.json + 亲看两截图）**：库名集合实证旧 `type-pal-saves`
+    与四个 JSON 元组 scoped 库并存；pal/W1=111（次数2）、W2=222、scope-q=333、独立壳 project=444
+    互不串；真实 OPFS handle granted 注册后 save-workspace→workspace 同 W，F9 读回 111/同位置、
+    再存 112/次数3，绑定前后库名集合不变；legacy 999/99 原值；errors=[]。
+    local-workspace-restored.png 亲看：「已读取快速存档」完整可读、场景正常；missing-workspace.png
+    亲看：「本地工作区句柄已失效，请回到编辑器重新打开项目。」红字清晰、未建错误库。证据边界
+    （非 OS 目录选择器、非完整 Q1/R4 链）如实登记，不冒充。
+  非阻断备注：(a) missing-workspace 错误页无按钮——死句柄无可再授权对象，授权门路径仍保留按钮，
+  「可操作」指可见可执行指引，非缺陷；(b) store 15/16、play.ts 11/14 余下为错误展示分支，
+  回执已如实不冒称覆盖。
+  返工项：无。本 accept 不代签、不授权自行标 done；dumpSave 误接另登与 R4/Q1 集中验证保持独立。
+- done 准入结论：三席签字齐（Codex 实现者自测 + Kimi/GLM 独立终审），汇总核定与状态推进交
+  Coding Owner 收口；收口前保持 review。
 
 ## 实现 / 视觉 / 验收
 
@@ -458,6 +497,14 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 
 ## 交接日志
 
+- 2026-09-07 GLM（独立终审）：签 accept，无返工项。白名单零越界亲测（越界 diff 0 行、lock 恰 9 行
+  fake-indexeddb、projectKey 逐字节不变）；scope/store/入口/六类链接/中间 props 源码逐点直读；
+  负控制以本人自建隔离配置重建（基线 store.ts → 14 红/7 绿，isolation 恰 14/4；候选 21/21 绿）；
+  定向 141+110、双 typecheck、完整 check、单次严格 fast 610/5,842 全部 exit 0；分支覆盖
+  29/29、29/29、15/16、11/14 与 Δ80（+49/+31）从候选树复算一致；browser-result.json 与两截图
+  亲看（四 scoped 库并存、同 W 绑定前后不分裂、legacy 保留、errors 空）。两条非阻断备注写入
+  签字块。Kimi 签字两次中途落地（`55dfcbd0`），未作为本人结论来源。仅更新本人席位与日志；
+  未改实现/他席/任务状态、未标 done。Next：Codex 统一收口（状态推进、看板/索引、后续事项）。
 - 2026-09-07 Kimi（独立终审）：同步 `a032c764`、工作树干净后核 `68d84d68 → 526eea00`。
   直读 scope/store/main/boot/play-url/play-workspace/play.ts/App 与六链接点、隔离测试 18 项；
   复跑 reforge 141 + editor 110 + 两包 typecheck 全绿；交叉核 Codex 负控制（基线 14 红/4 绿、
@@ -520,7 +567,7 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 结论 accept 或带 file:line/直接证据的 counter 写入本人 done 前席位与本人交接日志，提交推送；提交前同步并保留他席，只改自己的签字/日志，不改实现、他席、任务状态、不标 done。两席落卡后由 Codex 统一核定；用户不用搬运审查正文。
 ```
 
-### GLM：r2 数据/测试矩阵终审（可与 Kimi 并行）
+### GLM：r2 数据/测试矩阵终审（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选 526eea00，对比 68d84d68。
