@@ -3,6 +3,8 @@
 后续修复回执：[E-06 质量门禁](quality-gate-remediation.md)、[B-04 当前存档预检](save-preflight-remediation.md)。
 以下“未修复/修复尚未开始”均为原审计时点；当前修复状态以回执与[看板](../../board.md)为准，不改原探针和历史结论。
 
+后续调查：[编辑器覆盖率确定性](coverage-determinism.md)已定位排序测试的帧覆盖缺口，修复方案待设计准入。
+
 审计基线：`09ee6e3c`（商店已完成；content20 / SAVE8）。
 Owner：Codex；本批使用内部并行只读取证，**不代表 Kimi / GLM 签字**。
 性质：只读审计台账，不是实现任务卡，不授权修改产品代码、存档格式、迁移器或当前内容。

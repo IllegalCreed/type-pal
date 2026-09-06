@@ -141,8 +141,9 @@ GitHub Actions 的 fast coverage 前置运行 `pnpm typecheck && pnpm lint`，�
 
 editor 历史少 1 条语句/分支日志已另立
 [TEST-COVERAGE-DETERMINISM-1](../ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)：
-具体分支/根因和“clean HEAD 同特征”的归因尚待证，不能据现有次数宣称失败概率；最终单次通过也不等于
-历史不确定性已修复。保持精确门禁，复现即停线补证，不重试取多数、不下调基线。
+[受控帧调查](../ops/audits/pre-e2e/coverage-determinism.md)已在同一树上精确复得差额，唯一差异为
+`reorder.tsx:730` 的无滚动容器返回；属于缺少明确测试覆盖，不需要修改产品行为。修复仍待设计准入，
+历史“clean HEAD 次数/概率”并未因此获证。保持精确门禁，复现即停线补证，不重试取多数、不下调基线。
 
 ## 长期目标（本轮不硬卡）
 

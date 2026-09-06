@@ -13,7 +13,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | SAVE-ISOLATION-1 | 工程与工作区存档隔离 | blocked | User：确认同工程不同工作区的试玩存档是否独立 | [任务卡](tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)；A-01 已复现，未开始实现。 |
-| TEST-COVERAGE-DETERMINISM-1 | 编辑器覆盖率计数确定性 | blocked | Codex：补可重复调度与逐文件计数证据 | [任务卡](tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)；少 1 条语句/分支已有记录，根因/修复层待证；仅登记，未开始实现。 |
+| TEST-COVERAGE-DETERMINISM-1 | 编辑器覆盖率计数确定性 | draft | GLM / Kimi：并行审 r1 前提与设计 | [任务卡](tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)；已定位 reorder.tsx:730 的帧覆盖缺口，拟 GLM 补单条确定性回归，签字未齐不得实现。 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)
