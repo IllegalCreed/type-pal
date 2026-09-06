@@ -1,8 +1,23 @@
-# 编辑器覆盖率确定性调查
+# 编辑器覆盖率确定性调查与修复回执
 
 日期：2026-09-06；Owner：Codex；产品/测试基线：`2ac4a9de`，取证前工作树干净。
-状态：**已定位测试覆盖缺口，正式修复未开始**。
-任务：[TEST-COVERAGE-DETERMINISM-1 r1](../../tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)，三方设计准入已齐，正式测试实现已交 GLM；本调查回执不是修复完成回执。
+状态：**已修复并收口（2026-09-06）**。
+任务：[TEST-COVERAGE-DETERMINISM-1 r1](../../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)，终审候选 `7c447c38`，三席 accept 齐；用户确认签字后由 Codex 汇总 done。
+
+## 修复收口
+
+- `reorder.test.tsx:860` 新增一条无滚动容器的独立受控帧回归（+94 行）；排队一帧、触发即出队、
+  无滚动/无提前提交、正确 drop 一次与 finally 清理均已验证。旧 23 项断言逐字节保留，生产组件不变。
+- Codex/Kimi 各自独立隔离负控制：仅删 `reorder.tsx:730` 的 guard，新回归均因 selected.owner TypeError
+  exit 1；完整实现均 exit 0。不是只凭重复全绿断定测试有效。
+- 定向 24 项、完整 check 539 文件 / 6,247 项通过；editor fast 213 生产文件 / 1,601 项，
+  statements 23,456/31,407、branches 18,169/27,329 与高基线一致；严格七包 fast 为 609 生产文件 / 5,762 项。
+  GLM 自测、Codex 独立复跑与 Kimi 终审的各自验证边界见归档卡，不混写执行者。
+- 基线只更新测试数量及摘要等 7 个叶值；所有包/全仓精确 covered/total、生产范围均不变。
+  该卡未重跑 full coverage，纯测试维护无需浏览器验收；此次文档收口不重跑未变的重型检查。
+- 已知帧覆盖缺口关闭，不代表其他潜在不确定性都已消失。再次回退仍停线定位，不取多数、不降门槛。
+
+以下保留 `2ac4a9de` 修复前的取证、计数与探针用途，不将它们误标为当前回归清单。
 
 ## 结论与因果证据
 
@@ -53,7 +68,10 @@ if (!selected) return
 - 未发现需要改变产品行为的证据。先补明确业务回归，不全局同步 RAF、不延长 sleep、不降低门槛。
 - 后续若仍出现差额，保留新失败、继续逐文件定位，不能因为本分支已补测就一概忽略其他不确定性。
 
-## 复跑与证据位置
+## 历史复现与证据位置
+
+以下命令只对应修复前的 23 项基线。当前树已是 24 项，旧数量/差额断言不再作为当前门禁；
+不要为让历史探针绿色而修改正式回归或回退共享工作树。当前维护使用 `pnpm coverage:fast`。
 
 ```sh
 # 快速因果对照：既有 reorder 23 项，两个帧时机各跑一次
@@ -65,7 +83,7 @@ node docs/ops/audits/pre-e2e/probe-editor-coverage-timing.mjs --full
 
 探针与[临时加载配置](probe-editor-coverage-timing.config.mts)只在内存转换一份测试，运行输出写独立临时目录；
 产品树有未提交变化时拒绝启动，不自动还原文件。每次保存 SHA/环境/源摘要、命令、测试 JSON、覆盖率 JSON 与差异。
-它断言的是当前缺口，修复后可能不再成立；属于历史审计证据，不作为正式回归或 CI 门禁。
+它断言的是修复前缺口，现已不再作为当前通过条件；属于历史审计证据，不作为正式回归或 CI 门禁，源码未改。
 
 初始完整取证：`/tmp/type-pal-editor-cov-det.LMxDo9/`，包含 `run-1..6`、`timing-hold/flush`、
 `full-hold/flush` 与各次命令/差异。永久探针的快速复跑见本机
@@ -74,7 +92,7 @@ node docs/ops/audits/pre-e2e/probe-editor-coverage-timing.mjs --full
 两组 1,600 项全部通过，计数与表格逐项相同；探针格式/导入整理后仍可复现。
 临时目录不承诺长期存在；持久结论与复跑源码留在仓库，不提交完整 HTML/PNG/海量 coverage 产物。
 
-## 下一步
+## 后续边界
 
-GLM 拟只新增一个独立受控帧测试及自动生成基线；Codex 核提交树、先红负控制和门禁，Kimi 独立审查。
-本回执只完成取证，不单独授权 build、不宣称缺口已修。设计、白名单、准入汇总和当前实现提示词见任务卡。
+本卡无需下一位 Agent 交接。若后续又出现覆盖差额，保留该次 SHA、范围及逐文件报告再定位，
+不能将任何新异常一概归到本卡或以本卡完成为理由忽略。存档隔离及其他审计缺陷继续按各自任务推进。

@@ -45,7 +45,7 @@ Codex 全量日志：`/tmp/type-pal-save-final-check.MFLtVx/check.log`、
 | 事项 | 去向与约束 |
 |---|---|
 | 合法 checkpoint → 行走/脚本 → 坏 checkpoint 拒绝 → 合法恢复 | [R4/Q1 集中 E2E 登记](../../../testing/e2e.md#已登记的存档恢复回归save-preflight-1)，Owner Codex，待跑；剧情观感不逐卡重复 |
-| editor coverage 少 1 条语句/分支 | [TEST-COVERAGE-DETERMINISM-1](../../tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)已在受控帧对照中定位排序测试覆盖缺口，三席设计通过、待 GLM 实现；不按多数通过放行 |
+| editor coverage 少 1 条语句/分支 | [TEST-COVERAGE-DETERMINISM-1](../../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)已由独立受控帧回归闭环并三签收口；其他回退仍须逐文件定位，不按多数通过放行 |
 | 非结构 codec 错误长提示 | Kimi 非阻断观察，作为后续缺陷记录保留，尚未实现；不扩大本卡 R4 新 guard 的范围 |
 | 工程/工作区存档隔离 | [SAVE-ISOLATION-1](../../tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)仍 blocked，等用户裁决，不随本卡放行 |
 

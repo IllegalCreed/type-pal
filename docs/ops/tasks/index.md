@@ -9,7 +9,6 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [SAVE-ISOLATION-1 - 工程与工作区存档隔离](SAVE-ISOLATION-1-project-workspace-save-scope.md) | blocked | 以任务卡当前准入与看板分工为准。 |
-| [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -132,6 +131,7 @@
 | [R13-CANARY - R13-Z 闭包批次 canary 父账重建漂移（6A 冷 canary 恢复绿）](../archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R2 - 事件脚本单一模型与 unmigrated 退役](../archive/tasks/done/R2-script-single-model.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W4-1 - 命名落点闭环与迁移去重](../archive/tasks/done/W4-1-named-scene-entry-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W6 - 昼夜氛围系统(全帧乘法滤镜 + 氛围数据表)](../archive/tasks/done/W6-ambience-day-night.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W7B - tileset 库:自有瓦片图集(上传 → 量化贴盘 0 → 入库可选)](../archive/tasks/done/W7B-tileset-library.md) | done | 完成证据、历史签字与交接见原卡。 |

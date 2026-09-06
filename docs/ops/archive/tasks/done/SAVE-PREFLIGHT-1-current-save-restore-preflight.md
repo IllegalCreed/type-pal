@@ -552,7 +552,7 @@ actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；
 - R4/Q1 的坏 checkpoint 拒绝、旧状态可用、好 checkpoint 恢复及剧情观感仍为集中 E2E 待跑项，
   不能把本卡 done 当作完整通关/E2E 验收。
 - editor coverage 少 1 条语句/分支现象另记
-  [TEST-COVERAGE-DETERMINISM-1](../../../tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)。
+  [TEST-COVERAGE-DETERMINISM-1](TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)。
   根因、具体分支与“clean HEAD 同特征”的归因尚待补证；不得用历史失败概率或多数通过放行。
 - Kimi 的非结构 codec 长提示观察登记为[后续项](../../../audits/pre-e2e/save-preflight-remediation.md#后续事项)，
   不阻断本卡、不立即另开产品实现，不扩大为通用错误 UI 改造；read/prepare 测试观察无需额外返工。

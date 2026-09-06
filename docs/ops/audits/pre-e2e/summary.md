@@ -8,7 +8,7 @@
 
 - [E-06 质量门禁](quality-gate-remediation.md)已修复，完整 check 通过。
 - [B-04 当前存档预检](save-preflight-remediation.md)已完成，候选 `2c39b1af` 三席 accept 并按用户授权收口；
-  R4/Q1 恢复与剧情观感用例已登记待跑，editor 覆盖率计数不确定性另卡待定位。
+  R4/Q1 恢复与剧情观感用例已登记待跑；[editor 已知帧覆盖缺口](coverage-determinism.md)已补确定性回归并三签收口。
 - [A-01 存档隔离](../../tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)仍等用户工作区策略裁决；
   其余修复分组维持下文顺序，本次没有整组实现授权。
 

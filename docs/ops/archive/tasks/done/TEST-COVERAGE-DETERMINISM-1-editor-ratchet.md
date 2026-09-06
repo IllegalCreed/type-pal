@@ -1,24 +1,35 @@
 # TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性
 
-Status: review
+Status: done
 Owner: GLM
 Reviewer: Codex + Kimi
 Phase: ops
 Capability: ops（测试门禁，不新增能力格）
 Visual Verification Timing: N/A
-Revision: r1（2026-09-06，三席前提/设计签字齐，已放行 GLM 实现）
+Revision: r1（设计保持，三席实现/审查签字齐后收口）
 Evidence Baseline: 2ac4a9de
+Accepted Candidate: 7c447c38
+Closed: 2026-09-06（Codex 统一收口）
 
 ## 目标与范围
 
 补齐排序组件“有效拖动中无可滚动容器”路径的确定性回归，不再依赖真实动画帧偶然命中；不降低精确分数门禁。
-2026-09-06 用户要求另卡登记，随后授权继续推进；Codex 已完成根因取证。用户确认“签了”后，
-Codex 核实 r1 三席前提/设计签字，于 `d9fa4750` 洁净同步树放行 build；正式测试实现交 GLM，
-本次准入登记不冒充已经修复。不重新打开 SAVE-PREFLIGHT-1，不改变其他任务的准入。
-后续实现范围窄且明确，由 GLM 担任 Coding Owner；Codex 保留集成/独立验证，Kimi 独立审查。
+2026-09-06 用户要求另卡登记并授权继续推进；Codex 取证并在三席 r1 设计签字齐后放行 GLM 实现。
+候选 `7c447c38` 已获 Codex/Kimi 独立 accept 与 GLM 实现者自测 accept；用户确认最终签字后，
+Codex 核定 done 并归档。纯测试维护的 Visual N/A 保持，不将此次收口写成用户实机验收。
+不重新打开 SAVE-PREFLIGHT-1，不改变其他任务的准入。以下设计/实现/交接段落保留各自历史时点。
 
 范围为既有排序测试的帧时序与精确覆盖率门禁；已定位为测试覆盖缺口，不改产品排序/自动滚动行为。
 不改 schema、存档策略、PAL 生成内容、生产源码统计范围或既有基线下限。
+
+## 收口结果
+
+- 新增独立受控帧回归已覆盖该保护分支；旧 23 项断言、生产组件与配置不变，基线仅增加测试清单。
+- 定向 24、完整 check 6,247、editor fast 1,601、严格七包 fast 5,762 均有实际通过证据；
+  Codex/Kimi 各自独立单点负控制均证明只删 guard 时新测试失败。详见下方原始席位记录与
+  [调查及修复回执](../../../audits/pre-e2e/coverage-determinism.md)。
+- 后续若再有覆盖率 ±1 等回退，继续逐文件定位，不因本卡 done 豁免其他不确定性，不降低精确门禁。
+- SAVE-ISOLATION-1 仍待用户工作区策略；本卡不构成其产品裁决或实现授权。
 
 ## 前提真值门
 
@@ -27,9 +38,9 @@ Codex 核实 r1 三席前提/设计签字，于 `d9fa4750` 洁净同步树放行
 | 维度 | 已知事实 / 未知项 | 证据 |
 |---|---|---|
 | Primary source | editor 全部生产 TS/TSX 纳入；受控 maxWorkers=2；汇总前逐文件对账，精确分数比较 | `scripts/coverage/config.mjs:96,175`；`scripts/coverage/run.mjs:234,262,502` |
-| 第一阶段 | N/A：不改变游戏行为，不从原版/一阶段机制推导 V8 覆盖率口径 | [覆盖率合同](../../testing/coverage.md)规定七包相同门禁 |
-| 当前二阶段 | `reorder.tsx:730` 的 `if (!selected) return` 只在有效拖动尚未取消且该帧执行时命中；现有 pointer 测试未显式推进，已有 auto-scroll 用例只覆盖有容器路径 | `packages/editor/src/ui/design-system/reorder.tsx:382,699,730,821`；`reorder.test.tsx:370,769`；[确定性调查回执](../audits/pre-e2e/coverage-determinism.md) |
-| 本任务目标 | 新增独立受控帧回归，证明没有容器时无滚动/无提前提交，有效 drop 仍一次提交；不改变用户行为 | [DS-C.4d](../../phase2/specs/editor-design-system.md)的 pointermove 零提交与一次 drop 合同（:573,591） |
+| 第一阶段 | N/A：不改变游戏行为，不从原版/一阶段机制推导 V8 覆盖率口径 | [覆盖率合同](../../../../testing/coverage.md)规定七包相同门禁 |
+| 当前二阶段 | `reorder.tsx:730` 的 `if (!selected) return` 只在有效拖动尚未取消且该帧执行时命中；现有 pointer 测试未显式推进，已有 auto-scroll 用例只覆盖有容器路径 | `packages/editor/src/ui/design-system/reorder.tsx:382,699,730,821`；`reorder.test.tsx:370,769`；[确定性调查回执](../../../audits/pre-e2e/coverage-determinism.md) |
+| 本任务目标 | 新增独立受控帧回归，证明没有容器时无滚动/无提前提交，有效 drop 仍一次提交；不改变用户行为 | [DS-C.4d](../../../../phase2/specs/editor-design-system.md)的 pointermove 零提交与一次 drop 合同（:573,591） |
 
 已确认的证据边界：
 
@@ -86,8 +97,8 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
 
 ## 上下文锚点与调查边界
 
-- [AGENTS](../../../AGENTS.md)、[READ-FIRST](../../phase2/READ-FIRST.md)、[共享工作树纪律](../agent-workflow.md#共享工作树与-stash)。
-- [E-06 回执](../audits/pre-e2e/quality-gate-remediation.md)、[覆盖率合同](../../testing/coverage.md)，
+- [AGENTS](../../../../../AGENTS.md)、[READ-FIRST](../../../../phase2/READ-FIRST.md)、[共享工作树纪律](../../../agent-workflow.md#共享工作树与-stash)。
+- [E-06 回执](../../../audits/pre-e2e/quality-gate-remediation.md)、[覆盖率合同](../../../../testing/coverage.md)，
   以及原存档卡两轮返工复核中的严格单次通过记录；不把之前已修的弹窗焦点竞态当作本卡根因。
 - `scripts/coverage/config.mjs`、`run.mjs`、`baseline.fast.json`；`packages/editor/vite.config.ts`。
 - 比较基线/候选用独立工作树或隔离进程，禁止在共享 main 中 stash/恢复他人内容来做先红。
@@ -285,7 +296,9 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
     严格 `pnpm coverage:fast` 0。本轮登记未重跑未变测试。未验项：无浏览器项（纯测试维护，
     卡面 Visual N/A）；Codex 复跑结论归 Codex 席位，不冒称本人结果。本 accept 不代签他席、
     不授权自行标 done。
-  - done 准入：三席 accept 均已落盘，待 Codex 汇总核定；无缺签豁免，任务保持 review，不标 done。
+  - done 准入：**done allowed → done（Codex，2026-09-06）**。三席 accept 均钉同一候选 `7c447c38`，
+    无 counter/返工项、无代签或缺签豁免；用户确认终审签字后按既定流程技术收口。
+    接手 HEAD `85c4cb52` 与 origin/main 同步且工作树干净，相对候选 packages/ scripts/ 零 diff；r1 不重签。
 
 ## Build 交接澄清（Codex，2026-09-06，不修改 r1 方案）
 
@@ -305,6 +318,13 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 
 ## 交接
 
+- 2026-09-06 Codex（统一收口）：用户确认“签了”后同步并核 `d117ec1d` 的 GLM 实现者自测 accept
+  与 `85c4cb52` 的 Kimi 独立终审 accept，三席同钉 `7c447c38`，无阻断；产品/测试/基线未漂移。
+  核定 done、归档并同步看板/索引/覆盖率回执；三席签字与历史证据保留，Kimi 的后续回退停线原则保持。
+  此次只做文档与归档一致性检查，不重复未变的重型测试；无新的实现或产品策略授权。
+  文档工具 20/20、文档检查（398 Markdown / 1,784 本地链接 / 138 任务）与 git diff --check 通过；
+  归档前后设计/终审签字逐段一致，旧存档卡仅更新归档链接，候选产品/测试/基线零 diff。
+  无下一位 Agent 提示词，本卡已收口；SAVE-ISOLATION-1 继续保持待裁决。
 - 2026-09-06 Kimi（独立终审）：同步 `3b6adf94`、工作树干净后核 `4bc8a3b3 → 7c447c38`——白名单
   两文件（测试 +94 纯插入、基线 7 叶值），生产/配置/旧探针零 diff；新回归帧时序/清理/业务断言
   直读（排队一帧→零滚动零提交仍有效→drop 恰一次，finally 恢复，无 sleep/autoScroll=false）；
@@ -366,10 +386,12 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 
 ## 下一位 Agent 提示词
 
-### Codex：汇总核定 done（当前有效）
+无下一位 Agent 提示词，本卡已收口。以下均为历史交接，不再执行或重签。
+
+### Codex：汇总核定 done（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 汇总 TEST-COVERAGE-DETERMINISM-1 收口，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，review，终审候选 7c447c38（HEAD 侧无产品变化）；r1 不重签。
+在 /Users/zhangxu/illegal/type-pal 汇总 TEST-COVERAGE-DETERMINISM-1 收口，任务卡 docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，review，终审候选 7c447c38（HEAD 侧无产品变化）；r1 不重签。
 先同步并检查工作树，读本卡 done 前三席签字与最新交接日志。现状：Codex/Kimi/GLM 三席 done 前 accept 均已落盘（GLM 为实现者自测性质，已如实标注），无 counter、无返工项、无缺签豁免。
 请统一核定 done 准入：核对三席签字钉同一候选 7c447c38，将任务推进 done，同步看板/索引与覆盖率文档回执（audit 文档状态可由「已定位未修复」更新为已修复并注明确定性回归位置）。
 保留 Kimi 可证伪观察：后续 editor fast 诊断若再现 ±1 摆动，按审计回执继续逐文件定位，不因本分支已钉豁免其他不确定性。
@@ -380,7 +402,7 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 TEST-COVERAGE-DETERMINISM-1。
-任务卡：docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，review，r1 不重签；候选 7c447c38，对比 4bc8a3b3。Codex 已独立 accept。
+任务卡：docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，review，r1 不重签；候选 7c447c38，对比 4bc8a3b3。Codex 已独立 accept。
 先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡方案/Build 澄清/实现回执与 Codex 复核。独立核源码和证据，不以另一席最终签字代替判断。
 重点核：仅新增单条 +94 行回归及生成基线，移除新增块后旧文件逐字节相同；有效拖动内真实排队/出队、无滚动/无提前提交、正确 drop 一次、finally 清理；基线仅测试清单相关 7 叶变化，精确指标/生产范围不变。
 复跑定向 24，并独立核仅删除 reorder.tsx:730 的 if (!selected) return 后新回归 exit 1（selected.owner TypeError）、完整实现 exit 0。Codex 独立 AST 配置与原始证据在 /tmp/type-pal-cov-det-review.Iw6R9V/，可自行重建。完整 check 6,247、editor fast 1,601、严格 fast 5,762 的新鲜日志可复核，无需无差别重复重型全量；异常保留失败核因，不取多数。旧探针不改，视觉 N/A，不重验 UI。
@@ -391,7 +413,7 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 为 TEST-COVERAGE-DETERMINISM-1 补本人最终自测签字。
-任务卡：docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，review，候选 7c447c38，r1 不重签。你是实现者，Codex 已独立 accept，Kimi 正在终审，本轮不是返工。
+任务卡：docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，review，候选 7c447c38，r1 不重签。你是实现者，Codex 已独立 accept，Kimi 正在终审，本轮不是返工。
 先同步并检查工作树，读 AGENTS.md、本卡 r1 白名单/验收条件及你自己的实现回执，确认产品/测试与候选无漂移。仅根据本人已完成的实际验证在 GLM done 席位签 accept 或 counter，明确“实现者自测，非独立终审”，附候选/证据/未验项。不要读取或复述 Kimi 结论，不把 Codex 复跑当作你亲跑；不要求重复未变的测试或重签设计。
 只改本人签字块和本人日志，提交推送并保留 Kimi 已落改动。不改实现/基线/他席/任务状态，不标 done，完成交 Codex 汇总。SAVE-ISOLATION-1 不在范围内。
 ```
@@ -399,7 +421,7 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 ### Codex：独立复核实现候选（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，状态 review，候选 7c447c38（对比 4bc8a3b3，r1 不重签）。
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，状态 review，候选 7c447c38（对比 4bc8a3b3，r1 不重签）。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡验收条件、GLM 实现回执与最新交接日志；接手先同步分支并检查工作树。
 核对白名单：改动应仅为 reorder.test.tsx 新增一条无容器受控帧回归（既有 23 项断言零修改）+ ratchet 生成的 baseline.fast.json；产品组件、全局配置、超时/排除、旧探针零 diff。
 独立复算负控制：用你自己的隔离加载仅移除 reorder.tsx:730 的 if (!selected) return，新回归必须 exit 1（selected.owner TypeError），完整实现对照绿；GLM 的临时 config/日志在 /tmp/type-pal-cov-det-build/（临时目录，可自行重建）。
@@ -410,7 +432,7 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 ### GLM：r1 白名单实现（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 收口 TEST-COVERAGE-DETERMINISM-1 的 build 准入，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft。
+在 /Users/zhangxu/illegal/type-pal 收口 TEST-COVERAGE-DETERMINISM-1 的 build 准入，任务卡 docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft。
 先同步分支并检查工作树，读本卡三席 build 前签字（Codex/Kimi/GLM 均已 premise verified + design agree，无 counter）与交接日志。
 确认三签齐后由你放行：将任务转 build、更新看板/索引，并把实现交 GLM 按已签白名单执行（只改 reorder.test.tsx 新增一条无容器受控帧用例 + coverage:ratchet 生成基线；单点负控制先红；预期定向 23→24、fast 总数 5,761→5,762）。
 若你认为任一签字证据不足或发现新的阻断，签 counter 列明 file:line 证据，任务保持 draft/rework，不开始实现。
@@ -420,7 +442,7 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 ### GLM：r1 前提与实现可行性审查（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审查 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft，产品基线 2ac4a9de。
+在 /Users/zhangxu/illegal/type-pal 审查 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft，产品基线 2ac4a9de。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/ops/audits/pre-e2e/coverage-determinism.md。你是拟定的 Coding Owner，本轮只做独立前提/设计审查，不开始实现。
 直接核 reorder.tsx:730 无滚动容器的返回、既有 pointer 测试与 auto-scroll 测试；独立运行 node docs/ops/audits/pre-e2e/probe-editor-coverage-timing.mjs 并查看 hold/flush 原报告，核产品未改、23 项都绿但只差该返回；不要读取或复述 Kimi 的签字。按需跑 --full（仅 editor fast 范围，不是全仓 full coverage）。
 审 r1 的单条受控帧回归、清理、单点负控制和生成基线白名单，给出可证伪观察；签 premise verified + design agree，或带 file:line 的 counter。只写你席位和你日志，提交推送，其他席结论/任务状态不改。三方签字齐后由 Codex 放行，禁止提前修改正式测试、基线或标记 done。
@@ -429,7 +451,7 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 ### Kimi：r1 独立前提与设计审查（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审查 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft，产品基线 2ac4a9de。
+在 /Users/zhangxu/illegal/type-pal 审查 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft，产品基线 2ac4a9de。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/ops/audits/pre-e2e/coverage-determinism.md。你负责独立前提/设计审查；不要读取或复述 GLM 的签字。
 直接核 reorder.tsx:382/699/730 与既有测试 :370/:769，独立复算受控帧是否唯一改变 no-selected 返回的覆盖、没有替换生产实现或缩范围。运行 node docs/ops/audits/pre-e2e/probe-editor-coverage-timing.mjs；全 editor hold/flush 回执可复核，必要时 --full（非全仓 full coverage）。审单条新回归是否能以移除该 guard 的单点负控制证伪，是否保留无滚动/无提前提交/有效 drop 一次的业务断言。
 签带独立证据的 premise verified + design agree，或 file:line counter；只写你席位和你日志，提交推送，保留另一席并自行处理 push 竞态。不改实现、正式测试、基线、任务状态，不代签、不标记 build/done。无产品行为变更，不要求用户重新验 UI。

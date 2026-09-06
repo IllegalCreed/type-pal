@@ -139,11 +139,17 @@ GitHub Actions 的 fast coverage 前置运行 `pnpm typecheck && pnpm lint`，�
 新结构 guard 的行/语句/函数均 100%，分支 46/51（90.19%）；不代表整个存档域或全仓已达长期目标。
 本卡未重跑 full coverage，前文 Full 表继续标记首次基线，完整普通 check 不能替代 full 报告。
 
-editor 历史少 1 条语句/分支日志已另立
-[TEST-COVERAGE-DETERMINISM-1](../ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)：
+## TEST-COVERAGE-DETERMINISM-1 稳定性收口（2026-09-06）
+
+[TEST-COVERAGE-DETERMINISM-1](../ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md)已三席验收收口，
+候选 `7c447c38` 新增一条独立受控帧回归，未改生产组件或既有断言。
+当前 fast 为 **609 个生产文件 / 5,762 项测试**，editor 为 **213 个生产文件 / 1,601 项**，定向排序用例 24 项。
+基线仅更新测试清单相关信息；上表所有覆盖率计数和百分比保持不变，并非靠增加用例数抬高百分比。
+
 [受控帧调查](../ops/audits/pre-e2e/coverage-determinism.md)已在同一树上精确复得差额，唯一差异为
-`reorder.tsx:730` 的无滚动容器返回；属于缺少明确测试覆盖，不需要修改产品行为。三席设计已通过，待 GLM 实现，
-历史“clean HEAD 次数/概率”并未因此获证。保持精确门禁，复现即停线补证，不重试取多数、不下调基线。
+`reorder.tsx:730` 的无滚动容器返回。新增测试明确推进该帧，Codex/Kimi 独立移除 guard 均使新回归失败；
+GLM 与 Codex 的实际检查保持 editor statements 23,456/31,407、branches 18,169/27,329，严格 fast 零回退。
+本卡未重跑 full coverage。历史“clean HEAD 次数/概率”并未因此获证，未来其他回退仍停线补证，不重试取多数、不下调基线。
 
 ## 长期目标（本轮不硬卡）
 
