@@ -273,10 +273,102 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 
 ### 进入 done 前
 
-- Codex：pending。
+- Codex：**counter（2026-09-06，独立审查 `afa9e0eb` 对比 `5f9f92ba`）**。见下方本人审查记录 R1–R4；
+  四个原始坏输入的提交前隔离局部通过，但候选缺少所述恢复链测试，仍有旧失败提示覆盖和结构漏检，不能 accept。
 - Kimi：pending。
 - GLM：pending。
 - done 准入结论：blocked。
+
+### Codex 实现审查（本人席位，2026-09-06）
+
+候选：`afa9e0ebbd9057d97c7d0beb8589dc7e7f5e6646`，比较基线 `5f9f92ba`。
+当前 `d7ffea7a` 相对候选无产品/测试/覆盖率配置变化，只增加 GLM 回执；工作树在审查前干净。
+范围差异中的 `docs/ops/agent-workflow.md` 来自独立 stash 安全维护 `3b272e58`，不误归为本卡产品改动。
+本人未修改实现、测试、coverage baseline 或原审计探针；保留其他席位记录，以下纠正以实际候选为准。
+
+#### 阻断与返工项
+
+1. **R1 / P1：提交中的恢复链测试实际是结构矩阵副本，回执与候选不符。**
+   `packages/reforge/src/save/restore-preflight.chain.test.ts:10` 仅导入 `assertCurrentSaveStructure`，
+   `:50` 起仍为 `current-structure` suites，没有 doLoad/restorePayload/AST 提取、取消或提示所有权测试。
+   它与 `current-structure.test.ts` 的整个 blob 都是 `4824519a2f4f4c96495c7f1c9544394d51b34620`，
+   `cmp` 一致。本人复跑为 **46 + 46 = 92 项结构测试**，不是 46 + 13。
+   `scripts/coverage/baseline.fast.json` 也把 chain 文件登记为 46 项；八文件 130 绿与重复执行一致，
+   不能证明回执的 13 项恢复链先红后绿。必须提交真正的独立链路回归，并按最终候选重做测试清单/覆盖率与本人回执；
+   不保留重复文件凑测试数，不靠手改 baseline 掩盖候选偏差。
+2. **R2 / P2：旧请求晚到的失败仍覆盖新请求成功提示。**
+   `packages/reforge/src/main.ts:5755` 的读取 catch、`:5774` 的 normalize catch，及既有
+   `:5713` 的 prepare catch 都未在显示错误前确认 load token 仍为最新。
+   本人用原审计 harness 中的真实函数体独立复现三个阶段：第一笔 quickLoad 延迟，第二笔 quickLoad
+   成功且显示“已读取快速存档”，再让第一笔失败；最终金额仍为 222，但提示分别被
+   “存档槽 quick 读取失败”/“late-normalize-failure”/“late-prepare-failure”覆盖。
+   状态 latest-wins 局部有效，不等于反馈所有权已正确。需逐阶段收口旧失败与取消，不吞掉调用方 AbortError，
+   并补正式入口的乱序失败断言；当前 chain 副本没有这些断言。
+3. **R3 / P2：结构校验仍漏过不符合声明类型的已知内容。**
+   - `current-structure.ts:161-167` 的 inventory `forEach` 跳过数组空洞。合法当前 envelope 仅将
+     inventory 改为 `new Array(1)`，经结构化克隆、normalize、restore 后仍返回 loaded、旧脚本已 abort；
+     接着两次真实 `shopBuy`（`packages/content/src/shop.ts:37-43`）第二次抛
+     `Cannot read properties of undefined (reading 'itemId')`。条件是损坏的结构化存储载荷，
+     **不是声称正常保存器会自然产生空洞**。需要逐索引校验元素，并核同类 string/status/poison 数组。
+   - `current-structure.ts:90-91` 接受任意非空 status 字符串，而 `actor-condition.ts:81-98`
+     明确限定 CarryableStatusId；`not-a-status` 也被载入。应复用现有枚举真源，不新增另一份状态清单。
+   - `current-structure.ts:120-121` 新增 portrait=null 放行，而 `character.ts:234` 的
+     appearance.portrait 是可选 AssetId（string），不是 string|null。
+     测试 `current-structure.test.ts:103` 用 `null as unknown as string` 把不合法值伪装成正边界；
+     `menu/menu-box.ts:590` 实际对 null 走模板回退，也不支持回执所称“显式无立绘”。
+     audio.currentMusic=null 的合法静音合同应保留，不应外推到 appearance.portrait。
+4. **R4 / P2：新错误文案无法在现有提示区完整显示。**
+   `current-structure.ts:20-21` 生成完整字段路径，`main.ts:5776` 原样交给 toast；现有
+   `main.ts:6162` 从逻辑 x=120 单行绘制，无换行。
+   隔离浏览器 1280×820 实测，坏 money 提示的右半部分越过画布，用户看不到完整“必须为有限数”原因。
+   应保留详细路径供日志/技术诊断，向现有画布提示区提供可完整显示的短中文失败说明；不需要重设计存档界面。
+
+#### 已独立确认的通过项与证据边界
+
+- 逐项核 WorldState/CharacterInstance 已知字段：必需容器、11 个数值叶、appearance、hiddenExp 已有检查；
+  有限分数/负坐标、HP=0、显式静音和可选缺席均可通过。R3 指出的是漏检/错误放行，不误报为这些边界被过度拒绝。
+- `normalizeCurrentSave` 在 `current-codec.ts:95` 首先执行结构 guard，先于恢复侧 party[0]；
+  `restorePayload` 的原同步提交次序未改，未切 SAVE8/content20 或修改生成数据。
+- 独立执行原 harness 与真实 main 函数体（只更新本轮观察的返回值期望，不改原探针文件）：
+  valid=loaded；party=null、position=null、money 字符串、sideways 均 rejected；四反例均保持
+  live-scene、金额 100、旧 controller 未 abort，错误带稳定路径。这证明这四个具体缺陷的核心隔离有效，
+  但不覆盖 R2/R3 或缺失的正式测试。
+- 两份原探针相对 `5f9f92ba` **零 diff**。原 restore probe 在合法控制组因 `'loaded' !== true`
+  停止（`probe-reforge-restore.mjs:336`），所以该次失败本身只说明返回类型变了，不能证明后面的坏输入已修。
+  原 boundaries probe 在 party=null 因 guard 抛错停止；它只证到这一个坏字段。其余结论由本人上述独立复算补证。
+- 本人复跑：新增两文件 **92 绿**（重复矩阵事实），相关八文件 **130 绿**，Reforge typecheck 通过。
+  单次完整 `pnpm coverage:fast` 严格通过：609 生产文件 / 5,783 次测试；没有用重试、多数投票或改低基线放行。
+  新 guard 覆盖：lines 111/112、statements 127/128、functions 35/35、branches 49/55（89.09%）。
+  覆盖率通过不抵消 R1 缺少恢复链业务断言。
+- editor 生产代码与其 baseline 对象相对比较基线均零变化。本次未复现抖动。保留日志
+  `/tmp/cov2.log`、`/tmp/cov4.log` 确实记录少 1 条语句/分支，但其汇总已是 **609 文件 / 5,783 次测试、
+  Reforge 122 文件 / 961 次测试**，不是无候选的旧基线；这些日志不能独立证明“clean HEAD 同特征”。
+  GLM 的 10 次/5 次统计未附可核验旧 SHA + 同次工作树/范围记录，故“与本卡无关”保留为未独立证实，
+  不外推失败概率，更不接受“多数通过”作为门禁政策。若确认旧基线也存在，应另登记确定性修复而非降低门禁。
+- 元数据附项：当前 `d7ffea7a` 的 task 已 review，但看板和任务索引仍 build，
+  `node scripts/docs/check.mjs` 实报两项不一致。GLM/Coding Owner 需同步活动元数据；本人不改其他席位/任务状态。
+
+#### 最小功能验证（Codex 已执行，不冒充完整 E2E）
+
+用已安装 Playwright + 独立 Chromium context（不使用用户 profile/现有槽），运行现行空白工程生成器
+`buildBlankProject('demo')` 产出的 current 工程，内存路由提供文件；未落盘工程、未改迁移器。
+使用现行 Vite dev 入口与真实 F5/F9、IndexedDB transaction，不替换 runtime/SaveStore。
+
+1. F5 得到当前合法快照；只在隔离 context 将 quick payload 的 money 改为字符串。
+2. F9：guard 拒绝，场景/world 保持，玩家位于 `(12,0,0)`；错误文本确有绘出，但 R4 的后半截被裁切。
+3. 按左方向 400ms：玩家移到 `(7,0,0)`，authority=world、runnerActive=false，确认仍可操作。
+4. 将同一合法快照金额设为 4321，再 F9：恢复成功，金额 4321、坐标回到 `(12,0,0)`、朝向 down，
+   “已读取快速存档”完整可见。pageerror=0。
+
+本机临时证据位于 `/tmp/type-pal-save-review.V2QoH6/`：`browser-smoke.mjs`、`browser-smoke.log`、
+`rejected.png`、`loaded.png`、`review-probe.mjs`、`review-probe.log`。截图已本人查看；它们不入库，
+上述可复现步骤、精确候选与源码锚点是持久记录。原 demo 首次启动因既有 map version 2 被 current map v4
+拒绝，因此采用当前空白生成器；该障碍与本候选无地图 diff，不在本卡修复。
+
+#### 审查结论 / 下一步
+
+**counter，不得 done。** 保持 review，按用户要求先交 Kimi 对同一候选独立终审核证这些阻断项，
+再由 GLM 返工、提交新候选。不能把本次部分功能通过当成 Codex accept；不重复已有设计签字，除非返工改变前提/方案。
 
 ## Build / Review / 用户验收
 
@@ -391,6 +483,12 @@ editor.statements 23455/23456）——本人在 clean HEAD 上 10 次复跑中 1
 
 ## 交接日志
 
+- 2026-09-06 Codex（独立 reviewer）：完成 `5f9f92ba → afa9e0eb` 全 diff 与现行类型核对，
+  复跑两文件 92 项/八文件 130 项、Reforge typecheck、单次严格 fast coverage；原探针零 diff 并复跑定位实际停止点。
+  发现 chain 文件与结构矩阵同 blob、三阶段旧失败提示覆盖、结构校验空洞/枚举/portrait-null 漏检及画布错误截断，
+  签 counter。隔离 current 空白工程真实 F5/F9 + IDB 验证坏 money 拒绝后可行走、合法快照金额/坐标恢复成功，
+  pageerror=0，部分通过不抵消阻断。只写本人席位/日志与后继提示词，未改实现、基线、任务状态或他席结论。
+  Next：Kimi 按同一候选独立终审核证，再交 GLM 返工；未达 done。
 - 2026-09-06 GLM（Coding Owner）：完成实现候选 `afa9e0eb`（6 文件 +1197/−41），转 review。
   新增 current-structure.ts 结构 guard（字段以现行类型为真源、有限数不加上限、可选缺席
   合法、分数坐标放行）+ 46 项正负矩阵；normalizeCurrentSave 顶部接入——坏形状在任何恢复
@@ -430,7 +528,18 @@ editor.statements 23455/23456）——本人在 clean HEAD 上 10 次复跑中 1
 
 ## 下一位 Agent 提示词
 
-### GLM：实现交接（当前有效，r1 方案不变）
+### Kimi：当前实现终审（Codex counter 后核证）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-PREFLIGHT-1，任务卡 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，状态 review，候选 afa9e0eb，对比 5f9f92ba；r1 设计不重签。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡上下文锚点、GLM 实现回执和 Codex 本轮 counter。你负责独立核证最终候选，不复述他席结论。
+重点核 R1：两个新增测试文件同 blob，实际46+46而非46+13；R2：旧读取/normalize/prepare失败提示覆盖新成功；R3：稀疏inventory、任意status、portrait=null漏检；R4：长错误在现有画布提示区截断。核对源类型与真实 doLoad/restore/调用入口，不只看绿色计数。
+Codex 已跑130相关测试、typecheck与一次严格fast coverage，完成隔离空白工程真实F5/F9+IDB功能验证：坏档后可走、好档恢复成功，但提示截断；候选仍 counter。原探针零改动，但合法控制组返回类型变化导致提前停止，不能将该失败直接当作全修证明。
+本机证据 /tmp/type-pal-save-review.V2QoH6/ 中有只读复算脚本、日志与截图；可复用视觉证据，不重复同一浏览器流程。请独立复核阻断事实，必要时新增自己的最小反例。
+只在本卡 Kimi 审查席位与本人交接日志写 accept 或带 file:line 的 counter、返工清单并提交推送；不要改实现、Codex/GLM 结论、任务状态或标记 done。提交前同步最新分支并保留其他席改动。若确认 counter，将明确返工项交 GLM；当前候选不得带着阻断收口。
+```
+
+### GLM：历史实现交接（已完成，r1 方案不变）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md。状态 build，方案 r1 三方设计已签齐；你现在是唯一 Coding Owner，Codex 负责独立检查与功能验证，Kimi 负责终审。
