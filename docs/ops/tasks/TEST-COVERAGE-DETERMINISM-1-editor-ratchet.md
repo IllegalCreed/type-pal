@@ -109,13 +109,38 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
   - Codex：**premise verified / design agree（2026-09-06，r1）**。直接读取 `reorder.tsx:382,699,730`、
     既有测试 :370/:769 和 DS 合同；本人完成上述 23 项及 1,600 项双调度对照，唯一语句/分支差额可证伪。
     修复层为测试，不改正确的生产 guard；同意限定 GLM 新增独立用例与自动基线，Codex 复核负控制。
-  - Kimi：premise pending / design pending。
+  - Kimi：**premise verified / design agree（2026-09-06，r1）**。独立直读与复算，未读 GLM 签字：
+    `reorder.tsx:382-400` scrollOwners 向上收集需 scrollable+overflow auto/scroll，普通非模态列表
+    合法返回 []；`:699-708` 早期有效性检查（session/validTarget/autoScroll=false/无 RAF 提前返回，
+    与 :730 是不同分支）；`:730` `if (!selected) return`；`:737` scheduleAutoScroll 排队；
+    `reorder.test.tsx:370` pointermove 与 pointerup 同 act、RAF 未控（偶然命中源）；
+    `:769` 受控 RAF 但包模态可滚容器（有容器路径，非本分支）。
+    本人亲跑探针：hold/flush 均 23/23 绿，分母不变，差异恰为 statement+1/branch+1 且仅在
+    reorder.tsx（探针断言 4 条 diff、SHA 与基线 hash 前后不变、脏树拒绝启动——诊断未改生产或
+    缩范围）；诊断 config 只 load 拦截单测试文件、Map 队列 stub RAF/cancel-delete、afterEach
+    恢复，唯一锚点替换。基线实测 editor 23456/31407、18169/27329 与 flush 回升一致。
+    DS 合同直读：pointermove/自动滚动只更新本地投影、有效 pointerup 一次 intent（editor-design-system.md
+    :573）、一次手势最多一条 command、20 次 hover/滚动零提交（:591）。
+    证据边界认可：历史「10 次/约 1/6」与无 SHA 旧日志未升级为事实，本次归因只依据同树受控对照。
+    设计同意：单条受控帧回归 + 单点负控制（仅移除 :730 guard 时新测试必红——selected=null 续行
+    即 TypeError）+ finally/cleanup + 白名单（单测试文件与生成基线）+ 验收 4 的串行不取多数，
+    边界清楚不过度。可证伪观察：① 两种帧调度改变其他文件覆盖或分母 → 前提倒；② 新用例未在
+    有效拖动内命中 :730（如走 :707 提前返回或把 autoScroll=false 当无容器）→ 测试无效；③ 仅删
+    :730 guard 新用例仍绿 → counter；④ ratchet 出现任何下降/scope 变化/手填计数 → counter。
+    返工项：无。
   - GLM：premise pending / design pending。
 - 独立反证：pending；用户缺签豁免：无；build 准入：blocked（待 Kimi/GLM 独立前提与设计签字）。
 - done：Codex pending / Kimi pending / GLM pending；done 准入：blocked。
 
 ## 交接
 
+- 2026-09-06 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
+  直读 reorder.tsx:382/699/730/737、既有测试 :370/:769、DS 合同 :573/:591、coverage 配置
+  （maxWorkers=2、精确分数、scope 审计）与基线（editor 23456/31407、18169/27329）；
+  亲跑 probe-editor-coverage-timing.mjs：hold/flush 23+23 全绿、分母不变、仅 reorder.tsx
+  statement/branch 各 +1，探针自证未改生产/测试/基线（hash 前后一致、脏树拒启）。
+  四条可证伪观察已写入本人签字块。未改实现/正式测试/基线/任务状态，未读 GLM 签字。
+  Next：GLM 并行签字；两席齐后 Codex 放行 build。
 - 2026-09-06 Codex：用户授权继续推进后完成六次有界原样诊断及受控时钟因果对照；根因已定位，
   r0 blocked → r1 draft。拟将白名单内测试实现交 GLM，先并行请 GLM/Kimi 独立审 r1。
   产品/正式测试/基线零改动，不代签、不开始 build；SAVE-ISOLATION-1 仍等产品选择。
