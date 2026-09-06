@@ -1,11 +1,11 @@
 # SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: X1（审计 B-04 修复，不新增能力格）
-Coding Owner: Codex
+Coding Owner: GLM
 Generation Owner: N/A
-Reviewer: both
+Reviewer: Codex + Kimi
 Visual Verification Owner: Codex
 Visual Verification Timing: mixed
 Unavailable Agents: none
@@ -17,7 +17,8 @@ Evidence Baseline: 5462d01a
 
 损坏的当前版本存档在停止旧脚本、替换世界或提交场景之前被拒绝，并提供稳定错误反馈；合法存档保持现有恢复行为。
 与 [SAVE-ISOLATION-1](SAVE-ISOLATION-1-project-workspace-save-scope.md) 分卡：本卡不定义存档命名空间或副本共享策略。
-按既定顺序先落实隔离卡的产品边界；本卡可独立设计审查，不能借此宣称已经越过 build 准入。
+初始安排为先落实隔离卡的产品边界、并行审查本卡。2026-09-06 用户确认本卡已签并提出可交 GLM 实现，
+Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此放行当成隔离卡产品选择或整组修复授权。
 
 - 范围内：当前 SAVE8 载荷结构预检、恢复使用的引用准备、槽/快速/文件恢复共路、错误与取消收尾、反例回归。
 - 范围外：SAVE9/content21、旧存档修复或升级、生成工程改写、第一阶段 A-04/05/06、任意磁盘故障恢复框架。
@@ -264,10 +265,11 @@ Evidence Baseline: 5462d01a
     显式加「**旧失败提示不覆盖新成功结果**」断言（探针乱序控制只证状态胜出，未证 toast 不串）；
     ② 「角色与已知嵌套结构」行建议把 hiddenExp 的 Partial 形状（键 ∈ 七个 HiddenStatKey）
     列入正负例，避免 guard 对未知键静默通过或对合法缺省误拒。
-- 独立反证审查：至少一席直接核 current 类型与真实恢复入口并复算控制组，当前未完成。
+- 独立反证审查：已完成。Kimi 与 GLM 均独立直读当前类型/正式恢复入口并复算反例及控制组，见本人签字与日志。
 - counter / 分歧：暂无；任何核心前提变化重开本 revision 的相关签字。
 - 缺签豁免：无。
-- build 准入结论：blocked（Kimi/GLM 设计签字 pending，不得开始实现）。
+- build 准入结论：build allowed（2026-09-06 Codex 核定）：r1 三方 premise verified / design agree 已齐，
+  两席独立证据完整，无 counter；本次只交接 Coding Owner，不改前提/方案、不重开设计签字。
 
 ### 进入 done 前
 
@@ -278,13 +280,47 @@ Evidence Baseline: 5462d01a
 
 ## Build / Review / 用户验收
 
-均未开始，不得标记已修复或 done。无 Agent 缺席/额度代班，不由内部 Codex 分工代签 Kimi/GLM。
+已准入 build，尚未提交本卡产品实现；review / 用户验收未开始，不得标记已修复或 done。
+无 Agent 缺席/额度代班；用户主动调整实现分工，不冒充额度豁免，也不由内部 Codex 分工代签 Kimi/GLM。
 2026-09-06 既有基线测试：save/store、save/ops、save/browser-state、current-save characterization、
 actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；它们尚不覆盖本卡新增反例。
+
+### Coding Owner 交接（2026-09-06）
+
+- 用户请求：确认已签，询问难度，并建议适合时让 GLM 实现、Codex 检查。
+- Codex 判断：实现难度中等，风险仍按 save 高风险管理；三方已完成前提取证、范围和测试矩阵，适合 GLM 按已签方案实现。
+- 原 Owner Codex：完成 r1 设计、两份内存边界探针复算、38 项基线与文档检查；本卡尚无产品改动。
+- 新 Owner GLM：唯一实现文件 writer；按 r1 和两席实现钉完成 guard、正式恢复入口接线及回归，自测后提交推送候选。
+- Codex：停止并行修改实现；接收候选后独立 review 全 diff、复跑关键失败/取消/乱序用例，执行最小功能验证与最终 Git 收口。
+- Kimi：实现候选形成后进行独立架构终审。GLM 的最终签字明确为 Coding Owner 自测，不冒称独立审查；三方 done 门禁保留。
+- 不需设计重签：只变执行分工；若实现确需改变当前合同、公共模型或扩大范围，停下落卡，不能用本次交接代替新准入。
+
+### 实现交接清单
+
+1. 从 `726bdb92` 及后续本次交接文档提交接手；先核工作树，保留其他席文档，不覆盖未关联改动。
+2. 先读本卡全部 r1 方案与 Kimi/GLM 签字。逐字段以现行类型为真源（包括 CharacterInstance.appearance、
+   hiddenExp 等可选项），落实 GM-SP1~SP4；不因为审查摘要少写某字段就遗漏或拒绝它。
+3. 先固化正式调用链回归，后改实现：四个坏输入、合法加载、较新加载胜出、调用方取消、旧失败提示不盖新成功。
+   原审计探针断言的是“缺陷存在”，修复后失败并不意外；保留历史证据，用新的正确性回归替代其发布门禁角色，
+   不通过改旧探针期望来伪造修复证明。
+4. 菜单 browserLoad、F9、bootLoadSlot、e2e-load 都要核；稳定业务错误文案代替裸 TypeError。
+   取消协议、无槽/坏槽/读取失败的区分及提示所有权均须断言。仅 codec 叶值单测不算完成。
+5. 首选改动范围为 `packages/reforge/src/save/`、main 的恢复入口及直接相关测试；只做必要的内部提取。
+   不改 SAVE8/content20、WorldState/CharacterInstance 公共形状、生成工程、迁移器、follower/碰撞或数值公式。
+   不实现 SAVE-ISOLATION-1，不选择命名空间、不清浏览器数据库、不加旧版兼容或新默认值。
+6. 验证顺序：定向回归 → Reforge typecheck → 完整 `pnpm check` → `pnpm coverage:fast`。
+   新测试/文件改变清单时可在指标不下降后运行 `pnpm coverage:ratchet` 更新真实基线；不得手改指标、缩减范围或跳过用例。
+   本地重型检查顺序执行；报告新增 guard 分支覆盖及仍未覆盖项。Codex 接手后独立复核，不要求用户跑技术测试。
+7. 完成后提交推送候选，将修改清单、先红后绿记录、命令/结果、覆盖率变化、未验项与候选 hash 写入本节/本人日志。
+   可推进到 review，但不得标记 done、代写 Codex/Kimi accept 或把未做的浏览器验证报成已通过。
 
 ## 交接日志
 
 - 2026-09-06 Codex：基线 5462d01a 复读合同/实际调用链，复跑两份只读内存探针与 38 项既有测试，形成 r1。
+- 2026-09-06 Codex：核对 Kimi `726bdb92` 与 GLM `a8b36435` 的完整 premise/design 签字，
+  `5462d01a..726bdb92` 产品/脚本/CI 源码零 diff；两席独立证据与 r1 一致、均无 counter。
+  按用户本次分工请求准入 build，Coding Owner 交 GLM，Codex + Kimi 审查；保留既有签字，不重签。
+  SAVE-ISOLATION-1 的同 ID 副本策略仍 pending，用户“签了”不被代解释为该产品选择。
 - 2026-09-06 Kimi：完成 r1 架构/前提设计审查，签 premise verified + design agree（r1），无返工项。
   独立证据：直读 current-codec/main 槽（doLoad/quickLoad/browserLoad）、F9（:6730 无 catch）、
   e2e-load（:6904 共路）、prepareSceneSwitch/assertSceneSwitchPlanCurrent/commitSceneSwitch、
@@ -310,7 +346,20 @@ actor-condition-lifecycle、scene-switch-transaction 六文件 / 38 项通过；
 
 ## 下一位 Agent 提示词
 
-### Kimi（与 GLM 并行，r1）
+### GLM：实现交接（当前有效，r1 方案不变）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接手 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md。状态 build，方案 r1 三方设计已签齐；你现在是唯一 Coding Owner，Codex 负责独立检查与功能验证，Kimi 负责终审。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡全部上下文锚点、两席签字及“Coding Owner 交接/实现交接清单”。接手前同步分支并检查工作树。
+只实现本卡：当前存档结构 guard、提交前失败隔离、正式恢复入口共路与稳定反馈。落实 GM-SP1~SP4，以及菜单 browserLoad、bootLoadSlot、旧失败提示不覆盖新成功、hiddenExp/appearance 等现行字段覆盖。先固化真实调用链反例，再修改实现；不只测 codec。
+不得更改 SAVE8/content20、公共数据模型、生成工程、迁移器、数值/碰撞规则；不得实现 SAVE-ISOLATION-1、决定工作区隔离策略、清库或添加旧版兼容。若需超出已签方案，停下报告，不自行扩大范围。
+顺序运行定向回归、Reforge typecheck、完整 pnpm check、coverage:fast；如新增测试/源码清单，只能在所有指标不降后使用 coverage:ratchet 更新基线。保留原缺陷审计记录，不用改历史探针或弱化断言制造绿色。
+完成后提交推送实现候选，直接在任务卡写修改清单、先红后绿证据、测试/覆盖率结果、未验项和候选 hash。可转 review，不得标记 done 或代写 Codex/Kimi accept。提供给 Codex 的复核提示词；没有实际做的浏览器验证必须明确未做。
+```
+
+### 历史 r1 设计交接（已完成，不再转发）
+
+#### Kimi
 
 ```text
 请在 /Users/zhangxu/illegal/type-pal 审查 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，r1，产品基线 5462d01a，状态 draft。
@@ -321,7 +370,7 @@ Codex 已复跑 B-04 真实函数体探针及六文件38项基线；未改实现
 不得改产品/测试实现、任务状态或标记 build/done。SAVE-ISOLATION-1 的工作区产品选择尚待用户，不代其裁决，也不把本卡签字扩张为整组修复授权。
 ```
 
-### GLM（与 Kimi 并行，r1）
+#### GLM
 
 ```text
 请在 /Users/zhangxu/illegal/type-pal 审查 docs/ops/tasks/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，r1，产品基线 5462d01a，状态 draft。
