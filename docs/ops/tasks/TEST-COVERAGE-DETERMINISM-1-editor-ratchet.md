@@ -128,12 +128,50 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
     有效拖动内命中 :730（如走 :707 提前返回或把 autoScroll=false 当无容器）→ 测试无效；③ 仅删
     :730 guard 新用例仍绿 → counter；④ ratchet 出现任何下降/scope 变化/手填计数 → counter。
     返工项：无。
-  - GLM：premise pending / design pending。
+  - GLM：**premise verified / design agree（2026-09-06，r1，拟定 Coding Owner 的独立前提/设计审查；
+    全部证据本人亲读/亲跑，未读取 Kimi 签字内容——其签字于本人审查中途落地，本人仅确认席位位置）**。
+    独立证据：
+    - 直读 `reorder.tsx`：`:730` 确为 `if (!selected) return`；可达链亲自核过——`:699-706` 早期有效性检查
+      （无 session/无效目标/autoScroll=false/无 RAF 均提前返回）先于该行，故 :730 只被“有效拖动中”的帧命中；
+      `:707-728` 扫 `session.scrollOwners`，无合格 owner 时 `selected` 保持 null；`:382-399` 收集器对默认
+      Harness（无可滚祖先、非模态）合法返回 `[]`；`:817-838` 有效目标 pointermove 收集 owners 并
+      `scheduleAutoScroll()`；`:737-744` 单在途帧 guard；取消路径 `:472-474`/`:778-782`。
+    - 直读既有测试：`reorder.test.tsx:370` test.each（mouse/touch/pen）down→21 次 move→up 全程
+      **无任何 RAF 控制**——:730 是否被帧命中纯属时序偶然；`:769` 受控 RAF 用例构造模态+外层双可滚容器，
+      走的是 `selected` 非空的滚动路径，不覆盖 :730。Harness afterEach 只恢复 elementFromPoint/指针捕获，
+      RAF 桩恢复属各测试职责（:769 为描述符现场保存/恢复）。
+    - 探针本人实跑（洁净树，provenance SHA=df1b281d）：quick 23/23 双时序，唯一差额 reorder.tsx
+      statements +1（592→593）/ branches +1（426→427），分母/函数/行数完全一致；
+      `--full` 复跑两轮全绿（1,600/1,600 双时序），editor statements **23,455→23,456**、branches
+      **18,168→18,169**，lines 21,199 / functions 5,907 不变——与历史失败签名逐数一致。
+      另一次 `--full` 在两组 1,600/1,600 完成后于末段断言中止（输出未留存，产物 difference.json 与
+      绿轮逐项相同）；三轮实质一致，不影响结论，供 Codex 复跑时知悉探针可能在末段断言中止。
+    - DS 合同直读：editor-design-system.md:574（pointermove/hover/自动滚动只更新本地投影、有效
+      pointerup 恰一次 intent）、:591（20 次 hover/自动滚动零提交）——新用例业务断言与合同一致。
+    - 门禁锚点：config.mjs:96/:175（editor `--maxWorkers 2`）、run.mjs:234/:262（逐文件对账）/:502
+      （零下降比较）——精确分数门禁属实。
+    design agree：单条无容器受控帧用例仅经有效目标调度路径命中 :730（autoScroll=false 会在 :702
+    提前返回，卡面已明令不得混用）；真实排队/取消 RAF 模型与生产单在途帧语义一致；单点负控制
+    （隔离加载仅移除 :730 guard → selected.owner TypeError 使新用例失败）可证伪且与探针同一内存变换
+    技术；基线只经 coverage:ratchet，白名单（reorder.test.tsx + 生成基线）本身受 auditScope/比较器
+    强制。可证伪观察：(a) 若新用例 flush 覆盖超出 :730 返回，fast 差额将超过 +1，三轮串行诊断会拦下；
+    (b) 排队数断言须取 flush 前时刻（flush 后 ref 清空、下一次有效 move 会重新排队）；
+    (c) 卡面引 DS :573 实为 :574（内容一致，off-by-one，非阻断）。预期计数核对：定向 23→24、
+    fast 总数 5,761→5,762 与当前提交基线吻合。
 - 独立反证：pending；用户缺签豁免：无；build 准入：blocked（待 Kimi/GLM 独立前提与设计签字）。
 - done：Codex pending / Kimi pending / GLM pending；done 准入：blocked。
 
 ## 交接
 
+- 2026-09-06 GLM：完成 r1 前提/设计审查（拟定 Coding Owner 席），签 premise verified + design agree，
+  无 counter。证据全部亲读/亲跑：可达链直读（:699 早期检查先于 :730、:382 收集器可空、:837/:737 调度）、
+  既有测试 :370（无 RAF 控制）/:769（有容器路径）直读；probe quick 23+23 与 --full 两轮 1,600+1,600
+  实跑，唯一差额 reorder.tsx statement/branch 各 +1，editor 总数 23455→23456 / 18168→18169 与历史失败
+  签名逐数一致（另一次 --full 于末段断言中止、产物与绿轮相同，已登记供复跑知悉）。DS 合同 :574/:591、
+  coverage 门禁锚点（config:96/175、run:234/262/502）直读。可证伪观察与两条非阻断备注（DS 行号
+  off-by-one、排队数断言时机）写入签字块。Kimi 签字于本人审查中途落地，未读其内容、不复述其结论。
+  仅更新本人签字块与本日志；未改实现/正式测试/基线/任务状态、未开始 build。Next：三签齐，Codex 放行
+  build 后本人按白名单实现。
 - 2026-09-06 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
   直读 reorder.tsx:382/699/730/737、既有测试 :370/:769、DS 合同 :573/:591、coverage 配置
   （maxWorkers=2、精确分数、scope 审计）与基线（editor 23456/31407、18169/27329）；
@@ -151,9 +189,17 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
 
 ## 下一位 Agent 提示词
 
-两席可并行读取一手证据；落盘各自只改自己的签字块与交接日志，提交前同步并保留另一席记录。
+### Codex：三签齐后的 build 放行（当前有效）
 
-### GLM：r1 前提与实现可行性审查
+```text
+在 /Users/zhangxu/illegal/type-pal 收口 TEST-COVERAGE-DETERMINISM-1 的 build 准入，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft。
+先同步分支并检查工作树，读本卡三席 build 前签字（Codex/Kimi/GLM 均已 premise verified + design agree，无 counter）与交接日志。
+确认三签齐后由你放行：将任务转 build、更新看板/索引，并把实现交 GLM 按已签白名单执行（只改 reorder.test.tsx 新增一条无容器受控帧用例 + coverage:ratchet 生成基线；单点负控制先红；预期定向 23→24、fast 总数 5,761→5,762）。
+若你认为任一签字证据不足或发现新的阻断，签 counter 列明 file:line 证据，任务保持 draft/rework，不开始实现。
+不得代签、不得让 GLM 在放行前改正式测试/基线；SAVE-ISOLATION-1 仍等用户拍板。
+```
+
+### GLM：r1 前提与实现可行性审查（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 审查 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft，产品基线 2ac4a9de。
@@ -162,7 +208,7 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
 审 r1 的单条受控帧回归、清理、单点负控制和生成基线白名单，给出可证伪观察；签 premise verified + design agree，或带 file:line 的 counter。只写你席位和你日志，提交推送，其他席结论/任务状态不改。三方签字齐后由 Codex 放行，禁止提前修改正式测试、基线或标记 done。
 ```
 
-### Kimi：r1 独立前提与设计审查
+### Kimi：r1 独立前提与设计审查（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 审查 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/tasks/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft，产品基线 2ac4a9de。
