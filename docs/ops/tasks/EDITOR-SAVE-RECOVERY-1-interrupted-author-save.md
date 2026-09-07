@@ -799,6 +799,56 @@ editor精确计数为语句24,489/32,391、分支18,923/28,079、函数6,080/8,1
 七包metrics及测试计数与ratchet新基线逐项零差异，total同样相等，没有抖动或多数重跑放行。
 日志为同一隔离目录的ratchet.log和strict-fast.log。本部分保持build，下一步是整笔复制与读出口，不请求重复设计签字。
 
+### GLM 并行读出口测试分工（2026-09-07，用户要求）
+
+用户在推进本卡时询问“还有glm能做的吗”。安排GLM为ZIP导出/本地试玩补**真实入口的只读准入回归**，
+Codex继续clone/Save As整笔暂存及流式源输入；生产实现仍只由Codex修改。沿用r2设计签字，不新开方案或重签。
+
+- 产品基线固定 `c5781098`；本次分工提交仅改文档。新建独立worktree/分支 `codex/glm-save-read-boundaries`，
+  不复用旧测试返工分支，不切换共享main，不用stash回退。工作中不合入尚在开发的复制/读取实现。
+- 白名单：新增 `packages/editor/src/core/project-read-admission.test.ts`，以及本卡下方GLM读出口回执/日志。
+  可直接复用已有 `__tests__/author-save-fixture.ts`、`author-save-store-fixture.ts` 和真实buildBlankProject，
+  不改共享fixture、旧测试、生产代码、配置/版本/基线/原审计探针；不得复制整份已有测试充数。
+- 调用实际 `collectProjectZipEntries`/`exportProjectZip`/`loadPlayProject`，保留实际current loader、状态解析器、
+  锁和ZIP组装逻辑；mock只限FSA/IDB/下载DOM等环境边界。现有load-play两项是loader路由mock测试，
+  不能用它们代替读取门禁的业务证明；现有zip单测同样保持原样。
+- 这是**先红回归准备**，不是未实现代码的终审：先确认已签合同，再记录当前哪些通过、哪些因已知入口缺口而红。
+  预期红项保留为正常可执行test，不skip/todo、不降低断言、不修改生产去凑绿，也不因此代改整卡状态。
+  导出正控须能真实走到下载边界；DOM未定义、坏fixture或残留注错造成的异常不算门禁证据。
+
+| 覆盖面 | 必须证明的业务边界 | 对应SR |
+|---|---|---|
+| 只读拒绝 | pending/损坏状态拒绝，源作者文件和恢复目录/记录均不被写删，不调用恢复重放 | SR-10/12 |
+| 完整读取夹验 | 状态在读取中变成pending，或完成另一代committed（operationId改变），不能返回旧读取结果/下载 | SR-10/11 |
+| 合作写入互斥 | 已绑定目录读取期间确实持对应workspace锁；用阶段内部entered/gate或真实锁能力证明，不能靠睡眠/一次微任务猜未写入 | SR-11 |
+| ZIP内容 | 仅排除save-recovery临时子树，保留committed状态门、原sandbox/PAL identity及不相关用户文件，不删除磁盘原件 | SR-12 |
+| 可用正控 | 无状态文件的合法current项目及committed项目能读取；ZIP资源校验有效，成功下载一次 | SR-10/12 |
+| 读取故障 | 真NotFound与权限/IO/坏JSON区分，导出失败不生成下载；不把运行中懒加载也声称为原子项目快照 | SR-10 |
+
+不扩展为播放器存档、UI改版、整个.type-pal剔除、ZIP流式压缩或其他新能力。单测不冒充原生跨窗口/OS权限验证。
+对本来就绿的用例，可在独立临时加载中移除相关防护做单点负控制；当前因缺口已红的用例记录准确失败点即可，
+不能虚构“修复后绿”。回执逐项写测试名→SR→当前结果→具体源码/业务原因，不预填数量或覆盖率提升。
+
+GLM跑新文件及相邻zip/load-play定向、editor typecheck，区分预期缺口红与异常失败；不跑全仓check/ratchet/严格fast，
+不写共享coverage输出。本分支允许有明确登记的预期红测试，Codex接收后先修生产并复核，再集成和统一执行质量门。
+超出已知缺口的新前提冲突才签counter并通知Codex；不得代签或提前整卡accept/review/done。
+测试贡献在终审披露，不作为独立第三方自证。
+
+#### GLM 读出口测试回执
+
+待GLM填写：固定基线/分支/提交、白名单diff、测试名与SR映射、当前绿/预期红/异常失败逐项证据，
+定向与typecheck实际退出码、必要的单点负控制、交回Codex需实现的边界。数字从实际提交树和本轮日志生成。
+
+#### GLM 读出口交接日志
+
+待GLM填写本人证据与Codex复核提示词，只改本席，不改共享状态或他席结论。
+
+#### Codex 读出口分工日志
+
+2026-09-07：同步c5781098洁净树，已核现行导出/试玩入口与旧测试；本轮只落分工和提示词，
+尚未新增测试或实现读出口。不把“可交GLM”写成“GLM已开工”，由用户转发下方提示词。
+文档工具20项及400 Markdown/1,812本地链接/140卡检查通过；git diff --check通过，packages/scripts零diff。
+
 ## 交接日志
 
 - 2026-09-07 Codex：同步 041c2fe1 洁净树，复核 A-02 后的 A-03。新增内存当前 API 探针，旧探针/产品/正式测试未动；
@@ -841,9 +891,34 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-当前普通保存/原页重试/打开接线的完整检查、原生验证、ratchet与严格fast均通过；Codex继续整笔复制及读出口。
-GLM测试贡献及独立复核保持记录，无需再转交上述测试返工或重新设计签字。
-以下分工/返工/设计提示词均为历史，完整实现候选冻结后另给两席终审提示词；当前不请求用户验收。
+当前Codex继续整笔复制，GLM按下方新分工并行补读出口先红测试；上一批GLM测试及普通入口接线已通过的复核保持有效。
+本次不重签设计，不转整卡终审。
+本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
+当前不请求用户验收。
+
+### 给 GLM（当前：ZIP/试玩读出口回归）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 协作 EDITOR-SAVE-RECOVERY-1。
+任务卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态build，r2设计有效，不重签。
+先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡SR-10/11/12和“GLM并行读出口测试分工”。
+同步分支检查工作树，从本次分工文档提交建立独立worktree/分支codex/glm-save-read-boundaries；
+核产品相对c5781098零diff，不复用旧返工分支，不切换共享main、不stash回退。
+
+只新增 packages/editor/src/core/project-read-admission.test.ts，写自己的读出口回执/日志。
+调用真实ZIP导出、本地试玩、current loader与读取状态门；只mock FSA/IDB/下载DOM边界，复用现有fixture，
+不改旧测试、共享fixture、生产、配置、版本、baseline或探针。Codex独占生产实现。
+按卡内矩阵覆盖：pending/坏状态拒绝且不重放；读取中换代或变pending拒绝；同workspace锁确实覆盖读取；
+ZIP仅排除save-recovery、保留committed门/identity/用户文件；合法正控可读可下载、失败不下载。
+异步用内部entered/gate或真实锁能力证明，不用睡眠，也不能把坏fixture/残留注错/DOM未定义当门禁。
+
+这是先红测试准备：准确区分现已绿与因已知入口缺口而红；保留可执行红测试，不skip/todo、不改生产凑绿。
+已绿用例如做负控制，只移除一个相关防护并记录业务失败；不能虚报尚未实现的“修复后绿”。
+跑新文件和相邻zip/load-play定向、editor typecheck，按实际提交树生成结果与SR映射。
+直接落本卡“GLM读出口测试回执/交接日志”，提交推送自己的分支，给Codex复核提示词。
+本分支允许明确登记的预期红测试；Codex实现对应保护、复核后再集成及跑全仓质量门。
+不改任务状态、不代签、不标done，不让用户搬运审查正文；新前提冲突才counter交回。
+```
 
 ### 给 GLM（历史：925a89aa测试贡献限定返工，f4245a34已解决）
 

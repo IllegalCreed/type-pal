@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：整合clone/Save As整笔暂存及ZIP/试玩读出口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 普通保存/重试/打开已接；原生重启UI重开/再保存/冲突拒绝通过，完整check 6,586项/严格fast 6,100项通过；整卡未验收。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：clone/Save As实现；GLM：独立worktree补ZIP/试玩读出口测试 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 普通入口已验证；GLM新分工仅测试，已知未实现保护允许明确登记先红；生产仍由Codex独占，r2不重签。 |
 
 ## 阻塞
 
