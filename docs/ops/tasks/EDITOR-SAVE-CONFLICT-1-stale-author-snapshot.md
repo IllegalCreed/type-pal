@@ -189,7 +189,57 @@ Evidence Baseline: 50590cb6
     ⑦ 移除比较 guard 的隔离负控制仍绿；⑧ 新增路径已有无关文件仍被覆盖。
   - 返工项：无。非阻断备注：打开期作者文本+地图原始字节读取成本须按设计登记测量（PAL 规模），
     设计已限定不 hash 音视频二进制；成本数据在 build 期回执核对。
-- GLM：pending（独立数据路径/矩阵与范围）。
+- GLM：**premise verified / design agree（2026-09-07，r1，独立数据路径/矩阵/范围审查；证据全部本人
+  直读/亲跑，未读取 Kimi 签字内容——其签字于本人审查中途落地，本人仅确认席位位置）**。
+  独立证据：
+  - **A-02 本人复跑**：`probe-editor-persistence.mjs` exit 0——A 保存 `Saved by A` 后 B 以旧态顺序保存，
+    磁盘 locale 变回 `主角`、manifest.name=`Edited by B`。**顺序保存即成立，与并发无关**——
+    锁只串行化写入、不识别旧快照的前提由反例直接证实。A-03 同脚本输出（悬空引用重开成功）
+    仅作边界证据，本卡不承诺修复。相邻 4 文件 **51 项本人复跑全绿**——绿测试与可复现丢更新并存，
+    不能当保护已存在的证明 ✓。
+  - **现状无基线直读**：App.tsx:567 `snapshotRef` 初始 null、:2104-2113 首存 `?? new Map()` 传空；
+    project-io.ts diffFiles（:304-332）`remove = [...prev.keys()].filter(rel => !(rel in next))`
+    ——**若把全量磁盘基线当 prev 喂给 diffFiles，每个未加载且不在下一文件集的资源都会被删**。
+    设计明令基线与 prevSnapshot 分责、基线不进 diff/remove，此判断经 remove 语义直读证实为必要
+    而非风格偏好。
+  - **基线采集时机正确性直读**：reforge fsa-source.ts:36-69 的 readText/readJson/readBytes
+    **每次调用都读当前磁盘、无读缓存**（仅 urlFor blob 缓存）——加载完成后重新采盘会采到“新答案”
+    而非 loader 实际消费的旧输入；设计用 editor 私有 FileSource 包装记录实际读取 + 打开完成前
+    一致性验证 + 重复读取变化拒绝，是与此语义匹配的正确机制。finishOpen（open-actions:66-137）
+    现仅夹验 metadata 与 PAL proof，无一般内容夹验 ✓ 卡行准确。
+  - **锁内挂载点直读**：withAuthorizedWorkspaceMutation（:177-200）同步相位门 + 注册锁 +
+    verify→prepare→verify；beginAuthorizedWorkspaceMutation（:315-326）首写前复验；
+    recordAuthorizedWorkspaceWriteCompleted（:275-288）逐写记录且 **palExpectedValues 只覆盖
+    PAL 受控 JSON 路径**——“PAL 指纹不等价全部作者正文”经直读证实。设计要求的“锁内进入时 +
+    真正首个 create/remove 前”双检查点均已有结构可挂载。assertBoundWorkspaceIdentity
+    （:457-483）现只核 identity/metadata/模式，无内容基线 ✓。
+  - **作者文件集独立枚举（本人从 serializeProject 输出侧数出 8 类）**：①场景正文（SceneIndex 路径）
+    ②SceneIndex ③MapIndex ④地图正文（已加载 format / 未加载 copy-through 字节 / 瓦片集上传
+    ArrayBuffer）⑤脚本 index + chunks ⑥manifest 登记内容表 ⑦共享脚本 ⑧catalog 登记资源二进制 +
+    资源注册表 + manifest。设计基线集合逐项对照：manifest/catalog/作者表/共享脚本/SceneIndex+正文/
+    MapIndex+地图原始正文均点名 ✓；**脚本 index+chunks 未逐字点名**（属 manifest 登记作者内容），
+    瓦片集上传类同——设计自带 blank/全表/PAL 序列化输出对账是补此缺口的执行机制，本席将其列为
+    可证伪观察而非 counter。资源二进制不全量 hash、只对将写/删资源查 bytes + 新路径碰撞规则，
+    成本/范围取舍合理。
+  - **入口传递枚举**：本地打开/最近（finishOpen→Opened→Booted→App）、绑定保存
+    （authorizeBoundWorkspaceTarget→withAuthorizedWorkspaceMutation）、首存 HTTP/PAL/sandbox
+    （authorizeFirstSaveTarget + resumesInterruptedAttempt）、另存（saveProjectAs:185-218 空目录门 +
+    源树拷贝 + 目标 finishOpen）——设计对每条路径的基线来源/不缺省降级/不移植源基线的规则与
+    现有结构一一对应；saveProjectAs 先 copyDirRecursive 再 writeProject，“完成自己的写入后建立
+    目标基线”与该结构一致。
+  design agree：只读 AuthorDiskBaseline 不入 manifest/payload/handle-store（无 schema 污染）；
+  从 loader 实际消费读取记录签名（非采后重读）；全基线比较 + 新增/写/删目标原状态检查（不止
+  用户改动表——旧内存可据其他旧表生成新输出）；预期后态只由本次受管写/删推导、dirty 按
+  state/version 判定；PAL proof 叠加不扩权；诚实边界（合作锁、比较后 TOCTOU 不冒称 CAS、
+  A-03 另卡）。
+  可证伪观察：(1) 若基线集合漏掉本席枚举 8 类中任一（尤其脚本 index/chunks、瓦片集上传）而
+  blank/全表/PAL 对账仍通过，则对账机制失效，counter；(2) 若基线流入 diffFiles prev/remove
+  记账致未加载资源被删，“无误删”行失败；(3) 若基线取自加载后重读而非包装记录，同打开时刻的
+  外部变化被静默吸收，“打开时漂移”行失败；(4) 若部分写推进采纳操作后扫盘真值，外部变化被收编，
+  “自己保存/重试”行失败；(5) prevSnapshot 仅初始化的替代方案不解决同文件覆盖且半写后自变，
+  卡内已正确拒绝。
+  非阻断备注：修复后原探针 A-02 断言（旧态保存成功）将失败——探针是修前历史证据，按先例
+  不改探针凑绿，正确性回归由正式测试承担。
 - 独立前提反证：待 Kimi/GLM 至少一席直接读取并给出自己的证据/反例。
 - 缺签豁免：无；build 准入：blocked（仅三签未齐，任务处于 draft）。
 
@@ -202,6 +252,13 @@ Evidence Baseline: 50590cb6
 
 ## 交接日志
 
+- 2026-09-07 GLM：完成 r1 独立数据路径/矩阵/范围审查，签 premise verified + design agree，无返工项。
+  A-02 顺序保存反例本人复跑（exit 0）+ 相邻 51 项绿并存；snapshotRef/diffFiles remove 语义/
+  fsaSource 无读缓存/锁内双检查点挂载结构/finishOpen 夹验范围逐点直读；serializeProject 输出侧
+  独立枚举 8 类作者文件并与基线集合逐项对照（脚本 index/chunks 与瓦片集上传列可证伪观察）；
+  四条入口传递路径与 saveProjectAs 结构核对。五条可证伪观察与探针历史证据备注写入签字块。
+  Kimi 签字中途落地，未读其内容。仅更新本人席位与日志；未改产品/他席/任务状态，不开始 build、
+  不标 done。Next：三签齐后 Codex 放行 build。
 - 2026-09-07 Kimi：完成 r1 独立前提/架构审查，签 premise verified + design agree，无返工项。
   直读保存链（App:567/2104-2113、project-io:304-332/398-426）、打开链（open-actions:66-137、
   fsa-source:36-69、saveProjectAs:185-218）、锁链（workspace-persistence:177-249/315-326、
@@ -226,7 +283,7 @@ Evidence Baseline: 50590cb6
 输出本人 premise verified + design agree（独立证据与可证伪观察），或带 file:line 的 counter/需收窄项，直接写本人席位/日志并提交推送。提交前同步保留他席，不改产品、他席、任务状态，不开始实现、不标 done。若方案关键项仍无法核实则明确 counter，不用泛泛建议放行。
 ```
 
-### GLM（与 Kimi 并行）
+### GLM（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 审 EDITOR-SAVE-CONFLICT-1。任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，draft/r1，产品基线 50590cb6。先同步分支、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡与链接规范/审计。独立读取源码和复现，不读取或复述 Kimi 签字。
