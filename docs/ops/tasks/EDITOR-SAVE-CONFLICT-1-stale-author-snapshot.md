@@ -154,7 +154,41 @@ Evidence Baseline: 50590cb6
 - Codex：**premise verified / design agree（2026-09-07，r1 候选）**。直读上述链路与 Web Locks/FSA 一手规范，
   复跑原探针 A-02/A-03 和相邻 51 项。支持先做冲突基线而不造目录事务；可证伪观察为基线采样晚于旧态、
   新增/删路径漏守卫、部分写推进收编外部值、未加载资源误删、PAL 权限回退中的任一项。两席未签前不实现。
-- Kimi：pending（独立前提/架构与失败边界）。
+- Kimi：**premise verified / design agree（2026-09-07，r1，基线 50590cb6；全部证据本人直读/复跑，未读 GLM 签字）**。
+  - **保存链直读**：`App.tsx:567` snapshotRef 初始 null；`:2104-2113` 首存传空 Map、prev 兼作
+    落盘日志（按成功 close 逐条推进）；`project-io.ts:398-426` 无 prev 全写/有 prev 增量；
+    `:304-332` diffFiles 的 remove = prev 有而 next 无——**全量基线若喂给 diffFiles 必误删未加载
+    资源**，设计警告在源码中成立；prev 半写即变、不能兼任不可变打开基线（「仅初始化 prevSnapshot」
+    替代解释据此排除）。
+  - **打开链直读**：`open-actions.ts:66-137` finishOpen 只对 workspace metadata 与 PAL proof 做
+    前后夹验；一般内容由 `fsa-source.ts:36-69` 每次调用重读当前磁盘——普通作者会话确无绑定
+    打开时完整内容基线。`saveProjectAs`（:185-218）空目录门+源树拷贝+写后 finishOpen 直读在案。
+  - **锁链直读**：`workspace-persistence.ts:177-249` 双 verify + Web Lock 内串行；
+    `handle-store.ts:74-117` `navigator.locks` `type-pal-workspace:${id}` exclusive +
+    非窗口尾链 fallback（不冒称跨窗口）；`project-io.ts:344/525`、`fsa-copy.ts:65`
+    **beginAuthorizedWorkspaceMutation 锁内首写前复验钩子已存在**（现为 identity/policy 校验），
+    设计把作者基线验证叠加进同一钩子是正确层、不需新锁；PAL 期望指纹/部分推进纪律
+    （:255-330）已存在，设计沿用而非削弱。
+  - **A-02 本人复跑**：exit 0——A 存 `Saved by A`、B 旧态写回 `主角` 且 manifest.name=
+    `Edited by B`；A 完全结束后 B 再写亦成立（互斥≠旧态检测）。A-03 同探针复现，明确另卡，
+    不混入本卡承诺。
+  - **相邻基线复跑**：project-io/open-local/open-actions/workspace-persistence **4 文件/51 项
+    全绿**，与反例并存——不冒充冲突已被保护。
+  - **设计同意**：基线从 loader 实际消费的读取记录签名（editor 私有 FileSource 包装，不改公共
+    接口），重复读漂移/前后集合不一致拒绝打开——对应真实打开输入而非事后采样；集合以已读
+    manifest/index 推导（登记作者表/共享脚本/SceneIndex/正文/MapIndex/地图原始字节），序列化
+    输出对账防漏；懒地图只读原始字节取签名不 hydrate；资源二进制默认不全量 hash、写/删目标
+    才查实际 bytes、新增路径须不存在；与 prevSnapshot 分责、不喂 diffFiles；锁内进入与首个
+    create/remove 前均检、nested mutation 复用不重入；部分写预期后态只由本次证实成功的写/删
+    推导、实际==预期才推进、外部混入拒收编；PAL proof 叠加不削弱；玩家存档隔离/工作区身份/
+    界面/地图懒解析/资源格式均不动；A-03/A-07/D-01 明确另卡，无合并/覆盖/旁车/新版本。
+  - **可证伪观察**（任一反例即 counter）：① 原树基线已完整入锁且 B 在首写前被拒 → 前提倒
+    （探针否定）；② 基线采样晚于旧内存构建（打开期漂移漏检）；③ 基线集合以序列化对账发现
+    漏路径（商店/脚本/场景/地图任一类）；④ 全量基线被 diffFiles remove 消费致未加载资源误删；
+    ⑤ 部分写后按重扫盘推进、收编外部新值；⑥ PAL 首绑定从待写目标补采 proof 或削弱指纹链；
+    ⑦ 移除比较 guard 的隔离负控制仍绿；⑧ 新增路径已有无关文件仍被覆盖。
+  - 返工项：无。非阻断备注：打开期作者文本+地图原始字节读取成本须按设计登记测量（PAL 规模），
+    设计已限定不 hash 音视频二进制；成本数据在 build 期回执核对。
 - GLM：pending（独立数据路径/矩阵与范围）。
 - 独立前提反证：待 Kimi/GLM 至少一席直接读取并给出自己的证据/反例。
 - 缺签豁免：无；build 准入：blocked（仅三签未齐，任务处于 draft）。
@@ -168,6 +202,14 @@ Evidence Baseline: 50590cb6
 
 ## 交接日志
 
+- 2026-09-07 Kimi：完成 r1 独立前提/架构审查，签 premise verified + design agree，无返工项。
+  直读保存链（App:567/2104-2113、project-io:304-332/398-426）、打开链（open-actions:66-137、
+  fsa-source:36-69、saveProjectAs:185-218）、锁链（workspace-persistence:177-249/315-326、
+  handle-store:74-117）——锁内首写前复验钩子 beginAuthorizedWorkspaceMutation 已存在
+  （project-io:344/525、fsa-copy:65），设计叠加作者基线验证于同一钩子、不重入锁；PAL 指纹/
+  部分推进纪律沿用。复跑 probe-editor-persistence：A-02 顺序覆盖成立（exit 0），A-03 另卡；
+  复跑相邻 4 文件/51 项全绿（不冒充已保护）。八条可证伪观察与一条成本测量备注已写入签字块。
+  未改产品/他席/状态，未读 GLM 签字。Next：GLM 并行签字；两席齐后 Codex 放行 build。
 - 2026-09-07 Codex：前卡已按用户验收归档（50590cb6），开始下一组只读根因与方案；复现 A-02/A-03、相邻 51 项绿。
   拆出本 r1，仅作者冲突检测；中断恢复/离开/撤销另续。没有改产品、原探针或当前内容，未创建恢复旁车。
   Kimi/GLM 并行审本 revision，各自只写自己的签字/日志并提交推送，不变更他席或状态。
