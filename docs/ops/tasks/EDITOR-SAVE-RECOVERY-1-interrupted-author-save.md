@@ -836,12 +836,57 @@ GLM跑新文件及相邻zip/load-play定向、editor typecheck，区分预期缺
 
 #### GLM 读出口测试回执
 
-待GLM填写：固定基线/分支/提交、白名单diff、测试名与SR映射、当前绿/预期红/异常失败逐项证据，
-定向与typecheck实际退出码、必要的单点负控制、交回Codex需实现的边界。数字从实际提交树和本轮日志生成。
+**2026-09-07 GLM（分支 `codex/glm-save-read-boundaries`，独立 worktree `type-pal-glmread`，
+基于分工提交 `8dac68e5`，产品基线 `c5781098` 零触碰）。** 白名单 diff：仅新增
+`packages/editor/src/core/project-read-admission.test.ts` 与本回执/日志；不改旧测试、共享
+fixture、生产、配置、baseline、探针。
+
+**调用域**：真实 `exportProjectZip`/`loadPlayProject`/`finishOpen`/current loader/状态门/Web Locks
+代码；仅 mock FSA（memoryAuthorDirectory）、IndexedDB（handle-store/author-save-store 记忆替身）、
+下载 DOM（node 环境最小 document 桩 + URL.createObjectURL 捕获）、navigator.locks（内存独占锁实现，
+真实锁代码路径）。试玩换代用例用测试内 `Blob.text` 边界插桩在 manifest 读取点翻转状态
+（原始 fsaSource 的 readText 不经 fixture 的 arrayBuffer 钩子——instrumentation 层，不替身逻辑）。
+
+**15 项：9 绿 + 6 预期红（每红落在精确期望，非 fixture 错误）。**
+
+| 状态 | 测试（名内含标注） | 证据/缺口 |
+|---|---|---|
+| 绿 | 合法 committed 项目可经本地试玩入口装载 | 正控 |
+| 绿·SR-10 | pending 经试玩读取被拒，不写删源文件、不自动恢复 | **loader 级状态门**（project-loader:325 withStableProjectRead→assertProjectSaveReadable）；files 前后逐字节相等 |
+| 绿·SR-10 | 损坏/200-HTML 状态经试玩读取被拒 | readProjectSaveState 对非 JSON 抛“无法读取” |
+| 绿·SR-10 | 试玩读取期间换代拒绝返回结果 | loader 级夹验；Blob.text 插桩翻转 OP_A→OP_B 后拒“读取期间” |
+| **红·SR-11** | 试玩读取期间应持有该 workspace 独占锁 | 实测 ifAvailable 探针**可获取**（observed undefined→acquired）——试玩未持 W 锁 |
+| 绿 | 合法 committed 项目可导出下载 | 点击 1 次、`read-admission.zip`、blob>0 |
+| 绿 | 校验失败（缺 manifest）不下载 | rejects + 0 点击 0 blob |
+| **红·SR-10** | pending 必须拒绝导出且不下载 | 实测 resolved 且已下载 |
+| **红·SR-10** | 损坏状态必须拒绝导出且不下载 | 实测 resolved 且已下载 |
+| **红·SR-10** | 导出收集期间换代必须拒绝且不下载 | fixture arrayBuffer 钩子翻转后仍 resolved+下载 |
+| **红·SR-12** | ZIP 仅排除 save-recovery，保留 committed 门/identity/用户文件 | 实测 zip 字节含 `.type-pal/save-recovery`（plan.json+blob 入包）；save-state/workspace marker/user-notes 亦在内（后三者本就应保留） |
+| **红·SR-11** | 导出收集期间应持有该 workspace 独占锁 | 探针可获取 |
+| 绿 | 无凭据 pending 目录经普通打开入口拒绝 | MissingAuthorSaveReceiptError 路径 |
+| 绿 | 打开读取期间换代拒绝 | open-actions:88 withStableProjectRead 夹验 |
+| 绿 | 打开读取期间持有该 workspace 独占锁 | finishOpen 发现锁+登记锁嵌套持有期间 ifAvailable 探针返回 null |
+
+**单点负控制（隔离 config，仅移除 project-loader `loadCurrentProjectFrom` 的 withStableProjectRead
+包裹）**：试玩换代绿用例 **exit 1 红**（翻转被静默吸收、装载 resolved）——loader 级夹验为必需防护；
+正常对照绿。config：`/tmp/glm-read-mutant.config.mts`（临时，可重建）。
+
+**实跑**：定向 `project-read-admission.test.ts` 15 项（9 绿/6 预期红）；相邻
+`load-play-project.test.ts` 2/2 绿；editor typecheck exit 0；biome 该文件零诊断。
+node 环境（与相邻 fixture 一致，资产 gzip 需 undici Response#stream）。
+
+**交回 Codex 需实现的边界（使 6 红转绿）**：① exportProjectZip 入口接状态门
+（pending/损坏/收集期夹验，失败零下载）；② ZIP 收集仅排除 `.type-pal/save-recovery/` 子树
+（保留 committed 门、identity、用户文件）；③ 试玩与导出读取在对应 workspace 独占锁内进行
+（试玩入口当前无 workspace 身份入参——锁的接入点在 Codex 的入口接线设计内）。本席未改生产凑绿，
+无 skip/todo；任务状态/他席未动。
 
 #### GLM 读出口交接日志
 
-待GLM填写本人证据与Codex复核提示词，只改本席，不改共享状态或他席结论。
+2026-09-07：完成读出口先红测试 15 项（9 绿/6 预期红，逐项标注+证据）；关键勘误：试玩入口的
+状态门/夹验**已在 loader 级存在**（project-loader:325），与卡面“未门控”的预期不同——已按实测
+改判为绿对照，真正缺口收敛为试玩锁与导出全部五项。负控制证明 loader 夹验为必需。分支已提交推送，
+交 Codex 复核并实现对应保护；本席不改任务状态、不代签、不标 done。
 
 #### Codex 读出口分工日志
 
