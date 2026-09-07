@@ -399,6 +399,8 @@ R4 登记同一跨页恢复链与恢复后本地试玩，无玩家战斗/剧情�
 
 ## build 执行进度（2026-09-07，非验收候选）
 
+### 第一部分（de9255a1，历史实现回执）
+
 已核三方 r2 设计签名（Kimi a88f3056、GLM 63649751），没有 counter、缺签或产品前提变化。
 当前落地第一部分：恢复记录/计划/前缀的严格校验与 IDB 存储基础，以及实际 current loader 的只读状态门。
 
@@ -438,6 +440,71 @@ R4 登记同一跨页恢复链与恢复后本地试玩，无玩家战斗/剧情�
 4. SR-01～12正式故障矩阵、ready/前缀/handle负控制、原生隔离浏览器跨页/权限验证及成本实测；完成后才冻结候选送终审。
 
 本卡仍为build，A-03尚未标修复；当前没有需要用户手工验收或再次拍板的项目。
+
+### 第二部分：目录暂存与恢复内核（本轮；尚未接入顶层入口）
+
+新增 `author-save-journal.ts`：原始active mutation校验 → 私有目录逐文件暂存 → 冻结计划/完整目标验证 →
+ready凭据 → pending标志 → 按issued/完成游标写入 → data-complete/已有policy收口 → committed标志 → 仅清理本次已核文件。
+回读精确标志可识别“close实际成功但确认失败”；元数据坏形状、错误绑定、越序状态及外部作者变更均拒绝重放。
+私有恢复凭据显式带current contentVersion，不重放跨内容版本的准备记录，不新增upgrader。
+
+`workspace-persistence` 增加只面向真实active mutation的保存证据/固定私有文件许可和任务生命周期跟踪：
+首存空目录检查只允许本次已核的私有准备文件，不忽略整个.type-pal；已开始的journal任务即使调用者漏await，
+也必须结束后才释放原目录锁。原有PAL预期/作者基线/登记收口复用并集中，完成后拒绝追加作者写入。
+FSA内存fixture补齐空目录删除和文件/目录类型冲突语义，没有改变原有业务断言。
+
+验证事实：
+
+- journal定向 **44项** 通过：首存（含manifest尚不存在）、普通增量、沙盒、catalog双写、删除中断、
+  close前/后失败、IDB各阶段失败、元数据/字节损坏、错误绑定、复制目录、外部修改、清理失败及未await任务的锁生命周期。
+- 三份独立负控制只在临时Vite加载钩子中变更一个位置，不stash、不改仓库源码：去掉封存视图验证 → 非法目标被保存；
+  去掉恢复准入的完整前缀核对 → 外部locale已变仍先写3个作者文件；去掉已登记句柄核对 → 错误绑定仍被重放。
+  三者各自exit1，正常实现对应3项对照绿。临时配置 `/tmp/type-pal-save-recovery.hUrhFF/mutant.config.mjs`。
+- 原生浏览器内核验证已实跑：专用Chromium资料 + 原生OPFS/FSA/IndexedDB/Web Locks，初次完整保存后新增人物/实体，
+  在actors的真实close前注错；随后**关闭并重新启动浏览器**，不复用旧页面对象，从持久句柄/恢复记录重放。
+  最终人物体力上限237、场景actor引用同时保留，项目重新载入/序列化通过，pending→committed，清理无警告。
+  最终operationId `27730427-867e-4902-bfa5-a078f6ac418f`；
+  回执 `/tmp/type-pal-save-recovery.hUrhFF/native-result.json`，脚本同目录 `native.mjs`。
+- 首次在6010手动导入模块时遇到热更新后同文件不同URL形成两份WeakMap，权限门正确拒绝；未放宽品牌校验。
+  改用自建6011冷实例/独立cache，后续成功；补生命周期/标志确认及身份检查后用新浏览器资料最终复验。
+  自建6011已停止，未重启/清理用户6010或用户浏览器资料。
+- 原生验证是**后端API + OPFS**，不是OS目录选择器、不是按钮链验收、不是断电事务；PAL新内核路径与大克隆成本仍待补。
+- 完整 `pnpm check` **550文件/6,545项** 通过（editor 202文件/1,977项；game 123文件/2,307项）；
+  typecheck通过，lint仍为既有50warnings/11infos、0errors。初次ratchet遇到game计时波动，修正和后续覆盖率回执见下。
+
+**本轮没有将新内核接到 App 的保存按钮、普通writeProject、finishOpen自动调用、clone/Save As、ZIP/试玩的全部入口。**
+现有writer/打开函数代码未改，测试显式调用内核；不能把这份API证据宣传成用户已能自动恢复。
+下一步按同一r2接入这些入口，并完成own retry/dirty归属、各模式和发布闭包检查，再补剩余覆盖率和UI最小验收。
+恢复的内容语义由必填只读封存验证器校验；生产接入时必须接现行完整校验（含资源bytes/hash/格式），不能传空验证器。
+当前无新产品裁决/设计重签要求，不交终审、不标done。
+
+### 2026-09-07 验证中发现的一阶段测试时钟缺口（单文件测试修补）
+
+本轮ratchet被未修改的game包阻断：statements 11,379（基线11,387）、branches 7,480（7,487）、
+functions 1,302（1,303）、lines 10,255（10,262），测试仍为2,250项。按同一fast配置独立只跑game，
+精确计数恢复基线；这不是多数通过放行，已用两份逐文件coverage/LCOV定位全部差值只来自
+`packages/game/src/tools/tools-panel.ts:1004-1012` 的250ms真实setInterval及其battleSig调用。
+`tools-panel.test.ts` 没有受控时间或轮询断言，beforeEach只清DOM，计时回调是否赶上用例结束取决于耗时。
+
+按用户既有“小需求免三签、补充测试提升覆盖率”要求，同Owner同会话作一项单文件测试修补：
+只调整 `packages/game/src/tools/tools-panel.test.ts`，控制并清理用例时钟、补真实setupToolsPanel轮询断言；
+不修改一阶段产品源码、原版机制、全局配置/超时/排除，不调整已有断言去迁就失败。
+这是验证范围新增的一项测试设施修正，不改变r2恢复前提/用户行为/架构，三方设计签字不重开。
+取证保留在 `/tmp/type-pal-save-recovery.hUrhFF/game-failed-summary.json`、`game-failed.lcov` 与 `game-comparison/`。
+
+修正后单文件15项通过；隔离加载中仅让真实轮询回调立即return，新轮询回归即exit1（250ms后DOM未刷新），
+正常对照通过。按原fast配置独立game复算为statements11,389、branches7,498、functions1,308、lines10,263，
+均高于原基线；随后完整ratchet中game精确计数相同，测试2,251项。没有更改tools-panel.ts或game配置/超时。
+
+### 本轮覆盖率回执与剩余验证
+
+修正时钟问题后 `pnpm coverage:ratchet` 通过，生产范围616文件、fast测试6,059项，基线只升不降（12项提升/6项范围变化）。
+editor精确计数：statements24,333/32,212，branches18,799/27,948，functions6,045/8,142，lines21,995/28,129；
+当前journal单文件行323/335（96.41%）、函数49/49（100%）、分支213/248（85.88%）。
+**journal分支尚未达到本卡90%目标，必须随剩余入口/模式/错误路径回归继续补齐；不能以全仓ratchet通过代替本卡达标。**
+随后单次严格 `pnpm coverage:fast` 已通过：616生产文件/6,059项测试，全部精确指标与新基线一致。
+game四项计数与修正后的独立复算/ratchet一致；editor为218生产文件/1,820项，计数同上，没有多数重试放行。
+doc检查400 Markdown/1,812本地链接/140卡、20项doc工具测试与git diff --check通过；本卡仍非review候选。
 
 无下一位 Agent 提示词：本卡继续由 Codex 实现，当前不交终审、不请求重复设计签字。
 

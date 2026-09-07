@@ -59,9 +59,9 @@ export function memoryAuthorDirectory(initial: Record<string, unknown> = {}) {
       },
       async getDirectoryHandle(name: string, opts?: { create?: boolean }) {
         const path = pathOf(name)
+        if (files.has(path)) throw new DOMException(path, 'TypeMismatchError')
         if (!directories.has(path)) {
           if (!opts?.create) throw new DOMException(path, 'NotFoundError')
-          if (files.has(path)) throw new DOMException(path, 'TypeMismatchError')
           directories.add(path)
           changes.creates.push(path)
         }
@@ -110,7 +110,12 @@ export function memoryAuthorDirectory(initial: Record<string, unknown> = {}) {
       async removeEntry(name: string) {
         const path = pathOf(name)
         await hooks.beforeRemove?.(path)
-        if (!files.delete(path)) throw new DOMException(path, 'NotFoundError')
+        if (directories.has(path)) {
+          if ([...files.keys(), ...directories].some((entry) => entry.startsWith(`${path}/`)))
+            throw new DOMException(path, 'InvalidModificationError')
+          directories.delete(path)
+          handles.delete(path)
+        } else if (!files.delete(path)) throw new DOMException(path, 'NotFoundError')
         changes.removes.push(path)
       },
     } as unknown as FileSystemDirectoryHandle

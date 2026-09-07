@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-07T07:00:17.912Z",
+  "generatedAt": "2026-09-07T08:54:17.335Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 615,
-  "testCount": 6012,
+  "sourceFileCount": 616,
+  "testCount": 6059,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1831,7 +1831,7 @@
       ],
       "scopeDigest": "172860557359800006b54684305c95556da2645892e450c2d5b4891297aba98e",
       "fastTests": {
-        "testCount": 2250,
+        "testCount": 2251,
         "testFileCount": 118,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -2541,29 +2541,29 @@
           },
           {
             "file": "packages/game/src/tools/tools-panel.test.ts",
-            "testCount": 14,
-            "identityDigest": "b7f470fb06ce2952389c25dccfb3e7a850644d7a55a187a338136b48cc2222f3"
+            "testCount": 15,
+            "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "20c84cb7a9eb74d88b45b89c4a93577af0f4db12a47cf6806369bb68acbda07e",
+        "identityDigest": "e02197f41d89ecc6a78848841e73f229a8a82d9fdbe36c58c74b1aac21f42fa4",
         "duplicateIdentityCount": 0,
-        "executionDigest": "1040d6e314a00d5a2d2fb2ef91feae51a27288de549a4e025a891302ddc2daf7"
+        "executionDigest": "92ffe0ce931cca0bab3361ad6b658b5ca4d1a1cbae8b18dd4fce3c2dbd6c2c0f"
       },
       "metrics": {
         "statements": {
-          "covered": 11387,
+          "covered": 11389,
           "total": 15494
         },
         "branches": {
-          "covered": 7487,
+          "covered": 7498,
           "total": 11281
         },
         "functions": {
-          "covered": 1303,
+          "covered": 1308,
           "total": 1843
         },
         "lines": {
-          "covered": 10262,
+          "covered": 10263,
           "total": 13604
         }
       }
@@ -2580,7 +2580,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 217,
+      "sourceFileCount": 218,
       "sourceFiles": [
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
@@ -2589,6 +2589,7 @@
         "packages/editor/src/core/audio-preview.ts",
         "packages/editor/src/core/author-command-edit.ts",
         "packages/editor/src/core/author-disk-baseline.ts",
+        "packages/editor/src/core/author-save-journal.ts",
         "packages/editor/src/core/author-save-plan.ts",
         "packages/editor/src/core/author-save-prefix.ts",
         "packages/editor/src/core/author-save-store.ts",
@@ -2800,10 +2801,10 @@
         "packages/editor/src/ui/stamp-placement-selection-overlay.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "7ae895248555ee211d2d585c5f1144e6a59ab35a4b147b930e8c6b7c333ac047",
+      "scopeDigest": "ed25865086ac2d281abae20df88deb2110a475ef07c67ca759766b3adada569e",
       "fastTests": {
-        "testCount": 1774,
-        "testFileCount": 183,
+        "testCount": 1820,
+        "testFileCount": 184,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2814,6 +2815,7 @@
           "packages/editor/src/core/audio-preview.test.ts",
           "packages/editor/src/core/author-command-edit.test.ts",
           "packages/editor/src/core/author-save-conflict.test.ts",
+          "packages/editor/src/core/author-save-journal.test.ts",
           "packages/editor/src/core/author-save-plan.test.ts",
           "packages/editor/src/core/author-save-prefix.test.ts",
           "packages/editor/src/core/author-save-store.test.ts",
@@ -3036,6 +3038,11 @@
             "identityDigest": "eeda313a3316ece692e6d927690b747175d9aa3e900935fdd759aeb7bc9be245"
           },
           {
+            "file": "packages/editor/src/core/author-save-journal.test.ts",
+            "testCount": 44,
+            "identityDigest": "54fdb08c531b18b3160eda98a1ae08f23982a733cd81e30adf2cbf9406eba73b"
+          },
+          {
             "file": "packages/editor/src/core/author-save-plan.test.ts",
             "testCount": 49,
             "identityDigest": "ad870d5b2b93681be0559892f5c91698dcc6476c00ba1ac1a7d7926f146295d1"
@@ -3047,8 +3054,8 @@
           },
           {
             "file": "packages/editor/src/core/author-save-store.test.ts",
-            "testCount": 26,
-            "identityDigest": "a930d252140594d6f76c50480113e62dcc0c17cac7b54804a3beca45390cb69e"
+            "testCount": 28,
+            "identityDigest": "8e13ba417a4c99e3e60f7bacd5edd6fc1a246ff0b381d4b974224715858dbb8e"
           },
           {
             "file": "packages/editor/src/core/battle-data-delete-commands.test.ts",
@@ -3906,46 +3913,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "77314388f647b06a01a98b1ecef45ed49c6a2117cd3182f8e486e5d4a14ebc0f",
+        "identityDigest": "f870aeed3d0b15769d9bbf028cfaf9bd3a20e9014f3af5862d512e740bfba7dd",
         "duplicateIdentityCount": 8,
-        "executionDigest": "53b9541dde990f7b96fc293e71949265d7e9a9be72f0358b956eb5bab77ffa0e"
+        "executionDigest": "0beb3caab8f316508d7a80e9cbdde9ce3b08472d2640da80611be9026897e6ca"
       },
       "metrics": {
         "statements": {
-          "covered": 23916,
-          "total": 31764
+          "covered": 24333,
+          "total": 32212
         },
         "branches": {
-          "covered": 18508,
-          "total": 27621
+          "covered": 18799,
+          "total": 27948
         },
         "functions": {
-          "covered": 5985,
-          "total": 8082
+          "covered": 6045,
+          "total": 8142
         },
         "lines": {
-          "covered": 21614,
-          "total": 27729
+          "covered": 21995,
+          "total": 28129
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 52798,
-      "total": 78776
+      "covered": 53217,
+      "total": 79224
     },
     "branches": {
-      "covered": 37801,
-      "total": 62002
+      "covered": 38103,
+      "total": 62329
     },
     "functions": {
-      "covered": 10013,
-      "total": 14483
+      "covered": 10078,
+      "total": 14543
     },
     "lines": {
-      "covered": 47719,
-      "total": 68912
+      "covered": 48101,
+      "total": 69312
     }
   }
 }

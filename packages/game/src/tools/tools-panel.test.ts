@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
 import { __resetSpeedrunForTest } from './speedrun/index.js'
 import { setupToolsPanel, type ToolsPanelDeps } from './tools-panel.js'
@@ -49,9 +49,34 @@ function openSystemTab(): void {
 
 describe('tools-panel 框架', () => {
   beforeEach(() => {
+    vi.useFakeTimers()
     document.body.innerHTML = ''
     document.getElementById('tp-tools-style')?.remove()
     __resetSpeedrunForTest()
+  })
+  afterEach(() => {
+    vi.clearAllTimers()
+    vi.useRealTimers()
+  })
+
+  it('战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘', () => {
+    setupToolsPanel(mkDeps())
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
+    ;[...document.querySelectorAll('.tp-tab')]
+      .find((tab) => tab.textContent === '战斗')!
+      .dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    const body = document.querySelector('.tp-body')!
+    const initial = body.firstChild
+    vi.advanceTimersByTime(249)
+    expect(body.firstChild).toBe(initial)
+    vi.advanceTimersByTime(1)
+    expect(body.firstChild).not.toBe(initial)
+    const polled = body.firstChild
+    vi.advanceTimersByTime(250)
+    expect(body.firstChild).toBe(polled)
+    ;(document.querySelector('.tp-close') as HTMLElement).click()
+    vi.advanceTimersByTime(250)
+    expect(body.firstChild).toBe(polled)
   })
 
   it('setup 挂根节点(默认隐藏) + 唤出印钮 + 6 个左竖 tab + 注入样式', () => {
@@ -342,5 +367,17 @@ describe('tools-panel 框架', () => {
     // 灵葫 chip(.s-collect):火神龙=7、史莱姆=无
     const collectChips = [...document.querySelectorAll('.s-collect')].map((e) => e.textContent)
     expect(collectChips).toEqual(['7', '无'])
+    // Exercise the actual battle signature deterministically, rather than incidentally after 250ms.
+    vi.advanceTimersByTime(250)
+    const body = document.querySelector('.tp-body')!
+    const previous = body.firstChild
+    battleGs.battleState.turn += 1
+    battleGs.battleState.enemies[0]!.e.health = 77
+    vi.advanceTimersByTime(250)
+    expect(body.firstChild).not.toBe(previous)
+    expect(body.textContent).toContain('77')
+    const refreshed = body.firstChild
+    vi.advanceTimersByTime(250)
+    expect(body.firstChild).toBe(refreshed)
   })
 })

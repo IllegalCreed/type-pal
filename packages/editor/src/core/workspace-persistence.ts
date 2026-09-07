@@ -5,11 +5,14 @@ import {
   bindAuthorBaseline,
   createEmptyAuthorDiskBaseline,
 } from './author-disk-baseline.js'
+import { assertSaveOperationId } from './author-save-plan.js'
+import { binarySnapshotSignature } from './binary-signature.js'
 import {
   findWorkspaceRecordByHandle,
   loadWorkspaceRecord,
   saveWorkspaceHandleUnderLock,
   type WorkspaceHandleRecord,
+  type WorkspaceRegistrationLock,
   withWorkspaceDiscoveryLock,
   withWorkspaceRegistrationLock,
 } from './handle-store.js'
@@ -53,6 +56,12 @@ interface AuthorizedMutationState {
   palExpectedValues?: Map<string, unknown>
   author: AuthorDiskMutation
   pendingRegistration?: { context: WorkspaceContext; name: string }
+  registrationLock: WorkspaceRegistrationLock
+  dataFinalized?: boolean
+  privateFiles?: Map<string, string>
+  privateOperationId?: string
+  saveJobs?: Promise<unknown>[]
+  saveJobsClosed?: boolean
 }
 
 const authorizedTargets = new WeakMap<object, AuthorizedTargetState>()
@@ -65,6 +74,8 @@ const firstSaveAuthorBaselines = new WeakMap<
 >()
 type SandboxBootstrapTarget = Readonly<{ __sandboxBootstrap?: never }>
 const sandboxBootstrapDirs = new WeakMap<object, FileSystemDirectoryHandle>()
+const privateSaveScopes = new WeakMap<FileSystemDirectoryHandle, AuthorizedMutationState>()
+const saveOwnerNonces = new WeakMap<WorkspaceContext, string>()
 
 export type WorkspaceMetadataState<T> =
   | { kind: 'missing' }
@@ -144,6 +155,31 @@ function authorizeSandboxBootstrap(dir: FileSystemDirectoryHandle): SandboxBoots
 }
 
 export async function assertDirectoryEmpty(dir: FileSystemDirectoryHandle): Promise<void> {
+  const scope = privateSaveScopes.get(dir)
+  if (scope?.active && scope.privateFiles) {
+    const allowed = scope.privateFiles
+    const visit = async (current: FileSystemDirectoryHandle, prefix = ''): Promise<void> => {
+      for await (const [name, handle] of current.entries()) {
+        const path = `${prefix}${name}`
+        if (handle.kind === 'directory') {
+          if (![...allowed.keys()].some((file) => file.startsWith(`${path}/`)))
+            throw new Error(`目标文件夹必须为空（发现 ${path}）`)
+          await visit(handle as FileSystemDirectoryHandle, `${path}/`)
+        } else {
+          const signature = allowed.get(path)
+          if (
+            !signature ||
+            (await binarySnapshotSignature(
+              await (await (handle as FileSystemFileHandle).getFile()).arrayBuffer(),
+            )) !== signature
+          )
+            throw new Error(`目标文件夹必须为空（发现未知文件 ${path}）`)
+        }
+      }
+    }
+    await visit(dir)
+    return
+  }
   const entries = (
     dir as unknown as {
       entries(): AsyncIterable<[string, FileSystemDirectoryHandle | FileSystemFileHandle]>
@@ -185,6 +221,85 @@ export function authorizedDirectory(
   return state.target.dir
 }
 
+/** Evidence and fixed private paths are available only to an authentic active mutation. */
+export function authorizedSaveScope(mutation: AuthorizedWorkspaceMutation) {
+  const state = mutation && authorizedMutations.get(mutation)
+  if (!state?.active || state.dataFinalized) throw new Error('保存恢复缺少有效的原始写入授权')
+  let ownerNonce = saveOwnerNonces.get(state.target.workspace)
+  if (!ownerNonce) {
+    ownerNonce = crypto.randomUUID()
+    saveOwnerNonces.set(state.target.workspace, ownerNonce)
+  }
+  return {
+    dir: state.target.dir,
+    workspace: state.target.workspace,
+    ownerNonce,
+    signatures: state.author.snapshot(),
+    registrationName: state.pendingRegistration?.name ?? null,
+  }
+}
+
+/** A started journal job keeps the identity lock alive even if its caller forgets to await it. */
+export function withAuthorizedSaveJob<T>(
+  mutation: AuthorizedWorkspaceMutation,
+  operation: () => Promise<T>,
+): Promise<T> {
+  const state = mutation && authorizedMutations.get(mutation)
+  if (!state?.active || state.dataFinalized || state.saveJobsClosed)
+    return Promise.reject(new Error('保存恢复缺少有效的原始写入授权'))
+  const job = (async () => operation())()
+  state.saveJobs ??= []
+  state.saveJobs.push(job)
+  void job.catch(() => {}) // the scope awaits/rethrows it; never leave a detached rejection
+  return job
+}
+
+export function allowAuthorizedSavePrivateFile(
+  mutation: AuthorizedWorkspaceMutation,
+  operationId: string,
+  path: string,
+  signature: string,
+): void {
+  const state = mutation && authorizedMutations.get(mutation)
+  if (!state?.active || state.dataFinalized) throw new Error('拒绝未授权的恢复元数据准备')
+  assertSaveOperationId(operationId)
+  const prefix = `.type-pal/save-recovery/${operationId}/`
+  const suffix = path.startsWith(prefix) ? path.slice(prefix.length) : ''
+  if (
+    path !== '.type-pal/save-state.json' &&
+    suffix !== 'plan.json' &&
+    !/^blobs\/[0-9a-f]{64}$/.test(suffix)
+  )
+    throw new Error('恢复元数据路径越界')
+  if (state.privateOperationId && state.privateOperationId !== operationId)
+    throw new Error('一次授权不能准备多个恢复计划')
+  state.privateOperationId = operationId
+  state.privateFiles ??= new Map()
+  state.privateFiles.set(path, signature)
+  privateSaveScopes.set(state.target.dir, state)
+}
+
+/** Content/proof/recent completion before the durable committed marker is published. */
+export async function completeAuthorizedWorkspaceData(
+  mutation: AuthorizedWorkspaceMutation,
+): Promise<void> {
+  const state = mutation && authorizedMutations.get(mutation)
+  if (!state?.active) throw new Error('保存收口缺少有效授权')
+  if (state.dataFinalized) return
+  const { workspace, dir } = state.target
+  if (workspace.mode === 'pal-development' && state.palExpectedValues) {
+    const expected = await fingerprintPalExpectedValues(workspace, state.palExpectedValues)
+    if ((await palDevelopmentTargetFingerprint(workspace, dir)) !== expected)
+      throw new Error('PAL 开发基线写入后的关键快照与本次编辑器操作不一致，拒绝推进会话')
+    palExpectedFingerprints.set(workspace, expected)
+  }
+  await state.author.finish()
+  const pending = state.pendingRegistration
+  if (pending)
+    await saveWorkspaceHandleUnderLock(state.registrationLock, pending.context, pending.name, dir)
+  state.dataFinalized = true
+}
+
 /**
  * Consume exactly one target capability and hold the workspace mutation lock for the whole
  * compound operation. Nested sinks receive the private mutation session, never the reusable target.
@@ -222,13 +337,18 @@ export async function withAuthorizedWorkspaceMutation<T>(
           firstMutationStarted: false,
           palExpectedValues,
           author,
+          registrationLock,
         }
         authorizedMutations.set(mutation, mutationState)
         try {
           let result: T
           try {
             result = await operation(mutation)
+            mutationState.saveJobsClosed = true
+            await Promise.all(mutationState.saveJobs ?? [])
           } catch (operationError) {
+            mutationState.saveJobsClosed = true
+            await Promise.allSettled(mutationState.saveJobs ?? [])
             try {
               await author.finish()
             } catch {
@@ -258,34 +378,14 @@ export async function withAuthorizedWorkspaceMutation<T>(
             }
             throw operationError
           }
-          if (state.workspace.mode === 'pal-development' && palExpectedValues) {
-            const expectedPostFingerprint = await fingerprintPalExpectedValues(
-              state.workspace,
-              palExpectedValues,
-            )
-            const actualPostFingerprint = await palDevelopmentTargetFingerprint(
-              state.workspace,
-              state.dir,
-            )
-            if (actualPostFingerprint !== expectedPostFingerprint)
-              throw new Error('PAL 开发基线写入后的关键快照与本次编辑器操作不一致，拒绝推进会话')
-            palExpectedFingerprints.set(state.workspace, expectedPostFingerprint)
-          }
-          await author.finish()
-          const pendingRegistration = mutationState.pendingRegistration
-          if (pendingRegistration)
-            await saveWorkspaceHandleUnderLock(
-              registrationLock,
-              pendingRegistration.context,
-              pendingRegistration.name,
-              state.dir,
-            )
+          await completeAuthorizedWorkspaceData(mutation)
           if (state.firstSave && state.workspace.mode === 'local-project')
             localFirstSaveAttempts.delete(state.workspace)
           return result
         } finally {
           mutationState.active = false
           authorizedMutations.delete(mutation)
+          privateSaveScopes.delete(state.dir)
           state.phase = 'spent'
         }
       } catch (error) {
@@ -303,7 +403,8 @@ export async function recordAuthorizedWorkspaceWriteCompleted(
   value: unknown,
 ): Promise<void> {
   const state = mutation && authorizedMutations.get(mutation)
-  if (!state?.active) throw new Error('拒绝未经 active workspace mutation 的写入记录')
+  if (!state?.active || state.dataFinalized)
+    throw new Error('拒绝未经 active workspace mutation 的写入记录')
   if (state.target.firstSave && state.target.workspace.mode === 'local-project')
     localFirstSaveAttempts.set(state.target.workspace, state.target.dir)
   await state.author.wrote(path, value)
@@ -311,7 +412,12 @@ export async function recordAuthorizedWorkspaceWriteCompleted(
   if (!values || !state.target.workspace.palProof?.paths.includes(path)) return
   if (value instanceof ArrayBuffer || ArrayBuffer.isView(value))
     throw new Error(`PAL 开发基线受控 JSON 不能写入二进制：${path}`)
-  const parsed = typeof value === 'string' ? (JSON.parse(value) as unknown) : value
+  const parsed =
+    value instanceof Blob
+      ? (JSON.parse(await value.text()) as unknown)
+      : typeof value === 'string'
+        ? (JSON.parse(value) as unknown)
+        : value
   values.set(path, structuredClone(parsed))
 }
 
@@ -322,7 +428,8 @@ export async function planAuthorizedWorkspacePaths(
   catalogPath?: string,
 ): Promise<void> {
   const state = mutation && authorizedMutations.get(mutation)
-  if (!state?.active) throw new Error('拒绝未经 active workspace mutation 的路径预检')
+  if (!state?.active || state.dataFinalized)
+    throw new Error('拒绝未经 active workspace mutation 的路径预检')
   await state.author.plan(paths, catalogPath)
 }
 
@@ -331,7 +438,8 @@ export function recordAuthorizedWorkspaceRemoveCompleted(
   path: string,
 ): void {
   const state = mutation && authorizedMutations.get(mutation)
-  if (!state?.active) throw new Error('拒绝未经 active workspace mutation 的删除记录')
+  if (!state?.active || state.dataFinalized)
+    throw new Error('拒绝未经 active workspace mutation 的删除记录')
   state.author.removed(path)
 }
 
@@ -352,6 +460,7 @@ export async function registerAuthorizedWorkspaceMutation(
   )
     throw new Error('写入会话与待登记 workspace identity 不一致')
   const pending = state.pendingRegistration
+  if (state.dataFinalized && !pending) throw new Error('保存登记必须在内容提交前声明')
   if (pending && (pending.context !== context || pending.name !== name))
     throw new Error('同一 workspace mutation 不能登记多个 recent identity')
   state.pendingRegistration = { context, name }
@@ -362,7 +471,8 @@ export async function beginAuthorizedWorkspaceMutation(
   mutation: AuthorizedWorkspaceMutation,
 ): Promise<void> {
   const state = mutation && authorizedMutations.get(mutation)
-  if (!state?.active) throw new Error('拒绝未经 workspace persistence policy 授权的目录写入')
+  if (!state?.active || state.dataFinalized)
+    throw new Error('拒绝未经 workspace persistence policy 授权的目录写入')
   if (state.firstMutationStarted) return
   state.firstMutationPromise ??= (async () => {
     await state.target.verify()

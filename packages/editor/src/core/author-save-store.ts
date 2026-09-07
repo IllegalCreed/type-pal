@@ -1,4 +1,5 @@
 /** Origin-private author-save receipts; separate from recent projects and player saves. */
+import { CONTENT_VERSION } from '@type-pal/content'
 import { parseProjectSaveState } from '@type-pal/reforge'
 import {
   assertSaveOperationId,
@@ -18,6 +19,7 @@ const STORE = 'operations'
 export type SaveReceiptPhase = 'staging' | 'ready' | 'applying' | 'data-complete' | 'committed'
 export interface AuthorSaveReceipt {
   version: 1
+  contentVersion: typeof CONTENT_VERSION
   workspaceId: string
   identity: SaveIdentity
   operationId: string
@@ -41,6 +43,7 @@ export function parseAuthorSaveReceipt(value: unknown): AuthorSaveReceipt {
   const r = value as Record<string, unknown>
   const fields = [
     'version',
+    'contentVersion',
     'workspaceId',
     'identity',
     'operationId',
@@ -62,6 +65,7 @@ export function parseAuthorSaveReceipt(value: unknown): AuthorSaveReceipt {
   assertSaveOperationId(r.ownerNonce)
   if (
     r.version !== 1 ||
+    r.contentVersion !== CONTENT_VERSION ||
     r.workspaceId !== identity.workspaceId ||
     !r.handle ||
     typeof r.handle !== 'object' ||
@@ -137,6 +141,7 @@ export function parseAuthorSaveReceipt(value: unknown): AuthorSaveReceipt {
   }
   return {
     version: 1,
+    contentVersion: CONTENT_VERSION,
     workspaceId: identity.workspaceId,
     identity,
     operationId: r.operationId,
@@ -235,4 +240,18 @@ export async function findAuthorSaveReceipt(
 /** Internal persistence storage; caller must already hold the corresponding workspace lock. */
 export async function storeAuthorSaveReceipt(receipt: AuthorSaveReceipt): Promise<void> {
   await transaction('readwrite', (store) => store.put(parseAuthorSaveReceipt(receipt)))
+}
+
+/** Remove only the same unsealed attempt, while its workspace lock is held. */
+export async function deleteStagingAuthorSaveReceipt(receipt: AuthorSaveReceipt): Promise<void> {
+  const current = await loadAuthorSaveReceipt(receipt.workspaceId)
+  if (
+    !current ||
+    current.phase !== 'staging' ||
+    current.operationId !== receipt.operationId ||
+    current.ownerNonce !== receipt.ownerNonce ||
+    !(await current.handle.isSameEntry(receipt.handle))
+  )
+    throw new Error('恢复准备记录已变化，拒绝删除')
+  await transaction('readwrite', (store) => store.delete(receipt.workspaceId))
 }

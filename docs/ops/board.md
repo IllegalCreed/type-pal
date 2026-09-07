@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：实现与故障验证 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) r2三方前提/设计签字齐，无counter；继续完成本次保存，遇外部冲突停止；未验收。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：接入顶层保存/打开入口并补齐矩阵 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) r2三签有效；暂存/重放内核已做浏览器重启API验证，普通按钮链尚未接入；未验收。 |
 
 ## 阻塞
 

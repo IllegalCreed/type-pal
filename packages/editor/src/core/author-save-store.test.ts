@@ -2,6 +2,7 @@ import { afterEach, expect, test, vi } from 'vitest'
 import {
   AUTHOR_SAVE_RECEIPT_DB,
   type AuthorSaveReceipt,
+  deleteStagingAuthorSaveReceipt,
   findAuthorSaveReceipt,
   loadAuthorSaveReceipt,
   parseAuthorSaveReceipt,
@@ -17,6 +18,7 @@ function receipt(): AuthorSaveReceipt {
   const workspaceId = 'cf448da8-601d-4c9c-bbdc-235b7d61d483'
   return {
     version: 1,
+    contentVersion: 20,
     workspaceId,
     identity: { workspaceId, projectId: 'p', mode: 'local-project', source: 'blank-project' },
     operationId: 'b174d84c-6e57-4479-a5b6-84b1c25e6c71',
@@ -93,6 +95,13 @@ function database() {
         const store = {
           get: (key: string) => request(() => records.get(key)),
           getAll: () => request(() => [...records.values()]),
+          delete: (key: string) =>
+            request(
+              () => undefined,
+              () => {
+                records.delete(key)
+              },
+            ),
           put: (value: AuthorSaveReceipt) =>
             request(
               () => value.workspaceId,
@@ -178,6 +187,7 @@ test('rejects conflicting receipt identities for the same native directory', asy
 })
 test.each([
   ['version', 0],
+  ['contentVersion', 19],
   ['extra', true],
   ['workspaceId', 'mismatch'],
   ['handle', null],
@@ -193,6 +203,27 @@ test.each([
   ['staged', { '../escape': null }],
 ])('rejects malformed receipt %s', (key, value) => {
   expect(() => parseAuthorSaveReceipt({ ...receipt(), [String(key)]: value })).toThrow()
+})
+
+test('deletes only the same staging receipt and waits for its transaction', async () => {
+  const d = database(),
+    r = receipt()
+  await storeAuthorSaveReceipt(r)
+  await deleteStagingAuthorSaveReceipt(r)
+  expect(d.records.size).toBe(0)
+  await expect(deleteStagingAuthorSaveReceipt(r)).rejects.toThrow('已变化')
+  await storeAuthorSaveReceipt(r)
+  await expect(deleteStagingAuthorSaveReceipt({ ...r, operationId: r.ownerNonce })).rejects.toThrow(
+    '已变化',
+  )
+  await expect(deleteStagingAuthorSaveReceipt({ ...r, ownerNonce: r.operationId })).rejects.toThrow(
+    '已变化',
+  )
+  await expect(deleteStagingAuthorSaveReceipt({ ...r, handle: receipt().handle })).rejects.toThrow(
+    '已变化',
+  )
+  await storeAuthorSaveReceipt({ ...r, phase: 'committed', planHash: 'a'.repeat(64) })
+  await expect(deleteStagingAuthorSaveReceipt(r)).rejects.toThrow('已变化')
 })
 test('checks phase/cursor and payload metadata consistency', () => {
   const r = receipt()

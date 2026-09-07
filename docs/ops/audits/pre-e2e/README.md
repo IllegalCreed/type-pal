@@ -98,7 +98,7 @@ E2E门槛另列。没有证据表明用户现有项目或存档已经遭到损�
 
 当前跟进：[EDITOR-SAVE-RECOVERY-1](../../tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，2026-09-07 用户批准
 完整暂存后继续完成本次保存、外部冲突停止；r2三方前提/设计签字齐，当前build。
-已开始只读状态门与恢复基础模块，尚未接入目录暂存/自动恢复，A-03仍未标修复。
+只读状态门与目录暂存/重放内核已实现，并完成原生浏览器重启的API验证；普通保存/打开等顶层入口尚未接入，A-03仍未标修复。
 新增[当前 API 探针](probe-editor-save-recovery.mjs)传入真实打开得到的 authorBaseline，
 在 A-02 已修复的树上仍复现新人物/场景半写；原页面有完整目标时重试成功。运行
 `node --import tsx docs/ops/audits/pre-e2e/probe-editor-save-recovery.mjs`；仅内存 FSA/IDB，不改真实工程。

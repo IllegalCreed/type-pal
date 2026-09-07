@@ -169,6 +169,7 @@ export function authorDiskMutation(baseline: AuthorDiskBaseline, dir: FileSystem
   const source = fsaSource(dir)
   let changed = false
   return {
+    snapshot: () => new Map(expected),
     async plan(paths: readonly string[], nextCatalogPath?: string) {
       if (nextCatalogPath) catalogPaths.add(nextCatalogPath)
       const added = new Map<string, Signature>()
