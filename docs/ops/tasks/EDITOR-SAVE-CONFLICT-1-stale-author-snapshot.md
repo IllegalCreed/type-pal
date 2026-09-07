@@ -367,11 +367,61 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
     完整可读、B 未保存态正确可操作。PAL 成本声明为 Node 磁盘测量（537ms/568ms），未冒充
     浏览器 FSA 时延；原探针不改、旧必填参数缺失不当修复证据，边界如实。
   返工项：无。本 accept 不代签、不授权 done；A-03/A-07/D-01、Q1 dumpSave 与完整 R4 仍按台账另推。
-- GLM：pending。
-- done 准入：blocked（待两席独立终审与最终验收）；不将已签设计当作实现验收。
+- GLM：**accept（2026-09-07，独立数据/矩阵/范围终审候选 `6780d220` 对比 `32302e58`；r1 不重签；
+  全部证据本人直读/亲跑/亲看，未读取 Kimi 本轮结论——其签字落地不作为本人结论来源）**。
+  独立验证（数字全部从实际候选树生成）：
+  - **白名单**：`git diff 32302e58..6780d220 -- packages/reforge packages/content packages/game
+    packages/migrate projects pnpm-lock.yaml docs/ops/audits/pre-e2e/probe*
+    scripts/coverage/config.mjs` **0 行**；产品改动仅 editor 内部 14 文件 + ratchet 基线 + 文档；
+    候选后零漂移。无 CSS/布局/超时/排除/阈值变化。
+  - **基线与增量分责（本人 r1 可证伪观察逐项兑现）**：author-disk-baseline.ts 为 opaque brand +
+    WeakMap（不可序列化、非保存格式字段）；observeAuthorSource 包装捕获 loader 实际 readBytes、
+    重复读取变化即抛（打开期漂移拒绝）；finish 补读未 hydrate 地图原始字节后对源**再夹验**才
+    `capturing=false`；verifyOpenedAuthorBaseline 在 finishOpen 异步身份检查后复验。App:2117-2130
+    的 prevSnapshot/snapshotRef **原样未动**——diffFiles 的 prev 仍只来自增量快照，全量基线未流入
+    diff/remove 记账（观察 2 ✓）；脚本 index/chunks 由 project-loader.ts:187-188 拒绝
+    `content.scripts`，正式回归在 conflict 测试 :396-398 钉住该拒绝而非复活读取器（观察 1 ✓）。
+  - **锁内双检查点与推进纪律**：withAuthorizedWorkspaceMutation 锁内进入即
+    `bindAuthorBaseline + authorDiskMutation + author.verify()`；writeProject/clone/fsa-copy 经
+    `planAuthorizedWorkspacePaths` 在任何 create/remove 前提交完整 write/remove 预检集合；
+    `wrote()` 签名来自**冻结的实际写入值**（不重读盘采纳外部值），操作异常路径的 `author.finish()`
+    失败即弃（"Never adopt unproved partial disk state"）；成功后 finish 才推进基线。PAL
+    palExpectedValues 原逻辑保留叠加。
+  - **入口枚举**：open-local 返回必填 authorBaseline；main.tsx HTTP/PAL 包装+finish 后才做
+    ui_samples 投影；App `authorBaseline` prop 必填、绑定保存第三参必传无空退路；PAL 首存用源
+    HTTP 基线、local/sandbox 新目标空基线、`resumesInterruptedAttempt` 复用 firstSaveAuthorRef
+    （第二个未消费授权不能换新空基线——独立回归 :558 钉住，first-auth-red.log 实证先红）；
+    同 W 重开 `key={workspaceId:mountCounter}` 取新实例/新基线。
+  - **本人重建单点负控制**：自建隔离 config 仅移除 verifySignatures 的一处比较/throw →
+    聚焦 4 项 **4 红/21 skipped（exit 1）**；完整实现同 4 项 **4 绿（exit 0）**。未 stash/未动共享树。
+  - **实跑门禁（串行）**：定向 7 文件 **86 绿** + PAL 对账 **1 绿**（当前序列化作者路径与读取证据
+    一致、媒体正文读取 0）；完整 `pnpm check` **exit 0，全包合计 6,353 项**；单次严格
+    `pnpm coverage:fast` **exit 0，611 生产文件/5,867 项**。基线模块覆盖全定向集复算
+    **分支 55/61、行 89/93、语句 95/99、函数 24/25**——与回执逐数一致（2 文件窄范围会低 2 分支，
+    全集才是正确口径）；净增 25 fast + 1 PAL 从测试清单直接可数。
+  - **浏览器证据（browser.mjs 直读 + BROWSER_PASS + 两截图亲看）**：双页独立真实打开同一 OPFS
+    工程；A 存 'Saved by A' 后 B 两次旧态保存均等待**精确冲突文案**并 `deepEqual(dump(), saved)`
+    ——20 文件哈希+manifest 完全不变（零写入）；B 仍可改名/重试；同 W 经真实"文件→打开项目"
+    重开（picker 桩为 OPFS handle，非 OS 选择器——边界如实）后保存 'Saved after reopen' 成功；
+    errors=[]。conflict-visible.png 亲看：冲突提示完整可读、界面可操作；reopened-save.png 亲看：
+    "本地项目 · 已保存"状态正确。PAL 成本（537/568ms、77.8MB/538 路径）为 Node 磁盘测量，
+    未冒充浏览器时延。
+  非阻断备注：(a) 原探针修后因缺新必填基线参数退出码变化，按先例不改探针凑绿，正确性回归由
+  25+1 正式测试承担；(b) browser.json 不含 B 拒绝态转储，但脚本内两次 deepEqual+文案等待+截图
+  构成完整证明，BROWSER_PASS 单行含 protectedFileCount=20。
+  返工项：无。本 accept 不代签、不授权自行标 done；A-03/A-07/D-01、Q1 dumpSave 与完整 R4 仍按台账另推。
+- done 准入：三席签字齐（Codex 实现者自测 + Kimi/GLM 独立终审），汇总核定与状态推进交
+  Coding Owner 收口；收口前保持 review。
 
 ## 交接日志
 
+- 2026-09-07 GLM（独立终审）：签 accept，无返工项。越界 diff 0 行/候选后零漂移；基线与
+  prevSnapshot 分责、锁内双检查点、推进纪律、四类入口传递逐点直读；本人 r1 两条可证伪观察
+  兑现核对（基线不进 diff/remove、script 分片拒绝被钉住）。自建隔离负控制 4 红/完整 4 绿；
+  定向 86+PAL 1、完整 check 6,353、单次严格 fast 611/5,867 全 exit 0；基线模块覆盖全定向集复算
+  55/61 分支与回执一致；浏览器脚本/JSON/BROWSER_PASS/两截图亲看（20 文件哈希零变化、同 W 重开
+  后保存成功）。未读取 Kimi 本轮结论。仅更新本人席位与日志；未改实现/他席/任务状态、未标 done。
+  Next：Codex 统一收口。
 - 2026-09-07 Kimi（独立终审）：同步 `2a42efe0`、工作树干净后核 `32302e58 → 6780d220`。
   直读 author-disk-baseline（readBytes 单点捕获/重复读漂移拒开/地图原始字节/catalog 资源签名/
   封盘全量复验）、锁内双检查（进入 + 首写前 author.verify）、部分写预期推进与失败不采纳、
@@ -433,7 +483,7 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
 将本人 accept 或 file:line counter/证据/返工项直接写本人 done 前席位与日志并提交推送；落盘前同步保留他席。不得改实现、他席、任务状态或标 done，不代签；两席落卡后由 Codex 汇总。
 ```
 
-### GLM：数据/矩阵/范围终审（当前，与 Kimi 并行）
+### GLM：数据/矩阵/范围终审（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-CONFLICT-1。
