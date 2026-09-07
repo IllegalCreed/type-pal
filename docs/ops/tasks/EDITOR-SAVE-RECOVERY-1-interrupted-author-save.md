@@ -536,8 +536,58 @@ GLM 在独立 worktree 为已提交的恢复内核补故障测试，不修改生
 
 #### GLM 并行测试回执
 
-待GLM填写：分支/提交与产品基线、白名单diff、分支风险→测试名→SR映射、实际测试数与精确覆盖计数、
-负控制证据、未解决项。全部从实际提交树与本次日志生成，不沿用预计数或旧回执数字。
+**2026-09-07 GLM（并行测试分工完成，待 Codex 复核）。分支 `codex/glm-save-recovery-tests`**
+（独立 worktree `type-pal-glmt`，基于分工提交 `cd4ce646`，产品基线 `672827ac` 零触碰）。
+
+**白名单 diff**：仅 `packages/editor/src/core/author-save-journal.test.ts` **+307**（44 项既有测试
+与断言逐字保留）；无生产代码、共享 fixture、版本、配置、baseline、依赖或原审计探针改动。
+
+**新增 16 项故障回归（44→60，全绿），风险→测试→SR 映射：**
+
+| 风险（未覆盖分支） | 测试 | SR |
+|---|---|---|
+| 目录被另绑其他 workspace 后凭旧凭据重放 | recovery refuses a directory that has since been rebound to another workspace | SR-05/08 |
+| 同 workspaceId 登记漂移到其他工程身份 | recovery refuses when the receipt workspace record drifted | SR-05 |
+| 重放中外部改库换凭据 | a foreign change to the durable receipt mid-replay stops the save | SR-05/06 |
+| 伪造 committed 标记被未执行计划采纳 | a forged committed marker cannot be adopted | SR-05/07 |
+| 评审模式恢复本地工程 | forceSandbox never recovers a local project… | SR-05/08 |
+| committed 凭据+伪造 pending 标记 | committed operation with a forged pending marker refuses cleanup-only reopen | SR-07/10 |
+| committed 凭据+异代磁盘状态令牌 | committed receipt with a foreign on-disk state token blocks the next save | SR-10 |
+| 步骤 IO 后、游标持久化前崩溃（磁盘领先） | a crash between a step IO and its cursor commit resumes exactly from the durable prefix | SR-03 |
+| 两处不同步骤连续中断后幂等续存 | replay survives two successive interruptions | SR-03 |
+| ready 后未发布即退出 | exiting after the plan is sealed but before any publish | SR-03/10 |
+| 未来步目标被提前写成他值仍拒绝 | a future step pre-written to its target value stops replay | SR-06 |
+| 我方 close 后外部立即篡改 | a foreign edit landing right after our step close fails post-write verification | SR-06 |
+| committed 重开仅清理、精确哈希、未知文件保留 | a committed reopen is cleanup-only and removes exactly its own verified staging | SR-07/12 |
+| 部分清理已删一个 blob 后续清 | cleanup resumes past staging files already removed | SR-07 |
+| 已消费 token 二次 commit | a consumed prepared token cannot commit a second time | SR-11 |
+| 未完成凭据上叠新保存 | a new save cannot stack over an unfinished durable receipt | SR-02/07 |
+
+**覆盖（同一选择 author-save-journal.test.ts，独立报告 /tmp/glm-sr-workspace/cov-*，未写共享输出）：**
+基线复算与冻结一致（行 323/335、函数 49/49、分支 213/248=85.89%）；新增后 **行 328/335（97.91%✓）、
+函数 49/49（100%✓）、分支 221/248（89.11%）**。分支距 90% 目标差 2 项，剩余未覆盖为深层注错/
+入口集成分支：非 missing 读错误重抛（:100）、凭据 handle 与目录不符（:178）、plan 未封散
+（:199）、伪造 plan 操作号（:241）、封存视图读已删路径（:261）、仅盘 pending 分支（:312）、
+staging 同路径异值冲突（:387）、写后回读差异（:391）、mkdir 未知父目录（:398）、data-complete
+游标不一致（:437）、publish 写失败/验失败区分（:466）、异种状态令牌（:484 arm1）、已完成步
+applied 三元非 write 臂（:511）、重放中状态翻转（:517）、execute 清理告警臂（:568）、
+committed 清理状态检查（:646）、PAL 登记策略（:721）——多数依赖 remove/mkdir 计划、PAL 完整
+入口或 FSA 深层注错，按分工保留给 Codex 入口集成测试，不以堆例凑数。
+
+**负控制（单点突变，隔离 config /tmp/glm-sr-mutant{1,2}.config.mts，未动共享树）：**
+- M1：仅移除 assertBinding 的「恢复目录已属于另一个工作区」守卫 → rebind 测试 **exit 1 红**；
+  完整实现同过滤绿。
+- M2：仅移除 stateForReplay 的「未经完成的保存不能采用 committed 状态」守卫 → forged committed
+  测试 **exit 1 红**，失败原因精确为"promise resolved committed instead of rejecting"（伪造标记被
+  采纳即防护失效）；完整实现绿。
+- 附带观察：future-step 与 post-close 篡改两项在单点移除 per-step 观察检查或 post-write 校验后
+  仍绿——前缀对账存在多层冗余防护（逐步观察+写后校验+终局全前缀 reconcile），非缺陷。
+
+**验证**：60/60 全绿三轮；editor typecheck exit 0；biome 检查该文件零诊断。未跑全仓 check/ratchet
+（按分工由 Codex 集成后统一执行）。
+
+**未解决项/缺陷**：无生产缺陷 counter；分支覆盖差 2 项到目标已如实列缺口。本回执不签整卡 accept、
+不标 review/done；测试贡献将在终审披露，由 Codex 独立复核。
 
 ## 交接日志
 
@@ -610,6 +660,16 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 有阻断签counter；否则写“测试补齐完成，待Codex复核”。提交推送自己的分支，给出commit和Codex复核提示词；
 由Codex独立审查测试贡献、复跑负控制、处理真实缺陷并集成，不标done，不让用户搬运审查正文。
 ```
+
+### GLM · 并行分工交接日志
+
+2026-09-07：独立 worktree `type-pal-glmt`、分支 `codex/glm-save-recovery-tests`（基于 cd4ce646）
+完成 16 项内核故障回归（身份/权限变化、重放再中断、提交后清理边界），44 项既有测试原样保留，
+60/60 全绿、typecheck 0、biome 干净。覆盖行 97.91%/函数 100%/分支 89.11%（差 2 到目标，
+缺口逐条列入回执，保留给 Codex 入口集成）。负控制 M1（rebind 守卫）/M2（committed 阶段守卫）
+单点移除均使对应新测试 exit 1 红，业务失败原因精确。未改生产/fixture/配置/baseline/探针；
+无生产缺陷 counter。详见「GLM 并行测试回执」。分支已推送，交 Codex 复核适配与集成；本席不签
+整卡 accept、不标 build/done。
 
 ### Codex · 并行分工交接日志
 

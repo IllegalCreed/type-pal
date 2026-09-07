@@ -748,3 +748,310 @@ test('an incremental staged view does not silently adopt a changed untouched aut
   ).rejects.toThrow('content/actors.json')
   expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
 })
+
+// ─── GLM 并行测试分工（EDITOR-SAVE-RECOVERY-1）：身份/权限变化、重放再中断、提交后清理边界 ───
+
+test('recovery refuses a directory that has since been rebound to another workspace', async () => {
+  const f = await fixture()
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.resetChanges()
+  // 原工作区记录消失、目录已登记到另一个 workspace：不可凭旧凭据重放。
+  storage.bindings.delete(f.opened.workspace.workspaceId)
+  const other = createLocalWorkspaceContext(f.opened.workspace.projectId, 'local-directory')
+  storage.bindings.set(other.workspaceId, {
+    ...other,
+    name: 'other-window',
+    handle: f.disk.dir,
+    updatedAt: 2,
+  })
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow('另一个工作区')
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  expect(receiptOf(f).phase).not.toBe('committed')
+  expect(f.disk.json(PROJECT_SAVE_STATE_PATH).phase).toBe('pending')
+})
+
+test('recovery refuses when the receipt workspace record drifted to another identity', async () => {
+  const f = await fixture()
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.resetChanges()
+  // 同 workspaceId 的登记记录被外部改为其他工程：身份冲突，零作者 IO。
+  const drifted = {
+    ...f.opened.workspace,
+    projectId: 'drifted-project',
+    name: 'drifted',
+    handle: f.disk.dir,
+    updatedAt: 3,
+  }
+  storage.bindings.set(f.opened.workspace.workspaceId, drifted)
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow('已登记工作区冲突')
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('a foreign change to the durable receipt mid-replay stops the save before further writes', async () => {
+  const f = await fixture()
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.hooks.beforeClose = undefined
+  f.disk.resetChanges()
+  f.disk.hooks.afterClose = (path) => {
+    // actors 之后才会重放的步骤：manifest 阶段外部改库（换合法 UUID），下一次持久化必须发现漂移。
+    if (path === 'manifest.json') receiptOf(f).operationId = crypto.randomUUID()
+  }
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow('操作期间变化')
+  f.disk.hooks.afterClose = undefined
+  expect(f.disk.json(PROJECT_SAVE_STATE_PATH).phase).toBe('pending')
+  expect(authorChanges(f.disk).removes).toEqual([])
+})
+
+test('a crash between a step IO and its cursor commit resumes exactly from the durable prefix', async () => {
+  const f = await fixture()
+  let crashed = false
+  f.disk.hooks.afterClose = (path) => {
+    if (!crashed && path === 'content/scenes/start.json') {
+      crashed = true
+      throw new Error('crash after close')
+    }
+  }
+  await expect(save(f)).rejects.toThrow('crash after close')
+  f.disk.hooks.afterClose = undefined
+  // 磁盘已领先凭据游标一步；重入必须先收编精确前缀，再继续剩余步骤。
+  const sceneWrites = f.disk.changes.closes.filter((path) => path === 'content/scenes/start.json')
+  await recoverInterruptedAuthorSave(f.disk.dir)
+  assertRestored(f.disk)
+  expect(f.disk.changes.closes.filter((path) => path === 'content/scenes/start.json').length).toBe(
+    sceneWrites.length,
+  )
+})
+
+test('replay survives two successive interruptions at different steps', async () => {
+  const f = await fixture()
+  let first = true
+  f.disk.hooks.afterClose = (path) => {
+    if (first && path === 'content/scenes/start.json') {
+      first = false
+      throw new Error('first crash')
+    }
+  }
+  await expect(save(f)).rejects.toThrow('first crash')
+  f.disk.hooks.afterClose = undefined
+  f.disk.hooks.beforeClose = (path) => {
+    if (path === 'content/actors.json') throw new Error('second crash')
+  }
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow('second crash')
+  f.disk.hooks.beforeClose = undefined
+  await recoverInterruptedAuthorSave(f.disk.dir)
+  assertRestored(f.disk)
+  expect(f.disk.changes.closes.filter((path) => path === 'content/actors.json')).toHaveLength(1)
+})
+
+test('exiting after the plan is sealed but before any publish still completes on reopen', async () => {
+  const f = await fixture()
+  const target = await authorizeBoundWorkspaceTarget(
+    f.opened.workspace,
+    f.disk.dir,
+    f.opened.authorBaseline,
+  )
+  await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    await registerAuthorizedWorkspaceMutation(mutation, f.opened.workspace, f.disk.dir.name)
+    await prepareAuthorSave(mutation, inputs(f.intended), validate, {
+      catalogPath: f.opened.project.manifest.assets.catalog,
+    })
+    // 页面在 ready 后、执行前退出：不调用 commitAuthorSave。
+  })
+  expect(f.disk.files.has(PROJECT_SAVE_STATE_PATH)).toBe(false)
+  f.disk.resetChanges()
+  await recoverInterruptedAuthorSave(f.disk.dir)
+  assertRestored(f.disk)
+})
+
+test('a forged committed marker cannot be adopted by a plan that never executed', async () => {
+  const f = await fixture()
+  const target = await authorizeBoundWorkspaceTarget(
+    f.opened.workspace,
+    f.disk.dir,
+    f.opened.authorBaseline,
+  )
+  await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    await registerAuthorizedWorkspaceMutation(mutation, f.opened.workspace, f.disk.dir.name)
+    await prepareAuthorSave(mutation, inputs(f.intended), validate, {
+      catalogPath: f.opened.project.manifest.assets.catalog,
+    })
+  })
+  const receipt = receiptOf(f)
+  f.disk.set(
+    PROJECT_SAVE_STATE_PATH,
+    `${JSON.stringify({
+      kind: 'type-pal-author-save',
+      version: 1,
+      operationId: receipt.operationId,
+      phase: 'committed',
+      planHash: receipt.planHash,
+    })}\n`,
+  )
+  f.disk.resetChanges()
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow('未经完成')
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('forceSandbox never recovers a local project and treats committed local as nothing to do', async () => {
+  const f = await fixture()
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.resetChanges()
+  await expect(recoverInterruptedAuthorSave(f.disk.dir, { forceSandbox: true })).rejects.toThrow(
+    '评审模式不能恢复源项目',
+  )
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  f.disk.hooks.beforeClose = undefined
+  await recoverInterruptedAuthorSave(f.disk.dir)
+  assertRestored(f.disk)
+  f.disk.resetChanges()
+  await expect(recoverInterruptedAuthorSave(f.disk.dir, { forceSandbox: true })).resolves.toBeNull()
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('a committed reopen is cleanup-only and removes exactly its own verified staging', async () => {
+  const f = await fixture()
+  f.disk.hooks.beforeRemove = (path) => {
+    if (path.includes('/blobs/')) throw new Error('cannot clean')
+  }
+  await expect(save(f)).resolves.toMatchObject({ cleanupWarning: expect.any(String) })
+  f.disk.hooks.beforeRemove = undefined
+  assertRestored(f.disk)
+  const unknownPath = `.type-pal/save-recovery/${receiptOf(f).operationId}/unknown.json`
+  f.disk.set(unknownPath, '{}\n')
+  f.disk.resetChanges()
+  const before = new Map(f.disk.files)
+  const result = await recoverInterruptedAuthorSave(f.disk.dir)
+  expect(result).toMatchObject({ kind: 'committed', operationId: receiptOf(f).operationId })
+  expect(result?.cleanupWarning).toEqual(expect.any(String))
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  for (const [path, bytes] of before) {
+    if (!path.startsWith('.type-pal/')) expect(f.disk.files.get(path)).toEqual(bytes)
+  }
+  expect(f.disk.files.has(unknownPath)).toBe(true)
+  expect(
+    [...f.disk.files.keys()].some(
+      (path) => path.includes('/save-recovery/') && path.includes('/blobs/'),
+    ),
+  ).toBe(false)
+})
+
+test('a future step pre-written to its target value stops replay instead of continuing', async () => {
+  const f = await fixture()
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.hooks.beforeClose = undefined
+  f.disk.resetChanges()
+  // 外部把尚未执行步骤的目标文件提前写成别的值：前缀校验必须拒绝，不收编。
+  f.disk.set('content/actors.json', 'pre-written by another tool')
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow('content/actors.json')
+  expect(f.disk.json(PROJECT_SAVE_STATE_PATH).phase).toBe('pending')
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('a foreign edit landing right after our step close fails the post-write verification', async () => {
+  const f = await fixture()
+  f.disk.hooks.afterClose = (path) => {
+    if (path === 'content/actors.json') f.disk.set(path, 'tampered after close')
+  }
+  await expect(save(f)).rejects.toThrow('content/actors.json')
+  f.disk.hooks.afterClose = undefined
+  expect(receiptOf(f).phase).not.toBe('committed')
+  expect(f.disk.json(PROJECT_SAVE_STATE_PATH).phase).toBe('pending')
+})
+
+test('a committed operation with a forged pending marker refuses cleanup-only reopen', async () => {
+  const f = await fixture()
+  await save(f)
+  assertRestored(f.disk)
+  const receipt = receiptOf(f)
+  f.disk.set(
+    PROJECT_SAVE_STATE_PATH,
+    `${JSON.stringify({
+      kind: 'type-pal-author-save',
+      version: 1,
+      operationId: receipt.operationId,
+      phase: 'pending',
+      planHash: receipt.planHash,
+    })}\n`,
+  )
+  f.disk.resetChanges()
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow('已保存状态不符')
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('cleanup resumes past staging files that an earlier partial cleanup already removed', async () => {
+  const f = await fixture()
+  f.disk.hooks.beforeRemove = (path) => {
+    if (path.includes('/blobs/')) throw new Error('cannot clean')
+  }
+  await expect(save(f)).resolves.toMatchObject({ cleanupWarning: expect.any(String) })
+  f.disk.hooks.beforeRemove = undefined
+  const blobPaths = [...f.disk.files.keys()].filter(
+    (path) => path.includes('/save-recovery/') && path.includes('/blobs/'),
+  )
+  expect(blobPaths.length).toBeGreaterThan(1)
+  f.disk.files.delete(blobPaths[0]!)
+  const result = await recoverInterruptedAuthorSave(f.disk.dir)
+  expect(result?.cleanupWarning).toBeUndefined()
+  expect(
+    [...f.disk.files.keys()].some(
+      (path) => path.includes('/save-recovery/') && path.includes('/blobs/'),
+    ),
+  ).toBe(false)
+})
+
+test('a committed receipt with a foreign on-disk state token blocks the next save', async () => {
+  const f = await fixture()
+  await save(f)
+  const receipt = receiptOf(f)
+  f.disk.set(
+    PROJECT_SAVE_STATE_PATH,
+    `${JSON.stringify({
+      kind: 'type-pal-author-save',
+      version: 1,
+      operationId: crypto.randomUUID(),
+      phase: 'committed',
+      planHash: receipt.planHash,
+    })}\n`,
+  )
+  f.disk.resetChanges()
+  await expect(save(f)).rejects.toThrow('目录保存状态与原恢复凭据不一致')
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('a consumed prepared token cannot commit a second time', async () => {
+  const f = await fixture()
+  const target = await authorizeBoundWorkspaceTarget(
+    f.opened.workspace,
+    f.disk.dir,
+    f.opened.authorBaseline,
+  )
+  let token: PreparedAuthorSave | undefined
+  await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    await registerAuthorizedWorkspaceMutation(mutation, f.opened.workspace, f.disk.dir.name)
+    token = await prepareAuthorSave(mutation, inputs(f.intended), validate, {
+      catalogPath: f.opened.project.manifest.assets.catalog,
+    })
+    await commitAuthorSave(token)
+  })
+  assertRestored(f.disk)
+  f.disk.resetChanges()
+  await expect(commitAuthorSave(token!)).rejects.toThrow('恢复计划未准备好或授权已消费')
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('a new save cannot stack over an unfinished durable receipt', async () => {
+  const f = await fixture()
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.hooks.beforeClose = undefined
+  f.disk.resetChanges()
+  await expect(save(f)).rejects.toThrow('项目有未完成的保存，请先完成恢复')
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  await recoverInterruptedAuthorSave(f.disk.dir)
+  assertRestored(f.disk)
+})
