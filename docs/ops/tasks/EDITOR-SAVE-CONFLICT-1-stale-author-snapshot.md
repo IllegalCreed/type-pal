@@ -1,6 +1,6 @@
 # EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: ops（审计 A-02 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,7 +10,7 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1（2026-09-07，前提取证与设计候选；未实现）
+Revision: r1（2026-09-07，三席设计齐，Codex 已核定 build 准入）
 Evidence Baseline: 50590cb6
 
 ## 目标与分批
@@ -240,8 +240,9 @@ Evidence Baseline: 50590cb6
   卡内已正确拒绝。
   非阻断备注：修复后原探针 A-02 断言（旧态保存成功）将失败——探针是修前历史证据，按先例
   不改探针凑绿，正确性回归由正式测试承担。
-- 独立前提反证：待 Kimi/GLM 至少一席直接读取并给出自己的证据/反例。
-- 缺签豁免：无；build 准入：blocked（仅三签未齐，任务处于 draft）。
+- 独立前提反证：Kimi/GLM 均已独立读取实际打开/保存/锁链、复跑 A-02 与相邻测试，证据见各席。
+- 缺签豁免：无；build 准入：**allowed（Codex，2026-09-07）**。接手 b5420ae5 与 origin/main 同步，
+  工作树干净，三席同 r1 premise verified/design agree，无 counter。保持单一 Coding Owner，不把非阻断观察改成新 schema/资源加载能力。
 
 ### 进入 done 前
 
@@ -252,6 +253,9 @@ Evidence Baseline: 50590cb6
 
 ## 交接日志
 
+- 2026-09-07 Codex（build 准入）：用户确认“签了”，同步 b5420ae5，核两席签字和文件面后放行。
+  先补真实打开/保存回归，再实现作者基线与锁内首写校验；基线/增量快照分责，原探针不改。
+  GLM 文件集观察与 Kimi 成本测量纳入验证；不扩 A-03/07/D-01，不提前标 done。
 - 2026-09-07 GLM：完成 r1 独立数据路径/矩阵/范围审查，签 premise verified + design agree，无返工项。
   A-02 顺序保存反例本人复跑（exit 0）+ 相邻 51 项绿并存；snapshotRef/diffFiles remove 语义/
   fsaSource 无读缓存/锁内双检查点挂载结构/finishOpen 夹验范围逐点直读；serializeProject 输出侧
