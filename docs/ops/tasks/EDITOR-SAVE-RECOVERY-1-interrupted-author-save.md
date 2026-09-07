@@ -1,6 +1,6 @@
 # EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复
 
-Status: rework
+Status: build
 Phase: phase2
 Capability: ops（审计 A-03，不新增能力格）
 Coding Owner: Codex
@@ -536,10 +536,9 @@ GLM 在独立 worktree 为已提交的恢复内核补故障测试，不修改生
 
 #### GLM 并行测试回执
 
-接收说明（Codex，2026-09-07）：以下原样保留分支 `925a89aa` 的 GLM 回执，不代改他席结论。
-本轮独立复核结论为**测试贡献 counter、暂不集成**，详见紧随其后的 Codex 席位；
-回执的“差2”应为“差3”，future-step 测试和 M1 负控制亦需下述限定返工。
-
+接收说明（Codex，2026-09-07）：以下保留分支 `925a89aa` 的历史回执及其counter，不代改他席结论。
+**最新候选f4245a34的测试贡献已通过限定返工复核并集成，回到build；整卡仍未验收。**
+“差2”已在返工中纠正为“差3”，future-step与M1已修正；最新证据见“Codex返工接收与统一集成”。
 
 **2026-09-07 GLM（并行测试分工完成，待 Codex 复核）。分支 `codex/glm-save-recovery-tests`**
 （独立 worktree `type-pal-glmt`，基于分工提交 `cd4ce646`，产品基线 `672827ac` 零触碰）。
@@ -688,6 +687,42 @@ GLM测试贡献由本席独立复核且须在最终终审披露，不充当独�
   of rejecting`（exit 1），正常对照绿。未跑全仓 check/ratchet/严格 fast（仍按分工由 Codex 集成后执行）。
 - 本返工不签整卡 accept、不标 review/done；测试贡献仍待 Codex 独立复核并终审披露。
 
+#### Codex返工接收与统一集成（f4245a34，2026-09-07）
+
+**accept（仅GLM测试贡献），解除925a89aa的R1/R2测试接收counter，恢复build。**
+本席直接读取返工diff、实际journal/prefix/暂存编码和两份负控制配置；前30,032字节与cd4ce646相同，
+原44项未改，现追加17项。f4245a34相对主树51325c43仅测试+GLM回执，产品相对672827ac零diff，
+故采用fast-forward完整保留GLM提交署名和历史counter，不需生产适配或重签设计。
+
+- R1：locale确为当前issued actors之后、before与目标不同的步骤。本人在隔离加载中额外断言
+  receipt.issued/currentStep，并将待注入UTF-8字节与磁盘暂存blob逐字节比较，两项合法/非法对照绿。
+  再仅移除execute首次完整前缀核对，新future-step用例exit1：它抓到恢复错误地close了actors/skills/items三个文件，
+  并非错误消息差异。证明新断言能区分“第一次作者IO前拒绝”和“写了后续文件才发现冲突”。
+- R2：两身份用例均撤销初始beforeClose。M1/M2本人原样复跑各exit1，均为`resolved committed instead of rejecting`；
+  无残留stop actors错误。正常完整61项绿，M1/M2对应正常用例在其中；负控制配置均只删除指定单处守卫。
+- R3：算术已纠正，221/248需至少224/248，即仍差3分支。接受实值及内核/入口分责纠正，
+  四类清单作为后续定位线索，不将“必须扩fixture”或“不变量不可达”当已证实结论；
+  :437实际是封存后读门漂移检查，:501才是data-complete游标检查，后续按实际业务路径补证。
+- 隔离配置：`/tmp/codex-sr-rework-accept.GdsaBO/review.config.mts`，模式`r1-evidence`与`prefix-mutant`；
+  未修改候选产品/测试，未启动浏览器或改真实作者目录。本卡整条按钮/打开恢复链仍未完成，不能据此签整卡accept。
+
+集成后统一质量门按**完整check → ratchet → 单次严格fast**串行执行：
+
+- 完整 `pnpm check` exit0：550测试文件/6,562项（editor 202文件/1,994项）；所有包typecheck通过，
+  lint仍为既有50warnings/11infos、没有新错误。文档工具20项、coverage工具17项另计，不混入Vitest总数。
+- `TYPE_PAL_COVERAGE_BASE_REF=51325c43 pnpm coverage:ratchet` exit0：616生产文件不变、6,076项fast，
+  editor 1,820→1,837，仅journal测试身份变化；独立auditScope无删除，compareCoverage无回退，6项指标提升/2项范围变化。
+  editor精确计数：语句24,340/32,212、分支18,807/27,948、函数6,045/8,142、行22,000/28,129；
+  其他六包基线数据不变。生产scope、配置/超时/排除及旧测试均未缩减，baseline由正式工具生成。
+- 随后的**单次严格** `TYPE_PAL_COVERAGE_BASE_REF=51325c43 pnpm coverage:fast` exit0：616生产文件/6,076项，
+  七包精确metrics与测试计数逐项对比新baseline零差异，total亦相同；没有抖动、回退或多数重跑放行。
+  全editor-fast中的journal实值与定向一致：行328/335（97.91%）、函数49/49（100%）、
+  分支221/248（89.11%），仍需至少3个真实分支达到90%，不据全仓门禁绿标本卡完成。
+
+日志在 `/tmp/codex-sr-rework-accept.GdsaBO/` 的check.log、ratchet.log、strict-fast.log。
+不追加凑比例测试，journal≥90%的目标仍保留。GLM的17项测试贡献须在最终终审披露，
+由本席独立复核，不计为独立第三方自证。整卡done三席仍pending，当前无下一位Agent提示词，继续由Codex实现。
+
 ## 交接日志
 
 - 2026-09-07 Codex：同步 041c2fe1 洁净树，复核 A-02 后的 A-03。新增内存当前 API 探针，旧探针/产品/正式测试未动；
@@ -730,10 +765,11 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-当前GLM测试候选925a89aa接收复核为counter，按下列返工提示词先修测试证据；r2设计无需重签。
-此前分工/设计提示词均保留为历史，完整候选冻结后另给两席终审提示词。
+当前GLM返工候选f4245a34测试贡献已接收，集成后的完整检查/ratchet/严格fast均通过，Codex继续入口实现；
+无需再转交GLM返工或重新设计签字。
+以下分工/返工/设计提示词均为历史，完整实现候选冻结后另给两席终审提示词；当前不请求用户验收。
 
-### 给 GLM（当前：925a89aa测试贡献限定返工）
+### 给 GLM（历史：925a89aa测试贡献限定返工，f4245a34已解决）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 EDITOR-SAVE-RECOVERY-1 的GLM测试返工。
@@ -806,10 +842,6 @@ R3：221/248达90%差3，不是2；按实际报告校对未覆盖条件和file:l
 安排GLM独立worktree补内核故障回归，Codex继续入口实现；生产实现权限不转交，测试贡献将独立复核。
 本次只登记分工/提示词及同步看板，不宣称测试已新增或A-03已修复，不提前进入review/done。
 文档工具20/20、400 Markdown/1,812本地链接/140卡检查及git diff --check通过；packages/scripts零diff。
-
-### GLM 并行测试交接日志
-
-待GLM填写本人实跑与交回Codex的证据；保留他席及共享状态。
 
 ### Codex · 925a89aa接收复核交接日志
 
