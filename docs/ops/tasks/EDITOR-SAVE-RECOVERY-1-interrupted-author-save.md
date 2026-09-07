@@ -506,7 +506,38 @@ editor精确计数：statements24,333/32,212，branches18,799/27,948，functions
 game四项计数与修正后的独立复算/ratchet一致；editor为218生产文件/1,820项，计数同上，没有多数重试放行。
 doc检查400 Markdown/1,812本地链接/140卡、20项doc工具测试与git diff --check通过；本卡仍非review候选。
 
-无下一位 Agent 提示词：本卡继续由 Codex 实现，当前不交终审、不请求重复设计签字。
+### GLM 并行测试分工（2026-09-07，用户要求）
+
+用户要求“让glm做一些事情吧”。沿用本卡已签 r2，不新开产品方案、不重签；这是 build 期测试协作，
+不是整卡终审。**Codex 仍是唯一生产实现 Coding Owner**，负责保存/打开等入口、缺陷修复和最终集成；
+GLM 在独立 worktree 为已提交的恢复内核补故障测试，不修改生产文件。
+
+- 固定产品基线：`672827ac`；本次分工登记仅改文档。GLM 从包含本分工的提交建立独立
+  `codex/glm-save-recovery-tests` 分支/worktree，不切换共享主工作树。若该分支已存在先核用途，不能强制覆盖。
+  工作期间不混入 Codex 尚在开发的入口改动；交回后由 Codex 将测试适配、复核并集成到最新生产树。
+- 允许修改：`packages/editor/src/core/author-save-journal.test.ts` 追加用例，以及必要的**测试文件内**
+  辅助函数/边界故障钩子；本卡“GLM 并行测试回执”与“GLM 并行测试交接日志”。既有44项测试身份、
+  业务断言保留；不得复制整份测试充数，不改共享fixture或通过mock替换journal/policy/loader的被测逻辑。
+- 首先独立对照 SR-02～07/08/11/12 与实际源码和覆盖报告，列出未覆盖分支及业务风险。
+  优先补尚缺的权限/身份变化、暂存/重放期间再次中断、提交后仅清理边界；已覆盖项不重复堆例，
+  未接入口、own retry、PAL完整入口等依赖明确保留给Codex，不能凭内核测试勾完整SR条目。
+- 冻结基线journal全editor-fast计数为行323/335、函数49/49、分支213/248（85.88%）。目标保持
+  行/函数≥95%、分支≥90%；先按相同测试选择复算，再报新增后实值和缺口。若发现真实缺陷，交最小反例，
+  不弱化断言或自行修生产代码来赶比例；达标也不代表整卡通过。
+- 使用生产调用链和真实校验，注错限FSA/IDB/权限边界，异步使用entered/deferred而非固定睡眠。
+  至少两项新增关键断言独立做单点突变负控制；保存准确替换diff、正常绿/突变红的退出码与业务失败原因。
+  测试本就绿可以是补覆盖，但不能虚报“缺陷先红”；不能把无关异常当防护有效。
+- GLM只跑定向测试、editor typecheck及独立editor-fast口径覆盖；临时配置/报告/cache均在自己的临时目录，
+  不写共享coverage输出。不得改版本、旧审计探针、依赖、超时、排除或coverage baseline；不运行全仓ratchet。
+  完整check、全仓覆盖基线登记和单次严格fast由Codex集成后串行执行，不能两席争写报告或基线。
+- 发现阻断立即在本席记录 `counter` 和 `file:line`、最小复现及受影响SR，交Codex停线处理；没有阻断则
+  交“测试补齐完成，待Codex复核”，不提前签整卡done席位accept，不标review/done，不代签。
+  GLM参与实现的测试须由Codex独立复核，后续终审须披露测试贡献，不能作为独立第三方自证。
+
+#### GLM 并行测试回执
+
+待GLM填写：分支/提交与产品基线、白名单diff、分支风险→测试名→SR映射、实际测试数与精确覆盖计数、
+负控制证据、未解决项。全部从实际提交树与本次日志生成，不沿用预计数或旧回执数字。
 
 ## 交接日志
 
@@ -550,9 +581,48 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-当前由 Codex 按已签 r2 实现与自验证；以下设计提示词为历史记录，无需重复转发/重签。实现候选冻结后再给两席终审提示词。
+当前由Codex实现入口，GLM按下列当前提示词并行补内核测试。之后两份设计提示词为历史记录，
+无需重复转发/重签；完整候选冻结后另给两席终审提示词。
 
-### 给 Kimi（与 GLM 并行）
+### 给 GLM（当前：并行补故障测试）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 协作 EDITOR-SAVE-RECOVERY-1。
+任务卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态build、r2三签有效，不重签。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡设计红线/SR矩阵/“GLM并行测试分工”及最新日志。
+先同步分支、检查工作树；在独立worktree和codex/glm-save-recovery-tests分支工作，基于包含本次分工的文档提交，
+开始时核packages/scripts相对672827ac零diff。不要切换/覆盖共享主工作树，不用stash还原代码。
+
+你负责实际补测试，Codex仍唯一修改生产实现。只允许在author-save-journal.test.ts追加用例及必要测试内辅助，
+保留既有44项身份/断言，不改共享fixture、产品、配置、baseline、版本或原审计探针。
+独立读取journal/policy/plan/prefix/store与现有测试，对照SR-02～07/08/11/12和未覆盖分支补故障路径。
+用真实被测调用链，只在FSA/IDB/权限边界注错；断言停止点、作者字节/恢复数据保留、提交后不重放等业务结果。
+异步用entered/deferred，不用睡眠；至少两项新增关键用例做“准确移除一处防护即红”的隔离突变负控制。
+若现有生产代码有错，保留最小反例与file:line交Codex，不弱化断言、不代修生产代码。
+
+跑定向、editor typecheck及独立editor-fast口径覆盖，临时配置/cache/报告写独立临时目录。
+原journal全editor-fast行323/335、函数49/49、分支213/248=85.88%；目标行/函数≥95%、分支≥90%，
+先复算同口径再报实值，不能拿缩窄分母/忽略分支凑数。全仓check/ratchet/严格fast由Codex集成后统一跑。
+不得把内核覆盖当未接好的保存/打开按钮链、own retry或全部SR验收完成，不重复原生浏览器巡检。
+
+从实际提交树生成测试名/数量、覆盖分子分母、白名单diff、正常/突变退出码和剩余缺口，
+直接写本卡“GLM并行测试回执”和你自己的“GLM并行测试交接日志”，不改他席/状态/整卡accept。
+有阻断签counter；否则写“测试补齐完成，待Codex复核”。提交推送自己的分支，给出commit和Codex复核提示词；
+由Codex独立审查测试贡献、复跑负控制、处理真实缺陷并集成，不标done，不让用户搬运审查正文。
+```
+
+### Codex · 并行分工交接日志
+
+2026-09-07：用户要求分配GLM工作，已同步main/672827ac洁净树，核本卡r2三签与当前内核覆盖缺口。
+安排GLM独立worktree补内核故障回归，Codex继续入口实现；生产实现权限不转交，测试贡献将独立复核。
+本次只登记分工/提示词及同步看板，不宣称测试已新增或A-03已修复，不提前进入review/done。
+文档工具20/20、400 Markdown/1,812本地链接/140卡检查及git diff --check通过；packages/scripts零diff。
+
+### GLM 并行测试交接日志
+
+待GLM填写本人实跑与交回Codex的证据；保留他席及共享状态。
+
+### 给 Kimi（已完成，历史保留）
 
 在 /Users/zhangxu/illegal/type-pal 审查 EDITOR-SAVE-RECOVERY-1 的 r2 设计，任务卡
 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态 draft，产品源码基线135d065a。
