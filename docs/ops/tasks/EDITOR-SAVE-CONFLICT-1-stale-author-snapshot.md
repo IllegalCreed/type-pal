@@ -13,7 +13,7 @@ Branch: main
 Revision: r1（2026-09-07，实现与自验证完成，待 Kimi/GLM 并行终审；设计不重签）
 Evidence Baseline: 50590cb6
 Implementation Baseline: 32302e58
-Implementation Candidate: 完整实现提交后登记固定 SHA
+Implementation Candidate: 6780d220（对比 32302e58；后续 SHA 登记仅文档）
 
 ## 目标与分批
 
@@ -31,6 +31,8 @@ Implementation Candidate: 完整实现提交后登记固定 SHA
 不改地图懒解析、资源格式、工作区身份/权限、界面布局；不直接修改 PAL 或迁移产物。
 
 ## 前提真值门
+
+本节记录 Evidence Baseline 的修前证据；当前实现与验证结果见下方 Build 回执。
 
 一句话：现有 workspace 锁串行化写入，但普通作者会话没有绑定其打开时的完整作者文件基线，旧状态仍能在锁内合法覆盖新内容。
 
@@ -72,7 +74,7 @@ Implementation Candidate: 完整实现提交后登记固定 SHA
 代表为 A 改角色名称并保存、B 改项目名称后保存。属于已证实数据保护 bug 的修复，不要求反复裁决是否允许丢更新。
 不增加自动合并/强制覆盖等新产品选择；继续与保存中断恢复分卡。
 
-## r1 设计候选
+## r1 已签设计
 
 ### 1. 作者文件基线与增量记账分离
 
@@ -151,7 +153,7 @@ Implementation Candidate: 完整实现提交后登记固定 SHA
 
 ## Build 实现与验证回执（Codex，2026-09-07）
 
-实现比较基线 `32302e58`；产品源码仅 editor 内部，未改 content20/SAVE8、玩家存档、生成工程、迁移器或 CSS。
+完整实现候选 `6780d220`，比较基线 `32302e58`；产品源码仅 editor 内部，未改 content20/SAVE8、玩家存档、生成工程、迁移器或 CSS。
 本节是 Coding Owner 自测，不替代两席独立终审；完整 R4 与 A-03/A-07/D-01 仍未实施。
 
 ### 实现与设计钉落实
@@ -343,6 +345,8 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
   均有实际证据；原生浏览器双页保全 20 文件、冲突可见且当前修改保留、同 W 重新打开可保存。只读成本测量已登记。
   首存重复授权、同 W App refs 生命周期在实现期钉住；旧脚本分片仍禁止，不复活其输入。同步规范、审计进度、E2E 与覆盖率文档。
   交 Kimi/GLM 并行审同一候选，各写本人席位/日志并提交推送；不重签 r1、不改其他任务、不标 done。
+  候选固定为 6780d220，后续只登记文档；文档工具 20/20、399 Markdown/1,805 本地链接/139 卡检查通过，
+  git diff --check 通过，17 源码/测试哈希与已验证树一致。无缺席/代签，最终用户验收尚未进行。
 - 2026-09-07 Codex（build 准入）：用户确认“签了”，同步 b5420ae5，核两席签字和文件面后放行。
   先补真实打开/保存回归，再实现作者基线与锁内首写校验；基线/增量快照分责，原探针不改。
   GLM 文件集观察与 Kimi 成本测量纳入验证；不扩 A-03/07/D-01，不提前标 done。
@@ -373,7 +377,7 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-CONFLICT-1。
-任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1；候选取卡头 Implementation Candidate，对比 32302e58。r1 设计不重签。
+任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1；候选 6780d220，对比 32302e58。r1 设计不重签。
 先同步、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡已签设计/实现回执/最新交接，以及 project-lifecycle 现行规范。不读取或复述 GLM 本轮结论。
 独立审真实读取基线而非事后采盘、锁内进入/首写双检查、增量与基线分责、实际 close/remove 后态与中断重试、重复首存授权、同 W Root 重开 refs、PAL 原 proof 不退化、克隆/复制 sink 的完整目标预检。current loader 禁止 content.scripts，不能为旧分片恢复支持。资源写删与新增路径碰撞须有证据，A-03/07/D-01 仍在范围外。
 复跑定向 7 文件/86 项、PAL 对账1项、editor typecheck/完整 check（6353）与单次严格 fast（611文件/5867项），重型不并跑、不取多数。独立重建负控制：仅删 author-disk-baseline.ts verifySignatures 的一处比较/throw，聚焦4项应全红、完整对照4绿；临时 config/日志在 /tmp/type-pal-editor-conflict.LYKwVY/。原审计探针不改，其旧必填参数缺失不是独立修复证明。
@@ -385,7 +389,7 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-CONFLICT-1。
-任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1；候选取卡头 Implementation Candidate，对比 32302e58。r1 设计不重签。
+任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1；候选 6780d220，对比 32302e58。r1 设计不重签。
 先同步、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡设计/实现回执/最新日志与 coverage 文档。不读取或复述 Kimi 本轮结论，数字从候选树独立生成。
 枚举作者路径与所有入口：loader 字节→基线→Opened/Booted/App→授权→实际写删；既有 prevSnapshot 不得被全量基线替换。核空/绑定/PAL首存、重复未消费授权、close/remove失败、外部漂移不收编、dirty保持、同 W 重开新实例及媒体按需hash。设计中提及的旧script分片已被current loader禁止，正式测试应钉拒绝而不是复活它。
 复跑定向86项、PAL1项、完整check6353与单次严格fast611文件/5867项；核新增25 fast+1 PAL、538作者路径、资源正文读取0；基线模块分支55/61、行89/93，不冒称100%。独立核一处比较guard负控制4红/完整4绿、首次授权恢复反例先红后绿，临时证据 /tmp/type-pal-editor-conflict.LYKwVY/ 可自行重建。重型串行、不重试取多数、不修改原探针/配置/阈值。
