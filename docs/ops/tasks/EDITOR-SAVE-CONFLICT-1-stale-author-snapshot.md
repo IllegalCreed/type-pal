@@ -335,12 +335,51 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
   相邻定向合计 86 项和 PAL 对账通过；完整 check 544 文件/6,353 项与单次严格 fast 611 文件/5,867 项绿；
   精确比较守卫负控制 4 红、完整实现对照 4 绿；真实 Chrome 双页/原生 OPFS/正式 App 保存及同 W 重开验证通过。
   原源码签字前提保持，兼容审查 pass；源文件哈希与回执核定后提交，不代签两席。任一 reviewer 发现遗漏仍可 counter。
-- Kimi：pending。
+- Kimi：**accept（2026-09-07，独立终审候选 `6780d220` 对比 `32302e58`；r1 不重签；未读 GLM 本轮结论）**。
+  接手 HEAD `2a42efe0` 与 origin/main 一致，候选后产品/脚本/锁文件零漂移。
+  - **真实读取基线**：`author-disk-baseline.ts:60-106` observeAuthorSource 在 readBytes 单点捕获
+    loader 实际消费字节（readText/readJson 全部汇流）；同路径重复读内容变化即打开期冲突拒绝；
+    finish() 只补登记地图原始字节（不解析不 hydrate）、资源签名来自已读 catalog（媒体不重 hash），
+    封盘前 verifySignatures 全量复验。open-local 包装 fsaSource、main.tsx 包装 httpSource
+    （PAL sentinel 读取同被记录）、基线固定先于 ui_samples 投影——对应真实打开输入而非事后采盘。
+  - **锁内双检查**：`workspace-persistence.ts` 锁内进入 bindAuthorBaseline + author.verify()
+    全量比较；`beginAuthorizedWorkspaceMutation` 真正首个 create/remove 前再 author.verify()；
+    嵌套 mutation 复用、未新增锁、PAL proof 检查原样保留并叠加。`project-io.ts` writeFile 先冻结
+    写入快照再写/记录（expectation 来自实际写入值非重读）；writeProject 首写前对
+    `[...write, ...remove]`+catalogPath 整组 plan；新增路径碰撞按 catalog 签名或不存在校验。
+  - **部分写重试/重复首存**：authorDiskMutation 预期后态仅由本次受管写/删推导，finish() 仅当
+    磁盘==预期才推进基线；操作失败路径尝试 finish 但拒不采纳未证实部分态（catch 注释在案）；
+    authorizeFirstSaveTarget 支持 opts 基线/同目录既有恢复证据复用/非 PAL 空基线，PAL 缺
+    HTTP 作者基线即抛错——重复首存授权与 PAL 首存边界闭合。App 首存 ref 在 resume 时保持、
+    非 resume 按模式重建；成功后 authorBaselineRef 推进供绑定保存。
+  - **同 W 重开与 PAL/克隆边界**：Root openedInstanceRef 进 App key，重开同 W 必得新会话/基线
+    （不污染 workspaceId/导航/玩家存档）；clone.ts 全文件集+manifest+catalogPath 预检；
+    fsa-copy 快照路径预检 + 既有首个 create 前复验。current loader 禁止 content.scripts
+    （project-loader.ts:187-188 直读），旧分片未复活。
+  - **范围**：content/reforge/game/migrate/projects/pnpm-lock/原探针/coverage 全局配置零 diff
+    （实测）；UI 仅参数/类型/接线，无样式变化。
+  - **门禁与证据**：本人复跑定向 7 文件 **86 项** + PAL 对账 **1 项** 全绿（538 路径一致）；
+    负控制日志实证单点移除 verifySignatures 比较（唯一锚点断言）后聚焦 4 项全红、完整实现
+    4 绿/21 跳过；editor check 1,814（完整 6,353 之一部）与严格 fast TOTAL **611 文件/5,867**
+    计数核对一致；浏览器证据 browser-result.json 实测 20 文件 SHA-256 保全（B 拒写零变化）、
+    同 W 重开后仅 manifest.json 变化且 name=`Saved after reopen`、errors=[]；亲看
+    conflict-visible.png：「项目文件已在其他位置修改；本次未写入，当前修改仍保留： manifest.json」
+    完整可读、B 未保存态正确可操作。PAL 成本声明为 Node 磁盘测量（537ms/568ms），未冒充
+    浏览器 FSA 时延；原探针不改、旧必填参数缺失不当修复证据，边界如实。
+  返工项：无。本 accept 不代签、不授权 done；A-03/A-07/D-01、Q1 dumpSave 与完整 R4 仍按台账另推。
 - GLM：pending。
 - done 准入：blocked（待两席独立终审与最终验收）；不将已签设计当作实现验收。
 
 ## 交接日志
 
+- 2026-09-07 Kimi（独立终审）：同步 `2a42efe0`、工作树干净后核 `32302e58 → 6780d220`。
+  直读 author-disk-baseline（readBytes 单点捕获/重复读漂移拒开/地图原始字节/catalog 资源签名/
+  封盘全量复验）、锁内双检查（进入 + 首写前 author.verify）、部分写预期推进与失败不采纳、
+  重复首存授权复用、Root mount 计数同 W 新会话、PAL 叠加不退化、clone/fsa-copy 预检；
+  范围实测 content/reforge/game/migrate/projects/lock/原探针零 diff。复跑定向 86 + PAL 对账 1
+  全绿；核负控制 4 红/4 绿、check 6,353、严格 fast 611/5,867；读浏览器证据（20 文件保全、
+  同 W 重开仅 manifest 变、errors=[]）并亲看 conflict-visible.png。签 accept，无返工项。
+  未改实现/他席/任务状态，未读 GLM 本轮结论。Next：GLM 并行终审落卡后，Codex 统一核定 done。
 - 2026-09-07 Codex（实现 → review）：已完成 r1，定向/真实链/PAL 文件集/首存恢复边界/完整 check/ratchet/严格 fast
   均有实际证据；原生浏览器双页保全 20 文件、冲突可见且当前修改保留、同 W 重新打开可保存。只读成本测量已登记。
   首存重复授权、同 W App refs 生命周期在实现期钉住；旧脚本分片仍禁止，不复活其输入。同步规范、审计进度、E2E 与覆盖率文档。
@@ -373,7 +412,16 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
 
 ## 下一位 Agent 提示词
 
-### Kimi：实现终审（当前，与 GLM 并行）
+### Codex：汇总核定 done（当前有效，待 GLM 落卡后执行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-SAVE-CONFLICT-1 收口，任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1，终审候选 6780d220（HEAD 侧无产品变化）；设计不重签。
+先同步并检查工作树，读本卡 done 前三席签字与最新交接日志。现状：Codex（实现者自测）与 Kimi（独立终审）已 accept；GLM 数据/矩阵终审落卡后，请统一核定：三席钉同一候选 6780d220、无 counter/返工项/缺签豁免，将任务推进 done 并同步看板/索引/审计进度。
+收口时按台账保留后续：A-03 跨文件部分保存恢复、A-07 离开保护、D-01 撤销顺序、Q1 dumpSave 误接各自独立推进；完整 R4（新建→编辑→保存→重开→试玩与中断恢复扩展）登记待集中批次，未跑不称完成。
+不得代签任何一席、不把本收口扩张为整组审计缺陷授权。
+```
+
+### Kimi：实现终审（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-CONFLICT-1。
