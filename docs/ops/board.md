@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：接入保存/打开入口并独立复核；GLM：独立worktree补内核故障测试 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) r2三签有效；内核分支85.88%，GLM仅补测试、不改生产实现；普通按钮链尚未接入，未验收。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | rework | GLM：修R1/R2测试证据及R3回执；Codex：返工后复核集成 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 925a89aa测试贡献counter，尚未合入；60项绿不替代业务证明，89.11%距90%还差3分支；r2设计不重签。 |
 
 ## 阻塞
 
