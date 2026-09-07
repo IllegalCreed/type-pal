@@ -25,6 +25,8 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
     res: NodeJS.WritableStream & {
       setHeader?: (key: string, value: string) => void
       removeHeader?: (key: string) => void
+      statusCode?: number
+      end?: (body?: string) => void
     },
     next: () => void,
   ): void => {
@@ -49,17 +51,34 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
       next()
       return
     }
+    const saveState = urlPrefix === '/projects' && /^[^/]+\/\.type-pal\/save-state\.json$/.test(rel)
     try {
       const stat = statSync(file)
       if (!stat.isFile()) {
+        if (saveState) {
+          res.statusCode = 500
+          res.setHeader?.('Cache-Control', 'no-store')
+          res.end?.()
+          return
+        }
         next()
         return
       }
-    } catch {
-      next() // 不存在 → 交回 vite(返 404)
+    } catch (error) {
+      if (saveState) {
+        res.statusCode = (error as { code?: string }).code === 'ENOENT' ? 404 : 500
+        res.setHeader?.('Cache-Control', 'no-store')
+        res.end?.()
+        return
+      }
+      next()
       return
     }
     res.setHeader?.('Cache-Control', 'no-cache, no-transform')
+    if (saveState) {
+      res.setHeader?.('Cache-Control', 'no-store')
+      res.setHeader?.('Content-Type', 'application/json; charset=utf-8')
+    }
     res.removeHeader?.('Content-Encoding')
     if (file.endsWith('.rle')) {
       res.setHeader?.('Content-Type', 'application/vnd.type-pal.rle')

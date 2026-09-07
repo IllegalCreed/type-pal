@@ -25,7 +25,8 @@ test('PAL actual read evidence covers current serialized author paths without de
   const readBytes = async (path: string) => {
     validateProjectRelativePath(path, 'PAL baseline fixture')
     const text = jsonFiles.get(path)
-    if (text === undefined) throw new Error(`PAL author fixture missing ${path}`)
+    if (text === undefined)
+      throw new DOMException(`PAL author fixture missing ${path}`, 'NotFoundError')
     const bytes = new TextEncoder().encode(text)
     reads.push(path)
     bytesRead += bytes.byteLength

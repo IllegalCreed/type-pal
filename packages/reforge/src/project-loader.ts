@@ -66,6 +66,7 @@ import type { AssetBase } from './assets.js'
 import { BattleSpriteAssetCache, loadProjectMap } from './assets.js'
 import { type FileSource, httpSource } from './file-source.js'
 import { ProjectImageCache } from './project-image-cache.js'
+import { withStableProjectRead } from './project-save-state.js'
 
 export interface CurrentContentJsons {
   actors: unknown
@@ -321,6 +322,10 @@ export function assembleCurrentProject(
 }
 
 export async function loadCurrentProjectFrom(source: FileSource): Promise<LoadedCurrentProject> {
+  return withStableProjectRead(source, () => loadCurrentProjectContents(source))
+}
+
+async function loadCurrentProjectContents(source: FileSource): Promise<LoadedCurrentProject> {
   const rawManifest = await source.readJson<unknown>('manifest.json')
   const { manifest } = validateCurrentManifestStartup(rawManifest)
   if (manifest.contentVersion !== CONTENT_VERSION)

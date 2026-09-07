@@ -256,6 +256,7 @@ import type { ScriptHost, StepEvent } from './script-runner.js'
 import { evalCondition, ScriptRunner } from './script-runner.js'
 
 export * from './item-use-executor.js'
+export * from './project-save-state.js'
 export * from './runtime-script-compiler.js'
 export * from './runtime-script-project.js'
 export * from './runtime-script-runner.js'

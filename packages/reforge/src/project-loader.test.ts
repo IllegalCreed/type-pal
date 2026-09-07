@@ -1,11 +1,12 @@
 import type { CurrentManifest } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import type { FileSource } from './file-source.js'
 import {
   assembleCurrentProject,
   loadAuthorScene,
   loadCurrentProjectFrom,
 } from './project-loader.js'
+import { PROJECT_SAVE_STATE_PATH } from './project-save-state.js'
 
 const scene = {
   id: 's001',
@@ -125,7 +126,7 @@ function memorySource(files: Record<string, unknown>): FileSource {
   return {
     async readText(path) {
       const value = files[path]
-      if (value === undefined) throw new Error(`missing ${path}`)
+      if (value === undefined) throw new DOMException(`missing ${path}`, 'NotFoundError')
       return `${JSON.stringify(value)}\n`
     },
     async readJson<T>(path: string) {
@@ -172,6 +173,44 @@ function files(projectManifest = manifest()): Record<string, unknown> {
 }
 
 describe('current project loader', () => {
+  test('rejects an interrupted author save before reading any manifest or author table', async () => {
+    const data = files()
+    data[PROJECT_SAVE_STATE_PATH] = {
+      kind: 'type-pal-author-save',
+      version: 1,
+      operationId: 'cf448da8-601d-4c9c-bbdc-235b7d61d483',
+      phase: 'pending',
+      planHash: 'a'.repeat(64),
+    }
+    const source = memorySource(data)
+    const contentRead = vi.spyOn(source, 'readJson')
+    await expect(loadCurrentProjectFrom(source)).rejects.toThrow('未完成的保存')
+    expect(contentRead).not.toHaveBeenCalled()
+  })
+
+  test('rejects a complete generation change during actual project assembly', async () => {
+    const data = files()
+    const state = {
+      kind: 'type-pal-author-save',
+      version: 1,
+      operationId: 'cf448da8-601d-4c9c-bbdc-235b7d61d483',
+      phase: 'committed',
+      planHash: 'a'.repeat(64),
+    }
+    data[PROJECT_SAVE_STATE_PATH] = state
+    const source = memorySource(data),
+      read = source.readJson
+    source.readJson = async <T>(path: string) => {
+      const result = await read<T>(path)
+      if (path === 'content/actors.json')
+        data[PROJECT_SAVE_STATE_PATH] = {
+          ...state,
+          operationId: 'b174d84c-6e57-4479-a5b6-84b1c25e6c71',
+        }
+      return result
+    }
+    await expect(loadCurrentProjectFrom(source)).rejects.toThrow('读取期间')
+  })
   test('retains author identity and creates the runtime dialogue projection directly', () => {
     const project = assembleCurrentProject(manifest(), baseJsons)
     expect(project.manifest.contentVersion).toBe(20)

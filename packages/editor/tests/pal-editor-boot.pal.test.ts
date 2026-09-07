@@ -16,15 +16,24 @@ function projectFile(rel: string): string {
 }
 
 function palSource(): FileSource {
+  const read = async (rel: string) => {
+    try {
+      return await readFile(projectFile(rel))
+    } catch (error) {
+      if (error instanceof Error && 'code' in error && error.code === 'ENOENT')
+        throw new DOMException(`missing ${rel}`, 'NotFoundError')
+      throw error
+    }
+  }
   return {
     async readText(rel) {
-      return readFile(projectFile(rel), 'utf8')
+      return (await read(rel)).toString('utf8')
     },
     async readJson<T>(rel: string) {
-      return JSON.parse(await readFile(projectFile(rel), 'utf8')) as T
+      return JSON.parse((await read(rel)).toString('utf8')) as T
     },
     async readBytes(rel) {
-      return Uint8Array.from(await readFile(projectFile(rel))).buffer
+      return Uint8Array.from(await read(rel)).buffer
     },
     async urlFor(rel) {
       return pathToFileURL(projectFile(rel)).href

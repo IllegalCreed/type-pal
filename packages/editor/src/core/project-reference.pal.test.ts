@@ -37,7 +37,7 @@ const rawJson = new Map(
 )
 const readText = (path: string): string => {
   const value = rawJson.get(path)
-  if (value === undefined) throw new Error(`PAL fixture 缺文件：${path}`)
+  if (value === undefined) throw new DOMException(`PAL fixture 缺文件：${path}`, 'NotFoundError')
   return value
 }
 const source: FileSource = {

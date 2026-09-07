@@ -24,6 +24,8 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
     res: NodeJS.WritableStream & {
       setHeader?: (k: string, v: string) => void
       removeHeader?: (k: string) => void
+      statusCode?: number
+      end?: (body?: string) => void
     },
     next: () => void,
   ): void => {
@@ -46,18 +48,36 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
       next()
       return
     }
+    const saveState = urlPrefix === '/projects' && /^[^/]+\/\.type-pal\/save-state\.json$/.test(rel)
     try {
       const stat = statSync(file)
       if (!stat.isFile()) {
+        if (saveState) {
+          res.statusCode = 500
+          res.setHeader?.('Cache-Control', 'no-store')
+          res.end?.()
+          return
+        }
         next()
         return
       }
-    } catch {
+    } catch (error) {
+      // Missing recovery metadata must not fall through to the SPA's 200 HTML response.
+      if (saveState) {
+        res.statusCode = (error as { code?: string }).code === 'ENOENT' ? 404 : 500
+        res.setHeader?.('Cache-Control', 'no-store')
+        res.end?.()
+        return
+      }
       next()
       return
     }
     // canonical .rle 的 gzip 是文件内容，不是 HTTP Content-Encoding；代理也不得 transform。
     res.setHeader?.('Cache-Control', 'no-cache, no-transform')
+    if (saveState) {
+      res.setHeader?.('Cache-Control', 'no-store')
+      res.setHeader?.('Content-Type', 'application/json; charset=utf-8')
+    }
     res.removeHeader?.('Content-Encoding')
     if (file.endsWith('.rle')) {
       res.setHeader?.('Content-Type', 'application/vnd.type-pal.rle')

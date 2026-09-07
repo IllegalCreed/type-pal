@@ -4,8 +4,10 @@
  * rel = 当前工程根下的规范相对路径；所有内容和资源都必须位于工程闭包内。
  */
 import { validateProjectRelativePath } from '@type-pal/content'
+import { PROJECT_SAVE_STATE_PATH } from './project-save-state.js'
 
 export interface FileSource {
+  /** A genuinely absent file throws DOMException(name='NotFoundError'); other IO errors propagate. */
   readText(rel: string, signal?: AbortSignal): Promise<string>
   readJson<T>(rel: string, signal?: AbortSignal): Promise<T>
   readBytes(rel: string, signal?: AbortSignal): Promise<ArrayBuffer>
@@ -24,7 +26,13 @@ function joinUrl(base: string, rel: string): string {
 export function httpSource(baseUrl: string): FileSource {
   const get = async (rel: string, signal?: AbortSignal): Promise<Response> => {
     const url = joinUrl(baseUrl, rel)
-    const res = signal ? await fetch(url, { signal }) : await fetch(url)
+    const res =
+      rel === PROJECT_SAVE_STATE_PATH
+        ? await fetch(url, { cache: 'no-store', ...(signal ? { signal } : {}) })
+        : signal
+          ? await fetch(url, { signal })
+          : await fetch(url)
+    if (res.status === 404) throw new DOMException(`httpSource ${url} -> 404`, 'NotFoundError')
     if (!res.ok) throw new Error(`httpSource ${url} -> ${res.status}`)
     return res
   }

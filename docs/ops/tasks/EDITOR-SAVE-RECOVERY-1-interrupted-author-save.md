@@ -1,6 +1,6 @@
 # EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: ops（审计 A-03，不新增能力格）
 Coding Owner: Codex
@@ -30,7 +30,7 @@ Design Source Baseline: 135d065a（相对 041c2fe1 无产品实现变化）
 - 完整目标及恢复凭据就绪之前不覆盖作者文件；此前失败只能保证原有工程未被本次保存覆盖，不能找回未暂存完的编辑。
 - 恢复遇到外部修改、记录损坏、身份不符或权限不足时停止，保留恢复数据，不擅自覆盖/回滚。
 - 未点击保存的编辑不在恢复保证内；本卡解决页面关闭/浏览器重启后的持久续存，不承诺磁盘损坏、断电下的硬件级事务。
-- 用户批准的是产品结果，不是替代 Kimi/GLM 的设计签字，也不是提前验收。当前仅更新方案，未修改产品实现。
+- 用户批准的是产品结果，不是替代 Kimi/GLM 的设计签字，也不是提前验收。2026-09-07 三方 r2 设计签字齐，现进入实现。
 
 “开发期玩家存档可丢弃”的历史授权不适用于作者工程内容，不能据此删除中断保存的作者数据。
 
@@ -295,8 +295,8 @@ R4 登记同一跨页恢复链与恢复后本地试玩，无玩家战斗/剧情�
   可证伪观察仍为：无旧页面对象的新会话已有完整目标和正式恢复链即可推翻缺口判断；现树探针相反。
   设计选择完整目标先封存、可信 handle 凭据、受限前缀重放与读门，明确同源/非原子CAS/运行中懒加载边界；
   不是物理断电事务、不是旧版本兼容。实现高风险由 Codex 持有；仍须两席独立核恢复权限与完整入口，不能凭本席推进。
-- 独立非 Owner 前提复核：待后续两席直接取证。
-- 缺签豁免：无；build 准入：blocked。不得因用户要求继续或任一旧任务签字而实现本卡。
+- 独立非 Owner 前提复核：Kimi（a88f3056）与 GLM（63649751）均独立直读/复跑当前 API 探针与相邻86项，证据及可证伪观察见各席。
+- 缺签豁免：无；build 准入：**build allowed（Codex 2026-09-07 核定）**。r2 三方 premise verified/design agree、无 counter；评审提交仅改本卡，产品相对c19fc50c零diff。Coding Owner仍为Codex。
 
 #### Kimi build 前席位
 
@@ -395,7 +395,51 @@ R4 登记同一跨页恢复链与恢复后本地试玩，无玩家战斗/剧情�
 - Codex：pending。
 - Kimi：pending。
 - GLM：pending。
-- done 准入：blocked；尚未实现。
+- done 准入：blocked；尚未完成整条恢复链及实现终审/用户验收。
+
+## build 执行进度（2026-09-07，非验收候选）
+
+已核三方 r2 设计签名（Kimi a88f3056、GLM 63649751），没有 counter、缺签或产品前提变化。
+当前落地第一部分：恢复记录/计划/前缀的严格校验与 IDB 存储基础，以及实际 current loader 的只读状态门。
+
+- `reforge/src/project-save-state.ts` 严格区分 missing/pending/committed/invalid，拒绝未知字段、坏JSON和200HTML；
+  `loadCurrentProjectFrom` 在实际初始装配前后夹验，pending在任何manifest/作者表读取前拒绝，完整提交期间的epoch变化同样拒绝。
+- `httpSource` 将真实404转为明确NotFoundError，恢复状态使用no-store，403/500/AbortError保持失败；
+  editor/reforge两侧dev+preview的固定状态路由在ENOENT时返404，目录类型/权限/IO错误返500，现有6010只读GET已证404/no-store。
+- `editor/core/author-save-plan.ts` 校验current版本/身份组合/受限路径/跨平台别名/父目录与步骤顺序，按前缀推导文件/目录预期。
+  `author-save-prefix.ts` 只调和唯一issued步骤，拒绝未来步被提前写入、无issued的空占位、未知状态和不完整观测。
+- `author-save-store.ts` 是独立IDB存储适配器与凭据结构校验；complete才成功，request success后abort仍失败；
+  ready凭据必须有相匹配的完整计划签名，已提交/已清理凭据不能因临时文件缺席回滚作者内容。
+  **这些editor基础模块尚未接入保存writer；普通保存目前不会使用它们创建恢复记录或自动重放。存储函数本身不授予作者写权限。**
+- 没有修改save版本/content版本、当前PAL产物、A-02 writer/policy、App视觉布局或原审计探针，也没有执行真实作者目录写入/故障注入。
+
+本轮检查事实：
+
+- HTTP缺文件回归在修改前1红（旧Error不区分NotFound），修改后通过；原6项HTTP断言保留。
+- 新editor基础/路由定向4文件117项；reforge读取边界定向3文件44项（含既有测试），均通过。
+- 首次完整check发现4个PAL测试源的缺文件异常契约不匹配，另有1处新提示误用“工程”；
+  只修测试适配器的NotFound语义及新提示术语，业务断言/静态门禁零删改。定向5文件65项复跑通过后再次完整check。
+- 修正后完整 `pnpm check`：**549测试文件/6,498项全部通过**；各包typecheck通过，lint仍为既有50warnings/11infos、0errors。
+  docs工具20/20、coverage工具17/17另计，不混入上述Vitest项数。
+- `pnpm coverage:ratchet` 在不降既有比例的前提下登记4个新增生产模块与测试（提升16项/范围变化8项）；
+  随后的**单次严格 `pnpm coverage:fast` 通过**：615生产文件/6,012项测试，editor为217文件/1,774项。
+  两次editor精确计数一致：statements 23,916/31,764、branches 18,508/27,621、functions 5,985/8,082、lines 21,614/27,729；
+  没有off-by-one复现，也没有以多数通过放行。provider/exclusions/全局超时/旧测试身份均未缩窄。
+- 新基础模块逐文件覆盖：plan行/函数100%、分支86/87（98.85%）；prefix、store、reforge只读状态门的行/函数/分支均100%。
+  这只证明已写基础逻辑的测试覆盖，不能替代尚未接入的SR-01跨页恢复/写权限/成本与功能验收。
+- 只读门测试已覆盖真实loader调用；路由测试执行两份实际serveDir函数的AST提取代码，不是手写中间件副本。
+  IDB单测是事件边界模型，不能当作原生句柄structured clone、跨页恢复或断电证据。
+
+后续仍由Codex按同一r2连续实现，无需重新设计签字：
+
+1. 连接原始policy授权、完整目标目录暂存和封存校验；持久凭据不可直接凭目录JSON补建。
+2. 受控执行器与issued/完成游标、data-complete/committed/清理故障闭环；接入原页own retry及新页打开，保护A-02/dirty归属。
+3. 首存/clone/Save As整笔计划及其源读取一致性、ZIP/试玩锁与完整打开消费域，不能把目前初始loader门当所有入口已完成。
+4. SR-01～12正式故障矩阵、ready/前缀/handle负控制、原生隔离浏览器跨页/权限验证及成本实测；完成后才冻结候选送终审。
+
+本卡仍为build，A-03尚未标修复；当前没有需要用户手工验收或再次拍板的项目。
+
+无下一位 Agent 提示词：本卡继续由 Codex 实现，当前不交终审、不请求重复设计签字。
 
 ## 交接日志
 
@@ -438,6 +482,8 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
   未改实现/共享结论/任务状态，不标 build/done。Next：三签齐后 Codex 核门禁放行 build。
 
 ## 下一位 Agent 提示词
+
+当前由 Codex 按已签 r2 实现与自验证；以下设计提示词为历史记录，无需重复转发/重签。实现候选冻结后再给两席终审提示词。
 
 ### 给 Kimi（与 GLM 并行）
 

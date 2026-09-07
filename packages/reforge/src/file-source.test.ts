@@ -65,4 +65,32 @@ describe('httpSource', () => {
     expect(await s.urlFor('content/a.json')).toBe('projects/pal/content/a.json')
     await expect(s.urlFor('/extracted/x.png')).rejects.toThrow('禁止绝对路径')
   })
+
+  test('恢复状态读取绕过缓存，缺文件以明确 NotFoundError 区分 HTTP 故障', async () => {
+    const fetchMock = vi.fn(async () => new Response('', { status: 404 }))
+    vi.stubGlobal('fetch', fetchMock)
+    await expect(
+      httpSource('projects/pal').readText('.type-pal/save-state.json'),
+    ).rejects.toMatchObject({
+      name: 'NotFoundError',
+    })
+    expect(fetchMock.mock.calls[0]).toEqual([
+      'projects/pal/.type-pal/save-state.json',
+      { cache: 'no-store' },
+    ])
+  })
+
+  test('恢复状态的 HTTP 403/500 不伪装成缺文件', async () => {
+    for (const status of [403, 500]) {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn(async () => new Response('', { status })),
+      )
+      await expect(
+        httpSource('projects/pal').readText('.type-pal/save-state.json'),
+      ).rejects.not.toMatchObject({
+        name: 'NotFoundError',
+      })
+    }
+  })
 })

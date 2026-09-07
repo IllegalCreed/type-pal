@@ -13,15 +13,24 @@ import { projectReferenceSourceSceneId } from '../src/core/project-reference.js'
 import { collectCurrentProjectReferenceIndex } from '../src/core/project-reference-adapters.js'
 
 const root = resolve(import.meta.dirname, '../../../projects/pal')
+function read(path: string) {
+  try {
+    return readFileSync(resolve(root, path))
+  } catch (error) {
+    if (error instanceof Error && 'code' in error && error.code === 'ENOENT')
+      throw new DOMException(`missing ${path}`, 'NotFoundError')
+    throw error
+  }
+}
 const source: FileSource = {
   async readText(path) {
-    return readFileSync(resolve(root, path), 'utf8')
+    return read(path).toString('utf8')
   },
   async readJson<T>(path: string) {
-    return JSON.parse(readFileSync(resolve(root, path), 'utf8')) as T
+    return JSON.parse(read(path).toString('utf8')) as T
   },
   async readBytes(path) {
-    const bytes = readFileSync(resolve(root, path))
+    const bytes = read(path)
     return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
   },
   async urlFor(path) {

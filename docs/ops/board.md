@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | draft | Kimi / GLM：并行前提与设计审查；Codex 核门禁 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) r2；用户已批准继续完成本次保存；完整暂存、受限重放和读门送审，未实现。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：实现与故障验证 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) r2三方前提/设计签字齐，无counter；继续完成本次保存，遇外部冲突停止；未验收。 |
 
 ## 阻塞
 
