@@ -1,11 +1,17 @@
 /**
- * 项目导出 zip(A5)。项目自包含铁律 → 导出 = 把项目文件夹**原样**打包(递归全收,
- * 不挑不滤 —— 文件夹就是全部世界),分享/备份即这一个 zip。读磁盘:未保存改动不入包。
+ * 项目导出 zip(A5)。递归收集稳定的磁盘快照，只排除未发布的保存恢复暂存目录；
+ * 已提交保存状态、项目身份旁车与其他用户文件原样保留。未保存改动不入包。
  */
 
 import { validateAssetCatalog } from '@type-pal/content'
-import { decodeBattleSpriteAssetBytes } from '@type-pal/reforge'
+import {
+  decodeBattleSpriteAssetBytes,
+  fsaSource,
+  PROJECT_SAVE_RECOVERY_PATH,
+  withStableProjectRead,
+} from '@type-pal/reforge'
 import { sha256Hex } from './binary-signature.js'
+import { withProjectDirectoryReadLock } from './project-read-lock.js'
 import { buildZip, type ZipEntry } from './zip.js'
 
 export async function validateProjectZipEntries(entries: readonly ZipEntry[]): Promise<void> {
@@ -51,10 +57,10 @@ export async function validateProjectZipEntries(entries: readonly ZipEntry[]): P
     throw new Error('ZIP 含 catalog 外的 extracted 资源副本')
 }
 
-/** 递归收集 FSA 目录全部文件(路径正斜杠,相对项目根)。 */
-export async function collectProjectZipEntries(
+/** 递归收集发布文件，跳过恢复子树本身，连暂存 payload 都不读取。 */
+async function collectDirectoryEntries(
   dir: FileSystemDirectoryHandle,
-  prefix = '',
+  prefix: string,
 ): Promise<ZipEntry[]> {
   const out: ZipEntry[] = []
   // entries() 是 FSA 标准异步迭代器(TS lib 未收录 → 局部窄化)
@@ -64,19 +70,23 @@ export async function collectProjectZipEntries(
     }
   ).entries()
   for await (const [name, handle] of iter) {
+    const path = `${prefix}${name}`
+    if (path === PROJECT_SAVE_RECOVERY_PATH) continue
     if (handle.kind === 'file') {
       const file = await (handle as FileSystemFileHandle).getFile()
-      out.push({ path: `${prefix}${name}`, data: new Uint8Array(await file.arrayBuffer()) })
+      out.push({ path, data: new Uint8Array(await file.arrayBuffer()) })
     } else {
-      out.push(
-        ...(await collectProjectZipEntries(
-          handle as FileSystemDirectoryHandle,
-          `${prefix}${name}/`,
-        )),
-      )
+      out.push(...(await collectDirectoryEntries(handle as FileSystemDirectoryHandle, `${path}/`)))
     }
   }
   return out
+}
+
+/** 持锁完成状态夹验与全量字节采集；压缩/下载只消费已冻结的内存条目。 */
+export function collectProjectZipEntries(dir: FileSystemDirectoryHandle): Promise<ZipEntry[]> {
+  return withProjectDirectoryReadLock(dir, () =>
+    withStableProjectRead(fsaSource(dir), () => collectDirectoryEntries(dir, '')),
+  )
 }
 
 /** 打包项目目录 → 触发浏览器下载 <projectId>.zip。返回条目数(UI 提示用)。 */

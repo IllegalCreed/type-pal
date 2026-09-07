@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-07T13:46:52.523Z",
+  "generatedAt": "2026-09-07T15:05:08.102Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 616,
-  "testCount": 6100,
+  "sourceFileCount": 617,
+  "testCount": 6130,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2580,7 +2580,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 218,
+      "sourceFileCount": 219,
       "sourceFiles": [
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
@@ -2637,6 +2637,7 @@
         "packages/editor/src/core/playback.ts",
         "packages/editor/src/core/project-diagnostics.ts",
         "packages/editor/src/core/project-io.ts",
+        "packages/editor/src/core/project-read-lock.ts",
         "packages/editor/src/core/project-reference-adapters.ts",
         "packages/editor/src/core/project-reference.ts",
         "packages/editor/src/core/scene-script-view.ts",
@@ -2801,10 +2802,10 @@
         "packages/editor/src/ui/stamp-placement-selection-overlay.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "ed25865086ac2d281abae20df88deb2110a475ef07c67ca759766b3adada569e",
+      "scopeDigest": "9cf3275d061f423d1480456cb93daa5984eefc9ceb92af5147c1f00b82fa3bfc",
       "fastTests": {
-        "testCount": 1861,
-        "testFileCount": 184,
+        "testCount": 1891,
+        "testFileCount": 185,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2855,6 +2856,7 @@
           "packages/editor/src/core/playback.test.ts",
           "packages/editor/src/core/project-diagnostics.test.ts",
           "packages/editor/src/core/project-io.test.ts",
+          "packages/editor/src/core/project-read-admission.test.ts",
           "packages/editor/src/core/project-reference-adapters.test.ts",
           "packages/editor/src/core/project-reference.test.ts",
           "packages/editor/src/core/project-save-route.test.ts",
@@ -3184,8 +3186,8 @@
           },
           {
             "file": "packages/editor/src/core/load-play-project.test.ts",
-            "testCount": 2,
-            "identityDigest": "f1489032897ef3bfa34a5677b2bad7aa8ead369ac580df663e295a961d479415"
+            "testCount": 3,
+            "identityDigest": "edff9b251808300b971231daac2465bca9e6e7ca837a7789e7c8a815adae41be"
           },
           {
             "file": "packages/editor/src/core/map-patch.test.ts",
@@ -3236,6 +3238,11 @@
             "file": "packages/editor/src/core/project-io.test.ts",
             "testCount": 5,
             "identityDigest": "cfca2477f01bfb375b2b9b5a5c8ab49ecf9a185f0af5276736274d2a46130e64"
+          },
+          {
+            "file": "packages/editor/src/core/project-read-admission.test.ts",
+            "testCount": 28,
+            "identityDigest": "7406b971a4e17ea23ccfc71a72b70c7f47a9d331bfdbfe7d33826c63954a8dd3"
           },
           {
             "file": "packages/editor/src/core/project-reference-adapters.test.ts",
@@ -3409,8 +3416,8 @@
           },
           {
             "file": "packages/editor/src/core/zip.test.ts",
-            "testCount": 9,
-            "identityDigest": "30643579ca422dba49d17051ccf5664db20b6fc2a747919116cb7ec682dd54f2"
+            "testCount": 10,
+            "identityDigest": "08568d56bcafd68b882b3b6a8c6eb759b15164eda83a4b585644cb7e1b269c81"
           },
           {
             "file": "packages/editor/src/play.test.ts",
@@ -3913,46 +3920,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "12ee080f5acd6b54bc6293bfabe119bde1e83c55136fa9bdf244f21affc1bece",
+        "identityDigest": "647696fae88736d8cf048a101458f66e2fd658f2e7e2a55eea7417e5ed732740",
         "duplicateIdentityCount": 8,
-        "executionDigest": "ffcf44052e98778f59f8b24eb605b8a428e83835971ac189ad95fb0d696b121b"
+        "executionDigest": "d61f075f3ffdd73346505433da1b55fe67bbe1a0453ccd3ace7bb8b94e32dfbe"
       },
       "metrics": {
         "statements": {
-          "covered": 24489,
-          "total": 32391
+          "covered": 24529,
+          "total": 32417
         },
         "branches": {
-          "covered": 18923,
-          "total": 28079
+          "covered": 18937,
+          "total": 28089
         },
         "functions": {
-          "covered": 6080,
-          "total": 8180
+          "covered": 6090,
+          "total": 8189
         },
         "lines": {
-          "covered": 22132,
-          "total": 28290
+          "covered": 22164,
+          "total": 28311
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 53373,
-      "total": 79403
+      "covered": 53413,
+      "total": 79429
     },
     "branches": {
-      "covered": 38227,
-      "total": 62460
+      "covered": 38241,
+      "total": 62470
     },
     "functions": {
-      "covered": 10113,
-      "total": 14581
+      "covered": 10123,
+      "total": 14590
     },
     "lines": {
-      "covered": 48238,
-      "total": 69473
+      "covered": 48270,
+      "total": 69494
     }
   }
 }

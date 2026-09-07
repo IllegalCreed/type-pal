@@ -5,10 +5,18 @@
  * 重建。这里故意不做版本分发或旧 loader 回退，避免编辑页与试玩页的项目边界再次分叉。
  */
 import { fsaSource, loadCurrentProject, loadCurrentProjectFrom } from '@type-pal/reforge'
+import { withProjectDirectoryReadLock } from './project-read-lock.js'
 
 export function loadPlayProject(
   projectId: string,
   dir?: FileSystemDirectoryHandle,
 ): ReturnType<typeof loadCurrentProjectFrom> {
-  return dir ? loadCurrentProjectFrom(fsaSource(dir)) : loadCurrentProject(projectId)
+  if (!dir) return loadCurrentProject(projectId)
+  const source = fsaSource(dir)
+  // Constructing a source does no IO. The current loader owns the save-state
+  // sandwich inside the lock; successful loads retain their source for lazy reads.
+  return withProjectDirectoryReadLock(dir, () => loadCurrentProjectFrom(source)).catch((error) => {
+    source.dispose?.()
+    throw error
+  })
 }

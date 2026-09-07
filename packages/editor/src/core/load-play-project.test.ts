@@ -13,6 +13,11 @@ vi.mock('@type-pal/reforge', () => ({
   loadCurrentProjectFrom: reforge.loadCurrentProjectFrom,
 }))
 
+vi.mock('./handle-store.js', async (original) => ({
+  ...(await original<typeof import('./handle-store.js')>()),
+  findWorkspaceRecordByHandle: async () => null,
+}))
+
 import { loadPlayProject } from './load-play-project.js'
 
 describe('loadPlayProject current canonical boundary', () => {
@@ -39,5 +44,14 @@ describe('loadPlayProject current canonical boundary', () => {
     expect(reforge.fsaSource).toHaveBeenCalledExactlyOnceWith(dir)
     expect(reforge.loadCurrentProjectFrom).toHaveBeenCalledExactlyOnceWith(reforge.source)
     expect(reforge.loadCurrentProject).not.toHaveBeenCalled()
+  })
+
+  test('failed local load disposes its source and preserves the original error', async () => {
+    const error = new Error('rejected current project')
+    const dispose = vi.fn()
+    reforge.fsaSource.mockReturnValue({ ...reforge.source, dispose })
+    reforge.loadCurrentProjectFrom.mockRejectedValue(error)
+    await expect(loadPlayProject('pal', {} as FileSystemDirectoryHandle)).rejects.toBe(error)
+    expect(dispose).toHaveBeenCalledOnce()
   })
 })

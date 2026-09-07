@@ -1,41 +1,17 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
+import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { sha256Hex } from './binary-signature.js'
 import { collectProjectZipEntries, validateProjectZipEntries } from './export-zip.js'
 import { buildSeedAssets } from './seed-assets.js'
 import { buildZip, crc32 } from './zip.js'
 
+vi.mock('./handle-store.js', async (original) => ({
+  ...(await original<typeof import('./handle-store.js')>()),
+  findWorkspaceRecordByHandle: async () => null,
+}))
+
 function projectDir(files: Record<string, string>): FileSystemDirectoryHandle {
-  const tree = new Map<string, string>(Object.entries(files))
-  const make = (prefix: string): FileSystemDirectoryHandle =>
-    ({
-      kind: 'directory',
-      async *entries() {
-        const children = new Map<string, 'file' | 'directory'>()
-        for (const path of tree.keys()) {
-          if (!path.startsWith(prefix)) continue
-          const rest = path.slice(prefix.length)
-          const [name, ...tail] = rest.split('/')
-          if (!name) continue
-          children.set(name, tail.length ? 'directory' : 'file')
-        }
-        for (const [name, kind] of children) {
-          if (kind === 'directory') yield [name, make(`${prefix}${name}/`)]
-          else {
-            const value = tree.get(`${prefix}${name}`) ?? ''
-            yield [
-              name,
-              {
-                kind: 'file',
-                async getFile() {
-                  return new File([value], name)
-                },
-              } as FileSystemFileHandle,
-            ]
-          }
-        }
-      },
-    }) as unknown as FileSystemDirectoryHandle
-  return make('')
+  return memoryAuthorDirectory(files).dir
 }
 
 /** 解 zip(测试用最小 reader):按中央目录逐条取出并解压,验 roundtrip。 */
@@ -172,6 +148,40 @@ describe('zip 打包器(A5 项目导出)', () => {
     const zip = await buildZip([{ path: 'a.bin', data: tiny }])
     const back = await readZip(zip)
     expect(back.get('a.bin')).toEqual(tiny)
+  })
+
+  test('恢复暂存子树不读取不入包，除此之外逐字节保留包括相似用户路径', async () => {
+    const disk = memoryAuthorDirectory({
+      'manifest.json': '{"id":"pal"}',
+      '.type-pal/save-state.json': {
+        kind: 'type-pal-author-save',
+        version: 1,
+        operationId: '11111111-1111-4111-8111-111111111111',
+        phase: 'committed',
+        planHash: 'a'.repeat(64),
+      },
+      '.type-pal/workspace.json': 'sandbox identity bytes\n',
+      '.type-pal/pal-development.json': 'PAL identity bytes\n',
+      '.type-pal/save-recovery/operation/plan.json': 'private plan',
+      '.type-pal/save-recovery/operation/blobs/bytes': new Uint8Array([1, 2, 255]).buffer,
+      '.type-pal/save-recovery-notes.txt': 'user file, not recovery',
+      'notes/.type-pal/save-recovery/example.txt': 'nested user path, not root recovery',
+    })
+    const before = new Map(disk.files)
+    const reads: string[] = []
+    disk.hooks.afterRead = (path) => {
+      reads.push(path)
+    }
+    const entries = await collectProjectZipEntries(disk.dir)
+    const back = await readZip(await buildZip(entries))
+    const published = [...disk.files].filter(
+      ([path]) => !path.startsWith('.type-pal/save-recovery/'),
+    )
+    expect([...back.keys()].sort()).toEqual(published.map(([path]) => path).sort())
+    for (const [path, bytes] of published) expect(back.get(path)).toEqual(new Uint8Array(bytes))
+    expect(reads.some((path) => path.startsWith('.type-pal/save-recovery/'))).toBe(false)
+    expect(disk.files).toEqual(before)
+    expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   })
 
   test('导出可复现:同内容两次打包字节全等(DOS 时间恒 1980)', async () => {

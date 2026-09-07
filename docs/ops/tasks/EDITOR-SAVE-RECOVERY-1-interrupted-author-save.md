@@ -894,6 +894,79 @@ node 环境（与相邻 fixture 一致，资产 gzip 需 undici Response#stream�
 尚未新增测试或实现读出口。不把“可交GLM”写成“GLM已开工”，由用户转发下方提示词。
 文档工具20项及400 Markdown/1,812本地链接/140卡检查通过；git diff --check通过，packages/scripts零diff。
 
+### Codex · 77ec3485 读出口接收与实现（2026-09-08）
+
+接收前同步main/8dac68e5与GLM分支，核77ec3485相对8dac68e5仅新测试文件与本卡GLM回执/日志，
+产品相对c5781098零diff。独立在GLM树复跑新15项与相邻11项，得到**9绿/6红，新旧合计20绿/6红**；
+原loader突变配置单独移除`loadCurrentProjectFrom`的状态夹验后，试玩换代反例exit1（错误resolved）。
+
+**接收勘误（保留GLM原回执，不改他席历史）：** 原试玩锁用例的`observed`实际为`undefined`，
+不是回执所述`acquired`；fixture的`afterRead`只观察arrayBuffer，原始fsaSource的manifest JSON走Blob.text。
+此外内存Web Locks在不可用时应调用callback(null)，原桩直接return null，原探针忽略callback的锁参数；
+三个锁用例还用了setTimeout(0)。Codex集成时补Blob.text精确manifest观测，按真实callback(null)判锁，
+在读取内部await探针并移除三个计时器。**先于产品修复复跑：试玩/ZIP均actual acquired、打开入口unavailable**，
+两红一绿才构成锁缺口的直接证据。本次由Codex适配测试，不把观测错误冒充产品反例，也不重开r2设计。
+
+实现范围与证据：
+
+- `packages/editor/src/core/project-read-lock.ts:9`：共享只读锁入口，严格校验已登记身份，discovery→W锁序，
+  获锁后及读完重查目录绑定；未登记目录持discovery直到读完，避免首次保存并发获新身份。
+  不查询/消费恢复凭据，不登记身份，不触发恢复，也不授予写权限。
+- `packages/editor/src/core/load-play-project.ts:14`：HTTP路由不变；本地初始loader装配在读锁内，
+  保留loader原有保存状态夹验；失败释放source，成功保留懒加载所需source。
+- `packages/editor/src/core/export-zip.ts:60`：锁内完整采集及前后状态夹验，随后仅压缩冻结字节；
+  pending/损坏/读取中换代/IO错误拒绝，未建立下载。仅跳过根`.type-pal/save-recovery`，不遍历暂存子树，
+  保留committed门、sandbox/PAL身份旁车与用户文件（包括相似名称、嵌套非根路径），磁盘原件零写删。
+- GLM原15项业务断言保留并全部转绿（历史红绿标注移至本节）；Codex新增13项读出口边界、
+  ZIP逐字节roundtrip与失败source释放各1项。**定向3文件/41项绿**，editor typecheck绿。
+  原zip9项与load-play2项断言不变，仅将旧简化目录替身适配为完整FSA fixture并隔离IDB边界。
+- 新增边界覆盖：真正状态缺席正控；NotReadable/NotAllowed/Abort不得当NotFound；
+  读取中变pending；失败后两锁释放；无绑定目录discovery锁；获锁前绑定消失及读取中四身份字段漂移。
+  只读分支同时断言文件零写删、无凭据查询/重放；不靠skip/缩范围凑绿。
+
+独立单点突变（均内存load hook，不stash、不改生产树）：
+
+| 移除唯一防护 | 失败业务证据 | 结果 |
+|---|---|---|
+| loader状态夹验 | 试玩中途换代错误resolved | exit1 |
+| ZIP状态夹验 | pending仍resolved并进入下载 | exit1 |
+| ZIP暂存排除 | ZIP包含`.type-pal/save-recovery` | exit1 |
+| 试玩读锁 | manifest读取中另一请求拿到W锁 | exit1 |
+| ZIP读锁 | manifest采集中另一请求拿到W锁 | exit1 |
+
+配置及日志：`/tmp/codex-read-guards.rmksVQ/negative.config.mts`，同配置不设突变的正常对照41项exit0。
+
+原生功能复验：隔离6011 + 全新headless Chrome上下文，真实OPFS目录、IDB句柄登记、Web Locks及下载。
+第一页面在真实manifest.getFile内部挂起，第二页面ifAvailable确认试玩/ZIP均同时持W与discovery；
+释放后试玩返回正确项目、ZIP真实下载一次共21文件；pending与坏JSON两种目录状态对两个出口均拒绝，
+下载总数仍1，原错误状态字节保持。`unzip -l`确认仅committed门入包、恢复暂存不入包。
+这是本地读出口功能验证，不冒充OS目录授权、视觉巡检或整个恢复工作流验收。
+临时脚本`native-read.mjs`先修正了第二轮entered信号复用及fixture JSON格式未匹配catalog哈希的问题，
+最终exit0，未为测试修改产品；证据`native-read.json`/`native-export.zip`。6011实例已停止，用户6010未重启/清缓存。
+
+全仓质量门：初跑check只因新export-zip注释出现禁用术语“工程”失败，已改为“项目”，
+术语定向回归通过后**完整pnpm check再次exit0**：551文件/6,616项（editor203文件/2,048项），
+各包typecheck通过；lint保持既有50 warnings/11 infos、零错误，未放宽测试或排除检查。
+文档工具20项、400 Markdown/1,812本地链接/140卡检查通过，任务状态/索引保持build。
+
+统一覆盖率：固定`TYPE_PAL_COVERAGE_BASE_REF=8dac68e5`，官方`coverage:ratchet` exit0，
+仅新增`project-read-lock.ts`生产范围及对应测试身份：**617生产文件/6,130项fast测试**，
+editor219生产文件/185测试文件/1,891项；其余六包指标与测试清单均不变。
+editor语句24,529/32,417、分支18,937/28,089、函数6,090/8,189、行22,164/28,311，全部只升不降。
+**单次严格`coverage:fast` exit0**，合并表逐字节比对ratchet结果相同，提升0项，无抖动；
+未取多次多数、不降低阈值、不排除新文件。日志`check-final.log`/`ratchet.log`/`strict-fast.log`在同一临时证据目录。
+新增读锁模块行13/13、函数4/4、分支9/9；试玩入口行5/5、函数3/3、分支2/2，均100%。
+ZIP整文件行47/47、函数8/8、分支29/33（87.87%），仍有既有校验边界未覆盖，随整卡后续真实故障回归补齐，
+不以本轮全仓门禁通过宣称整卡核心覆盖目标已达标。
+
+**集成结论：接收GLM测试贡献，经Codex校准和补充后使6项缺口转绿。** 本节不是整卡终审accept，
+GLM作为这15项测试贡献者不能把它们算自己的独立第三方验证，终审交接必须披露。
+整卡仍build；clone/Save As整笔暂存与源读取一致性、大工程/PAL成本及其余核心覆盖率目标尚未完成。
+不扩大到已运行试玩的永久版本快照，不触玩家存档、content/SAVE版本、公共模型、生成PAL或旧审计探针。
+
+交接收口：main保留GLM的77ec3485，再由Codex提交读出口实现、探针校准/补测及官方生成baseline；
+看板同步为Codex继续整笔复制，历史GLM提示词停用。三席签字块未改、不代签、不标review/done。
+
 ## 交接日志
 
 - 2026-09-07 Codex：同步 041c2fe1 洁净树，复核 A-02 后的 A-03。新增内存当前 API 探针，旧探针/产品/正式测试未动；
@@ -936,12 +1009,12 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-当前Codex继续整笔复制，GLM按下方新分工并行补读出口先红测试；上一批GLM测试及普通入口接线已通过的复核保持有效。
-本次不重签设计，不转整卡终审。
+当前GLM读出口测试已接收并由Codex完成对应保护；Codex下一步继续clone/Save As整笔暂存与源一致性。
+无下一位Agent提示词，仍由Codex继续build；本次不重签设计，不转整卡终审。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
 当前不请求用户验收。
 
-### 给 GLM（当前：ZIP/试玩读出口回归）
+### 给 GLM（历史：ZIP/试玩读出口回归，77ec3485已接收）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 协作 EDITOR-SAVE-RECOVERY-1。
