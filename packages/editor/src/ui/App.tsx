@@ -97,7 +97,11 @@ import {
 import { exportProjectZip } from '../core/export-zip.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
-import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
+import {
+  resumeOwnProjectSave,
+  serializeProjectWithMapCopies,
+  writeProject,
+} from '../core/project-io.js'
 import {
   createProjectReferenceIndex,
   type ProjectReferenceEdge,
@@ -343,6 +347,7 @@ export function App(props: {
   }
   /** 启动屏打开/克隆得到的项目目录句柄(P4):保存直接写回此夹,不再首存选夹。 */
   initialDir?: FileSystemDirectoryHandle
+  initialSaveWarning?: string
   authorBaseline: AuthorDiskBaseline
   /** 会话级工作区身份；不写进 manifest，所有目录 mutation 都由它授权。 */
   workspace: WorkspaceContext
@@ -572,7 +577,7 @@ export function App(props: {
   const snapshotRef = useRef<Map<string, string> | null>(null)
   const authorBaselineRef = useRef(props.authorBaseline)
   const firstSaveAuthorRef = useRef<AuthorDiskBaseline | undefined>(undefined)
-  const [saveErr, setSaveErr] = useState('')
+  const [saveErr, setSaveErr] = useState(props.initialSaveWarning ?? '')
   const [saveActivity, setSaveActivity] = useState<ProjectSaveActivity | null>(null)
   // React state 只负责展示；同步 ref 才能在首个 await 前防住双击和并发项目 IO。
   const saveInFlightRef = useRef(false)
@@ -2093,8 +2098,23 @@ export function App(props: {
         rememberDirectory = true
         // Early read-only proof gives immediate feedback after the picker. The same proof is run
         // again immediately before mutation below to close the serialize/fetch TOCTOU window.
-        await preflightFirstSaveTarget(props.workspace, dir, { resumesInterruptedAttempt })
       }
+      const authorBaseline = rememberDirectory
+        ? firstSaveAuthorRef.current!
+        : authorBaselineRef.current
+      setSaveErr('')
+      setSaveActivity({ phase: 'preparing' })
+      const recovered = await resumeOwnProjectSave(props.workspace, dir, authorBaseline, () =>
+        setSaveActivity({ phase: 'recovering' }),
+      )
+      if (recovered) {
+        snapshotRef.current = recovered.snapshot
+        authorBaselineRef.current = authorBaseline
+        dirHandleRef.current = dir
+        rememberDirectory = false
+      }
+      if (rememberDirectory)
+        await preflightFirstSaveTarget(props.workspace, dir, { resumesInterruptedAttempt })
       const savedState = session.getState()
       const savedScriptState = scriptSession?.getState()
       const savedScriptVersion = scriptSession?.getVersion()
@@ -2111,22 +2131,20 @@ export function App(props: {
       // 把 catalog 的全部二进制一并物化，不能只写本会话新增的 assetBlobs。
       const files = await serializeEditorSnapshot(savedState, savedScriptState, rememberDirectory)
       let lastPercent = -1
-      setSaveActivity({ phase: 'writing', completed: 0, total: 0 })
       // 即使是首存也传空 Map：writeProject 会把每个已成功 close 的路径记进实际磁盘恢复快照。
       // 中断后该 Map 留在 ref 中，下次保存/撤销才能清理已写但未发布的新 blob。
       const recoverySnapshot = snapshotRef.current ?? new Map<string, string>()
       snapshotRef.current = recoverySnapshot
-      const authorBaseline = rememberDirectory
-        ? firstSaveAuthorRef.current!
-        : authorBaselineRef.current
       const target = rememberDirectory
         ? await authorizeFirstSaveTarget(props.workspace, dir, {
             resumesInterruptedAttempt,
             authorBaseline,
           })
         : await authorizeBoundWorkspaceTarget(props.workspace, dir, authorBaseline)
-      snapshotRef.current = await withAuthorizedWorkspaceMutation(target, async (mutation) => {
-        const nextSnapshot = await writeProject(mutation, files, {
+      const result = await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+        // The durable intent must include its recent registration before preparation starts.
+        await registerAuthorizedWorkspaceMutation(mutation, props.workspace, dir.name)
+        return writeProject(mutation, files, {
           prevSnapshot: recoverySnapshot,
           removePaths,
           onProgress: ({ completed, total }) => {
@@ -2136,11 +2154,9 @@ export function App(props: {
             setSaveActivity({ phase: 'writing', completed, total })
           },
         })
-        // Registration stays under the same workspace mutation lock as the write. A competing
-        // first-save therefore sees the binding before it can mutate an identical directory copy.
-        await registerAuthorizedWorkspaceMutation(mutation, props.workspace, dir.name)
-        return nextSnapshot
       })
+      snapshotRef.current = result.snapshot
+      setSaveErr(result.cleanupWarning ?? '')
       // 若保存期间仍有后台 hydrate/command 生成新 state，磁盘只是开始时快照，不能误清 dirty。
       if (session.getState() === savedState) session.markSaved()
       if (
@@ -2157,7 +2173,7 @@ export function App(props: {
         saveAttemptDirRef.current = dir
       }
     } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return // 用户取消选择器
+      // pickDir already turns genuine picker cancellation into null; an IO AbortError is a failure.
       // writeProject 已原地更新恢复快照；保留它供下次恢复/清理。
       setSaveErr(e instanceof Error ? e.message : String(e))
     } finally {
@@ -2168,12 +2184,17 @@ export function App(props: {
 
   // 「项目」菜单(P4 native-app 手感:新建 / 打开别的 / 另存为)。切项目 → 上抛 main 重建 session。
   const runProj = async (fn: () => Promise<Opened | null>): Promise<void> => {
+    if (saveInFlightRef.current || exporting) return
+    saveInFlightRef.current = true
+    setSaveActivity({ phase: 'choosing-directory' })
     try {
       const o = await fn()
       if (o) props.onOpened?.(o)
     } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return
       setSaveErr(e instanceof Error ? e.message : String(e))
+    } finally {
+      saveInFlightRef.current = false
+      setSaveActivity(null)
     }
   }
 
@@ -2200,7 +2221,6 @@ export function App(props: {
       const opened = await operation
       if (opened) props.onOpened?.(opened)
     } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return
       setSaveErr(e instanceof Error ? e.message : String(e))
     } finally {
       saveInFlightRef.current = false
@@ -2246,7 +2266,13 @@ export function App(props: {
       enabled: saveActivity === null,
       scope: 'global',
       defaultPlacement: 'common',
-      execute: () => void runProj(() => openExistingProject({ forceSandbox: props.forceSandbox })),
+      execute: () =>
+        void runProj(() =>
+          openExistingProject({
+            forceSandbox: props.forceSandbox,
+            onRecovering: () => setSaveActivity({ phase: 'recovering' }),
+          }),
+        ),
     },
     {
       id: 'file.rename',

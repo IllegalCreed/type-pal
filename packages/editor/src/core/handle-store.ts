@@ -60,6 +60,14 @@ declare const workspaceRegistrationLockBrand: unique symbol
 export type WorkspaceRegistrationLock = Readonly<{ [workspaceRegistrationLockBrand]: never }>
 const workspaceRegistrationLocks = new WeakMap<object, string>()
 
+export function assertWorkspaceRegistrationLock(
+  lock: WorkspaceRegistrationLock,
+  workspaceId: string,
+): void {
+  if (workspaceRegistrationLocks.get(lock) !== workspaceId)
+    throw new Error('拒绝未经 workspace identity lock 授权的操作')
+}
+
 /**
  * Serialize first-save/discovery decisions that do not yet have a trustworthy workspaceId.
  * This prevents two tabs opening the same unmarked directory from minting independent identities.

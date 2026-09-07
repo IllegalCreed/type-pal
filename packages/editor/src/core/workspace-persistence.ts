@@ -5,9 +5,15 @@ import {
   bindAuthorBaseline,
   createEmptyAuthorDiskBaseline,
 } from './author-disk-baseline.js'
-import { assertSaveOperationId } from './author-save-plan.js'
+import {
+  type AuthorSavePlan,
+  assertSaveOperationId,
+  parseAuthorSavePlan,
+  savePrefix,
+} from './author-save-plan.js'
 import { binarySnapshotSignature } from './binary-signature.js'
 import {
+  assertWorkspaceRegistrationLock,
   findWorkspaceRecordByHandle,
   loadWorkspaceRecord,
   saveWorkspaceHandleUnderLock,
@@ -62,6 +68,7 @@ interface AuthorizedMutationState {
   privateOperationId?: string
   saveJobs?: Promise<unknown>[]
   saveJobsClosed?: boolean
+  recoveryPlan?: AuthorSavePlan
 }
 
 const authorizedTargets = new WeakMap<object, AuthorizedTargetState>()
@@ -233,10 +240,76 @@ export function authorizedSaveScope(mutation: AuthorizedWorkspaceMutation) {
   return {
     dir: state.target.dir,
     workspace: state.target.workspace,
+    authorBaseline: state.target.authorBaseline,
+    firstSave: state.target.firstSave,
     ownerNonce,
     signatures: state.author.snapshot(),
     registrationName: state.pendingRegistration?.name ?? null,
+    assertRecoveryReady: () => {
+      if (state.active) throw new Error('不能在尚未结束的保存操作中重入恢复')
+    },
+    // Retained only by this page's journal owner. No filesystem writes, no new author capability:
+    // replay supplies bytes verified against the ORIGINAL sealed plan, never a fresh disk baseline.
+    reconcileRecovery: async (
+      lock: WorkspaceRegistrationLock,
+      values: AsyncIterable<readonly [string, ArrayBuffer | null]>,
+    ): Promise<void> => {
+      if (state.active) throw new Error('不能在尚未结束的保存操作中重入恢复')
+      assertWorkspaceRegistrationLock(lock, state.target.workspace.workspaceId)
+      const plan = state.recoveryPlan
+      if (!plan) throw new Error('原保存授权尚未封存完整计划，不能推进作者基线')
+      const expected = savePrefix(plan, plan.steps.length).files
+      const touched = new Set(
+        plan.steps.filter((step) => step.kind !== 'mkdir').map((step) => step.path),
+      )
+      const seen = new Set<string>()
+      for await (const [path, bytes] of values) {
+        if (
+          !touched.has(path) ||
+          seen.has(path) ||
+          (bytes === null ? null : await binarySnapshotSignature(bytes)) !== expected.get(path)
+        )
+          throw new Error(`恢复后的作者基线只能采用原封存计划的目标字节：${path}`)
+        seen.add(path)
+        if (bytes === null) state.author.removed(path)
+        else {
+          const value = new Blob([bytes])
+          await state.author.wrote(path, value)
+          if (state.target.workspace.palProof?.paths.includes(path))
+            state.palExpectedValues?.set(path, JSON.parse(await value.text()))
+        }
+      }
+      if (seen.size !== touched.size) throw new Error('恢复后的作者基线缺少原封存计划的目标文件')
+      await finalizeWorkspaceData(state, lock)
+    },
   }
+}
+
+/** Bind retry bookkeeping to one immutable plan while the ORIGINAL authorization is still live. */
+export function sealAuthorizedSavePlan(
+  mutation: AuthorizedWorkspaceMutation,
+  input: AuthorSavePlan,
+): void {
+  const state = authorizedMutations.get(mutation)
+  if (!state?.active || state.dataFinalized || state.recoveryPlan)
+    throw new Error('保存计划缺少有效原授权或已经封存')
+  const { workspace } = state.target
+  const plan = parseAuthorSavePlan(structuredClone(input), {
+    workspaceId: workspace.workspaceId,
+    projectId: workspace.projectId,
+    mode: workspace.mode,
+    source: workspace.source,
+  })
+  const before = state.author.snapshot()
+  if (
+    state.privateOperationId !== plan.operationId ||
+    Object.keys(plan.before).length !== before.size ||
+    Object.entries(plan.before).some(
+      ([path, value]) => !before.has(path) || before.get(path) !== value,
+    )
+  )
+    throw new Error('恢复计划与原保存授权的身份或作者基线不符')
+  state.recoveryPlan = plan
 }
 
 /** A started journal job keeps the identity lock alive even if its caller forgets to await it. */
@@ -286,6 +359,13 @@ export async function completeAuthorizedWorkspaceData(
   const state = mutation && authorizedMutations.get(mutation)
   if (!state?.active) throw new Error('保存收口缺少有效授权')
   if (state.dataFinalized) return
+  await finalizeWorkspaceData(state, state.registrationLock)
+}
+
+async function finalizeWorkspaceData(
+  state: AuthorizedMutationState,
+  lock: WorkspaceRegistrationLock,
+): Promise<void> {
   const { workspace, dir } = state.target
   if (workspace.mode === 'pal-development' && state.palExpectedValues) {
     const expected = await fingerprintPalExpectedValues(workspace, state.palExpectedValues)
@@ -295,8 +375,7 @@ export async function completeAuthorizedWorkspaceData(
   }
   await state.author.finish()
   const pending = state.pendingRegistration
-  if (pending)
-    await saveWorkspaceHandleUnderLock(state.registrationLock, pending.context, pending.name, dir)
+  if (pending) await saveWorkspaceHandleUnderLock(lock, pending.context, pending.name, dir)
   state.dataFinalized = true
 }
 

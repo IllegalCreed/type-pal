@@ -13,6 +13,7 @@ import {
   loadAllAuthorScenes,
   loadCurrentProjectFrom,
   loadStampTemplates,
+  withStableProjectRead,
 } from '@type-pal/reforge'
 import { type AuthorDiskBaseline, observeAuthorSource } from './author-disk-baseline.js'
 
@@ -36,11 +37,23 @@ function manifestContentVersion(value: unknown): number | undefined {
 export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<OpenedProject> {
   const observed = observeAuthorSource(fsaSource(dir))
   const source = observed.source
+  try {
+    return await withStableProjectRead(source, () => readLocalProject(dir, observed))
+  } catch (error) {
+    source.dispose?.()
+    throw error
+  }
+}
+
+async function readLocalProject(
+  dir: FileSystemDirectoryHandle,
+  observed: ReturnType<typeof observeAuthorSource>,
+): Promise<OpenedProject> {
+  const source = observed.source
   let rawManifest: unknown
   try {
     rawManifest = await source.readJson<unknown>('manifest.json')
   } catch (error) {
-    source.dispose?.()
     throw new Error(
       `打开项目失败:「${dir.name}」里没有有效的 manifest.json(${error instanceof Error ? error.message : String(error)})`,
     )
@@ -48,7 +61,6 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
 
   const version = manifestContentVersion(rawManifest)
   if (version !== CONTENT_VERSION) {
-    source.dispose?.()
     const found = version === undefined ? '未知' : String(version)
     throw new Error(
       `打开项目失败:「${dir.name}」是 contentVersion ${found}；开发期编辑器只接受当前 contentVersion ${CONTENT_VERSION}，请用对应生成或迁移工具重新生成项目。`,
@@ -64,7 +76,6 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
     const authorBaseline = await observed.finish(project, dir)
     return { kind: 'current', project, scenes, scriptChunks: {}, stamps, authorBaseline }
   } catch (error) {
-    source.dispose?.()
     throw new Error(
       `打开项目失败:「${dir.name}」的 canonical v${CONTENT_VERSION} 内容无效(${error instanceof Error ? error.message : String(error)})`,
     )

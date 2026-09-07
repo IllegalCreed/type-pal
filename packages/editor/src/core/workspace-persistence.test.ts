@@ -1,6 +1,12 @@
 import type { CurrentManifest } from '@type-pal/content'
 import { assembleCurrentProject, type FileSource } from '@type-pal/reforge'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
+
+vi.mock('./author-save-store.js', async (original) =>
+  memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>()),
+)
+beforeEach(() => authorSaveStorage.receipts.clear())
 
 const handleStore = vi.hoisted(() => ({
   load: vi.fn(),
@@ -37,7 +43,19 @@ import { type AuthorDiskBaseline, createEmptyAuthorDiskBaseline } from './author
 import { sha256Hex } from './binary-signature.js'
 import { AddSceneCommand, DeleteAssetCommand, DeleteSceneCommand } from './commands.js'
 import { EditSession } from './edit-session.js'
-import { serializeProject, toEditorState, writeFile, writeProject } from './project-io.js'
+import {
+  serializeProject,
+  toEditorState,
+  writeFile,
+  writeProject as writeProjectResult,
+} from './project-io.js'
+import { buildBlankProject } from './seed.js'
+
+// Keep existing lifecycle assertions about the resulting output snapshot, not recovery warnings.
+async function writeProject(...args: Parameters<typeof writeProjectResult>) {
+  return (await writeProjectResult(...args)).snapshot
+}
+
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import type { WorkspaceContext } from './workspace-context.js'
 import {
@@ -290,6 +308,19 @@ const manifest = {
     },
   ],
 } satisfies CurrentManifest
+
+const canonicalContent = {
+  ...manifest.content,
+  actors: 'content/actors.json',
+  skills: 'content/skills.json',
+  items: 'content/items.json',
+  locale: 'content/locale.json',
+  sprites: 'content/sprites.json',
+  battleSprites: 'content/battle-sprites.json',
+  tilesets: 'content/tilesets.json',
+  sharedScripts: 'content/shared-scripts.json',
+  worldVariables: 'content/world-variables.json',
+}
 
 const sentinel = {
   kind: 'type-pal-editor-pal-development',
@@ -747,7 +778,7 @@ describe('workspace persistence policy', () => {
       id: 'media-lifecycle',
       name: '媒体生命周期',
       content: {
-        ...manifest.content,
+        ...canonicalContent,
         sharedScripts: 'content/shared-scripts.json',
         worldVariables: 'content/world-variables.json',
       },
@@ -855,7 +886,7 @@ describe('workspace persistence policy', () => {
       id: 'scene-lifecycle',
       name: '场景文件生命周期',
       content: {
-        ...manifest.content,
+        ...canonicalContent,
         sharedScripts: 'content/shared-scripts.json',
         worldVariables: 'content/world-variables.json',
       },
@@ -1008,14 +1039,14 @@ describe('workspace persistence policy', () => {
     const sandboxHandle = dirHandle(sandboxRoot)
     const sandbox = createSandboxWorkspaceContext('pal', 'ui-samples', SANDBOX_ID)
     const target = await authorizeFirstSaveTarget(sandbox, sandboxHandle)
+    const sandboxFiles = await buildBlankProject('review-copy')
+    sandboxFiles['manifest.json'] = {
+      ...(sandboxFiles['manifest.json'] as CurrentManifest),
+      id: 'pal',
+    }
     await withAuthorizedWorkspaceMutation(target, async (mutation) => {
-      await writeProject(mutation, {
-        'manifest.json': manifest,
-        'assets/index.json': sourceFiles['assets/index.json'],
-        'content/scenes/index.json': sourceFiles['content/scenes/index.json'],
-        'content/maps/index.json': sourceFiles['content/maps/index.json'],
-      })
       await registerAuthorizedWorkspaceMutation(mutation, sandbox, 'review-copy')
+      await writeProject(mutation, sandboxFiles)
     })
 
     const restored = await resolveOpenedWorkspaceContext(sandboxHandle, 'pal', {

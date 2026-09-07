@@ -3,6 +3,7 @@ import { DsDialog } from './design-system/index.js'
 export type ProjectSaveActivity =
   | { phase: 'choosing-directory' }
   | { phase: 'preparing' }
+  | { phase: 'recovering' }
   | { phase: 'writing'; completed: number; total: number }
   | { phase: 'saving-as' }
 
@@ -25,13 +26,20 @@ export function ProjectSaveDialog(props: {
   const percent = determinate
     ? Math.min(100, Math.floor((activity.completed / activity.total) * 100))
     : undefined
-  const title = activity.phase === 'saving-as' ? '正在另存项目…' : '正在保存项目…'
-  const detail =
-    activity.phase === 'preparing'
-      ? '正在整理并校验项目内容，请勿关闭页面。'
+  const title =
+    activity.phase === 'recovering'
+      ? '正在完成上次保存…'
       : activity.phase === 'saving-as'
-        ? '正在复制素材并写入新目录，请勿关闭页面。'
-        : '正在写入项目文件，请勿关闭页面。'
+        ? '正在另存项目…'
+        : '正在保存项目…'
+  const detail =
+    activity.phase === 'recovering'
+      ? '正在恢复已暂存的项目内容，请勿关闭页面。'
+      : activity.phase === 'preparing'
+        ? '正在整理并校验项目内容，请勿关闭页面。'
+        : activity.phase === 'saving-as'
+          ? '正在复制素材并写入新目录，请勿关闭页面。'
+          : '正在写入项目文件，请勿关闭页面。'
 
   return (
     <DsDialog

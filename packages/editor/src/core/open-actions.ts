@@ -4,15 +4,26 @@
  * 用户取消选夹 → 返回 null(调用方静默忽略)。
  */
 import type { CurrentManifest } from '@type-pal/content'
-import { httpSource } from '@type-pal/reforge'
+import {
+  fsaSource,
+  httpSource,
+  readProjectSaveState,
+  withStableProjectRead,
+} from '@type-pal/reforge'
 import { verifyOpenedAuthorBaseline } from './author-disk-baseline.js'
+import { MissingAuthorSaveReceiptError, recoverAuthorSaveUnderLock } from './author-save-journal.js'
+import { findAuthorSaveReceipt } from './author-save-store.js'
 import { cloneFromPal } from './clone.js'
 import { currentDirectoryPickerAvailability } from './file-system-access.js'
 import { copyDirRecursive } from './fsa-copy.js'
 import {
+  findWorkspaceRecordByHandle,
   saveWorkspaceHandle,
+  saveWorkspaceHandleUnderLock,
   type WorkspaceHandleRecord,
+  type WorkspaceRegistrationLock,
   withWorkspaceDiscoveryLock,
+  withWorkspaceRegistrationLock,
 } from './handle-store.js'
 import { type OpenedProject, openLocalProject } from './open-local.js'
 import { preflightProjectWriteSet, writeProject } from './project-io.js'
@@ -27,6 +38,7 @@ import {
   type AuthorizedWorkspaceMutation,
   assertPalDevelopmentDirectory,
   assertSameWorkspaceMetadataInspection,
+  authorizedDirectory,
   authorizeFirstSaveTarget,
   createSaveAsWorkspaceContext,
   inspectWorkspaceMetadata,
@@ -40,6 +52,7 @@ export type Opened = OpenedProject & {
   /** Omitted for force-sandbox inspection: the source directory is never a writable binding. */
   dir?: FileSystemDirectoryHandle
   workspace: WorkspaceContext
+  recoveryWarning?: string
 }
 
 interface FinishOpenOptions {
@@ -48,6 +61,7 @@ interface FinishOpenOptions {
   forceSandbox?: boolean
   /** Reuse the caller's active write/identity lock after a create/copy operation. */
   registrationMutation?: AuthorizedWorkspaceMutation
+  onRecovering?: () => void
 }
 
 /** 弹原生选夹(readwrite);用户取消 → null。 */
@@ -69,6 +83,56 @@ export async function finishOpen(
 ): Promise<Opened> {
   if (options.expectedIdentity && !(await options.expectedIdentity.handle.isSameEntry(dir)))
     throw new Error('最近项目记录指向的目录句柄与本次打开目标不一致')
+  const read = (lock?: WorkspaceRegistrationLock) => {
+    const source = fsaSource(dir)
+    return withStableProjectRead(source, () => readOpenedProject(dir, options, lock)).finally(() =>
+      source.dispose?.(),
+    )
+  }
+  if (options.registrationMutation) {
+    if (!(await authorizedDirectory(options.registrationMutation).isSameEntry(dir)))
+      throw new Error('打开目标与原保存操作目录不一致')
+    return read()
+  }
+  return withWorkspaceDiscoveryLock(async () => {
+    const receipt = await findAuthorSaveReceipt(dir)
+    const binding = await findWorkspaceRecordByHandle(dir)
+    const expected = options.expectedIdentity ?? options.workspaceHint
+    if (
+      receipt &&
+      expected &&
+      ['workspaceId', 'projectId', 'mode', 'source'].some(
+        (key) =>
+          receipt.identity[key as keyof typeof receipt.identity] !==
+          expected[key as keyof typeof receipt.identity],
+      )
+    )
+      throw new Error('恢复记录与本次打开请求的工作区身份不符')
+    const workspaceId = receipt?.workspaceId ?? binding?.workspaceId
+    if (!workspaceId) {
+      // No record means this may be a copied pending directory or a cleared browser origin.
+      if ((await readProjectSaveState(fsaSource(dir)))?.phase === 'pending')
+        throw new MissingAuthorSaveReceiptError()
+      return read() // unmarked first open: discovery excludes concurrent first saves
+    }
+    return withWorkspaceRegistrationLock(workspaceId, async (lock) => {
+      const recovered = await recoverAuthorSaveUnderLock(dir, lock, {
+        forceSandbox: options.forceSandbox,
+        onRecovering: options.onRecovering,
+      })
+      const opened = await read(lock)
+      return recovered?.cleanupWarning
+        ? { ...opened, recoveryWarning: recovered.cleanupWarning }
+        : opened
+    })
+  })
+}
+
+async function readOpenedProject(
+  dir: FileSystemDirectoryHandle,
+  options: FinishOpenOptions,
+  lock?: WorkspaceRegistrationLock,
+): Promise<Opened> {
   // Metadata is inspected before canonical loading/registration:an invalid sidecar must never be
   // silently downgraded to an unrestricted local project or overwrite the evidence in IndexedDB.
   const metadata = await inspectWorkspaceMetadata(dir)
@@ -120,20 +184,19 @@ export async function finishOpen(
     if (options.forceSandbox && !mayBindForcedSandbox) return { ...opened, workspace }
     if (options.registrationMutation)
       await registerAuthorizedWorkspaceMutation(options.registrationMutation, workspace, dir.name)
+    else if (lock) await saveWorkspaceHandleUnderLock(lock, workspace, dir.name, dir)
     else await saveWorkspaceHandle(workspace, dir.name, dir)
     return { ...opened, dir, workspace }
   }
 
   // Creation/Save As already owns the discovery lock through its first-save mutation. Standalone
   // opens acquire it here; re-entering the non-reentrant Web Lock would deadlock.
-  return options.registrationMutation
-    ? resolveAndBind()
-    : withWorkspaceDiscoveryLock(resolveAndBind)
+  return resolveAndBind()
 }
 
 /** 打开已有本地项目。取消 → null。 */
 export async function openExistingProject(
-  options: Pick<FinishOpenOptions, 'forceSandbox'> = {},
+  options: Pick<FinishOpenOptions, 'forceSandbox' | 'onRecovering'> = {},
 ): Promise<Opened | null> {
   const dir = await pickDir()
   return dir ? finishOpen(dir, options) : null
@@ -149,8 +212,13 @@ export async function newBlankProject(): Promise<Opened | null> {
   await preflightFirstSaveTarget(workspace, dir)
   const target = await authorizeFirstSaveTarget(workspace, dir)
   return withAuthorizedWorkspaceMutation(target, async (mutation) => {
-    await writeProject(mutation, files)
-    return finishOpen(dir, { workspaceHint: workspace, registrationMutation: mutation })
+    await registerAuthorizedWorkspaceMutation(mutation, workspace, dir.name)
+    const saved = await writeProject(mutation, files)
+    const opened = await finishOpen(dir, {
+      workspaceHint: workspace,
+      registrationMutation: mutation,
+    })
+    return saved.cleanupWarning ? { ...opened, recoveryWarning: saved.cleanupWarning } : opened
   })
 }
 
@@ -167,6 +235,7 @@ export async function newFromPal(
   await preflightFirstSaveTarget(workspace, dir)
   const target = await authorizeFirstSaveTarget(workspace, dir)
   return withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    await registerAuthorizedWorkspaceMutation(mutation, workspace, dir.name)
     await cloneFromPal(seed, mutation, onProgress)
     return finishOpen(dir, { workspaceHint: workspace, registrationMutation: mutation })
   })
@@ -204,8 +273,13 @@ export async function saveProjectAs(
   // A5 债修:目标经空目录门后先整树拷贝源目录(磁盘素材不在编辑器 state,不拷即丢 ——
   // 克隆项目 200MB assets 曾被另存为静默丢掉),再 writeProject 覆写内容文件(当前编辑赢)。
   return withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    await registerAuthorizedWorkspaceMutation(mutation, workspace, dir.name)
     if (srcDir) await copyDirRecursive(srcDir, mutation)
-    await writeProject(mutation, files, { removePaths })
-    return finishOpen(dir, { workspaceHint: workspace, registrationMutation: mutation })
+    const saved = await writeProject(mutation, files, { removePaths })
+    const opened = await finishOpen(dir, {
+      workspaceHint: workspace,
+      registrationMutation: mutation,
+    })
+    return saved.cleanupWarning ? { ...opened, recoveryWarning: saved.cleanupWarning } : opened
   })
 }

@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：继续保存与打开入口及剩余故障路径 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) GLM返工f4245a34已复核集成；完整check 6,562项、严格fast 6,076项通过；journal分支89.11%，整卡未验收。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：整合clone/Save As整笔暂存及ZIP/试玩读出口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 普通保存/重试/打开已接；原生重启UI重开/再保存/冲突拒绝通过，完整check 6,586项/严格fast 6,100项通过；整卡未验收。 |
 
 ## 阻塞
 
@@ -22,7 +22,7 @@
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)
 已修复，完整 `pnpm check` 通过；[B-04 存档预检修复](audits/pre-e2e/save-preflight-remediation.md)已三签收口。
-[编辑器覆盖率确定性修复](audits/pre-e2e/coverage-determinism.md)亦已三签收口；当前作者保存内核+GLM测试的fast为6,076项，精确指标未下调，不代表整卡已验收。
+[编辑器覆盖率确定性修复](audits/pre-e2e/coverage-determinism.md)亦已三签收口；当前作者保存接线的fast为6,100项，精确指标未下调，不代表整卡已验收。
 A-01 存档隔离已三席 accept、用户免复验通过并收口；证据入口见下方总收口。
 A-02 作者保存冲突保护亦已三席及用户验收通过并收口；下一组仍按总收口的 A-03/A-07/D-01 队列。
 接下来按总收口处理其余审计缺陷并补回归/覆盖率，

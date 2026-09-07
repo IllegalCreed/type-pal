@@ -1,6 +1,7 @@
 /** Durable, forward-only author save IO. Disk JSON never mints an author-write capability. */
 import { CONTENT_VERSION } from '@type-pal/content'
 import {
+  assertProjectSaveReadable,
   type FileSource,
   fsaSource,
   PROJECT_SAVE_RECOVERY_PATH,
@@ -10,6 +11,7 @@ import {
   projectSaveStateToken,
   readProjectSaveState,
 } from '@type-pal/reforge'
+import type { AuthorDiskBaseline } from './author-disk-baseline.js'
 import {
   type AuthorSavePlan,
   assertSavePath,
@@ -35,6 +37,7 @@ import {
 } from './author-save-store.js'
 import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
 import {
+  assertWorkspaceRegistrationLock,
   findWorkspaceRecordByHandle,
   loadWorkspaceRecord,
   saveWorkspaceHandleUnderLock,
@@ -56,6 +59,7 @@ import {
   planAuthorizedWorkspacePaths,
   recordAuthorizedWorkspaceRemoveCompleted,
   recordAuthorizedWorkspaceWriteCompleted,
+  sealAuthorizedSavePlan,
   withAuthorizedSaveJob,
 } from './workspace-persistence.js'
 
@@ -68,15 +72,31 @@ export interface AuthorSaveJournalResult {
   operationId: string
   cleanupWarning?: string
 }
+
+export class MissingAuthorSaveReceiptError extends Error {
+  constructor() {
+    super('缺少原浏览器的恢复凭据，请保留目录并回到原浏览器完成保存')
+    this.name = 'MissingAuthorSaveReceiptError'
+  }
+}
 declare const preparedBrand: unique symbol
 export type PreparedAuthorSave = Readonly<{ [preparedBrand]: never }>
 interface Prepared {
   mutation: AuthorizedWorkspaceMutation
+  workspace: WorkspaceContext
   receipt: AuthorSaveReceipt
   plan: AuthorSavePlan
   phase: 'ready' | 'committing' | 'spent'
 }
 const prepared = new WeakMap<object, Prepared>()
+interface OwnedSave {
+  scope: ReturnType<typeof authorizedSaveScope>
+  operationId: string
+  /** The original sealed plan, retained as hash evidence even after another page cleans blobs. */
+  plan?: AuthorSavePlan
+  planHash?: string
+}
+const ownedSaves = new WeakMap<WorkspaceContext, OwnedSave>()
 const encoder = new TextEncoder(),
   decoder = new TextDecoder()
 const metadataPaths = [PAL_DEVELOPMENT_SENTINEL_PATH, SANDBOX_WORKSPACE_MARKER_PATH]
@@ -303,6 +323,12 @@ async function prepareInsideScope(
     options.catalogPath,
   )
   const old = await findAuthorSaveReceipt(scope.dir)
+  // The marker may have committed while the final receipt transaction failed. This is cleanup
+  // only, not an unfinished author write; a new legitimate save must not require the old page.
+  if (old?.phase === 'data-complete' && (await stateForReplay(old)) === 'committed') {
+    await assertBinding(old, scope.dir)
+    await persist(old, { phase: 'committed' })
+  }
   if (old && old.phase !== 'committed') throw new Error('项目有未完成的保存，请先完成恢复')
   if (old && Object.keys(old.staged).length) {
     const warning = await cleanup(old)
@@ -380,6 +406,8 @@ async function prepareInsideScope(
   // Baseline/identity are rechecked again at true first author IO, after this private preparation.
   await assertBinding(receipt, scope.dir)
   await storeAuthorSaveReceipt(receipt)
+  const owned: OwnedSave = { scope, operationId: receipt.operationId }
+  ownedSaves.set(scope.workspace, owned)
   const stage = async (rel: string, bytes: ArrayBuffer): Promise<void> => {
     const digest = (await signature(bytes))!
     const path = `${rootFor(receipt)}/${rel}`
@@ -439,9 +467,12 @@ async function prepareInsideScope(
     receipt.previousState
   )
     throw new AuthorSaveRecoveryConflict(PROJECT_SAVE_STATE_PATH)
+  sealAuthorizedSavePlan(mutation, plan)
   await persist(receipt, { planHash, phase: 'ready' })
+  owned.plan = plan
+  owned.planHash = planHash
   const token = Object.freeze({}) as PreparedAuthorSave
-  prepared.set(token, { mutation, receipt, plan, phase: 'ready' })
+  prepared.set(token, { mutation, workspace: scope.workspace, receipt, plan, phase: 'ready' })
   return token
 }
 
@@ -576,7 +607,7 @@ async function execute(
 
 export function commitAuthorSave(
   token: PreparedAuthorSave,
-  onApplied?: (step: SaveStep) => void,
+  onApplied?: (step: SaveStep) => unknown,
 ): Promise<AuthorSaveJournalResult> {
   const state = prepared.get(token)
   if (!state || state.phase !== 'ready')
@@ -587,7 +618,7 @@ export function commitAuthorSave(
 
 async function commitInsideScope(
   token: PreparedAuthorSave,
-  onApplied?: (step: SaveStep) => void,
+  onApplied?: (step: SaveStep) => unknown,
 ): Promise<AuthorSaveJournalResult> {
   const state = prepared.get(token)
   if (!state || state.phase !== 'committing') throw new Error('恢复计划未准备好或授权已消费')
@@ -604,17 +635,19 @@ async function commitInsideScope(
   )
   try {
     const plan = await loadPlan(receipt)
-    return await execute(receipt, plan, {
+    const result = await execute(receipt, plan, {
       beforeAuthor: () => beginAuthorizedWorkspaceMutation(mutation),
       applied: async (step, bytes) => {
         if (step.kind === 'write')
           await recordAuthorizedWorkspaceWriteCompleted(mutation, step.path, new Blob([bytes!]))
         else if (step.kind === 'remove')
           recordAuthorizedWorkspaceRemoveCompleted(mutation, step.path)
-        onApplied?.(step)
+        await onApplied?.(step)
       },
       complete: () => completeAuthorizedWorkspaceData(mutation),
     })
+    ownedSaves.delete(state.workspace)
+    return result
   } finally {
     state.phase = 'spent'
     prepared.delete(token)
@@ -681,53 +714,147 @@ export async function recoverInterruptedAuthorSave(
     const receipt = await findAuthorSaveReceipt(dir)
     if (!receipt) {
       const state = await readProjectSaveState(fsaSource(dir))
-      if (state?.phase === 'pending')
-        throw new Error('缺少原浏览器的恢复凭据，请保留目录并回到原浏览器完成保存')
+      if (state?.phase === 'pending') throw new MissingAuthorSaveReceiptError()
       return null
     }
-    return withWorkspaceRegistrationLock(
-      receipt.workspaceId,
-      async (lock: WorkspaceRegistrationLock) => {
-        await assertCurrentReceipt(receipt)
-        await assertBinding(receipt, dir)
-        if (options.forceSandbox && receipt.identity.mode !== 'sandbox') {
-          if (receipt.phase !== 'committed')
-            throw new Error('评审模式不能恢复源项目，请从普通打开项目入口处理')
-          return null
-        }
-        if (receipt.phase === 'staging') {
-          const warning = await cleanup(receipt)
-          if (warning) throw new Error(warning)
-          return null
-        }
-        if (receipt.phase === 'committed') {
-          if ((await stateForReplay(receipt)) !== 'committed') throw new Error('已保存状态不符')
-          const warning = await cleanup(receipt)
-          return {
-            kind: 'committed',
-            operationId: receipt.operationId,
-            ...(warning ? { cleanupWarning: warning } : {}),
-          }
-        }
-        const plan = await loadPlan(receipt)
-        return execute(receipt, plan, {
-          complete: async () => {
-            if (receipt.registrationName !== null) {
-              const mode = receipt.identity.mode
-              const context: WorkspaceContext = {
-                ...receipt.identity,
-                persistencePolicy:
-                  mode === 'pal-development'
-                    ? 'pal-bound'
-                    : mode === 'sandbox'
-                      ? 'sandbox-bound'
-                      : 'local-bound',
-              }
-              await saveWorkspaceHandleUnderLock(lock, context, receipt.registrationName, dir)
-            }
-          },
-        })
-      },
+    return withWorkspaceRegistrationLock(receipt.workspaceId, (lock) =>
+      recoverAuthorSaveUnderLock(dir, lock, options),
     )
+  })
+}
+
+/** A normal open retains the same real lock through recovery, canonical loading and registration. */
+export async function recoverAuthorSaveUnderLock(
+  dir: FileSystemDirectoryHandle,
+  lock: WorkspaceRegistrationLock,
+  options: { forceSandbox?: boolean; onRecovering?: () => void } = {},
+): Promise<AuthorSaveJournalResult | null> {
+  const receipt = await findAuthorSaveReceipt(dir)
+  if (!receipt) {
+    if ((await readProjectSaveState(fsaSource(dir)))?.phase === 'pending')
+      throw new MissingAuthorSaveReceiptError()
+    return null
+  }
+  assertWorkspaceRegistrationLock(lock, receipt.workspaceId)
+  await assertCurrentReceipt(receipt)
+  await assertBinding(receipt, dir)
+  if (options.forceSandbox && receipt.identity.mode !== 'sandbox') {
+    if (receipt.phase !== 'committed')
+      throw new Error('评审模式不能恢复源项目，请从普通打开项目入口处理')
+    return null
+  }
+  if (receipt.phase !== 'committed') options.onRecovering?.()
+  return recoverKnownSave(receipt, dir, lock)
+}
+
+/** Only the original page's context AND author baseline can advance its own interrupted save. */
+export async function recoverOwnAuthorSave(
+  workspace: WorkspaceContext,
+  dir: FileSystemDirectoryHandle,
+  baseline: AuthorDiskBaseline,
+): Promise<AuthorSaveJournalResult | null> {
+  const owned = ownedSaves.get(workspace)
+  if (!owned) return null
+  owned.scope.assertRecoveryReady()
+  if (owned.scope.authorBaseline !== baseline || !(await owned.scope.dir.isSameEntry(dir)))
+    throw new Error('保存重试与原页面的目录或作者基线不符，请重新打开项目')
+  return withWorkspaceDiscoveryLock(() =>
+    withWorkspaceRegistrationLock(workspace.workspaceId, async (lock) => {
+      const receipt = await findAuthorSaveReceipt(dir)
+      if (!receipt && !owned.plan) {
+        await assertProjectSaveReadable(fsaSource(dir))
+        ownedSaves.delete(workspace)
+        return null // another explicit open already cleaned an unsealed attempt; no baseline adoption
+      }
+      if (
+        !receipt ||
+        receipt.operationId !== owned.operationId ||
+        receipt.workspaceId !== workspace.workspaceId ||
+        receipt.ownerNonce !== owned.scope.ownerNonce ||
+        (owned.planHash !== undefined && receipt.planHash !== owned.planHash)
+      )
+        throw new Error('保存重试不属于本页面的原始操作，已停止并保留恢复数据')
+      await assertCurrentReceipt(receipt)
+      await assertBinding(receipt, dir)
+      if (receipt.phase !== 'staging' && !owned.plan)
+        throw new Error('原页面未完成计划封存，请通过打开项目恢复')
+      const result = await recoverKnownSave(receipt, dir, lock, owned)
+      ownedSaves.delete(workspace)
+      return result
+    }),
+  )
+}
+
+/** Read only bytes matching the last write of the original sealed plan; never adopt live changes. */
+async function reconcileOwnedSave(
+  owned: OwnedSave,
+  receipt: AuthorSaveReceipt,
+  plan: AuthorSavePlan,
+  lock: WorkspaceRegistrationLock,
+): Promise<void> {
+  reconcileSaveCursor(
+    plan,
+    { completed: plan.steps.length, issued: false },
+    await diskState(receipt.handle, plan),
+  )
+  const final = new Map<string, SaveSignature>()
+  for (const step of plan.steps)
+    if (step.kind !== 'mkdir') final.set(step.path, step.kind === 'write' ? step.signature : null)
+  async function* values(): AsyncIterable<readonly [string, ArrayBuffer | null]> {
+    for (const [path, expected] of final) {
+      const bytes = await readBytes(receipt.handle, path)
+      if ((bytes === null ? null : await signature(bytes)) !== expected)
+        throw new AuthorSaveRecoveryConflict(path)
+      yield [path, bytes]
+    }
+  }
+  await owned.scope.reconcileRecovery(lock, values())
+}
+
+/** Called only after discovery/workspace locks, receipt, handle and metadata have been checked. */
+async function recoverKnownSave(
+  receipt: AuthorSaveReceipt,
+  dir: FileSystemDirectoryHandle,
+  lock: WorkspaceRegistrationLock,
+  owned?: OwnedSave,
+): Promise<AuthorSaveJournalResult | null> {
+  if (receipt.phase === 'staging') {
+    const warning = await cleanup(receipt)
+    if (warning) throw new Error(warning)
+    return null
+  }
+  if (receipt.phase === 'committed') {
+    if ((await stateForReplay(receipt)) !== 'committed') throw new Error('已保存状态不符')
+    if (owned?.plan) await reconcileOwnedSave(owned, receipt, owned.plan, lock)
+    const warning = await cleanup(receipt)
+    return {
+      kind: 'committed',
+      operationId: receipt.operationId,
+      ...(warning ? { cleanupWarning: warning } : {}),
+    }
+  }
+  const plan = await loadPlan(receipt)
+  if (owned && (await stateForReplay(receipt)) === 'committed')
+    await reconcileOwnedSave(owned, receipt, plan, lock)
+  return execute(receipt, plan, {
+    complete: async () => {
+      if (owned) {
+        await reconcileOwnedSave(owned, receipt, plan, lock)
+        return
+      }
+      if (receipt.registrationName !== null) {
+        const mode = receipt.identity.mode
+        const context: WorkspaceContext = {
+          ...receipt.identity,
+          persistencePolicy:
+            mode === 'pal-development'
+              ? 'pal-bound'
+              : mode === 'sandbox'
+                ? 'sandbox-bound'
+                : 'local-bound',
+        }
+        await saveWorkspaceHandleUnderLock(lock, context, receipt.registrationName, dir)
+      }
+    },
   })
 }

@@ -63,6 +63,7 @@ vi.mock('./handle-store.js', async (original) => {
 
 import {
   type FileSource,
+  fsaSource,
   loadAllAuthorScenes,
   loadCurrentProjectFrom,
   loadStampTemplates,
@@ -75,17 +76,26 @@ import {
   type PreparedAuthorSave,
   prepareAuthorSave,
   recoverInterruptedAuthorSave,
+  recoverOwnAuthorSave,
 } from './author-save-journal.js'
 import { createCanonicalPlacedEntity } from './entity-placement.js'
 import { finishOpen } from './open-actions.js'
+import { openLocalProject } from './open-local.js'
 import { serializeProjectWithMapCopies, toEditorState } from './project-io.js'
 import { buildBlankProject } from './seed.js'
-import { createLocalWorkspaceContext, createSandboxWorkspaceContext } from './workspace-context.js'
+import {
+  createLocalWorkspaceContext,
+  createPalDevelopmentWorkspaceContext,
+  createSandboxWorkspaceContext,
+  PAL_DEVELOPMENT_SENTINEL_PATH,
+} from './workspace-context.js'
 import {
   type AuthorizedWorkspaceMutation,
   authorizeBoundWorkspaceTarget,
+  authorizedSaveScope,
   authorizeFirstSaveTarget,
   registerAuthorizedWorkspaceMutation,
+  sealAuthorizedSavePlan,
   withAuthorizedWorkspaceMutation,
 } from './workspace-persistence.js'
 
@@ -197,7 +207,7 @@ test.each([
   else f.disk.hooks.afterClose = fail
   await expect(save(f)).rejects.toThrow('injected close failure')
   expect(f.disk.json(PROJECT_SAVE_STATE_PATH).phase).toBe('pending')
-  await expect(finishOpen(f.disk.dir)).rejects.toThrow('未完成')
+  await expect(openLocalProject(f.disk.dir)).rejects.toThrow('未完成')
   f.disk.hooks.beforeClose = undefined
   f.disk.hooks.afterClose = undefined
   f.disk.resetChanges()
@@ -1091,4 +1101,260 @@ test('a new save cannot stack over an unfinished durable receipt', async () => {
   expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
   await recoverInterruptedAuthorSave(f.disk.dir)
   assertRestored(f.disk)
+})
+
+test('own-page retry reconciles an uncertain close then saves subsequent edits on the original baseline', async () => {
+  const f = await fixture()
+  f.disk.hooks.afterClose = (path) => {
+    if (path === 'content/actors.json') throw new Error('lost actors acknowledgement')
+  }
+  await expect(save(f)).rejects.toThrow('lost actors acknowledgement')
+  f.disk.hooks.afterClose = undefined
+  f.disk.resetChanges()
+  await expect(
+    recoverOwnAuthorSave(f.opened.workspace, f.disk.dir, f.opened.authorBaseline),
+  ).resolves.toMatchObject({ kind: 'committed' })
+  assertRestored(f.disk)
+  expect(authorChanges(f.disk).closes).not.toContain('content/actors.json')
+  f.intended['content/locale.json'] = {
+    ...f.disk.json('content/locale.json'),
+    'name.hero': 'newer edit',
+  }
+  await save(f)
+  expect(f.disk.json('content/locale.json')['name.hero']).toBe('newer edit')
+})
+
+test('a different page cannot use own retry to adopt the original page pending intent', async () => {
+  const f = await fixture()
+  const other = await finishOpen(f.disk.dir)
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.hooks.beforeClose = undefined
+  f.disk.resetChanges()
+  await expect(
+    recoverOwnAuthorSave(other.workspace, f.disk.dir, other.authorBaseline),
+  ).resolves.toBeNull()
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  expect(f.disk.json(PROJECT_SAVE_STATE_PATH).phase).toBe('pending')
+  await expect(save({ ...f, opened: other })).rejects.toThrow('修改')
+})
+
+test('own retry rejects a replaced baseline or directory without touching pending bytes', async () => {
+  const f = await fixture()
+  const other = await finishOpen(f.disk.dir)
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.hooks.beforeClose = undefined
+  f.disk.resetChanges()
+  await expect(
+    recoverOwnAuthorSave(f.opened.workspace, f.disk.dir, other.authorBaseline),
+  ).rejects.toThrow('作者基线不符')
+  const copy = memoryAuthorDirectory(Object.fromEntries(f.disk.files))
+  await expect(
+    recoverOwnAuthorSave(f.opened.workspace, copy.dir, f.opened.authorBaseline),
+  ).rejects.toThrow('目录或作者基线不符')
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  expect(copy.changes).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('own retry can reconcile its original committed generation after another opener removed staging', async () => {
+  const f = await fixture()
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.hooks.beforeClose = undefined
+  await recoverInterruptedAuthorSave(f.disk.dir)
+  expect([...f.disk.files.keys()].some((path) => path.includes('/save-recovery/'))).toBe(false)
+  f.disk.resetChanges()
+  await recoverOwnAuthorSave(f.opened.workspace, f.disk.dir, f.opened.authorBaseline)
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  f.intended['content/locale.json'] = {
+    ...f.disk.json('content/locale.json'),
+    'name.hero': 'own edit',
+  }
+  await save(f)
+  expect(f.disk.json('content/locale.json')['name.hero']).toBe('own edit')
+})
+
+test('own retry never adopts external edits after its original generation was committed', async () => {
+  const f = await fixture()
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.hooks.beforeClose = undefined
+  await recoverInterruptedAuthorSave(f.disk.dir)
+  f.disk.set('content/locale.json', 'external after committed')
+  f.disk.resetChanges()
+  await expect(
+    recoverOwnAuthorSave(f.opened.workspace, f.disk.dir, f.opened.authorBaseline),
+  ).rejects.toThrow('content/locale.json')
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  expect(new TextDecoder().decode(f.disk.files.get('content/locale.json'))).toBe(
+    'external after committed',
+  )
+})
+
+test('own retry cleans an unsealed attempt without advancing its author baseline', async () => {
+  const f = await fixture()
+  f.disk.hooks.beforeClose = (path) => {
+    if (path.includes('/blobs/')) throw new Error('staging interrupted')
+  }
+  await expect(save(f)).rejects.toThrow('staging interrupted')
+  f.disk.hooks.beforeClose = undefined
+  f.disk.resetChanges()
+  await expect(
+    recoverOwnAuthorSave(f.opened.workspace, f.disk.dir, f.opened.authorBaseline),
+  ).resolves.toBeNull()
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  await save(f)
+  assertRestored(f.disk)
+})
+
+test('own retry advances only its intended baseline when another opener committed but receipt finalization failed', async () => {
+  const f = await fixture()
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.hooks.beforeClose = undefined
+  storage.beforePut = (r) => {
+    if (r.phase === 'committed') throw new Error('receipt finalization failed')
+  }
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).resolves.toMatchObject({
+    cleanupWarning: expect.stringContaining('receipt finalization failed'),
+  })
+  expect(receiptOf(f).phase).toBe('data-complete')
+  expect(f.disk.json(PROJECT_SAVE_STATE_PATH).phase).toBe('committed')
+  storage.beforePut = undefined
+  await recoverOwnAuthorSave(f.opened.workspace, f.disk.dir, f.opened.authorBaseline)
+  f.intended['content/locale.json'] = {
+    ...f.disk.json('content/locale.json'),
+    'name.hero': 'after finalization retry',
+  }
+  await save(f)
+  expect(f.disk.json('content/locale.json')['name.hero']).toBe('after finalization retry')
+})
+
+test('a subsequent legitimate save finishes a committed-marker receipt warning without replaying old author content', async () => {
+  const f = await fixture()
+  storage.beforePut = (r) => {
+    if (r.phase === 'committed') throw new Error('final receipt unavailable')
+  }
+  await expect(save(f)).resolves.toMatchObject({
+    cleanupWarning: expect.stringContaining('final receipt unavailable'),
+  })
+  expect(receiptOf(f).phase).toBe('data-complete')
+  storage.beforePut = undefined
+  f.intended['content/locale.json'] = {
+    ...f.disk.json('content/locale.json'),
+    'name.hero': 'next legitimate save',
+  }
+  await expect(save(f)).resolves.toMatchObject({ kind: 'committed' })
+  expect(f.disk.json('content/locale.json')['name.hero']).toBe('next legitimate save')
+})
+
+test('PAL owner retry reconciles its original author baseline and controlled proof after an uncertain manifest close', async () => {
+  const files = await buildBlankProject('pal')
+  const disk = memoryAuthorDirectory({
+    ...files,
+    [PAL_DEVELOPMENT_SENTINEL_PATH]: {
+      kind: 'type-pal-editor-pal-development',
+      version: 1,
+      workspaceId: '7ae5747a-25d7-43dd-bf65-558879498b34',
+      projectId: 'pal',
+    },
+  })
+  const opened = await openLocalProject(disk.dir)
+  const workspace = await createPalDevelopmentWorkspaceContext(fsaSource(disk.dir))
+  files['manifest.json'] = {
+    ...(files['manifest.json'] as CurrentManifest),
+    name: 'PAL intended change',
+  }
+  disk.hooks.afterClose = (path) => {
+    if (path === 'manifest.json') throw new Error('uncertain PAL manifest')
+  }
+  const target = await authorizeFirstSaveTarget(workspace, disk.dir, {
+    authorBaseline: opened.authorBaseline,
+  })
+  await expect(
+    withAuthorizedWorkspaceMutation(target, async (mutation) => {
+      await registerAuthorizedWorkspaceMutation(mutation, workspace, disk.dir.name)
+      await commitAuthorSave(await prepareAuthorSave(mutation, inputs(files), validate))
+    }),
+  ).rejects.toThrow('uncertain PAL manifest')
+  disk.hooks.afterClose = undefined
+  await recoverOwnAuthorSave(workspace, disk.dir, opened.authorBaseline)
+  expect(disk.json('manifest.json').name).toBe('PAL intended change')
+  await withAuthorizedWorkspaceMutation(
+    await authorizeBoundWorkspaceTarget(workspace, disk.dir, opened.authorBaseline),
+    async () => {},
+  )
+})
+
+test('same-scope retry refuses before attempting a recursive lock and a sealed plan cannot be replaced', async () => {
+  const f = await fixture()
+  const target = await authorizeBoundWorkspaceTarget(
+    f.opened.workspace,
+    f.disk.dir,
+    f.opened.authorBaseline,
+  )
+  await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    const token = await prepareAuthorSave(mutation, inputs(f.intended), validate)
+    await expect(
+      recoverOwnAuthorSave(f.opened.workspace, f.disk.dir, f.opened.authorBaseline),
+    ).rejects.toThrow('尚未结束')
+    const receipt = receiptOf(f)
+    expect(() =>
+      sealAuthorizedSavePlan(
+        mutation,
+        f.disk.json(`.type-pal/save-recovery/${receipt.operationId}/plan.json`),
+      ),
+    ).toThrow('已经封存')
+    await commitAuthorSave(token)
+  })
+  assertRestored(f.disk)
+})
+
+test.each([
+  'foreign-bytes',
+  'incomplete',
+  'duplicate',
+] as const)('retained bookkeeping capability cannot adopt %s outside its original sealed plan', async (fault) => {
+  const f = await fixture()
+  let scope: ReturnType<typeof authorizedSaveScope> | undefined
+  await withAuthorizedWorkspaceMutation(
+    await authorizeBoundWorkspaceTarget(f.opened.workspace, f.disk.dir, f.opened.authorBaseline),
+    async (mutation) => {
+      scope = authorizedSaveScope(mutation)
+      await commitAuthorSave(await prepareAuthorSave(mutation, inputs(f.intended), validate))
+    },
+  )
+  if (fault === 'foreign-bytes') f.disk.set('content/locale.json', 'foreign content')
+  async function* forged(): AsyncIterable<readonly [string, ArrayBuffer | null]> {
+    for (const [path, value] of Object.entries(f.intended)) {
+      if (fault === 'incomplete' && path === 'content/locale.json') continue
+      const bytes = await blob(
+        fault === 'foreign-bytes' && path === 'content/locale.json' ? 'foreign content' : value,
+      ).arrayBuffer()
+      yield [path, bytes]
+      if (fault === 'duplicate') yield [path, bytes]
+    }
+  }
+  const { withWorkspaceRegistrationLock } = await import('./handle-store.js')
+  await expect(
+    withWorkspaceRegistrationLock(f.opened.workspace.workspaceId, (lock) =>
+      scope!.reconcileRecovery(lock, forged()),
+    ),
+  ).rejects.toThrow(fault === 'incomplete' ? '缺少原封存计划' : '原封存计划的目标字节')
+  if (fault === 'foreign-bytes') {
+    await expect(
+      withAuthorizedWorkspaceMutation(
+        await authorizeBoundWorkspaceTarget(
+          f.opened.workspace,
+          f.disk.dir,
+          f.opened.authorBaseline,
+        ),
+        async () => {},
+      ),
+    ).rejects.toThrow('修改')
+    expect(new TextDecoder().decode(f.disk.files.get('content/locale.json'))).toBe(
+      'foreign content',
+    )
+  }
 })

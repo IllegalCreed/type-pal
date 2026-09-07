@@ -2,6 +2,12 @@ import ts from 'typescript'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import mainSource from '../main.tsx?raw'
 import appSource from '../ui/App.tsx?raw'
+import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
+
+vi.mock('./author-save-store.js', async (original) =>
+  memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>()),
+)
+beforeEach(() => authorSaveStorage.receipts.clear())
 
 const bindings = vi.hoisted(
   () => new Map<string, import('./handle-store.js').WorkspaceHandleRecord>(),
@@ -35,16 +41,28 @@ import {
   authorBaselineSummary,
   createEmptyAuthorDiskBaseline,
 } from './author-disk-baseline.js'
-import { RenameProjectCommand, UpdateLocaleCommand } from './commands.js'
+import {
+  AddActorCommand,
+  AddEntityCommand,
+  AddSceneCommand,
+  RenameProjectCommand,
+  UpdateLocaleCommand,
+} from './commands.js'
 import { EditSession } from './edit-session.js'
+import { createCanonicalPlacedEntity, createPlacedEntity } from './entity-placement.js'
 import { finishOpen, type Opened } from './open-actions.js'
 import {
+  resumeOwnProjectSave,
   serializeProjectWithMapCopies,
   toEditorState,
   writeFile,
   writeProject,
 } from './project-io.js'
-import { ScriptEditSession } from './script-editor.js'
+import {
+  AddSceneDefinitionCommand,
+  AddSceneEntityDefinitionCommand,
+  ScriptEditSession,
+} from './script-editor.js'
 import { mergeEditorProjectionWithCurrentAuthorState } from './script-editor-projection.js'
 import { buildBlankProject } from './seed.js'
 import { createLocalWorkspaceContext } from './workspace-context.js'
@@ -116,6 +134,7 @@ function appSave(
     window: { confirm: () => true, setTimeout },
     pickDir: options.picker ?? (() => Promise.resolve(null)),
     serializeProjectWithMapCopies,
+    resumeOwnProjectSave,
     mergeEditorProjectionWithCurrentAuthorState,
     createEmptyAuthorDiskBaseline,
     preflightFirstSaveTarget,
@@ -142,6 +161,7 @@ function session(opened: Opened) {
   return new EditSession(toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps))
 }
 async function save(opened: Opened, editor: EditSession) {
+  await resumeOwnProjectSave(opened.workspace, opened.dir!, opened.authorBaseline)
   const files = await serializeProjectWithMapCopies(editor.getState(), opened.project.source)
   const target = await authorizeBoundWorkspaceTarget(
     opened.workspace,
@@ -312,8 +332,16 @@ describe('real author open and save conflict boundary', () => {
       writeProject(target, files, {
         onProgress: () => disk.set('content/locale.json', { 'name.hero': 'External' }),
       }),
-    ).rejects.toThrow('修改')
-    expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+    ).rejects.toThrow('content/locale.json')
+    // Staging is private preparation; the A-02 guarantee here remains zero AUTHOR IO.
+    expect(
+      Object.fromEntries(
+        Object.entries(disk.changes).map(([kind, paths]) => [
+          kind,
+          paths.filter((path) => path !== '.type-pal' && !path.startsWith('.type-pal/')),
+        ]),
+      ),
+    ).toEqual({ creates: [], closes: [], removes: [] })
   })
 
   test('a new output path cannot overwrite a preexisting unrelated file', async () => {
@@ -365,7 +393,7 @@ describe('real author open and save conflict boundary', () => {
       disk.hooks.beforeClose = undefined
       disk.resetChanges()
       if (external) {
-        await expect(save(opened, editor)).rejects.toThrow('修改')
+        await expect(save(opened, editor)).rejects.toThrow('content/locale.json')
         expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
       } else {
         await save(opened, editor)
@@ -382,11 +410,11 @@ describe('real author open and save conflict boundary', () => {
     disk.hooks.afterClose = (path) => {
       if (path === 'manifest.json') disk.set('content/locale.json', { 'name.hero': 'External' })
     }
-    await expect(save(opened, editor)).rejects.toThrow('保存后的文件')
+    await expect(save(opened, editor)).rejects.toThrow('content/locale.json')
     expect(editor.isDirty()).toBe(true)
     disk.hooks.afterClose = undefined
     disk.resetChanges()
-    await expect(save(opened, editor)).rejects.toThrow('修改')
+    await expect(save(opened, editor)).rejects.toThrow('content/locale.json')
     expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   })
 
@@ -597,12 +625,14 @@ describe('real author open and save conflict boundary', () => {
       scenes: index.scenes.filter((entry) => entry.id !== 'optional'),
     }
     delete next[removedPath]
-    const attempt = async () =>
-      writeProject(
+    const attempt = async () => {
+      await resumeOwnProjectSave(opened.workspace, disk.dir, opened.authorBaseline)
+      return writeProject(
         await authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline),
         next,
         { removePaths: [removedPath] },
       )
+    }
     disk.hooks.beforeRemove = () => {
       throw new Error('remove interrupted')
     }
@@ -613,5 +643,295 @@ describe('real author open and save conflict boundary', () => {
     expect(disk.files.has(removedPath)).toBe(false)
     expect(new TextDecoder().decode(disk.files.get('keep.txt'))).toBe('unmanaged, never delete')
     expect((await finishOpen(disk.dir)).scenes.map((scene) => scene.id)).toEqual(['start'])
+  })
+
+  test('actual App save and ordinary reopen complete a new actor and its scene reference together', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('app-recovery'))
+    const opened = await finishOpen(disk.dir),
+      editor = session(opened)
+    const app = appSave(opened, editor)
+    const actor = structuredClone(editor.getState().actors[0]!)
+    actor.id = 'workflow-npc'
+    actor.battler!.baseStats.maxHP = 237
+    editor.dispatch(new AddActorCommand(actor))
+    editor.dispatch(
+      new AddEntityCommand(
+        'start',
+        createPlacedEntity(
+          'workflow-entity',
+          { col: 1, row: 1, height: 0 },
+          { mode: 'actor', actorId: actor.id },
+        ),
+      ),
+    )
+    app.scriptSession.dispatch(
+      new AddSceneEntityDefinitionCommand(
+        'start',
+        createCanonicalPlacedEntity(
+          'workflow-entity',
+          { col: 1, row: 1, height: 0 },
+          { mode: 'actor', actorId: actor.id },
+        ),
+      ),
+    )
+    disk.hooks.beforeClose = (path) => {
+      if (path === 'content/actors.json') throw new Error('workflow interrupted')
+    }
+    await app.run()
+    expect(app.error).toHaveBeenLastCalledWith('workflow interrupted')
+    expect(editor.isDirty()).toBe(true)
+    expect(disk.json('content/actors.json').some((a: { id: string }) => a.id === actor.id)).toBe(
+      false,
+    )
+    disk.hooks.beforeClose = undefined
+    // No explicit recovery API: the ordinary open action must recover BEFORE its canonical load.
+    const reopened = await finishOpen(disk.dir)
+    expect(reopened.project.actorsById[actor.id]!.battler!.baseStats.maxHP).toBe(237)
+    expect(
+      reopened.scenes[0]!.entities.some(
+        (e) => e.id === 'workflow-entity' && 'actor' in e && e.actor === actor.id,
+      ),
+    ).toBe(true)
+    await save(reopened, session(reopened))
+  })
+
+  test('actual App first-save retry uses its recovered binding even when no author close was observed', async () => {
+    const opened = await finishOpen(
+      memoryAuthorDirectory(await buildBlankProject('first-save-retry')).dir,
+    )
+    const editor = session(opened)
+    const target = memoryAuthorDirectory()
+    const picker = vi.fn(async () => target.dir)
+    const app = appSave(
+      {
+        ...opened,
+        workspace: createLocalWorkspaceContext(opened.project.manifest.id, 'blank-project'),
+      },
+      editor,
+      { initialDir: null, picker },
+    )
+    target.hooks.beforeClose = (path) => {
+      if (!path.startsWith('.type-pal/')) throw new Error('first author close failed')
+    }
+    await app.run()
+    expect(app.error).toHaveBeenLastCalledWith('first author close failed')
+    target.hooks.beforeClose = undefined
+    editor.dispatch(new RenameProjectCommand('new edit while interrupted'))
+    await app.run()
+    expect(app.error).toHaveBeenLastCalledWith('')
+    expect(target.json('manifest.json').name).toBe('new edit while interrupted')
+    expect(picker).toHaveBeenCalledTimes(2)
+    expect(editor.isDirty()).toBe(false)
+    await app.run()
+    expect(picker).toHaveBeenCalledTimes(2)
+  })
+
+  test('actual App own retry finishes its prior intent then removes a scene undone during interruption', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('undo-pending-scene'))
+    const opened = await finishOpen(disk.dir),
+      editor = session(opened)
+    const app = appSave(opened, editor)
+    const added = { ...structuredClone(opened.scenes[0]!), id: 'temporary-scene' }
+    const path = 'content/scenes/temporary-scene.json'
+    editor.dispatch(
+      new AddSceneCommand(
+        { id: added.id, name: 'temporary', path },
+        { ...structuredClone(editor.getState().scenes[0]!), id: added.id },
+      ),
+    )
+    app.scriptSession.dispatch(new AddSceneDefinitionCommand(added))
+    disk.hooks.beforeClose = (p) => {
+      if (p === 'content/scenes/start.json') throw new Error('stopped before new scene')
+    }
+    await app.run()
+    expect(app.error).toHaveBeenLastCalledWith('stopped before new scene')
+    expect(disk.files.has(path)).toBe(false)
+    expect(editor.undo()).toBe(true)
+    expect(app.scriptSession.undo()).toBe(true)
+    disk.hooks.beforeClose = undefined
+    await app.run()
+    expect(app.error).toHaveBeenLastCalledWith('')
+    expect(disk.files.has(path)).toBe(false)
+    expect((await finishOpen(disk.dir)).scenes.map((s) => s.id)).toEqual(['start'])
+  })
+
+  test('actual App reports cleanup as saved with warning and IO AbortError as a visible failure', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('cleanup-ui'))
+    const opened = await finishOpen(disk.dir),
+      editor = session(opened)
+    const app = appSave(opened, editor)
+    editor.dispatch(new RenameProjectCommand('saved with cleanup warning'))
+    disk.hooks.beforeRemove = (path) => {
+      if (path.includes('/blobs/')) throw new Error('cleanup denied')
+    }
+    await app.run()
+    expect(app.error).toHaveBeenLastCalledWith(expect.stringContaining('内容已保存'))
+    expect(editor.isDirty()).toBe(false)
+    disk.hooks.beforeRemove = undefined
+    editor.dispatch(new RenameProjectCommand('unsaved after abort'))
+    disk.hooks.beforeClose = (path) => {
+      if (path === 'manifest.json') throw new DOMException('author write aborted', 'AbortError')
+    }
+    await app.run()
+    expect(app.error).toHaveBeenLastCalledWith('author write aborted')
+    expect(editor.isDirty()).toBe(true)
+  })
+
+  test('ordinary open refuses force-sandbox repair and conflicting recent identity before author IO', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('open-modes'))
+    const opened = await finishOpen(disk.dir),
+      editor = session(opened)
+    editor.dispatch(new RenameProjectCommand('pending'))
+    disk.hooks.beforeClose = (path) => {
+      if (path === 'manifest.json') throw new Error('pending stop')
+    }
+    await expect(save(opened, editor)).rejects.toThrow('pending stop')
+    disk.hooks.beforeClose = undefined
+    disk.resetChanges()
+    await expect(finishOpen(disk.dir, { forceSandbox: true })).rejects.toThrow(
+      '评审模式不能恢复源项目',
+    )
+    const record = bindings.get(opened.workspace.workspaceId)!
+    await expect(
+      finishOpen(disk.dir, { expectedIdentity: { ...record, projectId: 'another' } }),
+    ).rejects.toThrow('工作区身份不符')
+    expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+    expect((await finishOpen(disk.dir)).project.manifest.name).toBe('pending')
+  })
+
+  test('a save cannot remove a resource still referenced by its final catalog', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('resource-removal-guard'))
+    const opened = await finishOpen(disk.dir)
+    const files = await serializeProjectWithMapCopies(
+      session(opened).getState(),
+      opened.project.source,
+    )
+    const record = Object.values(opened.project.assetCatalog.assets).find(
+      (r) => r.kind === 'sprite',
+    )!
+    const original = disk.files.get(record.path)!.slice(0)
+    await expect(
+      writeProject(
+        await authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline),
+        files,
+        { removePaths: [record.path] },
+      ),
+    ).rejects.toThrow('仍引用的资源')
+    expect(disk.files.get(record.path)).toEqual(original)
+    expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+  })
+
+  test('first save validates missing resource bytes before any author file is published', async () => {
+    const files = await buildBlankProject('missing-initial-asset')
+    const catalog = files['assets/index.json'] as import('@type-pal/content').AssetCatalogV1
+    const record = Object.values(catalog.assets).find((r) => r.kind === 'sprite')!
+    delete files[record.path]
+    const disk = memoryAuthorDirectory()
+    const workspace = createLocalWorkspaceContext('missing-initial-asset', 'blank-project')
+    await expect(
+      writeProject(await authorizeFirstSaveTarget(workspace, disk.dir), files),
+    ).rejects.toThrow(record.path)
+    expect([...disk.files.keys()].every((path) => path.startsWith('.type-pal/'))).toBe(true)
+    expect(disk.files.has('manifest.json')).toBe(false)
+  })
+
+  test('a changed catalog resource must exist even when no new binary was uploaded', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('changed-asset-path'))
+    const opened = await finishOpen(disk.dir)
+    const files = await serializeProjectWithMapCopies(
+      session(opened).getState(),
+      opened.project.source,
+    )
+    const catalog = structuredClone(
+      files['assets/index.json'] as import('@type-pal/content').AssetCatalogV1,
+    )
+    const record = Object.values(catalog.assets).find((r) => r.kind === 'sprite')!
+    record.path = 'assets/generated/sprites/unavailable.rle'
+    files['assets/index.json'] = catalog
+    await expect(
+      writeProject(
+        await authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline),
+        files,
+      ),
+    ).rejects.toThrow(record.path)
+    expect(disk.json('assets/index.json')).toEqual(opened.project.assetCatalog)
+    expect(disk.changes.closes.filter((path) => !path.startsWith('.type-pal/'))).toEqual([])
+  })
+
+  test('the writer freezes requested content before asynchronous preparation starts', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('frozen-output'))
+    const opened = await finishOpen(disk.dir)
+    const files = await serializeProjectWithMapCopies(
+      session(opened).getState(),
+      opened.project.source,
+    )
+    const target = await authorizeBoundWorkspaceTarget(
+      opened.workspace,
+      disk.dir,
+      opened.authorBaseline,
+    )
+    const pending = writeProject(target, files)
+    ;(files['manifest.json'] as { name: string }).name = 'late mutation'
+    await pending
+    expect(disk.json('manifest.json').name).toBe('frozen-output')
+  })
+
+  test('ordinary open holds the workspace lock across recovery and complete author loading', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('locked-open'))
+    const opened = await finishOpen(disk.dir)
+    const store = await import('./handle-store.js')
+    const originalLock = store.withWorkspaceRegistrationLock
+    let liveLock: import('./handle-store.js').WorkspaceRegistrationLock | undefined
+    const spy = vi
+      .spyOn(store, 'withWorkspaceRegistrationLock')
+      .mockImplementation((id, operation) =>
+        originalLock(id, async (lock) => {
+          liveLock = lock
+          try {
+            return await operation(lock)
+          } finally {
+            liveLock = undefined
+          }
+        }),
+      )
+    const entered = deferred(),
+      release = deferred()
+    let paused = false
+    disk.hooks.afterRead = async (path) => {
+      if (!paused && path === 'manifest.json') {
+        paused = true
+        entered.resolve()
+        await release.promise
+      }
+    }
+    const opening = finishOpen(disk.dir)
+    try {
+      await entered.promise
+      expect(liveLock).toBeDefined()
+      store.assertWorkspaceRegistrationLock(liveLock!, opened.workspace.workspaceId)
+    } finally {
+      release.resolve()
+      await opening
+      spy.mockRestore()
+    }
+  })
+
+  test('ordinary open explains a missing origin receipt without touching bound or copied pending content', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('missing-origin-receipt'))
+    const opened = await finishOpen(disk.dir),
+      editor = session(opened)
+    disk.hooks.beforeClose = (path) => {
+      if (path === 'manifest.json') throw new Error('pending before receipt loss')
+    }
+    await expect(save(opened, editor)).rejects.toThrow('pending before receipt loss')
+    disk.hooks.beforeClose = undefined
+    authorSaveStorage.receipts.clear()
+    const copied = memoryAuthorDirectory(Object.fromEntries(disk.files))
+    disk.resetChanges()
+    for (const target of [disk, copied]) {
+      await expect(finishOpen(target.dir)).rejects.toThrow('回到原浏览器')
+      expect(target.changes).toEqual({ creates: [], closes: [], removes: [] })
+      expect(target.json('.type-pal/save-state.json').phase).toBe('pending')
+    }
   })
 })

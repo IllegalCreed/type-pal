@@ -49,6 +49,7 @@ interface Booted {
   dir?: FileSystemDirectoryHandle
   workspace: WorkspaceContext
   authorBaseline: AuthorDiskBaseline
+  saveWarning?: string
 }
 
 function currentCanonicalScriptState(
@@ -169,6 +170,7 @@ function Root() {
       dir: o.dir,
       workspace: o.workspace,
       authorBaseline: o.authorBaseline,
+      saveWarning: o.recoveryWarning,
     })
   }
 
@@ -192,6 +194,7 @@ function Root() {
       project={boot.project}
       script={boot.script}
       initialDir={boot.dir}
+      initialSaveWarning={boot.saveWarning}
       workspace={boot.workspace}
       authorBaseline={boot.authorBaseline}
       forceSandbox={UI_REVIEW_SAMPLES}

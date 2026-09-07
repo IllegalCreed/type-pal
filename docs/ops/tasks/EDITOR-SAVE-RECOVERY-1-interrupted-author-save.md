@@ -723,6 +723,82 @@ GLM测试贡献由本席独立复核且须在最终终审披露，不充当独�
 不追加凑比例测试，journal≥90%的目标仍保留。GLM的17项测试贡献须在最终终审披露，
 由本席独立复核，不计为独立第三方自证。整卡done三席仍pending，当前无下一位Agent提示词，继续由Codex实现。
 
+### 第三部分：普通保存与打开入口接入（2026-09-07，build进行中）
+
+接手f39b4bc1洁净树并同步分支，r2设计三签保持有效。本部分由Codex实现，没有修改content20/SAVE8、
+生成PAL内容、旧审计探针或产品布局，不把本部分当整卡完成。
+
+- `project-io.ts:463` 的正式writeProject已接journal：先冻结本次输出、复用现行资源bytes/hash/格式预检，
+  将资源/catalog超集/内容/manifest/catalog收缩/remove合为一份暂存计划，真实current loader/作者校验通过后才写作者文件。
+  新增/变化资源须从封存视图验证；首次保存检查全部catalog资源，普通增量不反复重哈希全部未改资源。
+  不能删除final catalog仍引用的二进制。返回结构化snapshot+cleanupWarning，已保存但清理失败不伪装成未保存。
+- `App.tsx` 正式保存回调先恢复本页的旧意图，再捕获/保存这次编辑。原页恢复同时要求原context对象、
+  原authorBaseline对象、同目录、原nonce与operation/planHash；只按原计划已核目标字节推进原作者基线与PAL proof，
+  不用fresh磁盘扫描收编外部修改。恢复后使用该原意图的完整diff快照，因此中断期间撤销的新场景不会遗留在磁盘。
+  retained bookkeeping能力另外绑定原授权尚有效时封存的不可变计划：未知/重复/缺少路径或非原目标字节均不能推进基线；
+  原操作尚未结束时，原页重试在请求锁之前拒绝，避免同scope递归Web Lock。
+  首存即便在首个作者close前中断，完成原意图后也转为已绑定保存；旧窗口不能借此升级自己的基线。
+- `open-actions.ts:75` 普通/最近项目打开先发现持久凭据，持discovery→workspace锁恢复，再在同一锁内完成
+  metadata/PAL proof/current载入/作者基线/登记；已在创建mutation中的打开复用真实active能力，不递归拿锁。
+  `openLocalProject`仍为只读加载，夹验覆盖全量场景、地图字节基线等完整读取，不把pending当正常项目。
+  forceSandbox检视不得恢复local/PAL源；最近项目身份冲突在恢复写入之前拒绝。
+- 成功后清理警告透传至已有状态栏；准备、写入、恢复使用已有保存对话框/启动屏busy文案，不新增布局/图标。
+  picker取消仍返回null；真正写入/恢复AbortError必须可见。markSaved继续匹配捕获的state与脚本version，不误清后台新编辑。
+- 补齐committed标志已写、最后IDB凭据事务失败的接线边界：下一次合法保存只终结旧凭据/清理，不重放旧内容；
+  若别的打开者已补完原意图，原页仍只按其原计划核定后态并恢复自己的作者基线/PAL proof。
+
+验证进度：
+
+- 原journal的只读pending拒绝断言从finishOpen移到openLocalProject（前者现在承担自动恢复）；断言本身保留。
+  A-02的零作者IO/dirty/外部冲突断言保留，私有暂存IO单独计数；错误定位由泛化文案改核具体冲突路径。
+  三个旧policy fixture补当前loader要求的完整内容，写入返回值适配为snapshot；不通过mock掉journal/loader绕过新边界。
+  新测试mock仅隔离FSA/IDB；原生浏览器另核真实持久边界。新用例初次出现的fixture类型/投影/路径错误不当生产缺陷“先红”证据。
+- 已跑实际App回调的新增人物+237+场景引用、普通打开自动恢复、首存重试、撤销后再保存、cleanup警告/IO中止、
+  错误最近项目/forceSandbox、资源缺失/删除、输出冻结及真实读锁生命周期。journal另覆盖本页/他页/基线身份、
+  已清理的原提交、外部后续编辑、IDB最后事务与PAL身份fixture的原页恢复；PAL fixture不是官方完整工程或原生PAL权限验收。
+- 三个独立单点负控制均exit1：跳过新/变化资源字节校验会保存缺资源的目录；去掉原baseline身份条件会错误恢复；
+  普通打开不调用恢复会在pending门失败而无法重开。隔离配置为`/tmp/codex-save-entry-build.U7yZKB/negative.config.mts`，
+  `negative-resources.log`/`negative-owner.log`/`negative-open.log`留实测失败原因，未stash或改仓库源文件作负控制。
+  另追加retained bookkeeping负控制：只让目标hash比较退化为自比较，就会错误接收外部字节并使新测试exit1；
+  正常对照绿，`negative-bookkeeping.log`留证。原页重入前置拒绝和不可变计划绑定已独立补回归。
+- 原生验证已升级到正式入口：独立Chrome资料、原生OPFS/IndexedDB/Web Locks；正式writeProject在actors close前注错，
+  然后关闭并重新启动浏览器，经**界面“打开项目”按钮**自动恢复人物/237/场景引用；地图正常显示。
+  再用“文件→重命名项目”和**保存按钮**写入新名称，确认新committed operation与已保存状态。
+  目录选择器仅替换为隔离OPFS句柄；未接触用户作者目录，不冒充OS目录授权/物理断电试验。
+  证据在`/tmp/codex-save-entry-build.U7yZKB/`的native-entry.mjs、before.json、after.json、ui-saved.json、opened.png；
+  最终资料目录为profile-sealed。首次UI定位把menuitem当button导致超时，改按实测DOM定位后通过，不计生产缺陷。
+  同一隔离资料还做了外部冲突链：新保存中断→外部改locale→重启→界面打开，显示具体路径与“恢复数据仍保留”，
+  外部字节原样、门仍pending、打开按钮可用，证据为native-conflict.mjs、conflict.json、conflict.png。
+  缺原浏览器凭据时普通打开不再给循环提示，明确要求保留目录并回原浏览器；绑定目录与复制目录均有零IO回归。
+
+**剩余边界未完成：** clone仍是原逐文件复制；Save As目前只把最后writeProject接到journal，源复制尚未合为同一份封存意图。
+下一部分必须完成clone/Save As整笔流式暂存及源一致性、ZIP/试玩完整读锁/排除暂存数据、大工程/PAL成本与剩余SR矩阵。
+HTTP首存仍沿用includeAssetCopies全量物化，当前冻结输出也会增加其峰值；应与后续流式输入一起处理并实测，
+小样例验证不能据此宣称207MB首存/大克隆的成本已经达标。
+因此不标A-03修复、不转review/done；本轮质量门结果完成后继续登记，无需新的设计签字或用户逐卡验收。
+
+本部分最终完整 `pnpm check` 已通过：550测试文件/6,586项（editor 202文件/2,018项），各包typecheck通过，
+lint仍为既有50warnings/11infos。此前check也通过，但封存能力自检补强后重新运行了完整检查；
+中间一轮将完整WorkspaceContext误传给严格4字段identity校验导致定向红，已改为显式4字段对象，没有放宽parser。
+最终日志`/tmp/codex-save-entry-build.U7yZKB/check-complete.log`。
+
+`TYPE_PAL_COVERAGE_BASE_REF=f39b4bc1 pnpm coverage:ratchet`通过：616生产文件不变、fast 6,100项，
+editor 1,837→1,861项；8项指标提升/2项范围变化，没有测试或生产范围删除，没有阈值/排除/超时下调。
+editor精确计数为语句24,489/32,391、分支18,923/28,079、函数6,080/8,180、行22,132/28,290。
+**本卡核心覆盖目标仍未全部达到**，不得以全仓ratchet绿替代验收；当前整文件指标保留如下，随剩余真实入口/故障路径继续补：
+
+| 模块 | 行 | 函数 | 分支 |
+|---|---|---|---|
+| author-save-journal | 379/392（96.68%） | 57/57（100%） | 265/297（89.22%，至少还需3分支达90%） |
+| workspace-persistence | 370/423（87.47%） | 58/58（100%） | 338/435（77.70%） |
+| project-io | 238/266（89.47%） | 41/44（93.18%） | 176/230（76.52%） |
+| open-actions | 78/105（74.28%） | 16/20（80%） | 54/84（64.28%） |
+| open-local | 23/23（100%） | 4/4（100%） | 10/15（66.66%） |
+
+随后单次严格 `TYPE_PAL_COVERAGE_BASE_REF=f39b4bc1 pnpm coverage:fast` 通过：616生产文件/6,100项，
+七包metrics及测试计数与ratchet新基线逐项零差异，total同样相等，没有抖动或多数重跑放行。
+日志为同一隔离目录的ratchet.log和strict-fast.log。本部分保持build，下一步是整笔复制与读出口，不请求重复设计签字。
+
 ## 交接日志
 
 - 2026-09-07 Codex：同步 041c2fe1 洁净树，复核 A-02 后的 A-03。新增内存当前 API 探针，旧探针/产品/正式测试未动；
@@ -765,8 +841,8 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-当前GLM返工候选f4245a34测试贡献已接收，集成后的完整检查/ratchet/严格fast均通过，Codex继续入口实现；
-无需再转交GLM返工或重新设计签字。
+当前普通保存/原页重试/打开接线的完整检查、原生验证、ratchet与严格fast均通过；Codex继续整笔复制及读出口。
+GLM测试贡献及独立复核保持记录，无需再转交上述测试返工或重新设计签字。
 以下分工/返工/设计提示词均为历史，完整实现候选冻结后另给两席终审提示词；当前不请求用户验收。
 
 ### 给 GLM（历史：925a89aa测试贡献限定返工，f4245a34已解决）
@@ -850,6 +926,12 @@ R3：221/248达90%差3，不是2；按实际报告校对未覆盖条件和file:l
 测试贡献counter、R1/R2限定返工，R3纠正回执算术/锚点；r2设计保持，不转Kimi，不代修生产迎合错误测试。
 仅将GLM原始回执/日志和本席证据落回main文档；候选测试、coverage baseline未集成，完整质量门待返工复核后执行。
 同步rework看板与生成索引后，文档工具20/20、400 Markdown/1,812本地链接/140卡检查及git diff --check通过。
+
+### Codex · 普通入口接线交接日志
+
+本轮Codex交接登记（2026-09-07）：从f39b4bc1继续build，完成上述普通入口接线与自验证；未触生成PAL、
+content/SAVE版本或旧探针。自建6011验证实例均已停止，用户6010未重启/清缓存；证据留在隔离临时目录。
+当前无下一位Agent提示词，仍由Codex做下一部分；不标review/done、不请求重复设计签字或用户逐卡复验。
 
 ### 给 Kimi（已完成，历史保留）
 

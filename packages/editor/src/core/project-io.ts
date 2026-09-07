@@ -38,19 +38,29 @@ import {
   decompressGzip,
   type FileSource,
   type LoadedCurrentProjectCore,
+  loadAllAuthorScenes,
+  loadCurrentProjectFrom,
+  loadStampTemplates,
   parseSpriteChunkStrict,
 } from '@type-pal/reforge'
+import type { AuthorDiskBaseline } from './author-disk-baseline.js'
+import {
+  type AuthorSaveInput,
+  commitAuthorSave,
+  prepareAuthorSave,
+  recoverOwnAuthorSave,
+} from './author-save-journal.js'
 import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
 import type { EditorState } from './edit-session.js'
 import { assertProjectSaveValid } from './project-diagnostics.js'
 import { assertScriptProjectValid } from './script-references.js'
-import { isWorkspaceIdentityPath } from './workspace-context.js'
+import { isWorkspaceIdentityPath, type WorkspaceContext } from './workspace-context.js'
 import {
   type AuthorizedWorkspaceInput,
   authorizedDirectory,
+  authorizedSaveScope,
   beginAuthorizedWorkspaceMutation,
   planAuthorizedWorkspacePaths,
-  recordAuthorizedWorkspaceRemoveCompleted,
   recordAuthorizedWorkspaceWriteCompleted,
   withAuthorizedWorkspaceMutation,
 } from './workspace-persistence.js'
@@ -112,6 +122,61 @@ export function toEditorState(
     locale: project.locale,
     // manifest 透传；启动入口及其开局世界只在 manifest.entryPoints 中保留一份真值。
     manifest: project.manifest,
+  }
+}
+
+export interface ProjectWriteResult {
+  snapshot: Map<string, string>
+  cleanupWarning?: string
+}
+const interruptedSnapshots = new WeakMap<WorkspaceContext, Map<string, string>>()
+
+/** Before a new click is serialized, finish ONLY this page's original save and adopt its exact output diff. */
+export async function resumeOwnProjectSave(
+  workspace: WorkspaceContext,
+  dir: FileSystemDirectoryHandle,
+  baseline: AuthorDiskBaseline,
+  onRecovering?: () => void,
+): Promise<ProjectWriteResult | null> {
+  if (interruptedSnapshots.has(workspace)) onRecovering?.()
+  const result = await recoverOwnAuthorSave(workspace, dir, baseline)
+  const snapshot = interruptedSnapshots.get(workspace)
+  interruptedSnapshots.delete(workspace)
+  if (!result) return null
+  if (!snapshot) throw new Error('原页面的保存快照缺失，请重新打开已恢复的项目')
+  return { snapshot, ...(result.cleanupWarning ? { cleanupWarning: result.cleanupWarning } : {}) }
+}
+
+async function validatePreparedProject(
+  source: FileSource,
+  previousCatalog?: AssetCatalogV1,
+): Promise<void> {
+  const project = await loadCurrentProjectFrom(source)
+  const [scenes, stamps] = await Promise.all([
+    loadAllAuthorScenes(project),
+    loadStampTemplates(project),
+  ])
+  await serializeProjectWithMapCopies(toEditorState(project, scenes, {}, {}, stamps), source)
+  const checked = new Set<string>()
+  for (const [id, record] of Object.entries(project.assetCatalog.assets)) {
+    if (
+      checked.has(record.path) ||
+      JSON.stringify(previousCatalog?.assets[id]) === JSON.stringify(record)
+    )
+      continue
+    checked.add(record.path)
+    let bytes: ArrayBuffer
+    try {
+      bytes = await source.readBytes(record.path)
+    } catch (cause) {
+      throw new Error(`保存目标资源缺失或不可读：${record.path}`, { cause })
+    }
+    // Stream one changed resource at a time through the SAME bytes/hash/format preflight.
+    await preflightProjectWriteSet({
+      'manifest.json': project.manifest,
+      [project.manifest.assets.catalog]: project.assetCatalog,
+      [record.path]: bytes,
+    })
   }
 }
 
@@ -397,13 +462,16 @@ function unionAssetCatalog(
  */
 export async function writeProject(
   target: AuthorizedWorkspaceInput,
-  files: Record<string, unknown>,
+  inputFiles: Record<string, unknown>,
   opts?: {
     prevSnapshot?: Map<string, string>
     removePaths?: readonly string[]
     onProgress?: (progress: { completed: number; total: number }) => void
   },
-): Promise<Map<string, string>> {
+): Promise<ProjectWriteResult> {
+  // Freeze the click's output before the first asynchronous boundary. Staging must not read a
+  // subsequently mutated working-copy object or upload buffer.
+  const files = structuredClone(inputFiles)
   for (const rel of Object.keys(files)) assertWorkspaceIdentityPathWritable(rel)
   for (const rel of opts?.removePaths ?? []) assertWorkspaceIdentityPathWritable(rel)
   await preflightProjectWriteSet(files, opts?.removePaths ?? [])
@@ -430,6 +498,7 @@ export async function writeProject(
     const write = [...diff.write]
     let stagedCatalog: AssetCatalogV1 | undefined
     let finalCatalog: AssetCatalogV1 | undefined
+    let previousCatalog: AssetCatalogV1 | undefined
     if (catalogPath && files[catalogPath]) {
       finalCatalog = validateAssetCatalog(files[catalogPath], catalogPath)
       const diskText = await readTextFileIfPresent(dir, catalogPath)
@@ -437,6 +506,7 @@ export async function writeProject(
         diskText === undefined || diskText.trim() === ''
           ? undefined
           : validateAssetCatalog(JSON.parse(diskText) as unknown, `${catalogPath}（当前磁盘）`)
+      previousCatalog = diskCatalog
       // close 中断后磁盘可能已经前滚，而内存快照仍是旧态。发现偏差时强制重写 catalog
       // 和内容，不能只相信 prevSnapshot 后误跳过用户的重试或撤销结果。
       if (diskCatalog && serializeOne(diskCatalog) !== serializeOne(finalCatalog)) {
@@ -462,7 +532,6 @@ export async function writeProject(
     const stagedCatalogSize = needsCatalogShrink ? byteLength(stagedCatalog) : 0
     const total = [...sizes.values()].reduce((sum, size) => sum + size, stagedCatalogSize)
     let completed = 0
-    opts?.onProgress?.({ completed, total })
     // prev 在真实 IO 期间兼作落盘日志：未触及的旧条目仍代表真实文件，只在成功
     // close 后覆盖签名、成功/已不存在的 remove 后删条目。中断时同一 Map 因而是完整的实际磁盘快照。
     const rememberWrite = async (
@@ -484,19 +553,25 @@ export async function writeProject(
       // 100% 只在删除也落定后报告；避免 manifest close 后、函数返回前 UI 先宣告完成。
       if (completed < total) opts?.onProgress?.({ completed, total })
     }
-    for (const rel of write.filter((candidate) => files[candidate] instanceof ArrayBuffer)) {
-      await writeFile(mutation, rel, files[rel])
-      await rememberWrite(rel, files[rel])
-      advance(sizes.get(rel) ?? 0)
+    const inputs: AuthorSaveInput[] = []
+    const completions: Array<() => Promise<void>> = []
+    const addWrite = (rel: string, value: unknown, size: number, signature?: string) => {
+      const bytes = new Blob([value instanceof ArrayBuffer ? value : serializeOne(value)])
+      inputs.push({ kind: 'write', path: rel, read: async () => bytes })
+      completions.push(async () => {
+        await rememberWrite(rel, value, signature)
+        advance(size)
+      })
     }
+    for (const rel of write.filter((candidate) => files[candidate] instanceof ArrayBuffer))
+      addWrite(rel, files[rel], sizes.get(rel) ?? 0)
     if (catalogPath && stagedCatalog) {
-      await writeFile(mutation, catalogPath, stagedCatalog)
-      await rememberWrite(
+      addWrite(
         catalogPath,
         stagedCatalog,
+        needsCatalogShrink ? stagedCatalogSize : (sizes.get(catalogPath) ?? 0),
         needsCatalogShrink ? serializeOne(stagedCatalog) : desiredSignatures.get(catalogPath),
       )
-      advance(needsCatalogShrink ? stagedCatalogSize : (sizes.get(catalogPath) ?? 0))
     }
     for (const rel of write.filter(
       (candidate) =>
@@ -504,38 +579,23 @@ export async function writeProject(
         candidate !== catalogPath &&
         candidate !== 'manifest.json',
     )) {
-      await writeFile(mutation, rel, files[rel])
-      await rememberWrite(rel, files[rel])
-      advance(sizes.get(rel) ?? 0)
+      addWrite(rel, files[rel], sizes.get(rel) ?? 0)
     }
     // manifest 是最后一张引用表：旧 manifest 可能仍指向旧 catalog role 或旧 content path，
     // 因此 final catalog 收缩与物理删除都必须等新 manifest close 成功后再做。其后失败只会
     // 留下安全的 catalog 超集或孤儿文件，不会让任一已发布引用悬空。
     if (write.includes('manifest.json')) {
-      await writeFile(mutation, 'manifest.json', files['manifest.json'])
-      await rememberWrite('manifest.json', files['manifest.json'])
-      advance(sizes.get('manifest.json') ?? 0)
+      addWrite('manifest.json', files['manifest.json'], sizes.get('manifest.json') ?? 0)
     }
     if (catalogPath && finalCatalog && needsCatalogShrink) {
-      await writeFile(mutation, catalogPath, finalCatalog)
-      await rememberWrite(catalogPath, finalCatalog)
-      advance(sizes.get(catalogPath) ?? 0)
+      addWrite(catalogPath, finalCatalog, sizes.get(catalogPath) ?? 0)
     }
     for (const rel of remove) {
-      const segs = rel.split('/')
-      const fileName = segs.pop()!
-      let d = dir
-      try {
-        for (const seg of segs) d = await d.getDirectoryHandle(seg)
-        await beginAuthorizedWorkspaceMutation(mutation)
-        await d.removeEntry(fileName)
-      } catch (error) {
-        if (!(error instanceof DOMException) || error.name !== 'NotFoundError') throw error
-      }
-      prev?.delete(rel)
-      recordAuthorizedWorkspaceRemoveCompleted(mutation, rel)
+      inputs.push({ kind: 'remove', path: rel })
+      completions.push(async () => {
+        prev?.delete(rel)
+      })
     }
-    opts?.onProgress?.({ completed: total, total })
     const snapshot = new Map<string, string>()
     for (const [rel, value] of Object.entries(files)) {
       snapshot.set(
@@ -543,7 +603,25 @@ export async function writeProject(
         value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value),
       )
     }
-    return snapshot
+    const scope = authorizedSaveScope(mutation)
+    const workspace = scope.workspace
+    const prepared = await prepareAuthorSave(
+      mutation,
+      inputs,
+      (source) => validatePreparedProject(source, scope.firstSave ? undefined : previousCatalog),
+      {
+        catalogPath,
+      },
+    )
+    interruptedSnapshots.set(workspace, new Map(snapshot))
+    opts?.onProgress?.({ completed, total })
+    let appliedIndex = 0
+    const result = await commitAuthorSave(prepared, async (step) => {
+      if (step.kind !== 'mkdir') await completions[appliedIndex++]!()
+    })
+    interruptedSnapshots.delete(workspace)
+    opts?.onProgress?.({ completed: total, total })
+    return { snapshot, ...(result.cleanupWarning ? { cleanupWarning: result.cleanupWarning } : {}) }
   })
 }
 
@@ -558,6 +636,10 @@ export async function preflightProjectWriteSet(
   const catalogPath = rawManifest?.assets?.catalog
   if (catalogPath && files[catalogPath]) {
     const catalog = validateAssetCatalog(files[catalogPath])
+    for (const rel of removePaths) {
+      if (!(rel in files) && Object.values(catalog.assets).some((record) => record.path === rel))
+        throw new Error(`保存不能删除当前 catalog 仍引用的资源：${rel}`)
+    }
     const recordsByPath = new Map<string, (typeof catalog.assets)[string][]>()
     for (const record of Object.values(catalog.assets))
       recordsByPath.set(record.path, [...(recordsByPath.get(record.path) ?? []), record])

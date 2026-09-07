@@ -1,4 +1,10 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
+
+vi.mock('./author-save-store.js', async (original) =>
+  memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>()),
+)
+beforeEach(() => authorSaveStorage.receipts.clear())
 
 const {
   buildBlankProjectMock,
@@ -242,6 +248,7 @@ describe('project creation and Save As target policy', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    writeProjectMock.mockResolvedValue({ snapshot: new Map() })
     installMemoryIndexedDb()
     const dir = nonEmptyDir()
     vi.stubGlobal('window', {

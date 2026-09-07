@@ -8,11 +8,14 @@ const reforge = vi.hoisted(() => ({
   loadStampTemplates: vi.fn(),
 }))
 
-vi.mock('@type-pal/reforge', () => ({
+vi.mock('@type-pal/reforge', async (original) => ({
+  ...(await original<typeof import('@type-pal/reforge')>()),
   fsaSource: vi.fn(() => ({
     readJson: reforge.readJson,
-    readBytes: async (path: string) =>
-      new TextEncoder().encode(JSON.stringify(await reforge.readJson(path))).buffer,
+    readBytes: async (path: string) => {
+      if (path === '.type-pal/save-state.json') throw new DOMException(path, 'NotFoundError')
+      return new TextEncoder().encode(JSON.stringify(await reforge.readJson(path))).buffer
+    },
     dispose: reforge.dispose,
   })),
   loadCurrentProjectFrom: reforge.loadCurrentProjectFrom,

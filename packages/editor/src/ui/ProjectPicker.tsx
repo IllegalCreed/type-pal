@@ -62,7 +62,9 @@ export function ProjectPicker(props: {
 
   const openProject = run('打开项目', async () => {
     const dir = await pickDir()
-    return dir ? finishOpen(dir, { forceSandbox }) : null
+    return dir
+      ? finishOpen(dir, { forceSandbox, onRecovering: () => setBusy('正在完成上次保存') })
+      : null
   })
   // Creation commands always produce a new, explicitly selected local workspace. forceSandbox
   // only prevents an existing PAL/local directory from lending its write authority to ui_samples.
@@ -76,7 +78,11 @@ export function ProjectPicker(props: {
       if (!record) throw new Error('句柄已失效，请使用「打开项目」重新选择文件夹。')
       const permission = await ensurePermission(record.handle, { withRequest: true })
       if (permission !== 'granted') throw new Error('未授权访问该文件夹。')
-      return finishOpen(record.handle, { expectedIdentity: record, forceSandbox })
+      return finishOpen(record.handle, {
+        expectedIdentity: record,
+        forceSandbox,
+        onRecovering: () => setBusy('正在完成上次保存'),
+      })
     })()
   }
 
@@ -115,7 +121,11 @@ export function ProjectPicker(props: {
                 </div>
               </>
             ) : (
-              <div className="picker-busy-sub">选择文件夹并授权…</div>
+              <div className="picker-busy-sub">
+                {busy === '正在完成上次保存'
+                  ? '正在恢复已暂存的项目内容，请勿关闭页面。'
+                  : '选择文件夹并授权…'}
+              </div>
             )}
           </div>
         ) : (
