@@ -755,6 +755,8 @@ test('recovery refuses a directory that has since been rebound to another worksp
   const f = await fixture()
   stopAtActors(f)
   await expect(save(f)).rejects.toThrow('stop actors')
+  // 撤销初始停存注错：后续拒绝必须来自身份保护本身，而非残留的 close 故障。
+  f.disk.hooks.beforeClose = undefined
   f.disk.resetChanges()
   // 原工作区记录消失、目录已登记到另一个 workspace：不可凭旧凭据重放。
   storage.bindings.delete(f.opened.workspace.workspaceId)
@@ -775,6 +777,8 @@ test('recovery refuses when the receipt workspace record drifted to another iden
   const f = await fixture()
   stopAtActors(f)
   await expect(save(f)).rejects.toThrow('stop actors')
+  // 同上：先撤销初始停存注错，隔离出纯粹的恢复阶段身份检查。
+  f.disk.hooks.beforeClose = undefined
   f.disk.resetChanges()
   // 同 workspaceId 的登记记录被外部改为其他工程：身份冲突，零作者 IO。
   const drifted = {
@@ -939,17 +943,50 @@ test('a committed reopen is cleanup-only and removes exactly its own verified st
   ).toBe(false)
 })
 
-test('a future step pre-written to its target value stops replay instead of continuing', async () => {
+test('a future un-issued step pre-written to its exact target bytes stops recovery before any new author IO', async () => {
+  const f = await fixture()
+  // 既有文件 locale 在计划中位于 issued 步骤（actors）之后：改其目标，制造
+  // “真正未 issued 的未来步骤且 before ≠ after”——不是 issued 步骤，不用任意坏 JSON。
+  const locale = f.intended['content/locale.json'] as Record<string, string>
+  const changed = { ...locale, 'glm.future-step': '未来目标' }
+  f.intended['content/locale.json'] = changed
+  const targetBytes = `${JSON.stringify(changed, null, 2)}\n`
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.hooks.beforeClose = undefined
+  const receipt = receiptOf(f)
+  const plan = f.disk.json(`.type-pal/save-recovery/${receipt.operationId}/plan.json`)
+  const steps = plan.steps as { path: string; signature: string }[]
+  const stepIndex = steps.findIndex((step) => step.path === 'content/locale.json')
+  expect(stepIndex).toBeGreaterThan(receipt.completed)
+  expect(plan.before['content/locale.json']).not.toBe(steps[stepIndex]!.signature)
+  // 外部把该未来步骤预先写成计划的精确目标字节（与暂存 blob 同编码）。
+  f.disk.resetChanges()
+  f.disk.set('content/locale.json', targetBytes)
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow('content/locale.json')
+  // 任何新作者 IO 前拒绝：零作者写/删；外部字节、恢复数据与 pending 门保留。
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  expect(new TextDecoder().decode(f.disk.files.get('content/locale.json'))).toBe(targetBytes)
+  expect(f.disk.json(PROJECT_SAVE_STATE_PATH).phase).toBe('pending')
+  expect(
+    [...f.disk.files.keys()].some(
+      (path) => path.includes('/save-recovery/') && path.includes('/blobs/'),
+    ),
+  ).toBe(true)
+})
+
+test('the unique issued step found at its exact after value is a legal state and recovery completes', async () => {
   const f = await fixture()
   stopAtActors(f)
   await expect(save(f)).rejects.toThrow('stop actors')
   f.disk.hooks.beforeClose = undefined
+  // actors 是当前 issued 步骤：外部把它写成计划的精确目标字节属合法 after 态，
+  // 恢复应收编该步并继续完成——r2 允许唯一 issued 步骤处于 before 或 after。
+  const actorsBytes = `${JSON.stringify(f.intended['content/actors.json'], null, 2)}\n`
   f.disk.resetChanges()
-  // 外部把尚未执行步骤的目标文件提前写成别的值：前缀校验必须拒绝，不收编。
-  f.disk.set('content/actors.json', 'pre-written by another tool')
-  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow('content/actors.json')
-  expect(f.disk.json(PROJECT_SAVE_STATE_PATH).phase).toBe('pending')
-  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  f.disk.set('content/actors.json', actorsBytes)
+  await recoverInterruptedAuthorSave(f.disk.dir)
+  assertRestored(f.disk)
 })
 
 test('a foreign edit landing right after our step close fails the post-write verification', async () => {

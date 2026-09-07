@@ -653,6 +653,41 @@ committed 清理状态检查（:646）、PAL 登记策略（:721）——多数�
 因上述counter，按用户要求先退回卡内测试返工，暂不执行集成后的完整check/ratchet/严格fast，不能先更新基线再补证据。
 GLM测试贡献由本席独立复核且须在最终终审披露，不充当独立第三方自证。
 
+#### GLM 并行测试返工回执（R1–R3，2026-09-07，分支 `codex/glm-save-recovery-tests`）
+
+返工基于 `925a89aa`，先合并 `origin/main`（`51325c43` 文档，Codex counter 全文保留、未改写）。
+产品/共享 fixture/配置/baseline/探针/原 44 项测试仍零改动；新增测试与回执/日志为本席白名单。
+
+- **R1**：原 future-step 用例删除重写。新用例改在 fixture 的 intended 中修改既有文件
+  `content/locale.json`（manifest 内容表顺序保证其在 issued 步骤 actors 之后），形成
+  **真正未 issued、before ≠ after 的未来写步骤**；测试内直读 `.type-pal/save-recovery/<op>/plan.json`
+  自证 `stepIndex > receipt.completed` 且 `before ≠ step.signature`，再注入**计划的精确目标字节**
+  （与暂存 blob 同编码 `${JSON.stringify(v,null,2)}\n`）。断言恢复在**任何新作者 IO 前**拒绝
+  （authorChanges 全零）、外部字节逐字保留（TextDecoder 解码对比）、blobs/plan 恢复数据保留、
+  读门仍 pending。SR-06 映射成立。另按 Codex 验证的语义新增互补用例：**issued 步骤处于精确 after
+  值属合法态**（注入 intended actors 字节 → 恢复收编该步并完成 committed）——把该隔离验证钉为常驻回归。
+- **R2**：rebind 与身份漂移两用例在初次停存断言后、恢复前**先 `beforeClose = undefined` 撤销注错**。
+  M1 重跑（仅移除 rebind 守卫）：**exit 1，失败原因 `promise resolved committed instead of
+  rejecting`**——守卫移除后错误身份恢复被完整采纳，干净的业务反例（不再是残留 stop actors）；
+  正常对照同过滤绿。身份漂移用例同法撤销。M2 未动，按 Codex 接受的证据保持。
+- **R3**：覆盖同口径复算（author-save-journal.test.ts 单文件定向，报告
+  /tmp/glm-sr-workspace/cov-rework）：**行 328/335（97.91%）、函数 49/49（100%）、分支 221/248
+  （89.11%）——达标需 ceil(248×0.9)=224，差 3**（原“差 2”错误，223/248=89.92% 不达标）。
+  剩余未覆盖分支按实际报告逐条登记（行号=候选源码实位）：
+  - 内核读写故障重抛类（可达但需共享 fixture 增加读/写错误注错钩子，fixture 不在本席白名单）：
+    :100 非 missing 读错重抛、:391 暂存写后回读不符、:517 重放中读门翻转、:535 mkdir 非 missing 重抛；
+  - 需 remove/mkdir 步骤或 PAL 凭据的场景：:261 封存视图读已删路径、:398 mkdir 未知父目录、
+    :511 已完成步 applied 三元非 write 臂、:721 PAL 恢复登记策略（PAL 完整入口按分工留 Codex）；
+  - 内部不变量/双重伪造类：:178 凭据 handle 与目录不符、:199 plan 未封散、:241 伪造 plan 操作号、
+    :437、:466 publish 写失败/验失败区分、:484 异种状态令牌、:593 token 相位不符、
+    :646/:648/:653 清理相位错误；
+  - 清理罕见错误臂：:565 已 committed 分臂、:568/:671 非 Error 消息、:636 removeEmpty 异常臂。
+  不为凑比例堆例或改统计范围；后续按业务需要补。
+- **验证复跑**：61/61 全绿（44 既有 + 17：原 16 中 future-step 重写、新增 issued-after 合法态）；
+  editor typecheck exit 0；biome 该文件零诊断；M1/M2 负控制红因均为 `resolved committed instead
+  of rejecting`（exit 1），正常对照绿。未跑全仓 check/ratchet/严格 fast（仍按分工由 Codex 集成后执行）。
+- 本返工不签整卡 accept、不标 review/done；测试贡献仍待 Codex 独立复核并终审披露。
+
 ## 交接日志
 
 - 2026-09-07 Codex：同步 041c2fe1 洁净树，复核 A-02 后的 A-03。新增内存当前 API 探针，旧探针/产品/正式测试未动；
@@ -749,6 +784,13 @@ R3：221/248达90%差3，不是2；按实际报告校对未覆盖条件和file:l
 ```
 
 ### GLM · 并行分工交接日志
+
+2026-09-07（返工）：按 Codex counter R1–R3 完成测试返工。R1 重写 future-step 为真未 issued
+未来步骤 + 精确目标字节 + 新作者 IO 前拒绝，并新增 issued-after 合法态常驻用例；R2 两身份用例
+撤销初始注错后 M1 红因实测为 `resolved committed instead of rejecting`；R3 更正差 3 并按实际
+报告逐条登记剩余分支（不再统称依赖入口集成）。61/61 绿、typecheck 0、biome 干净、M1/M2 红、
+同口径覆盖 97.91%/100%/89.11%。分支合并了 main 的 counter 文档（原文保留）。提交推送本分支，
+交 Codex 复核；不代签、不标 done。
 
 2026-09-07：独立 worktree `type-pal-glmt`、分支 `codex/glm-save-recovery-tests`（基于 cd4ce646）
 完成 16 项内核故障回归（身份/权限变化、重放再中断、提交后清理边界），44 项既有测试原样保留，
