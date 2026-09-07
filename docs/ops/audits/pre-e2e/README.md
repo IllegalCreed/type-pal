@@ -96,6 +96,12 @@ E2E门槛另列。没有证据表明用户现有项目或存档已经遭到损�
 
 ## A-03 · 合法状态的部分保存会破坏已发布引用
 
+当前跟进：[EDITOR-SAVE-RECOVERY-1](../../tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，2026-09-07 前提复核完成、
+待用户选择恢复目标，尚未实现。新增[当前 API 探针](probe-editor-save-recovery.mjs)传入真实打开得到的 authorBaseline，
+在 A-02 已修复的树上仍复现新人物/场景半写；原页面有完整目标时重试成功。运行
+`node --import tsx docs/ops/audits/pre-e2e/probe-editor-save-recovery.mjs`；仅内存 FSA/IDB，不改真实工程。
+以下原审计锚点保留；旧 probe-editor-persistence 仍为修前接口，不能用它的缺参数异常作为新的 A-03 证明。
+
 - 证据：`editor/src/core/project-io.ts:175-187,245-248`先产出场景后产出人物表；`:496-504`逐文件原地close；
   `App.tsx:2098-2138`恢复快照只在当前页面内存。正常作者路径是`ActorMode.tsx:299-315`新人物和
   `App.tsx:2027-2031`放置人物实体。

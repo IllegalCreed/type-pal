@@ -13,6 +13,12 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 
+## 阻塞
+
+| ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
+|---|---|---|---|---|
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | blocked | 用户：确认恢复目标；Codex 随后定案 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)；当前 API 已复现 A-03，待选择继续本次保存或恢复上次完整版本；未实现、未请求三签。 |
+
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)
 已修复，完整 `pnpm check` 通过；[B-04 存档预检修复](audits/pre-e2e/save-preflight-remediation.md)已三签收口。

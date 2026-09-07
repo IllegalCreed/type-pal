@@ -15,6 +15,9 @@
 - [EDITOR-SAVE-CONFLICT-1](../../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) 的 A-02 r1 候选 `6780d220` 三席终审 accept：
   2026-09-07 用户明确验收通过，Codex 已收口为 done；完整 check/严格 fast 与原生双页最小功能证据齐，无实现漂移。
   A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。
+- [EDITOR-SAVE-RECOVERY-1](../../tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 承接 A-03：
+  2026-09-07 用新增当前 API 探针复现“新页面缺人物定义、原页面仍可重试”；相邻 86 项通过。
+  当前 blocked，待用户选择中断后继续完成本次保存或回到上次完整保存，再冻结方案并送两席并行审查；未改产品。
 
 以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。
 
