@@ -345,9 +345,50 @@ R4 登记同一跨页恢复链与恢复后本地试玩，无玩家战斗/剧情�
 
 #### GLM build 前席位
 
-- premise：pending。
-- design：pending。
-- 直接证据/可证伪观察/返工项：待填写；只修改本席，不修改共享准入结论。
+- premise：**verified（2026-09-07，r2；全部证据本人直读/亲跑，未读取 Kimi 席结论——其签字于本人
+  审查中途落地，本人仅确认席位位置）**。
+  - **当前 API 探针本人复跑** exit 0：真实链（buildBlankProject→首存授权/writeProject→openLocalProject
+    →toEditorState→真实 createCanonicalPlacedEntity→serializeProjectWithMapCopies 全目标先过校验，
+    仅 actors close 前注错）产出 partial：场景 actor=`a03-new-npc`、磁盘 actors 表仅 `hero`、
+    completedCloses 含已写文件；**新开真实 loader 打开成功但 `freshSessionLostNewActorDefinition=true`**
+    （再序列化报"角色 a03-new-npc 不在 actors 表"）；正控 `originalSessionRetryValid=true`、
+    `restoredMaxHP=237`——A-02 恢复证据只在原页内存，新会话无路径，A-03 缺口成立。
+  - **前提行源码直读**：writeProject 写序=资源二进制→catalog 暂时超集→内容→manifest（注释明言
+    引用表最后落定）→catalog 收缩→remove，逐文件 close（project-io.ts 本席读段与卡面 :399-550
+    一致）；handle-store:46-65 IDB 已等 oncomplete/onerror/**onabort**；open-local 直接
+    loadCurrentProjectFrom 无恢复识别；load-play-project:9-15 与 export-zip:83-99 均直接消费磁盘
+    无门；App:572/2117-2138 recoverySnapshot/snapshotRef 仅 ref；author-disk-baseline:162+
+    expected 后态仅内存 Map。
+  - **HTTP 缺文件行为双证**：editor vite.config:43-60 statSync 失败即 next()→SPA 兜底（源码机制）；
+    本人只读 curl 现行 6010 `/projects/pal/.type-pal/save-state.json` → **200 text/html** ✓。
+  - 相邻 7 文件 **86 项本树复跑全绿**——与探针半状态并存，不构成已修复证据。旧探针因 A-02 新必填
+    authorBaseline 不匹配当前 API（新探针 `"api":"current authorBaseline required"`），参数错误不作
+    A-03 证据 ✓ 卡面口径正确。
+  - 可推翻观察核验：若现行调用域已有"新会话凭持久数据恢复完整项目"路径即可推翻缺口——探针结果相反。
+- design：**agree（r2）**。SR-01～12 逐项对表（本人逐条核设计机制↔故障能否被发现）：
+  - SR-01/02：sealed 计划先于一切作者 IO（staging 全部 close+回读校验+IDB complete 才 ready；
+    ready 前零作者 create/close/remove），恢复执行器重放冻结字节、禁止重跑闭包/重序列化半工程 ✓。
+  - SR-03/04：逐步 issued 游标持久先于执行、in-flight 步 before/after 二态、空占位仅限已 issued
+    before=missing、remove 唯一合法"已不存在"；payload 全量校验先于首写，穿越/别名/类型冲突停线 ✓。
+  - SR-05/06：IDB 凭据=授权记录（isSameEntry 非名等）、目录 JSON 不可信、恢复 permit 只绑冻结计划；
+    前缀校验天然拒绝"未来步提前写成目标"，不收编 live reread ✓。
+  - SR-07/12：typed 结果区分 committed/待清理；清理仅限已核 hash 的本次 payload/plan、非递归空目录；
+    ZIP 排除 save-recovery 子树、保留 committed 门与 identity；私有版本 current-only 不自动删 ✓。
+  - SR-08/09：新目标 staging 凭据参与 isSameEntry 发现防另铸 W；原页 retry 须原 nonce/基线、
+    中途编辑保留；另一旧窗口不能借恢复收编基线 ✓。
+  - SR-10/11：六读入口逐个有门（open/recent/试玩/Save As 源/ZIP/HTTP），committed operationId
+    夹验 ABA；HTTP 固定路由真 404 vs 200 HTML 区分；discovery→W 锁序、内部 finishOpen 私有品牌
+    active session 防死锁、Save As 不嵌套源锁但乐观一致读取补偿 ✓。
+  - 红线 1-10 逐条与设计条款对得上；A-02 分责/PAL proof/.type-pal 通用拒绝均保持；不越 content 版本。
+  可证伪观察（实现期逐条可验）：(1) 若任一写入口（普通/首存/blank/clone/Save As）存在"计划未
+  sealed 即触作者路径"的路径，SR-02 失败；(2) 若重放遇到"未来步已写成目标"仍继续，前缀校验失效；
+  (3) 若 ZIP/试玩/HTTP 任一入口吞掉 pending 或 200 HTML，SR-10 失败；(4) 若原页 retry 或另一窗口
+  借恢复重置基线/清 dirty，SR-09 失败；(5) 若清理删除非本次已核 hash 的文件，SR-12/红线 10 失败；
+  (6) 大 clone 暂存峰值/磁盘 2× 占用须按质量门实测登记，未实测不得宣称无影响。
+  非阻断备注：(a) `.type-pal/save-recovery` 位于工程目录内，暂存期磁盘占用≈目标增量 2×，设计已
+  列"空间不足零覆盖失败"与成本实测要求，属诚实边界；(b) 6010 只读 curl 与源码机制双证一致，实现期
+  固定路由改造（存在→JSON/no-store、缺失→真 404）需覆盖 editor 与 reforge 两侧 dev+preview。
+  返工项：无。
 
 ### done 前
 
@@ -389,7 +430,12 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ### GLM · r2 交接日志
 
-待本席填写。
+- 2026-09-07 GLM：完成 r2 独立前提/设计审查（数据/矩阵/范围席），签 premise verified + design
+  agree，无返工项。当前 API 探针本人复跑 exit 0（半状态、新会话丢新人物定义、原页正控 237）；
+  前提行源码逐点直读（写序/IDB onabort/四个读入口无门/recoverySnapshot 仅内存）；HTTP 缺文件
+  以源码机制 + 6010 只读 curl 双证 200 HTML；相邻 86 项本树复跑绿。SR-01～12 逐项对表设计机制，
+  六条可证伪观察与两条非阻断备注写入席位。Kimi 签字中途落地，未读其内容。仅更新本席与日志；
+  未改实现/共享结论/任务状态，不标 build/done。Next：三签齐后 Codex 核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
@@ -406,7 +452,7 @@ PAL/sandbox权限、原页retry与另一旧窗口、锁序、所有写入口及H
 不改实现、不标build/done。仅写本卡“Kimi build前席位”和“Kimi r2交接日志”，不改GLM/共享结论/状态。
 提交前同步并保留另一席落盘，提交推送；竞态自行rebase/retry，不让用户搬审查正文。完成后交Codex统一核定。
 
-### 给 GLM（与 Kimi 并行）
+### 给 GLM（已完成，历史保留）
 
 在 /Users/zhangxu/illegal/type-pal 审查 EDITOR-SAVE-RECOVERY-1 的 r2 设计，任务卡
 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态 draft，产品源码基线135d065a。
