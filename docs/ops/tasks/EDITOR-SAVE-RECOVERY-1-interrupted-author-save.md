@@ -1,6 +1,6 @@
 # EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: ops（审计 A-03，不新增能力格）
 Coding Owner: Codex
@@ -536,6 +536,11 @@ GLM 在独立 worktree 为已提交的恢复内核补故障测试，不修改生
 
 #### GLM 并行测试回执
 
+接收说明（Codex，2026-09-07）：以下原样保留分支 `925a89aa` 的 GLM 回执，不代改他席结论。
+本轮独立复核结论为**测试贡献 counter、暂不集成**，详见紧随其后的 Codex 席位；
+回执的“差2”应为“差3”，future-step 测试和 M1 负控制亦需下述限定返工。
+
+
 **2026-09-07 GLM（并行测试分工完成，待 Codex 复核）。分支 `codex/glm-save-recovery-tests`**
 （独立 worktree `type-pal-glmt`，基于分工提交 `cd4ce646`，产品基线 `672827ac` 零触碰）。
 
@@ -589,6 +594,65 @@ committed 清理状态检查（:646）、PAL 登记策略（:721）——多数�
 **未解决项/缺陷**：无生产缺陷 counter；分支覆盖差 2 项到目标已如实列缺口。本回执不签整卡 accept、
 不标 review/done；测试贡献将在终审披露，由 Codex 独立复核。
 
+#### Codex 并行测试接收复核（925a89aa，2026-09-07）
+
+**counter：仅测试证据与回执返工，不是生产方案返工。** 主树接手/同步后仍为cd4ce646，
+相对产品基线672827ac没有新增生产改动。r2设计签字保持有效、不重签；本卡暂为rework，
+整卡done三席仍pending。未将候选测试合入main，未更新coverage baseline；GLM原始回执/日志已按原提交落回本卡。
+
+独立核对白名单：候选仅测试文件+本卡；测试文件前30,032字节与cd4ce646完全相同，
+追加307行、16个test调用，既有44项身份/断言未改；生产/共享fixture/版本/配置/探针零diff。
+本人在候选worktree复跑60/60绿、editor typecheck exit0、单文件biome零诊断。
+另用自建临时配置独立复算同一定向口径：行328/335（97.91%）、函数49/49（100%）、
+语句362/379（95.51%）、分支221/248（89.11%）。这是journal定向报告，**不是全editor-fast或全仓覆盖已通过**。
+
+逐项业务核对（行号均指候选 `packages/editor/src/core/author-save-journal.test.ts`）：
+
+| 新用例 / 锚点 | 独立结论与SR边界 |
+|---|---|
+| 换workspace登记 :754 | SR-05/08错误身份拒绝方向正确；M1受旧注错干扰，按R2返工 |
+| 同ID工程身份漂移 :774 | SR-05精确错误+零作者IO有效；同样撤销初始注错以隔离恢复阶段 |
+| 重放期间凭据变更 :792 | 钉住持久化时发现凭据变化；manifest为本fixture最后一步，空removes不能额外证明“后续任意写删均停止” |
+| close后游标前中断 :808 | SR-03已有close不重复、新人物/237/引用恢复有效；不是原生浏览器退出证据 |
+| 两次不同步骤中断 :828 | SR-03续写及actors仅close一次有效 |
+| ready未执行 :849 | SR-03无pending门仍从可信ready继续；是显式内核调用，不是普通打开入口已接通 |
+| 伪造committed :869 | SR-05/07拒绝未执行计划有效；M2独立复跑为真实业务反例 |
+| forceSandbox两态 :898 | SR-05/08 pending源拒写、committed local返回null有效；不替代PAL入口 |
+| committed仅清理 :915 | SR-07/12无作者IO、作者字节保留、未知文件不删、已核blob清理有效 |
+| future-step :942 | **R1：测试声称的前提错误，不能作为SR-06未来步骤目标态证据** |
+| close后立即篡改 :955 | SR-06最终拒绝/未提交有效；单独移除即时检查仍绿仅说明该用例不能定位某一具体检查点，不当独立负控制 |
+| committed配pending门 :966 | SR-07状态不符拒绝/零作者IO有效；非SR-10所有消费入口完成 |
+| 部分blob已清理 :986 | SR-07清理缺席文件幂等有效 |
+| 凭据与异代门冲突 :1007 | SR-10状态令牌一致性拒绝有效；不是夹验ABA完整覆盖 |
+| 已消费token :1026 | 能力生命周期二次调用拒绝有效；不是SR-11锁竞态完整验证 |
+| pending上叠保存 :1047 | 与既有pending拒绝有重叠，新增拒绝后显式恢复正控有效 |
+
+**R1（阻断测试接收）——未来步骤与当前issued步骤不能混用。** :944调用stopAtActors，
+:949却往actors写入任意字符串`pre-written by another tool`，既不是未来步骤，也不是该步骤目标字节。
+本人仅在隔离加载中读实际plan/receipt，得到`completed=4, issued=true, steps[4].path=content/actors.json`。
+再仅把该测试注入值换成原intended actors精确字节、生产零改，恢复正确返回committed，原“应拒绝”断言反而红。
+这符合r2允许唯一issued步骤处于before/after的规则，不是生产缺陷，不能修改实现去拒绝合法after态。
+返工：改成真正尚未issued的未来步骤，保证该路径目标与before不同、注入合法精确目标字节；
+断言恢复在任何新作者IO前拒绝、外部字节及恢复数据保留，并修正名称/注释/SR映射。不要用任意坏JSON冒充目标态。
+
+**R2（阻断负控制接收）——先撤销初始停存故障，再测身份保护。** :757后没有清除beforeClose。
+本人原样复跑M1确实exit1，但实际原因是`expected 另一个工作区 / received stop actors`，
+不是回执所说的干净“错误身份被恢复成功”业务反例。它能提示走到了后续IO，但不满足本轮隔离负控制的证据要求。
+本人在临时加载中先撤销该故障：正常防护下同用例绿；再只移除同一rebind守卫，
+确实返回committed而使拒绝断言exit1。请把这一最小测试准备修正落盘，同类身份漂移用例也清初始注错；
+原M1 guard删除范围不扩大，回执写实测失败原因。M2原样复跑：只删committed阶段守卫后返回committed，exit1，接受此证据。
+
+**R3（回执纠错，不要求本轮凑覆盖）**：达到90%至少需`ceil(248×0.9)=224`，
+221还差3；223/248只有89.919%。分支缺口应以实际报告中的位置/条件为准逐条登记，
+不能统称“都依赖入口集成”（例如:100的非missing读错重抛就是内核故障边界；原回执data-complete的:437也非实际:501）。
+保持当前统计范围，剩余场景按业务需要随后处理，不为达标堆例或给不可达状态加测试专用入口。
+
+诊断配置与独立覆盖报告：`/tmp/codex-glm-sr-review.a0DpXN/review.config.mts`、同目录`coverage/`。
+配置模式`rebind-clear`/`rebind-clear-mutant`与`future-actual-target`仅内存替换；GLM两份原临时配置也已直读并原样复跑。
+没有修改两工作树的产品/测试，未操作真实作者目录、未重复浏览器巡检。
+因上述counter，按用户要求先退回卡内测试返工，暂不执行集成后的完整check/ratchet/严格fast，不能先更新基线再补证据。
+GLM测试贡献由本席独立复核且须在最终终审披露，不充当独立第三方自证。
+
 ## 交接日志
 
 - 2026-09-07 Codex：同步 041c2fe1 洁净树，复核 A-02 后的 A-03。新增内存当前 API 探针，旧探针/产品/正式测试未动；
@@ -631,10 +695,33 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-当前由Codex实现入口，GLM按下列当前提示词并行补内核测试。之后两份设计提示词为历史记录，
-无需重复转发/重签；完整候选冻结后另给两席终审提示词。
+当前GLM测试候选925a89aa接收复核为counter，按下列返工提示词先修测试证据；r2设计无需重签。
+此前分工/设计提示词均保留为历史，完整候选冻结后另给两席终审提示词。
 
-### 给 GLM（当前：并行补故障测试）
+### 给 GLM（当前：925a89aa测试贡献限定返工）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接手 EDITOR-SAVE-RECOVERY-1 的GLM测试返工。
+任务卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，当前rework；r2设计签字有效，不重签。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、主分支最新本卡“Codex并行测试接收复核”的R1/R2/R3。
+仍在原独立worktree、codex/glm-save-recovery-tests上修925a89aa，不切换共享main、不stash，不改生产代码。
+
+R1：future-step用例实际completed=4、issued=true、当前路径actors，注入任意字符串，不能证明未来步骤目标态拒绝。
+改为真正尚未issued、before与after不同的未来路径，写入计划精确合法目标字节；断言首个新作者IO前拒绝，
+外部字节/恢复数据保留。当前issued精确after态可恢复是正确实现，不得改生产逻辑使其拒绝。
+R2：身份rebind/漂移用例初次停存后先撤销beforeClose注错。原M1红于“收到stop actors而非另一个工作区”；
+清掉旧注错后只删原rebind守卫，须得到真正错误恢复/写入的业务反例。正常对照绿，M2已有证据保持有效。
+R3：221/248达90%差3，不是2；按实际报告校对未覆盖条件和file:line，区分内核故障与入口集成，不要求这次凑到90%。
+
+只改已授权测试文件的新用例/必要测试内辅助及自己的回执日志；既有44项身份断言、产品/fixture/配置/baseline/探针不动。
+参考Codex隔离证据 /tmp/codex-glm-sr-review.a0DpXN/review.config.mts，可独立重建，不照抄结论当实跑。
+复跑定向、两份负控制与正常对照、editor typecheck和独立同口径覆盖；回执从实际提交树生成，修正旧证据口径。
+无需提前跑全仓check/ratchet，交Codex复核通过后统一集成及执行。
+保留其他席位及其counter原文，只更新自己的回执/日志；同步最新主分支文档时不混入生产变动，冲突不交用户搬运。
+提交推送本分支，给Codex返工commit及复核提示词，不改任务状态、不代签、不标done。
+```
+
+### 给 GLM（历史：首轮并行补故障测试）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 协作 EDITOR-SAVE-RECOVERY-1。
@@ -681,6 +768,14 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 ### GLM 并行测试交接日志
 
 待GLM填写本人实跑与交回Codex的证据；保留他席及共享状态。
+
+### Codex · 925a89aa接收复核交接日志
+
+2026-09-07：独立核两文件白名单/既有测试字节前缀、候选60项/typecheck/biome与覆盖分子分母，
+原M1/M2各exit1；进一步隔离证明R1当前issued after态应允许、R2去初始故障后可得到真实误恢复反例。
+测试贡献counter、R1/R2限定返工，R3纠正回执算术/锚点；r2设计保持，不转Kimi，不代修生产迎合错误测试。
+仅将GLM原始回执/日志和本席证据落回main文档；候选测试、coverage baseline未集成，完整质量门待返工复核后执行。
+同步rework看板与生成索引后，文档工具20/20、400 Markdown/1,812本地链接/140卡检查及git diff --check通过。
 
 ### 给 Kimi（已完成，历史保留）
 
