@@ -110,6 +110,13 @@ export function authorBaselineSummary(baseline: AuthorDiskBaseline) {
   return { paths: [...state.signatures.keys()].sort(), bytesRead: state.bytesRead }
 }
 
+/** Read-only provenance also exists for sandbox inspection, which intentionally has no writable dir. */
+export function authorBaselineDirectory(
+  baseline: AuthorDiskBaseline,
+): FileSystemDirectoryHandle | undefined {
+  return stateOf(baseline).dir
+}
+
 async function readSignature(source: FileSource, path: string): Promise<Signature> {
   validateProjectRelativePath(path, '作者文件基线路径')
   try {
@@ -139,6 +146,11 @@ export async function verifyOpenedAuthorBaseline(
   if (state.dir && state.dir !== dir && !(await state.dir.isSameEntry(dir)))
     throw new Error('作者文件基线与打开目录不一致')
   await verifySignatures(fsaSource(dir), state.signatures)
+}
+
+/** Copying an HTTP project must also retain the author's loaded revision, not adopt live JSON. */
+export async function verifySourceAuthorBaseline(baseline: AuthorDiskBaseline, source: FileSource) {
+  await verifySignatures(source, stateOf(baseline).signatures)
 }
 
 export async function bindAuthorBaseline(

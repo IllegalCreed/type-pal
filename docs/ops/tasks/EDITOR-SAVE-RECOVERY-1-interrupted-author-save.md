@@ -967,6 +967,103 @@ GLM作为这15项测试贡献者不能把它们算自己的独立第三方验证
 交接收口：main保留GLM的77ec3485，再由Codex提交读出口实现、探针校准/补测及官方生成baseline；
 看板同步为Codex继续整笔复制，历史GLM提示词停用。三席签字块未改、不代签、不标review/done。
 
+### Codex · 整笔复制与HTTP首存接线（2026-09-08，c5728e8c之后）
+
+同一r2继续实现，不重签、不改私有协议/content20/SAVE8、不动PAL源工程或原探针。
+本轮将此前仍直接写作者文件的PAL克隆，以及“先copyDirRecursive再writeProject”的Save As，
+统一接入一次`prepareAuthorSave → commitAuthorSave`；普通保存内核和两席签字保留。
+
+实现锚点与边界：
+
+- `project-copy-source.ts`：记录源实际读取字节的hash，重复读取不得漂移；封存前重读比较并夹验保存状态。
+  仅保存路径/hash证据，不缓存整个素材集合；不允许把核验源转换为渲染URL绕过字节读取。
+- `project-io.ts`：首存复制输入、空目录、当前编辑覆盖、删除在一个计划中排序；重复路径/保留命名空间拒绝，
+  复制输入不允许借已绑定目标授权，也不允许省略来源复验。描述符/删除列表先冻结，资源逐项交给journal暂存。
+  覆盖/删除先决定最终成员，源文件不会先写一次再被覆盖/删除。复制的未修改素材不进入UI输出差异清单，
+  避免下一次普通保存误删；资源冲突与后态仍由独立AuthorDiskBaseline维护。
+- `author-save-journal.ts`：在目标payload/plan回读和目标前态检查之后、ready之前执行来源复验。
+  复验失败仍是staging、零作者写；ready之后重开只依赖持久目标和凭据，不重跑源回调/不要求源可读。
+- `clone.ts`：manifest/catalog受控覆盖，其余清单逐文件读取到私有暂存；封存视图经过正式loader与保存校验，
+  source晚读失败不再留下半棵作者树。JSON复制保留源字节，catalog素材仍逐项bytes/hash/格式检查。
+- `open-actions.ts`/`fsa-copy.ts`：Save As源字节、作者基线、目录成员与状态均在ready前核验；
+  不嵌套源W锁，目标维持discovery→W。目标为源或后代的首写复验保持；只读沙盒也从基线保留只读目录来源，
+  不能因`Opened.dir`未提供写绑定而漏掉关系守卫或附属文件。新目标独立身份，sandbox仍受限。
+- `App.tsx`：HTTP首存不再includeAssetCopies全量物化，改为同一journal的懒读取素材输入；
+  首存原页retry后第二次正常保存不丢资源，保存期间新编辑/dirty判定保持。Save As显式传来源及作者基线。
+- `ProjectPicker.tsx`：仅复用既有进度布局，显示“准备保存／正在保存”；落盘期使用实际计划字节进度，
+  不把资源下载接近完成误显示成整个克隆完成。cleanupWarning继续反馈为已保存但暂存待清理。
+
+测试与证据纪律：
+
+- 原clone4项测试身份保留，fixture从不完整伪canonical对象改为真实`buildBlankProject`＋FSA/IDB边界替身，
+  保留manifest/内容/私有身份不复制/tileset与battle-sprite字节/零引用地图/最终进度业务断言；
+  进度现在分准备和落盘，最终字节按实际输出核算。新增晚源失败零作者IO、提交中断恢复、源漂移三个回归。
+- `project-copy.test.ts`新增17项，覆盖local/只读sandbox/无目录FileSource、当前未落盘上传、附属文件与空目录、
+  删除、pending/坏状态、源字节/清单/epoch变化、source不可读后恢复、两次保存素材保留、只持目标W锁，
+  以及缺来源复验、重复路径、错误目标授权等前置拒绝。
+- 旧App AST调用链回归仅注入新增真实helper，原业务断言不改；旧Save As关系用例改在真实暂存读取点移动关系，
+  不再把“writeProject被调用”误当“作者写入已开始”，直接断言零作者create/close。
+- 独立负控制：隔离加载c5728e8c旧clone，晚locale读取失败后作者目录已有assets/content，exit1；
+  单点移除journal的`await options.beforeSeal?.()`，源bytes/inventory/epoch三项均错误resolved，exit1。
+  初次旧clone探针仅插arrayBuffer、漏掉旧JSON的Blob.text路径，已在FSA文件读取边界校准后重跑；
+  校准后的旧实现红在实际作者写入，不把探针失效冒充业务证据。同配置正常对照通过。
+  配置/日志在`/tmp/codex-copy-build.LtK5YP/negative.config.mts`与两个`*-negative.log`。
+
+原生功能验证：`native-copy.mjs`使用独立6011/Chrome资料、真实OPFS/IDB/Web Locks，
+正常创建源→另存为在actors.close注错（pending、manifest尚缺）→关闭整个浏览器上下文→
+新上下文普通打开目标恢复→附属notes与编辑后的名称保留→继续普通保存并重开成功，新目标W不同于源。
+证据`native-copy.json`；这是FSA原生后端/跨页功能验证，不冒充OS目录选择器或断电事务。
+只读sandbox关系保护及无目录FileSource分支另由真实调用链测试覆盖，不重复剧情视觉巡检。
+
+成本实测（单机开发服务器/独立OPFS，每次新浏览器上下文；固定当前PAL，非服务端上线承诺）：
+
+| 观测项 | c5728e8c旧路径 | 本轮路径 |
+|---|---|---|
+| 完整克隆，不含随后打开 | 8.54s | 94.05s |
+| 完整克隆＋打开 | 10.21s | 95.21s |
+| 第一次作者文件close | 0.33s | 30.15s（全部暂存/来源核验之后） |
+| 同轮仅改名称的小增量保存 | 4.43s | 2.84s |
+| 整轮CDP usedSize峰值 | 772.5 MB | 407.2 MB |
+| 整轮CDP backingStorageSize峰值 | 1,293.3 MB | 562.8 MB |
+
+当前catalog为**1,934项、69,092,169字节素材**，最大素材8,091,135字节；过去“207MB”不是当前catalog实值。
+包含内容文件后的新克隆作者输出约146.9MB，克隆私有暂存数据约147.3MB；复制阶段保留全目标的磁盘成本不能省略。
+该统计不含源原件、IDB与文件系统内部开销；整轮stagingBytes还含随后增量的约59KB。
+旧clone会重新pretty-print JSON，本轮复制保留源字节，因此两种产物体积与后续基线读取成本不同：
+不能把2.84s/4.43s归因为journal单步加速，也不能宣称完整克隆“几乎无性能影响”。
+CDP每500ms采样、覆盖克隆/打开/增量，字段分别记峰值，不相加当同一时刻峰值、更不当浏览器总RSS。
+旧路径经临时Vite隔离加载Git源码、未stash回退生产树；计量脚本`bench-pal.mjs`与`before.vite.config.mts`，
+结果`pal-before.json`/`pal-after.json`。初次不含增量的预跑保留为`pal-after-preliminary.json`，不混入主对照。
+
+**状态仍build。** 复制/首存入口已接入并有功能证据；整卡仍需复算核心覆盖目标与SR-01～12缺口，
+特别是大克隆严格IDB/回读成本、地图文本集中校验的内存成本和剩余故障分支，不能以本轮通过替代终审。
+原GLM两批测试贡献继续在终审披露，不代签、不标review/done。
+
+质量门：最终`pnpm check` exit0，552测试文件/6,636项（editor204文件/2,068项），所有包typecheck通过，
+lint仍为既有50 warnings/11 infos、零错误；新增copy/clone定向24项通过。
+中间一次完整check只红于新增上传fixture的origin/路径不符合既有catalog合同，按`asset.ts`修正为
+`authored + assets/authored/`后定向及完整check重跑通过，未改生产校验器以迁就fixture。
+文档20项工具测试、400 Markdown/1,813本地链接/140卡检查通过。
+
+统一覆盖率固定`TYPE_PAL_COVERAGE_BASE_REF=c5728e8c`：官方ratchet通过，只增不减，
+**618生产文件/6,150项fast测试**；editor220生产文件/186测试文件/1,911项，其他六包统计不变。
+editor语句24,643/32,535、分支18,996/28,155、函数6,121/8,223、行22,262/28,411。
+**单次严格fast exit0**，合并表与ratchet逐字节相同，提升0项、无抖动；不降阈值、不缩范围、不取多次多数。
+最终日志为同一证据目录的`check-verified.log`/`ratchet.log`/`strict-fast.log`。
+
+| 本卡相关整文件 | 行 | 函数 | 分支 |
+|---|---|---|---|
+| project-copy-source | 27/27（100%） | 12/12（100%） | 8/8（100%） |
+| fsa-copy | 51/51（100%） | 12/12（100%） | 20/21（95.23%） |
+| clone | 31/33（93.93%） | 7/7（100%） | 17/20（85%） |
+| author-save-journal | 380/393（96.69%） | 57/57（100%） | 265/297（89.22%） |
+| project-io | 264/298（88.59%） | 49/54（90.74%） | 187/248（75.40%） |
+| open-actions | 97/119（81.51%） | 18/22（81.81%） | 82/108（75.92%） |
+
+新来源核验模块已满覆盖，但这不能替代其余核心目标；下一部分按实际故障/入口补齐上述缺口，
+优先clone坏资源/缺登记、创建和恢复反馈、writer删除/首存边界与journal失败分支，并核SR剩余项，之后才送整卡终审。
+临时6011与测试Chrome均已停止，用户6010（PID64485）未重启/清缓存，仓库PAL/原探针/公共版本零diff。
+
 ## 交接日志
 
 - 2026-09-07 Codex：同步 041c2fe1 洁净树，复核 A-02 后的 A-03。新增内存当前 API 探针，旧探针/产品/正式测试未动；
@@ -1009,7 +1106,7 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-当前GLM读出口测试已接收并由Codex完成对应保护；Codex下一步继续clone/Save As整笔暂存与源一致性。
+当前GLM读出口测试、clone/Save As及HTTP首存整笔暂存已接入；Codex下一步核核心覆盖率与SR矩阵剩余缺口。
 无下一位Agent提示词，仍由Codex继续build；本次不重签设计，不转整卡终审。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
 当前不请求用户验收。

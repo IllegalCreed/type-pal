@@ -5,17 +5,23 @@
  */
 import type { CurrentManifest } from '@type-pal/content'
 import {
+  type FileSource,
   fsaSource,
   httpSource,
   readProjectSaveState,
   withStableProjectRead,
 } from '@type-pal/reforge'
-import { verifyOpenedAuthorBaseline } from './author-disk-baseline.js'
+import {
+  type AuthorDiskBaseline,
+  authorBaselineDirectory,
+  verifyOpenedAuthorBaseline,
+  verifySourceAuthorBaseline,
+} from './author-disk-baseline.js'
 import { MissingAuthorSaveReceiptError, recoverAuthorSaveUnderLock } from './author-save-journal.js'
 import { findAuthorSaveReceipt } from './author-save-store.js'
-import { cloneFromPal } from './clone.js'
+import { type CloneProgress, cloneFromPal } from './clone.js'
 import { currentDirectoryPickerAvailability } from './file-system-access.js'
-import { copyDirRecursive } from './fsa-copy.js'
+import { readDirectoryCopy } from './fsa-copy.js'
 import {
   findWorkspaceRecordByHandle,
   saveWorkspaceHandle,
@@ -26,6 +32,7 @@ import {
   withWorkspaceRegistrationLock,
 } from './handle-store.js'
 import { type OpenedProject, openLocalProject } from './open-local.js'
+import { assetCopyInputs, observeProjectCopySource } from './project-copy-source.js'
 import { preflightProjectWriteSet, writeProject } from './project-io.js'
 import { buildBlankProject } from './seed.js'
 import {
@@ -222,10 +229,10 @@ export async function newBlankProject(): Promise<Opened | null> {
   })
 }
 
-/** 从 pal 克隆(选空夹 → 流式下载 207MB → 打开)。取消 → null。onProgress 驱动进度条。 */
+/** 从 pal 克隆(选空夹 → 逐文件暂存并完整提交 → 打开)。取消 → null。onProgress 驱动进度条。 */
 export async function newFromPal(
   seedBaseUrl: string,
-  onProgress: (done: number, total: number) => void,
+  onProgress: CloneProgress,
 ): Promise<Opened | null> {
   const dir = await pickDir()
   if (!dir) return null
@@ -236,8 +243,12 @@ export async function newFromPal(
   const target = await authorizeFirstSaveTarget(workspace, dir)
   return withAuthorizedWorkspaceMutation(target, async (mutation) => {
     await registerAuthorizedWorkspaceMutation(mutation, workspace, dir.name)
-    await cloneFromPal(seed, mutation, onProgress)
-    return finishOpen(dir, { workspaceHint: workspace, registrationMutation: mutation })
+    const saved = await cloneFromPal(seed, mutation, onProgress)
+    const opened = await finishOpen(dir, {
+      workspaceHint: workspace,
+      registrationMutation: mutation,
+    })
+    return saved.cleanupWarning ? { ...opened, recoveryWarning: saved.cleanupWarning } : opened
   })
 }
 
@@ -259,23 +270,45 @@ export async function saveProjectAs(
   buildFiles: () => Promise<Record<string, unknown>>,
   srcDir?: FileSystemDirectoryHandle,
   removePaths: readonly string[] = [],
+  sourceEvidence?: { source: FileSource; authorBaseline: AuthorDiskBaseline },
 ): Promise<Opened | null> {
   const dir = await pickDir()
   if (!dir) return null
+  const sourceDir =
+    srcDir ?? (sourceEvidence ? authorBaselineDirectory(sourceEvidence.authorBaseline) : undefined)
   const workspace = createSaveAsWorkspaceContext(sourceWorkspace)
   await preflightFirstSaveTarget(workspace, dir)
-  if (srcDir) await assertSaveAsTargetOutsideSource(srcDir, dir)
-  const files = await buildFiles()
+  if (sourceDir) await assertSaveAsTargetOutsideSource(sourceDir, dir)
+  const original = sourceDir ? fsaSource(sourceDir) : sourceEvidence?.source
+  const observed = sourceEvidence && original ? await observeProjectCopySource(original) : undefined
+  const verifyAuthor = async () => {
+    if (!sourceEvidence || !original) throw new Error('另存为缺少源项目基线，请重新打开项目')
+    if (sourceDir) await verifyOpenedAuthorBaseline(sourceEvidence.authorBaseline, sourceDir)
+    else await verifySourceAuthorBaseline(sourceEvidence.authorBaseline, original)
+  }
+  if (sourceEvidence) await verifyAuthor()
+  const files = structuredClone(await buildFiles())
   await preflightProjectWriteSet(files, removePaths)
+  await verifyAuthor()
+  if (!observed) throw new Error('另存为缺少源项目读取证据')
+  const copied = sourceDir ? await readDirectoryCopy(sourceDir, observed.source) : undefined
   const target = await authorizeFirstSaveTarget(workspace, dir, {
-    additionalVerify: srcDir ? () => assertSaveAsTargetOutsideSource(srcDir, dir) : undefined,
+    additionalVerify: sourceDir ? () => assertSaveAsTargetOutsideSource(sourceDir, dir) : undefined,
   })
-  // A5 债修:目标经空目录门后先整树拷贝源目录(磁盘素材不在编辑器 state,不拷即丢 ——
-  // 克隆项目 200MB assets 曾被另存为静默丢掉),再 writeProject 覆写内容文件(当前编辑赢)。
+  // Source bytes, current edits and removals form ONE staged intent. No source W lock is
+  // nested inside the target lock: source revision/bytes/inventory are checked before sealing.
   return withAuthorizedWorkspaceMutation(target, async (mutation) => {
     await registerAuthorizedWorkspaceMutation(mutation, workspace, dir.name)
-    if (srcDir) await copyDirRecursive(srcDir, mutation)
-    const saved = await writeProject(mutation, files, { removePaths })
+    const saved = await writeProject(mutation, files, {
+      removePaths,
+      copies: copied?.copies ?? assetCopyInputs(files, observed.source),
+      directories: copied?.directories,
+      verifySource: async () => {
+        await verifyAuthor()
+        await copied?.verify()
+        await observed.verify()
+      },
+    })
     const opened = await finishOpen(dir, {
       workspaceHint: workspace,
       registrationMutation: mutation,

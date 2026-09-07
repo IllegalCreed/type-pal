@@ -129,6 +129,12 @@ export interface ProjectWriteResult {
   snapshot: Map<string, string>
   cleanupWarning?: string
 }
+
+/** First-save inputs are read sequentially into the same journal as the author overrides. */
+export interface ProjectCopyInput {
+  path: string
+  read: () => Promise<Blob>
+}
 const interruptedSnapshots = new WeakMap<WorkspaceContext, Map<string, string>>()
 
 /** Before a new click is serialized, finish ONLY this page's original save and adopt its exact output diff. */
@@ -467,14 +473,32 @@ export async function writeProject(
     prevSnapshot?: Map<string, string>
     removePaths?: readonly string[]
     onProgress?: (progress: { completed: number; total: number }) => void
+    copies?: readonly ProjectCopyInput[]
+    directories?: readonly string[]
+    verifySource?: () => Promise<void>
+    onStaged?: (bytes: number) => void
   },
 ): Promise<ProjectWriteResult> {
   // Freeze the click's output before the first asynchronous boundary. Staging must not read a
   // subsequently mutated working-copy object or upload buffer.
   const files = structuredClone(inputFiles)
+  const verifySource = opts?.verifySource
+  const removePaths = [...(opts?.removePaths ?? [])]
+  const excluded = new Set(removePaths)
+  const copyPaths = new Set<string>()
+  const copies = (opts?.copies ?? [])
+    .map(({ path, read }) => ({ path, read }))
+    .filter((copy) => {
+      assertWorkspaceIdentityPathWritable(copy.path)
+      if (copyPaths.has(copy.path)) throw new Error(`复制清单路径重复：${copy.path}`)
+      copyPaths.add(copy.path)
+      return !(copy.path in files) && !excluded.has(copy.path)
+    })
+  const directories = [...(opts?.directories ?? [])]
+  for (const path of directories) assertWorkspaceIdentityPathWritable(path)
   for (const rel of Object.keys(files)) assertWorkspaceIdentityPathWritable(rel)
-  for (const rel of opts?.removePaths ?? []) assertWorkspaceIdentityPathWritable(rel)
-  await preflightProjectWriteSet(files, opts?.removePaths ?? [])
+  for (const rel of removePaths) assertWorkspaceIdentityPathWritable(rel)
+  await preflightProjectWriteSet(files, removePaths)
   const rawManifest = files['manifest.json'] as { assets?: { catalog?: string } } | undefined
   const catalogPath = rawManifest?.assets?.catalog
   const prev = opts?.prevSnapshot
@@ -484,13 +508,18 @@ export async function writeProject(
     : { write: Object.keys(files), remove: [] as string[] }
   const diffRemove = diff.remove
   for (const rel of diffRemove) assertWorkspaceIdentityPathWritable(rel)
-  const remove = [...new Set([...diffRemove, ...(opts?.removePaths ?? [])])].filter(
-    (rel) => !(rel in files),
+  const retainedCopies = new Set(copies.map((copy) => copy.path))
+  const remove = [...new Set([...diffRemove, ...removePaths])].filter(
+    (rel) => !(rel in files) && !retainedCopies.has(rel),
   )
   const encoder = new TextEncoder()
   const byteLength = (value: unknown): number =>
     value instanceof ArrayBuffer ? value.byteLength : encoder.encode(serializeOne(value)).byteLength
   return withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    if ((copies.length || directories.length) && !authorizedSaveScope(mutation).firstSave)
+      throw new Error('整笔复制只允许写入已授权的新项目目标')
+    if ((copies.length || directories.length) && !verifySource)
+      throw new Error('复制缺少来源复验，拒绝准备保存')
     // The raw directory handle is only exposed inside an active, single-use mutation session.
     // Reading the on-disk catalog stays under the same identity lock; the first destination write
     // performs one more verification immediately before it can create or remove anything.
@@ -523,14 +552,18 @@ export async function writeProject(
       }
       if (write.includes(catalogPath)) stagedCatalog = unionAssetCatalog(diskCatalog, finalCatalog)
     }
-    await planAuthorizedWorkspacePaths(mutation, [...write, ...remove], catalogPath)
+    await planAuthorizedWorkspacePaths(
+      mutation,
+      [...write, ...remove, ...copies.map((copy) => copy.path)],
+      catalogPath,
+    )
     const sizes = new Map(write.map((rel) => [rel, byteLength(files[rel])]))
     const needsCatalogShrink =
       stagedCatalog !== undefined &&
       finalCatalog !== undefined &&
       serializeOne(stagedCatalog) !== serializeOne(finalCatalog)
     const stagedCatalogSize = needsCatalogShrink ? byteLength(stagedCatalog) : 0
-    const total = [...sizes.values()].reduce((sum, size) => sum + size, stagedCatalogSize)
+    let total = [...sizes.values()].reduce((sum, size) => sum + size, stagedCatalogSize)
     let completed = 0
     // prev 在真实 IO 期间兼作落盘日志：未触及的旧条目仍代表真实文件，只在成功
     // close 后覆盖签名、成功/已不存在的 remove 后删条目。中断时同一 Map 因而是完整的实际磁盘快照。
@@ -555,6 +588,29 @@ export async function writeProject(
     }
     const inputs: AuthorSaveInput[] = []
     const completions: Array<() => Promise<void>> = []
+    for (const path of directories) inputs.push({ kind: 'mkdir', path })
+    const addCopy = (copy: ProjectCopyInput) => {
+      let copiedSize = 0
+      inputs.push({
+        kind: 'write',
+        path: copy.path,
+        read: async () => {
+          const bytes = await copy.read()
+          copiedSize = bytes.size
+          total += copiedSize
+          return bytes
+        },
+      })
+      // Copies are unchanged source files, not editor-owned output. Keeping them in
+      // the UI diff snapshot would falsely delete them on the next incremental save.
+      completions.push(async () => {
+        advance(copiedSize)
+      })
+    }
+    const assetPaths = new Set(
+      Object.values(finalCatalog?.assets ?? {}).map((record) => record.path),
+    )
+    for (const copy of copies.filter((copy) => assetPaths.has(copy.path))) addCopy(copy)
     const addWrite = (rel: string, value: unknown, size: number, signature?: string) => {
       const bytes = new Blob([value instanceof ArrayBuffer ? value : serializeOne(value)])
       inputs.push({ kind: 'write', path: rel, read: async () => bytes })
@@ -573,6 +629,7 @@ export async function writeProject(
         needsCatalogShrink ? serializeOne(stagedCatalog) : desiredSignatures.get(catalogPath),
       )
     }
+    for (const copy of copies.filter((copy) => !assetPaths.has(copy.path))) addCopy(copy)
     for (const rel of write.filter(
       (candidate) =>
         !(files[candidate] instanceof ArrayBuffer) &&
@@ -611,6 +668,8 @@ export async function writeProject(
       (source) => validatePreparedProject(source, scope.firstSave ? undefined : previousCatalog),
       {
         catalogPath,
+        beforeSeal: verifySource,
+        onStaged: opts?.onStaged,
       },
     )
     interruptedSnapshots.set(workspace, new Map(snapshot))

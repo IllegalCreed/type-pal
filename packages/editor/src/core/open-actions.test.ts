@@ -32,6 +32,11 @@ vi.mock('@type-pal/reforge', async (importOriginal) => ({
   httpSource: httpSourceMock,
 }))
 
+import { fsaSource } from '@type-pal/reforge'
+import {
+  capturePolicyFixtureBaseline,
+  memoryAuthorDirectory,
+} from './__tests__/author-save-fixture.js'
 import { createEmptyAuthorDiskBaseline } from './author-disk-baseline.js'
 import { finishOpen, newBlankProject, newFromPal, saveProjectAs } from './open-actions.js'
 import { createLocalWorkspaceContext } from './workspace-context.js'
@@ -370,39 +375,38 @@ describe('project creation and Save As target policy', () => {
   })
 
   test('Save As rechecks source/target relation after slow source read and before first copy write', async () => {
-    const target = emptyDirectoryHandle('target')
-    const sourceFile = {
-      kind: 'file',
-      name: 'asset.bin',
-      getFile: vi.fn(async () => new Blob(['asset']) as File),
-    } as unknown as FileSystemFileHandle
-    const sourceEntries = vi.fn(async function* () {
-      yield ['asset.bin', sourceFile] as const
-    })
-    const resolve = vi
-      .fn<() => Promise<string[] | null>>()
-      .mockResolvedValueOnce(null)
-      .mockResolvedValueOnce(null)
-      .mockResolvedValueOnce(null)
-      .mockResolvedValue(['backup'])
-    const source = {
-      kind: 'directory',
-      name: 'source',
-      resolve,
-      entries: sourceEntries,
-    } as unknown as FileSystemDirectoryHandle
-    vi.mocked(window.showDirectoryPicker).mockResolvedValue(target)
+    const seed = await vi.importActual<typeof import('./seed.js')>('./seed.js')
+    const writer = await vi.importActual<typeof import('./project-io.js')>('./project-io.js')
+    const files = await seed.buildBlankProject('pal')
+    const source = memoryAuthorDirectory({ ...files, 'asset.bin': 'attachment' })
+    const baseline = await capturePolicyFixtureBaseline(source.dir, 'pal')
+    const target = memoryAuthorDirectory()
+    let moved = false
+    source.dir.resolve = vi.fn(async () => (moved ? ['backup'] : null))
+    source.hooks.afterRead = (path) => {
+      if (path === 'asset.bin' && target.changes.closes.some((path) => path.includes('/blobs/')))
+        moved = true
+    }
+    vi.mocked(window.showDirectoryPicker).mockResolvedValue(target.dir)
+    writeProjectMock.mockImplementationOnce(writer.writeProject)
 
     await expect(
       saveProjectAs(
         createLocalWorkspaceContext('pal', 'local-directory'),
-        async () => ({ 'manifest.json': { id: 'pal' } }),
-        source,
+        async () => files,
+        source.dir,
+        [],
+        { source: fsaSource(source.dir), authorBaseline: baseline },
       ),
     ).rejects.toThrow('不能是源项目目录本身或其子目录')
-    expect(sourceEntries).toHaveBeenCalledTimes(1)
-    expect(sourceFile.getFile).toHaveBeenCalledTimes(1)
-    expect(writeProjectMock).not.toHaveBeenCalled()
+    expect(moved).toBe(true)
+    // writeProject is now the staging coordinator, not proof that author IO began.
+    expect(writeProjectMock).toHaveBeenCalledOnce()
+    expect(
+      [...target.changes.creates, ...target.changes.closes].filter(
+        (path) => path !== '.type-pal' && !path.startsWith('.type-pal/'),
+      ),
+    ).toEqual([])
   })
 
   test('local open rejects a workspace marker that appears during canonical loading', async () => {

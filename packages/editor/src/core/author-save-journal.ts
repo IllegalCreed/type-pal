@@ -302,7 +302,11 @@ export function prepareAuthorSave(
   mutation: AuthorizedWorkspaceMutation,
   inputs: readonly AuthorSaveInput[],
   validate: (source: FileSource) => Promise<void>,
-  options: { catalogPath?: string; onStaged?: (bytes: number) => void } = {},
+  options: {
+    catalogPath?: string
+    onStaged?: (bytes: number) => void
+    beforeSeal?: () => Promise<void>
+  } = {},
 ): Promise<PreparedAuthorSave> {
   return withAuthorizedSaveJob(mutation, () =>
     prepareInsideScope(mutation, inputs, validate, options),
@@ -313,7 +317,11 @@ async function prepareInsideScope(
   mutation: AuthorizedWorkspaceMutation,
   inputs: readonly AuthorSaveInput[],
   validate: (source: FileSource) => Promise<void>,
-  options: { catalogPath?: string; onStaged?: (bytes: number) => void } = {},
+  options: {
+    catalogPath?: string
+    onStaged?: (bytes: number) => void
+    beforeSeal?: () => Promise<void>
+  } = {},
 ): Promise<PreparedAuthorSave> {
   const scope = authorizedSaveScope(mutation)
   for (const input of inputs) assertSavePath(input.path)
@@ -467,6 +475,9 @@ async function prepareInsideScope(
     receipt.previousState
   )
     throw new AuthorSaveRecoveryConflict(PROJECT_SAVE_STATE_PATH)
+  // Copy inputs have now become durable bytes. Reject source drift BEFORE ready; a
+  // later recovery must not depend on a source handle or rerun this page's callback.
+  await options.beforeSeal?.()
   sealAuthorizedSavePlan(mutation, plan)
   await persist(receipt, { planHash, phase: 'ready' })
   owned.plan = plan

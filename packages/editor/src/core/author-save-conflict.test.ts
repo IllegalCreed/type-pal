@@ -40,6 +40,7 @@ import {
   type AuthorDiskBaseline,
   authorBaselineSummary,
   createEmptyAuthorDiskBaseline,
+  verifySourceAuthorBaseline,
 } from './author-disk-baseline.js'
 import {
   AddActorCommand,
@@ -51,6 +52,7 @@ import {
 import { EditSession } from './edit-session.js'
 import { createCanonicalPlacedEntity, createPlacedEntity } from './entity-placement.js'
 import { finishOpen, type Opened } from './open-actions.js'
+import { assetCopyInputs, observeProjectCopySource } from './project-copy-source.js'
 import {
   resumeOwnProjectSave,
   serializeProjectWithMapCopies,
@@ -134,6 +136,9 @@ function appSave(
     window: { confirm: () => true, setTimeout },
     pickDir: options.picker ?? (() => Promise.resolve(null)),
     serializeProjectWithMapCopies,
+    assetCopyInputs,
+    observeProjectCopySource,
+    verifySourceAuthorBaseline,
     resumeOwnProjectSave,
     mergeEditorProjectionWithCurrentAuthorState,
     createEmptyAuthorDiskBaseline,

@@ -36,7 +36,11 @@ export function ProjectPicker(props: {
     }>
   >([])
   const [busy, setBusy] = useState('')
-  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null)
+  const [progress, setProgress] = useState<{
+    done: number
+    total: number
+    phase: 'preparing' | 'writing'
+  } | null>(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -69,7 +73,7 @@ export function ProjectPicker(props: {
   // Creation commands always produce a new, explicitly selected local workspace. forceSandbox
   // only prevents an existing PAL/local directory from lending its write authority to ui_samples.
   const clonePal = run('从 pal 克隆', async () =>
-    newFromPal(seedBaseUrl, (done, total) => setProgress({ done, total })),
+    newFromPal(seedBaseUrl, (done, total, phase) => setProgress({ done, total, phase })),
   )
   const createBlank = run('创建空白项目', newBlankProject)
   const openRecent = (workspaceId: string): void => {
@@ -117,7 +121,8 @@ export function ProjectPicker(props: {
                   <div className="picker-bar-fill" style={{ width: `${percent}%` }} />
                 </div>
                 <div className="picker-busy-sub">
-                  下载项目 · {percent}% · {mb(progress.done)}/{mb(progress.total)} MB
+                  {progress.phase === 'preparing' ? '准备保存' : '正在保存'} · {percent}% ·{' '}
+                  {mb(progress.done)}/{mb(progress.total)} MB
                 </div>
               </>
             ) : (

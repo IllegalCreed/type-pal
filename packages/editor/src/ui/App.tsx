@@ -55,6 +55,7 @@ import {
 import {
   type AuthorDiskBaseline,
   createEmptyAuthorDiskBaseline,
+  verifySourceAuthorBaseline,
 } from '../core/author-disk-baseline.js'
 import {
   AddEntityCommand,
@@ -97,6 +98,7 @@ import {
 import { exportProjectZip } from '../core/export-zip.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
+import { assetCopyInputs, observeProjectCopySource } from '../core/project-copy-source.js'
 import {
   resumeOwnProjectSave,
   serializeProjectWithMapCopies,
@@ -2056,13 +2058,11 @@ export function App(props: {
   const serializeEditorSnapshot = (
     shellState: ReturnType<EditSession['getState']>,
     scriptState: ScriptEditorState | undefined,
-    includeAssetCopies: boolean,
   ): Promise<Record<string, unknown>> => {
     if (!scriptState) throw new Error('current 作者态缺失，拒绝序列化交互投影')
     return serializeProjectWithMapCopies(
       mergeEditorProjectionWithCurrentAuthorState(scriptState, shellState),
       project.source,
-      { includeAssetCopies },
     )
   }
   // 保存:File System Access + 增量(快照-diff,只写变化;P3)。所有入口先经过 workspace
@@ -2127,9 +2127,12 @@ export function App(props: {
       setSaveActivity({ phase: 'preparing' })
       // 先让原生 modal 进入 top layer，再开始可能较重的全项目序列化。
       await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
-      // HTTP 项目第一次选择本地目录时没有可复制的源目录，必须从 FileSource
-      // 把 catalog 的全部二进制一并物化，不能只写本会话新增的 assetBlobs。
-      const files = await serializeEditorSnapshot(savedState, savedScriptState, rememberDirectory)
+      // First-save assets stream through the journal, not one materialized in-memory asset set.
+      const copySource = rememberDirectory
+        ? await observeProjectCopySource(project.source)
+        : undefined
+      if (copySource) await verifySourceAuthorBaseline(authorBaselineRef.current, project.source)
+      const files = await serializeEditorSnapshot(savedState, savedScriptState)
       let lastPercent = -1
       // 即使是首存也传空 Map：writeProject 会把每个已成功 close 的路径记进实际磁盘恢复快照。
       // 中断后该 Map 留在 ref 中，下次保存/撤销才能清理已写但未发布的新 blob。
@@ -2147,6 +2150,13 @@ export function App(props: {
         return writeProject(mutation, files, {
           prevSnapshot: recoverySnapshot,
           removePaths,
+          copies: copySource ? assetCopyInputs(files, copySource.source) : undefined,
+          verifySource: copySource
+            ? async () => {
+                await verifySourceAuthorBaseline(authorBaselineRef.current, project.source)
+                await copySource.verify()
+              }
+            : undefined,
           onProgress: ({ completed, total }) => {
             const percent = total > 0 ? Math.floor((completed / total) * 100) : 0
             if (percent === lastPercent && completed < total) return
@@ -2214,9 +2224,10 @@ export function App(props: {
       // 必须在点击调用栈内同步启动，File System Access 的目录选择器才保有用户激活。
       const operation = saveProjectAs(
         props.workspace,
-        () => serializeEditorSnapshot(savedState, savedScriptState, !sourceDir),
+        () => serializeEditorSnapshot(savedState, savedScriptState),
         sourceDir,
         removePaths,
+        { source: project.source, authorBaseline: authorBaselineRef.current },
       )
       const opened = await operation
       if (opened) props.onOpened?.(opened)

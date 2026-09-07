@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：继续clone/Save As整笔暂存与源一致性 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) GLM读出口测试已复核适配；ZIP/试玩锁及状态保护已接入，6红转绿；整卡剩余覆盖/成本验证待完成，r2不重签。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：核心覆盖率与SR矩阵收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 复制/另存为/HTTP首存已整笔暂存，原生跨页恢复与PAL成本已测；完整克隆明显变慢，核心覆盖与终审仍待完成；r2不重签。 |
 
 ## 阻塞
 
