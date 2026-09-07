@@ -1,6 +1,6 @@
 # EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护
 
-Status: build
+Status: review
 Phase: phase2
 Capability: ops（审计 A-02 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,8 +10,10 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1（2026-09-07，三席设计齐，Codex 已核定 build 准入）
+Revision: r1（2026-09-07，实现与自验证完成，待 Kimi/GLM 并行终审；设计不重签）
 Evidence Baseline: 50590cb6
+Implementation Baseline: 32302e58
+Implementation Candidate: 完整实现提交后登记固定 SHA
 
 ## 目标与分批
 
@@ -147,6 +149,87 @@ Evidence Baseline: 50590cb6
 开发期以新 Chrome context/专用当前测试项目做原生 FSA 两页最小功能：A 保存、B 冲突、磁盘 A 保留且 B 可操作。
 不使用用户真实项目制造冲突；完整新建→编辑→保存→重开→试玩和中断恢复扩展登记 R4，未跑不称完成。
 
+## Build 实现与验证回执（Codex，2026-09-07）
+
+实现比较基线 `32302e58`；产品源码仅 editor 内部，未改 content20/SAVE8、玩家存档、生成工程、迁移器或 CSS。
+本节是 Coding Owner 自测，不替代两席独立终审；完整 R4 与 A-03/A-07/D-01 仍未实施。
+
+### 实现与设计钉落实
+
+- 新 `core/author-disk-baseline.ts`：opaque 基线/私有 WeakMap；FileSource 的实际字节读取签名与打开结束夹验；
+  地图只读原始字节，catalog 资源默认不取正文。受管读集合从真实 loader 获得并与序列化输出对账，不另列固定 PAL 文件表。
+- `open-local` 返回 authorBaseline；`finishOpen` 在 identity 异步检查后再验证，主入口 HTTP/PAL 同样包装源，
+  在 ui_samples 作者投影前固定基线；Opened → Booted → App 必填接线。普通绑定保存第三参数必填，无缺省空基线退路。
+- `workspace-persistence` 叠加作者检查，不替换原身份/PAL proof：锁内进入、真正首个 create/remove 前比较；
+  新目标用空基线，PAL 首存缺 HTTP 作者基线即拒绝；同上下文/同目录重复首存授权复用既有恢复证据。
+- `project-io` 先提交完整 write/remove 预检集合；每个 writeFile 先冻结实际写入值，成功 close 后才记录精确签名；
+  成功或可证明的部分后态与磁盘一致才推进，外部混入不采纳。整个作者基线没有进入 diffFiles/prevSnapshot。
+- `clone.ts`/`fsa-copy.ts` 只补完整目标路径预检与 await 写入回执，属已有首存/复制 sink 闭合，不重写克隆或资源格式。
+  二进制流式逐文件计算签名，不把整批媒体 Blob 留到操作末尾；后续普通作者保存不重新 hash 全部资源。
+- 同 W 重开补 Root 的临时 mount 计数，确保新会话拿新 refs/基线；该计数不进入 workspaceId、最近项目、导航键或玩家存档空间。
+  既有主/脚本 dirty 的 state/version 检查保持；冲突只写现有 saveErr，界面布局/组件样式未改。
+- GLM 提醒的旧 script index/chunks 经源码核实：current loader 明确拒绝 `manifest.content.scripts`
+  （`packages/reforge/src/project-loader.ts:187-188`）。正式回归钉住该拒绝，未为已禁止输入复活读取器/类型升级链；
+  原序列化残留不在本卡扩大清理，当前合法作者文件集合才是对账对象。
+
+### 证据与计数
+
+临时证据根目录 `/tmp/type-pal-editor-conflict.LYKwVY/`；日志/脚本/截图不提交，正式回归与此回执入库。
+
+| 验证 | 实际结果 |
+|---|---|
+| 最初根因回归 | 新测试在修前真实打开/作者保存链上 2 项均红：同文件与不同文件的旧窗口保存均错误成功；实现后绿 |
+| 定向最终树 | `author-save-conflict` 25 项 + project-io/open-local/open-actions/workspace-persistence/clone/fsa-copy，7 文件 **86 项** exit 0；`target-final.log` |
+| PAL 对账 | `author-disk-baseline.pal.test.ts` **1 项**通过；538 条实际作者路径与现行序列化输出完全一致，editor.maps 仍空，FileSource 媒体正文读取为 0；`pal-census.log` |
+| 调用链回归 | 正式测试从 AST 原样执行 App 的 refs/序列化/save 及 Root/onOpened；只注入 UI setters/picker/React 壳，真实 Session/Command/合并/loader/授权/写盘逻辑保持；覆盖 dirty、首存、取消与同 W 重开 |
+| 单点负控制 | `/tmp/type-pal-editor-conflict.LYKwVY/mutant.config.mts` 仅在隔离 load hook 移除 verifySignatures 的一处比较/throw；最终 25 项树聚焦 4 项全部红，完整实现同 4 项全绿，21 项因过滤未跑；`mutant-final.log`/`control-final.log`。未 stash/回退共享树 |
+| 首存恢复反例 | 第二个未消费授权曾替换为新的空恢复基线；单独回归先红（`first-auth-red.log`），复用同目标证据后连相邻 31 项共 55 项绿（`first-auth-green.log`，此时矩阵 24 项）；随后新增 remove 中断行达最终 25 项 |
+| 最终类型/完整检查 | `pnpm check` exit 0：**544 Vitest 文件 / 6,353 项**；lint 0 errors、50 warnings/11 infos；`check-final.log` |
+| ratchet | exit 0，8 项指标提升、4 项范围变化，未降低任何包指标；611 个生产文件 / 5,867 项 fast；`ratchet.log` |
+| 单次严格 fast | ratchet 后一次 `pnpm coverage:fast` exit 0，611 文件/5,867 项，所有精确计数与新基线一致；`coverage-fast.log` |
+
+新增 fast 25 项、PAL 1 项，不把 AST 与普通完整 check 冒称浏览器覆盖率或 full coverage。
+author-disk-baseline 行 89/93（95.69%）、语句 95/99（95.95%）、函数 24/25（96%）、分支 55/61（90.16%）；
+剩余分支不冒称覆盖，未加 ignore/排除/超时或修改全局配置。
+`tested-source-hashes.json` 记录最终验证的 17 个源码/测试文件；提交前核同一文件哈希，防止回执与候选不一致。
+
+相邻旧测试只补必填基线与可读的 FSA 字节夹具，原断言保持。policy 测试按 fixture context **只捕获一次**并复用，
+不是每次保存前重新采盘；真正打开期间/旧会话反例另由新真实链测试覆盖。旧只写不读的 clone mock 补 getFile，
+不为让旧 mock 通过而把生产后验去掉。原审计探针零 diff；其旧 JS 调用缺新的必填基线，故不能把它修后退出码单独当修复证据。
+
+首次完整检查因新增 PAL 测试的 Node 类型导入与计数字段重名失败（`check-1.log`）；改用编辑器现有 raw glob 夹具合同与
+明确字段名后通过，未扩大 tsconfig/types、未改依赖。`check-2.log` 是增补最终两个边界前的通过记录，最终以 `check-final.log` 为准。
+
+### PAL 规模成本（非冷启动性能承诺）
+
+- PAL 原始读取记录含 **77,804,991 bytes / 538 条路径**；包含打开后复验的 FileSource 共 1,077 次读取、
+  **155,606,634 bytes**，没有媒体正文读取。
+- 正式 PAL 用例为预载 raw JSON 文件源：记录阶段约 568ms；只反映该测试环境的读取/签名/装配成本。
+- `pal-disk-cost.mjs` 另用真实磁盘 Node FileSource 驱动同一 loader + observe/finish，实测约 **537ms**，
+  路径/字节量相同、resourceBodyReads=[]（`pal-disk-cost.json`）。这是 Node 磁盘结果，**不是浏览器 FSA 时延**。
+  不全量解码地图、不 hash 音视频、不据一次时点测量承诺所有机器性能。
+
+### 最小浏览器功能与视觉
+
+`browser.mjs`/`browser-result.json`/`browser.log`，独立 Chrome context、原生 OPFS 目录与 IDB/权限/合作 Web Locks，
+两页均从真实“最近项目”打开同一个合法 blank 项目；正式“重命名项目”与“保存”执行生产 App 链。
+
+- A 保存 `Saved by A`；B 保存 `Unsaved B` 被拒；对比该项目 **20 个文件的 SHA-256** 和 manifest，磁盘完全不变。
+  B 仍可重命名/尝试保存且维持未保存状态，没有偷偷清 dirty 或自动刷新。
+- B 经真实“文件→打开项目”重开同 W（仅 picker 返回专用 OPFS handle，不启动 OS 选择器），再保存
+  `Saved after reopen` 成功；证明 mount 基线不沿用旧会话。最终 errors=[]。
+- 本人亲看 `conflict-visible.png` 与 `reopened-save.png`：错误前缀与保留修改提示完整可读、保存/未保存状态正确，场景画布可用。
+  不冒称 OS 文件夹选择弹窗、真实用户目录故障或完整 R4 已验；未触碰用户 PAL/浏览器档案。
+- 原 6010 服务遇既有依赖缓存错误（react-dom 缺导出 t）；未清缓存/重启它。改在规划内 6011 使用临时配置/cacheDir；
+  第二次脚本曾误等 aria-busy='false'（实际完成时移除属性），已据 App 源码/截图只修临时等待，最终完整验证 exit 0。
+  失败分别保留 `browser-6010.log`/`browser-wait-fix.log`，不写成产品缺陷或多数通过。自起服务 PID 11788 已停止；原 6010 保留。
+
+### 保持项与后续
+
+旧版本兼容审查：pass（无新增旧格式/升级器/fallback）。content/reforge/game/migrate/projects、pnpm-lock、原探针与
+coverage 配置零 diff；不替本卡复核尚未修复的所有审计项。
+A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完整 R4 仍按台账独立推进。
+
 ## 推进签字
 
 ### 进入 build 前
@@ -246,13 +329,20 @@ Evidence Baseline: 50590cb6
 
 ### 进入 done 前
 
-- Codex：pending。
+- Codex：**accept（2026-09-07，Coding Owner 实现者自测，非独立审查）**。实际打开/作者保存回归 25 项、
+  相邻定向合计 86 项和 PAL 对账通过；完整 check 544 文件/6,353 项与单次严格 fast 611 文件/5,867 项绿；
+  精确比较守卫负控制 4 红、完整实现对照 4 绿；真实 Chrome 双页/原生 OPFS/正式 App 保存及同 W 重开验证通过。
+  原源码签字前提保持，兼容审查 pass；源文件哈希与回执核定后提交，不代签两席。任一 reviewer 发现遗漏仍可 counter。
 - Kimi：pending。
 - GLM：pending。
-- done 准入：blocked；实现、正式回归和最小功能尚未开始。
+- done 准入：blocked（待两席独立终审与最终验收）；不将已签设计当作实现验收。
 
 ## 交接日志
 
+- 2026-09-07 Codex（实现 → review）：已完成 r1，定向/真实链/PAL 文件集/首存恢复边界/完整 check/ratchet/严格 fast
+  均有实际证据；原生浏览器双页保全 20 文件、冲突可见且当前修改保留、同 W 重新打开可保存。只读成本测量已登记。
+  首存重复授权、同 W App refs 生命周期在实现期钉住；旧脚本分片仍禁止，不复活其输入。同步规范、审计进度、E2E 与覆盖率文档。
+  交 Kimi/GLM 并行审同一候选，各写本人席位/日志并提交推送；不重签 r1、不改其他任务、不标 done。
 - 2026-09-07 Codex（build 准入）：用户确认“签了”，同步 b5420ae5，核两席签字和文件面后放行。
   先补真实打开/保存回归，再实现作者基线与锁内首写校验；基线/增量快照分责，原探针不改。
   GLM 文件集观察与 Kimi 成本测量纳入验证；不扩 A-03/07/D-01，不提前标 done。
@@ -279,7 +369,31 @@ Evidence Baseline: 50590cb6
 
 ## 下一位 Agent 提示词
 
-### Kimi（与 GLM 并行）
+### Kimi：实现终审（当前，与 GLM 并行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-CONFLICT-1。
+任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1；候选取卡头 Implementation Candidate，对比 32302e58。r1 设计不重签。
+先同步、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡已签设计/实现回执/最新交接，以及 project-lifecycle 现行规范。不读取或复述 GLM 本轮结论。
+独立审真实读取基线而非事后采盘、锁内进入/首写双检查、增量与基线分责、实际 close/remove 后态与中断重试、重复首存授权、同 W Root 重开 refs、PAL 原 proof 不退化、克隆/复制 sink 的完整目标预检。current loader 禁止 content.scripts，不能为旧分片恢复支持。资源写删与新增路径碰撞须有证据，A-03/07/D-01 仍在范围外。
+复跑定向 7 文件/86 项、PAL 对账1项、editor typecheck/完整 check（6353）与单次严格 fast（611文件/5867项），重型不并跑、不取多数。独立重建负控制：仅删 author-disk-baseline.ts verifySignatures 的一处比较/throw，聚焦4项应全红、完整对照4绿；临时 config/日志在 /tmp/type-pal-editor-conflict.LYKwVY/。原审计探针不改，其旧必填参数缺失不是独立修复证明。
+读原生双页 browser-result.json 与两张截图，先复用已验证证据，只补不确定项；真实 OPFS/FSA/正式 App 保存、20 文件哈希保全、同 W 手动重开再保存已验，非 OS 选择器或完整 R4。核 PAL538路径/77,804,991字节及Node磁盘成本的声明边界。
+将本人 accept 或 file:line counter/证据/返工项直接写本人 done 前席位与日志并提交推送；落盘前同步保留他席。不得改实现、他席、任务状态或标 done，不代签；两席落卡后由 Codex 汇总。
+```
+
+### GLM：数据/矩阵/范围终审（当前，与 Kimi 并行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-CONFLICT-1。
+任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1；候选取卡头 Implementation Candidate，对比 32302e58。r1 设计不重签。
+先同步、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡设计/实现回执/最新日志与 coverage 文档。不读取或复述 Kimi 本轮结论，数字从候选树独立生成。
+枚举作者路径与所有入口：loader 字节→基线→Opened/Booted/App→授权→实际写删；既有 prevSnapshot 不得被全量基线替换。核空/绑定/PAL首存、重复未消费授权、close/remove失败、外部漂移不收编、dirty保持、同 W 重开新实例及媒体按需hash。设计中提及的旧script分片已被current loader禁止，正式测试应钉拒绝而不是复活它。
+复跑定向86项、PAL1项、完整check6353与单次严格fast611文件/5867项；核新增25 fast+1 PAL、538作者路径、资源正文读取0；基线模块分支55/61、行89/93，不冒称100%。独立核一处比较guard负控制4红/完整4绿、首次授权恢复反例先红后绿，临时证据 /tmp/type-pal-editor-conflict.LYKwVY/ 可自行重建。重型串行、不重试取多数、不修改原探针/配置/阈值。
+核白名单：产品只editor内部，无runtime/content/迁移/工程/CSS/锁文件变化；基线仅ratchet。阅读双页原生OPFS/FSA与截图证据（20文件哈希保护、B仍可编辑、同W重开后成功），非OS选择器/完整E2E；核成本数字来自Node FileSource而非浏览器时延。
+将本人 accept 或 file:line counter/遗漏矩阵/证据直接写本人 done 前席位与日志并提交推送；同步保留他席，不改实现、他席、状态、不标done、不代签。Codex待两席落卡后统一收口，用户不搬运审查正文。
+```
+
+### Kimi：设计审查（已完成，历史保留）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 审 EDITOR-SAVE-CONFLICT-1。任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，draft/r1，产品基线 50590cb6。先同步分支、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及链接的现行生命周期/地图懒解析合同。

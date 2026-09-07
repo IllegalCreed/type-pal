@@ -10,6 +10,7 @@ import {
   type AuthorizedWorkspaceMutation,
   authorizedDirectory,
   beginAuthorizedWorkspaceMutation,
+  planAuthorizedWorkspacePaths,
   recordAuthorizedWorkspaceWriteCompleted,
   WORKSPACE_IDENTITY_COPY_EXCLUDES,
   withAuthorizedWorkspaceMutation,
@@ -60,6 +61,10 @@ async function writeSourceSnapshot(
   mutation: AuthorizedWorkspaceMutation,
 ): Promise<number> {
   if (snapshot.directories.length === 0 && snapshot.files.length === 0) return 0
+  await planAuthorizedWorkspacePaths(
+    mutation,
+    snapshot.files.map((file) => file.path),
+  )
   // Every source getFile() has completed. Revalidate only now, immediately before the first
   // destination create, so target drift during any slow source read still yields zero writes.
   await beginAuthorizedWorkspaceMutation(mutation)
@@ -71,7 +76,7 @@ async function writeSourceSnapshot(
     const writable = await (await dst.getFileHandle(name, { create: true })).createWritable()
     await writable.write(file)
     await writable.close()
-    recordAuthorizedWorkspaceWriteCompleted(mutation, path, file)
+    await recordAuthorizedWorkspaceWriteCompleted(mutation, path, file)
   }
   return snapshot.files.length
 }

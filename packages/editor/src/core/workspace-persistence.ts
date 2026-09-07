@@ -1,4 +1,11 @@
 import {
+  type AuthorDiskBaseline,
+  type AuthorDiskMutation,
+  authorDiskMutation,
+  bindAuthorBaseline,
+  createEmptyAuthorDiskBaseline,
+} from './author-disk-baseline.js'
+import {
   findWorkspaceRecordByHandle,
   loadWorkspaceRecord,
   saveWorkspaceHandleUnderLock,
@@ -33,6 +40,7 @@ interface AuthorizedTargetState {
   phase: 'ready' | 'verifying' | 'active' | 'spent'
   verify: () => Promise<void>
   firstSave: boolean
+  authorBaseline: AuthorDiskBaseline
   prepare?: () => Promise<void>
 }
 
@@ -43,6 +51,7 @@ interface AuthorizedMutationState {
   firstMutationPromise?: Promise<void>
   /** Exact controlled JSON state expected after this editor operation, not a later live reread. */
   palExpectedValues?: Map<string, unknown>
+  author: AuthorDiskMutation
   pendingRegistration?: { context: WorkspaceContext; name: string }
 }
 
@@ -50,6 +59,10 @@ const authorizedTargets = new WeakMap<object, AuthorizedTargetState>()
 const authorizedMutations = new WeakMap<object, AuthorizedMutationState>()
 const palExpectedFingerprints = new WeakMap<WorkspaceContext, string>()
 const localFirstSaveAttempts = new WeakMap<WorkspaceContext, FileSystemDirectoryHandle>()
+const firstSaveAuthorBaselines = new WeakMap<
+  WorkspaceContext,
+  { dir: FileSystemDirectoryHandle; baseline: AuthorDiskBaseline }
+>()
 type SandboxBootstrapTarget = Readonly<{ __sandboxBootstrap?: never }>
 const sandboxBootstrapDirs = new WeakMap<object, FileSystemDirectoryHandle>()
 
@@ -143,6 +156,7 @@ function authorized(
   workspace: WorkspaceContext,
   dir: FileSystemDirectoryHandle,
   verify: () => Promise<void>,
+  authorBaseline: AuthorDiskBaseline,
   options: { firstSave?: boolean; prepare?: () => Promise<void> } = {},
 ): AuthorizedWorkspaceTarget {
   if (workspace.mode === 'pal-development' && workspace.palProof)
@@ -156,6 +170,7 @@ function authorized(
     workspace,
     phase: 'ready',
     verify,
+    authorBaseline,
     firstSave: options.firstSave ?? false,
     prepare: options.prepare,
   })
@@ -190,6 +205,9 @@ export async function withAuthorizedWorkspaceMutation<T>(
     withWorkspaceRegistrationLock(state.workspace.workspaceId, async (registrationLock) => {
       try {
         await state.verify()
+        await bindAuthorBaseline(state.authorBaseline, state.workspace, state.dir)
+        const author = authorDiskMutation(state.authorBaseline, state.dir)
+        await author.verify()
         await state.prepare?.()
         await state.verify()
         const palExpectedValues =
@@ -203,6 +221,7 @@ export async function withAuthorizedWorkspaceMutation<T>(
           active: true,
           firstMutationStarted: false,
           palExpectedValues,
+          author,
         }
         authorizedMutations.set(mutation, mutationState)
         try {
@@ -210,6 +229,11 @@ export async function withAuthorizedWorkspaceMutation<T>(
           try {
             result = await operation(mutation)
           } catch (operationError) {
+            try {
+              await author.finish()
+            } catch {
+              /* Never adopt unproved partial disk state. */
+            }
             // writeProject updates its disk snapshot after every successful close. Mirror that
             // recovery property for PAL's controlled proof: if the live controlled files exactly
             // equal the writes this editor observed completing, advance only to that partial state
@@ -247,6 +271,7 @@ export async function withAuthorizedWorkspaceMutation<T>(
               throw new Error('PAL 开发基线写入后的关键快照与本次编辑器操作不一致，拒绝推进会话')
             palExpectedFingerprints.set(state.workspace, expectedPostFingerprint)
           }
+          await author.finish()
           const pendingRegistration = mutationState.pendingRegistration
           if (pendingRegistration)
             await saveWorkspaceHandleUnderLock(
@@ -272,21 +297,42 @@ export async function withAuthorizedWorkspaceMutation<T>(
 }
 
 /** Record one successfully closed write for first-save recovery and PAL's intended post-state. */
-export function recordAuthorizedWorkspaceWriteCompleted(
+export async function recordAuthorizedWorkspaceWriteCompleted(
   mutation: AuthorizedWorkspaceMutation,
   path: string,
   value: unknown,
-): void {
+): Promise<void> {
   const state = mutation && authorizedMutations.get(mutation)
   if (!state?.active) throw new Error('拒绝未经 active workspace mutation 的写入记录')
   if (state.target.firstSave && state.target.workspace.mode === 'local-project')
     localFirstSaveAttempts.set(state.target.workspace, state.target.dir)
+  await state.author.wrote(path, value)
   const values = state.palExpectedValues
   if (!values || !state.target.workspace.palProof?.paths.includes(path)) return
   if (value instanceof ArrayBuffer || ArrayBuffer.isView(value))
     throw new Error(`PAL 开发基线受控 JSON 不能写入二进制：${path}`)
   const parsed = typeof value === 'string' ? (JSON.parse(value) as unknown) : value
   values.set(path, structuredClone(parsed))
+}
+
+/** The complete prospective write/delete set must be checked before the first mutation. */
+export async function planAuthorizedWorkspacePaths(
+  mutation: AuthorizedWorkspaceMutation,
+  paths: readonly string[],
+  catalogPath?: string,
+): Promise<void> {
+  const state = mutation && authorizedMutations.get(mutation)
+  if (!state?.active) throw new Error('拒绝未经 active workspace mutation 的路径预检')
+  await state.author.plan(paths, catalogPath)
+}
+
+export function recordAuthorizedWorkspaceRemoveCompleted(
+  mutation: AuthorizedWorkspaceMutation,
+  path: string,
+): void {
+  const state = mutation && authorizedMutations.get(mutation)
+  if (!state?.active) throw new Error('拒绝未经 active workspace mutation 的删除记录')
+  state.author.removed(path)
 }
 
 /** Stage recent registration; the compound operation commits it only after every post-check passes. */
@@ -320,6 +366,7 @@ export async function beginAuthorizedWorkspaceMutation(
   if (state.firstMutationStarted) return
   state.firstMutationPromise ??= (async () => {
     await state.target.verify()
+    await state.author.verify()
     state.firstMutationStarted = true
   })()
   await state.firstMutationPromise
@@ -556,9 +603,22 @@ export async function authorizeFirstSaveTarget(
     resumesInterruptedAttempt?: boolean
     /** Additional operation invariant, rechecked at scope entry and true first mutation. */
     additionalVerify?: () => Promise<void>
+    authorBaseline?: AuthorDiskBaseline
   } = {},
 ): Promise<AuthorizedWorkspaceTarget> {
   await preflightFirstSaveTarget(context, dir, opts)
+  const previousAuthor = firstSaveAuthorBaselines.get(context)
+  const authorBaseline =
+    opts.authorBaseline ??
+    (context.mode === 'pal-development'
+      ? undefined
+      : previousAuthor &&
+          (previousAuthor.dir === dir || (await previousAuthor.dir.isSameEntry(dir)))
+        ? previousAuthor.baseline
+        : createEmptyAuthorDiskBaseline(context.projectId))
+  if (!authorBaseline) throw new Error('PAL 首次保存缺少启动时作者文件基线，拒绝写入')
+  await bindAuthorBaseline(authorBaseline, context, dir)
+  firstSaveAuthorBaselines.set(context, { dir, baseline: authorBaseline })
   const verifyWorkspace = async (): Promise<void> => {
     await assertCompatibleExistingBinding(context, dir)
     if (context.mode === 'pal-development') {
@@ -584,7 +644,7 @@ export async function authorizeFirstSaveTarget(
     await verifyWorkspace()
     await opts.additionalVerify?.()
   }
-  return authorized(context, dir, verify, {
+  return authorized(context, dir, verify, authorBaseline, {
     firstSave: true,
     prepare:
       context.mode === 'sandbox'
@@ -613,10 +673,15 @@ export async function authorizeFirstSaveTarget(
 export async function authorizeBoundWorkspaceTarget(
   context: WorkspaceContext,
   requestedDir: FileSystemDirectoryHandle,
+  authorBaseline: AuthorDiskBaseline,
 ): Promise<AuthorizedWorkspaceTarget> {
   await assertBoundWorkspaceIdentity(context, requestedDir)
-  return authorized(context, requestedDir, () =>
-    assertBoundWorkspaceIdentity(context, requestedDir),
+  await bindAuthorBaseline(authorBaseline, context, requestedDir)
+  return authorized(
+    context,
+    requestedDir,
+    () => assertBoundWorkspaceIdentity(context, requestedDir),
+    authorBaseline,
   )
 }
 

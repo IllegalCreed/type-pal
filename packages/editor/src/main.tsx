@@ -13,8 +13,9 @@ import {
   loadProjectMap,
   loadStampTemplates,
 } from '@type-pal/reforge'
-import { StrictMode, useEffect, useState } from 'react'
+import { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import { type AuthorDiskBaseline, observeAuthorSource } from './core/author-disk-baseline.js'
 import { EditSession } from './core/edit-session.js'
 import type { Opened } from './core/open-actions.js'
 import { toEditorState } from './core/project-io.js'
@@ -47,6 +48,7 @@ interface Booted {
   }
   dir?: FileSystemDirectoryHandle
   workspace: WorkspaceContext
+  authorBaseline: AuthorDiskBaseline
 }
 
 function currentCanonicalScriptState(
@@ -67,12 +69,16 @@ type Boot = Booted | { error: string } | 'loading' | 'picker'
 
 function Root() {
   const [boot, setBoot] = useState<Boot>(DEV_AUTO ? 'loading' : 'picker')
+  // Reopening the same workspace is still a new author session/baseline. This mount identity is
+  // deliberately not the persisted workspace id used for navigation or player saves.
+  const openedInstanceRef = useRef(0)
 
   useEffect(() => {
     if (!DEV_AUTO || !PROJECT_ID) return
     let alive = true
     const loadDevProject = async (): Promise<Booted> => {
-      const source = httpSource(`projects/${PROJECT_ID}`)
+      const observed = observeAuthorSource(httpSource(`projects/${PROJECT_ID}`))
+      const source = observed.source
       const palProofBefore =
         !UI_REVIEW_SAMPLES && PROJECT_ID === 'pal'
           ? await createPalDevelopmentWorkspaceContext(source)
@@ -93,6 +99,7 @@ function Root() {
         loadAllAuthorScenes(project),
         loadStampTemplates(project),
       ])
+      const authorBaseline = await observed.finish(project)
       const reviewData = UI_REVIEW_SAMPLES
         ? withUiReviewSamples({
             scenes,
@@ -131,6 +138,7 @@ function Root() {
           session: new ScriptEditSession(canonical),
         },
         workspace,
+        authorBaseline,
       }
     }
     loadDevProject()
@@ -147,6 +155,7 @@ function Root() {
   }, [])
 
   const onOpened = (o: Opened): void => {
+    openedInstanceRef.current += 1
     const project = o.project
     const canonical = currentCanonicalScriptState(project, o.scenes)
     setBoot({
@@ -159,6 +168,7 @@ function Root() {
       },
       dir: o.dir,
       workspace: o.workspace,
+      authorBaseline: o.authorBaseline,
     })
   }
 
@@ -177,12 +187,13 @@ function Root() {
     )
   return (
     <App
-      key={boot.workspace.workspaceId}
+      key={`${boot.workspace.workspaceId}:${openedInstanceRef.current}`}
       session={boot.session}
       project={boot.project}
       script={boot.script}
       initialDir={boot.dir}
       workspace={boot.workspace}
+      authorBaseline={boot.authorBaseline}
       forceSandbox={UI_REVIEW_SAMPLES}
       onOpened={onOpened}
       onBackToPicker={() => setBoot('picker')}

@@ -5,6 +5,7 @@ import type { LoadedCurrentProject } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { createEmptyAuthorDiskBaseline } from '../core/author-disk-baseline.js'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import type { ProjectReferenceEdge, ProjectReferenceTarget } from '../core/project-reference.js'
 import {
@@ -410,6 +411,7 @@ describe('App item reference navigation', () => {
           project={project}
           script={{ session: renderedScriptSession }}
           workspace={testWorkspace}
+          authorBaseline={createEmptyAuthorDiskBaseline(testWorkspace.projectId)}
         />,
       ),
     )
@@ -2099,6 +2101,7 @@ describe('App item reference navigation', () => {
           project={project}
           script={{ session: new ScriptEditSession(canonical) }}
           workspace={testWorkspace}
+          authorBaseline={createEmptyAuthorDiskBaseline(testWorkspace.projectId)}
         />,
       ),
     )

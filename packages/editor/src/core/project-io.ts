@@ -49,6 +49,8 @@ import {
   type AuthorizedWorkspaceInput,
   authorizedDirectory,
   beginAuthorizedWorkspaceMutation,
+  planAuthorizedWorkspacePaths,
+  recordAuthorizedWorkspaceRemoveCompleted,
   recordAuthorizedWorkspaceWriteCompleted,
   withAuthorizedWorkspaceMutation,
 } from './workspace-persistence.js'
@@ -335,7 +337,9 @@ export async function writeFile(
   value: unknown,
 ): Promise<void> {
   assertWorkspaceIdentityPathWritable(rel)
+  const snapshot = value instanceof ArrayBuffer ? value.slice(0) : serializeOne(value)
   await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    await planAuthorizedWorkspacePaths(mutation, [rel])
     const dir = authorizedDirectory(mutation)
     const segs = rel.split('/')
     const fileName = segs.pop()!
@@ -345,9 +349,9 @@ export async function writeFile(
     for (const seg of segs) d = await d.getDirectoryHandle(seg, { create: true })
     const fh = await d.getFileHandle(fileName, { create: true })
     const w = await fh.createWritable()
-    await w.write(value instanceof ArrayBuffer ? new Blob([value]) : serializeOne(value))
+    await w.write(snapshot instanceof ArrayBuffer ? new Blob([snapshot]) : snapshot)
     await w.close()
-    recordAuthorizedWorkspaceWriteCompleted(mutation, rel, value)
+    await recordAuthorizedWorkspaceWriteCompleted(mutation, rel, snapshot)
   })
 }
 
@@ -449,6 +453,7 @@ export async function writeProject(
       }
       if (write.includes(catalogPath)) stagedCatalog = unionAssetCatalog(diskCatalog, finalCatalog)
     }
+    await planAuthorizedWorkspacePaths(mutation, [...write, ...remove], catalogPath)
     const sizes = new Map(write.map((rel) => [rel, byteLength(files[rel])]))
     const needsCatalogShrink =
       stagedCatalog !== undefined &&
@@ -528,6 +533,7 @@ export async function writeProject(
         if (!(error instanceof DOMException) || error.name !== 'NotFoundError') throw error
       }
       prev?.delete(rel)
+      recordAuthorizedWorkspaceRemoveCompleted(mutation, rel)
     }
     opts?.onProgress?.({ completed: total, total })
     const snapshot = new Map<string, string>()

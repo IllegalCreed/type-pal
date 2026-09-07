@@ -14,6 +14,7 @@ import {
   loadCurrentProjectFrom,
   loadStampTemplates,
 } from '@type-pal/reforge'
+import { type AuthorDiskBaseline, observeAuthorSource } from './author-disk-baseline.js'
 
 export interface OpenedCurrentProject {
   kind: 'current'
@@ -21,6 +22,7 @@ export interface OpenedCurrentProject {
   scenes: AuthorSceneDef[]
   scriptChunks: Record<string, ScriptChunkV1>
   stamps: StampTemplate[]
+  authorBaseline: AuthorDiskBaseline
 }
 
 export type OpenedProject = OpenedCurrentProject
@@ -32,7 +34,8 @@ function manifestContentVersion(value: unknown): number | undefined {
 }
 
 export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<OpenedProject> {
-  const source = fsaSource(dir)
+  const observed = observeAuthorSource(fsaSource(dir))
+  const source = observed.source
   let rawManifest: unknown
   try {
     rawManifest = await source.readJson<unknown>('manifest.json')
@@ -58,7 +61,8 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
       loadAllAuthorScenes(project),
       loadStampTemplates(project),
     ])
-    return { kind: 'current', project, scenes, scriptChunks: {}, stamps }
+    const authorBaseline = await observed.finish(project, dir)
+    return { kind: 'current', project, scenes, scriptChunks: {}, stamps, authorBaseline }
   } catch (error) {
     source.dispose?.()
     throw new Error(

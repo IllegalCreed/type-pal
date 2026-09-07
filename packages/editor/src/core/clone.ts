@@ -15,6 +15,7 @@ import { writeFile } from './project-io.js'
 import { enumerateSeedFiles, relativizeManifest, scenesDir } from './seed.js'
 import {
   type AuthorizedWorkspaceInput,
+  planAuthorizedWorkspacePaths,
   withAuthorizedWorkspaceMutation,
 } from './workspace-persistence.js'
 
@@ -59,6 +60,11 @@ export async function cloneFromPal(
   const total = files.reduce((s, f) => s + f.size, 0)
 
   await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    await planAuthorizedWorkspacePaths(
+      mutation,
+      [...files.map((file) => file.rel), 'manifest.json'],
+      manifest.assets.catalog,
+    )
     let done = 0
     for (const f of [...files].sort((left, right) => {
       const order = { binary: 0, content: 1, catalog: 2 } as const

@@ -5,6 +5,7 @@
  */
 import type { CurrentManifest } from '@type-pal/content'
 import { httpSource } from '@type-pal/reforge'
+import { verifyOpenedAuthorBaseline } from './author-disk-baseline.js'
 import { cloneFromPal } from './clone.js'
 import { currentDirectoryPickerAvailability } from './file-system-access.js'
 import { copyDirRecursive } from './fsa-copy.js'
@@ -93,6 +94,7 @@ export async function finishOpen(
     // same physical directory before either recent record becomes visible to the other.
     const finalMetadata = await inspectWorkspaceMetadata(dir)
     assertSameWorkspaceMetadataInspection(metadataAfter, finalMetadata)
+    await verifyOpenedAuthorBaseline(opened.authorBaseline, dir)
     const finalPalProof = trustedPalSource
       ? await createPalDevelopmentWorkspaceContext(trustedPalSource)
       : undefined

@@ -11,6 +11,8 @@ const reforge = vi.hoisted(() => ({
 vi.mock('@type-pal/reforge', () => ({
   fsaSource: vi.fn(() => ({
     readJson: reforge.readJson,
+    readBytes: async (path: string) =>
+      new TextEncoder().encode(JSON.stringify(await reforge.readJson(path))).buffer,
     dispose: reforge.dispose,
   })),
   loadCurrentProjectFrom: reforge.loadCurrentProjectFrom,
@@ -28,7 +30,11 @@ describe('openLocalProject current canonical boundary', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     reforge.readJson.mockResolvedValue({ contentVersion: 20 })
-    reforge.loadCurrentProjectFrom.mockResolvedValue({ manifest: { contentVersion: 20 } })
+    reforge.loadCurrentProjectFrom.mockResolvedValue({
+      manifest: { id: 'test', contentVersion: 20, assets: { catalog: 'assets/index.json' } },
+      mapIndex: { maps: [] },
+      assetCatalog: { assets: {} },
+    })
     reforge.loadAllAuthorScenes.mockResolvedValue([{ id: 'scene-a' }])
     reforge.loadStampTemplates.mockResolvedValue([{ id: 'stamp-a' }])
   })

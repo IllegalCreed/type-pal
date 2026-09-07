@@ -32,11 +32,14 @@ vi.mock('./handle-store.js', () => ({
   saveWorkspaceHandleUnderLock: (...args: unknown[]) => handleStore.saveUnderLock(...args),
 }))
 
+import { capturePolicyFixtureBaseline } from './__tests__/author-save-fixture.js'
+import { type AuthorDiskBaseline, createEmptyAuthorDiskBaseline } from './author-disk-baseline.js'
 import { sha256Hex } from './binary-signature.js'
 import { AddSceneCommand, DeleteAssetCommand, DeleteSceneCommand } from './commands.js'
 import { EditSession } from './edit-session.js'
 import { serializeProject, toEditorState, writeFile, writeProject } from './project-io.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
+import type { WorkspaceContext } from './workspace-context.js'
 import {
   assertSamePalDevelopmentProof,
   createLocalWorkspaceContext,
@@ -51,9 +54,9 @@ import {
 import {
   type AuthorizedWorkspaceMutation,
   type AuthorizedWorkspaceTarget,
-  authorizeBoundWorkspaceTarget,
+  authorizeBoundWorkspaceTarget as authorizeBoundWithBaseline,
   authorizedDirectory,
-  authorizeFirstSaveTarget,
+  authorizeFirstSaveTarget as authorizeFirstWithBaseline,
   createSaveAsWorkspaceContext,
   inspectWorkspaceMetadata,
   preflightFirstSaveTarget,
@@ -61,6 +64,40 @@ import {
   resolveOpenedWorkspaceContext,
   withAuthorizedWorkspaceMutation,
 } from './workspace-persistence.js'
+
+// Preserve these existing policy tests' intent while supplying the new required session evidence.
+// Capture once per fixture context, never resample after a write or external drift.
+const fixtureBaselines = new WeakMap<WorkspaceContext, AuthorDiskBaseline>()
+async function fixtureBaseline(
+  context: WorkspaceContext,
+  dir: FileSystemDirectoryHandle,
+  fresh: boolean,
+) {
+  let baseline = fixtureBaselines.get(context)
+  if (!baseline) {
+    baseline = fresh
+      ? createEmptyAuthorDiskBaseline(context.projectId)
+      : await capturePolicyFixtureBaseline(dir, context.projectId)
+    fixtureBaselines.set(context, baseline)
+  }
+  return baseline
+}
+async function authorizeFirstSaveTarget(
+  context: WorkspaceContext,
+  dir: FileSystemDirectoryHandle,
+  opts: Parameters<typeof authorizeFirstWithBaseline>[2] = {},
+) {
+  return authorizeFirstWithBaseline(context, dir, {
+    ...opts,
+    authorBaseline: await fixtureBaseline(context, dir, context.mode !== 'pal-development'),
+  })
+}
+async function authorizeBoundWorkspaceTarget(
+  context: WorkspaceContext,
+  dir: FileSystemDirectoryHandle,
+) {
+  return authorizeBoundWithBaseline(context, dir, await fixtureBaseline(context, dir, false))
+}
 
 interface MemFile {
   kind: 'file'

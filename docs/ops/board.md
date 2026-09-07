@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-CONFLICT-1 | 编辑器旧快照保存冲突保护 | build | Codex：实现与验证 | [任务卡](tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) r1 三席设计齐；仅作者基线冲突保护，A-03/07 与 D-01 后续分开。 |
+| EDITOR-SAVE-CONFLICT-1 | 编辑器旧快照保存冲突保护 | review | Kimi / GLM：并行独立终审 | [任务卡](tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) r1；Codex 自测/真实双页/严格 fast 通过，A-03/07 与 D-01 仍另行处理，不标 done。 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)

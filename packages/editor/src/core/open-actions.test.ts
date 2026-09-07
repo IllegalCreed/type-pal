@@ -26,6 +26,7 @@ vi.mock('@type-pal/reforge', async (importOriginal) => ({
   httpSource: httpSourceMock,
 }))
 
+import { createEmptyAuthorDiskBaseline } from './author-disk-baseline.js'
 import { finishOpen, newBlankProject, newFromPal, saveProjectAs } from './open-actions.js'
 import { createLocalWorkspaceContext } from './workspace-context.js'
 
@@ -466,7 +467,10 @@ describe('project creation and Save As target policy', () => {
   test('two concurrent first opens of one unmarked directory reuse one workspace identity', async () => {
     installMemoryIndexedDb()
     const dir = jsonDirectory({ 'manifest.json': { id: 'local' } }, 'local')
-    openLocalProjectMock.mockResolvedValue({ project: { manifest: { id: 'local' } } })
+    openLocalProjectMock.mockResolvedValue({
+      project: { manifest: { id: 'local' } },
+      authorBaseline: createEmptyAuthorDiskBaseline('local'),
+    })
 
     const [first, second] = await Promise.all([finishOpen(dir), finishOpen(dir)])
 

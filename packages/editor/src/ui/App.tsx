@@ -53,6 +53,10 @@ import {
   useState,
 } from 'react'
 import {
+  type AuthorDiskBaseline,
+  createEmptyAuthorDiskBaseline,
+} from '../core/author-disk-baseline.js'
+import {
   AddEntityCommand,
   AddSceneCommand,
   BindSceneMapCommand,
@@ -339,6 +343,7 @@ export function App(props: {
   }
   /** 启动屏打开/克隆得到的项目目录句柄(P4):保存直接写回此夹,不再首存选夹。 */
   initialDir?: FileSystemDirectoryHandle
+  authorBaseline: AuthorDiskBaseline
   /** 会话级工作区身份；不写进 manifest，所有目录 mutation 都由它授权。 */
   workspace: WorkspaceContext
   /** `?ui_samples=1` 的强制约束会贯穿项目菜单打开路径。 */
@@ -565,6 +570,8 @@ export function App(props: {
   const saveAttemptDirRef = useRef<FileSystemDirectoryHandle | null>(props.initialDir ?? null)
   // 上次落盘快照(rel → 内容字符串):增量保存只写变化文件(P3)。首存后建立。
   const snapshotRef = useRef<Map<string, string> | null>(null)
+  const authorBaselineRef = useRef(props.authorBaseline)
+  const firstSaveAuthorRef = useRef<AuthorDiskBaseline | undefined>(undefined)
   const [saveErr, setSaveErr] = useState('')
   const [saveActivity, setSaveActivity] = useState<ProjectSaveActivity | null>(null)
   // React state 只负责展示；同步 ref 才能在首个 await 前防住双击和并发项目 IO。
@@ -2075,7 +2082,13 @@ export function App(props: {
         if (!dir) return
         const previousAttempt = saveAttemptDirRef.current
         resumesInterruptedAttempt = previousAttempt ? await dir.isSameEntry(previousAttempt) : false
-        if (!resumesInterruptedAttempt) snapshotRef.current = null
+        if (!resumesInterruptedAttempt) {
+          snapshotRef.current = null
+          firstSaveAuthorRef.current =
+            props.workspace.mode === 'pal-development'
+              ? authorBaselineRef.current
+              : createEmptyAuthorDiskBaseline(props.workspace.projectId)
+        }
         saveAttemptDirRef.current = dir
         rememberDirectory = true
         // Early read-only proof gives immediate feedback after the picker. The same proof is run
@@ -2103,9 +2116,15 @@ export function App(props: {
       // 中断后该 Map 留在 ref 中，下次保存/撤销才能清理已写但未发布的新 blob。
       const recoverySnapshot = snapshotRef.current ?? new Map<string, string>()
       snapshotRef.current = recoverySnapshot
+      const authorBaseline = rememberDirectory
+        ? firstSaveAuthorRef.current!
+        : authorBaselineRef.current
       const target = rememberDirectory
-        ? await authorizeFirstSaveTarget(props.workspace, dir, { resumesInterruptedAttempt })
-        : await authorizeBoundWorkspaceTarget(props.workspace, dir)
+        ? await authorizeFirstSaveTarget(props.workspace, dir, {
+            resumesInterruptedAttempt,
+            authorBaseline,
+          })
+        : await authorizeBoundWorkspaceTarget(props.workspace, dir, authorBaseline)
       snapshotRef.current = await withAuthorizedWorkspaceMutation(target, async (mutation) => {
         const nextSnapshot = await writeProject(mutation, files, {
           prevSnapshot: recoverySnapshot,
@@ -2131,6 +2150,7 @@ export function App(props: {
       )
         scriptSession.markSaved()
       if (rememberDirectory) {
+        authorBaselineRef.current = authorBaseline
         // 只有完整 writeProject 成功后才把目录升级为后续增量保存目标。若素材 fetch /
         // hash 校验 / 写盘中途失败，下一次仍按 HTTP 首存全量物化，不能提交半闭包项目。
         dirHandleRef.current = dir

@@ -49,13 +49,19 @@ function recordingDir(): { dir: FileSystemDirectoryHandle; written: Map<string, 
     ({
       async *entries() {},
       async getDirectoryHandle(name: string, opts?: { create?: boolean }) {
-        if (!opts?.create) throw new DOMException(name, 'NotFoundError')
-        return make(prefix ? `${prefix}/${name}` : name)
+        const path = prefix ? `${prefix}/${name}` : name
+        if (!opts?.create && ![...written.keys()].some((key) => key.startsWith(`${path}/`)))
+          throw new DOMException(name, 'NotFoundError')
+        return make(path)
       },
       async getFileHandle(name: string, opts?: { create?: boolean }) {
         const full = prefix ? `${prefix}/${name}` : name
         if (!opts?.create && !written.has(full)) throw new DOMException(name, 'NotFoundError')
         return {
+          async getFile() {
+            if (!written.has(full)) throw new DOMException(full, 'NotFoundError')
+            return new Blob([written.get(full) as BlobPart]) as File
+          },
           async createWritable() {
             let buf: unknown
             return {

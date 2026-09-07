@@ -174,6 +174,24 @@ scope 29、IDB/Memory 隔离与事务 18、boot/独立试买 2、URL 16、工作
 editor 为 1,632 项，statements 23,516/31,429、branches 18,210/27,360，两次统计精确一致。
 本次未跑 full coverage；普通完整 `pnpm check` 的 6,327 项与上述 fast 是不同口径，不冒充 full 或浏览器 E2E。
 
+## EDITOR-SAVE-CONFLICT-1 增量基线（2026-09-07，实现候选待终审）
+
+[作者保存冲突卡](../ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md)新增 25 项 fast 回归与 1 项 PAL 文件清单对账。
+完整普通 check 为 544 文件/6,353 项；ratchet 验证 8 项指标提升、零回退后更新到 **611 个生产文件 / 5,867 项 fast**，
+随后单次严格 fast 精确通过。没有改配置、排除、超时或 ignore；新增测试 helper 位于既有排除的 `__tests__`，不伪装生产源码。
+
+| 本候选 Fast 全仓 | 精确计数 | 展示值 |
+|---|---:|---:|
+| Lines | 47,469 / 68,669 | 69.13% |
+| Statements | 52,516 / 78,501 | 66.90% |
+| Functions | 9,970 / 14,441 | 69.04% |
+| Branches | 37,554 / 61,760 | 60.81% |
+
+editor 为 214 文件/1,657 项，statements 23,672/31,519、branches 18,297/27,409；其余包精确计数不变。
+新增 `author-disk-baseline.ts` 行 89/93（95.69%）、语句 95/99（95.95%）、函数 24/25（96%）、分支 55/61（90.16%）。
+它包含文件源/状态/签名验证链，不冒称纯核或整个保存系统已 100%；后续仍按缺口补测。
+原生浏览器结果与 PAL 真磁盘成本另见任务卡，不计入 fast 百分比，本次未跑 full coverage。
+
 ## 长期目标（本轮不硬卡）
 
 | 范围 | Lines / Statements / Functions | Branches |

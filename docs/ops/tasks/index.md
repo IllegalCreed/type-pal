@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
