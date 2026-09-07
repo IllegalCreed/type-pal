@@ -174,7 +174,9 @@ scope 29、IDB/Memory 隔离与事务 18、boot/独立试买 2、URL 16、工作
 editor 为 1,632 项，statements 23,516/31,429、branches 18,210/27,360，两次统计精确一致。
 本次未跑 full coverage；普通完整 `pnpm check` 的 6,327 项与上述 fast 是不同口径，不冒充 full 或浏览器 E2E。
 
-## EDITOR-SAVE-CONFLICT-1 增量基线（2026-09-07，实现候选待终审）
+## EDITOR-SAVE-CONFLICT-1 增量基线（2026-09-07，三席终审通过）
+
+候选 `6780d220` 已三席 accept，Codex 核定无实现漂移；仅待用户验收/授权收口。本轮文档汇总未改基线或重跑覆盖率。
 
 [作者保存冲突卡](../ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md)新增 25 项 fast 回归与 1 项 PAL 文件清单对账。
 完整普通 check 为 544 文件/6,353 项；ratchet 验证 8 项指标提升、零回退后更新到 **611 个生产文件 / 5,867 项 fast**，

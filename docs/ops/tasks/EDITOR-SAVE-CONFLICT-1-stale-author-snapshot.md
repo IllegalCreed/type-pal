@@ -10,10 +10,40 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1（2026-09-07，实现与自验证完成，待 Kimi/GLM 并行终审；设计不重签）
+Revision: r1（2026-09-07，三席终审通过，Codex 已核定技术准入；仅待用户验收/授权收口）
 Evidence Baseline: 50590cb6
 Implementation Baseline: 32302e58
 Implementation Candidate: 6780d220（对比 32302e58；后续 SHA 登记仅文档）
+
+## 当前结论（Codex，2026-09-07）
+
+三席均 accept，无返工项、无缺签豁免。接手 `779efe49` 与 origin/main 一致、工作树干净；
+`git diff 6780d220..779efe49 -- packages scripts pnpm-lock.yaml` 零 diff。
+已核 Kimi `08930173` 与 GLM `779efe49` 的独立终审证据，技术审查通过；用户本轮“签了”确认审查落卡，
+不代写为用户亲测或最终验收。**Status 保持 review，仅待用户确认通过/授权收口，不再请求 AI 签字。**
+
+汇总口径澄清（保留各席原始签字，不追改其结论）：
+
+- 实现候选共 26 文件；editor 为 17 文件，其中 9 个生产文件、8 个测试/fixture。GLM 的“14 文件”不是完整 editor 文件计数，
+  不影响已核白名单零越界结论，当前以 Git 文件清单为准。
+- PAL sentinel 读取会经过包装源，但被 `isWorkspaceIdentityPath` 排除在作者签名表外，仍由原 identity/PAL policy 校验。
+- 537ms 是 Node 真磁盘 FileSource 测量；568ms 是预载 raw JSON 文件源测量。两者都不是浏览器 FSA 时延。
+- 浏览器 20 文件哈希相同证明内容保全；“零目标写入”另由正式链的 create/close/remove 计数和首写前守卫证明，
+  不以哈希相同单独推断没有执行过写入。B 拒绝态未另存整份 JSON，但两次脚本断言、文案与截图证据均保留。
+- 原探针维持修前接口/假设，缺必填基线导致的退出不是独立修复证明；25+1 正式回归与单点负控制才是正确性门禁。
+
+本次只核定与更新文档，复用已审候选的测试/浏览器证据；不改代码、重跑视觉或扩张 A-03/A-07/D-01/Q1 范围。
+
+### 用户最小复验（可选，约 2 分钟）
+
+可直接按三席结果确认通过，无需重跑技术测试；若希望亲眼复验，只使用专用测试项目：
+
+1. 两个编辑器窗口都经“文件→打开项目”打开同一测试项目，等两边载入完成。
+2. A 经“文件→重命名项目”改为“测试 A”并保存；B 改为“测试 B”再保存。
+3. 通过：B 显示文件已变更/本次未写入，仍保留“测试 B”和未保存状态；另开第三窗口读取同一项目，名称仍为“测试 A”。
+   不通过：B 无提示覆盖成功、B 修改被清掉，或第三窗口读到“测试 B”。不要靠直接重开 B 来检查，避免主动丢弃其未保存修改。
+
+不要求用户检查哈希、注入故障或重复 PAL/覆盖率测试；没有布局/滚动/响应式改动，无需全页面巡检。
 
 ## 目标与分批
 
@@ -410,11 +440,15 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
   25+1 正式测试承担；(b) browser.json 不含 B 拒绝态转储，但脚本内两次 deepEqual+文案等待+截图
   构成完整证明，BROWSER_PASS 单行含 protectedFileCount=20。
   返工项：无。本 accept 不代签、不授权自行标 done；A-03/A-07/D-01、Q1 dumpSave 与完整 R4 仍按台账另推。
-- done 准入：三席签字齐（Codex 实现者自测 + Kimi/GLM 独立终审），汇总核定与状态推进交
-  Coding Owner 收口；收口前保持 review。
+- done 准入：**三席技术审查通过（Codex，2026-09-07）**。同候选、无 counter/返工项/缺签豁免；
+  最终用户验收/明确收口授权待确认，依 Done 标准保持 review。确认后由 Codex 归档，不再重复 AI 签字。
 
 ## 交接日志
 
+- 2026-09-07 Codex（终审汇总）：同步并检查 `779efe49` 洁净树，核两席同候选 accept，产品/脚本/锁文件无漂移。
+  文件计数、sentinel 记录范围、成本测量与浏览器哈希证据口径已在卡头澄清，不改他席原文或产品；无返工。
+  更新看板/审计进度，进入仅待用户验收/收口；最小可选复验已提供，不把“签了”写成用户亲测通过。
+  本轮文档工具 20/20、399 Markdown/1,805 本地链接/139 卡检查及 git diff --check 通过；未重跑产品测试或修改覆盖率基线。
 - 2026-09-07 GLM（独立终审）：签 accept，无返工项。越界 diff 0 行/候选后零漂移；基线与
   prevSnapshot 分责、锁内双检查点、推进纪律、四类入口传递逐点直读；本人 r1 两条可证伪观察
   兑现核对（基线不进 diff/remove、script 分片拒绝被钉住）。自建隔离负控制 4 红/完整 4 绿；
@@ -462,7 +496,9 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
 
 ## 下一位 Agent 提示词
 
-### Codex：汇总核定 done（当前有效，待 GLM 落卡后执行）
+无下一位 Agent 提示词，等待用户验收/收口。三席终审与 Codex 技术汇总已完成；以下均为历史提示，不再转交重签。
+
+### Codex：汇总核定 done（历史提示；技术汇总已完成，最终收口待用户确认）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-SAVE-CONFLICT-1 收口，任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1，终审候选 6780d220（HEAD 侧无产品变化）；设计不重签。

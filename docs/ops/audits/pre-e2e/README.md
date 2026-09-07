@@ -78,8 +78,8 @@ E2E门槛另列。没有证据表明用户现有项目或存档已经遭到损�
 
 ## A-02 · 锁只串行，不识别另一编辑器的旧快照
 
-当前跟进：[EDITOR-SAVE-CONFLICT-1](../../tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) r1 实现已进入 review，
-2026-09-07 自测/完整 check/严格 fast/原生双页最小功能通过，待两席终审。下列是修前反例，不表示新候选仍静默覆盖。
+当前跟进：[EDITOR-SAVE-CONFLICT-1](../../tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) r1 三席终审 accept、无返工，
+2026-09-07 技术汇总确认候选未漂移，review 仅待用户验收/授权收口。下列是修前反例，不表示新候选仍静默覆盖。
 
 - 证据：`editor/src/ui/App.tsx:567`新打开项目snapshotRef=null；`:2098-2108`首次保存传空Map。
   `core/project-io.ts:408-412`据此全写，`workspace-persistence.ts:178,462,618`的授权/锁保护身份和互斥，
