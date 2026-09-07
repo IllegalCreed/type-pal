@@ -1,6 +1,6 @@
 # EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护
 
-Status: review
+Status: done
 Phase: phase2
 Capability: ops（审计 A-02 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,17 +10,18 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1（2026-09-07，三席终审通过，Codex 已核定技术准入；仅待用户验收/授权收口）
+Revision: r1（2026-09-07，三席终审及用户验收通过，Codex 统一收口）
 Evidence Baseline: 50590cb6
 Implementation Baseline: 32302e58
 Implementation Candidate: 6780d220（对比 32302e58；后续 SHA 登记仅文档）
+Closed: 2026-09-07（用户明确回复“通过”）
 
 ## 当前结论（Codex，2026-09-07）
 
-三席均 accept，无返工项、无缺签豁免。接手 `779efe49` 与 origin/main 一致、工作树干净；
-`git diff 6780d220..779efe49 -- packages scripts pnpm-lock.yaml` 零 diff。
-已核 Kimi `08930173` 与 GLM `779efe49` 的独立终审证据，技术审查通过；用户本轮“签了”确认审查落卡，
-不代写为用户亲测或最终验收。**Status 保持 review，仅待用户确认通过/授权收口，不再请求 AI 签字。**
+三席均 accept，无返工项、无缺签豁免。收口接手 `52e73387` 与 origin/main 一致、工作树干净；
+`git diff 6780d220..52e73387 -- packages scripts pnpm-lock.yaml` 零 diff。
+已核 Kimi `08930173` 与 GLM `779efe49` 的独立终审证据；用户随后明确回复“通过”，
+据此确认最终验收并将 **Status 推进 done**。不冒称用户亲自运行了技术测试，不再请求签字或重复复验。
 
 汇总口径澄清（保留各席原始签字，不追改其结论）：
 
@@ -34,7 +35,7 @@ Implementation Candidate: 6780d220（对比 32302e58；后续 SHA 登记仅文�
 
 本次只核定与更新文档，复用已审候选的测试/浏览器证据；不改代码、重跑视觉或扩张 A-03/A-07/D-01/Q1 范围。
 
-### 用户最小复验（可选，约 2 分钟）
+### 用户最小复验（历史备选；用户已明确通过）
 
 可直接按三席结果确认通过，无需重跑技术测试；若希望亲眼复验，只使用专用测试项目：
 
@@ -50,7 +51,7 @@ Implementation Candidate: 6780d220（对比 32302e58；后续 SHA 登记仅文�
 两个编辑窗口打开同一项目后，后保存的旧窗口不能静默抹掉另一窗口已保存的作者内容。
 发现冲突时，在任何目标写入/删除前拒绝，保留磁盘新内容与当前窗口未保存修改；不自动合并或强制覆盖。
 
-用户于 2026-09-07 验收 SAVE-ISOLATION-1 并要求继续。依[审计顺序](../audits/pre-e2e/summary.md)，
+用户于 2026-09-07 验收 SAVE-ISOLATION-1 并要求继续。依[审计顺序](../../../audits/pre-e2e/summary.md)，
 下一组是作者保存安全；本卡先处理 **A-02**，不是玩家存档、不是整组缺陷实现授权：
 
 1. 本卡：旧作者快照与目标当前内容的冲突检测。
@@ -69,9 +70,9 @@ Implementation Candidate: 6780d220（对比 32302e58；后续 SHA 登记仅文�
 | 维度 | 真值 | 直接证据 |
 |---|---|---|
 | Primary source | Web Locks 协调同存储域内合作调用者对同名资源的互斥，不比较应用快照；FSA writable 的提交边界是单文件 close，不是目录级事务。 | [Web Locks §1/2.3](https://w3c.github.io/web-locks/#modes-and-scheduling)、[File System §2.3.2](https://fs.spec.whatwg.org/#api-filesystemfilehandle-createwritable)（2026-09-07 直读） |
-| 第一阶段 | N/A：game 是单游戏运行壳，无多窗口作者项目编辑器，不从它的玩家存档推导作者文件保存策略。 | CLAUDE.md Architecture；[harvest X9](../../phase2/reference/phase1-knowledge-harvest.md#x9-存档版本化迁移--读档归一化)只作存档领域分责参考 |
+| 第一阶段 | N/A：game 是单游戏运行壳，无多窗口作者项目编辑器，不从它的玩家存档推导作者文件保存策略。 | CLAUDE.md Architecture；[harvest X9](../../../../phase2/reference/phase1-knowledge-harvest.md#x9-存档版本化迁移--读档归一化)只作存档领域分责参考 |
 | 当前打开/保存 | App snapshotRef 初始 null，首次保存传空 Map；writeProject 以其作增量/部分写记账，不比较打开时原内容与磁盘。 | `packages/editor/src/ui/App.tsx:567,2104-2113`；`core/project-io.ts:398-426,465-482` |
-| 当前锁/权限 | 普通 local/sandbox 只核句柄/marker/identity；PAL 已有受控关键 JSON 指纹，不等价全部作者正文。真正首变更还会复验。 | `core/workspace-persistence.ts:177-249,315-326,457-483,613-620`；[现行生命周期](../../phase2/specs/project-lifecycle.md#pal-目标证明) |
+| 当前锁/权限 | 普通 local/sandbox 只核句柄/marker/identity；PAL 已有受控关键 JSON 指纹，不等价全部作者正文。真正首变更还会复验。 | `core/workspace-persistence.ts:177-249,315-326,457-483,613-620`；[现行生命周期](../../../../phase2/specs/project-lifecycle.md#pal-目标证明) |
 | 当前载入一致性 | finishOpen 只对 metadata 与 PAL 关键 proof 做前后夹验；一般内容源是可再次读取当前磁盘的 fsaSource。不能加载旧状态后才重新采一份新基线。 | `core/open-actions.ts:66-137`；`packages/reforge/src/fsa-source.ts:36-69` |
 | 本任务目标 | 从真实读取的作者输入建立会话基线；保存在相同 workspace 锁中比较后再写，过期即零写入拒绝。 | A-02 反例与下方验收矩阵 |
 
@@ -157,9 +158,9 @@ Implementation Candidate: 6780d220（对比 32302e58；后续 SHA 登记仅文�
 
 - 预计：editor core 新作者基线模块及测试；open-local/open-actions、project-io、workspace-persistence；main.tsx/App 身份/基线接线及相邻测试。
   只在必要处扩展 editor 内部参数，生产 CSS、runtime/content/迁移/工程文件不在白名单。
-- [READ-FIRST](../../phase2/READ-FIRST.md) 4/5/8/10/11；[生命周期](../../phase2/specs/project-lifecycle.md) 权限/首存/锁顺序与 PAL proof；
-  [编辑器架构](../../phase2/specs/editor-architecture.md#单一新版地图库与场景绑定w7f2026-07-14)地图懒解析；
-  [A-02/A-03](../audits/pre-e2e/README.md#a-02--锁只串行不识别另一编辑器的旧快照)、[D-01](../audits/pre-e2e/editor-workflows.md#d-01--跨会话撤销没有统一的时间顺序)。
+- [READ-FIRST](../../../../phase2/READ-FIRST.md) 4/5/8/10/11；[生命周期](../../../../phase2/specs/project-lifecycle.md) 权限/首存/锁顺序与 PAL proof；
+  [编辑器架构](../../../../phase2/specs/editor-architecture.md#单一新版地图库与场景绑定w7f2026-07-14)地图懒解析；
+  [A-02/A-03](../../../audits/pre-e2e/README.md#a-02--锁只串行不识别另一编辑器的旧快照)、[D-01](../../../audits/pre-e2e/editor-workflows.md#d-01--跨会话撤销没有统一的时间顺序)。
 - 关键代码：`project-io.ts:304-332`（diff/remove 不能消费全磁盘集合）、`open-actions.ts:66-137,185-218`（打开与另存）、
   `workspace-persistence.ts:177-249,275-288,315-326`（锁/成功 close/首写）、`handle-store.ts:74-117`（锁域）。
 
@@ -440,11 +441,15 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
   25+1 正式测试承担；(b) browser.json 不含 B 拒绝态转储，但脚本内两次 deepEqual+文案等待+截图
   构成完整证明，BROWSER_PASS 单行含 protectedFileCount=20。
   返工项：无。本 accept 不代签、不授权自行标 done；A-03/A-07/D-01、Q1 dumpSave 与完整 R4 仍按台账另推。
-- done 准入：**三席技术审查通过（Codex，2026-09-07）**。同候选、无 counter/返工项/缺签豁免；
-  最终用户验收/明确收口授权待确认，依 Done 标准保持 review。确认后由 Codex 归档，不再重复 AI 签字。
+- done 准入：**done allowed（Codex，2026-09-07）**。三席同候选 accept、无 counter/返工项/缺签豁免；
+  用户明确验收通过，归档并同步引用/索引。不代签、不重开设计，不把本卡收口当成其他审计项的实现授权。
 
 ## 交接日志
 
+- 2026-09-07 Codex（done）：用户明确回复“通过”，接手 `52e73387` 洁净同步树，核定三席同候选 accept，
+  候选后产品/脚本/锁文件无变化。review → done，归档并同步看板、索引、规范与审计进度；只改文档，
+  复用已审测试/浏览器证据，不重复验收。A-03/A-07/D-01、Q1 dumpSave 与完整 R4 仍按原台账推进。
+  归档后文档工具 20/20、399 Markdown/1,804 本地链接/139 卡及 git diff --check 通过；任务签字原文保留。
 - 2026-09-07 Codex（终审汇总）：同步并检查 `779efe49` 洁净树，核两席同候选 accept，产品/脚本/锁文件无漂移。
   文件计数、sentinel 记录范围、成本测量与浏览器哈希证据口径已在卡头澄清，不改他席原文或产品；无返工。
   更新看板/审计进度，进入仅待用户验收/收口；最小可选复验已提供，不把“签了”写成用户亲测通过。
@@ -496,12 +501,12 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，等待用户验收/收口。三席终审与 Codex 技术汇总已完成；以下均为历史提示，不再转交重签。
+无下一位 Agent 提示词，本卡已完成用户验收与收口；以下均为历史提示，不再转交重签。
 
-### Codex：汇总核定 done（历史提示；技术汇总已完成，最终收口待用户确认）
+### Codex：汇总核定 done（已完成，历史提示）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-SAVE-CONFLICT-1 收口，任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1，终审候选 6780d220（HEAD 侧无产品变化）；设计不重签。
+在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-SAVE-CONFLICT-1 收口，任务卡 docs/ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1，终审候选 6780d220（HEAD 侧无产品变化）；设计不重签。
 先同步并检查工作树，读本卡 done 前三席签字与最新交接日志。现状：Codex（实现者自测）与 Kimi（独立终审）已 accept；GLM 数据/矩阵终审落卡后，请统一核定：三席钉同一候选 6780d220、无 counter/返工项/缺签豁免，将任务推进 done 并同步看板/索引/审计进度。
 收口时按台账保留后续：A-03 跨文件部分保存恢复、A-07 离开保护、D-01 撤销顺序、Q1 dumpSave 误接各自独立推进；完整 R4（新建→编辑→保存→重开→试玩与中断恢复扩展）登记待集中批次，未跑不称完成。
 不得代签任何一席、不把本收口扩张为整组审计缺陷授权。
@@ -511,7 +516,7 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-CONFLICT-1。
-任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1；候选 6780d220，对比 32302e58。r1 设计不重签。
+任务卡 docs/ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1；候选 6780d220，对比 32302e58。r1 设计不重签。
 先同步、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡已签设计/实现回执/最新交接，以及 project-lifecycle 现行规范。不读取或复述 GLM 本轮结论。
 独立审真实读取基线而非事后采盘、锁内进入/首写双检查、增量与基线分责、实际 close/remove 后态与中断重试、重复首存授权、同 W Root 重开 refs、PAL 原 proof 不退化、克隆/复制 sink 的完整目标预检。current loader 禁止 content.scripts，不能为旧分片恢复支持。资源写删与新增路径碰撞须有证据，A-03/07/D-01 仍在范围外。
 复跑定向 7 文件/86 项、PAL 对账1项、editor typecheck/完整 check（6353）与单次严格 fast（611文件/5867项），重型不并跑、不取多数。独立重建负控制：仅删 author-disk-baseline.ts verifySignatures 的一处比较/throw，聚焦4项应全红、完整对照4绿；临时 config/日志在 /tmp/type-pal-editor-conflict.LYKwVY/。原审计探针不改，其旧必填参数缺失不是独立修复证明。
@@ -523,7 +528,7 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-CONFLICT-1。
-任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1；候选 6780d220，对比 32302e58。r1 设计不重签。
+任务卡 docs/ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，review/r1；候选 6780d220，对比 32302e58。r1 设计不重签。
 先同步、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡设计/实现回执/最新日志与 coverage 文档。不读取或复述 Kimi 本轮结论，数字从候选树独立生成。
 枚举作者路径与所有入口：loader 字节→基线→Opened/Booted/App→授权→实际写删；既有 prevSnapshot 不得被全量基线替换。核空/绑定/PAL首存、重复未消费授权、close/remove失败、外部漂移不收编、dirty保持、同 W 重开新实例及媒体按需hash。设计中提及的旧script分片已被current loader禁止，正式测试应钉拒绝而不是复活它。
 复跑定向86项、PAL1项、完整check6353与单次严格fast611文件/5867项；核新增25 fast+1 PAL、538作者路径、资源正文读取0；基线模块分支55/61、行89/93，不冒称100%。独立核一处比较guard负控制4红/完整4绿、首次授权恢复反例先红后绿，临时证据 /tmp/type-pal-editor-conflict.LYKwVY/ 可自行重建。重型串行、不重试取多数、不修改原探针/配置/阈值。
@@ -534,7 +539,7 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
 ### Kimi：设计审查（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审 EDITOR-SAVE-CONFLICT-1。任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，draft/r1，产品基线 50590cb6。先同步分支、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及链接的现行生命周期/地图懒解析合同。
+在 /Users/zhangxu/illegal/type-pal 审 EDITOR-SAVE-CONFLICT-1。任务卡 docs/ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，draft/r1，产品基线 50590cb6。先同步分支、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及链接的现行生命周期/地图懒解析合同。
 独立核 A-02 原探针及真实打开/保存/锁链，重点压力测试：如何证明基线对应 loader 的旧输入而非后来磁盘；覆盖作者文件集与懒地图/资源写删；基线和 prevSnapshot 分责；锁内首写前校验；部分写预期推进不得收编他方值；PAL 原权限不能退化。A-03 跨文件持久恢复、A-07 离开保护、D-01 撤销不在本卡。不要读取或复述 GLM 签字，不用方案内部自洽代替独立前提证据。
 输出本人 premise verified + design agree（独立证据与可证伪观察），或带 file:line 的 counter/需收窄项，直接写本人席位/日志并提交推送。提交前同步保留他席，不改产品、他席、任务状态，不开始实现、不标 done。若方案关键项仍无法核实则明确 counter，不用泛泛建议放行。
 ```
@@ -542,7 +547,7 @@ A-03 持久恢复、A-07 离开保护、D-01 撤销、Q1 dumpSave 误接及完�
 ### GLM（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审 EDITOR-SAVE-CONFLICT-1。任务卡 docs/ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，draft/r1，产品基线 50590cb6。先同步分支、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡与链接规范/审计。独立读取源码和复现，不读取或复述 Kimi 签字。
+在 /Users/zhangxu/illegal/type-pal 审 EDITOR-SAVE-CONFLICT-1。任务卡 docs/ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md，draft/r1，产品基线 50590cb6。先同步分支、检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡与链接规范/审计。独立读取源码和复现，不读取或复述 Kimi 签字。
 核作者基线路径是否涵盖当前 manifest/canonical 表、共享脚本、SceneIndex/正文、MapIndex/懒地图、待写删资源与新增碰撞；不得把完整基线当 diff/remove Map。枚举 local/sandbox/PAL、打开/最近/HTTP首存/同页失败重试/另存新目标的传递，核失败保 dirty、首写零变更、成功/部分推进不采纳 live 真值、锁作用域及不合作外部写者的承诺边界。相邻定向4文件51项绿不是 A-02 修复证据；原 probe-editor-persistence 可复现 A-02/A-03，后者另卡。
 在本人席位写 premise verified + design agree（独立证据/反例）或 file:line counter/遗漏矩阵，更新本人日志并提交推送。只写自己的签字/日志，不改他席/状态/产品，不开始实现、不标 done；同步保留并行改动，不让用户搬运审查正文。
 ```

@@ -109,7 +109,7 @@
 
 ### 已登记的作者保存冲突回归（EDITOR-SAVE-CONFLICT-1）
 
-编辑器作者保存冲突的后续 R4 用例见 [EDITOR-SAVE-CONFLICT-1](../ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md#验收矩阵)：
+编辑器作者保存冲突的后续 R4 用例见 [EDITOR-SAVE-CONFLICT-1](../ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md#验收矩阵)：
 两窗口打开同一专用项目，A 修改并保存后 B 从旧态保存应零写入拒绝，磁盘 A 与内存 B 的修改均保留；
 重新打开后可正常编辑保存。2026-09-07 已完成真实链回归与 Chrome 原生 OPFS 双页最小功能（20 文件哈希保全、
 冲突可见且未保存修改保留、同 W 重开后再保存成功）；这不是 OS 目录选择器/真实用户目录故障测试，完整 R4 尚未执行。

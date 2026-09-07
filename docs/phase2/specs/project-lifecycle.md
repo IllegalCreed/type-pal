@@ -89,9 +89,9 @@ post fingerprint，再与落盘实值精确比较。若操作中断，只在 liv
 这是一组受控关键快照，不声称等价于工程全部 canonical 文件逐字节相等；它的目的，是在浏览器不暴露绝对
 路径的前提下同时要求“明确 PAL 开发目录身份”和“本次启动关键索引未漂移”。
 
-### 作者文件冲突保护（EDITOR-SAVE-CONFLICT-1，2026-09-07 实现候选）
+### 作者文件冲突保护（EDITOR-SAVE-CONFLICT-1，2026-09-07 已验收）
 
-实现与验收状态见[任务卡](../../ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md)。
+实现与验收状态见[任务卡](../../ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md)。
 作者会话持有独立 `AuthorDiskBaseline`，不与用于输出增量/删除的 `prevSnapshot` 混用：
 
 - 本地和 HTTP 编辑器载入由私有 FileSource 包装记录实际读取字节的 SHA-256/长度；打开完成前夹验，

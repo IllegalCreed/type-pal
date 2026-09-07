@@ -12,8 +12,8 @@
 - [A-01 存档隔离](../../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md)候选 `526eea00` 三席终审 accept，用户明确免复验通过，已由 Codex 收口为 done；
   发布运行按稳定项目 ID、编辑器试玩额外按工作区 ID 隔离，旧开发库不读不迁不删，未改 SAVE8/content20。
   其余修复分组维持下文顺序，本次没有整组实现授权，也未宣称完整 E2E 通过。
-- [EDITOR-SAVE-CONFLICT-1](../../tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) 的 A-02 r1 候选 `6780d220` 三席终审 accept：
-  2026-09-07 Codex 核定无返工/实现漂移；完整 check/严格 fast 与原生双页最小功能证据齐，review 仅待用户验收/授权收口。
+- [EDITOR-SAVE-CONFLICT-1](../../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) 的 A-02 r1 候选 `6780d220` 三席终审 accept：
+  2026-09-07 用户明确验收通过，Codex 已收口为 done；完整 check/严格 fast 与原生双页最小功能证据齐，无实现漂移。
   A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。
 
 以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。

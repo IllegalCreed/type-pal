@@ -176,9 +176,9 @@ editor 为 1,632 项，statements 23,516/31,429、branches 18,210/27,360，两�
 
 ## EDITOR-SAVE-CONFLICT-1 增量基线（2026-09-07，三席终审通过）
 
-候选 `6780d220` 已三席 accept，Codex 核定无实现漂移；仅待用户验收/授权收口。本轮文档汇总未改基线或重跑覆盖率。
+候选 `6780d220` 已三席 accept、用户验收通过并收口，Codex 核定无实现漂移。本轮文档收口未改基线或重跑覆盖率。
 
-[作者保存冲突卡](../ops/tasks/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md)新增 25 项 fast 回归与 1 项 PAL 文件清单对账。
+[作者保存冲突卡](../ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md)新增 25 项 fast 回归与 1 项 PAL 文件清单对账。
 完整普通 check 为 544 文件/6,353 项；ratchet 验证 8 项指标提升、零回退后更新到 **611 个生产文件 / 5,867 项 fast**，
 随后单次严格 fast 精确通过。没有改配置、排除、超时或 ignore；新增测试 helper 位于既有排除的 `__tests__`，不伪装生产源码。
 
