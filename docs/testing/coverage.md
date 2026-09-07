@@ -153,10 +153,10 @@ GLM 与 Codex 的实际检查保持 editor statements 23,456/31,407、branches 1
 
 ## SAVE-ISOLATION-1 增量基线（2026-09-07，三席终审通过）
 
-更新：候选 `526eea00` 已获三席终审 accept，Codex 核定无实现漂移；当前仅待用户验收/授权收口。
+更新：候选 `526eea00` 已获三席终审 accept，Codex 核定无实现漂移；用户明确免复验通过，本卡已收口。
 此次文档汇总未改基线或重跑覆盖率。
 
-[存档隔离卡](../ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)新增 80 项独立测试：
+[存档隔离卡](../ops/archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md)新增 80 项独立测试：
 scope 29、IDB/Memory 隔离与事务 18、boot/独立试买 2、URL 16、工作区记录 1、真实 play.ts 入口 14。
 `coverage:ratchet` 先与旧基线比较，提升 12 项且无下降，更新为 **610 个生产文件 / 5,842 项测试**；
 随后一次严格 `coverage:fast` exit 0，所有精确计数与新基线一致，无重试取多数。

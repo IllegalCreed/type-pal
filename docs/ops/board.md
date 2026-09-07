@@ -12,12 +12,12 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| SAVE-ISOLATION-1 | 工程与工作区存档隔离 | review | 用户：验收/授权收口；Codex 随后归档 | [任务卡](tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)；三席 accept 已核定、无返工，候选 526eea00 未漂移，不再重复 AI 签字；卡头有可选最小复验。 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)
 已修复，完整 `pnpm check` 通过；[B-04 存档预检修复](audits/pre-e2e/save-preflight-remediation.md)已三签收口。
 [编辑器覆盖率确定性修复](audits/pre-e2e/coverage-determinism.md)亦已三签收口；本轮隔离候选 fast 增至 5,842 项，精确指标未下调。
+A-01 存档隔离已三席 accept、用户免复验通过并收口；证据入口见下方总收口。
 接下来按总收口处理其余审计缺陷并补回归/覆盖率，
 然后进入 R4 content20 薄基线 → N6b content21 → 完整 E2E。
 修复分组见[总收口](audits/pre-e2e/summary.md)；U-02 待证，第一阶段缺陷与可后置优化分别保留。

@@ -18,7 +18,7 @@ Closed: 2026-09-06（Codex 按用户明确授权收口）
 ## 目标与范围
 
 损坏的当前版本存档在停止旧脚本、替换世界或提交场景之前被拒绝，并提供稳定错误反馈；合法存档保持现有恢复行为。
-与 [SAVE-ISOLATION-1](../../../tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md) 分卡：本卡不定义存档命名空间或副本共享策略。
+与 [SAVE-ISOLATION-1](SAVE-ISOLATION-1-project-workspace-save-scope.md) 分卡：本卡不定义存档命名空间或副本共享策略。
 初始安排为先落实隔离卡的产品边界、并行审查本卡。2026-09-06 用户确认本卡已签并提出可交 GLM 实现，
 Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此放行当成隔离卡产品选择或整组修复授权。
 

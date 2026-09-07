@@ -91,7 +91,7 @@
 
 ### 已登记的多项目/工作区存档回归（SAVE-ISOLATION-1）
 
-状态：**R4/Q1 连续链待跑，Owner Codex**；[隔离卡](../ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)
+状态：**R4/Q1 连续链待跑，Owner Codex**；[隔离卡](../ops/archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md)
 已有开发期真实浏览器最小功能证据，不等于完整 E2E。
 
 - 同一隔离浏览器存储域启动项目 P 的工作区 W1/W2、项目 Q，以及 P 的独立运行壳；用当前 canonical

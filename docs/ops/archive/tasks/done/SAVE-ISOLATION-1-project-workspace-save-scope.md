@@ -1,6 +1,6 @@
 # SAVE-ISOLATION-1 - 工程与工作区存档隔离
 
-Status: review
+Status: done
 Phase: phase2
 Capability: X1（审计 A-01 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,19 +10,20 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r2（2026-09-07，三席终审通过，Codex 已核定技术准入；仅待用户验收/授权收口）
+Revision: r2（2026-09-07，三席终审通过，用户明确免复验通过，Codex 统一收口）
 Evidence Baseline: c09fbfa9
 Implementation Baseline: 68d84d68
 Implementation Candidate: 526eea00（对比 68d84d68；后续登记提交仅文档）
+Closed: 2026-09-07（用户明确验收通过）
 
 ## 当前结论（2026-09-07，Codex 汇总）
 
 三席均 accept，无返工项、无缺签豁免。接手 `cc438c60` 与 origin/main 同步、工作树干净；
 `git diff 526eea00..cc438c60 -- packages scripts pnpm-lock.yaml` 零 diff，候选未漂移。
 Kimi 的 `55dfcbd0` 与 GLM 的 `cc438c60` 分别落有独立证据，未改实现。
-用户本轮“签了”确认审查已落卡；不冒称用户已经亲自复验或明确授权最终收口。
-依 agent-workflow 的 Done 标准，技术验收已满足，**Status 保持 review，仅待用户确认验收/收口**，
-不再请求任何 AI 重签 r2 或重复终审。
+用户随后明确回复“我就不复验了，通过吧，继续推进”。依此确认验收通过并授权收口，
+接手 `00151a67` 的实现仍与候选相同，**Status 已推进 done**；不是用户亲自实机复验的记录。
+三席签字保持，不重签、不重跑既有最小浏览器流程；后续按审计队列推进，不扩大本卡实现范围。
 
 - GLM 两条非阻断观察已核：缺失句柄页提供返回编辑器的明确指引，不是可重授权的现存句柄；
   剩余错误分支覆盖如实列出，不以本卡通过宣称全存档域 100%。两条均不触发产品返工或新增能力。
@@ -31,7 +32,7 @@ Kimi 的 `55dfcbd0` 与 GLM 的 `cc438c60` 分别落有独立证据，未改实�
   `dumpSave` 已记在审计总表，尚未单独开修复卡，不把历史提示中的“独立缺陷卡”当成已建卡事实。
 - 本次只汇总文档，复用已审候选的完整 check/fast 与浏览器证据，不冒称本轮重新执行了全套测试。
 
-### 用户最小复验（可选，约 2 分钟）
+### 用户最小复验（历史备选；用户已明确不复验并通过）
 
 若按三席独立结果直接确认通过，无需再跑技术测试；若想亲眼复验，只需下面一条可见流程：
 
@@ -46,7 +47,7 @@ Kimi 的 `55dfcbd0` 与 GLM 的 `cc438c60` 分别落有独立证据，未改实�
 
 不同工程不能互相覆盖快速、自动、手动存档；存档列表、缩略图、计数与载荷必须使用同一隔离身份。
 本卡处理审计 A-01，不重开 X1 历史验收，不合并成整个存档系统重写。
-坏载荷预检另见 [SAVE-PREFLIGHT-1](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md)。
+坏载荷预检另见 [SAVE-PREFLIGHT-1](SAVE-PREFLIGHT-1-current-save-restore-preflight.md)。
 2026-09-06 用户在“开发基线与评审沙盒是否各自独立存档，建议独立”的选择后回复“按照你推进的推进”，
 按该推荐确认独立策略；不是缺签豁免，也不是其他审计缺陷的整组实现授权。
 
@@ -205,9 +206,9 @@ Coding Owner 保持 Codex。可在一张卡内先闭合 scope/Store，再接齐�
 
 ## 上下文锚点
 
-- [READ-FIRST](../../phase2/READ-FIRST.md) 第 5/8/9/11 条；不使用数组下标身份、不擅改存档界面、不复活旧兼容链。
-- [一阶段知识收获 X9](../../phase2/reference/phase1-knowledge-harvest.md#x9-存档版本化迁移--读档归一化)：作为历史经验，不把其中旧“已完成”代替本轮证据。
-- [数据安全审计 A-01](../audits/pre-e2e/README.md#a-01--不同项目的快速自动存档会互相覆盖)。
+- [READ-FIRST](../../../../phase2/READ-FIRST.md) 第 5/8/9/11 条；不使用数组下标身份、不擅改存档界面、不复活旧兼容链。
+- [一阶段知识收获 X9](../../../../phase2/reference/phase1-knowledge-harvest.md#x9-存档版本化迁移--读档归一化)：作为历史经验，不把其中旧“已完成”代替本轮证据。
+- [数据安全审计 A-01](../../../audits/pre-e2e/README.md#a-01--不同项目的快速自动存档会互相覆盖)。
 - `packages/reforge/src/save/types.ts:10`：auto/quick/m01..m28 与 30 槽 UI 合同保持。
 - `packages/reforge/src/boot.ts:9`、`packages/editor/src/play.ts:33`：独立壳与本地试玩入口须分别覆盖。
 - `packages/editor/src/core/workspace-context.ts:95`、`packages/editor/src/core/handle-store.ts:156`：复用已存在的持久工作区身份，不另造临时 ID。
@@ -430,8 +431,8 @@ Coding Owner 保持 Codex。可在一张卡内先闭合 scope/Store，再接齐�
   「可操作」指可见可执行指引，非缺陷；(b) store 15/16、play.ts 11/14 余下为错误展示分支，
   回执已如实不冒称覆盖。
   返工项：无。本 accept 不代签、不授权自行标 done；dumpSave 误接另登与 R4/Q1 集中验证保持独立。
-- done 准入结论：**三席技术审查通过（Codex，2026-09-07）**。已核同一候选、无 counter/返工项/缺签豁免；
-  用户最终验收或明确收口授权尚待确认，依 Done 标准保持 review。确认后由 Codex 归档并同步引用/索引，不再请求 AI 签字。
+- done 准入结论：**done allowed（Codex，2026-09-07）**。三席同候选 accept，无 counter/返工项/缺签豁免；
+  用户明确不复验并验收通过。归档并同步引用/索引，不代签或冒称用户亲测，不再请求 AI 签字。
 
 ## 实现 / 视觉 / 验收
 
@@ -499,7 +500,7 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 
 新增用例净增 80（reforge 49、editor 31）。scope 分支 29/29、play-url 29/29、play-workspace 11/11，
 行/语句/函数均 100%；store 行/语句/函数 100%、分支 15/16；play.ts 行/语句/函数 100%、分支 11/14，
-不冒称余下错误展示分支已覆盖。完整 fast 精确计数见[覆盖率登记](../../testing/coverage.md#save-isolation-1-增量基线2026-09-07三席终审通过)。
+不冒称余下错误展示分支已覆盖。完整 fast 精确计数见[覆盖率登记](../../../../testing/coverage.md#save-isolation-1-增量基线2026-09-07三席终审通过)。
 普通 check 包含 PAL 测试，但本次未跑 full coverage；最小浏览器验证也不计入 fast 百分比。
 
 ### 最小功能 / 视觉验证
@@ -518,12 +519,15 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 - 本人实际看过 `local-workspace-restored.png` 与 `missing-workspace.png`：读档短提示完整、缺句柄错误可见；
   未改变界面样式、不重复做剧情观感验证。浏览器/context 已关闭，未删除用户数据库。
 
-完整 R4/Q1（含 auto/手动菜单及 checkpoint 连续链）仍按[登记](../../testing/e2e.md#已登记的多项目工作区存档回归save-isolation-1)待跑。
-期间发现既有 Q1 `dumpSave` 误接有参 builder，已在[审计追加](../audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)
+完整 R4/Q1（含 auto/手动菜单及 checkpoint 连续链）仍按[登记](../../../../testing/e2e.md#已登记的多项目工作区存档回归save-isolation-1)待跑。
+期间发现既有 Q1 `dumpSave` 误接有参 builder，已在[审计追加](../../../audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)
 登记独立证据；本卡不修改该钩子、不把合法 builder 或正常 F5 误报成 Q1 导出已闭环。
 
 ## 交接日志
 
+- 2026-09-07 Codex（done）：用户“我就不复验了，通过吧，继续推进”明确通过；接手 `00151a67`
+  洁净同步树，候选后产品/脚本/锁文件零变化。三席签字与既有技术/浏览器验证满足准入，review → done，
+  归档任务卡并同步看板/引用/索引。只做文档收口；R4/Q1 待跑、dumpSave 另登边界保持。
 - 2026-09-07 Codex（终审汇总）：接手 `cc438c60`，fetch 后与 origin/main 一致、工作树干净；
   核 `55dfcbd0`/`cc438c60` 两席同候选 accept，候选后 packages/scripts/锁文件零变化。
   非阻断观察无返工，技术门禁通过；将看板改为仅待用户验收/收口，不把本轮“签了”代写为用户实机验收。
@@ -579,13 +583,13 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，等待用户验收/收口。三席终审和 Codex 技术汇总已完成，用户确认后直接归档。
+无下一位 Agent 提示词，本卡已按用户验收结论收口。后续编辑器保存安全另按审计队列与新卡准入推进。
 以下提示均为历史，不再重新转交或重复签字。
 
-### Codex：汇总核定 done（历史提示；技术核定已完成，最终收口待用户确认）
+### Codex：汇总核定 done（已完成，历史提示）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 汇总 SAVE-ISOLATION-1 收口，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，review，终审候选 526eea00（HEAD 侧无产品变化）；r2 不重签。
+在 /Users/zhangxu/illegal/type-pal 汇总 SAVE-ISOLATION-1 收口，任务卡 docs/ops/archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md，review，终审候选 526eea00（HEAD 侧无产品变化）；r2 不重签。
 先同步并检查工作树，读本卡 done 前三席签字与最新交接日志。现状：Codex（实现者自测）与 Kimi（独立终审）已 accept；GLM 数据/矩阵终审落卡后，请统一核定：三席钉同一候选 526eea00、无 counter/返工项/缺签豁免，将任务推进 done 并同步看板/索引。
 收口时按登记保留后续事项：R4/Q1 多工程/工作区 checkpoint 连续链仍待集中 E2E 批次执行；Q1 dumpSave 误接已另登独立缺陷卡，不属本卡；旧开发档物理保留不读不迁的边界与发布后以工程 ID 隔离保护玩家进度的目标已在卡内，不向正式兼容扩张。
 不得代签任何一席、不把本收口扩张到其他审计缺陷的整组授权。
@@ -594,7 +598,7 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 ### Kimi：r2 实现终审（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选 526eea00，对比 68d84d68。
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选 526eea00，对比 68d84d68。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 r2 已签方案/用户裁决/实现回执与最新交接日志、harvest X9。不要读取或复述 GLM 本轮终审结论。
 独立审架构与实现：SaveScope 精确字段/不可变绑定、bootGame 必传且副作用前校验、project/workspace 元组编码；三 store complete/abort/error/同步入队异常及克隆原子性；无 IDB 错误转内存成功；六类 URL/中间 props/独立壳接齐；HTTP save-workspace 与本地 workspace 分责，错句柄身份不退 HTTP，首存来源切换同 W 不分裂；独立试买仍零存档。核旧库不读不迁不删、SAVE8/content20/UI/DataMode 非试玩缓存键/原探针零变化。
 复跑定向 save+shop-trial 141、editor 定向 110（卡内清单）、相关 typecheck、完整 check（Codex 6327）及单次严格 fast（610 个生产文件/5842）；不并跑重型检查、不取多数。按需独立重建隔离负控制：只把 store.ts 换成 git show 68d84d68 的加载内容，最终 18 项为 14 红/4 绿，当前 18 绿；特别核最后 thumb success 后 abort 且零 request error，不能只靠 pending request 的 onerror。不得 stash 回退共享树。
@@ -605,7 +609,7 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 ### GLM：r2 数据/测试矩阵终审（已完成，历史保留）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选 526eea00，对比 68d84d68。
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选 526eea00，对比 68d84d68。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡已签 r2/用户裁决/实现回执与最新交接日志，以及 docs/testing/coverage.md。不要读取或复述 Kimi 本轮终审结论。Coding Owner Codex，本轮你只做独立数据/矩阵/范围终审。
 从候选树独立枚举生产 diff、六类 URL 与中间 props，逐项核矩阵：P/W/特殊字符/调用方突变、scope/项目错配副作用前拒绝、空重复互斥参数/错记录/错 manifest、HTTP→FSA 同 W、三块/列表/次数同域、30 槽/多 entry 保持、克隆失败/同步错误/真实 abort 回滚、Memory 非持久、旧库不读不迁不删、独立试买零存档。核 fake-indexeddb@6.2.5 仅 dev、lock 仅该依赖、配置/超时/排除/原探针/格式/UI 与非试玩缓存键不变。
 复跑 scope/store/入口定向与完整 check、单次严格 fast；重型检查不并跑，不取多数。核新增净 80（reforge 49/editor 31）、fast 610 文件/5842 项，scope 与 URL 分支 29/29、store 15/16；回执数字从实际候选树生成。负控制仅隔离加载基线 store.ts：最终 18 项 14 红/4 绿，完整实现 18 绿；核 abort 真正不发 request error、失败不半写，不能用测试注释代替红证据。临时 config/日志 /tmp/type-pal-save-isolation.4QCe6g/，可自行重建，不 stash 共享树。
