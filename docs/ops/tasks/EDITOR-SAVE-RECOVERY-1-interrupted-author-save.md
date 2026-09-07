@@ -300,9 +300,48 @@ R4 登记同一跨页恢复链与恢复后本地试玩，无玩家战斗/剧情�
 
 #### Kimi build 前席位
 
-- premise：pending。
-- design：pending。
-- 直接证据/可证伪观察/返工项：待填写；只修改本席，不修改共享准入结论。
+- premise：**verified（2026-09-07，r2，产品源码基线 135d065a；全部证据本人直读/复跑，未读 GLM 结论）**。
+  - **当前 API 探针本人复跑**（exit 0）：`freshOpen: succeeded`（新 loader 对半状态照常打开）、
+    `freshSessionLostNewActorDefinition: true`、再序列化报 `角色 "a03-new-npc" 不在 actors 表`；
+    正向控制 `originalSessionRetryValid: true`、`restoredMaxHP: 237`——A-02 只保留原页精确部分态，
+    新页确无持久完整目标，缺口属实；「A-02 已解决」「坏输入」两个替代解释均被实测否定。
+  - **写入顺序直读**：`project-io.ts:455-550` 资源/catalog 超集→内容→manifest→catalog 收缩→删除
+    逐文件分别 close，未 close 的后续文件无持久目标副本；`workspace-persistence.ts:229-289`
+    内存预期后态。前提行与源码一致。
+  - **读入口直读**：`open-local.ts:36-77` 正常载入无中断识别；`load-play-project.ts:9-15`
+    fsaSource 直接喂 loader；`export-zip.ts:83-99` 直接收集磁盘文件——半状态今日被静默消费，
+    设计 §5 的入口表是必要的非装饰。
+  - **规范与边界直读**：`handle-store.ts:40-53` 既有 tx 已等 transaction.oncomplete 并处理
+    abort（IDB 纪律先例）；`editor/vite.config.ts:43-60` 缺文件 `next()` 落 SPA 首页——
+    HTTP 缺失 JSON 返回 200 HTML 的前提属实，设计限定修固定元数据路由为真 404 是正确最小面；
+    FSA 单文件 close 提交/Web Locks 合作锁语义与卡面引用一致。
+  - **相邻基线复跑**：author-save-conflict/project-io/open-local/open-actions/
+    workspace-persistence/clone/fsa-copy **7 文件/86 项全绿**，与探针反例并存——不冒充已修复。
+- design：**agree（r2，2026-09-07）**。用户已批准前滚，不重问方向。逐项核十红线：
+  ① ready 门要求 FSA 全部 close+回读且 IDB transaction complete（strict 仅提示）后才封存——
+  恢复信息先于作者覆盖具备可验证持久性；② 磁盘 plan 只负结构/哈希证据，授权来自同 handle
+  isSameEntry+原身份+planHash+nonce 的 IDB 凭据，磁盘自称不能提权，威胁模型声明不含同源
+  恶意脚本；③ staging/ready/pending/applying/data-complete/committed/cleanup 六态及
+  issued-before-execute、游标 after-close 推进，再中断幂等；④ 每步前后核该路径、最终全后态、
+  外部混入拒收编（沿用 A-02 纪律）；⑤ catalog 双写记为不同步骤、空占位仅限 before=missing
+  的已 issued 步、remove 仅限计划内——故障矩阵面完整；⑥ 读门（`.type-pal/save-state.json`
+  严格解析、operationId 夹验 ABA、仅真实 NotFound 当无记录）覆盖打开/试玩/Save As 源/ZIP/
+  HTTP 壳，运行中懒加载与跨服务器发布明确限定不承诺；⑦ `.type-pal` 通用写删仍拒，恢复元数据
+  与沙盒 marker 走各自固定路径专用能力，PAL sentinel 不入可恢复写删表；⑧ 绑定/首存/克隆/
+  Save As 整笔计划分层登记时机分列；⑨ plan 封存 contentVersion+私有协议版本，content21
+  切换前须排空，不抢版本；⑩ 清理限本次已核 payload/plan、非递归空目录、未知文件保留。
+  锁序 discovery→workspace 不反向、内部 finishOpen 用私有品牌 session 不重入 Web Lock；
+  原页 retry 凭 nonce/基线先完成自己 pending 再推进，另一旧窗口仍拒写不收编——旧窗口与
+  读取边界闭合。SR-01～12 与负控制（ready 门/前缀校验/handle 校验移除必红）可执行。
+- 直接证据/可证伪观察：上列源码锚点外，任一反例即 counter：① 新会话不依赖旧页面对象即可
+  经现有正式链恢复完整项目 → 前提倒（探针否定）；② sealed 前存在任何作者路径 create/close/
+  remove（SR-02 私有 IO 单独计数应证零）；③ 缺 IDB 凭据/换 handle/换 sentinel 仍获重放；
+  ④ 某一步 issued 后中断重放产生重复写或越序；⑤ HTTP 200 HTML 被当无记录或旧工程；
+  ⑥ committed 后清理失败被误报内容未保存或误删新编辑 dirty；⑦ Save As 源在复制期间变化
+  仍完成目标写入；⑧ 恢复用 fresh HTTP 半状态抹掉 PAL 原证据。
+- 返工项：无。非阻断备注：逐步 strict IDB 提交与大克隆暂存的成本声明必须以 build 期实测为准
+  （矩阵已要求 before/after 计时）；跨浏览器缺凭据 pending 仅提示不自动重放属用户可见边界，
+  文案在 build 期随最小功能验证一并核对。
 
 #### GLM build 前席位
 
@@ -337,7 +376,16 @@ Kimi/GLM同r2并行读取证据，各写各席；两席齐后由Codex统一核�
 
 ### Kimi · r2 交接日志
 
-待本席填写。
+2026-09-07：完成 r2 独立前提/设计审查，签 premise verified + design agree，无返工项。
+复跑 probe-editor-save-recovery：新 loader 吞半状态、人物定义丢失、原页重试正控 237 保留，
+缺口与正控同时成立；直读写入顺序（project-io:455-550 逐文件 close）、读入口
+（open-local/load-play-project/export-zip 无中断识别）、IDB 纪律先例（handle-store:40-53）、
+HTTP 200 HTML 前提（vite.config.ts:43-60）；相邻 7 文件/86 项复跑全绿。
+按十红线逐条核对方案：ready 门 FSA+IDB 双封存、磁盘不可自授权（handle 凭据+nonce+planHash）、
+六态幂等、catalog 双写分步、读门 ABA/真 404、`.type-pal` 专用能力、锁序不重入、
+旧窗口拒收编、版本排空、清理限定——八条可证伪观察与两条非阻断备注（成本实测、跨浏览器
+缺凭据边界文案）写入本席。未改实现/他席/共享结论/状态，未读 GLM 结论。
+Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ### GLM · r2 交接日志
 
