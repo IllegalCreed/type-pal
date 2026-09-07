@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| SAVE-ISOLATION-1 | 工程与工作区存档隔离 | review | Kimi / GLM：并行独立终审 | [任务卡](tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)；Codex 已完成实现、真实浏览器最小验证与严格 fast，未改格式/UI；两席 accept 前不标 done。 |
+| SAVE-ISOLATION-1 | 工程与工作区存档隔离 | review | 用户：验收/授权收口；Codex 随后归档 | [任务卡](tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)；三席 accept 已核定、无返工，候选 526eea00 未漂移，不再重复 AI 签字；卡头有可选最小复验。 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)

@@ -151,7 +151,10 @@ GitHub Actions 的 fast coverage 前置运行 `pnpm typecheck && pnpm lint`，�
 GLM 与 Codex 的实际检查保持 editor statements 23,456/31,407、branches 18,169/27,329，严格 fast 零回退。
 本卡未重跑 full coverage。历史“clean HEAD 次数/概率”并未因此获证，未来其他回退仍停线补证，不重试取多数、不下调基线。
 
-## SAVE-ISOLATION-1 增量基线（2026-09-07，实现候选待终审）
+## SAVE-ISOLATION-1 增量基线（2026-09-07，三席终审通过）
+
+更新：候选 `526eea00` 已获三席终审 accept，Codex 核定无实现漂移；当前仅待用户验收/授权收口。
+此次文档汇总未改基线或重跑覆盖率。
 
 [存档隔离卡](../ops/tasks/SAVE-ISOLATION-1-project-workspace-save-scope.md)新增 80 项独立测试：
 scope 29、IDB/Memory 隔离与事务 18、boot/独立试买 2、URL 16、工作区记录 1、真实 play.ts 入口 14。
