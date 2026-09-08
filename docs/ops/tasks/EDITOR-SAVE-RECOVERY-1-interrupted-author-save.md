@@ -1064,6 +1064,61 @@ editor语句24,643/32,535、分支18,996/28,155、函数6,121/8,223、行22,262/
 优先clone坏资源/缺登记、创建和恢复反馈、writer删除/首存边界与journal失败分支，并核SR剩余项，之后才送整卡终审。
 临时6011与测试Chrome均已停止，用户6010（PID64485）未重启/清缓存，仓库PAL/原探针/公共版本零diff。
 
+### GLM 并行资源校验测试分工（2026-09-08，用户要求）
+
+用户询问“还有没有能给glm做的事情”。本批交GLM补**克隆/ZIP资源校验的真实失败路径**，
+Codex保留恢复内核、writer/open剩余矩阵和性能定位；只分测试实现，不转交生产Coding Owner。
+沿用r2设计签字，产品固定`541307cf`；新建独立worktree/分支`codex/glm-transfer-validation-tests`，
+从含本节分工的文档提交开始，进入实现前核`packages/ scripts/`相对541307cf零diff。
+
+**白名单：** 仅新增`packages/editor/src/core/project-transfer-validation.test.ts`及本卡下方GLM专属回执/日志。
+既有clone7项、zip10项、读出口/复制/内核测试、共享fixture、生产、配置、版本、baseline、原探针均不改。
+复用`buildBlankProject`、`memoryAuthorDirectory`、`memoryAuthorSaveStore`；完整合法fixture仅变更正在测试的坏字段。
+真实调用cloneFromPal/exportProjectZip/正式校验与journal；mock只限FSA/IDB/下载DOM等环境边界，
+不mock被测函数、校验器或整个保存流程。Codex后续独立复核、适配主树并统一跑全仓质量门。
+
+Codex本次只读核对的同口径覆盖与LCOV锚点（GLM仍须独立复算，不当作本人实跑）：
+
+| 文件 | 行 / 函数 / 分支 | 未覆盖定位与本批重点 |
+|---|---|---|
+| clone.ts | 31/33、7/7、17/20（85%分支） | :35 长度或sha不符；:39 正确摘要但非gzip；:59 maps缺席分支 |
+| export-zip.ts | 47/47、8/8、29/33（87.87%分支） | :25 缺catalog声明；:27 声明的catalog缺文件；:98 空目录；:51 非Error异常兜底另行判断可达性 |
+
+业务验收：
+
+1. 克隆至少覆盖长度不符、同长度hash不符、正确bytes/hash但格式不符；坏输入拒绝且零目标作者create/close/remove，
+   不能进入ready/committed或报告落盘完成。私有暂存与作者IO分开计数；如有晚读，须确保故障注入确实经过所测接口。
+2. maps缺席若当前canonical合同不允许，必须作为**非法当前输入的拒绝**，不能造一个旧版本/缺字段成功路径来填覆盖。
+3. ZIP通过真实导出入口验证缺声明、缺catalog文件、空目录等拒绝；断言下载URL与点击均为零，源文件不被写删。
+   复用既有合法项目做正控，避免“始终拒绝”的fixture冒充保护。
+4. 对:51非Error兜底及任何不可达防御分支先列一手调用链。不得为凑100% mock生产decoder抛字符串，
+   不可达或冗余检查据实登记；目标为两个整文件行/函数≥95%、分支≥90%，没有真实业务例时不硬堆测试。
+5. 至少一项**单点、真实入口**负控制：可隔离移除exportProjectZip中的`await validateProjectZipEntries(entries)`，
+   坏项目必须因此真的产生下载/错误成功，不能只红在不同报错文案。正常实现对照绿。
+   移除某个叶级检查仍被下游拒绝时，明确登记冗余保护，不能把它谎报为“测试失效”或靠第二处删除凑红。
+
+运行与回执：新文件＋相邻clone/zip定向、editor typecheck、限定文件biome；独立editor-fast同口径覆盖的
+临时配置/缓存/报告放GLM自己的临时目录，继承主树生产源码范围和测试选择，不写共享coverage输出。
+保留分子/分母/测试身份与失败原因；覆盖不能用只跑新文件的缩窄结果冒充全editor-fast基线。
+当前全仓fast618生产文件/6,150项测试只是接手参考，回执数字从实际提交树生成，不预填新增项数。
+全仓check、ratchet、单次严格fast交Codex集成后统一执行；本批不重复原生浏览器恢复或PAL性能实测。
+如果真实业务用例揭示生产缺陷，保留可执行反例，写counter与file:line交Codex，不改生产或削弱断言。
+GLM测试贡献必须在最终终审披露，不作为其独立第三方自证，不代签、不改任务状态、不标done。
+
+#### GLM 资源校验测试回执（待本人填写）
+
+本次仅准备交接，尚未收到GLM结果；由GLM仅在自己的分支写实跑结果、范围diff、可达性清单、负控制证据和剩余项。
+
+#### GLM 资源校验测试交接日志（待本人填写）
+
+待GLM填写并提交推送独立分支，交Codex复核；不要求用户搬运审查正文。
+
+#### Codex 资源校验测试分工日志
+
+2026-09-08：同步541307cf洁净主树，核r2准入与现行覆盖/LCOV七个未覆盖位置、相关生产和既有fixture。
+只新增本批分工/提示词并同步看板；未新增测试、未改产品、未宣称GLM已开工或本批覆盖已提升。
+文档工具20/20、400 Markdown/1,813本地链接/140卡检查与git diff --check通过，packages/scripts零diff。
+
 ## 交接日志
 
 - 2026-09-07 Codex：同步 041c2fe1 洁净树，复核 A-02 后的 A-03。新增内存当前 API 探针，旧探针/产品/正式测试未动；
@@ -1106,10 +1161,37 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-当前GLM读出口测试、clone/Save As及HTTP首存整笔暂存已接入；Codex下一步核核心覆盖率与SR矩阵剩余缺口。
-无下一位Agent提示词，仍由Codex继续build；本次不重签设计，不转整卡终审。
+当前已有入口接线保持有效；GLM按本批资源校验分工补测试，Codex保留恢复内核/性能与其他SR剩余项。
+本次不重签设计，不转整卡终审。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
 当前不请求用户验收。
+
+### 给 GLM（当前：克隆/ZIP资源校验失败路径）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 协作 EDITOR-SAVE-RECOVERY-1。
+任务卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态build，r2有效，不重签。
+先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡“GLM并行资源校验测试分工”、SR-02/04/08/10/12及最新日志。
+同步后从包含本批分工的文档提交建立独立worktree和codex/glm-transfer-validation-tests分支，
+核packages/scripts相对产品基线541307cf零diff；不切共享main，不复用旧GLM分支，不stash。
+
+只新增packages/editor/src/core/project-transfer-validation.test.ts，写本卡你自己的资源校验回执/日志。
+独立读clone/export-zip及其下游，复用真实buildBlankProject和现有FSA/IDB fixture。
+补长度/hash不符、合法摘要但坏格式、maps缺席非法输入、ZIP缺catalog声明/文件与空目录等真实失败路径；
+克隆拒绝须零作者IO且未封存/未报完成，ZIP拒绝须零下载且源不改，均保留合法正控。
+不mock校验器/被测函数，不改生产、旧测试、共享fixture、配置、版本、baseline或探针。
+目标：clone、export-zip整文件行/函数≥95%、分支≥90%；当前分支17/20、29/33，请本人复算。
+非Error兜底等防御分支先判可达性，不为百分比制造不真实的生产decoder异常。
+至少做一次隔离单点入口负控制（例如仅移除ZIP导出前校验，坏项目实际下载才算红），正常对照绿；
+下游仍拒绝的冗余检查如实记录，不能靠只改报错文案、删第二处防护或计时器猜测冒充证据。
+
+跑新文件+相邻clone/zip、editor typecheck、限定biome和独立临时目录的全editor-fast同口径覆盖；
+不得缩生产范围/测试选择冒充提升，不写共享报告。全仓check/ratchet/严格fast由Codex集成后统一跑。
+按实际提交树登记测试名→SR→业务结果、覆盖分子分母、负控制精确diff/退出码、白名单diff和剩余缺口。
+真实产品问题保留反例并counter交Codex，不代修产品、不弱化测试。
+提交推送你自己的分支，给Codex接收提示词；不改状态、不代签、不标done，不要求用户复制回执正文。
+这是测试贡献，最终终审须披露，不算独立第三方自证。
+```
 
 ### 给 GLM（历史：ZIP/试玩读出口回归，77ec3485已接收）
 

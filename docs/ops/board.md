@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：核心覆盖率与SR矩阵收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 复制/另存为/HTTP首存已整笔暂存，原生跨页恢复与PAL成本已测；完整克隆明显变慢，核心覆盖与终审仍待完成；r2不重签。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：内核/性能与SR收口；GLM：克隆/ZIP资源校验测试 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 入口接线与原生证据保持；GLM固定541307cf仅新增测试、独立worktree，Codex复核集成；完整克隆变慢与核心覆盖待处理，r2不重签。 |
 
 ## 阻塞
 
