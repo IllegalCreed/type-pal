@@ -1105,13 +1105,54 @@ Codex本次只读核对的同口径覆盖与LCOV锚点（GLM仍须独立复算�
 如果真实业务用例揭示生产缺陷，保留可执行反例，写counter与file:line交Codex，不改生产或削弱断言。
 GLM测试贡献必须在最终终审披露，不作为其独立第三方自证，不代签、不改任务状态、不标done。
 
-#### GLM 资源校验测试回执（待本人填写）
+#### GLM 资源校验测试回执（2026-09-08，分支 `codex/glm-transfer-validation-tests`）
 
-本次仅准备交接，尚未收到GLM结果；由GLM仅在自己的分支写实跑结果、范围diff、可达性清单、负控制证据和剩余项。
+独立 worktree `type-pal-glmxfer`，基于分工提交 `7eff5b8b`；进入实现前核
+`packages/ scripts/` 相对 `541307cf` **零 diff**。白名单：仅新增
+`packages/editor/src/core/project-transfer-validation.test.ts`（9 项）与本回执/日志；
+不改旧测试（clone 7/zip 10 等原样）、共享 fixture、生产、配置、版本、baseline、探针。
 
-#### GLM 资源校验测试交接日志（待本人填写）
+**基线复算（与 Codex 表逐数一致）**：clone.ts 31/33、7/7、17/20；export-zip.ts 47/47、
+8/8、29/33（同口径 editor-fast：187 测试文件全跑、生产 include/选择继承主树配置，
+报告在本人临时目录 /tmp/glm-xfer-workspace/cov-base，未写共享输出）。
 
-待GLM填写并提交推送独立分支，交Codex复核；不要求用户搬运审查正文。
+**9 项测试（真实入口 cloneFromPal/exportProjectZip + 正式校验器与 journal；仅替身
+FSA/IDB/下载 DOM）**：克隆正控（同 fixture 去损坏，防“始终拒绝”）＋ 长度不符 ＋ 同长度
+hash 不符 ＋ 正确 bytes/hash 但非 canonical gzip ＋ maps 缺席（非法当前输入拒绝：
+`工程 "pal": manifest 缺 maps 路径`，经 journal 封存视图的 canonical 校验拒绝，零作者写入，
+未造任何旧版/缺字段成功路径）；导出正控 ＋ 缺 catalog 声明（源目录逐字节不变）＋ 声明
+catalog 文件缺失 ＋ 空目录。克隆失败项均断言：零目标作者 create/close/remove（.type-pal
+私有暂存与作者 IO 分开计数）、无 save-state 门、IDB 凭据不进入 committed。
+
+**单点真实入口负控制**：隔离 config（/tmp/glm-xfer-mutant.config.mts）仅移除
+exportProjectZip 中 `await validateProjectZipEntries(entries)` 一处 → 缺声明用例
+**红在业务结果**：`promise resolved "21" instead of rejecting`（坏项目返回 21 个条目并
+产生下载，而非仅报错文案不同）；完整实现对照绿。
+
+**同口径覆盖实跑（cov-new，187 文件/1,920 项全绿含新 9 项）**：
+**clone.ts 行 33/33（100%）、函数 7/7（100%）、分支 20/20（100%）**；
+**export-zip.ts 行 47/47（100%）、函数 8/8（100%）、分支 32/33（96.97%）**——
+均超 95/95/90 目标。
+
+**可达性登记（不为百分比造异常）**：export-zip :51 `cause instanceof Error ?
+cause.message : String(cause)` 的 String 分支——catch 包裹 decodeBattleSpriteAssetBytes，
+其内部以 `new Error(...)` 包装抛出（export-zip.ts:44-47 自身即此模式），现行一手调用链
+不存在非 Error cause；不 mock 生产 decoder 抛字符串来凑 100%，登记为防御性兜底。
+
+**其他实跑**：新文件 9/9 绿；相邻 clone.test/zip.test **17/17 绿**；editor typecheck
+exit 0；biome 限定文件零诊断（一次 import 排序自动修复）。全仓 check/ratchet/严格 fast
+按分工留 Codex 集成后统一执行。
+
+**counter/产品缺陷**：无——所有失败路径现行实现均正确拒绝（含 maps 缺席经 canonical
+校验拒绝）。剩余项：仅上述 :51 防御分支。
+
+#### GLM 资源校验测试交接日志（2026-09-08）
+
+GLM：完成资源校验失败路径 9 项（克隆三坏输入+maps 缺席非法拒绝+ZIP 三拒+双正控），全部
+绿且现行实现正确拒绝（无 counter）；负控制红在“坏项目 resolved 21 项并下载”的业务结果。
+双文件覆盖 100/100/100 与 100/100/32-33，:51 String 兜底按一手调用链登记为不可达防御。
+分支已提交推送，交 Codex 复核/适配主树并统一全仓质量门；本席不代签、不改任务状态、不标
+done，测试贡献留待终审披露。
 
 #### Codex 资源校验测试分工日志
 
