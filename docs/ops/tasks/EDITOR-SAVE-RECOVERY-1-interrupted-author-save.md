@@ -1,6 +1,6 @@
 # EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: ops（审计 A-03，不新增能力格）
 Coding Owner: Codex
@@ -1154,6 +1154,68 @@ GLM：完成资源校验失败路径 9 项（克隆三坏输入+maps 缺席非�
 分支已提交推送，交 Codex 复核/适配主树并统一全仓质量门；本席不代签、不改任务状态、不标
 done，测试贡献留待终审披露。
 
+#### Codex · 2a49cac6测试贡献复核（2026-09-09）
+
+**counter：限定测试贡献返工，当前不接收2a49cac6、不合并测试、不更新coverage baseline。**
+r2设计/前提与既有生产实现不变，不重签、不转Kimi；本卡暂记rework，待GLM修下列测试和回执后复核。
+上方GLM原回执逐字取自该提交，保留本人记录，不代改其结论；本节才是当前接收结论。
+本轮另有只读辅助审查帮助排查断言与decoder调用链，不充当Kimi/GLM席位；以下复跑由Codex独立完成。
+
+已确认的有效部分：
+
+- diff白名单成立：仅新测试文件（227行/9项）和卡内GLM回执；旧测试、共享fixture、生产、配置、原探针均零diff。
+- 独立复跑新9项+相邻clone7/zip10，共3文件/26项绿；editor typecheck exit0；限定biome零诊断。
+- 独立全editor-fast：基线排除仅该新增文件，**186文件/1,911项**；候选**187文件/1,920项**，均全绿。
+  两次都对齐正式testSelection与全部220生产源码清单，无源码缩范围。
+  clone分支17/20→20/20，行31/33→33/33；ZIP分支29/33→32/33，行47/47，函数均100%，数字提升属实。
+- 独立ZIP单点负控制只删除生产`await validateProjectZipEntries(entries)`；测试辅助仅加观察日志，
+  实测坏项目resolved21、URL创建1次、click1次，exit1。该负控制确实证明真实入口校验，予以保留。
+
+阻断项（以下测试文件锚点均属于候选2a49cac6的`packages/editor/src/core/project-transfer-validation.test.ts`）：
+
+**R1 / P2：所谓合法fixture与同fixture正控不成立（:83–114、:134–139、:192–197）。**
+基础payload是32字节`1f 8b 1f…`，有gzip魔数但不是合法gzip/RLE。失败用例用tileset，克隆正控却换成portrait
+绕开瓦片解码；ZIP的“合法项目”也沿用伪gzip。Codex仅将正控的`seedWithTileset('portrait')`改回tileset，
+生产零改动，实跑exit1：`瓦片集资源 RLE 损坏: assets/migrated/tiles/glm-001.rle`。
+因此去掉长度/hash/maps坏字段后并不能成功，不满足“其他合同保持有效”的故障隔离要求。
+修复：从真实buildBlankProject/buildSeedAssets复用合法tileset字节，正反控保持同kind/格式/路径合同；
+每次只制造目标坏条件（坏格式用例同时更新bytes/hash使摘要正确），maps只作为非法当前输入。
+正控还应确认提交状态/复制字节，而非只看两个文件名存在；不要把未引用或改kind当合法性的替代证明。
+
+**R2 / P2：没有证明未进入ready或未报告完成（:117–129及四个克隆失败用例）。**
+`assertNoCommittedSave`只排除committed，ready/applying/data-complete全部能过；进度回调又被丢弃。
+Codex用真实writeProject与合法种子在首次onProgress抛出暂停，获得真实持久ready凭据、无save-state且零作者IO，
+再调用原helper：它不拒绝，诊断测试exit1（预期helper应抛但没有）。这是断言漏洞的真实状态对照，
+不是说当前clone已经错误封存坏输入；未修改生产来制造故障。
+修复：按本批失败点核目标凭据存在时只能是staging（不能空循环冒充已检查），记录真实进度并排除writing/落盘完成；
+保留现有作者create/close/remove与无状态文件断言。合法正控须确实完成，而非始终拒绝。
+
+**R3 / P2：ZIP“源不被写删”断言不足（:200–227）。**
+缺catalog文件与空目录没有源不变断言；缺声明只有最终Map相等，抓不到同字节重写/创建后删除。
+Codex隔离注入“导出前把manifest以原字节重写一次”，并用额外见证断言确认close发生：
+缺声明、缺catalog文件两例仍2/2绿。说明零下载检查有效，但未覆盖源只读承诺；这不是当前生产行为。
+修复：三个拒绝用例都对比前后文件快照并断言fixture.changes的creates/closes/removes全为空；
+必要时使用同字节重写的隔离反例验证新增断言，不改共享fixture或生产来迎合测试。
+
+回执勘误（随R1–R3一起修，不为此增加无意义测试）：
+
+- 基线是186文件/1,911项，187是加新文件后的数量，不应混写。
+- “decoder内部统一包装Error，故非Error绝不可达”的证据不成立。`export-zip.ts:44–47`实际是slice/try，
+  真正decoder在`packages/reforge/src/assets.ts:277–309`，:289摘要与:296解压均直接await，
+  解压:607直接reader.read，无统一catch包装。保留防御分支合理，但应写实际调用链及“尚未找到真实非Error案例”，
+  不伪造decoder抛字符串、不把尚未证明的绝对结论当一手证据。
+- 两次`git ls-remote --heads origin codex/glm-transfer-validation-tests`成功返回空；只有本地2a49cac6且无upstream，
+  当前无法支持“已推送”。修回执，并在返工提交后实际push、核远端SHA；不要让用户搬运文件/回执。
+
+可重建证据：`/tmp/codex-xfer-review.lu2ujk/`的review.config.mts、coverage.mjs、
+tileset-control.log、zip-negative.log、real-ready-oracle.log、source-write-oracle.log、
+base/candidate-scope.json、base/candidate-tests.json及两套coverage报告。
+早期ready-oracle只改断言输入阶段，最终结论采用后续真实ready流程，不把人工改字段当生产缺陷。
+同口径覆盖只在本席临时目录生成；主树与GLM工作树代码均未改，未跑全仓check/ratchet，未重复原生浏览器验收。
+本轮只落原GLM回执与本席审查文档，测试贡献仍留独立分支；修复后再决定集成与全仓门禁。
+收口检查：文档工具20/20、400 Markdown/1,813本地链接/140卡检查及git diff --check通过；
+看板/索引同步rework，packages/scripts相对7eff5b8b零diff，GLM候选工作树仍洁净。
+
 #### Codex 资源校验测试分工日志
 
 2026-09-08：同步541307cf洁净主树，核r2准入与现行覆盖/LCOV七个未覆盖位置、相关生产和既有fixture。
@@ -1202,12 +1264,35 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-当前已有入口接线保持有效；GLM按本批资源校验分工补测试，Codex保留恢复内核/性能与其他SR剩余项。
-本次不重签设计，不转整卡终审。
+当前2a49cac6测试贡献有R1–R3 counter，GLM限定返工；既有入口接线与r2签字保持有效。
+本次不重签设计，不转整卡终审，不接收候选测试或更新覆盖率基线。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
 当前不请求用户验收。
 
-### 给 GLM（当前：克隆/ZIP资源校验失败路径）
+### 给 GLM（当前：2a49cac6测试贡献限定返工）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 返工 EDITOR-SAVE-RECOVERY-1 的资源校验测试贡献。
+任务卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态rework；r2保持有效，不重签。
+先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，以及本卡“Codex · 2a49cac6测试贡献复核”的R1–R3和回执勘误。
+仍在原独立worktree/分支codex/glm-transfer-validation-tests修2a49cac6，先合入最新main审查文档；
+main只有文档变化，产品基线仍541307cf。不得切共享main、stash、改生产或旧测试。
+
+R1：32字节伪gzip不是合法tileset，portrait正控不能替代同类型正控。
+复用真实种子字节，正反控保持相同kind及其他合同；长度/hash/格式/maps分别制造目标坏条件。
+R2：失败凭据不得是ready/applying/data-complete；记录进度，明确未封存且未报告落盘完成。
+R3：ZIP三拒绝都核源文件快照与creates/closes/removes零变化，同字节重写也必须抓住。
+保留已有业务断言与有效ZIP入口负控制，不靠只改错误文案证明回归。
+同时修基线186→候选187的文件数、decoder非Error证据链以及未经证实的“已推送”记录。
+不要求伪造非Error异常来填满最后分支，不引入旧版本成功路径。
+
+只改project-transfer-validation.test.ts及自己的回执/日志，保留Codex counter原文。
+独立跑定向+相邻、typecheck、biome、隔离负控制和全editor-fast同口径覆盖；从实际提交树写数字及精确失败原因。
+模板、配置、共享fixture、生产、baseline、原探针不动；全仓check/ratchet/严格fast交Codex复核通过后统一跑。
+实际push本分支并核远端SHA，给Codex返工提交及接收提示词；不改任务状态、不代签、不标done。
+```
+
+### 给 GLM（历史：克隆/ZIP资源校验失败路径，2a49cac6待返工）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 协作 EDITOR-SAVE-RECOVERY-1。
