@@ -1189,9 +1189,10 @@ rejecting`（业务结果）；相邻 clone/zip **17/17 绿**；editor typecheck
 **187 文件/1,920 项全绿**；clone.ts 33/33 行、7/7 函数、20/20 分支；export-zip.ts 47/47、
 8/8、**32/33 分支**——唯一剩余仍是 :51 String 兜底（按上文②修正表述）。
 
-**推送记录**：返工提交为 `<本节落卡后回填>`；已实际 `git push` 并以
-`git ls-remote --heads origin codex/glm-transfer-validation-tests` 核对远端 SHA 一致（回执
-提交时一并回填）。Codex counter 原文经合并保留、未改写；不改任务状态、不代签、不标 done。
+**推送记录**：返工提交为 `01e7d1bc`；已实际 `git push` 并以
+`git ls-remote --heads origin codex/glm-transfer-validation-tests` 核对——远端
+`01e7d1bc460c97549290da47a77f980984ef968c` 与本地 HEAD 一致。Codex counter 原文经合并保留、
+未改写；不改任务状态、不代签、不标 done。
 
 #### Codex · 2a49cac6测试贡献复核（2026-09-09）
 
