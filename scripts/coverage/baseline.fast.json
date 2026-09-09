@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-07T16:06:24.301Z",
+  "generatedAt": "2026-09-09T13:26:18.948Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 618,
-  "testCount": 6150,
+  "testCount": 6159,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2805,8 +2805,8 @@
       ],
       "scopeDigest": "2ea0828d93df83523f4fa04e94099267380f593c72fede27cf7d584bf77c0561",
       "fastTests": {
-        "testCount": 1911,
-        "testFileCount": 186,
+        "testCount": 1920,
+        "testFileCount": 187,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2862,6 +2862,7 @@
           "packages/editor/src/core/project-reference-adapters.test.ts",
           "packages/editor/src/core/project-reference.test.ts",
           "packages/editor/src/core/project-save-route.test.ts",
+          "packages/editor/src/core/project-transfer-validation.test.ts",
           "packages/editor/src/core/scene-lifecycle.test.ts",
           "packages/editor/src/core/scene-script-view.test.ts",
           "packages/editor/src/core/script-context.test.ts",
@@ -3265,6 +3266,11 @@
             "file": "packages/editor/src/core/project-save-route.test.ts",
             "testCount": 24,
             "identityDigest": "72e66d3f885013e1cd058a94a6dbbb18b80799ee59a8c7f80dfda5006ebe3b60"
+          },
+          {
+            "file": "packages/editor/src/core/project-transfer-validation.test.ts",
+            "testCount": 9,
+            "identityDigest": "44c85a19ff74512195ab516e69b68d04147d00cc025292796cc05d9a58e5fc30"
           },
           {
             "file": "packages/editor/src/core/scene-lifecycle.test.ts",
@@ -3927,17 +3933,17 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "5ae9b9e65f82705b4f07d9ba5255379ec68862109dc4c6ad0a157e70fee538db",
+        "identityDigest": "5d5ab751303c35ecd59be7e06f08389991e848758f9e04e158426e7ab1489a9c",
         "duplicateIdentityCount": 8,
-        "executionDigest": "e589e26ac18f14fdf6cb2ec887fe085e9b483afbfd620652d4eeccd3f7220c9e"
+        "executionDigest": "768e46a3fadd34eef2a06131b492a68a5484716f0e24c068118e77466be1bd17"
       },
       "metrics": {
         "statements": {
-          "covered": 24643,
+          "covered": 24648,
           "total": 32535
         },
         "branches": {
-          "covered": 18996,
+          "covered": 19002,
           "total": 28155
         },
         "functions": {
@@ -3945,7 +3951,7 @@
           "total": 8223
         },
         "lines": {
-          "covered": 22262,
+          "covered": 22264,
           "total": 28411
         }
       }
@@ -3953,11 +3959,11 @@
   },
   "total": {
     "statements": {
-      "covered": 53527,
+      "covered": 53532,
       "total": 79547
     },
     "branches": {
-      "covered": 38300,
+      "covered": 38306,
       "total": 62536
     },
     "functions": {
@@ -3965,7 +3971,7 @@
       "total": 14624
     },
     "lines": {
-      "covered": 48368,
+      "covered": 48370,
       "total": 69594
     }
   }

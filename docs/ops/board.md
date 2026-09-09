@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | rework | GLM：修2a49cac6测试R1–R3；Codex待复核 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 覆盖数字已独立复现，但正控/未封存/ZIP只读断言有缺口；未合并候选、未抬基线。生产与r2签字保持，限定返工不重签。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：核心覆盖/SR/性能及审计超时收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) GLM返工175d07b2已接收，R1–R3解除；完整check两次卡既有adoption审计15s预算，未放行/未扩超时；r2不重签。 |
 
 ## 阻塞
 

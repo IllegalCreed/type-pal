@@ -1,6 +1,6 @@
 # EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复
 
-Status: rework
+Status: build
 Phase: phase2
 Capability: ops（审计 A-03，不新增能力格）
 Coding Owner: Codex
@@ -1194,6 +1194,62 @@ rejecting`（业务结果）；相邻 clone/zip **17/17 绿**；editor typecheck
 `01e7d1bc460c97549290da47a77f980984ef968c` 与本地 HEAD 一致。Codex counter 原文经合并保留、
 未改写；不改任务状态、不代签、不标 done。
 
+#### Codex · 175d07b2返工复核与接收（2026-09-09）
+
+**accept（仅GLM资源校验测试贡献），解除2a49cac6的R1–R3接收counter，恢复build。**
+下方旧counter及GLM原始回执保留为历史，不再阻断本批；整卡r2设计签字保持，不代签、不标review/done。
+远端`175d07b219cc2346ff0561234b801994633f5568`已由Codex独立ls-remote核实；
+其中01e7d1bc为测试返工，175d07b2仅回填此前已推送SHA，二者packages/scripts零diff。
+
+独立复核结果：
+
+- 白名单仍成立：相对main/be275a4e仅新增224行测试文件和GLM返工回执；旧测试、共享fixture、生产、
+  配置、原探针均未改。候选含be275a4e审查文档，采用fast-forward完整保留GLM署名和返工历史。
+- **R1成立**：fixture原样使用buildBlankProject的真实tileset，未改kind或绕过解码；正控逐字节相等、
+  save-state为committed、writing收尾；四项负例分别只改长度/hash/格式或maps目标坏条件。
+  新9项＋相邻clone7/zip10，独立实跑3文件/26项绿；editor typecheck通过，限定biome零诊断。
+- **R2成立**：失败helper检查存在的凭据必须staging且planHash=null，并拒绝任何writing进度。
+  Codex用真实writeProject在首次onProgress暂停，取得真实ready、已设置planHash、无save-state且零作者IO，
+  helper正确抛错；该oracle元测试exit0（意味着成功识别不应通过的状态），不是伪造一个生产错误。
+- **R3成立**：ZIP三拒统一对比源快照和creates/closes/removes全空。隔离注入同字节manifest重写，
+  并另断言close见证确实发生，两项拒绝用例均在`changes.closes=['manifest.json']`上exit1；
+  不再出现旧候选“已经重写但测试仍绿”的漏洞。
+- **入口负控制成立**：仅删除exportProjectZip中的校验调用，坏项目resolved20、URL创建1次、click1次，exit1；
+  测试观察日志不修改断言。正常实现与旧测试对照均绿。
+- 基线186/1,911与新增后187/1,920、decoder实际await链及旧未推送记录已勘误。保留String(cause)兜底、
+  不人为伪造异常填覆盖的决定保持。只读辅助审查亦未发现R1–R3尚存阻断；最终接收与复跑由Codex负责，
+  该辅助不作为Kimi/GLM席位或三方独立终审。
+
+证据在`/tmp/codex-xfer-rereview.eP1TuZ/`：review.config.mts、ready.log、source-write.log、zip-negative.log。
+测试代码原样集成，未为测试修改生产；本批贡献必须在整卡终审披露，不作为GLM独立第三方自证。
+集成后质量门：7包typecheck均通过；单独`pnpm lint`通过（既有50 warnings/11 infos，无新增错误）。
+官方`coverage:ratchet`以be275a4e为保护基线通过，618生产文件/6,159项fast测试；
+editor220生产文件/187测试文件/1,920项全绿。clone行33/33、函数7/7、分支20/20，
+ZIP行47/47、函数8/8、分支32/33；其余六包不变。全仓覆盖分母未变，仅新增9项测试及既有分支命中。
+**单次严格fast exit0**，6,159项全绿，合并表与ratchet逐字节相同、提升0项，无覆盖计数抖动。
+日志为同一证据目录的ratchet.log、strict-fast.log、lint.log。
+完整check未通过的具体原因与后续边界见下，不用fast代替full放行。
+
+本轮质量门额外观察（不归责GLM测试贡献、不静默丢弃）：首次完整check在
+`adoption.test.ts:2019`的设计系统AST审计超时，17.158s超过既有15s预算；其余2,076项editor测试通过。
+该测试与`scripts/audit-legacy-controls.mjs`、`design-system-audit.mjs`及UI输入相对be275a4e零diff，
+新增core测试不在其`src/ui`生产扫描集合；隔离原用例在原15s预算下11.58s通过。
+这是审计时间预算余量/执行性能问题，具体资源争用未完全定位，不能据此声称已确定性修复。
+保留首次失败证据check.log与adoption-isolated.log，列入后续门禁稳定性收口；未放宽超时、未skip/exclude。
+确认内容检查本身无断言失败后，按同一原命令再做一次完整确认；第二次仍在同一用例超时16.773s，
+证据check-confirmation.log。**完整pnpm check仍未通过，不以隔离通过或多数重跑代替放行，不再重复取绿。**
+按明确的执行时长缺陷登记：同一子进程审计在完整检查调度下超出预算，脚本内容/输入未改；
+后续需单独定位和修复其执行性能/调度稳定性。本轮不擅改审计脚本、不增加15s超时、不排除此用例。
+GLM测试贡献接收与此全仓门禁阻塞分别记录；标准fast中既有排除AST重复审计的口径保持原样，并非为本次失败新增豁免。
+只读辅助进一步确认：审计生产输入从`design-system-audit.mjs:74–80`的src/ui发现，组件只追同目录UI，
+新增core测试不在输入集合；但审计也读取看板/债务卡存在性，不能概括为所有输入只有UI。
+当前未见新core测试导致内容审计失败；仍不能完全排除新增测试对调度的间接影响。
+后续先对gate五阶段（:6204起）采wall/CPU与子进程CPU profile，再判断AST、CSS、调度占比；
+代码已有缓存，不把“重复解析/缺缓存”作为未经实测的既定根因。本轮不扩展修改该审计器。
+接收收口：GLM测试原样随175d07b2进入main，Codex只更新接收/看板/索引和官方生成的baseline；
+产品实现、全局配置、旧测试、原探针及PAL数据均零diff。文档工具20/20及400 Markdown/1,813本地链接/140卡检查通过。
+本批不再交GLM返工，后续由Codex处理审计超时、其他核心覆盖与性能；整卡保持build且完整门禁风险未解除。
+
 #### Codex · 2a49cac6测试贡献复核（2026-09-09）
 
 **counter：限定测试贡献返工，当前不接收2a49cac6、不合并测试、不更新coverage baseline。**
@@ -1304,12 +1360,12 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-当前2a49cac6测试贡献有R1–R3 counter，GLM限定返工；既有入口接线与r2签字保持有效。
-本次不重签设计，不转整卡终审，不接收候选测试或更新覆盖率基线。
+当前175d07b2返工已通过Codex独立复核并集成，2a49cac6的R1–R3 counter解除；r2签字保持有效。
+无下一位Agent提示词，仍由Codex继续核心覆盖率/SR矩阵及性能收口；本次不重签设计，不转整卡终审。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
 当前不请求用户验收。
 
-### 给 GLM（当前：2a49cac6测试贡献限定返工）
+### 给 GLM（历史：2a49cac6测试贡献限定返工，175d07b2已解决）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 返工 EDITOR-SAVE-RECOVERY-1 的资源校验测试贡献。
