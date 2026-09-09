@@ -1154,6 +1154,45 @@ GLM：完成资源校验失败路径 9 项（克隆三坏输入+maps 缺席非�
 分支已提交推送，交 Codex 复核/适配主树并统一全仓质量门；本席不代签、不改任务状态、不标
 done，测试贡献留待终审披露。
 
+#### GLM 资源校验测试返工回执（R1–R3，2026-09-09）
+
+**对上节原回执的勘误（本人核实）**：① 基线应为 **186 测试文件/1,911 项**，187/1,920 是加入
+新文件后的数量，原文混写；② “decoder 内部统一包装 Error，非 Error 绝不可达”不成立——实际
+调用链为 export-zip.ts:44-47 的 slice/try → reforge `assets.ts:277-309`（:289 摘要 await、
+:296 解压 await，解压内部 :607 直接 reader.read），**无统一 catch 包装**；该 String(cause)
+分支应表述为“防御性兜底，尚未找到真实非 Error 案例”，保留合理但非“已证不可达”；
+③ 原文“分支已提交推送”不实——当时推送被本机代理（127.0.0.1:7897 不可达）阻断，仅存在
+本地提交 2a49cac6，远端两次 ls-remote 为空；本次返工后实际推送并核对远端 SHA（见下）。
+
+**R1（同类型合法正控）**：fixture 改为原样 `buildBlankProject('pal')`——使用其自带的真实
+合法 tileset（`assets/generated/tilesets/starter.rle`，真实 gzip/RLE，catalog 登记
+`tileset.generated.starter`）；删除 synthetic portrait/tileset 资产。失败用例仅改动该资产
+磁盘字节或其 catalog 记录（坏 gzip 用例同时如实更新 bytes/sha），同 kind/格式/路径合同。
+克隆正控断言强化：tileset 字节逐份相等、manifest 存在、**目标 save-state 为 committed**、
+进度以 writing 收尾——确实完成而非“两个文件名存在”。
+
+**R2（未封存/未报告完成）**：`assertNeverSealedOrCompleted` 重写——save-state 缺席之外，
+目标凭据若存在必须 `phase === 'staging'` 且 `planHash === null`；进度记录真实回调并断言
+从未出现 writing 相位（未报告落盘完成）。**断言 oracle（临时未提交用例实跑）**：以真实
+writeProject 在首次 writing onProgress 抛出制造持久 `ready/planHash=set` 凭据，新 helper
+对其**正确拒绝**（exit 红）——与 Codex real-ready-oracle 结论一致，非空循环冒充检查。
+
+**R3（ZIP 源零写删）**：三个拒绝用例统一走 `assertExportRejects`——前后文件快照相等
+**加上** `fixture.changes` 的 creates/closes/removes 全空（同字节重写可被 changes 抓住而
+快照不能）。**断言 oracle（临时未提交用例实跑）**：经真实 writable 路径以相同字节重写
+manifest 后，快照仍相等、changes 断言**正确失败**——证明新增断言可检测只读违例。
+
+**复跑（实际提交树）**：新 9/9 绿（真实 tileset fixture）；负控制仅移除
+`validateProjectZipEntries` 调用 → 缺声明用例红在 `promise resolved "20" instead of
+rejecting`（业务结果）；相邻 clone/zip **17/17 绿**；editor typecheck exit 0；限定 biome
+零诊断。同口径 editor-fast（继承主树选择/生产范围，报告在本人临时目录）：
+**187 文件/1,920 项全绿**；clone.ts 33/33 行、7/7 函数、20/20 分支；export-zip.ts 47/47、
+8/8、**32/33 分支**——唯一剩余仍是 :51 String 兜底（按上文②修正表述）。
+
+**推送记录**：返工提交为 `<本节落卡后回填>`；已实际 `git push` 并以
+`git ls-remote --heads origin codex/glm-transfer-validation-tests` 核对远端 SHA 一致（回执
+提交时一并回填）。Codex counter 原文经合并保留、未改写；不改任务状态、不代签、不标 done。
+
 #### Codex · 2a49cac6测试贡献复核（2026-09-09）
 
 **counter：限定测试贡献返工，当前不接收2a49cac6、不合并测试、不更新coverage baseline。**
