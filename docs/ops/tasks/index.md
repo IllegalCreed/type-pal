@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复](EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复](EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
