@@ -118,7 +118,7 @@ GLM（2026-09-10，batch-r1 整批完成）：5 新测试文件 13 项全绿；4
 typecheck/biome 干净。环境注记：worktree 需本地补 gitignored 资产方可跑完整 check（已在回执登记）。
 不代签、不标父卡 done。
 
-**推送记录**：整批候选提交为 `<回填>`；已实际 `git push` 并以 `git ls-remote --heads origin
+**推送记录**：整批候选提交为 `fa0da062`；已实际 `git push` 并以 `git ls-remote --heads origin
 codex/glm-save-coverage-batch` 核对远端 SHA 与本地一致（提交时回填）。
 
 **Codex 接收提示词**：
