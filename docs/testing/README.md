@@ -8,3 +8,4 @@
 
 - [测试覆盖率基线与只升不降门禁](coverage.md)
 - [两阶段 E2E 与录像验证合同](e2e.md)
+- [作者保存恢复：GLM大批测试工作包](editor-save-recovery-glm-batch.md)与[整批回执](editor-save-recovery-glm-batch-report.md)（父卡r2实施期附件）

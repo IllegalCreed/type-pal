@@ -1469,7 +1469,29 @@ Save As部分分支；open-local余下两条为非Error异常文案兜底，先�
 产品实际写/读入口、私有恢复协议、原探针、PAL内容、用户6010均未操作或改动；
 唯一生产diff为已说明的无调用方序列化分支退役。状态仍build，不代签、不标done，不请求用户复验本批测试。
 
+### GLM大批测试分工（batch-r1，2026-09-10，用户要求）
+
+用户要求把一大批GLM能做的工作整理为一次交付，由Codex完成后统一检查。
+本次范围与逐项验收放在[工作包附件](../../testing/editor-save-recovery-glm-batch.md)，
+GLM直接填写[整批回执](../../testing/editor-save-recovery-glm-batch-report.md)。附件不是新任务卡，继承本卡r2三签，不重签。
+
+- 固定产品基线aa87c305，从工作包首次落地的文档提交建立独立worktree/分支`codex/glm-save-coverage-batch`。
+- G1打开/权限8项、G2写入10项、G3工作区保护10项、G4基线/恢复8项、G5存储/保存状态7项，
+  合计43项；G6另做SR-01～12全量证据对账。一口气完成全部组，不每组等待用户或Codex转交。
+- GLM仅新增白名单测试/本批helper及自己的回执/日志，不改产品、旧测试、配置、baseline或原探针。
+  局部真缺陷保留可执行红用例并继续其他组；最后一次性交Codex，不为凑绿代修生产。
+- Codex保留产品实现、性能取证、分支适配及统一质量门；本批测试面交GLM后不重复实现。
+  GLM贡献在终审披露，不作为独立第三方自证；本卡仍build，不预签accept或done。
+- 当前仅完成派工登记，未声称GLM已开始或交付。上一批aa87c305产品与6,180项fast基线保持不动。
+
+#### GLM · batch-r1交接日志（本人填写）
+
+待GLM填写本批实际执行/分组提交/最终交付信息；详细逐项结果写整批回执，不覆盖他席记录或任务状态。
+
 ## 交接日志
+
+- 2026-09-10 Codex：按用户要求登记batch-r1大批测试分工、43条目及12条SR总对账，独立分支一次交付，
+  产品实现权限仍属Codex；本轮只改文档，不代表GLM已开工/测试已增加，不重签、不标done。
 
 - 2026-09-10 Codex：新建/克隆/打开13项真实流程回归与相邻86项通过，五组隔离反证有效；
   删除无调用方的includeAssetCopies分支，保存行为不变。分开记录补测试命中与删代码的覆盖分母变化，
@@ -1525,10 +1547,33 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 当前175d07b2返工已通过Codex独立复核并集成，2a49cac6的R1–R3 counter解除；r2签字保持有效。
 2026-09-10已完成审计性能、journal故障及新建/克隆/打开真实流程回归；原配置完整check及6,180项单次严格fast均通过，既有15s预算不变。
-journal覆盖目标已达标；当前继续权限/异常、writer/policy其余覆盖与大工程性能，其他SR尚未全部收口。
-无下一位Agent提示词，仍由Codex继续核心覆盖率/SR矩阵及性能收口；本次不重签设计，不转整卡终审。
+journal覆盖目标已达标；权限/异常、writer/policy其余覆盖及SR对账现委派GLM整批完成，Codex保留性能与集成复核。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
 当前不请求用户验收。
+
+### 给GLM（当前：batch-r1大批测试，一次交付）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 执行 EDITOR-SAVE-RECOVERY-1 的GLM大批测试工作包batch-r1。
+父卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态build，r2设计三签有效，不重签。
+先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡设计/SR/历轮counter与最新回执，
+以及 docs/testing/editor-save-recovery-glm-batch.md（全部范围与验收）和对应batch-report.md。
+
+同步分支后，从工作包文档首次落地提交建立独立worktree/新分支codex/glm-save-coverage-batch，
+开工核产品相对aa87c305零diff；不要复用旧返工分支、切共享main或stash还原。
+按白名单连续完成G1–G5的43项核验及G6的SR-01～12总对账；自己分组提交，但全部做完才交一次。
+只加测试/本批helper及自己的回执日志，不改生产、旧测试、共享fixture、配置、baseline、版本或原探针。
+遇局部真缺陷保留默认可执行红测试、记清合法正控/具体file:line，继续其他组；不得改生产迎合测试。
+已有证据须带精确测试名及断言并复跑，不重复刷数量；不可达/待证给调用域证据，不当通过。
+使用真实调用链与合法资源fixture、内部gate/entered、字节与IO轨迹断言；至少六组单点负控覆盖四组工作，
+防护移除仍绿必须自行修正，不注释后放行。分母范围保持正式editor-fast，不造字符串异常凑百分比。
+
+最后从实际候选树生成完整回执、测试名映射、覆盖分子分母、负控精确diff与业务红因；
+跑全部分组/相邻、editor typecheck、完整check及同口径editor-fast，真实红与测试错误分清，不能虚报全绿。
+不更新官方baseline，统一全仓ratchet/严格fast由Codex接收后跑。
+直接写 docs/testing/editor-save-recovery-glm-batch-report.md 与父卡本人batch-r1日志，
+提交推送本分支并核远端SHA，最后给Codex整批接收提示词。不代签、不标done、不让用户搬审查正文。
+```
 
 ### 给 GLM（历史：2a49cac6测试贡献限定返工，175d07b2已解决）
 
