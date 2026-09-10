@@ -1486,7 +1486,15 @@ GLM直接填写[整批回执](../../testing/editor-save-recovery-glm-batch-repor
 
 #### GLM · batch-r1交接日志（本人填写）
 
-待GLM填写本批实际执行/分组提交/最终交付信息；详细逐项结果写整批回执，不覆盖他席记录或任务状态。
+GLM（2026-09-10，整批完成）：独立 worktree/分支 `codex/glm-save-coverage-batch`（起点 7b534b7c，
+产品零 diff）连续完成 G1–G6。分组检查点提交（G1/G2/G3–G5），最终一批交付：5 新测试文件 13 项
+（O1-O3、W1/W6/W10、P2/P6、B1/B3、S4/S6）全绿；43 项逐条落类——新增通过 13、已有证据复跑 18
+（带测试名）、待证/分类 12（带反证条件与责任人）、真实产品缺陷 0；SR-01～12 对账、6 组单点负控
+（覆盖 G1-G5 五组、全部业务结果红）。验证：定向+相邻 175/175、完整 pnpm check exit0 共 6,681 项
+（环境注记：worktree 需本地补 gitignored data/migrated 资产，不入提交）、同口径 editor-fast
+194 文件/1,954 项全绿、typecheck 0、biome 净；整文件覆盖缺口如实登记，官方 ratchet 未动。
+详见[整批回执](../../testing/editor-save-recovery-glm-batch-report.md)。不代签、不标父卡 done；
+测试贡献留待终审披露。
 
 ## 交接日志
 

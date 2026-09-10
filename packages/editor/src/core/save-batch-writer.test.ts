@@ -17,7 +17,8 @@ vi.mock('./handle-store.js', async (original) => ({
   ...(await original<typeof import('./handle-store.js')>()),
   loadWorkspaceRecord: async (id: string) => bindings.get(id) ?? null,
   findWorkspaceRecordByHandle: async (handle: FileSystemDirectoryHandle) => {
-    for (const record of bindings.values()) if (await record.handle.isSameEntry(handle)) return record
+    for (const record of bindings.values())
+      if (await record.handle.isSameEntry(handle)) return record
     return null
   },
   saveWorkspaceHandle: async () => undefined,
@@ -25,17 +26,12 @@ vi.mock('./handle-store.js', async (original) => ({
 }))
 beforeEach(() => authorSaveStorage.receipts.clear())
 
-import { fsaSource } from '@type-pal/reforge'
+import { fsaSource, loadAllAuthorScenes } from '@type-pal/reforge'
 import { finishOpen } from './open-actions.js'
-import {
-  serializeProjectWithMapCopies,
-  toEditorState,
-  writeProject,
-} from './project-io.js'
+import { serializeProjectWithMapCopies, toEditorState, writeProject } from './project-io.js'
 import { buildBlankProject } from './seed.js'
 import { createLocalWorkspaceContext } from './workspace-context.js'
 import { authorizeFirstSaveTarget } from './workspace-persistence.js'
-import { loadAllAuthorScenes } from '@type-pal/reforge'
 
 const authorChanges = (disk: ReturnType<typeof memoryAuthorDirectory>) =>
   Object.fromEntries(
@@ -101,9 +97,11 @@ test('W1: 编辑态有图章模板但 manifest 缺 stamps 登记时序列化拒�
 
 test('W6: 磁盘 catalog 坏 JSON 使保存拒绝且零作者 IO（与 NotFound 严格区分）', async () => {
   const { disk, opened } = await openedProject()
-  const target = await (
-    await import('./workspace-persistence.js')
-  ).authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline)
+  const target = await (await import('./workspace-persistence.js')).authorizeBoundWorkspaceTarget(
+    opened.workspace,
+    disk.dir,
+    opened.authorBaseline,
+  )
   disk.set('assets/index.json', '{not-json')
   disk.resetChanges()
   await expect(

@@ -65,9 +65,9 @@ test('P6: 一次性授权消费后不可复用；对另一目标目录的授权�
   const result = await withAuthorizedWorkspaceMutation(target, async () => 'done')
   expect(result).toBe('done')
   // 授权已被消费：同一 target 再次进入 mutation 拒绝。
-  await expect(
-    withAuthorizedWorkspaceMutation(target, async () => 'again'),
-  ).rejects.toThrow('授权已消费')
+  await expect(withAuthorizedWorkspaceMutation(target, async () => 'again')).rejects.toThrow(
+    '授权已消费',
+  )
   // A 目录授权不能写入 B 目录（目录身份不符）。
   const targetB = await authorizeFirstSaveTarget(
     createLocalWorkspaceContext(manifest.id, 'blank-project'),

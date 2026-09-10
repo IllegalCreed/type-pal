@@ -3,7 +3,7 @@
  * 真实 finishOpen/withWorkspaceDiscoveryLock/withWorkspaceRegistrationLock/ensurePermission 代码；
  * navigator.locks 用最小内存独占锁边界（记录获取顺序），IDB 用既有记忆替身。
  */
-import { beforeEach, afterEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
 
@@ -17,7 +17,8 @@ vi.mock('./handle-store.js', async (original) => ({
   ...(await original<typeof import('./handle-store.js')>()),
   loadWorkspaceRecord: async (id: string) => bindings.get(id) ?? null,
   findWorkspaceRecordByHandle: async (handle: FileSystemDirectoryHandle) => {
-    for (const record of bindings.values()) if (await record.handle.isSameEntry(handle)) return record
+    for (const record of bindings.values())
+      if (await record.handle.isSameEntry(handle)) return record
     return null
   },
   saveWorkspaceHandle: async () => undefined,
@@ -52,7 +53,8 @@ function installRecordingWebLocks() {
   const locks = {
     async request(name: string, options: unknown, callback?: unknown): Promise<unknown> {
       const cb = (typeof options === 'function' ? options : callback) as () => Promise<unknown>
-      const ifAvailable = typeof options === 'object' && options !== null && 'ifAvailable' in options
+      const ifAvailable =
+        typeof options === 'object' && options !== null && 'ifAvailable' in options
       events.push(`acquire:${name}`)
       if (held.has(name)) {
         if (ifAvailable) {

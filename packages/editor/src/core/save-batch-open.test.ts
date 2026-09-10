@@ -3,7 +3,7 @@
  * 真实 openExistingProject/pickDir/finishOpen 调用链；仅替身 window/picker（浏览器边界）。
  */
 import type { CurrentManifest } from '@type-pal/content'
-import { beforeEach, afterEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
 
@@ -19,7 +19,8 @@ vi.mock('./handle-store.js', async (original) => {
     ...actual,
     loadWorkspaceRecord: async (id: string) => bindings.get(id) ?? null,
     findWorkspaceRecordByHandle: async (handle: FileSystemDirectoryHandle) => {
-      for (const record of bindings.values()) if (await record.handle.isSameEntry(handle)) return record
+      for (const record of bindings.values())
+        if (await record.handle.isSameEntry(handle)) return record
       return null
     },
     saveWorkspaceHandle: async () => {},
@@ -93,7 +94,9 @@ test('O3: expectedIdentity 指向其他目录时在加载/登记前拒绝，两�
   b.disk.resetChanges()
   await expect(
     finishOpen(a.disk.dir, {
-      expectedIdentity: bindings.get('other-workspace') as import('./handle-store.js').WorkspaceHandleRecord,
+      expectedIdentity: bindings.get(
+        'other-workspace',
+      ) as import('./handle-store.js').WorkspaceHandleRecord,
     }),
   ).rejects.toThrow('目录句柄与本次打开目标不一致')
   expect(a.disk.files).toEqual(beforeA)

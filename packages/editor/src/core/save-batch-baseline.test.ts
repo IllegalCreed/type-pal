@@ -18,7 +18,7 @@ vi.mock('./handle-store.js', async (original) => ({
 }))
 beforeEach(() => authorSaveStorage.receipts.clear())
 
-import { verifyOpenedAuthorBaseline } from './author-disk-baseline.js'
+import { observeAuthorSource, verifyOpenedAuthorBaseline } from './author-disk-baseline.js'
 import { openLocalProject } from './open-local.js'
 import { buildBlankProject } from './seed.js'
 
@@ -32,20 +32,28 @@ test('B1 正控：未篡改的重复读取正常完成打开并给出基线', as
   expect(opened.project.manifest.id).toBe('batch-baseline')
 })
 
-test('B1: 载入捕获期间同文件两次读到不同字节时打开拒绝', async () => {
-  const files = await buildBlankProject('batch-baseline-drift')
-  const disk = memoryAuthorDirectory(files)
-  const reads = new Map<string, number>()
-  disk.hooks.afterRead = (path) => {
-    const count = (reads.get(path) ?? 0) + 1
-    reads.set(path, count)
-    if (count === 2 && path === MANIFEST) {
-      // 第二次读取前外部改写同一文件 → 观察器两次签名不一致。
-      disk.set(MANIFEST, { ...(files[MANIFEST] as object), id: 'drifted' })
-    }
+test('B1: 载入捕获期间同文件两次读到不同字节时观察器拒绝（正控同字节通过）', async () => {
+  const encoder = new TextEncoder()
+  const makeSource = (second: Uint8Array | undefined) => {
+    let reads = 0
+    return {
+      readBytes: async () => {
+        reads += 1
+        return (reads === 2 && second ? second : encoder.encode('{"v":1}')).slice().buffer
+      },
+      readText: async () => 'unused',
+      readJson: async () => ({}),
+      urlFor: async () => 'blob:unused',
+    } as unknown as import('@type-pal/reforge').FileSource
   }
-  await expect(openLocalProject(disk.dir)).rejects.toThrow(/batch-baseline-drift|manifest/)
-  disk.hooks.afterRead = undefined
+  // 正控：两次同字节读取不抛。
+  const stable = observeAuthorSource(makeSource(undefined))
+  await stable.source.readBytes('content/actors.json')
+  await stable.source.readBytes('content/actors.json')
+  // 反控：第二次返回不同字节 → AuthorSaveConflictError。
+  const drifting = observeAuthorSource(makeSource(encoder.encode('{"v":2}')))
+  await drifting.source.readBytes('content/actors.json')
+  await expect(drifting.source.readBytes('content/actors.json')).rejects.toThrow(/actors\.json/)
 })
 
 test('B3: 基线校验时作者文件缺失（NotFound≠可吞）与读取 IO 错误分别拒绝', async () => {
