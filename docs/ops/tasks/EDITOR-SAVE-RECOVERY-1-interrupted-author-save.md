@@ -1416,7 +1416,64 @@ journal整文件行380/393→387/393（98.47%）、函数57/57（100%）、分�
 editor-ratchet-summary.json；文档工具20项/400 Markdown/1,813本地链接/140卡检查通过。
 整卡保持build，原r2签字与GLM测试贡献披露不变；不代签、不标done、不转E2E。
 
+### Codex · 新建/克隆/打开真实入口回归与废弃分支退役（2026-09-10）
+
+从同步的a010c271洁净树继续r2设计范围。本批新增`project-open-workflows.test.ts`，不修改原测试；
+只替换picker/fetch/FSA及IndexedDB边界，保留实际seed、HTTP source、clone、writer、journal、policy、
+loader与finishOpen。存储替身的under-lock登记仍核真实lock品牌；不是把writer/clone直接mock为成功。
+
+| 用例组 | 数量 | 已核业务结果 |
+|---|---:|---|
+| 新建/克隆 × 清理正常/失败 | 4 | 作者文件逐字节完整、committed、local-project/local-bound；不继承PAL sentinel；manifest提交前尚无recent；清理失败警告从创建及重开均传出，清理后可改名/体力237、保存重开 |
+| 新建/克隆首次保存中断 | 2 | manifest尚缺时无recent、pending与原恢复凭据保留；真实打开入口触发恢复，克隆源离线也能完成，不再fetch；恢复后可继续编辑保存 |
+| 三种入口取消选目录 | 3 | 返回null、零目标IO、零恢复凭据/recent、没有网络请求 |
+| 非法manifest版本 | 3 | null/缺版本/字符串版本均在可写绑定前拒绝，保留原字节，不进入旧版本兼容 |
+| 地图文本/已上传素材序列化 | 1 | 未加载地图按原文本复制、已上传字节保留，不读取无改动catalog资源，也不把它们收入编辑差异清单 |
+
+编写期对齐了现行`local-project`枚举、`actorsById`与`assetBlobs`字段，不为测试改类型/生产语义。
+正确字段下，删除废弃代码前13/13通过；删除后本文件及copy/IO/open/A-02相邻共6文件/86项通过，
+editor typecheck通过。无新产品缺陷；本批补的是入口证据，不把内存边界测试冒充新的原生浏览器验收。
+
+**废弃代码判定与删除：** `App.tsx:2063`、保存前校验及所有当前调用均只传state/source；全仓
+includeAssetCopies搜索仅定义与历史文档，卡内:991已记录HTTP首存切到journal的懒素材输入。
+删除`serializeProjectWithMapCopies`的旧第三参数及全量资源物化/重排分支，只保留既有地图copy-through；
+函数不是发布的跨包API，current writer的copies/verifySource、复制路径、写序、协议与权限零改动。
+该删除是退役无调用方代码，不是exclusion或缩小生产文件清单；覆盖变化必须与新增测试命中分开记录。
+
+按Vite技能用隔离加载做五组反证，每次只改指定函数片段，打印源/突变SHA，主工作树无回退：
+新建警告丢弃1红、克隆警告丢弃1红、打开恢复警告丢弃2红（均因应有警告变undefined）；
+打开前跳过恢复2红（pending正常工程无法恢复打开）；重新引入无必要资源读取1红（精确读边界报错）。
+这五组均exit1，不把“仍被另一层拒绝”错误描述成绕过全部数据保护。
+证据`/tmp/codex-open-workflows.FAAR76/`的mutation.config.mts、mutant-*.log、
+workflows-before-prune.log、adjacent-after-prune.log、typecheck-after-prune.log；配置不改仓库测试选择/超时。
+
+删除前另跑**正式editor-fast相同生产/测试范围**：220生产文件/189测试文件/1,941项，
+语句24,674/32,535、分支19,024/28,155、函数6,124/8,223、行22,286/28,411。
+仅新增测试即带来语句+19、分支+16、函数+3、行+15；open-actions行97/119→112/119、
+函数18/22→21/22、分支82/108→95/108；open-local分支10/15→13/15。
+该阶段project-io指标未变，不能把后续删代码带来的分母变化算成新增测试命中。
+复算脚本editor-fast.mjs直接导入现行coverage config，报告在pre-prune/，日志editor-pre-prune.log。
+完整原配置pnpm check exit0：7包/556测试文件/6,668项（editor208文件/2,100项），
+各包typecheck通过；lint仍为既有50 warnings/11 infos、零错误。既有15s审计预算/旧测试/原探针未改。
+本批不声称打开入口或整卡全部达标：open-actions余下包括picker实际失败/身份错配、PAL最终proof及
+Save As部分分支；open-local余下两条为非Error异常文案兜底，先核真实可达性，不人为让decoder抛字符串凑数。
+官方ratchet以a010c271为保护基线通过：618生产文件/6,180项fast，editor220生产文件/189测试文件/1,941项。
+最终editor语句24,672/32,526、分支19,023/28,148、函数6,124/8,221、行22,284/28,403。
+删除前后逐文件对照仅project-io改变：行264/298→262/290、分支187/248→186/241、
+函数49/54→49/52；covered也有减少，明确归于删除已执行的旧条件与中间变量，而非用测试抬高分子。
+其他219文件的整文件报告完全相同；未改生产清单、exclusion、阈值或测试限时，仍保留所有旧测试。
+本卡所需核心目标尚未全部达到，不以这些百分比变化代替剩余SR与大工程成本核验。
+**随后单次严格fast exit0，6,180项通过**；除generatedAt外完整summary与ratchet逐字段相同，
+无覆盖计数抖动。最终check.log、ratchet.log、strict-fast.log、ratchet-summary.json及两套整文件覆盖报告
+保留在上述证据目录；文档工具20项/400 Markdown/1,813本地链接/140卡检查通过。
+产品实际写/读入口、私有恢复协议、原探针、PAL内容、用户6010均未操作或改动；
+唯一生产diff为已说明的无调用方序列化分支退役。状态仍build，不代签、不标done，不请求用户复验本批测试。
+
 ## 交接日志
+
+- 2026-09-10 Codex：新建/克隆/打开13项真实流程回归与相邻86项通过，五组隔离反证有效；
+  删除无调用方的includeAssetCopies分支，保存行为不变。分开记录补测试命中与删代码的覆盖分母变化，
+  完整check及单次严格fast通过。下一步继续权限/异常与writer/policy缺口、大工程性能；无下一位Agent提示词，仍由Codex推进。
 
 - 2026-09-10 Codex：补齐本批journal五项真实故障回归，原74项正文保留；四组隔离单点负控均业务红，
   journal达到行/函数95%、分支90%的单模块目标，完整check/单次严格fast通过。
@@ -1467,8 +1524,8 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 ## 下一位 Agent 提示词
 
 当前175d07b2返工已通过Codex独立复核并集成，2a49cac6的R1–R3 counter解除；r2签字保持有效。
-2026-09-10已完成审计性能修复及本批journal故障回归，原配置完整check及6,167项单次严格fast均通过；既有15s预算不变。
-本批journal覆盖目标已达标，下一批为保存/新建/打开真实入口；其他SR与大工程成本仍待收口。
+2026-09-10已完成审计性能、journal故障及新建/克隆/打开真实流程回归；原配置完整check及6,180项单次严格fast均通过，既有15s预算不变。
+journal覆盖目标已达标；当前继续权限/异常、writer/policy其余覆盖与大工程性能，其他SR尚未全部收口。
 无下一位Agent提示词，仍由Codex继续核心覆盖率/SR矩阵及性能收口；本次不重签设计，不转整卡终审。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
 当前不请求用户验收。

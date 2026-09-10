@@ -340,13 +340,13 @@ export function serializeProject(
 }
 
 /**
- * 另存为/打包边界：已加载地图用当前工作副本，未加载地图从源文件按原文本复制。
+ * 序列化边界：已加载地图用当前工作副本，未加载地图从源文件按原文本复制。
  * copy-through 不 JSON.parse，因此不会为了保存把全部地图对象常驻内存。
+ * 未修改素材由保存协调器的懒读取输入复制，不在这里全量物化。
  */
 export async function serializeProjectWithMapCopies(
   state: EditorState,
   source: FileSource,
-  opts?: { includeAssetCopies?: boolean },
 ): Promise<Record<string, unknown>> {
   const mapCopies: Record<string, string> = {}
   await Promise.all(
@@ -354,26 +354,7 @@ export async function serializeProjectWithMapCopies(
       if (!state.maps[asset.id]) mapCopies[asset.path] = await source.readText(asset.path)
     }),
   )
-  const files = serializeProject(state, { mapCopies })
-  if (opts?.includeAssetCopies) {
-    for (const record of Object.values(state.assetCatalog.assets)) {
-      if (files[record.path] instanceof ArrayBuffer) continue
-      files[record.path] = await source.readBytes(record.path)
-    }
-    // preserve commit order after dynamically materializing binaries
-    return Object.fromEntries([
-      ...Object.entries(files).filter(([, value]) => value instanceof ArrayBuffer),
-      ...Object.entries(files).filter(
-        ([rel, value]) =>
-          !(value instanceof ArrayBuffer) &&
-          rel !== state.manifest.assets.catalog &&
-          rel !== 'manifest.json',
-      ),
-      [state.manifest.assets.catalog, files[state.manifest.assets.catalog]],
-      ['manifest.json', files['manifest.json']],
-    ])
-  }
-  return files
+  return serializeProject(state, { mapCopies })
 }
 
 /** 序列化单文件为落盘字符串(与 writeProject 写盘同规格,便于快照比对)。字符串值原样。 */

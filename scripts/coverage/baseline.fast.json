@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-10T13:09:14.307Z",
+  "generatedAt": "2026-09-10T13:39:43.094Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 618,
-  "testCount": 6167,
+  "testCount": 6180,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2805,8 +2805,8 @@
       ],
       "scopeDigest": "2ea0828d93df83523f4fa04e94099267380f593c72fede27cf7d584bf77c0561",
       "fastTests": {
-        "testCount": 1928,
-        "testFileCount": 188,
+        "testCount": 1941,
+        "testFileCount": 189,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2858,6 +2858,7 @@
           "packages/editor/src/core/project-copy.test.ts",
           "packages/editor/src/core/project-diagnostics.test.ts",
           "packages/editor/src/core/project-io.test.ts",
+          "packages/editor/src/core/project-open-workflows.test.ts",
           "packages/editor/src/core/project-read-admission.test.ts",
           "packages/editor/src/core/project-reference-adapters.test.ts",
           "packages/editor/src/core/project-reference.test.ts",
@@ -3247,6 +3248,11 @@
             "file": "packages/editor/src/core/project-io.test.ts",
             "testCount": 5,
             "identityDigest": "cfca2477f01bfb375b2b9b5a5c8ab49ecf9a185f0af5276736274d2a46130e64"
+          },
+          {
+            "file": "packages/editor/src/core/project-open-workflows.test.ts",
+            "testCount": 13,
+            "identityDigest": "0f6cd85953ec74388fc7fa939b277894c4865fcc0774850a6ad720726a574294"
           },
           {
             "file": "packages/editor/src/core/project-read-admission.test.ts",
@@ -3939,46 +3945,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "51b320b24a5e31d1fe16b94c1001bbadda02e5bcc002c8d10d9070096e757b66",
+        "identityDigest": "4b2849ef2535e9681e5922a68d024c9dbf48c0eddab01294fc4b65377949fd86",
         "duplicateIdentityCount": 8,
-        "executionDigest": "5e0843f27be1908566f0f546248ab6b8f232a63733c6a0c4492cabcbcef6b8f1"
+        "executionDigest": "46441690fbdae01688b8b4dc4966d9afe397f137282145049e324bb8b83e61df"
       },
       "metrics": {
         "statements": {
-          "covered": 24655,
-          "total": 32535
+          "covered": 24672,
+          "total": 32526
         },
         "branches": {
-          "covered": 19008,
-          "total": 28155
+          "covered": 19023,
+          "total": 28148
         },
         "functions": {
-          "covered": 6121,
-          "total": 8223
+          "covered": 6124,
+          "total": 8221
         },
         "lines": {
-          "covered": 22271,
-          "total": 28411
+          "covered": 22284,
+          "total": 28403
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 53539,
-      "total": 79547
+      "covered": 53556,
+      "total": 79538
     },
     "branches": {
-      "covered": 38312,
-      "total": 62536
+      "covered": 38327,
+      "total": 62529
     },
     "functions": {
-      "covered": 10154,
-      "total": 14624
+      "covered": 10157,
+      "total": 14622
     },
     "lines": {
-      "covered": 48377,
-      "total": 69594
+      "covered": 48390,
+      "total": 69586
     }
   }
 }
