@@ -1369,7 +1369,58 @@ stages-before/after.log、adoption-after.log、typecheck.log、check.log、ratch
 再补创建/克隆真实成功链与清理警告透传；均先以实际业务结果核验，不以预计覆盖增量放行。
 GLM三批测试贡献的终审披露保持，原探针/用户6010/PAL数据/公共版本未动；本轮无浏览器验证需求。
 
+### Codex · journal核心故障回归（2026-09-10）
+
+用户“继续推进”后，从同步的7d95f882洁净树继续r2已签范围；本批只补测试，不改私有协议/生产行为，
+不重签、不动旧探针。journal原74项测试正文逐字保留，只加必要导入与5项（四类）故障回归：
+
+| 回归 / 源码边界 | SR | 业务断言与正控 |
+|---|---|---|
+| blob close之后被改，`author-save-journal.ts:427` | SR-02/04 | 在下一个输入读取前停止；零作者IO、staging/planHash=null；重开拒清理外部字节，恢复凭据和数据完整保留 |
+| 候选plan第二次回读后状态换代，`:473` | SR-02/10 | 不能进入ready、零作者IO；新状态门/plan/payload保留；后续打开恢复也不自动清理冲突 |
+| actors恢复close后、下一步之前替换状态门，`:559` | SR-03/10 | 仅允许已完成actors一步，后续不写，保存游标/恢复数据保留；真实finishOpen同样拒绝；撤销测试注错后续写且不重复actors |
+| 另一显式打开已清理未封存尝试，原页retry，`:775` | SR-09 | 正常/外部已改两个用例均只读退出；正常目录仍能保存，外部字节不被收编到旧基线，后续保存仍拒绝 |
+
+注错仅用既有内存FSA的afterClose/afterRead边界与真实prepare/commit/recover/finishOpen链，
+未改共享fixture或用睡眠猜时序。5项不是5个生产bug：当前防护均通过，补的是长期回归证据。
+编写期曾把只读openLocalProject误当完整编辑器恢复入口，伪造committed门仍可读并非本卡新缺陷；
+已更正为真实finishOpen拒绝的断言，未为错误测试修改生产，也不把该次失败计为负控制证据。
+
+隔离Vite加载只移除指定的一处完整guard，检查源片段只出现一次并打印前后SHA；不stash/回退工作树，
+正常对照与各突变使用相同的被选用例，不为负控另写断言。正常journal 79/79；同配置正常对照+计划/前缀/存储/A-02/policy
+相邻共6文件/241项通过，editor typecheck通过。四组负控制均exit1：
+
+- blob回读检查移除：继续读了16个输入而非首个，立即停止断言红；不冒称它绕过了后续所有校验。
+- 封存前状态检查移除：错误持久化ready与非空planHash，预期staging/null的业务断言红。
+- 逐步pending检查移除：恢复错误resolved committed而非拒绝，业务红。
+- 未封存清理后的原页retry分支移除：两个合法null结果均变成错误拒绝，正控红，排除“全部拒绝也算安全”。
+
+证据目录`/tmp/codex-journal-boundaries.4BiiXI/`：mutation.config.mts、journal.log、
+control-adjacent.log、typecheck.log、mutant-blob/replay/retry.log、mutant-seal-business.log；
+seal初次负控制先停在多一次plan读取断言，已将业务状态断言前置复跑，最终结论采用后者。
+正常源码始终零diff，负控制不是修改真实磁盘工程；本批不重复已有原生跨页视觉验收。
+
+官方ratchet以7d95f882为保护基线通过：生产618文件不变，fast 6,162→6,167项；
+editor仍220生产文件/188测试文件，1,923→1,928项。未降低阈值或改变统计范围；
+journal整文件行380/393→387/393（98.47%）、函数57/57（100%）、分支265/297→271/297（91.24%），
+达到本卡单模块95%/95%/90%目标。全仓其余六包不变，editor语句/行各增加7、分支增加6，分母均未变。
+**这不代表全部SR或整卡完成。** 当前writer（project-io）、workspace-persistence、open-actions/open-local
+仍有已登记的真实覆盖缺口，PAL新页权限/打开证明及大工程94.05s克隆成本也不能以journal达标代替验收。
+下一批优先创建/克隆真实入口的成功链和清理警告透传，以及writer的有效故障边界；
+`project-io.ts:349,358`的includeAssetCopies已无生产或测试调用方（当前全仓搜索仅定义与历史文档），
+须按现行懒读取路径核定退役，不为这段旧全量物化入口硬造覆盖。
+原配置完整pnpm check exit0：7包/555测试文件/6,655项通过（editor207文件/2,087项）；
+所有包typecheck通过，设计系统审计保持既有15s限时，lint为既有50 warnings/11 infos、无新增错误。
+**随后单次严格fast exit0，6,167项通过**；除generatedAt外完整summary与本轮ratchet逐字段相同，
+无覆盖计数抖动。证据同目录check.log、ratchet.log、strict-fast.log、ratchet-summary.json、
+editor-ratchet-summary.json；文档工具20项/400 Markdown/1,813本地链接/140卡检查通过。
+整卡保持build，原r2签字与GLM测试贡献披露不变；不代签、不标done、不转E2E。
+
 ## 交接日志
+
+- 2026-09-10 Codex：补齐本批journal五项真实故障回归，原74项正文保留；四组隔离单点负控均业务红，
+  journal达到行/函数95%、分支90%的单模块目标，完整check/单次严格fast通过。
+  下一批继续保存/新建/打开入口及大工程性能；无下一位Agent提示词，仍由Codex推进，不请求重复设计签字或用户复验。
 
 - 2026-09-10 Codex：完成审计执行性能修复，完整check及单次严格fast通过，15s限时/规则/生产范围未变。
   同步看板与本卡证据；r2设计继续有效，状态仍build。下一批继续核心故障回归/SR及大工程成本，
@@ -1416,7 +1467,8 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 ## 下一位 Agent 提示词
 
 当前175d07b2返工已通过Codex独立复核并集成，2a49cac6的R1–R3 counter解除；r2签字保持有效。
-2026-09-10审计性能修复后，原配置完整check及6,162项单次严格fast均通过；既有15s预算不变。
+2026-09-10已完成审计性能修复及本批journal故障回归，原配置完整check及6,167项单次严格fast均通过；既有15s预算不变。
+本批journal覆盖目标已达标，下一批为保存/新建/打开真实入口；其他SR与大工程成本仍待收口。
 无下一位Agent提示词，仍由Codex继续核心覆盖率/SR矩阵及性能收口；本次不重签设计，不转整卡终审。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
 当前不请求用户验收。

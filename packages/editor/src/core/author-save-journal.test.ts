@@ -68,8 +68,10 @@ import {
   loadCurrentProjectFrom,
   loadStampTemplates,
   PROJECT_SAVE_STATE_PATH,
+  parseProjectSaveState,
 } from '@type-pal/reforge'
 import { deferred, memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
+import { verifyOpenedAuthorBaseline } from './author-disk-baseline.js'
 import {
   type AuthorSaveInput,
   commitAuthorSave,
@@ -1356,5 +1358,183 @@ test.each([
     expect(new TextDecoder().decode(f.disk.files.get('content/locale.json'))).toBe(
       'foreign content',
     )
+  }
+})
+
+test('a staged blob changed after close stops preparation before the next input is read', async () => {
+  const f = await fixture()
+  const original = new Map(f.disk.files)
+  const reads: string[] = []
+  let corruptedPath = ''
+  f.disk.resetChanges()
+  f.disk.hooks.afterClose = (path) => {
+    if (!corruptedPath && path.includes('/blobs/')) {
+      corruptedPath = path
+      f.disk.set(path, 'foreign bytes after staged close')
+    }
+  }
+  const steps = inputs(f.intended).map((input) => {
+    if (input.kind !== 'write') throw new Error('fixture must contain only writes')
+    return {
+      ...input,
+      read: async () => {
+        reads.push(input.path)
+        return input.read()
+      },
+    }
+  })
+  await expect(save(f, steps)).rejects.toThrow('恢复')
+  expect(corruptedPath).toContain('/blobs/')
+  expect(reads).toEqual([steps[0]!.path])
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  for (const [path, bytes] of original) expect(f.disk.files.get(path)).toEqual(bytes)
+  expect(receiptOf(f)).toMatchObject({
+    phase: 'staging',
+    planHash: null,
+    completed: 0,
+    issued: false,
+  })
+  expect(f.disk.files.has(PROJECT_SAVE_STATE_PATH)).toBe(false)
+
+  f.disk.hooks.afterClose = undefined
+  const interrupted = new Map(f.disk.files)
+  const receipt = receiptOf(f)
+  f.disk.resetChanges()
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow(corruptedPath)
+  expect(f.disk.files).toEqual(interrupted)
+  expect(f.disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+  expect(receiptOf(f)).toEqual(receipt)
+})
+
+test('a save generation changed after plan reread rejects sealing and preserves all staged evidence', async () => {
+  const f = await fixture()
+  const original = new Map(f.disk.files)
+  const foreignState = parseProjectSaveState({
+    kind: 'type-pal-author-save',
+    version: 1,
+    operationId: crypto.randomUUID(),
+    planHash: 'a'.repeat(64),
+    phase: 'committed',
+  })
+  let planReads = 0
+  f.disk.resetChanges()
+  f.disk.hooks.afterRead = (path) => {
+    if (!path.endsWith('/plan.json')) return
+    planReads++
+    // First read verifies the just-closed plan; the second loads its sealed candidate.
+    if (planReads === 2) {
+      expect(receiptOf(f)).toMatchObject({ phase: 'staging', planHash: null })
+      f.disk.set(PROJECT_SAVE_STATE_PATH, foreignState)
+    }
+  }
+  await expect(save(f)).rejects.toThrow(PROJECT_SAVE_STATE_PATH)
+  expect(authorChanges(f.disk)).toEqual({ creates: [], closes: [], removes: [] })
+  for (const [path, bytes] of original) expect(f.disk.files.get(path)).toEqual(bytes)
+  expect(f.disk.json(PROJECT_SAVE_STATE_PATH)).toEqual(foreignState)
+  expect(receiptOf(f)).toMatchObject({
+    phase: 'staging',
+    planHash: null,
+    completed: 0,
+    issued: false,
+  })
+  expect(planReads).toBe(2)
+  expect(Object.keys(receiptOf(f).staged)).toContain('plan.json')
+
+  f.disk.hooks.afterRead = undefined
+  const interrupted = new Map(f.disk.files)
+  const receipt = receiptOf(f)
+  f.disk.resetChanges()
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow('读取状态发生变化')
+  expect(f.disk.files).toEqual(interrupted)
+  expect(f.disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+  expect(receiptOf(f)).toEqual(receipt)
+})
+
+test('a pending marker replaced between replayed steps stops before the next author write', async () => {
+  const f = await fixture()
+  stopAtActors(f)
+  await expect(save(f)).rejects.toThrow('stop actors')
+  f.disk.hooks.beforeClose = undefined
+  const receipt = receiptOf(f)
+  const plan = f.disk.json(`.type-pal/save-recovery/${receipt.operationId}/plan.json`)
+  expect(plan.steps[receipt.completed].path).toBe('content/actors.json')
+  expect(receipt.completed + 1).toBeLessThan(plan.steps.length)
+  const originalPending = f.disk.files.get(PROJECT_SAVE_STATE_PATH)!.slice(0)
+  const foreignState = parseProjectSaveState({
+    ...f.disk.json(PROJECT_SAVE_STATE_PATH),
+    operationId: crypto.randomUUID(),
+    phase: 'committed',
+  })
+  let stopSnapshot: Map<string, ArrayBuffer> | undefined
+  f.disk.hooks.afterClose = (path) => {
+    if (path === 'content/actors.json') {
+      f.disk.set(PROJECT_SAVE_STATE_PATH, foreignState)
+      stopSnapshot = new Map(f.disk.files)
+    }
+  }
+  f.disk.resetChanges()
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).rejects.toThrow(PROJECT_SAVE_STATE_PATH)
+  expect(stopSnapshot).toBeDefined()
+  expect(f.disk.files).toEqual(stopSnapshot)
+  expect(authorChanges(f.disk)).toEqual({
+    creates: [],
+    closes: ['content/actors.json'],
+    removes: [],
+  })
+  expect(receiptOf(f)).toMatchObject({
+    phase: 'applying',
+    completed: receipt.completed + 1,
+    issued: false,
+    staged: receipt.staged,
+  })
+  expect(f.disk.json(PROJECT_SAVE_STATE_PATH)).toEqual(foreignState)
+  await expect(finishOpen(f.disk.dir)).rejects.toThrow(PROJECT_SAVE_STATE_PATH)
+
+  // Restore only the injected external marker; the real durable prefix resumes without redoing actors.
+  f.disk.hooks.afterClose = undefined
+  f.disk.set(PROJECT_SAVE_STATE_PATH, originalPending)
+  f.disk.resetChanges()
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).resolves.toMatchObject({
+    kind: 'committed',
+  })
+  expect(f.disk.changes.closes).not.toContain('content/actors.json')
+  assertRestored(f.disk)
+})
+
+test.each([
+  false,
+  true,
+])('own retry after another opener cleaned staging never adopts foreign edits (%s)', async (foreignEdit) => {
+  const f = await fixture()
+  f.disk.hooks.beforeClose = (path) => {
+    if (path.includes('/blobs/')) throw new Error('unsealed interruption')
+  }
+  await expect(save(f)).rejects.toThrow('unsealed interruption')
+  expect(receiptOf(f)).toMatchObject({ phase: 'staging', planHash: null })
+  f.disk.hooks.beforeClose = undefined
+  await expect(recoverInterruptedAuthorSave(f.disk.dir)).resolves.toBeNull()
+  expect(storage.receipts.size).toBe(0)
+  expect([...f.disk.files.keys()].some((path) => path.includes('/save-recovery/'))).toBe(false)
+  if (foreignEdit) f.disk.set('content/locale.json', 'external edit after staging cleanup')
+  const afterCleanup = new Map(f.disk.files)
+  f.disk.resetChanges()
+  await expect(
+    recoverOwnAuthorSave(f.opened.workspace, f.disk.dir, f.opened.authorBaseline),
+  ).resolves.toBeNull()
+  expect(f.disk.files).toEqual(afterCleanup)
+  expect(f.disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+  if (foreignEdit) {
+    await expect(verifyOpenedAuthorBaseline(f.opened.authorBaseline, f.disk.dir)).rejects.toThrow(
+      'content/locale.json',
+    )
+    await expect(save(f)).rejects.toThrow('content/locale.json')
+    expect(f.disk.files).toEqual(afterCleanup)
+    expect(f.disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+  } else {
+    await expect(
+      verifyOpenedAuthorBaseline(f.opened.authorBaseline, f.disk.dir),
+    ).resolves.toBeUndefined()
+    await save(f)
+    assertRestored(f.disk)
   }
 })
