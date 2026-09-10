@@ -5,6 +5,7 @@ import Specificity from '@bramus/specificity'
 import { JSDOM } from 'jsdom'
 import ts from 'typescript'
 import { validateActionGroupAdoption } from './action-group-audit.mjs'
+import { requiredTargetClasses } from './selector-prefilter.mjs'
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const repositoryRoot = join(packageRoot, '../..')
@@ -1883,6 +1884,8 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
   const ownerSources = new Set()
   const visitedSources = new Set()
   const callsiteMetadata = new Map()
+  // Metadata identities are immutable within this traversal; never share call state across roots.
+  const ownerBaseBySite = new Map()
   const elementMetadata = new Map()
   const elementSiteIds = new Map()
   const activeCollects = new Map()
@@ -2087,12 +2090,19 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
       })
       const states = [base, ...alternatives]
       const ownerBase = (site) => {
+        if (ownerBaseBySite.has(site)) return ownerBaseBySite.get(site)
         const metadata = callsiteMetadata.get(site)
-        return metadata ? `${metadata.source}@${metadata.component}#${metadata.callsite}` : site
+        if (!metadata) return site
+        const identity = `${metadata.source}@${metadata.component}#${metadata.callsite}`
+        ownerBaseBySite.set(site, identity)
+        return identity
       }
       const sitesByBase = new Map()
+      const seenSites = new Set()
       for (const counts of states)
         for (const site of counts.keys()) {
+          if (seenSites.has(site)) continue
+          seenSites.add(site)
           const identity = ownerBase(site)
           const sites = sitesByBase.get(identity) ?? new Set()
           sites.add(site)
@@ -2100,11 +2110,18 @@ function reachableJsxOwners(sourcePath, rootComponent, options = {}) {
         }
       target.clear()
       for (const sites of sitesByBase.values()) {
-        const selected = states.reduce((best, candidate) => {
-          const total = [...sites].reduce((sum, site) => sum + (candidate.get(site) ?? 0), 0)
-          const bestTotal = [...sites].reduce((sum, site) => sum + (best.get(site) ?? 0), 0)
-          return total > bestTotal ? candidate : best
-        }, states[0])
+        let selected = base
+        let bestTotal = 0
+        for (const site of sites) bestTotal += base.get(site) ?? 0
+        for (const candidate of alternatives) {
+          let total = 0
+          for (const site of sites) total += candidate.get(site) ?? 0
+          // Keep the existing first-state tie break and the selected state's whole owner group.
+          if (total > bestTotal) {
+            selected = candidate
+            bestTotal = total
+          }
+        }
         for (const site of sites) {
           const count = selected.get(site) ?? 0
           if (count > 0) target.set(site, count)
@@ -4832,6 +4849,7 @@ function parsedCssScrollRules(css) {
             order,
             selector: specificity.selectorString(),
             specificity: specificity.toArray(),
+            requiredTargetClasses: requiredTargetClasses(specificity.selectorString()),
           })
         continue
       }
@@ -4979,7 +4997,11 @@ function cssElementScrollContracts(metadata, elements, overrides = {}) {
   const scenarios = classPaths.flatMap((classPath, classVariant) => {
     const targetClasses = classPath.at(-1) ?? []
     const element = buildVirtualElement(metadata, elements, analysis.document, classPath)
+    // Read the actual DOM after attributes have been applied; JSX attributes may
+    // replace the initially assigned classes. This only rejects impossible matches.
+    const elementClasses = new Set(element.classList)
     const matchedRules = analysis.rules.filter((rule) => {
+      if (rule.requiredTargetClasses.some((token) => !elementClasses.has(token))) return false
       try {
         return element.matches(rule.selector)
       } catch {
