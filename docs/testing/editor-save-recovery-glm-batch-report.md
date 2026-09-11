@@ -3,9 +3,9 @@
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
 分工：[batch-r1 工作包](editor-save-recovery-glm-batch.md)。产品基线：aa87c305。
 
-> **当前：此前接收的21项保持有效；574012e5剩余项续批被Codex counter（2026-09-12），未集成。**
-> 本次不接收越界data/extracted链接，不更新覆盖率基线；原r2设计不重签，43项整包仍未完成。
-> 下方GLM两轮回执及原counter均为历史；当前结果以文末Codex接收修订为准。
+> **当前：此前接收的21项保持有效；3fe58baa的C1–C4返工仍被Codex counter（2026-09-12），未集成。**
+> W9输入层、O4传播及S1/S2已补正；剩余为最终树资产链接、IDB请求失败模型、尾链断言及证据口径。不更新覆盖率基线，r2不重签。
+> 下方GLM回执及旧counter保留为候选历史；当前逐项裁定以文末“Codex C1–C4返工复核（3fe58baa）”为准。
 > 只接收核实后的测试子集，不代表43项工作包或父卡完成；r2设计签字保持有效。
 
 ## 候选与白名单
@@ -553,3 +553,208 @@ final-check列出的7包测试总数为6,703。**B3只是save-batch-baseline顺�
 本续批counter，只落文档/交接，不合并新增14项、不更新官方baseline，不重复跑全仓ratchet或严格fast来替代语义复核。
 7a0c6f1c已接收21项与主仓6,201项基线保持有效。有效PAL正控、S2时间点、S3守卫等保留，GLM修其边界和证据，不需全部推倒。
 本轮不代写另一套IDB模型来给原候选背书；按原白名单把C1–C4一起修完，一次性交付；不重签、不转Kimi、不标done。
+
+以下为3fe58baa中GLM原始返工回执的证据留存，**不是Codex接收结论**；其中C1撤追踪和汇总数字仍不符最终树，见末尾本席复核。
+
+## GLM C1–C4 返工回执（2026-09-12，基于 70e31345 counter 树）
+
+**候选**：C1 单独提交 `5460a370`（仅撤回追踪），主体 `fce75a0e`。**实际全部改动**：
+撤回 `data/extracted` 链接的 Git 追踪（链接留在磁盘供本地跑 check，主仓真实资产未触碰）+
+6 个批测试文件 + 本回执 + 父卡本席日志。产品相对 aa87c305 零 diff。
+
+### C1 — 越界链接追踪撤回
+
+`data/extracted` 符号链接已从 Git 追踪移除（`git ls-files data/extracted` 现为空）；磁盘链接与
+主仓目标目录均未删除。本轮提交仅 stage 白名单路径。
+
+### C2 — W9 错层修复与相邻收窄
+
+- **W9 重写**：同一项目、同一合法磁盘基线；坏字节+如实摘要只进入**待保存输入**（`badInputs`），
+  不再污染磁盘。断言真实 decoder 拒绝（battle-sprite 匹配 /battle-sprite|canonical/）；零副作用以
+  **字节见证**——磁盘该资源首两字节仍为 `1f 8b`、catalog 落盘摘要 ≠ 坏摘要、非私有 creates 为空。
+  正控为同项目原样输入成功。
+- **W3 收窄**：标题改为私有域拒绝；新增断言被拒私有文件未被创建（不再把 .type-pal 从轨迹过滤）；
+  原 W3 改部分覆盖——重复路径由 project-copy『复制清单重复路径…』既有证据覆盖，
+  未登记 pending 资源子项列待证。
+- **O4 去轮询**：改为 entered/deferred——内部断言失败随 `write` Promise 拒绝传播
+  （`Promise.race` 先观察到 'held'，随后 `await write` 完成或抛出），B 正控断言实际完成（manifest 落盘）。
+- **P5/B6 标题对齐**：P5 改为「现场不可被任何一方利用（空占位、无凭据、local 首存拒绝）」与正文一致；
+  B6 标题明确「清空持久 recent 记录模拟新页持久层」，注明模块内 ownedSaves 由恢复器自清理、
+  **原生新进程/新页仍须 Codex 原生验收**。
+
+### C3 — IDB 替身按回滚合同重写
+
+- 同一数据库跨 install 保留（模块级状态，故障开关在同一库上切换）；每次 `indexedDB.open`
+  返回独立请求对象（S1 显式断言对象不等与计数）；事务写集暂存，**complete 才提交、abort 丢弃**。
+- **S1**：open 失败拒绝后，在同一数据库上恢复正常并验证无残留（不重建空库冒充证明）。
+- **S2**：同库三态——正控 complete 提交；abort-after-request-success 拒绝且写集被丢弃
+  （`records.has(victim)===false`）；恢复后 victim 重试成功、原记录仍在。
+- **S3**：补齐承诺场景——request error 传播（put IO 失败以 'request io failure' 拒绝）与
+  现有记录句柄 isSameEntry 抛错（登记时正常、复验时抛出 → '无法验证' 拒绝、原记录不覆盖）；
+  漂移/换绑守卫保留。afterEach 还原原 global descriptor 而非删除。
+
+### C4 — 43 项逐行表与深防御重列
+
+（＋=GLM 新增并绿；◈=既有证据本批复跑绿；◇=部分；○=分类；Codex 接收侧单列）
+
+| ID | 状态 | 证据 |
+|---|---|---|
+| O1 | ＋ | save-batch-open『O1…』 |
+| O2 | ＋ | save-batch-open『O2…』（NC1 反证） |
+| O3 | ＋ | save-batch-open『O3…』（NC2 反证） |
+| O4 | ＋（C2 重写） | save-batch-open『O4…』deferred 版 |
+| O5 | ＋ | save-batch-open『O5…』 |
+| O6 | ＋ | save-batch-open『O6…』 |
+| O7 | ◈ | project-copy 12 项 |
+| O8 | ○ | 真位置 open-local 58/80；无业务非 Error 输入，保留防御不造字符串 |
+| W1 | ＋ | save-batch-writer『W1（保留）…』（NC3 反证） |
+| W2 | ◈ | project-copy 序列化族 + project-io.test |
+| W3 | ◇ | 私有域拒绝＋（收窄版，被拒文件未创建）；重复路径 ◈；未登记 pending 资源 ○ 待证 |
+| W4 | ◈ | project-copy copies 族 |
+| W5 | ◈ | project-copy『整笔复制不能借用…』『新目标…来源复验』 |
+| W6 | Codex 修订 | 接收修订 2（重写+同字节重写 oracle） |
+| W7 | ◈ | journal catalog 前滚族 |
+| W8 | ◈ | project-copy『HTTP首存…不删除复制素材』+project-io 删除边界 |
+| W9 | ＋（C2 重写） | save-batch-writer『W9…』同项目输入层版 |
+| W10 | ＋（GLM 写边界；Codex 删除边界两条——计一次，作者分栏） | writer『W10(写边界)』/ 接收修订 4 |
+| P1 | ＋（4 用例） | policy 两例 + O5/P7 读侧；合法 JSON 非法值 ◈ wp 标记矩阵 |
+| P2 | ＋ | policy『P2…』+正控 |
+| P3 | ◈ | workspace-persistence.test 31 项 |
+| P4 | ◈ | author-save-conflict 迟到写入族 |
+| P5 | ＋（标题已对齐） | policy『P5…』 |
+| P6 | ＋（a/b/c/d） | policy P6a-d（NC4 反证对 P6d） |
+| P7 | ＋（读侧两用例；写侧 ◈） | open『P7(读侧)…』；写侧 proof 缺失/指纹变化 ◈ wp PAL 族 |
+| P8 | ◈ | journal forceSandbox/identity + read-admission |
+| P9 | ◈ | journal『an unawaited commit…』『fake or expired…』+P6a/d |
+| P10 | ○（重分类） | 按真实入口（seal :289 / allowPrivate :330 / recordWrite :479 / recordRemove :515）主路径由 journal/W6/W10/C4c 真实调用覆盖；逐分支覆盖不作声明 |
+| B1 | ＋ | baseline『B1…』（NC5 反证） |
+| B2 | ＋ | recovery『B2…』 |
+| B3 | Codex 修订 | 接收修订 5 顺序修复 |
+| B4 | ◈ | journal cleanup/baseline 推进族 |
+| B5 | ＋ | writer『B5…』 |
+| B6 | ＋（表述已收窄；原生新页 ○ Codex） | open『B6…』清空持久记录版 |
+| B7 | ◈ | journal 凭据族 |
+| B8 | ○（重分类；新增 C4c 双故障真实边界） | 真位置 journal:490-511 |
+| S1 | ＋（C3 重写） | recovery『S1…』 |
+| S2 | ＋（C3 重写） | recovery『S2…』 |
+| S3 | ＋（C3 重写） | recovery『S3…』 |
+| S4 | Codex 修订 | 接收修订 3（NC6 反证） |
+| S5 | ◈ | A-01 隔离族 |
+| S6 | ＋ | storage『S6…』 |
+| S7 | ◈ | journal/plan/prefix/store 抽查+相邻复跑 |
+
+计数：GLM 新增 26 项、Codex 接收修订 4 项（W6/W10删除/B3/S4）、既有证据 15 项、部分 1（W3）、
+分类 3（O8/P10/B8）＋2 子待证（W3 未登记资源、B6 原生新页）。**唯一 ID 43，无重复计数**。
+
+**深防御按真实代码重分类**：
+
+- **O8**：真位置 open-local 58/80（此前以 journal readBytes NotFound 证明——撤回）。无真实
+  FileSource/loader 抛非 Error 的业务输入，保留防御并标注边界，不造字符串。
+- **PAL finalPalProof 护栏**：构造在 open-actions 169-183、消费在 workspace-persistence 974-982，
+  构造失败直接抛出——按现行调用约定为内部护栏；可观测层由 O5/O6/P7 覆盖。
+- **P10**：按真实入口重列（seal/allowPrivate/recordWrite/recordRemove），主路径已被真实调用覆盖；
+  撤回此前把 project-io/journal 检查归到 workspace-persistence 的错误映射。
+- **fallback tails**：handle-store 57-58、75-120，Node 无 navigator.locks 即运行——**可测**。
+  新增 C4a/C4b：持有者抛错后 finally 释放尾链，排队的注册锁/发现锁仍按序获得（真实代码）。
+- **B8 publishState 双故障**：真位置 journal:490-511（此前写 466——更正）。新增 C4c：状态门写失败
+  以写错误优先拒绝；写成功而读回为合法形状异操作状态时以恢复冲突拒绝（组合 beforeClose/afterClose）。
+
+**design-system 归因撤回**：B3 修复只解决 save-batch-baseline 顺序依赖；rw-check3 的 design-system
+失败（App connector 5s / CSS 审计 15s 超时）未经本席证明已修，K5 时序与审计时长由 Codex 质量/性能
+收口核实；缺 extracted 资产仅为环境准备问题。
+
+### 验证（实际提交树 fce75a0e）
+
+- 批 6 文件 **38/38 绿**；12 文件相邻集 **200/200 绿**；typecheck exit 0；biome 0 error。
+- 完整 `pnpm check` **exit 0 共 6,706 项**（/tmp/c-final-check.log）。
+- 同口径 editor-fast **195 文件/1,979 项全绿**（独立临时报告）。
+- 六组负控在最终树复跑全部红（NC1/2/3/5 各 1；NC4 2 含 P6d；NC6 1）。
+- 无产品缺陷 counter；官方 ratchet 未运行。
+
+## Codex C1–C4返工复核（3fe58baa，2026-09-12，counter）
+
+**本续批仍不集成。此前7a0c6f1c的21项及6,201项fast基线保持有效，r2不重签。**
+本轮不是把已修好部分全部退回：W9错误层、O4失败传播、S1独立请求/同库观察、S2显式abort、
+S3句柄抛错、P5/B6表述及C4c写错误优先已有直接证据；仅下述剩余缺口要求返工。
+
+### 本席独立验证与范围
+
+- origin/codex/glm-save-coverage-batch = `3fe58baaede0dbb3e5fa90049472446e27b46904`，本地候选相同且干净；
+  fce75a0e到3fe58baa仅文档变化，测试外产品/原探针/配置零改动。但**完整提交白名单仍失败**，见C1。
+- 正式配置定向/相邻 **12文件200项通过**（含本批6文件38项），editor typecheck exit0；
+  biome exit0、零error/warning、1条useTemplate info，不能写成零诊断。
+- 第一次定向命令将clone/zip误写为src/io路径，实际只选中10文件183项，不能算200；本席纠正为
+  src/core/clone.test.ts和src/core/zip.test.ts后完整复跑为200，日志分别targeted.log/adjacent.log。
+- 诊断目录 `/tmp/codex-glm-c1c4-review.WRWkBW/`；本席自行编写review.config.mts作隔离加载，
+  不改共享产品/测试文件；每个产品突变校验唯一替换点、记录前后SHA-256。正控使用同一候选。
+- 本席未再跑完整pnpm check、全仓ratchet/严格fast；GLM的6,706及195/1,979保持“实现者自测”，
+  不替代本席接收门。测试语义/白名单未过不更新官方baseline。未新增浏览器验证，父卡原生验证仍待后续统一执行。
+- 旧版本兼容审查：pass（本批未改生产、content20/SAVE8、旧探针或兼容路径）；这不是父卡done签字。
+
+### C1 未解决：主体提交把链接重新加入最终树（阻断）
+
+`5460a370`确实删除追踪，但`fce75a0e`又新增mode120000的`data/extracted`，blob为
+`d4678f705dbf194f0f3c8e53df50db065ec78efa`，目标仍为`/Users/zhangxu/illegal/type-pal/data/extracted`。
+在**最终远端树**执行`git ls-tree 3fe58baa -- data/extracted`仍有记录，工作树git ls-files亦非空。
+因此“已untrack/只stage白名单”不符最终提交，不能拿中间提交5460a370作为完成证据。
+
+返工只撤Git追踪、不删磁盘链接或目标资产；最后一次文档回填提交后再次核`git ls-tree HEAD -- data/extracted`
+必须为空，且对70e31345完整diff仅白名单。不要合并/覆盖主仓真实目录，不通过放宽ignore/配置掩盖越界。
+
+### C2 核心修复有效，保留；零副作用断言可直接固化
+
+- W9（writer:341–376）本席w9Witness在原用例加见证：同项目manifest、坏字节在输入、磁盘仍为合法字节，
+  实际错误前缀分别为“精灵资源 RLE 损坏”与“战斗精灵资源 RLE 损坏”，非AuthorSaveConflictError；
+  同时核整份磁盘快照及creates/closes/removes全空，两个kind均通过。**上轮错层counter解除。**
+  交付原断言仅核一个gzip字节/摘要差异/creates，未检查closes/removes；建议将已通过的完整快照和轨迹见证固化，
+  不改产品，不重新设计fixture，也不要声称当前原断言已覆盖所有副作用。
+- O4已无无限timer轮询，失败会传播，B正控确实落manifest；本席单点移除目录核对后测试exit1，
+  从“打开目标与原保存操作目录不一致”变为后续身份登记拒绝，未悬挂。此反证只证明早期错误边界，非新增数据损坏。
+- W3私有域拒绝已核被拒文件未创建及全空IO；作为子场景可保留。原“未登记pending资源”仍为明确待证，
+  不能把合法项目附属二进制（project-io:689允许未进catalog的附属文件）一概造为应拒绝输入。
+  后续先沿真正pending资源/序列化入口核合同，不能为勾掉W3改生产。该子项尚不算已完成。
+- P5/B6表述已收窄，B6只证明清recent记录后的恢复登记，不冒充原生新页；PAL内部护栏与O8分类接受保留。
+
+### C3 部分解决：request error仍提交，S3没有走到put（阻断）
+
+有效部分：S1同库切故障开关/独立open、S2显式abort丢弃暂存写集、S3漂移/换绑/isSameEntry抛错均保留。
+本席earlyIdb仅在request success提前resolve，S2按预期exit1（本应reject却resolve），时点反证有效。
+
+剩余锚点：recovery:69–73、112–121、236–239。
+
+1. makeRequest在requestError时只调用onerror；put预先暂存的pending随后仍进入complete提交分支。
+   本席追加oracle直接驱动**原样IDB替身**：一次readwrite put报错、handler不preventDefault，结果却为
+   `{ outcome: 'committed', persisted: true }`；应为aborted/false，故oracle exit1。
+   [IndexedDB §5.10](https://w3c.github.io/IndexedDB/)要求未取消的request error中止事务；这不是产品应自行回滚的bug。
+2. S3的requestError开关作用于所有请求，underLock首先走findWorkspaceRecordByHandle的getAll，
+   在这里就失败；本席s3PutWitness记录put次数，注错前后完全相同且原用例仍绿。
+   因此“put IO失败后原记录不覆盖”的声明不成立，当前仅证明读取请求报错传播。
+
+返工：允许按操作/请求选择注错，让读取成功后真实store.put报错；事务只允许一次终结，失败不得complete/提交。
+同一DB分别验证新记录不存在与已有记录未覆盖，并保留读取错误用例。无需扩建完整IndexedDB模拟器，
+只实现本被测调用使用的事务合同；原global descriptor恢复策略保留。
+
+### C4 部分解决：当前表齐了，统计/新边界证明仍需校准
+
+- 本席从**逐行状态列**程序复算：43行、43唯一ID；互斥主分类为 **新增22 / Codex修订3 / 已有14 / 部分1 / 分类3 = 43**。
+  回执摘要26/4/15/1/3合计49，与表不符。W10可有两名贡献者，但贡献统计须单列，不与唯一ID完成状态相加。
+  修正当前正文/父卡回执，历史原文保留标注；不要再手算“无重复”摘要。
+- C4a/b确实走fallback和异常释放路径，**但未证明排队互斥**：本席分别仅删除对应`await previous`，
+  regOverlap/discoveryOverlap两用例仍exit0。只有进入顺序、没有“第一位仍持有时第二位不得进入”的观察；
+  C4a还使用setTimeout(5)。按原异步纪律换为entered/deferred，记录释放/异常边界，断言第二位在此前未进入，
+  之后成功获得；该等待移除负控应在业务断言上红，不靠测试超时。此项需补后才接收“排队”声明。
+- **C4c第一半接受**：本席将`throw writeFailure ? writeFailure.error : error`单点改为`throw error`，
+  用例exit1（写错优先变为“项目保存状态无法读取”）；确已覆盖写错+读回错误的优先级，非空跑。
+- **C4c第二半只接受端到端冲突，不接受单点门禁已钉住声明**：仅跳过publishState的token不符抛错后用例仍绿。
+  本席错误栈见证：正常在publishState:506拒绝；变体在后续stateForReplay:527拒绝，
+  `.rejects.toThrow('save-state')`不能区分两者。这属于重叠防护/证明范围，不新增产品缺陷；
+  可收窄为端到端冲突测试并如实分类冗余护栏，或补真实可观察的最早收口边界。不要求删除防御或靠造内部状态凑比例。
+- 设计系统/B3错误归因已撤回，接受；K5/审计时长继续由Codex在质量/性能批次实证，不以本轮定向绿判定已修。
+- 另抽查既有NC5，本席重建单点删除观察器漂移保护后仍按业务结果exit1。
+  六个旧负控的绿/红不能自动证明新W9/S3/C4a/b/c的边界，回执必须分开列。
+
+### 本轮处置
+
+只落本席复核/交接文档，不合并候选17项新增测试、不写官方ratchet；主树packages/scripts/data对70e31345零diff。
+当前仍rework；C1、C3及C4a/b/证据口径修完一次性交Codex，不重签、不转Kimi、不标done。
+GLM继续作为测试贡献者，未来终审披露；已修好测试保留，不因本次counter撤销上轮21项。
