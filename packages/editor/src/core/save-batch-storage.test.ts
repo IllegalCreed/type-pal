@@ -163,3 +163,39 @@ test('S6: ensurePermission 无请求路径返回 denied；query 抛错传播不�
   ).rejects.toThrow('query io failure')
   expect(failing.requestPermission).not.toHaveBeenCalled()
 })
+
+// ═══ C4：fallback 尾链失败释放（真实 handle-store 代码，Node 无 navigator.locks 路径） ═══
+
+test('C4a: 排队中的注册锁在前一持有者抛错后仍可获得（finally 释放尾链）', async () => {
+  const { withWorkspaceRegistrationLock } = await import('./handle-store.js')
+  expect(typeof globalThis.navigator === 'undefined' || !globalThis.navigator.locks).toBe(true)
+  const order: string[] = []
+  const first = withWorkspaceRegistrationLock('w', async () => {
+    order.push('first-enter')
+    await new Promise((resolve) => setTimeout(resolve, 5))
+    throw new Error('first holder fails')
+  })
+  const second = withWorkspaceRegistrationLock('w', async () => {
+    order.push('second-enter')
+    return 'second-done'
+  })
+  await expect(first).rejects.toThrow('first holder fails')
+  await expect(second).resolves.toBe('second-done')
+  expect(order).toEqual(['first-enter', 'second-enter'])
+})
+
+test('C4b: 发现锁尾链同样在异常后释放，后续发现不被卡死', async () => {
+  const { withWorkspaceDiscoveryLock } = await import('./handle-store.js')
+  const order: string[] = []
+  const first = withWorkspaceDiscoveryLock(async () => {
+    order.push('d1')
+    throw new Error('discovery fails')
+  })
+  const second = withWorkspaceDiscoveryLock(async () => {
+    order.push('d2')
+    return 'ok'
+  })
+  await expect(first).rejects.toThrow('discovery fails')
+  await expect(second).resolves.toBe('ok')
+  expect(order).toEqual(['d1', 'd2'])
+})

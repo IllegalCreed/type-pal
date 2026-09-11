@@ -320,9 +320,9 @@ test.each([
   await expect(finishOpen(disk.dir)).resolves.toMatchObject({ kind: 'current' })
 })
 
-// ═══ W3/W9：序列化/资源写入边界（batch 剩余） ═══
+// ═══ W3/W9：私有域与资源格式写入边界（batch 剩余，C2 返工） ═══
 
-test('W3: 输出路径落入 .type-pal 私有域时在预检拒绝、零作者 IO', async () => {
+test('W3(收窄): 输出路径落入 .type-pal 私有域时在预检拒绝，私有文件未被创建', async () => {
   const { disk, opened } = await openedProject('batch-w3')
   const target = await (await import('./workspace-persistence.js')).authorizeBoundWorkspaceTarget(
     opened.workspace,
@@ -331,52 +331,117 @@ test('W3: 输出路径落入 .type-pal 私有域时在预检拒绝、零作者 I
   )
   disk.resetChanges()
   await expect(writeProject(target, { '.type-pal/evil.json': { a: 1 } })).rejects.toThrow()
-  expect(
-    [...disk.changes.creates, ...disk.changes.closes, ...disk.changes.removes].filter(
-      (path) => path !== '.type-pal' && !path.startsWith('.type-pal/'),
-    ),
-  ).toEqual([])
+  // 被拒私有文件本身也不得落盘（不把 .type-pal 从轨迹里过滤掉）。
+  expect(disk.files.has('.type-pal/evil.json')).toBe(false)
+  expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
 })
 
-test('W9: 摘要正确但格式坏的 sprite/battle-sprite 沿真实 decoder 拒绝（同输入正控成功）', async () => {
+test('W9: 待保存输入中摘要正确但格式坏的 sprite/battle-sprite 沿真实 decoder 拒绝（同项目正控）', async () => {
   const wp = await import('./workspace-persistence.js')
+  const { sha256Hex } = await import('./binary-signature.js')
   for (const kind of ['sprite', 'battle-sprite'] as const) {
-    const { files, disk } = await openedProject(`batch-w9-${kind}`)
-    const opened2 = await (await import('./open-actions.js')).finishOpen(disk.dir)
-    const target = await wp.authorizeBoundWorkspaceTarget(
-      opened2.workspace,
-      disk.dir,
-      opened2.authorBaseline,
-    )
-    // 正控：原样合法保存成功。
-    await expect(writeProject(target, files)).resolves.toBeTruthy()
+    // 同一项目、同一合法磁盘基线；坏字节/匹配摘要只进入“待保存输入”，不先污染磁盘。
+    const { files, disk, opened } = await openedProject(`batch-w9-${kind}`)
+    const authorize = () =>
+      wp.authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline)
+    // 正控：同输入原样保存成功。
+    await expect(writeProject(await authorize(), files)).resolves.toBeTruthy()
 
-    const fresh = await openedProject(`batch-w9-${kind}-bad`)
-    const reopened = await (await import('./open-actions.js')).finishOpen(fresh.disk.dir)
-    const target2 = await wp.authorizeBoundWorkspaceTarget(
-      reopened.workspace,
-      fresh.disk.dir,
-      reopened.authorBaseline,
-    )
-    const catalog = JSON.parse(
-      new TextDecoder().decode(fresh.disk.files.get('assets/index.json')!),
-    ) as { assets: Record<string, { kind: string; path: string; bytes: number; sha256: string }> }
+    const bad = new Uint8Array(24) // 非 canonical RLE：全零无 gzip 魔数
+    const catalog = structuredClone(files['assets/index.json']) as {
+      assets: Record<string, { kind: string; path: string; bytes: number; sha256: string }>
+    }
     const entry = Object.values(catalog.assets).find((record) => record.kind === kind)!
-    // 摘要如实更新为坏字节（非 canonical RLE），只破坏格式合同。
-    const badBytes = new Uint8Array(24)
-    const { sha256Hex } = await import('./binary-signature.js')
-    entry.bytes = badBytes.byteLength
-    entry.sha256 = await sha256Hex(badBytes.buffer.slice(0))
-    fresh.disk.set('assets/index.json', catalog)
-    fresh.disk.set(entry.path, badBytes.buffer.slice(0))
-    fresh.disk.resetChanges()
-    await expect(writeProject(target2, files)).rejects.toThrow()
+    const digest = await sha256Hex(bad.buffer.slice(0) as ArrayBuffer)
+    entry.bytes = bad.byteLength
+    entry.sha256 = digest
+    const badInputs = {
+      ...files,
+      'assets/index.json': catalog,
+      [entry.path]: bad.buffer.slice(0),
+    } as Record<string, unknown>
+    disk.resetChanges()
+    await expect(writeProject(await authorize(), badInputs)).rejects.toThrow(
+      kind === 'battle-sprite' ? /battle-sprite|canonical/ : /sprite|canonical/,
+    )
+    // 零作者副作用：磁盘上该资源仍是原合法字节，catalog 未被改写。
+    expect(new Uint8Array(disk.files.get(entry.path)!)[1]).toBe(0x8b)
     expect(
-      [
-        ...fresh.disk.changes.creates,
-        ...fresh.disk.changes.closes,
-        ...fresh.disk.changes.removes,
-      ].filter((path) => path !== '.type-pal' && !path.startsWith('.type-pal/')),
-    ).toEqual([])
+      disk.json('assets/index.json').assets[
+        Object.keys(catalog.assets).find((id) => catalog.assets[id] === entry)!
+      ].sha256,
+    ).not.toBe(digest)
+    expect(disk.changes.creates.filter((path) => !path.startsWith('.type-pal'))).toEqual([])
+  }
+})
+
+// ═══ C4：publishState 写/读双故障边界（真实 journal 路径） ═══
+
+test('C4c: 状态门写入失败优先以写错误拒绝；写成功而读校验失败以冲突拒绝', async () => {
+  const wp = await import('./workspace-persistence.js')
+  const { files, disk } = await openedProject('batch-c4c')
+  const opened = await (await import('./open-actions.js')).finishOpen(disk.dir)
+  const changed = { ...files } as Record<string, unknown>
+  const locale = { ...(changed['content/locale.json'] as Record<string, string>) }
+  locale['name.hero'] = '双故障'
+  changed['content/locale.json'] = locale
+
+  // 情形一：状态门 close 失败 → 拒绝且以写错误为因（非读取错误）。
+  let stateWriteFailed = false
+  disk.hooks.beforeClose = (path) => {
+    if (path === '.type-pal/save-state.json') {
+      stateWriteFailed = true
+      throw new Error('state gate write failure')
+    }
+  }
+  await expect(
+    writeProject(
+      await wp.authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline),
+      changed,
+    ),
+  ).rejects.toThrow('state gate write failure')
+  expect(stateWriteFailed).toBe(true)
+
+  // 情形一失败后目录处于 pending：先恢复完成，再做情形二。
+  disk.hooks.beforeClose = undefined
+  disk.hooks.afterClose = undefined
+  disk.resetChanges()
+  const { recoverInterruptedAuthorSave } = await import('./author-save-journal.js')
+  await recoverInterruptedAuthorSave(disk.dir)
+  disk.hooks.afterClose = undefined
+  disk.hooks.afterClose = (path) => {
+    if (path === '.type-pal/save-state.json') {
+      // 写入完成后立刻被外部替换为“合法形状但不同操作”的状态 → 读回 token 不匹配（保持可解析）。
+      disk.set(
+        '.type-pal/save-state.json',
+        JSON.stringify({
+          kind: 'type-pal-author-save',
+          version: 1,
+          operationId: '33333333-3333-4333-8333-333333333333',
+          phase: 'committed',
+          planHash: 'f'.repeat(64),
+        }) + '\n',
+      )
+    }
+  }
+  try {
+    // 恢复后重新打开取新鲜基线，再做一次会触发状态门读回校验失败的保存。
+    const reopened = await (await import('./open-actions.js')).finishOpen(disk.dir)
+    const again = { ...files } as Record<string, unknown>
+    const locale2 = { ...(again['content/locale.json'] as Record<string, string>) }
+    locale2['name.hero'] = '双故障二'
+    again['content/locale.json'] = locale2
+    await expect(
+      writeProject(
+        await wp.authorizeBoundWorkspaceTarget(
+          reopened.workspace,
+          disk.dir,
+          reopened.authorBaseline,
+        ),
+        again,
+      ),
+    ).rejects.toThrow('save-state')
+  } finally {
+    disk.hooks.afterClose = undefined
   }
 })

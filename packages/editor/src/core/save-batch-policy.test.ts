@@ -180,7 +180,7 @@ test('P6d: 绑定授权消费后复用被拒（消费检查为独立可观测门
   await expect(writeProject(target, files)).rejects.toThrow('授权已消费')
 })
 
-test('P5: 沙盒受限 marker 写入失败后不留可被普通 local 利用的副本，恢复后完成受限登记', async () => {
+test('P5: 沙盒受限 marker 写入失败后现场不可被任何一方利用（空占位、无凭据、local 首存拒绝）', async () => {
   const wp = await import('./workspace-persistence.js')
   const files = await buildBlankProject('batch-p5')
   const disk = memoryAuthorDirectory()
