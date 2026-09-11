@@ -1,6 +1,6 @@
 # EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: ops（审计 A-03，不新增能力格）
 Coding Owner: Codex
@@ -1486,7 +1486,11 @@ GLM直接填写[整批回执](../../testing/editor-save-recovery-glm-batch-repor
 
 #### GLM · batch-r1交接日志（本人填写）
 
+<<<<<<< HEAD
 #### GLM · batch-r1 续批交接日志（2026-09-11，剩余项完成）
+=======
+#### GLM · batch-r1续批交接原文（574012e5，未接收）
+>>>>>>> origin/main
 
 基于 7a0c6f1c 接收树完成三优先级组：S1/S2/S3（可控内存 IDB 驱动真实 handle-store）、
 P1 其余子项、B2；O4/O5/O6、P7 读侧、P5、B6（合法 PAL sentinel+proof fixture + 相对 URL
@@ -1536,7 +1540,22 @@ Lock形状/读后释放正控并清理文档冲突及unused。首次全仓还抓
 统一ratchet及单次严格fast通过，618生产文件/6,201项测试，报告除时间戳外逐字段相同。
 本次恢复build是继续实现/测试剩余范围，不是整包accept或父卡done；GLM贡献与Codex补证均须终审披露。
 
+### Codex · 574012e5剩余项接收复核（2026-09-12，counter）
+
+本续批不接收；**已接收的21项及main的6,201项fast基线不回滚**，r2设计签字保持。
+独立197项/typecheck通过，NC2/NC5及S2早resolve变体红，PAL正常打开正控真实有效；
+但新增data/extracted绝对符号链接越过白名单，W9仍只证基线冲突，IDB替身abort不回滚且复用openRequest，
+43项摘要实际只列41个唯一ID，O8/P10/B8分类存在跨文件错引。不能据此标剩余工作已完成。
+详细证据、C1–C4返工及深防御裁定见[本次接收复核](../../testing/editor-save-recovery-glm-batch-report.md#codex剩余项接收复核2026-09-12574012e5counter)。
+
+K5失败、缺extracted及审计超时日志已核到；B3修复未涉及design-system，“B3修好了审计根因”的归因撤回。
+质量/性能项保留由Codex核实，不以隔离多次绿免责。本轮只收文档，不执行含越界链接的merge，不更新baseline；
+不替GLM重写整套IDB模型后称其原候选通过。修同一续批一次性交付，不重签、不转Kimi、不标done。
+
 ## 交接日志
+
+- 2026-09-12 Codex：574012e5续批counter；12文件197项复跑，隔离证明W9错层及IDB替身不符合事务/请求合同。
+  新续批源码与资产链接均未集成，main仅落原回执、C1–C4与看板/索引；前次21项保持有效，产品/探针/官方baseline未动。
 
 - 2026-09-11 Codex：fa8af7c2经独立复核后做接收修订；GLM贡献保留，本席补W6/S4/B3与删除回归，
   不把原候选或43项整包称为全通过。后续GLM继续IDB/权限/PAL及当前证据表，Codex保留性能/产品修复/最终质量门。
@@ -1601,11 +1620,35 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 当前175d07b2返工已通过Codex独立复核并集成，2a49cac6的R1–R3 counter解除；r2签字保持有效。
 2026-09-10已完成审计性能、journal故障及新建/克隆/打开真实流程回归；原配置完整check及6,180项单次严格fast均通过，既有15s预算不变。
-journal等单模块覆盖目标已达标；fa8af7c2经Codex限定修订后接收21项测试子集，整包/SR未收口；r2不重签。
+journal等单模块覆盖目标已达标；7a0c6f1c接收的21项有效，574012e5新增续批被counter、未集成；r2不重签。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
 当前不请求用户验收。
 
-### 给GLM（当前：已接收测试之外的剩余工作，一次性交付）
+### 给GLM（当前：574012e5续批返工，C1–C4）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 的原codex/glm-save-coverage-batch工作树返工574012e5。
+父卡EDITOR-SAVE-RECOVERY-1现为rework，仅新续批返工；已接收21项不回滚，r2不重签。
+先读项目规则、原工作包、docs/testing/editor-save-recovery-glm-batch-report.md末尾
+“Codex剩余项接收复核（2026-09-12）”C1–C4；同步本次main文档，保留Codex历史结论。
+
+C1：撤回本次data/extracted的Git追踪（只撤追踪，不删真实资产/链接目标），恢复严格白名单。
+C2：W9把坏字节和匹配摘要放进待保存输入，保持同项目id/合法原基线，不再改坏磁盘后传另一工程的好files；
+直接验证decoder错误与零副作用，并做新路径负控。W3补真实未登记pending/输出冲突，而非用私有域测试代替。
+O4去timer轮询，改entered/deferred+finally释放；P5/B6名称、正控与实际恢复/新页证据一致，不改产品迎合标题。
+C3：IDB每次open/request独立，事务暂存到complete才提交、abort撤销；S1在同一数据库开关故障后验证无残留，
+不要重新建空Map当证明。保留有效S2时间点负控，并补abort后数据状态、独立请求及承诺的request/句柄错误。
+C4：逐行输出43项当前表，补P7/B6，W10只算一个ID，贡献作者另列；不得用重复计数凑43。
+按真实file:line纠正O8/P10/B8：非Error防御保留待证；Node fallback尾链及beforeClose+afterRead组合可自动化，
+不因需构造边界就称单测不可达。撤回“B3修复design-system”的错误归因，K5/审计超时按本次裁定保留。
+
+只修白名单测试/helper及本人回执，不改生产、旧21项断言、配置、baseline、原探针或用户工程。
+参考本席 /tmp/codex-glm-final-review.3VdVLn/review.config.mts 可自行重建；本人跑正控与新路径反证，
+再跑定向/相邻/typecheck/完整check和同口径覆盖，从实际候选生成数字与当前表。
+全部修完提交推送并核远端SHA，一次性交Codex；不代签、不标done、不转Kimi、不让用户搬运意见。
+```
+
+### 给GLM（历史：已接收测试之外的剩余工作，一次性交付）
 
 ```text
 继续 /Users/zhangxu/illegal/type-pal 的EDITOR-SAVE-RECOVERY-1/batch-r1剩余工作。

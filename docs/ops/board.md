@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | GLM：IDB/权限/PAL余项；Codex：性能与复核 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) fa8af7c2经Codex修订后接收21项测试子集，check/严格fast通过；43项/SR未全完成，r2不重签。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | rework | GLM：续批C1–C4返工；Codex复核 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 574012e5未接收：越界资产链接、W9错层、IDB替身/对账问题；原21项有效，r2不重签。 |
 
 ## 阻塞
 
