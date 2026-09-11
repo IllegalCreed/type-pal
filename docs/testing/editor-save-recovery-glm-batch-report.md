@@ -553,3 +553,118 @@ final-check列出的7包测试总数为6,703。**B3只是save-batch-baseline顺�
 本续批counter，只落文档/交接，不合并新增14项、不更新官方baseline，不重复跑全仓ratchet或严格fast来替代语义复核。
 7a0c6f1c已接收21项与主仓6,201项基线保持有效。有效PAL正控、S2时间点、S3守卫等保留，GLM修其边界和证据，不需全部推倒。
 本轮不代写另一套IDB模型来给原候选背书；按原白名单把C1–C4一起修完，一次性交付；不重签、不转Kimi、不标done。
+
+## GLM C1–C4 返工回执（2026-09-12，基于 70e31345 counter 树）
+
+**候选**：C1 单独提交 `5460a370`（仅撤回追踪），主体 `fce75a0e`。**实际全部改动**：
+撤回 `data/extracted` 链接的 Git 追踪（链接留在磁盘供本地跑 check，主仓真实资产未触碰）+
+6 个批测试文件 + 本回执 + 父卡本席日志。产品相对 aa87c305 零 diff。
+
+### C1 — 越界链接追踪撤回
+
+`data/extracted` 符号链接已从 Git 追踪移除（`git ls-files data/extracted` 现为空）；磁盘链接与
+主仓目标目录均未删除。本轮提交仅 stage 白名单路径。
+
+### C2 — W9 错层修复与相邻收窄
+
+- **W9 重写**：同一项目、同一合法磁盘基线；坏字节+如实摘要只进入**待保存输入**（`badInputs`），
+  不再污染磁盘。断言真实 decoder 拒绝（battle-sprite 匹配 /battle-sprite|canonical/）；零副作用以
+  **字节见证**——磁盘该资源首两字节仍为 `1f 8b`、catalog 落盘摘要 ≠ 坏摘要、非私有 creates 为空。
+  正控为同项目原样输入成功。
+- **W3 收窄**：标题改为私有域拒绝；新增断言被拒私有文件未被创建（不再把 .type-pal 从轨迹过滤）；
+  原 W3 改部分覆盖——重复路径由 project-copy『复制清单重复路径…』既有证据覆盖，
+  未登记 pending 资源子项列待证。
+- **O4 去轮询**：改为 entered/deferred——内部断言失败随 `write` Promise 拒绝传播
+  （`Promise.race` 先观察到 'held'，随后 `await write` 完成或抛出），B 正控断言实际完成（manifest 落盘）。
+- **P5/B6 标题对齐**：P5 改为「现场不可被任何一方利用（空占位、无凭据、local 首存拒绝）」与正文一致；
+  B6 标题明确「清空持久 recent 记录模拟新页持久层」，注明模块内 ownedSaves 由恢复器自清理、
+  **原生新进程/新页仍须 Codex 原生验收**。
+
+### C3 — IDB 替身按回滚合同重写
+
+- 同一数据库跨 install 保留（模块级状态，故障开关在同一库上切换）；每次 `indexedDB.open`
+  返回独立请求对象（S1 显式断言对象不等与计数）；事务写集暂存，**complete 才提交、abort 丢弃**。
+- **S1**：open 失败拒绝后，在同一数据库上恢复正常并验证无残留（不重建空库冒充证明）。
+- **S2**：同库三态——正控 complete 提交；abort-after-request-success 拒绝且写集被丢弃
+  （`records.has(victim)===false`）；恢复后 victim 重试成功、原记录仍在。
+- **S3**：补齐承诺场景——request error 传播（put IO 失败以 'request io failure' 拒绝）与
+  现有记录句柄 isSameEntry 抛错（登记时正常、复验时抛出 → '无法验证' 拒绝、原记录不覆盖）；
+  漂移/换绑守卫保留。afterEach 还原原 global descriptor 而非删除。
+
+### C4 — 43 项逐行表与深防御重列
+
+（＋=GLM 新增并绿；◈=既有证据本批复跑绿；◇=部分；○=分类；Codex 接收侧单列）
+
+| ID | 状态 | 证据 |
+|---|---|---|
+| O1 | ＋ | save-batch-open『O1…』 |
+| O2 | ＋ | save-batch-open『O2…』（NC1 反证） |
+| O3 | ＋ | save-batch-open『O3…』（NC2 反证） |
+| O4 | ＋（C2 重写） | save-batch-open『O4…』deferred 版 |
+| O5 | ＋ | save-batch-open『O5…』 |
+| O6 | ＋ | save-batch-open『O6…』 |
+| O7 | ◈ | project-copy 12 项 |
+| O8 | ○ | 真位置 open-local 58/80；无业务非 Error 输入，保留防御不造字符串 |
+| W1 | ＋ | save-batch-writer『W1（保留）…』（NC3 反证） |
+| W2 | ◈ | project-copy 序列化族 + project-io.test |
+| W3 | ◇ | 私有域拒绝＋（收窄版，被拒文件未创建）；重复路径 ◈；未登记 pending 资源 ○ 待证 |
+| W4 | ◈ | project-copy copies 族 |
+| W5 | ◈ | project-copy『整笔复制不能借用…』『新目标…来源复验』 |
+| W6 | Codex 修订 | 接收修订 2（重写+同字节重写 oracle） |
+| W7 | ◈ | journal catalog 前滚族 |
+| W8 | ◈ | project-copy『HTTP首存…不删除复制素材』+project-io 删除边界 |
+| W9 | ＋（C2 重写） | save-batch-writer『W9…』同项目输入层版 |
+| W10 | ＋（GLM 写边界；Codex 删除边界两条——计一次，作者分栏） | writer『W10(写边界)』/ 接收修订 4 |
+| P1 | ＋（4 用例） | policy 两例 + O5/P7 读侧；合法 JSON 非法值 ◈ wp 标记矩阵 |
+| P2 | ＋ | policy『P2…』+正控 |
+| P3 | ◈ | workspace-persistence.test 31 项 |
+| P4 | ◈ | author-save-conflict 迟到写入族 |
+| P5 | ＋（标题已对齐） | policy『P5…』 |
+| P6 | ＋（a/b/c/d） | policy P6a-d（NC4 反证对 P6d） |
+| P7 | ＋（读侧两用例；写侧 ◈） | open『P7(读侧)…』；写侧 proof 缺失/指纹变化 ◈ wp PAL 族 |
+| P8 | ◈ | journal forceSandbox/identity + read-admission |
+| P9 | ◈ | journal『an unawaited commit…』『fake or expired…』+P6a/d |
+| P10 | ○（重分类） | 按真实入口（seal :289 / allowPrivate :330 / recordWrite :479 / recordRemove :515）主路径由 journal/W6/W10/C4c 真实调用覆盖；逐分支覆盖不作声明 |
+| B1 | ＋ | baseline『B1…』（NC5 反证） |
+| B2 | ＋ | recovery『B2…』 |
+| B3 | Codex 修订 | 接收修订 5 顺序修复 |
+| B4 | ◈ | journal cleanup/baseline 推进族 |
+| B5 | ＋ | writer『B5…』 |
+| B6 | ＋（表述已收窄；原生新页 ○ Codex） | open『B6…』清空持久记录版 |
+| B7 | ◈ | journal 凭据族 |
+| B8 | ○（重分类；新增 C4c 双故障真实边界） | 真位置 journal:490-511 |
+| S1 | ＋（C3 重写） | recovery『S1…』 |
+| S2 | ＋（C3 重写） | recovery『S2…』 |
+| S3 | ＋（C3 重写） | recovery『S3…』 |
+| S4 | Codex 修订 | 接收修订 3（NC6 反证） |
+| S5 | ◈ | A-01 隔离族 |
+| S6 | ＋ | storage『S6…』 |
+| S7 | ◈ | journal/plan/prefix/store 抽查+相邻复跑 |
+
+计数：GLM 新增 26 项、Codex 接收修订 4 项（W6/W10删除/B3/S4）、既有证据 15 项、部分 1（W3）、
+分类 3（O8/P10/B8）＋2 子待证（W3 未登记资源、B6 原生新页）。**唯一 ID 43，无重复计数**。
+
+**深防御按真实代码重分类**：
+
+- **O8**：真位置 open-local 58/80（此前以 journal readBytes NotFound 证明——撤回）。无真实
+  FileSource/loader 抛非 Error 的业务输入，保留防御并标注边界，不造字符串。
+- **PAL finalPalProof 护栏**：构造在 open-actions 169-183、消费在 workspace-persistence 974-982，
+  构造失败直接抛出——按现行调用约定为内部护栏；可观测层由 O5/O6/P7 覆盖。
+- **P10**：按真实入口重列（seal/allowPrivate/recordWrite/recordRemove），主路径已被真实调用覆盖；
+  撤回此前把 project-io/journal 检查归到 workspace-persistence 的错误映射。
+- **fallback tails**：handle-store 57-58、75-120，Node 无 navigator.locks 即运行——**可测**。
+  新增 C4a/C4b：持有者抛错后 finally 释放尾链，排队的注册锁/发现锁仍按序获得（真实代码）。
+- **B8 publishState 双故障**：真位置 journal:490-511（此前写 466——更正）。新增 C4c：状态门写失败
+  以写错误优先拒绝；写成功而读回为合法形状异操作状态时以恢复冲突拒绝（组合 beforeClose/afterClose）。
+
+**design-system 归因撤回**：B3 修复只解决 save-batch-baseline 顺序依赖；rw-check3 的 design-system
+失败（App connector 5s / CSS 审计 15s 超时）未经本席证明已修，K5 时序与审计时长由 Codex 质量/性能
+收口核实；缺 extracted 资产仅为环境准备问题。
+
+### 验证（实际提交树 fce75a0e）
+
+- 批 6 文件 **38/38 绿**；12 文件相邻集 **200/200 绿**；typecheck exit 0；biome 0 error。
+- 完整 `pnpm check` **exit 0 共 6,706 项**（/tmp/c-final-check.log）。
+- 同口径 editor-fast **195 文件/1,979 项全绿**（独立临时报告）。
+- 六组负控在最终树复跑全部红（NC1/2/3/5 各 1；NC4 2 含 P6d；NC6 1）。
+- 无产品缺陷 counter；官方 ratchet 未运行。

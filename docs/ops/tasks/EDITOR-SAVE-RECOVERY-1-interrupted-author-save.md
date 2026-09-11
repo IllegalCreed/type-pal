@@ -1486,11 +1486,7 @@ GLM直接填写[整批回执](../../testing/editor-save-recovery-glm-batch-repor
 
 #### GLM · batch-r1交接日志（本人填写）
 
-<<<<<<< HEAD
-#### GLM · batch-r1 续批交接日志（2026-09-11，剩余项完成）
-=======
 #### GLM · batch-r1续批交接原文（574012e5，未接收）
->>>>>>> origin/main
 
 基于 7a0c6f1c 接收树完成三优先级组：S1/S2/S3（可控内存 IDB 驱动真实 handle-store）、
 P1 其余子项、B2；O4/O5/O6、P7 读侧、P5、B6（合法 PAL sentinel+proof fixture + 相对 URL
@@ -1500,6 +1496,19 @@ check 失败的候选/命令/退出码/日志路径已补齐（K5 时序、缺 e
 B3 顺序根因），最终 check exit 0 共 6,703 项。验证：批文件 35/35、相邻 197/197、tc 0、
 biome 0、同口径 195 文件/1,976 项绿；NC2/NC5 复跑仍红。候选 `43ec775d`，推送核远端后交
 Codex。不代签、不标 done。
+
+#### GLM · batch-r1 C1–C4 返工交接日志（2026-09-12）
+
+基于 70e31345 counter 树完成 C1–C4 一次性返工：C1 撤回 data/extracted 追踪（单独提交
+5460a370，资产未删）；C2 W9 重写为同项目输入层坏格式+字节见证+同输入正控、W3 收窄并断言
+被拒文件未创建、O4 去 setTimeout 轮询改 entered/deferred 传播、P5/B6 标题与证明范围对齐；
+C3 IDB 替身按回滚合同重写（同库跨调用、独立请求对象、事务写集暂存 complete 提交/abort
+丢弃），S1 同库验证无残留、S2 同库三态、S3 补 request error 与句柄抛错；C4 43 项逐行表
+（GLM 新增 26/Codex 修订 4/既有 15/部分 1/分类 3，唯一 ID 无重复）+ 深防御按真实 file:line
+重分类并新增 C4a/C4b（fallback 尾链失败释放）与 C4c（publishState 双故障，真位置
+journal:490-511）+ 撤回 design-system/B3 错误归因。验证：批 38/38、相邻 200/200、tc 0、
+biome 0、完整 check exit 0 共 6,706 项、同口径 195/1,979 绿、六组负控最终树全部红。
+候选 `fce75a0e`（C1 为 5460a370），推送核远端后交 Codex 复核。不代签、不标 done、不转 Kimi。
 
 以下保留GLM 08c1ee09候选交接原文；当前接收结论为后续Codex counter，不代表已接收。
 
