@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | GLM：待接手整批测试；Codex：性能与复核 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 已登记batch-r1：43条目+SR总对账，独立分支一次交付；产品基线aa87c305，r2不重签。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | rework | GLM：batch-r1测试/回执返工；Codex复核 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 08c1ee09被counter：伪拒绝/错层/锁替身与证据映射；候选未集成、baseline未动；r2不重签。 |
 
 ## 阻塞
 
