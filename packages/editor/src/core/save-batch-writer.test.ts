@@ -360,18 +360,22 @@ test('W9: 待保存输入中摘要正确但格式坏的 sprite/battle-sprite 沿
       'assets/index.json': catalog,
       [entry.path]: bad.buffer.slice(0),
     } as Record<string, unknown>
+    const before = new Map(disk.files)
     disk.resetChanges()
-    await expect(writeProject(await authorize(), badInputs)).rejects.toThrow(
-      kind === 'battle-sprite' ? /battle-sprite|canonical/ : /sprite|canonical/,
+    // 见证：具体 decoder 错误类别（非 AuthorSaveConflictError 错层）。
+    let rejection: unknown
+    try {
+      await writeProject(await authorize(), badInputs)
+    } catch (error) {
+      rejection = error
+    }
+    const message = String((rejection as Error)?.message ?? rejection)
+    expect(message).toMatch(
+      kind === 'battle-sprite' ? /^战斗精灵资源 RLE 损坏/ : /^精灵资源 RLE 损坏/,
     )
-    // 零作者副作用：磁盘上该资源仍是原合法字节，catalog 未被改写。
-    expect(new Uint8Array(disk.files.get(entry.path)!)[1]).toBe(0x8b)
-    expect(
-      disk.json('assets/index.json').assets[
-        Object.keys(catalog.assets).find((id) => catalog.assets[id] === entry)!
-      ].sha256,
-    ).not.toBe(digest)
-    expect(disk.changes.creates.filter((path) => !path.startsWith('.type-pal'))).toEqual([])
+    // 零副作用固化：整份磁盘快照逐字节不变 + 全 IO 轨迹（creates/closes/removes）全空。
+    expect([...disk.files.entries()]).toEqual([...before.entries()])
+    expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   }
 })
 

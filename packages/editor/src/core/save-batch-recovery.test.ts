@@ -44,22 +44,25 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-// ── 可控内存 IDB 边界（C3：同一数据库跨调用；独立请求对象；事务回滚合同） ──
+// ── 可控内存 IDB 边界（R2/C3：同一数据库跨调用；独立请求对象；事务回滚合同；
+//    request error 未被 preventDefault 时中止事务——事务只允许一次终结） ──
 type Faults = {
   openError?: boolean
   abortAfterRequestSuccess?: boolean
-  requestError?: boolean
+  requestErrorAll?: boolean
+  putError?: boolean
 }
 const db = {
   records: new Map<string, WorkspaceHandleRecord>(),
   faults: {} as Faults,
   openRequests: 0,
+  putCalls: 0,
 }
 function installControllableIndexedDb(faults: Faults = {}) {
   if (!originalIndexedDbDescriptor)
     originalIndexedDbDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'indexedDB')
   db.faults = faults
-  const makeRequest = <T>(run: () => T): IDBRequest<T> => {
+  const makeRequest = <T>(run: () => T, opts: { isPut?: boolean } = {}): IDBRequest<T> => {
     const value = {
       result: undefined as T,
       error: null as DOMException | null,
@@ -67,7 +70,8 @@ function installControllableIndexedDb(faults: Faults = {}) {
       onerror: null as ((event: Event) => void) | null,
     }
     queueMicrotask(() => {
-      if (db.faults.requestError) {
+      const shouldFail = db.faults.requestErrorAll || (opts.isPut && db.faults.putError === true)
+      if (shouldFail) {
         value.error = new DOMException('request io failure', 'UnknownError')
         value.onerror?.(new Event('error'))
         return
@@ -83,8 +87,23 @@ function installControllableIndexedDb(faults: Faults = {}) {
     })
     return value as unknown as IDBRequest<T>
   }
+  const finishTx = (
+    tx: { oncomplete: ((event: Event) => void) | null; onabort: ((event: Event) => void) | null },
+    pending: Map<string, WorkspaceHandleRecord>,
+    requestFailed: boolean,
+  ) => {
+    if (db.faults.abortAfterRequestSuccess || requestFailed) {
+      tx.onabort?.(new Event('abort')) // 写集丢弃；事务只有这一次终结
+    } else {
+      for (const [key, record] of pending) db.records.set(key, record)
+      tx.oncomplete?.(new Event('complete'))
+    }
+  }
   const store = {
-    put: (value: WorkspaceHandleRecord) => makeRequest(() => value.workspaceId),
+    put: (value: WorkspaceHandleRecord) => {
+      db.putCalls += 1
+      return makeRequest(() => value.workspaceId, { isPut: true })
+    },
     get: (key: string) => makeRequest(() => db.records.get(key) ?? undefined),
     getAll: () => makeRequest(() => [...db.records.values()]),
   }
@@ -93,6 +112,8 @@ function installControllableIndexedDb(faults: Faults = {}) {
     createObjectStore: () => store,
     transaction: () => {
       const pending = new Map<string, WorkspaceHandleRecord>()
+      let requestFailed = false
+      let settled = false
       const tx = {
         error: null as DOMException | null,
         oncomplete: null as ((event: Event) => void) | null,
@@ -114,12 +135,14 @@ function installControllableIndexedDb(faults: Faults = {}) {
             const req = store.put(value)
             queueMicrotask(() =>
               queueMicrotask(() => {
-                if (db.faults.abortAfterRequestSuccess) {
-                  tx.onabort?.(new Event('abort')) // 写集丢弃，不提交
-                } else {
-                  for (const [key, record] of pending) db.records.set(key, record)
-                  tx.oncomplete?.(new Event('complete'))
-                }
+                if (settled) return
+                settled = true
+                // request error 未被消费（error 为 DOMException）→ 事务以 abort 终结，不提交写集。
+                requestFailed =
+                  db.faults.abortAfterRequestSuccess !== true &&
+                  ((req as unknown as { error: DOMException | null }).error !== null ||
+                    db.faults.putError === true)
+                finishTx(tx, pending, requestFailed)
               }),
             )
             return req
@@ -238,11 +261,24 @@ test('S3: request error 传播；字段漂移/换绑登记被拒，原记录不�
   handleThrows = true
   await expect(underLock(workspace, 'probe-throwing', handleB)).rejects.toThrow('无法验证')
   handleThrows = false
-  // request error（如 put IO 失败）传播为 Promise 拒绝。
-  installControllableIndexedDb({ requestError: true })
-  await expect(underLock(workspace, 'io-fail', flakyHandle)).rejects.toThrow('request io failure')
+  // 定点注入：读取请求正常，仅 put 报错 → Promise 拒绝、事务以 abort 终结不提交写集。
+  const putCallsBefore = db.putCalls
+  installControllableIndexedDb({ putError: true })
+  const newWorkspace = createLocalWorkspaceContext('s3-put-fail', 'local-directory')
+  const putFailHandle = {
+    name: 'c',
+    isSameEntry: async (other: unknown) => other === putFailHandle,
+  } as FileSystemDirectoryHandle
+  await expect(underLock(newWorkspace, 'io-fail', putFailHandle)).rejects.toThrow(
+    'request io failure',
+  )
+  expect(db.putCalls).toBe(putCallsBefore + 1) // 确实走到了真实 store.put
+  expect(db.records.has(newWorkspace.workspaceId)).toBe(false) // 新记录未残留
+  // 读取型 request error（getAll/get 层）同样传播。
+  installControllableIndexedDb({ requestErrorAll: true })
+  await expect(loadWorkspaceRecord(workspace.workspaceId)).rejects.toThrow('request io failure')
   installControllableIndexedDb()
-  // 原记录保持不变。
+  // 原记录保持不变（put 失败未覆盖旧值）。
   const record = await loadWorkspaceRecord(workspace.workspaceId)
   expect(record).toMatchObject({ projectId: 's3', name: 'original' })
 })
