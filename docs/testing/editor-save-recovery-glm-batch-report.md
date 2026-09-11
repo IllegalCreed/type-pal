@@ -243,3 +243,52 @@ W10用确有删除的合法计划，在remove边界挂起/失败，断言非空�
 因为接收前已发现阻断，不能用更大的绿测试总数替代修正无效断言。
 GLM自述6,681全仓与1,954 editor-fast保留为其回执，不是本席独立复跑声明。
 修复后再核白名单、175+新增相邻、全部负控与覆盖；通过接收后才统一全仓门禁。
+
+## GLM 返工回执（R1–R4，2026-09-11）
+
+针对 Codex 接收复核 R1–R4 完成整批返工（分支同前，产品相对 aa87c305 仍零 diff）：
+
+- **R1（P2/P6 伪拒绝）**：P2 改为“可成功回调 + 真实 writer”——外部文件注入后
+  `writeProject`（本可成功，正控已证明）被产品空目录门拒绝，断言未进入写入/零作者 IO/外部字节原样；
+  P6 拆为 P6a（一次性授权复用，回调可成功）、P6b（绑定目标跨目录拒绝 + 同目录正控，两目录零写删）、
+  P6c（首存资格不延续：首存后同目录再走首存门拒绝）、P6d（绑定授权消费后复用被拒——消费检查为独立
+  可观测门，配套 NC4 负控）。原“operation 里 throw”与“B 新授权”问题消除。
+- **R2（W6/W10）**：W6 在真实 catalog 读取节点（Blob.text 读 assets/index.json）注入坏 JSON——
+  `injected=true` 见证断言证明确实到达该节点，同输入正控完整保存成功，不再混入作者基线冲突；
+  W10 重写为“确有变更的真实保存”：进度序列非空（events.length>0）、引用表写入失败时 max<100%、
+  凭据保留且 `recoverInterruptedAuthorSave` 续存完成、正控最终进度恰 100%。
+  **诚实登记**：Codex 要求的“删除边界挂起”子项未完成——合法单文件删除需同时撤销 manifest 声明，
+  而 blank 工程全部内容表均为 canonical 必需（locale 删除实测被『manifest 缺 locale 路径』拒绝，
+  未声明删除实测被一致性校验拒绝）。该项列为待证：需可选表（enemies/shops 族）或资源注销 fixture，
+  条件已写明，不冒充已覆盖；W10 按实际覆盖改名为“写边界”。
+- **R3（S4 替身合同）**：按 Web Locks 规范修正——ifAvailable 无法获锁时**仍调用 callback(null)**，
+  request 返回 callback 结果；探针改为检查 lock 参数（null⇒unavailable）并经内部 gate 显式 await，
+  不再用 timer；恢复原始 navigator.locks 属性描述符。NC6 重跑仍红（发现锁序断言 -1）。
+- **R4（对账与归属）**：
+  - 计数更正：**12 个新增类条目 / 19 个已有证据 / 12 个待证**（原“13”混入 B1 正控计数）。
+  - O4 引用更正：project-copy『整笔复制不能借用已绑定目标授权』不覆盖 B-mutation 打开 A 的
+    finishOpen 路径——O4 改列**待证**（finishOpen registrationMutation 目录不符分支
+    『打开目标与原保存操作目录不一致』现无自动化证据）。
+  - O6 引用更正：project-open-workflows clone 各项断言 local-project/local-bound、无 PAL sentinel，
+    不能当合法 PAL proof 成功链——O6 改列**待证**（与 O5/P7/B6 同属真实 PAL HTTP proof 构造族）。
+  - W3 引用收窄：clone 摘要三例只证 catalog 摘要不符；未登记 pending 资源/路径冲突子项列待证。
+    W9 引用收窄：三坏格式仅 tileset 族，world-sprite/battle-sprite 子项列待证。
+  - B5 引用更正：saveNextEdit 是直接 writeProject，不证明 resumeOwnProjectSave 回调/snapshot——
+    改引 journal own-retry 用例并标注剩余缺口。
+  - 待证理由修正：撤销“fixture 无读错误钩子”错误说法（afterRead 抛错在 B3/P1 已用）；S1/S2 的
+    Node fallback 与 IDB 混淆已删，改为“需可控 IDB open/transaction 边界”（Codex oracle 已证明可行，
+    归属仍为 GLM 后续补自动化）。
+  - SR 表修正：SR-01/08 补 PAL 新页恢复缺口（B6）待补标注；SR-07 撤销以 P2 为证据的映射，
+    改为 journal committed/cleanup 族 + P6c；所有“—”改为明确“无原生待补”或具体待补项。
+- **9 项自动化待证与 3 项可达性**：本返工在有限额度内完成了 R1–R3 阻断项与对账修正；
+  O5/P1（部分完成：坏标记不降级+IO 传播两用例已绿）/P5/P7/B2/B6/S1/S2/S3 及 O8/P10/B8 逐分支
+  可达性**未全部完成**，如实保留为待证——不虚报、不刷数量，交由下轮继续或 Codex 裁定优先级。
+
+**返工验证（实际提交树）**：5 批文件 **19/19 绿**（原 13 项 + P1×2/P6bcd + W6/W10 重写）；
+定向+相邻 11 文件 **180/180 绿**；editor typecheck exit 0；biome 0 error；完整 `pnpm check`
+**exit 0 共 6,687 项**（第 1–3 次分别因 K5 音频时序抖动、worktree 缺 gitignored extracted 资产、
+design-system 既有抖动失败——三者均为环境/既有抖动，与本次改动无关，均已隔离复跑绿；
+K5 单独 3/3 绿、design-system 两文件单独 24/24 绿）；同口径 editor-fast
+**194 文件/1,960 项全绿**。负控复跑：NC4（对 P6d）/NC6 均红；NC1/NC2/NC3/NC5 未受影响（对应
+测试未改语义，O2/O3/W1/B1 仍在）。产品缺陷 counter：无。
+

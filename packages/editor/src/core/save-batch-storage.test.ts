@@ -52,19 +52,21 @@ function installRecordingWebLocks() {
   }
   const locks = {
     async request(name: string, options: unknown, callback?: unknown): Promise<unknown> {
-      const cb = (typeof options === 'function' ? options : callback) as () => Promise<unknown>
+      const cb = (typeof options === 'function' ? options : callback) as (
+        lock: unknown,
+      ) => Promise<unknown>
       const ifAvailable =
         typeof options === 'object' && options !== null && 'ifAvailable' in options
       events.push(`acquire:${name}`)
       if (held.has(name)) {
         if (ifAvailable) {
           events.push('unavailable')
-          return null
+          return await cb(null)
         }
         await new Promise<void>((resolve) => waiters.push({ name, grant: resolve }))
       } else held.add(name)
       try {
-        return await cb()
+        return await cb(undefined)
       } finally {
         held.delete(name)
         events.push(`release:${name}`)
@@ -72,10 +74,31 @@ function installRecordingWebLocks() {
       }
     },
   }
+  const previous = Object.getOwnPropertyDescriptor(globalThis.navigator, 'locks')
   Object.defineProperty(globalThis.navigator, 'locks', { value: locks, configurable: true })
   return {
     events,
-    restore: () => Reflect.deleteProperty(globalThis.navigator, 'locks'),
+    restore: () => {
+      if (previous) Object.defineProperty(globalThis.navigator, 'locks', previous)
+      else Reflect.deleteProperty(globalThis.navigator, 'locks')
+    },
+  }
+}
+
+let observedResult: 'unavailable' | 'acquired' | undefined
+function deferredProbe() {
+  let entered = false
+  let release!: () => void
+  const released = new Promise<void>((resolve) => {
+    release = resolve
+  })
+  return {
+    entered: () => {
+      entered = true
+      release()
+    },
+    release: () => released,
+    wasEntered: () => entered,
   }
 }
 
@@ -90,28 +113,32 @@ test('S4: 发现锁先于 workspace 锁获取、读取期间 workspace 锁被持
     updatedAt: 1,
   })
   const recorder = installRecordingWebLocks()
-  let observed: 'unavailable' | 'acquired' | undefined
+  let probe: Promise<'unavailable' | 'acquired'> | undefined
+  const gate = deferredProbe()
   disk.hooks.afterRead = (path) => {
-    if (path.endsWith('manifest.json') && observed === undefined) {
-      void navigator.locks
-        .request(`type-pal-workspace:${workspace.workspaceId}`, { ifAvailable: true }, async () => {
-          await Promise.resolve()
-          return 'acquired' as const
-        })
-        .then((value) => {
-          observed = value ?? 'unavailable'
-        })
+    if (path.endsWith('manifest.json') && probe === undefined) {
+      probe = navigator.locks.request(
+        `type-pal-workspace:${workspace.workspaceId}`,
+        { ifAvailable: true },
+        async (lock: unknown) => {
+          gate.entered()
+          await gate.release()
+          return lock === null ? ('unavailable' as const) : ('acquired' as const)
+        },
+      )
     }
   }
   try {
     const opened = await finishOpen(disk.dir)
     expect(opened.workspace.workspaceId).toBe(workspace.workspaceId)
-    await new Promise((resolve) => setTimeout(resolve, 0))
+    // 读取已经发生：探针必已发出；显式等待其结果（内部 gate，不用 timer）。
+    expect(probe).toBeDefined()
+    observedResult = await probe!
   } finally {
     disk.hooks.afterRead = undefined
     recorder.restore()
   }
-  expect(observed).toBe('unavailable')
+  expect(observedResult).toBe('unavailable')
   const discovery = recorder.events.indexOf('acquire:type-pal-workspace:discovery')
   const workspaceLock = recorder.events.indexOf(
     `acquire:type-pal-workspace:${workspace.workspaceId}`,
