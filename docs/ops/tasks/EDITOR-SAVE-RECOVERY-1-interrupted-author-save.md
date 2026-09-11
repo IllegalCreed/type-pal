@@ -1486,6 +1486,17 @@ GLM直接填写[整批回执](../../testing/editor-save-recovery-glm-batch-repor
 
 #### GLM · batch-r1交接日志（本人填写）
 
+#### GLM · batch-r1 续批交接日志（2026-09-11，剩余项完成）
+
+基于 7a0c6f1c 接收树完成三优先级组：S1/S2/S3（可控内存 IDB 驱动真实 handle-store）、
+P1 其余子项、B2；O4/O5/O6、P7 读侧、P5、B6（合法 PAL sentinel+proof fixture + 相对 URL
+fetch 桩）；W3/W9、B5（迁至已验证 writer harness）；O8/P10/B8 逐分支分类（深防御分支列
+Codex 审查项，不造不可达状态）。43 项状态：新增 24/已有证据 15/分类 3，无空白；三次完整
+check 失败的候选/命令/退出码/日志路径已补齐（K5 时序、缺 extracted 资产、design-system
+B3 顺序根因），最终 check exit 0 共 6,703 项。验证：批文件 35/35、相邻 197/197、tc 0、
+biome 0、同口径 195 文件/1,976 项绿；NC2/NC5 复跑仍红。候选 `43ec775d`，推送核远端后交
+Codex。不代签、不标 done。
+
 以下保留GLM 08c1ee09候选交接原文；当前接收结论为后续Codex counter，不代表已接收。
 
 GLM（2026-09-10，整批完成）：独立 worktree/分支 `codex/glm-save-coverage-batch`（起点 7b534b7c，
