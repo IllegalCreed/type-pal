@@ -643,8 +643,9 @@ final-check列出的7包测试总数为6,703。**B3只是save-batch-baseline顺�
 | S6 | ＋ | storage『S6…』 |
 | S7 | ◈ | journal/plan/prefix/store 抽查+相邻复跑 |
 
-计数：GLM 新增 26 项、Codex 接收修订 4 项（W6/W10删除/B3/S4）、既有证据 15 项、部分 1（W3）、
-分类 3（O8/P10/B8）＋2 子待证（W3 未登记资源、B6 原生新页）。**唯一 ID 43，无重复计数**。
+计数（原文，**已被 9dd97154 复核程序复算更正为 22/3/14/1/3**，见下节返工回执）：GLM 新增 26 项、
+Codex 接收修订 4 项（W6/W10删除/B3/S4）、既有证据 15 项、部分 1（W3）、分类 3（O8/P10/B8）
+＋2 子待证（W3 未登记资源、B6 原生新页）。
 
 **深防御按真实代码重分类**：
 
@@ -758,3 +759,47 @@ S3句柄抛错、P5/B6表述及C4c写错误优先已有直接证据；仅下述�
 只落本席复核/交接文档，不合并候选17项新增测试、不写官方ratchet；主树packages/scripts/data对70e31345零diff。
 当前仍rework；C1、C3及C4a/b/证据口径修完一次性交Codex，不重签、不转Kimi、不标done。
 GLM继续作为测试贡献者，未来终审披露；已修好测试保留，不因本次counter撤销上轮21项。
+
+## GLM 剩余项返工回执（2026-09-12，基于 9dd97154 复核树，候选 `6a145178`）
+
+**R1/C1（撤回追踪，终树核验）**：`fce75a0e` 的 `git add -A` 曾把符号链接重新加入——本轮已再次
+`git rm --cached data/extracted`，并在主仓 `.git/info/exclude`（本地，不入库）加入该路径防止复犯；
+磁盘链接与主仓目标资产未删除。**最终树核验**：`git ls-tree HEAD -- data/extracted` 与
+`git ls-files data/extracted` 均为空（本提交后再次执行，见验证节）；对 9dd97154 的完整 diff 仅
+白名单测试文件与文档。
+
+**R2/C3（put 定点注入与事务终结）**：IDB 替身补齐事务终结合同——request error 未被
+preventDefault 时事务以 **abort 终结且只终结一次**（settled 标志），暂存写集丢弃不提交；
+新增 `putError` 故障**只作用于 store.put**（读取请求照常成功）。S3 重写该段：
+- `putCalls` 见证断言注错前后恰好 +1（确实走到真实 store.put，不再是 getAll 层失败）；
+- 同一数据库上：新记录 `records.has(newWorkspace)===false`（未残留）、原记录
+  `projectId:'s3', name:'original'`（未覆盖）；
+- 读取型 request error（requestErrorAll）传播用例保留。
+
+**R3（C4a/b entered/deferred 互斥 + 双负控）**：两用例改为 entered/deferred——第一位持锁挂起在
+deferred 上，微任务排空后断言**第二位未进入**（互斥观察），随后正常释放路径与异常释放路径分别验证
+排队者成功。新增两个单点负控（/tmp/glm-c4-nc.config.mts，按锁分别以 `run()`/`operation()`
+锚定 `await previous`，各唯一匹配）：移除注册锁队列等待 → C4a 红
+（`expected ['first-enter','second-enter'] to deeply equal ['first-enter']`）；移除发现锁等待 →
+C4b 红（同型）；正常对照绿。不再使用 setTimeout。
+
+**R4（W9 固化/C4c 收窄/统计校正）**：
+- **W9** 固化 Codex w9Witness 已验证的形态：精确 decoder 错误前缀断言
+  （battle-sprite→`/^战斗精灵资源 RLE 损坏/`、sprite→`/^精灵资源 RLE 损坏/`）、**整份磁盘快照
+  逐字节相等**（`[...disk.files.entries()]` vs before）、**全 IO 轨迹**（creates/closes/removes 全空，
+  不再过滤 .type-pal）。
+- **C4c 第二半收窄为端到端**：注释明示 publishState token 校验与后续 stateForReplay 为重叠防护、
+  单点跳过前者仍会在后者收口——**不声称单点门禁已被钉住**；第一半（写错误优先，Codex 已单点
+  变体验证红）保持原断言。
+- **统计校正**：正文与父卡回执的“26/4/15/1/3=49”更正为程序复算的互斥主分类
+  **新增 22 / Codex 修订 3 / 已有 14 / 部分 1 / 分类 3 = 43 唯一 ID**；W10 两名贡献者在行内
+  分栏标注、不与主分类相加。历史原文保留并标注。
+- W3「未登记 pending 资源」子项**如实保留待证**；附属二进制合法合同
+  （project-io:689 允许未进 catalog 的附属文件）已知悉，不为勾项造拒绝输入。
+
+**验证（实际提交树 6a145178）**：批+相邻 12 文件 **200/200 绿**；editor typecheck exit 0；
+改动的三个测试文件 biome 0 error；完整 `pnpm check` **exit 0 共 6,706 项**
+（/tmp/r-final-check.log）；同口径 editor-fast **195 文件/1,979 项全绿**（独立临时报告）；
+六个既有负控 + 两个新 `await previous` 负控在本树全部红。无产品缺陷 counter；
+官方 ratchet 未运行。biome 全仓为既有 50 warnings/11 infos（1 条 useTemplate info 如复核所指，
+不再写“零诊断”）。

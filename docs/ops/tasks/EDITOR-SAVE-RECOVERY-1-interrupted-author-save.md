@@ -1512,6 +1512,19 @@ journal:490-511）+ 撤回 design-system/B3 错误归因。验证：批 38/38、
 biome 0、完整 check exit 0 共 6,706 项、同口径 195/1,979 绿、六组负控最终树全部红。
 候选 `fce75a0e`（C1 为 5460a370），推送核远端后交 Codex 复核。不代签、不标 done、不转 Kimi。
 
+#### GLM · batch-r1 剩余项返工交接日志（2026-09-12，候选 6a145178）
+
+基于 9dd97154 复核树完成剩余项一次性返工：R1/C1 终树撤回 data/extracted（此前 fce75a0e 的
+`git add -A` 复加了链接；本轮再次 untrack 并以本地 git exclude 防复犯，`git ls-tree HEAD --
+data/extracted` 与 `git ls-files` 终验为空，资产未删）；R2/C3 IDB 事务终结合同（未取消的
+request error → 事务 abort 且只终结一次，写集丢弃；putError 仅作用于 store.put，putCalls
+见证恰好 +1；同库新记录未残留、旧记录未覆盖）；R3 C4a/b 改 entered/deferred——持有期间互斥
+有显式观察，新增两个删 `await previous` 单点负控（按锁锚定 run()/operation()）分别使 C4a/C4b
+业务红；R4 W9 固化完整快照+全 IO 轨迹+精确 decoder 前缀，C4c 第二半收窄为端到端并如实分类
+重叠防护，统计更正为程序复算 22/3/14/1/3（43 唯一 ID）。验证：批+相邻 200/200、tc 0、
+biome 0（改动的三个文件）、完整 check exit 0 共 6,706 项、同口径 195/1,979 绿、六个旧负控+两个
+新负控全部红。候选 `6a145178`，推送核远端后交 Codex 复核。不代签、不标 done、不转 Kimi。
+
 以下保留GLM 08c1ee09候选交接原文；当前接收结论为后续Codex counter，不代表已接收。
 
 GLM（2026-09-10，整批完成）：独立 worktree/分支 `codex/glm-save-coverage-batch`（起点 7b534b7c，
