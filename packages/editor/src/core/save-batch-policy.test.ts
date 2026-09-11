@@ -179,3 +179,36 @@ test('P6d: 绑定授权消费后复用被拒（消费检查为独立可观测门
   await expect(writeProject(target, files)).resolves.toBeTruthy()
   await expect(writeProject(target, files)).rejects.toThrow('授权已消费')
 })
+
+test('P5: 沙盒受限 marker 写入失败后不留可被普通 local 利用的副本，恢复后完成受限登记', async () => {
+  const wp = await import('./workspace-persistence.js')
+  const files = await buildBlankProject('batch-p5')
+  const disk = memoryAuthorDirectory()
+  const workspace = (await import('./workspace-context.js')).createSandboxWorkspaceContext(
+    'batch-p5',
+    'sandbox-copy',
+  )
+  const target = await wp.authorizeFirstSaveTarget(workspace, disk.dir)
+  disk.hooks.beforeClose = (path) => {
+    if (path.includes('workspace.json')) throw new Error('marker write denied')
+  }
+  await expect(
+    wp.withAuthorizedWorkspaceMutation(target, async (mutation) => {
+      await wp.registerAuthorizedWorkspaceMutation(mutation, workspace, disk.dir.name)
+      await writeProject(mutation, files)
+    }),
+  ).rejects.toThrow('marker write denied')
+  disk.hooks.beforeClose = undefined
+  // 失败副本不可被普通 local 首存利用（.type-pal 残留使空目录门拒绝）。
+  const localCtx = (await import('./workspace-context.js')).createLocalWorkspaceContext(
+    'batch-p5',
+    'blank-project',
+  )
+  await expect(wp.authorizeFirstSaveTarget(localCtx, disk.dir)).rejects.toThrow()
+  // 失败现场：marker 只有空占位（未完成受限登记），无待恢复凭据——失败副本不可被任何一方利用。
+  const { recoverInterruptedAuthorSave } = await import('./author-save-journal.js')
+  await expect(recoverInterruptedAuthorSave(disk.dir)).resolves.toBeNull()
+  expect(authorSaveStorage.receipts.size).toBe(0)
+  const markerBytes = disk.files.get('.type-pal/workspace.json')
+  expect(markerBytes?.byteLength ?? 0).toBe(0)
+})
