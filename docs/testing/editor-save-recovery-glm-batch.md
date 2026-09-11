@@ -7,6 +7,9 @@
 
 ## 责任与冻结基线
 
+2026-09-11续作说明：21项测试已由Codex接收修订后集成，后续在原分支同步父卡当前接收提交再追加，
+不要回退到首次派工起点。当前优先级与提示词以父卡为准，已接收断言不得削弱；本节初次建分支规则保留为历史。
+
 - 产品基线固定 **aa87c305**。从本文件**首次加入仓库的文档提交**建立新worktree与
   `codex/glm-save-coverage-batch`，建议目录 `/Users/zhangxu/illegal/type-pal-glm-save-batch`。
   可用 `git log --diff-filter=A --format=%H -- docs/testing/editor-save-recovery-glm-batch.md` 定位起点。

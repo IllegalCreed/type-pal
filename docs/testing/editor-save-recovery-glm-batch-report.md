@@ -3,9 +3,10 @@
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
 分工：[batch-r1 工作包](editor-save-recovery-glm-batch.md)。产品基线：aa87c305。
 
-> **当前接收结论：Codex counter（2026-09-11），不接收08c1ee09，本批退回GLM返工。**
-> 以下G1—G6内容保留为GLM候选原始回执，不代表Codex已确认完成；本席证据与返工项见文末。
-> 候选测试尚未合入main，官方覆盖率基线未更新，父卡r2设计签字保持有效。
+> **当前接收结论：Codex接收修订后的21项测试子集，完整check及严格fast通过。**
+> fa8af7c2并非原样accept：本席修正其剩余测试缺陷、清理冲突并新增删除回归；43项整包仍未完成。
+> 下方GLM两轮回执及原counter均为历史；当前结果以文末Codex接收修订为准。
+> 只接收核实后的测试子集，不代表43项工作包或父卡完成；r2设计签字保持有效。
 
 ## 候选与白名单
 
@@ -134,6 +135,7 @@ codex/glm-save-coverage-batch` 核对远端 SHA 与本地一致（提交时回�
 请按接收清单复核六组/43项/SR 总表、抽审负控与 PAL/基线断言，适配主树集成后跑全仓 check/ratchet/单次严格 fast；12 项待证按归属处理。GLM 为测试贡献者，终审须披露；不代签、不标 done。
 ```
 
+
 ## Codex接收复核（2026-09-11，08c1ee09，counter）
 
 结论：**测试贡献返工，不接收整批，不更新官方baseline，不转Kimi，不标父卡done**。
@@ -241,3 +243,122 @@ W10用确有删除的合法计划，在remove边界挂起/失败，断言非空�
 因为接收前已发现阻断，不能用更大的绿测试总数替代修正无效断言。
 GLM自述6,681全仓与1,954 editor-fast保留为其回执，不是本席独立复跑声明。
 修复后再核白名单、175+新增相邻、全部负控与覆盖；通过接收后才统一全仓门禁。
+
+## GLM 返工回执（R1–R4，2026-09-11）
+
+针对 Codex 接收复核 R1–R4 完成整批返工（分支同前，产品相对 aa87c305 仍零 diff）：
+
+- **R1（P2/P6 伪拒绝）**：P2 改为“可成功回调 + 真实 writer”——外部文件注入后
+  `writeProject`（本可成功，正控已证明）被产品空目录门拒绝，断言未进入写入/零作者 IO/外部字节原样；
+  P6 拆为 P6a（一次性授权复用，回调可成功）、P6b（绑定目标跨目录拒绝 + 同目录正控，两目录零写删）、
+  P6c（首存资格不延续：首存后同目录再走首存门拒绝）、P6d（绑定授权消费后复用被拒——消费检查为独立
+  可观测门，配套 NC4 负控）。原“operation 里 throw”与“B 新授权”问题消除。
+- **R2（W6/W10）**：W6 在真实 catalog 读取节点（Blob.text 读 assets/index.json）注入坏 JSON——
+  `injected=true` 见证断言证明确实到达该节点，同输入正控完整保存成功，不再混入作者基线冲突；
+  W10 重写为“确有变更的真实保存”：进度序列非空（events.length>0）、引用表写入失败时 max<100%、
+  凭据保留且 `recoverInterruptedAuthorSave` 续存完成、正控最终进度恰 100%。
+  **诚实登记**：Codex 要求的“删除边界挂起”子项未完成——合法单文件删除需同时撤销 manifest 声明，
+  而 blank 工程全部内容表均为 canonical 必需（locale 删除实测被『manifest 缺 locale 路径』拒绝，
+  未声明删除实测被一致性校验拒绝）。该项列为待证：需可选表（enemies/shops 族）或资源注销 fixture，
+  条件已写明，不冒充已覆盖；W10 按实际覆盖改名为“写边界”。
+- **R3（S4 替身合同）**：按 Web Locks 规范修正——ifAvailable 无法获锁时**仍调用 callback(null)**，
+  request 返回 callback 结果；探针改为检查 lock 参数（null⇒unavailable）并经内部 gate 显式 await，
+  不再用 timer；恢复原始 navigator.locks 属性描述符。NC6 重跑仍红（发现锁序断言 -1）。
+- **R4（对账与归属）**：
+  - 计数更正：**12 个新增类条目 / 19 个已有证据 / 12 个待证**（原“13”混入 B1 正控计数）。
+  - O4 引用更正：project-copy『整笔复制不能借用已绑定目标授权』不覆盖 B-mutation 打开 A 的
+    finishOpen 路径——O4 改列**待证**（finishOpen registrationMutation 目录不符分支
+    『打开目标与原保存操作目录不一致』现无自动化证据）。
+  - O6 引用更正：project-open-workflows clone 各项断言 local-project/local-bound、无 PAL sentinel，
+    不能当合法 PAL proof 成功链——O6 改列**待证**（与 O5/P7/B6 同属真实 PAL HTTP proof 构造族）。
+  - W3 引用收窄：clone 摘要三例只证 catalog 摘要不符；未登记 pending 资源/路径冲突子项列待证。
+    W9 引用收窄：三坏格式仅 tileset 族，world-sprite/battle-sprite 子项列待证。
+  - B5 引用更正：saveNextEdit 是直接 writeProject，不证明 resumeOwnProjectSave 回调/snapshot——
+    改引 journal own-retry 用例并标注剩余缺口。
+  - 待证理由修正：撤销“fixture 无读错误钩子”错误说法（afterRead 抛错在 B3/P1 已用）；S1/S2 的
+    Node fallback 与 IDB 混淆已删，改为“需可控 IDB open/transaction 边界”（Codex oracle 已证明可行，
+    归属仍为 GLM 后续补自动化）。
+  - SR 表修正：SR-01/08 补 PAL 新页恢复缺口（B6）待补标注；SR-07 撤销以 P2 为证据的映射，
+    改为 journal committed/cleanup 族 + P6c；所有“—”改为明确“无原生待补”或具体待补项。
+- **9 项自动化待证与 3 项可达性**：本返工在有限额度内完成了 R1–R3 阻断项与对账修正；
+  O5/P1（部分完成：坏标记不降级+IO 传播两用例已绿）/P5/P7/B2/B6/S1/S2/S3 及 O8/P10/B8 逐分支
+  可达性**未全部完成**，如实保留为待证——不虚报、不刷数量，交由下轮继续或 Codex 裁定优先级。
+
+**返工候选 `b689545a`。返工验证（实际提交树）**：5 批文件 **19/19 绿**（原 13 项 + P1×2/P6bcd + W6/W10 重写）；
+定向+相邻 11 文件 **180/180 绿**；editor typecheck exit 0；biome 0 error；完整 `pnpm check`
+**exit 0 共 6,687 项**（第 1–3 次分别因 K5 音频时序抖动、worktree 缺 gitignored extracted 资产、
+design-system 既有抖动失败——三者均为环境/既有抖动，与本次改动无关，均已隔离复跑绿；
+K5 单独 3/3 绿、design-system 两文件单独 24/24 绿）；同口径 editor-fast
+**194 文件/1,960 项全绿**。负控复跑：NC4（对 P6d）/NC6 均红；NC1/NC2/NC3/NC5 未受影响（对应
+测试未改语义，O2/O3/W1/B1 仍在）。产品缺陷 counter：无。
+
+## Codex返工复核与接收修订（2026-09-11，fa8af7c2）
+
+用户本轮允许裁定剩余范围。返工主体可保留，但原候选不能原样accept：Codex在主树补齐明确的测试证据缺陷，
+随后统一跑质量门。**不是GLM原候选原样通过，也不是整个batch-r1完成。** GLM贡献与本席修订分别披露，不代签。
+
+### 原候选的独立复核
+
+- 远端fa8af7c22ef429be122d9f53c10a2b7a5e7dede3与本地一致，b689545a→fa8af7c2产品/测试零diff。
+  除白名单测试外产品相对aa87c305零diff。GLM工作树接手前已有未跟踪data/extracted，未触碰或集成。
+- 正确定向集合为**11文件/181项**，不是回执的180；新测试19项。typecheck通过，biome有3个unused warning。
+  两份文档共7行合并冲突标记已入提交，git diff --check直接失败，不能把“保留了counter文本”当合并已正确收口。
+- R1修复有效：去掉空目录检查后P2错误成功而红，NC4对P6d也错误成功而红；没有原先回调自抛错的伪拒绝。
+  P6c只覆盖“完整首存后不能重复申请首存”，不能单独顶替“仅预检不授予续写资格”的全部子项。
+- W6已到catalog节点，但拒绝后resetChanges再检查零IO。本席注入同字节catalog重写，并额外断言close确实发生，
+  **原W6仍绿**。W10非空进度有效，但删除子项不是合同阻断：已有journal测试使用可选ambiences；
+  本席以正式writeProject/removePaths独立跑通正常删除与删除失败后恢复两态（2/2绿）。
+- S4的callback(null)、去timer、descriptor恢复有效；成功仍callback(undefined)、ifAvailable只看属性存在，
+  没有读后释放正控。接收时补齐，而不把这半份替身称为完整API合同。
+
+证据目录：`/tmp/codex-glm-batch-rereview.hVX6Hy/`，targeted.log、typecheck.log、biome.log、review.config.mts，
+p2/nc4/nc6/progress/rewrite/deletion.log。原候选源码/测试留在GLM分支未改。
+
+### Codex接收侧实际改动
+
+1. 清理冲突标记，保留双方历史及原counter正文；删除unused导入/常量。
+2. W6在动作前reset，增加完整字节快照、SyntaxError类别、无新恢复凭据断言；正反控使用相同项目内容并显式比对输入。
+   相同“报错前同字节重写”oracle现因closes非空而红，不再靠清空轨迹通过。
+3. S4成功传Lock形状，ifAvailable严格为true；读取内直接await探针，完成打开后再探测可成功取得并释放锁，恢复descriptor。
+4. 新增W10删除成功/中断恢复2条常驻回归：合法注销可选ambiences并使用正式removePaths；remove前进度非空合法且未满，
+   中断保留pending/issued，恢复后实际删除并可打开；正常完成才100%。在manifest完成时过早报告100%的变体两条均红。
+5. 首次全仓check额外暴露**本批B3确定性测试缺陷**：删locale后未恢复，又注入actors读取错，断言取决于并行载入的基线顺序。
+   本席先撤销缺文件故障、验证基线恢复正常再注入IO错误。强制locale先验证：原候选必红，修订后绿；不改产品读取顺序。
+   这次失败不能归环境抖动，也不是靠多次重跑取绿。
+
+本席没有修改生产实现、旧测试、版本、原探针、PAL数据或用户6010；只有白名单测试和文档变化。
+接收修订为**5文件/21项**（其中2项由Codex新增），相邻共11文件/183项。正常控制通过；
+八组反证（取消、基线漂移、空目录、授权消费、发现锁、零进度、同字节非法写、删除前过早100%）均业务红。
+配置integrated.config.mts；main-control/targeted-fixed及main-各模式.log。B3强制顺序证据order-before/after.log。
+
+### 剩余优先级与归属
+
+| 顺序 | GLM继续原测试范围 | Codex保留 |
+|---|---|---|
+| 1 | S1/S2/S3真实store的IDB错误/事务/句柄；P1其余子项与B2基线身份 | 接收复核；原生IDB/权限验收 |
+| 2 | O4/O5/O6、P5/P7、B6的PAL/沙盒打开恢复链，复用合法fixture | 原生跨页、产品缺陷裁决与修复 |
+| 3 | W3/W9未覆盖类型、B5回调/snapshot、O8/P10/B8逐分支分类 | 真不可达代码裁定，不按比例硬造异常 |
+| 并行 | 重写当前43项/SR表，逐条完整/部分/未做并附精确证据 | 大工程性能定位、最终门禁/整卡终审 |
+
+P1已有部分测试，不再整体当未做；W10删除由本席补齐，不再让GLM重复。原“12/19/12”仅是08c1ee09表的历史纠正，
+不能用作fa8af7c2当前完成统计；原19条测试也不代表43项全部核验完。接收测试子集不替代G6最终证据对账。
+
+### 三次失败的证据边界
+
+GLM未给出所称K5/缺资产/design-system三次失败的确切日志与对应候选SHA。本席能定位的/tmp/glm-batch-check*.log
+仍是旧候选（末次editor2,113/全仓6,681），不能证明本轮6,687项的失败原因。GLM须补命令/候选/失败测试/退出码/日志路径；
+缺资产可据ENOENT核定，但不得仅凭隔离复跑绿宣布其余是无关环境。无法找回应标证据缺失，不补写记忆数字。
+本席以修订树重新执行完整check和严格fast；本轮实抓的B3按确定性缺陷修复，不将整包抖动一概免责。
+
+本席修订后完整check（main-check-fixed.log）已exit0：**7包/561测试文件/6,689项**，
+editor213文件/2,121项，各包typecheck通过；lint为既有50 warnings/11 infos，未扩大15s审计预算。
+首次main-check.log的B3失败原样保留；没有仅靠隔离绿或多数通过放行。
+
+官方ratchet以20329a86为保护基线通过：**618生产文件/6,201项fast**；editor220生产文件/194测试文件/1,962项。
+其他六包不变，editor最终语句24,678/32,526、分支19,029/28,148、函数6,124/8,221、行22,289/28,403，
+生产统计分母未变。open-actions为114/119行、21/22函数、98/108分支，author-disk-baseline为93/96、27/28、55/61，
+两文件已达单模块95/95/90目标；这不免除PAL、IDB或SR业务缺口。writer/policy/handle-store仍有未达标范围。
+
+**单次严格fast exit0，6,201项全绿**；除generatedAt外完整summary与ratchet逐字段相同，提升0项、无计数抖动。
+最终证据为同目录main-check-fixed.log、ratchet.log、strict-fast.log、ratchet-summary.json、editor-ratchet-summary.json；
+文档与git diff --check一并通过。父卡回到build继续剩余范围，不改done前三席签字，不代签、不标done。
