@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | rework | GLM：续批C1–C4返工；Codex复核 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 574012e5未接收：越界资产链接、W9错层、IDB替身/对账问题；原21项有效，r2不重签。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | rework | GLM：3fe58baa剩余返工；Codex复核 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) W9/O4等已修；最终树仍含资产链接，IDB请求失败/尾链断言及统计待修；原21项有效，r2不重签。 |
 
 ## 阻塞
 
