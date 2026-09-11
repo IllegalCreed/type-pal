@@ -3,6 +3,11 @@
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
 分工：[batch-r1 工作包](editor-save-recovery-glm-batch.md)。产品基线：aa87c305。
 
+> **当前接收结论：Codex counter（2026-09-11），不接收08c1ee09，本批退回GLM返工。**
+> 以下G1—G6内容保留为GLM候选原始回执，不代表Codex已确认完成；本席证据与返工项见文末。
+> 候选测试尚未合入main，官方覆盖率基线未更新，父卡r2设计签字保持有效。
+
+>>>>>>> origin/main
 ## 候选与白名单
 
 - 分支 `codex/glm-save-coverage-batch`，独立 worktree `/Users/zhangxu/illegal/type-pal-glm-save-batch`，
@@ -129,3 +134,112 @@ codex/glm-save-coverage-batch` 核对远端 SHA 与本地一致（提交时回�
 验证：定向+相邻 175/175、完整 pnpm check exit0 共 6,681 项（注记：worktree 需本地补 gitignored data/migrated 资产）、同口径 editor-fast 194/1,954 全绿、typecheck 0、biome 净。整文件覆盖缺口已如实列出（project-io/wp/handle-store 分支等），官方 ratchet 留你统一执行。
 请按接收清单复核六组/43项/SR 总表、抽审负控与 PAL/基线断言，适配主树集成后跑全仓 check/ratchet/单次严格 fast；12 项待证按归属处理。GLM 为测试贡献者，终审须披露；不代签、不标 done。
 ```
+
+
+## Codex接收复核（2026-09-11，08c1ee09，counter）
+
+结论：**测试贡献返工，不接收整批，不更新官方baseline，不转Kimi，不标父卡done**。
+阻断的是测试断言/替身/对账可靠性，不是因为“只新增13项”或单纯覆盖率尚未达到目标。
+本席只做隔离复核、保留GLM原文；不在GLM工作树代改测试或用修改产品迎合测试。
+
+### 已独立确认
+
+- 远端08c1ee09832edc232129b6f48bf16fa0d9a2d47b与本地相同；fa0da062→08c1ee09产品/测试零diff。
+- 白名单成立：5新测试文件及两份文档；除这些测试外packages/scripts相对aa87c305零diff。
+  父卡只改GLM本人日志，旧测试、共享fixture、配置、baseline与原探针未动。
+- 正确文件集合（含zip.test.ts）的11文件/175项独立复跑通过；editor typecheck exit0。
+  首次定向误写export-zip.test.ts，实际只跑10文件/165项，已更正重跑；不混计两次结果。
+- 六个声称的单点变体本人重新定义并逐一执行，均exit1，NC1/3/4/5有相应结果拒绝反例；
+  NC2主要是错误文案改变，NC6是锁调用事件缺失，仍须结合下述业务见证/替身缺陷重做。
+- W1原stamp并非坏格式：只恢复manifest.stamps登记，同一模板的序列化正控独立通过。
+  O2取消与拒绝区分、B1字节漂移观察及P6前半一次性授权的价值保留，不全盘否定。
+- biome没有error，但有新增MANIFEST未使用warning（save-batch-baseline.test.ts:25），不是“既有风格类/全净”。
+- 证据目录：`/tmp/codex-glm-batch-review.FwyOAM/`；review.config.mts为本席独立隔离配置，
+  targeted-175.log、typecheck.log、biome.log、nc1～nc6.log及下述witness/oracle日志。
+  临时日志最初因静默测试输出未展示console，本席改用**额外见证断言**后复跑；结论采用后者，不靠没打印日志推断未执行。
+
+### R1 / P1：P2与P6存在自造异常的假通过
+
+候选锚点：`save-batch-policy.test.ts:37–55,58–81`。
+
+- P2在传入的operation里直接throw，再用无错误来源限制的rejects.toThrow。
+  本席仅将真实assertDirectoryEmpty变为no-op，追加“operation确实进入”的见证断言：
+  **回调进入且P2仍exit0**。目录保护已失效，测试却因自己的throw通过。
+  它目前也未执行实际writer，不能声称覆盖“真正首写前”的保护。
+- P6前半一次性target拒绝复用有效；后半却为B签发了全新的合法授权，再在B的回调里throw。
+  产品零改动，额外断言证实**合法B回调确实进入且整个P6仍绿**，不是“A授权被拿去写B时遭拒”。
+  且本工作包P6是首存续写资格，不能用P9的一次性授权测试代替后标为全覆盖。
+
+返工：拒绝用例使用可成功的回调/真实写入，断言准确的产品错误、未进入/零作者IO和原字节；
+正常授权可完成。分开一次性授权、跨目录拒绝和首存续写，补齐或精确引用各自证据；
+移除所针对的保护时同一用例必须业务红。
+证据：witness-p2.log、witness-p6.log（均含本席明确entered=true断言，均exit0）。
+
+### R2 / P1：W6没有到catalog读取，W10没有删除且允许零进度
+
+候选锚点：`save-batch-writer.test.ts:98–110,113–137`。
+
+- W6在可信作者基线捕获后改坏磁盘catalog；writeProject输入只有locale，没有manifest/catalogPath。
+  本席实际断言捕获到**AuthorSaveConflictError**，并在目标catalog reader加见证证明**从未进入**。
+  所以它验证的是已有作者基线冲突，不是所声称的坏JSON/NotFound/权限读取边界。
+- W10用全新空目录，未传removePaths/旧snapshot，也没有remove事件；只在manifest close前失败。
+  本席单点屏蔽writeProject全部onProgress转发，额外断言events.length===0，**原测试仍exit0**：
+  Math.max(...[])为负无穷，仍小于1。不能证明进度确实发生，更不能证明最后删除前不报100%。
+
+返工：W6在真实catalog读取节点注错，带合法当前输入和同条件正控，区分读取IO、JSON错误与基线冲突；
+W10用确有删除的合法计划，在remove边界挂起/失败，断言非空且有效的进度序列、最终删除成功后才100%、
+失败时恢复数据/snapshot保持。旧的manifest失败场景可保留但须按实际覆盖重命名归类。
+证据：witness-catalog.log（错误类别与reader未进入双断言）、witness-progress.log（events=0断言），均exit0。
+
+### R3 / P1：S4的Web Locks替身合同错误，时序仍靠timer
+
+候选锚点：`save-batch-storage.test.ts:60–70,100–120`。
+
+[Web Locks规范](https://w3c.github.io/web-locks/#dom-lockoptions-ifavailable)规定ifAvailable无法获锁时，
+仍调用callback(null)，request采用callback的结果；不是跳过callback直接返回null。
+候选替身跳过callback，而探针callback不看lock参数、始终返回acquired。
+本席仅将替身该分支改为callback(null)，**正常产品S4即红：acquired≠unavailable**。
+其void探针加setTimeout(0)也不符合本批内部gate/entered要求。
+
+返工：替身传正确的Lock/null，按布尔值解释ifAvailable；探针检查lock而非猜返回null，
+显式await/deferred结束探针；恢复原navigator.locks descriptor。
+保留发现锁→workspace锁顺序，并以真实读取阶段见证持锁与释放后可再次取得，重新跑NC6及正常对照。
+证据：oracle-locks-api.log，产品零diff，exit1。此结论不是说当前产品锁实现有bug。
+
+### R4 / P1：43项与SR表存在错误证据映射、未充分调查的延期
+
+候选回执锚点：O4/O6/W3/W9/P6/B5、待证表及SR摘要（本文件GLM原文段）。
+
+- O4引用“绑定目标不能整笔复制”，不是有效B mutation打开A的finishOpen路径。
+- O6引用project-open-workflows clone各项，但该测试明确断言**local-project/local-bound且无PAL sentinel**
+  （原文件:142–149），不能作为合法PAL最终proof成功链。
+- W3的未登记pending资源/路径冲突不能用clone摘要错误代替；W9要求三种资源坏格式，引用仅tileset族不够。
+  W2/P4还存在引用文件不对；B5的saveNextEdit直接writeProject，不证明resumeOwnProjectSave回调/snapshot。
+  这些条目须重查真实测试全名与断言，不能将“相关文件全绿”当目标路径已覆盖。
+- 多数“待证”没有已排查调用域或真正阻塞条件：P1说共享fixture无读错误钩子，但本人B3已使用afterRead抛错，
+  白名单还允许本批helper/局部代理；S1/S2将Node锁fallback与IDB混淆。
+  既有handle-store.test.ts:42起就在Node构造IDB边界；本席在Node调用**未mock的真实loadWorkspaceRecord**，
+  已跑通open error拒绝及request success后尚未settle、随后transaction abort拒绝两个oracle（2/2绿）。
+- SR表漏掉PAL新页等已知缺口，还将P2首存外部文件保护作为SR-07提交后清理证据；不能把“—”理解为无待补。
+- 表内实际为**12个新增类ID、19个已有证据ID、12个待证/分类ID**；13是测试数（B1额外正控），
+  不是13个新增类条目。当前“13/18/12”不是从表格复算的结果。
+
+12项归属裁定（不改变原范围、不重开产品设计）：
+
+| 条目 | 本轮处理 |
+|---|---|
+| O5/P1/P5/P7/B2/B6/S1/S2/S3 | 9项自动化部分仍属GLM原工作包；使用已授权fixture/局部边界/helper补齐，不能仅因需构造fixture退回Codex |
+| O8/P10/B8 | 3项允许做可达性分类，但须逐分支给file:line、调用域、为何难以/不可达、可推翻观察；“未逐条构造”不算完成 |
+| 真正原生PAL跨页/权限、原生Web Locks/E2E、大工程性能、产品修复 | Codex保留；内存自动化与原生验收分栏，不能相互顶替 |
+
+返工时43项逐条标完整/部分/待证及精确证据；如某项只补一个子场景，不能标“无风险/已覆盖全部”。
+不要求刷固定测试数或100%分支；要求这次承诺的核验范围、证据和结论相符。
+证据：oracle-idb.log，源码/原测试直接核对；上述分类为本席对交付归属的裁定，不是代GLM写新accept。
+
+### 后续与质量门
+
+本批需GLM整批返工。main只落原始回执/本席counter/交接与看板，候选5测试文件不集成；
+产品、旧测试、官方baseline与探针不变。**本席未跑候选全仓check/ratchet/严格fast**，
+因为接收前已发现阻断，不能用更大的绿测试总数替代修正无效断言。
+GLM自述6,681全仓与1,954 editor-fast保留为其回执，不是本席独立复跑声明。
+修复后再核白名单、175+新增相邻、全部负控与覆盖；通过接收后才统一全仓门禁。

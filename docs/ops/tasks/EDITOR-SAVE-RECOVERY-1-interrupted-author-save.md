@@ -1,6 +1,6 @@
 # EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: ops（审计 A-03，不新增能力格）
 Coding Owner: Codex
@@ -1486,6 +1486,11 @@ GLM直接填写[整批回执](../../testing/editor-save-recovery-glm-batch-repor
 
 #### GLM · batch-r1交接日志（本人填写）
 
+<<<<<<< HEAD
+=======
+以下保留GLM 08c1ee09候选交接原文；当前接收结论为后续Codex counter，不代表已接收。
+
+>>>>>>> origin/main
 GLM（2026-09-10，整批完成）：独立 worktree/分支 `codex/glm-save-coverage-batch`（起点 7b534b7c，
 产品零 diff）连续完成 G1–G6。分组检查点提交（G1/G2/G3–G5），最终一批交付：5 新测试文件 13 项
 （O1-O3、W1/W6/W10、P2/P6、B1/B3、S4/S6）全绿；43 项逐条落类——新增通过 13、已有证据复跑 18
@@ -1495,8 +1500,27 @@ GLM（2026-09-10，整批完成）：独立 worktree/分支 `codex/glm-save-cove
 194 文件/1,954 项全绿、typecheck 0、biome 净；整文件覆盖缺口如实登记，官方 ratchet 未动。
 详见[整批回执](../../testing/editor-save-recovery-glm-batch-report.md)。不代签、不标父卡 done；
 测试贡献留待终审披露。
+<<<<<<< HEAD
+=======
+
+### Codex · batch-r1接收复核（2026-09-11，counter）
+
+不接收08c1ee09/fa0da062，本卡暂记rework，**仅GLM测试贡献返工，r2前提/设计签字继续有效**。
+本席独立核白名单/远端SHA、11文件175项与typecheck；六个声称的变体均红，但进一步反例证明
+P2/P6自抛错假通过、W6错层、W10零进度也绿、S4锁替身违背API合同，43项/SR表也有错误映射。
+详细file:line、隔离证据、R1–R4返工与12项归属裁定见[Codex接收复核](../../testing/editor-save-recovery-glm-batch-report.md#codex接收复核2026-09-1108c1ee09counter)。
+
+待证中的O5/P1/P5/P7/B2/B6/S1/S2/S3自动化仍属GLM原范围；O8/P10/B8补逐分支分类证据。
+仅真正原生权限/跨页、E2E、性能与产品修复留Codex，不因fixture需要构造就把原测试工作退给Codex。
+不要求刷测试数量，保留有效O2/B1/W1等贡献；同kind的W1合法正控已由本席独立确认。
+main只收文档，不合并五个候选测试、不改官方baseline；本席不重复候选全仓check/ratchet/严格fast来掩盖阻断。
+不转Kimi、不代修产品迎合测试、不请求重复签字；GLM修完仍一次性整批交付。
+>>>>>>> origin/main
 
 ## 交接日志
+
+- 2026-09-11 Codex：batch-r1接收counter，独立175项与六组变体/额外oracle取证；四类返工及待证归属已落卡。
+  产品、官方baseline、原测试/探针零改动，GLM工作树未改；回执与counter仅落main文档，待GLM整批返工。
 
 - 2026-09-10 Codex：按用户要求登记batch-r1大批测试分工、43条目及12条SR总对账，独立分支一次交付，
   产品实现权限仍属Codex；本轮只改文档，不代表GLM已开工/测试已增加，不重签、不标done。
@@ -1555,11 +1579,39 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 当前175d07b2返工已通过Codex独立复核并集成，2a49cac6的R1–R3 counter解除；r2签字保持有效。
 2026-09-10已完成审计性能、journal故障及新建/克隆/打开真实流程回归；原配置完整check及6,180项单次严格fast均通过，既有15s预算不变。
-journal覆盖目标已达标；权限/异常、writer/policy其余覆盖及SR对账现委派GLM整批完成，Codex保留性能与集成复核。
+journal覆盖目标已达标；GLM batch-r1候选08c1ee09经Codex复核counter，现限定测试/回执返工，未集成；r2不重签。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
 当前不请求用户验收。
 
-### 给GLM（当前：batch-r1大批测试，一次交付）
+### 给GLM（当前：batch-r1整批返工，08c1ee09）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 的原独立worktree/分支codex/glm-save-coverage-batch返工08c1ee09。
+父卡EDITOR-SAVE-RECOVERY-1现为rework，仅测试贡献返工，r2设计签字保持，不重签。
+先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、原batch-r1工作包，以及
+docs/testing/editor-save-recovery-glm-batch-report.md 的Codex接收复核R1–R4和12项归属裁定。
+同步本次main counter文档（产品仍aa87c305），保留Codex原文/其他席位，不切共享main、不stash。
+
+R1：P2/P6去掉回调自抛错的伪拒绝，使用真实可成功操作、明确产品错误和未进入/零IO见证；
+P6前半一次性授权可保留归P9，补齐或精确引用真正的P6首存续写资格；有效B新授权应有成功正控。
+R2：W6到真实catalog读取节点验证IO/JSON，不再用基线冲突代替；W10必须有实际删除，
+进度事件非空且合法，删除完成前不100%，成功后才100%；零进度反例必须红。
+R3：S4按Web Locks合同调用callback(Lock/null)，探针看lock而非错误的null返回约定；
+显式await/gate，不setTimeout猜时序；补持有/释放见证，重做负控。
+R4：43项/SR表逐条纠正，O6的local clone不是PAL proof；不得跨层/跨类型引用当全覆盖。
+9项O5/P1/P5/P7/B2/B6/S1/S2/S3自动化仍由你补，3项O8/P10/B8需逐分支可达性证据。
+Node可用边界替身测真实IDB函数：Codex已独立跑通open error及request success后abort；
+共享fixture无钩子不是阻塞，可用原白名单本批helper/局部代理，测store时不要mock掉store。
+准确区分13个测试与12个新增类ID；修正覆盖缺口口径与新增unused warning。
+
+仍只改原白名单测试/本批helper、自己的回执/日志，产品/旧测试/配置/baseline/探针不动。
+可以参考 /tmp/codex-glm-batch-review.FwyOAM/review.config.mts，但本人重建验证，不复述结果。
+全部修完一次性交付：完整条目/测试名/断言、正反控精确diff与业务结果、同口径覆盖、
+定向/相邻/typecheck/完整check回执按实际提交树生成，不能只写“均已解决”。
+提交推送原分支核远端SHA，再给Codex接收提示词；不代签、不标done、不让用户搬意见，不转Kimi。
+```
+
+### 给GLM（历史：batch-r1首次派工，一次交付）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 执行 EDITOR-SAVE-RECOVERY-1 的GLM大批测试工作包batch-r1。
