@@ -1620,14 +1620,16 @@ Codex保留原生跨页验证、性能、产品缺陷判断、接收适配及统
 
 #### GLM · preflight-r1交接日志（仅GLM填写）
 
-GLM（2026-09-12，preflight-r1 完成）：独立 worktree/分支 `codex/glm-save-preflight-tests`
-（起点 88487350，产品/脚本相对 4b72e492 零 diff）一次性完成 A/B/C 三组。A组 P01–P05（6 用例，
-真实 preflight/writer，全副作用字节+IO 轨迹）、B组 S01–S04（5 用例，生产 bytes 合同、上游
-重叠护栏如实分类、正式 loader 重开）、C组 wp 剩余 82 未覆盖分支只读分类表（3 族可达待测归
-PAL/深链）。四负控（A/B 各 2）全部业务红。验证：定向+相邻 44/44、tc 0、biome 0、完整 check
-exit 0 共 6,722 项、同口径 editor-fast 197 文件/1,995 项全绿；project-io 行 97.2%/函数达标、
-分支 83.8% 缺口三类逐项列明（journal 接线归集成树、重叠护栏、可选表双态未做）。候选 `327db910`，
-推送核远端后交 Codex。不代签、不标 done；测试贡献终审披露。
+GLM（2026-09-12，preflight-r1 返工完成）：基于 81558d06 counter 树按 PF-1～PF-3 一次性返工。
+PF-1：S01 撤销旧分片“当前合法”结论——当前 sharedScripts 模型（具体脚本体）输出后经正式 loader
+重开核对；旧形态登记为 loader 明禁 + Codex 清理审查项。PF-2：S02 双态（copy-through 逐字 +
+已加载图层名编辑胜出）；P05 同基线 writer 成功正控 + metadata mismatch 负控 + 直接
+receipts.size===0 断言；P01/P02 补自身合法对照；unused import 清理。PF-3：wp 82 臂/project-io 37 臂
+逐 branchId/arm 对账表（函数分组+分类），“本树已含上批测试/集成后合并”错误归因已撤回；
+五次完整 check 逐次命令/exit/原因 + 返工后 exit 0 共 6,723 项。验证：定向+相邻 45/45、tc 0、
+biome 0、四负控红、同口径 197/1,996 全绿；project-io 行 97.2%/函数 100%/分支 84.6% 缺口逐臂列明。
+候选 ee7169e3，推送核远端后交 Codex 复核。不代签、不标 done、不转 Kimi；测试贡献终审披露。
+
 
 ### Codex · preflight-r1接收复核（2026-09-12，counter）
 
@@ -1646,6 +1648,21 @@ exit 0 共 6,722 项、同口径 editor-fast 197 文件/1,995 项全绿；projec
 候选产品/脚本/原探针无改动；S01反映的旧序列化残留由Codex后续审查，不授权GLM删除代码/恢复兼容。
 状态rework仅针对测试包，r2保存设计继续有效；不复跑全仓ratchet/严格fast掩盖测试前提问题。
 GLM在原分支按当前提示词返工，不重签、不代签、不标done、不转Kimi。
+
+### Codex · preflight-r1返工复核（fd0fcc4f，2026-09-12，counter）
+
+fd0fcc4f仅在ee7169e3代码候选上补文档；本席独立45/45、typecheck通过，四种负控均按预期红。
+S01当前sharedScripts重开（本席额外核整库相等）、S02已加载/未加载双态及P01/P02对照已通过，不再返工。
+本包仍有两类阻断，详细证据见[最新返工复核](../../testing/editor-save-recovery-glm-preflight.md#codex-preflight-r1返工复核fd0fcc4f2026-09-12counter)：
+
+- P05实际只有正控调用writeProject；负控坏kind先在serialize阶段抛出，catch将其当成功证明。
+  本席入口计数在正控后/负控后均为1，不能算writer拒绝回归。应在合法序列化后只破坏bytes/SHA并直接断言writer拒绝。
+- C组82臂清单齐，但分类与汇总仍不符；第二类列举28却写27，allowPrivate三臂缺分类。
+  “双marker均valid不可能”的分类，被本席真实目录JSON→inspect→公开bound授权的直接反例推翻。
+  37个writer臂仍需逐臂分类；日志错误归因及新增unused import仍未如实收口。
+
+本轮只落文档，不集成新测试、不改生产/资产、不跑官方ratchet/严格fast；6,223项既有基线保持。
+状态仍rework，仅P05/PF-3剩余项返工；r2设计不重签、不代签、不标done、不转Kimi。
 
 ## 交接日志
 
@@ -1717,9 +1734,35 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 2026-09-10已完成审计性能、journal故障及新建/克隆/打开真实流程回归；原配置完整check及6,180项单次严格fast均通过，既有15s预算不变。
 journal等单模块覆盖目标已达标；7a0c6f1c的21项保留，d39efe15经Codex接收侧补证后集成，历史测试counter解除；r2不重签。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
-当前不请求用户验收。GLM按下方preflight-r1返工提示词修PF-1～PF-3；Codex保留原生/性能/统一质量门，完整候选后再送两席终审。
+当前不请求用户验收。S01/S02已通过；GLM仅修下方P05与PF-3剩余项。Codex保留原生/性能/统一质量门，完整候选后再送两席终审。
 
-### 给GLM（当前：preflight-r1返工，PF-1～PF-3）
+### 给GLM（当前：fd0fcc4f返工，仅P05与分类证据）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 的原 codex/glm-save-preflight-tests 工作树返工fd0fcc4f。
+先同步本轮main counter文档，读AGENTS/CLAUDE/READ-FIRST、父卡
+docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 和工作包
+docs/testing/editor-save-recovery-glm-preflight.md 末尾“Codex preflight-r1返工复核（fd0fcc4f）”。
+本包仍rework，r2设计不重签；已通过S01当前共享脚本重开、S02双态、P01/P02对照和四负控，不推倒重做。
+
+1. P05负控没进入writer：本席入口计数只有正控1次。不要再用not-a-kind让serialize提前抛错，
+不要catch expect的失败。先正常serialize合法state，确认输出含目标ArrayBuffer；clone该输出后只将
+目标catalog记录bytes加1（或仅改SHA），kind/实际字节保持合法。用新鲜同项目seed基线与对应授权，
+直接await expect(writeProject(target,badInputs)).rejects.toThrow('资源二进制与 catalog 不符')，放catch之外。
+正负用独立fixture或准确保存各自基线，不清掉正控凭据后复用旧opened冒称同基线；核无新凭据、字节/全IO不变。
+2. PF-3逐臂清单须有唯一分类与证据。82ID已齐，但分类计数不符（第二类列举28非27，allowPrivate三臂未归类）。
+本席bothMarkers隔离反例证明双marker均valid能由真实目录输入走公开bound授权拒绝，不是不可达。
+目录树可构造也不等于被前置校验阻断；没有证据就标待确认，逐臂写caller/条件/证据/责任，再程序汇总。
+project-io的37臂同样逐一列清，不用范围和类型可选推断可达；C组仍只读，不新增权限测试/实现。
+3. 更正full-check4真正阻断是formatter error、未保存历史执行树不倒填SHA；新增unused import仍在，清理后重算诊断。
+
+参考 /tmp/codex-preflight-rw-review.lwzJC1/review.config.mts 可重建并独立复跑。
+只改原白名单测试/helper和本人回执/日志，不改生产、旧测试/共享fixture、配置、baseline、原探针或真实资产。
+修完跑定向/相邻/typecheck/biome、四负控及P05真实入口见证，再串行完整check/同口径editor-fast；
+不运行ratchet。从最终树生成数字/证据，提交推送并核最终远端SHA，一次性交Codex。不代签、不标done、不转Kimi。
+```
+
+### 给GLM（历史：首次preflight-r1返工，PF-1～PF-3）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 的原 codex/glm-save-preflight-tests 工作树返工preflight-r1。
