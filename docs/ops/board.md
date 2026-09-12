@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：写侧/产品/视觉/集成；GLM：打开身份单测 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) Codex新增15项IO回归，未覆盖93→82；构造保证/退役候选仍计入未覆盖，约81秒克隆成本等遗留未收口。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | GLM：打开身份测试R1–R3返工；Codex：产品缺口/剩余收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) f3b84033未接收，hint来源漏测/只读断言/覆盖归属待补；82臂与官方基线不变，视觉仅Codex。 |
 
 ## 阻塞
 

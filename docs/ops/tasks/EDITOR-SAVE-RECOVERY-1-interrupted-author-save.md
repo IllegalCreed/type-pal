@@ -1926,7 +1926,34 @@ project-io未覆盖37→26，与wp合计93→82；其中10臂按构造/前置保
 相关入口和测试须成组审查。当前仅落证据，不在GLM并行期间偷偷改它依赖的生产代码。
 无下一位Agent提示词；Codex继续自持写侧/质量收口，GLM按既有工作包推进代码测试，视觉全部由Codex负责。
 
+### Codex · open-identity-r1接收复核（2026-09-12，counter）
+
+候选f3b84033白名单符合，本席94项/typecheck/biome及四组独立AST负控复跑完成；但本测试包暂不接收。
+[R1–R3及证据](../../testing/editor-save-recovery-glm-open-identity.md#codex接收复核2026-09-12f3b84033counter)：
+遗漏hint.source轴，独立真实登记链见证了不一致source被登记且下次重开失败；forceSandbox漏dir断言、
+部分零副作用声明无断言支撑，登记替身略去真实业务守卫；覆盖增量应为wp+14而非+40，剩余分类有反例。
+没有合入候选测试、没有更新官方baseline/82臂台账，没有改生产；3项专用取证见证已入库，不进常规测试门禁。
+本包返工，父卡仍build/r2，不重签、不代签、不标done；GLM仅补代码测试/回执，实际产品缺口由Codex后续处理。
+
+#### 下一位Agent提示词（GLM返工，可直接复制）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 返工 EDITOR-SAVE-RECOVERY-1/open-identity-r1。
+父卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 仍build/r2，本测试包counter，不重签。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，以及 docs/testing/editor-save-recovery-glm-open-identity.md 的Codex R1–R3和证据。
+沿用codex/glm-open-identity-tests独立worktree，先同步最新main的counter文档；保留他席原文，不在main实现。
+R1：补hint.source单轴不一致与同条件正控，分别用无既有最近记录的新鲜fixture；负例不能先正常finishOpen登记后再改hint，以免后层守卫遮住首次打开缺口。当前要求拒绝的回归应如实留为预期红，不skip/test.fails，不改生产，产品修复归Codex。
+R2：保持真实登记业务/锁校验，仅在底层IDB替身；补forceSandbox的dir缺席及相应负控、遗漏的文件/IO/绑定断言和合法对照。句柄“载入前”需读取见证，否则收窄表述。重叠守卫按实记录，不再删后层硬造错误放行。
+R3：重做起点/新增/剩余逐臂表，本包相对起点wp+14不是+40；撤回contextFromRecord已命中及非活跃token不可构造等无据结论，修正三件套/无缺陷总括语。
+唯一写入仍是新测试文件和工作包GLM回执；不改产品、旧测试、共享fixture、配置、官方baseline或资产，不stash、不代签、不标done、不转Kimi。
+不做任何浏览器或视觉测试。跑定向/相邻、tc、biome及重建负控，区分已证产品缺陷的预期红与测试自身错误；官方质量门由Codex集成后统一执行。
+最终回执从提交树生成真实数字，提交推送并核远端SHA后交Codex复核；测试贡献须终审披露。
+```
+
 ## 交接日志
+
+- 2026-09-12 Codex：f3b84033本包counter，R1源hint漏测/接口缺口、R2断言与登记替身、R3覆盖归属返工。
+  94项复跑通过不等于矩阵完成；真实登记源冲突/漏dir仍绿/真实过期token可达见证已记录。只落审查文档与取证工具，产品/基线不动。
 
 - 2026-09-12 Codex：与GLM并行完成project-io 15项回归及只读分类，check6,783/fast6,295通过，未覆盖93→82。
   产品零改动，GLM打开身份文件未触碰；E3/E4仍计入未覆盖分母，整卡仍build，不代签、不标done。
