@@ -200,3 +200,76 @@ workspace-context 76/93→93/93（+17），handle-store 33/39→39/39并集（+6
 mutation.config.mts及mutation-marker/brand/freeze/early.log；fixture-oracle.config.mts及oracle-leak/upgrade/lease-good/lease-early.log；
 stage-before-abort.json；loader-oracle.test.ts/loader.config.mts/loader-oracle-final.log；coverage/与nominal-union.json。
 两个worktree均未改实现/测试；主线只保留原回执、上述counter与勘误/交接。GLM仍是测试贡献者，不作第三方自证，不转Kimi、不标done。
+
+## GLM返工回执（identity-foundation-r1 rework，2026-09-12）
+
+分支沿用 `codex/glm-identity-foundation-tests`；先 merge origin/main **e963598b**（Codex R1–R4/C0 原文
+保留在上方，合并冲突仅本文档取 main 侧），生产基线 **b7a56dd4** 不变（合并仅测试/文档）。返工改动
+仍只有两个测试文件 + 本回执区。参考并采纳 Codex oracle 模式（/tmp/codex-idf-review.anI7yF，可独立重建）。
+
+### 逐项落地
+
+- **C0**：新增用例——真实磁盘 JSON 数字文本 `'1e400'` 经真实 fsaSource.readJson 读得 Infinity
+  （先断言读链见证），fingerprintJsonFiles 按非有限数拒绝；`'1e308'` 有限正控通过。原回调坏值用例
+  保留，注释按勘误改写（JSON 的 Infinity 字面量非法 ≠ 合法数字文本不能溢出）。
+- **R1**：撤回「缺 scenes/maps 合法当前可选形状」成功正控。新增 loader 锚点用例：完整清单经正式
+  loadCurrentProjectFrom 成功；缺 maps/scenes 的清单**正式 loader 拒绝（`缺 maps`/`缺 scenes`）并证**，
+  底层 palFingerprintPaths 仍执行仅作只读分类（与 Codex oracle 同构，不冒充合法当前项目）；合法替代
+  两类——scenes 无尾斜杠（loader 通过、指纹路径同 index）与**完整 map index 搬移**到新声明路径
+  （旧路径删除、loader 通过、指纹路径集合变化），后者同时作为 assertSame「路径变化」拒绝的合法输入。
+  F4 主用例的 fixture 增加正式 loader 通过断言。
+- **R2**：IDB 替身重构——put 发出即写入事务写集（非空前提先于 request success）；abort 分支见证
+  `stagedAtAbort=1` 且 `requestSuccesses>0`，整集丢弃不发布（records 空）、终结恰一次（写事务
+  completed=0/aborted=1）；complete 才发布写集；同条件正控（正常宿主登记成功 + completed=1）。
+  旧 store 升级用例**预置旧行**，断言升级后 records 只剩新 key（删除真清数据，非只计数）。
+  新增 **ncAbortLeak fixture 负控**（把 abort 丢弃改成错误发布暂存写集）→ abort 用例必红
+  （`expected 1 to be +0`），证明测试抓得住写集泄漏，不只对计数/文案断言。
+- **R3**：新增两条 lease 用例（entered/deferred，参照 Codex oracle）：caller 悬挂在回调内 await 期间
+  真实品牌**有效**；成功退出与异常退出后品牌**失效**（错误原样传播）。Web Locks 替身升级为最小规范
+  宿主（按锁名排队等待、真实 await 回调、finally 释放）：同名注册锁「持锁回调悬挂期间等待者不进入」
+  （等待者进入标志 + 悬挂期品牌有效断言）与「持锁异常后等待者继续执行」分别成例；获锁等待与回调
+  进行中等待分开见证；补「宿主下真实登记链」与 discovery 接线用例。回退用例重写为 entered/deferred
+  见证（删除两处 Promise.resolve 猜调度），声明收窄为**同 realm 串行**，跨标签页互斥归浏览器契约。
+  新增 **ncEarlyReturnAwait 生产负控**（`return await operation(lock)` 去 await）→ 两条 lease 用例
+  红（悬挂期品牌被提前注销，`expected not to throw but 拒绝未经…`），即 Codex 所指缺口的常驻回归。
+- **R4**：报告更正——F6 首轮实际 7 项（原表误写 5），本轮返工后 **9 项**；F5 6 项；两文件 26 项。
+  handle-store 3/0@76、5/0@105 臂标签更正为「navigator/locks 条件分支（宿主形态分支）」，非
+  「无 Locks 宿主臂」。覆盖从最终提交树重算（下节），不沿用名义并集；不为维持 100% 造非法成功输入
+  ——context 的 32/1@209 等臂经「只读分类 + loader 拒绝并证」到达，与非法成功正控区分。
+
+### 负控矩阵（/tmp/glm-idf-nc.config.mts，GLM_IDF_NC 选择，每针唯一替换点，include 钉死两文件）
+
+| NC | 突变 | 业务红 |
+|---|---|---|
+| ncMarkerKeys | marker 键集校验中和 | 多余字段 **错误接受**（1 红） |
+| ncLockBrand | underLock 锁品牌校验中和 | 过期 token **错误登记**（resolved）；错位变体被真实后层拦截=重叠保护（2 红） |
+| ncFreezeContext | freezeWorkspace 不再冻结 | **合法行为破坏** isFrozen=false（2 红） |
+| ncEarlyReturnAwait | `return await operation(lock)` 去 await | **品牌提前失效**：两条跨 await lease 用例红（2 红）——R3 缺口常驻回归 |
+| ncAbortLeak | fixture abort 错误发布暂存写集 | **写集泄漏被抓**：abort 用例 records.size 红（1 红）——R2 fixture 负控 |
+
+### 临时覆盖（/tmp/glm-idf-cov-{m,n}，V8，只量两目标模块，最终提交树）
+
+M=本包两文件 **26 项**；N=10 相邻套件 **147 项**（同树复跑全绿）。逐 branchId/arm 差分：
+
+- **workspace-context 模块**：M **93/93 臂**、74/76 行；N 74/93。相对 N 新增 19 臂（含 37/0–38/1
+  labels 4 臂与 32/1@209——后者经只读分类到达，loader 拒绝并证）。相对官方起点 76/93 的 17 未命中
+  臂全部由本包执行；最终归属以 Codex 全套件并集为准。
+- **handle-store 模块**：M **34/39 臂**、74/85 行；N 23/39。相对 N 新增 11 臂（0/1@31 新库升级、
+  1/0+1/1@52 事务 error/abort 接线、2/0@67、3/0@76 与 5/0@105 宿主形态分支、7/0@129、8/0@132、
+  11/0@142、15/0+15/1@189）。官方起点 6 未命中臂全部由本包执行。
+- **M 运行仍未命中 5 臂（限定为本运行口径，非全仓缺口）**：12/0@143（既有记录句柄 isSameEntry
+  抛错的宿主降级路径，E0）；17/0–18/1@240（ensurePermission——按 Codex 复核，最新全套件原已覆盖
+  该路径，且属 F1–F6 矩阵外，不由本包补）。
+
+### 验证与失败记录（最终提交树）
+
+- 定向 2 文件 **26/26 绿**（boundaries 11 + capability 15）；相邻 10 文件 **147/147 绿**；
+  editor typecheck exit 0；两文件 biome 0 error/0 warning（一次未使用变量警告已修）。
+- 过程失败：返工期间 biome 报 1 处未使用变量（异常释放用例的 waiter entered promise）删除后清零；
+  无其它失败；本轮无产品缺陷 counter（Codex 复核亦确认无新生产缺陷）。
+- 完整 check/官方 ratchet/严格 fast 未跑，留 Codex 集成后统一执行。
+
+### 交接
+
+GLM 测试贡献者，终审须披露。返工候选 `34bb6a66`（amend 回填前提交；最终以远端推送 SHA 为准）。
+交 Codex 复核：R1–R4/C0 是否闭环、五负控重建、最新 main 全套件并集归属重算与官方质量门。

@@ -8,7 +8,7 @@
  * 指纹坏值用公开 readJson 回调给 JS 值,并如实注明真实磁盘 JSON(JSON.parse)产不出
  * Infinity/undefined——这是回调合同测试,不是磁盘 JSON 行为声明。
  */
-import { fsaSource } from '@type-pal/reforge'
+import { fsaSource, loadCurrentProjectFrom } from '@type-pal/reforge'
 import { expect, test } from 'vitest'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { buildBlankProject } from './seed.js'
@@ -268,9 +268,10 @@ test('F3: fingerprintJsonFiles 对象键序不变指纹；数组顺序/内容变
   expect(await fingerprintJsonFiles(paths, read(mutated))).not.toBe(fpA)
 })
 
-test('F3: 指纹回调给非有限数/非 JSON 值拒绝——回调合同测试,非磁盘 JSON 行为声明', async () => {
-  // 说明:Infinity/undefined 是 JS 值,真实磁盘 JSON 经 JSON.parse 产不出它们;
-  // 这里测的是公开 readJson 回调合同:指纹函数必须拒绝它们,不得产出可比较的指纹。
+test('F3: 指纹回调给非有限数/非 JSON 值拒绝——回调合同测试', async () => {
+  // 说明(Codex C0 勘误已采纳):JSON 的 Infinity 字面量非法,不代表合法数字文本不能
+  // 溢出为 Infinity——真实磁盘 JSON 的溢出行为见下一条用例;本条测公开 readJson 回调合同:
+  // 指纹函数必须拒绝这些 JS 值,不得产出可比较的指纹。
   await expect(
     fingerprintJsonFiles(['x.json'], async () => Number.POSITIVE_INFINITY),
   ).rejects.toThrow('PAL 指纹 JSON 含非有限数值')
@@ -286,6 +287,20 @@ test('F3: 指纹回调给非有限数/非 JSON 值拒绝——回调合同测试
   await expect(
     fingerprintJsonFiles(['x.json'], async () => Symbol('x') as unknown),
   ).rejects.toThrow('PAL 指纹只接受 JSON 值')
+})
+
+test('F3: 真实磁盘 JSON 数字文本 1e400 经真实读链得 Infinity → 指纹拒绝;1e308 正控通过', async () => {
+  const source = fsaSource(
+    memoryAuthorDirectory({ 'overflow.json': '1e400', 'finite.json': '1e308' }).dir,
+  )
+  // 真实读链见证:合法 JSON 数字文本经 JSON.parse 溢出为 Infinity(非回调伪造)。
+  expect(await source.readJson('overflow.json')).toBe(Number.POSITIVE_INFINITY)
+  await expect(
+    fingerprintJsonFiles(['overflow.json'], (path) => source.readJson(path)),
+  ).rejects.toThrow('PAL 指纹 JSON 含非有限数值')
+  await expect(
+    fingerprintJsonFiles(['finite.json'], (path) => source.readJson(path)),
+  ).resolves.toMatch(/^[a-f0-9]{64}$/)
 })
 
 // ═══ F4:可信 PAL 证明 ═══
@@ -304,6 +319,8 @@ async function palSource(projectId: string, sentinelWorkspaceId = UUID_B) {
 test('F4: 独立可信源两份 proof 同内容一致；assertSame 通过且 proof/context 全部冻结', async () => {
   const left = await palSource('pal-f')
   const right = await palSource('pal-f') // 独立目录、相同内容
+  // fixture 先经正式 loader:完整当前清单合法,不靠底层 helper 自证。
+  await expect(loadCurrentProjectFrom(fsaSource(left.dir))).resolves.toBeTruthy()
   const before = await createPalDevelopmentWorkspaceContext(fsaSource(left.dir))
   const after = await createPalDevelopmentWorkspaceContext(fsaSource(right.dir))
   expect(before).toMatchObject({
@@ -366,39 +383,74 @@ test('F4: 身份/快照/路径变化(全部合法输入产生)使 assertSamePalD
   expect(() => assertSamePalDevelopmentProof(base, changedProof)).toThrow(
     'PAL 开发基线 HTTP 快照在载入期间发生变化，请刷新后重试',
   )
-  // 路径变化:合法当前可选形状——maps 未声明的 manifest(palFingerprintPaths 少一个条目)。
-  const noMaps = await palSource('pal-f')
-  const manifest = structuredClone(
-    await fsaSource(noMaps.dir).readJson<import('@type-pal/content').CurrentManifest>(
-      'manifest.json',
-    ),
+  // 路径变化:合法替代——完整 map index 搬移到新声明路径(正式 loader 通过),proof 路径集合随之不同。
+  const relocatedFiles = await buildBlankProject('pal-f')
+  relocatedFiles[PAL_DEVELOPMENT_SENTINEL_PATH] = {
+    kind: 'type-pal-editor-pal-development',
+    version: 1,
+    projectId: 'pal-f',
+    workspaceId: UUID_B,
+  }
+  const relocatedManifest = structuredClone(
+    relocatedFiles['manifest.json'] as import('@type-pal/content').CurrentManifest,
   )
-  delete (manifest.content as Record<string, string>).maps
-  const noMapsProof = await createPalDevelopmentWorkspaceContext(fsaSource(noMaps.dir), manifest)
-  expect(noMapsProof.palProof?.paths.length).toBe(base.palProof!.paths.length - 1)
-  expect(() => assertSamePalDevelopmentProof(base, noMapsProof)).toThrow(
+  const oldMapsPath = relocatedManifest.content.maps!
+  relocatedManifest.content.maps = 'content/map-catalog.json'
+  const relocatedRecord: Record<string, unknown> = { ...relocatedFiles }
+  delete relocatedRecord[oldMapsPath] // 搬移:旧路径不再保留
+  relocatedRecord['manifest.json'] = relocatedManifest
+  relocatedRecord[relocatedManifest.content.maps] = relocatedFiles[oldMapsPath]
+  const relocatedDisk = memoryAuthorDirectory(relocatedRecord)
+  await expect(loadCurrentProjectFrom(fsaSource(relocatedDisk.dir))).resolves.toBeTruthy()
+  const relocatedProof = await createPalDevelopmentWorkspaceContext(fsaSource(relocatedDisk.dir))
+  expect(relocatedProof.palProof?.paths).not.toEqual(base.palProof?.paths)
+  expect(relocatedProof.palProof?.paths).toContain('content/map-catalog.json')
+  expect(() => assertSamePalDevelopmentProof(base, relocatedProof)).toThrow(
     'PAL 开发基线 HTTP 快照在载入期间发生变化，请刷新后重试',
   )
 })
 
-test('F4: palFingerprintPaths 合法当前形状变体(尾斜杠/无 scenes 声明/maps 未声明)分类正确', async () => {
-  const disk = await palSource('pal-f')
-  const manifest = await fsaSource(disk.dir).readJson<import('@type-pal/content').CurrentManifest>(
-    'manifest.json',
+test('F4: 缺 scenes/maps 清单被正式 loader 拒绝——只读分类,不做成功正控;合法替代经 loader', async () => {
+  const files = await buildBlankProject('pal-f')
+  const baseManifest = structuredClone(
+    files['manifest.json'] as import('@type-pal/content').CurrentManifest,
   )
-  const withMaps = palFingerprintPaths(manifest)
-  expect(withMaps).toEqual([...withMaps].sort())
-  expect(withMaps).toContain('content/maps/index.json')
-  // scenes 无尾斜杠 → 补斜杠后指向同一 index 文件,指纹路径不变。
-  const noSlash = structuredClone(manifest)
+  // 基线:完整清单经正式 loader 成功。
+  await expect(
+    loadCurrentProjectFrom(fsaSource(memoryAuthorDirectory(files).dir)),
+  ).resolves.toBeTruthy()
+  for (const key of ['maps', 'scenes'] as const) {
+    const broken = structuredClone(baseManifest)
+    delete broken.content[key]
+    // 只读分类:底层 palFingerprintPaths/构造器不校验工程完整性仍会给出结果,
+    // 但当前正式 loader 的 requiredContentPath 拒绝缺字段——不是合法当前清单,不做成功正控。
+    expect(() => palFingerprintPaths(broken)).not.toThrow()
+    await expect(
+      loadCurrentProjectFrom(
+        fsaSource(memoryAuthorDirectory({ ...files, 'manifest.json': broken }).dir),
+      ),
+    ).rejects.toThrow(new RegExp(`缺 ${key}`))
+  }
+  // 合法替代一:scenes 无尾斜杠 → loader 通过,指纹路径指向同一 index 文件。
+  const noSlash = structuredClone(baseManifest)
   noSlash.content.scenes = 'content/scenes'
-  expect(palFingerprintPaths(noSlash)).toEqual(withMaps)
-  // scenes 未声明 → 代码的当前可选默认 'content/scenes/'(?? 分支),同一路径集合。
-  const noScenes = structuredClone(manifest)
-  delete (noScenes.content as Record<string, string>).scenes
-  expect(palFingerprintPaths(noScenes)).toEqual(withMaps)
-  // maps 未声明 → 当前可选形状,路径集合少一个条目(与上一用例的拒绝配套)。
-  const noMaps = structuredClone(manifest)
-  delete (noMaps.content as Record<string, string>).maps
-  expect(palFingerprintPaths(noMaps)).not.toContain('content/maps/index.json')
+  await expect(
+    loadCurrentProjectFrom(
+      fsaSource(memoryAuthorDirectory({ ...files, 'manifest.json': noSlash }).dir),
+    ),
+  ).resolves.toBeTruthy()
+  expect(palFingerprintPaths(noSlash)).toEqual(palFingerprintPaths(baseManifest))
+  // 合法替代二:完整 map index 搬移到新声明路径 → loader 通过,指纹路径集合随之变化。
+  const moved = structuredClone(baseManifest)
+  const oldPath = moved.content.maps!
+  moved.content.maps = 'content/map-catalog.json'
+  const movedDisk = memoryAuthorDirectory({
+    ...files,
+    'manifest.json': moved,
+    [moved.content.maps]: files[oldPath],
+  })
+  await expect(loadCurrentProjectFrom(fsaSource(movedDisk.dir))).resolves.toBeTruthy()
+  const movedPaths = palFingerprintPaths(moved)
+  expect(movedPaths).toContain('content/map-catalog.json')
+  expect(movedPaths).not.toContain(oldPath)
 })

@@ -25,7 +25,7 @@ interface IdbStubOptions {
 }
 
 const upgradeLog = { upgrades: 0, deleted: 0, created: 0, keyPath: '' as unknown }
-const txLog = { completed: 0, aborted: 0 }
+const txLog = { completed: 0, aborted: 0, stagedAtAbort: 0, requestSuccesses: 0 }
 
 function memoryIndexedDb(options: IdbStubOptions): IDBFactory {
   const copy = (value: import('./handle-store.js').WorkspaceHandleRecord | undefined) => {
@@ -46,6 +46,7 @@ function memoryIndexedDb(options: IdbStubOptions): IDBFactory {
       upgradeLog.deleted++
       oldStoreSeen = true
       storeMade = false
+      records.clear() // 删除 store 即清除其全部行(真实数据效果)
     },
     createObjectStore(name: string, opts: { keyPath: string }) {
       expect(name).toBe('project-handles')
@@ -65,13 +66,15 @@ function memoryIndexedDb(options: IdbStubOptions): IDBFactory {
           if (finished) return
           finished = true
           queueMicrotask(() => {
+            // 见证:abort 时事务写集已非空(put 已暂存),随后整集丢弃、不发布。
+            txLog.stagedAtAbort = staged.size
             staged.clear() // 暂存写集随 abort 丢弃
             txLog.aborted++
             tx.onabort?.()
           })
         },
         objectStore() {
-          const request = (read: () => unknown, stage?: () => void) => {
+          const request = (read: () => unknown) => {
             const req = {
               result: undefined as unknown,
               onsuccess: null as (() => void) | null,
@@ -80,15 +83,15 @@ function memoryIndexedDb(options: IdbStubOptions): IDBFactory {
             queueMicrotask(() => {
               if (finished) return
               req.result = read()
+              txLog.requestSuccesses++
               req.onsuccess?.()
               queueMicrotask(() => {
                 if (finished) return
                 if (options.abortNextWrite && mode === 'readwrite') {
-                  tx.abort() // 宿主在暂存后、提交前中止
+                  tx.abort() // 宿主在 request success 之后、提交之前中止
                   return
                 }
-                stage?.()
-                staged.forEach((value, key) => records.set(key, value))
+                staged.forEach((value, key) => records.set(key, value)) // complete 发布写集
                 finished = true
                 if (mode === 'readwrite') txLog.completed++ // 只计写事务提交
                 tx.oncomplete?.()
@@ -102,8 +105,8 @@ function memoryIndexedDb(options: IdbStubOptions): IDBFactory {
             put: (value: import('./handle-store.js').WorkspaceHandleRecord) => {
               expect(mode).toBe('readwrite')
               const saved = copy(value)!
-              const commit = () => staged.set(saved.workspaceId, saved)
-              return request(() => saved.workspaceId, commit)
+              staged.set(saved.workspaceId, saved) // put 发出即进入事务写集(非空前提)
+              return request(() => saved.workspaceId)
             },
           }
         },
@@ -141,7 +144,7 @@ const idbOptions: IdbStubOptions = {}
 beforeEach(() => {
   records.clear()
   Object.assign(upgradeLog, { upgrades: 0, deleted: 0, created: 0, keyPath: '' })
-  Object.assign(txLog, { completed: 0, aborted: 0 })
+  Object.assign(txLog, { completed: 0, aborted: 0, stagedAtAbort: 0, requestSuccesses: 0 })
   delete idbOptions.oldStore
   delete idbOptions.abortNextWrite
   vi.stubGlobal('indexedDB', memoryIndexedDb(idbOptions))
@@ -258,14 +261,24 @@ test('F6: 新数据库首次创建(无旧 store)→ 升级事件先删旧判断�
   expect(records.get(UUID_A)?.handle).toBe(disk.dir)
 })
 
-test('F6: 旧 store 已存在时升级先删后建(升级路径两臂),数据经登记链可用', async () => {
+test('F6: 旧 store 升级先删后建,删除真清旧行,新登记可用', async () => {
   idbOptions.oldStore = true
-  const disk = memoryAuthorDirectory()
-  await saveWorkspaceHandle(context('legacy', UUID_A), 'legacy', disk.dir)
+  const previous = memoryAuthorDirectory()
+  const fresh = memoryAuthorDirectory()
+  // 预置旧 store 遗留行:升级删除必须让旧数据真实消失,不只是计数。
+  records.set(UUID_B, {
+    ...context('previous', UUID_B),
+    name: 'old',
+    handle: previous.dir,
+    updatedAt: 1,
+  })
+  await saveWorkspaceHandle(context('fresh', UUID_A), 'new', fresh.dir)
   expect(upgradeLog.upgrades).toBe(1)
   expect(upgradeLog.deleted).toBe(1)
   expect(upgradeLog.created).toBe(1)
-  expect(records.get(UUID_A)?.handle).toBe(disk.dir)
+  expect([...records.keys()]).toEqual([UUID_A]) // 旧行已随删除清空
+  expect(records.get(UUID_B)).toBeUndefined()
+  expect(records.get(UUID_A)?.handle).toBe(fresh.dir)
 })
 
 test('F6: loadWorkspaceHandle 有记录返回原句柄;无记录返回 null', async () => {
@@ -275,109 +288,212 @@ test('F6: loadWorkspaceHandle 有记录返回原句柄;无记录返回 null', as
   expect(await loadWorkspaceHandle(UUID_A)).toBe(disk.dir)
 })
 
-test('F6: 宿主在暂存写集后 abort → 登记拒绝、暂存丢弃、事务单次终结', async () => {
+test('F6: 宿主在非空写集暂存后 abort → 拒绝、写集丢弃不发布、事务单次终结', async () => {
   idbOptions.abortNextWrite = true
   const disk = memoryAuthorDirectory()
   const ctx = context('abort', UUID_A)
   await expect(saveWorkspaceHandle(ctx, 'abort', disk.dir)).rejects.toThrow('IndexedDB 事务已中止')
-  expect(records.size).toBe(0) // 暂存写集随 abort 丢弃
+  // 见证链:put 的 request success 已发生,abort 时事务写集非空,且整集未发布。
+  expect(txLog.requestSuccesses).toBeGreaterThan(0)
+  expect(txLog.stagedAtAbort).toBe(1)
+  expect(records.size).toBe(0)
   expect(txLog.aborted).toBe(1)
   expect(txLog.completed).toBe(0) // 终结恰一次且只有 abort
-  // 同条件正控:同一目录/上下文在正常宿主下登记成功。
+  // 同条件正控:同一目录/上下文在正常宿主下登记成功(写集经 complete 发布)。
   delete idbOptions.abortNextWrite
   await saveWorkspaceHandle(ctx, 'abort', disk.dir)
   expect(records.get(UUID_A)?.handle).toBe(disk.dir)
+  expect(txLog.completed).toBe(1)
 })
 
-test('F6: 代码级 Web Locks 接线——锁名/模式精确,等待宿主回调完成后才放行(discovery)', async () => {
-  const requests: Array<{ name: string; mode: string }> = []
-  let release!: () => void
-  const gate = new Promise<void>((resolve) => {
-    release = resolve
-  })
-  vi.stubGlobal('navigator', {
-    locks: {
-      request: async (
-        name: string,
-        options: { mode: string },
-        callback: () => Promise<unknown>,
-      ) => {
-        requests.push({ name, mode: options.mode })
-        await gate // 宿主未放行前不执行回调(替身不得提前完成)
-        return callback()
-      },
+test('F6: Web Locks 宿主下真实登记链可用(锁内 put 经 complete 发布)', async () => {
+  vi.stubGlobal('navigator', { locks: queuedLocksHost([]) })
+  const disk = memoryAuthorDirectory()
+  await withWorkspaceRegistrationLock(UUID_A, (lock) =>
+    saveWorkspaceHandleUnderLock(lock, context('weblock', UUID_A), 'weblock', disk.dir),
+  )
+  expect(records.get(UUID_A)?.handle).toBe(disk.dir)
+})
+
+// ═══ F6:代码级 Web Locks 接线(按锁名排队/await 回调/finally 释放的最小宿主模型) ═══
+// 只声称代码合同,不声称原生浏览器通过;跨标签页互斥属浏览器 Web Locks 契约,此处验证代码接线。
+
+/** 最小规范宿主:同名锁排队等待、真实 await 回调完成、finally 释放下一位。 */
+function queuedLocksHost(requests: Array<{ name: string; mode: string }>) {
+  const tails = new Map<string, Promise<unknown>>()
+  return {
+    request: async (name: string, options: { mode: string }, callback: () => Promise<unknown>) => {
+      requests.push({ name, mode: options.mode })
+      const previous = tails.get(name) ?? Promise.resolve()
+      let releaseHeld!: () => void
+      const held = new Promise<void>((resolve) => {
+        releaseHeld = resolve
+      })
+      tails.set(
+        name,
+        previous.then(() => held),
+      )
+      await previous // 排队等待同名锁释放(获锁等待)
+      try {
+        return await callback() // 回调进行中:真实等待其完成
+      } finally {
+        releaseHeld() // 异常/成功都释放
+      }
     },
-  })
-  let settled = false
-  const operation = withWorkspaceDiscoveryLock(async () => 'discovery-result')
-  operation.finally(() => {
-    settled = true
-  })
-  await Promise.resolve()
-  expect(settled).toBe(false) // 锁尚未释放,调用方不得提前拿到结果
-  release()
-  await expect(operation).resolves.toBe('discovery-result')
+  }
+}
+
+test('F6: discovery 锁名/模式接线(queued 宿主,回调结果原样返回)', async () => {
+  const requests: Array<{ name: string; mode: string }> = []
+  vi.stubGlobal('navigator', { locks: queuedLocksHost(requests) })
+  await expect(withWorkspaceDiscoveryLock(async () => 'd')).resolves.toBe('d')
   expect(requests).toEqual([{ name: 'type-pal-workspace:discovery', mode: 'exclusive' }])
 })
 
-test('F6: Web Locks 注册锁——按 workspaceId 命名独占,真实登记链可用;回调异常向外传播且锁释放', async () => {
+test('F6: 同名注册锁排队:持锁回调悬挂期间等待者不进入且悬挂期品牌有效;释放后按序执行', async () => {
   const requests: Array<{ name: string; mode: string }> = []
-  vi.stubGlobal('navigator', {
-    locks: {
-      request: async (
-        name: string,
-        options: { mode: string },
-        callback: () => Promise<unknown>,
-      ) => {
-        requests.push({ name, mode: options.mode })
-        return callback()
-      },
-    },
+  vi.stubGlobal('navigator', { locks: queuedLocksHost(requests) })
+  const order: string[] = []
+  let holderEnteredDone!: () => void
+  const holderEntered = new Promise<void>((resolve) => {
+    holderEnteredDone = resolve
   })
-  const disk = memoryAuthorDirectory()
-  const ctx = context('weblock', UUID_A)
-  await withWorkspaceRegistrationLock(UUID_A, async (lock) => {
-    await saveWorkspaceHandleUnderLock(lock, ctx, 'weblock', disk.dir)
+  let releaseHolder!: () => void
+  const holderGate = new Promise<void>((resolve) => {
+    releaseHolder = resolve
   })
-  expect(requests).toEqual([{ name: `type-pal-workspace:${UUID_A}`, mode: 'exclusive' }])
-  expect(records.get(UUID_A)?.handle).toBe(disk.dir)
-  // 异常传播:同一错误原样抛出,不是吞错后的成功。
-  const sentinel = new Error('boom')
-  await expect(
-    withWorkspaceRegistrationLock(UUID_A, async () => {
-      throw sentinel
-    }),
-  ).rejects.toBe(sentinel)
-  // 锁已释放:同一 workspace 的下一次操作照常进行。
-  await withWorkspaceRegistrationLock(UUID_A, async (lock) => {
-    expect(() => assertWorkspaceRegistrationLock(lock, UUID_A)).not.toThrow()
+  let saved!: WorkspaceRegistrationLock
+  let waiterEntered = false
+  const holder = withWorkspaceRegistrationLock(UUID_A, async (lock) => {
+    saved = lock
+    holderEnteredDone()
+    await holderGate // 回调进行中悬挂(非获锁前等待)
+    order.push('holder')
   })
-  expect(requests).toHaveLength(3)
+  const waiter = withWorkspaceRegistrationLock(UUID_A, async () => {
+    waiterEntered = true
+    order.push('waiter')
+  })
+  await holderEntered
+  expect(waiterEntered).toBe(false) // 同名独占:持锁回调悬挂期间等待者未进入
+  expect(() => assertWorkspaceRegistrationLock(saved, UUID_A)).not.toThrow() // 悬挂期品牌有效
+  releaseHolder()
+  await Promise.all([holder, waiter])
+  expect(order).toEqual(['holder', 'waiter'])
+  expect(
+    requests.every((r) => r.mode === 'exclusive' && r.name === `type-pal-workspace:${UUID_A}`),
+  ).toBe(true)
 })
 
-test('F6: 无 Web Locks 宿主(navigator 未定义/无 locks)走回退,注册锁全局串行不插队', async () => {
-  const order: string[] = []
-  // 情形一:纯非浏览器宿主(navigator 未定义)。
-  vi.stubGlobal('navigator', undefined)
+test('F6: 持锁回调异常原样传播且锁释放,排队等待者继续执行', async () => {
+  vi.stubGlobal('navigator', { locks: queuedLocksHost([]) })
+  const sentinel = new Error('boom')
+  let holderEnteredDone!: () => void
+  const holderEntered = new Promise<void>((resolve) => {
+    holderEnteredDone = resolve
+  })
+  let releaseHolder!: () => void
+  const holderGate = new Promise<void>((resolve) => {
+    releaseHolder = resolve
+  })
+  const holder = withWorkspaceRegistrationLock(UUID_A, async () => {
+    holderEnteredDone()
+    await holderGate
+    throw sentinel
+  })
+  const waiter = withWorkspaceRegistrationLock(UUID_A, async () => 'waiter-done')
+  await holderEntered
+  releaseHolder()
+  await expect(holder).rejects.toBe(sentinel) // 异常原样传播,不是吞错后的成功
+  await expect(waiter).resolves.toBe('waiter-done') // 锁已释放,等待者继续
+})
+
+test('F5: 真实品牌跨 caller await 保持有效;成功退出后失效', async () => {
+  let enteredDone!: () => void
   let release!: () => void
+  let saved!: WorkspaceRegistrationLock
+  const entered = new Promise<void>((resolve) => {
+    enteredDone = resolve
+  })
   const gate = new Promise<void>((resolve) => {
     release = resolve
   })
-  const first = withWorkspaceRegistrationLock(UUID_A, async () => {
+  const run = withWorkspaceRegistrationLock(UUID_A, async (lock) => {
+    saved = lock
+    enteredDone()
+    await gate // caller 悬挂在回调内的 await 上
+    return 'done'
+  })
+  const settled = run.then(
+    (value) => ({ ok: true as const, value }),
+    (error: unknown) => ({ ok: false as const, error }),
+  )
+  await entered
+  try {
+    expect(() => assertWorkspaceRegistrationLock(saved, UUID_A)).not.toThrow() // 悬挂期品牌有效
+  } finally {
+    release()
+    await settled
+  }
+  expect(() => assertWorkspaceRegistrationLock(saved, UUID_A)).toThrow(
+    '拒绝未经 workspace identity lock 授权的操作',
+  )
+})
+
+test('F5: 异常退出后品牌同样失效(错误原样传播)', async () => {
+  const sentinel = new Error('lease-error')
+  let enteredDone!: () => void
+  let release!: () => void
+  let saved!: WorkspaceRegistrationLock
+  const entered = new Promise<void>((resolve) => {
+    enteredDone = resolve
+  })
+  const gate = new Promise<void>((resolve) => {
+    release = resolve
+  })
+  const run = withWorkspaceRegistrationLock(UUID_A, async (lock) => {
+    saved = lock
+    enteredDone()
     await gate
-    order.push('first')
+    throw sentinel
   })
-  const second = withWorkspaceRegistrationLock(UUID_B, async () => {
-    order.push('second')
-  })
-  await Promise.resolve()
-  await Promise.resolve()
-  // 回退全局串行:first 未完成前 second 不得开始(防止两个标签页各自铸造 identity)。
-  expect(order).toEqual([])
+  await entered
   release()
-  await Promise.all([first, second])
-  expect(order).toEqual(['first', 'second'])
-  // 情形一的 discovery 回退同样正确执行并返回结果。
+  await expect(run).rejects.toBe(sentinel)
+  expect(() => assertWorkspaceRegistrationLock(saved, UUID_A)).toThrow(
+    '拒绝未经 workspace identity lock 授权的操作',
+  )
+})
+
+test('F6: 无 Web Locks 宿主走回退,同 realm 注册锁串行不插队(entered/deferred 见证)', async () => {
+  // 声明范围:回退是同 realm 串行(模块内 promise 链);跨标签页互斥由浏览器 Web Locks 承担,
+  // 本用例只验证回退的代码合同,不代表两个标签页互斥。
+  const order: string[] = []
+  vi.stubGlobal('navigator', undefined)
+  let holderEnteredDone!: () => void
+  const holderEntered = new Promise<void>((resolve) => {
+    holderEnteredDone = resolve
+  })
+  let releaseHolder!: () => void
+  const holderGate = new Promise<void>((resolve) => {
+    releaseHolder = resolve
+  })
+  let waiterEntered = false
+  const holder = withWorkspaceRegistrationLock(UUID_A, async () => {
+    holderEnteredDone()
+    await holderGate
+    order.push('holder')
+  })
+  const waiter = withWorkspaceRegistrationLock(UUID_B, async () => {
+    waiterEntered = true
+    order.push('waiter')
+  })
+  await holderEntered
+  expect(waiterEntered).toBe(false) // holder 悬挂中,waiter 不得进入(不用 tick 猜测)
+  releaseHolder()
+  await Promise.all([holder, waiter])
+  expect(order).toEqual(['holder', 'waiter'])
+  // 情形一(navigator 未定义)的 discovery 回退同样正确执行并返回结果。
   await expect(withWorkspaceDiscoveryLock(async () => 'node-host')).resolves.toBe('node-host')
   // 情形二:navigator 存在但没有 locks(旧宿主)——discovery 回退仍正确执行并返回结果。
   vi.stubGlobal('navigator', {})
