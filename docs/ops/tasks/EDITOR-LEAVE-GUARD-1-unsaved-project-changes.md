@@ -176,9 +176,35 @@ Evidence Baseline: fa8d4e52
   design agree；复用既有保存与 DS，确认绑定当前修改版本，异步失败与原生用户激活单列。
   可证伪观察：若真实生产入口已有守卫或保存失败仍可触发“已保存→继续”，本签字应重开。
 - Kimi：premise pending；design pending。独立证据 / 可证伪观察：待本人填写。
-- GLM：premise pending；design pending。独立证据 / 可证伪观察：待本人填写。
-- 独立反证审查：pending，至少一位非 Coding Owner 直接核一手证据。
-- counter / 分歧：尚无审查，不等于已无风险。
+- GLM（2026-09-13，前提/测试矩阵席）：**premise verified**。本席直读 fa8d4e52 源码（HEAD 2c4cf16b 对
+  fa8d4e52 的 packages 零 diff，源码基线成立）：双 dirty 合并在 App.tsx:430（`session.isDirty() ||
+  (scriptSession?.isDirty() ?? false)`）；两条替换直达——runProj 在 App.tsx:2196-2198 `if (o) props.onOpened?.(o)`
+  不消费 dirty，saveAs 在 App.tsx:2230 快照后无条件 onOpened（2213-2214 先取 savedState，期间新命令会被
+  丢弃，LG-07 前提真实），file.new 在 App.tsx:2264 直达 onBackToPicker；Root main.tsx:158-176 重建双 session
+  并以 key 重挂载、191-202 `setBoot('picker')` 直接卸载；editor 全源 `beforeunload` 零命中（grep 计 0）。
+  dirty 由正式 dispatch/undo/redo 维护（edit-session.ts:190-200、script-editor.ts:1321-1340），非运行态推断。
+  save 返回 `Promise<void>` 且内部 catch setSaveErr（App.tsx:2066-2068、~2185-2187）→ await resolve 不能
+  当成功，设计 §4「唯一 save 的结果返回」为必要改动。pickDir 为真实 `showDirectoryPicker`（open-actions.ts:75-84，
+  AbortError→null）；saveAs 既有注释 App.tsx:2215-2216 已确认目录选择器必须点击调用栈内同步启动——设计
+  「继续打开必须重新点击」与仓内先例和 FSA 激活合同一致。**design agree**：LG-01～10 逐条可证伪、均含成功
+  正控（clean 直行/成功保存后继续/saveAs 成功切换/失败留原会话），且明令真实生产调用、禁源码字符串与桩行为
+  替代产品断言、禁多数通过规避确定性失败；四个重点陷阱全部核实——①选夹新点击（LG-10 慢保存后继续打开即
+  可证伪见证）；②save void 失败误判（LG-04 区分 cleanup warning 与未提交失败，现行 `setSaveErr(result.cleanupWarning ?? '')`
+  已有区分基础）；③另存为/普通打开不混称零 IO（设计 §2 明示，LG-03 断言旧会话保留而非零 IO）；④仅 hydrate
+  不误拦（ensureMapLoaded 水合直接写 state 但不置 dirty、不增 historyVersion——edit-session.ts:509 起；
+  markSaved 清 dirty 也不增版本 → historyVersion 捕获能区分作者命令与水合/通知）。
+  最小补项（非阻断，建议进 build 前矩阵）：(1) LG-05 冲突入口清单补 `exporting`（runProj/save/saveAs 共用
+  `saveInFlightRef.current || exporting` 互斥旗 App.tsx:2067/2193/2208，离开守卫不得绕过或破坏）；
+  (2) LG-01/02 补「编辑→完全撤销→离开」用例，钉保守提示语义（undo 置 dirty=true 仅 markSaved 清，
+  edit-session.ts:287-299——守卫应比较 dirty/版本而非 state 相等）；(3) LG-06 非作者动作清单在 markSaved/hydrate
+  外补列 `discardRedo`（edit-session.ts:280-286 无内容变化却增 historyVersion；其误判方向保守=多问一次，
+  可接受但须声明，防止实现换信号时无据）。
+  可证伪观察：(a) 若任一真实入口（菜单/快捷键/saveAs 完成）在 dirty 时已被守卫拦截或确认，前提不成立——
+  本席核对未发现，反证未出现；(b) 若 markSaved/hydrate/discardRedo 之外的 notify-only 路径能触发误拦、
+  或反之真实作者命令不能使旧授权失效，LG-06 应红；(c) 若慢保存后免新点击自动重试选夹能成功，
+  「必须重新点击」的设计前提应重开——现行证据相反。
+- 独立反证审查：GLM 已直接核一手源码（见上）；Kimi 席位另行独立。
+- counter / 分歧：GLM 无 counter；三条最小补项供 Codex 吸收进矩阵，不构成阻断。
 - 缺签豁免：无。
 - build 准入结论：blocked（等待本卡 r1 两席；Status 保持 draft，不修改实现文件）。
 
@@ -208,7 +234,16 @@ Evidence Baseline: fa8d4e52
   当前为设计候选，未开始产品修改；Kimi 与 GLM 可并行独立取证、各自落签，不依赖另一席结果。
   同步修正工程生命周期规范残留的“A-03 实施中/未终审”旧状态；只更新事实，不改验收合同。
 - Kimi 交接日志：待本人填写。
-- GLM 交接日志：待本人填写。
+- GLM 交接日志（2026-09-13）：按本席 r1 提示词完成独立前提/测试矩阵审查并签字（premise verified +
+  design agree，无 counter）。同步 origin/main 后直读 fa8d4e52 一手源码：双 dirty（App.tsx:430）、两条
+  替换直达（App.tsx:2196-2198/2230/2264、main.tsx:158-176/191-202）、beforeunload 零命中、save void+内部
+  catch（App.tsx:2066 起）、pickDir 真实激活要求（open-actions.ts:75-84 + App.tsx:2215-2216 仓内先例）、
+  hydrate/markSaved/discardRedo 的版本与 dirty 语义（edit-session.ts:173-200/280-299/509 起、
+  script-editor.ts:1321-1340）、DS-I.3 一手合同（editor-design-system.md:919-927）。LG-01～10 逐条判定
+  可证伪且有成功正控、无源码字符串/桩行为替代产品断言；四重点陷阱全部核实成立。留三条最小补项
+  （exporting 互斥入口、编辑后完全撤销的保守提示语义、discardRedo 非作者动作清单）与三条可证伪观察
+  于签字块。未读 Kimi 结论，未改产品/测试/他席内容/Status/共享准入，不标 done。下一位：待 Kimi 独立
+  签字后由 Codex 核 build 准入；本席补项是否吸收由 Codex 拍板。
 
 ## 下一位 Agent 提示词
 
