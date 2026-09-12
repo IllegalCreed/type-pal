@@ -2,7 +2,7 @@
 
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
 Codex，2026-09-12；生产源码不改，与GLM打开身份测试并行。
-本页保留945f54ab起点的历史批次，最新261c3c66起点的续批见下方“最终取样与恢复快照边界”。
+本页保留945f54ab与261c3c66起点的历史批次；最新7767b67c起点的续批见下方“另存为边界收口”。
 
 ## 前批结果（起点945f54ab）
 
@@ -127,6 +127,58 @@ toEditorState:91–129均显式赋值，main:131–135/163两条正常启动入�
 这只能证明**当前加载入口会补齐字段**，不是所有导出EditorState/API或后续命令都不可能缺字段的完整证明。
 因此未将它们擅自升级为E3，更没有delete字段后把潜在清空原表的输出当合法保存。
 原解码器catch的non-Error三臂也仍E0：本批不替换decoder或JSON.parse来制造非Error异常，后续按真实错误源继续核定。
+
+## 另存为边界收口（起点7767b67c）
+
+Codex，2026-09-12；新增[save-as-boundaries.test.ts](../../packages/editor/src/core/save-as-boundaries.test.ts)10项。
+与GLM identity-foundation-r1分开文件，workspace-context/handle-store和全部产品代码保持b7a56dd4，不改旧测试/共享fixture/配置。
+复用真实saveProjectAs、writer、loader及登记守卫/锁；仅替换picker、内存FSA和IDB存储边界。
+没有新增浏览器视觉流程；无目录FileSource用独立观测基线，明确不是在本轮启动真实HTTP服务器。
+
+| 组 | 项数 | 结果和业务断言 |
+|---|---:|---|
+| 取消 | 1 | picker取消返回null，不构建文件，不改源/目标/最近记录/恢复凭据；同一合法输入随后可成功保存 |
+| 构建失败 | 1 | 真实入口保留原始异常，目标无暂存/写入/登记，源不变；解除故障后正控成功 |
+| 缺源基线 | 2 | local/source-only均拒绝，目标零create/close/remove，原记录与凭据不变；传入真实基线后成功。没有声称此时callback零调用，也不锁定当前callback次数 |
+| 已过期源基线 | 2 | 源人物表由外部改777后，在文件构建callback之前拒绝；保留777及空目标/旧记录。恢复原字节后同条件另存237成功 |
+| 清理与重开 | 4 | local/source-only × 清理正常/拒绝，当前编辑237与所有注册资源字节完整保存、真实登记新身份；失败清理只产生warning，仍committed；带故障重开保留提示，解除后提示消失，均不重复写作者文件或修改源 |
+
+初版8项及随后10项均通过；最终相邻5文件130项、editor typecheck及biome通过。
+接收前自查将“目标零IO”标题收窄为“零mutation”：选择后的预检允许读取，不把零写轨迹误称零读取。
+缺证据用例不固定build次数，只钉住拒绝和零副作用；未将提前失败的优化偏好擅自升级为产品缺陷。
+
+### 三组单点负控
+
+`/tmp/codex-save-as.uCWxGJ/negative.config.mts`用TS AST限定saveProjectAs内唯一语句，仅隔离加载变换：
+
+- cancel：:276的返回null改为返回空对象，1红（取消返回值错误，不是TypeError）。
+- warning：:316只返回opened、丢掉saved.cleanupWarning，2红（真实committed仍成立，但两条拒绝清理用例的warning丢失）。
+- verify：:289的首次verifyAuthor调用去除，2红（本应拒绝的旧源先执行了build）；后层复验仍能拒绝，不把它误记成作者文件已被覆盖。
+
+三组都exit1，断言业务结果，非加载/编译/文案差异。源hash均为open-actions的
+`9c9fae0c1d2977df7af6bbc6b40c645fb2d57f65089ce6096ef76a2a3480cd47`，产品物理文件未改。
+没有对“缺证据”强拆第二层守卫制造错误放行。
+
+### 相邻剩余防御分支的源码证明
+
+open-actions的两个E3候选不靠伪造返回值/导出私有函数凑覆盖，也不删除：
+
+- **24/0（:182，缺finalPalProof）**：readOpenedProject:144–151按初始metadata创建trustedPalSource；:155–157、:168–169要求后续metadata一致。
+  :171–175同一个const source存在即调用真实createPalDevelopmentWorkspaceContext（workspace-context:227–245只返回上下文或抛错）。
+  该本地closure仅由resolver的PAL metadata分支调用；metadata若不是PAL则不调用它，若是PAL则初始source已存在、finalProof必为对象。
+  这是当前真实调用域的构造保证，不声称任意篡改JS环境后仍不可能进入。
+- **49/0（:293，缺observed）**：:282只有sourceEvidence与original都存在才await observeProjectCopySource；该函数(project-copy-source:47–56)返回对象或抛错。
+  :285/292的verifyAuthor在两者缺席时先拒绝，已用两类真实缺基线调用验证；二者均存在且observe成功则const observed不可能为undefined。
+  buildFiles不能改这三个局部const引用。保留末层防御检查，不把类型optional等同可达。
+
+完整check **6,835项**、以7767b67c为BASE_REF的官方ratchet及随后**单次**严格fast **6,347项**均exit0。
+editor fast204文件/2,108项，生产仍618文件，所有sourceFiles/scopeDigest/指标分母不变；原生/GLM工作包不受影响。
+最终open-actions新增38/0（取消）、45/0（缺源基线）、53/0（warning返回），覆盖103/108→106/108，行119/119、函数22/22不变。
+剩余24/0、49/0按上述源码链登记E3，继续计入未覆盖分母；主台账两文件仍46臂，不能把相邻模块的3臂混减进去。
+workspace-context仍76/93、handle-store仍33/39，本批未借GLM工作域抬高贡献；没有editor覆盖抖动、没有多数投票放行。
+严格summary与生成baseline各包/全仓metrics及总数一致。日志在`/tmp/codex-save-as.uCWxGJ/`：target-first、adjacent、typecheck-final、
+negative-*、check、ratchet、strict-fast及verified.json。lint仍为既有50 warnings/11 infos，无error。
+本轮没有产品缺陷或新权限/版本裁决；根卡仍build/r2，不重签、不标done。
 
 ## 后续
 

@@ -2017,8 +2017,20 @@ fast6,337身份清单为其子集，所有源码范围/分母相同，各包四�
 从最终提交树生成真实计数与逐臂增量，写清失败记录，提交推送独立分支并核远端SHA后交Codex复核；贡献须终审披露。
 ```
 
+### Codex · 另存为边界续批（2026-09-12）
+
+基于7767b67c，与GLM身份基础包分开文件；新增save-as-boundaries.test.ts10项，不修改产品、旧测试、共享fixture或GLM两个目标模块。
+[真实入口回执](../../testing/editor-save-recovery-project-io-review.md#另存为边界收口起点7767b67c)：
+取消、构建失败、缺/旧源基线、local/source-only清理警告与重开闭环；真实登记/锁保留，角色237和资产字节核对。
+相邻130项/typecheck/biome通过，三组单点负控1/2/2红；未将后层仍拒绝错误输入误称错误写入。
+open-actions另外两个分支已有前置/构造保证的直接源码链，保留防御不凑覆盖、不删代码。
+完整check6,835/官方ratchet/单次严格fast6,347均exit0；editor204文件/2,108项，生产618文件与分母不变。
+open-actions新增3臂命中，106/108，余2臂E3；主台账46臂未变，GLM两基础模块的统计/源码未变。
+r2不重签、不标done。无下一位Agent提示词；GLM沿用identity-foundation-r1工作包，Codex自持集成。
+
 ## 交接日志
 
+- 2026-09-12 Codex：另存为10项/相邻130项/三组1+2+2业务负控完成，check6,835/ratchet/单次严格fast6,347通过；open-actions106/108，余2臂E3，主表46臂不混减。产品及GLM工作域零改动，父卡build/r2。
 - 2026-09-12 Codex：双线工作包917b3470已提交推送并提供GLM提示词，未代称GLM已开工；本席full6,673/618源码通过并独立核fast子集和各包指标，更新最新覆盖率文档，生产/fast baseline零改动，父卡build/r2。
 - 2026-09-12 Codex：73aa0ea7子包accept并适配最新6eaf4dc7，source漏检已修；原19项18绿1红→全绿，五组业务负控及重叠oracle/不变probe核验完成。check6,825/ratchet/单次严格fast6,337通过，GLM+14归属明确，重点剩46臂；不转Kimi、不标done。
 - 2026-09-12 Codex：最终取样/恢复快照续批10项、相邻150项、四组业务负控完成；check6,806/ratchet/单次严格fast6,318通过，重点模块剩60臂。无产品改动，GLM仍独立返工，父卡build/r2。

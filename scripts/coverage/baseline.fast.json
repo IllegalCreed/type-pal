@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-12T12:54:15.914Z",
+  "generatedAt": "2026-09-12T13:49:47.158Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 618,
-  "testCount": 6337,
+  "testCount": 6347,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2805,8 +2805,8 @@
       ],
       "scopeDigest": "2ea0828d93df83523f4fa04e94099267380f593c72fede27cf7d584bf77c0561",
       "fastTests": {
-        "testCount": 2098,
-        "testFileCount": 203,
+        "testCount": 2108,
+        "testFileCount": 204,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2867,6 +2867,7 @@
           "packages/editor/src/core/project-save-route.test.ts",
           "packages/editor/src/core/project-serialization-boundaries.test.ts",
           "packages/editor/src/core/project-transfer-validation.test.ts",
+          "packages/editor/src/core/save-as-boundaries.test.ts",
           "packages/editor/src/core/save-batch-baseline.test.ts",
           "packages/editor/src/core/save-batch-open.test.ts",
           "packages/editor/src/core/save-batch-policy.test.ts",
@@ -3307,6 +3308,11 @@
             "file": "packages/editor/src/core/project-transfer-validation.test.ts",
             "testCount": 9,
             "identityDigest": "44c85a19ff74512195ab516e69b68d04147d00cc025292796cc05d9a58e5fc30"
+          },
+          {
+            "file": "packages/editor/src/core/save-as-boundaries.test.ts",
+            "testCount": 10,
+            "identityDigest": "8e889e0c74c3624cbb1e07d0b4728f6a41044bc33ba599d04345c7d0998d71f0"
           },
           {
             "file": "packages/editor/src/core/save-batch-baseline.test.ts",
@@ -4029,17 +4035,17 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "3750fc436c4c9e5de012d8d007ce6cee4e9f3af63f665beb306fca21533ccb51",
+        "identityDigest": "a092fd420e48281f912eaaa97dbb6667caee8f2ec329cc628ee87245dfb29655",
         "duplicateIdentityCount": 8,
-        "executionDigest": "56295ad95a042e543de52e9ca04a795afe9854e33983c4c410a9db05eefbb208"
+        "executionDigest": "12f83b1c51c4cb183a799aa9671170a8b46653d9d2b684ed56a41d1148197a09"
       },
       "metrics": {
         "statements": {
-          "covered": 24777,
+          "covered": 24779,
           "total": 32527
         },
         "branches": {
-          "covered": 19148,
+          "covered": 19151,
           "total": 28149
         },
         "functions": {
@@ -4055,11 +4061,11 @@
   },
   "total": {
     "statements": {
-      "covered": 53661,
+      "covered": 53663,
       "total": 79539
     },
     "branches": {
-      "covered": 38452,
+      "covered": 38455,
       "total": 62530
     },
     "functions": {
