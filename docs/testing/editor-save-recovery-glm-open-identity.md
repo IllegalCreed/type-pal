@@ -69,4 +69,82 @@ AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡r2签字/范围及最�
 
 ## GLM回执（仅GLM填写）
 
-待实现。
+**open-identity-r1（2026-09-12），分支 `codex/glm-open-identity-tests`，worktree
+`/Users/zhangxu/illegal/type-pal-glm-open-identity`，起点 945f54ab（基线 1ba88755 生产零漂——
+1ba88755..945f54ab 仅 docs/新测试/coverage baseline）。** 白名单实际改动：仅新增
+`packages/editor/src/core/workspace-open-identity.test.ts`（15 用例）+ 本回执。不改生产、
+旧测试（含 Codex 的 workspace-save-admission 20 项）、共享 fixture、配置、baseline、资产。
+
+### 矩阵与逐项证据（测试全名 → 组/轴）
+
+| 测试全名 | 组/核验轴 | 结果 |
+|---|---|---|
+| OI-L 正控: 无 marker 目录首次打开 | L：合法无记录 → local-project+登记 local-directory | 绿 |
+| OI-L: 最近记录 projectId 漂移 | L：记录漂移拒绝、原记录不被覆盖（bindings 快照） | 绿 |
+| OI-L: 无 marker 却带受限 hint | L：sandbox/PAL hint 无 marker 拒绝恢复（两变体同用例）、零 IO 零登记 | 绿 |
+| OI-L: hint projectId 与 manifest 冲突 | L：hint 身份漂移拒绝 | 绿 |
+| OI-S 正控: 合法 marker 三种 source | S：ui-samples/sandbox-copy/review-copy 均装配 sandbox 会话 | 绿 |
+| OI-S: marker 与 manifest 项目 ID 冲突 | S：marker 漂移拒绝、零 IO | 绿 |
+| OI-S: hint 的 mode/workspaceId 不一致 | S：当前操作与 marker 冲突拒绝（两变体） | 绿 |
+| OI-S: 既有记录句柄/模式/项目/来源冲突 | S：四轴逐项（parametrized 循环，每轮清库）、原记录快照不变 | 绿 |
+| OI-P 正控: 独立可信源 proof | P：真实构造器 → finishOpen 装配 pal-development/pal-bound | 绿 |
+| OI-P: 普通 local hint 不能借 sentinel | P：受限提权拒绝、零登记 | 绿 |
+| OI-P: 既有绑定换目录/三轴漂移 | P：四轴逐项、原记录不变 | 绿 |
+| OI-P: forceSandbox 检视 PAL | P：降级 ui-samples 检视会话、不登记原目录 | 绿 |
+| OI-E: expectedIdentity 逐维不符 | E：workspaceId/projectId/mode/source 四轴 + 全匹配正控、拒绝后无新登记 | 绿 |
+| OI-E: expectedIdentity 句柄指向他目录 | E：finishOpen 载入前拒绝（O3 层）、原记录不变 | 绿 |
+| resolver 直测: 无 marker 无记录 | 合同补充：新 local 身份 + forceSandbox 包装 | 绿 |
+
+PAL 可信源：独立 memoryAuthorDirectory 字节经 vi.stubGlobal('fetch') 按 'projects/pal/<rel>'
+提供（finishOpen 内 httpSource('projects/pal') 走真实 readText/readJson 与指纹计算）——
+非被篡改目标自授权。所有冲突用例核三件套：整份文件快照逐字节不变、creates/closes/removes
+全空、bindings 快照不变（或零登记）；`receipts.size===0` 直接断言数量。无浏览器操作。
+
+### 单点负控（/tmp/glm-oi-nc.config.mts 可重建，每针唯一替换点）
+
+| NC | 突变（唯一替换） | 业务红因 |
+|---|---|---|
+| ncRecentPidDrift | resolver 中和 recent 记录 projectId 漂移 throw | OI-L 漂移用例 **错误放行**（resolved Opened 而非 reject） |
+| ncExpectedIdentity | assertExpectedWorkspaceIdentity 整体中和 | OI-E 逐维用例 **错误放行** |
+| ncFinishOpenHandle | finishOpen 移除 expectedIdentity 句柄核对 | OI-E 句柄用例 **错误放行** |
+| ncSandboxRecordDrift | sandbox 记录一致性 throw 中和 | OI-S 记录漂移用例 **错误放行** |
+正常实现 15/15 绿。四组均为错误放行/错误会话级业务红，非文案差异。
+
+### 逐臂对账（本批 cov 报告，临时目录 /tmp/glm-open-identity-workspace/cov）
+
+同口径 editor-fast **200 文件 / 2,056 项全绿**。workspace-persistence 从 353→**393/435**（本批 +40 臂）、
+open-actions 103→**103/108**（覆盖已达行 119/119 100%）。
+
+**本批新命中（此前台账 0 命中的臂，现由本套件执行）**：
+- resolveOpenedWorkspaceContext：185/0@940、190/0@953、192/0@957、196/0@963、206/0@993、
+  208/0@1000（hint/marker 身份冲突族）；182/1@916+183/1-3@918-920（OI-E 四轴）；104/0@590、
+  106/0@592、107/0@594、109/0@601（OI-P hint 提权/PAL 记录 workspaceId）；149/0@760、150/1@760、
+  162/0@803、165/0@808（forceSandbox/first-save PAL 边）；132/0@698、138/0@718（绑定记录缺席/
+  受限残留）；130/0@689 由 pal-save-identity 双标记用例（本树）先行命中。
+- contextFromRecord 多数 mode/source 组合臂经 OI-S/OI-E 记录构造路径命中。
+
+**仍未覆盖（42 臂 wp + 5 臂 open-actions，分类）**：
+- write/read 私有路径守卫终态（readJsonState 3/1、writeJsonSidecar 4/0、authorizedSaveScope 20/25/26、
+  seal 35/0、complete 50/0、plan 82/0、recordRemove 85/0、begin 96/0、recordWrite 71/77/80、
+  allowPrivate 42/45/47、registerMutation 88/89/91/93 共 21 臂）：mutation 活跃期内部身份校验终态，
+  公开入口无法构造非活跃调用（不伪造品牌/mutation）——待 Codex 核定。
+- PAL 写侧指纹族（readPalDev 7 + palDevFingerprint 2 + fingerprintExpected 2 + 164/2@805 共 12 臂）：
+  PAL 目录写保存域，Codex 首存写侧保留。
+- preflight 158/159@775、169/0@823（沙盒重绑定/PAL invalid）与 contextFromRecord 175-178（记录
+  mode 非法组合写入终态）共 9 臂：可达待测，归 Codex 后续批（不改权限模型不伪造）。
+- open-actions 5 臂（saveProjectAs 38/45/49/53 + readOpenedProject 24/0）：另存取消/源缺失/
+  metadata 漂移族，project-copy 12 项相邻已覆盖主路径，臂级证据待 Codex 核定。
+
+### 验证与失败记录
+
+- 定向+相邻（本文件+open-actions/open-local/pal-save-identity/workspace-save-admission/
+  workspace-persistence 6 文件）**94/94 绿**；editor typecheck exit 0；新文件 biome 0 error
+  （一次 format 自动修复后复跑）。
+- 完整 `pnpm check` 第一次 exit1：pal-extract ENOENT data/raw/M.MSG——**本 worktree 环境缺
+  gitignored 资产**（非候选缺陷）；本地 symlink/拷贝补齐后第二次 **exit 0 共 6,783 项**
+  （/tmp/glm-open-identity-workspace/full-check{,2}.log）。资产链接均未入 Git（ls-files 空）。
+- 无产品缺陷 counter；完整 check/ratchet/严格 fast 官方门禁留 Codex。
+
+### 交接
+
+GLM 测试贡献者，终审须披露。测试候选 `e1c0d67e`（amend 回填前提交；本回执内 SHA 自指以下方最终推送 SHA 为准）。
