@@ -340,12 +340,12 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   code-native SVG、tooltip 与 `aria-pressed`，不得使用 emoji。
 - “视图”菜单提供与 Header 按钮相同的三条显隐命令和“重置布局”；菜单、按钮和快捷键消费同一 command
   registry，不复制状态或 handler。对象列表/Inspector 的可见性与宽度可在本机记忆；场景脚本面板沿用现有
-  `drawer.open` 与既有 canonical/legacy 高度记忆，不新建第二套 bottom state。恢复时仍须受 DS-L.2 主区
+  `drawer.open` 与既有 canonical 高度记忆，不新建第二套 bottom state。恢复时仍须受 DS-L.2 主区
   最小宽度/高度约束。
 - 左右分栏线只负责拖拽调整宽度：默认是低对比 `1px` 结构线，hover/focus/drag 才显示 accent；不在分栏线上
   常驻悬浮箭头或按钮。键盘用户仍可聚焦 separator，用方向键调整、Home 重置。
 - 底部按钮在场景工作区必须控制已经存在的脚本/演出编辑面板：与场景工具栏“脚本”按钮、`drawer.open`、
-  `CanonicalSceneScriptWorkspaceV5` / `ScriptDrawer` 共用同一 handler；不得新造全局问题/诊断 drawer，状态栏
+  `CanonicalSceneScriptWorkspace` 共用同一 handler；不得新造全局问题/诊断 drawer，状态栏
   继续只承担现有摘要。非场景工作区没有这个 capability 时不渲染底部按钮；只有 capability 存在但因临时状态
   暂不可用时才显示 disabled，并通过 tooltip 给出具体原因。对象列表、Inspector 与底部面板统一采用这条规则，
   不得一处隐藏、一处保留无效按钮，也不得凭空挤出空白底栏。
@@ -883,7 +883,7 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - Wide 可并列；Medium 用主树 + Inspector drawer；Narrow 以 tree/form 两级导航或 split view 切换。
 - 当前路径、错误、未翻译状态和运行/预览上下文必须常显；JSON 只作明确的高级/诊断视图。
 - 树选择、键盘导航和表单焦点必须保留；切换命令不得丢未提交输入。
-- 正向参考：`CanonicalScriptEditorV5` / `ScriptDrawer` 已有 source/tree/form 分工。
+- 正向参考：`CanonicalScriptBodyEditor` 已有 source/tree/form 分工。
 - 反例：缩窄三列直到字段逐字换行，或让 JSON fallback 与结构化表单竞争同一主位。
 
 ### DS-R.4 数据表型工作台
@@ -1190,7 +1190,7 @@ MUST/MUST NOT 条款如需改变，不能写例外；必须升级规范版本并
 | ActorMode | 对象列表、任务 tab、内容分区清晰 | tokens、折叠主内容、窄宽、字段布局、统一 icons |
 | BattleFieldTab | 卡片、空状态、引用面板形成第二个对象纵切 | inline/密集 JSX、三档壳、媒体查看复用、状态全集 |
 | ImageTab | typed 资源列表、类型 tab、引用闭包已有基础 | 预览升为主画布、统一 zoom/pan、drawer、长图/高图压力 |
-| CanonicalScriptEditorV5 / ScriptDrawer | source/tree/form 与预览语义较成熟 | 三档 recipe、焦点/树键盘、错误边界、JSON 降级边界 |
+| CanonicalScriptBodyEditor | source/tree/form 与预览语义较成熟 | 三档 recipe、焦点/树键盘、错误边界、JSON 降级边界 |
 | 旧 Battle tabs | 已有领域数据入口 | 信息层级、列表头、字段密度、危险操作和 recipe 全面审查 |
 
 ## 附录 B：用户已验收的视觉裁决
@@ -1236,15 +1236,15 @@ MUST/MUST NOT 条款如需改变，不能写例外；必须升级规范版本并
 ## 附录 F：v2.2.0 correction（用户已定形，待 Kimi / GLM 重签）
 
 用户所指的“底部面板”是场景工作区中地图/演出预览下方已有的脚本编辑面板，而不是新的全局诊断区。
-代码现状也已有唯一控制链：`App.drawer.open` 同时驱动场景工具栏“脚本”按钮、新版
-`CanonicalSceneScriptWorkspaceV5` 与旧版 `ScriptDrawer`；两种实现各自已有水平 resize 和高度记忆。
+当前唯一控制链由 `App.drawer.open` 同时驱动场景工具栏“脚本”按钮与
+`CanonicalSceneScriptWorkspace`，沿用其水平 resize 和高度记忆。旧 `ScriptDrawer` 作者入口已退役。
 
 v2.2 冻结以下纠正：Header 中间布局按钮、`视图 > 脚本面板`、场景工具栏“脚本”和 Cmd/Ctrl+Alt+B
 必须复用这一条现有开关；场景页打开后沿用当前面板内容、选中项和高度，关闭后回到完整场景画布。不存在该
 capability 的页面不渲染入口；capability 存在但临时不可用时才 disabled 并显示原因。不得新增全局 `.editor`
 grid 行、第二套 bottomVisible/bottomHeight 或诊断 drawer。
 场景脚本面板的水平分隔线继续负责 resize；在 Header/View/shortcut 恢复路径可用后，才可移除该分隔线上的
-常驻收起按钮，且不得误删 `ScriptDrawer` 内部其他分栏的 resize/toggle 能力。
+常驻收起按钮，并保留 canonical 场景工作台已有的分栏能力。
 
 > 2026-08-22 用户实机纠正：不存在对应 panel capability 时，保留 disabled 入口会与“无 Inspector 即隐藏”
 > 形成不一致。当前规则由 DS-L.6 / RF-15 覆盖为“capability 不存在则不渲染；仅临时不可用才 disabled + 原因”。

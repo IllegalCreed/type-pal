@@ -1,6 +1,10 @@
-import { createElement } from 'react'
+// @vitest-environment jsdom
+
+import type { ScriptStage } from '@type-pal/content'
+import { act, createElement } from 'react'
+import { createRoot } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { ScriptTree, scriptTreeText } from './ScriptTree.js'
 
@@ -19,6 +23,64 @@ describe('scriptTreeText', () => {
 })
 
 describe('ScriptTree stable references', () => {
+  test('retained view emits scoped reorder intent and leaves content unchanged when its caller declines', async () => {
+    ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+    const host = document.createElement('div')
+    document.body.append(host)
+    const root = createRoot(host)
+    const stages: ScriptStage[] = [
+      {
+        body: [
+          { kind: 'wait', ms: 100 },
+          { kind: 'wait', ms: 200 },
+        ],
+      },
+    ]
+    const before = structuredClone(stages)
+    const onReorder = vi.fn(() => false)
+    try {
+      await act(async () =>
+        root.render(
+          createElement(ScriptTree, {
+            stages,
+            locale: {},
+            references: { choices: () => [], has: () => false, label: (_kind, id) => id },
+            reorderScopeKey: 'retained-view',
+            onRowAction: () => undefined,
+            onReorder,
+          }),
+        ),
+      )
+      const collection = host.querySelector<HTMLElement>(
+        '[data-ds-reorder-adoption="script/legacy-siblings"]',
+      )!
+      const tokens = () =>
+        [...collection.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')].map(
+          (row) => row.dataset.itemKey,
+        )
+      const originalTokens = tokens()
+      await act(async () =>
+        collection.querySelector<HTMLButtonElement>('[aria-label^="下移"]')!.click(),
+      )
+      expect(onReorder).toHaveBeenCalledOnce()
+      expect(onReorder).toHaveBeenCalledWith(
+        '0',
+        expect.objectContaining({
+          adoptionId: 'script/legacy-siblings',
+          scopeKey: 'retained-view:0',
+          fromIndex: 0,
+          toIndex: 1,
+          input: 'button',
+        }),
+      )
+      expect(tokens()).toEqual(originalTokens)
+      expect(stages).toEqual(before)
+    } finally {
+      await act(async () => root.unmount())
+      host.remove()
+    }
+  })
+
   test('指令摘要统一显示名称与稳定 id', () => {
     const names = new Map([
       ['item:293', '手卷'],

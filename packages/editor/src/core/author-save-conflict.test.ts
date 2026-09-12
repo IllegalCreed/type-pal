@@ -57,7 +57,6 @@ import {
   resumeOwnProjectSave,
   serializeProjectWithMapCopies,
   toEditorState,
-  writeFile,
   writeProject,
 } from './project-io.js'
 import {
@@ -317,7 +316,7 @@ describe('real author open and save conflict boundary', () => {
       opened.authorBaseline,
     )
     disk.set('content/locale.json', { 'name.hero': 'External' })
-    await expect(writeFile(target, 'note.txt', 'new')).rejects.toThrow('修改')
+    await expect(performPolicyFixtureWrite(target, 'note.txt', 'new')).rejects.toThrow('修改')
     expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   })
 
@@ -358,7 +357,9 @@ describe('real author open and save conflict boundary', () => {
       disk.dir,
       opened.authorBaseline,
     )
-    await expect(writeFile(target, 'notes/keep.txt', 'replace')).rejects.toThrow('notes/keep.txt')
+    await expect(performPolicyFixtureWrite(target, 'notes/keep.txt', 'replace')).rejects.toThrow(
+      'notes/keep.txt',
+    )
     expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   })
 
@@ -377,7 +378,9 @@ describe('real author open and save conflict boundary', () => {
       disk.dir,
       opened.authorBaseline,
     )
-    await expect(writeFile(target, asset.path, original)).rejects.toThrow(asset.path)
+    await expect(performPolicyFixtureWrite(target, asset.path, original)).rejects.toThrow(
+      asset.path,
+    )
     expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   })
 
@@ -597,7 +600,7 @@ describe('real author open and save conflict boundary', () => {
     await authorizeFirstSaveTarget(workspace, disk.dir)
     await expect(
       withAuthorizedWorkspaceMutation(first, async (mutation) => {
-        await writeFile(mutation, 'own.json', { value: 'first' })
+        await performPolicyFixtureWrite(mutation, 'own.json', { value: 'first' })
         throw new Error('interrupted')
       }),
     ).rejects.toThrow('interrupted')
@@ -606,7 +609,9 @@ describe('real author open and save conflict boundary', () => {
     const retry = await authorizeFirstSaveTarget(workspace, disk.dir, {
       resumesInterruptedAttempt: true,
     })
-    await expect(writeFile(retry, 'retry.json', { value: 'second' })).rejects.toThrow('修改')
+    await expect(
+      performPolicyFixtureWrite(retry, 'retry.json', { value: 'second' }),
+    ).rejects.toThrow('修改')
     expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   })
 
@@ -940,3 +945,5 @@ describe('real author open and save conflict boundary', () => {
     }
   })
 })
+
+import { performPolicyFixtureWrite } from './__tests__/policy-io.js'

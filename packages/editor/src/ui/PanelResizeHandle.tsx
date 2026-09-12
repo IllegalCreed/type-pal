@@ -181,6 +181,7 @@ export function PanelResizeHandle(props: {
         }}
         onPointerUp={endPointer}
         onPointerCancel={endPointer}
+        onLostPointerCapture={endPointer}
       />
       {props.onToggle && props.toggleDirection && props.toggleLabel ? (
         <DsPressable

@@ -7,7 +7,6 @@
       "productionFiles": [
         "App.tsx",
         "EntityPageAnimationEditor.tsx",
-        "ScriptDrawer.tsx",
         "ScriptEditor.tsx",
         "CommandForm.tsx",
         "ScriptSceneHookInspector.tsx",
@@ -57,15 +56,6 @@
           "controlOwners": ["ScriptSchemeDetailsDialog"],
           "fields": ["scriptScheme.name", "scriptScheme.default"],
           "verification": "ScriptEditor.test.tsx"
-        },
-        {
-          "id": "drawer-command-editor",
-          "kind": "aggregate-draft",
-          "owner": "ScriptDrawer.commandDraft",
-          "files": ["ScriptDrawer.tsx", "CommandForm.tsx"],
-          "controlOwners": ["CommandForm", "Num", "Txt", "JsonForm"],
-          "fields": ["legacyCommand.*", "locale.*.speakerOverride"],
-          "verification": "ScriptDrawer.test.tsx"
         }
       ]
     },

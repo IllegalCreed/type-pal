@@ -63,7 +63,7 @@ test('S01(当前模型): sharedScripts 携带具体脚本体输出并可经正�
   void disk
 })
 
-test('S01(旧分片登记): content.scripts 为当前 loader 明禁字段，输出不可经正式重开——登记交 Codex 清理', async () => {
+test('S01: 当前序列化拒绝旧 content.scripts，不产出 loader 无法重开的工程', async () => {
   const { state } = await blankState('ser-s01-legacy')
   const chunk: ScriptChunkV1 = {
     version: 1,
@@ -82,14 +82,7 @@ test('S01(旧分片登记): content.scripts 为当前 loader 明禁字段，输�
   ;(state.manifest.content as Record<string, unknown>).scripts = 'content/scripts/'
   state.scriptIndex = index
   state.scriptChunks = { 'glm-chunk': chunk }
-  const files = serializeProject(state)
-  expect(files['content/scripts/index.json']).toEqual(index)
-  // 该形态被当前 loader 明确拒绝（project-loader:188-189「当前 manifest 禁止 content.scripts」），
-  // 不是当前编辑器可保存并重开的合法正控；旧分片残留路径登记为 Codex 代码清理审查项。
-  const outDir = memoryAuthorDirectory(structuredClone(files))
-  await expect(loadCurrentProjectFrom(fsaSource(outDir.dir))).rejects.toThrow(
-    '当前 manifest 禁止 content.scripts',
-  )
+  expect(() => serializeProject(state)).toThrow('当前 manifest 禁止 content.scripts')
 })
 
 test('S01: 声明 sharedScripts 缺失时在序列化层拒绝；正常输出经 checkAuthorScriptLibrary', async () => {

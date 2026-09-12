@@ -55,7 +55,7 @@ export interface EditorState extends Omit<ContentBundle, 'entryPoints'> {
    * tileset、world sprite 与 battle-sprite 已迁到 assetCatalog + assetBlobs，不得再消费此字段。
    */
   tilesetBlobs: Record<string, ArrayBuffer>
-  /** 分片脚本工作副本；普通 inline 项目均为空/undefined。 */
+  /** 内部脚本投影的索引/片段；当前作者项目只保存 canonical sharedScripts，不落盘这些片段。 */
   scriptIndex?: ScriptIndexV1
   scriptChunks: Record<string, ScriptChunkV1>
   /** 项目唯一资源注册表；音乐页与运行时共用同一份 AssetId -> path 真值。 */

@@ -7,10 +7,11 @@ import {
   RUNTIME_COMMAND_KINDS,
   type SceneDef,
 } from '@type-pal/content'
-import { act, useState } from 'react'
+import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { ScriptEditSession, UpdateSharedScriptCommand } from '../core/script-editor.js'
 import {
   AUTHOR_COMMAND_PRESENTATION_,
   CanonicalHostileOnLoseEditor,
@@ -267,6 +268,136 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(host.querySelector('.cmd-row.sel')).toBeNull()
     await act(async () => restoreMoved())
     expect(host.querySelector('.cmd-row.sel')).toBeNull()
+  })
+
+  test('[reorder-family:command-arrays] canonical dialogue reorder stays local until one commit and restores through real undo/redo', async () => {
+    const scriptId = 'shared/dialogue-order'
+    const scene = {
+      id: 'dialogue-scene',
+      mapId: 'dialogue-map',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' as const },
+      entities: [],
+    }
+    const initial: AuthorCommand[] = [
+      {
+        kind: 'dialog',
+        cue: {
+          identity: { kind: 'narration' },
+          rows: [{ text: 'dlg.same' }, { text: 'dlg.same' }, { text: 'dlg.unique' }],
+        },
+      },
+    ]
+    const session = new ScriptEditSession({
+      scenes: [scene],
+      items: [],
+      sharedScripts: { [scriptId]: { name: '对话排序', self: 'none', body: initial } },
+    })
+    const dispatch = vi.spyOn(session, 'dispatch')
+    function Harness() {
+      useSyncExternalStore(
+        (listener) => session.subscribe(listener),
+        () => session.getVersion(),
+      )
+      const state = session.getStateSnapshot()
+      const context: CanonicalScriptEditorContext = {
+        state,
+        shellScenes: [scene],
+        locale: { 'dlg.same': '相同台词', 'dlg.unique': '唯一台词' },
+        assetCatalog: { version: 1, assets: {} },
+        audioResolver: {} as CanonicalScriptEditorContext['audioResolver'],
+        assetReader: {} as CanonicalScriptEditorContext['assetReader'],
+        references: { choices: () => [], has: () => false, label: (_kind, id) => id },
+        battleSprites: [],
+      }
+      return (
+        <CanonicalScriptBodyEditor
+          body={state.sharedScripts[scriptId]!.body}
+          context={context}
+          onChange={(body) => session.dispatch(new UpdateSharedScriptCommand(scriptId, { body }))}
+        />
+      )
+    }
+    const cueRows = () => {
+      const command = session.getState().sharedScripts[scriptId]!.body[0]!
+      expect(command.kind).toBe('dialog')
+      return command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : []
+    }
+    await act(async () => root.render(<Harness />))
+    await act(async () =>
+      host
+        .querySelector<HTMLElement>('.cmd-row')!
+        .dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    let dialog = host.querySelector<HTMLElement>('[role="dialog"]')!
+    let collection = dialog.querySelector<HTMLElement>(
+      '[data-ds-reorder-adoption="story/dialogue-cue-rows"]',
+    )!
+    const rows = () => collection.querySelectorAll<HTMLElement>('[data-ds-reorder-item]')
+    const values = () =>
+      [...collection.querySelectorAll<HTMLTextAreaElement>('textarea')].map((field) => field.value)
+    let sourceToken = rows()[0]!.dataset.itemKey
+    let handle = rows()[0]!.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
+    let complete = [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent === '完成',
+    )!
+    expect(rows()).toHaveLength(3)
+
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(values()).toEqual(['相同台词', '相同台词', '唯一台词'])
+    expect(rows()[0]!.dataset.itemKey).toBe(sourceToken)
+    expect(dispatch).not.toHaveBeenCalled()
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(cueRows()).toEqual(['dlg.same', 'dlg.same', 'dlg.unique'])
+
+    await act(async () => complete.click())
+    expect(dispatch).not.toHaveBeenCalled()
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(host.querySelector('[role="dialog"]')).toBeNull()
+    await act(async () =>
+      host
+        .querySelector<HTMLElement>('.cmd-row')!
+        .dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    dialog = host.querySelector<HTMLElement>('[role="dialog"]')!
+    collection = dialog.querySelector<HTMLElement>(
+      '[data-ds-reorder-adoption="story/dialogue-cue-rows"]',
+    )!
+    sourceToken = rows()[0]!.dataset.itemKey
+    handle = rows()[0]!.querySelector<HTMLButtonElement>('[data-ds-reorder-handle]')!
+    complete = [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent === '完成',
+    )!
+
+    await act(async () => {
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))
+      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(values()).toEqual(['相同台词', '唯一台词', '相同台词'])
+    expect(rows()[2]!.dataset.itemKey).toBe(sourceToken)
+    expect(complete.disabled).toBe(false)
+    expect(dispatch).not.toHaveBeenCalled()
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(cueRows()).toEqual(['dlg.same', 'dlg.same', 'dlg.unique'])
+
+    await act(async () => complete.click())
+    expect(dispatch).toHaveBeenCalledOnce()
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(cueRows()).toEqual(['dlg.same', 'dlg.unique', 'dlg.same'])
+    expect(host.querySelector('[role="dialog"]')).toBeNull()
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(cueRows()).toEqual(['dlg.same', 'dlg.same', 'dlg.unique'])
+    expect(session.undo()).toBe(false)
+    await act(async () => expect(session.redo()).toBe(true))
+    expect(cueRows()).toEqual(['dlg.same', 'dlg.unique', 'dlg.same'])
+    expect(dispatch).toHaveBeenCalledOnce()
+    expect(initial[0]).toMatchObject({
+      cue: { rows: [{ text: 'dlg.same' }, { text: 'dlg.same' }, { text: 'dlg.unique' }] },
+    })
   })
 
   test('branch groups expose readable labels and explicit count badges', async () => {

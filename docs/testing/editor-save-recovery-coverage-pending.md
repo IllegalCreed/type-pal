@@ -5,12 +5,12 @@
 
 ## 口径与未完成边界
 
-- project-io仍与4b72e492一致；wp在source漏检修复后，本批只清理唯一local调用域中私有helper的不可达身份分支，当前hash已更新。360b2f65接收树历史快照为wp82 + project-io37 = 119臂。
-- 前批回归依次将119降至93、82、66、60、46；本批退休7个不可达未覆盖臂后，当前为 **14 + 25 = 39臂未覆盖**。这7项不是测试新命中，分母退休详见下节；未引入新回退。
+- 最新收口候选退役旧作者抽屉/脚本保存和逐文件写辅助；project-io已变化，wp源码与7087dbad相同。360b2f65历史快照为wp82 + project-io37 = 119臂。
+- 前批119→93→82→66→60→46→39；当前为 **12 + 22 = 34臂未覆盖**。从39变化包括io三项旧未覆盖路径退休、wp三项新增命中，以及旧复制链退役后wp98/0失去命中；不能把净减5都当新增覆盖。
 - branchId/arm是本次V8报告定位键，不是产品稳定ID；源码或工具升级后必须重生成。
 - 条件/函数由TypeScript AST定位，行按当前LCOV节点起点。条件为归一化节选；短路表达式显示所属整体表达式，具体臂仍按报告编号，不把相同节选当同一个臂。长行用省略号。
-- 当前39臂中，**25臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
-- 本表0命中不写“已有覆盖”；39臂不是39个已确认bug，也不是整卡全部剩余工作。GLM打开身份子包已接收，identity-foundation返工经Codex接收修订，统一质量门见工作包；旧路径/性能/终审按父卡继续。相邻open-actions/handle-store/workspace-context尚有2/0/2臂，不混入本表两文件计数；handle-store函数仍32/33，不能将分支100%写成整模块100%。
+- 当前34臂中，**4臂E0待确认、30臂E3为当前正式调用域的构造/前置保证**。新增分类依据见下方最终收口审查；所有零命中仍在分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明不可达。
+- 本表0命中不写“已有覆盖”；34臂不是34个已确认bug，也不是整卡全部风险。相邻open-actions/handle-store/workspace-context尚有2/0/2臂，不混入两文件计数；handle-store函数仍32/33，journal等模块也仍有各自防御缺口，最终报告逐模块列明。
 - 原119臂的精确历史清单由Git保留；[preflight接收结论](editor-save-recovery-glm-preflight.md#codex-fae10e55接收结论2026-09-12)仍是该时点事实，不冒充最新数量。
 
 ## 相邻身份基础模块接收（2026-09-13，不混入主表39臂）
@@ -119,57 +119,66 @@ wp分支415/436→413/427，行413/423→411/417，函数58/58不变；语句/�
 最终严格fast6,358项、618生产文件，源码路径/测试范围没有缩窄，覆盖比例未下降；这是实际删除冗余代码的分母变化，不是忽略统计。
 project-io、open-actions及GLM两个冻结模块的覆盖与源码均未变；旧writeFile/旧脚本公共管线不在本批删除。
 
+## 最终收口分类依据（2026-09-13）
+
+[完整收口记录](editor-save-recovery-closeout.md)保留质量门、退休和新回归的分别计数；此前各批章节是历史事实。
+
+- wp3/1、116/1、120/1：FSA读取在try外；try内为无reviver的JSON.parse、固定JSON marker parser或Map.set，正常原生JSON错误为Error。替换JSON.parse或伪造File.text返回对象不属于当前宿主合同。
+- wp113/0、117/0、124/0：PAL上下文经真实构造器冻结，入口先核proof，后续复用同一上下文；不把可手写结构对象等同现行生产签发路径。
+- wp121/1、122/0、126/0：授权签发时登记私有期望指纹，按同一冻结paths填满Map；Map无delete/clear或外泄路径。新增变化路径会推翻本分类。
+- wp98/0：旧复制/逐文件写退役后失去的幂等命中。当前唯一生产caller为journal:650的beforeAuthor，execute:546只调用一次，prepared token又一次性消费；恢复执行不传这个hook。公开API仍可重复调用，故保留防御和分母，不称JS不可达。
+- io25/1～33/1九个工作副本回退：两条正式启动路径经loader→toEditorState补齐表/变量/诊断；已检查相关命令、物品/人物/战场快照的apply/undo与脚本投影均保持完整值。只限定当前正式入口，不将公开结构类型宣称成运行期强类型保证。
+- io私有signature/sizes Map与先前世界变量/scene.id保证仍有效，按新编号映射。旧io三项E4实际退休，不再列为当前缺口。
+- E0保留：wp158/0二次绑定读取存在真实await窗口，但尚未证明对应完整产品并发登记链；io107/1、109/1、111/1涉及解压/hash/clone等宿主异步，未穷尽原生拒绝类型，不能凭通常抛Error改为E3。
+
+这些不是减少校验的理由；发现正常入口/命令可产缺字段、可变proof、可丢键Map或新的异常源时应重新核定。
+
 ## 当前清单
 
 ### workspace-persistence.ts
 
-来源：packages/editor/src/core/workspace-persistence.ts；源码SHA-256：603f76ad063931e1ceeeeec9d338e9c4516df7fbc90d57bbec0da9593ae8d88f。未覆盖14臂。
+来源：packages/editor/src/core/workspace-persistence.ts；源码SHA-256：603f76ad063931e1ceeeeec9d338e9c4516df7fbc90d57bbec0da9593ae8d88f。未覆盖12臂。
 
-| 分支/臂 | 行 | 所在函数/回调 | 条件/子表达式（按报告编号） | 当前分类 |
-|---|---:|---|---|---|
-| 3/1 | 127 | readJsonState | cond-expr：error instanceof Error | 待确认（E0） |
-| 4/0 | 147 | writeJsonSidecar | if：!dir | 构造保证（E3，见上） |
-| 113/0 | 613 | palDevelopmentTargetFingerprint | if：context.mode !== 'pal-development' \|\| !context.palProof | 待确认（E0） |
-| 116/1 | 622 | palDevelopmentTargetFingerprint → 回调@615 | cond-expr：error instanceof Error | 待确认（E0） |
-| 117/0 | 632 | readPalDevelopmentTargetValues | if：context.mode !== 'pal-development' \|\| !context.palProof | 待确认（E0） |
-| 120/1 | 642 | readPalDevelopmentTargetValues | cond-expr：error instanceof Error | 待确认（E0） |
-| 121/1 | 646 | readPalDevelopmentTargetValues | binary-expr：palExpectedFingerprints.get(context) ?? context.palProof.expectedFingerprint | 待确认（E0） |
-| 122/0 | 648 | readPalDevelopmentTargetValues → 回调@647 | if：!values.has(path) | 待确认（E0） |
-| 124/0 | 660 | fingerprintPalExpectedValues | if：context.mode !== 'pal-development' \|\| !context.palProof | 待确认（E0） |
-| 126/0 | 663 | fingerprintPalExpectedValues → 回调@662 | if：!values.has(path) | 待确认（E0） |
-| 158/0 | 775 | preflightFirstSaveTarget | if：entryBinding && entryBinding.workspaceId !== context.workspaceId | 待确认（E0） |
-| 159/1 | 775 | preflightFirstSaveTarget | binary-expr：entryBinding && entryBinding.workspaceId !== context.workspaceId | 待确认（E0） |
-| 164/2 | 804 | authorizeFirstSaveTarget | binary-expr：previousAuthor && (previousAuthor.dir === dir \|\| (await previousAuthor.dir.isSameEntry(dir))) | 待确认（E0） |
-| 169/0 | 823 | authorizeFirstSaveTarget → verifyWorkspace | if：metadata.sandbox.kind === 'invalid' \|\| metadata.palDevelopment.kind !== 'missing' | 待确认（E0） |
+| 分支/臂 | 行 | 当前源码片段 | 分类 |
+|---|---:|---|---|
+| 3/1 | 127 | `return { kind: 'invalid', reason: error instanceof Error ? error.message : String(error) }` | 当前调用域保证（E3） |
+| 4/0 | 147 | `if (!dir) throw new Error('拒绝未经 workspace policy 授权的 marker bootstrap 写入')` | 当前调用域保证（E3） |
+| 98/0 | 555 | `if (state.firstMutationStarted) return` | 当前调用域保证（E3） |
+| 113/0 | 613 | `if (context.mode !== 'pal-development' \|\| !context.palProof)` | 当前调用域保证（E3） |
+| 116/1 | 622 | `PAL 开发基线指纹文件无效：${path}（${error instanceof Error ? error.message : String(error)}）,` | 当前调用域保证（E3） |
+| 117/0 | 632 | `if (context.mode !== 'pal-development' \|\| !context.palProof)` | 当前调用域保证（E3） |
+| 120/1 | 642 | `PAL 开发基线指纹文件无效：${path}（${error instanceof Error ? error.message : String(error)}）,` | 当前调用域保证（E3） |
+| 121/1 | 646 | `const expected = palExpectedFingerprints.get(context) ?? context.palProof.expectedFingerprint` | 当前调用域保证（E3） |
+| 122/0 | 648 | `if (!values.has(path)) throw new Error(PAL 开发基线指纹文件缺失：${path})` | 当前调用域保证（E3） |
+| 124/0 | 660 | `if (context.mode !== 'pal-development' \|\| !context.palProof)` | 当前调用域保证（E3） |
+| 126/0 | 663 | `if (!values.has(path)) throw new Error(PAL 开发基线期望快照缺失：${path})` | 当前调用域保证（E3） |
+| 158/0 | 775 | `if (entryBinding && entryBinding.workspaceId !== context.workspaceId)` | 待确认（E0） |
 
 ### project-io.ts
 
-来源：packages/editor/src/core/project-io.ts；源码SHA-256：4f592fc9611038c4f7acbd7c248675e1cd7929a6495357e6083b1e9fba8a996d。未覆盖25臂。
+来源：packages/editor/src/core/project-io.ts；源码SHA-256：9a874384af5cf78eb0e1301cf9eff7efe2efda52b23ff75d153126a7d2f12935。未覆盖22臂。
 
-| 分支/臂 | 行 | 所在函数/回调 | 条件/子表达式（按报告编号） | 当前分类 |
-|---|---:|---|---|---|
-| 13/0 | 220 | serializeProject | if：diagnostics.warnings.length | 退役审查候选（E4） |
-| 15/0 | 233 | serializeProject | if：!content.worldVariables | 构造/前置保证（E3） |
-| 20/0 | 246 | serializeProject | if：scene.id !== asset.id | 构造/前置保证（E3） |
-| 29/0 | 287 | serializeProject | if：!chunk | 退役审查候选（E4） |
-| 30/1 | 299 | serializeProject | binary-expr：state.enemies ?? [] | 待确认（E0） |
-| 31/1 | 300 | serializeProject | binary-expr：state.enemyTeams ?? [] | 待确认（E0） |
-| 32/1 | 301 | serializeProject | binary-expr：state.battleFields ?? [] | 待确认（E0） |
-| 33/1 | 302 | serializeProject | binary-expr：state.tilesets ?? [] | 待确认（E0） |
-| 34/1 | 304 | serializeProject | binary-expr：state.poisons ?? [] | 待确认（E0） |
-| 35/1 | 305 | serializeProject | binary-expr：state.ambiences ?? [] | 待确认（E0） |
-| 36/1 | 306 | serializeProject | binary-expr：state.shops ?? [] | 待确认（E0） |
-| 37/1 | 309 | serializeProject | binary-expr：state.migrationDiagnostics?.diagnostics ?? [] | 待确认（E0） |
-| 38/1 | 314 | serializeProject | binary-expr：state.worldVariables ?? {} | 待确认（E0） |
-| 48/0 | 404 | writeFile → 回调@393 | cond-expr：snapshot instanceof ArrayBuffer | 退役审查候选（E4） |
-| 79/1 | 559 | writeProject → 回调@499 → rememberWrite | binary-expr：signature ?? (value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value)) | 构造/前置保证（E3） |
-| 80/0 | 560 | writeProject → 回调@499 → rememberWrite | cond-expr：value instanceof ArrayBuffer | 构造/前置保证（E3） |
-| 80/1 | 560 | writeProject → 回调@499 → rememberWrite | cond-expr：value instanceof ArrayBuffer | 构造/前置保证（E3） |
-| 84/1 | 604 | writeProject → 回调@499 | binary-expr：sizes.get(rel) ?? 0 | 构造/前置保证（E3） |
-| 88/1 | 609 | writeProject → 回调@499 | binary-expr：sizes.get(catalogPath) ?? 0 | 构造/前置保证（E3） |
-| 91/1 | 620 | writeProject → 回调@499 | binary-expr：sizes.get(rel) ?? 0 | 构造/前置保证（E3） |
-| 93/1 | 626 | writeProject → 回调@499 | binary-expr：sizes.get('manifest.json') ?? 0 | 构造/前置保证（E3） |
-| 96/1 | 629 | writeProject → 回调@499 | binary-expr：sizes.get(catalogPath) ?? 0 | 构造/前置保证（E3） |
-| 114/1 | 702 | preflightProjectWriteSet | cond-expr：cause instanceof Error | 待确认（E0） |
-| 116/1 | 712 | preflightProjectWriteSet | cond-expr：cause instanceof Error | 待确认（E0） |
-| 118/1 | 722 | preflightProjectWriteSet | cond-expr：cause instanceof Error | 待确认（E0） |
+| 分支/臂 | 行 | 当前源码片段 | 分类 |
+|---|---:|---|---|
+| 13/0 | 229 | `if (!content.worldVariables)` | 当前调用域保证（E3） |
+| 18/0 | 242 | `if (scene.id !== asset.id)` | 当前调用域保证（E3） |
+| 25/1 | 285 | `enemies: state.enemies ?? [],` | 当前调用域保证（E3） |
+| 26/1 | 286 | `enemyTeams: state.enemyTeams ?? [],` | 当前调用域保证（E3） |
+| 27/1 | 287 | `battleFields: state.battleFields ?? [],` | 当前调用域保证（E3） |
+| 28/1 | 288 | `tilesets: state.tilesets ?? [],` | 当前调用域保证（E3） |
+| 29/1 | 290 | `poisons: state.poisons ?? [],` | 当前调用域保证（E3） |
+| 30/1 | 291 | `ambiences: state.ambiences ?? [],` | 当前调用域保证（E3） |
+| 31/1 | 292 | `shops: validateShops(state.shops ?? []),` | 当前调用域保证（E3） |
+| 32/1 | 295 | `diagnostics: (state.migrationDiagnostics?.diagnostics ?? []).filter((diagnostic) => {` | 当前调用域保证（E3） |
+| 33/1 | 300 | `worldVariables: validateWorldVariableRegistryV1(state.worldVariables ?? {}),` | 当前调用域保证（E3） |
+| 72/1 | 520 | `signature ??` | 当前调用域保证（E3） |
+| 73/0 | 521 | `(value instanceof ArrayBuffer` | 当前调用域保证（E3） |
+| 73/1 | 521 | `(value instanceof ArrayBuffer` | 当前调用域保证（E3） |
+| 77/1 | 565 | `addWrite(rel, files[rel], sizes.get(rel) ?? 0)` | 当前调用域保证（E3） |
+| 81/1 | 570 | `needsCatalogShrink ? stagedCatalogSize : (sizes.get(catalogPath) ?? 0),` | 当前调用域保证（E3） |
+| 84/1 | 581 | `addWrite(rel, files[rel], sizes.get(rel) ?? 0)` | 当前调用域保证（E3） |
+| 86/1 | 587 | `addWrite('manifest.json', files['manifest.json'], sizes.get('manifest.json') ?? 0)` | 当前调用域保证（E3） |
+| 89/1 | 590 | `addWrite(catalogPath, finalCatalog, sizes.get(catalogPath) ?? 0)` | 当前调用域保证（E3） |
+| 107/1 | 663 | `瓦片集资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)}),` | 宿主异常待确认（E0） |
+| 109/1 | 673 | `精灵资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)}),` | 宿主异常待确认（E0） |
+| 111/1 | 683 | `战斗精灵资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)}),` | 宿主异常待确认（E0） |

@@ -392,7 +392,7 @@
     {
       "id": "script-siblings",
       "integrationVerification": {
-        "file": "ui/ScriptDrawer.test.tsx",
+        "file": "ui/ScriptEditor.test.tsx",
         "marker": "[reorder-family:script-siblings]"
       },
       "adoptions": [
@@ -422,9 +422,9 @@
           "dataPaths": ["legacy stage/block/entry.prepare sibling bodies"],
           "adapter": "same-sibling",
           "identity": "editor-local-token",
-          "commandOwner": "UpdateScriptCommand|UpdateScriptBodyCommand",
-          "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/ScriptDrawer.test.tsx", "core/script-edit.test.ts"],
+          "commandOwner": "ScriptTree.onReorder callback (retained view; no author-session owner)",
+          "revisionOwner": "caller-supplied reorderRevision or body reference",
+          "verification": ["ui/ScriptTree.test.ts"],
           "contentSurface": "continuous-structure",
           "contentOwner": {
             "file": "ScriptTree.tsx",
@@ -617,7 +617,7 @@
     {
       "id": "command-arrays",
       "integrationVerification": {
-        "file": "ui/ScriptDrawer.test.tsx",
+        "file": "ui/ScriptEditor.test.tsx",
         "marker": "[reorder-family:command-arrays]"
       },
       "adoptions": [

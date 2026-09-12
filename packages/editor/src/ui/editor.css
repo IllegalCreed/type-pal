@@ -1302,33 +1302,6 @@ html[data-panel-resize="horizontal"] * {
   cursor: grab;
   touch-action: none;
 }
-.script-drawer-title {
-  min-width: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.script-drawer-field-label {
-  align-self: center;
-  color: var(--faint);
-  font-size: 11px;
-}
-.script-drawer-delete {
-  margin-left: var(--ds-space-5);
-}
-.script-drawer-context {
-  flex: 0 1 auto;
-  min-width: 0;
-  margin-right: var(--ds-space-4);
-  overflow: hidden;
-  color: var(--faint);
-  font-size: 11px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.cf-insert--detached {
-  margin-top: var(--ds-space-3);
-}
 .section {
   padding: var(--ds-space-6);
   border-bottom: 1px solid var(--line);
@@ -9295,12 +9268,8 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: 88px;
   flex: none;
 }
-.ef-num > .ds-input,
-.script-trigger-range > .ds-input {
+.ef-num > .ds-input {
   width: 100%;
-}
-.script-trigger-range {
-  width: 48px;
 }
 .ef-row {
   display: flex;
@@ -11049,9 +11018,8 @@ button.sprite-frame-cell[draggable="true"]:active {
   }
 }
 
-/* ── 场景模式 · 底部脚本抽屉(audit §6 Step2;事件模式接替者)── */
+/* Shared shell retained by the current canonical script workspace. */
 .script-drawer {
-  /* script-work 第二行;高度由父 grid 行定 */
   height: 100%;
   min-height: 0;
   display: flex;
@@ -11072,32 +11040,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   font-weight: 600;
   font-size: 12px;
 }
-.script-drawer .drawer-body {
-  --script-side-width: 360px;
-
-  flex: 1;
-  display: flex;
-  min-height: 0;
-  min-width: 0;
-}
-.script-drawer .drawer-tree {
-  flex: 1 1 auto;
-  overflow: auto;
-  min-width: 0;
-  min-height: 0;
-}
-.script-drawer .drawer-side {
-  flex: 0 0 var(--script-side-width);
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  min-height: 0;
-}
-.script-drawer .drawer-side-collapsed .drawer-side {
-  display: none;
-}
-.script-height-resizer,
-.script-side-resizer {
+.script-height-resizer {
   background: transparent;
 }
 /* 分隔线只占 1px；透明命中层向两侧扩 4px，保留拖拽手感而不挤压内容。 */
@@ -11106,29 +11049,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .script-height-resizer > .panel-resizer-hit {
   inset: -4px 0;
-}
-.script-side-resizer {
-  flex: 0 0 1px;
-}
-.script-side-resizer > .panel-resizer-hit {
-  inset: 0 -4px;
-}
-.script-drawer .drawer-side-collapsed .script-side-resizer > .panel-resizer-toggle {
-  left: 0;
-  transform: translate(-100%, -50%);
-}
-.script-drawer .drawer-preview {
-  flex: 0 0 auto;
-  border-bottom: 1px solid var(--line);
-  max-height: 70%;
-  display: flex;
-  overflow: hidden;
-}
-.script-drawer .drawer-form {
-  flex: 1;
-  container-type: inline-size;
-  overflow-y: auto;
-  min-height: 0;
 }
 
 /* mini 的文字版:auto 宽、不折行(「▾ 收起」「＋触发」等短文字钮;.mini 是 22px 定宽图标钮) */
@@ -11151,20 +11071,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-color: var(--acc);
   color: var(--fg);
   background: var(--panel);
-}
-.drawer-internal-nav {
-  display: inline-flex;
-  align-items: center;
-  min-width: 0;
-  max-width: min(420px, 42vw);
-  gap: 6px;
-}
-.drawer-internal-nav code {
-  overflow: hidden;
-  color: var(--faint);
-  font-size: 11px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .shared-internal-label {
   flex: none;
@@ -12847,11 +12753,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .script-selection .in {
   min-width: 0;
-}
-.script-drawer-trigger-mode {
-  width: 104px;
-  min-width: 0;
-  flex: none;
 }
 .script-selection-status {
   color: var(--dim);

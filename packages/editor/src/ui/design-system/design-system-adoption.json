@@ -38,28 +38,6 @@
           "verification": "editor.css .canonical-script-drawer-body owns overflow:auto。"
         },
         {
-          "region": "drawer.legacy.tree",
-          "axis": "y",
-          "owner": "custom:.drawer-tree",
-          "source": "ScriptDrawer.tsx",
-          "component": "ScriptDrawer",
-          "callsite": "class:drawer-tree",
-          "variant": "legacy",
-          "reason": "旧脚本抽屉树与表单是并列 viewport。",
-          "verification": "editor.css .script-drawer .drawer-tree owns overflow:auto。"
-        },
-        {
-          "region": "drawer.legacy.form",
-          "axis": "y",
-          "owner": "custom:.drawer-form",
-          "source": "ScriptDrawer.tsx",
-          "component": "ScriptDrawer",
-          "callsite": "class:drawer-form",
-          "variant": "legacy",
-          "reason": "旧脚本抽屉表单与树是并列 viewport。",
-          "verification": "editor.css .script-drawer .drawer-form owns overflow-y:auto。"
-        },
-        {
           "region": "inspector",
           "axis": "y",
           "owner": "custom:.inspector",
@@ -1657,10 +1635,8 @@
         "NamedIdPicker.tsx",
         "PreviewCanvas.tsx",
         "ScriptBehaviorInspector.tsx",
-        "ScriptDrawer.tsx",
         "ScriptEditor.tsx",
         "ScriptSceneHookInspector.tsx",
-        "ScriptTree.tsx",
         "SpriteThumb.tsx"
       ],
       "status": "adopted",

@@ -34,7 +34,7 @@ describe('design-system adoption gate', () => {
     expect(new Set(adopted).size).toBe(adopted.length)
     expect(matrix.pages).toHaveLength(27)
     const scrollRecords = matrix.catalogScrollOwners.flatMap((page) => page.scroll)
-    expect(scrollRecords).toHaveLength(103)
+    expect(scrollRecords).toHaveLength(101)
     expect(
       scrollRecords.filter((record) => record.owner === 'DsObjectWorkspaceContent'),
     ).toHaveLength(20)
@@ -1986,7 +1986,7 @@ type DataStateProps`,
     const borrowedSceneSource = structuredClone(matrix)
     borrowedSceneSource.pages.find(
       (page) => page.registry === 'scene/workspace',
-    ).ownerEvidence.field = [{ source: 'ScriptDrawer.tsx', component: 'ScriptDrawer' }]
+    ).ownerEvidence.field = [{ source: 'ScriptEditor.tsx', component: 'CanonicalScriptBodyEditor' }]
     expect(validateAdoption(borrowedSceneSource)).toContain(
       'scene/workspace field evidence must exactly match routed roots App.tsx@App',
     )
@@ -2021,7 +2021,7 @@ type DataStateProps`,
       cwd: packageRoot,
       encoding: 'utf8',
     })
-    expect(output).toContain('design-system gate passed: 92 files, 2 evidence-bound exceptions')
+    expect(output).toContain('design-system gate passed: 91 files, 2 evidence-bound exceptions')
   }, 15_000)
 
   test('keeps legitimate native and dynamic geometry behind public boundaries', () => {

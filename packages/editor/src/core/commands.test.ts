@@ -1,12 +1,13 @@
 import type {
   ActorDef,
   AssetRecordV1,
+  AuthorCommand,
+  AuthorSceneDef,
+  AuthorScriptFlow,
   EntityDef,
   SceneDef,
-  ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import { deriveScriptChunk, getScriptBody } from '@type-pal/content'
 import { buildBlankProjectMap, buildProjectMapLayer, paintProjectMapTiles } from '@type-pal/reforge'
 import { describe, expect, test, vi } from 'vitest'
 import {
@@ -29,10 +30,8 @@ import {
   CopyBattleFieldCommand,
   CreateMapAssetCommand,
   CreateProjectMapCommand,
-  CreateScriptSourceCommand,
   DeleteAmbienceCommand,
   DeleteAssetCommand,
-  DeleteAuthoredScriptCommand,
   DeleteBattleFieldCommand,
   DeleteEnemyCommand,
   DeleteEntityCommand,
@@ -71,12 +70,8 @@ import {
   UpdatePoisonCommand,
   UpdateProjectMapLayerCommand,
   UpdateSceneCommand,
-  UpdateScriptBodyCommand,
-  UpdateScriptCommand,
   UpdateSpriteCommand,
-  UpdateTriggerModeCommand,
   UpsertAssetCommand,
-  UpsertAuthoredScriptCommand,
   UpsertSceneEntryCommand,
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
@@ -91,8 +86,25 @@ import {
   createProjectReferenceIndex,
   createProjectReferenceSource,
 } from './project-reference.js'
-import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
-import type { ScriptEditorState } from './script-editor.js'
+import {
+  collectCurrentProjectReferenceIndex,
+  sharedScriptReferenceEdges,
+} from './project-reference-adapters.js'
+import {
+  AddEntityBehaviorCommand,
+  AddSceneHookCommand,
+  AddSharedScriptCommand,
+  collectCanonicalScriptCommandVisits,
+  collectCanonicalSharedScriptReferencesFromVisits,
+  DeleteSharedScriptCommand,
+  type ScriptEditorState,
+  ScriptEditSession,
+  SetEntityPageBehaviorCommand,
+  SetEntityPageTriggerActivationCommand,
+  UpdateEntityBehaviorCommand,
+  UpdateSceneHookCommand,
+  UpdateSharedScriptCommand,
+} from './script-editor.js'
 import { findSceneEntryReferences } from './script-references.js'
 import { buildBlankProject } from './seed.js'
 
@@ -495,98 +507,6 @@ describe('新场景继承稳定地图引用', () => {
   })
 })
 
-describe('N6 分片脚本命令 · 原子状态 + invert', () => {
-  const id = 'shared/user/demo-a1b2c3d4'
-
-  test('首次创建原子补 manifest/index/chunk，invert 恢复无脚本项目', () => {
-    const s0 = st()
-    s0.scriptChunks = {}
-    const cmd = new UpsertAuthoredScriptCommand(id, { name: '演示', self: 'none' }, [
-      { kind: 'wait', ms: 100 },
-    ])
-    const s1 = cmd.apply(s0)
-    expect(s1.manifest.content.scripts).toBe('content/scripts/')
-    expect(s1.scriptIndex?.library?.[id]?.name).toBe('演示')
-    expect(getScriptBody(s1.scriptIndex!, s1.scriptChunks, id)).toEqual([{ kind: 'wait', ms: 100 }])
-    expect(s0.scriptIndex).toBeUndefined()
-    const back = cmd.invert(s1)
-    expect(back.scriptIndex).toBeUndefined()
-    expect(back.scriptChunks).toEqual({})
-    expect(back.manifest.content?.scripts).toBeUndefined()
-  })
-
-  test('作者 body 更新统一归一化，invert 恢复旧体', () => {
-    const create = new UpsertAuthoredScriptCommand(id, { name: '演示', self: 'none' }, [
-      { kind: 'wait', ms: 100 },
-    ])
-    const s1 = create.apply(Object.assign(st(), { scriptChunks: {} }))
-    const update = new UpdateScriptBodyCommand(id, [{ kind: 'wait', ms: 200 }])
-    const s2 = update.apply(s1)
-    expect(getScriptBody(s2.scriptIndex!, s2.scriptChunks, id)).toEqual([{ kind: 'wait', ms: 200 }])
-    const back = update.invert(s2)
-    expect(getScriptBody(back.scriptIndex!, back.scriptChunks, id)).toEqual([
-      { kind: 'wait', ms: 100 },
-    ])
-  })
-
-  test('场景私有 body 原地更新，不登记为共享脚本，invert 恢复旧体', () => {
-    const authored = new UpsertAuthoredScriptCommand(id, { name: '演示', self: 'none' }, []).apply(
-      Object.assign(st(), { scriptChunks: {} }),
-    )
-    const internalId = 'scene/s/root/on-enter/stage-0'
-    const base: EditorState = {
-      ...authored,
-      scriptIndex: {
-        ...authored.scriptIndex!,
-        chunks: {
-          ...authored.scriptIndex!.chunks,
-          'scene/s': { path: 'chunks/scene/s.json', bytes: 0 },
-        },
-      },
-      scriptChunks: {
-        ...authored.scriptChunks,
-        'scene/s': {
-          version: 1,
-          id: 'scene/s',
-          scripts: { [internalId]: [{ kind: 'wait', ms: 100 }] },
-        },
-      },
-    }
-    const update = new UpdateScriptBodyCommand(internalId, [{ kind: 'wait', ms: 200 }])
-    const changed = update.apply(base)
-    expect(getScriptBody(changed.scriptIndex!, changed.scriptChunks, internalId)).toEqual([
-      { kind: 'wait', ms: 200 },
-    ])
-    expect(changed.scriptIndex?.library?.[internalId]).toBeUndefined()
-    const restored = update.invert(changed)
-    expect(getScriptBody(restored.scriptIndex!, restored.scriptChunks, internalId)).toEqual([
-      { kind: 'wait', ms: 100 },
-    ])
-  })
-
-  test('删除有调用方时阻止并列出来源；无引用时删除且可撤销', () => {
-    const create = new UpsertAuthoredScriptCommand(id, { name: '演示', self: 'none' }, [
-      { kind: 'wait', ms: 100 },
-    ])
-    const base = create.apply(Object.assign(st(), { scriptChunks: {} }))
-    const chunk = deriveScriptChunk(id, base.scriptIndex!.shards)!
-    const referenced: EditorState = {
-      ...base,
-      scenes: [
-        { ...base.scenes[0]!, onEnter: [{ body: [{ kind: 'callScript', ref: { chunk, id } }] }] },
-      ],
-    }
-    expect(() => new DeleteAuthoredScriptCommand(id).apply(referenced)).toThrow(/仍被 1 处引用/)
-
-    const remove = new DeleteAuthoredScriptCommand(id)
-    const deleted = remove.apply(base)
-    expect(deleted.scriptIndex?.library?.[id]).toBeUndefined()
-    expect(getScriptBody(deleted.scriptIndex!, deleted.scriptChunks, id)).toBeUndefined()
-    const restored = remove.invert(deleted)
-    expect(restored.scriptIndex?.library?.[id]?.name).toBe('演示')
-  })
-})
-
 describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
   const sp = (s: EditorState): SpriteDef => s.sprites[0]!
   const withSpriteRecord = (
@@ -728,77 +648,6 @@ describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
     const s2 = cmd.invert(s1)
     expect(s2.actors[0]!.name).toBe('name.li')
     expect(s2.actors[0]!.portraits).toEqual({ default: 'portrait.test.001' }) // 表情还原掉
-  })
-})
-
-describe('C-track v1 · UpdateScript(整 stages 替换 + invert)', () => {
-  const stg = (t: string): ScriptStage[] => [
-    { body: [{ kind: 'dialog', cue: { rows: [{ text: t }] } }] },
-  ]
-  function stScript(): EditorState {
-    const base = st()
-    const scene = base.scenes[0]! as { onEnter?: ScriptStage[]; entities: EntityDef[] }
-    scene.onEnter = stg('old')
-    scene.entities[0] = {
-      ...scene.entities[0]!,
-      pages: [{ auto: { stages: stg('auto-old') } }],
-    } as EntityDef
-    return base
-  }
-
-  test('onEnter:替换 → invert 还原;源 state 不变', () => {
-    const s0 = stScript()
-    const cmd = new UpdateScriptCommand('s', { kind: 'onEnter' }, stg('new'))
-    const s1 = cmd.apply(s0)
-    expect((s1.scenes[0] as { onEnter?: ScriptStage[] }).onEnter).toEqual(stg('new'))
-    expect((s0.scenes[0] as { onEnter?: ScriptStage[] }).onEnter).toEqual(stg('old'))
-    const s2 = cmd.invert(s1)
-    expect((s2.scenes[0] as { onEnter?: ScriptStage[] }).onEnter).toEqual(stg('old'))
-  })
-
-  test('实体 auto:替换 stages;旁实体同引用', () => {
-    const s0 = stScript()
-    const cmd = new UpdateScriptCommand('s', { kind: 'auto', entityId: 'a' }, stg('auto-new'))
-    const s1 = cmd.apply(s0)
-    const e0 = s1.scenes[0]!.entities[0]! as EntityDef
-    expect(e0.pages?.[0]?.auto?.stages).toEqual(stg('auto-new'))
-    expect(s1.scenes[0]!.entities[1]).toBe(s0.scenes[0]!.entities[1])
-    const s2 = cmd.invert(s1)
-    expect((s2.scenes[0]!.entities[0] as EntityDef).pages?.[0]?.auto?.stages).toEqual(
-      stg('auto-old'),
-    )
-  })
-
-  test('实体第 2 页脚本与触发方式只修改目标页，invert 原样还原', () => {
-    const s0 = stScript()
-    const entity = s0.scenes[0]!.entities[0]!
-    entity.pages = [
-      entity.pages![0]!,
-      {
-        state: 2,
-        trigger: { on: 'interact', range: 1, stages: stg('page-2-old') },
-      },
-    ]
-    const update = new UpdateScriptCommand(
-      's',
-      { kind: 'trigger', entityId: 'a', pageIndex: 1 },
-      stg('page-2-new'),
-    )
-    const s1 = update.apply(s0)
-    expect(ent0(s1).pages?.[0]?.auto?.stages).toEqual(stg('auto-old'))
-    expect(ent0(s1).pages?.[1]?.trigger?.stages).toEqual(stg('page-2-new'))
-
-    const mode = new UpdateTriggerModeCommand('s', 'a', 'touch', 3, 1)
-    const s2 = mode.apply(s1)
-    expect(ent0(s2).pages?.[1]?.trigger).toMatchObject({ on: 'touch', range: 3 })
-    expect(ent0(mode.invert(s2)).pages?.[1]?.trigger).toMatchObject({ on: 'interact', range: 1 })
-    expect(ent0(update.invert(s1)).pages?.[1]?.trigger?.stages).toEqual(stg('page-2-old'))
-  })
-
-  test('源不存在(实体无 trigger 页)= no-op', () => {
-    const s0 = stScript()
-    const cmd = new UpdateScriptCommand('s', { kind: 'trigger', entityId: 'b' }, stg('x'))
-    expect(cmd.apply(s0)).toBe(s0)
   })
 })
 
@@ -2431,58 +2280,6 @@ describe('C6 升级学技能命令(levelUp 表)', () => {
   })
 })
 
-describe('CreateScriptSourceCommand(断点 #5:空态创建)', () => {
-  test('onEnter:创建空段;invert 删键;已存在 no-op', () => {
-    const s0 = st()
-    const c = new CreateScriptSourceCommand('s', { kind: 'onEnter' })
-    const s1 = c.apply(s0)
-    expect(s1.scenes[0]!.onEnter).toEqual([{ body: [] }])
-    expect(s0.scenes[0]!.onEnter).toBeUndefined() // 源不变
-    expect('onEnter' in c.invert(s1).scenes[0]!).toBe(false)
-    // 已存在 → no-op
-    const c2 = new CreateScriptSourceCommand('s', { kind: 'onEnter' })
-    expect(c2.apply(s1)).toBe(s1)
-  })
-  test('trigger:无 pages 实体创建 pages[0].trigger(interact);invert 整 pages 删回', () => {
-    const s0 = st()
-    const c = new CreateScriptSourceCommand('s', { kind: 'trigger', entityId: 'a' })
-    const s1 = c.apply(s0)
-    expect(ent0(s1).pages?.[0]?.trigger).toEqual({ on: 'interact', stages: [{ body: [] }] })
-    expect(ent0(s0).pages).toBeUndefined()
-    expect(ent0(c.invert(s1)).pages).toBeUndefined() // 页空 → pages 键删回
-  })
-  test('auto:已有 trigger 的页上加 auto;invert 只删 auto 留 trigger', () => {
-    const s0 = st()
-    const s1 = new CreateScriptSourceCommand('s', { kind: 'trigger', entityId: 'a' }).apply(s0)
-    const c = new CreateScriptSourceCommand('s', { kind: 'auto', entityId: 'a' })
-    const s2 = c.apply(s1)
-    expect(ent0(s2).pages?.[0]?.auto).toEqual({ stages: [{ body: [] }] })
-    expect(ent0(s2).pages?.[0]?.trigger).toBeTruthy()
-    const back = c.invert(s2)
-    expect(ent0(back).pages?.[0]?.auto).toBeUndefined()
-    expect(ent0(back).pages?.[0]?.trigger).toBeTruthy()
-  })
-  test('指定页创建脚本，undo 精确保留动作页和空的中间页', () => {
-    const s0 = st()
-    ent0(s0).pages = [
-      {
-        animation: { sprite: 'ghost', action: 'idle', loop: true },
-      },
-      {},
-      { state: 2 },
-    ]
-    const before = structuredClone(ent0(s0).pages)
-    const c = new CreateScriptSourceCommand('s', {
-      kind: 'auto',
-      entityId: 'a',
-      pageIndex: 1,
-    })
-    const s1 = c.apply(s0)
-    expect(ent0(s1).pages?.[1]?.auto).toEqual({ stages: [{ body: [] }] })
-    expect(ent0(c.invert(s1)).pages).toEqual(before)
-  })
-})
-
 describe('CreateProjectMapCommand', () => {
   const stMap = (): EditorState =>
     ({
@@ -3036,5 +2833,441 @@ describe('X7 manifest 命令', () => {
           entryPoints: [{ id: 'x', label: 'x', scene: 's' } as never],
         }),
     ).toThrow(/startWorld/)
+  })
+})
+
+describe('current canonical script command lifecycle boundaries', () => {
+  const target = { scene: 'canonical-scene', entity: 'owner' }
+  function flow(id: string, body: AuthorCommand[] = []): AuthorScriptFlow {
+    return { kind: 'stages', initial: id, stages: [{ id, body }] }
+  }
+  function canonicalState(): ScriptEditorState {
+    const entity: AuthorSceneDef['entities'][number] = {
+      id: target.entity,
+      sprite: 'npc',
+      pos: { col: 1, row: 1, height: 0 },
+      initialPage: 'day',
+      pages: [
+        {
+          id: 'night',
+          label: '夜间',
+          trigger: 'night-talk',
+          triggerActivation: { on: 'touch', range: 0 },
+        },
+        {
+          id: 'day',
+          label: '白天',
+          trigger: 'talk',
+          triggerActivation: { on: 'interact', range: 1 },
+        },
+      ],
+      behaviors: {
+        trigger: {
+          talk: { label: '交谈', order: 0, flow: flow('talk-step') },
+          'night-talk': { label: '夜间交谈', order: 1, flow: flow('night-step') },
+          idle: { label: '等待交互', order: 2, flow: flow('trigger-idle') },
+        },
+        auto: {
+          idle: { label: '等待', order: 0, flow: flow('idle-step', [{ kind: 'wait', ms: 10 }]) },
+        },
+      },
+    }
+    const scene: AuthorSceneDef = {
+      id: target.scene,
+      mapId: 'canonical-map',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [entity, { ...structuredClone(entity), id: 'peer' }],
+      hooks: {
+        onEnter: {
+          initial: 'enter',
+          variants: { enter: { label: '进场', order: 0, flow: flow('enter-step') } },
+        },
+        onTeleport: {
+          initial: 'return',
+          variants: { return: { label: '返回', order: 0, flow: flow('return-step') } },
+        },
+      },
+    }
+    return {
+      scenes: [scene, { ...structuredClone(scene), id: 'other-scene' }],
+      items: [],
+      sharedScripts: {
+        'shared/utility': { name: '共用等待', self: 'none', body: [{ kind: 'wait', ms: 10 }] },
+      },
+    }
+  }
+  const currentScene = (state: ScriptEditorState) =>
+    state.scenes.find((scene) => scene.id === target.scene)!
+  const currentEntity = (state: ScriptEditorState) =>
+    currentScene(state).entities.find((entity) => entity.id === target.entity)!
+  const currentPage = (state: ScriptEditorState, id: string) =>
+    currentEntity(state).pages!.find((page) => page.id === id)!
+  const currentSharedReferences = (state: ScriptEditorState) => {
+    const visits = collectCanonicalScriptCommandVisits(state)
+    return createProjectReferenceIndex(
+      buildProjectReferenceSnapshot(
+        sharedScriptReferenceEdges(
+          collectCanonicalSharedScriptReferencesFromVisits(state, visits),
+          state,
+        ),
+      ),
+    )
+  }
+
+  test('creates the first shared script from an empty library and isolates its payload across undo/redo', () => {
+    const initial = canonicalState()
+    initial.sharedScripts = {}
+    const session = new ScriptEditSession(initial)
+    const before = session.getStateSnapshot()
+    const value = {
+      name: '新增等待',
+      self: 'none' as const,
+      body: [{ kind: 'wait', ms: 100 }] as AuthorCommand[],
+    }
+    session.dispatch(new AddSharedScriptCommand('shared/new', value))
+    const committed = session.getState()
+    value.name = '外部改变'
+    value.body.push({ kind: 'wait', ms: 999 })
+    expect(session.getState()).toEqual(committed)
+    expect(before.sharedScripts).toEqual({})
+    expect(initial.sharedScripts).toEqual({})
+    expect(session.undo()).toBe(true)
+    expect(session.getState()).toEqual(initial)
+    expect(session.canUndo()).toBe(false)
+    expect(session.redo()).toBe(true)
+    expect(session.getState()).toEqual(committed)
+  })
+
+  test('rejects a broken shared-script update without clearing the existing redo branch', () => {
+    const session = new ScriptEditSession(canonicalState())
+    session.dispatch(
+      new UpdateSharedScriptCommand('shared/utility', { body: [{ kind: 'wait', ms: 20 }] }),
+    )
+    session.undo()
+    session.markSaved()
+    const before = session.getStateSnapshot()
+    const version = session.getVersion()
+    const history = session.getHistoryVersion()
+    const notify = vi.fn()
+    session.subscribe(notify)
+    expect(() =>
+      session.dispatch(
+        new UpdateSharedScriptCommand('shared/utility', {
+          body: [{ kind: 'callScript', script: 'shared/missing' }],
+        }),
+      ),
+    ).toThrow(/不在当前脚本库/)
+    expect(session.getStateSnapshot()).toBe(before)
+    expect(session.getVersion()).toBe(version)
+    expect(session.getHistoryVersion()).toBe(history)
+    expect(session.isDirty()).toBe(false)
+    expect(session.canRedo()).toBe(true)
+    expect(notify).not.toHaveBeenCalled()
+    expect(session.redo()).toBe(true)
+    expect(session.getState().sharedScripts['shared/utility']!.body).toEqual([
+      { kind: 'wait', ms: 20 },
+    ])
+    expect(notify).toHaveBeenCalledOnce()
+  })
+
+  test('updates one private auto flow despite identical behavior ids in another channel, entity and scene', () => {
+    const initial = canonicalState()
+    const session = new ScriptEditSession(initial)
+    const before = session.getStateSnapshot()
+    const replacement = flow('auto-replacement', [{ kind: 'wait', ms: 200 }])
+    session.dispatch(new UpdateEntityBehaviorCommand(target, 'auto', 'idle', { flow: replacement }))
+    const after = session.getState()
+    expect(currentEntity(after).behaviors!.auto!.idle).toEqual({
+      label: '等待',
+      order: 0,
+      flow: replacement,
+    })
+    expect(currentEntity(after).behaviors!.trigger).toEqual(
+      currentEntity(initial).behaviors!.trigger,
+    )
+    expect(currentScene(after).entities[1]).toEqual(currentScene(initial).entities[1])
+    expect(after.scenes[1]).toEqual(initial.scenes[1])
+    expect(after.sharedScripts).toEqual(initial.sharedScripts)
+    expect(before).toEqual(initial)
+    session.undo()
+    expect(session.getState()).toEqual(initial)
+    session.redo()
+    expect(session.getState()).toEqual(after)
+  })
+
+  test('shared deletion waits for both a nested hook caller and an automatic behavior caller to be removed', () => {
+    const initial = canonicalState()
+    currentScene(initial).hooks!.onEnter!.variants.enter!.flow = flow('entry-call', [
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'ready', is: true },
+        then: [{ kind: 'callScript', script: 'shared/utility' }],
+      },
+    ])
+    currentEntity(initial).behaviors!.auto!.idle!.flow = flow('auto-call', [
+      { kind: 'callScript', script: 'shared/utility' },
+    ])
+    const session = new ScriptEditSession(initial)
+    const before = session.getStateSnapshot()
+    expect(() =>
+      session.dispatch(new DeleteSharedScriptCommand('shared/utility', currentSharedReferences)),
+    ).toThrow(/仍有 2 个引用/)
+    expect(session.getStateSnapshot()).toBe(before)
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(session.isDirty()).toBe(false)
+    session.dispatch(
+      new UpdateSceneHookCommand(target.scene, 'onEnter', 'enter', { flow: flow('entry-call') }),
+    )
+    expect(() =>
+      session.dispatch(new DeleteSharedScriptCommand('shared/utility', currentSharedReferences)),
+    ).toThrow(/仍有 1 个引用/)
+    expect(session.getHistoryVersion()).toBe(1)
+    session.dispatch(
+      new UpdateEntityBehaviorCommand(target, 'auto', 'idle', { flow: flow('auto-call') }),
+    )
+    const detached = session.getState()
+    session.dispatch(new DeleteSharedScriptCommand('shared/utility', currentSharedReferences))
+    expect(session.getState().sharedScripts).toEqual({})
+    session.undo()
+    expect(session.getState()).toEqual(detached)
+    session.redo()
+    expect(session.getState().sharedScripts).toEqual({})
+    expect(before).toEqual(initial)
+  })
+
+  test('replaces a multi-step entry hook while preserving stable step ids, the teleport hook and default selection', () => {
+    const initial = canonicalState()
+    const session = new ScriptEditSession(initial)
+    const replacement: AuthorScriptFlow = {
+      kind: 'stages',
+      initial: 'arrive',
+      stages: [
+        { id: 'arrive', body: [{ kind: 'wait', ms: 10 }] },
+        { id: 'greet', body: [{ kind: 'wait', ms: 20 }] },
+      ],
+    }
+    session.dispatch(
+      new UpdateSceneHookCommand(target.scene, 'onEnter', 'enter', { flow: replacement }),
+    )
+    const after = session.getState()
+    expect(currentScene(after).hooks!.onEnter).toEqual({
+      initial: 'enter',
+      variants: { enter: { label: '进场', order: 0, flow: replacement } },
+    })
+    expect(currentScene(after).hooks!.onTeleport).toEqual(currentScene(initial).hooks!.onTeleport)
+    expect(currentScene(after).entities).toEqual(currentScene(initial).entities)
+    expect(after.scenes[1]).toEqual(initial.scenes[1])
+    replacement.stages[0]!.body.push({ kind: 'wait', ms: 999 })
+    expect(session.getState()).toEqual(after)
+    session.undo()
+    expect(session.getState()).toEqual(initial)
+    session.redo()
+    expect(session.getState()).toEqual(after)
+  })
+
+  test('invalid automatic-flow entry rejects atomically and a later valid body edit remains independently undoable', () => {
+    const initial = canonicalState()
+    const session = new ScriptEditSession(initial)
+    const before = session.getStateSnapshot()
+    const notify = vi.fn()
+    session.subscribe(notify)
+    const invalid: AuthorScriptFlow = {
+      kind: 'stages',
+      initial: 'absent',
+      stages: [{ id: 'actual', body: [] }],
+    }
+    expect(() =>
+      session.dispatch(new UpdateEntityBehaviorCommand(target, 'auto', 'idle', { flow: invalid })),
+    ).toThrow(/initial/)
+    expect(session.getStateSnapshot()).toBe(before)
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(session.canUndo()).toBe(false)
+    expect(notify).not.toHaveBeenCalled()
+    const replacement = flow('actual', [{ kind: 'wait', ms: 123 }])
+    session.dispatch(new UpdateEntityBehaviorCommand(target, 'auto', 'idle', { flow: replacement }))
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(currentEntity(session.getState()).behaviors!.auto!.idle).toEqual({
+      label: '等待',
+      order: 0,
+      flow: replacement,
+    })
+    session.undo()
+    expect(session.getState()).toEqual(initial)
+    expect(session.canUndo()).toBe(false)
+    session.redo()
+    expect(currentEntity(session.getState()).behaviors!.auto!.idle!.flow).toEqual(replacement)
+  })
+
+  test('page behavior and activation edits address the stable second page while preserving sibling pages and entities', () => {
+    const initial = canonicalState()
+    const session = new ScriptEditSession(initial)
+    session.dispatch(new SetEntityPageBehaviorCommand(target, 'day', 'auto', 'idle'))
+    session.dispatch(
+      new SetEntityPageTriggerActivationCommand(target, 'day', { on: 'touch', range: 3 }),
+    )
+    const after = session.getState()
+    expect(currentEntity(after).pages!.map((page) => page.id)).toEqual(['night', 'day'])
+    expect(currentEntity(after).initialPage).toBe('day')
+    expect(currentPage(after, 'day')).toMatchObject({
+      auto: 'idle',
+      trigger: 'talk',
+      triggerActivation: { on: 'touch', range: 3 },
+    })
+    expect(currentPage(after, 'night')).toEqual(currentPage(initial, 'night'))
+    expect(currentScene(after).entities[1]).toEqual(currentScene(initial).entities[1])
+    session.undo()
+    expect(currentPage(session.getState(), 'day')).toMatchObject({
+      auto: 'idle',
+      triggerActivation: { on: 'interact', range: 1 },
+    })
+    session.undo()
+    expect(session.getState()).toEqual(initial)
+    session.redo()
+    session.redo()
+    expect(session.getState()).toEqual(after)
+  })
+
+  test('missing canonical edit targets reject without implicit creation, dirty state or history notifications', () => {
+    const session = new ScriptEditSession(canonicalState())
+    const before = session.getStateSnapshot()
+    const notify = vi.fn()
+    session.subscribe(notify)
+    const missing = [
+      new UpdateSharedScriptCommand('shared/absent', { body: [] }),
+      new UpdateSceneHookCommand('absent-scene', 'onEnter', 'enter', { label: '不存在的场景' }),
+      new UpdateSceneHookCommand(target.scene, 'onEnter', 'absent-hook', { label: '不存在的方案' }),
+      new UpdateEntityBehaviorCommand({ ...target, entity: 'absent-entity' }, 'auto', 'idle', {
+        label: '不存在的实体',
+      }),
+      new UpdateEntityBehaviorCommand(target, 'auto', 'absent-behavior', { label: '不存在的行为' }),
+      new SetEntityPageBehaviorCommand(target, 'absent-page', 'auto', 'idle'),
+    ]
+    for (const command of missing) {
+      expect(() => session.dispatch(command)).toThrow(/不存在/)
+      expect(session.getStateSnapshot()).toBe(before)
+      expect(session.getHistoryVersion()).toBe(0)
+      expect(session.getVersion()).toBe(0)
+    }
+    expect(session.isDirty()).toBe(false)
+    expect(session.canUndo()).toBe(false)
+    expect(notify).not.toHaveBeenCalled()
+  })
+
+  test('first hook creation owns only its slot and duplicate rejection does not consume either undo unit', () => {
+    const initial = canonicalState()
+    delete currentScene(initial).hooks
+    const session = new ScriptEditSession(initial)
+    const hook = { label: '返回', order: 99, flow: flow('return-step') }
+    session.dispatch(new AddSceneHookCommand(target.scene, 'onTeleport', 'return', hook))
+    const first = session.getState()
+    expect(currentScene(first).hooks).toEqual({
+      onTeleport: { initial: 'return', variants: { return: { ...hook, order: 0 } } },
+    })
+    expect(() =>
+      session.dispatch(
+        new AddSceneHookCommand(target.scene, 'onTeleport', 'return', { ...hook, label: '不覆盖' }),
+      ),
+    ).toThrow(/HookId 已存在/)
+    expect(session.getState()).toEqual(first)
+    expect(session.getHistoryVersion()).toBe(1)
+    session.dispatch(
+      new AddSceneHookCommand(target.scene, 'onEnter', 'enter', {
+        label: '进场',
+        order: 99,
+        flow: flow('enter-step'),
+      }),
+    )
+    const both = session.getState()
+    session.undo()
+    expect(session.getState()).toEqual(first)
+    session.undo()
+    expect(session.getState()).toEqual(initial)
+    expect(currentScene(session.getState()).hooks).toBeUndefined()
+    expect(session.canUndo()).toBe(false)
+    session.redo()
+    session.redo()
+    expect(session.getState()).toEqual(both)
+  })
+
+  test('creating a first named trigger on an unpaged entity never invents a page or silently binds one', () => {
+    const initial = canonicalState()
+    const empty = currentEntity(initial)
+    delete empty.pages
+    delete empty.initialPage
+    delete empty.behaviors
+    const session = new ScriptEditSession(initial)
+    session.dispatch(
+      new AddEntityBehaviorCommand(target, 'trigger', 'first', {
+        label: '首个交互',
+        order: 99,
+        flow: flow('first-step'),
+      }),
+    )
+    const after = session.getState()
+    expect(currentEntity(after).pages).toBeUndefined()
+    expect(currentEntity(after).initialPage).toBeUndefined()
+    expect(currentEntity(after).behaviors!.trigger!.first!.order).toBe(0)
+    expect(() =>
+      session.dispatch(new SetEntityPageBehaviorCommand(target, 'day', 'trigger', 'first')),
+    ).toThrow(/实体页不存在/)
+    expect(session.getState()).toEqual(after)
+    expect(session.getHistoryVersion()).toBe(1)
+    session.undo()
+    expect(session.getState()).toEqual(initial)
+    session.redo()
+    expect(session.getState()).toEqual(after)
+  })
+
+  test('adding and binding an automatic behavior keeps the existing trigger, animation page and neighboring empty page', () => {
+    const initial = canonicalState()
+    currentPage(initial, 'night').animation = { sprite: 'npc', action: 'idle', loop: true }
+    currentEntity(initial).pages!.splice(1, 0, { id: 'spare', label: '备用空页' })
+    const session = new ScriptEditSession(initial)
+    session.dispatch(
+      new AddEntityBehaviorCommand(target, 'auto', 'walk', {
+        label: '巡视',
+        order: 99,
+        flow: flow('walk-step'),
+      }),
+    )
+    const added = session.getState()
+    session.dispatch(new SetEntityPageBehaviorCommand(target, 'day', 'auto', 'walk'))
+    const bound = session.getState()
+    expect(currentEntity(bound).pages!.map((page) => page.id)).toEqual(['night', 'spare', 'day'])
+    expect(currentPage(bound, 'day').trigger).toBe('talk')
+    expect(currentPage(bound, 'day').auto).toBe('walk')
+    expect(currentPage(bound, 'night')).toEqual(currentPage(initial, 'night'))
+    expect(currentPage(bound, 'spare')).toEqual(currentPage(initial, 'spare'))
+    expect(currentEntity(bound).behaviors!.trigger).toEqual(
+      currentEntity(initial).behaviors!.trigger,
+    )
+    expect(currentEntity(bound).behaviors!.auto!.idle).toEqual(
+      currentEntity(initial).behaviors!.auto!.idle,
+    )
+    expect(currentEntity(bound).behaviors!.auto!.walk!.order).toBe(1)
+    session.undo()
+    expect(session.getState()).toEqual(added)
+    session.undo()
+    expect(session.getState()).toEqual(initial)
+    session.redo()
+    session.redo()
+    expect(session.getState()).toEqual(bound)
+  })
+
+  test('clearing one stable page activation removes only that field and restores a zero-range sibling exactly', () => {
+    const initial = canonicalState()
+    const session = new ScriptEditSession(initial)
+    session.dispatch(new SetEntityPageTriggerActivationCommand(target, 'day', undefined))
+    const cleared = session.getState()
+    expect(currentPage(cleared, 'day')).not.toHaveProperty('triggerActivation')
+    expect(currentPage(cleared, 'day').trigger).toBe('talk')
+    expect(currentPage(cleared, 'night').triggerActivation).toEqual({ on: 'touch', range: 0 })
+    expect(currentEntity(cleared).behaviors).toEqual(currentEntity(initial).behaviors)
+    expect(currentScene(cleared).entities[1]).toEqual(currentScene(initial).entities[1])
+    expect(currentEntity(cleared).initialPage).toBe('day')
+    session.undo()
+    expect(session.getState()).toEqual(initial)
+    session.redo()
+    expect(session.getState()).toEqual(cleared)
   })
 })

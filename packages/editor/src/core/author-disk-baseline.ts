@@ -199,7 +199,7 @@ export function authorDiskMutation(baseline: AuthorDiskBaseline, dir: FileSystem
     },
     verify: () => verifySignatures(source, expected),
     async wrote(path: string, value: unknown) {
-      // Match writeFile's exact on-disk encoding; no late reread may turn outside edits into evidence.
+      // Match the writer's exact on-disk encoding; never adopt outside edits through a late reread.
       const blob =
         value instanceof Blob
           ? value

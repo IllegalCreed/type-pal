@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-12T15:18:27.865Z",
+  "generatedAt": "2026-09-12T17:28:01.533Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 618,
+  "sourceFileCount": 613,
   "testCount": 6385,
   "packages": {
     "shared": {
@@ -2580,7 +2580,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 220,
+      "sourceFileCount": 215,
       "sourceFiles": [
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
@@ -2641,16 +2641,12 @@
         "packages/editor/src/core/project-read-lock.ts",
         "packages/editor/src/core/project-reference-adapters.ts",
         "packages/editor/src/core/project-reference.ts",
-        "packages/editor/src/core/scene-script-view.ts",
-        "packages/editor/src/core/script-context.ts",
-        "packages/editor/src/core/script-edit.ts",
         "packages/editor/src/core/script-editor-projection.ts",
         "packages/editor/src/core/script-editor.ts",
         "packages/editor/src/core/script-reference-catalog.ts",
         "packages/editor/src/core/script-references.ts",
         "packages/editor/src/core/seed-assets.ts",
         "packages/editor/src/core/seed.ts",
-        "packages/editor/src/core/shared-script.ts",
         "packages/editor/src/core/sprite-actions.ts",
         "packages/editor/src/core/sprite-assets.ts",
         "packages/editor/src/core/stamp-commands.ts",
@@ -2739,7 +2735,6 @@
         "packages/editor/src/ui/SceneCanvas.tsx",
         "packages/editor/src/ui/SceneScriptWorkspace.tsx",
         "packages/editor/src/ui/ScriptBehaviorInspector.tsx",
-        "packages/editor/src/ui/ScriptDrawer.tsx",
         "packages/editor/src/ui/ScriptEditor.tsx",
         "packages/editor/src/ui/ScriptSceneHookInspector.tsx",
         "packages/editor/src/ui/ScriptTree.tsx",
@@ -2803,10 +2798,10 @@
         "packages/editor/src/ui/stamp-placement-selection-overlay.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "2ea0828d93df83523f4fa04e94099267380f593c72fede27cf7d584bf77c0561",
+      "scopeDigest": "c1afcebc42481e3872ab9af692b8c6764930f6463b91348f095e16aed39a9519",
       "fastTests": {
         "testCount": 2146,
-        "testFileCount": 207,
+        "testFileCount": 205,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2878,15 +2873,11 @@
           "packages/editor/src/core/save-preflight-boundaries.test.ts",
           "packages/editor/src/core/save-readback-boundaries.test.ts",
           "packages/editor/src/core/scene-lifecycle.test.ts",
-          "packages/editor/src/core/scene-script-view.test.ts",
-          "packages/editor/src/core/script-context.test.ts",
-          "packages/editor/src/core/script-edit.test.ts",
           "packages/editor/src/core/script-editor-projection.test.ts",
           "packages/editor/src/core/script-editor.test.ts",
           "packages/editor/src/core/script-reference-catalog.test.ts",
           "packages/editor/src/core/script-references.test.ts",
           "packages/editor/src/core/seed.test.ts",
-          "packages/editor/src/core/shared-script.test.ts",
           "packages/editor/src/core/shop-lifecycle.test.ts",
           "packages/editor/src/core/sprite-actions.test.ts",
           "packages/editor/src/core/sprite-reference-commands.test.ts",
@@ -2906,6 +2897,7 @@
           "packages/editor/src/core/video-metadata.test.ts",
           "packages/editor/src/core/workspace-capability-lifecycle.test.ts",
           "packages/editor/src/core/workspace-context-boundaries.test.ts",
+          "packages/editor/src/core/workspace-final-boundaries.test.ts",
           "packages/editor/src/core/workspace-local-record.test.ts",
           "packages/editor/src/core/workspace-open-identity.test.ts",
           "packages/editor/src/core/workspace-persistence.test.ts",
@@ -2957,17 +2949,18 @@
           "packages/editor/src/ui/MusicPicker.test.tsx",
           "packages/editor/src/ui/MusicTab.test.tsx",
           "packages/editor/src/ui/NamedIdPicker.test.tsx",
+          "packages/editor/src/ui/PanelResizeHandle-interaction.test.tsx",
           "packages/editor/src/ui/PanelResizeHandle.test.ts",
           "packages/editor/src/ui/PoisonTab.test.tsx",
           "packages/editor/src/ui/PortraitEditor.test.tsx",
           "packages/editor/src/ui/PreviewCanvas.test.tsx",
           "packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx",
+          "packages/editor/src/ui/ProjectPicker-recovery.test.tsx",
           "packages/editor/src/ui/ProjectSaveDialog.test.tsx",
           "packages/editor/src/ui/ProjectWorkbenchTab.test.tsx",
           "packages/editor/src/ui/SceneCanvas.test.tsx",
           "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
           "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
-          "packages/editor/src/ui/ScriptDrawer.test.tsx",
           "packages/editor/src/ui/ScriptEditor.test.tsx",
           "packages/editor/src/ui/ScriptSceneHookInspector.test.tsx",
           "packages/editor/src/ui/ScriptTree.test.ts",
@@ -3100,7 +3093,7 @@
           {
             "file": "packages/editor/src/core/commands.test.ts",
             "testCount": 114,
-            "identityDigest": "ee1a57f14690de5db0c43c6fc36fde974e6e360dae51f7e363e7722341048a55"
+            "identityDigest": "9f5e573e15a7f5586ce8cb173a5ca50222765f22cd19077c640536f57a8756f6"
           },
           {
             "file": "packages/editor/src/core/edit-session.test.ts",
@@ -3159,8 +3152,8 @@
           },
           {
             "file": "packages/editor/src/core/fsa-copy.test.ts",
-            "testCount": 6,
-            "identityDigest": "1d46961e6d81558fe661f25bc0ab3291284705847109d70f0269616954299a7d"
+            "testCount": 10,
+            "identityDigest": "2253ccc38a1a50def69e324bf0303a91dfd1ea5692c0a4b557700275b689d02b"
           },
           {
             "file": "packages/editor/src/core/handle-store-capability.test.ts",
@@ -3310,7 +3303,7 @@
           {
             "file": "packages/editor/src/core/project-serialization-boundaries.test.ts",
             "testCount": 6,
-            "identityDigest": "9807c933e6e7165075514176784ef2de74b7cfd2d92c3f2bd05f984079977f6b"
+            "identityDigest": "8950f71a6cbdb21e43f722d7d39608a85019f19189ca22b2955e56f2c12b16ab"
           },
           {
             "file": "packages/editor/src/core/project-transfer-validation.test.ts",
@@ -3368,21 +3361,6 @@
             "identityDigest": "03f52443f9c85c5d64631fc266ffb9f12be5b83c687e334f44e470df987ce85b"
           },
           {
-            "file": "packages/editor/src/core/scene-script-view.test.ts",
-            "testCount": 4,
-            "identityDigest": "53e8e98c350a12339d12190574c4be6cfdfebc90fe8ef80ec124d41c01572213"
-          },
-          {
-            "file": "packages/editor/src/core/script-context.test.ts",
-            "testCount": 2,
-            "identityDigest": "a7b0ffd0d03952b8c61e99656f668d9066f1e4308be894421313369f6eeda17c"
-          },
-          {
-            "file": "packages/editor/src/core/script-edit.test.ts",
-            "testCount": 14,
-            "identityDigest": "8f2ec4631772115c2d79a3935786420ef5bd6c3ea38f52cb52b640a4e73a1966"
-          },
-          {
             "file": "packages/editor/src/core/script-editor-projection.test.ts",
             "testCount": 4,
             "identityDigest": "39cef21a60ca005e0b2c38858675b037fe0476fa24b0f6f861674a4c8d1a487b"
@@ -3406,11 +3384,6 @@
             "file": "packages/editor/src/core/seed.test.ts",
             "testCount": 9,
             "identityDigest": "367b1a477246bf62e27ce53363ffa42747ed7b74ab62926f0ee18578959a4108"
-          },
-          {
-            "file": "packages/editor/src/core/shared-script.test.ts",
-            "testCount": 2,
-            "identityDigest": "951d411767f92da4ed33d3c179c09a9cb131bdb619d6ddab154502db67565a6b"
           },
           {
             "file": "packages/editor/src/core/shop-lifecycle.test.ts",
@@ -3508,6 +3481,11 @@
             "identityDigest": "a7eee4469efe09fbf7b7535f8cab3f6357cd04638874ac64dfef587f447f902b"
           },
           {
+            "file": "packages/editor/src/core/workspace-final-boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "b099cf9effb392941c5e54316af40849086ba27fdcdebacf5c6d036e84ee8d3d"
+          },
+          {
             "file": "packages/editor/src/core/workspace-local-record.test.ts",
             "testCount": 11,
             "identityDigest": "d70368d211f60ca766fb5d592911c605acbdf6de69b30f68b024bc3ba15a556a"
@@ -3520,7 +3498,7 @@
           {
             "file": "packages/editor/src/core/workspace-persistence.test.ts",
             "testCount": 31,
-            "identityDigest": "d369488d15845732becf96a4c78ed2499e878869ed7355e45439104c7031732b"
+            "identityDigest": "574213fbc936c4b3d2a2f060a77d7b1111c291d525944965bc450e6156bbcb37"
           },
           {
             "file": "packages/editor/src/core/workspace-save-admission.test.ts",
@@ -3763,6 +3741,11 @@
             "identityDigest": "ad7492f733296797ab5038b53e8efbaa28a854eab08a1af2354e9e2b1e27acd9"
           },
           {
+            "file": "packages/editor/src/ui/PanelResizeHandle-interaction.test.tsx",
+            "testCount": 9,
+            "identityDigest": "05c9a71bc5ee0cff5d3b3c7424322c53e1e982ee37e08ef86ab0ec2236f6bc58"
+          },
+          {
             "file": "packages/editor/src/ui/PanelResizeHandle.test.ts",
             "testCount": 2,
             "identityDigest": "a8e1184fbaa8ae65d600e6cb41b2fd87fc4088d62f099d03185d914612c61203"
@@ -3786,6 +3769,11 @@
             "file": "packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx",
             "testCount": 4,
             "identityDigest": "1b6ab70a095600931ec952778c8edd18c0829f25707c2d7562428e4154534e65"
+          },
+          {
+            "file": "packages/editor/src/ui/ProjectPicker-recovery.test.tsx",
+            "testCount": 5,
+            "identityDigest": "b25dee0651d6f0ff7f1d15dc1b4501d0192198387e51c97a5ea60e15384b9e98"
           },
           {
             "file": "packages/editor/src/ui/ProjectSaveDialog.test.tsx",
@@ -3813,14 +3801,9 @@
             "identityDigest": "35527a173d5356c12b29b2e31ec29e3d505a15fdaa01ea1f632c0be55b0cc2e0"
           },
           {
-            "file": "packages/editor/src/ui/ScriptDrawer.test.tsx",
-            "testCount": 4,
-            "identityDigest": "31c10a2042abdb192eba0f69aa287d0767ddab5835815e2d7406d43f58bd5320"
-          },
-          {
             "file": "packages/editor/src/ui/ScriptEditor.test.tsx",
-            "testCount": 23,
-            "identityDigest": "70ad48aa6f55f5a5aaadc5d41260c2415c8d69c50bf799daa448f0b9d0254d71"
+            "testCount": 24,
+            "identityDigest": "38c307d82ddacaf66f54fe74fe858f50cd3a01a29224f90d819ffca7d67dab73"
           },
           {
             "file": "packages/editor/src/ui/ScriptSceneHookInspector.test.tsx",
@@ -3829,8 +3812,8 @@
           },
           {
             "file": "packages/editor/src/ui/ScriptTree.test.ts",
-            "testCount": 4,
-            "identityDigest": "14d88699bd404836f1fed8349548a5185b93d5ca6c7eb888b98cba6fcb2c612e"
+            "testCount": 5,
+            "identityDigest": "59381d0f7ce1fe6b3e2227e3da55fde9778abe35715115244bb51da3ae43a326"
           },
           {
             "file": "packages/editor/src/ui/SharedScriptTab.test.tsx",
@@ -4053,46 +4036,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "376a88edf7df66b319ec397c3911f1ffa27bb0e97c4412a0d1de6eaf785113f5",
+        "identityDigest": "6dfde691176be7ef7f5576b21a734c495d751c94a61bf22fd237c754abf235af",
         "duplicateIdentityCount": 8,
-        "executionDigest": "213a4e3244298b7a4de87882ea9fd7e40d9183f54139a679b9746aab246f3668"
+        "executionDigest": "f062bcb8a73800daf78a138ed1db0838ae423abd8fb7c55b3d1a804567844d91"
       },
       "metrics": {
         "statements": {
-          "covered": 24793,
-          "total": 32521
+          "covered": 24199,
+          "total": 31537
         },
         "branches": {
-          "covered": 19170,
-          "total": 28140
+          "covered": 18701,
+          "total": 27252
         },
         "functions": {
-          "covered": 6132,
-          "total": 8221
+          "covered": 6000,
+          "total": 7996
         },
         "lines": {
-          "covered": 22374,
-          "total": 28398
+          "covered": 21829,
+          "total": 27580
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 53677,
-      "total": 79533
+      "covered": 53083,
+      "total": 78549
     },
     "branches": {
-      "covered": 38474,
-      "total": 62521
+      "covered": 38005,
+      "total": 61633
     },
     "functions": {
-      "covered": 10165,
-      "total": 14622
+      "covered": 10033,
+      "total": 14397
     },
     "lines": {
-      "covered": 48480,
-      "total": 69581
+      "covered": 47935,
+      "total": 68763
     }
   }
 }

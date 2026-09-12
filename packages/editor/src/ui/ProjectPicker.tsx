@@ -50,25 +50,35 @@ export function ProjectPicker(props: {
   }, [])
 
   const pickerAvailability = currentDirectoryPickerAvailability()
-  const run = (label: string, action: () => Promise<Opened | null>) => async (): Promise<void> => {
-    setError('')
-    setBusy(label)
-    try {
-      const opened = await action()
-      if (opened) onOpened(opened)
-    } catch (reason) {
-      setError(reason instanceof Error ? reason.message : String(reason))
-    } finally {
-      setBusy('')
-      setProgress(null)
+  const run =
+    (label: string, action: (onRecovering: () => void) => Promise<Opened | null>) =>
+    async (): Promise<void> => {
+      let recovering = false
+      setError('')
+      setBusy(label)
+      try {
+        const opened = await action(() => {
+          recovering = true
+          setBusy('正在完成上次保存')
+        })
+        if (opened) onOpened(opened)
+      } catch (reason) {
+        setError(
+          recovering && reason instanceof DOMException && reason.name === 'NotAllowedError'
+            ? '目录访问权限已失效。请重新授权后打开原文件夹，确认保存结果或继续恢复。'
+            : reason instanceof Error
+              ? reason.message
+              : String(reason),
+        )
+      } finally {
+        setBusy('')
+        setProgress(null)
+      }
     }
-  }
 
-  const openProject = run('打开项目', async () => {
+  const openProject = run('打开项目', async (onRecovering) => {
     const dir = await pickDir()
-    return dir
-      ? finishOpen(dir, { forceSandbox, onRecovering: () => setBusy('正在完成上次保存') })
-      : null
+    return dir ? finishOpen(dir, { forceSandbox, onRecovering }) : null
   })
   // Creation commands always produce a new, explicitly selected local workspace. forceSandbox
   // only prevents an existing PAL/local directory from lending its write authority to ui_samples.
@@ -77,7 +87,7 @@ export function ProjectPicker(props: {
   )
   const createBlank = run('创建空白项目', newBlankProject)
   const openRecent = (workspaceId: string): void => {
-    void run('打开最近项目', async () => {
+    void run('打开最近项目', async (onRecovering) => {
       const record = await loadWorkspaceRecord(workspaceId)
       if (!record) throw new Error('句柄已失效，请使用「打开项目」重新选择文件夹。')
       const permission = await ensurePermission(record.handle, { withRequest: true })
@@ -85,7 +95,7 @@ export function ProjectPicker(props: {
       return finishOpen(record.handle, {
         expectedIdentity: record,
         forceSandbox,
-        onRecovering: () => setBusy('正在完成上次保存'),
+        onRecovering,
       })
     })()
   }

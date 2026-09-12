@@ -1,291 +1,322 @@
-import { describe, expect, test, vi } from 'vitest'
+/** Current read-only inventory + staged writer; substitutes implement FSA/IDB storage only. */
+import type { CurrentManifest } from '@type-pal/content'
+import { fsaSource } from '@type-pal/reforge'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { deferred, memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
+import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
 
-vi.mock('./handle-store.js', () => ({
-  loadWorkspaceRecord: async () => null,
-  findWorkspaceRecordByHandle: async () => null,
-  withWorkspaceDiscoveryLock: async (operation: () => Promise<unknown>) => operation(),
-  withWorkspaceRegistrationLock: async (
-    _workspaceId: string,
-    operation: (lock: object) => Promise<unknown>,
-  ) => operation(Object.freeze({})),
-  saveWorkspaceHandleUnderLock: async () => undefined,
-}))
+vi.mock('./author-save-store.js', async (original) =>
+  memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>()),
+)
 
-import { copyDirRecursive } from './fsa-copy.js'
-import { writeFile } from './project-io.js'
-import { createLocalWorkspaceContext } from './workspace-context.js'
+import { readDirectoryCopy } from './fsa-copy.js'
+import type { WorkspaceHandleRecord } from './handle-store.js'
+import { openLocalProject } from './open-local.js'
+import { observeProjectCopySource } from './project-copy-source.js'
+import { writeProject } from './project-io.js'
+import { buildBlankProject } from './seed.js'
+import {
+  createLocalWorkspaceContext,
+  createSandboxWorkspaceContext,
+  isWorkspaceIdentityPath,
+  PAL_DEVELOPMENT_SENTINEL_PATH,
+  SANDBOX_WORKSPACE_MARKER_PATH,
+  sandboxMarkerFor,
+} from './workspace-context.js'
 import {
   authorizeFirstSaveTarget,
+  registerAuthorizedWorkspaceMutation,
   withAuthorizedWorkspaceMutation,
 } from './workspace-persistence.js'
 
-/** 双向内存 FSA mock(entries 迭代 + create 写;copy 测试专用)。 */
-interface MemDir {
-  kind: 'directory'
-  name: string
-  children: Map<string, MemDir | MemFile>
-}
-interface MemFile {
-  kind: 'file'
-  name: string
-  data: Uint8Array
-}
+const records = new Map<string, WorkspaceHandleRecord>()
+const commits: string[] = []
+const copyRecord = (value: WorkspaceHandleRecord | undefined) =>
+  value && { ...structuredClone({ ...value, handle: undefined }), handle: value.handle }
 
-function dirHandle(d: MemDir): FileSystemDirectoryHandle {
-  return {
-    kind: 'directory',
-    name: d.name,
-    async *entries() {
-      for (const [name, node] of d.children) {
-        yield [name, node.kind === 'file' ? fileHandle(node) : dirHandle(node)]
-      }
-    },
-    async getDirectoryHandle(name: string, opts?: { create?: boolean }) {
-      let node = d.children.get(name)
-      if (!node && opts?.create) {
-        node = { kind: 'directory', name, children: new Map() }
-        d.children.set(name, node)
-      }
-      if (!node || node.kind !== 'directory') throw new DOMException(name, 'NotFoundError')
-      return dirHandle(node)
-    },
-    async getFileHandle(name: string, opts?: { create?: boolean }) {
-      let node = d.children.get(name)
-      if (!node && opts?.create) {
-        node = { kind: 'file', name, data: new Uint8Array() }
-        d.children.set(name, node)
-      }
-      if (!node || node.kind !== 'file') throw new DOMException(name, 'NotFoundError')
-      return fileHandle(node)
-    },
-  } as unknown as FileSystemDirectoryHandle
-}
-
-function fileHandle(f: MemFile): FileSystemFileHandle {
-  return {
-    kind: 'file',
-    name: f.name,
-    async getFile() {
-      return new File([f.data as BlobPart], f.name)
-    },
-    async createWritable() {
-      const chunks: Uint8Array[] = []
-      return {
-        async write(v: File | Blob | Uint8Array | string) {
-          chunks.push(
-            typeof v === 'string'
-              ? new TextEncoder().encode(v)
-              : v instanceof Uint8Array
-                ? v
-                : new Uint8Array(await (v as Blob).arrayBuffer()),
-          )
-        },
-        async close() {
-          const total = chunks.reduce((a, c) => a + c.length, 0)
-          const out = new Uint8Array(total)
-          let p = 0
-          for (const c of chunks) {
-            out.set(c, p)
-            p += c.length
-          }
-          f.data = out
+beforeEach(() => {
+  records.clear()
+  commits.length = 0
+  authorSaveStorage.receipts.clear()
+  // Keep registration/identity/locks real; publish puts only after request success, at completion.
+  vi.stubGlobal('indexedDB', {
+    open(name: string, version: number) {
+      expect([name, version]).toEqual(['type-pal-editor', 2])
+      const opened = {
+        onsuccess: null as (() => void) | null,
+        result: {
+          transaction(store: string, mode: IDBTransactionMode) {
+            expect(store).toBe('project-handles')
+            const transaction = {
+              oncomplete: null as (() => void) | null,
+              objectStore() {
+                function request<T>(read: () => T, commit = () => {}) {
+                  const result = {
+                    result: undefined as T | undefined,
+                    onsuccess: null as (() => void) | null,
+                  }
+                  queueMicrotask(() => {
+                    result.result = read()
+                    result.onsuccess?.()
+                    queueMicrotask(() => {
+                      commit()
+                      transaction.oncomplete?.()
+                    })
+                  })
+                  return result
+                }
+                return {
+                  get: (id: string) => request(() => copyRecord(records.get(id))),
+                  getAll: () => request(() => [...records.values()].map(copyRecord)),
+                  put(value: WorkspaceHandleRecord) {
+                    expect(mode).toBe('readwrite')
+                    const saved = copyRecord(value)!
+                    return request(
+                      () => saved.workspaceId,
+                      () => {
+                        records.set(saved.workspaceId, saved)
+                        commits.push(saved.workspaceId)
+                      },
+                    )
+                  },
+                }
+              },
+            }
+            return transaction
+          },
         },
       }
+      queueMicrotask(() => opened.onsuccess?.())
+      return opened
     },
-  } as unknown as FileSystemFileHandle
+  })
+})
+
+afterEach(() => {
+  vi.restoreAllMocks()
+  vi.unstubAllGlobals()
+})
+
+type Disk = ReturnType<typeof memoryAuthorDirectory>
+const fileSnapshot = (disk: Disk) =>
+  [...disk.files].map(([path, bytes]) => [path, [...new Uint8Array(bytes)]])
+const authorIo = (disk: Disk) =>
+  Object.values(disk.changes)
+    .flat()
+    .filter((path) => !isWorkspaceIdentityPath(path))
+const authorFiles = (files: Record<string, unknown>) =>
+  Object.fromEntries(Object.entries(files).filter(([, value]) => !(value instanceof ArrayBuffer)))
+
+async function fixture() {
+  const files = await buildBlankProject('directory-copy')
+  const binary = new Uint8Array([0, 1, 2, 250, 255]).buffer
+  const source = memoryAuthorDirectory({
+    ...files,
+    'notes/nested/text.txt': 'nested text\n原始字节',
+    'notes/nested/data.bin': binary,
+    'notes/keep.txt': 'unrelated source note',
+  })
+  await source.dir.getDirectoryHandle('empty', { create: true })
+  source.resetChanges()
+  return { files, source, binary }
 }
 
-function tree(files: Record<string, Uint8Array | string>): MemDir {
-  const root: MemDir = { kind: 'directory', name: 'root', children: new Map() }
-  for (const [path, v] of Object.entries(files)) {
-    const segs = path.split('/')
-    const fname = segs.pop()!
-    let d = root
-    for (const s of segs) {
-      let sub = d.children.get(s)
-      if (!sub) {
-        sub = { kind: 'directory', name: s, children: new Map() }
-        d.children.set(s, sub)
-      }
-      d = sub as MemDir
-    }
-    d.children.set(fname, {
-      kind: 'file',
-      name: fname,
-      data: typeof v === 'string' ? new TextEncoder().encode(v) : v,
-    })
+test('readDirectoryCopy inventories nested and empty directories without reading bytes, excludes private identity aliases, and reads lazily', async () => {
+  const { source } = await fixture()
+  for (const path of [
+    SANDBOX_WORKSPACE_MARKER_PATH,
+    PAL_DEVELOPMENT_SENTINEL_PATH,
+    '.type-pal/save-recovery/old/plan.json',
+    '.TYPE-PAL/alias.json',
+    '.type-pal./windows-alias.json',
+  ])
+    source.set(path, { private: path })
+  const reads: string[] = []
+  source.hooks.afterRead = (path) => {
+    reads.push(path)
   }
-  return root
-}
-
-function flatten(d: MemDir, prefix = ''): Record<string, Uint8Array> {
-  const out: Record<string, Uint8Array> = {}
-  for (const [name, node] of d.children) {
-    if (node.kind === 'file') out[`${prefix}${name}`] = node.data
-    else Object.assign(out, flatten(node, `${prefix}${name}/`))
-  }
-  return out
-}
-
-async function localTarget(dir: FileSystemDirectoryHandle) {
-  return authorizeFirstSaveTarget(
-    createLocalWorkspaceContext('copy-test', 'save-as', '33333333-3333-4333-8333-333333333333'),
-    dir,
+  const before = fileSnapshot(source)
+  const copied = await readDirectoryCopy(source.dir, fsaSource(source.dir))
+  expect(copied.copies.map((input) => input.path)).toEqual(
+    [...source.files.keys()].filter((path) => !isWorkspaceIdentityPath(path)).sort(),
   )
-}
+  expect(copied.directories).toEqual([...copied.directories].sort())
+  expect(copied.directories).toEqual(expect.arrayContaining(['empty', 'notes', 'notes/nested']))
+  expect(copied.directories.some(isWorkspaceIdentityPath)).toBe(false)
+  await copied.verify()
+  expect(reads).toEqual([])
+  expect(fileSnapshot(source)).toEqual(before)
+  expect(source.changes).toEqual({ creates: [], closes: [], removes: [] })
 
-describe('copyDirRecursive(另存为整树拷贝 —— 素材不丢)', () => {
-  test('嵌套树逐字节拷贝(文本 + 二进制)', async () => {
-    const bin = new Uint8Array([1, 2, 3, 250, 251])
-    const src = tree({
-      'manifest.json': '{"id":"p"}',
-      'assets/generated/sprites/starter.rle': bin,
-      'content/scenes/s000.json': '{"id":"s000"}',
+  source.set('notes/nested/text.txt', 'bytes changed after inventory')
+  const text = copied.copies.find((input) => input.path === 'notes/nested/text.txt')!
+  expect(await (await text.read()).text()).toBe('bytes changed after inventory')
+  expect(reads).toEqual(['notes/nested/text.txt'])
+  expect(records.size).toBe(0)
+  expect(authorSaveStorage.receipts.size).toBe(0)
+})
+
+test.each([
+  'add-file',
+  'remove-file',
+  'add-directory',
+  'remove-empty-directory',
+] as const)('readDirectoryCopy verify rejects %s inventory drift without reading or modifying file contents', async (change) => {
+  const { source } = await fixture()
+  const reads: string[] = []
+  source.hooks.afterRead = (path) => {
+    reads.push(path)
+  }
+  const copied = await readDirectoryCopy(source.dir, fsaSource(source.dir))
+  if (change === 'add-file') source.set('external.txt', 'external')
+  else if (change === 'remove-file') source.files.delete('notes/keep.txt')
+  else if (change === 'add-directory')
+    await source.dir.getDirectoryHandle('external-empty', { create: true })
+  else await source.dir.removeEntry('empty')
+  const before = { files: fileSnapshot(source), io: structuredClone(source.changes) }
+  await expect(copied.verify()).rejects.toThrow('源项目文件清单在复制期间变化')
+  expect({ files: fileSnapshot(source), io: source.changes }).toEqual(before)
+  expect(reads).toEqual([])
+  expect(records.size).toBe(0)
+  expect(authorSaveStorage.receipts.size).toBe(0)
+})
+
+test('inventory verification and observed byte verification retain distinct responsibilities', async () => {
+  const { source } = await fixture()
+  const observed = await observeProjectCopySource(fsaSource(source.dir))
+  const copied = await readDirectoryCopy(source.dir, observed.source)
+  const note = copied.copies.find((input) => input.path === 'notes/keep.txt')!
+  expect(await (await note.read()).text()).toBe('unrelated source note')
+  source.set('notes/keep.txt', 'external content change without inventory change')
+  const before = fileSnapshot(source)
+  await expect(copied.verify()).resolves.toBeUndefined()
+  await expect(observed.verify()).rejects.toThrow('notes/keep.txt')
+  expect(fileSnapshot(source)).toEqual(before)
+  expect(source.changes).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('current copy writer preserves nested bytes, real canonical assets and empty directories while author overrides win and source identity stays private', async () => {
+  const { source, files, binary } = await fixture()
+  const sourceContext = createSandboxWorkspaceContext('directory-copy', 'review-copy')
+  source.set(SANDBOX_WORKSPACE_MARKER_PATH, sandboxMarkerFor(sourceContext))
+  source.set('.type-pal/save-recovery/old/plan.json', 'old private plan')
+  source.set('.TYPE-PAL/alias.json', 'case alias')
+  source.set('.type-pal./windows-alias.json', 'trailing-dot alias')
+  const sourceBefore = fileSnapshot(source)
+  const observed = await observeProjectCopySource(fsaSource(source.dir))
+  const copied = await readDirectoryCopy(source.dir, observed.source)
+  const target = memoryAuthorDirectory()
+  const context = createSandboxWorkspaceContext('directory-copy', 'sandbox-copy')
+  const overrides = authorFiles(files)
+  overrides['manifest.json'] = {
+    ...(files['manifest.json'] as CurrentManifest),
+    name: 'current author name',
+  }
+  const result = await withAuthorizedWorkspaceMutation(
+    await authorizeFirstSaveTarget(context, target.dir),
+    async (mutation) => {
+      await registerAuthorizedWorkspaceMutation(mutation, context, target.dir.name)
+      return writeProject(mutation, overrides, {
+        copies: copied.copies,
+        directories: copied.directories,
+        verifySource: async () => {
+          await copied.verify()
+          await observed.verify()
+        },
+      })
+    },
+  )
+  expect(result.cleanupWarning).toBeUndefined()
+  expect((await openLocalProject(target.dir)).project.manifest.name).toBe('current author name')
+  expect(target.files.get('notes/nested/data.bin')).toEqual(binary)
+  expect(target.files.get('notes/nested/text.txt')).toEqual(
+    source.files.get('notes/nested/text.txt'),
+  )
+  expect(await fsaSource(target.dir).readText('notes/keep.txt')).toBe('unrelated source note')
+  expect(Object.values(files).some((value) => value instanceof ArrayBuffer)).toBe(true)
+  for (const [path, bytes] of Object.entries(files))
+    if (bytes instanceof ArrayBuffer) expect(target.files.get(path)).toEqual(bytes)
+  await expect(target.dir.getDirectoryHandle('empty')).resolves.toMatchObject({ kind: 'directory' })
+  expect(target.json(SANDBOX_WORKSPACE_MARKER_PATH)).toEqual(sandboxMarkerFor(context))
+  expect(context.workspaceId).not.toBe(sourceContext.workspaceId)
+  for (const path of [
+    PAL_DEVELOPMENT_SENTINEL_PATH,
+    '.type-pal/save-recovery/old/plan.json',
+    '.TYPE-PAL/alias.json',
+    '.type-pal./windows-alias.json',
+  ])
+    expect(target.files.has(path)).toBe(false)
+  expect(target.json('.type-pal/save-state.json').phase).toBe('committed')
+  expect(authorSaveStorage.receipts.get(context.workspaceId)?.phase).toBe('committed')
+  expect(records.get(context.workspaceId)?.mode).toBe('sandbox')
+  expect(commits).toEqual([context.workspaceId])
+  expect(fileSnapshot(source)).toEqual(sourceBefore)
+  expect(source.changes).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test.each([
+  'flat',
+  'nested-first',
+  'empty-first',
+] as const)('slow %s copy read cannot publish author files or directories before target drift is rechecked', async (kind) => {
+  const { source, files } = await fixture()
+  const slowPath = kind === 'nested-first' ? '000-nested/late.txt' : '000-late.txt'
+  source.set(slowPath, 'slow source bytes')
+  if (kind === 'empty-first') await source.dir.getDirectoryHandle('000-empty', { create: true })
+  source.resetChanges()
+  const sourceBefore = fileSnapshot(source)
+  const observed = await observeProjectCopySource(fsaSource(source.dir))
+  const copied = await readDirectoryCopy(source.dir, observed.source)
+  if (kind !== 'flat')
+    expect(copied.directories[0]).toBe(kind === 'nested-first' ? '000-nested' : '000-empty')
+  const target = memoryAuthorDirectory()
+  const context = createLocalWorkspaceContext('directory-copy', 'save-as')
+  const authorization = await authorizeFirstSaveTarget(context, target.dir)
+  const started = deferred()
+  const release = deferred()
+  let slowReads = 0
+  source.hooks.afterRead = async (path) => {
+    if (path !== slowPath || slowReads) return
+    slowReads++
+    started.resolve()
+    await release.promise
+  }
+  const saving = withAuthorizedWorkspaceMutation(authorization, async (mutation) => {
+    await registerAuthorizedWorkspaceMutation(mutation, context, target.dir.name)
+    return writeProject(mutation, authorFiles(files), {
+      copies: copied.copies,
+      directories: copied.directories,
+      verifySource: async () => {
+        await copied.verify()
+        await observed.verify()
+      },
     })
-    const dst: MemDir = { kind: 'directory', name: 'dst', children: new Map() }
-    const n = await copyDirRecursive(dirHandle(src), await localTarget(dirHandle(dst)))
-    expect(n).toBe(3)
-    const flat = flatten(dst)
-    expect(Object.keys(flat).sort()).toEqual([
-      'assets/generated/sprites/starter.rle',
-      'content/scenes/s000.json',
-      'manifest.json',
-    ])
-    expect(flat['assets/generated/sprites/starter.rle']).toEqual(bin)
-    expect(new TextDecoder().decode(flat['manifest.json'])).toBe('{"id":"p"}')
   })
-
-  test('目标已有文件:同名覆盖、他文件保留', async () => {
-    const src = tree({ 'a.txt': 'new' })
-    const dstTree = tree({})
-    const target = await localTarget(dirHandle(dstTree))
-    // Same operation may stage files before the source-tree copy; external mutations between
-    // authorization and first write are rejected by the target guard.
-    await withAuthorizedWorkspaceMutation(target, async (mutation) => {
-      await writeFile(mutation, 'a.txt', 'old')
-      await writeFile(mutation, 'keep.txt', 'keep')
-      await copyDirRecursive(dirHandle(src), mutation)
+  // Attach rejection handling before releasing the deferred host IO.
+  const rejected = expect(saving).rejects.toThrow('目标文件夹必须为空')
+  await started.promise
+  try {
+    expect(authorIo(target)).toEqual([])
+    expect(records.size).toBe(0)
+    target.set('intruder.txt', 'external target bytes')
+  } finally {
+    release.resolve()
+  }
+  await rejected
+  expect(slowReads).toBe(1)
+  expect(authorIo(target)).toEqual([])
+  expect([...target.files.keys()].filter((path) => !isWorkspaceIdentityPath(path))).toEqual([
+    'intruder.txt',
+  ])
+  expect(await fsaSource(target.dir).readText('intruder.txt')).toBe('external target bytes')
+  for (const directory of copied.directories)
+    await expect(target.dir.getDirectoryHandle(directory.split('/')[0]!)).rejects.toMatchObject({
+      name: 'NotFoundError',
     })
-    const flat = flatten(dstTree)
-    expect(new TextDecoder().decode(flat['a.txt'])).toBe('new')
-    expect(new TextDecoder().decode(flat['keep.txt'])).toBe('keep')
-  })
-
-  test('另存为不复制源工作区 identity，普通内容仍完整复制', async () => {
-    const src = tree({
-      '.type-pal/workspace.json': '{"workspaceId":"old"}',
-      '.type-pal/pal-development.json': '{"workspaceId":"pal"}',
-      '.TYPE-PAL/alias.json': '{"must":"not-copy"}',
-      '.type-pal./windows-alias.json': '{"must":"not-copy"}',
-      'content/data.json': '{"ok":true}',
-    })
-    const dst = tree({})
-    const target = await localTarget(dirHandle(dst))
-    await copyDirRecursive(dirHandle(src), target)
-    const flat = flatten(dst)
-    expect(flat['.type-pal/workspace.json']).toBeUndefined()
-    expect(flat['.type-pal/pal-development.json']).toBeUndefined()
-    expect(flat['.TYPE-PAL/alias.json']).toBeUndefined()
-    expect(flat['.type-pal./windows-alias.json']).toBeUndefined()
-    expect(new TextDecoder().decode(flat['content/data.json'])).toBe('{"ok":true}')
-  })
-
-  test('慢源文件读取期间目标 identity 漂移，首个目标 create 前重验并保持零写', async () => {
-    const dst = tree({})
-    const target = await localTarget(dirHandle(dst))
-    const sourceFile = {
-      kind: 'file',
-      name: 'late.txt',
-      async getFile() {
-        // Simulate another actor changing the destination while a large source file is loading.
-        dst.children.set('intruder.txt', {
-          kind: 'file',
-          name: 'intruder.txt',
-          data: new TextEncoder().encode('external'),
-        })
-        return new File(['late'], 'late.txt')
-      },
-    } as unknown as FileSystemFileHandle
-    const source = {
-      kind: 'directory',
-      name: 'slow-source',
-      async *entries() {
-        yield ['late.txt', sourceFile] as const
-      },
-    } as unknown as FileSystemDirectoryHandle
-
-    await expect(copyDirRecursive(source, target)).rejects.toThrow('目标文件夹必须为空')
-    expect(flatten(dst)['late.txt']).toBeUndefined()
-    expect(new TextDecoder().decode(flatten(dst)['intruder.txt'])).toBe('external')
-  })
-
-  test('首项为子目录时也先读取嵌套慢文件，再重验并保持目标子目录零创建', async () => {
-    const dst = tree({})
-    const target = await localTarget(dirHandle(dst))
-    const nestedFile = {
-      kind: 'file',
-      name: 'late.txt',
-      async getFile() {
-        dst.children.set('intruder.txt', {
-          kind: 'file',
-          name: 'intruder.txt',
-          data: new TextEncoder().encode('external'),
-        })
-        return new File(['late'], 'late.txt')
-      },
-    } as unknown as FileSystemFileHandle
-    const nested = {
-      kind: 'directory',
-      name: 'nested',
-      async *entries() {
-        yield ['late.txt', nestedFile] as const
-      },
-    } as unknown as FileSystemDirectoryHandle
-    const source = {
-      kind: 'directory',
-      name: 'slow-source',
-      async *entries() {
-        yield ['nested', nested] as const
-      },
-    } as unknown as FileSystemDirectoryHandle
-
-    await expect(copyDirRecursive(source, target)).rejects.toThrow('目标文件夹必须为空')
-    expect(dst.children.has('nested')).toBe(false)
-    expect(new TextDecoder().decode(flatten(dst)['intruder.txt'])).toBe('external')
-  })
-
-  test('首项为空目录、后续为慢文件时，完整读取源树后才允许首次目标创建', async () => {
-    const dst = tree({})
-    const target = await localTarget(dirHandle(dst))
-    const empty = {
-      kind: 'directory',
-      name: 'empty',
-      async *entries() {},
-    } as unknown as FileSystemDirectoryHandle
-    const lateFile = {
-      kind: 'file',
-      name: 'late.txt',
-      async getFile() {
-        dst.children.set('intruder.txt', {
-          kind: 'file',
-          name: 'intruder.txt',
-          data: new TextEncoder().encode('external'),
-        })
-        return new File(['late'], 'late.txt')
-      },
-    } as unknown as FileSystemFileHandle
-    const source = {
-      kind: 'directory',
-      name: 'slow-source',
-      async *entries() {
-        yield ['empty', empty] as const
-        yield ['late.txt', lateFile] as const
-      },
-    } as unknown as FileSystemDirectoryHandle
-
-    await expect(copyDirRecursive(source, target)).rejects.toThrow('目标文件夹必须为空')
-    expect(dst.children.has('empty')).toBe(false)
-    expect(flatten(dst)['late.txt']).toBeUndefined()
-    expect(new TextDecoder().decode(flatten(dst)['intruder.txt'])).toBe('external')
-  })
+  expect(target.json('.type-pal/save-state.json').phase).toBe('pending')
+  expect(authorSaveStorage.receipts.get(context.workspaceId)?.phase).toBe('ready')
+  expect(records.size).toBe(0)
+  expect(commits).toEqual([])
+  expect(fileSnapshot(source)).toEqual(sourceBefore)
+  expect(source.changes).toEqual({ creates: [], closes: [], removes: [] })
 })

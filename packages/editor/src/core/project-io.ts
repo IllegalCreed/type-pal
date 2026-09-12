@@ -2,10 +2,10 @@
  * 项目 IO(D-B1 布置模式 · 逻辑层 L3)。
  *
  * 读入(LoadedProject → EditorState)与序列化(EditorState → 可落盘 JSON 文件集)。
- * UI(Claude)照契约调这三个:
+ * 当前编辑器按契约调用:
  *   - toEditorState:把 loader 读入的项目(by-id Record)翻成编辑器工作副本(数组,对齐 JSON 文件)。
  *   - serializeProject:把工作副本序列化成 {相对路径: JSON 值} 的文件集(含 manifest.json)。
- *   - writeProject:FSA 落盘壳(逐文件创建目录 + 写出);真写留 Claude 浏览器验。
+ *   - writeProject:完整暂存、校验和可恢复提交的唯一作者保存入口。
  *
  * round-trip 是命脉:toEditorState → serializeProject 必须还原原 content JSON(by-id Record
  * 经 Object.values 还原数组,保持原序)。测钉死。
@@ -53,15 +53,12 @@ import {
 import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
 import type { EditorState } from './edit-session.js'
 import { assertProjectSaveValid } from './project-diagnostics.js'
-import { assertScriptProjectValid } from './script-references.js'
 import { isWorkspaceIdentityPath, type WorkspaceContext } from './workspace-context.js'
 import {
   type AuthorizedWorkspaceInput,
   authorizedDirectory,
   authorizedSaveScope,
-  beginAuthorizedWorkspaceMutation,
   planAuthorizedWorkspacePaths,
-  recordAuthorizedWorkspaceWriteCompleted,
   withAuthorizedWorkspaceMutation,
 } from './workspace-persistence.js'
 
@@ -215,11 +212,10 @@ export function serializeProject(
 ): Record<string, unknown> {
   // canonical 入口不变式必须在任一路径落盘前 fail-loud。
   assertProjectSaveValid(state)
-  if (state.scriptIndex || Object.keys(state.scriptChunks).length) {
-    const diagnostics = assertScriptProjectValid(state)
-    if (diagnostics.warnings.length)
-      console.warn(`[scripts] 保存前检查警告:\n${diagnostics.warnings.join('\n')}`)
-  }
+  // Match the current loader: an obsolete author-script directory cannot be saved as a
+  // seemingly valid project. Internal canonical preview chunks are not author output.
+  if (state.manifest.content.scripts !== undefined)
+    throw new Error('当前 manifest 禁止 content.scripts，请使用 sharedScripts')
   const files: Record<string, unknown> = {}
   const fileOwners = new Map<string, string>()
   const addFile = (rel: string, value: unknown, owner: string): void => {
@@ -275,19 +271,9 @@ export function serializeProject(
     if (orphanIds.length)
       throw new Error(`serializeProject: maps 存在未登记资产: ${orphanIds.join(', ')}`)
   } else throw new Error('serializeProject: 项目缺 manifest.content.maps')
-  // W7B 上传 tileset 字节:键即资产相对路径(ArrayBuffer → writeFile 走 Blob,diff 记 bin: 占位)
+  // 上传字节:键即资产相对路径，交 writeProject 的完整保存计划统一处理。
   for (const [rel, buf] of Object.entries(state.tilesetBlobs))
     addFile(rel, buf, `瓦片集上传 ${rel}`)
-  // M3 分片脚本目录:index 只存元数据，chunk 路径严格跟 index，禁止重组时丢文件。
-  if (content.scripts && state.scriptIndex) {
-    const scriptDir = content.scripts.replace(/\/?$/, '/')
-    addFile(`${scriptDir}index.json`, state.scriptIndex, '脚本索引')
-    for (const [id, meta] of Object.entries(state.scriptIndex.chunks)) {
-      const chunk = state.scriptChunks[id]
-      if (!chunk) throw new Error(`serializeProject: 缺脚本 chunk "${id}"`)
-      addFile(`${scriptDir}${meta.path}`, chunk, `脚本 chunk ${id}`)
-    }
-  }
   // 各 content 文件:按 manifest 声明的路径键映射到对应值。
   const byKey: Record<ContentKey, unknown> = {
     actors: state.actors,
@@ -380,31 +366,6 @@ export async function diffFiles(
   }
   const remove = [...prev.keys()].filter((rel) => !(rel in next))
   return { write, remove }
-}
-
-/** 写单文件到 dir(逐段建目录;ArrayBuffer 写 Blob,其余序列化)。克隆流式逐文件复用。 */
-export async function writeFile(
-  target: AuthorizedWorkspaceInput,
-  rel: string,
-  value: unknown,
-): Promise<void> {
-  assertWorkspaceIdentityPathWritable(rel)
-  const snapshot = value instanceof ArrayBuffer ? value.slice(0) : serializeOne(value)
-  await withAuthorizedWorkspaceMutation(target, async (mutation) => {
-    await planAuthorizedWorkspacePaths(mutation, [rel])
-    const dir = authorizedDirectory(mutation)
-    const segs = rel.split('/')
-    const fileName = segs.pop()!
-    let d = dir
-    // The next create-capable lookup is the true first possible destination mutation.
-    await beginAuthorizedWorkspaceMutation(mutation)
-    for (const seg of segs) d = await d.getDirectoryHandle(seg, { create: true })
-    const fh = await d.getFileHandle(fileName, { create: true })
-    const w = await fh.createWritable()
-    await w.write(snapshot instanceof ArrayBuffer ? new Blob([snapshot]) : snapshot)
-    await w.close()
-    await recordAuthorizedWorkspaceWriteCompleted(mutation, rel, snapshot)
-  })
 }
 
 function assertWorkspaceIdentityPathWritable(rel: string): void {

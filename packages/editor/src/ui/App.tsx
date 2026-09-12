@@ -225,7 +225,6 @@ import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { type SceneAnchorSelection, SceneCanvas } from './SceneCanvas.js'
 import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
 import { ScriptBehaviorInspector } from './ScriptBehaviorInspector.js'
-import { ScriptDrawer } from './ScriptDrawer.js'
 import { CanonicalHostileOnLoseEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { disposeSoundPreview } from './SoundPicker.js'
 import { SpriteImageViewer, SpriteThumb } from './SpriteThumb.js'
@@ -419,18 +418,15 @@ export function App(props: {
       : derivedSnapshot.status === 'stale' || derivedSnapshot.status === 'failed'
         ? derivedSnapshot.lastKnown?.data
         : undefined
-  const scriptHistoryVersion = scriptSession?.getHistoryVersion() ?? 0
+  const scriptHistoryVersion = scriptSession.getHistoryVersion()
   const state = session.getState()
   const defaultEntry = findDefaultEntry(state.manifest)
   const storedScriptState = useMemo(() => {
     void scriptHistoryVersion
-    return scriptSession?.getStateSnapshot()
+    return scriptSession.getStateSnapshot()
   }, [scriptHistoryVersion, scriptSession])
   const scriptState = useMemo(
-    () =>
-      storedScriptState
-        ? projectActiveScriptEditorState(storedScriptState, state.items)
-        : undefined,
+    () => projectActiveScriptEditorState(storedScriptState, state.items),
     [state.items, storedScriptState],
   )
   const editorDirty = session.isDirty() || (scriptSession?.isDirty() ?? false)
@@ -3031,7 +3027,7 @@ export function App(props: {
                   onAddAt={addAt}
                   onClearSelection={() => setSelected(SCENE_SELECTION)}
                 />
-              ) : scriptSession && scriptState ? (
+              ) : (
                 <CanonicalSceneScriptWorkspace
                   scene={scene}
                   state={scriptState}
@@ -3061,45 +3057,6 @@ export function App(props: {
                   focusReference={canonicalReferenceFocus}
                   focusOwner={canonicalOwnerFocus}
                   onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
-                />
-              ) : (
-                <ScriptDrawer
-                  scene={scene}
-                  scenes={state.scenes}
-                  locale={state.locale}
-                  selectedEntityId={selEntity?.id ?? null}
-                  focusSrcKey={drawer.src}
-                  focusInternalScriptId={drawer.internalScriptId}
-                  focusCommandPath={drawer.commandPath}
-                  focusCommandRevision={drawer.focusRevision}
-                  sprites={state.sprites}
-                  actorsById={actorsById}
-                  battleSprites={state.battleSprites}
-                  leaderSpriteId={leaderSpriteId}
-                  assetBase={project.assetBase}
-                  projectMaps={state.maps}
-                  mapIndex={state.mapIndex}
-                  tilesets={state.tilesets ?? []}
-                  session={session}
-                  assetCatalog={state.assetCatalog}
-                  audioResolver={audioResolver}
-                  assetReader={assetReader}
-                  playIdentity={playIdentity}
-                  ambiences={state.ambiences ?? []}
-                  shops={state.shops ?? []}
-                  layers={{
-                    grid: canvasLayers.grid,
-                    blocked: canvasLayers.blocked,
-                    ghosts: canvasLayers.ghosts,
-                  }}
-                  onOpenScript={openSharedScript}
-                  onOpenWorldVariable={(id) => applyEditorLocation(editorLinks.variable(id))}
-                  onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
-                  onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
-                  onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
-                  onOpenSpriteAction={(spriteId, actionId) =>
-                    applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
-                  }
                 />
               )}
             </div>

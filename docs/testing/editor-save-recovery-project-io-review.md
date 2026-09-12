@@ -2,7 +2,7 @@
 
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
 Codex，2026-09-12；生产源码不改，与GLM打开身份测试并行。
-本页保留各批历史；最新e963598b起点的清理见下方“私有本地记录转换清理”。
+本页保留各批历史；最新旧作者保存链退役与统一候选见[最终收口](editor-save-recovery-closeout.md)，本页各批数字仅代表当时源码。
 
 ## 前批结果（起点945f54ab）
 

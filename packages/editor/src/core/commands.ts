@@ -31,9 +31,6 @@ import type {
   SceneAssetDefV1,
   SceneDef,
   SceneEntryPoint,
-  Command as ScriptCommand,
-  ScriptStage,
-  SharedScriptMetaV1,
   ShopDef,
   SkillData,
   SpriteDef,
@@ -41,21 +38,15 @@ import type {
 } from '@type-pal/content'
 import {
   battleSpriteDefinitionFrameDemand,
-  checkCommands,
-  createScriptIndex,
   DEFAULT_BATTLE_FIELD_ID,
-  findScriptOwnerChunk,
   MAP_INDEX_PATH,
   mapIdStem,
   mapInstanceHeight,
   mapInstanceTilesetId,
   nextMapAssetId,
-  normalizeScriptLibrary,
-  removeAuthoredScript,
   rewriteExplicitSceneReferences,
   spriteDefinitionFrameDemand,
   spriteDefinitionFrameIndices,
-  upsertAuthoredScript,
   validateActors,
   validateBattleFields,
   validateBattleSprites,
@@ -84,7 +75,6 @@ import {
   updateProjectMapLayer,
 } from '@type-pal/reforge'
 import type { CurrentMapReferenceBatchProvider, EditorState } from './edit-session.js'
-import { createEmptyScriptStages } from './entity-placement.js'
 import {
   applyPreparedProjectMapPatch,
   cloneMapPatchPermission,
@@ -102,7 +92,6 @@ import {
   type CurrentProjectReferenceIndexProvider,
   collectCurrentProjectDeletionImpact,
 } from './project-reference-adapters.js'
-import { findScriptReferences } from './script-references.js'
 import {
   resolveStampStructureOperation,
   type StampStructureResolutionOptions,
@@ -1710,362 +1699,6 @@ export class UpdateSpriteCommand implements Command {
   }
 }
 
-// ════════════════════════════════════════════════════════════════════
-// C-track v1 脚本编辑命令(事件模式:改/插/删/移命令 → 整 stages 替换)
-// ════════════════════════════════════════════════════════════════════
-
-/** 脚本源定位:场景 onEnter/onTeleport，或实体指定页的 trigger/auto。 */
-export type ScriptSourceRef =
-  | { kind: 'onEnter' }
-  | { kind: 'onTeleport' }
-  | { kind: 'trigger'; entityId: string; pageIndex?: number }
-  | { kind: 'auto'; entityId: string; pageIndex?: number }
-
-/** 取脚本源当前 stages(不存在 → undefined)。 */
-export function getScriptStages(
-  scene: SceneDef,
-  ref: ScriptSourceRef,
-): readonly ScriptStage[] | undefined {
-  if (ref.kind === 'onEnter') return scene.onEnter
-  if (ref.kind === 'onTeleport') return scene.onTeleport
-  const e = scene.entities.find((x) => x.id === ref.entityId)
-  const page = e?.pages?.[ref.pageIndex ?? 0]
-  return ref.kind === 'trigger' ? page?.trigger?.stages : page?.auto?.stages
-}
-
-/** 不可变:把脚本源的 stages 整体替换(源缺失原样返回)。 */
-function withScriptStages(scene: SceneDef, ref: ScriptSourceRef, stages: ScriptStage[]): SceneDef {
-  if (ref.kind === 'onEnter') return { ...scene, onEnter: stages }
-  if (ref.kind === 'onTeleport') return { ...scene, onTeleport: stages }
-  const entities = scene.entities.map((e) => {
-    if (e.id !== ref.entityId) return e
-    const pageIndex = ref.pageIndex ?? 0
-    const page = e.pages?.[pageIndex]
-    if (!page) return e
-    const newPage =
-      ref.kind === 'trigger'
-        ? page.trigger
-          ? { ...page, trigger: { ...page.trigger, stages } }
-          : page
-        : page.auto
-          ? { ...page, auto: { ...page.auto, stages } }
-          : page
-    if (newPage === page) return e
-    return {
-      ...e,
-      pages: e.pages?.map((candidate, index) => (index === pageIndex ? newPage : candidate)),
-    }
-  })
-  return { ...scene, entities }
-}
-
-/** 改实体指定页的触发方式(交互/触碰 + 距离)。 */
-export class UpdateTriggerModeCommand implements Command {
-  readonly label = '改触发方式'
-  private readonly sceneId: string
-  private readonly entityId: string
-  private readonly on: 'interact' | 'touch'
-  private readonly range: number | undefined
-  private readonly pageIndex: number
-  private old: { on: 'interact' | 'touch'; range: number | undefined } | undefined
-
-  constructor(
-    sceneId: string,
-    entityId: string,
-    on: 'interact' | 'touch',
-    range: number | undefined,
-    pageIndex = 0,
-  ) {
-    this.sceneId = sceneId
-    this.entityId = entityId
-    this.on = on
-    this.range = range
-    this.pageIndex = pageIndex
-  }
-
-  private write(
-    state: EditorState,
-    on: 'interact' | 'touch',
-    range: number | undefined,
-  ): EditorState {
-    const scene = findScene(state, this.sceneId)
-    if (!scene) return state
-    const entities = scene.entities.map((e) => {
-      if (e.id !== this.entityId) return e
-      const page = e.pages?.[this.pageIndex]
-      if (!page?.trigger) return e
-      const trigger = { ...page.trigger, on }
-      if (range === undefined) delete (trigger as { range?: number }).range
-      else trigger.range = range
-      return {
-        ...e,
-        pages: e.pages?.map((candidate, index) =>
-          index === this.pageIndex ? { ...page, trigger } : candidate,
-        ),
-      }
-    })
-    return withEntities(state, this.sceneId, entities)
-  }
-
-  apply(state: EditorState): EditorState {
-    if (!this.old) {
-      const t = findScene(state, this.sceneId)?.entities.find((e) => e.id === this.entityId)
-        ?.pages?.[this.pageIndex]?.trigger
-      if (!t) return state
-      this.old = { on: t.on ?? 'interact', range: t.range }
-    }
-    return this.write(state, this.on, this.range)
-  }
-
-  invert(state: EditorState): EditorState {
-    if (!this.old) return state
-    return this.write(state, this.old.on, this.old.range)
-  }
-}
-
-/** 删除脚本源(trigger/auto 槽或 onEnter/onTeleport)。undo 原样恢复(含 trigger 的 on/range)。 */
-export class DeleteScriptSourceCommand implements Command {
-  readonly label = '删除脚本'
-  private readonly sceneId: string
-  private readonly ref: ScriptSourceRef
-  private old: unknown
-
-  constructor(sceneId: string, ref: ScriptSourceRef) {
-    this.sceneId = sceneId
-    this.ref = ref
-  }
-
-  apply(state: EditorState): EditorState {
-    const scene = findScene(state, this.sceneId)
-    if (!scene) return state
-    if (this.ref.kind === 'onEnter' || this.ref.kind === 'onTeleport') {
-      const cur = this.ref.kind === 'onEnter' ? scene.onEnter : scene.onTeleport
-      if (!cur) return state
-      if (this.old === undefined) this.old = structuredClone(cur)
-      const next = { ...scene }
-      delete (next as Record<string, unknown>)[this.ref.kind]
-      return withScene(state, this.sceneId, next)
-    }
-    const entityId = this.ref.entityId
-    const kind = this.ref.kind
-    const pageIndex = this.ref.pageIndex ?? 0
-    const entities = scene.entities.map((e) => {
-      if (e.id !== entityId) return e
-      const page = e.pages?.[pageIndex]
-      const slot = kind === 'trigger' ? page?.trigger : page?.auto
-      if (!page || !slot) return e
-      if (this.old === undefined) this.old = structuredClone(slot)
-      const newPage = { ...page }
-      delete (newPage as Record<string, unknown>)[kind]
-      return {
-        ...e,
-        pages: e.pages?.map((candidate, index) => (index === pageIndex ? newPage : candidate)),
-      }
-    })
-    return withEntities(state, this.sceneId, entities)
-  }
-
-  invert(state: EditorState): EditorState {
-    if (this.old === undefined) return state
-    const scene = findScene(state, this.sceneId)
-    if (!scene) return state
-    if (this.ref.kind === 'onEnter' || this.ref.kind === 'onTeleport') {
-      return withScene(state, this.sceneId, {
-        ...scene,
-        [this.ref.kind]: structuredClone(this.old),
-      } as typeof scene)
-    }
-    const entityId = this.ref.entityId
-    const kind = this.ref.kind
-    const pageIndex = this.ref.pageIndex ?? 0
-    const entities = scene.entities.map((e) => {
-      if (e.id !== entityId) return e
-      const pages = [...(e.pages ?? [])]
-      while (pages.length <= pageIndex) pages.push({})
-      const page = pages[pageIndex] ?? {}
-      pages[pageIndex] = { ...page, [kind]: structuredClone(this.old) }
-      return {
-        ...e,
-        pages,
-      }
-    })
-    return withEntities(state, this.sceneId, entities)
-  }
-}
-
-/**
- * 修改脚本(粗粒度:整 stages 替换 —— undo 语义简单可靠;细粒度差分交给
- * script-edit.ts 的纯函数在 UI 层算好再发命令)。首次 apply 捕获旧 stages。
- */
-export class UpdateScriptCommand implements Command {
-  readonly label = '修改脚本'
-  private readonly sceneId: string
-  private readonly ref: ScriptSourceRef
-  private readonly stages: ScriptStage[]
-  private old: ScriptStage[] | undefined
-
-  constructor(sceneId: string, ref: ScriptSourceRef, stages: readonly ScriptStage[]) {
-    this.sceneId = sceneId
-    this.ref = ref
-    this.stages = structuredClone(stages) as ScriptStage[]
-  }
-
-  apply(state: EditorState): EditorState {
-    const scene = findScene(state, this.sceneId)
-    if (!scene) return state
-    if (!this.old) {
-      const cur = getScriptStages(scene, this.ref)
-      if (!cur) return state // 源不存在:no-op(v1 不新建脚本源)
-      this.old = structuredClone(cur) as ScriptStage[]
-    }
-    return withScene(state, this.sceneId, withScriptStages(scene, this.ref, this.stages))
-  }
-
-  invert(state: EditorState): EditorState {
-    if (!this.old) return state
-    const scene = findScene(state, this.sceneId)
-    if (!scene) return state
-    return withScene(state, this.sceneId, withScriptStages(scene, this.ref, this.old))
-  }
-}
-
-interface ScriptStateSnapshot {
-  index: EditorState['scriptIndex']
-  chunks: EditorState['scriptChunks']
-  scriptsPath: string | undefined
-}
-
-function captureScriptState(state: EditorState): ScriptStateSnapshot {
-  return {
-    index: state.scriptIndex ? structuredClone(state.scriptIndex) : undefined,
-    chunks: structuredClone(state.scriptChunks ?? {}),
-    scriptsPath: state.manifest.content?.scripts,
-  }
-}
-
-function restoreScriptState(state: EditorState, snapshot: ScriptStateSnapshot): EditorState {
-  const content = { ...(state.manifest.content ?? {}) }
-  if (snapshot.scriptsPath === undefined) delete content.scripts
-  else content.scripts = snapshot.scriptsPath
-  return {
-    ...state,
-    manifest: { ...state.manifest, content },
-    scriptIndex: snapshot.index ? structuredClone(snapshot.index) : undefined,
-    scriptChunks: structuredClone(snapshot.chunks),
-  }
-}
-
-function withScriptLibrary(
-  state: EditorState,
-  index: NonNullable<EditorState['scriptIndex']>,
-  chunks: EditorState['scriptChunks'],
-): EditorState {
-  return {
-    ...state,
-    manifest: {
-      ...state.manifest,
-      content: {
-        ...(state.manifest.content ?? {}),
-        scripts: state.manifest.content?.scripts ?? 'content/scripts/',
-      },
-    },
-    scriptIndex: index,
-    scriptChunks: chunks,
-  }
-}
-
-/** 新建/改名/修改作者共享脚本；首次创建时原子补 manifest + index + chunk。 */
-export class UpsertAuthoredScriptCommand implements Command {
-  readonly label = '保存共享脚本'
-  private old: ScriptStateSnapshot | undefined
-
-  constructor(
-    private readonly id: string,
-    private readonly meta: SharedScriptMetaV1,
-    private readonly body: readonly ScriptCommand[],
-  ) {}
-
-  apply(state: EditorState): EditorState {
-    if (!this.old) this.old = captureScriptState(state)
-    const result = upsertAuthoredScript(
-      state.scriptIndex ?? createScriptIndex(),
-      state.scriptChunks ?? {},
-      this.id,
-      this.meta,
-      this.body,
-    )
-    return withScriptLibrary(state, result.index, result.chunks)
-  }
-
-  invert(state: EditorState): EditorState {
-    return this.old ? restoreScriptState(state, this.old) : state
-  }
-}
-
-/** 修改任意已存在的分片脚本体；是否共享由 library 元数据决定。 */
-export class UpdateScriptBodyCommand implements Command {
-  readonly label = '修改脚本内容'
-  private old: ScriptStateSnapshot | undefined
-
-  constructor(
-    private readonly id: string,
-    private readonly body: readonly ScriptCommand[],
-  ) {}
-
-  apply(state: EditorState): EditorState {
-    if (!state.scriptIndex) throw new Error(`脚本 ${this.id} 没有 index`)
-    checkCommands(this.body, `scripts.${this.id}`)
-    const owner = findScriptOwnerChunk(state.scriptChunks ?? {}, this.id)
-    if (!owner) throw new Error(`脚本不存在 ${this.id}`)
-    if (!this.old) this.old = captureScriptState(state)
-    const chunks = structuredClone(state.scriptChunks) as EditorState['scriptChunks']
-    const ownerChunk = chunks[owner]
-    if (!ownerChunk) throw new Error(`脚本 ${this.id} 的分片 ${owner} 不存在`)
-    chunks[owner] = {
-      ...ownerChunk,
-      scripts: {
-        ...ownerChunk.scripts,
-        [this.id]: structuredClone(this.body) as ScriptCommand[],
-      },
-    }
-    const result = normalizeScriptLibrary(state.scriptIndex, chunks)
-    return withScriptLibrary(state, result.index, result.chunks)
-  }
-
-  invert(state: EditorState): EditorState {
-    return this.old ? restoreScriptState(state, this.old) : state
-  }
-}
-
-/** 删除无外部调用方的作者脚本；引用检查只在删除动作发生时运行。 */
-export class DeleteAuthoredScriptCommand implements Command {
-  readonly label = '删除共享脚本'
-  private old: ScriptStateSnapshot | undefined
-
-  constructor(private readonly id: string) {}
-
-  apply(state: EditorState): EditorState {
-    if (!state.scriptIndex?.library?.[this.id]) throw new Error(`作者脚本不存在 ${this.id}`)
-    const external = findScriptReferences(state, this.id).filter(
-      (entry) => entry.caller.type !== 'script' || entry.caller.scriptId !== this.id,
-    )
-    if (external.length)
-      throw new Error(
-        `共享脚本仍被 ${external.length} 处引用:\n${external
-          .slice(0, 8)
-          .map((entry) => `${entry.caller.label}${entry.path}`)
-          .join('\n')}`,
-      )
-    if (!this.old) this.old = captureScriptState(state)
-    const result = removeAuthoredScript(state.scriptIndex, state.scriptChunks ?? {}, this.id)
-    return withScriptLibrary(state, result.index, result.chunks)
-  }
-
-  invert(state: EditorState): EditorState {
-    return this.old ? restoreScriptState(state, this.old) : state
-  }
-}
-
 /** 不可变:替换 actorId 角色;旁角色同引用。 */
 function withActor(state: EditorState, actorId: string, newActor: ActorDef): EditorState {
   let hit = false
@@ -3205,88 +2838,6 @@ export class UpdateLevelUpCommand implements Command {
     if (this.had && this.old) levelUp[this.actorId] = structuredClone(this.old)
     else delete levelUp[this.actorId]
     return { ...state, levelUp }
-  }
-}
-
-// ════════════════════════════════════════════════════════════════════
-// 创建脚本源(2026-07-05 审计断点 #5:事件空态死路 —— 解除「v1 不新建」限制)
-// ════════════════════════════════════════════════════════════════════
-
-/**
- * 创建脚本源(空 stages 起步,后续编辑走 UpdateScriptCommand):
- * onEnter / 实体 trigger(interact 缺省,可指定 touch) / 实体 auto。
- * 已存在同源 = no-op(不覆盖);实体无 pages 时创建 pages[0]。invert 删回。
- */
-export class CreateScriptSourceCommand implements Command {
-  readonly label = '创建脚本源'
-  private readonly sceneId: string
-  private readonly ref: ScriptSourceRef
-  private readonly triggerOn: 'interact' | 'touch'
-  private created = false
-  private capturedEntityPages = false
-  private oldEntityPages: EntityDef['pages']
-
-  constructor(sceneId: string, ref: ScriptSourceRef, triggerOn: 'interact' | 'touch' = 'interact') {
-    this.sceneId = sceneId
-    this.ref = ref
-    this.triggerOn = triggerOn
-  }
-
-  apply(state: EditorState): EditorState {
-    const scene = findScene(state, this.sceneId)
-    if (!scene) return state
-    if (getScriptStages(scene, this.ref)) return state // 已存在 → no-op
-    this.created = true
-    const empty: ScriptStage[] = createEmptyScriptStages()
-    if (this.ref.kind === 'onEnter')
-      return withScene(state, this.sceneId, { ...scene, onEnter: empty })
-    if (this.ref.kind === 'onTeleport')
-      return withScene(state, this.sceneId, { ...scene, onTeleport: empty })
-    const entityId = this.ref.entityId
-    const kind = this.ref.kind
-    const pageIndex = this.ref.pageIndex ?? 0
-    const entities = scene.entities.map((e) => {
-      if (e.id !== entityId) return e
-      if (!this.capturedEntityPages) {
-        this.capturedEntityPages = true
-        this.oldEntityPages = e.pages ? structuredClone(e.pages) : undefined
-      }
-      const pages = [...(e.pages ?? [])]
-      while (pages.length <= pageIndex) pages.push({})
-      const page = pages[pageIndex] ?? {}
-      const newPage =
-        kind === 'trigger'
-          ? { ...page, trigger: { on: this.triggerOn, stages: empty } }
-          : { ...page, auto: { stages: empty } }
-      pages[pageIndex] = newPage
-      return { ...e, pages }
-    })
-    return withScene(state, this.sceneId, { ...scene, entities })
-  }
-
-  invert(state: EditorState): EditorState {
-    if (!this.created) return state
-    const scene = findScene(state, this.sceneId)
-    if (!scene) return state
-    if (this.ref.kind === 'onEnter') {
-      const next = { ...scene }
-      delete (next as { onEnter?: unknown }).onEnter
-      return withScene(state, this.sceneId, next)
-    }
-    if (this.ref.kind === 'onTeleport') {
-      const next = { ...scene }
-      delete (next as { onTeleport?: unknown }).onTeleport
-      return withScene(state, this.sceneId, next)
-    }
-    const entityId = this.ref.entityId
-    const entities = scene.entities.map((e) => {
-      if (e.id !== entityId) return e
-      const restored = { ...e }
-      if (this.oldEntityPages) restored.pages = structuredClone(this.oldEntityPages)
-      else delete (restored as { pages?: unknown }).pages
-      return restored
-    })
-    return withScene(state, this.sceneId, { ...scene, entities })
   }
 }
 

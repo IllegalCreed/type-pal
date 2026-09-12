@@ -1,11 +1,11 @@
 {
   "version": 1,
   "baseline": {
-    "files": 38,
-    "leafCalls": 116,
+    "files": 37,
+    "leafCalls": 115,
     "controls": {
       "DsNumberInput": 55,
-      "DsDraftNumberInput": 28,
+      "DsDraftNumberInput": 27,
       "DsNumberField": 5,
       "DsDraftNumberField": 28
     }
@@ -580,20 +580,6 @@
       "removalCondition": "角色当前状态不再由入口弹层编辑时删除。"
     },
     {
-      "source": "ScriptDrawer.tsx",
-      "component": "ScriptDrawer",
-      "match": { "context": "none", "fieldClass": "" },
-      "count": 1,
-      "mode": "compact-repeat-row",
-      "control": "DsDraftNumberInput",
-      "measure": "specialized-css",
-      "grid": "script-grid",
-      "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "脚本抽屉触发范围是紧凑脚本参数。",
-      "verification": "ScriptDrawer.tsx#script-trigger-range",
-      "removalCondition": "抽屉采用声明式字段 schema 时移除。"
-    },
-    {
       "source": "ScriptEditor.tsx",
       "component": "CanonicalCommandForm",
       "match": { "context": "none", "fieldClass": "" },
@@ -884,16 +870,6 @@
       "removalCondition": "删除 helper 时移除。"
     },
     {
-      "source": "CommandForm.tsx",
-      "component": "CommandForm",
-      "consumerCount": 2,
-      "context": "script-grid",
-      "owner": "card:ARCH-ACTOR-CONDITION-SEED-1",
-      "reason": "角色当前状态命令表单由脚本编辑器和脚本抽屉两个生产入口复用。",
-      "verification": "import-resolved production consumers",
-      "removalCondition": "命令表单不再由两个脚本宿主复用时更新登记。"
-    },
-    {
       "source": "EnemyAnimPreview.tsx",
       "component": "NumberInput",
       "consumerCount": 6,
@@ -1069,14 +1045,6 @@
       "reason": "敌人规则参数在响应式 repeat-row 内保持短数值宽度。",
       "verification": "EnemyTab.tsx#RuleRow",
       "removalCondition": "规则行由公共 recipe 接管。"
-    },
-    {
-      "selector": ".script-trigger-range",
-      "property": "width",
-      "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "脚本触发范围紧凑槽。",
-      "verification": "ScriptDrawer.tsx#script-trigger-range",
-      "removalCondition": "脚本参数迁入公共 Field。"
     }
   ],
   "inlineWidthOwners": [

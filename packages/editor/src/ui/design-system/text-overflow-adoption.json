@@ -870,23 +870,6 @@
     },
     {
       "source": "editor.css",
-      "selectorText": ".drawer-internal-nav code",
-      "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
-      "producer": {
-        "source": "ScriptDrawer.tsx",
-        "component": "ScriptDrawer",
-        "callsite": "class:drawer-internal-nav"
-      },
-      "policy": "selection-summary",
-      "contentKind": "selection-summary",
-      "reveal": "selected-detail",
-      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
-      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
-    },
-    {
-      "source": "editor.css",
       "selectorText": ".editor-header-context",
       "condition": "default",
       "declarations": ["white-space:nowrap"],
@@ -1847,40 +1830,6 @@
         "source": "ScriptBehaviorInspector.tsx",
         "component": "ScriptBehaviorInspector",
         "callsite": "class:script-behavior-heading"
-      },
-      "policy": "selection-summary",
-      "contentKind": "selection-summary",
-      "reveal": "selected-detail",
-      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
-      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
-    },
-    {
-      "source": "editor.css",
-      "selectorText": ".script-drawer-context",
-      "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
-      "producer": {
-        "source": "ScriptDrawer.tsx",
-        "component": "ScriptDrawer",
-        "callsite": "class:script-drawer-context"
-      },
-      "policy": "selection-summary",
-      "contentKind": "selection-summary",
-      "reveal": "selected-detail",
-      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
-      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
-    },
-    {
-      "source": "editor.css",
-      "selectorText": ".script-drawer-title",
-      "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 0],
-      "producer": {
-        "source": "ScriptDrawer.tsx",
-        "component": "ScriptDrawer",
-        "callsite": "class:script-drawer-title"
       },
       "policy": "selection-summary",
       "contentKind": "selection-summary",

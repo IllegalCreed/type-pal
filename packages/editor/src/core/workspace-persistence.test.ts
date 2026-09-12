@@ -46,7 +46,6 @@ import { EditSession } from './edit-session.js'
 import {
   serializeProject,
   toEditorState,
-  writeFile,
   writeProject as writeProjectResult,
 } from './project-io.js'
 import { buildBlankProject } from './seed.js'
@@ -378,7 +377,7 @@ describe('workspace persistence policy', () => {
     handleStore.discoveryTail = Promise.resolve()
   })
 
-  test('普通项目首存只接受空目录；未经授权的 writeFile 在 FSA mutation 前失败', async () => {
+  test('普通项目首存只接受空目录；未经授权的 performPolicyFixtureWrite 在 FSA mutation 前失败', async () => {
     const workspace = createLocalWorkspaceContext('local', 'save-as', LOCAL_ID)
     const occupied = emptyDir()
     setFile(occupied, 'keep.txt', 'keep')
@@ -387,9 +386,9 @@ describe('workspace persistence policy', () => {
     )
     expect(occupied.writes).toBe(0)
 
-    await expect(writeFile({} as AuthorizedWorkspaceTarget, 'forbidden.txt', 'no')).rejects.toThrow(
-      '未经 workspace persistence policy 授权',
-    )
+    await expect(
+      performPolicyFixtureWrite({} as AuthorizedWorkspaceTarget, 'forbidden.txt', 'no'),
+    ).rejects.toThrow('未经 workspace persistence policy 授权')
     expect(getFile(occupied, 'forbidden.txt')).toBeUndefined()
   })
 
@@ -467,7 +466,9 @@ describe('workspace persistence policy', () => {
     const workspace = createLocalWorkspaceContext('local', 'save-as', LOCAL_ID)
     const target = await authorizeFirstSaveTarget(workspace, handle)
     const forged = { ...target, dir: dirHandle(emptyDir('forged')) } as AuthorizedWorkspaceTarget
-    await expect(writeFile(forged, 'manifest.json', {})).rejects.toThrow('未经 workspace')
+    await expect(performPolicyFixtureWrite(forged, 'manifest.json', {})).rejects.toThrow(
+      '未经 workspace',
+    )
 
     handleStore.load.mockResolvedValue({
       workspaceId: LOCAL_ID,
@@ -488,7 +489,7 @@ describe('workspace persistence policy', () => {
     const target = await authorizeFirstSaveTarget(workspace, handle)
 
     await withAuthorizedWorkspaceMutation(target, async (mutation) => {
-      await writeFile(mutation, 'manifest.json', { id: 'local' })
+      await performPolicyFixtureWrite(mutation, 'manifest.json', { id: 'local' })
       await registerAuthorizedWorkspaceMutation(mutation, workspace, 'registered')
     })
 
@@ -504,10 +505,10 @@ describe('workspace persistence policy', () => {
     const firstRoot = emptyDir('replay')
     const workspace = createLocalWorkspaceContext('local', 'save-as', LOCAL_ID)
     const firstTarget = await authorizeFirstSaveTarget(workspace, dirHandle(firstRoot))
-    await writeFile(firstTarget, 'first.json', { ok: true })
-    await expect(writeFile(firstTarget, 'replayed.json', { no: true })).rejects.toThrow(
-      '授权已消费或正在使用',
-    )
+    await performPolicyFixtureWrite(firstTarget, 'first.json', { ok: true })
+    await expect(
+      performPolicyFixtureWrite(firstTarget, 'replayed.json', { no: true }),
+    ).rejects.toThrow('授权已消费或正在使用')
     expect(getFile(firstRoot, 'replayed.json')).toBeUndefined()
 
     const concurrentRoot = emptyDir('concurrent')
@@ -521,8 +522,8 @@ describe('workspace persistence policy', () => {
       dirHandle(concurrentRoot),
     )
     const results = await Promise.allSettled([
-      writeFile(concurrentTarget, 'one.json', 1),
-      writeFile(concurrentTarget, 'two.json', 2),
+      performPolicyFixtureWrite(concurrentTarget, 'one.json', 1),
+      performPolicyFixtureWrite(concurrentTarget, 'two.json', 2),
     ])
     expect(results.filter((result) => result.status === 'fulfilled')).toHaveLength(1)
     expect(results.filter((result) => result.status === 'rejected')).toHaveLength(1)
@@ -536,7 +537,7 @@ describe('workspace persistence policy', () => {
     const interrupted = await authorizeFirstSaveTarget(workspace, handle)
     await expect(
       withAuthorizedWorkspaceMutation(interrupted, async (mutation) => {
-        await writeFile(mutation, 'manifest.json', { id: 'local' })
+        await performPolicyFixtureWrite(mutation, 'manifest.json', { id: 'local' })
         throw new Error('simulated first-save interruption')
       }),
     ).rejects.toThrow('simulated first-save interruption')
@@ -544,7 +545,9 @@ describe('workspace persistence policy', () => {
     const retry = await authorizeFirstSaveTarget(workspace, handle, {
       resumesInterruptedAttempt: true,
     })
-    await expect(writeFile(retry, 'content/retry.json', { ok: true })).resolves.toBeUndefined()
+    await expect(
+      performPolicyFixtureWrite(retry, 'content/retry.json', { ok: true }),
+    ).resolves.toBeUndefined()
 
     const unrelated = createLocalWorkspaceContext(
       'local',
@@ -618,7 +621,11 @@ describe('workspace persistence policy', () => {
     const root = dirFromJson(files)
     const handle = dirHandle(root)
     const firstTarget = await authorizeFirstSaveTarget(context, handle)
-    await writeFile(firstTarget, 'content/scenes/index.json', ['s001', 's002', 's003'])
+    await performPolicyFixtureWrite(firstTarget, 'content/scenes/index.json', [
+      's001',
+      's002',
+      's003',
+    ])
 
     handleStore.load.mockResolvedValue({
       workspaceId: PAL_ID,
@@ -628,7 +635,7 @@ describe('workspace persistence policy', () => {
       handle,
     })
     const bound = await authorizeBoundWorkspaceTarget(context, handle)
-    await writeFile(bound, 'content/author-note.json', { ok: true })
+    await performPolicyFixtureWrite(bound, 'content/author-note.json', { ok: true })
     const writesBeforeDrift = root.writes
 
     jsonFile(root, 'content/maps/index.json', { version: 1, maps: ['external-change'] })
@@ -647,7 +654,10 @@ describe('workspace persistence policy', () => {
 
     await expect(
       withAuthorizedWorkspaceMutation(interrupted, async (mutation) => {
-        await writeFile(mutation, 'content/scenes/index.json', ['s001', 'partial-editor-write'])
+        await performPolicyFixtureWrite(mutation, 'content/scenes/index.json', [
+          's001',
+          'partial-editor-write',
+        ])
         throw new Error('simulated close failure')
       }),
     ).rejects.toThrow('simulated close failure')
@@ -655,7 +665,9 @@ describe('workspace persistence policy', () => {
     const retry = await authorizeFirstSaveTarget(context, handle, {
       resumesInterruptedAttempt: true,
     })
-    await expect(writeFile(retry, 'content/retry.json', { ok: true })).resolves.toBeUndefined()
+    await expect(
+      performPolicyFixtureWrite(retry, 'content/retry.json', { ok: true }),
+    ).resolves.toBeUndefined()
 
     const driftFiles = palFiles()
     const driftContext = await createPalDevelopmentWorkspaceContext(
@@ -667,7 +679,10 @@ describe('workspace persistence policy', () => {
     const driftTarget = await authorizeFirstSaveTarget(driftContext, driftHandle)
     await expect(
       withAuthorizedWorkspaceMutation(driftTarget, async (mutation) => {
-        await writeFile(mutation, 'content/scenes/index.json', ['s001', 'partial-editor-write'])
+        await performPolicyFixtureWrite(mutation, 'content/scenes/index.json', [
+          's001',
+          'partial-editor-write',
+        ])
         jsonFile(driftRoot, 'content/maps/index.json', {
           version: 1,
           maps: ['external-change'],
@@ -691,7 +706,10 @@ describe('workspace persistence policy', () => {
 
     await expect(
       withAuthorizedWorkspaceMutation(target, async (mutation) => {
-        await writeFile(mutation, 'content/scenes/index.json', ['s001', 'editor-change'])
+        await performPolicyFixtureWrite(mutation, 'content/scenes/index.json', [
+          's001',
+          'editor-change',
+        ])
         await registerAuthorizedWorkspaceMutation(mutation, context, 'pal')
         // Simulate migration/external tooling landing after the editor's first write but before
         // the operation can advance its session precondition.
@@ -722,7 +740,7 @@ describe('workspace persistence policy', () => {
     const target = await authorizeFirstSaveTarget(context, dirHandle(root))
     jsonFile(root, 'content/scenes/index.json', ['changed-after-authorize'])
 
-    await expect(writeFile(target, 'content/changed.json', {})).rejects.toThrow(
+    await expect(performPolicyFixtureWrite(target, 'content/changed.json', {})).rejects.toThrow(
       '关键快照与本次会话预期不一致',
     )
     expect(root.writes).toBe(0)
@@ -733,7 +751,7 @@ describe('workspace persistence policy', () => {
     const root = emptyDir('local')
     const workspace = createLocalWorkspaceContext('local', 'save-as', LOCAL_ID)
     const target = await authorizeFirstSaveTarget(workspace, dirHandle(root))
-    await expect(writeFile(target, SANDBOX_WORKSPACE_MARKER_PATH, {})).rejects.toThrow(
+    await expect(writeProject(target, { [SANDBOX_WORKSPACE_MARKER_PATH]: {} })).rejects.toThrow(
       '不能覆盖 workspace identity',
     )
     await expect(
@@ -752,7 +770,7 @@ describe('workspace persistence policy', () => {
         },
       ),
     ).rejects.toThrow('不能覆盖 workspace identity')
-    await expect(writeFile(target, '.TYPE-PAL/workspace.json', {})).rejects.toThrow(
+    await expect(writeProject(target, { '.TYPE-PAL/workspace.json': {} })).rejects.toThrow(
       '不能覆盖 workspace identity',
     )
     await expect(
@@ -1272,3 +1290,5 @@ describe('workspace persistence policy', () => {
     ).rejects.toThrow('最近项目记录与目录中的 workspace identity 不一致')
   })
 })
+
+import { performPolicyFixtureWrite } from './__tests__/policy-io.js'
