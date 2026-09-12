@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-12T10:36:26.487Z",
+  "generatedAt": "2026-09-12T11:43:28.880Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 618,
-  "testCount": 6295,
+  "testCount": 6308,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2805,8 +2805,8 @@
       ],
       "scopeDigest": "2ea0828d93df83523f4fa04e94099267380f593c72fede27cf7d584bf77c0561",
       "fastTests": {
-        "testCount": 2056,
-        "testFileCount": 200,
+        "testCount": 2069,
+        "testFileCount": 201,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2901,6 +2901,7 @@
           "packages/editor/src/core/tileset-references.test.ts",
           "packages/editor/src/core/ui-review-samples.test.ts",
           "packages/editor/src/core/video-metadata.test.ts",
+          "packages/editor/src/core/workspace-capability-lifecycle.test.ts",
           "packages/editor/src/core/workspace-persistence.test.ts",
           "packages/editor/src/core/workspace-save-admission.test.ts",
           "packages/editor/src/core/world-sprite-behavior.test.ts",
@@ -3476,6 +3477,11 @@
             "identityDigest": "899322ec873a7778f14c01e3acb2ac0022565ca77ffa60cad38c9f28c15f1996"
           },
           {
+            "file": "packages/editor/src/core/workspace-capability-lifecycle.test.ts",
+            "testCount": 13,
+            "identityDigest": "e69cc59c85395ddb258d659cf4c0e4e526fc8fe8b5f0ccaefa253ea5fe0074f4"
+          },
+          {
             "file": "packages/editor/src/core/workspace-persistence.test.ts",
             "testCount": 31,
             "identityDigest": "d369488d15845732becf96a4c78ed2499e878869ed7355e45439104c7031732b"
@@ -4011,17 +4017,17 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "e5f8ed22def6cecf55821acbbb8893664d2e16bd4336f04915b2c44be41d28a4",
+        "identityDigest": "fcef6df4a3f48a84204be973cbd4cbb0bc78d63b3ad69216f5e9a3fc365eb9fc",
         "duplicateIdentityCount": 8,
-        "executionDigest": "6e9f4c6b5a1f0dce7c19524d3852911679f51b8c9d529e1e9dc2c88a1f39a8f2"
+        "executionDigest": "ba01f3e1331193895320d8e4d55db3003b8c41701684fd011bcbca941e92f6c7"
       },
       "metrics": {
         "statements": {
-          "covered": 24747,
+          "covered": 24763,
           "total": 32527
         },
         "branches": {
-          "covered": 19109,
+          "covered": 19125,
           "total": 28148
         },
         "functions": {
@@ -4029,7 +4035,7 @@
           "total": 8221
         },
         "lines": {
-          "covered": 22347,
+          "covered": 22356,
           "total": 28404
         }
       }
@@ -4037,11 +4043,11 @@
   },
   "total": {
     "statements": {
-      "covered": 53631,
+      "covered": 53647,
       "total": 79539
     },
     "branches": {
-      "covered": 38413,
+      "covered": 38429,
       "total": 62529
     },
     "functions": {
@@ -4049,7 +4055,7 @@
       "total": 14622
     },
     "lines": {
-      "covered": 48453,
+      "covered": 48462,
       "total": 69587
     }
   }

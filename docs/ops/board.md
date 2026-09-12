@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | GLM：打开身份测试R1–R3返工；Codex：产品缺口/剩余收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) f3b84033未接收，hint来源漏测/只读断言/覆盖归属待补；82臂与官方基线不变，视觉仅Codex。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | GLM：打开身份测试R1–R3返工；Codex：产品缺口/剩余收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) Codex授权生命周期13项/10组负控闭环，check6,796/严格fast6,308通过，剩66臂；GLM未接收，hint.source待修，视觉仅Codex。 |
 
 ## 阻塞
 

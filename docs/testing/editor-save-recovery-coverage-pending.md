@@ -6,11 +6,11 @@
 ## 口径与未完成边界
 
 - 本表两份生产源码相对4b72e492未变；保存凭据解析性能优化不改变这两份源码。360b2f65接收树的未覆盖快照为wp82 + project-io37 = 119臂。
-- 前批PAL/首存回归将119臂降至93臂；2026-09-12本批project-io-admission新增15项，正式严格fast再命中io11臂，当前为 **56 + 26 = 82臂未覆盖**；没有新回退臂。
+- 前批PAL/首存回归将119臂降至93臂，project-io-admission再命中io11臂降至82；2026-09-12本批真实授权生命周期13项再命中wp16臂，当前为 **40 + 26 = 66臂未覆盖**；没有新回退臂。
 - branchId/arm是本次V8报告定位键，不是产品稳定ID；源码或工具升级后必须重生成。
 - 条件/函数由TypeScript AST定位。条件为归一化节选；短路表达式显示所属整体表达式，具体臂仍按报告编号，不把相同节选当同一个臂。长行用省略号。
-- 当前82臂中，**68臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
-- 本表0命中不写“已有覆盖”；82臂不是82个已确认bug，也不是整卡全部剩余工作。原生/性能/终审按父卡继续。
+- 当前66臂中，**52臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
+- 本表0命中不写“已有覆盖”；66臂不是66个已确认bug，也不是整卡全部剩余工作。GLM打开身份返工未接收、hint.source产品缺口及原生/性能/终审按父卡继续。
 - 原119臂的精确历史清单由Git保留；[preflight接收结论](editor-save-recovery-glm-preflight.md#codex-fae10e55接收结论2026-09-12)仍是该时点事实，不冒充最新数量。
 
 ## 前批闭环的9臂（E2：常驻测试已覆盖）
@@ -70,34 +70,25 @@ io2/0、8/0、18/1、22/1、23/0、26/0、40/1、50/1、65/1、71/0、82/1已由
   writeFile仍导出，亦不能称为JS不可调用。都是清理审查候选，不以猜测直接删除。
 - 所有13臂仍列在下方未覆盖表，不改源码、不减分母；剩余可选工作副本字段/异常类别继续E0。
 
+## 本批授权生命周期闭环的16臂（E2）
+
+[真实token回归及单点负控](editor-save-recovery-capability-review.md)由Codex执行；最终单次严格fast6,308项确认命中：
+wp20/0、25/0、26/0、35/0、42/0、45/0、47/0、50/0、71/0、82/0、85/0、88/0、89/0、91/0、93/0、96/0。
+wp覆盖为行402/423（95.03%）、函数58/58、分支395/435（90.80%）；io维持287/290、52/52、215/241。
+源码hash、生产文件范围和分母均未变，GLM分支不在本统计内。
+
 ## 当前清单
 
 ### workspace-persistence.ts
 
-来源：packages/editor/src/core/workspace-persistence.ts；源码SHA-256：f4cea61c2ae532945e9d707e73cf9def2ed98bc22a1b17cd19dd95eb0b3553b0。未覆盖56臂。
+来源：packages/editor/src/core/workspace-persistence.ts；源码SHA-256：f4cea61c2ae532945e9d707e73cf9def2ed98bc22a1b17cd19dd95eb0b3553b0。未覆盖40臂。
 
 | 分支/臂 | 行 | 所在函数/回调 | 条件/子表达式（按报告编号） | 当前分类 |
 |---|---:|---|---|---|
 | 3/1 | 127 | readJsonState | cond-expr：error instanceof Error | 待确认（E0） |
 | 4/0 | 147 | writeJsonSidecar | if：!dir | 构造保证（E3，见上） |
-| 20/0 | 234 | authorizedSaveScope | if：!state?.active \|\| state.dataFinalized | 待确认（E0） |
-| 25/0 | 257 | authorizedSaveScope → reconcileRecovery | if：state.active | 待确认（E0） |
-| 26/0 | 260 | authorizedSaveScope → reconcileRecovery | if：!plan | 待确认（E0） |
-| 35/0 | 304 | sealAuthorizedSavePlan | if：state.privateOperationId !== plan.operationId \|\| Object.keys(plan.before).length !== before.size \|\| Object.entries(plan.before).some( ([path, value]) => !before.has(path) \|\| before.get(path) !== value, ) | 待确认（E0） |
-| 42/0 | 337 | allowAuthorizedSavePrivateFile | if：!state?.active \|\| state.dataFinalized | 待确认（E0） |
-| 45/0 | 341 | allowAuthorizedSavePrivateFile | if：path !== '.type-pal/save-state.json' && suffix !== 'plan.json' && !/^blobs\/[0-9a-f]{64}$/.test(suffix) | 待确认（E0） |
-| 47/0 | 347 | allowAuthorizedSavePrivateFile | if：state.privateOperationId && state.privateOperationId !== operationId | 待确认（E0） |
-| 50/0 | 360 | completeAuthorizedWorkspaceData | if：!state?.active | 待确认（E0） |
-| 71/0 | 485 | recordAuthorizedWorkspaceWriteCompleted | if：!state?.active \|\| state.dataFinalized | 待确认（E0） |
 | 77/0 | 492 | recordAuthorizedWorkspaceWriteCompleted | if：value instanceof ArrayBuffer \|\| ArrayBuffer.isView(value) | 待确认（E0） |
 | 80/1 | 499 | recordAuthorizedWorkspaceWriteCompleted | cond-expr：typeof value === 'string' | 待确认（E0） |
-| 82/0 | 510 | planAuthorizedWorkspacePaths | if：!state?.active \|\| state.dataFinalized | 待确认（E0） |
-| 85/0 | 520 | recordAuthorizedWorkspaceRemoveCompleted | if：!state?.active \|\| state.dataFinalized | 待确认（E0） |
-| 88/0 | 532 | registerAuthorizedWorkspaceMutation | if：!state?.active | 待确认（E0） |
-| 89/0 | 534 | registerAuthorizedWorkspaceMutation | if：targetContext.workspaceId !== context.workspaceId \|\| targetContext.projectId !== context.projectId \|\| targetContext.mode !== context.mode \|\| targetContext.source !== context.source | 待确认（E0） |
-| 91/0 | 542 | registerAuthorizedWorkspaceMutation | if：state.dataFinalized && !pending | 待确认（E0） |
-| 93/0 | 543 | registerAuthorizedWorkspaceMutation | if：pending && (pending.context !== context \|\| pending.name !== name) | 待确认（E0） |
-| 96/0 | 553 | beginAuthorizedWorkspaceMutation | if：!state?.active \|\| state.dataFinalized | 待确认（E0） |
 | 113/0 | 613 | palDevelopmentTargetFingerprint | if：context.mode !== 'pal-development' \|\| !context.palProof | 待确认（E0） |
 | 116/1 | 622 | palDevelopmentTargetFingerprint → 回调@615 | cond-expr：error instanceof Error | 待确认（E0） |
 | 117/0 | 632 | readPalDevelopmentTargetValues | if：context.mode !== 'pal-development' \|\| !context.palProof | 待确认（E0） |
