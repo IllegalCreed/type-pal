@@ -598,7 +598,7 @@ GLM 为测试贡献者。测试候选为 P05 拆分后的两文件改动；最�
 **Codex 接收提示词（二次返工版）**：
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接收 EDITOR-SAVE-RECOVERY-1 的 GLM preflight-r1 二次返工：分支 codex/glm-save-preflight-tests（远端 SHA 见回执交接节），基于 989966af，产品/脚本零 diff。
+在 /Users/zhangxu/illegal/type-pal 接收 EDITOR-SAVE-RECOVERY-1 的 GLM preflight-r1 二次返工：分支 codex/glm-save-preflight-tests（远端 bbd3be5e = 测试 193f4adf + 文档），基于 989966af，产品/脚本零 diff；终树 ls-tree/ls-files data/extracted 双空已核。
 PF-2：P05 拆双用例——正控（同项目同 kind 合法精灵真实 writer 提交+字节+committed）；负控独立新鲜 fixture：合法 state 先正常序列化→structuredClone 后仅 bytes+1（kind/字节合法）→坏输入直接进 writeProject、catch-free 断言"资源二进制与 catalog 不符"，零凭据/零快照变化/零 IO；入口见证（临时计数注入 writeProject 函数体首行）证实负控调用恰 +1 后已删。
 PF-3：wp 82 臂/project-io 37 臂逐 branchId/arm 唯一分类（脚本复算汇总 20/49/10/3=82 与 9/10/4/4+10=37）；130/0 双 marker 按你的 bothMarkers oracle 改可达待测；assertDirectoryEmpty 9/0、10/0 撤回"前置阻断"改可达待测；27→28 勘误；回执勘误 check4 阻断为 formatter error、不倒填 SHA。
 验证：定向+相邻 46/46、tc 0、biome 0、四负控红（A1 三红含 P05 负控）、完整 check exit0 6,724 项、同口径 197/1,997 全绿。请复核 P05 负控构造与入口见证、重建负控、抽验逐臂表；通过后集成并统一 ratchet/严格 fast。GLM 测试贡献终审披露；不代签、不标 done。
