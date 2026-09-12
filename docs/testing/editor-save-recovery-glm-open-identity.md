@@ -3,6 +3,8 @@
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，build，r2设计签字有效，不重签。
 工作包：**open-identity-r1**。2026-09-12用户要求给GLM可并行工作，并明确视觉测试只能由Codex执行。
 
+**当前接收状态：counter（Codex，2026-09-12，f3b84033未集成）**。下方GLM回执为提交时原文；当前结论以文末Codex复核为准。本包返工，父卡保持build/r2，不重签。
+
 ## 分工与基线
 
 - Codex仍是生产Coding Owner，负责project-io剩余分支、性能/权限遗留、集成及最终质量门。
@@ -148,3 +150,81 @@ open-actions 103→**103/108**（覆盖已达行 119/119 100%）。
 ### 交接
 
 GLM 测试贡献者，终审须披露。测试候选 `e1c0d67e`（amend 回填前提交；本回执内 SHA 自指以下方最终推送 SHA 为准）。
+
+## Codex接收复核（2026-09-12，f3b84033：counter）
+
+本包暂不接收，测试源码未合入main，官方baseline及当前82臂台账不动。产品仍为1ba88755；
+主树4cc2b3e1已接收的20项首存/15项IO测试保持，不回滚。r2设计有效，不代签、不标done、不转Kimi。
+
+### 已独立确认
+
+- 远端/候选f3b840334c4a138703752c1780a1c0ec8e959881一致；相对945f54ab白名单恰为本附件和新增测试。
+  生产/脚本（除已存在的baseline历史变化）零漂；候选工作树干净。回执尾部e1c0d67e是amend前历史，不作为终审SHA。
+- 本席在候选工作树复跑6文件94项、editor typecheck、biome均通过。
+- 本席用TypeScript AST独立定位四个throw并逐次只移除一个，原测试均错误放行而红；不是复用GLM日志。
+  但该结论必须限定在当前登记替身下，不能宣称真实登记业务层也完整保留（见R2）。
+- 独立单文件覆盖与主树最终LCOV按同一源码位置复算：本包相对已接收树新增wp **14臂**，不是40；open-actions新增0。
+  预计并集wp393/435、open-actions103/108与其总量相符，但增量归属/分类不符（见R3）。
+
+### R1：漏掉指定的hint.source轴，并漏报真实接口缺口
+
+候选测试:184–200只测hint.mode/workspaceId，没有工作包明确要求的source不一致。
+
+本席不用盲写登记替身：保留真实handle-store、真实锁品牌和全部登记守卫，只在底层IndexedDB放内存请求/事务完成驱动。
+尚无最近记录的合法当前blank+有效沙盒marker(source=ui-samples)，传入真实构造器生成的hint（同projectId、同workspaceId、同mode，仅source=review-copy）：
+
+1. finishOpen错误成功，返回source=review-copy；
+2. 真实登记函数写入source=review-copy，而磁盘marker仍ui-samples；
+3. 不再带hint正常重开，立即因marker/最近记录不一致被拒绝。
+4. 同source正控可连续正常重开；作者文件零改动，错误副作用是最近工作区记录不一致。
+
+根部证据：[workspace-persistence.ts](../../packages/editor/src/core/workspace-persistence.ts):955–959仅核mode/workspaceId，
+未核hint与marker的source；[open-actions.ts](../../packages/editor/src/core/open-actions.ts):194–199随后登记。
+这是公开接口合同缺口；尚未证明正常UI构造链会产生这种不一致hint，不夸大为普通用户每次打开都会出错。
+
+**返工：** 补source单轴正常测试及同条件正控，按合同要求拒绝且不产生错误记录。正反控使用各自新鲜fixture；
+负例不能先调用finishOpen写入正确最近记录，否则后层登记守卫会遮住首次打开的缺口。当前产品上应如实标为预期红，
+不得skip/test.fails/改成“允许错误来源”的绿用例。产品修复归Codex，不授权GLM改生产。
+
+### R2：断言不足以支撑只读/零副作用声明，登记替身越过业务守卫
+
+- :302–309的forceSandbox PAL用例只看mode/source/零登记，没断言opened.dir不返回。
+  本席仅把真实forceSandbox返回值加回dir（open-actions:194），该用例仍绿；未钉住标题声称的边界。
+- :149–156的hint项目ID冲突、:184–200的沙盒hint冲突没有文件/IO/原绑定三件套，
+  与回执:100–101“所有冲突用例”不符。部分负例也没有同条件合法hint正控。
+- :27–40把saveWorkspaceHandle和saveWorkspaceHandleUnderLock改成直接Map.set，后者连lock品牌都忽略；
+  真实handle-store:122–164还包含锁品牌、同目录/已有identity守卫，不能把这种替身仅描述成底层IDB。
+  这也会影响“移除某个resolver守卫后完整生产一定误放行”的解释。
+- expectedIdentity句柄用例只证明最终拒绝，没有读取计数证明标题中的“载入前”；要么补实际读取见证，要么收窄表述。
+
+**返工：** 保留真实登记函数，把替身降到实际存储边界，并遵守request success/transaction complete合同；
+补上述关键断言、合法对照和finally/afterEach恢复全局。forceSandbox须有回传dir的负控红。
+若某个删除前层守卫的负控被真实后层继续挡住，按重叠保护记录，不移除更多守卫硬造“错误放行”。
+
+### R3：覆盖增量/命中归属及剩余分类不可靠
+
+起点945f54ab已经有Codex的PAL/首存回归，wp379/435；353不是本包起点。
+本席复算新增仅：182/1、183/1、183/2、183/3、185/0、190/0、192/0、196/0、
+199/0、200/1、202/0、203/0、206/0、208/0，共14。回执列出的104/106/107/109/130/132/138/149/150/162/165等
+不是本包新增；“contextFromRecord多数mode/source已命中”也与175–178仍0命中矛盾。
+
+“公开入口无法构造非活跃调用”不可采信：本席通过真实withAuthorizedWorkspaceMutation返回其真实token，
+作用域结束后调用公开authorizedSaveScope，成功命中wp20/0；没有伪造任何品牌。不能把这族全判为私有不可构造。
+47只等于wp42+open-actions5，不包含本卡另有的project-io未覆盖项，也不是整卡剩余总数。
+
+**返工：** 依据候选实际起点重做唯一branchId/arm表，分清已有命中/本包新增/仍未命中；不做无证据可达性结论，
+对本包之外的生命周期/PAL写侧等只列实际caller/先行守卫证据交Codex，不扩写新测试范围。
+更正“所有三件套”“无产品缺陷”等当前不成立的总括语，补真实失败/验证记录；不追溯改写他席原结论。
+
+### 可重建证据
+
+- 候选94项、tc、biome及独立AST负控：`/tmp/codex-open-identity-review.8WVTS5/`，candidate-*、negative-*、
+  review-negative.config.mts；漏dir的绿反证：leak.config.mts/leak.log。
+- [独立接口见证](../ops/audits/pre-e2e/probe-open-identity-boundaries.test.mjs)与
+  [专用配置](../ops/audits/pre-e2e/open-identity-probe.config.mts)已入库并实跑3项：
+  同source正控、错误source导致坏登记的见证、真实过期token可达见证。只用内存目录/IDB，无浏览器、无真实作者数据。
+- **这不是产品接受测试**：其中一项故意见证当前缺陷；修复后该见证应失败，不接入常规check/coverage，不把3绿当产品通过。
+  执行：`pnpm --filter @type-pal/editor exec vitest run --config ../../docs/ops/audits/pre-e2e/open-identity-probe.config.mts`。
+- 入库入口的运行结果：persistent-oracles.log、persistent-source-axis.json。
+  初次临时oracle因非标准vitest导入导致mock解析失败（0项执行），已修正重跑；该加载失败未计作反证。
+- 本包尚未接收，因此没有运行/更新官方ratchet和严格fast，也不合入不完整用例抬高基线。主树check6,783/fast6,295保持。

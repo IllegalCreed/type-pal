@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-12T09:53:09.021Z",
+  "generatedAt": "2026-09-12T10:36:26.487Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 618,
-  "testCount": 6280,
+  "testCount": 6295,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2805,8 +2805,8 @@
       ],
       "scopeDigest": "2ea0828d93df83523f4fa04e94099267380f593c72fede27cf7d584bf77c0561",
       "fastTests": {
-        "testCount": 2041,
-        "testFileCount": 199,
+        "testCount": 2056,
+        "testFileCount": 200,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2858,6 +2858,7 @@
           "packages/editor/src/core/playback.test.ts",
           "packages/editor/src/core/project-copy.test.ts",
           "packages/editor/src/core/project-diagnostics.test.ts",
+          "packages/editor/src/core/project-io-admission.test.ts",
           "packages/editor/src/core/project-io.test.ts",
           "packages/editor/src/core/project-open-workflows.test.ts",
           "packages/editor/src/core/project-read-admission.test.ts",
@@ -3258,6 +3259,11 @@
             "file": "packages/editor/src/core/project-diagnostics.test.ts",
             "testCount": 24,
             "identityDigest": "77fdc4a1710d364d161b43f2c684ee7802453946c3f744ab38bf0077667fb74e"
+          },
+          {
+            "file": "packages/editor/src/core/project-io-admission.test.ts",
+            "testCount": 15,
+            "identityDigest": "d10ea9be38d04dae2bdf2ff671a345db6ee5de24fe237998688bdd2a234652bc"
           },
           {
             "file": "packages/editor/src/core/project-io.test.ts",
@@ -4005,17 +4011,17 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "67ce8b740056ba467d2b0b71095cd0ceb80982d5cda26b84b5ac86d44e45d2e2",
+        "identityDigest": "e5f8ed22def6cecf55821acbbb8893664d2e16bd4336f04915b2c44be41d28a4",
         "duplicateIdentityCount": 8,
-        "executionDigest": "1530a13b7d47b98c8a603d57cbc2d2c8bd87e7f1bffc2055177135a1b038e152"
+        "executionDigest": "6e9f4c6b5a1f0dce7c19524d3852911679f51b8c9d529e1e9dc2c88a1f39a8f2"
       },
       "metrics": {
         "statements": {
-          "covered": 24741,
+          "covered": 24747,
           "total": 32527
         },
         "branches": {
-          "covered": 19098,
+          "covered": 19109,
           "total": 28148
         },
         "functions": {
@@ -4023,7 +4029,7 @@
           "total": 8221
         },
         "lines": {
-          "covered": 22342,
+          "covered": 22347,
           "total": 28404
         }
       }
@@ -4031,11 +4037,11 @@
   },
   "total": {
     "statements": {
-      "covered": 53625,
+      "covered": 53631,
       "total": 79539
     },
     "branches": {
-      "covered": 38402,
+      "covered": 38413,
       "total": 62529
     },
     "functions": {
@@ -4043,7 +4049,7 @@
       "total": 14622
     },
     "lines": {
-      "covered": 48448,
+      "covered": 48453,
       "total": 69587
     }
   }
