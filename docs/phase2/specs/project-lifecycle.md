@@ -112,12 +112,13 @@ post fingerprint，再与落盘实值精确比较。若操作中断，只在 liv
 - 重新打开同一工作区会创建新的 App 实例以重建会话 refs；该 mount 计数不进入 workspaceId、导航键或玩家存档地址。
 
 本机制不是文件夹级事务，也不锁住其他浏览器/OS 工具；比较后发生的非合作写入不能承诺原子 CAS。
-跨刷新持久恢复、部分发布修复、离开保护和撤销顺序仍分别按 A-03/A-07/D-01 跟踪。
+跨刷新持久恢复与部分发布修复已按下节 A-03 验收；离开保护和撤销顺序仍分别按 A-07/D-01 跟踪。
 
-### 保存中断恢复与复制读边界（A-03，实施中）
+### 保存中断恢复与复制读边界（A-03，2026-09-13 已验收）
 
-实施/测试和剩余验收见[EDITOR-SAVE-RECOVERY-1](../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，
-整卡尚未终审。普通保存、空白/HTTP 首存、PAL 克隆与另存为共用同一持久协调器：完整目标字节、删除和空目录
+实施/测试见[EDITOR-SAVE-RECOVERY-1](../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，
+候选 cd3de679 已三席终审及用户验收通过；性能与集中 E2E 剩余边界见[收口记录](../../testing/editor-save-recovery-closeout.md)。
+普通保存、空白/HTTP 首存、PAL 克隆与另存为共用同一持久协调器：完整目标字节、删除和空目录
 先落私有暂存并回读校验，原浏览器的真实句柄/身份凭据封为 ready 后，才能发布 pending 并写作者路径。
 清理失败与内容未保存分开反馈；恢复只重放已封存计划，不依赖旧页面回调或再次访问复制源。
 另存为将源复制与当前编辑覆盖、删除合成一份计划；复制的原始素材不进入编辑差异清单，避免下一次保存误删。

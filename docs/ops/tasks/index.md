@@ -8,6 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
+| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
