@@ -5,12 +5,12 @@
 
 ## 口径与未完成边界
 
-- project-io仍与4b72e492一致；本批wp仅新增sandbox hint.source一致性比较，源码hash已更新。360b2f65接收树的历史未覆盖快照为wp82 + project-io37 = 119臂。
-- 前批回归依次将119降至93、82、66、60；2026-09-12接收GLM open-identity-r1并由Codex修复source漏检后，当前为 **21 + 25 = 46臂未覆盖**；没有新回退臂。
+- project-io仍与4b72e492一致；wp在source漏检修复后，本批只清理唯一local调用域中私有helper的不可达身份分支，当前hash已更新。360b2f65接收树历史快照为wp82 + project-io37 = 119臂。
+- 前批回归依次将119降至93、82、66、60、46；本批退休7个不可达未覆盖臂后，当前为 **14 + 25 = 39臂未覆盖**。这7项不是测试新命中，分母退休详见下节；未引入新回退。
 - branchId/arm是本次V8报告定位键，不是产品稳定ID；源码或工具升级后必须重生成。
 - 条件/函数由TypeScript AST定位，行按当前LCOV节点起点。条件为归一化节选；短路表达式显示所属整体表达式，具体臂仍按报告编号，不把相同节选当同一个臂。长行用省略号。
-- 当前46臂中，**32臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
-- 本表0命中不写“已有覆盖”；46臂不是46个已确认bug，也不是整卡全部剩余工作。GLM打开身份测试子包已接收、hint.source缺口已修，剩余旧路径/性能/终审按父卡继续；相邻open-actions/handle-store/workspace-context尚有2/6/17臂，不混入本表两文件计数。
+- 当前39臂中，**25臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
+- 本表0命中不写“已有覆盖”；39臂不是39个已确认bug，也不是整卡全部剩余工作。GLM打开身份子包已接收，identity-foundation子包仍counter返工；旧路径/性能/终审按父卡继续。相邻open-actions/handle-store/workspace-context尚有2/6/17臂，不混入本表两文件计数。
 - 原119臂的精确历史清单由Git保留；[preflight接收结论](editor-save-recovery-glm-preflight.md#codex-fae10e55接收结论2026-09-12)仍是该时点事实，不冒充最新数量。
 
 ## 前批闭环的9臂（E2：常驻测试已覆盖）
@@ -99,11 +99,23 @@ Codex新增source条件产生新臂193/2且已命中，因此分母435→436、�
 剩余24/0（PAL proof缺席）、49/0（复制observed缺席）的当前调用域前置/构造保证见该回执源码链，标E3但不删除或移出分母。
 workspace-persistence/project-io的21+25臂无增减，GLM负责的基础两个模块仍为6/17，不据此宣称本卡全部收口。
 
+## 本批私有helper分支退休（不是E2测试新命中）
+
+[完整调用域证据与回归](editor-save-recovery-project-io-review.md#私有本地记录转换清理起点e963598b)：
+唯一caller先同步拒绝非local，故旧helper的sandbox/非local分支无当前生产调用域；重命名localContextFromRecord并仅保留本地来源转换。
+保留caller模式拒绝及本地来源白名单，11项公开入口在清理前后均通过；两组单点负控验证错误降级/非法来源仍会被测试捕获。
+
+退休旧175/0、176/0、176/1、177/0、177/1、177/2、178/1共7个未覆盖臂，并同时移除原已覆盖175/1、178/0两个外层判断臂。
+wp分支415/436→413/427，行413/423→411/417，函数58/58不变；语句/行全仓分子各减2、分母各减6，分支分子减2、分母减9。
+旧175以后的编号已重新分配，不把旧编号在新报告的命中误当贡献；剩余14臂均在未变代码段，逐项与原清单排除上述7项后相等。
+最终严格fast6,358项、618生产文件，源码路径/测试范围没有缩窄，覆盖比例未下降；这是实际删除冗余代码的分母变化，不是忽略统计。
+project-io、open-actions及GLM两个冻结模块的覆盖与源码均未变；旧writeFile/旧脚本公共管线不在本批删除。
+
 ## 当前清单
 
 ### workspace-persistence.ts
 
-来源：packages/editor/src/core/workspace-persistence.ts；源码SHA-256：141741f5ca055569f582b6ca28c19bb56068a8a9c423e9bb4db3453b2e89ab1e。未覆盖21臂。
+来源：packages/editor/src/core/workspace-persistence.ts；源码SHA-256：603f76ad063931e1ceeeeec9d338e9c4516df7fbc90d57bbec0da9593ae8d88f。未覆盖14臂。
 
 | 分支/臂 | 行 | 所在函数/回调 | 条件/子表达式（按报告编号） | 当前分类 |
 |---|---:|---|---|---|
@@ -121,13 +133,6 @@ workspace-persistence/project-io的21+25臂无增减，GLM负责的基础两个�
 | 159/1 | 775 | preflightFirstSaveTarget | binary-expr：entryBinding && entryBinding.workspaceId !== context.workspaceId | 待确认（E0） |
 | 164/2 | 804 | authorizeFirstSaveTarget | binary-expr：previousAuthor && (previousAuthor.dir === dir \|\| (await previousAuthor.dir.isSameEntry(dir))) | 待确认（E0） |
 | 169/0 | 823 | authorizeFirstSaveTarget → verifyWorkspace | if：metadata.sandbox.kind === 'invalid' \|\| metadata.palDevelopment.kind !== 'missing' | 待确认（E0） |
-| 175/0 | 889 | contextFromRecord | if：record.mode === 'sandbox' | 待确认（E0） |
-| 176/0 | 890 | contextFromRecord | if：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
-| 176/1 | 890 | contextFromRecord | if：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
-| 177/0 | 891 | contextFromRecord | binary-expr：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
-| 177/1 | 891 | contextFromRecord | binary-expr：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
-| 177/2 | 891 | contextFromRecord | binary-expr：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
-| 178/1 | 898 | contextFromRecord | if：record.mode === 'local-project' | 待确认（E0） |
 
 ### project-io.ts
 

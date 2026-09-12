@@ -2,7 +2,7 @@
 
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
 Codex，2026-09-12；生产源码不改，与GLM打开身份测试并行。
-本页保留945f54ab与261c3c66起点的历史批次；最新7767b67c起点的续批见下方“另存为边界收口”。
+本页保留各批历史；最新e963598b起点的清理见下方“私有本地记录转换清理”。
 
 ## 前批结果（起点945f54ab）
 
@@ -179,6 +179,52 @@ workspace-context仍76/93、handle-store仍33/39，本批未借GLM工作域抬�
 严格summary与生成baseline各包/全仓metrics及总数一致。日志在`/tmp/codex-save-as.uCWxGJ/`：target-first、adjacent、typecheck-final、
 negative-*、check、ratchet、strict-fast及verified.json。lint仍为既有50 warnings/11 infos，无error。
 本轮没有产品缺陷或新权限/版本裁决；根卡仍build/r2，不重签、不标done。
+
+## 私有本地记录转换清理（起点e963598b）
+
+Codex，2026-09-12；用户要求GLM返工期间继续独立推进。只清理workspace-persistence的一个私有helper，
+不改GLM的workspace-context/handle-store或其两个测试文件，不涉及脚本公共模型、版本或存储协议变化。
+
+### 调用域证据与实施边界
+
+`git grep -n contextFromRecord e963598b -- packages scripts`只有声明:888、调用:1007两处。
+该唯一调用前的:1005–1006已拒绝所有非local-project记录，检查与同步helper调用间无await或外部callback；
+当前IDB读出的普通记录对象不通过getter变换字段。因此helper内部的sandbox来源转换及非local尾拒绝没有当前生产调用域。
+最强替代解释是另有调用或正常数据能在检查后改变mode；当前源码与公开入口验证均不支持它，不把任意篡改JS环境算当前输入。
+
+将helper改名localContextFromRecord，仅保留原本地来源白名单与相同构造器调用；caller的模式拒绝、projectId校验、
+标记验证、登记守卫全部不改。不是让受限记录改走本地分支，也不是删除一个能被当前调用触发的安全检查。
+GLM两模块hash与工作包冻结值一致，返工前提未变；其名义覆盖不计入本批。
+
+### 先测旧实现，再测清理后
+
+新增[workspace-local-record.test.ts](../../packages/editor/src/core/workspace-local-record.test.ts)11项：
+
+- 四种合法本地来源经真实finishOpen登记后，无hint重开保持workspace身份；公开resolver返回同样身份。
+- 三种合法sandbox来源及PAL都先通过真实打开/登记，再外部移除marker/sentinel；finishOpen与公开resolver都拒绝，
+  文件、写IO、记录/凭据不变；恢复原标记后原身份可重开。PAL的HTTP proof字节来自独立可信源，不用被改目标自授权。
+- 两种受限记录即使外部把source改成看似合法local来源，公开resolver仍不能降级；这是故意损坏记录的负例，不是合法构造器输出。
+- 本地记录的非法来源仍拒绝，原记录不改，恢复后合法重开。
+
+真实登记/锁函数保留，仅替换底层IDB与FSA/HTTP宿主。此批不测IDB升级/abort模型，不将内存fixture称为原生验证。
+旧实现11/11通过、typecheck通过；清理后相邻6文件100/100及typecheck通过。
+编写期只有新文件字符串拼接的biome info，改模板字符串后两改动文件零诊断；没有为让测试绿而修改产品语义。
+
+独立隔离负控（/tmp/codex-record-cleanup.Rifq6t/negative.config.mts）每次只移除一个保留的throw：
+caller模式拒绝去除→两条“受限mode+伪装local来源”的公开resolver用例错误resolve，2红；
+本地来源白名单拒绝去除→非法来源被接受，1红。没有把后层换文案拒绝当错误放行，也未导出私有函数凑覆盖。
+
+完整check **6,846项**、以e963598b为BASE_REF的官方ratchet与随后**单次**严格fast **6,358项**均exit0。
+editor205测试文件/2,119项，618生产文件；所有sourceFiles/scopeDigest不变，没有删除测试或改变排除配置。
+wp分支415/436→413/427、行413/423→411/417、函数58/58不变；原未覆盖21→14，主表46→39。
+退休的是旧7个未覆盖臂和2个已覆盖外层判断臂；全仓语句/行各-2已覆盖/-6总数，分支-2已覆盖/-9总数，函数不变。
+其余包及project-io/open-actions/workspace-context/handle-store指标不变，新增11项用于验证现行公开行为，并非11个新功能或7个新增命中。
+严格summary与新baseline逐包/全仓metrics一致，未出现覆盖率抖动；lint仍为既有50 warnings/11 infos，无error。
+旧writeFile和整套旧脚本公共管线不在本切片删除；GLM两模块源码hash与原工作包相同，不影响其返工前提。
+
+证据目录`/tmp/codex-record-cleanup.Rifq6t/`：before/after-adjacent、typecheck、negative-*、check、ratchet、strict-fast及verified.json。
+辅助取旧LCOV时报告已进入重新生成阶段，曾报ENOENT；旧整数计数改由上批持久verified.json和e963598b Git baseline复算，未将失败读取当证据。
+父卡仍build/r2，不重签、不标done，不转Kimi。
 
 ## 后续
 

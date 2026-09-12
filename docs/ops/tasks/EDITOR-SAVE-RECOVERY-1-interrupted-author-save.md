@@ -2054,8 +2054,28 @@ C0是Codex提示词勘误：JSON.parse('1e400')能产生Infinity；补真实File
 提交推送并核远端SHA后交Codex复核；测试贡献终审披露。
 ```
 
+### Codex并行清理 · 私有记录恢复的不可达分支（2026-09-12）
+
+用户要求GLM返工期间继续其他可推进工作。限定清理workspace-persistence.ts私有contextFromRecord；
+当前唯一生产调用在:1007，紧前:1005已拒绝existing.mode !== local-project，packages/scripts生产源码检索仅声明/此调用两处。
+私有helper内:889–897的sandbox分支和:908的非local尾拒绝不可能在当前普通记录对象调用域执行；
+check与helper调用间没有await或外部callback，不接受getter切换/篡改JS环境作为当前产品输入。
+原版/一阶段N/A：编辑器私有记录装配无对应UI；一手真值是当前caller/helper与公开入口合同。
+目标before→after：用户行为不变，本地记录保持身份，丢marker的受限记录继续拒绝，不变更模型/版本/公共接口。
+最强替代解释是存在第二调用或可在检查后改变record.mode的正常入口；若发现则停止该清理，重新核范围。
+先新增公开入口正反回归并在旧实现运行，再将helper改名为仅local用途、保留local来源验证及上游拒绝；
+这不是删除安全guard来凑覆盖，分母/分子退休数量与新增测试贡献分别登记。workspace-context/handle-store冻结模块及GLM两个测试文件不动。
+沿用本卡r2及同Owner连续清理，不重签、不标done；跨包/脚本公共模型的旧管线退役不在本切片实施。
+
+本轮[回执](../../testing/editor-save-recovery-project-io-review.md#私有本地记录转换清理起点e963598b)：
+新增公开入口11项在旧实现与清理后均通过，清理后相邻100项/typecheck/biome通过，两组保留guard单点负控2+1业务红。
+完整check6,846/官方ratchet/单次严格fast6,358均exit0；wp原7个未覆盖臂及2个已覆盖判断臂退休，415/436→413/427。
+主表46→39来自退休而非新增命中；618生产文件、其他模块指标/GLM冻结hash保持。测试/文档与源码清理已分别对账，不宣称性能改善。
+无下一位Agent提示词；GLM仍按identity-foundation既有counter返工，Codex自持本批收口，不提前送整卡终审。
+
 ## 交接日志
 
+- 2026-09-12 Codex：完成唯一local调用域的私有记录转换冗余清理，11项前后对照/相邻100项/两组负控通过；check6,846/严格fast6,358通过。主表46→39明确为7个未覆盖臂退休，分母-9，不冒充新增覆盖；GLM两个模块未改，父卡build/r2。
 - 2026-09-12 Codex：ff0a0d4a identity-foundation子包counter；独立21/147绿不抵消R1非法成功输入、R2空暂存/旧库未清、R3提前释放品牌漏测。名义+17/+6不合入，官方6,347基线不改；C0 JSON溢出说明由Codex勘误，交GLM限定返工。
 - 2026-09-12 Codex：另存为10项/相邻130项/三组1+2+2业务负控完成，check6,835/ratchet/单次严格fast6,347通过；open-actions106/108，余2臂E3，主表46臂不混减。产品及GLM工作域零改动，父卡build/r2。
 - 2026-09-12 Codex：双线工作包917b3470已提交推送并提供GLM提示词，未代称GLM已开工；本席full6,673/618源码通过并独立核fast子集和各包指标，更新最新覆盖率文档，生产/fast baseline零改动，父卡build/r2。

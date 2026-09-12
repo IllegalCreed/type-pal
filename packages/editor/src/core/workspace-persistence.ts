@@ -885,27 +885,16 @@ export const WORKSPACE_IDENTITY_COPY_EXCLUDES = Object.freeze([
   PAL_DEVELOPMENT_SENTINEL_PATH,
 ])
 
-function contextFromRecord(record: WorkspaceHandleRecord): WorkspaceContext {
-  if (record.mode === 'sandbox') {
-    if (
-      record.source !== 'ui-samples' &&
-      record.source !== 'sandbox-copy' &&
-      record.source !== 'review-copy'
-    )
-      throw new Error('最近项目记录的 sandbox 来源无效')
-    return createSandboxWorkspaceContext(record.projectId, record.source, record.workspaceId)
-  }
-  if (record.mode === 'local-project') {
-    if (
-      record.source !== 'blank-project' &&
-      record.source !== 'pal-development-snapshot-clone' &&
-      record.source !== 'save-as' &&
-      record.source !== 'local-directory'
-    )
-      throw new Error('最近项目记录的 local-project 来源无效')
-    return createLocalWorkspaceContext(record.projectId, record.source, record.workspaceId)
-  }
-  throw new Error('PAL 开发基线必须重新验证 sentinel 与关键快照')
+/** The caller rejects nonlocal records before entering this markerless recovery path. */
+function localContextFromRecord(record: WorkspaceHandleRecord): WorkspaceContext {
+  if (
+    record.source !== 'blank-project' &&
+    record.source !== 'pal-development-snapshot-clone' &&
+    record.source !== 'save-as' &&
+    record.source !== 'local-directory'
+  )
+    throw new Error('最近项目记录的 local-project 来源无效')
+  return createLocalWorkspaceContext(record.projectId, record.source, record.workspaceId)
 }
 
 function assertExpectedWorkspaceIdentity(
@@ -1004,7 +993,7 @@ export async function resolveOpenedWorkspaceContext(
     if (existing.projectId !== projectId) throw new Error('最近项目记录与 manifest 项目 id 不一致')
     if (existing.mode !== 'local-project')
       throw new Error('工作区 marker 缺失，拒绝把受限工作区降级为普通本地项目')
-    return finalize(contextFromRecord(existing))
+    return finalize(localContextFromRecord(existing))
   }
   return finalize(createLocalWorkspaceContext(projectId, 'local-directory'))
 }
