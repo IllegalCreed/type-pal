@@ -1691,7 +1691,73 @@ editor覆盖语句+22/分支+17/函数+4/行+18，其余包不变；两轮覆盖
 本席证据`/tmp/codex-preflight-final.0VluWI/`；原生/性能/剩余分支审查/终审仍待，不代签、不标done。
 无下一位Agent提示词，本轮测试接收后由Codex继续。
 
+### Codex · PAL保存身份与跨页恢复验证切片（2026-09-12）
+
+用户要求继续，从360b2f65接续r2，不重签。本轮优先将PAL写侧身份/指纹与恢复边界补成真实回归，
+并用隔离浏览器资料、原生OPFS/IDB/Web Locks验证中断后新上下文恢复、继续保存及外部冲突拒绝。
+HTTP可信源在专用6011验证页镜像隔离目录，模拟开发服务器读取同一作者目录；不写用户PAL项目，不改6010。
+使用小型current blank+合法PAL sentinel验证机制，不冒充全量PAL内容、OS文件夹选择器或物理断电测试。
+本轮未授权降低检查频率/移除保护以优化性能；大克隆94.05s成本仍另行定位。原生结果与负控完成后回填，
+不把本段计划视为已执行或整卡验收。
+
+#### 本轮验证回执
+
+本轮未修改产品实现，新增[PAL保存身份回归](../../../packages/editor/src/core/pal-save-identity.test.ts)13项，
+真实PAL上下文由独立可信FileSource产生，目标目录是另一份合法副本；只替换存储边界，授权、锁、loader、writer均为生产代码。
+内容范围仍content20/SAVE8，不改PAL生成项目、不降低保护频率。
+
+- 合法PAL保存修改manifest名称和人物体力，再取新作者基线连续保存：指纹会话推进、pal-bound不降级。
+- 双marker独立解析有效仍拒绝；sentinel缺失/坏版本/换workspaceId拒绝。
+- 对palFingerprintPaths实际列入的manifest进行缺失、坏JSON、外部改名，精确在指纹读取/比较拒绝；
+  已取得target后再变更也在writer创建恢复凭据前拒绝。
+- 人物表不属于该结构指纹5文件，但仍由A-02作者基线拒绝外部修改；绑定记录缺失、project/mode漂移均拒绝，零文件/凭据副作用。
+
+首轮4红是本席把actors.json误当结构指纹文件，或误判其拒绝层；实际palFingerprintPaths只列sentinel、manifest、catalog、scene index、map index。
+据一手代码纠正fixture后13/13绿，未修改产品迁就预期；单独保留人物表由作者基线保护的回归。初次失败日志unit.log保留，不称产品缺陷。
+最终定向/相邻6文件150项绿、editor typecheck与新增文件biome通过。
+三种独立负控均业务红：移除PAL指纹比较→错误授予target；移除已保存指纹推进→第二次合法保存错误被拒；
+移除绑定project/mode一致性→两种错误绑定获授权。fingerprint首次替换点有两处、未形成有效反证；
+收窄至唯一函数边界后再跑，采用negative-fingerprint-verified.log，不把加载失败当测试红。
+
+**原生API闭环（SR-01/05/06/08/10/11的PAL补证）**：专用6011、独立新Chrome资料、真实OPFS句柄/IndexedDB/Web Locks。
+初始fixture由buildBlankProject('pal')和合法sentinel组成（21文件）；可信HTTP源镜像同一个OPFS目录，
+模拟开发服务器随作者写盘更新，不使用固定旧HTTP字节，也不改用户真实PAL项目。观察结果：
+
+1. 新增native-pal-added及场景引用，maxHP=237；actors.close前注错后，scene引用已落盘、人物定义尚缺，状态门pending。
+2. 关闭整个浏览器上下文并新上下文打开，实际openExistingProject触发恢复一次；237与引用恢复，
+   workspaceId保持、IDB绑定句柄isSameEntry为真、mode=pal-development/policy=pal-bound。
+3. 再改maxHP=238，真实writer保存和重开成功；loadPlayProject初始载入也读到238。恢复读取时同W原生锁不可用，结束后可重新取得。
+4. 再次中断并外部把人物体力改为777，关闭/重开后明确恢复冲突；createWritable次数0，整棵目录文件SHA快照不变，恢复数据保留。
+
+上述是原生后端/跨上下文**API**验证，**不是OS文件夹选择器、实际编辑器点击/UI提示或完整试玩/剧情E2E**；
+UI可达性、权限手势与全量PAL内容/性能仍按整卡后续验证，不用这份小fixture替代。
+等价临时探针首次通过后，本席将其参数化为[可重建原生探针](../audits/pre-e2e/verify-pal-save-recovery.mjs)，
+每次运行mktemp新资料目录，不复用用户Chrome资料，不自动安装依赖；语法/biome检查后再用入库入口实跑通过。
+
+重跑前按dev-servers指南准备专用6011实例；Playwright由外部开发运行时提供：
+
+```sh
+TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json node docs/ops/audits/pre-e2e/verify-pal-save-recovery.mjs
+```
+
+可用TYPE_PAL_CHROME_EXECUTABLE指定浏览器二进制；默认本机Google Chrome。脚本打印EVIDENCE_DIRECTORY并保留native-pal.json及隔离profile，
+不操作真实目录选择器；server/原生运行均由本席关闭，用户6010未重启或清数据。
+入库脚本实跑证据：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-native-recovery-ceI2P0/native-pal.json`。
+本轮其他日志/初版探针/负控配置：`/tmp/codex-pal-recovery.MXSMje/`，native-pal.log、native-repro.log、adjacent/typecheck-final及negative-*。
+
+正式ratchet及随后单次严格fast均已通过：6,236→6,249项，editor 198测试文件/2,010项；618生产文件及所有分母未变，
+全仓语句+8、分支+10、行+6、函数不变。workspace-persistence由353/435→362/435（83.21%），
+原119臂台账中的9臂已常驻命中，当前剩110臂；[台账](../../testing/editor-save-recovery-coverage-pending.md)已更新并纠正短路表达式节选的空白/残缺定位。
+首次完整check及添加入库原生探针后的最终完整check均exit0、6,737项通过；最终日志check-final.log。
+正式baseline与严格fast汇总一致；原有50项lint warning/11项info未在本切片扩大，新增文件检查无诊断。
+本轮不代签、不标done；原生API补证不等于UI/OS权限/大克隆性能和余下分支审查全部完成。
+无下一位Agent提示词，本切片由Codex自测收口，下一切片继续余下分支、UI/OS权限与性能核验；不请用户重复签设计。
+
 ## 交接日志
+
+- 2026-09-12 Codex：从360b2f65接续PAL保存身份切片，13项新回归与隔离原生跨上下文API验证通过；
+  完整check 6,737、严格fast 6,249，110臂待核台账与正式LCOV一致。产品零改动，整卡仍build；
+  真实UI/OS权限及大克隆性能仍未完成，不把OPFS后端证据扩张为完整E2E验收。
 
 - 2026-09-12 Codex：574012e5续批counter；12文件197项复跑，隔离证明W9错层及IDB替身不符合事务/请求合同。
   新续批源码与资产链接均未集成，main仅落原回执、C1–C4与看板/索引；前次21项保持有效，产品/探针/官方baseline未动。
