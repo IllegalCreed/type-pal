@@ -35,8 +35,36 @@ async function blankState(id: string) {
 
 // ═══ S01：脚本索引/分片/共享脚本 ═══
 
-test('S01: 分片脚本按声明路径输出 index/chunks，正文内容保留；缺 chunk 在序列化层拒绝', async () => {
-  const { state } = await blankState('ser-s01')
+test('S01(当前模型): sharedScripts 携带具体脚本体输出并可经正式 loader 重开核对', async () => {
+  const { state, disk } = await blankState('ser-s01-current')
+  // 当前 canonical 作者共享脚本入口：AuthorScriptLibrary = Record<id, {name, self, body}>。
+  const library = {
+    'glm:heal-light': {
+      name: 'glm.shared.healLight',
+      description: 'glm.shared.healLight.desc',
+      self: 'none',
+      body: [{ kind: 'wait', ms: 100 }],
+    },
+  }
+  ;(state as { sharedScripts: unknown }).sharedScripts = library
+  const files = serializeProject(state)
+  expect(files['content/shared-scripts.json']).toEqual(library)
+  // 未加载地图在纯 serializeProject 输出中缺席 → 补 mapCopies 原文，与编辑器保存路径同构。
+  const withMaps = await serializeProjectWithMapCopies(state, fsaSource(disk.dir))
+  // 输出落盘后经正式 loader 重开：具体脚本体/自引用语义保留。
+  const outDir = memoryAuthorDirectory(structuredClone(withMaps))
+  const reopened = await loadCurrentProjectFrom(fsaSource(outDir.dir))
+  const lib = reopened.authorContent.sharedScripts as Record<
+    string,
+    { name: string; body: unknown[] }
+  >
+  expect(lib['glm:heal-light']).toBeTruthy()
+  expect(lib['glm:heal-light']!.body).toEqual([{ kind: 'wait', ms: 100 }])
+  void disk
+})
+
+test('S01(旧分片登记): content.scripts 为当前 loader 明禁字段，输出不可经正式重开——登记交 Codex 清理', async () => {
+  const { state } = await blankState('ser-s01-legacy')
   const chunk: ScriptChunkV1 = {
     version: 1,
     id: 'glm-chunk',
@@ -44,26 +72,24 @@ test('S01: 分片脚本按声明路径输出 index/chunks，正文内容保留�
       'glm:scene': [{ kind: 'dialog', cue: { rows: [{ text: 'menu.system.no' }] } } as never],
     },
   }
-  // index.bytes 必须等于 chunk 的 JSON.stringify 无缩进 UTF-8 字节数（script-library:383 合同）。
   const chunkBytes = new TextEncoder().encode(JSON.stringify(chunk)).byteLength
   const index: ScriptIndexV1 = {
     version: 1,
     shards: { shared: 16, global: {} },
     chunks: { 'glm-chunk': { path: 'chunk-glm.json', bytes: chunkBytes } },
   }
-  // manifest 声明 scripts 目录（blank 默认不声明 → 显式补声明构造合法当前形态）。
   state.manifest = structuredClone(state.manifest)
   ;(state.manifest.content as Record<string, unknown>).scripts = 'content/scripts/'
   state.scriptIndex = index
   state.scriptChunks = { 'glm-chunk': chunk }
   const files = serializeProject(state)
   expect(files['content/scripts/index.json']).toEqual(index)
-  expect(files['content/scripts/chunk-glm.json']).toEqual(chunk)
-
-  // 缺 chunk：上游 assertScriptProjectValid（script-library）先拒绝（index 缺正文错误）；
-  // serializeProject:286 的同文案分支为重叠护栏——上游已挡，如实分类不绕过。
-  state.scriptChunks = {}
-  expect(() => serializeProject(state)).toThrow(/index chunk 缺文件/)
+  // 该形态被当前 loader 明确拒绝（project-loader:188-189「当前 manifest 禁止 content.scripts」），
+  // 不是当前编辑器可保存并重开的合法正控；旧分片残留路径登记为 Codex 代码清理审查项。
+  const outDir = memoryAuthorDirectory(structuredClone(files))
+  await expect(loadCurrentProjectFrom(fsaSource(outDir.dir))).rejects.toThrow(
+    '当前 manifest 禁止 content.scripts',
+  )
 })
 
 test('S01: 声明 sharedScripts 缺失时在序列化层拒绝；正常输出经 checkAuthorScriptLibrary', async () => {
@@ -84,18 +110,34 @@ test('S01: 声明 sharedScripts 缺失时在序列化层拒绝；正常输出经
 
 // ═══ S02：地图工作副本与 copy-through ═══
 
-test('S02: 已加载地图输出 formatProjectMap 工作副本；未加载地图经 readText copy-through 保留原文', async () => {
+test('S02: 未加载地图经 readText copy-through 逐字保留；已加载工作副本优先于磁盘原文输出', async () => {
   const { state, opened } = await blankState('ser-s02')
   const mapIndex = state.mapIndex
   expect(mapIndex.maps.length).toBeGreaterThan(0)
-  // blank 默认未加载任何 map 工作副本（maps 为空）→ serializeProjectWithMapCopies 走 copy-through。
   const source = opened.project.source
-  const original = await source.readText(mapIndex.maps[0]!.path)
-  const files = await serializeProjectWithMapCopies(state, source)
-  expect(files[mapIndex.maps[0]!.path]).toBe(original)
+  const mapId = mapIndex.maps[0]!.id
+  const mapPath = mapIndex.maps[0]!.path
 
-  // 地图资产路径覆盖 index 文件 → 上游 validateMapIndex 先拒绝（serializeProject:267 调用）。
-  // 该序列化层同文案分支（:272）为重叠护栏：上游已挡，当前模型无法到达——如实分类，不造旁路。
+  // 分支一：未加载（state.maps 空）→ copy-through 逐字保留磁盘原文。
+  const files = await serializeProjectWithMapCopies(state, source)
+  const original = await source.readText(mapPath)
+  expect(files[mapPath]).toBe(original)
+
+  // 分支二：已加载工作副本 → formatProjectMap 输出且内存编辑优先于旧磁盘原文。
+  const loaded = await (await import('@type-pal/reforge')).loadAllProjectMaps(opened.project)
+  const working = loaded[mapId]!
+  // 修改工作副本使其与磁盘原文不同：改第一个图层名（formatProjectMap 逐层输出 name）。
+  const layers = working.layers.map((layer, index) =>
+    index === 0 ? { ...layer, name: `${layer.name}-已编辑` } : layer,
+  )
+  const edited = { ...working, layers }
+  state.maps = { ...loaded, [mapId]: edited }
+  const filesAfterEdit = await serializeProjectWithMapCopies(state, source)
+  const output = filesAfterEdit[mapPath] as string
+  expect(output).not.toBe(original) // 内存编辑胜出，而非 copy-through 原文
+  expect(output).toContain('-已编辑')
+
+  // 上游 validateMapIndex 拒绝地图资产路径覆盖 index（serializeProject 同文案分支为重叠护栏）。
   const poisoned = structuredClone(state.mapIndex)
   const mapIndexRel = state.manifest.content.maps!
   poisoned.maps[0]!.path = mapIndexRel

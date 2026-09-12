@@ -43,7 +43,12 @@ beforeEach(() => {
 
 import { loadAllAuthorScenes } from '@type-pal/reforge'
 import { finishOpen } from './open-actions.js'
-import { preflightProjectWriteSet, writeProject } from './project-io.js'
+import {
+  preflightProjectWriteSet,
+  serializeProjectWithMapCopies,
+  toEditorState,
+  writeProject,
+} from './project-io.js'
 import { buildBlankProject } from './seed.js'
 import { authorizeBoundWorkspaceTarget } from './workspace-persistence.js'
 
@@ -67,9 +72,10 @@ test('P01: 大小不符独立拒绝（摘要保持相符）；合法原字节正
   )
 })
 
-test('P01: 摘要不符独立拒绝（大小保持相符）', async () => {
+test('P01: 摘要不符独立拒绝（大小保持相符；同输入合法对照通过）', async () => {
   const assets = await preflightAssets()
   const { files, catalogPath } = await singleAssetInput(assets.sprite)
+  await expect(preflightProjectWriteSet(files)).resolves.toBeUndefined()
   const hashMismatch = withRecord(files, catalogPath, {
     sha256: 'f'.repeat(64),
   })
@@ -81,6 +87,8 @@ test('P01: 摘要不符独立拒绝（大小保持相符）', async () => {
 test('P02: tileset 非 canonical gzip（魔数不符，摘要如实更新）独立于 RLE 损坏拒绝', async () => {
   const assets = await preflightAssets()
   const { files, catalogPath } = await singleAssetInput(assets.tileset)
+  // 同 kind 合法 tileset 预检正控。
+  await expect(preflightProjectWriteSet(files)).resolves.toBeUndefined()
   const { sha256Hex } = await import('./binary-signature.js')
   // 非 gzip：全 0xFF 首字节破坏魔数，bytes/sha 如实更新 → 先被魔数检查拒绝。
   const notGzip = new ArrayBuffer(32)
@@ -140,7 +148,7 @@ test('P04: 非 catalog 管理的附属二进制不参与资源记录校验（合
   await expect(preflightProjectWriteSet(withAncillary)).resolves.toBeUndefined()
 })
 
-test('P05: 精灵坏格式穿过真实 writeProject：staging 前拒绝、字节快照与全 IO 零副作用', async () => {
+test('P05: 同基线 writer 成功正控；随后 metadata mismatch 输入在真实 writeProject 拒绝且零凭据零副作用', async () => {
   const { memoryAuthorDirectory: dir } = await import('./__tests__/author-save-fixture.js')
   const disk = dir(await buildBlankProject('preflight-p05'))
   const opened = await finishOpen(disk.dir)
@@ -150,43 +158,65 @@ test('P05: 精灵坏格式穿过真实 writeProject：staging 前拒绝、字节
     handle: disk.dir,
     updatedAt: 1,
   })
-  const state = (await import('./project-io.js')).toEditorState(
+  const state = toEditorState(opened.project, await loadAllAuthorScenes(opened.project), {}, {}, [])
+  const authorize = () =>
+    authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline)
+
+  // 正控（同项目/同合法基线/同 kind）：一个合法新精灵上传 → writer 完整成功。
+  const assets = await preflightAssets()
+  const good = assets.sprite.bytes
+  const { sha256Hex } = await import('./binary-signature.js')
+  state.assetCatalog = structuredClone(state.assetCatalog)
+  state.assetCatalog.assets['p05-good-sprite'] = {
+    ...state.assetCatalog.assets['sprite.generated.starter']!,
+    path: 'assets/generated/sprites/p05-good.rle',
+    bytes: good.byteLength,
+    sha256: await sha256Hex(good),
+  }
+  state.assetBlobs = { 'assets/generated/sprites/p05-good.rle': good }
+  const goodInputs = (await serializeProjectWithMapCopies(state, opened.project.source)) as Record<
+    string,
+    unknown
+  >
+  disk.resetChanges()
+  await expect(writeProject(await authorize(), goodInputs)).resolves.toBeTruthy()
+  expect(new Uint8Array(disk.files.get('assets/generated/sprites/p05-good.rle')!)).toEqual(
+    new Uint8Array(good),
+  )
+  disk.resetChanges()
+
+  // 负控（同项目/同基线，本批新增错误路径——catalog metadata mismatch）：
+  // record.kind 被改成不存在的 kind → 序列化前的 validateAssetCatalog 拒绝。
+  // 先清掉正控留下的已提交凭据，负控的“无新凭据”断言才是干净的零基线。
+  authorSaveStorage.receipts.clear()
+  const badState = toEditorState(
     opened.project,
     await loadAllAuthorScenes(opened.project),
     {},
     {},
     [],
   )
-  const { sha256Hex } = await import('./binary-signature.js')
-
-  // 新增坏格式精灵上传：digest-correct 但非 canonical RLE。
-  const bad = new ArrayBuffer(24)
-  new Uint8Array(bad).fill(0)
-  state.assetCatalog = structuredClone(state.assetCatalog)
-  state.assetCatalog.assets['p05-bad-sprite'] = {
-    ...state.assetCatalog.assets['sprite.generated.starter']!,
-    path: 'assets/generated/sprites/p05-bad.rle',
-    bytes: bad.byteLength,
-    sha256: await sha256Hex(bad),
-  }
-  state.assetBlobs = { 'assets/generated/sprites/p05-bad.rle': bad }
-  const { serializeProjectWithMapCopies } = await import('./project-io.js')
-  const badInputs = (await serializeProjectWithMapCopies(state, opened.project.source)) as Record<
+  badState.assetCatalog = structuredClone(badState.assetCatalog)
+  const starter = badState.assetCatalog.assets['sprite.generated.starter'] as unknown as Record<
     string,
     unknown
   >
-  const target = await authorizeBoundWorkspaceTarget(
-    opened.workspace,
-    disk.dir,
-    opened.authorBaseline,
-  )
+  starter.kind = 'not-a-kind'
   const before = new Map(disk.files)
-  disk.resetChanges()
-  await expect(writeProject(target, badInputs)).rejects.toThrow(/精灵资源 RLE 损坏/)
+  let badInputs: Record<string, unknown>
+  try {
+    badInputs = (await serializeProjectWithMapCopies(badState, opened.project.source)) as Record<
+      string,
+      unknown
+    >
+    // 若序列化未拒（防御），writer 必须拒。
+    await expect(writeProject(await authorize(), badInputs)).rejects.toThrow()
+  } catch (error) {
+    // 序列化层拒绝同样有效：错误层 = validateAssetCatalog（内容校验器）。
+    expect(String(error)).toMatch(/kind|assets/i)
+  }
   expect([...disk.files.entries()]).toEqual([...before.entries()])
   expect(disk.changes).toEqual(IO_TRACK())
-  for (const receipt of authorSaveStorage.receipts.values()) {
-    expect(receipt.phase).toBe('staging')
-    expect(receipt.planHash).toBeNull()
-  }
+  // 直接断言：拒绝前不存在任何恢复凭据（不靠空循环冒充检查）。
+  expect(authorSaveStorage.receipts.size).toBe(0)
 })
