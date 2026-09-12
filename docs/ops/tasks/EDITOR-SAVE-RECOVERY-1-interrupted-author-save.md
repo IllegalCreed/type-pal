@@ -1994,6 +1994,13 @@ GLM测试贡献终审披露；r2不重签、不代签、不标done、不转Kimi�
 Codex继续剩余写侧/旧路径/性能判断，先重跑full覆盖率补齐当前真实PAL口径，并同步过时的进度摘要；生产基线暂不改。
 分工不等于GLM已开工，待用户转交。既有r2设计签字有效，不重签，视觉全部由Codex承担。
 
+Codex本轮已完成[当前full覆盖率](../../testing/coverage.md#最新实测2026-09-12)：6,673项/618生产文件通过，
+fast6,337身份清单为其子集，所有源码范围/分母相同，各包四指标均未回退；未改fast baseline或产品。
+全仓full行73.64%、语句71.37%、函数72.43%、分支65.01%。这是增加已有PAL测试的测量口径，不是新补336项，
+也不代表E2E或本卡已验收；快照台账的46臂不以full结果偷偷改写。
+日志`/tmp/codex-full-current.eCPdt2/`；旧摘要“顶层入口尚未接入”和看板6,295已同步纠正，历史回执保留。
+下一步Codex继续写侧入口/旧路径审查及性能边界判断，GLM仅按工作包补两个基础模块测试，文件不重叠。
+
 #### 下一位Agent提示词（GLM，可直接复制）
 
 ```text
@@ -2010,8 +2017,48 @@ Codex继续剩余写侧/旧路径/性能判断，先重跑full覆盖率补齐当
 从最终提交树生成真实计数与逐臂增量，写清失败记录，提交推送独立分支并核远端SHA后交Codex复核；贡献须终审披露。
 ```
 
+### Codex · 另存为边界续批（2026-09-12）
+
+基于7767b67c，与GLM身份基础包分开文件；新增save-as-boundaries.test.ts10项，不修改产品、旧测试、共享fixture或GLM两个目标模块。
+[真实入口回执](../../testing/editor-save-recovery-project-io-review.md#另存为边界收口起点7767b67c)：
+取消、构建失败、缺/旧源基线、local/source-only清理警告与重开闭环；真实登记/锁保留，角色237和资产字节核对。
+相邻130项/typecheck/biome通过，三组单点负控1/2/2红；未将后层仍拒绝错误输入误称错误写入。
+open-actions另外两个分支已有前置/构造保证的直接源码链，保留防御不凑覆盖、不删代码。
+完整check6,835/官方ratchet/单次严格fast6,347均exit0；editor204文件/2,108项，生产618文件与分母不变。
+open-actions新增3臂命中，106/108，余2臂E3；主台账46臂未变，GLM两基础模块的统计/源码未变。
+r2不重签、不标done。无下一位Agent提示词；GLM沿用identity-foundation-r1工作包，Codex自持集成。
+
+### Codex · identity-foundation-r1接收复核（2026-09-12，counter）
+
+候选ff0a0d4a白名单/冻结hash成立；本席21项、相邻147项、typecheck/biome复跑通过，但本包不接收。
+[R1–R4及本席C0勘误](../../testing/editor-save-recovery-glm-identity-foundation.md#codex接收复核2026-09-12ff0a0d4acounter)：
+缺maps/scenes被当合法成功输入；IDB在空写集上abort且删旧store未清记录；移除等待caller的await后21项仍绿。
+独立loader/事务/真实品牌oracle已证实这些测试问题，非当前产品缺陷；23臂名义命中不计验收，不更新官方baseline/台账。
+Codex同时纠正自己的F3说明：JSON数字1e400可解析为Infinity，该错误不归责GLM，产品现有拒绝行为/r2方案不变。
+父卡继续build，子包counter交GLM返工，不重签、不代签、不标done、不转Kimi。
+
+#### 下一位Agent提示词（GLM返工，可直接复制）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 返工 EDITOR-SAVE-RECOVERY-1 / identity-foundation-r1，候选ff0a0d4a被Codex签counter。
+父卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 保持build/r2，不重签。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，以及 docs/testing/editor-save-recovery-glm-identity-foundation.md 的本席R1–R4和C0勘误全文。
+沿用codex/glm-identity-foundation-tests独立worktree，同步最新main审查文档并保留原回执/counter；生产基线b7a56dd4及两模块hash不变。
+R1：撤回缺maps/scenes的合法成功用例，只分类；路径变体用完整清单/真实搬移索引等合法输入，先经正式loader。不要为保100%改产品或伪造proof/hash。
+R2：put成功前真正暂存非空写集，abort丢弃、complete发布、终结一次；断言请求成功/暂存见证及同库新记录未留/旧值未覆盖。deleteObjectStore须清掉预置旧数据。补abort泄漏写集必红的fixture负控。
+R3：entered/deferred让真实caller跨await悬挂，品牌期间有效、成功/异常后失效；移除handle-store.ts的return await operation(lock)中的await必须红。宿主替身按锁名排队、等待回调并finally释放；不要拿获锁前gate或下一次调用成功冒充回调等待/释放。
+R4：纠正F6实际7项及有/无Locks分支标签，按最终树重新算名义/有效覆盖，不锁死93/93，不把临时子集的缺口当全仓缺口。
+C0是Codex提示词勘误：JSON.parse('1e400')能产生Infinity；补真实FileSource读取该文本被指纹guard拒绝及有限数正控，修正说明，不归责你原先遵循的错误提示。
+仍只改两个新测试文件与工作包本人回执，不改产品/旧测试/共享fixture/配置/官方基线/资产，不stash、不做视觉、不代签、不标done、不转Kimi。
+只跑定向/相邻、typecheck、biome和两模块临时覆盖，记录所有失败；现有三负控保留并补本席指出的负控。配置和oracle在/tmp/codex-idf-review.anI7yF，可独立重建。
+提交推送并核远端SHA后交Codex复核；测试贡献终审披露。
+```
+
 ## 交接日志
 
+- 2026-09-12 Codex：ff0a0d4a identity-foundation子包counter；独立21/147绿不抵消R1非法成功输入、R2空暂存/旧库未清、R3提前释放品牌漏测。名义+17/+6不合入，官方6,347基线不改；C0 JSON溢出说明由Codex勘误，交GLM限定返工。
+- 2026-09-12 Codex：另存为10项/相邻130项/三组1+2+2业务负控完成，check6,835/ratchet/单次严格fast6,347通过；open-actions106/108，余2臂E3，主表46臂不混减。产品及GLM工作域零改动，父卡build/r2。
+- 2026-09-12 Codex：双线工作包917b3470已提交推送并提供GLM提示词，未代称GLM已开工；本席full6,673/618源码通过并独立核fast子集和各包指标，更新最新覆盖率文档，生产/fast baseline零改动，父卡build/r2。
 - 2026-09-12 Codex：73aa0ea7子包accept并适配最新6eaf4dc7，source漏检已修；原19项18绿1红→全绿，五组业务负控及重叠oracle/不变probe核验完成。check6,825/ratchet/单次严格fast6,337通过，GLM+14归属明确，重点剩46臂；不转Kimi、不标done。
 - 2026-09-12 Codex：最终取样/恢复快照续批10项、相邻150项、四组业务负控完成；check6,806/ratchet/单次严格fast6,318通过，重点模块剩60臂。无产品改动，GLM仍独立返工，父卡build/r2。
 - 2026-09-12 Codex：GLM返工期间独立完成真实写授权生命周期13项/相邻214项/10组业务负控；完整check6,796、ratchet及单次严格fast6,308通过，wp+16臂，两模块剩66臂。产品/GLM文件零改动，hint.source仍待修，父卡build/r2。

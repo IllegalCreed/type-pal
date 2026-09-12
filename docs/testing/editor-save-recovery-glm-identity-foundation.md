@@ -1,7 +1,8 @@
 # 作者保存恢复：GLM身份基础测试包
 
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，build/r2，不重签。
-工作包：**identity-foundation-r1**，2026-09-12用户要求Codex/GLM双线继续。状态：已准备，待用户转交GLM；不代表已开工。
+工作包：**identity-foundation-r1**，2026-09-12用户要求Codex/GLM双线继续。当前状态：**counter，ff0a0d4a暂不接收**。
+GLM原回执保留为提交时记录；最新结论见文末Codex复核。父卡仍build/r2，不重签、不标done。
 
 ## 分工与基线
 
@@ -28,7 +29,7 @@
 |---|---|
 | F1 身份构造 | 公开local/sandbox构造器拒绝非法workspaceId；合法来源/ID保持且对象冻结。以正式构造器取得有效上下文，不伪造私有品牌 |
 | F2 标记解析 | 当前sandbox marker/PAL sentinel的非对象、缺/多字段、非法字段与合法对照；负例可故意损坏JSON，不能把旧版本输入做成成功正控；失败不得悄悄补字段/降级 |
-| F3 指纹内容 | 通过公开fingerprintJsonFiles验证对象键序不改变指纹、数组顺序/内容变化改变指纹、非有限数/非JSON值拒绝。清楚区分公开readJson回调给坏JS值与真实磁盘JSON，不伪称JSON.parse能生成Infinity/undefined |
+| F3 指纹内容 | 通过公开fingerprintJsonFiles验证对象键序不改变指纹、数组顺序/内容变化改变指纹、非有限数/非JSON值拒绝。Codex勘误：JSON.parse('1e400')确会产生Infinity，须加入真实JSON溢出输入；NaN/undefined/bigint/Symbol保持公开回调合同验证，不混淆输入层 |
 | F4 可信PAL证明 | 通过独立可信源和真实构造器得到两份proof；同一内容正控、可由合法输入产生的身份/快照/路径变化拒绝。不得用getter切换或修改冻结对象凑内部末端覆盖；缺scenes/maps的旧/残缺manifest只分类，不冒充合法当前工程 |
 | F5 锁生命周期 | 用真实withWorkspaceRegistrationLock拿到active/返回后的expired token；正确workspace内有效，错误workspace及过期后拒绝，登记失败零记录变化。不能用`{} as Lock`冒充真实过期情形 |
 | F6 存储与宿主分支 | 新数据库首次创建（无旧store）、loadWorkspaceHandle有/无记录；代码级Web Locks接线验证锁名/模式/回调等待及异常释放。宿主替身不得提前完成、吞错或丢弃锁参数；只声称代码合同，不声称原生浏览器通过 |
@@ -122,3 +123,80 @@ GLM 测试贡献者,终审须披露。候选 `b90f8328`（amend 回填前提交;
 交 Codex 独立复核与集成:请以最新 main 全套件并集重算两模块归属,确认 17+6 官方未命中臂的最终关闭,
 并统一跑官方质量门。
 
+## Codex接收复核（2026-09-12，ff0a0d4a，counter）
+
+接收主线5524c53d，候选ff0a0d4a615e6e058f132c3abd212d7ffe35effa与远端/worktree一致。
+候选相对917b3470恰两个新测试文件（404+387行）和本人回执，生产两模块hash与冻结值一致。
+本席独立复跑21/21、相邻10文件147/147、editor typecheck、两新文件biome通过；但下面三类测试问题阻断接收。
+本轮没有发现新的生产实现缺陷；所有“故意破坏后仍绿”仅来自隔离突变，不是当前产品行为。
+
+### C0：Codex自己的F3说明勘误（不归责GLM）
+
+原工作包写“JSON.parse不能产生Infinity/undefined”不准确，这一前提来自Codex。
+本机Node v22.19.0直接复算JSON.parse('1e400')===Infinity、JSON.parse('-1e400')===-Infinity均为true。
+新增仓外只读oracle从memoryAuthorDirectory原样保存的字符串`1e400`，经过真实fsaSource.readJson读得Infinity；
+fingerprintJsonFiles按现有非有限数检查正确拒绝，`1e308`同层正控通过。
+GLM已有回调坏值测试可保留，但说明要区分：JSON的Infinity字面量非法，不代表合法数字文本不能溢出为Infinity。
+上方工作包F3已由Codex修正；请补真实JSON溢出用例。产品既有拒绝行为/r2保护目标没有变化，不涉及新方案或重签。
+
+### R1：F4把不合法当前清单当成功正控
+
+候选workspace-context-boundaries.test.ts:369–403删除maps/scenes并称“合法当前可选形状”，
+既与工作包F4“只分类、不冒充合法当前工程”的明确边界冲突，也与current loader冲突：
+project-loader:343/351的requiredContentPath要求scenes/maps，:194还重复拒绝缺maps。
+本席真实loader对照4项通过：完整blank通过；分别去掉maps/scenes则正式loader拒绝；无尾斜杠和搬移完整map index是合法替代。
+底层palFingerprintPaths/构造helper返回值不能证明完整工程合法。
+
+返工：移除这些缺字段成功用例，转为有loader锚点的只读分类；使用完整清单、实际搬移索引文件等合法变体补路径变化正控，
+并让fixture先经过正式loader。不要为维持100%而改产品、伪造相同hash或修改冻结proof。
+
+### R2：IDB替身未兑现“已暂存后abort”和删除旧store
+
+- handle-store-capability.test.ts:86–90在stage?.()之前就abort；:105才定义真正把值加入staged的回调。
+  本席在abort位置取证为`{"staged":0,"visible":0}`。因此:277–288的“暂存写集丢弃”断言没有非空写集作为前提。
+- 独立fixture oracle只把abort里的staged.clear()改成“错误地将staged写入records”，**原abort用例仍绿**；说明它抓不到这一故障。
+- :44–49的deleteObjectStore仅变计数/标志、不删除records。独立oracle预置旧记录后驱动真实saveWorkspaceHandle升级，
+  期望只剩新记录，实际留下两个记录，测试红；原旧store用例没有预置旧数据，未验证删除的真实效果。
+
+返工：put请求成功前先进入非空事务写集，再触发abort/complete；abort丢弃、complete发布，终结一次。
+断言put/非空staged见证、request success已发生、失败后新记录不存在/旧记录未覆盖、同库正常对照。
+旧store删除必须真清数据，升级用例预置旧记录；补能抓住“abort泄漏写集”的fixture负控，不能只改计数或文案。
+
+### R3：锁回调等待/异常释放未被真正钉住
+
+本席只将handle-store.ts:94的`return await operation(lock)`改为`return operation(lock)`，使finally在异步回调完成前删除真实品牌，
+**候选两文件21项仍全部通过（exit0）**。
+本席另外取得真实token并把caller停在entered/deferred内：正常产品在悬挂期间品牌有效、退出后失效；同一个单点突变立即使该oracle红。
+这证明不是不可测试的私有状态，而是候选缺少跨await生命周期断言。
+
+另：:292–320的gate在宿主调用callback之前，只证明等待获锁；没有让callback自身进入后挂起。
+:323–355的request替身直接调用callback，没有维护持锁/排队状态，第二次请求能执行不能证明第一次锁被释放。
+:358–387仍用两次Promise.resolve猜执行阶段；fallback只是同realm串行，不代表两个浏览器标签页互斥。
+
+返工：分开获锁等待和callback进行中等待；genuine token在caller跨await时保持有效，成功/异常退出后失效；
+为声明的宿主互斥建立最小按锁名排队/await callback/finally释放模型，并用entered/deferred验证等待者、失败传播与后续请求。
+保留现有三个有效负控，新增移除上述await必红的常驻回归；不靠ticks/sleep/不完整宿主制造通过。
+
+### R4：修订报告与覆盖归属
+
+本席以最新主线5524c53d官方fast LCOV和候选两文件独立V8报告做集合复算，名义结果确为：
+workspace-context 76/93→93/93（+17），handle-store 33/39→39/39并集（+6，候选单独34/39）。
+**名义执行率不等于有效验收**：context的30/1、32/1来自上方明确禁止的缺scenes/maps成功路径；R2/R3的断言盲点也不能用计数掩盖。
+本席不把这23臂从官方缺口中划掉，不合入测试，不更新baseline/ratchet/严格fast。
+
+报告另需修正：F6实际7项，不是表中的5项（10+11总数21正确）；handle-store 3/0、5/0是`if(locks)`成立的Web Locks分支，
+不是“无Locks宿主臂”。候选自身剩余5臂不等于全仓新增缺口；最新全套件原已覆盖其中的ensurePermission等路径。
+删/改受阻用例后重新逐臂计数，不锁死必须93/93；全部计数从最终提交树重算，不沿用本次名义并集。
+
+### 验证范围与可保留结果
+
+- 原三负控本席独立重建：marker多字段错误接受1红；去掉UnderLock品牌守卫时过期token错误登记1红、错位变体仅文案级重叠保护；冻结被去除2红。
+- 新的early-await单点突变21/21仍绿；独立lease oracle正常1绿、突变1红。
+- fixture abort泄漏oracle原用例仍绿且staged=0；旧store真实数据清除oracle1红。
+- 真实loader及JSON溢出oracle最终5/5通过；前四项先单独4/4通过，没有产品/探针改动。
+- 本席没有运行全仓check或官方coverage门禁，因为本包counter；主线check6,835/fast6,347与原46臂台账保持不变。
+
+证据目录`/tmp/codex-idf-review.anI7yF/`：candidate.log、adjacent.log、typecheck.log、biome.log；
+mutation.config.mts及mutation-marker/brand/freeze/early.log；fixture-oracle.config.mts及oracle-leak/upgrade/lease-good/lease-early.log；
+stage-before-abort.json；loader-oracle.test.ts/loader.config.mts/loader-oracle-final.log；coverage/与nominal-union.json。
+两个worktree均未改实现/测试；主线只保留原回执、上述counter与勘误/交接。GLM仍是测试贡献者，不作第三方自证，不转Kimi、不标done。
