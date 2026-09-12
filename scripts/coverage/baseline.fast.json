@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-12T02:34:48.474Z",
+  "generatedAt": "2026-09-12T06:40:01.329Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 618,
-  "testCount": 6223,
+  "testCount": 6236,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2805,8 +2805,8 @@
       ],
       "scopeDigest": "2ea0828d93df83523f4fa04e94099267380f593c72fede27cf7d584bf77c0561",
       "fastTests": {
-        "testCount": 1984,
-        "testFileCount": 195,
+        "testCount": 1997,
+        "testFileCount": 197,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2863,6 +2863,7 @@
           "packages/editor/src/core/project-reference-adapters.test.ts",
           "packages/editor/src/core/project-reference.test.ts",
           "packages/editor/src/core/project-save-route.test.ts",
+          "packages/editor/src/core/project-serialization-boundaries.test.ts",
           "packages/editor/src/core/project-transfer-validation.test.ts",
           "packages/editor/src/core/save-batch-baseline.test.ts",
           "packages/editor/src/core/save-batch-open.test.ts",
@@ -2870,6 +2871,7 @@
           "packages/editor/src/core/save-batch-recovery.test.ts",
           "packages/editor/src/core/save-batch-storage.test.ts",
           "packages/editor/src/core/save-batch-writer.test.ts",
+          "packages/editor/src/core/save-preflight-boundaries.test.ts",
           "packages/editor/src/core/scene-lifecycle.test.ts",
           "packages/editor/src/core/scene-script-view.test.ts",
           "packages/editor/src/core/script-context.test.ts",
@@ -3281,6 +3283,11 @@
             "identityDigest": "72e66d3f885013e1cd058a94a6dbbb18b80799ee59a8c7f80dfda5006ebe3b60"
           },
           {
+            "file": "packages/editor/src/core/project-serialization-boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "9807c933e6e7165075514176784ef2de74b7cfd2d92c3f2bd05f984079977f6b"
+          },
+          {
             "file": "packages/editor/src/core/project-transfer-validation.test.ts",
             "testCount": 9,
             "identityDigest": "44c85a19ff74512195ab516e69b68d04147d00cc025292796cc05d9a58e5fc30"
@@ -3314,6 +3321,11 @@
             "file": "packages/editor/src/core/save-batch-writer.test.ts",
             "testCount": 11,
             "identityDigest": "761a9091e5861b4003e94172f206bd5ae4b5d81a5264d4df9cd5862411dd8675"
+          },
+          {
+            "file": "packages/editor/src/core/save-preflight-boundaries.test.ts",
+            "testCount": 7,
+            "identityDigest": "d1bdd04b20aac2e80a4195bcc1a4aa894cb88d76a51b32f3b2583972bde711bf"
           },
           {
             "file": "packages/editor/src/core/scene-lifecycle.test.ts",
@@ -3981,25 +3993,25 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "e52499ad704ae48dcac0aa0dca182a2f49a2b27b896146bf6ab4f369928c996a",
+        "identityDigest": "9da3419ea2f2f1c85fa8d0ba22940bcf5bb892fbea1de7cdadc6e4f9c32607f3",
         "duplicateIdentityCount": 8,
-        "executionDigest": "8c885543eaa0ad0978733551c6e994287b0448e2bf55715e69331219eb2ade59"
+        "executionDigest": "ae4d608dd59da5638fdd3f8980560d373347e08ab9e590413ad5ecb52ef16357"
       },
       "metrics": {
         "statements": {
-          "covered": 24698,
+          "covered": 24720,
           "total": 32526
         },
         "branches": {
-          "covered": 19053,
+          "covered": 19070,
           "total": 28148
         },
         "functions": {
-          "covered": 6128,
+          "covered": 6132,
           "total": 8221
         },
         "lines": {
-          "covered": 22306,
+          "covered": 22324,
           "total": 28403
         }
       }
@@ -4007,19 +4019,19 @@
   },
   "total": {
     "statements": {
-      "covered": 53582,
+      "covered": 53604,
       "total": 79538
     },
     "branches": {
-      "covered": 38357,
+      "covered": 38374,
       "total": 62529
     },
     "functions": {
-      "covered": 10161,
+      "covered": 10165,
       "total": 14622
     },
     "lines": {
-      "covered": 48412,
+      "covered": 48430,
       "total": 69586
     }
   }

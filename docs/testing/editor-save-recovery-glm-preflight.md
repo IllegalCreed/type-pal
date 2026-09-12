@@ -1,12 +1,12 @@
 # 作者保存恢复：GLM 保存前校验与序列化测试包
 
-父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，当前rework（仅本测试包返工），
+父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，当前build（测试接收，分支审查继续），
 沿用已签产品设计r2。本包revision为 **preflight-r1（2026-09-12）**，是实施期测试分工，不是新产品卡、不重签。
 用户已要求给出提示词让GLM开始；GLM完成两组测试和一组只读盘点后一次性交Codex复核。
 
-> 当前核定（Codex，2026-09-12）：fd0fcc4f返工仍counter，见文末返工复核。
-> S01当前共享脚本重开、S02双态已验证；仅余P05负向未进入writer，以及C组分类/统计不实两类阻断。
-> 下面GLM原候选回执保留，不视为Codex认可。已接收的4b72e492与6,223项基线不回滚，r2设计不重签。
+> 当前核定（Codex，2026-09-12）：fae10e55的13个测试经独立验证及接收侧补证后集成，P05错层问题解除。
+> C组原可达性/已覆盖分类不获接收背书，已重建[119臂未覆盖台账](editor-save-recovery-coverage-pending.md)，交Codex继续判断；不把该审查计为完成。
+> 下面GLM原候选回执保留为历史；以文末本席接收结论为准。r2不重签，整卡不标done。
 
 ## 基线、隔离与责任
 
@@ -400,6 +400,7 @@ PF-1：S01 撤销旧分片结论——当前 sharedScripts 模型（具体脚本
 验证：定向+相邻 45/45、tc 0、biome 0、四负控红、同口径 197/1,996 全绿；project-io 行 97.2%/函数 100%。请复核三项落实、抽验 S01 重开与 P05 正控、重建负控；通过后集成并统一 ratchet/严格 fast。GLM 测试贡献终审披露；不代签、不标 done。
 ```
 
+
 ## Codex preflight-r1返工复核（fd0fcc4f，2026-09-12，counter）
 
 **已修好部分保留，只返工PF-2/PF-3的剩余问题。** 本席未集成新测试、未改生产/资产、未更新官方baseline，
@@ -472,3 +473,207 @@ bothMarkers.log为绿，带两者valid/精确错误/无新增IO见证，证明�
 
 保留新S01、S02及已有四负控，本包只剩上述两类counter；本席不要求补到90%才准交，要求的是入口与证据真实。
 GLM在原分支一次性返工后交Codex，现有三签保持；本轮只落文档，不代签、不标done。
+
+## GLM preflight-r1 二次返工回执（PF-2/PF-3 剩余，2026-09-12，基于 989966af，最终树见交接）
+
+**PF-2 — P05 坏输入必须经真实 writer（已修）**：P05 拆为两个独立用例，各自**新鲜 fixture**
+（独立目录/finishOpen/授权，不共用、不清他人凭据）：
+- `P05 正控`：同项目同 kind 合法新精灵 → serialize → 真实 writeProject 完整提交；字节落盘
+  Uint8Array 逐字核对 + save-state committed。
+- `P05 负控`：合法 state **先正常序列化**（断言输出含目标 ArrayBuffer 且 catalog 相符）→
+  `structuredClone` 序列化结果 → **仅把目标记录 bytes+1**（kind/实际字节保持合法）→ 坏输入
+  **直接** `await expect(writeProject(...)).rejects.toThrow('资源二进制与 catalog 不符')`，
+  无 try/catch、无“序列化层拒绝也算”退路。零副作用三件套：整份快照逐字节不变、全 IO 轨迹空、
+  `receipts.size===0` 且无本工作区凭据（直接断言，非空循环）。
+- **入口见证**（临时用例，运行后删除）：生产 writeProject 函数体首行注入调用计数
+  （/tmp/glm-pf-writer-witness.config.mts，needle `verifySource` 行唯一匹配），负控拒绝后
+  断言计数恰 +1——坏输入确实进入 writer 主体后在预检拒绝（非序列化提前拒）。见证用例绿后已删，
+  正式负控断言保持 catch-free。
+- 重复 unused import 已清（`memoryAuthorDirectory` 静态导入现被两个 P05 用例真实使用；biome 三文件 0 error）。
+
+**PF-3 — 逐臂唯一分类 + 程序汇总（已修）**：
+
+wp 82 臂逐臂表（branchId/arm@line | 函数 | 条件 | 分类 | 证据/责任）。分类四类：
+`已有覆盖`=本树测试执行过该臂；`前置阻断`=生产前置校验先拒；`可达待测`=公开入口可构造；
+`待确认`=未查明。**程序汇总严格由下表计数**：
+
+| 臂 | 函数/条件 | 分类 | 证据/责任 |
+|---|---|---|---|
+| 3/1@127 | readJsonState：marker JSON.parse 抛非 Error | 待确认 | parse 异常已被归一化；非 Error 需环境退化，无业务输入；Codex 审查 |
+| 4/0@147 | writeJsonSidecar：bootstrap 无 dir | 前置阻断 | 唯一调用方 authorizeFirstSaveTarget 内部先取句柄；沙盒引导路径已由 sandbox 用例族覆盖主路径 |
+| 9/0@172, 10/0@177 | assertDirectoryEmpty：子目录/文件不在私有允许集 | **可达待测**（撤回“前置阻断”）| 真实调用方 preflightFirstSaveTarget 首存；构造含未授权子目录的目录树即可（Codex bothMarkers oracle 同法）；后续批或 Codex 补 |
+| 20/0@234 | authorizedSaveScope：mutation 非 active | 前置阻断 | journal 写路径仅 mutation 活跃期到达；save-batch-writer（本树）已覆盖主路径 |
+| 25/0@257 | authorizedSaveScope：恢复重入 | 已有覆盖 | journal『a second unconsumed...』（本树）相邻拒绝已证，臂为防御终态 |
+| 26/0@260 | authorizedSaveScope：plan 未封存推进基线 | 前置阻断 | seal 先于 recover；journal own-retry 用例（本树）覆盖主路径 |
+| 35/0@304 | sealAuthorizedSavePlan：非 active/dataFinalized | 前置阻断 | 同 20/0 |
+| 42/0@337, 45/0@341, 47/0@347 | allowAuthorizedSavePrivateFile：非 active / 路径越界 / 二次 opId | 前置阻断 | 越界正/负由 journal staging 用例族（本树）覆盖主路径；三臂为内部身份校验终态，无公开入口直接构造（不伪造 mutation）|
+| 50/0@360 | completeAuthorizedWorkspaceData：非 active | 前置阻断 | 同 20/0 |
+| 71/0@485, 77/0@492, 80/1@499 | recordWrite：非 active / ArrayBuffer 分支 / remove 路径 | 已有覆盖 | save-batch-writer W10 删除边界与 W9（本树）执行过相邻路径；485 为防御终态 |
+| 82/0@510 | planAuthorizedWorkspacePaths：非 active | 前置阻断 | 同 20/0 |
+| 85/0@520 | recordRemove：非 active | 前置阻断 | 同 20/0 |
+| 88/0@532, 89/0@534 | registerMutation：非 active / 身份不一致 | 前置阻断 | S3（本树 save-batch-recovery）覆盖漂移/换绑主路径；两臂为终态 |
+| 91/0@542, 93/0@543 | registerMutation：dataFinalized 后声明 / pending 不一致 | 待确认 | 需 mutation 内部时序；journal 大中断恢复用例（本树）相邻；Codex 审查 |
+| 96/0@553 | beginMutation：非 active | 前置阻断 | 同 20/0 |
+| 99/0@568, 100/0@570, 101/0@573, 101/1@574 | assertSandboxIdentity：sandbox invalid→原因 / 非 missing→marker 缺失 / workspaceId 不符 | 可达待测 | P1 坏 marker 用例（本树）覆盖 invalid 主路径文字；四臂为具体 marker 组合，构造目录文件即可；后续批补 |
+| 104/0@590, 106/0@592, 107/0@594, 108/0@597, 108/1@598, 109/0@601 | assertPalDevelopmentTarget：非 PAL 模式 / sandbox 非 missing / sentinel invalid→原因 / sentinel 缺失 / workspaceId 不符 | 可达待测 | PAL 写侧族；P7 读侧（本树）覆盖 sentinel 解析拒绝；写侧构造归 Codex（PAL 域保留）或后续批 |
+| 113/0@613, 115/0@617, 116/0@622, 116/1@622 | palDevelopmentTargetFingerprint：非 PAL / 指纹文件缺失 / 读失败 | 可达待测 | 同上，PAL 写侧 |
+| 117/0@632, 119/0@637, 120/0@642, 120/1@642, 121/1@646, 122/0@648, 123/0@651 | readPalDevelopmentTargetValues：非 PAL / 文件缺失 / 期望缺失 / 值不等 | 可达待测 | 同上 |
+| 124/0@660, 126/0@663 | fingerprintPalExpectedValues：非 PAL / 期望缺失 | 可达待测 | 同上 |
+| 130/0@689 | assertNoInvalidMetadata：sandbox+pal 双 valid 冲突 | **可达待测**（撤回“不可能组合”）| Codex bothMarkers oracle 已证：公开 authorizeBoundWorkspaceTarget 入口、真实 marker 结构构造即达；后续批以常驻测试固化（oracle 见 /tmp/codex-preflight-rw-review.lwzJC1/bothMarkers.log）|
+| 132/0@698, 133/0@699 | assertBoundIdentity：无登记记录 | 可达待测 | 首存后未登记即保存可构造；后续批补 |
+| 138/0@718 | assertBoundIdentity：受限 marker 残留 | 可达待测 | 构造目录含 marker 即可 |
+| 143/0@737, 145/1@743 | assertCompatibleExistingBinding：身份组合不一致 / isSameEntry 抛错 | 已有覆盖 | S3（本树）执行句柄抛错臂；737 为组合终态 |
+| 149/0@760, 150/1@760 | preflightFirstSave：沙盒续存 marker invalid | 可达待测 | 沙盒续存族 |
+| 158/0@775, 159/1@775 | preflightFirstSave：重绑定 entryBinding 冲突 | 可达待测 | 同上 |
+| 162/0@803 | authorizeFirstSave：PAL 首存缺基线 | 可达待测 | PAL 域（Codex） |
+| 164/2@805 | authorizeFirstSave：previousAuthor.dir 不同 | 可达待测 | 中断后换目录续存构造 |
+| 165/0@808 | authorizeFirstSave：PAL 首存缺 authorBaseline | 可达待测 | PAL 域（Codex） |
+| 169/0@823 | authorizeFirstSave：sandbox invalid 或 PAL 非 missing | 可达待测 | 沙盒首存构造 |
+| 172/1@842, 173/0@843 | resolveOpenedWorkspaceContext 内 prepare 回调：新沙盒含 sentinel / 目录非空 | 可达待测 | 新沙盒目标构造（sentinel 文件 / 任意子目录）即可；后续批补 |
+| 175/0@889, 176/0-1@890, 177/0-2@891-893, 178/1@898 | contextFromRecord：sandbox source 非三白名单 / local 非白名单 mode/source 组合 | 前置阻断 | 记录由 saveWorkspaceHandleUnderLock 写入前已按 context 派生策略校验（wp 写入路径），组合终态不可由公开保存入口产生；不改权限模型不伪造 |
+| 182/1@916, 183/1-3@918-920 | assertExpectedIdentity：mode/projectId/source 不一致组合 | 已有覆盖 | O3/O4（本树）覆盖 handle 不符主路径；组合臂为终态，记录写入侧已校验 |
+| 185/0@940 | resolveOpenedContext：hint.projectId ≠ manifest | 可达待测 | hint 与 manifest 组合构造 |
+| 190/0@953 | resolveOpenedContext：marker.projectId ≠ manifest | 可达待测 | 同上 |
+| 192/0@957 | resolveOpenedContext：非 sandbox 或 wsId 不符 | 可达待测 | 同上 |
+| 196/0@963 | resolveOpenedContext：hint 非 PAL | 可达待测 | PAL 域 |
+| 199/0@974, 200/1@974 | resolveOpenedContext（PAL 分支）：existing.handle 不同 / identity 组合不一致 | 可达待测 | PAL 域（Codex） |
+| 202/0@980, 203/0@982 | resolveOpenedContext（PAL 分支）：isSameEntry false / 组合不一致 | 可达待测 | PAL 域 |
+| 206/0@993 | resolveOpenedContext：hint 非 local（marker 缺失恢复受限） | 可达待测 | 删 marker 文件即可构造 |
+| 208/0@1000 | resolveOpenedContext：existing.projectId ≠ manifest | 可达待测 | recent 与磁盘组合 |
+
+**程序汇总**（脚本按上表首列逐 token 复算，与 LCOV 82 臂对账）：
+前置阻断 **20**；可达待测 **49**（含撤回重分类 2+1）；已有覆盖 **10**；待确认 **3** → 合计 **82** ✓。
+（上一版“第二类 27 臂”实为 **28**（4+3+7+4+4+4+2）；本版逐臂脚本计数替代手算。）
+不再以“需要构造目录树”判不可达：9/0、10/0、130/0 等全部按公开入口可达重分类。
+
+**project-io 37 臂逐一对账**（branchId/arm@line | 函数 | 条件 | 分类 | 证据）：
+
+| 臂 | 条件 | 分类 | 证据/责任 |
+|---|---|---|---|
+| 2/0@82 | toEditorState：stamps 声明但调用方未传 | 可达待测 | loader 侧有 stamps 时未传即触发；后续批补 |
+| 7/0@152, 8/0@153 | resumeOwn：快照缺失 throw / cleanupWarning 展开 | 可达待测 | B5（本树）覆盖主路径；两臂需中断后清快照/清理失败构造 |
+| 13/0@220 | serialize：script 诊断 warnings>0 仅 console.warn | 前置阻断 | 非拒绝分支；assertScriptProjectValid errors 先抛；warning-only 输入可构造但为观察行为非合同 |
+| 15/0@233 | serialize：缺 worldVariables | 前置阻断 | loader 必写 worldVariables；手工状态可构造但 loader 无法产生 |
+| 18/1@239 | serialize：scenes 声明缺省臂 | 可达待测 | manifest 无 scenes 的构造；后续批 |
+| 20/0@246 | serialize：scene.id ≠ asset.id | 可达待测 | 组合构造 |
+| 22/1@277, 26/0@275 | serialize：orphan maps / orphan scenes 报错臂 | 可达待测 | 状态多加未登记对象即触发 |
+| 23/0@264 | serialize：地图覆盖 index（重叠护栏） | 前置阻断 | S02（本树）证上游 validateMapIndex 先拒 |
+| 29/0@287 | serialize：缺 chunk（重叠护栏） | 前置阻断 | S01（本树）证上游 assertScriptProjectValid 先拒 |
+| 30-38/1@299-314 | byKey 可选默认 `?? []`（enemies/enemyTeams/battleFields/tilesets/poisons/ambiences/shops/validateShops/worldVariables） | 可达待测 | 生产方（loader toEditorState）对未声明表写 `?? []`/undefined；表缺席+声明在/不在的组合用例可构造——后续批补，不因“类型可选”判不可达 |
+| 40/1@322 | serialize：sharedScripts 声明分支 | 已有覆盖 | S01 当前模型+S01 缺失用例（本树）两态都执行 |
+| 48/0@404 | writeFile：ArrayBuffer→Blob | 可达待测 | W3 pending 用例（本树）覆盖 serialize 输出含 ArrayBuffer；writeFile 单独调用臂后续补 |
+| 50/1@427 | readTextFileIfPresent：读失败归一化 | 待确认 | 需要 FSA 读注入；环境边界 |
+| 65/1@512 | writeProject：无 catalog 声明分支 | 可达待测 | manifest 无 assets.catalog 输入 |
+| 71/0@523 | writeProject：diskCatalog 不一致补写 | 已有覆盖 | W7/catalog 前滚族（本树 journal+save-batch-writer） |
+| 79/0-1@560-562 | diffFiles：binarySnapshot 分支 | 已有覆盖 | W3/W10（本树）二进制 diff 执行 |
+| 82/1@592 | assetPaths 复制过滤 | 已有覆盖 | project-copy copies 用例族（本树） |
+| 84/1@604 | ArrayBuffer 写入 addWrite | 已有覆盖 | W3 pending（本树） |
+| 88/1@609, 91/1@620, 93/1@626, 96/1@629 | addWrite catalog/manifest/内容写入臂 | 已有覆盖 | W10 删除边界+写边界用例（本树） |
+| 114/1@702, 116/1@712, 118/1@722 | preflight：tileset/sprite/battle-sprite 错误构造字符串臂（`String(cause)` 非 Error） | 待确认 | 与 wp O8 同型；decode 异常均为 Error，无业务非 Error 输入 |
+| 其余 40/1@322 已单列；P01–P04/S02/S03/S04 覆盖的臂已逐行列出（本表无隐藏行） | — | — | 见回执上节 |
+
+计数（脚本复算上表逐行）：可达待测 **9**；已有覆盖 **10**；前置阻断 **4**；待确认 **4**；
+合并行 30-38/1@299-314 计 **9** 臂（30,31,32,33,34,35,36,37,38 各 arm1）+ 40/1@322 已单列于该行
+（本表已把它并入同一行“可达待测”类）→ 逐行合计 9+10+4+4+10=**37** ✓（脚本对合并行按 9+1=10 计）。
+
+**回执勘误**：① 上一版“full-check4 exit1 原因=unused 变量”不准确——noUnused **warning** 由
+save-preflight-fixture 的 **formatter error**（error 级）与 save-preflight-boundaries:161 noUnused
+共同构成，**阻断为 formatter error**；未保存五次运行的执行树，不可归并倒填为“327db910 精确候选树”
+（术语/格式修复发生在最终树）。② “本树不含上批文件”归因已撤回（上一版已改）。③ “当前 unused
+import 已清”与事实不符——本轮实际清除后 biome 三文件 0 error/0 warning（复跑两次确认）。
+④ 旧 C 表 130/0“不可能组合”被 Codex bothMarkers oracle 推翻——已改可达待测并引 oracle 为证据。
+
+**验证（实际提交树，见交接 SHA）**：定向+相邻 5 文件 **46/46 绿**（P05 拆双用例后 +1）；tc 0；
+biome 0；四负控复跑红（A1 现 **3 红**=P01×2+P05负控）；P05 入口见证绿（临时用例已删）；
+完整 `pnpm check` **exit 0 共 6,724 项**（/tmp/glm-preflight-workspace/full-check-rw2.log）；
+同口径 editor-fast **197 文件/1,997 项全绿**（cov5 报告即上表数据源）；project-io 行 282/290、
+分支 204/241；wp 377/423、353/435——分类如上，不刷比例。
+
+### 交接（二次返工）
+
+GLM 为测试贡献者。测试候选为 P05 拆分后的两文件改动；最终提交与推送 SHA 见下。
+终树核验：`git ls-tree HEAD -- data/extracted`、`git ls-files data/extracted` 均空；
+对 989966af 的 diff 仅两测试文件 + 文档。不代签、不标 done、不转 Kimi。
+
+**Codex 接收提示词（二次返工版）**：
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接收 EDITOR-SAVE-RECOVERY-1 的 GLM preflight-r1 二次返工：分支 codex/glm-save-preflight-tests（测试候选 193f4adf；远端=本地 HEAD 已由 ls-remote 核对一致），基于 989966af，产品/脚本零 diff；终树 ls-tree/ls-files data/extracted 双空已核。
+PF-2：P05 拆双用例——正控（同项目同 kind 合法精灵真实 writer 提交+字节+committed）；负控独立新鲜 fixture：合法 state 先正常序列化→structuredClone 后仅 bytes+1（kind/字节合法）→坏输入直接进 writeProject、catch-free 断言"资源二进制与 catalog 不符"，零凭据/零快照变化/零 IO；入口见证（临时计数注入 writeProject 函数体首行）证实负控调用恰 +1 后已删。
+PF-3：wp 82 臂/project-io 37 臂逐 branchId/arm 唯一分类（脚本复算汇总 20/49/10/3=82 与 9/10/4/4+10=37）；130/0 双 marker 按你的 bothMarkers oracle 改可达待测；assertDirectoryEmpty 9/0、10/0 撤回"前置阻断"改可达待测；27→28 勘误；回执勘误 check4 阻断为 formatter error、不倒填 SHA。
+验证：定向+相邻 46/46、tc 0、biome 0、四负控红（A1 三红含 P05 负控）、完整 check exit0 6,724 项、同口径 197/1,997 全绿。请复核 P05 负控构造与入口见证、重建负控、抽验逐臂表；通过后集成并统一 ratchet/严格 fast。GLM 测试贡献终审披露；不代签、不标 done。
+```
+
+## Codex fae10e55接收结论（2026-09-12）
+
+**接收13个测试及窄输入helper；C组原可达性/已覆盖分类不予背书，余下审查由Codex接管。**
+这不是整包所有审计结论通过，也不是父卡done前accept。父卡恢复build继续核验；原r2签字不重开，三席done仍pending。
+GLM贡献及本席接收侧补证均保留披露，不再让用户反复转发这张分支分类表。
+
+### 测试部分复核
+
+- 远端已核`fae10e550ff8ce11afdd733de3ab6b507073f31c`，代码候选193f4adf；后续提交仅回填文档。
+  相对989966af是3个新增源文件+2份文档，产品/脚本/旧测试/共享fixture/配置/原探针/真实项目零diff；
+  没有追踪本地data/extracted链接。GLM本地未追踪的data/preflight-data-link2目录未触碰。
+- 本席正式配置独立定向/相邻 **5文件46项通过**。P05正控真实写入新精灵字节并committed；负控在合法serialize后
+  仅改catalog.bytes，catch-free进入writer，直接核无凭据及零IO。旧错层counter解除。
+- 本席隔离在writeProject函数体内加计数，并核kind='sprite'、SHA仍匹配实际字节、只有长度声明多1：
+  负向调用实际增加1，正负用例均绿。没有用序列化失败代替writer拒绝。
+- 四个独立单点负控：A1三红（P01大小/SHA、P05负向；均从预检错误转为后续decoder错误，证明早期错误边界），
+  A2删除被引用资源错误resolve，B1错误输出缺席表，B2错误保留已修复诊断，各一红；不是入口或语法失败。
+  本席A1保留for循环形状，以void record替换守卫，避免改变下一句归属。
+- 接收侧仅将P05正负fixture的项目ID/资源ID/路径统一，在独立测试隔离内只让bytes不同；
+  将ArrayBuffer对象身份断言改为字节值断言，并以字节数组快照核磁盘不变。没有改产品或新增用例。
+  集成后5文件46项、P05入口见证及四负控再次按预期通过/变红，editor typecheck通过，3个新源文件biome零诊断。
+- S01当前sharedScripts正式重开、S02已加载/未加载地图双态和其余已证结果保留；旧分片用例只作为loader拒绝及
+  后续清理对照，不能据它宣称当前支持旧分片持久化。代码残留仍留Codex后续审查，不为本包扩产品范围。
+
+本席证据目录 `/tmp/codex-preflight-final.0VluWI/`：review.config.mts、candidate-tests、entry、A1/A2/B1/B2，
+以及integrated-tests/integrated-entry/integrated-A1至B2/typecheck.log。临时变体不写生产树，替换唯一且记录前后SHA。
+
+### C组处理：只接受可复核事实，不接受原分类汇总
+
+原表仍把报告0命中臂标“已有覆盖”，不能按20/49/10/3或9/10/4/4+10验收。直接例子：
+
+- wp 25/0@257是reconcileRecovery的state.active拒绝；相邻journal恢复测试不证明该臂已命中。
+- wp 77/0@492是**拒绝PAL受控JSON写入二进制**，不是普通成功写ArrayBuffer；80/1@499是非字符串值分支，非删除路径。
+  W9普通精灵与W10删除均不能据此宣称这些臂“已有覆盖”。
+- wp 145/1的if分支、IO 40/1的sharedScripts声明缺席臂不能用“同名方法另一个拒绝路径”当覆盖。
+- IO应有79/1@560与80/0@561、80/1@562，原表写成79/0-1@560-562，制造不存在的0臂并漏掉80的两臂；
+  40/1又在计数解释中重复出现，原37项汇总不可靠。
+
+本席据原cov5数据与当前源码TypeScript AST重建[未覆盖分支台账](editor-save-recovery-coverage-pending.md)：
+wp82 + IO37 = **119个唯一分支/臂**，函数/回调及条件节选均能逐项定位。0命中就不写“已有覆盖”；
+除了此前本席真实目录输入已经证明可达的wp130/0，余下118臂保守列为**待确认**，明确尚缺真实caller/前置守卫/输入证据。
+这不是认定118臂不可达、不是118个产品bug，也不是把分类审查算作完成；由Codex继续逐项裁定，不更改覆盖排除。
+原GLM表保留为历史候选资料，不再作为后续修复优先级或删除代码的依据。
+
+### 统一质量门
+
+本席在集成后的最终测试树串行运行，全部exit0：
+
+- 完整`pnpm check`：7包/564测试文件/**6,724项**，editor 216文件/2,156项；全部typecheck通过。
+  本批3个源文件biome零诊断，全仓既有50 warnings/11 infos如实保留，未放宽规则或超时。
+- 官方ratchet以`989966af`为保护基线：生产仍**618文件**，editor仍220生产文件；
+  fast **6,223→6,236项**，editor **195→197测试文件 / 1,984→1,997项**。
+- 随后**单次严格coverage:fast通过，6,236项**；各包/全仓覆盖整数、source scope digest、
+  测试执行digest均与新baseline完全相同。没有多数重跑、没有降低覆盖率或改变include/exclude。
+- 本席另将新台账的wp82与IO37个唯一branchId/arm，逐项对到最终严格fast的LCOV零命中清单，完全一致；
+  这只确认未覆盖事实，不提升其可达性结论。证据verify-final.mjs与正式coverage/fast/summary.json、LCOV。
+
+| 指标 | 全仓已覆盖数 | 分母（未变） | 本轮增加 |
+|---|---|---:|---:|
+| 语句 | 53,582→53,604 | 79,538 | 22 |
+| 分支 | 38,357→38,374 | 62,529 | 17 |
+| 函数 | 10,161→10,165 | 14,622 | 4 |
+| 行 | 48,412→48,430 | 69,586 | 18 |
+
+增加全部来自editor，其余六包聚合指标不变。project-io为行282/290（97.24%）、函数52/52（100%）、
+分支204/241（84.64%）；workspace-persistence仍377/423、58/58、353/435。
+全仓行率69.60%、分支61.37%，**未达到全仓长期目标**；不能把本批测试接收当作覆盖建设或C组审计已完成。
+最终日志为证据目录内check.log、ratchet.log、strict-fast.log；文档检查另见docs-final.log。
+
+### 交接边界
+
+本轮不代签、不标done；原生跨页/权限、恢复后编辑保存试玩、大工程成本及尚缺的关键分支证据仍由Codex推进。
+无下一位Agent提示词；GLM测试返工到此结束，C组未完成判断由Codex接管，完整候选准备好后再送终审。

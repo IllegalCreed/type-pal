@@ -1,6 +1,6 @@
 # EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复
 
-Status: rework
+Status: build
 Phase: phase2
 Capability: ops（审计 A-03，不新增能力格）
 Coding Owner: Codex
@@ -1630,6 +1630,17 @@ receipts.size===0 断言；P01/P02 补自身合法对照；unused import 清理�
 biome 0、四负控红、同口径 197/1,996 全绿；project-io 行 97.2%/函数 100%/分支 84.6% 缺口逐臂列明。
 候选 ee7169e3，推送核远端后交 Codex 复核。不代签、不标 done、不转 Kimi；测试贡献终审披露。
 
+#### GLM · preflight-r1 二次返工交接日志（2026-09-12）
+
+基于 989966af 按 PF-2/PF-3 剩余项返工。P05 拆双用例（独立新鲜 fixture 各自授权）：正控同项目同 kind
+合法精灵真实 writer 完整提交；负控先正常序列化合法 state、structuredClone 后仅 bytes+1、坏输入直接
+进 writeProject（catch-free 精确文案断言、零凭据/零快照变化/零 IO）；临时入口见证（生产 writeProject
+首行计数注入）证实负控调用恰 +1 后删除。PF-3：wp 82 臂 + project-io 37 臂逐 branchId/arm 唯一分类
+（脚本复算 20/49/10/3=82、9/10/4/4+合并 10=37）；130/0 双 marker 按 Codex oracle 改可达待测、
+assertDirectoryEmpty 两臂撤回前置阻断、27→28 勘误；回执勘误 check4 阻断实为 formatter error、
+不倒填 SHA。验证：定向+相邻 46/46、tc 0、biome 0、四负控红（A1 三红）、完整 check exit0 共 6,724 项、
+同口径 197/1,997 全绿。候选 193f4adf，推送核远端后交 Codex。不代签、不标 done、不转 Kimi。
+
 
 ### Codex · preflight-r1接收复核（2026-09-12，counter）
 
@@ -1663,6 +1674,22 @@ S01当前sharedScripts重开（本席额外核整库相等）、S02已加载/未
 
 本轮只落文档，不集成新测试、不改生产/资产、不跑官方ratchet/严格fast；6,223项既有基线保持。
 状态仍rework，仅P05/PF-3剩余项返工；r2设计不重签、不代签、不标done、不转Kimi。
+
+### Codex · fae10e55测试接收与C组审查移交（2026-09-12）
+
+接收193f4adf/fae10e55的13个测试与窄helper；本席已独立46/46、P05入口见证及四种负控验证，
+P05负向确实进入writeProject，不再接受序列化先拒。接收侧统一正反控标识、加强字节快照，产品/旧测试/资产零改动。
+完整证据及质量门回填见[本批接收结论](../../testing/editor-save-recovery-glm-preflight.md#codex-fae10e55接收结论2026-09-12)。
+
+C组原“已有覆盖/可达性”分类仍不成立，不签该审计结论accept；本席已重建
+[119臂未覆盖台账](../../testing/editor-save-recovery-coverage-pending.md)，0命中不当作已覆盖，
+1臂已有独立可达反例、118臂尚待真实caller/前置条件核实，后续由Codex接管，不让用户再转GLM反复填表。
+状态恢复build是继续本卡剩余验证，不是C组审计或整卡完成；r2签字保持，GLM/Codex测试贡献须终审披露。
+全仓check **6,724项**、官方ratchet及随后**单次严格fast 6,236项**均exit0；618生产文件及全部分母不变，
+editor覆盖语句+22/分支+17/函数+4/行+18，其余包不变；两轮覆盖整数/源码scope/测试执行digest一致。
+119臂未覆盖台账与最终严格fast的LCOV逐项吻合，但可达性判定不因此获证明。
+本席证据`/tmp/codex-preflight-final.0VluWI/`；原生/性能/剩余分支审查/终审仍待，不代签、不标done。
+无下一位Agent提示词，本轮测试接收后由Codex继续。
 
 ## 交接日志
 
@@ -1734,9 +1761,10 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 2026-09-10已完成审计性能、journal故障及新建/克隆/打开真实流程回归；原配置完整check及6,180项单次严格fast均通过，既有15s预算不变。
 journal等单模块覆盖目标已达标；7a0c6f1c的21项保留，d39efe15经Codex接收侧补证后集成，历史测试counter解除；r2不重签。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
-当前不请求用户验收。S01/S02已通过；GLM仅修下方P05与PF-3剩余项。Codex保留原生/性能/统一质量门，完整候选后再送两席终审。
+当前不请求用户验收。fae10e55测试部分已接收；C组原分类未获背书，Codex已重建未覆盖台账并接管剩余判断。
+无下一位Agent提示词，不再把该分类表交GLM反复返工；Codex继续原生/性能/统一质量门，完整候选后再送两席终审。
 
-### 给GLM（当前：fd0fcc4f返工，仅P05与分类证据）
+### 给GLM（历史：fd0fcc4f返工，测试已接收、分类审查由Codex接管）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 的原 codex/glm-save-preflight-tests 工作树返工fd0fcc4f。
