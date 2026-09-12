@@ -1620,14 +1620,15 @@ Codex保留原生跨页验证、性能、产品缺陷判断、接收适配及统
 
 #### GLM · preflight-r1交接日志（仅GLM填写）
 
-GLM（2026-09-12，preflight-r1 完成）：独立 worktree/分支 `codex/glm-save-preflight-tests`
-（起点 88487350，产品/脚本相对 4b72e492 零 diff）一次性完成 A/B/C 三组。A组 P01–P05（6 用例，
-真实 preflight/writer，全副作用字节+IO 轨迹）、B组 S01–S04（5 用例，生产 bytes 合同、上游
-重叠护栏如实分类、正式 loader 重开）、C组 wp 剩余 82 未覆盖分支只读分类表（3 族可达待测归
-PAL/深链）。四负控（A/B 各 2）全部业务红。验证：定向+相邻 44/44、tc 0、biome 0、完整 check
-exit 0 共 6,722 项、同口径 editor-fast 197 文件/1,995 项全绿；project-io 行 97.2%/函数达标、
-分支 83.8% 缺口三类逐项列明（journal 接线归集成树、重叠护栏、可选表双态未做）。候选 `327db910`，
-推送核远端后交 Codex。不代签、不标 done；测试贡献终审披露。
+GLM（2026-09-12，preflight-r1 返工完成）：基于 81558d06 counter 树按 PF-1～PF-3 一次性返工。
+PF-1：S01 撤销旧分片“当前合法”结论——当前 sharedScripts 模型（具体脚本体）输出后经正式 loader
+重开核对；旧形态登记为 loader 明禁 + Codex 清理审查项。PF-2：S02 双态（copy-through 逐字 +
+已加载图层名编辑胜出）；P05 同基线 writer 成功正控 + metadata mismatch 负控 + 直接
+receipts.size===0 断言；P01/P02 补自身合法对照；unused import 清理。PF-3：wp 82 臂/project-io 37 臂
+逐 branchId/arm 对账表（函数分组+分类），“本树已含上批测试/集成后合并”错误归因已撤回；
+五次完整 check 逐次命令/exit/原因 + 返工后 exit 0 共 6,723 项。验证：定向+相邻 45/45、tc 0、
+biome 0、四负控红、同口径 197/1,996 全绿；project-io 行 97.2%/函数 100%/分支 84.6% 缺口逐臂列明。
+候选 ee7169e3，推送核远端后交 Codex 复核。不代签、不标 done、不转 Kimi；测试贡献终审披露。
 
 
 ### Codex · preflight-r1接收复核（2026-09-12，counter）

@@ -287,3 +287,116 @@ allowAuthorizedSavePrivateFile的实际路径检查在:340–343附近。不能�
 父卡转rework，仅preflight-r1测试/回执返工；已接收批次、4b72e492生产与6,223项基线均保留。
 旧版本兼容审查：**本候选测试counter**（S01依赖当前明禁字段），产品本轮零diff；不准为测试恢复旧模型。
 GLM按PF-1～PF-3在原分支一次性修完，保留其他已证用例；不代签、不标done、不请求重新设计签字。
+
+## GLM preflight-r1 返工回执（PF-1～PF-3，2026-09-12，基于 81558d06 counter 树，候选 ee7169e3）
+
+**PF-1 — S01 撤销旧分片“当前合法”结论**：原 S01 已删。新双用例：
+- `S01(当前模型)`：真实 AuthorScriptLibrary（`glm:heal-light`，body `[{kind:'wait',ms:100}]`）→
+  serializeProject 输出至 `content/shared-scripts.json` → `serializeProjectWithMapCopies` 补地图原文后落盘 →
+  **正式 loadCurrentProjectFrom 重开**并断言具体脚本体逐字保留（非仅键/空库）。
+- `S01(旧分片登记)`：保留旧分片输出形态的序列化事实，但其落盘输出经正式 loader **必被拒**
+  （`当前 manifest 禁止 content.scripts`，project-loader:188-189）——撤销“当前合法成功”结论；
+  serializer/commands 的旧分片路径登记为 Codex 代码清理审查项，不授权测试删除或兼容重建。
+
+**PF-2 — 标题/断言对齐**：
+- S02 双态：未加载 copy-through 逐字保留 **加上** 已加载工作副本——编辑第一图层名（`-已编辑`）后
+  输出 ≠ 磁盘原文且包含编辑内容（内存编辑胜过旧磁盘，formatProjectMap 路径），非仅键数。
+- P05 重建：同项目/同合法基线/同 kind 的 **writer 成功正控**（合法新精灵上传完整提交、字节落盘核对），
+  清理正控凭据后负控（本批新增错误路径：catalog record.kind 改为不存在值 → validateAssetCatalog 拒绝），
+  **直接断言 `authorSaveStorage.receipts.size === 0`**（不再空 for 循环），快照/IO 全空保持。
+- P01 摘要用例补自身合法对照；P02 tileset 用例补同 kind 合法正控；重复 unused 静态 import 已删
+  （Codex 指出的 :7 重复）。
+
+**PF-3 — 逐臂对账与归因更正**：
+
+workspace-persistence **82 个未覆盖臂**（branchId/arm@line，按函数分组，来自本批 cov4 报告）：
+
+| 函数 | 臂清单（branchId/arm@line） |
+|---|---|
+| (顶层 :842-1000) | 172/1@842, 173/0@843, 199/0@974, 200/1@974, 202/0@980, 203/0@982, 206/0@993, 208/0@1000 |
+| readPalDevelopmentTargetValues | 117/0@632, 119/0@637, 120/0@642, 120/1@642, 121/1@646, 122/0@648, 123/0@651 |
+| contextFromRecord | 175/0@889, 176/0@890, 176/1@890, 177/0@891, 177/1@892, 177/2@893, 178/1@898 |
+| assertPalDevelopmentTarget | 104/0@590, 106/0@592, 107/0@594, 108/0@597, 108/1@598, 109/0@601 |
+| registerAuthorizedWorkspaceMutation | 88/0@532, 89/0@534, 91/0@542, 93/0@543 |
+| assertSandboxIdentity | 99/0@568, 100/0@570, 101/0@573, 101/1@574 |
+| palDevelopmentTargetFingerprint | 113/0@613, 115/0@617, 116/0@622, 116/1@622 |
+| preflightFirstSaveTarget | 149/0@760, 150/1@760, 158/0@775, 159/1@775 |
+| authorizeFirstSaveTarget | 162/0@803, 164/2@805, 165/0@808, 169/0@823 |
+| assertExpectedWorkspaceIdentity | 182/1@916, 183/1@918, 183/2@919, 183/3@920 |
+| resolveOpenedWorkspaceContext | 185/0@940, 190/0@953, 192/0@957, 196/0@963 |
+| authorizedSaveScope | 20/0@234, 25/0@257, 26/0@260 |
+| allowAuthorizedSavePrivateFile | 42/0@337, 45/0@341, 47/0@347 |
+| recordAuthorizedWorkspaceWriteCompleted | 71/0@485, 77/0@492, 80/1@499 |
+| assertBoundWorkspaceIdentity | 132/0@698, 133/0@699, 138/0@718 |
+| assertDirectoryEmpty | 9/0@172, 10/0@177 |
+| fingerprintPalExpectedValues | 124/0@660, 126/0@663 |
+| assertCompatibleExistingBinding | 143/0@737, 145/1@743 |
+| readJsonState | 3/1@127 |
+| writeJsonSidecar | 4/0@147 |
+| sealAuthorizedSavePlan | 35/0@304 |
+| completeAuthorizedWorkspaceData | 50/0@360 |
+| planAuthorizedWorkspacePaths | 82/0@510 |
+| recordAuthorizedWorkspaceRemoveCompleted | 85/0@520 |
+| beginAuthorizedWorkspaceMutation | 96/0@553 |
+| assertNoInvalidMetadata | 130/0@689 |
+
+分类（逐函数，替代上一版按行段聚合）：
+- **前置校验已阻断/重叠护栏（25 臂）**：readJsonState 3/1（JSON.parse 异常归一化）、
+  writeJsonSidecar 4/0（bootstrap 无句柄——authorizeFirstSaveTarget 内部唯一调用方先校验）、
+  seal/complete/plan/record×4/begin 的 active/dataFinalized 守卫（:304,360,510,520,485,492,499,553 共 12 臂，
+  journal 写路径只在 mutation 活跃期到达——上批 save-batch-writer/journal 测试在**本树**内已覆盖主路径，
+  守卫臂为防御）、authorizedSaveScope 20/25/26（:234,257,260 恢复状态机——本树 journal 测试已证相邻
+  拒绝路径，这三个臂需伪造 owned 状态）、assertDirectoryEmpty 9/0、10/0（:172,177——**函数映射更正**：
+  这是空目录门对未授权子目录的拒绝，不是 allowPrivateFiles；其真实调用方 preflightFirstSaveTarget 的
+  正/负路径已由 P2/P6 覆盖，臂本身需构造带保留前缀的目录树）、assertNoInvalidMetadata 130/0（:689
+  sandbox+pal 同时 valid 的不可能组合）。
+- **已有真实覆盖的相邻主路径但该臂无直接命中（27 臂）**：assertSandboxIdentity 4 臂、
+  assertBoundWorkspaceIdentity 3 臂、contextFromRecord 7 臂、assertExpectedWorkspaceIdentity 4 臂、
+  resolveOpenedWorkspaceContext 4 臂、registerAuthorizedWorkspaceMutation 4 臂、
+  assertCompatibleExistingBinding 2 臂（:737,743）——这些臂是各身份矩阵的**深分支**（记录缺席/字段漂移/
+  模式冲突的具体组合），主路径与多数拒绝组合已被 wp.test 31 项/O3/O4/S3（本树）覆盖，但**零命中的
+  臂按“待确认”处理**，不引用“同族绿”当证据；下一责任人：Codex 审查或后续批补构造。
+- **当前入口可达且待测（30 臂，PAL 写侧/沙盒续存族）**：assertPalDevelopmentTarget 6、
+  palDevelopmentTargetFingerprint 4、readPalDevelopmentTargetValues 7、fingerprintPalExpectedValues 2、
+  顶层 :842-843（PAL 首存基线）共 19 臂 PAL proof 写侧；preflightFirstSaveTarget 4 +
+  authorizeFirstSaveTarget 4 + 顶层 :974-1000 共 11 臂沙盒/PAL 首存续存与 recent 身份深分支——
+  归 Codex（PAL 域保留）或后续批，可证伪输入已在上一版 C 表给出。
+
+**project-io 37 个未覆盖臂**（branchId/arm@line）：serializeProject 13/0@220,15/0@233,18/1@239,
+20/0@246,23/0@264（警告/缺 worldVariables/scenes 默认/scene id 不符/map 覆盖——其中 23/0 由本批
+S02 覆盖上游拒绝，臂为重叠护栏）；byKey 可选默认 30-38/1@299-314 与 40/1@322（enemies/enemyTeams/
+battleFields/tilesets/poisons/ambiences/shops/worldVariables 的 `?? []` 臂 + sharedScripts 声明臂——
+需表存在/缺席双态构造，**撤回“集成后合并计算”错误归因：本树已含上批全部测试，这些臂在当前总报告
+下就是未覆盖**，属合法可达未做）；writeProject 接线 65/1@512-96/1@629 共 10 臂（catalog 前滚/收缩/
+remove/进度分支——本树 save-batch-writer W10 与 journal 测试覆盖主路径，接线臂待确认）；
+preflight 114/1@702,116/1@712,118/1@722（错误构造字符串的三元臂——`String(cause)` 需非 Error cause，
+与 wp O8 同型无业务输入）；resumeOwn 7/8@152-153（快照缺失/清理警告臂）；toEditorState 2/0@82（stamps
+声明但未加载——P0 系列正控从未触发）；writeFile 48/0@404（ArrayBuffer 快照写 Blob 臂）；readText 50/1@427。
+
+**五次完整 check 逐次记录**（命令均 `pnpm check`，工作树=327db910 候选状态，日志
+/tmp/glm-preflight-workspace/full-check{,2,3,4,5}.log）：
+1. full-check.log：exit 1——pal-extract ENOENT `data/raw/DATA.MKF`/`M.MSG`（worktree 缺 gitignored
+   raw 资产；环境准备 symlink 后消除）。
+2. full-check2.log：exit 1——editor `tests/world-sprite-beharor.pal.test.ts` ENOENT
+   `projects/pal/assets/migrated/sprites/044.rle`（缺 gitignored migrated 资产；拷贝后消除）。
+3. full-check3.log：exit 1——editor design-system boundary 术语门禁：`save-preflight-fixture.ts`
+   含「工程」违反“项目”单一术语（真实测试缺陷，改词后消除）。
+4. full-check4.log：exit 1——biome noUnusedVariables `save-preflight-boundaries.test.ts:161`
+   （未用 `assets` 变量，真实测试缺陷，删除后消除）。
+5. full-check5.log：**exit 0，全包 6,722 项**（51 warnings/11 infos，含既有 runtime-script.ts:146
+   noUnused 警告——非本包引入，不是 error）。
+返工后复跑：**full-check-rw.log exit 0，全包 6,723 项**（含本返工新增用例）。
+
+**验证（实际提交树 ee7169e3）**：定向+相邻 5 文件 **45/45 绿**（新 12 用例）；tc 0；biome 0；
+四负控复跑红（A1 两红，A2/B1/B2 各一红）；同口径 editor-fast **197 文件/1,996 项全绿**；
+project-io 行 282/290（97.2%）/函数 52/52（100%）/分支 204/241（84.6%）——行/函数达标，
+分支 37 臂逐项如上，不刷比例。
+
+**Codex 接收提示词（返工版）**：
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接收 EDITOR-SAVE-RECOVERY-1 的 GLM preflight-r1 返工：分支 codex/glm-save-preflight-tests（远端 SHA 见回执末尾），基于 81558d06 counter 树，产品/脚本零 diff。
+PF-1：S01 撤销旧分片结论——当前 sharedScripts 模型（具体脚本体）输出后正式 loader 重开核对；旧形态登记为 loader 明禁+Codex 清理项。PF-2：S02 双态（copy-through 逐字+已加载图层名编辑胜出）；P05 同基线成功正控+metadata mismatch 负控+直接 receipts.size===0；P01/P02 补自身合法对照；unused import 已清。PF-3：wp 82 臂/project-io 37 臂逐 branchId/arm 对账（“本树已含上批测试/集成后合并”错误归因已撤回）；五次 check 逐次命令/exit/原因+返工后 6,723 项 exit0。
+验证：定向+相邻 45/45、tc 0、biome 0、四负控红、同口径 197/1,996 全绿；project-io 行 97.2%/函数 100%。请复核三项落实、抽验 S01 重开与 P05 正控、重建负控；通过后集成并统一 ratchet/严格 fast。GLM 测试贡献终审披露；不代签、不标 done。
+```
+
