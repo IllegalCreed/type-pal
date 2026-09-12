@@ -1987,6 +1987,29 @@ wp新增14个旧缺口命中+Codex新source臂1个，最终415/436；重点模�
 Codex对此测试子包签accept，无剩余返工项；这不是父卡done前整体终审签字，父卡继续build。
 GLM测试贡献终审披露；r2不重签、不代签、不标done、不转Kimi。无下一位Agent提示词，Codex继续自持收口。
 
+### 双线继续 · identity-foundation-r1与完整覆盖率（2026-09-12）
+
+用户要求Codex/GLM继续双线。基于b7a56dd4，[GLM工作包](../../testing/editor-save-recovery-glm-identity-foundation.md)
+限定workspace-context/handle-store两模块的构造、解析、指纹、锁和存储代码测试；独立分支、两个新测试文件及本人回执。
+Codex继续剩余写侧/旧路径/性能判断，先重跑full覆盖率补齐当前真实PAL口径，并同步过时的进度摘要；生产基线暂不改。
+分工不等于GLM已开工，待用户转交。既有r2设计签字有效，不重签，视觉全部由Codex承担。
+
+#### 下一位Agent提示词（GLM，可直接复制）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 执行 EDITOR-SAVE-RECOVERY-1 / identity-foundation-r1 并行测试包。
+父卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 保持build/r2，不重签。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡最新记录，以及 docs/testing/editor-save-recovery-glm-identity-foundation.md 全文。
+同步origin/main，在独立worktree新建codex/glm-identity-foundation-tests，生产基线b7a56dd4；目标模块hash按工作包核对。
+一次完成F1–F6：身份构造/当前标记解析/公开指纹函数/可信PAL证明/真实锁生命周期/IDB与代码级Web Locks接线。
+唯一白名单是两个新测试文件 workspace-context-boundaries.test.ts、handle-store-capability.test.ts 和工作包GLM回执区。
+不改产品、旧测试、共享fixture、配置、官方基线或资产，不stash；不做浏览器/截图/视觉测试，不代签、不标done、不转Kimi。
+保留真实登记守卫和锁品牌；过期锁由真实API取得，不能伪造。负例配合法正控及零副作用断言，至少三组单点业务负控；临时Vite参数必须放test内。
+0命中/重叠保护如实分类，不造旧manifest成功正控；产品缺陷只留正确合同红例和证据交Codex，不skip/test.fails。
+只跑定向/相邻、editor typecheck、biome和两目标模块的临时覆盖，别跑整仓check/full，以免争抢Codex资源。
+从最终提交树生成真实计数与逐臂增量，写清失败记录，提交推送独立分支并核远端SHA后交Codex复核；贡献须终审披露。
+```
+
 ## 交接日志
 
 - 2026-09-12 Codex：73aa0ea7子包accept并适配最新6eaf4dc7，source漏检已修；原19项18绿1红→全绿，五组业务负控及重叠oracle/不变probe核验完成。check6,825/ratchet/单次严格fast6,337通过，GLM+14归属明确，重点剩46臂；不转Kimi、不标done。
