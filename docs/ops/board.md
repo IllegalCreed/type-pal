@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：实际界面/目录权限、余下分支及性能收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 凭据解析优化后本机完整克隆97.7→81.2秒，仍有性能风险；110臂待核，整卡未完成。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：余下分支、性能及剩余权限边界 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 原生目录/界面恢复、继续保存试玩、冲突及授权对照已补证；110臂与约81秒克隆成本等遗留未收口。 |
 
 ## 阻塞
 
