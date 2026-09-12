@@ -180,15 +180,16 @@ wp 353/435 分支；未覆盖分支行从本次 coverage-final.json 提取，非
 
 ### 交接
 
-GLM 为测试贡献者。候选 `<回填>`；推送并核 `git ls-remote --heads origin
-codex/glm-save-preflight-tests` 与最终 SHA 一致后交 Codex。最后一次提交后核
-`git ls-tree HEAD -- data/extracted`、`git ls-files data/extracted` 均空、对 4b72e492 产品/脚本
-零 diff。不代签、不标 done；原生/性能/最终审查留父卡收口。
+GLM 为测试贡献者。候选 `327db910`（测试+回执）+ 文档 `aebcbea4`（父卡日志）；远端
+`git ls-remote --heads origin codex/glm-save-preflight-tests` = `aebcbea4…` 与本地 HEAD 一致（已核）。
+最后一次提交后已核：`git ls-tree HEAD -- data/extracted` 与 `git ls-files data/extracted` 均空；
+对派工提交 88487350 的 diff 恰为 3 个白名单新文件（457 行）；对 4b72e492 产品/脚本零 diff
+（board/README 变更来自派工提交本身）。不代签、不标 done；原生/性能/最终审查留父卡收口。
 
 **Codex 接收提示词**：
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接收 EDITOR-SAVE-RECOVERY-1 的 GLM preflight-r1：分支 codex/glm-save-preflight-tests（远端 SHA 见回执交接节），起点 88487350，产品/脚本相对 4b72e492 零 diff。
+在 /Users/zhangxu/illegal/type-pal 接收 EDITOR-SAVE-RECOVERY-1 的 GLM preflight-r1：分支 codex/glm-save-preflight-tests（远端 aebcbea4），起点 88487350，产品/脚本相对 4b72e492 零 diff。
 交付：A组 P01–P05（save-preflight-boundaries 6 用例：大小/摘要独立拒、tileset gzip 与 RLE 分开、删除引用/解除、附属二进制、真实 writer 全副作用）+ B组 S01–S04（project-serialization-boundaries 5 用例：脚本 index.bytes 生产合同/copy-through 逐字/诊断能力过滤/正式 loader 重开；上游重叠护栏如实分类）+ C组 wp 剩余分支只读分类表（3 族可达待测归 PAL/深链）。四负控（A/B 各 2）全部业务红。
 验证：定向+相邻 44/44、tc 0、biome 0、完整 check exit0 6,722 项、同口径 197/1,995 全绿；project-io 行 97.2%/函数达标、分支 83.8% 缺口已三类逐项列明。请复核断言与负控（/tmp/glm-pf-nc.config.mts 可重建）、适配主树集成并统一 ratchet/严格 fast。GLM 测试贡献终审披露；不代签、不标 done。
 ```
