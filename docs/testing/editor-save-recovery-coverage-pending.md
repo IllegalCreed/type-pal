@@ -6,11 +6,11 @@
 ## 口径与未完成边界
 
 - 本表两份生产源码相对4b72e492未变；保存凭据解析性能优化不改变这两份源码。360b2f65接收树的未覆盖快照为wp82 + project-io37 = 119臂。
-- 前批pal-save-identity回归将119臂降至110臂；2026-09-12本批workspace-save-admission新增20项，正式严格fast确认再命中wp17臂，当前为 **56 + 37 = 93臂未覆盖**；没有新回退臂。
+- 前批PAL/首存回归将119臂降至93臂；2026-09-12本批project-io-admission新增15项，正式严格fast再命中io11臂，当前为 **56 + 26 = 82臂未覆盖**；没有新回退臂。
 - branchId/arm是本次V8报告定位键，不是产品稳定ID；源码或工具升级后必须重生成。
 - 条件/函数由TypeScript AST定位。条件为归一化节选；短路表达式显示所属整体表达式，具体臂仍按报告编号，不把相同节选当同一个臂。长行用省略号。
-- 当前93臂中，**92臂为E0=待确认，1臂为E3=当前调用域的构造保证/防御检查**（证据见下）；E3仍保留在未覆盖分母，不算已覆盖、不自动授权删除。其余不得因类型可选/难构造就判可达或不可达。
-- 本表0命中不写“已有覆盖”；93臂不是93个已确认bug，也不是整卡全部剩余工作。原生/性能/终审按父卡继续。
+- 当前82臂中，**68臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
+- 本表0命中不写“已有覆盖”；82臂不是82个已确认bug，也不是整卡全部剩余工作。原生/性能/终审按父卡继续。
 - 原119臂的精确历史清单由Git保留；[preflight接收结论](editor-save-recovery-glm-preflight.md#codex-fae10e55接收结论2026-09-12)仍是该时点事实，不冒充最新数量。
 
 ## 前批闭环的9臂（E2：常驻测试已覆盖）
@@ -28,7 +28,7 @@
 前批还验证合法PAL连续保存推进会话指纹、target签发后外部修改仍拒绝、人物表由作者基线保护；
 后者不属于PAL结构指纹路径，不能混淆拒绝层。原生PAL跨页结果见父卡本轮回执。
 
-## 本批闭环的17臂（E2：常驻测试已覆盖）
+## 前批闭环的17臂（E2：常驻测试已覆盖）
 
 来自[workspace-save-admission.test.ts](../../packages/editor/src/core/workspace-save-admission.test.ts)20项；最终官方fast 6,280项的LCOV与本表逐臂核对，产品源码未改。
 
@@ -52,6 +52,23 @@ wp4/0：`writeJsonSidecar`的缺token映射拒绝分支，当前不是合法外�
 - 唯一调用点:850–851直接把刚创建的token作为参数传入；创建/登记/调用之间没有await，token不向外泄露。
 - AST复算引用清单保存在`/tmp/codex-admission.ifO6Ix/private-bootstrap-census.json`。只覆盖当前正常产品调用域，不把恶意篡改JS内建对象的环境算合法输入。
 - 保留防御检查；不通过导出私有函数、伪造品牌、篡改WeakMap来凑覆盖，也不据此移出覆盖统计。
+
+## 本批project-io闭环的11臂（E2）
+
+[15项新回归与完整证据](editor-save-recovery-project-io-review.md)由Codex执行；GLM打开身份工作包未合入本统计。
+io2/0、8/0、18/1、22/1、23/0、26/0、40/1、50/1、65/1、71/0、82/1已由最终fast 6,295项的LCOV确认命中。
+其中坏元数据会被完整writer拒绝，不把“部分序列化曾返回输出”当合法旧版本支持。
+
+## project-io的E3/E4分类
+
+详见[构造保证及旧路径审查](editor-save-recovery-project-io-review.md)的逐组源码链：
+
+- E3共10臂：io15/0的同步前置世界变量门、io20/0的Map按相同字符串ID构造；
+  io79/1、80/0、80/1的私有完整签名Map；io84/1、88/1、91/1、93/1、96/1的私有完整sizes Map。
+- E4共3臂：io13/0、29/0的旧分片路径，以及io48/0的旧writeFile辅助函数。
+  旧ScriptDrawer仍有旧命令引用，不能误报“全部零引用”；它位于正常启动已有canonical会话的回退分支。
+  writeFile仍导出，亦不能称为JS不可调用。都是清理审查候选，不以猜测直接删除。
+- 所有13臂仍列在下方未覆盖表，不改源码、不减分母；剩余可选工作副本字段/异常类别继续E0。
 
 ## 当前清单
 
@@ -120,21 +137,15 @@ wp4/0：`writeJsonSidecar`的缺token映射拒绝分支，当前不是合法外�
 
 ### project-io.ts
 
-来源：packages/editor/src/core/project-io.ts；源码SHA-256：4f592fc9611038c4f7acbd7c248675e1cd7929a6495357e6083b1e9fba8a996d。未覆盖37臂。
+来源：packages/editor/src/core/project-io.ts；源码SHA-256：4f592fc9611038c4f7acbd7c248675e1cd7929a6495357e6083b1e9fba8a996d。未覆盖26臂。
 
 | 分支/臂 | 行 | 所在函数/回调 | 条件/子表达式（按报告编号） | 当前分类 |
 |---|---:|---|---|---|
-| 2/0 | 82 | toEditorState | if：project.manifest.content.stamps && stamps === undefined | 待确认（E0） |
 | 7/0 | 152 | resumeOwnProjectSave | if：!snapshot | 待确认（E0） |
-| 8/0 | 153 | resumeOwnProjectSave | cond-expr：result.cleanupWarning | 待确认（E0） |
-| 13/0 | 220 | serializeProject | if：diagnostics.warnings.length | 待确认（E0） |
-| 15/0 | 233 | serializeProject | if：!content.worldVariables | 待确认（E0） |
-| 18/1 | 239 | serializeProject | binary-expr：content.scenes ?? 'content/scenes/' | 待确认（E0） |
-| 20/0 | 246 | serializeProject | if：scene.id !== asset.id | 待确认（E0） |
-| 23/0 | 264 | serializeProject | if：asset.path === mapIndexRel | 待确认（E0） |
-| 26/0 | 275 | serializeProject | if：orphanIds.length | 待确认（E0） |
-| 22/1 | 277 | serializeProject | if：mapIndexRel | 待确认（E0） |
-| 29/0 | 287 | serializeProject | if：!chunk | 待确认（E0） |
+| 13/0 | 220 | serializeProject | if：diagnostics.warnings.length | 退役审查候选（E4） |
+| 15/0 | 233 | serializeProject | if：!content.worldVariables | 构造/前置保证（E3） |
+| 20/0 | 246 | serializeProject | if：scene.id !== asset.id | 构造/前置保证（E3） |
+| 29/0 | 287 | serializeProject | if：!chunk | 退役审查候选（E4） |
 | 30/1 | 299 | serializeProject | binary-expr：state.enemies ?? [] | 待确认（E0） |
 | 31/1 | 300 | serializeProject | binary-expr：state.enemyTeams ?? [] | 待确认（E0） |
 | 32/1 | 301 | serializeProject | binary-expr：state.battleFields ?? [] | 待确认（E0） |
@@ -144,20 +155,15 @@ wp4/0：`writeJsonSidecar`的缺token映射拒绝分支，当前不是合法外�
 | 36/1 | 306 | serializeProject | binary-expr：state.shops ?? [] | 待确认（E0） |
 | 37/1 | 309 | serializeProject | binary-expr：state.migrationDiagnostics?.diagnostics ?? [] | 待确认（E0） |
 | 38/1 | 314 | serializeProject | binary-expr：state.worldVariables ?? {} | 待确认（E0） |
-| 40/1 | 322 | serializeProject | if：content.sharedScripts !== undefined | 待确认（E0） |
-| 48/0 | 404 | writeFile → 回调@393 | cond-expr：snapshot instanceof ArrayBuffer | 待确认（E0） |
-| 50/1 | 427 | readTextFileIfPresent | if：error instanceof DOMException && error.name === 'NotFoundError' | 待确认（E0） |
-| 65/1 | 512 | writeProject → 回调@499 | if：catalogPath && files[catalogPath] | 待确认（E0） |
-| 71/0 | 523 | writeProject → 回调@499 | if：!write.includes(catalogPath) | 待确认（E0） |
-| 79/1 | 560 | writeProject → 回调@499 → rememberWrite | binary-expr：signature ?? (value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value)) | 待确认（E0） |
-| 80/0 | 561 | writeProject → 回调@499 → rememberWrite | cond-expr：value instanceof ArrayBuffer | 待确认（E0） |
-| 80/1 | 562 | writeProject → 回调@499 → rememberWrite | cond-expr：value instanceof ArrayBuffer | 待确认（E0） |
-| 82/1 | 592 | writeProject → 回调@499 | binary-expr：finalCatalog?.assets ?? {} | 待确认（E0） |
-| 84/1 | 604 | writeProject → 回调@499 | binary-expr：sizes.get(rel) ?? 0 | 待确认（E0） |
-| 88/1 | 609 | writeProject → 回调@499 | binary-expr：sizes.get(catalogPath) ?? 0 | 待确认（E0） |
-| 91/1 | 620 | writeProject → 回调@499 | binary-expr：sizes.get(rel) ?? 0 | 待确认（E0） |
-| 93/1 | 626 | writeProject → 回调@499 | binary-expr：sizes.get('manifest.json') ?? 0 | 待确认（E0） |
-| 96/1 | 629 | writeProject → 回调@499 | binary-expr：sizes.get(catalogPath) ?? 0 | 待确认（E0） |
+| 48/0 | 404 | writeFile → 回调@393 | cond-expr：snapshot instanceof ArrayBuffer | 退役审查候选（E4） |
+| 79/1 | 560 | writeProject → 回调@499 → rememberWrite | binary-expr：signature ?? (value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value)) | 构造/前置保证（E3） |
+| 80/0 | 561 | writeProject → 回调@499 → rememberWrite | cond-expr：value instanceof ArrayBuffer | 构造/前置保证（E3） |
+| 80/1 | 562 | writeProject → 回调@499 → rememberWrite | cond-expr：value instanceof ArrayBuffer | 构造/前置保证（E3） |
+| 84/1 | 604 | writeProject → 回调@499 | binary-expr：sizes.get(rel) ?? 0 | 构造/前置保证（E3） |
+| 88/1 | 609 | writeProject → 回调@499 | binary-expr：sizes.get(catalogPath) ?? 0 | 构造/前置保证（E3） |
+| 91/1 | 620 | writeProject → 回调@499 | binary-expr：sizes.get(rel) ?? 0 | 构造/前置保证（E3） |
+| 93/1 | 626 | writeProject → 回调@499 | binary-expr：sizes.get('manifest.json') ?? 0 | 构造/前置保证（E3） |
+| 96/1 | 629 | writeProject → 回调@499 | binary-expr：sizes.get(catalogPath) ?? 0 | 构造/前置保证（E3） |
 | 114/1 | 702 | preflightProjectWriteSet | cond-expr：cause instanceof Error | 待确认（E0） |
 | 116/1 | 712 | preflightProjectWriteSet | cond-expr：cause instanceof Error | 待确认（E0） |
 | 118/1 | 722 | preflightProjectWriteSet | cond-expr：cause instanceof Error | 待确认（E0） |
