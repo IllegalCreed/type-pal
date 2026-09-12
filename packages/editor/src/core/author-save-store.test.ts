@@ -35,6 +35,77 @@ function receipt(): AuthorSaveReceipt {
   }
 }
 
+/** Thousands of immutable blob signatures accompany every cursor update in a full clone. */
+function largeReceipt(): AuthorSaveReceipt {
+  const staged: AuthorSaveReceipt['staged'] = Object.create(null)
+  for (let i = 0; i < 2048; i++) {
+    const hash = i.toString(16).padStart(64, '0')
+    staged[`blobs/${hash}`] = `bin:${i}:${hash}`
+  }
+  const hash = 'f'.repeat(64)
+  staged['plan.json'] = `bin:999:${hash}`
+  return { ...receipt(), phase: 'ready', planHash: hash, staged }
+}
+
+test.each([
+  'staging',
+  'ready',
+  'applying',
+  'data-complete',
+  'committed',
+] as const)('large %s receipt validates every entry and returns detached null-prototype tables', (phase) => {
+  const input = { ...largeReceipt(), phase }
+  if (phase === 'staging') input.planHash = null
+  const result = parseAuthorSaveReceipt(input)
+  expect(result).toEqual(input)
+  expect(Object.keys(result.staged)).toHaveLength(2049)
+  expect(Object.getPrototypeOf(result.staged)).toBeNull()
+  expect(Object.getPrototypeOf(result.metadata)).toBeNull()
+  expect(result.staged).not.toBe(input.staged)
+  expect(result.metadata).not.toBe(input.metadata)
+  const last = `blobs/${(2047).toString(16).padStart(64, '0')}`
+  input.staged[last] = null
+  input.metadata['.type-pal/workspace.json'] = `bin:1:${'a'.repeat(64)}`
+  expect(result.staged[last]).toBe(`bin:2047:${(2047).toString(16).padStart(64, '0')}`)
+  expect(result.metadata['.type-pal/workspace.json']).toBeNull()
+})
+
+test.each([
+  'hash-mismatch',
+  'malformed-signature',
+  'unsafe-size',
+  'null',
+  'path',
+] as const)('large receipt cannot hide a %s in its final blob entry', (fault) => {
+  const input = largeReceipt()
+  const path = `blobs/${(2047).toString(16).padStart(64, '0')}`
+  expect(parseAuthorSaveReceipt(input)).toEqual(input)
+  if (fault === 'hash-mismatch') input.staged[path] = `bin:2047:${'a'.repeat(64)}`
+  if (fault === 'malformed-signature')
+    input.staged[path] = `bin:02047:${path.slice('blobs/'.length)}`
+  if (fault === 'unsafe-size')
+    input.staged[path] = `bin:9007199254740992:${path.slice('blobs/'.length)}`
+  if (fault === 'null') input.staged[path] = null
+  if (fault === 'path') input.staged['blobs/../outside'] = input.staged[path]!
+  expect(() => parseAuthorSaveReceipt(input)).toThrow(
+    fault === 'hash-mismatch'
+      ? 'payload 路径与签名不符'
+      : fault === 'null'
+        ? '尚未完整封存'
+        : fault === 'path'
+          ? '含越界路径'
+          : '文件签名无效',
+  )
+})
+
+test('a large receipt is revalidated on every call; a prior valid result cannot hide later tampering', () => {
+  const input = largeReceipt()
+  const parsed = parseAuthorSaveReceipt(input)
+  parsed.staged['plan.json'] = `bin:999:${'e'.repeat(64)}`
+  expect(() => parseAuthorSaveReceipt(parsed)).toThrow('缺少匹配的封存计划')
+  expect(parseAuthorSaveReceipt(input)).toEqual(input)
+})
+
 /** Minimal IDB event-boundary model, not a structured-clone or native persistence substitute. */
 function database() {
   const records = new Map<string, unknown>()

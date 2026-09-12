@@ -1753,7 +1753,83 @@ TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json nod
 本轮不代签、不标done；原生API补证不等于UI/OS权限/大克隆性能和余下分支审查全部完成。
 无下一位Agent提示词，本切片由Codex自测收口，下一切片继续余下分支、UI/OS权限与性能核验；不请用户重复签设计。
 
+### Codex · 大克隆凭据解析成本核验（2026-09-12）
+
+用户继续，从88c76432接续r2。先用临时Vite插桩/独立浏览器OPFS实跑完整PAL克隆，
+不修改源项目、现有6010或存储协议。诊断运行（有插桩开销，不作最终性能对照）记录17,422次凭据解析、
+73,810,523次parseSaveSignature；parseAuthorSaveReceipt累计55.76s为包含子调用的时间，不能与子项相加。
+源码author-save-store.ts的parseTable已经逐签名校验，后续staged遍历又经savePayloadHash重复校验/拆串；
+两轮Object.entries还产生逐项临时数组。限定本切片只优化此纯解析重复工作：保留每次磁盘/IDB读、
+strict事务次数、完整字段/逐项签名/路径/关联关系检查及复制返回对象，不缓存可变凭据、不改变拒绝域。
+不改版本/协议/读写保护顺序，r2设计继续有效。先测无插桩当前基线，再补长表尾项反例及旧解析器差分，
+随后做同条件性能对照与质量门；若收益不成立则不以诊断插桩数字冒充优化效果。
+证据目录：`/tmp/codex-save-perf.7PSKnR/`。真实UI/OS权限及其余分支仍待后续，不标整卡done。
+
+#### 实现及验证回执
+
+产品仅改author-save-store.ts的纯解析循环：输入表用Object.keys避免逐项键值对数组；
+staged是刚构造的null-prototype表，for-in不会读到继承属性；其签名已经逐项通过parseSaveSignature，
+关联校验直接读取末64位hash，不再经savePayloadHash重复做同一格式解析/拆串。
+仍逐项检查路径、签名、hash关联、封存状态，每次调用返回独立表；不记忆/缓存可变输入。
+transaction/execute/journal/保存协议/项目版本/公共接口、原审计探针和PAL生成内容均未修改。
+
+在author-save-store.test.ts新增11项，既有28项断言零修改；长表含2,048个blob和plan，
+覆盖五阶段成功、尾项hash错配/坏格式/超安全整数/null/越界路径，以及已成功解析对象被篡改后必须重新拒绝。
+定向4文件185项及editor typecheck通过；初次仅新增测试格式不符，formatter修正后两改动文件biome零诊断。
+隔离负控每次只改一个表达式：删hash关联校验→尾项hash-mismatch用例业务红；
+绕过签名格式解析→malformed-signature/unsafe-size两项业务红；不把加载/编译失败算反证。
+另从88c76432的Git源码提取原parseAuthorSaveReceipt，不手写旧oracle；最终7,030组确定性JSON形态输入
+（含五种末尾换行符反例）逐项对比接受值/错误文案，330接受、6,700拒绝全部一致。不是对任意JS访问器对象的穷尽证明。
+证据：targeted.log、typecheck.log、negative.log、negative-format.log、differential-delimiter.log及differential-result.json。
+
+**同口径无插桩性能对照**（均新浏览器上下文/独立OPFS；不与check/coverage并跑；只有本模块优化）：
+
+| 观测项 | 88c76432 | 本轮 |
+|---|---:|---:|
+| 完整克隆，不含打开 | 97.71s | 81.19s |
+| 克隆＋打开 | 98.90s | 82.41s |
+| 仅改名称增量保存 | 2.86s | 2.88s |
+| 首次作者close | 31.70s | 28.91s |
+| 整轮close次数 | 4,945 | 4,945 |
+| 作者输出字节（含后续增量） | 146,895,754 | 146,895,754 |
+| 私有暂存字节（含后续增量） | 147,348,008 | 147,348,008 |
+| CDP usedSize峰值 | 353.3MB | 408.2MB |
+| CDP backingStorageSize峰值 | 501.5MB | 488.3MB |
+
+当前素材仍1,934项/69,092,169字节。耗时减少16.9%只描述本机这组配对，不是普遍性能承诺；
+内存两字段每500ms独立采样，不相加、不等于RSS；usedSize反而更高，不宣称降低峰值内存。
+完整克隆仍约81秒：每步整份凭据读写/解析的随文件数放大成本仍在，性能风险未完全收口。
+不得擅自减少strict事务、身份检查或先写后备份。若进一步拆分持久凭据/游标或改变协议，须先另行设计审查，
+不能拿本次纯解析优化授权替代。小增量无可辨改善，不归因为加速。
+
+上述计量已整理为[可重跑的PAL保存计量](../audits/pre-e2e/measure-pal-save-recovery.mjs)，无历史实现分支、
+不复用用户资料、不安装依赖，仅向本次隔离OPFS写；复跑前准备专用6011，命令：
+
+```sh
+TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json node docs/ops/audits/pre-e2e/measure-pal-save-recovery.mjs current
+```
+
+入库入口另实跑得到81.18s/增量2.95s，字节和close数一致；该次是脚本可重建性复验，不拿多次最好值替代主对照。
+证据：pal-baseline.json、pal-optimized.json；入库入口记录于
+`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-save-measure-BNEMYv/pal-optimized-repro.json`。
+原生恢复回归也通过：跨上下文237恢复、继续保存/试玩初始载入238、外部777冲突后零写，
+证据`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-native-recovery-WP4J6i/native-pal.json`。
+仍只验证原生API，不冒充实际编辑器点击、OS选择器/权限或完整E2E；自建6011已停止，用户6010未动。
+
+质量门均exit0：完整check 6,748项；以88c76432为保护基准的官方ratchet及随后单次严格fast 6,260项。
+618生产文件不变；editor 198测试文件/2,021项。新增已覆盖的signature局部变量使语句/行的分子分母各+1，
+分支/函数分子分母不变；未通过删源码缩分母或降低阈值。ratchet与严格fast总量逐项相等；
+author-save-store整文件行91/91、函数22/22、分支102/102，均100%。
+wp73/project-io37的110臂台账与最终LCOV精确相等，本切片没有关闭其中任何一项。
+check.log、ratchet.log、strict-fast.log、docs.log均在本轮证据目录；全仓既有50warning/11info未扩大。
+旧版本兼容审查：pass；产品没有加入旧版本分支、缓存凭据或回退解析，Git原parser仅供仓外差分验证。
+父卡仍build，三席done签字均pending；无下一位Agent提示词，本切片由Codex收口，下一步继续实际界面/目录权限与剩余分支核验。
+
 ## 交接日志
+
+- 2026-09-12 Codex：88c76432后完成凭据纯解析性能切片，11项长表回归、7,030输入差分、两类负控及
+  原生恢复通过；本机配对完整克隆97.71→81.19秒，小增量约2.9秒，仍保留大克隆成本风险。
+  完整check 6,748/严格fast 6,260通过，110臂未覆盖项未减少；整卡仍build，不代签、不标done。
 
 - 2026-09-12 Codex：从360b2f65接续PAL保存身份切片，13项新回归与隔离原生跨上下文API验证通过；
   完整check 6,737、严格fast 6,249，110臂待核台账与正式LCOV一致。产品零改动，整卡仍build；

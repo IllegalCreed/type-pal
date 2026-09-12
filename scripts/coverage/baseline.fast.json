@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-12T07:13:57.497Z",
+  "generatedAt": "2026-09-12T08:28:37.900Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 618,
-  "testCount": 6249,
+  "testCount": 6260,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2805,7 +2805,7 @@
       ],
       "scopeDigest": "2ea0828d93df83523f4fa04e94099267380f593c72fede27cf7d584bf77c0561",
       "fastTests": {
-        "testCount": 2010,
+        "testCount": 2021,
         "testFileCount": 198,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
@@ -3070,8 +3070,8 @@
           },
           {
             "file": "packages/editor/src/core/author-save-store.test.ts",
-            "testCount": 28,
-            "identityDigest": "8e13ba417a4c99e3e60f7bacd5edd6fc1a246ff0b381d4b974224715858dbb8e"
+            "testCount": 39,
+            "identityDigest": "c419c09f68972ea5ac535b8609b923157dcdf5911629dd3be23afce6787679d7"
           },
           {
             "file": "packages/editor/src/core/battle-data-delete-commands.test.ts",
@@ -3999,14 +3999,14 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "a5ab624f917cafb9425a27fdd3a4e3face0799d507c91d72f88e5dd86e94efa0",
+        "identityDigest": "5f2f7beef508dbc2cd286a7d446257338e5daa51938850cdfb54672b195d5239",
         "duplicateIdentityCount": 8,
-        "executionDigest": "bdb897f50343afeb45162c41a3d43fccf3fe9bf9bfedf3939f47aa04e7b3969d"
+        "executionDigest": "5a813804062cd13274177a2b13f2ed2a23361782e0c507d130f59ddbdb87404b"
       },
       "metrics": {
         "statements": {
-          "covered": 24728,
-          "total": 32526
+          "covered": 24729,
+          "total": 32527
         },
         "branches": {
           "covered": 19080,
@@ -4017,16 +4017,16 @@
           "total": 8221
         },
         "lines": {
-          "covered": 22330,
-          "total": 28403
+          "covered": 22331,
+          "total": 28404
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 53612,
-      "total": 79538
+      "covered": 53613,
+      "total": 79539
     },
     "branches": {
       "covered": 38384,
@@ -4037,8 +4037,8 @@
       "total": 14622
     },
     "lines": {
-      "covered": 48436,
-      "total": 69586
+      "covered": 48437,
+      "total": 69587
     }
   }
 }

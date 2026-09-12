@@ -89,14 +89,14 @@ export function parseAuthorSaveReceipt(value: unknown): AuthorSaveReceipt {
     if (!input || typeof input !== 'object' || Array.isArray(input))
       throw new Error('恢复凭据文件表无效')
     const table: Record<string, SaveSignature> = Object.create(null)
-    for (const [path, value] of Object.entries(input)) {
+    for (const path of Object.keys(input)) {
       if (
         metadata
           ? ![PAL_DEVELOPMENT_SENTINEL_PATH, SANDBOX_WORKSPACE_MARKER_PATH].includes(path)
           : path !== 'plan.json' && !/^blobs\/[0-9a-f]{64}$/.test(path)
       )
         throw new Error('恢复凭据含越界路径')
-      table[path] = parseSaveSignature(value)
+      table[path] = parseSaveSignature((input as Record<string, unknown>)[path])
     }
     if (
       metadata &&
@@ -125,11 +125,15 @@ export function parseAuthorSaveReceipt(value: unknown): AuthorSaveReceipt {
   )
     throw new Error('恢复凭据的身份文件与工作区模式不符')
   const staged = parseTable(r.staged, false)
-  for (const [path, signature] of Object.entries(staged)) {
+  // parseTable returns a fresh null-prototype table and validates every signature above.
+  // Cursor updates re-read this whole receipt: do not allocate entry pairs or parse the same
+  // signature again merely to extract its already-validated, fixed-width hash. No IO is skipped.
+  for (const path in staged) {
+    const signature = staged[path]
     if (
       signature &&
       path.startsWith('blobs/') &&
-      savePayloadHash(signature) !== path.slice('blobs/'.length)
+      signature.slice(-64) !== path.slice('blobs/'.length)
     )
       throw new Error('恢复 payload 路径与签名不符')
     if (r.phase !== 'staging' && signature === null) throw new Error('恢复计划尚未完整封存')
