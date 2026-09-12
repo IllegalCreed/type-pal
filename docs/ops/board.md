@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：旧路径/性能收口；GLM：身份基础测试 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) Codex另存为10项闭环，check6,835/fast6,347通过；主表46臂不变，open-actions余2臂E3；GLM按identity-foundation-r1，未标done，视觉仅Codex。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | GLM：identity-foundation限定返工；Codex：独立复核/剩余收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) ff0a0d4a子包counter：非法成功输入、IDB替身/锁等待漏测；未集成，check6,835/fast6,347及主表46臂保持；C0说明已由Codex勘误。 |
 
 ## 阻塞
 
