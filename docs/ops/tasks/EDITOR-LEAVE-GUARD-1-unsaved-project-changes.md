@@ -175,7 +175,42 @@ Evidence Baseline: fa8d4e52
   main 行 158–176/202，双 dirty 不进入两条离开回调，当前 source 未见 beforeunload。
   design agree；复用既有保存与 DS，确认绑定当前修改版本，异步失败与原生用户激活单列。
   可证伪观察：若真实生产入口已有守卫或保存失败仍可触发“已保存→继续”，本签字应重开。
-- Kimi：premise pending；design pending。独立证据 / 可证伪观察：待本人填写。
+- Kimi：**premise verified / design agree（2026-09-13，r1，证据基线 fa8d4e52；全部证据本人直读，未读 GLM 结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  - **前提直读**：`App.tsx:430` 双 dirty 已存在（`session.isDirty() || scriptSession?.isDirty()`）；
+    `runProj`（:2192-2205）打开成功直接 `props.onOpened?.(o)`；「新建项目」命令（:2260-2281）
+    直接 `props.onBackToPicker?.()`；Root `onOpened`（main.tsx:158-176）新建双 session 并递增
+    mount 身份、`onBackToPicker={() => setBoot('picker')}` 直接卸载 App——两条替换路径均无
+    dirty 消费；全 editor 源无 beforeunload（grep 实证）。`save`（:2066-2191）返回 void 且
+    catch 内 `setSaveErr` 后正常 resolve——**await save() resolve ≠ 保存成功**，设计警告属实；
+    markSaved 有 `session.getState() === savedState` 与脚本 version 双重防误清（:2166-2174）。
+    `saveAs`（:2207-2235）await 后直接 onOpened——等待期新命令会被静默丢弃，前提完整成立。
+  - **版本语义直读**：`edit-session.ts:121` historyVersion 只在 dispatch/undo/redo 递增，
+    `:508` 按需 hydrate「不入 undo、不置脏」，`:287-288` undo 置 dirty=true 且版本递增——
+    完全撤销后仍提示属保守正确方向（比较 dirty/版本而非 state 相等）；
+    `script-editor.ts:1321-1340` 双 version 计数——「确认绑定修改版本、仅 hydrate/markSaved
+    不误判作者变更」有既有合同支撑，非新造语义。
+  - **规范/边界直读**：DS-I.3（editor-design-system.md:919-927）「离开/关闭前有未保存改动必须
+    阻止或确认」为已有一手合同；`open-actions.ts:75-84` showDirectoryPicker 需用户激活、
+    AbortError→null 取消静默；saveAs 已在点击调用栈同步启动（:2220-2221 注释在案）——
+    「保存后继续打开必须重新点击、不承诺 Promise continuation 有 transient activation」与
+    FSA 现行约束一致。
+  - **设计同意**：单一离开协调器（idle→decision→saving/ready→opening→commit）+ 请求身份/
+    双 historyVersion 捕获 + onOpened 前复验；取消/失败保留旧 session 对象与 undo；saveAs
+    期间新修改保留原会话并明确告知副本已存而新修改未存；等待期内容变化拒绝替换不持有久置
+    Opened；保存结果真实返回（成功/失败/cleanup warning 区分）不拿 void resolve 冒充；
+    beforeunload 早退渲染前装配、读实时 ref、不在其中启动异步保存/选夹/自制 modal；
+    复用 DsDialog 短决策与唯一 save 路径；文件面限 App+小协调器+save 返回+必要 main 接线。
+    **范围确停在 A-07**：D-01 两栈算法、未提交草稿、自动保存、崩溃恢复新协议、A-02/A-03
+    目录权限/凭据/事务/读锁均明确不动；无全局数据缓存或旧格式兼容引入。
+  - **可证伪观察**（任一反例即 counter 或收窄）：① 现行任一新建/打开入口已有共享守卫 →
+    前提倒，先更正不叠第二提示；② 实现后 save 失败/cleanup warning 被当「已保存→继续」；
+    ③ 确认后新 dispatch（主轴或脚本轴）仍复用旧放弃授权完成替换；④ 懒地图 hydrate 或
+    markSaved 被误判为作者命令致打开永败；⑤ saveAs 等待期新修改被静默替换且未告知；
+    ⑥ beforeunload 在 clean/无写操作时误拦截，或 dirty 时漏装；⑦ 守卫只在 helper 层生效而
+    真实菜单/快捷键旁路（LG-09）；⑧ 旧 Promise 在新 App 上提交/覆盖错误。
+  - 返工项：无。非阻断备注：file.new 命令、runProj 与 Root onBackToPicker 必须全部经同一
+    协调器（设计 §2 已列）；picker 取消静默与 IO AbortError 失败在 LG-04 已分列，实现期
+    不得合并文案；冲突入口互斥须沿用既有 saveInFlight/exporting 旗语，守卫不得另开旁路。
 - GLM（2026-09-13，前提/测试矩阵席）：**premise verified**。本席直读 fa8d4e52 源码（HEAD 2c4cf16b 对
   fa8d4e52 的 packages 零 diff，源码基线成立）：双 dirty 合并在 App.tsx:430（`session.isDirty() ||
   (scriptSession?.isDirty() ?? false)`）；两条替换直达——runProj 在 App.tsx:2196-2198 `if (o) props.onOpened?.(o)`
@@ -233,7 +268,14 @@ Evidence Baseline: fa8d4e52
   重新核两条 Root 替换调用、save void/catch 和 FSA 激活要求；登记另存为完成复验/原生卸载边界。
   当前为设计候选，未开始产品修改；Kimi 与 GLM 可并行独立取证、各自落签，不依赖另一席结果。
   同步修正工程生命周期规范残留的“A-03 实施中/未终审”旧状态；只更新事实，不改验收合同。
-- Kimi 交接日志：待本人填写。
+- Kimi 交接日志：2026-09-13 完成 r1 独立前提/架构审查，签 premise verified + design agree，无返工项。
+  直读 App.tsx:430 双 dirty、runProj:2192-2205/file.new:2260-2281 两条直达替换、Root main.tsx:158-176
+  重建与 setBoot('picker') 卸载、save:2066-2191 void+catch resolve（失败≠成功）、saveAs:2207-2235
+  await 后直接 onOpened；版本语义 edit-session.ts:121/287-288/508（undo 置脏递增属保守正确、
+  hydrate 不置脏）与 script-editor.ts:1321-1340；DS-I.3:919-927 一手合同、pickDir:75-84 激活/取消
+  边界、全源 beforeunload 零命中。八条可证伪观察与三条非阻断备注（入口全经协调器、取消/AbortError
+  文案分列、沿用 saveInFlight/exporting 互斥）写入本席。未改产品/测试/他席/共享准入/Status，
+  未读 GLM 结论。Next：两席齐后 Codex 放行 build；视觉由 Codex 后续执行。
 - GLM 交接日志（2026-09-13）：按本席 r1 提示词完成独立前提/测试矩阵审查并签字（premise verified +
   design agree，无 counter）。同步 origin/main 后直读 fa8d4e52 一手源码：双 dirty（App.tsx:430）、两条
   替换直达（App.tsx:2196-2198/2230/2264、main.tsx:158-176/191-202）、beforeunload 零命中、save void+内部
