@@ -13,6 +13,7 @@ Branch: main
 Revision: r2（2026-09-07，用户批准继续完成本次保存；送独立前提/设计审查）
 Evidence Baseline: 041c2fe1
 Design Source Baseline: 135d065a（相对 041c2fe1 无产品实现变化）
+Implementation Candidate: cd3de679（2026-09-13，后续只补交接文档，不改候选实现）
 
 ## 当前候选与阅读入口（2026-09-13）
 
@@ -2188,6 +2189,34 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
   未改实现/共享结论/任务状态，不标 build/done。Next：三签齐后 Codex 核门禁放行 build。
 
 ## 下一位 Agent 提示词
+
+### 给 Kimi（当前：r2整卡终审）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-RECOVERY-1。
+任务卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，review/r2；实现候选cd3de679，完整实现对比135d065a，本批收口对比7087dbad。r2设计签字不重签。
+先同步分支并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡r2真值/红线/SR-01～12、docs/testing/editor-save-recovery-closeout.md与当前未覆盖台账。
+独立读一手源码，不读或复述GLM终审结论。核整条暂存/授权/前缀重放/提交/清理、原页retry与旧窗口拒写、首存/PAL/sandbox/另存/克隆及ZIP/试玩/HTTP读门，不只审最后一次清理diff。
+重点确认：旧脚本/逐文件保存已退役但canonical预览投影未误删；低层policy测试consumer不冒充writer；同目录重拾取与scope生命周期；权限文案不预断提交状态；共享CSS及lostcapture处理无新UI语义。
+复跑必要定向与关键单点负控，核check6873/严格fast6385、613生产文件及真实退休/测试迁移；保留34个重点未覆盖分支与约80～85秒克隆成本。连接复用仅仓外原型、未入生产；原probe旧IDB替身db.close失败不能作修复证明。
+视觉仅Codex执行，不重复浏览器/截图流程；审查已有原生证据的范围与结论。GLM和Codex子代理贡献均已披露，不把自测当独立终审。
+直接在卡内done前Kimi席位签accept或带file:line的counter，追加本人终审日志，明确性能/未覆盖限制是否阻断。只改本人签字/日志并提交推送；保留他席内容，冲突自行同步重试。不改实现、不代签、不改状态、不标done；完成交Codex统一核门禁。
+```
+
+### 给 GLM（当前：r2覆盖/矩阵终审）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-RECOVERY-1。
+任务卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，review/r2；实现候选cd3de679，完整实现对比135d065a，本批收口对比7087dbad。r2设计签字不重签。
+先同步分支并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡SR-01～12、docs/testing/editor-save-recovery-closeout.md、coverage.md和当前未覆盖台账。
+披露你此前是测试贡献者，本席为矩阵/证据复核，不冒称独立第三方自证；不要读取或复述Kimi终审结论。
+按实际最终树逐项核SR证据和缺口，抽跑当前调用链/负控。特别核旧38项模型测试及旧copy6项的退休/迁移、commands.test.ts恢复114项但不恢复旧模型、现存102项断言未弱化；低层policy consumer与完整writer证据分开。
+核官方check6873、严格fast6385、613生产文件、editor205文件2146项；5个实际源码退休、比率不降、保护基线未绕过。核wp三新增一失去/净增加2臂、当前34未覆盖与30构造保证/4待确认分类，不把0命中写成已覆盖。
+复核r2恢复/失败零副作用、原生记录边界及约80～85秒大克隆成本；不操作浏览器/截图，不将未入库连接原型算产品优化，不将旧probe宿主模型失败算修复证明。无需与Kimi争抢CPU重复全仓覆盖，必要定向由本人独立执行。
+直接在卡内done前GLM席位签accept或带file:line的counter，追加本人终审日志；只改本人签字/日志并提交推送，保留他席内容，冲突自行同步重试。不改实现、不代签、不改状态、不标done；完成交Codex统一核门禁。
+```
+
+### 历史交接说明（以下不是当前待办）
 
 当前175d07b2返工已通过Codex独立复核并集成，2a49cac6的R1–R3 counter解除；r2签字保持有效。
 2026-09-10已完成审计性能、journal故障及新建/克隆/打开真实流程回归；原配置完整check及6,180项单次严格fast均通过，既有15s预算不变。
