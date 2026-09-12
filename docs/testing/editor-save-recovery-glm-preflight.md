@@ -107,17 +107,88 @@ packages/editor/src/core/__tests__/save-preflight-fixture.ts
 
 ## GLM回执（仅GLM填写）
 
-尚未开始；不得把计划条目数或基线数字写作本人已跑结果。
+**preflight-r1（2026-09-12），分支 `codex/glm-save-preflight-tests`，worktree
+`/Users/zhangxu/illegal/type-pal-glm-save-preflight`，起点 88487350（packages/scripts 相对
+4b72e492 零 diff 核过）。最终候选与推送 SHA 见交接节。**
 
 ### 实现与逐项证据
 
-待填写P01–P05、S01–S04与C组表；允许分类，不允许空白或以总通过数替代。
+白名单实际改动：`save-preflight-boundaries.test.ts`（6 用例）、
+`project-serialization-boundaries.test.ts`（5 用例）、`__tests__/save-preflight-fixture.ts`
+（窄 helper：seed 资产清单/单记录 catalog 输入组装/记录单字段替换，不实现环境或协议）。
+
+| ID | 结论 | 测试全名 | 关键断言 |
+|---|---|---|---|
+| P01 | 通过（2 用例） | P01: 大小不符独立拒绝…/P01: 摘要不符独立拒绝… | bytes+1 保持 sha 相符→拒；sha 换 64f 保持 bytes 相符→拒；同信息正控 resolves。两层错误同文案、由独立字段控制 |
+| P02 | 通过 | P02: tileset 非 canonical gzip… | 非 gzip（摘要如实）→`瓦片集资源不是 canonical gzip`；真实 gzip 包裹垃圾 deflate（摘要如实）→`瓦片集资源 RLE 损坏`——两种拒绝分开验证 |
+| P03 | 通过 | P03: 删除 catalog 仍引用的资源拒绝… | removePaths 指向仍被引用资源→拒；catalog 解除引用后同删除→合法通过（真实合同） |
+| P04 | 通过 | P04: 非 catalog 管理的附属二进制… | 未登记路径的 ArrayBuffer 附属文件不被当作非法 pending，正控通过 |
+| P05 | 通过 | P05: 精灵坏格式穿过真实 writeProject… | serialize 后 writeProject 真实入口拒绝 `/精灵资源 RLE 损坏/`；整份磁盘快照逐字节不变、creates/closes/removes 全空、凭据 phase=staging/planHash=null |
+| S01 | 通过（2 用例） | S01: 分片脚本按声明路径输出…/S01: 声明 sharedScripts 缺失… | index.bytes 按生产合同（无缩进 JSON UTF-8 字节数）计算；缺 chunk 被**上游** assertScriptProjectValid 拒绝（`index chunk 缺文件`），serializeProject:287 同文案分支为重叠护栏——如实分类不绕过；sharedScripts 声明+缺失→序列化层拒绝 |
+| S02 | 通过 | S02: 已加载地图输出… | copy-through 逐字保留 readText 原文；地图资产路径覆盖 index 被**上游** validateMapIndex 拒绝（`不得覆盖 map index`），serializeProject:264 为重叠护栏 |
+| S03 | 通过 | S03: 物品对应能力未修复的诊断保留… | 合法 ItemData（equip 具备/use 缺席）+ 两条诊断：use→保留、equip→被移除；manifest 补声明 migrationDiagnostics 路径构造合法当前形态 |
+| S04 | 通过 | S04: 声明的内容表按路径输出… | 必需表逐路径输出断言；可选表（enemies 族）缺席不产出；输出写内存目录后**经正式 loader 完整重开**（manifest id/actors 数量核对），非仅键数断言 |
+
+**C组：workspace-persistence 剩余分支只读分类**（基线报告：本批同口径 editor-fast 197 文件/1,995 项，
+wp 353/435 分支；未覆盖分支行从本次 coverage-final.json 提取，非旧行号）：
+
+| 位置/条件 | file:line | 生产调用方 | 前置守卫 | 已有证据 | 分类 | 可证伪输入/观察 | 下一责任人 |
+|---|---|---|---|---|---|---|---|
+| marker 解析非 Error 文案 | wp:127 | inspectWorkspaceMetadata | try/catch 包裹 JSON.parse（Error 归一化） | P1 坏标记/IO 两用例 | 前置校验已阻断/重叠护栏 | parse 抛非 Error 需 JSON 实现退化——无业务输入 | — |
+| bootstrap 拒绝无句柄 | wp:147 | sandbox 首存引导 | authorizeFirstSaveTarget 内部唯一调用 | P5 沙盒链 | 前置校验已阻断/重叠护栏 | 需伪造 mutation 身份——不构造 | — |
+| allowPrivateFiles 路径前缀失配 | wp:172 | journal 暂存能力 | seal 前操作专属 | journal 17 项接收版 | 已有真实覆盖 | 同 op 目录外文件被拒 | 已覆盖 |
+| recovery/plan 状态机拒绝（:234,257,260,304,337,341,347,360） | wp 各处 | recoverOwn/recoverInterrupted | ownedSaves/planHash 身份 | journal own-retry/凭据族（接收版） | 已有真实覆盖 | 换 operation/nonce/目录 | 已覆盖 |
+| recordWrite/Remove/Seal/Register 的 active/dataFinalized 守卫（:485-553） | wp 各处 | journal 写路径 | mutation 品牌表 | journal 74+5 | 已有真实覆盖 | 伪造冻结后写入 | 已覆盖 |
+| PAL proof 指纹族（:590-663，~14 分支） | wp 各处 | authorize PAL 目标 | createPalDevelopmentWorkspaceContext 构造 proof；open-actions:169-183 构造失败即抛 | O5/O6/P7 读侧 + open-workflows clone | 当前入口可达且待测 | PAL 目录指纹文件缺失/改动的**写侧**授权链（读侧已测） | Codex（PAL 原生/proof 构造属其保留域，或授权后另批） |
+| metadata 矩阵（:568-598,689-718,823-843） | wp 各处 | authorizeBound/FirstSave | inspectWorkspaceMetadata 先归一化 | wp.test 31 项标记矩阵 | 已有真实覆盖（主路径）；深分支（sandbox+pal 同时 valid 等）待确认 | 构造互相冲突 marker | Codex 审查项 |
+| recent/expectedIdentity 身份族（:698-743,940-1000） | wp 各处 | finishOpen/authorize | 上游 discovery 锁 | O3/O4 + recovery S3 接收版 | 已有真实覆盖（主路径）；record.handle 抛错等深分支已有 S3 补证 | isSameEntry 抛错/字段漂移 | 已覆盖 |
+| resumesInterruptedAttempt 沙盒续存（:760-808） | wp | authorizeFirstSaveTarget | 首存授权状态 | journal 恢复+首存链 | 当前入口可达且待测 | 中断后重选同目录续存（需真实中断序列） | GLM 下批或 Codex 集成期 |
+| 凭据/PAL 首存基线（:805-843） | wp | authorizeBound PAL | authorBaseline 必传 | B6/写侧 PAL 族 | 当前入口可达且待测 | PAL 绑定保存缺基线拒绝 | Codex（PAL 域） |
+
+**C组汇总**：353/435 分支中未覆盖 82；按上表分类——已有真实覆盖（含上批接收）为主，
+**当前入口可达且待测 3 族**（PAL 写侧指纹、沙盒续存、PAL 首存基线，均属 PAL/恢复深链），
+其余为前置校验阻断或待确认深分支。本组按工作包未新增权限测试、未改权限模型。
 
 ### 验证、负控及范围
 
-待填写，记录最终树和日志路径；临时脚本需可重建，不能只给/tmp地址。
+- 定向+相邻（save-preflight/project-serialization/project-io/project-copy/save-batch-writer）：
+  **5 文件 44/44 绿**；新 11 用例含于其中。
+- editor typecheck exit 0；三个新文件 biome 0 error（术语纪律修复：测试源不得出现「工程」，
+  由 design-system boundary 静态门禁抓出并改正——这是真实失败不是环境）。
+- 完整 `pnpm check` **exit 0 共 6,722 项**（/tmp/glm-preflight-workspace/full-check5.log）。
+  环境准备：worktree 本地 symlink `data` → 主仓 gitignored 资产、拷贝
+  `projects/pal/assets/migrated`（git check-ignore 证实忽略）——均为本地只读借用，不入提交；
+  终树核验见交接节。
+- 同口径 editor-fast（复用 config.mjs include/exclude/testSelection）：**197 文件/1,995 项全绿**，
+  project-io **行 282/290（97.2%✓）/函数 51/52/分支 202/241（83.8%）**——行/函数达标，
+  分支未达 90%；缺口逐项（下）。workspace-persistence 353/435（81.1%）为 C组只读对象不承诺。
+- **project-io 分支缺口分类**（39 未覆盖，主要三类）：① journal/恢复状态机与 writeProject 接线
+  （:404,512-629 约 15 处）——由已接收的 save-batch/journal 测试族覆盖于集成树，本 worktree
+  不含那批文件（本分支仅两新文件），集成后按 Codex 报告合并计算；② 重叠护栏
+  （:246,264,277,287 serialize 层同文案分支，上游 validate* 先拒——S01/S02 已如实分类）；
+  ③ 未初始化可选字段 `??` 默认臂（:299-314 约 12 处）——需 enemies/shops/poisons 等表
+  存在/缺席双态构造，属合法可达但本批未做，列为剩余（不伪造状态刷覆盖）。
+- **四个单点负控**（/tmp/glm-pf-nc.config.mts 可重建，每针唯一匹配）：
+  - ncA1 移除「资源二进制与 catalog 不符」守卫 → **P01 两用例红**（exit1，red=2）；
+  - ncA2 中和「删除仍引用资源」守卫 → **P03 红**（resolved instead of rejecting）；
+  - ncB1 内容表输出不再按声明过滤 → **S04 红**（`expected ['content/enemies-default.json'] to deeply equal []`）；
+  - ncB2 诊断过滤恒真 → **S03 红**（已修复诊断仍输出，长度断言失败）。
+  正常实现同测试全绿；无入口错误/插件未命中/超时。
+- 真实产品缺陷：**无**。真实失败记录：术语门禁 1 次（已修）、未用变量 lint 1 次（已修）、
+  full-check 前三次 exit1 分别为缺 data raw 资产、缺 migrated 资产、上述术语/ lint——均为环境/测试
+  自身问题并已解决，最终 exit0。
 
 ### 交接
 
-GLM为测试贡献者，不是本卡独立终审席；不代签、不标done。完成后给Codex接收提示词，
-由Codex独立复核、适配集成、跑全仓ratchet/单次严格fast；原生/性能/最终审查仍在父卡统一收口。
+GLM 为测试贡献者。候选 `<回填>`；推送并核 `git ls-remote --heads origin
+codex/glm-save-preflight-tests` 与最终 SHA 一致后交 Codex。最后一次提交后核
+`git ls-tree HEAD -- data/extracted`、`git ls-files data/extracted` 均空、对 4b72e492 产品/脚本
+零 diff。不代签、不标 done；原生/性能/最终审查留父卡收口。
+
+**Codex 接收提示词**：
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接收 EDITOR-SAVE-RECOVERY-1 的 GLM preflight-r1：分支 codex/glm-save-preflight-tests（远端 SHA 见回执交接节），起点 88487350，产品/脚本相对 4b72e492 零 diff。
+交付：A组 P01–P05（save-preflight-boundaries 6 用例：大小/摘要独立拒、tileset gzip 与 RLE 分开、删除引用/解除、附属二进制、真实 writer 全副作用）+ B组 S01–S04（project-serialization-boundaries 5 用例：脚本 index.bytes 生产合同/copy-through 逐字/诊断能力过滤/正式 loader 重开；上游重叠护栏如实分类）+ C组 wp 剩余分支只读分类表（3 族可达待测归 PAL/深链）。四负控（A/B 各 2）全部业务红。
+验证：定向+相邻 44/44、tc 0、biome 0、完整 check exit0 6,722 项、同口径 197/1,995 全绿；project-io 行 97.2%/函数达标、分支 83.8% 缺口已三类逐项列明。请复核断言与负控（/tmp/glm-pf-nc.config.mts 可重建）、适配主树集成并统一 ratchet/严格 fast。GLM 测试贡献终审披露；不代签、不标 done。
+```
