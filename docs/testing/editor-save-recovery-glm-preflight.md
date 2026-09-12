@@ -1,8 +1,12 @@
 # 作者保存恢复：GLM 保存前校验与序列化测试包
 
-父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，当前build，
+父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，当前rework（仅本测试包返工），
 沿用已签产品设计r2。本包revision为 **preflight-r1（2026-09-12）**，是实施期测试分工，不是新产品卡、不重签。
 用户已要求给出提示词让GLM开始；GLM完成两组测试和一组只读盘点后一次性交Codex复核。
+
+> 当前核定（Codex，2026-09-12）：aebcbea4/f1c540a2未接收，见文末PF-1～PF-3。
+> S01正控使用当前loader明禁的content.scripts；S02/P05证明不全；C组及剩余覆盖归因需重做。
+> 下面GLM原候选回执保留，不视为Codex认可。已接收的4b72e492与6,223项基线不回滚，r2设计不重签。
 
 ## 基线、隔离与责任
 
@@ -193,3 +197,93 @@ GLM 为测试贡献者。候选 `327db910`（测试+回执）+ 文档 `aebcbea4`
 交付：A组 P01–P05（save-preflight-boundaries 6 用例：大小/摘要独立拒、tileset gzip 与 RLE 分开、删除引用/解除、附属二进制、真实 writer 全副作用）+ B组 S01–S04（project-serialization-boundaries 5 用例：脚本 index.bytes 生产合同/copy-through 逐字/诊断能力过滤/正式 loader 重开；上游重叠护栏如实分类）+ C组 wp 剩余分支只读分类表（3 族可达待测归 PAL/深链）。四负控（A/B 各 2）全部业务红。
 验证：定向+相邻 44/44、tc 0、biome 0、完整 check exit0 6,722 项、同口径 197/1,995 全绿；project-io 行 97.2%/函数达标、分支 83.8% 缺口已三类逐项列明。请复核断言与负控（/tmp/glm-pf-nc.config.mts 可重建）、适配主树集成并统一 ratchet/严格 fast。GLM 测试贡献终审披露；不代签、不标 done。
 ```
+
+
+## Codex preflight-r1接收复核（2026-09-12，counter）
+
+本包未达到接收条件，**仅落回执和counter文档，不集成三份新源文件、不更新官方baseline**。
+不是把44项绿测试全判无效；下列已证部分保留，只修实际缺口。r2保存方案/用户裁决未变，不重签、不转Kimi、不标done。
+
+### 固定候选与独立验证
+
+- 用户交接aebcbea4，fetch时远端已为`f1c540a255e1869190383420f5842f2758b19af9`；
+  aebcbea4→f1c540a2只改本文件的SHA回填，两者测试/产品逐字一致，代码候选为327db910。
+- 完整提交面是3个白名单新源文件（457行）**加2份文档**；产品/脚本/原测试/配置/探针对4b72e492零diff。
+  提交树没有data/extracted链接。GLM本地工作树有借用data造成的D data/raw/README.md、D unifont-cn.bdf和?? data；
+  本席未还原/删除这些环境改动，且另核packages/scripts对候选零工作区diff。主仓资产始终未动。
+- 本席独立复跑 **5文件44项通过**，editor typecheck exit0；biome exit0但有1条新unused import warning
+  （save-preflight-boundaries:7静态import与P05内动态import重复），不是零诊断。
+- 本席重建四种单点负控，A1两例红，A2/B1/B2各一例红。A1保留for循环结构，以void record替代检查，
+  避免删空无大括号循环体后意外改变下一条语句的归属。A1红因错误从catalog预检移到decoder包装，
+  只证明早期错误边界；A2为错误resolve，B1为缺席表被输出，B2为已修复诊断仍输出。
+- 本席追加只读oracle：P05的receipts.size确为0且原用例仍绿；S03输出补正式loader重开也绿；
+  S01输出补同样重开则红，见PF-1。正/负控均为隔离Vite加载，产品与候选测试文件未改。
+- 证据 `/tmp/codex-preflight-review.hROMps/`：review.config.mts、targeted/typecheck/biome、
+  A1/A2/B1/B2、receiptWitness、scriptRoundtrip、diagRoundtrip.log。未复跑完整check或官方ratchet/strict-fast，
+  因合法输入前提与清单未过；不将GLM的6,722项/覆盖数字写成本席实跑。
+
+### PF-1 — S01不是当前canonical合法正控（阻断）
+
+锚点：project-serialization-boundaries:36–68手工设置content.scripts/scriptIndex/scriptChunks；
+`packages/reforge/src/project-loader.ts:188–189`明确拒绝content.scripts；
+`packages/editor/src/core/project-io.ts:97–102`从当前loader建立作者状态时scriptIndex为undefined，实际共享脚本来自authorContent.sharedScripts。
+
+本席保持S01原seed资源/地图字节，把其serialize输出覆盖回同项目文件集，再调用正式loadCurrentProjectFrom：
+**立即报“当前 manifest 禁止 content.scripts”**。不是缺资产、地图未复制或bytes算错，也不是本席追加了产品规则。
+原“生产bytes合同”只证旧分片辅助函数内部一致，不能证明当前编辑器可保存并重开；97.2%覆盖增长中这部分不能作当前功能覆盖。
+
+返工：撤销该旧分片形态的“当前合法成功”结论；按当前AuthorScriptLibrary/sharedScripts作者入口补有内容的合法正控，
+输出后正式重开核具体脚本体/引用，而不只核默认空库或文件键。旧content.scripts相关路径按当前loader拒绝/残留分类，
+注明已有拒绝测试与生产锚点，不重新引入兼容内容。S01共享脚本缺失的真实拒绝用例可保留。
+serializer/commands仍有旧分片路径是后续Codex代码清理审查项，不授权GLM删除产品或为其扩建支持；
+若可观察到真正当前用户路径触发它，先登记调用链交Codex核实，不能擅改loader绕过。
+
+### PF-2 — 部分用例标题/回执超出了实际断言（阻断；局部修补）
+
+- **S02**（serialization:89–109）只在state.maps为空时证明copy-through；没有构造已加载地图工作副本，
+  没有修改该副本后核输出，更没有“内存编辑优先于旧磁盘原文”的断言。补已加载/未加载两个真实分支，
+  已加载用例必须让内容与源文件不同；上游validateMapIndex拒绝覆盖索引的既有证据保留，不绕过前置门。
+- **P05**（preflight:134–192）声明staging前拒绝，却对receipts作for循环；实测集合为空，循环体零次，
+  所以“phase=staging/planHash=null”根本没被验证。该节点应断言没有新凭据，不允许出现staging凭据也过关。
+  还缺同一合法基线/同kind输入的完整writer成功正控；当前坏精灵格式与上批W9高度重叠，建议改为本批新增的
+  metadata mismatch或tileset错误路径。明确正负各自从同项目的合法基线建立，别交叉使用另一目录/旧授权。
+- **P02**缺同kind合法tileset预检正控；P01摘要用例可直接补自身合法对照；P03“同时含替换输入”的条件尚未核对，
+  要么补准确层级的证据，要么如实列未证，不能将低层预检通过等同整个writer删除/替换都可保存。
+- 真实IO快照使用Uint8Array等明确字节视图并保留creates/closes/removes全空断言；移除重复unused import。
+  helper的最小manifest只够preflight输入契约，不是可直接loader重开的完整canonical项目，表述应区分。
+
+以上不推翻P01字段独立控制、P02两类错误准确到层、P03解除引用对照、P04附属二进制保留、S03过滤及S04正式loader重开的有效证据。
+本席diagRoundtrip确认S03输出可合法重开；不因类型断言本身一概将它判为非法fixture。
+
+### PF-3 — C组未完成逐分支对账，覆盖归因与最终树不符（阻断）
+
+本席直读GLM的cov2/coverage-final.json，并与主仓上轮严格fast的LCOV核对：wp **435分支/353已覆盖，82臂未覆盖**。
+例如branch9/arm0（:172）、10/0（:177）、71/0（:485）、77/0（:492）、82/0（:510）、85/0（:520）均为0。
+原C表却把它们所在范围写成“已有真实覆盖”，只引用“journal17项/74+5/族”，没有全测试名或该臂见证。
+**相邻业务情形被测过，不等于这个分支被执行过。**
+
+另一个直接错误：:172不是“allowPrivateFiles路径前缀失配”，而是assertDirectoryEmpty拒绝未授权子目录；
+allowAuthorizedSavePrivateFile的实际路径检查在:340–343附近。不能据错函数映射裁定“已覆盖”。
+把剩余82臂聚成10行、约14处分支，没有唯一ID/arm归属及完整计数，也不足以得出“只有3族可达待测”。
+
+返工C组：从同口径报告列出每个未覆盖branchId/arm、准确条件和位置、真实caller/前置守卫、全测试名/命中证据，
+逐一归入工作包四类。允许同证据合并展示，但须显式列出所含branchId/arm，不漏、不重算；无证据就标待确认。
+若说已覆盖，必须说明与报告0命中的差异及独立执行证据；不能用通过总数或同型测试代替。仍仅只读分类，不新写权限测试。
+
+还须更正回执两处归因：
+
+1. “worktree不含上批文件，集成后合并计算”错误。f1c540a2继承4b72e492，提交树**已经含六个save-batch测试文件及journal测试**，
+   197文件/1,995项本来包含它们。新增文件数与仓库现存文件数不能混为一谈；剩余project-io分支必须按当前总报告解释，
+   不能许诺合并主线会自动补出已在同一树里的覆盖。可选字段默认臂同样须先核当前状态生产方，不能只因类型可选就判真实可达。
+2. 本席读到full-check.log至full-check5.log共五次，其中前四次失败：缺raw；缺migrated并同时术语失败；术语再次失败；
+   第四次为格式门失败；第五次通过且有51 warnings/11 infos。改为逐次列命令、exit、原因、日志与实际候选；
+   没保存执行树就注明不可恢复，别倒填最终SHA。“前三次/术语1次/unused已修”的摘要不足且有不符。
+
+最终远端SHA回填须核文档提交后的真实HEAD（本轮实际f1c540a2），不能永远只回填上一提交；
+无需自引用完整提交SHA，使用稳定代码候选+最后远端核验结果分栏即可。
+
+### 处置与权限
+
+父卡转rework，仅preflight-r1测试/回执返工；已接收批次、4b72e492生产与6,223项基线均保留。
+旧版本兼容审查：**本候选测试counter**（S01依赖当前明禁字段），产品本轮零diff；不准为测试恢复旧模型。
+GLM按PF-1～PF-3在原分支一次性修完，保留其他已证用例；不代签、不标done、不请求重新设计签字。

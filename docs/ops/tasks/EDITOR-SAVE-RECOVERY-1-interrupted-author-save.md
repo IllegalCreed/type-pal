@@ -1,6 +1,6 @@
 # EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: ops（审计 A-03，不新增能力格）
 Coding Owner: Codex
@@ -1629,6 +1629,25 @@ exit 0 共 6,722 项、同口径 editor-fast 197 文件/1,995 项全绿；projec
 分支 83.8% 缺口三类逐项列明（journal 接线归集成树、重叠护栏、可选表双态未做）。候选 `327db910`，
 推送核远端后交 Codex。不代签、不标 done；测试贡献终审披露。
 
+
+### Codex · preflight-r1接收复核（2026-09-12，counter）
+
+用户交接aebcbea4，远端后续f1c540a2只补文档；测试代码同为327db910。本席已同步并核最终白名单，
+独立44/44、editor typecheck通过，四个单点负控均红；biome仍有1个新增unused import warning。
+结论：**本包未接收，只落文档，原4b72e492及6,223项基线不动**。详情见
+[工作包PF-1～PF-3](../../testing/editor-save-recovery-glm-preflight.md#codex-preflight-r1接收复核2026-09-12counter)。
+
+- PF-1：S01手工复活content.scripts，而current loader:188–189明禁；本席把原输出连同seed资产完整重开，
+  立即因该字段被拒。旧分片bytes合同不等于当前canonical正控，不能用它抬高本卡覆盖。
+- PF-2：S02未测标题中的已加载地图编辑分支；P05凭据循环实测零次且缺同条件writer正控，需按实际“无凭据”收口。
+  保留已证preflight错误层、附属文件、copy-through、S03诊断与S04重开，不推倒整批。
+- PF-3：C表将报告0命中的分支写成“已有覆盖”，含函数/位置错配且无82臂唯一对账；
+  “worktree不含上批文件”也被git树直接推翻。重做分类与失败日志，不用预计主线集成补覆盖。
+
+候选产品/脚本/原探针无改动；S01反映的旧序列化残留由Codex后续审查，不授权GLM删除代码/恢复兼容。
+状态rework仅针对测试包，r2保存设计继续有效；不复跑全仓ratchet/严格fast掩盖测试前提问题。
+GLM在原分支按当前提示词返工，不重签、不代签、不标done、不转Kimi。
+
 ## 交接日志
 
 - 2026-09-12 Codex：574012e5续批counter；12文件197项复跑，隔离证明W9错层及IDB替身不符合事务/请求合同。
@@ -1699,9 +1718,35 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 2026-09-10已完成审计性能、journal故障及新建/克隆/打开真实流程回归；原配置完整check及6,180项单次严格fast均通过，既有15s预算不变。
 journal等单模块覆盖目标已达标；7a0c6f1c的21项保留，d39efe15经Codex接收侧补证后集成，历史测试counter解除；r2不重签。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
-当前不请求用户验收。GLM按下方preflight-r1提示词开始新分工；Codex继续原生/性能/统一质量门，完整候选后再送两席终审。
+当前不请求用户验收。GLM按下方preflight-r1返工提示词修PF-1～PF-3；Codex保留原生/性能/统一质量门，完整候选后再送两席终审。
 
-### 给GLM（当前：preflight-r1保存前校验与序列化）
+### 给GLM（当前：preflight-r1返工，PF-1～PF-3）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 的原 codex/glm-save-preflight-tests 工作树返工preflight-r1。
+父卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 当前rework，仅本测试包返工；
+原4b72e492和6,223项基线保留，r2设计不重签。先同步本轮main counter文档，保留他席结论，
+读AGENTS/CLAUDE/READ-FIRST、工作包 docs/testing/editor-save-recovery-glm-preflight.md 文末PF-1～PF-3。
+
+PF-1：S01的content.scripts被project-loader:188–189明确禁止，Codex正式重开oracle已红。
+撤销旧分片形态“当前合法正控”结论，改为当前AuthorScriptLibrary/sharedScripts的有效脚本体/引用保存重开证据；
+旧分片残留只分类交Codex，不改产品、不放宽loader、不复活旧版本。其他有效共享脚本/诊断用例保留。
+PF-2：补真实已加载地图工作副本（必须与旧磁盘内容不同）及未加载copy-through两态；
+P05改为本批新增的失败边界并加同项目/同基线的writer成功正控，staging前拒绝明确断言无凭据，不能空循环。
+补P02同kind合法正控，核P03同时替换条件并明确层级；字节用显式视图比较、全IO轨迹保留，清理新增unused import。
+PF-3：C组82个未覆盖branchId/arm逐一对账，写准函数/条件/caller/前置守卫/精确证据；
+0命中不能以“journal某族绿”归已覆盖，无证据就待确认，仍只读不写权限测试。
+撤回“本worktree不含上批测试、合并后覆盖自动补齐”的错误归因；上批六文件与journal已在当前树。
+重新生成分支缺口及全部五次check日志回执（前四次失败、第五次绿），没保存执行树如实注明，不倒填SHA。
+
+参考 /tmp/codex-preflight-review.hROMps/review.config.mts 可重建；A1负控保留for循环形状，避免改变下一语句归属。
+只改原白名单新测试/helper、本人回执/日志；不改生产、旧测试/fixture、配置、baseline、原探针或真实资产。
+本地data借用导致的脏项不得用stash/reset/删除真实目标处理；最终提交范围须单独核验。
+四个有效负控保留并重跑，新前提修好后串行跑定向/相邻/typecheck/biome/完整check和同口径editor-fast。
+从最终树生成数字/分类，提交推送并核最后远端SHA，一次性交Codex。不代签、不标done、不转Kimi。
+```
+
+### 给GLM（历史：preflight-r1首次派工）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 EDITOR-SAVE-RECOVERY-1 的 preflight-r1 测试包。
