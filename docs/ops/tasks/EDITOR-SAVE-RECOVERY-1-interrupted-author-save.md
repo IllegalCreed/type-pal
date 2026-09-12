@@ -403,9 +403,52 @@ R4 登记同一跨页恢复链与恢复后本地试玩，无玩家战斗/剧情�
 ### done 前
 
 - Codex：**accept（2026-09-13，r2实现者自验证）**。完整恢复链、当前writer/读出口、旧作者链退役、原生重启/撤权、当前UI与负控制均按最终收口记录核验；完整check6,873、受保护基准7087dbad的ratchet/严格fast6,385通过。GLM与Codex子代理测试/CSS适配贡献已披露，不作独立第三方自证；保留约80–85秒克隆成本、34个重点未覆盖分支和原探针旧宿主不适用说明，未采用存储协议改造。
-- Kimi：pending。
+- Kimi：**accept（2026-09-13，r2 整卡独立终审候选 `cd3de679`，完整实现对比 `135d065a`；设计不重签；未读 GLM 终审结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  接手 HEAD `fed7fde4` 与 origin/main 一致、工作树干净；候选后产品/脚本/锁文件零漂移。
+  独立直读内核全量源码并复跑定向，不据最后清理 diff 推全链：
+  - **暂存/授权/封存**：`author-save-journal.ts:316-488` 暂存逐 blob 持久 staged+写后回读、
+    manifest 视图身份/版本校验、validate 只拿封存视图、plan 全量回读+cursor-0 全前缀 reconcile+
+    门 ABA 夹验后才 persist ready——sealed 前零作者 IO 的结构成立；`author-save-store.ts:40-163`
+    凭据精确字段/身份-mode-metadata 一致性/相位不变式/staged 路径↔签名相符/planHash 匹配
+    全部结构校验；`loadPlan` 逐 payload 哈希重读，磁盘自称不能提权。
+  - **前缀重放/提交/清理**：`author-save-prefix.ts:26-67` 唯一 in-flight 步 before|after|
+    EMPTY_FILE 仅限 issued 创建占位，任意未来目标字节拒绝；`author-save-journal.ts:529-617`
+    每步 issued 先于作者 IO、close 后哈希校验、逐步 persist 游标、data-complete→登记→committed
+    门；cleanup 哈希核删+非递归空目录+未知保留+警告类型化（内容已保存/尚未写入分开）。
+    IDB 仅 tx.oncomplete 结算、strict、FSA 不入事务、onblocked 收口，**生产无连接复用**
+    （open/close per tx，仓外原型未入生产直读证实）。
+  - **读出口**：reforge `project-save-state.ts` 严格解析、仅真实 NotFoundError 为 missing、
+    200 HTML/坏 JSON 为错误非 missing、pending 拒绝、withStableProjectRead ABA 夹验；
+    `project-loader.ts:325` 完整 loader 夹验；`httpSource` 404→NotFoundError+状态路径 no-store；
+    两包 vite 固定路由真 404/500；export-zip 读锁+夹验+恢复子树排除；load-play-project 读锁+
+    loader 夹验；project-read-lock 未登记目录持 discovery 防首存铸 W、登记目录前后绑定夹验。
+    finishOpen 恢复入口在 metadata/PAL proof/manifest 载入之前（open-actions.ts:93-141），
+    无凭据+pending 门 → MissingAuthorSaveReceiptError；own retry 要求 owned scope+nonce+基线+
+    planHash，旧窗口不能收编；forceSandbox 不触发源目录恢复。
+  - **旧链退役与保持**：ScriptDrawer 及四个独占模块/旧命令/writeFile/copyDirRecursive 均不存在
+    （reconciled.json 五文件在册）；canonical 预览投影未误删——reforge index.ts:264 仍导出
+    ScriptChunkStore；policy-io.ts 测试 consumer 仅组合公开授权 API、注释明示非完整 writer；
+    原探针零 diff；生产侧仅 game tools-panel.test.ts（一阶段测试时钟修补）变动，
+    content/migrate/projects/pnpm-lock 零 diff。
+  - **本人实跑**：恢复内核 8 文件/240、reforge 读门 3 文件/44、读出口+冲突 4 文件/54 全绿；
+    editor/reforge typecheck exit 0。交叉核收口日志：check 6,873、strict TOTAL 613 文件/6,385、
+    三组单点负控各恰 1 红/14 绿、reconciled.json 6,385→6,385 且 618→613 生产文件、
+    比率不低于起点。
+  - **原生证据范围审查**（视觉仅 Codex 执行，本人不重复浏览器流程）：整 Edge 进程重启→
+    权限 prompt→「正在完成上次保存」→committed/237；站点权限撤销→原生拒绝、前后 SHA/mtime
+    快照逐字相同、pending 保留；权限文案最终版「目录访问权限已失效。请重新授权后打开原文件夹，
+    确认保存结果或继续恢复。」（ProjectPicker.tsx:68 直读）不预断提交状态；共享 CSS 三条
+    （editor.css:11022/11030/11039）与 canonical 规则分立；lostpointercapture 接线
+    （PanelResizeHandle.tsx:184）有 9 项测试+原生 PASS。证据边界如实：非断电/kill -9、
+    截图为前版文案而组件测试钉最终文案、非完整 E2E。
+  - **性能与未覆盖限制的终审判断（明确不阻断）**：约 80–85 秒大克隆成本（84.480s 实测）
+    是前滚持久协议的固有成本，r2 未设数值阈值且要求实测登记（已登记），连接复用原型仅
+    ~3.8% 且未入生产——接受为已登记残余风险，显著提速须另行设计审查；34 臂未覆盖
+    （30 E3 构造保证+4 E0）台账诚实、零命中保留分母、不为覆盖删防御；原探针旧 IDB 替身
+    不适用已如实记录，不作修复证明；跨浏览器/硬件断电明确界外。
+  返工项：无。本 accept 不代签、不授权 done、不覆盖 R4 集中验证与后续提速设计。
 - GLM：**accept（2026-09-13，矩阵/证据席终审）**。披露：本席是 open-identity（19项）、identity-foundation（26项，接收后27项）及更早 preflight/传输/批次测试的贡献者，本次为对 Codex 收口证据与最终树的独立对账复核，不冒称独立第三方自证。机械对账全部通过：baseline.fast testCount=6,385、editor 215/全仓 613 生产文件与声明一致；7087dbad→cd3de679 恰退休 5 源码+5 测试（旧抽屉四模块+ScriptDrawer）；packages/content 对 135d065a 零 diff（content20/SAVE 未动）；原探针自 135d065a 创建后零 diff。commands.test.ts 114 项、恰 12 删 12 增当前模型迁移（逐名核对，非改名规避）；fsa-copy 10 项现行 collector+writer。本树定向抽跑 17 文件 330 项全绿（含恢复核心链与身份基础 27 项）、editor typecheck exit0；独立重建负控：移除 project-io.ts:217-218 content.scripts 拒绝 → S01 错误接受红。覆盖归属如实（wp +3/−1 净+2、34=12+22 臂 30E3/4E0 不移分母、identity 并集 +15/+6 且两 fallback 臂如实 0 命中）。约 80–85 秒大克隆成本已实测披露、r2 无数值阈值，**判非阻断**，须保持对 R4/用户可见；仓外连接复用原型未入生产、原探针旧宿主失败未被用作修复证明，均核实无误。非阻断备注一条：收口文档“3文件73项”的文件构成未能从本席所选文件集精确复原（本席三文件合计 51），相关套件全绿，仅文档表述歧义。终审日志见下；不改实现、不代签、不标 done。
-- done 准入：blocked；实现自验证完成，仍待Kimi整卡终审及用户验收，不代签。
+- done 准入：三席 accept 均已落盘（GLM 为矩阵/证据席并披露测试贡献、Kimi 独立整卡终审），待 Codex 统一核定；无缺签豁免，任务保持 review，不标 done。
 
 ## build 执行进度（2026-09-07，非验收候选）
 
@@ -2097,6 +2140,20 @@ wp/project-io主表39臂及open-actions106/108未变，性能/剩余分支/整�
 
 ## 交接日志
 
+### Kimi · r2 整卡终审日志（2026-09-13）
+
+同步 `fed7fde4`、工作树干净后按 135d065a 全量核实现，未读 GLM 终审结论（其签字/日志于本人核查完成后落盘）。
+直读 journal 871 行（暂存/封存/ready/issued/游标/committed/cleanup 全链）、store 凭据结构校验与
+IDB 事务纪律（生产无连接复用）、prefix 重放、reforge 读门与 loader/HTTP 夹验、两 vite 真 404、
+finishOpen 恢复入口先于 metadata 载入、own retry nonce/基线绑定、退役五文件与 canonical 投影保持、
+policy consumer 边界。复跑内核 240 + 读门 44 + 读出口/冲突 54 全绿、两包 typecheck exit 0；
+交叉核 check 6,873、strict 613/6,385、三组负控各恰 1 红、reconciled.json 退休五文件与比率。
+原生证据按范围审查（视觉仅 Codex 执行，不重复浏览器流程）：Edge 重启恢复 237、撤权零变化、
+权限文案不预断提交状态（ProjectPicker.tsx:68）、共享 CSS 三条与 canonical 分立、
+lostpointercapture 接线（PanelResizeHandle.tsx:184）在案。判约 80–85 秒克隆成本与 34 臂台账为
+非阻断已登记残余；原探针旧宿主不作修复证明。签 accept，无返工项；未改实现/他席/状态。
+Next：Codex 统一核定 done；用户验收与 R4 集中验证按台账另推。
+
 ### GLM · 整卡终审日志（2026-09-13，矩阵/证据席）
 
 按本席当前提示词执行：同步 fed7fde4、读收口文档/台账/SR-01～12 与本卡入口，未读 Kimi 结论，未操作浏览器。
@@ -2213,7 +2270,17 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（当前：r2整卡终审）
+### 给 Codex（当前：汇总核定 done）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-SAVE-RECOVERY-1 收口，任务卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，review/r2，终审候选 cd3de679（HEAD 侧无产品变化）；r2 设计不重签。
+先同步并检查工作树，读本卡 done 前三席签字与两席终审日志。现状：Codex（实现者自验证）、Kimi（独立整卡终审）、GLM（矩阵/证据席，已披露测试贡献）三席 accept 均已落盘，无 counter、无返工项、无缺签豁免。
+请统一核定 done 准入：核对三席钉同一候选 cd3de679，将任务推进 done，同步看板/索引/审计进度（A-03 可标修复，保留限制清单）。
+收口时必须保留并转述的限制：约 80–85 秒大克隆成本（显著提速须另行设计审查）、34 臂未覆盖台账（30 E3/4 E0 不移分母）、原探针旧宿主不适用、跨浏览器/硬件断电界外、非完整 E2E；R4 跨页恢复链与恢复后试玩仍待集中批次，未跑不称完成；GLM 的非阻断备注（收口文档「3文件73项」表述歧义）由你顺手勘误文档表述，不改结论。
+不得代签任何一席、不把本收口扩张为其他审计缺陷的整组授权；用户验收按惯例另行进行。
+```
+
+### 给 Kimi（历史：r2整卡终审，已完成）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-RECOVERY-1。
