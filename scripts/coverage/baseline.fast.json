@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-12T14:52:43.153Z",
+  "generatedAt": "2026-09-12T15:18:27.865Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 618,
-  "testCount": 6358,
+  "testCount": 6385,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2805,8 +2805,8 @@
       ],
       "scopeDigest": "2ea0828d93df83523f4fa04e94099267380f593c72fede27cf7d584bf77c0561",
       "fastTests": {
-        "testCount": 2119,
-        "testFileCount": 205,
+        "testCount": 2146,
+        "testFileCount": 207,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2837,6 +2837,7 @@
           "packages/editor/src/core/frame-animation-draft.test.ts",
           "packages/editor/src/core/frame-animation-images.test.ts",
           "packages/editor/src/core/fsa-copy.test.ts",
+          "packages/editor/src/core/handle-store-capability.test.ts",
           "packages/editor/src/core/handle-store.test.ts",
           "packages/editor/src/core/hit-test.test.ts",
           "packages/editor/src/core/image-import.test.ts",
@@ -2904,6 +2905,7 @@
           "packages/editor/src/core/ui-review-samples.test.ts",
           "packages/editor/src/core/video-metadata.test.ts",
           "packages/editor/src/core/workspace-capability-lifecycle.test.ts",
+          "packages/editor/src/core/workspace-context-boundaries.test.ts",
           "packages/editor/src/core/workspace-local-record.test.ts",
           "packages/editor/src/core/workspace-open-identity.test.ts",
           "packages/editor/src/core/workspace-persistence.test.ts",
@@ -3159,6 +3161,11 @@
             "file": "packages/editor/src/core/fsa-copy.test.ts",
             "testCount": 6,
             "identityDigest": "1d46961e6d81558fe661f25bc0ab3291284705847109d70f0269616954299a7d"
+          },
+          {
+            "file": "packages/editor/src/core/handle-store-capability.test.ts",
+            "testCount": 16,
+            "identityDigest": "3e1e9a56a1598bbbaaefba471aae00b72e329a872eda1fa56083f974f6346b88"
           },
           {
             "file": "packages/editor/src/core/handle-store.test.ts",
@@ -3494,6 +3501,11 @@
             "file": "packages/editor/src/core/workspace-capability-lifecycle.test.ts",
             "testCount": 13,
             "identityDigest": "e69cc59c85395ddb258d659cf4c0e4e526fc8fe8b5f0ccaefa253ea5fe0074f4"
+          },
+          {
+            "file": "packages/editor/src/core/workspace-context-boundaries.test.ts",
+            "testCount": 11,
+            "identityDigest": "a7eee4469efe09fbf7b7535f8cab3f6357cd04638874ac64dfef587f447f902b"
           },
           {
             "file": "packages/editor/src/core/workspace-local-record.test.ts",
@@ -4041,17 +4053,17 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "2606719ef1f8ce2b4ce7f2e89d8cbfa2241fabfb3896a47a876f6486776f66ad",
+        "identityDigest": "376a88edf7df66b319ec397c3911f1ffa27bb0e97c4412a0d1de6eaf785113f5",
         "duplicateIdentityCount": 8,
-        "executionDigest": "6b999cc3fcde32680d7133d22734aa8b75919bf50fc5d39e6f1f77d3378b05c5"
+        "executionDigest": "213a4e3244298b7a4de87882ea9fd7e40d9183f54139a679b9746aab246f3668"
       },
       "metrics": {
         "statements": {
-          "covered": 24777,
+          "covered": 24793,
           "total": 32521
         },
         "branches": {
-          "covered": 19149,
+          "covered": 19170,
           "total": 28140
         },
         "functions": {
@@ -4059,7 +4071,7 @@
           "total": 8221
         },
         "lines": {
-          "covered": 22365,
+          "covered": 22374,
           "total": 28398
         }
       }
@@ -4067,11 +4079,11 @@
   },
   "total": {
     "statements": {
-      "covered": 53661,
+      "covered": 53677,
       "total": 79533
     },
     "branches": {
-      "covered": 38453,
+      "covered": 38474,
       "total": 62521
     },
     "functions": {
@@ -4079,7 +4091,7 @@
       "total": 14622
     },
     "lines": {
-      "covered": 48471,
+      "covered": 48480,
       "total": 69581
     }
   }

@@ -2073,7 +2073,21 @@ check与helper调用间没有await或外部callback，不接受getter切换/篡�
 主表46→39来自退休而非新增命中；618生产文件、其他模块指标/GLM冻结hash保持。测试/文档与源码清理已分别对账，不宣称性能改善。
 无下一位Agent提示词；GLM仍按identity-foundation既有counter返工，Codex自持本批收口，不提前送整卡终审。
 
+### Codex · identity-foundation-r1返工接收（2026-09-13）
+
+候选6f26cc68435442d20d6dc602e5ff71a2863d7fc0在最新main/2d3887e0上复核并适配。
+[原候选证据、接收修订及有效覆盖归属](../../testing/editor-save-recovery-glm-identity-foundation.md#codex返工接收修订2026-09-136f26cc68)已落盘：
+真实JSON溢出/合法PAL路径/非空事务写集及queued宿主已核；Codex移除残缺清单helper成功断言、补异常lease悬挂期与put专属见证，并新增旧记录abort保护用例。
+原26/147项、接收27/185项/typecheck/biome全绿；五组独立单点负控均业务红，细分原候选与接收树结果，不复述GLM“两条lease”误报。
+完整check6,873、官方ratchet/单次严格fast6,385全部exit0；207 editor-fast文件/2,146项、618生产文件，全部指标分母不变。
+context76/93→91/93（+15）与handle-store33/39→39/39（+6）是有效并集新增，两个缺字段fallback仍0命中；后者函数仍32/33，不写整模块100%。
+wp/project-io主表39臂及open-actions106/108未变，性能/剩余分支/整卡验收未冒充完成。
+**Codex子包accept（含本席接收修订）**；GLM26项贡献与Codex新增1项/修订须终审披露，原counter/原回执保留。
+父卡仍build/r2；不代签、不标done、不转Kimi。无下一位Agent提示词，本包无需GLM再次返工，Codex继续剩余收口。
+
 ## 交接日志
+
+- 2026-09-13 Codex：接收6f26cc68返工，经本席限定测试修订后子包accept；27/185项及五组负控闭环，check6,873/ratchet/单次严格fast6,385通过。有效新增context15+handle-store6臂，主表39不混减，生产及原探针零变；贡献披露、父卡build/r2，未转Kimi。
 
 - 2026-09-12 Codex：完成唯一local调用域的私有记录转换冗余清理，11项前后对照/相邻100项/两组负控通过；check6,846/严格fast6,358通过。主表46→39明确为7个未覆盖臂退休，分母-9，不冒充新增覆盖；GLM两个模块未改，父卡build/r2。
 - 2026-09-12 Codex：ff0a0d4a identity-foundation子包counter；独立21/147绿不抵消R1非法成功输入、R2空暂存/旧库未清、R3提前释放品牌漏测。名义+17/+6不合入，官方6,347基线不改；C0 JSON溢出说明由Codex勘误，交GLM限定返工。

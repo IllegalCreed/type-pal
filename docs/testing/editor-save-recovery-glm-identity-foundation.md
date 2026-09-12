@@ -1,8 +1,8 @@
 # 作者保存恢复：GLM身份基础测试包
 
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，build/r2，不重签。
-工作包：**identity-foundation-r1**，2026-09-12用户要求Codex/GLM双线继续。当前状态：**counter，ff0a0d4a暂不接收**。
-GLM原回执保留为提交时记录；最新结论见文末Codex复核。父卡仍build/r2，不重签、不标done。
+工作包：**identity-foundation-r1**，2026-09-12用户要求Codex/GLM双线继续。当前状态：**Codex接收修订后accept，统一质量门通过**。
+ff0a0d4a原counter与GLM原始/返工回执均保留为历史；最新接收树以文末Codex记录为准，不把候选名义覆盖当有效验收。父卡仍build/r2，不重签、不标done。
 
 ## 分工与基线
 
@@ -200,3 +200,151 @@ workspace-context 76/93→93/93（+17），handle-store 33/39→39/39并集（+6
 mutation.config.mts及mutation-marker/brand/freeze/early.log；fixture-oracle.config.mts及oracle-leak/upgrade/lease-good/lease-early.log；
 stage-before-abort.json；loader-oracle.test.ts/loader.config.mts/loader-oracle-final.log；coverage/与nominal-union.json。
 两个worktree均未改实现/测试；主线只保留原回执、上述counter与勘误/交接。GLM仍是测试贡献者，不作第三方自证，不转Kimi、不标done。
+
+## GLM返工回执（identity-foundation-r1 rework，2026-09-12）
+
+分支沿用 `codex/glm-identity-foundation-tests`；先 merge origin/main **e963598b**（Codex R1–R4/C0 原文
+保留在上方，合并冲突仅本文档取 main 侧），生产基线 **b7a56dd4** 不变（合并仅测试/文档）。返工改动
+仍只有两个测试文件 + 本回执区。参考并采纳 Codex oracle 模式（/tmp/codex-idf-review.anI7yF，可独立重建）。
+
+### 逐项落地
+
+- **C0**：新增用例——真实磁盘 JSON 数字文本 `'1e400'` 经真实 fsaSource.readJson 读得 Infinity
+  （先断言读链见证），fingerprintJsonFiles 按非有限数拒绝；`'1e308'` 有限正控通过。原回调坏值用例
+  保留，注释按勘误改写（JSON 的 Infinity 字面量非法 ≠ 合法数字文本不能溢出）。
+- **R1**：撤回「缺 scenes/maps 合法当前可选形状」成功正控。新增 loader 锚点用例：完整清单经正式
+  loadCurrentProjectFrom 成功；缺 maps/scenes 的清单**正式 loader 拒绝（`缺 maps`/`缺 scenes`）并证**，
+  底层 palFingerprintPaths 仍执行仅作只读分类（与 Codex oracle 同构，不冒充合法当前项目）；合法替代
+  两类——scenes 无尾斜杠（loader 通过、指纹路径同 index）与**完整 map index 搬移**到新声明路径
+  （旧路径删除、loader 通过、指纹路径集合变化），后者同时作为 assertSame「路径变化」拒绝的合法输入。
+  F4 主用例的 fixture 增加正式 loader 通过断言。
+- **R2**：IDB 替身重构——put 发出即写入事务写集（非空前提先于 request success）；abort 分支见证
+  `stagedAtAbort=1` 且 `requestSuccesses>0`，整集丢弃不发布（records 空）、终结恰一次（写事务
+  completed=0/aborted=1）；complete 才发布写集；同条件正控（正常宿主登记成功 + completed=1）。
+  旧 store 升级用例**预置旧行**，断言升级后 records 只剩新 key（删除真清数据，非只计数）。
+  新增 **ncAbortLeak fixture 负控**（把 abort 丢弃改成错误发布暂存写集）→ abort 用例必红
+  （`expected 1 to be +0`），证明测试抓得住写集泄漏，不只对计数/文案断言。
+- **R3**：新增两条 lease 用例（entered/deferred，参照 Codex oracle）：caller 悬挂在回调内 await 期间
+  真实品牌**有效**；成功退出与异常退出后品牌**失效**（错误原样传播）。Web Locks 替身升级为最小规范
+  宿主（按锁名排队等待、真实 await 回调、finally 释放）：同名注册锁「持锁回调悬挂期间等待者不进入」
+  （等待者进入标志 + 悬挂期品牌有效断言）与「持锁异常后等待者继续执行」分别成例；获锁等待与回调
+  进行中等待分开见证；补「宿主下真实登记链」与 discovery 接线用例。回退用例重写为 entered/deferred
+  见证（删除两处 Promise.resolve 猜调度），声明收窄为**同 realm 串行**，跨标签页互斥归浏览器契约。
+  新增 **ncEarlyReturnAwait 生产负控**（`return await operation(lock)` 去 await）→ 两条 lease 用例
+  红（悬挂期品牌被提前注销，`expected not to throw but 拒绝未经…`），即 Codex 所指缺口的常驻回归。
+- **R4**：报告更正——F6 首轮实际 7 项（原表误写 5），本轮返工后 **9 项**；F5 6 项；两文件 26 项。
+  handle-store 3/0@76、5/0@105 臂标签更正为「navigator/locks 条件分支（宿主形态分支）」，非
+  「无 Locks 宿主臂」。覆盖从最终提交树重算（下节），不沿用名义并集；不为维持 100% 造非法成功输入
+  ——context 的 32/1@209 等臂经「只读分类 + loader 拒绝并证」到达，与非法成功正控区分。
+
+### 负控矩阵（/tmp/glm-idf-nc.config.mts，GLM_IDF_NC 选择，每针唯一替换点，include 钉死两文件）
+
+| NC | 突变 | 业务红 |
+|---|---|---|
+| ncMarkerKeys | marker 键集校验中和 | 多余字段 **错误接受**（1 红） |
+| ncLockBrand | underLock 锁品牌校验中和 | 过期 token **错误登记**（resolved）；错位变体被真实后层拦截=重叠保护（2 红） |
+| ncFreezeContext | freezeWorkspace 不再冻结 | **合法行为破坏** isFrozen=false（2 红） |
+| ncEarlyReturnAwait | `return await operation(lock)` 去 await | **品牌提前失效**：两条跨 await lease 用例红（2 红）——R3 缺口常驻回归 |
+| ncAbortLeak | fixture abort 错误发布暂存写集 | **写集泄漏被抓**：abort 用例 records.size 红（1 红）——R2 fixture 负控 |
+
+### 临时覆盖（/tmp/glm-idf-cov-{m,n}，V8，只量两目标模块，最终提交树）
+
+M=本包两文件 **26 项**；N=10 相邻套件 **147 项**（同树复跑全绿）。逐 branchId/arm 差分：
+
+- **workspace-context 模块**：M **93/93 臂**、74/76 行；N 74/93。相对 N 新增 19 臂（含 37/0–38/1
+  labels 4 臂与 32/1@209——后者经只读分类到达，loader 拒绝并证）。相对官方起点 76/93 的 17 未命中
+  臂全部由本包执行；最终归属以 Codex 全套件并集为准。
+- **handle-store 模块**：M **34/39 臂**、74/85 行；N 23/39。相对 N 新增 11 臂（0/1@31 新库升级、
+  1/0+1/1@52 事务 error/abort 接线、2/0@67、3/0@76 与 5/0@105 宿主形态分支、7/0@129、8/0@132、
+  11/0@142、15/0+15/1@189）。官方起点 6 未命中臂全部由本包执行。
+- **M 运行仍未命中 5 臂（限定为本运行口径，非全仓缺口）**：12/0@143（既有记录句柄 isSameEntry
+  抛错的宿主降级路径，E0）；17/0–18/1@240（ensurePermission——按 Codex 复核，最新全套件原已覆盖
+  该路径，且属 F1–F6 矩阵外，不由本包补）。
+
+### 验证与失败记录（最终提交树）
+
+- 定向 2 文件 **26/26 绿**（boundaries 11 + capability 15）；相邻 10 文件 **147/147 绿**；
+  editor typecheck exit 0；两文件 biome 0 error/0 warning（一次未使用变量警告已修）。
+- 过程失败：返工期间 biome 报 1 处未使用变量（异常释放用例的 waiter entered promise）删除后清零；
+  无其它失败；本轮无产品缺陷 counter（Codex 复核亦确认无新生产缺陷）。
+- 完整 check/官方 ratchet/严格 fast 未跑，留 Codex 集成后统一执行。
+
+### 交接
+
+GLM 测试贡献者，终审须披露。返工候选 `34bb6a66`（amend 回填前提交；最终以远端推送 SHA 为准）。
+交 Codex 复核：R1–R4/C0 是否闭环、五负控重建、最新 main 全套件并集归属重算与官方质量门。
+
+## Codex返工接收修订（2026-09-13，6f26cc68）
+
+接手主线2d3887e0与origin/main同步、工作树洁净；候选6f26cc68435442d20d6dc602e5ff71a2863d7fc0与远端及GLM worktree一致。
+相对e963598b恰两个新测试文件（456+503行）及GLM回执；两个冻结生产模块hash不变。
+主线在GLM返工期间完成的local私有helper清理不触这两个模块；本次在最新主线适配，不把旧分支整树覆盖回来。
+
+### 原候选独立结果及接收修订
+
+- C0：真实fsaSource读`1e400`为Infinity后拒绝、`1e308`可生成指纹，原候选已通过；文件头仍残留“JSON.parse产不出Infinity”，由Codex同步勘误。
+- R1：合法完整map index搬移（原路径删除）及无尾斜杠均经正式loader通过，缺maps/scenes经正式loader拒绝。
+  但候选427行仍断言`palFingerprintPaths(broken)`不抛错。这不因标题改叫“只读分类”就成为应固化的产品行为。
+  Codex移除该调用及成功断言，保留正式拒绝回归；不为保持93/93运行非法成功路径，不改生产或覆盖排除。
+- R2：候选put已先进入非空写集、abort只终结一次并丢弃、旧store真清预置旧行；原fixture泄漏负控确实红。
+  接收时把涵盖get/getAll的requestSuccesses改为putCalls/putSuccesses精确见证，并新增同库旧记录更新abort后完整保留、正常重试才更新用例。
+- R3：候选单点去await实际红的是“F5成功lease”与“F6同名排队”，**不是两条F5 lease**；异常lease缺悬挂期断言。
+  Codex补异常悬挂期真实品牌有效、成功/失败原样返回断言；悬挂断言失败也在finally释放测试gate，避免留挂起promise。
+  最小Web Locks宿主传入name/mode锁参数，注册请求断言精确两条；只声称同realm代码/宿主接线，不是原生多页验收。
+- R4：GLM原候选26项（F1–F4共11、F5–F6共15）；接收树27项（新增旧记录abort一项由Codex贡献）。
+  原回执中93/93及相邻增量保留为该次运行事实，不用于当前接收计数；当前有效并集由官方门禁重新计算。
+
+原候选定向26/26、相邻10文件147/147、editor typecheck、两文件biome均exit0。
+本席最初相邻命令误写save-admission.test.ts，实际只跑9文件127项；纠正为workspace-save-admission.test.ts后10文件147项通过，不把前者记成147。
+接收树定向27/27、含最新local记录回归的相邻13文件185/185、typecheck/biome均exit0。
+
+### 独立负控制
+
+临时配置`/tmp/codex-idf-rework.bUJfaN/negative.config.mts`由Codex独立重建；IDF_REVIEW_ROOT切换候选/主线，
+IDF_REVIEW_NC选择control/marker/brand/freeze/early/abort。每次仅一处唯一替换，日志保存替换文本及前后源码hash；仓库文件不受突变影响。
+
+| 组 | 原候选 | 接收树 | 真实失败边界 |
+|---|---|---|---|
+| control | 26绿 | 27绿 | 无突变对照 |
+| marker | 1红 | 1红 | 多余字段错误接受 |
+| brand | 2红 | 2红 | 过期token错误登记；错位变体仅后层文案差异，仍归重叠保护 |
+| freeze | 2红 | 2红 | 合法context/proof不再冻结 |
+| early | 2红 | 3红 | 提前注销真实品牌；接收树成功lease/异常lease/排队均钉住 |
+| abort（fixture负控） | 1红 | 2红 | 错误发布写集导致新记录泄漏、旧记录被覆盖；不冒充生产突变 |
+
+五组均exit1且为上述业务断言失败；正常对照exit0，没有改超时/skip/test.fails或用编译失败充当负控。
+证据目录另含candidate.log、raw-adjacent{-corrected}.log、raw-typecheck/biome.log、integrated*.log；原候选worktree未改。
+GLM测试贡献及Codex接收修订将在终审披露；没有新的生产缺陷结论。
+
+### 统一质量门与覆盖归属
+
+完整`pnpm check` exit0：七包合计6,873项（editor226文件/2,305项），文档工具20及coverage工具17另计；
+沿用既有50 warning/11 info，无新增lint错误。`TYPE_PAL_COVERAGE_BASE_REF=2d3887e0 pnpm coverage:ratchet` exit0，
+基线6,358→6,385项，editor205→207测试文件、2,119→2,146项；生产仍618文件，所有包生产清单/全部指标分母零变化。
+随后同一BASE_REF下单次`pnpm coverage:fast` exit0，6,385项，editor207文件/2,146项；各包四指标与ratchet基线逐整数相同，未复现off-by-one，不靠多数通过放行。
+
+| 目标模块 | 原正式fast分支 | 接收树正式fast分支 | 行 | 函数 |
+|---|---:|---:|---:|---:|
+| workspace-context | 76/93 | 91/93 | 76/76 | 21/21 |
+| handle-store | 33/39 | 39/39 | 85/85 | 32/33 |
+
+相对**最新主线**官方并集的新增命中：context为5/0、7/0、8/0、9/0、11/0、13/0、17/0、19/0、23/0、27/0、29/1、31/1、34/0、37/0、38/0共15臂；
+handle-store为0/1、2/0、3/0、5/0、7/0、15/1共6臂。共21个有效新增命中，不沿用候选与较小相邻集的19+11，也不把名义23臂全关闭。
+context剩30/1（202行，缺scenes时的默认值）、32/1（209行，缺maps时省略路径）明确仍0命中、仍在分母；
+当前loader要求这两个字段，公开helper残留接受路径归E4严格化/旧回退审查，不凭本轮测试断言其不可达或直接授权删代码。
+handle-store分支全覆盖不等于全模块100%：函数仍32/33，LCOV定位为51行transaction.onerror回调，仍需按真实宿主错误入口另核。
+
+接收树wp413/427、project-io216/241、open-actions106/108与起点完全相同；主表39臂没有被这21臂混减。
+全仓语句53,677/79,533、分支38,474/62,521、函数10,165/14,622、行48,480/69,581；新增16语句/21分支/9行、函数计数不变。
+`before.json`保存重跑前报告；`verify.mjs`逐模块比较hash/分支键/新增与回退、逐包比较生产文件清单，输出`verified.json`。
+最终还逐项核官方baseline持久化的测试清单字段/计数/digest与strict报告相同（报告额外携带完整identities数组），验证新清单恰27项、未改变旧测试身份。
+本席辅助核对的两次非门禁失败如实登记：strict重建期间读取旧LCOV得到ENOENT；其后把报告fastTests整对象与省略identities的baseline直接比较触发结构差异。
+前者等待正式运行结束，后者改为对baseline全部持久化字段逐项比较并核identities长度，最终strict-verified.log通过；不改任何产品、基线门槛或正式runner来消除这两次辅助脚本错误。
+
+### 本席结论与后续
+
+**Codex：accept（限本测试子包，含上述接收修订，2026-09-13）**。原候选不能原样accept的残留已由Codex在接收树修正，不能改写成“GLM候选零问题直接接收”。
+完整check/ratchet/单次严格fast及文档收口已核；生产、旧测试/配置、原审计探针及生成工程零diff，仅新增两测试文件、官方生成baseline与本次接收文档。
+GLM是26项原候选的测试贡献者，Codex负责独立复核、接收修订及新增1项，整卡终审须披露，不作第三方自证。
+本次没有运行浏览器或重跑full；沿用既有视觉分工/后续E2E安排，不声称新的原生验收。
+父卡仍build/r2，不代签、不标done、不转Kimi；无下一位Agent提示词，本包无需再次交GLM返工，剩余实现/性能/整卡收口仍由Codex推进。

@@ -6,11 +6,14 @@
 覆盖率回答“哪些生产代码被测试执行过”，不回答业务是否正确。存档故障、异步乱序、跨会话撤销、浏览器文件
 系统、完整战斗与通关仍必须由集成测试和 Q1/Q2/编辑器 E2E 证明，不能用覆盖率百分比替代。
 
-## 最新实测（2026-09-12）
+## 最新实测（2026-09-13）
 
-**后续fast更新**：另存为续批及私有本地记录helper清理后，当前fast为**6,358项**、单次严格门禁通过。
-本次真实退休冗余分支：全仓语句/行分母各减6，分支分母减9，详见[退休对账](editor-save-recovery-coverage-pending.md#本批私有helper分支退休不是e2测试新命中)；没有移出生产文件或改排除规则。
-以下full6,673及fast6,337保留b7a56dd4时点的源码/测试快照；本轮清理后未重跑full，不能把旧full报成新提交的完整覆盖率。
+**后续fast更新**：身份基础返工经Codex修订接收后，ratchet为**6,385项**（editor207文件/2,146项），单次严格门禁结果见[接收记录](editor-save-recovery-glm-identity-foundation.md#统一质量门与覆盖归属)。
+相对最新主线2d3887e0新增27项测试、21个有效分支命中；仍618生产文件，全部指标分母不变。全仓行48,480/69,581（69.67%）、语句53,677/79,533（67.49%）、函数10,165/14,622（69.52%）、分支38,474/62,521（61.54%）。
+上一批私有helper清理曾使全仓语句/行分母各减6、分支减9，详见[退休对账](editor-save-recovery-coverage-pending.md#本批私有helper分支退休不是e2测试新命中)；该退休不是本批新增覆盖，也没有移出生产文件或改排除规则。
+以下full6,673及fast6,337保留b7a56dd4时点的源码/测试快照；之后未重跑full，不能把旧full报成新提交的完整覆盖率。
+
+### 2026-09-12 full历史快照
 
 生产基线**b7a56dd4**，full运行时HEAD为仅文档变化的917b3470。fast为**6,337项**，本次完整PAL口径
 `TYPE_PAL_COVERAGE_BASE_REF=b7a56dd4 pnpm coverage:full`为**6,673项**、exit0；两档均精确包含**618个生产文件**。
@@ -32,8 +35,8 @@ full机械验证fast测试身份清单是其子集，源码范围、全部指标
 full比fast多运行336项**已有**测试：pal-extract155、migrate118、game56、editor7，不是本轮新补336项。
 full仍不是浏览器E2E，也不包括由普通check另跑的重型静态扫描；不能用6,673与check6,825的差值推断漏跑产品测试。
 
-本轮验证的是当前完整覆盖率，**没有新增测试、修改生产或消除未覆盖代码**；约定的全仓90%/85%目标仍未达到。
-当前双线：GLM在[身份基础工作包](editor-save-recovery-glm-identity-foundation.md)补代码测试，Codex处理保存恢复剩余风险和统一验证。
+该次full仅验证当时完整覆盖率，**那次运行没有新增测试、修改生产或消除未覆盖代码**；约定的全仓90%/85%目标仍未达到。
+之后GLM[身份基础工作包](editor-save-recovery-glm-identity-foundation.md)已由Codex复核修订并集成，Codex继续处理保存恢复剩余风险和统一验证。
 证据：`coverage/full/summary.json`（2026-09-12T13:21:17.236Z），日志及独立源码/指标/测试子集核对在
 `/tmp/codex-full-current.eCPdt2/full.log`、`verified.json`。下面各日期段保留历史事实，旧表中的“当前”仅指该日期。
 独立复核首次误将runner私有assertTestSuperset当成inventory导出，导入失败、未产生复核证据；

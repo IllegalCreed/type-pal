@@ -10,8 +10,16 @@
 - branchId/arm是本次V8报告定位键，不是产品稳定ID；源码或工具升级后必须重生成。
 - 条件/函数由TypeScript AST定位，行按当前LCOV节点起点。条件为归一化节选；短路表达式显示所属整体表达式，具体臂仍按报告编号，不把相同节选当同一个臂。长行用省略号。
 - 当前39臂中，**25臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
-- 本表0命中不写“已有覆盖”；39臂不是39个已确认bug，也不是整卡全部剩余工作。GLM打开身份子包已接收，identity-foundation子包仍counter返工；旧路径/性能/终审按父卡继续。相邻open-actions/handle-store/workspace-context尚有2/6/17臂，不混入本表两文件计数。
+- 本表0命中不写“已有覆盖”；39臂不是39个已确认bug，也不是整卡全部剩余工作。GLM打开身份子包已接收，identity-foundation返工经Codex接收修订，统一质量门见工作包；旧路径/性能/终审按父卡继续。相邻open-actions/handle-store/workspace-context尚有2/0/2臂，不混入本表两文件计数；handle-store函数仍32/33，不能将分支100%写成整模块100%。
 - 原119臂的精确历史清单由Git保留；[preflight接收结论](editor-save-recovery-glm-preflight.md#codex-fae10e55接收结论2026-09-12)仍是该时点事实，不冒充最新数量。
+
+## 相邻身份基础模块接收（2026-09-13，不混入主表39臂）
+
+[Codex返工接收修订](editor-save-recovery-glm-identity-foundation.md#codex返工接收修订2026-09-136f26cc68)：
+两文件27项（GLM候选26项+Codex补旧记录abort1项，接收时收紧断言），最新主线正式并集新增context15臂、handle-store6臂。
+context行76/76、函数21/21、分支91/93；handle-store行85/85、函数32/33、分支39/39。
+context30/1与32/1仍未覆盖：其缺scenes/maps的helper回退不符合正式loader的完整清单合同，归E4严格化/旧回退审查。
+保留分母，不执行“坏清单helper不抛错”来固化兼容行为；公开helper可调用不等于完整工程合法，也不声称该分支JS不可达。
 
 ## 前批闭环的9臂（E2：常驻测试已覆盖）
 

@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | GLM：identity-foundation限定返工；Codex：独立复核/剩余收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) Codex私有记录转换冗余清理，check6,846/fast6,358通过；主表39臂（7项退休非命中）。GLM子包仍counter，冻结模块未改，未标done。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：身份基础子包已接收，继续剩余收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 6f26cc68经接收修订后accept；check6,873/fast6,385通过，context91/93、handle-store39/39分支。主表39臂不混减；GLM贡献已披露，不转Kimi、不标done。 |
 
 ## 阻塞
 
