@@ -404,8 +404,8 @@ R4 登记同一跨页恢复链与恢复后本地试玩，无玩家战斗/剧情�
 
 - Codex：**accept（2026-09-13，r2实现者自验证）**。完整恢复链、当前writer/读出口、旧作者链退役、原生重启/撤权、当前UI与负控制均按最终收口记录核验；完整check6,873、受保护基准7087dbad的ratchet/严格fast6,385通过。GLM与Codex子代理测试/CSS适配贡献已披露，不作独立第三方自证；保留约80–85秒克隆成本、34个重点未覆盖分支和原探针旧宿主不适用说明，未采用存储协议改造。
 - Kimi：pending。
-- GLM：pending。
-- done 准入：blocked；实现自验证完成，仍待Kimi/GLM整卡终审及用户验收，不代签。
+- GLM：**accept（2026-09-13，矩阵/证据席终审）**。披露：本席是 open-identity（19项）、identity-foundation（26项，接收后27项）及更早 preflight/传输/批次测试的贡献者，本次为对 Codex 收口证据与最终树的独立对账复核，不冒称独立第三方自证。机械对账全部通过：baseline.fast testCount=6,385、editor 215/全仓 613 生产文件与声明一致；7087dbad→cd3de679 恰退休 5 源码+5 测试（旧抽屉四模块+ScriptDrawer）；packages/content 对 135d065a 零 diff（content20/SAVE 未动）；原探针自 135d065a 创建后零 diff。commands.test.ts 114 项、恰 12 删 12 增当前模型迁移（逐名核对，非改名规避）；fsa-copy 10 项现行 collector+writer。本树定向抽跑 17 文件 330 项全绿（含恢复核心链与身份基础 27 项）、editor typecheck exit0；独立重建负控：移除 project-io.ts:217-218 content.scripts 拒绝 → S01 错误接受红。覆盖归属如实（wp +3/−1 净+2、34=12+22 臂 30E3/4E0 不移分母、identity 并集 +15/+6 且两 fallback 臂如实 0 命中）。约 80–85 秒大克隆成本已实测披露、r2 无数值阈值，**判非阻断**，须保持对 R4/用户可见；仓外连接复用原型未入生产、原探针旧宿主失败未被用作修复证明，均核实无误。非阻断备注一条：收口文档“3文件73项”的文件构成未能从本席所选文件集精确复原（本席三文件合计 51），相关套件全绿，仅文档表述歧义。终审日志见下；不改实现、不代签、不标 done。
+- done 准入：blocked；实现自验证完成，仍待Kimi整卡终审及用户验收，不代签。
 
 ## build 执行进度（2026-09-07，非验收候选）
 
@@ -2096,6 +2096,29 @@ wp/project-io主表39臂及open-actions106/108未变，性能/剩余分支/整�
 父卡仍build/r2；不代签、不标done、不转Kimi。无下一位Agent提示词，本包无需GLM再次返工，Codex继续剩余收口。
 
 ## 交接日志
+
+### GLM · 整卡终审日志（2026-09-13，矩阵/证据席）
+
+按本席当前提示词执行：同步 fed7fde4、读收口文档/台账/SR-01～12 与本卡入口，未读 Kimi 结论，未操作浏览器。
+
+**贡献披露**：本席为本卡多批测试贡献者（内核恢复回归、传输验证、preflight、open-identity-r1 及其返工、identity-foundation-r1 及其返工）；本次终审是对 Codex 收口声明与最终提交树的独立对账与抽跑，不是贡献者自测自证。
+
+**机械对账（全部通过）**：
+- 官方产物交叉验证：`scripts/coverage/baseline.fast.json` testCount=**6,385**、editor sourceFileCount=**215**、七包合计 **613**，与严格 fast 声明逐字一致；中间 102 项 commands 基线被保护规则拒绝后经官方 ratchet 重生成的过程在收口文档如实保留。
+- 源码退休：`git diff --diff-filter=D 7087dbad..cd3de679` 恰 10 文件 = 5 生产源码（scene-script-view/script-context/script-edit/shared-script/ScriptDrawer）+ 5 对应测试；无改名换壳。序列化拒绝点在 project-io.ts:217-218，writeFile/copyDirRecursive 在生产零命中。
+- 版本红线：`135d065a..cd3de679` 对 packages/content **零 diff**（content20 未动）；editor diff 无 SAVE 版本常量变化。
+- 原探针：probe-editor-save-recovery.mjs 最后触碰即创建提交 135d065a，零 diff ✔；收口文档明确其旧 IDB 宿主失败**不作为修复证明**，同意该口径。
+- 测试迁移：commands.test.ts 实跑 **114 项**，diff 恰 12 删/12 增且新增为当前 canonical 模型（共享库 payload 隔离、坏更新保留 redo/dirty、同名私有行为跨 channel 隔离、双真实 caller 解除删除、稳定步骤/非首页编辑、空实体不隐式造页、动画/空页保留、first hook/trigger 归属、页激活清理），98 普通体+1 参数化保留的声明与 diff 结构一致；fsa-copy 现行 10 项为 collector+完整 writer 测试（用例名核对）。
+
+**定向抽跑（最终树，17 文件 330 项全绿，未与 Kimi 争抢全仓覆盖）**：commands 114、fsa-copy 10、author-save-conflict 36、project-serialization-boundaries 6、save-batch-policy 9、workspace-final-boundaries 6、project-copy 17、ProjectPicker-recovery 5、ScriptEditor 24、ScriptTree 5、workspace-open-identity 19、save-batch-open 9、save-readback-boundaries 10、workspace-save-admission 20、workspace-capability-lifecycle 13、identity-foundation 两文件 27；editor typecheck exit0。
+
+**独立负控重建**：/tmp/glm-final-nc.config.mts（include 钉死单文件）——移除 project-io.ts:217-218 的 content.scripts 拒绝 → S01「当前序列化拒绝旧 content.scripts」**错误接受红**（1 failed/5 passed），与收口文档负控一致，证明现行守卫被真实测试钉住。
+
+**覆盖归属与剩余限制核对**：台账 34=12+22 臂、30 E3/4 E0，全部留分母、0 命中未写成已覆盖；wp +3 新增/−1 失去（旧复制链退役）净 +2，收口文档明确“不能把净减5都当新增覆盖”；identity-foundation 有效并集 context+15/handle-store+6、两个缺字段 fallback 臂如实 0 命中归 E4。SR-01～12 的确定性证据链经各批回执与上述抽跑覆盖；SR-01 原生跨页重启/撤权与 SR 视觉证据按分工由 Codex 持有，本席核其范围声明与限制表述（不冒称断电/kill -9/跨浏览器），不重复浏览器流程。性能 84.48s 完整克隆已实测、r2 无数值阈值、仓外连接复用原型（~3.8%）未入生产——**判非阻断**，作为明示限制保留给 R4 与用户。
+
+**非阻断备注**（不构成 counter）：收口文档“原低层授权/冲突与序列化3文件73项”的文件构成无法从本席所选三文件（36+9+6=51）精确复原；相关套件全绿、无安全影响，仅文档表述歧义，留 Codex 下次文档触点澄清。
+
+**结论**：GLM 签 **accept**。无 counter。剩余限制（34 臂台账、80–85 秒克隆成本、原探针旧宿主不适用、全仓 90/85 未达、R4 完整 E2E 未跑）均如实保留、未被静默修复或冒充完成。done 准入仍待 Kimi 终审与用户验收；本席不改实现、不代签、不标 done。完成交 Codex 统一核门禁。
 
 - 2026-09-13 Codex：接收6f26cc68返工，经本席限定测试修订后子包accept；27/185项及五组负控闭环，check6,873/ratchet/单次严格fast6,385通过。有效新增context15+handle-store6臂，主表39不混减，生产及原探针零变；贡献披露、父卡build/r2，未转Kimi。
 
