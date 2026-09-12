@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：full覆盖率/剩余风险；GLM：身份基础测试（待转交） | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) identity-foundation-r1限定两个新测试文件，生产b7a56dd4；当前check6,825/fast6,337通过，重点剩46臂；未标done，视觉仅Codex。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：写侧/旧路径/性能收口；GLM：身份基础测试（待转交） | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) identity-foundation-r1限定两个新测试文件；b7a56dd4当前full6,673/fast6,337均通过，重点fast剩46臂；未标done，视觉仅Codex。 |
 
 ## 阻塞
 
