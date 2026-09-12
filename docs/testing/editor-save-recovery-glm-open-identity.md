@@ -228,3 +228,122 @@ GLM 测试贡献者，终审须披露。测试候选 `e1c0d67e`（amend 回填�
 - 入库入口的运行结果：persistent-oracles.log、persistent-source-axis.json。
   初次临时oracle因非标准vitest导入导致mock解析失败（0项执行），已修正重跑；该加载失败未计作反证。
 - 本包尚未接收，因此没有运行/更新官方ratchet和严格fast，也不合入不完整用例抬高基线。主树check6,783/fast6,295保持。
+
+## GLM返工回执（open-identity-r1 rework，2026-09-12）
+
+分支沿用 `codex/glm-open-identity-tests`，先 merge origin/main **693dec71**（Codex R1–R3 原文保留在上方），
+合并冲突仅本文档，取 main 侧。返工白名单改动仍只有测试文件 + 本回执区；生产/旧测试/共享 fixture/
+配置/基线/资产零改动（merge 后对 origin/main 的 diff 仅本测试文件）。
+
+### R1 落地：hint.source 单轴（产品缺口，预期红）
+
+- 负例「OI-S: hint 的 source 单轴与 marker 不一致必须拒绝」：新鲜 fixture（无最近记录、marker
+  source=ui-samples），hint 仅 source=review-copy 不同（同 projectId/workspaceId/mode），按合同断言
+  拒绝+零登记。**当前产品错误放行 → 预期红**：`promise resolved "{ kind: 'current', …(7) }" instead
+  of rejecting`，返回会话 `source: 'review-copy'`。未 skip/test.fails，未改成错误来源放行的绿用例。
+  负例未先 finishOpen 写正确最近记录（每用例 beforeEach 清空 IDB 记录）。
+- 正控「OI-S 正控: hint 与 marker 全轴一致（含 source）」：同构造 hint source=ui-samples → 打开、
+  真实登记（记录 source=ui-samples）、不带 hint 重开一致。与 Codex 入库探针
+  `docs/ops/audits/pre-e2e/probe-open-identity-boundaries.test.mjs` 的正例同构。
+- **产品缺陷 counter（交 Codex，本席不改生产）**：`workspace-persistence.ts:955-958` 只核 hint 的
+  mode/workspaceId 未核 source；随后 `open-actions.ts:194-199` 以 hint 来源登记。影响/替代解释与
+  「未证明正常 UI 链会产生不一致 hint」的限定均按 Codex 复核原文，不夸大。
+
+### R2 落地：真实登记业务 + 仅存储边界替身 + 补断言
+
+- **移除 `vi.mock('./handle-store.js')`**：真实 saveWorkspaceHandle/saveWorkspaceHandleUnderLock/
+  锁品牌（WeakMap brand）/同目录与既有 identity 守卫全程真实运行；唯一替身下移到 `indexedDB`
+  全局内存实现（open name/version、store 名、request success/transaction complete 合同、put 断言
+  readwrite），即 Codex 探针同款边界。author-save-store 仍走 memoryAuthorSaveStore（凭据 IDB 边界）。
+- forceSandbox PAL 检视：补 `opened.dir` 缺席断言 + 零登记 + 零写 IO；新增对照「OI-P 对照: forceSandbox
+  打开合法沙盒目录」钉住 mayBind 路径（返回 dir 并经真实 saveWorkspaceHandle 登记）。
+- OI-L hint projectId 冲突、OI-S hint mode/workspaceId 冲突补齐三件套（文件快照/写 IO 轨迹/原记录
+  快照）；OI-L 补合法 local hint 正控（同构造仅 projectId 一致），OI-S 正控见 R1。
+- expectedIdentity 句柄用例读取见证：改用 fixture 自带 `hooks.afterRead` 钩子计数（拒绝时 reads===0）。
+  初版 Proxy 包装会破坏 `isSameEntry` 对象同一性，使 ncFinishOpenHandle 从错误放行退化成换文案红——
+  已修复并复验该负控恢复错误放行业务红（此为返工过程记录，非最终断言缺陷）。
+- afterEach `vi.unstubAllGlobals()` 恢复全局。
+- **重叠保护如实记录**：ncSandboxRecordDrift（中和 resolver 的沙盒 marker/最近记录不一致 throw）下，
+  mode/projectId/source 漂移被**真实 handle-store** `saveWorkspaceHandleUnderLock` 的
+  「最近项目记录与当前 workspace identity 不一致」继续拦截——该负控红是换文案级，不作为错误放行
+  负控计数；未移除更多守卫硬造错误放行。
+
+### 负控矩阵（/tmp/glm-oi-nc.config.mts 重建，GLM_OI_NC 选择，每针唯一替换点，非唯一即抛错）
+
+| NC | 突变 | 配对用例红因 |
+|---|---|---|
+| ncRecentPidDrift | resolver :1000 最近记录 projectId 漂移 throw 中和 | OI-L 漂移用例**错误放行**（resolved Opened 而非 reject） |
+| ncExpectedIdentity | assertExpectedWorkspaceIdentity :916-922 四轴 throw 中和 | OI-E 逐维用例**错误放行** |
+| ncFinishOpenHandle | finishOpen :91-92 expectedIdentity 句柄核对移除 | OI-E 句柄用例**错误放行**（afterRead 修复后复验） |
+| ncForceSandboxDir | open-actions :191 早退路径回传 dir | OI-P 检视用例 **dir 泄漏回传**（expected undefined got directory） |
+| ncSandboxRecordDrift | resolver :963-968 沙盒记录一致性 throw 中和 | **重叠保护**：真实 handle-store 后层继续拦截，换文案级红，不计错误放行 |
+| （无突变） | — | R1 缺陷见证本身即未突变产品上的错误放行红 |
+
+首轮未限制 include 的全套件 NC 运行还给出独立旁证：ncExpectedIdentity 使既有
+`workspace-persistence.test.ts`「recent identity 与目录 marker 不一致时 fail-closed」错误放行红；
+ncForceSandboxDir 使既有 `project-copy.test.ts`「只读沙盒检视仍保留源目录关系」dir 泄漏红；
+ncFinishOpenHandle 使既有 `save-batch-open.test.ts` O3（句柄前置核对）换文案红。噪音如实记录：
+`audit-performance-adoption.test.ts` 一例在全部 5 个 NC 运行中红（含不影响该域的突变）而无突变
+隔离运行绿，判为 NC 配置环境噪音；首轮全套件运行另有 1–2 例负载超时，隔离复跑无超时。
+
+### R3 逐臂对账（同一最终树两跑；/tmp/glm-open-identity-workspace/cov-{a,b}）
+
+cov-b（排除本套件）=实际起点既有命中；cov-a（含本套件，`--coverage.reportOnFailure=true`）与 cov-b
+逐 branchId/arm 差分，程序化重计（/tmp/glm-oi-branch-diff.mjs）。运行规模：cov-a **201 文件/2075 项**
+（2074 绿+1 预期红），cov-b **200 文件/2056 项全绿**。
+
+| 文件 | 起点（cov-b） | 含本套件（cov-a） | 本包新增臂 |
+|---|---|---|---|
+| workspace-persistence.ts | 行 393/423、臂 379/435 | 行 401/423、臂 **393/435** | **14**（下表） |
+| open-actions.ts | 行 119/119、臂 103/108 | 同左 | **0** |
+| handle-store.ts | 臂 33/39 | 同左 | 0（本套件真实驱动该模块，臂均已被既有测试命中） |
+| workspace-context.ts | 臂 76/93 | 同左 | 0 |
+
+本包新增 14 臂（与 Codex 复算清单逐项一致）：assertExpectedWorkspaceIdentity 182/1@916、
+183/1-3@917；resolver 185/0@940、190/0@953、192/0@957、196/0@963、199/0@974、200/1@974、
+202/0@980、203/0@982、206/0@993、208/0@1000。
+
+仍未命中（wp 42 + open-actions 5 + handle-store 6 + workspace-context 17，只列证据不做可达性结论）：
+- wp 生命周期/写侧守卫终态 20 臂（3/1@127、4/0@147、20/0@234、25/0@257、26/0@260、35/0@304、
+  42/0@337、45/0@341、47/0@347、50/0@360、71/0@485、77/0@492、80/1@497、82/0@510、85/0@520、
+  88/0@532、89/0@534、91/0@542、93/0@543、96/0@553）：**撤回原「公开入口无法构造非活跃调用」**
+  ——Codex 探针已用真实 withAuthorizedWorkspaceMutation 过期 token 经公开 authorizedSaveScope 命中
+  20/0，未伪造品牌。本包不扩测，其余臂只交 Codex 以实际 caller/先行守卫证据核定。
+- wp PAL 写侧指纹族 11 臂（113/0@613、116/1@622、117/0@632、119/0@637、120/0-1@642、121/1@646、
+  122/0@648、123/0@651、124/0@660、126/0@663）：PAL 写保存域，归 Codex。
+- wp preflight/authorize 4 臂（158/0@775、159/1@775、164/2@804、169/0@823）与 contextFromRecord
+  7 臂（175/0@889、176/0-1@890、177/0-2@891、178/1@898）：**撤回原「contextFromRecord 多数已命中」**
+  ——175-178 全部 0 命中；归 Codex 后续批。
+- open-actions 5 臂（24/0@182 readOpenedProject 可信快照缺席 throw；38/0@276、45/0@285、49/0@293、
+  53/0@316 saveProjectAs 另存族）：另存/保存恢复域，归 Codex。
+- handle-store 6 臂（0/1@31 idb onupgradeneeded、2/0@67 无品牌登记拒绝、3/0@76 与 5/0@105
+  navigator.locks 真实浏览器分支——本套件实际驱动该模块时走了 fallback 分支、7/0@129 underLock
+  品牌不符、15/1@189 loadWorkspaceHandle）与 workspace-context 17 臂（构造器防御校验与
+  canonicalJson/palFingerprint 变体）：本包新增披露；此前回执未列，非本包新增缺口。
+
+### 更正与撤回（相对首轮回执）
+
+1. 逐臂增量「+40」更正为 **+14**（原把 Codex 已有 PAL/首存回归的臂错记为本包新增）；起点
+   「353/435」更正为 **379/435**（945f54ab 已含 Codex 回归）；open-actions「103→103」表述保留但
+   明确**新增 0**。
+2. 撤回「contextFromRecord 多数 mode/source 组合臂已命中」；撤回「公开入口无法构造非活跃调用」。
+3. 「所有冲突用例核三件套」原不成立（OI-L hint-pid、OI-S hint 冲突缺三件套）——本轮已补齐为真；
+   「无产品缺陷 counter」更正为 **1 项**（R1 source 缺口）。
+4. mock 层描述更正：原把 saveWorkspaceHandle/UnderLock 换成直接 Map.set 且忽略锁品牌，不能称为
+   「仅 IDB 边界」；本轮已改真实 handle-store + indexedDB 内存替身。
+5. 首轮回执其余无据总括语以本节为准；不追溯改写上方历史原文。
+
+### 验证与失败记录（最终树）
+
+- 定向（本文件 19 用例）：**18 绿 + 1 预期红**（唯一红=R1 产品缺口见证，见上）。
+- 相邻 5 文件（open-actions/open-local/pal-save-identity/workspace-save-admission/
+  workspace-persistence）：**79/79 绿**。editor typecheck exit 0；新文件 biome 0 error（一次 format
+  自动修复后复跑）。
+- 同口径覆盖 cov-a：exit 1（预期红）——vitest 默认测试失败不写覆盖报告，加
+  `--coverage.reportOnFailure=true` 复跑成功落盘，已如实记录；cov-b exit 0。
+- 5 组负控 + 缺陷见证见上表；完整 check/官方 ratchet/严格 fast 未重跑（返工未改生产），留 Codex
+  集成后统一执行。
+
+### 交接
+
+GLM 测试贡献者，终审须披露。返工候选 `c04fbde9`（amend 回填前提交；最终以远端推送 SHA 为准）。

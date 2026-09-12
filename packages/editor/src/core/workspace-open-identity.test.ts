@@ -1,50 +1,102 @@
 /**
- * EDITOR-SAVE-RECOVERY-1 · open-identity-r1 · 打开身份矩阵（OI-L/S/P/E）。
+ * EDITOR-SAVE-RECOVERY-1 · open-identity-r1(rework) · 打开身份矩阵(OI-L/S/P/E)。
  *
- * 真实 finishOpen/openLocalProject/resolveOpenedWorkspaceContext/身份构造器全程驱动；
- * mock 只限 handle-store（IDB 边界，记忆 Map）与 PAL HTTP fetch（可信源字节来自独立目录）。
- * 每个冲突用例只改变它声称核验的一个身份轴，配同条件合法对照，核拒绝后
- * 文件快照/IO 轨迹/原绑定记录不变、无新登记。
+ * 真实 finishOpen/resolveOpenedWorkspaceContext/身份构造器/真实 handle-store(锁品牌、同目录、
+ * 既有 identity 守卫全部保留)全程驱动;mock 只限底层存储边界:save 凭据走 memoryAuthorSaveStore,
+ * 句柄登记走 indexedDB 全局内存替身(request success/transaction complete 合同),PAL HTTP fetch
+ * 桩提供独立可信源字节。每个冲突用例只改变它声称核验的一个身份轴,配同条件合法对照,核拒绝后
+ * 文件快照/写 IO 轨迹/原登记记录三件套不变。
  */
-import { beforeEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
 
 vi.mock('./author-save-store.js', async (original) =>
   memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>()),
 )
-const bindings = vi.hoisted(
-  () => new Map<string, import('./handle-store.js').WorkspaceHandleRecord>(),
-)
-vi.mock('./handle-store.js', async (original) => ({
-  ...(await original<typeof import('./handle-store.js')>()),
-  loadWorkspaceRecord: async (id: string) => bindings.get(id) ?? null,
-  findWorkspaceRecordByHandle: async (handle: FileSystemDirectoryHandle) => {
-    for (const record of bindings.values())
-      if (await record.handle.isSameEntry(handle)) return record
-    return null
-  },
-  saveWorkspaceHandle: async (
-    context: import('./workspace-context.js').WorkspaceContext,
-    name: string,
-    handle: FileSystemDirectoryHandle,
-  ) => {
-    bindings.set(context.workspaceId, { ...context, name, handle, updatedAt: 1 })
-  },
-  saveWorkspaceHandleUnderLock: async (
-    _lock: unknown,
-    context: import('./workspace-context.js').WorkspaceContext,
-    name: string,
-    handle: FileSystemDirectoryHandle,
-  ) => {
-    bindings.set(context.workspaceId, { ...context, name, handle, updatedAt: 1 })
-  },
-}))
+
+/** 真实 handle-store 跑在其上的内存 IndexedDB(唯一被替换的存储边界)。 */
+const records = new Map<string, import('./handle-store.js').WorkspaceHandleRecord>()
+
+function memoryIndexedDb(): IDBFactory {
+  const copy = (value: import('./handle-store.js').WorkspaceHandleRecord | undefined) => {
+    if (value === undefined) return undefined
+    const { handle, ...rest } = value
+    return { ...structuredClone(rest), handle }
+  }
+  const db = {
+    transaction(store: string, mode: IDBTransactionMode) {
+      expect(store).toBe('project-handles')
+      let aborted = false
+      const tx = {
+        oncomplete: null as (() => void) | null,
+        onerror: null as (() => void) | null,
+        onabort: null as (() => void) | null,
+        abort() {
+          aborted = true
+          queueMicrotask(() => tx.onabort?.())
+        },
+        objectStore() {
+          const request = (read: () => unknown, commit = () => {}) => {
+            const req = {
+              result: undefined as unknown,
+              onsuccess: null as (() => void) | null,
+              onerror: null as (() => void) | null,
+            }
+            queueMicrotask(() => {
+              if (aborted) return
+              req.result = read()
+              req.onsuccess?.()
+              queueMicrotask(() => {
+                if (!aborted) {
+                  commit()
+                  tx.oncomplete?.()
+                }
+              })
+            })
+            return req
+          }
+          return {
+            get: (key: string) => request(() => copy(records.get(key))),
+            getAll: () => request(() => [...records.values()].map(copy)),
+            put: (value: import('./handle-store.js').WorkspaceHandleRecord) => {
+              expect(mode).toBe('readwrite')
+              const saved = copy(value)
+              return request(
+                () => saved?.workspaceId,
+                () => {
+                  if (saved) records.set(saved.workspaceId, saved)
+                },
+              )
+            },
+          }
+        },
+      }
+      return tx
+    },
+  }
+  return {
+    open(name: string, version: number) {
+      expect(name).toBe('type-pal-editor')
+      expect(version).toBe(2)
+      const req = {
+        result: db,
+        onsuccess: null as (() => void) | null,
+        onerror: null as (() => void) | null,
+        onupgradeneeded: null as (() => void) | null,
+      }
+      queueMicrotask(() => req.onsuccess?.())
+      return req
+    },
+  } as unknown as IDBFactory
+}
+
 beforeEach(() => {
-  bindings.clear()
+  records.clear()
   authorSaveStorage.receipts.clear()
-  vi.unstubAllGlobals()
+  vi.stubGlobal('indexedDB', memoryIndexedDb())
 })
+afterEach(() => vi.unstubAllGlobals())
 
 import { fsaSource } from '@type-pal/reforge'
 import { finishOpen } from './open-actions.js'
@@ -61,21 +113,21 @@ import {
 import { resolveOpenedWorkspaceContext } from './workspace-persistence.js'
 
 type Disk = ReturnType<typeof memoryAuthorDirectory>
+type HandleRecord = import('./handle-store.js').WorkspaceHandleRecord
 
 const untouched = (disk: Disk, before: Map<string, ArrayBuffer>) => {
   expect([...disk.files.entries()]).toEqual([...before.entries()])
   expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   expect(authorSaveStorage.receipts.size).toBe(0)
 }
-const bindingsSnapshot = () =>
-  new Map([...bindings.entries()].map(([key, record]) => [key, { ...record }]))
+const recordsSnapshot = () => new Map([...records.entries()].map(([key, rec]) => [key, { ...rec }]))
 
 async function blankDir(id: string) {
   const files = await buildBlankProject(id)
   return memoryAuthorDirectory(files)
 }
 
-/** PAL 可信 HTTP 源：独立目录字节经 fetch 桩按相对路径提供（finishOpen 走 httpSource）。 */
+/** PAL 可信 HTTP 源:独立目录字节经 fetch 桩按相对路径提供(finishOpen 走 httpSource)。 */
 async function palDisk(id = 'pal') {
   const files = await buildBlankProject(id)
   files[PAL_DEVELOPMENT_SENTINEL_PATH] = {
@@ -86,7 +138,6 @@ async function palDisk(id = 'pal') {
   }
   const trusted = memoryAuthorDirectory(files)
   const disk = memoryAuthorDirectory(files)
-  // 桩全局 fetch：'projects/pal/<rel>' → 可信目录字节（独立源，不自授权）。
   vi.stubGlobal(
     'fetch',
     vi.fn(async (input: string | URL | Request) => {
@@ -104,32 +155,32 @@ async function palDisk(id = 'pal') {
   return { trusted, disk, context }
 }
 
-// ═══ OI-L：普通本地 ═══
+// 读取见证用 fixture 自带的 hooks.afterRead 钩子计数:真实句柄原样直传,
+// 不包代理(代理会破坏 isSameEntry 的对象同一性,改变被测行为)。
 
-test('OI-L 正控: 无 marker 目录首次打开 → local-project + 登记 local-directory', async () => {
+// ═══ OI-L:普通本地 ═══
+
+test('OI-L 正控: 无 marker 目录首次打开 → local-project + 真实登记 local-directory', async () => {
   const disk = await blankDir('oi-l')
   const opened = await finishOpen(disk.dir)
   expect(opened.workspace).toMatchObject({ mode: 'local-project', source: 'local-directory' })
-  expect(bindings.get(opened.workspace.workspaceId)?.handle).toBe(disk.dir)
+  const record = records.get(opened.workspace.workspaceId)
+  expect(record?.handle).toBe(disk.dir)
+  expect(record).toMatchObject({ mode: 'local-project', source: 'local-directory' })
 })
 
 test('OI-L: 最近记录 projectId 漂移时拒绝，不降级不覆盖原记录', async () => {
   const disk = await blankDir('oi-l-drift')
   const stale = createLocalWorkspaceContext('another-project', 'local-directory')
-  bindings.set(stale.workspaceId, {
-    ...stale,
-    name: 'stale',
-    handle: disk.dir,
-    updatedAt: 1,
-  })
+  records.set(stale.workspaceId, { ...stale, name: 'stale', handle: disk.dir, updatedAt: 1 })
   const before = new Map(disk.files)
-  const bindingsBefore = bindingsSnapshot()
+  const recordsBefore = recordsSnapshot()
   await expect(finishOpen(disk.dir)).rejects.toThrow('最近项目记录与 manifest 项目 id 不一致')
   untouched(disk, before)
-  expect([...bindings.entries()]).toEqual([...bindingsBefore.entries()])
+  expect([...records.entries()]).toEqual([...recordsBefore.entries()])
 })
 
-test('OI-L: 无 marker 却带受限 hint（sandbox/PAL）拒绝恢复，零 IO 零登记', async () => {
+test('OI-L: 无 marker 却带受限 hint（sandbox/PAL）拒绝恢复，零写 IO 零登记', async () => {
   const disk = await blankDir('oi-l-hint')
   const before = new Map(disk.files)
   await expect(
@@ -143,33 +194,45 @@ test('OI-L: 无 marker 却带受限 hint（sandbox/PAL）拒绝恢复，零 IO �
     }),
   ).rejects.toThrow('工作区 identity marker 缺失，拒绝恢复受限工作区')
   untouched(disk, before)
-  expect(bindings.size).toBe(0)
+  expect(records.size).toBe(0)
 })
 
-test('OI-L: hint projectId 与 manifest 冲突时拒绝', async () => {
+test('OI-L: hint projectId 与 manifest 冲突时拒绝（三件套不变）', async () => {
   const disk = await blankDir('oi-l-hint-pid')
+  const before = new Map(disk.files)
+  const recordsBefore = recordsSnapshot()
   await expect(
     finishOpen(disk.dir, {
       workspaceHint: createLocalWorkspaceContext('other-id', 'local-directory'),
     }),
   ).rejects.toThrow('新工作区 identity 与写入后的 manifest 项目 id 不一致')
+  untouched(disk, before)
+  expect([...records.entries()]).toEqual([...recordsBefore.entries()])
 })
 
-// ═══ OI-S：沙盒 ═══
+test('OI-L 正控: 合法 local hint（projectId 一致）→ 以 hint 身份打开并真实登记', async () => {
+  const disk = await blankDir('oi-l-hint-pid')
+  const hint = createLocalWorkspaceContext('oi-l-hint-pid', 'local-directory')
+  const opened = await finishOpen(disk.dir, { workspaceHint: hint })
+  expect(opened.workspace.workspaceId).toBe(hint.workspaceId)
+  expect(records.get(hint.workspaceId)?.handle).toBe(disk.dir)
+})
 
-test('OI-S 正控: 合法 marker（三种支持 source）打开 → sandbox 会话', async () => {
+// ═══ OI-S:沙盒 ═══
+
+test('OI-S 正控: 合法 marker（三种支持 source）打开 → sandbox 会话 + 真实登记', async () => {
   for (const source of ['ui-samples', 'sandbox-copy', 'review-copy'] as const) {
-    bindings.clear()
+    records.clear()
     const disk = await blankDir('oi-s')
     const context = createSandboxWorkspaceContext('oi-s', source)
     disk.set(SANDBOX_WORKSPACE_MARKER_PATH, sandboxMarkerFor(context))
     const opened = await finishOpen(disk.dir)
     expect(opened.workspace).toMatchObject({ mode: 'sandbox', source, projectId: 'oi-s' })
-    expect(bindings.get(opened.workspace.workspaceId)?.handle).toBe(disk.dir)
+    expect(records.get(opened.workspace.workspaceId)?.handle).toBe(disk.dir)
   }
 })
 
-test('OI-S: marker 与 manifest 项目 ID 冲突时拒绝，零 IO 原绑定不变', async () => {
+test('OI-S: marker 与 manifest 项目 ID 冲突时拒绝，零写 IO 原记录不变', async () => {
   const disk = await blankDir('oi-s')
   const foreign = createSandboxWorkspaceContext('another-project', 'ui-samples')
   disk.set(SANDBOX_WORKSPACE_MARKER_PATH, sandboxMarkerFor(foreign))
@@ -178,25 +241,65 @@ test('OI-S: marker 与 manifest 项目 ID 冲突时拒绝，零 IO 原绑定不�
     '工作区 identity 冲突：沙盒 marker 与 manifest 项目 id 不一致',
   )
   untouched(disk, before)
-  expect(bindings.size).toBe(0)
+  expect(records.size).toBe(0)
 })
 
-test('OI-S: hint 的 mode/workspaceId 与 marker 不一致时拒绝', async () => {
+test('OI-S: hint 的 mode/workspaceId 与 marker 不一致时拒绝（三件套不变）', async () => {
   const disk = await blankDir('oi-s-hint')
   const markerCtx = createSandboxWorkspaceContext('oi-s-hint', 'ui-samples')
   disk.set(SANDBOX_WORKSPACE_MARKER_PATH, sandboxMarkerFor(markerCtx))
-  // mode 不一致：local hint 无法借 sandbox marker。
+  const before = new Map(disk.files)
+  const recordsBefore = recordsSnapshot()
+  // mode 不一致:local hint 无法借 sandbox marker。
   await expect(
     finishOpen(disk.dir, {
       workspaceHint: createLocalWorkspaceContext('oi-s-hint', 'local-directory'),
     }),
   ).rejects.toThrow('工作区 identity 冲突：沙盒 marker 与当前操作不一致')
-  // workspaceId 不一致：另一 sandbox 身份。
+  // workspaceId 不一致:另一 sandbox 身份。
   await expect(
     finishOpen(disk.dir, {
       workspaceHint: createSandboxWorkspaceContext('oi-s-hint', 'ui-samples'),
     }),
   ).rejects.toThrow('工作区 identity 冲突：沙盒 marker 与当前操作不一致')
+  untouched(disk, before)
+  expect([...records.entries()]).toEqual([...recordsBefore.entries()])
+})
+
+test('OI-S 正控: hint 与 marker 全轴一致（含 source）→ 以 hint 身份打开登记，重开不依赖 hint', async () => {
+  const disk = await blankDir('oi-s-hint-ok')
+  const markerCtx = createSandboxWorkspaceContext('oi-s-hint-ok', 'ui-samples')
+  disk.set(SANDBOX_WORKSPACE_MARKER_PATH, sandboxMarkerFor(markerCtx))
+  const hint = createSandboxWorkspaceContext('oi-s-hint-ok', 'ui-samples', markerCtx.workspaceId)
+  const opened = await finishOpen(disk.dir, { workspaceHint: hint })
+  expect(opened.workspace).toMatchObject({
+    mode: 'sandbox',
+    source: 'ui-samples',
+    workspaceId: markerCtx.workspaceId,
+  })
+  expect(records.get(markerCtx.workspaceId)?.source).toBe('ui-samples')
+  const reopened = await finishOpen(disk.dir)
+  expect(reopened.workspace.workspaceId).toBe(markerCtx.workspaceId)
+  expect(reopened.workspace.source).toBe('ui-samples')
+})
+
+test('OI-S: hint 的 source 单轴与 marker 不一致必须拒绝、不得登记错误来源（产品缺口，预期红）', async () => {
+  // 缺口:workspace-persistence.ts:955-958 只核 hint 的 mode/workspaceId,未核 source。
+  // 独立见证(Codex 已入库):docs/ops/audits/pre-e2e/probe-open-identity-boundaries.test.mjs
+  // ——当前产品错误放行并以 hint 来源登记,marker 仍是原来源,下一次不带 hint 的打开即被拒。
+  // 本用例按合同断言拒绝;在产品修复前保持预期红(不 skip/test.fails),修复归 Codex。
+  const disk = await blankDir('oi-s-hint-source')
+  const markerCtx = createSandboxWorkspaceContext('oi-s-hint-source', 'ui-samples')
+  disk.set(SANDBOX_WORKSPACE_MARKER_PATH, sandboxMarkerFor(markerCtx))
+  const hint = createSandboxWorkspaceContext(
+    'oi-s-hint-source',
+    'review-copy',
+    markerCtx.workspaceId,
+  )
+  const before = new Map(disk.files)
+  await expect(finishOpen(disk.dir, { workspaceHint: hint })).rejects.toThrow()
+  untouched(disk, before)
+  expect(records.size).toBe(0)
 })
 
 test('OI-S: 既有记录句柄指向另一目录 → 拒绝；mode/projectId/source 漂移 → 拒绝', async () => {
@@ -217,27 +320,27 @@ test('OI-S: 既有记录句柄指向另一目录 → 拒绝；mode/projectId/sou
       record: (ctx: WorkspaceContext) => ({ ...ctx, source: 'review-copy' as const }),
     },
   ]) {
-    bindings.clear()
+    records.clear()
     const disk = await blankDir('oi-s-record')
     const ctx = createSandboxWorkspaceContext('oi-s-record', 'ui-samples')
     disk.set(SANDBOX_WORKSPACE_MARKER_PATH, sandboxMarkerFor(ctx))
-    bindings.set(ctx.workspaceId, {
+    records.set(ctx.workspaceId, {
       ...drift.record(ctx),
       name: 'record',
       handle: drift.label === 'handle' ? other.dir : disk.dir,
       updatedAt: 1,
-    })
+    } as HandleRecord)
     const before = new Map(disk.files)
-    const bindingsBefore = bindingsSnapshot()
+    const recordsBefore = recordsSnapshot()
     await expect(finishOpen(disk.dir)).rejects.toThrow(
       /另一个目录|沙盒 marker 与最近项目记录不一致/,
     )
     untouched(disk, before)
-    expect([...bindings.entries()]).toEqual([...bindingsBefore.entries()])
+    expect([...records.entries()]).toEqual([...recordsBefore.entries()])
   }
 })
 
-// ═══ OI-P：PAL ═══
+// ═══ OI-P:PAL ═══
 
 test('OI-P 正控: 独立可信源 proof 经真实构造器 → finishOpen 装配 pal-development', async () => {
   const { disk } = await palDisk('pal')
@@ -248,10 +351,10 @@ test('OI-P 正控: 独立可信源 proof 经真实构造器 → finishOpen 装�
     source: 'dev-http',
     persistencePolicy: 'pal-bound',
   })
-  expect(bindings.get(opened.workspace.workspaceId)?.handle).toBe(disk.dir)
+  expect(records.get(opened.workspace.workspaceId)?.handle).toBe(disk.dir)
 })
 
-test('OI-P: 普通 local hint 不能借 sentinel 取得 PAL 权限', async () => {
+test('OI-P: 普通 local hint 不能借 sentinel 取得 PAL 权限（零登记三件套不变）', async () => {
   const { disk } = await palDisk('pal')
   const before = new Map(disk.files)
   await expect(
@@ -260,7 +363,7 @@ test('OI-P: 普通 local hint 不能借 sentinel 取得 PAL 权限', async () =>
     }),
   ).rejects.toThrow('普通项目操作不能获得 PAL 开发基线写权限')
   untouched(disk, before)
-  expect(bindings.size).toBe(0)
+  expect(records.size).toBe(0)
 })
 
 test('OI-P: 既有 PAL 绑定换目录或 mode/projectId/source 漂移 → 拒绝且原记录不变', async () => {
@@ -281,40 +384,53 @@ test('OI-P: 既有 PAL 绑定换目录或 mode/projectId/source 漂移 → 拒�
       record: (ctx: WorkspaceContext) => ({ ...ctx, source: 'local-directory' as const }),
     },
   ]) {
-    bindings.clear()
+    records.clear()
     const { disk, context } = await palDisk('pal')
-    bindings.set(context.workspaceId, {
+    records.set(context.workspaceId, {
       ...drift.record(context),
       name: 'record',
       handle: drift.label === 'handle' ? other.dir : disk.dir,
       updatedAt: 1,
-    })
+    } as HandleRecord)
     const before = new Map(disk.files)
-    const bindingsBefore = bindingsSnapshot()
+    const recordsBefore = recordsSnapshot()
     await expect(finishOpen(disk.dir)).rejects.toThrow(
       /另一个目录|PAL sentinel 与最近项目记录不一致/,
     )
     untouched(disk, before)
-    expect([...bindings.entries()]).toEqual([...bindingsBefore.entries()])
+    expect([...records.entries()]).toEqual([...recordsBefore.entries()])
   }
 })
 
-test('OI-P: forceSandbox 检视 PAL 目录不得返回原目录写权限（只读检视会话）', async () => {
+test('OI-P: forceSandbox 检视 PAL 不得回传原目录句柄（dir 缺席、零登记、零写 IO）', async () => {
   const { disk } = await palDisk('pal')
+  const before = new Map(disk.files)
   const opened = await finishOpen(disk.dir, { forceSandbox: true })
-  // 检视降级为 ui-sandbox 会话：非 PAL、非绑定（不登记原目录句柄）。
+  // 检视降级为 ui-samples 沙盒会话:非 PAL、不绑定、不把原目录句柄交给检视方。
   expect(opened.workspace.mode).toBe('sandbox')
   expect(opened.workspace.source).toBe('ui-samples')
-  expect(bindings.size).toBe(0)
+  expect(opened.dir).toBeUndefined()
+  expect(records.size).toBe(0)
+  untouched(disk, before)
 })
 
-// ═══ OI-E：expectedIdentity 最近入口预期 ═══
+test('OI-P 对照: forceSandbox 打开合法沙盒目录 → 返回 dir 并登记（mayBind 路径）', async () => {
+  const disk = await blankDir('oi-p-forced')
+  const markerCtx = createSandboxWorkspaceContext('oi-p-forced', 'ui-samples')
+  disk.set(SANDBOX_WORKSPACE_MARKER_PATH, sandboxMarkerFor(markerCtx))
+  const opened = await finishOpen(disk.dir, { forceSandbox: true })
+  expect(opened.dir).toBe(disk.dir)
+  expect(opened.workspace.workspaceId).toBe(markerCtx.workspaceId)
+  expect(records.get(markerCtx.workspaceId)?.handle).toBe(disk.dir)
+})
+
+// ═══ OI-E:expectedIdentity 最近入口预期 ═══
 
 test('OI-E: expectedIdentity 逐维不符拒绝；全匹配通过并登记', async () => {
   const disk = await blankDir('oi-e')
-  // 正控：先合法打开建立记录。
+  // 正控:先合法打开建立真实记录。
   const opened = await finishOpen(disk.dir)
-  const record = bindings.get(opened.workspace.workspaceId)!
+  const record = records.get(opened.workspace.workspaceId)!
   expect(record).toBeTruthy()
   // 全匹配 → 再次打开成功。
   const again = await finishOpen(disk.dir, { expectedIdentity: record })
@@ -323,43 +439,41 @@ test('OI-E: expectedIdentity 逐维不符拒绝；全匹配通过并登记', asy
   for (const drift of [
     { label: 'workspaceId', patch: { workspaceId: crypto.randomUUID() } },
     { label: 'projectId', patch: { projectId: 'drifted' } },
-    {
-      label: 'mode',
-      patch: { mode: 'sandbox' as const, persistencePolicy: 'sandbox-bound' as const },
-    },
+    { label: 'mode', patch: { mode: 'sandbox' as const } },
     { label: 'source', patch: { source: 'blank-project' as const } },
   ]) {
-    bindings.clear()
+    records.clear()
     const fresh = await blankDir('oi-e')
     const first = await finishOpen(fresh.dir)
-    const rec = bindings.get(first.workspace.workspaceId)!
-    const mismatched = {
-      ...rec,
-      ...drift.patch,
-    } as import('./handle-store.js').WorkspaceHandleRecord
-    mismatched.handle = fresh.dir
+    const rec = records.get(first.workspace.workspaceId)!
+    const mismatched = { ...rec, ...drift.patch, handle: fresh.dir } as HandleRecord
     const before = new Map(fresh.files)
-    const bindingsBefore = bindingsSnapshot()
+    const recordsBefore = recordsSnapshot()
     await expect(finishOpen(fresh.dir, { expectedIdentity: mismatched })).rejects.toThrow(
       '最近项目记录与目录中的 workspace identity 不一致',
     )
     untouched(fresh, before)
-    expect([...bindings.entries()]).toEqual([...bindingsBefore.entries()])
+    expect([...records.entries()]).toEqual([...recordsBefore.entries()])
   }
 })
 
-test('OI-E: expectedIdentity 句柄指向其他目录 → finishOpen 载入前拒绝（O3 层），原记录不变', async () => {
+test('OI-E: expectedIdentity 句柄指向其他目录 → 任何读取发生前拒绝（0 次读取见证），原记录不变', async () => {
   const disk = await blankDir('oi-e-h')
   const opened = await finishOpen(disk.dir)
-  const record = bindings.get(opened.workspace.workspaceId)!
+  const record = records.get(opened.workspace.workspaceId)!
   const other = await blankDir('oi-e-h-other')
+  let reads = 0
+  disk.hooks.afterRead = () => {
+    reads++
+  }
   const before = new Map(disk.files)
-  const bindingsBefore = bindingsSnapshot()
+  const recordsBefore = recordsSnapshot()
   await expect(
     finishOpen(disk.dir, { expectedIdentity: { ...record, handle: other.dir } }),
   ).rejects.toThrow('最近项目记录指向的目录句柄与本次打开目标不一致')
+  expect(reads).toBe(0)
   untouched(disk, before)
-  expect([...bindings.entries()]).toEqual([...bindingsBefore.entries()])
+  expect([...records.entries()]).toEqual([...recordsBefore.entries()])
 })
 
 // ═══ 直接 resolver 补充（公开入口，合同与 finishOpen 一致） ═══
