@@ -4,8 +4,8 @@
 沿用已签产品设计r2。本包revision为 **preflight-r1（2026-09-12）**，是实施期测试分工，不是新产品卡、不重签。
 用户已要求给出提示词让GLM开始；GLM完成两组测试和一组只读盘点后一次性交Codex复核。
 
-> 当前核定（Codex，2026-09-12）：aebcbea4/f1c540a2未接收，见文末PF-1～PF-3。
-> S01正控使用当前loader明禁的content.scripts；S02/P05证明不全；C组及剩余覆盖归因需重做。
+> 当前核定（Codex，2026-09-12）：fd0fcc4f返工仍counter，见文末返工复核。
+> S01当前共享脚本重开、S02双态已验证；仅余P05负向未进入writer，以及C组分类/统计不实两类阻断。
 > 下面GLM原候选回执保留，不视为Codex认可。已接收的4b72e492与6,223项基线不回滚，r2设计不重签。
 
 ## 基线、隔离与责任
@@ -400,3 +400,76 @@ PF-1：S01 撤销旧分片结论——当前 sharedScripts 模型（具体脚本
 验证：定向+相邻 45/45、tc 0、biome 0、四负控红、同口径 197/1,996 全绿；project-io 行 97.2%/函数 100%。请复核三项落实、抽验 S01 重开与 P05 正控、重建负控；通过后集成并统一 ratchet/严格 fast。GLM 测试贡献终审披露；不代签、不标 done。
 ```
 
+
+## Codex preflight-r1返工复核（fd0fcc4f，2026-09-12，counter）
+
+**已修好部分保留，只返工PF-2/PF-3的剩余问题。** 本席未集成新测试、未改生产/资产、未更新官方baseline，
+4b72e492的已接收成果与6,223项基线保持。r2设计不重签，不转Kimi、不标done。
+
+### 本席验证
+
+- 远端`fd0fcc4f58dd808013f14ecc647474f8cbae3a46`已核，ee7169e3之后只改文档；
+  源文件仍3个白名单新增文件，产品/脚本/旧测试/配置/原探针零diff。GLM本地?? data/data环境项未触碰。
+- 本席正式配置定向/相邻 **5文件45项绿**、editor typecheck exit0；biome exit0但仍有
+  save-preflight-boundaries:7的新增unused import warning，和“已清理”回执不符。
+- 四种负控由本席重建：A1两例、A2/B1/B2各一例按预期红；A1保留for循环形状，仅替换守卫为void record。
+  这些反证不替代P05真实入口证据。未再跑完整check/ratchet/严格fast；6,723及197/1,996为GLM回执，不写成本席实跑。
+- 证据 `/tmp/codex-preflight-rw-review.lwzJC1/`：review.config.mts、writerCalls/sharedRoundtrip/bothMarkers、
+  A1/A2/B1/B2、typecheck/biome.log；定向日志为`/tmp/glm-preflight-independent-rw.log`。
+  隔离变体只在加载时注入、逐片段唯一匹配并记录SHA；候选工作树的packages/scripts始终未改。
+
+### PF-1及S02解除
+
+S01当前模型用例已实际写出非空sharedScripts并由正式loader重开。本席再加整份library深比较（包含名称/说明/self/body），
+仍绿；不再是只看空库/键数。旧分片只作为当前loader拒绝与遗留清理对照，不当作当前合法功能；
+其序列化残留仍归Codex后续审查，不授权GLM修改产品或恢复兼容。
+S02已调用真实loadAllProjectMaps并改变工作副本图层名，输出与磁盘不同、编辑内容保留；copy-through路径同时保留，45项复跑已确认。
+P01摘要自身对照和P02同kind合法tileset对照也已补，不要求重做。
+
+### PF-2剩余：坏输入没有进入writer（阻断）
+
+锚点：save-preflight-boundaries:183–218。正控writer确实成功，这一半接受。
+坏输入改的是record.kind='not-a-kind'；接着**先调用serializeProjectWithMapCopies**，它在内容校验时已拒绝，
+根本走不到后面的writeProject。catch里的“序列化层拒绝同样有效”改变了P05约定，不能作为writer入口回归。
+
+本席在生产writeProject入口仅加调用计数见证，并在P05正控后、负控后各断言计数：两次均为**1**，原用例仍绿。
+唯一调用来自正控，负向调用次数为0；不是推测测试可能错层。另，try/catch还包住expect失败，
+且catch只匹配kind/assets，存在把断言错误当预期内容错误接收的风险；应分离输入构造与拒绝断言。
+
+具体修法（不改产品）：
+
+1. 从合法当前state正常serialize，确认输出包含目标ArrayBuffer及相符catalog；再structuredClone这个**序列化后的输入**，
+   只将目标记录bytes加1（或仅改SHA），kind保持合法、实际字节保持不变。
+2. 对新鲜合法授权直接`await expect(writeProject(target, badInputs)).rejects.toThrow('资源二进制与 catalog 不符')`，
+   放在任何catch之外。不允许“另一层先拒也算通过”。正负分别用同项目相同seed基线的独立fixture，
+   不用清掉正控凭据+旧opened对象冒称未改变基线。
+3. 核新工作区无恢复凭据、全IO空和逐字节快照不变；已有其他fixture的凭据应保持，不清空它们掩盖副作用。
+   成功正控同kind同输入结构，真实writer保存并核字节/committed；保留P01/P02等已证用例。
+
+### PF-3剩余：臂清单齐了，但分类仍缺证且有直接反例（阻断）
+
+本席从cov4报告复算：wp的82个branchId/arm与新表**数量及唯一性一致**，这部分接受。
+但列出ID不等于完成分类。三个汇总仍不与列举项一致，例如“第二类27臂”所列7个函数实际
+4+3+7+4+4+4+2=**28臂**；allowAuthorizedSavePrivateFile的42/0、45/0、47/0虽在表中，却未有逐臂分类。
+“顶层842–1000”也不是函数名，分别属于authorizeFirstSaveTarget的回调和resolveOpenedWorkspaceContext，需写准调用条件。
+project-io的37臂仍以30-38/1、65/1-96/1等范围描述，未完成每个臂的具体条件/分类/证据对账；
+默认臂“类型可选”不等于当前生产入口可产生undefined，未查明就标待确认。
+
+**直接反例**：新回执将assertNoInvalidMetadata的130/0@689（sandbox与pal均valid）判为“不可能组合”。
+本席在真实blank本地项目打开并登记后，用生产sandboxMarkerFor和合法PAL sentinel结构设置两个目录文件；
+真实inspectWorkspaceMetadata返回两者均valid，随后**公开authorizeBoundWorkspaceTarget入口**恰在该分支拒绝。
+不是伪造私有mutation/token，也不是直接调用私有函数；这是外部修改身份文件后的真实拒绝边界。
+bothMarkers.log为绿，带两者valid/精确错误/无新增IO见证，证明该“不可达”分类错误。
+
+按同标准，assertDirectoryEmpty的9/0、10/0不能因为“要构造带保留前缀的目录树”就判为前置阻断；
+需说明具体阻断它的生产校验，否则列可达待测或待确认。请给每个臂唯一分类、实际caller/前置条件、
+证据及责任人，再程序汇总；没有证据可以待确认，不要用合计正好82掩盖遗漏/重复。不新增权限实现或持久权限测试。
+
+失败回执仍须勘误：full-check4.log确有unused warning，但exit1的阻断是save-preflight-fixture的**formatter error**；
+不是把noUnused警告本身当作失败原因。旧五次运行不能统称327db910精确候选树（历史术语/格式已在最终树改掉）；
+没有保存执行树就注明未保存，不倒填SHA。当前unused import也确实还在，清理后从最后提交重新生成诊断数字。
+
+### 后续
+
+保留新S01、S02及已有四负控，本包只剩上述两类counter；本席不要求补到90%才准交，要求的是入口与证据真实。
+GLM在原分支一次性返工后交Codex，现有三签保持；本轮只落文档，不代签、不标done。

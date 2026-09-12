@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | rework | GLM：preflight-r1 PF-1～PF-3返工；Codex复核 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) S01使用当前明禁字段，S02/P05证据不全，C组分类/覆盖归因不符；原基线保留，r2不重签。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | rework | GLM：fd0fcc4f的P05/分类返工；Codex复核 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) S01/S02已过；P05坏输入未进入writer，C组分类有直接反例及计数不符；6,223项基线保留，r2不重签。 |
 
 ## 阻塞
 
