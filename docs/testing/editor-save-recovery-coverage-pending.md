@@ -6,11 +6,11 @@
 ## 口径与未完成边界
 
 - 本表两份生产源码相对4b72e492未变；保存凭据解析性能优化不改变这两份源码。360b2f65接收树的未覆盖快照为wp82 + project-io37 = 119臂。
-- 前批PAL/首存回归将119臂降至93臂，project-io-admission再命中io11臂降至82；2026-09-12本批真实授权生命周期13项再命中wp16臂，当前为 **40 + 26 = 66臂未覆盖**；没有新回退臂。
+- 前批PAL/首存回归将119臂降至93臂，project-io-admission降至82，真实授权生命周期降至66；2026-09-12本批最终取样/恢复快照10项再命中wp5+io1臂，当前为 **35 + 25 = 60臂未覆盖**；没有新回退臂。
 - branchId/arm是本次V8报告定位键，不是产品稳定ID；源码或工具升级后必须重生成。
 - 条件/函数由TypeScript AST定位。条件为归一化节选；短路表达式显示所属整体表达式，具体臂仍按报告编号，不把相同节选当同一个臂。长行用省略号。
-- 当前66臂中，**52臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
-- 本表0命中不写“已有覆盖”；66臂不是66个已确认bug，也不是整卡全部剩余工作。GLM打开身份返工未接收、hint.source产品缺口及原生/性能/终审按父卡继续。
+- 当前60臂中，**46臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
+- 本表0命中不写“已有覆盖”；60臂不是60个已确认bug，也不是整卡全部剩余工作。GLM打开身份返工未接收、hint.source产品缺口及原生/性能/终审按父卡继续。
 - 原119臂的精确历史清单由Git保留；[preflight接收结论](editor-save-recovery-glm-preflight.md#codex-fae10e55接收结论2026-09-12)仍是该时点事实，不冒充最新数量。
 
 ## 前批闭环的9臂（E2：常驻测试已覆盖）
@@ -70,34 +70,36 @@ io2/0、8/0、18/1、22/1、23/0、26/0、40/1、50/1、65/1、71/0、82/1已由
   writeFile仍导出，亦不能称为JS不可调用。都是清理审查候选，不以猜测直接删除。
 - 所有13臂仍列在下方未覆盖表，不改源码、不减分母；剩余可选工作副本字段/异常类别继续E0。
 
-## 本批授权生命周期闭环的16臂（E2）
+## 前批授权生命周期闭环的16臂（E2）
 
 [真实token回归及单点负控](editor-save-recovery-capability-review.md)由Codex执行；最终单次严格fast6,308项确认命中：
 wp20/0、25/0、26/0、35/0、42/0、45/0、47/0、50/0、71/0、82/0、85/0、88/0、89/0、91/0、93/0、96/0。
 wp覆盖为行402/423（95.03%）、函数58/58、分支395/435（90.80%）；io维持287/290、52/52、215/241。
 源码hash、生产文件范围和分母均未变，GLM分支不在本统计内。
 
+## 本批最终取样/恢复快照闭环的6臂（E2）
+
+[10项回归、4组负控及边界](editor-save-recovery-project-io-review.md#最终取样与恢复快照边界起点261c3c66)由Codex执行。
+最终单次严格fast6,318项确认wp77/0、80/1、119/0、120/0、123/0，以及io7/0命中；无新回退。
+wp当前行405/423、函数58/58、分支400/435；io行287/290、函数52/52、分支216/241。
+加载入口显式补齐可选字段不足以证明后续所有命令均如此，io30/1～38/1仍E0，解码non-Error三臂亦不靠替换parser凑覆盖。
+
 ## 当前清单
 
 ### workspace-persistence.ts
 
-来源：packages/editor/src/core/workspace-persistence.ts；源码SHA-256：f4cea61c2ae532945e9d707e73cf9def2ed98bc22a1b17cd19dd95eb0b3553b0。未覆盖40臂。
+来源：packages/editor/src/core/workspace-persistence.ts；源码SHA-256：f4cea61c2ae532945e9d707e73cf9def2ed98bc22a1b17cd19dd95eb0b3553b0。未覆盖35臂。
 
 | 分支/臂 | 行 | 所在函数/回调 | 条件/子表达式（按报告编号） | 当前分类 |
 |---|---:|---|---|---|
 | 3/1 | 127 | readJsonState | cond-expr：error instanceof Error | 待确认（E0） |
 | 4/0 | 147 | writeJsonSidecar | if：!dir | 构造保证（E3，见上） |
-| 77/0 | 492 | recordAuthorizedWorkspaceWriteCompleted | if：value instanceof ArrayBuffer \|\| ArrayBuffer.isView(value) | 待确认（E0） |
-| 80/1 | 499 | recordAuthorizedWorkspaceWriteCompleted | cond-expr：typeof value === 'string' | 待确认（E0） |
 | 113/0 | 613 | palDevelopmentTargetFingerprint | if：context.mode !== 'pal-development' \|\| !context.palProof | 待确认（E0） |
 | 116/1 | 622 | palDevelopmentTargetFingerprint → 回调@615 | cond-expr：error instanceof Error | 待确认（E0） |
 | 117/0 | 632 | readPalDevelopmentTargetValues | if：context.mode !== 'pal-development' \|\| !context.palProof | 待确认（E0） |
-| 119/0 | 637 | readPalDevelopmentTargetValues | if：text === undefined | 待确认（E0） |
-| 120/0 | 642 | readPalDevelopmentTargetValues | cond-expr：error instanceof Error | 待确认（E0） |
 | 120/1 | 642 | readPalDevelopmentTargetValues | cond-expr：error instanceof Error | 待确认（E0） |
 | 121/1 | 646 | readPalDevelopmentTargetValues | binary-expr：palExpectedFingerprints.get(context) ?? context.palProof.expectedFingerprint | 待确认（E0） |
 | 122/0 | 648 | readPalDevelopmentTargetValues → 回调@647 | if：!values.has(path) | 待确认（E0） |
-| 123/0 | 651 | readPalDevelopmentTargetValues | if：actual !== expected | 待确认（E0） |
 | 124/0 | 660 | fingerprintPalExpectedValues | if：context.mode !== 'pal-development' \|\| !context.palProof | 待确认（E0） |
 | 126/0 | 663 | fingerprintPalExpectedValues → 回调@662 | if：!values.has(path) | 待确认（E0） |
 | 158/0 | 775 | preflightFirstSaveTarget | if：entryBinding && entryBinding.workspaceId !== context.workspaceId | 待确认（E0） |
@@ -128,11 +130,10 @@ wp覆盖为行402/423（95.03%）、函数58/58、分支395/435（90.80%）；io
 
 ### project-io.ts
 
-来源：packages/editor/src/core/project-io.ts；源码SHA-256：4f592fc9611038c4f7acbd7c248675e1cd7929a6495357e6083b1e9fba8a996d。未覆盖26臂。
+来源：packages/editor/src/core/project-io.ts；源码SHA-256：4f592fc9611038c4f7acbd7c248675e1cd7929a6495357e6083b1e9fba8a996d。未覆盖25臂。
 
 | 分支/臂 | 行 | 所在函数/回调 | 条件/子表达式（按报告编号） | 当前分类 |
 |---|---:|---|---|---|
-| 7/0 | 152 | resumeOwnProjectSave | if：!snapshot | 待确认（E0） |
 | 13/0 | 220 | serializeProject | if：diagnostics.warnings.length | 退役审查候选（E4） |
 | 15/0 | 233 | serializeProject | if：!content.worldVariables | 构造/前置保证（E3） |
 | 20/0 | 246 | serializeProject | if：scene.id !== asset.id | 构造/前置保证（E3） |

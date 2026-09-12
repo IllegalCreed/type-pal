@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-12T11:43:28.880Z",
+  "generatedAt": "2026-09-12T12:09:58.168Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 618,
-  "testCount": 6308,
+  "testCount": 6318,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2805,8 +2805,8 @@
       ],
       "scopeDigest": "2ea0828d93df83523f4fa04e94099267380f593c72fede27cf7d584bf77c0561",
       "fastTests": {
-        "testCount": 2069,
-        "testFileCount": 201,
+        "testCount": 2079,
+        "testFileCount": 202,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2874,6 +2874,7 @@
           "packages/editor/src/core/save-batch-storage.test.ts",
           "packages/editor/src/core/save-batch-writer.test.ts",
           "packages/editor/src/core/save-preflight-boundaries.test.ts",
+          "packages/editor/src/core/save-readback-boundaries.test.ts",
           "packages/editor/src/core/scene-lifecycle.test.ts",
           "packages/editor/src/core/scene-script-view.test.ts",
           "packages/editor/src/core/script-context.test.ts",
@@ -3340,6 +3341,11 @@
             "file": "packages/editor/src/core/save-preflight-boundaries.test.ts",
             "testCount": 7,
             "identityDigest": "d1bdd04b20aac2e80a4195bcc1a4aa894cb88d76a51b32f3b2583972bde711bf"
+          },
+          {
+            "file": "packages/editor/src/core/save-readback-boundaries.test.ts",
+            "testCount": 10,
+            "identityDigest": "8ce15648ba459455b8c400920713dcf80a87979958114772886be2a26ef162f2"
           },
           {
             "file": "packages/editor/src/core/scene-lifecycle.test.ts",
@@ -4017,17 +4023,17 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "fcef6df4a3f48a84204be973cbd4cbb0bc78d63b3ad69216f5e9a3fc365eb9fc",
+        "identityDigest": "5cd7538dccff0dff3403a057daa78dc0a8c909b8024d429291ba994e6bce4a49",
         "duplicateIdentityCount": 8,
-        "executionDigest": "ba01f3e1331193895320d8e4d55db3003b8c41701684fd011bcbca941e92f6c7"
+        "executionDigest": "82c778ba29eb258cc29bb2ea682ac7a022513ce6e416e8bbbb15b475583b795f"
       },
       "metrics": {
         "statements": {
-          "covered": 24763,
+          "covered": 24768,
           "total": 32527
         },
         "branches": {
-          "covered": 19125,
+          "covered": 19133,
           "total": 28148
         },
         "functions": {
@@ -4035,7 +4041,7 @@
           "total": 8221
         },
         "lines": {
-          "covered": 22356,
+          "covered": 22359,
           "total": 28404
         }
       }
@@ -4043,11 +4049,11 @@
   },
   "total": {
     "statements": {
-      "covered": 53647,
+      "covered": 53652,
       "total": 79539
     },
     "branches": {
-      "covered": 38429,
+      "covered": 38437,
       "total": 62529
     },
     "functions": {
@@ -4055,7 +4061,7 @@
       "total": 14622
     },
     "lines": {
-      "covered": 48462,
+      "covered": 48465,
       "total": 69587
     }
   }
