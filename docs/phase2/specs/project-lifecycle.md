@@ -116,7 +116,7 @@ post fingerprint，再与落盘实值精确比较。若操作中断，只在 liv
 
 ### 保存中断恢复与复制读边界（A-03，实施中）
 
-实施/测试和剩余验收见[EDITOR-SAVE-RECOVERY-1](../../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，
+实施/测试和剩余验收见[EDITOR-SAVE-RECOVERY-1](../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，
 整卡尚未终审。普通保存、空白/HTTP 首存、PAL 克隆与另存为共用同一持久协调器：完整目标字节、删除和空目录
 先落私有暂存并回读校验，原浏览器的真实句柄/身份凭据封为 ready 后，才能发布 pending 并写作者路径。
 清理失败与内容未保存分开反馈；恢复只重放已封存计划，不依赖旧页面回调或再次访问复制源。

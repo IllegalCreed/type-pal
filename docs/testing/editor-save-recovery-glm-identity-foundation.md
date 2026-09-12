@@ -1,6 +1,6 @@
 # 作者保存恢复：GLM身份基础测试包
 
-父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，build/r2，不重签。
+父卡：[EDITOR-SAVE-RECOVERY-1](../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，build/r2，不重签。
 工作包：**identity-foundation-r1**，2026-09-12用户要求Codex/GLM双线继续。当前状态：**Codex接收修订后accept，统一质量门通过**。
 ff0a0d4a原counter与GLM原始/返工回执均保留为历史；最新接收树以文末Codex记录为准，不把候选名义覆盖当有效验收。父卡仍build/r2，不重签、不标done。
 

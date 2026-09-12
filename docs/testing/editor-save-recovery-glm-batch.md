@@ -1,6 +1,6 @@
 # 作者保存恢复：GLM 大批测试工作包
 
-本文件是[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)的测试分工附件，
+本文件是[EDITOR-SAVE-RECOVERY-1](../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)的测试分工附件，
 不是新任务卡或新产品设计。父卡保持build，继承已签r2；工作包revision为 **batch-r1（2026-09-10）**。
 用户要求“大批交给GLM，一口气做完后由Codex检查”。本批为 **43个核验条目 + SR-01～12总对账**，不是43个已确认bug，
 也不要求机械新增43条测试；已有可靠证据可复用，缺口必须补真实回归或给出明确阻断。

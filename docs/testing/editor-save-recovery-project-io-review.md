@@ -1,6 +1,6 @@
 # 作者保存恢复：project-io边界复核
 
-父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
+父卡：[EDITOR-SAVE-RECOVERY-1](../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
 Codex，2026-09-12；生产源码不改，与GLM打开身份测试并行。
 本页保留各批历史；最新旧作者保存链退役与统一候选见[最终收口](editor-save-recovery-closeout.md)，本页各批数字仅代表当时源码。
 

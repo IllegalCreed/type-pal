@@ -15,11 +15,11 @@
 - [EDITOR-SAVE-CONFLICT-1](../../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) 的 A-02 r1 候选 `6780d220` 三席终审 accept：
   2026-09-07 用户明确验收通过，Codex 已收口为 done；完整 check/严格 fast 与原生双页最小功能证据齐，无实现漂移。
   A-03 部分保存持久恢复、A-07 离开保护、D-01 撤销顺序接续处理；不把一张冲突保护卡扩成所有保存问题的修复。
-- [EDITOR-SAVE-RECOVERY-1](../../tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 承接 A-03：
+- [EDITOR-SAVE-RECOVERY-1](../../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 承接 A-03：
   2026-09-07 用新增当前 API 探针复现“新页面缺人物定义、原页面仍可重试”；相邻 86 项通过。
-  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2已三方前提/设计签字，当前review。
+  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。
   普通保存、打开、首存/另存、克隆、ZIP/试玩读门已接入恢复保护；原生API及[系统目录/界面主链](../../../testing/editor-save-recovery-native-ui.md)已补证。
-  b7a56dd4另修复sandbox hint.source漏检。2026-09-13[最终实现收口](../../../testing/editor-save-recovery-closeout.md)已补OS目录整浏览器重启/撤权、退役旧作者保存链及必要回归，完整check6,873/严格fast6,385通过；父卡进入终审，保留约80–85秒大克隆成本与未覆盖防御分支，不能写成A-03已整体验收。
+  b7a56dd4另修复sandbox hint.source漏检。2026-09-13[最终实现收口](../../../testing/editor-save-recovery-closeout.md)已补OS目录整浏览器重启/撤权、退役旧作者保存链及必要回归，完整check6,873/严格fast6,385通过；Kimi/GLM终审accept，用户明确免手动复审并通过，Codex核候选零漂移后归档。A-03按约定范围已修复；保留约80–85秒大克隆成本与未覆盖防御分支，完整R4/E2E仍待集中执行。
 
 以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。
 

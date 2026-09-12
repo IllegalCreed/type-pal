@@ -1,8 +1,8 @@
 # 编辑器保存中断恢复：最终候选收口
 
-父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，r2设计签字沿用。
+父卡：[EDITOR-SAVE-RECOVERY-1](../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，r2设计签字沿用。
 起点：7087dbad；实现候选：**cd3de679**（后续仅交接文档）；执行：Codex，2026-09-13。用户批准连续完成旧保存链清理、两项原生补证、性能核验和候选冻结。
-本页记录当前批次，不把此前子包accept冒充整卡done；外部终审和用户验收仍按父卡推进。
+本页记录最终实现与验收范围。2026-09-13三席对cd3de679均accept，用户明确免手动复审并通过，父卡已done；实现没有后续漂移。
 
 ## 范围与实现边界
 
@@ -88,7 +88,7 @@ CDP分别采样usedSize峰393,355,652、backingStorageSize峰384,465,506字节�
 
 ### 定向与单点负控制
 
-- 原低层授权/冲突与序列化3文件73项通过；当前复制10项+project-copy17项通过；新首存边界5项通过；
+- 原低层授权/冲突与序列化3文件73项通过：workspace-persistence.test.ts **31项**、author-save-conflict.test.ts **36项**、project-serialization-boundaries.test.ts **6项**（31+36+6=73）；并非save-batch-policy.test.ts的9项，已澄清GLM终审的文字歧义。当前复制10项+project-copy17项通过；新首存边界5项通过；
   当前脚本排序/提交/undo/redo所在ScriptEditor24项通过；恢复权限反馈4项通过；editor typecheck通过。
   后续补齐后，workspace-final6项、ProjectPicker5项与PanelResizeHandle9项合计20项定向通过。
 - 本席独立临时配置`negative.config.mts`，仅进程内单点替换并记录源码前后hash，三文件15项正常对照通过：
@@ -152,6 +152,6 @@ wp相对起点新增159/1、164/2、169/0，旧98/0随旧逐文件/复制测试�
 
 ## 终审入口与限制
 
-本批实现/自验证收口，交Kimi与GLM并行终审；父卡保持review，不标done。三席终审及用户验收之前不把A-03列为整体验收完成。
-Kimi独立核架构、原授权/持久状态/完整消费入口与反例；GLM须披露测试贡献，做独立矩阵/证据对账而非自我证明。
+三席终审与用户验收均已完成，A-03按本卡约定范围标记修复并归档。Codex收口核对Kimi e36aadc8、GLM 855c676f签字，候选cd3de679至收口前packages/scripts零diff。
+Kimi独立核架构、原授权/持久状态/完整消费入口与反例；GLM已披露测试贡献并完成矩阵/证据对账，不冒充独立第三方自证。用户明确免手动复审，无缺签豁免，不再重复技术验收。
 所有视觉验证由Codex执行，审查不重复已完成的浏览器流程。性能约80–85秒大克隆成本、未覆盖防御分支、原探针适用性与跨浏览器/硬件断电限制均必须保留。

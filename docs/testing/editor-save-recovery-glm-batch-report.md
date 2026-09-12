@@ -1,6 +1,6 @@
 # 作者保存恢复：GLM 大批测试回执
 
-父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
+父卡：[EDITOR-SAVE-RECOVERY-1](../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
 分工：[batch-r1 工作包](editor-save-recovery-glm-batch.md)。产品基线：aa87c305。
 
 > **当前：d39efe15经Codex接收侧补证后集成（2026-09-12）；此前21项保持有效，测试counter解除。**

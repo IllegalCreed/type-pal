@@ -1,6 +1,6 @@
 # 作者保存恢复：GLM打开身份测试包
 
-父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，build，r2设计签字有效，不重签。
+父卡：[EDITOR-SAVE-RECOVERY-1](../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，build，r2设计签字有效，不重签。
 工作包：**open-identity-r1**。2026-09-12用户要求给GLM可并行工作，并明确视觉测试只能由Codex执行。
 
 **当前接收状态：accept（Codex，2026-09-12；73aa0ea7测试子包已适配，R1由Codex修复，完整质量门通过）**。

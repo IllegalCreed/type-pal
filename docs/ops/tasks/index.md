@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复](EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -104,6 +103,7 @@
 | [ED-WORKSPACE-ADOPTION-DEBT-1 - 编辑器旧工作区滚动壳真实采用清零](../archive/tasks/done/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ED-WORLD-VARIABLES-1 - 世界变量定义表与作者工作台](../archive/tasks/done/ED-WORLD-VARIABLES-1-world-variable-workbench.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复](../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [JS1 - 酒神一生九次限用与移除(持久化计数器)](../archive/tasks/done/JS1-jiu-shen-nine-use-limit.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [M3 - 迁移脚本去内联、按场景分片与体积门禁](../archive/tasks/done/M3-wander-arm-explosion.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [MG2 - 迁移器结构化三方合并与安全重导](../archive/tasks/done/MG2-incremental-migration-merge.md) | done | 完成证据、历史签字与交接见原卡。 |

@@ -96,7 +96,7 @@ E2E门槛另列。没有证据表明用户现有项目或存档已经遭到损�
 
 ## A-03 · 合法状态的部分保存会破坏已发布引用
 
-当前跟进：[EDITOR-SAVE-RECOVERY-1](../../tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，2026-09-07 用户批准
+当前跟进：[EDITOR-SAVE-RECOVERY-1](../../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，2026-09-07 用户批准
 完整暂存后继续完成本次保存、外部冲突停止；r2三方前提/设计签字齐，当前build。
 只读状态门与目录暂存/重放内核已实现，并完成原生浏览器重启的API验证；普通保存/打开等顶层入口尚未接入，A-03仍未标修复。
 新增[当前 API 探针](probe-editor-save-recovery.mjs)传入真实打开得到的 authorBaseline，

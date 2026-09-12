@@ -1,6 +1,6 @@
 # 作者保存恢复：原生目录与界面验证
 
-父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
+父卡：[EDITOR-SAVE-RECOVERY-1](../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
 执行：Codex，2026-09-12；产品候选 **1ba88755**，本轮产品代码、测试和覆盖率基线零改动。
 
 更新：2026-09-13已补真实OS目录的整浏览器重启、恢复中撤权与中文指引，见[最终候选收口](editor-save-recovery-closeout.md#原生os目录补证)。以下保留本页原批次证据和当时边界，不作为最新待办表。

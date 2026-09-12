@@ -1,6 +1,6 @@
 # 保存恢复：写入授权生命周期回归
 
-父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，build/r2。
+父卡：[EDITOR-SAVE-RECOVERY-1](../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，build/r2。
 执行者Codex，2026-09-12；用户要求GLM返工期间继续独立推进。本批基于693dec71，不改生产代码、GLM测试/回执、旧测试或配置。
 
 ## 范围与直接证据
