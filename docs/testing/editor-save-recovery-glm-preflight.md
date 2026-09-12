@@ -395,7 +395,7 @@ project-io 行 282/290（97.2%）/函数 52/52（100%）/分支 204/241（84.6%�
 **Codex 接收提示词（返工版）**：
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接收 EDITOR-SAVE-RECOVERY-1 的 GLM preflight-r1 返工：分支 codex/glm-save-preflight-tests（远端 SHA 见回执末尾），基于 81558d06 counter 树，产品/脚本零 diff。
+在 /Users/zhangxu/illegal/type-pal 接收 EDITOR-SAVE-RECOVERY-1 的 GLM preflight-r1 返工：分支 codex/glm-save-preflight-tests（远端 d0cc684b = 返工 ee7169e3 + 文档），基于 81558d06 counter 树，产品/脚本零 diff；终树 ls-tree/ls-files data/extracted 双空已核。
 PF-1：S01 撤销旧分片结论——当前 sharedScripts 模型（具体脚本体）输出后正式 loader 重开核对；旧形态登记为 loader 明禁+Codex 清理项。PF-2：S02 双态（copy-through 逐字+已加载图层名编辑胜出）；P05 同基线成功正控+metadata mismatch 负控+直接 receipts.size===0；P01/P02 补自身合法对照；unused import 已清。PF-3：wp 82 臂/project-io 37 臂逐 branchId/arm 对账（“本树已含上批测试/集成后合并”错误归因已撤回）；五次 check 逐次命令/exit/原因+返工后 6,723 项 exit0。
 验证：定向+相邻 45/45、tc 0、biome 0、四负控红、同口径 197/1,996 全绿；project-io 行 97.2%/函数 100%。请复核三项落实、抽验 S01 重开与 P05 正控、重建负控；通过后集成并统一 ratchet/严格 fast。GLM 测试贡献终审披露；不代签、不标 done。
 ```
