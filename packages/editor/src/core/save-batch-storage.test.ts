@@ -163,3 +163,83 @@ test('S6: ensurePermission 无请求路径返回 denied；query 抛错传播不�
   ).rejects.toThrow('query io failure')
   expect(failing.requestPermission).not.toHaveBeenCalled()
 })
+
+// ═══ C4（R3）：fallback 尾链——持有期间互斥 + 异常后释放（entered/deferred，无 timer） ═══
+
+test('C4a: 注册锁持有期间第二位不得进入；正常释放与异常释放后排队者均成功', async () => {
+  const { withWorkspaceRegistrationLock } = await import('./handle-store.js')
+  expect(typeof globalThis.navigator === 'undefined' || !globalThis.navigator.locks).toBe(true)
+  const events: string[] = []
+  const held = (() => {
+    let release!: () => void
+    const promise = new Promise<void>((resolve) => {
+      release = resolve
+    })
+    return { promise, release }
+  })()
+  const first = withWorkspaceRegistrationLock('w', async () => {
+    events.push('first-enter')
+    await held.promise
+    return 'first-done'
+  })
+  const second = withWorkspaceRegistrationLock('w', async () => {
+    events.push('second-enter')
+    return 'second-done'
+  })
+  // 第一位仍持有（held 未释放）：排空微任务后第二位仍未进入——互斥观察。
+  try {
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(events).toEqual(['first-enter'])
+  } finally {
+    held.release()
+    await Promise.allSettled([first, second])
+  }
+  await expect(first).resolves.toBe('first-done')
+  await expect(second).resolves.toBe('second-done')
+  expect(events).toEqual(['first-enter', 'second-enter'])
+  // 异常路径：持有者抛错 → finally 释放 → 排队者随后成功。
+  const failing = withWorkspaceRegistrationLock('w', async () => {
+    events.push('failing-enter')
+    throw new Error('holder fails')
+  })
+  const queued = withWorkspaceRegistrationLock('w', async () => {
+    events.push('after-failure-enter')
+    return 'ok-after-failure'
+  })
+  await expect(failing).rejects.toThrow('holder fails')
+  await expect(queued).resolves.toBe('ok-after-failure')
+  expect(events.slice(-2)).toEqual(['failing-enter', 'after-failure-enter'])
+})
+
+test('C4b: 发现锁持有期间互斥、异常后释放，后续发现不被卡死', async () => {
+  const { withWorkspaceDiscoveryLock } = await import('./handle-store.js')
+  const events: string[] = []
+  const held = (() => {
+    let release!: () => void
+    const promise = new Promise<void>((resolve) => {
+      release = resolve
+    })
+    return { promise, release }
+  })()
+  const first = withWorkspaceDiscoveryLock(async () => {
+    events.push('d1')
+    await held.promise
+    throw new Error('discovery fails')
+  })
+  const second = withWorkspaceDiscoveryLock(async () => {
+    events.push('d2')
+    return 'ok'
+  })
+  try {
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(events).toEqual(['d1']) // 持有期间互斥
+  } finally {
+    held.release()
+    await Promise.allSettled([first, second])
+  }
+  await expect(first).rejects.toThrow('discovery fails')
+  await expect(second).resolves.toBe('ok')
+  expect(events).toEqual(['d1', 'd2'])
+})

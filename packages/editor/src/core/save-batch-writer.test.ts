@@ -39,7 +39,12 @@ beforeEach(() => {
 import { loadAllAuthorScenes } from '@type-pal/reforge'
 import { recoverInterruptedAuthorSave } from './author-save-journal.js'
 import { finishOpen } from './open-actions.js'
-import { serializeProjectWithMapCopies, toEditorState, writeProject } from './project-io.js'
+import {
+  resumeOwnProjectSave,
+  serializeProjectWithMapCopies,
+  toEditorState,
+  writeProject,
+} from './project-io.js'
 import { buildBlankProject } from './seed.js'
 
 const authorChanges = (disk: ReturnType<typeof memoryAuthorDirectory>) =>
@@ -165,6 +170,53 @@ test('W10(写边界): 引用表写入失败时进度序列非空且未满、可�
   expect(last.completed).toBe(last.total)
 })
 
+test('B5: 中断保存后原页 resume 触发回调、完成提交并返回 snapshot', async () => {
+  const { files, disk, opened } = await openedProject('batch-b5')
+  const changed = { ...files } as Record<string, unknown>
+  const locale = { ...(changed['content/locale.json'] as Record<string, string>) }
+  locale['name.hero'] = '续存测试'
+  changed['content/locale.json'] = locale
+  const wp = await import('./workspace-persistence.js')
+  const attempt = async (onRecovering?: () => void) => {
+    const resumed = await resumeOwnProjectSave(
+      opened.workspace,
+      disk.dir,
+      opened.authorBaseline,
+      onRecovering,
+    )
+    await writeProject(
+      await wp.authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline),
+      changed,
+    )
+    return resumed
+  }
+  let interrupted = false
+  disk.hooks.beforeClose = (path) => {
+    if (!interrupted && path === 'manifest.json') {
+      interrupted = true
+      throw new Error('b5 interrupt')
+    }
+  }
+  await expect(attempt()).rejects.toThrow('b5 interrupt')
+  disk.hooks.beforeClose = undefined
+  disk.resetChanges()
+  let recovering = 0
+  const resumed = await attempt(() => {
+    recovering += 1
+  })
+  expect(recovering).toBe(1)
+  expect(resumed?.snapshot).toBeInstanceOf(Map)
+  expect(disk.json('content/locale.json')['name.hero']).toBe('续存测试')
+  expect(disk.json('.type-pal/save-state.json').phase).toBe('committed')
+  let called = 0
+  await expect(
+    resumeOwnProjectSave(opened.workspace, disk.dir, opened.authorBaseline, () => {
+      called += 1
+    }),
+  ).resolves.toBeNull()
+  expect(called).toBe(0)
+})
+
 test('W1（保留）: 编辑态有图章模板但 manifest 缺 stamps 登记时序列化拒绝', async () => {
   const { opened } = await openedProject('batch-w1')
   const scenes = await loadAllAuthorScenes(opened.project)
@@ -266,4 +318,183 @@ test.each([
   expect(disk.files.has('content/ambiences.json')).toBe(false)
   expect(disk.json('.type-pal/save-state.json').phase).toBe('committed')
   await expect(finishOpen(disk.dir)).resolves.toMatchObject({ kind: 'current' })
+})
+
+// ═══ W3/W9：私有域与资源格式写入边界（batch 剩余，C2 返工） ═══
+
+test('W3: pending 上传资源须登记 catalog，合法输入保留原字节与目录记录', async () => {
+  const { files, disk, opened } = await openedProject('batch-w3-pending')
+  const state = toEditorState(opened.project, await loadAllAuthorScenes(opened.project), {}, {}, [])
+  const original = Object.values(state.assetCatalog.assets).find(
+    (asset) => asset.kind === 'sprite',
+  )!
+  const path = 'assets/generated/sprites/w3-upload.rle'
+  const bytes = files[original.path] as ArrayBuffer
+  state.assetCatalog = structuredClone(state.assetCatalog)
+  state.assetCatalog.assets['w3-upload'] = { ...original, path }
+  state.assetBlobs = { [path]: bytes }
+  const positive = await serializeProjectWithMapCopies(state, opened.project.source)
+  expect(new Uint8Array(positive[path] as ArrayBuffer)).toEqual(new Uint8Array(bytes))
+  expect(positive[state.manifest.assets.catalog]).toEqual(state.assetCatalog)
+
+  // 只移除新上传资源的登记；其余现有引用及同一份pending字节不变。
+  delete state.assetCatalog.assets['w3-upload']
+  disk.resetChanges()
+  const before = new Map(disk.files)
+  await expect(serializeProjectWithMapCopies(state, opened.project.source)).rejects.toThrow(
+    `serializeProject: pending 资源未登记 catalog: ${path}`,
+  )
+  expect(disk.files).toEqual(before)
+  expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('W3: 上传资源输出路径不得覆盖作者内容表，冲突在序列化时拒绝', async () => {
+  const { files, disk, opened } = await openedProject('batch-w3-collision')
+  const state = toEditorState(opened.project, await loadAllAuthorScenes(opened.project), {}, {}, [])
+  const tileset = Object.values(state.assetCatalog.assets).find(
+    (asset) => asset.kind === 'tileset',
+  )!
+  const bytes = files[tileset.path] as ArrayBuffer
+  state.tilesetBlobs = { [tileset.path]: bytes }
+  const positive = await serializeProjectWithMapCopies(state, opened.project.source)
+  expect(new Uint8Array(positive[tileset.path] as ArrayBuffer)).toEqual(new Uint8Array(bytes))
+
+  const conflictingPath = state.manifest.content.actors!
+  state.tilesetBlobs = { [conflictingPath]: bytes }
+  disk.resetChanges()
+  const before = new Map(disk.files)
+  await expect(serializeProjectWithMapCopies(state, opened.project.source)).rejects.toThrow(
+    `serializeProject: 输出路径冲突 "${conflictingPath}"`,
+  )
+  expect(disk.files).toEqual(before)
+  expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('W3(收窄): 输出路径落入 .type-pal 私有域时在预检拒绝，私有文件未被创建', async () => {
+  const { disk, opened } = await openedProject('batch-w3')
+  const target = await (await import('./workspace-persistence.js')).authorizeBoundWorkspaceTarget(
+    opened.workspace,
+    disk.dir,
+    opened.authorBaseline,
+  )
+  disk.resetChanges()
+  await expect(writeProject(target, { '.type-pal/evil.json': { a: 1 } })).rejects.toThrow()
+  // 被拒私有文件本身也不得落盘（不把 .type-pal 从轨迹里过滤掉）。
+  expect(disk.files.has('.type-pal/evil.json')).toBe(false)
+  expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+})
+
+test('W9: 待保存输入中摘要正确但格式坏的 sprite/battle-sprite 沿真实 decoder 拒绝（同项目正控）', async () => {
+  const wp = await import('./workspace-persistence.js')
+  const { sha256Hex } = await import('./binary-signature.js')
+  for (const kind of ['sprite', 'battle-sprite'] as const) {
+    // 同一项目、同一合法磁盘基线；坏字节/匹配摘要只进入“待保存输入”，不先污染磁盘。
+    const { files, disk, opened } = await openedProject(`batch-w9-${kind}`)
+    const authorize = () =>
+      wp.authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline)
+    // 正控：同输入原样保存成功。
+    await expect(writeProject(await authorize(), files)).resolves.toBeTruthy()
+
+    const bad = new Uint8Array(24) // 非 canonical RLE：全零无 gzip 魔数
+    const catalog = structuredClone(files['assets/index.json']) as {
+      assets: Record<string, { kind: string; path: string; bytes: number; sha256: string }>
+    }
+    const entry = Object.values(catalog.assets).find((record) => record.kind === kind)!
+    const digest = await sha256Hex(bad.buffer.slice(0) as ArrayBuffer)
+    entry.bytes = bad.byteLength
+    entry.sha256 = digest
+    const badInputs = {
+      ...files,
+      'assets/index.json': catalog,
+      [entry.path]: bad.buffer.slice(0),
+    } as Record<string, unknown>
+    const before = new Map(disk.files)
+    disk.resetChanges()
+    // 见证：具体 decoder 错误类别（非 AuthorSaveConflictError 错层）。
+    let rejection: unknown
+    try {
+      await writeProject(await authorize(), badInputs)
+    } catch (error) {
+      rejection = error
+    }
+    const message = String((rejection as Error)?.message ?? rejection)
+    expect(message).toMatch(
+      kind === 'battle-sprite' ? /^战斗精灵资源 RLE 损坏/ : /^精灵资源 RLE 损坏/,
+    )
+    // 零副作用固化：整份磁盘快照逐字节不变 + 全 IO 轨迹（creates/closes/removes）全空。
+    expect([...disk.files.entries()]).toEqual([...before.entries()])
+    expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
+  }
+})
+
+// ═══ C4：publishState 写/读双故障边界（真实 journal 路径） ═══
+
+test('C4c: 状态门写入失败优先以写错误拒绝；写成功而读校验失败以冲突拒绝', async () => {
+  const wp = await import('./workspace-persistence.js')
+  const { files, disk } = await openedProject('batch-c4c')
+  const opened = await (await import('./open-actions.js')).finishOpen(disk.dir)
+  const changed = { ...files } as Record<string, unknown>
+  const locale = { ...(changed['content/locale.json'] as Record<string, string>) }
+  locale['name.hero'] = '双故障'
+  changed['content/locale.json'] = locale
+
+  // 情形一：状态门 close 失败 → 拒绝且以写错误为因（非读取错误）。
+  let stateWriteFailed = false
+  disk.hooks.beforeClose = (path) => {
+    if (path === '.type-pal/save-state.json') {
+      stateWriteFailed = true
+      throw new Error('state gate write failure')
+    }
+  }
+  await expect(
+    writeProject(
+      await wp.authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline),
+      changed,
+    ),
+  ).rejects.toThrow('state gate write failure')
+  expect(stateWriteFailed).toBe(true)
+
+  // 情形一失败后目录处于 pending：先恢复完成，再做情形二。
+  // 第二半仅证明端到端冲突拒绝：publishState与stateForReplay重叠，不声称钉住前者单点门禁。
+  disk.hooks.beforeClose = undefined
+  disk.hooks.afterClose = undefined
+  disk.resetChanges()
+  const { recoverInterruptedAuthorSave } = await import('./author-save-journal.js')
+  await recoverInterruptedAuthorSave(disk.dir)
+  disk.hooks.afterClose = undefined
+  disk.hooks.afterClose = (path) => {
+    if (path === '.type-pal/save-state.json') {
+      // 写入完成后立刻被外部替换为“合法形状但不同操作”的状态 → 读回 token 不匹配（保持可解析）。
+      disk.set(
+        '.type-pal/save-state.json',
+        `${JSON.stringify({
+          kind: 'type-pal-author-save',
+          version: 1,
+          operationId: '33333333-3333-4333-8333-333333333333',
+          phase: 'committed',
+          planHash: 'f'.repeat(64),
+        })}\n`,
+      )
+    }
+  }
+  try {
+    // 恢复后重新打开取新鲜基线，再做一次会触发状态门读回校验失败的保存。
+    const reopened = await (await import('./open-actions.js')).finishOpen(disk.dir)
+    const again = { ...files } as Record<string, unknown>
+    const locale2 = { ...(again['content/locale.json'] as Record<string, string>) }
+    locale2['name.hero'] = '双故障二'
+    again['content/locale.json'] = locale2
+    await expect(
+      writeProject(
+        await wp.authorizeBoundWorkspaceTarget(
+          reopened.workspace,
+          disk.dir,
+          reopened.authorBaseline,
+        ),
+        again,
+      ),
+    ).rejects.toThrow('save-state')
+  } finally {
+    disk.hooks.afterClose = undefined
+  }
 })

@@ -1,6 +1,6 @@
 # EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复
 
-Status: rework
+Status: build
 Phase: phase2
 Capability: ops（审计 A-03，不新增能力格）
 Coding Owner: Codex
@@ -1512,6 +1512,19 @@ journal:490-511）+ 撤回 design-system/B3 错误归因。验证：批 38/38、
 biome 0、完整 check exit 0 共 6,706 项、同口径 195/1,979 绿、六组负控最终树全部红。
 候选 `fce75a0e`（C1 为 5460a370），推送核远端后交 Codex 复核。不代签、不标 done、不转 Kimi。
 
+#### GLM · batch-r1 剩余项返工交接日志（2026-09-12，候选 6a145178）
+
+基于 9dd97154 复核树完成剩余项一次性返工：R1/C1 终树撤回 data/extracted（此前 fce75a0e 的
+`git add -A` 复加了链接；本轮再次 untrack 并以本地 git exclude 防复犯，`git ls-tree HEAD --
+data/extracted` 与 `git ls-files` 终验为空，资产未删）；R2/C3 IDB 事务终结合同（未取消的
+request error → 事务 abort 且只终结一次，写集丢弃；putError 仅作用于 store.put，putCalls
+见证恰好 +1；同库新记录未残留、旧记录未覆盖）；R3 C4a/b 改 entered/deferred——持有期间互斥
+有显式观察，新增两个删 `await previous` 单点负控（按锁锚定 run()/operation()）分别使 C4a/C4b
+业务红；R4 W9 固化完整快照+全 IO 轨迹+精确 decoder 前缀，C4c 第二半收窄为端到端并如实分类
+重叠防护，统计更正为程序复算 22/3/14/1/3（43 唯一 ID）。验证：批+相邻 200/200、tc 0、
+biome 0（改动的三个文件）、完整 check exit 0 共 6,706 项、同口径 195/1,979 绿、六个旧负控+两个
+新负控全部红。候选 `6a145178`，推送核远端后交 Codex 复核。不代签、不标 done、不转 Kimi。
+
 以下保留GLM 08c1ee09候选交接原文；当前接收结论为后续Codex counter，不代表已接收。
 
 GLM（2026-09-10，整批完成）：独立 worktree/分支 `codex/glm-save-coverage-batch`（起点 7b534b7c，
@@ -1579,6 +1592,23 @@ K5失败、缺extracted及审计超时日志已核到；B3修复未涉及design-
 
 状态保持rework，仅余测试/替身/回执返工；产品/原探针/官方baseline零改动，不代签、不标done、不转Kimi。
 下一步GLM按下方当前提示词收窄返工，全部完成后Codex再统一接收及质量门；K5/审计时长和原生验证仍归Codex。
+
+### Codex · d39efe15接收侧补证与统一集成（2026-09-12）
+
+已核最终远端白名单及链接撤追踪，测试贡献经本席补证后接收，历史batch-r1 counter解除、状态恢复build。
+详见[批回执当前结论](../../testing/editor-save-recovery-glm-batch-report.md#codex-d39efe15接收与集成2026-09-12)。
+原21项断言保持；接收GLM续批17项，本席新增3个IDB替身读写错误终结回归及2个W3真实序列化回归，
+批6文件43测试、相邻12文件205测试通过。补齐同键put失败、原global descriptor恢复和测试锁finally释放，
+产品/原探针/真实工程/配置零变化。七种独立单点产品负控业务红；GLM及Codex测试贡献均须终审披露。
+W3不再挂待证；43条目当前主分类22/4/14/3，O8/P10/B8的防御分类不冒称全覆盖。
+
+统一质量门通过：最终完整check **6,711项**，官方ratchet及随后**单次严格fast 6,223项**全部exit0；
+618生产文件/全部分母不变，editor覆盖语句+20/分支+24/函数+4/行+17；两次覆盖聚合数及scope完全一致。
+editor-fast195文件/1,984项，本批6文件43项，未降低门槛。接收侧完整证据在批回执及
+`/tmp/codex-glm-d39-review.19ANgE/`；六个批文件biome零诊断，全仓既有warning/info如实保留。
+下一步仍由Codex完成原生跨页/权限/恢复后继续编辑试玩及大工程性能取证；
+K5/审计时长风险不因一次绿而注销。r2签字有效、不重签；done前三席仍pending、不代签、不标done。
+无下一位Agent提示词，GLM本批无需再次返工；完整候选准备好后再发两席终审提示词。
 
 ## 交接日志
 
@@ -1648,11 +1678,11 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 
 当前175d07b2返工已通过Codex独立复核并集成，2a49cac6的R1–R3 counter解除；r2签字保持有效。
 2026-09-10已完成审计性能、journal故障及新建/克隆/打开真实流程回归；原配置完整check及6,180项单次严格fast均通过，既有15s预算不变。
-journal等单模块覆盖目标已达标；7a0c6f1c接收的21项有效，3fe58baa续批返工仍counter、未集成；r2不重签。
+journal等单模块覆盖目标已达标；7a0c6f1c的21项保留，d39efe15经Codex接收侧补证后集成，历史测试counter解除；r2不重签。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
-当前不请求用户验收。
+当前不请求用户验收。无下一位Agent提示词，仍由Codex统一质量门、原生跨页验证与性能取证，完整候选后再送两席终审。
 
-### 给GLM（当前：3fe58baa剩余返工，保留已修好部分）
+### 给GLM（历史：3fe58baa剩余返工，已由本轮接收收尾）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 的原 codex/glm-save-coverage-batch 工作树返工3fe58baa。

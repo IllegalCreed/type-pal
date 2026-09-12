@@ -3,10 +3,10 @@
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)。
 分工：[batch-r1 工作包](editor-save-recovery-glm-batch.md)。产品基线：aa87c305。
 
-> **当前：此前接收的21项保持有效；3fe58baa的C1–C4返工仍被Codex counter（2026-09-12），未集成。**
-> W9输入层、O4传播及S1/S2已补正；剩余为最终树资产链接、IDB请求失败模型、尾链断言及证据口径。不更新覆盖率基线，r2不重签。
-> 下方GLM回执及旧counter保留为候选历史；当前逐项裁定以文末“Codex C1–C4返工复核（3fe58baa）”为准。
-> 只接收核实后的测试子集，不代表43项工作包或父卡完成；r2设计签字保持有效。
+> **当前：d39efe15经Codex接收侧补证后集成（2026-09-12）；此前21项保持有效，测试counter解除。**
+> 最终树无资产链接；补齐IDB读请求终结、同键更新失败、测试锁释放和W3真实序列化回归。质量门结果见文末。
+> 下方GLM回执及旧counter保留为候选历史；以文末“Codex d39efe15接收与集成”作为当前结论。
+> 43项已逐项核验/分类，不等于43项全分支达标；原生跨页、性能和整卡终审仍待Codex完成，r2不重签、不标done。
 
 ## 候选与白名单
 
@@ -643,8 +643,9 @@ final-check列出的7包测试总数为6,703。**B3只是save-batch-baseline顺�
 | S6 | ＋ | storage『S6…』 |
 | S7 | ◈ | journal/plan/prefix/store 抽查+相邻复跑 |
 
-计数：GLM 新增 26 项、Codex 接收修订 4 项（W6/W10删除/B3/S4）、既有证据 15 项、部分 1（W3）、
-分类 3（O8/P10/B8）＋2 子待证（W3 未登记资源、B6 原生新页）。**唯一 ID 43，无重复计数**。
+计数（原文，**已被 9dd97154 复核程序复算更正为 22/3/14/1/3**，见下节返工回执）：GLM 新增 26 项、
+Codex 接收修订 4 项（W6/W10删除/B3/S4）、既有证据 15 项、部分 1（W3）、分类 3（O8/P10/B8）
+＋2 子待证（W3 未登记资源、B6 原生新页）。
 
 **深防御按真实代码重分类**：
 
@@ -758,3 +759,132 @@ S3句柄抛错、P5/B6表述及C4c写错误优先已有直接证据；仅下述�
 只落本席复核/交接文档，不合并候选17项新增测试、不写官方ratchet；主树packages/scripts/data对70e31345零diff。
 当前仍rework；C1、C3及C4a/b/证据口径修完一次性交Codex，不重签、不转Kimi、不标done。
 GLM继续作为测试贡献者，未来终审披露；已修好测试保留，不因本次counter撤销上轮21项。
+
+## GLM 剩余项返工回执（2026-09-12，基于 9dd97154 复核树，候选 `6a145178`）
+
+**R1/C1（撤回追踪，终树核验）**：`fce75a0e` 的 `git add -A` 曾把符号链接重新加入——本轮已再次
+`git rm --cached data/extracted`，并在主仓 `.git/info/exclude`（本地，不入库）加入该路径防止复犯；
+磁盘链接与主仓目标资产未删除。**最终树核验**：`git ls-tree HEAD -- data/extracted` 与
+`git ls-files data/extracted` 均为空（本提交后再次执行，见验证节）；对 9dd97154 的完整 diff 仅
+白名单测试文件与文档。
+
+**R2/C3（put 定点注入与事务终结）**：IDB 替身补齐事务终结合同——request error 未被
+preventDefault 时事务以 **abort 终结且只终结一次**（settled 标志），暂存写集丢弃不提交；
+新增 `putError` 故障**只作用于 store.put**（读取请求照常成功）。S3 重写该段：
+- `putCalls` 见证断言注错前后恰好 +1（确实走到真实 store.put，不再是 getAll 层失败）；
+- 同一数据库上：新记录 `records.has(newWorkspace)===false`（未残留）、原记录
+  `projectId:'s3', name:'original'`（未覆盖）；
+- 读取型 request error（requestErrorAll）传播用例保留。
+
+**R3（C4a/b entered/deferred 互斥 + 双负控）**：两用例改为 entered/deferred——第一位持锁挂起在
+deferred 上，微任务排空后断言**第二位未进入**（互斥观察），随后正常释放路径与异常释放路径分别验证
+排队者成功。新增两个单点负控（/tmp/glm-c4-nc.config.mts，按锁分别以 `run()`/`operation()`
+锚定 `await previous`，各唯一匹配）：移除注册锁队列等待 → C4a 红
+（`expected ['first-enter','second-enter'] to deeply equal ['first-enter']`）；移除发现锁等待 →
+C4b 红（同型）；正常对照绿。不再使用 setTimeout。
+
+**R4（W9 固化/C4c 收窄/统计校正）**：
+- **W9** 固化 Codex w9Witness 已验证的形态：精确 decoder 错误前缀断言
+  （battle-sprite→`/^战斗精灵资源 RLE 损坏/`、sprite→`/^精灵资源 RLE 损坏/`）、**整份磁盘快照
+  逐字节相等**（`[...disk.files.entries()]` vs before）、**全 IO 轨迹**（creates/closes/removes 全空，
+  不再过滤 .type-pal）。
+- **C4c 第二半收窄为端到端**：注释明示 publishState token 校验与后续 stateForReplay 为重叠防护、
+  单点跳过前者仍会在后者收口——**不声称单点门禁已被钉住**；第一半（写错误优先，Codex 已单点
+  变体验证红）保持原断言。
+- **统计校正**：正文与父卡回执的“26/4/15/1/3=49”更正为程序复算的互斥主分类
+  **新增 22 / Codex 修订 3 / 已有 14 / 部分 1 / 分类 3 = 43 唯一 ID**；W10 两名贡献者在行内
+  分栏标注、不与主分类相加。历史原文保留并标注。
+- W3「未登记 pending 资源」子项**如实保留待证**；附属二进制合法合同
+  （project-io:689 允许未进 catalog 的附属文件）已知悉，不为勾项造拒绝输入。
+
+**验证（实际提交树 6a145178）**：批+相邻 12 文件 **200/200 绿**；editor typecheck exit 0；
+改动的三个测试文件 biome 0 error；完整 `pnpm check` **exit 0 共 6,706 项**
+（/tmp/r-final-check.log）；同口径 editor-fast **195 文件/1,979 项全绿**（独立临时报告）；
+六个既有负控 + 两个新 `await previous` 负控在本树全部红。无产品缺陷 counter；
+官方 ratchet 未运行。biome 全仓为既有 50 warnings/11 infos（1 条 useTemplate info 如复核所指，
+不再写“零诊断”）。
+
+## Codex d39efe15接收与集成（2026-09-12）
+
+接收结论：**经本席补证后接收测试贡献，原测试counter解除，父卡恢复build；不是整卡done前accept。**
+GLM为测试贡献者，Codex为接收侧测试补正与集成者，未来Kimi/GLM终审须披露双方参与；不代签、不重开r2设计。
+此前7a0c6f1c的21项保持原断言；本轮接收GLM续批17项，另补5项，最终六文件共43个测试用例。
+测试用例数与工作包43个核验ID是两种统计，不相互替代。
+
+### R1–R4核定及接收侧补正
+
+1. **R1/C1解除**：本席fetch并核远端`d39efe157190860ca1735c0c57ee75fd020772c6`，
+   最终树ls-tree、分支ls-files均无data/extracted；对9dd97154仅5个批测试文件与两份文档，
+   没有产品/配置/原探针/资产/真实工程变更。合并使用最终树；未执行旧链接提交，不删除本地资产。
+2. **R2/C3写请求修复有效，但本席补齐两个边界**：原候选200/200绿；本席同键更新oracle亦绿，
+   但原S3只失败于新key的put，再核另一个旧key，不能直接声称测过旧值覆盖。已在原S3中常驻
+   同workspaceId/同handle的失败更新，putCalls须再加1、原name保持original。
+   原候选的put错误确实abort，不过get/getAll仍发complete；本席IDB合同oracle在get上先红。
+   接收侧把当前handle-store单请求事务的读/写统一到一次终结，失败abort、不提交；新增3个
+   put/get/getAll环境合同回归。该替身不模拟通用多请求事务，也不是原生IDB跨页验收。
+   同时修复重复install时把替身捕获为“原global descriptor”的问题：仅beforeEach捕获一次，
+   每个测试清空内存库/计数，S1断言切换故障后原descriptor未变，afterEach恢复真实原环境。
+3. **R3解除**：本席自行重建注册/发现锁各自删除await previous的单点变体，原候选均因第二位提前进入而exit1，
+   无timer猜测。接收侧只增加finally释放gate并等待两Promise收尾，避免反证或断言失败污染下一例。
+   在集成树选择两个C4用例一起复跑，每个变体均1红1绿，未因遗留锁让相邻用例超时。
+4. **R4解除**：W9已是精确decoder前缀+完整磁盘快照+全IO轨迹；C4c第一半写错误优先的单点反证再次红。
+   第二半明确只接受端到端冲突，publishState/stateForReplay重叠防护不冒称单点回归；本席补入代码注释。
+   原43ID当前表复算为22/3/14/1/3无漏ID。W10多人贡献只作作者记录，不重复计ID。
+
+### W3待证收尾与当前条目口径
+
+本席直接追到project-io的serializeProject：assetBlobs必须有catalog记录（:329–333），
+addFile必须拒绝两个作者输出写同一路径（:225–231）。这与preflight允许附属二进制是不同调用域。
+在save-batch-writer新增两例：
+
+- **W3 pending**：真实blank/open/toEditorState与合法sprite字节，正控注册新上传资产后序列化保留原字节/catalog；
+  仅删除该新记录后，同份assetBlobs精确报“pending资源未登记”，磁盘快照/全IO不变。
+- **W3 collision**：合法tileset上传路径正控通过；仅改为actors表输出路径，真实addFile报输出冲突且零写。
+
+各自仅删除对应生产guard的独立负控都变为错误resolve，业务断言exit1；正常实现均绿，不改生产凑预期。
+W3据此从“部分/待证”转为“Codex补证”；当前互斥主分类为 **GLM新增22 / Codex修订补证4 / 已有14 / 分类3 = 43**。
+三项分类（O8/P10/B8）仍保留已核证据边界，不声称所有内部防御分支100%；B6原生新页仍属父卡验收，不在本批冒充完成。
+SR-02/04增加W3序列化拒绝证据；SR-05/11增加真实handle-store调用的请求失败与锁互斥证据，
+但没有把内存IDB/FSA/Web Locks换称原生浏览器，也没有改变SR-01/08/11的原生补验责任。
+
+### 独立验证与质量门
+
+证据目录 `/tmp/codex-glm-d39-review.19ANgE/`，review.config.mts为本席独立负控，校验每个替换唯一、
+记录前后源码SHA-256；未stash/还原生产树。GLM的/tmp配置只作对照，不作为唯一可复现依赖。
+原候选相邻12文件200项；接收侧最终相邻**12文件205项通过**，新增5项为3个IDB合同+2个W3，
+editor typecheck通过，6个批测试文件biome零诊断。原候选IDB合同oracle红，接收侧同oracle绿。
+独立抽验：注册/发现互斥、request success提前resolve、写错优先、观察器漂移、W3登记/路径冲突共7种
+单点产品变体均业务红；当前生产始终与aa87c305相同，不以这些临时变体作为产品变更。
+
+最终质量门全部通过：
+
+- 完整`pnpm check` exit0，7包/562测试文件/**6,711项**（editor 214文件/2,143项），各包typecheck通过。
+  接收侧最后的descriptor隔离补正后已重跑完整check，最终证据为check-final.log；早先check.log也绿，
+  不把早先结果冒称最后候选。全仓biome为既有50 warnings/11 infos，六个批文件自身零诊断。
+- 官方ratchet以`9dd97154`为保护基线，exit0；生产仍**618文件**、editor仍220生产文件，
+  fast **6,201→6,223项**，editor **194→195测试文件 / 1,962→1,984项**。
+  配置/include/exclude不变、没有删除旧测试；只有新增测试清单及覆盖增加进入baseline。
+- 随后**单次严格coverage:fast exit0，6,223项**；逐包与全仓覆盖分子/分母及source scope digest均与
+  ratchet持久基线完全相同，无本轮计数抖动。未重跑择优、未下调门槛。
+
+| 指标 | 全仓已覆盖数变化 | 分母 | editor当前 |
+|---|---|---:|---|
+| 语句 | 53,562→53,582（+20） | 79,538不变 | 24,698/32,526（75.93%） |
+| 分支 | 38,333→38,357（+24） | 62,529不变 | 19,053/28,148（67.69%） |
+| 函数 | 10,157→10,161（+4） | 14,622不变 | 6,128/8,221（74.54%） |
+| 行 | 48,395→48,412（+17） | 69,586不变 | 22,306/28,403（78.53%） |
+
+全仓行率69.57%、分支61.34%；这是本批真实基线提升，**不是全仓90%/85%长期目标已达成**。
+提升全部来自editor，其余六包聚合指标保持一致。证据ratchet.log/strict-fast.log、官方
+scripts/coverage/baseline.fast.json及coverage/fast/summary.json；最终文档检查另见docs-final.log。
+
+关键文件边界继续如实保留：journal为行98.47%/函数100%/分支91.91%，plan为100%/100%/98.85%，
+prefix与save-store三项100%，open-actions为100%/100%/95.37%；但存量project-io为92.41%/94.23%/79.25%，
+workspace-persistence为89.12%/100%/81.14%，handle-store分支84.61%、open-local分支86.66%。
+这些整文件缺口没有因批次接收而注销；下一轮由Codex结合可达性分类继续补真实业务回归，不删除护栏或缩分母。
+
+### 剩余责任
+
+GLM本批不再返工。Codex继续关键写入/策略模块覆盖缺口核验，以及父卡原生跨页/权限/PAL重新登记、恢复后编辑保存试玩、锁与读出口实机验证，
+以及大工程暂存峰值/磁盘占用/耗时取证。K5与设计系统时长风险保留；当前运行绿不等于历史时序缺陷已证明消失。
+完成剩余验证并冻结完整实现候选后，另给两席终审提示词。本轮无下一位Agent提示词，不请求用户逐条复验测试、不标done。
