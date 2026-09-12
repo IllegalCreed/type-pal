@@ -1836,7 +1836,84 @@ check.log、ratchet.log、strict-fast.log、docs.log均在本轮证据目录；�
 110臂清单及大克隆性能风险保持；试玩调试长提示裁切登记为R4观察，不扩张本卡修运行时UI。
 窗口/自建6011已收回，测试目录保留；无下一位Agent提示词，继续由Codex收口剩余边界，整卡仍build。
 
+### Codex · 首存与绑定授权分支补证（2026-09-12）
+
+用户继续，从75970228接续r2，不重签。先补真实公开调用链：首存已暂存/发布pending后目标混入
+未知目录、未知文件或暂存文件篡改；沙盒bootstrap后的marker变化、原marker续用；既有绑定identity漂移；
+PAL首存缺作者基线。只在FSA/IDB边界注错，不伪造私有mutation品牌，不修改产品迁就覆盖率。
+每组含合法对照，拒绝断言核文件/凭据副作用，负控按单个守卫重建。新增用例先由官方报告确认命中，
+再从110臂台账移出，不提前填预计闭环数。工作日志位于`/tmp/codex-admission.ifO6Ix/`。
+
+#### 实现与验证回执
+
+新增[workspace-save-admission.test.ts](../../../packages/editor/src/core/workspace-save-admission.test.ts)20项，
+没有修改产品、既有测试、原探针、共享fixture、版本或全局配置。复用memoryAuthorDirectory/存储fixture；
+handle-store只替换记录读写边界，保留真实发现锁/W锁及登记品牌校验。
+
+| 分组 | 实际断言 |
+|---|---|
+| 首存末端目录漂移 | 真实writer完整暂存、receipt=ready/planHash已签、磁盘pending后，在FSA枚举边界替身注入未知空目录/未知文件/篡改既有blob；拒绝后整文件快照、全部新增IO轨迹和深拷贝的凭据数据字段均不再变化，manifest尚未创建。合法暂存正控可完成并正式loader重开；此处不把内存FSA称为原生验证 |
+| 沙盒bootstrap | marker刚close后被删除/改坏/混入PAL sentinel/换identity均在作者写入前拒绝，sidecar/外部字节保留；无恢复凭据/绑定登记。正常bootstrap及仅bootstrap后的调用方失败→原marker续用均完成，marker不重复写。仅resumes提示不能放行非空外部目录，空目录对照可写 |
+| 异步身份变化 | additionalVerify首次执行后出现合法PAL sentinel，prepare在创建沙盒marker前拒绝；有进入计数、metadata有效性和零写轨迹见证 |
+| 绑定与PAL | 首存已有同目录记录project/mode/source漂移拒绝，恢复正确记录后真实保存成功；绑定本地项目出现单个有效受限marker拒绝。公开PAL目录校验拒绝普通上下文及双marker；PAL首存没有加载时作者基线即拒绝，真实loader基线正控成功且sentinel不改 |
+
+首次7红均来自本席误用journal层的kind返回值检查writeProject（现行返回snapshot/cleanupWarning）；
+源码核对另纠正未执行到的pal-unbound错误预期。按现行类型/构造器纠正测试，不改产品。随后修正新FSA枚举替身的
+AsyncGenerator结束值void/undefined类型差异与格式；测试编写期失败日志保留，不登记为产品缺陷。
+最终定向/相邻6文件184项通过；20项已在最终树运行，editor typecheck和新文件biome通过。
+
+四个独立单点负控按最终20项树重跑，全部为业务红，不是加载失败：
+
+- directory/file：分别仅删除对应首存目录守卫throw，不安全目标错误完成writer并返回snapshot，两个用例各红1项。
+- binding：仅删除既有记录identity守卫throw，三种错误绑定的preflight均错误通过，红3项。
+- pal：仅把PAL缺基线分支的undefined替换成空基线构造，错误授予target，红1项。
+
+配置negative.config.mts严格要求每个替换点唯一，并记录生产原文/突变SHA；结果在negative-*-final.log。
+没有把所有路径都声称为独立单守卫保护：例如payload篡改还受到后续payload回读保护，本用例补证的是
+“在首个作者IO之前拒绝”的时点，不能用较晚仍会报错代替。bootstrap-only用例验证公开mutation作用域合同，
+不是声称App一定在这个精确语句抛错。
+
+另独立核wp4/0：writeJsonSidecar及authorizeSandboxBootstrap都未导出，唯一调用点直接传刚创建的token；
+私有WeakMap仅有声明/get/set，没有删除或外部可改入口。因此按当前产品调用域归为构造保证的防御分支，
+保留守卫及未覆盖计数，不伪造私有品牌凑覆盖。AST引用清单见private-bootstrap-census.json。
+
+质量门全部exit0：完整check **6,768项**；以75970228为保护基准的官方ratchet及随后单次严格fast **6,280项**。
+618生产文件与全部分母不变，editor 199测试文件/2,041项；全仓语句+12、分支+18、行+11、函数不变。
+两次覆盖聚合逐项相同，无重跑取多数；全仓既有50warning/11info未扩大。日志check.log/ratchet.log/strict-fast.log。
+wp由362/435到379/435（约87.13%），行393/423、函数58/58；正式LCOV确认旧清单中17臂命中，
+未覆盖110→93（wp56+project-io37）。其中wp4/0归为E3，另外92臂仍E0；E3没有删出覆盖分母。
+旧版本兼容审查：pass，本批只加当前canonical合法fixture/坏输入反例，不加产品fallback或旧版本fixture。
+整卡仍build，不代签、不标done；本批没有重复已完成的原生视觉流程。
+
+### GLM并行分工 · 打开身份代码测试（2026-09-12）
+
+用户要求提供GLM并行提示词，随后明确视觉相关测试只能由Codex执行，GLM没有多模态能力。
+新增[open-identity-r1工作包](../../testing/editor-save-recovery-glm-open-identity.md)：GLM仅写打开身份函数的单测和本人文本回执，
+不操作浏览器、不看截图/录屏验收。Codex负责全部视觉工作、project-io/性能/权限遗留与统一集成。
+生产基线1ba88755，r2设计签字保持；GLM用新worktree/codex/glm-open-identity-tests，不改现有首存测试或全局配置。
+GLM为测试贡献者，终审披露；本包自测不等于独立第三席终审。
+
+#### 下一位Agent提示词（GLM，可直接复制）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 执行 EDITOR-SAVE-RECOVERY-1 的 open-identity-r1 并行代码测试包。
+父卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态build，r2不重签。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡最新回执及 docs/testing/editor-save-recovery-glm-open-identity.md，严格按工作包执行。
+同步origin/main后新建独立worktree和codex/glm-open-identity-tests；生产基线1ba88755。若发现主树生产源码变化先交Codex确认。
+唯一白名单：新增 packages/editor/src/core/workspace-open-identity.test.ts，以及工作包GLM回执区。
+一批完成普通本地/沙盒/PAL/expectedIdentity四组身份矩阵；复用合法blank fixture与真实构造器，各工作区有finishOpen函数的正反入口，拒绝时核文件/IO/原绑定不变。
+只运行代码级测试。禁止浏览器操作、截图/录屏判断、布局/观感和任何视觉验收，全部视觉工作由Codex做。
+不造getter切换身份、不伪造私有品牌；被前置守卫挡住就给证据交Codex，不把0命中称为已有覆盖。
+至少两组单点负控必须产生错误放行或错误登记等业务红；跑定向/相邻、editor typecheck、biome，临时覆盖逐臂对账。
+完整check/官方ratchet/严格fast由Codex统一执行。生产缺陷只留最小反例和file:line交回，不改产品。
+不改旧测试/共享fixture/配置/基线/资产，不stash、不合并main、不代签、不标done、不转Kimi。
+从最终提交树生成真实计数，写明矩阵/负控/剩余问题，提交推送分支并核远端SHA，交Codex独立复核；测试贡献终审披露。
+```
+
 ## 交接日志
+
+- 2026-09-12 Codex：首存/绑定新增20项，四组负控6项业务红；check6,768/严格fast6,280通过，未覆盖110→93。
+  生产零改动；E3防御1项仍计入分母，92项待核。GLM打开身份代码测试包已准备，待用户转交；全部视觉验证保留给Codex。
 
 - 2026-09-12 Codex：1ba88755上的U1–U6原生目录与界面补证通过，详见测试附件。仅文档落盘，
   check 6,748/fast 6,260沿用前一产品候选，不冒充本轮重跑；110臂与性能/权限遗留仍未收口，不代签、不标done。

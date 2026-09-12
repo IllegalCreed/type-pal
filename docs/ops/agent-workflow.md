@@ -14,14 +14,14 @@
 | [`tasks/TASK-template.md`](templates/TASK-template.md) | 不可逆/高风险任务模板。 |
 | [`tasks/TASK-lite-template.md`](templates/TASK-lite-template.md) | 中等任务轻量模板。 |
 | [`acceptance-checklist.md`](archive/acceptance/2026-07-checklist.md) | 历史验收批次记录（2026-07 前后；不作当前待办）。 |
-| [`kimi-verification-manual.md`](guides/browser-verification.md) | Kimi 视觉验证操作参考（历史整理，随需更新）。 |
+| [浏览器验证操作参考](guides/browser-verification.md) | 历史整理；按当前分工由Codex执行视觉验证。 |
 
 ## 角色分工
 
 | 角色 | 模型 | 主要职责 |
 |---|---|---|
 | 主力编码 / 资源生成 | Codex | 本地实现、测试、浏览器验证、git 收口、AI 生图和替代资源生成。 |
-| 架构审查 / 代码审查 | Kimi | 设计压力测试、架构风险、代码审查、视觉级验证代班。 |
+| 架构审查 / 代码审查 | Kimi | 设计压力测试、架构风险、代码审查。 |
 | 覆盖审查 | GLM | 通读审计、中文文档、测试矩阵、数据/schema 覆盖。 |
 | 产品裁决 | User | 优先级、范围取舍、最终验收、分歧拍板。 |
 
@@ -106,7 +106,7 @@ Agent 在同一个错误问题上分别做出高质量工作。
 `review -> done` 前必须集齐三方审查签字:
 
 - Codex: 对自测、实现交接和剩余风险签 `accept` 或 `counter`。
-- Kimi: 对代码/架构/视觉复验签 `accept` 或 `counter`。
+- Kimi: 对代码/架构审查签 `accept` 或 `counter`；视觉证据由Codex执行并落盘，不转成Kimi视觉复验任务。
 - GLM: 对覆盖、测试矩阵、文档和遗漏风险签 `accept` 或 `counter`。
 
 三方均为 `accept` 时,`done 准入结论` 才能写 `done allowed`。只要存在 `pending` 或 `counter`,不得提交最终收口或标记 `done`。
@@ -219,7 +219,7 @@ Agent 在同一个错误问题上分别做出高质量工作。
 
 审查方选择:
 
-- 架构、schema、跨包边界、引擎抽象、公共接口、视觉级高风险任务:优先 Kimi。
+- 架构、schema、跨包边界、引擎抽象、公共接口、高风险UI代码/架构审查:优先 Kimi；实际视觉测试仍由Codex执行。
 - 覆盖清单、数据迁移、测试矩阵、中文文档:优先 GLM。
 - UI/UX 形态争议:优先 Kimi;必要时 GLM 补清单,用户拍板。
 
@@ -300,7 +300,7 @@ Git 才是历史档案。只有仍有无法重新生成的真实输入且当前�
 
 | 缺席账号 | 可代班方 | 限制 |
 |---|---|---|
-| Codex | Kimi 可全量代班编码/验证/git 收口;GLM 可代写方案或代码草案,由 Kimi 或用户安排落地 | AI 生图和批量替代资源生成暂停等待 Codex,或由用户另行安排。 |
+| Codex | Kimi 可代班编码/代码级验证/git 收口;GLM 可代写方案或代码草案,由 Kimi 或用户安排落地 | AI 生图、批量替代资源生成和视觉验证暂停等待 Codex,或由用户另行裁决；不自动转派视觉任务。 |
 | Kimi | GLM + Codex | 可临时代架构审查;高风险架构决策标记“待 Kimi 补审”。 |
 | GLM | Kimi + Codex | 可临时代覆盖/文档/测试矩阵审查;大范围数据/文档任务标记“待 GLM 补审”。 |
 | Kimi + GLM | Codex | Codex 可推进小改;非平凡/高风险任务需用户确认是否允许单 Agent 推进。 |
@@ -363,6 +363,10 @@ Git 才是历史档案。只有仍有无法重新生成的真实输入且当前�
 
 Codex 可在本仓库中通过本地 dev server、Playwright/浏览器工具和截图/像素检查做视觉验证;也可用 `view_image` 检查本地截图。
 
+用户于2026-09-12明确：视觉相关测试只能由Codex执行；GLM没有多模态能力，只分配代码级单测、矩阵和文本核对，
+不得让其操作浏览器、判断截图/录屏、验收布局或观感。其他成员的代码/架构审查不等于视觉测试。
+历史签字保持；新的视觉任务不沿用旧代班安排自动转给其他AI。
+
 ### 验证时机分层（用户拍板，2026-08-08）
 
 | 类型 | 典型范围 | 开发期 | 集中 E2E |
@@ -378,8 +382,8 @@ Codex 可在本仓库中通过本地 dev server、Playwright/浏览器工具和�
 通用约束:
 
 - 若当前会话缺少浏览器工具、资产或服务不可用,必须在任务卡和最终回复中明确标记视觉验证未完成。
-- `e2e-deferred` 的未实跑项必须指定集中 E2E 批次 / Owner；其它未完成视觉验证才需要指定 Kimi
-  或用户补验，或由用户明确接受风险。
+- `e2e-deferred` 的未实跑项必须指定集中 E2E 批次 / Owner；其它未完成视觉验证仍由Codex负责，
+  缺能力时等待恢复或用户裁决，不自动转给其他AI。
 - 高风险 canvas/像素级任务即使由 Codex 实现,也优先让 Kimi 做 review 或补验。
 - 任务卡必须填写 `Visual Verification Timing: dev-functional | e2e-deferred | mixed | N/A`；`mixed`
   必须逐项区分，不能把剧情 E2E 延后当作功能界面也不验的理由。
