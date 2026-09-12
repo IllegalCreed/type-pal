@@ -1610,6 +1610,18 @@ editor-fast195文件/1,984项，本批6文件43项，未降低门槛。接收侧
 K5/审计时长风险不因一次绿而注销。r2签字有效、不重签；done前三席仍pending、不代签、不标done。
 无下一位Agent提示词，GLM本批无需再次返工；完整候选准备好后再发两席终审提示词。
 
+### Codex · GLM preflight-r1分工（2026-09-12，用户授权）
+
+用户要求给提示词让GLM继续开始。新分工见[保存前校验与序列化测试包](../../testing/editor-save-recovery-glm-preflight.md)，
+沿用本卡build/r2，不重新设计签字。代码/测试基线4b72e492（check6,711、fast6,223），从本次纯文档派工提交
+建立独立codex/glm-save-preflight-tests分支；不复用已接收批次工作树，不跟随主线改产品。
+GLM只写两组新测试及一份workspace-persistence剩余分支只读清单；不造新IDB/FSA替身，不改产品/旧测试/基线。
+Codex保留原生跨页验证、性能、产品缺陷判断、接收适配及统一质量门。GLM完成全部组后一次性交回；测试贡献终审披露。
+
+#### GLM · preflight-r1交接日志（仅GLM填写）
+
+尚未开始。实现/验证证据写新工作包末尾回执；此处只补精确提交、检查结论、剩余风险及下一步，不改他席或任务状态。
+
 ## 交接日志
 
 - 2026-09-12 Codex：574012e5续批counter；12文件197项复跑，隔离证明W9错层及IDB替身不符合事务/请求合同。
@@ -1680,7 +1692,35 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 2026-09-10已完成审计性能、journal故障及新建/克隆/打开真实流程回归；原配置完整check及6,180项单次严格fast均通过，既有15s预算不变。
 journal等单模块覆盖目标已达标；7a0c6f1c的21项保留，d39efe15经Codex接收侧补证后集成，历史测试counter解除；r2不重签。
 本节仅标注“当前”的提示词需要转发，其他分工/返工/设计提示词均保留为历史；完整实现候选冻结后另给两席终审提示词。
-当前不请求用户验收。无下一位Agent提示词，仍由Codex统一质量门、原生跨页验证与性能取证，完整候选后再送两席终审。
+当前不请求用户验收。GLM按下方preflight-r1提示词开始新分工；Codex继续原生/性能/统一质量门，完整候选后再送两席终审。
+
+### 给GLM（当前：preflight-r1保存前校验与序列化）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接手 EDITOR-SAVE-RECOVERY-1 的 preflight-r1 测试包。
+父卡 docs/ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 当前build，产品设计r2已签，不重签、不标done。
+先同步分支并检查工作树；读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡红线/SR矩阵/最新日志，
+再完整读 docs/testing/editor-save-recovery-glm-preflight.md 和上批回执末尾的Codex d39efe15接收结论。
+
+从新工作包首次加入的派工文档提交建立独立worktree/分支 codex/glm-save-preflight-tests，
+建议目录 /Users/zhangxu/illegal/type-pal-glm-save-preflight；核packages/scripts相对4b72e492零diff。
+若同名已存在先核归属，不覆盖。不要复用旧glm-save-coverage-batch，不stash/切共享main或追主线更新产品基线。
+
+一次性完成三组：A 保存前校验P01–P05；B 序列化完整性S01–S04；C workspace-persistence剩余分支只读分类。
+A/B按工作包白名单新增测试：合法正控、精确失败层、真实writer零副作用、至少4种跨A/B的单点业务负控。
+C只交真实caller/前置守卫/已有证据/可达性与下一责任人清单，不新增权限测试或修改权限模型。
+复用已有fixture，不造IDB/FSA/Web Locks替身、不mock掉被测校验器。当前模型不支持或上游已阻断的状态应分类，
+不复活旧字段、伪造私有token或为覆盖率改产品。上批已通过43个用例保持原样，不重复凑数。
+
+只改工作包允许的新测试/窄输入helper、本包GLM回执和父卡GLM preflight-r1日志，不改产品、旧测试、共享fixture、
+配置/超时/exclude、baseline、原探针或真实工程。先定向/相邻/typecheck/biome，再串行跑完整pnpm check及
+独立临时目录同口径editor-fast（220生产文件）；不运行ratchet，统一基线和严格fast留Codex接收执行。
+发现真实产品红例保留并登记；局部待证不阻塞其他组，但不得把未做写成完成。全部做完一次性交Codex，不逐组问继续。
+
+从最终提交树生成P/S逐项证据、C组清单、测试数/覆盖整数、全部失败记录、负控精确diff/退出原因及真实剩余项。
+显式stage白名单；最后一次文档回填提交后核data/extracted终树ls-tree/ls-files为空、产品对4b72e492零diff，
+提交推送并核ls-remote与最终SHA一致。直接落回执，不让用户搬审查正文；不代签、不标done，贡献须终审披露。
+```
 
 ### 给GLM（历史：3fe58baa剩余返工，已由本轮接收收尾）
 
