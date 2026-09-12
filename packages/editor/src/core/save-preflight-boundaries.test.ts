@@ -148,9 +148,8 @@ test('P04: 非 catalog 管理的附属二进制不参与资源记录校验（合
   await expect(preflightProjectWriteSet(withAncillary)).resolves.toBeUndefined()
 })
 
-test('P05: 同基线 writer 成功正控；随后 metadata mismatch 输入在真实 writeProject 拒绝且零凭据零副作用', async () => {
-  const { memoryAuthorDirectory: dir } = await import('./__tests__/author-save-fixture.js')
-  const disk = dir(await buildBlankProject('preflight-p05'))
+test('P05 正控: 同项目同 kind 合法新精灵经真实 writer 完整提交并落盘', async () => {
+  const disk = memoryAuthorDirectory(await buildBlankProject('preflight-p05-good'))
   const opened = await finishOpen(disk.dir)
   bindings.set(opened.workspace.workspaceId, {
     ...opened.workspace,
@@ -159,10 +158,6 @@ test('P05: 同基线 writer 成功正控；随后 metadata mismatch 输入在真
     updatedAt: 1,
   })
   const state = toEditorState(opened.project, await loadAllAuthorScenes(opened.project), {}, {}, [])
-  const authorize = () =>
-    authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline)
-
-  // 正控（同项目/同合法基线/同 kind）：一个合法新精灵上传 → writer 完整成功。
   const assets = await preflightAssets()
   const good = assets.sprite.bytes
   const { sha256Hex } = await import('./binary-signature.js')
@@ -179,44 +174,65 @@ test('P05: 同基线 writer 成功正控；随后 metadata mismatch 输入在真
     unknown
   >
   disk.resetChanges()
-  await expect(writeProject(await authorize(), goodInputs)).resolves.toBeTruthy()
+  const saved = await writeProject(
+    await authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline),
+    goodInputs,
+  )
+  expect(saved).toBeTruthy()
   expect(new Uint8Array(disk.files.get('assets/generated/sprites/p05-good.rle')!)).toEqual(
     new Uint8Array(good),
   )
-  disk.resetChanges()
+  expect(disk.json('.type-pal/save-state.json').phase).toBe('committed')
+})
 
-  // 负控（同项目/同基线，本批新增错误路径——catalog metadata mismatch）：
-  // record.kind 被改成不存在的 kind → 序列化前的 validateAssetCatalog 拒绝。
-  // 先清掉正控留下的已提交凭据，负控的“无新凭据”断言才是干净的零基线。
-  authorSaveStorage.receipts.clear()
-  const badState = toEditorState(
-    opened.project,
-    await loadAllAuthorScenes(opened.project),
-    {},
-    {},
-    [],
-  )
-  badState.assetCatalog = structuredClone(badState.assetCatalog)
-  const starter = badState.assetCatalog.assets['sprite.generated.starter'] as unknown as Record<
+test('P05 负控: 序列化后输入仅 catalog bytes+1（kind/字节合法）→ 真实 writeProject 拒绝且零凭据零副作用', async () => {
+  // 独立新鲜 fixture（不与正控共用目录/授权/凭据），同 seed 基线保证同构。
+  const disk = memoryAuthorDirectory(await buildBlankProject('preflight-p05-bad'))
+  const opened = await finishOpen(disk.dir)
+  bindings.set(opened.workspace.workspaceId, {
+    ...opened.workspace,
+    name: disk.dir.name,
+    handle: disk.dir,
+    updatedAt: 1,
+  })
+  const state = toEditorState(opened.project, await loadAllAuthorScenes(opened.project), {}, {}, [])
+  const assets = await preflightAssets()
+  const bytes = assets.sprite.bytes
+  const { sha256Hex } = await import('./binary-signature.js')
+  state.assetCatalog = structuredClone(state.assetCatalog)
+  state.assetCatalog.assets['p05-target-sprite'] = {
+    ...state.assetCatalog.assets['sprite.generated.starter']!,
+    path: 'assets/generated/sprites/p05-target.rle',
+    bytes: bytes.byteLength,
+    sha256: await sha256Hex(bytes),
+  }
+  state.assetBlobs = { 'assets/generated/sprites/p05-target.rle': bytes }
+  // 第一步：合法 state 正常序列化，确认输出含目标 ArrayBuffer 且 catalog 相符。
+  const legal = (await serializeProjectWithMapCopies(state, opened.project.source)) as Record<
     string,
     unknown
   >
-  starter.kind = 'not-a-kind'
-  const before = new Map(disk.files)
-  let badInputs: Record<string, unknown>
-  try {
-    badInputs = (await serializeProjectWithMapCopies(badState, opened.project.source)) as Record<
-      string,
-      unknown
-    >
-    // 若序列化未拒（防御），writer 必须拒。
-    await expect(writeProject(await authorize(), badInputs)).rejects.toThrow()
-  } catch (error) {
-    // 序列化层拒绝同样有效：错误层 = validateAssetCatalog（内容校验器）。
-    expect(String(error)).toMatch(/kind|assets/i)
+  expect(legal['assets/generated/sprites/p05-target.rle']).toBe(bytes)
+  // 第二步：克隆序列化结果，仅把目标记录 bytes+1（kind 与实际字节保持合法）。
+  const badInputs = structuredClone(legal) as Record<string, unknown>
+  const catalogPath = state.manifest.assets.catalog
+  const clonedCatalog = badInputs[catalogPath] as {
+    assets: Record<string, { bytes: number }>
   }
+  clonedCatalog.assets['p05-target-sprite']!.bytes = bytes.byteLength + 1
+  // 第三步：坏输入直接进入 writeProject，断言在 catch 之外。
+  const before = new Map(disk.files)
+  disk.resetChanges()
+  await expect(
+    writeProject(
+      await authorizeBoundWorkspaceTarget(opened.workspace, disk.dir, opened.authorBaseline),
+      badInputs,
+    ),
+  ).rejects.toThrow('资源二进制与 catalog 不符')
+  // 零副作用：整份快照逐字节不变 + 全 IO 轨迹为空。
   expect([...disk.files.entries()]).toEqual([...before.entries()])
   expect(disk.changes).toEqual(IO_TRACK())
-  // 直接断言：拒绝前不存在任何恢复凭据（不靠空循环冒充检查）。
+  // 直接断言：本工作区无任何恢复凭据（不靠空循环冒充检查）。
+  expect(authorSaveStorage.receipts.get(opened.workspace.workspaceId)).toBeUndefined()
   expect(authorSaveStorage.receipts.size).toBe(0)
 })
