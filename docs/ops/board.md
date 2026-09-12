@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | GLM：打开身份测试R1–R3返工；Codex：产品缺口/剩余收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) Codex取样/恢复快照续批10项及四负控闭环，check6,806/严格fast6,318通过，剩60臂；GLM未接收，hint.source待修，视觉仅Codex。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | Codex：剩余分支/旧路径/性能收口 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) GLM打开身份子包已accept集成，Codex修复source漏检；check6,825/严格fast6,337通过，重点剩46臂；贡献终审披露，未标done，视觉仅Codex。 |
 
 ## 阻塞
 

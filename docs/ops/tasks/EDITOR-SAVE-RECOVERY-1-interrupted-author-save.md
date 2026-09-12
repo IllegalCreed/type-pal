@@ -1974,8 +1974,22 @@ JSON三形式真实改标题/记账/重开及裸二进制拒绝。相邻150项/t
 r2签字保持，hint.source缺口留给GLM反例交付后的Codex修复，不标done。
 无下一位Agent提示词；Codex自持本批质量收口，GLM按既有返工提示词继续。
 
+### Codex · open-identity-r1返工接收与来源漏检修复（2026-09-12）
+
+候选73aa0ea7基于693dec71，接收主线实际为6eaf4dc7；仅适配测试与GLM返工回执，保留主线全部并行成果。
+[本席独立回执](../../testing/editor-save-recovery-glm-open-identity.md#codex返工接收与r1修复2026-09-1273aa0ea7)：
+未改生产先复跑18绿+1来源错误放行红；真实登记链/dir缺席/后层重叠保护复核到位。
+Codex补强根目录零访问见证、mode用例同workspaceId及source精确报错断言，并仅在现有沙盒身份条件加入source比较；
+原反例转绿，禁用该比较再业务红，原取证probe零改动且缺陷见证转为正确拒绝。版本/模型/登记顺序不变。
+R3按最新主线重算：wp400/435→414/435（GLM+14），另四文件新增0；新source检查单独归Codex。
+集成相邻121项/typecheck/biome通过，完整check6,825/官方ratchet/单次严格fast6,337均exit0；editor203文件/2,098项，生产618文件。
+wp新增14个旧缺口命中+Codex新source臂1个，最终415/436；重点模块剩60→46，其他三邻接模块缺口5/6/17另计。
+Codex对此测试子包签accept，无剩余返工项；这不是父卡done前整体终审签字，父卡继续build。
+GLM测试贡献终审披露；r2不重签、不代签、不标done、不转Kimi。无下一位Agent提示词，Codex继续自持收口。
+
 ## 交接日志
 
+- 2026-09-12 Codex：73aa0ea7子包accept并适配最新6eaf4dc7，source漏检已修；原19项18绿1红→全绿，五组业务负控及重叠oracle/不变probe核验完成。check6,825/ratchet/单次严格fast6,337通过，GLM+14归属明确，重点剩46臂；不转Kimi、不标done。
 - 2026-09-12 Codex：最终取样/恢复快照续批10项、相邻150项、四组业务负控完成；check6,806/ratchet/单次严格fast6,318通过，重点模块剩60臂。无产品改动，GLM仍独立返工，父卡build/r2。
 - 2026-09-12 Codex：GLM返工期间独立完成真实写授权生命周期13项/相邻214项/10组业务负控；完整check6,796、ratchet及单次严格fast6,308通过，wp+16臂，两模块剩66臂。产品/GLM文件零改动，hint.source仍待修，父卡build/r2。
 - 2026-09-12 Codex：f3b84033本包counter，R1源hint漏测/接口缺口、R2断言与登记替身、R3覆盖归属返工。

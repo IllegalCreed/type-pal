@@ -3,7 +3,8 @@
 父卡：[EDITOR-SAVE-RECOVERY-1](../ops/tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，build，r2设计签字有效，不重签。
 工作包：**open-identity-r1**。2026-09-12用户要求给GLM可并行工作，并明确视觉测试只能由Codex执行。
 
-**当前接收状态：counter（Codex，2026-09-12，f3b84033未集成）**。下方GLM回执为提交时原文；当前结论以文末Codex复核为准。本包返工，父卡保持build/r2，不重签。
+**当前接收状态：accept（Codex，2026-09-12；73aa0ea7测试子包已适配，R1由Codex修复，完整质量门通过）**。
+下方GLM与首轮Codex记录保留为历史；当前结论以文末本轮Codex复核为准。父卡保持build/r2，不重签、不标done。
 
 ## 分工与基线
 
@@ -228,3 +229,195 @@ GLM 测试贡献者，终审须披露。测试候选 `e1c0d67e`（amend 回填�
 - 入库入口的运行结果：persistent-oracles.log、persistent-source-axis.json。
   初次临时oracle因非标准vitest导入导致mock解析失败（0项执行），已修正重跑；该加载失败未计作反证。
 - 本包尚未接收，因此没有运行/更新官方ratchet和严格fast，也不合入不完整用例抬高基线。主树check6,783/fast6,295保持。
+
+## GLM返工回执（open-identity-r1 rework，2026-09-12）
+
+分支沿用 `codex/glm-open-identity-tests`，先 merge origin/main **693dec71**（Codex R1–R3 原文保留在上方），
+合并冲突仅本文档，取 main 侧。返工白名单改动仍只有测试文件 + 本回执区；生产/旧测试/共享 fixture/
+配置/基线/资产零改动（merge 后对 origin/main 的 diff 仅本测试文件）。
+
+### R1 落地：hint.source 单轴（产品缺口，预期红）
+
+- 负例「OI-S: hint 的 source 单轴与 marker 不一致必须拒绝」：新鲜 fixture（无最近记录、marker
+  source=ui-samples），hint 仅 source=review-copy 不同（同 projectId/workspaceId/mode），按合同断言
+  拒绝+零登记。**当前产品错误放行 → 预期红**：`promise resolved "{ kind: 'current', …(7) }" instead
+  of rejecting`，返回会话 `source: 'review-copy'`。未 skip/test.fails，未改成错误来源放行的绿用例。
+  负例未先 finishOpen 写正确最近记录（每用例 beforeEach 清空 IDB 记录）。
+- 正控「OI-S 正控: hint 与 marker 全轴一致（含 source）」：同构造 hint source=ui-samples → 打开、
+  真实登记（记录 source=ui-samples）、不带 hint 重开一致。与 Codex 入库探针
+  `docs/ops/audits/pre-e2e/probe-open-identity-boundaries.test.mjs` 的正例同构。
+- **产品缺陷 counter（交 Codex，本席不改生产）**：`workspace-persistence.ts:955-958` 只核 hint 的
+  mode/workspaceId 未核 source；随后 `open-actions.ts:194-199` 以 hint 来源登记。影响/替代解释与
+  「未证明正常 UI 链会产生不一致 hint」的限定均按 Codex 复核原文，不夸大。
+
+### R2 落地：真实登记业务 + 仅存储边界替身 + 补断言
+
+- **移除 `vi.mock('./handle-store.js')`**：真实 saveWorkspaceHandle/saveWorkspaceHandleUnderLock/
+  锁品牌（WeakMap brand）/同目录与既有 identity 守卫全程真实运行；唯一替身下移到 `indexedDB`
+  全局内存实现（open name/version、store 名、request success/transaction complete 合同、put 断言
+  readwrite），即 Codex 探针同款边界。author-save-store 仍走 memoryAuthorSaveStore（凭据 IDB 边界）。
+- forceSandbox PAL 检视：补 `opened.dir` 缺席断言 + 零登记 + 零写 IO；新增对照「OI-P 对照: forceSandbox
+  打开合法沙盒目录」钉住 mayBind 路径（返回 dir 并经真实 saveWorkspaceHandle 登记）。
+- OI-L hint projectId 冲突、OI-S hint mode/workspaceId 冲突补齐三件套（文件快照/写 IO 轨迹/原记录
+  快照）；OI-L 补合法 local hint 正控（同构造仅 projectId 一致），OI-S 正控见 R1。
+- expectedIdentity 句柄用例读取见证：改用 fixture 自带 `hooks.afterRead` 钩子计数（拒绝时 reads===0）。
+  初版 Proxy 包装会破坏 `isSameEntry` 对象同一性，使 ncFinishOpenHandle 从错误放行退化成换文案红——
+  已修复并复验该负控恢复错误放行业务红（此为返工过程记录，非最终断言缺陷）。
+- afterEach `vi.unstubAllGlobals()` 恢复全局。
+- **重叠保护如实记录**：ncSandboxRecordDrift（中和 resolver 的沙盒 marker/最近记录不一致 throw）下，
+  mode/projectId/source 漂移被**真实 handle-store** `saveWorkspaceHandleUnderLock` 的
+  「最近项目记录与当前 workspace identity 不一致」继续拦截——该负控红是换文案级，不作为错误放行
+  负控计数；未移除更多守卫硬造错误放行。
+
+### 负控矩阵（/tmp/glm-oi-nc.config.mts 重建，GLM_OI_NC 选择，每针唯一替换点，非唯一即抛错）
+
+| NC | 突变 | 配对用例红因 |
+|---|---|---|
+| ncRecentPidDrift | resolver :1000 最近记录 projectId 漂移 throw 中和 | OI-L 漂移用例**错误放行**（resolved Opened 而非 reject） |
+| ncExpectedIdentity | assertExpectedWorkspaceIdentity :916-922 四轴 throw 中和 | OI-E 逐维用例**错误放行** |
+| ncFinishOpenHandle | finishOpen :91-92 expectedIdentity 句柄核对移除 | OI-E 句柄用例**错误放行**（afterRead 修复后复验） |
+| ncForceSandboxDir | open-actions :191 早退路径回传 dir | OI-P 检视用例 **dir 泄漏回传**（expected undefined got directory） |
+| ncSandboxRecordDrift | resolver :963-968 沙盒记录一致性 throw 中和 | **重叠保护**：真实 handle-store 后层继续拦截，换文案级红，不计错误放行 |
+| （无突变） | — | R1 缺陷见证本身即未突变产品上的错误放行红 |
+
+首轮未限制 include 的全套件 NC 运行还给出独立旁证：ncExpectedIdentity 使既有
+`workspace-persistence.test.ts`「recent identity 与目录 marker 不一致时 fail-closed」错误放行红；
+ncForceSandboxDir 使既有 `project-copy.test.ts`「只读沙盒检视仍保留源目录关系」dir 泄漏红；
+ncFinishOpenHandle 使既有 `save-batch-open.test.ts` O3（句柄前置核对）换文案红。噪音如实记录：
+`audit-performance-adoption.test.ts` 一例在全部 5 个 NC 运行中红（含不影响该域的突变）而无突变
+隔离运行绿，判为 NC 配置环境噪音；首轮全套件运行另有 1–2 例负载超时，隔离复跑无超时。
+
+### R3 逐臂对账（同一最终树两跑；/tmp/glm-open-identity-workspace/cov-{a,b}）
+
+cov-b（排除本套件）=实际起点既有命中；cov-a（含本套件，`--coverage.reportOnFailure=true`）与 cov-b
+逐 branchId/arm 差分，程序化重计（/tmp/glm-oi-branch-diff.mjs）。运行规模：cov-a **201 文件/2075 项**
+（2074 绿+1 预期红），cov-b **200 文件/2056 项全绿**。
+
+| 文件 | 起点（cov-b） | 含本套件（cov-a） | 本包新增臂 |
+|---|---|---|---|
+| workspace-persistence.ts | 行 393/423、臂 379/435 | 行 401/423、臂 **393/435** | **14**（下表） |
+| open-actions.ts | 行 119/119、臂 103/108 | 同左 | **0** |
+| handle-store.ts | 臂 33/39 | 同左 | 0（本套件真实驱动该模块，臂均已被既有测试命中） |
+| workspace-context.ts | 臂 76/93 | 同左 | 0 |
+
+本包新增 14 臂（与 Codex 复算清单逐项一致）：assertExpectedWorkspaceIdentity 182/1@916、
+183/1-3@917；resolver 185/0@940、190/0@953、192/0@957、196/0@963、199/0@974、200/1@974、
+202/0@980、203/0@982、206/0@993、208/0@1000。
+
+仍未命中（wp 42 + open-actions 5 + handle-store 6 + workspace-context 17，只列证据不做可达性结论）：
+- wp 生命周期/写侧守卫终态 20 臂（3/1@127、4/0@147、20/0@234、25/0@257、26/0@260、35/0@304、
+  42/0@337、45/0@341、47/0@347、50/0@360、71/0@485、77/0@492、80/1@497、82/0@510、85/0@520、
+  88/0@532、89/0@534、91/0@542、93/0@543、96/0@553）：**撤回原「公开入口无法构造非活跃调用」**
+  ——Codex 探针已用真实 withAuthorizedWorkspaceMutation 过期 token 经公开 authorizedSaveScope 命中
+  20/0，未伪造品牌。本包不扩测，其余臂只交 Codex 以实际 caller/先行守卫证据核定。
+- wp PAL 写侧指纹族 11 臂（113/0@613、116/1@622、117/0@632、119/0@637、120/0-1@642、121/1@646、
+  122/0@648、123/0@651、124/0@660、126/0@663）：PAL 写保存域，归 Codex。
+- wp preflight/authorize 4 臂（158/0@775、159/1@775、164/2@804、169/0@823）与 contextFromRecord
+  7 臂（175/0@889、176/0-1@890、177/0-2@891、178/1@898）：**撤回原「contextFromRecord 多数已命中」**
+  ——175-178 全部 0 命中；归 Codex 后续批。
+- open-actions 5 臂（24/0@182 readOpenedProject 可信快照缺席 throw；38/0@276、45/0@285、49/0@293、
+  53/0@316 saveProjectAs 另存族）：另存/保存恢复域，归 Codex。
+- handle-store 6 臂（0/1@31 idb onupgradeneeded、2/0@67 无品牌登记拒绝、3/0@76 与 5/0@105
+  navigator.locks 真实浏览器分支——本套件实际驱动该模块时走了 fallback 分支、7/0@129 underLock
+  品牌不符、15/1@189 loadWorkspaceHandle）与 workspace-context 17 臂（构造器防御校验与
+  canonicalJson/palFingerprint 变体）：本包新增披露；此前回执未列，非本包新增缺口。
+
+### 更正与撤回（相对首轮回执）
+
+1. 逐臂增量「+40」更正为 **+14**（原把 Codex 已有 PAL/首存回归的臂错记为本包新增）；起点
+   「353/435」更正为 **379/435**（945f54ab 已含 Codex 回归）；open-actions「103→103」表述保留但
+   明确**新增 0**。
+2. 撤回「contextFromRecord 多数 mode/source 组合臂已命中」；撤回「公开入口无法构造非活跃调用」。
+3. 「所有冲突用例核三件套」原不成立（OI-L hint-pid、OI-S hint 冲突缺三件套）——本轮已补齐为真；
+   「无产品缺陷 counter」更正为 **1 项**（R1 source 缺口）。
+4. mock 层描述更正：原把 saveWorkspaceHandle/UnderLock 换成直接 Map.set 且忽略锁品牌，不能称为
+   「仅 IDB 边界」；本轮已改真实 handle-store + indexedDB 内存替身。
+5. 首轮回执其余无据总括语以本节为准；不追溯改写上方历史原文。
+
+### 验证与失败记录（最终树）
+
+- 定向（本文件 19 用例）：**18 绿 + 1 预期红**（唯一红=R1 产品缺口见证，见上）。
+- 相邻 5 文件（open-actions/open-local/pal-save-identity/workspace-save-admission/
+  workspace-persistence）：**79/79 绿**。editor typecheck exit 0；新文件 biome 0 error（一次 format
+  自动修复后复跑）。
+- 同口径覆盖 cov-a：exit 1（预期红）——vitest 默认测试失败不写覆盖报告，加
+  `--coverage.reportOnFailure=true` 复跑成功落盘，已如实记录；cov-b exit 0。
+- 5 组负控 + 缺陷见证见上表；完整 check/官方 ratchet/严格 fast 未重跑（返工未改生产），留 Codex
+  集成后统一执行。
+
+### 交接
+
+- **main 前进披露**：返工期间 origin/main 由 693dec71 前进到 261c3c66（`workspace-capability-lifecycle.test.ts`
+  407 行 + 基线 6295→6308；生产核心三文件零改动）。本返工严格基于用户指定的 693dec71；R3 剩余臂
+  分类以 693dec71 为准，261c3c66 的生命周期测试可能已覆盖其中部分臂，Codex 集成时请在最新 main 上
+  重算，本席不据此改表。
+
+GLM 测试贡献者，终审须披露。返工候选 `c04fbde9`（amend 回填前提交；最终以远端推送 SHA 为准）。
+
+## Codex返工接收与R1修复（2026-09-12，73aa0ea7）
+
+接收起点为**6eaf4dc7**，不再是GLM回执中的261c3c66；远端73aa0ea710a6a459521765516dc52f30fb66ea09与其worktree一致。
+相对693dec71白名单确为497行新测试及124行GLM返工回执；产品核心与1ba88755一致。
+主线两批Codex测试/文档/官方基线均保留；未merge旧主树、未覆盖GLM原回执或原counter。
+
+### R1：独立先红与最小修复
+
+- 先将候选测试逐字节适配至最新主线，断言与候选blob相同；产品仍未改时复跑为**18绿+1红**，唯一失败是source单轴错误放行。
+  新fixture没有既有recent，marker/hint的projectId/workspaceId/mode一致，仅source不同；该反例没有被后层既有记录护栏掩盖。
+- 修复仅在workspace-persistence的现有mode/workspaceId条件中加入`context.source !== marker.source`，继续使用同一“marker与当前操作不一致”错误。
+  root生产diff为这一个比较条件及格式化换行；open-actions/handle-store、模型、版本、登记顺序、原探针均零diff。
+- 该修复兑现既有四轴identity合同，不是改变产品方案。只阻止新错误绑定，不自动改写目录marker或既有recent，也不引入旧数据兼容路径。
+- 禁用新增source比较的单点负控重新错误放行，1红。原只读取证probe仍3项、文件零改动：2绿+1红，唯一失败是此前证明“坏source可登记”的见证如今在首次打开即被正确拒绝。
+  此probe仍不是常规验收测试；不会修改它去把历史缺陷行为变成绿。
+
+### R2：真实登记链及接收侧补强
+
+候选已移除handle-store业务mock；真实登记、品牌锁、同目录/身份守卫运行，底层IDB替身将request success与transaction completion分开。
+正常生产tx每次只发一个请求，候选符合这一使用合同；这里不把替身当完整浏览器IDB实现。
+forceSandbox PAL检视的dir缺席、合法沙盒mayBind正控，以及新增hint冲突的文件/IO/记录断言均到位。
+
+Codex在集成测试中做了有限补强，明确披露，不把它们算GLM原交付：
+
+- afterRead仅计arrayBuffer，不能单独支撑“任何读取前”的标题；新增根getDirectoryHandle/getFileHandle/entries零调用spy，并在afterEach restoreAllMocks，句柄对象身份原样保留。
+- hint mode负例复用marker的workspaceId，避免同时引入另一个workspaceId；mode与它合法的source仍配对，测试头部不再声称所有mode例都是单字段。
+- source用例移除“当前预期红”历史标注，并将拒绝文案收紧到对应前层身份检查；没有skip/test.fails，也没有降低业务断言。
+
+本席使用独立TS AST隔离配置重建，而非直接运行GLM配置或采信其日志。原候选与最终集成树均复跑：
+recent projectId / expectedIdentity / expected handle / forceSandbox dir四组都是错误放行或dir泄漏级业务红；最终额外source负控1红。
+GLM配置将include置于test之外，曾意外跑全套件；本席把root/include/testNamePattern/maxWorkers都放在test内，隔离验证没有将该环境噪音算产品问题。
+
+overlap组移除resolver的记录一致性throw后，原断言因后层错误文案变化而红；**不计作错误放行**。
+另做只读oracle：仅在临时加载的测试中允许已知后层错误文案，使handle/mode/projectId/source四case循环完整通过原reject与零副作用断言。
+证明后层确实继续拒绝异常记录；没有删除更多生产守卫硬造放行，亦不将oracle的绿混入官方测试数。
+
+### R3：最新主线归属重算
+
+保留6eaf4dc7刚通过的官方严格LCOV/baseline；在相同未修生产代码上仅运行本候选19项（reportOnFailure，18绿+1已知产品红），
+按branchId/arm计算相对该主线的新命中，不借用GLM旧起点的分类。结果：
+
+- workspace-persistence：最新main **400/435**，加入GLM候选的集合为**414/435**，本包仍恰**+14**。
+- 新增14臂为182/1、183/1、183/2、183/3、185/0、190/0、192/0、196/0、199/0、200/1、202/0、203/0、206/0、208/0。
+- open-actions 103/108、project-io 216/241、handle-store 33/39、workspace-context 76/93均没有由本候选新增的臂。
+- GLM旧回执中42/5/6/17的列表只对应旧起点，不作为最新剩余总表；新增source生产检查及其覆盖另归Codex，不混成GLM贡献。
+
+原始证据：`/tmp/codex-oi-rework.sIagAm/`下candidate-main-red.log、candidate-negative-*、contribution-before-fix/、
+main-before-lcov.info、main-before-baseline.json、contribution-main.json；前期尝试读取不存在的coverage-final.json时工具报ENOENT，
+未当覆盖证据，改用实际官方LCOV与本席独立生成的JSON/LCOV。
+
+### 本轮验证与接收边界
+
+集成后的8文件121项/typecheck/改动文件biome通过；完整check **6,825项** exit0（另docs工具20项、coverage工具17项），
+以6eaf4dc7为BASE_REF的官方ratchet及随后**单次**严格fast **6,337项**均exit0，未复现editor抖动，不取多数放行。
+editor fast203文件/2,098项，生产文件仍618；既有lint50 warnings/11 infos不变，无error。
+
+最终官方LCOV确认GLM新增14个原缺口，Codex新增source臂193/2也已覆盖：wp415/436、行413/423、函数58/58；
+io216/241、open-actions103/108、handle-store33/39、workspace-context76/93均未回退。
+重点两文件剩余60→46，其他三文件缺口仍5/6/17；没有把不同统计范围相减，也没有把新增生产臂算成又关闭一个旧缺口。
+全仓分支分母因真实source检查62529→62530，其他指标分母及源码范围不变；严格summary逐包metrics/总数与生成baseline一致。
+原剩余branchId集合无丢键、无已命中臂回退，当前两文件台账hash/LCOV行号与精确46行已更新。
+
+**Codex子包接收结论：accept，无剩余返工项。** GLM测试贡献与Codex接收侧补强已分开披露；本结论不是父卡done前的整体终审签字。
+最终负控日志final-negative-*、重叠oracle overlap-all-axes.log、原probe unchanged-probe-post-fix.log均在上述目录。
+本修复不增加新UI，正常UI是否会产生不一致hint仍未证明；功能合同由真实finishOpen/登记/重开链验证，不重复已有视觉流程。
+GLM是测试贡献者，Codex负责适配、生产修复与独立验证；终审必须披露，不代签、不转Kimi，父卡仍build/r2。
+无下一位Agent提示词；Codex自持统一质量收口及剩余工作。

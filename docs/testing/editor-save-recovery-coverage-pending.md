@@ -5,12 +5,12 @@
 
 ## 口径与未完成边界
 
-- 本表两份生产源码相对4b72e492未变；保存凭据解析性能优化不改变这两份源码。360b2f65接收树的未覆盖快照为wp82 + project-io37 = 119臂。
-- 前批PAL/首存回归将119臂降至93臂，project-io-admission降至82，真实授权生命周期降至66；2026-09-12本批最终取样/恢复快照10项再命中wp5+io1臂，当前为 **35 + 25 = 60臂未覆盖**；没有新回退臂。
+- project-io仍与4b72e492一致；本批wp仅新增sandbox hint.source一致性比较，源码hash已更新。360b2f65接收树的历史未覆盖快照为wp82 + project-io37 = 119臂。
+- 前批回归依次将119降至93、82、66、60；2026-09-12接收GLM open-identity-r1并由Codex修复source漏检后，当前为 **21 + 25 = 46臂未覆盖**；没有新回退臂。
 - branchId/arm是本次V8报告定位键，不是产品稳定ID；源码或工具升级后必须重生成。
-- 条件/函数由TypeScript AST定位。条件为归一化节选；短路表达式显示所属整体表达式，具体臂仍按报告编号，不把相同节选当同一个臂。长行用省略号。
-- 当前60臂中，**46臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
-- 本表0命中不写“已有覆盖”；60臂不是60个已确认bug，也不是整卡全部剩余工作。GLM打开身份返工未接收、hint.source产品缺口及原生/性能/终审按父卡继续。
+- 条件/函数由TypeScript AST定位，行按当前LCOV节点起点。条件为归一化节选；短路表达式显示所属整体表达式，具体臂仍按报告编号，不把相同节选当同一个臂。长行用省略号。
+- 当前46臂中，**32臂为E0=待确认，11臂为E3=当前调用域的构造/前置保证，3臂为E4=旧路径退役审查候选**（证据见下）。E3/E4仍在未覆盖分母，不算已覆盖、不自动授权删除。类型可选/难构造不能单独证明可达或不可达。
+- 本表0命中不写“已有覆盖”；46臂不是46个已确认bug，也不是整卡全部剩余工作。GLM打开身份测试子包已接收、hint.source缺口已修，剩余旧路径/性能/终审按父卡继续；相邻open-actions/handle-store/workspace-context尚有5/6/17臂，不混入本表两文件计数。
 - 原119臂的精确历史清单由Git保留；[preflight接收结论](editor-save-recovery-glm-preflight.md#codex-fae10e55接收结论2026-09-12)仍是该时点事实，不冒充最新数量。
 
 ## 前批闭环的9臂（E2：常驻测试已覆盖）
@@ -84,11 +84,19 @@ wp覆盖为行402/423（95.03%）、函数58/58、分支395/435（90.80%）；io
 wp当前行405/423、函数58/58、分支400/435；io行287/290、函数52/52、分支216/241。
 加载入口显式补齐可选字段不足以证明后续所有命令均如此，io30/1～38/1仍E0，解码non-Error三臂亦不靠替换parser凑覆盖。
 
+## 本批打开身份接收与source修复（E2）
+
+[Codex独立复核及完整质量门](editor-save-recovery-glm-open-identity.md#codex返工接收与r1修复2026-09-1273aa0ea7)：
+GLM候选相对最新main新增wp182/1、183/1、183/2、183/3、185/0、190/0、192/0、196/0、199/0、200/1、202/0、203/0、206/0、208/0共14个原缺口。
+Codex新增source条件产生新臂193/2且已命中，因此分母435→436、覆盖400→415；**新臂不是又关闭一个旧缺口**，剩余wp35→21。
+最终单次严格fast6,337项，wp行413/423、函数58/58、分支415/436；io保持287/290、52/52、216/241。
+生产文件范围仍618，未缩分母或测试范围；source新检查是真实功能条件，不以覆盖忽略或删除守卫凑比例。
+
 ## 当前清单
 
 ### workspace-persistence.ts
 
-来源：packages/editor/src/core/workspace-persistence.ts；源码SHA-256：f4cea61c2ae532945e9d707e73cf9def2ed98bc22a1b17cd19dd95eb0b3553b0。未覆盖35臂。
+来源：packages/editor/src/core/workspace-persistence.ts；源码SHA-256：141741f5ca055569f582b6ca28c19bb56068a8a9c423e9bb4db3453b2e89ab1e。未覆盖21臂。
 
 | 分支/臂 | 行 | 所在函数/回调 | 条件/子表达式（按报告编号） | 当前分类 |
 |---|---:|---|---|---|
@@ -104,29 +112,15 @@ wp当前行405/423、函数58/58、分支400/435；io行287/290、函数52/52、
 | 126/0 | 663 | fingerprintPalExpectedValues → 回调@662 | if：!values.has(path) | 待确认（E0） |
 | 158/0 | 775 | preflightFirstSaveTarget | if：entryBinding && entryBinding.workspaceId !== context.workspaceId | 待确认（E0） |
 | 159/1 | 775 | preflightFirstSaveTarget | binary-expr：entryBinding && entryBinding.workspaceId !== context.workspaceId | 待确认（E0） |
-| 164/2 | 805 | authorizeFirstSaveTarget | binary-expr：previousAuthor && (previousAuthor.dir === dir \|\| (await previousAuthor.dir.isSameEntry(dir))) | 待确认（E0） |
+| 164/2 | 804 | authorizeFirstSaveTarget | binary-expr：previousAuthor && (previousAuthor.dir === dir \|\| (await previousAuthor.dir.isSameEntry(dir))) | 待确认（E0） |
 | 169/0 | 823 | authorizeFirstSaveTarget → verifyWorkspace | if：metadata.sandbox.kind === 'invalid' \|\| metadata.palDevelopment.kind !== 'missing' | 待确认（E0） |
 | 175/0 | 889 | contextFromRecord | if：record.mode === 'sandbox' | 待确认（E0） |
 | 176/0 | 890 | contextFromRecord | if：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
 | 176/1 | 890 | contextFromRecord | if：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
 | 177/0 | 891 | contextFromRecord | binary-expr：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
-| 177/1 | 892 | contextFromRecord | binary-expr：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
-| 177/2 | 893 | contextFromRecord | binary-expr：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
+| 177/1 | 891 | contextFromRecord | binary-expr：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
+| 177/2 | 891 | contextFromRecord | binary-expr：record.source !== 'ui-samples' && record.source !== 'sandbox-copy' && record.source !== 'review-copy' | 待确认（E0） |
 | 178/1 | 898 | contextFromRecord | if：record.mode === 'local-project' | 待确认（E0） |
-| 182/1 | 916 | assertExpectedWorkspaceIdentity | if：context.workspaceId !== expected.workspaceId \|\| context.projectId !== expected.projectId \|\| context.mode !== expected.mode \|\| context.source !== expected.source | 待确认（E0） |
-| 183/1 | 918 | assertExpectedWorkspaceIdentity | binary-expr：context.workspaceId !== expected.workspaceId \|\| context.projectId !== expected.projectId \|\| context.mode !== expected.mode \|\| context.source !== expected.source | 待确认（E0） |
-| 183/2 | 919 | assertExpectedWorkspaceIdentity | binary-expr：context.workspaceId !== expected.workspaceId \|\| context.projectId !== expected.projectId \|\| context.mode !== expected.mode \|\| context.source !== expected.source | 待确认（E0） |
-| 183/3 | 920 | assertExpectedWorkspaceIdentity | binary-expr：context.workspaceId !== expected.workspaceId \|\| context.projectId !== expected.projectId \|\| context.mode !== expected.mode \|\| context.source !== expected.source | 待确认（E0） |
-| 185/0 | 940 | resolveOpenedWorkspaceContext | if：hint && hint.projectId !== projectId | 待确认（E0） |
-| 190/0 | 953 | resolveOpenedWorkspaceContext | if：marker.projectId !== projectId | 待确认（E0） |
-| 192/0 | 957 | resolveOpenedWorkspaceContext | if：context.mode !== 'sandbox' \|\| context.workspaceId !== marker.workspaceId | 待确认（E0） |
-| 196/0 | 963 | resolveOpenedWorkspaceContext | if：existing.mode !== 'sandbox' \|\| existing.projectId !== marker.projectId \|\| existing.source !== marker.source | 待确认（E0） |
-| 199/0 | 974 | resolveOpenedWorkspaceContext | if：hint && hint.mode !== 'pal-development' | 待确认（E0） |
-| 200/1 | 974 | resolveOpenedWorkspaceContext | binary-expr：hint && hint.mode !== 'pal-development' | 待确认（E0） |
-| 202/0 | 980 | resolveOpenedWorkspaceContext | if：!(await existing.handle.isSameEntry(dir)) | 待确认（E0） |
-| 203/0 | 982 | resolveOpenedWorkspaceContext | if：existing.mode !== 'pal-development' \|\| existing.projectId !== context.projectId \|\| existing.source !== 'dev-http' | 待确认（E0） |
-| 206/0 | 993 | resolveOpenedWorkspaceContext | if：hint.mode !== 'local-project' | 待确认（E0） |
-| 208/0 | 1000 | resolveOpenedWorkspaceContext | if：existing.projectId !== projectId | 待确认（E0） |
 
 ### project-io.ts
 
@@ -148,9 +142,9 @@ wp当前行405/423、函数58/58、分支400/435；io行287/290、函数52/52、
 | 37/1 | 309 | serializeProject | binary-expr：state.migrationDiagnostics?.diagnostics ?? [] | 待确认（E0） |
 | 38/1 | 314 | serializeProject | binary-expr：state.worldVariables ?? {} | 待确认（E0） |
 | 48/0 | 404 | writeFile → 回调@393 | cond-expr：snapshot instanceof ArrayBuffer | 退役审查候选（E4） |
-| 79/1 | 560 | writeProject → 回调@499 → rememberWrite | binary-expr：signature ?? (value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value)) | 构造/前置保证（E3） |
-| 80/0 | 561 | writeProject → 回调@499 → rememberWrite | cond-expr：value instanceof ArrayBuffer | 构造/前置保证（E3） |
-| 80/1 | 562 | writeProject → 回调@499 → rememberWrite | cond-expr：value instanceof ArrayBuffer | 构造/前置保证（E3） |
+| 79/1 | 559 | writeProject → 回调@499 → rememberWrite | binary-expr：signature ?? (value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value)) | 构造/前置保证（E3） |
+| 80/0 | 560 | writeProject → 回调@499 → rememberWrite | cond-expr：value instanceof ArrayBuffer | 构造/前置保证（E3） |
+| 80/1 | 560 | writeProject → 回调@499 → rememberWrite | cond-expr：value instanceof ArrayBuffer | 构造/前置保证（E3） |
 | 84/1 | 604 | writeProject → 回调@499 | binary-expr：sizes.get(rel) ?? 0 | 构造/前置保证（E3） |
 | 88/1 | 609 | writeProject → 回调@499 | binary-expr：sizes.get(catalogPath) ?? 0 | 构造/前置保证（E3） |
 | 91/1 | 620 | writeProject → 回调@499 | binary-expr：sizes.get(rel) ?? 0 | 构造/前置保证（E3） |

@@ -954,7 +954,11 @@ export async function resolveOpenedWorkspaceContext(
       throw new Error('工作区 identity 冲突：沙盒 marker 与 manifest 项目 id 不一致')
     const context =
       hint ?? createSandboxWorkspaceContext(projectId, marker.source, marker.workspaceId)
-    if (context.mode !== 'sandbox' || context.workspaceId !== marker.workspaceId)
+    if (
+      context.mode !== 'sandbox' ||
+      context.workspaceId !== marker.workspaceId ||
+      context.source !== marker.source
+    )
       throw new Error('工作区 identity 冲突：沙盒 marker 与当前操作不一致')
     const existing = await loadWorkspaceRecord(marker.workspaceId)
     if (existing) {
