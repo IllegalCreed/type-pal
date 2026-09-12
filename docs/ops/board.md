@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | build | GLM：preflight-r1测试/只读清单；Codex：原生/性能及接收 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) 上批已接收；新包固定4b72e492、只写新测试不改产品，r2不重签。 |
+| EDITOR-SAVE-RECOVERY-1 | 编辑器保存中断恢复 | rework | GLM：preflight-r1 PF-1～PF-3返工；Codex复核 | [任务卡](tasks/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) S01使用当前明禁字段，S02/P05证据不全，C组分类/覆盖归因不符；原基线保留，r2不重签。 |
 
 ## 阻塞
 
