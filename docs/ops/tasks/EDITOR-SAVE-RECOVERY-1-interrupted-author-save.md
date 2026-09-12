@@ -1630,6 +1630,17 @@ receipts.size===0 断言；P01/P02 补自身合法对照；unused import 清理�
 biome 0、四负控红、同口径 197/1,996 全绿；project-io 行 97.2%/函数 100%/分支 84.6% 缺口逐臂列明。
 候选 ee7169e3，推送核远端后交 Codex 复核。不代签、不标 done、不转 Kimi；测试贡献终审披露。
 
+#### GLM · preflight-r1 二次返工交接日志（2026-09-12）
+
+基于 989966af 按 PF-2/PF-3 剩余项返工。P05 拆双用例（独立新鲜 fixture 各自授权）：正控同项目同 kind
+合法精灵真实 writer 完整提交；负控先正常序列化合法 state、structuredClone 后仅 bytes+1、坏输入直接
+进 writeProject（catch-free 精确文案断言、零凭据/零快照变化/零 IO）；临时入口见证（生产 writeProject
+首行计数注入）证实负控调用恰 +1 后删除。PF-3：wp 82 臂 + project-io 37 臂逐 branchId/arm 唯一分类
+（脚本复算 20/49/10/3=82、9/10/4/4+合并 10=37）；130/0 双 marker 按 Codex oracle 改可达待测、
+assertDirectoryEmpty 两臂撤回前置阻断、27→28 勘误；回执勘误 check4 阻断实为 formatter error、
+不倒填 SHA。验证：定向+相邻 46/46、tc 0、biome 0、四负控红（A1 三红）、完整 check exit0 共 6,724 项、
+同口径 197/1,997 全绿。候选 193f4adf，推送核远端后交 Codex。不代签、不标 done、不转 Kimi。
+
 
 ### Codex · preflight-r1接收复核（2026-09-12，counter）
 
