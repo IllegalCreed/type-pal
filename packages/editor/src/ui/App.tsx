@@ -104,6 +104,7 @@ import {
   serializeProjectWithMapCopies,
   writeProject,
 } from '../core/project-io.js'
+import type { ProjectLeaveIntent, ProjectSaveOutcome } from '../core/project-leave-guard.js'
 import {
   createProjectReferenceIndex,
   type ProjectReferenceEdge,
@@ -220,6 +221,7 @@ import {
   useStoredPanelBoolean,
   useStoredPanelNumber,
 } from './PanelResizeHandle.js'
+import { ProjectLeaveDialog } from './ProjectLeaveDialog.js'
 import { type ProjectSaveActivity, ProjectSaveDialog } from './ProjectSaveDialog.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { type SceneAnchorSelection, SceneCanvas } from './SceneCanvas.js'
@@ -234,6 +236,7 @@ import {
   useEditSessionSelector,
   useScriptEditSessionSelector,
 } from './session-selector.js'
+import { useProjectLeaveGuard } from './use-project-leave-guard.js'
 
 type SceneSelection =
   | { kind: 'scene' }
@@ -361,6 +364,12 @@ export function App(props: {
 }) {
   const { session, project } = props
   const scriptSession = props.script.session
+  // Install before the invalid-entry early return too: that page still owns unsaved sessions.
+  const {
+    guard: projectGuard,
+    decision: leaveDecision,
+    operation: projectOperation,
+  } = useProjectLeaveGuard(session, scriptSession)
   const historyCoordinator = useMemo(
     () => new EditorHistoryCoordinator(session, scriptSession),
     [scriptSession, session],
@@ -577,10 +586,9 @@ export function App(props: {
   const firstSaveAuthorRef = useRef<AuthorDiskBaseline | undefined>(undefined)
   const [saveErr, setSaveErr] = useState(props.initialSaveWarning ?? '')
   const [saveActivity, setSaveActivity] = useState<ProjectSaveActivity | null>(null)
-  // React state 只负责展示；同步 ref 才能在首个 await 前防住双击和并发项目 IO。
-  const saveInFlightRef = useRef(false)
+  // The session-local gate synchronously owns every project IO and leave decision, before await.
   const saveCommandRef = useRef<EditorAppCommand | null>(null)
-  const [exporting, setExporting] = useState(false) // A5 导出 zip 进行中
+  const exporting = projectOperation === 'export'
   // Content transport changes after binding; the workspace's save identity does not.
   const playWorkspaceId = dirHandleRef.current ? props.workspace.workspaceId : undefined
   const playIdentity: EditorPlayIdentity = {
@@ -1392,7 +1400,7 @@ export function App(props: {
     if (!scriptState) return undefined
     return {
       state: scriptState,
-      currentSceneId: scene.id,
+      currentSceneId: scene?.id,
       shellScenes: state.scenes,
       sceneIndex: state.sceneIndex,
       locale: state.locale,
@@ -1439,7 +1447,7 @@ export function App(props: {
     assetReader,
     audioResolver,
     project.assetBase,
-    scene.id,
+    scene?.id,
     scriptState,
     state.actors,
     state.ambiences,
@@ -1836,7 +1844,7 @@ export function App(props: {
   )
   const entryReferencesById = useMemo(
     () =>
-      sceneReferencesActive
+      scene && sceneReferencesActive
         ? new Map(
             Object.keys(scene.entries ?? {}).map((entryId) => [
               entryId,
@@ -1920,8 +1928,12 @@ export function App(props: {
   // 删除键与行尾动作共用同一删除入口；输入控件内不劫持。
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
+      if (projectGuard.blocked()) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') e.preventDefault()
+        return
+      }
       if (executeEditorSaveShortcut(e, saveCommandRef.current)) return
-      if (e.defaultPrevented || saveInFlightRef.current) return
+      if (e.defaultPrevented) return
       const t = e.target as HTMLElement | null
       const typing =
         t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')
@@ -1984,6 +1996,7 @@ export function App(props: {
     inspectorAvailable,
     redo,
     undo,
+    projectGuard,
   ])
 
   useEffect(() => {
@@ -2063,10 +2076,14 @@ export function App(props: {
   }
   // 保存:File System Access + 增量(快照-diff,只写变化;P3)。所有入口先经过 workspace
   // persistence policy，成功后才按 workspaceId 登记目录句柄。
-  const save = async (): Promise<void> => {
-    if (saveInFlightRef.current || exporting) return
-    saveInFlightRef.current = true
-    setSaveActivity({ phase: 'choosing-directory' })
+  const save = async (beforeLeaving = false): Promise<ProjectSaveOutcome> => {
+    const lease = projectGuard.begin('save', beforeLeaving)
+    if (!lease) return 'cancelled'
+    let outcome: ProjectSaveOutcome = 'cancelled'
+    const activity = (value: ProjectSaveActivity): void => {
+      if (projectGuard.isCurrent(lease)) setSaveActivity(value)
+    }
+    activity({ phase: 'choosing-directory' })
     try {
       let dir = dirHandleRef.current
       let rememberDirectory = false
@@ -2078,9 +2095,9 @@ export function App(props: {
             '当前是 PAL 开发基线模式。只有选择与本次启动快照一致的 projects/pal 目录才会获准写入；要继续吗？',
           )
         )
-          return
+          return outcome
         dir = await pickDir()
-        if (!dir) return
+        if (!dir || !projectGuard.isCurrent(lease)) return outcome
         const previousAttempt = saveAttemptDirRef.current
         resumesInterruptedAttempt = previousAttempt ? await dir.isSameEntry(previousAttempt) : false
         if (!resumesInterruptedAttempt) {
@@ -2099,10 +2116,11 @@ export function App(props: {
         ? firstSaveAuthorRef.current!
         : authorBaselineRef.current
       setSaveErr('')
-      setSaveActivity({ phase: 'preparing' })
+      activity({ phase: 'preparing' })
       const recovered = await resumeOwnProjectSave(props.workspace, dir, authorBaseline, () =>
-        setSaveActivity({ phase: 'recovering' }),
+        activity({ phase: 'recovering' }),
       )
+      if (!projectGuard.isCurrent(lease)) return outcome
       if (recovered) {
         snapshotRef.current = recovered.snapshot
         authorBaselineRef.current = authorBaseline
@@ -2120,7 +2138,7 @@ export function App(props: {
         ...session.getDeletedAssetPaths(),
       ]
       setSaveErr('')
-      setSaveActivity({ phase: 'preparing' })
+      activity({ phase: 'preparing' })
       // 先让原生 modal 进入 top layer，再开始可能较重的全项目序列化。
       await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
       // First-save assets stream through the journal, not one materialized in-memory asset set.
@@ -2129,6 +2147,7 @@ export function App(props: {
         : undefined
       if (copySource) await verifySourceAuthorBaseline(authorBaselineRef.current, project.source)
       const files = await serializeEditorSnapshot(savedState, savedScriptState)
+      if (!projectGuard.isCurrent(lease)) return outcome
       let lastPercent = -1
       // 即使是首存也传空 Map：writeProject 会把每个已成功 close 的路径记进实际磁盘恢复快照。
       // 中断后该 Map 留在 ref 中，下次保存/撤销才能清理已写但未发布的新 blob。
@@ -2157,10 +2176,11 @@ export function App(props: {
             const percent = total > 0 ? Math.floor((completed / total) * 100) : 0
             if (percent === lastPercent && completed < total) return
             lastPercent = percent
-            setSaveActivity({ phase: 'writing', completed, total })
+            activity({ phase: 'writing', completed, total })
           },
         })
       })
+      if (!projectGuard.isCurrent(lease)) return outcome
       snapshotRef.current = result.snapshot
       setSaveErr(result.cleanupWarning ?? '')
       // 若保存期间仍有后台 hydrate/command 生成新 state，磁盘只是开始时快照，不能误清 dirty。
@@ -2178,35 +2198,71 @@ export function App(props: {
         dirHandleRef.current = dir
         saveAttemptDirRef.current = dir
       }
+      outcome = 'committed'
+      return outcome
     } catch (e) {
       // pickDir already turns genuine picker cancellation into null; an IO AbortError is a failure.
       // writeProject 已原地更新恢复快照；保留它供下次恢复/清理。
-      setSaveErr(e instanceof Error ? e.message : String(e))
+      if (projectGuard.isCurrent(lease)) setSaveErr(e instanceof Error ? e.message : String(e))
+      outcome = 'failed'
+      return outcome
     } finally {
-      saveInFlightRef.current = false
-      setSaveActivity(null)
+      if (projectGuard.isCurrent(lease)) setSaveActivity(null)
+      projectGuard.finish(lease, outcome)
     }
   }
 
   // 「项目」菜单(P4 native-app 手感:新建 / 打开别的 / 另存为)。切项目 → 上抛 main 重建 session。
-  const runProj = async (fn: () => Promise<Opened | null>): Promise<void> => {
-    if (saveInFlightRef.current || exporting) return
-    saveInFlightRef.current = true
+  const runProj = async (): Promise<void> => {
+    const lease = projectGuard.begin('open')
+    if (!lease) return
     setSaveActivity({ phase: 'choosing-directory' })
+    setSaveErr('')
     try {
-      const o = await fn()
-      if (o) props.onOpened?.(o)
+      const o = await openExistingProject({
+        forceSandbox: props.forceSandbox,
+        onRecovering: () => {
+          if (!projectGuard.isCurrent(lease)) return
+          projectGuard.recovering(lease)
+          setSaveActivity({ phase: 'recovering' })
+        },
+      })
+      if (!o || !projectGuard.isCurrent(lease)) return
+      if (projectGuard.canReplace(lease)) props.onOpened?.(o)
+      else setSaveErr('打开期间当前项目又有修改，已保留当前编辑内容。请重新打开。')
     } catch (e) {
-      setSaveErr(e instanceof Error ? e.message : String(e))
+      if (projectGuard.isCurrent(lease)) setSaveErr(e instanceof Error ? e.message : String(e))
     } finally {
-      saveInFlightRef.current = false
-      setSaveActivity(null)
+      if (projectGuard.isCurrent(lease)) setSaveActivity(null)
+      projectGuard.finish(lease)
     }
   }
 
+  const performLeave = (intent: ProjectLeaveIntent): void => {
+    if (intent === 'open') {
+      // Deliberately synchronous through pickDir: no await between the click and native picker.
+      void runProj()
+      return
+    }
+    const lease = projectGuard.begin('new')
+    if (!lease) return
+    try {
+      if (projectGuard.canReplace(lease)) props.onBackToPicker?.()
+    } finally {
+      projectGuard.finish(lease)
+    }
+  }
+  const requestLeave = (intent: ProjectLeaveIntent): void => {
+    if (projectGuard.request(intent)) performLeave(intent)
+  }
+  const continueLeave = (): void => {
+    const intent = projectGuard.confirm()
+    if (intent) performLeave(intent)
+  }
+
   const saveAs = async (): Promise<void> => {
-    if (saveInFlightRef.current || exporting) return
-    saveInFlightRef.current = true
+    const lease = projectGuard.begin('save-as')
+    if (!lease) return
     setSaveActivity({ phase: 'saving-as' })
     try {
       const savedState = session.getState()
@@ -2226,12 +2282,14 @@ export function App(props: {
         { source: project.source, authorBaseline: authorBaselineRef.current },
       )
       const opened = await operation
-      if (opened) props.onOpened?.(opened)
+      if (!opened || !projectGuard.isCurrent(lease)) return
+      if (projectGuard.canReplace(lease)) props.onOpened?.(opened)
+      else setSaveErr('副本已保存；当前项目又有新修改，仍未保存，已保留在当前页面。')
     } catch (e) {
-      setSaveErr(e instanceof Error ? e.message : String(e))
+      if (projectGuard.isCurrent(lease)) setSaveErr(e instanceof Error ? e.message : String(e))
     } finally {
-      saveInFlightRef.current = false
-      setSaveActivity(null)
+      if (projectGuard.isCurrent(lease)) setSaveActivity(null)
+      projectGuard.finish(lease)
     }
   }
 
@@ -2243,17 +2301,21 @@ export function App(props: {
 
   const exportZip = (): void => {
     const dir = dirHandleRef.current
-    if (!dir) return
+    if (!dir || projectGuard.blocked()) return
     if (
       editorDirty &&
       !window.confirm('有未保存改动，导出只读取磁盘内容。仍要导出吗？（建议先保存）')
     )
       return
-    setExporting(true)
+    const lease = projectGuard.begin('export')
+    if (!lease) return
     setSaveErr('')
     void exportProjectZip(dir, state.manifest.id)
-      .catch((error: unknown) => setSaveErr(error instanceof Error ? error.message : String(error)))
-      .finally(() => setExporting(false))
+      .catch((error: unknown) => {
+        if (projectGuard.isCurrent(lease))
+          setSaveErr(error instanceof Error ? error.message : String(error))
+      })
+      .finally(() => projectGuard.finish(lease))
   }
 
   const commands = createEditorAppCommandRegistry([
@@ -2261,31 +2323,25 @@ export function App(props: {
       id: 'file.new',
       label: '新建项目',
       icon: 'open',
-      enabled: props.onBackToPicker !== undefined,
+      enabled: props.onBackToPicker !== undefined && !projectGuard.blocked(),
       scope: 'global',
       defaultPlacement: 'common',
-      execute: () => props.onBackToPicker?.(),
+      execute: () => requestLeave('new'),
     },
     {
       id: 'file.open',
       label: '打开项目',
       icon: 'open',
-      enabled: saveActivity === null,
+      enabled: !projectGuard.blocked(),
       scope: 'global',
       defaultPlacement: 'common',
-      execute: () =>
-        void runProj(() =>
-          openExistingProject({
-            forceSandbox: props.forceSandbox,
-            onRecovering: () => setSaveActivity({ phase: 'recovering' }),
-          }),
-        ),
+      execute: () => requestLeave('open'),
     },
     {
       id: 'file.rename',
       label: '重命名项目',
       icon: 'more',
-      enabled: saveActivity === null,
+      enabled: !projectGuard.blocked(),
       scope: 'global',
       execute: renameProject,
     },
@@ -2293,7 +2349,7 @@ export function App(props: {
       id: 'file.save-as',
       label: '另存为',
       icon: 'save',
-      enabled: saveActivity === null && !exporting,
+      enabled: !projectGuard.blocked(),
       scope: 'global',
       execute: () => void saveAs(),
     },
@@ -2301,7 +2357,7 @@ export function App(props: {
       id: 'file.export',
       label: exporting ? '正在导出' : '导出 ZIP',
       icon: 'copy',
-      enabled: Boolean(dirHandleRef.current) && saveActivity === null && !exporting,
+      enabled: Boolean(dirHandleRef.current) && !projectGuard.blocked(),
       disabledReason: dirHandleRef.current ? undefined : '请先打开或保存本地项目',
       busy: exporting,
       scope: 'global',
@@ -2312,7 +2368,7 @@ export function App(props: {
       label: '撤销',
       icon: 'undo',
       shortcut: '⌘Z',
-      enabled: session.canUndo() || (scriptSession?.canUndo() ?? false),
+      enabled: !projectGuard.blocked() && (session.canUndo() || scriptSession.canUndo()),
       scope: 'global',
       defaultPlacement: 'fixed',
       execute: undo,
@@ -2322,7 +2378,7 @@ export function App(props: {
       label: '重做',
       icon: 'redo',
       shortcut: '⇧⌘Z',
-      enabled: session.canRedo() || (scriptSession?.canRedo() ?? false),
+      enabled: !projectGuard.blocked() && (session.canRedo() || scriptSession.canRedo()),
       scope: 'global',
       defaultPlacement: 'fixed',
       execute: redo,
@@ -2338,7 +2394,7 @@ export function App(props: {
             : '保存',
       icon: 'save',
       shortcut: '⌘S',
-      enabled: editorDirty && saveActivity === null && !exporting,
+      enabled: editorDirty && !projectGuard.blocked(),
       busy: saveActivity !== null,
       scope: 'global',
       defaultPlacement: 'fixed',
@@ -2474,7 +2530,7 @@ export function App(props: {
         ref={bodyRef}
         tabIndex={-1}
         aria-label={`${activeSubpage.label}工作区`}
-        inert={saveActivity !== null ? true : undefined}
+        inert={saveActivity !== null || leaveDecision !== null ? true : undefined}
         className={`body${effectiveOutlinerCollapsed ? ' outliner-collapsed' : ''}${effectiveInspectorCollapsed ? ' inspector-collapsed' : ''}`}
         style={bodyStyle}
       >
@@ -3473,6 +3529,16 @@ export function App(props: {
         </DsDialog>
       ) : null}
 
+      {leaveDecision && leaveDecision.phase !== 'saving' ? (
+        <ProjectLeaveDialog
+          decision={leaveDecision}
+          error={saveErr}
+          fallbackFocusRef={bodyRef}
+          onCancel={() => projectGuard.cancel()}
+          onContinue={continueLeave}
+          onSave={() => void save(true)}
+        />
+      ) : null}
       {saveActivity && saveActivity.phase !== 'choosing-directory' ? (
         <ProjectSaveDialog activity={saveActivity} />
       ) : null}

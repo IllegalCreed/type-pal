@@ -59,6 +59,7 @@ import {
   toEditorState,
   writeProject,
 } from './project-io.js'
+import { ProjectLeaveGuard } from './project-leave-guard.js'
 import {
   AddSceneDefinitionCommand,
   AddSceneEntityDefinitionCommand,
@@ -97,7 +98,6 @@ function appSave(
     'snapshotRef',
     'authorBaselineRef',
     'firstSaveAuthorRef',
-    'saveInFlightRef',
     'serializeEditorSnapshot',
     'save',
   ])
@@ -129,7 +129,7 @@ function appSave(
     project: opened.project,
     session: editor,
     scriptSession,
-    exporting: false,
+    projectGuard: new ProjectLeaveGuard(editor, scriptSession),
     setSaveErr: error,
     setSaveActivity: activity,
     window: { confirm: () => true, setTimeout },
@@ -151,6 +151,7 @@ function appSave(
   const javascript = ts.transpileModule([...declarations.values()].join('\n'), {
     compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None },
   }).outputText
+  env.projectGuard.connect()
   const run = new Function(...Object.keys(env), `${javascript}; return save;`)(
     ...Object.values(env),
   ) as () => Promise<void>
