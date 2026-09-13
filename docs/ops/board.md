@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| [EDITOR-HISTORY-ORDER-1](tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | 全局撤销顺序与成对操作完整性（D-01） | review | Codex候选已备；待启动终审 | 70e3f627整卡实现/功能验证完成，check6,981/严格fast6,493；按本轮要求暂不转Kimi，不代签done |
+| [EDITOR-HISTORY-ORDER-1](tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | 全局撤销顺序与成对操作完整性（D-01） | review | Kimi / GLM并行终审 | 同候选70e3f627/r1，整卡对比10c84238；check6,981/严格fast6,493，设计不重签、待两席落卡 |
 
 ## 阻塞
 

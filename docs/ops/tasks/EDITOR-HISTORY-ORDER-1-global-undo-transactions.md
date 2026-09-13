@@ -11,7 +11,7 @@ Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
 Revision: r1（设计签字保持；2026-09-13整卡候选70e3f627进入review）
-Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
+Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡终审对比10c84238..70e3f627（含首批dded6f27）
 
 ## 目标与范围
 
@@ -347,6 +347,11 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 
 ## 交接日志
 
+- 2026-09-13 Codex启动整卡终审：用户在整卡review交付后要求“继续”，接续为正式终审，而非另开GLM测试包审查。
+  接手fetch核main与origin/main一致、工作树干净，HEAD3634e2e9相对实现候选70e3f627的packages/scripts零diff；无新增counter。
+  Kimi/GLM两席可独立并行，均钉r1/70e3f627，整卡diff从10c84238起包含首批保存守卫；不重签设计、不改候选、不标done。
+  两席职责与直接落卡/推送提示词见下；GLM20项测试贡献继续披露，不能当该部分独立第三方自证。
+  本轮仅交接文档与看板/总进度更新，不重跑已验证的产品全仓测试或视觉流程；测试结果仍归上一轮候选自验证。
 - 2026-09-13 Codex整卡交付：实现候选70e3f627，Status→review，本人accept；三席r1设计不重签，Kimi/GLM终审仍pending，不标done。
   GLM工作流候选1f043a66经独立冻结树复算、修正P09等断言并适配当前Owner后接收20/20；连本轮其它回归新增49项。
   完整check6,981、ratchet/严格fast6,493，最小原生OPFS+真实App保存重开通过，旧探针/产品白名单核对通过。
@@ -390,8 +395,38 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 ## 下一位 Agent 提示词
 
 本卡整卡实现与自验证已完成，review候选70e3f627；不是只完成GLM测试接收的技术切片。
-**本轮无下一位Agent提示词**：依用户本次明确要求“不转Kimi”，暂不发终审转交，也不代签/标done。
-待用户启动正卡终审后，按协议给两席同候选并行提示词；GLM测试贡献须披露，视觉证据由Codex负责。
+用户现要求继续，提供下列两份同候选并行终审提示词；此前“不转Kimi”保留为上一轮接收的历史边界。
+两席审查过程中不改产品/测试/基线，分别只写自己的done前席位与日志，不改Status/共享准入、不代签、不标done。
+发现counter直接落明证据与最小返工范围，由Codex统一处理；不能先修实现后沿用旧候选accept。
+
+### Kimi（当前：r1整卡代码/架构终审，与GLM并行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-HISTORY-ORDER-1。
+任务卡 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，review/r1；设计签字不重签。
+固定实现候选70e3f62770bbe0a23c4b9d90c31258a3d2883772，整卡对比10c84238..70e3f627，包含首批dded6f27；后续只应有文档diff。
+先同步main并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡上下文/最终实现回执与最新日志。独立读取一手证据，不读取或复述GLM本轮终审结论。
+重点核唯一全局日志/事务ID、所有session入口路由、两侧prepare/validate/commit原子性、失败和订阅抛错、全局redo清理、地图元数据/affected记录、Root与StrictMode生命周期、App统一入口及文本/modal边界、保存缺正文拒绝与Root投影重开。
+复跑editor的editor-history-coordinator/foundations/timeline/paired-workflows四测试文件（62项）及typecheck；按疑点补App/Root/地图相邻测试。独立复算至少两针负控制，参考 /tmp/type-pal-history-main.WcgNcg/negative.config.mts，核唯一替换点及业务失败，不把索引重叠拒绝冒称错误放行。
+已有完整check6,981、严格fast6,493、Codex原生OPFS功能验证见卡，不重复视觉；采信日志须与本人复跑分栏。GLM贡献20项测试且经Codex补强，不能作为该部分独立自证。核D-06/D-07新旧证据及延期归属；若实际为本卡回归须counter，不因已登记就放过。
+只在本卡“进入done前”的Kimi席位及本人日志写accept或带file:line/反例的counter，单列旧版本兼容审查pass/counter。不得改实现、正式测试、基线、其他席位、Status/共享准入，不代签、不标done。
+提交前同步最新main，保留他席改动，提交推送自己的签字/日志；push竞态自行处理，不要求用户复制审查正文。最后给Codex接收提示词与提交SHA。
+```
+
+### GLM（当前：r1整卡覆盖/矩阵终审，与Kimi并行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-HISTORY-ORDER-1 的测试矩阵与覆盖证据。
+任务卡 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，review/r1；设计签字不重签。
+固定实现候选70e3f62770bbe0a23c4b9d90c31258a3d2883772，整卡对比10c84238..70e3f627，包含首批dded6f27；后续只应有文档diff。
+先同步main并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡H-01～H-12/最终回执/最新日志及 docs/testing/glm-editor-history-workflows-receipt.md 的接收勘误。独立核源码与最终测试，不读取或复述Kimi本轮结论。
+本席贡献过20项配对测试，必须披露；不得把自己的测试自测包装成该部分独立第三方验收。重点核最终P09/P10/P13～P17/P19业务断言、七caller census的静/动边界，以及Codex timeline24/foundations14/App4/投影1与H矩阵的实际映射。
+复跑核心四文件（coordinator/foundations/timeline/paired-workflows，共62项）及App.leave-guard、script-editor-projection测试；核五针order/split/future/pop/save单点反控（配置 /tmp/type-pal-history-main.WcgNcg/negative.config.mts，可自行重建），如实区分错误放行、重叠守卫拒绝、版本未失效。
+独立运行单次严格pnpm coverage:fast，核6,493项/617生产文件、editor210测试文件/2,254项；不运行ratchet、不改基线。对比10c84238及dded6f27，核整卡+63项/本轮+49项、旧生产文件/测试未移除、其他六包指标和范围不变；既有check6,981与本人复跑分栏。若抖动复现按确定性缺陷报告，不靠多数通过放行。
+检查回执/看板/覆盖文档以及D-06/D-07延期边界；单列旧版本兼容审查pass/counter。不做浏览器、截图或视觉判断，不改产品/测试/配置/基线，不把本卡扩成其它缺陷修复授权。
+只在本卡“进入done前”的GLM席位与本人日志写accept或带file:line/业务反例的counter；不得改另一席结论、Status/共享准入，不代签、不标done。提交前同步main保留他席改动，提交推送自己的签字与日志，自行处理push竞态；用户不搬运审查正文。最后给Codex接收提示词与提交SHA。
+```
+
 以下r1设计提示词已执行，仅为历史，不再次转发、不重签。
 
 ### Kimi（历史：D-01 r1设计审查，与GLM并行）
