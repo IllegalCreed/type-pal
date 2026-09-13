@@ -117,6 +117,32 @@
 
 ## 对照、已有问题与未覆盖范围
 
+### D-06 · 新建物品后立即添加私有脚本缺少作者记录（2026-09-13补充）
+
+Codex在D-01功能界面验证中复现：空白项目→新建物品→启用使用能力→添加当前物品脚本，
+报“物品不存在 item-001”。主会话已有物品，而ScriptEditSession尚无该作者item；保存并正式重开后同入口可用。
+一手代码：`packages/editor/src/ui/ItemTab.tsx`的新建物品只派发主命令；
+`packages/editor/src/core/script-editor.ts`的AddItemPrivateScriptCommand要求canonical item已存在。
+两处相对D-01冻结产品dded6f27均未改变（class文本比对记录
+`/tmp/type-pal-history-main.WcgNcg/new-item-known-gap.log`）。不是全局撤销导致的回归，也不能以重开绕过冒充修好。
+
+归属：后续物品作者记录生命周期修复，综合创作工作流E2E之前补正向/失败/撤销/保存重开闭环；
+D-01不扩张为整组物品增删复制重构。D-01已有物品的配对编辑与保存重开仍须独立通过。
+本项为新增P2待修记录，不倒改上方首轮5项统计，不标已修或转授权。
+
+### D-07 · 共享ScriptId与内部私有引用前缀相同时无法保存（2026-09-13补充）
+
+合法seed仅包含共享脚本`item:collision-item:use`及物品对它的引用，没有私有脚本，正式loader接受。
+Codex只读补审对比：dded6f27的Root主态保留字符串引用，merge把它错误变成undefined，正式serialize拒绝
+“期望稳定shared script id”；当前Root主态转内部引用后，projectedItemPrivateScriptId按前缀误认私有，保存守卫更早拒绝缺正文。
+两边canonical正文wait7及输入未变、作者IO为空。这是既有合法输入保存缺口，不是此次可保存→不可保存回归，亦未修复。
+
+一手锚点：`packages/editor/src/core/script-editor-projection.ts`识别器与mergeCurrentItemShell、
+`packages/reforge/src/runtime-project-view.ts`的projectRuntimeItem；合法ID由正式loader实证，而非猜保留字。
+隔离对照`/tmp/type-pal-shared-item-collision.SXMZRZ/probe.mjs`（current/dded6f27），后者通过git对象加载204个冻结源码；
+未据此推断浏览器白屏或运行时执行。后续应在作者引用身份边界专卡核实/修复，不在D-01临时造保留字或新脚本来源；
+综合创作工作流E2E前处理。本项独立P2待修，不倒改首轮统计、不自动授权schema/公共接口调整。
+
 - A-02/03/07的多窗口旧快照、跨文件部分保存、新建打开无放弃确认仍属A批；不重复计数。
 - 本地试玩workspace/project身份不符和句柄丢失已有fail-loud，未发现静默回退PAL的新反例。
   未保存内容只从磁盘试玩的既有合同保持不变，不能把所有“未保存改动没进试玩”当缺陷。

@@ -21,6 +21,13 @@ import type {
 } from '@type-pal/content'
 import type { Command } from './commands.js'
 import {
+  type HistoryRecord,
+  notifyEditorObservers,
+  type PreparedHistoryChange,
+  type SessionHistoryBinding,
+  type SessionHistoryRouter,
+} from './editor-history-participant.js'
+import {
   buildMapReferenceEdgeBatch,
   extractProjectMapReferenceFacts,
   extractProjectStampReferenceFacts,
@@ -77,11 +84,6 @@ export interface EditSessionOptions {
   maxLoadedMaps?: number
 }
 
-export interface EditSessionTransactionReceipt {
-  /** 仅供跨 session coordinator 在同一同步事务失败时调用；不产生 redo 项。 */
-  rollback(): void
-}
-
 export type CurrentMapReferenceBatchProvider = (state: EditorState) => MapReferenceEdgeBatch
 
 const MAP_REFERENCE_SCAN_CONCURRENCY = 6
@@ -89,12 +91,13 @@ const MAP_REFERENCE_SCAN_CONCURRENCY = 6
 /** 编辑会话:不可变工作副本 + undo/redo 栈 + 订阅 + 脏标记。 */
 export class EditSession {
   private state: EditorState
-  private past: Command[] = []
-  private future: Command[] = []
+  private past: HistoryRecord<Command>[] = []
+  private future: HistoryRecord<Command>[] = []
+  private historyBinding?: SessionHistoryBinding<Command>
   /** 有未保存改动(自上次 markSaved 后 dispatch/undo/redo 过)。保存按钮据此亮 ●。 */
   private dirty = false
-  private readonly dirtyMapIds = new Set<string>()
-  private readonly pinnedMapIds = new Set<string>()
+  private dirtyMapIds = new Set<string>()
+  private pinnedMapIds = new Set<string>()
   private readonly loadMap?: (mapId: string, path: string) => Promise<ProjectMap>
   private readonly maxLoadedMaps: number
   private readonly mapLoads = new Map<
@@ -110,7 +113,7 @@ export class EditSession {
     { path: string; mapRevision: number; message: string }
   >()
   /** 每张地图独立、单调递增的内存 revision；含 dispatch / undo / redo / hydrate。 */
-  private readonly mapRevisions = new Map<string, number>()
+  private mapRevisions = new Map<string, number>()
   private mapLru: string[]
   private persistedScenePaths: Set<string>
   private persistedMapPaths: Set<string>
@@ -122,14 +125,14 @@ export class EditSession {
   private historyVersion = 0
   private readonly listeners = new Set<() => void>()
   /** 地图正文只读事实；与已加载地图/LRU 分离，不把全量正文 hydrate 进 EditorState。 */
-  private readonly mapReferenceFacts = new Map<string, ProjectMapReferenceFacts>()
-  private readonly mapReferenceFailures = new Map<string, MapReferenceScanFailure>()
+  private mapReferenceFacts = new Map<string, ProjectMapReferenceFacts>()
+  private mapReferenceFailures = new Map<string, MapReferenceScanFailure>()
   private mapReferenceScanRunning = false
   private mapReferenceScanPromise?: Promise<void>
   private mapReferenceGeneration = 0
   private mapReferenceVersion = 0
   private readonly mapReferenceListeners = new Set<() => void>()
-  private readonly stampReferenceFacts = new Map<
+  private stampReferenceFacts = new Map<
     string,
     { stamp: StampTemplate; facts: ProjectStampReferenceFacts }
   >()
@@ -186,121 +189,156 @@ export class EditSession {
     this.notify()
   }
 
-  /** 派发命令:apply → 入 past → 清 future → 置脏 → 通知。 */
-  dispatch(cmd: Command): boolean {
-    const previous = this.state
-    const next = cmd.apply(this.state)
-    if (next === previous) return false
-    this.state = next
-    this.trackMapChanges(previous, this.state, cmd.mapReferenceStampIds)
-    this.past.push(cmd)
-    this.future = []
-    this.dirty = true
+  /** 普通派发也必须进入绑定的唯一项目日志。 */
+  dispatch(command: Command): boolean {
+    if (this.historyBinding) return this.activeHistory().dispatch(command)
+    return this.applyStandalone(this.prepareHistoryChange('dispatch', command, Symbol('main')))
+  }
+
+  undo(): boolean {
+    if (this.historyBinding) return this.activeHistory().undo()
+    const record = this.past.at(-1)
+    return record
+      ? this.applyStandalone(this.prepareHistoryChange('undo', record.command, record.id))
+      : false
+  }
+
+  redo(): boolean {
+    if (this.historyBinding) return this.activeHistory().redo()
+    const record = this.future.at(-1)
+    return record
+      ? this.applyStandalone(this.prepareHistoryChange('redo', record.command, record.id))
+      : false
+  }
+
+  discardRedo(command: Command): boolean {
+    if (this.historyBinding) return this.activeHistory().discardRedo(command)
+    if (this.future.at(-1)?.command !== command) return false
+    this.future.pop()
     this.historyVersion += 1
     this.notify()
     return true
   }
 
-  /**
-   * 跨 session 原子操作专用：成功与普通 dispatch 同义；receipt 可精确恢复 dispatch 前
-   * state/history/future/dirty。rollback 不是用户 undo，绝不会留下可 redo 的半状态。
-   */
-  dispatchForTransaction(cmd: Command): EditSessionTransactionReceipt | undefined {
-    const before = {
-      state: this.state,
-      past: [...this.past],
-      future: [...this.future],
-      dirty: this.dirty,
-      dirtyMapIds: new Set(this.dirtyMapIds),
-      pinnedMapIds: new Set(this.pinnedMapIds),
-      mapRevisions: new Map(this.mapRevisions),
-      mapLru: [...this.mapLru],
-      mapReferenceFacts: new Map(this.mapReferenceFacts),
-      mapReferenceFailures: new Map(this.mapReferenceFailures),
-      stampReferenceFacts: new Map(this.stampReferenceFacts),
-      mapReferenceGeneration: this.mapReferenceGeneration,
-    }
-    if (!this.dispatch(cmd)) return undefined
-    let active = true
+  /** @internal 原Owner可以重连，不能事后拼接未知顺序的独立栈。 */
+  assertCanAttachHistory(owner: object): void {
+    if (this.historyBinding) {
+      if (this.historyBinding.router.owner !== owner) throw new Error('主会话已绑定其他项目历史')
+    } else if (this.past.length || this.future.length) throw new Error('不能接管已有独立主会话历史')
+  }
+
+  /** @internal */
+  attachHistory(router: SessionHistoryRouter<Command>): void {
+    this.assertCanAttachHistory(router.owner)
+    this.historyBinding = { router, active: true }
+  }
+
+  /** @internal */
+  detachHistory(owner: object): void {
+    this.assertHistoryOwner(owner)
+    this.historyBinding!.active = false
+  }
+
+  /** @internal 准备命令与地图元数据；此阶段不改变公开状态或发布通知。 */
+  prepareHistoryChange(
+    direction: 'dispatch' | 'undo' | 'redo',
+    command: Command,
+    id: symbol,
+    owner?: object,
+  ): PreparedHistoryChange | undefined {
+    this.assertHistoryOwner(owner)
+    const before = this.state
+    const version = this.historyVersion
+    const record =
+      direction === 'dispatch'
+        ? { id, command }
+        : (direction === 'undo' ? this.past : this.future).at(-1)
+    if (!record || record.id !== id || record.command !== command)
+      throw new Error('主会话执行索引与项目历史不一致')
+    const next = direction === 'undo' ? command.invert(before) : command.apply(before)
+    if (direction === 'dispatch' && next === before) return undefined
+    const maps = this.prepareMapChanges(before, next, command.mapReferenceStampIds)
+    let used = false
     return {
-      rollback: (): void => {
-        if (!active) throw new Error('main transaction receipt 已失效')
-        if (this.past.at(-1) !== cmd)
-          throw new Error(`无法回滚事务：main history 顶部不是「${cmd.label}」`)
-        active = false
-        this.state = before.state
-        this.past = before.past
-        this.future = before.future
-        this.dirty = before.dirty
-        this.dirtyMapIds.clear()
-        for (const id of before.dirtyMapIds) this.dirtyMapIds.add(id)
-        this.pinnedMapIds.clear()
-        for (const id of before.pinnedMapIds) this.pinnedMapIds.add(id)
-        this.mapRevisions.clear()
-        for (const [id, revision] of before.mapRevisions) this.mapRevisions.set(id, revision)
-        this.mapLru = before.mapLru
-        this.mapReferenceFacts.clear()
-        for (const [id, facts] of before.mapReferenceFacts) this.mapReferenceFacts.set(id, facts)
-        this.mapReferenceFailures.clear()
-        for (const [id, failure] of before.mapReferenceFailures)
-          this.mapReferenceFailures.set(id, failure)
-        this.stampReferenceFacts.clear()
-        for (const [id, record] of before.stampReferenceFacts)
-          this.stampReferenceFacts.set(id, record)
-        this.mapReferenceGeneration = before.mapReferenceGeneration
-        this.emitMapReferenceUpdate()
+      validate: () => {
+        this.assertHistoryOwner(owner)
+        if (used || this.state !== before || this.historyVersion !== version)
+          throw new Error('主会话历史准备结果已失效')
+      },
+      commit: () => {
+        used = true
+        this.state = next
+        maps?.commit()
+        if (direction === 'undo') {
+          this.past.pop()
+          this.future.push(record)
+        } else {
+          if (direction === 'redo') this.future.pop()
+          else this.future = []
+          this.past.push(record)
+        }
+        this.dirty = true
         this.historyVersion += 1
-        this.notify()
+      },
+      ...(maps
+        ? { publishReferences: () => notifyEditorObservers(this.mapReferenceListeners) }
+        : {}),
+    }
+  }
+
+  /** @internal */
+  prepareHistoryDiscard(owner: object): PreparedHistoryChange | undefined {
+    this.assertHistoryOwner(owner)
+    if (!this.future.length) return undefined
+    const version = this.historyVersion
+    return {
+      validate: () => {
+        this.assertHistoryOwner(owner)
+        if (this.historyVersion !== version) throw new Error('主会话redo已变化')
+      },
+      commit: () => {
+        this.future = []
+        this.historyVersion += 1
       },
     }
   }
 
-  isUndoTop(cmd: Command): boolean {
-    return this.past.at(-1) === cmd
+  /** @internal */
+  isHistoryRedoCommand(command: Command, owner: object): boolean {
+    this.assertHistoryOwner(owner)
+    return this.future.at(-1)?.command === command
   }
 
-  isRedoTop(cmd: Command): boolean {
-    return this.future.at(-1) === cmd
+  /** @internal */
+  advanceHistoryNotification(owner: object): void {
+    this.assertHistoryOwner(owner)
+    this.version += 1
+  }
+  /** @internal */
+  publishHistoryNotification(owner: object): void {
+    this.assertHistoryOwner(owner)
+    notifyEditorObservers(this.listeners)
   }
 
-  /** coordinator 清除已经失去另一半的 redo；不应用命令、不改内容。 */
-  discardRedo(cmd: Command): boolean {
-    if (!this.isRedoTop(cmd)) return false
-    this.future.pop()
-    this.historyVersion += 1
-    this.notify()
-    return true
+  private activeHistory(): SessionHistoryRouter<Command> {
+    if (!this.historyBinding?.active) throw new Error('项目历史已断开，不能继续编辑主会话')
+    return this.historyBinding.router
   }
 
-  /** 撤销:past 栈顶 invert。空栈 noop。 */
-  undo(): boolean {
-    const cmd = this.past.at(-1)
-    if (!cmd) return false
-    const previous = this.state
-    const next = cmd.invert(this.state)
-    this.past.pop()
-    this.state = next
-    this.trackMapChanges(previous, this.state, cmd.mapReferenceStampIds)
-    this.future.push(cmd)
-    this.dirty = true
-    this.historyVersion += 1
-    this.notify()
-    return true
+  private assertHistoryOwner(owner?: object): void {
+    if (this.historyBinding) {
+      if (!this.historyBinding.active || this.historyBinding.router.owner !== owner)
+        throw new Error('无效的主会话历史Owner')
+    } else if (owner !== undefined) throw new Error('主会话历史尚未绑定')
   }
 
-  /** 重做:future 栈顶 apply。空栈 noop。 */
-  redo(): boolean {
-    const cmd = this.future.at(-1)
-    if (!cmd) return false
-    const previous = this.state
-    const next = cmd.apply(this.state)
-    this.future.pop()
-    this.state = next
-    this.trackMapChanges(previous, this.state, cmd.mapReferenceStampIds)
-    this.past.push(cmd)
-    this.dirty = true
-    this.historyVersion += 1
-    this.notify()
+  private applyStandalone(prepared: PreparedHistoryChange | undefined): boolean {
+    if (!prepared) return false
+    prepared.validate()
+    prepared.commit()
+    this.version += 1
+    prepared.publishReferences?.()
+    notifyEditorObservers(this.listeners)
     return true
   }
 
@@ -486,11 +524,11 @@ export class EditSession {
   }
 
   canUndo(): boolean {
-    return this.past.length > 0
+    return this.historyBinding?.router.canUndo() ?? this.past.length > 0
   }
 
   canRedo(): boolean {
-    return this.future.length > 0
+    return this.historyBinding?.router.canRedo() ?? this.future.length > 0
   }
 
   getMapDocumentStatus(mapId: string): MapDocumentStatus {
@@ -592,17 +630,26 @@ export class EditSession {
     return [...this.persistedAssetPaths].filter((path) => !current.has(path))
   }
 
-  private trackMapChanges(
+  /** 只复制轻量元数据，不复制地图/资源正文；所有可能失败的提取发生在发布前。 */
+  private prepareMapChanges(
     before: EditorState,
     after: EditorState,
     stampIds?: readonly string[],
-  ): void {
+  ): { commit(): void } | undefined {
     if (
       before.maps === after.maps &&
       before.mapIndex === after.mapIndex &&
       before.stamps === after.stamps
     )
       return
+    const dirty = new Set(this.dirtyMapIds)
+    const pinned = new Set(this.pinnedMapIds)
+    const revisions = new Map(this.mapRevisions)
+    const facts = new Map(this.mapReferenceFacts)
+    const failures = new Map(this.mapReferenceFailures)
+    const stamps = new Map(this.stampReferenceFacts)
+    let lru = [...this.mapLru]
+    let generation = this.mapReferenceGeneration
     const beforeAssets = new Map(before.mapIndex.maps.map((entry) => [entry.id, entry] as const))
     const afterAssets = new Map(after.mapIndex.maps.map((entry) => [entry.id, entry] as const))
     const ids = new Set([
@@ -611,26 +658,53 @@ export class EditSession {
       ...beforeAssets.keys(),
       ...afterAssets.keys(),
     ])
-    let mapReferencesChanged = before.stamps !== after.stamps || before.mapIndex !== after.mapIndex
+    let changed = before.stamps !== after.stamps || before.mapIndex !== after.mapIndex
     for (const id of ids) {
       const mapChanged = before.maps[id] !== after.maps[id]
       const indexChanged = beforeAssets.get(id)?.path !== afterAssets.get(id)?.path
       if (!mapChanged && !indexChanged) continue
-      this.bumpMapRevision(id)
-      this.invalidateMapReferenceFact(id)
+      revisions.set(id, (revisions.get(id) ?? 0) + 1)
+      const removedFact = facts.delete(id)
+      const removedFailure = failures.delete(id)
+      if (removedFact || removedFailure) generation++
       if (mapChanged) {
-        this.dirtyMapIds.add(id)
-        this.pinnedMapIds.add(id)
-        this.touchMap(id)
+        dirty.add(id)
+        pinned.add(id)
+        lru = [...lru.filter((candidate) => candidate !== id), id]
       }
-      mapReferencesChanged = true
+      changed = true
     }
     if (before.stamps !== after.stamps) {
-      this.syncStampReferenceFacts(after.stamps ?? [], stampIds)
-      this.bumpMapReferenceGeneration()
+      const currentStamps = after.stamps ?? []
+      const affected = stampIds ? new Set(stampIds) : undefined
+      if (!affected) stamps.clear()
+      else {
+        const currentIds = new Set(currentStamps.map((stamp) => stamp.id))
+        for (const id of stamps.keys()) if (!currentIds.has(id)) stamps.delete(id)
+      }
+      for (const stamp of currentStamps) {
+        if (affected && !affected.has(stamp.id) && stamps.has(stamp.id)) continue
+        const fact = extractProjectStampReferenceFacts([stamp])[0]
+        if (fact) stamps.set(stamp.id, { stamp, facts: fact })
+      }
+      generation++
     }
-    if (before.mapIndex !== after.mapIndex) this.bumpMapReferenceGeneration()
-    if (mapReferencesChanged) this.emitMapReferenceUpdate()
+    if (before.mapIndex !== after.mapIndex) generation++
+    if (!changed) return
+    return {
+      commit: () => {
+        this.dirtyMapIds = dirty
+        this.pinnedMapIds = pinned
+        this.mapRevisions = revisions
+        this.mapReferenceFacts = facts
+        this.mapReferenceFailures = failures
+        this.stampReferenceFacts = stamps
+        this.mapLru = lru
+        this.mapReferenceGeneration = generation
+        this.mapReferenceBatchCache = undefined
+        this.mapReferenceVersion++
+      },
+    }
   }
 
   private mapReferenceTargetIsCurrent(target: {
@@ -693,32 +767,6 @@ export class EditSession {
     this.bumpMapReferenceGeneration()
   }
 
-  private syncStampReferenceFacts(
-    stamps: readonly StampTemplate[],
-    stampIds: readonly string[] | undefined,
-  ): void {
-    if (!stampIds) {
-      this.stampReferenceFacts.clear()
-      for (const stamp of stamps) {
-        const facts = extractProjectStampReferenceFacts([stamp])[0]
-        if (facts) this.stampReferenceFacts.set(stamp.id, { stamp, facts })
-      }
-      return
-    }
-    const affected = new Set(stampIds)
-    const currentIds = new Set(stamps.map((stamp) => stamp.id))
-    for (const stampId of [...this.stampReferenceFacts.keys()])
-      if (!currentIds.has(stampId)) this.stampReferenceFacts.delete(stampId)
-    for (const stamp of stamps) {
-      const previous = this.stampReferenceFacts.get(stamp.id)
-      if (!affected.has(stamp.id) && previous) {
-        continue
-      }
-      const facts = extractProjectStampReferenceFacts([stamp])[0]
-      if (facts) this.stampReferenceFacts.set(stamp.id, { stamp, facts })
-    }
-  }
-
   private repairStampReferenceFacts(): void {
     const currentStamps = this.state.stamps ?? []
     const currentIds = new Set(currentStamps.map((stamp) => stamp.id))
@@ -743,7 +791,7 @@ export class EditSession {
   private emitMapReferenceUpdate(): void {
     this.mapReferenceBatchCache = undefined
     this.mapReferenceVersion++
-    for (const fn of this.mapReferenceListeners) fn()
+    notifyEditorObservers(this.mapReferenceListeners)
   }
 
   private bumpMapReferenceGeneration(): void {
@@ -814,6 +862,6 @@ export class EditSession {
 
   private notify(): void {
     this.version++
-    for (const fn of this.listeners) fn()
+    notifyEditorObservers(this.listeners)
   }
 }

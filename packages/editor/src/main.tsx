@@ -17,9 +17,11 @@ import { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { type AuthorDiskBaseline, observeAuthorSource } from './core/author-disk-baseline.js'
 import { EditSession } from './core/edit-session.js'
+import { EditorHistoryCoordinator } from './core/editor-history-coordinator.js'
 import type { Opened } from './core/open-actions.js'
 import { toEditorState } from './core/project-io.js'
 import { type ScriptEditorState, ScriptEditSession } from './core/script-editor.js'
+import { projectEditorItemShells } from './core/script-editor-projection.js'
 import { withUiReviewSamples } from './core/ui-review-samples.js'
 import {
   assertSamePalDevelopmentProof,
@@ -42,6 +44,7 @@ const DEV_AUTO = !!PROJECT_ID && !FORCE_PICKER
 
 interface Booted {
   session: EditSession
+  history: EditorHistoryCoordinator
   project: LoadedCurrentProject
   script: {
     session: ScriptEditSession
@@ -127,16 +130,20 @@ function Root() {
         reviewData.scenes,
         reviewData.sharedScripts,
       )
+      const session = new EditSession(
+        {
+          ...toEditorState(reviewProject, reviewData.scenes, {}, {}, reviewData.stamps),
+          items: projectEditorItemShells(reviewProject),
+        },
+        { loadMap: (_mapId, path) => loadProjectMap(reviewProject.assetBase, path) },
+      )
+      const scriptSession = new ScriptEditSession(canonical)
       return {
-        session: new EditSession(
-          toEditorState(reviewProject, reviewData.scenes, {}, {}, reviewData.stamps),
-          {
-            loadMap: (_mapId, path) => loadProjectMap(reviewProject.assetBase, path),
-          },
-        ),
+        session,
+        history: new EditorHistoryCoordinator(session, scriptSession),
         project: reviewProject,
         script: {
-          session: new ScriptEditSession(canonical),
+          session: scriptSession,
         },
         workspace,
         authorBaseline,
@@ -159,13 +166,22 @@ function Root() {
     openedInstanceRef.current += 1
     const project = o.project
     const canonical = currentCanonicalScriptState(project, o.scenes)
-    setBoot({
-      session: new EditSession(toEditorState(project, o.scenes, {}, {}, o.stamps), {
+    const session = new EditSession(
+      {
+        ...toEditorState(project, o.scenes, {}, {}, o.stamps),
+        items: projectEditorItemShells(project),
+      },
+      {
         loadMap: (_mapId, path) => loadProjectMap(project.assetBase, path),
-      }),
+      },
+    )
+    const scriptSession = new ScriptEditSession(canonical)
+    setBoot({
+      session,
+      history: new EditorHistoryCoordinator(session, scriptSession),
       project,
       script: {
-        session: new ScriptEditSession(canonical),
+        session: scriptSession,
       },
       dir: o.dir,
       workspace: o.workspace,
@@ -191,6 +207,7 @@ function Root() {
     <App
       key={`${boot.workspace.workspaceId}:${openedInstanceRef.current}`}
       session={boot.session}
+      history={boot.history}
       project={boot.project}
       script={boot.script}
       initialDir={boot.dir}

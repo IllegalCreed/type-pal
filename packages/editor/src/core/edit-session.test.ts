@@ -8,6 +8,8 @@ import { expect, test, vi } from 'vitest'
 import type { Command } from './commands.js'
 import { ApplyProjectMapPatchCommand, PaintTilesCommand } from './commands.js'
 import { type EditorState, EditSession, MoveEntityCommand } from './edit-session.js'
+import { EditorHistoryCoordinator } from './editor-history-coordinator.js'
+import { AddSharedScriptCommand, ScriptEditSession } from './script-editor.js'
 import { stampPlacementReferences, tilesetUsageReferences } from './tileset-references.js'
 
 // 最小 EditorState fixture(字段不全,as 断言 —— 测的是 command/undo 引擎,不是数据形状)。
@@ -152,14 +154,19 @@ test('非地图命令不读取地图内容或重建组合来源索引', () => {
   state.maps = { 'map-a': map }
   const session = new EditSession(state)
   authoringReads = 0
+  const history = new EditorHistoryCoordinator(
+    session,
+    new ScriptEditSession({ scenes: [], items: [], sharedScripts: {} }),
+  )
 
   session.dispatch(new MoveEntityCommand('s', 'e', { col: 2, row: 3, height: 0 }))
   session.undo()
   session.redo()
-  const receipt = session.dispatchForTransaction(
+  history.dispatch(
+    new AddSharedScriptCommand('metadata-test', { name: '测试', self: 'none', body: [] }),
     new MoveEntityCommand('s', 'e', { col: 4, row: 5, height: 0 }),
   )
-  receipt?.rollback()
+  history.undo()
 
   expect(authoringReads).toBe(0)
   expect(session.getMapRevision('map-a')).toBe(0)

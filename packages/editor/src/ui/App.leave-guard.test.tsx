@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 /** Real App/menu/save/open/serialization with isolated FSA and origin-storage boundaries.
  * Canvas presentation is omitted; this suite does not claim native picker/IDB or visual proof. */
+import type { AuthorItemData } from '@type-pal/content'
 import { fsaSource } from '@type-pal/reforge'
 import { act, StrictMode } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
@@ -12,9 +13,15 @@ import {
 } from '../core/__tests__/author-save-store-fixture.js'
 import { RenameProjectCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
+import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import { finishOpen, type Opened } from '../core/open-actions.js'
 import { toEditorState } from '../core/project-io.js'
-import { AddSharedScriptCommand, ScriptEditSession } from '../core/script-editor.js'
+import {
+  AddSharedScriptCommand,
+  DeleteItemPrivateScriptCommand,
+  ScriptEditSession,
+} from '../core/script-editor.js'
+import { projectEditorItemShells } from '../core/script-editor-projection.js'
 import { buildBlankProject } from '../core/seed.js'
 import {
   createPalDevelopmentWorkspaceContext,
@@ -59,6 +66,7 @@ let disk: ReturnType<typeof memoryAuthorDirectory>
 let opened: Opened
 let main: EditSession
 let script: ScriptEditSession
+let history: EditorHistoryCoordinator
 let picker: ReturnType<typeof vi.fn<() => Promise<FileSystemDirectoryHandle>>>
 let onOpened: ReturnType<typeof vi.fn<(opened: Opened) => void>>
 let onBack: ReturnType<typeof vi.fn<() => void>>
@@ -105,12 +113,16 @@ beforeEach(async () => {
   vi.spyOn(window, 'confirm').mockReturnValue(true)
   disk = memoryAuthorDirectory(structuredClone(seed))
   opened = await finishOpen(disk.dir)
-  main = new EditSession(toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps))
+  main = new EditSession({
+    ...toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps),
+    items: projectEditorItemShells(opened.project),
+  })
   script = new ScriptEditSession({
     scenes: opened.scenes,
     items: opened.project.authorContent.items,
     sharedScripts: opened.project.authorContent.sharedScripts,
   })
+  history = new EditorHistoryCoordinator(main, script)
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
@@ -131,6 +143,7 @@ async function mount(initialDir: FileSystemDirectoryHandle | null = disk.dir) {
       <StrictMode>
         <App
           session={main}
+          history={history}
           script={{ session: script }}
           project={opened.project}
           workspace={opened.workspace}
@@ -181,6 +194,213 @@ const unload = () => {
   window.dispatchEvent(e)
   return e.defaultPrevented
 }
+
+function historyButton(action: '撤销' | '重做') {
+  const element = host.querySelector<HTMLButtonElement>(`button[aria-label^="${action}："]`)
+  expect(element).not.toBeNull()
+  return element!
+}
+
+test('D-01 toolbar, edit menu and keyboard share exact history order; save/reopen keeps final state', async () => {
+  await mount()
+  const initialName = main.getState().manifest.name
+  const first = new RenameProjectCommand('历史第一步')
+  const last = new RenameProjectCommand('历史第三步')
+  await act(async () => {
+    main.dispatch(first)
+    script.dispatch(
+      new AddSharedScriptCommand('history-script', {
+        name: '历史脚本',
+        self: 'none',
+        body: [{ kind: 'wait', ms: 17 }],
+      }),
+    )
+    main.dispatch(last)
+  })
+  expect(historyButton('撤销').getAttribute('aria-label')).toBe(`撤销：${last.label}`)
+  await act(async () => historyButton('撤销').click())
+  expect(main.getState().manifest.name).toBe('历史第一步')
+  expect(script.getState().sharedScripts['history-script']).toBeDefined()
+  await act(async () =>
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'z', ctrlKey: true, bubbles: true })),
+  )
+  expect(main.getState().manifest.name).toBe('历史第一步')
+  expect(script.getState().sharedScripts['history-script']).toBeUndefined()
+  await click('编辑')
+  const editMenu = document.querySelector<HTMLElement>('[role="menu"]')!
+  expect(editMenu).not.toBeNull()
+  const undoItem = [
+    ...editMenu.querySelectorAll<HTMLButtonElement>('button[role="menuitem"]'),
+  ].find((element) => element.textContent?.startsWith(`撤销：${first.label}`))
+  expect(undoItem).toBeDefined()
+  await act(async () => undoItem!.click())
+  expect(main.getState().manifest.name).toBe(initialName)
+  expect(button('撤销').disabled).toBe(true)
+  await act(async () => {
+    window.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Z', metaKey: true, shiftKey: true, bubbles: true }),
+    )
+    window.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Z', metaKey: true, shiftKey: true, bubbles: true }),
+    )
+  })
+  await act(async () => historyButton('重做').click())
+  expect(main.getState().manifest.name).toBe('历史第三步')
+  await menu('保存')
+  await until(() => expect(main.isDirty() || script.isDirty()).toBe(false))
+  const reopened = await finishOpen(disk.dir)
+  expect(reopened.project.manifest.name).toBe('历史第三步')
+  expect(reopened.project.authorContent.sharedScripts['history-script']?.body).toEqual([
+    { kind: 'wait', ms: 17 },
+  ])
+  await act(async () => historyButton('撤销').click())
+  expect(main.getState().manifest.name).toBe('历史第一步')
+  expect(script.getState().sharedScripts['history-script']).toBeDefined()
+})
+
+test('D-01 history shortcuts do not cross text editing, composition or an open modal', async () => {
+  await mount()
+  await edit()
+  const before = main.getState()
+  const input = document.createElement('input')
+  const editable = document.createElement('div')
+  editable.contentEditable = 'true'
+  editable.setAttribute('contenteditable', 'true')
+  const nested = document.createElement('span')
+  editable.append(nested)
+  host.append(input, editable)
+  for (const target of [input, nested]) {
+    const event = new KeyboardEvent('keydown', {
+      key: 'z',
+      ctrlKey: true,
+      bubbles: true,
+      cancelable: true,
+    })
+    await act(async () => target.dispatchEvent(event))
+    expect(event.defaultPrevented).toBe(false)
+    expect(main.getState()).toBe(before)
+  }
+  for (const init of [
+    { ctrlKey: true, isComposing: true },
+    { ctrlKey: true, altKey: true },
+    { ctrlKey: true, metaKey: true },
+  ]) {
+    await act(async () => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'z', ...init })))
+    expect(main.getState()).toBe(before)
+  }
+  input.remove()
+  editable.remove()
+  await click('新建场景')
+  const dialog = document.querySelector<HTMLDialogElement>('dialog[open]')!
+  expect(dialog).not.toBeNull()
+  await act(async () =>
+    dialog
+      .querySelector('button')!
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'z', ctrlKey: true, bubbles: true })),
+  )
+  expect(main.getState()).toBe(before)
+  await click('取消', dialog)
+  await act(async () =>
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'z', ctrlKey: true })),
+  )
+  expect(main.getState()).not.toBe(before)
+})
+
+test('D-01 failed undo is visible and retryable without losing the pending operation', async () => {
+  await mount()
+  const actual = new RenameProjectCommand('待撤销名称')
+  const before = main.getState().manifest.name
+  let fail = true
+  await act(async () =>
+    main.dispatch({
+      label: actual.label,
+      apply: (state) => actual.apply(state),
+      invert: (state) => {
+        if (fail) throw new Error('受控撤销失败')
+        return actual.invert(state)
+      },
+    }),
+  )
+  await act(async () => historyButton('撤销').click())
+  expect(host.textContent).toContain('撤销失败：受控撤销失败')
+  expect(main.getState().manifest.name).toBe('待撤销名称')
+  expect(history.canUndo()).toBe(true)
+  fail = false
+  await act(async () => historyButton('撤销').click())
+  expect(main.getState().manifest.name).toBe(before)
+  expect(host.textContent).not.toContain('受控撤销失败')
+})
+
+test('D-01 missing private body fails through actual App save before writer IO, then undo repairs and saves', async () => {
+  const item: AuthorItemData = {
+    id: 'private',
+    name: 'name.hero',
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+    use: {
+      target: 'scene',
+      consuming: true,
+      effects: [
+        {
+          kind: 'itemPrivateScript',
+          script: { id: 'use', label: '私有正文', body: [{ kind: 'wait', ms: 5 }] },
+        },
+      ],
+    },
+  }
+  disk = memoryAuthorDirectory({ ...structuredClone(seed), 'content/items.json': [item] })
+  opened = await finishOpen(disk.dir)
+  main = new EditSession({
+    ...toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps),
+    items: projectEditorItemShells(opened.project),
+  })
+  script = new ScriptEditSession({
+    scenes: opened.scenes,
+    items: opened.project.authorContent.items,
+    sharedScripts: opened.project.authorContent.sharedScripts,
+  })
+  history = new EditorHistoryCoordinator(main, script)
+  await mount()
+  await act(async () =>
+    script.dispatch(new DeleteItemPrivateScriptCommand('private', 'use', 'use')),
+  )
+  const bytes = new Map([...disk.files].map(([path, buffer]) => [path, buffer.slice(0)]))
+  const changes = structuredClone(disk.changes)
+  await menu('保存')
+  await until(() => expect(host.textContent).toContain('正文缺失'))
+  expect(disk.files).toEqual(bytes)
+  expect(disk.changes).toEqual(changes)
+  expect(authorSaveStorage.receipts.size).toBe(0)
+  expect(script.isDirty()).toBe(true)
+  await act(async () => historyButton('撤销').click())
+  await act(async () => main.dispatch(new RenameProjectCommand('已恢复正文')))
+  await menu('保存')
+  await until(() => expect(main.isDirty() || script.isDirty()).toBe(false))
+  const reopened = await finishOpen(disk.dir)
+  expect(reopened.project.manifest.name).toBe('已恢复正文')
+  expect(reopened.project.authorContent.items[0]!.use!.effects).toEqual(item.use!.effects)
+  // 真正重挂App到物品工作台，不能只检查loader数据而漏掉作者效果被当成运行态的白屏。
+  await act(async () => root.unmount())
+  root = createRoot(host)
+  opened = reopened
+  main = new EditSession({
+    ...toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps),
+    items: projectEditorItemShells(opened.project),
+  })
+  script = new ScriptEditSession({
+    scenes: opened.scenes,
+    items: opened.project.authorContent.items,
+    sharedScripts: opened.project.authorContent.sharedScripts,
+  })
+  history = new EditorHistoryCoordinator(main, script)
+  window.history.replaceState({}, '', '/?module=item&page=item&object=private')
+  await mount()
+  expect(host.textContent).toContain('私有正文')
+  expect(host.textContent).toContain('等待 5ms')
+  expect(button('撤销').disabled).toBe(true)
+})
 
 for (const axis of ['main', 'script', 'both']) {
   test.each([
@@ -514,6 +734,8 @@ test('beforeunload reads dirty synchronously, also on invalid entry and across S
   const invalid = structuredClone(main.getState())
   invalid.scenes = []
   main = new EditSession(invalid)
+  script = new ScriptEditSession(script.getState())
+  history = new EditorHistoryCoordinator(main, script)
   await mount()
   await edit()
   expect(host.textContent).toContain('直接启动入口')

@@ -1,8 +1,21 @@
 import type { AuthorItemData, AuthorSceneDef, ItemData } from '@type-pal/content'
+import { type LoadedCurrentProjectCore, projectItemsView } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import type { ScriptEditorState } from './script-editor.js'
 
 type AuthorSceneEntityDef = AuthorSceneDef['entities'][number]
+
+/**
+ * 仅供交互主会话：正文由ScriptEditSession唯一持有，效果编辑器消费当前内部引用。
+ * 不改loader/序列化的作者模型，不生成旧分片文件；保存仍通过下方canonical合并取回正文。
+ */
+export function projectEditorItemShells(
+  project: Pick<LoadedCurrentProjectCore, 'items' | 'authorContent'>,
+): ItemData[] {
+  const view = projectItemsView(project.items)
+  // 按作者数组恢复顺序，不让数字形态稳定ID被Object.values隐式重排。
+  return project.authorContent.items.map((item) => view[item.id]!)
+}
 
 /**
  * 主 EditSession 保存地图与普通属性的 current 交互投影，ScriptEditSession 保存唯一的脚本作者真值。

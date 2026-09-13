@@ -1177,6 +1177,15 @@ describe('ItemTab', () => {
     expect(storedAfterMove.script.body).toHaveLength(2)
     expect(storedAfterMove.script.body[0]).toMatchObject({ flag: 'private-body' })
 
+    // 全局历史先撤最后的脚本指令，再撤更早的主会话排序；不能跳过脚本侧。
+    await act(async () => session.undo())
+    expect(session.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'healHp' },
+      { kind: 'runScript' },
+    ])
+    const bodyAfterUndo = scriptSession.getState().items[0]!.use!.effects[0]
+    if (bodyAfterUndo?.kind !== 'itemPrivateScript') throw new Error('正文未保留')
+    expect(bodyAfterUndo.script.body).toHaveLength(1)
     await act(async () => session.undo())
     expect(session.getState().items[0]!.use!.effects).toMatchObject([
       { kind: 'runScript' },
@@ -1188,6 +1197,11 @@ describe('ItemTab', () => {
       { kind: 'healHp' },
       { kind: 'runScript' },
     ])
+
+    await act(async () => session.redo())
+    const bodyAfterRedo = scriptSession.getState().items[0]!.use!.effects[0]
+    if (bodyAfterRedo?.kind !== 'itemPrivateScript') throw new Error('正文未保留')
+    expect(bodyAfterRedo.script.body).toHaveLength(2)
 
     await act(async () =>
       host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 2"]')!.click(),

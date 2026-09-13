@@ -3,6 +3,8 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import mainSource from '../main.tsx?raw'
 import appSource from '../ui/App.tsx?raw'
 import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
+import { EditorHistoryCoordinator } from './editor-history-coordinator.js'
+import { projectEditorItemShells } from './script-editor-projection.js'
 
 vi.mock('./author-save-store.js', async (original) =>
   memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>()),
@@ -562,6 +564,8 @@ describe('real author open and save conflict boundary', () => {
       UI_REVIEW_SAMPLES: false,
       EditSession,
       ScriptEditSession,
+      EditorHistoryCoordinator,
+      projectEditorItemShells,
       toEditorState,
       loadProjectMap: vi.fn(),
     }
@@ -579,17 +583,31 @@ describe('real author open and save conflict boundary', () => {
         key: string
         authorBaseline: AuthorDiskBaseline
         workspace: Opened['workspace']
+        session: EditSession
+        history: EditorHistoryCoordinator
+        script: { session: ScriptEditSession }
         onOpened: (opened: Opened) => void
       }
     }
     root().props.onOpened(first)
     const a = root()
     expect(a.props.authorBaseline).toBe(first.authorBaseline)
+    a.props.session.dispatch(new RenameProjectCommand('unsaved old session'))
+    expect(a.props.history.canUndo()).toBe(true)
     a.props.onOpened(second)
     const b = root()
     expect(b.props.authorBaseline).toBe(second.authorBaseline)
     expect(b.props.workspace.workspaceId).toBe(a.props.workspace.workspaceId)
     expect(b.props.key).not.toBe(a.props.key)
+    expect(b.props.history).not.toBe(a.props.history)
+    expect(b.props.session).not.toBe(a.props.session)
+    expect(b.props.script.session).not.toBe(a.props.script.session)
+    expect(b.props.history.canUndo()).toBe(false)
+    expect(b.props.history.canRedo()).toBe(false)
+    expect(() =>
+      b.props.history.assertSessions(b.props.session, b.props.script.session),
+    ).not.toThrow()
+    expect(a.props.history.canUndo()).toBe(true)
   })
 
   test('a second unconsumed first-save authorization cannot discard the first attempt recovery evidence', async () => {

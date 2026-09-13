@@ -48,9 +48,11 @@ import {
   useCallback,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
 } from 'react'
 import {
   type AuthorDiskBaseline,
@@ -83,7 +85,7 @@ import {
   effectiveEditorDerivedStatus,
   isEditorDerivedSnapshotCurrent,
 } from '../core/editor-derived-store.js'
-import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
+import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import {
   activePageTriggerActivation,
   createCanonicalPlacedEntity,
@@ -349,6 +351,7 @@ export function editorPageOwnsSessionSubscription(location: EditorLocation): boo
 
 export function App(props: {
   session: EditSession
+  history: EditorHistoryCoordinator
   project: LoadedCurrentProject
   script: {
     session: ScriptEditSession
@@ -368,16 +371,23 @@ export function App(props: {
 }) {
   const { session, project } = props
   const scriptSession = props.script.session
+  const historyCoordinator = props.history
+  historyCoordinator.assertSessions(session, scriptSession)
+  useLayoutEffect(() => {
+    historyCoordinator.connect()
+    return () => historyCoordinator.dispose()
+  }, [historyCoordinator])
+  useSyncExternalStore(
+    historyCoordinator.subscribe,
+    historyCoordinator.getToolbarSnapshot,
+    historyCoordinator.getToolbarSnapshot,
+  )
   // Install before the invalid-entry early return too: that page still owns unsaved sessions.
   const {
     guard: projectGuard,
     decision: leaveDecision,
     operation: projectOperation,
   } = useProjectLeaveGuard(session, scriptSession)
-  const historyCoordinator = useMemo(
-    () => new EditorHistoryCoordinator(session, scriptSession),
-    [scriptSession, session],
-  )
   const derivedStore = useMemo(
     () => createEditorDerivedStore({ mainSession: session, scriptSession }),
     [scriptSession, session],
@@ -1599,24 +1609,6 @@ export function App(props: {
     applyEditorLocation(next, 'replace')
   }
   const objectTargetMissing = editorObjectTargetMissing(state, location, scriptState?.sharedScripts)
-  const historyOwnerRef = useRef<'main' | 'script'>('main')
-  useEffect(() => {
-    let version = session.getHistoryVersion()
-    return session.subscribe(() => {
-      const next = session.getHistoryVersion()
-      if (next !== version) historyOwnerRef.current = 'main'
-      version = next
-    })
-  }, [session])
-  useEffect(() => {
-    if (!scriptSession) return undefined
-    let version = scriptSession.getHistoryVersion()
-    return scriptSession.subscribe(() => {
-      const next = scriptSession.getHistoryVersion()
-      if (next !== version) historyOwnerRef.current = 'script'
-      version = next
-    })
-  }, [scriptSession])
 
   const reconcileLocationAfterHistory = useCallback((): void => {
     const current = locationRef.current
@@ -1633,31 +1625,31 @@ export function App(props: {
     }
   }, [applyEditorLocation, scriptSession, session])
   const undo = useCallback((): void => {
-    if (historyCoordinator?.undo()) {
-      reconcileLocationAfterHistory()
-      return
+    try {
+      if (historyCoordinator.undo()) {
+        setWorkspaceNotice(undefined)
+        reconcileLocationAfterHistory()
+      }
+    } catch (error) {
+      setWorkspaceNotice({
+        kind: 'error',
+        message: `撤销失败：${error instanceof Error ? error.message : String(error)}`,
+      })
     }
-    const preferred = historyOwnerRef.current
-    if (preferred === 'script' && scriptSession?.undo()) return
-    if (session.undo()) {
-      reconcileLocationAfterHistory()
-      return
-    }
-    scriptSession?.undo()
-  }, [historyCoordinator, reconcileLocationAfterHistory, scriptSession, session])
+  }, [historyCoordinator, reconcileLocationAfterHistory])
   const redo = useCallback((): void => {
-    if (historyCoordinator?.redo()) {
-      reconcileLocationAfterHistory()
-      return
+    try {
+      if (historyCoordinator.redo()) {
+        setWorkspaceNotice(undefined)
+        reconcileLocationAfterHistory()
+      }
+    } catch (error) {
+      setWorkspaceNotice({
+        kind: 'error',
+        message: `重做失败：${error instanceof Error ? error.message : String(error)}`,
+      })
     }
-    const preferred = historyOwnerRef.current
-    if (preferred === 'script' && scriptSession?.redo()) return
-    if (session.redo()) {
-      reconcileLocationAfterHistory()
-      return
-    }
-    scriptSession?.redo()
-  }, [historyCoordinator, reconcileLocationAfterHistory, scriptSession, session])
+  }, [historyCoordinator, reconcileLocationAfterHistory])
 
   const selEntity =
     selected.kind === 'entity' ? scene?.entities.find((e) => e.id === selected.id) : undefined
@@ -1940,7 +1932,14 @@ export function App(props: {
       if (e.defaultPrevented) return
       const t = e.target as HTMLElement | null
       const typing =
-        t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')
+        e.isComposing ||
+        e.keyCode === 229 ||
+        (t instanceof HTMLElement &&
+          (t.tagName === 'INPUT' ||
+            t.tagName === 'SELECT' ||
+            t.tagName === 'TEXTAREA' ||
+            t.isContentEditable ||
+            t.closest('[contenteditable]:not([contenteditable="false"]), [role="textbox"]')))
       if (e.key === 'Escape' && scriptPanelAvailable && !drawer.open) {
         if (placingEntity) {
           e.preventDefault()
@@ -1967,7 +1966,13 @@ export function App(props: {
         return
       }
       // undo/redo 快捷键(⌘/Ctrl+Z,+Shift=redo;输入框内不劫持)
-      if ((e.metaKey || e.ctrlKey) && (e.key === 'z' || e.key === 'Z') && !typing) {
+      if (
+        e.metaKey !== e.ctrlKey &&
+        !e.altKey &&
+        (e.key === 'z' || e.key === 'Z') &&
+        !typing &&
+        !document.querySelector('dialog[open]')
+      ) {
         e.preventDefault()
         if (e.shiftKey) redo()
         else undo()
@@ -2369,20 +2374,24 @@ export function App(props: {
     },
     {
       id: 'edit.undo',
-      label: '撤销',
+      label: historyCoordinator.getUndoLabel()
+        ? `撤销：${historyCoordinator.getUndoLabel()}`
+        : '撤销',
       icon: 'undo',
       shortcut: '⌘Z',
-      enabled: !projectGuard.blocked() && (session.canUndo() || scriptSession.canUndo()),
+      enabled: !projectGuard.blocked() && historyCoordinator.canUndo(),
       scope: 'global',
       defaultPlacement: 'fixed',
       execute: undo,
     },
     {
       id: 'edit.redo',
-      label: '重做',
+      label: historyCoordinator.getRedoLabel()
+        ? `重做：${historyCoordinator.getRedoLabel()}`
+        : '重做',
       icon: 'redo',
       shortcut: '⇧⌘Z',
-      enabled: !projectGuard.blocked() && (session.canRedo() || scriptSession.canRedo()),
+      enabled: !projectGuard.blocked() && historyCoordinator.canRedo(),
       scope: 'global',
       defaultPlacement: 'fixed',
       execute: redo,

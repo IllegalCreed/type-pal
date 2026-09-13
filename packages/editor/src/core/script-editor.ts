@@ -16,6 +16,13 @@ import {
   validateAuthorScenes,
 } from '@type-pal/content'
 import { getAuthorCommandAt, parseAuthorCommandPath } from './author-command-edit.js'
+import {
+  type HistoryRecord,
+  notifyEditorObservers,
+  type PreparedHistoryChange,
+  type SessionHistoryBinding,
+  type SessionHistoryRouter,
+} from './editor-history-participant.js'
 import type { ProjectReferenceIndex } from './project-reference.js'
 
 type AuthorSceneEntityDef = AuthorSceneDef['entities'][number]
@@ -56,11 +63,6 @@ export interface ScriptEditorCommand {
 export type CurrentScriptProjectReferenceIndexProvider = (
   state: ScriptEditorState,
 ) => ProjectReferenceIndex
-
-export interface ScriptTransactionReceipt {
-  /** 仅供跨 session coordinator 的同步失败回滚；不进入 redo。 */
-  rollback(): void
-}
 
 function clone<T>(value: T): T {
   return structuredClone(value)
@@ -1295,8 +1297,9 @@ export class DeleteSceneEntityDefinitionCommand extends SnapshotCommand {
 }
 
 export class ScriptEditSession {
-  private past: ScriptEditorCommand[] = []
-  private future: ScriptEditorCommand[] = []
+  private past: HistoryRecord<ScriptEditorCommand>[] = []
+  private future: HistoryRecord<ScriptEditorCommand>[] = []
+  private historyBinding?: SessionHistoryBinding<ScriptEditorCommand>
   private state: ScriptEditorState
   private dirty = false
   private version = 0
@@ -1356,11 +1359,11 @@ export class ScriptEditSession {
   }
 
   canUndo(): boolean {
-    return this.past.length > 0
+    return this.historyBinding?.router.canUndo() ?? this.past.length > 0
   }
 
   canRedo(): boolean {
-    return this.future.length > 0
+    return this.historyBinding?.router.canRedo() ?? this.future.length > 0
   }
 
   subscribe(listener: () => void): () => void {
@@ -1369,54 +1372,13 @@ export class ScriptEditSession {
   }
 
   dispatch(command: ScriptEditorCommand): boolean {
-    const next = command.apply(this.state)
-    if (next === this.state) return false
-    this.state = next
-    this.past.push(command)
-    this.future = []
-    this.dirty = true
-    this.historyVersion += 1
-    this.affectedRecordsByVersion.set(this.historyVersion, command.affectedRecords)
-    this.notify()
-    return true
-  }
-
-  dispatchForTransaction(command: ScriptEditorCommand): ScriptTransactionReceipt | undefined {
-    const before = {
-      state: this.state,
-      past: [...this.past],
-      future: [...this.future],
-      dirty: this.dirty,
-    }
-    if (!this.dispatch(command)) return undefined
-    let active = true
-    return {
-      rollback: (): void => {
-        if (!active) throw new Error('script transaction receipt 已失效')
-        if (this.past.at(-1) !== command)
-          throw new Error(`无法回滚事务：script history 顶部不是「${command.label}」`)
-        active = false
-        this.state = before.state
-        this.past = before.past
-        this.future = before.future
-        this.dirty = before.dirty
-        this.historyVersion += 1
-        this.affectedRecordsByVersion.set(this.historyVersion, command.affectedRecords)
-        this.notify()
-      },
-    }
-  }
-
-  isUndoTop(command: ScriptEditorCommand): boolean {
-    return this.past.at(-1) === command
-  }
-
-  isRedoTop(command: ScriptEditorCommand): boolean {
-    return this.future.at(-1) === command
+    if (this.historyBinding) return this.activeHistory().dispatch(command)
+    return this.applyStandalone(this.prepareHistoryChange('dispatch', command, Symbol('script')))
   }
 
   discardRedo(command: ScriptEditorCommand): boolean {
-    if (!this.isRedoTop(command)) return false
+    if (this.historyBinding) return this.activeHistory().discardRedo(command)
+    if (this.future.at(-1)?.command !== command) return false
     this.future.pop()
     this.historyVersion += 1
     this.affectedRecordsByVersion.set(this.historyVersion, {})
@@ -1425,36 +1387,148 @@ export class ScriptEditSession {
   }
 
   undo(): boolean {
-    const command = this.past.at(-1)
-    if (!command) return false
-    const next = command.invert(this.state)
-    this.past.pop()
-    this.state = next
-    this.future.push(command)
-    this.dirty = true
-    this.historyVersion += 1
-    this.affectedRecordsByVersion.set(this.historyVersion, command.affectedRecords)
-    this.notify()
-    return true
+    if (this.historyBinding) return this.activeHistory().undo()
+    const record = this.past.at(-1)
+    return record
+      ? this.applyStandalone(this.prepareHistoryChange('undo', record.command, record.id))
+      : false
   }
 
   redo(): boolean {
-    const command = this.future.at(-1)
-    if (!command) return false
-    const next = command.apply(this.state)
-    this.future.pop()
-    this.state = next
-    this.past.push(command)
-    this.dirty = true
-    this.historyVersion += 1
-    this.affectedRecordsByVersion.set(this.historyVersion, command.affectedRecords)
+    if (this.historyBinding) return this.activeHistory().redo()
+    const record = this.future.at(-1)
+    return record
+      ? this.applyStandalone(this.prepareHistoryChange('redo', record.command, record.id))
+      : false
+  }
+
+  /** @internal 首次只能绑定空历史；重连只允许原Owner，不猜两份既有栈的顺序。 */
+  assertCanAttachHistory(owner: object): void {
+    if (this.historyBinding) {
+      if (this.historyBinding.router.owner !== owner) throw new Error('脚本会话已绑定其他项目历史')
+    } else if (this.past.length || this.future.length) throw new Error('不能接管已有独立脚本历史')
+  }
+
+  /** @internal */
+  attachHistory(router: SessionHistoryRouter<ScriptEditorCommand>): void {
+    this.assertCanAttachHistory(router.owner)
+    this.historyBinding = { router, active: true }
+  }
+
+  /** @internal 断开期间禁止未记账编辑；同Owner connect可恢复原日志。 */
+  detachHistory(owner: object): void {
+    this.assertHistoryOwner(owner)
+    this.historyBinding!.active = false
+  }
+
+  /** @internal */
+  prepareHistoryChange(
+    direction: 'dispatch' | 'undo' | 'redo',
+    command: ScriptEditorCommand,
+    id: symbol,
+    owner?: object,
+  ): PreparedHistoryChange | undefined {
+    this.assertHistoryOwner(owner)
+    const before = this.state
+    const version = this.historyVersion
+    const record =
+      direction === 'dispatch'
+        ? { id, command }
+        : (direction === 'undo' ? this.past : this.future).at(-1)
+    if (!record || record.id !== id || record.command !== command)
+      throw new Error('脚本执行索引与项目历史不一致')
+    const next = direction === 'undo' ? command.invert(before) : command.apply(before)
+    if (direction === 'dispatch' && next === before) return undefined
+    const scope = command.affectedRecords
+    const affected: ScriptEditorAffectedRecords = {
+      ...(scope.all ? { all: true } : {}),
+      ...(scope.scenes ? { scenes: [...scope.scenes] } : {}),
+      ...(scope.items ? { items: [...scope.items] } : {}),
+      ...(scope.sharedScripts ? { sharedScripts: [...scope.sharedScripts] } : {}),
+    }
+    let used = false
+    return {
+      validate: () => {
+        this.assertHistoryOwner(owner)
+        if (used || this.state !== before || this.historyVersion !== version)
+          throw new Error('脚本历史准备结果已失效')
+      },
+      commit: () => {
+        used = true
+        this.state = next
+        if (direction === 'undo') {
+          this.past.pop()
+          this.future.push(record)
+        } else {
+          if (direction === 'redo') this.future.pop()
+          else this.future = []
+          this.past.push(record)
+        }
+        this.dirty = true
+        this.historyVersion += 1
+        this.affectedRecordsByVersion.set(this.historyVersion, affected)
+      },
+    }
+  }
+
+  /** @internal */
+  prepareHistoryDiscard(owner: object): PreparedHistoryChange | undefined {
+    this.assertHistoryOwner(owner)
+    if (!this.future.length) return undefined
+    const version = this.historyVersion
+    return {
+      validate: () => {
+        this.assertHistoryOwner(owner)
+        if (this.historyVersion !== version) throw new Error('脚本redo已变化')
+      },
+      commit: () => {
+        this.future = []
+        this.historyVersion += 1
+        this.affectedRecordsByVersion.set(this.historyVersion, {})
+      },
+    }
+  }
+
+  /** @internal */
+  isHistoryRedoCommand(command: ScriptEditorCommand, owner: object): boolean {
+    this.assertHistoryOwner(owner)
+    return this.future.at(-1)?.command === command
+  }
+
+  /** @internal 提交完全部参与者后先推进通知版本，再统一发布。 */
+  advanceHistoryNotification(owner: object): void {
+    this.assertHistoryOwner(owner)
+    this.version += 1
+  }
+  /** @internal */
+  publishHistoryNotification(owner: object): void {
+    this.assertHistoryOwner(owner)
+    notifyEditorObservers(this.listeners)
+  }
+
+  private activeHistory(): SessionHistoryRouter<ScriptEditorCommand> {
+    if (!this.historyBinding?.active) throw new Error('项目历史已断开，不能继续编辑脚本')
+    return this.historyBinding.router
+  }
+
+  private assertHistoryOwner(owner?: object): void {
+    if (this.historyBinding) {
+      if (!this.historyBinding.active || this.historyBinding.router.owner !== owner)
+        throw new Error('无效的脚本历史Owner')
+    } else if (owner !== undefined) throw new Error('脚本历史尚未绑定')
+  }
+
+  private applyStandalone(prepared: PreparedHistoryChange | undefined): boolean {
+    if (!prepared) return false
+    prepared.validate()
+    prepared.commit()
     this.notify()
     return true
   }
 
   private notify(): void {
     this.version += 1
-    for (const listener of this.listeners) listener()
+    notifyEditorObservers(this.listeners)
   }
 }
 

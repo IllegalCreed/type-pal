@@ -1,12 +1,16 @@
 import type { AuthorItemData, AuthorSceneDef, ItemData } from '@type-pal/content'
+import { fsaSource, loadCurrentProjectFrom } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import type { EditorState } from './edit-session.js'
 import type { ScriptEditorState } from './script-editor.js'
 import {
   mergeEditorProjectionWithCurrentAuthorState,
   projectActiveScriptEditorState,
   projectCurrentAuthorReferenceSlices,
+  projectEditorItemShells,
 } from './script-editor-projection.js'
+import { buildBlankProject } from './seed.js'
 
 function item(bodyFlag: string, name = '物品'): AuthorItemData {
   return {
@@ -46,6 +50,45 @@ const canonical: ScriptEditorState = {
 }
 
 describe('current script editor projection', () => {
+  test('UI-only item shells retain author order while canonical private/shared bodies round-trip', async () => {
+    const author = item('canonical')
+    author.id = '20'
+    author.name = 'name.hero'
+    const privateEffect = author.use!.effects[0]!
+    if (privateEffect.kind !== 'itemPrivateScript') throw new Error('fixture has no private script')
+    privateEffect.script.body = [{ kind: 'wait', ms: 20 }]
+    author.use!.target = 'oneAlly'
+    author.use!.effects.push({ kind: 'healHp', amount: 10 })
+    const shared = item('unused')
+    shared.id = '3'
+    shared.name = 'name.hero'
+    shared.use!.effects = [{ kind: 'runScript', script: 'shared/current' }]
+    const original = structuredClone(author)
+    const withoutUse = { ...author, id: 'plain' }
+    delete withoutUse.use
+    const files = await buildBlankProject('item-shell-projection')
+    files['content/items.json'] = [author, shared, withoutUse]
+    files['content/shared-scripts.json'] = {
+      'shared/current': { name: '共享', self: 'none', body: [] },
+    }
+    const loaded = await loadCurrentProjectFrom(fsaSource(memoryAuthorDirectory(files).dir))
+    const projected = projectEditorItemShells(loaded)
+    expect(projected.map((value) => value.id)).toEqual(['20', '3', 'plain'])
+    expect(projected[0]!.use!.effects).toMatchObject([
+      { kind: 'runScript', script: { chunk: '__author-script-runtime', id: 'item:20:use' } },
+      { kind: 'healHp', amount: 10 },
+    ])
+    expect(projected[1]!.use!.effects).toMatchObject([
+      { kind: 'runScript', script: { id: 'shared/current' } },
+    ])
+    expect(author).toEqual(original)
+    expect(
+      projectActiveScriptEditorState(
+        { ...canonical, items: [author, shared, withoutUse] },
+        projected,
+      ).items,
+    ).toEqual([author, shared, withoutUse])
+  })
   test('keeps shell item fields but takes private script bodies from the script session', () => {
     const projected = projectActiveScriptEditorState(canonical, [
       item('stale', '主会话名称') as unknown as ItemData,

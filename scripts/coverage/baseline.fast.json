@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-13T10:56:21.925Z",
+  "generatedAt": "2026-09-13T13:12:42.729Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 616,
-  "testCount": 6444,
+  "sourceFileCount": 617,
+  "testCount": 6493,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2580,7 +2580,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 218,
+      "sourceFileCount": 219,
       "sourceFiles": [
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
@@ -2607,6 +2607,7 @@
         "packages/editor/src/core/editor-derived-store.ts",
         "packages/editor/src/core/editor-derived.worker.ts",
         "packages/editor/src/core/editor-history-coordinator.ts",
+        "packages/editor/src/core/editor-history-participant.ts",
         "packages/editor/src/core/entity-address-references.ts",
         "packages/editor/src/core/entity-placement.ts",
         "packages/editor/src/core/export-zip.ts",
@@ -2801,10 +2802,10 @@
         "packages/editor/src/ui/use-project-leave-guard.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "95a516e2bde2ebbe48268e1243932a1d074993d1b4cd3fab7fd69a4c483c5e6f",
+      "scopeDigest": "9696f732999bcfdc8a19ba9e9ff40a428fbd5f2f67dd2695734be188495d62a8",
       "fastTests": {
-        "testCount": 2205,
-        "testFileCount": 208,
+        "testCount": 2254,
+        "testFileCount": 210,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2829,6 +2830,8 @@
           "packages/editor/src/core/editor-derived-store.test.ts",
           "packages/editor/src/core/editor-history-coordinator.test.ts",
           "packages/editor/src/core/editor-history-foundations.test.ts",
+          "packages/editor/src/core/editor-history-paired-workflows.test.ts",
+          "packages/editor/src/core/editor-history-timeline.test.ts",
           "packages/editor/src/core/enemy-team-references.test.ts",
           "packages/editor/src/core/entity-address-references.test.ts",
           "packages/editor/src/core/file-system-access.test.ts",
@@ -3132,6 +3135,16 @@
             "identityDigest": "d8f31b2c3095228dea6cac55aa0efc9700289dc76040b38c25220f00d3829564"
           },
           {
+            "file": "packages/editor/src/core/editor-history-paired-workflows.test.ts",
+            "testCount": 20,
+            "identityDigest": "4a9c61d4185410464e0561826437f15f52ac69f6d3e50ae70c362e5b4b320914"
+          },
+          {
+            "file": "packages/editor/src/core/editor-history-timeline.test.ts",
+            "testCount": 24,
+            "identityDigest": "b2c0fd57a422c1911a761d1158f49e885f29f6c3141e4c3e4387f15ca00bfb71"
+          },
+          {
             "file": "packages/editor/src/core/enemy-team-references.test.ts",
             "testCount": 4,
             "identityDigest": "5b502643c3680f8fb03d2ceee8c7f1ffc6c307c718233ffc60340e20df64fbf3"
@@ -3378,8 +3391,8 @@
           },
           {
             "file": "packages/editor/src/core/script-editor-projection.test.ts",
-            "testCount": 4,
-            "identityDigest": "39cef21a60ca005e0b2c38858675b037fe0476fa24b0f6f861674a4c8d1a487b"
+            "testCount": 5,
+            "identityDigest": "41cb439d160f1b210c095dad86c733882bd9151e7d302c272624fe658230e934"
           },
           {
             "file": "packages/editor/src/core/script-editor.test.ts",
@@ -3563,8 +3576,8 @@
           },
           {
             "file": "packages/editor/src/ui/App.leave-guard.test.tsx",
-            "testCount": 27,
-            "identityDigest": "32c1c0c65770360de7141f231d4680a27d859cff0c081e823371c24954556aef"
+            "testCount": 31,
+            "identityDigest": "5adfa907493147630ad8d0676f84794d51f81a73b720b92983f2fbc9627702d6"
           },
           {
             "file": "packages/editor/src/ui/App.reference-navigation.test.tsx",
@@ -4057,46 +4070,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "a4805d74e1f158229e849f709b0367b935b8580dfaa582108398c173a5abfaec",
+        "identityDigest": "a40a7204bef3b6aa9952b344b51402127936ce4710a8f1dda40cbf6d393792b0",
         "duplicateIdentityCount": 8,
-        "executionDigest": "70006966881f1dcadc7747af2fcd255f3ee69e169b19eddb393f884fb4afd507"
+        "executionDigest": "88ae4e26d3c0433d6bbb6ab31a72aff3333a8a381c2677eeacd57c753078553a"
       },
       "metrics": {
         "statements": {
-          "covered": 24457,
-          "total": 31701
+          "covered": 24585,
+          "total": 31808
         },
         "branches": {
-          "covered": 18923,
-          "total": 27408
+          "covered": 19081,
+          "total": 27545
         },
         "functions": {
-          "covered": 6053,
-          "total": 8032
+          "covered": 6124,
+          "total": 8099
         },
         "lines": {
-          "covered": 22047,
-          "total": 27708
+          "covered": 22147,
+          "total": 27797
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 53341,
-      "total": 78713
+      "covered": 53469,
+      "total": 78820
     },
     "branches": {
-      "covered": 38227,
-      "total": 61789
+      "covered": 38385,
+      "total": 61926
     },
     "functions": {
-      "covered": 10086,
-      "total": 14433
+      "covered": 10157,
+      "total": 14500
     },
     "lines": {
-      "covered": 48153,
-      "total": 68891
+      "covered": 48253,
+      "total": 68980
     }
   }
 }

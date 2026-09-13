@@ -7,6 +7,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { createEmptyAuthorDiskBaseline } from '../core/author-disk-baseline.js'
 import { type EditorState, EditSession } from '../core/edit-session.js'
+import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { ProjectReferenceEdge, ProjectReferenceTarget } from '../core/project-reference.js'
 import {
   type CanonicalScriptReference,
@@ -404,10 +405,12 @@ describe('App item reference navigation', () => {
     } as unknown as LoadedCurrentProject
     const session = new EditSession(shell)
     renderedScriptSession = new ScriptEditSession(canonical)
+    const history = new EditorHistoryCoordinator(session, renderedScriptSession)
     await act(async () =>
       root.render(
         <App
           session={session}
+          history={history}
           project={project}
           script={{ session: renderedScriptSession }}
           workspace={testWorkspace}
@@ -1492,7 +1495,7 @@ describe('App item reference navigation', () => {
         .scenes[0]!.entities.some((entity) => entity.id === 'entity-1'),
     ).toBe(false)
 
-    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="撤销"]')!.click())
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label^="撤销："]')!.click())
     expect(session.getState().scenes[0]!.entities.some((entity) => entity.id === 'entity-1')).toBe(
       true,
     )
@@ -1501,7 +1504,7 @@ describe('App item reference navigation', () => {
         .getState()
         .scenes[0]!.entities.some((entity) => entity.id === 'entity-1'),
     ).toBe(true)
-    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="重做"]')!.click())
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label^="重做："]')!.click())
     expect(session.getState().scenes[0]!.entities.some((entity) => entity.id === 'entity-1')).toBe(
       false,
     )
@@ -1779,7 +1782,7 @@ describe('App item reference navigation', () => {
     ).toBeNull()
     expect(document.activeElement).toBe(tree.querySelector('.ds-catalog-row'))
 
-    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="撤销"]')!.click())
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label^="撤销："]')!.click())
     expect(session.getState().scenes[0]!.entities).toHaveLength(1)
     expect(renderedScriptSession.getState().scenes[0]!.entities).toHaveLength(1)
 
@@ -1796,7 +1799,7 @@ describe('App item reference navigation', () => {
       '已删除命名落点 camp；可撤销',
     )
     expect(document.activeElement).toBe(tree.querySelector('.ds-catalog-row'))
-    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="撤销"]')!.click())
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label^="撤销："]')!.click())
     expect(session.getState().scenes[0]!.entries?.camp?.label).toBe('营地')
 
     await act(async () => button('营地', tree).click())
@@ -1807,9 +1810,9 @@ describe('App item reference navigation', () => {
     )
     expect(session.getState().scenes[0]!.entries?.camp).toBeUndefined()
     expect(host.querySelector('.insp-head .what')?.textContent).toContain('选中场景')
-    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="撤销"]')!.click())
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label^="撤销："]')!.click())
     expect(session.getState().scenes[0]!.entries?.camp?.label).toBe('营地')
-    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="重做"]')!.click())
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label^="重做："]')!.click())
     expect(session.getState().scenes[0]!.entries?.camp).toBeUndefined()
   })
 
@@ -2094,12 +2097,16 @@ describe('App item reference navigation', () => {
       worldVariables: shell.worldVariables ?? {},
     } as unknown as LoadedCurrentProject
 
+    const main = new EditSession(shell)
+    const script = new ScriptEditSession(canonical)
+    const history = new EditorHistoryCoordinator(main, script)
     await act(async () =>
       root.render(
         <App
-          session={new EditSession(shell)}
+          session={main}
+          history={history}
           project={project}
-          script={{ session: new ScriptEditSession(canonical) }}
+          script={{ session: script }}
           workspace={testWorkspace}
           authorBaseline={createEmptyAuthorDiskBaseline(testWorkspace.projectId)}
         />,

@@ -116,7 +116,7 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 
 ## 验收矩阵
 
-均为待实施，不把当前错误特征探针通过当验收通过。
+下表保留r1验收合同；整卡实现证据见后文“最终实现与自验证”。旧错误特征探针通过不当验收通过。
 
 | ID | 必须证明的业务结果 |
 |---|---|
@@ -218,8 +218,8 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 - 2026-09-13取证接收阶段的历史边界：r1两席设计签字均已落盘（GLM623c592f、Kimi3f34c558），当时用户要求复核并行只读取证，
   尚未启动产品实现。GLM批028ad866的R1～R4 counter见[批次接收报告](../../testing/glm-pre-e2e-prep-report.md)；
   该counter针对取证/分类质量，不改变本卡已核前提或已签方案，不要求重签设计。
-- 当前build首批：保存静默丢正文、脚本历史失败丢项/no-op清redo的保护与14项正式回归已落地；项目级日志与App接线尚未实施，整体H-01～H-12未完成。没有版本/能力格状态修改。
-- 视觉未开始；Codex dev-functional；无新UI形态设计，沿用既有控件。
+- 首批历史：保存静默丢正文、脚本历史失败丢项/no-op清redo的保护与14项正式回归先落地；当时尚未实施项目级日志。后续整卡实现见“最终实现与自验证”；没有版本/能力格状态修改。
+- Codex dev-functional已完成本卡最小闭环；无新UI形态设计，沿用既有控件，证据及边界见后文。
 - 用户验收未开始；实现和三席终审完成后按用户裁决。
 - 额度/资源生成：N/A，无缺席代班或生图。
 
@@ -247,8 +247,97 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 - 三针Vite隔离负控（磁盘产品零改，`negative.config.mts`，`HISTORY_NEGATIVE=undo|noop|save`）：
   undo先pop→1红，移除no-op早退→4红，去掉保存守卫→6红（4错误放行+2被下游校验拒绝但错误层位不同）。
   后两种正文缺席有下游重叠校验，不能冒称6项全部是放行级反例；无测试收集/环境错误。日志分别negative-undo/noop/save。
-- 本卡未到review：全局交错顺序、配对原子发布/回滚、跨会话redo、生命周期与App统一按钮/快捷键/名称、
+- 首批时本卡未到review：全局交错顺序、配对原子发布/回滚、跨会话redo、生命周期与App统一按钮/快捷键/名称、
   功能视觉和完整保存链仍待实施。当前通过仅为上述首批边界，不把旧4项简单配对通过充作全局问题已修。
+
+## 最终实现与自验证（Codex，2026-09-13）
+
+### 实现边界
+
+- 项目级EditorHistoryCoordinator持有唯一past/future，每次成功提交用独立Symbol身份；两session局部记录仅为执行索引。
+  普通dispatch和直接session.undo/redo全部路由到Owner，删除App的historyOwnerRef/单栈fallback、旧transaction receipt/top检测协议；无旧版兼容或历史持久化。
+- 两侧prepare先计算命令与地图轻量元数据，再统一validate→commit→更新日志/版本→发布通知。
+  失败发生在写入前，不靠用户可见redo补偿；无作者变化不增加dirty。通知异常已属提交之后，单个订阅抛错不回滚已成功事务、不吞其它订阅。
+  新分支同时清另一侧执行索引future并递增其historyVersion，A-07授权保守失效；markSaved/hydrate不创建作者日志项。
+- 不为每次普通编辑深拷贝全部地图/媒体：map/index/stamp引用未变就跳过地图准备；变更仅拷贝dirty/pin/revision/facts等轻量元数据。
+  script command原有before/after快照合同不扩大；七处生产配对caller每次新建命令，无跨操作保留stateful命令的实际接线。
+  同一个stateless命令重复提交仍分配独立事务ID，不以命令对象相等当同一事务。
+- Root在发布Boot前成组构造两session与Owner，App只connect/dispose；同Owner重连保留日志、断开期编辑拒绝、重复Owner和两份已有独立栈拒绝。
+  App统一按钮/菜单/快捷键状态与动作名，保持原按钮尺寸/布局，未改CSS/增加拖拽/历史面板；文本/IME/contenteditable/modal不劫持全局undo。
+  同名连续编辑订阅稳定toolbar快照，保留既有页面局部订阅与C组渲染门禁。
+- 保存完整性守卫沿用首批；本轮H-09/H-12发现正式重开私有脚本物品会向runtime效果编辑器传入canonical效果导致白屏。
+  一手链：toEditorState保留作者items；ItemUseEffectEditor调用itemUseEffectSupportsContext只识别当前runtime效果。
+  本卡仅在Root交互态装配复用reforge既有projectItemsView，按作者ID数组保序；ScriptSession保留canonical正文，保存时合并回来。
+  不改loader/serializer/content20/SAVE8、不新增lowerer/分片/跨包接口，属于r1主投影/作者正文分离与重开验收的落实，不重签。
+  正式loader fixture含私有/共享/普通三类物品、数字形态ID顺序及保存还原控制；App实际卸载/重挂物品页验证正文。
+
+### H-01～H-12 对账
+
+| 合同 | 证据 |
+|---|---|
+| H-01/H-02/H-05 | timeline的M/S/M、S/M/S、三笔非四半、到底边界；GLM适配P08～P11完整内容往返 |
+| H-03 | P01～P07七族真实命令/正式loader/保存合法；P12/P20入口标记与Codex独立七caller census分栏 |
+| H-04 | timeline双侧新分支/非对称多深度混合future/行政discard；foundations no-op/失败保留；P13～P15 |
+| H-06 | prepare第一/第二apply、第二inverse、第二redo失败全状态/dirty/版本不变与立即重试；P16/P17两侧订阅完整、失败零通知；通知异常与重入/断开守卫 |
+| H-07 | 地图失败undo的revision/dirty/facts对象保全、成功undo/redo单调；map引用订阅看到完整两侧与版本；markSaved/hydrate不计序；非地图不读取全作者元数据 |
+| H-08 | timeline重复Owner/断开重连/已有独立past或future；App测试真实StrictMode；author-save-conflict真实Root AST重开新双session/Owner且旧历史不串入 |
+| H-09 | foundations空正文合法/缺正文先拒；App真实保存调用缺正文零writer凭据/IO→undo修正→保存→正式loader及Item页重挂；P19确实undo/redo后保存重开 |
+| H-10 | App四条回归：toolbar/menu/CtrlZ共用日志，文本/IME/modal不越界，失败提示可见且重试成功；A-07全部既有断言保留 |
+| H-11 | 下列五针隔离反控及原冻结产品复算，不把重叠拒绝当放行级反例 |
+| H-12 | 下列隔离原生浏览器，主属性/正文交错、整笔撤销/键盘重做、保存重开及磁盘正文实测 |
+
+### GLM贡献与负控制
+
+- 接收远端1f043a66的20项测试包，非独立终审自证；[接收勘误](../../testing/glm-editor-history-workflows-receipt.md)
+  记录P09错误终点、P10弱断言、P13/14条件断言、P16/17狭窄观察、P19缺undo步骤、P20静态证明过宽的修正。
+  删除整文件ts-nocheck和旧fallback，P12/P20改raw导入；既有断言未删减以迁就实现。
+- Codex用Vite隔离加载git对象（原测试1f043a66、四个核心模块dded6f27）复算：恰15绿/5红，
+  P08/P09/P13/P14/P17合同失败，P09真正失败为第二撤价格而非原回执的第一撤。P12/P20文件系统census读取主线相同七caller形状，非冻结语义推断依据。
+  `glm-frozen.config.mts`/`glm-frozen-recomputed.log`，磁盘产品未切换、未stash、未动原探针。
+- 新主线同口径58/58绿；`negative.config.mts`以Vite load单点改写，不改产品文件。D1_NC依次control/order/split/future/pop/save：
+  - control：58绿，exit0。
+  - order：undo偏选main，M/S/M第二撤回0且脚本仍在，10红；模拟旧归属偏栈这一反例，不冒称完整复刻旧算法，另有执行索引重叠拒绝。
+  - split：只提交undo第一参与者，26红，包括七族完整内容差异；不是收集错误。
+  - future：移除未参与侧discard，2红是historyVersion未递增；全局日志仍拦住孤儿，因此不声称该针使孤儿真的复活。
+  - pop：仅inverse失败路径先弹脚本索引，3红（standalone丢历史、两条后续重试被索引守卫拒绝）。
+  - save：删保存完整性块，6红=4错误放行+2被下游校验拒但错误层位变化。
+- 原审计及已接收GLM四探针保持零diff；临时配置/日志均在`/tmp/type-pal-history-main.WcgNcg/`，不把临时图片/配置加入仓库。
+
+### 最小功能界面验证（Codex）
+
+- localhost:6011真实编辑器、独立Playwright Chromium上下文，原生OPFS目录与IndexedDB；仅OS选夹API替换为任务专用OPFS句柄。
+  未访问用户项目或真实已有存档，不将此证据当OS选夹/权限UI测试。系统权限链已有A-03/A-07证据，不重复扩大流程。
+- 最终干净目录history-complete-final：新建项目/物品、启用使用、price10，保存基线并重开；
+  添加当前物品脚本（pair）→price11（M）→wait200（S）→price20（M）。toolbar连续undo轨迹
+  `20/有正文 → 11/有正文 → 11/空正文 → 10/空正文`；再undo一次移除整笔私有脚本，添加按钮恢复可用。
+  四次Meta+Shift+Z还原price20/wait200。真实保存metadata=committed，刷新并从Recent登记目录重开后
+  price20/body=[wait200]、新历史为空；直接读OPFS items.json核同值，save-state仍committed，最终正向期间pageerror=0。
+- `native-final-edit.js`/`native-final-reopen.js`内有上述业务assert；Codex查看ui-final-saved.png/ui-final-reopened.png：
+  工具栏图标尺寸/布局不变，“撤销：修改物品”提示完整可读，私有脚本正文保存重开后可见，无白屏。
+  场景演出与完整R4试玩仍按原E2E集中策略登记，不冒称已通关或所有布局已巡检。
+- 过程失败如实分栏：初版浏览器指定版本不存在，改用已安装Chromium；脚本TTY长行截断后改临时文件；
+  新项目沿用URL中的不存在item目标先显示目标不存在，按“打开当前页面”回正确页面；均未篡改产品来让自动化通过。
+  早期开发中HMR重载打断任务目录，后来该目录恢复冲突，不能当本卡成功证据；最终停止产品编辑后新鲜目录完整重跑通过。
+  另发现新建物品未重开时canonical item缺席，已作为[D-06](../audits/pre-e2e/editor-workflows.md#d-06--新建物品后立即添加私有脚本缺少作者记录2026-09-13补充)单列待修，不以本次绕过宣称已修。
+- Codex内部只读补审（不是Kimi/GLM席位签字）未发现本卡阻断；指出共享ScriptId与内部私有前缀歧义，已由主线读取探针并复跑新旧树。
+  正式loader均接受，旧树serialize已拒绝，当前更早被缺正文守卫拒绝，输入/作者IO不变，不是可保存输入回归；
+  已作为[D-07](../audits/pre-e2e/editor-workflows.md#d-07--共享scriptid与内部私有引用前缀相同时无法保存2026-09-13补充)待修，不冒称完整共享命名域已支持，也不扩大本卡为身份格式修改。
+
+### 质量门与计数
+
+- 新增timeline24、GLM适配20、App4、投影1，共49项；首批14另在dded6f27，整卡新增合计63项。
+  旧测试适配新Owner/Root依赖/动作标签与全局顺序，业务断言保留并加强；不改配置、超时、排除或原探针。
+- editor完整check：229文件/2,413项通过；末次Root额外身份断言随完整pnpm check复验通过。
+- 整卡完整pnpm check exit0、6,981项；全仓lint0 error/48 warning/11 info（既有），日志check-final.log。
+  官方coverage:ratchet exit0之后，单次严格coverage:fast exit0：6,493项/617生产文件，editor210测试文件/2,254项。
+  基线仅editor及汇总/生成时间变化；其他六包逐字一致，原生产文件/测试无移除，新增1 helper/2测试文件及49项，未改配置/排除/阈值。
+  editor行22,147/27,797（79.67%）、分支19,081/27,545（69.27%）、语句24,585/31,808（77.29%）、函数6,124/8,099（75.61%）。
+  全仓行69.95%、分支61.99%，尚未达到最终覆盖率目标；不等于coverage:full或完整E2E。
+  日志ratchet-final.log/strict-fast-final.log；计数6444→6493与新增24+20+4+1一致；旧实现退休分母与新代码并存，不把净增覆盖数全部算新增测试贡献。
+- 过程定向失败均保留日志：affected记录最初被额外clone导致结构共享断言红（撤销该额外clone）；
+  App AST边界因render新增显式早抛而红（改Owner断言方法，保留校验、不改审计）；Root fixture注入真实新增依赖；
+  aria动作名/菜单快捷键文本和modal选择器适配；投影初稿误用deriveScriptChunk参数已撤回，复用生产projectItemsView；
+  script.getState本来返回clone，新增identity测试改为公开getStateSnapshot比较，不把clone当产品写入。
 
 ## 交接日志
 
