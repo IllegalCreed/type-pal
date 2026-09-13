@@ -34,8 +34,9 @@ const record = (id, verdict, detail) => {
 
 try {
   const { EditSession } = await server.ssrLoadModule('/src/core/edit-session.ts')
-  const { ScriptEditSession, SetItemPrivateScriptBodyCommand } =
-    await server.ssrLoadModule('/src/core/script-editor.ts')
+  const { ScriptEditSession, SetItemPrivateScriptBodyCommand } = await server.ssrLoadModule(
+    '/src/core/script-editor.ts',
+  )
   const { UpdateItemCommand } = await server.ssrLoadModule('/src/core/commands.ts')
   const { EditorHistoryCoordinator } = await server.ssrLoadModule(
     '/src/core/editor-history-coordinator.ts',
@@ -44,9 +45,8 @@ try {
     '/src/core/script-editor-projection.ts',
   )
   const { buildBlankProject } = await server.ssrLoadModule('/src/core/seed.ts')
-  const { toEditorState, serializeProjectWithMapCopies } = await server.ssrLoadModule(
-    '/src/core/project-io.ts',
-  )
+  const { toEditorState, serializeProjectWithMapCopies } =
+    await server.ssrLoadModule('/src/core/project-io.ts')
   const { loadCurrentProjectFrom, loadAllAuthorScenes, loadStampTemplates } =
     await server.ssrLoadModule('/../reforge/src/project-loader.ts')
 
@@ -134,7 +134,10 @@ try {
     const main = structuredClone(base)
     const script = structuredClone(scriptBase)
     // 与原探针同款合法初始输入：物品预置一条 use 私有脚本效果（设置前置，不入历史）。
-    const seededEffect = { kind: 'itemPrivateScript', script: { id: 'use', label: '正文', body: [] } }
+    const seededEffect = {
+      kind: 'itemPrivateScript',
+      script: { id: 'use', label: '正文', body: [] },
+    }
     script.items[0].use.effects = [structuredClone(seededEffect)]
     main.items[0].use.effects = [structuredClone(seededEffect)]
     const session = new EditSession(main)
@@ -166,23 +169,27 @@ try {
       scriptSession,
       historyCoordinator,
       owner: historyOwnerRef,
-      price: () => (session.getState().items.find((i) => i.id === 'private') ?? { buyPrice: 0 }).buyPrice,
+      price: () =>
+        (session.getState().items.find((i) => i.id === 'private') ?? { buyPrice: 0 }).buyPrice,
       body: () => {
-        const item = (scriptSession.getState().items.find((i) => i.id === 'private') ?? { use: { effects: [] } })
+        const item = scriptSession.getState().items.find((i) => i.id === 'private') ?? {
+          use: { effects: [] },
+        }
         const effect = item.use?.effects?.find(
           (e) => e.kind === 'itemPrivateScript' && e.script?.id === 'use',
         )
         return effect ? effect.script.body : null
       },
       shellUseCount: () =>
-        (session.getState().items.find((i) => i.id === 'private') ?? { use: { effects: [] } }).use?.effects?.length ?? 0,
+        (session.getState().items.find((i) => i.id === 'private') ?? { use: { effects: [] } }).use
+          ?.effects?.length ?? 0,
     }
   }
   const M = (r, v) => r.session.dispatch(new UpdateItemCommand('private', { buyPrice: v }))
   const S = (r, body) =>
     r.scriptSession.dispatch(new SetItemPrivateScriptBodyCommand('private', 'use', 0, body))
-  const WAIT1 = [{ kind: 'wait', ms: 1 }]
-  const WAIT2 = [{ kind: 'wait', ms: 2 }]
+  const _WAIT1 = [{ kind: 'wait', ms: 1 }]
+  const _WAIT2 = [{ kind: 'wait', ms: 2 }]
   const P = (r, body, price) =>
     r.historyCoordinator.dispatch(
       new SetItemPrivateScriptBodyCommand('private', 'use', 0, body),
@@ -240,7 +247,7 @@ try {
     record(
       'G-H02',
       'reproduced',
-      `P/M/S undo序列 u1=${JSON.stringify(u1)} u2=${JSON.stringify(u2)} u3=${JSON.stringify(u3)} u4=${JSON.stringify(u4)} redo1=${JSON.stringify(rd1)}（观察 pair 是否恰一次整笔、redo 是否恢复半笔）`,
+      `P/M/S undo序列(实际操作序: u1撤S,u2撤M20,u3撤pair半笔,u4撤pair另一半,redo 紧跟在 4 次 undo 之后): u1=${JSON.stringify(u1)} u2=${JSON.stringify(u2)} u3=${JSON.stringify(u3)} u4=${JSON.stringify(u4)} redo1=${JSON.stringify(rd1)}——pair 在 u3/u4 被拆成两半,redo1 只恢复半笔`,
     )
   }
 
@@ -274,7 +281,11 @@ try {
       }
       out[layout] = steps
     }
-    record('G-H03', 'reproduced', `各布局 undo 轨迹 ${JSON.stringify(out)}`)
+    record(
+      'G-H03',
+      'reproduced',
+      `四布局 undo 轨迹 ${JSON.stringify(out)}——判读: P-mid/P-last/P-P 三布局按操作逆序正确(对照);错误集中在 P-first(S 单条与 pair 交错后归属启发式选错栈)——报告按实际轨迹分类,不写“无布局全对”)`,
+    )
   }
 
   // ── G-H07 一侧新作者分支是否清另一侧 redo（孤儿重做） ──
@@ -300,9 +311,9 @@ try {
     const r = rig()
     M(r, 10)
     r.undo()
-    const noop = r.session.dispatch(new UpdateItemCommand('private', { buyPrice: 0 }))
+    const _noop = r.session.dispatch(new UpdateItemCommand('private', { buyPrice: 0 }))
     const redoAfterNoop = r.session.redo()
-    const priceAfter = r.price()
+    const _priceAfter = r.price()
     const r2 = rig()
     M(r2, 10)
     r2.undo()
@@ -324,8 +335,35 @@ try {
     const redoAfterRecover = r2.session.redo()
     record(
       'G-H08',
-      'covered',
-      `no-op dispatch 返回 ${noop} 后 redo=${redoAfterNoop} price=${priceAfter}；apply 失败抛错=${failed} 状态保持=${stateKept} 失败后 redo=${redoAfterFail} price=${priceAfterFail} 复原后 redo=${redoAfterRecover}（失败与 no-op 均不清 redo、不破坏状态）`,
+      'reproduced',
+      `【按现场改判】等值新引用 dispatch(buyPrice 0→0) 返回 true 且清 redo(redo=${redoAfterNoop})——edit-session.ts:191-193 的 next===previous 引用比较挡不住等值新引用;该观察单列,不并入 D-01 全面 Command 治理;apply 失败对照: 抛错=${failed} 状态保持=${stateKept} 失败后 redo 保留=${redoAfterFail === true} price=${priceAfterFail} 复原后 redo=${redoAfterRecover === false ? '已消费' : redoAfterRecover}（失败不清 redo ✔）;【返回同一 state 的 no-op 另测见 G-H08b】`,
+    )
+  }
+
+  // ── G-H08b: 明确返回同一 state 的 no-op（工作包指定形态） ──
+  {
+    const r = rig()
+    M(r, 10)
+    r.undo()
+    const _sameState = { ...r.session.getState() }
+    const sameCmd = {
+      label: '同态 no-op',
+      apply: (state) => state, // 明确返回同一引用
+    }
+    let noopSame
+    try {
+      noopSame = r.session.dispatch(sameCmd)
+    } catch (e) {
+      noopSame = `throw:${e.message}`
+    }
+    const redoAfterSame = r.session.redo()
+    const priceAfterSame = r.price()
+    record(
+      'G-H08b',
+      noopSame === false && redoAfterSame === true && priceAfterSame === 10
+        ? 'covered'
+        : 'reproduced',
+      `返回同一 state 的 no-op: dispatch=${noopSame}(不入栈) redo 保留=${redoAfterSame}(price 回 10 ✔)——工作包指定的“明确返回原 state 的 no-op 不清 redo”在现行实现成立`,
     )
   }
 
@@ -354,17 +392,17 @@ try {
     }
     record(
       'G-H10',
-      'covered',
-      `同对象两次 main dispatch=${a}/${b} price=${price} undo1=${u1} undo2=${u2}（按引用入栈两次、各撤一次）；同对象 pair 重复=${pairTwice}（对象身份不是事务唯一性凭据）`,
+      'risk',
+      `同对象两次 main dispatch=${a}/${b} price=${price} undo 轨迹=${price}→${u1}→${u2}(第二次 undo 无可撤内容返回 false,不是 10→0→…的两次完整撤销语义);同对象 pair 重复=${pairTwice}——对象身份可重复入栈,但其“复用同一 Command 实例”的真实 caller 域未 census,复用合同未由产品声明,判 risk 待证,不据此扩张正式支持承诺`,
     )
   }
 
   // ── G-H11 第一/第二参与者 apply 失败 ──
   {
     const r = rig()
-    let scriptChangedMidFailure = null
+    let _scriptChangedMidFailure = null
     const sub = r.scriptSession.subscribe(() => {
-      scriptChangedMidFailure ??= r.body()
+      _scriptChangedMidFailure ??= r.body()
     })
     const failMain = new UpdateItemCommand('private', { buyPrice: 20 })
     failMain.apply = () => {
@@ -386,7 +424,9 @@ try {
     const bodyAfterUndo = r.body()
     sub()
     const r2 = rig()
-    const failScript = new SetItemPrivateScriptBodyCommand('private', 'use', 0, [{ kind: 'wait', ms: 1 }])
+    const failScript = new SetItemPrivateScriptBodyCommand('private', 'use', 0, [
+      { kind: 'wait', ms: 1 },
+    ])
     failScript.apply = () => {
       throw new Error('第一参与者 apply 失败')
     }
@@ -398,7 +438,7 @@ try {
     }
     record(
       'G-H11',
-      'reproduced',
+      'covered',
       `第二参与者失败 throw=${JSON.stringify(threw)} 脚本半状态=${JSON.stringify(bodyAfter)} mainDirty=${mainDirty} scriptDirty=${scriptDirty} 失败后script可undo=${scriptUndo} 撤后=${JSON.stringify(bodyAfterUndo)}；第一参与者失败 throw=${JSON.stringify(threw2)}（receipt 回滚路径观察）`,
     )
   }
@@ -468,24 +508,24 @@ try {
     P(r, [{ kind: 'wait', ms: 1 }], 10)
     // 正控 A：shell 引用 + canonical 正文齐备 → merge 保留
     const mergedOk = merge(r.scriptSession.getState(), r.session.getState())
-    const okItem = (mergedOk.items.find((i) => i.id === 'private') ?? {})
-    const okEffects = (okItem.use?.effects ?? [])
+    const okItem = mergedOk.items.find((i) => i.id === 'private') ?? {}
+    const okEffects = okItem.use?.effects ?? []
     // 反控：仅 shell 有引用、canonical 无正文（模拟正文记录被删的中间态）
     const scriptNoBody = structuredClone(r.scriptSession.getState())
-    const item = (scriptNoBody.items.find((i) => i.id === 'private') ?? { use: { effects: [] } })
+    const item = scriptNoBody.items.find((i) => i.id === 'private') ?? { use: { effects: [] } }
     const use = item.use ?? {}
     use.effects = (use.effects ?? []).filter(
       (e) => !(e.kind === 'itemPrivateScript' && e.script?.id === 'use'),
     )
     item.use = use
     const mergedNoBody = merge(scriptNoBody, r.session.getState())
-    const noBodyItem = (mergedNoBody.items.find((i) => i.id === 'private') ?? {})
+    const noBodyItem = mergedNoBody.items.find((i) => i.id === 'private') ?? {}
     const noBodyEffects = noBodyItem.use?.effects?.length ?? 0
     // 正控 B：空正文 [] 合法保留
     const r2 = rig()
     P(r2, [], 5)
     const mergedEmpty = merge(r2.scriptSession.getState(), r2.session.getState())
-    const emptyItem = (mergedEmpty.items.find((i) => i.id === 'private') ?? {})
+    const emptyItem = mergedEmpty.items.find((i) => i.id === 'private') ?? {}
     const emptyEffect = emptyItem.use?.effects?.find(
       (e) => e.kind === 'itemPrivateScript' && e.script?.id === 'use',
     )

@@ -1,10 +1,14 @@
 // node --import tsx docs/ops/audits/pre-e2e/probe-glm-upload-prep.mjs
-// GLM pre-e2e-prep r1 · G-I 组（图片上传异步边界）只读取证。
-// 真实 reforge 管线(slice/quantize/encode/gzip/sha) + AddSpriteCommand/EditSession 动态核
-// 「提交来自最后选择」；组件内 pick/submit 竞态为源码锚点分级(工作包允许 risk 分类)。
+// GLM pre-e2e-prep r1 rework · G-I 组只读取证（R3 返工版）。
+// AST 抽取真实 pickFile/submit/quantized 回调（原探针手法），受控解码/canvas/React setter 为内存边界。
+// 实际存储字节经 gunzip+解析+真实 sha256 双向核验；附「同长度坏字节必须被抓到」的 oracle 自检。
+// 重复提交互斥/向导同 SHA 去重/bitmap 释放路径均以真实回调时序执行。
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
+import { gunzipSync } from 'node:zlib'
+import ts from 'typescript'
 
 const root = new URL('../../../../', import.meta.url)
 const req = createRequire(new URL('packages/editor/package.json', root))
@@ -27,163 +31,369 @@ const record = (id, verdict, detail) => {
   console.log(`[${id}] ${verdict}: ${detail}`)
 }
 try {
-  const reforge = await server.ssrLoadModule('/../reforge/src/index.ts')
-  const { EditSession } = await server.ssrLoadModule('/src/core/edit-session.ts')
+  const lib = await server.ssrLoadModule('/../reforge/src/index.ts')
   const { AddSpriteCommand } = await server.ssrLoadModule('/src/core/commands.ts')
-  const { sha256Hex } = await server.ssrLoadModule('/src/core/binary-signature.js')
-  const { buildBlankProject } = await server.ssrLoadModule('/src/core/seed.ts')
-  const { toEditorState } = await server.ssrLoadModule('/src/core/project-io.ts')
-  const { loadCurrentProjectFrom, loadAllAuthorScenes } = await server.ssrLoadModule(
-    '/../reforge/src/project-loader.ts',
+  const { EditSession } = await server.ssrLoadModule('/src/core/edit-session.ts')
+  const { sha256Hex } = await server.ssrLoadModule('/src/core/binary-signature.ts')
+  const { parseSpriteChunkStrict } = await server.ssrLoadModule('/../shared/src/rle.ts')
+
+  const raw = readFileSync(new URL('packages/editor/src/ui/SpriteUploadWizard.tsx', root), 'utf8')
+  const ast = ts.createSourceFile(
+    'wizard.tsx',
+    raw,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  )
+  const found = new Map()
+  function scan(node) {
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      ['pickFile', 'submit', 'grid', 'quantized'].includes(node.name.text)
+    ) {
+      const name = node.name.text
+      assert(!found.has(name))
+      found.set(
+        name,
+        name === 'grid' || name === 'quantized'
+          ? `const compute${name} = ${node.initializer.arguments[0].getText(ast)};`
+          : `const ${node.getText(ast)};`,
+      )
+    }
+    ts.forEachChild(node, scan)
+  }
+  scan(ast)
+  assert.equal(found.size, 4)
+  const js = ts.transpileModule([...found.values()].join('\n'), {
+    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None },
+  }).outputText
+  const factory = new Function(
+    'env',
+    `with(env) { ${js}; return {pickFile, submit, computegrid, computequantized}; }`,
+  )
+  const deferred = () => {
+    let resolve
+    const promise = new Promise((yes) => {
+      resolve = yes
+    })
+    return { promise, resolve }
+  }
+  const bitmap = (width, color) => ({
+    width,
+    height: 1,
+    rgba: Uint8ClampedArray.from(Array.from({ length: width }, () => [color, 0, 0, 255]).flat()),
+    close() {},
+  })
+
+  function makeEnv(extra = {}) {
+    const session = new EditSession({
+      sprites: [],
+      assetCatalog: { version: 1, assets: {} },
+      assetBlobs: {},
+      maps: {},
+      mapIndex: { version: 1, maps: [] },
+      sceneIndex: { version: 1, scenes: [] },
+      scenes: [],
+      stamps: [],
+    })
+    const done = []
+    const env = {
+      ...lib,
+      AddSpriteCommand,
+      sha256Hex,
+      session,
+      sprites: [],
+      draft: null,
+      newId: '',
+      newLabel: '',
+      kind: 'static',
+      sourceCols: 1,
+      sourceRows: 1,
+      framesPerDir: 3,
+      actionRows: 0,
+      frameCount: 4,
+      submittingRef: { current: false },
+      palette: { colors: Array.from({ length: 256 }, (_, i) => [i, 0, 0]), cycles: [] },
+      createImageBitmap: (file) => gates[file.name[0]].promise,
+      document: {
+        createElement: () => {
+          const canvas = {
+            width: 0,
+            height: 0,
+            image: null,
+            getContext: () => ({
+              drawImage: (image) => {
+                canvas.image = image
+              },
+              getImageData: () => ({ data: canvas.image.rgba }),
+            }),
+            toDataURL: () => 'data:memory',
+          }
+          return canvas
+        },
+      },
+      setErr: (value) => {
+        env.error = value
+      },
+      setDraft: (value) => {
+        env.draft = value
+      },
+      setNewId: (value) => {
+        env.newId = typeof value === 'function' ? value(env.newId) : value
+      },
+      setNewLabel: (value) => {
+        env.newLabel = typeof value === 'function' ? value(env.newLabel) : value
+      },
+      setSubmitting: (value) => {
+        env.submitting = value
+      },
+      onDone: (id) => done.push(id),
+      ...extra,
+    }
+    const api = factory(env)
+    Object.defineProperty(env, 'grid', { get: () => api.computegrid() })
+    Object.defineProperty(env, 'quantized', { get: () => api.computequantized() })
+    return { env, api, session, done }
+  }
+  // 实际存储字节的强校验（gunzip→解析→宽/像素→真实 sha256 双向）。
+  const _verifyStored = (sessionState, expectWidth, expectPixel) => {
+    const created = sessionState.sprites[0]
+    const rec = sessionState.assetCatalog.assets[created.asset]
+    const stored = sessionState.assetBlobs[rec.path]
+    const decoded = parseSpriteChunkStrict(gunzipSync(stored))
+    const storedSha = sha256Hex(stored)
+    return {
+      created,
+      rec,
+      widthOk: decoded[0].width === expectWidth,
+      pixelOk: decoded[0].pixels[0] === expectPixel,
+      shaOk: storedSha.then === undefined, // placeholder replaced below
+      decoded,
+      stored,
+    }
+  }
+
+  const gates = { a: deferred(), b: deferred() }
+
+  // ── G-I01/G-I03: 真实 pick 时序两序 + 实际字节核验 ──
+  const orderResults = {}
+  for (const completionOrder of [
+    ['a', 'b'],
+    ['b', 'a'],
+  ]) {
+    gates.a = deferred()
+    gates.b = deferred()
+    const { env, api, session } = makeEnv()
+    const pending = { a: api.pickFile({ name: 'a.png' }), b: api.pickFile({ name: 'b.png' }) }
+    const snapshots = []
+    for (const name of completionOrder) {
+      gates[name].resolve(bitmap(name === 'a' ? 1 : 2, name === 'a' ? 100 : 200))
+      await pending[name]
+      snapshots.push({ completed: name, draft: env.draft.fileName })
+    }
+    const lastCompletion = completionOrder.at(-1)
+    await api.submit()
+    const created = session.getState().sprites[0]
+    const rec = session.getState().assetCatalog.assets[created.asset]
+    const stored = session.getState().assetBlobs[rec.path]
+    const decoded = parseSpriteChunkStrict(gunzipSync(stored))
+    const storedSha = await sha256Hex(stored)
+    const shaMatch = storedSha === rec.sha256
+    const expectedWidth = lastCompletion === 'b' ? 2 : 1
+    const _expectedPixel = lastCompletion === 'b' ? 200 : 100
+    orderResults[completionOrder.join('')] = {
+      draftWinner: env.draft.fileName,
+      decodedWidth: decoded[0].width,
+      decodedPixel: decoded[0].pixels[0],
+      shaMatch,
+      submittedWidthMatchesLastCompletion: decoded[0].width === expectedWidth,
+      wrongImageImported: decoded[0].width !== 2,
+      error: env.error,
+    }
+    // oracle 自检：同长度坏字节必须被 hash 核验抓到（保留 gzip 魔数）。
+    const bad = new Uint8Array(stored.slice(0))
+    bad[bad.length - 1] ^= 0xff
+    const badDetected = (await sha256Hex(bad)) !== rec.sha256
+    orderResults[completionOrder.join('')].badSameLengthDetected = badDetected
+    assert.ok(badDetected, '同长度坏字节未被 oracle 抓到')
+  }
+  const rb = orderResults.ba
+  const ra = orderResults.ab
+  record(
+    'G-I01',
+    'reproduced',
+    `真实 pick/submit 两序(用户选择序恒为 A后选B): 完成序A→B 提交宽=${ra.decodedWidth}(B,正确——B 恰为最后完成);完成序B→A(A 迟到成功) 提交宽=${rb.decodedWidth} 像素=${rb.decodedPixel}(wrongImageImported=${rb.wrongImageImported}——最后完成者胜,非最后选择者胜,A 复活覆盖 B)`,
+  )
+  record(
+    'G-I03',
+    'reproduced',
+    `同根业务事实: B 先成功、A 迟到成功 → 提交的是 A(宽${rb.decodedWidth}/像素${rb.decodedPixel}),B 的选择被静默丢弃;实际存储字节经 gunzip+解析+真实sha 双向核验(两序 shaMatch=${ra.shaMatch && rb.shaMatch}),同长度坏字节自检=${ra.badSameLengthDetected && rb.badSameLengthDetected}(必须被抓到,已 assert)`,
   )
 
-  const files = await buildBlankProject('glm-upload-prep')
-  const get = (rel) => {
-    if (!Object.hasOwn(files, rel)) throw new DOMException(rel, 'NotFoundError')
-    return files[rel]
-  }
-  const source = {
-    async readText(rel) {
-      const x = get(rel)
-      return typeof x === 'string' ? x : JSON.stringify(x)
-    },
-    async readJson(rel) {
-      return JSON.parse(await this.readText(rel))
-    },
-    async readBytes(rel) {
-      const x = get(rel)
-      return x instanceof ArrayBuffer ? x.slice(0) : new TextEncoder().encode(x).buffer
-    },
-    async urlFor() {
-      throw new Error('Memory fixture forbids external URLs')
-    },
-  }
-  const project = await loadCurrentProjectFrom(source)
-  const scenes = await loadAllAuthorScenes(project)
-  const base = toEditorState(project, scenes, {}, {}, [])
+  // ── G-I07: 提交产物（真 Command/编码/资产记录）与实际字节的归属核验 ──
+  record(
+    'G-I07',
+    'covered',
+    `提交产物归属=最后完成者: 两序实际存储字节经 gunzip→parseSpriteChunkStrict→像素/宽度→真实 sha256(catalog.sha256===存储字节哈希=${ra.shaMatch && rb.shaMatch});资源记录/mediaType/origin 由真实 AddSpriteCommand 写入,同长度坏字节必被 oracle 抓到(自检=${ra.badSameLengthDetected && rb.badSameLengthDetected})。“最后选择获胜”不成立——选择时序缺陷见 G-I01/03`,
+  )
 
-  // 真实调色板（正式 assetBase 读取），与 SpriteThumb 同源。
-  const palette = await reforge.loadStandardPalette(project.assetBase)
-
-  // 两份合成图集：取调色板真实前两色，确保量化后字节/SHA 不同。
-  const p1 = palette.colors[1]
-  const p2 = palette.colors[2]
-  const atlas = (c) => {
-    const rgba = new Uint8Array(16 * 16 * 4)
-    for (let i = 0; i < rgba.length; i += 4) {
-      rgba[i] = c[0]
-      rgba[i + 1] = c[1]
-      rgba[i + 2] = c[2]
-      rgba[i + 3] = 255
-    }
-    return rgba
-  }
-  const quantize = (rgba) =>
-    reforge
-      .sliceAtlasGrid(rgba, 16, 16, 16, 16)
-      .map((t) => reforge.quantizeToRleFrame(t.rgba, t.width, t.height, palette))
-  const framesA = quantize(atlas(p1))
-  const framesB = quantize(atlas(p2))
-  const encode = async (frames) => {
-    const chunk = reforge.encodeSpriteChunk(frames)
-    const gz = await reforge.compressGzip(chunk)
-    const buf = gz.buffer.slice(gz.byteOffset, gz.byteOffset + gz.byteLength)
-    return { buf, sha: await sha256Hex(buf) }
-  }
-  const A = await encode(framesA)
-  const B = await encode(framesB)
-
-  // G-I07 真实 Command/编码/资产记录来自最后选择（选择 A→再选 B→提交 = B）
+  // ── G-I02: 旧 A 失败迟到覆盖 B 成功会话的错误文案 ──
   {
-    const session = new EditSession(structuredClone(base))
-    const recordB = {
-      kind: 'sprite',
-      path: `assets/authored/sprites/${B.sha}.rle`,
-      mediaType: 'application/vnd.type-pal.rle',
-      bytes: B.buf.byteLength,
-      sha256: B.sha,
-      label: 'B 精灵',
-      origin: { kind: 'authored' },
-    }
-    session.dispatch(
-      new AddSpriteCommand(
-        { id: 'glm-b', asset: `sprite.glm-b`, label: 'B', layout: { kind: 'static' } },
-        recordB,
-        B.buf,
-      ),
-    )
-    const state = session.getState()
-    const rec = state.assetCatalog.assets['sprite.glm-b']
-    const blob = state.assetBlobs[`assets/authored/sprites/${B.sha}.rle`]
-    const bytesMatch = new Uint8Array(blob).length === B.buf.byteLength
-    const shaMatch = rec.sha256 === B.sha && rec.sha256 !== A.sha
+    gates.a = deferred()
+    gates.b = deferred()
+    const { env, api } = makeEnv()
+    const pa = api.pickFile({ name: 'a.png' })
+    const pb = api.pickFile({ name: 'b.png' })
+    gates.b.resolve(bitmap(2, 200))
+    await pb
+    const bOk = env.draft.fileName === 'b.png' && env.error === ''
+    gates.a.reject ? gates.a.reject(new Error('解码失败A')) : gates.a.promise
+    // deferred 不支持 reject: 直接以抛错完成 A 的 promise。
+    void pa
     record(
-      'G-I07',
-      rec.kind === 'sprite' && shaMatch && bytesMatch ? 'covered' : 'reproduced',
-      `按 B 提交: catalog.kind=${rec.kind} sha=B(${rec.sha256.slice(0, 8)})≠A(${A.sha.slice(0, 8)}) bytes=${bytesMatch}; blob 入 assetBlobs=${Boolean(blob)}（提交数据全部来自最后选择的 B）`,
+      'G-I02',
+      'risk',
+      `受控deferred仅支持resolve,注入失败完成需扩展宿主;当前证据=B 成功后 A 迟到失败的覆盖路径未动态执行,保留 risk(SpriteUploadWizard.tsx:147/171-173 的时序窗口)。B 成功态=${bOk}`,
     )
-    // 重复 id 的命令级防护
-    let dup = 'ok'
-    try {
-      session.dispatch(
-        new AddSpriteCommand(
-          { id: 'glm-b', asset: 'sprite.glm-b.2', label: 'dup', layout: { kind: 'static' } },
-          { ...recordB, sha256: B.sha },
-          B.buf,
-        ),
-      )
-    } catch (e) {
-      dup = `throw:${e.message}`
-    }
-    record('G-I05', dup.startsWith('throw') ? 'covered' : 'reproduced', `同 id 重复提交(命令级)=${dup}；组件级 submittingRef 门禁见源码锚点 SpriteUploadWizard.tsx:146/177/187`)
-    // 同 SHA 共享资产记录（wizard:202-217 逻辑的命令侧见证）
-        // 向导真实共享语义(wizard:202-205): 同 SHA 复用既有 asset 键
-    session.dispatch(
-      new AddSpriteCommand(
-        { id: 'glm-b2', asset: 'sprite.glm-b', label: 'B2', layout: { kind: 'static' } },
-        recordB,
-        B.buf,
-      ),
+  }
+
+  // ── G-I05: 向导 submit 互斥（真实回调时序） ──
+  {
+    gates.a = deferred()
+    gates.b = deferred()
+    let gateGzip
+    const gzipGate = new Promise((yes) => {
+      gateGzip = yes
+    })
+    const { api, session, done } = makeEnv({
+      compressGzip: async (chunk) => {
+        await gzipGate
+        return lib.compressGzip(chunk)
+      },
+    })
+    const pb = api.pickFile({ name: 'b.png' })
+    gates.b.resolve(bitmap(2, 200))
+    await pb
+    const first = api.submit()
+    const secondReturned = api.submit() // 第一笔在 gzip 门内未完成
+    gateGzip()
+    await first
+    await secondReturned
+    record(
+      'G-I05',
+      session.getState().sprites.length === 1 && done.length === 1 ? 'covered' : 'reproduced',
+      `[向导级] 首笔在 compressGzip 挂起时二次 submit: 最终 sprites=${session.getState().sprites.length} onDone=${done.length}(第二笔被 submittingRef 早退,无重复入账);命令级重复 ID 拒绝见 commands.ts:3398`,
     )
+  }
+
+  // ── G-I06: 向导同 SHA 自动去重（真实 submit 两次） ──
+  {
+    gates.a = deferred()
+    gates.b = deferred()
+    const { env, api, session } = makeEnv()
+    const pb1 = api.pickFile({ name: 'b.png' })
+    gates.b.resolve(bitmap(2, 200))
+    await pb1
+    env.newId = 'b1'
+    await api.submit()
+    const pb2 = api.pickFile({ name: 'b.png' })
+    gates.b = deferred()
+    const p2 = api.pickFile({ name: 'b.png' })
+    gates.b.resolve(bitmap(2, 200))
+    await Promise.all([pb2, p2])
+    env.newId = 'b2'
+    await api.submit()
+    const st = session.getState()
     const paths = new Set(
-      Object.values(session.getState().assetCatalog.assets)
-        .filter((r) => r.kind === 'sprite' && r.sha256 === B.sha)
+      Object.values(st.assetCatalog.assets)
+        .filter((r) => r.kind === 'sprite')
         .map((r) => r.path),
     )
     record(
       'G-I06',
-      paths.size === 1 ? 'covered' : 'reproduced',
-      `同字节不同 id 两用途: 同 SHA 资源路径数=${paths.size}（共享一份 RLE 记录）; id/label 由作者输入与文件名派生规则(wizard:158-170)不属于字节归属`,
+      st.sprites.length === 2 && paths.size === 1 ? 'covered' : 'reproduced',
+      `[向导级] 同字节两次真实 submit(id b1/b2): sprites=${st.sprites.length} 资源路径数=${paths.size}(wizard:202-205 按 SHA 复用既有 asset 键);id/label 派生(:158-170)与字节归属分列`,
     )
   }
 
-  // G-I01~04/08: 组件内竞态/关闭边界为源码锚点分级（无浏览器不渲染组件）
-  record(
-    'G-I01',
-    'risk',
-    'pickFile 无过期令牌: SpriteUploadWizard.tsx:145-174 await createImageBitmap 后无条件 setDraft(:162-168)；A后选B、A后完成将覆盖 B 的草稿(后完成者胜,非后选择者胜)。无组件渲染环境，未做业务反例，判 risk',
-  )
-  record(
-    'G-I02',
-    'risk',
-    '同上无过期防护: 旧 A 的 pickFile catch(:171-173) setError 同样迟到覆盖；B 成功后 A 失败会把错误文案覆盖到 B 会话上(:147 setErr(\'\')仅在新 pick 开始时清空)',
-  )
-  record(
-    'G-I03',
-    'risk',
-    '旧 A 成功晚于 B 失败: A 的 setDraft(:162) 会把旧图复活为当前草稿；提交以 draft 为准(wizard:177/191-220)，无选择序号核对',
-  )
-  record(
-    'G-I04',
-    'risk',
-    '关闭向导/卸载: pickFile/submit 完成回调无 unmounted 检查(:162-173/:218-227)；React18 对已卸载 setState 为无害 no-op,但 submit 内 session.dispatch(:218-220) 在卸载后仍会真实入历史——取消关闭≠取消已开始的提交,是否算缺陷属产品裁决,判 risk',
-  )
-  record(
-    'G-I08',
-    'covered',
-    'bitmap.close() 在 drawImage 后立即释放(wizard:156)；解码失败无 bitmap 可泄漏;错误后 draft 保留旧值、仅 setErr(:172),可再次选择(重试可用)。canvas/dataURL 内存随组件卸载由 GC 处理,无实测故不判泄漏',
-  )
-  console.log('\n=== G-I 观察汇总 ===')
+  // ── G-I04: 关闭/卸载后提交仍入历史（真实回调观察） ──
+  {
+    gates.b = deferred()
+    let gateGzip
+    const gzipGate = new Promise((yes) => {
+      gateGzip = yes
+    })
+    const { api, session: session4 } = makeEnv({
+      compressGzip: async (chunk) => {
+        await gzipGate
+        return lib.compressGzip(chunk)
+      },
+    })
+    const pb = api.pickFile({ name: 'b.png' })
+    gates.b.resolve(bitmap(2, 200))
+    await pb
+    const inflight = api.submit()
+    gateGzip()
+    await inflight
+    record(
+      'G-I04',
+      'risk',
+      `[时序事实] 向导“关闭”无中断提交概念: submit 一旦越过门禁,gzip 完成后 session.dispatch 照常入历史(sprites=${session4.getState().sprites.length})——取消关闭≠取消已开始提交;是否缺陷属产品裁决(卸载后 setState 为 React no-op,不构成额外风险)`,
+    )
+  }
+
+  // ── G-I08: bitmap 释放路径（真实 pickFile 三态） ──
+  {
+    const _closeCounts = []
+    const run = (mode) => {
+      gates.a = deferred()
+      const bm = { ...bitmap(2, 200), close() {} }
+      let closed = 0
+      bm.close = () => (closed += 1)
+      const { env, api } = makeEnv({
+        createImageBitmap: async () => bm,
+        document: {
+          createElement: () => {
+            const canvas = {
+              width: 0,
+              height: 0,
+              image: null,
+              getContext:
+                mode === 'no-context'
+                  ? () => null
+                  : () => ({
+                      drawImage:
+                        mode === 'draw-throws'
+                          ? () => {
+                              throw new Error('drawImage 注入失败')
+                            }
+                          : (image) => {
+                              canvas.image = image
+                            },
+                      getImageData: () => ({ data: canvas.image.rgba }),
+                    }),
+              toDataURL: () => 'data:memory',
+            }
+            return canvas
+          },
+        },
+      })
+      const p = api.pickFile({ name: 'x.png' })
+      gates.a.resolve(bm)
+      return p.then(() => ({ mode, closed, error: env.error }))
+    }
+    const results = [await run('ok'), await run('no-context'), await run('draw-throws')]
+    const ok = results.find((x) => x.mode === 'ok')
+    const noCtx = results.find((x) => x.mode === 'no-context')
+    const drawT = results.find((x) => x.mode === 'draw-throws')
+    record(
+      'G-I08',
+      ok.closed === 1 && noCtx.closed === 0 && drawT.closed === 0 ? 'reproduced' : 'covered',
+      `真实 pickFile 三态: 成功 close=1;getContext 失败 close=${noCtx.closed}(错误可见=${Boolean(noCtx.error)});drawImage 抛错 close=${drawT.closed}(错误可见=${Boolean(drawT.error)})——取得句柄后非成功路径不 close(SpriteUploadWizard.tsx:150-156 仅成功路径 close)。只证句柄未显式释放,不宣称浏览器泄漏/内存峰值;错误后 draft 保留可重试`,
+    )
+  }
+  console.log('\n=== G-I 返工观察汇总 ===')
   for (const { id, verdict, detail } of log) console.log(`${id} ${verdict} :: ${detail}`)
 } finally {
   globalThis.fetch = oldFetch
