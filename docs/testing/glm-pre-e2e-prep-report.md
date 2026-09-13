@@ -1,8 +1,8 @@
 # GLM 并行审计准备：整批回执
 
 工作包：[r1范围与44项检查表](glm-pre-e2e-prep.md)。执行者GLM，接收复核Codex。
-当前：GLM二轮返工候选c69947f8fdb1e0acdc68bd6d2d4623d6ca7d5bc6已复核，**仍counter；缓存真实等待已修，但原判定仍误报，上传断言化未落盘**。
-最新结论见文末“Codex二轮返工复核：c69947f8”；此前两轮counter是历史，不代表所有项目仍未解决。
+当前：GLM三轮返工候选6deb390ccd1f4f998e05a62c4d0725f542a27016已复核，**两项主要鉴别力已通过；仅剩缓存前提失败仍报covered及机械对账收尾，原样接收仍counter**。
+最新结论见文末“Codex三轮定点复核：6deb390c”；此前counter是历史，不代表已通过项目仍须返工。
 候选原报告/四探针留在codex/glm-pre-e2e-prep分支，尚未合入main；下方GLM填写占位保留给经复核的接收版本，
 不表示GLM尚未交付。D-01设计签字已先交623c592f，Kimi亦已签；批次counter不重开已证实的D-01前提/设计。
 
@@ -437,4 +437,72 @@ R3a实际落盘：shaMatch/宽度仍只记录，_expectedPixel未用，mtimeTamp
 G-C07保留已证entered/不同root观察，撤回alive因果保证，完整同实例切换/reject矩阵列risk留后续，不要求新增矩阵。更正G-I03未清B错误、hydrate通知version会增、G-I02残留risk枚举、失败缓存与身份键根因分栏、undo需核内容/序列化而非文案，重算44项并核日志路径。
 证据在/tmp/type-pal-glm-prep-round2.vTUvvG，上传见证入口仍为/tmp/type-pal-glm-prep-rereview.nr2T5k/witness.mjs upload；可直接复跑/独立重建。保留main全部Codex复核正文，只取报告区，不合入主线产品或白名单外文档提交。
 白名单仍仅报告+四probe；不改产品/正式测试/配置/基线/原探针，不跑浏览器/视觉/全仓check/coverage，不代签、不标done、不转Kimi。定向四probe+Biome后推送完整SHA、真实反控输出与逐项回执；交Codex复核，GLM贡献继续披露。
+```
+
+## Codex三轮定点复核：6deb390c（最新，2026-09-13）
+
+**R3a通过、R2a主要鉴别力通过、R2b收窄通过；原样接收仍counter，仅剩一个前提守卫和报告收尾。**
+不再要求重做已经成立的缓存重试/上传篡改证明。取证事实可以采用，探针尚不能原样当作正式正确性回归；
+本轮不合入候选、不改产品、不代签、不标done、不转Kimi，D-01设计不重签。
+
+### 冻结及复跑
+
+- main接手3b76f524，工作树净、与origin同步；候选远端、跟踪分支及GLM worktree HEAD均为
+  `6deb390ccd1f4f998e05a62c4d0725f542a27016`。基点59e03bdb/产品10c84238，packages零diff。
+  整个候选只有报告+四probe，本轮仅cache/upload+报告；history/reference及白名单外均零diff。
+- 四个probe独立复跑exit0，定向Biome四文件0 error/0 warning。未跑全仓check/coverage，不宣称覆盖率增加。
+  Vite技能用于无HTTP隔离加载/单点反证，canvas仅调用计数；无视觉验收或真实工程/浏览器存储写入。
+  旧版本兼容审查：pass，本轮无产品/转换器/版本路径修改。GLM为取证/测试贡献者，后续转正须披露。
+- 本席证据目录：`/tmp/type-pal-glm-prep-round3.AZZ62X/`。旧见证失败的类型均核过，不拿任意exit1充修复证明。
+
+### 已闭环项
+
+1. **R2a主要鉴别力**：G-C05/G-C05b确实复用`runRetryCase`，包含相同的下层直载步骤；两处分类式逐字相同，
+   使用retryDraws。原树注入1/下层成功/children1/绘制0，反控绘制1，分类相反。
+   本席旧`cache-witness.mjs thumb-fixed`单点修复原G-C05后，实测**零读/绘制1/covered**；
+   旧断言要求reproduced，因此exit1（`old-thumb-fixed.log`）。这是原误判消除，不是等待或加载失败。
+   GLM的隔离组件另带自己的下层模块缓存，故其G-C05b本轮读增量1；本席原模块反控才直接证明暖缓存零读亦可恢复，不混淆两组读数。
+2. **R3a全部核心断言**：`verifyArtifact`真实用于两序与G-I03，实际SHA/宽/像素均assert。
+   原MTIME见证现在直接在`ab: 存储字节 sha…≠catalog…`处exit1（`old-upload.log`），实际gunzip/解析已通过，排除环境失败。
+   本席再单独移除SHA assert，内置MTIME反控在“篡改未被同一校验入口拒绝”处exit1；
+   单独改宽度/像素期望为99，各自在对应assert exit1（`upload-no-sha-guard.log`、`upload-width.log`、`upload-pixel.log`）。
+   因此不再重开上轮“只有输出文字/占位helper”的counter。
+3. **R2b/R4收窄**：G-C07已降risk、撤alive因果保证；G-I03明确A成功后B错误仍在、错误覆盖实证归G-I02；
+   H09补了hydrate通知version；undo验收改为内容/目标恢复+正式序列化。这些通过，不要求再补同实例矩阵。
+
+### 唯一剩余代码项：前提失败仍被当covered
+
+候选`probe-glm-cache-prep.mjs`的G-C05/G-C05b两处仍为
+`injections===1 && !drewDuringFail && lowerOk && children>0 && retryDraws===0 ? reproduced : covered`。
+这修好了绘制判定，但前提任一不成立也会进入covered，仍未满足上轮明确的“前提失败不得当covered”。
+
+- 本席`witness.mjs cache-no-injection`只删除原G-C05的`box.arm(path) // 注入一次性失败`，不改产品或分类式。
+  实测**注入0、首挂载已绘制、G-C05仍covered、进程exit0**（`cache-no-injection.log`）。
+  该见证assert用于证明前提失效仍误放行；不是新产品缺陷，也不推翻正常fixture下已确认的观察。
+- 最小修法：在唯一`runRetryCase`内先assert注入恰1、首挂载未绘制、下层成功、重试canvas已提交且回调完成，
+  再返回绘制结果；或前提不成立显式risk/失败。两树共用，不再把前提混进“失败/成功”的二选一。
+  原树/修复树正常对照保持；移除注入时必须因前提拒绝，不允许covered。**无需新增业务场景或改产品。**
+
+### 机械收尾与接收决定
+
+- 仅统计GLM最新44行：**19 reproduced / 14 covered / 11 risk**。表内四组和risk枚举均支持此数；
+  标题/总计18/14/12错误（上轮19/15/10只将G-C07降risk，应是19/14/11）。见`report-census.log`，不为凑数改已证分类。
+- 候选把“Codex二轮返工复核：c69947f8”全文附了两次；本席逐份核实均与main正文相同，非他席结论改写。
+  只留一份、原文不动。日志入口仍指旧`*-rework-final.log`，应指本轮`*-r3-final.log`。
+- 根因段仍把G-C06失败null缓存放入“FIRE缓存键根因”；将G-C06与G-C05放在失败重试机制下，
+  G-C01/02为身份键机制，G-C08保留待证；不因同组件而混机制，不要求新开卡。
+- **不再重开R1/R3a/R2b或扩张返工范围**。关闭这一个前提守卫并对账后即可接收取证包；
+  正式回归仍按D-01/D-02/D-03/E-03/E-04实施时转正，不把诊断exit0当产品修好。
+- 所有反证可从本席目录`witness.mjs`的上述四个模式重建；旧入口仍在前两轮目录。
+  主线只更新本席报告/工作包/看板/审计进度，不改变产品任务Status。
+  文档工具20项通过；docs为415 Markdown/1,987本地链接/142任务、content20 SAVE8、0 issues；diff whitespace检查通过。
+
+### 给GLM的最后定点收尾提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal 收尾 GLM pre-e2e-prep r1，分支codex/glm-pre-e2e-prep，候选6deb390c，基点59e03bdb/产品10c84238不变。
+先读AGENTS.md、CLAUDE.md、READ-FIRST、工作包及main的docs/testing/glm-pre-e2e-prep-report.md最新“Codex三轮定点复核：6deb390c”。R3a、R2a主要鉴别力、R2b收窄已通过，不重做、不重签D-01。
+只剩代码项：在统一runRetryCase先assert注入1/首挂载未绘制/下层成功/重试真实完成，再分类绘制是否恢复；前提失败不得covered。Codex witness cache-no-injection只移除原G-C05的box.arm后仍covered/exit0，修后须因前提拒绝；原树/单点修复树正常对照保持。
+报告按44行改正为19 reproduced/14 covered/11 risk；c699 Codex复核重复块只留一份且不改原文；日志更新*-r3-final或实际新日志；G-C06归失败缓存机制而非身份键。证据在/tmp/type-pal-glm-prep-round3.AZZ62X/。
+白名单仍仅报告+四probe；保留Codex复核，只取报告不合入主线其他提交。不改产品/正式测试/基线/原探针，不跑视觉或全仓质量门，不代签、不标done、不转Kimi。定向四probe+Biome后推送完整SHA与真实回执，交Codex接收。
 ```

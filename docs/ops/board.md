@@ -28,7 +28,7 @@ A-02 作者保存冲突保护亦已三席及用户验收通过并收口；A-03 [
 接下来按总收口处理其余审计缺陷并补回归/覆盖率，
 然后进入 R4 content20 薄基线 → N6b content21 → 完整 E2E。
 修复分组见[总收口](audits/pre-e2e/summary.md)；U-02 待证，第一阶段缺陷与可后置优化分别保留。
-GLM的[44项并行只读工作包](../testing/glm-pre-e2e-prep.md)二轮返工c69947f8仍counter：真实等待与指定错序已补，剩余原缓存判定误报、上传断言未落盘及分类收窄（见[接收结论](../testing/glm-pre-e2e-prep-report.md)），整批暂不合入。已通过部分不重做，D-01设计不重签，取证返工不是修复授权。
+GLM的[44项并行只读工作包](../testing/glm-pre-e2e-prep.md)三轮返工6deb390c主要鉴别力已通过；仅剩缓存前提失败仍判covered及机械对账（见[接收结论](../testing/glm-pre-e2e-prep-report.md)），原样接收暂不放行。已通过部分不重做，D-01设计不重签，取证返工不是修复授权。
 
 ## 看板规则
 
