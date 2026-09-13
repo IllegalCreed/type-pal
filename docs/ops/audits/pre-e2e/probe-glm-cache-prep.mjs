@@ -228,6 +228,12 @@ try {
     b.div.remove()
     const retryReads = retryReadsAtSettle - readsBeforeRetry
     const retryDraws = drawCalls - drawBeforeRetry
+    // 【前提守卫】四项前提在唯一入口处 assert：任一不成立即本探针失败（exit1），
+    // 不允许落入 covered/reproduced 二选一——「前提失败不得当 covered」。
+    assert.equal(box.injections, 1, `前提失败: 故障注入次数=${box.injections}(期望恰 1)`)
+    assert.ok(!drewDuringFail, '前提失败: 首挂载在故障期已绘制')
+    assert.ok(lowerOk, '前提失败: 下层直载未成功')
+    assert.ok(retryChildren > 0, '前提失败: 重试挂载未真实渲染')
     return { drewDuringFail, lowerOk, retryChildren, retryReads, retryDraws }
   }
 
@@ -241,16 +247,11 @@ try {
     const reader = createEditorAssetReader(box.source, () => state)
     box.arm(path) // 注入一次性失败
     const r = await runRetryCase(SpriteThumbMod, path, sha, box, reader)
-    // 统一判定：前提全真时，重试未恢复绘制=reproduced（失败缓存阻断）；恢复绘制=covered。
+    // 前提已由 runRetryCase 内部 assert 保证（注入恰1/首挂载未绘制/下层成功/重试真实完成）；
+    // 此处只按绘制是否恢复分类。
     record(
       'G-C05',
-      box.injections === 1 &&
-        !r.drewDuringFail &&
-        r.lowerOk &&
-        r.retryChildren > 0 &&
-        r.retryDraws === 0
-        ? 'reproduced'
-        : 'covered',
+      r.retryDraws === 0 ? 'reproduced' : 'covered',
       `[新鲜asset,原树] 注入=${box.injections}(首挂载绘制未发生=${!r.drewDuringFail});下层直载成功=${r.lowerOk}(暖缓存,重试允许零新增读取);重试挂载真实渲染(children=${r.retryChildren})且 clearRect 完成后:新增读取=${r.retryReads}、新增绘制=${r.retryDraws}——绘制未恢复=thumb 失败 null 缓存阻断重试(:36-38);同判定单点反控见 G-C05b`,
     )
   }
@@ -299,16 +300,10 @@ try {
     await srv.close()
     box.arm(path)
     const r = await runRetryCase(thumbFixed, path, sha, box, reader)
-    // 与 G-C05 完全相同的判定式：绘制恢复(且前提全真)→covered；未恢复→reproduced。
+    // 与 G-C05 完全相同的判定式（前提由同一 helper assert 保证）：绘制恢复→covered。
     record(
       'G-C05b',
-      box.injections === 1 &&
-        !r.drewDuringFail &&
-        r.lowerOk &&
-        r.retryChildren > 0 &&
-        r.retryDraws === 0
-        ? 'reproduced'
-        : 'covered',
+      r.retryDraws === 0 ? 'reproduced' : 'covered',
       `[单点反控,同一场景/判定,仅组件实现不同] 注入=${box.injections};下层直载成功=${r.lowerOk}(暖缓存);重试 children=${r.retryChildren}、clearRect 完成后:新增读取=${r.retryReads}、新增绘制=${r.retryDraws}——绘制恢复=失败缓存删除后重试成功(零新增读取亦可),与 G-C05 原树(绘制=0)结论相反,证明判定有鉴别力`,
     )
   }
