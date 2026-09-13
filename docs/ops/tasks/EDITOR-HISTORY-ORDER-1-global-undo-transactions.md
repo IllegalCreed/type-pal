@@ -287,7 +287,7 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
   旧 redo、保存漏正文、质量门缩范围，本 accept 撤回。旧版本兼容审查：**pass**——script-editor 旧
   dispatchForTransaction/rollback/isUndoTop 协议整删未并存，无版本分支/旧格式/升级器/fallback；旧
   coordinator 双顶检测被唯一日志取代而非保留旁路。本 accept 不代签、不授权 done。
-- done 准入：blocked（GLM 席已签；等待用户验收裁决，不代签）。
+- done 准入：三席 accept 均已落盘（Codex 实现者自验证、GLM 矩阵/覆盖、Kimi 独立终审），待 Codex 统一核定；无缺签豁免，任务保持 review，不标 done。
 
 ## 实现 / 视觉 / 用户验收
 
