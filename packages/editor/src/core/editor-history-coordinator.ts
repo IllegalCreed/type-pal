@@ -23,6 +23,7 @@ export class EditorHistoryCoordinator {
   /** 两边都成功才登记；第二笔失败会用 receipt 原样回滚第一笔且不产生 redo。 */
   dispatch(script: ScriptEditorCommand, main: Command): void {
     const scriptReceipt = this.scriptSession.dispatchForTransaction(script)
+    if (!scriptReceipt) throw new Error(`跨会话事务「${script.label}」未修改脚本工作副本`)
     try {
       const mainReceipt = this.mainSession.dispatchForTransaction(main)
       if (!mainReceipt) throw new Error(`跨会话事务「${main.label}」未修改主编辑工作副本`)

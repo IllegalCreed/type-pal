@@ -28,9 +28,13 @@
 
 以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。
 
-2026-09-13接续：[D-01全局历史卡](../../tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)处于draft/r1。
+2026-09-13接续：[D-01全局历史卡](../../tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)已核三席r1设计并进入build。
 当前代码复现普通交错错序与配对拆半；旧probe的save-state缺席适配与导入问题单独记录，不当成产品修复证据。
-用户要求更多GLM并行工作，已分配[44项只读取证](../../../testing/glm-pre-e2e-prep.md)，D-01签字先回、其余三组独立做完后由Codex审核；尚未授权任何新产品修复。
+用户要求更多GLM并行工作，已分配[44项只读取证](../../../testing/glm-pre-e2e-prep.md)，D-01签字先回、其余三组独立做完后由Codex审核；该取证工作包本身不是产品修复授权。
+
+用户在取证包接收后要求继续，D-01首批已落地保存缺私有正文拒绝、脚本invert失败保全/no-op不改历史，含14项正式回归。
+全局项目日志、成对原子性及App接线尚未完成，不能把本卡记为已修复/验收；后续仍由Codex在原r1范围实施。
+本批check6,932及官方ratchet/严格fast6,444通过，三针反控成立，范围与阈值未缩减；功能视觉随整卡剩余工作完成。
 
 以下为该取证包的历史返工记录；当前11fb8148已接收，见本段末尾与[当前接收结论](../../../testing/glm-pre-e2e-prep-report.md)。
 

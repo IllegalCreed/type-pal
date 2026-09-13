@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-13T01:29:53.727Z",
+  "generatedAt": "2026-09-13T10:56:21.925Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 616,
-  "testCount": 6430,
+  "testCount": 6444,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2803,8 +2803,8 @@
       ],
       "scopeDigest": "95a516e2bde2ebbe48268e1243932a1d074993d1b4cd3fab7fd69a4c483c5e6f",
       "fastTests": {
-        "testCount": 2191,
-        "testFileCount": 207,
+        "testCount": 2205,
+        "testFileCount": 208,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2828,6 +2828,7 @@
           "packages/editor/src/core/editor-asset-references.test.ts",
           "packages/editor/src/core/editor-derived-store.test.ts",
           "packages/editor/src/core/editor-history-coordinator.test.ts",
+          "packages/editor/src/core/editor-history-foundations.test.ts",
           "packages/editor/src/core/enemy-team-references.test.ts",
           "packages/editor/src/core/entity-address-references.test.ts",
           "packages/editor/src/core/file-system-access.test.ts",
@@ -3124,6 +3125,11 @@
             "file": "packages/editor/src/core/editor-history-coordinator.test.ts",
             "testCount": 4,
             "identityDigest": "1539bb7e6f7d2e9e8f023c286666a28091a74b2e18f2e7cee6cc7b0f9fbb4fa9"
+          },
+          {
+            "file": "packages/editor/src/core/editor-history-foundations.test.ts",
+            "testCount": 14,
+            "identityDigest": "d8f31b2c3095228dea6cac55aa0efc9700289dc76040b38c25220f00d3829564"
           },
           {
             "file": "packages/editor/src/core/enemy-team-references.test.ts",
@@ -4051,46 +4057,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "480b694622b823979a0f0420b7289929b871dfc185a7a106af9e6b38de236db4",
+        "identityDigest": "a4805d74e1f158229e849f709b0367b935b8580dfaa582108398c173a5abfaec",
         "duplicateIdentityCount": 8,
-        "executionDigest": "82d7e2390df3d40531c04c48888db3f9be8571986caa70d5d0b8f7ce58b2fad0"
+        "executionDigest": "70006966881f1dcadc7747af2fcd255f3ee69e169b19eddb393f884fb4afd507"
       },
       "metrics": {
         "statements": {
-          "covered": 24437,
-          "total": 31683
+          "covered": 24457,
+          "total": 31701
         },
         "branches": {
-          "covered": 18906,
-          "total": 27391
+          "covered": 18923,
+          "total": 27408
         },
         "functions": {
-          "covered": 6050,
-          "total": 8029
+          "covered": 6053,
+          "total": 8032
         },
         "lines": {
-          "covered": 22034,
-          "total": 27695
+          "covered": 22047,
+          "total": 27708
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 53321,
-      "total": 78695
+      "covered": 53341,
+      "total": 78713
     },
     "branches": {
-      "covered": 38210,
-      "total": 61772
+      "covered": 38227,
+      "total": 61789
     },
     "functions": {
-      "covered": 10083,
-      "total": 14430
+      "covered": 10086,
+      "total": 14433
     },
     "lines": {
-      "covered": 48140,
-      "total": 68878
+      "covered": 48153,
+      "total": 68891
     }
   }
 }

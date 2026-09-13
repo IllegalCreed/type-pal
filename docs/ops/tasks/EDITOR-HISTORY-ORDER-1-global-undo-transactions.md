@@ -1,6 +1,6 @@
 # EDITOR-HISTORY-ORDER-1 - 全局撤销顺序与成对操作完整性
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: ops（审计 D-01 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,7 +10,7 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1（2026-09-13，前提已复核，设计待两席独立签字）
+Revision: r1（2026-09-13，三席前提/设计已签，Codex核定build准入）
 Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 
 ## 目标与范围
@@ -203,8 +203,8 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
   相反）；(b) 若 mergeEditorProjectionWithCurrentAuthorState 已拒绝缺正文（实测为 continue 静默跳过），
   设计 9 应收敛；(c) 若存在「拼接两份已编辑栈」的真实接线域而设计未列初始化合同，第 8 条须补 counter。
 - 独立反证：GLM 已直接核四条一手证据（见上）；Kimi 席另行独立。
-- counter / 分歧：待审；缺签豁免：无。
-- build 准入：blocked，保持draft，不改产品或正式测试。
+- counter / 分歧：无；三席r1前提/设计签字均有效，缺签豁免：无。
+- build 准入：allowed。2026-09-13用户在取证包接收后要求“继续推进”，Codex核main aa326f3f产品仍同10c84238，前提/方案未变，准入生效，不重签。
 
 ### 进入 done 前
 
@@ -215,16 +215,48 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 
 ## 实现 / 视觉 / 用户验收
 
-- 2026-09-13接收边界：r1两席设计签字均已落盘（GLM623c592f、Kimi3f34c558），本轮用户要求复核并行只读取证，
-  不启动产品实现。GLM批028ad866的R1～R4 counter见[批次接收报告](../../testing/glm-pre-e2e-prep-report.md)；
+- 2026-09-13取证接收阶段的历史边界：r1两席设计签字均已落盘（GLM623c592f、Kimi3f34c558），当时用户要求复核并行只读取证，
+  尚未启动产品实现。GLM批028ad866的R1～R4 counter见[批次接收报告](../../testing/glm-pre-e2e-prep-report.md)；
   该counter针对取证/分类质量，不改变本卡已核前提或已签方案，不要求重签设计。
-- 实现未开始；本轮仅复核、开卡、准备并行只读工作包。没有版本/能力格状态修改。
+- 当前build首批：保存静默丢正文、脚本历史失败丢项/no-op清redo的保护与14项正式回归已落地；项目级日志与App接线尚未实施，整体H-01～H-12未完成。没有版本/能力格状态修改。
 - 视觉未开始；Codex dev-functional；无新UI形态设计，沿用既有控件。
 - 用户验收未开始；实现和三席终审完成后按用户裁决。
 - 额度/资源生成：N/A，无缺席代班或生图。
 
+### Build 首批：保存完整性与单会话失败边界
+
+- 新正式回归：`packages/editor/src/core/editor-history-foundations.test.ts`，14项。材料来自GLM G-H08/12/15，
+  Codex重建真实fixture、编写断言并独立验证；未来终审须披露GLM测试设计贡献，不当独立第三方自证。
+- `ScriptEditSession.undo`在invert成功后才出栈；失败保留状态、dirty、historyVersion/通知版本、affected records及可重试undo。
+  既有redo失败保全作为正控。dispatch返回原state时不入历史、不清redo、不发通知；三种栈位置均测。
+  事务dispatch也识别无变化，协调器在脚本半边无变化时先拒绝，不执行main或发出可回滚的虚假receipt。
+- 保存专用合并先核当前物品私有引用对应canonical正文，再序列化；物品缺席/脚本缺席/正文缺席明确失败。
+  两种当前内存表面共用引用识别器：loader给canonical itemPrivateScript，ItemTab配对命令仍可给内部runScript引用。
+  不增加历史格式兼容。UI/引用投影仍可读取不完整工作态；空正文[]、shell移除引用都保持合法。
+- 保存负例由真实blank工程经过正式loader构造；失败无序列化readText、fixture全IO轨迹为空、输入不变；
+  修正同一输入后正式序列化/loader重开核正文。**这不是App保存提示与正式writer全链验收**，后者随H-09/H-12剩余项完成。
+- 先红记录：首个fixture误认loader输出runScript，导致6项fixture失败（非产品缺陷）；改为真实UpdateItemCommand生成内部引用后，
+  初版11项中8红/3绿，红点为invert先pop、三种no-op入栈、四种缺引用保存错误放行。
+  后续补正文缺席两项与事务no-op一项，最终14项；不把后加用例倒填为最初先红数量。
+- 初步定向/相邻7文件93项通过、editor typecheck通过。证据目录`/tmp/type-pal-history-build.TjyP2Y/`。
+- 首批统一质量门：完整`pnpm check` exit0、6,932项（editor 2,364）；改动源码/测试定向Biome0/0，
+  全仓lint为0错误、48 warning/11 info，未借本卡扩大存量清理。
+  官方`coverage:ratchet` exit0后，单次严格`coverage:fast` exit0，均6,444项/616生产文件；editor208测试文件/2,205项。
+  新增14项全部入fast清单，基线只改editor及汇总/生成时间，未改变其它包或旧测试身份、未移除范围/降阈值。
+  editor行22,047/27,708（79.57%）、分支18,923/27,408（69.04%）；仍未达到最终覆盖率目标，不以微增冒称覆盖率建设完成。
+- 三针Vite隔离负控（磁盘产品零改，`negative.config.mts`，`HISTORY_NEGATIVE=undo|noop|save`）：
+  undo先pop→1红，移除no-op早退→4红，去掉保存守卫→6红（4错误放行+2被下游校验拒绝但错误层位不同）。
+  后两种正文缺席有下游重叠校验，不能冒称6项全部是放行级反例；无测试收集/环境错误。日志分别negative-undo/noop/save。
+- 本卡未到review：全局交错顺序、配对原子发布/回滚、跨会话redo、生命周期与App统一按钮/快捷键/名称、
+  功能视觉和完整保存链仍待实施。当前通过仅为上述首批边界，不把旧4项简单配对通过充作全局问题已修。
+
 ## 交接日志
 
+- 2026-09-13 Codex准入：用户要求继续，已核三席r1签字及取证接收树aa326f3f，Status→build；仅Codex改实现。
+  本卡采用GLM取证材料但正式回归由Codex独立断言/验证，未来终审披露贡献；不重开已签设计。
+- 2026-09-13 Codex首批：三处安全边界与事务no-op收口已落地；14新回归、三针反控、check6,932、ratchet及严格fast6,444通过。
+  未修改App/按钮样式、content/reforge/migrate、生成工程或原/GLM审计探针；视觉/全局日志与配对原子性待后续。
+  下一步同Owner推进项目级历史，不请求用户验收技术切片、不转review、不标done。
 - 2026-09-13 Codex取证接收：GLM工作包最终11fb8148通过独立复核，报告/四诊断脚本已接入main；
   [接收结论与正式回归节奏](../../testing/glm-pre-e2e-prep-report.md)披露GLM贡献与11项待证归属。
   本卡优先将交错/配对、孤儿redo、失败保全、半态通知及缺正文保存转成正确性回归；G-H05/10/14在实施域补证。
@@ -254,7 +286,10 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 
 ## 下一位 Agent 提示词
 
-### Kimi（D-01 r1设计审查，与GLM并行）
+当前仍为build，由Codex同卡继续项目级日志/原子配对及App接线；不转终审、不要求用户验收这批技术切片。
+无新的跨Agent交接提示词。以下r1设计提示词已执行，仅为历史，不再次转发、不重签。
+
+### Kimi（历史：D-01 r1设计审查，与GLM并行）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 审查 EDITOR-HISTORY-ORDER-1。
@@ -267,7 +302,7 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 不得改产品/正式测试/他席结论/共享准入/Status，不得开始实现或标done；视觉由Codex后续执行。
 ```
 
-### GLM（先回D-01签字，再独立完成额外批次）
+### GLM（历史：先回D-01签字，再独立完成额外批次）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 执行 docs/testing/glm-pre-e2e-prep.md 的 r1 工作包（44项、四组，连续完成）。

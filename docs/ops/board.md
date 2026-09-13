@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| [EDITOR-HISTORY-ORDER-1](tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | 全局撤销顺序与成对操作完整性（D-01） | draft | Codex 接手主线准入/实施 | r1三席设计已签；GLM取证包已接收，回归先随D-01实施，产品尚未开始 |
+| [EDITOR-HISTORY-ORDER-1](tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | 全局撤销顺序与成对操作完整性（D-01） | build | Codex 项目级日志与接线 | 首批保存完整性/失败/no-op保护及14回归已落地；全局顺序与原子配对尚未完成，不改UI形态 |
 
 ## 阻塞
 
@@ -22,7 +22,7 @@
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)
 已修复，完整 `pnpm check` 通过；[B-04 存档预检修复](audits/pre-e2e/save-preflight-remediation.md)已三签收口。
-[编辑器覆盖率确定性修复](audits/pre-e2e/coverage-determinism.md)亦已三签收口；当前fast为6,430项，覆盖率未下调；废弃源码和旧模型测试退役/迁移已单列记录，计数不代表完整E2E已通过。
+[编辑器覆盖率确定性修复](audits/pre-e2e/coverage-determinism.md)亦已三签收口；D-01首批后当前fast为6,444项，覆盖率未下调；废弃源码和旧模型测试退役/迁移已单列记录，计数不代表完整E2E已通过。
 A-01 存档隔离已三席 accept、用户免复验通过并收口；证据入口见下方总收口。
 A-02 作者保存冲突保护亦已三席及用户验收通过并收口；A-03 [保存中断恢复](../testing/editor-save-recovery-closeout.md)候选cd3de679已三席accept，用户免手动复审通过，已归档。已测大克隆成本与完整E2E待办仍保留；A-07[离开保护](../testing/editor-leave-guard.md)三席终审通过，用户授权继续，已收口；D-01撤销顺序接续做前提与设计，尚未开始实现。
 接下来按总收口处理其余审计缺陷并补回归/覆盖率，

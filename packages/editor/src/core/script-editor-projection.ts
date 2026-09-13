@@ -76,6 +76,22 @@ function mergeSceneShell(
   }
 }
 
+type ItemEffect = NonNullable<ItemData['use']>['effects'][number]
+
+/** 两种当前内存表面共用同一个私有引用识别器；不是历史格式转换。 */
+function projectedItemPrivateScriptId(itemId: string, effect: ItemEffect): string | undefined {
+  const projected = effect as unknown as { kind?: string; script?: { id?: string } }
+  if (projected.kind === 'itemPrivateScript') return projected.script?.id ?? ''
+  const prefix = `item:${itemId}:`
+  if (
+    effect.kind === 'runScript' &&
+    effect.script.chunk === '__author-script-runtime' &&
+    effect.script.id.startsWith(prefix)
+  )
+    return effect.script.id.slice(prefix.length)
+  return undefined
+}
+
 /** 普通物品字段/效果顺序来自主会话；私有脚本正文来自脚本会话。 */
 function mergeCurrentItemShell(
   shell: ItemData,
@@ -92,24 +108,8 @@ function mergeCurrentItemShell(
   if (next.use) {
     const effects: NonNullable<AuthorItemData['use']>['effects'] = []
     for (const effect of shell.use?.effects ?? []) {
-      const projectedPrivate = effect as unknown as {
-        kind?: string
-        script?: { id?: string }
-      }
-      if (projectedPrivate.kind === 'itemPrivateScript') {
-        const id = projectedPrivate.script?.id
-        if (id !== 'use') continue
-        const replacement = canonicalPrivate.get(id)
-        if (!replacement) continue
-        effects.push(structuredClone(replacement))
-        continue
-      }
-      if (
-        effect.kind === 'runScript' &&
-        effect.script.chunk === '__author-script-runtime' &&
-        effect.script.id.startsWith(`item:${shell.id}:`)
-      ) {
-        const id = effect.script.id.slice(`item:${shell.id}:`.length)
+      const id = projectedItemPrivateScriptId(shell.id, effect)
+      if (id !== undefined) {
         if (id !== 'use') continue
         const replacement = canonicalPrivate.get(id)
         if (!replacement) continue
@@ -188,6 +188,28 @@ export function mergeEditorProjectionWithCurrentAuthorState(
   canonical: ScriptEditorState,
   shell: EditorState,
 ): EditorState {
+  // 仅保存边界拒绝半状态；UI/引用投影允许读取尚未完整的工作态，不在这里替调用方补造正文。
+  const canonicalItems = new Map(canonical.items.map((item) => [item.id, item]))
+  for (const item of shell.items) {
+    const effects = item.use?.effects ?? []
+    for (let index = 0; index < effects.length; index += 1) {
+      const id = projectedItemPrivateScriptId(item.id, effects[index]!)
+      if (id === undefined) continue
+      const bodyPresent = canonicalItems
+        .get(item.id)
+        ?.use?.effects.some(
+          (effect) =>
+            effect.kind === 'itemPrivateScript' &&
+            effect.script.id === id &&
+            Array.isArray(effect.script.body),
+        )
+      if (!bodyPresent) {
+        throw new Error(
+          `物品 ${item.id} 的 use.effects[${index}] 私有脚本 ${id || '(缺少ID)'} 正文缺失，拒绝保存；请恢复该脚本或移除引用。`,
+        )
+      }
+    }
+  }
   const author = projectCurrentAuthorReferenceSlices(canonical, shell)
   return {
     ...structuredClone(shell),

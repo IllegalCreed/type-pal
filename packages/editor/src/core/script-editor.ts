@@ -1369,7 +1369,9 @@ export class ScriptEditSession {
   }
 
   dispatch(command: ScriptEditorCommand): boolean {
-    this.state = command.apply(this.state)
+    const next = command.apply(this.state)
+    if (next === this.state) return false
+    this.state = next
     this.past.push(command)
     this.future = []
     this.dirty = true
@@ -1379,14 +1381,14 @@ export class ScriptEditSession {
     return true
   }
 
-  dispatchForTransaction(command: ScriptEditorCommand): ScriptTransactionReceipt {
+  dispatchForTransaction(command: ScriptEditorCommand): ScriptTransactionReceipt | undefined {
     const before = {
       state: this.state,
       past: [...this.past],
       future: [...this.future],
       dirty: this.dirty,
     }
-    this.dispatch(command)
+    if (!this.dispatch(command)) return undefined
     let active = true
     return {
       rollback: (): void => {
@@ -1423,9 +1425,11 @@ export class ScriptEditSession {
   }
 
   undo(): boolean {
-    const command = this.past.pop()
+    const command = this.past.at(-1)
     if (!command) return false
-    this.state = command.invert(this.state)
+    const next = command.invert(this.state)
+    this.past.pop()
+    this.state = next
     this.future.push(command)
     this.dirty = true
     this.historyVersion += 1
