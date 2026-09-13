@@ -7,7 +7,7 @@ D-01设计签字已按节点一另交 main（623c592f，premise verified + desig
 ## 冻结树与实际范围（GLM填写）
 
 - 分支/基点：`codex/glm-pre-e2e-prep`，worktree `/Users/zhangxu/illegal/type-pal-glm-prep`，基点 **59e03bdb**；最终 SHA 见交付行。
-- packages 相对 10c84238 **零 diff**（`git diff --stat 10c84238..59e03bdb -- packages` 为空；本分支只加白名单文件）。原探针零改动；真实工程/浏览器零写；未跑全仓 check/coverage/ratchet（按工作包避让 Codex）。
+- packages 相对 10c84238 **零 diff**（`git diff 10c84238..59e03bdb -- packages` 为空）；10c84238..59e03bdb 间唯一非文档变化是主线自身的 `scripts/coverage/baseline.fast.json`（leave-guard 官方 ratchet 生成，非本分支改动）；本分支自身 commit（2525189d 的前序）只含 5 个白名单文件。原探针零改动；真实工程/浏览器零写；未跑全仓 check/coverage/ratchet（按工作包避让 Codex）。
 - 环境适配（与业务突变分开记录）：①内存源缺席文件抛 `DOMException(rel,'NotFoundError')`（当前 loader save-state 合同，工作包预告陷阱，Codex reprobe 同口径）；②cache 探针 jsdom 提供 DOM、IntersectionObserver 立即进视口、canvas 2d 为**呈现边界替身**（不把 stub 输出当视觉事实，证据=读取计数/Promise 行为）；③fetch 全程禁用。probe 环境失败均不计产品缺陷。
 
 ## 复算入口与命令回执
