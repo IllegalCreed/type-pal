@@ -253,8 +253,41 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
     旧格式/升级器/fallback 引入；旧测试适配新 Owner，业务断言保留。
   返工项：无。剩余限制如实保留（全仓 90/85 未达、R4 集中链待执行、强杀不承诺）。
   本 accept 不代签、不授权 done。
-- GLM：pending。
-- done 准入：blocked；无缺签豁免，不代签。
+- GLM（2026-09-13，覆盖/矩阵席终审）：**accept，候选 70e3f627**。披露：本席是 20 项配对工作流测试
+  （P01–P20，冻结树交付 1f043a66）的作者，该部分以 Codex 接收勘误后的主线适配版为准，本席终审只做
+  独立复核，不以贡献者自测充当该部分独立第三方验收。独立复核证据：①核心四文件实跑 **62/62 绿**
+  （coordinator4+foundations14+timeline24+paired20）；App.leave-guard **31/31**、
+  script-editor-projection **5/5**；②五针负控本人复跑（/tmp/type-pal-history-main.WcgNcg/
+  negative.config.mts）：order **10红**/split **26红**/future **2红**/pop **3红**/save **6红**，与 Codex
+  记录一致——分层判定：split/pop 及 order 主体为错序/拆半业务红；save 中 4 例「promise resolved
+  instead of rejecting」=保存守卫移除后错误放行、2 例为下游校验层位变化（非守卫缺口）；future 2 例
+  以另一侧 historyVersion 未失效鉴别（全局日志重叠防护挡住直接放行，判定式仍有效）；无跳过伪绿；
+  ③独立单次严格 `coverage:fast`（TYPE_PAL_COVERAGE_BASE_REF=10c84238）**exit0：6,493 项 / 617 生产
+  文件 / editor 219 生产文件、210 测试文件、2,254 项**，门禁通过未下降；基线对账：整卡（自
+  leave-guard 收口基线 6,430）**+63**、本轮（自 dded6f27 基线 6,444）**+49**；新增恰 3 个 D-01 测试
+  文件（timeline/foundations/paired）与 1 个生产文件 editor-history-participant.ts（10c84238 内嵌
+  基线为 6,385 系当时未含 leave-guard 收口再生成，差异已在账内说明）；**移除清单为空**（无旧测试
+  文件/生产文件删除，其他六包 fastTests 逐包 identical）——无范围缩减；④源码抽核：唯一全局日志
+  （coordinator past/future+symbol 事务 id；普通 dispatch 经 edit-session.ts:195-197 路由进 Owner；
+  assertCanAttachHistory :226-229 拒接管已有独立栈；dispose 幂等保留日志）；原子性（commitNew 先
+  prepare 双侧、单侧提交为另一侧补行政失效、commit() validate→commit→updateLog→advance→version++
+  →publish，通知仅在双侧与日志就绪后发布——timeline「pair success notifies both domains only
+  after both states and history are committed」逐值断言完整态）；跨侧分支（P13/P14 适配版先断言双侧
+  canRedo=false 再试 redo，无 if(revived) 掩盖）；保存守卫（projection 缺正文抛错带物品/效果索引/ID，
+  空正文[] 合法保留）；App/Root 接线（main.tsx 成组建 Coordinator；App.tsx props.history+
+  assertSessions+connect/dispose；undo/redo 直走 Owner 并表错）；⑤H 矩阵映射成立：H-01/02→timeline+
+  P08/P09（P09 第三撤只撤正文不撤创建事务，勘误已核）；H-03→P01-P07 动态+P12 静态（raw 源码导入，
+  七 caller 脚本侧先于主侧）；H-04→timeline asymmetric futures+P13/P14/P15；H-05→P11；H-06→
+  foundations+timeline 失败注入+P16（clean 态注入全状态核+同对命令重试成功）；H-07→P18；H-08→
+  timeline dispose/connect 幂等+App.leave-guard 卸载重连；H-09→projection5+save 负控；H-10→App 单一
+  Owner 代码读+App.leave-guard 31+ItemTab/App.reference-navigation 回归；H-11→五针；H-12 Codex 自持
+  视觉（按分工不在本席复核域）。静/动边界：P12/P20 现为 Vite ?raw 静态源码对账（入口存在性与顺序），
+  动态行为由 timeline/foundations/paired 真实调用覆盖，两层不混称。D-06/D-07 延期边界已核（类文本
+  未变、未宣称修复，非本卡范围）。可证伪：任一合法交错错序、pair 拆半、失败改版本/内容、新分支复活
+  旧 redo、保存漏正文、质量门缩范围，本 accept 撤回。旧版本兼容审查：**pass**——script-editor 旧
+  dispatchForTransaction/rollback/isUndoTop 协议整删未并存，无版本分支/旧格式/升级器/fallback；旧
+  coordinator 双顶检测被唯一日志取代而非保留旁路。本 accept 不代签、不授权 done。
+- done 准入：blocked（GLM 席已签；等待用户验收裁决，不代签）。
 
 ## 实现 / 视觉 / 用户验收
 
@@ -384,6 +417,16 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
 
 ## 交接日志
 
+- 2026-09-13 GLM（r1 整卡覆盖/矩阵终审）：按本席当前提示词复核候选 70e3f627（对比 10c84238..70e3f627
+  含首批 dded6f27；其后仅文档）。复跑核心四文件 62/62、App.leave-guard 31/31、projection 5/5；五针
+  负控本人复跑 order10/split26/future2/pop3/save6 红（分层：save 4 错误放行+2 下游层位、future 以
+  另一侧 historyVersion 未失效鉴别）；独立单次严格 coverage:fast exit0（6,493/617；editor 210/2,254）
+  并完成 +63/+49 与移除清单为空的基线对账（10c84238 内嵌旧基线 6,385 的口径差异已注明）。源码抽核
+  唯一日志 Owner/两阶段提交/通知时序/保存守卫/Root-App 接线；H-01～H-12 与 timeline24/foundations14/
+  paired20/App31/投影5 的映射及 P12/P20 静(?raw)/动边界核清；接收勘误（P09 第三撤语义、P13/P14
+  canRedo 前置、P16 clean 态重试、raw 导入替代 ts-nocheck）逐条与最终测试源码核对成立。签 accept、
+  旧版本兼容审查 pass（详见 done 前席位）。未改实现/测试/基线/他席/Status，未读 Kimi 本轮结论，
+  不做视觉验证。Next：三席齐（Codex/Kimi/GLM 均 accept），交用户验收裁决；本席不代签 done。
 - 2026-09-13 Kimi（r1 整卡独立终审）：同步 `20b43b87`、工作树干净后按 `10c84238..70e3f627` 全量核实现。
   直读 coordinator/participant/edit-session/script-editor 两阶段协议（Symbol 事务身份、全入口路由、
   validate→commit→日志→通知次序、失败不写索引、pop 移入 commit、行政 discard 递增版本）、
@@ -448,7 +491,7 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-HISTORY-ORDER-1 收口，任务卡 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，review/r1，终审候选 70e3f627（候选后 packages 零漂移）；r1 设计不重签。
-先同步并检查工作树，读本卡 done 前三席签字与终审日志。现状：Codex（实现者自验证）与 Kimi（独立整卡终审，提交 3f34c558 后本轮签字随终审提交推送）已 accept；GLM 覆盖/矩阵终审落卡后，请统一核定：三席钉同一候选 70e3f627、无 counter/返工项/缺签豁免，将任务推进 done，同步看板/索引/审计进度（D-01 可标修复）。
+先同步并检查工作树，读本卡 done 前三席签字与终审日志。现状：Codex（实现者自验证）与 Kimi（独立整卡终审，签字提交 e7c364ad）已 accept；GLM 覆盖/矩阵终审落卡后，请统一核定：三席钉同一候选 70e3f627、无 counter/返工项/缺签豁免，将任务推进 done，同步看板/索引/审计进度（D-01 可标修复）。
 收口时保留并转述限制：全仓 90/85 未达、R4 综合链（物品买价与私有脚本交替、成对新增场景/实体、撤销到基线全部重做→保存→重开→试玩）待集中执行；D-06（新建物品作者记录生命周期）与 D-07（共享 ScriptId/私有前缀身份边界）为已登记 P2 待修，证据独立、非本卡回归，按队列另卡。
 不得代签任何一席、不把本收口扩张为其他审计缺陷的整组授权；用户验收按惯例另行进行。
 ```
