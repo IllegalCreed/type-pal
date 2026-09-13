@@ -145,7 +145,40 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 
 - Codex（2026-09-13）：premise verified，基于上方当前反例与控制；design agree，按唯一日志/原子配对与保存拒绝半态方向。
   可证伪观察：同一合法P/M/S经当前App能正确撤销、或有既有权威时间线遗漏未读，则重开前提。
-- Kimi：premise pending；design pending；独立证据与可证伪观察待本人填写。
+- Kimi：**premise verified / design agree（2026-09-13，r1，证据基线 9fd32674；全部证据本人直读/复跑，未读 GLM 结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  - **通知归属缺陷直读**：`App.tsx:1605-1660` historyOwnerRef 由两 session subscribe「最后通知」
+    写入；而 `edit-session.ts:121` undo/redo 自身递增 historyVersion——**撤销动作会改写归属标记**，
+    下一次撤销再选同一栈，路由必然错。协调器回 false 后 App 单栈 fallback（:1632-1660）在案。
+  - **配对拆半直读**：`editor-history-coordinator.ts:38-45` undo 要求 pair 两半同时 `isUndoTop`，
+    否则 return false 转单栈——P/M/S 交错时必然拆半；`:51` 失败用普通 `redo()` 补偿、
+    `script-editor.ts` undo **先 pop 后 invert**（invert 抛错即丢栈项），设计点 5 的同组修复必要。
+  - **保存跳过缺正文直读**：`script-editor-projection.ts:99-114` shell 私有脚本引用在
+    canonicalPrivate 查不到时 `continue` 静默跳过——拆半产物（shell 有引用、canonical 无正文）
+    在保存合并被抹平；`mergeEditorProjectionWithCurrentAuthorState`（:187-199）为保存专用入口，
+    设计点 9 在此加完整性守卫、共享 UI 投影不抛中间态，落点正确。
+  - **本人复跑**：原探针先在 `.type-pal/save-state.json` 替身处 assertion 失败（环境过期，
+    **不作为产品已修证据**，与卡面一致）；改编 reprobe exit 0 复现三组特征——
+    ①配对 P 正控 undo/redo 双边归零/恢复、序列化通过；②P/M/S 两次 undo 后 price=10、
+    shellEffects=1、canonicalEffects=0（拆半），序列化 effects=[]；③M/S/M 两次 undo 后
+    price=0 且正文仍 wait(1)（正确应为 price=10、正文回空）。普通交错与配对反例同时成立。
+  - **设计同意**：协调器收敛为项目级操作日志唯一 Owner，所有 dispatch 入口纳入（GLM census
+    兜底），两 session 保留领域状态/dirty/地图元数据；明确成功作者提交通道计序，不从
+    subscribe/historyVersion 推导，undo/redo/markSaved/hydrate/discardRedo/失败补偿不冒充新提交，
+    命令对象不当事务身份；配对一笔提交、失败恢复内容/历史/dirty/affected，修 pop-then-invert
+    先后序，通知在双侧与日志就绪后发布；任一侧新成功作者操作清整项目 redo、失败/no-op 不清；
+    StrictMode/重连单一活跃 Owner、不事后拼接两已有栈（Root main.tsx:158-176 现行均为新空栈
+    装配，无该真实域）；保存入口拒绝 shell 引用缺正文（空正文合法、未引用记录不自动判错）、
+    共享投影函数不改成中间态抛错。范围确停在 D-01：无持久化历史/协同/新面板/格式或 A-02/A-03
+    协议改动。
+  - **可证伪观察**（任一反例即 counter 或收窄）：① 当前 App 任一合法 M/S/M 已按正确顺序撤销、
+    或正式 loader 已拒绝上述输入 → 前提倒（本人复跑否定）；② 实现后仍存在绕过日志的单独
+    dispatch 入口（census 缺口）；③ undo/redo/markSaved/hydrate/discardRedo 能产生日志项；
+    ④ 配对失败留下半笔内容/历史或孤儿 redo、ScriptEditSession.undo 仍先 pop；⑤ 保存仍静默
+    跳过缺正文，或误拒空正文 []/未引用记录；⑥ StrictMode 双 Owner 或重连清历史；
+    ⑦ 删除通知归属算法的单点突变仍全绿 → 回归未钉住。
+  - 返工项：无。非阻断备注：通知在双侧与日志就绪后发布与「版本保持单调但失效通知仍发」
+    两条需在实现期统一口径（通知异常≠提交失败，也不把零内容变化说成零通知）；
+    全局动作名称复用既有可访问标签，不新增历史列表 UI（设计点 4 已列）。
 - GLM（2026-09-13，前提/矩阵席）：**premise verified**。本席独立直读当前 main（产品同 10c84238）一手源码，
   四条前提腿全部证实：①归属启发式——App.tsx:1602-1617 两份 subscribe 以「谁的历史版本变了」改写
   `historyOwnerRef`，App.tsx:1631-1653 undo/redo 在协调器返回 false 后按该旗选栈；undo 本身使被撤侧版本变化、
@@ -193,7 +226,15 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
   未动原探针或产品。用户追加更多GLM工作，已拆44项只读取证，D-01签字先回、其余并行，不等整批才开主线。
   文档检查415 Markdown/1,983本地链接/142任务通过，文档工具20项通过；44项唯一ID机械复算16+10+8+10，
   无重复。未跑全仓check/coverage（本轮无产品改动），不报新覆盖率进展。
-- Kimi：待本人填写本席设计日志。
+- Kimi：2026-09-13 完成 r1 独立前提/架构审查，签 premise verified + design agree，无返工项。
+  直读 App.tsx:1605-1660 通知归属（undo 自改写标记，edit-session.ts:121 递增版本）、
+  editor-history-coordinator.ts:38-88 双栈顶接管+false 转单栈拆半+普通 redo 补偿、
+  script-editor.ts undo 先 pop 后 invert、script-editor-projection.ts:99-114 缺正文静默跳过、
+  DS-I.2/4 合同、Root main.tsx:158-176 新空栈装配。本人复跑：原探针 save-state 替身环境失败
+  （不作产品已修证据）；改编 reprobe exit 0 复现三组特征（配对正控/P/M/S 拆半 effects=[]/
+  M/S/M 错序 price 0+wait(1)）。七条可证伪观察与两条非阻断备注（通知口径、动作名复用）
+  写入本席。未改产品/正式测试/他席/共享准入/Status，未读 GLM 结论。
+  Next：GLM 并行签字；两席齐后 Codex 放行 build；视觉由 Codex 后续执行。
 - GLM：待本人填写本席设计日志；批量取证另写工作包指定报告，不塞满本卡。
 - GLM 设计交接日志（2026-09-13）：按工作包节点一完成 D-01 r1 独立前提/设计审查并签字（premise verified +
   design agree，无 counter）。四条前提腿一手直读：App.tsx:1602-1617/1631-1653（归属启发式与单栈 fallback，
