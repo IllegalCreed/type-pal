@@ -195,7 +195,7 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 在 /Users/zhangxu/illegal/type-pal 执行 docs/testing/glm-pre-e2e-prep.md 的 r1 工作包（44项、四组，连续完成）。
 先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md和工作包；D-01卡为 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，draft/r1，产品冻结10c84238。
 先独立完成D-01前提/矩阵设计审查，自己的premise/design签字与日志直接提交推送main；不要等其余三组做完，不读Kimi结论，不改状态或产品。
-随后按工作包建立独立worktree与codex/glm-pre-e2e-prep分支，核产品零漂移，连续完成引用删除、上传乱序、预览缓存的只读取证。
+随后按工作包从59e03bdb建立独立worktree与codex/glm-pre-e2e-prep分支，核产品对10c84238零漂移，连续完成引用删除、上传乱序、预览缓存的只读取证。
 只能改工作包白名单报告/诊断探针；不改packages、scripts、生成数据、正式测试、正式配置或覆盖率基线；不跑浏览器/截图/视觉/声音验收，不整仓check/coverage与Codex争抢资源。
 每项给真实调用证据、合法正控、反例或待证原因；probe环境失败不能算产品缺陷，禁止跳过伪绿。已证实项可引用复跑，不堆无意义用例数。
 不必每小组问继续；阻断独立登记后继续其他组。最后整批提交推送并给Codex分支/SHA、44项唯一ID账、命令/退出码/日志和复算入口。

@@ -2,6 +2,7 @@
 
 Revision：r1，2026-09-13。分配者/接收复核：Codex；执行：GLM。
 产品冻结：10c84238（本包创建时9fd32674之后只做文档收口/开卡，packages相同）。
+取证分支固定起点：59e03bdb（已包含本包r1与D-01设计卡；不要从随后前进的活跃产品树取证）。
 关联主线：[D-01任务卡](../ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)。
 产出：[整批报告](glm-pre-e2e-prep-report.md)。用户明确要求“多给一些glm能并行处理的工作”。
 
@@ -13,9 +14,9 @@ Revision：r1，2026-09-13。分配者/接收复核：Codex；执行：GLM。
 1. **先回D-01签字**：同步main、读主线r1，独立核前提/设计与G-H矩阵。将自己的premise verified/design agree
    或counter+证据写入D-01卡自己的块与日志，提交推送main。不读Kimi结论，不改共享准入/状态。
    这一步先交回，让Codex在两席齐后可以做主线；不要等整个44项批次结束。
-2. **继续其余批次**：建立独立worktree分支 `codex/glm-pre-e2e-prep`，以含本包r1且packages对10c84238零diff
-   的main提交为起点，记录完整SHA。若已有同名分支先核归属，不能reset/覆写或恢复旧stash。
-   若main产品已前进，停止从活跃主树取代码，找最近满足冻结条件且含本包的提交；记录证据，不自行合并Codex实现。
+2. **继续其余批次**：从固定59e03bdb建立独立worktree分支 `codex/glm-pre-e2e-prep`，核packages对10c84238零diff，
+   记录完整SHA。若已有同名分支先核归属，不能reset/覆写或恢复旧stash。第一步main上的签字不必合入取证分支。
+   即使main产品随后前进也不更换取证树；记录证据，不自行合并Codex实现。
    G-H结果归入总表，然后连续完成G-R/G-I/G-C，最后整批交Codex；独立组阻断不妨碍继续下一组。
 
 Codex同时负责D-01方案/实现/集成、原生功能与视觉、全仓check/ratchet/严格fast。GLM不操作浏览器、不看截图、
@@ -160,7 +161,7 @@ G-H为D-01设计阶段输入，不直接约定新实现的私有API；其他组�
 在 /Users/zhangxu/illegal/type-pal 执行 docs/testing/glm-pre-e2e-prep.md 的 r1 工作包（44项、四组，连续完成）。
 先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md和工作包；D-01卡为 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，draft/r1，产品冻结10c84238。
 先独立完成D-01前提/矩阵设计审查，自己的premise/design签字与日志直接提交推送main；不要等其余三组做完，不读Kimi结论，不改状态或产品。
-随后按工作包建立独立worktree与codex/glm-pre-e2e-prep分支，核产品零漂移，连续完成引用删除、上传乱序、预览缓存的只读取证。
+随后按工作包从59e03bdb建立独立worktree与codex/glm-pre-e2e-prep分支，核产品对10c84238零漂移，连续完成引用删除、上传乱序、预览缓存的只读取证。
 只能改工作包白名单报告/诊断探针；不改packages、scripts、生成数据、正式测试、正式配置或覆盖率基线；不跑浏览器/截图/视觉/声音验收，不整仓check/coverage与Codex争抢资源。
 每项给真实调用证据、合法正控、反例或待证原因；probe环境失败不能算产品缺陷，禁止跳过伪绿。已证实项可引用复跑，不堆无意义用例数。
 不必每小组问继续；阻断独立登记后继续其他组。最后整批提交推送并给Codex分支/SHA、44项唯一ID账、命令/退出码/日志和复算入口。
