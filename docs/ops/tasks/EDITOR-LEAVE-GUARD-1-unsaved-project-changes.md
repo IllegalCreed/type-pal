@@ -274,7 +274,24 @@ LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 c
   - 剩余：guard 分支61/63（96.83%，常规汇总四舍五入），两臂保留分母；不承诺强杀/未提交领域草稿。
     全仓覆盖率仍未达最终90%/85%目标，R4 综合链尚待集中执行。
 - Kimi：pending。
-- GLM：pending。
+- GLM（2026-09-13，矩阵/覆盖席终审）：**accept**。披露：本席为 r1 前提/矩阵签字方，本次为对候选
+  10c84238 的独立矩阵/覆盖终审复核，非第三方重验全部原生证据（原生/视觉由 Codex 持有，本席未操作浏览器）。
+  ①定向实跑 **81/81**：project-leave-guard 18 + App.leave-guard 27 + 既有 author-save-conflict 36，
+  数量与身份精确一致；②五组单点负控本席独立复跑（/tmp/type-pal-leave.MtfuoI/negative.config.mts，include
+  钉死两文件，每针唯一替换）：script/result/revision/menu/choice 分别 **5/2/7/10/2 项业务红**，红测均为
+  真实回调/选夹/历史断言而非文案或 TypeError；③机械对账：baseline.fast testCount=**6,430**、七包源码
+  **616**、editor **218** 与声明一致；d46d63fa→HEAD 基线身份 diff 精确为「+2 测试文件（+45 项）、+3 生产
+  文件（project-leave-guard.ts/ProjectLeaveDialog.tsx/use-project-leave-guard.ts）、零移出零改动」，其余六包
+  fastTests 逐包 identical——旧测试身份计数零变化、无门槛下调属实；候选 10c84238 之后仅 docs/baseline
+  提交，packages 零漂移；check-consent.log 复核 editor 226/2,350、lint 48 warning/0 error。④焦点项逐一有
+  具名测试：PAL 首存确认取消不选夹不丢编辑（App.leave-guard:407 起）、真实 IO AbortError（:362）与选夹
+  AbortError（:102）、cleanup warning 不冒充失败（guard:290）、export 读写互斥及真实读失败释放（App:326）、
+  完全撤销保守再问+discardRedo 保守失效（guard:78）、真实保存后正式重开核值且继续需新点击（guard:270）、
+  旧 ready 点击竞态防重新解释为放弃（guard:193 + App:305 + choice 负控）——**本席 r1 三条最小补项
+  （exporting 互斥/完全撤销/discardRedo）全部被吸收为具名测试**。⑤存储替身与原生证据区分明确：App 测试
+  替身仅 FSA 目录/原生 picker/origin 存储记录边界，文档明示不借此宣称身份/锁协议重验收；原生证据为
+  Codex 的 ceec744a 实测 + 点击身份补强经真实回归与 choice 负控佐证。剩余限制如实保留：guard 61/63 两臂
+  在分母、强杀/未提交草稿不承诺、R4 集中链待执行、全仓 90/85 未达。无 counter。
 - counter / 返工：待审。
 - 缺签豁免：无。
 - done 准入结论：blocked。
@@ -317,6 +334,14 @@ LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 c
   签字后由 Codex 核 build 准入；本席补项是否吸收由 Codex 拍板。
 - 2026-09-13 Codex 实现交接：核三席 r1 后推进 build，吸收 exporting/完全撤销/discardRedo 三补项；
   候选10c84238，81定向、五针业务红、check6918、ratchet及严格fast6430。原生浏览器和自建6011已收尾。
+- GLM 终审日志（2026-09-13，矩阵/覆盖席）：按本席终审提示词复核候选 10c84238（对比 d46d63fa）并签
+  **accept**（done 前席位，无 counter）。未读 Kimi 终审结论、未操作浏览器/截图。证据：81/81 定向实跑；
+  五针 5/2/7/10/2 业务红独立复跑（先查回调/选夹/历史，非文案）；基线机械对账 6,430/616/218、
+  +45 项/+3 生产文件/零移出、六包 fastTests identical、候选后 packages 零漂移；check-consent.log 抽核。
+  七个指定焦点项（PAL 取消、IO AbortError、cleanup warning、export 互斥、discardRedo、真实保存重开、
+  旧 ready 点击竞态）逐一映射到具名测试；r1 三补项全部吸收。存储替身与原生证据边界、guard 61/63 两臂、
+  R4 集中链与全仓 90/85 未达均如实保留。done 准入仍待 Kimi 终审与用户验收；本席不改产品/测试/他席结论/
+  Status，不标 done。完成交 Codex 统一核门禁。
   审计探针/持久化核心/生成工程零 diff；两席设计原文完整保留。下一步两席针对同候选独立终审并各自落盘。
 - Kimi 终审交接日志：待本人填写。
 - GLM 终审交接日志：待本人填写。
