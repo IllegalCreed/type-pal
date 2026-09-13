@@ -146,8 +146,30 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 - Codex（2026-09-13）：premise verified，基于上方当前反例与控制；design agree，按唯一日志/原子配对与保存拒绝半态方向。
   可证伪观察：同一合法P/M/S经当前App能正确撤销、或有既有权威时间线遗漏未读，则重开前提。
 - Kimi：premise pending；design pending；独立证据与可证伪观察待本人填写。
-- GLM：premise pending；design pending；独立证据与可证伪观察待本人填写。
-- 独立反证：pending，至少一位非Owner须直接核一手证据；不要复述另一席结论。
+- GLM（2026-09-13，前提/矩阵席）：**premise verified**。本席独立直读当前 main（产品同 10c84238）一手源码，
+  四条前提腿全部证实：①归属启发式——App.tsx:1602-1617 两份 subscribe 以「谁的历史版本变了」改写
+  `historyOwnerRef`，App.tsx:1631-1653 undo/redo 在协调器返回 false 后按该旗选栈；undo 本身使被撤侧版本变化、
+  旗随通知翻转，本席手推 M10→S(wait1)→M20→两次undo 得「买价回 0 而脚本仍 wait(1)」（第二撤应撤脚本），
+  与卡内复现 3 一致；交错结尾在 main 侧时错误可达。②拆半——editor-history-coordinator.ts:44-52 `undo()`
+  仅在 pair 两半都是栈顶时接管，否则 return false 落入上述单栈 fallback，成对命令被拆开。③静默跳过——
+  script-editor-projection.ts:88-116 两处 `if (!replacement) continue`（itemPrivateScript 与
+  `__author-script-runtime` 分支）：shell 引用私有脚本而 canonical 正文缺席时效果被无声丢弃，
+  :187-199 `mergeEditorProjectionWithCurrentAuthorState` 无完整性核验。④失败次序——script-editor.ts:1425-1437
+  `undo()` 先 `past.pop()` 再 `command.invert()`，invert 抛错时该项既不在 past 也未入 future，无补偿即丢历史项。
+  替代解释（A-07 间接修好/仅私有脚本模型问题）不成立：普通交错与配对反例机制均独立于 A-07 与具体命令。
+  **design agree**：唯一项目级日志/成功提交计序（设计1-4）正对启发式与通知推导；原子配对与失败先后序
+  （5-7）覆盖④；StrictMode 单 Owner（8）——本席核 Root（main.tsx:158-176）只在 onOpened 成组新建双 session，
+  当前不存在「两份已各自编辑的栈事后拼接」的真实域，初始化合同可收敛为「构造时空日志+成组绑定」，无需
+  counter，未来新接线出现该域时须回卡；保存完整性守卫+空正文[]合法（9）与 ③ 精确对应，且共用 UI 投影
+  函数不改中间态抛错的边界正确。H-01～12 逐条可证伪、含正控（H-05 边界、H-09 修正后正式保存/重开核值）
+  与负控靶（H-11 五针）；H-10 显式保 A-07 守卫不回退——本席指出一点设计交互：A-07 离开守卫当前以两 session
+  的 historyVersion 捕获修改版本（project-leave-guard 既有回归钉 hydrate/markSaved/discardRedo 语义），
+  D-01 落地后 undo/redo/清 redo 仍必须保持「两侧版本照常演进、可区分作者提交」的既有合同，否则 A-07 的
+  授权失效/保守失效用例会红——这与设计 3「不从普通 subscribe 推导新作者动作」同向，作为可证伪观察交给实现。
+  可证伪观察：(a) 若经真实 App 全局 undo 入口的合法 P/M/S 今日已按实际逆序恢复，前提应重开（本席源码手推
+  相反）；(b) 若 mergeEditorProjectionWithCurrentAuthorState 已拒绝缺正文（实测为 continue 静默跳过），
+  设计 9 应收敛；(c) 若存在「拼接两份已编辑栈」的真实接线域而设计未列初始化合同，第 8 条须补 counter。
+- 独立反证：GLM 已直接核四条一手证据（见上）；Kimi 席另行独立。
 - counter / 分歧：待审；缺签豁免：无。
 - build 准入：blocked，保持draft，不改产品或正式测试。
 
@@ -173,6 +195,14 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
   无重复。未跑全仓check/coverage（本轮无产品改动），不报新覆盖率进展。
 - Kimi：待本人填写本席设计日志。
 - GLM：待本人填写本席设计日志；批量取证另写工作包指定报告，不塞满本卡。
+- GLM 设计交接日志（2026-09-13）：按工作包节点一完成 D-01 r1 独立前提/设计审查并签字（premise verified +
+  design agree，无 counter）。四条前提腿一手直读：App.tsx:1602-1617/1631-1653（归属启发式与单栈 fallback，
+  手推 M10→S→M20 双撤错序复现）、editor-history-coordinator.ts:44-52（pair 非双顶即 false→拆半）、
+  script-editor-projection.ts:88-116/187-199（缺正文 `continue` 静默跳过、merge 入口无守卫）、
+  script-editor.ts:1425-1437（undo 先 pop 再 invert、失败丢项无补偿）。设计 1-9 与四腿一一对应；
+  第 8 条初始化合同按「构造时空日志+成组绑定」收敛（当前无拼接真实域）；A-07 historyVersion 捕获合同
+  与设计 3 的交互写入可证伪观察。未读 Kimi 结论，未改产品/正式测试/Status/共享准入。Next：转工作包
+  节点二（59e03bdb 取证分支，44 项四组），本席 G-H 组结论以工作包报告为准，不回填本卡。
 
 ## 下一位 Agent 提示词
 
