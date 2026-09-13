@@ -1,7 +1,8 @@
 # 未保存修改的离开保护：实现与验证
 
 父卡：[EDITOR-LEAVE-GUARD-1](../ops/tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md)，r1。
-Owner：Codex；实现基线 d46d63fa，产品/测试候选 10c84238。当前 review，Codex 自测 accept，待两席终审；非用户验收或完整 E2E。
+Owner：Codex；实现基线 d46d63fa，产品/测试候选 10c84238。当前review，三席终审均accept、无返工，Codex已核同候选零漂移；待用户确认验收，非完整E2E。
+终审提交GLM 11d6026b / Kimi 2d8e56d0只改任务卡；本次接收不重跑已有验证，不代签或代记用户手动复验。
 首批实现 ceec744a，随后补强“保存后继续”与“放弃修改”的点击身份；不改变 r1 设计合同。
 
 ## 实现范围

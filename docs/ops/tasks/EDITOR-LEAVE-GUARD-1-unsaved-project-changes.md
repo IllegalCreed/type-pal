@@ -10,7 +10,7 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1（2026-09-13，实现与自测完成，待两席终审；设计不重签）
+Revision: r1（2026-09-13，三席终审 accept，待用户确认验收；设计不重签）
 Evidence Baseline: fa8d4e52
 Implementation Baseline: d46d63fa
 Implementation Candidate: 10c84238（产品/测试；生成覆盖率基线与回执随后落盘）
@@ -24,9 +24,12 @@ Implementation Candidate: 10c84238（产品/测试；生成覆盖率基线与回
 本卡三席前提/设计审查已完成，用户回复“签了”，Codex 核定进入 build。D-01 撤销顺序随后另卡，未开始实现。
 用户对 A-03 的免手动复审不自动外推为本卡免签或最终验收。
 
-2026-09-13 实现已完成并进入 review；[实现与验证回执](../../testing/editor-leave-guard.md)记录原生操作、
-LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 check 6,918 / 严格 fast 6,430 均通过，
-不代表本卡已 done 或 D-01/完整 E2E 已完成。
+2026-09-13 Codex 接收 GLM 11d6026b / Kimi 2d8e56d0 终审：三席均对10c84238签accept，无返工项；
+接手 main/origin 同为2d8e56d0、工作树净，候选后 packages 零 diff，两席只更新本卡。
+[实现与验证回执](../../testing/editor-leave-guard.md)记录原生操作、LG矩阵、五组负控制及自审返工；
+check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
+当前仅待用户确认验收，Status保持review；用户本次“签了”记录为两席终审完成，不擅自登记其手动复验或扩大旧卡免验裁决。
+无需再转发审查提示词或重签设计；D-01/完整E2E仍未完成。
 
 ## 范围
 
@@ -321,9 +324,9 @@ LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 c
   替身仅 FSA 目录/原生 picker/origin 存储记录边界，文档明示不借此宣称身份/锁协议重验收；原生证据为
   Codex 的 ceec744a 实测 + 点击身份补强经真实回归与 choice 负控佐证。剩余限制如实保留：guard 61/63 两臂
   在分母、强杀/未提交草稿不承诺、R4 集中链待执行、全仓 90/85 未达。无 counter。
-- counter / 返工：待审。
+- counter / 返工：无；Codex 已于2026-09-13核两席均accept且钉同候选。
 - 缺签豁免：无。
-- done 准入结论：三席 accept 均已落盘（GLM 矩阵/覆盖、Kimi 独立终审），待 Codex 统一核定；无缺签豁免，任务保持 review，不标 done。
+- done 准入结论：三席技术审查门已满足，无缺签豁免；按工作流尚待用户确认验收/授权收口，任务保持review，未标done。
 
 ## Build / Review / 视觉 / 用户验收
 
@@ -331,9 +334,9 @@ LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 c
   ceec744a 实现与首轮验证后自审发现窄竞态，10c84238 补强并重新跑完整质量门；证据见上方 Codex 席位与回执。
 - Draft 文档自检：`node --test scripts/docs/*.test.mjs` 20/20；`node scripts/docs/check.mjs`
   411 Markdown / 1,944 local links / 141 tasks / content20 SAVE8，零问题；完整产品 check/覆盖率未重跑（本轮无源码变更）。
-- Review：待 Kimi/GLM 并行终审；Codex 自测 accept，没有内部子 Agent 代签。
+- Review：三席均accept，Codex已核定；没有内部子Agent代签。
 - 视觉：Codex dev-functional 已完成，见回执；不交由 GLM，也不让两席重复已有视觉流程。
-- 用户验收：待终审后按用户裁决；不要求用户跑技术命令。若希望亲眼看，专用测试项目中改一个场景名→文件/打开→取消，
+- 用户验收：终审已完成，待用户确认；可以依据Codex已有功能验证直接确认，不要求用户跑技术命令。若希望亲眼看，专用测试项目中改一个场景名→文件/打开→取消，
   确认名称与未保存态仍在；再选择先保存→已保存→继续打开，取消选夹后仍留原项目。故障注入由 Codex 已测，不让用户代跑。
 - 资源生成/额度代班：N/A，无资源任务、无缺席代班。
 
@@ -386,12 +389,18 @@ LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 c
   R4 集中链与全仓 90/85 未达均如实保留。done 准入仍待 Kimi 终审与用户验收；本席不改产品/测试/他席结论/
   Status，不标 done。完成交 Codex 统一核门禁。
   审计探针/持久化核心/生成工程零 diff；两席设计原文完整保留。下一步两席针对同候选独立终审并各自落盘。
-- Kimi 终审交接日志：待本人填写。
-- GLM 终审交接日志：待本人填写。
+- Kimi 终审交接日志定位：已见上方本人“r1终审”日志，无待补签。
+- GLM 终审交接日志定位：已见上方本人“矩阵/覆盖席”终审日志，无待补签。
+- 2026-09-13 Codex 接收终审：在2d8e56d0核三席accept、同候选及packages零漂移，无返工。
+  只更新当前状态/看板/审计进度，不改两席签字或复跑既有原生流程；等待用户确认验收，再统一归档。
+  口径澄清：Kimi“每个await点查isCurrent”按实际源码应理解为关键完成/提交与反馈边界，非每个await之后都有检查；
+  以候选源码和本卡验收边界为准，不扩大为任意异步步骤均可取消的保证。
 
 ## 下一位 Agent 提示词
 
-### 给 Codex（当前：汇总核定 done）
+无下一位 Agent 提示词，等待用户验收/收口。三席审查已完成，不再转发下方历史提示。
+
+### 给 Codex（历史：汇总核定 done，技术门已核定）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-LEAVE-GUARD-1 收口，任务卡 docs/ops/tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review/r1，终审候选 10c84238（候选后 packages 零漂移）；r1 设计不重签。
@@ -414,7 +423,7 @@ LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 c
 不得改产品/测试/另一席结论/共享准入/Status，不标done，不扩大D-01或A-03范围；生成覆盖基线/文档在候选后另提交，packages须零漂移。
 ```
 
-### 给 GLM（与 Kimi 并行终审，r1 / 候选 10c84238）
+### 给 GLM（历史：与 Kimi 并行终审，已完成，r1 / 候选 10c84238）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-LEAVE-GUARD-1。
