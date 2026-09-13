@@ -1,6 +1,6 @@
 # EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: ops（审计 A-07 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,8 +10,10 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1（2026-09-13，设计候选，尚未允许实现）
+Revision: r1（2026-09-13，实现与自测完成，待两席终审；设计不重签）
 Evidence Baseline: fa8d4e52
+Implementation Baseline: d46d63fa
+Implementation Candidate: 10c84238（产品/测试；生成覆盖率基线与回执随后落盘）
 
 ## 当前结论与目标
 
@@ -19,8 +21,12 @@ Evidence Baseline: fa8d4e52
 本卡只承接 A-07：作者有未保存修改时，新建、打开另一个项目或离开页面不能未经确认丢掉当前编辑会话。
 取消、保存失败、打开失败均保留当前内容及历史；明确放弃后才允许切换。
 
-本卡先完成前提/设计审查。D-01 撤销顺序随后另卡，未开始实现；不为等待签字擅自扩大上一张卡授权。
+本卡三席前提/设计审查已完成，用户回复“签了”，Codex 核定进入 build。D-01 撤销顺序随后另卡，未开始实现。
 用户对 A-03 的免手动复审不自动外推为本卡免签或最终验收。
+
+2026-09-13 实现已完成并进入 review；[实现与验证回执](../../testing/editor-leave-guard.md)记录原生操作、
+LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 check 6,918 / 严格 fast 6,430 均通过，
+不代表本卡已 done 或 D-01/完整 E2E 已完成。
 
 ## 范围
 
@@ -68,7 +74,7 @@ Evidence Baseline: fa8d4e52
 - before → after：有未保存修改时新建/打开可直接丢会话 → 先选择取消、放弃或保存；失败留在原项目。
 - 代表场景：只修改物品脚本正文、不改主属性，点“项目→打开项目”；仍必须提示，取消后正文及 undo 不变。
 - 新提示复用现有 DsDialog/DsButton 短决策形态；下方文字线框为 r1 方案，不引入侧栏/新工作台。
-- 用户已要求继续修复；本卡尚待三席设计准入，不把该请求当作代签。
+- 用户已要求继续修复并确认签字完成；准入依据为仓内三席本人签字，不代签。
 
 ## 上下文锚点
 
@@ -142,7 +148,7 @@ Evidence Baseline: fa8d4e52
 
 ## 验收条件与测试矩阵
 
-全部以下为待执行，当前没有计入通过数。测试须执行真实生产调用，不复制判断逻辑当被测物。
+以下为已签验收矩阵；本轮实现/自测证据见回执，终审由两席独立核定。测试执行真实生产调用，不复制判断逻辑当被测物。
 
 | ID | 最小正/反向业务验收 |
 |---|---|
@@ -241,11 +247,32 @@ Evidence Baseline: fa8d4e52
 - 独立反证审查：GLM 已直接核一手源码（见上）；Kimi 席位另行独立。
 - counter / 分歧：GLM 无 counter；三条最小补项供 Codex 吸收进矩阵，不构成阻断。
 - 缺签豁免：无。
-- build 准入结论：blocked（等待本卡 r1 两席；Status 保持 draft，不修改实现文件）。
+- build 准入结论：build allowed（2026-09-13 Codex 核 GLM 20bde469、Kimi d46d63fa，三席 r1 齐、无 counter/缺签豁免）。
+
+### Codex 准入吸收（不改他席原始签字）
+
+- LG-05 纳入 exporting 的同步互斥与错误后释放；LG-01/02 加“编辑→完全撤销→离开”仍按 dirty 保守提示。
+- LG-06：discardRedo 虽不改内容也递增 historyVersion，按已签方案保守失效短时授权；不改变历史系统。
+- cleanup warning 表示已提交但清理有警告，不是未保存失败；仅在已成功提交且当前两 session clean 时可继续，
+  警告仍可见。Kimi 可证伪观察②按其设计同意段的“成功/失败/cleanup warning 区分”和 LG-04 执行。
+- 某次慢保存后的自动选夹偶尔成功，不反证激活有时效；本方案始终要求新点击，不依赖宿主偶然保留激活。
 
 ### 进入 done 前：审查签字
 
-- Codex：pending。
+- Codex（2026-09-13）：accept，候选 10c84238 对比 d46d63fa；r1 保持有效，无代签。
+  - 独立自测：guard 18 + 真实 App 27 + 既有保存冲突 36 = 81/81；保存后正式 loader 重开核主/脚本值。
+    PAL 确认取消、真正 IO AbortError、清理警告、原生选夹取消与异步晚到命令各有边界断言。
+  - 自审 ceec744a 的 ready→decision 旧按钮误授权有两条先红业务回归，10c84238 用 choice 与 phase 校验及
+    不同 button key 修复，两条转绿。五个单点负控制分别 5/2/7/10/2 红；不把 modal 缺席 TypeError 或文案失败充业务红。
+  - 完整 check 6,918（editor 226/2,350）、官方 ratchet 和单次严格 fast 6,430（editor 207/2,191）均 exit0；
+    相对 d46d63fa 新增 3 生产文件/2 测试文件45项，旧测试身份/计数零变化，无源码移出范围，无门槛下调。
+  - 原生功能/视觉由本人执行：独立 Edge/6011/OS 测试目录；取消刷新保留内容、慢保存后新点击选夹、
+    失败可操作/重试成功；1280/720 下按钮36px高、间距8px。原生证据为 ceec744a，点击身份补强复用
+    未改变的外观/文件流程，另有真实 App 回归与单点反证；完整细节、混杂的准备尝试及边界均在回执，不冒充最终全部浏览器路径。
+  - 旧版本兼容审查：pass；产品面限 editor 的 App/guard/hook/dialog，持久化核心、Root、其他包、生成数据和版本零改。
+    不重引 ScriptDrawer/旧分片/升级器；A-02/A-03 权限/凭据/事务/读锁保持，D-01 单独排队。
+  - 剩余：guard 分支61/63（96.83%，常规汇总四舍五入），两臂保留分母；不承诺强杀/未提交领域草稿。
+    全仓覆盖率仍未达最终90%/85%目标，R4 综合链尚待集中执行。
 - Kimi：pending。
 - GLM：pending。
 - counter / 返工：待审。
@@ -254,12 +281,14 @@ Evidence Baseline: fa8d4e52
 
 ## Build / Review / 视觉 / 用户验收
 
-- Build：尚未开始；产品/测试零修改。本轮仅源码复核、规范核验与设计落卡。
+- Build：2026-09-13 Codex 接手 d46d63fa；工作树净、main/origin 同步、产品相对 fa8d4e52 零 diff。
+  ceec744a 实现与首轮验证后自审发现窄竞态，10c84238 补强并重新跑完整质量门；证据见上方 Codex 席位与回执。
 - Draft 文档自检：`node --test scripts/docs/*.test.mjs` 20/20；`node scripts/docs/check.mjs`
   411 Markdown / 1,944 local links / 141 tasks / content20 SAVE8，零问题；完整产品 check/覆盖率未重跑（本轮无源码变更）。
-- Review：尚未开始，主审 Kimi；GLM 核覆盖/遗漏。没有内部子 Agent 代签。
-- 视觉：尚未开始；Owner Codex，dev-functional。新提示为上方文字线框，复用现有短决策形态。
-- 用户验收：待实现与三席审查后按用户裁决；不要求用户跑技术命令。
+- Review：待 Kimi/GLM 并行终审；Codex 自测 accept，没有内部子 Agent 代签。
+- 视觉：Codex dev-functional 已完成，见回执；不交由 GLM，也不让两席重复已有视觉流程。
+- 用户验收：待终审后按用户裁决；不要求用户跑技术命令。若希望亲眼看，专用测试项目中改一个场景名→文件/打开→取消，
+  确认名称与未保存态仍在；再选择先保存→已保存→继续打开，取消选夹后仍留原项目。故障注入由 Codex 已测，不让用户代跑。
 - 资源生成/额度代班：N/A，无资源任务、无缺席代班。
 
 ## 交接日志
@@ -286,34 +315,36 @@ Evidence Baseline: fa8d4e52
   （exporting 互斥入口、编辑后完全撤销的保守提示语义、discardRedo 非作者动作清单）与三条可证伪观察
   于签字块。未读 Kimi 结论，未改产品/测试/他席内容/Status/共享准入，不标 done。下一位：待 Kimi 独立
   签字后由 Codex 核 build 准入；本席补项是否吸收由 Codex 拍板。
+- 2026-09-13 Codex 实现交接：核三席 r1 后推进 build，吸收 exporting/完全撤销/discardRedo 三补项；
+  候选10c84238，81定向、五针业务红、check6918、ratchet及严格fast6430。原生浏览器和自建6011已收尾。
+  审计探针/持久化核心/生成工程零 diff；两席设计原文完整保留。下一步两席针对同候选独立终审并各自落盘。
+- Kimi 终审交接日志：待本人填写。
+- GLM 终审交接日志：待本人填写。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（与 GLM 并行，r1 / 证据基线 fa8d4e52）
+### 给 Kimi（与 GLM 并行终审，r1 / 候选 10c84238）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审查 EDITOR-LEAVE-GUARD-1。
-任务卡 docs/ops/tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，draft，r1，证据基线 fa8d4e52。
-先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及其上下文锚点。
-你负责独立前提/架构审查：从 App 新建/打开→Root 重建双会话、save 的实际结果与错误边界读一手源码；
-核确认绑定修改版本、保存后继续打开的用户激活、最终 onOpened 复验、另存为新修改保留、beforeunload 边界。
-不要读取或复述 GLM 结论。判断范围是否真正停在 A-07，不能顺带重写 D-01 或 A-03 持久化协议。
-输出带 file:line 的 premise verified + design agree，或 counter 与最小必改项、可证伪观察。
-直接只写你自己的设计签字块和交接日志，提交推送；提交前同步并保留他席修改，竞态自行处理。
-不得改产品/测试，不改另一席结论/共享准入/Status，不得开始实现或标 done。视觉由 Codex 后续执行。
+在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-LEAVE-GUARD-1。
+任务卡 docs/ops/tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review，产品/测试候选10c84238，对比d46d63fa；r1不重签。
+先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/testing/editor-leave-guard.md。
+你负责独立代码/架构审查：真实新建/打开/另存回调、双 dirty、同步互斥、请求与修改版本/点击 choice、失败与清理警告、卸载和 beforeunload。
+重点复核 ceec744a 的旧 ready 点击误当 discard 两条先红及10c84238修复，重建 choice/revision 负控制；不要读取或复述 GLM 终审结论。
+已测81定向、check6918、严格fast6430；原生功能/视觉与准备期失败边界在回执，复用证据，不重跑已有浏览器流程。
+直接把 accept 或带 file:line 的 counter 写入你自己的 done 前签字块和终审日志，并提交推送，保留他席改动。
+不得改产品/测试/另一席结论/共享准入/Status，不标done，不扩大D-01或A-03范围；生成覆盖基线/文档在候选后另提交，packages须零漂移。
 ```
 
-### 给 GLM（与 Kimi 并行，r1 / 证据基线 fa8d4e52）
+### 给 GLM（与 Kimi 并行终审，r1 / 候选 10c84238）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审查 EDITOR-LEAVE-GUARD-1。
-任务卡 docs/ops/tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，draft，r1，证据基线 fa8d4e52。
-先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及其上下文锚点。
-你负责独立前提/测试矩阵审查：直接核双 session dirty、全部替换回调、取消/失败/保存后新增修改、
-busy 与 beforeunload 的边界，逐条核 LG-01～10 是否可证伪、有成功正控、没有用源码字符串或桩行为代替产品断言。
-重点检查原生选夹必须新点击、save 返回 void 的失败误判、另存为与普通打开不可混称“零 IO”、仅 hydrate 不误拦。
-不要读取或复述 Kimi 结论；不做浏览器操作、截图或视觉验收，不新增测试或实现。
-输出带 file:line 的 premise verified + design agree，或 counter 与最小补项、可证伪观察。
-直接只写你自己的设计签字块和交接日志并提交推送；提交前同步保留他席修改，竞态自行处理。
-不得改另一席结论/共享准入/Status，不得开始实现或标 done。
+在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-LEAVE-GUARD-1。
+任务卡 docs/ops/tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review，产品/测试候选10c84238，对比d46d63fa；r1不重签。
+先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/testing/editor-leave-guard.md。
+你负责独立矩阵/覆盖审查：逐条核LG-01～10与成功正控，18 guard+27真实App+36既有保存冲突共81项，抽查五组单点业务负控制。
+重点核PAL取消、IO AbortError、cleanup warning、export互斥、discardRedo保守失效、真实保存重开和旧ready点击竞态；不要读取或复述Kimi终审结论。
+核check6918、严格fast6430/616源码；旧测试身份计数零变化，新45项与3源码入分母，无门槛下调；区分存储替身和原生证据。
+不操作浏览器、不判断截图，视觉由Codex已执行。直接把accept或带file:line的counter写入自己的done前签字块/终审日志并提交推送。
+不得改产品/测试/另一席结论/共享准入/Status，不标done；同步保留他席修改，生成基线/文档在候选后另提交，packages须零漂移。
 ```

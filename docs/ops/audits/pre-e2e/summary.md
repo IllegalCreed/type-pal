@@ -22,8 +22,9 @@
   b7a56dd4另修复sandbox hint.source漏检。2026-09-13[最终实现收口](../../../testing/editor-save-recovery-closeout.md)已补OS目录整浏览器重启/撤权、退役旧作者保存链及必要回归，完整check6,873/严格fast6,385通过；Kimi/GLM终审accept，用户明确免手动复审并通过，Codex核候选零漂移后归档。A-03按约定范围已修复；保留约80–85秒大克隆成本与未覆盖防御分支，完整R4/E2E仍待集中执行。
 
 - [EDITOR-LEAVE-GUARD-1](../../tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) 承接 A-07：
-  2026-09-13 已基于 fa8d4e52 重核新建/打开直达会话替换的调用链，r1 设计待 Kimi/GLM 并行前提与设计审查。
-  仅开卡与更新文档，尚未实现；D-01 撤销顺序随后独立处理，不并入 A-03 已验收范围。
+  2026-09-13 r1 三席设计齐后已实现，候选10c84238，review待两席终审；新建/打开/关闭双dirty保护、
+  保存结果/异步版本/点击choice复验及导出互斥已接入，含原生功能验证与五针负控；check6918、严格fast6430通过。
+  [回执](../../../testing/editor-leave-guard.md)保留最后自审返工及边界；D-01撤销顺序随后独立处理，不并入A-03已验收范围。
 
 以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。
 

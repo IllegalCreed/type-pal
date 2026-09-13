@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-12T17:28:01.533Z",
+  "generatedAt": "2026-09-13T01:29:53.727Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 613,
-  "testCount": 6385,
+  "sourceFileCount": 616,
+  "testCount": 6430,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2580,7 +2580,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 215,
+      "sourceFileCount": 218,
       "sourceFiles": [
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
@@ -2638,6 +2638,7 @@
         "packages/editor/src/core/project-copy-source.ts",
         "packages/editor/src/core/project-diagnostics.ts",
         "packages/editor/src/core/project-io.ts",
+        "packages/editor/src/core/project-leave-guard.ts",
         "packages/editor/src/core/project-read-lock.ts",
         "packages/editor/src/core/project-reference-adapters.ts",
         "packages/editor/src/core/project-reference.ts",
@@ -2729,6 +2730,7 @@
         "packages/editor/src/ui/PortraitEditor.tsx",
         "packages/editor/src/ui/PreviewCanvas.tsx",
         "packages/editor/src/ui/ProjectAudioPreviewButton.tsx",
+        "packages/editor/src/ui/ProjectLeaveDialog.tsx",
         "packages/editor/src/ui/ProjectPicker.tsx",
         "packages/editor/src/ui/ProjectSaveDialog.tsx",
         "packages/editor/src/ui/ProjectWorkbenchTab.tsx",
@@ -2796,12 +2798,13 @@
         "packages/editor/src/ui/session-selector.ts",
         "packages/editor/src/ui/stamp-placement-overlay.ts",
         "packages/editor/src/ui/stamp-placement-selection-overlay.ts",
+        "packages/editor/src/ui/use-project-leave-guard.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "c1afcebc42481e3872ab9af692b8c6764930f6463b91348f095e16aed39a9519",
+      "scopeDigest": "95a516e2bde2ebbe48268e1243932a1d074993d1b4cd3fab7fd69a4c483c5e6f",
       "fastTests": {
-        "testCount": 2146,
-        "testFileCount": 205,
+        "testCount": 2191,
+        "testFileCount": 207,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -2856,6 +2859,7 @@
           "packages/editor/src/core/project-diagnostics.test.ts",
           "packages/editor/src/core/project-io-admission.test.ts",
           "packages/editor/src/core/project-io.test.ts",
+          "packages/editor/src/core/project-leave-guard.test.ts",
           "packages/editor/src/core/project-open-workflows.test.ts",
           "packages/editor/src/core/project-read-admission.test.ts",
           "packages/editor/src/core/project-reference-adapters.test.ts",
@@ -2910,6 +2914,7 @@
           "packages/editor/src/ui/ActorMode.test.tsx",
           "packages/editor/src/ui/AmbienceScenePreview.test.tsx",
           "packages/editor/src/ui/AmbienceTab.test.tsx",
+          "packages/editor/src/ui/App.leave-guard.test.tsx",
           "packages/editor/src/ui/App.reference-navigation.test.tsx",
           "packages/editor/src/ui/AssetInspectorTabs.test.tsx",
           "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
@@ -3276,6 +3281,11 @@
             "identityDigest": "cfca2477f01bfb375b2b9b5a5c8ab49ecf9a185f0af5276736274d2a46130e64"
           },
           {
+            "file": "packages/editor/src/core/project-leave-guard.test.ts",
+            "testCount": 18,
+            "identityDigest": "2434bcaec6d4460bef6aa36f88cbe9821c2d2b27c4f2e3f9889632c35d5d72c1"
+          },
+          {
             "file": "packages/editor/src/core/project-open-workflows.test.ts",
             "testCount": 13,
             "identityDigest": "0f6cd85953ec74388fc7fa939b277894c4865fcc0774850a6ad720726a574294"
@@ -3544,6 +3554,11 @@
             "file": "packages/editor/src/ui/AmbienceTab.test.tsx",
             "testCount": 15,
             "identityDigest": "2db9adf898ca8410b1288b20c06fc8ebb0ce5c6abaaa05ef2c8b2db3c431d8e7"
+          },
+          {
+            "file": "packages/editor/src/ui/App.leave-guard.test.tsx",
+            "testCount": 27,
+            "identityDigest": "32c1c0c65770360de7141f231d4680a27d859cff0c081e823371c24954556aef"
           },
           {
             "file": "packages/editor/src/ui/App.reference-navigation.test.tsx",
@@ -4036,46 +4051,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "6dfde691176be7ef7f5576b21a734c495d751c94a61bf22fd237c754abf235af",
+        "identityDigest": "480b694622b823979a0f0420b7289929b871dfc185a7a106af9e6b38de236db4",
         "duplicateIdentityCount": 8,
-        "executionDigest": "f062bcb8a73800daf78a138ed1db0838ae423abd8fb7c55b3d1a804567844d91"
+        "executionDigest": "82d7e2390df3d40531c04c48888db3f9be8571986caa70d5d0b8f7ce58b2fad0"
       },
       "metrics": {
         "statements": {
-          "covered": 24199,
-          "total": 31537
+          "covered": 24437,
+          "total": 31683
         },
         "branches": {
-          "covered": 18701,
-          "total": 27252
+          "covered": 18906,
+          "total": 27391
         },
         "functions": {
-          "covered": 6000,
-          "total": 7996
+          "covered": 6050,
+          "total": 8029
         },
         "lines": {
-          "covered": 21829,
-          "total": 27580
+          "covered": 22034,
+          "total": 27695
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 53083,
-      "total": 78549
+      "covered": 53321,
+      "total": 78695
     },
     "branches": {
-      "covered": 38005,
-      "total": 61633
+      "covered": 38210,
+      "total": 61772
     },
     "functions": {
-      "covered": 10033,
-      "total": 14397
+      "covered": 10083,
+      "total": 14430
     },
     "lines": {
-      "covered": 47935,
-      "total": 68763
+      "covered": 48140,
+      "total": 68878
     }
   }
 }
