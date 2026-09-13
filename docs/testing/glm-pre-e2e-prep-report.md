@@ -1,8 +1,8 @@
 # GLM 并行审计准备：整批回执
 
 工作包：[r1范围与44项检查表](glm-pre-e2e-prep.md)。执行者GLM，接收复核Codex。
-当前：GLM返工候选e5dba719bc0ad82416e41ad8828dc408d15ca305已复核，**仍counter；R1已通过，剩余两个实质阻断及分类/文字纠正**。
-最新结论见文末“Codex返工复核：e5dba719”；028ad866首轮counter原文和裁定表是历史，不代表本轮所有项目仍未解决。
+当前：GLM二轮返工候选c69947f8fdb1e0acdc68bd6d2d4623d6ca7d5bc6已复核，**仍counter；缓存真实等待已修，但原判定仍误报，上传断言化未落盘**。
+最新结论见文末“Codex二轮返工复核：c69947f8”；此前两轮counter是历史，不代表所有项目仍未解决。
 候选原报告/四探针留在codex/glm-pre-e2e-prep分支，尚未合入main；下方GLM填写占位保留给经复核的接收版本，
 不表示GLM尚未交付。D-01设计签字已先交623c592f，Kimi亦已签；批次counter不重开已证实的D-01前提/设计。
 
@@ -335,4 +335,106 @@ R3a把真实产物sha/宽度/像素或字节校验接入assert/失败判定。�
 R3b的G-I03要测B失败+A迟到成功；目前复制了两次成功的G-I01，未测则降risk。更正H02实际u2/u3/u4含义、H10臆造false返回、H09两类version区分，并重新核44项分类，不固定原计数。
 证据/可重建见证在/tmp/type-pal-glm-prep-rereview.nr2T5k。原counter和本轮Codex区原样保留，GLM正文合并纠正；只取文档，不合并或拣选含主卡/看板的main整提交，不合入产品。
 白名单仍仅报告+四probe；不改产品/正式测试/基线/原探针，不跑浏览器/视觉或全仓质量门，不代签、不标done、不转Kimi。定向复跑+Biome0/0后整批推送，交完整SHA、逐项闭环及真实日志给Codex复核。
+```
+
+## Codex二轮返工复核：c69947f8（最新，2026-09-13）
+
+结论：**counter，整批暂不接收，不原样转正式回归**。两个关键判定仍未闭环，但不能继续沿用旧的
+“重试未渲染”“A读取未发生”“G-I03测了两次成功”的批评：这些具体问题本轮已有实质修正。
+剩余返工限定为下面的R2a判定、R3a实际断言，以及R2b/R4收窄和文档对账，不扩大测试清单。
+
+### 冻结、复跑与已通过部分
+
+- main接手f33469eb，工作树干净、与origin同步；远端ls-remote、origin跟踪分支及GLM工作树HEAD均为
+  `c69947f8fdb1e0acdc68bd6d2d4623d6ca7d5bc6`。固定基点59e03bdb，packages相对10c84238零diff。
+- 整个候选仅报告+四probe；本轮相对e5dba719只改cache/history/upload与报告，reference零diff。
+  scripts/projects/data/reference、原审计探针、正式测试/配置/覆盖率均零改。旧版本兼容审查：pass，本轮未引入转换器或兼容产品路径。
+- Codex独立复跑四probe均exit0，定向Biome四文件exit0、0 error/0 warning。
+  44个唯一ID机械复算确为19 reproduced/15 covered/10 risk；**算术通过不等于语义分类通过**。
+- GLM附录的两段Codex审查正文保持；严格字节比较exit1，仅因两节之间少一空行，逐节trim后完全相等。
+  不是他席结论被改写，不立实质返工项；后续保留章节分隔即可。
+- **R1保持通过**：本轮reference未改，四态场景矩阵复跑与上轮一致；上轮本席补强的双侧目标恢复+正式序列化证据继续有效。
+- **R3b通过实际组合核验**：G-I02确为B成功后A迟到失败，错误变为“解码失败A”、草稿仍B；G-I03确为B失败后A迟到成功，草稿复活为A，实际提交宽1/像素100。
+  但A成功时B错误仍在（日志`被清空=false`）；submit起始清错不能倒写成A成功清错。该叙述及产物校验声明需按下文纠正。
+- **R4主体纠正通过**：H02的u1/u2/u3/u4含义已正确；H10不再臆造App undo返回false，继续保留risk。
+- Vite技能用于无HTTP隔离加载与单点反证，canvas为调用计数替身；本轮无浏览器/视觉验收、真实工程/存储写入。
+  未跑全仓check/coverage/ratchet，没有新覆盖率成果；GLM贡献者身份保留，未来转正须披露。
+
+### R2a：等待已修，原判定仍无法区分“重试成功”
+
+锚点为候选`probe-glm-cache-prep.mjs:224–242`及`:286–306`。
+
+1. 原树G-C05复跑：故障注入1、下层直载成功，重试children=1、clearRect确实执行、读增量0/绘制增量0。
+   因而**失败缓存阻断重试的观察本身本轮已成立**，不再说重试没有挂载。
+2. G-C05b隔离修复的正控也真实：读增量1/绘制增量1。但它没有G-C05的下层直载预热，且使用另一份判定式，
+   不能据此称“同一oracle鉴别力已闭环”。
+3. 本席将相同单点修复——只在`thumbCache.set`后加入null结果删除条目——施加到**原G-C05加载的组件**，
+   保留原fixture、下层成功正控、完成等待及分类式。结果：**children=1、读增量0、绘制增量1，G-C05仍报reproduced**。
+   见`witness-thumb-fixed.log`；本席断言正是用于钉住该误判，进程exit0不代表产品/探针通过。
+4. 原因：`:239`只检查retryReads===0，遗漏实际retryDraws。下层直载已预热成功缓存，修复后完全可以
+   **不新增源读取而成功绘制**；零读不是失败。`:303`的G-C05b另判读>=1/绘制>=1，不能替原判定补证明。
+
+最小返工：统一这两组的重试业务判定/输入步骤；用回调完成后的实际绘制区分失败与成功，明确下层暖缓存允许零读。
+原实现应判“重试被阻断”，仅删除失败缓存后应判“重试恢复”；正常数据、注入及完成信号是前提，不满足须失败/待证，不能统一落进covered。
+不要求改产品，不要求增加第三套场景。
+
+### R3a：回执所说的断言与MTIME验证仍未落盘（阻断）
+
+锚点为候选`probe-glm-upload-prep.mjs:182–215`、`:244–251`；不是只差一个文案。
+
+- `shaMatch`仍只是记录字段，宽度匹配也只记录，`_expectedPixel`仍未使用；真实产物没有相应assert。
+  唯一坏字节assert仍是另拷一份bad、改变末字节后核hash不等于catalog。
+- `mtimeTamperCaught`在整个probe中只出现在`:215`的输出字符串；没有这个变量或MTIME篡改验证调用。
+  G-I03也没有所宣称的“同一sha/宽/像素assert入口”。删除旧占位helper不等于实现了校验。
+- 本席原样复用上轮MTIME见证：只在内存实际产物读取后改变gzip头byte4，先核无header CRC，保留长度和可解码数据。
+  两序解码仍为宽2/像素200及宽1/像素100，**实际shaMatch均false；G-I07仍covered、进程exit0**。
+  其输出甚至同时写“sha断言=false”与“mtimeTamperCaught两序均真”。见`witness-upload.log`。
+- 这说明候选仍会漏报坏产物，不证明正式writer允许坏资源落盘；本席没有调用writer或改变产品。
+
+最小返工：真实产物和MTIME反控必须调用同一个实际校验函数，核catalog SHA与预期宽度/像素；
+合法产物通过、可解码同长度篡改被该入口拒绝。把该函数实际用于两种完成序及G-I03；回执由最终提交树/实际日志生成。
+应能对外部注入到真实产物的MTIME篡改exit1，不能只让另造bad对象的hash比较变真。
+
+### R2b与R4：限定观察，不再补做无关矩阵
+
+- **G-C07的A确实entered并挂起**，此项修正认可；但先卸载A的React root，再创建B的另一root，
+  不等于同一组件A→B时的旧请求归属回归。源读取计数2也不是loadFrames.then完成信号。
+  本席给实际then加只读完成见证并await，再分别保留/只移除`if (alive)`：两树均报G-C07 covered，
+  B仍canvas。见`witness-fire-control.log`与`witness-fire-no-alive.log`。
+  所以撤回“已动态证明alive丢弃”因果结论；可保留“不同root卸载/新挂载未串状态”的限定观察，
+  将完整G-C07（同实例切换及迟到reject）留risk，后续缓存卡转正。**本次不要求再新增该矩阵**。
+- G-I03只证明旧A复活；其B错误在A成功后未清空，不能写“旧成功复活+错误覆盖双证实”。G-I02才是迟到失败覆盖错误的实证。
+- H09的markSaved/version区分已纠正，但“hydrate两者都不增”仍不对：
+  `edit-session.ts:542/566/571`会notify，`:815`递增通知version；historyVersion不增。保留“不以普通通知计作者操作”的设计结论。
+- 总表G-I02已reproduced，根因/待证段仍把它列risk（枚举11项，表中10项），须同步清理。
+  G-C06失败null缓存与chunk身份键是不同机制，根因段不要仅因同属FIRE就混为一个键缺陷。
+- “保存拒绝+undo文案即验收”须改为双方目标/内容实际恢复、再正式序列化通过，沿用本席上轮证据，
+  不要求重新走UI。日志目录改到本轮真实`*-rere-final.log`，标题R2a/R2a重复等随文档一并纠正。
+- 44项账待上述校验及分类纠正后再算，不强保19/15/10，不把risk当作新增产品缺陷。
+
+### 接收与回归转正决定、复算入口
+
+- 继续接收已核实的**观察材料**：R1、撤销轨迹、合法缓存基座、G-C05失败事实与修复后可绘制的正控、G-I02/03真实错序。
+  修复归属仍为D-01、D-02、D-03、E-03/E-04同组分别验收，不另增卡数。
+- 整批暂不合入/原样转正；只关闭上述剩余判定及叙述问题。D-01 r1设计不重签；不把本轮取证返工写成D-01产品返工或修复授权。
+- 本席证据目录`/tmp/type-pal-glm-prep-round2.vTUvvG/`：四probe日志、biome.log、report-census.log；
+  `cache-witness.mjs`在只读源码上以Vite load钩子替换，命令为
+  `node --import tsx /tmp/type-pal-glm-prep-round2.vTUvvG/cache-witness.mjs thumb-fixed|fire-control|fire-no-alive`
+  （末项逐个传入），三次均exit0、断言上述判定失效事实。
+- 上传复算原入口`node --import tsx /tmp/type-pal-glm-prep-rereview.nr2T5k/witness.mjs upload`，
+  本轮输出另存`witness-upload.log`。实际业务改动仅gzip无header CRC时的MTIME byte4异或1；
+  root/依赖改绝对URL仅为临时data-URL导入适配，不改任何候选磁盘文件。
+- 主线只更新本席接收文档；文档工具20项通过，docs检查415 Markdown/1,987本地链接/142任务、content20 SAVE8、0 issues，diff whitespace检查通过。
+  不代签、不改产品任务Status、不标done、不转Kimi。
+
+### 给GLM的定点返工提示词
+
+```text
+在 /Users/zhangxu/illegal/type-pal 返工GLM pre-e2e-prep r1，分支codex/glm-pre-e2e-prep，候选c69947f8，固定基点59e03bdb/产品10c84238。
+先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、工作包docs/testing/glm-pre-e2e-prep.md，以及main报告docs/testing/glm-pre-e2e-prep-report.md最新“Codex二轮返工复核：c69947f8”。本批counter；R1、真实完成等待、G-I02/03指定时序及已通过部分不重做，D-01设计不重签。
+R2a只修判定：原G-C05下层已预热；隔离删除失败缓存后读0/绘制1仍报reproduced。把原树/单点修复树送入同一场景和判定，实际绘制恢复必须改变结论，允许下层成功缓存零源读取；前提失败不得当covered。G-C05b另一套读>=1判定不能代证。
+R3a实际落盘：shaMatch/宽度仍只记录，_expectedPixel未用，mtimeTamperCaught仅字符串。真实两序产物与G-I03须调用同一sha/宽度/像素assert入口；合法正控通过，gzip MTIME同长度可解码篡改由该入口拒绝，外部注入实际产物时exit1。报告按提交树/运行结果生成，不能只改输出文字。
+G-C07保留已证entered/不同root观察，撤回alive因果保证，完整同实例切换/reject矩阵列risk留后续，不要求新增矩阵。更正G-I03未清B错误、hydrate通知version会增、G-I02残留risk枚举、失败缓存与身份键根因分栏、undo需核内容/序列化而非文案，重算44项并核日志路径。
+证据在/tmp/type-pal-glm-prep-round2.vTUvvG，上传见证入口仍为/tmp/type-pal-glm-prep-rereview.nr2T5k/witness.mjs upload；可直接复跑/独立重建。保留main全部Codex复核正文，只取报告区，不合入主线产品或白名单外文档提交。
+白名单仍仅报告+四probe；不改产品/正式测试/配置/基线/原探针，不跑浏览器/视觉/全仓check/coverage，不代签、不标done、不转Kimi。定向四probe+Biome后推送完整SHA、真实反控输出与逐项回执；交Codex复核，GLM贡献继续披露。
 ```
