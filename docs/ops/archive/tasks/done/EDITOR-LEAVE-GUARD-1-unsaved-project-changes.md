@@ -1,6 +1,6 @@
 # EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护
 
-Status: review
+Status: done
 Phase: phase2
 Capability: ops（审计 A-07 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,10 +10,11 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1（2026-09-13，三席终审 accept，待用户确认验收；设计不重签）
+Revision: r1（2026-09-13，三席终审 accept，用户授权继续，Codex 收口归档）
 Evidence Baseline: fa8d4e52
 Implementation Baseline: d46d63fa
 Implementation Candidate: 10c84238（产品/测试；生成覆盖率基线与回执随后落盘）
+Closed: 2026-09-13（用户在仅待验收确认的上下文回复“继续推进”，授权按既有验证收口；不记作手动复验）
 
 ## 当前结论与目标
 
@@ -26,10 +27,11 @@ Implementation Candidate: 10c84238（产品/测试；生成覆盖率基线与回
 
 2026-09-13 Codex 接收 GLM 11d6026b / Kimi 2d8e56d0 终审：三席均对10c84238签accept，无返工项；
 接手 main/origin 同为2d8e56d0、工作树净，候选后 packages 零 diff，两席只更新本卡。
-[实现与验证回执](../../testing/editor-leave-guard.md)记录原生操作、LG矩阵、五组负控制及自审返工；
+[实现与验证回执](../../../../testing/editor-leave-guard.md)记录原生操作、LG矩阵、五组负控制及自审返工；
 check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
-当前仅待用户确认验收，Status保持review；用户本次“签了”记录为两席终审完成，不擅自登记其手动复验或扩大旧卡免验裁决。
-无需再转发审查提示词或重签设计；D-01/完整E2E仍未完成。
+随后用户在仅待验收确认的上下文回复“继续推进”，本卡按已有功能验证授权收口；Codex在9fd32674核工作树净、
+main/origin同步、候选后packages零漂移，推进done并归档。不把此前“签了”倒记为手动复验，也不外推为未来任务免签。
+本卡无需再转发审查提示词、重签设计或重复验收；D-01/完整E2E仍未完成。
 
 ## 范围
 
@@ -52,9 +54,9 @@ check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
 
 | 维度 | 真值 / 目标 | 直接证据 |
 |---|---|---|
-| 原版 / primary source | 原版没有本创作编辑器；产品一手合同要求未保存离开/关闭需阻止或确认。目录选择需要用户激活；unload 只有浏览器确认机制，不能依赖异步保存完成 | [设计规范](../../phase2/specs/editor-design-system.md) DS-I.3，行 919–927；[FSA 草案](https://wicg.github.io/file-system-access/)，§3.1；[HTML BeforeUnloadEvent](https://html.spec.whatwg.org/multipage/nav-history-apis.html#the-beforeunloadevent-interface) |
-| 第一阶段 | N/A：第一阶段为游戏运行时，无对应作者项目双会话/目录切换；不套玩家存档或退出游戏 UI | [CLAUDE](../../../CLAUDE.md) 阶段边界；[知识采集](../../phase2/reference/phase1-knowledge-harvest.md) X9 是运行态存档归一化，不是本卡的编辑器离开合同 |
-| 当前二阶段 | 已有双 dirty；新建直接回 picker；打开成功直接 onOpened；Root 创建新两 session 并增加 mount 身份；保存自己捕获错误且返回 void，不能 await 完成就认定保存成功 | [App](../../../packages/editor/src/ui/App.tsx) 行 430、2066–2189、2192–2205、2260–2281；[Root](../../../packages/editor/src/main.tsx) 行 158–176、191–202；[pickDir](../../../packages/editor/src/core/open-actions.ts) 行 75–84 |
+| 原版 / primary source | 原版没有本创作编辑器；产品一手合同要求未保存离开/关闭需阻止或确认。目录选择需要用户激活；unload 只有浏览器确认机制，不能依赖异步保存完成 | [设计规范](../../../../phase2/specs/editor-design-system.md) DS-I.3，行 919–927；[FSA 草案](https://wicg.github.io/file-system-access/)，§3.1；[HTML BeforeUnloadEvent](https://html.spec.whatwg.org/multipage/nav-history-apis.html#the-beforeunloadevent-interface) |
+| 第一阶段 | N/A：第一阶段为游戏运行时，无对应作者项目双会话/目录切换；不套玩家存档或退出游戏 UI | [CLAUDE](../../../../../CLAUDE.md) 阶段边界；[知识采集](../../../../phase2/reference/phase1-knowledge-harvest.md) X9 是运行态存档归一化，不是本卡的编辑器离开合同 |
+| 当前二阶段 | 已有双 dirty；新建直接回 picker；打开成功直接 onOpened；Root 创建新两 session 并增加 mount 身份；保存自己捕获错误且返回 void，不能 await 完成就认定保存成功 | [App](../../../../../packages/editor/src/ui/App.tsx) 行 430、2066–2189、2192–2205、2260–2281；[Root](../../../../../packages/editor/src/main.tsx) 行 158–176、191–202；[pickDir](../../../../../packages/editor/src/core/open-actions.ts) 行 75–84 |
 | 本任务目标 | 当前会话只有 clean、明确放弃本次修改、或成功保存且无更新修改时可被替换；失败/取消保留原会话；确认不跨修改版本复用 | 同一 DS-I.3 合同；本卡 LG-01～LG-10 为待验证目标，不冒称已实现 |
 
 ### 替代解释、反证及边界
@@ -65,7 +67,7 @@ check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
 - 何种观察推翻前提：真实“主编辑修改/仅脚本修改→新建或打开”调用已被现行共享守卫拒绝、确认或保留；
   若审查发现该路径，先更正前提，不叠第二道提示。
 - runtime/命令分类：dirty 已由 EditSession/ScriptEditSession 正式 dispatch/undo/redo 维护，不是运行态改动；
-  [EditSession](../../../packages/editor/src/core/edit-session.ts) 行 173–200、[ScriptEditSession](../../../packages/editor/src/core/script-editor.ts) 行 1321–1340。
+  [EditSession](../../../../../packages/editor/src/core/edit-session.ts) 行 173–200、[ScriptEditSession](../../../../../packages/editor/src/core/script-editor.ts) 行 1321–1340。
 - 原版/第一阶段理解：无同类编辑器 UX，按现行设计系统确认框合同；不据 sdlpal 推出任何产品行为。
 - 提取/地图/解码：离开入口只需两 session 与回调；不依赖 PAL 数据、地图中心、坏资源或迁移版本。
 - audit/test model：原 A-07 是调用链证据，不是假装已经浏览器复现；本轮再次核源码仍成立。
@@ -81,16 +83,16 @@ check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
 
 ## 上下文锚点
 
-- [AGENTS](../../../AGENTS.md)、[CLAUDE](../../../CLAUDE.md)、[READ-FIRST](../../phase2/READ-FIRST.md)：
+- [AGENTS](../../../../../AGENTS.md)、[CLAUDE](../../../../../CLAUDE.md)、[READ-FIRST](../../../../phase2/READ-FIRST.md)：
   当前 canonical、单 Coding Owner、功能视觉由 Codex 负责；不重开已完成 A-03。
-- [A-07 审计](../audits/pre-e2e/README.md#a-07--新建打开缺少未保存内容离开保护)、
-  [D-01 相邻问题](../audits/pre-e2e/editor-workflows.md#d-01--跨会话撤销没有统一的时间顺序)、
-  [A-03 验收边界](../../testing/editor-save-recovery-closeout.md)。
-- [App](../../../packages/editor/src/ui/App.tsx)：行 580–584 同步保存门；1922–1966 快捷键；
+- [A-07 审计](../../../audits/pre-e2e/README.md#a-07--新建打开缺少未保存内容离开保护)、
+  [D-01 相邻问题](../../../audits/pre-e2e/editor-workflows.md#d-01--跨会话撤销没有统一的时间顺序)、
+  [A-03 验收边界](../../../../testing/editor-save-recovery-closeout.md)。
+- [App](../../../../../packages/editor/src/ui/App.tsx)：行 580–584 同步保存门；1922–1966 快捷键；
   1989 入口失效早退；2166–2174 保存快照/dirty 保护；2207–2235 另存为；2477 编辑区 inert。
-- [DsDialog](../../../packages/editor/src/ui/design-system/overlays.tsx) 行 177–237：native modal、焦点归还、Esc；
-  [已有放弃草稿框](../../../packages/editor/src/ui/SpriteActionEditorDialog.tsx) 行 407–432；
-  [保存进度框](../../../packages/editor/src/ui/ProjectSaveDialog.tsx) 不可用 Esc 伪取消写盘。
+- [DsDialog](../../../../../packages/editor/src/ui/design-system/overlays.tsx) 行 177–237：native modal、焦点归还、Esc；
+  [已有放弃草稿框](../../../../../packages/editor/src/ui/SpriteActionEditorDialog.tsx) 行 407–432；
+  [保存进度框](../../../../../packages/editor/src/ui/ProjectSaveDialog.tsx) 不可用 Esc 伪取消写盘。
 - 不得重新引入 ScriptDrawer/旧作者脚本分片；不改历史协调器冒充已经解决 D-01。
 
 ## Draft：设计
@@ -326,7 +328,7 @@ check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
   在分母、强杀/未提交草稿不承诺、R4 集中链待执行、全仓 90/85 未达。无 counter。
 - counter / 返工：无；Codex 已于2026-09-13核两席均accept且钉同候选。
 - 缺签豁免：无。
-- done 准入结论：三席技术审查门已满足，无缺签豁免；按工作流尚待用户确认验收/授权收口，任务保持review，未标done。
+- done 准入结论：done allowed（2026-09-13 Codex核三席accept、零代码漂移、用户“继续推进”授权收口；无缺签豁免）。
 
 ## Build / Review / 视觉 / 用户验收
 
@@ -336,7 +338,7 @@ check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
   411 Markdown / 1,944 local links / 141 tasks / content20 SAVE8，零问题；完整产品 check/覆盖率未重跑（本轮无源码变更）。
 - Review：三席均accept，Codex已核定；没有内部子Agent代签。
 - 视觉：Codex dev-functional 已完成，见回执；不交由 GLM，也不让两席重复已有视觉流程。
-- 用户验收：终审已完成，待用户确认；可以依据Codex已有功能验证直接确认，不要求用户跑技术命令。若希望亲眼看，专用测试项目中改一个场景名→文件/打开→取消，
+- 用户验收：用户已授权按既有验证收口，未另跑手动复验。以下保留历史可选复验步骤，不再要求重做：专用测试项目中改一个场景名→文件/打开→取消，
   确认名称与未保存态仍在；再选择先保存→已保存→继续打开，取消选夹后仍留原项目。故障注入由 Codex 已测，不让用户代跑。
 - 资源生成/额度代班：N/A，无资源任务、无缺席代班。
 
@@ -395,15 +397,18 @@ check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
   只更新当前状态/看板/审计进度，不改两席签字或复跑既有原生流程；等待用户确认验收，再统一归档。
   口径澄清：Kimi“每个await点查isCurrent”按实际源码应理解为关键完成/提交与反馈边界，非每个await之后都有检查；
   以候选源码和本卡验收边界为准，不扩大为任意异步步骤均可取消的保证。
+- 2026-09-13 Codex 收口：用户“继续推进”承接仅待验收确认，按既有验证授权收口；三席签字保留，9fd32674
+  相对候选packages零diff。归档、同步索引/看板/审计与规范；只跑文档门禁，未重跑相同原生流程或代签。
+  D-01另卡先做前提复核/设计；本卡完成不扩张为其他缺陷实现授权。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，等待用户验收/收口。三席审查已完成，不再转发下方历史提示。
+无下一位 Agent 提示词，本卡已完成收口。下方提示均为历史，不再转发。
 
 ### 给 Codex（历史：汇总核定 done，技术门已核定）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-LEAVE-GUARD-1 收口，任务卡 docs/ops/tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review/r1，终审候选 10c84238（候选后 packages 零漂移）；r1 设计不重签。
+在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-LEAVE-GUARD-1 收口，任务卡 docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review/r1，终审候选 10c84238（候选后 packages 零漂移）；r1 设计不重签。
 先同步并检查工作树，读本卡 done 前三席签字与两席终审日志。现状：Codex（实现者自测）、Kimi（独立终审）、GLM（矩阵/覆盖席）三席 accept 均已落盘，无 counter、无返工项、无缺签豁免。
 请统一核定 done 准入：核对三席钉同一候选 10c84238，将任务推进 done，同步看板/索引/审计进度（A-07 可标修复）。
 收口时保留并转述限制：guard 分支 61/63 两臂留分母、强杀/未提交领域草稿不承诺、R4 综合链（主属性/脚本交替编辑→取消离开→保存→打开另项目→重开原项目核值）待集中执行、全仓 90/85 目标未达；D-01 按队列另卡，不借本收口推进。
@@ -414,7 +419,7 @@ check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-LEAVE-GUARD-1。
-任务卡 docs/ops/tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review，产品/测试候选10c84238，对比d46d63fa；r1不重签。
+任务卡 docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review，产品/测试候选10c84238，对比d46d63fa；r1不重签。
 先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/testing/editor-leave-guard.md。
 你负责独立代码/架构审查：真实新建/打开/另存回调、双 dirty、同步互斥、请求与修改版本/点击 choice、失败与清理警告、卸载和 beforeunload。
 重点复核 ceec744a 的旧 ready 点击误当 discard 两条先红及10c84238修复，重建 choice/revision 负控制；不要读取或复述 GLM 终审结论。
@@ -427,7 +432,7 @@ check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-LEAVE-GUARD-1。
-任务卡 docs/ops/tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review，产品/测试候选10c84238，对比d46d63fa；r1不重签。
+任务卡 docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review，产品/测试候选10c84238，对比d46d63fa；r1不重签。
 先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/testing/editor-leave-guard.md。
 你负责独立矩阵/覆盖审查：逐条核LG-01～10与成功正控，18 guard+27真实App+36既有保存冲突共81项，抽查五组单点业务负控制。
 重点核PAL取消、IO AbortError、cleanup warning、export互斥、discardRedo保守失效、真实保存重开和旧ready点击竞态；不要读取或复述Kimi终审结论。

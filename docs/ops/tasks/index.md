@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-HISTORY-ORDER-1 - 全局撤销顺序与成对操作完整性](EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -103,6 +103,7 @@
 | [ED-TEXT-OVERFLOW-1 - 编辑器文本截断与完整值披露合同](../archive/tasks/done/ED-TEXT-OVERFLOW-1-editor-text-overflow-and-reveal-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ED-WORKSPACE-ADOPTION-DEBT-1 - 编辑器旧工作区滚动壳真实采用清零](../archive/tasks/done/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [ED-WORLD-VARIABLES-1 - 世界变量定义表与作者工作台](../archive/tasks/done/ED-WORLD-VARIABLES-1-world-variable-workbench.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复](../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [JS1 - 酒神一生九次限用与移除(持久化计数器)](../archive/tasks/done/JS1-jiu-shen-nine-use-limit.md) | done | 完成证据、历史签字与交接见原卡。 |

@@ -21,12 +21,16 @@
   普通保存、打开、首存/另存、克隆、ZIP/试玩读门已接入恢复保护；原生API及[系统目录/界面主链](../../../testing/editor-save-recovery-native-ui.md)已补证。
   b7a56dd4另修复sandbox hint.source漏检。2026-09-13[最终实现收口](../../../testing/editor-save-recovery-closeout.md)已补OS目录整浏览器重启/撤权、退役旧作者保存链及必要回归，完整check6,873/严格fast6,385通过；Kimi/GLM终审accept，用户明确免手动复审并通过，Codex核候选零漂移后归档。A-03按约定范围已修复；保留约80–85秒大克隆成本与未覆盖防御分支，完整R4/E2E仍待集中执行。
 
-- [EDITOR-LEAVE-GUARD-1](../../tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) 承接 A-07：
-  2026-09-13 r1 三席设计齐后已实现，候选10c84238三席终审均accept、无返工，review仅待用户确认验收；新建/打开/关闭双dirty保护、
+- [EDITOR-LEAVE-GUARD-1](../../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) 承接 A-07：
+  2026-09-13 r1 三席设计齐后已实现，候选10c84238三席终审均accept、无返工，用户授权继续后已done归档；新建/打开/关闭双dirty保护、
   保存结果/异步版本/点击choice复验及导出互斥已接入，含原生功能验证与五针负控；check6918、严格fast6430通过。
   [回执](../../../testing/editor-leave-guard.md)保留最后自审返工及边界；D-01撤销顺序随后独立处理，不并入A-03已验收范围。
 
 以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。
+
+2026-09-13接续：[D-01全局历史卡](../../tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)处于draft/r1。
+当前代码复现普通交错错序与配对拆半；旧probe的save-state缺席适配与导入问题单独记录，不当成产品修复证据。
+用户要求更多GLM并行工作，已分配[44项只读取证](../../../testing/glm-pre-e2e-prep.md)，D-01签字先回、其余三组独立做完后由Codex审核；尚未授权任何新产品修复。
 
 ## 结论先说
 
