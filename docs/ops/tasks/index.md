@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [EDITOR-HISTORY-ORDER-1 - 全局撤销顺序与成对操作完整性](EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-HISTORY-ORDER-1 - 全局撤销顺序与成对操作完整性](EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

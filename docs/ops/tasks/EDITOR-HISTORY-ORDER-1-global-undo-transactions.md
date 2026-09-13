@@ -1,6 +1,6 @@
 # EDITOR-HISTORY-ORDER-1 - 全局撤销顺序与成对操作完整性
 
-Status: build
+Status: review
 Phase: phase2
 Capability: ops（审计 D-01 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,7 +10,7 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1（2026-09-13，三席前提/设计已签，Codex核定build准入）
+Revision: r1（设计签字保持；2026-09-13整卡候选70e3f627进入review）
 Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 
 ## 目标与范围
@@ -208,7 +208,13 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 
 ### 进入 done 前
 
-- Codex：pending。
+- Codex（2026-09-13）：**accept，候选70e3f627**。独立实现/接收复核、自测及功能界面验证完成，H-01～H-12证据见后文。
+  一手锚点：editor-history-coordinator.ts的commitNew/prepareEntry/commit唯一顺序与先准备后提交；
+  edit-session.ts/script-editor.ts的prepareHistoryChange失败不写索引；App统一Owner接线；Root主投影与canonical正文分离。
+  check6,981、ratchet及单次严格fast6,493通过；五针反控、GLM冻结树15绿/5红独立复算与20项接收勘误成立。
+  GLM为测试贡献者，不能凭本包自测当独立第三方验收；内部Codex只读补审也不占Kimi/GLM席位。
+  非本卡待修D-06/D-07有新旧证据，已登记且未宣称修复；原/GLM历史探针零diff，无content/reforge/migrate/生成项目/样式修改。
+  可证伪：任一合法交错仍错序、pair只撤半边、失败改变版本/内容/历史、新分支复活旧redo、重开遗漏正文、质量门降范围，均撤回accept。
 - Kimi：pending。
 - GLM：pending。
 - done 准入：blocked；无缺签豁免，不代签。
@@ -341,6 +347,11 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 
 ## 交接日志
 
+- 2026-09-13 Codex整卡交付：实现候选70e3f627，Status→review，本人accept；三席r1设计不重签，Kimi/GLM终审仍pending，不标done。
+  GLM工作流候选1f043a66经独立冻结树复算、修正P09等断言并适配当前Owner后接收20/20；连本轮其它回归新增49项。
+  完整check6,981、ratchet/严格fast6,493，最小原生OPFS+真实App保存重开通过，旧探针/产品白名单核对通过。
+  用户本轮明确“不转Kimi”，因此本次只完成接收/整卡自验证与review登记，不为测试包另起终审、不自动转交两席、不代签。
+  下一步待用户启动正卡终审；届时两席钉同一候选独立读取证据、直接落各自席位，贡献者身份照常披露。
 - 2026-09-13 Codex连续推进：用户明确要求做到整卡完成，不再按小批停。主线持续完成实现/质量门/功能验证到可终审，
   正式done仍按原三席终审与用户裁决，不代签。GLM可并行[20项配对工作流回归](../../testing/glm-editor-history-workflows.md)，
   冻结dded6f27产品，仅新增独立测试/回执；Codex独占核心、App与视觉，不等待测试包才能继续实施。
@@ -378,8 +389,10 @@ Evidence Baseline: 9fd32674（产品同10c84238；本轮仅文档推进）
 
 ## 下一位 Agent 提示词
 
-当前仍为build，由Codex同卡继续项目级日志/原子配对及App接线；不转终审、不要求用户验收这批技术切片。
-无新的跨Agent交接提示词。以下r1设计提示词已执行，仅为历史，不再次转发、不重签。
+本卡整卡实现与自验证已完成，review候选70e3f627；不是只完成GLM测试接收的技术切片。
+**本轮无下一位Agent提示词**：依用户本次明确要求“不转Kimi”，暂不发终审转交，也不代签/标done。
+待用户启动正卡终审后，按协议给两席同候选并行提示词；GLM测试贡献须披露，视觉证据由Codex负责。
+以下r1设计提示词已执行，仅为历史，不再次转发、不重签。
 
 ### Kimi（历史：D-01 r1设计审查，与GLM并行）
 
