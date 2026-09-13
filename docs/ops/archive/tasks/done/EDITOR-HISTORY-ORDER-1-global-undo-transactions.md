@@ -1,6 +1,6 @@
 # EDITOR-HISTORY-ORDER-1 - 全局撤销顺序与成对操作完整性
 
-Status: review
+Status: done
 Phase: phase2
 Capability: ops（审计 D-01 修复，不新增能力格）
 Coding Owner: Codex
@@ -10,7 +10,7 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
-Revision: r1（设计签字保持；候选70e3f627三席终审通过，待用户验收）
+Revision: r1（候选70e3f627三席accept；2026-09-13用户明确验收通过，已收口）
 Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡终审对比10c84238..70e3f627（含首批dded6f27）
 
 ## 目标与范围
@@ -23,7 +23,7 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
 - 范围外：持久化历史、跨浏览器 undo、D13 时间旅行、协同编辑、玩家存档、A-02/A-03 保存协议、
   D-02 引用补边、其他审计缺陷、schema/迁移、PAL生成文件、全仓 Command 重写或新历史面板。
 - 不改现有按钮尺寸/布局、文本输入自己的撤销；不增加拖拽/移动等无关交互。
-- GLM 并行工作见[工作包](../../testing/glm-pre-e2e-prep.md)：D-01 设计签字优先交回，其他三组只读取证可继续，
+- GLM 并行工作见[工作包](../../../../testing/glm-pre-e2e-prep.md)：D-01 设计签字优先交回，其他三组只读取证可继续，
   不因此授权提前改任何产品代码/正式测试，不拖住本卡已有准入流程。
 
 ## 前提真值门
@@ -33,15 +33,15 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
 
 | 维度 | 真值 / 目标 | 一手证据（行号据9fd32674） |
 |---|---|---|
-| 原版 / primary source | 原版无本创作编辑器；现行产品合同规定全局 undo/redo、一意图一笔、失败零写入、成功新编辑才清 redo | [设计规范](../../phase2/specs/editor-design-system.md) DS-I.2/4，行911、931–934；[编辑器会话](../../../packages/editor/src/core/edit-session.ts) 行1–11 |
-| 第一阶段 | N/A：一阶段游戏进度/菜单不是作者编辑历史，不能拿玩家存档或旧引擎流程定义本卡 | [CLAUDE](../../../CLAUDE.md) 阶段边界；[READ-FIRST](../../phase2/READ-FIRST.md) 新编辑器架构与无对应UX边界 |
-| 当前二阶段 | 最后通知归属会被undo改写；配对失败转单栈；丢失的正文可被保存合并静默跳过 | [App](../../../packages/editor/src/ui/App.tsx) 行1605–1660；[协调器](../../../packages/editor/src/core/editor-history-coordinator.ts) 行22–88；[保存投影](../../../packages/editor/src/core/script-editor-projection.ts) 行88–116/187–199 |
+| 原版 / primary source | 原版无本创作编辑器；现行产品合同规定全局 undo/redo、一意图一笔、失败零写入、成功新编辑才清 redo | [设计规范](../../../../phase2/specs/editor-design-system.md) DS-I.2/4，行911、931–934；[编辑器会话](../../../../../packages/editor/src/core/edit-session.ts) 行1–11 |
+| 第一阶段 | N/A：一阶段游戏进度/菜单不是作者编辑历史，不能拿玩家存档或旧引擎流程定义本卡 | [CLAUDE](../../../../../CLAUDE.md) 阶段边界；[READ-FIRST](../../../../phase2/READ-FIRST.md) 新编辑器架构与无对应UX边界 |
+| 当前二阶段 | 最后通知归属会被undo改写；配对失败转单栈；丢失的正文可被保存合并静默跳过 | [App](../../../../../packages/editor/src/ui/App.tsx) 行1605–1660；[协调器](../../../../../packages/editor/src/core/editor-history-coordinator.ts) 行22–88；[保存投影](../../../../../packages/editor/src/core/script-editor-projection.ts) 行88–116/187–199 |
 | 本任务目标 | 单一项目级操作时间线决定全局undo/redo，配对为一个提交；失败不产生半状态；保存不抹平缺正文错误 | 本卡H-01～H-12验收目标；不声称已经实现 |
 
 ### 当前复核与可证伪观察
 
-- 已直接重读[原审计](../audits/pre-e2e/editor-workflows.md#d-01--跨会话撤销没有统一的时间顺序)及其全部
-  [原探针](../audits/pre-e2e/probe-editor-history.mjs)，本轮原文件与产品零改动。
+- 已直接重读[原审计](../../../audits/pre-e2e/editor-workflows.md#d-01--跨会话撤销没有统一的时间顺序)及其全部
+  [原探针](../../../audits/pre-e2e/probe-editor-history.mjs)，本轮原文件与产品零改动。
 - 原探针直接跑先在 `.type-pal/save-state.json` 缺席处失败：旧内存 FileSource 抛通用 assertion，
   不符合当前 loader 的 NotFoundError 合同。该失败不是“D-01已修”的证据。
 - `/tmp/type-pal-history-draft.zKSHBp/reprobe.mjs` 仅将导入/root改为可从临时入口解析的绝对URL，并令
@@ -63,16 +63,16 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
 
 ## 上下文锚点
 
-- [AGENTS](../../../AGENTS.md)、[READ-FIRST](../../phase2/READ-FIRST.md)、[项目生命周期](../../phase2/specs/project-lifecycle.md)：
+- [AGENTS](../../../../../AGENTS.md)、[READ-FIRST](../../../../phase2/READ-FIRST.md)、[项目生命周期](../../../../phase2/specs/project-lifecycle.md)：
   当前canonical、不可变command、单Coding Owner、已完成A-07保护不得回退；不开历史版本兼容分支。
-- [EditSession](../../../packages/editor/src/core/edit-session.ts) 行190–318：dispatch/undo/redo、
-  transaction receipt、map dirty/pin/revision/reference缓存；[ScriptEditSession](../../../packages/editor/src/core/script-editor.ts)
+- [EditSession](../../../../../packages/editor/src/core/edit-session.ts) 行190–318：dispatch/undo/redo、
+  transaction receipt、map dirty/pin/revision/reference缓存；[ScriptEditSession](../../../../../packages/editor/src/core/script-editor.ts)
   行1368–1457：状态、历史、affectedRecordsByVersion与回滚。
-- [Root](../../../packages/editor/src/main.tsx) 行122–147/158–176：装配新双session后才挂App；
+- [Root](../../../../../packages/editor/src/main.tsx) 行122–147/158–176：装配新双session后才挂App；
   App当前用useMemo创建协调器，必须考虑StrictMode和卸载/重连，不能在render遗留第二个订阅Owner。
-- [ItemTab](../../../packages/editor/src/ui/ItemTab.tsx) 行1016–1036/1150–1179：创建/删除私有脚本配对；
+- [ItemTab](../../../../../packages/editor/src/ui/ItemTab.tsx) 行1016–1036/1150–1179：创建/删除私有脚本配对；
   App行1785–1817/1893–1904/2057：场景复制/创建/删除、实体增删配对。GLM须完整census，不只复制这些例子。
-- [派生索引](../../../packages/editor/src/core/editor-derived-store.ts)、[离开守卫](../../../packages/editor/src/core/project-leave-guard.ts)：
+- [派生索引](../../../../../packages/editor/src/core/editor-derived-store.ts)、[离开守卫](../../../../../packages/editor/src/core/project-leave-guard.ts)：
   使用historyVersion/affected records观察变化；不得因新增全局时间线而回退版本或误放行旧离开授权。
 - 既有 `editor-history-coordinator.test.ts` 4项只覆盖简单配对；同文件legacy变量指当前shell投影，
   不据变量名批量删当前ScriptRef。`__author-script-runtime`仍为合法内部lowering，不是旧文件分片回归许可。
@@ -287,24 +287,24 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
   旧 redo、保存漏正文、质量门缩范围，本 accept 撤回。旧版本兼容审查：**pass**——script-editor 旧
   dispatchForTransaction/rollback/isUndoTop 协议整删未并存，无版本分支/旧格式/升级器/fallback；旧
   coordinator 双顶检测被唯一日志取代而非保留旁路。本 accept 不代签、不授权 done。
-- Codex统一核定（2026-09-13）：三席均针对70e3f627签accept，无counter/返工项，无缺签豁免；**技术签字门通过**。
-  当前HEAD a4cd8c19相对候选的packages/scripts零diff，终审后无产品或基线漂移。
-  最终done仍待用户验收或明确授权收口，Status保持review；“签了”按本轮上下文确认两席终审落盘，不代替用户填写产品验收。
-  无需重新设计签字或再次转AI；用户可直接认可Codex已完成的界面实测，不必复跑技术命令。
+- Codex最终核定（2026-09-13）：三席均针对70e3f627签accept，无counter/返工项，无缺签豁免；**done准入allowed**。
+  用户在技术终审汇总与最小验收清单交付后明确回复“验收通过”，本卡Status→done并归档。
+  收口前HEAD e8170d0f相对候选的packages/scripts零diff，终审后无产品或基线漂移；不代签、不重新设计签字。
+  用户确认的是本卡验收结果，不推断其具体手工执行方式，也不外推为其他任务免签/免验收。
 
 ## 实现 / 视觉 / 用户验收
 
 - 2026-09-13取证接收阶段的历史边界：r1两席设计签字均已落盘（GLM623c592f、Kimi3f34c558），当时用户要求复核并行只读取证，
-  尚未启动产品实现。GLM批028ad866的R1～R4 counter见[批次接收报告](../../testing/glm-pre-e2e-prep-report.md)；
+  尚未启动产品实现。GLM批028ad866的R1～R4 counter见[批次接收报告](../../../../testing/glm-pre-e2e-prep-report.md)；
   该counter针对取证/分类质量，不改变本卡已核前提或已签方案，不要求重签设计。
 - 首批历史：保存静默丢正文、脚本历史失败丢项/no-op清redo的保护与14项正式回归先落地；当时尚未实施项目级日志。后续整卡实现见“最终实现与自验证”；没有版本/能力格状态修改。
 - Codex dev-functional已完成本卡最小闭环；无新UI形态设计，沿用既有控件，证据及边界见后文。
-- 技术终审已通过；用户验收待确认，最小可选检查见下。此前Codex界面实测和两席通过项保持有效，不要求重走整套验证。
+- 三席技术终审通过；用户于2026-09-13明确回复“验收通过”。此前Codex界面实测和两席结论保持有效，已完成归档准入，不要求重复验收。
 - 额度/资源生成：N/A，无缺席代班或生图。
 
-### 用户最小验收（可选约2分钟，无需技术命令）
+### 用户最小验收（历史清单，已验收通过）
 
-Codex已完成以下真实界面流程，用户可以直接认可该结果并授权收口；如希望自行检查，只核这一代表流程，不重跑三席技术审查。
+Codex已完成以下真实界面流程，用户随后明确验收通过。下列为交付时的可选代表检查，归档保留，不重新要求用户执行。
 
 1. 在本地测试项目进入“物品 → 物品”，选一个**已存在、尚无私有脚本**的物品（不要用本轮刚新建但未重开的物品，D-06另卡待修）。
    将买价设为10，启用使用能力，再点“添加当前物品脚本”。
@@ -381,7 +381,7 @@ Codex已完成以下真实界面流程，用户可以直接认可该结果并授
 
 ### GLM贡献与负控制
 
-- 接收远端1f043a66的20项测试包，非独立终审自证；[接收勘误](../../testing/glm-editor-history-workflows-receipt.md)
+- 接收远端1f043a66的20项测试包，非独立终审自证；[接收勘误](../../../../testing/glm-editor-history-workflows-receipt.md)
   记录P09错误终点、P10弱断言、P13/14条件断言、P16/17狭窄观察、P19缺undo步骤、P20静态证明过宽的修正。
   删除整文件ts-nocheck和旧fallback，P12/P20改raw导入；既有断言未删减以迁就实现。
 - Codex用Vite隔离加载git对象（原测试1f043a66、四个核心模块dded6f27）复算：恰15绿/5红，
@@ -411,10 +411,10 @@ Codex已完成以下真实界面流程，用户可以直接认可该结果并授
 - 过程失败如实分栏：初版浏览器指定版本不存在，改用已安装Chromium；脚本TTY长行截断后改临时文件；
   新项目沿用URL中的不存在item目标先显示目标不存在，按“打开当前页面”回正确页面；均未篡改产品来让自动化通过。
   早期开发中HMR重载打断任务目录，后来该目录恢复冲突，不能当本卡成功证据；最终停止产品编辑后新鲜目录完整重跑通过。
-  另发现新建物品未重开时canonical item缺席，已作为[D-06](../audits/pre-e2e/editor-workflows.md#d-06--新建物品后立即添加私有脚本缺少作者记录2026-09-13补充)单列待修，不以本次绕过宣称已修。
+  另发现新建物品未重开时canonical item缺席，已作为[D-06](../../../audits/pre-e2e/editor-workflows.md#d-06--新建物品后立即添加私有脚本缺少作者记录2026-09-13补充)单列待修，不以本次绕过宣称已修。
 - Codex内部只读补审（不是Kimi/GLM席位签字）未发现本卡阻断；指出共享ScriptId与内部私有前缀歧义，已由主线读取探针并复跑新旧树。
   正式loader均接受，旧树serialize已拒绝，当前更早被缺正文守卫拒绝，输入/作者IO不变，不是可保存输入回归；
-  已作为[D-07](../audits/pre-e2e/editor-workflows.md#d-07--共享scriptid与内部私有引用前缀相同时无法保存2026-09-13补充)待修，不冒称完整共享命名域已支持，也不扩大本卡为身份格式修改。
+  已作为[D-07](../../../audits/pre-e2e/editor-workflows.md#d-07--共享scriptid与内部私有引用前缀相同时无法保存2026-09-13补充)待修，不冒称完整共享命名域已支持，也不扩大本卡为身份格式修改。
 
 ### 质量门与计数
 
@@ -434,6 +434,12 @@ Codex已完成以下真实界面流程，用户可以直接认可该结果并授
 
 ## 交接日志
 
+- 2026-09-13 Codex正式收口：用户明确“验收通过”。接手fetch核main/origin一致、工作树干净，e8170d0f相对70e3f627的产品/测试/覆盖基线零diff；
+  三席accept、用户验收均齐，统一核定done allowed并将本卡移入done归档，同步引用、任务索引、看板、审计进度及覆盖说明。
+  本轮只改文档，不重跑已冻结候选的全仓/视觉流程；保留check6,981、严格fast6,493与GLM贡献披露。
+  D-06/D-07、R4集中创作/试玩链、全仓覆盖率最终目标继续留在原待办，不以D-01完成宣称整组审计或完整E2E完成。
+  归档采用仓内relocate工具（单卡移动、关联引用同步）；文档检查417 Markdown/2,001本地链接/142任务通过，文档工具20/20通过，git diff --check干净。
+  独立比较确认三席设计/终审原文除机械链接重定位外保持不变，候选packages/scripts零diff；未删除产品/测试或丢失历史任务。
 - 2026-09-13 Codex汇总终审：用户反馈“签了”；fetch核main/origin一致、工作树干净，最新a4cd8c19仅任务卡审查登记变化。
   Kimi与GLM均accept同候选70e3f627，前提/设计不重签；两席负控及GLM严格fast已分清本人复跑/采信证据，GLM20项贡献已披露。
   统一核定技术门通过，保留review待用户验收，不将签字回报写成用户已验收。已补可选最小界面清单，用户也可直接认可Codex实测。
@@ -468,7 +474,7 @@ Codex已完成以下真实界面流程，用户可以直接认可该结果并授
   用户本轮明确“不转Kimi”，因此本次只完成接收/整卡自验证与review登记，不为测试包另起终审、不自动转交两席、不代签。
   下一步待用户启动正卡终审；届时两席钉同一候选独立读取证据、直接落各自席位，贡献者身份照常披露。
 - 2026-09-13 Codex连续推进：用户明确要求做到整卡完成，不再按小批停。主线持续完成实现/质量门/功能验证到可终审，
-  正式done仍按原三席终审与用户裁决，不代签。GLM可并行[20项配对工作流回归](../../testing/glm-editor-history-workflows.md)，
+  正式done仍按原三席终审与用户裁决，不代签。GLM可并行[20项配对工作流回归](../../../../testing/glm-editor-history-workflows.md)，
   冻结dded6f27产品，仅新增独立测试/回执；Codex独占核心、App与视觉，不等待测试包才能继续实施。
 - 2026-09-13 Codex准入：用户要求继续，已核三席r1签字及取证接收树aa326f3f，Status→build；仅Codex改实现。
   本卡采用GLM取证材料但正式回归由Codex独立断言/验证，未来终审披露贡献；不重开已签设计。
@@ -476,7 +482,7 @@ Codex已完成以下真实界面流程，用户可以直接认可该结果并授
   未修改App/按钮样式、content/reforge/migrate、生成工程或原/GLM审计探针；视觉/全局日志与配对原子性待后续。
   下一步同Owner推进项目级历史，不请求用户验收技术切片、不转review、不标done。
 - 2026-09-13 Codex取证接收：GLM工作包最终11fb8148通过独立复核，报告/四诊断脚本已接入main；
-  [接收结论与正式回归节奏](../../testing/glm-pre-e2e-prep-report.md)披露GLM贡献与11项待证归属。
+  [接收结论与正式回归节奏](../../../../testing/glm-pre-e2e-prep-report.md)披露GLM贡献与11项待证归属。
   本卡优先将交错/配对、孤儿redo、失败保全、半态通知及缺正文保存转成正确性回归；G-H05/10/14在实施域补证。
   不重签r1设计、不代签、不改变Status/共享build准入，本轮仍未改产品或正式测试；下一步由Codex接续主线准入/实施。
 - 2026-09-13 Codex：A-07按用户“继续推进”收口，D-01接续；当前复跑普通/配对错误仍在，旧探针环境错与产品错分栏。
@@ -504,13 +510,13 @@ Codex已完成以下真实界面流程，用户可以直接认可该结果并授
 
 ## 下一位 Agent 提示词
 
-本卡整卡实现、自验证与两席终审均已完成，候选70e3f627未变，Codex已统一核定技术门通过。
-**无下一位Agent提示词，等待用户验收/收口。** 不再转AI签字；下列提示词均为已执行的历史记录。
+本卡实现、自验证、三席终审及用户验收均已完成，候选70e3f627未变，已done归档。
+**无下一位Agent提示词，本卡已收口。** 下列提示词均为已执行的历史记录，不重新授权实现、签字或验收。
 
-### 给 Codex（历史：汇总技术终审，已完成；最终归档仍待用户验收）
+### 给 Codex（历史：汇总技术终审与归档，已完成）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-HISTORY-ORDER-1 收口，任务卡 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，review/r1，终审候选 70e3f627（候选后 packages 零漂移）；r1 设计不重签。
+在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-HISTORY-ORDER-1 收口，任务卡 docs/ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，review/r1，终审候选 70e3f627（候选后 packages 零漂移）；r1 设计不重签。
 先同步并检查工作树，读本卡 done 前三席签字与终审日志。现状：Codex（实现者自验证）与 Kimi（独立整卡终审，签字提交 e7c364ad）已 accept；GLM 覆盖/矩阵终审落卡后，请统一核定：三席钉同一候选 70e3f627、无 counter/返工项/缺签豁免，将任务推进 done，同步看板/索引/审计进度（D-01 可标修复）。
 收口时保留并转述限制：全仓 90/85 未达、R4 综合链（物品买价与私有脚本交替、成对新增场景/实体、撤销到基线全部重做→保存→重开→试玩）待集中执行；D-06（新建物品作者记录生命周期）与 D-07（共享 ScriptId/私有前缀身份边界）为已登记 P2 待修，证据独立、非本卡回归，按队列另卡。
 不得代签任何一席、不把本收口扩张为其他审计缺陷的整组授权；用户验收按惯例另行进行。
@@ -520,7 +526,7 @@ Codex已完成以下真实界面流程，用户可以直接认可该结果并授
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-HISTORY-ORDER-1。
-任务卡 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，review/r1；设计签字不重签。
+任务卡 docs/ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，review/r1；设计签字不重签。
 固定实现候选70e3f62770bbe0a23c4b9d90c31258a3d2883772，整卡对比10c84238..70e3f627，包含首批dded6f27；后续只应有文档diff。
 先同步main并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡上下文/最终实现回执与最新日志。独立读取一手证据，不读取或复述GLM本轮终审结论。
 重点核唯一全局日志/事务ID、所有session入口路由、两侧prepare/validate/commit原子性、失败和订阅抛错、全局redo清理、地图元数据/affected记录、Root与StrictMode生命周期、App统一入口及文本/modal边界、保存缺正文拒绝与Root投影重开。
@@ -534,7 +540,7 @@ Codex已完成以下真实界面流程，用户可以直接认可该结果并授
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-HISTORY-ORDER-1 的测试矩阵与覆盖证据。
-任务卡 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，review/r1；设计签字不重签。
+任务卡 docs/ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，review/r1；设计签字不重签。
 固定实现候选70e3f62770bbe0a23c4b9d90c31258a3d2883772，整卡对比10c84238..70e3f627，包含首批dded6f27；后续只应有文档diff。
 先同步main并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡H-01～H-12/最终回执/最新日志及 docs/testing/glm-editor-history-workflows-receipt.md 的接收勘误。独立核源码与最终测试，不读取或复述Kimi本轮结论。
 本席贡献过20项配对测试，必须披露；不得把自己的测试自测包装成该部分独立第三方验收。重点核最终P09/P10/P13～P17/P19业务断言、七caller census的静/动边界，以及Codex timeline24/foundations14/App4/投影1与H矩阵的实际映射。
@@ -550,7 +556,7 @@ Codex已完成以下真实界面流程，用户可以直接认可该结果并授
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 审查 EDITOR-HISTORY-ORDER-1。
-任务卡 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，draft/r1，证据基线9fd32674，产品同10c84238。
+任务卡 docs/ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，draft/r1，证据基线9fd32674，产品同10c84238。
 先同步并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及其一手锚点。
 独立核M/S/M错序与P/M/S拆半、保存跳过缺正文；不要读取或复述GLM签字/批量结论。
 重点审唯一项目日志与两session关系、成功提交而非notify计序、失败原子性/redo分支、StrictMode绑定/已有栈边界、保存专用完整性守卫。
@@ -563,7 +569,7 @@ Codex已完成以下真实界面流程，用户可以直接认可该结果并授
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 执行 docs/testing/glm-pre-e2e-prep.md 的 r1 工作包（44项、四组，连续完成）。
-先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md和工作包；D-01卡为 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，draft/r1，产品冻结10c84238。
+先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md和工作包；D-01卡为 docs/ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，draft/r1，产品冻结10c84238。
 先独立完成D-01前提/矩阵设计审查，自己的premise/design签字与日志直接提交推送main；不要等其余三组做完，不读Kimi结论，不改状态或产品。
 随后按工作包从59e03bdb建立独立worktree与codex/glm-pre-e2e-prep分支，核产品对10c84238零漂移，连续完成引用删除、上传乱序、预览缓存的只读取证。
 只能改工作包白名单报告/诊断探针；不改packages、scripts、生成数据、正式测试、正式配置或覆盖率基线；不跑浏览器/截图/视觉/声音验收，不整仓check/coverage与Codex争抢资源。

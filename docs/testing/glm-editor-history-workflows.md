@@ -1,6 +1,6 @@
 # GLM 并行工作包：D-01 配对工作流正式回归
 
-Revision：r1，2026-09-13；主卡：[EDITOR-HISTORY-ORDER-1](../ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)，build，设计三签已齐不重签。
+Revision：r1，2026-09-13；主卡：[EDITOR-HISTORY-ORDER-1](../ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)已三席及用户验收通过、done归档。本包已交付接收，下文保留build期工作合同，不重新派发。
 Coding Owner：Codex；本包：GLM测试贡献。用户要求“推进直到整卡做完”，Codex不停在小批节点；本包不拖住主线实施。
 产品冻结：dded6f27。从**本工作包的交付提交**建立独立worktree/分支`codex/glm-history-workflow-tests`，完整起点SHA由交接提示词给出；
 不得从随后变化的main取证。产品/既有测试对dded6f27零diff；新源码由Codex在main独占修改。

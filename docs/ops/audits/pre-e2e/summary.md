@@ -28,14 +28,14 @@
 
 以下排期表与“修复尚未开始”等表述保留首轮只读审计时点，不覆盖本节修复进度。
 
-2026-09-13接续：[D-01全局历史卡](../../tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)已核三席r1设计并进入build。
+2026-09-13接续：[D-01全局历史卡](../../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)已核三席r1设计并进入build。
 当前代码复现普通交错错序与配对拆半；旧probe的save-state缺席适配与导入问题单独记录，不当成产品修复证据。
 用户要求更多GLM并行工作，已分配[44项只读取证](../../../testing/glm-pre-e2e-prep.md)，D-01签字先回、其余三组独立做完后由Codex审核；该取证工作包本身不是产品修复授权。
 
 用户在取证包接收后要求继续，D-01首批14回归后，整卡候选70e3f627已完成全局顺序、配对原子性、失败保全、Root/App接线及保存重开投影修复。
 整卡新增63项（首批14+本轮49）；完整check6,981、官方ratchet/单次严格fast6,493，五针反控与真实OPFS功能闭环通过。
 GLM 20项工作流经独立复核补强后接收，贡献身份披露；同候选70e3f627/r1的Codex/Kimi/GLM均accept，无返工。
-Codex已统一核定技术门通过，Status=review仅待用户验收/收口，不再转AI或重签设计；可选最小界面检查见任务卡，用户可直接认可已有Codex实测。
+2026-09-13用户明确“验收通过”，Codex已统一核定done并归档D-01；无需再转AI或重签设计。
 另发现的物品新建canonical缺席及共享ID前缀歧义已在[编辑器审计D-06/D-07](editor-workflows.md)登记，未扩大本卡或宣称修复。
 
 以下为该取证包的历史返工记录；当前11fb8148已接收，见本段末尾与[当前接收结论](../../../testing/glm-pre-e2e-prep-report.md)。

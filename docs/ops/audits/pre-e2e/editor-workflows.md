@@ -22,6 +22,10 @@
 
 ## D-01 · 跨会话撤销没有统一的时间顺序
 
+**修复状态（2026-09-13）：已完成。** [EDITOR-HISTORY-ORDER-1](../../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)
+候选70e3f627三席accept、用户明确验收通过；全局日志/原子配对/保存完整性与重开已验证，check6,981、严格fast6,493通过。
+以下保留首轮缺陷及取证时点；D-02～D-07与R4完整E2E不因本项完成而关闭。
+
 - `App.tsx:1576-1593`只有一个`historyOwnerRef`记录最近通知来自main还是script；undo/redo自身同样发通知。
   `:1610-1620`先尝试配对，否则优先撤该owner栈，不能判断两个栈顶哪个动作真正较新。
   `editor-history-coordinator.ts:38-45`只有配对两半同时在各自栈顶时才处理，返回false不能阻止App单独撤一半。

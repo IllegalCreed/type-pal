@@ -12,7 +12,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| [EDITOR-HISTORY-ORDER-1](tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | 全局撤销顺序与成对操作完整性（D-01） | review | 用户验收；Codex随后归档 | 同候选70e3f627三席accept、无返工；check6,981/严格fast6,493，可直接认可Codex界面实测，不再转AI签字 |
+
+当前无进行中的任务卡；D-01已完成，后续缺陷仍按审计总收口队列逐卡推进。
 
 ## 阻塞
 
@@ -24,7 +25,7 @@
 已修复，完整 `pnpm check` 通过；[B-04 存档预检修复](audits/pre-e2e/save-preflight-remediation.md)已三签收口。
 [编辑器覆盖率确定性修复](audits/pre-e2e/coverage-determinism.md)亦已三签收口；D-01整卡实现后当前fast为6,493项，覆盖率未下调；废弃源码和旧模型测试退役/迁移已单列记录，计数不代表完整E2E已通过。
 A-01 存档隔离已三席 accept、用户免复验通过并收口；证据入口见下方总收口。
-A-02 作者保存冲突保护亦已三席及用户验收通过并收口；A-03 [保存中断恢复](../testing/editor-save-recovery-closeout.md)候选cd3de679已三席accept，用户免手动复审通过，已归档。已测大克隆成本与完整E2E待办仍保留；A-07[离开保护](../testing/editor-leave-guard.md)三席终审通过，用户授权继续，已收口；D-01撤销顺序三席终审已通过，review仅待用户验收/收口。
+A-02 作者保存冲突保护亦已三席及用户验收通过并收口；A-03 [保存中断恢复](../testing/editor-save-recovery-closeout.md)候选cd3de679已三席accept，用户免手动复审通过，已归档。已测大克隆成本与完整E2E待办仍保留；A-07[离开保护](../testing/editor-leave-guard.md)三席终审通过，用户授权继续，已收口；D-01全局撤销顺序候选70e3f627已三席accept，用户明确验收通过，已done归档。
 接下来按总收口处理其余审计缺陷并补回归/覆盖率，
 然后进入 R4 content20 薄基线 → N6b content21 → 完整 E2E。
 修复分组见[总收口](audits/pre-e2e/summary.md)；U-02 待证，第一阶段缺陷与可后置优化分别保留。

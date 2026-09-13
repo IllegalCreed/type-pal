@@ -3,7 +3,7 @@
 Revision：r1，2026-09-13。分配者/接收复核：Codex；执行：GLM。
 产品冻结：10c84238（本包创建时9fd32674之后只做文档收口/开卡，packages相同）。
 取证分支固定起点：59e03bdb（已包含本包r1与D-01设计卡；不要从随后前进的活跃产品树取证）。
-关联主线：[D-01任务卡](../ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)。
+关联主线：[D-01任务卡](../ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)。
 产出：[整批报告](glm-pre-e2e-prep-report.md)。用户明确要求“多给一些glm能并行处理的工作”。
 
 接收状态（2026-09-13）：收尾候选11fb8148经Codex独立复核accept，前提守卫及机械对账已闭环；报告与四诊断脚本接入main，见整批报告最新Codex区。
@@ -162,7 +162,7 @@ G-H为D-01设计阶段输入，不直接约定新实现的私有API；其他组�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 执行 docs/testing/glm-pre-e2e-prep.md 的 r1 工作包（44项、四组，连续完成）。
-先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md和工作包；D-01卡为 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，draft/r1，产品冻结10c84238。
+先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md和工作包；D-01卡为 docs/ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，draft/r1，产品冻结10c84238。
 先独立完成D-01前提/矩阵设计审查，自己的premise/design签字与日志直接提交推送main；不要等其余三组做完，不读Kimi结论，不改状态或产品。
 随后按工作包从59e03bdb建立独立worktree与codex/glm-pre-e2e-prep分支，核产品对10c84238零漂移，连续完成引用删除、上传乱序、预览缓存的只读取证。
 只能改工作包白名单报告/诊断探针；不改packages、scripts、生成数据、正式测试、正式配置或覆盖率基线；不跑浏览器/截图/视觉/声音验收，不整仓check/coverage与Codex争抢资源。

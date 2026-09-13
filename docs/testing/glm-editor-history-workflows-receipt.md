@@ -1,7 +1,7 @@
 # GLM 配对工作流回归回执（glm-editor-history-workflows r1）
 
 工作包：[glm-editor-history-workflows](glm-editor-history-workflows.md) r1。
-主卡 [EDITOR-HISTORY-ORDER-1](../ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) build，三席设计已签不重签。
+主卡 [EDITOR-HISTORY-ORDER-1](../ops/archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)已三席及用户验收通过、done归档；下文为冻结树交付及接收历史，不作为新的build授权。
 执行：GLM（测试贡献者，终审须披露）；产品冻结 **dded6f27**；分支基点 **64b3c8ba**（工作包交付提交，仅文档）。
 本包为冻结树上的正式回归取证：**15 绿 + 5 预期红（全部为 D-01 未实现的全局历史正确性断言）**，不是产品修复声明。
 
