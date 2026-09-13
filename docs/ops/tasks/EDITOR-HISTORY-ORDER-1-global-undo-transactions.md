@@ -215,7 +215,44 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
   GLM为测试贡献者，不能凭本包自测当独立第三方验收；内部Codex只读补审也不占Kimi/GLM席位。
   非本卡待修D-06/D-07有新旧证据，已登记且未宣称修复；原/GLM历史探针零diff，无content/reforge/migrate/生成项目/样式修改。
   可证伪：任一合法交错仍错序、pair只撤半边、失败改变版本/内容/历史、新分支复活旧redo、重开遗漏正文、质量门降范围，均撤回accept。
-- Kimi：pending。
+- Kimi：**accept（2026-09-13，r1 整卡独立代码/架构终审候选 `70e3f627`，对比 `10c84238..70e3f627` 含首批 `dded6f27`；设计不重签；未读 GLM 本轮结论）**。
+  接手 HEAD `20b43b87` 与 origin/main 一致、工作树干净；候选后 packages 零漂移；content/reforge/
+  game/migrate/projects/pnpm-lock 整卡零 diff（实测）。
+  - **唯一全局日志/事务身份**：`editor-history-coordinator.ts` 全量直读——HistoryEntry 用
+    `Symbol('editor-transaction')` 独立身份（同命令对象重复提交各为一笔）；`connect()` 把两 session
+    的 dispatch/undo/redo/canUndo/canRedo/discardRedo 全部路由到 Owner（`edit-session.ts:193-221`
+    绑定后全部经 router）；`assertCanAttachHistory` 拒第二 Owner、拒接管已有独立栈；transact
+    禁重入；`commit()` 先全 validate 再全 commit、再更新日志、再 advance/publish 通知，
+    通知异常由 `notifyEditorObservers` 隔离不回滚（editor-history-participant.ts:30-39）。
+  - **两侧原子提交/失败保全**：prepare 阶段两側按逆/正序运算且公开状态保持旧态
+    （coordinator:186-199 注释在案）；prepareHistoryChange 记 before/version、validate 查失效、
+    commit 才写状态/索引/dirty/version（edit-session.ts:243-287、script-editor.ts:1425-1472）——
+    **pop 已从 prepare 移入 commit，pop-then-invert 缺陷结构消除**；no-op dispatch 返回 false
+    不入栈不清 redo；未参与侧 prepareHistoryDiscard 行政清 future 且版本递增（A-07 授权保守失效）。
+  - **redo 清理/地图元数据**：任一侧新成功提交经 commitNew 清全局 future + 另一侧执行索引；
+    `prepareMapChanges` 只拷贝 dirty/pin/revision/facts 轻量元数据，未变地图跳过准备——不为每次
+    编辑深拷贝全工程；publishReferences 在提交后。Root 成组构造两 session+Owner 再发布 Boot，
+    App 仅 connect/dispose + assertSessions；historyOwnerRef/单栈 fallback 已删除（diff 实证）。
+  - **保存/重开投影**：`script-editor-projection.ts:204-223` 保存入口逐 shell 私有引用核
+    canonical 正文（`Array.isArray(body)`，空 [] 合法、未引用记录不判错），缺失带物品/下标/
+    脚本 ID 拒绝、零 writer 提交；共用识别器覆盖 loader canonical 与 ItemTab 内部 runScript
+    两表面；`projectEditorItemShells` 复用 reforge 既有 projectItemsView 按作者数组保序——
+    重开白屏修复不改 loader/序列化/格式。
+  - **本人实跑**：核心四文件（coordinator/foundations/timeline/paired-workflows）**62/62 绿**、
+    editor typecheck exit 0；交叉核日志 check 6,981（editor 2,413）、strict TOTAL **617 文件/6,493**。
+  - **两针负控制本人独立重建**（/tmp/kimi-history-nc/negative.config.mts，唯一锚点断言、内存
+    变换、磁盘零改）：split（undo 只准备 main 一側）→ **28 红**含七族完整内容差异；save（保存
+    守卫 `if (!bodyPresent)` 失效）→ **恰 6 红**（4 错误放行 + 2 下游校验但错误层位变化），
+    与回执针型一致；无收集/环境错误。
+  - **GLM 贡献口径**：paired-workflows 20 项为 GLM 贡献经 Codex 勘误补强，不作该部分独立自证；
+    本人复跑该文件 20 项在最终树全绿。冻结树复算（15 绿/5 红）证据在案。
+  - **D-06/D-07 延期边界核实**：两处锚点相对 dded6f27 类文本未变（D-06 非本卡回归）；D-07 合法
+    输入在旧树 serialize 已拒绝、当前守卫更早拒绝——**可保存输入集合未变**，非可保存→不可保存
+    回归；均登记 P2 待修、证据独立，不因已登记放过，也不属本卡 counter。
+  - **旧版本兼容审查：pass**——旧 transaction receipt/top 检测协议删除而非并存；无版本分支/
+    旧格式/升级器/fallback 引入；旧测试适配新 Owner，业务断言保留。
+  返工项：无。剩余限制如实保留（全仓 90/85 未达、R4 集中链待执行、强杀不承诺）。
+  本 accept 不代签、不授权 done。
 - GLM：pending。
 - done 准入：blocked；无缺签豁免，不代签。
 
@@ -347,6 +384,14 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
 
 ## 交接日志
 
+- 2026-09-13 Kimi（r1 整卡独立终审）：同步 `20b43b87`、工作树干净后按 `10c84238..70e3f627` 全量核实现。
+  直读 coordinator/participant/edit-session/script-editor 两阶段协议（Symbol 事务身份、全入口路由、
+  validate→commit→日志→通知次序、失败不写索引、pop 移入 commit、行政 discard 递增版本）、
+  保存完整性守卫与 Root 投影重开、App 统一接线（historyOwnerRef 已删）；D-06/D-07 延期证据核实
+  非本卡回归。复跑核心四文件 62/62、typecheck exit 0；独立重建 split/save 两针负控制
+  （28 红 / 恰 6 红，工作树零改动）；交叉核 check 6,981、strict 617/6,493。
+  签 accept，无返工项；旧版本兼容审查 pass。未改实现/测试/基线/他席/Status，未读 GLM 结论。
+  Next：GLM 并行终审落卡后，Codex 统一核定 done。提交 SHA 见本条推送。
 - 2026-09-13 Codex启动整卡终审：用户在整卡review交付后要求“继续”，接续为正式终审，而非另开GLM测试包审查。
   接手fetch核main与origin/main一致、工作树干净，HEAD3634e2e9相对实现候选70e3f627的packages/scripts零diff；无新增counter。
   Kimi/GLM两席可独立并行，均钉r1/70e3f627，整卡diff从10c84238起包含首批保存守卫；不重签设计、不改候选、不标done。
@@ -399,7 +444,16 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
 两席审查过程中不改产品/测试/基线，分别只写自己的done前席位与日志，不改Status/共享准入、不代签、不标done。
 发现counter直接落明证据与最小返工范围，由Codex统一处理；不能先修实现后沿用旧候选accept。
 
-### Kimi（当前：r1整卡代码/架构终审，与GLM并行）
+### 给 Codex（当前：汇总核定 done）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-HISTORY-ORDER-1 收口，任务卡 docs/ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md，review/r1，终审候选 70e3f627（候选后 packages 零漂移）；r1 设计不重签。
+先同步并检查工作树，读本卡 done 前三席签字与终审日志。现状：Codex（实现者自验证）与 Kimi（独立整卡终审，提交 3f34c558 后本轮签字随终审提交推送）已 accept；GLM 覆盖/矩阵终审落卡后，请统一核定：三席钉同一候选 70e3f627、无 counter/返工项/缺签豁免，将任务推进 done，同步看板/索引/审计进度（D-01 可标修复）。
+收口时保留并转述限制：全仓 90/85 未达、R4 综合链（物品买价与私有脚本交替、成对新增场景/实体、撤销到基线全部重做→保存→重开→试玩）待集中执行；D-06（新建物品作者记录生命周期）与 D-07（共享 ScriptId/私有前缀身份边界）为已登记 P2 待修，证据独立、非本卡回归，按队列另卡。
+不得代签任何一席、不把本收口扩张为其他审计缺陷的整组授权；用户验收按惯例另行进行。
+```
+
+### Kimi（历史：r1整卡代码/架构终审，已完成）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-HISTORY-ORDER-1。
