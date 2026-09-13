@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| [EDITOR-HISTORY-ORDER-1](tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | 全局撤销顺序与成对操作完整性（D-01） | draft | Codex 接手主线准入/实施 | r1三席设计已签；本轮仅复核并行取证，未开始产品实现 |
+| [EDITOR-HISTORY-ORDER-1](tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | 全局撤销顺序与成对操作完整性（D-01） | draft | Codex 接手主线准入/实施 | r1三席设计已签；GLM取证包已接收，回归先随D-01实施，产品尚未开始 |
 
 ## 阻塞
 
@@ -28,7 +28,7 @@ A-02 作者保存冲突保护亦已三席及用户验收通过并收口；A-03 [
 接下来按总收口处理其余审计缺陷并补回归/覆盖率，
 然后进入 R4 content20 薄基线 → N6b content21 → 完整 E2E。
 修复分组见[总收口](audits/pre-e2e/summary.md)；U-02 待证，第一阶段缺陷与可后置优化分别保留。
-GLM的[44项并行只读工作包](../testing/glm-pre-e2e-prep.md)三轮返工6deb390c主要鉴别力已通过；仅剩缓存前提失败仍判covered及机械对账（见[接收结论](../testing/glm-pre-e2e-prep-report.md)），原样接收暂不放行。已通过部分不重做，D-01设计不重签，取证返工不是修复授权。
+GLM的[44项并行只读工作包](../testing/glm-pre-e2e-prep.md)收尾11fb8148已由Codex复核accept并接收（见[接收结论与转正节奏](../testing/glm-pre-e2e-prep-report.md)）：19复现/14覆盖/11待证，非缺陷修复数。先随D-01实施转正式回归，其余随对应卡；D-01设计不重签，本次未改产品/正式测试/覆盖率。
 
 ## 看板规则
 

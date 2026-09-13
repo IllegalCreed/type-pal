@@ -1,39 +1,136 @@
-# GLM 并行审计准备：整批回执
+# GLM 并行审计准备：整批回执（r1 收尾轮）
 
 工作包：[r1范围与44项检查表](glm-pre-e2e-prep.md)。执行者GLM，接收复核Codex。
-当前：GLM三轮返工候选6deb390ccd1f4f998e05a62c4d0725f542a27016已复核，**两项主要鉴别力已通过；仅剩缓存前提失败仍报covered及机械对账收尾，原样接收仍counter**。
-最新结论见文末“Codex三轮定点复核：6deb390c”；此前counter是历史，不代表已通过项目仍须返工。
-候选原报告/四探针留在codex/glm-pre-e2e-prep分支，尚未合入main；下方GLM填写占位保留给经复核的接收版本，
-不表示GLM尚未交付。D-01设计签字已先交623c592f，Kimi亦已签；批次counter不重开已证实的D-01前提/设计。
+D-01设计签字已按节点一另交 main（623c592f，premise verified + design agree，无 counter），本轮不重签。
+**本报告为卡前只读取证，不是修复授权；分类不是修复状态，不把44项检查表报为44个缺陷。**
+本轮为收尾轮：候选 6deb390c 被「Codex三轮定点复核」判定 R3a/R2a 主要鉴别力/R2b 收窄均通过，
+仅剩一个前提守卫与报告对账——已在唯一 runRetryCase 内先 assert 四项前提（注入恰 1、首挂载未绘制、
+下层直载成功、重试挂载真实完成）再按绘制恢复分类，移除注入时探针因前提断言 exit1；
+报告统计对账 19/14/11、去重 c699 附录、更新日志路径、G-C06 归失败缓存机制。
+已通过部分不重做；D-01 设计不重签。main 上 Codex 的各轮复核原文各留一份，GLM 不改写。
 
-## 冻结树与实际范围（GLM填写）
+**Codex最新接收结论（2026-09-13）：accept，仅针对取证包。** 候选为
+`11fb8148905d0fba39464ecca24ab0e768494bf0`；四个诊断脚本原样接入main，GLM贡献已披露。
+各轮counter按历史保留，当前结论和正式回归节奏见文末“Codex接收核定：11fb8148”。
+本次没有产品修复、正式测试转正、覆盖率更新或任务done；不转Kimi。
 
-- 分支/基点/最终SHA：待填。
-- packages相对10c84238零diff、白名单外零diff：待核。
-- 必要环境适配与限制：待填。
+## 冻结树与实际范围
 
-## 44项唯一ID总表（GLM填写）
+- 分支/基点：`codex/glm-pre-e2e-prep`，worktree `/Users/zhangxu/illegal/type-pal-glm-prep`，基点 **59e03bdb**；最终 SHA **11fb8148905d0fba39464ecca24ab0e768494bf0**（Codex接收时核远端及本地一致）。
+- packages 相对 10c84238 **零 diff**；本分支自身提交只含 5 个白名单文件（本报告 + 四个 `probe-glm-*-prep.mjs`）。
+  接收口径统一为候选相对59e03bdb：只有这5个文件，`scripts/coverage/baseline.fast.json`零diff；不将主线此前leave-guard的基线更新计入本批。
+- 原探针/正式测试/配置/覆盖率基线零改动；真实工程/浏览器零写；未跑全仓质量门；无浏览器/截图/视觉。
+- 四探针定向 Biome：**0 error / 0 warning**（返工要求达成；过程见失败记录）。
 
-按G-H01～16、G-R01～10、G-I01～08、G-C01～10逐项登记，不用组合ID行代替唯一账。
-每行包含分类、caller/前提/正控、具名测试或探针、观察/可证伪条件、归属；禁止无证据“已完成”。
+## 复算入口与命令回执
 
-## 分组证据与命令回执（GLM填写）
+```bash
+node --import tsx docs/ops/audits/pre-e2e/probe-glm-history-prep.mjs    # exit 0
+node --import tsx docs/ops/audits/pre-e2e/probe-glm-reference-prep.mjs  # exit 0
+node --import tsx docs/ops/audits/pre-e2e/probe-glm-upload-prep.mjs     # exit 0
+node --import tsx docs/ops/audits/pre-e2e/probe-glm-cache-prep.mjs      # exit 0
+pnpm exec biome check docs/ops/audits/pre-e2e/probe-glm-*.mjs           # 0 error / 0 warning
+```
 
-- G-H：待执行。
-- G-R：待执行。
-- G-I：待执行。
-- G-C：待执行。
+日志（按轮留档，收尾轮为最新）：`/tmp/glm-prep-evidence/*-r4.log`（首轮 `*-rework-final.log`、二轮 `*-rere-final.log`、三轮 `*-r3-final.log`）。本轮过程失败（全部已修复、未改产品、未删证据）：
+upload 探针一轮 deferred 不支持 reject（二轮已换 rejectable deferred 实测 G-I02/G-I03）；cache 探针 ArrayBuffer `.length`→
+`byteLength`、fireBase 缺 color-table 角色（loadFrames 同基座读标准色，补齐合法 palette JSON 后成功）、
+G-C06 注入计数含挂载期共 2 次（条件如实改 2）、waitFor 谓词曾被空文本提前命中（改为 canvas/失败文案
+二选一的完成信号）；history 探针一次模板串缺右括号；G-I05 的 gzip 门一次写成 `await gateGzip`；
+biome 未用变量经下划线/精简解构清零（含两次误删后复原）。
 
-## 归并、待证与建议回归（GLM填写）
+## 44项唯一ID总表（reproduced 19 / covered 14 / risk 11 / blocked 0 / N/A 0 = 44）
 
-待填；不得把44项检查表报为44个缺陷，或把取证完成报为产品修复完成。
+静/动分栏：〔动〕=本批探针动态执行；〔静〕=源码/清单/具名测试锚点，无本批动态。G-H08b、G-R09-hook 为
+子见证行不计入 44。
 
-## 最终机械对账（GLM填写）
+### G-H 撤销与事务（reproduced 8 / covered 5 / risk 3）
 
-- reproduced/covered/risk/blocked/N/A分类计数及总计44：待核。
-- 每次命令/退出码/日志与环境失败：待填。
-- 文件白名单、原探针零改、真实工程/浏览器零写、未跑全仓质量门：待核。
-- 后续若采纳回归，GLM贡献须披露：已知约束，不作为独立自证。
+| ID | 分栏 | 分类 | 证据 |
+|---|---|---|---|
+| G-H01 | 动 | reproduced | 真实 App undo/redo 回调：M/S/M 与 S/M/S 双向交错错序（u2 选错栈），D-01 |
+| G-H02 | 动 | reproduced | P/M/S 拆半：u1 撤 S 单条、u2 撤 pair 脚本半边、u3 撤 M20、u4 撤 pair 主半边（逐步含义已按复核纠正）；redo 紧跟 4 次 undo 后只恢复半笔 |
+| G-H03 | 动 | reproduced | 四布局轨迹：P-mid/P-last/P-P 按操作逆序正确（对照）；错误集中于 P-first——按实际轨迹分类，撤回“无布局全对” |
+| G-H04 | 静 | covered | `historyCoordinator.dispatch` 全 src 恰 7 处 census（ItemTab.tsx:1024/1152、App.tsx:1785/1807/1812/1893/2057）；静态清单，不叫动态验收 |
+| G-H05 | 静 | risk | 场景族 caller=App.tsx:1785-1817/1893-1904（:1893 为实体删除已注明）；缺具名回归引用，待证 |
+| G-H06 | 静 | covered | 实体增删入口清单（App.tsx:2057/:1893 族）；静态 census |
+| G-H07 | 动 | reproduced | 脚本侧新提交后 main 单栈孤儿 redo=true；转正时须钉实际全局 App redo |
+| G-H08 | 动 | reproduced | 【按现场改判，与首轮报告相反】等值新引用 dispatch 清 redo（next===previous 引用比较挡不住）；单列不扩 D-01；apply 失败对照不清 redo ✔；返回同一 state 的 no-op 另见 G-H08b=covered |
+| G-H09 | 静 | covered | 两类版本区分（按复核纠正）：historyVersion 仅由 dispatch/undo/redo/discardRedo 递增（edit-session.ts:199/252-302），markSaved 更新的是通知版本 getVersion、不递增 historyVersion——故 historyVersion 只能作变化/失效信号、不能定义新作者提交顺序（undo/redo 也递增它，与已签设计 3 一致）；hydrate 不增 historyVersion 但会 notify（edit-session.ts:542/566/571→:815 递增通知 version）——普通通知也不能当作者操作信号 |
+| G-H10 | 动 | risk | 同对象两次 dispatch 价格轨迹 10→0→0（App undo 返回 void，探针未采集撤销返回值，不推断「历史为空/返回 false」——按复核删除臆造）；复用同一实例的真实 caller 域未 census、合同未声明——待证 |
+| G-H11 | 动 | covered | 【标签修正与报告一致】第二参与者失败 receipt 回滚（双 dirty=false、内容复原）；不外推元数据全保全 |
+| G-H12 | 动 | reproduced | script 侧 undo 先 pop 后 invert，invert 失败项永久脱离双栈；main 侧先 invert 安全（不对称）；redo 失败独立回归待 D-01 |
+| G-H13 | 动 | reproduced | pair 提交期间脚本侧订阅可见半状态 |
+| G-H14 | 静 | risk | Root 仅 onOpened 成组新建双 session（main.tsx:122-147/158-176）静态事实；不替代 coordinator 绑定/重挂载生命周期验证（撤回引用 leave-guard 卸载测试充数的写法） |
+| G-H15 | 动 | reproduced | 缺正文静默丢（序列化 ok）+空正文[]正控+齐备正控；未引用 canonical 记录分支未测（按裁定限定） |
+| G-H16 | 静 | covered | 最小负控靶点 5 项（对应 D-01 H-11）；既有保护具名：editor-history-coordinator.test.ts（4 项简单配对）、project-leave-guard.test.ts:78/159（保守/discardRedo/hydrate）——不再引用整文件总数 |
+
+### G-R 场景引用删除（reproduced 3 / covered 4 / risk 3）
+
+| ID | 分栏 | 分类 | 证据 |
+|---|---|---|---|
+| G-R01 | 动 | reproduced | 【返工核心】两场景 scene-target 矩阵：disabled 选择仍指向目标场景，blockers=0、成对删除成功、保存拒“场景 target 不在 scenes”、undo 恢复——D-02 漏边仍在（撤回首轮用钩子删除充数的 covered） |
+| G-R02 | 动 | reproduced | inherit 同上：误删+保存拒绝+undo 恢复 |
+| G-R03 | 动 | covered | 〔钩子域分栏〕use hook-c 命令边 blockers=1（select-hook@…hook-b.flow…）；不充父场景证明 |
+| G-R04 | 动 | reproduced | transition currentScene 条件：blockers=0、删除成功、保存拒绝、undo 恢复——状态机条件引用的目标场景漏边仍在 |
+| G-R05 | 静 | risk | all/any/not 嵌套矩阵未逐一动态核；保留 risk |
+| G-R06 | 静 | risk | 【撤回“新引用漏边”主张】根级 stages/machine 字段 loader 接受（观察复现）但 BaseSceneDef 未定义脚本根、无已证消费域——降为输入严格性待证，不立 D-02 新缺陷；中间 fixture 未保留之批评接受 |
+| G-R07 | 静 | risk | 冷/暖 caller 存在（App.tsx:1707-1716、:1736-1738/1841-1869）；本批动态核的是冷链 oracle，UI 实际消费覆盖未采集 |
+| G-R08 | 动 | covered | 〔钩子域〕单删 blockers=1、与来源场景同删 blockers=0（集合内部豁免机制可复用于场景修复） |
+| G-R09 | 动 | covered | 场景域闭环：use 有边时删除拒+保存合法（正控）；disabled/inherit/transition 反例的“删除后保存拒绝+undo 恢复”闭环在 G-R01/02/04 行；〔钩子域子行〕命令级守卫 throw+清引用可删+undo 恢复 |
+| G-R10 | 动 | covered | 〔钩子域〕use 边 locator 稳定可复算；场景漏边尚无 locator 可列（分栏明示） |
+
+### G-I 图片上传异步边界（reproduced 4 / covered 3 / risk 1）
+
+| ID | 分栏 | 分类 | 证据 |
+|---|---|---|---|
+| G-I01 | 动 | reproduced | 【返工核心】AST 抽取真实 pickFile/submit：用户选择序恒 A后选B——完成序 B→A 时提交宽=1（wrongImageImported=true，A 复活覆盖 B）；完成序 A→B 提交宽=2（正确）。最后完成者胜，非最后选择者胜 |
+| G-I02 | 动 | reproduced | 【二轮实测】rejectable deferred：B 成功后旧 A 迟到失败 → error 被覆盖为「解码失败A」、draft 仍 b.png——迟到失败把错误文案覆盖到 B 会话（:147/171-173 动态证实） |
+| G-I03 | 动 | reproduced | 【三轮纠正】B 失败（error=解码失败B）后旧 A 迟到成功 → draft 复活 a.png(宽1)；A 成功后 B 错误仍在（submit 起始 setErr('')≠A 成功清错——按复核纠正，错误覆盖实证归 G-I02）；提交产物经同一 verifyArtifact assert=宽1/像素100=A——旧 A 复活提交实证 |
+| G-I04 | 静 | risk | 真实时序事实：submit 越过门禁后 gzip 完成即入历史（模拟无真正 unmount，仅「提交开始后完成」观察——按复核不升格关闭后正确性保证）；是否缺陷属产品裁决 |
+| G-I05 | 动 | covered | 〔向导级〕首笔在 compressGzip 挂起时二次 submit：sprites=1、onDone=1（submittingRef 早退）；命令级重复 ID 拒绝（commands.ts:3398）分栏 |
+| G-I06 | 动 | covered | 〔向导级〕同字节两次真实 submit：sprites=2、资源路径数=1（:202-205 按 SHA 复用 asset 键）；id/label 派生与字节归属分列 |
+| G-I07 | 动 | covered | 【三轮落盘】verifyArtifact 唯一入口实调（两序+G-I03）：catalog SHA/宽度/像素全 assert；MTIME 篡改写回真实产物 assetBlobs 后经同一入口重验必抛（mtimeCaught assert；Codex nr2T5k 上传见证现于 sha 断言 exit1）。占位 helper 与未用 _expectedPixel 已删 |
+| G-I08 | 动 | reproduced | 【收窄改判】真实 pickFile 三态：成功 close=1；getContext 失败 close=0、drawImage 抛错 close=0（错误均可见）——取得句柄后非成功路径不 close（:150-156）；只证句柄未显式释放，不宣称浏览器泄漏/内存峰值 |
+
+### G-C 预览缓存身份与重试（reproduced 4 / covered 2 / risk 4）
+
+| ID | 分栏 | 分类 | 证据 |
+|---|---|---|---|
+| G-C01 | 动 | reproduced | 【返工核心】真实 AssetBase/AssetResolver+合法 effect-sprite 内容：直载正控 A=1帧/B=3帧；A 挂载 canvas 成功；换 B 工程挂载 B 读取增量=0 且仍渲染 canvas——chunk-only 键复用 A 缓存（FireEffectPreview.tsx:15-18） |
+| G-C02 | 动 | reproduced | 身份轴：同 projectId 不同内容基座 B 读取增量=0——键不含 reader/workspace/内容身份（与 G-C01 同根） |
+| G-C03 | 动 | covered | 同 reader（对象不变）：记录换真实新字节+真实 SHA（92c380→b00f47）：v1 读=1 v2 读=1、下层直载 frames=1——双层失效正确；撤回旧 fixture 的无效 SHA/换 reader 做法 |
+| G-C04 | 动 | covered | 独立新鲜 asset 双挂载：均完成绘制、读取=1（去重生效；无预热） |
+| G-C05 | 动 | reproduced | 【三轮统一判定】原树经 runRetryCase：注入=1、下层直载成功（暖缓存）、重试挂载真实渲染且 clearRect 完成后**绘制未恢复(=0)**=失败缓存阻断；判定键为绘制恢复而非零读（暖缓存允许零新增读取） |
+| G-C06 | 动 | reproduced | 新鲜 chunk9：注入=2（直载预检+挂载各一次真实抛错）、挂载“无法加载”；修复后直载成功但重挂载仍“无法加载”且读取增量=0——失败 null 永久缓存 |
+| G-C07 | 静 | risk | 【三轮收窄】限定观察：A entered 并挂起后卸载其 root、B 另一 root 完成且释放 A 后 B 不受污染——只证「不同 root 卸载/新挂载未串状态」；alive 丢弃因果保证按复核撤回（移除 alive 守卫该观察不变）；同实例 A→B 切换/迟到 reject 矩阵留 risk 待缓存卡转正 |
+| G-C08 | 静 | risk | FIRE 键无 revision/内容维度——与 G-C01 同根（E-03/04）；Thumb 换 revision 已由 G-C03 同 reader 实证 |
+| G-C09 | 静 | risk | 容器 census（强引用 Map vs WeakMap）；无实测不宣布泄漏 |
+| G-C10 | 静 | risk | 身份失效与失败缓存为两个机制，分别验收；不作为第 6 个已证根因 |
+
+## 归并、待证与建议回归
+
+已确认根因组（5，不膨胀；③④为两个不同机制）：①D-01（G-H01/02/03/07/12/13/15 + G-H08 等值新引用单列观察）；
+②D-02 场景引用漏边（G-R01/02/04——本轮已按两场景模型实证）；③FIRE 身份键机制（G-C01/02实证，G-C08修订/撤销边界待证）；
+④预览失败缓存机制（G-C05 Thumb + G-C06 FIRE 失败 null 永久缓存——同一机制族分别验收，与③身份键不同机制）；⑤上传向导过期令牌缺失（G-I01/02/03 同根）。
+待证 risk（G-H05/10/14、G-R05/06/07、G-I04、G-C07/08/09/10）不列为已证根因；G-I02 已 reproduced 移入⑤。
+
+建议转正式回归最小集合（Codex 决定）：D-01 收 G-H16 五靶点+G-H01/02/07/12/13/15 场景；D-02 收两场景
+四态删除矩阵（undo 验收=双方目标/内容实际恢复+再正式序列化通过——Codex 上轮已补此证据，非文案）；缓存卡收 G-C01/05/06（跨基座零读+失败重试）双机制分别验收；
+上传卡收 G-I01/03 真实时序+坏字节 oracle；G-I08 的 close 路径并入 D-03 域核。
+
+## 最终机械对账
+
+- 分类计数：reproduced 19 + covered 14 + risk 11 + blocked 0 + N/A 0 = **44**（G-H08b/G-C05b/G-R09-hook 子见证不计；与逐组小计一致：G-H 8/5/3 + G-R 3/4/3 + G-I 4/3/1 + G-C 4/2/4）——上轮标题误写 18/14/12 已按 report-census 更正。
+- 命令/退出码：四探针 exit0、biome 0/0；过程失败清单见上；未删失败证据。
+- 白名单：仅本报告 + 四探针；packages/scripts/projects/data/reference/锁文件/正式配置与测试/基线/原探针零 diff（提交时 git 复核）。
+- 采纳观察保留：R1 场景矩阵与已复核通过的缓存/上传观察未重做；二轮只处理复核列出的 R2a/R2b/R3a/R3b/R4 阻断与文字。
+- GLM 为测试贡献者；采纳须披露，不以自测代独立终审。
+
+---
+
+（以下为 main 上 Codex 接收复核原文，GLM 原样附入保留，不作改写；其裁定表与本报告返工后分类的差异
+以本报告“44项唯一ID总表”为 GLM 立场，最终接收由 Codex 复核。）
 
 ## Codex接收复核
 
@@ -506,3 +603,56 @@ G-C07保留已证entered/不同root观察，撤回alive因果保证，完整同�
 报告按44行改正为19 reproduced/14 covered/11 risk；c699 Codex复核重复块只留一份且不改原文；日志更新*-r3-final或实际新日志；G-C06归失败缓存机制而非身份键。证据在/tmp/type-pal-glm-prep-round3.AZZ62X/。
 白名单仍仅报告+四probe；保留Codex复核，只取报告不合入主线其他提交。不改产品/正式测试/基线/原探针，不跑视觉或全仓质量门，不代签、不标done、不转Kimi。定向四probe+Biome后推送完整SHA与真实回执，交Codex接收。
 ```
+
+## Codex接收核定：11fb8148（当前有效，2026-09-13）
+
+**accept：接收GLM pre-e2e-prep r1取证包，剩余返工项为零。** 接收的是有冻结来源的观察、风险分类及诊断工具，
+不是19个产品缺陷已经修复，也不是14项完整工作流/E2E通过。前三轮已通过项不重新审判；不代签任何他席，不标任务done，不转Kimi。
+
+### 独立验证与集成边界
+
+- main接手dcf1d038、工作树干净且与origin同步；远端ls-remote、跟踪分支与GLM工作树HEAD均为完整11fb8148。
+  候选相对59e03bdb仅报告+四probe，packages相对10c84238零diff；本轮相对6deb390c仅cache+报告。
+  项目协议文件无变化，沿用已读AGENTS/CLAUDE/READ-FIRST/工作包及前轮审查边界。
+- `runRetryCase`先核注入恰1、首挂载未绘制、下层成功、重试canvas已提交；此前的clearRect等待必须成功完成，
+  任一不成立即抛错，返回后才分类retryDraws。原树绘制0/reproduced，单点修复树绘制1/covered，正常对照保持。
+- **最后反例关闭**：本席只删除原G-C05注入语句，现于“前提失败: 故障注入次数=0(期望恰1)”assert退出1；
+  不再输出该项covered（`cache-no-injection.log`）。不是环境错误或人为改错预期。
+- 本席六条见证逐条复跑：前提失效、移除SHA断言、错宽度、错像素、旧缓存误判见证、实际MTIME篡改。
+  都在预期业务断言exit1：SHA移除被MTIME自检抓住，宽/像素各被对应assert抓住；
+  旧缓存见证因actual covered不再等于旧expected reproduced而红；实际MTIME在catalog SHA不匹配处红。
+  交接摘要称“五见证”，实际是**六次命令**，此处按日志登记，不以命令数充新增正式用例数。
+- 四个正常probe独立复跑exit0；定向Biome四文件0 error/0 warning。Vite技能用于无HTTP隔离加载/单点反证，
+  canvas为呈现调用替身，无浏览器/截图/音画验收或真实用户文件/存储写入。
+- 机械复算44个唯一ID，19 reproduced/14 covered/11 risk及各组小计一致；四段历史Codex审查各一份、逐段与main原文相同。
+  G-C07/08保持待证边界，G-I03错误时序、H09版本、撤销后保存及失败缓存归属均已纠正。
+- 集成仅复制四probe最终字节、接入GLM报告正文并保留本席完整历史；接收时仅将候选SHA、比较基点和G-C08限定说明规范化。
+  不修改诊断断言或产品，不恢复stash，不搬入白名单外分支文件。来源/贡献者为GLM，本席为独立复核与集成方；
+  后续采用测试设计时继续披露，不能将GLM贡献者自测同时算作独立第三方终审。
+- 旧版本兼容审查：pass；没有产品版本/schema/save/migration/配置变化。没有新增正式测试或覆盖率基线，
+  因此不跑全仓check/ratchet/coverage，也不声称官方通过数增加。
+
+### 正式回归转正节奏（Coding Owner：Codex）
+
+按已有审计修复队列，在**对应任务取得build准入后，先把业务预期写成会失败的正式测试，再修实现**。
+不将当前“复现旧错误”的输出标签直接翻译为通过断言，不批量复制整个probe进CI。
+
+| 修复任务 / 时机 | 优先转正材料 | 仍须补的边界 |
+|---|---|---|
+| D-01 全局撤销，下一项优先；原r1设计不重签 | G-H01/02/03交错与配对、G-H07孤儿redo、G-H12失败保全、G-H13半态通知、G-H15缺正文保存及各正控 | G-H05配对caller族、G-H10命令对象复用合同、G-H14会话绑定/重挂载；失败/no-op与通知版本相邻保护。G-H08等值新引用仅留观察，不扩成本卡全仓Command治理 |
+| D-02 场景引用修复实施时 | G-R01/02/04三种漏边及use正控；真实删除→双侧undo恢复→正式序列化 | G-R05复合条件、G-R07冷暖失效及真实UI调用域；G-R06额外根字段仅输入严格性线索，不当新漏边修复授权 |
+| D-03 上传异步修复实施时 | G-I01/02/03真实选择/完成错序、verifyArtifact的字节归属、G-I05提交互斥/G-I06去重正控、G-I08释放路径 | G-I04关闭/卸载及在途提交合同先明确；以“最后选择”修复目标替换“最后完成”旧错误特征，保留作者命名规则 |
+| E-03/E-04 缓存组实施时，同组分别验收两机制 | G-C01/02身份键、G-C05/06失败重试；G-C03修订/G-C04去重正控及前提自检 | G-C07同实例切换/迟到reject、G-C08替换及undo修订；G-C09容量/释放仅风险，G-C10是分层设计输入，未证性能问题不扩功能修复 |
+
+每批转正后执行对应卡要求的定向/相邻、typecheck及统一质量门；官方ratchet/严格fast由Codex在集成树执行，
+不让并行取证分支各改一份基线。编辑器功能视觉仍由Codex承担；剧情/E2E按既定集中批次，不因本包接收而提前宣称通过。
+
+### 证据入口与后续
+
+- Codex冻结树复算日志：`/tmp/type-pal-glm-prep-final.drc1sb/`下history/reference/upload/cache、biome、report-census及六个见证日志。
+  `cache-no-injection`、`upload-no-sha-guard`、`upload-width`、`upload-pixel`由上一轮`/tmp/type-pal-glm-prep-round3.AZZ62X/witness.mjs`重建；
+  另两条沿用前两轮原见证。未覆盖或替换任何旧失败日志。
+- main接收后四probe逐个与候选Git blob校验一致，主线四probe复跑exit0、Biome四文件0/0；产品/原探针/正式配置/基线保持零diff。
+  文档工具20项通过，docs为415 Markdown/1,989本地链接/142任务、content20 SAVE8、0 issues，diff whitespace检查通过。
+- 无下一位Agent提示词：本批不再交GLM返工、不转Kimi；接收记录供用户确认，后续由Codex接续D-01准入及实现。
+  本轮D-01仍未开始实现、不修改Status，不把本批接收用作整组产品修复或done授权。

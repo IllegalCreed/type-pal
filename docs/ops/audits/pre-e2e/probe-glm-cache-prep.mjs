@@ -1,0 +1,619 @@
+// node --import tsx docs/ops/audits/pre-e2e/probe-glm-cache-prep.mjs
+// GLM pre-e2e-prep r1 rework · G-C 组只读取证（R2 返工版）。
+// 每个故障例独立新鲜 key/reader/缓存域，附注入次数与真实失败结果见证；
+// 有效新字节配真实 SHA；同 reader 隔离修订轴；FIRE 用真实 AssetBase/AssetResolver
+// 与合法 effect-sprite 内容（成功正控先行）；确定性完成信号=DOM 文本/canvas 出现/
+// drawImage 计数，不用固定 sleep。canvas 2d 仍是【呈现边界替身】（不作视觉事实）。
+import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
+
+const root = new URL('../../../../', import.meta.url)
+const req = createRequire(new URL('packages/editor/package.json', root))
+const { createServer } = await import(req.resolve('vite'))
+const { JSDOM } = await import(req.resolve('jsdom'))
+const dom = new JSDOM('<!doctype html><html><body><div id="host"></div></body></html>', {
+  url: 'http://localhost/',
+})
+globalThis.window = dom.window
+globalThis.document = dom.window.document
+globalThis.ImageData = dom.window.ImageData
+globalThis.IntersectionObserver = class {
+  observe(el) {
+    queueMicrotask(() => this.cb([{ isIntersecting: true, target: el }]))
+  }
+  disconnect() {}
+  constructor(cb) {
+    this.cb = cb
+  }
+}
+let drawCalls = 0
+let clearCalls = 0
+const fakeCtx = new Proxy(
+  {},
+  {
+    get(_t, prop) {
+      if (prop === 'createImageData')
+        return (w, h) => ({ width: w, height: h, data: new Uint8ClampedArray(w * h * 4) })
+      if (prop === 'canvas') return { width: 16, height: 16 }
+      if (prop === 'drawImage') return () => (drawCalls += 1)
+      if (prop === 'clearRect') return () => (clearCalls += 1)
+      return () => undefined
+    },
+    set() {
+      return true
+    },
+  },
+)
+dom.window.HTMLCanvasElement.prototype.getContext = () => fakeCtx
+
+const oldFetch = globalThis.fetch
+globalThis.fetch = () => {
+  throw new Error('GLM prep probe forbids network access')
+}
+const server = await createServer({
+  root: fileURLToPath(new URL('packages/editor/', root)),
+  configFile: false,
+  server: { middlewareMode: true, watch: null, hmr: false, ws: false },
+  appType: 'custom',
+  optimizeDeps: { noDiscovery: true, include: [] },
+})
+const log = []
+const record = (id, verdict, detail) => {
+  log.push({ id, verdict, detail })
+  console.log(`[${id}] ${verdict}: ${detail}`)
+}
+// 确定性条件等待（非固定 sleep）：谓词满足即返回。
+const waitFor = async (predicate, label, limit = 200) => {
+  for (let i = 0; i < limit; i++) {
+    if (predicate()) return true
+    await new Promise((resolve) => setTimeout(resolve, 0))
+  }
+  throw new Error(`waitFor 超时: ${label}`)
+}
+try {
+  const react = await import(req.resolve('react'))
+  const { createRoot } = await import(req.resolve('react-dom/client'))
+  const reforge = await server.ssrLoadModule('/../reforge/src/index.ts')
+  const { AssetResolver } = await server.ssrLoadModule('/../reforge/src/asset-resolver.js')
+  const { buildBlankProject } = await server.ssrLoadModule('/src/core/seed.ts')
+  const { toEditorState } = await server.ssrLoadModule('/src/core/project-io.ts')
+  const { loadCurrentProjectFrom, loadAllAuthorScenes } = await server.ssrLoadModule(
+    '/../reforge/src/project-loader.ts',
+  )
+  const { createEditorAssetReader } = await server.ssrLoadModule('/src/core/editor-asset-reader.js')
+  const { loadEditorSprite } = await server.ssrLoadModule('/src/core/sprite-assets.js')
+  const { sha256Hex } = await server.ssrLoadModule('/src/core/binary-signature.js')
+  const SpriteThumbMod = await server.ssrLoadModule('/src/ui/SpriteThumb.tsx')
+  const FireMod = await server.ssrLoadModule('/src/ui/FireEffectPreview.tsx')
+  const content = await server.ssrLoadModule('/../content/src/index.ts')
+
+  const host = document.getElementById('host')
+  async function mount(Component, props) {
+    const div = document.createElement('div')
+    host.appendChild(div)
+    const rootEl = createRoot(div)
+    rootEl.render(react.createElement(Component, props))
+    return { div, rootEl }
+  }
+
+  // ───────── SpriteThumb 域（同 reader 隔离 + 新鲜 fixture + 注入见证） ─────────
+  const files = await buildBlankProject('glm-cache-rework')
+  const baseOf = (extra) => sourceOf({ ...structuredClone(files), ...extra })
+  function sourceOf(map) {
+    const reads = new Map()
+    let injections = 0
+    let armed = null
+    return {
+      reads,
+      get injections() {
+        return injections
+      },
+      arm(path) {
+        armed = path
+      },
+      source: {
+        async readText(rel) {
+          const x = mustGet(map, rel)
+          return typeof x === 'string' ? x : JSON.stringify(x)
+        },
+        async readJson(rel) {
+          return JSON.parse(await this.readText(rel))
+        },
+        async readBytes(rel) {
+          reads.set(rel, (reads.get(rel) ?? 0) + 1)
+          if (armed === rel) {
+            injections += 1
+            armed = null
+            throw new Error(`注入读取失败(${rel})`)
+          }
+          const x = mustGet(map, rel)
+          return x instanceof ArrayBuffer ? x.slice(0) : new TextEncoder().encode(x).buffer
+        },
+        async urlFor() {
+          throw new Error('no URLs')
+        },
+      },
+    }
+  }
+  const mustGet = (map, rel) => {
+    if (!Object.hasOwn(map, rel)) throw new DOMException(rel, 'NotFoundError')
+    return map[rel]
+  }
+  // 真实 blank 工程（palette/assetBase/试玩 reader 均来自正式 loader）。
+  const blankBox = sourceOf(files)
+  const project = await loadCurrentProjectFrom(blankBox.source)
+  const scenes = await loadAllAuthorScenes(project)
+  const blankState = toEditorState(project, scenes, {}, {}, [])
+  const realAssetBase = project.assetBase
+  // 用真实管线为“新鲜精灵”生成有效 RLE，SHA 由真实 sha256Hex 计算。
+  const palette = await reforge.loadStandardPalette(realAssetBase)
+  const solidRgba = (fill) => {
+    const c = palette.colors[fill]
+    const rgba = new Uint8Array(16 * 16 * 4)
+    for (let i = 0; i < rgba.length; i += 4) {
+      rgba[i] = c[0]
+      rgba[i + 1] = c[1]
+      rgba[i + 2] = c[2]
+      rgba[i + 3] = 255
+    }
+    return rgba
+  }
+  const makeRle = async (frames, fill) => {
+    const chunk = reforge.encodeSpriteChunk(
+      Array.from({ length: frames }, () =>
+        reforge.quantizeToRleFrame(solidRgba(fill), 16, 16, palette),
+      ),
+    )
+    const gz = await reforge.compressGzip(chunk)
+    return gz.buffer.slice(gz.byteOffset, gz.byteOffset + gz.byteLength)
+  }
+
+  // G-C04（成功去重正控，独立新鲜 asset）：canvas drawImage 完成信号 + 一次读取。
+  {
+    const path = 'assets/authored/fresh-dedup.rle'
+    const bytes = await makeRle(1, 3)
+    const sha = await sha256Hex(bytes)
+    const box = baseOf({ [path]: bytes })
+    const state = stateWithSprite(
+      files,
+      'glm-dedup',
+      'sprite.glm-dedup',
+      path,
+      sha,
+      bytes.byteLength,
+    )
+    const reader = createEditorAssetReader(box.source, () => state)
+    const draw0 = drawCalls
+    const a = await mount(SpriteThumbMod.SpriteThumb, thumbProps(reader, 'sprite.glm-dedup', sha))
+    await waitFor(() => drawCalls > draw0, 'G-C04 第一次绘制')
+    a.rootEl.unmount()
+    a.div.remove()
+    const reads1 = box.reads.get(path) ?? 0
+    const draw1 = drawCalls
+    const b = await mount(SpriteThumbMod.SpriteThumb, thumbProps(reader, 'sprite.glm-dedup', sha))
+    await waitFor(() => drawCalls > draw1, 'G-C04 第二次绘制')
+    b.rootEl.unmount()
+    b.div.remove()
+    const reads2 = box.reads.get(path) ?? 0
+    record(
+      'G-C04',
+      reads1 === 1 && reads2 === 1 ? 'covered' : 'reproduced',
+      `[新鲜asset] 两次挂载均完成绘制(drawImage ${drawCalls - draw0} 次)且读取=${reads2}（去重生效;独立fixture,无预热）`,
+    )
+  }
+
+  // 【R2a】统一重试业务判定：clearRect 完成后，以「实际绘制是否恢复」区分失败与成功；
+  // 下层 SpriteAssetCache 已被直载预热时，允许零新增源读取（零读≠失败）。
+  // 前提：正常数据正控（下方 G-C04 已证）、注入=1、下层直载成功、重试挂载真实渲染。
+  async function runRetryCase(thumbModule, path, sha, box, reader) {
+    const draw0 = drawCalls
+    const a = await mount(thumbModule.SpriteThumb, thumbProps(reader, 'sprite.glm-fail', sha))
+    await waitFor(() => (box.reads.get(path) ?? 0) >= 1, 'G-C05 失败读取发生')
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    const drewDuringFail = drawCalls > draw0
+    a.rootEl.unmount()
+    a.div.remove()
+    const direct = await loadEditorSprite(reader, 'sprite.glm-fail')
+    const lowerOk = Boolean(direct.frames.length)
+    const readsBeforeRetry = box.reads.get(path) ?? 0
+    const drawBeforeRetry = drawCalls
+    const clearBeforeRetry = clearCalls
+    const b = await mount(thumbModule.SpriteThumb, thumbProps(reader, 'sprite.glm-fail', sha))
+    await waitFor(() => clearCalls > clearBeforeRetry, '重试挂载的 clearRect(then 已执行)')
+    const retryChildren = b.div.childElementCount
+    const retryReadsAtSettle = box.reads.get(path) ?? 0
+    b.rootEl.unmount()
+    b.div.remove()
+    const retryReads = retryReadsAtSettle - readsBeforeRetry
+    const retryDraws = drawCalls - drawBeforeRetry
+    // 【前提守卫】四项前提在唯一入口处 assert：任一不成立即本探针失败（exit1），
+    // 不允许落入 covered/reproduced 二选一——「前提失败不得当 covered」。
+    assert.equal(box.injections, 1, `前提失败: 故障注入次数=${box.injections}(期望恰 1)`)
+    assert.ok(!drewDuringFail, '前提失败: 首挂载在故障期已绘制')
+    assert.ok(lowerOk, '前提失败: 下层直载未成功')
+    assert.ok(retryChildren > 0, '前提失败: 重试挂载未真实渲染')
+    return { drewDuringFail, lowerOk, retryChildren, retryReads, retryDraws }
+  }
+
+  // G-C05（失败注入真实发生 + 下层成功正控 + 上层仍被失败缓存阻断）：
+  {
+    const path = 'assets/authored/fresh-fail.rle'
+    const bytes = await makeRle(1, 4)
+    const sha = await sha256Hex(bytes)
+    const box = baseOf({ [path]: bytes })
+    const state = stateWithSprite(files, 'glm-fail', 'sprite.glm-fail', path, sha, bytes.byteLength)
+    const reader = createEditorAssetReader(box.source, () => state)
+    box.arm(path) // 注入一次性失败
+    const r = await runRetryCase(SpriteThumbMod, path, sha, box, reader)
+    // 前提已由 runRetryCase 内部 assert 保证（注入恰1/首挂载未绘制/下层成功/重试真实完成）；
+    // 此处只按绘制是否恢复分类。
+    record(
+      'G-C05',
+      r.retryDraws === 0 ? 'reproduced' : 'covered',
+      `[新鲜asset,原树] 注入=${box.injections}(首挂载绘制未发生=${!r.drewDuringFail});下层直载成功=${r.lowerOk}(暖缓存,重试允许零新增读取);重试挂载真实渲染(children=${r.retryChildren})且 clearRect 完成后:新增读取=${r.retryReads}、新增绘制=${r.retryDraws}——绘制未恢复=thumb 失败 null 缓存阻断重试(:36-38);同判定单点反控见 G-C05b`,
+    )
+  }
+
+  // G-C05b 单点反控（R2a 统一版）：在「失败 null 入缓存」处逐字注入"失败后删除缓存条目"，
+  // 与 G-C05 原树使用【同一 runRetryCase 场景与同一判定】——前提步骤完全一致（同下层直载预热），
+  // 仅组件实现不同。修复树必须因绘制恢复而改变结论；下层暖缓存下允许零新增源读取。
+  {
+    const path = 'assets/authored/fail-counter.rle'
+    const bytes = await makeRle(1, 12)
+    const sha = await sha256Hex(bytes)
+    const box = baseOf({ [path]: bytes })
+    // 与原树同 id，保证 runRetryCase 内部引用一致；资产内容不同避免跨例缓存串扰。
+    const state = stateWithSprite(files, 'glm-fail', 'sprite.glm-fail', path, sha, bytes.byteLength)
+    const reader = createEditorAssetReader(box.source, () => state)
+    const thumbSource = readFileSync(
+      new URL('packages/editor/src/ui/SpriteThumb.tsx', root),
+      'utf8',
+    )
+    const needle = '    thumbCache.set(cacheKey, p)'
+    assert.equal(thumbSource.split(needle).length - 1, 1)
+    const patched = thumbSource.replace(
+      needle,
+      needle +
+        '\n    void p.then((value) => {\n      if (value === null) thumbCache.delete(cacheKey)\n    })',
+    )
+    // 单点反控经隔离 Vite 实例以 load 钩子替换该文件（产品文件零改动）。
+    const mkServer = await import(req.resolve('vite')).then((m) => m.createServer)
+    const srv = await mkServer({
+      root: fileURLToPath(new URL('packages/editor/', root)),
+      configFile: false,
+      server: { middlewareMode: true, watch: null, hmr: false, ws: false },
+      appType: 'custom',
+      optimizeDeps: { noDiscovery: true, include: [] },
+      plugins: [
+        {
+          name: 'glm-c05b-single-point',
+          enforce: 'pre',
+          load(id) {
+            if (id.endsWith('/ui/SpriteThumb.tsx')) return patched
+          },
+        },
+      ],
+    })
+    const thumbFixed = await srv.ssrLoadModule('/src/ui/SpriteThumb.tsx')
+    await srv.close()
+    box.arm(path)
+    const r = await runRetryCase(thumbFixed, path, sha, box, reader)
+    // 与 G-C05 完全相同的判定式（前提由同一 helper assert 保证）：绘制恢复→covered。
+    record(
+      'G-C05b',
+      r.retryDraws === 0 ? 'reproduced' : 'covered',
+      `[单点反控,同一场景/判定,仅组件实现不同] 注入=${box.injections};下层直载成功=${r.lowerOk}(暖缓存);重试 children=${r.retryChildren}、clearRect 完成后:新增读取=${r.retryReads}、新增绘制=${r.retryDraws}——绘制恢复=失败缓存删除后重试成功(零新增读取亦可),与 G-C05 原树(绘制=0)结论相反,证明判定有鉴别力`,
+    )
+  }
+
+  // G-C03（同 reader、真实新字节+真实 SHA 的修订替换）：
+  {
+    const path1 = 'assets/authored/rev-a.rle'
+    const path2 = 'assets/authored/rev-b.rle'
+    const bytes1 = await makeRle(1, 5)
+    const bytes2 = await makeRle(1, 6)
+    const sha1 = await sha256Hex(bytes1)
+    const sha2 = await sha256Hex(bytes2)
+    assert.notEqual(sha1, sha2)
+    const box = baseOf({ [path1]: bytes1, [path2]: bytes2 })
+    // 同一 reader：state 为可变引用，修订只改 catalog 记录（reader 对象不变）。
+    let state = stateWithSprite(files, 'glm-rev', 'sprite.glm-rev', path1, sha1, bytes1.byteLength)
+    const reader = createEditorAssetReader(box.source, () => state)
+    const draw0 = drawCalls
+    const a = await mount(SpriteThumbMod.SpriteThumb, thumbProps(reader, 'sprite.glm-rev', sha1))
+    try {
+      await waitFor(() => drawCalls > draw0, 'G-C03 v1 绘制')
+    } catch (e) {
+      console.log(
+        'G-C03-DEBUG reads1=',
+        box.reads.get(path1) ?? 0,
+        'reads2=',
+        box.reads.get(path2) ?? 0,
+      )
+      const spr = await loadEditorSprite(reader, 'sprite.glm-rev').catch((err) => ({
+        err: err.message,
+      }))
+      console.log('G-C03-DEBUG direct=', JSON.stringify(spr).slice(0, 120))
+      throw e
+    }
+    a.rootEl.unmount()
+    a.div.remove()
+    // 记录换 sha/path（同 AssetId 同 reader）。
+    state = stateWithSprite(files, 'glm-rev', 'sprite.glm-rev', path2, sha2, bytes2.byteLength)
+    const draw1 = drawCalls
+    const b = await mount(SpriteThumbMod.SpriteThumb, thumbProps(reader, 'sprite.glm-rev', sha2))
+    await waitFor(() => drawCalls > draw1, 'G-C03 v2 绘制')
+    b.rootEl.unmount()
+    b.div.remove()
+    const r1 = box.reads.get(path1) ?? 0
+    const r2 = box.reads.get(path2) ?? 0
+    const direct = await loadEditorSprite(reader, 'sprite.glm-rev')
+    record(
+      'G-C03',
+      r1 === 1 && r2 === 1 && direct.frames ? 'covered' : 'reproduced',
+      `[同reader] v1 读=${r1} v2 读=${r2}(真实SHA:${sha1.slice(0, 6)}→${sha2.slice(0, 6)},有效新字节);替换后下层直载 frames=${direct.frames.length}——thumb 键含 revision(:24)+下层记录签名失效(assets.ts:218-227)双层正确`,
+    )
+  }
+
+  function thumbProps(assetReader, asset, revision) {
+    return {
+      assetBase: realAssetBase,
+      assetReader,
+      asset,
+      revision,
+      frameIndex: 0,
+      label: 't',
+    }
+  }
+  function stateWithSprite(seed, id, asset, path, sha, bytes) {
+    const state = {
+      assetCatalog: { assets: {} },
+      assetBlobs: {},
+      manifest: seed['manifest.json'],
+    }
+    state.assetCatalog.assets[asset] = {
+      kind: 'sprite',
+      path,
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes,
+      sha256: sha,
+      label: id,
+      origin: { kind: 'authored' },
+    }
+    return state
+  }
+
+  // ───────── FIRE 域（真实 AssetBase/AssetResolver + 合法内容 + 身份轴） ─────────
+  // 构造真实 catalog：同 chunk 的 effect-sprite 记录，两个“工程”各含不同合法内容。
+  async function fireBase(projectId, chunk, frames, fill) {
+    const assetId = content.palMagicEffectSpriteAssetId(chunk)
+    const path = `assets/fire-${projectId}-${chunk}.rle`
+    const bytes = await makeRle(frames, fill)
+    const sha = await sha256Hex(bytes)
+    // 调色板角色：loadFrames 从同一 assetBase 读标准色；序列化真实 palette 为合法 color-table。
+    const palettePath = `assets/pal-${projectId}.json`
+    const paletteText = JSON.stringify(palette) // 完整真实 palette(colors/cycles 等)整体序列化
+    const paletteAsset = `color.${projectId}`
+    const paletteBytes = new TextEncoder().encode(paletteText)
+    const catalog = {
+      version: 1,
+      assets: {
+        [assetId]: {
+          kind: 'effect-sprite',
+          path,
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: bytes.byteLength,
+          sha256: sha,
+          label: `fire-${projectId}`,
+          origin: { kind: 'authored' },
+        },
+        [paletteAsset]: {
+          kind: 'color-table',
+          path: palettePath,
+          mediaType: 'application/json',
+          bytes: paletteBytes.byteLength,
+          sha256: await sha256Hex(paletteBytes),
+          label: `pal-${projectId}`,
+          origin: { kind: 'generated' },
+        },
+      },
+    }
+    const reads = new Map()
+    const fs = {
+      async readText(rel) {
+        reads.set(rel, (reads.get(rel) ?? 0) + 1)
+        if (rel === palettePath) return paletteText
+        throw new DOMException(rel, 'NotFoundError')
+      },
+      async readJson(rel) {
+        return JSON.parse(await this.readText(rel))
+      },
+      async readBytes(rel) {
+        reads.set(rel, (reads.get(rel) ?? 0) + 1)
+        if (rel === path) return bytes.slice(0)
+        throw new DOMException(rel, 'NotFoundError')
+      },
+      async urlFor() {
+        throw new Error('no URLs')
+      },
+    }
+    const resolver = new AssetResolver(
+      projectId,
+      catalog,
+      { 'visual.standardColorTable': paletteAsset },
+      fs,
+    )
+    return { base: { source: fs, assetResolver: resolver }, reads, path, bytes, sha, frames }
+  }
+  // FireEffectPreview 的 assetReader prop：blank 项目的真实 reader。
+  const blankReader = createEditorAssetReader(blankBox.source, () => blankState)
+  async function mountFire(base, chunk) {
+    const el = await mount(FireMod.FireEffectPreview, {
+      assetBase: base,
+      anim: { effectSprite: chunk },
+      assetReader: blankReader,
+    })
+    await waitFor(
+      () => el.div.querySelector('canvas') !== null || el.div.textContent.includes('无法加载'),
+      `FIRE chunk${chunk} 完成装载（成功=canvas/失败=无法加载）`,
+    )
+    const canvas = el.div.querySelector('canvas')
+    const failed = el.div.textContent.includes('无法加载')
+    return { ...el, canvas, failed }
+  }
+
+  // G-C01 跨工程（不同 projectId、同 chunk、各自合法、成功正控先行）
+  {
+    const A = await fireBase('proj-a', 7, 1, 7)
+    const B = await fireBase('proj-b', 7, 3, 8)
+    const directA = await reforge.loadFireSprite(A.base, 7) // 成功正控
+    const directB = await reforge.loadFireSprite(B.base, 7) // 成功正控
+    const a = await mountFire(A.base, 7)
+    const aOk = Boolean(a.canvas)
+    a.rootEl.unmount()
+    a.div.remove()
+    const bReads0 = B.reads.get(B.path) ?? 0
+    const b = await mountFire(B.base, 7)
+    const bReads1 = B.reads.get(B.path) ?? 0
+    const bShowsCanvas = Boolean(b.canvas)
+    b.rootEl.unmount()
+    b.div.remove()
+    record(
+      'G-C01',
+      directA.frames.length === 1 &&
+        directB.frames.length === 3 &&
+        aOk &&
+        bReads1 === bReads0 &&
+        bShowsCanvas
+        ? 'reproduced'
+        : 'covered',
+      `[真实基座] 直载正控 A=1帧/B=3帧;A 挂载成功(canvas);换 B 工程(合法内容)挂载: B 读取增量=${bReads1 - bReads0} 且仍渲染 canvas——B 零读取直接复用 A 缓存(chunk-only 键,FireEffectPreview.tsx:15-18)`,
+    )
+  }
+  // G-C02 身份轴：同 projectId、不同内容（不同 workspace/reader 场景同根）
+  {
+    const A = await fireBase('same-proj', 8, 1, 9)
+    const B = await fireBase('same-proj', 8, 3, 10) // 同 projectId 同 chunk 不同合法内容
+    const directA = await reforge.loadFireSprite(A.base, 8)
+    const a = await mountFire(A.base, 8)
+    const aOk = Boolean(a.canvas)
+    a.rootEl.unmount()
+    a.div.remove()
+    const bReads0 = B.reads.get(B.path) ?? 0
+    const b = await mountFire(B.base, 8)
+    const bReads1 = B.reads.get(B.path) ?? 0
+    b.rootEl.unmount()
+    b.div.remove()
+    record(
+      'G-C02',
+      directA.frames.length === 1 && aOk && bReads1 === bReads0 ? 'reproduced' : 'covered',
+      `[身份轴] 同 projectId 不同内容基座: B 读取增量=${bReads1 - bReads0}——键不含 reader/workspace/内容身份,与 G-C01 同根`,
+    )
+  }
+  // G-C06 失败缓存（真实注入 + 修复后下层成功 + 上层无重试）
+  {
+    const C = await fireBase('proj-c', 9, 1, 11)
+    let broken = true
+    const origReadBytes = C.base.source.readBytes.bind(C.base.source)
+    let injections = 0
+    C.base.source.readBytes = async (rel) => {
+      if (broken && rel === C.path) {
+        injections += 1
+        throw new Error('注入 FIRE 读取失败')
+      }
+      return origReadBytes(rel)
+    }
+    let failedFirst
+    try {
+      await reforge.loadFireSprite(C.base, 9)
+      failedFirst = false
+    } catch {
+      failedFirst = true
+    }
+    const c1 = await mountFire(C.base, 9)
+    const c1Failed = c1.failed
+    c1.rootEl.unmount()
+    c1.div.remove()
+    broken = false // 修复
+    const directOk = (await reforge.loadFireSprite(C.base, 9)).frames.length === 1 // 下层成功正控
+    const reads0 = C.reads.get(C.path) ?? 0
+    const c2 = await mountFire(C.base, 9)
+    const stillFailed = c2.failed
+    c2.rootEl.unmount()
+    c2.div.remove()
+    const reads1 = C.reads.get(C.path) ?? 0
+    record(
+      'G-C06',
+      injections === 2 && failedFirst && c1Failed && directOk && stillFailed && reads1 === reads0
+        ? 'reproduced'
+        : 'covered',
+      `[新鲜chunk9] 注入=${injections}(直载预检+挂载各1次真实抛错);挂载渲染“无法加载”=${c1Failed};修复后直载成功=${directOk}(产生读取${reads0}) 但重挂载仍“无法加载”=${stillFailed} 且读取增量=${reads1 - reads0}——失败 null 永久缓存,无重试通道`,
+    )
+  }
+
+  // G-C07 在途切换（限定观察版）：A entered 并真实挂起后卸载、B 独立 root 完成再释放 A。
+  // 按二轮复核收窄：先卸载 A 的 root 再挂 B 的新 root ≠ 同组件 A→B 的请求归属回归；
+  // Codex fire-control/fire-no-alive 见证显示移除 alive 守卫不改变本观察——
+  // 撤回“已动态证明 alive 丢弃”的因果结论，完整同实例切换/迟到 reject 矩阵列 risk 留缓存卡。
+  {
+    const A = await fireBase('inflight-a', 10, 1, 12)
+    let releaseA
+    const gateA = new Promise((yes) => {
+      releaseA = yes
+    })
+    const origRead = A.base.source.readBytes.bind(A.base.source)
+    A.base.source.readBytes = async (rel) => {
+      if (rel === A.path) {
+        A.reads.set(A.path, (A.reads.get(A.path) ?? 0) + 1) // 进入即计数（挂起见证）
+        await gateA // A 在途挂起
+      }
+      return origRead(rel)
+    }
+    const el = await mount(FireMod.FireEffectPreview, {
+      assetBase: A.base,
+      anim: { effectSprite: 10 },
+      assetReader: blankReader,
+    })
+    await waitFor(() => (A.reads.get(A.path) ?? 0) >= 1, 'G-C07 A 读取已发生(在途 entered)')
+    const aInFlight = el.div.textContent.includes('正在加载')
+    el.rootEl.unmount()
+    el.div.remove()
+    const B = await fireBase('inflight-b', 11, 1, 13)
+    const b = await mountFire(B.base, 11) // B 在 A 挂起期间完成（另一 root）
+    const bOk = Boolean(b.canvas)
+    releaseA()
+    await waitFor(() => (A.reads.get(A.path) ?? 0) >= 2, 'G-C07 A 迟到读取完成(计数=2)')
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    const bStillOk = Boolean(b.div.querySelector('canvas'))
+    const bText = b.div.textContent
+    b.rootEl.unmount()
+    b.div.remove()
+    record(
+      'G-C07',
+      'risk',
+      `[限定观察] A(chunk10)读取发生并挂起(loading=${aInFlight})后卸载其 root;B 在另一 root 独立完成=${bOk},释放 A 后 B 仍 canvas=${bStillOk}、文本无 A 痕迹=${!bText.includes('FIRE #10')}——只证「不同 root 卸载/新挂载未串状态」;alive 丢弃的因果保证已按复核撤回(Codex 移除 alive 守卫本观察不变),同实例 A→B 切换/迟到 reject 矩阵留 risk 待缓存卡转正`,
+    )
+  }
+  record(
+    'G-C08',
+    'risk',
+    'SpriteThumb 换 revision 正确失效（G-C03 同 reader 实证）;FIRE 键无 revision/内容维度,替换 FIRE 源后同 chunk 永旧帧——与 G-C01 同根(E-03/04 域);undo 保留策略未动',
+  )
+  record(
+    'G-C09',
+    'risk',
+    '容器 census(静态): fireCache/thumbCache 模块级强引用(FireEffectPreview.tsx:15/SpriteThumb.tsx:15);StampPreviewCanvas 用 WeakMap(:31-32);无实测不宣布泄漏',
+  )
+  record(
+    'G-C10',
+    'risk',
+    '分层(静态建议): 身份失效与失败缓存是两个机制——身份键=(工程/reader/资产,revision),失败策略=失败不入缓存可重试;FIRE/Thumb 共享同类回归矩阵;容量/内存待证不混入功能授权',
+  )
+  console.log('\n=== G-C 返工观察汇总 ===')
+  for (const { id, verdict, detail } of log) console.log(`${id} ${verdict} :: ${detail}`)
+} finally {
+  globalThis.fetch = oldFetch
+  await server.close()
+}
