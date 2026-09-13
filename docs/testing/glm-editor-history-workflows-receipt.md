@@ -8,7 +8,7 @@
 ## 冻结与白名单对账
 
 - worktree `/Users/zhangxu/illegal/type-pal-glm-histwf`，分支 `codex/glm-history-workflow-tests`，起点 64b3c8ba；`git diff dded6f27..64b3c8ba -- packages` 为空（产品/既有测试零 diff）。
-- 白名单新增恰两文件：`packages/editor/src/core/editor-history-paired-workflows.test.ts`（20 用例）+ 本回执。不改产品/既有测试/共享 fixture/配置/基线/主卡/旧探针。
+- 白名单新增两文件：`packages/editor/src/core/editor-history-paired-workflows.test.ts`（20 用例）+ 本回执；另按 docs 目录索引门要求在 `docs/testing/README.md` 既有工作包行内追加回执链接一词（机械索引，非内容改写，已在此披露）。不改产品/既有测试/共享 fixture/配置/基线/主卡/旧探针。
 - 测试只用稳定公开 API（`new EditorHistoryCoordinator`、`dispatch/undo/redo`、两 session 公开方法）；undo/redo 走协调器优先 + 「最后通知归属」启发式 fallback（以 subscribe 复现 App historyOwnerRef 语义），不读私有栈、不 mock 协调器/会话。
 - P12/P20 的只读 fs/grep 对账沿用仓内 Vitest-only Node 审计惯例（`// @ts-nocheck`，同 design-system boundary.test.ts 先例），编辑器包无 Node 类型。
 
