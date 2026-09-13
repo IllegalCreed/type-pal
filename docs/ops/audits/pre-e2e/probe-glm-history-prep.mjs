@@ -247,7 +247,7 @@ try {
     record(
       'G-H02',
       'reproduced',
-      `P/M/S undo序列(实际操作序: u1撤S,u2撤M20,u3撤pair半笔,u4撤pair另一半,redo 紧跟在 4 次 undo 之后): u1=${JSON.stringify(u1)} u2=${JSON.stringify(u2)} u3=${JSON.stringify(u3)} u4=${JSON.stringify(u4)} redo1=${JSON.stringify(rd1)}——pair 在 u3/u4 被拆成两半,redo1 只恢复半笔`,
+      `P/M/S undo序列(逐步含义: u1 撤 S 单条→[20,wait1];u2 撤 pair 的脚本半边→[20,[]];u3 撤 M20→[10,[]];u4 撤 pair 的主半边→[0,[]];redo 紧跟 4 次 undo 之后,只恢复半笔): u1=${JSON.stringify(u1)} u2=${JSON.stringify(u2)} u3=${JSON.stringify(u3)} u4=${JSON.stringify(u4)} redo1=${JSON.stringify(rd1)}——pair 被先后拆成两个半步,非整笔`,
     )
   }
 
@@ -393,7 +393,7 @@ try {
     record(
       'G-H10',
       'risk',
-      `同对象两次 main dispatch=${a}/${b} price=${price} undo 轨迹=${price}→${u1}→${u2}(第二次 undo 无可撤内容返回 false,不是 10→0→…的两次完整撤销语义);同对象 pair 重复=${pairTwice}——对象身份可重复入栈,但其“复用同一 Command 实例”的真实 caller 域未 census,复用合同未由产品声明,判 risk 待证,不据此扩张正式支持承诺`,
+      `同对象两次 main dispatch=${a}/${b} price 轨迹=${price}→${u1}→${u2}(App undo 返回 void,本探针只观察价格与状态,未采集撤销调用的返回值——第二撤后价格不再变化,不推断“历史为空/返回 false”);同对象 pair 重复=${pairTwice}——对象身份可重复入栈,但复用同一实例的真实 caller 域未 census、复用合同未由产品声明,判 risk 待证`,
     )
   }
 

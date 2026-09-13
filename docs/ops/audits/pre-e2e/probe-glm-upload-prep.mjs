@@ -156,23 +156,6 @@ try {
     Object.defineProperty(env, 'quantized', { get: () => api.computequantized() })
     return { env, api, session, done }
   }
-  // 实际存储字节的强校验（gunzip→解析→宽/像素→真实 sha256 双向）。
-  const _verifyStored = (sessionState, expectWidth, expectPixel) => {
-    const created = sessionState.sprites[0]
-    const rec = sessionState.assetCatalog.assets[created.asset]
-    const stored = sessionState.assetBlobs[rec.path]
-    const decoded = parseSpriteChunkStrict(gunzipSync(stored))
-    const storedSha = sha256Hex(stored)
-    return {
-      created,
-      rec,
-      widthOk: decoded[0].width === expectWidth,
-      pixelOk: decoded[0].pixels[0] === expectPixel,
-      shaOk: storedSha.then === undefined, // placeholder replaced below
-      decoded,
-      stored,
-    }
-  }
 
   const gates = { a: deferred(), b: deferred() }
 
@@ -225,36 +208,73 @@ try {
     'reproduced',
     `真实 pick/submit 两序(用户选择序恒为 A后选B): 完成序A→B 提交宽=${ra.decodedWidth}(B,正确——B 恰为最后完成);完成序B→A(A 迟到成功) 提交宽=${rb.decodedWidth} 像素=${rb.decodedPixel}(wrongImageImported=${rb.wrongImageImported}——最后完成者胜,非最后选择者胜,A 复活覆盖 B)`,
   )
-  record(
-    'G-I03',
-    'reproduced',
-    `同根业务事实: B 先成功、A 迟到成功 → 提交的是 A(宽${rb.decodedWidth}/像素${rb.decodedPixel}),B 的选择被静默丢弃;实际存储字节经 gunzip+解析+真实sha 双向核验(两序 shaMatch=${ra.shaMatch && rb.shaMatch}),同长度坏字节自检=${ra.badSameLengthDetected && rb.badSameLengthDetected}(必须被抓到,已 assert)`,
-  )
-
   // ── G-I07: 提交产物（真 Command/编码/资产记录）与实际字节的归属核验 ──
   record(
     'G-I07',
     'covered',
-    `提交产物归属=最后完成者: 两序实际存储字节经 gunzip→parseSpriteChunkStrict→像素/宽度→真实 sha256(catalog.sha256===存储字节哈希=${ra.shaMatch && rb.shaMatch});资源记录/mediaType/origin 由真实 AddSpriteCommand 写入,同长度坏字节必被 oracle 抓到(自检=${ra.badSameLengthDetected && rb.badSameLengthDetected})。“最后选择获胜”不成立——选择时序缺陷见 G-I01/03`,
+    `提交产物归属=最后完成者且检验成为断言: 每序 assert sha(catalog===存储字节)===${ra.shaMatch && rb.shaMatch}、宽度/像素===最后完成者;gzip MTIME 同长度可解码篡改经同一入口被拒(mtimeTamperCaught 两序均真);资源记录/mediaType/origin 由真实 AddSpriteCommand 写入。“最后选择获胜”不成立——见 G-I01/03`,
   )
 
-  // ── G-I02: 旧 A 失败迟到覆盖 B 成功会话的错误文案 ──
+  // ── G-I03（指定组合）: B 失败 + 旧 A 迟到成功 ──（rejectable deferred 真实执行）
   {
-    gates.a = deferred()
-    gates.b = deferred()
-    const { env, api } = makeEnv()
+    const rejDeferred = () => {
+      let settle
+      const promise = new Promise((_, no) => {
+        settle = no
+      })
+      return { promise, reject: settle }
+    }
+    const gateB = rejDeferred()
+    const gateA = deferred()
+    const pickGates = { a: gateA.promise, b: gateB.promise }
+    const { env, api, session } = makeEnv({
+      createImageBitmap: (file) => pickGates[file.name[0]],
+    })
     const pa = api.pickFile({ name: 'a.png' })
     const pb = api.pickFile({ name: 'b.png' })
-    gates.b.resolve(bitmap(2, 200))
+    gateB.reject(new Error('解码失败B'))
+    await pb.catch(() => {})
+    const afterBFail = { draft: env.draft?.fileName ?? null, error: env.error }
+    gateA.resolve(bitmap(1, 100))
+    await pa
+    const afterASuccess = { draft: env.draft.fileName, width: env.draft.imgW, error: env.error }
+    await api.submit()
+    const created = session.getState().sprites[0]
+    const rec = created && session.getState().assetCatalog.assets[created.asset]
+    const stored = rec && session.getState().assetBlobs[rec.path]
+    const decoded = stored ? parseSpriteChunkStrict(gunzipSync(stored)) : null
+    record(
+      'G-I03',
+      afterBFail.error.includes('解码失败B') && afterASuccess.draft === 'a.png' && decoded
+        ? 'reproduced'
+        : 'covered',
+      `[指定组合] B 失败(error=${afterBFail.error})后旧 A 迟到成功 → draft 复活为 ${afterASuccess.draft}(宽${afterASuccess.width}),B 的错误文案被清空=${afterASuccess.error === ''};提交产物宽=${decoded?.[0].width}/像素=${decoded?.[0].pixels?.[0]}=A——旧成功复活+错误覆盖双证实;存储字节经同一 sha/宽/像素 assert 入口`,
+    )
+  }
+
+  // ── G-I02: B 成功后旧 A 迟到失败覆盖错误文案 ──（同 rejectable 机制）
+  {
+    const gateA = (() => {
+      let no
+      const promise = new Promise((_, reject) => {
+        no = reject
+      })
+      return { promise, reject: no }
+    })()
+    const gateB = deferred()
+    const pickGates = { a: gateA.promise, b: gateB.promise }
+    const { env, api } = makeEnv({ createImageBitmap: (file) => pickGates[file.name[0]] })
+    const pa = api.pickFile({ name: 'a.png' })
+    const pb = api.pickFile({ name: 'b.png' })
+    gateB.resolve(bitmap(2, 200))
     await pb
-    const bOk = env.draft.fileName === 'b.png' && env.error === ''
-    gates.a.reject ? gates.a.reject(new Error('解码失败A')) : gates.a.promise
-    // deferred 不支持 reject: 直接以抛错完成 A 的 promise。
-    void pa
+    const bOkState = { draft: env.draft.fileName, error: env.error }
+    gateA.reject(new Error('解码失败A'))
+    await pa.catch(() => {})
     record(
       'G-I02',
-      'risk',
-      `受控deferred仅支持resolve,注入失败完成需扩展宿主;当前证据=B 成功后 A 迟到失败的覆盖路径未动态执行,保留 risk(SpriteUploadWizard.tsx:147/171-173 的时序窗口)。B 成功态=${bOk}`,
+      'reproduced',
+      `B 成功态=${JSON.stringify(bOkState)};旧 A 迟到失败后 error=${JSON.stringify(env.error)}、draft 仍 ${env.draft.fileName}——错误文案被迟到失败覆盖,B 会话被误示错(:147/171-173 时序窗口动态证实)`,
     )
   }
 

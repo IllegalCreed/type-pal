@@ -5,6 +5,7 @@
 // 与合法 effect-sprite 内容（成功正控先行）；确定性完成信号=DOM 文本/canvas 出现/
 // drawImage 计数，不用固定 sleep。canvas 2d 仍是【呈现边界替身】（不作视觉事实）。
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 
@@ -28,6 +29,7 @@ globalThis.IntersectionObserver = class {
   }
 }
 let drawCalls = 0
+let clearCalls = 0
 const fakeCtx = new Proxy(
   {},
   {
@@ -36,6 +38,7 @@ const fakeCtx = new Proxy(
         return (w, h) => ({ width: w, height: h, data: new Uint8ClampedArray(w * h * 4) })
       if (prop === 'canvas') return { width: 16, height: 16 }
       if (prop === 'drawImage') return () => (drawCalls += 1)
+      if (prop === 'clearRect') return () => (clearCalls += 1)
       return () => undefined
     },
     set() {
@@ -220,25 +223,87 @@ try {
     // 下层成功正控：同一 reader 直接 loadEditorSprite 应成功（SpriteAssetCache 不缓存失败）。
     const direct = await loadEditorSprite(reader, 'sprite.glm-fail')
     const lowerOk = Boolean(direct.frames.length)
-    // 上层重试：再次挂载，读取不应增加（null 已被 thumb 缓存）。
+    // 上层重试：再次挂载，真实完成信号=该次 clearRect(SpriteThumb then 已执行；成功/失败都会清画布)。
     const readsBeforeRetry = box.reads.get(path) ?? 0
     const drawBeforeRetry = drawCalls
+    const clearBeforeRetry = clearCalls
     const b = await mount(SpriteThumbMod.SpriteThumb, thumbProps(reader, 'sprite.glm-fail', sha))
-    await waitFor(
-      () => box.reads.get(path) > readsBeforeRetry || drawCalls > drawBeforeRetry || true,
-      'settle',
-      5,
-    )
+    await waitFor(() => clearCalls > clearBeforeRetry, 'G-C05 重试挂载的 clearRect(then 已执行)')
+    const retryChildren = b.div.childElementCount
+    const retryReadsAtSettle = box.reads.get(path) ?? 0
     b.rootEl.unmount()
     b.div.remove()
-    const readsAfterRetry = box.reads.get(path) ?? 0
-    const retryReads = readsAfterRetry - readsBeforeRetry
+    const retryReads = retryReadsAtSettle - readsBeforeRetry
     record(
       'G-C05',
-      box.injections === 1 && !drewDuringFail && lowerOk && retryReads === 0
+      box.injections === 1 && !drewDuringFail && lowerOk && retryReads === 0 && retryChildren > 0
         ? 'reproduced'
         : 'covered',
-      `[新鲜asset] 注入次数=${box.injections}(真实抛错,首挂载绘制未发生=${!drewDuringFail});修复后下层直载成功=${lowerOk}(frames=${direct.frames.length},产生第2次读取);再挂载新增读取=${retryReads}、新增绘制=${drawCalls - drawBeforeRetry}——thumb 层失败 null 缓存吞掉重试(SpriteThumb.tsx:36-38),下层不缓存失败(assets.ts:236-239)`,
+      `[新鲜asset] 注入=${box.injections}(真实抛错,首挂载绘制未发生=${!drewDuringFail});修复后下层直载成功=${lowerOk}(frames=${direct.frames.length});重试挂载真实渲染(children=${retryChildren})且 clearRect 已执行(loadThumb 回调完成),新增读取=${retryReads}、新增绘制=${drawCalls - drawBeforeRetry}——thumb 失败 null 缓存吞重试(:36-38),下层不缓存失败(assets.ts:236-239);鉴别力反控 G-C05b`,
+    )
+  }
+
+  // G-C05b 单点反控：在「失败 null 入缓存」处逐字注入"失败后删除缓存条目"，
+  // 同一重试路径必须恢复读取与绘制——证明 G-C05 的判定能区分缺陷存在与已修。
+  {
+    const path = 'assets/authored/fail-counter.rle'
+    const bytes = await makeRle(1, 12)
+    const sha = await sha256Hex(bytes)
+    const box = baseOf({ [path]: bytes })
+    const state = stateWithSprite(files, 'glm-fc', 'sprite.glm-fc', path, sha, bytes.byteLength)
+    const reader = createEditorAssetReader(box.source, () => state)
+    const thumbSource = readFileSync(
+      new URL('packages/editor/src/ui/SpriteThumb.tsx', root),
+      'utf8',
+    )
+    const needle = '    thumbCache.set(cacheKey, p)'
+    assert.equal(thumbSource.split(needle).length - 1, 1)
+    const patched = thumbSource.replace(
+      needle,
+      needle +
+        '\n    void p.then((value) => {\n      if (value === null) thumbCache.delete(cacheKey)\n    })',
+    )
+    // 单点反控经隔离 Vite 实例以 load 钩子替换该文件（产品文件零改动）。
+    const mkServer = await import(req.resolve('vite')).then((m) => m.createServer)
+    const srv = await mkServer({
+      root: fileURLToPath(new URL('packages/editor/', root)),
+      configFile: false,
+      server: { middlewareMode: true, watch: null, hmr: false, ws: false },
+      appType: 'custom',
+      optimizeDeps: { noDiscovery: true, include: [] },
+      plugins: [
+        {
+          name: 'glm-c05b-single-point',
+          enforce: 'pre',
+          load(id) {
+            if (id.endsWith('/ui/SpriteThumb.tsx')) return patched
+          },
+        },
+      ],
+    })
+    const thumbFixed = await srv.ssrLoadModule('/src/ui/SpriteThumb.tsx')
+    await srv.close()
+    box.arm(path)
+    const draw0 = clearCalls
+    const a = await mount(thumbFixed.SpriteThumb, thumbProps(reader, 'sprite.glm-fc', sha))
+    await waitFor(() => clearCalls > draw0, 'C05b 首挂载 clearRect')
+    a.rootEl.unmount()
+    a.div.remove()
+    const readsBeforeRetry = box.reads.get(path) ?? 0
+    const drawBefore = drawCalls
+    const b = await mount(thumbFixed.SpriteThumb, thumbProps(reader, 'sprite.glm-fc', sha))
+    await waitFor(() => clearCalls > draw0 + 1, 'C05b 重试 clearRect')
+    const retryChildren = b.div.childElementCount
+    b.rootEl.unmount()
+    b.div.remove()
+    const retryReads = (box.reads.get(path) ?? 0) - readsBeforeRetry
+    const retryDraws = drawCalls - drawBefore
+    record(
+      'G-C05b',
+      box.injections === 1 && retryReads >= 1 && retryDraws >= 1 && retryChildren > 0
+        ? 'covered'
+        : 'reproduced',
+      `[单点反控] 在 thumbCache.set 后注入「失败 null 删除条目」: 重试挂载新增读取=${retryReads} 新增绘制=${retryDraws}(children=${retryChildren})——同一 oracle 下缺陷被修则结果改变,证明 G-C05 判定有鉴别力`,
     )
   }
 
@@ -487,26 +552,47 @@ try {
     )
   }
 
-  // G-C07 在途切换：组件 alive 门（源码+挂载切换动态）
+  // G-C07 在途切换：entered/deferred 真在途 A——先等 A 的读取真实发生并保持挂起,
+  // 切 B 完成,再释放 A,核对 A 迟到结果不写回已卸载实例、B 最终状态正确。
   {
     const A = await fireBase('inflight-a', 10, 1, 12)
-    // 挂载后立即卸载（在途）,再挂载另一 chunk;迟到 resolve 不应写回已卸载实例。
+    let releaseA
+    const gateA = new Promise((yes) => {
+      releaseA = yes
+    })
+    const origRead = A.base.source.readBytes.bind(A.base.source)
+    A.base.source.readBytes = async (rel) => {
+      if (rel === A.path) {
+        A.reads.set(A.path, (A.reads.get(A.path) ?? 0) + 1) // 进入即计数（挂起见证）
+        await gateA // A 在途挂起
+      }
+      return origRead(rel)
+    }
     const el = await mount(FireMod.FireEffectPreview, {
       assetBase: A.base,
       anim: { effectSprite: 10 },
       assetReader: blankReader,
     })
+    await waitFor(() => (A.reads.get(A.path) ?? 0) >= 1, 'G-C07 A 读取已发生(在途 entered)')
+    const aInFlight = el.div.textContent.includes('正在加载')
     el.rootEl.unmount()
     el.div.remove()
     const B = await fireBase('inflight-b', 11, 1, 13)
-    const b = await mountFire(B.base, 11)
+    const b = await mountFire(B.base, 11) // B 在 A 挂起期间完成
     const bOk = Boolean(b.canvas)
+    releaseA()
+    await waitFor(() => (A.reads.get(A.path) ?? 0) >= 2, 'G-C07 A 迟到读取完成(计数=2)')
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    const bStillOk = Boolean(b.div.querySelector('canvas'))
+    const bText = b.div.textContent
     b.rootEl.unmount()
     b.div.remove()
     record(
       'G-C07',
-      bOk ? 'covered' : 'risk',
-      `[在途] A(chunk10)挂载即卸载后挂载 B(chunk11): B 独立完成渲染=${bOk};迟到 A resolve 被 alive=false 丢弃(FireEffectPreview.tsx:66-75)。注:同 chunk 在途共享同一 Promise 属缓存语义非视图错乱;“key 正确性”仅对 chunk 维度成立(身份缺陷见 G-C01)`,
+      aInFlight && bOk && bStillOk && !bText.includes('无法加载') && !bText.includes('FIRE #10')
+        ? 'covered'
+        : 'risk',
+      `[在途] A(chunk10)读取发生并挂起(loading=${aInFlight})后卸载;B(chunk11)完成渲染=${bOk};释放 A 迟到 resolve 后 B 仍 canvas=${bStillOk} 文本无 A 痕迹=${!bText.includes('FIRE #10')}/无错=${!bText.includes('无法加载')}——迟到 A 被 alive=false 丢弃(FireEffectPreview.tsx:66-75);同 chunk 共享 Promise 属缓存语义;key 正确性仅 chunk 维度(身份缺陷 G-C01)`,
     )
   }
   record(
