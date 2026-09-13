@@ -204,6 +204,33 @@ try {
     )
   }
 
+  // 【R2a】统一重试业务判定：clearRect 完成后，以「实际绘制是否恢复」区分失败与成功；
+  // 下层 SpriteAssetCache 已被直载预热时，允许零新增源读取（零读≠失败）。
+  // 前提：正常数据正控（下方 G-C04 已证）、注入=1、下层直载成功、重试挂载真实渲染。
+  async function runRetryCase(thumbModule, path, sha, box, reader) {
+    const draw0 = drawCalls
+    const a = await mount(thumbModule.SpriteThumb, thumbProps(reader, 'sprite.glm-fail', sha))
+    await waitFor(() => (box.reads.get(path) ?? 0) >= 1, 'G-C05 失败读取发生')
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    const drewDuringFail = drawCalls > draw0
+    a.rootEl.unmount()
+    a.div.remove()
+    const direct = await loadEditorSprite(reader, 'sprite.glm-fail')
+    const lowerOk = Boolean(direct.frames.length)
+    const readsBeforeRetry = box.reads.get(path) ?? 0
+    const drawBeforeRetry = drawCalls
+    const clearBeforeRetry = clearCalls
+    const b = await mount(thumbModule.SpriteThumb, thumbProps(reader, 'sprite.glm-fail', sha))
+    await waitFor(() => clearCalls > clearBeforeRetry, '重试挂载的 clearRect(then 已执行)')
+    const retryChildren = b.div.childElementCount
+    const retryReadsAtSettle = box.reads.get(path) ?? 0
+    b.rootEl.unmount()
+    b.div.remove()
+    const retryReads = retryReadsAtSettle - readsBeforeRetry
+    const retryDraws = drawCalls - drawBeforeRetry
+    return { drewDuringFail, lowerOk, retryChildren, retryReads, retryDraws }
+  }
+
   // G-C05（失败注入真实发生 + 下层成功正控 + 上层仍被失败缓存阻断）：
   {
     const path = 'assets/authored/fresh-fail.rle'
@@ -213,44 +240,31 @@ try {
     const state = stateWithSprite(files, 'glm-fail', 'sprite.glm-fail', path, sha, bytes.byteLength)
     const reader = createEditorAssetReader(box.source, () => state)
     box.arm(path) // 注入一次性失败
-    const draw0 = drawCalls
-    const a = await mount(SpriteThumbMod.SpriteThumb, thumbProps(reader, 'sprite.glm-fail', sha))
-    await waitFor(() => (box.reads.get(path) ?? 0) >= 1, 'G-C05 失败读取发生')
-    await new Promise((resolve) => setTimeout(resolve, 0))
-    const drewDuringFail = drawCalls > draw0
-    a.rootEl.unmount()
-    a.div.remove()
-    // 下层成功正控：同一 reader 直接 loadEditorSprite 应成功（SpriteAssetCache 不缓存失败）。
-    const direct = await loadEditorSprite(reader, 'sprite.glm-fail')
-    const lowerOk = Boolean(direct.frames.length)
-    // 上层重试：再次挂载，真实完成信号=该次 clearRect(SpriteThumb then 已执行；成功/失败都会清画布)。
-    const readsBeforeRetry = box.reads.get(path) ?? 0
-    const drawBeforeRetry = drawCalls
-    const clearBeforeRetry = clearCalls
-    const b = await mount(SpriteThumbMod.SpriteThumb, thumbProps(reader, 'sprite.glm-fail', sha))
-    await waitFor(() => clearCalls > clearBeforeRetry, 'G-C05 重试挂载的 clearRect(then 已执行)')
-    const retryChildren = b.div.childElementCount
-    const retryReadsAtSettle = box.reads.get(path) ?? 0
-    b.rootEl.unmount()
-    b.div.remove()
-    const retryReads = retryReadsAtSettle - readsBeforeRetry
+    const r = await runRetryCase(SpriteThumbMod, path, sha, box, reader)
+    // 统一判定：前提全真时，重试未恢复绘制=reproduced（失败缓存阻断）；恢复绘制=covered。
     record(
       'G-C05',
-      box.injections === 1 && !drewDuringFail && lowerOk && retryReads === 0 && retryChildren > 0
+      box.injections === 1 &&
+        !r.drewDuringFail &&
+        r.lowerOk &&
+        r.retryChildren > 0 &&
+        r.retryDraws === 0
         ? 'reproduced'
         : 'covered',
-      `[新鲜asset] 注入=${box.injections}(真实抛错,首挂载绘制未发生=${!drewDuringFail});修复后下层直载成功=${lowerOk}(frames=${direct.frames.length});重试挂载真实渲染(children=${retryChildren})且 clearRect 已执行(loadThumb 回调完成),新增读取=${retryReads}、新增绘制=${drawCalls - drawBeforeRetry}——thumb 失败 null 缓存吞重试(:36-38),下层不缓存失败(assets.ts:236-239);鉴别力反控 G-C05b`,
+      `[新鲜asset,原树] 注入=${box.injections}(首挂载绘制未发生=${!r.drewDuringFail});下层直载成功=${r.lowerOk}(暖缓存,重试允许零新增读取);重试挂载真实渲染(children=${r.retryChildren})且 clearRect 完成后:新增读取=${r.retryReads}、新增绘制=${r.retryDraws}——绘制未恢复=thumb 失败 null 缓存阻断重试(:36-38);同判定单点反控见 G-C05b`,
     )
   }
 
-  // G-C05b 单点反控：在「失败 null 入缓存」处逐字注入"失败后删除缓存条目"，
-  // 同一重试路径必须恢复读取与绘制——证明 G-C05 的判定能区分缺陷存在与已修。
+  // G-C05b 单点反控（R2a 统一版）：在「失败 null 入缓存」处逐字注入"失败后删除缓存条目"，
+  // 与 G-C05 原树使用【同一 runRetryCase 场景与同一判定】——前提步骤完全一致（同下层直载预热），
+  // 仅组件实现不同。修复树必须因绘制恢复而改变结论；下层暖缓存下允许零新增源读取。
   {
     const path = 'assets/authored/fail-counter.rle'
     const bytes = await makeRle(1, 12)
     const sha = await sha256Hex(bytes)
     const box = baseOf({ [path]: bytes })
-    const state = stateWithSprite(files, 'glm-fc', 'sprite.glm-fc', path, sha, bytes.byteLength)
+    // 与原树同 id，保证 runRetryCase 内部引用一致；资产内容不同避免跨例缓存串扰。
+    const state = stateWithSprite(files, 'glm-fail', 'sprite.glm-fail', path, sha, bytes.byteLength)
     const reader = createEditorAssetReader(box.source, () => state)
     const thumbSource = readFileSync(
       new URL('packages/editor/src/ui/SpriteThumb.tsx', root),
@@ -284,26 +298,18 @@ try {
     const thumbFixed = await srv.ssrLoadModule('/src/ui/SpriteThumb.tsx')
     await srv.close()
     box.arm(path)
-    const draw0 = clearCalls
-    const a = await mount(thumbFixed.SpriteThumb, thumbProps(reader, 'sprite.glm-fc', sha))
-    await waitFor(() => clearCalls > draw0, 'C05b 首挂载 clearRect')
-    a.rootEl.unmount()
-    a.div.remove()
-    const readsBeforeRetry = box.reads.get(path) ?? 0
-    const drawBefore = drawCalls
-    const b = await mount(thumbFixed.SpriteThumb, thumbProps(reader, 'sprite.glm-fc', sha))
-    await waitFor(() => clearCalls > draw0 + 1, 'C05b 重试 clearRect')
-    const retryChildren = b.div.childElementCount
-    b.rootEl.unmount()
-    b.div.remove()
-    const retryReads = (box.reads.get(path) ?? 0) - readsBeforeRetry
-    const retryDraws = drawCalls - drawBefore
+    const r = await runRetryCase(thumbFixed, path, sha, box, reader)
+    // 与 G-C05 完全相同的判定式：绘制恢复(且前提全真)→covered；未恢复→reproduced。
     record(
       'G-C05b',
-      box.injections === 1 && retryReads >= 1 && retryDraws >= 1 && retryChildren > 0
-        ? 'covered'
-        : 'reproduced',
-      `[单点反控] 在 thumbCache.set 后注入「失败 null 删除条目」: 重试挂载新增读取=${retryReads} 新增绘制=${retryDraws}(children=${retryChildren})——同一 oracle 下缺陷被修则结果改变,证明 G-C05 判定有鉴别力`,
+      box.injections === 1 &&
+        !r.drewDuringFail &&
+        r.lowerOk &&
+        r.retryChildren > 0 &&
+        r.retryDraws === 0
+        ? 'reproduced'
+        : 'covered',
+      `[单点反控,同一场景/判定,仅组件实现不同] 注入=${box.injections};下层直载成功=${r.lowerOk}(暖缓存);重试 children=${r.retryChildren}、clearRect 完成后:新增读取=${r.retryReads}、新增绘制=${r.retryDraws}——绘制恢复=失败缓存删除后重试成功(零新增读取亦可),与 G-C05 原树(绘制=0)结论相反,证明判定有鉴别力`,
     )
   }
 
@@ -552,8 +558,10 @@ try {
     )
   }
 
-  // G-C07 在途切换：entered/deferred 真在途 A——先等 A 的读取真实发生并保持挂起,
-  // 切 B 完成,再释放 A,核对 A 迟到结果不写回已卸载实例、B 最终状态正确。
+  // G-C07 在途切换（限定观察版）：A entered 并真实挂起后卸载、B 独立 root 完成再释放 A。
+  // 按二轮复核收窄：先卸载 A 的 root 再挂 B 的新 root ≠ 同组件 A→B 的请求归属回归；
+  // Codex fire-control/fire-no-alive 见证显示移除 alive 守卫不改变本观察——
+  // 撤回“已动态证明 alive 丢弃”的因果结论，完整同实例切换/迟到 reject 矩阵列 risk 留缓存卡。
   {
     const A = await fireBase('inflight-a', 10, 1, 12)
     let releaseA
@@ -578,7 +586,7 @@ try {
     el.rootEl.unmount()
     el.div.remove()
     const B = await fireBase('inflight-b', 11, 1, 13)
-    const b = await mountFire(B.base, 11) // B 在 A 挂起期间完成
+    const b = await mountFire(B.base, 11) // B 在 A 挂起期间完成（另一 root）
     const bOk = Boolean(b.canvas)
     releaseA()
     await waitFor(() => (A.reads.get(A.path) ?? 0) >= 2, 'G-C07 A 迟到读取完成(计数=2)')
@@ -589,10 +597,8 @@ try {
     b.div.remove()
     record(
       'G-C07',
-      aInFlight && bOk && bStillOk && !bText.includes('无法加载') && !bText.includes('FIRE #10')
-        ? 'covered'
-        : 'risk',
-      `[在途] A(chunk10)读取发生并挂起(loading=${aInFlight})后卸载;B(chunk11)完成渲染=${bOk};释放 A 迟到 resolve 后 B 仍 canvas=${bStillOk} 文本无 A 痕迹=${!bText.includes('FIRE #10')}/无错=${!bText.includes('无法加载')}——迟到 A 被 alive=false 丢弃(FireEffectPreview.tsx:66-75);同 chunk 共享 Promise 属缓存语义;key 正确性仅 chunk 维度(身份缺陷 G-C01)`,
+      'risk',
+      `[限定观察] A(chunk10)读取发生并挂起(loading=${aInFlight})后卸载其 root;B 在另一 root 独立完成=${bOk},释放 A 后 B 仍 canvas=${bStillOk}、文本无 A 痕迹=${!bText.includes('FIRE #10')}——只证「不同 root 卸载/新挂载未串状态」;alive 丢弃的因果保证已按复核撤回(Codex 移除 alive 守卫本观察不变),同实例 A→B 切换/迟到 reject 矩阵留 risk 待缓存卡转正`,
     )
   }
   record(

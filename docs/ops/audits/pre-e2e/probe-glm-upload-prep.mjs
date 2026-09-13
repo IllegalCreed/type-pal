@@ -159,6 +159,25 @@ try {
 
   const gates = { a: deferred(), b: deferred() }
 
+  // 【R3a】唯一产物校验入口：核 catalog SHA、预期宽度/像素（真实存储字节 gunzip→解码）。
+  // 合法产物通过；gzip MTIME 同长度可解码篡改必须被本入口拒绝（抛错 → 外部注入时 exit1）。
+  async function verifyArtifact(session, expectWidth, expectPixel, label) {
+    const created = session.getState().sprites.at(-1)
+    assert.ok(created, `${label}: 无提交产物`)
+    const rec = session.getState().assetCatalog.assets[created.asset]
+    const stored = session.getState().assetBlobs[rec.path]
+    const decoded = parseSpriteChunkStrict(gunzipSync(stored))
+    const storedSha = await sha256Hex(stored)
+    assert.equal(
+      storedSha,
+      rec.sha256,
+      `${label}: 存储字节 sha(${storedSha.slice(0, 8)})≠catalog(${rec.sha256.slice(0, 8)})`,
+    )
+    assert.equal(decoded[0].width, expectWidth, `${label}: 宽度≠${expectWidth}`)
+    assert.equal(decoded[0].pixels[0], expectPixel, `${label}: 像素≠${expectPixel}`)
+    return { rec, stored, decoded, storedSha }
+  }
+
   // ── G-I01/G-I03: 真实 pick 时序两序 + 实际字节核验 ──
   const orderResults = {}
   for (const completionOrder of [
@@ -177,29 +196,40 @@ try {
     }
     const lastCompletion = completionOrder.at(-1)
     await api.submit()
-    const created = session.getState().sprites[0]
-    const rec = session.getState().assetCatalog.assets[created.asset]
-    const stored = session.getState().assetBlobs[rec.path]
-    const decoded = parseSpriteChunkStrict(gunzipSync(stored))
-    const storedSha = await sha256Hex(stored)
-    const shaMatch = storedSha === rec.sha256
     const expectedWidth = lastCompletion === 'b' ? 2 : 1
-    const _expectedPixel = lastCompletion === 'b' ? 200 : 100
+    const expectedPixel = lastCompletion === 'b' ? 200 : 100
+    // 【R3a】唯一校验入口：真实产物的 catalog SHA/宽度/像素全部 assert。
+    const { rec, stored, decoded, storedSha } = await verifyArtifact(
+      session,
+      expectedWidth,
+      expectedPixel,
+      completionOrder.join(''),
+    )
     orderResults[completionOrder.join('')] = {
       draftWinner: env.draft.fileName,
       decodedWidth: decoded[0].width,
       decodedPixel: decoded[0].pixels[0],
-      shaMatch,
+      shaMatch: storedSha === rec.sha256,
       submittedWidthMatchesLastCompletion: decoded[0].width === expectedWidth,
       wrongImageImported: decoded[0].width !== 2,
       error: env.error,
     }
-    // oracle 自检：同长度坏字节必须被 hash 核验抓到（保留 gzip 魔数）。
-    const bad = new Uint8Array(stored.slice(0))
-    bad[bad.length - 1] ^= 0xff
-    const badDetected = (await sha256Hex(bad)) !== rec.sha256
-    orderResults[completionOrder.join('')].badSameLengthDetected = badDetected
-    assert.ok(badDetected, '同长度坏字节未被 oracle 抓到')
+    // MTIME 反控（经同一入口）：真实产物改为同长度、可解码、宽/像素不变的 gzip MTIME
+    // 篡改并写回 assetBlobs，verifyArtifact 重验必须抛错（外部注入时 exit1）。
+    const mtimeTampered = new Uint8Array(stored.slice(0))
+    assert.equal(mtimeTampered[3] & 2, 0, 'gzip 头无 CRC 位,MTIME 篡改前提成立')
+    mtimeTampered[4] ^= 1
+    parseSpriteChunkStrict(gunzipSync(mtimeTampered)) // 仍可解码（反控前提）
+    session.getState().assetBlobs[rec.path] = mtimeTampered.buffer.slice(0)
+    let mtimeCaught = false
+    try {
+      await verifyArtifact(session, expectedWidth, expectedPixel, `${completionOrder}-mtime`)
+    } catch {
+      mtimeCaught = true
+    }
+    assert.ok(mtimeCaught, 'MTIME 同长度可解码篡改未被同一校验入口拒绝')
+    session.getState().assetBlobs[rec.path] = stored // 还原
+    orderResults[completionOrder.join('')].mtimeTamperCaught = mtimeCaught
   }
   const rb = orderResults.ba
   const ra = orderResults.ab
@@ -239,16 +269,14 @@ try {
     await pa
     const afterASuccess = { draft: env.draft.fileName, width: env.draft.imgW, error: env.error }
     await api.submit()
-    const created = session.getState().sprites[0]
-    const rec = created && session.getState().assetCatalog.assets[created.asset]
-    const stored = rec && session.getState().assetBlobs[rec.path]
-    const decoded = stored ? parseSpriteChunkStrict(gunzipSync(stored)) : null
+    // 同一 verifyArtifact 入口：产物必须是 A（宽1/像素100）。
+    const artifact = await verifyArtifact(session, 1, 100, 'G-I03 指定组合')
     record(
       'G-I03',
-      afterBFail.error.includes('解码失败B') && afterASuccess.draft === 'a.png' && decoded
+      afterBFail.error.includes('解码失败B') && afterASuccess.draft === 'a.png'
         ? 'reproduced'
         : 'covered',
-      `[指定组合] B 失败(error=${afterBFail.error})后旧 A 迟到成功 → draft 复活为 ${afterASuccess.draft}(宽${afterASuccess.width}),B 的错误文案被清空=${afterASuccess.error === ''};提交产物宽=${decoded?.[0].width}/像素=${decoded?.[0].pixels?.[0]}=A——旧成功复活+错误覆盖双证实;存储字节经同一 sha/宽/像素 assert 入口`,
+      `[指定组合] B 失败(error=${afterBFail.error})后旧 A 迟到成功 → draft 复活为 ${afterASuccess.draft}(宽${afterASuccess.width});A 成功后 B 错误文案仍在=${afterASuccess.error.includes('解码失败B')}(submit 起始 setErr('') 不等于 A 成功清错——按复核纠正);提交产物经同一 verifyArtifact assert=宽${artifact.decoded[0].width}/像素${artifact.decoded[0].pixels[0]}=A——旧 A 复活提交实证;错误覆盖实证见 G-I02`,
     )
   }
 
