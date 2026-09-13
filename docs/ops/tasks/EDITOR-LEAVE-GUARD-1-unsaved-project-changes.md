@@ -273,7 +273,36 @@ LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 c
     不重引 ScriptDrawer/旧分片/升级器；A-02/A-03 权限/凭据/事务/读锁保持，D-01 单独排队。
   - 剩余：guard 分支61/63（96.83%，常规汇总四舍五入），两臂保留分母；不承诺强杀/未提交领域草稿。
     全仓覆盖率仍未达最终90%/85%目标，R4 综合链尚待集中执行。
-- Kimi：pending。
+- Kimi：**accept（2026-09-13，独立终审候选 `10c84238` 对比 `d46d63fa`；r1 不重签；未读 GLM 终审结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  接手 HEAD `e777f42b` 与 origin/main 一致、工作树干净；候选后 packages 零漂移。
+  - **guard 内核直读**（`project-leave-guard.ts` 全量）：request 干净直行/脏开决策并捕获
+    [main/script historyVersion]；begin 同步租约（save 仅 decision 期可 saveBeforeLeaving）、
+    saveInFlight/exporting 排他语义合入单一 gate；canReplace = isCurrent + 双版本不变
+    （discardRedo 递增版本保守失效，注释与设计轮观察一致）；finish 仅在 committed 且
+    无新修改时进 ready；connect/disconnect 卸载作废旧租约；beforeunload 读实时状态。
+  - **App 接线直读**：守卫装于入口失效早退之前；`save` 返回真实 ProjectSaveOutcome，
+    每个 await 点查 isCurrent、finally finish(lease, outcome)，cleanup warning 仍归 committed
+    不冒充失败；`runProj`/`saveAs` 在 onOpened 前 canReplace 复验，分别给出「打开期间当前项目
+    又有修改，已保留」与「副本已保存；当前新修改仍未保存」的准确事实；`performLeave('open')`
+    同步穿 pickDir 保激活；file.new/open 经 requestLeave；守卫 blocked 时全局快捷键拦截且
+    cmd+S preventDefault；`scene?.id` 修正使入口失效页守卫真正可达。
+  - **choice 修复独立复核**：ceec744a 的 confirm() 只读调用时 phase——ready 被后台命令降级
+    后，旧「继续打开」点击会被误当 discard 授权（数据丢失方向）。10c84238 修复为调用方携带
+    渲染所表达的 choice + guard 校验 phase 一致 + 两动作不同 React key 重挂载。先红证据
+    consent-before.log 恰两条红（core 返回 open 而非拒绝、App picker 被调 1 次）；
+    **本人独立重建负控制**：内存变换仅删 ` || decision.phase !== choice`（唯一锚点断言），
+    恰该两条回归红（2 failed/9 passed/34 skipped），其余不变，工作树零改动。
+  - **本人实跑**：定向 81/81（guard 18 + App 27 + 既有保存冲突 36）；editor typecheck exit 0。
+    交叉核收口日志：check 6,918（editor 2,350）、strict TOTAL **616 文件/6,430 项**；
+    基线身份变化精确为 +2 测试文件/+3 生产文件，旧测试零移出。
+  - **视觉证据复用**（Codex 已执行，不重复浏览器流程）：亲看 decision-wide.png——三按钮
+    同高、取消默认焦点、danger 放弃、文案完整，与 r1 线框一致；慢保存/激活过期新点击/
+    失败可操作重试等原生流程及准备期失败边界在回执如实登记，不把开发热重载当产品导航。
+  - **范围**：产品面限 App/guard/hook/dialog + 既有测试接线；持久化核心、Root、其他包、
+    生成数据、版本常量零改；无 ScriptDrawer/旧分片/升级器回引；A-02/A-03 权限/凭据/事务/
+    读锁未动；D-01 未混入；guard 为 session-local UI admission，非写能力、非新 undo 时间线。
+  返工项：无。剩余限制如实保留（guard 两臂在分母、强杀/未提交草稿不承诺、R4 集中链待执行、
+  全仓 90/85 未达）。本 accept 不代签、不授权 done。
 - GLM（2026-09-13，矩阵/覆盖席终审）：**accept**。披露：本席为 r1 前提/矩阵签字方，本次为对候选
   10c84238 的独立矩阵/覆盖终审复核，非第三方重验全部原生证据（原生/视觉由 Codex 持有，本席未操作浏览器）。
   ①定向实跑 **81/81**：project-leave-guard 18 + App.leave-guard 27 + 既有 author-save-conflict 36，
@@ -294,7 +323,7 @@ LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 c
   在分母、强杀/未提交草稿不承诺、R4 集中链待执行、全仓 90/85 未达。无 counter。
 - counter / 返工：待审。
 - 缺签豁免：无。
-- done 准入结论：blocked。
+- done 准入结论：三席 accept 均已落盘（GLM 矩阵/覆盖、Kimi 独立终审），待 Codex 统一核定；无缺签豁免，任务保持 review，不标 done。
 
 ## Build / Review / 视觉 / 用户验收
 
@@ -314,7 +343,21 @@ LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 c
   重新核两条 Root 替换调用、save void/catch 和 FSA 激活要求；登记另存为完成复验/原生卸载边界。
   当前为设计候选，未开始产品修改；Kimi 与 GLM 可并行独立取证、各自落签，不依赖另一席结果。
   同步修正工程生命周期规范残留的“A-03 实施中/未终审”旧状态；只更新事实，不改验收合同。
-- Kimi 交接日志：2026-09-13 完成 r1 独立前提/架构审查，签 premise verified + design agree，无返工项。
+- Kimi 交接日志（r1 设计审查，2026-09-13）：完成 r1 独立前提/架构审查，签 premise verified +
+  design agree，无返工项。直读 App.tsx:430 双 dirty、runProj:2192-2205/file.new:2260-2281 两条
+  直达替换、Root main.tsx:158-176 重建与 setBoot('picker') 卸载、save:2066-2191 void+catch resolve、
+  saveAs:2207-2235 await 后直接 onOpened；版本语义 edit-session.ts:121/287-288/508 与
+  script-editor.ts:1321-1340；DS-I.3:919-927、pickDir:75-84、全源 beforeunload 零命中。
+  八条可证伪观察与三条非阻断备注写入设计席。未改产品/测试/他席/共享准入/Status。
+- Kimi 交接日志（r1 终审，2026-09-13）：终审完成，签 accept（候选 10c84238 对比 d46d63fa），无返工项。
+  直读 guard 全量（request/confirm/begin/canReplace/finish 与双版本捕获、discardRedo 保守失效、
+  卸载作废）、App 接线（save 真实 outcome + isCurrent 检查点、runProj/saveAs canReplace 复验、
+  performLeave 同步穿 pickDir、快捷键拦截、入口失效页 scene?.id 修正）；ceec744a choice 竞态
+  独立复核：先红两条（consent-before.log）+ 本人重建负控制（仅删 phase!==choice 绑定，恰两条
+  回归红、工作树零改动）。复跑定向 81/81、typecheck exit 0；交叉核 check 6,918、strict 616/6,430、
+  基线 +2 测试/+3 生产零移出。视觉复用 Codex 证据（亲看 decision-wide.png 与 r1 线框一致）。
+  未改产品/测试/他席/共享准入/Status，未读 GLM 终审结论。Next：Codex 统一核定 done；
+  R4 集中链与用户验收按台账另推。
   直读 App.tsx:430 双 dirty、runProj:2192-2205/file.new:2260-2281 两条直达替换、Root main.tsx:158-176
   重建与 setBoot('picker') 卸载、save:2066-2191 void+catch resolve（失败≠成功）、saveAs:2207-2235
   await 后直接 onOpened；版本语义 edit-session.ts:121/287-288/508（undo 置脏递增属保守正确、
@@ -348,7 +391,17 @@ LG 矩阵、五组负控制及最后发现的点击身份竞态返工。最终 c
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（与 GLM 并行终审，r1 / 候选 10c84238）
+### 给 Codex（当前：汇总核定 done）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 汇总 EDITOR-LEAVE-GUARD-1 收口，任务卡 docs/ops/tasks/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review/r1，终审候选 10c84238（候选后 packages 零漂移）；r1 设计不重签。
+先同步并检查工作树，读本卡 done 前三席签字与两席终审日志。现状：Codex（实现者自测）、Kimi（独立终审）、GLM（矩阵/覆盖席）三席 accept 均已落盘，无 counter、无返工项、无缺签豁免。
+请统一核定 done 准入：核对三席钉同一候选 10c84238，将任务推进 done，同步看板/索引/审计进度（A-07 可标修复）。
+收口时保留并转述限制：guard 分支 61/63 两臂留分母、强杀/未提交领域草稿不承诺、R4 综合链（主属性/脚本交替编辑→取消离开→保存→打开另项目→重开原项目核值）待集中执行、全仓 90/85 目标未达；D-01 按队列另卡，不借本收口推进。
+不得代签任何一席、不把本收口扩张为其他审计缺陷的整组授权；用户验收按惯例另行进行。
+```
+
+### 给 Kimi（历史：与 GLM 并行终审，已完成，r1 / 候选 10c84238）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-LEAVE-GUARD-1。
