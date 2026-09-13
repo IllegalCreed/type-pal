@@ -6,6 +6,9 @@ Revision：r1，2026-09-13。分配者/接收复核：Codex；执行：GLM。
 关联主线：[D-01任务卡](../ops/tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)。
 产出：[整批报告](glm-pre-e2e-prep-report.md)。用户明确要求“多给一些glm能并行处理的工作”。
 
+接收状态（2026-09-13）：GLM已交028ad866；Codex独立复核为counter，R1～R4见整批报告的Codex区。
+候选尚未合入main；返工保留产品冻结/白名单，D-01原设计签字不重签。下方为原工作包范围，不重新开启第一节点。
+
 ## 分工与两个交付节点
 
 这是四组共44项**只读取证/测试设计**，不是44个bug、不是44条必须新增的测试，也不是一批产品修复授权。

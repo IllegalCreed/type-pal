@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| [EDITOR-HISTORY-ORDER-1](tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | 全局撤销顺序与成对操作完整性（D-01） | draft | Kimi / GLM并行设计审查 | r1当前反例已复核；未开始实现，GLM签字优先后续批次独立继续 |
+| [EDITOR-HISTORY-ORDER-1](tasks/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md) | 全局撤销顺序与成对操作完整性（D-01） | draft | Codex 接手主线准入/实施 | r1三席设计已签；本轮仅复核并行取证，未开始产品实现 |
 
 ## 阻塞
 
@@ -28,7 +28,7 @@ A-02 作者保存冲突保护亦已三席及用户验收通过并收口；A-03 [
 接下来按总收口处理其余审计缺陷并补回归/覆盖率，
 然后进入 R4 content20 薄基线 → N6b content21 → 完整 E2E。
 修复分组见[总收口](audits/pre-e2e/summary.md)；U-02 待证，第一阶段缺陷与可后置优化分别保留。
-GLM另有[44项并行只读工作包](../testing/glm-pre-e2e-prep.md)：D-01矩阵先回，D-02/D-03/E-03/04准备在独立分支连续完成；Codex统一复核，不提前改产品或正式测试。
+GLM的[44项并行只读工作包](../testing/glm-pre-e2e-prep.md)候选028ad866已独立复核，R1～R4须返工（见[接收结论](../testing/glm-pre-e2e-prep-report.md)），暂不合入。D-01已有前提与设计不重签，取证返工不是整组修复授权。
 
 ## 看板规则
 
