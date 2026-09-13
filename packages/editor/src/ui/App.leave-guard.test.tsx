@@ -302,6 +302,27 @@ test('committed cleanup warning remains visible and does not masquerade as a fai
   expect(onBack).toHaveBeenCalledTimes(1)
 })
 
+test('a command arriving during the saved-continue click cannot turn it into discard', async () => {
+  await mount()
+  await edit()
+  await menu('打开项目')
+  await click('先保存')
+  await until(() => expect(decision()?.getAttribute('aria-label')).toBe('已保存'))
+  const continueButton = button('继续打开')
+  // Real capture-before-bubble ordering, after the user selected the old ready button.
+  continueButton.addEventListener(
+    'click',
+    () => main.dispatch(new RenameProjectCommand('arrived during click')),
+    { capture: true, once: true },
+  )
+  await act(async () => continueButton.click())
+  expect(picker).not.toHaveBeenCalled()
+  expect(onOpened).not.toHaveBeenCalled()
+  expect(decision()?.getAttribute('aria-label')).toBe('有未保存的修改')
+  expect(main.getState().manifest.name).toBe('arrived during click')
+  expect(main.isDirty()).toBe(true)
+})
+
 test('export wait blocks new/open/save-as and releases on its actual read failure', async () => {
   await mount()
   const held = deferred(),

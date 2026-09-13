@@ -104,7 +104,11 @@ import {
   serializeProjectWithMapCopies,
   writeProject,
 } from '../core/project-io.js'
-import type { ProjectLeaveIntent, ProjectSaveOutcome } from '../core/project-leave-guard.js'
+import type {
+  ProjectLeaveChoice,
+  ProjectLeaveIntent,
+  ProjectSaveOutcome,
+} from '../core/project-leave-guard.js'
 import {
   createProjectReferenceIndex,
   type ProjectReferenceEdge,
@@ -2255,8 +2259,8 @@ export function App(props: {
   const requestLeave = (intent: ProjectLeaveIntent): void => {
     if (projectGuard.request(intent)) performLeave(intent)
   }
-  const continueLeave = (): void => {
-    const intent = projectGuard.confirm()
+  const continueLeave = (choice: ProjectLeaveChoice): void => {
+    const intent = projectGuard.confirm(choice)
     if (intent) performLeave(intent)
   }
 

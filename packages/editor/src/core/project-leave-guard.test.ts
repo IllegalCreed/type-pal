@@ -57,7 +57,7 @@ test.each([
     expect(script.getStateSnapshot()).toBe(scriptState)
     expect(guard.isDirty()).toBe(true)
     expect(main.canUndo() || script.canUndo()).toBe(true)
-    expect(guard.confirm()).toBeUndefined()
+    expect(guard.confirm('decision')).toBeUndefined()
   }
 })
 
@@ -66,7 +66,7 @@ test('clean direct leave and explicit discard do not clear dirty or undo', () =>
   expect(guard.request('open')).toBe(true)
   edit('main')
   expect(guard.request('new')).toBe(false)
-  expect(guard.confirm()).toBe('new')
+  expect(guard.confirm('decision')).toBe('new')
   const token = guard.begin('new')!
   expect(guard.canReplace(token)).toBe(true)
   guard.finish(token)
@@ -81,7 +81,7 @@ test('edit then full undo conservatively asks again; discardRedo invalidates con
   main.undo()
   expect(main.getState().manifest.name).toBe(initial.manifest.name)
   expect(guard.request('open')).toBe(false)
-  guard.confirm()
+  guard.confirm('decision')
   const token = guard.begin('open')!
   main.discardRedo(command)
   expect(guard.canReplace(token)).toBe(false)
@@ -136,7 +136,7 @@ test('successful save waits for a fresh click and new edits invalidate ready', (
   const second = guard.begin('save', true)!
   main.markSaved()
   guard.finish(second, 'committed')
-  expect(guard.confirm()).toBe('new')
+  expect(guard.confirm('ready')).toBe('new')
   expect(guard.begin('new')).toBeDefined()
 })
 
@@ -149,7 +149,7 @@ test.each([
   expect(guard.canReplace(token)).toBe(false)
   guard.finish(token)
   guard.request('open')
-  guard.confirm()
+  guard.confirm('decision')
   const copy = guard.begin('save-as')!
   if (axis === 'main') main.undo()
   else script.undo()
@@ -188,6 +188,21 @@ test('unmount and reconnect invalidate old completions, including old releases',
   expect(guard.isCurrent(next)).toBe(true)
   guard.finish(next)
   expect(guard.blocked()).toBe(false)
+})
+
+test('a stale saved-continuation click is never reinterpreted as discard consent', () => {
+  edit('main')
+  guard.request('open')
+  const save = guard.begin('save', true)!
+  main.markSaved()
+  guard.finish(save, 'committed')
+  expect(guard.getSnapshot().decision?.phase).toBe('ready')
+  main.dispatch(new RenameProjectCommand('arrived after save'))
+  // The button still represents the rendered ready choice, not a new discard decision.
+  const intent = guard.confirm('ready')
+  expect(intent).toBeUndefined()
+  expect(guard.getSnapshot().decision?.phase).toBe('decision')
+  expect(main.isDirty()).toBe(true)
 })
 
 test('unload observes both live sessions and writes, not harmless open/export', () => {

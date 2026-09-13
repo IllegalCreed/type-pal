@@ -2,6 +2,7 @@ import type { EditSession } from './edit-session.js'
 import type { ScriptEditSession } from './script-editor.js'
 
 export type ProjectLeaveIntent = 'new' | 'open'
+export type ProjectLeaveChoice = 'decision' | 'ready'
 export type ProjectOperation = ProjectLeaveIntent | 'save' | 'save-as' | 'export'
 export type ProjectSaveOutcome = 'committed' | 'cancelled' | 'failed'
 type Revision = readonly [number, number]
@@ -86,9 +87,9 @@ export class ProjectLeaveGuard {
   }
 
   /** Called by a fresh explicit discard/continue click; consent is not retained after cancellation. */
-  confirm(): ProjectLeaveIntent | undefined {
+  confirm(choice: ProjectLeaveChoice): ProjectLeaveIntent | undefined {
     const decision = this.snapshot.decision
-    if (!this.active || this.lease || !decision) return
+    if (!this.active || this.lease || !decision || decision.phase !== choice) return
     if (decision.phase === 'ready' && (this.isDirty() || !this.unchanged(decision.revision))) {
       this.publish({ ...this.snapshot, decision: { ...decision, phase: 'decision' } })
       return

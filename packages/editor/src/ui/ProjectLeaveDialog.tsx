@@ -1,5 +1,5 @@
 import type { RefObject } from 'react'
-import type { ProjectLeaveGuard } from '../core/project-leave-guard.js'
+import type { ProjectLeaveChoice, ProjectLeaveGuard } from '../core/project-leave-guard.js'
 import { DsButton, DsDialog } from './design-system/index.js'
 
 export function ProjectLeaveDialog(props: {
@@ -7,7 +7,7 @@ export function ProjectLeaveDialog(props: {
   error: string
   fallbackFocusRef: RefObject<HTMLElement | null>
   onCancel: () => void
-  onContinue: () => void
+  onContinue: (choice: ProjectLeaveChoice) => void
   onSave: () => void
 }) {
   const ready = props.decision.phase === 'ready'
@@ -28,7 +28,11 @@ export function ProjectLeaveDialog(props: {
           <DsButton autoFocus variant="secondary" onClick={props.onCancel}>
             {ready ? '返回编辑' : '取消'}
           </DsButton>
-          <DsButton variant={ready ? 'primary' : 'danger'} onClick={props.onContinue}>
+          <DsButton
+            key={ready ? 'saved' : 'discard'}
+            variant={ready ? 'primary' : 'danger'}
+            onClick={() => props.onContinue(ready ? 'ready' : 'decision')}
+          >
             {ready ? (props.decision.intent === 'new' ? '继续新建' : '继续打开') : '不保存并继续'}
           </DsButton>
           {!ready ? <DsButton onClick={props.onSave}>先保存</DsButton> : null}
