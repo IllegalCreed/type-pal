@@ -427,7 +427,7 @@ try {
         await runtime.runCommands([makeCommand(target, false)], { signal: new AbortController().signal })
         const stored = JSON.stringify(w.script.behaviors ?? {})
         if (MODE === 'contract') assert.ok(stored.length > 2, `${id} contract: 选择应写入行为域`)
-        results.push({ id: `${id}-ok`, verdict: 'covered', detail: stored })
+        note(`${id}-ok`, 'covered', `不取消正控写入=${stored}`)
       }
       // 取消：已缓存 resolver（真实异步 scene）在提交前微任务窗口 abort（与 A09 同窗口）。
       {

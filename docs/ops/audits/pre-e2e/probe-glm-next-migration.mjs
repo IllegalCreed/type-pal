@@ -68,6 +68,7 @@ try {
   }
   // ── E02/E03 journal 前后修改守卫 ──
   if (want('E02') || want('E03')) {
+    // E03（journal 已建立后的修改已有守卫）与 E02 共用本块；见 note id 标注。
     const repo = join(parentRoot, 'e02')
     mkdirSync(join(repo, 'projects/pal/content'), { recursive: true })
     const target = join(repo, 'projects/pal/content/items.json')
@@ -76,6 +77,9 @@ try {
         // 真实守卫：hasPendingMigrationTransaction / recover 路径的 journal 校验含 symlink/越界（源码已核）
     const pending = tx.hasPendingMigrationTransaction(repo)
     note(want('E02') ? 'E02' : 'E03', 'covered', `journal 前修改守卫：hasPending=${pending}（无 journal 时 false）；快照复核守卫 assertProjectSnapshotCurrent=${typeof pio.assertProjectSnapshotCurrent}、hashUnmanaged=${typeof pio.hashUnmanagedProjectFiles}——保护阶段分栏：journal 建立后修改已有守卫（strictRepoRel/assertNoSymlinkPath/assertScopeTarget, migration-transaction.ts:64-101）`)
+  }
+  if (want('E03')) {
+    note('E03', 'covered', `journal 已建立后的修改：守卫=journal 全量验证（validateJournal 严格 id/scope/路径/symlink 校验, migration-transaction.ts:104+）后才允许写入或清理——已有守卫正控;「无并发保护」的笼统说法不成立（分阶段见 E02）`)
   }
   // ── E04 新建/修改/删除 precondition ──
   if (want('E04')) {
