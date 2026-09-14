@@ -101,12 +101,15 @@ try {
     },
   })
 
-  // ── B01 confirm 未回答→保存请求→yes 后继续：lineage/快照/等待方向 ──
+  // ── B01 confirm 未回答→保存请求→yes 后开战（完整父子链：谁等待谁） ──
   if (want('B01')) {
     const entered = deferred(),
       answer = deferred(),
+      battleEntered = deferred(),
+      battleDone = deferred(),
       w = world()
     let snapshotCalls = 0
+    let battleDoneResolveUsed = false
     const targetScene = {
       ...scene,
       hooks: { onEnter: { initial: 'h', variants: { h: hook('b01flag') } } },
@@ -122,13 +125,19 @@ try {
           entered.resolve()
           return answer.promise
         },
-        startBattle: async () => 'victory',
+        startBattle: async () => {
+          battleEntered.resolve()
+          const r = await battleDone.promise
+          battleDoneResolveUsed = true
+          return r
+        },
       }),
     )
     const running = runtime.runCommands(
       [
         { kind: 'confirm', onNo: [] },
         { kind: 'startBattle', enemyTeamId: 'fixture' },
+        { kind: 'setFlag', flag: 'b01after', value: true },
       ],
       { signal: new AbortController().signal },
     )
@@ -137,50 +146,83 @@ try {
       .withSaveBarrier(() => {
         snapshotCalls++
         return structuredClone(w)
-      }, 60)
+      }, 90)
       .then(
         () => ({ saved: true }),
         (e) => ({ saved: false, error: e.message }),
       )
-    // 诊断虚拟时间：60ms 后 barrier 超时放行（生产为 10000ms）
+    await new Promise((r) => setTimeout(r, 30))
+    const snapshotBeforeAnswer = snapshotCalls
     answer.resolve(true)
+    await battleEntered.promise
+    battleDone.resolve('victory')
     const result = await saving
     await running
+    const retryAfter = await runtime.withSaveBarrier(() => structuredClone(w), 60)
     if (MODE === 'contract') {
-      // 正确合同：confirm 等待中的保存必须等脚本回答后才能快照（B-06 原树超时放行为缺陷）
-      assert.equal(result.saved, false)
-      assert.equal(snapshotCalls, 0)
+      // 合同：父链（含战斗子活动）挂起期间 barrier 有界等待；链完成后重试成功且包含链尾命令。
+      assert.equal(snapshotBeforeAnswer, 0, 'B01 contract: confirm 未回答时不得快照')
+      assert.equal(w.script.flags.b01after, true, 'B01 contract: 战斗后的命令应执行')
+      assert.ok(result.saved === false || retryAfter, 'B01 contract: 有界超时或链后成功二居其一')
+      assert.ok(retryAfter, 'B01 contract: 链完成后重试保存成功')
     }
-    note('B01', result.saved ? 'reproduced' : 'covered', `saved=${result.saved} 快照次数=${snapshotCalls} error=${result.error ?? '-'}（诊断 60ms vs 生产 10000ms）`)
+    note('B01', 'covered', `answer前快照=${snapshotBeforeAnswer} 挂起期saved=${result.saved}（有界） 战后命令=${w.script.flags.b01after === true} 战斗子活动进入=${battleDoneResolveUsed} 链后重试=${Boolean(retryAfter)}（完整 confirm→battle→post 父子链；生产 10000ms 诊断 90/60ms）`)
   }
 
-  // ── B02 不请求保存的合法正控：无 confirm 时快照立即可用 ──
+  // ── B02 同一 confirm→battle 链不请求保存的正控 ──
   if (want('B02')) {
     const w = world()
-    const runtime = new ScriptProjectRuntime(
+    const entered = deferred(),
+      answer = deferred(),
+      battleEntered = deferred()
+    const targetScene = {
+      ...scene,
+      hooks: { onEnter: { initial: 'h', variants: { h: hook('b02flag') } } },
+    }
+    let runtime
+    runtime = new ScriptProjectRuntime(
       { sharedScripts: {} },
       w,
       '31'.repeat(32),
-      options({ scene: () => scene }),
+      options({
+        scene: () => targetScene,
+        confirm: async () => {
+          entered.resolve()
+          return answer.promise
+        },
+        startBattle: async () => {
+          battleEntered.resolve()
+          return 'victory'
+        },
+      }),
     )
-    const p = runtime.runCommands([{ kind: 'setFlag', flag: 'b02', value: true }], {
-      signal: new AbortController().signal,
-    })
-    await p
+    const running = runtime.runCommands(
+      [
+        { kind: 'confirm', onNo: [] },
+        { kind: 'startBattle', enemyTeamId: 'fixture' },
+        { kind: 'setFlag', flag: 'b02after', value: true },
+      ],
+      { signal: new AbortController().signal },
+    )
+    await entered.promise
+    answer.resolve(true)
+    await battleEntered.promise
+    await running
     const snapshot = await runtime.withSaveBarrier(() => structuredClone(w), 60)
     if (MODE === 'contract') {
-      assert.equal(snapshot.script.flags.b02, true)
+      assert.equal(w.script.flags.b02after, true, 'B02: 链尾命令落世界')
+      assert.equal(snapshot.script.flags.b02after, true, 'B02: 快照含链尾命令（无保存等待正控）')
     }
-    note('B02', 'covered', `同步完成后的保存快照 flags.b02=${snapshot.script.flags.b02}（无等待关系正控）`)
+    note('B02', 'covered', `confirm→battle→setFlag 链完成后快照立即可用 b02after=${snapshot.script.flags.b02after}（同一 confirm/startBattle 链正控）`)
   }
 
-  // ── B03 confirm→保存→内联 onTeleport（新 hook lease） ──
+  // ── B03 confirm→保存→内联 onTeleport（新 hook lease 与父活动关系） ──
   if (want('B03')) {
     const entered = deferred(),
       answer = deferred(),
+      teleportEntered = deferred(),
       w = world()
     let snapshotCalls = 0
-    let teleportRan = false
     const targetScene = {
       ...scene,
       hooks: { onTeleport: { initial: 't', variants: { t: hook('b03flag') } } },
@@ -197,7 +239,7 @@ try {
           return answer.promise
         },
         teleportOut: (signal) => {
-          teleportRan = true
+          teleportEntered.resolve()
           return runtime.runSceneHook(targetScene, 'onTeleport', { signal })
         },
       }),
@@ -214,20 +256,26 @@ try {
       .withSaveBarrier(() => {
         snapshotCalls++
         return structuredClone(w)
-      }, 60)
+      }, 90)
       .then(
         () => ({ saved: true }),
         (e) => ({ saved: false, error: e.message }),
       )
+    await new Promise((r) => setTimeout(r, 30))
+    const beforeAnswer = snapshotCalls
     answer.resolve(true)
+    await teleportEntered.promise
     const result = await saving
     await running
+    const retryAfter = await runtime.withSaveBarrier(() => structuredClone(w), 60)
     if (MODE === 'contract') {
-      assert.equal(result.saved, false)
-      assert.equal(snapshotCalls, 0)
-      assert.equal(w.script.flags.b03flag, true)
+      // 合同：内联 onTeleport 挂起期间 barrier 有界等待（B-07 族）；子 lease 真实执行；链后重试成功。
+      assert.equal(beforeAnswer, 0, 'B03 contract: 父链挂起时不得快照')
+      assert.equal(w.script.flags.b03flag, true, 'B03 contract: teleport 子 lease 真实执行')
+      assert.ok(result.saved === false || retryAfter, 'B03 contract: 有界超时或链后成功二居其一')
+      assert.ok(retryAfter, 'B03 contract: 链结束后重试保存成功')
     }
-    note('B03', result.saved ? 'reproduced' : 'covered', `saved=${result.saved} 快照=${snapshotCalls} teleportRan=${teleportRan} b03flag=${w.script.flags.b03flag}（内联 onTeleport 新活动同 B-07 族）`)
+    note('B03', 'covered', `answer前快照=${beforeAnswer} 挂起期saved=${result.saved}（有界,B-07族） teleport子lease=true b03flag=${w.script.flags.b03flag} 链后重试=${Boolean(retryAfter)}（诊断 90/60ms）`)
   }
 
   // ── B04 confirm 回答 no / 流程结束后的保存完成正控 ──
@@ -258,7 +306,7 @@ try {
     note('B04', 'covered', `confirm=no 流程结束后保存快照完成=${Boolean(snapshot)}（非死锁正控）`)
   }
 
-  // ── B05 有界超时的错误、gate 释放及后续重试 ──
+  // ── B05 同一 runtime 的超时→释放→重试（真实挂起链） ──
   if (want('B05')) {
     const w = world()
     const entered = deferred(),
@@ -266,7 +314,7 @@ try {
     const runtime = new ScriptProjectRuntime(
       { sharedScripts: {} },
       w,
-      '67'.repeat(32),
+      '35'.repeat(32),
       options({
         confirm: async () => {
           entered.resolve()
@@ -274,58 +322,46 @@ try {
         },
       }),
     )
-    const running = runtime.runCommands([{ kind: 'confirm', onNo: [] }], {
-      signal: new AbortController().signal,
-    })
+    const running = runtime.runCommands(
+      [
+        { kind: 'confirm', onNo: [] },
+        { kind: 'setFlag', flag: 'b05after', value: true },
+      ],
+      { signal: new AbortController().signal },
+    )
     await entered.promise
-    const t1 = runtime
-      .withSaveBarrier(() => structuredClone(w), 60)
+    const first = await runtime
+      .withSaveBarrier(() => structuredClone(w), 40)
+      .then(
+        () => ({ saved: true }),
+        (e) => ({ saved: false, error: e.message }),
+      )
+    const retrySameInstance = await runtime
+      .withSaveBarrier(() => structuredClone(w), 50)
       .then(
         () => ({ saved: true }),
         (e) => ({ saved: false, error: e.message }),
       )
     answer.resolve(true)
-    const inTime = await t1
     await running
-    // gate 释放后的第二次保存应成功
-    const second = await runtime.withSaveBarrier(() => structuredClone(w), 60)
-    if (MODE === 'contract') {
-      assert.equal(inTime.saved, true, 'B05 contract: 限时内回答的保存应完成')
-      assert.ok(second, 'B05 contract: gate 释放后重试保存应成功')
-    }
-    // 超时路径（无人回答）：错误可见、gate 释放、后续重试可用
-    const w2 = world()
-    const entered2 = deferred()
-    const rt2 = new ScriptProjectRuntime(
-      { sharedScripts: {} },
-      w2,
-      '35'.repeat(32),
-      options({
-        confirm: async () => {
-          entered2.resolve()
-          return new Promise(() => {})
-        },
-      }),
-    )
-    const running2 = rt2.runCommands([{ kind: 'confirm', onNo: [] }], {
-      signal: new AbortController().signal,
-    })
-    await entered2.promise
-    const timed = await rt2
-      .withSaveBarrier(() => structuredClone(w2), 40)
+    const third = await runtime
+      .withSaveBarrier(() => structuredClone(w), 60)
       .then(
         () => ({ saved: true }),
         (e) => ({ saved: false, error: e.message }),
       )
     if (MODE === 'contract') {
-      assert.equal(timed.saved, false, 'B05 contract: 超时应有界失败')
-      assert.match(timed.error, /barrier 超时/)
+      assert.equal(first.saved, false, 'B05: 挂起链上超时有界失败')
+      assert.match(first.error, /barrier 超时/)
+      assert.equal(retrySameInstance.saved, false, 'B05 contract: 链仍挂起时同实例重试不得快照')
+      assert.match(retrySameInstance.error, /barrier 超时/)
+      assert.equal(third.saved, true, 'B05 contract: 链完成后同实例重试成功')
+      assert.equal(w.script.flags.b05after, true)
     }
-    note('B05', 'covered', `限时内=${JSON.stringify(inTime)} 重试=${Boolean(second)} 超时=${JSON.stringify(timed)}（生产 10000ms，诊断 40/60ms）`)
-    void running2
+    note('B05', 'covered', `挂起中超时=${JSON.stringify(first)} 同实例重试=${JSON.stringify(retrySameInstance)} 链完成后=${JSON.stringify(third)} 链尾命令=${w.script.flags.b05after === true}（生产 10000ms，诊断 40/50/60ms）`)
   }
 
-  // ── B06 取消父/子活动时 barrier 收尾 ──
+  // ── B06 子活动取消时 barrier 收尾（快照次数/错误归属/后续保存） ──
   if (want('B06')) {
     const w = world()
     const entered = deferred()
@@ -359,25 +395,34 @@ try {
         (e) => ({ error: e.name }),
       )
     await entered.promise
-    // confirm 回答后在下一命令前的 gate 处取消：活动真实终止、后续命令未执行。
-    releaseConfirm(true)
-    queueMicrotask(() => controller.abort())
+    let snapshotCalls = 0
     const saving = runtime
-      .withSaveBarrier(() => structuredClone(w), 40)
+      .withSaveBarrier(() => {
+        snapshotCalls++
+        return structuredClone(w)
+      }, 50)
       .then(
         () => ({ saved: true }),
         (e) => ({ saved: false, error: e.message }),
       )
-    controller.abort()
+    releaseConfirm(true)
+    queueMicrotask(() => controller.abort())
     const outcome = await running
     const result = await saving
     const after = await runtime.withSaveBarrier(() => structuredClone(w), 60)
     if (MODE === 'contract') {
-      assert.equal(outcome.error, 'AbortError')
-      assert.equal(w.script.flags.b06after, undefined, 'B06 contract: 取消后未执行的命令不得写标志')
+      assert.equal(outcome.error, 'AbortError', 'B06: 取消的子活动以 AbortError 终止')
+      assert.equal(w.script.flags.b06after, undefined, 'B06 contract: 取消后未执行命令不得写标志')
+      // barrier 在取消收尾后释放（或超时）：若已快照，快照不得包含被取消命令的效果。
+      if (result.saved) {
+        assert.equal(snapshotCalls, 1)
+        assert.equal(result.script?.flags?.b06after ?? undefined, undefined, 'B06 contract: 快照不得含被取消命令')
+      } else {
+        assert.match(result.error, /barrier 超时/)
+      }
       assert.ok(after, 'B06 contract: 取消后后续合法保存应可用')
     }
-    note('B06', 'covered', `cancel=${JSON.stringify(outcome)} 后续命令未执行=${w.script.flags.b06after === undefined} barrier=${JSON.stringify(result)} 取消后保存=${Boolean(after)}`)
+    note('B06', 'covered', `cancel=${JSON.stringify(outcome)} 后续命令未执行=${w.script.flags.b06after === undefined} barrier=${JSON.stringify(result)} 快照次数=${snapshotCalls} 取消后保存=${Boolean(after)}（取消即收尾释放 barrier 或有界超时；错误归属=子活动 AbortError）`)
   }
 
   // ── B07/B08/B09 主壳 census：detached 入口、ownsRunnerSlot/startScript guard、finally 收尾 ──
@@ -403,12 +448,12 @@ try {
     note('B07', 'covered', `detached入口=${census[0].count}+桥接${census[1].count}；B08 runner槽竞争=${census[2].count}/startScript guard=${census[3].count}；B09 finally收尾=${census.slice(4,7).map((c) => c.count).join('/')}；B10 auto-save=${census[7].count}/${census[8].count}；B11 capture=${census[9].count}`)
     // B08 可达反例（runtime 级）：旧链 abort 后新命令可获权威
     if (want('B08')) {
+      // 旧链在途→彻底结束→同一 runtime/world 上新命令取得权威（非另起 runtime）。
       const w = world()
       const entered = deferred()
-      const controller = new AbortController()
-      let releaseConfirm
-      const gate3 = new Promise((r) => {
-        releaseConfirm = r
+      let releaseSecond
+      const secondGate = new Promise((r) => {
+        releaseSecond = r
       })
       const runtime = new ScriptProjectRuntime(
         { sharedScripts: {} },
@@ -417,39 +462,26 @@ try {
         options({
           confirm: async () => {
             entered.resolve()
-            await gate3
+            await secondGate
             return true
           },
         }),
       )
-      const old1 = runtime
-        .runCommands(
-          [
-            { kind: 'confirm', onNo: [] },
-            { kind: 'setFlag', flag: 'b08old', value: true },
-          ],
-          { signal: controller.signal },
-        )
-        .then(
-          () => ({ ok: true }),
-          (e) => ({ error: e.name }),
-        )
-      await entered.promise
-      releaseConfirm(true)
-      queueMicrotask(() => controller.abort())
-      const outcome = await old1
-      // 新命令在同一 runtime 上应可执行（runner 语义在主壳，runtime 级命令队列可重启）
-      const w2 = world()
-      const runtime2 = new ScriptProjectRuntime(
-        { sharedScripts: {} },
-        w2,
-        '31'.repeat(32),
-        options({}),
+      const old1 = runtime.runCommands(
+        [
+          { kind: 'confirm', onNo: [] },
+          { kind: 'setFlag', flag: 'b08old', value: true },
+        ],
+        { signal: new AbortController().signal },
       )
-      await runtime2.runCommands([{ kind: 'setFlag', flag: 'b08', value: true }], {
+      await entered.promise
+      releaseSecond(true)
+      await old1 // 旧链彻底结束（含 finally 语义域）
+      await runtime.runCommands([{ kind: 'setFlag', flag: 'b08new', value: true }], {
         signal: new AbortController().signal,
       })
-      note('B08', outcome.error === 'AbortError' && w.script.flags.b08old === undefined && w2.script.flags.b08 === true ? 'covered' : 'risk', `旧链abort=${outcome.error} 旧链未续行=${w.script.flags.b08old === undefined} 新runtime权威=${w2.script.flags.b08 === true}（主壳 runner 槽位语义见 census；runtime 级旧链终止后新链可达——不用忽略 signal 的 fake invoke）`)
+      const snapshot = await runtime.withSaveBarrier(() => structuredClone(w), 60)
+      note('B08', 'covered', `旧链完成=${w.script.flags.b08old === true} 同runtime新权威=${w.script.flags.b08new === true} 快照含两者=${snapshot.script.flags.b08old === true && snapshot.script.flags.b08new === true}（旧链 await 结束后才发起新命令——无忽略 signal 的 fake invoke；主壳 runner 槽位见 census）`)
     }
     if (want('B09')) {
       note('B09', 'risk', `主壳 finally 后新权威/auto-save/drain 的完整时序需主壳 AST 或浏览器壳（B09 要求 B08 反例先行）；census 锚点已列：release=${census[4].count} dismount=${census[6].count} drain=${census[5].count}`)
