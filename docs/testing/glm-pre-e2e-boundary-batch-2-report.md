@@ -156,3 +156,53 @@
 所有编号按原72点，A取消归B-05/B-09，偷取写回归审计C-01，毒杀才是C-04；不批准删除、不改产品/正式测试/基线，不运行主仓迁移/全仓门禁，不做视觉。
 每组独立提交并连续完成，最终用逐case实跑结果重算完整机器账，修复Biome，提交推送后给Codex整批接收提示词。GLM贡献须披露，不代签、不标done、不自行转Kimi。
 ```
+
+---
+
+## GLM返工交付回执（R1～R7，2026-09-11）
+
+前置：Codex counter 原文与原候选历史完整保留（见上节与本分支 Git）；返工起点=合入接收提交后的 `af1cf351`（报告侧逐字保留 theirs）；产品冻结 `70e3f627` 全程零漂移（本批仅改 8 个白名单文件，packages/scripts/projects/data/锁文件对 `bce7599a` 零 diff）。
+
+### 提交与白名单对账
+
+- 返工提交：A `95b530d1`（R1/R2）、B `5c79cbbc`（R3）、C `56243171`（R4）+ `8bbe80c7`（C01/C02/C05 合同方向修正）、D `99f133c2`（R5）、E `4cc3bd0a`+`97f32f47`（R6）、F `2ec2bd1a`（R7）、`c8a039ae`（六探针 Biome 0 + 机器账重算）。
+- 白名单：仅六探针 + 机器账 + 本回执；无白名单外文件改动（`git diff --stat bce7599a -- packages/ scripts/ projects/ data/ pnpm-lock.yaml` 为空）。
+
+### 逐组返工要点
+
+- **A（R1/R2）**：修反向合同与归属（A02/A03=B-05，A09-A12=B-09 相邻）；A05 真实 ScriptRunner `setSceneOnEnter` + capture/assert 生产原语；A07 三态真实消费；A09-A12 精确残留断言（`residual 必须 undefined`）+ 同输入正控 + AbortError/通知计数。
+- **B（R3）**：B01/B03 完整 confirm→battle/teleport 父子链（barrier 有界或链后重试二居其一，不再误断"保存必成功"）；B05 同实例三段（挂起超时 40→同实例重试 50→释放后成功 60）；B08 旧链 await 彻底结束后新权威。
+- **C（R4+方向修正）**：C04-C06 真实菜单键序/混合链/连续偷取；**C01/C02/C05 修正合同方向**：正确合同=新偷物应写回世界（修复树绿），原树丢弃新增 ID（审计 C-01）业务红；C01 备注审计编号 C-04→C-01 纠正。
+- **D（R5）**：全部真行动+字段级 assert：D01 真实敌攻链毒入 `p.poisons`；D02 equiv 仅 applyPoison 合同与 use 链 silence 域分栏；D03 复合效果逐字段（sleep=2/hp-1）；D04 门禁矩阵（受击者毒抗门）；D05 两次真实还魂香复活（含死者选人+当回合自动出手）；D06 真实技能施放（hp=10/mp=84）；D07 全体治疗+同链死亡门禁；D08 MP 门；D09-D12 真实菜单路由/预占（`pendingItemUses` 提交时扣减+Esc 释放）；**D11 含 24 次全空 tick 禁用输入负控（被拒）**。
+- **E（R6）**：真实 `createMigrationPlan/snapshotOf/loadProjectMigrationSnapshot/assertProjectSnapshotCurrent/buildMigrationTransactionChanges/commitMigrationTransaction/recoverMigrationTransaction/materializePalAssets` 全链，不手写守卫；E03/E04 真实守卫正控（journal 后修改被拒+恢复同拒+retired 预检零写入）；E06/E07/E08 真实物化逃逸复现（含多层父链/TOCTOU/JSON 层分栏）；E09-E12 准确 census（game 同名异符号分栏、定义排除、E11 双形式匹配 5 处全测试）；虚拟 fs 所有操作前校验路径边界；不批准删除。
+- **F（R7）**：见证链（baseline+七包 summary sha256+聚合==基线断言+文件同内容标注）；F01-F07 逐包具体文件+真实消费点（如 decodeRngFrames→game/shell/rng-player.ts:19）；F02 现场读取 skill.ts:220 纠正 r1 误标（毒引用收集非互斥）；F09 各包 1 条共 7 条可实施用例（fixture/操作/assert/反控/命令）；F10 ts-nocheck 13 文件清单；F11 十行 classified 分支表；F12 修正去重顺序（D-01 不重开）。
+
+### 72行机器账（现场重算，逐case实跑）
+
+- 总计：**covered 42 / reproduced 12 / risk 18**，无 pending/空行；每行含源锚点/命令/observe+contract 退出码/红因/正控/反控/后续归属（[机器账](glm-pre-e2e-boundary-batch-2-evidence.json)）。
+- 组内分布：A 7/5/0、B 10/0/2、C 5/3/4、D 12/0/0、E 8/4/0、F 0/0/12。
+- reproduced 12 = A02/A03/A10/A11/A12（B-05/B-09 族）、C01/C02/C05（审计 C-01 写回丢弃）、E02（A-08 采样前窗口）、E06/E07/E08（A-09 物化 symlink）——全部 contract 业务红（exit1，正确合同在修复树应转绿）。
+- risk 18 = B09/B12（主壳域需 B08 反例先行/浏览器壳）、C07/C08/C09/C11（养蛊九回合/战败写回/毒杀结算 Q2、同轮死亡顺序待裁决）、F01-F12（静态候选分流）。
+- 退出码约定：observe 全 72 例 exit0；contract reproduced=exit1（红因逐行登记）、covered=exit0、F 单模式；**failures=0**（120 次探针调用无一环境失败）。
+
+### 鉴别力验证（每组至少一项）
+
+- A：A09 无残留（绿正控）vs A10-A12 残留红——同 fixture 双向鉴别。
+- B：B05 同实例超时重试链（50ms 重试仍超时→60ms 释放后成功），非一次性观察。
+- C：C03 已有物品写回 count=2 绿 vs C01 新增丢弃红——同一 writeBack 入口双向。
+- D：D04 门禁矩阵三段（rate 拒/受击者 res 拒/对照中毒）+ D11 全空 tick 被拒。
+- E：E03 守卫拒（绿）vs E02 采样前窗口不拒（红）；E08 JSON 层拒（绿）vs 物化层不拒（红）。
+
+### 可转正式回归最小集合（由 Codex 复核准入）
+
+1. C01/C02/C05 写回保留新物合同（审计 C-01 修复卡验收断言）。
+2. E02 采样前窗口作者修改检出（A-08 修复卡）；E06-E08 物化 symlink 首写前拒绝（A-09 修复卡）。
+3. A10-A12 selector 取消无残留（B-09 修复卡）。
+4. D 组菜单/预占/复活真实键序断言（现有行为正控，防回归）。
+5. F09 七条定向补测用例（各包准入后）。
+
+### 未测/阻断与后续归属
+
+- B09/B12 主壳域、C07-C09/C11 Q2 域、E11 历史重放通道需用户裁决、E12 删除候选不执行——均已在机器账逐行登记。
+- 根因归并：取消域→B-05/B-09；偷取写回→审计 C-01；毒杀→审计 C-04；迁移窗口/物化→A-08/A-09；旧接口→N6b 前清理。
+- 本批不代签、不标 done、不转 Kimi；GLM 贡献已披露（全部返工提交 Co-authored-by: GLM）。
