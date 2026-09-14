@@ -160,7 +160,50 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
 ### 进入build前
 
 - Codex：premise verified；design agree（r1）。依据本卡四向矩阵和本轮5个定向复跑；反证范围见上，不声称原版异步语义或完整视觉已证。
-- Kimi：premise pending；design pending。须独立读一手文件、核反证，再评价方案，并承担代班的覆盖/文档矩阵审查。
+- Kimi：**premise verified / design agree（2026-09-14，r1，设计产品基线 af3c3400；全部证据本人直读/复跑；GLM 缺席，本席不代填，缺签豁免待用户裁决）**。
+  - **B-05 直读**：`script-project-core.ts:199-204` setSceneMapOverride 在 core 同步写
+    `world.mapOverride[sceneId]`，随后才 `executeEffect`（`script-host-adapter.ts:154-156` 的
+    可失败 `host.reloadMap`）——canonical 先于加载写；主壳 `main.ts:3559-3585` reloadMap 尾部
+    无 await 块同时写 canonical+现场，但挡不住 core 的抢先写入进快照。本人复跑 A02：
+    actual `new-map` vs expected undefined（失败后 canonical 残留），业务红成立。
+  - **B-08 直读**：`runtime-project-view.ts:213-229` projectedWorldScriptScratch 无
+    sceneScriptOverrides、entityStage 恒 `{}`；而 `scene-switch-transaction.ts:53-54` 签名仍读这两个
+    死字段；真实消费链 `main.ts:476` getSceneDef→`baseSceneView`（runtime-project-view.ts:157-169）
+    走 resolveSceneHook 选择/cursor 与 projectRuntimeEntity 页/行为——签名与消费脱节。
+    `main.ts:1002` 默认参数 `scriptState ?? worldView.script ?? empty` 且 getSceneDef 在 await 后
+    默认读活动 canonicalScript——等待期活动值可混入旧计划。本人复跑 A05：actual false/expected
+    true（旧计划未被拒），业务红成立。
+  - **B-09 直读**：`script-project-core.ts:206-249` 四叶 `await this.options.scene(...)` 后直接
+    写 world（selectSceneHooks 更在参数表达式内 await）；wrapper（runtime-script-project.ts:133-140）
+    只在委派前 throwIfAborted。本人复跑 A09：abort 后 `residued='before'` vs expected undefined
+    （取消后选择残留），正控不取消正常提交——业务红成立。A01 contract exit 0（正控）。
+  - **既有边界直读**：`script-project-core.ts:151-178` move 端点握手（提交时检查 signal+scene/
+    session、committed 幂等、提交后 abort 停后续不回滚）——D1 沿用该窄握手是正确模板；
+    `runtime-script-project.ts:140-145` lifecycle 提交后投影必须执行——D3 不加通用 post-await
+    throw 的边界属实；`main.ts:708-725` replaceWorld 原地保留 world/canonical 对象身份——
+    仅凭引用相等不能判断同会话，设计用现有 intent/epoch 而非新全局序号正确。
+  - **设计同意**：D1 core 不抢写、commit control 透传到实际宿主、同步块内 canonical+现场
+    一次安装（块内禁 await/通知/回调）+ 无 reload 能力宿主显式无现场提交，消除双重抢写且
+    拒绝「await 后再写」的撕裂窗口；D2 任何 await 前冻结输入、候选 script 优先、签名换成
+    目标场景真正消费的 canonical 选择/cursor/页/行为且 typed 只留消费字段（同值/无关不误伤）、
+    双 assert 保留、死字段只在本调用域删除；D3 await 后立即查 signal+来源会话再进既有同步
+    选择、来源会话与目标地址分离（不误拒合法跨场景）、拒绝时 selection/cursor/epoch/
+    worldChanged 均不变。AC-01～12 覆盖三缺陷的正/反/正控、先红后绿单点负控、探针冻结与
+    GLM 素材披露，无 test.fails/降阈/缩范围；无旧版本兼容残留（D2 死字段删除不复活为持久层，
+    符合铁律 11）。
+  - **可证伪观察**（任一反例即 counter 或收窄）：① 真实入口已同步提交现场与 canonical 或
+    目标绑定变化已使 assertCurrent 拒绝旧计划或四叶时序后 canonical/epoch/cursor 不变 →
+    前提失效（本人复跑否定）；② D1 实现后失败/取消的 reload 仍触达 canonical 写或提交块内
+    出现 await/通知 → 握手破坏；③ 提交后 microtask abort 撤回已接受地图或跳过投影收尾 →
+    违反既有 move 合同（AC-03）；④ D2 签名漏目标页/cursor 真实变化或对 money/无关 flag/
+    同值重发误失效 → 过窄或过宽（AC-05/06）；⑤ D3 误拒合法跨场景目标或同 sceneId 新会话
+    冒用旧请求 → 会话身份错（AC-04）；⑥ editor playback 宿主（无 reloadMap，
+    playback.ts:331-358）丢 canonical 写或新增意外现场写 → 宿主适配漏；⑦ 旧字段用例被删而
+    未转真实 canonical 输入 → 以删除换绿（AC-11 禁止）。
+  - 返工项：无。非阻断备注：build 期应有 adapter 层「无 reload 能力宿主」的显式回归
+    （preview 走显式无现场提交而非静默丢失/行为漂移）；scene-switch-transaction.test.ts:60-135
+    旧字段用例须转真实 canonical 输入而非删除（卡面锚点已列，终审时逐条核）。**本签字不替代
+    用户的 GLM 缺签豁免裁决；本席同时承担代班的覆盖/文档矩阵审查职责（额度代班记录已列）**。
 - GLM：unavailable（用户说明额度耗尽）；无签字，不代填agree/accept。
 - 独立反证审查：pending Kimi，必须附自己的源锚点与可证伪回答。
 - 缺签豁免：**pending用户明确批准本卡由Codex+Kimi代班GLM**。上一轮“你来做吧”已授权取证接手，不当作此新高风险卡自动豁免。
@@ -189,6 +232,16 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
 
 ## 交接日志
 
+- 2026-09-14 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
+  直读 B-05 写序（script-project-core.ts:199-204 抢先写 vs main.ts:3559-3585 尾块同步提交）、
+  B-08 死字段签名（runtime-project-view.ts:213-229 vs scene-switch-transaction.ts:53-54，
+  真实消费 baseSceneView 的 hook 选择/实体页）、B-09 四叶 await 后直写（script-project-core.ts:206-249）、
+  move 端点既有握手（:151-178）与 lifecycle 提交后投影边界、replaceWorld 对象身份保留（main.ts:708-725）、
+  editor playback.ts:331-358 宿主合同。本人复跑最小定向：A01 contract exit 0；A02（new-map 残留）/
+  A05（旧计划未拒）/A09（abort 后残留 'before'）/A03 业务红 exit 1，无环境失败。
+  七条可证伪观察与两条非阻断备注（adapter 层无 reload 宿主回归、旧字段用例转真实输入）写入本席；
+  覆盖/文档矩阵代班审查已并入本席签字。未改产品/他席/共享准入/Status，不代填 GLM 席位。
+  Next：用户裁决本卡 GLM 缺签豁免；获准且 Codex 核门禁后才可 build。
 - 2026-09-14 Codex：承接af3c3400诊断包，核干净main与远端同步；复读现行规则/原审计/真实调用，确认三个入口共用提交一致性问题。
   新建本卡r1与前提矩阵/AC-01～12；最小定向5次复跑符合基线（1绿4业务红），产品零改动。下一步Kimi设计审查与用户本卡缺签安排裁决。
 - 2026-09-14 Codex：文档门exit0（420 Markdown / 2042 local links / 143 tasks），文档工具20/20，diff检查通过；任务索引内容与官方生成器相符。
