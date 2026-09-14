@@ -228,7 +228,9 @@ function scanSymbolCalls(text, symbol) {
   const out = []
   const needle = `${symbol}(`
   let idx = 0
-  while ((idx = text.indexOf(needle, idx)) !== -1) {
+  for (;;) {
+    idx = text.indexOf(needle, idx)
+    if (idx === -1) break
     if (idx > 0 && /[\w$.]/.test(text[idx - 1])) {
       idx += needle.length
       continue
