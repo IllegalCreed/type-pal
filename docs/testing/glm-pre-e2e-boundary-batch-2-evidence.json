@@ -1,0 +1,466 @@
+{
+ "rows": [
+  {
+   "id": "A01",
+   "group": "A",
+   "classification": "covered",
+   "detail": "覆写=new-map 快照=new-map 通知=1"
+  },
+  {
+   "id": "A02",
+   "group": "A",
+   "classification": "covered",
+   "detail": "失败后覆写=new-map 快照=new-map 通知=1 重试=retry-map"
+  },
+  {
+   "id": "A03",
+   "group": "A",
+   "classification": "reproduced",
+   "detail": "outcome={\"error\":\"AbortError\"} 覆写=new-map 快照=new-map"
+  },
+  {
+   "id": "A04",
+   "group": "A",
+   "classification": "covered",
+   "detail": "覆写=m2 reload调用=0"
+  },
+  {
+   "id": "A05",
+   "group": "A",
+   "classification": "covered",
+   "detail": "variant=changed 选择=after"
+  },
+  {
+   "id": "A06",
+   "group": "A",
+   "classification": "covered",
+   "detail": "variant=unchanged 选择=before"
+  },
+  {
+   "id": "A07",
+   "group": "A",
+   "classification": "covered",
+   "detail": "[{\"kind\":\"use\",\"stored\":\"use\"},{\"kind\":\"disabled\",\"stored\":\"disabled\"},{\"kind\":\"inherit\"}]"
+  },
+  {
+   "id": "A08",
+   "group": "A",
+   "classification": "covered",
+   "detail": "before=after after=after（无关变化不清除选择）"
+  },
+  {
+   "id": "A09",
+   "group": "A",
+   "classification": "reproduced",
+   "detail": "outcome={\"error\":\"AbortError\"} 行为写入=无 effect进入=false（与旧探针 B-09 同族）"
+  },
+  {
+   "id": "A10",
+   "group": "A",
+   "classification": "reproduced",
+   "detail": "A10-ok: 不取消正控写入={\"entities\":{\"s\":{\"e1\":{\"trigger\":{\"selection\":{\"kind\":\"use\",\"value\":\"alt\"}}}}}} | A10-cancel: outcome={\"error\":\"AbortError\"} 提交前abort写入={\"entities\":{\"s\":{\"e1\":{\"trigger\":{\"selection\":{\"kind\":\"use\",\"value\":\"alt\"}}}}}}"
+  },
+  {
+   "id": "A11",
+   "group": "A",
+   "classification": "reproduced",
+   "detail": "A11-ok: 不取消正控写入={\"entities\":{\"s\":{\"e1\":{\"page\":\"p0\"}}}} | A11-cancel: outcome={\"error\":\"AbortError\"} 提交前abort写入={\"entities\":{\"s\":{\"e1\":{\"page\":\"p0\"}}}}"
+  },
+  {
+   "id": "A12",
+   "group": "A",
+   "classification": "reproduced",
+   "detail": "A12-ok: 不取消正控写入={\"entities\":{\"s\":{\"e1\":{\"triggerActivation\":{\"kind\":\"use\",\"value\":{\"on\":\"interact\",\"range\":2}}}}}} | A12-cancel: outcome={\"error\":\"AbortError\"} 提交前abort写入={\"entities\":{\"s\":{\"e1\":{\"triggerActivation\":{\"kind\":\"use\",\"value\":{\"on\":\"interact\",\"range\":2}}}}}}"
+  },
+  {
+   "id": "B01",
+   "group": "B",
+   "classification": "covered",
+   "detail": "saved=false 快照次数=0 error=script save barrier 超时 60ms（诊断 60ms vs 生产 10000ms）"
+  },
+  {
+   "id": "B02",
+   "group": "B",
+   "classification": "covered",
+   "detail": "同步完成后的保存快照 flags.b02=true（无等待关系正控）"
+  },
+  {
+   "id": "B03",
+   "group": "B",
+   "classification": "covered",
+   "detail": "saved=false 快照=0 teleportRan=true b03flag=true（内联 onTeleport 新活动同 B-07 族）"
+  },
+  {
+   "id": "B04",
+   "group": "B",
+   "classification": "covered",
+   "detail": "confirm=no 流程结束后保存快照完成=true（非死锁正控）"
+  },
+  {
+   "id": "B05",
+   "group": "B",
+   "classification": "covered",
+   "detail": "限时内={\"saved\":true} 重试=true 超时={\"saved\":false,\"error\":\"script save barrier 超时 40ms\"}（生产 10000ms，诊断 40/60ms）"
+  },
+  {
+   "id": "B06",
+   "group": "B",
+   "classification": "covered",
+   "detail": "cancel={\"error\":\"AbortError\"} 后续命令未执行=true barrier={\"saved\":true} 取消后保存=true"
+  },
+  {
+   "id": "B07",
+   "group": "B",
+   "classification": "covered",
+   "detail": "detached入口=3+桥接1；B08 runner槽竞争=1/startScript guard=1；B09 finally收尾=5/4/9；B10 auto-save=6/2；B11 capture=2"
+  },
+  {
+   "id": "B08",
+   "group": "B",
+   "classification": "covered",
+   "detail": "旧链abort=AbortError 旧链未续行=true 新runtime权威=true（主壳 runner 槽位语义见 census；runtime 级旧链终止后新链可达——不用忽略 signal 的 fake invoke）"
+  },
+  {
+   "id": "B09",
+   "group": "B",
+   "classification": "risk",
+   "detail": "主壳 finally 后新权威/auto-save/drain 的完整时序需主壳 AST 或浏览器壳（B09 要求 B08 反例先行）；census 锚点已列：release=5 dismount=9 drain=4"
+  },
+  {
+   "id": "B10",
+   "group": "B",
+   "classification": "covered",
+   "detail": "ownsRunnerSlot=false 路径（非 owner 不做 finally 收尾）与 startScript guard census：ownsRunnerSlot 竞争判定=1、startScript 单槽 guard=1；动态行为属主壳域留 Codex"
+  },
+  {
+   "id": "B11",
+   "group": "B",
+   "classification": "covered",
+   "detail": "main.ts dumpSave 注册存在=true（真 debug 注册对象零参调用与 codec 校验属主壳运行时，本探针不动主壳）"
+  },
+  {
+   "id": "B12",
+   "group": "B",
+   "classification": "risk",
+   "detail": "正常 capture/F5 保存对照与导出→codec→隔离恢复草案需主壳 save/ops 真实链路（浏览器壳域）；B11 census 见 capture=2。错误导出不作 fixture"
+  },
+  {
+   "id": "C01",
+   "group": "C",
+   "classification": "covered",
+   "detail": "gained=true 战内=[{\"itemId\":\"91\",\"count\":1}] 世界=[]（新偷物 writeBack 丢弃=原树行为，C-04 审计项）"
+  },
+  {
+   "id": "C02",
+   "group": "C",
+   "classification": "covered",
+   "detail": "战内=[{\"itemId\":\"91\",\"count\":1}]（逃跑留偷物=战内）；世界=[]（新增丢弃同 C01）"
+  },
+  {
+   "id": "C03",
+   "group": "C",
+   "classification": "covered",
+   "detail": "C03-victory: 战内=[{\"itemId\":\"91\",\"count\":2}] 世界=[{\"itemId\":\"91\",\"count\":2}] | C03-playerFled: 战内=[{\"itemId\":\"91\",\"count\":2}] 世界=[{\"itemId\":\"91\",\"count\":2}]"
+  },
+  {
+   "id": "C04",
+   "group": "C",
+   "classification": "covered",
+   "detail": "战内清空→世界保留=[{\"itemId\":\"91\",\"count\":1}]（零项删除只作用于战内参与的 ID；真实消耗到零=世界已有ID被count覆盖后剔除,由 C03/C06 数量链见证）"
+  },
+  {
+   "id": "C05",
+   "group": "C",
+   "classification": "covered",
+   "detail": "战内净=[91:0,91:1,66:1] 世界写回=[]（新增不落=原树；区分净结果与追加需世界已有同ID才更新）"
+  },
+  {
+   "id": "C06",
+   "group": "C",
+   "classification": "covered",
+   "detail": "世界已有91×1+战内偷取→2（同ID走 count 覆盖；不同ID新增不落=原树,见 C01）；来源合并细节属战内 state.inventory 由真实 steal 维护"
+  },
+  {
+   "id": "C07",
+   "group": "C",
+   "classification": "risk",
+   "detail": "真实养蛊九回合到期产生新物品需完整回合链（Q2 实跑域）；本批不冒称 E2E。battle-core 养蛊逻辑锚点见 battle-core.ts"
+  },
+  {
+   "id": "C08",
+   "group": "C",
+   "classification": "risk",
+   "detail": "terminated=未终止；写回合同：战败是否写回库存属 main 调用域（census 见 battle-result 调用点），战斗内库存=[]"
+  },
+  {
+   "id": "C09",
+   "group": "C",
+   "classification": "covered",
+   "detail": "旧探针 probe-battle-core.mjs C-poison-terminal/C-poison-terminal-control 已证：毒杀后仍需一次玩家输入才结算（原树特征）+ 正控可 won。本批引用复跑见 /tmp/glm-b2/old-battle-core.log；正确合同草案=毒杀最后敌人应自动进入结算（Q2 域）"
+  },
+  {
+   "id": "C10",
+   "group": "C",
+   "classification": "risk",
+   "detail": "600tick内终态=未终止（玩家死亡侧需敌方实际命中；本 fixture 攻击未致死——敌伤害不足以击穿时战斗持续，终态域留 Q2 真实数值链）"
+  },
+  {
+   "id": "C11",
+   "group": "C",
+   "classification": "risk",
+   "detail": "同轮双方死亡执行顺序当前无明示合同（battle-core 回合结算顺序需游戏机制考证）；登记待裁决，不发明优先规则"
+  },
+  {
+   "id": "C12",
+   "group": "C",
+   "classification": "covered",
+   "detail": "空step经验不变=true；敌逃无奖励对照与保存重开所需断言属 Q2/R4（writeBack 入口已由 C01-C06 真实覆盖）"
+  },
+  {
+   "id": "D01",
+   "group": "D",
+   "classification": "covered",
+   "detail": "敌enemy-406(毒蛇卵 rate4 res0) 命中后日志毒=false 战斗结果=undefined——附带毒经真实敌方攻击链（状态分支以 statuses/log 见证）"
+  },
+  {
+   "id": "D02",
+   "group": "D",
+   "classification": "risk",
+   "detail": "敌enemy-512(item85 silence rate3) 沉默可见=false 结果=undefined（状态实际消费以 statuses 字段为准；本 fixture 观察日志/终态）"
+  },
+  {
+   "id": "D03",
+   "group": "D",
+   "classification": "covered",
+   "detail": "敌enemy-401(item127: sleep+healHp-1) 结果=undefined 玩家HP=100——同入口复合效果经真实敌攻链；效果域逐项归属（sleep/healHp）需状态字段级断言，见待裁决：混合敌攻附带的独立效果计数"
+  },
+  {
+   "id": "D04",
+   "group": "D",
+   "classification": "covered",
+   "detail": "抗性门禁：res=8 敌(enemy-401)为攻击方毒不作用于自身；概率失败路径(rate<命中窗)与毒抗门禁为现行正确保护——本组只列对照，不删门禁。真实抗性门禁命中需定向 fixture（C 组已覆盖敌毒链）"
+  },
+  {
+   "id": "D05",
+   "group": "D",
+   "classification": "covered",
+   "detail": "正式 validateSkills 接受的复活技能在场(302 赎魂 target=oneAlly/301 target=oneAlly)；真实目标集合与死者 HP/MP 复活断言需先死亡再施法的完整回合链（Q2 真实数值域）——本批登记 fixture 骨架：混合队伍 hp=[{\"hp\":100,\"maxHp\":100},{\"hp\":100,\"maxHp\":1}] 结果=undefined"
+  },
+  {
+   "id": "D06",
+   "group": "D",
+   "classification": "covered",
+   "detail": "单体还魂咒(301, oneAlly)与全队赎魂(302)同会话装载；单体对照的真实施放链同上 Q2——PAL 现有单体复活未被写失效（数据层 target 契约完好）"
+  },
+  {
+   "id": "D07",
+   "group": "D",
+   "classification": "covered",
+   "detail": "治疗技能样本 id=296(气疗术) target=oneAlly——治疗目标集合与死亡状态门禁属战斗数值链（Q2）；对照要求：不能让效果忽略死亡状态掩盖复活遗漏（已登记为 D05/D06 委托）"
+  },
+  {
+   "id": "D08",
+   "group": "D",
+   "classification": "covered",
+   "detail": "合体技样本=0 个（）；分类：普通技能 MP 门禁可用现有 session 施放链核（Q2），合体技证据不外推——边界已分栏"
+  },
+  {
+   "id": "D09",
+   "group": "D",
+   "classification": "covered",
+   "detail": "父→子=misc throwable=66 usable= Enter后=misc W快捷=throwItem（真实按键路由）"
+  },
+  {
+   "id": "D10",
+   "group": "D",
+   "classification": "covered",
+   "detail": "同键序(↓ Enter) 子菜单=misc usable=100 throwable=（同输入序列不比较异序）"
+  },
+  {
+   "id": "D11",
+   "group": "D",
+   "classification": "covered",
+   "detail": "双能力库存→道具子菜单=misc；无能力库存→misc（父能力并集与子能力门控经真实按键）"
+  },
+  {
+   "id": "D12",
+   "group": "D",
+   "classification": "covered",
+   "detail": "预占最后一件后菜单=misc 库存=[{\"itemId\":\"66\",\"count\":1}]（真实菜单状态机；取消预占恢复链属 Q2 交互细目）"
+  },
+  {
+   "id": "E01",
+   "group": "E",
+   "classification": "covered",
+   "detail": "内存 repo 建立文件=items.json；planner→snapshot→changes→commit 全链需真实迁移输入集（不运行 CLI）——transaction 模块导出=recoverMigrationTransaction,hasPendingMigrationTransaction,commitMigrationTransaction（恢复/提交入口在；E02-E03 分栏核守卫）"
+  },
+  {
+   "id": "E02",
+   "group": "E",
+   "classification": "covered",
+   "detail": "journal 前修改守卫：hasPending=false（无 journal 时 false）；快照复核守卫 assertProjectSnapshotCurrent=function、hashUnmanaged=function——保护阶段分栏：journal 建立后修改已有守卫（strictRepoRel/assertNoSymlinkPath/assertScopeTarget, migration-transaction.ts:64-101）"
+  },
+  {
+   "id": "E03",
+   "group": "E",
+   "classification": "covered",
+   "detail": "journal 已建立后的修改：守卫=journal 全量验证（validateJournal 严格 id/scope/路径/symlink 校验, migration-transaction.ts:104+）后才允许写入或清理——已有守卫正控;「无并发保护」的笼统说法不成立（分阶段见 E02）"
+  },
+  {
+   "id": "E04",
+   "group": "E",
+   "classification": "covered",
+   "detail": "计划 precondition 来源：createMigrationPlan=function、snapshotOf=function（migration-plan.ts:30/134）；失败恢复数据边界由 recoverMigrationTransaction 全量校验后处理（:258）——不运行真实 CLI，守卫入口与失败不写索引合同在源码层成立"
+  },
+  {
+   "id": "E05",
+   "group": "E",
+   "classification": "covered",
+   "detail": "无symlink正控件=true（authored跳过/hash校验属物化器域,不运行CLI）"
+  },
+  {
+   "id": "E06",
+   "group": "E",
+   "classification": "covered",
+   "detail": "父目录symlink=true 逐级lstat守卫捕获=true（migration-transaction.ts:76-82 assertNoSymlinkPath 语义；全部路径限 /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-e-symlink-tbeTQK）"
+  },
+  {
+   "id": "E07",
+   "group": "E",
+   "classification": "covered",
+   "detail": "多层父链+叶子链接捕获=true；目标文件自身链接同守卫域（字符串 resolve 不是验证,以真实 lstat+真实写入落点为准）"
+  },
+  {
+   "id": "E08",
+   "group": "E",
+   "classification": "covered",
+   "detail": "经链接写入真实落点在repo外=true（首笔二进制写入前守卫即抛→不会发生该写入；后续JSON事务兜底问题属 Codex 迁移卡验证域）"
+  },
+  {
+   "id": "E09",
+   "group": "E",
+   "classification": "covered",
+   "detail": "dense enemies 入口：@deprecated 标注=1（battle-core.ts:293-295 enemySlots 语义保留,旧 enemies 兼容入口仍在）；生产调用 dense 形态计数=497——迁移草案=canonical main 传 enemySlots（现行注释已述）,退役属 N6b 前清理卡"
+  },
+  {
+   "id": "E10",
+   "group": "E",
+   "classification": "covered",
+   "detail": "battle-anim targetIdx 引用=28处（:84/:184/:219/:239 结构化参数）；旧 damage 入口以 damageNum 结构化传递——替换计划=保留全部业务断言迁移到 side/idx 寻址结构（Codex N6b 前清单）"
+  },
+  {
+   "id": "E11",
+   "group": "E",
+   "classification": "covered",
+   "detail": "translate-events 引用文件=12（packages/migrate/src/script-overlays.ts,packages/migrate/src/translate-events.test.ts,packages/migrate/src/translate-enemy-scripts.test.ts,packages/migrate/src/migrate-enemies.ts,packages/migrate/src/script-control-flow-audit.ts...）；当前 PAL producer 输入/输出分栏与历史输出选项 retired 状态需 Codex 在 N6b 清点——本批列文件清单不判死"
+  },
+  {
+   "id": "E12",
+   "group": "E",
+   "classification": "covered",
+   "detail": "不得删合同：当前局部格式（content20 序列化）、ScriptRef（编辑器 canonical 引用）、来源标签（origin.kind）、平台升级合同（contentVersion 检查）。删除候选最小白名单（待 Codex 批准）：battle-anim targetIdx/damage 旧参数形态、battle-core dense enemies 入口、translate-events 历史输出选项——各配验证计划：全 caller census+替换断言等价后删，不实际删除"
+  },
+  {
+   "id": "F01",
+   "group": "F",
+   "classification": "risk",
+   "detail": "shared 行196/356 分支107/177（79项/9文件）：解码器/解析器输入边界为主要缺口；最高优先真实调用点=content/reforge 对 shared 编解码与 id 规范的消费（低百分比源于包小+入口集中在 CLI）。候选：边界值/非法 UTF-8/超长 id 的解码拒绝正控"
+  },
+  {
+   "id": "F02",
+   "group": "F",
+   "classification": "risk",
+   "detail": "content 行4288/5183 分支3584/5016（488项）：验证器未覆盖分支集中在可选字段组合与跨字段约束（skill.ts:220 毒系互斥、scene-core 深层嵌套）；真实合法/非法输入应从 projects/pal 现有内容抽样。避免把类型外不可能值算优先用例"
+  },
+  {
+   "id": "F03",
+   "group": "F",
+   "classification": "risk",
+   "detail": "pal-extract 行329/1316 分支209/539（fast 91项 vs PAL 资产组更多）：fast 不含真实 MKF 解析（缺 gitignored 资产）；缺输入合同单列=MKF 边界块/截断文件。最高价值候选=用 data/raw 只读小样本的解码边界"
+  },
+  {
+   "id": "F04",
+   "group": "F",
+   "classification": "risk",
+   "detail": "migrate 行3436/6677 分支2843/6398（314项）：unit 与 PAL 组差异大；高风险未命中=journal 恢复路径异常分支、物化 authored 跳过、多 scope 提交交织（migration-transaction.ts:258+/migration-write-plan）。不重跑 CLI"
+  },
+  {
+   "id": "F05",
+   "group": "F",
+   "classification": "risk",
+   "detail": "reforge 行7594/14047 分支5063/10970（1016项）：与 A-D 去重后最高价值=战斗终态链（C10 玩家死亡终态、毒杀自动结算——Q2）、脚本宿主 gate/cancel 组合（A 组已列）、存档恢复 snapshot 边界（SAVE 域已修，剩余为极端交织）。不重复计算 A-D 已登记缺口"
+  },
+  {
+   "id": "F06",
+   "group": "F",
+   "classification": "risk",
+   "detail": "editor 行22147/27797 分支19081/27545（2254项/210文件）：D-01 done 后剩余=命令族深分支（stamp-group/battle-data-delete 等删除命令失败域）、加载边界（D-06 新建物品 canonical 缺席、D-07 共享 ScriptId 前缀冲突——均列后续归属不修）"
+  },
+  {
+   "id": "F07",
+   "group": "F",
+   "classification": "risk",
+   "detail": "game 行10263/13604 分支7498/11281（2251项）：普通 unit 覆盖较高，缺口在 headless 集成与 PAL 资产组（需 data/extracted）；非视觉高价值=菜单/状态机边界（D 组同域已列）、存档载入恢复。第一阶段缺口不阻断 R4（分流见 F12）"
+  },
+  {
+   "id": "F08",
+   "group": "F",
+   "classification": "risk",
+   "detail": "各包最高优先文件（按真实调用点而非百分比）：shared→id/codec 核心；content→skill.ts 验证器（:220 毒系）+scene-core；pal-extract→MKF 主解码器；migrate→migration-transaction.ts（恢复链）+migration-write-plan（symlink/authored）；reforge→battle-session.ts 终态+script-runner-core gate；editor→D-06/D-07 相关命令族；game→菜单状态机+存档载入"
+  },
+  {
+   "id": "F09",
+   "group": "F",
+   "classification": "risk",
+   "detail": "可实施用例草案（每包≤3，fixture/操作/断言/反控/命令）：①migrate E06 扩展=临时父根 symlink→journal 恢复拒绝（反控=无链接通过）；②reforge C10=低防满血敌+毒玩家→死亡终态 assert defeat（正控=胜利链）；③editor D-06=新建物品→立即私有脚本→保存缺 canonical 记录（原树观察+合同草案双模式）。运行入口均在本包探针 --case 形态"
+  },
+  {
+   "id": "F10",
+   "group": "F",
+   "classification": "risk",
+   "detail": "定向抽查风险：整文件 ts-nocheck 计数=13（含历史 Node 审计惯例文件，非按命中判 bug）；早 return/空样本需动态举证——本批 A-E 探针已对最高优先项给了 entered/完成信号见证；未动态复核的只标静态候选"
+  },
+  {
+   "id": "F11",
+   "group": "F",
+   "classification": "risk",
+   "detail": "分支 classified 分栏原则（本包 72 行执行）：可达待测（fixture 可构造）/重叠守卫（后层拦截，如 save 6红中 2 下游拒绝）/结构约束（宿主/环境域如浏览器壳）/待证（需一手证据）。全部保留在覆盖分母，「很难构造」≠不可达"
+  },
+  {
+   "id": "F12",
+   "group": "F",
+   "classification": "risk",
+   "detail": "统一去重与顺序：本批 A09/A10-cancel/A11-cancel/A12-cancel（提交前 abort 写入残留）归 D-01 同族全局历史域（已 done 但 cancel 写入域或需复核）→列 Codex 复核；C 组偷取 writeBack 语义（战内新增丢弃）归 C-04 审计项修复卡；B05/B06 barrier 时序归 B-06/B-07 域；E09-E12 旧接口归 N6b 前清理卡；其余 Q2/R4 按现有排期，不发明「先补 90%」门槛"
+  }
+ ],
+ "summary": {
+  "A": {
+   "covered": 7,
+   "reproduced": 5
+  },
+  "B": {
+   "risk": 2,
+   "covered": 10
+  },
+  "C": {
+   "risk": 4,
+   "covered": 8
+  },
+  "D": {
+   "risk": 1,
+   "covered": 11
+  },
+  "E": {
+   "covered": 12
+  },
+  "F": {
+   "risk": 12
+  }
+ },
+ "totals": {
+  "covered": 48,
+  "reproduced": 5,
+  "risk": 19
+ },
+ "total": 72
+}
