@@ -6,6 +6,7 @@
 
 ## 文档与附件
 
+- [世界异步操作提交一致性](world-async-commit.md)（B-05/08/09；真实入口回归、隔离反控与集中E2E登记）
 - [测试覆盖率基线与只升不降门禁](coverage.md)
 - [GLM剩余边界大批工作包（二）](glm-pre-e2e-boundary-batch-2.md)与[回执](glm-pre-e2e-boundary-batch-2-report.md)（Codex接手完成六组72项诊断准备；34覆盖/23复现/15待证，不代表产品已修复或官方覆盖率提升）
 - [两阶段 E2E 与录像验证合同](e2e.md)

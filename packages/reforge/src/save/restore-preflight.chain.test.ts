@@ -22,7 +22,11 @@ import { expectDefined } from '../defined.js'
 import { seedFormationTrail } from '../follower.js'
 import mainSource from '../main.ts?raw'
 import { Canvas2DRenderer } from '../render.js'
-import { projectedWorldScriptScratch, refreshSceneViewBindings } from '../runtime-project-view.js'
+import {
+  projectedWorldScriptScratch,
+  refreshSceneViewBindings,
+  runtimeSceneView,
+} from '../runtime-project-view.js'
 import {
   assertSceneSwitchDependenciesCurrent,
   captureSceneSwitchDependencies,
@@ -202,6 +206,7 @@ function harness(
     resolveSceneSpawn,
     clearRestoredWorldActorConditions,
     projectedWorldScriptScratch,
+    runtimeSceneView,
     refreshSceneViewBindings,
     seedFormationTrail,
     Canvas2DRenderer,
@@ -222,12 +227,11 @@ function harness(
     saveStore: { getPayload: async () => structuredClone(raw) },
     getLifecycleReferences: async () =>
       content.buildEntityLifecycleReferenceIndex([{ id: 'saved-scene', entities: [] }]),
-    getSceneDef: async (id: string) => {
-      events.push(`prepare:${id}`)
+    getCanonicalScene: async (id: string) => {
+      events.push(`scene-definition:${id}`)
       if (!cache.has(id)) cache.set(id, sceneDef(id))
       return structuredClone(cache.get(id))
     },
-    getCanonicalScene: async (id: string) => cache.get(id),
     canonicalSceneCache: cache,
     getMapAssets: async () => ({ map: { width: 10, height: 10 }, tilesets: new Map() }),
     getStandardPalette: async () => ({ colors: [] }),
@@ -325,7 +329,9 @@ describe('SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）'
     expect(result).toBe('loaded')
     expect(savedFlag(h.env)).toBe(true)
     expect(h.events).toEqual([
-      'prepare:saved-scene',
+      // restore's target validation and prepare both read the canonical definition (cached in main).
+      'scene-definition:saved-scene',
+      'scene-definition:saved-scene',
       'invalidate-script',
       'stop-auto',
       'prune',

@@ -252,7 +252,7 @@ import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { executeScriptHostEffect } from './script-host-adapter.js'
-import type { ScriptEffectCommitControl } from './script-project-core.js'
+import type { MoveEntityCommitControl, ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost, ScriptRunner } from './script-runner.js'
 import type { ScriptRuntimeContext } from './script-runner-core.js'
 import { parseShopTrialParameters, runShopTrial } from './shop-trial.js'
@@ -984,6 +984,7 @@ export async function bootGame(
 
   interface SceneSwitchPlan {
     sceneId: string
+    canonicalDef: import('@type-pal/content').RuntimeSceneDef
     def: SceneDef
     assets: SceneMapAssets
     palette: Palette
@@ -1006,21 +1007,32 @@ export async function bootGame(
     useActorOverrides = true,
     scriptState?: WorldScriptState,
   ): Promise<SceneSwitchPlan> {
-    const currentScript = scriptState ?? worldView.script ?? emptyWorldScriptState()
+    // Freeze before the first await, including an explicitly supplied restore candidate.
+    const preparedWorld = structuredClone(worldView)
+    const currentScript =
+      scriptState === undefined
+        ? (preparedWorld.script ?? emptyWorldScriptState())
+        : structuredClone(scriptState)
+    preparedWorld.script = currentScript
     const preparedRuntimeScript = projectedWorldScriptScratch(currentScript, sceneId)
-    // 活动 world 会被并行 auto 原地修改；预检必须只读调用瞬间的快照，并在提交前对依赖签名。
+    const preparedActorOverrides = useActorOverrides
+      ? new Map(
+          [...actorSpriteOverrides].map(([id, override]) => [
+            id,
+            { ...override, def: structuredClone(override.def) },
+          ]),
+        )
+      : new Map<string, { def: SpriteDef; frames: LoadedSprite }>()
+    const canonicalDef = await getCanonicalScene(sceneId)
+    const def = runtimeSceneView(canonicalDef, currentScript)
+    // Both preparation and the dependency footprint read only the frozen inputs.
     const dependencies = captureSceneSwitchDependencies(
-      worldView,
-      preparedRuntimeScript,
-      sceneId,
-      actorSpriteOverrides,
+      preparedWorld,
+      currentScript,
+      canonicalDef,
+      preparedActorOverrides,
       useActorOverrides,
     )
-    const preparedWorld = structuredClone(worldView)
-    const preparedActorOverrides = useActorOverrides
-      ? new Map(actorSpriteOverrides)
-      : new Map<string, { def: SpriteDef; frames: LoadedSprite }>()
-    const def = await getSceneDef(sceneId, scriptState)
     // 0x99 底图覆写:按稳定 mapId 换底(麒麟洞岩浆),随存档持久。
     const mapId = currentScript.mapOverride?.[sceneId] ?? def.mapId
     const defs = new Map<string, SpriteDef>()
@@ -1081,6 +1093,7 @@ export async function bootGame(
     const onEnterBinding = sceneScriptBinding(def, 'onEnter', preparedRuntimeScript)
     return {
       sceneId,
+      canonicalDef,
       def,
       assets,
       palette: pal,
@@ -1097,16 +1110,12 @@ export async function bootGame(
   }
 
   function assertSceneSwitchPlanCurrent(plan: SceneSwitchPlan, worldView: WorldState): void {
-    const scriptView = projectedWorldScriptScratch(
-      worldView.script ?? emptyWorldScriptState(),
-      plan.sceneId,
-    )
     assertSceneSwitchDependenciesCurrent(
       plan.dependencies,
       captureSceneSwitchDependencies(
         worldView,
-        scriptView,
-        plan.sceneId,
+        worldView.script ?? emptyWorldScriptState(),
+        plan.canonicalDef,
         actorSpriteOverrides,
         plan.useActorOverrides,
       ),
@@ -1404,7 +1413,7 @@ export async function bootGame(
     kind: 'move'
     to: GridPos
     speed: WalkSpeed
-    commitControl?: ScriptEffectCommitControl
+    commitControl?: MoveEntityCommitControl
     blockedAttempts: number
     nextBlockedReportAt: number
     slowRestPending: boolean
@@ -1782,7 +1791,7 @@ export async function bootGame(
     to: GridPos,
     speed: WalkSpeed,
     signal?: AbortSignal,
-    commitControl?: ScriptEffectCommitControl,
+    commitControl?: MoveEntityCommitControl,
   ): Promise<number> {
     return new Promise((resolve, reject) => {
       signal?.throwIfAborted()
@@ -3556,8 +3565,9 @@ export async function bootGame(
       sceneId: () => scene.id,
     },
     // 0x99 当前场景即时换底图:预载完成后在一个无 await 提交块中同时写运行态与持久 override。
-    reloadMap: async (mapId, signal) => {
+    reloadMap: async (mapId, signal, commitCanonical) => {
       assertRunnerActive(signal, `reloadMap(${mapId}) 的 runner 已取消`)
+      if (!commitCanonical) throw new Error('reloadMap 缺 canonical 同步提交控制')
       const scriptMutationToken = scriptMutationIntent.capture()
       const sceneAtRequest = scene
       const scriptAtRequest = canonicalScript
@@ -3574,8 +3584,7 @@ export async function bootGame(
         throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属脚本世界已失效`)
       const nextRenderer = new Canvas2DRenderer(ctx, palette, assets.tilesets)
       const nextRoom = { col: 0, row: 0, cols: assets.map.width, rows: assets.map.height }
-      scriptAtRequest.mapOverride ??= {}
-      scriptAtRequest.mapOverride[sceneAtRequest.id] = mapId
+      commitCanonical()
       map = assets.map
       tiles = assets.tilesets
       renderer = nextRenderer
@@ -3874,7 +3883,7 @@ export async function bootGame(
         command.to,
         command.speed,
         signal,
-        commitControl,
+        commitControl?.kind === 'moveEntity' ? commitControl : undefined,
       )
       if (source === 'auto') {
         try {
@@ -3901,7 +3910,7 @@ export async function bootGame(
       command,
       context,
       signal,
-      { currentSceneId: () => scene.id },
+      { currentSceneId: () => scene.id, ...(commitControl ? { commitControl } : {}) },
     )
   }
 

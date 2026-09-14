@@ -330,7 +330,7 @@ export class Playback {
     const runtimeHost = new ProjectScriptRuntimeHost(scratch, coordinator, {
       lifecycleReferences: buildEntityLifecycleReferenceIndex([runtimeScene]),
       gate: () => this.waitForCommandGate(ac),
-      executeEffect: (command, context, signal) => {
+      executeEffect: (command, context, signal, commitControl) => {
         if (
           command.kind === 'suspendEntity' ||
           command.kind === 'hideEntity' ||
@@ -353,7 +353,7 @@ export class Playback {
           command as unknown as BaseRuntimeLeafCommand,
           context,
           signal,
-          { currentSceneId: () => runtimeScene.id },
+          { currentSceneId: () => runtimeScene.id, ...(commitControl ? { commitControl } : {}) },
         )
       },
       scene: (sceneId) => {

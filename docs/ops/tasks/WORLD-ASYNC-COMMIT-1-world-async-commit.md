@@ -1,6 +1,6 @@
 # WORLD-ASYNC-COMMIT-1 - 世界异步操作提交一致性
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: W3 / X1（既有能力缺陷修复，不变更能力地图状态）
 Coding Owner: Codex
@@ -12,7 +12,7 @@ Unavailable Agents: GLM
 Branch: main
 
 Revision: r1，2026-09-14。设计/产品取证基线：`af3c340021ff573e65360c2c73971d905636e1e4`；其中产品与`70e3f627`一致。
-本轮只开卡、核前提和准备设计审查，**未进入build、未改产品/测试/基线**。
+当前：2026-09-15实现与自验证完成，进入review；用户GLM豁免和5bc62a21的Kimi r1设计签字保持有效，不重签设计、不标done。
 
 ## 目标与范围
 
@@ -67,7 +67,7 @@ SAVE8/content20不变，不做旧档修复/兼容fallback；不新增“所有�
 主动偏离已核合同：no（恢复一致性，不引入新体验）。
 `before -> after`：换图失败/取消后存档可能记下没切过去的地图、预检可能使用旧入口、取消选择可能残留 → 失败不残留，过期计划不提交，成功结果完整保留。
 代表场景：当前房间执行换底图，资源失败时仍留原房间且保存后重开也保持原图；正常成功时现场/保存一起变更。
-产品行为无需另选新方案；正式卡GLM缺签安排仍待用户明确确认，见下。
+产品行为无需另选新方案；用户已批准本卡GLM缺签，详见额度记录。
 
 ## 上下文锚点与调用边界
 
@@ -205,16 +205,16 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
     旧字段用例须转真实 canonical 输入而非删除（卡面锚点已列，终审时逐条核）。**本签字不替代
     用户的 GLM 缺签豁免裁决；本席同时承担代班的覆盖/文档矩阵审查职责（额度代班记录已列）**。
 - GLM：unavailable（用户说明额度耗尽）；无签字，不代填agree/accept。
-- 独立反证审查：pending Kimi，必须附自己的源锚点与可证伪回答。
-- 缺签豁免：**pending用户明确批准本卡由Codex+Kimi代班GLM**。上一轮“你来做吧”已授权取证接手，不当作此新高风险卡自动豁免。
-- build准入结论：blocked（任务仍draft；待Kimi有效设计签字+本卡缺签安排批准）。
+- 独立反证审查：Kimi已完成，直接证据/复跑和七条可证伪观察见其原文签字（5bc62a21）。
+- 缺签豁免：**用户已批准（2026-09-14：“glm可以豁免，kimi签了”）**；本卡由Codex+Kimi代班GLM，恢复后补审，不代填GLM签字。
+- build准入结论：build allowed（Codex/Kimi有效r1签字+用户本卡缺签豁免齐备，未变更前提/方案）。
 
 ### 进入done前
 
-- Codex：pending。
+- Codex：accept（2026-09-15，实现者自验证）；三缺陷正式回归、8项单点反控及Reforge/Editor正常对照、七包check 7036项、官方ratchet与受保护基线下单次严格fast 6548项均通过；详见验证记录，视觉按WA-E1～3集中延期，未冒称已执行。
 - Kimi：pending，需独立实现审查及覆盖矩阵复核。
 - GLM：unavailable；是否在恢复后补审按下面额度记录，不虚造第三席签名。
-- 缺签豁免：待用户裁决是否同时适用本卡build/done，未批准不得以两席直接标done。
+- 缺签豁免：用户已批准本卡GLM席位豁免（承接本卡整体代班提议，适用build/done）；Codex/Kimi终审与用户验收仍未完成，不据此提前标done。
 - done准入结论：blocked。
 
 ## 额度 / 代班记录
@@ -223,15 +223,26 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
 - 范围：仅本卡，不形成后续任务一揽子缺签授权；无视觉转派。
 - 风险：少一个独立覆盖席位；既有GLM诊断贡献不能替代本卡终审。缓解：Kimi逐AC复算关键反控、核主壳真实入口，Codex提供可重建证据。
 - 补审：默认GLM额度恢复后补审本卡；若用户另行免补审，再登记。不要求已耗尽账号现在补签。
-- 用户裁决：pending（本轮“继续吧”授权准备此修复卡，未明确豁免新卡签名）。
+- 用户裁决：2026-09-14明确批准GLM豁免；仅本卡，Codex实现/自测、Kimi独立审查并覆盖矩阵，恢复后补审的原安排保留。
 
 ## Build / Review / 用户验收
 
-尚未开始实现，没有新增产品测试、质量门或视觉通过记录。主审Kimi待设计审查；未标done。
+Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，未标done。
+实现与证据入口：[验证记录](../../testing/world-async-commit.md)。实现候选为本轮源码提交（提交后回填精确SHA），对比5bc62a21。
+
+- 产品7文件：reforge的script-project-core/script-host-adapter/script-runner/main/runtime-project-view/scene-switch-transaction，以及editor playback；未改content/codec/迁移/生成资产/第一阶段/锁文件。
+- 正式回归新增55项：世界提交35、主壳预检10、依赖矩阵9、编辑器真实预览1；现有adapter/移动控制/读档chain仅按实际接口及定义读取调整，未删除既有测试身份。
+- 地图握手的canonical写入仅在runtime host，主壳准备完成后调用控制并同步安装现场；无现行调用方的直接写回旁路已删除，缺控制在IO前拒绝。
+- 验证：最终定向6文件101项、Playback 12项；完整check七包7036项、文档工具20与coverage-tools17；ratchet+单次严格fast 6548项，617生产文件、零scope removals、零覆盖率回退。
+- 旧版本兼容审查：pass；只替换本调用域死投影依赖，未新增升级器/旧字段fallback；独立投影Runner的现有宿主合同保留，但不作为main无控制旁路的理由。
+- GLM材料贡献继续披露；所有最终测试/反控与集成为Codex工作，不是GLM独立验收。功能观感与保存重开集中R4/Q1待验，未做浏览器视觉验收。
 用户无需为设计核代码；后续技术验收由Agent执行，剧情观感按上面集中E2E安排。
 
 ## 交接日志
 
+- 2026-09-15 Codex：完成r1三段实现、55项新回归及8项单点反控。首轮ratchet发现editor新增分支未覆盖（19082/27547低于19081/27545），补真实playCanonical接线回归与反控后通过；不是抖动，不降基线。
+  自查删除main多余直接写回旁路后重跑最终check/ratchet/受保护基线strict-fast，全部exit0；精确命令/计数/失败记录见验证附件。推进review，待Kimi实现终审，不代签/不done。
+- 2026-09-14 Codex：核对5bc62a21 Kimi签字与干净main，登记用户GLM缺签豁免，统一判定build allowed；仅本卡代班，不代签。开始先红后绿的正式回归与三段修复。
 - 2026-09-14 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
   直读 B-05 写序（script-project-core.ts:199-204 抢先写 vs main.ts:3559-3585 尾块同步提交）、
   B-08 死字段签名（runtime-project-view.ts:213-229 vs scene-switch-transaction.ts:53-54，
@@ -251,8 +262,9 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
 ## 下一位Agent提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审查 WORLD-ASYNC-COMMIT-1 的r1设计，任务卡 docs/ops/tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md，状态draft，设计产品基线af3c3400（packages同70e3f627）。
-先同步main，读AGENTS/CLAUDE/phase2 READ-FIRST、本卡真值矩阵、world-lifecycle的B-05/08/09、批二最终回执与A组真实入口；不要重跑72项或重开D-01。
-你是Kimi独立审查方。GLM额度耗尽，本卡缺签豁免待用户确认；请独立核一手前提并压力测试D1提交握手/通知顺序、D2冻结canonical输入与目标页/cursor签名、D3四叶await后取消。重点防提交后取消回滚、仅比world引用、误拒合法跨scene目标、编辑器宿主漏适配、整world签名误伤，以及遗漏实际主壳接线的伪回归。
-给出带file:line和可证伪观察的premise verified/counter、design agree/counter；按AC-01～12核覆盖与旧版本残留，不代填GLM席位。只修改本卡你的签字/审查块和交接日志，提交推送；不改产品、不改任务状态、不开始build、不标done。设计签字不替代用户的缺签裁决。下一步交Codex统一判断准入。
+在 /Users/zhangxu/illegal/type-pal 终审 WORLD-ASYNC-COMMIT-1，卡 docs/ops/tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md，状态review，实现候选以本卡Build精确SHA为准，对比5bc62a21。r1设计不重签；用户已豁免本卡GLM，恢复后补审安排保留。
+先同步main、检查工作树，读AGENTS/CLAUDE/phase2 READ-FIRST、本卡AC-01～12、docs/testing/world-async-commit.md。独立核core→真实main路由→adapter→reloadMap提交控制、失败/取消零抢写、提交后通知、editor无reload宿主；main无第二writer，投影Runner现有合同不误删。
+核首次await前的冻结输入/candidate script、目标hook/cursor/page依赖与无关变化正控；核四叶signal/来源会话检查，不误拒跨scene，不破坏move/lifecycle后提交语义。
+独立复跑定向及node docs/testing/world-async-commit-mutants.mjs（8反控红、2正常对照绿）；核check 7036、ratchet及单次受保护strict-fast 6548/617、55新增测试身份和零scope移除的原始证据。旧批二probe冻结历史API，不代替新正式回归。GLM只贡献原材料，不代填其席位；WA-E1～3视觉/磁盘重开延期集中E2E，不重复跑浏览器。
+在你的实现审查席位写accept或带file:line的counter，明确旧版本兼容审查及剩余风险；只更新自己的审查块/交接日志，提交推送。不改产品/他席/状态，不标done，交Codex统一收口。
 ```

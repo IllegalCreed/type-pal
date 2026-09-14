@@ -38,7 +38,7 @@ export interface ScriptHost {
   dialog(cue: DialogueCue, signal?: AbortSignal): Promise<void>
   clearDialog(): void
   /** 0x99 当前场景即时换底图；host 原子提交运行时 map 与当前场景 mapOverride。 */
-  reloadMap?(mapId: string, signal?: AbortSignal): Promise<void>
+  reloadMap?(mapId: string, signal?: AbortSignal, commitCanonical?: () => void): Promise<void>
   /** 0xA0 游戏通关退出:回标题屏(?menu;未存进度弃,同系统菜单 quit)。 */
   quitToTitle?(videos?: readonly AssetId[], signal?: AbortSignal): void | Promise<void>
   fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red', signal?: AbortSignal): Promise<void>

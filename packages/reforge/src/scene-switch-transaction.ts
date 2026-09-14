@@ -1,5 +1,6 @@
-import type { AssetId, ProjectedWorldScriptState, WorldState } from '@type-pal/content'
+import type { AssetId, RuntimeSceneDef, WorldScriptState, WorldState } from '@type-pal/content'
 import { asyncIntentAbortError } from './async-intent.js'
+import { captureRuntimeSceneBehaviorDependencies } from './runtime-project-view.js'
 
 export interface SceneActorSpriteOverride {
   def: { id: string; asset: AssetId }
@@ -15,8 +16,7 @@ export interface SceneSwitchDependencies {
   }>
   followers: string[]
   inventory: Array<[string, number]>
-  sceneScriptOverride: string
-  entryStage: number
+  behavior: ReturnType<typeof captureRuntimeSceneBehaviorDependencies>
   actorOverrides: Array<[string, string | null, AssetId | null]>
 }
 
@@ -30,8 +30,8 @@ function sortedEquipment(equipment: Readonly<Record<string, string>>): Array<[st
  */
 export function captureSceneSwitchDependencies(
   world: WorldState,
-  projection: ProjectedWorldScriptState,
-  sceneId: string,
+  script: WorldScriptState,
+  scene: RuntimeSceneDef,
   actorOverrides: ReadonlyMap<string, SceneActorSpriteOverride>,
   useActorOverrides: boolean,
 ): SceneSwitchDependencies {
@@ -41,17 +41,16 @@ export function captureSceneSwitchDependencies(
     equipment: sortedEquipment(character.equipment),
   }))
   return {
-    sceneId,
-    mapOverride: world.script?.mapOverride?.[sceneId] ?? null,
+    sceneId: scene.id,
+    mapOverride: script.mapOverride?.[scene.id] ?? null,
     party,
-    followers: [...(world.script?.followers ?? [])],
+    followers: [...(script.followers ?? [])],
     inventory: world.inventory
       .map(({ itemId, count }) => [itemId, count] as [string, number])
       .sort(([leftId, leftCount], [rightId, rightCount]) =>
         leftId === rightId ? leftCount - rightCount : leftId.localeCompare(rightId),
       ),
-    sceneScriptOverride: JSON.stringify(projection.sceneScriptOverrides?.[sceneId] ?? null),
-    entryStage: projection.entityStage[`s:${sceneId}`] ?? 0,
+    behavior: captureRuntimeSceneBehaviorDependencies(scene, script),
     actorOverrides: useActorOverrides
       ? party.map(({ template }) => {
           const override = actorOverrides.get(template)

@@ -216,13 +216,17 @@ describe('current script host adapter', () => {
   test('uses the current scene only for immediate map reload', async () => {
     const target = host()
     target.reloadMap = vi.fn(async () => undefined)
+    const commitControl = {
+      kind: 'sceneMap' as const,
+      commitSceneMapOverride: vi.fn(),
+    }
     const signal = new AbortController().signal
     await executeScriptHostEffect(
       target,
       { kind: 'setSceneMapOverride', mapId: 'map-2' },
       {},
       signal,
-      { currentSceneId: () => 's001' },
+      { currentSceneId: () => 's001', commitControl },
     )
     await executeScriptHostEffect(
       target,
@@ -232,6 +236,11 @@ describe('current script host adapter', () => {
       { currentSceneId: () => 's001' },
     )
     expect(target.reloadMap).toHaveBeenCalledTimes(1)
-    expect(target.reloadMap).toHaveBeenCalledWith('map-2', signal)
+    expect(target.reloadMap).toHaveBeenCalledWith(
+      'map-2',
+      signal,
+      commitControl.commitSceneMapOverride,
+    )
+    expect(commitControl.commitSceneMapOverride).not.toHaveBeenCalled()
   })
 })

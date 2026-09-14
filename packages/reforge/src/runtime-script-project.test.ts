@@ -136,6 +136,7 @@ describe('current script compiler/runtime host', () => {
       hostOptions([], [], {
         executeEffect: (command, _context, _signal, control) => {
           if (command.kind !== 'moveEntity') return
+          if (control?.kind !== 'moveEntity') throw new Error('missing move control')
           expect(control?.moveEntityEndpointCommitted).toBe(false)
           control?.commitMoveEntityEndpoint()
           committedInEffect = control?.moveEntityEndpointCommitted === true

@@ -1,10 +1,12 @@
 import type { EntityAddress, SceneSpawn } from '@type-pal/content'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
+import type { ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost } from './script-runner.js'
 import type { ScriptRuntimeContext } from './script-runner-core.js'
 
 export interface ScriptHostAdapterOptions {
   currentSceneId(): string
+  commitControl?: ScriptEffectCommitControl
 }
 
 function activeEntity(
@@ -16,7 +18,7 @@ function activeEntity(
 
 /**
  * 把 current leaf 的画面/音频/战斗外壳副作用交给现有 ScriptHost。
- * canonical world-state 已由 BaseProjectScriptRuntimeHost 先行处理；这里不持有第二份真值。
+ * 普通叶的canonical已由runtime处理；当前地图操作透传其同步提交控制，这里不持有第二份真值。
  */
 export async function executeScriptHostEffect(
   host: ScriptHost,
@@ -152,7 +154,13 @@ export async function executeScriptHostEffect(
       await host.setFollowers([...command.sprites], signal)
       return
     case 'setSceneMapOverride':
-      if (command.scene === undefined && host.reloadMap) await host.reloadMap(command.mapId, signal)
+      if (command.scene === undefined) {
+        const control = options.commitControl
+        if (control?.kind !== 'sceneMap') throw new Error('setSceneMapOverride 缺同步提交控制')
+        if (host.reloadMap)
+          await host.reloadMap(command.mapId, signal, control.commitSceneMapOverride)
+        else control.commitSceneMapOverride() // Explicit state-only host (e.g. editor playback).
+      }
       return
     case 'halveMoney': {
       const money = host.query.money()

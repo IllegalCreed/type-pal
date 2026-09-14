@@ -197,6 +197,55 @@ export function runtimeSceneView(
   return baseSceneView(scene as unknown as BaseSceneDef, world)
 }
 
+/** Resolved inputs consumed by the target scene view, not the entire mutable behavior store. */
+export function captureRuntimeSceneBehaviorDependencies(
+  scene: import('@type-pal/content').RuntimeSceneDef,
+  world: WorldScriptState,
+) {
+  const base = scene as unknown as BaseSceneDef
+  const hook = (slot: 'onEnter' | 'onTeleport') => {
+    const resolved = resolveSceneHook(base, world, slot)
+    if (!resolved) return null
+    const cursor = resolved.cursor
+    return {
+      hookId: resolved.hookId,
+      cursor:
+        cursor.kind === 'stage' ? ['stage', cursor.stage] : ['state', cursor.machine, cursor.state],
+    }
+  }
+  return {
+    onEnter: hook('onEnter'),
+    onTeleport: hook('onTeleport'),
+    entities: base.entities
+      .map((entity) => {
+        const target = { scene: base.id, entity: entity.id }
+        const page = resolveBaseEntityPage(entity, world.behaviors.entities?.[base.id]?.[entity.id])
+        const trigger = resolveEntityBehavior(entity, world, target, 'trigger')
+        const auto = resolveEntityBehavior(entity, world, target, 'auto')
+        const activation = trigger
+          ? resolveEntityTriggerActivation(entity, world, target)
+          : undefined
+        const animation = page?.animation
+        return {
+          id: entity.id,
+          page: page?.id ?? null,
+          trigger: trigger?.behaviorId ?? null,
+          auto: auto?.behaviorId ?? null,
+          activation: activation ? { on: activation.on, range: activation.range ?? null } : null,
+          animation: animation
+            ? {
+                sprite: animation.sprite,
+                action: animation.action,
+                loop: animation.loop,
+                startAtMs: animation.startAtMs ?? 0,
+              }
+            : null,
+        }
+      })
+      .sort((a, b) => a.id.localeCompare(b.id)),
+  }
+}
+
 export function runtimeProjectView(
   project: LoadedCurrentProject,
   world: WorldScriptState,

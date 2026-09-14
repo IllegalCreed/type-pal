@@ -33,13 +33,22 @@ type RuntimeHostServices = Omit<BaseScriptRuntimeHost, 'execute' | 'evalConditio
  * Private host/runtime handshake for moveEntity's linearization point. The scene adapter invokes
  * this only after the live endpoint is accepted, before touch/encounter side effects run.
  */
-export interface ScriptEffectCommitControl {
+export interface MoveEntityCommitControl {
+  readonly kind: 'moveEntity'
   commitMoveEntityEndpoint(): void
   readonly moveEntityEndpointCommitted: boolean
 }
 
+/** Only canonical state is written here; the map host installs prepared live fields in the same stack. */
+export interface SceneMapCommitControl {
+  readonly kind: 'sceneMap'
+  commitSceneMapOverride(): void
+}
+
+export type ScriptEffectCommitControl = MoveEntityCommitControl | SceneMapCommitControl
+
 export interface BaseProjectScriptHostOptions extends RuntimeHostServices {
-  /** 画面/音频/战斗等宿主副作用；world script 真值由本层先行维护。 */
+  /** 画面/音频/战斗等宿主副作用；需预载的原子操作通过commitControl在准备完成后提交。 */
   executeEffect(
     command: BaseRuntimeLeafCommand,
     context: Readonly<ScriptRuntimeContext>,
@@ -93,7 +102,7 @@ function writeEntityValue<T>(
 
 /**
  * Canonical world-state authority. ScriptRunnerCore only负责控制流；所有持久 script 字段都在这里写，
- * 宿主 effect 只负责把已提交状态反映到画面/音频/战斗系统。
+ * 普通叶先提交；需要准备资源的操作由宿主在同步安装现场时调用本层的窄提交控制。
  */
 export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
   constructor(
@@ -148,7 +157,8 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
         const sceneSessionId = this.currentSceneSessionId()
         let committed = false
         let projection = Promise.resolve()
-        const commitControl: ScriptEffectCommitControl = {
+        const commitControl: MoveEntityCommitControl = {
+          kind: 'moveEntity',
           commitMoveEntityEndpoint: (): void => {
             if (committed) return
             signal.throwIfAborted()
@@ -199,52 +209,85 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
       case 'setSceneMapOverride': {
         const sceneId = command.scene ?? this.options.currentSceneId()
         if (!sceneId) throw new Error('setSceneMapOverride 无当前 scene')
+        if (command.scene === undefined) {
+          const sceneSessionId = this.currentSceneSessionId()
+          let committed = false
+          let accepting = true
+          const control: SceneMapCommitControl = {
+            kind: 'sceneMap',
+            commitSceneMapOverride: () => {
+              if (committed) return
+              if (!accepting) throw new Error('setSceneMapOverride effect 已结束')
+              signal.throwIfAborted()
+              if (
+                this.currentSceneId() !== sceneId ||
+                this.currentSceneSessionId() !== sceneSessionId
+              )
+                throw new DOMException('setSceneMapOverride source session changed', 'AbortError')
+              this.world.mapOverride ??= {}
+              this.world.mapOverride[sceneId] = command.mapId
+              committed = true
+            },
+          }
+          try {
+            await this.options.executeEffect(command, context, signal, control)
+            if (!committed) throw new Error('setSceneMapOverride host 未完成同步提交')
+          } finally {
+            accepting = false
+            // Even a post-commit rejection must publish the accepted state. Never roll back a newer map.
+            if (committed) await this.options.worldChanged?.(command, context)
+          }
+          signal.throwIfAborted()
+          return
+        }
         this.world.mapOverride ??= {}
         this.world.mapOverride[sceneId] = command.mapId
         break
       }
-      case 'selectEntityBehavior': {
-        const scene = await this.options.scene(command.target.scene)
-        selectEntityBehavior(
-          this.world,
-          entityAt(scene, command.target),
-          command.target,
-          command.channel,
-          command.selection,
-          this.coordinator,
-          command.cursorHandoff,
+      case 'selectEntityBehavior':
+      case 'selectEntityPage':
+      case 'setEntityTriggerActivation':
+      case 'selectSceneHooks': {
+        const sourceSceneId = this.currentSceneId()
+        const sourceSessionId = this.currentSceneSessionId()
+        const scene = await this.options.scene(
+          command.kind === 'selectSceneHooks' ? command.scene : command.target.scene,
         )
+        // This check belongs after the leaf's final await, not inside an awaited resolver helper.
+        signal.throwIfAborted()
+        if (
+          this.currentSceneId() !== sourceSceneId ||
+          this.currentSceneSessionId() !== sourceSessionId
+        )
+          throw new DOMException('selection source session changed', 'AbortError')
+        if (command.kind === 'selectEntityBehavior')
+          selectEntityBehavior(
+            this.world,
+            entityAt(scene, command.target),
+            command.target,
+            command.channel,
+            command.selection,
+            this.coordinator,
+            command.cursorHandoff,
+          )
+        else if (command.kind === 'selectEntityPage')
+          selectBaseEntityPage(
+            this.world,
+            entityAt(scene, command.target),
+            command.target,
+            command.selection,
+            this.coordinator,
+          )
+        else if (command.kind === 'setEntityTriggerActivation')
+          setEntityTriggerActivation(
+            this.world,
+            entityAt(scene, command.target),
+            command.target,
+            command.selection,
+          )
+        else selectBaseSceneHooks(this.world, scene, command.selection, this.coordinator)
         break
       }
-      case 'selectEntityPage': {
-        const scene = await this.options.scene(command.target.scene)
-        selectBaseEntityPage(
-          this.world,
-          entityAt(scene, command.target),
-          command.target,
-          command.selection,
-          this.coordinator,
-        )
-        break
-      }
-      case 'setEntityTriggerActivation': {
-        const scene = await this.options.scene(command.target.scene)
-        setEntityTriggerActivation(
-          this.world,
-          entityAt(scene, command.target),
-          command.target,
-          command.selection,
-        )
-        break
-      }
-      case 'selectSceneHooks':
-        selectBaseSceneHooks(
-          this.world,
-          await this.options.scene(command.scene),
-          command.selection,
-          this.coordinator,
-        )
-        break
     }
     await this.options.executeEffect(command, context, signal)
     await this.options.worldChanged?.(command, context)

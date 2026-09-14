@@ -50,6 +50,36 @@ const choiceFlow: AuthorScriptFlow = {
 }
 
 describe('Playback', () => {
+  test('canonical current-map command explicitly commits scratch state and continues without changing authored scene', async () => {
+    const playback = new Playback(scene)
+    const flow: AuthorScriptFlow = {
+      kind: 'stages',
+      initial: 'preview',
+      stages: [
+        {
+          id: 'preview',
+          body: [
+            { kind: 'setSceneMapOverride', mapId: 'map.preview-only' },
+            { kind: 'setPartyFacing', facing: 'right' },
+          ],
+        },
+      ],
+    }
+    const beforeScene = structuredClone(canonicalScene),
+      beforeFlow = structuredClone(flow)
+    playback.playCanonical('canonical:map-commit', flow, {
+      scene: canonicalScene,
+      sharedScripts: {},
+      actorsById: {},
+    })
+    await vi.waitFor(() => expect(playback.mode).toBe('done'))
+    expect(playback.view.player.facing).toBe('right')
+    expect(playback.view.logs.some((line) => line.includes('预览中断'))).toBe(false)
+    expect(canonicalScene).toEqual(beforeScene)
+    expect(flow).toEqual(beforeFlow)
+    expect(scene.mapId).toBe('map-001')
+  })
+
   test('scene-entry previews run their presentation and reach real dialogue', async () => {
     const playback = new Playback(scene)
     playback.play('s:s001:canonical:default', [
