@@ -1,5 +1,12 @@
 # GLM剩余边界大批回执（二）
 
+**当前结论（2026-09-14）：GLM额度耗尽后，由Codex接手完成本包剩余S1～S6的诊断返工、自验证和集成。**
+最终34 covered / 23 reproduced / 15 risk；只收口卡前取证准备，不是产品修复accept，也不替GLM/Kimi签字。
+最新证据与下一步见文末「Codex接手完成回执」和[72项机器账](glm-pre-e2e-boundary-batch-2-evidence.json)。
+下列旧候选counter及交接提示词按历史原文保留，**不再要求转交已耗尽额度的GLM**。
+
+## 历史接收记录
+
 范围：[六组72检查点工作包](glm-pre-e2e-boundary-batch-2.md) r1，2026-09-14。
 产品冻结：70e3f62770bbe0a23c4b9d90c31258a3d2883772。贡献者：GLM；接收复核：Codex。
 状态：**counter，2026-09-14首轮接收不通过，交GLM按R1～R7返工**。不合入六探针/机器账，不改变产品、正式测试或覆盖基线。
@@ -292,3 +299,108 @@ GLM贡献继续披露。后续只返工本轮S1～S6；已确认的写回方向�
 证据目录 /tmp/type-pal-glm-b2-rereview.Fjazma，重建方式与五项素材裁决见报告；这些见证不是产品修复。不得以PAL无对应数据换成另一能力，也不得把实现里的缺陷注释当已批准合同。
 继续原72点/白名单，分组提交后自行继续；无法完成要给具体尝试/阻断，不仅改分类。最终逐case复跑、重算账与日志，提供整批接收提示词。GLM贡献须披露；不改产品/正式测试/基线、不删旧接口、不做视觉、不跑主仓迁移/全仓门禁、不代签、不标done、不转Kimi。
 ```
+
+## Codex接手完成回执（2026-09-14）
+
+### 授权、身份与范围
+
+用户：“你来做吧，glm额度用完了”。GLM unavailable，Codex接手其剩余取证工作；不是委派另一AI代签。
+接手main `69f51a5d8eae35c823d2bb606cf3e4a8868af641`；复用GLM候选 `a5b7cd89b5452e26ed119a96478a437b7c48ddd9` 的有效材料，
+所有产品继续冻结 `70e3f62770bbe0a23c4b9d90c31258a3d2883772`。本次改动为六新探针、必要宿主/回放辅助、机器账及接收文档/索引；
+`packages/ scripts/ projects/ data/ reference/`、锁文件、全部旧探针不改。没有stash、删接口、真实迁移、浏览器操作或正式覆盖率刷新。
+
+Vitest技能用于业务断言/正反控和替身边界，Vite技能用于真实模块与单点隔离加载；因此主壳函数由真实AST提取，
+反控只在独立进程的内存/本人临时目录生效，没有复制被测业务算法。GLM为原材料贡献者，Codex修正部分为作者自验证，**非第三席独立证明**。
+本包是用户已允许直接推进的审计/对账准备，不是高风险产品实现卡；将来正式修复卡仍需按准入与额度代班纪律处理。
+
+### S1～S6闭环与边界
+
+| 剩余项 | 本次落实与未外推范围 |
+|---|---|
+| S1 正确合同 | B01/B03要求原保存请求能完成，保留同实例超时后重试控制，不再把超时当正常；D02改敌附带封技，D03实际敌附带负HP与睡眠并对照纯物攻；D05用validateSkills接受的allAllies技能；D08补混合效果；D09按use/throw父能力并集，不用W替代菜单合同 |
+| S2 真实入口 | A01～03执行main真实reloadMap并核现场map/renderer/room与canonical/快照；A05经真实selector、prepareSceneSwitch等待点、assertCurrent/reveal；A07断言实际hook；A09为resolver成功后提交前取消。B07用AST调用点、B08～10实际main detached/startScript，B11零参调用实际dumpSave注册，B12执行真实capture/normalize/restore函数，地图安装/音频等宿主为可观测边界，不声称F5/IndexedDB全链已跑 |
+| S3 战斗矩阵 | C05真实偷61再消费61；C06同ID/不同ID两次实际cast、两次扣MP与合并数量；C07真实投掷并推进9轮、到期产物与写回；C08真实败局与cancel的AbortError；C09～11真实毒杀、双方死亡、回补/毒顺序；C12实际奖励终态、重复step、敌逃无奖。main旧战斗写回所有权仍risk |
+| S4 迁移判定 | 继续调用真实planner/transaction/materializer；只捕获明确预期冲突/路径拒绝，不吞AssertionError。核作者/项目外原字节及write/rename/mkdir/rm/unlink轨迹；E07深父链、自身链接、race独立跑后汇总。E09～11改AST caller分类；E12按既定current-only准备候选，不创造历史重放产品选择，不批准删除 |
+| S5 覆盖准备 | 四指标covered/total全比对既有基线，617个生产文件核冻结Git blob；合法startWorld取当前manifest入口，七包给具名fixture/操作/断言/未来命令；三个最小正反输入实跑，未声称七个未来Vitest文件已存在。BRDA逐臂样本保留待证，不按CLI/.tsx后缀判不可达，未删分母 |
+| S6 账证一致 | 仓内collector逐case独立运行并从结果生成账；covered→contract0、reproduced→AssertionError/exit1、risk→明确未判定exit2（F静态无contract）。源码哈希在取证前后复核。逐行链接日志/哈希/源锚点/归属，未单独做突变的ID明确标未做，不能拿组级见证冒充逐项反控 |
+
+### 最终检查点分布
+
+| 组 | covered | reproduced | risk |
+|---|---:|---:|---:|
+| A 世界提交/取消 | 5 | 7 | 0 |
+| B 保存/主壳 | 7 | 3 | 2 |
+| C 战果/终态 | 7 | 4 | 1 |
+| D 战斗动作 | 7 | 5 | 0 |
+| E 迁移/退役素材 | 8 | 4 | 0 |
+| F 覆盖候选 | 0 | 0 | 12 |
+| 合计 | 34 | 23 | 15 |
+
+72个唯一ID无缺号。23个正确合同业务红为：A02/A03/A05/A09/A10/A11/A12、B01/B03/B11、C01/C02/C07/C09、
+D02/D03/D05/D08/D09、E02/E06/E07/E08。**不是23个独立根因、不是134条新增正式测试。**
+与旧账42/12/18的变化包含错误合同纠正、真正补执行和按证据收窄，不能用两个总数相减估算产品缺陷增长。
+
+15项待证及下一步：
+
+- B08/B09：真实主壳中旧runner活跃或仅signal取消时，startScript仍拒绝新入口；旧链最终正常收尾。
+  这没有构造出“真实abortScript/换世界后，新权威先于旧finally取得”的合法交错，故U-02继续待证，不能宣称安全或复现。
+- C08：真实Session败局与AbortError取消已到达；main换代后的launchBattle/writeBack所有权只核源码guard，后续需真实world换代集成。
+- F01～12：静态候选和回归提案，不作为动态覆盖；fast零行不证明没有PAL测试或只能由PAL覆盖，需full/PAL分域继续对账。
+
+### 可重建入口与13项鉴别力
+
+探针：[A异步](../ops/audits/pre-e2e/probe-glm-next-async.mjs)、[B保存屏障](../ops/audits/pre-e2e/probe-glm-next-barrier.mjs)、
+[C战果](../ops/audits/pre-e2e/probe-glm-next-battle-result.mjs)、[D动作](../ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs)、
+[E迁移](../ops/audits/pre-e2e/probe-glm-next-migration.mjs)、[F覆盖候选](../ops/audits/pre-e2e/probe-glm-next-coverage.mjs)。
+[宿主隔离与台账生成器](../ops/audits/pre-e2e/probe-glm-next-support.mjs)仅直接CLI模式生成临时日志；
+[隔离反控回放配置](../ops/audits/pre-e2e/probe-glm-next.config.mts)是诊断入口，不是正式测试配置。
+
+```sh
+# A～E用具体ID独立运行；all在contract首红即停，不能拿all替代逐case账
+node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A03
+node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A03
+# 13项独立见证；输出源码/变换/日志哈希
+node --import tsx docs/ops/audits/pre-e2e/probe-glm-next.config.mts
+# 重建72行账：60×2 + F一次 + 13见证，最终JSON到stdout、进度到stderr
+node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-support.mjs --collect
+```
+
+| 隔离见证 | 预期/实测 |
+|---|---|
+| A：只去掉真实main的现场map提交 | A01成功控制exit1，证明并非只看canonical字段 |
+| B：仅将debug注册换为已有零参capture wrapper | B11从原树业务红变exit0 |
+| C：仅给出正确库存写回结果 | C01/C02/C07三条由红转绿；这是结果见证，不是完整产品修复方案 |
+| D：禁用实际tick；修窄父菜单并集；敌附带补silence | D01为exit1；D09/D02各自由红转绿，不把24次空输入称为突变 |
+| E：在相应真实调用边界作合同允许的早拒绝 | E02/E06/E07/E08各自exit0，原树仍业务红；未声称补齐TOCTOU安全算法 |
+| F：篡改一项已有报告分母 | F01于基线一致性断言exit1 |
+
+临时日志位于机器账meta.logs / meta.oracles.directory，逐文件SHA-256入账；唯一可执行源已入仓，不依赖tmp唯一代码。
+现有gitignored PAL素材和coverage/fast是只读前置条件，缺失或报告/冻结源码不符必须报环境/证据失效，不能伪记业务失败。
+
+### 新观察、勘误与正式化顺序
+
+- C07当前毒定义的第8个tick产物，施加当场先执行一次，因此实测第7轮末获得145，运行至第9轮未重复产出且自解。
+  [机制文档](../phase1/game-mechanics.md)“七大毒”表记录原版寄生9回合；此处只证明当前实现，不判哪一层需修。
+  Q2先核原版脚本、第一阶段、当前迁移与运行时即时tick四向真值，禁止由这一个mismatch直接改PAL工程或迁移器。
+- B07勘误Codex早先“正则把声明计为调用”的推测：该函数声明含泛型`<T>`，旧正则并未计入声明。
+  当前AST实算detached调用仍3处；真正补强的是调用点/入口guard/动态宿主证据，不把无效批评保留为新事实。
+- 开发中前提失败曾包括TS文件误用TSX解析、B12宿主缺manifest/API、毒函数参数误配、误将cancel视为resolved terminated，
+  以及养蛊漏算即时tick。均按生产声明修正后重跑；这些调试失败不计入23个业务红。中途文件变化的账不作最终交付。
+- 最小正式化集合：①C01～07库存矩阵随C-01；②E01～08随A-08/09；③A01～12随B-05/08/09；
+  ④B保存与debug导出随B-06/07和Q1入口，D动作/终态随C-02～05/Q2；⑤F七包提案先与已有测试去重后各包排期。
+- R4/Q2必须补“战后含新增物品的世界→正式保存→重开→库存逐ID/数量、无重复、消费为零不复活”的业务断言。
+  本次C12只测core奖励幂等与敌逃，不冒称磁盘/浏览器保存重开；Q1速胜继续走正式奖励和剧情分支。
+- 产品/正式测试/官方fast基线不变；本包不提高覆盖率，不重开D-01，不批准E09～12删除候选，不直接推进任何卡done。
+
+### 最终验证
+
+- 台账生成时间`2026-09-14T13:42:49.252Z`，collector exit0：121次原树诊断与13次隔离见证全部符合预期。
+  A～E额外分别执行observe/all，五组各12个不同ID、exit0；F已在collector中执行all。
+- 对落盘机器账独立复算：72唯一ID、组计数与总计相等；8个源码SHA-256均与当前文件一致，全部观察/合同/反控日志哈希一致。
+  JSON经Biome格式化前后解析结果deepEqual；初次直接JSON.stringify输出有格式差异，只机械格式化，没有改证据字段。
+- `biome check`定向9个代码/证据文件exit0、0 errors、0 warnings；`node scripts/docs/check.mjs` exit0（419 Markdown / 2030 local links / 142 tasks），
+  `node --test scripts/docs/*.test.mjs` 20/20；`git diff --check`通过。旧两轮counter正文逐字保留。
+- 相对70e3f627产品/正式测试/脚本/项目/数据/锁文件零diff；未运行全仓check/ratchet/coverage，因为本包不改变上述输入，也未声称正式质量门有新结果。
+
+无下一位Agent提示词：本轮由Codex完成用户授权的取证接手，无需用户手工复验或转发GLM/Kimi。
+下一步仍按总收口先准备B-05/08/09修复方案；正式卡若缺GLM席位，单独登记额度与代班/豁免安排，不挪用本回执作签字。

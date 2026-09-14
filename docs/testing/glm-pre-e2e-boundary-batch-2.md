@@ -1,10 +1,14 @@
 # GLM 大批工作包（二）：剩余边界取证与回归准备
 
-Revision：r1，2026-09-14。分配/接收复核：Codex；执行：GLM。
-范围：六组72个检查点，**不是72个bug、不是72条必须新增的测试**。状态：返工候选a5b7cd89仍counter；已确认部分保留，只继续回执末尾S1～S6，原r1范围不变。
+Revision：r1 / Codex接手收口，2026-09-14。原材料：GLM；修正、复跑与集成：Codex。
+
+接手更新（2026-09-14）：用户明确“你来做吧，glm额度用完了”。GLM unavailable（额度耗尽），Codex接手a5b7cd89后的S1～S6探针/证据返工与集成。
+范围仍为本包卡前取证和回归准备，产品冻结70e3f627不变；无产品实现/正式测试/删接口授权。已验证GLM贡献与两轮counter保留。
+Codex后续新增/修正部分为本人实现自验证，不能冒称GLM独立终审；将来正式修复卡的签字按各卡办理，本接手不构成高风险缺签豁免。
+范围：六组72个检查点，**不是72个bug、不是72条必须新增的测试**。当前状态：Codex已完成S1～S6的取证返工与归类；34 covered / 23 reproduced / 15 risk。只完成诊断准备，不标任何产品修复卡done；旧候选a5b7cd89的counter保留为历史。
 产品冻结：`70e3f62770bbe0a23c4b9d90c31258a3d2883772`；分配前main为`e1ed64f964f48cfc84bcecd1602c2259732bf21f`，packages/scripts零diff。
 从**本工作包落盘提交**建立独立分支`codex/glm-pre-e2e-boundary-batch-2`；转交提示词给出该提交完整SHA，不猜起点、不合入后续主线实现。
-产出：[整批回执](glm-pre-e2e-boundary-batch-2-report.md)。用户要求给GLM一大批可连续完成的工作；Codex保留主线实现、视觉、正式回归集成及统一质量门。
+产出：[整批回执](glm-pre-e2e-boundary-batch-2-report.md)与[逐项机器账](glm-pre-e2e-boundary-batch-2-evidence.json)。下方分支/工作节奏/GLM提示词为原始分配合同；当前不再要求用户转发给已耗尽额度的GLM。Codex接手未改变72项要求与产品冻结范围。
 
 ## 为什么是这一批
 

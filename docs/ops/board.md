@@ -15,8 +15,8 @@
 
 当前无进行中的任务卡；D-01已完成，后续缺陷仍按审计总收口队列逐卡推进。
 
-并行准备：[GLM六组72检查点工作包（二）](../testing/glm-pre-e2e-boundary-batch-2.md)返工a5b7cd89仍counter，按[末尾S1～S6](../testing/glm-pre-e2e-boundary-batch-2-report.md)继续，已确认部分不重做；冻结70e3f627，独立分支执行。
-这是卡前非视觉取证/回归准备，不是已准入的修复卡；Codex负责接收与后续实现准入，不改变已done任务或官方覆盖率。
+准备工作：[六组72检查点工作包（二）](../testing/glm-pre-e2e-boundary-batch-2.md)已由Codex接手完成取证返工与集成（GLM额度耗尽）；[最终回执](../testing/glm-pre-e2e-boundary-batch-2-report.md)记录34覆盖/23复现/15待证及13项隔离鉴别力验证。
+这是卡前非视觉诊断准备，不是23个独立bug或已完成修复；产品仍冻结70e3f627，官方覆盖率不变。下一步按总收口优先准备B-05/08/09地图切换与取消修复卡，GLM缺席安排须在正式卡准入时另记。
 
 ## 阻塞
 
