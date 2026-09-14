@@ -1,7 +1,7 @@
 # GLM 大批工作包（二）：剩余边界取证与回归准备
 
 Revision：r1，2026-09-14。分配/接收复核：Codex；执行：GLM。
-范围：六组72个检查点，**不是72个bug、不是72条必须新增的测试**。状态：已分配，尚未提交结果。
+范围：六组72个检查点，**不是72个bug、不是72条必须新增的测试**。状态：首轮候选4ffae69b接收counter，GLM按回执R1～R7返工；原r1范围不变。
 产品冻结：`70e3f62770bbe0a23c4b9d90c31258a3d2883772`；分配前main为`e1ed64f964f48cfc84bcecd1602c2259732bf21f`，packages/scripts零diff。
 从**本工作包落盘提交**建立独立分支`codex/glm-pre-e2e-boundary-batch-2`；转交提示词给出该提交完整SHA，不猜起点、不合入后续主线实现。
 产出：[整批回执](glm-pre-e2e-boundary-batch-2-report.md)。用户要求给GLM一大批可连续完成的工作；Codex保留主线实现、视觉、正式回归集成及统一质量门。
