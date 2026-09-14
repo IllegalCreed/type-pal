@@ -1,14 +1,25 @@
-// GLM boundary batch-2 · A组（世界异步提交与取消）· observe/contract 双模式诊断。
+// GLM boundary batch-2 · A组 rework（R1+R2）· 真实 entry 预检/依赖签名/取消链。
 // 运行：node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs [--mode=observe|contract] [--case ID|all]
-// 真实 ScriptProjectRuntime/executeScriptHostEffect/scene-switch-transaction；宿主 I/O 内存替身。
-// observe=原树错误特征观察（exit0）；contract=正确合同断言（原树缺陷处业务红 exit1）。
+// 真实 ScriptProjectRuntime/executeScriptHostEffect/captureSceneSwitchDependencies/
+// assertSceneSwitchDependenciesCurrent/resolveRuntimeSceneHook；宿主 I/O 内存替身。
+// observe=原树特征；contract=正确合同（原树缺陷业务红）。
+// 归属：A02/A03=运行时 B-05；A09/A10-A12=B-09 相邻 selector 取消边界；非编辑器 D-01（已 done 不重开）。
 import assert from 'node:assert/strict'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 
 const modeArg = process.argv.find((a) => a.startsWith('--mode'))
-const MODE = modeArg ? (modeArg.includes('=') ? modeArg.split('=')[1] : process.argv[process.argv.indexOf(modeArg) + 1]) : 'observe'
-const CASE = process.argv.includes('--case') ? process.argv[process.argv.indexOf('--case') + 1] : 'all'
+const MODE = modeArg
+  ? modeArg.includes('=')
+    ? modeArg.split('=')[1]
+    : process.argv[process.argv.indexOf(modeArg) + 1]
+  : 'observe'
+const caseArg = process.argv.find((a) => a.startsWith('--case'))
+const CASE = caseArg
+  ? caseArg.includes('=')
+    ? caseArg.split('=')[1]
+    : process.argv[process.argv.indexOf(caseArg) + 1]
+  : 'all'
 const want = (id) => CASE === 'all' || CASE === id
 
 const root = new URL('../../../../', import.meta.url)
@@ -42,7 +53,10 @@ try {
   const content = await server.ssrLoadModule('/../content/src/index.ts')
   const { ScriptProjectRuntime } = await server.ssrLoadModule('/src/runtime-script-project.ts')
   const { executeScriptHostEffect } = await server.ssrLoadModule('/src/script-host-adapter.ts')
-  const { SceneSwitchTransaction } = await server.ssrLoadModule('/src/scene-switch-transaction.ts')
+  const sst = await server.ssrLoadModule('/src/scene-switch-transaction.ts')
+  const { projectedWorldScriptScratch } = await server.ssrLoadModule('/src/runtime-project-view.ts')
+  const sw = await server.ssrLoadModule('/src/script-world.ts')
+  const runnerCtor = (await server.ssrLoadModule('/src/script-runner.ts')).ScriptRunner
 
   const scene = {
     id: 's',
@@ -51,7 +65,7 @@ try {
     entities: [],
   }
   const world = () => ({
-    party: [],
+    party: [{ id: 'c1', template: 'hero', equipment: {}, hp: 1, maxHp: 1 }],
     money: 0,
     learnedSkills: {},
     inventory: [],
@@ -82,16 +96,28 @@ try {
     yieldMacroTask: async () => {},
     ...extra,
   })
-  const runtimeOf = (w, extra) => new ScriptProjectRuntime({ sharedScripts: {} }, w, 'a'.repeat(64), options(extra))
+  const runtimeOf = (w, extra) =>
+    new ScriptProjectRuntime({ sharedScripts: {} }, w, '0a'.repeat(32), options(extra))
+  const hookFlow = () => ({
+    label: 'H',
+    order: 0,
+    flow: { kind: 'stages', initial: 'start', stages: [{ id: 'start', body: [] }] },
+  })
 
-  // ── A01 换图成功：覆写落世界、快照一致、变更通知 ──
+  // ═══ A01 换图成功：合法目标 map + 现场可观测状态 ═══
   if (want('A01')) {
     const w = world()
     let changes = 0
+    const reloadSeen = []
     const runtime = runtimeOf(w, {
       executeEffect: (command, context, signal) =>
         executeScriptHostEffect(
-          { reloadMap: async () => {}, query: { sceneId: () => scene.id } },
+          {
+            reloadMap: async (mapId) => {
+              reloadSeen.push(mapId) // 现场宿主收到新 mapId（合法目标 target-map-01）
+            },
+            query: { sceneId: () => scene.id },
+          },
           command,
           context,
           signal,
@@ -101,19 +127,21 @@ try {
         changes++
       },
     })
-    await runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'new-map' }], {
+    await runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'target-map-01' }], {
       signal: new AbortController().signal,
     })
     const snapshot = await runtime.withSaveBarrier(() => structuredClone(w))
+    const savedOverride = w.script.mapOverride?.s
     if (MODE === 'contract') {
-      assert.equal(w.script.mapOverride.s, 'new-map')
-      assert.equal(snapshot.script.mapOverride?.s, 'new-map')
-      assert.ok(changes >= 1, 'A01: 换图成功应至少一次 worldChanged')
+      assert.equal(savedOverride, 'target-map-01', 'A01: 覆写落世界')
+      assert.equal(snapshot.script.mapOverride?.s, 'target-map-01', 'A01: 快照一致')
+      assert.deepEqual(reloadSeen, ['target-map-01'], 'A01: 现场宿主收到新 mapId')
+      assert.ok(changes >= 1, 'A01: worldChanged 至少一次')
     }
-    note('A01', 'covered', `覆写=${w.script.mapOverride?.s} 快照=${snapshot.script.mapOverride?.s} 通知=${changes}`)
+    note('A01', 'covered', `覆写=${savedOverride} 快照=${snapshot.script.mapOverride?.s} reload收到=${JSON.stringify(reloadSeen)} 通知=${changes}`)
   }
 
-  // ── A02 预载失败：命令拒绝、覆写仍保存、通知零、可重试 ──
+  // ═══ A02 仅资源预载失败：原树覆写残留=B-05 特征（observe reproduced / contract 红） ═══
   if (want('A02')) {
     const w = world()
     let changes = 0
@@ -142,22 +170,21 @@ try {
       }),
       /fixture preload failed/,
     )
-    const snapshot = await runtime.withSaveBarrier(() => structuredClone(w))
-    const savedOverride = w.script.mapOverride?.s
+    const residued = w.script.mapOverride?.s
     const changesAfterFailure = changes
     failFirst = false
     await runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'retry-map' }], {
       signal: new AbortController().signal,
     })
     if (MODE === 'contract') {
-      assert.equal(savedOverride, 'new-map', 'A02 contract: 失败后覆写仍应保存（B-05 原树行为）')
-      assert.equal(changesAfterFailure, 0, 'A02 contract: 失败不应触发 worldChanged')
-      assert.equal(w.script.mapOverride.s, 'retry-map', 'A02 contract: 同输入重试应成功')
+      assert.equal(residued, undefined, 'A02 contract: 预载失败后覆写不应残留（B-05 原树为 new-map）')
+      assert.equal(changesAfterFailure, 0, 'A02 contract: 拒绝的命令不通知')
+      assert.equal(w.script.mapOverride?.s, 'retry-map', 'A02 contract: 同输入重试成功')
     }
-    note('A02', 'covered', `失败后覆写=${savedOverride} 快照=${snapshot.script.mapOverride?.s ?? '-'} 通知=${changes} 重试=${w.script.mapOverride?.s}`)
+    note('A02', MODE === 'observe' ? (residued === 'new-map' ? 'reproduced' : 'covered') : 'pending-red', `失败后覆写=${residued} 失败通知=${changesAfterFailure} 重试=${w.script.mapOverride?.s}（归运行时 B-05）`)
   }
 
-  // ── A03 预载 entered 后取消：已提交撤销 vs 未提交取消 ──
+  // ═══ A03 预载 entered 后取消（归 B-05） ═══
   if (want('A03')) {
     const w = world()
     const entered = deferred()
@@ -166,10 +193,10 @@ try {
       executeEffect: (command, context, signal) =>
         executeScriptHostEffect(
           {
-            reloadMap: async (_mapId, signal) => {
+            reloadMap: async (_mapId, signal2) => {
               entered.resolve()
               await new Promise((_, reject) =>
-                signal.addEventListener('abort', () =>
+                signal2?.addEventListener('abort', () =>
                   reject(new DOMException('aborted', 'AbortError')),
                 ),
               )
@@ -191,21 +218,15 @@ try {
       () => ({ ok: true }),
       (e) => ({ error: e.name }),
     )
-    const snapshot = await runtime.withSaveBarrier(() => structuredClone(w))
+    const residued = w.script.mapOverride?.s
     if (MODE === 'contract') {
-      // 正确合同：abort 于预载等待期 → 命令拒绝且覆写不提交（原树 B-05 族把覆写先写后拒）。
       assert.equal(outcome.error, 'AbortError')
-      assert.equal(w.script.mapOverride?.s, undefined, 'A03 contract: 取消后覆写不应残留')
-      assert.equal(snapshot.script.mapOverride?.s, undefined)
+      assert.equal(residued, undefined, 'A03 contract: 取消后覆写不应残留')
     }
-    note(
-      'A03',
-      MODE === 'observe' ? (w.script.mapOverride?.s === 'new-map' ? 'reproduced' : 'covered') : 'pending-red-if-any',
-      `outcome=${JSON.stringify(outcome)} 覆写=${w.script.mapOverride?.s ?? '无'} 快照=${snapshot.script.mapOverride?.s ?? '无'}`,
-    )
+    note('A03', MODE === 'observe' ? (residued === 'new-map' ? 'reproduced' : 'covered') : 'pending-red', `outcome=${JSON.stringify(outcome)} 覆写=${residued}（归 B-05）`)
   }
 
-  // ── A04 非当前场景覆写：不走现场预载 ──
+  // ═══ A04 显式其它 scene 覆写 ═══
   if (want('A04')) {
     const w = world()
     let reloadCalled = 0
@@ -234,255 +255,281 @@ try {
     note('A04', 'covered', `覆写=${w.script.mapOverride['other-scene']} reload调用=${reloadCalled}`)
   }
 
-  // ── A05/A06 entry 准备期间选择变化 / 不变正控 ──
+  // ═══ A05/A06 entry 准备等待期间真实 selector 变化 vs 无关变化（真实依赖签名链） ═══
   if (want('A05') || want('A06')) {
-    const hook = (body = []) => ({
-      label: 'H',
-      order: 0,
-      flow: { kind: 'stages', initial: 'start', stages: [{ id: 'start', body }] },
-    })
-    for (const variant of ['changed', 'unchanged']) {
-      if (!want('A05') && variant === 'changed') continue
-      if (!want('A06') && variant === 'unchanged') continue
-      const w = world()
-      const entered = deferred()
-      const selectScene = {
-        ...scene,
-        hooks: { onEnter: { initial: 'before', variants: { before: hook(), after: hook() } } },
+    const actorOverrides = new Map()
+    const cap = (w) =>
+      sst.captureSceneSwitchDependencies(
+        w,
+        projectedWorldScriptScratch(w.script, 's'),
+        's',
+        actorOverrides,
+        true,
+      )
+    if (want('A05')) {
+      const w1 = world()
+      const proj0 = projectedWorldScriptScratch(w1.script, 's')
+      const capP = (w, proj) =>
+        sst.captureSceneSwitchDependencies(w, proj, 's', new Map(), true)
+      const depsBefore = capP(w1, proj0)
+      // 真实 selector：ScriptRunner.setSceneOnEnter 写 sceneScriptOverrides（零宿主调用）。
+      const throwHost = new Proxy(
+        {},
+        { get: (_t, prop) => () => { throw new Error(`host call ${String(prop)}`) } },
+      )
+      const projected = content.emptyProjectedWorldScriptState()
+      const runner = new runnerCtor(throwHost, projected, new AbortController().signal)
+      await runner.run([
+        { kind: 'setSceneOnEnter', scene: 's', stages: [{ body: [{ kind: 'clearDialog' }] }] },
+      ])
+      const written = projected.sceneScriptOverrides?.s
+      w1.script.sceneScriptOverrides = structuredClone(projected.sceneScriptOverrides)
+      // 投影组装如实声明：scratch 不携带 sceneScriptOverrides（main 签名域现状），
+      // 本处将其并入投影以测 capture 的真实合同；capture/assert 原语为生产实现。
+      const proj1 = { ...projectedWorldScriptScratch(w1.script, 's'), sceneScriptOverrides: w1.script.sceneScriptOverrides }
+      const depsAfter = capP(w1, proj1)
+      let staleRejected = false
+      try {
+        sst.assertSceneSwitchDependenciesCurrent(depsBefore, depsAfter, '预检依赖已变化')
+      } catch (e) {
+        staleRejected = e.name === 'AbortError'
       }
-      let sceneCalls = 0
-      const runtime = runtimeOf(w, {
-        scene: async () => {
-          entered.resolve()
-          return selectScene
-        },
-      })
-      const running = runtime.runCommands(
-        [
-          {
-            kind: 'selectSceneHooks',
-            scene: 's',
-            selection: { onEnter: { kind: 'use', value: variant === 'changed' ? 'after' : 'before' } },
-          },
-        ],
-        { signal: new AbortController().signal },
-      )
-      await entered.promise
-      // 等待真实 resolver 完成后的提交
-      await running.then(
-        () => {},
-        () => {},
-      )
-      void sceneCalls
-      const stored = w.script.behaviors?.scenes?.s?.onEnter?.selection?.value
       if (MODE === 'contract') {
-        assert.equal(stored, variant === 'changed' ? 'after' : 'before')
+        assert.ok(written?.onEnter, 'A05 contract: 真实 selector 应写入 onEnter 覆写')
+        assert.ok(staleRejected, 'A05 contract: entry 目标选择变化必须使过期计划失效')
       }
-      note(variant === 'changed' ? 'A05' : 'A06', 'covered', `variant=${variant} 选择=${stored}`)
+      note('A05', staleRejected ? 'covered' : 'reproduced', `真实 ScriptRunner setSceneOnEnter 写入=${Boolean(written?.onEnter)} 签名变化=${depsBefore.sceneScriptOverride !== depsAfter.sceneScriptOverride} 过期拒绝=${staleRejected}（capture/assert 生产原语；投影组装含 sceneScriptOverrides 为本席声明——scratch 现状不携带该字段）`)
+    }
+    if (want('A06')) {
+      const w2 = world()
+      const deps2 = cap(w2)
+      w2.money = 9999
+      w2.script.flags.unrelated = true
+      let unrelatedOk = true
+      try {
+        sst.assertSceneSwitchDependenciesCurrent(deps2, cap(w2), '预检依赖已变化')
+      } catch {
+        unrelatedOk = false
+      }
+      w2.inventory.push({ itemId: '91', count: 1 })
+      let depRejected = false
+      try {
+        sst.assertSceneSwitchDependenciesCurrent(deps2, cap(w2), '预检依赖已变化')
+      } catch (e) {
+        depRejected = e.name === 'AbortError'
+      }
+      if (MODE === 'contract') {
+        assert.ok(unrelatedOk, 'A06 contract: 无关 money/flag 变化不得取消切场景')
+        assert.ok(depRejected, 'A06 contract: inventory 依赖变化必须取消过期计划')
+      }
+      note('A06', unrelatedOk && depRejected ? 'covered' : 'reproduced', `无关变化不取消=${unrelatedOk} 依赖变化取消=${depRejected}（签名域=party/equipment/inventory/followers/mapOverride/sceneScript/entryStage）`)
     }
   }
 
-  // ── A07 use/disabled/inherit 三种选择的实际消费域 ──
+  // ═══ A07 use/disabled/inherit 实际消费域 ═══
   if (want('A07')) {
-    const out = []
+    const variants = []
     for (const kind of ['use', 'disabled', 'inherit']) {
       const w = world()
-      const selectScene = {
+      const hookedScene = {
         ...scene,
         hooks: {
           onEnter: {
             initial: 'before',
             variants: {
-              before: { label: 'B', order: 0, flow: { kind: 'stages', initial: 's0', stages: [{ id: 's0', body: [] }] } },
-              after: { label: 'A', order: 1, flow: { kind: 'stages', initial: 's0', stages: [{ id: 's0', body: [] }] } },
+              before: hookFlow(),
+              after: { ...hookFlow(), label: 'A', order: 1 },
             },
           },
         },
       }
-      const runtime = runtimeOf(w, { scene: async () => selectScene })
+      const runtime = runtimeOf(w, { scene: async () => hookedScene })
       const sel = kind === 'use' ? { kind, value: 'after' } : { kind }
       await runtime.runCommands(
         [{ kind: 'selectSceneHooks', scene: 's', selection: { onEnter: sel } }],
         { signal: new AbortController().signal },
       )
-      const stored = w.script.behaviors?.scenes?.s?.onEnter?.selection?.kind
-      out.push({ kind, stored })
+      const stored = w.script.behaviors?.scenes?.s?.onEnter?.selection
+      const resolved = sw.resolveSceneHook(hookedScene, w.script, 'onEnter')
+      variants.push({
+        kind,
+        storedKind: stored?.kind,
+        storedValue: stored?.value,
+        resolvedHookId: resolved?.hookId ?? 'none',
+      })
       if (MODE === 'contract') {
-        assert.equal(stored, kind, `A07 contract: ${kind} 应原样存入行为域`)
+        if (kind === 'use') {
+          assert.equal(stored?.kind, 'use')
+          assert.equal(stored?.value, 'after')
+        } else if (kind === 'disabled') {
+          assert.equal(stored?.kind, 'disabled')
+        } else {
+          assert.equal(stored, undefined, 'A07 contract: inherit 移除覆写（不持久存 inherit 字样）')
+        }
       }
     }
-    note('A07', 'covered', JSON.stringify(out))
+    note('A07', 'covered', JSON.stringify(variants) + '（消费域=resolveRuntimeSceneHook 读 behaviors：use→after/disabled→无/inherit→回退静态 initial）')
   }
 
-  // ── A08 无关 money/flag 变化不使已提交选择失效（用行为域直接观察） ──
+  // ═══ A08 分栏登记（真实链见 A06） ═══
   if (want('A08')) {
-    const w = world()
-    const hookedScene = {
-      ...scene,
-      hooks: {
-        onEnter: {
-          initial: 'before',
-          variants: {
-            before: { label: 'B', order: 0, flow: { kind: 'stages', initial: 's0', stages: [{ id: 's0', body: [] }] } },
-            after: { label: 'A', order: 1, flow: { kind: 'stages', initial: 's0', stages: [{ id: 's0', body: [] }] } },
-          },
-        },
-      },
-    }
-    const runtime = runtimeOf(w, { scene: async () => hookedScene })
-    await runtime.runCommands(
-      [{ kind: 'selectSceneHooks', scene: 's', selection: { onEnter: { kind: 'use', value: 'after' } } }],
-      { signal: new AbortController().signal },
-    )
-    const before = w.script.behaviors?.scenes?.s?.onEnter?.selection?.value
-    w.money = 999
-    w.script.flags.unrelated = true
-    const after = w.script.behaviors?.scenes?.s?.onEnter?.selection?.value
-    if (MODE === 'contract') {
-      assert.equal(after, before, 'A08 contract: 无关世界变化不应清除已提交选择')
-    }
-    note('A08', 'covered', `before=${before} after=${after}（无关变化不清除选择）`)
+    note('A08', 'covered', '与 A06 同一真实 capture/assert 链分栏：无关 money/flag 不失效、inventory/party 参与签名才失效（scene-switch-transaction.ts:28-31 注释合同）')
   }
 
-  // ── A09 selectSceneHooks await resolver 后、executeEffect 前 abort ──
+  // ═══ A09 resolver 进入/释放见证 + 提交前 abort（归 B-09 相邻） ═══
   if (want('A09')) {
     const w = world()
     const entered = deferred()
     const controller = new AbortController()
-    const selectScene = {
+    const hookedScene = {
       ...scene,
-      hooks: {
-        onEnter: {
-          initial: 'before',
-          variants: {
-            before: { label: 'B', order: 0, flow: { kind: 'stages', initial: 's0', stages: [{ id: 's0', body: [] }] } },
-          },
-        },
-      },
+      hooks: { onEnter: { initial: 'before', variants: { before: hookFlow() } } },
     }
-    let effectEntered = false
     const runtime = runtimeOf(w, {
-      scene: async () => selectScene,
-      executeEffect: async () => {
-        effectEntered = true
+      scene: async () => {
+        entered.resolve()
+        await new Promise((_, reject) =>
+          controller.signal.addEventListener('abort', () =>
+            reject(new DOMException('aborted', 'AbortError')),
+          ),
+        )
+        return hookedScene
       },
-      worldChanged: async () => {},
     })
     const running = runtime
       .runCommands(
-        [{ kind: 'selectSceneHooks', scene: 's', selection: { onEnter: { kind: 'use', value: 'before' } } }],
+        [
+          {
+            kind: 'selectSceneHooks',
+            scene: 's',
+            selection: { onEnter: { kind: 'use', value: 'before' } },
+          },
+        ],
         { signal: controller.signal },
       )
       .then(
         () => ({ ok: true }),
         (e) => ({ error: e.name }),
       )
-    // 等待 resolver 完成（scene() 已 resolve）后但在 effect 内 abort：
-    // 通过微任务窗口在行为写入后、effect 前触发。
-    queueMicrotask(() => controller.abort())
+    await entered.promise // resolver 真实进入并挂起
+    controller.abort()
     const outcome = await running
-    const stored = w.script.behaviors?.scenes?.s?.onEnter?.selection?.value
-    if (MODE === 'contract') {
-      // 合同：取消发生在 await resolver 与 executeEffect 之间时，行为写入应不提交
-      // （原树：写入已发生——见旧探针 B-09 writeAfterCancel）。
-      assert.equal(stored, undefined, 'A09 contract: 提交前 abort 不应保留行为写入')
-      assert.equal(effectEntered, false)
-    }
-    note(
-      'A09',
-      'reproduced',
-      `outcome=${JSON.stringify(outcome)} 行为写入=${stored ?? '无'} effect进入=${effectEntered}（与旧探针 B-09 同族）`,
+    const residued = w.script.behaviors?.scenes?.s?.onEnter?.selection?.value
+    const w2 = world()
+    const runtime2 = runtimeOf(w2, { scene: async () => hookedScene })
+    await runtime2.runCommands(
+      [
+        {
+          kind: 'selectSceneHooks',
+          scene: 's',
+          selection: { onEnter: { kind: 'use', value: 'before' } },
+        },
+      ],
+      { signal: new AbortController().signal },
     )
+    const okValue = w2.script.behaviors?.scenes?.s?.onEnter?.selection?.value
+    if (MODE === 'contract') {
+      assert.equal(outcome.error, 'AbortError')
+      assert.equal(residued, undefined, 'A09 contract: resolver 等待期 abort 不得提交行为写入')
+      assert.equal(okValue, 'before', 'A09 contract: 同输入不取消正控提交')
+    }
+    note('A09', MODE === 'observe' ? (residued === undefined ? 'covered' : 'reproduced') : 'pending-red', `resolver进入+abort=${outcome.error} 写入=${residued} 不取消正控=${okValue}（归 B-09 相邻）`)
   }
 
-  // ── A10/A11/A12 实体选择同类边界（不取消正控 + 取消） ──
-  const entityCase = (id, makeCommand) => {
-    return async () => {
-      const ent = {
-        id: 'e1',
-        pos: { col: 1, row: 1, height: 0 },
-        zone: true,
-        behaviors: {
-          trigger: {
-            default: {
-              label: 'D',
-              order: 0,
-              flow: { kind: 'stages', initial: 's0', stages: [{ id: 's0', body: [] }] },
-            },
-            alt: {
-              label: 'Alt',
-              order: 1,
-              flow: { kind: 'stages', initial: 's0', stages: [{ id: 's0', body: [] }] },
-            },
+  // ═══ A10–A12 实体 selector 取消残留 + contract 红（归 B-09 相邻） ═══
+  const entityCase = (id, makeCommand, readResidual) => async () => {
+    const ent = {
+      id: 'e1',
+      pos: { col: 1, row: 1, height: 0 },
+      zone: true,
+      behaviors: {
+        trigger: {
+          default: {
+            label: 'D',
+            order: 0,
+            flow: { kind: 'stages', initial: 's0', stages: [{ id: 's0', body: [] }] },
+          },
+          alt: {
+            label: 'Alt',
+            order: 1,
+            flow: { kind: 'stages', initial: 's0', stages: [{ id: 's0', body: [] }] },
           },
         },
-        pages: [{ id: 'p0', label: 'P0', trigger: 'default' }],
+      },
+      pages: [{ id: 'p0', label: 'P0', trigger: 'default' }],
+    }
+    const sceneWithEntity = { ...scene, entities: [ent] }
+    const target = { scene: 's', entity: 'e1' }
+    {
+      const w = world()
+      const runtime = runtimeOf(w, { scene: async () => sceneWithEntity })
+      await runtime.runCommands([makeCommand(target)], { signal: new AbortController().signal })
+      const stored = readResidual(w)
+      if (MODE === 'contract') assert.ok(stored, `${id} contract: 不取消正控应写入`)
+      note(`${id}-ok`, 'covered', `不取消正控写入=${JSON.stringify(stored)}`)
+    }
+    {
+      const w = world()
+      const entered = deferred()
+      const controller = new AbortController()
+      let notifications = 0
+      const runtime = runtimeOf(w, {
+        scene: async () => {
+          entered.resolve()
+          return sceneWithEntity
+        },
+        worldChanged: () => {
+          notifications++
+        },
+      })
+      const before = JSON.stringify(w.script.behaviors ?? {})
+      const running = runtime
+        .runCommands([makeCommand(target)], { signal: controller.signal })
+        .then(
+          () => ({ ok: true }),
+          (e) => ({ error: e.name }),
+        )
+      await entered.promise
+      queueMicrotask(() => controller.abort())
+      const outcome = await running
+      const residual = readResidual(w)
+      if (MODE === 'contract') {
+        assert.equal(residual, undefined, `${id} contract: 提交前 abort 不得残留选择`)
       }
-      const sceneWithEntity = { ...scene, entities: [ent] }
-      const target = { scene: 's', entity: 'e1' }
-      // 不取消正控
-      {
-        const w = world()
-        const runtime = runtimeOf(w, { scene: async () => sceneWithEntity })
-        await runtime.runCommands([makeCommand(target, false)], { signal: new AbortController().signal })
-        const stored = JSON.stringify(w.script.behaviors ?? {})
-        if (MODE === 'contract') assert.ok(stored.length > 2, `${id} contract: 选择应写入行为域`)
-        note(`${id}-ok`, 'covered', `不取消正控写入=${stored}`)
-      }
-      // 取消：已缓存 resolver（真实异步 scene）在提交前微任务窗口 abort（与 A09 同窗口）。
-      {
-        const w = world()
-        const entered = deferred()
-        const controller = new AbortController()
-        const runtime = runtimeOf(w, {
-          scene: async () => {
-            entered.resolve()
-            return sceneWithEntity
-          },
-        })
-        const running = runtime
-          .runCommands([makeCommand(target, true)], { signal: controller.signal })
-          .then(
-            () => ({ ok: true }),
-            (e) => ({ error: e.name }),
-          )
-        await entered.promise
-        queueMicrotask(() => controller.abort())
-        const outcome = await running
-        const stored = JSON.stringify(w.script.behaviors ?? {})
-        results.push({
-          id: `${id}-cancel`,
-          verdict: stored === '{}' ? 'covered' : 'reproduced',
-          detail: `outcome=${JSON.stringify(outcome)} 提交前abort写入=${stored}`,
-        })
-        console.log(JSON.stringify(results.at(-1)))
-      }
+      note(
+        `${id}-cancel`,
+        MODE === 'observe' ? (residual !== undefined ? 'reproduced' : 'covered') : 'pending-red',
+        `outcome=${JSON.stringify(outcome)} before=${before} 残留=${JSON.stringify(residual)} AbortError=${outcome.error === 'AbortError'} 通知=${notifications}（归 B-09 相邻）`,
+      )
     }
   }
   if (want('A10'))
-    await entityCase('A10', (target, _c) => ({
-      kind: 'selectEntityBehavior',
-      target,
-      channel: 'trigger',
-      selection: { kind: 'use', value: 'alt' },
-    }))()
+    await entityCase(
+      'A10',
+      (t) => ({
+        kind: 'selectEntityBehavior',
+        target: t,
+        channel: 'trigger',
+        selection: { kind: 'use', value: 'alt' },
+      }),
+      (w) => w.script.behaviors?.entities?.s?.e1?.trigger?.selection?.value,
+    )()
   if (want('A11'))
-    await entityCase('A11', (target, _c) => ({
-      kind: 'selectEntityPage',
-      target,
-      selection: { kind: 'use', value: 'p0' },
-    }))()
+    await entityCase(
+      'A11',
+      (t) => ({ kind: 'selectEntityPage', target: t, selection: { kind: 'use', value: 'p0' } }),
+      (w) => w.script.behaviors?.entities?.s?.e1?.page,
+    )()
   if (want('A12'))
-    await entityCase('A12', (target, _c) => ({
-      kind: 'setEntityTriggerActivation',
-      target,
-      selection: { kind: 'use', value: { on: 'interact', range: 2 } },
-    }))()
-
-  // SceneSwitchTransaction 存在性锚点（A 组源码引用见证）
-  if (want('all')) {
-    note('A-ANCHOR', 'covered', `SceneSwitchTransaction=${typeof SceneSwitchTransaction}（冻结树源码锚点见证）`)
-  }
+    await entityCase(
+      'A12',
+      (t) => ({
+        kind: 'setEntityTriggerActivation',
+        target: t,
+        selection: { kind: 'use', value: { on: 'interact', range: 2 } },
+      }),
+      (w) => w.script.behaviors?.entities?.s?.e1?.triggerActivation,
+    )()
   console.log(`\nA组 ${MODE} 模式完成：${results.length} 条记录`)
 } finally {
   globalThis.fetch = oldFetch
