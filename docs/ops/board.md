@@ -15,7 +15,7 @@
 
 当前无进行中的任务卡；D-01已完成，后续缺陷仍按审计总收口队列逐卡推进。
 
-并行准备：[GLM六组72检查点工作包（二）](../testing/glm-pre-e2e-boundary-batch-2.md)已分配，冻结70e3f627，独立分支连续执行。
+并行准备：[GLM六组72检查点工作包（二）](../testing/glm-pre-e2e-boundary-batch-2.md)首轮4ffae69b接收counter，按[七项返工](../testing/glm-pre-e2e-boundary-batch-2-report.md)继续；冻结70e3f627，独立分支执行。
 这是卡前非视觉取证/回归准备，不是已准入的修复卡；Codex负责接收与后续实现准入，不改变已done任务或官方覆盖率。
 
 ## 阻塞
