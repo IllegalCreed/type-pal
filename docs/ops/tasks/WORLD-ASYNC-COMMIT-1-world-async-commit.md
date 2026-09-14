@@ -228,7 +228,7 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
 ## Build / Review / 用户验收
 
 Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，未标done。
-实现与证据入口：[验证记录](../../testing/world-async-commit.md)。实现候选为本轮源码提交（提交后回填精确SHA），对比5bc62a21。
+实现与证据入口：[验证记录](../../testing/world-async-commit.md)。实现候选：`e13216e7a4439008df38666cbcfec557c8e5a26c`，对比`5bc62a2135ce7145087d73d39a8bba54d7c0c406`；后续SHA回填仅改文档，产品/测试/基线与候选一致。
 
 - 产品7文件：reforge的script-project-core/script-host-adapter/script-runner/main/runtime-project-view/scene-switch-transaction，以及editor playback；未改content/codec/迁移/生成资产/第一阶段/锁文件。
 - 正式回归新增55项：世界提交35、主壳预检10、依赖矩阵9、编辑器真实预览1；现有adapter/移动控制/读档chain仅按实际接口及定义读取调整，未删除既有测试身份。
@@ -240,6 +240,7 @@ Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，�
 
 ## 交接日志
 
+- 2026-09-15 Codex：实现候选提交`e13216e7a4439008df38666cbcfec557c8e5a26c`，随后仅回填SHA与终审交接；工作树产品/测试/基线不再变动，交Kimi独立终审，GLM豁免、不重签r1、不标done。
 - 2026-09-15 Codex：完成r1三段实现、55项新回归及8项单点反控。首轮ratchet发现editor新增分支未覆盖（19082/27547低于19081/27545），补真实playCanonical接线回归与反控后通过；不是抖动，不降基线。
   自查删除main多余直接写回旁路后重跑最终check/ratchet/受保护基线strict-fast，全部exit0；精确命令/计数/失败记录见验证附件。推进review，待Kimi实现终审，不代签/不done。
 - 2026-09-14 Codex：核对5bc62a21 Kimi签字与干净main，登记用户GLM缺签豁免，统一判定build allowed；仅本卡代班，不代签。开始先红后绿的正式回归与三段修复。
@@ -262,7 +263,7 @@ Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，�
 ## 下一位Agent提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 WORLD-ASYNC-COMMIT-1，卡 docs/ops/tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md，状态review，实现候选以本卡Build精确SHA为准，对比5bc62a21。r1设计不重签；用户已豁免本卡GLM，恢复后补审安排保留。
+在 /Users/zhangxu/illegal/type-pal 终审 WORLD-ASYNC-COMMIT-1，卡 docs/ops/tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md，状态review，实现候选e13216e7a4439008df38666cbcfec557c8e5a26c，对比5bc62a21。r1设计不重签；用户已豁免本卡GLM，恢复后补审安排保留。
 先同步main、检查工作树，读AGENTS/CLAUDE/phase2 READ-FIRST、本卡AC-01～12、docs/testing/world-async-commit.md。独立核core→真实main路由→adapter→reloadMap提交控制、失败/取消零抢写、提交后通知、editor无reload宿主；main无第二writer，投影Runner现有合同不误删。
 核首次await前的冻结输入/candidate script、目标hook/cursor/page依赖与无关变化正控；核四叶signal/来源会话检查，不误拒跨scene，不破坏move/lifecycle后提交语义。
 独立复跑定向及node docs/testing/world-async-commit-mutants.mjs（8反控红、2正常对照绿）；核check 7036、ratchet及单次受保护strict-fast 6548/617、55新增测试身份和零scope移除的原始证据。旧批二probe冻结历史API，不代替新正式回归。GLM只贡献原材料，不代填其席位；WA-E1～3视觉/磁盘重开延期集中E2E，不重复跑浏览器。
