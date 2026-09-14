@@ -138,7 +138,11 @@ try {
       assert.deepEqual(reloadSeen, ['target-map-01'], 'A01: 现场宿主收到新 mapId')
       assert.ok(changes >= 1, 'A01: worldChanged 至少一次')
     }
-    note('A01', 'covered', `覆写=${savedOverride} 快照=${snapshot.script.mapOverride?.s} reload收到=${JSON.stringify(reloadSeen)} 通知=${changes}`)
+    note(
+      'A01',
+      'covered',
+      `覆写=${savedOverride} 快照=${snapshot.script.mapOverride?.s} reload收到=${JSON.stringify(reloadSeen)} 通知=${changes}`,
+    )
   }
 
   // ═══ A02 仅资源预载失败：原树覆写残留=B-05 特征（observe reproduced / contract 红） ═══
@@ -177,11 +181,19 @@ try {
       signal: new AbortController().signal,
     })
     if (MODE === 'contract') {
-      assert.equal(residued, undefined, 'A02 contract: 预载失败后覆写不应残留（B-05 原树为 new-map）')
+      assert.equal(
+        residued,
+        undefined,
+        'A02 contract: 预载失败后覆写不应残留（B-05 原树为 new-map）',
+      )
       assert.equal(changesAfterFailure, 0, 'A02 contract: 拒绝的命令不通知')
       assert.equal(w.script.mapOverride?.s, 'retry-map', 'A02 contract: 同输入重试成功')
     }
-    note('A02', MODE === 'observe' ? (residued === 'new-map' ? 'reproduced' : 'covered') : 'pending-red', `失败后覆写=${residued} 失败通知=${changesAfterFailure} 重试=${w.script.mapOverride?.s}（归运行时 B-05）`)
+    note(
+      'A02',
+      MODE === 'observe' ? (residued === 'new-map' ? 'reproduced' : 'covered') : 'pending-red',
+      `失败后覆写=${residued} 失败通知=${changesAfterFailure} 重试=${w.script.mapOverride?.s}（归运行时 B-05）`,
+    )
   }
 
   // ═══ A03 预载 entered 后取消（归 B-05） ═══
@@ -223,7 +235,11 @@ try {
       assert.equal(outcome.error, 'AbortError')
       assert.equal(residued, undefined, 'A03 contract: 取消后覆写不应残留')
     }
-    note('A03', MODE === 'observe' ? (residued === 'new-map' ? 'reproduced' : 'covered') : 'pending-red', `outcome=${JSON.stringify(outcome)} 覆写=${residued}（归 B-05）`)
+    note(
+      'A03',
+      MODE === 'observe' ? (residued === 'new-map' ? 'reproduced' : 'covered') : 'pending-red',
+      `outcome=${JSON.stringify(outcome)} 覆写=${residued}（归 B-05）`,
+    )
   }
 
   // ═══ A04 显式其它 scene 覆写 ═══
@@ -245,9 +261,12 @@ try {
           { currentSceneId: () => scene.id },
         ),
     })
-    await runtime.runCommands([{ kind: 'setSceneMapOverride', scene: 'other-scene', mapId: 'm2' }], {
-      signal: new AbortController().signal,
-    })
+    await runtime.runCommands(
+      [{ kind: 'setSceneMapOverride', scene: 'other-scene', mapId: 'm2' }],
+      {
+        signal: new AbortController().signal,
+      },
+    )
     if (MODE === 'contract') {
       assert.equal(w.script.mapOverride['other-scene'], 'm2')
       assert.equal(reloadCalled, 0, 'A04 contract: 非当前场景覆写不应触发现场 reload')
@@ -269,13 +288,16 @@ try {
     if (want('A05')) {
       const w1 = world()
       const proj0 = projectedWorldScriptScratch(w1.script, 's')
-      const capP = (w, proj) =>
-        sst.captureSceneSwitchDependencies(w, proj, 's', new Map(), true)
+      const capP = (w, proj) => sst.captureSceneSwitchDependencies(w, proj, 's', new Map(), true)
       const depsBefore = capP(w1, proj0)
       // 真实 selector：ScriptRunner.setSceneOnEnter 写 sceneScriptOverrides（零宿主调用）。
       const throwHost = new Proxy(
         {},
-        { get: (_t, prop) => () => { throw new Error(`host call ${String(prop)}`) } },
+        {
+          get: (_t, prop) => () => {
+            throw new Error(`host call ${String(prop)}`)
+          },
+        },
       )
       const projected = content.emptyProjectedWorldScriptState()
       const runner = new runnerCtor(throwHost, projected, new AbortController().signal)
@@ -286,7 +308,10 @@ try {
       w1.script.sceneScriptOverrides = structuredClone(projected.sceneScriptOverrides)
       // 投影组装如实声明：scratch 不携带 sceneScriptOverrides（main 签名域现状），
       // 本处将其并入投影以测 capture 的真实合同；capture/assert 原语为生产实现。
-      const proj1 = { ...projectedWorldScriptScratch(w1.script, 's'), sceneScriptOverrides: w1.script.sceneScriptOverrides }
+      const proj1 = {
+        ...projectedWorldScriptScratch(w1.script, 's'),
+        sceneScriptOverrides: w1.script.sceneScriptOverrides,
+      }
       const depsAfter = capP(w1, proj1)
       let staleRejected = false
       try {
@@ -298,7 +323,11 @@ try {
         assert.ok(written?.onEnter, 'A05 contract: 真实 selector 应写入 onEnter 覆写')
         assert.ok(staleRejected, 'A05 contract: entry 目标选择变化必须使过期计划失效')
       }
-      note('A05', staleRejected ? 'covered' : 'reproduced', `真实 ScriptRunner setSceneOnEnter 写入=${Boolean(written?.onEnter)} 签名变化=${depsBefore.sceneScriptOverride !== depsAfter.sceneScriptOverride} 过期拒绝=${staleRejected}（capture/assert 生产原语；投影组装含 sceneScriptOverrides 为本席声明——scratch 现状不携带该字段）`)
+      note(
+        'A05',
+        staleRejected ? 'covered' : 'reproduced',
+        `真实 ScriptRunner setSceneOnEnter 写入=${Boolean(written?.onEnter)} 签名变化=${depsBefore.sceneScriptOverride !== depsAfter.sceneScriptOverride} 过期拒绝=${staleRejected}（capture/assert 生产原语；投影组装含 sceneScriptOverrides 为本席声明——scratch 现状不携带该字段）`,
+      )
     }
     if (want('A06')) {
       const w2 = world()
@@ -322,7 +351,11 @@ try {
         assert.ok(unrelatedOk, 'A06 contract: 无关 money/flag 变化不得取消切场景')
         assert.ok(depRejected, 'A06 contract: inventory 依赖变化必须取消过期计划')
       }
-      note('A06', unrelatedOk && depRejected ? 'covered' : 'reproduced', `无关变化不取消=${unrelatedOk} 依赖变化取消=${depRejected}（签名域=party/equipment/inventory/followers/mapOverride/sceneScript/entryStage）`)
+      note(
+        'A06',
+        unrelatedOk && depRejected ? 'covered' : 'reproduced',
+        `无关变化不取消=${unrelatedOk} 依赖变化取消=${depRejected}（签名域=party/equipment/inventory/followers/mapOverride/sceneScript/entryStage）`,
+      )
     }
   }
 
@@ -368,12 +401,20 @@ try {
         }
       }
     }
-    note('A07', 'covered', JSON.stringify(variants) + '（消费域=resolveRuntimeSceneHook 读 behaviors：use→after/disabled→无/inherit→回退静态 initial）')
+    note(
+      'A07',
+      'covered',
+      `${JSON.stringify(variants)}（消费域=resolveRuntimeSceneHook 读 behaviors：use→after/disabled→无/inherit→回退静态 initial）`,
+    )
   }
 
   // ═══ A08 分栏登记（真实链见 A06） ═══
   if (want('A08')) {
-    note('A08', 'covered', '与 A06 同一真实 capture/assert 链分栏：无关 money/flag 不失效、inventory/party 参与签名才失效（scene-switch-transaction.ts:28-31 注释合同）')
+    note(
+      'A08',
+      'covered',
+      '与 A06 同一真实 capture/assert 链分栏：无关 money/flag 不失效、inventory/party 参与签名才失效（scene-switch-transaction.ts:28-31 注释合同）',
+    )
   }
 
   // ═══ A09 resolver 进入/释放见证 + 提交前 abort（归 B-09 相邻） ═══
@@ -433,7 +474,11 @@ try {
       assert.equal(residued, undefined, 'A09 contract: resolver 等待期 abort 不得提交行为写入')
       assert.equal(okValue, 'before', 'A09 contract: 同输入不取消正控提交')
     }
-    note('A09', MODE === 'observe' ? (residued === undefined ? 'covered' : 'reproduced') : 'pending-red', `resolver进入+abort=${outcome.error} 写入=${residued} 不取消正控=${okValue}（归 B-09 相邻）`)
+    note(
+      'A09',
+      MODE === 'observe' ? (residued === undefined ? 'covered' : 'reproduced') : 'pending-red',
+      `resolver进入+abort=${outcome.error} 写入=${residued} 不取消正控=${okValue}（归 B-09 相邻）`,
+    )
   }
 
   // ═══ A10–A12 实体 selector 取消残留 + contract 红（归 B-09 相邻） ═══

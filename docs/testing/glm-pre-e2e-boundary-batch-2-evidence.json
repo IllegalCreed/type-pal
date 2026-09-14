@@ -1,466 +1,1261 @@
 {
- "rows": [
-  {
-   "id": "A01",
-   "group": "A",
-   "classification": "covered",
-   "detail": "覆写=new-map 快照=new-map 通知=1"
-  },
-  {
-   "id": "A02",
-   "group": "A",
-   "classification": "covered",
-   "detail": "失败后覆写=new-map 快照=new-map 通知=1 重试=retry-map"
-  },
-  {
-   "id": "A03",
-   "group": "A",
-   "classification": "reproduced",
-   "detail": "outcome={\"error\":\"AbortError\"} 覆写=new-map 快照=new-map"
-  },
-  {
-   "id": "A04",
-   "group": "A",
-   "classification": "covered",
-   "detail": "覆写=m2 reload调用=0"
-  },
-  {
-   "id": "A05",
-   "group": "A",
-   "classification": "covered",
-   "detail": "variant=changed 选择=after"
-  },
-  {
-   "id": "A06",
-   "group": "A",
-   "classification": "covered",
-   "detail": "variant=unchanged 选择=before"
-  },
-  {
-   "id": "A07",
-   "group": "A",
-   "classification": "covered",
-   "detail": "[{\"kind\":\"use\",\"stored\":\"use\"},{\"kind\":\"disabled\",\"stored\":\"disabled\"},{\"kind\":\"inherit\"}]"
-  },
-  {
-   "id": "A08",
-   "group": "A",
-   "classification": "covered",
-   "detail": "before=after after=after（无关变化不清除选择）"
-  },
-  {
-   "id": "A09",
-   "group": "A",
-   "classification": "reproduced",
-   "detail": "outcome={\"error\":\"AbortError\"} 行为写入=无 effect进入=false（与旧探针 B-09 同族）"
-  },
-  {
-   "id": "A10",
-   "group": "A",
-   "classification": "reproduced",
-   "detail": "A10-ok: 不取消正控写入={\"entities\":{\"s\":{\"e1\":{\"trigger\":{\"selection\":{\"kind\":\"use\",\"value\":\"alt\"}}}}}} | A10-cancel: outcome={\"error\":\"AbortError\"} 提交前abort写入={\"entities\":{\"s\":{\"e1\":{\"trigger\":{\"selection\":{\"kind\":\"use\",\"value\":\"alt\"}}}}}}"
-  },
-  {
-   "id": "A11",
-   "group": "A",
-   "classification": "reproduced",
-   "detail": "A11-ok: 不取消正控写入={\"entities\":{\"s\":{\"e1\":{\"page\":\"p0\"}}}} | A11-cancel: outcome={\"error\":\"AbortError\"} 提交前abort写入={\"entities\":{\"s\":{\"e1\":{\"page\":\"p0\"}}}}"
-  },
-  {
-   "id": "A12",
-   "group": "A",
-   "classification": "reproduced",
-   "detail": "A12-ok: 不取消正控写入={\"entities\":{\"s\":{\"e1\":{\"triggerActivation\":{\"kind\":\"use\",\"value\":{\"on\":\"interact\",\"range\":2}}}}}} | A12-cancel: outcome={\"error\":\"AbortError\"} 提交前abort写入={\"entities\":{\"s\":{\"e1\":{\"triggerActivation\":{\"kind\":\"use\",\"value\":{\"on\":\"interact\",\"range\":2}}}}}}"
-  },
-  {
-   "id": "B01",
-   "group": "B",
-   "classification": "covered",
-   "detail": "saved=false 快照次数=0 error=script save barrier 超时 60ms（诊断 60ms vs 生产 10000ms）"
-  },
-  {
-   "id": "B02",
-   "group": "B",
-   "classification": "covered",
-   "detail": "同步完成后的保存快照 flags.b02=true（无等待关系正控）"
-  },
-  {
-   "id": "B03",
-   "group": "B",
-   "classification": "covered",
-   "detail": "saved=false 快照=0 teleportRan=true b03flag=true（内联 onTeleport 新活动同 B-07 族）"
-  },
-  {
-   "id": "B04",
-   "group": "B",
-   "classification": "covered",
-   "detail": "confirm=no 流程结束后保存快照完成=true（非死锁正控）"
-  },
-  {
-   "id": "B05",
-   "group": "B",
-   "classification": "covered",
-   "detail": "限时内={\"saved\":true} 重试=true 超时={\"saved\":false,\"error\":\"script save barrier 超时 40ms\"}（生产 10000ms，诊断 40/60ms）"
-  },
-  {
-   "id": "B06",
-   "group": "B",
-   "classification": "covered",
-   "detail": "cancel={\"error\":\"AbortError\"} 后续命令未执行=true barrier={\"saved\":true} 取消后保存=true"
-  },
-  {
-   "id": "B07",
-   "group": "B",
-   "classification": "covered",
-   "detail": "detached入口=3+桥接1；B08 runner槽竞争=1/startScript guard=1；B09 finally收尾=5/4/9；B10 auto-save=6/2；B11 capture=2"
-  },
-  {
-   "id": "B08",
-   "group": "B",
-   "classification": "covered",
-   "detail": "旧链abort=AbortError 旧链未续行=true 新runtime权威=true（主壳 runner 槽位语义见 census；runtime 级旧链终止后新链可达——不用忽略 signal 的 fake invoke）"
-  },
-  {
-   "id": "B09",
-   "group": "B",
-   "classification": "risk",
-   "detail": "主壳 finally 后新权威/auto-save/drain 的完整时序需主壳 AST 或浏览器壳（B09 要求 B08 反例先行）；census 锚点已列：release=5 dismount=9 drain=4"
-  },
-  {
-   "id": "B10",
-   "group": "B",
-   "classification": "covered",
-   "detail": "ownsRunnerSlot=false 路径（非 owner 不做 finally 收尾）与 startScript guard census：ownsRunnerSlot 竞争判定=1、startScript 单槽 guard=1；动态行为属主壳域留 Codex"
-  },
-  {
-   "id": "B11",
-   "group": "B",
-   "classification": "covered",
-   "detail": "main.ts dumpSave 注册存在=true（真 debug 注册对象零参调用与 codec 校验属主壳运行时，本探针不动主壳）"
-  },
-  {
-   "id": "B12",
-   "group": "B",
-   "classification": "risk",
-   "detail": "正常 capture/F5 保存对照与导出→codec→隔离恢复草案需主壳 save/ops 真实链路（浏览器壳域）；B11 census 见 capture=2。错误导出不作 fixture"
-  },
-  {
-   "id": "C01",
-   "group": "C",
-   "classification": "covered",
-   "detail": "gained=true 战内=[{\"itemId\":\"91\",\"count\":1}] 世界=[]（新偷物 writeBack 丢弃=原树行为，C-04 审计项）"
-  },
-  {
-   "id": "C02",
-   "group": "C",
-   "classification": "covered",
-   "detail": "战内=[{\"itemId\":\"91\",\"count\":1}]（逃跑留偷物=战内）；世界=[]（新增丢弃同 C01）"
-  },
-  {
-   "id": "C03",
-   "group": "C",
-   "classification": "covered",
-   "detail": "C03-victory: 战内=[{\"itemId\":\"91\",\"count\":2}] 世界=[{\"itemId\":\"91\",\"count\":2}] | C03-playerFled: 战内=[{\"itemId\":\"91\",\"count\":2}] 世界=[{\"itemId\":\"91\",\"count\":2}]"
-  },
-  {
-   "id": "C04",
-   "group": "C",
-   "classification": "covered",
-   "detail": "战内清空→世界保留=[{\"itemId\":\"91\",\"count\":1}]（零项删除只作用于战内参与的 ID；真实消耗到零=世界已有ID被count覆盖后剔除,由 C03/C06 数量链见证）"
-  },
-  {
-   "id": "C05",
-   "group": "C",
-   "classification": "covered",
-   "detail": "战内净=[91:0,91:1,66:1] 世界写回=[]（新增不落=原树；区分净结果与追加需世界已有同ID才更新）"
-  },
-  {
-   "id": "C06",
-   "group": "C",
-   "classification": "covered",
-   "detail": "世界已有91×1+战内偷取→2（同ID走 count 覆盖；不同ID新增不落=原树,见 C01）；来源合并细节属战内 state.inventory 由真实 steal 维护"
-  },
-  {
-   "id": "C07",
-   "group": "C",
-   "classification": "risk",
-   "detail": "真实养蛊九回合到期产生新物品需完整回合链（Q2 实跑域）；本批不冒称 E2E。battle-core 养蛊逻辑锚点见 battle-core.ts"
-  },
-  {
-   "id": "C08",
-   "group": "C",
-   "classification": "risk",
-   "detail": "terminated=未终止；写回合同：战败是否写回库存属 main 调用域（census 见 battle-result 调用点），战斗内库存=[]"
-  },
-  {
-   "id": "C09",
-   "group": "C",
-   "classification": "covered",
-   "detail": "旧探针 probe-battle-core.mjs C-poison-terminal/C-poison-terminal-control 已证：毒杀后仍需一次玩家输入才结算（原树特征）+ 正控可 won。本批引用复跑见 /tmp/glm-b2/old-battle-core.log；正确合同草案=毒杀最后敌人应自动进入结算（Q2 域）"
-  },
-  {
-   "id": "C10",
-   "group": "C",
-   "classification": "risk",
-   "detail": "600tick内终态=未终止（玩家死亡侧需敌方实际命中；本 fixture 攻击未致死——敌伤害不足以击穿时战斗持续，终态域留 Q2 真实数值链）"
-  },
-  {
-   "id": "C11",
-   "group": "C",
-   "classification": "risk",
-   "detail": "同轮双方死亡执行顺序当前无明示合同（battle-core 回合结算顺序需游戏机制考证）；登记待裁决，不发明优先规则"
-  },
-  {
-   "id": "C12",
-   "group": "C",
-   "classification": "covered",
-   "detail": "空step经验不变=true；敌逃无奖励对照与保存重开所需断言属 Q2/R4（writeBack 入口已由 C01-C06 真实覆盖）"
-  },
-  {
-   "id": "D01",
-   "group": "D",
-   "classification": "covered",
-   "detail": "敌enemy-406(毒蛇卵 rate4 res0) 命中后日志毒=false 战斗结果=undefined——附带毒经真实敌方攻击链（状态分支以 statuses/log 见证）"
-  },
-  {
-   "id": "D02",
-   "group": "D",
-   "classification": "risk",
-   "detail": "敌enemy-512(item85 silence rate3) 沉默可见=false 结果=undefined（状态实际消费以 statuses 字段为准；本 fixture 观察日志/终态）"
-  },
-  {
-   "id": "D03",
-   "group": "D",
-   "classification": "covered",
-   "detail": "敌enemy-401(item127: sleep+healHp-1) 结果=undefined 玩家HP=100——同入口复合效果经真实敌攻链；效果域逐项归属（sleep/healHp）需状态字段级断言，见待裁决：混合敌攻附带的独立效果计数"
-  },
-  {
-   "id": "D04",
-   "group": "D",
-   "classification": "covered",
-   "detail": "抗性门禁：res=8 敌(enemy-401)为攻击方毒不作用于自身；概率失败路径(rate<命中窗)与毒抗门禁为现行正确保护——本组只列对照，不删门禁。真实抗性门禁命中需定向 fixture（C 组已覆盖敌毒链）"
-  },
-  {
-   "id": "D05",
-   "group": "D",
-   "classification": "covered",
-   "detail": "正式 validateSkills 接受的复活技能在场(302 赎魂 target=oneAlly/301 target=oneAlly)；真实目标集合与死者 HP/MP 复活断言需先死亡再施法的完整回合链（Q2 真实数值域）——本批登记 fixture 骨架：混合队伍 hp=[{\"hp\":100,\"maxHp\":100},{\"hp\":100,\"maxHp\":1}] 结果=undefined"
-  },
-  {
-   "id": "D06",
-   "group": "D",
-   "classification": "covered",
-   "detail": "单体还魂咒(301, oneAlly)与全队赎魂(302)同会话装载；单体对照的真实施放链同上 Q2——PAL 现有单体复活未被写失效（数据层 target 契约完好）"
-  },
-  {
-   "id": "D07",
-   "group": "D",
-   "classification": "covered",
-   "detail": "治疗技能样本 id=296(气疗术) target=oneAlly——治疗目标集合与死亡状态门禁属战斗数值链（Q2）；对照要求：不能让效果忽略死亡状态掩盖复活遗漏（已登记为 D05/D06 委托）"
-  },
-  {
-   "id": "D08",
-   "group": "D",
-   "classification": "covered",
-   "detail": "合体技样本=0 个（）；分类：普通技能 MP 门禁可用现有 session 施放链核（Q2），合体技证据不外推——边界已分栏"
-  },
-  {
-   "id": "D09",
-   "group": "D",
-   "classification": "covered",
-   "detail": "父→子=misc throwable=66 usable= Enter后=misc W快捷=throwItem（真实按键路由）"
-  },
-  {
-   "id": "D10",
-   "group": "D",
-   "classification": "covered",
-   "detail": "同键序(↓ Enter) 子菜单=misc usable=100 throwable=（同输入序列不比较异序）"
-  },
-  {
-   "id": "D11",
-   "group": "D",
-   "classification": "covered",
-   "detail": "双能力库存→道具子菜单=misc；无能力库存→misc（父能力并集与子能力门控经真实按键）"
-  },
-  {
-   "id": "D12",
-   "group": "D",
-   "classification": "covered",
-   "detail": "预占最后一件后菜单=misc 库存=[{\"itemId\":\"66\",\"count\":1}]（真实菜单状态机；取消预占恢复链属 Q2 交互细目）"
-  },
-  {
-   "id": "E01",
-   "group": "E",
-   "classification": "covered",
-   "detail": "内存 repo 建立文件=items.json；planner→snapshot→changes→commit 全链需真实迁移输入集（不运行 CLI）——transaction 模块导出=recoverMigrationTransaction,hasPendingMigrationTransaction,commitMigrationTransaction（恢复/提交入口在；E02-E03 分栏核守卫）"
-  },
-  {
-   "id": "E02",
-   "group": "E",
-   "classification": "covered",
-   "detail": "journal 前修改守卫：hasPending=false（无 journal 时 false）；快照复核守卫 assertProjectSnapshotCurrent=function、hashUnmanaged=function——保护阶段分栏：journal 建立后修改已有守卫（strictRepoRel/assertNoSymlinkPath/assertScopeTarget, migration-transaction.ts:64-101）"
-  },
-  {
-   "id": "E03",
-   "group": "E",
-   "classification": "covered",
-   "detail": "journal 已建立后的修改：守卫=journal 全量验证（validateJournal 严格 id/scope/路径/symlink 校验, migration-transaction.ts:104+）后才允许写入或清理——已有守卫正控;「无并发保护」的笼统说法不成立（分阶段见 E02）"
-  },
-  {
-   "id": "E04",
-   "group": "E",
-   "classification": "covered",
-   "detail": "计划 precondition 来源：createMigrationPlan=function、snapshotOf=function（migration-plan.ts:30/134）；失败恢复数据边界由 recoverMigrationTransaction 全量校验后处理（:258）——不运行真实 CLI，守卫入口与失败不写索引合同在源码层成立"
-  },
-  {
-   "id": "E05",
-   "group": "E",
-   "classification": "covered",
-   "detail": "无symlink正控件=true（authored跳过/hash校验属物化器域,不运行CLI）"
-  },
-  {
-   "id": "E06",
-   "group": "E",
-   "classification": "covered",
-   "detail": "父目录symlink=true 逐级lstat守卫捕获=true（migration-transaction.ts:76-82 assertNoSymlinkPath 语义；全部路径限 /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/glm-e-symlink-tbeTQK）"
-  },
-  {
-   "id": "E07",
-   "group": "E",
-   "classification": "covered",
-   "detail": "多层父链+叶子链接捕获=true；目标文件自身链接同守卫域（字符串 resolve 不是验证,以真实 lstat+真实写入落点为准）"
-  },
-  {
-   "id": "E08",
-   "group": "E",
-   "classification": "covered",
-   "detail": "经链接写入真实落点在repo外=true（首笔二进制写入前守卫即抛→不会发生该写入；后续JSON事务兜底问题属 Codex 迁移卡验证域）"
-  },
-  {
-   "id": "E09",
-   "group": "E",
-   "classification": "covered",
-   "detail": "dense enemies 入口：@deprecated 标注=1（battle-core.ts:293-295 enemySlots 语义保留,旧 enemies 兼容入口仍在）；生产调用 dense 形态计数=497——迁移草案=canonical main 传 enemySlots（现行注释已述）,退役属 N6b 前清理卡"
-  },
-  {
-   "id": "E10",
-   "group": "E",
-   "classification": "covered",
-   "detail": "battle-anim targetIdx 引用=28处（:84/:184/:219/:239 结构化参数）；旧 damage 入口以 damageNum 结构化传递——替换计划=保留全部业务断言迁移到 side/idx 寻址结构（Codex N6b 前清单）"
-  },
-  {
-   "id": "E11",
-   "group": "E",
-   "classification": "covered",
-   "detail": "translate-events 引用文件=12（packages/migrate/src/script-overlays.ts,packages/migrate/src/translate-events.test.ts,packages/migrate/src/translate-enemy-scripts.test.ts,packages/migrate/src/migrate-enemies.ts,packages/migrate/src/script-control-flow-audit.ts...）；当前 PAL producer 输入/输出分栏与历史输出选项 retired 状态需 Codex 在 N6b 清点——本批列文件清单不判死"
-  },
-  {
-   "id": "E12",
-   "group": "E",
-   "classification": "covered",
-   "detail": "不得删合同：当前局部格式（content20 序列化）、ScriptRef（编辑器 canonical 引用）、来源标签（origin.kind）、平台升级合同（contentVersion 检查）。删除候选最小白名单（待 Codex 批准）：battle-anim targetIdx/damage 旧参数形态、battle-core dense enemies 入口、translate-events 历史输出选项——各配验证计划：全 caller census+替换断言等价后删，不实际删除"
-  },
-  {
-   "id": "F01",
-   "group": "F",
-   "classification": "risk",
-   "detail": "shared 行196/356 分支107/177（79项/9文件）：解码器/解析器输入边界为主要缺口；最高优先真实调用点=content/reforge 对 shared 编解码与 id 规范的消费（低百分比源于包小+入口集中在 CLI）。候选：边界值/非法 UTF-8/超长 id 的解码拒绝正控"
-  },
-  {
-   "id": "F02",
-   "group": "F",
-   "classification": "risk",
-   "detail": "content 行4288/5183 分支3584/5016（488项）：验证器未覆盖分支集中在可选字段组合与跨字段约束（skill.ts:220 毒系互斥、scene-core 深层嵌套）；真实合法/非法输入应从 projects/pal 现有内容抽样。避免把类型外不可能值算优先用例"
-  },
-  {
-   "id": "F03",
-   "group": "F",
-   "classification": "risk",
-   "detail": "pal-extract 行329/1316 分支209/539（fast 91项 vs PAL 资产组更多）：fast 不含真实 MKF 解析（缺 gitignored 资产）；缺输入合同单列=MKF 边界块/截断文件。最高价值候选=用 data/raw 只读小样本的解码边界"
-  },
-  {
-   "id": "F04",
-   "group": "F",
-   "classification": "risk",
-   "detail": "migrate 行3436/6677 分支2843/6398（314项）：unit 与 PAL 组差异大；高风险未命中=journal 恢复路径异常分支、物化 authored 跳过、多 scope 提交交织（migration-transaction.ts:258+/migration-write-plan）。不重跑 CLI"
-  },
-  {
-   "id": "F05",
-   "group": "F",
-   "classification": "risk",
-   "detail": "reforge 行7594/14047 分支5063/10970（1016项）：与 A-D 去重后最高价值=战斗终态链（C10 玩家死亡终态、毒杀自动结算——Q2）、脚本宿主 gate/cancel 组合（A 组已列）、存档恢复 snapshot 边界（SAVE 域已修，剩余为极端交织）。不重复计算 A-D 已登记缺口"
-  },
-  {
-   "id": "F06",
-   "group": "F",
-   "classification": "risk",
-   "detail": "editor 行22147/27797 分支19081/27545（2254项/210文件）：D-01 done 后剩余=命令族深分支（stamp-group/battle-data-delete 等删除命令失败域）、加载边界（D-06 新建物品 canonical 缺席、D-07 共享 ScriptId 前缀冲突——均列后续归属不修）"
-  },
-  {
-   "id": "F07",
-   "group": "F",
-   "classification": "risk",
-   "detail": "game 行10263/13604 分支7498/11281（2251项）：普通 unit 覆盖较高，缺口在 headless 集成与 PAL 资产组（需 data/extracted）；非视觉高价值=菜单/状态机边界（D 组同域已列）、存档载入恢复。第一阶段缺口不阻断 R4（分流见 F12）"
-  },
-  {
-   "id": "F08",
-   "group": "F",
-   "classification": "risk",
-   "detail": "各包最高优先文件（按真实调用点而非百分比）：shared→id/codec 核心；content→skill.ts 验证器（:220 毒系）+scene-core；pal-extract→MKF 主解码器；migrate→migration-transaction.ts（恢复链）+migration-write-plan（symlink/authored）；reforge→battle-session.ts 终态+script-runner-core gate；editor→D-06/D-07 相关命令族；game→菜单状态机+存档载入"
-  },
-  {
-   "id": "F09",
-   "group": "F",
-   "classification": "risk",
-   "detail": "可实施用例草案（每包≤3，fixture/操作/断言/反控/命令）：①migrate E06 扩展=临时父根 symlink→journal 恢复拒绝（反控=无链接通过）；②reforge C10=低防满血敌+毒玩家→死亡终态 assert defeat（正控=胜利链）；③editor D-06=新建物品→立即私有脚本→保存缺 canonical 记录（原树观察+合同草案双模式）。运行入口均在本包探针 --case 形态"
-  },
-  {
-   "id": "F10",
-   "group": "F",
-   "classification": "risk",
-   "detail": "定向抽查风险：整文件 ts-nocheck 计数=13（含历史 Node 审计惯例文件，非按命中判 bug）；早 return/空样本需动态举证——本批 A-E 探针已对最高优先项给了 entered/完成信号见证；未动态复核的只标静态候选"
-  },
-  {
-   "id": "F11",
-   "group": "F",
-   "classification": "risk",
-   "detail": "分支 classified 分栏原则（本包 72 行执行）：可达待测（fixture 可构造）/重叠守卫（后层拦截，如 save 6红中 2 下游拒绝）/结构约束（宿主/环境域如浏览器壳）/待证（需一手证据）。全部保留在覆盖分母，「很难构造」≠不可达"
-  },
-  {
-   "id": "F12",
-   "group": "F",
-   "classification": "risk",
-   "detail": "统一去重与顺序：本批 A09/A10-cancel/A11-cancel/A12-cancel（提交前 abort 写入残留）归 D-01 同族全局历史域（已 done 但 cancel 写入域或需复核）→列 Codex 复核；C 组偷取 writeBack 语义（战内新增丢弃）归 C-04 审计项修复卡；B05/B06 barrier 时序归 B-06/B-07 域；E09-E12 旧接口归 N6b 前清理卡；其余 Q2/R4 按现有排期，不发明「先补 90%」门槛"
-  }
- ],
- "summary": {
-  "A": {
-   "covered": 7,
-   "reproduced": 5
-  },
-  "B": {
-   "risk": 2,
-   "covered": 10
-  },
-  "C": {
-   "risk": 4,
-   "covered": 8
-  },
-  "D": {
-   "risk": 1,
-   "covered": 11
-  },
-  "E": {
-   "covered": 12
-  },
-  "F": {
-   "risk": 12
-  }
- },
- "totals": {
-  "covered": 48,
-  "reproduced": 5,
-  "risk": 19
- },
- "total": 72
+  "meta": {
+    "package": "glm-pre-e2e-boundary-batch-2",
+    "revision": "r1-rework(R1-R7 返工交付)",
+    "frozenProduct": "70e3f62770bbe0a23c4b9d90c31258a3d2883772",
+    "branch": "codex/glm-pre-e2e-boundary-batch-2",
+    "generatedAt": "2026-09-14T07:11:14.059Z",
+    "contributor": "GLM",
+    "convention": "observe=原树取证(退出码应0);contract=正确合同断言:exit0=现行正确,exit1=原树缺陷业务红(修复树应转绿),其余=环境失败;F组为静态盘点单模式",
+    "tally": {
+      "covered": 42,
+      "reproduced": 12,
+      "risk": 18
+    },
+    "rows": 72,
+    "failures": []
+  },
+  "rows": [
+    {
+      "id": "A01",
+      "group": "A",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/script-project-core.ts:199-249"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A01",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A01",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "换图成功+canonical覆写+快照一致同链核验",
+      "negativeControl": "同链快照字节比对",
+      "followUp": "现行正确,无修复项",
+      "detail": "覆写=target-map-01 快照=target-map-01 reload收到=[\"target-map-01\"] 通知=1"
+    },
+    {
+      "id": "A02",
+      "group": "A",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "reforge/src/script-host-adapter.ts:154-156"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A02",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A02",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: A02 contract: 预载失败后覆写不应残留（B-05 原树为 new-map）",
+      "positiveControl": "同输入资源预载成功正控",
+      "negativeControl": "仅预载失败注入后覆写/现场/快照三态",
+      "followUp": "B-05 修复卡",
+      "detail": "失败后覆写=new-map 失败通知=0 重试=retry-map（归运行时 B-05）"
+    },
+    {
+      "id": "A03",
+      "group": "A",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "reforge/src/scene-switch-transaction.ts:31-71"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A03",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A03",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: A03 contract: 取消后覆写不应残留",
+      "positiveControl": "entered 见证后取消",
+      "negativeControl": "已提交效果不被误当未提交取消",
+      "followUp": "B-05/B-07 相邻取消域",
+      "detail": "outcome={\"error\":\"AbortError\"} 覆写=new-map（归 B-05）"
+    },
+    {
+      "id": "A04",
+      "group": "A",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/script-project-core.ts:199-249"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A04",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A04",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "显式其它 scene 覆写正控",
+      "negativeControl": "与当前场景预载路径分栏",
+      "followUp": "现行正确",
+      "detail": "覆写=m2 reload调用=0"
+    },
+    {
+      "id": "A05",
+      "group": "A",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/script-runner.ts:774-784",
+        "reforge/src/runtime-project-view.ts:213",
+        "reforge/src/scene-switch-transaction.ts:31/71"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A05",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A05",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "真实 ScriptRunner setSceneOnEnter 写 sceneScriptOverrides",
+      "negativeControl": "capture/assert 生产原语验证过期拒绝",
+      "followUp": "现行正确(投影无 override 已声明)",
+      "detail": "真实 ScriptRunner setSceneOnEnter 写入=true 签名变化=true 过期拒绝=true（capture/assert 生产原语；投影组装含 sceneScriptOverrides 为本席声明——scratch 现状不携带该字段）"
+    },
+    {
+      "id": "A06",
+      "group": "A",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/scene-switch-transaction.ts:71"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A06",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A06",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "选择/entry 不变时并发变化不拒绝",
+      "negativeControl": "无关 money/flag 不失效",
+      "followUp": "现行正确",
+      "detail": "无关变化不取消=true 依赖变化取消=true（签名域=party/equipment/inventory/followers/mapOverride/sceneScript/entryStage）"
+    },
+    {
+      "id": "A07",
+      "group": "A",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/script-world.ts:390"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A07",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A07",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "use/disabled/inherit 三态真实消费(resolveSceneHook)",
+      "negativeControl": "签名/entry 变化分别分类",
+      "followUp": "现行正确",
+      "detail": "[{\"kind\":\"use\",\"storedKind\":\"use\",\"storedValue\":\"after\",\"resolvedHookId\":\"after\"},{\"kind\":\"disabled\",\"storedKind\":\"disabled\",\"resolvedHookId\":\"none\"},{\"kind\":\"inherit\",\"resolvedHookId\":\"before\"}]（消费域=resolveRuntimeSceneHook 读 behaviors：use→after/disabled→无/inherit→回退静态 initial）"
+    },
+    {
+      "id": "A08",
+      "group": "A",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/scene-switch-transaction.ts:31/71"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A08",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A08",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "真正依赖变化失效",
+      "negativeControl": "无关 money/flag 变化不失效",
+      "followUp": "现行正确",
+      "detail": "与 A06 同一真实 capture/assert 链分栏：无关 money/flag 不失效、inventory/party 参与签名才失效（scene-switch-transaction.ts:28-31 注释合同）"
+    },
+    {
+      "id": "A09",
+      "group": "A",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/script-project-core.ts:199-249"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A09",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A09",
+      "contractExit": 0,
+      "contractRedMeaning": "取消后不得残留覆写",
+      "positiveControl": "同输入不取消正控完成",
+      "negativeControl": "resolver 真实 await 后 abort→canonical/通知比对(非仅 AbortError)",
+      "followUp": "B-09 selector 取消域",
+      "detail": "resolver进入+abort=AbortError 写入=undefined 不取消正控=before（归 B-09 相邻）"
+    },
+    {
+      "id": "A10",
+      "group": "A",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "reforge/src/script-project-core.ts:199-249"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A10",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A10",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: A10 contract: 提交前 abort 不得残留选择",
+      "positiveControl": "不取消正控写入=alt",
+      "negativeControl": "abort 时点后残留断言(残留=alt)",
+      "followUp": "B-09 相邻",
+      "detail": "不取消正控写入=\"alt\" | outcome={\"error\":\"AbortError\"} before={} 残留=\"alt\" AbortError=true 通知=1（归 B-09 相邻）"
+    },
+    {
+      "id": "A11",
+      "group": "A",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "reforge/src/script-project-core.ts:199-249"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A11",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A11",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: A11 contract: 提交前 abort 不得残留选择",
+      "positiveControl": "页面选择与 cursor/lease 分栏",
+      "negativeControl": "取消后残留断言(残留=p0)",
+      "followUp": "B-09 相邻",
+      "detail": "不取消正控写入=\"p0\" | outcome={\"error\":\"AbortError\"} before={} 残留=\"p0\" AbortError=true 通知=1（归 B-09 相邻）"
+    },
+    {
+      "id": "A12",
+      "group": "A",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "reforge/src/script-project-core.ts:199-249"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A12",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A12",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: A12 contract: 提交前 abort 不得残留选择",
+      "positiveControl": "已生效后取消与提交后取消分时点",
+      "negativeControl": "两时点不可混称(残留=use 值)",
+      "followUp": "B-09 相邻",
+      "detail": "不取消正控写入={\"kind\":\"use\",\"value\":{\"on\":\"interact\",\"range\":2}} | outcome={\"error\":\"AbortError\"} before={} 残留={\"kind\":\"use\",\"value\":{\"on\":\"interact\",\"range\":2}} AbortError=true 通知=1（归 B-09 相邻）"
+    },
+    {
+      "id": "B01",
+      "group": "B",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/runtime-script-project.ts:338-374/447",
+        "reforge/src/script-activity-lineage.ts"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B01",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B01",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "confirm→battle 父子链真实推进",
+      "negativeControl": "barrier 有界超时或链后重试二居其一",
+      "followUp": "现行正确",
+      "detail": "answer前快照=0 挂起期saved=false（有界） 战后命令=true 战斗子活动进入=true 链后重试=true（完整 confirm→battle→post 父子链；生产 10000ms 诊断 90/60ms）"
+    },
+    {
+      "id": "B02",
+      "group": "B",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/runtime-script-project.ts:447"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B02",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B02",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "不请求保存的合法正控",
+      "negativeControl": "exact-signal 子链对照",
+      "followUp": "现行正确",
+      "detail": "confirm→battle→setFlag 链完成后快照立即可用 b02after=true（同一 confirm/startBattle 链正控）"
+    },
+    {
+      "id": "B03",
+      "group": "B",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/script-project-core.ts:269"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B03",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B03",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "teleport 子 lease+链后重试",
+      "negativeControl": "快照零调用时 flags 仍落地",
+      "followUp": "现行正确",
+      "detail": "answer前快照=0 挂起期saved=false（有界,B-07族） teleport子lease=true b03flag=true 链后重试=true（诊断 90/60ms）"
+    },
+    {
+      "id": "B04",
+      "group": "B",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/runtime-script-project.ts:338-374"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B04",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B04",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "流程结束后保存完成正控",
+      "negativeControl": "非死锁见证",
+      "followUp": "现行正确",
+      "detail": "confirm=no 流程结束后保存快照完成=true（非死锁正控）"
+    },
+    {
+      "id": "B05",
+      "group": "B",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/runtime-script-project.ts(withSaveBarrier)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B05",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B05",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "同实例三段:挂起超时(40)→同实例重试(50)→释放后成功(60)",
+      "negativeControl": "生产10000ms与诊断虚拟时间分栏",
+      "followUp": "B-06/B-07 域",
+      "detail": "挂起中超时={\"saved\":false,\"error\":\"script save barrier 超时 40ms\"} 同实例重试={\"saved\":false,\"error\":\"script save barrier 超时 50ms\"} 链完成后={\"saved\":true} 链尾命令=true（生产 10000ms，诊断 40/50/60ms）"
+    },
+    {
+      "id": "B06",
+      "group": "B",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/runtime-script-project.ts"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B06",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B06",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "取消后 barrier 收尾释放",
+      "negativeControl": "快照不含被取消命令效果",
+      "followUp": "现行正确",
+      "detail": "cancel={\"error\":\"AbortError\"} 后续命令未执行=true barrier={\"saved\":true} 快照次数=1 取消后保存=true（取消即收尾释放 barrier 或有界超时；错误归属=子活动 AbortError）"
+    },
+    {
+      "id": "B07",
+      "group": "B",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/main.ts(detached入口)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B07",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B07",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "入口 census 静态+动态分栏",
+      "negativeControl": "取消旧链后新活动可达",
+      "followUp": "U-02 域已证",
+      "detail": "detached入口=3+桥接1；B08 runner槽竞争=1/startScript guard=1；B09 finally收尾=5/4/9；B10 auto-save=6/2；B11 capture=2"
+    },
+    {
+      "id": "B08",
+      "group": "B",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/runtime-script-project.ts:447"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B08",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B08",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "旧链 await 彻底结束后新命令取得权威",
+      "negativeControl": "不允许忽略 signal 的 fake invoke",
+      "followUp": "B-09 域",
+      "detail": "旧链完成=true 同runtime新权威=true 快照含两者=true（旧链 await 结束后才发起新命令——无忽略 signal 的 fake invoke；主壳 runner 槽位见 census）"
+    },
+    {
+      "id": "B09",
+      "group": "B",
+      "classification": "risk",
+      "sourceAnchors": [
+        "reforge/src/script-activity-lineage.ts"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B09",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B09",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "旧 finally 后新权威+挂载+游标",
+      "negativeControl": "auto-save/drain 状态核验",
+      "followUp": "B-09 域",
+      "detail": "主壳 finally 后新权威/auto-save/drain 的完整时序需主壳 AST 或浏览器壳（B09 要求 B08 反例先行）；census 锚点已列：release=5 dismount=9 drain=4"
+    },
+    {
+      "id": "B10",
+      "group": "B",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/runtime-script-project.ts"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B10",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B10",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "ownsRunnerSlot=false/autoHost 限制反向控制",
+      "negativeControl": "startScript 完整身份 guard",
+      "followUp": "现行正确",
+      "detail": "ownsRunnerSlot=false 路径（非 owner 不做 finally 收尾）与 startScript guard census：ownsRunnerSlot 竞争判定=1、startScript 单槽 guard=1；动态行为属主壳域留 Codex"
+    },
+    {
+      "id": "B11",
+      "group": "B",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/main.ts:6933",
+        "reforge/src/save/current-structure.ts:256"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B11",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B11",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "真 debug 注册对象零参 dumpSave 调用",
+      "negativeControl": "正式 codec 校验导出内容",
+      "followUp": "Q1 已修域验证",
+      "detail": "main.ts dumpSave 注册存在=true（真 debug 注册对象零参调用与 codec 校验属主壳运行时，本探针不动主壳）"
+    },
+    {
+      "id": "B12",
+      "group": "B",
+      "classification": "risk",
+      "sourceAnchors": [
+        "reforge/src/save/ops.ts"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B12",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B12",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "capture/F5 对照+导出→codec→隔离恢复草案",
+      "negativeControl": "错误导出不作合法 fixture",
+      "followUp": "Q1 已修域验证",
+      "detail": "正常 capture/F5 保存对照与导出→codec→隔离恢复草案需主壳 save/ops 真实链路（浏览器壳域）；B11 census 见 capture=2。错误导出不作 fixture"
+    },
+    {
+      "id": "C01",
+      "group": "C",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-session.ts:2450-2456"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C01",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C01",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: C01 正确合同: 新偷物应写回世界(原树丢弃=审计C-01 特征)",
+      "positiveControl": "战内偷取链(获得日志+战内库存)",
+      "negativeControl": "世界写回保留新物=正确合同,原树丢弃红",
+      "followUp": "审计 C-01 修复卡",
+      "detail": "gained=true 战内=[{\"itemId\":\"91\",\"count\":1}] 世界=[]（战内偷取链现行正确;世界写回丢弃新增=审计C-01 原树特征,正确合同红）"
+    },
+    {
+      "id": "C02",
+      "group": "C",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-session.ts:2450-2456"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C02",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C02",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: C02 正确合同: 逃跑同样应写回新偷物(原树丢弃=审计C-01,业务红)",
+      "positiveControl": "逃跑留偷物(战内)现行合同",
+      "negativeControl": "世界侧同 C-01 正确合同红",
+      "followUp": "审计 C-01 修复卡",
+      "detail": "战内=[{\"itemId\":\"91\",\"count\":1}]（逃跑留偷物=战内,现行合同正确）；世界=[]（新增丢弃=审计C-01 原树特征,正确合同红）"
+    },
+    {
+      "id": "C03",
+      "group": "C",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-session.ts:2450-2456"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C03",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C03",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "已有物品胜/逃两终局 count 覆盖=2",
+      "negativeControl": "同一判定入口与 C01/C02 共用",
+      "followUp": "现行正确",
+      "detail": "战内=[{\"itemId\":\"91\",\"count\":2}] 世界=[{\"itemId\":\"91\",\"count\":2}] | 战内=[{\"itemId\":\"91\",\"count\":2}] 世界=[{\"itemId\":\"91\",\"count\":2}]"
+    },
+    {
+      "id": "C04",
+      "group": "C",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-session.ts(writeBackInventory)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C04",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C04",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "真实菜单键序消费观音符到零",
+      "negativeControl": "写回去零项+无重复 ID",
+      "followUp": "现行正确",
+      "detail": "终局=victory 使用见证=true 战内=[{\"itemId\":\"61\",\"count\":0}] 写回=[]（真实菜单键序消费）"
+    },
+    {
+      "id": "C05",
+      "group": "C",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-session.ts:2450-2456"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C05",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C05",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: C05 正确合同: 净结果应把新偷 91 并入世界(原树丢弃=审计C-01 特征)",
+      "positiveControl": "偷91+用61 混合链净结果(61-1,91 不丢)",
+      "negativeControl": "世界净结果 61 清项+91 并入=正确合同红",
+      "followUp": "审计 C-01 修复卡",
+      "detail": "偷取91=true 使用61=true 61:1→0 91:1→1 写回=[]（真实混合链净结果;战内域现行正确,世界新增丢弃=审计C-01,正确合同红）"
+    },
+    {
+      "id": "C06",
+      "group": "C",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts:620-622"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C06",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C06",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "两次真实偷取:偷光不重复获得+战内同 ID 合并 count2",
+      "negativeControl": "世界 count 覆盖=2 正控(已有域)",
+      "followUp": "现行正确(stealLeft 语义)",
+      "detail": "第一次=true 总获得日志=1 战内91=[{\"itemId\":\"91\",\"count\":2}] 写回=[{\"itemId\":\"91\",\"count\":2}]（真实连续 skill；偷光不重复获得+同 ID count 覆盖）"
+    },
+    {
+      "id": "C07",
+      "group": "C",
+      "classification": "risk",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts(养蛊)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C07",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C07",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "N/A(真实九回合链过长)",
+      "negativeControl": "待证:Q2 实跑域",
+      "followUp": "Q2",
+      "detail": "真实养蛊九回合到期产生新物品需完整回合链（Q2 实跑域）；本批不冒称 E2E。battle-core 养蛊逻辑锚点见 battle-core.ts"
+    },
+    {
+      "id": "C08",
+      "group": "C",
+      "classification": "risk",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-result.ts"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C08",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C08",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "必败终局写回域真实链",
+      "negativeControl": "terminated/取消域可达性分栏",
+      "followUp": "Q2/待裁决",
+      "detail": "terminated=未终止；写回合同：战败是否写回库存属 main 调用域（census 见 battle-result 调用点），战斗内库存=[]"
+    },
+    {
+      "id": "C09",
+      "group": "C",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts(毒 tick)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C09",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C09",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "毒杀最后敌人无需输入结算草案(旧探针复现+正控)",
+      "negativeControl": "普通攻击正控",
+      "followUp": "审计 C-04,Q2",
+      "detail": "旧探针 probe-battle-core.mjs C-poison-terminal/C-poison-terminal-control 已证：毒杀后仍需一次玩家输入才结算（原树特征）+ 正控可 won。本批引用复跑见 /tmp/glm-b2/old-battle-core.log；正确合同草案=毒杀最后敌人应自动进入结算（Q2 域）"
+    },
+    {
+      "id": "C10",
+      "group": "C",
+      "classification": "risk",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts:1120-1155(回合末)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C10",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C10",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "回合末玩家死亡终态+后续空步",
+      "negativeControl": "不能只测敌 HP=0",
+      "followUp": "现行正确",
+      "detail": "600tick内终态=未终止（玩家死亡侧需敌方实际命中；本 fixture 攻击未致死——敌伤害不足以击穿时战斗持续，终态域留 Q2 真实数值链）"
+    },
+    {
+      "id": "C11",
+      "group": "C",
+      "classification": "risk",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts:1126-1148"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C11",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C11",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "同轮双方死亡/毒后恢复执行顺序",
+      "negativeControl": "歧义只登记待裁决不发明优先规则",
+      "followUp": "待裁决登记",
+      "detail": "同轮双方死亡执行顺序当前无明示合同（battle-core 回合结算顺序需游戏机制考证）；登记待裁决，不发明优先规则"
+    },
+    {
+      "id": "C12",
+      "group": "C",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-result.ts"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=observe --case C12",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs --mode=contract --case C12",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "重复 step/结果读取不重复累计",
+      "negativeControl": "敌逃无奖励对照",
+      "followUp": "现行正确",
+      "detail": "空step经验不变=true；敌逃无奖励对照与保存重开所需断言属 Q2/R4（writeBack 入口已由 C01-C06 真实覆盖）"
+    },
+    {
+      "id": "D01",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts:2700-2726"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D01",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D01",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "真实敌攻链双门过→551 入 p.poisons+日志",
+      "negativeControl": "D04 门禁矩阵对照",
+      "followUp": "现行正确",
+      "detail": "敌攻链进入:poisons=[551] 日志中毒=true hp=92（enemy-406+毒蛇卵117 rate4,受击者res=0,rng=0双门过;battle-core.ts:2700 敌普攻命中后调 applyEnemyEquivItem）"
+    },
+    {
+      "id": "D02",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts:2703-2707"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D02",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D02",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "use 链真实使用85→silence=2 字段",
+      "negativeControl": "equiv 链仅处理 applyPoison(合同锚:2707)",
+      "followUp": "现行正确(消费域分栏已锚)",
+      "detail": "equiv链敌攻进入后 status.silence=0(仅 applyPoison 合同,battle-core.ts:2707);use链真实使用85后 silence=2 库存85=0（封技附带的真实消费域=use 链非 equiv 链）"
+    },
+    {
+      "id": "D03",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts:2025-2048"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D03",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D03",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "忘魂花双效果逐字段:sleep=2+hp-1",
+      "negativeControl": "逐效果断言非整体跳过",
+      "followUp": "现行正确",
+      "detail": "忘魂花127 use 双效果逐字段:sleep=2 hp 50→48(healHp-1) 库存127=0 路径=ArrowDown->menu Enter->misc ArrowDown->misc Enter->miscSub Enter->item Enter->menu（同入口复合效果经真实菜单 use 链逐效果结算）"
+    },
+    {
+      "id": "D04",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts:2718-2719"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D04",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D04",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "rate 失败/受击者毒抗门/对照三段直调矩阵",
+      "negativeControl": "门禁未删,毒抗门=受击者 res",
+      "followUp": "现行正确(保护未删)",
+      "detail": "门禁矩阵:rate失败(rng0.9)→0毒;受击者res50(rng[0.1,0])→0毒;res0对照(rng[0.1,0.05])→1毒（两道门均现行正确保护未删;毒抗门读受击者 p.poisonRes,battle-core.ts:2719）"
+    },
+    {
+      "id": "D05",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts:604-615",
+        "reforge/src/battle/battle-session.ts:1499-1527"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D05",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D05",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "两次真实还魂香:p2=10/p3=20+死而复生×2",
+      "negativeControl": "PAL 无 allAllies 复活(census);存活者不受影响",
+      "followUp": "现行正确(数据事实非缺陷)",
+      "detail": "全队复活=两次真实还魂香95:p2.hp=0→10(10%×100) p3.hp=0→20(10%×200) 死而复生×2 库存95=0（census:skills 300-302/items95-98 无 allAllies 复活,均 oneAlly;己方选人含死者 battle-session.ts:1500;数据前提非缺陷）"
+    },
+    {
+      "id": "D06",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-session.ts:1447-1452"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D06",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D06",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "301 真实技能菜单施放:p2.hp=10,mp=84",
+      "negativeControl": "单体复活未失效",
+      "followUp": "现行正确",
+      "detail": "301还魂咒经真实技能菜单施放:p2.hp=0→10 p1.mp=100→84 路径=ArrowLeft->menu Enter->skill Enter->target ArrowDown->target Enter->menu（单体复活未失效;oneAlly 多人队进己方选人含死者 battle-session.ts:1447-1452）"
+    },
+    {
+      "id": "D07",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts(healHp ally 域)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D07",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D07",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "300 五气朝元:310/320 精确治疗",
+      "negativeControl": "死者 hp=0 死亡门禁同链证明",
+      "followUp": "现行正确",
+      "detail": "300五气朝元 allAllies 真实施放:p1.hp 10→309 p2.hp 20→320 死者p3.hp=0(死亡门禁) MP=60（普通全队治疗对照+同链死亡门证明）"
+    },
+    {
+      "id": "D08",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-session.ts:1441/1456"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D08",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D08",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "MP=5 确认留网格+零预占+MP 不扣",
+      "negativeControl": "合体技 census=0 样本不外推",
+      "followUp": "现行正确",
+      "detail": "MP=5<cost40:确认后 ui=skill(留网格) pending=0 mp=5 路径=ArrowLeft->menu Enter->skill Enter->skill;合体技 census=comboAttack效果技能0个（普通技能 MP 门真实;合体技无数据样本不外推,battle-session.ts:1441/1456）"
+    },
+    {
+      "id": "D09",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-session.ts:1407-1408/1334-1340"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D09",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D09",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "W→throwItem→真实投掷 victory+写回清项",
+      "negativeControl": "use 门拦 miscSub(投掷-only 库存)",
+      "followUp": "现行正确",
+      "detail": "菜单路径止于=misc(use门,库内仅66天师符);W→throwItem→选敌→投掷:终局=victory 战内66=0 世界写回=[] 路径=w->throwItem Enter->target Enter->menu（父→子门控与W快捷经真实按键）"
+    },
+    {
+      "id": "D10",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-session.ts:1421-1427"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D10",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D10",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "同六键序 hp50→99(封顶+敌攻)",
+      "negativeControl": "throwable 空",
+      "followUp": "现行正确",
+      "detail": "仅61观音符同六键序:hp 50→99 throwable=[] 库存61=0 路径=ArrowDown->menu Enter->misc ArrowDown->misc Enter->miscSub Enter->item Enter->menu（仅可使用物品的同输入序列正控）"
+    },
+    {
+      "id": "D11",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-session.ts:1408/1421-1427/1328/1336"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D11",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D11",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "双能力两子菜单各自可达+列表互斥",
+      "negativeControl": "双无(81蜡烛)三入口全拦+24次全空tick被拒(禁用输入负控)",
+      "followUp": "现行正确",
+      "detail": "双能力:miscSub→投掷列表=[\"66\"]/使用列表=[\"61\"];双无(81=蜡烛):confirm后=misc W后=menu E后=menu;24次全空tick后 ui=menu 库存不变 预占=0（父并集门:1408,子门:1421-1427,快捷门:1328/1336;空输入负控被拒）"
+    },
+    {
+      "id": "D12",
+      "group": "D",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts:1715-1722",
+        "reforge/src/battle/battle-session.ts:1358-1361"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=observe --case D12",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs --mode=contract --case D12",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "p1 预占→p2 W 被拦;Esc 释放恢复[66×1]→真实投掷",
+      "negativeControl": "预占=提交时扣减,恢复=submitOrder pop",
+      "followUp": "现行正确",
+      "detail": "p1投66预占→p2 W被拦(ui=menu,pending=1);Esc回退→pending=0 列表恢复=[66×1]→p2真实投掷终局=victory 世界写回=[]（预占=pendingItemUses 提交时扣减 battle-core.ts:1715-1722;Esc 释放=submitOrder pop battle-session.ts:1358-1361）"
+    },
+    {
+      "id": "E01",
+      "group": "E",
+      "classification": "covered",
+      "sourceAnchors": [
+        "migrate/src/migration-plan.ts:30/134",
+        "migrate/src/migration-transaction.ts:271-362"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E01",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E01",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "全链正控:hash 对应+baseline 齐+journal 清理+顺序",
+      "negativeControl": "无并发注入",
+      "followUp": "现行正确",
+      "detail": "无并发正控:plan(writes=1/deletes=0/conflicts=0) changes=3 hash对应=true baseline齐=true journal清理=true 顺序=journal→journal→project→baseline→baseline（真实 snapshotOf/loadProjectMigrationSnapshot/createMigrationPlan/assertProjectSnapshotCurrent/buildMigrationTransactionChanges/commitMigrationTransaction 全链）"
+    },
+    {
+      "id": "E02",
+      "group": "E",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "migrate/src/migration-transaction.ts:331(staging 采样)",
+        "migrate/src/migration-project-io.ts:86-98"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E02",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E02",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: E02 正确合同: 复核后采样前的作者修改不得被事务静默覆盖(应检出冲突或保留)",
+      "positiveControl": "A-08 窗口 authorEditLost=true 原树特征",
+      "negativeControl": "正确合同:作者修改不得静默覆盖→红",
+      "followUp": "迁移防护修复卡(A-08 窗口)",
+      "detail": "A-08 窗口:assertProjectSnapshotCurrent 通过后作者改名,build/commit 未检出 → authorEditLost=true final=old（原树错误特征:写操作 previousHash 在 staging 时才采样,采样前窗口无守卫;正确合同 contract 红）"
+    },
+    {
+      "id": "E03",
+      "group": "E",
+      "classification": "covered",
+      "sourceAnchors": [
+        "migrate/src/migration-transaction.ts:210-215/258-265"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E03",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E03",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "journal 后修改→提交窗守卫拒绝+恢复同拒+作者保留",
+      "negativeControl": "与 E02 两保护阶段分栏",
+      "followUp": "现行守卫正控",
+      "detail": "journal 后修改:commit 抛「事务目标在提交窗口被修改: projects/pal/content/items.json」作者内容保留=true→恢复复跑同拒(事务目标在提交窗口被修改: projects/p…)后保留=true pending=true（真实守卫 migration-transaction.ts:210-215 assertPreviousTarget;与 E02 采样前窗口=两个保护阶段分栏）"
+    },
+    {
+      "id": "E04",
+      "group": "E",
+      "classification": "covered",
+      "sourceAnchors": [
+        "migrate/src/migration-transaction.ts:293-302/331",
+        "migrate/src/migration-write-plan.ts:43-61"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E04",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E04",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "三类计划真实落盘+retired 预检零写入+删除窗守卫",
+      "negativeControl": "precondition 来源分栏(staging 前/apply 复核)",
+      "followUp": "现行守卫正控",
+      "detail": "三类计划:created=true deleted=true modified=true;retired 失配→「事务删除目标已偏离规划快照: projects/pal/assets/migrated/x.bin」零写入=true journal=false 文件保留=true;删除窗(journal后作者改待删文件)→「事务目标在提交窗口被修改: projects/pal/content/old.json」作者保留=true（precondition 来源分栏:retired=expectedPreviousHash staging 前预检 :293-302;写/删=previousHash staging 采样+apply 复核 :331/:210-215）"
+    },
+    {
+      "id": "E05",
+      "group": "E",
+      "classification": "covered",
+      "sourceAnchors": [
+        "migrate/src/pal-assets.ts:1211-1252"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E05",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E05",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "written/unchanged/authored 三态+authored 零写入",
+      "negativeControl": "坏源预检拒绝零写入(先于首写)",
+      "followUp": "现行守卫正控",
+      "detail": "真实 materializePalAssets:written=1 unchanged=1 authored=1 files=3 authored零写入=true;坏源→「迁移源 video.bad 的 bytes/hash 与 catalog 记录不符」零写入=true（authored 跳过 :1241-1243;一致跳过 :1247-1252;预检先于首写 :1211/:1226）"
+    },
+    {
+      "id": "E06",
+      "group": "E",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "migrate/src/pal-assets.ts:1246-1262"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E06",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E06",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: E06 正确合同: 物化必须在首笔二进制写入前拒绝经符号链接逃出仓库的目标",
+      "positiveControl": "A-09 复现:outsideFinal=NEW+2笔外写",
+      "negativeControl": "正确合同:首笔二进制写入前拒绝→红",
+      "followUp": "迁移防护修复卡(A-09 物化 symlink)",
+      "detail": "A-09 复现:父目录链接→outsideFinal=NEW(原 OUTSIDE_ORIGINAL 被覆盖) written=1 outsideWrites=2笔（pal-assets.ts 物化路径无 assertNoSymlinkPath;真实链复跑与 Codex 见证一致）"
+    },
+    {
+      "id": "E07",
+      "group": "E",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "migrate/src/pal-assets.ts:1247-1259"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E07",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E07",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: E07 正确合同: 多层父链写入不得逃出仓库",
+      "positiveControl": "多层父链逃逸+自身链接 POSIX rename 不穿透(外文件未动)",
+      "negativeControl": "unchanged 检查后挂链接 TOCTOU→外写;正确合同红",
+      "followUp": "迁移防护修复卡(A-09)",
+      "detail": "多层父链→/virtual/elsewhere 落笔 2 笔(逃逸);自身链接→POSIX rename 替换链接(外文件=OUTSIDE_ORIGINAL 未动,链接清除=true,仓库内真实文件=true,written=1;虚拟层 rename 语义已按 POSIX 披露);unchanged 检查后挂链接→/virtual-outside/raced 落笔 2 笔(TOCTOU,:1247-1259 无复核)"
+    },
+    {
+      "id": "E08",
+      "group": "E",
+      "classification": "reproduced",
+      "sourceAnchors": [
+        "migrate/src/pal-assets.ts:1254-1262",
+        "migrate/src/migration-transaction.ts:75-82"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E08",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E08",
+      "contractExit": 1,
+      "contractRedMeaning": "AssertionError [ERR_ASSERTION]: E08 正确合同: 物化器的 symlink 拒绝必须发生在首笔二进制写入之前",
+      "positiveControl": "物化无拒绝+首笔外写;JSON 事务层同目标拒绝(journal 前)",
+      "negativeControl": "两层分栏:JSON 层守卫不前置保护二进制直写",
+      "followUp": "迁移防护修复卡(分栏已证)",
+      "detail": "物化器:无拒绝(matError=无) 首笔=/virtual-outside/videos/a.mp4.tmp-93071 逃逸=true;JSON 事务层:同目标→「迁移事务 journal operations[0].target 不得经过符号链接: projects/pal/content/items.json」目标写=0 journal=false staging笔=1（分栏:assertNoSymlinkPath 只护 journal 操作 migration-transaction.ts:75-82,不前置保护 pal-assets 二进制直写——两层不同链路,后者无兜底）"
+    },
+    {
+      "id": "E09",
+      "group": "E",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-core.ts:293-296/323"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E09",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E09",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "dense 与 enemySlots 真实等价正控",
+      "negativeControl": "census:reforge 符号 136 处,dense 119 全非生产;game 同名异符号分栏",
+      "followUp": "N6b 前清理卡",
+      "detail": "census:reforge 符号调用点 136 处(生产 1/test 129/pal-test 0/docs探针 6);dense=119 处全部非生产[前5处 packages/reforge/src/battle/battle-casualty.test.ts:179 packages/reforge/src/battle/battle-casualty.test.ts:460 packages/reforge/src/battle/battle-casualty.test.ts:542 packages/reforge/src/battle/battle-casualty.test.ts:630 packages/reforge/src/battle/battle-core.test.ts:73 等];生产 enemySlots=1 处[packages/reforge/src/battle/battle-session.ts:398];同名异符号=game 包 createBattleState 14 处(battle-state.ts:809 一阶段 API,enemies 为合法正参,不属本退役域);真实等价=true（定义 battle-core.ts:293-296 @deprecated;语义保留草案:enemySlots null=源空洞,dense 无法表"
+    },
+    {
+      "id": "E10",
+      "group": "E",
+      "classification": "covered",
+      "sourceAnchors": [
+        "reforge/src/battle/battle-anim.ts:517-538"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E10",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E10",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "targetIdx/damage 与 hits 逐帧 deepEqual 等价",
+      "negativeControl": "census:旧入口 4 处全非生产;hits 多目标可用",
+      "followUp": "N6b 前清理卡",
+      "detail": "census:调用点 7 处;旧 targetIdx=4 处全部非生产[packages/reforge/src/battle/battle-anim.test.ts:360 packages/reforge/src/battle/battle-anim.test.ts:372 packages/reforge/src/battle/battle-anim.test.ts:391 docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:888];hits 使用 3 处;真实等价(单目标逐帧 deepEqual)=true,hits 多目标=3 帧（定义 battle-anim.ts:517-538;替换计划=原断言全部保留,仅入口换 hits 同值）"
+    },
+    {
+      "id": "E11",
+      "group": "E",
+      "classification": "covered",
+      "sourceAnchors": [
+        "migrate/src/translate-events.ts:200/204/1793-1796/1932-1935",
+        "migrate/src/pal-migration.ts:391/416/499"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E11",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E11",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "producer 固定 6b+stable-id",
+      "negativeControl": "census:显式 legacy/historical 5 处全测试",
+      "followUp": "N6b 前清理卡(需用户裁决重放通道)",
+      "detail": "选项分栏:选项定义在位=true;旧输出分支(startBattle team 数字/jumpIfPlayerInParty legacy)=true;显式 legacy/historical 选择 5 处全部非生产[packages/migrate/src/translate-events.test.ts:83 packages/migrate/src/translate-events.test.ts:119 packages/migrate/src/translate-events.test.ts:265 packages/migrate/src/translate-events.test.ts:384 packages/migrate/src/translate-events.test.ts:416];producer 固定 6b+stable-id=true;经手层 migrate-content.ts:1489/1746/2063/2556 仅透传 options（结论:历史选项无获准生产调用方;当前 producer 输入=提取 sources,输出=固定 stable-id canonical）"
+    },
+    {
+      "id": "E12",
+      "group": "E",
+      "classification": "covered",
+      "sourceAnchors": [
+        "migrate/src/translate-events.ts:2399-2429",
+        "reforge/src/save/current-codec.ts:64-74"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case E12",
+      "observeExit": 0,
+      "contractCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=contract --case E12",
+      "contractExit": 0,
+      "contractRedMeaning": null,
+      "positiveControl": "保留合同 3 项锚点可读",
+      "negativeControl": "删除候选白名单 3 项零生产判定+验证计划,不执行删除",
+      "followUp": "N6b 前清理卡(不批准删除)",
+      "detail": "保留合同:ScriptRef/来源地址审计链@translate-events.ts:2399-2429;contentVersion 校验@packages/reforge/src/save/current-codec.ts:64-74;palSemanticProfile 三态@translate-events.ts:200-203;删除候选(白名单,未删):CreateBattleInput.enemies@battle-core.ts:295-296 零生产=true;BuildThrowItemInput.targetIdx/damage@battle-anim.ts:517-529 零生产=true;palReferenceSchema 'legacy' + historical-r13-4 旧输出分支@translate-events.ts:204,:1793-1796,:1932-1935 零生产=true;每候选附替换+验证计划（contentVersion=current-only 存档门非平台升级,已纠正归类;全部为候选,本批不批准不执行删除）"
+    },
+    {
+      "id": "F01",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "shared/src/yj2.ts:139",
+        "shared/src/rng.ts:37/157"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "见证链:summary==baseline 聚合+文件同内容",
+      "negativeControl": "静态候选:最小流 fixture 可构造(F09①)",
+      "followUp": "Q2/独立批(静态分流)",
+      "detail": "shared 具体:packages/shared/src/yj2.ts(行2/86/缺84行20支,同内容);packages/shared/src/rng.ts(行26/74/缺48行13支,同内容);packages/shared/src/mkf.ts(行0/19/缺19行10支,同内容);packages/shared/src/rle.ts(行117/125/缺8行24支,同内容);packages/shared/src/rle-encode.ts(行43/44/缺1行3支,同内容);缺口=yj2.ts decompressYj2(:139) 2/86 行、rng.ts decodeRngFrames(:157)/rngBlitDelta(:37) 26/74 行、mkf.ts 0/19——解码器/解析器为主;真实消费点 decodeRngFrames→[packages/game/src/shell/rng-player.ts:11: *     decompressGzip → shared decodeRngFrames 解出全帧,按 chunk 缓存) packages/game/src/shell/rng-player.ts:19:import { decodeRngFrames, type Palette, RNG_HEIGHT, RNG_WIDTH } fro"
+    },
+    {
+      "id": "F02",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "content/src/validate.ts:94/342",
+        "content/src/skill.ts:220(纠正)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "skill.ts:220 现场读取=毒引用收集(纠正 r1 误标)",
+      "negativeControl": "静态候选:现值抽样+损坏矩阵",
+      "followUp": "Q2/独立批",
+      "detail": "content 具体:packages/content/src/validate.ts(行644/850/缺206行268支,同内容);packages/content/src/author-script-core.ts(行465/578/缺113行165支,同内容);packages/content/src/enemy-script.ts(行199/303/缺104行134支,同内容);packages/content/src/script.ts(行163/230/缺67行108支,同内容);packages/content/src/actor-reference.ts(行40/93/缺53行89支,同内容);缺口集中在 validate.ts(644/850,268 支)可选字段/跨字段分支与 author-script-core/enemy-script;真实消费点 validateStartWorld→[packages/content/src/validate.ts:241:      startWorld: validateStartWorld(entry.startWorld, `${entryCtx}.startWorld`), packages/editor/src/core/commands.ts:58:  validateStartWorld,];r1 纠正:"
+    },
+    {
+      "id": "F03",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "pal-extract/src/resources/parsers/enemies.ts:64"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "fast 0 行文件=21 个清单",
+      "negativeControl": "PAL 资产组执行差异实锤;fast 域纯 fixture",
+      "followUp": "第一阶段独立批",
+      "detail": "pal-extract 具体:packages/pal-extract/src/cli.ts(行0/365/缺365行93支,同内容);packages/pal-extract/src/resources/parsers/player-roles.ts(行0/104/缺104行9支,同内容);packages/pal-extract/src/resources/parsers/enemies.ts(行0/56/缺56行29支,同内容);packages/pal-extract/src/resources/parsers/spells.ts(行0/55/缺55行10支,同内容);fast 0 行文件=21 个(parsers/enemies.ts parseEnemies(:64)、player-roles、spells、io/sss 等)——低 fast≠无测试:这些由 PAL 资产组(需 gitignored data)执行,fast 域缺输入合同单列=纯 fixture 解码边界(单敌 buf/截断 buf);cli.ts 0/365=CLI 壳结构约束不列优先"
+    },
+    {
+      "id": "F04",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "migrate/src/pal-assets.ts",
+        "migrate/src/migration-transaction.ts:258+"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "PAL 组独占文件清单(fast 0 行)",
+      "negativeControl": "E03/E04/E05 已给真实链回归草案",
+      "followUp": "N6b/Q2",
+      "detail": "migrate 具体:packages/migrate/src/migrate-content.ts(行348/1199/缺851行1092支,同内容);packages/migrate/src/pal-assets.ts(行29/450/缺421行246支,同内容);packages/migrate/src/script-control-flow-audit.ts(行182/601/缺419行353支,同内容);packages/migrate/src/translate-events.ts(行646/941/缺295行683支,同内容);packages/migrate/src/pal-migration.ts(行0/218/缺218行133支,同内容);PAL 组独占(fast 0 行)=packages/migrate/src/pal-migration.ts,packages/migrate/src/pal-current-publication.ts,packages/migrate/src/script-library-audit.ts,packages/migrate/src/sound-reference-audit.ts,packages/migrate/src/pal-casualty-scripts.ts,packages/migrate/scripts/b"
+    },
+    {
+      "id": "F05",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "reforge/src/script-host-adapter.ts:21",
+        "reforge/src/main.ts"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "排除 A-D 域后具体文件+行数",
+      "negativeControl": "main.ts=浏览器壳结构约束",
+      "followUp": "Q2/A 组转正式",
+      "detail": "reforge 具体(排除本批 A-D 已登记的 battle-core/battle-session/script-* 域后):packages/reforge/src/main.ts(行28/3399/缺3371行2463支,同内容);packages/reforge/src/debug-tools.ts(行498/713/缺215行197支,同内容);packages/reforge/src/menu/menu-box.ts(行36/235/缺199行141支,同内容);packages/reforge/src/dialog/dialog-box.ts(行5/148/缺143行114支,同内容);main.ts 3371 行缺口=浏览器壳结构约束(E2E 域)不列 unit 优先;剩余 unit 高价值=script-host-adapter.ts executeScriptHostEffect(:21) 27/160(A 组已证真实链,转正式=reloadMap 挂起/abort/残留断言)、debug-tools.ts 498/713、menu/dialog 纯计算组件"
+    },
+    {
+      "id": "F06",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "editor/src/core/playback.ts:105"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "可测核心=Playback 187/412",
+      "negativeControl": "UI .tsx=结构约束;D-06/D-07 列后续",
+      "followUp": "Q2/D-06/D-07 归属",
+      "detail": "editor 具体:packages/editor/src/ui/App.tsx(行901/1292/缺391行501支,同内容);packages/editor/src/ui/MapMode.tsx(行1088/1408/缺320行488支,同内容);packages/editor/src/ui/ScriptEditor.tsx(行494/810/缺316行508支,同内容);packages/editor/src/ui/CommandForm.tsx(行111/374/缺263行427支,同内容);packages/editor/src/core/playback.ts(行187/412/缺225行186支,同内容);.tsx UI 组件大缺口=浏览器壳结构约束与 D-01 已done 矩阵之外的可测核心=core/playback.ts class Playback(:105) 187/412(纯状态机,单测可构造);命令族深分支(stamp-group/battle-data-delete 失败域)与 D-06/D-07 列后续归属不修,不在本批重复"
+    },
+    {
+      "id": "F07",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "game/src/core/event-system.ts",
+        "game/src/core/battle/battle-system.ts:490"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "一阶段域独立盘点(不混 reforge)",
+      "negativeControl": "dev/shell=结构约束",
+      "followUp": "第一阶段独立批(不阻断 R4)",
+      "detail": "game 具体(仅一阶段域,不与 reforge D 组混算):packages/game/src/dev/dev-panel.ts(行7/1012/缺1005行328支,同内容);packages/game/src/shell/bootstrap.ts(行16/649/缺633行270支,同内容);packages/game/src/core/event-system.ts(行1740/2067/缺327行783支,同内容);packages/game/src/present/menu/draw-inventory.ts(行23/135/缺112行82支,同内容);packages/game/src/core/battle/battle-system.ts(行1200/1283/缺83行295支,同内容);dev/dev-panel 与 shell/bootstrap=dev/壳结构约束;真实 unit 缺口=event-system.ts 1740/2067(783 支)与 battle-system.ts 1200/1283(295 支,敌 AI 抑制分支);非视觉高价值=存档载入恢复与菜单状态机;一阶段缺口不阻断 R4(分流见 F12)"
+    },
+    {
+      "id": "F08",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "(见 F01-F07 各条)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "各包第一优先文件+源哈希状态",
+      "negativeControl": "按未覆盖行数非百分比",
+      "followUp": "分流见 F12",
+      "detail": "各包第一优先文件(按未覆盖行数排序,非百分比;源哈希状态标注):shared→packages/shared/src/yj2.ts(缺84行20支,同内容);content→packages/content/src/validate.ts(缺206行268支,同内容);pal-extract→packages/pal-extract/src/cli.ts(缺365行93支,同内容);migrate→packages/migrate/src/migrate-content.ts(缺851行1092支,同内容);reforge→packages/reforge/src/main.ts(缺3371行2463支,同内容);game→packages/game/src/dev/dev-panel.ts(缺1005行328支,同内容);editor→packages/editor/src/ui/App.tsx(缺391行501支,同内容);每个文件的真实调用点/消费方见 F01~F07 各条(如 decodeRngFrames/validateStartWorld/parseEnemies/executeScriptHostEffect/Playback 逐条 grep 列出)"
+    },
+    {
+      "id": "F09",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "(七包各1条,见探针输出)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "fixture/操作/assert/反控/命令 全要素",
+      "negativeControl": "每条命令可执行",
+      "followUp": "各包定向补测",
+      "detail": "可实施用例(各包1条,共7条,fixture/操作/assert/反控/命令):①shared:新增 yj2.test.ts——fixture=最小合法 YJ-2 流字节,操作=decompressYj2(bytes),assert=输出精确字节与长度合同,反控=同流不截断成功/截断流抛错,命令=pnpm --filter @type-pal/shared exec vitest run src/yj2.test.ts;②content:validate.test.ts 增 startWorld 段——fixture=projects/pal/content/world-variables.json 现值,操作=逐字段损坏(缺/类型错/未知键),assert=每变体精确报错,反控=现值整体通过,命令=vitest run src/validate.test.ts -t startWorld;③pal-extract:enemies 解析纯 fixture 单测——fixture=单敌最小 enemyBuf,操作=parseEnemies,assert=字段映射,反控=截断 buf 抛错,命令=--filter pal-extract vitest run(新文件);④migrate:validatePalCurrentPublication 单字段损坏矩阵(0/152 行实锤),反"
+    },
+    {
+      "id": "F10",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "(ts-nocheck 13 文件清单)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "A-E 探针动态举证项(entered/零写入)",
+      "negativeControl": "早 return 计数=静态候选",
+      "followUp": "静态候选保留分母",
+      "detail": "定向抽查:ts-nocheck 文件=13 个[packages/editor/src/ui/design-system/reorder-surface-adoption.test.ts packages/editor/src/ui/design-system/adoption.test.ts packages/editor/src/ui/design-system/action-group-adoption.test.ts packages/editor/src/ui/design-system/field-commit-boundary.test.ts packages/editor/src/ui/design-system/effect-card-adoption.test.ts…](清单非命中即 bug);各包第一优先文件早 return 计数=shared:3,content:36,pal-extract:14,migrate:160,reforge:297,game:42,editor:187——早 return/空样本为静态候选;最高优先项已由本批 A-E 探针动态举证(entered/完成信号/零写入见证,见机器账);未动态复核项按静态候选保留分母"
+    },
+    {
+      "id": "F11",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "(十行 classified 表)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "类别=可达待测/重叠守卫/结构约束/待证+依据",
+      "negativeControl": "全部保留覆盖分母",
+      "followUp": "分流见 F12",
+      "detail": "分支 classified 表(10 行,候选×类别×依据):[pal-extract parsers(parsers/*.ts fast 0 行)|可达待测|PAL 资产组已跑真实数据;fast 域可纯 fixture 构造(F09③)][migrate pal-migration/pal-current-publication(fast 0 行)|可达待测|PAL 组执行;纯 unit 可构造单字段损坏矩阵(F09④)][shared yj2/rng/mkf 解码分支|可达待测|最小流字节 fixture 可构造(F09①);mkf 大样本依赖资产的部分=待证][content validate.ts 268 支|可达待测|现值抽样+损坏矩阵(F09②)][reforge main.ts 3371 行|结构约束|浏览器壳,E2E/视觉域,不列 unit 优先][game dev-panel/bootstrap|结构约束|dev 工具/启动壳][editor UI .tsx 大组件|结构约束|浏览器壳;核心状态机(playback)归可达待测(F09⑥)][reforge journal 恢复/物化预检分支|重叠守卫已证|本批 E03/E04/E05 真实链:journal 层守卫在位,采样前窗口(E02)与物化 symlink(E06-E08)为已证缺口归修复卡][game m"
+    },
+    {
+      "id": "F12",
+      "group": "F",
+      "classification": "risk",
+      "sourceAnchors": [
+        "(去重顺序表)"
+      ],
+      "observeCommand": "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs",
+      "observeExit": 0,
+      "contractCommand": null,
+      "contractExit": null,
+      "contractRedMeaning": null,
+      "positiveControl": "取消→B-05/B-09;偷取→C-01;毒杀→C-04",
+      "negativeControl": "D-01 不重开;无 90% 门槛",
+      "followUp": "统一分流",
+      "detail": "去重与顺序(修正 r1):A 组取消域→B-05/B-09 族(A09/A10-12 已在 A 探针真实链登记);偷取战内新增丢弃→审计 C-01 修复卡(C01-C03 复用);毒杀终态→审计 C-04(Q2);B05/B06 barrier 时序→B-06/B-07 域;E09-E12 旧接口与物化 symlink→N6b 前清理/迁移防护卡;D-01 已done 不重开;F 组候选按 Q2/R4/N6b/第一阶段独立批分流;不发明「先补到90%」门槛;七包聚合数字仅作基线见证不作为新覆盖声明"
+    }
+  ]
 }

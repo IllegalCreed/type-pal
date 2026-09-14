@@ -166,7 +166,11 @@ try {
       assert.ok(result.saved === false || retryAfter, 'B01 contract: 有界超时或链后成功二居其一')
       assert.ok(retryAfter, 'B01 contract: 链完成后重试保存成功')
     }
-    note('B01', 'covered', `answer前快照=${snapshotBeforeAnswer} 挂起期saved=${result.saved}（有界） 战后命令=${w.script.flags.b01after === true} 战斗子活动进入=${battleDoneResolveUsed} 链后重试=${Boolean(retryAfter)}（完整 confirm→battle→post 父子链；生产 10000ms 诊断 90/60ms）`)
+    note(
+      'B01',
+      'covered',
+      `answer前快照=${snapshotBeforeAnswer} 挂起期saved=${result.saved}（有界） 战后命令=${w.script.flags.b01after === true} 战斗子活动进入=${battleDoneResolveUsed} 链后重试=${Boolean(retryAfter)}（完整 confirm→battle→post 父子链；生产 10000ms 诊断 90/60ms）`,
+    )
   }
 
   // ── B02 同一 confirm→battle 链不请求保存的正控 ──
@@ -213,7 +217,11 @@ try {
       assert.equal(w.script.flags.b02after, true, 'B02: 链尾命令落世界')
       assert.equal(snapshot.script.flags.b02after, true, 'B02: 快照含链尾命令（无保存等待正控）')
     }
-    note('B02', 'covered', `confirm→battle→setFlag 链完成后快照立即可用 b02after=${snapshot.script.flags.b02after}（同一 confirm/startBattle 链正控）`)
+    note(
+      'B02',
+      'covered',
+      `confirm→battle→setFlag 链完成后快照立即可用 b02after=${snapshot.script.flags.b02after}（同一 confirm/startBattle 链正控）`,
+    )
   }
 
   // ── B03 confirm→保存→内联 onTeleport（新 hook lease 与父活动关系） ──
@@ -244,13 +252,9 @@ try {
         },
       }),
     )
-    const running = runtime.runCommands(
-      [
-        { kind: 'confirm', onNo: [] },
-        { kind: 'teleportOut' },
-      ],
-      { signal: new AbortController().signal },
-    )
+    const running = runtime.runCommands([{ kind: 'confirm', onNo: [] }, { kind: 'teleportOut' }], {
+      signal: new AbortController().signal,
+    })
     await entered.promise
     const saving = runtime
       .withSaveBarrier(() => {
@@ -275,7 +279,11 @@ try {
       assert.ok(result.saved === false || retryAfter, 'B03 contract: 有界超时或链后成功二居其一')
       assert.ok(retryAfter, 'B03 contract: 链结束后重试保存成功')
     }
-    note('B03', 'covered', `answer前快照=${beforeAnswer} 挂起期saved=${result.saved}（有界,B-07族） teleport子lease=true b03flag=${w.script.flags.b03flag} 链后重试=${Boolean(retryAfter)}（诊断 90/60ms）`)
+    note(
+      'B03',
+      'covered',
+      `answer前快照=${beforeAnswer} 挂起期saved=${result.saved}（有界,B-07族） teleport子lease=true b03flag=${w.script.flags.b03flag} 链后重试=${Boolean(retryAfter)}（诊断 90/60ms）`,
+    )
   }
 
   // ── B04 confirm 回答 no / 流程结束后的保存完成正控 ──
@@ -358,7 +366,11 @@ try {
       assert.equal(third.saved, true, 'B05 contract: 链完成后同实例重试成功')
       assert.equal(w.script.flags.b05after, true)
     }
-    note('B05', 'covered', `挂起中超时=${JSON.stringify(first)} 同实例重试=${JSON.stringify(retrySameInstance)} 链完成后=${JSON.stringify(third)} 链尾命令=${w.script.flags.b05after === true}（生产 10000ms，诊断 40/50/60ms）`)
+    note(
+      'B05',
+      'covered',
+      `挂起中超时=${JSON.stringify(first)} 同实例重试=${JSON.stringify(retrySameInstance)} 链完成后=${JSON.stringify(third)} 链尾命令=${w.script.flags.b05after === true}（生产 10000ms，诊断 40/50/60ms）`,
+    )
   }
 
   // ── B06 子活动取消时 barrier 收尾（快照次数/错误归属/后续保存） ──
@@ -416,13 +428,21 @@ try {
       // barrier 在取消收尾后释放（或超时）：若已快照，快照不得包含被取消命令的效果。
       if (result.saved) {
         assert.equal(snapshotCalls, 1)
-        assert.equal(result.script?.flags?.b06after ?? undefined, undefined, 'B06 contract: 快照不得含被取消命令')
+        assert.equal(
+          result.script?.flags?.b06after ?? undefined,
+          undefined,
+          'B06 contract: 快照不得含被取消命令',
+        )
       } else {
         assert.match(result.error, /barrier 超时/)
       }
       assert.ok(after, 'B06 contract: 取消后后续合法保存应可用')
     }
-    note('B06', 'covered', `cancel=${JSON.stringify(outcome)} 后续命令未执行=${w.script.flags.b06after === undefined} barrier=${JSON.stringify(result)} 快照次数=${snapshotCalls} 取消后保存=${Boolean(after)}（取消即收尾释放 barrier 或有界超时；错误归属=子活动 AbortError）`)
+    note(
+      'B06',
+      'covered',
+      `cancel=${JSON.stringify(outcome)} 后续命令未执行=${w.script.flags.b06after === undefined} barrier=${JSON.stringify(result)} 快照次数=${snapshotCalls} 取消后保存=${Boolean(after)}（取消即收尾释放 barrier 或有界超时；错误归属=子活动 AbortError）`,
+    )
   }
 
   // ── B07/B08/B09 主壳 census：detached 入口、ownsRunnerSlot/startScript guard、finally 收尾 ──
@@ -443,9 +463,19 @@ try {
     anchor('B10b', /void doSave\('auto'/g, 'auto-save 触发')
     anchor('B11', /captureCurrentSavePayload\(\)/g, 'F5/导出捕获入口')
     for (const row of census) {
-      if (MODE === 'contract') assert.ok(row.hit, `B-census ${row.id}: ${row.desc} 应存在于 main.ts`)
+      if (MODE === 'contract')
+        assert.ok(row.hit, `B-census ${row.id}: ${row.desc} 应存在于 main.ts`)
     }
-    note('B07', 'covered', `detached入口=${census[0].count}+桥接${census[1].count}；B08 runner槽竞争=${census[2].count}/startScript guard=${census[3].count}；B09 finally收尾=${census.slice(4,7).map((c) => c.count).join('/')}；B10 auto-save=${census[7].count}/${census[8].count}；B11 capture=${census[9].count}`)
+    note(
+      'B07',
+      'covered',
+      `detached入口=${census[0].count}+桥接${census[1].count}；B08 runner槽竞争=${census[2].count}/startScript guard=${census[3].count}；B09 finally收尾=${census
+        .slice(4, 7)
+        .map((c) => c.count)
+        .join(
+          '/',
+        )}；B10 auto-save=${census[7].count}/${census[8].count}；B11 capture=${census[9].count}`,
+    )
     // B08 可达反例（runtime 级）：旧链 abort 后新命令可获权威
     if (want('B08')) {
       // 旧链在途→彻底结束→同一 runtime/world 上新命令取得权威（非另起 runtime）。
@@ -481,20 +511,40 @@ try {
         signal: new AbortController().signal,
       })
       const snapshot = await runtime.withSaveBarrier(() => structuredClone(w), 60)
-      note('B08', 'covered', `旧链完成=${w.script.flags.b08old === true} 同runtime新权威=${w.script.flags.b08new === true} 快照含两者=${snapshot.script.flags.b08old === true && snapshot.script.flags.b08new === true}（旧链 await 结束后才发起新命令——无忽略 signal 的 fake invoke；主壳 runner 槽位见 census）`)
+      note(
+        'B08',
+        'covered',
+        `旧链完成=${w.script.flags.b08old === true} 同runtime新权威=${w.script.flags.b08new === true} 快照含两者=${snapshot.script.flags.b08old === true && snapshot.script.flags.b08new === true}（旧链 await 结束后才发起新命令——无忽略 signal 的 fake invoke；主壳 runner 槽位见 census）`,
+      )
     }
     if (want('B09')) {
-      note('B09', 'risk', `主壳 finally 后新权威/auto-save/drain 的完整时序需主壳 AST 或浏览器壳（B09 要求 B08 反例先行）；census 锚点已列：release=${census[4].count} dismount=${census[6].count} drain=${census[5].count}`)
+      note(
+        'B09',
+        'risk',
+        `主壳 finally 后新权威/auto-save/drain 的完整时序需主壳 AST 或浏览器壳（B09 要求 B08 反例先行）；census 锚点已列：release=${census[4].count} dismount=${census[6].count} drain=${census[5].count}`,
+      )
     }
     if (want('B10')) {
-      note('B10', 'covered', `ownsRunnerSlot=false 路径（非 owner 不做 finally 收尾）与 startScript guard census：${census[2].desc}=${census[2].count}、${census[3].desc}=${census[3].count}；动态行为属主壳域留 Codex`)
+      note(
+        'B10',
+        'covered',
+        `ownsRunnerSlot=false 路径（非 owner 不做 finally 收尾）与 startScript guard census：${census[2].desc}=${census[2].count}、${census[3].desc}=${census[3].count}；动态行为属主壳域留 Codex`,
+      )
     }
     if (want('B11')) {
       const dumpIdx = mainSource.indexOf('dumpSave')
-      note('B11', dumpIdx >= 0 ? 'covered' : 'risk', `main.ts dumpSave 注册存在=${dumpIdx >= 0}（真 debug 注册对象零参调用与 codec 校验属主壳运行时，本探针不动主壳）`)
+      note(
+        'B11',
+        dumpIdx >= 0 ? 'covered' : 'risk',
+        `main.ts dumpSave 注册存在=${dumpIdx >= 0}（真 debug 注册对象零参调用与 codec 校验属主壳运行时，本探针不动主壳）`,
+      )
     }
     if (want('B12')) {
-      note('B12', 'risk', `正常 capture/F5 保存对照与导出→codec→隔离恢复草案需主壳 save/ops 真实链路（浏览器壳域）；B11 census 见 capture=${census[9].count}。错误导出不作 fixture`)
+      note(
+        'B12',
+        'risk',
+        `正常 capture/F5 保存对照与导出→codec→隔离恢复草案需主壳 save/ops 真实链路（浏览器壳域）；B11 census 见 capture=${census[9].count}。错误导出不作 fixture`,
+      )
     }
   }
   console.log(`\nB组 ${MODE} 模式完成：${results.length} 条记录`)

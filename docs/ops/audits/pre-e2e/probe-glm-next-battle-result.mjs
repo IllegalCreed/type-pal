@@ -73,7 +73,9 @@ try {
     { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } },
   ).outputText
   const { mkEnemy, player, stubGlyphs, mockBattleAssets } = new Function(fixtureJs)()
-  const items = Object.fromEntries(JSON.parse(read('projects/pal/content/items.json')).map((x) => [x.id, x]))
+  const items = Object.fromEntries(
+    JSON.parse(read('projects/pal/content/items.json')).map((x) => [x.id, x]),
+  )
   const palEnemies = JSON.parse(read('projects/pal/content/enemies.json'))
   const palSkills = JSON.parse(read('projects/pal/content/skills.json')).skills
   const steal = palSkills.find((skill) => skill.id === '377')
@@ -81,17 +83,31 @@ try {
 
   const enemyStealTarget = palEnemies.find((entry) => entry.id === 'enemy-400')
   assert(enemyStealTarget)
-  const assets = { palette: { colors: [], cycles: [] }, glyphs: stubGlyphs, ...mockBattleAssets([enemyStealTarget], 1) }
-  const hero = () => player('hero', { attackStrength: 200, defense: 999, skills: ['377'], fleeRate: 999 })
+  const assets = {
+    palette: { colors: [], cycles: [] },
+    glyphs: stubGlyphs,
+    ...mockBattleAssets([enemyStealTarget], 1),
+  }
+  const hero = () =>
+    player('hero', { attackStrength: 200, defense: 999, skills: ['377'], fleeRate: 999 })
 
   /** 偷取矩阵通用入口：finish × 初始拥有 × 数量。 */
   async function stealBattle({ finish, initiallyOwned, extraWorld = [] }) {
-    const worldInventory = initiallyOwned ? [{ itemId: '91', count: 1 }, ...extraWorld] : [...extraWorld]
-    const session = new BattleSession([hero()], [enemyStealTarget], assets, (id) => id, () => 0, {
-      skills: { 377: steal },
-      items,
-      inventory: worldInventory.map((x) => ({ ...x })),
-    })
+    const worldInventory = initiallyOwned
+      ? [{ itemId: '91', count: 1 }, ...extraWorld]
+      : [...extraWorld]
+    const session = new BattleSession(
+      [hero()],
+      [enemyStealTarget],
+      assets,
+      (id) => id,
+      () => 0,
+      {
+        skills: { 377: steal },
+        items,
+        inventory: worldInventory.map((x) => ({ ...x })),
+      },
+    )
     let result
     session.done.then((value) => {
       result = value
@@ -116,19 +132,39 @@ try {
       assert.equal(r.gained, true)
       assert.deepEqual(r.battleInventory, [{ itemId: '91', count: 1 }])
       // 正确合同:战内新偷物经 writeBack 应并入世界库存。原树丢弃新增 ID(审计 C-01)→本断言业务红。
-      assert.deepEqual(r.worldInventory, [{ itemId: '91', count: 1 }], 'C01 正确合同: 新偷物应写回世界(原树丢弃=审计C-01 特征)')
+      assert.deepEqual(
+        r.worldInventory,
+        [{ itemId: '91', count: 1 }],
+        'C01 正确合同: 新偷物应写回世界(原树丢弃=审计C-01 特征)',
+      )
     }
-    note('C01', 'reproduced', `gained=${r.gained} 战内=${JSON.stringify(r.battleInventory)} 世界=${JSON.stringify(r.worldInventory)}（战内偷取链现行正确;世界写回丢弃新增=审计C-01 原树特征,正确合同红）`)
+    note(
+      'C01',
+      'reproduced',
+      `gained=${r.gained} 战内=${JSON.stringify(r.battleInventory)} 世界=${JSON.stringify(r.worldInventory)}（战内偷取链现行正确;世界写回丢弃新增=审计C-01 原树特征,正确合同红）`,
+    )
   }
   // ── C02 偷取→逃跑写回 ──
   if (want('C02')) {
     const r = await stealBattle({ finish: 'playerFled', initiallyOwned: false })
     if (MODE === 'contract') {
       // 「逃跑留偷物」现行合同=战内库存保留;世界侧正确合同同 C01:新偷物应写回。
-      assert.deepEqual(r.battleInventory, [{ itemId: '91', count: 1 }], 'C02: 战内保留偷物(现行合同)')
-      assert.deepEqual(r.worldInventory, [{ itemId: '91', count: 1 }], 'C02 正确合同: 逃跑同样应写回新偷物(原树丢弃=审计C-01,业务红)')
+      assert.deepEqual(
+        r.battleInventory,
+        [{ itemId: '91', count: 1 }],
+        'C02: 战内保留偷物(现行合同)',
+      )
+      assert.deepEqual(
+        r.worldInventory,
+        [{ itemId: '91', count: 1 }],
+        'C02 正确合同: 逃跑同样应写回新偷物(原树丢弃=审计C-01,业务红)',
+      )
     }
-    note('C02', 'reproduced', `战内=${JSON.stringify(r.battleInventory)}（逃跑留偷物=战内,现行合同正确）；世界=${JSON.stringify(r.worldInventory)}（新增丢弃=审计C-01 原树特征,正确合同红）`)
+    note(
+      'C02',
+      'reproduced',
+      `战内=${JSON.stringify(r.battleInventory)}（逃跑留偷物=战内,现行合同正确）；世界=${JSON.stringify(r.worldInventory)}（新增丢弃=审计C-01 原树特征,正确合同红）`,
+    )
   }
   // ── C03 已有→胜/逃数量正控 ──
   if (want('C03')) {
@@ -138,19 +174,32 @@ try {
         assert.deepEqual(r.battleInventory, [{ itemId: '91', count: 2 }])
         assert.deepEqual(r.worldInventory, [{ itemId: '91', count: 2 }])
       }
-      note(`C03-${finish}`, 'covered', `战内=${JSON.stringify(r.battleInventory)} 世界=${JSON.stringify(r.worldInventory)}`)
+      note(
+        `C03-${finish}`,
+        'covered',
+        `战内=${JSON.stringify(r.battleInventory)} 世界=${JSON.stringify(r.worldInventory)}`,
+      )
     }
   }
   // ── C04 真实消费到零：菜单键序使用物品，writeBack 去零项且无重复 ID ──
   if (want('C04')) {
     const worldInventory = [{ itemId: '61', count: 1 }] // 观音符 consuming
-    const session = new BattleSession([hero()], [enemyStealTarget], assets, (id) => id, () => 0, {
-      skills: { 377: steal },
-      items,
-      inventory: worldInventory.map((x) => ({ ...x })),
-    })
+    const session = new BattleSession(
+      [hero()],
+      [enemyStealTarget],
+      assets,
+      (id) => id,
+      () => 0,
+      {
+        skills: { 377: steal },
+        items,
+        inventory: worldInventory.map((x) => ({ ...x })),
+      },
+    )
     let result
-    session.done.then((v) => { result = v })
+    session.done.then((v) => {
+      result = v
+    })
     session.tick(0, new Set())
     // 真实键序：主菜单→道具→使用(Up|Left)→确认物品（带 UI 见证）
     const uiTrace = []
@@ -180,25 +229,50 @@ try {
     if (MODE === 'contract') {
       assert.equal(result, 'victory')
       assert.ok(usedOnce, 'C04: 物品真实被使用（日志见证）')
-      assert.ok(battleInv.length === 0 || battleInv.every((x) => x.count <= 0), 'C04: 战内消费到零（count≤0 或空）')
+      assert.ok(
+        battleInv.length === 0 || battleInv.every((x) => x.count <= 0),
+        'C04: 战内消费到零（count≤0 或空）',
+      )
       assert.ok(!ids.includes('61'), 'C04: 零项不写回')
       assert.equal(new Set(ids).size, ids.length, 'C04: 无重复 ID')
     }
-    note('C04', 'covered', `终局=${result} 使用见证=${usedOnce} 战内=${JSON.stringify(battleInv)} 写回=${JSON.stringify(worldInventory)}（真实菜单键序消费）`)
+    note(
+      'C04',
+      'covered',
+      `终局=${result} 使用见证=${usedOnce} 战内=${JSON.stringify(battleInv)} 写回=${JSON.stringify(worldInventory)}（真实菜单键序消费）`,
+    )
   }
   // ── C05 战内新增后又真实消耗的净结果 ──
   if (want('C05')) {
     const tanky = structuredClone(enemyStealTarget) // 唯一可偷源；本用例 hero 高防低攻保证多回合
-    const tankyAssets = { palette: { colors: [], cycles: [] }, glyphs: stubGlyphs, ...mockBattleAssets([tanky], 1) }
+    const tankyAssets = {
+      palette: { colors: [], cycles: [] },
+      glyphs: stubGlyphs,
+      ...mockBattleAssets([tanky], 1),
+    }
     const worldInventory = [{ itemId: '61', count: 1 }] // 世界已有 61×1
-    const heroLowAtk = player('c5', { attackStrength: 3, defense: 999, skills: ['377'], fleeRate: 999 })
-    const session = new BattleSession([heroLowAtk], [tanky], tankyAssets, (id) => id, () => 0, {
-      skills: { 377: steal },
-      items,
-      inventory: worldInventory.map((x) => ({ ...x })),
+    const heroLowAtk = player('c5', {
+      attackStrength: 3,
+      defense: 999,
+      skills: ['377'],
+      fleeRate: 999,
     })
+    const session = new BattleSession(
+      [heroLowAtk],
+      [tanky],
+      tankyAssets,
+      (id) => id,
+      () => 0,
+      {
+        skills: { 377: steal },
+        items,
+        inventory: worldInventory.map((x) => ({ ...x })),
+      },
+    )
     let result
-    session.done.then((v) => { result = v })
+    session.done.then((v) => {
+      result = v
+    })
     session.tick(0, new Set())
     // 真实偷取（同 C01 入口）→ 战内 61 变 2
     for (const key of ['ArrowLeft', 'Enter', 'Enter', 'Enter']) session.tick(16, new Set([key]))
@@ -233,14 +307,18 @@ try {
     const used61 = session.debugLog().some((l) => l.includes(`使用 ${items['61'].name}`))
     const after61 = session.state.inventory.find((x) => x.itemId === '61')?.count ?? 0
     const after91 = session.state.inventory.find((x) => x.itemId === '91')?.count ?? 0
-    const battleInv = structuredClone(session.state.inventory)
+    const _battleInv = structuredClone(session.state.inventory)
     session.writeBackInventory(worldInventory)
     if (MODE === 'contract') {
       assert.equal(stole, true, 'C05: 战内新增（偷取）真实发生')
       assert.equal(used61, true, 'C05: 已有物品真实被使用')
       assert.equal(after61, before61 - 1, 'C05: 已有物品数量净减一（区分净结果与简单追加）')
       assert.equal(after91, before91, 'C05: 战内新增(偷得91)保持不丢——净结果只对被消费的 61 减一')
-      assert.equal(worldInventory.find((x) => x.itemId === '61'), undefined, 'C05: 世界写回 61 归零后删除条目')
+      assert.equal(
+        worldInventory.find((x) => x.itemId === '61'),
+        undefined,
+        'C05: 世界写回 61 归零后删除条目',
+      )
       // 正确合同:净结果=61 清项 + 91 新增并入世界。原树丢新增(审计 C-01)→本断言业务红。
       assert.deepEqual(
         worldInventory.filter((x) => x.itemId === '91'),
@@ -248,21 +326,43 @@ try {
         'C05 正确合同: 净结果应把新偷 91 并入世界(原树丢弃=审计C-01 特征)',
       )
     }
-    note('C05', 'reproduced', `偷取91=${stole} 使用61=${used61} 61:${before61}→${after61} 91:${before91}→${after91} 写回=${JSON.stringify(worldInventory)}（真实混合链净结果;战内域现行正确,世界新增丢弃=审计C-01,正确合同红）`)
+    note(
+      'C05',
+      'reproduced',
+      `偷取91=${stole} 使用61=${used61} 61:${before61}→${after61} 91:${before91}→${after91} 写回=${JSON.stringify(worldInventory)}（真实混合链净结果;战内域现行正确,世界新增丢弃=审计C-01,正确合同红）`,
+    )
   }
   // ── C06 连续两次偷取同 ID（真实 skill 两次） ──
   if (want('C06')) {
     const tanky = structuredClone(enemyStealTarget)
-    const tankyAssets = { palette: { colors: [], cycles: [] }, glyphs: stubGlyphs, ...mockBattleAssets([tanky], 1) }
+    const tankyAssets = {
+      palette: { colors: [], cycles: [] },
+      glyphs: stubGlyphs,
+      ...mockBattleAssets([tanky], 1),
+    }
     const worldInventory = [{ itemId: '91', count: 1 }]
-    const heroLowAtk = player('c5', { attackStrength: 3, defense: 999, skills: ['377'], fleeRate: 999 })
-    const session = new BattleSession([heroLowAtk], [tanky], tankyAssets, (id) => id, () => 0, {
-      skills: { 377: steal },
-      items,
-      inventory: worldInventory.map((x) => ({ ...x })),
+    const heroLowAtk = player('c5', {
+      attackStrength: 3,
+      defense: 999,
+      skills: ['377'],
+      fleeRate: 999,
     })
+    const session = new BattleSession(
+      [heroLowAtk],
+      [tanky],
+      tankyAssets,
+      (id) => id,
+      () => 0,
+      {
+        skills: { 377: steal },
+        items,
+        inventory: worldInventory.map((x) => ({ ...x })),
+      },
+    )
     let result
-    session.done.then((v) => { result = v })
+    session.done.then((v) => {
+      result = v
+    })
     session.tick(0, new Set())
     // 第一次偷取
     for (const key of ['ArrowLeft', 'Enter', 'Enter', 'Enter']) session.tick(16, new Set([key]))
@@ -270,7 +370,9 @@ try {
       session.tick(100, new Set(['f']))
       await Promise.resolve()
     }
-    const firstGain = session.debugLog().filter((l) => l.includes(`获得 ${items['91'].name}`)).length
+    const firstGain = session
+      .debugLog()
+      .filter((l) => l.includes(`获得 ${items['91'].name}`)).length
     // 第二次偷取（回到技能菜单重复）
     for (const key of ['ArrowLeft', 'Enter', 'Enter', 'Enter']) session.tick(16, new Set([key]))
     for (let n = 0; n < 300 && !result; n++) {
@@ -289,25 +391,47 @@ try {
       // PAL 语义（battle-core.ts:620 注释）：余量 stealLeft 烙敌身上，偷光再偷一无所获——
       // 敌 only 91×1，第二次偷取不应重复获得（区分合并与重复获得）。
       assert.equal(gains, firstGain, 'C06: 偷光后第二次不得重复获得')
-      assert.deepEqual(battleInv.filter((x) => x.itemId === '91'), [{ itemId: '91', count: 2 }], 'C06: 战内同 ID 数量合并为 2（1已有+1偷得）')
-      assert.deepEqual(worldInventory.filter((x) => x.itemId === '91'), [{ itemId: '91', count: 2 }])
+      assert.deepEqual(
+        battleInv.filter((x) => x.itemId === '91'),
+        [{ itemId: '91', count: 2 }],
+        'C06: 战内同 ID 数量合并为 2（1已有+1偷得）',
+      )
+      assert.deepEqual(
+        worldInventory.filter((x) => x.itemId === '91'),
+        [{ itemId: '91', count: 2 }],
+      )
     }
-    note('C06', 'covered', `第一次=${firstGain >= 1} 总获得日志=${gains} 战内91=${JSON.stringify(battleInv.filter((x) => x.itemId === '91'))} 写回=${JSON.stringify(worldInventory.filter((x) => x.itemId === '91'))}（真实连续 skill；偷光不重复获得+同 ID count 覆盖）`)
+    note(
+      'C06',
+      'covered',
+      `第一次=${firstGain >= 1} 总获得日志=${gains} 战内91=${JSON.stringify(battleInv.filter((x) => x.itemId === '91'))} 写回=${JSON.stringify(worldInventory.filter((x) => x.itemId === '91'))}（真实连续 skill；偷光不重复获得+同 ID count 覆盖）`,
+    )
   }
 
   // ── C07 养蛊到期（真实回合链过长，本探针登记为 Q2 域） ──
   if (want('C07')) {
-    note('C07', 'risk', '真实养蛊九回合到期产生新物品需完整回合链（Q2 实跑域）；本批不冒称 E2E。battle-core 养蛊逻辑锚点见 battle-core.ts')
+    note(
+      'C07',
+      'risk',
+      '真实养蛊九回合到期产生新物品需完整回合链（Q2 实跑域）；本批不冒称 E2E。battle-core 养蛊逻辑锚点见 battle-core.ts',
+    )
   }
   // ── C08 战败/terminated 写回域 ──
   if (want('C08')) {
     // 构造必败战斗：1HP 玩家 vs 强敌
     const doomed = player('doomed', { attackStrength: 1, defense: 0, maxHp: 1, skills: [] })
-    const session = new BattleSession([doomed], [enemyStealTarget], assets, (id) => id, () => 0, {
-      skills: {},
-      items,
-      inventory: [],
-    })
+    const session = new BattleSession(
+      [doomed],
+      [enemyStealTarget],
+      assets,
+      (id) => id,
+      () => 0,
+      {
+        skills: {},
+        items,
+        inventory: [],
+      },
+    )
     let result
     session.done.then((v) => {
       result = v
@@ -317,20 +441,35 @@ try {
       session.tick(100, new Set())
       await Promise.resolve()
     }
-    note('C08', result ? 'covered' : 'risk', `terminated=${result ?? '未终止'}；写回合同：战败是否写回库存属 main 调用域（census 见 battle-result 调用点），战斗内库存=${JSON.stringify(session.state.inventory)}`)
+    note(
+      'C08',
+      result ? 'covered' : 'risk',
+      `terminated=${result ?? '未终止'}；写回合同：战败是否写回库存属 main 调用域（census 见 battle-result 调用点），战斗内库存=${JSON.stringify(session.state.inventory)}`,
+    )
   }
   // ── C09 毒杀最后敌人：无新输入结算（原树观察已由旧探针 C-poison-terminal 覆盖） ──
   if (want('C09')) {
-    note('C09', 'covered', '旧探针 probe-battle-core.mjs C-poison-terminal/C-poison-terminal-control 已证：毒杀后仍需一次玩家输入才结算（原树特征）+ 正控可 won。本批引用复跑见 /tmp/glm-b2/old-battle-core.log；正确合同草案=毒杀最后敌人应自动进入结算（Q2 域）')
+    note(
+      'C09',
+      'covered',
+      '旧探针 probe-battle-core.mjs C-poison-terminal/C-poison-terminal-control 已证：毒杀后仍需一次玩家输入才结算（原树特征）+ 正控可 won。本批引用复跑见 /tmp/glm-b2/old-battle-core.log；正确合同草案=毒杀最后敌人应自动进入结算（Q2 域）',
+    )
   }
   // ── C10 回合末玩家死亡终态 ──
   if (want('C10')) {
     const doomed = player('doomed2', { attackStrength: 1, defense: 0, maxHp: 1, skills: [] })
-    const session = new BattleSession([doomed], [enemyStealTarget], assets, (id) => id, () => 0, {
-      skills: {},
-      items,
-      inventory: [],
-    })
+    const session = new BattleSession(
+      [doomed],
+      [enemyStealTarget],
+      assets,
+      (id) => id,
+      () => 0,
+      {
+        skills: {},
+        items,
+        inventory: [],
+      },
+    )
     let result
     session.done.then((v) => {
       result = v
@@ -340,32 +479,51 @@ try {
       session.tick(100, new Set())
       await Promise.resolve()
     }
-    const log = session.debugLog()
+    const _log = session.debugLog()
     // 正确合同草案（Q2）：全队死亡应在有限 tick 内进入 defeat。当前 fixture 攻击未致死，
     // 无法构造真实死亡链——按工作包规则 contract 不可臆造期望，登记 risk 而非伪绿。
-    note('C10', result === 'defeat' ? 'covered' : 'risk', `600tick内终态=${result ?? '未终止'}（玩家死亡侧需敌方实际命中；本 fixture 攻击未致死——敌伤害不足以击穿时战斗持续，终态域留 Q2 真实数值链）`)
+    note(
+      'C10',
+      result === 'defeat' ? 'covered' : 'risk',
+      `600tick内终态=${result ?? '未终止'}（玩家死亡侧需敌方实际命中；本 fixture 攻击未致死——敌伤害不足以击穿时战斗持续，终态域留 Q2 真实数值链）`,
+    )
   }
   // ── C11 同轮双方死亡/毒后恢复顺序 ──
   if (want('C11')) {
-    note('C11', 'risk', '同轮双方死亡执行顺序当前无明示合同（battle-core 回合结算顺序需游戏机制考证）；登记待裁决，不发明优先规则')
+    note(
+      'C11',
+      'risk',
+      '同轮双方死亡执行顺序当前无明示合同（battle-core 回合结算顺序需游戏机制考证）；登记待裁决，不发明优先规则',
+    )
   }
   // ── C12 重复 step 不重复累计；敌逃无奖励 ──
   if (want('C12')) {
-    const session = new BattleSession([hero()], [enemyStealTarget], assets, (id) => id, () => 0, {
-      skills: { 377: steal },
-      items,
-      inventory: [],
-    })
-    let result
+    const session = new BattleSession(
+      [hero()],
+      [enemyStealTarget],
+      assets,
+      (id) => id,
+      () => 0,
+      {
+        skills: { 377: steal },
+        items,
+        inventory: [],
+      },
+    )
+    let _result
     session.done.then((v) => {
-      result = v
+      _result = v
     })
     session.tick(0, new Set())
     const expBefore = session.state.exp ?? 0
     session.tick(16, new Set()) // 重复空 step
     session.tick(16, new Set())
     const expAfterIdle = session.state.exp ?? expBefore
-    note('C12', 'covered', `空step经验不变=${expAfterIdle === expBefore}；敌逃无奖励对照与保存重开所需断言属 Q2/R4（writeBack 入口已由 C01-C06 真实覆盖）`)
+    note(
+      'C12',
+      'covered',
+      `空step经验不变=${expAfterIdle === expBefore}；敌逃无奖励对照与保存重开所需断言属 Q2/R4（writeBack 入口已由 C01-C06 真实覆盖）`,
+    )
   }
   console.log(`\nC组 ${MODE} 模式完成：${results.length} 条记录`)
 } finally {

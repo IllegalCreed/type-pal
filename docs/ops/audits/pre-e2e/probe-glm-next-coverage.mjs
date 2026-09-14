@@ -32,7 +32,7 @@ for (const pkg of PKGS) {
   const raw = readFileSync(`${mainTree}/coverage/fast/${pkg}/coverage-summary.json`, 'utf8')
   summaryRaw[pkg] = raw
   summary[pkg] = JSON.parse(raw)
-  const total = summary[pkg].total ?? summary[pkg]['total']
+  const total = summary[pkg].total ?? summary[pkg].total
   const metrics = baseline.packages[pkg].metrics
   assert.deepEqual(
     {
