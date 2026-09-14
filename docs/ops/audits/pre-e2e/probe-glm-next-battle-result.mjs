@@ -115,20 +115,20 @@ try {
     if (MODE === 'contract') {
       assert.equal(r.gained, true)
       assert.deepEqual(r.battleInventory, [{ itemId: '91', count: 1 }])
-      // 原树合同（旧探针 C-new-inventory 已证）：战内新偷物品不在世界时被 writeBack 丢弃。
-      assert.deepEqual(r.worldInventory, [])
+      // 正确合同:战内新偷物经 writeBack 应并入世界库存。原树丢弃新增 ID(审计 C-01)→本断言业务红。
+      assert.deepEqual(r.worldInventory, [{ itemId: '91', count: 1 }], 'C01 正确合同: 新偷物应写回世界(原树丢弃=审计C-01 特征)')
     }
-    note('C01', 'covered', `gained=${r.gained} 战内=${JSON.stringify(r.battleInventory)} 世界=${JSON.stringify(r.worldInventory)}（新偷物 writeBack 丢弃=原树行为，C-04 审计项）`)
+    note('C01', 'reproduced', `gained=${r.gained} 战内=${JSON.stringify(r.battleInventory)} 世界=${JSON.stringify(r.worldInventory)}（战内偷取链现行正确;世界写回丢弃新增=审计C-01 原树特征,正确合同红）`)
   }
   // ── C02 偷取→逃跑写回 ──
   if (want('C02')) {
     const r = await stealBattle({ finish: 'playerFled', initiallyOwned: false })
     if (MODE === 'contract') {
-      // 原树「逃跑留偷物」指战内库存保留偷物（battleInventory）；世界侧同 C01 的新增丢弃语义。
-      assert.deepEqual(r.battleInventory, [{ itemId: '91', count: 1 }], 'C02: 战内保留偷物')
-      assert.deepEqual(r.worldInventory, [])
+      // 「逃跑留偷物」现行合同=战内库存保留;世界侧正确合同同 C01:新偷物应写回。
+      assert.deepEqual(r.battleInventory, [{ itemId: '91', count: 1 }], 'C02: 战内保留偷物(现行合同)')
+      assert.deepEqual(r.worldInventory, [{ itemId: '91', count: 1 }], 'C02 正确合同: 逃跑同样应写回新偷物(原树丢弃=审计C-01,业务红)')
     }
-    note('C02', 'covered', `战内=${JSON.stringify(r.battleInventory)}（逃跑留偷物=战内）；世界=${JSON.stringify(r.worldInventory)}（新增丢弃同 C01）`)
+    note('C02', 'reproduced', `战内=${JSON.stringify(r.battleInventory)}（逃跑留偷物=战内,现行合同正确）；世界=${JSON.stringify(r.worldInventory)}（新增丢弃=审计C-01 原树特征,正确合同红）`)
   }
   // ── C03 已有→胜/逃数量正控 ──
   if (want('C03')) {
@@ -241,9 +241,14 @@ try {
       assert.equal(after61, before61 - 1, 'C05: 已有物品数量净减一（区分净结果与简单追加）')
       assert.equal(after91, before91, 'C05: 战内新增(偷得91)保持不丢——净结果只对被消费的 61 减一')
       assert.equal(worldInventory.find((x) => x.itemId === '61'), undefined, 'C05: 世界写回 61 归零后删除条目')
-      assert.ok(!worldInventory.some((x) => x.itemId === '91'), 'C05: 新偷物仍不落世界（原树）')
+      // 正确合同:净结果=61 清项 + 91 新增并入世界。原树丢新增(审计 C-01)→本断言业务红。
+      assert.deepEqual(
+        worldInventory.filter((x) => x.itemId === '91'),
+        [{ itemId: '91', count: 1 }],
+        'C05 正确合同: 净结果应把新偷 91 并入世界(原树丢弃=审计C-01 特征)',
+      )
     }
-    note('C05', 'covered', `偷取91=${stole} 使用61=${used61} 61:${before61}→${after61} 91:${before91}→${after91} 写回=${JSON.stringify(worldInventory)}（真实混合链净结果）`)
+    note('C05', 'reproduced', `偷取91=${stole} 使用61=${used61} 61:${before61}→${after61} 91:${before91}→${after91} 写回=${JSON.stringify(worldInventory)}（真实混合链净结果;战内域现行正确,世界新增丢弃=审计C-01,正确合同红）`)
   }
   // ── C06 连续两次偷取同 ID（真实 skill 两次） ──
   if (want('C06')) {
