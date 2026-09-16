@@ -237,7 +237,28 @@ owner变化误当lease失活又造成互等；子方finally/失败漏释放导�
   连相邻8文件127项、Reforge typecheck、8单点反控、完整check7079项与受保护strict fast6591项均通过，617生产文件零移除。
   六包基线对象不变，全部旧测试identity保持；真实main AST接线已验，视觉/磁盘保存读回按SL-E1～3集中延期。
   失败记录和覆盖分子分母见[实现回执](../../testing/save-barrier-lineage.md)，不把GLM四包返工计入本卡，不宣布WORLD已done。
-- Kimi：pending。
+- Kimi：**accept（2026-09-17，r1 实现独立终审，候选 `dff3442d` 对比 `11ad25fa`；设计不重签；未读 GLM 本轮结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  接手 HEAD `a652d5c6` 与 origin/main 一致、工作树干净；候选后 packages/scripts/lock 零漂移。
+  - **活动身份（B-06）**：`runtime-script-project.ts:166-171` wrapper 开战改为以自身身份
+    `withScriptActivityLineage(this, this.coordinator, signal, () => options.startBattle(...))`——
+    与父 flow 的登记键一致，exact signal 透传；无父入口仍走 transient lease+等 gate（diff 实证）。
+  - **真实 lease 准入**：`script-activity-lineage.ts` 计数收敛为 {coordinator, lease} 登记记录；
+    查找要求 coordinator 匹配且 `hasActiveLease`（`script-world.ts:678-682` active 表对象身份
+    裁决，leaseKeys WeakMap 仅作 lease→key 查询，不拿 key 存在/计数当准入）；登记时即要求活跃
+    lease；finally 精确删本次记录。前提反例（finally 未结束但 lease 已 close）不再可达。
+  - **嵌套完整执行/独立根暂停**：`script-world.ts:457-461` gateClosed && !nested 才停——
+    嵌套参与者完成自然 to 链，独立 root 仍停安全点；begin 族携 parent（失效/外来即抛）、
+    `pending && (!parent || pending.ready)` 拒新入场（ready 后不进）；同 owner active 不重入；
+    epoch 失效与 lease 存活分离（reachSafePoint 先核 epoch 合同不变）。
+  - **本人实跑**：新 43 项 + 相邻共 **8 文件/127 项全绿**；reforge typecheck exit 0。
+    **两针负控制本人自建**（/tmp/kimi-lineage-nc/negative.config.mts，唯一锚点断言、内存变换、
+    磁盘零改）：premature-child-stop（删 `&& !this.nested`）→ 6 红/43（双状态出口缺 childEnd 类
+    业务红）；stale-registration（hasActiveLease→true）→ 恰 1 红/43（已 close lease 挂起 finally
+    案例）；无突变对照 43/43 绿。交叉核回执日志：完整 check 7,079、strict 617 文件/6,591
+    （+43 恰为新测试）；基线 diff 实测仅 reforge 指标与新增身份，旧测试无移除；原探针零 diff。
+  - **旧版本兼容审查：pass**——旧计数协议直接替换无双协议 fallback；冻结探针不改；无版本
+    分支/格式/升级器引入。SL-E1～E3 浏览器/磁盘证据按卡登记集中延期，本次未冒称通过。
+  返工项：无。本 accept 不代签、不授权 done；WORLD 终审与本卡互不借签。
 - GLM：**accept（2026-09-17 实现复核；独立矩阵/边界席位，非第三方终审，不替代 Kimi）**。
   - **贡献披露**：批二 B01-B06 barrier 探针/机器账为本席原始材料，本卡前提曾引用；r1 实现、43 项正式回归与
     8 针反控均为 Codex 工作。本轮为独立重核，不以历史探针自证。
@@ -288,6 +309,14 @@ Codex实现与自验证完成，候选dff3442daf3b2e43837e67e6944827b928eeb1f4�
 
 ## 交接日志
 
+- 2026-09-17 Kimi（r1 实现终审）：同步 `a652d5c6`、工作树干净后核 `11ad25fa → dff3442d`。
+  直读四产品文件：wrapper 开战以自身身份进 activity（B-06 根因修复）、lineage 计数收敛为
+  {coordinator, lease} 登记+hasActiveLease 对象身份裁决、嵌套 nested 豁免保存 gate 中途停、
+  begin 族 parent 核验与 ready 后拒新、独立根安全点暂停与 epoch 边界保持。复跑 8 文件/127 项
+  全绿、typecheck exit 0；自建两针负控制（premature-child-stop 6 红、stale-registration 恰 1 红、
+  对照 43/43 绿，工作树零改动）；交叉核 check 7,079、strict 617/6,591、基线仅 reforge 新增。
+  旧版本兼容 pass（旧计数协议整删无 fallback、冻结探针不改）。签 accept，无返工项；
+  未改实现/测试/基线/他席/Status，未读 GLM 结论。Next：Codex 统一核定 done。
 - 2026-09-17 GLM：完成实现复核，done前席位签 accept（证据锚点见上节）。独立复跑定向 127/127、typecheck rc0、
   8 针反控全业务红；check 7079（0 errors）与 BASE_REF=11ad25fa 单次严格 fast 6591/617 重跑 rc0 且数字与回执一致；
   独立 diff 核六包基线逐字不变、reforge 仅 +3 文件 +43 无移除。43 项断言逐条读面（快照全为实际捕获值）；
