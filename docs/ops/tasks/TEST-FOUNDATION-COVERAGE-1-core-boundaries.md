@@ -213,7 +213,10 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 ### done前
 
 - GLM：pending（实现者自验，不是第三方独立accept）。
-- Codex：pending（逐组复核/集成/质量门）。
+- Codex：**counter（2026-09-16，候选01c149b5）**。独立定向133项、四包typecheck和8负控符合预期，产品零diff；
+  pal/migrate覆盖对照复算相同。但最终树Biome27错；隔离坏实现证明D组冲突仍删文件、C组只留首槽均未被新套件拦截；
+  D组自比较/缺席替身、C3未完成及交付账需定点返工。详见[独立复核R1～R4](../../testing/glm-foundation-coverage-review.md)。
+  r1设计保持，不先集成、不跑ratchet/改基线；本席不代填GLM自验/Kimi终审，Coding Owner接手按counter核定rework。
 - Kimi：pending（独立终审）。
 - done准入：blocked；由Codex统一收口，不由GLM标done。
 
@@ -221,6 +224,10 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 2026-09-16用户确认GLM额度恢复；可持续承担本包非视觉测试。WORLD-ASYNC-COMMIT-1先补实现审查，不重开旧r1设计/历史豁免，材料贡献须披露。
 本包四目标包与Codex世界/保存主线错开；目标生产源码若漂移，由Codex明确新冻结点/适配范围，不自行合入生产修复或新版本输入。
+
+- 2026-09-16 Codex：接收01c149b5，只读复核全部15测试/3fixture及负控，133项/四包tc通过；额外三针均命中却绿，独立正常/坏结果对照证实鉴别力缺口。
+  main只登记本人counter、报告、导航与交接，候选测试/fixture/产品未合入；GLM作为Coding Owner定点返工R1～R4，本轮不转Kimi终审。
+  临时日志/复建入口和本人首次oracle环境失败均写入报告；未跑全仓check/官方覆盖门，不虚报已集成或已提升主线覆盖。
 
 - 2026-09-16 Kimi：完成 r1 独立范围/分层/反控/资源安全审查，签 premise verified + design agree，无返工项。
   直读 mkf.ts:1-5 头合同、player-roles.ts:92-105 完整 MKF 输入门、yj2.ts:139-143 畸形长度分配风险、
@@ -237,6 +244,16 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 - 2026-09-16 Codex：文档门423 Markdown / 2070链接 / 144任务通过，文档工具20/20，索引与官方生成器一致，diff检查通过；产品/测试/基线相对d64bbf6d零改动。
 
 ## 下一位Agent提示词
+
+### 当前交接：GLM返工01c149b5（优先于下方历史分配提示词）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-FOUNDATION-COVERAGE-1 r1，候选01c149b5收到Codex counter，尚未集成；产品继续冻结d64bbf6d，设计三签保持、不重签。
+先同步并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md及docs/testing/glm-foundation-coverage-review.md全部R1～R4；在原codex/glm-foundation-coverage-r1分支接收counter文档，保留原文。你是Coding Owner，按counter核定rework，不改他席结论。
+R1修本人文件Biome27错、真实15测试/3fixture和B组20/6/4/21/9/9计数，pal fixture回精确白名单。R2补冲突下真实待删除文件与无冲突正控，删恒真hash自比较，真实absent/null及metadata/write-map、输入不变范围对账。R3补角色非首/末装备和仙术槽的完整非对称断言；C3 poisons/players视图本轮补齐，不以分支少后置。R4逐族分类/去重/准确负控红因与可重建覆盖命令补齐。
+原133项与8负控的有效部分保留，pal/migrate覆盖数字已复算认可；YJ2两项可列明确后续归属，不为分支率造大资源流或固化未定义坏输入。额外三针见报告与/tmp/codex-foundation-review.G53t4a/witness.config.mjs，返工后应业务红；临时文件丢失按报告唯一替换可重建。
+只改本卡白名单新测试/fixture、本人回执/证据/日志，不改产品、既有测试、原探针、统计配置/基线，不做视觉。逐组定向及相邻、typecheck/Biome和单点负控重跑，从最终树生成回执，不靠记忆写数字。完成交Codex复核后再决定集成/全仓check/ratchet/严格fast；不代签、不标done、不转Kimi终审。
+```
 
 ### GLM
 
