@@ -153,7 +153,30 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 - Codex：premise verified / design agree（2026-09-16，r1）：已直读上述导出、旧测试入口和baseline，确认四包缺口及输入层分界；明确PlayerRoles整MKF、YJ2先分配风险、write-plan为IO而非纯函数。
   可证伪：若候选用例已覆盖/输入不合法/目标层没有该合同，应撤回新增结论而非改产品或期望；该项分类不阻止其它已核独立项。
-- GLM：premise pending / design pending（Coding Owner，须先独立核合同，不复制Codex表述）。
+- GLM：**premise verified / design agree（2026-09-16，r1，Coding Owner 独立核对，工作树 5cee883d，产品=d64bbf6d 零漂移）**。
+  - **A/C 原盘格式直读**：`shared/src/mkf.ts:1-5` N+1 个 u32 LE 偏移头、子文件数=(head[0]-4)/4 合同在位；
+    `pal-extract/src/resources/parsers/player-roles.ts:92-105` parsePlayerRoles 接收**完整 DATA.MKF 字节**、openMkf+readChunk(mkf,3)、
+    PLAYER_ROLES_BYTES 精确尺寸门——裸 900 字节/SAVEDGAME 0x250 偏移不能充当输入，卡面分界属实。
+  - **去重边界直读**：shared/src 现有 rng.test.ts 已覆盖 rngBlitDelta 四族 opcode（0x00/0x02/0x06/0x0d）+unknown throw
+    （rng.test.ts:6-32），decodeRngFrames 无 fast 直测（仅 pal-extract rng-frames 真实资产域经 shared 复用）；
+    mkf/yj2 的既有 io 测试在 pal-extract/src/io/（资产域），shared 包内无——A 组增量=纯合成字节 fast 用例，重叠面已核。
+    content 侧 author-script-core.test.ts、author-script.current-characterization.test.ts 在位；migrate 侧 migration-*.test.ts 五件在位。
+  - **B/D 入口直读**：validate.ts:94/427/559/710/1329=validateStartWorld/Actors/Skills/Poisons/AuthorItemCore；
+    author-script.ts:115 checkAuthorCommands、runtime-script.ts:208 checkRuntimeScriptFlow 为当前作者/运行时入口；
+    enemy-script.ts:152/250/458/523/576=B6 词表入口。migration-merge.ts:411 mergeManagedFile、migration-plan.ts:134
+    createMigrationPlan 纯函数；migration-write-plan.ts:1/16/76 读 fs——排除正确。baseline.ts:29-40 纯辅助（原子地图路径/
+    serializeMigrationJson/sha256）可测。白名单四个抽查目标文件当前均不存在，可新增。
+  - **design agree**：一次设计全包、A→B→C→D 分组连续、每组≥2 单点负控（命中+业务红+正常对照绿）、同冻结树同 include
+    前后对照进 tmp、B4「schema 允许的全队复活不得因运行时 C-03 写成应拒绝」（与我在批二 D05 的数据事实一致：
+    301/302 均 oneAlly，无 allAllies 复活数据——若 schema 层另有允许组合，测试按 schema 合同而非运行时现状）、
+    YJ2 疑似超大/不终止输入不进 fast、疑似缺陷只交反例不修产品——均与独立核验一致。
+  - **可证伪观察**：①若 A 组目标分支实为 pal-extract 资产域已覆盖且 fast 亦可达，则该项只登记证据不加重复用例；
+    ②若 PlayerRoles 纯字节 fixture 无法同时满足 SoA 布局与 PLAYER_ROLES_BYTES，该子项列待证，不得借 SAVEDGAME 数据冒充；
+    ③若 D 组 merge/plan 存在 write-plan 之外的隐藏 IO 依赖，该项移出白名单；④负控若仅能以模块加载错误/TypeError 命中，
+    不计入两条有效负控，须重造。
+  - **贡献披露**：批二 F 组曾给出同源七包覆盖缺口静态清单（本人材料）；本卡为正式测试卡，该清单只作线索，
+    不作为任何"已覆盖/已完成"证据，最终以本卡现场生成数字为准。
+- Kimi：premise pending / design pending（独立审范围/分层/反控/资源安全）。
 - Kimi：premise pending / design pending（独立审范围/分层/反控/资源安全）。
 - 非Coding Owner独立前提证据：Codex如上；Kimi补其独立核验与可证伪观察。
 - 用户豁免：none；WORLD旧卡豁免不适用于此新卡。
@@ -171,6 +194,10 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 2026-09-16用户确认GLM额度恢复；可持续承担本包非视觉测试。WORLD-ASYNC-COMMIT-1先补实现审查，不重开旧r1设计/历史豁免，材料贡献须披露。
 本包四目标包与Codex世界/保存主线错开；目标生产源码若漂移，由Codex明确新冻结点/适配范围，不自行合入生产修复或新版本输入。
 
+- 2026-09-16 GLM：完成独立合同核对，build前席位签 premise verified + design agree（证据锚点见签字块）；仅改本席。
+  当前三签状态=Codex✓/GLM✓/**Kimi 缺席（premise/design pending）**→build 准入维持 blocked；本席不越权开始正式测试实现，
+  不在 tmp 预写完整测试绕门禁。待 Kimi 设计签字落卡且无 counter 后，由本席或接手会话按卡从分配提交 d901b77f
+  建 codex/glm-foundation-coverage-r1 worktree 连续实现 A→D。
 - 2026-09-16 Codex：创建r1，一卡四组边界与白名单，GLM/Kimi设计审查可并行；本次未新增测试或运行覆盖率，未给实现准入。
 - 2026-09-16 Codex：文档门423 Markdown / 2070链接 / 144任务通过，文档工具20/20，索引与官方生成器一致，diff检查通过；产品/测试/基线相对d64bbf6d零改动。
 
