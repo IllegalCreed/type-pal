@@ -1,3 +1,6 @@
+> 当前结论（2026-09-17，接收639e9e4e）：**Codex accept**。最后R2已闭，139项/14反控、集成check7218与受保护strict fast6730/617均通过；进入Kimi终审，不标done。
+> 以下各轮counter按原候选完整保留为历史，不重新要求返工已通过项；最终集成结果见文末。
+>
 > 最新结论（2026-09-17，c0c94333）：上一轮删除/槽位/对象视图/Biome问题已闭；仅R2输入快照浅拷贝仍阻断，另有回执勘误。
 > 详见文末「返工复核」。以下01c149b5首轮counter完整原文保留，不表示已修部分仍需重做。
 
@@ -220,3 +223,56 @@ FC_IMMUTABLE_REPAIR=1 pnpm --filter @type-pal/migrate exec vitest run --config /
 
 只交GLM定点修剩余R2及上述回执勘误；候选未合入，主线仍保留SAVE-BARRIER-LINEAGE-1的6591基线，不改阈值、不跑官方门禁掩盖缺口。
 再次接收通过后按原计划合入最新产品树，串行check→ratchet→受保护单次strict fast，再交Kimi终审；设计无需重签，GLM贡献仍披露。
+
+## 定点返工接收与集成 · 2026-09-17 · 639e9e4e
+
+接收候选`639e9e4e08ae6c42ec63d75e61d1ff62cdb40b8f`，远端/GLM worktree一致、工作树干净；集成主线基点`862733ba`。
+**R1～R4技术返工均已关闭，Codex正式接收accept。已在主线完成check/ratchet/严格fast，整合候选提交后回填SHA；不标done、不替GLM/Kimi签字。**
+
+### 独立核验
+
+- 深快照现在逐值`structuredClone`并独立构造Map/Set，before不再引用原值；修改before.base不影响输入的自证也成立。
+- Codex原`immutability.config.mjs`三轴仅将测试名过滤更新为“输入深快照”，不启用其临时repair：
+  base/ours/theirs分别有实际污染见证，三个用例均在输入不变性断言业务红，正常候选该用例绿。没有拿零用例或别的用例红代替。
+- 四组正式定向**27/69/19/24=139**通过；四包typecheck exit0；20个新增代码/诊断文件Biome exit0。
+- GLM入仓反控脚本：4正常对照绿、14针均业务AssertionError红且源hash不变；额外检查三针`plan-pollutes-*`
+  的失败名单都包含该深快照用例，不是仅由分类/写入等相邻断言碰巧拦截。
+- 删除门、absent/null、三向metadata、C2完整槽位、C3两视图和去重等上一轮已过证据保持，不重做整批设计。
+- 两时点覆盖表已分清133/139项，八段命令与诊断配置已落盘；YJ2两项继续按后续独立向量/合法输入合同工作登记，不宣称已完成。
+
+### 接收时纠正的记录与适配（不是新增产品修复）
+
+1. 增量实际**21文件**：15新测试、3 fixture、1反控脚本、1诊断配置、1回执；20的说法漏计新配置，配置本来在白名单内。
+2. 合入3b1cff4f会继承主线dff3442d保存修复，因此“全仓对d64零产品diff”不成立。
+   四目标包产品源码仍与d64相同，候选相对3b1cff4f无产品改动，和862733ba主线也只有这批测试/文档增量；
+   本次按用户授权适配最新主线，未撤回已验收保存修复，不改变内容/schema合同或重签r1。
+3. Codex把诊断配置从正则扫描整个coverage配置改为直接导入官方`migrateCoverageFastTestExcludes`。
+   原正则拿到29条、官方迁移列表9条，额外20条不匹配当前迁移包文件；改后真实before/after仍是37文件314项、40文件338项。
+   这只修诊断配置未来串包风险，不改官方include/exclude、生产代码或139项测试正文。
+4. GLM的139项测试与3fixture在集成树逐文件保持候选原样；Codex负责以上配置/回执勘误、合并与官方质量门，不把GLM贡献说成本人新增。
+
+### 验证与后续
+
+日志：`/tmp/codex-foundation-final-review.X7pXTg/`，含四组`*-direct.log`、`typecheck.log`、`biome.log`、
+`mutants.json`与progress、`original-immutable-{base,ours,theirs}.log`、集成诊断`diag-before.log`/`diag-after.log`。
+全仓质量门按`check.log`→`ratchet.log`→`strict-fast.log`串行执行，保护基线固定862733ba，均exit0。
+完整check七包**7218项**（shared106/content557/pal-extract265/migrate456/reforge1113/game2307/editor2414），
+文档工具20与coverage-tools17通过，lint 0 errors、既有48 warnings/11 infos不变。
+
+官方fast **6730项/617生产文件**：较6591新增恰139；15个新测试文件，全部旧fileEntries/identityDigest逐一不变，生产文件清单与指标分母不变，无范围移除。
+reforge/game/editor整个基线对象逐字相同；四目标包提升来自新测试，未将原PAL真实资源测试移入fast来抬数。
+
+| 包 | 行 before→after | 分支 before→after |
+|---|---|---|
+| shared | 196/356→338/356（94.94%） | 107/177→145/177（81.92%） |
+| content | 4288/5183→4358/5183（84.08%） | 3584/5016→3666/5016（73.09%） |
+| pal-extract | 329/1316→561/1316（42.63%） | 209/539→253/539（46.94%） |
+| migrate | 3436/6677→3439/6677（51.51%） | 2843/6398→2851/6398（44.56%） |
+
+全仓行48956/69050（70.90%）、语句54243/78899（68.75%）、函数10240/14507（70.59%）、分支38748/61999（62.50%）。
+shared函数21/21（100%）；不以此外推shared分支100%或全仓最终目标达成。未跑full/E2E，无视觉验收项。
+本轮没有质量门失败后取多数重试；原独立三轴配置仅更新标题过滤，三红来自目标深快照断言，不是无用例/模块报错。
+
+后续YJ2两项：①树归约，以独立可核、限资源的向量另行补测；②空窗口回引先核合法输入合同，不将JS越界零值当正确性预期。
+两项只作为已接受归属的剩余覆盖工作，不标完成、不新增产品修复授权，不阻断本卡按已签范围进入终审。
+下一步Kimi独立终审；GLM仅补本人实现者自验登记，Codex统一核定done。旧counter保留，不代签。

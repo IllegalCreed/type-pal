@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-FOUNDATION-COVERAGE-1 | [四包基础边界测试补强](tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | build | GLM修剩余R2与回执 / Codex再接收 | c0c94333：139项通过、11反控有效；仅深快照漏检阻断，已修项不重开 |
+| TEST-FOUNDATION-COVERAGE-1 | [四包基础边界测试补强](tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | review | Kimi终审 / GLM补自验席位 / Codex收口 | 已集成139项，check7218、strict fast6730/617通过；产品不变 |
 | WORLD-ASYNC-COMMIT-1 | [世界异步操作提交一致性](tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md) | review | Kimi终审 / Codex收口 | GLM已补审accept，r1不重签；check 7036、strict fast 6548/617 |
 
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。

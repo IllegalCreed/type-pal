@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-16T14:57:41.693Z",
+  "generatedAt": "2026-09-16T15:54:26.512Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 6591,
+  "testCount": 6730,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -38,18 +38,21 @@
       ],
       "scopeDigest": "f3ef4476e6c1be8555817d7c6434f3ba3b2f88ec0d22776a5f3c6f8521d1a6de",
       "fastTests": {
-        "testCount": 79,
-        "testFileCount": 9,
+        "testCount": 106,
+        "testFileCount": 12,
         "files": [
           "packages/shared/src/events.test.ts",
           "packages/shared/src/index.test.ts",
           "packages/shared/src/input.test.ts",
+          "packages/shared/src/mkf.boundaries.test.ts",
           "packages/shared/src/pal-map-names.test.ts",
           "packages/shared/src/resources.test.ts",
           "packages/shared/src/rle-encode.test.ts",
           "packages/shared/src/rle.test.ts",
+          "packages/shared/src/rng.boundaries.test.ts",
           "packages/shared/src/rng.test.ts",
-          "packages/shared/src/tables.test.ts"
+          "packages/shared/src/tables.test.ts",
+          "packages/shared/src/yj2.boundaries.test.ts"
         ],
         "fileEntries": [
           {
@@ -66,6 +69,11 @@
             "file": "packages/shared/src/input.test.ts",
             "testCount": 4,
             "identityDigest": "11f6b38e10a3ee6978487bf6e5e3ac8a4841019d5df6fd7cc420ecd58415d9ab"
+          },
+          {
+            "file": "packages/shared/src/mkf.boundaries.test.ts",
+            "testCount": 9,
+            "identityDigest": "7452ff9c038665bbd8059a9730400ac157981d042dc45611364bb39b64aa6ffd"
           },
           {
             "file": "packages/shared/src/pal-map-names.test.ts",
@@ -88,6 +96,11 @@
             "identityDigest": "778946222b0aad8384e5b25b3bc02eca43abe84d188007aa8dabac4779d5157b"
           },
           {
+            "file": "packages/shared/src/rng.boundaries.test.ts",
+            "testCount": 13,
+            "identityDigest": "d277f83e6ae687c7c5a0574ea2dee6fcce8577dcafb76974cb1d7a0d17043010"
+          },
+          {
             "file": "packages/shared/src/rng.test.ts",
             "testCount": 7,
             "identityDigest": "c82002802a1d8ed74b892153bb9044c639050feac85457c28c582dda4b46446e"
@@ -96,27 +109,32 @@
             "file": "packages/shared/src/tables.test.ts",
             "testCount": 1,
             "identityDigest": "3b5622f69e3e3c26bce2769a95851786ee1ee6987dbd4aa76b937a381d1d6351"
+          },
+          {
+            "file": "packages/shared/src/yj2.boundaries.test.ts",
+            "testCount": 5,
+            "identityDigest": "ba4e7947f4ed48d8a67bc8e306648c4313cbc74a9fb73b1c3ba1234105ccc6d9"
           }
         ],
-        "identityDigest": "2d85f0d807c04d9f91ac28889f1865ff6125966185105176945cda1093e6cf2c",
+        "identityDigest": "a32331b529b41edf8d5f9647d5401b97e137cf786d9896145c482795dd14e543",
         "duplicateIdentityCount": 0,
-        "executionDigest": "e5153e4d78d911eee9afc698873341dee5f6b6660a0ad91c2f29f68481e20bd4"
+        "executionDigest": "a24568db3df5ed96e9c1bd68707f99bd12375573fecb1a940cc477437256cea8"
       },
       "metrics": {
         "statements": {
-          "covered": 217,
+          "covered": 374,
           "total": 406
         },
         "branches": {
-          "covered": 107,
+          "covered": 145,
           "total": 177
         },
         "functions": {
-          "covered": 14,
+          "covered": 21,
           "total": 21
         },
         "lines": {
-          "covered": 196,
+          "covered": 338,
           "total": 356
         }
       }
@@ -188,8 +206,8 @@
       ],
       "scopeDigest": "9c46fa90991cc75a97d5fac51edc8a6b0f66201a2c2d531fcb939d61db3af93c",
       "fastTests": {
-        "testCount": 488,
-        "testFileCount": 36,
+        "testCount": 557,
+        "testFileCount": 42,
         "files": [
           "packages/content/src/actor-condition.test.ts",
           "packages/content/src/actor.test.ts",
@@ -197,6 +215,7 @@
           "packages/content/src/asset.test.ts",
           "packages/content/src/author-dialogue.test.ts",
           "packages/content/src/author-script-core.test.ts",
+          "packages/content/src/author-script-current.boundaries.test.ts",
           "packages/content/src/author-script.current-characterization.test.ts",
           "packages/content/src/battle-field-reference.test.ts",
           "packages/content/src/battle-formulas.test.ts",
@@ -204,6 +223,7 @@
           "packages/content/src/character.test.ts",
           "packages/content/src/command-target-reference.test.ts",
           "packages/content/src/enemy-ai.test.ts",
+          "packages/content/src/enemy-script.boundaries.test.ts",
           "packages/content/src/enemy-script.test.ts",
           "packages/content/src/entity-lifecycle.test.ts",
           "packages/content/src/frame-sequence.test.ts",
@@ -222,9 +242,13 @@
           "packages/content/src/shop.test.ts",
           "packages/content/src/stamp.test.ts",
           "packages/content/src/tileset.test.ts",
+          "packages/content/src/validate-actors.boundaries.test.ts",
+          "packages/content/src/validate-author-items.boundaries.test.ts",
           "packages/content/src/validate-author.test.ts",
           "packages/content/src/validate-refs.test.ts",
           "packages/content/src/validate-runtime.test.ts",
+          "packages/content/src/validate-skills-poisons.boundaries.test.ts",
+          "packages/content/src/validate-start-world.boundaries.test.ts",
           "packages/content/src/validate.test.ts",
           "packages/content/src/world-variable.test.ts"
         ],
@@ -260,6 +284,11 @@
             "identityDigest": "5ae993ecc1564c1ee1e538e5b33a428358b17066e24c4faa07b7dafa7bbccdf3"
           },
           {
+            "file": "packages/content/src/author-script-current.boundaries.test.ts",
+            "testCount": 9,
+            "identityDigest": "b38a8551843ef9004fb2fae907c55e5f6ef61bdc75f8b686a10869a13a17d3a8"
+          },
+          {
             "file": "packages/content/src/author-script.current-characterization.test.ts",
             "testCount": 4,
             "identityDigest": "9e038ba65ead275252c423164fe928026f64dafb948d7504ff8a7195841643a1"
@@ -293,6 +322,11 @@
             "file": "packages/content/src/enemy-ai.test.ts",
             "testCount": 9,
             "identityDigest": "fc73d1d2ac7f31ecb043c9073ab42f591e55eebf686f1a7524db91134156f87e"
+          },
+          {
+            "file": "packages/content/src/enemy-script.boundaries.test.ts",
+            "testCount": 9,
+            "identityDigest": "361a8f8713581c3a9d3a87a154372273721a8d07d0e9e5038d20f3b73f108e7c"
           },
           {
             "file": "packages/content/src/enemy-script.test.ts",
@@ -385,6 +419,16 @@
             "identityDigest": "d3ab165e7fe043e949b6f2be31340a1816b66242b01dfb0f6e2d75c6389c45d1"
           },
           {
+            "file": "packages/content/src/validate-actors.boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "2351e6e129375da4c7df807df736cfed5ab1341aec345dd35528724811aa02fc"
+          },
+          {
+            "file": "packages/content/src/validate-author-items.boundaries.test.ts",
+            "testCount": 4,
+            "identityDigest": "ef42ea473544fc1a4529a0e611f1a8b8c06194c39e8f6893248e50e501841ad2"
+          },
+          {
             "file": "packages/content/src/validate-author.test.ts",
             "testCount": 7,
             "identityDigest": "cd60ef7c5a22adf5f9a0396777c9c2b1225deb3ef12de49bdf71fd60eb8f38f3"
@@ -400,6 +444,16 @@
             "identityDigest": "e31a27c772929455ac68ce8fd197395e3d0fd819994fc7cae29bd3c826efb507"
           },
           {
+            "file": "packages/content/src/validate-skills-poisons.boundaries.test.ts",
+            "testCount": 21,
+            "identityDigest": "0ddd12cec0015994d555d05d2bf26718970d73a25411ae3b968e62eabbcf1dfc"
+          },
+          {
+            "file": "packages/content/src/validate-start-world.boundaries.test.ts",
+            "testCount": 20,
+            "identityDigest": "0a973463c0db52c6bb5f78d4be6be96775a0d46fd7417510c0b1cd0b1cb1c00f"
+          },
+          {
             "file": "packages/content/src/validate.test.ts",
             "testCount": 93,
             "identityDigest": "e154be4c77f8897fd58838f4990bb693f5c076abf8bbde0dff7f650df1c1773f"
@@ -410,25 +464,25 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "265cbc76465b77abb0246046245cd7e794be0ba620ffbaca6735db4a9ab77d5c",
+        "identityDigest": "b42c12658e9583014a477cfa634a5e2b63b40f30bc16dfe944adde4df85dbb74",
         "duplicateIdentityCount": 0,
-        "executionDigest": "452622ec6ae09168518ad2196a2deae181793cfd1df415e8d7d5ffbce3f7c618"
+        "executionDigest": "ff11ac907e398d4c4cc03a738eb6b3ade3c46ed754643a85c9f0f5af62eff413"
       },
       "metrics": {
         "statements": {
-          "covered": 4682,
+          "covered": 4762,
           "total": 5854
         },
         "branches": {
-          "covered": 3584,
+          "covered": 3666,
           "total": 5016
         },
         "functions": {
-          "covered": 742,
+          "covered": 748,
           "total": 829
         },
         "lines": {
-          "covered": 4288,
+          "covered": 4358,
           "total": 5183
         }
       }
@@ -488,8 +542,8 @@
       ],
       "scopeDigest": "6fda780f908c771fe0dc983993854eef090115057a9d26cb08a487be2e490680",
       "fastTests": {
-        "testCount": 91,
-        "testFileCount": 14,
+        "testCount": 110,
+        "testFileCount": 17,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
           "packages/pal-extract/src/events/annotate.test.ts",
@@ -502,7 +556,10 @@
           "packages/pal-extract/src/io/rle.test.ts",
           "packages/pal-extract/src/resources/battle-sprite.test.ts",
           "packages/pal-extract/src/resources/palette.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
           "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
           "packages/pal-extract/src/resources/scene.test.ts",
           "packages/pal-extract/src/utils/gbk.test.ts"
         ],
@@ -563,9 +620,24 @@
             "identityDigest": "75b4e5882ee05777ba3cdba7da7b992e6b80c58e5b2ba91378c21b353e838def"
           },
           {
+            "file": "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
+            "testCount": 5,
+            "identityDigest": "23ea8eeaf93d7ddf482821ec949874270a45a53691c83bc7a8dcd20db3b9d08f"
+          },
+          {
+            "file": "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
+            "testCount": 4,
+            "identityDigest": "2d855772583f11686da15f11606c540e8e2723953e0ae3368461619251510371"
+          },
+          {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
             "testCount": 1,
             "identityDigest": "b04fe30263c5d745e7e04da469ff94257be712c1cb829d0777af87637a545ce7"
+          },
+          {
+            "file": "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
+            "testCount": 10,
+            "identityDigest": "d2f643d7ba69ee768065b7775a21a9efe5b96fe4522a30348c946dcbadd56b9c"
           },
           {
             "file": "packages/pal-extract/src/resources/scene.test.ts",
@@ -578,25 +650,25 @@
             "identityDigest": "ab56364e7991a21f62ce4ffab6501ff41205a84d08c720cf23efe858ec21e8ee"
           }
         ],
-        "identityDigest": "83d85ee996871ff8a721ad44edf960b37144e34daf51e8012474ebd21e266aa5",
+        "identityDigest": "d25bbd72a97a63e2532fae00efc89b638ff2fccb1ffd603788dafda019f4abb6",
         "duplicateIdentityCount": 0,
-        "executionDigest": "eb7be6730037241e63cc381e8fa7456df0eea82bcd36de4c1a36da67ea3e033e"
+        "executionDigest": "627de321d7df71603f6376de7209504ace24ac1ac02d1b97fdabf66fba18b66c"
       },
       "metrics": {
         "statements": {
-          "covered": 371,
+          "covered": 622,
           "total": 1492
         },
         "branches": {
-          "covered": 209,
+          "covered": 253,
           "total": 539
         },
         "functions": {
-          "covered": 49,
+          "covered": 67,
           "total": 140
         },
         "lines": {
-          "covered": 329,
+          "covered": 561,
           "total": 1316
         }
       }
@@ -668,8 +740,8 @@
       ],
       "scopeDigest": "dcab4edba049261e3d057459eaa1132c193473dfee56e803a1fce38858c476d3",
       "fastTests": {
-        "testCount": 314,
-        "testFileCount": 37,
+        "testCount": 338,
+        "testFileCount": 40,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
           "packages/migrate/src/current-only-product-boundary.test.ts",
@@ -677,8 +749,11 @@
           "packages/migrate/src/engine-chrome-assets.test.ts",
           "packages/migrate/src/item-script-roots.test.ts",
           "packages/migrate/src/legacy-dialog.test.ts",
+          "packages/migrate/src/migration-baseline-pure.boundaries.test.ts",
           "packages/migrate/src/migration-baseline.test.ts",
+          "packages/migrate/src/migration-merge.boundaries.test.ts",
           "packages/migrate/src/migration-merge.test.ts",
+          "packages/migrate/src/migration-plan.boundaries.test.ts",
           "packages/migrate/src/migration-plan.test.ts",
           "packages/migrate/src/migration-project-io.test.ts",
           "packages/migrate/src/migration-transaction.test.ts",
@@ -741,14 +816,29 @@
             "identityDigest": "79e0147255a4df3dda2bfd62ae7546a019fb9f6655a5a7bbf5875e4f9042fd52"
           },
           {
+            "file": "packages/migrate/src/migration-baseline-pure.boundaries.test.ts",
+            "testCount": 8,
+            "identityDigest": "964fb83f173d6d8fe33422fd027e69e3625d2b4a63e8eb773f906ee7b8176fb2"
+          },
+          {
             "file": "packages/migrate/src/migration-baseline.test.ts",
             "testCount": 4,
             "identityDigest": "76dfcd5fe395358b38f845f335ccc9b0bd8395a32758c3f059de8d4393e46a76"
           },
           {
+            "file": "packages/migrate/src/migration-merge.boundaries.test.ts",
+            "testCount": 8,
+            "identityDigest": "4d0609786488898e1fc13ae3160fe046ea4197c73f6d4f064e96d8e3b1abfe15"
+          },
+          {
             "file": "packages/migrate/src/migration-merge.test.ts",
             "testCount": 22,
             "identityDigest": "f64d2c7be225c9d5f6c0c53eec4a3a66c671c36a5870d3e4e3acbfd638752712"
+          },
+          {
+            "file": "packages/migrate/src/migration-plan.boundaries.test.ts",
+            "testCount": 8,
+            "identityDigest": "74ce4d18b51ed4297800f0dfd1aac4fffc1f89f43c1ce2c39d40b083a48db699"
           },
           {
             "file": "packages/migrate/src/migration-plan.test.ts",
@@ -896,17 +986,17 @@
             "identityDigest": "baba8c49c53ef8a741ef1c605723ba72d227914206784bc3a5f719e12c8ff8ee"
           }
         ],
-        "identityDigest": "0e6b9403f46bfcef08fb3570b70fb3d4a072d65b4dced71973c3077ddffd731b",
+        "identityDigest": "fdf8bb11ef51e12e66d24f63163be47de856dc79d05fbaabe03d33ab901cadcb",
         "duplicateIdentityCount": 1,
-        "executionDigest": "7a63a294fa706275485e8e3ba4a0ac1347fe19968c701df0f185ecd03245d679"
+        "executionDigest": "324ebbcd282d95707e63a488caeefb92d044360c79eb24ad8fd12ddbddfce960"
       },
       "metrics": {
         "statements": {
-          "covered": 3829,
+          "covered": 3835,
           "total": 7659
         },
         "branches": {
-          "covered": 2843,
+          "covered": 2851,
           "total": 6398
         },
         "functions": {
@@ -914,7 +1004,7 @@
           "total": 1161
         },
         "lines": {
-          "covered": 3436,
+          "covered": 3439,
           "total": 6677
         }
       }
@@ -4126,19 +4216,19 @@
   },
   "total": {
     "statements": {
-      "covered": 53749,
+      "covered": 54243,
       "total": 78899
     },
     "branches": {
-      "covered": 38576,
+      "covered": 38748,
       "total": 61999
     },
     "functions": {
-      "covered": 10209,
+      "covered": 10240,
       "total": 14507
     },
     "lines": {
-      "covered": 48509,
+      "covered": 48956,
       "total": 69050
     }
   }

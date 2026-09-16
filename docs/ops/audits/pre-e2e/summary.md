@@ -98,6 +98,10 @@ Codex准备[B-06/B-07保存子链卡](../../archive/tasks/done/SAVE-BARRIER-LINE
 2026-09-17：上述保存子链r1已完成[实现与验证](../../../testing/save-barrier-lineage.md)，候选dff3442d自身三席终审accept、无返工。
 新增43项、8反控、完整check7079与严格fast6591通过；用户要求按齐备终审收口，Codex核候选零漂移后done归档；SL-E1～3集中R4/Q1仍待执行。
 
+2026-09-17四包补测接收：[TEST-FOUNDATION-COVERAGE-1](../../tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)源候选639e9e4e，
+历轮counter已修并由Codex独立接收，139项GLM测试合入最新主线；完整check7218、官方ratchet/单次受保护strict fast6730/617通过。
+产品源码/旧测试不变，全仓行70.90%/分支62.50%；当前review待Kimi终审和GLM实现者自验登记，不代签、不标done、不外推为完整E2E或覆盖目标完成。
+
 本次审计有价值：已发现真实的存档/作者数据保护缺口、状态所有权和跨会话撤销问题，
 以及单测通过但实际业务调用遗漏的战斗/预览问题。这些反例需要补进跨模块业务回归。
 建议先围绕证据修复边界并补回归，再建设R4薄E2E，以基线保护之后的content21切换；
