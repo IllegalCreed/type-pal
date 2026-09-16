@@ -140,6 +140,10 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
   遍历 AST 后的隐式 sleep 猜节拍。
 - Page/Behavior/Hook 选择真正变化时递增 owner epoch；旧 invocation 持 lease 跑到下一
   safe-point，过期 cursor 的 CAS 会被丢弃。
+- 保存活动身份只在同runtime、exact AbortSignal和真实live lease之间共享；owner epoch失效与lease关闭不是同一件事。
+  内联场景钩子/行为有独立owner互斥与cursor，作为父命令的子调用自然结束前仍被保存barrier计数；
+  它不会因保存gate在`to`链中途返回假成功，但abort/epoch检查仍有效。同owner busy不重入。
+  独立新根仍等待gate并在醒来时复核来源场景/session，独立在途根仍按原安全点暂停规则执行。
 
 ### 当前加载与发布边界
 

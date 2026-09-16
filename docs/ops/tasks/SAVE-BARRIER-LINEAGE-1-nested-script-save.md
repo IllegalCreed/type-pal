@@ -1,6 +1,6 @@
 # SAVE-BARRIER-LINEAGE-1 - 保存与嵌套脚本活动互等修复
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: B-06/B-07审计修复（不改变能力地图状态）
 Coding Owner: Codex
@@ -12,9 +12,10 @@ Unavailable Agents: none
 Branch: main
 
 Revision: r1，2026-09-16。前提取证基线`aefa5b06e067f81a90273cf245c762a9264cc09a`；
-产品与WORLD候选`e13216e7a4439008df38666cbcfec557c8e5a26c`相同。
-本卡目前只有只读诊断与方案；**未开始实现，不借用WORLD或四包测试卡的设计签字/历史豁免**。
-WORLD仍在review；本卡build前须确认其最终产品基线，若发生相关返工先重核依赖。
+取证时产品与WORLD候选`e13216e7a4439008df38666cbcfec557c8e5a26c`相同。
+实现候选：`dff3442daf3b2e43837e67e6944827b928eeb1f4`，对比build准入`11ad25fa`；SHA回填仅文档，不改变候选。
+本卡已核自身r1三签并完成实现/自测，进入review；不借用WORLD或四包测试卡的签字/历史豁免。
+WORLD仍在review；本卡以未漂移的e13216e7产品候选冻结依赖，不宣布WORLD完成；若相关返工落地，先停下重核依赖。
 
 ## 目标与范围
 
@@ -226,23 +227,107 @@ owner变化误当lease失活又造成互等；子方finally/失败漏释放导�
     ⑦ 实现需要新公共 token/格式版本/改变 F5 权限或调用语义 → 越界。⑧ WORLD 终审若返工四个共同文件，
     本卡 build 前须在新产品基线重跑 premise 探针与旧 B01/B03 红因（卡面已列，本席背书）。
   - 返工项：无（上述 epoch 负控为非阻断建议）。
-- 独立非Owner证据：pending，不以Codex自证替代。
-- counter：当前无他席结论；缺签豁免：无。
-- build准入：**blocked（待三席设计齐且WORLD相关基线稳定；卡状态仍draft）**。
+- 独立非Owner证据：Kimi 90d2b877与GLM 9f8b030c均直接核主壳/host/lease/runner并独立复跑，见各自原文；GLM既有材料贡献已披露。
+- counter：无；缺签豁免：无。
+- build准入：**build allowed（2026-09-16，Codex核三签齐，8126f5c0相对e13216e7的packages/scripts零diff；不重签r1）**。
 
 ### 进入done前
 
-- Codex：pending。
-- Kimi：pending。
-- GLM：pending。
-- 缺签豁免：无；done准入：blocked。未请求用户重复手工复审同一技术证据。
+- Codex：**accept（2026-09-17，实现者自验证）**。产品4文件、43项新增回归；修前2红/1正常对照、修后43/43，
+  连相邻8文件127项、Reforge typecheck、8单点反控、完整check7079项与受保护strict fast6591项均通过，617生产文件零移除。
+  六包基线对象不变，全部旧测试identity保持；真实main AST接线已验，视觉/磁盘保存读回按SL-E1～3集中延期。
+  失败记录和覆盖分子分母见[实现回执](../../testing/save-barrier-lineage.md)，不把GLM四包返工计入本卡，不宣布WORLD已done。
+- Kimi：**accept（2026-09-17，r1 实现独立终审，候选 `dff3442d` 对比 `11ad25fa`；设计不重签；未读 GLM 本轮结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  接手 HEAD `a652d5c6` 与 origin/main 一致、工作树干净；候选后 packages/scripts/lock 零漂移。
+  - **活动身份（B-06）**：`runtime-script-project.ts:166-171` wrapper 开战改为以自身身份
+    `withScriptActivityLineage(this, this.coordinator, signal, () => options.startBattle(...))`——
+    与父 flow 的登记键一致，exact signal 透传；无父入口仍走 transient lease+等 gate（diff 实证）。
+  - **真实 lease 准入**：`script-activity-lineage.ts` 计数收敛为 {coordinator, lease} 登记记录；
+    查找要求 coordinator 匹配且 `hasActiveLease`（`script-world.ts:678-682` active 表对象身份
+    裁决，leaseKeys WeakMap 仅作 lease→key 查询，不拿 key 存在/计数当准入）；登记时即要求活跃
+    lease；finally 精确删本次记录。前提反例（finally 未结束但 lease 已 close）不再可达。
+  - **嵌套完整执行/独立根暂停**：`script-world.ts:457-461` gateClosed && !nested 才停——
+    嵌套参与者完成自然 to 链，独立 root 仍停安全点；begin 族携 parent（失效/外来即抛）、
+    `pending && (!parent || pending.ready)` 拒新入场（ready 后不进）；同 owner active 不重入；
+    epoch 失效与 lease 存活分离（reachSafePoint 先核 epoch 合同不变）。
+  - **本人实跑**：新 43 项 + 相邻共 **8 文件/127 项全绿**；reforge typecheck exit 0。
+    **两针负控制本人自建**（/tmp/kimi-lineage-nc/negative.config.mts，唯一锚点断言、内存变换、
+    磁盘零改）：premature-child-stop（删 `&& !this.nested`）→ 6 红/43（双状态出口缺 childEnd 类
+    业务红）；stale-registration（hasActiveLease→true）→ 恰 1 红/43（已 close lease 挂起 finally
+    案例）；无突变对照 43/43 绿。交叉核回执日志：完整 check 7,079、strict 617 文件/6,591
+    （+43 恰为新测试）；基线 diff 实测仅 reforge 指标与新增身份，旧测试无移除；原探针零 diff。
+  - **旧版本兼容审查：pass**——旧计数协议直接替换无双协议 fallback；冻结探针不改；无版本
+    分支/格式/升级器引入。SL-E1～E3 浏览器/磁盘证据按卡登记集中延期，本次未冒称通过。
+  返工项：无。本 accept 不代签、不授权 done；WORLD 终审与本卡互不借签。
+- GLM：**accept（2026-09-17 实现复核；独立矩阵/边界席位，非第三方终审，不替代 Kimi）**。
+  - **贡献披露**：批二 B01-B06 barrier 探针/机器账为本席原始材料，本卡前提曾引用；r1 实现、43 项正式回归与
+    8 针反控均为 Codex 工作。本轮为独立重核，不以历史探针自证。
+  - **实现直读（dff3442d 对比 11ad25fa，产品恰 4 文件）**：D1——`runtime-script-project.ts:168-171` wrapper
+    startBattle 改 `withScriptActivityLineage(this, this.coordinator, signal, …)` 直调 `options.startBattle`，
+    键=wrapper 自身，与父 flow 登记键 `this.host`（=wrapper）一致，B-06 身份错位消除；base host
+    `script-project-core.ts:313-319` 保持 `this`（=base host），与 base 侧 flow 登记同键，两条调用面各自一致。
+    D2——`script-activity-lineage.ts` Registration={coordinator,lease}；`registeredScriptActivityLease` 逐条核
+    `coordinator 相同 && coordinator.hasActiveLease(lease)`（`script-world.ts:683-686` active 表对象身份），
+    残留 finally 待清登记不再作准入；`withRegisteredScriptActivityLineage` 入口要求活跃 lease、finally 精确删
+    本条登记。D3——`script-world.ts:533-543` begin 接受 parent 并验活（失效即抛），pending 时仅
+    `!parent || pending.ready` 拒绝；`FlowActivationLease` 增 nested 标记（:446），reachSafePoint 仅对非嵌套
+    在 gate 关闭时 finish+stop（:460-465）——嵌套子链完成调用方命令而非把保存暂停当正常返回；epoch 检查先于
+    commit 且嵌套不豁免（:451-456）。runEntityBehavior/runSceneHook 两侧（wrapper+base core）先取真实父
+    lease 再 begin，等待循环 `!parent` 才排队，醒后 scene/session 复验保留。
+  - **SL-01～08 逐项核（43=18/22/3 实际断言面）**：SL-01/02（runtime-save-lineage:20-79 确认保存→battle/exit
+    →快照恰一次且含 tail；exit 含 first/childEnd/parentEnd 双状态尾）；SL-03（:53-89 独立根停在 checkpoint、
+    cursor=last、释放后续跑补 childEnd）；SL-04（lineage:19-107 身份三轴逐轴+closed-lease-pending-finally
+    不得入场/不得冒名替代+重叠登记乱序收尾）；SL-05（:111-127 同 owner busy 返回不互等；:129-157 transient→
+    entity→hook 三层嵌套全尾后才保存；:207-231 父先关子/孙仍 pending+多根阻塞 ready）；SL-06（lineage:269-289
+    epoch bump 后 lineage 仍活但 stale cursor 拒提交——commit 零调用；save-lineage:186-204 排队根醒后
+    scene/session 变化四轴拒绝执行）；SL-07（:225-247 取消后**实际快照**（await 值）无尾+后续保存可用；
+    :249-262 预取消拒绝；:264-280 子失败双 lease 释放可重试；:282-304 真实 10s 超时+恢复；:306-332 重复保存/
+    快照抛错/异步快照拒绝/重试——快照断言全部直接读捕获值，无旧 B06 optional 空真形态）；SL-08
+    （save-lineage.chain:37-142 真 main AST 提取 startBattle/teleportOut/onDefeated victory 分支/
+    runDetachedScriptChain，`expect(signal).toBe(f.signal)` 逐点，快照含 defeated+parentEnd，runner 槽保持；
+    :144-159 无父 host 开战仍等 gate）。基础 host 三入口家族成员保持（runtime-save-lineage:334-384）。
+  - **本人复跑（2026-09-17，工作树 a652d5c6，产品=候选零漂移）**：定向 8 文件 **127/127** exit0；
+    `tsc --noEmit` rc0；`node docs/testing/save-lineage-mutants.mjs` **1 对照 exit0 + 8 针全 exit1 业务红**
+    （wrapper-key/wide-admission/premature-child-stop/stale-registration/exception-lease-leak/
+    stale-epoch-write/forged-parent/key-not-identity）。质量门重跑：`pnpm check` rc0（1334 文件 0 errors/
+    48 warnings/11 infos）；`TYPE_PAL_COVERAGE_BASE_REF=11ad25fa pnpm coverage:fast` rc0——**6591 项/617
+    生产文件**，reforge 行 7848/14117、分支 5252/11041，与回执逐数一致。
+  - **基线对账（独立 diff 核）**：baseline.fast.json 相对 11ad25fa 六包条目逐字相同（shared/content/
+    pal-extract/migrate/game/editor 全等）；reforge 仅 +3 测试文件（本卡三件）、0 移除、计数 1070→1113（+43）；
+    总和 6548→6591。旧 identity 无一变化，无 scope removal。
+  - **范围/冻结核**：产品恰 script-activity-lineage/script-world/runtime-script-project/script-project-core
+    四文件；main/runner/content/codec/原探针零改；SAVE8/content20、F5 区域与 10 秒上限不变；无新公共 token/
+    版本分支/fallback（旧 lineage 签名直接替换）。与四包测试返工（codex/glm-foundation-coverage-r1）完全分开。
+  - **剩余风险**：SL-E1～E3 视觉/磁盘保存读回集中 R4/Q1 未执行（卡已登记）；exact signal 家族合同不保证
+    刻意共用同 signal 的外部调用按 JS 调用栈区分（回执已声明，非本卡缺陷）。均不构成本席阻断。
+- 缺签豁免：无；done准入：blocked（待 Kimi 终审）。未请求用户重复手工复审同一技术证据。
 
 ## Build / Review / 用户验收
 
-未开始实现；没有新正式测试或覆盖率提升声明。主审Kimi，GLM提供独立矩阵/边界核对，不分配视觉。
-本次只读取证不是实现accept，用户验收pending。
+Codex实现与自验证完成，候选dff3442daf3b2e43837e67e6944827b928eeb1f4；主审Kimi、GLM独立复核矩阵，当前两席实现审查pending，不分配视觉。
+产品/测试/质量门与失败记录见[实现回执](../../testing/save-barrier-lineage.md)。用户验收pending，不标done。
 
 ## 交接日志
+
+- 2026-09-17 Kimi（r1 实现终审）：同步 `a652d5c6`、工作树干净后核 `11ad25fa → dff3442d`。
+  直读四产品文件：wrapper 开战以自身身份进 activity（B-06 根因修复）、lineage 计数收敛为
+  {coordinator, lease} 登记+hasActiveLease 对象身份裁决、嵌套 nested 豁免保存 gate 中途停、
+  begin 族 parent 核验与 ready 后拒新、独立根安全点暂停与 epoch 边界保持。复跑 8 文件/127 项
+  全绿、typecheck exit 0；自建两针负控制（premature-child-stop 6 红、stale-registration 恰 1 红、
+  对照 43/43 绿，工作树零改动）；交叉核 check 7,079、strict 617/6,591、基线仅 reforge 新增。
+  旧版本兼容 pass（旧计数协议整删无 fallback、冻结探针不改）。签 accept，无返工项；
+  未改实现/测试/基线/他席/Status，未读 GLM 结论。Next：Codex 统一核定 done。
+- 2026-09-17 GLM：完成实现复核，done前席位签 accept（证据锚点见上节）。独立复跑定向 127/127、typecheck rc0、
+  8 针反控全业务红；check 7079（0 errors）与 BASE_REF=11ad25fa 单次严格 fast 6591/617 重跑 rc0 且数字与回执一致；
+  独立 diff 核六包基线逐字不变、reforge 仅 +3 文件 +43 无移除。43 项断言逐条读面（快照全为实际捕获值）；
+  批二 B01-B06 原始材料贡献披露。仅改本席与日志，不改产品/基线/他席/状态，未读 Kimi 结论；done 准入仍
+  blocked 待 Kimi 终审。
+- 2026-09-17 Codex：完成四文件修复与43项真实调用链/lease回归；先红后绿、8单点负控、check7079与ratchet/单次受保护fast6591均通过。
+  转review，候选冻结待两席独立实现审查；无schema/save/migration/主壳产品修改，无scope移除；SL-E1～3由Codex在R4/Q1集中验证。
+- 2026-09-17 Codex：实现候选dff3442d已提交，回填最终SHA与同候选两席终审提示词；产品/测试/基线不再变动，不重签设计、不代签、不标done。
+
+- 2026-09-16 Codex：用户告知另一任务已签，核main干净、Kimi/GLM本卡r1有效签字齐且无counter；相关产品仍为e13216e7，核定build准入。
+  Codex独占四文件实现，先补B-06/B-07真实调用链回归，吸收GLM的epoch反控建议；不合入正在返工的四包测试、不改其产品冻结。
 
 - 2026-09-16 GLM：完成 r1 独立合同/矩阵审查，签 premise verified + design agree，无返工项（附一条非阻断
   epoch 单点负控建议）。直读 B-06 wrapper/base-host lineage key 错位、B-07 beginSceneHook 先于 lineage 的
@@ -266,6 +351,30 @@ owner变化误当lease失活又造成互等；子方finally/失败漏释放导�
   docs 425篇/2094链接/145卡零问题，文档工具20/20、probe Biome与diff-check通过。不把文档检查说成全仓产品check。
 
 ## 下一位Agent提示词
+
+### 当前：r1实现终审（两席并行；下方设计提示词保留历史）
+
+实现候选dff3442daf3b2e43837e67e6944827b928eeb1f4；对比build准入11ad25fa。两席各读一手代码/测试，不读取或复述另一席实现结论。
+
+#### Kimi实现审查
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 SAVE-BARRIER-LINEAGE-1 r1，任务卡 docs/ops/tasks/SAVE-BARRIER-LINEAGE-1-nested-script-save.md，状态review；候选dff3442daf3b2e43837e67e6944827b928eeb1f4，对比11ad25fa。设计不重签。
+先同步并查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、docs/testing/save-barrier-lineage.md。按候选冻结树独立核四文件：wrapper开战身份、真实lease/active对象身份、嵌套to完整执行、独立root等待/安全点、同owner busy、epoch与lease存活分离、错误/取消清理；无公共token、版本/F5/10秒行为扩张。WORLD依赖e13216e7的实现块不得回退，本卡不代其终审。
+复跑3个新测试文件43项及相邻；node docs/testing/save-lineage-mutants.mjs应为43项正常对照绿+8针业务红。核check7079、受保护strict fast6591/617及旧identity/六包零漂移；主壳AST执行边界和未跑浏览器/磁盘E2E如实保留，不复跑剧情观感。
+只在自己的实现席位签accept或带file:line和反例的counter，独立证据/可证伪观察、旧版本兼容审查和本人日志直接落卡提交推送。不得代签、改他席/产品/状态或标done；不读/复述GLM结论，交Codex统一核准入。
+```
+
+#### GLM实现审查
+
+```text
+在 /Users/zhangxu/illegal/type-pal 复核 SAVE-BARRIER-LINEAGE-1 r1实现，任务卡 docs/ops/tasks/SAVE-BARRIER-LINEAGE-1-nested-script-save.md，状态review；候选dff3442daf3b2e43837e67e6944827b928eeb1f4，对比11ad25fa。设计不重签，与四包测试返工分开提交。
+先同步并查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡和docs/testing/save-barrier-lineage.md。独立按SL-01～08核43项（18/22/3）的实际断言、snapshot不是optional空真、三类身份/过期lease、busy/多层/epoch/取消/失败/超时/重复保存、真实main接线。你参与过批二原始材料须披露；新43项及实现由Codex完成，不用历史探针自证。
+复跑定向及node docs/testing/save-lineage-mutants.mjs（1正常对照+8针业务红）；核check7079、官方ratchet和TYPE_PAL_COVERAGE_BASE_REF=11ad25fa的单次严格fast6591/617、全部旧identity保留及六包基线不变。不混入你的四包返工分支、不动官方基线/统计范围，不做浏览器或视觉；SL-E1～3按集中E2E未执行登记。
+只在自己的实现席位签accept或带file:line的counter，直接写独立证据、旧版本兼容检查与本人日志并提交推送。不读/复述Kimi结论、不代签/改状态/标done；Codex统一集成与收口。
+```
+
+### 历史：r1设计转交（已完成，不再执行）
 
 两席同一r1/取证基线独立并行，不读取或复述另一席结论；各自提交推送自己的签字和日志，不改任务状态。
 可在已收到的当前审查工作之后处理，不中断GLM四包测试。Codex统一核门禁，三签不齐不得改实现。

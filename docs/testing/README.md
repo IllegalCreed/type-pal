@@ -7,8 +7,9 @@
 ## 文档与附件
 
 - [四包基础边界测试补强](../ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)与[GLM回执](glm-foundation-coverage-receipt.md)（一次设计审全包；shared/content/pal-extract/migrate，产品不变、非视觉）
-- [四包测试Codex接收复核](glm-foundation-coverage-review.md)（候选01c149b5；有效证据保留，R1～R4定点返工）
+- [四包测试Codex接收复核](glm-foundation-coverage-review.md)（最新c0c94333；139项/11负控通过，仅R2深快照及回执勘误待修，首轮原文保留）
 - [世界异步操作提交一致性](world-async-commit.md)（B-05/08/09；真实入口回归、隔离反控与集中E2E登记）
+- [保存与嵌套脚本活动互等](save-barrier-lineage.md)（B-06/B-07；真实lease准入、子流程完整执行、反控与集中E2E登记）
 - [测试覆盖率基线与只升不降门禁](coverage.md)
 - [GLM剩余边界大批工作包（二）](glm-pre-e2e-boundary-batch-2.md)与[回执](glm-pre-e2e-boundary-batch-2-report.md)（Codex接手完成六组72项诊断准备；34覆盖/23复现/15待证，不代表产品已修复或官方覆盖率提升）
 - [两阶段 E2E 与录像验证合同](e2e.md)

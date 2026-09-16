@@ -9,6 +9,7 @@ import type {
 } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
 import {
+  registeredScriptActivityLease,
   withRegisteredScriptActivityLineage,
   withScriptActivityLineage,
 } from './script-activity-lineage.js'
@@ -380,13 +381,15 @@ export class BaseScriptProjectRuntime {
     channel: 'trigger' | 'auto',
     options: RunBaseProjectFlowOptions,
   ): Promise<boolean> {
+    options.signal.throwIfAborted()
     const target = { scene: scene.id, entity: entityId }
     const entity = entityAt(scene, target)
     const sceneSessionId = this.host.currentSceneSessionId()
     if (this.host.currentSceneId() !== scene.id) return false
     if (!resolveEntityBehavior(entity, this.world, target, channel)) return false
-    let active = this.coordinator.beginEntityBehavior(this.world, entity, target, channel)
-    while (!active && this.coordinator.gateClosed()) {
+    const parent = registeredScriptActivityLease(this.host, this.coordinator, options.signal)
+    let active = this.coordinator.beginEntityBehavior(this.world, entity, target, channel, parent)
+    while (!active && !parent && this.coordinator.gateClosed()) {
       await this.coordinator.waitForActivationGate(options.signal)
       options.signal.throwIfAborted()
       if (
@@ -399,18 +402,23 @@ export class BaseScriptProjectRuntime {
     if (!active) return false
     const runner = new ScriptRunnerCore(this.host, options.signal, this.shared)
     try {
-      await withRegisteredScriptActivityLineage(this.host, options.signal, () =>
-        runner.runFlow(
-          compileBaseScriptFlow(active.behavior.flow, {
-            canonicalContentDigest: this.canonicalContentDigest,
-            timing: channel === 'auto' ? 'auto' : 'interactive',
-          }),
-          {
-            cursor: active.cursor,
-            cursorController: active.lease,
-            self: target,
-          },
-        ),
+      await withRegisteredScriptActivityLineage(
+        this.host,
+        this.coordinator,
+        options.signal,
+        active.lease,
+        () =>
+          runner.runFlow(
+            compileBaseScriptFlow(active.behavior.flow, {
+              canonicalContentDigest: this.canonicalContentDigest,
+              timing: channel === 'auto' ? 'auto' : 'interactive',
+            }),
+            {
+              cursor: active.cursor,
+              cursorController: active.lease,
+              self: target,
+            },
+          ),
       )
       return true
     } finally {
@@ -423,11 +431,13 @@ export class BaseScriptProjectRuntime {
     slot: 'onEnter' | 'onTeleport',
     options: RunBaseProjectFlowOptions,
   ): Promise<boolean> {
+    options.signal.throwIfAborted()
     const sceneSessionId = this.host.currentSceneSessionId()
     if (this.host.currentSceneId() !== scene.id) return false
     if (!resolveSceneHook(scene, this.world, slot)) return false
-    let active = this.coordinator.beginSceneHook(this.world, scene, slot)
-    while (!active && this.coordinator.gateClosed()) {
+    const parent = registeredScriptActivityLease(this.host, this.coordinator, options.signal)
+    let active = this.coordinator.beginSceneHook(this.world, scene, slot, parent)
+    while (!active && !parent && this.coordinator.gateClosed()) {
       await this.coordinator.waitForActivationGate(options.signal)
       options.signal.throwIfAborted()
       if (
@@ -440,20 +450,25 @@ export class BaseScriptProjectRuntime {
     if (!active) return false
     const runner = new ScriptRunnerCore(this.host, options.signal, this.shared)
     try {
-      await withRegisteredScriptActivityLineage(this.host, options.signal, () =>
-        runner.runFlow(
-          compileBaseScriptFlow(active.hook.flow, {
-            canonicalContentDigest: this.canonicalContentDigest,
-            timing: 'interactive',
-            allowSceneEntry: slot === 'onEnter',
-          }),
-          {
-            cursor: active.cursor,
-            cursorController: active.lease,
-            allowSceneEntry: slot === 'onEnter',
-            runSceneEntry: options.runSceneEntry ?? slot === 'onEnter',
-          },
-        ),
+      await withRegisteredScriptActivityLineage(
+        this.host,
+        this.coordinator,
+        options.signal,
+        active.lease,
+        () =>
+          runner.runFlow(
+            compileBaseScriptFlow(active.hook.flow, {
+              canonicalContentDigest: this.canonicalContentDigest,
+              timing: 'interactive',
+              allowSceneEntry: slot === 'onEnter',
+            }),
+            {
+              cursor: active.cursor,
+              cursorController: active.lease,
+              allowSceneEntry: slot === 'onEnter',
+              runSceneEntry: options.runSceneEntry ?? slot === 'onEnter',
+            },
+          ),
       )
       return true
     } finally {

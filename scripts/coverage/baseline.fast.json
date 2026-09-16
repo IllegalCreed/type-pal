@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-14T15:32:25.930Z",
+  "generatedAt": "2026-09-16T14:57:41.693Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 6548,
+  "testCount": 6591,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1060,8 +1060,8 @@
       ],
       "scopeDigest": "e6fbef671fa36c8c9f451093e204ecfe50a83c906903eebc4a5745326f2a434e",
       "fastTests": {
-        "testCount": 1070,
-        "testFileCount": 102,
+        "testCount": 1113,
+        "testFileCount": 105,
         "files": [
           "packages/reforge/src/actor-condition-lifecycle.test.ts",
           "packages/reforge/src/actor-condition-runtime.test.ts",
@@ -1132,7 +1132,9 @@
           "packages/reforge/src/render-scene.test.ts",
           "packages/reforge/src/render.test.ts",
           "packages/reforge/src/runtime-project-view.test.ts",
+          "packages/reforge/src/runtime-save-lineage.test.ts",
           "packages/reforge/src/runtime-script-project.test.ts",
+          "packages/reforge/src/save-lineage.chain.test.ts",
           "packages/reforge/src/save/browser-state.test.ts",
           "packages/reforge/src/save/current-save.current-characterization.test.ts",
           "packages/reforge/src/save/current-structure.test.ts",
@@ -1149,6 +1151,7 @@
           "packages/reforge/src/screen-fx.test.ts",
           "packages/reforge/src/screen-hold-transaction.test.ts",
           "packages/reforge/src/screen-wave.test.ts",
+          "packages/reforge/src/script-activity-lineage.test.ts",
           "packages/reforge/src/script-chunk-store.test.ts",
           "packages/reforge/src/script-compiler-core.test.ts",
           "packages/reforge/src/script-confirm-modal.test.ts",
@@ -1513,9 +1516,19 @@
             "identityDigest": "ca9e54baa43d0b3d3de4be35836cab145727f0b276bfd6369c11b2647621e7c5"
           },
           {
+            "file": "packages/reforge/src/runtime-save-lineage.test.ts",
+            "testCount": 22,
+            "identityDigest": "0f376a5eb1a5ac63a1c20cb7fc84d9003abfcc25eaa736cee122d8f481061c5b"
+          },
+          {
             "file": "packages/reforge/src/runtime-script-project.test.ts",
             "testCount": 7,
             "identityDigest": "cee2bd76565662b8bb3b4c394bd57e1bd6fbe12c68044a9bef32687513524c0a"
+          },
+          {
+            "file": "packages/reforge/src/save-lineage.chain.test.ts",
+            "testCount": 3,
+            "identityDigest": "ede4e2789f9a400de35ba635214de9948af8aaca638eda0606b3714c807906ad"
           },
           {
             "file": "packages/reforge/src/save/browser-state.test.ts",
@@ -1598,6 +1611,11 @@
             "identityDigest": "b48e95f9de88d9140a6bf2a70827172426bc18d5171e297d5ba4613d27a00851"
           },
           {
+            "file": "packages/reforge/src/script-activity-lineage.test.ts",
+            "testCount": 18,
+            "identityDigest": "ad376436d65fa5daf0bce1e2a3da1136b1b54f3202328adc4aeb4ce1b79a23f5"
+          },
+          {
             "file": "packages/reforge/src/script-chunk-store.test.ts",
             "testCount": 5,
             "identityDigest": "2ac2b838015eafa43e8aaf15de4ece52342d5c01fc4102d4613b5c40e4d1b4c6"
@@ -1678,26 +1696,26 @@
             "identityDigest": "5cab91dcbaf3e911e7015eea202cd946659ee0315dfd964b4721c2e4d6774eb8"
           }
         ],
-        "identityDigest": "41ff3e210dc3d458e7e22d1a1ce4af1731a721b3c588ebdfc82495b580e2e08d",
+        "identityDigest": "48d80ac331f22448f8689f5eebdb86941cfb8b3a0c41e3dd727acdea4b1393df",
         "duplicateIdentityCount": 0,
-        "executionDigest": "f7e92c35a36942023926e1c48b3723008ed1093a3cec31d7f212c196e980420f"
+        "executionDigest": "183d8baa7455ce34853ae1a46684b8e724ff707e40a56778ffb85aaae3bf6ecf"
       },
       "metrics": {
         "statements": {
-          "covered": 8494,
-          "total": 16158
+          "covered": 8674,
+          "total": 16186
         },
         "branches": {
-          "covered": 5149,
-          "total": 11021
+          "covered": 5252,
+          "total": 11041
         },
         "functions": {
-          "covered": 1337,
-          "total": 2413
+          "covered": 1373,
+          "total": 2414
         },
         "lines": {
-          "covered": 7680,
-          "total": 14089
+          "covered": 7848,
+          "total": 14117
         }
       }
     },
@@ -4108,20 +4126,20 @@
   },
   "total": {
     "statements": {
-      "covered": 53569,
-      "total": 78871
+      "covered": 53749,
+      "total": 78899
     },
     "branches": {
-      "covered": 38473,
-      "total": 61979
+      "covered": 38576,
+      "total": 61999
     },
     "functions": {
-      "covered": 10173,
-      "total": 14506
+      "covered": 10209,
+      "total": 14507
     },
     "lines": {
-      "covered": 48341,
-      "total": 69022
+      "covered": 48509,
+      "total": 69050
     }
   }
 }
