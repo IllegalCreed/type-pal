@@ -128,6 +128,34 @@ const cases = [
     expected: 1,
   },
   {
+    // D负控4（Codex immutability 见证永久化·base 轴）：canonicalSnapshot(base) 前原地污染
+    // base 侧 content/a.json 值 v=17 → 深快照输入不变断言业务红；原实现同输入绿
+    name: 'plan-pollutes-base',
+    pkg: 'migrate',
+    file: 'migration-plan.ts',
+    from: 'const baseView = canonicalSnapshot(base)',
+    to: "{ const polluted = base.files.get('content/a.json'); if (polluted) polluted.v = 17 }\n  const baseView = canonicalSnapshot(base)",
+    expected: 1,
+  },
+  {
+    // D负控5（同上·ours 轴）
+    name: 'plan-pollutes-ours',
+    pkg: 'migrate',
+    file: 'migration-plan.ts',
+    from: 'const baseView = canonicalSnapshot(base)',
+    to: "{ const polluted = ours.files.get('content/a.json'); if (polluted) polluted.v = 17 }\n  const baseView = canonicalSnapshot(base)",
+    expected: 1,
+  },
+  {
+    // D负控6（同上·theirs 轴）
+    name: 'plan-pollutes-theirs',
+    pkg: 'migrate',
+    file: 'migration-plan.ts',
+    from: 'const baseView = canonicalSnapshot(base)',
+    to: "{ const polluted = theirs.files.get('content/a.json'); if (polluted) polluted.v = 17 }\n  const baseView = canonicalSnapshot(base)",
+    expected: 1,
+  },
+  {
     // C负控3（Codex counter 见证复建）：装备截断为首行 → 完整长度/末槽断言红
     name: 'player-roles-equipment-truncated',
     pkg: 'pal-extract',

@@ -1,24 +1,21 @@
-# GLM四包基础测试补强回执（r1 返工交付）
+# GLM四包基础测试补强回执（r1 返工交付 · 2026-09-17 定点返工）
 
 任务：[TEST-FOUNDATION-COVERAGE-1](../ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)，r1，build。
-冻结产品：`d64bbf6d2817ba971ae2bd3bbe9a2463870e7e86`（分支对冻结树零产品 diff；三签见任务卡，不重签）。
-分支：`codex/glm-foundation-coverage-r1`（自 648b4086 建立；返工基点=合入 Codex counter `8126f5c0`，counter 原文保留于
-[接收报告](glm-foundation-coverage-review.md)与本文件末节）。
+冻结产品：`d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86`（分支对冻结树零产品 diff；三签见任务卡，不重签）。
+分支：`codex/glm-foundation-coverage-r1`（自 648b4086 建立；已合入 Codex counter `8126f5c0` 与收窄复核
+`3b1cff4f`，counter 原文保留于[接收报告](glm-foundation-coverage-review.md)与本文件末节）。
 
-## 返工总账（R1～R4 对账）
+## 返工总账（R1～R4 对账 · 定点返工后）
 
-- **实际文件清单**（对 `git diff --name-only --diff-filter=A 648b4086 HEAD`）：**15 个新测试 + 3 个 fixture + 2 个
-  文档/诊断 = 20 文件**（修正首轮 12+4+2 口径；fixture 为 shared/content/pal-extract 各 1）。
-- **pal fixture 已移回精确白名单** `packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts`（原
-  `src/resources/parsers/__tests__/` 下同名文件移除，三个 C 测试 import 更新）。
-- **本人新增 19 个代码文件 Biome exit0**（`git diff --name-only --diff-filter=A 648b4086 HEAD -z -- packages
-  docs/testing/glm-foundation-coverage-mutants.mjs | xargs -0 pnpm exec biome check` → rc0；首轮 27 errors 已全部
-  格式化/import 整理修复，未触碰产品或既有测试）。
+- **实际文件清单**（`git diff --name-status 3b1cff4f HEAD -- packages docs/testing` 的独有增量）：
+  **A×15 新测试 + A×3 fixture + A×1 诊断脚本（mutants）+ M×1 回执 = 20 文件**；本轮新增
+  `docs/testing/glm-foundation-coverage.config.mts`（入仓诊断配置，见覆盖命令节）。产品/既有测试/基线零修改。
+- **本人新增代码文件 Biome exit0**（全部新增 `.ts/.mjs` 经 `pnpm exec biome check` → rc0）。
 - **最终测试计数（现场生成）**：A **27**（mkf 9/rng 13/yj2 5）+ B **69**（start-world 20/actors 6/author-items 4/
   skills-poisons 21/author-script 9/enemy-script 9）+ C **19**（enemies 5/player-roles 4/spells 10）+ D **24**
-  （merge 11/plan 8/baseline 5）= **139 项**，四包定向命令全绿；四包 `tsc --noEmit` rc0。
+  （merge 8/plan 8/baseline 8）= **139 项**，四包定向命令全绿；四包 `tsc --noEmit` rc0。
 - **相邻既有套件**：shared 106 绿；content 557 绿；pal-extract 149 绿+3 skip（同排 7 个缺资产文件）；
-  migrate unit（官方 `migrateCoverageFastTestExcludes` 口径 tmp config）338 绿。
+  migrate unit（官方 fast 排除口径，经入仓[诊断配置](glm-foundation-coverage.config.mts)）338 绿。
 
 ## GLM A组回执（返工后 27 项）
 
@@ -53,7 +50,7 @@
 - 负控：enemies-attack-strength-unsigned、player-roles-name-pointer-degraded、
   **player-roles-equipment-truncated、player-roles-magic-truncated（后两针= Codex counter 见证复建，本轮必红）**。
 
-## GLM D组回执（返工后 24 项）
+## GLM D组回执（返工后 24 项 = merge 8/plan 8/baseline 8）
 
 - 命令：`pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --project unit src/migration-merge.boundaries.test.ts src/migration-plan.boundaries.test.ts src/migration-baseline-pure.boundaries.test.ts` → exit0。
 - **R2 冲突删除门**：冲突 fixture 增加真实待删除文件 `content/delete.json`（theirs 删除+ours 未动）——原实现冲突时
@@ -65,8 +62,11 @@
   baselineWrites 含 `'null\n'` 正文；**真正缺席**（managed 却无 files/hashes）→ present=false、
   `baselineWrites` 抛「baseline 托管清单缺文件或 hash」（已定义门）；metadata/write-map 对应：
   `_state.json` 记录的 hash == write-map 正文字节摘要 == snapshotFileHash（三向一致）。
-- **R2 输入不变范围**：三侧输入（base/ours/theirs 的 files+managedFiles+hashes）调用前后完整快照比较（原仅 base.files）。
-- 负控：merge-same-ours-theirs-removed、plan-conflicts-still-write、plan-deletes-escape-conflicts-gate。
+- **R2 输入不变（2026-09-17 定点修复，Codex immutability 反例合同）**：三侧 before 改为**真正独立深快照**
+  （files 值对象 `structuredClone` 脱离原引用），并附深快照自证（改 `before.base` 值不影响输入）；浅容器展开
+  会把产品侧原地污染同步进 before 从而漏检——`plan-pollutes-{base,ours,theirs}` 三轴负控永久钉住。
+- 负控：merge-same-ours-theirs-removed、plan-conflicts-still-write、plan-deletes-escape-conflicts-gate、
+  **plan-pollutes-base/ours/theirs（三轴输入污染，Codex immutability 见证永久化）**。
   **红因更正（R4）**：`merge-same-ours-theirs-removed` 的业务红来自 ID 数组新增同 id 'a' 的无冲突断言
   （快径失效后落入 add-add 冲突），并非对象"同改同值"用例（后者有递归叶级快径保护）——负控有效，归因以此为准。
 
@@ -86,44 +86,64 @@
 | C1 Enemy | enemies 5 | PAL 组真实资产集成（gitignored） | 无 | — |
 | C2 PlayerRoles | player-roles 4（SoA 完整轴向/尺寸门/零表/rgwName 对调） | 同上 | 无 | — |
 | C3 Spell/Magic/Object | spells 10（flags 位拆解+梦蛇/截断/magic 视图 floor/MAGIC 表 type+signed+整除/poisons 视图/players 视图+截断） | resources/tables.test.ts:283-335（资产域局部合成） | 无 | — |
-| D1/D2 merge | migration-merge 11 | migration-merge.test.ts（既有主体） | 无 | — |
+| D1/D2 merge | migration-merge 8 | migration-merge.test.ts（既有主体） | 无 | — |
 | D3/D4 plan | migration-plan 8 | migration-plan.test.ts（既有主体） | 无 | — |
-| D5 baseline 纯辅助 | migration-baseline-pure 5 | migration-baseline.test.ts（磁盘链域） | 无 | — |
+| D5 baseline 纯辅助 | migration-baseline 8 | migration-baseline.test.ts（磁盘链域） | 无 | — |
 
 ## 负控总账（可重建）
 
-入口：`node docs/testing/glm-foundation-coverage-mutants.mjs` → **4 对照 exit0 + 11 单点负控全部 exit1 且业务
-AssertionError 红（MUTATION_HIT 见证+8 个被替换产品文件前后 hash 一致）**。11 = 原 8（有效部分全保留）+
+入口：`node docs/testing/glm-foundation-coverage-mutants.mjs` → **4 对照 exit0 + 14 单点负控全部 exit1 且业务
+AssertionError 红（MUTATION_HIT 见证+被替换产品文件前后 hash 一致）**。14 = 原 8（有效部分全保留）+
 R2/R3 新增 3（plan-deletes-escape-conflicts-gate / player-roles-equipment-truncated / player-roles-magic-truncated，
-即 Codex counter 的三见证，已从一次性 tmp 脚本固化为永久负控）。
+即 Codex counter 三见证）+ **定点返工新增 3（plan-pollutes-base/ours/theirs，Codex immutability 三轴见证永久化：
+在唯一 `canonicalSnapshot(base)` 前对指定侧 `content/a.json` 值原地写 v=17；正常实现绿、深快照不变断言业务红）**。
 
-## 覆盖对照可重建命令（R4 补齐；数字已经 Codex 独立复算认可，不重跑）
+## 覆盖对照（两个时点，命令可整段复制）
 
-同树同 include、before=既有测试集、after=+本批；`--coverage.enabled --coverage.reporter=json-summary`，
-include 用 `**/src/<file>.ts` 绝对匹配形态。四组命令模板（报告目录替换 before/after）：
+**历史快照（01c149b5 时代，133 项树）**：shared 行 28/179→170/179 分支 10/53→48/53；content 1351/1796→1421/1796
+分支 1071/1656→1152/1656；pal-extract 0/215→197/215 分支 0/48→42/48；migrate 269/292→272/292 分支 318/376→325/376。
+该表出自返工前候选，pal/migrate 数字已经 Codex 独立复算认可（见接收报告）；C3 新增两导出与 D5 纯辅助不在其中。
+
+**当前时点（本定点返工最终树，139 项）现场重测**：shared 行 28/179→170/179 分支 10/53→48/53（去重用例与既有
+覆盖重合，数字不变）；content 1351/1796→1421/1796 分支 1071/1656→1152/1656（测试面未变）；
+**pal-extract 0/215→214/215 分支 0/48→44/48（C3 两视图新增 +17 行 +2 分支）；migrate 269/292→272/292
+分支 318/376→326/376（D5 纯辅助 +1 分支）**。正式官方口径由 Codex 集成后统一测量，本表不冒充官方 fast/full。
+
+完整可复制命令（八段，报告目录自行替换；shared/content 的 before 侧把 `--exclude` 中的三个/六个 boundaries
+文件包含进去即为 before 形态——下面 shared-before 已给完整形态，其余同型改文件名与 include）：
 
 ```sh
-pnpm --filter @type-pal/shared exec vitest run [--exclude src/{mkf,rng,yj2}.boundaries.test.ts ...] \
-  --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary \
-  --coverage.reportsDirectory=<tmp>/shared-{before,after} \
-  --coverage.include='**/src/mkf.ts' --coverage.include='**/src/rng.ts' --coverage.include='**/src/yj2.ts'
-# content 同型（include=validate/author-script-core/author-script/runtime-script/enemy-script；before 额外排除六个 boundaries 文件）
-# pal-extract 同型（include=三 parsers；两侧同排 7 个缺资产文件：io/{msg,sss,word,yj2}+resources/{map,tables}+events/roundtrip）
-# migrate 两侧用复刻官方 fast 排除的 tmp config（unit project + migrateCoverageFastTestExcludes，
-#   before 追加排除三个 boundaries 文件；CLI --exclude 不作用于 project 级 include，已如实记录）
+pnpm --filter @type-pal/shared exec vitest run --exclude src/mkf.boundaries.test.ts --exclude src/rng.boundaries.test.ts --exclude src/yj2.boundaries.test.ts --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/shared-before --coverage.include='**/src/mkf.ts' --coverage.include='**/src/rng.ts' --coverage.include='**/src/yj2.ts'
+
+pnpm --filter @type-pal/shared exec vitest run --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/shared-after --coverage.include='**/src/mkf.ts' --coverage.include='**/src/rng.ts' --coverage.include='**/src/yj2.ts'
+
+pnpm --filter @type-pal/content exec vitest run --exclude src/validate-start-world.boundaries.test.ts --exclude src/validate-actors.boundaries.test.ts --exclude src/validate-author-items.boundaries.test.ts --exclude src/validate-skills-poisons.boundaries.test.ts --exclude src/author-script-current.boundaries.test.ts --exclude src/enemy-script.boundaries.test.ts --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/content-before --coverage.include='**/src/validate.ts' --coverage.include='**/src/author-script-core.ts' --coverage.include='**/src/author-script.ts' --coverage.include='**/src/runtime-script.ts' --coverage.include='**/src/enemy-script.ts'
+
+pnpm --filter @type-pal/content exec vitest run --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/content-after --coverage.include='**/src/validate.ts' --coverage.include='**/src/author-script-core.ts' --coverage.include='**/src/author-script.ts' --coverage.include='**/src/runtime-script.ts' --coverage.include='**/src/enemy-script.ts'
+
+pnpm --filter @type-pal/pal-extract exec vitest run --exclude src/io/msg.test.ts --exclude src/io/sss.test.ts --exclude src/io/word.test.ts --exclude src/io/yj2.test.ts --exclude src/resources/map.test.ts --exclude src/resources/tables.test.ts --exclude src/events/roundtrip.test.ts --exclude src/resources/parsers/__tests__/enemies.boundaries.test.ts --exclude src/resources/parsers/__tests__/player-roles.boundaries.test.ts --exclude src/resources/parsers/__tests__/spells.boundaries.test.ts --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/pal-before --coverage.include='**/src/resources/parsers/enemies.ts' --coverage.include='**/src/resources/parsers/player-roles.ts' --coverage.include='**/src/resources/parsers/spells.ts'
+
+pnpm --filter @type-pal/pal-extract exec vitest run --exclude src/io/msg.test.ts --exclude src/io/sss.test.ts --exclude src/io/word.test.ts --exclude src/io/yj2.test.ts --exclude src/resources/map.test.ts --exclude src/resources/tables.test.ts --exclude src/events/roundtrip.test.ts --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/pal-after --coverage.include='**/src/resources/parsers/enemies.ts' --coverage.include='**/src/resources/parsers/player-roles.ts' --coverage.include='**/src/resources/parsers/spells.ts'
+
+GLM_FC_EXCLUDE_BOUNDARIES=1 pnpm --filter @type-pal/migrate exec vitest run --config ../../docs/testing/glm-foundation-coverage.config.mts --project unit --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/migrate-before --coverage.include='**/src/migration-merge.ts' --coverage.include='**/src/migration-plan.ts' --coverage.include='**/src/migration-baseline.ts'
+
+pnpm --filter @type-pal/migrate exec vitest run --config ../../docs/testing/glm-foundation-coverage.config.mts --project unit --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/migrate-after --coverage.include='**/src/migration-merge.ts' --coverage.include='**/src/migration-plan.ts' --coverage.include='**/src/migration-baseline.ts'
 ```
 
-过程失败如实记录（不计证据）：首轮 `--coverage.include=src/x.ts` 相对形态不匹配绝对模块 id（0/0）；
-一次 zsh 变量无分词导致参数粘连（CACError）；migrate CLI exclude 被项目配置忽略一次——最终以上述命令成功。
-结果：shared 行 28/179→170/179 分支 10/53→48/53；content 1351/1796→1421/1796 分支 1071/1656→1152/1656；
-pal-extract 0/215→197/215 分支 0/48→42/48；migrate 269/292→272/292 分支 318/376→325/376。
+migrate 两侧统一走[入仓诊断配置](glm-foundation-coverage.config.mts)（复刻官方 `migrateCoverageFastTestExcludes`，
+`GLM_FC_EXCLUDE_BOUNDARIES=1` 为 before 形态）；pal-extract 两侧同排 7 个缺 gitignored 资产文件（属 fast/PAL
+组拆分，非本批排除）。历史过程失败如实记录（不计证据）：`--coverage.include=src/x.ts` 相对形态不匹配（0/0）、
+zsh 变量无分词参数粘连（CACError）、migrate CLI exclude 被项目配置忽略、.mts 注释中 `**/` 提前闭合 JSDoc——均已修正。
 
-## GLM整批交付（返工）
+## GLM整批交付（定点返工 · 2026-09-17）
 
-- 返工提交：R1-R3 修复+R4 回执（本提交）；分支远端推送后由 Codex 复核差异、定向/负控与待证归属，
-  再合入最新产品树串行完整 check→官方 ratchet→受保护单次严格 fast。
-- 分类总账见逐族表：**缺陷=0**；待证 2 项（YJ2 树归约/空窗回引，均已按 counter 裁定列后续归属并记录尝试）。
-- 产品/既有测试/原探针/配置/基线零改动；GLM 不作为自己测试贡献的独立第三方证明。
+- 本轮仅改：migration-plan 输入不变断言（真深快照+自证）、负控脚本 +3 污染轴（8→11→14 针）、回执勘误
+  （完整冻结 SHA、D 组 8/8/8、文件增量按 `git diff --name-status 3b1cff4f`、旧覆盖表标 01c149b5 历史并补
+  当前时点重测、八段可复制命令+入仓诊断 config、`null`/`{a:null}` 用例标题更名）。已通过的 139 项/其余
+  11 针/Biome/删除门/absent-null/角色槽位/C3 视图均不重做。
+- 分支远端推送后由 Codex 复核差异、定向/负控与待证归属，再合入最新产品树串行完整 check→官方 ratchet→
+  受保护单次严格 fast。分类总账见逐族表：**缺陷=0**；待证 2 项（YJ2 树归约/空窗回引，归属不变）。
+- 产品/既有测试/原探针/官方配置/基线零改动；GLM 不作为自己测试贡献的独立第三方证明。
 
 ## Codex接收复核（GLM不得填写）
 

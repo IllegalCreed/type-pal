@@ -57,7 +57,7 @@ describe('sha256', () => {
     )
     expect(sha256('')).toBe('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
   })
-  test('缺席与显式 null 在序列化字节上可区分（基础字节事实）', () => {
+  test('null 与 {a:null} 两个显式输入的序列化字节可区分（基础字节事实）', () => {
     expect(serializeMigrationJson(null)).toBe('null\n')
     expect(serializeMigrationJson({ a: null })).toBe('{\n  "a": null\n}\n')
     expect(sha256(serializeMigrationJson(null))).not.toBe(

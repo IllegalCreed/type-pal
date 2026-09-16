@@ -96,14 +96,16 @@ describe('createMigrationPlan · 分类与 summary', () => {
     expect(cleanPlan.deletes).toEqual(['content/delete.json'])
   })
 
-  test('同输入重复调用稳定且三侧输入快照（files/managedFiles/hashes）均不被修改', () => {
+  test('同输入重复调用稳定且三侧输入深快照（files 值/managedFiles/hashes）均不被修改', () => {
     const base = snap({ 'content/a.json': { v: 1 } }, ['content/a.json'])
     const ours = snap({ 'content/a.json': { v: 1 } }, ['content/a.json'])
     const theirs = snap({ 'content/a.json': { v: 2 } }, ['content/a.json'])
-    const cloneSnapshot = (s: typeof base) => ({
-      files: [...s.files],
-      managedFiles: [...s.managedFiles],
-      hashes: s.hashes ? [...s.hashes] : undefined,
+    // 真正独立的深快照：三侧 files 的 JSON 嵌套值对象也脱离原引用，
+    // 原地改值（如 v=17 污染）不得同步进 before（Codex immutability 反例合同）。
+    const cloneSnapshot = (s: typeof base): typeof base => ({
+      files: new Map([...s.files].map(([path, value]) => [path, structuredClone(value)])),
+      managedFiles: new Set(s.managedFiles),
+      hashes: new Map(s.hashes ?? []),
     })
     const before = {
       base: cloneSnapshot(base),
@@ -116,6 +118,10 @@ describe('createMigrationPlan · 分类与 summary', () => {
     expect(isDeepStrictEqual(cloneSnapshot(base), before.base)).toBe(true)
     expect(isDeepStrictEqual(cloneSnapshot(ours), before.ours)).toBe(true)
     expect(isDeepStrictEqual(cloneSnapshot(theirs), before.theirs)).toBe(true)
+    // 深快照自证：before 中的值对象与输入脱离引用（浅拷贝会把污染同步进 before）
+    ;(before.base.files.get('content/a.json') as { v: number }).v = 17
+    expect(base.files.get('content/a.json')).toEqual({ v: 1 })
+    expect(before.base.files.get('content/a.json')).toEqual({ v: 17 })
   })
 })
 
