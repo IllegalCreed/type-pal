@@ -23,6 +23,11 @@ interface CurrentSavePayload {
 Page/Behavior/Hook 选择，保存 `FlowCursor`，不保存匿名 command index、调用栈或 wait 中间相位。
 存档请求通过 flow safe-point barrier 后才拍快照；超时不提交半成品。
 
+同一runtime、同一个AbortSignal的内联子调用只在父lease仍属于当前coordinator的active登记时复用活动身份。
+嵌套持久flow仍有自己的lease/owner/cursor，不因保存请求在`to`链中途返回；独立根flow仍在安全点提交cursor并暂停。
+保存须等全部实际参与者退出，残留登记、已关闭或其他coordinator的lease不得绕过gate。
+默认10秒上限不变：真实业务仍挂起则保存失败且不拍快照，业务结束后可重试；不新增调用栈或中间相位的存档字段。
+
 ### 当前读档边界
 
 1. `preflightCurrentSave` 只接受 `SAVE8/content20`；`normalizeCurrentSave` 校验后返回隔离副本。

@@ -23,6 +23,7 @@ import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
 import { compileRuntimeScriptFlow, RuntimeSharedScriptResolver } from './runtime-script-compiler.js'
 import { RuntimeScriptRunner, type ScriptRuntimeHost } from './runtime-script-runner.js'
 import {
+  registeredScriptActivityLease,
   withRegisteredScriptActivityLineage,
   withScriptActivityLineage,
 } from './script-activity-lineage.js'
@@ -87,7 +88,7 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
 
   constructor(
     private readonly world: WorldState,
-    coordinator: FlowRuntimeCoordinator,
+    private readonly coordinator: FlowRuntimeCoordinator,
     private readonly options: ProjectScriptHostOptions,
   ) {
     if (!world.script) world.script = emptyWorldScriptState()
@@ -165,7 +166,9 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
     request: Parameters<ScriptRuntimeHost['startBattle']>[0],
     signal: AbortSignal,
   ): Promise<BattleResult> {
-    return await this.retainedHost.startBattle(request, signal)
+    return await withScriptActivityLineage(this, this.coordinator, signal, () =>
+      this.options.startBattle(request, signal),
+    )
   }
 
   teleportOut(signal: AbortSignal): Promise<boolean> {
@@ -282,18 +285,21 @@ export class ScriptProjectRuntime {
     channel: 'trigger' | 'auto',
     options: RunProjectFlowOptions,
   ): Promise<boolean> {
+    options.signal.throwIfAborted()
     const target = { scene: scene.id, entity: entityId }
     const entity = entityAt(scene, target)
     const sceneSessionId = this.host.currentSceneSessionId()
     if (this.host.currentSceneId() !== scene.id) return false
     if (!resolveRuntimeEntityBehavior(entity, this.script, target, channel)) return false
+    const parent = registeredScriptActivityLease(this.host, this.coordinator, options.signal)
     let active = this.coordinator.beginEntityBehavior(
       this.script,
       entity as unknown as BaseSceneEntity,
       target,
       channel,
+      parent,
     )
-    while (!active && this.coordinator.gateClosed()) {
+    while (!active && !parent && this.coordinator.gateClosed()) {
       await this.coordinator.waitForActivationGate(options.signal)
       options.signal.throwIfAborted()
       if (
@@ -316,18 +322,23 @@ export class ScriptProjectRuntime {
     }
     const runner = new RuntimeScriptRunner(this.host, options.signal, this.shared)
     try {
-      await withRegisteredScriptActivityLineage(this.host, options.signal, () =>
-        runner.runFlow(
-          compileRuntimeScriptFlow(resolved.behavior.flow, {
-            canonicalContentDigest: this.canonicalContentDigest,
-            timing: channel === 'auto' ? 'auto' : 'interactive',
-          }),
-          {
-            cursor: active.cursor,
-            cursorController: active.lease,
-            self: target,
-          },
-        ),
+      await withRegisteredScriptActivityLineage(
+        this.host,
+        this.coordinator,
+        options.signal,
+        active.lease,
+        () =>
+          runner.runFlow(
+            compileRuntimeScriptFlow(resolved.behavior.flow, {
+              canonicalContentDigest: this.canonicalContentDigest,
+              timing: channel === 'auto' ? 'auto' : 'interactive',
+            }),
+            {
+              cursor: active.cursor,
+              cursorController: active.lease,
+              self: target,
+            },
+          ),
       )
       return true
     } finally {
@@ -340,15 +351,18 @@ export class ScriptProjectRuntime {
     slot: 'onEnter' | 'onTeleport',
     options: RunProjectFlowOptions,
   ): Promise<boolean> {
+    options.signal.throwIfAborted()
     const sceneSessionId = this.host.currentSceneSessionId()
     if (this.host.currentSceneId() !== scene.id) return false
     if (!resolveRuntimeSceneHook(scene, this.script, slot)) return false
+    const parent = registeredScriptActivityLease(this.host, this.coordinator, options.signal)
     let active = this.coordinator.beginSceneHook(
       this.script,
       scene as unknown as import('@type-pal/content').BaseSceneDef,
       slot,
+      parent,
     )
-    while (!active && this.coordinator.gateClosed()) {
+    while (!active && !parent && this.coordinator.gateClosed()) {
       await this.coordinator.waitForActivationGate(options.signal)
       options.signal.throwIfAborted()
       if (
@@ -370,20 +384,25 @@ export class ScriptProjectRuntime {
     }
     const runner = new RuntimeScriptRunner(this.host, options.signal, this.shared)
     try {
-      await withRegisteredScriptActivityLineage(this.host, options.signal, () =>
-        runner.runFlow(
-          compileRuntimeScriptFlow(resolved.hook.flow, {
-            canonicalContentDigest: this.canonicalContentDigest,
-            timing: 'interactive',
-            allowSceneEntry: slot === 'onEnter',
-          }),
-          {
-            cursor: active.cursor,
-            cursorController: active.lease,
-            allowSceneEntry: slot === 'onEnter',
-            runSceneEntry: options.runSceneEntry ?? slot === 'onEnter',
-          },
-        ),
+      await withRegisteredScriptActivityLineage(
+        this.host,
+        this.coordinator,
+        options.signal,
+        active.lease,
+        () =>
+          runner.runFlow(
+            compileRuntimeScriptFlow(resolved.hook.flow, {
+              canonicalContentDigest: this.canonicalContentDigest,
+              timing: 'interactive',
+              allowSceneEntry: slot === 'onEnter',
+            }),
+            {
+              cursor: active.cursor,
+              cursorController: active.lease,
+              allowSceneEntry: slot === 'onEnter',
+              runSceneEntry: options.runSceneEntry ?? slot === 'onEnter',
+            },
+          ),
       )
       return true
     } finally {

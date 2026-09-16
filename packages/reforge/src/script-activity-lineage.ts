@@ -1,22 +1,29 @@
-import type { FlowActivityLease, FlowRuntimeCoordinator } from './script-world.js'
+import type { FlowActivityLease, FlowLease, FlowRuntimeCoordinator } from './script-world.js'
 
 /**
  * Reforge 内部 capability：同一 runtime + exact AbortSignal 表示同一条脚本 activity lineage。
  * token 不进入 content、host 公共接口或存档；WeakMap 也不会延长 runtime/signal 生命周期。
  */
-const activeLineages = new WeakMap<object, WeakMap<AbortSignal, number>>()
-
-function lineagesFor(runtimeKey: object): WeakMap<AbortSignal, number> {
-  let lineages = activeLineages.get(runtimeKey)
-  if (!lineages) {
-    lineages = new WeakMap()
-    activeLineages.set(runtimeKey, lineages)
-  }
-  return lineages
+interface Registration {
+  coordinator: FlowRuntimeCoordinator
+  lease: FlowLease
 }
 
-function hasLineage(runtimeKey: object, signal: AbortSignal): boolean {
-  return (lineagesFor(runtimeKey).get(signal) ?? 0) > 0
+const activeLineages = new WeakMap<object, WeakMap<AbortSignal, Set<Registration>>>()
+
+/** A finally-pending registration is not authority after its actual lease has closed. */
+export function registeredScriptActivityLease(
+  runtimeKey: object,
+  coordinator: FlowRuntimeCoordinator,
+  signal: AbortSignal,
+): FlowLease | undefined {
+  const registrations = activeLineages.get(runtimeKey)?.get(signal)
+  let latest: FlowLease | undefined
+  for (const registration of registrations ?? []) {
+    if (registration.coordinator === coordinator && coordinator.hasActiveLease(registration.lease))
+      latest = registration.lease
+  }
+  return latest
 }
 
 /**
@@ -25,17 +32,31 @@ function hasLineage(runtimeKey: object, signal: AbortSignal): boolean {
  */
 export async function withRegisteredScriptActivityLineage<T>(
   runtimeKey: object,
+  coordinator: FlowRuntimeCoordinator,
   signal: AbortSignal,
+  lease: FlowLease,
   body: () => T | Promise<T>,
 ): Promise<T> {
-  const lineages = lineagesFor(runtimeKey)
-  lineages.set(signal, (lineages.get(signal) ?? 0) + 1)
+  signal.throwIfAborted()
+  if (!coordinator.hasActiveLease(lease))
+    throw new Error('script lineage 需要当前 coordinator 的活跃 lease')
+  let lineages = activeLineages.get(runtimeKey)
+  if (!lineages) {
+    lineages = new WeakMap()
+    activeLineages.set(runtimeKey, lineages)
+  }
+  let registrations = lineages.get(signal)
+  if (!registrations) {
+    registrations = new Set()
+    lineages.set(signal, registrations)
+  }
+  const registration = { coordinator, lease }
+  registrations.add(registration)
   try {
     return await body()
   } finally {
-    const remaining = (lineages.get(signal) ?? 1) - 1
-    if (remaining > 0) lineages.set(signal, remaining)
-    else lineages.delete(signal)
+    registrations.delete(registration)
+    if (registrations.size === 0) lineages.delete(signal)
   }
 }
 
@@ -49,7 +70,8 @@ export async function withScriptActivityLineage<T>(
   signal: AbortSignal,
   body: () => T | Promise<T>,
 ): Promise<T> {
-  if (hasLineage(runtimeKey, signal)) return await body()
+  signal.throwIfAborted()
+  if (registeredScriptActivityLease(runtimeKey, coordinator, signal)) return await body()
 
   let activity: FlowActivityLease | undefined = coordinator.beginActivity()
   while (!activity && coordinator.gateClosed()) {
@@ -59,7 +81,13 @@ export async function withScriptActivityLineage<T>(
   }
   if (!activity) throw new Error('script transient activity 无法登记')
   try {
-    return await withRegisteredScriptActivityLineage(runtimeKey, signal, body)
+    return await withRegisteredScriptActivityLineage(
+      runtimeKey,
+      coordinator,
+      signal,
+      activity,
+      body,
+    )
   } finally {
     activity.close()
   }

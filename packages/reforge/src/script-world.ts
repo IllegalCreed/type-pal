@@ -446,6 +446,7 @@ export class FlowActivationLease implements FlowCursorController {
     private readonly key: string,
     private readonly epoch: number,
     private readonly commit: (cursor: FlowCursor) => void,
+    private readonly nested = false,
   ) {}
 
   async reachSafePoint(cursor: FlowCursor): Promise<SafePointDecision> {
@@ -456,7 +457,9 @@ export class FlowActivationLease implements FlowCursorController {
       return 'stop'
     }
     this.commit(clone(cursor))
-    if (this.coordinator.gateClosed()) {
+    // Nested invocations finish the caller's command rather than return an intermediate
+    // save stop as success. Their own lease remains active until normal return.
+    if (this.coordinator.gateClosed() && !this.nested) {
       this.active = false
       this.coordinator.finish(this.key, this)
       return 'stop'
@@ -495,6 +498,8 @@ export interface ActiveEntityBehavior extends ResolvedEntityBehavior {
   lease: FlowActivationLease
 }
 
+export type FlowLease = FlowActivationLease | FlowActivityLease
+
 export interface ActiveSceneHook extends ResolvedSceneHook {
   lease: FlowActivationLease
 }
@@ -509,7 +514,8 @@ interface PendingBarrier {
 
 export class FlowRuntimeCoordinator {
   private readonly epochs = new Map<string, number>()
-  private readonly active = new Map<string, FlowActivationLease | FlowActivityLease>()
+  private readonly active = new Map<string, FlowLease>()
+  private readonly leaseKeys = new WeakMap<FlowLease, string>()
   private nextActivityId = 1
   private pending?: PendingBarrier
 
@@ -527,11 +533,15 @@ export class FlowRuntimeCoordinator {
   begin(
     owner: PersistentFlowOwner,
     commit: (cursor: FlowCursor) => void,
+    parent?: FlowLease,
   ): FlowActivationLease | undefined {
-    if (this.pending) return
+    if (parent && !this.hasActiveLease(parent))
+      throw new Error('script parent lease 已失效或不属于当前 coordinator')
+    if (this.pending && (!parent || this.pending.ready)) return
     const key = ownerKey(owner)
     if (this.active.has(key)) return
-    const lease = new FlowActivationLease(this, key, this.epochForKey(key), commit)
+    const lease = new FlowActivationLease(this, key, this.epochForKey(key), commit, !!parent)
+    this.leaseKeys.set(lease, key)
     this.active.set(key, lease)
     return lease
   }
@@ -544,6 +554,7 @@ export class FlowRuntimeCoordinator {
     if (this.pending) return
     const key = `transient:${this.nextActivityId++}`
     const lease = new FlowActivityLease(this, key)
+    this.leaseKeys.set(lease, key)
     this.active.set(key, lease)
     return lease
   }
@@ -614,19 +625,24 @@ export class FlowRuntimeCoordinator {
     entity: BaseSceneEntity,
     target: EntityAddress,
     channel: 'trigger' | 'auto',
+    parent?: FlowLease,
   ): ActiveEntityBehavior | undefined {
     const resolved = resolveEntityBehavior(entity, world, target, channel)
     if (!resolved) return
-    const lease = this.begin(entityOwner(target, channel), (cursor) => {
-      const state = clone(entityWorldState(world, target) ?? {})
-      const slot: ActiveBehaviorSlot = clone(state[channel] ?? {})
-      slot.cursor = {
-        behavior: resolved.behaviorId,
-        at: clone(cursor),
-      }
-      state[channel] = slot
-      writeEntityWorldState(world, target, state)
-    })
+    const lease = this.begin(
+      entityOwner(target, channel),
+      (cursor) => {
+        const state = clone(entityWorldState(world, target) ?? {})
+        const slot: ActiveBehaviorSlot = clone(state[channel] ?? {})
+        slot.cursor = {
+          behavior: resolved.behaviorId,
+          at: clone(cursor),
+        }
+        state[channel] = slot
+        writeEntityWorldState(world, target, state)
+      },
+      parent,
+    )
     if (!lease) return
     return { ...resolved, lease }
   }
@@ -635,16 +651,21 @@ export class FlowRuntimeCoordinator {
     world: WorldScriptState,
     scene: BaseSceneDef,
     slot: 'onEnter' | 'onTeleport',
+    parent?: FlowLease,
   ): ActiveSceneHook | undefined {
     const resolved = resolveSceneHook(scene, world, slot)
     if (!resolved) return
-    const lease = this.begin(hookOwner(scene.id, slot), (cursor) => {
-      const state = clone(sceneWorldState(world, scene.id) ?? {})
-      const slotState = clone(state[slot] ?? {})
-      slotState.cursor = { hook: resolved.hookId, at: clone(cursor) }
-      state[slot] = slotState
-      writeSceneWorldState(world, scene.id, state)
-    })
+    const lease = this.begin(
+      hookOwner(scene.id, slot),
+      (cursor) => {
+        const state = clone(sceneWorldState(world, scene.id) ?? {})
+        const slotState = clone(state[slot] ?? {})
+        slotState.cursor = { hook: resolved.hookId, at: clone(cursor) }
+        state[slot] = slotState
+        writeSceneWorldState(world, scene.id, state)
+      },
+      parent,
+    )
     if (!lease) return
     return { ...resolved, lease }
   }
@@ -657,7 +678,13 @@ export class FlowRuntimeCoordinator {
     return this.pending !== undefined
   }
 
-  finish(key: string, lease: FlowActivationLease | FlowActivityLease): void {
+  /** Membership, not epoch: a superseded invocation still runs to its safe point. */
+  hasActiveLease(lease: FlowLease): boolean {
+    const key = this.leaseKeys.get(lease)
+    return key !== undefined && this.active.get(key) === lease
+  }
+
+  finish(key: string, lease: FlowLease): void {
     if (this.active.get(key) === lease) this.active.delete(key)
     this.resolveBarrierIfReady()
   }
