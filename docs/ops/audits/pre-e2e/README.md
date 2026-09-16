@@ -1,6 +1,7 @@
 # PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账
 
 后续修复回执：[E-06 质量门禁](quality-gate-remediation.md)、[B-04 当前存档预检](save-preflight-remediation.md)。
+下一组设计准备：[B-06/B-07保存子链前提与不完整修法反例](save-barrier-lineage-premise.md)（2026-09-16，只读取证，尚未实现）。
 以下“未修复/修复尚未开始”均为原审计时点；当前修复状态以回执与[看板](../../board.md)为准，不改原探针和历史结论。
 
 后续修复：[编辑器覆盖率确定性](coverage-determinism.md)已用独立受控帧回归闭环并三签收口，未降低门禁或修改生产行为。

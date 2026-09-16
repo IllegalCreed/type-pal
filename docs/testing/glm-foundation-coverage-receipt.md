@@ -95,4 +95,7 @@ mkf/yj2 既有 io 测试在 pal-extract 资产域）、B/D 入口行号直读、
 
 ## Codex接收复核（GLM不得填写）
 
-pending。按r1逐组核业务断言/合法输入/反控与scope，再决定集成及统一check/ratchet/严格fast。
+2026-09-16：候选01c149b5已独立复核，**counter，未集成测试或基线**。完整[接收报告及R1～R4](glm-foundation-coverage-review.md)。
+候选分支内GLM四组回执保留，不从尚未合入分支复制并覆盖本主线占位；读取方式为`git show 01c149b5:docs/testing/glm-foundation-coverage-receipt.md`。
+133项及8负控真实通过，pal/migrate同口径覆盖增量认可；但Biome27错、删除门/槽位完整性漏测、D组自比较与缺席替身及交付账需修。
+三项待证：YJ2两项可明确后续归属，C3对象视图本轮补齐。GLM不作为自己测试的独立终审；下一步由其定点返工，不转Kimi、不标done。

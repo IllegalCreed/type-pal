@@ -12,10 +12,11 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-FOUNDATION-COVERAGE-1 | [四包基础边界测试补强](tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | draft | GLM / Kimi设计审查；Codex集成 | 四组只补测试，产品冻结d64bbf6d；签齐后连续推进 |
-| WORLD-ASYNC-COMMIT-1 | [世界异步操作提交一致性](tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md) | review | Kimi终审 / GLM恢复后补审 / Codex收口 | 历史豁免有效、r1不重签；check 7036、strict fast 6548/617 |
+| SAVE-BARRIER-LINEAGE-1 | [保存与嵌套脚本活动互等](tasks/SAVE-BARRIER-LINEAGE-1-nested-script-save.md) | draft | Codex方案已备 / Kimi、GLM独立设计审查 | B-06/07合卡；只读证明仅放行gate会漏子尾，未开build |
+| TEST-FOUNDATION-COVERAGE-1 | [四包基础边界测试补强](tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | build | GLM按Codex R1～R4返工 / 再交集成 | 01c149b5接收counter未合入；r1不重签，Owner接手核定rework |
+| WORLD-ASYNC-COMMIT-1 | [世界异步操作提交一致性](tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md) | review | Kimi终审 / Codex收口 | GLM已补审accept，r1不重签；check 7036、strict fast 6548/617 |
 
-D-01已完成；当前推进世界异步提交修复，其余缺陷仍按审计总收口队列逐卡推进。
+D-01已完成；世界异步提交待终审，Codex并行准备下一组保存子链修复；其余缺陷仍按审计总收口队列逐卡推进。
 
 准备工作：[六组72检查点工作包（二）](../testing/glm-pre-e2e-boundary-batch-2.md)已由Codex接手完成取证返工与集成（GLM额度耗尽）；[最终回执](../testing/glm-pre-e2e-boundary-batch-2-report.md)记录34覆盖/23复现/15待证及13项隔离鉴别力验证。
 这是卡前非视觉诊断准备，不是23个独立bug或已完成修复；该历史取证产品冻结70e3f627。B-05/08/09已取得上方r1设计准入和GLM豁免，当前实现及[验证进度](../testing/world-async-commit.md)由Codex推进，尚未终审。

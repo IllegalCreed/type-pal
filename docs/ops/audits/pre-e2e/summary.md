@@ -90,6 +90,11 @@ GLM原材料贡献与Codex修改自验证分开披露，不代签、不重开D-0
 后续用户已批准GLM豁免、Kimi已签r1设计；2026-09-15 Codex已完成三段实现与[正式回归/反控](../../../testing/world-async-commit.md)，推进review待Kimi实现终审。
 新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。
 
+2026-09-16接续：GLM恢复额度，WORLD补审已accept、Kimi终审待回；[四包基础测试](../../tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)三席r1设计齐，GLM已核build准入（648b4086）。
+Codex准备[B-06/B-07保存子链卡](../../tasks/SAVE-BARRIER-LINEAGE-1-nested-script-save.md)r1 draft：
+当前树两旧反例仍业务红，新增[双状态出口反例](save-barrier-lineage-premise.md)排除“只删准入gate”的不完整修法，39项相邻测试绿。
+只是只读前提与方案，不是新产品修复/覆盖率；待两席独立设计签字，不复用WORLD豁免或扩大到U-02/dumpSave。
+
 本次审计有价值：已发现真实的存档/作者数据保护缺口、状态所有权和跨会话撤销问题，
 以及单测通过但实际业务调用遗漏的战斗/预览问题。这些反例需要补进跨模块业务回归。
 建议先围绕证据修复边界并补回归，再建设R4薄E2E，以基线保护之后的content21切换；
