@@ -176,8 +176,36 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
     不计入两条有效负控，须重造。
   - **贡献披露**：批二 F 组曾给出同源七包覆盖缺口静态清单（本人材料）；本卡为正式测试卡，该清单只作线索，
     不作为任何"已覆盖/已完成"证据，最终以本卡现场生成数字为准。
-- Kimi：premise pending / design pending（独立审范围/分层/反控/资源安全）。
-- Kimi：premise pending / design pending（独立审范围/分层/反控/资源安全）。
+- Kimi：**premise verified / design agree（2026-09-16，r1，产品冻结 d64bbf6d 实测零漂移；全部证据本人直读，未读 GLM 结论）**。
+  - **A/C 原盘格式分界**：`shared/src/mkf.ts:1-5` N+1 个 u32 LE 偏移头、子文件数=(head[0]-4)/4；
+    `pal-extract/src/resources/parsers/player-roles.ts:92-105` parsePlayerRoles 接收完整 DATA.MKF、
+    openMkf+readChunk(3)+PLAYER_ROLES_BYTES 精确尺寸门——裸 900 字节/SAVEDGAME 0x250 不能冒充输入，
+    卡面分界属实；CLAUDE 的 roleId/word 索引分界须保持（卡面已列）。
+  - **YJ2 资源风险直读**：`shared/src/yj2.ts:139-143` uncompLen 取自输入头四字节后直接
+    `new Uint8Array(uncompLen)`——0xffffffff 即约 4GB 分配；「疑似超大/不终止输入仅在硬限时独立
+    进程诊断、不进 fast、不抬全局 timeout」是必要纪律而非保守偏好。
+  - **B/D 当前模型入口直读**：validate.ts:94/427/559/710（StartWorld/Actors/Skills/Poisons）在位；
+    `migration-merge.ts:411` mergeManagedFile 与 `migration-plan.ts:134` createMigrationPlan 纯数据
+    进出；`migration-write-plan.ts:1-16` import node:fs 且 differs() 真实读盘——排除出纯函数范围正确；
+    `migration-baseline.ts` 纯辅助（serialize/hash/snapshot）可测属实。
+  - **当前 bug 不固化**：C-03（battle.md:65 合法全队复活被运行时过滤）是运行时 P2，B4 按 schema
+    合同写测试、不得写成「应拒绝」——分层正确；合同 5（缺陷停绿、留反例、不修产品、不倒改期望）
+    与之配套。
+  - **去重与夹具**：shared 现有 rng.test.ts、pal-extract io 域 mkf/yj2 等既有测试在册，卡面要求
+    先通读去重、重复只补断言或登记证据；白名单新文件抽查四件均不存在（本人实测），新增合法。
+  - **设计同意**：一次审全包四组不重签；每组≥2 有效单点负控（命中+业务红+正控绿，模块加载错/
+    TypeError/超时不计）；覆盖 delta 同冻结树/同 include/同既有测试集前后对照且只进 tmp，
+    baseline.fast.json 为计量真源、GLM 不动官方基线；不缩范围/不降阈/不 test.fails；
+    真实缺陷隔离流程与贡献披露、worktree 隔离、分组连续执行纪律完整。范围确停在测试补强：
+    无产品/格式/基线/版本改动授权；WORLD-ASYNC-COMMIT-1 补审明确另卡，不混签字。
+  - **可证伪观察**（任一反例即收窄或 counter）：① 目标分支已被同合法性既有测试覆盖 → 只登记
+    证据不加重复用例；② PlayerRoles 合成 fixture 无法同时满足 SoA 布局与尺寸门 → 列待证，
+    不得借 SAVEDGAME 数据冒充；③ 期望来自复制被测算法或合同不支持的输入 → 非缺陷，更正期望
+    或移出该项；④ 畸形长度 YJ2 输入进入 fast 主进程 → 资源纪律破坏；⑤ merge/plan 纯函数被
+    发现隐藏 IO 依赖 → 该项移出白名单；⑥ 覆盖对照换树/换 include/换测试集 → 数字无效须重测；
+    ⑦ 负控仅模块加载失败/TypeError/超时 → 无效须重造。
+  - 返工项：无。非阻断备注：卡面 Kimi 占位行曾重复两行（并行落盘竞态），已随本签字归位一行；
+    既有 rng.test.ts 四族 opcode 覆盖与 A2 目标重叠面以 build 期去重核对为准。
 - 非Coding Owner独立前提证据：Codex如上；Kimi补其独立核验与可证伪观察。
 - 用户豁免：none；WORLD旧卡豁免不适用于此新卡。
 - build准入：blocked，待三席r1设计齐且无counter；不得提前新增正式测试。
@@ -194,6 +222,13 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 2026-09-16用户确认GLM额度恢复；可持续承担本包非视觉测试。WORLD-ASYNC-COMMIT-1先补实现审查，不重开旧r1设计/历史豁免，材料贡献须披露。
 本包四目标包与Codex世界/保存主线错开；目标生产源码若漂移，由Codex明确新冻结点/适配范围，不自行合入生产修复或新版本输入。
 
+- 2026-09-16 Kimi：完成 r1 独立范围/分层/反控/资源安全审查，签 premise verified + design agree，无返工项。
+  直读 mkf.ts:1-5 头合同、player-roles.ts:92-105 完整 MKF 输入门、yj2.ts:139-143 畸形长度分配风险、
+  validate.ts 四个入口、migration-merge:411/plan:134 纯函数与 write-plan:1-16 真实 fs 边界、
+  C-03 运行时缺陷与 schema 合同分层；实测冻结产品零漂移、白名单新文件均不存在、既有 rng/io 测试在册待去重。
+  七条可证伪观察与非阻断备注写入本席；本卡 Kimi 占位重复行随签字归位。未改产品/他席/状态，
+  未开始测试实现。Next：三签齐且无 counter 后由 GLM（Coding Owner）按卡核定 build 并建
+  worktree 连续执行 A→D；WORLD-ASYNC-COMMIT-1 补审另卡不混。
 - 2026-09-16 GLM：完成独立合同核对，build前席位签 premise verified + design agree（证据锚点见签字块）；仅改本席。
   当前三签状态=Codex✓/GLM✓/**Kimi 缺席（premise/design pending）**→build 准入维持 blocked；本席不越权开始正式测试实现，
   不在 tmp 预写完整测试绕门禁。待 Kimi 设计签字落卡且无 counter 后，由本席或接手会话按卡从分配提交 d901b77f
