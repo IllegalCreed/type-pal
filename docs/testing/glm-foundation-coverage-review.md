@@ -227,7 +227,7 @@ FC_IMMUTABLE_REPAIR=1 pnpm --filter @type-pal/migrate exec vitest run --config /
 ## 定点返工接收与集成 · 2026-09-17 · 639e9e4e
 
 接收候选`639e9e4e08ae6c42ec63d75e61d1ff62cdb40b8f`，远端/GLM worktree一致、工作树干净；集成主线基点`862733ba`。
-**R1～R4技术返工均已关闭，Codex正式接收accept。已在主线完成check/ratchet/严格fast，整合候选提交后回填SHA；不标done、不替GLM/Kimi签字。**
+**R1～R4技术返工均已关闭，Codex正式接收accept。主线整合候选48d3b8e323f5bc801954c7960d3c25efd7d35fef（对比862733ba）已完成check/ratchet/严格fast；不标done、不替GLM/Kimi签字。**
 
 ### 独立核验
 

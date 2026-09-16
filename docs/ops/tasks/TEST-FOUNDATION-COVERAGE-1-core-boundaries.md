@@ -9,11 +9,12 @@ Reviewer: Codex / Kimi
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: none
-Branch: codex/glm-foundation-coverage-r1
+Branch: main（集成；源分支codex/glm-foundation-coverage-r1）
 
 Revision: r1，2026-09-16。产品冻结`d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86`。
 集成适配（2026-09-17）：接收639e9e4e，四目标包产品源码仍与上述冻结点一致；分支合入3b1cff4f继承了主线保存修复，
 全仓并非对d64零diff。本次集成基点862733ba，产品无新增改动，测试/fixture不改正文；范围与模型未变，r1不重签。
+集成候选：`48d3b8e323f5bc801954c7960d3c25efd7d35fef`，对比`862733ba`；GLM源候选`639e9e4e08ae6c42ec63d75e61d1ff62cdb40b8f`。
 分配提交：`d901b77ff25493642fe0d356b4a9547f0914d6f3`；后续本次SHA回填只改文档，不改变r1范围或冻结产品。
 用户批准四组工作并要求转交提示词；**未豁免本新卡三签**。一次设计审全包，签齐后分组连续做，不每组重签。
 
@@ -226,7 +227,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
   三侧files浅副本仍同源引用；各轴输入原地写v=17仍被候选不变性断言放过，深快照对照三红/正常绿。详见同报告末节返工复核。
   YJ2两项后续归属接受；未集成/未改官方基线，旧counter原文作为历史保留，本轮不转Kimi、不标done。
 - Kimi：pending（独立终审）。
-- Codex本轮（2026-09-17，接收639e9e4e，整合候选SHA待回填）：**accept（独立接收复核/集成）**。R1～R4均已关闭，139项/四包tc/Biome与14反控通过；
+- Codex本轮（2026-09-17，接收639e9e4e，整合候选48d3b8e3）：**accept（独立接收复核/集成）**。R1～R4均已关闭，139项/四包tc/Biome与14反控通过；
   原三轴污染见证均命中深快照断言。已合入862733ba产品树，完整check7218项、官方ratchet和受保护单次严格fast6730项通过，617生产文件与全部旧测试identity保持。
   全仓行70.90%/分支62.50%，无产品/既有测试改动或scope移除；仅诊断配置改为官方数组导入并勘误21文件/冻结点，139项测试与fixture保持GLM原样。
   YJ2树归约、空窗回引合同按已核后续归属接受，不声称完整覆盖/E2E已完成；GLM是测试贡献者，非其自己测试的独立第三方证明。
@@ -239,6 +240,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 - 2026-09-17 Codex：139项GLM测试已适配主线，完整check7218与ratchet/受保护单次strict fast6730/617全部通过；无现有文件移出统计、旧test identity均保留，reforge/game/editor基线对象逐字不变。
   当前转review，冻结整合候选交Kimi独立终审；GLM仅补本人实现者自验席位，不重复第三方审查、不代签、不标done。YJ2两项后续登记保持。
+- 2026-09-17 Codex：合并提交48d3b8e3固定整合候选，随后只回填SHA/提示词；相对候选packages/scripts零diff，旧counter全文保留。
 
 - 2026-09-17 Codex：接收639e9e4e，最后R2及回执勘误通过；合入最新主线862733ba，保留已完成保存卡归档与旧counter原文。
   实测配置适配前后迁移选例不变（314/338），正式测试零改；开始串行完整check→官方ratchet→受保护单次严格fast，暂不标done。
@@ -269,12 +271,12 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 ### 当前交接：集成候选终审（设计r1不重签）
 
-集成候选SHA提交后回填，整合基点862733ba，GLM源候选639e9e4e。两席独立读取候选证据，不读取/复述彼此本轮结论；各自只改自己的席位与日志并提交推送。
+集成候选48d3b8e323f5bc801954c7960d3c25efd7d35fef，整合基点862733ba，GLM源候选639e9e4e。两席独立读取候选证据，不读取/复述彼此本轮结论；各自只改自己的席位与日志并提交推送。
 
 #### Kimi独立终审
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 TEST-FOUNDATION-COVERAGE-1 r1，任务卡 docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，状态review。集成候选SHA见卡面回填，对比862733ba；GLM源候选639e9e4e，设计不重签。
+在 /Users/zhangxu/illegal/type-pal 终审 TEST-FOUNDATION-COVERAGE-1 r1，任务卡 docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，状态review。候选48d3b8e323f5bc801954c7960d3c25efd7d35fef，对比862733ba；GLM源候选639e9e4e，设计不重签。
 先同步并查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡和docs/testing/glm-foundation-coverage-review.md的最终接收节、glm-foundation-coverage-receipt.md。独立核139项（27/69/19/24）业务断言、原三见证与深快照三轴反控、C3两视图、纯函数/真实IO边界、current-only与第一阶段原盘格式分界。不要把读到的Codex/GLM结论当作独立证据。
 重点核集成相对862733ba无产品/既有测试变化；139项与fixture等于GLM源树；Codex仅将诊断配置改为官方迁移排除数组导入并勘误文档，基线由官方ratchet更新。复跑定向/反控，核check7218、BASE_REF=862733ba的单次strict fast6730/617、旧identity/分母不变与四包增量；YJ2两项是已登记后续，不伪称全覆盖。
 在自己的实现席位写accept或带file:line/反例的counter，附独立证据、可证伪观察和旧版本兼容审查，追加本人日志并提交推送。不改产品/测试/基线/他席/状态，不代签、不标done；无视觉任务，GLM测试贡献须披露。
@@ -283,7 +285,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 #### GLM仅补实现者自验登记
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 为 TEST-FOUNDATION-COVERAGE-1 r1补本人实现者自验席位。卡 docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，状态review；集成候选SHA见卡面回填，对比862733ba，源贡献639e9e4e。设计不重签，不是让你对自己的测试再做独立第三方审查。
+在 /Users/zhangxu/illegal/type-pal 为 TEST-FOUNDATION-COVERAGE-1 r1补本人实现者自验席位。卡 docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，状态review；候选48d3b8e323f5bc801954c7960d3c25efd7d35fef，对比862733ba，源贡献639e9e4e。设计不重签，不是让你对自己的测试再做独立第三方审查。
 先同步并查工作树，读根协议、CLAUDE、phase2 READ-FIRST、本卡及docs/testing/glm-foundation-coverage-review.md最终接收节。Codex已核关闭R1～R4，139项/14反控、完整check7218、官方ratchet与受保护strict fast6730均通过；139项测试/fixture保持你的源树原样，只有诊断配置官方数组导入与文档勘误由Codex适配。
 核对你贡献范围及集成差异，在GLM席位明确签accept（实现者自验，非独立第三方）或报告实际不符；更新本人日志，直接提交推送。不读/复述Kimi结论，不改他席/产品/测试/统计基线或状态，不标done，不做视觉；无需为已完成的独立质量门重复整仓运行。
 ```

@@ -3,6 +3,7 @@
 任务：[TEST-FOUNDATION-COVERAGE-1](../ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)，r1，review（Codex接收/集成通过，待Kimi终审及GLM本人自验席位）。
 四目标包源码冻结：`d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86`（shared/content/pal-extract/migrate产品源码未变；三签见任务卡，不重签）。
 Codex集成核定：合入3b1cff4f时继承了主线dff3442d保存修复，因此全仓相对d64并非零产品diff；本次交付相对3b1cff4f没有产品改动，适配主线基点862733ba。
+集成候选：`48d3b8e323f5bc801954c7960d3c25efd7d35fef`，由Codex在main核定，后续SHA回填仅文档。
 分支：`codex/glm-foundation-coverage-r1`（自 648b4086 建立；已合入 Codex counter `8126f5c0` 与收窄复核
 `3b1cff4f`，counter 原文保留于[接收报告](glm-foundation-coverage-review.md)与本文件末节）。
 
