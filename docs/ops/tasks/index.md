@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [SAVE-BARRIER-LINEAGE-1 - 保存与嵌套脚本活动互等修复](SAVE-BARRIER-LINEAGE-1-nested-script-save.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强](TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [WORLD-ASYNC-COMMIT-1 - 世界异步操作提交一致性](WORLD-ASYNC-COMMIT-1-world-async-commit.md) | review | 以任务卡当前准入与看板分工为准。 |
 
@@ -136,6 +135,7 @@
 | [OPS-TST-PERF - 迁移测试 fixture 分层与冷启动性能债](../archive/tasks/done/OPS-TST-PERF-test-fixture-stratification.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R13-CANARY - R13-Z 闭包批次 canary 父账重建漂移（6A 冷 canary 恢复绿）](../archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R2 - 事件脚本单一模型与 unmigrated 退役](../archive/tasks/done/R2-script-single-model.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [SAVE-BARRIER-LINEAGE-1 - 保存与嵌套脚本活动互等修复](../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-ISOLATION-1 - 工程与工作区存档隔离](../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |

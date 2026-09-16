@@ -1,8 +1,10 @@
 # SAVE-BARRIER-LINEAGE-1 · 实现与验证记录
 
-任务：[保存与嵌套脚本活动互等](../ops/tasks/SAVE-BARRIER-LINEAGE-1-nested-script-save.md)，r1。
+任务：[保存与嵌套脚本活动互等](../ops/archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md)，r1。
 实现前产品`e13216e7`；build准入提交`11ad25fa`（自身Codex/Kimi/GLM三席设计齐，未用缺签豁免）。
-2026-09-17实现完成并进入review，候选`dff3442daf3b2e43837e67e6944827b928eeb1f4`，对比`11ad25fa`；不代表done或完整E2E。
+2026-09-17已done归档，候选`dff3442daf3b2e43837e67e6944827b928eeb1f4`，对比`11ad25fa`。
+Codex/Kimi/GLM同候选均accept且无返工，用户要求按齐备终审收口；Codex复核产品/测试/基线零漂移后同步状态。
+本次仅文档收口，下面既有验证证据不冒称重新执行；SL-E1～E3集中E2E仍待跑，不等于完整E2E通过。
 
 ## 实现边界
 

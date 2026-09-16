@@ -1,7 +1,7 @@
 # SAVE-BARRIER-LINEAGE-1 · 保存子链前提与不完整修法反例
 
 2026-09-16，Codex。取证基线`aefa5b06e067f81a90273cf245c762a9264cc09a`，产品与WORLD候选`e13216e7`相同。
-仅只读诊断/方案，不是产品修复、正式回归或E2E。任务入口：[r1 draft](../../tasks/SAVE-BARRIER-LINEAGE-1-nested-script-save.md)。
+本文保留只读诊断/方案时点，不是正式回归或E2E。后续r1已实现、三席终审并收口，任务入口：[已完成卡与证据](../../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md)。
 GLM既有批二原材料及Codex接收修正贡献见[批二回执](../../../testing/glm-pre-e2e-boundary-batch-2-report.md)；本次新探针由Codex编写自验，不代表他席签字。
 
 ## 本次新增证据
