@@ -2,7 +2,7 @@
 
 任务：[保存与嵌套脚本活动互等](../ops/tasks/SAVE-BARRIER-LINEAGE-1-nested-script-save.md)，r1。
 实现前产品`e13216e7`；build准入提交`11ad25fa`（自身Codex/Kimi/GLM三席设计齐，未用缺签豁免）。
-2026-09-17实现完成并进入review，候选SHA由实现提交后回填；不代表done或完整E2E。
+2026-09-17实现完成并进入review，候选`dff3442daf3b2e43837e67e6944827b928eeb1f4`，对比`11ad25fa`；不代表done或完整E2E。
 
 ## 实现边界
 
