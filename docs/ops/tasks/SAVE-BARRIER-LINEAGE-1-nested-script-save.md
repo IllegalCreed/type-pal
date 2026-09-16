@@ -145,7 +145,44 @@ owner变化误当lease失活又造成互等；子方finally/失败漏释放导�
 - Codex（2026-09-16）：**premise verified / design agree**。直接读取上表主壳/host/coordinator/runner；
   当前树旧B01/B03分别业务红，B02/B04/B05/B06退出0（B06快照弱断言已明确剔除）；新双状态探针原树互等、仅删gate树提前返回、独立root正控齐。
   live登记窗口只作内部设计压力反例，不判生产新缺陷。详见[取证回执](../audits/pre-e2e/save-barrier-lineage-premise.md)。
-- Kimi：premise pending / design pending；独立primary-source与可证伪观察待本人填写。
+- Kimi：**premise verified / design agree（2026-09-16，r1，取证基线 aefa5b06、产品 e13216e7；全部证据本人直读/复跑，未读 GLM 结论）**。
+  - **B-06 直读**：`runtime-script-project.ts:164-168` wrapper 把 startBattle 委派给 retainedHost；
+    父 flow 以 **wrapper host** 登记 lineage（:319/:373/:398），而 base host 的 startBattle
+    （`script-project-core.ts:312-318`）以**自身 this** 取 lineage——
+    `script-activity-lineage.ts:46-62` 按 runtimeKey+signal 查不到即当新 root 排队等 gate，
+    而保存正等父链结束——互等成立。
+  - **B-07 直读**：`runtime-script-project.ts:338-371` runSceneHook 不认父 lineage，
+    `beginSceneHook` 遇 `script-world.ts:535-548` pending 拒发新 lease、外层等 gate——
+    内联出口子链与保存互等成立。
+  - **正确暂停边界直读**：`script-world.ts:451-468` reachSafePoint 先核 epoch 再提交 cursor、
+    gate 关则 finish+stop——独立 root 的安全点停止是既有正确合同，设计保留它而非一概放行。
+  - **主壳链直读**：`main.ts:6478-6488` 确认框允许 F5、`:6466` 战斗分支提前 return（不声称
+    战斗中可存）；`:3505-3513` teleportOut→runDetachedScriptChain→runSceneHook 内联；
+    `:5154-5170` 战后 onDefeated 复用 exact launchSignal（注释已识同族风险）；
+    `:2638-2653` runDetachedScriptChain `signal ?? 新 controller`——exact signal 链属实。
+  - **本人复跑**：probe-save-barrier-family 两模式 exit 0——original 互等（`saved:false`、
+    `snapshots:0`，超时解门后 childEnd/parentEnd 才执行）；admission-only 单点仅删 begin gate：
+    保存虽成功但快照缺 childEnd、子 cursor 已到 last——**仅删准入门禁会提前保存不完整状态**，
+    卡面反例成立；独立 root 对照正确停在安全点。原探针 B01/B03 业务红、B02/B04/B05/B06 绿
+    与卡面一致；旧 B06 快照弱断言限制已知。
+  - **设计同意**：D1 统一开战身份（wrapper 以自身 runtime 身份进既有 activity、透传 exact
+    signal，不绕到另一 host 重做 lineage，无父入口仍完整 transient lease+等 gate）；D2 lineage
+    收敛为 runtime/signal 的 lease 登记、coordinator 按 active 表对象身份核验成员、残留退化
+    为新 root 等/可取消、owner epoch 与 lease 存活分离——正面回答「计数当准入凭据」反例
+    （人工窗口 enteredAfterReady 不得在生产可达）；D3 嵌套参与者凭真实在途父 lease 窄准入、
+    各自 lease/owner 互斥/cursor 保持、只免除保存 gate 中途 stop、到自然 stay/restart/返回收尾、
+    同 owner busy 不重入、独立 root 仍等 gate 醒后核 scene/session、无公共 allowWhenSaving
+    开关、全部参与者退出后才 snapshot。SL-01～08 覆盖双状态子尾完整/身份轴/epoch/异常收尾/
+    主壳真实接线；先红后绿与单点负控要求明确；范围限四个 reforge 文件，无格式/公开 token/
+    用户行为变化；WORLD 卡依赖（其 review 中改动不得回退、build 前须确认其最终基线）已声明。
+  - **可证伪观察**（任一反例即 counter 或收窄）：① 当前树上「真实父 lease 活跃+exact signal+
+    同 runtime 且立即结束的子链」本可保存成功 → 前提倒（本人复跑否定）；② 实现后独立 root
+    在 gate 关闭期入场或不停安全点 → 宽泛绕 gate；③ 嵌套准入但 to 链提前返回（childEnd 缺席）
+    → admission-only 反例复发；④ 准入凭据仍可由计数/残留登记通过（active 表身份核验缺席）；
+    ⑤ owner epoch 变化把仍在执行的父 lease 误判失活（互等复发）或旧 cursor 覆盖新选择；
+    ⑥ 快照发生在全部参与者退出之前；⑦ 实现需要新公共 token/格式版本/改变 F5 权限或调用语义
+    → 越界。WORLD 终审若产生相关返工，本卡 build 前须重核其最终产品基线（卡面已列，本席背书）。
+  - 返工项：无。
 - GLM：premise pending / design pending；独立合同/矩阵/诊断鉴别力待本人填写。
 - 独立非Owner证据：pending，不以Codex自证替代。
 - counter：当前无他席结论；缺签豁免：无。
@@ -165,6 +202,13 @@ owner变化误当lease失活又造成互等；子方finally/失败漏释放导�
 
 ## 交接日志
 
+- 2026-09-16 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
+  直读 B-06 lineage 身份错位（wrapper 登记 vs base host this 查询）、B-07 beginSceneHook 不认父链、
+  script-world.ts:451-468 安全点正确暂停、主壳 F5/出口/onDefeated exact signal 链；复跑
+  probe-save-barrier-family 两模式（original 互等快照 0 次、admission-only 缺 childEnd）与旧
+  B01/B03 业务红、B02/B04/B05/B06 绿。七条可证伪观察写入本席；WORLD 终审相关返工须先重核
+  本卡依赖（卡面已列）。未改产品/测试/基线/他席/Status，未读 GLM 结论。Next：GLM 并行签字；
+  三席齐后 Codex 核门禁放行 build。
 - 2026-09-16 Codex：用户已转发WORLD/四包工作包并要求继续。避开并行实现区，重核B-06/B-07；
   新增只读双状态诊断，两个模式均符合预期，3文件39项相邻测试绿，未改任何产品/原探针。
   同族方案收敛为本r1 draft，待Kimi/GLM各自设计审查；不重签其它卡、不因旧豁免自行进入build。
