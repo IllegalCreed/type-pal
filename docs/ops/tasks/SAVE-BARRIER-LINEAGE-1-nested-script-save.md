@@ -1,6 +1,6 @@
 # SAVE-BARRIER-LINEAGE-1 - 保存与嵌套脚本活动互等修复
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: B-06/B-07审计修复（不改变能力地图状态）
 Coding Owner: Codex
@@ -13,8 +13,8 @@ Branch: main
 
 Revision: r1，2026-09-16。前提取证基线`aefa5b06e067f81a90273cf245c762a9264cc09a`；
 产品与WORLD候选`e13216e7a4439008df38666cbcfec557c8e5a26c`相同。
-本卡目前只有只读诊断与方案；**未开始实现，不借用WORLD或四包测试卡的设计签字/历史豁免**。
-WORLD仍在review；本卡build前须确认其最终产品基线，若发生相关返工先重核依赖。
+本卡已核自身r1三签，进入build；不借用WORLD或四包测试卡的签字/历史豁免。
+WORLD仍在review；本卡以未漂移的e13216e7产品候选冻结依赖，不宣布WORLD完成；若相关返工落地，先停下重核依赖。
 
 ## 目标与范围
 
@@ -226,9 +226,9 @@ owner变化误当lease失活又造成互等；子方finally/失败漏释放导�
     ⑦ 实现需要新公共 token/格式版本/改变 F5 权限或调用语义 → 越界。⑧ WORLD 终审若返工四个共同文件，
     本卡 build 前须在新产品基线重跑 premise 探针与旧 B01/B03 红因（卡面已列，本席背书）。
   - 返工项：无（上述 epoch 负控为非阻断建议）。
-- 独立非Owner证据：pending，不以Codex自证替代。
-- counter：当前无他席结论；缺签豁免：无。
-- build准入：**blocked（待三席设计齐且WORLD相关基线稳定；卡状态仍draft）**。
+- 独立非Owner证据：Kimi 90d2b877与GLM 9f8b030c均直接核主壳/host/lease/runner并独立复跑，见各自原文；GLM既有材料贡献已披露。
+- counter：无；缺签豁免：无。
+- build准入：**build allowed（2026-09-16，Codex核三签齐，8126f5c0相对e13216e7的packages/scripts零diff；不重签r1）**。
 
 ### 进入done前
 
@@ -239,10 +239,13 @@ owner变化误当lease失活又造成互等；子方finally/失败漏释放导�
 
 ## Build / Review / 用户验收
 
-未开始实现；没有新正式测试或覆盖率提升声明。主审Kimi，GLM提供独立矩阵/边界核对，不分配视觉。
-本次只读取证不是实现accept，用户验收pending。
+Codex开始实现；先红后绿与质量门尚待执行，当前没有覆盖率提升声明。主审Kimi，GLM提供独立矩阵/边界核对，不分配视觉。
+用户验收pending，设计签字不是实现accept。
 
 ## 交接日志
+
+- 2026-09-16 Codex：用户告知另一任务已签，核main干净、Kimi/GLM本卡r1有效签字齐且无counter；相关产品仍为e13216e7，核定build准入。
+  Codex独占四文件实现，先补B-06/B-07真实调用链回归，吸收GLM的epoch反控建议；不合入正在返工的四包测试、不改其产品冻结。
 
 - 2026-09-16 GLM：完成 r1 独立合同/矩阵审查，签 premise verified + design agree，无返工项（附一条非阻断
   epoch 单点负控建议）。直读 B-06 wrapper/base-host lineage key 错位、B-07 beginSceneHook 先于 lineage 的
