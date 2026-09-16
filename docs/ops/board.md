@@ -12,7 +12,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| WORLD-ASYNC-COMMIT-1 | [世界异步操作提交一致性](tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md) | review | Kimi实现终审 / Codex收口 | r1不重签、GLM已豁免；check 7036、strict fast 6548/617、8反控通过预期 |
+| TEST-FOUNDATION-COVERAGE-1 | [四包基础边界测试补强](tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | draft | GLM / Kimi设计审查；Codex集成 | 四组只补测试，产品冻结d64bbf6d；签齐后连续推进 |
+| WORLD-ASYNC-COMMIT-1 | [世界异步操作提交一致性](tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md) | review | Kimi终审 / GLM恢复后补审 / Codex收口 | 历史豁免有效、r1不重签；check 7036、strict fast 6548/617 |
 
 D-01已完成；当前推进世界异步提交修复，其余缺陷仍按审计总收口队列逐卡推进。
 

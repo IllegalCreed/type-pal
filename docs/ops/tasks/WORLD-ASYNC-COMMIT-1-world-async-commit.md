@@ -8,11 +8,12 @@ Generation Owner: N/A
 Reviewer: Kimi
 Visual Verification Owner: Codex
 Visual Verification Timing: e2e-deferred
-Unavailable Agents: GLM
+Unavailable Agents: none
 Branch: main
 
 Revision: r1，2026-09-14。设计/产品取证基线：`af3c340021ff573e65360c2c73971d905636e1e4`；其中产品与`70e3f627`一致。
 当前：2026-09-15实现与自验证完成，进入review；用户GLM豁免和5bc62a21的Kimi r1设计签字保持有效，不重签设计、不标done。
+2026-09-16用户确认GLM额度恢复，按原安排补实现审查；历史缺席/豁免不追溯改写，产品候选不变。
 
 ## 目标与范围
 
@@ -213,11 +214,13 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
 
 - Codex：accept（2026-09-15，实现者自验证）；三缺陷正式回归、8项单点反控及Reforge/Editor正常对照、七包check 7036项、官方ratchet与受保护基线下单次严格fast 6548项均通过；详见验证记录，视觉按WA-E1～3集中延期，未冒称已执行。
 - Kimi：pending，需独立实现审查及覆盖矩阵复核。
-- GLM：unavailable；是否在恢复后补审按下面额度记录，不虚造第三席签名。
+- GLM：pending（2026-09-16额度恢复，待实现补审）；历史设计缺签豁免有效，不追溯重签、不虚造第三席签名。
 - 缺签豁免：用户已批准本卡GLM席位豁免（承接本卡整体代班提议，适用build/done）；Codex/Kimi终审与用户验收仍未完成，不据此提前标done。
 - done准入结论：blocked。
 
 ## 额度 / 代班记录
+
+当前更新（2026-09-16）：GLM已恢复额度，先补审本卡实现/覆盖与范围；其参与过批二原始材料，须披露，不冒称完全未参与的第三方。下列缺席与代班为2026-09-14历史记录，保持有效。
 
 - 缺席：GLM，用户明确额度耗尽。代班建议：Codex负责实现/测试和对账，Kimi独立负责前提、设计、实现及测试矩阵审查。
 - 范围：仅本卡，不形成后续任务一揽子缺签授权；无视觉转派。
@@ -240,6 +243,7 @@ Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，�
 
 ## 交接日志
 
+- 2026-09-16 Codex：用户确认GLM额度恢复并批准安排工作；本卡保持review，恢复后的GLM实现补审与Kimi终审可独立并行，历史r1设计/豁免不重开。新四包测试另有独立任务卡，不以本卡签字授权。
 - 2026-09-15 Codex：实现候选提交`e13216e7a4439008df38666cbcfec557c8e5a26c`，随后仅回填SHA与终审交接；工作树产品/测试/基线不再变动，交Kimi独立终审，GLM豁免、不重签r1、不标done。
 - 2026-09-15 Codex：完成r1三段实现、55项新回归及8项单点反控。首轮ratchet发现editor新增分支未覆盖（19082/27547低于19081/27545），补真实playCanonical接线回归与反控后通过；不是抖动，不降基线。
   自查删除main多余直接写回旁路后重跑最终check/ratchet/受保护基线strict-fast，全部exit0；精确命令/计数/失败记录见验证附件。推进review，待Kimi实现终审，不代签/不done。
@@ -261,6 +265,12 @@ Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，�
   本轮只提交本卡/看板/索引/审计入口，不运行或宣称新产品check/coverage结果。
 
 ## 下一位Agent提示词
+
+### GLM额度恢复补审
+
+给GLM的整段入口见[四包测试卡的GLM提示词](TEST-FOUNDATION-COVERAGE-1-core-boundaries.md#glm)第一段：先对本卡候选e13216e7/对比5bc62a21补实现审查，只写GLM自己的席位/日志并提交推送；不改产品/设计/他席/状态，不标done。补审事实不能替代新测试卡的设计准入。
+
+### Kimi原实现终审（继续有效）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 WORLD-ASYNC-COMMIT-1，卡 docs/ops/tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md，状态review，实现候选e13216e7a4439008df38666cbcfec557c8e5a26c，对比5bc62a21。r1设计不重签；用户已豁免本卡GLM，恢复后补审安排保留。

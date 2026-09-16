@@ -8,6 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
+| [TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强](TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [WORLD-ASYNC-COMMIT-1 - 世界异步操作提交一致性](WORLD-ASYNC-COMMIT-1-world-async-commit.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
