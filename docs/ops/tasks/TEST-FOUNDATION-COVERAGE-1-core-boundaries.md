@@ -12,6 +12,7 @@ Unavailable Agents: none
 Branch: codex/glm-foundation-coverage-r1
 
 Revision: r1，2026-09-16。产品冻结`d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86`。
+分配提交：`d901b77ff25493642fe0d356b4a9547f0914d6f3`；后续本次SHA回填只改文档，不改变r1范围或冻结产品。
 用户批准四组工作并要求转交提示词；**未豁免本新卡三签**。一次设计审全包，签齐后分组连续做，不每组重签。
 
 ## 目标与边界
@@ -178,6 +179,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 ### GLM
 
 ```text
+分配提交d901b77ff25493642fe0d356b4a9547f0914d6f3（仅文档）；新测试分支从该提交建立，产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。
 在 /Users/zhangxu/illegal/type-pal 执行两段工作：先补审 WORLD-ASYNC-COMMIT-1，再承担 TEST-FOUNDATION-COVERAGE-1 的四组非视觉测试。先同步并检查工作树，读AGENTS/CLAUDE/phase2 READ-FIRST；不要恢复stash或覆盖他人改动。
 第一段：WORLD卡 docs/ops/tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md 当前review，候选e13216e7a4439008df38666cbcfec557c8e5a26c，对比5bc62a21。额度恢复补审，不重开r1设计/历史豁免；披露你参与过批二原始材料，直接核实现与正式回归、8反控及质量门，不读或复述Kimi实现终审。只写你自己的补审席位/日志并提交推送，不改产品/状态、不标done。
 第二段：读 docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md 的r1范围，产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。你是测试Coding Owner：先独立核现行合同/既有测试并签自己的premise/design；签齐前三方门禁不可绕过，只能做只读核对和矩阵准备。Codex/Kimi/你本人r1设计签字齐且无counter后，按卡核定build并在codex/glm-foundation-coverage-r1独立worktree连续完成A共享解码、B当前内容校验、C原盘解析、D纯迁移合并/计划；不逐组要求用户确认。
@@ -189,6 +191,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 ### Kimi（与GLM设计审查并行）
 
 ```text
+分配提交d901b77ff25493642fe0d356b4a9547f0914d6f3，请审同一张r1卡；产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。
 在 /Users/zhangxu/illegal/type-pal 设计审查 TEST-FOUNDATION-COVERAGE-1，卡 docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，r1/draft，产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。先同步并读AGENTS/CLAUDE/phase2 READ-FIRST、本卡及docs/testing/coverage.md；此次四组只补测试，不改产品/格式/基线。
 请独立直读目标源码与已有测试，核A/C原盘格式与B/D当前模型分界、正常夹具合法性、当前bug不得固化为合同、真实缺陷隔离、YJ2畸形长度资源风险、纯迁移函数与真实写盘边界、同口径覆盖对照及不缩范围。不要读取/复述GLM新卡审查结论。
 在自己的设计席位给带file:line与可证伪观察的premise verified/counter、design agree/counter，只改本卡自己的签字/审查/交接日志并提交推送；不改产品/他席/状态、不开始测试实现、不标done。一次审全包边界，不要求四组分别重签。WORLD-ASYNC-COMMIT-1原实现终审是另一张卡，不与本卡设计签字混用。
