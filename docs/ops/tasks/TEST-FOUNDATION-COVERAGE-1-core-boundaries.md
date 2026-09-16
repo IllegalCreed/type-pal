@@ -217,6 +217,10 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
   pal/migrate覆盖对照复算相同。但最终树Biome27错；隔离坏实现证明D组冲突仍删文件、C组只留首槽均未被新套件拦截；
   D组自比较/缺席替身、C3未完成及交付账需定点返工。详见[独立复核R1～R4](../../testing/glm-foundation-coverage-review.md)。
   r1设计保持，不先集成、不跑ratchet/改基线；本席不代填GLM自验/Kimi终审，Coding Owner接手按counter核定rework。
+- Codex最新（2026-09-17，候选c0c94333）：**counter仅剩R2深快照漏洞及回执勘误**。139/139、相邻、四包tc/Biome和11负控通过；
+  原三见证已独立复建转红，R1格式/白名单、R2删除/absent-null/hash、R3槽位/对象视图通过，不重开。
+  三侧files浅副本仍同源引用；各轴输入原地写v=17仍被候选不变性断言放过，深快照对照三红/正常绿。详见同报告末节返工复核。
+  YJ2两项后续归属接受；未集成/未改官方基线，旧counter原文作为历史保留，本轮不转Kimi、不标done。
 - Kimi：pending（独立终审）。
 - done准入：blocked；由Codex统一收口，不由GLM标done。
 
@@ -224,6 +228,10 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 2026-09-16用户确认GLM额度恢复；可持续承担本包非视觉测试。WORLD-ASYNC-COMMIT-1先补实现审查，不重开旧r1设计/历史豁免，材料贡献须披露。
 本包四目标包与Codex世界/保存主线错开；目标生产源码若漂移，由Codex明确新冻结点/适配范围，不自行合入生产修复或新版本输入。
+
+- 2026-09-17 Codex：复核c0c94333，明确关闭上轮已修项目，仅R2的对象深快照仍有可证伪缺口；补三个真正污染输入的内存见证及深快照正反对照。
+  候选分支保持干净，主线只登记本人复核/交接，不改GLM测试/产品/基线；原三针和11正式负控均业务红，139项与相邻通过。
+  R4计数/SHA/覆盖时点与重建命令顺手勘误；GLM在原分支定点返工，无需重签r1或重复整批设计。
 
 - 2026-09-16 Codex：接收01c149b5，只读复核全部15测试/3fixture及负控，133项/四包tc通过；额外三针均命中却绿，独立正常/坏结果对照证实鉴别力缺口。
   main只登记本人counter、报告、导航与交接，候选测试/fixture/产品未合入；GLM作为Coding Owner定点返工R1～R4，本轮不转Kimi终审。
@@ -245,7 +253,17 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 ## 下一位Agent提示词
 
-### 当前交接：GLM返工01c149b5（优先于下方历史分配提示词）
+### 当前交接：GLM定点修c0c94333剩余R2
+
+```text
+在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-FOUNDATION-COVERAGE-1 r1，分支codex/glm-foundation-coverage-r1，候选c0c9433333037f35da1fd36042cc647d6538f338。产品冻结d64bbf6d，三签不重签。
+先同步并查工作树，读根协议、CLAUDE、phase2 READ-FIRST、任务卡docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md和docs/testing/glm-foundation-coverage-review.md末节2026-09-17返工复核；保留counter原文，不改他席。
+上轮Biome/fixture路径、删除门、真absent/null、角色槽位、C3对象视图已经Codex复核通过，139项及11负控有效，不重做。唯一代码阻断：migration-plan.boundaries.test.ts:103-112的files展开仍共享值对象，before不是独立快照；base/ours/theirs各自被原地写v=17时测试仍绿。改为真正深快照并永久化输入污染负控；正常原实现绿、三个污染轴业务红。现成诊断在/tmp/codex-foundation-r1-rework.KtFIPX/immutability.config.mjs，丢失可按报告重建，勿改产品。
+同时更正回执完整冻结SHA、D组8/8/8=24、独有文件增量基点、旧133项覆盖数据的历史时点，给完整可复制覆盖命令/配置；null与{a:null}用例不要仍叫缺席。YJ2两项后续归属保持，不扩范围。
+仅改本人白名单新测试/诊断和回执，既有测试/产品/原探针/统计配置基线零改；作为Coding Owner按counter核定状态并填本人真实自验。定向/受影响相邻、tc/Biome/负控通过后提交推送交Codex接收；不代签、不标done、不转Kimi。整批接收后才由Codex跑官方check/ratchet/单次严格fast。
+```
+
+### 历史交接：GLM返工01c149b5（已按本轮结论收窄）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 返工 TEST-FOUNDATION-COVERAGE-1 r1，候选01c149b5收到Codex counter，尚未集成；产品继续冻结d64bbf6d，设计三签保持、不重签。

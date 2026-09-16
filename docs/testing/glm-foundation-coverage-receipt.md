@@ -34,3 +34,7 @@ pending：最终分支与SHA、白名单diff、已有/新增/缺陷/待证去重
 候选分支内GLM四组回执保留，不从尚未合入分支复制并覆盖本主线占位；读取方式为`git show 01c149b5:docs/testing/glm-foundation-coverage-receipt.md`。
 133项及8负控真实通过，pal/migrate同口径覆盖增量认可；但Biome27错、删除门/槽位完整性漏测、D组自比较与缺席替身及交付账需修。
 三项待证：YJ2两项可明确后续归属，C3对象视图本轮补齐。GLM不作为自己测试的独立终审；下一步由其定点返工，不转Kimi、不标done。
+
+2026-09-17：c0c94333返工复核已完成，139项、11负控及相邻通过，R1/R3和R2主体闭环；**仅R2三侧输入浅副本仍阻断**，
+另有回执计数/SHA/覆盖时点与重建命令勘误。见同一[报告末节](glm-foundation-coverage-review.md)，已核通过部分不重做。
+候选尚未合入，正式主线基线仍6591；GLM分支原回执可用`git show c0c94333:docs/testing/glm-foundation-coverage-receipt.md`读取。

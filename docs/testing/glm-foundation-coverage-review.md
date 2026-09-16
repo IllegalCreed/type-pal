@@ -1,3 +1,6 @@
+> 最新结论（2026-09-17，c0c94333）：上一轮删除/槽位/对象视图/Biome问题已闭；仅R2输入快照浅拷贝仍阻断，另有回执勘误。
+> 详见文末「返工复核」。以下01c149b5首轮counter完整原文保留，不表示已修部分仍需重做。
+
 # TEST-FOUNDATION-COVERAGE-1 · Codex r1接收复核
 
 2026-09-16；候选`01c149b5d55a53dd755412c54077b3ab39b564c3`，分支`codex/glm-foundation-coverage-r1`，分叉/开门点`648b4086`。
@@ -132,3 +135,88 @@ equipment/magic同入口换case。若tmp消失，可按以下唯一替换重建V
 暂缓整批合并和官方check/ratchet/严格fast；已知27个Biome错误足以挡check，无需浪费全仓运行再次证明。
 R1～R4闭环后Codex先核差异、定向/负控及待证归属，再合入最新产品树，串行完整check→官方ratchet→受保护单次严格fast。
 无产品漂移时不重签r1；最终Kimi终审披露GLM测试贡献和Codex适配/复核边界。本轮不转Kimi、不代签、不标done。
+
+## 返工复核 · 2026-09-17 · c0c94333
+
+候选`c0c9433333037f35da1fd36042cc647d6538f338`，远端与GLM worktree HEAD一致且干净；返工基点8126f5c0。
+**结论：counter收窄到R2剩余一个断言缺口，不重开已核通过项；尚未合入，官方check/ratchet/严格fast不抢跑。**
+本轮main只更新Codex自己的复核、日志和导航；GLM测试/fixture/产品/基线零修改，r1设计不重签。
+
+### 本轮已核通过
+
+- R1：19个新增代码文件Biome exit0，pal fixture已回`packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts`；
+  对共同基点8126f5c0的增量恰15测试+3fixture+2文档/诊断，既有测试/产品/配置/基线/原探针零diff。
+- 定向A27/B69/C19/D24=**139/139**；四包typecheck均exit0。
+- 相邻：shared 106、content 557、pal 149通过+原3skip、migrate 338通过；不是把这些重复相加为全仓唯一测试数。
+  pal仍按两侧同样7资产文件排除，migrate用原fast排除的unit临时配置；未宣称跑全包真实资产或正式全仓门禁。
+- 4正常对照exit0、11负控exit1，逐日志核业务红；8个突变目标源hash前后一致。
+  另独立使用上一轮Codex的**原始删除循环外移/装备截断/仙术截断**配置重跑，三针均业务红，
+  而不是只采信GLM本轮新负控（其删除针是额外追加去重删除循环，业务效果等价但不是原样移动循环）。
+- R2删除门：fixture确有可删除文件；无冲突正控产生精确delete列表。真absent/null、metadata/write-map三向对应和hash自比较替换均已落实。
+- R3：角色装备6/仙术32完整数组含跨角色末槽标记；poisons/players两个对象视图已有非空映射和尺寸边界，C3不再后置。
+- R4主要内容：重复空输入用例删除，逐族表已补，merge反控红因已更正。YJ2两项后续归属继续接受，
+  不是本批完成或“不可构造”，不为覆盖率强行固定损坏流的JS越界行为。
+- 旧版本兼容审查：pass；没有新增旧输入支持/产品fallback，当前地图v4不是旧content版本。无视觉任务。
+
+### 唯一剩余代码阻断：R2的before并不独立
+
+候选`packages/migrate/src/migration-plan.boundaries.test.ts:103-112`：
+
+```ts
+const cloneSnapshot = (s: typeof base) => ({
+  files: [...s.files],
+  managedFiles: [...s.managedFiles],
+  hashes: s.hashes ? [...s.hashes] : undefined,
+})
+```
+
+`files`数组仍引用原Map中的对象。后续原地改值时，`before.base/ours/theirs.files`也一起变化，
+所以:116-118的三侧比较会把输入污染判成未改变。相较旧实现，复制范围扩大了，但没有保留深快照。
+
+Codex独立单点见证：在真实`createMigrationPlan`首个`const baseView = canonicalSnapshot(base)`之前，
+分别仅对base、ours或theirs的`content/a.json`值写入`v=17`。原函数正常对照绿；每种坏实现在候选该用例中仍绿。
+为避免只看到load命中却没实际执行，本轮在临时测试转换中**仅追加观察断言**（原四个断言原样保留）：
+确实读到该输入v=17及由实际写入语句设置的全局见证标记；三针均通过这两个观察断言，同时原“不变性”断言仍绿。
+
+同一个坏实现只将测试before改为`structuredClone({base: cloneSnapshot(base), ours: cloneSnapshot(ours), theirs: cloneSnapshot(theirs)})`，
+三针都在对应输入不变性断言业务红（`expected false to be true`）；深快照+无产品突变对照仍绿。
+这只证明**测试漏检**，不是发现当前产品真的修改输入；没有修改磁盘源或替GLM落实现。
+
+修复要求：保存真正独立的深快照，三侧JSON嵌套值、files/managedFiles/hashes都保留；把这类输入原地污染反控永久化。
+保留当前已通过的139项/11针，其余R1/R3不重做；不允许只把标题改成“浅容器不变”规避本卡D3纯输入合同。
+
+### 随手收尾的回执勘误（不重新开设计）
+
+- 冻结SHA有笔误，正确完整值为`d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86`，不要手工缩写拼错。
+- D组现场逐文件是**merge8/plan8/baseline8=24**，不是11/8/5；逐族表同步更正，合计139本身正确。
+- 交付20文件应以`git diff --name-status 8126f5c0 <最终候选>`的独有增量计；
+  不能用`--diff-filter=A 648b4086`声称包含修改过的receipt且不包含后来合入的其它文档。
+- 回执覆盖表是首轮133项时的测量，**不是返工139项的当前结果**；C3新增两导出、D5新增纯辅助后不得援引“Codex已认可数字，不重跑”混用时点。
+  可保留为明确的01c149b5历史快照，最终整合由Codex官方测量，不要求无变化的A/B反复计量。
+- 当前所谓“可重建命令”含`[...]`、`...`、`<tmp>`且省略migrate实际配置。补实际可复制命令和配置/白名单内诊断入口，
+  或明确给出已入仓配置的调用方法，不能把伪命令说成已可直接重建。
+- baseline新测试已确实证明absent/null；旧`null`与`{a:null}`基础字节用例标题仍带“缺席”，更名为真实两输入即可，不删新增业务证明。
+
+### 本轮复建证据
+
+日志根：`/tmp/codex-foundation-r1-rework.KtFIPX/`。定向`*-direct.log`、相邻`*-adjacent.log`、`typecheck.log`、`biome.log`、
+`mutants.json`（含各针原始日志路径）；原三见证`original-{deletes,equipment,magic}-witness.log`。
+剩余R2诊断：`immutability.config.mjs`，只做Vite内存load替换，不写产品；`FC_IMMUTABLE_AXIS=none|base|ours|theirs`，
+`FC_IMMUTABLE_REPAIR=1`仅开启临时测试深快照对照。
+
+```sh
+FC_IMMUTABLE_AXIS=base pnpm --filter @type-pal/migrate exec vitest run --config /tmp/codex-foundation-r1-rework.KtFIPX/immutability.config.mjs
+FC_IMMUTABLE_AXIS=base FC_IMMUTABLE_REPAIR=1 pnpm --filter @type-pal/migrate exec vitest run --config /tmp/codex-foundation-r1-rework.KtFIPX/immutability.config.mjs
+FC_IMMUTABLE_REPAIR=1 pnpm --filter @type-pal/migrate exec vitest run --config /tmp/codex-foundation-r1-rework.KtFIPX/immutability.config.mjs
+```
+
+将base替换为ours/theirs复建另外两轴。当前候选首条exit0（漏洞见证），第二条exit1（测试修复后正确拦截），第三条exit0（无产品突变正控）。
+若tmp消失：在唯一`const baseView = canonicalSnapshot(base)`前插入目标侧文件对象`v=17`与运行标记；
+在目标测试p2调用后追加v/运行标记断言，保留原断言；深快照对照仅包住before对象的构造。
+最终采证日志为`immutable-{base,ours,theirs}-observed.log`（三绿，含load及额外观察断言）与`*-deep.log`（三业务红），
+正常深快照为`immutable-repaired-control.log`。早期绿日志未显示执行期stdout，只作调试，不单凭load日志判定实际输入已被污染。
+
+### 下一步
+
+只交GLM定点修剩余R2及上述回执勘误；候选未合入，主线仍保留SAVE-BARRIER-LINEAGE-1的6591基线，不改阈值、不跑官方门禁掩盖缺口。
+再次接收通过后按原计划合入最新产品树，串行check→ratchet→受保护单次strict fast，再交Kimi终审；设计无需重签，GLM贡献仍披露。
