@@ -4,8 +4,14 @@
  * parseSpells 吃 SSS chunk2 OBJECT 段，parseMagicTable 吃 DATA chunk4 32B 记录。
  */
 import { describe, expect, test } from 'vitest'
-import { parseMagicTable, parseObjectMagics, parseSpells } from '../spells.js'
-import { mkTable, mkWords } from './glm-foundation-fixtures.js'
+import { mkTable, mkWords } from '../../../__tests__/glm-foundation-fixtures.js'
+import {
+  parseMagicTable,
+  parseObjectMagics,
+  parseObjectPlayers,
+  parseObjectPoisons,
+  parseSpells,
+} from '../spells.js'
 
 const OBJ_SIZE = 14
 const SPELL_OBJ_START = 296
@@ -105,11 +111,48 @@ describe('parseMagicTable · DATA chunk 4（32B/条）', () => {
     expect(out[1]!.type).toBe('other')
   })
   test('长度不能被 32 整除：已定义拒绝', () => {
-    expect(() => parseMagicTable(mkTable(MAGIC_SIZE + 1, []))).toThrow(
-      /不能被 MAGIC_SIZE=32 整除/,
-    )
+    expect(() => parseMagicTable(mkTable(MAGIC_SIZE + 1, []))).toThrow(/不能被 MAGIC_SIZE=32 整除/)
   })
   test('零长度 → 空数组（合法边界）', () => {
     expect(parseMagicTable(Uint8Array.of())).toEqual([])
+  })
+})
+
+describe('parseObjectPoisons · OBJECT_POISON 视图（spells.ts:195-230）', () => {
+  test('字段映射：level/color/playerScript/enemyScript + id=绝对下标 + floor 计数', () => {
+    const buf = mkTable(OBJ_SIZE * 2 + 6, [
+      [0, 3], // id0 level
+      [2, 16], // id0 color
+      [4, 100], // id0 playerScript
+      [OBJ_SIZE + 8, 200], // id1 enemyScript
+    ])
+    const views = parseObjectPoisons(buf)
+    expect(views).toHaveLength(2) // 尾部 6B 半条不计
+    expect(views[0]).toEqual({ id: 0, level: 3, color: 16, playerScript: 100, enemyScript: 0 })
+    expect(views[1]).toEqual({ id: 1, level: 0, color: 0, playerScript: 0, enemyScript: 200 })
+  })
+  test('零长度 → 空数组（合法边界）', () => {
+    expect(parseObjectPoisons(Uint8Array.of())).toEqual([])
+  })
+})
+
+describe('parseObjectPlayers · OBJECT_PLAYER 段（spells.ts:234-265）', () => {
+  const PLAYER_OBJ_START = 36
+  const PLAYER_OBJ_COUNT = 6
+  const PLAYER_BYTES = (PLAYER_OBJ_START + PLAYER_OBJ_COUNT) * OBJ_SIZE
+  test('id=36..41 六条；scriptOnFriendDeath/scriptOnDying 按偏移 4/6 映射', () => {
+    const buf = mkTable(PLAYER_BYTES, [
+      [PLAYER_OBJ_START * OBJ_SIZE + 4, 111], // role0 friendDeath
+      [PLAYER_OBJ_START * OBJ_SIZE + 6, 222], // role0 dying
+      [(PLAYER_OBJ_START + 2) * OBJ_SIZE + 4, 333], // role2 friendDeath
+    ])
+    const views = parseObjectPlayers(buf)
+    expect(views.map((v) => v.id)).toEqual([36, 37, 38, 39, 40, 41])
+    expect(views[0]).toEqual({ id: 36, scriptOnFriendDeath: 111, scriptOnDying: 222 })
+    expect(views[2]).toEqual({ id: 38, scriptOnFriendDeath: 333, scriptOnDying: 0 })
+    expect(views[5]).toEqual({ id: 41, scriptOnFriendDeath: 0, scriptOnDying: 0 })
+  })
+  test('截断：< (36+6)×14B 拒绝', () => {
+    expect(() => parseObjectPlayers(mkTable(PLAYER_BYTES - 1, []))).toThrow(/< required/)
   })
 })

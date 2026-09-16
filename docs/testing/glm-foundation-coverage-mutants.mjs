@@ -100,7 +100,7 @@ const cases = [
     expected: 1,
   },
   {
-    // D负控1：同改同值快径失效 → 无冲突断言红
+    // D负控1：同改同值快径失效 → ID 数组新增同 a 的无冲突断言红（红因更正见回执 R4）
     name: 'merge-same-ours-theirs-removed',
     pkg: 'migrate',
     file: 'migration-merge.ts',
@@ -115,6 +115,34 @@ const cases = [
     file: 'migration-plan.ts',
     from: 'if (!conflicts.length) {',
     to: 'if (true) {',
+    expected: 1,
+  },
+  {
+    // D负控3（Codex counter 见证复建）：删除循环逃出冲突门 → 冲突时 deletes 非空断言红；
+    // 去重守卫保证无冲突树与原实现同结果（正控不受影响）
+    name: 'plan-deletes-escape-conflicts-gate',
+    pkg: 'migrate',
+    file: 'migration-plan.ts',
+    from: '  return {\n    target: normalized,',
+    to: '  for (const file of physicalManaged)\n    if (!deletes.includes(file) && ours.files.has(file) && !normalized.has(file))\n      deletes.push(file)\n  return {\n    target: normalized,',
+    expected: 1,
+  },
+  {
+    // C负控3（Codex counter 见证复建）：装备截断为首行 → 完整长度/末槽断言红
+    name: 'player-roles-equipment-truncated',
+    pkg: 'pal-extract',
+    file: 'resources/parsers/player-roles.ts',
+    from: 'equipment: equipRows.map((row) => row[i]!),',
+    to: 'equipment: equipRows.slice(0, 1).map((row) => row[i]!),',
+    expected: 1,
+  },
+  {
+    // C负控4（Codex counter 见证复建）：仙术截断为首槽 → 完整长度/末槽断言红
+    name: 'player-roles-magic-truncated',
+    pkg: 'pal-extract',
+    file: 'resources/parsers/player-roles.ts',
+    from: 'magic: magicRows.map((row) => row[i]!),',
+    to: 'magic: magicRows.slice(0, 1).map((row) => row[i]!),',
     expected: 1,
   },
 ]
@@ -174,7 +202,11 @@ export default {
   assert.equal(run.status, item.expected, `${item.name}: unexpected exit; ${log}`)
   if (item.expected === 1) {
     assert.ok(output.includes(`MUTATION_HIT ${item.name}`), `${item.name}: mutation was not loaded`)
-    assert.match(output, /AssertionError/, `${item.name}: expected business regression, not host failure`)
+    assert.match(
+      output,
+      /AssertionError/,
+      `${item.name}: expected business regression, not host failure`,
+    )
     assert.doesNotMatch(
       output,
       /Cannot find module|Failed to load url|No test files found|SyntaxError/,

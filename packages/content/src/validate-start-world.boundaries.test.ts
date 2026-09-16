@@ -6,8 +6,8 @@
  * 非法值（负数/非整数/空白串）分开断言。
  */
 import { describe, expect, test } from 'vitest'
-import { validateStartWorld } from './validate.js'
 import { minimalStartWorld } from './__tests__/glm-foundation-fixtures.js'
+import { validateStartWorld } from './validate.js'
 
 const damage = (base: unknown, mutate: (w: Record<string, unknown>) => void) => {
   const world = JSON.parse(JSON.stringify(base)) as Record<string, unknown>
@@ -100,10 +100,7 @@ describe('validateStartWorld · seedStats / seedConditions 可选域', () => {
     expect(validateStartWorld(world)).toBe(world)
   })
   test('seedStats hp 负数拒绝（mp 合法零值对照不触发）', () => {
-    const world = damage(
-      { ...minimalStartWorld(), seedStats: { 'actor-a': { hp: -1 } } },
-      () => {},
-    )
+    const world = damage({ ...minimalStartWorld(), seedStats: { 'actor-a': { hp: -1 } } }, () => {})
     expect(() => validateStartWorld(world)).toThrow(/seedStats\.actor-a\.hp: 必须是非负安全整数/)
   })
   test('seedStats 未知键拒绝（只允许 hp/mp）', () => {

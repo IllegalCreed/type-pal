@@ -4,8 +4,8 @@
  * 已定义错误：头过小 / 首偏移非 4 倍数 / count<0。越界损坏偏移为未定义行为，不设合同（仅注释）。
  */
 import { describe, expect, it } from 'vitest'
-import { chunkCount, openMkf, readChunk } from './mkf.js'
 import { mkMkf } from './__tests__/glm-foundation-fixtures.js'
+import { chunkCount, openMkf, readChunk } from './mkf.js'
 
 describe('openMkf 头合同', () => {
   it('N+1 偏移：count=(firstOffset/4)-1，offsets 完整读出头', () => {
@@ -52,9 +52,7 @@ describe('openMkf 头合同', () => {
 })
 
 describe('readChunk 边界', () => {
-  const mkf = openMkf(
-    mkMkf([Uint8Array.from([1]), Uint8Array.of(), Uint8Array.from([7, 8])]),
-  )
+  const mkf = openMkf(mkMkf([Uint8Array.from([1]), Uint8Array.of(), Uint8Array.from([7, 8])]))
 
   it('首/末 chunk 索引边界均可达，返回 subarray 视图', () => {
     expect(Array.from(readChunk(mkf, 0))).toEqual([1])

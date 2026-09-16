@@ -41,6 +41,7 @@ export const PLAYER_ROLE_ROWS = {
   hp: 9,
   mp: 10,
   equipHead: 11,
+  equipAccessory: 16,
   attackStrength: 17,
   fleeRate: 21,
   elemWind: 23,
@@ -49,6 +50,7 @@ export const PLAYER_ROLE_ROWS = {
   elemFire: 26,
   elemEarth: 27,
   magicSlot0: 32,
+  magicSlot31: 63,
   walkFrames: 64,
   attackSound: 69,
 } as const
@@ -59,7 +61,9 @@ export function playerRoleCell(row: number, player: number, value: number): [num
 }
 
 /** 最小完整 Words 表（flat/system/battleUi 为必填段，本组测试只消费具名段）。 */
-export function mkWords(over: Partial<{ items: string[]; spells: string[]; persons: string[]; enemies: string[] }> = {}) {
+export function mkWords(
+  over: Partial<{ items: string[]; spells: string[]; persons: string[]; enemies: string[] }> = {},
+) {
   return {
     items: over.items ?? [],
     spells: over.spells ?? [],

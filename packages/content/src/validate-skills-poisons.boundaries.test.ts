@@ -5,8 +5,8 @@
  * 注意：schema 允许的 target/effects 组合按 schema 合同断言，不按运行时 C-03 现状写"应拒绝"。
  */
 import { describe, expect, test } from 'vitest'
-import { validatePoisons, validateSkills } from './validate.js'
 import { minimalPoison, minimalSkill } from './__tests__/glm-foundation-fixtures.js'
+import { validatePoisons, validateSkills } from './validate.js'
 
 describe('validatePoisons · 正控', () => {
   test('丰富毒定义（含双 tick/grantItem/halveHp/关系字段）通过并原样返回', () => {
@@ -44,11 +44,7 @@ describe('validatePoisons · 字段损坏矩阵', () => {
     ['lethalWith 非正', [{ ...minimalPoison(), lethalWith: 0 }], /lethalWith: 期望正安全整数/],
     ['counters 非整数', [{ ...minimalPoison(), counters: 1.5 }], /counters: 期望正安全整数/],
     ['playerTicks 空数组', [{ ...minimalPoison(), playerTicks: [] }], /playerTicks: 不得为空/],
-    [
-      'tick 未知键',
-      [{ ...minimalPoison(), playerTicks: [{ power: 1 }] }],
-      /playerTicks\[0\]/,
-    ],
+    ['tick 未知键', [{ ...minimalPoison(), playerTicks: [{ power: 1 }] }], /playerTicks\[0\]/],
     [
       'hpDelta 非整数（负数本身合法）',
       [{ ...minimalPoison(), playerTicks: [{ hpDelta: -1.5 }] }],
@@ -64,11 +60,7 @@ describe('validatePoisons · 字段损坏矩阵', () => {
       [{ ...minimalPoison(), playerTicks: [{ grantItem: '' }] }],
       /grantItem: 期望非空物品 id/,
     ],
-    [
-      'selfCure 非 boolean',
-      [{ ...minimalPoison(), playerTicks: [{ selfCure: 1 }] }],
-      /selfCure/,
-    ],
+    ['selfCure 非 boolean', [{ ...minimalPoison(), playerTicks: [{ selfCure: 1 }] }], /selfCure/],
     [
       'enemyTicks 同门（hpDelta 非整数）',
       [{ ...minimalPoison(), enemyTicks: [{ hpDelta: 'x' }] }],
@@ -82,9 +74,7 @@ describe('validatePoisons · 字段损坏矩阵', () => {
     })
   }
   test('同 id 重复拒绝（禁止 loader 静默覆盖）', () => {
-    expect(() => validatePoisons([minimalPoison(551), minimalPoison(551)])).toThrow(
-      /毒 551 重复/,
-    )
+    expect(() => validatePoisons([minimalPoison(551), minimalPoison(551)])).toThrow(/毒 551 重复/)
   })
 })
 

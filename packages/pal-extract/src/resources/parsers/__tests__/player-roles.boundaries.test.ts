@@ -3,12 +3,19 @@
  * （player-roles.ts:53-260,SoA 75 行×12B=900B）。
  * 必须构造完整 DATA.MKF（chunk3 = 900B）；SoA 轴向：行=字段、列=6 角色，
  * 装备/仙术/抗性数组的轴不能颠倒。角色名走 words.persons 反查。
+ * 装备/仙术断言取完整数组长度+非首/末槽非对称标记，防 slice 截断类坏实现。
  */
 import { describe, expect, test } from 'vitest'
+import {
+  mkMkf,
+  mkTable,
+  mkWords,
+  PLAYER_ROLE_ROWS,
+  playerRoleCell,
+} from '../../../__tests__/glm-foundation-fixtures.js'
 import { parsePlayerRoles } from '../player-roles.js'
-import { PLAYER_ROLE_ROWS, mkMkf, mkTable, mkWords, playerRoleCell } from './glm-foundation-fixtures.js'
 
-const mkRolesChunk = (cells: Array<[number, number]>) => mkTable(900, cells)
+const mkRolesChunk = (cells: ReadonlyArray<[number, number]>) => mkTable(900, cells)
 const mkDataMkf = (rolesChunk: Uint8Array) =>
   mkMkf([Uint8Array.of(1), Uint8Array.of(2), Uint8Array.of(3), rolesChunk])
 
@@ -29,8 +36,10 @@ describe('parsePlayerRoles · SoA 布局合同', () => {
       playerRoleCell(PLAYER_ROLE_ROWS.elemFire, 2, 12),
       playerRoleCell(PLAYER_ROLE_ROWS.equipHead, 0, 196), // 装备行0=头,列0=角色0
       playerRoleCell(PLAYER_ROLE_ROWS.equipHead, 1, 210), // 同行不同角色 → 不同装备
+      playerRoleCell(PLAYER_ROLE_ROWS.equipAccessory, 2, 123), // 装备末行(行5=饰品),角色2
       playerRoleCell(PLAYER_ROLE_ROWS.magicSlot0, 0, 296), // 仙术槽0=角色0 学 spell 296
       playerRoleCell(PLAYER_ROLE_ROWS.magicSlot0, 1, 305),
+      playerRoleCell(PLAYER_ROLE_ROWS.magicSlot31, 2, 456), // 仙术末槽(31),角色2
       playerRoleCell(PLAYER_ROLE_ROWS.walkFrames, 0, 6),
       playerRoleCell(PLAYER_ROLE_ROWS.attackSound, 2, 0xffff), // -1 = 无声音
     ]
@@ -50,10 +59,20 @@ describe('parsePlayerRoles · SoA 布局合同', () => {
     expect(r1!.elemResistance.thunder).toBe(8)
     expect(r2!.elemResistance.fire).toBe(12)
     expect(r0!.elemResistance.water).toBe(0) // 未写单元格保持零
-    expect(r0!.equipment?.slice(0, 1)).toEqual([196])
-    expect(r1!.equipment?.slice(0, 1)).toEqual([210])
-    expect(r0!.magic?.slice(0, 1)).toEqual([296])
-    expect(r1!.magic?.slice(0, 1)).toEqual([305])
+    // 装备：完整长度 6；非首/末槽非对称标记（角色×槽位交错，防截断/换轴）
+    expect(r0!.equipment).toEqual([196, 0, 0, 0, 0, 0])
+    expect(r1!.equipment).toEqual([210, 0, 0, 0, 0, 0])
+    expect(r2!.equipment).toEqual([0, 0, 0, 0, 0, 123])
+    // 仙术：完整长度 32；slot0 与 slot31 的非对称标记
+    const magic0 = Array.from({ length: 32 }, () => 0)
+    magic0[0] = 296
+    expect(r0!.magic).toEqual(magic0)
+    const magic1 = Array.from({ length: 32 }, () => 0)
+    magic1[0] = 305
+    expect(r1!.magic).toEqual(magic1)
+    const magic2 = Array.from({ length: 32 }, () => 0)
+    magic2[31] = 456
+    expect(r2!.magic).toEqual(magic2)
     expect(r0!.walkFrames).toBe(6)
     expect(r2!.attackSound).toBe(-1)
   })
@@ -68,7 +87,9 @@ describe('parsePlayerRoles · SoA 布局合同', () => {
   })
   test('rgwName 指针反查 _name：按 name 值指向 word36+k，role3/4 故意对调不写反', () => {
     // 原版 rgwName = [36,37,38,40,39,41]（player-roles.ts:263 注释真值：role3=巫后/role4=阿奴 对调）
-    const cells = [0, 1, 2, 3, 4, 5].map((p) => playerRoleCell(PLAYER_ROLE_ROWS.name, p, [36, 37, 38, 40, 39, 41][p]!))
+    const cells = [0, 1, 2, 3, 4, 5].map((p) =>
+      playerRoleCell(PLAYER_ROLE_ROWS.name, p, [36, 37, 38, 40, 39, 41][p]!),
+    )
     const words = mkWords({ persons: ['李逍遥', '赵灵儿', '林月如', '阿奴', '巫后', ''] })
     const { roles } = parsePlayerRoles(mkDataMkf(mkRolesChunk(cells)), words)
     expect(roles[0]!._name).toBe('李逍遥')

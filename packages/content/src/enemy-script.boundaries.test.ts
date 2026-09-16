@@ -25,9 +25,9 @@ describe('checkEnemyHookFlow · 基础边界', () => {
     )
   })
   test('initial 未命中拒绝（未知 state）', () => {
-    expect(() =>
-      checkEnemyHookFlow({ ...hookFlow(), initial: 'gone' }, 'hook'),
-    ).toThrow(/hook\.initial: 未知 state gone/)
+    expect(() => checkEnemyHookFlow({ ...hookFlow(), initial: 'gone' }, 'hook')).toThrow(
+      /hook\.initial: 未知 state gone/,
+    )
   })
   test('state body 非数组拒绝且 where 精确', () => {
     const flow = {
@@ -57,9 +57,7 @@ describe('checkEnemyAi · 结构门', () => {
     ).toThrow(/ai\.rules\[0\]\.at: 期望 turnStart\|act/)
   })
   test('hooks 未知频道键拒绝（只允许 ready/turnStart）', () => {
-    expect(() =>
-      checkEnemyAi(ai({ hooks: { idle: hookFlow() } }), 'ai'),
-    ).toThrow(/ai\.hooks/)
+    expect(() => checkEnemyAi(ai({ hooks: { idle: hookFlow() } }), 'ai')).toThrow(/ai\.hooks/)
   })
   test('hooks 内嵌非法 hook flow 逐层透传拒绝', () => {
     expect(() =>

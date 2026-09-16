@@ -27,9 +27,7 @@ export function mkMkf(chunks: ReadonlyArray<Uint8Array>): Uint8Array {
 }
 
 /** 三字面 [0x06,0xAA,0xBB]（uncompLen=3）。 */
-export const YJ2_THREE_LITERALS = Uint8Array.from([
-  0x03, 0x00, 0x00, 0x00, 0x43, 0x28, 0x38, 0x01,
-])
+export const YJ2_THREE_LITERALS = Uint8Array.from([0x03, 0x00, 0x00, 0x00, 0x43, 0x28, 0x38, 0x01])
 
 /** 字面 ABC + 回引(pos=2,len=4)：out = ABC + out[0+j] = ABCABCA（重叠复制语义）。 */
 export const YJ2_BACKREF_OVERLAP = Uint8Array.from([
@@ -40,9 +38,7 @@ export const YJ2_BACKREF_OVERLAP = Uint8Array.from([
 export const YJ2_EARLY_EOS = Uint8Array.from([0x05, 0x00, 0x00, 0x00, 0xfb, 0xfd, 0x00, 0x7e])
 
 /** RNG 帧增量 payload：解压为 [0x06,0xAA,0xBB]（写 1 对 literal）。 */
-export const YJ2_RNG_PAIR = Uint8Array.from([
-  0x03, 0x00, 0x00, 0x00, 0x43, 0x28, 0x38, 0x01,
-])
+export const YJ2_RNG_PAIR = Uint8Array.from([0x03, 0x00, 0x00, 0x00, 0x43, 0x28, 0x38, 0x01])
 
 /** RNG 帧增量 payload：解压为 [0x02,0x06,0xCC,0xDD]（skip 2 后写 1 对）。 */
 export const YJ2_RNG_SKIP_THEN_PAIR = Uint8Array.from([

@@ -4,8 +4,8 @@
  * 作者修改保留语义：value 冲突结果=ours；不把 ours/theirs 颠倒。
  */
 import { describe, expect, test } from 'vitest'
-import type { MigrationJson } from './pal-migration.js'
 import { jsonAbsent, jsonPresent, mergeManagedFile } from './migration-merge.js'
+import type { MigrationJson } from './pal-migration.js'
 
 type V = Record<string, MigrationJson>
 
@@ -57,9 +57,9 @@ describe('mergeManagedFile · 原子叶子三方规则（非身份数组文件�
 
   test('absent/存在组合：单方新增采纳；删除-修改冲突；add-add 冲突', () => {
     // base 缺席 + ours 缺席 + theirs 新增 → 采纳 theirs
-    expect(
-      mergeManagedFile(file, jsonAbsent(), jsonAbsent(), jsonPresent({ b: 1 })).value,
-    ).toEqual({ present: true, value: { b: 1 } })
+    expect(mergeManagedFile(file, jsonAbsent(), jsonAbsent(), jsonPresent({ b: 1 })).value).toEqual(
+      { present: true, value: { b: 1 } },
+    )
     // base 存在 + ours 删除 + theirs 未动 → 删除生效（结果 absent）
     expect(
       mergeManagedFile(file, jsonPresent({ a: 1 }), jsonAbsent(), jsonPresent({ a: 1 })).value,
@@ -73,9 +73,9 @@ describe('mergeManagedFile · 原子叶子三方规则（非身份数组文件�
     expect(aa.conflicts[0]!.type).toBe('add-add')
     expect(aa.value).toEqual({ present: true, value: { x: 1 } })
     // base 缺席 + ours 新增 + theirs 缺席 → ours
-    expect(
-      mergeManagedFile(file, jsonAbsent(), jsonPresent({ x: 1 }), jsonAbsent()).value,
-    ).toEqual({ present: true, value: { x: 1 } })
+    expect(mergeManagedFile(file, jsonAbsent(), jsonPresent({ x: 1 }), jsonAbsent()).value).toEqual(
+      { present: true, value: { x: 1 } },
+    )
   })
 })
 

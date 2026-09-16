@@ -22,7 +22,14 @@ export function minimalActor(id = 'actor-a') {
 
 /** 最小合法技能（animation 最小形状 = { effectSprite: 1 }）。 */
 export function minimalSkill(id = '370') {
-  return { id, name: `技能${id}`, cost: {}, target: 'oneEnemy', effects: [], animation: { effectSprite: 1 } }
+  return {
+    id,
+    name: `技能${id}`,
+    cost: {},
+    target: 'oneEnemy',
+    effects: [],
+    animation: { effectSprite: 1 },
+  }
 }
 
 /** 最小合法毒定义。 */

@@ -5,13 +5,13 @@
  * objectId（OBJECT 表绝对 index 398+）。
  */
 import { describe, expect, test } from 'vitest'
+import { mkTable, mkWords } from '../../../__tests__/glm-foundation-fixtures.js'
 import {
-  buildObjectIndexToEnemyIdMap,
   buildEnemyObjectNameMap,
+  buildObjectIndexToEnemyIdMap,
   parseEnemies,
   parseEnemyObjects,
 } from '../enemies.js'
-import { mkTable, mkWords } from './glm-foundation-fixtures.js'
 
 const ENEMY_SIZE = 70
 const OBJ_SIZE = 14

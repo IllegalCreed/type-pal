@@ -4,8 +4,8 @@
  * 精确未触字节断言与 decodeRngFrames 的合成容器链路。只比较 Uint8Array 数值，不渲染。
  */
 import { describe, expect, it } from 'vitest'
-import { RNG_HEIGHT, RNG_WIDTH, decodeRngFrames, rngBlitDelta } from './rng.js'
 import { mkMkf, YJ2_RNG_PAIR, YJ2_RNG_SKIP_THEN_PAIR } from './__tests__/glm-foundation-fixtures.js'
+import { decodeRngFrames, RNG_HEIGHT, RNG_WIDTH, rngBlitDelta } from './rng.js'
 
 const MARK = 0xee
 const surface = () => new Uint8Array(RNG_WIDTH * RNG_HEIGHT).fill(MARK)
@@ -70,14 +70,22 @@ describe('rngBlitDelta 同对重复族', () => {
     for (const [op, n] of reps) {
       const s = surface()
       rngBlitDelta(Uint8Array.from([op, 0xc1, 0xc2]), s)
-      expectExact(s, 0, Array.from({ length: n * 2 }, (_, i) => (i % 2 === 0 ? 0xc1 : 0xc2)))
+      expectExact(
+        s,
+        0,
+        Array.from({ length: n * 2 }, (_, i) => (i % 2 === 0 ? 0xc1 : 0xc2)),
+      )
     }
   })
 
   it('0x11 + n：重复 (n+1) 次', () => {
     const s = surface()
     rngBlitDelta(Uint8Array.from([0x11, 0x03, 0x77, 0x88]), s)
-    expectExact(s, 0, Array.from({ length: 8 }, (_, i) => (i % 2 === 0 ? 0x77 : 0x88)))
+    expectExact(
+      s,
+      0,
+      Array.from({ length: 8 }, (_, i) => (i % 2 === 0 ? 0x77 : 0x88)),
+    )
   })
 
   it('0x12 + 2byte LE：重复 (w+1) 次（跨字节 w=0x0100）', () => {
@@ -107,9 +115,7 @@ describe('rngBlitDelta 终止与混合', () => {
 })
 
 describe('decodeRngFrames（合成 sub-MKF 容器链路）', () => {
-  it('空输入返回空数组（已定义，非错误）', () => {
-    expect(decodeRngFrames(Uint8Array.of())).toEqual([])
-  })
+  // 注：空输入 → [] 已由既有 rng.test.ts「空 chunk → 空帧数组」覆盖，此处不重复（R4 去重）。
 
   it('两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）', () => {
     // 帧0 payload=[0x06,AA,BB]（写1对@0）；帧1 payload=[0x02,0x06,CC,DD]（skip2→写@2,3）

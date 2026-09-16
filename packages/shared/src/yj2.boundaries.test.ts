@@ -5,8 +5,12 @@
  * (dst-pos-1<0)不能在不复制生产算法的前提下独立构造，列待证不作绿色宣称。
  */
 import { describe, expect, it } from 'vitest'
+import {
+  YJ2_BACKREF_OVERLAP,
+  YJ2_EARLY_EOS,
+  YJ2_THREE_LITERALS,
+} from './__tests__/glm-foundation-fixtures.js'
 import { decompressYj2 } from './yj2.js'
-import { YJ2_BACKREF_OVERLAP, YJ2_EARLY_EOS, YJ2_THREE_LITERALS } from './__tests__/glm-foundation-fixtures.js'
 
 describe('decompressYj2 已定义头错误', () => {
   it('源 <4 字节拒绝', () => {

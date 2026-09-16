@@ -6,8 +6,8 @@
  * 本验证器不查 spriteId 是否存在（跨表引用由工程级校验承担）。
  */
 import { describe, expect, test } from 'vitest'
-import { validateActors } from './validate.js'
 import { minimalActor } from './__tests__/glm-foundation-fixtures.js'
+import { validateActors } from './validate.js'
 
 describe('validateActors · 基础字段', () => {
   test('最小 actor（仅三必填）通过并原样返回', () => {
@@ -15,7 +15,9 @@ describe('validateActors · 基础字段', () => {
     expect(validateActors(actors)).toBe(actors)
   })
   test('id 非 string 拒绝（name 已有测试，此处补 id/spriteId）', () => {
-    expect(() => validateActors([{ ...minimalActor(), id: 42 }])).toThrow(/actors\[0\]: id 非string/)
+    expect(() => validateActors([{ ...minimalActor(), id: 42 }])).toThrow(
+      /actors\[0\]: id 非string/,
+    )
     expect(() => validateActors([{ ...minimalActor(), spriteId: 7 }])).toThrow(
       /actors\[0\]: spriteId 非string/,
     )

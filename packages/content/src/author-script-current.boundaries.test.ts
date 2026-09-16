@@ -16,7 +16,9 @@ const stagesFlow = (stages: unknown[], initial = 'start') => ({
 
 describe('checkAuthorScriptFlow · 选项门', () => {
   test('最小 stages 流通过；entry 缺席是普通 stage 的合法形态', () => {
-    expect(() => checkAuthorScriptFlow(stagesFlow([{ id: 'start', body: [] }]), 'flow')).not.toThrow()
+    expect(() =>
+      checkAuthorScriptFlow(stagesFlow([{ id: 'start', body: [] }]), 'flow'),
+    ).not.toThrow()
   })
 
   test('未开 allowSceneEntry 时 entry 拒绝', () => {
@@ -68,13 +70,19 @@ describe('checkAuthorScriptFlow · 选项门', () => {
 describe('checkAuthorScriptFlow · stage 机 where 路径', () => {
   test('重复 stage id 拒绝且 where 含重复值', () => {
     expect(() =>
-      checkAuthorScriptFlow(stagesFlow([{ id: 'start', body: [] }, { id: 'start', body: [] }]), 'flow'),
+      checkAuthorScriptFlow(
+        stagesFlow([
+          { id: 'start', body: [] },
+          { id: 'start', body: [] },
+        ]),
+        'flow',
+      ),
     ).toThrow(/stages\[1\]\.id: 重复 start/)
   })
   test('initial 未命中拒绝', () => {
-    expect(() => checkAuthorScriptFlow(stagesFlow([{ id: 'start', body: [] }], 'gone'), 'flow')).toThrow(
-      /initial: 未命中 stage gone/,
-    )
+    expect(() =>
+      checkAuthorScriptFlow(stagesFlow([{ id: 'start', body: [] }], 'gone'), 'flow'),
+    ).toThrow(/initial: 未命中 stage gone/)
   })
   test('next 指向不存在 stage 拒绝', () => {
     expect(() =>
