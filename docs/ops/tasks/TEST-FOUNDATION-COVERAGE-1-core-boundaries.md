@@ -1,6 +1,6 @@
 # TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强
 
-Status: draft
+Status: build
 Phase: ops
 Capability: 测试覆盖建设（不改变能力地图状态）
 Coding Owner: GLM（仅白名单测试）
@@ -208,7 +208,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
     既有 rng.test.ts 四族 opcode 覆盖与 A2 目标重叠面以 build 期去重核对为准。
 - 非Coding Owner独立前提证据：Codex如上；Kimi补其独立核验与可证伪观察。
 - 用户豁免：none；WORLD旧卡豁免不适用于此新卡。
-- build准入：blocked，待三席r1设计齐且无counter；不得提前新增正式测试。
+- build准入：build allowed（2026-09-16，Coding Owner 核验：Codex r1（分配提交 d901b77f 席位）/GLM r1（5d39f7bf）/Kimi r1（056d1e38）三签齐、无 counter；三签提交对 d901b77f 为纯文档，产品对 d64bbf6d 零漂移已实测）。测试分支自 056d1e38 建立 codex/glm-foundation-coverage-r1。
 
 ### done前
 
