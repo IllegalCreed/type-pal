@@ -183,7 +183,49 @@ owner变化误当lease失活又造成互等；子方finally/失败漏释放导�
     ⑥ 快照发生在全部参与者退出之前；⑦ 实现需要新公共 token/格式版本/改变 F5 权限或调用语义
     → 越界。WORLD 终审若产生相关返工，本卡 build 前须重核其最终产品基线（卡面已列，本席背书）。
   - 返工项：无。
-- GLM：premise pending / design pending；独立合同/矩阵/诊断鉴别力待本人填写。
+- GLM：**premise verified / design agree（2026-09-16，r1，取证基线 aefa5b06、产品 e13216e7；全部证据本人直读/复跑，未读 Kimi 结论；批二 B01-B06 探针为本席原始材料，本席为独立重核，不以历史材料自证）**。
+  - **B-06 身份错位直读**：`runtime-script-project.ts:164-168` wrapper startBattle 委派 `this.retainedHost`；base host
+    `script-project-core.ts:312-318` 用 `withScriptActivityLineage(this, …)` 以 **base host 对象**为 key 查 lineage；
+    而父 flow 在 wrapper 侧以 **`this.host`** 登记（:319/:373/:398）——`script-activity-lineage.ts:18-20/52` WeakMap
+    按 runtimeKey+signal 查不到 → `:54-59` beginActivity → gateClosed 等待，保存正等父链——互等成立。
+  - **B-07 直读**：`runtime-script-project.ts:346` runSceneHook 先 `beginSceneHook` 再在 :373 才登记 lineage；
+    `script-world.ts:531` begin 遇 `this.pending`（保存 barrier 关闭）返回 undefined → :351-364 等待 gate——
+    内联 onTeleport 子链与保存互等成立。
+  - **正确暂停边界直读**：`script-world.ts:451-466` reachSafePoint 先 epoch 校验、commit(clone(cursor))、
+    gateClosed → finish+stop——独立根安全点停止是既有正确合同，设计保留而非一概放行，正确。
+  - **主壳 exact signal 链直读**：`main.ts:6478-6488` 确认框态 F5→quickSave；:6466 activeBattle 提前 return
+    （不声称战斗中可存）；:3505-3513 teleportOut→runDetachedScriptChain→runSceneHook 内联；
+    :5161 `runSignal = signal ?? new AbortController().signal`；:2650 onDefeated `runCommands(…, {signal: launchSignal})`。
+    存档合同 `save-system.md:23-24`/`script-system.md:136-137`：只存 FlowCursor、不存调用栈/等待相位、
+    超时不提交半成品——目标行为与一手合同一致。
+  - **本人复跑（工作树 90d2b877，产品=e13216e7）**：probe-save-barrier-family 两模式 exit0——original 互等
+    （保存超时、快照 0 次、超时解门后全部标志才执行）；admission-only 单点命中 1 次、保存成功但快照
+    {first, parentEnd} 缺 childEnd、子 cursor 已到 last——「仅删准入」不完整修法反例成立；独立根对照
+    first 执行、cursor=last、childEnd 未执行（安全点暂停正确）。旧探针 B01/B03 各 exit1 且红因分别为
+    「confirm继续后的自身子链不得使原保存超时」「内联onTeleport不得与原保存互等至超时」（业务红非环境错）；
+    B02/B04/B05/B06 exit0。**B06 弱断言本人核实**：`probe-glm-next-barrier.mjs:434-437` `result.script?.flags?.…
+    ?? undefined` 在 script 缺席时空真——不能作快照内容证据，正式 SL-07 必须直接抓实际 snapshot（卡面 :130 已钉）。
+    内部 API 残留窗口（enteredAfterReady）本人复跑同样出现，同意仅作设计压力反例、不升格生产缺陷/不重开 U-02。
+  - **SL-01～08 矩阵审查**：非空正控（SL-01 未请求保存对照）、身份六轴+伪造 lease（SL-04）、双状态 to 子尾完整
+    （SL-02 专门堵 admission-only 复发）、独立根停点与 ready 后不入场（SL-03）、busy/多层/并行（SL-05）、
+    epoch 与 lease 存活分离+旧 cursor 拒绝+场景会话重核（SL-06）、取消/错误/超时/重复/后续保存（SL-07）、
+    主壳真实接线（SL-08）——与两根因和风险表逐条对应，无以用例数替代合同的空洞。**非阻断建议**：
+    负控清单（:127 五项）可补第六项「epoch 校验单点负控」——SL-06 有正向合同，去掉 epoch 检查的 mutant
+    应使旧 cursor 覆盖新选择的断言红，钉住 D2 的 epoch/lease 分离不被实现遗漏。
+  - **设计同意**：D1 wrapper 以自身 runtime 身份进既有 activity、透传 exact signal（消除 base-host this 错位）；
+    D2 lineage 收敛为真实 lease 登记+coordinator active 表对象身份核验+残留退化新 root+epoch 与存活分离；
+    D3 嵌套窄准入（真实在途父 lease+coordinator 核验）、各自 lease/owner/cursor 保持、只免除保存 gate 中途
+    stop、自然收尾、同 owner busy 不重入、独立 root 仍等 gate、无公共开关、全员退出才 snapshot——
+    与本人直读的互等成因和 admission-only 反例逐点对应。范围限四文件、无新公共 token/版本/格式、
+    不动 F5 权限与 10 秒上限，未越界。
+  - **可证伪观察**（任一反例即 counter 或收窄）：① 当前树上「真实父 lease 活跃+exact signal+同 runtime+
+    立即结束子链」可保存成功 → 前提倒（本人复跑否定）；② 实现后独立 root 在 gate 关闭期入场或不停安全点 →
+    宽泛绕 gate（SL-03）；③ 嵌套准入但 to 链提前返回缺 childEnd → admission-only 复发（SL-02）；④ 准入凭据
+    仍可由计数/残留登记通过 → active 表身份核验缺席（SL-04）；⑤ owner epoch 变化把仍在执行的父 lease 误判
+    失活（互等复发）或旧 cursor 覆盖新选择（SL-06）；⑥ 快照发生在全部参与者退出之前（SL-05/07）；
+    ⑦ 实现需要新公共 token/格式版本/改变 F5 权限或调用语义 → 越界。⑧ WORLD 终审若返工四个共同文件，
+    本卡 build 前须在新产品基线重跑 premise 探针与旧 B01/B03 红因（卡面已列，本席背书）。
+  - 返工项：无（上述 epoch 负控为非阻断建议）。
 - 独立非Owner证据：pending，不以Codex自证替代。
 - counter：当前无他席结论；缺签豁免：无。
 - build准入：**blocked（待三席设计齐且WORLD相关基线稳定；卡状态仍draft）**。
@@ -202,6 +244,12 @@ owner变化误当lease失活又造成互等；子方finally/失败漏释放导�
 
 ## 交接日志
 
+- 2026-09-16 GLM：完成 r1 独立合同/矩阵审查，签 premise verified + design agree，无返工项（附一条非阻断
+  epoch 单点负控建议）。直读 B-06 wrapper/base-host lineage key 错位、B-07 beginSceneHook 先于 lineage 的
+  pending 拒绝、reachSafePoint 安全点合同、主壳 F5/出口/onDefeated exact signal 链与两份 spec 合同；
+  复跑 family 探针两模式与旧 B01-B06（红因/控制范围逐项核）。批二 B01-B06 探针为本席原始材料已披露；
+  B06 弱断言（optional-chain 空真）本人定位至 probe-glm-next-barrier.mjs:434-437。未改产品/测试/基线/他席/
+  Status，未读 Kimi 结论。Next：三签齐后 Codex 核门禁与 WORLD 基线稳定性再放行 build。
 - 2026-09-16 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
   直读 B-06 lineage 身份错位（wrapper 登记 vs base host this 查询）、B-07 beginSceneHook 不认父链、
   script-world.ts:451-468 安全点正确暂停、主壳 F5/出口/onDefeated exact signal 链；复跑
