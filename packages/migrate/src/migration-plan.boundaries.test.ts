@@ -71,16 +71,33 @@ describe('createMigrationPlan · 分类与 summary', () => {
     expect(plan.target.get('content/a.json')).toEqual({ v: 9 })
   })
 
-  test('冲突时：writes/deletes 清空，conflicts 记录，target 仍含作者侧值', () => {
-    const base = snap({ 'content/a.json': { v: 1 } }, ['content/a.json'])
-    const ours = snap({ 'content/a.json': { v: 2 } }, ['content/a.json'])
-    const theirs = snap({ 'content/a.json': { v: 3 } }, ['content/a.json'])
+  test('冲突时：全部文件的 writes/deletes 清空（含无关净改文件），target 仍含作者侧值', () => {
+    const base = snap(
+      { 'content/a.json': { v: 1 }, 'content/b.json': { w: 1 } },
+      ['content/a.json', 'content/b.json'],
+    )
+    const ours = snap(
+      { 'content/a.json': { v: 2 }, 'content/b.json': { w: 1 } },
+      ['content/a.json', 'content/b.json'],
+    )
+    // a 冲突；b 为 ours=base + theirs 净改（若无冲突本应产生 write）
+    const theirs = snap(
+      { 'content/a.json': { v: 3 }, 'content/b.json': { w: 9 } },
+      ['content/a.json', 'content/b.json'],
+    )
     const plan = createMigrationPlan(base, ours, theirs)
     expect(plan.conflicts).toHaveLength(1)
     expect(plan.conflicts[0]!.file).toBe('content/a.json')
     expect(plan.writes.size).toBe(0)
     expect(plan.deletes).toEqual([])
     expect(plan.target.get('content/a.json')).toEqual({ v: 2 })
+    // 反证：去掉 a 的冲突后 b 会正常产生 write（同一 fixture 的正控）
+    const theirsClean = snap(
+      { 'content/a.json': { v: 2 }, 'content/b.json': { w: 9 } },
+      ['content/a.json', 'content/b.json'],
+    )
+    const cleanPlan = createMigrationPlan(base, ours, theirsClean)
+    expect(cleanPlan.writes.get('content/b.json')).toEqual({ w: 9 })
   })
 
   test('同输入重复调用稳定且输入快照不被修改', () => {
