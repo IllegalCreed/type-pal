@@ -197,13 +197,34 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
   GLM为测试贡献者，Q1(27e605ef)17项单列；Sprite上传WIP原字节隔离，不计入本卡。A3后续补测/D4归D-02/D5归R4、D-02/06/07仍待修均明列，未冒称全覆盖或E2E。
   可证伪：任何实际输入validator拒绝、四见证漏检、旧测试身份移除/范围缩减或指标下降即撤回accept。独立证据与日志见[复核](../../testing/editor-logic-coverage-review.md)。本席accept取代下方历史counter，不代签他席。
 - Codex历史返工复核（2026-09-18，a3687b75）：**counter**。47/47、明确相邻76/76、tsc/Biome、10反控与旧三见证均通过；选择口径已修，独立覆盖2255→2302、+22行/+46分支成立。剩余：R1手写shared cue缺side、原AddLayer实际L3仍非法；R2 invert只验fury，真实restore输入污染仍6/6绿；R4重复敌人ID实际未撤、locale标题仍超断言、逐族锚点与after计数不符。见[最新复核](../../testing/editor-logic-coverage-review.md)。原counter保留如下，但已闭环项不再返工；不合入、不转Kimi、不标done。
-- GLM：pending（实现者自验/贡献披露，非独立第三方）。
+- GLM：**accept（2026-09-18，实现者自验；本人 47 项测试贡献的 Coding Owner 确认，明确不作为独立第三方
+  证明，不替代 Codex 复核或 Kimi 终审）**。
+  - **贡献保留核对**：集成候选 `5ca9dad2`（对比 `5552b2a9`，来源本席 `8e8ae831`）中八个 boundaries 测试经
+    blob 比对——**7 个逐字相同**；仅 `commands-catalog.boundaries.test.ts` 一处**标题订正**
+    （「Add 追加不查重（现行合同）」→「Add 唯一 ID 追加并可撤销」——与残项返工实际改成的合法唯一 ID
+    enemy-y 新增/undo 断言正文一致，标题收窄更准确，本人接受）与 fixture 一处**术语注释订正**
+    （头注释「canonical 工程」→「canonical 项目」，适配 design-system/boundary 术语门禁，无断言变化）。
+    47 项计数逐文件复核：6/7/10/2/6/8/5/3。
+  - **集成树复跑（2026-09-18，main）**：定向 **47/47** exit0；10 负控全部业务红+1 对照绿（rc0）；
+    witnesses 四针 detected（rename/paint 输入污染、broken-rename-target、restore-input-mutation）、
+    closure 防御针 MISSED 不强测（与裁定一致）。
+  - **覆盖统计归属确认**：本席回执的五目标局部口径（行 +22/语句 +48/函数 +7/分支 +46）与 Codex 官方
+    全包口径（editor +23 行/+47 臂 = 五目标 +22/+46 加 tileset-references 1/1）**分列不混算**——差异来源
+    （官方全包命中 tileset-references.ts 的 1 行/1 语句/1 臂）已在 Codex 复核记录说明，非本席回执错误，
+    归属确认成立；after 计数 2302、Q1（27e605ef 的 17 项）单列、210 个旧测试 identity 不变均与本席
+    返工回执一致。
+  - 贡献披露：四组 47 项测试/fixture/负控脚本/诊断配置为 GLM 工作；Codex 两轮 counter、隔离集成树、
+    术语订正与统一质量门（check 7282/ratchet/strict fast 6794/617）除外。无实际不符项。
 - Codex：**counter（2026-09-18，d531aa24接收复核）**。白名单与产品零改动、44/44、typecheck/新文件Biome exit0、原10反控退出码及局部+22行/+46分支已复算；但R1当前validator拒绝正控fixture，C4伪造count冒充真实旧proof；R2实际输入污染和错误portrait asset均漏检；R3 +99强行拒绝并非移除闭合guard；R4诊断多2个PAL漏1个mjs且逐族/标题/计数账不齐。完整证据、精确file:line和返工要求见[复核报告](../../testing/editor-logic-coverage-review.md)。不合入、不跑接收后的官方门禁、不转Kimi；设计不重签、不代签。
 - Kimi：pending（独立终审）。
 - done准入：pending，待Kimi独立accept与GLM本人实现者自验accept；无缺签豁免。用户不承担技术手工复验，无视觉项；Codex最终统一状态，不代签。
 
 ## 交接日志
 
+- 2026-09-18 GLM：补实现者自验 accept（详见 done 前本席）。blob 比对 7/8 测试逐字相同，仅 catalog 标题
+  与 fixture 术语注释两处 Codex 订正（均更准确，接受）；集成树复跑 47/47+10 负控红+四针 detected；
+  覆盖局部/全包口径分列确认（tileset-references 1/1/1 差异来源已核）。贡献披露落卡。仅改本席与日志，
+  未读 Kimi 结论、不碰上传 WIP、不改状态、不代签、不标 done。
 - 2026-09-18 Codex：核8e8ae831远端与白名单、逐项关闭R1/R2/R4，47/76、10负控和四独立见证通过；从5552b2a9建隔离集成树，未stash或改动上传WIP。订正新测试旧标题及术语注释后check7282、ratchet与受保护单次strict fast6794全过，集成候选5ca9dad2。签本席accept、统一转review并同步索引；两席下一步提示同时提供，Kimi独立终审、GLM仅实现者确认，不重签设计、不标done。
 - 2026-09-18 Codex：接收a3687b75，核原counter原文保留及相对467a5f41白名单不变；复跑47/76、类型/Biome、原10反控/三见证及两次同口径覆盖，已修项确认。独立验证残留fixture与invert输入污染，counter收窄为R1/R2/R4，R3关闭。Q1已被该分支合并且与27e605ef一致，贡献单列；本轮未接收测试或改官方基线。
 - 2026-09-18 Codex：接收d531aa24，核ls-remote/白名单/冻结，独立运行八文件44、相邻自选八文件67、editor tsc/Biome；原10负控复跑及同树覆盖before2256/after2300均完成。进一步用现行validator及带实际执行见证的单点坏实现发现R1～R4，签counter转rework。相邻76未给具体命令，未误称本席67证实/证伪该数字；Q1测试不混入。下一步GLM仅白名单返工，counter原文保留。
