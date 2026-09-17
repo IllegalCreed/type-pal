@@ -1,4 +1,4 @@
-> 当前结论（2026-09-17，接收639e9e4e）：**Codex accept**。最后R2已闭，139项/14反控、集成check7218与受保护strict fast6730/617均通过；进入Kimi终审，不标done。
+> 当前结论（2026-09-17，集成48d3b8e3）：**done**。最后R2已闭，139项/14反控、check7218与受保护strict fast6730/617均通过；三席accept且用户确认，Codex核候选零漂移后收口归档。
 > 以下各轮counter按原候选完整保留为历史，不重新要求返工已通过项；最终集成结果见文末。
 >
 > 最新结论（2026-09-17，c0c94333）：上一轮删除/槽位/对象视图/Biome问题已闭；仅R2输入快照浅拷贝仍阻断，另有回执勘误。
@@ -7,7 +7,7 @@
 # TEST-FOUNDATION-COVERAGE-1 · Codex r1接收复核
 
 2026-09-16；候选`01c149b5d55a53dd755412c54077b3ab39b564c3`，分支`codex/glm-foundation-coverage-r1`，分叉/开门点`648b4086`。
-主线复核树`90d2b877`；产品冻结`d64bbf6d`。任务：[四包基础边界](../ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)。
+主线复核树`90d2b877`；产品冻结`d64bbf6d`。任务：[四包基础边界](../ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)。
 
 **结论：counter，暂不集成测试/fixture，不跑官方ratchet或改基线，不转Kimi终审、不标done。**
 四组已有有效贡献与原8负控保留，不要求推倒重写；r1设计不变、不重签。GLM是测试Coding Owner，补齐下列R1～R4后交Codex接收。
@@ -227,7 +227,7 @@ FC_IMMUTABLE_REPAIR=1 pnpm --filter @type-pal/migrate exec vitest run --config /
 ## 定点返工接收与集成 · 2026-09-17 · 639e9e4e
 
 接收候选`639e9e4e08ae6c42ec63d75e61d1ff62cdb40b8f`，远端/GLM worktree一致、工作树干净；集成主线基点`862733ba`。
-**R1～R4技术返工均已关闭，Codex正式接收accept。主线整合候选48d3b8e323f5bc801954c7960d3c25efd7d35fef（对比862733ba）已完成check/ratchet/严格fast；不标done、不替GLM/Kimi签字。**
+**R1～R4技术返工均已关闭。主线整合候选48d3b8e323f5bc801954c7960d3c25efd7d35fef（对比862733ba）已完成check/ratchet/严格fast及三席终审；用户确认后Codex核定done，不代签。**
 
 ### 独立核验
 
@@ -275,4 +275,10 @@ shared函数21/21（100%）；不以此外推shared分支100%或全仓最终目�
 
 后续YJ2两项：①树归约，以独立可核、限资源的向量另行补测；②空窗口回引先核合法输入合同，不将JS越界零值当正确性预期。
 两项只作为已接受归属的剩余覆盖工作，不标完成、不新增产品修复授权，不阻断本卡按已签范围进入终审。
-下一步Kimi独立终审；GLM仅补本人实现者自验登记，Codex统一核定done。旧counter保留，不代签。
+Kimi独立终审、GLM本人实现者自验登记均已完成，Codex在用户确认后统一核定done。旧counter与贡献归属保留，不代签。
+
+### 最终收口（2026-09-17）
+
+用户本轮“签了”后核对：卡中Codex/Kimi/GLM均对集成候选accept，无当前返工；HEAD相对48d3b8e3的产品/测试/脚本/基线无变化。
+本卡已done归档，并同步看板/索引与本回执；本次仅文档操作，既有质量门证据复用、不重复声称跑过。
+YJ2两项后续覆盖与全仓最终目标、完整E2E仍未完成，按原归属保留。本卡无新的Agent签字或用户技术手工复验要求。

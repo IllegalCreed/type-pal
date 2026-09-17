@@ -90,7 +90,7 @@ GLM原材料贡献与Codex修改自验证分开披露，不代签、不重开D-0
 后续用户已批准GLM豁免、Kimi已签r1设计；2026-09-15 Codex已完成三段实现与[正式回归/反控](../../../testing/world-async-commit.md)，推进review待Kimi实现终审。
 新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。
 
-2026-09-16接续：GLM恢复额度，WORLD补审已accept、Kimi终审待回；[四包基础测试](../../tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)三席r1设计齐，GLM已核build准入（648b4086）。
+2026-09-16接续：GLM恢复额度，WORLD补审已accept、Kimi终审待回；[四包基础测试](../../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)三席r1设计齐，GLM已核build准入（648b4086）。
 Codex准备[B-06/B-07保存子链卡](../../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md)r1 draft：
 当前树两旧反例仍业务红，新增[双状态出口反例](save-barrier-lineage-premise.md)排除“只删准入gate”的不完整修法，39项相邻测试绿。
 只是只读前提与方案，不是新产品修复/覆盖率；待两席独立设计签字，不复用WORLD豁免或扩大到U-02/dumpSave。
@@ -98,9 +98,10 @@ Codex准备[B-06/B-07保存子链卡](../../archive/tasks/done/SAVE-BARRIER-LINE
 2026-09-17：上述保存子链r1已完成[实现与验证](../../../testing/save-barrier-lineage.md)，候选dff3442d自身三席终审accept、无返工。
 新增43项、8反控、完整check7079与严格fast6591通过；用户要求按齐备终审收口，Codex核候选零漂移后done归档；SL-E1～3集中R4/Q1仍待执行。
 
-2026-09-17四包补测接收：[TEST-FOUNDATION-COVERAGE-1](../../tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)源候选639e9e4e，
+2026-09-17四包补测接收：[TEST-FOUNDATION-COVERAGE-1](../../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)源候选639e9e4e，
 历轮counter已修并由Codex独立接收，139项GLM测试合入最新主线；完整check7218、官方ratchet/单次受保护strict fast6730/617通过。
-产品源码/旧测试不变，全仓行70.90%/分支62.50%；当前review待Kimi终审和GLM实现者自验登记，不代签、不标done、不外推为完整E2E或覆盖目标完成。
+产品源码/旧测试不变，全仓行70.90%/分支62.50%；集成候选48d3b8e3三席accept、用户确认后由Codex核零漂移并done归档。
+YJ2两项后续补测保留，不外推为完整E2E或覆盖目标完成，不代签其它卡。
 
 本次审计有价值：已发现真实的存档/作者数据保护缺口、状态所有权和跨会话撤销问题，
 以及单测通过但实际业务调用遗漏的战斗/预览问题。这些反例需要补进跨模块业务回归。

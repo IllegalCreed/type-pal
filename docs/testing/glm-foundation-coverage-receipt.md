@@ -1,6 +1,6 @@
 # GLM四包基础测试补强回执（r1 返工交付 · 2026-09-17 定点返工）
 
-任务：[TEST-FOUNDATION-COVERAGE-1](../ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)，r1，review（Codex接收/集成通过，待Kimi终审及GLM本人自验席位）。
+任务：[TEST-FOUNDATION-COVERAGE-1](../ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)，r1，done（2026-09-17，三席accept、用户确认后由Codex收口归档）。
 四目标包源码冻结：`d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86`（shared/content/pal-extract/migrate产品源码未变；三签见任务卡，不重签）。
 Codex集成核定：合入3b1cff4f时继承了主线dff3442d保存修复，因此全仓相对d64并非零产品diff；本次交付相对3b1cff4f没有产品改动，适配主线基点862733ba。
 集成候选：`48d3b8e323f5bc801954c7960d3c25efd7d35fef`，由Codex在main核定，后续SHA回填仅文档。
@@ -151,11 +151,11 @@ zsh 变量无分词参数粘连（CACError）、migrate CLI exclude 被项目配
 
 2026-09-17（639e9e4e）：R1～R4技术返工项已独立复核通过，139项/四包tc/Biome及4对照+14反控通过；
 Codex原三轴污染见证按新标题重跑均在不变性断言业务红，确认深快照不是其它用例碰巧报错。
-已在862733ba主线完成集成及统一门禁，Codex本席accept；下面两轮counter保留为历史，不标整卡done、不代签。
+已在862733ba主线完成集成及统一门禁，Codex本席accept；随后Kimi独立终审与GLM实现者自验均accept，用户确认后由Codex核定done。下面两轮counter保留历史，不代签或改写他席结论。
 Codex仅调整诊断配置为直接导入`migrateCoverageFastTestExcludes`，不以正则收集其他包的排除项；实测原正则29项中额外20项不匹配当前migrate文件，实际选例不变。
 文件数/全仓冻结表述按真实树勘误；正式测试和fixture保持GLM候选原样。官方check7218、ratchet与BASE_REF=862733ba单次严格fast6730/617均exit0。
 全部旧identity与生产文件/指标分母保留，reforge/game/editor基线对象不变；全仓行70.90%/分支62.50%，不是全覆盖或E2E完成。
-完整数字与YJ2后续归属见[最终接收节](glm-foundation-coverage-review.md)。GLM本人实现者自验签字待其补落，Kimi独立终审待回。
+完整数字与YJ2后续归属见[最终接收节](glm-foundation-coverage-review.md)。三席签字已齐、无返工；候选48d3b8e3未漂移，本次只做文档收口。
 
 2026-09-16：候选01c149b5已独立复核，**counter，未集成测试或基线**。完整[接收报告及R1～R4](glm-foundation-coverage-review.md)。
 候选分支内GLM四组回执保留，不从尚未合入分支复制并覆盖本主线占位；读取方式为`git show 01c149b5:docs/testing/glm-foundation-coverage-receipt.md`。

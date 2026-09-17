@@ -293,7 +293,7 @@ Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，�
 
 ### GLM额度恢复补审
 
-给GLM的整段入口见[四包测试卡的GLM提示词](TEST-FOUNDATION-COVERAGE-1-core-boundaries.md#glm)第一段：先对本卡候选e13216e7/对比5bc62a21补实现审查，只写GLM自己的席位/日志并提交推送；不改产品/设计/他席/状态，不标done。补审事实不能替代新测试卡的设计准入。
+给GLM的整段入口见[四包测试卡的GLM提示词](../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md#glm)第一段：先对本卡候选e13216e7/对比5bc62a21补实现审查，只写GLM自己的席位/日志并提交推送；不改产品/设计/他席/状态，不标done。补审事实不能替代新测试卡的设计准入。
 
 ### Kimi原实现终审（继续有效）
 

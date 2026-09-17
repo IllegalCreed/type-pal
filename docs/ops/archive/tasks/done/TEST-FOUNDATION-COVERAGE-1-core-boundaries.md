@@ -1,6 +1,6 @@
 # TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强
 
-Status: review
+Status: done
 Phase: ops
 Capability: 测试覆盖建设（不改变能力地图状态）
 Coding Owner: GLM（仅白名单测试）
@@ -15,6 +15,7 @@ Revision: r1，2026-09-16。产品冻结`d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e8
 集成适配（2026-09-17）：接收639e9e4e，四目标包产品源码仍与上述冻结点一致；分支合入3b1cff4f继承了主线保存修复，
 全仓并非对d64零diff。本次集成基点862733ba，产品无新增改动，测试/fixture不改正文；范围与模型未变，r1不重签。
 集成候选：`48d3b8e323f5bc801954c7960d3c25efd7d35fef`，对比`862733ba`；GLM源候选`639e9e4e08ae6c42ec63d75e61d1ff62cdb40b8f`。
+收口：2026-09-17三席对上述候选均accept、无返工，用户本轮确认“签了”；Codex核候选零漂移后统一done归档，无需技术手工复验。
 分配提交：`d901b77ff25493642fe0d356b4a9547f0914d6f3`；后续本次SHA回填只改文档，不改变r1范围或冻结产品。
 用户批准四组工作并要求转交提示词；**未豁免本新卡三签**。一次设计审全包，签齐后分组连续做，不每组重签。
 
@@ -51,9 +52,9 @@ pal-extract 329/1316、209/539；migrate 3436/6677、2843/6398。数字仅说明
 
 ## 上下文锚点
 
-- [AGENTS](../../../AGENTS.md)、[CLAUDE](../../../CLAUDE.md)、[READ-FIRST](../../phase2/READ-FIRST.md)、[协作流程](../agent-workflow.md)。
-- [覆盖率合同](../../testing/coverage.md)、[预E2E总队列](../audits/pre-e2e/summary.md)、[批二接收结论](../../testing/glm-pre-e2e-boundary-batch-2-report.md)。
-- [第一阶段工程经验](../../phase1/engineering-notes.md)、[知识迁移目录](../../phase2/reference/phase1-knowledge-harvest.md)仅按A/C格式/解码相关段读取，不重做运行机制全审计。
+- [AGENTS](../../../../../AGENTS.md)、[CLAUDE](../../../../../CLAUDE.md)、[READ-FIRST](../../../../phase2/READ-FIRST.md)、[协作流程](../../../agent-workflow.md)。
+- [覆盖率合同](../../../../testing/coverage.md)、[预E2E总队列](../../../audits/pre-e2e/summary.md)、[批二接收结论](../../../../testing/glm-pre-e2e-boundary-batch-2-report.md)。
+- [第一阶段工程经验](../../../../phase1/engineering-notes.md)、[知识迁移目录](../../../../phase2/reference/phase1-knowledge-harvest.md)仅按A/C格式/解码相关段读取，不重做运行机制全审计。
 - 既有测试要先通读目标模块相邻文件；不导入另一个.test.ts导致重复执行，也不把同一文件换名复制当新增贡献。
 - Vitest与V8均为4.1.7。使用现有配置，不使用已移除的coverage.all；新增fixture只进__tests__等已有测试专用范围。
 
@@ -105,7 +106,7 @@ pal-extract 329/1316、209/539；migrate 3436/6677、2843/6398。数字仅说明
 - pal-extract/src/resources/parsers/__tests__：`enemies.boundaries.test.ts`、`player-roles.boundaries.test.ts`、`spells.boundaries.test.ts`。
 - migrate/src：`migration-merge.boundaries.test.ts`、`migration-plan.boundaries.test.ts`、`migration-baseline-pure.boundaries.test.ts`。
 - 必要fixture：上述四包各自`src/__tests__/glm-foundation-fixtures.ts`，只放数据/薄构造器，不复制产品算法，不被生产导入；无需要不创建。
-- 文档：[GLM回执](../../testing/glm-foundation-coverage-receipt.md)的GLM区域；可增`docs/testing/glm-foundation-coverage-evidence.json`、`glm-foundation-coverage-mutants.mjs`、`glm-foundation-coverage.config.mts`并在回执链接。配置仅用于tmp诊断，不成为正式统计配置。
+- 文档：[GLM回执](../../../../testing/glm-foundation-coverage-receipt.md)的GLM区域；可增`docs/testing/glm-foundation-coverage-evidence.json`、`glm-foundation-coverage-mutants.mjs`、`glm-foundation-coverage.config.mts`并在回执链接。配置仅用于tmp诊断，不成为正式统计配置。
 - 本卡自己的设计/自验/交接块；作为Coding Owner只能在三签齐、无counter后核定build，完成四组自验后可交review；不得代写他席或标done。
 - WORLD旧卡只允许自己的补审席位/日志，单独文档提交到main；不修改其设计/状态/历史豁免或其他席位。
 
@@ -215,7 +216,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 ### done前
 
-当前门禁：Codex集成accept；Kimi独立终审与GLM本人实现者自验签字待落卡。下列01c149b5/c0c94333两轮counter保留历史，均已由639e9e4e修复并复核关闭。
+当前门禁：Codex集成accept、Kimi独立终审accept、GLM本人实现者自验accept，三席齐、无缺签豁免。下列01c149b5/c0c94333两轮counter保留历史，均已由639e9e4e修复并复核关闭。
 
 - GLM：**accept（2026-09-17，实现者自验；本人测试贡献的 Coding Owner 自验，非独立第三方证明）**。
   - **候选一致性核对**：集成候选 `48d3b8e3`（对比基点 `862733ba`）中本人 15 个 boundaries 测试 + 3 个 fixture
@@ -233,7 +234,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
     YJ2 两项后续归属按回执保持。无实际不符项。
 - Codex：**counter（2026-09-16，候选01c149b5）**。独立定向133项、四包typecheck和8负控符合预期，产品零diff；
   pal/migrate覆盖对照复算相同。但最终树Biome27错；隔离坏实现证明D组冲突仍删文件、C组只留首槽均未被新套件拦截；
-  D组自比较/缺席替身、C3未完成及交付账需定点返工。详见[独立复核R1～R4](../../testing/glm-foundation-coverage-review.md)。
+  D组自比较/缺席替身、C3未完成及交付账需定点返工。详见[独立复核R1～R4](../../../../testing/glm-foundation-coverage-review.md)。
   r1设计保持，不先集成、不跑ratchet/改基线；本席不代填GLM自验/Kimi终审，Coding Owner接手按counter核定rework。
 - Codex最新（2026-09-17，候选c0c94333）：**counter仅剩R2深快照漏洞及回执勘误**。139/139、相邻、四包tc/Biome和11负控通过；
   原三见证已独立复建转红，R1格式/白名单、R2删除/absent-null/hash、R3槽位/对象视图通过，不重开。
@@ -269,9 +270,14 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
   原三轴污染见证均命中深快照断言。已合入862733ba产品树，完整check7218项、官方ratchet和受保护单次严格fast6730项通过，617生产文件与全部旧测试identity保持。
   全仓行70.90%/分支62.50%，无产品/既有测试改动或scope移除；仅诊断配置改为官方数组导入并勘误21文件/冻结点，139项测试与fixture保持GLM原样。
   YJ2树归约、空窗回引合同按已核后续归属接受，不声称完整覆盖/E2E已完成；GLM是测试贡献者，非其自己测试的独立第三方证明。
-- done准入：blocked；由Codex统一收口，不由GLM标done。
+- done准入：**done allowed（2026-09-17，Codex统一核定）**。三席当前实现签字均accept且无返工；HEAD相对48d3b8e3的packages/scripts/lock零diff。
+  用户本轮确认推进，本卡无手工/视觉验收项；按已签范围done归档。YJ2两项保留已接受的后续归属，不宣称全仓覆盖目标或E2E完成。
 
 ## 额度、并行与交接
+
+- 2026-09-17 Codex：核用户“签了”及当前卡中三席有效accept，候选48d3b8e3无代码/测试/基线漂移，统一核定done并归档。
+  同步看板、索引、接收/覆盖报告与审计进度；既有check7218、strict fast6730/617、139项和14反控证据复用，不将本次文档收口冒称新一轮产品测试。
+  三席原文及历轮counter保留；YJ2树归约/空窗回引后续工作不关闭，不代签、不扩张WORLD或其它任务准入。
 
 - 2026-09-17 Kimi（独立终审）：同步 `2f0bc61b`、工作树干净后核 `862733ba → 48d3b8e3`。
   产品与既有测试零 diff 实测；四组定向本人复跑 27+69+19+24=139 全绿；14 针负控经入仓脚本
@@ -317,14 +323,16 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 ## 下一位Agent提示词
 
-### 当前交接：集成候选终审（设计r1不重签）
+无下一位Agent提示词，本卡已done收口；后续YJ2补测按已登记范围另行安排。下方仅保留历史交接，不再发起重复签字。
+
+### 历史交接：集成候选终审（已完成）
 
 集成候选48d3b8e323f5bc801954c7960d3c25efd7d35fef，整合基点862733ba，GLM源候选639e9e4e。两席独立读取候选证据，不读取/复述彼此本轮结论；各自只改自己的席位与日志并提交推送。
 
 #### Kimi独立终审
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 TEST-FOUNDATION-COVERAGE-1 r1，任务卡 docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，状态review。候选48d3b8e323f5bc801954c7960d3c25efd7d35fef，对比862733ba；GLM源候选639e9e4e，设计不重签。
+在 /Users/zhangxu/illegal/type-pal 终审 TEST-FOUNDATION-COVERAGE-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，状态review。候选48d3b8e323f5bc801954c7960d3c25efd7d35fef，对比862733ba；GLM源候选639e9e4e，设计不重签。
 先同步并查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡和docs/testing/glm-foundation-coverage-review.md的最终接收节、glm-foundation-coverage-receipt.md。独立核139项（27/69/19/24）业务断言、原三见证与深快照三轴反控、C3两视图、纯函数/真实IO边界、current-only与第一阶段原盘格式分界。不要把读到的Codex/GLM结论当作独立证据。
 重点核集成相对862733ba无产品/既有测试变化；139项与fixture等于GLM源树；Codex仅将诊断配置改为官方迁移排除数组导入并勘误文档，基线由官方ratchet更新。复跑定向/反控，核check7218、BASE_REF=862733ba的单次strict fast6730/617、旧identity/分母不变与四包增量；YJ2两项是已登记后续，不伪称全覆盖。
 在自己的实现席位写accept或带file:line/反例的counter，附独立证据、可证伪观察和旧版本兼容审查，追加本人日志并提交推送。不改产品/测试/基线/他席/状态，不代签、不标done；无视觉任务，GLM测试贡献须披露。
@@ -333,7 +341,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 #### GLM仅补实现者自验登记
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 为 TEST-FOUNDATION-COVERAGE-1 r1补本人实现者自验席位。卡 docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，状态review；候选48d3b8e323f5bc801954c7960d3c25efd7d35fef，对比862733ba，源贡献639e9e4e。设计不重签，不是让你对自己的测试再做独立第三方审查。
+在 /Users/zhangxu/illegal/type-pal 为 TEST-FOUNDATION-COVERAGE-1 r1补本人实现者自验席位。卡 docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，状态review；候选48d3b8e323f5bc801954c7960d3c25efd7d35fef，对比862733ba，源贡献639e9e4e。设计不重签，不是让你对自己的测试再做独立第三方审查。
 先同步并查工作树，读根协议、CLAUDE、phase2 READ-FIRST、本卡及docs/testing/glm-foundation-coverage-review.md最终接收节。Codex已核关闭R1～R4，139项/14反控、完整check7218、官方ratchet与受保护strict fast6730均通过；139项测试/fixture保持你的源树原样，只有诊断配置官方数组导入与文档勘误由Codex适配。
 核对你贡献范围及集成差异，在GLM席位明确签accept（实现者自验，非独立第三方）或报告实际不符；更新本人日志，直接提交推送。不读/复述Kimi结论，不改他席/产品/测试/统计基线或状态，不标done，不做视觉；无需为已完成的独立质量门重复整仓运行。
 ```
@@ -342,7 +350,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-FOUNDATION-COVERAGE-1 r1，分支codex/glm-foundation-coverage-r1，候选c0c9433333037f35da1fd36042cc647d6538f338。产品冻结d64bbf6d，三签不重签。
-先同步并查工作树，读根协议、CLAUDE、phase2 READ-FIRST、任务卡docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md和docs/testing/glm-foundation-coverage-review.md末节2026-09-17返工复核；保留counter原文，不改他席。
+先同步并查工作树，读根协议、CLAUDE、phase2 READ-FIRST、任务卡docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md和docs/testing/glm-foundation-coverage-review.md末节2026-09-17返工复核；保留counter原文，不改他席。
 上轮Biome/fixture路径、删除门、真absent/null、角色槽位、C3对象视图已经Codex复核通过，139项及11负控有效，不重做。唯一代码阻断：migration-plan.boundaries.test.ts:103-112的files展开仍共享值对象，before不是独立快照；base/ours/theirs各自被原地写v=17时测试仍绿。改为真正深快照并永久化输入污染负控；正常原实现绿、三个污染轴业务红。现成诊断在/tmp/codex-foundation-r1-rework.KtFIPX/immutability.config.mjs，丢失可按报告重建，勿改产品。
 同时更正回执完整冻结SHA、D组8/8/8=24、独有文件增量基点、旧133项覆盖数据的历史时点，给完整可复制覆盖命令/配置；null与{a:null}用例不要仍叫缺席。YJ2两项后续归属保持，不扩范围。
 仅改本人白名单新测试/诊断和回执，既有测试/产品/原探针/统计配置基线零改；作为Coding Owner按counter核定状态并填本人真实自验。定向/受影响相邻、tc/Biome/负控通过后提交推送交Codex接收；不代签、不标done、不转Kimi。整批接收后才由Codex跑官方check/ratchet/单次严格fast。
@@ -352,7 +360,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 返工 TEST-FOUNDATION-COVERAGE-1 r1，候选01c149b5收到Codex counter，尚未集成；产品继续冻结d64bbf6d，设计三签保持、不重签。
-先同步并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md及docs/testing/glm-foundation-coverage-review.md全部R1～R4；在原codex/glm-foundation-coverage-r1分支接收counter文档，保留原文。你是Coding Owner，按counter核定rework，不改他席结论。
+先同步并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md及docs/testing/glm-foundation-coverage-review.md全部R1～R4；在原codex/glm-foundation-coverage-r1分支接收counter文档，保留原文。你是Coding Owner，按counter核定rework，不改他席结论。
 R1修本人文件Biome27错、真实15测试/3fixture和B组20/6/4/21/9/9计数，pal fixture回精确白名单。R2补冲突下真实待删除文件与无冲突正控，删恒真hash自比较，真实absent/null及metadata/write-map、输入不变范围对账。R3补角色非首/末装备和仙术槽的完整非对称断言；C3 poisons/players视图本轮补齐，不以分支少后置。R4逐族分类/去重/准确负控红因与可重建覆盖命令补齐。
 原133项与8负控的有效部分保留，pal/migrate覆盖数字已复算认可；YJ2两项可列明确后续归属，不为分支率造大资源流或固化未定义坏输入。额外三针见报告与/tmp/codex-foundation-review.G53t4a/witness.config.mjs，返工后应业务红；临时文件丢失按报告唯一替换可重建。
 只改本卡白名单新测试/fixture、本人回执/证据/日志，不改产品、既有测试、原探针、统计配置/基线，不做视觉。逐组定向及相邻、typecheck/Biome和单点负控重跑，从最终树生成回执，不靠记忆写数字。完成交Codex复核后再决定集成/全仓check/ratchet/严格fast；不代签、不标done、不转Kimi终审。
@@ -364,7 +372,7 @@ R1修本人文件Biome27错、真实15测试/3fixture和B组20/6/4/21/9/9计数�
 分配提交d901b77ff25493642fe0d356b4a9547f0914d6f3（仅文档）；新测试分支从该提交建立，产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。
 在 /Users/zhangxu/illegal/type-pal 执行两段工作：先补审 WORLD-ASYNC-COMMIT-1，再承担 TEST-FOUNDATION-COVERAGE-1 的四组非视觉测试。先同步并检查工作树，读AGENTS/CLAUDE/phase2 READ-FIRST；不要恢复stash或覆盖他人改动。
 第一段：WORLD卡 docs/ops/tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md 当前review，候选e13216e7a4439008df38666cbcfec557c8e5a26c，对比5bc62a21。额度恢复补审，不重开r1设计/历史豁免；披露你参与过批二原始材料，直接核实现与正式回归、8反控及质量门，不读或复述Kimi实现终审。只写你自己的补审席位/日志并提交推送，不改产品/状态、不标done。
-第二段：读 docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md 的r1范围，产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。你是测试Coding Owner：先独立核现行合同/既有测试并签自己的premise/design；签齐前三方门禁不可绕过，只能做只读核对和矩阵准备。Codex/Kimi/你本人r1设计签字齐且无counter后，按卡核定build并在codex/glm-foundation-coverage-r1独立worktree连续完成A共享解码、B当前内容校验、C原盘解析、D纯迁移合并/计划；不逐组要求用户确认。
+第二段：读 docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md 的r1范围，产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。你是测试Coding Owner：先独立核现行合同/既有测试并签自己的premise/design；签齐前三方门禁不可绕过，只能做只读核对和矩阵准备。Codex/Kimi/你本人r1设计签字齐且无counter后，按卡核定build并在codex/glm-foundation-coverage-r1独立worktree连续完成A共享解码、B当前内容校验、C原盘解析、D纯迁移合并/计划；不逐组要求用户确认。
 严格按卡白名单新增自包含正式测试与必要test-only fixture；既有测试/断言、产品、版本、配置、基线、生成产物、旧探针零修改。先去重，每条有来源合同、非空正常输入、精确业务断言；不把当前bug写成正确合同。疑似缺陷只交小型可重建反例，保持该项待处理并继续其它独立项，不自行修产品。
 每组至少两条有效单点负控，必须证明命中与业务断言红，正常实现同输入绿；不得拿模块加载错误/未执行路径当负控。覆盖增量只做固定生产源码/既有测试集的同树前后对照，输出到tmp；不跑官方ratchet/full/strict fast，不改排除/超时，不做浏览器或视觉。
 按A→B→C→D分组提交后继续，所有组都给已补/已有证据/缺陷/待证分类及精确测试名、命令、exit、SHA和负控。四组完成后交Codex复核集成；不凑测试数量、不把局部覆盖当全仓、不代签Kimi/Codex、不标done。只读准备阶段若仍缺签，写清缺席后交接，不越权开始正式测试实现。
@@ -374,7 +382,7 @@ R1修本人文件Biome27错、真实15测试/3fixture和B组20/6/4/21/9/9计数�
 
 ```text
 分配提交d901b77ff25493642fe0d356b4a9547f0914d6f3，请审同一张r1卡；产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。
-在 /Users/zhangxu/illegal/type-pal 设计审查 TEST-FOUNDATION-COVERAGE-1，卡 docs/ops/tasks/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，r1/draft，产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。先同步并读AGENTS/CLAUDE/phase2 READ-FIRST、本卡及docs/testing/coverage.md；此次四组只补测试，不改产品/格式/基线。
+在 /Users/zhangxu/illegal/type-pal 设计审查 TEST-FOUNDATION-COVERAGE-1，卡 docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md，r1/draft，产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。先同步并读AGENTS/CLAUDE/phase2 READ-FIRST、本卡及docs/testing/coverage.md；此次四组只补测试，不改产品/格式/基线。
 请独立直读目标源码与已有测试，核A/C原盘格式与B/D当前模型分界、正常夹具合法性、当前bug不得固化为合同、真实缺陷隔离、YJ2畸形长度资源风险、纯迁移函数与真实写盘边界、同口径覆盖对照及不缩范围。不要读取/复述GLM新卡审查结论。
 在自己的设计席位给带file:line与可证伪观察的premise verified/counter、design agree/counter，只改本卡自己的签字/审查/交接日志并提交推送；不改产品/他席/状态、不开始测试实现、不标done。一次审全包边界，不要求四组分别重签。WORLD-ASYNC-COMMIT-1原实现终审是另一张卡，不与本卡设计签字混用。
 ```
