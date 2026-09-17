@@ -243,6 +243,12 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 ## 实现、审查与交接
 
+- 2026-09-17 Kimi（r1 实现终审）：同步 `fc76f6be`、工作树干净后核 `a5df9fbc → 27e605ef`。
+  直读 enqueueSaveSnapshot 共用队列/真实 barrier/尾归一化与同步捕获类型约束、dumpSave 零参
+  异步绑定、doSave 写队列/缩略图/计数块零改动行；复跑 11 文件/177 项全绿、typecheck exit 0、
+  入仓 5 针负控全业务红+对照绿；交叉核 check 7,235、strict 617/6,747、首轮 ratchet 拒绝与
+  补 quickSave 回调证据、旧 identity 不变、原探针零 diff。旧版本兼容 pass。
+  签 accept，无返工项；未改产品/他席/状态，未读 GLM 结论。Next：Codex 统一核定 done。
 - 2026-09-17 GLM：完成实现终审，done前席位签 accept（证据锚点见上节）。独立复跑定向 177/177、typecheck rc0、
   5 针负控全业务红+17 对照绿；check/ratchet/BASE_REF=a5df9fbc 单次严格 fast 6747/617 三门 rc0 且数字与回执一致；
   独立 diff 核六包基线逐字不变+reforge 恰 +1 文件+17 项、105 旧文件 identity 逐条不变；首次 ratchet 失败日志
