@@ -85,7 +85,7 @@ G-C07仅证明不同root卸载/新挂载观察，不能归因alive保护；44项
 正式回归随B-05/08/09、B-06/07、C-01～05及A-08/09等修复卡转正；七包候选先去重，旧接口不批准删除。
 GLM原材料贡献与Codex修改自验证分开披露，不代签、不重开D-01、不转Kimi终审、不改产品/基线或宣布E2E通过。
 
-2026-09-14后续：B-05/08/09已进入[WORLD-ASYNC-COMMIT-1](../../tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md) r1 draft，
+2026-09-14后续：B-05/08/09已进入[WORLD-ASYNC-COMMIT-1](../../archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md) r1 draft，
 覆盖当前换图同步提交、canonical预检依赖和四选择叶取消残留；不混入保存barrier/U-02/战斗/默认落点或迁移。
 后续用户已批准GLM豁免、Kimi已签r1设计；2026-09-15 Codex已完成三段实现与[正式回归/反控](../../../testing/world-async-commit.md)，推进review待Kimi实现终审。
 新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。

@@ -1,6 +1,6 @@
 # TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: 编辑器逻辑回归与覆盖率（不改变能力地图）
 Coding Owner: GLM（白名单测试）
@@ -182,7 +182,7 @@ Codex同时准备Reforge检查点导出修复；本卡不碰reforge产品或其�
     现行删除守卫与审计 D-02 反例矛盾→按缺陷隔离登记修复卡归属，不倒改预期；⑥产品/旧测试/基线任何
     diff→越界即停。
   - 返工项：无。三签齐且无 counter 后按卡 A→B→C→D 连续执行。
-- 独立非Coding Owner证据：Codex如上，Kimi待补；缺签豁免：无；build准入：blocked（等三席齐，无counter）。
+- 独立非Coding Owner证据：Codex如上，Kimi已独立核合同/缺口/反证；缺签豁免：无；build准入：build allowed（2026-09-17 Codex统一核三席r1齐、无counter）。
 
 ### done前
 
@@ -193,6 +193,7 @@ Codex同时准备Reforge检查点导出修复；本卡不碰reforge产品或其�
 
 ## 交接日志
 
+- 2026-09-17 Codex：核GLM 04383fa7/Kimi bc42986b与本席设计签字齐，用户确认，统一开build。产品冻结c1cec3ad不变；GLM可按既定分支/白名单连续A→D，不需再签；Codex仅实现另一检查点卡，不改本包测试。
 - 2026-09-17 Kimi：完成 r1 独立设计审查（范围/合同/反控/口径），签 premise verified + design agree，无返工项。
   直读 commands.ts:109-117 不可变合同、edit-session.ts:1-8/44-81、actor-dialogue 三类与 stamp 四类命令、
   project-reference snapshot/Index 与 adapters 删除影响链；独立复算四文件分支缺口与卡面逐项一致；
@@ -217,7 +218,7 @@ Codex同时准备Reforge检查点导出修复；本卡不碰reforge产品或其�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 处理三个独立审查：先补尚未落卡的WORLD-ASYNC-COMMIT-1终审，再审TEST-EDITOR-LOGIC-COVERAGE-1与Q1-CHECKPOINT-EXPORT-1的r1设计。先同步并查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，不恢复stash或覆盖他人改动。
-WORLD卡 docs/ops/tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md 当前review，候选e13216e7a4439008df38666cbcfec557c8e5a26c对比5bc62a21，设计不重签。GLM已补审，你本席仍pending。按原卡终审职责独立核代码/回归/8反控，不借保存子链或四包测试的签字代替。当前main已有后续修复，复跑旧候选须隔离工作树或冻结模块，不用当前HEAD冒充候选；只写本人accept/counter与日志，提交推送，不改状态/产品、不标done。
+WORLD卡 docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md 当前review，候选e13216e7a4439008df38666cbcfec557c8e5a26c对比5bc62a21，设计不重签。GLM已补审，你本席仍pending。按原卡终审职责独立核代码/回归/8反控，不借保存子链或四包测试的签字代替。当前main已有后续修复，复跑旧候选须隔离工作树或冻结模块，不用当前HEAD冒充候选；只写本人accept/counter与日志，提交推送，不改状态/产品、不标done。
 新卡 docs/ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，r1/draft，产品起点c1cec3adde5b0090acbc6bc1f325ca1301689873，分配提交d6528e8639f71d92747347526cb35925a84dee8b。独立核四组现行命令/引用合同、fixture合法性、不可变/undo边界、已知缺陷隔离、白名单与非视觉限制、反控与覆盖口径。第二组是角色立绘/表情引用，不是对话系统重写。
 在新卡本人设计席位写有独立一手锚点及可证伪观察的premise verified/design agree或counter；不要读/复述GLM设计结论。只改自己的签字/日志并提交推送，不改他席/状态、不开始实现。一次审全包，三签齐后GLM按卡连续执行，Codex负责集成与所有视觉。
 另按docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md末尾Kimi提示词审该卡r1：产品同c1cec3ad，当前draft，Codex只完成取证未实现；重点核真实DEV绑定、safe-point时序、与F5共用队列、失败恢复和同步快照，不扩大SAVE8/content20。只在本人席位签premise verified/design agree或counter并推送，不借前两卡签字作为本卡准入。

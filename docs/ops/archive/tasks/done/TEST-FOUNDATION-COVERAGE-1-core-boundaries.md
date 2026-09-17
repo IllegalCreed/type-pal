@@ -371,7 +371,7 @@ R1修本人文件Biome27错、真实15测试/3fixture和B组20/6/4/21/9/9计数�
 ```text
 分配提交d901b77ff25493642fe0d356b4a9547f0914d6f3（仅文档）；新测试分支从该提交建立，产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。
 在 /Users/zhangxu/illegal/type-pal 执行两段工作：先补审 WORLD-ASYNC-COMMIT-1，再承担 TEST-FOUNDATION-COVERAGE-1 的四组非视觉测试。先同步并检查工作树，读AGENTS/CLAUDE/phase2 READ-FIRST；不要恢复stash或覆盖他人改动。
-第一段：WORLD卡 docs/ops/tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md 当前review，候选e13216e7a4439008df38666cbcfec557c8e5a26c，对比5bc62a21。额度恢复补审，不重开r1设计/历史豁免；披露你参与过批二原始材料，直接核实现与正式回归、8反控及质量门，不读或复述Kimi实现终审。只写你自己的补审席位/日志并提交推送，不改产品/状态、不标done。
+第一段：WORLD卡 docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md 当前review，候选e13216e7a4439008df38666cbcfec557c8e5a26c，对比5bc62a21。额度恢复补审，不重开r1设计/历史豁免；披露你参与过批二原始材料，直接核实现与正式回归、8反控及质量门，不读或复述Kimi实现终审。只写你自己的补审席位/日志并提交推送，不改产品/状态、不标done。
 第二段：读 docs/ops/archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md 的r1范围，产品冻结d64bbf6d2817ba971ae2bd3bbe9a24f3870e7e86。你是测试Coding Owner：先独立核现行合同/既有测试并签自己的premise/design；签齐前三方门禁不可绕过，只能做只读核对和矩阵准备。Codex/Kimi/你本人r1设计签字齐且无counter后，按卡核定build并在codex/glm-foundation-coverage-r1独立worktree连续完成A共享解码、B当前内容校验、C原盘解析、D纯迁移合并/计划；不逐组要求用户确认。
 严格按卡白名单新增自包含正式测试与必要test-only fixture；既有测试/断言、产品、版本、配置、基线、生成产物、旧探针零修改。先去重，每条有来源合同、非空正常输入、精确业务断言；不把当前bug写成正确合同。疑似缺陷只交小型可重建反例，保持该项待处理并继续其它独立项，不自行修产品。
 每组至少两条有效单点负控，必须证明命中与业务断言红，正常实现同输入绿；不得拿模块加载错误/未执行路径当负控。覆盖增量只做固定生产源码/既有测试集的同树前后对照，输出到tmp；不跑官方ratchet/full/strict fast，不改排除/超时，不做浏览器或视觉。

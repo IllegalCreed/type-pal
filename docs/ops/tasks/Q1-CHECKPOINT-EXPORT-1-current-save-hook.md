@@ -1,6 +1,6 @@
 # Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: Q1/R4准备（不改变能力地图状态）
 Coding Owner: Codex
@@ -12,7 +12,7 @@ Unavailable Agents: none
 Branch: main
 
 Revision: r1，2026-09-17。取证代码基线`c1cec3adde5b0090acbc6bc1f325ca1301689873`，
-取证时HEAD`0d39b797`相对此基线仅分配文档变更。当前只完成诊断/设计，未修产品、未补正式测试。
+取证时HEAD`0d39b797`相对此基线仅分配文档变更。2026-09-17核三席r1设计齐（GLM 04383fa7、Kimi 787c1e0f），Codex开build；不重签。
 
 ## 目标与范围
 
@@ -23,7 +23,7 @@ R4 runner以`await window.__tpE2e.dumpSave()`取得一个独立、当前SAVE8/co
 - 不改SAVE/content版本、codec、schema、存储格式、迁移、PAL工程、资产、读档提交序或脚本调度规则。
 - 不建完整runner/001–010链、不实施N6b、不改变F5权限、不导出战斗/对话中间调用栈。
 - 不碰GLM编辑器补测白名单；不改原审计探针/旧测试预期/统计范围/生产10秒上限。
-- [WORLD](WORLD-ASYNC-COMMIT-1-world-async-commit.md)仍待本卡外的Kimi终审；相关返工若触及快照依赖须重核，不借用其签字。
+- [WORLD](../archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md)已三席accept，本轮独立收口；其后仅已验收保存子链修改共用core，与本卡设计依赖一致，不借用其签字。
 
 ## 前提真值门
 
@@ -177,7 +177,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
     ④失败毒死队尾或存储 I/O 持 barrier→CE-05/06 红；⑤JSON 往返丢分数坐标/可选字段→CE-02 红
     （JSON.stringify 丢 Map 语义的工程经验 :65 已列）；⑥实现扩大 SAVE8/content20/新增公共入口→越界。
   - 返工项：无。本席只签设计；实现由 Codex 负责，本席不改 reforge。
-- 非Owner独立primary证据：pending；缺签豁免：无；build准入：blocked。不得因并行编辑器卡签齐就视本卡可build。
+- 非Owner独立primary证据：Kimi与GLM分别完成，见上方证据与反证；缺签豁免：无；build准入：build allowed（2026-09-17 Codex核定，本卡三席齐、无counter）。
 
 ### 进入done前
 
@@ -188,6 +188,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 ## 实现、审查与交接
 
+- 2026-09-17 Codex：用户确认“签了”；核当前787c1e0f与远端同步、工作树干净，本卡三席r1齐且无counter，推进build。产品取证基线以来零漂移；先写真实注册/安全点/共队列回归，再实现main最小修复。GLM编辑器四组独立推进。
 - 2026-09-17 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
   直读 main.ts:6940-6948 裸绑注册、ops.ts:34-39 三参 builder、:958/:5589-5596 正确零参捕获、
   :5603-5622 共用队列+barrier 同步快照与队尾归一化；复跑 B11 observe/contract（真注册零参业务红）

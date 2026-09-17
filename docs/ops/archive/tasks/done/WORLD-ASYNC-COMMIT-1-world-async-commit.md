@@ -1,6 +1,6 @@
 # WORLD-ASYNC-COMMIT-1 - 世界异步操作提交一致性
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W3 / X1（既有能力缺陷修复，不变更能力地图状态）
 Coding Owner: Codex
@@ -12,7 +12,7 @@ Unavailable Agents: none
 Branch: main
 
 Revision: r1，2026-09-14。设计/产品取证基线：`af3c340021ff573e65360c2c73971d905636e1e4`；其中产品与`70e3f627`一致。
-当前：2026-09-15实现与自验证完成，进入review；用户GLM豁免和5bc62a21的Kimi r1设计签字保持有效，不重签设计、不标done。
+当前：2026-09-17三席实现accept齐、用户确认签字，Codex核定done并归档；用户GLM历史豁免和5bc62a21的Kimi r1设计签字保持有效，不重签。
 2026-09-16用户确认GLM额度恢复，按原安排补实现审查；历史缺席/豁免不追溯改写，产品候选不变。
 
 ## 目标与范围
@@ -40,7 +40,7 @@ SAVE8/content20不变，不做旧档修复/兼容fallback；不新增“所有�
 | 维度 | 当前真值 | 直接证据 |
 |---|---|---|
 | 原版 / primary source | 原版具体异步取消协议N/A：这是新引擎的Promise/AbortSignal与canonical模型，不声称原版有相同协议。采用现有二阶段一手合同：预检不改活动世界；换图同步写现场与持久态；已提交后取消不得撕裂 | `main.ts:1001/3558`；`scene-switch-transaction.ts:87`；`script-runner.test.ts:823` |
-| 第一阶段 | 只借鉴加载前后状态与黑幕分层，不能把旧sceneLoading/调色板白名单搬入新架构。旧loadScene先await资源再写场景状态；没有等价canonical selector | `packages/game/src/core/scene-system.ts:619-646`；[engineering-notes §3.3/3.4](../../phase1/engineering-notes.md)；[harvest W4/W7](../../phase2/reference/phase1-knowledge-harvest.md) |
+| 第一阶段 | 只借鉴加载前后状态与黑幕分层，不能把旧sceneLoading/调色板白名单搬入新架构。旧loadScene先await资源再写场景状态；没有等价canonical selector | `packages/game/src/core/scene-system.ts:619-646`；[engineering-notes §3.3/3.4](../../../../phase1/engineering-notes.md)；[harvest W4/W7](../../../../phase2/reference/phase1-knowledge-harvest.md) |
 | 当前二阶段 B-05 | core先写mapOverride，adapter才reload；main虽保护现场，已经来不及阻止上层值进入快照 | `script-project-core.ts:199-204`；`script-host-adapter.ts:154-156`；`main.ts:3559-3585`；批二A01～04 |
 | 当前二阶段 B-08 | getSceneDef消费canonical页/hook/cursor；签名却读取scratch中没有的sceneScriptOverrides和空entityStage，等待期间目标配置变化后旧计划可被接受 | `main.ts:476/1002-1114`；`runtime-project-view.ts:80-105/157-169/213-229`；`scene-switch-transaction.ts:31-61`；批二A05～08 |
 | 当前二阶段 B-09 | wrapper只在委派前检查signal，基础host的四个await scene后直接写选择；外层最终AbortError不撤销已经错误写下的值 | `runtime-script-project.ts:133-140`；`script-project-core.ts:206-249`；`script-world.ts:409-445`；批二A09～12 |
@@ -50,7 +50,7 @@ SAVE8/content20不变，不做旧档修复/兼容fallback；不新增“所有�
 
 ### 已复核证据与替代解释
 
-- 批二材料：[接手回执](../../testing/glm-pre-e2e-boundary-batch-2-report.md)、[机器账](../../testing/glm-pre-e2e-boundary-batch-2-evidence.json)。
+- 批二材料：[接手回执](../../../../testing/glm-pre-e2e-boundary-batch-2-report.md)、[机器账](../../../../testing/glm-pre-e2e-boundary-batch-2-evidence.json)。
   GLM原材料+Codex修正自验，不充当本卡Kimi独立签字。相同产品、源码哈希已核；不重复72项全量盘点。
 - 本轮最小复跑：A01 contract exit0；A02/A03/A05/A09分别在正确业务断言exit1，无环境失败。
   日志：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-world-async-draft-KIe6PD/`。
@@ -72,8 +72,8 @@ SAVE8/content20不变，不做旧档修复/兼容fallback；不新增“所有�
 
 ## 上下文锚点与调用边界
 
-- 铁律：[READ-FIRST](../../phase2/READ-FIRST.md)、[CLAUDE](../../../CLAUDE.md)、[协作流程](../agent-workflow.md)。
-- [世界审计 B-05/B-08/B-09](../audits/pre-e2e/world-lifecycle.md)、[总收口队列](../audits/pre-e2e/summary.md)。
+- 铁律：[READ-FIRST](../../../../phase2/READ-FIRST.md)、[CLAUDE](../../../../../CLAUDE.md)、[协作流程](../../../agent-workflow.md)。
+- [世界审计 B-05/B-08/B-09](../../../audits/pre-e2e/world-lifecycle.md)、[总收口队列](../../../audits/pre-e2e/summary.md)。
 - 成功/提交后取消已有测试：`script-runner.test.ts:785-849`；它测的是投影Runner，不代证当前canonical链。
 - `scene-switch-transaction.test.ts:60-135`旧字段用例须转为真实canonical输入；保留后续呈现owner、失败清理和已提交后取消测试。
 - `main.ts:708-725`替换世界时保留world/canonical对象身份，**不能仅凭引用相等判断仍是同一会话**。
@@ -262,8 +262,8 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
     SAVE8/content20 未动；未新增升级器/旧字段 fallback。
   - **剩余风险**：WA-E1～3 视觉/磁盘重开按卡集中延期未执行；updateCamera viewMin/Max 静态观察归 R4 实测，本卡未改相机策略。
     以上不构成本席阻断。
-- 缺签豁免：用户已批准本卡GLM席位豁免（承接本卡整体代班提议，适用build/done）；Codex/Kimi终审与用户验收仍未完成，不据此提前标done。
-- done准入结论：blocked。
+- 缺签豁免：历史用户GLM豁免保留；现GLM已补审accept、Kimi独立accept、Codex自验accept齐，无未决counter。
+- done准入结论：done allowed（2026-09-17 Codex统一核定；用户本轮确认签字并继续推进，技术验收不再要求人工重跑，WA-E1～3仍按既定R4集中验证）。
 
 ## 额度 / 代班记录
 
@@ -277,8 +277,8 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
 
 ## Build / Review / 用户验收
 
-Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，未标done。
-实现与证据入口：[验证记录](../../testing/world-async-commit.md)。实现候选：`e13216e7a4439008df38666cbcfec557c8e5a26c`，对比`5bc62a2135ce7145087d73d39a8bba54d7c0c406`；后续SHA回填仅改文档，产品/测试/基线与候选一致。
+Codex自验证、Kimi独立终审和GLM补审均accept，用户本轮确认签字，Codex已统一收口；不等同完整E2E通过。
+实现与证据入口：[验证记录](../../../../testing/world-async-commit.md)。实现候选：`e13216e7a4439008df38666cbcfec557c8e5a26c`，对比`5bc62a2135ce7145087d73d39a8bba54d7c0c406`。收口树787c1e0f的七产品文件中仅script-project-core有后续已验收SAVE-BARRIER-LINEAGE-1改动（独立根/内联lease），本卡地图/selector逻辑零漂移；其余六文件一致。不得把整个当前树说成旧候选零diff。
 
 - 产品7文件：reforge的script-project-core/script-host-adapter/script-runner/main/runtime-project-view/scene-switch-transaction，以及editor playback；未改content/codec/迁移/生成资产/第一阶段/锁文件。
 - 正式回归新增55项：世界提交35、主壳预检10、依赖矩阵9、编辑器真实预览1；现有adapter/移动控制/读档chain仅按实际接口及定义读取调整，未删除既有测试身份。
@@ -290,6 +290,7 @@ Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，�
 
 ## 交接日志
 
+- 2026-09-17 Codex：核43fd83ab Kimi独立accept及GLM补审、本席自验，无counter；核后续core差异仅已done保存子链、无本卡逻辑回退。按用户本轮确认核done，归档同步看板/索引，WA-E1～3保留R4待执行；未重跑或冒称新的全仓质量数。
 - 2026-09-17 Kimi：完成实现独立终审，done 前席位签 accept（候选 e13216e7 对比 5bc62a21，设计不重签）。
   直读 D1 握手（commit control 三重校验+committed/accepting 窗口+finally 通知不回滚、adapter 缺控制
   IO 前拒绝、main 无第二 writer）、D2 冻结快照与真实消费签名（captureRuntimeSceneBehaviorDependencies）、
@@ -322,14 +323,16 @@ Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，�
 
 ## 下一位Agent提示词
 
+无下一位Agent提示词，本卡已收口；以下原终审提示仅保留历史，不再要求重审/重签。
+
 ### GLM额度恢复补审
 
-给GLM的整段入口见[四包测试卡的GLM提示词](../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md#glm)第一段：先对本卡候选e13216e7/对比5bc62a21补实现审查，只写GLM自己的席位/日志并提交推送；不改产品/设计/他席/状态，不标done。补审事实不能替代新测试卡的设计准入。
+给GLM的整段入口见[四包测试卡的GLM提示词](TEST-FOUNDATION-COVERAGE-1-core-boundaries.md#glm)第一段：先对本卡候选e13216e7/对比5bc62a21补实现审查，只写GLM自己的席位/日志并提交推送；不改产品/设计/他席/状态，不标done。补审事实不能替代新测试卡的设计准入。
 
-### Kimi原实现终审（继续有效）
+### Kimi原实现终审（历史已完成）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 WORLD-ASYNC-COMMIT-1，卡 docs/ops/tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md，状态review，实现候选e13216e7a4439008df38666cbcfec557c8e5a26c，对比5bc62a21。r1设计不重签；用户已豁免本卡GLM，恢复后补审安排保留。
+在 /Users/zhangxu/illegal/type-pal 终审 WORLD-ASYNC-COMMIT-1，卡 docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md，状态review，实现候选e13216e7a4439008df38666cbcfec557c8e5a26c，对比5bc62a21。r1设计不重签；用户已豁免本卡GLM，恢复后补审安排保留。
 先同步main、检查工作树，读AGENTS/CLAUDE/phase2 READ-FIRST、本卡AC-01～12、docs/testing/world-async-commit.md。独立核core→真实main路由→adapter→reloadMap提交控制、失败/取消零抢写、提交后通知、editor无reload宿主；main无第二writer，投影Runner现有合同不误删。
 核首次await前的冻结输入/candidate script、目标hook/cursor/page依赖与无关变化正控；核四叶signal/来源会话检查，不误拒跨scene，不破坏move/lifecycle后提交语义。
 独立复跑定向及node docs/testing/world-async-commit-mutants.mjs（8反控红、2正常对照绿）；核check 7036、ratchet及单次受保护strict-fast 6548/617、55新增测试身份和零scope移除的原始证据。旧批二probe冻结历史API，不代替新正式回归。GLM只贡献原材料，不代填其席位；WA-E1～3视觉/磁盘重开延期集中E2E，不重复跑浏览器。

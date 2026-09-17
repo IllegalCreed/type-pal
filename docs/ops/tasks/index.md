@@ -8,9 +8,8 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线](Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [WORLD-ASYNC-COMMIT-1 - 世界异步操作提交一致性](WORLD-ASYNC-COMMIT-1-world-async-commit.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线](Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -151,6 +150,7 @@
 | [W7G - 组合地物图章与可持久放置组](../archive/tasks/done/W7G-composite-tile-stamps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W8 - 地图内容选择、实例属性检查与可逆变换](../archive/tasks/done/W8-map-content-selection-inspector.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W9 - 实体生命周期、重现与明雷逃跑冷却](../archive/tasks/done/W9-entity-lifecycle-respawn.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [WORLD-ASYNC-COMMIT-1 - 世界异步操作提交一致性](../archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [X3-1 - 场景入场呈现事务](../archive/tasks/done/X3-1-scene-entry-presentation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [X3/M3 - 通用 0x73 逐像素过渡、开场恢复与 opcode 迁移语义修复](../archive/tasks/done/X3-opening-dither-speaker-inheritance.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [X7-1 - manifest 工程设置与启动流程工作台](../archive/tasks/done/X7-1-manifest-project-workbench.md) | done | 完成证据、历史签字与交接见原卡。 |

@@ -68,7 +68,7 @@ before → after：确认继续后因等待自身子链而保存超时 → 必�
 
 - [AGENTS](../../../../../AGENTS.md)、[CLAUDE](../../../../../CLAUDE.md)、[READ-FIRST](../../../../phase2/READ-FIRST.md)、[工作流](../../../agent-workflow.md)。
 - [世界异步审计B-06/B-07](../../../audits/pre-e2e/world-lifecycle.md)、[批二回执](../../../../testing/glm-pre-e2e-boundary-batch-2-report.md)、[本卡取证](../../../audits/pre-e2e/save-barrier-lineage-premise.md)。
-- [WORLD实现卡](../../../tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md)仍在review，其地图commit/预检签名/selector取消保护不得回退。
+- [WORLD实现卡](WORLD-ASYNC-COMMIT-1-world-async-commit.md)仍在review，其地图commit/预检签名/selector取消保护不得回退。
 - [四包测试卡](TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)与本卡产品/测试范围不交叉；GLM为本卡设计/矩阵审查者，不分配视觉。
 - 当前`script-activity-lineage.ts:3-6`已定义runtime + exact AbortSignal；不新增content/host公开token，不写入存档。
 - `script-world.test.ts:589`及`script-runner-core.test.ts:338`的独立根暂停/所有活动结束规则须原样保留，不能改旧断言迎合修法。
