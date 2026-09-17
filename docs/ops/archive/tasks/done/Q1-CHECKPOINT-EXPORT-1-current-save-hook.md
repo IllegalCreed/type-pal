@@ -1,6 +1,6 @@
 # Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Q1/R4准备（不改变能力地图状态）
 Coding Owner: Codex
@@ -13,7 +13,7 @@ Branch: main
 
 Revision: r1，2026-09-17。取证代码基线`c1cec3adde5b0090acbc6bc1f325ca1301689873`，
 取证时HEAD`0d39b797`相对此基线仅分配文档变更。2026-09-17核三席r1设计齐（GLM 04383fa7、Kimi 787c1e0f），Codex开build；不重签。
-实现候选：`27e605ef4cf2811f746afada30377093f15c50c8`；对比build准入`a5df9fbc`。2026-09-17实现/自验证与全部质量门完成，review待两席独立终审，未done。后续SHA回填只改文档。
+实现候选：`27e605ef4cf2811f746afada30377093f15c50c8`；对比build准入`a5df9fbc`。2026-09-18核三席实现accept齐、无返工，当前packages/scripts/锁文件相对候选零diff，Codex统一核定done并归档。后续回填/审查只改文档。
 
 ## 目标与范围
 
@@ -24,7 +24,7 @@ R4 runner以`await window.__tpE2e.dumpSave()`取得一个独立、当前SAVE8/co
 - 不改SAVE/content版本、codec、schema、存储格式、迁移、PAL工程、资产、读档提交序或脚本调度规则。
 - 不建完整runner/001–010链、不实施N6b、不改变F5权限、不导出战斗/对话中间调用栈。
 - 不碰GLM编辑器补测白名单；不改原审计探针/旧测试预期/统计范围/生产10秒上限。
-- [WORLD](../archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md)已三席accept，本轮独立收口；其后仅已验收保存子链修改共用core，与本卡设计依赖一致，不借用其签字。
+- [WORLD](WORLD-ASYNC-COMMIT-1-world-async-commit.md)已三席accept，本轮独立收口；其后仅已验收保存子链修改共用core，与本卡设计依赖一致，不借用其签字。
 
 ## 前提真值门
 
@@ -32,8 +32,8 @@ R4 runner以`await window.__tpE2e.dumpSave()`取得一个独立、当前SAVE8/co
 
 | 维度 | 当前真值与一手证据 |
 |---|---|
-| 原版 / primary source | 原版机制N/A：现代DEV检查点不是原版功能。当前一手协议为[存档规范](../../phase2/specs/save-system.md):20–28，只保存FlowCursor，不保存命令栈/等待相位，超时无半成品；[E2E规范](../../testing/e2e.md):243–250明确此钩子待修 |
-| 第一阶段 | 不以一阶段存档布局/事件游标替代二阶段WorldState；无复用一阶段DEV钩子的需求。[工程经验](../../phase1/engineering-notes.md):65说明JSON可丢Map语义，故本卡验收包括真实JSON往返，而不添加一阶段兼容fallback |
+| 原版 / primary source | 原版机制N/A：现代DEV检查点不是原版功能。当前一手协议为[存档规范](../../../../phase2/specs/save-system.md):20–28，只保存FlowCursor，不保存命令栈/等待相位，超时无半成品；[E2E规范](../../../../testing/e2e.md):243–250明确此钩子待修 |
+| 第一阶段 | 不以一阶段存档布局/事件游标替代二阶段WorldState；无复用一阶段DEV钩子的需求。[工程经验](../../../../phase1/engineering-notes.md):65说明JSON可丢Map语义，故本卡验收包括真实JSON往返，而不添加一阶段兼容fallback |
 | 当前二阶段缺陷 | `main.ts:6940–6948`只在DEV注册，`:6942`绑定`buildCurrentSavePayload`；`save/ops.ts:34–39`需world/position/projectId。实际注册函数零参调用后三个字段undefined，JSON仅version/contentVersion，正式preflight拒projectId |
 | 当前正确零参捕获 | `main.ts:958`深克隆world，`:5589–5596`克隆位置并附真实inputProject ID。相同合法内存世界经真实capture/codec/restore成功；不是builder/codec或工程数据缺陷 |
 | 当前安全与并发边界 | `main.ts:5603–5622`先经saveSnapshotQueue，`runtime-script-project.ts:466–496`等待barrier后同步快照并finally释放。重复barrier不是自动排队，会报“已经关闭”；`runtime-save-lineage.test.ts:306–337`已有此合同 |
@@ -73,10 +73,10 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 ## 上下文锚点
 
-- [AGENTS](../../../AGENTS.md)、[CLAUDE](../../../CLAUDE.md)、[READ-FIRST](../../phase2/READ-FIRST.md)、[协作流程](../agent-workflow.md)。
-- [Q1追加缺陷](../audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)、[批二B11/B12](../../testing/glm-pre-e2e-boundary-batch-2-report.md)。GLM原始探针贡献须披露，Codex本轮独立复算不称GLM独立终审。
-- [保存子链已完成卡](../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md)、[实现回执](../../testing/save-barrier-lineage.md)：不改coordinator/lineage准入，不重开其设计。
-- [E2E顺序](../../phase2/roadmap.md#第二阶段后半程路线)：修前置缺陷→R4 content20薄基线→N6b content21→完整E2E，不把整仓覆盖率目标当本卡附加准入。
+- [AGENTS](../../../../../AGENTS.md)、[CLAUDE](../../../../../CLAUDE.md)、[READ-FIRST](../../../../phase2/READ-FIRST.md)、[协作流程](../../../agent-workflow.md)。
+- [Q1追加缺陷](../../../audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)、[批二B11/B12](../../../../testing/glm-pre-e2e-boundary-batch-2-report.md)。GLM原始探针贡献须披露，Codex本轮独立复算不称GLM独立终审。
+- [保存子链已完成卡](SAVE-BARRIER-LINEAGE-1-nested-script-save.md)、[实现回执](../../../../testing/save-barrier-lineage.md)：不改coordinator/lineage准入，不重开其设计。
+- [E2E顺序](../../../../phase2/roadmap.md#第二阶段后半程路线)：修前置缺陷→R4 content20薄基线→N6b content21→完整E2E，不把整仓覆盖率目标当本卡附加准入。
 - 现有`save/restore-preflight.chain.test.ts`、`save-lineage.chain.test.ts`、`runtime-save-lineage.test.ts`、`save/store*.test.ts`；正式新测试不得import审计探针代替生产链。
 
 ## Draft：最小设计
@@ -182,7 +182,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 ### 进入done前
 
-- Codex：**accept（2026-09-17，实现者自验证）**。产品限main共用快照入口/DEV绑定；17项真实注册/运行时/codec/restore与快存回调回归，定向相邻177项、Reforge typecheck、新文件Biome通过；5项单点负控业务红且17项正常对照绿。完整check7235、ratchet及受保护单次严格fast6747/617通过，原探针/旧测试/统计范围零修改。首轮分母回退及真实quickSave补测已如实记录，不把AST执行算main覆盖；资源宿主替身、跨页/视觉延期边界见[回执](../../testing/checkpoint-export.md)。
+- Codex：**accept（2026-09-17，实现者自验证）**。产品限main共用快照入口/DEV绑定；17项真实注册/运行时/codec/restore与快存回调回归，定向相邻177项、Reforge typecheck、新文件Biome通过；5项单点负控业务红且17项正常对照绿。完整check7235、ratchet及受保护单次严格fast6747/617通过，原探针/旧测试/统计范围零修改。首轮分母回退及真实quickSave补测已如实记录，不把AST执行算main覆盖；资源宿主替身、跨页/视觉延期边界见[回执](../../../../testing/checkpoint-export.md)。
 - Kimi：**accept（2026-09-17，r1 实现独立终审，候选 `27e605ef` 对比 `a5df9fbc`；设计不重签；未读 GLM 本轮结论）**。
   接手 HEAD `fc76f6be` 与 origin/main 一致、工作树干净；候选后产品/脚本/锁文件零漂移。
   - **真实 DEV 零参异步绑定**：`main.ts:6945-6952` `dumpSave: () => enqueueSaveSnapshot(captureCurrentSavePayload)`——
@@ -239,10 +239,11 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
     增量与回执一致。
   - **剩余边界**：旧 B11 同步探针保持冻结（修成 Promise 后其红不再自证新合同，卡面已钉）；R4 集中
     E2E（导出→新页 e2e-load→下一段行为）按卡延期未执行；AST 执行不算 main 的 V8 覆盖（回执已声明）。均不构成本席阻断。
-- 缺签豁免：无；done准入：由 Codex 统一收口。
+- 缺签豁免：无；done准入：done allowed（2026-09-18 Codex核三席齐、候选零漂移）。本卡是技术接口修复，按用户继续主线要求完成技术收口，不声称用户手动复验；R4跨页/视觉验证仍按已签范围集中执行。
 
 ## 实现、审查与交接
 
+- 2026-09-18 Codex：用户要求GLM返工期间并行推进；核Kimi 4ad6522a/GLM ead7931f与本席accept齐、无counter，当前产品/测试/基线相对27e605ef零diff。完成done归档及看板/索引同步，不重跑已齐备质量门、不重复请用户技术手验；R4证据未执行的边界保留。
 - 2026-09-17 Kimi（r1 实现终审）：同步 `fc76f6be`、工作树干净后核 `a5df9fbc → 27e605ef`。
   直读 enqueueSaveSnapshot 共用队列/真实 barrier/尾归一化与同步捕获类型约束、dumpSave 零参
   异步绑定、doSave 写队列/缩略图/计数块零改动行；复跑 11 文件/177 项全绿、typecheck exit 0、
@@ -261,18 +262,18 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
   与 B12 正控（money=123 往返绿）。六条可证伪观察写入本席；不扩 SAVE8/content20。
   未改产品/他席/状态，未开始实现。Next：三签齐后 Codex 实现，终审按 CE-01～08。
 - 当前产品修复与17项正式回归已落地，177项定向/相邻与typecheck通过；5项单点反控业务红且原实现对照绿。
-  证据与准确边界见[实现回执](../../testing/checkpoint-export.md)；check7235与ratchet/严格fast6747全部exit0，独立实现终审/用户验收pending，未done。
+  证据与准确边界见[实现回执](../../../../testing/checkpoint-export.md)；check7235与ratchet/严格fast6747全部exit0，三席终审accept并已技术收口；不代表完整E2E通过。
 - 2026-09-17 Codex：完成r1实现与质量门，推进review。新增真实quickSave两项是CE-06同链验收补强，不改变产品范围/设计；首次ratchet被拒的精确计数与修正证据均落回执。下一步Kimi/GLM并行独立终审同候选，不重签设计；GLM编辑器整批仍单独build。
 - 2026-09-17 Codex：按用户“给他们提示词，你做你的工作”推进主线，完成上述只读取证与r1 draft；GLM/Kimi另有编辑器工作包，本卡不占其产品/测试面。下一步两席独立设计审查，准入齐后Codex实现。
 
 ## 下一位Agent提示词
 
-与[编辑器补测工作包](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md#下一位agent提示词)独立；本次只请求实现终审，r1设计不重签。
+无下一位Agent提示词，本卡已收口。以下为历史终审交接，不再次发出签字请求；[编辑器补测工作包](../../../tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md#下一位agent提示词)仍按自己的返工范围推进。
 
 ### Kimi
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选27e605ef4cf2811f746afada30377093f15c50c8，对比a5df9fbc；设计不重签。
+在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选27e605ef4cf2811f746afada30377093f15c50c8，对比a5df9fbc；设计不重签。
 先同步查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡CE-01～08及docs/testing/checkpoint-export.md。独立核真实DEV零参异步绑定、与doSave共用快照队列/真实barrier、同步捕获/JSON恢复、异常不毒死队尾、零槽副作用；保存写队列/缩略图/计数块应原样，SAVE8/content20与原探针不变。
 复跑回执定向177项、Reforge typecheck、node docs/testing/checkpoint-export-mutants.mjs（17项对照绿+5针业务红），核check7235、受保护单次strict fast6747/617及首次ratchet拒绝后补真实quickSave回调的证据；不把AST当main已插桩或内存宿主当浏览器。R4跨页/视觉集中延期，不重跑剧情。
 不读/复述GLM结论，只在本人实现席位签accept或带file:line的counter与交接日志，提交推送；不改产品/他席/状态，不代签、不标done。
@@ -281,7 +282,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 ### GLM
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选27e605ef4cf2811f746afada30377093f15c50c8，对比a5df9fbc；设计不重签。
+在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选27e605ef4cf2811f746afada30377093f15c50c8，对比a5df9fbc；设计不重签。
 先同步查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及docs/testing/checkpoint-export.md。独立逐CE-01～08核17项测试的合法输入/业务断言/队列顺序/失败重试/零槽副作用和JSON→codec→真实restore；复跑定向177项、typecheck、node docs/testing/checkpoint-export-mutants.mjs（17绿+5业务红），核check7235及fast6747/617、旧105文件identity和其他六包基线不变。首次ratchet失败如实保留，不准只看最终绿；旧B11同步探针零改，不用其旧红因代证异步实现。
 你贡献过B11/B12原诊断，须披露；本卡产品/新回归由Codex实现。不读/复述Kimi结论、不做视觉，只写本人accept/counter及日志并提交推送，不改产品/他席/状态、不标done。
 审完继续TEST-EDITOR-LOGIC-COVERAGE-1四组白名单工作；它已build准入a5df9fbc，按编辑器卡末尾GLM实施提示连续A→D，不重签、不将检查点计数混入你的贡献。

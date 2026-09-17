@@ -240,10 +240,10 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
 
 ## 9. 已有机制与待建项
 
-- **Reforge DEV存档导出（实现待终审）**：`await window.__tpE2e.dumpSave()`取得当前SAVE8/content20独立快照；
+- **Reforge DEV存档导出（接口已收口）**：`await window.__tpE2e.dumpSave()`取得当前SAVE8/content20独立快照；
   已修复裸绑三参builder的接线，现与普通保存共用安全快照队列，等待脚本安全点后捕获，不写用户槽/缩略图/计数。
   超时/捕获失败reject，调用方须处理错误，不生成下一段检查点；取得快照不替代业务结束断言。
-  [实现与验证](checkpoint-export.md)、[任务卡](../ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)；R4连续文件恢复链仍待建立。
+  [实现与验证](checkpoint-export.md)、[任务卡](../ops/archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)；R4连续文件恢复链仍待建立。
   DEV控制台示例（正式runner还须完成结束断言和文件落盘）：
 
   ```js

@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线](Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属](EDITOR-SPRITE-PICK-1-latest-image-selection.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -133,6 +133,7 @@
 | [OPS-TST-PERF-FRESH - release fresh hook/test 超时根因](../archive/tasks/done/OPS-TST-PERF-fresh-hook-timeout.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-TST-PERF-RW - release worker 墙钟优化](../archive/tasks/done/OPS-TST-PERF-release-wallclock.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-TST-PERF - 迁移测试 fixture 分层与冷启动性能债](../archive/tasks/done/OPS-TST-PERF-test-fixture-stratification.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线](../archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R13-CANARY - R13-Z 闭包批次 canary 父账重建漂移（6A 冷 canary 恢复绿）](../archive/tasks/done/R13-CANARY-canary-parent-ledger-drift.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [R2 - 事件脚本单一模型与 unmigrated 退役](../archive/tasks/done/R2-script-single-model.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-BARRIER-LINEAGE-1 - 保存与嵌套脚本活动互等修复](../archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md) | done | 完成证据、历史签字与交接见原卡。 |

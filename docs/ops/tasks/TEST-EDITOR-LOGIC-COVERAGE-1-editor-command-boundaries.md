@@ -233,7 +233,7 @@ Kimi本卡设计已完成，暂不重复交设计；实施候选形成后再独�
 先同步并查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡与docs/testing/glm-editor-logic-coverage-receipt.md；先独立核目标实现/当前caller/已有测试，在本人席位签有一手证据的premise verified/design agree或counter。签齐前只读核对，不开始正式测试或在tmp绕门禁。
 三席r1设计齐且无counter后，按卡核build，在codex/glm-editor-logic-coverage-r1独立worktree连续完成A通用命令、B角色立绘与表情引用、C组合库命令、D引用与删除守卫，不逐组重签。只改精确白名单新测试/fixture及本人回执，产品/旧测试/原探针/配置基线/资产零修改；不做浏览器或视觉。
 复用现有审计证据，D-02/D-06/D-07保持待修隔离，别把错误当合同或把默认fast塞红。每族精确业务断言和独立深快照，每组至少两有效单点反控；定向/相邻/tc/Biome、同树覆盖对照和最终树计数齐。全部做完交Codex复核集成；官方check/ratchet/strict fast由Codex统一跑。只写本人签字/日志，提交推送，不代签不标done。
-另按docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md末尾GLM提示词独立审该卡r1设计：真实零参导出、共用快照队列/barrier、JSON往返、失败后重试与零槽副作用。本卡产品同c1cec3ad，Codex负责实现；先交两张卡的本人设计签字再继续编辑器四组，不替Codex改reforge，不读/复述Kimi结论。
+另按docs/ops/archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md末尾GLM提示词独立审该卡r1设计：真实零参导出、共用快照队列/barrier、JSON往返、失败后重试与零槽副作用。本卡产品同c1cec3ad，Codex负责实现；先交两张卡的本人设计签字再继续编辑器四组，不替Codex改reforge，不读/复述Kimi结论。
 ```
 
 ### 原Kimi设计交接（历史）
@@ -243,5 +243,5 @@ Kimi本卡设计已完成，暂不重复交设计；实施候选形成后再独�
 WORLD卡 docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md 当前review，候选e13216e7a4439008df38666cbcfec557c8e5a26c对比5bc62a21，设计不重签。GLM已补审，你本席仍pending。按原卡终审职责独立核代码/回归/8反控，不借保存子链或四包测试的签字代替。当前main已有后续修复，复跑旧候选须隔离工作树或冻结模块，不用当前HEAD冒充候选；只写本人accept/counter与日志，提交推送，不改状态/产品、不标done。
 新卡 docs/ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，r1/draft，产品起点c1cec3adde5b0090acbc6bc1f325ca1301689873，分配提交d6528e8639f71d92747347526cb35925a84dee8b。独立核四组现行命令/引用合同、fixture合法性、不可变/undo边界、已知缺陷隔离、白名单与非视觉限制、反控与覆盖口径。第二组是角色立绘/表情引用，不是对话系统重写。
 在新卡本人设计席位写有独立一手锚点及可证伪观察的premise verified/design agree或counter；不要读/复述GLM设计结论。只改自己的签字/日志并提交推送，不改他席/状态、不开始实现。一次审全包，三签齐后GLM按卡连续执行，Codex负责集成与所有视觉。
-另按docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md末尾Kimi提示词审该卡r1：产品同c1cec3ad，当前draft，Codex只完成取证未实现；重点核真实DEV绑定、safe-point时序、与F5共用队列、失败恢复和同步快照，不扩大SAVE8/content20。只在本人席位签premise verified/design agree或counter并推送，不借前两卡签字作为本卡准入。
+另按docs/ops/archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md末尾Kimi提示词审该卡r1：产品同c1cec3ad，当前draft，Codex只完成取证未实现；重点核真实DEV绑定、safe-point时序、与F5共用队列、失败恢复和同步快照，不扩大SAVE8/content20。只在本人席位签premise verified/design agree或counter并推送，不借前两卡签字作为本卡准入。
 ```
