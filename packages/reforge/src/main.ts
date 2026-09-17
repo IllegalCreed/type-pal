@@ -5595,30 +5595,36 @@ export async function bootGame(
     return buildCurrentSavePayload(currentWorldSnapshot(), position, inputProject.manifest.id)
   }
 
+  /** 槽保存与DEV检查点共用同一安全快照队列；存储/缩略图I/O不持有barrier。 */
+  function enqueueSaveSnapshot<T>(
+    capture: () => T extends PromiseLike<unknown> ? never : T,
+  ): Promise<T> {
+    const snapshot = saveSnapshotQueue.then(() =>
+      expectDefined(scriptRuntime).withSaveBarrier<T>(capture),
+    )
+    saveSnapshotQueue = snapshot.then(
+      () => undefined,
+      () => undefined,
+    )
+    return snapshot
+  }
+
   function doSave(slotId: SlotId, thumb: Blob | Promise<Blob>): Promise<void> {
     const thumbReady = Promise.resolve(thumb)
     // 写队列可能仍在等待前一笔事务；立刻挂 rejection handler，避免缩略图先失败时冒出
     // unhandledrejection。scheduled 后续仍 await 原 promise，并把失败交还本次调用方。
     void thumbReady.catch(() => undefined)
-    const snapshot = saveSnapshotQueue.then(async () => {
-      const prepareSnapshot = () => {
-        // safe-point barrier 只保护这段同步快照；IndexedDB/缩略图刷新不得阻塞互动脚本激活。
-        return structuredClone({
-          meta: buildMeta(
-            slotId,
-            world,
-            MAP_NAME,
-            (c) => lookupText(`name.${c.template}`, project.locale),
-            Date.now(),
-          ),
-          payload: captureCurrentSavePayload(),
-        })
-      }
-      return await expectDefined(scriptRuntime).withSaveBarrier(prepareSnapshot)
-    })
-    saveSnapshotQueue = snapshot.then(
-      () => undefined,
-      () => undefined,
+    const snapshot = enqueueSaveSnapshot(() =>
+      structuredClone({
+        meta: buildMeta(
+          slotId,
+          world,
+          MAP_NAME,
+          (c) => lookupText(`name.${c.template}`, project.locale),
+          Date.now(),
+        ),
+        payload: captureCurrentSavePayload(),
+      }),
     )
 
     const scheduled = saveWriteQueue.then(async () => {
@@ -6939,7 +6945,7 @@ export async function bootGame(
   // e2e checkpoint / D15 motion trace：collision 模式才采样，避免普通 DEV 游戏积累诊断数据。
   if (import.meta.env.DEV) {
     ;(window as unknown as { __tpE2e: unknown }).__tpE2e = {
-      dumpSave: buildCurrentSavePayload,
+      dumpSave: () => enqueueSaveSnapshot(captureCurrentSavePayload),
       dumpMotionTrace: () => structuredClone(motionTrace),
       dumpMotionState: captureMotionState,
       clearMotionTrace: () => {

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-16T15:54:26.512Z",
+  "generatedAt": "2026-09-17T13:52:39.668Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 6730,
+  "testCount": 6747,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1150,8 +1150,8 @@
       ],
       "scopeDigest": "e6fbef671fa36c8c9f451093e204ecfe50a83c906903eebc4a5745326f2a434e",
       "fastTests": {
-        "testCount": 1113,
-        "testFileCount": 105,
+        "testCount": 1130,
+        "testFileCount": 106,
         "files": [
           "packages/reforge/src/actor-condition-lifecycle.test.ts",
           "packages/reforge/src/actor-condition-runtime.test.ts",
@@ -1174,6 +1174,7 @@
           "packages/reforge/src/battle/enemy-hook-runtime.test.ts",
           "packages/reforge/src/battle/present-battle.test.ts",
           "packages/reforge/src/battle/r13-six-b-battle.test.ts",
+          "packages/reforge/src/checkpoint-export.chain.test.ts",
           "packages/reforge/src/collision.test.ts",
           "packages/reforge/src/cutscene-controller.test.ts",
           "packages/reforge/src/debug-tools.test.ts",
@@ -1364,6 +1365,11 @@
             "file": "packages/reforge/src/battle/r13-six-b-battle.test.ts",
             "testCount": 10,
             "identityDigest": "11cf9e9a4459a912417a4025fc637086f566dfa91b3e447b4a1e8f7397a9267f"
+          },
+          {
+            "file": "packages/reforge/src/checkpoint-export.chain.test.ts",
+            "testCount": 17,
+            "identityDigest": "17c2930fcd329da591c6edd6d8759317ff405ff27d8aee8acf806e8c3d283bb0"
           },
           {
             "file": "packages/reforge/src/collision.test.ts",
@@ -1786,26 +1792,26 @@
             "identityDigest": "5cab91dcbaf3e911e7015eea202cd946659ee0315dfd964b4721c2e4d6774eb8"
           }
         ],
-        "identityDigest": "48d80ac331f22448f8689f5eebdb86941cfb8b3a0c41e3dd727acdea4b1393df",
+        "identityDigest": "45d006ca4d6dd28946c775c7e0b2a2b16182889600bcbabc5cbe76fa5e4eec5a",
         "duplicateIdentityCount": 0,
-        "executionDigest": "183d8baa7455ce34853ae1a46684b8e724ff707e40a56778ffb85aaae3bf6ecf"
+        "executionDigest": "25b31e7bf52d921fa549dd24297daaca24c927976dd7cde58a2120af5ede9de5"
       },
       "metrics": {
         "statements": {
-          "covered": 8674,
-          "total": 16186
+          "covered": 8679,
+          "total": 16188
         },
         "branches": {
-          "covered": 5252,
+          "covered": 5256,
           "total": 11041
         },
         "functions": {
-          "covered": 1373,
-          "total": 2414
+          "covered": 1375,
+          "total": 2416
         },
         "lines": {
-          "covered": 7848,
-          "total": 14117
+          "covered": 7853,
+          "total": 14118
         }
       }
     },
@@ -4216,20 +4222,20 @@
   },
   "total": {
     "statements": {
-      "covered": 54243,
-      "total": 78899
+      "covered": 54248,
+      "total": 78901
     },
     "branches": {
-      "covered": 38748,
+      "covered": 38752,
       "total": 61999
     },
     "functions": {
-      "covered": 10240,
-      "total": 14507
+      "covered": 10242,
+      "total": 14509
     },
     "lines": {
-      "covered": 48956,
-      "total": 69050
+      "covered": 48961,
+      "total": 69051
     }
   }
 }

@@ -1,6 +1,6 @@
 # Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线
 
-Status: build
+Status: review
 Phase: phase2
 Capability: Q1/R4准备（不改变能力地图状态）
 Coding Owner: Codex
@@ -13,6 +13,7 @@ Branch: main
 
 Revision: r1，2026-09-17。取证代码基线`c1cec3adde5b0090acbc6bc1f325ca1301689873`，
 取证时HEAD`0d39b797`相对此基线仅分配文档变更。2026-09-17核三席r1设计齐（GLM 04383fa7、Kimi 787c1e0f），Codex开build；不重签。
+实现候选：`27e605ef4cf2811f746afada30377093f15c50c8`；对比build准入`a5df9fbc`。2026-09-17实现/自验证与全部质量门完成，review待两席独立终审，未done。后续SHA回填只改文档。
 
 ## 目标与范围
 
@@ -89,7 +90,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 5. 超时/异常直接reject，不返回空对象或半档；下次导出/保存可继续。保留10秒上限，不引入自动重试或吞错；调用方必须await并处理失败。
 6. 文档只在实现后改为可用，示例显式`JSON.stringify(await window.__tpE2e.dumpSave())`。这里只冻结拟议合同，不预宣告导出已修。
 
-产品预计只改`packages/reforge/src/main.ts`；新增`packages/reforge/src/checkpoint-export.chain.test.ts`。
+产品只改`packages/reforge/src/main.ts`；新增`packages/reforge/src/checkpoint-export.chain.test.ts`。
 必要时新建本卡专用测试fixture/负控脚本，但不修改共享公共接口/旧断言。超出上述产品面先说明并重新评估，不顺手改codec/调度器。
 并发风险重点：多保存/导出抢同一barrier；失败毒死队尾；重构意外让存储I/O持有barrier；假AST测试未覆盖真实DEV绑定；JSON往返丢字段。
 
@@ -181,38 +182,107 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 ### 进入done前
 
-- Codex：pending。
-- Kimi：pending。
-- GLM：pending。
-- 缺签豁免：无；done准入：blocked。
+- Codex：**accept（2026-09-17，实现者自验证）**。产品限main共用快照入口/DEV绑定；17项真实注册/运行时/codec/restore与快存回调回归，定向相邻177项、Reforge typecheck、新文件Biome通过；5项单点负控业务红且17项正常对照绿。完整check7235、ratchet及受保护单次严格fast6747/617通过，原探针/旧测试/统计范围零修改。首轮分母回退及真实quickSave补测已如实记录，不把AST执行算main覆盖；资源宿主替身、跨页/视觉延期边界见[回执](../../testing/checkpoint-export.md)。
+- Kimi：**accept（2026-09-17，r1 实现独立终审，候选 `27e605ef` 对比 `a5df9fbc`；设计不重签；未读 GLM 本轮结论）**。
+  接手 HEAD `fc76f6be` 与 origin/main 一致、工作树干净；候选后产品/脚本/锁文件零漂移。
+  - **真实 DEV 零参异步绑定**：`main.ts:6945-6952` `dumpSave: () => enqueueSaveSnapshot(captureCurrentSavePayload)`——
+    零参异步 wrapper 复用既有零参捕获，不碰 meta/存储/缩略图/savedTimes；DEV 分支与三个 motion 钩子不变。
+  - **共用队列/barrier**：`enqueueSaveSnapshot`（main.ts:5598-5610）挂既有 saveSnapshotQueue、
+    调真实 `scriptRuntime.withSaveBarrier`，尾 Promise 归一化 void 而调用方拿原始错误；
+    泛型约束 `capture: () => T extends PromiseLike<unknown> ? never : T` 从类型上禁止异步捕获持
+    barrier——同步快照合同成立。doSave 的 meta/payload 同一块深快照改经同一入口；
+    **saveWriteQueue/缩略图/计数块 diff 零改动行**（本人逐行核，仅快照块提取与绑定点变化）。
+  - **本人实跑**：定向/相邻 **11 文件/177 项全绿**（含本卡 17 项：注册→JSON→codec→restore、
+    双向深隔离、安全点尾标志/next cursor、三种并发排列、超时/异常重试、零槽副作用、慢 I/O、
+    排队期实际 restore 提交、quickSave 缩略图成功/null/重试）；Reforge typecheck exit 0。
+    入仓 `checkpoint-export-mutants.mjs` 复跑：**对照绿 + 5 针全业务红**（裸 builder/绕 barrier/
+    独立 export 队列/吞快照异常/失败毒死队尾），expected==actual。
+  - **质量门交叉核**：check-final 七包 7,235（editor 2,414 等分栏一致）；strict TOTAL
+    **617 文件/6,747 项**；首次 ratchet 确定性拒绝（重构净增未插桩分母）及补真实 quickSave
+    回调的证据在案——非借他项凑指标、未降基线；旧 105 个 Reforge 测试文件 identity 不变、
+    六包基线对象逐字相同；原探针零 diff；SAVE8/content20 未动。
+  - **边界**：AST 抽取执行不算 main 已插桩覆盖（回执如实声明）；内存宿主替身不等于浏览器/
+    磁盘 E2E；R4 跨页/视觉集中延期未冒称。
+  - **旧版本兼容审查：pass**——无旧接口 fallback、无版本分支/格式变化；旧 B11 同步探针
+    保持原样，新合同由正式 await 回归承担。
+  返工项：无。本 accept 不代签、不授权 done。
+- GLM：**accept（2026-09-17 实现终审；独立复核席位，未读 Kimi 结论；批二 B11/B12 原始诊断为本席贡献——
+  该探针证明零参绑定缺字段，本卡产品与 17 项新回归均为 Codex 实现）**。
+  - **实现直读（27e605ef 对比 a5df9fbc，产品仅 main.ts）**：`enqueueSaveSnapshot`（:5598-5610）挂既有
+    saveSnapshotQueue、调真实 `withSaveBarrier`，尾 Promise 归一化 void；泛型 `T extends PromiseLike ? never : T`
+    类型层禁异步捕获；doSave 改走同一入口且 **saveWriteQueue→scheduled→reportSaveFailure 持久化/缩略图/计数块
+    diff 零行**（本人 diff 核）；DEV `dumpSave: () => enqueueSaveSnapshot(captureCurrentSavePayload)`（:6950）
+    零参异步、三个 motion 钩子原样。设计与实现逐点对应，无越界面。
+  - **CE-01～08 逐项核（17 项断言面直读）**：CE-01（:26-56 真实注册→JSON→normalizeStoredPayload→
+    restorePayload，money/scene/position/facing 全核，分数坐标 1.5/2.5 保真）；CE-02（:58-73 双向深隔离——
+    改输出不影响实时、改实时不影响输出、absent appearance 字段显式断言）；CE-03（:75-101 barrierEntered 见证
+    等待期 capture 未调用+gateClosed，答复后尾标志 complete=true 且恰一次 capture；:103-131 持久根 next cursor
+    而非半命令栈）；CE-04（:133-173 三种排列按请求顺序——capture 后改 live money 区分入场序，非只断言双
+    resolved）；CE-05（:175-213 生产 10s 假时间超时 reject 无 capture、快照异常直达调用方释放 gate、后续
+    导出/保存均恢复）；CE-06（:215-283 零槽/缩略图 IO、慢槽不持 barrier、槽失败保序、慢缩略图不阻导出、
+    meta/payload 同一快照）；CE-07（:285-308 排队期真实 restore 同步提交→导出见完整新 world+position，
+    world 引用身份即当前对象）；CE-08（:310-319 DEV 开关+motion 三钩子；:321+ 真实 quickSave toBlob
+    成功/null 失败/同实例重试，export 不生成缩略图）。
+  - **本人复跑（2026-09-17，工作树 fc76f6be，产品=候选零漂移）**：定向 4 文件 **177/177** exit0；
+    `pnpm --filter @type-pal/reforge run typecheck` rc0；`node docs/testing/checkpoint-export-mutants.mjs`
+    **17 项正常对照 exit0 + 5 针全 exit1 业务红**（bare-builder/bypass-barrier/independent-export/
+    swallow-snapshot/poison-queue）。三门重跑：`pnpm check` rc0（1357 文件 0 errors/48 warnings/11 infos）、
+    `pnpm coverage:ratchet` rc0、`TYPE_PAL_COVERAGE_BASE_REF=a5df9fbc pnpm coverage:fast` 单次严格 rc0——
+    **6747 项/617 文件**，reforge 语句 8679/16188、分支 5256/11041、函数 1375/2416、行 7853/14118，
+    全仓行 48961/69051，与回执逐数一致。
+  - **首次 ratchet 失败核验（非只看最终绿）**：`/tmp/q1-checkpoint-ratchet.log` 实读——确定性拒绝为 main
+    重构后未插桩分母净增（reforge 语句 8674/16188<8674/16186 等 6 行精确差），非 editor 抖动、基线未写入；
+    补真实 quickSave 缩略图回调两项后最终 ratchet/严格 fast 通过——属真实覆盖回补而非凑指标（新增两项
+    即 :321-372 的真实 toBlob 链）。
+  - **基线对账（独立 diff 核）**：六包基线对象逐字不变；reforge 恰 +1 测试文件（checkpoint-export.chain.
+    test.ts）+17 项（1113→1130），**105 个旧文件 common 计数/identity 逐条不变、零移除**；reforge metrics
+    增量与回执一致。
+  - **剩余边界**：旧 B11 同步探针保持冻结（修成 Promise 后其红不再自证新合同，卡面已钉）；R4 集中
+    E2E（导出→新页 e2e-load→下一段行为）按卡延期未执行；AST 执行不算 main 的 V8 覆盖（回执已声明）。均不构成本席阻断。
+- 缺签豁免：无；done准入：由 Codex 统一收口。
 
 ## 实现、审查与交接
 
+- 2026-09-17 Kimi（r1 实现终审）：同步 `fc76f6be`、工作树干净后核 `a5df9fbc → 27e605ef`。
+  直读 enqueueSaveSnapshot 共用队列/真实 barrier/尾归一化与同步捕获类型约束、dumpSave 零参
+  异步绑定、doSave 写队列/缩略图/计数块零改动行；复跑 11 文件/177 项全绿、typecheck exit 0、
+  入仓 5 针负控全业务红+对照绿；交叉核 check 7,235、strict 617/6,747、首轮 ratchet 拒绝与
+  补 quickSave 回调证据、旧 identity 不变、原探针零 diff。旧版本兼容 pass。
+  签 accept，无返工项；未改产品/他席/状态，未读 GLM 结论。Next：Codex 统一核定 done。
+- 2026-09-17 GLM：完成实现终审，done前席位签 accept（证据锚点见上节）。独立复跑定向 177/177、typecheck rc0、
+  5 针负控全业务红+17 对照绿；check/ratchet/BASE_REF=a5df9fbc 单次严格 fast 6747/617 三门 rc0 且数字与回执一致；
+  独立 diff 核六包基线逐字不变+reforge 恰 +1 文件+17 项、105 旧文件 identity 逐条不变；首次 ratchet 失败日志
+  实读确认为分母回补而非降标。批二 B11/B12 原始诊断贡献披露；产品与 17 项回归均为 Codex 实现。
+  仅改本席与日志，未读 Kimi 结论；随后转编辑器四组实施（另一张卡）。
 - 2026-09-17 Codex：用户确认“签了”；核当前787c1e0f与远端同步、工作树干净，本卡三席r1齐且无counter，推进build。产品取证基线以来零漂移；先写真实注册/安全点/共队列回归，再实现main最小修复。GLM编辑器四组独立推进。
 - 2026-09-17 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
   直读 main.ts:6940-6948 裸绑注册、ops.ts:34-39 三参 builder、:958/:5589-5596 正确零参捕获、
   :5603-5622 共用队列+barrier 同步快照与队尾归一化；复跑 B11 observe/contract（真注册零参业务红）
   与 B12 正控（money=123 往返绿）。六条可证伪观察写入本席；不扩 SAVE8/content20。
   未改产品/他席/状态，未开始实现。Next：三签齐后 Codex 实现，终审按 CE-01～08。
-- 当前产品零改动；正式回归、质量门、实现终审均未执行；用户验收pending。
+- 当前产品修复与17项正式回归已落地，177项定向/相邻与typecheck通过；5项单点反控业务红且原实现对照绿。
+  证据与准确边界见[实现回执](../../testing/checkpoint-export.md)；check7235与ratchet/严格fast6747全部exit0，独立实现终审/用户验收pending，未done。
+- 2026-09-17 Codex：完成r1实现与质量门，推进review。新增真实quickSave两项是CE-06同链验收补强，不改变产品范围/设计；首次ratchet被拒的精确计数与修正证据均落回执。下一步Kimi/GLM并行独立终审同候选，不重签设计；GLM编辑器整批仍单独build。
 - 2026-09-17 Codex：按用户“给他们提示词，你做你的工作”推进主线，完成上述只读取证与r1 draft；GLM/Kimi另有编辑器工作包，本卡不占其产品/测试面。下一步两席独立设计审查，准入齐后Codex实现。
 
 ## 下一位Agent提示词
 
-与[编辑器补测工作包](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md#下一位agent提示词)的分配并行；两席只写各自签字与日志并提交推送，不改状态/产品，不代签。
+与[编辑器补测工作包](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md#下一位agent提示词)独立；本次只请求实现终审，r1设计不重签。
 
 ### Kimi
 
 ```text
-另审 Q1-CHECKPOINT-EXPORT-1 r1：docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md（draft），取证产品c1cec3adde5b0090acbc6bc1f325ca1301689873，Codex是Coding Owner。
-先同步查工作树，读AGENTS.md、CLAUDE.md、READ-FIRST、本卡、当前存档/E2E规范及已完成保存子链卡。独立核真实dumpSave注册/三参builder、capture深隔离、saveSnapshotQueue/withSaveBarrier、世界与scene同步提交域，复算B11业务红和B12正控；当前只诊断未实现。
-重点压力测试：只换绑定为何不足、共用队列不持存储I/O、错误后队尾恢复、异步await合同、JSON往返及不扩SAVE8/content20。不要读取/复述GLM结论。只在本人席位签带primary证据/可证伪观察的premise verified/design agree或counter并提交推送；不改产品/他席/状态，不开始实现、不标done。
+在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选27e605ef4cf2811f746afada30377093f15c50c8，对比a5df9fbc；设计不重签。
+先同步查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡CE-01～08及docs/testing/checkpoint-export.md。独立核真实DEV零参异步绑定、与doSave共用快照队列/真实barrier、同步捕获/JSON恢复、异常不毒死队尾、零槽副作用；保存写队列/缩略图/计数块应原样，SAVE8/content20与原探针不变。
+复跑回执定向177项、Reforge typecheck、node docs/testing/checkpoint-export-mutants.mjs（17项对照绿+5针业务红），核check7235、受保护单次strict fast6747/617及首次ratchet拒绝后补真实quickSave回调的证据；不把AST当main已插桩或内存宿主当浏览器。R4跨页/视觉集中延期，不重跑剧情。
+不读/复述GLM结论，只在本人实现席位签accept或带file:line的counter与交接日志，提交推送；不改产品/他席/状态，不代签、不标done。
 ```
 
 ### GLM
 
 ```text
-另审 Q1-CHECKPOINT-EXPORT-1 r1：docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md（draft），取证产品c1cec3adde5b0090acbc6bc1f325ca1301689873，Codex是Coding Owner。
-先同步查工作树，读AGENTS.md、CLAUDE.md、READ-FIRST、本卡、当前存档/E2E规范。独立核真实主壳注册与B11/B12，CE-01～08合法fixture、同一快照队列/真实barrier、导出零槽副作用、JSON往返、错误恢复与负控制。旧B11是同步探针，异步实现不能拿旧红因自证；不改原探针，不把“有字段”当完整安全快照。
-不读取/复述Kimi结论，不做视觉。只在本人设计席位签有一手证据的premise verified/design agree或counter并提交推送，不改产品/测试/他席/状态、不标done。本卡与你负责的编辑器四组测试独立，不替Codex实现；签齐后回去连续完成编辑器工作包。
+在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选27e605ef4cf2811f746afada30377093f15c50c8，对比a5df9fbc；设计不重签。
+先同步查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及docs/testing/checkpoint-export.md。独立逐CE-01～08核17项测试的合法输入/业务断言/队列顺序/失败重试/零槽副作用和JSON→codec→真实restore；复跑定向177项、typecheck、node docs/testing/checkpoint-export-mutants.mjs（17绿+5业务红），核check7235及fast6747/617、旧105文件identity和其他六包基线不变。首次ratchet失败如实保留，不准只看最终绿；旧B11同步探针零改，不用其旧红因代证异步实现。
+你贡献过B11/B12原诊断，须披露；本卡产品/新回归由Codex实现。不读/复述Kimi结论、不做视觉，只写本人accept/counter及日志并提交推送，不改产品/他席/状态、不标done。
+审完继续TEST-EDITOR-LOGIC-COVERAGE-1四组白名单工作；它已build准入a5df9fbc，按编辑器卡末尾GLM实施提示连续A→D，不重签、不将检查点计数混入你的贡献。
 ```

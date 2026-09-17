@@ -8,8 +8,8 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线](Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [Q1-CHECKPOINT-EXPORT-1 - 当前存档检查点导出接线](Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
