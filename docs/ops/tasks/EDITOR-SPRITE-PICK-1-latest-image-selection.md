@@ -117,7 +117,34 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 ### build前
 
 - Codex（2026-09-18）：**premise verified / design agree**。直接读取pick/submit/useEffect和父条件挂载/取消入口；复跑真实回调＋编码字节诊断与2项既有组件测试，确认G-I01/02/03/08，保留G-I04风险不裁决。错误根因在向导请求归属；最强反证与范围见上。
-- Kimi：premise pending / design pending；独立核入口、请求/生命周期/submit边界，不复述GLM。
+- Kimi：**premise verified / design agree（2026-09-18，r1，取证基线 467a5f41；全部证据本人直读/复跑，未读 GLM 结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  - **选图乱序直读**：`SpriteUploadWizard.tsx:145-173` pickFile 仅在 submitting 时早退；
+    `createImageBitmap` await 后**无任何请求身份检查**即 setDraft/setNewId/setNewLabel，catch 也无身份
+    检查即 setErr——旧成功覆盖当前 draft、旧错误覆盖当前错误。本人复跑 probe-glm-upload-prep：
+    G-I01 reproduced（选择序恒 A后B；完成序 B→A 时实际入库宽1/像素100=A，字节归属经真实
+    SHA/gzip/RLE 解码断言，非仅 setState 观察）。
+  - **错误乱序直读+复跑**：G-I02 reproduced（B 成功后旧 A 迟到失败，error 被覆盖为 A 的文案、
+    draft 仍 B）；G-I03 reproduced（B 失败后旧 A 迟到成功，draft 复活 A 且真实可提交、B 错误仍在）。
+  - **bitmap 释放直读+复跑**：`:150-156` 只在 drawImage 成功后 close；G-I08 reproduced
+    （getContext 失败/drawImage 抛错 close=0，成功 close=1）——无 try/finally 属实。
+  - **准入与宿主直读**：`:459-461` 入库按钮仅 submitting/!grid/quantized 禁用——B 解码等待期
+    旧 A 的 draft+quantized 仍可入库；`:467-475` 非提交可取消、提交中禁取消（既有语义，G-I04
+    维持 risk 不裁决）；`WorldSpriteLibrary.tsx:773-788` 条件挂载、`:448-456` 切目录卸载向导。
+    既有组件测试 2 项绿但不覆盖乱序（本人复跑）。
+  - **设计同意**：单调选择代次+每次 await 后核当前性（catch 也核）正面闭合 G-I01/02/03；
+    等待/失败显式状态+UI 禁用与 submit 入口同步 ref 双闸（不靠下一次渲染）闭合等待期入库；
+    bitmap try/finally 恰一次 close 不打断在途解码；取消/卸载/session/assetBase 变化失效旧选择、
+    同 scope 普通更新不误伤、调色板异步结果同纪律；submitting 互斥与已开始提交语义不变；
+    不碰编码格式/AddSpriteCommand/core 命令/UI 形态/GLM 冻结面。SP-01～07 覆盖两序/错误组合/
+    等待守卫/scope/bitmap close 次数/真实字节 oracle；四条负控（成功当前性/错误当前性/bitmap
+    finally/等待守卫）要求业务红。范围确停在 D-03。
+  - **可证伪观察**（任一反例即 counter 或收窄）：① 真实 UI 在 B 解码前已禁止第二次选择或入库
+    字节始终来自 B → 前提倒（探针否定）；② 实现后过期错误仍覆盖当前状态或过期 bitmap 未
+    close → 当前性/finally 缺位；③ 以锁死选择顺序使用户不能再选 B 充当修复 → 不算修复；
+    ④ B 等待/失败期旧 A 仍可入库 → 守卫缺位（SP-03）；⑤ scope 变化后旧 draft 冒充新 scope
+    可提交 → 生命周期缺位；⑥ 已开始提交被取消/重复 dispatch → 越出既有语义（SP-07）。
+  - 返工项：无。非阻断备注：G-I04 提交后卸载是否允许中断维持范围外产品问题（卡面已列，
+    本席背书）；新正式回归须用真实组件事件而非复制回调算法（卡面审计模型注记已列）。
 - GLM：**premise verified / design agree（2026-09-18，r1，取证基线 467a5f41、工作树 6284cab8 相对基线仅文档；
   全部锚点/探针本人直读复跑，未读 Kimi 结论。贡献披露：probe-glm-upload-prep.mjs 及 G-I 系列观察为本席
   原始只读材料，prem 历轮纠正（G-I03 提交起始 setErr('') 不等于清错、G-I04 无真实卸载）亦经本席返工落盘；
@@ -160,6 +187,13 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 
 ## 交接日志
 
+- 2026-09-18 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
+  直读 pickFile（:145-173 无请求身份检查）、submit（:175-222）、入库按钮准入（:459-461）、
+  取消语义（:467-475）、bitmap 仅成功路径 close（:150-156）、WorldSpriteLibrary 条件挂载/卸载；
+  复跑 probe-glm-upload-prep（G-I01/02/03/08 反例成立，G-I05/06/07 正控成立，G-I04 维持 risk
+  不裁决）与既有 2 项组件测试。六条可证伪观察写入本席；范围确停 D-03，不碰已开始提交的取消
+  语义/编码格式/core 命令/UI 形态。未改产品/他席/状态，未读 GLM 结论。Next：三签齐后
+  Codex 核定 build 准入并实现；dev-functional 视觉由 Codex。
 - 2026-09-18 GLM：完成 r1 独立设计审查，签 premise verified + design agree，无返工项（附一条非阻断
   建议：当前性核验覆盖 getImageData/toDataURL 后续 await 点）。直读 pick/submit/选择器/palette effect/
   条件挂载锚点；重跑本人原探针（G-I01/02/03/08 反例、G-I05/06/07 正控、G-I04 维持 risk）与既有 2 项
