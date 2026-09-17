@@ -28,6 +28,12 @@ Page/Behavior/Hook 选择，保存 `FlowCursor`，不保存匿名 command index�
 保存须等全部实际参与者退出，残留登记、已关闭或其他coordinator的lease不得绕过gate。
 默认10秒上限不变：真实业务仍挂起则保存失败且不拍快照，业务结束后可重试；不新增调用栈或中间相位的存档字段。
 
+DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存共用主壳快照队列。
+捕获时点是排队及barrier等待结束后的同步边界，而不是请求发出时；输出为独立当前payload，
+不读写槽/缩略图、不增加保存次数。错误直接reject，调用者必须await并处理失败；失败不阻断后续请求。
+存储和缩略图I/O继续在barrier外。该接口不保存脚本调用栈或中途战斗态，不替代R4的业务结束断言。
+实现验证见[检查点导出](../../testing/checkpoint-export.md)，完整跨页面E2E尚待集中执行。
+
 ### 当前读档边界
 
 1. `preflightCurrentSave` 只接受 `SAVE8/content20`；`normalizeCurrentSave` 校验后返回隔离副本。

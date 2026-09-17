@@ -98,6 +98,9 @@ Codex准备[B-06/B-07保存子链卡](../../archive/tasks/done/SAVE-BARRIER-LINE
 2026-09-17：上述保存子链r1已完成[实现与验证](../../../testing/save-barrier-lineage.md)，候选dff3442d自身三席终审accept、无返工。
 新增43项、8反控、完整check7079与严格fast6591通过；用户要求按齐备终审收口，Codex核候选零漂移后done归档；SL-E1～3集中R4/Q1仍待执行。
 
+同日WORLD候选e13216e7已补齐Kimi独立accept（43fd83ab），三席齐、用户确认，Codex已核done并归档；
+当前main该卡七产品文件仅core有已验收保存子链后续改动，不冒称全树与旧候选零diff；WA-E1～3仍待R4。
+
 2026-09-17四包补测接收：[TEST-FOUNDATION-COVERAGE-1](../../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md)源候选639e9e4e，
 历轮counter已修并由Codex独立接收，139项GLM测试合入最新主线；完整check7218、官方ratchet/单次受保护strict fast6730/617通过。
 产品源码/旧测试不变，全仓行70.90%/分支62.50%；集成候选48d3b8e3三席accept、用户确认后由Codex核零漂移并done归档。
@@ -154,9 +157,9 @@ R4起跑时必须写清实际使用的项目/存档身份、输入校验、作�
 
 ## 审计后实现期追加（2026-09-07）
 
-2026-09-17接续：[Q1-CHECKPOINT-EXPORT-1](../../tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)已开draft。
+2026-09-17接续：[Q1-CHECKPOINT-EXPORT-1](../../tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)r1三席设计齐，已开build。
 Codex复算真实注册B11业务红、B12正式capture/codec/restore正控绿；现有capture隔离成立，但直接绑它不能替代safe-point等待。
-方案限主壳共用快照队列与DEV异步导出，产品未改、尚待本卡独立设计准入，不把后续R4 runner提前记为完成。
+方案限主壳共用快照队列与DEV异步导出，已实施并补[正式回归](../../../testing/checkpoint-export.md)：17新用例/5反控、check7235/严格fast6747通过，当前review待两席独立终审，不把后续R4 runner提前记为完成。
 
 - **Q1 检查点导出钩子接错函数，待修**：`packages/reforge/src/main.ts:6933` 把 `dumpSave`
   绑定到导入的 `buildCurrentSavePayload(world, position, projectId)`（`save/ops.ts:34`），而不是

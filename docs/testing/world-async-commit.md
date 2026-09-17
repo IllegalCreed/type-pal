@@ -2,7 +2,7 @@
 
 任务：[WORLD-ASYNC-COMMIT-1](../ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md)，r1。
 实现候选`e13216e7a4439008df38666cbcfec557c8e5a26c`，对比`5bc62a21`；SHA回填不修改产品/测试/基线。
-用户已豁免GLM席位；Codex实现/自验证，Kimi独立终审待进行。旧批二材料含GLM贡献，不作为第三席独立证明。
+2026-09-17已补齐Kimi独立accept与GLM补审accept，Codex按用户确认核done归档。历史GLM豁免与素材贡献披露保留，不作为第三席独立证明。
 本文不扩张到保存barrier、U-02、战斗、默认落点、迁移或完整E2E。
 
 ## 实现和正式回归

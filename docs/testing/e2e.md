@@ -240,11 +240,21 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
 
 ## 9. 已有机制与待建项
 
-- **Reforge 存档导出（待修）**：预期通过 `window.__tpE2e.dumpSave()` 取得当前 SavePayload；
-  2026-09-07 发现实际钩子误接有参 builder，零参导出缺 world/position/projectId，当前不能作 checkpoint。
-  见[追加缺陷](../ops/audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)；
-  [检查点导出修复卡](../ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)已完成真实调用链取证，当前draft、未实现。
-  拟使用`await window.__tpE2e.dumpSave()`共用现有安全快照队列；修复验收后再建立连续导出链，不把draft示例当已可用接口。
+- **Reforge DEV存档导出（实现待终审）**：`await window.__tpE2e.dumpSave()`取得当前SAVE8/content20独立快照；
+  已修复裸绑三参builder的接线，现与普通保存共用安全快照队列，等待脚本安全点后捕获，不写用户槽/缩略图/计数。
+  超时/捕获失败reject，调用方须处理错误，不生成下一段检查点；取得快照不替代业务结束断言。
+  [实现与验证](checkpoint-export.md)、[任务卡](../ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)；R4连续文件恢复链仍待建立。
+  DEV控制台示例（正式runner还须完成结束断言和文件落盘）：
+
+  ```js
+  try {
+    const checkpointJson = JSON.stringify(await window.__tpE2e.dumpSave())
+    console.log(checkpointJson)
+  } catch (error) {
+    console.error('检查点导出失败，不推进下一段', error)
+  }
+  ```
+
 - **Reforge 存档恢复**:`?e2e-load=<save.json url>&e2e-load-scene=<id>` 复用正式读档归一化与恢复事务,
   注入 world 并跳到碎片起点。
 - **机读观察点**:`canvas.dataset.rfScene` / `rfRender` / `rfSceneEntry`、`window.__reforge` 和战斗态
