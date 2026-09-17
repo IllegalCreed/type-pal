@@ -213,7 +213,32 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
 ### 进入done前
 
 - Codex：accept（2026-09-15，实现者自验证）；三缺陷正式回归、8项单点反控及Reforge/Editor正常对照、七包check 7036项、官方ratchet与受保护基线下单次严格fast 6548项均通过；详见验证记录，视觉按WA-E1～3集中延期，未冒称已执行。
-- Kimi：pending，需独立实现审查及覆盖矩阵复核。
+- Kimi：**accept（2026-09-17，实现独立终审，候选 `e13216e7` 对比 `5bc62a21`；设计不重签）**。
+  接手时 HEAD 与 origin/main 一致、工作树干净；候选产品=当前 main 同段，未用新 main 冒充候选。
+  - **D1 地图握手**：`script-project-core.ts:209-241` core 不再抢写——SceneMapCommitControl 带
+    committed/accepting 窗口 + signal + 来源 scene/session 三重校验，effect 结束未提交即抛；
+    finally 中 committed 后无条件 worldChanged（提交后 abort 仍通知、不回滚）；显式 scene 保持
+    静态覆写合同。`script-host-adapter.ts:157-163` 缺 kind:'sceneMap' 控制在任何 IO 前拒绝；
+    无 reload 宿主显式纯状态提交。`main.ts` reloadMap 缺控制即抛、全部就绪后无 await 块内
+    commitCanonical()+现场赋值，旧直写已删——无第二 writer。move 控制收窄为 kind 判别，
+    lifecycle 后提交合同未动。
+  - **D2 预检冻结与签名**：`main.ts` prepare 首个 await 前 structuredClone 冻结 world/script
+    （显式候选优先）与 actor 覆盖，canonicalDef 冻结进 plan；capture/assert 两侧同用
+    `captureRuntimeSceneBehaviorDependencies`（runtime-project-view.ts:200-247——onEnter/
+    onTeleport hook+cursor、逐实体 page/trigger/auto/activation/animation，复用既有解析器、
+    排序稳定、不序列化全表）；死字段 sceneScriptOverrides/entityStage 仅本调用域删除。
+  - **D3 四叶**：统一 case 块，await 后 `signal.throwIfAborted()`+来源 scene/session 检查
+    才进同步选择；来源与目标地址分离（合法跨场景保留）。
+  - **本人实跑**：定向 6 文件 **101/101**、editor playback **12/12**、reforge typecheck exit 0；
+    入仓 `world-async-commit-mutants.mjs` 复跑：**2 对照绿 + 8 针全红**（editor/main 缺控制、
+    map 早写、selector 无 abort/无 session、preflight 无 behavior/读活值、提交后跳通知），
+    针针 expected==actual。交叉核 GLM 复跑与 Codex 记录的质量门计数（check 7,036、
+    strict 6,548/617）一致；content/game/migrate/shared/pal-extract/lock 零 diff（实测）。
+  - **覆盖矩阵代班复核**：新增 55 项回归钉 AC-01～09 的正/反/正控；负控制针位与 AC-10 对应；
+    无 test.fails/降阈/缩范围；冻结探针与批二机器账零 diff；fixture 无产品导入。
+  - **旧版本兼容审查：pass**——死投影字段只在本调用域删除、无旧字段 fallback/升级器。
+  - 剩余风险（不阻断）：WA-E1～3 视觉/磁盘重开集中延期未执行；updateCamera 静态观察归 R4。
+  返工项：无。本 accept 不代签、不授权 done；GLM 补审席位的披露与豁免安排维持卡面原文。
 - GLM：**accept（2026-09-16额度恢复补审；实现审查，非第三方独立accept，不替代Kimi终审）**。
   - **贡献披露**：批二A01～A12探针/机器账为本席原始材料，本卡前提矩阵引用之；本轮补审为独立重核，不以历史材料自证。
   - **实现直读（e13216e7 对比 5bc62a21，7产品文件）**：D1——`script-project-core.ts` setSceneMapOverride(scene缺席)不再抢写 mapOverride，
@@ -265,6 +290,12 @@ Codex实现与自验证已完成，Kimi实现终审和用户验收未完成，�
 
 ## 交接日志
 
+- 2026-09-17 Kimi：完成实现独立终审，done 前席位签 accept（候选 e13216e7 对比 5bc62a21，设计不重签）。
+  直读 D1 握手（commit control 三重校验+committed/accepting 窗口+finally 通知不回滚、adapter 缺控制
+  IO 前拒绝、main 无第二 writer）、D2 冻结快照与真实消费签名（captureRuntimeSceneBehaviorDependencies）、
+  D3 四叶 await 后取消+来源会话检查；复跑定向 101/101、playback 12/12、typecheck、入仓 8 针反控
+  全红+2 对照绿；范围实测五包+lock 零 diff；旧版本兼容 pass；WA-E1～3 延期未冒称。
+  未改产品/他席/状态。Next：Codex 统一核定 done（三席 Codex/GLM 补审/Kimi 均已 accept）。
 - 2026-09-16 GLM：额度恢复补审完成，done前席位签 accept（详见上节）；独立复跑定向 101+12、8反控+2对照、
   check/ratchet/严格 fast 三门均与验证记录一致；披露批二原始材料贡献。仅改本席与日志，不改产品/状态/他席，不标done；
   done准入仍blocked待Kimi终审。随后转 TEST-FOUNDATION-COVERAGE-1 设计席位（另一张卡，签字分开提交）。
