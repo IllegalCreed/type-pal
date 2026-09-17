@@ -1,6 +1,6 @@
 # TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测
 
-Status: review
+Status: done
 Phase: phase2
 Capability: 编辑器逻辑回归与覆盖率（不改变能力地图）
 Coding Owner: GLM（白名单测试）
@@ -17,7 +17,19 @@ Codex同时准备Reforge检查点导出修复；本卡不碰reforge产品或其�
 当前（2026-09-18）：GLM来源`8e8ae8318c9da6333e5c44639a279d0f4149df08`残项复核通过，R1/R2/R4关闭；R3及已闭环项不重开。
 终审集成候选`5ca9dad20fd8deb32bf4c3bacd76c69546f99be6`，对比主线`5552b2a96a07c6a7a4f65ab7c90b2ab6b83c0e10`。
 Codex accept，已完成隔离集成check7282→ratchet→受保护单次strict fast6794/617；设计r1保持，不重签。
-Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../testing/editor-logic-coverage-review.md)；不标done。
+Kimi独立终审及GLM本人实现者确认均已accept，无生效counter；2026-09-18用户明确授权Codex统一收口，已核定done。
+详见[独立复核](../../../../testing/editor-logic-coverage-review.md)。
+
+## 收口结论（2026-09-18）
+
+- Codex核三席均钉同一r1集成候选5ca9dad2：Codex集成复核、GLM实现者自验（eacf0a8b）、Kimi独立终审（f82d60b9）；无缺签豁免，无返工项。
+- 同步后HEAD与origin/main均为f82d60b9；5ca9dad2→HEAD的packages/scripts/projects/data/lock零diff，验收候选及官方基线无漂移。
+  主工作区SpriteUploadWizard.tsx及其selection测试为另一卡WIP，接手前后SHA-256保持，不stash、不纳入本卡提交。
+  三席审查块经归档链接规范化后逐字比对不变；文档工具20/20、433篇文档/2180条本地链接/148张卡检查通过，git diff --check通过。
+- 复用已验收check7282、ratchet及受保护单次strict fast6794/617；本次仅文档终态、归档链接和机器索引变更，运行文档工具测试/检查及diff检查，不重复整套产品测试。
+- 后续A3技能Update归下一批逻辑补测候选；D4脚本版本/冷地图/失败边界归D-02引用图修复；D5保存重开归R4编辑器E2E。
+  D-02/D-06/D-07继续按审计台账推进；closure防御臂不强测，GLM贡献身份不改写。本卡done不代表全仓覆盖率目标或E2E完成。
+- 用户本轮明确授权统一核定done，无视觉或用户手工复验要求；历史counter/签字/提示词保留，不再授权重复审查。
 
 ## 目标与边界
 
@@ -52,10 +64,10 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
 
 ## 上下文锚点
 
-- [AGENTS](../../../AGENTS.md)、[CLAUDE](../../../CLAUDE.md)、[READ-FIRST](../../phase2/READ-FIRST.md)、[协作协议](../agent-workflow.md)。
-- [覆盖率口径](../../testing/coverage.md)、[编辑器审计D-02/D-06/D-07](../audits/pre-e2e/editor-workflows.md)、[审计总队列](../audits/pre-e2e/summary.md)。
-- [D-01全局历史已完成卡](../archive/tasks/done/EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)：不再造两栈仲裁器、不改已验收历史模型。
-- [上一包复核](../../testing/glm-foundation-coverage-review.md)：不把浅拷贝当before、自比较当oracle、空fixture下的deletes=[]当删除门证明；数字从最终提交树生成。
+- [AGENTS](../../../../../AGENTS.md)、[CLAUDE](../../../../../CLAUDE.md)、[READ-FIRST](../../../../phase2/READ-FIRST.md)、[协作协议](../../../agent-workflow.md)。
+- [覆盖率口径](../../../../testing/coverage.md)、[编辑器审计D-02/D-06/D-07](../../../audits/pre-e2e/editor-workflows.md)、[审计总队列](../../../audits/pre-e2e/summary.md)。
+- [D-01全局历史已完成卡](EDITOR-HISTORY-ORDER-1-global-undo-transactions.md)：不再造两栈仲裁器、不改已验收历史模型。
+- [上一包复核](../../../../testing/glm-foundation-coverage-review.md)：不把浅拷贝当before、自比较当oracle、空fixture下的deletes=[]当删除门证明；数字从最终提交树生成。
 - 既有测试先读：commands/actor-commands/item-commands/world-variable-commands、actor-dialogue-commands、stamp-commands/stamp-lifecycle、project-reference/project-reference-adapters、scene-lifecycle/shop-lifecycle及对应ref测试。
 - 当前内部`scriptChunks`投影仍有现行用途，不因名字旧就删；但不得伪造旧作者文件作为可保存canonical输入。
 
@@ -109,7 +121,7 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
 - `packages/editor/src/core/project-reference.boundaries.test.ts`
 - `packages/editor/src/core/project-reference-adapters.boundaries.test.ts`
 - 必要薄fixture：`packages/editor/src/core/__tests__/glm-editor-logic-fixtures.ts`；不得复制产品算法/遍历，不能由产品import。
-- 文档：[GLM回执](../../testing/glm-editor-logic-coverage-receipt.md)的GLM区域、本卡自己的签字/日志。
+- 文档：[GLM回执](../../../../testing/glm-editor-logic-coverage-receipt.md)的GLM区域、本卡自己的签字/日志。
 - 可选诊断：`docs/testing/glm-editor-logic-coverage-mutants.mjs`、`glm-editor-logic-coverage.config.mts`、`glm-editor-logic-coverage-evidence.json`、`glm-editor-logic-known-gaps.mjs`。
   配置只服务tmp诊断，不改正式统计；有新附件在回执链接，无需要不创建。
 
@@ -195,8 +207,8 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
   串行ratchet、受保护单次strict fast6794/617均exit0；八新文件47项、210个editor旧测试身份/计数及其它六包完整基线对象不变，全生产范围/分母不变。
   官方全包+23行/+47臂=五目标+22/+46加tileset-references的1/1，不将局部/全包混算。
   GLM为测试贡献者，Q1(27e605ef)17项单列；Sprite上传WIP原字节隔离，不计入本卡。A3后续补测/D4归D-02/D5归R4、D-02/06/07仍待修均明列，未冒称全覆盖或E2E。
-  可证伪：任何实际输入validator拒绝、四见证漏检、旧测试身份移除/范围缩减或指标下降即撤回accept。独立证据与日志见[复核](../../testing/editor-logic-coverage-review.md)。本席accept取代下方历史counter，不代签他席。
-- Codex历史返工复核（2026-09-18，a3687b75）：**counter**。47/47、明确相邻76/76、tsc/Biome、10反控与旧三见证均通过；选择口径已修，独立覆盖2255→2302、+22行/+46分支成立。剩余：R1手写shared cue缺side、原AddLayer实际L3仍非法；R2 invert只验fury，真实restore输入污染仍6/6绿；R4重复敌人ID实际未撤、locale标题仍超断言、逐族锚点与after计数不符。见[最新复核](../../testing/editor-logic-coverage-review.md)。原counter保留如下，但已闭环项不再返工；不合入、不转Kimi、不标done。
+  可证伪：任何实际输入validator拒绝、四见证漏检、旧测试身份移除/范围缩减或指标下降即撤回accept。独立证据与日志见[复核](../../../../testing/editor-logic-coverage-review.md)。本席accept取代下方历史counter，不代签他席。
+- Codex历史返工复核（2026-09-18，a3687b75）：**counter**。47/47、明确相邻76/76、tsc/Biome、10反控与旧三见证均通过；选择口径已修，独立覆盖2255→2302、+22行/+46分支成立。剩余：R1手写shared cue缺side、原AddLayer实际L3仍非法；R2 invert只验fury，真实restore输入污染仍6/6绿；R4重复敌人ID实际未撤、locale标题仍超断言、逐族锚点与after计数不符。见[最新复核](../../../../testing/editor-logic-coverage-review.md)。原counter保留如下，但已闭环项不再返工；不合入、不转Kimi、不标done。
 - GLM：**accept（2026-09-18，实现者自验；本人 47 项测试贡献的 Coding Owner 确认，明确不作为独立第三方
   证明，不替代 Codex 复核或 Kimi 终审）**。
   - **贡献保留核对**：集成候选 `5ca9dad2`（对比 `5552b2a9`，来源本席 `8e8ae831`）中八个 boundaries 测试经
@@ -215,7 +227,7 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
     返工回执一致。
   - 贡献披露：四组 47 项测试/fixture/负控脚本/诊断配置为 GLM 工作；Codex 两轮 counter、隔离集成树、
     术语订正与统一质量门（check 7282/ratchet/strict fast 6794/617）除外。无实际不符项。
-- Codex：**counter（2026-09-18，d531aa24接收复核）**。白名单与产品零改动、44/44、typecheck/新文件Biome exit0、原10反控退出码及局部+22行/+46分支已复算；但R1当前validator拒绝正控fixture，C4伪造count冒充真实旧proof；R2实际输入污染和错误portrait asset均漏检；R3 +99强行拒绝并非移除闭合guard；R4诊断多2个PAL漏1个mjs且逐族/标题/计数账不齐。完整证据、精确file:line和返工要求见[复核报告](../../testing/editor-logic-coverage-review.md)。不合入、不跑接收后的官方门禁、不转Kimi；设计不重签、不代签。
+- Codex：**counter（2026-09-18，d531aa24接收复核）**。白名单与产品零改动、44/44、typecheck/新文件Biome exit0、原10反控退出码及局部+22行/+46分支已复算；但R1当前validator拒绝正控fixture，C4伪造count冒充真实旧proof；R2实际输入污染和错误portrait asset均漏检；R3 +99强行拒绝并非移除闭合guard；R4诊断多2个PAL漏1个mjs且逐族/标题/计数账不齐。完整证据、精确file:line和返工要求见[复核报告](../../../../testing/editor-logic-coverage-review.md)。不合入、不跑接收后的官方门禁、不转Kimi；设计不重签、不代签。
 - Kimi：**accept（2026-09-18，r1 独立终审，集成候选 `5ca9dad2` 对比 `5552b2a9`（GLM 来源 `8e8ae831`）；设计不重签；未读 GLM 本轮结论的论述）**。
   接手 HEAD `f06a2287` 与 origin/main 一致；候选后 packages/scripts 零漂移；主工作区 SpriteUploadWizard
   WIP 原字节保持，未 stash/混入（本席核其与本包文件无交集）。
@@ -241,10 +253,11 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
     保持待修不固化。
   返工项：无。后续归属（A3 技能 Update 下批、D4 归 D-02 修复、D5 归 R4 E2E）登记在案。
   本 accept 不代签、不授权 done。
-- done准入：三席 accept 均已落盘（Codex 集成复核、GLM 实现者自验、Kimi 独立终审），待 Codex 统一核定；无缺签豁免。用户不承担技术手工复验，无视觉项；Codex最终统一状态，不代签。
+- done准入：**done allowed**（2026-09-18 Codex统一核定）；三席accept均钉r1/5ca9dad2，无生效counter/返工项，无缺签豁免；用户明确授权收口，已推进done并归档。无视觉项，不代签。
 
 ## 交接日志
 
+- 2026-09-18 Codex收口：同步并核GLM eacf0a8b/Kimi f82d60b9及本席accept同钉5ca9dad2，候选后packages/scripts等零漂移，用户明确授权done。更新终态、归档卡片、同步看板/索引/覆盖率及回执现态；保留三席和历史counter原文，后续归属不并入本卡。主工作区上传WIP保持原字节，无需再次转交本卡审查。
 - 2026-09-18 Kimi（r1 独立终审）：同步 `f06a2287` 后核 `5552b2a9 → 5ca9dad2`（GLM 来源 8e8ae831）。
   白名单/产品与旧测试零 diff 实测；直读 R1 cue side/R2 深快照/R4 唯一 ID+locale 残项；复跑定向
   47/47、回执原命令相邻 76/76、入仓 10 针全业务红+对照绿、见证工具四针 detected（closure MISSED
@@ -269,20 +282,22 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
 
 ## 下一位Agent提示词
 
-### Kimi · 独立终审（当前）
+无下一位Agent提示词；本卡已按用户授权收口。以下提示仅保留历史，不再要求签字或授权继续实现。
+
+### Kimi · 独立终审（历史，已完成）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 TEST-EDITOR-LOGIC-COVERAGE-1 r1，任务卡 docs/ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，review。集成候选5ca9dad20fd8deb32bf4c3bacd76c69546f99be6，对比5552b2a96a07c6a7a4f65ab7c90b2ab6b83c0e10；GLM来源8e8ae831，设计不重签。
+在 /Users/zhangxu/illegal/type-pal 终审 TEST-EDITOR-LOGIC-COVERAGE-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，review。集成候选5ca9dad20fd8deb32bf4c3bacd76c69546f99be6，对比5552b2a96a07c6a7a4f65ab7c90b2ab6b83c0e10；GLM来源8e8ae831，设计不重签。
 先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/editor-logic-coverage-review.md及GLM实现回执。主工作区可能有Sprite上传WIP，须隔离候选，不stash/覆盖/混入该改动。
 独立核R1实际shared cue与统一legalL3、R2 invert全状态深快照、R4唯一enemy ID+undo/locale/逐族锚点；R3已闭环不重开，closure防御臂不强测。GLM是47项测试贡献者，不采信其自验作独立证明；Q1的17项不计本包。
 复跑定向47/明确相邻76、tsc/Biome、node docs/testing/glm-editor-logic-coverage-mutants.mjs（1对照绿+10业务红）及node docs/testing/editor-logic-coverage-review-witnesses.mjs <候选物理绝对路径>（四针detected、closure MISSED属已分类防御）。核Codex仅改新测试标题/注释、产品/旧测试/原探针零diff；check7282→ratchet→受保护单次strict fast6794/617证据与基线一致，210旧editor测试与其它六包不变，官方全包+23行/+47臂与五文件局部+22/+46分清。
 只在本人终审席位/本人日志写独立accept或带file:line的counter，提交推送；不得改实现/状态/他席结论，不标done。提交前同步保留并行GLM本人签字，勿复述其结论；回Codex统一收口。
 ```
 
-### GLM · 实现者确认（当前，与Kimi并行，不是独立第三方审查）
+### GLM · 实现者确认（历史，已完成；不是独立第三方审查）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 确认 TEST-EDITOR-LOGIC-COVERAGE-1 r1 的最终集成，卡 docs/ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，review。候选5ca9dad20fd8deb32bf4c3bacd76c69546f99be6，对比5552b2a96a07c6a7a4f65ab7c90b2ab6b83c0e10；来源为你的8e8ae831。设计不重签，不是新一轮返工。
+在 /Users/zhangxu/illegal/type-pal 确认 TEST-EDITOR-LOGIC-COVERAGE-1 r1 的最终集成，卡 docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，review。候选5ca9dad20fd8deb32bf4c3bacd76c69546f99be6，对比5552b2a96a07c6a7a4f65ab7c90b2ab6b83c0e10；来源为你的8e8ae831。设计不重签，不是新一轮返工。
 先同步查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡及docs/testing/editor-logic-coverage-review.md。主树上传WIP不触碰。核你47项贡献被保留、Codex仅订正新测试标题/fixture注释，Q1单列；check7282、ratchet/strict fast6794及全包+23行/+47臂（五文件局部仍+22/+46）账一致。
 只在本人done前席位和本人日志签实现者自验accept或具体counter，明确测试贡献者身份不作独立第三方证明；无需重复设计或并发重跑重型门禁。不要读取/复述Kimi审查结论，提交前同步保留他席改动；不改实现/状态，不代签不标done，交Codex统一收口。
 ```
@@ -290,7 +305,7 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
 ### GLM残项返工提示（历史）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-EDITOR-LOGIC-COVERAGE-1 r1，卡 docs/ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，rework；候选a3687b75ff72e7adb1bdb73b2116e0bdfb0cab3f。先同步并保留Codex最新counter，读AGENTS/CLAUDE/READ-FIRST及docs/testing/editor-logic-coverage-review.md顶部返工复核。设计不重签，R3和已修项不重开。
+在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-EDITOR-LOGIC-COVERAGE-1 r1，卡 docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，rework；候选a3687b75ff72e7adb1bdb73b2116e0bdfb0cab3f。先同步并保留Codex最新counter，读AGENTS/CLAUDE/READ-FIRST及docs/testing/editor-logic-coverage-review.md顶部返工复核。设计不重签，R3和已修项不重开。
 只修剩余：R1 shared手写cue缺side、原AddLayer实际L3仍tile/source不匹配（不要只另造合法正控）；R2 invert前后完整输入深快照，restore-input-mutation必须业务红；R4把仍在默认测试中的重复enemy-x断言实际改成唯一ID新增/undo，locale标题/断言一致，逐族既有锚点正确、after最终数2302按新树重算，Q1 merge来源单列。
 运行更新的node docs/testing/editor-logic-coverage-review-witnesses.mjs <候选工作树绝对路径>：原三针保持detected、restore针转detected；closure防御针不强测。定向/明确相邻76/tsc/Biome、10负控、同官方口径覆盖复跑，数字从最终树生成。
 只改原白名单测试/fixture/诊断与本人回执；不改产品/旧测试/原探针/官方配置基线，不代签不标done、不转Kimi。保留已通过内容，交Codex接收后才统一全仓门禁。
@@ -299,7 +314,7 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
 ### 首轮GLM返工提示（历史，按上方残项执行）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 返工 TEST-EDITOR-LOGIC-COVERAGE-1 r1，任务卡 docs/ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md 已rework；原候选d531aa2473d1081fb201248fae3694731fe2cae2，原分支codex/glm-editor-logic-coverage-r1。r1三签不重签。
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-EDITOR-LOGIC-COVERAGE-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md 已rework；原候选d531aa2473d1081fb201248fae3694731fe2cae2，原分支codex/glm-editor-logic-coverage-r1。r1三签不重签。
 先同步并保留本轮counter，读AGENTS/CLAUDE/READ-FIRST、本卡及docs/testing/editor-logic-coverage-review.md。只改原白名单新测试/fixture/诊断和本人回执，不改产品/旧测试/原探针/官方配置基线，不做视觉。
 逐项修R1合法cue/map/shared/item输入与真实旧proof；R2输入深快照及actor重命名真实key/asset结果（输入污染和错误asset三见证必须被抓）；R3纠正+99负控的真实含义，补真正错误改写结果的业务反控，不伪造不可达闭合场景；R4直接消费官方fast selection、重建inventory/覆盖，逐族分类、标题/断言和24/6/7/7计数、相邻76命令/哈希与失败记录对齐。
 可运行 node docs/testing/editor-logic-coverage-review-witnesses.mjs <你的候选工作树绝对路径> 重建本席见证；该工具报MISSED表示漏检，不是通过。保留已有效用例，不以固定新增条数或覆盖率凑数。完整定向/相邻/tsc/Biome/负控及同口径覆盖通过后交Codex复核；不代签、不标done、不转Kimi，Q1贡献不混入。
@@ -308,7 +323,7 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
 ### 原GLM实施交接（历史，现以R1～R4返工为准）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 继续 TEST-EDITOR-LOGIC-COVERAGE-1 r1，卡 docs/ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md 已build；a5df9fbc由Codex核三席设计齐、无counter，不重签。先同步查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡及docs/testing/glm-editor-logic-coverage-receipt.md。
+在 /Users/zhangxu/illegal/type-pal 继续 TEST-EDITOR-LOGIC-COVERAGE-1 r1，卡 docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md 已build；a5df9fbc由Codex核三席设计齐、无counter，不重签。先同步查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡及docs/testing/glm-editor-logic-coverage-receipt.md。
 按原独立worktree/分支codex/glm-editor-logic-coverage-r1、产品冻结c1cec3ad、精确白名单连续做完A通用命令/B角色立绘表情引用/C组合库/D工程引用与删除守卫。只写新测试/fixture、本人回执；不改产品/旧断言/原探针/配置基线/资产，不做视觉。真实业务断言/深快照/每组至少两有效负控、定向相邻/tc/Biome/同树覆盖对照齐。D-02/06/07保持缺陷隔离，发现需改产品则登记交Codex，不倒改预期。
 四组整批交Codex复核集成，官方check/ratchet/严格fast由Codex统一执行，不代签不标done。WORLD已done，Q1检查点已另行实施，两者设计审查均已完成，不重复旧提示。若同步引入Codex的main改动须披露来源，不把新主线全仓误报为冻结产品零diff。
 ```
@@ -318,7 +333,7 @@ Kimi本卡设计已完成，暂不重复交设计；实施候选形成后再独�
 ### 原GLM设计交接（历史）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接手 TEST-EDITOR-LOGIC-COVERAGE-1 r1，任务卡 docs/ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，draft；你是白名单测试Coding Owner，产品起点c1cec3adde5b0090acbc6bc1f325ca1301689873，分配提交d6528e8639f71d92747347526cb35925a84dee8b。
+在 /Users/zhangxu/illegal/type-pal 接手 TEST-EDITOR-LOGIC-COVERAGE-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，draft；你是白名单测试Coding Owner，产品起点c1cec3adde5b0090acbc6bc1f325ca1301689873，分配提交d6528e8639f71d92747347526cb35925a84dee8b。
 先同步并查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡与docs/testing/glm-editor-logic-coverage-receipt.md；先独立核目标实现/当前caller/已有测试，在本人席位签有一手证据的premise verified/design agree或counter。签齐前只读核对，不开始正式测试或在tmp绕门禁。
 三席r1设计齐且无counter后，按卡核build，在codex/glm-editor-logic-coverage-r1独立worktree连续完成A通用命令、B角色立绘与表情引用、C组合库命令、D引用与删除守卫，不逐组重签。只改精确白名单新测试/fixture及本人回执，产品/旧测试/原探针/配置基线/资产零修改；不做浏览器或视觉。
 复用现有审计证据，D-02/D-06/D-07保持待修隔离，别把错误当合同或把默认fast塞红。每族精确业务断言和独立深快照，每组至少两有效单点反控；定向/相邻/tc/Biome、同树覆盖对照和最终树计数齐。全部做完交Codex复核集成；官方check/ratchet/strict fast由Codex统一跑。只写本人签字/日志，提交推送，不代签不标done。
@@ -330,7 +345,7 @@ Kimi本卡设计已完成，暂不重复交设计；实施候选形成后再独�
 ```text
 在 /Users/zhangxu/illegal/type-pal 处理三个独立审查：先补尚未落卡的WORLD-ASYNC-COMMIT-1终审，再审TEST-EDITOR-LOGIC-COVERAGE-1与Q1-CHECKPOINT-EXPORT-1的r1设计。先同步并查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，不恢复stash或覆盖他人改动。
 WORLD卡 docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md 当前review，候选e13216e7a4439008df38666cbcfec557c8e5a26c对比5bc62a21，设计不重签。GLM已补审，你本席仍pending。按原卡终审职责独立核代码/回归/8反控，不借保存子链或四包测试的签字代替。当前main已有后续修复，复跑旧候选须隔离工作树或冻结模块，不用当前HEAD冒充候选；只写本人accept/counter与日志，提交推送，不改状态/产品、不标done。
-新卡 docs/ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，r1/draft，产品起点c1cec3adde5b0090acbc6bc1f325ca1301689873，分配提交d6528e8639f71d92747347526cb35925a84dee8b。独立核四组现行命令/引用合同、fixture合法性、不可变/undo边界、已知缺陷隔离、白名单与非视觉限制、反控与覆盖口径。第二组是角色立绘/表情引用，不是对话系统重写。
+新卡 docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，r1/draft，产品起点c1cec3adde5b0090acbc6bc1f325ca1301689873，分配提交d6528e8639f71d92747347526cb35925a84dee8b。独立核四组现行命令/引用合同、fixture合法性、不可变/undo边界、已知缺陷隔离、白名单与非视觉限制、反控与覆盖口径。第二组是角色立绘/表情引用，不是对话系统重写。
 在新卡本人设计席位写有独立一手锚点及可证伪观察的premise verified/design agree或counter；不要读/复述GLM设计结论。只改自己的签字/日志并提交推送，不改他席/状态、不开始实现。一次审全包，三签齐后GLM按卡连续执行，Codex负责集成与所有视觉。
 另按docs/ops/archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md末尾Kimi提示词审该卡r1：产品同c1cec3ad，当前draft，Codex只完成取证未实现；重点核真实DEV绑定、safe-point时序、与F5共用队列、失败恢复和同步快照，不扩大SAVE8/content20。只在本人席位签premise verified/design agree或counter并推送，不借前两卡签字作为本卡准入。
 ```

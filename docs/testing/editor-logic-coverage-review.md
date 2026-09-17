@@ -2,14 +2,22 @@
 
 日期：2026-09-18。候选`d531aa2473d1081fb201248fae3694731fe2cae2`，分支`codex/glm-editor-logic-coverage-r1`；
 build基点`a5df9fbc`，产品起点`c1cec3ad`。接收主线`4ad6522a`已有Q1检查点17项，不计入本包。
-任务：[编辑器命令与引用补测](../ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)。
+任务：[编辑器命令与引用补测](../ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)。
 
 ## 最新：8e8ae831残项接收与隔离集成（2026-09-18）
 
 GLM来源`8e8ae8318c9da6333e5c44639a279d0f4149df08`，接收主线`5552b2a96a07c6a7a4f65ab7c90b2ab6b83c0e10`。
-**结论：accept。终审集成候选`5ca9dad20fd8deb32bf4c3bacd76c69546f99be6`，对比5552b2a9；任务转review，未标done。**
+**结论：accept并已done收口（2026-09-18）。终审集成候选`5ca9dad20fd8deb32bf4c3bacd76c69546f99be6`，对比5552b2a9。**
 本轮只核R1/R2/R4残项；R3和既闭环项不重开，r1设计不重签。来源分支相对c82b0d28仍为8测试+1fixture+2诊断+本人回执，
 未改产品、旧测试、配置、资产或原审计探针。Q1提交27e605ef的17项已在主线，不计作GLM本包贡献。
+
+### 最终收口
+
+三席accept均钉同一r1/5ca9dad2：Codex集成复核、GLM实现者自验eacf0a8b、Kimi独立终审f82d60b9，
+无生效counter/返工项、无缺签豁免。2026-09-18用户明确授权收口；Codex同步主线并核5ca9dad2→f82d60b9的
+packages/scripts/projects/data/lock零diff，保留既有check7282与strict fast6794/617证据，统一推进done并归档。
+本次只改文档状态/链接/索引，运行文档工具测试与检查；上传修复WIP原字节隔离，未混入验收或提交。
+下面后续归属仍有效，本卡完成不代表全仓覆盖率或完整E2E已达标，无下一位Agent交接。
 
 ### 残项证据
 
@@ -56,7 +64,7 @@ GLM来源`8e8ae8318c9da6333e5c44639a279d0f4149df08`，接收主线`5552b2a96a07c
 - D4脚本版本/冷地图/扫描失败：归Codex后续D-02引用图修复的真实provider/loader回归；当前本包只声明实际state查询覆盖。
 - D5删除→保存→重开：归R4编辑器工作流E2E，使用正式序列化与loader；本包不以JSON往返自证。
 - D-02/D-06/D-07真实缺陷仍待原队列处理，本轮没有修复或固化错误合同。没有浏览器或视觉验收项。
-- GLM是47项测试贡献者；Codex独立复核与集成，Kimi仍须独立终审。GLM自验不能代替独立第三方结论。
+- GLM是47项测试贡献者；Codex独立复核与集成，Kimi已完成独立终审。GLM自验不作为独立第三方结论。
 
 ### 可重建与日志
 

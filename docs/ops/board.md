@@ -13,9 +13,9 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | EDITOR-SPRITE-PICK-1 | [精灵上传选图异步归属](tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | build | Codex实现 | r1三席设计齐；真组件乱序/释放回归，与GLM core测试返工分离 |
-| TEST-EDITOR-LOGIC-COVERAGE-1 | [编辑器命令与引用补测](tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | review | Kimi独立终审 / GLM实现者确认 | 5ca9dad2 Codex accept；47项/四见证、check7282、严格fast6794/617通过；设计不重签 |
 
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。
+编辑器逻辑补测候选5ca9dad2已三席accept、用户授权收口，2026-09-18由Codex[核定done归档](../testing/editor-logic-coverage-review.md)；47项新增、check7282与strict fast6794通过，后续缺口按台账另推。
 四包基础测试候选48d3b8e3也已三席accept、用户确认，2026-09-17由Codex[收口归档](../testing/glm-foundation-coverage-review.md)；139项新增、check7218与strict fast6730通过。
 世界异步提交候选e13216e7已三席accept、用户确认，2026-09-17由Codex核定done归档；WA-E1～3仍待R4集中执行，不互相借用签字。
 检查点导出候选27e605ef也已三席accept、无返工，2026-09-18由Codex核零漂移并done归档；[接口回执](../testing/checkpoint-export.md)的跨页/视觉闭环仍归R4。

@@ -9,7 +9,6 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属](EDITOR-SPRITE-PICK-1-latest-image-selection.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -140,6 +139,7 @@
 | [SAVE-ISOLATION-1 - 工程与工作区存档隔离](../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强](../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W4-1 - 命名落点闭环与迁移去重](../archive/tasks/done/W4-1-named-scene-entry-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W6 - 昼夜氛围系统(全帧乘法滤镜 + 氛围数据表)](../archive/tasks/done/W6-ambience-day-night.md) | done | 完成证据、历史签字与交接见原卡。 |

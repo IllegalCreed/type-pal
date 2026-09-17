@@ -106,6 +106,10 @@ Codex准备[B-06/B-07保存子链卡](../../archive/tasks/done/SAVE-BARRIER-LINE
 产品源码/旧测试不变，全仓行70.90%/分支62.50%；集成候选48d3b8e3三席accept、用户确认后由Codex核零漂移并done归档。
 YJ2两项后续补测保留，不外推为完整E2E或覆盖目标完成，不代签其它卡。
 
+2026-09-18编辑器补测收口：[TEST-EDITOR-LOGIC-COVERAGE-1](../../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)
+集成候选5ca9dad2三席accept、用户授权，Codex核零漂移后done归档；47项新增、check7282及strict fast6794/617通过。
+A3技能Update保留下一批补测候选，D4真实provider边界归D-02修复，D5保存重开归R4；D-02/06/07未因此关闭。
+
 本次审计有价值：已发现真实的存档/作者数据保护缺口、状态所有权和跨会话撤销问题，
 以及单测通过但实际业务调用遗漏的战斗/预览问题。这些反例需要补进跨模块业务回归。
 建议先围绕证据修复边界并补回归，再建设R4薄E2E，以基线保护之后的content21切换；

@@ -268,7 +268,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 ## 下一位Agent提示词
 
-无下一位Agent提示词，本卡已收口。以下为历史终审交接，不再次发出签字请求；[编辑器补测工作包](../../../tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md#下一位agent提示词)仍按自己的返工范围推进。
+无下一位Agent提示词，本卡已收口。以下为历史终审交接，不再次发出签字请求；[编辑器补测工作包](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md#下一位agent提示词)仍按自己的返工范围推进。
 
 ### Kimi
 

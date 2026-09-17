@@ -1,6 +1,6 @@
 # GLM编辑器命令与引用边界补测回执
 
-任务：[TEST-EDITOR-LOGIC-COVERAGE-1](../ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)，r1/review（Codex接收集成，终审待落卡）。
+任务：[TEST-EDITOR-LOGIC-COVERAGE-1](../ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)，r1/done（5ca9dad2三席accept，2026-09-18用户授权、Codex统一收口）。
 起始产品`c1cec3adde5b0090acbc6bc1f325ca1301689873`，设计签字已齐、build准入a5df9fbc，设计不重签。
 GLM原始回执见候选`d531aa24:docs/testing/glm-editor-logic-coverage-receipt.md`，返工回执见
 `a3687b75:docs/testing/glm-editor-logic-coverage-receipt.md`（分支相对 467a5f41/c82b0d28 只改白名单；
@@ -99,6 +99,8 @@ Codex 三见证（rename/paint 输入污染+错误 asset）在返工树均 detec
 - GLM 不作为自己测试贡献的独立第三方证明；Q1 检查点 17 项与本批分别对账，不混入。
 
 ## Codex接收复核（GLM不得填写）
+
+Codex（2026-09-18，最终收口）：已核GLM eacf0a8b/Kimi f82d60b9与本席accept同钉5ca9dad2，候选后产品/测试/基线零漂移，无生效counter；用户授权done，已归档并同步看板/索引。后续归属照台账另推，上传WIP未触碰。以下保留历轮复核时点。
 
 Codex（2026-09-18，来源8e8ae831，集成5ca9dad2）：**accept**，R1/R2/R4残项关闭、R3不重开。
 实际fixture验证、47/76、tsc/Biome、10负控与**四**独立见证通过；原文“三见证”属早先返工时点，最终含restore-input-mutation。

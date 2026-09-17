@@ -13,7 +13,7 @@ Branch: main
 
 Revision: r1，2026-09-18；取证基线`467a5f41`，SpriteUploadWizard产品与已接收GLM只读材料冻结树相同。
 用户要求GLM测试返工期间Codex并行推进；2026-09-18核两席设计签字b131d0f4/d6ddd4a3齐备，Codex开build，不重签。
-与[编辑器补测返工](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)分离：不修改其八文件/fixture/诊断/回执，
+与[编辑器补测返工](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)分离：不修改其八文件/fixture/诊断/回执，
 不改commands/reference目标产品；GLM无须等本卡才能修自己的测试。
 
 ## 目标与范围
