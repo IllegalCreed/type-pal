@@ -13,7 +13,7 @@ Branch: main
 
 Revision: r1，2026-09-17。取证代码基线`c1cec3adde5b0090acbc6bc1f325ca1301689873`，
 取证时HEAD`0d39b797`相对此基线仅分配文档变更。2026-09-17核三席r1设计齐（GLM 04383fa7、Kimi 787c1e0f），Codex开build；不重签。
-实现候选：提交后回填；对比build准入`a5df9fbc`。2026-09-17实现/自验证与全部质量门完成，review待两席独立终审，未done。
+实现候选：`27e605ef4cf2811f746afada30377093f15c50c8`；对比build准入`a5df9fbc`。2026-09-17实现/自验证与全部质量门完成，review待两席独立终审，未done。后续SHA回填只改文档。
 
 ## 目标与范围
 
@@ -207,7 +207,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 ### Kimi
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选见卡面SHA，对比a5df9fbc；设计不重签。
+在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选27e605ef4cf2811f746afada30377093f15c50c8，对比a5df9fbc；设计不重签。
 先同步查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡CE-01～08及docs/testing/checkpoint-export.md。独立核真实DEV零参异步绑定、与doSave共用快照队列/真实barrier、同步捕获/JSON恢复、异常不毒死队尾、零槽副作用；保存写队列/缩略图/计数块应原样，SAVE8/content20与原探针不变。
 复跑回执定向177项、Reforge typecheck、node docs/testing/checkpoint-export-mutants.mjs（17项对照绿+5针业务红），核check7235、受保护单次strict fast6747/617及首次ratchet拒绝后补真实quickSave回调的证据；不把AST当main已插桩或内存宿主当浏览器。R4跨页/视觉集中延期，不重跑剧情。
 不读/复述GLM结论，只在本人实现席位签accept或带file:line的counter与交接日志，提交推送；不改产品/他席/状态，不代签、不标done。
@@ -216,7 +216,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 ### GLM
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选见卡面SHA，对比a5df9fbc；设计不重签。
+在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选27e605ef4cf2811f746afada30377093f15c50c8，对比a5df9fbc；设计不重签。
 先同步查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及docs/testing/checkpoint-export.md。独立逐CE-01～08核17项测试的合法输入/业务断言/队列顺序/失败重试/零槽副作用和JSON→codec→真实restore；复跑定向177项、typecheck、node docs/testing/checkpoint-export-mutants.mjs（17绿+5业务红），核check7235及fast6747/617、旧105文件identity和其他六包基线不变。首次ratchet失败如实保留，不准只看最终绿；旧B11同步探针零改，不用其旧红因代证异步实现。
 你贡献过B11/B12原诊断，须披露；本卡产品/新回归由Codex实现。不读/复述Kimi结论、不做视觉，只写本人accept/counter及日志并提交推送，不改产品/他席/状态、不标done。
 审完继续TEST-EDITOR-LOGIC-COVERAGE-1四组白名单工作；它已build准入a5df9fbc，按编辑器卡末尾GLM实施提示连续A→D，不重签、不将检查点计数混入你的贡献。

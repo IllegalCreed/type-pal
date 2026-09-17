@@ -1,7 +1,8 @@
 # 当前检查点导出：实现与验证
 
 任务：[Q1-CHECKPOINT-EXPORT-1](../ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)，r1。
-build准入`a5df9fbc`（产品与c1cec3ad一致）；Codex实现，自验证/质量门完成，review待独立终审，未done。实现候选SHA见任务卡。
+build准入`a5df9fbc`（产品与c1cec3ad一致）；实现候选`27e605ef4cf2811f746afada30377093f15c50c8`。
+Codex实现，自验证/质量门完成，review待独立终审，未done；后续SHA回填只有文档，不改变产品/测试/基线。
 
 ## 改动与证明边界
 
