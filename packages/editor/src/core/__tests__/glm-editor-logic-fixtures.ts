@@ -2,7 +2,7 @@
  * TEST-EDITOR-LOGIC-COVERAGE-1 test-only fixture：最小合法 EditorState 构造器与深快照助手。
  * 只放数据/薄构造器，不复制产品算法，不被生产导入。基础形状取自现有
  * world-variable-commands.test.ts / stamp-commands.test.ts 的合法种子（manifest/entryPoints 满足
- * 现行类型），按需增删可选域；不伪造可保存 canonical 工程，仅证明局部命令合同。
+ * 现行类型），按需增删可选域；不伪造可保存 canonical 项目，仅证明局部命令合同。
  * 受测值经现行一手守卫正控：actorCue 过 checkAuthorDialogueCue（portrait.side/rows 对象），
  * tinyMap 过 validateProjectMap（空格 tiles/sources 必须同为 null）——R1 反例后修正。
  */

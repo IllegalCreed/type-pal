@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-17T13:52:39.668Z",
+  "generatedAt": "2026-09-17T16:49:09.825Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 6747,
+  "testCount": 6794,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2930,10 +2930,11 @@
       ],
       "scopeDigest": "9696f732999bcfdc8a19ba9e9ff40a428fbd5f2f67dd2695734be188495d62a8",
       "fastTests": {
-        "testCount": 2255,
-        "testFileCount": 210,
+        "testCount": 2302,
+        "testFileCount": 218,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
+          "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
           "packages/editor/src/core/actor-references.test.ts",
           "packages/editor/src/core/asset-diagnostics.test.ts",
@@ -2949,6 +2950,10 @@
           "packages/editor/src/core/battle-data-delete-commands.test.ts",
           "packages/editor/src/core/battle-data-references.test.ts",
           "packages/editor/src/core/clone.test.ts",
+          "packages/editor/src/core/commands-assets.boundaries.test.ts",
+          "packages/editor/src/core/commands-catalog.boundaries.test.ts",
+          "packages/editor/src/core/commands-map.boundaries.test.ts",
+          "packages/editor/src/core/commands-world.boundaries.test.ts",
           "packages/editor/src/core/commands.test.ts",
           "packages/editor/src/core/edit-session.test.ts",
           "packages/editor/src/core/editor-asset-reader.test.ts",
@@ -2992,7 +2997,9 @@
           "packages/editor/src/core/project-leave-guard.test.ts",
           "packages/editor/src/core/project-open-workflows.test.ts",
           "packages/editor/src/core/project-read-admission.test.ts",
+          "packages/editor/src/core/project-reference-adapters.boundaries.test.ts",
           "packages/editor/src/core/project-reference-adapters.test.ts",
+          "packages/editor/src/core/project-reference.boundaries.test.ts",
           "packages/editor/src/core/project-reference.test.ts",
           "packages/editor/src/core/project-save-route.test.ts",
           "packages/editor/src/core/project-serialization-boundaries.test.ts",
@@ -3015,6 +3022,7 @@
           "packages/editor/src/core/shop-lifecycle.test.ts",
           "packages/editor/src/core/sprite-actions.test.ts",
           "packages/editor/src/core/sprite-reference-commands.test.ts",
+          "packages/editor/src/core/stamp-commands.boundaries.test.ts",
           "packages/editor/src/core/stamp-commands.test.ts",
           "packages/editor/src/core/stamp-draft.test.ts",
           "packages/editor/src/core/stamp-group-command.test.ts",
@@ -3151,6 +3159,11 @@
             "identityDigest": "81300f179a9c68cb9dc3dbd8642926e30746685f0c77ad7f0da3e1ba66eab377"
           },
           {
+            "file": "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "1f9f302773b73b5cb7a752a7970d59e1bb56798bad6ad2eebc79ec43421ee2b4"
+          },
+          {
             "file": "packages/editor/src/core/actor-dialogue-commands.test.ts",
             "testCount": 3,
             "identityDigest": "6ae4933ddfe8f3d894e548e02e90fbd9392ba7ec97247a1f20a5676605287abb"
@@ -3224,6 +3237,26 @@
             "file": "packages/editor/src/core/clone.test.ts",
             "testCount": 7,
             "identityDigest": "4ae0f39266865e079a57da488987ba17e7f346c4ab64d2001a77f3ef2884e44e"
+          },
+          {
+            "file": "packages/editor/src/core/commands-assets.boundaries.test.ts",
+            "testCount": 2,
+            "identityDigest": "64124ece33300b39da40e0092ee4db9f396a52de2b3bc0451f61663a49c45b97"
+          },
+          {
+            "file": "packages/editor/src/core/commands-catalog.boundaries.test.ts",
+            "testCount": 7,
+            "identityDigest": "3155a3b32e967e6d01ccd002d81f315ebc7ecba06f2d9e73727667d9dd57f71c"
+          },
+          {
+            "file": "packages/editor/src/core/commands-map.boundaries.test.ts",
+            "testCount": 10,
+            "identityDigest": "d20b9087cac7ad3e5fa91ac3a6f5868ef59541e2ced846e8767405e996b8bbe9"
+          },
+          {
+            "file": "packages/editor/src/core/commands-world.boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "97a26b0921703dc12a60775e16688e98028312b77d5cacafe14480d8348d45ef"
           },
           {
             "file": "packages/editor/src/core/commands.test.ts",
@@ -3441,9 +3474,19 @@
             "identityDigest": "7406b971a4e17ea23ccfc71a72b70c7f47a9d331bfdbfe7d33826c63954a8dd3"
           },
           {
+            "file": "packages/editor/src/core/project-reference-adapters.boundaries.test.ts",
+            "testCount": 3,
+            "identityDigest": "062c79bbd845b7c0cd8ce999064f662fca40e8f6f886c4cb2a20a7a241e4cf39"
+          },
+          {
             "file": "packages/editor/src/core/project-reference-adapters.test.ts",
             "testCount": 22,
             "identityDigest": "d425ebb9615c09f3fe70adec9d944a0ef571e391149e6b2e09f807277ec34e51"
+          },
+          {
+            "file": "packages/editor/src/core/project-reference.boundaries.test.ts",
+            "testCount": 5,
+            "identityDigest": "5f7f435ed417aa653b5ccdead86075d730013a5a6be03ae902e6cdaef4820f3a"
           },
           {
             "file": "packages/editor/src/core/project-reference.test.ts",
@@ -3554,6 +3597,11 @@
             "file": "packages/editor/src/core/sprite-reference-commands.test.ts",
             "testCount": 4,
             "identityDigest": "5744142e7a61ac5e6e52224564dcda62034e133e31c34a92caf0e35dd9cfa521"
+          },
+          {
+            "file": "packages/editor/src/core/stamp-commands.boundaries.test.ts",
+            "testCount": 8,
+            "identityDigest": "e1475faa1330ff33b4a26adaec5aaae069ee9af93d0a0135a4f6c4b056679b14"
           },
           {
             "file": "packages/editor/src/core/stamp-commands.test.ts",
@@ -4196,25 +4244,25 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "3df1f91247442c55d74e79b648ba077ae5d1ce01a6a46a42b6dcae459e7269da",
+        "identityDigest": "3e4901300db011221e0addacc8ffa833314f2ee162091b60e1ec5c9655d88833",
         "duplicateIdentityCount": 8,
-        "executionDigest": "0846ddf518d4c376702ce3a19d4414adf7b02344a9535a413d7c38826c88150f"
+        "executionDigest": "935f01ec2927eeaff592906965aa8736e5af8cf8af77b569529e82985da549dd"
       },
       "metrics": {
         "statements": {
-          "covered": 24587,
+          "covered": 24636,
           "total": 31808
         },
         "branches": {
-          "covered": 19083,
+          "covered": 19130,
           "total": 27547
         },
         "functions": {
-          "covered": 6126,
+          "covered": 6133,
           "total": 8099
         },
         "lines": {
-          "covered": 22149,
+          "covered": 22172,
           "total": 27797
         }
       }
@@ -4222,19 +4270,19 @@
   },
   "total": {
     "statements": {
-      "covered": 54248,
+      "covered": 54297,
       "total": 78901
     },
     "branches": {
-      "covered": 38752,
+      "covered": 38799,
       "total": 61999
     },
     "functions": {
-      "covered": 10242,
+      "covered": 10249,
       "total": 14509
     },
     "lines": {
-      "covered": 48961,
+      "covered": 48984,
       "total": 69051
     }
   }
