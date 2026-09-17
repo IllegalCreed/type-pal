@@ -216,11 +216,41 @@ Kimi独立终审及GLM本人实现者确认待落卡，见[独立复核](../../t
   - 贡献披露：四组 47 项测试/fixture/负控脚本/诊断配置为 GLM 工作；Codex 两轮 counter、隔离集成树、
     术语订正与统一质量门（check 7282/ratchet/strict fast 6794/617）除外。无实际不符项。
 - Codex：**counter（2026-09-18，d531aa24接收复核）**。白名单与产品零改动、44/44、typecheck/新文件Biome exit0、原10反控退出码及局部+22行/+46分支已复算；但R1当前validator拒绝正控fixture，C4伪造count冒充真实旧proof；R2实际输入污染和错误portrait asset均漏检；R3 +99强行拒绝并非移除闭合guard；R4诊断多2个PAL漏1个mjs且逐族/标题/计数账不齐。完整证据、精确file:line和返工要求见[复核报告](../../testing/editor-logic-coverage-review.md)。不合入、不跑接收后的官方门禁、不转Kimi；设计不重签、不代签。
-- Kimi：pending（独立终审）。
-- done准入：pending，待Kimi独立accept与GLM本人实现者自验accept；无缺签豁免。用户不承担技术手工复验，无视觉项；Codex最终统一状态，不代签。
+- Kimi：**accept（2026-09-18，r1 独立终审，集成候选 `5ca9dad2` 对比 `5552b2a9`（GLM 来源 `8e8ae831`）；设计不重签；未读 GLM 本轮结论的论述）**。
+  接手 HEAD `f06a2287` 与 origin/main 一致；候选后 packages/scripts 零漂移；主工作区 SpriteUploadWizard
+  WIP 原字节保持，未 stash/混入（本席核其与本包文件无交集）。
+  - **白名单/零改**：候选 diff 仅 8 个 boundaries 测试+1 fixture+诊断/基线/文档；产品、旧测试、
+    配置、资产、原探针零 diff（实测）。
+  - **R1/R2/R4 残项直读**：`actor-dialogue-commands.boundaries.test.ts:102` 共享 cue 已带
+    `portrait.side:'left'`（当前守卫正控）；`:183-186` invert 前独立 deepSnapshot、invert 后
+    整 s1/整 s2 分别对独立快照（非部分域）；`commands-catalog.boundaries.test.ts:122-129`
+    合法唯一 ID enemy-y 追加+undo 精确移除；`commands-assets.boundaries.test.ts:40-49` locale
+    同值不变与新键 invert 移除断言在案；落点/碰撞/物品等已有证据归属按真实测试名更正。
+    R3 不重开；real-closure-removal 防御臂 MISSED 维持同源 walker 分类，不强造非法结构。
+  - **本人复跑**：定向八文件 **47/47**；回执原命令相邻 **76/76**；editor typecheck exit 0（抽查）；
+    入仓 `glm-editor-logic-coverage-mutants.mjs`：**对照绿 + 10 针全业务红**（expected==actual）；
+    入仓见证工具对当前树：rename-input/paint-input/broken-rename-target/restore-input-mutation
+    **四针全 detected**，closure 针 MISSED（已接受分类）；运行后工作树目标目录零污染。
+  - **质量门交叉核**：集成 check-final editor 2,461（总 7,282）；受保护 strict TOTAL
+    **617 文件/6,794 项**；基线 diff 实测 6747→6794（恰 +47）、editor 2255→2302，
+    仅 editor 包级 digest 变化、旧 fileEntries identity 逐项不变、零移除、零降阈。
+    首次 check 术语门拒绝→仅订正注释的记录在案（非降门禁）。
+  - **口径与披露**：Q1 的 17 项在主线单列不混入本包；GLM 为 47 项测试贡献者（披露在案），
+    Codex 两处非行为订正（标题/术语注释）不改变断言；本席终审为独立结论。
+  - **旧版本兼容审查：pass**——无版本分支/升级器/fallback/旧模型支持合同；D-02/D-06/D-07
+    保持待修不固化。
+  返工项：无。后续归属（A3 技能 Update 下批、D4 归 D-02 修复、D5 归 R4 E2E）登记在案。
+  本 accept 不代签、不授权 done。
+- done准入：三席 accept 均已落盘（Codex 集成复核、GLM 实现者自验、Kimi 独立终审），待 Codex 统一核定；无缺签豁免。用户不承担技术手工复验，无视觉项；Codex最终统一状态，不代签。
 
 ## 交接日志
 
+- 2026-09-18 Kimi（r1 独立终审）：同步 `f06a2287` 后核 `5552b2a9 → 5ca9dad2`（GLM 来源 8e8ae831）。
+  白名单/产品与旧测试零 diff 实测；直读 R1 cue side/R2 深快照/R4 唯一 ID+locale 残项；复跑定向
+  47/47、回执原命令相邻 76/76、入仓 10 针全业务红+对照绿、见证工具四针 detected（closure MISSED
+  维持已接受分类）；交叉核 check 7,282、strict 617/6,794（恰 +47）、旧 identity 零移除。
+  旧版本兼容 pass。签 accept，无返工项；未改产品/他席/状态；主工作区上传 WIP 未触碰。
+  Next：Codex 统一核定 done。
 - 2026-09-18 GLM：补实现者自验 accept（详见 done 前本席）。blob 比对 7/8 测试逐字相同，仅 catalog 标题
   与 fixture 术语注释两处 Codex 订正（均更准确，接受）；集成树复跑 47/47+10 负控红+四针 detected；
   覆盖局部/全包口径分列确认（tileset-references 1/1/1 差异来源已核）。贡献披露落卡。仅改本席与日志，
