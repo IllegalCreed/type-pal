@@ -9,7 +9,7 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属](EDITOR-SPRITE-PICK-1-latest-image-selection.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

@@ -1,6 +1,6 @@
 # GLM编辑器命令与引用边界补测回执
 
-任务：[TEST-EDITOR-LOGIC-COVERAGE-1](../ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)，r1/rework。
+任务：[TEST-EDITOR-LOGIC-COVERAGE-1](../ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)，r1/review（Codex接收集成，终审待落卡）。
 起始产品`c1cec3adde5b0090acbc6bc1f325ca1301689873`，设计签字已齐、build准入a5df9fbc，设计不重签。
 GLM原始回执见候选`d531aa24:docs/testing/glm-editor-logic-coverage-receipt.md`，返工回执见
 `a3687b75:docs/testing/glm-editor-logic-coverage-receipt.md`（分支相对 467a5f41/c82b0d28 只改白名单；
@@ -99,6 +99,13 @@ Codex 三见证（rename/paint 输入污染+错误 asset）在返工树均 detec
 - GLM 不作为自己测试贡献的独立第三方证明；Q1 检查点 17 项与本批分别对账，不混入。
 
 ## Codex接收复核（GLM不得填写）
+
+Codex（2026-09-18，来源8e8ae831，集成5ca9dad2）：**accept**，R1/R2/R4残项关闭、R3不重开。
+实际fixture验证、47/76、tsc/Biome、10负控与**四**独立见证通过；原文“三见证”属早先返工时点，最终含restore-input-mutation。
+集成只订正新测试标题与fixture术语注释，不改任何断言；首次check术语门失败保留，修正后完整check7282、官方ratchet和受保护单次严格fast6794/617通过。
+八新测试/47项，旧editor210文件identity/计数与其它六包完整基线对象不变；五目标局部仍+22行/+46臂，另命中tileset-references 1行/1臂，官方全包增量为+23/+47。
+Q1(27e605ef)17项与主工作区上传WIP均单列，GLM贡献身份披露；后续归属与完整证据见[最新接收复核](editor-logic-coverage-review.md)。
+本席结论取代下列历史counter，不代签GLM/Kimi、不标done。
 
 Codex（2026-09-18，a3687b75返工）：counter收窄为R1/R2/R4残项；47/76、tsc/Biome、10反控和原三见证通过，选择口径已修，实际2255→2302。R3关闭；不合入、不跑接收后官方门禁、不重签设计。证据见[最新复核](editor-logic-coverage-review.md)。
 

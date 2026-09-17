@@ -4,7 +4,72 @@
 build基点`a5df9fbc`，产品起点`c1cec3ad`。接收主线`4ad6522a`已有Q1检查点17项，不计入本包。
 任务：[编辑器命令与引用补测](../ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)。
 
-## 最新：a3687b75返工复核（2026-09-18）
+## 最新：8e8ae831残项接收与隔离集成（2026-09-18）
+
+GLM来源`8e8ae8318c9da6333e5c44639a279d0f4149df08`，接收主线`5552b2a96a07c6a7a4f65ab7c90b2ab6b83c0e10`。
+**结论：accept。终审集成候选`5ca9dad20fd8deb32bf4c3bacd76c69546f99be6`，对比5552b2a9；任务转review，未标done。**
+本轮只核R1/R2/R4残项；R3和既闭环项不重开，r1设计不重签。来源分支相对c82b0d28仍为8测试+1fixture+2诊断+本人回执，
+未改产品、旧测试、配置、资产或原审计探针。Q1提交27e605ef的17项已在主线，不计作GLM本包贡献。
+
+### 残项证据
+
+- R1：`actor-dialogue-commands.boundaries.test.ts:102`的shared other-actor cue现在有`portrait.side:'left'`；
+  `commands-map.boundaries.test.ts:67,84,141`的tinyMap正控与原AddLayer实际用例均调用同一个`legalL3()`。
+  Codex从实际文件AST抽取受测cue/item/shared/map输入，以`checkAuthorDialogueCue`、带该叶校验选项的
+  `checkRuntimeScriptLibrary`、`validateAuthorItemCore`、`validateProjectMap`独立验证通过。
+  不是另造合法fixture替原载荷背书；局部命令输入合法不等于整份最小EditorState可保存。
+- R2：`actor-dialogue-commands.boundaries.test.ts:183-186`实际invert前保存独立`s1Before=deepSnapshot(s1)`，
+  invert后比较整个s1与快照、整个s2与apply前快照。
+  四条独立见证rename-input-mutation、paint-input-mutation、broken-rename-target、restore-input-mutation均被业务断言检出；
+  正控绿，真正closure移除仍MISSED，继续按同源walker防御臂分类，不伪造非法结构强测、不借此冒称该防御臂已覆盖。
+- R4：`commands-catalog.boundaries.test.ts:122-129`实际追加唯一enemy-y且undo后仅余enemy-x；
+  `commands-assets.boundaries.test.ts:40-49`的locale同值和新键invert移除均有断言。
+  落点/碰撞/物品/敌队/战场的已有测试锚点已对齐，更正2302及Q1来源；不把已有证据记作本批新增。
+  剩余技能Update、D4异步provider、D5完整保存重开另有归属（下节），不是默认为全覆盖。
+- Codex集成仅作两处非行为订正：enemy测试旧标题“不查重”改成“唯一ID追加并可撤销”；fixture头注释
+  “canonical工程”改成“canonical项目”。前者不改断言，后者由全仓既有术语门禁暴露，不改门禁来迁就注释。
+
+### 已核验证与环境隔离
+
+- 原候选独立复跑定向47/47（6/7/10/2/6/8/5/3）、回执明确的相邻76/76、editor typecheck、新文件Biome均exit0。
+  原10负控均AssertionError业务红，四条Codex见证detected、closure防御针MISSED；产品hash前后不变。
+- 在`/private/tmp/type-pal-editor-integration.zWSLHH/tree`从主线5552b2a9建干净集成树，merge来源8e8ae831；
+  `pnpm install --offline --frozen-lockfile`成功，包间链接实际指向该树。只补本地忽略资产raw/extracted/PAL/demo，未入Git。
+  主工作区SpriteUploadWizard产品/新测试WIP保持原字节，不stash、不混入本包47项或覆盖率。
+- 首次完整check确实exit1：`design-system/boundary.test.ts`术语断言拒绝新增fixture头注释“工程”。
+  仅订正注释，原门禁及全部旧断言不动；该门定向通过，再次完整`pnpm check`exit0，七包共**7282项**：
+  shared106/content557/pal-extract265/migrate456/reforge1130/game2307/editor2461。
+  全仓Biome仍有48 warning/11 info（exit0），不称全仓零诊断；本批文件Biome零诊断。
+- 集成树重新运行原10负控和四条独立见证，结果与来源候选相同，正常对照绿、业务反控红，产品hash不变。
+- 官方`pnpm coverage:ratchet`exit0，新增恰8文件/47项：fast **6794项 / 617生产文件**，editor **2302项**。
+  逐对象对账其余六包完全不变，210个editor旧测试文件的identity/计数和所有生产文件清单/分母不变。
+  editor行22149→22172（+23）、语句24587→24636（+49）、函数6126→6133（+7）、分支19083→19130（+47）；
+  全仓行48984/69051、语句54297/78901、函数10249/14509、分支38799/61999。
+  五目标文件仍是+22行/+48语句/+7函数/+46臂，与GLM局部回执一致；官方全包另命中`tileset-references.ts`的1行/1语句/1臂。
+  局部五文件与全包并集不混称，不将这1臂误判为抖动或GLM回执错误。
+- 受保护**单次**严格`TYPE_PAL_COVERAGE_BASE_REF=5552b2a9 pnpm coverage:fast`exit0，6794/617，所有指标精确等于ratchet。
+  无范围缩减、无阈值下调、无取多数放行；未跑full/E2E，不代表最终覆盖率目标完成。
+
+### 后续归属（不扩大本包）
+
+- A3技能Update：保留为下一批编辑器逻辑补测候选，先核真实独立边界与去重，不为本批条数重复补例。
+- D4脚本版本/冷地图/扫描失败：归Codex后续D-02引用图修复的真实provider/loader回归；当前本包只声明实际state查询覆盖。
+- D5删除→保存→重开：归R4编辑器工作流E2E，使用正式序列化与loader；本包不以JSON往返自证。
+- D-02/D-06/D-07真实缺陷仍待原队列处理，本轮没有修复或固化错误合同。没有浏览器或视觉验收项。
+- GLM是47项测试贡献者；Codex独立复核与集成，Kimi仍须独立终审。GLM自验不能代替独立第三方结论。
+
+### 可重建与日志
+
+- 原候选：`/tmp/codex-editor-final-{directed,adjacent,tsc,mutants,witnesses}.log`。
+- 集成证据根：`/tmp/type-pal-editor-integration.zWSLHH/`，首次`check.log`与修正后`check-final.log`均保留。
+  `validate-fixtures.mjs`抽取实际输入；`mutants.log`、`witnesses.log`记录最终集成的隔离负控。
+  `ratchet.log`、`strict-fast.log`、`verify-baseline.mjs`及`baseline-verified.json`记录官方门与独立清单/增量/WIP核验。
+  辅助核对曾在strict清理并重建报告期间读取单包summary，得到ENOENT；不是测试失败/反例，完成后再读并逐文件核清上述1臂来源。
+- 常驻重建：`node docs/testing/glm-editor-logic-coverage-mutants.mjs`；
+  `node docs/testing/editor-logic-coverage-review-witnesses.mjs <候选工作树物理绝对路径>`。
+  后者四针必须detected；closure为已分类防御臂，MISSED不是本轮新增counter。
+
+## 历史：a3687b75返工复核（2026-09-18）
 
 **结论仍counter，但仅保留下面R1/R2/R4残项；R3与已修部分不重开。**
 候选`a3687b75ff72e7adb1bdb73b2116e0bdfb0cab3f`，接收主线6284cab8，设计r1不重签。

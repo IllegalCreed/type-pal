@@ -13,7 +13,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | EDITOR-SPRITE-PICK-1 | [精灵上传选图异步归属](tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | build | Codex实现 | r1三席设计齐；真组件乱序/释放回归，与GLM core测试返工分离 |
-| TEST-EDITOR-LOGIC-COVERAGE-1 | [编辑器命令与引用补测](tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | rework | GLM修R1/R2/R4残项 / Codex复核 | a3687b75 counter收窄；47/76与三见证通过，原非法用例/撤销漏检/回执仍需修，设计不重签 |
+| TEST-EDITOR-LOGIC-COVERAGE-1 | [编辑器命令与引用补测](tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | review | Kimi独立终审 / GLM实现者确认 | 5ca9dad2 Codex accept；47项/四见证、check7282、严格fast6794/617通过；设计不重签 |
 
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。
 四包基础测试候选48d3b8e3也已三席accept、用户确认，2026-09-17由Codex[收口归档](../testing/glm-foundation-coverage-review.md)；139项新增、check7218与strict fast6730通过。
