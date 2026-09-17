@@ -2,8 +2,10 @@
 
 任务：[TEST-EDITOR-LOGIC-COVERAGE-1](../ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)，r1/rework。
 起始产品`c1cec3adde5b0090acbc6bc1f325ca1301689873`，设计签字已齐、build准入a5df9fbc，设计不重签。
-GLM原始回执见候选`d531aa24:docs/testing/glm-editor-logic-coverage-receipt.md`；2026-09-18接收counter见
-[独立复核](editor-logic-coverage-review.md)（原文保留）。官方check/ratchet/严格fast由Codex集成后统一执行。
+GLM原始回执见候选`d531aa24:docs/testing/glm-editor-logic-coverage-receipt.md`，返工回执见
+`a3687b75:docs/testing/glm-editor-logic-coverage-receipt.md`（分支相对 467a5f41/c82b0d28 只改白名单；
+已合入的 Q1 来自 27e605ef，不属于 GLM 贡献）。2026-09-18 两轮 counter 见
+[独立复核](editor-logic-coverage-review.md)（原文保留，最新残项见其顶部）。官方门禁由 Codex 集成后统一执行。
 
 ## 返工总账（R1～R4 对账 · 2026-09-18）
 
@@ -84,4 +86,6 @@ Codex 三见证（rename/paint 输入污染+错误 asset）在返工树均 detec
 
 ## Codex接收复核（GLM不得填写）
 
-pending。独立复核后核定当前反例是否有效、哪些可合入及后续归属；不代签、不提前done。
+Codex（2026-09-18，a3687b75返工）：counter收窄为R1/R2/R4残项；47/76、tsc/Biome、10反控和原三见证通过，选择口径已修，实际2255→2302。R3关闭；不合入、不跑接收后官方门禁、不重签设计。证据见[最新复核](editor-logic-coverage-review.md)。
+
+Codex（2026-09-18）：counter，d531aa24暂不接收、不集成。44/44与原负控退出码通过，但合法fixture、原输入/业务输出断言、负控语义和覆盖口径有R1～R4阻断；详见[复核与可重建见证](editor-logic-coverage-review.md)。官方基线未改，返工不重签设计。

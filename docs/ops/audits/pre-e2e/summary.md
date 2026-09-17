@@ -128,6 +128,9 @@ content类型/校验/规则，migrate发布/物化/历史输出，reforge状态/
 
 ## 建议推进顺序
 
+2026-09-18并行推进：[D-03精灵上传选图卡](../../tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md)由Codex完成只读取证与r1方案，当前draft。
+GLM独立返工编辑器命令/引用测试；本卡不改其冻结core或测试面，也不提前实现G-I04提交取消政策。两条主线不互相等待返工。
+
 以下是修复排期建议，不是已经开始的任务，也不提前决定schema版本/文件布局/兼容策略。
 
 | 顺序 | 修复组/对应记录 | 与E2E的关系 |
@@ -157,11 +160,11 @@ R4起跑时必须写清实际使用的项目/存档身份、输入校验、作�
 
 ## 审计后实现期追加（2026-09-07）
 
-2026-09-17接续：[Q1-CHECKPOINT-EXPORT-1](../../tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)r1三席设计齐，已开build。
+2026-09-17接续：[Q1-CHECKPOINT-EXPORT-1](../../archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)r1三席设计齐，已开build。
 Codex复算真实注册B11业务红、B12正式capture/codec/restore正控绿；现有capture隔离成立，但直接绑它不能替代safe-point等待。
-方案限主壳共用快照队列与DEV异步导出，已实施并补[正式回归](../../../testing/checkpoint-export.md)：17新用例/5反控、check7235/严格fast6747通过，当前review待两席独立终审，不把后续R4 runner提前记为完成。
+方案限主壳共用快照队列与DEV异步导出，已实施并补[正式回归](../../../testing/checkpoint-export.md)：17新用例/5反控、check7235/严格fast6747通过，三席accept、2026-09-18已核定done归档；不把后续R4 runner提前记为完成。
 
-- **Q1 检查点导出钩子接错函数，待修**：`packages/reforge/src/main.ts:6933` 把 `dumpSave`
+- **Q1 检查点导出钩子接错函数（历史缺陷，已按上卡修复）**：旧`packages/reforge/src/main.ts:6933` 把 `dumpSave`
   绑定到导入的 `buildCurrentSavePayload(world, position, projectId)`（`save/ops.ts:34`），而不是
   已有的零参 `captureCurrentSavePayload`（`main.ts:5580`）。浏览器零参调用导出的是缺字段对象，
   JSON 仅 `{"version":8,"contentVersion":20}`，不能成为合法 checkpoint；正常 F5 使用本地 wrapper，不受此误接影响。

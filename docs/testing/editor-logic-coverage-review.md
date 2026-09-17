@@ -4,6 +4,75 @@
 build基点`a5df9fbc`，产品起点`c1cec3ad`。接收主线`4ad6522a`已有Q1检查点17项，不计入本包。
 任务：[编辑器命令与引用补测](../ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)。
 
+## 最新：a3687b75返工复核（2026-09-18）
+
+**结论仍counter，但仅保留下面R1/R2/R4残项；R3与已修部分不重开。**
+候选`a3687b75ff72e7adb1bdb73b2116e0bdfb0cab3f`，接收主线6284cab8，设计r1不重签。
+未合入测试/诊断配置、未运行接收后的全仓check/ratchet/strict-fast、未改官方基线，不转Kimi。
+
+### 已闭环的部分
+
+- 远端ls-remote核同SHA、候选工作树干净；相对counter基点467a5f41，仍仅8测试+1fixture+2诊断+回执12文件。
+  原counter报告/任务卡原文相对467a5f41零diff，未被改写。
+- 独立复跑定向47/47（6/7/10/2/6/8/5/3）、回执明确的相邻八文件76/76、editor typecheck、11文件Biome均exit0，后者0 warning。
+- 原10负控现在均为AssertionError业务红，47项正常对照绿；“+99”针已换成真实错误asset，不再算移除guard的证明。
+  本席旧三针（rename/paint输入污染、错误asset）均detected，产品hash前后不变。
+  `real-closure-removal`继续作为防御臂分类，不要求故造非法结构让它红。
+- actorCue主helper、tinyMap主体、item私有脚本已通过当前守卫正控；C4已从伪造proof改为真实EditSession→PaintTiles→旧proof拒绝→重取证放行。
+- 新增D1坏key用例、B1首尾空格用例、B3缺actor标题、world直接调用标题、两个unused import均已修。
+- 官方选择口径已恢复：诊断inventory与当前官方集合一致，PAL=0、原漏mjs边界=1。独立覆盖before210文件2255项、after218文件**2302项**，
+  五文件行2572/2739→2594/2739、语句2871/3256→2919/3256、函数705/729→712/729、分支1730/2316→1776/2316。
+  覆盖整数与回执相同，但最终after测试数不是2301；须按最终树实际命令统计更正。
+- 版本归属分清：a3687b75合入467a5f41，已经带入27e605ef的Q1 main/17测试/基线。
+  编辑器产品相对c1cec3ad零变；**全仓**相对c1cec3ad并非零diff。Q1部分与主线27e605ef一致，非GLM贡献，也非本包越界修改。
+
+### R1残项：修了helper/新正控，却遗漏实际用例
+
+1. 候选`actor-dialogue-commands.boundaries.test.ts:96–106`为other actor手写的shared cue仍缺`portrait.side`。
+   `checkAuthorDialogueCue`直接拒绝；`checkRuntimeScriptLibrary(...,{checkDialogueCue:checkAuthorDialogueCue})`也报
+   `shared.shared.body[0].cue.identity.portrait.side: 期望 left|right`。只补side后的同输入正控通过。
+   注意不带checkDialogueCue选项的基础/运行时library形状守卫不检查此叶；此前本席尝试裸调用的“未拒绝”不作为该字段合法的证据，
+   也不据此另报产品缺陷。返工须验证**所有实际cue**，不只调用通用hero helper。
+2. `commands-map.boundaries.test.ts:138–148`原AddProjectMapLayer用例仍是L3 tile=2/source=null，
+   `validateProjectMap`报`projectMap.layers[2].sources[0][0]: tiles/sources 必须同时为空或同时非空`。
+   新增正控`:70`使用了另一个合法L3对象，不能替原用例背书。将原实际载荷纠正并复用同一合法构造，避免两个看似同名的fixture再次分叉。
+
+### R2残项：invert输入不变仍只是一个key存在
+
+`actor-dialogue-commands.boundaries.test.ts:182–190`只检查invert后的s1仍有fury，不能证明整个输入s1未变。
+本席只在生产restore函数内加入输入locale污染（不改其它逻辑），并见证函数实际执行、原对象确被污染：B组**6/6仍绿**。
+这是首轮R2明确要求的“apply/invert分别核输入不变”的剩余半边，不是新增功能范围。
+在invert前独立deepSnapshot(s1)，执行后核s1全状态不变，并核完整预期恢复结果；同型用例按原要求对账。
+
+已把该针加入[原独立见证工具](editor-logic-coverage-review-witnesses.mjs)，名为`restore-input-mutation`；
+当前结果：原三针detected、restore针MISSED、closure防御针MISSED。返工后前四针应detected，closure不强测。
+最终见证目录`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/editor-review-witnesses-iAkITi/`，源码hash保持不变。
+
+### R4残项：回执“已修”与提交树不符
+
+- 回执A3写重复敌人ID已降只读观察、不作默认合同；实际`commands-catalog.boundaries.test.ts:110–124`**仍原样**
+  在已有enemy-x上再次Add同ID，并断言长度2和第二个仍enemy-x。必须实际改成合法唯一ID追加→undo正控，不只改表格。
+- `commands-assets.boundaries.test.ts:32–39`标题仍宣称“同值内容不变、新键新增后invert移除”，正文仍只测既有name.hero改回。
+  补对应业务断言或把标题缩到实际范围；不要求为条数重复补测。
+- 表中A4“落点增删由scene-lifecycle覆盖”引用错误：该文件5条是场景生命周期；真正现有落点用例在
+  `commands.test.ts:2163,2191,2228`。A5“碰撞与Paint同构，无独立边界”不能作不适用依据：
+  `commands.test.ts:2599`已有独立碰撞与视觉正交/撤销，`stamp-placement-command.test.ts:173`另有来源所有权阻断。
+  用真实测试名归“已有”，不需要盲加新用例。A2物品、A3敌队/战场/技能也补精确已有测试名，或明确待证；
+  “确认不适用”不等同“任务中适用但已有测试”。D4后续候选可保留待证，不能冒称已全覆盖。
+- after计数修为本树2302，Q1 merge来源27e605ef单列，不声称全仓从c1cec3ad零漂移。
+  后续回执从最终提交树生成，尤其不要用“已经移除”的文字代替实际删除断言。
+
+### 本轮运行记录
+
+- `/tmp/codex-editor-r1-rework-{directed,adjacent,tsc,mutants,witnesses}.log`：47/76、tsc、10针及原三见证；
+  Biome命令覆盖八测试/fixture/两个诊断，0 error/0 warning。
+- `/tmp/codex-editor-r1-recheck.G2ws59/`：实际fixture AST提取与当前守卫、invert执行见证、官方选择list、before/after覆盖。
+  before2255/after2302均exit0；不是官方ratchet、不写baseline。fixture验证最终采用带当前对话守卫的library入口，
+  前期不带叶校验选项的尝试已撤回、不算反例。
+- 当前main及GLM候选的产品/旧测试/基线未由本席改动；本轮只提交复核记录与独立见证扩展。
+
+以下保留首轮d531aa24 counter原文，已关闭项以上面的最新复核为准，不要求重复返工。
+
 ## 结论：counter，定点返工，不合入
 
 白名单/运行结果可确认，但合法输入、核心断言和口径还不满足r1验收。设计三签保持有效，不重签。

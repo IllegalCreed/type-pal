@@ -12,12 +12,13 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| Q1-CHECKPOINT-EXPORT-1 | [当前存档检查点导出](tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | review | Kimi / GLM独立终审 | 17新回归/5反控；check7235、strict fast6747/617通过，r1不重签 |
-| TEST-EDITOR-LOGIC-COVERAGE-1 | [编辑器命令与引用补测](tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | rework | GLM修R1～R4 / Codex复核 | d531aa24 counter：合法输入/断言漏检/负控与口径；未合入，设计不重签 |
+| EDITOR-SPRITE-PICK-1 | [精灵上传选图异步归属](tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | draft | Codex主线 / Kimi、GLM设计审查 | D-03乱序与bitmap收尾；与GLM core测试返工分离，未开始实现 |
+| TEST-EDITOR-LOGIC-COVERAGE-1 | [编辑器命令与引用补测](tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | rework | GLM修R1/R2/R4残项 / Codex复核 | a3687b75 counter收窄；47/76与三见证通过，原非法用例/撤销漏检/回执仍需修，设计不重签 |
 
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。
 四包基础测试候选48d3b8e3也已三席accept、用户确认，2026-09-17由Codex[收口归档](../testing/glm-foundation-coverage-review.md)；139项新增、check7218与strict fast6730通过。
 世界异步提交候选e13216e7已三席accept、用户确认，2026-09-17由Codex核定done归档；WA-E1～3仍待R4集中执行，不互相借用签字。
+检查点导出候选27e605ef也已三席accept、无返工，2026-09-18由Codex核零漂移并done归档；[接口回执](../testing/checkpoint-export.md)的跨页/视觉闭环仍归R4。
 
 准备工作：[六组72检查点工作包（二）](../testing/glm-pre-e2e-boundary-batch-2.md)已由Codex接手完成取证返工与集成（GLM额度耗尽）；[最终回执](../testing/glm-pre-e2e-boundary-batch-2-report.md)记录34覆盖/23复现/15待证及13项隔离鉴别力验证。
 这是卡前非视觉诊断准备，不是23个独立bug或已完成修复；该历史取证产品冻结70e3f627。B-05/08/09后续[实现与验证](../testing/world-async-commit.md)已三席accept收口，不代表其余诊断条目已修。
