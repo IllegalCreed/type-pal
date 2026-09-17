@@ -8,6 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
+| [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [WORLD-ASYNC-COMMIT-1 - 世界异步操作提交一致性](WORLD-ASYNC-COMMIT-1-world-async-commit.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
