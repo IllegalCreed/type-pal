@@ -123,7 +123,37 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 ### 进入build前
 
 - Codex（2026-09-17）：**premise verified / design agree**。直接读取主壳真实绑定/capture/队列、runtime barrier与current codec；B11实绑零参业务红，B12同codec/restore正控绿；独立复算深隔离、真实等待期不拍快照与重复barrier拒绝。证据/反证见上，不推断原版机制。
-- Kimi：premise pending / design pending；独立核三参裸绑、主壳共用队列/同步边界与不扩保存格式。
+- Kimi：**premise verified / design agree（2026-09-17，r1，取证产品 c1cec3ad；全部证据本人直读/复跑，未读 GLM 结论）**。
+  - **缺陷直读**：`main.ts:6940-6948` DEV 分支 `dumpSave: buildCurrentSavePayload` 裸绑；
+    `save/ops.ts:34-39` builder 签名 (world, position, projectId) 三参必填；零参调用后三字段
+    undefined（JSON 仅 version/contentVersion），正式 preflight 拒 projectId。全仓无受支持的
+    三参 runner 调用方、e2e.md:243-250 登记零参合同——「本意要求传参」替代解释不成立。
+  - **正控链直读**：`main.ts:958` `currentWorldSnapshot=()=>structuredClone(world)`；
+    `:5589-5596` captureCurrentSavePayload 克隆 position + 真实 inputProject.manifest.id——
+    正确零参捕获已在主壳内，修注册/排队入口而非 builder/codec 的层判正确。
+  - **安全边界直读**：`main.ts:5603-5622` doSave 经 saveSnapshotQueue + withSaveBarrier，
+    meta/payload 在同一同步块深快照（注释明示存储 I/O 不得持 barrier）；尾 Promise
+    `.then(()=>undefined,()=>undefined)` 归一化——错误不毒死队尾；barrier 等待后同步快照、
+    finally 释放（runtime-script-project.ts:466-496，保存子链卡已终审）。共用队列是现行安全点
+    合同的必要结果，不是架构扩张。
+  - **本人复跑**：B11 observe exit0/reproduced（registeredZeroArg=true、codec 拒
+    「工程 "undefined"」）；B11 contract 业务红（断言文本在位）；B12 contract exit 0
+    （真实 capture→normalize→restore 恢复 money=123）。旧 B11 为同步调用模型，其红不能
+    自证新异步合同（卡面已钉，本席背书）。
+  - **设计同意**：main 内抽同步快照回调的异步排队入口共用现有 saveSnapshotQueue（不开第二
+    队列抢同一 barrier）；doSave 语义不变；DEV dumpSave 零参异步 wrapper 复用
+    captureCurrentSavePayload、不碰槽/缩略图/savedTimes/不经 doSave；捕获时点=排队+barrier 后
+    同步时刻（与普通保存一致，不拼两个时点）；超时/异常 reject 无重试无吞错；文档实现后再改且
+    示例显式 await。产品面限 main.ts + 一个新测试文件；CE-01～08 覆盖真实注册调用、深隔离、
+    真实 barrier（禁假立即 resolve）、队列顺序、失败恢复、零槽副作用、并发提交一致性、
+    DEV 范围不变；负控制（裸绑/绕 barrier/独立队列/吞快照失败）要求唯一命中+业务红。
+    不扩 SAVE8/content20、无旧兼容分支。
+  - **可证伪观察**（任一反例即 counter 或收窄）：① 注册点实际补参或存在受支持三参调用方 →
+    前提倒（本人核对否定）；② 只换绑定不经 barrier → CE-03 红；③ 导出另开队列 → 重复
+    barrier「已经关闭」；④ 失败毒死队尾或存储 I/O 持 barrier → CE-05/06 红；⑤ JSON 往返丢
+    分数坐标/可选字段 → CE-02 红；⑥ 扩大 SAVE8/content20 或新增公共入口 → 越界。
+  - 返工项：无。非阻断备注：WORLD 卡终审相关返工若触及快照依赖须重核（卡面已列，本席背书）；
+    失败提示的「调用方必须 await 并处理失败」在文档示例中落实，终审时核。
 - GLM：**premise verified / design agree（2026-09-17，r1，取证产品 c1cec3ad、工作树 e06cba01 相对基线仅文档；
   全部证据本人直读/复跑，未读 Kimi 结论；B11/B12 探针为本席批二原始材料，本轮为独立重核）**。
   - **缺陷直读**：`main.ts:6940-6948` DEV 分支 `dumpSave: buildCurrentSavePayload` 裸绑三参 builder；
@@ -158,6 +188,11 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 ## 实现、审查与交接
 
+- 2026-09-17 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
+  直读 main.ts:6940-6948 裸绑注册、ops.ts:34-39 三参 builder、:958/:5589-5596 正确零参捕获、
+  :5603-5622 共用队列+barrier 同步快照与队尾归一化；复跑 B11 observe/contract（真注册零参业务红）
+  与 B12 正控（money=123 往返绿）。六条可证伪观察写入本席；不扩 SAVE8/content20。
+  未改产品/他席/状态，未开始实现。Next：三签齐后 Codex 实现，终审按 CE-01～08。
 - 当前产品零改动；正式回归、质量门、实现终审均未执行；用户验收pending。
 - 2026-09-17 Codex：按用户“给他们提示词，你做你的工作”推进主线，完成上述只读取证与r1 draft；GLM/Kimi另有编辑器工作包，本卡不占其产品/测试面。下一步两席独立设计审查，准入齐后Codex实现。
 
