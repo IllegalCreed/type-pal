@@ -242,7 +242,9 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
 
 - **Reforge 存档导出（待修）**：预期通过 `window.__tpE2e.dumpSave()` 取得当前 SavePayload；
   2026-09-07 发现实际钩子误接有参 builder，零参导出缺 world/position/projectId，当前不能作 checkpoint。
-  见[追加缺陷](../ops/audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)，修复后再建立连续导出链。
+  见[追加缺陷](../ops/audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)；
+  [检查点导出修复卡](../ops/tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)已完成真实调用链取证，当前draft、未实现。
+  拟使用`await window.__tpE2e.dumpSave()`共用现有安全快照队列；修复验收后再建立连续导出链，不把draft示例当已可用接口。
 - **Reforge 存档恢复**:`?e2e-load=<save.json url>&e2e-load-scene=<id>` 复用正式读档归一化与恢复事务,
   注入 world 并跳到碎片起点。
 - **机读观察点**:`canvas.dataset.rfScene` / `rfRender` / `rfSceneEntry`、`window.__reforge` 和战斗态

@@ -12,6 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| Q1-CHECKPOINT-EXPORT-1 | [当前存档检查点导出](tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | draft | Kimi / GLM独立设计审查，Codex实现 | 实际零参钩子业务红已复算；只修接线与共用安全快照入口 |
 | TEST-EDITOR-LOGIC-COVERAGE-1 | [编辑器命令与引用补测](tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | draft | GLM / Kimi独立设计审查，Codex集成 | 四组一张卡；只补非视觉测试，产品起点c1cec3ad |
 | WORLD-ASYNC-COMMIT-1 | [世界异步操作提交一致性](tasks/WORLD-ASYNC-COMMIT-1-world-async-commit.md) | review | Kimi终审 / Codex收口 | GLM已补审accept，r1不重签；check 7036、strict fast 6548/617 |
 

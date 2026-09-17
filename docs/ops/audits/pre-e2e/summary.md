@@ -154,6 +154,10 @@ R4起跑时必须写清实际使用的项目/存档身份、输入校验、作�
 
 ## 审计后实现期追加（2026-09-07）
 
+2026-09-17接续：[Q1-CHECKPOINT-EXPORT-1](../../tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md)已开draft。
+Codex复算真实注册B11业务红、B12正式capture/codec/restore正控绿；现有capture隔离成立，但直接绑它不能替代safe-point等待。
+方案限主壳共用快照队列与DEV异步导出，产品未改、尚待本卡独立设计准入，不把后续R4 runner提前记为完成。
+
 - **Q1 检查点导出钩子接错函数，待修**：`packages/reforge/src/main.ts:6933` 把 `dumpSave`
   绑定到导入的 `buildCurrentSavePayload(world, position, projectId)`（`save/ops.ts:34`），而不是
   已有的零参 `captureCurrentSavePayload`（`main.ts:5580`）。浏览器零参调用导出的是缺字段对象，
