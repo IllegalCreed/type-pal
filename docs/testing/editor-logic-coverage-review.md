@@ -65,6 +65,8 @@ GLM来源`8e8ae8318c9da6333e5c44639a279d0f4149df08`，接收主线`5552b2a96a07c
   `validate-fixtures.mjs`抽取实际输入；`mutants.log`、`witnesses.log`记录最终集成的隔离负控。
   `ratchet.log`、`strict-fast.log`、`verify-baseline.mjs`及`baseline-verified.json`记录官方门与独立清单/增量/WIP核验。
   辅助核对曾在strict清理并重建报告期间读取单包summary，得到ENOENT；不是测试失败/反例，完成后再读并逐文件核清上述1臂来源。
+  fast-forward回主线后的辅助清单脚本初次误把工作区Sprite上传WIP算进提交diff（10≠9）；已明确比较5552b2a9→HEAD提交树，
+  WIP另按接收前SHA-256核验，未删除或纳入本包。该辅助脚本口径错误不算正式质量门失败或产品反例。
 - 常驻重建：`node docs/testing/glm-editor-logic-coverage-mutants.mjs`；
   `node docs/testing/editor-logic-coverage-review-witnesses.mjs <候选工作树物理绝对路径>`。
   后者四针必须detected；closure为已分类防御臂，MISSED不是本轮新增counter。
