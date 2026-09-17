@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SPRITE-PICK-1 | [精灵上传选图异步归属](tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | draft | Codex主线 / Kimi、GLM设计审查 | D-03乱序与bitmap收尾；与GLM core测试返工分离，未开始实现 |
+| EDITOR-SPRITE-PICK-1 | [精灵上传选图异步归属](tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | build | Codex实现 | r1三席设计齐；真组件乱序/释放回归，与GLM core测试返工分离 |
 | TEST-EDITOR-LOGIC-COVERAGE-1 | [编辑器命令与引用补测](tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | rework | GLM修R1/R2/R4残项 / Codex复核 | a3687b75 counter收窄；47/76与三见证通过，原非法用例/撤销漏检/回执仍需修，设计不重签 |
 
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。

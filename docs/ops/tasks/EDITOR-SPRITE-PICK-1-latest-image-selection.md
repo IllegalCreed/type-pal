@@ -1,6 +1,6 @@
 # EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: D-03既有缺陷修复（不改变能力地图状态）
 Coding Owner: Codex
@@ -12,7 +12,7 @@ Unavailable Agents: none
 Branch: main
 
 Revision: r1，2026-09-18；取证基线`467a5f41`，SpriteUploadWizard产品与已接收GLM只读材料冻结树相同。
-用户要求GLM测试返工期间Codex并行推进；本卡只完成只读取证/方案，尚未修改产品或正式测试。
+用户要求GLM测试返工期间Codex并行推进；2026-09-18核两席设计签字b131d0f4/d6ddd4a3齐备，Codex开build，不重签。
 与[编辑器补测返工](TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)分离：不修改其八文件/fixture/诊断/回执，
 不改commands/reference目标产品；GLM无须等本卡才能修自己的测试。
 
@@ -179,7 +179,7 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
     ⑤同 scope 普通重渲染误废选择或旧 scope 数据冒充新 scope 可提交 → D4 过宽/过窄；⑥把顺序锁死禁止
     再选 B 或新增公共 token/全局版本 → 越界；⑦ G-I04 被悄悄当作已修/已证 → 违反 SP-07。
   - 返工项：无。本席只签设计；实现由 Codex 负责，本席不改 SpriteUploadWizard。
-- 非Coding Owner一手反证：pending；缺签豁免：无；build准入：blocked，签齐前不修改产品或正式测试。
+- 非Coding Owner一手反证：Kimi/GLM均已独立完成，见上方锚点与反证；缺签豁免：无；build准入：build allowed（2026-09-18 Codex核三席齐、无counter）。
 
 ### done前
 
@@ -187,6 +187,7 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 
 ## 交接日志
 
+- 2026-09-18 Codex：接收GLM测试返工仍有残项，已单独交回；同时核本卡Kimi/GLM设计均agree，推进独立build。实现钉勘误（不改他席原文）：getImageData/toDataURL在当前源码为同步调用，不为评语新增await；G-I03旧A成功后保留的是B错误，不是A错误。两处措辞不改变已签的当前性/finally方案。先写真组件乱序回归再修向导，不碰GLM core白名单。
 - 2026-09-18 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
   直读 pickFile（:145-173 无请求身份检查）、submit（:175-222）、入库按钮准入（:459-461）、
   取消语义（:467-475）、bitmap 仅成功路径 close（:150-156）、WorldSpriteLibrary 条件挂载/卸载；
