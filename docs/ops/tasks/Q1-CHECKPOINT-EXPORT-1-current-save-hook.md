@@ -124,7 +124,29 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 - Codex（2026-09-17）：**premise verified / design agree**。直接读取主壳真实绑定/capture/队列、runtime barrier与current codec；B11实绑零参业务红，B12同codec/restore正控绿；独立复算深隔离、真实等待期不拍快照与重复barrier拒绝。证据/反证见上，不推断原版机制。
 - Kimi：premise pending / design pending；独立核三参裸绑、主壳共用队列/同步边界与不扩保存格式。
-- GLM：premise pending / design pending；独立核B11/B12真入口、合法fixture、CE-01～08/负控及JSON往返，不做视觉。
+- GLM：**premise verified / design agree（2026-09-17，r1，取证产品 c1cec3ad、工作树 e06cba01 相对基线仅文档；
+  全部证据本人直读/复跑，未读 Kimi 结论；B11/B12 探针为本席批二原始材料，本轮为独立重核）**。
+  - **缺陷直读**：`main.ts:6940-6948` DEV 分支 `dumpSave: buildCurrentSavePayload` 裸绑三参 builder；
+    `save/ops.ts:34-40` 签名为 (world, position, projectId)。零参调用后三字段 undefined——`e2e.md:243-250`
+    已把该钩子登记为待修且合同为零参，全仓无受支持的三参 runner 调用方，"本意要求传参"替代解释不成立。
+  - **正控链直读**：`main.ts:958` `currentWorldSnapshot=()=>structuredClone(world)`；`:5587-5596`
+    captureCurrentSavePayload 克隆 position 并取 `inputProject.manifest.id`——零参捕获在主壳内已有正确实现，
+    修注册/队列而非 builder/codec 的层判正确。
+  - **安全边界直读**：`main.ts:5603-5622` doSave 经 saveSnapshotQueue + `withSaveBarrier(prepareSnapshot)`；
+    `runtime-script-project.ts:466-496` barrier.ready 后同步快照（thenable 拒绝）、异常 cancel、finally release。
+    只重绑 capture 不经 barrier 会拍下确认框中途半状态——设计走共用队列不是架构扩张，是现行安全点合同的必要结果。
+  - **本人复跑**：B11 observe exit0（registeredZeroArg=true）+ contract 业务红「存档工程 "undefined" 与当前工程
+    "b2-save" 不匹配」；B12 contract exit0（真实 capture→normalize→restore money=123）——红因在字段根部，
+    非迁移/工程数据缺陷。旧 B11 为同步调用模型，修成 Promise 后其红不能自证新合同（卡面 :111 已钉，本席背书）。
+  - **设计同意**：D1 共用现有 saveSnapshotQueue 的同步快照排队入口+尾 Promise 归一化；D2 doSave 语义不动；
+    D3 零参异步 wrapper 复用 captureCurrentSavePayload、不碰槽/缩略图/计数；D4 捕获时点=排队+barrier 后同步时刻；
+    D5 超时/异常直接 reject 无重试；D6 文档实现后再改——与 CE-01～08 逐条对应，产品面限 main.ts+新测试文件。
+  - **可证伪观察**：①若 DEV 注册点实际补参或存在受支持三参调用方→前提倒（本人核对不存在）；②实现只换绑定
+    不经 barrier→CE-03 红（确认挂起期 snapshotCalls=0 已由 runtime 诊断+本人批二 B05 族知识佐证）；
+    ③导出另开队列抢同一 barrier→重复 barrier「已经关闭」（CE-04，合同已在 runtime-save-lineage:306-337）；
+    ④失败毒死队尾或存储 I/O 持 barrier→CE-05/06 红；⑤JSON 往返丢分数坐标/可选字段→CE-02 红
+    （JSON.stringify 丢 Map 语义的工程经验 :65 已列）；⑥实现扩大 SAVE8/content20/新增公共入口→越界。
+  - 返工项：无。本席只签设计；实现由 Codex 负责，本席不改 reforge。
 - 非Owner独立primary证据：pending；缺签豁免：无；build准入：blocked。不得因并行编辑器卡签齐就视本卡可build。
 
 ### 进入done前

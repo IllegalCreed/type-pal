@@ -133,7 +133,31 @@ Codex同时准备Reforge检查点导出修复；本卡不碰reforge产品或其�
 - Codex：**premise verified / design agree（2026-09-17，r1）**。直接读commands.ts:109-117不可变契约、世界变量增删守卫、actor-dialogue三类命令、stamp接管与删除、reference index查询/删除分类及current provider入口；当前coverage缺口与已有测试在位。边界不代表全项目UI验收。
   可证伪：无现行caller、合同不支持输入或同一边界已被同断言覆盖，则不新增/转分类；缺陷与测试模型错误须区分，不能以当前错误求绿。
 - Kimi：premise pending / design pending；需独立一手锚点与可证伪观察，不读取/复述GLM设计结论。
-- GLM：premise pending / design pending；需先独立读当前实现/调用方/已有测试，不以Codex统计代替合同。
+- GLM：**premise verified / design agree（2026-09-17，r1，产品起点 c1cec3ad、分配提交 d6528e86；
+  全部锚点本人直读，未读 Kimi 结论；不以 Codex 统计代替合同）**。
+  - **合同直读**：`commands.ts:109-117` Command 接口 apply/invert 返回新 EditorState、invert(s) 收 apply 后态
+    还原前态；`edit-session.ts:1-8` 命令不得原地 mutate、统一经 dispatch。四组目标源码逐一定位：
+    `actor-dialogue-commands.ts:44/97/139` 恰三类（表情重命名/表情删除/立绘组删除）；`stamp-commands.ts:24/78/
+    121/157` 恰四类（增/改/复/删）；`project-reference.ts:1012` snapshot 构建、`:1248-1315` index/deletionImpact/
+    deletionScopeFor；`project-reference-adapters.ts:1878-1950` current provider 入口与删除影响调用
+    （:1942 `index.deletionImpact(target, index.deletionScopeFor(...))`）。
+  - **覆盖缺口独立复算**：当前 `coverage/fast/editor/coverage-summary.json` 实测——commands.ts 行 1748/1833
+    分支 1106/1547、actor-dialogue 60/71 分支 34/58、stamp-commands 74/77 分支 44/57、project-reference
+    353/392 分支 309/380——与卡面数字逐项一致；行覆盖不等于失败/引用/恢复分支已验证的前提成立
+    （commands.ts 行 95%+ 但分支 71%，失败与守卫臂是主缺口）。
+  - **既有测试去重锚点确认**：commands/actor-commands/item-commands/world-variable-commands、
+    actor-dialogue-commands、stamp-commands/stamp-lifecycle、project-reference(-adapters)、scene-lifecycle/
+    shop-lifecycle 均在位（packages/editor/src/core/*.test.ts 清单核对）；新白名单 8 文件当前不存在，可新增。
+  - **设计同意**：四组范围/白名单/深快照 before+反向自证不别名（吸收 foundation-coverage R2 教训）、
+    每组≥2 单点负控（唯一源码替换+真实加载见证+业务断言红+原实现绿）、同树覆盖对照 include 显式、
+    D-02/D-06/D-07 保持待修隔离不塞默认红、无现行 caller 的旧模型不新增支持合同——与本人上一批
+    被三轮 counter 打磨的执行合同一致，可执行。
+  - **可证伪观察**：①若某边界已被同断言既有测试覆盖→登记已有证据不重复（B5/B6 族重点核对）；②拟造输入
+    不属 Command 支持域（如给无 caller 退役命令造用例）→撤回；③before 若浅拷贝同源→深快照自证红
+    （本人负控先例 plan-pollutes 三轴）；④负控 TypeError 替身/零用例/超时不作鉴别力；⑤若 D 组发现
+    现行删除守卫与审计 D-02 反例矛盾→按缺陷隔离登记修复卡归属，不倒改预期；⑥产品/旧测试/基线任何
+    diff→越界即停。
+  - 返工项：无。三签齐且无 counter 后按卡 A→B→C→D 连续执行。
 - 独立非Coding Owner证据：Codex如上，Kimi待补；缺签豁免：无；build准入：blocked（等三席齐，无counter）。
 
 ### done前
