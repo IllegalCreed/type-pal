@@ -217,7 +217,20 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 当前门禁：Codex集成accept；Kimi独立终审与GLM本人实现者自验签字待落卡。下列01c149b5/c0c94333两轮counter保留历史，均已由639e9e4e修复并复核关闭。
 
-- GLM：pending（实现者自验，不是第三方独立accept）。
+- GLM：**accept（2026-09-17，实现者自验；本人测试贡献的 Coding Owner 自验，非独立第三方证明）**。
+  - **候选一致性核对**：集成候选 `48d3b8e3`（对比基点 `862733ba`）中本人 15 个 boundaries 测试 + 3 个 fixture
+    逐文件 blob 与源候选 `639e9e4e` **完全相同**（`git ls-tree` 全量比对，packages 下零差异）；负控脚本
+    `glm-foundation-coverage-mutants.mjs` 亦逐字相同。
+  - **诊断配置适配核对**：Codex 将 `glm-foundation-coverage.config.mts` 从正则收集改为直接导入
+    `migrateCoverageFastTestExcludes`——本人核对：原正则 29 项中 20 项本就不匹配当前 migrate 测试文件，
+    实际选例不变；适配后在集成树上实测 before 314 / after 338 与原口径一致。该调整只动诊断配置，
+    不动测试与产品，本人接受。
+  - **集成树复跑（2026-09-17，main=2f0bc61b）**：定向 A27/B69/C19/D24=**139 全绿**；
+    `node docs/testing/glm-foundation-coverage-mutants.mjs` 在集成树上 **4 对照 exit0 + 14 针全部 exit1
+    业务红**（含 immutability 三轴）。Codex 统一门禁（check 7218、ratchet、BASE_REF=862733ba 单次严格
+    fast 6730/617）由其席位记录，本人不重复整仓检查、不以自验替代其复核或 Kimi 终审。
+  - 贡献披露：四组 139 项测试/3 fixture/负控脚本/诊断配置为 GLM 工作（Codex 三轮 counter 与集成/适配除外）；
+    YJ2 两项后续归属按回执保持。无实际不符项。
 - Codex：**counter（2026-09-16，候选01c149b5）**。独立定向133项、四包typecheck和8负控符合预期，产品零diff；
   pal/migrate覆盖对照复算相同。但最终树Biome27错；隔离坏实现证明D组冲突仍删文件、C组只留首槽均未被新套件拦截；
   D组自比较/缺席替身、C3未完成及交付账需定点返工。详见[独立复核R1～R4](../../testing/glm-foundation-coverage-review.md)。
@@ -226,7 +239,32 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
   原三见证已独立复建转红，R1格式/白名单、R2删除/absent-null/hash、R3槽位/对象视图通过，不重开。
   三侧files浅副本仍同源引用；各轴输入原地写v=17仍被候选不变性断言放过，深快照对照三红/正常绿。详见同报告末节返工复核。
   YJ2两项后续归属接受；未集成/未改官方基线，旧counter原文作为历史保留，本轮不转Kimi、不标done。
-- Kimi：pending（独立终审）。
+- Kimi：**accept（2026-09-17，r1 独立终审，集成候选 `48d3b8e3` 对比 `862733ba`；设计不重签；未读他席本轮结论的论述内容）**。
+  接手 HEAD `2f0bc61b` 与 origin/main 一致、工作树干净；候选后产品/脚本/锁文件零漂移。
+  - **产品/旧测试零改**：862733ba→48d3b8e3 实测 diff 仅白名单新增（15 测试+3 fixture+
+    诊断脚本/配置+文档+基线）；四个目标产品文件与既有测试零 diff；新增文件在白名单内。
+  - **139 项业务断言本人复跑**：shared 27 + content 69 + pal-extract 19 + migrate 24（migrate 用
+    原 `vitest.config.ts --project unit`）= 139 全绿。抽查断言质量：mkf 精确偏移/字节/错误文案；
+    player-roles 装备 6/仙术 32 **完整数组**含跨角色非首末槽非对称标记（防 slice 截断）；
+    migration-plan 深快照三轴（`structuredClone` 逐值入新 Map + isDeepStrictEqual 三向比较）与
+    删除门（可删除文件正控 deletes=['content/old.json']、冲突清空对照）；spells 两视图非空映射+
+    截断拒绝。无类型-only/非空-only 断言。
+  - **14 负控本人复跑**：`docs/testing/glm-foundation-coverage-mutants.mjs` exit 0——
+    4 正常对照绿、14 针均 exit 1 业务红（含 plan-pollutes 三轴命中深快照断言、
+    player-roles 装备/仙术截断、merge 同值、plan 删除门逃逸）；每针日志独立 SHA、源文件
+    hash 前后不变；磁盘产品零改（运行后 git status 干净）。
+  - **质量门交叉核**：check.log editor 2,414/game 2,307/migrate 456 在位（总 7,218 与回执一致）；
+    strict TOTAL **617 文件/6,730 项**；基线 diff 实测 testCount 6591→6730（恰 +139），
+    仅四个目标包的包级 digest 变化、**全部旧 fileEntries identity 逐项不变、零移除**；
+    官方 ratchet 先于 strict、保护基线 862733ba。
+  - **诊断配置适配核实**：`glm-foundation-coverage.config.mts:10` 直接导入官方
+    `migrateCoverageFastTestExcludes`（不再正则扫描）——仅诊断配置/文档/基线变化，
+    139 项测试与 fixture 保持 GLM 原样（回执披露一致）。
+  - **YJ2 两项**：树归约/空窗回引在测试头注与回执中明确为后续独立工作（有界资源+独立进程
+    方向），不冒充完成，不阻断本卡按已签范围收口；fast 内无超大分配输入。
+  - **旧版本兼容审查：pass**——无版本分支/升级器/fallback/旧输入支持；legacyThing 类用例为
+    当前合同的拒绝断言，地图 v4 为现行格式。
+  返工项：无。本 accept 不代签、不授权 done；GLM 为测试贡献者（已披露），本席复核为独立终审。
 - Codex本轮（2026-09-17，接收639e9e4e，整合候选48d3b8e3）：**accept（独立接收复核/集成）**。R1～R4均已关闭，139项/四包tc/Biome与14反控通过；
   原三轴污染见证均命中深快照断言。已合入862733ba产品树，完整check7218项、官方ratchet和受保护单次严格fast6730项通过，617生产文件与全部旧测试identity保持。
   全仓行70.90%/分支62.50%，无产品/既有测试改动或scope移除；仅诊断配置改为官方数组导入并勘误21文件/冻结点，139项测试与fixture保持GLM原样。
@@ -235,9 +273,19 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
 
 ## 额度、并行与交接
 
-2026-09-16用户确认GLM额度恢复；可持续承担本包非视觉测试。WORLD-ASYNC-COMMIT-1先补实现审查，不重开旧r1设计/历史豁免，材料贡献须披露。
+- 2026-09-17 Kimi（独立终审）：同步 `2f0bc61b`、工作树干净后核 `862733ba → 48d3b8e3`。
+  产品与既有测试零 diff 实测；四组定向本人复跑 27+69+19+24=139 全绿；14 针负控经入仓脚本
+  复跑（4 对照绿/14 业务红、源 hash 不变）；抽查深快照三轴/删除门/完整槽位/对象视图断言质量；
+  交叉核 check 7,218、strict 617/6,730（恰 +139）、基线旧 identity 零移除；诊断配置改官方数组
+  导入核实仅诊断面；YJ2 两项为已接受后续归属；旧版本兼容 pass。签 accept，无返工项；
+  未改产品/测试/基线/他席/状态，不代签不标 done。Next：Codex 统一核定 done。
+- 2026-09-16用户确认GLM额度恢复；可持续承担本包非视觉测试。WORLD-ASYNC-COMMIT-1先补实现审查，不重开旧r1设计/历史豁免，材料贡献须披露。
 本包四目标包与Codex世界/保存主线错开；目标生产源码若漂移，由Codex明确新冻结点/适配范围，不自行合入生产修复或新版本输入。
 
+- 2026-09-17 GLM：补本人实现者自验席位 accept（详见 done 前）。核对集成候选 48d3b8e3 内本人 15 测试+3 fixture+
+  负控脚本与源候选 639e9e4e 逐文件 blob 相同；接受 Codex 诊断配置直接导入官方排除项的适配（原正则 20 项本就
+  不匹配，选例不变，实测 314/338 一致）；集成树复跑定向 139 全绿+4 对照/14 针负控全红。不重复整仓检查、
+  不代签 Kimi、不标 done。仅改本席与日志。
 - 2026-09-17 Codex：139项GLM测试已适配主线，完整check7218与ratchet/受保护单次strict fast6730/617全部通过；无现有文件移出统计、旧test identity均保留，reforge/game/editor基线对象逐字不变。
   当前转review，冻结整合候选交Kimi独立终审；GLM仅补本人实现者自验席位，不重复第三方审查、不代签、不标done。YJ2两项后续登记保持。
 - 2026-09-17 Codex：合并提交48d3b8e3固定整合候选，随后只回填SHA/提示词；相对候选packages/scripts零diff，旧counter全文保留。
