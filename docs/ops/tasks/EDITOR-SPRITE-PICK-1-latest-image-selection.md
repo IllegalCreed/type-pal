@@ -187,6 +187,9 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 
 ## 交接日志
 
+- 2026-09-18 Codex并行build进度：向导内部按session/assetBase建立选择作用域与代次，成功/catch检查当前性，finally释放bitmap；解码等待/失败的旧draft不能经DOM或旧提交回调入库，palette旧scope错误也隔离。编码/命令/GLM core测试零改动。新建SpriteUploadWizard.selection.test.tsx，经真实组件事件、当前blank项目loader/EditSession和真实RLE/gzip/SHA核产物。
+  首批8项在旧树6业务红/2绿（/tmp/sprite-selection-before.log）；扩展后新15项+既有2项共17绿、editor typecheck/Biome通过（/tmp/sprite-selection-directed.log、/tmp/sprite-selection-tsc.log）。初次类型/Hook依赖检查及“React尚未刷新DOM”假设失败已修；提交入口保护改为捕获实际DsButton回调独立验证，不复制submit算法。
+  仍在build：单点负控、dev-functional浏览器检查、全仓check/ratchet/严格fast未完成，不能据17绿标review/done。两个产品/测试工作文件尚在Codex本地工作区，未形成提交候选，不改当前官方基线。下一步Codex继续该独立主线，GLM只处理自身残项。
 - 2026-09-18 Codex：接收GLM测试返工仍有残项，已单独交回；同时核本卡Kimi/GLM设计均agree，推进独立build。实现钉勘误（不改他席原文）：getImageData/toDataURL在当前源码为同步调用，不为评语新增await；G-I03旧A成功后保留的是B错误，不是A错误。两处措辞不改变已签的当前性/finally方案。先写真组件乱序回归再修向导，不碰GLM core白名单。
 - 2026-09-18 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
   直读 pickFile（:145-173 无请求身份检查）、submit（:175-222）、入库按钮准入（:459-461）、
