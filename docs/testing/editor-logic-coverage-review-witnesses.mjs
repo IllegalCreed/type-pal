@@ -39,6 +39,15 @@ const cases = [
     to: "    expressions[to] = 'wrong-portrait-asset'",
   },
   {
+    name: 'restore-input-mutation',
+    file: 'actor-dialogue-commands.ts',
+    testFile: 'actor-dialogue-commands.boundaries.test.ts',
+    from: 'function restore(state: EditorState, slice: DialogueStateSlice): EditorState {\n',
+    to: " state.locale.__reviewInputPollution = 'leaked';\n",
+    afterMatch: true,
+    pollution: true,
+  },
+  {
     name: 'real-closure-removal',
     file: 'actor-dialogue-commands.ts',
     testFile: 'actor-dialogue-commands.boundaries.test.ts',
@@ -79,7 +88,8 @@ export default {
   const before=readFileSync(id,'utf8');assert.equal(before.split(c.from).length,2,'unique source point');
   console.log('MUTATION_LOADED',c.name);
   // Leading semicolon avoids attaching the witness to a preceding throw/delete expression.
-  return before.replace(c.from,'; (globalThis.__editorReviewWitnesses ??= []).push(state);\\n'+c.to);
+  const witness='; (globalThis.__editorReviewWitnesses ??= []).push(state);\\n';
+  return before.replace(c.from,(c.afterMatch?c.from:'')+witness+c.to);
  }}],
  test:{include:[${JSON.stringify(`src/core/${c.testFile}`)}],maxWorkers:1,fileParallelism:false}
 };`,

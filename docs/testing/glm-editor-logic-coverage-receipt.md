@@ -4,6 +4,8 @@
 起始产品`c1cec3adde5b0090acbc6bc1f325ca1301689873`，设计签字已齐、build准入a5df9fbc，设计不重签。
 GLM完整原始回执在候选`d531aa24:docs/testing/glm-editor-logic-coverage-receipt.md`，随测试分支交付但尚未合入main；
 以下GLM占位块不代表候选没有回执，也不由Codex代填。2026-09-18接收结论见[独立复核](editor-logic-coverage-review.md)。
+最新返工完整回执在`a3687b75:docs/testing/glm-editor-logic-coverage-receipt.md`；该分支相对467a5f41仍只改白名单，
+已合入的Q1来自27e605ef，不属于GLM贡献。当前仍未接收测试，剩余R1/R2/R4见同一复核报告顶部。
 
 ## GLM设计与矩阵准备
 
@@ -31,5 +33,7 @@ pending：最终树白名单与SHA、逐文件计数、已有/新增/缺陷/待�
 可选配置/反控/缺陷诊断附件创建后在这里链接。官方check/ratchet/strict-fast留Codex集成统一执行，不伪造全仓结果。
 
 ## Codex接收复核（GLM不得填写）
+
+Codex（2026-09-18，a3687b75返工）：counter收窄为R1/R2/R4残项；47/76、tsc/Biome、10反控和原三见证通过，选择口径已修，实际2255→2302。R3关闭；不合入、不跑接收后官方门禁、不重签设计。证据见[最新复核](editor-logic-coverage-review.md)。
 
 Codex（2026-09-18）：counter，d531aa24暂不接收、不集成。44/44与原负控退出码通过，但合法fixture、原输入/业务输出断言、负控语义和覆盖口径有R1～R4阻断；详见[复核与可重建见证](editor-logic-coverage-review.md)。官方基线未改，返工不重签设计。
