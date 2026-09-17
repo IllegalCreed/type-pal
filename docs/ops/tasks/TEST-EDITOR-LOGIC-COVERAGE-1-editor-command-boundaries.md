@@ -132,7 +132,31 @@ Codex同时准备Reforge检查点导出修复；本卡不碰reforge产品或其�
 
 - Codex：**premise verified / design agree（2026-09-17，r1）**。直接读commands.ts:109-117不可变契约、世界变量增删守卫、actor-dialogue三类命令、stamp接管与删除、reference index查询/删除分类及current provider入口；当前coverage缺口与已有测试在位。边界不代表全项目UI验收。
   可证伪：无现行caller、合同不支持输入或同一边界已被同断言覆盖，则不新增/转分类；缺陷与测试模型错误须区分，不能以当前错误求绿。
-- Kimi：premise pending / design pending；需独立一手锚点与可证伪观察，不读取/复述GLM设计结论。
+- Kimi：**premise verified / design agree（2026-09-17，r1，产品起点 c1cec3ad、分配提交 d6528e86；全部锚点本人直读，未读 GLM 结论）**。
+  - **合同直读**：`commands.ts:109-117` apply/invert 返回新 EditorState 不可变、invert 收 apply 后态；
+    `edit-session.ts:1-8,44-81` 不可变工作副本+统一 dispatch；`actor-dialogue-commands.ts:44/97/139`
+    恰三类（表情重命名/表情删除/立绘组删除）；`stamp-commands.ts:24/78/121/157` 恰四类
+    （增/改/复/删）；`project-reference.ts:1012` snapshot、`:1248` Index 类；
+    `project-reference-adapters.ts:1878` current provider、`:1942` deletionImpact∘deletionScopeFor
+    删除影响链——四组对象与卡面逐点一致，B 组确为立绘/表情引用命令而非对话编辑器改造。
+  - **覆盖缺口独立复算**：当前 coverage/fast/editor/summary 实测——commands 分支 1106/1547
+    （71.49%）、actor-dialogue 34/58（58.62%）、stamp 44/57（77.19%）、project-reference 309/380
+    （81.31%），与卡面逐项一致；行覆盖 87-90% 而分支低——失败/守卫/恢复臂是真实缺口，前提成立。
+  - **白名单/去重**：抽查 commands-world/stamp-commands 两个 boundaries 文件均不存在（本人实测）；
+    既有 commands/actor-commands/stamp-commands/project-reference 等测试在册，卡面去重纪律覆盖。
+  - **已知缺陷隔离**：D-02（editor-workflows.md:51 引用漏边）、D-06/D-07 均在册待修——
+    「不固定错误期望、不塞默认 fast 红、只补隔离诊断」与审计纪律一致。
+  - **设计同意**：四组范围映射真实现行合同；深快照 before（含 Map/Set/嵌套）+反向改快照自证
+    不别名（吸收上批 R2 教训）；no-op/失败的历史记录按当前 EditSession 合同而非旧启发式；
+    每组≥2 有效单点负控（唯一替换+真实加载见证+业务红+原实现绿）；同树同 include 覆盖对照
+    只进 tmp；官方门禁由 Codex 集成后统一跑；无产品/schema/UI/视觉授权，无 caller 旧模型不
+    新增支持合同。范围确停在测试补强。
+  - **可证伪观察**（任一反例即收窄或 counter）：① 某边界已被同断言既有测试覆盖 → 登记证据
+    不加重复；② 拟造输入不属 Command 支持域 → 撤回该项；③ before 浅拷贝同源 → 自证红；
+    ④ 负控仅 TypeError/零用例/超时 → 无效重造；⑤ D 组发现现行删除守卫与 D-02 反例矛盾 →
+    按缺陷隔离登记，不倒改预期；⑥ 产品/旧测试/基线出现 diff → 越界即停。
+  - 返工项：无。非阻断备注：D5 保存/重开声明须走真实序列化+loader（卡面已列），终审时核
+    该链不用 JSON.stringify 自证；道具/场景两族的正文根域覆盖以 collector 实际支持面对账。
 - GLM：**premise verified / design agree（2026-09-17，r1，产品起点 c1cec3ad、分配提交 d6528e86；
   全部锚点本人直读，未读 Kimi 结论；不以 Codex 统计代替合同）**。
   - **合同直读**：`commands.ts:109-117` Command 接口 apply/invert 返回新 EditorState、invert(s) 收 apply 后态
@@ -169,6 +193,11 @@ Codex同时准备Reforge检查点导出修复；本卡不碰reforge产品或其�
 
 ## 交接日志
 
+- 2026-09-17 Kimi：完成 r1 独立设计审查（范围/合同/反控/口径），签 premise verified + design agree，无返工项。
+  直读 commands.ts:109-117 不可变合同、edit-session.ts:1-8/44-81、actor-dialogue 三类与 stamp 四类命令、
+  project-reference snapshot/Index 与 adapters 删除影响链；独立复算四文件分支缺口与卡面逐项一致；
+  白名单抽查文件不存在；D-02/D-06/D-07 待修隔离核实。六条可证伪观察与两条非阻断备注写入本席。
+  未改产品/他席/状态，未开始测试实现。Next：三签齐后 GLM 按卡连续执行 A→D，Codex 集成与官方门禁。
 - 2026-09-17 Codex：用户同意四组并行工作并要求提示词。建立r1精确范围/白名单/返工经验约束，GLM/Kimi设计审查可并行。
   本次只准备卡与范围，未新增正式测试/改产品。Codex另做检查点导出的只读真值与方案，双方不改同一实现面。
 
