@@ -13,7 +13,7 @@ import {
   DeleteActorCommand,
   UpdateEnemyCommand,
 } from './commands.js'
-import { type EditorState, EditSession } from './edit-session.js'
+import type { EditorState } from './edit-session.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 
 const actor = (id: string) => ({

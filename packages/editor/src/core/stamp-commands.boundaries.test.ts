@@ -8,6 +8,7 @@
 import type { StampTemplate } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { baseState, deepSnapshot } from './__tests__/glm-editor-logic-fixtures.js'
+import { PaintTilesCommand } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
 import {
   AddStampTemplateCommand,
@@ -50,6 +51,13 @@ function state(stamps: StampTemplate[] = []): EditorState {
       ],
     },
   })
+}
+
+/** 真实地图编辑（触发引用事实 generation bump，构造旧 proof 的真实过期）。 */
+function paintEdit(mapRel: string): PaintTilesCommand {
+  return new PaintTilesCommand(mapRel, [
+    { layerId: 'floor', row: 0, col: 0, tileId: 2, tilesetId: 'tiles', height: 0 },
+  ])
 }
 
 function deleteCommand(session: EditSession, id: string): DeleteStampTemplateCommand {
@@ -129,16 +137,43 @@ describe('C4 DeleteStampTemplateCommand · 边界', () => {
         session.getCurrentMapReferenceBatch(c),
       ).apply(session.getState()),
     ).toThrow(/删除组合前必须完成全项目引用扫描/)
-    // 用过期 proof（引用数不匹配的场景经伪造 proof 引用数字段）
-    const realProof = StampDeletionProof.fromBatch(session.getMapReferenceBatch(), 'tree')
-    const forged = Object.create(realProof, {
-      referenceCount: { value: realProof.referenceCount + 5 },
-    })
+  })
+  test('真实旧 proof：取证后地图数据变化 → 事实/索引失配拒绝；重新取证后放行（真实状态变化非伪造字段）', async () => {
+    // 状态带一张真实地图；取证 → 真实 PaintTiles 使引用事实过期（重扫未完成/覆盖失配）→ 旧 proof 被生产拒绝。
+    const withMap = state([template('tree')])
+    withMap.maps = {
+      'map-s': {
+        version: 4,
+        width: 1,
+        height: 1,
+        tilesetRefs: ['tiles'],
+        layers: [{ id: 'floor', name: '地面', tiles: [[1], [null]], sources: [[0], [null]] }],
+        collision: [[0], [0]],
+      },
+    }
+    withMap.mapIndex = {
+      version: 1,
+      maps: [{ id: 'map-s', name: '地图', path: 'assets/maps/s.map.json' }],
+    }
+    const session = new EditSession(withMap)
+    await session.ensureMapReferencesIndexed()
+    const staleProof = StampDeletionProof.fromBatch(session.getMapReferenceBatch(), 'tree')
+    session.dispatch(paintEdit('map-s'))
     expect(() =>
-      new DeleteStampTemplateCommand('tree', forged, (c) =>
+      new DeleteStampTemplateCommand('tree', staleProof, (c) =>
         session.getCurrentMapReferenceBatch(c),
       ).apply(session.getState()),
-    ).toThrow(/组合来源引用已变化/)
+    ).toThrow(/地图引用事实已变化|地图索引已变化|地图引用扫描不完整/)
+    // 重新对当前状态取证 → 放行（正控）
+    await session.ensureMapReferencesIndexed()
+    const freshProof = StampDeletionProof.fromBatch(session.getMapReferenceBatch(), 'tree')
+    expect(
+      new DeleteStampTemplateCommand('tree', freshProof, (c) =>
+        session.getCurrentMapReferenceBatch(c),
+      )
+        .apply(session.getState())
+        .stamps.map((t) => t.id),
+    ).toEqual([])
   })
   test('缺目标 no-op；invert 恢复到原索引；恢复时 ID 已占用 no-op（现行合同）', () => {
     const session = new EditSession(state([template('a'), template('b'), template('tree')]))

@@ -29,7 +29,7 @@ function state(): EditorState {
 }
 
 describe('UpdateLocaleCommand · 边界', () => {
-  test('更新既有键可 invert；同值 no-op；新键新增后 invert 移除（现行合同）', () => {
+  test('更新既有键可 invert；同值内容不变；新键新增后 invert 移除（现行合同）', () => {
     const s0 = state()
     const command = new UpdateLocaleCommand('name.hero', '逍遥')
     const s1 = command.apply(s0)
@@ -44,6 +44,7 @@ describe('UpdateAssetLabelCommand · 边界', () => {
   test('更新存在资产标签并 invert；缺目标与同名 no-op（现行合同）', () => {
     const s0 = state()
     const before = deepSnapshot(s0)
+    expect(() => new UpdateAssetLabelCommand('sprite.ghost', '新标签').apply(s0)).not.toThrow()
     expect(new UpdateAssetLabelCommand('sprite.ghost', '新标签').apply(s0)).toBe(s0)
     const same = new UpdateAssetLabelCommand('sprite.hero', '主角精灵').apply(s0)
     expect(same.assetCatalog.assets['sprite.hero']!.label).toBe('主角精灵') // 同值：内容不变（apply 仍建新对象）

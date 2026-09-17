@@ -34,7 +34,7 @@ function state(): EditorState {
 }
 
 describe('AddWorldVariableCommand · 边界', () => {
-  test('重复 id no-op：apply 幂等返回原引用对象且不留命令痕迹可再撤销', () => {
+  test('重复 id no-op：apply/invert 幂等返回原引用对象（直接调用合同，不经 dispatch 历史）', () => {
     const session = new EditSession(state())
     const first = new AddWorldVariableCommand('used', {
       kind: 'flag',

@@ -76,13 +76,22 @@ function state(): EditorState {
         buyPrice: 0,
         sellPrice: 0,
         sellable: false,
-        use: { effects: [{ kind: 'itemPrivateScript', script: { body: [actorCue('calm')] } }] },
+        use: {
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'itemPrivateScript',
+              script: { id: 'use', label: '使用', body: [actorCue('calm')] },
+            },
+          ],
+        },
       },
     ],
     sharedScripts: {
       shared: {
         name: 'shared.name',
-        self: { scene: 's', entity: 'e' },
+        self: 'none',
         body: [
           {
             kind: 'dialog',
@@ -121,8 +130,11 @@ function state(): EditorState {
 }
 
 describe('B1 RenameActorPortraitExpressionCommand · 边界', () => {
-  test('空白/带首尾空格名拒绝；缺表情抛错；同名冲突抛错；from===to no-op（现行合同）', () => {
+  test('空白与带首尾空格名拒绝；缺表情抛错；同名冲突抛错；from===to no-op（现行合同）', () => {
     const s0 = state()
+    expect(() =>
+      new RenameActorPortraitExpressionCommand('hero', 'angry', '  fury ').apply(s0),
+    ).toThrow(/表情名不能为空或包含首尾空格/)
     expect(() => new RenameActorPortraitExpressionCommand('hero', 'angry', ' ').apply(s0)).toThrow(
       /表情名不能为空或包含首尾空格/,
     )
@@ -134,11 +146,11 @@ describe('B1 RenameActorPortraitExpressionCommand · 边界', () => {
     ).toThrow(/人物 hero 已存在表情“calm”/)
     expect(new RenameActorPortraitExpressionCommand('hero', 'angry', 'angry').apply(s0)).toBe(s0)
   })
-  test('改写命中全部目标 cue 且不改其它 actor 引用；invert 完整恢复（深快照）', () => {
+  test('改写命中全部目标 cue 且不改其它 actor 引用；actor 目标表/asset 映射钉住；输入不变；invert 完整恢复（深快照）', () => {
     const s0 = state()
     const before = deepSnapshot(s0)
     const command = new RenameActorPortraitExpressionCommand('hero', 'angry', 'fury')
-    const s1 = command.apply(s1SnapshotSafe(s0))
+    const s1 = command.apply(s0)
     // hero 的 angry → fury（scene onEnter + scriptChunks + enemy onDefeated 三处）
     expect(s1.scenes[0]!.onEnter![0]!.body[0]).toMatchObject({
       cue: { identity: { portrait: { expression: 'fury' } } },
@@ -149,6 +161,14 @@ describe('B1 RenameActorPortraitExpressionCommand · 边界', () => {
     expect(s1.enemies?.[0]!.onDefeated![0]).toMatchObject({
       cue: { identity: { portrait: { expression: 'fury' } } },
     })
+    // R2 钉 actor 目标表：旧 key 移除、新 key 指向**原 asset**、未触表情与其它 actor 完整保留
+    const heroExpressions = s1.actors[0]!.portraits!.expressions!
+    expect(Object.keys(heroExpressions).sort()).toEqual(['calm', 'fury'])
+    expect(heroExpressions.fury).toBe('portrait.hero.angry') // 新 key 承接原 asset，不得指向其它图
+    expect(heroExpressions.calm).toBe('portrait.hero.calm')
+    expect(s1.actors[0]!.portraits!.default).toBe('portrait.hero')
+    expect(s1.actors[1]!.portraits).toEqual(before.actors[1]!.portraits) // other 不动
+    expect(s1.actors[2]!.portraits).toEqual(before.actors[2]!.portraits) // bystander 不动
     // calm（item 内）与 other actor 的 angry 不改
     expect(s1.items[0]!.use!.effects[0]).toMatchObject({
       kind: 'itemPrivateScript',
@@ -157,6 +177,8 @@ describe('B1 RenameActorPortraitExpressionCommand · 边界', () => {
     expect(s1.sharedScripts!.shared!.body[0]!).toMatchObject({
       cue: { identity: { actor: 'other', portrait: { expression: 'angry' } } },
     })
+    // R2 输入不可变：apply 后原输入与深快照逐域相等（污染会在此红）
+    expect(s0).toEqual(before)
     const s2 = command.invert(s1)
     expect(s2.scenes).toEqual(before.scenes)
     expect(s2.items).toEqual(before.items)
@@ -164,6 +186,8 @@ describe('B1 RenameActorPortraitExpressionCommand · 边界', () => {
     expect(s2.scriptChunks).toEqual(before.scriptChunks)
     expect(s2.enemies).toEqual(before.enemies)
     expect(s2.actors[0]!.portraits!.expressions).toEqual(before.actors[0]!.portraits!.expressions)
+    // invert 后输入 s1 也不被改动（invert 不可变合同）
+    expect(s1.actors[0]!.portraits!.expressions).toHaveProperty('fury')
   })
 })
 
@@ -203,7 +227,7 @@ describe('B2 RemoveActorPortraitExpressionCommand · 边界', () => {
 })
 
 describe('B3 RemoveActorPortraitSetCommand · 边界', () => {
-  test('无引用立绘组可删且 inverse 恢复；无立绘组 no-op', () => {
+  test('无引用立绘组可删且 inverse 恢复；缺目标 actor no-op', () => {
     const s0 = state()
     const before = deepSnapshot(s0)
     const command = new RemoveActorPortraitSetCommand('bystander')
@@ -216,8 +240,3 @@ describe('B3 RemoveActorPortraitSetCommand · 边界', () => {
     expect(new RemoveActorPortraitSetCommand('ghost').apply(s0)).toBe(s0)
   })
 })
-
-/** 直接 apply 的快照安全包装（输入不被 mutate 的合同由深快照断言承担）。 */
-function s1SnapshotSafe(s: EditorState): EditorState {
-  return s
-}

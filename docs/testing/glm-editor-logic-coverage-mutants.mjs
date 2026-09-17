@@ -67,11 +67,13 @@ const cases = [
     expected: 1,
   },
   {
-    // B负控2：重命名改写计数闭合失效 → 不闭合/漏改写断言红
-    name: 'rename-rewrite-closure-removed',
+    // B负控2（R3 更正）：重命名把新 key 指向错误 asset → 「新 key 承接原 asset」断言红。
+    // 原 +99 针实为「合法操作被误拒」证明闭合守卫存在，非漏改写检测，已改真实业务错误反控；
+    // closure 防御臂（walker 同源保证）按不可达防御分类，不伪造不一致输入强测。
+    name: 'rename-wrong-target-asset',
     file: 'src/core/actor-dialogue-commands.ts',
-    from: '    const expected = expressionBlockers(state, this.actorId, this.from).length\n    if (rewritten !== expected)',
-    to: '    const expected = expressionBlockers(state, this.actorId, this.from).length\n    if (rewritten !== expected + 99)',
+    from: '    expressions[to] = asset',
+    to: "    expressions[to] = 'wrong-portrait-asset'",
     expected: 1,
   },
   {
@@ -161,7 +163,8 @@ export default {
   assert.equal(run.status, item.expected, `${item.name}: unexpected exit; ${log}`)
   if (item.expected === 1) {
     assert.ok(output.includes(`MUTATION_HIT ${item.name}`), `${item.name}: mutation was not loaded`)
-    assert.match(output, /AssertionError|Error: /, `${item.name}: expected business regression`)
+    assert.match(output, /AssertionError/, `${item.name}: expected business assertion failure`)
+    assert.doesNotMatch(output, /TypeError: /, `${item.name}: TypeError is not business evidence`)
     assert.doesNotMatch(
       output,
       /Cannot find module|Failed to load url|No test files found|SyntaxError/,

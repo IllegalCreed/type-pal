@@ -37,6 +37,20 @@ const edge = (
   ...partial,
 })
 
+describe('D1 稳定 key 合同', () => {
+  test('非 owner/section 派生的 source key 拒绝（现行合同）', () => {
+    const badSource = {
+      key: 'arbitrary-string',
+      owner: { kind: 'scene', id: 's1' } as ProjectReferenceSource['owner'],
+      label: '假来源',
+      deletedWith: [],
+    }
+    expect(() => buildProjectReferenceSnapshot([edge({ target, source: badSource })])).toThrow(
+      /不是 owner\/section 的稳定派生 key/,
+    )
+  })
+})
+
 describe('D1/D2 snapshot→index 精确往返', () => {
   test('多目标/多来源：referencesTo 按 target 分桶、allReferences 保全、detail/where/locator 逐字段往返', () => {
     const edges: ProjectReferenceEdgeInput[] = [

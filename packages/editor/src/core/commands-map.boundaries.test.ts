@@ -18,7 +18,7 @@ import {
   ResizeProjectMapCommand,
   UpdateSceneNameCommand,
 } from './commands.js'
-import { type EditorState, EditSession } from './edit-session.js'
+import type { EditorState } from './edit-session.js'
 
 const tinyMap = (): ProjectMap => ({
   version: 4,
@@ -42,8 +42,8 @@ const tinyMap = (): ProjectMap => ({
       id: 'L2',
       name: '顶',
       tiles: [
-        [0, 0],
-        [0, 0],
+        [null, null],
+        [null, null],
       ],
       sources: [
         [null, null],
@@ -62,6 +62,26 @@ const mapState = (): EditorState =>
     maps: { 'map-s': tinyMap() },
     mapIndex: { version: 1, maps: [{ id: 'map-s', name: '地图', path: 'assets/maps/s.map.json' }] },
   })
+
+describe('tinyMap 合法性正控（R1）', () => {
+  test('受测 tinyMap 与新增层经现行 validateProjectMap 正控通过', async () => {
+    const { validateProjectMap } = await import('@type-pal/content')
+    expect(() => validateProjectMap(tinyMap())).not.toThrow()
+    const withLayer = new AddProjectMapLayerCommand('map-s', {
+      id: 'L3',
+      name: '新层',
+      tiles: [
+        [2, 2],
+        [2, 2],
+      ],
+      sources: [
+        [0, 0],
+        [0, 0],
+      ],
+    }).apply(mapState())
+    expect(() => validateProjectMap(withLayer.maps['map-s']!)).not.toThrow()
+  })
+})
 
 describe('UpdateSceneNameCommand · 边界', () => {
   test('同值 no-op；缺目标抛错（现行合同：场景不存在显式拒绝）', () => {
@@ -188,6 +208,10 @@ describe('PaintTilesCommand · 边界', () => {
     expect(s1.maps['map-s']!.layers[0]!.tiles[0]![1]).toBe(before!.layers[0]!.tiles[0]![1]) // 未触格
     expect(s1.maps['map-s']!.layers[1]).toEqual(before!.layers[1]) // 未触层
     expect(s1.sceneIndex).toEqual(stateBefore.sceneIndex)
+    // R2 输入不可变：apply 后原输入与整状态深快照逐域相等（任何污染含 locale 侧漏在此红）
+    expect(s0).toEqual(stateBefore)
+    expect(s0.maps['map-s']!.layers[0]!.tiles).toEqual(before!.layers[0]!.tiles)
+    expect(s0.maps['map-s']!.layers[1]).toEqual(before!.layers[1])
     const s2 = command.invert(s1)
     expect(s2.maps['map-s']!.layers[0]!.tiles).toEqual(before!.layers[0]!.tiles)
   })
