@@ -118,7 +118,40 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 
 - Codex（2026-09-18）：**premise verified / design agree**。直接读取pick/submit/useEffect和父条件挂载/取消入口；复跑真实回调＋编码字节诊断与2项既有组件测试，确认G-I01/02/03/08，保留G-I04风险不裁决。错误根因在向导请求归属；最强反证与范围见上。
 - Kimi：premise pending / design pending；独立核入口、请求/生命周期/submit边界，不复述GLM。
-- GLM：premise pending / design pending；独立核合法fixture/两序/错误组合/真实字节oracle与非视觉矩阵，披露原材料贡献，不复述Kimi。
+- GLM：**premise verified / design agree（2026-09-18，r1，取证基线 467a5f41、工作树 6284cab8 相对基线仅文档；
+  全部锚点/探针本人直读复跑，未读 Kimi 结论。贡献披露：probe-glm-upload-prep.mjs 及 G-I 系列观察为本席
+  原始只读材料，prem 历轮纠正（G-I03 提交起始 setErr('') 不等于清错、G-I04 无真实卸载）亦经本席返工落盘；
+  本轮为独立重核，不以历史材料自证，本卡实现与正式回归归 Codex）**。
+  - **入口直读**：`SpriteUploadWizard.tsx:145-173` pickFile 在 `await createImageBitmap(file)` 后无任何
+    选择身份/代次检查——直接 setDraft/setErr；`:266-271` 选择器仅在 submitting 禁用，解码期间二次选图可达
+    （G-I01 前提成立）；`:175-181` submit 只核 `submittingRef/draft/quantized`，等待期旧 draft 可入库。
+  - **两序与错误组合复跑（本人原探针重跑 exit0，与 Codex 复算口径一致）**：G-I01 完成序 B→A（A 迟到成功）
+    提交宽 1/像素 100 = A——**最后完成者胜而非最后选择者胜**，用户选择序恒 A 后 B 唯一变量是完成次序；
+    G-I07 真实字节 oracle（sha(catalog)==sha(存储)、gzip MTIME 篡改同长度可解码经同入口被拒）证明编码链
+    自洽、错在归属而非编码；G-I02 B 成功后旧 A 迟到失败覆盖错误文案、draft 仍 B；G-I03 B 失败后旧 A 迟到
+    成功 **draft 复活为可提交 A 且 A 错误文案仍在**——两个错误组合方向与卡面表述逐点一致，不能误写为
+    「A 成功清掉 B 错误」。G-I05/06（submittingRef 互斥/同 SHA 复用）绿，G-I08 成功 close=1/
+    getContext 失败与 drawImage 抛错 close=0——`:150-156` 仅成功路径 close，非成功路径句柄未显式释放。
+  - **scope/生命周期直读**：`:101-111` loadStandardPalette(assetBase) 带 alive flag 但 `.catch` 在 alive
+    检查之外——旧 scope 错误可写入新渲染（D3 第 4 点方向有真实依据）；`WorldSpriteLibrary.tsx:448-456`
+    focusResource/切目录 setUploading(false) + `:772-775` 条件挂载 → 解码期间卸载/切 scope 可达；
+    既有组件测试 1 文件 2 项绿（多帧+submitting 互斥，mock 编码）——不覆盖归属/释放。
+  - **SP-01～07 矩阵审查**：两序归属（SP-01）、错误两组合（SP-02）、等待期禁入库+真 submit 入口
+    （SP-03）、取消/卸载/scope 变化+同 scope 重渲染不误废（SP-04）、五路径 close 恰一次（SP-05）、
+    真实 RLE/gzip/SHA/重解析字节（SP-06）、submitting 互斥/ID-label/切帧保留+G-I04 不裁决（SP-07）——
+    与直读根因和替代解释逐条对应；「负控至少移除成功当前性/错误当前性/bitmap finally/等待 submit 守卫
+    四独立针」钉住四条修复面。**非阻断建议**：D3 第 1 点「每次 await 后核当前性」应同时覆盖
+    getImageData/toDataURL 两个后续 await 点（探针证明 drawImage 后仍有同步链），实现审查时核对。
+  - **设计同意**：单调选择代次+await 后当前性核验（成功与 catch 双侧）、等待/失败态禁 submit（UI 禁用
+    与 ref 守卫双保险）、bitmap try/finally 恰一次 close、scope 变化失效+同 scope props 更新不误废、
+    submit 顺序/互斥/既有编码去重不变、G-I04 维持范围外 risk——最小方向与根因一一对应，无越界面
+    （不改布局/编码/core 命令/提交取消语义）。
+  - **可证伪观察**：①若真实 UI 在 B 解码前已禁第二次选择或入库字节始终来自 B → 前提倒（本人复跑否定：
+    选择器仅 submitting 禁用）；②实现后过期错误仍覆盖当前状态/过期成功仍写 draft → D1 失败；
+    ③过期 bitmap 不 close 或双 close → D3 失败；④等待期 submit 仍能入库旧 draft → D2 失败；
+    ⑤同 scope 普通重渲染误废选择或旧 scope 数据冒充新 scope 可提交 → D4 过宽/过窄；⑥把顺序锁死禁止
+    再选 B 或新增公共 token/全局版本 → 越界；⑦ G-I04 被悄悄当作已修/已证 → 违反 SP-07。
+  - 返工项：无。本席只签设计；实现由 Codex 负责，本席不改 SpriteUploadWizard。
 - 非Coding Owner一手反证：pending；缺签豁免：无；build准入：blocked，签齐前不修改产品或正式测试。
 
 ### done前
@@ -127,6 +160,10 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 
 ## 交接日志
 
+- 2026-09-18 GLM：完成 r1 独立设计审查，签 premise verified + design agree，无返工项（附一条非阻断
+  建议：当前性核验覆盖 getImageData/toDataURL 后续 await 点）。直读 pick/submit/选择器/palette effect/
+  条件挂载锚点；重跑本人原探针（G-I01/02/03/08 反例、G-I05/06/07 正控、G-I04 维持 risk）与既有 2 项
+  组件测试。原探针与 prem 历轮纠正贡献披露；未读 Kimi 结论。仅改本席与日志，不改产品/他席/状态。
 - 2026-09-18 Codex：用户要求GLM返工同时并行推进，先收口Q1接口，再核D-03真入口/已有材料，形成r1有界方案。
   GLM测试分支不合入、不改；本卡独立文件面和门禁，未开始实现。下一步两席可并行设计审查，GLM原返工不因此等待。
 
