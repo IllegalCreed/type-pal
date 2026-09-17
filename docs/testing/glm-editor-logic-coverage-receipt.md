@@ -7,6 +7,18 @@ GLM原始回执见候选`d531aa24:docs/testing/glm-editor-logic-coverage-receipt
 已合入的 Q1 来自 27e605ef，不属于 GLM 贡献）。2026-09-18 两轮 counter 见
 [独立复核](editor-logic-coverage-review.md)（原文保留，最新残项见其顶部）。官方门禁由 Codex 集成后统一执行。
 
+## 残项返工（2026-09-18 第二轮，对应 c82b0d28 收窄 counter）
+
+- **R1 残 1**：shared 手写 cue 补 `portrait.side: 'left'`（现存全部 cue 均经 `checkAuthorDialogueCue` 或含 side 手写）。
+- **R1 残 2**：原 AddProjectMapLayer 用例 L3 改用与正控**同一** `legalL3()` 构造（tiles/sources 同非空、
+  来源下标入界），不再存在两个同名 fixture 分叉。
+- **R2 残**：B1 invert 半边补完整输入不变——invert 前独立 `deepSnapshot(s1)`、invert 后核 `s1` 全状态不变 +
+  `s2` 与 apply 前深快照**全状态**相等（不再只比部分域或 key 存在）；**restore-input-mutation 见证转 detected**。
+- **R4 残**：enemy 重复 ID 默认合同断言实际撤下，改合法唯一 ID（enemy-y）新增→undo 精确移除+输入不变；
+  locale 标题对齐（补同值内容不变+新键新增 invert 移除的真实断言）；A2 物品/A3 敌队战场/A4 落点/A5 碰撞
+  逐族表改精确已有测试名（item-commands:66/81/156/190/212、commands:709/749/769/2163/2191/2599、
+  stamp-placement-command:160）；after 计数按最终树更正为 **2302**；Q1 来源单列。
+
 ## 返工总账（R1～R4 对账 · 2026-09-18）
 
 - **R1 合法输入**：fixture `actorCue` 补 `portrait.side`/rows 对象并经 `checkAuthorDialogueCue` 正控（构造时校验）；
@@ -37,10 +49,10 @@ GLM原始回执见候选`d531aa24:docs/testing/glm-editor-logic-coverage-receipt
 | 族 | 新增测试（用例族） | 已有证据（精确锚点） | 缺陷 | 待证/分类 |
 |---|---|---|---|---|
 | A1 世界变量 | 缺目标 no-op/invert 占用拒绝/apply→invert→reapply+深快照自证/合法零值 | world-variable-commands.test.ts:64-121（增改 undo/同值 no-op/删除阻断与撤销） | 无 | — |
-| A2 人物 | 重复 id 抛错/插入位 reapply/CopyActor 伴随 levelUp/缺来源/DeleteActor 实体引用阻断+占用拒绝 | actor-commands.test.ts（CRUD/undo 主体） | 无 | 物品族未新增——item-commands.test.ts 已覆盖增删改与引用阻断主体（确认不适用） |
-| A3 战斗目录 | 敌人 Add 追加合同/Update 缺目标 no-op/patch invert 只回滚 patch 键 | battle-data-delete-commands.test.ts（删除引用阻断主体） | 无 | 敌队/战场/技能 CRUD 未新增——既有测试覆盖；AddEnemy 重复 ID 为调用方前置保证（EnemyTab.tsx:743-752），降只读观察不作默认回归合同（本批仅断言追加合同） |
-| A4 场景/地图目录 | 场景名缺目标抛错+同值 no-op+invert/Bind 三 no-op/Rename no-op 矩阵+invert/CreateProjectMap 缺场景 no-op | scene-lifecycle.test.ts（增删复制主体） | 无 | 落点（entry）增删未新增——scene-lifecycle 覆盖主体 |
-| A5 地图数据 | 图层增/删/移/尺寸 invert+Paint 未触格/未触层/整输入不变/validateProjectMap 正控 | edit-session.test.ts:105-125（paint 修订计数主体） | 无 | 碰撞 patch 未新增——PaintCollisionCommand 与 Paint 同构，无独立边界 |
+| A2 人物 | 重复 id 抛错/插入位 reapply/CopyActor 伴随 levelUp/缺来源/DeleteActor 实体引用阻断+占用拒绝 | actor-commands.test.ts（CRUD/undo 主体）；物品族已有=item-commands.test.ts:66「AddItem 深拷贝按位置插入拒绝 id 冲突」/:81「DeleteItem 外部引用 fail-loud」/:156「重算脚本引用」/:190「内部边随 owner 删除」/:212「redo 重验」 | 无 | 物品族不新增（已有六用例覆盖增删改/引用/redo 重验，无新边界） |
+| A3 战斗目录 | 合法唯一 ID 新增→undo 精确移除+输入不变/Update 缺目标 no-op/patch invert 只回滚 patch 键 | battle-data-delete-commands.test.ts（删除引用阻断主体）；敌队已有=commands.test.ts:709 UpdateEnemyTeamsCommand 重表替换；战场已有=commands.test.ts:749/769 AddBattleField 追加与重复 id 拒绝 | 无 | 技能 Update 未新增（无独立边界用例，列待证候选）；AddEnemy 重复 ID 为调用方前置（EnemyTab.tsx:743-752），不作为默认回归合同 |
+| A4 场景/地图目录 | 场景名缺目标抛错+同值 no-op+invert/Bind 三 no-op/Rename no-op 矩阵+invert/CreateProjectMap 缺场景 no-op | scene-lifecycle.test.ts（场景增删复制主体）；落点已有=commands.test.ts:2163「W4-1 命名落点增改、稳定 id 与 undo/redo 闭环」/:2191「改名/移动不改变引用稳定 id；引用落点禁止删除」 | 无 | — |
+| A5 地图数据 | 图层增/删/移/尺寸 invert+Paint 未触格/未触层/整输入不变/validateProjectMap 正控 | edit-session.test.ts:105-125（paint 修订计数主体）；碰撞已有=commands.test.ts:2599「独立碰撞命令与视觉层正交并可撤销」；stamp 来源所有权已有=stamp-placement-command.test.ts:160「legacy Paint* 不能旁路 ownership」 | 无 | — |
 | A6 资源/本地化 | locale invert/asset 标签 no-op 矩阵+invert | asset-reference-commands.test.ts（资源引用主体） | 无 | — |
 | B1 表情重命名 | 空白+首尾空格/缺表情/冲突/同值+全部目标 cue 改写+其它 actor 不改+目标表/原 asset 钉住+输入不变+invert | actor-dialogue-commands.test.ts:103-117（重命名主体） | 无 | closure 臂=不可达防御（walker 同源） |
 | B2 表情删除 | 被引用阻断/缺 actor 缺表情 no-op/删最后表情保默认+inverse | 同上:118-127（阻断/未引用删除主体） | 无 | — |
@@ -69,9 +81,11 @@ Codex 三见证（rename/paint 输入污染+错误 asset）在返工树均 detec
 - 配置：[入仓诊断配置](glm-editor-logic-coverage.config.mts) 直接消费 `testSelection(editor,'fast')`
   （R4 重建）；`vitest list` 与官方 fast 选择核对一致（pal 0 项/mjs 边界 1 项）；before/after 只差本批 8 文件。
 - before：`GLM_ED_EXCLUDE_BOUNDARIES=1 pnpm --filter @type-pal/editor exec vitest run --config ../../docs/testing/glm-editor-logic-coverage.config.mts --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=<tmp>/before --coverage.include='**/src/core/commands.ts' --coverage.include='**/src/core/actor-dialogue-commands.ts' --coverage.include='**/src/core/stamp-commands.ts' --coverage.include='**/src/core/project-reference.ts' --coverage.include='**/src/core/project-reference-adapters.ts'`（2255 项 exit0）
-- after：同命令去环境变量（2301 项 exit0）。
-- 结果（五目标文件）：**行 2572/2739 → 2594/2739（+22），分支 1730/2316 → 1776/2316（+46），
-  语句 2871/3256 → 2919/3256（+48）**。旧 +22/+46（正则口径 2256/2300）保留为历史实测，不再援引。
+- after：同命令去环境变量（**最终树实测 2302 项** exit0；上轮 2301 为提交前树计数，按最终树更正）。
+- 结果（五目标文件，最终树 /tmp/ed1-cov3/ 重测）：**行 2572/2739 → 2594/2739（+22），分支 1730/2316 → 1776/2316（+46），
+  语句 2871/3256 → 2919/3256（+48），函数 705/729 → 712/729（+7）**。旧正则口径 2256/2300 保留为历史实测，不再援引。
+- **Q1 来源单列**：本分支经合并带入主线 27e605ef 的 Q1 main/17 项测试与基线，非 GLM 贡献亦非本包越界修改；
+  编辑器产品相对 c1cec3ad 零变，但**全仓**相对 c1cec3ad 因 Q1 合入并非零 diff。
 - 相邻既有（完整命令）：`pnpm --filter @type-pal/editor exec vitest run src/core/world-variable-commands.test.ts src/core/actor-commands.test.ts src/core/item-commands.test.ts src/core/actor-dialogue-commands.test.ts src/core/stamp-commands.test.ts src/core/project-reference.test.ts src/core/project-reference-adapters.test.ts src/core/scene-lifecycle.test.ts` → **76/76** exit0
   （Codex 自选集含 battle-data-delete-commands 替换 scene-lifecycle 为 77/77，亦绿）。
 

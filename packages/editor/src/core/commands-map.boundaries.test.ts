@@ -4,7 +4,7 @@
  * 同值 no-op、invert 恢复、深快照与未触域。地图数据只比较合法 ProjectMap 值。
  */
 
-import type { ProjectMap } from '@type-pal/content'
+import type { IsometricMapLayer, ProjectMap } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { baseState, deepSnapshot } from './__tests__/glm-editor-logic-fixtures.js'
 import {
@@ -63,22 +63,25 @@ const mapState = (): EditorState =>
     mapIndex: { version: 1, maps: [{ id: 'map-s', name: '地图', path: 'assets/maps/s.map.json' }] },
   })
 
+/** 唯一合法新增层构造（tiles/sources 同非空且来源下标入界）；正控与原 AddLayer 用例共用，避免分叉。 */
+const legalL3 = (): IsometricMapLayer => ({
+  id: 'L3',
+  name: '新层',
+  tiles: [
+    [2, 2],
+    [2, 2],
+  ],
+  sources: [
+    [0, 0],
+    [0, 0],
+  ],
+})
+
 describe('tinyMap 合法性正控（R1）', () => {
   test('受测 tinyMap 与新增层经现行 validateProjectMap 正控通过', async () => {
     const { validateProjectMap } = await import('@type-pal/content')
     expect(() => validateProjectMap(tinyMap())).not.toThrow()
-    const withLayer = new AddProjectMapLayerCommand('map-s', {
-      id: 'L3',
-      name: '新层',
-      tiles: [
-        [2, 2],
-        [2, 2],
-      ],
-      sources: [
-        [0, 0],
-        [0, 0],
-      ],
-    }).apply(mapState())
+    const withLayer = new AddProjectMapLayerCommand('map-s', legalL3()).apply(mapState())
     expect(() => validateProjectMap(withLayer.maps['map-s']!)).not.toThrow()
   })
 })
@@ -135,18 +138,7 @@ describe('CreateProjectMapCommand · 边界', () => {
 describe('ProjectMap 数据命令 · 图层与尺寸', () => {
   test('AddProjectMapLayer 在末尾插入且 invert 移除；缺图 no-op', () => {
     const s0 = mapState()
-    const command = new AddProjectMapLayerCommand('map-s', {
-      id: 'L3',
-      name: '新层',
-      tiles: [
-        [2, 2],
-        [2, 2],
-      ],
-      sources: [
-        [null, null],
-        [null, null],
-      ],
-    })
+    const command = new AddProjectMapLayerCommand('map-s', legalL3())
     const s1 = command.apply(s0)
     expect(s1.maps['map-s']!.layers.map((l) => l.id)).toEqual(['L1', 'L2', 'L3'])
     const s2 = command.invert(s1)

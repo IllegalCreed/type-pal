@@ -99,7 +99,7 @@ function state(): EditorState {
               identity: {
                 kind: 'actor',
                 actor: 'other',
-                portrait: { kind: 'expression', expression: 'angry' },
+                portrait: { kind: 'expression', expression: 'angry', side: 'left' },
               },
               slot: 'bottom',
               rows: [{ text: 'x' }],
@@ -179,15 +179,12 @@ describe('B1 RenameActorPortraitExpressionCommand · 边界', () => {
     })
     // R2 输入不可变：apply 后原输入与深快照逐域相等（污染会在此红）
     expect(s0).toEqual(before)
+    // R2 invert 半边：invert 前独立深快照 s1，invert 后核 s1 全状态不变 + 完整预期恢复结果
+    const s1Before = deepSnapshot(s1)
     const s2 = command.invert(s1)
-    expect(s2.scenes).toEqual(before.scenes)
-    expect(s2.items).toEqual(before.items)
-    expect(s2.sharedScripts).toEqual(before.sharedScripts)
-    expect(s2.scriptChunks).toEqual(before.scriptChunks)
-    expect(s2.enemies).toEqual(before.enemies)
-    expect(s2.actors[0]!.portraits!.expressions).toEqual(before.actors[0]!.portraits!.expressions)
-    // invert 后输入 s1 也不被改动（invert 不可变合同）
-    expect(s1.actors[0]!.portraits!.expressions).toHaveProperty('fury')
+    expect(s1).toEqual(s1Before) // invert 不污染其输入（restore 内污染会在此红）
+    expect(s2).toEqual(before) // 完整恢复到 apply 前深快照（全状态，非部分域）
+    expect(s1.actors[0]!.portraits!.expressions).toHaveProperty('fury') // s1 仍含 fury（引用隔离自证）
   })
 })
 

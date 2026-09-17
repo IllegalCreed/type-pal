@@ -118,19 +118,24 @@ describe('AddEnemyCommand / UpdateEnemyCommand · 边界', () => {
       sounds: {},
     }
     const s0 = { ...baseState(), enemies: [enemy] } as unknown as EditorState
-    // AddEnemyCommand apply 为无条件追加（重复 id 不在此守卫，现行合同如此）
-    const s1 = new AddEnemyCommand(enemy as never).apply(s0)
+    // 合法唯一 ID 新增（调用方 EnemyTab.tsx:743-752 保证新 ID 唯一后进入；重复 ID 不是受支持合同）
+    const second = { ...enemy, id: 'enemy-y', name: 'name.enemy-y' }
+    const command = new AddEnemyCommand(second as never)
+    const s1 = command.apply(s0)
     expect(s1.enemies).toHaveLength(2)
-    expect(s1.enemies?.[1]?.id).toBe('enemy-x')
+    expect(s1.enemies?.[1]?.id).toBe('enemy-y')
+    expect(s0.enemies).toHaveLength(1) // 输入不变
+    const undone = command.invert(s1)
+    expect(undone.enemies?.map((e) => e.id)).toEqual(['enemy-x']) // undo 精确移除新增
     // Update 缺目标 no-op
     const s2 = new UpdateEnemyCommand('ghost', { yPosOffset: 3 }).apply(s0)
     expect(s2).toBe(s0)
     // patch invert 只回滚 patch 命中的键
-    const command = new UpdateEnemyCommand('enemy-x', { yPosOffset: 5 })
-    const s3 = command.apply(s0)
+    const updateCommand = new UpdateEnemyCommand('enemy-x', { yPosOffset: 5 })
+    const s3 = updateCommand.apply(s0)
     expect(s3.enemies![0]!.yPosOffset).toBe(5)
     expect(s3.enemies?.[0]?.id).toBe('enemy-x') // 未 patch 的键不动
-    const s4 = command.invert(s3)
+    const s4 = updateCommand.invert(s3)
     expect(s4.enemies?.[0]?.yPosOffset).toBe(0)
   })
 })

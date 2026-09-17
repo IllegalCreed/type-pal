@@ -37,6 +37,16 @@ describe('UpdateLocaleCommand · 边界', () => {
     expect(s1.locale['name.other']).toBe('其他人') // 未触键
     const s2 = command.invert(s1)
     expect(s2.locale['name.hero']).toBe('李逍遥')
+    // 同值：内容不变（apply 建新对象但 locale 内容与原一致）
+    const same = new UpdateLocaleCommand('name.other', '其他人').apply(s0)
+    expect(same.locale).toEqual(s0.locale)
+    // 新键新增后 invert 移除（had=false 分支）
+    const added = new UpdateLocaleCommand('name.new', '新键')
+    const s3 = added.apply(s0)
+    expect(s3.locale['name.new']).toBe('新键')
+    const s4 = added.invert(s3)
+    expect(s4.locale).not.toHaveProperty('name.new')
+    expect(s4.locale['name.hero']).toBe('李逍遥') // 其它键保持
   })
 })
 
