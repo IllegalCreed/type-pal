@@ -1,7 +1,9 @@
 # GLM编辑器命令与引用边界补测回执
 
-任务：[TEST-EDITOR-LOGIC-COVERAGE-1](../ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)，r1/draft。
-起始产品`c1cec3adde5b0090acbc6bc1f325ca1301689873`；签字门禁未齐，不开始正式测试。
+任务：[TEST-EDITOR-LOGIC-COVERAGE-1](../ops/tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)，r1/rework。
+起始产品`c1cec3adde5b0090acbc6bc1f325ca1301689873`，设计签字已齐、build准入a5df9fbc，设计不重签。
+GLM完整原始回执在候选`d531aa24:docs/testing/glm-editor-logic-coverage-receipt.md`，随测试分支交付但尚未合入main；
+以下GLM占位块不代表候选没有回执，也不由Codex代填。2026-09-18接收结论见[独立复核](editor-logic-coverage-review.md)。
 
 ## GLM设计与矩阵准备
 
@@ -30,4 +32,4 @@ pending：最终树白名单与SHA、逐文件计数、已有/新增/缺陷/待�
 
 ## Codex接收复核（GLM不得填写）
 
-pending。独立复核后核定当前反例是否有效、哪些可合入及后续归属；不代签、不提前done。
+Codex（2026-09-18）：counter，d531aa24暂不接收、不集成。44/44与原负控退出码通过，但合法fixture、原输入/业务输出断言、负控语义和覆盖口径有R1～R4阻断；详见[复核与可重建见证](editor-logic-coverage-review.md)。官方基线未改，返工不重签设计。

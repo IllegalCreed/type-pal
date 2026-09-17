@@ -13,7 +13,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | Q1-CHECKPOINT-EXPORT-1 | [当前存档检查点导出](tasks/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md) | review | Kimi / GLM独立终审 | 17新回归/5反控；check7235、strict fast6747/617通过，r1不重签 |
-| TEST-EDITOR-LOGIC-COVERAGE-1 | [编辑器命令与引用补测](tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | build | GLM四组测试 / Codex集成 | r1三席设计齐；仅非视觉白名单测试，产品起点c1cec3ad |
+| TEST-EDITOR-LOGIC-COVERAGE-1 | [编辑器命令与引用补测](tasks/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | rework | GLM修R1～R4 / Codex复核 | d531aa24 counter：合法输入/断言漏检/负控与口径；未合入，设计不重签 |
 
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。
 四包基础测试候选48d3b8e3也已三席accept、用户确认，2026-09-17由Codex[收口归档](../testing/glm-foundation-coverage-review.md)；139项新增、check7218与strict fast6730通过。
