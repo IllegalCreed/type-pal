@@ -140,7 +140,7 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
     时序而非 deferred 控制→重造；⑤覆盖对照换源码/选择集或写官方目录→数字无效；⑥生产/旧测试/基线
     任何 diff→越界即停。
   - 返工项：无。三席同 r1 齐且无 counter 后按卡核定 build allowed 再实施。
-- build准入：未开放。三席齐后GLM核定，不须再次等用户逐组批准；若有counter先解决，不复用旧卡签字。
+- build准入：**build allowed（2026-09-18，Coding Owner 核验：Codex/Kimi/GLM 三席同 r1 设计签字齐（eba8b810 GLM、948e0328 Kimi、派发内 Codex），无 counter；生产与冻结 3bc20273 一致）。GLM 开始在 codex/glm-reforge-runtime-contracts-r1 独立 worktree 连续实施五组。**
 
 ### done前
 
