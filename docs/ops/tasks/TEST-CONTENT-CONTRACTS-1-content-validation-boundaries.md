@@ -173,7 +173,7 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
     ④深快照 JSON 往返丢 undefined/NaN/typed array→改保真比较；⑤发现现行实现与合同矛盾→停该族
     交 Codex，不反向写期望；⑥产品/旧测试/基线任何 diff→越界即停。
   - 返工项：无。三签齐且无 counter 后按卡连续 A→F。
-- build准入：pending，待三席同r1齐且无counter；用户未豁免。GLM核齐后方可作为Coding Owner开build，Reviewer不得提前改状态。
+- build准入：**build allowed（2026-09-18，Coding Owner 核验：Codex / Kimi / GLM 三席同 r1 设计签字齐、无 counter；生产与冻结 7ab20689 一致）。并行落盘披露：GLM 签字内容因 git 索引竞态被并入 Kimi 的提交 7ff4038f（内容完整已在远端，提交署名为 Kimi），不重写历史，Codex 收口时可补说明。**
 
 ### done前
 
