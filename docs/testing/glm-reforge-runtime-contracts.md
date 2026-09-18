@@ -1,5 +1,8 @@
 # GLM运行时基础功能五组补测工作包
 
+2026-09-19返工接收更新：a9e1d4f1的59项/1189与原四针detected已独立确认；[当前counter](reforge-runtime-contracts-review.md)仅剩D1实际输入保真与候选看板回退。
+最新GLM回执/30族/机器账仍保留候选树，未合入；下文派发与首轮接收为历史，已闭环的R1/R3不再要求返工。
+
 任务：[TEST-REFORGE-RUNTIME-CONTRACTS-1](../ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)，r1/rework。
 2026-09-19 Codex接收75c9cfe8为[counter R1～R4](reforge-runtime-contracts-review.md)：56项/原负控/覆盖增量可复算，但四条实际执行坏实现被新增测试放行。
 未合入测试或改官方基线；GLM原最终回执/机器账/实施者自验见75c9cfe8树。下方只保留派发范围，不把未接收交付冒称完成。

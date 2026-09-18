@@ -14,10 +14,10 @@ Branch: codex/glm-reforge-runtime-contracts-r1
 Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`。
 用户要求“再给GLM一大块工作，Codex也并行推进”；整包五组十模块，一次设计签字，签齐后连续完成，不逐组请示。
 工作包/唯一测试路径/30族账见[GLM运行时补测工作包](../../testing/glm-reforge-runtime-contracts.md)。
-当前（2026-09-19）：源候选75c9cfe8独立接收为counter，R1～R4见[接收复核](../../testing/reforge-runtime-contracts-review.md)。
-56定向/1186全包、5+10原负控及+73行/+83语句/+73臂均复算；四条独立坏实现实际执行后仍被候选新增测试放行。
-测试包未合入、官方基线未动；GLM原实施者自验与最终30族账保留75c9cfe8树，不代填签字。直接交GLM定点返工，r1设计不重签。
-Codex并行[场景引用保护修复](../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)，只动editor；本包reforge生产冻结。
+当前（2026-09-19）：返工候选a9e1d4f1仍counter，仅剩R2-D1实际输入保真与R4越界看板回退，见[接收复核](../../testing/reforge-runtime-contracts-review.md)。
+59定向/1189全包、5+10原负控、原四见证全部detected及+74行/+84语句/+73臂均独立复算；R1/R3和其余已闭环部分不重开。
+新增实际project角色污染针仍6/6绿，候选check:docs因另一卡看板回退exit1。未合入测试、官方fast6969不变；GLM自验/回执保留候选树，不代填签字。
+直接交GLM收窄返工，r1设计不重签。Codex的场景引用保护已done归档，预览缓存已在4df7823e收口；不得回退这两项，本包reforge生产冻结不变。
 
 ## 目标与边界
 
@@ -148,6 +148,14 @@ Codex并行[场景引用保护修复](../archive/tasks/done/EDITOR-SCENE-REF-GUA
 ### done前
 
 - GLM：pending（实施者自验，不是独立第三方）。
+- Codex：**counter（2026-09-19，返工候选a9e1d4f1，仅剩R2-D1/R4）**。
+  - R1真读取交错/旧finally、R2完整cue与同实例IO恢复、R3实际world/真实use请求、R4 A5与计数已通过，保留有效结论，不重开设计。
+  - 独立59/1189/tc/Biome14通过，原四针全部detected、原15跑通过，同树覆盖+74/+84/+13/+73复算。
+  - R2-D1：project快照漏actorsById；loadAllScenes正确生成返回值后污染传入actor.name，新6项仍全绿。
+    lazy作者输入仍用另一次readJson的clone作比较，未观测实际消费对象。新见证与file:line在复核报告。
+  - R4：候选board把其他guard卡review回退build，check:docs exit1；主线该卡已done，返工必须保留最新主线状态。
+  - 旧版本兼容审查pass：测试包未增旧版本保活/生产兼容层；产品零漂移。未改GLM测试，未合入/未跑全仓接收门，不代签/不标done/不转Kimi。
+- 以下首轮Codex签字为历史；当前只以上述收窄counter为准。
 - Codex：**counter（2026-09-19，候选75c9cfe8对比6300223a，生产冻结3bc20273）**。
   - 白名单/产品零改、56/1186/tc/14新增文件Biome及原15跑通过；覆盖双口径独立复算，保留有效事实。
   - R1：BGM C2未启动旧读；MIDI C4未覆盖旧finally清新在途请求。删除post-read gate/去finally身份门后，新增BGM3/MIDI7仍全绿。
@@ -161,6 +169,9 @@ Codex并行[场景引用保护修复](../archive/tasks/done/EDITOR-SCENE-REF-GUA
 
 ## 交接日志
 
+- 2026-09-19 Codex（返工复核）：main/4df7823e干净接手，同步remote并确认a9e1d4f1；在候选独立复跑59/1189/tc/14文件Biome、四见证、15跑及/tmp覆盖。
+  原四针已detected，R1/R3闭环；仅剩D1实际输入保真与候选越界看板回退，新增真实project输入污染针MISSED、check:docs exit1。
+  主线只落本人counter/见证/接续文档，不把GLM未接收测试/自验移录为独立accept；无产品/基线变更，交GLM两处定点返工。
 - 2026-09-19 Codex：主工作区始终main，候选worktree75c9cfe8干净；保留另一guard卡同期终审提交至34631e67，未回退任何分支。
   独立56/1186/tc/Biome14绿、原5+10负控有效、覆盖增量一致；另造4条实际执行单点坏实现全MISSED。
   直接counter R1～R4转rework，未合入测试/未改官方基线；GLM原回执/机器账/自验保留候选树。下一步GLM原白名单返工，设计不重签。
@@ -182,7 +193,16 @@ Codex并行[场景引用保护修复](../archive/tasks/done/EDITOR-SCENE-REF-GUA
 
 ## 下一位Agent提示词
 
-### GLM · R1～R4定点返工（当前）
+### GLM · D1输入保真与看板收尾（当前）
+
+```text
+在 /Users/zhangxu/illegal/type-pal-glm-reforge-runtime 收窄返工 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1，候选a9e1d4f1，卡docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md为rework。先核本人分支codex/glm-reforge-runtime-contracts-r1，同步本次Codex counter与最新main，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/reforge-runtime-contracts-review.md当前节。不得切主worktree、reset、恢复stash或回退其他任务；guard已done归档、预览缓存4df7823e已收口，均须保留。r1设计不重签，R1/R3及已通过的投影/IO恢复/A5不重开。
+只修两处：①D1测试:75-89的project快照遗漏实际actorsById，Codex在loadAllScenes正确返回前污染传入actor.name为polluted.name，6项仍绿；补实际project纯数据保真（排除真正活动的source/resolver/cache），并在FileSource读取边界保留实际交给loader的author对象及快照，不能用前后两次独立structuredClone证明同一输入不变。保留完整cue期望与投影负控；不要改生产或用冻结导致TypeError冒充业务回归。②候选board:15把另一guard卡review回退build，check:docs exit1；同步后保留主线归档状态/链接，只改本人卡状态回执，修旧tip并跑文档门。
+重跑原node docs/testing/reforge-runtime-contracts-review-witnesses.mjs <候选物理路径>：四控绿/四针detected；新增node docs/testing/reforge-runtime-input-review-witness.mjs <候选物理路径>须由MISSED转detected，正常控制绿，函数内实际污染见证保留。不得改原见证降低判据。复跑定向/全reforge/tc/14新增文件Biome/原15跑及同口径/tmp覆盖，数字/30族/失败记录按最终树更新。已确认59/1189和+74/+84/+13/+73的有效事实保留，不凑条数；bgm initP政策仍待证。
+只改原白名单测试/fixture/本人回执及必要索引；产品/旧测试/官方基线/原探针零改。全仓check/ratchet/strict-fast仍留Codex通过接收后串行跑。提交推送本人分支，直接交Codex复核，不代签、不标done、不转Kimi。
+```
+
+### GLM · 首轮R1～R4返工提示（历史）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal-glm-reforge-runtime 返工 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1，原候选75c9cfe8，卡docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md，rework。设计不重签。

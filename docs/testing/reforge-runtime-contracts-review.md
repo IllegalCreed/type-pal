@@ -1,9 +1,75 @@
 # TEST-REFORGE-RUNTIME-CONTRACTS-1 · Codex接收复核
 
+## 当前结论（2026-09-19）：a9e1d4f1仍counter，仅剩D1输入保真与看板回退
+
+候选`a9e1d4f1b8aff41aad0c320fb3a6608c3cf8319d`，counter基点ced4f2b9；本席主线评估基线为main/4df7823e。
+origin/ls-remote/候选worktree三者一致且干净。**R1、R3已闭环，R2投影与resolver故障恢复、R4 A5与计数更正已闭环，不重开。**
+仍不接收整包、不跑接收后的全仓check/官方ratchet/strict-fast，不转Kimi、不代签、不标done；r1设计不重签。
+GLM测试贡献、自验及最新机器账仍保留候选树；主线官方fast仍为6969，本包59项未计入。
+
+### 本轮已独立验证
+
+- 产品相对返工基点零改，Reforge生产与冻结3bc20273相同；旧测试/scripts/锁文件未改，原四见证相对ced4f2b9零diff。
+  相对冻结的editor adapter差异来自已接收guard，未误算GLM改动。测试/fixture/诊断白名单成立，**文档有越界看板回退，见下**。
+- 定向10文件**59/59**；全包**116文件/1189项**；Reforge tsc exit0；14个新增TS/MJS/MTS/JSON Biome干净。
+  catalog及更新后的menu items另经现行validateAssetCatalog/validateItems接受，scene-target sc-1结构合法。
+- 原四正常对照全绿，四坏实现均从MISSED变**detected**，原函数体执行见证保留：BGM4项/MIDI8项/loader6项/equip3项。
+  原15跑也全符合期望（5对照绿+10针钉名AssertionError红），混合失败判据自测拒绝，候选源文件hash不变。
+- R1：C2现先初始化w，证b真读进入并挂起，再提交a，完整字节分别核w/a；释放b后无第三次提交。
+  C4现确实A/B两读在途，A结束finally之后再请求B，读轨迹仍只有a/b，B三个等待者均兑现。均不是只改标题。
+- R2已闭部分：cue明确钉作者identity与runtime speaker/portrait/rows；D4/D5同一resolver/source开关故障，
+  urlFor真正进入IO失败包装并核全上下文及非目标零IO，不再用缺记录提前拒绝冒充读取失败。
+- R3：B2/B3/B6深快照的就是实际调用world，比较在最后消费后；B5两类request分别来自useConfirm与useApply，
+  不再手造非法origin/selectedItemId组合。R4 A5全状态终态与独立state/共享菜单树声明一致。
+- 临时同树覆盖before106文件/1130项，after116文件/1189项，124生产文件与全部分母不变：
+  行7853→7927/14118、语句8679→8763/16188、函数1375→1388/2416、分支5256→5329/11041。
+  十目标模块也是+74行/+84语句/+13函数/+73臂；额外文件无增量。与回执一致，不将命中等同合同完整。
+- 旧版本兼容审查：本包未新增生产兼容层、旧版本fixture或旧入口保活；冻结目标面通过。
+
+### 剩余R2-D1：仍未钉住实际project/author输入
+
+候选`packages/reforge/src/project-loader.current-boundaries.test.ts:75-87`只比较manifest/sceneIndex/authorContent，
+**没有比较实际传入project上的actorsById等纯数据**。actorsById是loader投影直接消费的输入，不是活resolver/cache。
+本席新增[独立输入污染见证](reforge-runtime-input-review-witness.mjs)：只在`loadAllScenes`批读完成后、返回前，
+把传入project第一个actor.name改为`polluted.name`，保留正确返回投影；marker打印修改后的实际值。
+正常对照6/6绿，污染实现也**6/6绿、exit0、MISSED**，无TypeError/超时，产品hash不变。
+这验证的是上一轮已要求的“实际project输入不被污染”，不是新增产品规则或发现现存产品bug。
+
+同时，:27/:43/:64-67的authors是**另一次读取得到的数组**，不是loadAllScenes实际消费的lazy scene；
+fixture `glm-runtime-contract-fixtures.ts:383-388`每次readJson都structuredClone，:89重新读原文件自然又得到原值。
+因此“实际进入loader的author输入”与“runtime不别名实际author输入”的声明仍过度；新增投影cue断言有效，不能替代输入观测。
+
+返工只收这条：深快照实际project纯数据（包含actorsById，排除真正有活动状态的source/resolver/cache），
+在读取边界记录/保留**实际返回给loadAllScenes**的author对象及其调用前快照，比较消费完成后仍保真；
+需要别名证明时对实际对象做判断，不拿前后两次独立clone当同一输入。保持完整cue预期及原投影反控。
+新污染针须detected，其余已闭环见证不变；用与该合同对应的业务断言拦截，不把生产函数改掉或用冻结导致TypeError充当证明。
+
+```sh
+node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime
+node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime
+```
+
+### 剩余R4：候选回退了另一张卡的看板，文档门仍红
+
+候选`docs/ops/board.md:15`相对ced4f2b9把EDITOR-SCENE-REF-GUARD-1的review行改回**build**，
+不属于本人任务登记；候选`pnpm check:docs` **exit1**：看板build与该卡review不一致。
+主线随后已把该卡done归档，集成更不能带回这个旧行。候选其他卡正文/实现未见回退，本席不夸大为代码被回退。
+请同步本次counter及最新main，保留guard归档与预览缓存修复，只改本人状态/日志；修正过时链接与提示词中的旧tip，
+跑check:docs。这里要求的是文档门，不让GLM补跑全仓check/官方覆盖。
+
+### 本轮证据与交接
+
+日志根`/tmp/codex-runtime-rework.vKqZUD/`：directed/reforge/typecheck/biome/fixtures/witnesses/mutants/
+coverage-before/coverage-after/docs-candidate/input-witness。四见证明细`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/runtime-contract-review-KkuA40/`；
+新输入污染明细`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/runtime-input-review-Aiyer2/`。
+诊断可由入仓工具重建；本席未改GLM正式测试语义。下一位仅GLM收窄返工，见任务卡提示词；不是交Kimi重审已通过项。
+
+## 首轮历史（以下钉75c9cfe8，不代表当前四见证仍漏检）
+
 候选`75c9cfe883372c92cddf67e27b264aa335af89ce`，基点6300223a，生产冻结3bc20273；2026-09-18开始复核，09-19落结论。
 任务：[运行时五组补测卡](../ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)。
 
-## 结论：counter，R1～R4定点返工，不合入
+## 首轮结论：counter，R1～R4定点返工，不合入
 
 56项/10针及覆盖增量均可复算，不能由此证明尚未被断言验证的合同。四条独立坏实现实际执行后，候选对应新增套件仍全绿。
 这是**测试交付的鉴别力/范围对账问题**，不是四个现存产品缺陷；不修改GLM测试语义、不代签、不标done、不转Kimi终审。
