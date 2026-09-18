@@ -1,5 +1,5 @@
 /**
- * TEST-CONTENT-CONTENT-CONTRACTS-1 B2/B3/B5：project-map v4 矩阵/来源/格式往返（project-map.ts）。
+ * TEST-CONTENT-CONTRACTS-1 B2/B3/B5：project-map v4 矩阵/来源/格式往返（project-map.ts）。
  * 关键合同：height×2 矩阵行数、tile0 非空格（tiles/sources 同 null 或同非 null）、
  * format/parse 确定性往返、不污染输入。
  */
@@ -34,11 +34,11 @@ const map = (): ProjectMap => ({
 })
 
 describe('B2 validateProjectMap · v4 矩阵合同', () => {
-  test('合法地图通过且返回原引用（输入不变）', () => {
+  test('合法地图通过且语义等价返回（验证器可重建对象，serialize 相同）；输入不变', () => {
     const raw = map()
     const before = deepSnapshot(raw)
     const validated = validateProjectMap(raw)
-    expect(validated).toEqual(raw) // 验证器可能重建对象（serialize 相同）
+    expect(validated).toEqual(raw) // 现实现重建对象，只保证语义等价，不保证同引用
     expect(raw).toEqual(before)
   })
   test('矩阵行数必须是 height×2（截断/超长拒绝）', () => {
@@ -81,13 +81,21 @@ describe('B2 validateProjectMap · v4 矩阵合同', () => {
     ]
     expect(() => validateProjectMap(emptyBoth)).not.toThrow()
   })
-  test('来源下标超出 tilesetRefs 拒绝', () => {
+  test('来源下标超出 tilesetRefs 拒绝（单轴损坏：其余格保持 tiles/sources 匹配）', () => {
     const outOfRange = map()
+    // 只坏一轴：[0][0] tile=1 配 source=1（满足同非空门），仅下标越界；其余格合法
     ;(outOfRange.layers[0] as { sources: Array<Array<number | null>> }).sources = [
-      [1, null],
+      [1, 0],
       [0, 0],
-    ] // 只有 1 个 tileset，下标 1 越界
-    expect(() => validateProjectMap(outOfRange)).toThrow()
+    ]
+    expect(() => validateProjectMap(outOfRange)).toThrow(/来源下标 1 超出 tilesetRefs/)
+    // 同基线合法修正正控：把越界下标修回界内即通过
+    const corrected = map()
+    ;(corrected.layers[0] as { sources: Array<Array<number | null>> }).sources = [
+      [0, 0],
+      [0, 0],
+    ]
+    expect(() => validateProjectMap(corrected)).not.toThrow()
   })
 })
 

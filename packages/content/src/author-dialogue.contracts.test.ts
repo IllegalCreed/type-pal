@@ -66,21 +66,20 @@ describe('E2 resolveAuthorDialogueCue · fail-loud 无 fallback', () => {
       portraits: { default: 'p.default', expressions: { angry: 'p.angry', calm: 'p.calm' } },
     },
   ]
-  test('合法 actor+expression 解析全部字段；输入 cue/resolver 不被修改', () => {
+  test('合法 actor+expression 解析全部字段；cue 与实际传入的 actor 表都不被修改', () => {
     const cue = actorCue()
-    const before = deepSnapshot(cue)
-    const actorsSnapshot = deepSnapshot(actors())
-    const resolved = resolveAuthorDialogueCue(
-      cue,
-      Object.fromEntries(actors().map((a) => [a.id, a])) as Parameters<
-        typeof resolveAuthorDialogueCue
-      >[1],
-    )
+    const cueBefore = deepSnapshot(cue)
+    // 快照真正传入 resolver 的 actor 表（同一对象），不是另一次 factory 调用
+    const actorTable = Object.fromEntries(actors().map((a) => [a.id, a])) as Parameters<
+      typeof resolveAuthorDialogueCue
+    >[1]
+    const actorsBefore = deepSnapshot(actorTable)
+    const resolved = resolveAuthorDialogueCue(cue, actorTable)
     expect(resolved.speaker).toBe('name.hero')
     expect(resolved.portrait).toEqual({ asset: 'p.angry', side: 'left' })
     expect(resolved.rows).toEqual([{ text: '你好' }])
-    expect(cue).toEqual(before)
-    expect(actors()).toEqual(actorsSnapshot)
+    expect(cue).toEqual(cueBefore)
+    expect(actorTable).toEqual(actorsBefore)
   })
   test('缺 Actor/缺主立绘/缺命名表情 fail-loud 不回退全局资源', () => {
     expect(() =>

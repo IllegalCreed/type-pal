@@ -15,30 +15,39 @@ import {
   validateAssetCatalog,
   validateAssetFileClosure,
 } from './asset.js'
+import { validateAuthorScenes } from './validate-author.js'
 
 const sha = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex')
 
 describe('A4 collectAssetReferences + groupAssetReferencesBySite · site 归组精确计数', () => {
   test('scene music/battleMusic 各成一 site；普通 flag 字符串不误收；音乐 kind 期望正确', () => {
+    // 当前作者场景形态：脚本位于 hooks.onEnter.variants.*.flow（validateAuthorScenes 守卫域）；
+    // 普通字符串放在真实 setFlag.flag 脚本字段，而不是非法 page.body 壳。
     const scene = {
       id: 's',
       music: 'music.m1',
       battleMusic: 'music.m1',
       mapId: 'map-s',
       entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' as const },
-      entities: [
-        {
-          id: 'e1',
-          zone: true,
-          pages: [
-            {
-              id: 'p0',
-              body: [{ kind: 'setFlag', flag: 'music.m1', value: true }], // 普通字符串非引用
+      hooks: {
+        onEnter: {
+          variants: {
+            main: {
+              label: '进场',
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 's0',
+                stages: [{ id: 's0', body: [{ kind: 'setFlag', flag: 'music.m1', value: true }] }],
+              },
             },
-          ],
+          },
         },
-      ],
+      },
+      entities: [{ id: 'e1', zone: true, pos: { col: 1, row: 1, height: 0 } }],
     }
+    // 主载荷先过当前守卫：本 fixture 是合法当前作者场景
+    validateAuthorScenes([scene])
     const references = collectAssetReferences({ scenes: [scene] as never })
     expect(references).toHaveLength(2)
     expect(references.every((r) => r.asset === 'music.m1' && r.expectedKind === 'music')).toBe(true)

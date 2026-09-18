@@ -11,6 +11,7 @@ import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import {
   decodeFrameSequenceBlock,
   type EncodeFrameSequenceInput,
+  encodeFrameSequenceFromProvider,
   encodeFrameSequenceSync,
   frameSequenceFrameDurationMs,
   parseFrameSequence,
@@ -88,15 +89,78 @@ describe('C2/C3 index 与跨块边界', () => {
 })
 
 describe('C4/C5 provider 入口与视图', () => {
-  test('非零 byteOffset 视图编码往返（C5）', () => {
-    const bytes = encode(input(3))
+  test('C4 帧提供器入口：encodeFrameSequenceFromProvider 逐帧取帧并完整解码一致', async () => {
+    const value = input(3)
+    // 帧提供器：按索引惰性给帧（记录调用顺序），deflate 回调只负责压缩
+    const requested: number[] = []
+    const bytes = await encodeFrameSequenceFromProvider(
+      {
+        width: 1,
+        height: 1,
+        defaultFrameMs: 100,
+        frames: value.frames,
+        frame: (i) => {
+          requested.push(i)
+          return Promise.resolve(value.frames[i]!.rgba)
+        },
+      },
+      (raw) => deflateSync(raw),
+    )
+    expect(requested).toEqual([0, 1, 2])
+    const parsed = parse(bytes)
+    expect(parsed.index.frames).toHaveLength(3)
+    const frames: Uint8Array[] = []
+    for (let b = 0; b < parsed.index.blocks.length; b++)
+      frames.push(...(await decodeFrameSequenceBlock(parsed, b, (raw) => inflateSync(raw))))
+    for (let i = 0; i < 3; i++) expect([...frames[i]!]).toEqual([...value.frames[i]!.rgba])
+    // 提供器给错字节数拒绝（帧提供器合同）
+    await expect(
+      encodeFrameSequenceFromProvider(
+        {
+          width: 1,
+          height: 1,
+          defaultFrameMs: 100,
+          frames: value.frames,
+          frame: () => Promise.resolve(new Uint8Array(3)),
+        },
+        (raw) => deflateSync(raw),
+      ),
+    ).rejects.toThrow(/期望 4 字节/)
+  })
+  test('C5 非零 byteOffset 视图完整解码：全部帧像素与输入一致（不借零 offset 用例背书）', async () => {
+    const value = input(3)
+    const bytes = encode(value)
     // 嵌入更大缓冲制造非零 offset
     const padded = new Uint8Array(bytes.byteLength + 16)
     padded.set(bytes, 16)
     const view = padded.subarray(16)
     expect(view.byteOffset).toBe(16)
-    const parsed = parse(view)
-    expect(parsed.index.frames).toHaveLength(3)
+    expect(view).toEqual(bytes)
+    // 对该视图完整解码（parse + 全部 block + 全部帧像素）。解码失败本身也是合同违规，
+    // 统一落成值断言：decodeError 必须为 undefined、frames 必须逐像素等于输入。
+    const decodeAll = async (): Promise<number[][]> => {
+      const parsed = parse(view)
+      const out: Uint8Array[] = []
+      for (let b = 0; b < parsed.index.blocks.length; b++)
+        out.push(...(await decodeFrameSequenceBlock(parsed, b, (raw) => inflateSync(raw))))
+      return out.map((f) => [...f])
+    }
+    let frames: number[][] | undefined
+    let decodeError: unknown
+    await decodeAll().then(
+      (out) => {
+        frames = out
+      },
+      (error: unknown) => {
+        decodeError = error
+      },
+    )
+    expect(decodeError).toBeUndefined()
+    expect(frames).toEqual([
+      [...value.frames[0]!.rgba],
+      [...value.frames[1]!.rgba],
+      [...value.frames[2]!.rgba],
+    ])
   })
   test('encode 不修改输入帧（深快照不变）；输出与输入无别名', () => {
     const value = input(2)
