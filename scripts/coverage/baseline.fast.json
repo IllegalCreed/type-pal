@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-17T16:49:09.825Z",
+  "generatedAt": "2026-09-18T02:53:09.694Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 6794,
+  "testCount": 6814,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2930,8 +2930,8 @@
       ],
       "scopeDigest": "9696f732999bcfdc8a19ba9e9ff40a428fbd5f2f67dd2695734be188495d62a8",
       "fastTests": {
-        "testCount": 2302,
-        "testFileCount": 218,
+        "testCount": 2322,
+        "testFileCount": 219,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
@@ -3118,6 +3118,7 @@
           "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
           "packages/editor/src/ui/SpriteFrames.test.tsx",
           "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+          "packages/editor/src/ui/SpriteUploadWizard.selection.test.tsx",
           "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
           "packages/editor/src/ui/StampLibraryTab.test.tsx",
           "packages/editor/src/ui/StampPlacementInspector.test.tsx",
@@ -4079,6 +4080,11 @@
             "identityDigest": "c0e68516b3d8a4a10a6e8bf556a85a6eb0530d4fb060a1b3c4f0557626be8e58"
           },
           {
+            "file": "packages/editor/src/ui/SpriteUploadWizard.selection.test.tsx",
+            "testCount": 20,
+            "identityDigest": "35b4d9a9defc8940dca80d9f522ac57876263a9f86b8a10005e53a3871490eff"
+          },
+          {
             "file": "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
             "testCount": 2,
             "identityDigest": "8d9294ae6e5cf14a3a826c000c67b25f513d760e7ec7b8a0f9cdbd1d8b5a9234"
@@ -4244,46 +4250,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "3e4901300db011221e0addacc8ffa833314f2ee162091b60e1ec5c9655d88833",
+        "identityDigest": "37a6ab42a6dff496149657bd11c2b143d7ae26befdb2643c426b1b413cfc6024",
         "duplicateIdentityCount": 8,
-        "executionDigest": "935f01ec2927eeaff592906965aa8736e5af8cf8af77b569529e82985da549dd"
+        "executionDigest": "dc43572fdcdf534e61724c98faffc15c6b57d93d06fda97767e93e8b9c31bb89"
       },
       "metrics": {
         "statements": {
-          "covered": 24636,
-          "total": 31808
+          "covered": 24678,
+          "total": 31839
         },
         "branches": {
-          "covered": 19130,
-          "total": 27547
+          "covered": 19174,
+          "total": 27576
         },
         "functions": {
-          "covered": 6133,
-          "total": 8099
+          "covered": 6144,
+          "total": 8102
         },
         "lines": {
-          "covered": 22172,
-          "total": 27797
+          "covered": 22211,
+          "total": 27828
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 54297,
-      "total": 78901
+      "covered": 54339,
+      "total": 78932
     },
     "branches": {
-      "covered": 38799,
-      "total": 61999
+      "covered": 38843,
+      "total": 62028
     },
     "functions": {
-      "covered": 10249,
-      "total": 14509
+      "covered": 10260,
+      "total": 14512
     },
     "lines": {
-      "covered": 48984,
-      "total": 69051
+      "covered": 49023,
+      "total": 69082
     }
   }
 }

@@ -17,7 +17,7 @@ import {
   quantizeToRleFrame,
   sliceAtlasGrid,
 } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { sha256Hex } from '../core/binary-signature.js'
 import { AddSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -97,18 +97,53 @@ export function SpriteUploadWizard(props: {
   const [palette, setPalette] = useState<Palette | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const submittingRef = useRef(false)
+  const [decoding, setDecoding] = useState(false)
+  // Each committed host scope owns its selections. A previous render's submit closure must
+  // also match the exact ready draft, not just a boolean that a newer decode can turn on.
+  const selection = useMemo(
+    () => ({
+      session,
+      assetBase,
+      active: false,
+      revision: 0,
+      readyDraft: null as Draft | null,
+      paletteReady: false,
+    }),
+    [session, assetBase],
+  )
+
+  useLayoutEffect(() => {
+    selection.active = true
+    selection.readyDraft = null
+    selection.paletteReady = false
+    setDraft(null)
+    setPalette(null)
+    setErr('')
+    setDecoding(false)
+    return () => {
+      selection.active = false
+      selection.revision++
+      selection.readyDraft = null
+      selection.paletteReady = false
+    }
+  }, [selection])
 
   useEffect(() => {
     let alive = true
     loadStandardPalette(assetBase)
       .then((p) => {
-        if (alive) setPalette(p)
+        if (alive && selection.active) {
+          selection.paletteReady = true
+          setPalette(p)
+        }
       })
-      .catch((e) => setErr(e instanceof Error ? e.message : String(e)))
+      .catch((e) => {
+        if (alive && selection.active) setErr(e instanceof Error ? e.message : String(e))
+      })
     return () => {
       alive = false
     }
-  }, [assetBase])
+  }, [assetBase, selection])
 
   // 帧网格推导(布局 → 行列数);整除不了报错提示
   const grid = useMemo(() => {
@@ -143,38 +178,56 @@ export function SpriteUploadWizard(props: {
   }, [draft, palette, grid])
 
   const pickFile = async (file: File): Promise<void> => {
-    if (submittingRef.current) return
+    if (submittingRef.current || !selection.active) return
+    const revision = ++selection.revision
+    selection.readyDraft = null
+    setDecoding(true)
     setErr('')
+    let bitmap: ImageBitmap | undefined
     try {
-      const bitmap = await createImageBitmap(file)
+      bitmap = await createImageBitmap(file)
+      if (!selection.active || selection.revision !== revision) return
       const cvs = document.createElement('canvas')
       cvs.width = bitmap.width
       cvs.height = bitmap.height
       const ctx = cvs.getContext('2d')
       if (!ctx) throw new Error('2d context 不可用')
       ctx.drawImage(bitmap, 0, 0)
-      bitmap.close()
       const data = ctx.getImageData(0, 0, cvs.width, cvs.height)
       const base = file.name
         .replace(/\.[^.]*$/, '')
         .toLowerCase()
         .replace(/[^a-z0-9-]+/g, '-')
-      setDraft({
+      const next: Draft = {
         fileName: file.name,
         imgW: cvs.width,
         imgH: cvs.height,
         rgba: new Uint8Array(data.data.buffer.slice(0)),
         srcUrl: cvs.toDataURL(),
-      })
+      }
+      selection.readyDraft = next
+      setDraft(next)
       setNewId((prev) => prev || base || 'sprite')
       setNewLabel((prev) => prev || base || '新精灵')
     } catch (e) {
-      setErr(e instanceof Error ? e.message : String(e))
+      if (selection.active && selection.revision === revision)
+        setErr(e instanceof Error ? e.message : String(e))
+    } finally {
+      bitmap?.close()
+      if (selection.active && selection.revision === revision) setDecoding(false)
     }
   }
 
   const submit = async (): Promise<void> => {
-    if (submittingRef.current || !draft || quantized.length === 0) return
+    if (
+      submittingRef.current ||
+      !selection.active ||
+      !draft ||
+      selection.readyDraft !== draft ||
+      !selection.paletteReady ||
+      quantized.length === 0
+    )
+      return
     const id = newId.trim()
     if (!id || id.includes('/')) {
       setErr("id 不能为空且不得含 '/'")
@@ -230,7 +283,7 @@ export function SpriteUploadWizard(props: {
   const kindMeta = KIND_META.find((k) => k.v === kind)
 
   return (
-    <div className="dscroll sprite-upload-wizard" aria-busy={submitting}>
+    <div className="dscroll sprite-upload-wizard" aria-busy={submitting || decoding}>
       <h3>导入大世界精灵</h3>
       <p className="sprite-upload-intro">
         导入一组源帧，并建立一个初始用途定义。同一源帧资源之后可以继续添加其它用途。
@@ -456,7 +509,15 @@ export function SpriteUploadWizard(props: {
           </DsFieldGroup>
           <DsButton
             className="sprite-upload-submit"
-            disabled={submitting || !grid || quantized.length === 0}
+            disabled={
+              submitting ||
+              decoding ||
+              !selection.active ||
+              selection.readyDraft !== draft ||
+              !selection.paletteReady ||
+              !grid ||
+              quantized.length === 0
+            }
             onClick={() => void submit()}
             size="compact"
             variant="secondary"
@@ -469,7 +530,12 @@ export function SpriteUploadWizard(props: {
         className="sprite-upload-cancel"
         disabled={submitting}
         onClick={() => {
-          if (!submittingRef.current) onDone(null)
+          if (!submittingRef.current) {
+            selection.active = false
+            selection.revision++
+            selection.readyDraft = null
+            onDone(null)
+          }
         }}
         size="compact"
         variant="secondary"
