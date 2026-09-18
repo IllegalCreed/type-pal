@@ -1,6 +1,8 @@
 # GLM运行时基础功能五组补测工作包
 
-任务：[TEST-REFORGE-RUNTIME-CONTRACTS-1](../ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)，r1/build（GLM于6300223a核三席准入，Codex同步状态；下方派发快照保留历史）。
+任务：[TEST-REFORGE-RUNTIME-CONTRACTS-1](../ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)，r1/rework。
+2026-09-19 Codex接收75c9cfe8为[counter R1～R4](reforge-runtime-contracts-review.md)：56项/原负控/覆盖增量可复算，但四条实际执行坏实现被新增测试放行。
+未合入测试或改官方基线；GLM原最终回执/机器账/实施者自验见75c9cfe8树。下方只保留派发范围，不把未接收交付冒称完成。
 冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`；GLM只写新测试，Codex独立接收，Kimi终审。
 Codex同时做[场景引用保护](../ops/tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)，不触本包生产面。
 本包规模是五组十模块、30族待核范围，不是承诺30条/100条新增测试；签齐一次连续做完，不逐组重新走签字。

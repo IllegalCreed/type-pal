@@ -1,6 +1,6 @@
 # TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: 已有运行时合同与测试覆盖率（不改变能力地图）
 Coding Owner: GLM（仅新测试与薄fixture）
@@ -14,6 +14,9 @@ Branch: codex/glm-reforge-runtime-contracts-r1
 Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`。
 用户要求“再给GLM一大块工作，Codex也并行推进”；整包五组十模块，一次设计签字，签齐后连续完成，不逐组请示。
 工作包/唯一测试路径/30族账见[GLM运行时补测工作包](../../testing/glm-reforge-runtime-contracts.md)。
+当前（2026-09-19）：源候选75c9cfe8独立接收为counter，R1～R4见[接收复核](../../testing/reforge-runtime-contracts-review.md)。
+56定向/1186全包、5+10原负控及+73行/+83语句/+73臂均复算；四条独立坏实现实际执行后仍被候选新增测试放行。
+测试包未合入、官方基线未动；GLM原实施者自验与最终30族账保留75c9cfe8树，不代填签字。直接交GLM定点返工，r1设计不重签。
 Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)，只动editor；本包reforge生产冻结。
 
 ## 目标与边界
@@ -145,12 +148,22 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
 ### done前
 
 - GLM：pending（实施者自验，不是独立第三方）。
-- Codex：pending（独立接收/集成/全仓质量门）。
+- Codex：**counter（2026-09-19，候选75c9cfe8对比6300223a，生产冻结3bc20273）**。
+  - 白名单/产品零改、56/1186/tc/14新增文件Biome及原15跑通过；覆盖双口径独立复算，保留有效事实。
+  - R1：BGM C2未启动旧读；MIDI C4未覆盖旧finally清新在途请求。删除post-read gate/去finally身份门后，新增BGM3/MIDI7仍全绿。
+  - R2：D1只有ID/数组引用比较，绕过loadScene对话投影后loader6项仍绿；D5没有source.urlFor失败轴，不能用缺role/asset提前拒绝替代。
+  - R3：B2快照非实际open输入且在最后调用前比较，修改实际world.money后equip3项仍绿；B5的oneAlly/u-5真实确认走pick-target，手造pick-item不证明正常入口。
+  - R4：按实际修复对齐30族/标题（含A5独立性过度声明）、14文件计数与候选任务index。四针均函数体执行见证+JSON全绿，不只是module-load。
+  - 旧版本兼容审查：本包未增产品版本兼容层，无生产漂移；没有把未覆盖语义或bgm initP待证政策判为产品已修。
+    未改GLM测试，不合入、不跑接收后的全仓门，不代签、不标done、不转Kimi。完整反例/修法/日志见接收报告。
 - Kimi：pending（接收后独立终审）。
 - done准入：未开放，不代签。
 
 ## 交接日志
 
+- 2026-09-19 Codex：主工作区始终main，候选worktree75c9cfe8干净；保留另一guard卡同期终审提交至34631e67，未回退任何分支。
+  独立56/1186/tc/Biome14绿、原5+10负控有效、覆盖增量一致；另造4条实际执行单点坏实现全MISSED。
+  直接counter R1～R4转rework，未合入测试/未改官方基线；GLM原回执/机器账/自验保留候选树。下一步GLM原白名单返工，设计不重签。
 - 2026-09-18 Codex（协调登记）：同步GLM本人6300223a的build allowed回执，按已齐三席准入将顶部状态/看板/索引同步build。
   不代签、不改其范围或测试；场景引用修复保持editor单文件生产面，未接收的运行时新测试不计入本次官方基线。
 - 2026-09-18 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
@@ -168,6 +181,18 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
   已跑当前9文件68项与reforge tc；日志/tmp/type-pal-next-parallel.0bsDcW/runtime-{adjacent,typecheck}.log。
 
 ## 下一位Agent提示词
+
+### GLM · R1～R4定点返工（当前）
+
+```text
+在 /Users/zhangxu/illegal/type-pal-glm-reforge-runtime 返工 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1，原候选75c9cfe8，卡docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md，rework。设计不重签。
+先在自己的worktree核分支codex/glm-reforge-runtime-contracts-r1，合入Codex counter并保留主线guard实现/他席终审；不得切换主worktree、移动guard分支引用、reset或恢复stash。冻结约束reforge目标面，相对返工接收基点产品零改，不把主线已接收editor变化算自己贡献或回退。
+读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/reforge-runtime-contracts-review.md。R1保留正确的初始化last接管例但改准确标题，补真实旧读entered→新请求提交→旧读完成、不同字节的BGM交错；MIDI补旧A finally与仍在途B/key去重组合。R2钉author/runtime cue与完整树，不用ID/数组不等当投影；补source.urlFor真实故障/上下文与同实例恢复。R3实际world/items/state在真实调用后深比较，B5经useConfirm/useApply产合法对应request，不手造oneAlly的pick-item或不一致selectedItemId。R4如实刷新30族、标题/计数/失败记录/index；A5不制造MAIN_MENU不共享的新规则。
+复跑node docs/testing/reforge-runtime-contracts-review-witnesses.mjs <候选物理绝对路径>：四控绿、bgm-post-read-ownership/midi-stale-finally/loader-projection-bypassed/equip-input-pollution应由MISSED转detected，必须保留实际执行见证。不得改原见证掩盖问题；确需适配名称只报告Codex。
+原56测试/原10负控及覆盖增量的有效部分保留，不推倒重做、不凑固定条数、不改产品/旧测试/原探针/官方基线。复跑定向/全reforge/tc/全部新文件Biome、原15跑、四新见证及官方同口径/tmp覆盖；全仓check/ratchet/strict-fast仍留Codex。bgm initP政策继续待证，不扩成修复授权。提交推送本人测试/回执，交Codex重新接收；不代签、不标done、不直接转Kimi。
+```
+
+### 历史派发（已完成）
 
 ### GLM（先并行设计审查，准入后连续整包）
 
