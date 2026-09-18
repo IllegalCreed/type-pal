@@ -4,9 +4,11 @@
 
 候选`428a7852d8de4c256ce9429254997356eb3543da`；接收基线`31aa0e3b`；产品冻结`7ab20689`。
 结论：**accept**。R1～R4实现复核通过；串行完整check→官方ratchet→受保护单次strict-fast全部exit0。
-集成候选`adbabb84f3368385728c1f16df3815f97fffd0a2`；状态推进review，下一席Kimi独立终审，不标done。
+集成候选`adbabb84f3368385728c1f16df3815f97fffd0a2`；Kimi于235d40e2独立终审accept，无返工项。
+2026-09-18用户确认签字，Codex核三席作用域一致、候选后packages/scripts零漂移，本卡已done归档；无产品手工复验项。
 GLM是118项测试及负控的贡献者，其自验不是独立第三方证明；本节由Codex独立读取/复跑，不改他席签字。
-原counter全文保留在下节；设计不重签，不改产品/旧测试/原探针，不标done。
+原counter全文保留在下节；设计不重签，收口只更新文档，不改产品/旧测试/原探针/基线。
+计数注：Kimi原签字的“3正控”保留为原文，Owner按入仓工具与本席直接日志统一为6正控＋12业务红（18次），不是3＋12。
 
 ### R1～R4复核
 
@@ -73,7 +75,7 @@ content行4458/5183（86.01%）、语句4882/5854（83.40%）、函数766/829（
 
 2026-09-18；候选`dbe579c5f7e8790d03d4ce1974449118537c021f`，分支codex/glm-content-contracts-r1，
 接收主线/实施基点`5fd655ec5b0d958acec2dbd7b42456157ff258a3`；产品冻结7ab20689。
-任务：[内容校验补测卡](../ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md)。
+任务：[内容校验补测卡](../ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md)。
 
 ## 结论：counter，定点返工，不合入
 

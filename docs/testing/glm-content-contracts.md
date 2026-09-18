@@ -1,10 +1,10 @@
 # GLM六组内容合同补测工作包与回执
 
-任务：[TEST-CONTENT-CONTRACTS-1](../ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md)，r1/rework（counter R1～R4 已返工，待 Codex 重新接收）。
+任务：[TEST-CONTENT-CONTRACTS-1](../ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md)，r1/done（源428a7852→集成adbabb84；三席accept、用户确认签字，Codex于2026-09-18核零漂移并归档）。
 生产冻结`7ab20689447150eec7ecb0678cbb6980a685eb49`。GLM写新测试，Codex独立接收集成，Kimi独立审查；无视觉任务。
 本文件保留派发范围与返工后的最终对账回执；原候选 dbe579c5 的回执/机器账保留在该树。三签设计门禁、白名单与纪律以任务卡为准。
 
-## 已核快照（Codex，2026-09-18）
+## 派发时已核快照（Codex，2026-09-18；历史，非接收后覆盖率）
 
 官方fast全仓6814项/617生产文件；content557项/50文件，行4358/5183、分支3666/5016。
 下表来自coverage/fast/content/coverage-summary.json，与现行baseline同一时点；只读统计，没有运行新覆盖率或修改基线。
