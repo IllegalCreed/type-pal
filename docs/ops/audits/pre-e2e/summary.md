@@ -132,6 +132,11 @@ content类型/校验/规则，migrate发布/物化/历史输出，reforge状态/
 
 ## 建议推进顺序
 
+2026-09-18双线准备：[EDITOR-SCENE-REF-GUARD-1](../../tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)进入r1 draft，
+Codex在3bc20273独立复现D-02的disabled/inherit/transition三漏边和use正控，40相邻测试绿；无产品实现。
+GLM新分配[运行时基础功能五组补测](../../../testing/glm-reforge-runtime-contracts.md)（十模块30族，仅新增非视觉测试），
+与editor引用adapter修复冻结面隔离。两卡本席premise/design已签，待Kimi/GLM并行独立审；不复用旧卡签字、不提前宣称新增覆盖。
+
 2026-09-18收口：[D-03精灵上传选图卡](../../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md)已完成r1实现与[验证](../../../testing/sprite-selection.md)，当前done。
 候选a88ab18d，22定向/36相邻/6负控及Codex实际界面检查通过，check7302/strict fast6814；三席accept齐、用户验收通过，已核零漂移并归档。
 编辑器命令/引用补测已另卡done；本卡不改其core/测试面，也不提前实现G-I04提交取消政策。
