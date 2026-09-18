@@ -1,22 +1,12 @@
 {
-  "task": "TEST-CONTENT-CONTRACTS-1 r1",
-  "generatedAt": "2026-09-18T06:10:49Z",
+  "task": "TEST-CONTENT-CONTRACTS-1 r1 rework (counter R1-R4)",
+  "generatedAt": "2026-09-18T08:19:26Z",
+  "counter": "31aa0e3b (review/test): counter content contracts fixtures and weak assertions",
+  "originalCandidate": "dbe579c5 (receipt/self-accept preserved in that tree)",
   "branch": "codex/glm-content-contracts-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-content-contracts",
   "freeze": "7ab20689447150eec7ecb0678cbb6980a685eb49",
-  "base": "5fd655ec",
-  "commits": [
-    "21dfeca0 test(docs): coverage comparison config consuming official testSelection",
-    "958d2065 test(docs): single-point negative controls for content contracts r1",
-    "ffc1b3a5 test(content): cross-table reference closure contracts for F group",
-    "21f5a630 test(content): dialogue identity and typed reference contracts for E group",
-    "48ba0dda test(content): sprite/battle-sprite/enemy-team definition contracts for D group",
-    "761f2c7e test(content): TPFS frame container and playback contracts for C group",
-    "96c529a7 test(content): asset/map/tileset/stamp contract regressions for A+B groups"
-  ],
-  "productDriftVsFreeze": {
-    "command": "git diff --name-only 7ab20689..HEAD | grep -vE 'contracts\\.test\\.ts|glm-content-contract|^docs/ops/'",
-    "result": "only docs/testing/README.md, attributable to base dispatch commit 477cd0c6; GLM commits touch whitelist only"
-  },
+  "productDriftVsFreeze": "GLM commits touch whitelist only (docs/testing/README.md one line belongs to base dispatch commit 477cd0c6)",
   "tests": {
     "perFileExecuted": {
       "asset-catalog.contracts.test.ts": 27,
@@ -24,33 +14,62 @@
       "project-map.contracts.test.ts": 5,
       "map-index.contracts.test.ts": 15,
       "tileset-stamp.contracts.test.ts": 4,
-      "frame-sequence.contracts.test.ts": 18,
+      "frame-sequence.contracts.test.ts": 19,
       "sprite-frame-demand.contracts.test.ts": 4,
       "battle-sprite-profile.contracts.test.ts": 5,
       "enemy-team.contracts.test.ts": 11,
       "author-dialogue.contracts.test.ts": 7,
       "actor-reference.contracts.test.ts": 6,
       "command-target-reference.contracts.test.ts": 4,
-      "validate-refs.contracts.test.ts": 5
+      "validate-refs.contracts.test.ts": 6
     },
-    "newTotal": 116,
+    "newTotal": 118,
     "packageBefore": "42 files / 557 tests",
-    "packageAfter": "55 files / 673 tests",
-    "targetedCommand": "pnpm --filter @type-pal/content exec vitest run <13 new files> -> 13 passed / 116 passed",
+    "packageAfter": "55 files / 675 tests",
     "typecheck": "pnpm --filter @type-pal/content exec tsc --noEmit -> rc=0",
-    "biome": "pnpm exec biome check <16 new files> -> rc=0 (0 error)"
+    "biome": "pnpm exec biome check <16 new files> -> rc=0",
+    "reworkChanges": [
+      "R1: F bundle drops retired onEnter, sprites gain label; F1/A4 payloads pass validateAuthorScenes/validateSprites/validateActors/validateBattleSprites in-test; A4 plain string moved into legal hooks.onEnter.variants.main.flow setFlag.flag",
+      "R2: actor table snapshot compares the actual passed object; source out-of-range single-axis with corrected positive control and exact error path; C5 fully decodes the non-zero-offset view pixel-by-pixel; F asserts deterministic severity, full where, complete Issue multiset (levelUp dangling skill = warn)",
+      "R4: C4 provider entry test added (encodeFrameSequenceFromProvider); titles aligned with assertions; mapId dangling no longer called a physical-path check"
+    ]
+  },
+  "witnesses": {
+    "command": "node docs/testing/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts",
+    "exit": 0,
+    "verdicts": {
+      "control-B": "control",
+      "control-C": "control",
+      "control-E": "control",
+      "control-F": "control",
+      "actor-input-pollution": "detected",
+      "source-bound-masked": "detected",
+      "tpfs-view-offset-lost": "detected",
+      "levelup-severity-wrong": "detected",
+      "entity-locator-wrong": "detected",
+      "reference-extra-issue": "detected"
+    },
+    "fixtureChecks": {
+      "F actual scenes": true,
+      "F actual sprites": true,
+      "F actual actors": true,
+      "F actual battle sprites": true,
+      "F reference-only positive": true,
+      "F same fixture with only retired onEnter removed and label supplied": true,
+      "A4 actual scene": true
+    },
+    "mixedFailureAccepted": false,
+    "note": "six needles detected, four controls pass, execution witnesses passed; all seven fixture legality checks accepted"
   },
   "mutants": {
     "script": "docs/testing/glm-content-contracts-mutants.mjs",
-    "command": "node docs/testing/glm-content-contracts-mutants.mjs -> rc=0",
-    "controls": [
-      "control-A",
-      "control-B",
-      "control-C",
-      "control-D",
-      "control-E",
-      "control-F"
-    ],
+    "command": "node docs/testing/glm-content-contracts-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true
+    },
+    "controls": ["control-A", "control-B", "control-C", "control-D", "control-E", "control-F"],
     "cases": [
       {
         "name": "asset-path-segment-gate-removed",
@@ -58,8 +77,10 @@
         "file": "asset.ts",
         "exit": 1,
         "red": "asset-catalog 路径 fail-loud 轴 a//b、a/./b、a/../b 不再抛",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/asset-path-segment-gate-removed.log",
-        "logSha256": "6f440ee61d7f0c3f52507bf0cee1a4b080d96303fb6a7b704952627eb1b9cb28"
+        "redTest": "空段 拒绝且消息含类别",
+        "executedTests": 32,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/asset-path-segment-gate-removed.log",
+        "logSha256": "97c782b6e21de3f68ab384c2d0364efac230cdc9614ce899e724582939c55b32"
       },
       {
         "name": "asset-role-kind-gate-removed",
@@ -67,8 +88,10 @@
         "file": "asset.ts",
         "exit": 1,
         "red": "asset-catalog manifest 角色kind门轴（video 角色绑 sprite 资产）不再拒绝",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/asset-role-kind-gate-removed.log",
-        "logSha256": "bb90aa6dc6bbfa584a4fb7a535f48f1743d839a52056557d6a38a9e5caa2626e"
+        "redTest": "kind 不匹配",
+        "executedTests": 32,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/asset-role-kind-gate-removed.log",
+        "logSha256": "a11a7f0716be3e6d3676e4ba17939d98f5329872bd3c28d4573c04e8571eb5d5"
       },
       {
         "name": "map-row-count-gate-removed",
@@ -76,8 +99,10 @@
         "file": "project-map.ts",
         "exit": 1,
         "red": "project-map 矩阵行数=height×2 轴（截断/超长）不再拒绝",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/map-row-count-gate-removed.log",
-        "logSha256": "b9e8ba87333b1b3c961549938b2ebe092755a24fd8fee412762882d180cbe648"
+        "redTest": "矩阵行数必须是 height×2（截断/超长拒绝）",
+        "executedTests": 24,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/map-row-count-gate-removed.log",
+        "logSha256": "2c69ada1c1cc287811600bbdc35bd84e5fd1bf941f252ba0f94144156f37236d"
       },
       {
         "name": "stamp-anchor-bound-gate-removed",
@@ -85,8 +110,10 @@
         "file": "stamp.ts",
         "exit": 1,
         "red": "tileset-stamp anchor 越界轴（row/col 超出 height×2/width）不再拒绝",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/stamp-anchor-bound-gate-removed.log",
-        "logSha256": "a358cd6c0195dbdc91f0d2689aabd87ea6c37e01975a37254e2a1f5ff133ecdc"
+        "redTest": "anchor 越界拒绝（超出 height×width）",
+        "executedTests": 24,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/stamp-anchor-bound-gate-removed.log",
+        "logSha256": "90dcc05697fba8741102cbf92f16936c9f6eec339519600f5e2429bac0185312"
       },
       {
         "name": "tpfs-decode-drops-xor-delta",
@@ -94,8 +121,10 @@
         "file": "frame-sequence.ts",
         "exit": 1,
         "red": "frame-sequence 35帧跨块像素 oracle：delta 帧解码值不等于输入像素",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/tpfs-decode-drops-xor-delta.log",
-        "logSha256": "33fb84454374db179426f6067bc24bf1319e82d50b271f99cc4c3bb6ed88137a"
+        "redTest": "35 帧跨两块（32+3）：block firstFrame/frameCount 精确、全部像素逐帧 oracle",
+        "executedTests": 19,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/tpfs-decode-drops-xor-delta.log",
+        "logSha256": "62f2a74372202f5bcba099652cd64b7930d68599c4dd48916fadc94ec6114146"
       },
       {
         "name": "tpfs-duration-framerate-layer-removed",
@@ -103,8 +132,10 @@
         "file": "frame-sequence.ts",
         "exit": 1,
         "red": "frame-sequence 帧时长三级优先级：显式帧率换算层丢失",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/tpfs-duration-framerate-layer-removed.log",
-        "logSha256": "d35a5504d786373613faec87e030e38b4b47e1e852601ec36222f075542b2d52"
+        "redTest": "帧时长优先级：显式 durationMs > defaultFrameMs",
+        "executedTests": 19,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/tpfs-duration-framerate-layer-removed.log",
+        "logSha256": "4c2c18a20efe7e4cf1cba31259e2e80592094ae308526d902a994fc895d23547"
       },
       {
         "name": "sprite-demand-drops-pose-max",
@@ -112,8 +143,10 @@
         "file": "sprite.ts",
         "exit": 1,
         "red": "sprite-frame-demand poses 高帧号叠加轴：需求量回落为布局需求",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/sprite-demand-drops-pose-max.log",
-        "logSha256": "a6b5e2c28bd07d87e918ac718f6615c9fe49a4c1e4c0e8dd17ca50603ec9fe95"
+        "redTest": "poses 高帧号叠加取最大；需求量不是实际帧数（合同）",
+        "executedTests": 20,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/sprite-demand-drops-pose-max.log",
+        "logSha256": "3bd2bd1f4447c0418a12e30ab6e9019648b96e75c8e7949e6c4f931cbf1736dc"
       },
       {
         "name": "enemy-team-slot-cap-removed",
@@ -121,8 +154,10 @@
         "file": "enemy-team.ts",
         "exit": 1,
         "red": "enemy-team 结构拒绝轴：槽位数超上限 5 不再拒绝",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/enemy-team-slot-cap-removed.log",
-        "logSha256": "95d59c5af5756f0d7a96797b91f4bcd8d8bf913a6ea49e82fe16b183653e7e89"
+        "redTest": "槽位超上限 5 拒绝",
+        "executedTests": 20,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/enemy-team-slot-cap-removed.log",
+        "logSha256": "3a9bda25a8158e991c0dadf517565650e9ea053bd76b685be89a1d31ffab2591"
       },
       {
         "name": "actor-walker-drops-tree-recursion",
@@ -130,8 +165,10 @@
         "file": "actor-reference.ts",
         "exit": 1,
         "red": "actor-reference 整树递归轴：嵌套臂引用丢失（canonical 单叶替身化）",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/actor-walker-drops-tree-recursion.log",
-        "logSha256": "1569b22f30674398bc5a7387e135fb7efb6be594f3a7c049e430cbfa2bf6d721"
+        "redTest": "collectActorTaggedReferences 整树递归命中两处（含嵌套 then 臂）",
+        "executedTests": 17,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/actor-walker-drops-tree-recursion.log",
+        "logSha256": "67d545f8a5efc1e572072c3c8586061d4041556ce8f2c3d75e6fedbf9beddda9"
       },
       {
         "name": "dialogue-resolver-default-portrait-gate-removed",
@@ -139,8 +176,10 @@
         "file": "author-dialogue.ts",
         "exit": 1,
         "red": "author-dialogue resolver fail-loud 轴：缺 portraits.default 静默通过",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/dialogue-resolver-default-portrait-gate-removed.log",
-        "logSha256": "55ca0ebd8f3d45550433d11ccfab4c3705606b2f650d88bf352bcd2f878a3831"
+        "redTest": "缺 Actor/缺主立绘/缺命名表情 fail-loud 不回退全局资源",
+        "executedTests": 17,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/dialogue-resolver-default-portrait-gate-removed.log",
+        "logSha256": "b36b5c7178f824595c56f6bd20b7bd316528fc25a3fd119fe98bafcaaa500285"
       },
       {
         "name": "refs-entity-actor-gate-removed",
@@ -148,8 +187,10 @@
         "file": "validate-refs.ts",
         "exit": 1,
         "red": "validate-refs 实体→actors 表轴：ghost-actor 不再报 issue",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/refs-entity-actor-gate-removed.log",
-        "logSha256": "e4d3df13350a2d4c3f4b430ff8e07dcc75fce268895670486f827dc878bd33b0"
+        "redTest": "实体引用悬空 actor → 精确 error（完整 where/severity/目标 id；无额外 issue）",
+        "executedTests": 6,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/refs-entity-actor-gate-removed.log",
+        "logSha256": "04c9234ca9d7e1d49921ce2bcba9936b92c8a29c69846bdea05a460c9fc97fe6"
       },
       {
         "name": "refs-entry-scene-gate-removed",
@@ -157,174 +198,90 @@
         "file": "validate-refs.ts",
         "exit": 1,
         "red": "validate-refs entryPoint→scenes 轴：ghost-scene 不再报 issue",
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/refs-entry-scene-gate-removed.log",
-        "logSha256": "df707eba0414858b806f4bda1a078de73e82ccf84de669f9f193d7b5ea0e91fd"
+        "redTest": "entryPoint scene 悬空 → 精确 error；不引入任何额外 issue",
+        "executedTests": 6,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-SKAs7c/refs-entry-scene-gate-removed.log",
+        "logSha256": "c7b55b169303b82956185a14b4bb46324cadf59f4eef27b565d7e2714a09b245"
       }
     ],
+    "runtimeWitness": "each red case pins its new test by exact title in the Vitest JSON report and requires status=failed",
     "productHashInvariant": "all 9 touched product files sha256 unchanged before/after batch"
   },
   "coverage": {
     "config": "docs/testing/glm-content-contracts.config.mts (imports scripts/coverage/config.mjs coveragePackages/testSelection/coverageExcludes; fast profile)",
-    "beforeDir": "/tmp/cc1-coverage-before",
-    "afterDir": "/tmp/cc1-coverage-after",
-    "command": "CC1_MODE=<before|after> CC1_OUT=<dir> pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config docs/testing/glm-content-contracts.config.mts",
+    "commandTemplate": "CC1_MODE=<before|after> CC1_OUT=<tmpdir> pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/glm-content-contracts.config.mts",
+    "beforeDir": "/tmp/cc1-rw-coverage-before",
+    "afterDir": "/tmp/cc1-rw-coverage-after",
     "perModule_before_after": {
       "asset.ts": {
-        "statements": [
-          "287/321",
-          "296/321"
-        ],
-        "branches": [
-          "229/289",
-          "241/289"
-        ]
+        "statements": ["287/321", "296/321"],
+        "branches": ["229/289", "241/289"]
       },
       "project-map.ts": {
-        "statements": [
-          "163/193",
-          "163/193"
-        ],
-        "branches": [
-          "119/159",
-          "119/159"
-        ]
+        "statements": ["163/193", "163/193"],
+        "branches": ["119/159", "119/159"]
       },
       "map-index.ts": {
-        "statements": [
-          "60/70",
-          "64/70"
-        ],
-        "branches": [
-          "40/49",
-          "42/49"
-        ]
+        "statements": ["60/70", "64/70"],
+        "branches": ["40/49", "42/49"]
       },
       "tileset.ts": {
-        "statements": [
-          "30/39",
-          "35/39"
-        ],
-        "branches": [
-          "30/39",
-          "34/39"
-        ]
+        "statements": ["30/39", "35/39"],
+        "branches": ["30/39", "34/39"]
       },
       "stamp.ts": {
-        "statements": [
-          "32/38",
-          "32/38"
-        ],
-        "branches": [
-          "24/33",
-          "27/33"
-        ]
+        "statements": ["32/38", "32/38"],
+        "branches": ["24/33", "27/33"]
       },
       "frame-sequence.ts": {
-        "statements": [
-          "247/306",
-          "251/306"
-        ],
-        "branches": [
-          "156/236",
-          "161/236"
-        ]
+        "statements": ["247/306", "252/306"],
+        "branches": ["156/236", "162/236"]
       },
       "sprite.ts": {
-        "statements": [
-          "0/15",
-          "15/15"
-        ],
-        "branches": [
-          "0/12",
-          "10/12"
-        ]
+        "statements": ["0/15", "15/15"],
+        "branches": ["0/12", "10/12"]
       },
       "battle-sprite.ts": {
-        "statements": [
-          "84/94",
-          "84/94"
-        ],
-        "branches": [
-          "57/70",
-          "60/70"
-        ]
+        "statements": ["84/94", "84/94"],
+        "branches": ["57/70", "60/70"]
       },
       "enemy-team.ts": {
-        "statements": [
-          "0/35",
-          "33/35"
-        ],
-        "branches": [
-          "0/30",
-          "28/30"
-        ]
+        "statements": ["0/35", "33/35"],
+        "branches": ["0/30", "28/30"]
       },
       "author-dialogue.ts": {
-        "statements": [
-          "75/87",
-          "81/87"
-        ],
-        "branches": [
-          "68/97",
-          "76/97"
-        ]
+        "statements": ["75/87", "81/87"],
+        "branches": ["68/97", "76/97"]
       },
       "actor-reference.ts": {
-        "statements": [
-          "42/104",
-          "80/104"
-        ],
-        "branches": [
-          "24/113",
-          "73/113"
-        ]
+        "statements": ["42/104", "80/104"],
+        "branches": ["24/113", "73/113"]
       },
       "command-target-reference.ts": {
-        "statements": [
-          "97/101",
-          "97/101"
-        ],
-        "branches": [
-          "83/94",
-          "83/94"
-        ]
+        "statements": ["97/101", "97/101"],
+        "branches": ["83/94", "83/94"]
       },
       "validate-refs.ts": {
-        "statements": [
-          "626/686",
-          "628/686"
-        ],
-        "branches": [
-          "445/522",
-          "448/522"
-        ]
+        "statements": ["626/686", "628/686"],
+        "branches": ["445/522", "448/522"]
       }
     },
-    "local13": {
-      "statements": [
-        "1743/2089 (83.44%)",
-        "1859/2089 (88.99%)"
-      ],
-      "branches": [
-        "1275/1743 (73.15%)",
-        "1402/1743 (80.44%)"
-      ]
+    "local13Delta": {
+      "statements": "+117 (1743->1860/2089)",
+      "branches": "+128 (1275->1403/1743)"
     },
     "packageUnion": {
-      "statements": [
-        "4762/5854 (81.34%)",
-        "4878/5854 (83.32%)"
-      ],
-      "branches": [
-        "3666/5016 (73.08%)",
-        "3793/5016 (75.61%)"
-      ]
+      "statements": ["4762/5854 (81.34%)", "4882/5854 (83.39%)"],
+      "branches": ["3666/5016 (73.08%)", "3798/5016 (75.71%)"],
+      "lines": ["4358/5183 (84.08%)", "4458/5183 (86.01%)"],
+      "functions": ["748/829 (90.22%)", "766/829 (92.40%)"]
     },
-    "census": "before/after coverage-final.json contain 0 test/fixture files (official coverageExcludes honored); 13 target modules all instrumented"
+    "census": "0 test/fixture files instrumented; 13 target modules all present; official coverage/fast and baseline untouched"
   },
+  "reservedForCodex": ["full-repo check", "official ratchet", "protected strict-fast"],
   "notes": [
-    "mutation-hit witness via Vite enforce:pre load plugin; every red case shows MUTATION_HIT + AssertionError in log",
-    "coverage diagnostics write only to /tmp; official coverage/fast and baseline untouched",
-    "full-repo check / ratchet / strict-fast intentionally NOT run by GLM; reserved for Codex serial integration"
+    "all numbers/hashes/logs regenerated from the reworked final tree",
+    "no new product defects found during rework; no isolation entries",
+    "design signoffs not re-signed per counter instruction"
   ]
 }

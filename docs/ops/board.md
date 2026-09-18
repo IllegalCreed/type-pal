@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-CONTENT-CONTRACTS-1 | [内容数据校验与引用边界补测](tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | review | GLM交付/Codex接收 | r1六组116项+12负控+覆盖对照已交付，候选codex/glm-content-contracts-r1；冻结7ab20689，不改产品/基线，不做视觉 |
+| TEST-CONTENT-CONTRACTS-1 | [内容数据校验与引用边界补测](tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | rework | GLM返工完成 / Codex重新接收 | dbe579c5 counter后R1～R4已返工：六针detected、判据自测、43族账、118项/675、+117/+128；候选codex/glm-content-contracts-r1，设计不重签 |
 
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。
 精灵上传选图修复候选a88ab18d已三席accept、用户验收通过，2026-09-18由Codex[收口归档](../testing/sprite-selection.md)；check7302/strict fast6814通过，G-I04与R4后续边界保持。
