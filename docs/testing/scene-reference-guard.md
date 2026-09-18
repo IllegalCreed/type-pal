@@ -3,7 +3,7 @@
 任务：[EDITOR-SCENE-REF-GUARD-1](../ops/tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)，r1/review。
 实现前基线`830db139`（产品与设计冻结3bc20273一致）；Owner Codex。GLM运行时五组补测为另一独立分支，不计入本卡。
 当前：单文件adapter修复、22项正式回归及最小真实App功能验证完成；最终check/ratchet/受保护单次strict-fast全绿。
-Codex实现者自验accept，待Kimi/GLM独立终审；不代签、不标done。候选SHA随提交交接回填。
+候选`83598cc4e58828ff5ec586c1491da685d564c85c`；Codex实现者自验accept，待Kimi/GLM独立终审；不代签、不标done。
 
 ## 实现边界
 

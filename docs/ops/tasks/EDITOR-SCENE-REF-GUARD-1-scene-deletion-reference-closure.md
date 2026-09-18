@@ -13,6 +13,7 @@ Branch: codex/editor-scene-ref-guard-r1
 Revision: r1，2026-09-18。前提冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`。
 用户要求GLM大包与Codex修复双线推进；本卡与[运行时补测卡](TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)独立。
 当前（2026-09-18）：r1实现与自验完成，Codex accept；待Kimi/GLM独立终审，不重签设计、不标done。
+实现候选：`83598cc4e58828ff5ec586c1491da685d564c85c`，对比build准入基线`830db139`；6300223a仅并行卡准入文档。
 
 ## 目标与范围
 
@@ -175,7 +176,7 @@ Codex实际浏览器已核三条引用可见/可定位/阻断，解除后删除�
 
 ### done前
 
-- Codex：**accept（2026-09-18，r1，Coding Owner实现者自验；候选SHA随提交回填）**。
+- Codex：**accept（2026-09-18，r1，Coding Owner实现者自验；候选83598cc4，对比830db139）**。
   - 生产只改adapter；22项新回归覆盖六命令owner、四转换owner、all/any/not/嵌套转换、use去重、自引用/删除集合，
     真实冷provider与derived store/worker init/patch、拒删无历史副作用、解除后删/序列化正式重开/undo/redo闭环。
   - PAL真树新增边精确为s172双disabled→s182，rows25189/targetEdgeIds28090，原hook293/behavior4459及其它parity断言不变；未改PAL数据。
@@ -192,7 +193,7 @@ Codex实际浏览器已核三条引用可见/可定位/阻断，解除后删除�
 ## 交接日志
 
 - 2026-09-18 Codex：完成r1单adapter修复、22新回归、PAL一条真实补边的census联动及三针隔离负控。
-  最小真实App视觉/交互闭环通过；最终check7442/ratchet/受保护单次fast6954绿。沿用同r1设计，推进review，给两席并行终审。
+  最小真实App视觉/交互闭环通过；最终check7442/ratchet/受保护单次fast6954绿，候选83598cc4。沿用同r1设计，推进review，给两席并行终审。
   同步GLM6300223a准入文档、协调其顶部状态/看板为build，但未合入其任何新测试或生产改动；所有签字原文保留。
 - 2026-09-18 Codex：同步948e0328、工作树干净，核GLM eba8b810与Kimi b2603c41均同r1设计同意且无counter，登记build。
   实施先钉三反例与use去重/集合豁免/冷暖同源，再修adapter；原探针不改。GLM运行时补测由其按独立卡核准入，本卡不触其冻结面。
@@ -211,7 +212,30 @@ Codex实际浏览器已核三条引用可见/可定位/阻断，解除后删除�
 
 ## 下一位Agent提示词
 
-当前：Kimi/GLM并行独立终审，候选SHA提交后回填完整提示；不得代签、不标done、不重复已完成的Codex视觉验证。
+### Kimi · r1独立终审（与GLM并行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 独立终审 EDITOR-SCENE-REF-GUARD-1 r1。
+卡：docs/ops/tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md，review；候选83598cc4e58828ff5ec586c1491da685d564c85c，对比830db139。设计不重签。
+先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/scene-reference-guard.md，独立读取源码与测试，不读取或复述GLM结论。
+核唯一生产adapter是否完整补inherit/disabled与transition scene边，复用typed collector且不重复body/entity域；use复合边保持计数、内部删除集合豁免正确；where/owner/locator/deletePolicy与冷暖消费一致，不新增公共模型或降低保存守卫。
+核22项正式回归的当前合法fixture、六command owner/四transition owner、嵌套条件、真实worker init/patch及删→序列化完整正文/资产保留→正式重开→undo/redo。PAL原例只补s172双disabled→s182一条边（25189/28090），其它parity及体积断言保留。
+复跑卡内定向与node docs/testing/scene-reference-guard-mutants.mjs（控制22绿、3单点变异指定新测试业务红、运行态marker与JSON见证）。核check7442、ratchet和TYPE_PAL_COVERAGE_BASE_REF=830db139 pnpm coverage:fast单次6954/617证据；旧测试身份与其它六包基线不变。日志/tmp/type-pal-scene-ref-build.CyLL0V/。原审计probe是历史缺陷断言，不作修复后绿门。
+Codex已做最小真实App/worker功能验证，复用回执，不重复浏览器；Root/OS保存与完整E2E未宣称完成。
+只写本人终审accept或counter（file:line/复现/返工项）及本人日志，提交前同步保留他席并提交推送；不得改实现、其它席位或状态，不代签、不标done。无阻断交Codex核收口。
+```
+
+### GLM · r1覆盖/回归终审（与Kimi并行）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 独立终审 EDITOR-SCENE-REF-GUARD-1 r1。
+卡：docs/ops/tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md，review；同候选83598cc4e58828ff5ec586c1491da685d564c85c，对比830db139。设计不重签，本卡与运行时五组补测独立。
+先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/scene-reference-guard.md；直接核证据，不读取或复述Kimi结论。
+重点对账22回归：fixture先过真实loader/保存校验；每种漏边、use去重、all/any/not/嵌套转换、六command/四transition来源、内部豁免、拒删零历史变化、真实冷暖worker与保存文件集重开都有业务断言。检查完整正文/资产字节/删除路径，而非仅ID或计数。
+复跑node docs/testing/scene-reference-guard-mutants.mjs（1控制+3变异，22项每次真实执行，指定新增标题AssertionError红，函数内marker，混合宿主错误拒绝、hash不变）；按需108定向相邻、PAL单例/tc/Biome。核PAL新增恰s172→s182一边，rows25189/targetEdgeIds28090，其它旧断言原样；check7442与单次受保护fast6954/617、其它六包基线/旧测试身份不变。过程失败已分栏，不把早期坏fixture或旧census失败当最终证据。
+不做浏览器/截图/视觉复验，使用Codex已落最小功能回执；不操作工程数据，不自行跑ratchet改基线。你的运行时测试包继续独立推进，不把其未接收测试混入本卡。
+只写本人accept或counter（file:line/复现/返工项）和本人日志，同步保留他席后提交推送。不得改产品、测试、他席或状态，不代签、不标done。
+```
 
 ### 历史设计提示（已完成，不重签）
 
