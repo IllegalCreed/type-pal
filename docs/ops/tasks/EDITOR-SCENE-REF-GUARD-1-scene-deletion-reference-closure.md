@@ -216,6 +216,13 @@ Codex实际浏览器已核三条引用可见/可定位/阻断，解除后删除�
 
 ## 交接日志
 
+- 2026-09-18 Kimi（r1 独立终审）：同步 `a6725f5e`、工作树干净后核 `830db139 → 83598cc4`。
+  直读 adapter 三处（白名单接入 selectSceneHooks、scene-hook 目标排除去重、
+  canonicalTransitionSceneEdges 递归域）与共享 snapshot 接线；PAL 新增一边（s172→s182 完整
+  断言、rows +1、其余计数不变）。复跑定向+相邻 108/108、typecheck、入仓 3 针负控全业务红+
+  对照绿；交叉核 check 7,442、strict 617/6,954、旧 identity 零移除。视觉复用 Codex 证据。
+  旧版本兼容 pass；原探针不改。签 accept，无返工项；未改实现/他席/状态，未读 GLM 结论。
+  Next：GLM 并行终审落卡后，Codex 统一核定 done。
 - 2026-09-18 Codex：完成r1单adapter修复、22新回归、PAL一条真实补边的census联动及三针隔离负控。
   最小真实App视觉/交互闭环通过；最终check7442/ratchet/受保护单次fast6954绿，候选83598cc4。沿用同r1设计，推进review，给两席并行终审。
   同步GLM6300223a准入文档、协调其顶部状态/看板为build，但未合入其任何新测试或生产改动；所有签字原文保留。
