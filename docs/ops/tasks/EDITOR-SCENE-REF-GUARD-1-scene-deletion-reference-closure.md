@@ -216,6 +216,11 @@ Codex实际浏览器已核三条引用可见/可定位/阻断，解除后删除�
 
 ## 交接日志
 
+- 2026-09-18 GLM（r1 覆盖/回归终审）：签 accept，无 counter。独立复跑 mutants（1 对照+3 针全符合、
+  钉名 AssertionError 业务红、函数内 marker、产品 hash 不变）、8 文件 108 定向、editor typecheck；
+  直读生产 diff/fixture/22 断言/PAL s172→s182 工程数据/基线结构化 diff（仅 editor 节、旧身份
+  0 改 0 删、六包逐字节不变、6932+22=6954 自洽）。未读 Kimi 结论、未改实现/他席/状态。
+  Next：两席 accept 齐，Codex 统一核定 done。
 - 2026-09-18 Kimi（r1 独立终审）：同步 `a6725f5e`、工作树干净后核 `830db139 → 83598cc4`。
   直读 adapter 三处（白名单接入 selectSceneHooks、scene-hook 目标排除去重、
   canonicalTransitionSceneEdges 递归域）与共享 snapshot 接线；PAL 新增一边（s172→s182 完整
