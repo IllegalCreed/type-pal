@@ -143,8 +143,77 @@ host替身只承担接口副作用/可控等待，取消测试必须真实尊重
 无caller排除已核：ScriptChunkStore/MemoryScriptResolver、loadAllProjectMaps/loadProjectMapById；不授权删除，也不给旧入口补测保活。
 已done的content六组补测与editor逻辑补测不重做，本包发现重复就登记已有；不复用其签字/贡献数字。
 
-## GLM设计与实施回执（待填写）
+## GLM设计与实施回执
 
-目前无实现、无新增测试结果、无覆盖提升承诺。签字见任务卡；GLM先写本席premise/design，三席齐后才登记build并执行。
-交付时本区写五组清单/30族账/最终SHA/冻结diff/逐次命令exit与失败记录/负控执行JSON/覆盖双口径。
-GLM为贡献者，交Codex独立接收，未接收不转Kimi终审、不标done。
+实施完成（2026-09-18，GLM，Coding Owner）。分支 `codex/glm-reforge-runtime-contracts-r1`
+（worktree `/Users/zhangxu/illegal/type-pal-glm-reforge-runtime`，基点 6300223a=三签齐后的
+build allowed；产品对冻结 3bc20273 零漂移：除主线文档外只动白名单文件）。
+10 个新测试文件共 **56 项**（Vitest 现场去重）：17+9+10+11+9。
+定向 10 文件 56/56 绿；全 reforge 包 exit0；`tsc --noEmit` rc=0；新文件（含 mts/mjs/json）Biome rc=0。
+提交序列：五组各一提交（A/B/C/D/E）+ 负控与覆盖 config 一提交 + 本回执收口提交。
+
+### 30 族逐项账（新增=本包用例标题；已有=锚点；待证/防御附归属）
+
+**A · 键盘与主菜单（input.ts / menu-state.ts）**
+- A1 新增（input.keyboard-boundaries）：`按下→边沿消费一次→held 保持→释放才消失；返回 Set 与内部状态不别名`、`非 repeat 多键各只消费一次；repeat 不再产生边沿`。
+- A2 新增：`交错方向键取最后首次按下；repeat 不把旧键顶回；释放后回退剩余键`、`非方向键不参与命中；多键释放顺序不影响最后剩余者`。
+- A3 新增：8 轴 test.each `可取消真实事件 %s → defaultPrevented`、`普通键不阻止默认；不可取消事件 preventDefault 为 no-op（真实事件语义）`（先证事件到达再断言 preventDefault）。
+- A4 新增（menu-state.navigation-boundaries）：`非零记忆重开定位该项；合法末项保持；越界（正/负）归 0`。已有：menu-state.test.ts 默认开单/环绕。
+- A5 新增：`物品→使用子菜单→退回父层：完整 stack、父 cursor 保持、原始状态不可变`、`同起点两次走相同路径得到等价但独立的终态`。已有：menu-state.test.ts 子菜单级联/装备 panel/back 三轴。
+- A6 新增：`单层 back 关菜单 = CLOSED 常量；重开不污染 CLOSED；关闭态导航不变`。A1/A5 边沿驱动的隔离不另立条目（同合同并入）。
+
+**B · 装备/使用菜单（equip-menu-state.ts / use-menu-state.ts）**
+- B1 新增（equip-menu-state.navigation-boundaries）：`4 项/3 列：末行不满；↑↓±3、←→±1，越界吸附首/尾不环绕`（首尾/跨行 itemId 精确）。已有：equip-menu-state.test.ts:57 单项向上/空表。
+- B2 新增：`确认只记选中进 pick-role 不换装；返回重读背包重置阶段/光标`（含 world 深快照不变）。
+- B3 新增：`hero-b 只见自己的可装件（稳定身份对照）；无elf可装项角色 → 空列表`（equippableItems 过滤；party 外角色空列表）。
+- B4 新增（use-menu-state.navigation-boundaries）：`5 项/3 列：末行不满；四方向 clamp；selected 与 cursor 对应`、`initialCursor 记忆恢复并 clamp 到末项；空列表 cursor 0`。
+- B5 新增：`origin=pick-item、success、keep：重建列表并按原 cursor 钳位；旧列表确已变化`、`origin=pick-target 且仍可用 → 保持原状态；用光 → 重建回 pick-item`。已有：use-menu-state.test.ts:67 连续使用/:107 失败关闭。
+- B6 新增：`失败结果原样返回原状态与原 world；close 轴关闭整个菜单`、`pick-target Esc 回 pick-item 光标留在该物；useApply 只产 request 不执行副作用`（request ≠ 物品副作用已执行）。
+
+**C · 音频异步调度（audio/bgm.ts / audio/midi-preview.ts）**
+- C1 新增（bgm.runtime-boundaries）：`挂起期间并发 resume 只触发一次 ctx.resume；被拒后清旗标，后续手势可再次调用`（deferred 驱动）。
+- C2 新增：`后发请求先完成 → 唯一 loadNewSongList/play；先发旧读迟到被串行门丢弃`（读取轨迹+完整字节身份+loop Infinity）。注：init 未完成期间 `last` 被后发 play 接管是当前实现语义（只读 last），已按实现钉合同。
+- C3 新增：`readBytes 失败 → 不 loadNewSongList/不 play；修复读取后同曲 play 真正提交`。待证：bgm 初始化失败后同 player 的 initP 拒绝缓存政策（现行不重试）——不固化为正确，交 Codex 裁定。已有：bgm.test.ts stop 清账/fade 接管/开关。
+- C4 新增（midi-preview.lifecycle-boundaries）：`旧选择迟到被拒（AbortError），transport 仍是新选择；不清新请求的成果`、`同 asset+cacheKey 在途去重：读取轨迹只有一次，两次调用同结果`（cachedActivity 只测 transport）。
+- C5 新增：`读取失败可观察；修复 reader 后同 asset 重载成功`（失败不半提交：duration 0）、`后端 initialize 失败 → play 拒绝且不缓存失败；下次 play 重试初始化成功`（initializePromise 失败复位是现行合同）。
+- C6 新增：`并发 play 去重：resume 只发生一次，两调用同一结局`、`pause 使挂起 play 失效：AbortError、后端零 play、snapshot 记录显式位置`、`stop/seek/dispose 均使挂起 play 失效；dispose 关闭后端`（snapshot+实际后端动作双断言）。已有：midi-preview.test.ts seek/自然完成/stop-dispose。
+
+**D · 当前工程与资源读取（project-loader.ts / asset-resolver.ts）**
+- D1 新增（project-loader.current-boundaries）：`三个 indexed 场景：loadAllAuthorScenes 保 author 形态；loadAllScenes 产 runtime 对话树`（hooks.onEnter author 树保留；runtime 链独立成树）、`完整树与原输入不变：批读不污染工程文件表`。已有：project-loader.test.ts:272 indexed path/:287 lazy fail；editor 保存/打开测试实链。
+- D2 新增：`返回顺序 = sceneIds 顺序（与文件表写入顺序无关）`、`中间场景读取失败：整批拒绝（不返回部分数组）；IO 轨迹证明确实读过前序场景`（含同输入全成功对照）。
+- D3 新增：`合法非空内容 → loadStampTemplates 过守卫返回模板；缺席 → []（对照）`、`坏内容只坏一轴：origin 非法即拒；读失败传播底层错误`。
+- D4 新增（asset-resolver.io-boundaries）：`失败消息含 projectId/asset/kind/path/底层原因；修复 reader 后同 asset 成功`（reader 收到 catalog 登记路径）。
+- D5 新增：`urlForRole(video.startupSplash) 产 URL 且不读字节；缺角色报错含角色名`、`直接 urlFor 成功/未知 asset 拒绝`（无资源读取不误报成功）。
+- D6 新增：`显式 asset 入口 kind 门：错 kind 报实际 kind 与 path`、`角色入口 kind 门经 ASSET_ROLE_KINDS；catalog/roles/source 全程不变`（深快照不污染）。已有：工程保存/打开回归间接覆盖 readBytes/dispose。
+
+**E · 效果派发与演出控制（cutscene-controller.ts / script-host-adapter.ts）**
+- E1 新增（cutscene-controller.dispatch-boundaries）：`clearDialog/cameraSnap/video/frameAnimation 各进对应分支；async 分支收到同一 signal`（全参数精确）。
+- E2 新增：`单个 await intent 挂起时不进下一条；resolve 后按序；同输入正控完整执行`、`executor 拒绝 → run 拒绝、busy 收尾清零、后续 intent 不执行`。已有：cutscene-controller.test.ts 按序/busy/waitPassive/取消/并发/重放六项。
+- E3 新增：`frameAnimation startFrame:0 显式保留；fade ms 缺省 300 / 显式 0 保留`（cameraSnap to 缺省 undefined）。
+- E4 新增（script-host-adapter.current-dispatch）：`dialog/clear/wait + give/lose/playSound/music/ambience 全参数与 count 默认 1`（载荷经 compileRuntimeCommands 当前守卫；host 记录替身未实现成员触碰即失败=非目标零调用实证）。
+- E5 新增：`openShop 挂起时后续 leaf 不执行；resolve 后继续并收到同 signal`、`playVideo 拒绝 → 派发拒绝且错误原样传播；正常路径明确返回`、`playFrameAnimation/cameraPan 全参数派发（帧区间与帧率原样）`。
+- E6 新增：`命令对象派发前后保真深快照不变；可选项缺席以显式键形态传递`。已有：runtime-script-project.test.ts 的 current-only selection/拒 vanishEntity。
+
+### 负控与覆盖（最终树复跑）
+
+- 负控 `node docs/testing/glm-reforge-runtime-contracts-mutants.mjs` rc=0：判据 AST 自测（good 通过/混合坏日志拒绝）+ 5 对照 exit0 + 10 变异针 exit1（每组 2 针）；每针 MUTATION_HIT + AssertionError + 钉名新增测试实际 failed（Vitest JSON 执行见证）；被触产品文件批前后 sha256 不变。
+- 覆盖对照（可复制；config 物理绝对路径）：
+  ```bash
+  RR1_MODE=before RR1_OUT=/tmp/rr1-coverage-before pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/glm-reforge-runtime-contracts.config.mts
+  RR1_MODE=after  RR1_OUT=/tmp/rr1-coverage-after  pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/glm-reforge-runtime-contracts.config.mts
+  ```
+  局部十模块净增：行 +73、语句 +83、分支 +73；全 reforge 包：行 7853/14118(55.62%)→7926/14118(56.14%)、
+  语句 8679/16188(53.61%)→8762/16188(54.12%)、分支 5256/11041(47.60%)→5329/11041(48.26%)。
+  分模块（行 before→after / 分支 before→after）：input 1/18→18/18·0/12→12/12；menu-state 23/25→23/25·21/25→24/25；
+  equip 22/22→22/22·17/30→25/30；use 26/27→27/27·26/39→33/39；bgm 77/114→83/114·54/81→58/81；
+  midi-preview 128/172→131/172·87/123→95/123；loader 112/141→121/141·45/84→47/84；
+  resolver 31/33→32/33·10/14→11/14；cutscene 17/23→23/23·7/18→16/18；adapter 32/165→62/165·29/172→48/172。
+- 其余命令（exit 全 0）：`pnpm --filter @type-pal/reforge exec vitest run`（全包）、`pnpm --filter @type-pal/reforge exec tsc --noEmit`、
+  `pnpm exec biome check <12 个新文件>`。机器账（逐针红因/日志 hash/覆盖数字/命令 exit）见
+  `docs/testing/glm-reforge-runtime-contracts-evidence.json`。
+- 实施期失败记录（真实保留）：midi C4/C5/D6 首版用 `rejects.toThrow`，负控针显示其
+  failureMessages 不含 AssertionError 字面量 → 改值断言后 15/15；B 组 use-open 针初版钉错标题（钉到
+  B4 导航测试而非 initialCursor 钳位测试）→ 更正后过；C 组首版 fake sequencer 未翻转 paused 且
+  并发用例未放行 init → 修 harness 后过。
+- 未发现新产品缺陷；C3 的 bgm initP 拒绝缓存政策记待证交 Codex。全仓 check/官方 ratchet/
+  strict-fast 未由 GLM 执行，留 Codex 接收后统一串行。GLM 为测试贡献者，未接收不转 Kimi 终审、不标 done。

@@ -1,0 +1,234 @@
+{
+  "task": "TEST-REFORGE-RUNTIME-CONTRACTS-1 r1",
+  "generatedAt": "2026-09-18T14:39:34Z",
+  "branch": "codex/glm-reforge-runtime-contracts-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+  "freeze": "3bc20273fe88e83da2dcb32f04ea132a0ada60d9",
+  "base": "6300223a (build allowed after three same-r1 signoffs: Codex dispatch, Kimi 948e0328, GLM eba8b810)",
+  "productDriftVsFreeze": "GLM commits touch whitelist only (docs/ops/testing linkage + 10 new tests + fixture + mutants/config/evidence/receipt)",
+  "tests": {
+    "perFileExecuted": {
+      "input.keyboard-boundaries.test.ts": 13,
+      "menu-state.navigation-boundaries.test.ts": 4,
+      "equip-menu-state.navigation-boundaries.test.ts": 3,
+      "use-menu-state.navigation-boundaries.test.ts": 6,
+      "audio/bgm.runtime-boundaries.test.ts": 3,
+      "audio/midi-preview.lifecycle-boundaries.test.ts": 7,
+      "project-loader.current-boundaries.test.ts": 6,
+      "asset-resolver.io-boundaries.test.ts": 5,
+      "cutscene-controller.dispatch-boundaries.test.ts": 4,
+      "script-host-adapter.current-dispatch.test.ts": 5
+    },
+    "newTotal": 56,
+    "typecheck": "pnpm --filter @type-pal/reforge exec tsc --noEmit -> rc=0",
+    "biome": "pnpm exec biome check <12 new files incl mts/mjs/json> -> rc=0",
+    "failedAttemptRecord": [
+      "midi C4/C5/D6 first used rejects.toThrow whose failureMessages lack AssertionError literal; converted to value assertions, batch 15/15",
+      "use-open-clamp pin initially targeted the B4 navigation test; corrected to initialCursor clamp test",
+      "C group fake sequencer initially did not flip paused and concurrent case did not release init; fixed harness"
+    ]
+  },
+  "mutants": {
+    "script": "docs/testing/glm-reforge-runtime-contracts-mutants.mjs",
+    "command": "node docs/testing/glm-reforge-runtime-contracts-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true
+    },
+    "controls": ["control-A", "control-B", "control-C", "control-D", "control-E"],
+    "cases": [
+      {
+        "name": "input-repeat-guard-removed",
+        "group": "A",
+        "file": "input.ts",
+        "exit": 1,
+        "red": "input repeat 事件重排 held 且重复产生边沿",
+        "redTest": "交错方向键取最后首次按下；repeat 不把旧键顶回；释放后回退剩余键",
+        "executedTests": 17,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/rr1-mutants-dThhNq/input-repeat-guard-removed.log",
+        "logSha256": "8fa72c056356b5bfcf522505b91c9ea5d26bfaa951a392330b6d9a586d02a30e"
+      },
+      {
+        "name": "menu-cursor-clamp-removed",
+        "group": "A",
+        "file": "menu-state.ts",
+        "exit": 1,
+        "red": "menu-state 记忆光标越界未归 0",
+        "redTest": "非零记忆重开定位该项；合法末项保持；越界（正/负）归 0",
+        "executedTests": 17,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/rr1-mutants-dThhNq/menu-cursor-clamp-removed.log",
+        "logSha256": "83ee870ff41f80afb462ad6e21be2dc4c8fb1b81a97cf45d84ef39d9fc92fa3e"
+      },
+      {
+        "name": "equip-clamp-removed",
+        "group": "B",
+        "file": "equip-menu-state.ts",
+        "exit": 1,
+        "red": "equip-menu 光标下界保留上界钳制丢失（越界可越过末项）",
+        "redTest": "4 项/3 列：末行不满；↑↓±3、←→±1，越界吸附首/尾不环绕",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/rr1-mutants-dThhNq/equip-clamp-removed.log",
+        "logSha256": "62e15a054fb62ddce69bf8fc056526388b8be278f70dddad8780b2c852927775"
+      },
+      {
+        "name": "use-open-clamp-removed",
+        "group": "B",
+        "file": "use-menu-state.ts",
+        "exit": 1,
+        "red": "use-menu 重开/归并光标不再钳到列表界内",
+        "redTest": "initialCursor 记忆恢复并 clamp 到末项；空列表 cursor 0",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/rr1-mutants-dThhNq/use-open-clamp-removed.log",
+        "logSha256": "4a2104363d44af78c799afb1e6c4cf1b5169f6cb41ad652304378b8e875c4c63"
+      },
+      {
+        "name": "bgm-resume-dedup-removed",
+        "group": "C",
+        "file": "bgm.ts",
+        "exit": 1,
+        "red": "bgm 并发 resume 不再去重（重复触发 ctx.resume）",
+        "redTest": "挂起期间并发 resume 只触发一次 ctx.resume；被拒后清旗标，后续手势可再次调用",
+        "executedTests": 10,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/rr1-mutants-dThhNq/bgm-resume-dedup-removed.log",
+        "logSha256": "2ce590aa26f45872f081d3640c49d10e94760fa2e63cfd64a7b68623e9334a4b"
+      },
+      {
+        "name": "midi-load-stale-gate-removed",
+        "group": "C",
+        "file": "midi-preview.ts",
+        "exit": 1,
+        "red": "midi-preview 迟到的旧选择不再被拒收（错误提交旧字节）",
+        "redTest": "旧选择迟到被拒（AbortError），transport 仍是新选择；不清新请求的成果",
+        "executedTests": 10,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/rr1-mutants-dThhNq/midi-load-stale-gate-removed.log",
+        "logSha256": "a77ffe1aaafc3870b8a25a3774d2ecd88d75116048968a05fff3dcc67ae6654e"
+      },
+      {
+        "name": "loader-batch-order-reversed",
+        "group": "D",
+        "file": "project-loader.ts",
+        "exit": 1,
+        "red": "loadAllAuthorScenes 返回顺序不再跟随 sceneIds",
+        "redTest": "返回顺序 = sceneIds 顺序（与文件表写入顺序无关）",
+        "executedTests": 11,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/rr1-mutants-dThhNq/loader-batch-order-reversed.log",
+        "logSha256": "7777ab74aae79314dd7f69e7baa60798312e887b34a0d9da113c4aa9bb7300d2"
+      },
+      {
+        "name": "resolver-kind-gate-removed",
+        "group": "D",
+        "file": "asset-resolver.ts",
+        "exit": 1,
+        "red": "AssetResolver 显式 asset 入口不再按期望 kind 拒绝",
+        "redTest": "显式 asset 入口 kind 门：错 kind 报实际 kind 与 path",
+        "executedTests": 11,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/rr1-mutants-dThhNq/resolver-kind-gate-removed.log",
+        "logSha256": "e16afec5bdc7efd22714137a4aa0ce9e8190c34dff5ca2f316252be235fb496f"
+      },
+      {
+        "name": "cutscene-fade-default-zeroed",
+        "group": "E",
+        "file": "cutscene-controller.ts",
+        "exit": 1,
+        "red": "cutscene fade 缺省时长丢失（300→0）",
+        "redTest": "frameAnimation startFrame:0 显式保留；fade ms 缺省 300 / 显式 0 保留",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/rr1-mutants-dThhNq/cutscene-fade-default-zeroed.log",
+        "logSha256": "d4ae8bb3dce7f1f166f8d59586ca7efa1a2366fb20fef5a6e5db6244e677c9ee"
+      },
+      {
+        "name": "adapter-giveitem-default-changed",
+        "group": "E",
+        "file": "script-host-adapter.ts",
+        "exit": 1,
+        "red": "script-host giveItem count 缺省值漂移（1→2）",
+        "redTest": "dialog/clear/wait + give/lose/playSound/music/ambience 全参数与 count 默认 1",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/rr1-mutants-dThhNq/adapter-giveitem-default-changed.log",
+        "logSha256": "f0f342eaca7c376703e43d93c1bf5396a8a404e69a65bce8ea4bea52c03bcc95"
+      }
+    ],
+    "runtimeWitness": "each red case pins its new test by exact title in the Vitest JSON report and requires status=failed",
+    "productHashInvariant": "all touched product files sha256 unchanged before/after batch"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-reforge-runtime-contracts.config.mts (imports scripts/coverage/config.mjs coveragePackages/testSelection/coverageExcludes; fast profile)",
+    "commandTemplate": "RR1_MODE=<before|after> RR1_OUT=<tmpdir> pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/glm-reforge-runtime-contracts.config.mts",
+    "beforeDir": "/tmp/rr1-coverage-before",
+    "afterDir": "/tmp/rr1-coverage-after",
+    "perModule_before_after_lines_branches_statements": {
+      "input.ts": {
+        "lines": ["1/18", "18/18"],
+        "branches": ["0/12", "12/12"],
+        "statements": ["1/20", "20/20"]
+      },
+      "menu-state.ts": {
+        "lines": ["23/25", "23/25"],
+        "branches": ["21/25", "24/25"],
+        "statements": ["27/31", "29/31"]
+      },
+      "equip-menu-state.ts": {
+        "lines": ["22/22", "22/22"],
+        "branches": ["17/30", "25/30"],
+        "statements": ["26/30", "26/30"]
+      },
+      "use-menu-state.ts": {
+        "lines": ["26/27", "27/27"],
+        "branches": ["26/39", "33/39"],
+        "statements": ["29/36", "30/36"]
+      },
+      "bgm.ts": {
+        "lines": ["77/114", "83/114"],
+        "branches": ["54/81", "58/81"],
+        "statements": ["86/134", "93/134"]
+      },
+      "midi-preview.ts": {
+        "lines": ["128/172", "131/172"],
+        "branches": ["87/123", "95/123"],
+        "statements": ["140/195", "145/195"]
+      },
+      "project-loader.ts": {
+        "lines": ["112/141", "121/141"],
+        "branches": ["45/84", "47/84"],
+        "statements": ["120/163", "131/163"]
+      },
+      "asset-resolver.ts": {
+        "lines": ["31/33", "32/33"],
+        "branches": ["10/14", "11/14"],
+        "statements": ["31/34", "33/34"]
+      },
+      "cutscene-controller.ts": {
+        "lines": ["17/23", "23/23"],
+        "branches": ["7/18", "16/18"],
+        "statements": ["17/23", "23/23"]
+      },
+      "script-host-adapter.ts": {
+        "lines": ["32/165", "62/165"],
+        "branches": ["29/172", "48/172"],
+        "statements": ["33/189", "63/189"]
+      }
+    },
+    "local10Delta": {
+      "lines": "+73",
+      "statements": "+83",
+      "branches": "+73"
+    },
+    "packageUnion": {
+      "lines": ["7853/14118 (55.62%)", "7926/14118 (56.14%)"],
+      "statements": ["8679/16188 (53.61%)", "8762/16188 (54.12%)"],
+      "branches": ["5256/11041 (47.60%)", "5329/11041 (48.26%)"],
+      "functions": ["1375/2416 (56.91%)", "1388/2416 (57.45%)"]
+    },
+    "census": "0 test files instrumented before/after; 10 target modules all present; official coverage dirs untouched"
+  },
+  "openItems": [
+    "bgm initP rejection cache policy after backend init failure recorded as pending verification for Codex (not pinned as correct)"
+  ],
+  "reservedForCodex": ["full-repo check", "official ratchet", "protected strict-fast"],
+  "notes": [
+    "all numbers/hashes/logs regenerated from the final tree",
+    "no new product defects found; no isolation entries",
+    "design signoffs r1 not re-signed"
+  ]
+}

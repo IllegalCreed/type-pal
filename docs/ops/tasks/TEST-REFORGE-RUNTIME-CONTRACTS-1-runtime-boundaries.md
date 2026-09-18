@@ -235,3 +235,11 @@ docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md。
 D-02请独立复跑两条卡内原probe，核inherit/disabled父场景边、transition条件漏接、use复合边去重、冷暖同源、删除集合豁免及现有owner定位能力；不扩大成公共locator/schema重构。补测卡核五组十模块30族的真实调用、合法输入、旧测试去重、current-only排除、异步负控鉴别力与非视觉边界；Codex只动editor，GLM不改生产，官方覆盖由Codex串行集成。
 分别在两卡本人席位签premise verified（直接证据和可证伪观察）+design agree或counter，写本人日志，同步保留他席后提交推送。不得改产品/测试/他席/任务状态，不代签、不标build/done。两卡独立裁决；都无counter且三签齐后各Coding Owner自行核准入，无需重复签整包中的每一组。
 ```
+
+### Codex（接收 r1 整包，build 完成后）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接收 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1 整包。任务卡 docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md；回执与 30 族账 docs/testing/glm-reforge-runtime-contracts.md；机器账 docs/testing/glm-reforge-runtime-contracts-evidence.json。候选分支 codex/glm-reforge-runtime-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-reforge-runtime），基点 6300223a；生产冻结 3bc20273fe88e83da2dcb32f04ea132a0ada60d9。
+GLM 已交付五组 10 新测试文件 56 项（input/menu/equip/use/bgm/midi/loader/resolver/cutscene/adapter）、10 针负控+判据自测（5 对照+10 针 15/15，钉名 JSON 执行见证）、官方 testSelection 覆盖对照（十模块 +73 行/+83 语句/+73 分支，/tmp 输出）与实施者自验 accept；无新产品缺陷，bgm initP 拒绝缓存政策记待证。附注：build allowed 登记当日存在已披露并已纠正的主 worktree 分支检出竞态（6300223a 已在 main，你的 guard 分支已复位 830db139）。
+你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过当前守卫）、复跑定向与全 reforge 包、tc/Biome；复跑 node docs/testing/glm-reforge-runtime-contracts-mutants.mjs 验 15/15；按需重跑覆盖对照（config 绝对路径可复制）。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑）；全部通过后在本席签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试语义；不得代签他人或标 done。与你的 EDITOR-SCENE-REF-GUARD-1 修复并行时注意主 worktree 分支检出竞态（先核当前分支再提交）。
+```
