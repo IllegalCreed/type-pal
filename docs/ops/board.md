@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SPRITE-PICK-1 | [精灵上传选图异步归属](tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | review | Kimi / GLM并行终审 | a88ab18d Codex accept；22定向/36相邻/6负控与界面检查、check7302/strict fast6814通过；r1不重签 |
+| EDITOR-SPRITE-PICK-1 | [精灵上传选图异步归属](tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | review | 用户验收 / 明确收口 | a88ab18d三席accept齐、无返工，候选零漂移；Codex界面验证及7302/6814门禁通过，无需再签 |
 
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。
 编辑器逻辑补测候选5ca9dad2已三席accept、用户授权收口，2026-09-18由Codex[核定done归档](../testing/editor-logic-coverage-review.md)；47项新增、check7282与strict fast6794通过，后续缺口按台账另推。

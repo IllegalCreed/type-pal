@@ -17,7 +17,8 @@ Revision: r1，2026-09-18；取证基线`467a5f41`，SpriteUploadWizard产品与
 不改commands/reference目标产品。
 当前（2026-09-18）：实现候选`a88ab18d51328432f559b41ee6e8f7880379880e`，对比`be1868f39f672ebe705961f0d551d4584da90818`。
 Codex已完成实现、20项新回归/2项旧回归、36相邻、6负控、最小真实界面验证、check7302→ratchet→受保护单次strict fast6814/617。
-实现与精确边界见[验证回执](../../testing/sprite-selection.md)，本席accept，转review等Kimi/GLM独立终审；r1设计不重签，不标done。
+实现与精确边界见[验证回执](../../testing/sprite-selection.md)。三席实现终审均accept，无counter/返工；Codex于2026-09-18核定同候选与零漂移。
+当前仅待用户功能验收或明确免复验收口，r1设计及实现终审均无需再签。
 
 ## 目标与范围
 
@@ -250,10 +251,22 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
     （回执已声明，非范围缩减）。G-I04 维持范围外，保存→重开→试玩归 R4 集中 E2E 未执行。
   - 可证伪复核：任一旧成功/错误污染当前选择、旧 submit 入库、bitmap 漏/双 close、同内容多造资源、
     旧测试身份移除即撤回——本轮复跑均未出现。无阻断项。
-- done准入：pending，待两席实现终审及用户验收/明确收口授权；不代签、不重签设计。
+- done准入：技术三席accept已齐（r1/a88ab18d），无counter/返工项、无缺签豁免；仅待用户验收/明确收口授权，不再请求AI签字。
+
+## 用户验收（仅功能确认，约1分钟）
+
+Codex已实测正常重选、坏图拒绝、取消重开、实际入库与撤销；用户可直接明确“免复验，通过”，无需重跑技术测试。
+若希望自己看，只需在本地编辑器做以下两步，不必保存或改动现有资源：
+
+1. 资源→精灵库→导入源帧资源，选“默认定格”；先选一张PNG A，再选明显不同的PNG B。
+   通过：原图文件名/尺寸和入库预览均为B，不跳回A。ID/标签沿用已填值是原有规则，不要求跟着文件名重置。
+2. 取消后重新打开向导，再选B。通过：无上次错误或旧预览残留，可正常预览且“入库”可用；随后取消即可。
+
+不通过：B被旧图覆盖、取消后旧错误复活、成功解码仍不能入库。布局/按钮规格/切帧方式未改，不要求重新验收整个精灵库。
 
 ## 交接日志
 
+- 2026-09-18 Codex核终审：用户通知已签后同步，HEAD/origin均57b4ac5d、工作树干净；核Codex/Kimi/GLM均对r1/a88ab18d签accept，无counter/返工。a88ab18d→HEAD的packages/scripts/projects/data/lock零diff，复用已通过的7302/6814门禁及浏览器证据，不重复跑同一验证。统一更新为“技术终审齐、仅待用户验收”，补最小两步清单；不把AI签字冒充用户手工验收，不代签，不重开设计。
 - 2026-09-18 Kimi（r1 终审）：同步 `ff630f1f`、工作树干净后核 `be1868f3 → a88ab18d`。
   直读 selection 作用域/代次/useLayoutEffect 失效、pickFile 过期成功丢弃与 catch 当前性、
   submit 精确 readyDraft 双闸、try/finally close 恰一次、主色作用域；复跑定向 22/22、相邻 36/36、
@@ -288,7 +301,9 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 
 ## 下一位Agent提示词
 
-### Kimi · r1独立实现终审（当前）
+无下一位Agent提示词，等待用户验收/收口。以下终审提示均已完成，仅保留历史，不再转发或重签。
+
+### Kimi · r1独立实现终审（历史，已完成）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SPRITE-PICK-1，卡 docs/ops/tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md，review/r1；候选a88ab18d51328432f559b41ee6e8f7880379880e，对比be1868f39f672ebe705961f0d551d4584da90818。设计三签有效，不重签。
@@ -297,7 +312,7 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 Codex已做正式Chrome最小功能验证，截图/局限见回执，复用不重复视觉；完整保存重开试玩归R4，G-I04提交后卸载政策保持范围外。独立签本人accept或file:line counter、写本人日志并提交推送；不读/复述GLM终审结论，不改实现/状态/他席，不标done。两席并行，提交前同步保留他席改动，回Codex统一核定。
 ```
 
-### GLM · r1独立测试/代码终审（当前）
+### GLM · r1独立测试/代码终审（历史，已完成）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SPRITE-PICK-1，卡 docs/ops/tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md，review/r1；候选a88ab18d51328432f559b41ee6e8f7880379880e，对比be1868f39f672ebe705961f0d551d4584da90818。设计不重签，原TEST-EDITOR-LOGIC-COVERAGE-1已done不重开。
