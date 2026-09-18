@@ -220,6 +220,7 @@ export function canonicalCommandTargetEdges(
     const kind = visit.command.kind
     if (
       kind !== 'loadScene' &&
+      kind !== 'selectSceneHooks' &&
       kind !== 'setSceneMapOverride' &&
       kind !== 'openShop' &&
       kind !== 'startBattle' &&
@@ -232,7 +233,9 @@ export function canonicalCommandTargetEdges(
       return []
     const targets = withoutRedundantLoadSceneParent(
       collectCanonicalCommandTargetReferences(visit.command, visit.path),
-    ).filter((target) => target.target.kind !== 'entity')
+    ).filter((target) => target.target.kind !== 'entity' && target.target.kind !== 'scene-hook')
+    // Specific hook references are owned by canonicalSchemeReferenceEdges. Their composite edges
+    // already belong to the parent scene bucket; only inherit/disabled need a separate scene edge.
     if (!targets.length) return []
     const reference = {
       kind: 'command' as const,
@@ -242,6 +245,23 @@ export function canonicalCommandTargetEdges(
     const source = sourceForScriptOwner(visit.locator.owner, scriptState)
     return targets.map((target) =>
       commandReferenceEdge(target, source, { kind: 'canonical-script', reference }),
+    )
+  })
+}
+
+function canonicalTransitionSceneEdges(
+  visits: readonly CanonicalScriptTransitionVisit[],
+  scriptState: ScriptEditorState,
+): ProjectReferenceEdgeInput[] {
+  return visits.flatMap((visit) => {
+    // A visit owns one state.next tree, including nested transitions and condition combinations.
+    // Command bodies and EntityAddress dependencies have their own collectors; do not scan twice.
+    const targets = collectCommandTargetReferences(visit.transition, visit.path).filter(
+      (reference) => reference.target.kind === 'scene',
+    )
+    const source = sourceForScriptOwner(visit.owner, scriptState)
+    return targets.map((reference) =>
+      commandReferenceEdge(reference, source, { kind: 'script-owner', owner: visit.owner }),
     )
   })
 }
@@ -1844,6 +1864,7 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
     [
       ...structuralProjectReferenceEdges(input.state),
       ...canonicalCommandTargetEdges(input.commandVisits, input.scriptState),
+      ...canonicalTransitionSceneEdges(input.transitionVisits, input.scriptState),
       ...legacyScriptChunkTargetEdges(input.state.scriptChunks),
       ...battleDataReferenceEdges(input.state, input.commandVisits, input.scriptState),
       ...actorReferenceEdges(

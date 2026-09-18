@@ -536,8 +536,47 @@ describe('ED-3 PAL project reference index', () => {
 
     expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_459)
     expect(edges.filter((edge) => edge.relation.kind === 'scene-hook-reference')).toHaveLength(293)
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_188)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_089)
+    // D-02: s172 disables both s182 hook slots without selecting a concrete hook. This is one
+    // parent-scene dependency, formerly omitted; existing hook/behavior counts above stay unchanged.
+    expect(
+      edges
+        .filter(
+          (edge) =>
+            edge.relation.kind === 'command-target' && edge.relation.use === 'select-scene-hooks',
+        )
+        .map((edge) => ({
+          target: edge.target,
+          where: edge.where,
+          owner: edge.source.owner,
+          locator: edge.locator,
+          deletePolicy: edge.deletePolicy,
+        })),
+    ).toEqual([
+      {
+        target: { kind: 'scene', id: 's182' },
+        where: 'scenes.s172.hooks.onEnter.variants.default.flow.stages.initial.body[0].scene',
+        owner: {
+          kind: 'script-owner',
+          owner: { kind: 'scene-hook', sceneId: 's172', slot: 'onEnter', hookId: 'default' },
+        },
+        locator: {
+          kind: 'canonical-script',
+          reference: {
+            kind: 'command',
+            path: 'scenes.s172.hooks.onEnter.variants.default.flow.stages.initial.body[0]',
+            locator: {
+              kind: 'command',
+              owner: { kind: 'scene-hook', sceneId: 's172', slot: 'onEnter', hookId: 'default' },
+              container: { kind: 'step', stepId: 'initial', section: 'body' },
+              commandPath: '0',
+            },
+          },
+        },
+        deletePolicy: 'replace-suggest',
+      },
+    ])
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_189)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_090)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

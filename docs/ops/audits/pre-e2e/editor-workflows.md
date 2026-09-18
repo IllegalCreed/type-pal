@@ -50,6 +50,10 @@
 
 ## D-02 · 引用图遗漏部分场景依赖
 
+2026-09-18：[场景引用保护卡](../../tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)r1实现完成，当前review待两席终审。
+单adapter补三类依赖；22项真实冷暖/删除恢复回归及PAL s172→s182一条补边、三负控、Codex最小界面验证通过，
+check7442/受保护单次fast6954绿，见[实施回执](../../../testing/scene-reference-guard.md)。以下为修复前历史取证；未提前标done或关闭其它缺陷。
+
 - `project-reference-adapters.ts:215-232`命令目标adapter白名单不包含`selectSceneHooks`；
   `script-editor.ts:916-925`另一路只为`selection.kind=use`添加具体hook边，因此纯disabled/inherit不产生场景边。
   content的typed collector其实已经支持该场景依赖（`content/src/command-target-reference.ts:156-163`）。

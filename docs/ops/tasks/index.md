@@ -8,8 +8,8 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [EDITOR-SCENE-REF-GUARD-1 - 场景删除前的引用保护补齐](EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测](TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SCENE-REF-GUARD-1 - 场景删除前的引用保护补齐](EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测](TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

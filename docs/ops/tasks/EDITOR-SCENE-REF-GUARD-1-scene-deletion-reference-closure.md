@@ -1,6 +1,6 @@
 # EDITOR-SCENE-REF-GUARD-1 - 场景删除前的引用保护补齐
 
-Status: build
+Status: review
 Phase: phase2
 Capability: ED-3既有引用图正确性 / 审计D-02（不改能力地图）
 Coding Owner: Codex
@@ -12,7 +12,7 @@ Branch: codex/editor-scene-ref-guard-r1
 
 Revision: r1，2026-09-18。前提冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`。
 用户要求GLM大包与Codex修复双线推进；本卡与[运行时补测卡](TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)独立。
-当前（2026-09-18）：r1三席premise/design齐、无counter，Codex已核定build allowed，开始先红后绿回归与adapter修复。
+当前（2026-09-18）：r1实现与自验完成，Codex accept；待Kimi/GLM独立终审，不重签设计、不标done。
 
 ## 目标与范围
 
@@ -80,6 +80,11 @@ before→after为“允许删后保存失败→有依赖时直接拒删”，恢
 scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补project-diagnostics.test.ts证明真实暖链。
 文档/隔离负控/最小视觉证据归本卡。与GLM的reforge十模块生产冻结面不相交。
 
+实现期测试联动（Codex，2026-09-18）：完整check首次遇PAL引用census断言25188→25189。
+直接核projects/pal/content/scenes/s172.json:1435双disabled目标s182，正是本卡补回的一条父场景边。
+允许定点更新project-reference.pal.test.ts的两项总数（rows+1/targetEdgeIds+1），并新增该边target/where/owner/locator/policy完整断言；
+既有hook293、behavior4459及其它parity/体积断言原样保留。不改PAL数据或其它实现，不因正确修复维持旧漏边计数。
+
 ## 验收与验证
 
 - 三反例改为先红后绿；use、无依赖、仅自身/同删除集合依赖为正控。完整断言目标、where、owner、关系、计数及无额外边。
@@ -97,6 +102,16 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
 [READ-FIRST](../../phase2/READ-FIRST.md)、[D-02审计](../audits/pre-e2e/editor-workflows.md#d-02--引用图遗漏部分场景依赖)、
 [GLM取证包已接收结果](../../testing/glm-pre-e2e-prep-report.md)、[内容补测接收](../../testing/content-contracts-review.md)。
 当前引用图/保存守卫/历史事务已存在，不能降低保存校验来让删除变绿，不能改成无条件禁止删场景，不能引入旧schema兼容。
+
+## Build与验证
+
+实现基线830db139；生产仅project-reference-adapters.ts，复用现有typed collector补命令父场景边与转换条件边。
+两个新正式测试文件22项，薄fixture由真实seed/loader装配；PAL旧census仅联动两项+1并钉真实s172→s182新增边。
+定向+相邻108项与editor tc通过，一对照/三变异业务负控通过；最终树串行check7442、ratchet与受保护单次strict-fast6954/617全部exit0。
+过程失败/订正、验证边界、重建命令详见[实施回执](../../testing/scene-reference-guard.md)，不把早期坏fixture当产品反例。
+Codex实际浏览器已核三条引用可见/可定位/阻断，解除后删除与撤销、引用数逐次恢复；
+真实App与worker，内存隔离工程，1280×720截图记录于本会话浏览器工具；[可重建入口](../../testing/scene-reference-guard-visual.mjs)。
+没有改用户/PAL文件，无视觉任务交给GLM/Kimi；完整Root/OS保存重开仍归R4，不冒称E2E已完成。
 
 ## 推进签字
 
@@ -160,13 +175,25 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
 
 ### done前
 
-- Codex：pending。
+- Codex：**accept（2026-09-18，r1，Coding Owner实现者自验；候选SHA随提交回填）**。
+  - 生产只改adapter；22项新回归覆盖六命令owner、四转换owner、all/any/not/嵌套转换、use去重、自引用/删除集合，
+    真实冷provider与derived store/worker init/patch、拒删无历史副作用、解除后删/序列化正式重开/undo/redo闭环。
+  - PAL真树新增边精确为s172双disabled→s182，rows25189/targetEdgeIds28090，原hook293/behavior4459及其它parity断言不变；未改PAL数据。
+  - 正常对照22绿、三条单点坏实现均指定新业务断言红，函数内执行marker+JSON见证，污染日志判据拒绝；产品hash不变。
+    早期fixture/locator/负控标题订正与PAL census失败均如实记回执，不掩盖或冒充最终证据。
+  - 定向连相邻108、tc/Biome；最终串行check7442→ratchet→受保护单次fast6954全部通过。其它六包基线对象/旧测试身份/源清单不变。
+  - Codex真实App/worker最小功能验证通过：三引用显示与阻断、正文精确/转换owner定位、表单解除依赖后删除、撤销恢复与引用数恢复。
+    测试仅内存工程；无用户/PAL目录写入、无OS保存/E2E冒称。视觉不交GLM/Kimi重复。
+  - 旧版本兼容审查pass：无旧版本分支/upgrader/fallback变动；未改content/SAVE/迁移或GLM冻结面。
 - Kimi：pending。
 - GLM：pending。
-- done准入：未开放。
+- done准入：未开放，待两席独立终审；本席不代签、不标done。
 
 ## 交接日志
 
+- 2026-09-18 Codex：完成r1单adapter修复、22新回归、PAL一条真实补边的census联动及三针隔离负控。
+  最小真实App视觉/交互闭环通过；最终check7442/ratchet/受保护单次fast6954绿。沿用同r1设计，推进review，给两席并行终审。
+  同步GLM6300223a准入文档、协调其顶部状态/看板为build，但未合入其任何新测试或生产改动；所有签字原文保留。
 - 2026-09-18 Codex：同步948e0328、工作树干净，核GLM eba8b810与Kimi b2603c41均同r1设计同意且无counter，登记build。
   实施先钉三反例与use去重/集合豁免/冷暖同源，再修adapter；原探针不改。GLM运行时补测由其按独立卡核准入，本卡不触其冻结面。
 - 2026-09-18 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
@@ -183,6 +210,10 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
   内部Codex只读分工另盘点GLM测试候选，不作为外席签字；本卡前提与设计由主Owner独立核。
 
 ## 下一位Agent提示词
+
+当前：Kimi/GLM并行独立终审，候选SHA提交后回填完整提示；不得代签、不标done、不重复已完成的Codex视觉验证。
+
+### 历史设计提示（已完成，不重签）
 
 两段完整可复制提示词统一见[并行测试卡交接区](TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md#下一位agent提示词)，同钉两卡r1与冻结3bc20273。
 GLM与Kimi本阶段可并行审本卡及TEST-REFORGE-RUNTIME-CONTRACTS-1；各自不读/复述另一席结论。

@@ -1,6 +1,6 @@
 # TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: 已有运行时合同与测试覆盖率（不改变能力地图）
 Coding Owner: GLM（仅新测试与薄fixture）
@@ -140,7 +140,7 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
     时序而非 deferred 控制→重造；⑤覆盖对照换源码/选择集或写官方目录→数字无效；⑥生产/旧测试/基线
     任何 diff→越界即停。
   - 返工项：无。三席同 r1 齐且无 counter 后按卡核定 build allowed 再实施。
-- build准入：未开放。三席齐后GLM核定，不须再次等用户逐组批准；若有counter先解决，不复用旧卡签字。
+- build准入：**build allowed（2026-09-18，Coding Owner 核验：Codex/Kimi/GLM 三席同 r1 设计签字齐（eba8b810 GLM、948e0328 Kimi、派发内 Codex），无 counter；生产与冻结 3bc20273 一致）。GLM 开始在 codex/glm-reforge-runtime-contracts-r1 独立 worktree 连续实施五组。**
 
 ### done前
 
@@ -151,6 +151,8 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
 
 ## 交接日志
 
+- 2026-09-18 Codex（协调登记）：同步GLM本人6300223a的build allowed回执，按已齐三席准入将顶部状态/看板/索引同步build。
+  不代签、不改其范围或测试；场景引用修复保持editor单文件生产面，未接收的运行时新测试不计入本次官方基线。
 - 2026-09-18 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
   直读 input.ts 语义、bgm/midi-preview 导出与 editor 消费点、script-host-adapter 现行转交；
   独立复算 reforge 覆盖快照与工作包逐格一致；menu-state 8 项等去重锚点在位；无 caller 排除

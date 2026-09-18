@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-18T08:43:00.379Z",
+  "generatedAt": "2026-09-18T14:37:17.321Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 6932,
+  "testCount": 6954,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3008,8 +3008,8 @@
       ],
       "scopeDigest": "9696f732999bcfdc8a19ba9e9ff40a428fbd5f2f67dd2695734be188495d62a8",
       "fastTests": {
-        "testCount": 2322,
-        "testFileCount": 219,
+        "testCount": 2344,
+        "testFileCount": 221,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
@@ -3077,6 +3077,7 @@
           "packages/editor/src/core/project-read-admission.test.ts",
           "packages/editor/src/core/project-reference-adapters.boundaries.test.ts",
           "packages/editor/src/core/project-reference-adapters.test.ts",
+          "packages/editor/src/core/project-reference-scene-guards.test.ts",
           "packages/editor/src/core/project-reference.boundaries.test.ts",
           "packages/editor/src/core/project-reference.test.ts",
           "packages/editor/src/core/project-save-route.test.ts",
@@ -3092,6 +3093,7 @@
           "packages/editor/src/core/save-preflight-boundaries.test.ts",
           "packages/editor/src/core/save-readback-boundaries.test.ts",
           "packages/editor/src/core/scene-lifecycle.test.ts",
+          "packages/editor/src/core/scene-reference-deletion-workflow.test.ts",
           "packages/editor/src/core/script-editor-projection.test.ts",
           "packages/editor/src/core/script-editor.test.ts",
           "packages/editor/src/core/script-reference-catalog.test.ts",
@@ -3563,6 +3565,11 @@
             "identityDigest": "d425ebb9615c09f3fe70adec9d944a0ef571e391149e6b2e09f807277ec34e51"
           },
           {
+            "file": "packages/editor/src/core/project-reference-scene-guards.test.ts",
+            "testCount": 12,
+            "identityDigest": "984a96c93b500f2053ce6f4287dfbd4dd85dc046396d2d1ed0948063716d6841"
+          },
+          {
             "file": "packages/editor/src/core/project-reference.boundaries.test.ts",
             "testCount": 5,
             "identityDigest": "5f7f435ed417aa653b5ccdead86075d730013a5a6be03ae902e6cdaef4820f3a"
@@ -3636,6 +3643,11 @@
             "file": "packages/editor/src/core/scene-lifecycle.test.ts",
             "testCount": 5,
             "identityDigest": "03f52443f9c85c5d64631fc266ffb9f12be5b83c687e334f44e470df987ce85b"
+          },
+          {
+            "file": "packages/editor/src/core/scene-reference-deletion-workflow.test.ts",
+            "testCount": 10,
+            "identityDigest": "5f164ec849d8d914be31cd166daec0674bc585fc42117bc6f7d25b16e3a038f2"
           },
           {
             "file": "packages/editor/src/core/script-editor-projection.test.ts",
@@ -4328,46 +4340,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "37a6ab42a6dff496149657bd11c2b143d7ae26befdb2643c426b1b413cfc6024",
+        "identityDigest": "2cf6ebc977f9643878899ba49fb8f3f4094ea84f05b5f4a3fd22ca64ab872c01",
         "duplicateIdentityCount": 8,
-        "executionDigest": "dc43572fdcdf534e61724c98faffc15c6b57d93d06fda97767e93e8b9c31bb89"
+        "executionDigest": "84a167d46ebec9fedd2dea64354cb77af719c9e0af0ce42cf0b5c7b37791ac50"
       },
       "metrics": {
         "statements": {
-          "covered": 24678,
-          "total": 31839
+          "covered": 24695,
+          "total": 31845
         },
         "branches": {
-          "covered": 19174,
-          "total": 27576
+          "covered": 19195,
+          "total": 27579
         },
         "functions": {
-          "covered": 6144,
-          "total": 8102
+          "covered": 6150,
+          "total": 8106
         },
         "lines": {
-          "covered": 22211,
-          "total": 27828
+          "covered": 22226,
+          "total": 27834
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 54459,
-      "total": 78932
+      "covered": 54476,
+      "total": 78938
     },
     "branches": {
-      "covered": 38975,
-      "total": 62028
+      "covered": 38996,
+      "total": 62031
     },
     "functions": {
-      "covered": 10278,
-      "total": 14512
+      "covered": 10284,
+      "total": 14516
     },
     "lines": {
-      "covered": 49123,
-      "total": 69082
+      "covered": 49138,
+      "total": 69088
     }
   }
 }
