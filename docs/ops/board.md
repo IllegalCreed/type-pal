@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-REFORGE-RUNTIME-CONTRACTS-1 | [运行时基础功能五组补测](tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | rework | GLM仅修D1输入保真/看板 / Codex复核 | a9e1d4f1：59/1189、原四针detected；新project输入污染仍漏检，候选文档门红；已闭环项不重开，未合入 |
+| TEST-REFORGE-RUNTIME-CONTRACTS-1 | [运行时基础功能五组补测](tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | rework | GLM收窄返工完成 / Codex复核 | D1实际输入保真已钉（input见证detected）、原四见证保持、60项/1190、check:docs绿；看板回退已撤回；候选codex/glm-reforge-runtime-contracts-r1 |
 
 2026-09-19 Codex完成[E-01资源测试输入合同](../testing/phase1-resource-test-inputs.md)：20项无PAL依赖输入回归及真实资源对拍通过，check7478/严格fast6989绿；不改GLM目标面或游戏运行逻辑，不新增三签卡。用户已选D-05独立临时试玩，下一项联合D-04设计，裁决见[审计台账](audits/pre-e2e/editor-workflows.md#d-05--临时试放不改存档的告知与保存行为不一致)。
 
