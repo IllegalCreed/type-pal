@@ -1,6 +1,6 @@
 # TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: 当前内容合同回归与覆盖率（不改变能力地图）
 Coding Owner: GLM（新测试/薄fixture）
@@ -16,9 +16,10 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
 此树hash含既有测试，仅作起点核验；实施后允许白名单新增测试，生产文件/旧测试仍须逐文件零diff。
 本卡只增加当前合同的回归，不修产品、不定义新schema、不做视觉；六组一次设计准入，不逐组重新签字。
 详细范围、覆盖快照和交付表见[工作包与GLM回执](../../testing/glm-content-contracts.md)。
-当前（2026-09-18）：候选`dbe579c5f7e8790d03d4ce1974449118537c021f`独立接收为counter，R1～R4见[复核报告](../../testing/content-contracts-review.md)。
-116定向/673全包、原6+12负控及覆盖增量已复算；主fixture合法性、六条漏检见证、判据与完成账仍需返工。
-测试未合入main、官方基线未动；GLM原实施回执/自验保留候选树，不代填或改写。r1设计不重签。
+当前（2026-09-18）：返工源`428a7852`已独立接收并合入main，集成候选`adbabb84f3368385728c1f16df3815f97fffd0a2`，对比`31aa0e3b`。
+R1～R4闭环与Owner分类订正见[复核报告](../../testing/content-contracts-review.md)；118定向/675全包、六条见证/12负控均通过。
+完整check7420→官方ratchet→受保护单次strict-fast6932全部exit0；Codex accept，Kimi独立终审pending，不标done。
+GLM为测试贡献者；其返工自验不是独立第三方证明，源测试/fixture/负控语义集成零改动。原counter与签字保留，r1设计不重签。
 
 ## 目标
 
@@ -181,6 +182,17 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
 ### done前
 
 - Codex：**counter（2026-09-18，dbe579c5接收复核；对比5fd655ec，冻结7ab20689）**。产品/旧测试/基线零改已核；116/673/tc及原6+12负控通过，覆盖+116语句/+127臂成立。但R1实际F场景/Sprite及A4页结构被当前守卫拒绝；R2六个已证执行的坏实现仍被候选断言放行；R3判据仅load标记且接受混合宿主错误日志；R4逐族完成账、命令、JSON格式与任务索引未闭合。见[报告与复建工具](../../testing/content-contracts-review.md)。不合入、不跑官方接收门禁、不转Kimi；不重开已核事实，不改GLM测试语义。
+- Codex：**accept（2026-09-18，r1返工源428a7852→集成候选adbabb84；替代上条历史counter）**。
+  - 实测七项实际fixture检查全accepted；四正控绿、六坏实现detected且运行态执行检查passed。产品与原见证脚本零改动。
+  - 6正控＋12变异均按预期；钉名新增测试JSON failed、业务AssertionError与同fixture正常对照组成鉴别证据，不把load标记单独当执行。
+    AST判据自测与本席混合坏日志均拒绝（mixedFailureAccepted=false）；产品hash不变。
+  - 43族逐项核对；C4 provider确实调用。Owner收窄C1编码防御域、F3商店两类边、F5空集合/缺席及F8分类范围，
+    原返工文字保留428a7852；不改GLM测试语义、不强测无合法输入的分支、不关闭其它修复卡。
+  - 独立118/675/tc、17交付文件Biome、docs绿；串行check7420、官方ratchet、受保护单次strict-fast6932全部exit0，无重试择绿。
+    content原42文件identity/计数与其它六包基线对象不变，617生产文件/四分母/统计配置/阈值不变。
+    全包新增100行/120语句/18函数/132臂；13模块局部97/117/17/128，差额来源详见报告。
+  - 旧版本兼容审查pass：当前canonical正控、错误TPFS版本拒绝，不引入旧schema/upgrader/fallback；产品零diff。
+    GLM测试贡献已披露；full/E2E未跑，视觉N/A；Kimi待独立终审，本席不代签、不标done。
 - Kimi：pending（独立终审）。
 - GLM：**r1 返工实现者自验 accept（2026-09-18；非独立第三方；原候选自验已被 counter 覆盖，原文见 dbe579c5 树）**。
   - R1：F bundle 去退役 onEnter、sprites 补 label；F1/A4 主载荷在测试内先过 validateAuthorScenes/
@@ -198,10 +210,15 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
   - 复跑：定向 13 文件 118/118、全包 55 文件/675 项、tc rc=0、新文件 Biome rc=0、mutants 18/18、
     witnesses 4 对照+6 针 detected+执行检查 passed、覆盖对照 +117 语句/+128 分支（/tmp 专属输出）。
   - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；无新产品缺陷、无隔离登记；不代签、不标 done。
-- done准入：pending，不代签、不标done。
+- done准入：pending（仅Kimi独立终审尚未签；GLM返工实现者自验保留，集成未改其测试语义）。不代签、不标done。
 
 ## 交接日志
 
+- 2026-09-18 Codex（返工接收/集成）：同步main31aa0e3b与远端428a7852，核产品/旧测试/原探针零漂移；
+  七fixture、六独立见证、12负控及118/675定向全包均通过。43族账按真实入口收窄C1/F3/F5/F8；
+  未改GLM测试语义，仅订正文档与诊断配置中的命令注释。串行check7420→ratchet→受保护单次fast6932全绿，
+  集成提交adbabb84；补测+官方基线已入main，签本席accept、任务转review并同步看板/index。下一席Kimi独立终审，设计不重签、未done。
+  证据目录/tmp/codex-content-contracts-rework.CTD0rc/；剩余覆盖归属见报告，不能据此关闭D-02等其它缺陷。
 - 2026-09-18 GLM（r1 返工完成）：合入 counter 31aa0e3b（原文保留），按 R1～R4 定点返工并复验：
   fixture 合法性（witness 7 检查 accepted）、六针全 detected、mutants 判据自测+JSON 执行见证
   18/18、43 族账重写、覆盖对照 +117/+128。定向 118/全包 675/tc/Biome 绿。返工实现者自验
@@ -228,7 +245,17 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
 
 ## 下一位Agent提示词
 
-### GLM · 当前R1～R4返工
+### Kimi · r1独立终审（当前）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 独立终审 TEST-CONTENT-CONTRACTS-1 r1。任务卡 docs/ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md，review；集成候选 adbabb84f3368385728c1f16df3815f97fffd0a2，对比31aa0e3b；GLM返工源428a7852，产品冻结7ab20689447150eec7ecb0678cbb6980a685eb49。设计不重签。
+先同步分支并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡与docs/testing/content-contracts-review.md、glm-content-contracts.md/evidence.json。独立读源码和测试，不复述Codex/GLM结论；GLM是118项测试贡献者，其自验不是独立第三方证明。
+重点核R1主载荷先过当前守卫；R2实参深快照、地图单轴、非零offset完整像素、精确Issue多重集合；R3判据拒混合宿主错误且JSON钉名新增用例业务红（load标记本身不算）；R4的43族账及Owner对C1/F3/F5/F8的收窄。生产/旧测试/原见证零改，Codex未改GLM测试语义；只另改命令注释/文档和官方生成baseline。
+复跑 node docs/testing/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal（7 accepted、6 detected、执行检查passed、mixedFailureAccepted=false），node docs/testing/glm-content-contracts-mutants.mjs（6正控+12业务红），按需content全包675/tc/Biome。核串行check7420→ratchet→TYPE_PAL_COVERAGE_BASE_REF=31aa0e3b pnpm coverage:fast单次exit0的证据；fast6932/617，原42个content测试身份/计数、其它六包基线对象、全生产清单与分母不变。日志/tmp/codex-content-contracts-rework.CTD0rc/可重建。未跑full/E2E，不关闭其它修复/覆盖待办；本卡无视觉复验。
+只在你自己的终审席位和交接日志写accept或counter（file:line、复现、返工项），提交前同步保留他席并自行提交推送；不要改产品/GLM测试语义/基线/他席/任务状态，不代签、不标done。有阻断交回Codex；通过则由Codex统一核定后续准入。
+```
+
+### GLM · R1～R4返工（历史，已完成）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 返工 TEST-CONTENT-CONTRACTS-1 r1，卡 docs/ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md，rework。原候选dbe579c5f7e8790d03d4ce1974449118537c021f，分支codex/glm-content-contracts-r1，产品冻结7ab20689；设计不重签。
@@ -239,7 +266,7 @@ R3原12针此次业务红保留，但工具须运行态执行见证/明确新增
 保留有效用例与已核116运行/+116语句/+127分支，不为固定条数或100%凑数。复跑定向/全content/tc/全部新增文件Biome、原6+12与新见证、同口径/tmp覆盖；全仓check/官方ratchet/strict-fast仍留Codex。GLM为测试贡献者，不代签、不标done、不自行转Kimi终审。
 ```
 
-### Codex · 重新接收 r1 返工（当前）
+### Codex · 重新接收 r1 返工（历史，已完成）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 重新接收 TEST-CONTENT-CONTRACTS-1 r1 返工。任务卡 docs/ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md（rework）；返工回执与 43 族账 docs/testing/glm-content-contracts.md；机器账 docs/testing/glm-content-contracts-evidence.json（已过 Biome）。候选分支 codex/glm-content-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-content-contracts），在你的 counter 31aa0e3b 之上追加返工提交；产品冻结 7ab20689447150eec7ecb0678cbb6980a685eb49；设计不重签。

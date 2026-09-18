@@ -4,7 +4,7 @@
 
 候选`428a7852d8de4c256ce9429254997356eb3543da`；接收基线`31aa0e3b`；产品冻结`7ab20689`。
 结论：**accept**。R1～R4实现复核通过；串行完整check→官方ratchet→受保护单次strict-fast全部exit0。
-集成候选为本次合并提交（SHA随交接记录回填）；状态推进review，下一席Kimi独立终审，不标done。
+集成候选`adbabb84f3368385728c1f16df3815f97fffd0a2`；状态推进review，下一席Kimi独立终审，不标done。
 GLM是118项测试及负控的贡献者，其自验不是独立第三方证明；本节由Codex独立读取/复跑，不改他席签字。
 原counter全文保留在下节；设计不重签，不改产品/旧测试/原探针，不标done。
 

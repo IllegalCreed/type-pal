@@ -6,8 +6,8 @@
 
 ## 文档与附件
 
-- [六组内容合同补测工作包](glm-content-contracts.md)与[任务卡](../ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md)（rework；R1～R4已返工待Codex重新接收，不改产品，无视觉）
-- [内容合同补测Codex复核](content-contracts-review.md)（实际fixture与六条漏检见证、负控判据、逐族账和交付卫生；counter 已按返工回应）
+- [六组内容合同补测工作包](glm-content-contracts.md)与[任务卡](../ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md)（review；集成adbabb84，118项，不改产品，无视觉，待Kimi独立终审）
+- [内容合同补测Codex复核](content-contracts-review.md)（R1～R4闭环、六见证/12负控、43族归属订正；check7420/严格fast6932通过，本席accept）
 - [精灵上传选图归属](sprite-selection.md)（a88ab18d三席accept、用户验收通过并done；真实组件乱序/字节/历史、六负控及最小界面验证）
 - [当前检查点导出](checkpoint-export.md)（真实DEV注册、安全快照共队列、失败恢复与隔离负控；R4整页闭环待执行）
 - [编辑器命令与引用补测工作包](../ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)与[GLM回执](glm-editor-logic-coverage-receipt.md)（done；四组非视觉测试，GLM贡献、Codex集成、Kimi独立终审）
