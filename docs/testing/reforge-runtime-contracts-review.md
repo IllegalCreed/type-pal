@@ -1,6 +1,61 @@
 # TEST-REFORGE-RUNTIME-CONTRACTS-1 · Codex接收复核
 
-## 当前结论（2026-09-19）：a9e1d4f1仍counter，仅剩D1输入保真与看板回退
+## 当前结论（2026-09-19）：accept，集成候选62a18137，待Kimi终审
+
+源候选`3dfec190076a2561290685702d47da265f5ef58c`，本轮主线基点b99ec6cf；r1设计不重签。
+只复核剩余D1输入保真与看板，已闭环R1/R3及R2/R4其他项不重开。技术阻断全部消除，
+串行check/ratchet/受保护单次fast通过，集成候选`62a181376f283fe7bfbb84c69be631399887e495`。
+Codex签accept，无返工项；任务review，尚不标done，Kimi独立终审未执行。GLM为测试贡献者，其自验不是独立第三方。
+
+### 独立验证与输入身份
+
+- 候选本地HEAD/origin/ls-remote三者一致、工作树干净；相对4678650a只有原17文件白名单。
+  相对a9e1d4f1的Reforge差异**仅D1测试文件42增/6删**，fixture实现与其它九测试未改。
+  Reforge生产对冻结3bc20273零diff，旧测试/脚本配置/锁文件与两份原见证工具均未改。
+- D1:76-83包装source.readJson：先从真实fixture读取value，立即记录同一value及deepSnapshot，然后**原样return value**；
+  注册发生在工程boot之后、loadAllScenes之前，消费路径断言精确为s001/s002两项，不是空集合假通过。
+  当前loadAuthorScene与validateAuthorScenes不另造副本，因此这些value就是投影实际消费的作者对象。
+  同一project的actorsById现入快照；消费后比较原对象，runtime cue改动后再次比较，独立重读只另称“读取确定性”。
+- `reforge-runtime-input-review-witness.mjs`：正常7/7绿，实际project角色污染由MISSED变**detected**（AssertionError、非TypeError）。
+  原四工具见证保持detected（BGM4/MIDI8/loader7/equip3），四正常对照绿；两工具原样重跑，未改判据。
+- 本席补一条临时独立反控：仅在loadScene先生成正确output后，执行`input.entry.pos.col += 17`再返回output。
+  Vite内存隔离、实际函数体marker输出`s001 17`；7项中恰新“实际输入保真”测试业务红，其余6绿。
+  证明新增source捕获不是只看文件表或旧read副本；未改候选文件，临时配置/JSON/日志见下。
+- 原15跑：5对照exit0+10针钉名AssertionError业务红，混合失败判据自测正常；全部被触生产hash前后一致。
+- 定向10文件**60/60**、全Reforge **116文件/1190项**、tsc、14新增TS/MJS/MTS/JSON的Biome均通过。
+  候选`check:docs` PASS（443 Markdown/2255链接）；board相对4678650a只改本人一行，guard归档/预览缓存未回退。
+  本席未再改GLM测试语义，没有把测试贡献者自验当独立第三方。
+
+### 集成与统一门禁
+
+在main/b99ec6cf上合并3dfec190，无冲突；11个测试/fixture及诊断/机器账与源候选逐字一致。
+主线E-01资源测试、editor修复、guard归档保持原样；无生产变化。完整`pnpm check` **7538项**通过，
+20 docs-tools/17 coverage-tools另计；lint exit0，既有48 warning/11 info未变。
+官方ratchet与`TYPE_PAL_COVERAGE_BASE_REF=b99ec6cf pnpm coverage:fast` **单次严格fast7049项/617生产文件**通过。
+原Reforge106个fast测试文件identity/计数原样，现116文件/1190项；只新增十文件60项。
+全部生产清单/scopeDigest/指标分母不变，其它六包整个基线对象逐字相同，未缩范围/降门槛；strict与ratchet完全一致。
+
+| 口径 | 行 | 语句 | 函数 | 分支 |
+|---|---:|---:|---:|---:|
+| Reforge | 7927/14118（56.15%） | 8763/16188（54.13%） | 1388/2416（57.45%） | 5329/11041（48.27%） |
+| 全仓 | 49332/69119（71.37%） | 54693/78971（69.26%） | 10321/14520（71.08%） | 39138/62045（63.08%） |
+
+纯补测净增74行/84语句/13函数/73臂，与候选临时对照分子分母一致；百分比采用官方四舍五入展示，
+不是Vitest局部报告截断展示（56.14/48.26）的数据漂移。最终全仓90%/85%目标仍未达到。
+未跑full/E2E、无新增视觉/听感验证要求，本包不修游戏行为。
+
+非阻断后续：BGM initP初始化失败后的重试政策仍归Codex后续音频生命周期核验；不把当前拒绝缓存固化为正确，
+也不扩成本包产品修复。旧版本兼容审查pass：没有新增生产兼容层、旧版本fixture或旧入口保活。
+
+### 本轮证据
+
+日志根`/tmp/codex-runtime-final.5hWav3/`：directed/reforge/typecheck/biome/docs-candidate/witnesses/input-witness/mutants/check，
+以及ratchet/strict-fast/baseline-audit与`lazy-author.config.mjs`/`lazy-author.json`/`lazy-author.log`（补充的真实lazy输入污染反控）。
+两条常驻见证与原15跑均可从入仓工具重建；临时反控只替换loadScene原return表达式为“先投影、污染实际input、返回正确output”。
+收口文档检查：本席把任务切review后首次检查因尚未同步生成索引失败；同步index顶部状态后复查通过。
+这是Codex收口的机械登记修正，不归因GLM，不改产品或重复运行严格覆盖率取多数。
+
+## 收窄前历史（a9e1d4f1 counter，以下两项现已闭环）
 
 候选`a9e1d4f1b8aff41aad0c320fb3a6608c3cf8319d`，counter基点ced4f2b9；本席主线评估基线为main/4df7823e。
 origin/ls-remote/候选worktree三者一致且干净。**R1、R3已闭环，R2投影与resolver故障恢复、R4 A5与计数更正已闭环，不重开。**

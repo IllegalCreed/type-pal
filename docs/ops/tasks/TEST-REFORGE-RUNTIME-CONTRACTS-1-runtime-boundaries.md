@@ -1,6 +1,6 @@
 # TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: 已有运行时合同与测试覆盖率（不改变能力地图）
 Coding Owner: GLM（仅新测试与薄fixture）
@@ -9,15 +9,16 @@ Reviewer: Codex / Kimi
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: none
-Branch: codex/glm-reforge-runtime-contracts-r1
+Branch: main（源分支codex/glm-reforge-runtime-contracts-r1）
 
 Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`。
 用户要求“再给GLM一大块工作，Codex也并行推进”；整包五组十模块，一次设计签字，签齐后连续完成，不逐组请示。
 工作包/唯一测试路径/30族账见[GLM运行时补测工作包](../../testing/glm-reforge-runtime-contracts.md)。
-当前（2026-09-19）：返工候选a9e1d4f1仍counter，仅剩R2-D1实际输入保真与R4越界看板回退，见[接收复核](../../testing/reforge-runtime-contracts-review.md)。
-59定向/1189全包、5+10原负控、原四见证全部detected及+74行/+84语句/+73臂均独立复算；R1/R3和其余已闭环部分不重开。
-新增实际project角色污染针仍6/6绿，候选check:docs因另一卡看板回退exit1。未合入测试、官方fast6969不变；GLM自验/回执保留候选树，不代填签字。
-直接交GLM收窄返工，r1设计不重签。Codex的场景引用保护已done归档，预览缓存已在4df7823e收口；不得回退这两项，本包reforge生产冻结不变。
+当前（2026-09-19）：源3dfec190收窄返工已由Codex独立复核并集成为候选`62a18137`，见[接收回执](../../testing/reforge-runtime-contracts-review.md)。
+D1实际输入保真与看板剩余counter闭环，其它已通过项不重开；60定向/1190全包、两见证工具/原15跑及补充lazy输入反控通过。
+主线串行check7538、官方ratchet与受保护单次fast7049通过；Codex accept，Kimi待独立终审，不标done。r1设计不重签。
+GLM为测试贡献者，其实施者自验保留本人原文，不作为独立第三方；Reforge测试/fixture/诊断与3dfec190逐字一致，官方基线由Codex单独验证。
+主线场景引用保护归档、预览缓存、E-01资源测试修复保持原样；本包无生产/旧测试修改，冻结约束不变。
 
 ## 目标与边界
 
@@ -161,6 +162,16 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
     覆盖对照 +74 行/+84 语句/+73 分支（/tmp 同口径；收窄项只强化断言不加覆盖面，数字不变）。
   - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；bgm initP 缓存政策仍记待证；
     不代签、不标 done。
+- Codex：**accept（2026-09-19，r1，源3dfec190→集成候选62a18137，对比b99ec6cf）**。
+  - 独立确认D1 readJson边界捕获的value原样交给loader，消费后比较同一对象/交付时快照，project的actorsById入快照；非两次clone互比。
+    角色污染针已detected，另造loadScene投影后污染实际lazy输入entry.col反控，恰新输入保真例AssertionError红、无TypeError。
+  - 看板只改本人一行，候选check:docs通过，主线已收口guard/预览缓存/E-01全部保留；剩余counter解除，不重开已闭环项。
+  - 定向60/60、全Reforge1190/tc/Biome14绿；原四见证均detected、新输入见证detected、原15跑通过，原见证未改判据。
+  - 串行完整check7538、官方ratchet、受保护单次strict-fast7049/617通过；原106个Reforge测试identity/计数和所有生产分母/范围保留，其他六包整个基线对象不变。
+    本包纯补测+74行/+84语句/+13函数/+73臂；没有产品漂移、缩范围或降门槛。GLM测试贡献已披露，不以其自验代替本席复核。
+  - 旧版本兼容审查pass：未增旧版本fixture/旧入口保活或生产兼容层。无返工项；BGM initP初始化失败缓存政策另归后续核验，不在本包固化或修改。
+    未跑full/E2E；Kimi独立终审待办，不代签、不标done。证据、分数及日志见接收回执。
+- 以下Codex counter为历史，本轮已全部闭环。
 - Codex：**counter（2026-09-19，返工候选a9e1d4f1，仅剩R2-D1/R4）**。
   - R1真读取交错/旧finally、R2完整cue与同实例IO恢复、R3实际world/真实use请求、R4 A5与计数已通过，保留有效结论，不重开设计。
   - 独立59/1189/tc/Biome14通过，原四针全部detected、原15跑通过，同树覆盖+74/+84/+13/+73复算。
@@ -168,7 +179,7 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
     lazy作者输入仍用另一次readJson的clone作比较，未观测实际消费对象。新见证与file:line在复核报告。
   - R4：候选board把其他guard卡review回退build，check:docs exit1；主线该卡已done，返工必须保留最新主线状态。
   - 旧版本兼容审查pass：测试包未增旧版本保活/生产兼容层；产品零漂移。未改GLM测试，未合入/未跑全仓接收门，不代签/不标done/不转Kimi。
-- 以下首轮Codex签字为历史；当前只以上述收窄counter为准。
+- 以下首轮Codex签字为历史。
 - Codex：**counter（2026-09-19，候选75c9cfe8对比6300223a，生产冻结3bc20273）**。
   - 白名单/产品零改、56/1186/tc/14新增文件Biome及原15跑通过；覆盖双口径独立复算，保留有效事实。
   - R1：BGM C2未启动旧读；MIDI C4未覆盖旧finally清新在途请求。删除post-read gate/去finally身份门后，新增BGM3/MIDI7仍全绿。
@@ -178,9 +189,12 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
   - 旧版本兼容审查：本包未增产品版本兼容层，无生产漂移；没有把未覆盖语义或bgm initP待证政策判为产品已修。
     未改GLM测试，不合入、不跑接收后的全仓门，不代签、不标done、不转Kimi。完整反例/修法/日志见接收报告。
 - Kimi：pending（接收后独立终审）。
-- done准入：未开放，不代签。
+- done准入：未开放，待Kimi独立终审；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Codex（最终接收/集成）：在main/b99ec6cf独立复核源3dfec190，剩余两项闭环；60/1190/tc/Biome14、五常驻见证、15跑及额外lazy输入污染反控通过。
+  合入最新主线，保留E-01与所有editor已收口改动；完整check7538→ratchet→受保护单次fast7049全部绿，集成候选62a18137。
+  本席accept，任务review，无返工项；GLM为实现者自验，Kimi下一步独立终审。未改GLM测试语义/他席签字，不标done；两轮counter保留为历史。
 - 2026-09-19 GLM（r1 收窄返工完成）：rebase 最新 main 4678650a（保留 guard 归档与预览缓存修复，
   撤回看板回退），只修 D1 实际输入保真与文档门。新 input 见证 detected、原四见证保持、15 跑全绿、
   check:docs PASS。收窄返工实施者自验 accept 已签；任务保持 rework，等 Codex 复核。
@@ -212,7 +226,17 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
 
 ## 下一位Agent提示词
 
-### GLM · D1输入保真与看板收尾（当前）
+### Kimi · 集成候选62a18137独立终审（当前）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 独立终审 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1。任务卡 docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md 当前review；集成候选62a181376f283fe7bfbb84c69be631399887e495，对比b99ec6cf，源GLM候选3dfec190，设计不重签。
+先同步main并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡上下文、docs/testing/glm-reforge-runtime-contracts.md和机器账；从源码/实际调用独立形成结论，不复述Codex或GLM评价。GLM编写十新测试+fixture，属于测试贡献者/实施者自验，不是独立第三方；Codex接收记录在docs/testing/reforge-runtime-contracts-review.md。
+重点核：D1 source.readJson返回value就是记录的实际对象，交付时快照、消费后保真及runtime不别名；project actorsById保护；此前C2/C4真实交错、D4/D5同实例IO失败恢复与B5真实use请求链已闭环，按风险抽查，不重开设计。候选无产品/旧测试/原探针/统计范围变化，主线guard归档、预览缓存、E-01修复完整保留。
+可复跑两个常驻见证：node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal；node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal；应五控绿/五针detected。原负控：node docs/testing/glm-reforge-runtime-contracts-mutants.mjs，应5控绿+10针业务红。定向60/全Reforge1190/tc/Biome14、完整check7538、官方ratchet及受保护单次fast7049已由Codex独立通过；官方分母/617生产清单与旧106个Reforge测试身份保留，其余六包整个基线对象不变。不要并行争用官方coverage目录。
+仅在本人Kimi席位写带直接证据的accept或counter、本人交接日志并提交推送；不改产品/测试/其他席位/任务状态，不标done。BGM initP初始化失败缓存政策保留后续核验，不把待证当本包已修。签前再次同步保留他席改动，不切GLM工作树或回退已收口任务。无视觉/听感/E2E复验要求。
+```
+
+### GLM · D1输入保真与看板收尾（历史）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal-glm-reforge-runtime 收窄返工 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1，候选a9e1d4f1，卡docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md为rework。先核本人分支codex/glm-reforge-runtime-contracts-r1，同步本次Codex counter与最新main，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/reforge-runtime-contracts-review.md当前节。不得切主worktree、reset、恢复stash或回退其他任务；guard已done归档、预览缓存4df7823e已收口，均须保留。r1设计不重签，R1/R3及已通过的投影/IO恢复/A5不重开。
@@ -231,7 +255,7 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
 原56测试/原10负控及覆盖增量的有效部分保留，不推倒重做、不凑固定条数、不改产品/旧测试/原探针/官方基线。复跑定向/全reforge/tc/全部新文件Biome、原15跑、四新见证及官方同口径/tmp覆盖；全仓check/ratchet/strict-fast仍留Codex。bgm initP政策继续待证，不扩成修复授权。提交推送本人测试/回执，交Codex重新接收；不代签、不标done、不直接转Kimi。
 ```
 
-### Codex · 复核 r1 收窄返工（当前）
+### Codex · 复核 r1 收窄返工（历史）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 复核 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1 收窄返工。任务卡 docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md（rework）；回执 docs/testing/glm-reforge-runtime-contracts.md；机器账 docs/testing/glm-reforge-runtime-contracts-evidence.json。候选分支 codex/glm-reforge-runtime-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-reforge-runtime），在你的 counter 4678650a 之上 rebase 后追加收窄返工提交（tip d28b3c51+）；生产冻结 3bc20273；设计不重签；主线 guard 归档与预览缓存修复原样保留。
