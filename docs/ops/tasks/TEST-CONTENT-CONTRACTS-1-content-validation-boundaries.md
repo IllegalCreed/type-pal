@@ -111,8 +111,68 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
   关键反证：asset路径不规范化而map-index规范化、tile0非空、actor cue需side/rows对象、canonical叶不递归嵌套命令；这些都不能用泛化规范替代源码合同。
   已排除无现行调用的enemy-team-reference和旧script-library/YJ2/战斗公式，避免覆盖率驱动旧模型扩张。测试限定、无产品行为变化；不重审已done两批补测。
   可证伪：同合同已有断言、无caller、输入不合法、只靠前置其它守卫/测试替身失败、目标本身错误，则该族不记新增完成并交Codex裁定；其余独立组可继续。
-- Kimi：pending（独立设计/前提审查）。
-- GLM：pending（实现可行性与矩阵设计；不是实施后的独立第三方自证）。
+- Kimi：**premise verified / design agree（2026-09-18，r1，产品冻结 7ab20689；全部锚点本人直读，未读 GLM 结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  - **路径合同差异直读**：`asset.ts:111` `validateProjectRelativePath` 注释明令「禁止隐式规范化」
+    （fail-loud）；`map-index.ts:25` `normalizeMapAssetPath` 明确 trim 并拒绝对/反斜杠/`..`——
+    两个 API 合同不同，卡面警告属实，不能写成同一合同。
+  - **结构差异直读**：`project-map.ts:126` validateIsometricMapContent 含 nullable collision 变体
+    （与 stamp 的 nullable 不同族）；`author-dialogue.ts:82/123` portrait exactKeys+side 检查、
+    `checkAuthorDialogueCue` 为作者 cue 唯一形状守卫（runtime/author 两种 cue 不混）。
+  - **canonical 叶 vs 递归 walker 直读**：`actor-reference.ts:198` 共用叶扫描 vs `:220`
+    「One canonical command visit…never nested arms」；`command-target-reference.ts:278` 全递归
+    walker vs `:313` 「only the current command, its direct EntityAddress fields and its condition
+    tree」——两域明确，不能互相当替身。
+  - **帧容器直读**：`frame-sequence.ts:173` TPFS.index 校验、`:255` parseFrameSequence magic
+    头检查——独立字节 oracle 目标真实；帧需求（frame demand）是定义集合非实际资源帧数
+    （卡面边界正确）。
+  - **真实调用方直读**：`project-loader.ts:48/61/201-202` validateEnemyTeams/Tilesets/
+    AssetCatalog 消费；editor commands 与 migrate publication 调用域与卡面一致。
+  - **排除项核实**：`collectEnemyTeamTaggedReferences` 全仓 grep 仅声明/导出无现行消费者
+    （本人实测）——排除默认补测正确，且不授权删除；旧 script-library/YJ2/战斗公式排除合理。
+  - **覆盖快照复算**：content 557 项/50 文件、行 4358/5183、分支 3666/5016 与卡面逐项一致；
+    468 未命中臂是缺口指示非指标、非 bug 计数（卡面声明正确）。白名单抽查两个测试文件
+    均不存在（本人实测）。
+  - **设计同意**：六组范围映射真实现行调用域；合法主载荷先过现行守卫+一轴负例；保真深快照
+    与精确输出分开（undefined/NaN/typed array 不走 JSON 往返）；每组≥2 有意义单点负控
+    （唯一替换+执行见证+业务红+正常绿，TypeError/超时/零用例不算）；覆盖 before/after 直接
+    import 官方 testSelection、输出仅 /tmp、全包并集与局部 13 模块分栏；已知缺陷隔离不固化、
+    不动产品/旧测试/基线；工作包独立分支与门禁分工（GLM 测试/Codex 集成）清楚。
+  - **可证伪观察**（任一反例即收窄或 counter）：① 某边界已被同合同断言（含跨包）覆盖 →
+    登记证据不加重复；② fixture 过不了自身现行守卫 → 非法输入不给主例背书；③ 负控仅
+    TypeError/超时/模块加载失败 → 无效重造；④ 两个路径 API 被当成同一合同 → 测试模型错；
+    ⑤ canonical 叶与递归 walker 互替 → 域错；⑥ 覆盖对照换源码/换选择集或写官方目录 →
+    数字无效；⑦ 产品/旧测试/官方基线出现 diff → 越界即停。
+  - 返工项：无。非阻断备注：F 组「干净 bundle 零 issue 或精确既有 issue 清单」是本包最易
+    踩坑点（卡面纪律 6 已列）；enemy-team.ts 当前 fast 0% 不等于从未被测（跨包 loader 间接
+    执行），去重时按真实调用域核，终审时逐族对账。
+- GLM：**premise verified / design agree（2026-09-18，r1，冻结 7ab20689；全部锚点/覆盖表本人直读，
+  未读 Kimi 结论；上两批 editor/foundation 补测的 counter 教训——深快照、真实正控、负控鉴别力、
+  官方 testSelection 口径——已吸收进本包执行计划）**。
+  - **锚点直读**：A——`asset.ts:111-126` validateProjectRelativePath fail-loud 且**返回原值不规范化**；
+    `map-index.ts:25-30` normalizeMapAssetPath **先 trim 再逐段规范化**——两路径 API 合同确不相同，
+    卡面「不能写成同一合同」属实。B——`project-map.ts:120-130` dense/nullable collision 双签名；
+    :126 矩阵行数=height×2 合同在 validateIsometricMapContent。D——`sprite.ts:83/98`
+    spriteDefinitionFrameDemand/Indices 为纯计算（Pick<layout|poses>，无 IO）；`enemy-team.ts:15/35/49`
+    结构/引用/合并三导出（id 非空去重、slots≤5、string|null 槽）。E——`actor-reference.ts:198`
+    collectActorTaggedReferences **整树递归** vs :220 collectCanonicalActorTaggedReferences
+    **单命令叶不递归嵌套臂**——「不能互当替身」属实；`command-target-reference.ts:278/313`
+    全树 walker 与 rewrite 的分工边界在位。F——`validate-refs.ts:74` ContentBundle 双服务面确认。
+  - **无 caller 排除独立复核**：`collectEnemyTeamTaggedReferences` 全仓 rg 仅 enemy-team-reference.ts
+    自身声明/导出，零现行消费者——不默认补测、不授权删除，与卡面一致。
+  - **覆盖表独立复算**：13 模块行/分支命中从当前 `coverage/fast/content/coverage-summary.json`
+    逐文件复算，与工作包表**逐格一致**（asset 267/296·229/289、sprite 0/11·0/12、enemy-team 0/28·0/30、
+    validate-refs 578/628·445/522 等）；content 557/50 与官方 fast 一致。468 未命中臂是缺口输入不是指标。
+  - **13 个白名单测试名核对**：全部不存在可新增（下 op 前再逐个 ls 核验归属）。
+  - **设计同意**：六组范围/白名单/执行纪律与我的可执行矩阵一致——每族「caller/已有断言→去重→合法
+    正控→一轴反例→保真深快照+精确输出」；F 组先建干净非空 bundle 再单轴损坏、完整 Issue 多重集合
+    比较（不 Set 去重、不 .some 首错即停）；覆盖对照直接 import coveragePackages/testSelection；
+    每组≥2 实际执行的单点业务负控；已知缺陷隔离不固化。**非阻断建议**：C5 的 byteOffset 视图用例
+    与 D1 的「一组资源多种定义」用例在旧包 counter 中有先例教训（数据合法性先过守卫），实施时优先。
+  - **可证伪观察**：①若某族边界已被同合同既有断言覆盖→登记已有不重复（去重先行）；②拟造输入不属
+    API 支持域（如给纯计算 helper 传非法布局）→撤回该用例；③负控 TypeError/超时/零用例不算鉴别力；
+    ④深快照 JSON 往返丢 undefined/NaN/typed array→改保真比较；⑤发现现行实现与合同矛盾→停该族
+    交 Codex，不反向写期望；⑥产品/旧测试/基线任何 diff→越界即停。
+  - 返工项：无。三签齐且无 counter 后按卡连续 A→F。
 - build准入：pending，待三席同r1齐且无counter；用户未豁免。GLM核齐后方可作为Coding Owner开build，Reviewer不得提前改状态。
 
 ### done前
@@ -124,6 +184,19 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
 
 ## 交接日志
 
+- 2026-09-18 Kimi：完成 r1 独立设计/前提审查，签 premise verified + design agree，无返工项。
+  直读 asset.ts:111 与 map-index.ts:25 两个不同路径合同、project-map nullable 结构、
+  author-dialogue portrait/cue 守卫、actor-reference:198/220 与 command-target-reference:278/313
+  canonical 叶 vs 递归 walker 两域、frame-sequence TPFS 头/index、project-loader 真实调用方；
+  实测 collectEnemyTeamTaggedReferences 无现行消费者（排除正确）、覆盖快照与卡面逐项一致、
+  白名单文件不存在。七条可证伪观察写入本席；范围确停测试补强、不固化已知缺陷。
+  未改实现/他席/状态，未读 GLM 结论。Next：三签齐后 GLM 作为 Coding Owner 核 build 并
+  连续 A→F；最终候选经 Codex 接收后再交本席终审。
+- 2026-09-18 GLM：完成 r1 设计审查，签 premise verified + design agree，无返工项（附一条非阻断
+  建议：C5 byteOffset 与 D1 多定义用例优先，先过数据守卫）。直读 asset/map-index 双路径合同、
+  project-map dense/nullable、sprite/enemy-team/actor-reference 双 walker/validate-refs 锚点；
+  独立复算 13 模块覆盖表逐格一致；collectEnemyTeamTaggedReferences 无 caller 复核确认。
+  未读 Kimi 结论；仅改本席与日志，三签未齐不写任何测试。
 - 2026-09-18 Codex：按用户要求整理一整块GLM工作，复算覆盖、查现行caller和已有测试，圈定六组13模块/13新测试白名单；主线7ab20689干净且与远端一致。只建立draft及工作包，未写测试/改产品/改基线；本席设计签字已落，两席提示同时给出。
 
 ## 下一位Agent提示词
