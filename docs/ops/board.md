@@ -12,9 +12,9 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SCENE-REF-GUARD-1 | [场景删除引用保护](tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md) | review | Kimi/GLM并行终审 | 83598cc4；单adapter、22新回归/PAL补1边、最小界面验证通过；check7442/受保护fast6954绿，Codex accept |
 | TEST-REFORGE-RUNTIME-CONTRACTS-1 | [运行时基础功能五组补测](tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | rework | GLM修R1～R4 / Codex复核 | 75c9cfe8 counter：56/1186与原10负控/覆盖有效，四独立坏实现漏检；未合入/未动基线，设计不重签 |
 
+场景引用保护候选83598cc4已三席accept，用户要求本人继续，2026-09-19由Codex[核定done归档](../testing/scene-reference-guard.md)；22新回归、check7442/strict fast6954及功能验证通过，其它审计缺陷不借此关闭。
 内容合同补测候选adbabb84已三席accept、用户确认签字，2026-09-18由Codex[核定done归档](../testing/content-contracts-review.md)；新增118项，check7420/strict fast6932通过，43族剩余覆盖及其它审计修复保持原归属。
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。
 精灵上传选图修复候选a88ab18d已三席accept、用户验收通过，2026-09-18由Codex[收口归档](../testing/sprite-selection.md)；check7302/strict fast6814通过，G-I04与R4后续边界保持。

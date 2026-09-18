@@ -132,9 +132,9 @@ content类型/校验/规则，migrate发布/物化/历史输出，reforge状态/
 
 ## 建议推进顺序
 
-2026-09-18双线推进：[EDITOR-SCENE-REF-GUARD-1](../../tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)r1三席设计齐后已实现，
+2026-09-18双线推进：[EDITOR-SCENE-REF-GUARD-1](../../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)r1三席设计齐后已实现，
 Codex完成disabled/inherit/transition三漏边修复、22回归/PAL真树补1边/三负控及最小界面验证，check7442/严格fast6954通过，
-[回执](../../../testing/scene-reference-guard.md)在案；当前review待两席终审，未done。
+[回执](../../../testing/scene-reference-guard.md)在案；两席终审accept、用户要求继续，2026-09-19由Codex核候选零漂移后done归档。
 GLM独立[运行时基础功能五组补测](../../../testing/glm-reforge-runtime-contracts.md)（十模块30族）已于6300223a核准入build，
 与editor生产面隔离，未接收测试不计入上述基线。两卡不互借签字、不冒称完整E2E。
 

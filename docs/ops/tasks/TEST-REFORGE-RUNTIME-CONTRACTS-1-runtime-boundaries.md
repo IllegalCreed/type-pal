@@ -17,7 +17,7 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
 当前（2026-09-19）：源候选75c9cfe8独立接收为counter，R1～R4见[接收复核](../../testing/reforge-runtime-contracts-review.md)。
 56定向/1186全包、5+10原负控及+73行/+83语句/+73臂均复算；四条独立坏实现实际执行后仍被候选新增测试放行。
 测试包未合入、官方基线未动；GLM原实施者自验与最终30族账保留75c9cfe8树，不代填签字。直接交GLM定点返工，r1设计不重签。
-Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)，只动editor；本包reforge生产冻结。
+Codex并行[场景引用保护修复](../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)，只动editor；本包reforge生产冻结。
 
 ## 目标与边界
 
@@ -199,7 +199,7 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手新双线任务，两卡均r1/draft，生产冻结3bc20273fe88e83da2dcb32f04ea132a0ada60d9：
 1. docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md（你负责五组十模块补测）。
-2. docs/ops/tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md（Codex修D-02，你只审前提/矩阵）。
+2. docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md（Codex修D-02，你只审前提/矩阵）。
 先同步并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、两卡和docs/testing/glm-reforge-runtime-contracts.md。独立核真实caller、既有去重、合法fixture、异步所有权及负控；本卡68既有测试/tc绿，D-02三反例与use正控复现、40相邻绿。不要读取或复述Kimi结论。
 先在两卡各自本人席位写带直接证据/可证伪观察的premise verified与design agree或counter，更新本人日志，同步保留他席后提交推送。设计未齐不得实施。补测卡三席同r1齐且无counter后由你核build allowed，在codex/glm-reforge-runtime-contracts-r1独立worktree连续完成五组30族，不逐组请示。
 只改工作包十个新测试/薄fixture/本人诊断回执，产品/旧测试/原探针/官方基线零改；不碰Codex的editor修复。至少10条有执行见证的单点业务负控，定向/相邻/tc/Biome及同树/tmp覆盖双口径；全仓check/ratchet/strict-fast留Codex。无浏览器、截图、听感或视觉验收。新缺陷隔离报告，不反向写绿色合同。整包完成交Codex独立接收，披露测试贡献，不代签、不标done、不直接转Kimi终审。
@@ -209,7 +209,7 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 独立审两张新卡r1/draft，生产冻结3bc20273fe88e83da2dcb32f04ea132a0ada60d9：
-docs/ops/tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md；
+docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md；
 docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md。
 先同步检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、两卡及docs/testing/glm-reforge-runtime-contracts.md，直接核源码/caller，不读取或复述GLM结论。
 D-02请独立复跑两条卡内原probe，核inherit/disabled父场景边、transition条件漏接、use复合边去重、冷暖同源、删除集合豁免及现有owner定位能力；不扩大成公共locator/schema重构。补测卡核五组十模块30族的真实调用、合法输入、旧测试去重、current-only排除、异步负控鉴别力与非视觉边界；Codex只动editor，GLM不改生产，官方覆盖由Codex串行集成。

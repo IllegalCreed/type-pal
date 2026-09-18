@@ -1,9 +1,10 @@
 # 场景删除引用保护 · 实现与验证
 
-任务：[EDITOR-SCENE-REF-GUARD-1](../ops/tasks/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)，r1/review。
+任务：[EDITOR-SCENE-REF-GUARD-1](../ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)，r1/done。
 实现前基线`830db139`（产品与设计冻结3bc20273一致）；Owner Codex。GLM运行时五组补测为另一独立分支，不计入本卡。
 当前：单文件adapter修复、22项正式回归及最小真实App功能验证完成；最终check/ratchet/受保护单次strict-fast全绿。
-候选`83598cc4e58828ff5ec586c1491da685d564c85c`；Codex实现者自验accept，待Kimi/GLM独立终审；不代签、不标done。
+候选`83598cc4e58828ff5ec586c1491da685d564c85c`；三席accept、无返工，2026-09-19用户要求继续推进，Codex核候选零漂移后done归档。
+收口未改生产/测试/基线，沿用已完成质量门与最小功能验证，不要求重复签字。基线正确口径2322→2344、旧219文件保留，与本回执原记录一致。
 
 ## 实现边界
 
@@ -98,4 +99,4 @@ GLM运行时测试尚未接收，不计入6954；本次未跑coverage:full或完
 ## 后续
 
 本卡通过后只关闭D-02对应三漏边。D-06/D-07、G-R06未知根字段、缓存、技能试玩、GLM补测与完整E2E保持各自归属。
-终审提示随候选SHA与质量门统一落卡，两席并行审同一候选。GLM不重复视觉验证，也不因本卡中断其独立测试包的范围。
+本卡终审与收口已完成。GLM运行时测试返工及其它审计缺陷仍独立推进，不因本卡完成而关闭。
