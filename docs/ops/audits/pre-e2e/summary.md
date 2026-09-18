@@ -132,8 +132,8 @@ content类型/校验/规则，migrate发布/物化/历史输出，reforge状态/
 
 ## 建议推进顺序
 
-2026-09-18并行推进：[D-03精灵上传选图卡](../../tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md)已完成r1实现与[验证](../../../testing/sprite-selection.md)，当前review。
-候选a88ab18d，22定向/36相邻/6负控及Codex实际界面检查通过，check7302/strict fast6814；三席accept齐，已核零漂移，仅待用户验收/明确收口。
+2026-09-18收口：[D-03精灵上传选图卡](../../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md)已完成r1实现与[验证](../../../testing/sprite-selection.md)，当前done。
+候选a88ab18d，22定向/36相邻/6负控及Codex实际界面检查通过，check7302/strict fast6814；三席accept齐、用户验收通过，已核零漂移并归档。
 编辑器命令/引用补测已另卡done；本卡不改其core/测试面，也不提前实现G-I04提交取消政策。
 
 以下是修复排期建议，不是已经开始的任务，也不提前决定schema版本/文件布局/兼容策略。

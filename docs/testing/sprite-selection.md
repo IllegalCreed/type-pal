@@ -1,6 +1,6 @@
 # 精灵上传选图归属 · 实现与验证
 
-任务：[EDITOR-SPRITE-PICK-1](../ops/tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md)，r1，Coding Owner / 视觉验证：Codex。
+任务：[EDITOR-SPRITE-PICK-1](../ops/archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md)，r1/done，Coding Owner / 视觉验证：Codex。
 实施基点be1868f3；实现候选`a88ab18d51328432f559b41ee6e8f7880379880e`。本卡已签设计，GLM原只读探针贡献已披露，正式产品与回归由Codex实现。
 不改变控件布局、用途分类、切帧编码、资源ID合同或已开始提交后的取消政策。
 
@@ -83,8 +83,8 @@ fast **6814项/617生产文件**，editor **2322项/219测试文件/219生产文
 全仓行49023/69082（70.96%）、语句54339/78932（68.84%）、函数10260/14512（70.70%）、分支38843/62028（62.62%）。
 editor行22211/27828（79.82%）、语句24678/31839（77.51%）、函数6144/8102（75.83%）、分支19174/27576（69.53%）。
 本卡同时增加产品保护代码，分母净增31行/31语句/3函数/29分支，不把覆盖增量全部归为纯补测；未缩范围、未降门槛，未重跑full/E2E。
-Codex/Kimi/GLM三席均accept；2026-09-18 Codex核57b4ac5d与origin一致、候选后代码/测试/基线零漂移，当前仅待用户验收/明确收口，不再请求AI签字。
-GLM只做代码/矩阵且已披露原只读材料贡献；视觉由Codex完成。最小两步用户清单见任务卡，可明确免复验通过；未提前标done。
+Codex/Kimi/GLM三席均accept；2026-09-18用户明确验收通过，Codex同步94ef2671并核候选后代码/测试/基线零漂移，统一done归档。
+GLM只做代码/矩阵且已披露原只读材料贡献；视觉由Codex完成。三席与用户验收均已闭环，无需再签或重复验证；G-I04/R4边界保持。
 旧版本兼容检查pass：无schema/save版本变化，无新upgrader、旧输入兼容或公共接口；G-I04提交后卸载政策仍范围外。
 日志：`/tmp/sprite-selection-final-directed.log`、`/tmp/sprite-selection-final-tsc.log`、`/tmp/sprite-selection-adjacent.log`、
 `/tmp/sprite-selection-mutants.log`（首次唯一性拒绝）、`/tmp/sprite-selection-mutants-final.log`（完整通过）、

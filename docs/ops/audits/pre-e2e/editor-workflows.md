@@ -69,9 +69,9 @@
 
 ## D-03 · 旧图片解码完成后覆盖新选图
 
-2026-09-18：[EDITOR-SPRITE-PICK-1](../../tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md) r1已实现，候选a88ab18d进入review，
+2026-09-18：[EDITOR-SPRITE-PICK-1](../../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md) r1已done收口，候选a88ab18d，
 Codex[验证回执](../../../testing/sprite-selection.md)含20新＋2旧测试、6负控和实际界面检查；check7302/strict fast6814通过。
-三席终审accept齐，已核候选零漂移；仅待用户验收/明确收口，不提前记done。下方保留审计时点的原始缺陷；G-I04提交后卸载风险不属于本次修复范围。
+三席终审accept齐、用户验收通过，已核候选零漂移并归档。下方保留审计时点的原始缺陷；G-I04提交后卸载风险不属于本次修复范围。
 
 - `SpriteUploadWizard.tsx:145-173`的pickFile在`await createImageBitmap`后直接写draft，没有请求身份检查；
   文件选择器`:271`只在submitting时禁用，图片解码期仍能再次选择。
