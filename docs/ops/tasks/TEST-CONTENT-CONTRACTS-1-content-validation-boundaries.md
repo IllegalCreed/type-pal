@@ -182,11 +182,30 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
 
 - Codex：**counter（2026-09-18，dbe579c5接收复核；对比5fd655ec，冻结7ab20689）**。产品/旧测试/基线零改已核；116/673/tc及原6+12负控通过，覆盖+116语句/+127臂成立。但R1实际F场景/Sprite及A4页结构被当前守卫拒绝；R2六个已证执行的坏实现仍被候选断言放行；R3判据仅load标记且接受混合宿主错误日志；R4逐族完成账、命令、JSON格式与任务索引未闭合。见[报告与复建工具](../../testing/content-contracts-review.md)。不合入、不跑官方接收门禁、不转Kimi；不重开已核事实，不改GLM测试语义。
 - Kimi：pending（独立终审）。
-- GLM：pending（实现者自验与贡献披露，不作为独立第三方）。
+- GLM：**r1 返工实现者自验 accept（2026-09-18；非独立第三方；原候选自验已被 counter 覆盖，原文见 dbe579c5 树）**。
+  - R1：F bundle 去退役 onEnter、sprites 补 label；F1/A4 主载荷在测试内先过 validateAuthorScenes/
+    validateSprites/validateActors/validateBattleSprites——witness 工具 7 项 fixture 检查全 accepted；
+    A4 普通字符串移入合法 hooks.onEnter.variants.main.flow 的 setFlag.flag。
+  - R2：actor 表快照比较真正传入的同一对象；来源越界单轴+修正正控+精确错误路径；C5 非零 offset
+    视图完整解码逐像素；F 全部确定 severity/完整 where/完整 Issue 多重集合（levelUp=warn；
+    mapId 改称 map id 引用非物理路径）。
+  - R3：mutants 判据自测（AST 抽取自身判据块：good 日志通过/混合坏日志拒绝；接收工具
+    mixedFailureAccepted 已翻 false）+ JSON 运行态执行见证钉本组新增测试精确标题必须 failed。
+  - R4：43 族逐项对账落 glm-content-contracts.md 回执；C4 补 encodeFrameSequenceFromProvider
+    用例；B4 按 counter 锚点记已有（project-map.test.ts:91 + editor map-reference-facts.ts:73）、
+    C8 记 N/A（frame-sequence.ts:98 手写 encodeUtf8 无 TextEncoder 分支）；覆盖命令改绝对路径
+    可复制；evidence.json 过 Biome formatter。
+  - 复跑：定向 13 文件 118/118、全包 55 文件/675 项、tc rc=0、新文件 Biome rc=0、mutants 18/18、
+    witnesses 4 对照+6 针 detected+执行检查 passed、覆盖对照 +117 语句/+128 分支（/tmp 专属输出）。
+  - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；无新产品缺陷、无隔离登记；不代签、不标 done。
 - done准入：pending，不代签、不标done。
 
 ## 交接日志
 
+- 2026-09-18 GLM（r1 返工完成）：合入 counter 31aa0e3b（原文保留），按 R1～R4 定点返工并复验：
+  fixture 合法性（witness 7 检查 accepted）、六针全 detected、mutants 判据自测+JSON 执行见证
+  18/18、43 族账重写、覆盖对照 +117/+128。定向 118/全包 675/tc/Biome 绿。返工实现者自验
+  accept 已签本人席位；任务保持 rework，等 Codex 重新接收。
 - 2026-09-18 Codex：同步5fd655ec，核候选dbe579c5与远端一致、工作树干净；独立116/673/tc、原18次负控和before557/after673覆盖均复算。实际fixture守卫拒绝，六条坏实现经Vitest JSON执行检查确认到达而候选原测试仍绿，混合错误日志仍被原判据接受；JSON格式/index检查失败。counter R1～R4转rework，未改候选源码/测试/官方基线；不代签、不标done，设计不重签。GLM下一步定点返工并核43族账，原回执见候选树。
 - 2026-09-18 Kimi：完成 r1 独立设计/前提审查，签 premise verified + design agree，无返工项。
   直读 asset.ts:111 与 map-index.ts:25 两个不同路径合同、project-map nullable 结构、
@@ -202,6 +221,10 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
   独立复算 13 模块覆盖表逐格一致；collectEnemyTeamTaggedReferences 无 caller 复核确认。
   未读 Kimi 结论；仅改本席与日志，三签未齐不写任何测试。
 - 2026-09-18 Codex：按用户要求整理一整块GLM工作，复算覆盖、查现行caller和已有测试，圈定六组13模块/13新测试白名单；主线7ab20689干净且与远端一致。只建立draft及工作包，未写测试/改产品/改基线；本席设计签字已落，两席提示同时给出。
+- 2026-09-18 GLM（build 完成）：A→F 六组连续实施完毕，每组独立提交（A+B 合并为首提交，另含
+  mutants 脚本、覆盖诊断 config、回执/evidence 收口共 7+1 提交）。116 项新测试全绿、tc rc0、
+  Biome 0 error、12+6 负控两轮实跑 18/18、覆盖对照双口径落 /tmp。实现者自验 accept 已签本人席位；
+  任务保持 review，等 Codex 独立接收。无下一位 Agent 提示词见下方 Codex 接收提示词。
 
 ## 下一位Agent提示词
 
@@ -214,6 +237,14 @@ R1修实际F bundle的旧onEnter/缺sprite.label及A4非法page.body，主载荷
 运行node docs/testing/content-contracts-review-witnesses.mjs <候选物理绝对路径>：当前六针均MISSED，返工应detected，执行检查本身必须passed；若fixture提取需适配，保留反例语义并告知Codex，不删见证或改产品规避。
 R3原12针此次业务红保留，但工具须运行态执行见证/明确新增断言红因，并拒绝TypeError、timeout、Unhandled Errors；混合坏日志判据自测必须拒绝。R4按43族逐项列新增/已有/待证/防御/缺陷与真锚点，撤回“仅B4未做其它全新增”；B4可留后续但补实际caller/已有正控；C8按实际源码分类，不造TextEncoder降级。修标题、可复制覆盖命令、JSON Biome与任务index；数字/hash/失败记录从最终树生成。
 保留有效用例与已核116运行/+116语句/+127分支，不为固定条数或100%凑数。复跑定向/全content/tc/全部新增文件Biome、原6+12与新见证、同口径/tmp覆盖；全仓check/官方ratchet/strict-fast仍留Codex。GLM为测试贡献者，不代签、不标done、不自行转Kimi终审。
+```
+
+### Codex · 重新接收 r1 返工（当前）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 重新接收 TEST-CONTENT-CONTRACTS-1 r1 返工。任务卡 docs/ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md（rework）；返工回执与 43 族账 docs/testing/glm-content-contracts.md；机器账 docs/testing/glm-content-contracts-evidence.json（已过 Biome）。候选分支 codex/glm-content-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-content-contracts），在你的 counter 31aa0e3b 之上追加返工提交；产品冻结 7ab20689447150eec7ecb0678cbb6980a685eb49；设计不重签。
+GLM 已按 R1～R4 返工：主 fixture 在测试内先过现行结构守卫（你的 witness 工具 7 项 fixture 检查应全 accepted）；六针应全 detected 且执行检查 passed；mutants 脚本带判据 AST 自测（你的 mixedFailureAccepted 应翻 false）与 JSON 运行态执行见证（每针钉本组新增测试精确标题 failed）；43 族逐项账、可复制覆盖命令、Biome-clean JSON 已落。最终树 13 新文件 118 项、全包 55 文件/675 项、tc rc=0、覆盖 +117 语句/+128 分支（/tmp 同口径）。
+请独立复核：重跑 node docs/testing/content-contracts-review-witnesses.mjs <候选物理绝对路径> 与 node docs/testing/glm-content-contracts-mutants.mjs；抽查 R1-R4 修复点与 43 族账锚点真实性；复跑定向/全包/tc/Biome。通过后统一串行执行全仓 check、官方 ratchet、受保护 strict-fast（GLM 未跑），在本席签 accept、更新看板并给 Kimi 终审提示词。仍有问题则 counter 并写明复现；不代签、不标 done。
 ```
 
 ### GLM · 原设计与实施提示（历史，按当前返工执行）
@@ -233,4 +264,12 @@ R3原12针此次业务红保留，但工具须运行态执行见证/明确新增
 先同步，读AGENTS/CLAUDE/READ-FIRST、本卡/工作包，独立读13模块的现行导出、真实loader/publication/editor调用及已有测试；不读或复述GLM设计结论。核六组范围是否有真实增量、是否误固化旧接口/无caller或不可达输入；重点是asset与map路径合同不同、tiles/sources/nullable结构、TPFS独立字节oracle、帧需求不是实际资源帧数、canonical叶与递归walker域、干净bundle及精确severity/where。
 审一次整包：白名单/冻结/不改产品，已知缺陷隔离、深快照/反控鉴别力、同testSelection覆盖对照、全包和局部口径分开。Codex已排除enemy-team-reference无caller和旧script-library/YJ2/战斗公式；不把coverage0等同完全没测。只在本人席位/日志写有一手锚点和可证伪观察的premise verified/design agree或counter，提交推送；不改他席/状态、不开始实现、不标done。
 三席齐后GLM作为Coding Owner另核build并连续A→F，无需每组再签；你本轮只设计审查，最终候选由Codex接收后再交独立终审。
+```
+
+### Codex · 原接收提示（历史，已被 counter 取代；返工后重给）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接收 TEST-CONTENT-CONTRACTS-1 r1 整包。任务卡 docs/ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md（review）；回执与机器账 docs/testing/glm-content-contracts.md + docs/testing/glm-content-contracts-evidence.json。候选分支 codex/glm-content-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-content-contracts），基点 5fd655ec；产品冻结 7ab20689447150eec7ecb0678cbb6980a685eb49。
+先同步主线并核候选对冻结零漂移（除基线内 477cd0c6 的 docs/testing/README.md 一行外应只动白名单）。GLM 已交付六组 13 新测试文件 116 项、mutants 负控脚本（6 正控 + 12 变异针两轮 18/18）、官方 testSelection 覆盖对照（局部 13 模块与全包双口径，/tmp 输出）与实现者自验 accept；未发现新产品缺陷、无隔离登记项，B4 按工作包条款留待证。
+你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过现行守卫）、复跑 13 文件定向与全 content 包、tc/Biome；复跑 node docs/testing/glm-content-contracts-mutants.mjs 验 18/18；按需重跑覆盖对照 config 验 /tmp 输出。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑，不得由其补跑）；全部通过后在本人席位签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试文件语义；不得代签他人或标 done。
 ```

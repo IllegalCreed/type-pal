@@ -1,5 +1,76 @@
 # TEST-CONTENT-CONTRACTS-1 · Codex独立接收复核
 
+## r1返工接收（2026-09-18）
+
+候选`428a7852d8de4c256ce9429254997356eb3543da`；接收基线`31aa0e3b`；产品冻结`7ab20689`。
+结论：**accept**。R1～R4实现复核通过；串行完整check→官方ratchet→受保护单次strict-fast全部exit0。
+集成候选为本次合并提交（SHA随交接记录回填）；状态推进review，下一席Kimi独立终审，不标done。
+GLM是118项测试及负控的贡献者，其自验不是独立第三方证明；本节由Codex独立读取/复跑，不改他席签字。
+原counter全文保留在下节；设计不重签，不改产品/旧测试/原探针，不标done。
+
+### R1～R4复核
+
+- R1：工具从实际测试AST取主载荷，七项结构/引用检查全部accepted；F1/A4自身也先调用当前守卫。
+  场景旧onEnter已去除、Sprite有label，A4普通字符串位于合法hook/flow，而非非法page.body。
+- R2：四正常对照exit0，六条独立坏实现全部detected；每针额外的运行态执行检查在Vitest JSON中passed。
+  实参actor表快照、来源越界单轴及同输入修正正控、非零offset完整解码逐像素、F精确severity/where/Issue数组均闭环。
+  六针是审查注入反例，不是六个现存产品缺陷。原见证脚本相对31aa0e3b零修改。
+- R3：独立重建6正控exit0＋12变异exit1；每针唯一源码替换、同fixture对照绿、钉名新增测试实际failed且为业务AssertionError。
+  `MUTATION_HIT`仍是load标记，**不单独作为运行见证**；接受依据是上述JSON执行结果与受测实际调用链的对偶。
+  AST判据自测good通过/poisoned拒绝，本席混合故障输入`mixedFailureAccepted:false`；9份产品文件hash前后不变。
+- R4：43族A1～F8在“逐项对账”节各出现一次；C4现确实调用provider并核完整像素及错字节数，B4正确归已有，C8无TextEncoder切换。
+  13文件118项、全content55文件675项、tc、17交付源/诊断/JSON文件Biome、文档门均exit0。
+  入仓config消费官方testSelection，绝对路径命令已独立复跑；分类残余措辞由下方Owner裁定收窄，不修改测试语义。
+- 旧版本兼容审查：**pass**。新增测试使用当前map/TPFS/catalog形状；version=99是错误容器头拒绝反例，
+  不引入upgrader、旧scene.onEnter或兼容fallback。产品全部零diff；本卡不授权顺带删除其它既有逻辑。
+
+### 43族账的Integration Owner裁定
+
+这些是剩余范围分类，不是新增覆盖成果；不要求GLM为不存在的输入域凑测试，亦不关闭其它修复卡。
+
+1. **C1编码与解码分开**：`frame-sequence.ts:103-112`多字节encode臂在当前合法公开编码输入域不可达。
+   `:307/:408`两入口清洗为数字/ASCII枚举与duration，`:360`固定构造索引，不接受任意非ASCII元数据。
+   因此从“可达未测”改为“当前canonical编码域的防御臂”；`decodeUtf8`消费外部字节，其UTF-8/JSON非法输入轴仍可另补，不混为同一族。
+2. **F3商店两条边**：`validate-refs.test.ts:1579/:1598`已有openShop→ShopDef正反控；不得再称商店引用完全无测试。
+   本包未补的是`validate-refs.ts:1588-1597`的ShopDef.items→items边，继续列后续可达待测。
+3. **F5缺席不等于空**：实际F1有startWorld、levelUp为空对象、worlds未提供；没有“startWorld与levelUp均缺席”的成对用例。
+   收窄为上述真实基线；optional逐轴缺席/levelUp属主悬空仍待后续测试，不计本包新增完成。
+4. F8缺口表是逐族/代表分支分类，不冒称逐branchId/arm穷举；本卡准入不要求清零全部未覆盖臂。
+   A/E等行中的目标模块锚点不冒称跨包caller；真实消费锚点沿用卡面真值矩阵。B4/F4已有与待证归属保留。
+
+### 同树覆盖复算
+
+before只排13个新文件：42文件557项；after55文件675项；50个生产文件、四项分母完全相同，未插桩测试/fixture。
+
+| 口径 | 行before→after | 语句before→after | 函数before→after | 分支before→after |
+|---|---:|---:|---:|---:|
+| 13目标模块 | 1593→1690/1842 | 1743→1860/2089 | 323→340/359 | 1275→1403/1743 |
+| content全包 | 4358→4458/5183 | 4762→4882/5854 | 748→766/829 | 3666→3798/5016 |
+
+全包比局部另增3行/3语句/1函数/4臂，来自真实前置守卫：validate-author（2行/2语句/1函数）、
+validate-runtime（1行/1语句/3臂）、author-script-core（1臂）。不把+117/+128局部与+120/+132全包混用。
+
+复跑日志：`/tmp/codex-content-contracts-rework.CTD0rc/`（directed/content/typecheck/biome/docs/witnesses/mutants、coverage-before/after）；
+独立见证详情`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/content-contract-review-Nruo5N/`；
+原12针详情`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-oXvK04/`。临时日志可按入仓命令重建。
+
+### 主线集成质量门
+
+1. `pnpm check`：exit0，七包**7420项**全部通过（另含docs工具20/coverage工具17）；lint无error，
+   48 warnings/11 infos位于未改的既有文件，本批17交付源/诊断/JSON文件单独Biome零诊断。日志`check.log`。
+2. `pnpm coverage:ratchet`：exit0，官方基线**6932项/617生产文件**；content675项/55测试文件/50生产文件。日志`ratchet.log`。
+3. `TYPE_PAL_COVERAGE_BASE_REF=31aa0e3b pnpm coverage:fast`：**单次exit0**；与新基线一致、提升0项，无重试择绿。日志`strict-fast.log`。
+
+独立清单复算：content原42测试文件的identityDigest/计数逐条相同，仅新增13文件118项；其它六包完整基线对象逐字等价；
+七包sourceFiles/scopeDigest与所有分母不变。只更新官方生成baseline，不改配置/include/exclude/超时/阈值。
+全仓行49123/69082（71.11%）、语句54459/78932（68.99%）、函数10278/14512（70.82%）、分支38975/62028（62.83%）。
+content行4458/5183（86.01%）、语句4882/5854（83.40%）、函数766/829（92.40%）、分支3798/5016（75.72%）。
+此处百分比为官方汇总四舍五入；GLM/V8临时摘要的83.39/75.71为截断显示，同一分子分母，不是覆盖变化。
+未跑coverage:full/浏览器/E2E；测试-only无用户可见行为变化，本卡视觉N/A，不让用户代做技术测试。
+未发现新产品缺陷，不关闭D-02/D-06/D-07等其它修复或剩余覆盖工作。
+
+## 原候选counter（历史原文，返工结论见上节）
+
 2026-09-18；候选`dbe579c5f7e8790d03d4ce1974449118537c021f`，分支codex/glm-content-contracts-r1，
 接收主线/实施基点`5fd655ec5b0d958acec2dbd7b42456157ff258a3`；产品冻结7ab20689。
 任务：[内容校验补测卡](../ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md)。

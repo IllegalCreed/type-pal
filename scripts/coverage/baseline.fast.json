@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-18T02:53:09.694Z",
+  "generatedAt": "2026-09-18T08:43:00.379Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 6814,
+  "testCount": 6932,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -206,32 +206,42 @@
       ],
       "scopeDigest": "9c46fa90991cc75a97d5fac51edc8a6b0f66201a2c2d531fcb939d61db3af93c",
       "fastTests": {
-        "testCount": 557,
-        "testFileCount": 42,
+        "testCount": 675,
+        "testFileCount": 55,
         "files": [
           "packages/content/src/actor-condition.test.ts",
+          "packages/content/src/actor-reference.contracts.test.ts",
           "packages/content/src/actor.test.ts",
           "packages/content/src/ambience.test.ts",
+          "packages/content/src/asset-catalog.contracts.test.ts",
+          "packages/content/src/asset-closure.contracts.test.ts",
           "packages/content/src/asset.test.ts",
+          "packages/content/src/author-dialogue.contracts.test.ts",
           "packages/content/src/author-dialogue.test.ts",
           "packages/content/src/author-script-core.test.ts",
           "packages/content/src/author-script-current.boundaries.test.ts",
           "packages/content/src/author-script.current-characterization.test.ts",
           "packages/content/src/battle-field-reference.test.ts",
           "packages/content/src/battle-formulas.test.ts",
+          "packages/content/src/battle-sprite-profile.contracts.test.ts",
           "packages/content/src/battle-sprite.test.ts",
           "packages/content/src/character.test.ts",
+          "packages/content/src/command-target-reference.contracts.test.ts",
           "packages/content/src/command-target-reference.test.ts",
           "packages/content/src/enemy-ai.test.ts",
           "packages/content/src/enemy-script.boundaries.test.ts",
           "packages/content/src/enemy-script.test.ts",
+          "packages/content/src/enemy-team.contracts.test.ts",
           "packages/content/src/entity-lifecycle.test.ts",
+          "packages/content/src/frame-sequence.contracts.test.ts",
           "packages/content/src/frame-sequence.test.ts",
           "packages/content/src/grid.test.ts",
           "packages/content/src/item.test.ts",
           "packages/content/src/locale.test.ts",
+          "packages/content/src/map-index.contracts.test.ts",
           "packages/content/src/map-index.test.ts",
           "packages/content/src/migration-diagnostic.test.ts",
+          "packages/content/src/project-map.contracts.test.ts",
           "packages/content/src/project-map.test.ts",
           "packages/content/src/rewards.test.ts",
           "packages/content/src/rich-text.test.ts",
@@ -240,11 +250,14 @@
           "packages/content/src/scene-index.test.ts",
           "packages/content/src/script-library.test.ts",
           "packages/content/src/shop.test.ts",
+          "packages/content/src/sprite-frame-demand.contracts.test.ts",
           "packages/content/src/stamp.test.ts",
+          "packages/content/src/tileset-stamp.contracts.test.ts",
           "packages/content/src/tileset.test.ts",
           "packages/content/src/validate-actors.boundaries.test.ts",
           "packages/content/src/validate-author-items.boundaries.test.ts",
           "packages/content/src/validate-author.test.ts",
+          "packages/content/src/validate-refs.contracts.test.ts",
           "packages/content/src/validate-refs.test.ts",
           "packages/content/src/validate-runtime.test.ts",
           "packages/content/src/validate-skills-poisons.boundaries.test.ts",
@@ -259,6 +272,11 @@
             "identityDigest": "90e6a1711d3e840867d03bf10c897c63717fb56f3d6fead492a56fd857d23d2f"
           },
           {
+            "file": "packages/content/src/actor-reference.contracts.test.ts",
+            "testCount": 6,
+            "identityDigest": "2b6f63ca1b2b436ab46edbd34dec7129fbcf5077526cc1cfeb76dd43d9d7869d"
+          },
+          {
             "file": "packages/content/src/actor.test.ts",
             "testCount": 4,
             "identityDigest": "cee9cc1e9d3a410aa29b151d0ecb440e70104dd39404953748af988fc883ea00"
@@ -269,9 +287,24 @@
             "identityDigest": "672beb4e47e11021552816531365d03ce922672b9dab804b15fb18123700082b"
           },
           {
+            "file": "packages/content/src/asset-catalog.contracts.test.ts",
+            "testCount": 27,
+            "identityDigest": "8461fc2ffe87fa6de2e15d5cdfce4defcc83fea3547a0f0e09f3712a9396b6b8"
+          },
+          {
+            "file": "packages/content/src/asset-closure.contracts.test.ts",
+            "testCount": 5,
+            "identityDigest": "7aba470485904c85d80e54b3a1f723a638a4b21f23d7a4a64064844b5c758e4f"
+          },
+          {
             "file": "packages/content/src/asset.test.ts",
             "testCount": 27,
             "identityDigest": "c89dac72cd881d682063e4110bab32739160141cb30759ea40ad24c183448a38"
+          },
+          {
+            "file": "packages/content/src/author-dialogue.contracts.test.ts",
+            "testCount": 7,
+            "identityDigest": "7f0b2bf107da8cb5fc9d59035dbf65ca6820c539475779a92ea8d47e0ae54a0d"
           },
           {
             "file": "packages/content/src/author-dialogue.test.ts",
@@ -304,6 +337,11 @@
             "identityDigest": "ca92d883bb2963470343c75efa24b3ce13df7279804d355b8e121fca3faaca13"
           },
           {
+            "file": "packages/content/src/battle-sprite-profile.contracts.test.ts",
+            "testCount": 5,
+            "identityDigest": "29b7d6254f05d8cc539643f73cd86d2b7fc00c3923f17edc9ac81ebca69fa61e"
+          },
+          {
             "file": "packages/content/src/battle-sprite.test.ts",
             "testCount": 5,
             "identityDigest": "e00a9256d235b82eddb49a5974cc47964e4019bbb623479b49dc63431a857613"
@@ -312,6 +350,11 @@
             "file": "packages/content/src/character.test.ts",
             "testCount": 25,
             "identityDigest": "ddcdee5473c2bd87f0311821e5577d47275fe1c9a85c61677fb22a0c51b37377"
+          },
+          {
+            "file": "packages/content/src/command-target-reference.contracts.test.ts",
+            "testCount": 4,
+            "identityDigest": "d1a6f909ed5219fc1601f8d61cbff9b5532a9e228dea9020ce746b1f010d94be"
           },
           {
             "file": "packages/content/src/command-target-reference.test.ts",
@@ -334,9 +377,19 @@
             "identityDigest": "522677e7ad837a295e07c8593efbb2a505b4715864e7990a31c55ad7a5636ab2"
           },
           {
+            "file": "packages/content/src/enemy-team.contracts.test.ts",
+            "testCount": 11,
+            "identityDigest": "5098f4d40574de01b00fac76ebf248650d436ea45f6f5d2439822ab585f6be24"
+          },
+          {
             "file": "packages/content/src/entity-lifecycle.test.ts",
             "testCount": 9,
             "identityDigest": "ff63d96f6e3fbb7895b957666cc66f3836ab81db5ad85eae816e48c95d8416f0"
+          },
+          {
+            "file": "packages/content/src/frame-sequence.contracts.test.ts",
+            "testCount": 19,
+            "identityDigest": "c3742104b9ed7c66acb5279a385a7851e3133e7b0a528f3aaa3adb1fbded9826"
           },
           {
             "file": "packages/content/src/frame-sequence.test.ts",
@@ -359,6 +412,11 @@
             "identityDigest": "4a135998e553b612295508a1641255db270154ee4566653b4d297371a754238b"
           },
           {
+            "file": "packages/content/src/map-index.contracts.test.ts",
+            "testCount": 15,
+            "identityDigest": "b7aaaaa3ecb035608746e763deb4c5a8e6da486309c9d283b012a264e4d7b90b"
+          },
+          {
             "file": "packages/content/src/map-index.test.ts",
             "testCount": 5,
             "identityDigest": "9d3f9c055729714051e0808ac916345160d4fe2b404f86550550d150f12a04d8"
@@ -367,6 +425,11 @@
             "file": "packages/content/src/migration-diagnostic.test.ts",
             "testCount": 2,
             "identityDigest": "76e7534f078644e117d2c304a23a21062d5116fce67bf534a8bb9049ac83b330"
+          },
+          {
+            "file": "packages/content/src/project-map.contracts.test.ts",
+            "testCount": 5,
+            "identityDigest": "96ac92c8f9b870ad27e5dda0172703b86bef48d555beed9d3917d15265d86ced"
           },
           {
             "file": "packages/content/src/project-map.test.ts",
@@ -409,9 +472,19 @@
             "identityDigest": "67920e8d6a36dfad5fa734c2e1f5e82c71d1b096b99b0591991bd80a8143e4a8"
           },
           {
+            "file": "packages/content/src/sprite-frame-demand.contracts.test.ts",
+            "testCount": 4,
+            "identityDigest": "203e4b261a9633c699c7ef6946f964c76f0080a5ff769f832e92bbcfb4e6e5f6"
+          },
+          {
             "file": "packages/content/src/stamp.test.ts",
             "testCount": 3,
             "identityDigest": "70556675d141e3418ab7e5cfa753ec153b45bd716c60f0b00d9c0262b0916c0a"
+          },
+          {
+            "file": "packages/content/src/tileset-stamp.contracts.test.ts",
+            "testCount": 4,
+            "identityDigest": "6c36033e381396720c5af700e12a2ca28e4c2b08c284ce90490cf05c7b6626bd"
           },
           {
             "file": "packages/content/src/tileset.test.ts",
@@ -432,6 +505,11 @@
             "file": "packages/content/src/validate-author.test.ts",
             "testCount": 7,
             "identityDigest": "cd60ef7c5a22adf5f9a0396777c9c2b1225deb3ef12de49bdf71fd60eb8f38f3"
+          },
+          {
+            "file": "packages/content/src/validate-refs.contracts.test.ts",
+            "testCount": 6,
+            "identityDigest": "5e108d76e3160225b207dbfaa187fe4525a624001f61fee6d8b82b88fa8fe754"
           },
           {
             "file": "packages/content/src/validate-refs.test.ts",
@@ -464,25 +542,25 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "b42c12658e9583014a477cfa634a5e2b63b40f30bc16dfe944adde4df85dbb74",
+        "identityDigest": "3362aa6bea466f01b340eed3462c46f296f835b5e28df5df6abb2f2c53414e5c",
         "duplicateIdentityCount": 0,
-        "executionDigest": "ff11ac907e398d4c4cc03a738eb6b3ade3c46ed754643a85c9f0f5af62eff413"
+        "executionDigest": "a72cf5d36bcafcad50f46d51ff95ae98e95c35268d333c7fa590124aed3244bc"
       },
       "metrics": {
         "statements": {
-          "covered": 4762,
+          "covered": 4882,
           "total": 5854
         },
         "branches": {
-          "covered": 3666,
+          "covered": 3798,
           "total": 5016
         },
         "functions": {
-          "covered": 748,
+          "covered": 766,
           "total": 829
         },
         "lines": {
-          "covered": 4358,
+          "covered": 4458,
           "total": 5183
         }
       }
@@ -4276,19 +4354,19 @@
   },
   "total": {
     "statements": {
-      "covered": 54339,
+      "covered": 54459,
       "total": 78932
     },
     "branches": {
-      "covered": 38843,
+      "covered": 38975,
       "total": 62028
     },
     "functions": {
-      "covered": 10260,
+      "covered": 10278,
       "total": 14512
     },
     "lines": {
-      "covered": 49023,
+      "covered": 49123,
       "total": 69082
     }
   }
