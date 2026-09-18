@@ -77,7 +77,35 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
   已剔除无现行caller的旧chunk store与map批读helper，排除战斗/save/移动/退役叶；不把assets.ts误当AssetResolver所在模块。
   本席复跑9个对应既有测试文件68/68及reforge typecheck均exit0（不含新测试）；十个拟新增路径均未占用，30族ID唯一。
   最强反证见上，方案测试-only且隔离editor修复；五组一次准入，不承诺测试条数或100%。
-- Kimi：pending（独立前提/设计，不读取GLM结论）。
+- Kimi：**premise verified / design agree（2026-09-18，r1，生产冻结 3bc20273；全部锚点本人直读，未读 GLM 结论）**。
+  - **十模块真实调用域直读**：`input.ts` lastDownOf 最后首次按下优先/consumePressed 边沿消费
+    （语义直读）；bgm.ts:111/263、midi-preview.ts:182 导出在位；editor 消费点
+    MusicPicker.tsx:53/ProjectAudioPreviewButton.tsx:32 命中；script-host-adapter 由 main.ts:3908
+    与 runtime-script-project 转交现行 leaf。卡面十二行 main.ts caller 抽查一致。
+  - **覆盖快照独立复算**：当前官方 fast 汇总实测——reforge 行 7853/14118、分支 5256/11041、
+    124 文件；input 1/18·0/12、script-host-adapter 32/165·29/172 与工作包逐格一致——
+    缺口真实（非从未执行：editor 保存/打开回归间接执行 loader，卡面声明正确）。
+  - **去重锚点核实**：menu-state.test.ts 8 项、equip/use-menu-state、bgm.test.ts、
+    midi-preview.test.ts 均在位（本人实测）；工作包登记的去重轴与既有断言不重叠。
+  - **无 caller 排除核实**：ScriptChunkStore/MemoryScriptResolver 仅 index.ts:264 桶导出；
+    loadAllProjectMaps/loadProjectMapById（project-loader.ts:513/525）无非桶生产调用——
+    不补保活正确，且不授权删除。
+  - **白名单核验**：10 个拟新增测试路径当前均不存在（本人实测）；薄 fixture/诊断/回执面
+    与卡面一致。
+  - **设计同意**：五组范围映射真实现行调用域；合法 fixture 经当前 loader/validator、坏值
+    只坏目标轴；异步用 entered/deferred 不用固定 sleep、替身尊重 AbortSignal、finally/afterEach
+    恢复；每组≥2（整包≥10）有执行见证的单点业务负控，Vitest JSON 钉名 failed+AssertionError+
+    拒混合宿主故障+判据毒日志自测（吸收 content-contracts R3 教训）；覆盖对照直接 import 官方
+    testSelection、输出仅 /tmp、局部十模块与全包并集分栏；已知缺陷隔离不固化；非视觉边界
+    明确（GLM 无浏览器/截图/听感，符合视觉分工）；旧 script 接口/战斗/save/移动碰撞明确排除。
+  - **可证伪观察**（任一反例即收窄或 counter）：① 某族边界已被同合同既有断言覆盖 → 登记
+    已有不加条数；② 拟造输入不在当前 API 支持域 → 撤回该项；③ 负控仅 load 标记/混合宿主
+    故障 → 无效重造；④ 异步用例靠真实时序而非 deferred 控制 → 重造；⑤ 覆盖对照换源码/
+    选择集或写官方目录 → 数字无效；⑥ 生产/旧测试/基线任何 diff → 越界即停；⑦ 给无 caller
+    接口新增绿色保活 → 越界。
+  - 返工项：无。非阻断备注：C3 MIDI 初始化失败重试政策若现行未定义按待证登记（工作包
+    条款一致）；E6 未知同 signal 并发 run 政策只取证不反推合同——终审时逐族核 30 族账的
+    实际 caller 锚点与状态分类。
 - GLM：**premise verified / design agree（2026-09-18，r1，冻结 3bc20273；以下全部锚点本人直读，未读 Kimi 席位）**。
   - **十模块 API/入口直读**：`input.ts:7 Keyboard`（:42 lastDownOf 后按优先、:49 consumePressed）；
     `menu-state.ts:45-83 openMenu/moveCursor/confirm/back`；`equip-menu-state.ts:25-84 openEquipMenu/
@@ -123,6 +151,12 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
 
 ## 交接日志
 
+- 2026-09-18 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
+  直读 input.ts 语义、bgm/midi-preview 导出与 editor 消费点、script-host-adapter 现行转交；
+  独立复算 reforge 覆盖快照与工作包逐格一致；menu-state 8 项等去重锚点在位；无 caller 排除
+  （ScriptChunkStore/MemoryScriptResolver、loadAllProjectMaps/ById）本人复核成立；白名单 10 路径
+  未占用。七条可证伪观察与两条非阻断备注写入本席。未改产品/他席/状态，未读 GLM 结论。
+  Next：三签齐后 GLM 核定 build 并在独立 worktree 连续五组；Codex 接收后统一官方门禁。
 - 2026-09-18 GLM：完成 r1 设计审查，签 premise verified + design agree，无返工项。十模块 API/
   十二处 main.ts caller/editor 四消费点直读；覆盖快照用官方 testSelection 临时 config 独立复算
   逐格一致；旧测试去重轴与无 caller 排除复核；10+1 白名单路径未占用。未读 Kimi 结论；设计未齐
