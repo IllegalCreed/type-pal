@@ -12,6 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-CONTENT-CONTRACTS-1 | [内容数据校验与引用边界补测](tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | draft | GLM / Kimi并行设计核验 | r1六组13模块，GLM整包测试、Codex接收；冻结7ab20689，不改产品/基线，不做视觉 |
 
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。
 精灵上传选图修复候选a88ab18d已三席accept、用户验收通过，2026-09-18由Codex[收口归档](../testing/sprite-selection.md)；check7302/strict fast6814通过，G-I04与R4后续边界保持。
