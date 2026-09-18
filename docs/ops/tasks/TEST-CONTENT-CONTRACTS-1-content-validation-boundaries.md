@@ -193,7 +193,30 @@ GLM为测试贡献者；其返工自验不是独立第三方证明，源测试/f
     全包新增100行/120语句/18函数/132臂；13模块局部97/117/17/128，差额来源详见报告。
   - 旧版本兼容审查pass：当前canonical正控、错误TPFS版本拒绝，不引入旧schema/upgrader/fallback；产品零diff。
     GLM测试贡献已披露；full/E2E未跑，视觉N/A；Kimi待独立终审，本席不代签、不标done。
-- Kimi：pending（独立终审）。
+- Kimi：**accept（2026-09-18，r1 独立终审，集成候选 `adbabb84` 对比 `31aa0e3b`；设计不重签；未读 GLM 本轮结论）**。
+  接手 HEAD `35d6025c` 与 origin/main 一致、工作树干净；候选后 packages/scripts 零漂移。
+  - **R1 合法 fixture**：`validate-refs.contracts.test.ts:57` sprite 带 label、无退役 onEnter；
+    F1/A4 主载荷先过当前守卫；审查工具从实际测试 AST 抽取主载荷七项检查全 accepted。
+  - **R2 六条漏检修复**：本人复跑入仓见证工具对当前树——actor-input-pollution、
+    source-bound-masked、tpfs-view-offset-lost、levelup-severity-wrong、entity-locator-wrong、
+    reference-extra-issue **六针全 detected**，正常对照绿；产品 hash 不变。
+  - **R3 负控判据鉴别力**：本人复跑 `glm-content-contracts-mutants.mjs`——3 正控 exit 0 +
+    12 变异全 exit 1 业务红（资产路径段/角色 kind/地图行数/stamp 锚点/TPFS xor/帧率层/
+    精灵 pose 上限/敌队槽位/walker 递归/对话默认立绘/引用实体/入口场景），判据含运行态
+    执行检查非仅 load 标记；混合故障输入被拒（回执与本人判读一致）。
+  - **R4 43 族账与 Owner 分类订正**：glm-content-contracts.md:136 起 43 族逐项对账在案
+    （caller/实际测试名/分类锚点）；C1 编码域防御臂收窄、F3 商店两边分开、F5 缺席≠空、
+    F8 不穷举声明均与实际源码一致（frame-sequence.ts:98 固定 encodeUtf8、
+    validate-refs.test.ts:1579/:1598 已有正反控等抽查属实）。
+  - **本人实跑**：content 全包 **675/675** 绿、content typecheck exit 0。交叉核日志：
+    check 七包 7,420、ratchet、受保护 strict TOTAL **617 文件/6,932 项**；基线 diff 实测
+    6814→6932（恰 +118）、content 557→675，仅 content 包级 digest 变化、旧 42 文件
+    identity 逐项不变、零移除、零降阈。
+  - **口径**：GLM 为 118 项测试贡献者（披露在案），其自验不作独立第三方证明；本席为独立
+    终审。局部 13 模块与全包口径分栏正确，未挪用旧报告。
+  - **旧版本兼容审查：pass**——version=99 为错误容器头拒绝反例；无 upgrader/旧输入兼容/
+    fallback；产品零 diff。
+  返工项：无。D-02/D-06/D-07 与 YJ2 两项等剩余归属不因本包关闭。本 accept 不代签、不授权 done。
 - GLM：**r1 返工实现者自验 accept（2026-09-18；非独立第三方；原候选自验已被 counter 覆盖，原文见 dbe579c5 树）**。
   - R1：F bundle 去退役 onEnter、sprites 补 label；F1/A4 主载荷在测试内先过 validateAuthorScenes/
     validateSprites/validateActors/validateBattleSprites——witness 工具 7 项 fixture 检查全 accepted；
@@ -214,6 +237,12 @@ GLM为测试贡献者；其返工自验不是独立第三方证明，源测试/f
 
 ## 交接日志
 
+- 2026-09-18 Kimi（r1 独立终审）：同步 `35d6025c`、工作树干净后核 `31aa0e3b → adbabb84`。
+  直读 R1 合法 fixture（label/无退役 onEnter/先过守卫）；复跑入仓见证六针全 detected、
+  mutants 3 正控绿+12 变异全业务红；43 族账与 Owner 分类订正抽查一致；content 675/675 与
+  typecheck 本人实跑；交叉核 check 7,420、strict 617/6,932（恰 +118）、旧 identity 零移除。
+  旧版本兼容 pass。签 accept，无返工项；未改产品/他席/状态，未读 GLM 结论。
+  Next：Codex 统一核定 done。
 - 2026-09-18 Codex（返工接收/集成）：同步main31aa0e3b与远端428a7852，核产品/旧测试/原探针零漂移；
   七fixture、六独立见证、12负控及118/675定向全包均通过。43族账按真实入口收窄C1/F3/F5/F8；
   未改GLM测试语义，仅订正文档与诊断配置中的命令注释。串行check7420→ratchet→受保护单次fast6932全绿，
