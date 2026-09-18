@@ -6,6 +6,7 @@
 
 ## 文档与附件
 
+- [编辑器预览缓存连续修复](editor-preview-cache.md)（E-03/E-04完成；15项真实字节回归、7负控及原生绘制验证，check7457/严格fast6969通过）
 - [场景删除引用保护实现与验证](scene-reference-guard.md)（D-02/done；83598cc4三席accept并归档；22回归/PAL补1边、最小界面验证及check7442/严格fast6954通过）
 - [GLM运行时基础功能五组补测工作包](glm-reforge-runtime-contracts.md)与[任务卡](../ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)（r1/rework；75c9cfe8待修R1～R4，不重签设计）
 - [运行时补测Codex接收复核](reforge-runtime-contracts-review.md)（56/1186与覆盖增量已复算；四条独立坏实现漏检见证，测试包尚未合入）

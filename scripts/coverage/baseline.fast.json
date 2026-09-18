@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-18T14:37:17.321Z",
+  "generatedAt": "2026-09-18T16:25:17.089Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 6954,
+  "testCount": 6969,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3008,8 +3008,8 @@
       ],
       "scopeDigest": "9696f732999bcfdc8a19ba9e9ff40a428fbd5f2f67dd2695734be188495d62a8",
       "fastTests": {
-        "testCount": 2344,
-        "testFileCount": 221,
+        "testCount": 2359,
+        "testFileCount": 222,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
@@ -3226,6 +3226,7 @@
           "packages/editor/src/ui/enemy-defeated-events.test.ts",
           "packages/editor/src/ui/map-selection-overlay.test.ts",
           "packages/editor/src/ui/panel-layout.test.ts",
+          "packages/editor/src/ui/preview-cache-boundaries.test.tsx",
           "packages/editor/src/ui/project-asset-roles.test.ts",
           "packages/editor/src/ui/project-role-groups.test.ts",
           "packages/editor/src/ui/scene-stage.test.tsx",
@@ -4310,6 +4311,11 @@
             "identityDigest": "a504d4035e5dc0d74a82ec4cfd3c74d85d33ec3c331a5d2f7d814f2066d95473"
           },
           {
+            "file": "packages/editor/src/ui/preview-cache-boundaries.test.tsx",
+            "testCount": 15,
+            "identityDigest": "7cb822202fef8100e26a439984337371c75c6c9427441dcc6f19a920376a2f0d"
+          },
+          {
             "file": "packages/editor/src/ui/project-asset-roles.test.ts",
             "testCount": 2,
             "identityDigest": "340a87077b8a59098c40bd4693221d2c358cc7ae5a324e13781ebc7b23b9039b"
@@ -4340,46 +4346,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "2cf6ebc977f9643878899ba49fb8f3f4094ea84f05b5f4a3fd22ca64ab872c01",
+        "identityDigest": "e18e7125d382876cb1229be0ab9200eee2c38457049dbcfed682126cd9fd2103",
         "duplicateIdentityCount": 8,
-        "executionDigest": "84a167d46ebec9fedd2dea64354cb77af719c9e0af0ce42cf0b5c7b37791ac50"
+        "executionDigest": "833960ca29a123c93141c0832add5ea603615f88e5a17f272dcacb6683f336c1"
       },
       "metrics": {
         "statements": {
-          "covered": 24695,
-          "total": 31845
+          "covered": 24828,
+          "total": 31878
         },
         "branches": {
-          "covered": 19195,
-          "total": 27579
+          "covered": 19264,
+          "total": 27593
         },
         "functions": {
-          "covered": 6150,
-          "total": 8106
+          "covered": 6174,
+          "total": 8110
         },
         "lines": {
-          "covered": 22226,
-          "total": 27834
+          "covered": 22346,
+          "total": 27865
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 54476,
-      "total": 78938
+      "covered": 54609,
+      "total": 78971
     },
     "branches": {
-      "covered": 38996,
-      "total": 62031
+      "covered": 39065,
+      "total": 62045
     },
     "functions": {
-      "covered": 10284,
-      "total": 14516
+      "covered": 10308,
+      "total": 14520
     },
     "lines": {
-      "covered": 49138,
-      "total": 69088
+      "covered": 49258,
+      "total": 69119
     }
   }
 }

@@ -14,6 +14,8 @@
 |---|---|---|---|---|
 | TEST-REFORGE-RUNTIME-CONTRACTS-1 | [运行时基础功能五组补测](tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | rework | GLM修R1～R4 / Codex复核 | 75c9cfe8 counter：56/1186与原10负控/覆盖有效，四独立坏实现漏检；未合入/未动基线，设计不重签 |
 
+2026-09-19 Codex完成[E-03/E-04预览缓存常规修复](../testing/editor-preview-cache.md)：仅两个组件私有缓存，15项回归/7负控/原生绘制及check7457/严格fast6969通过；同Owner连续迭代不开新签字卡，不涉及资源格式或公共加载器。
+
 场景引用保护候选83598cc4已三席accept，用户要求本人继续，2026-09-19由Codex[核定done归档](../testing/scene-reference-guard.md)；22新回归、check7442/strict fast6954及功能验证通过，其它审计缺陷不借此关闭。
 内容合同补测候选adbabb84已三席accept、用户确认签字，2026-09-18由Codex[核定done归档](../testing/content-contracts-review.md)；新增118项，check7420/strict fast6932通过，43族剩余覆盖及其它审计修复保持原归属。
 D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。

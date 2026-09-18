@@ -12,7 +12,28 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
 import { DsDialog, DsIconButton } from './design-system/index.js'
 
-const thumbCache = new Map<string, Promise<HTMLCanvasElement | null>>()
+const thumbCache = new WeakMap<
+  AssetBase,
+  WeakMap<EditorAssetReader, Map<string, Promise<HTMLCanvasElement | null>>>
+>()
+
+function thumbRevision(
+  assetBase: AssetBase,
+  assetReader: EditorAssetReader,
+  asset: AssetId,
+): string {
+  try {
+    const resolver = assetBase.assetResolver
+    const colorAsset = resolver.assetForRole('visual.standardColorTable')
+    return JSON.stringify([
+      assetReader.record(asset, 'sprite'),
+      colorAsset,
+      resolver.record(colorAsset, 'color-table'),
+    ])
+  } catch {
+    return 'unavailable'
+  }
+}
 
 function loadThumb(
   assetBase: AssetBase,
@@ -21,8 +42,18 @@ function loadThumb(
   revision: string,
   frameIndex: number,
 ): Promise<HTMLCanvasElement | null> {
-  const cacheKey = `${assetReader.projectId}\0${asset}\0${revision}\0${frameIndex}`
-  let p = thumbCache.get(cacheKey)
+  let readers = thumbCache.get(assetBase)
+  if (!readers) {
+    readers = new WeakMap()
+    thumbCache.set(assetBase, readers)
+  }
+  let cache = readers.get(assetReader)
+  if (!cache) {
+    cache = new Map()
+    readers.set(assetReader, cache)
+  }
+  const cacheKey = `${asset}\0${revision}\0${frameIndex}\0${thumbRevision(assetBase, assetReader, asset)}`
+  let p = cache.get(cacheKey)
   if (!p) {
     p = (async () => {
       try {
@@ -36,8 +67,11 @@ function loadThumb(
       } catch {
         return null // 缺图静默(项目无此精灵资产)
       }
-    })()
-    thumbCache.set(cacheKey, p)
+    })().then((baked) => {
+      if (baked === null && cache.get(cacheKey) === p) cache.delete(cacheKey)
+      return baked
+    })
+    cache.set(cacheKey, p)
   }
   return p
 }
@@ -68,6 +102,7 @@ export function SpriteThumb(props: {
     align = 'bottom',
     maxScale = 2,
   } = props
+  const metadataRevision = thumbRevision(assetBase, assetReader, asset)
   const hostRef = useRef<HTMLCanvasElement>(null)
   const [visible, setVisible] = useState(false)
 
@@ -86,6 +121,8 @@ export function SpriteThumb(props: {
   }, [])
 
   useEffect(() => {
+    // Observe metadata changes even when the reader object and caller-provided SHA are unchanged.
+    void metadataRevision
     if (!visible) return
     let alive = true
     void loadThumb(assetBase, assetReader, asset, revision, frameIndex).then((baked) => {
@@ -105,7 +142,18 @@ export function SpriteThumb(props: {
     return () => {
       alive = false
     }
-  }, [visible, assetBase, assetReader, asset, revision, size, frameIndex, align, maxScale])
+  }, [
+    visible,
+    assetBase,
+    assetReader,
+    asset,
+    revision,
+    metadataRevision,
+    size,
+    frameIndex,
+    align,
+    maxScale,
+  ])
 
   return (
     <canvas

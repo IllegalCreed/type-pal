@@ -4,7 +4,7 @@
  * 帧时长 (speed+5)×10ms、fireDelay 为循环起点、音效在循环点播。参数改动即重启。
  * 完整战斗语境(施法者/飞行/命中)待引擎 B5 召唤·变身动画补齐后上。
  */
-import type { AssetId, SkillAnimation } from '@type-pal/content'
+import { type AssetId, palMagicEffectSpriteAssetId, type SkillAnimation } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { bakeFrame, loadFireSprite, loadStandardPalette, type SfxPlayer } from '@type-pal/reforge'
 import { useEffect, useId, useRef, useState } from 'react'
@@ -12,10 +12,31 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { DsButton, DsField, DsSelect } from './design-system/controls.js'
 import { prepareSoundPreview } from './SoundPicker.js'
 
-const fireCache = new Map<number, Promise<HTMLCanvasElement[] | null>>()
+const fireCache = new WeakMap<AssetBase, Map<string, Promise<HTMLCanvasElement[] | null>>>()
+
+function fireRevision(assetBase: AssetBase, chunk: number): string {
+  try {
+    const resolver = assetBase.assetResolver
+    const colorAsset = resolver.assetForRole('visual.standardColorTable')
+    return JSON.stringify([
+      resolver.record(palMagicEffectSpriteAssetId(chunk), 'effect-sprite'),
+      colorAsset,
+      resolver.record(colorAsset, 'color-table'),
+    ])
+  } catch {
+    // Missing records remain a normal unavailable preview; a later valid record changes this key.
+    return 'unavailable'
+  }
+}
 
 function loadFrames(assetBase: AssetBase, chunk: number): Promise<HTMLCanvasElement[] | null> {
-  let p = fireCache.get(chunk)
+  let cache = fireCache.get(assetBase)
+  if (!cache) {
+    cache = new Map()
+    fireCache.set(assetBase, cache)
+  }
+  const key = `${chunk}\0${fireRevision(assetBase, chunk)}`
+  let p = cache.get(key)
   if (!p) {
     p = (async () => {
       try {
@@ -28,8 +49,11 @@ function loadFrames(assetBase: AssetBase, chunk: number): Promise<HTMLCanvasElem
       } catch {
         return null
       }
-    })()
-    fireCache.set(chunk, p)
+    })().then((frames) => {
+      if (frames === null && cache.get(key) === p) cache.delete(key)
+      return frames
+    })
+    cache.set(key, p)
   }
   return p
 }
@@ -52,6 +76,7 @@ export function FireEffectPreview(props: {
   assetReader: EditorAssetReader
 }) {
   const { assetBase, anim, assetReader } = props
+  const revision = fireRevision(assetBase, anim.effectSprite)
   const rateId = useId()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [frames, setFrames] = useState<HTMLCanvasElement[] | null | 'loading'>('loading')
@@ -64,6 +89,8 @@ export function FireEffectPreview(props: {
   const preparedReaderRef = useRef<EditorAssetReader | null>(null)
 
   useEffect(() => {
+    // Render-time catalog changes invalidate the effect; loadFrames re-reads its key at admission.
+    void revision
     let alive = true
     setFrames('loading')
     void loadFrames(assetBase, anim.effectSprite).then((f) => {
@@ -72,7 +99,7 @@ export function FireEffectPreview(props: {
     return () => {
       alive = false
     }
-  }, [assetBase, anim.effectSprite])
+  }, [assetBase, anim.effectSprite, revision])
 
   useEffect(() => {
     if (!Array.isArray(frames) || !frames.length || !playing) return
