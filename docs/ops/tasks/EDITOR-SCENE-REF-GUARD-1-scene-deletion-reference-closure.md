@@ -211,7 +211,33 @@ Codex实际浏览器已核三条引用可见/可定位/阻断，解除后删除�
   - **旧版本兼容审查：pass**——无版本分支/upgrader/fallback；原审计探针零修改（断言缺陷
     存在的历史预期不改成凑绿）。
   返工项：无。本 accept 不代签、不授权 done；D-06/D-07、G-R06 等剩余归属不关闭。
-- GLM：pending。
+- GLM：**accept（2026-09-18，r1 覆盖/回归终审；候选 83598cc4，对比 830db139；未读 Kimi 结论。落盘披露：本人 accept 首次提交时与并行 Kimi 会话共享主 worktree 发生文本竞态，cca7306b 实际携带了 Kimi 席位文本，本条为本人重落；与 6300223a 检出竞态同类，内容零丢失）**。
+  - **生产 diff 直读**：唯一文件 project-reference-adapters.ts +23/-3——白名单加 selectSceneHooks、
+    排除 scene-hook 复合边避免与 scheme adapter 双计、新增 canonicalTransitionSceneEdges（每 state.next
+    一根、只转 scene 目标、script-owner locator）、接入同一 snapshotFromProjection——与设计边界 1-5
+    逐条一致，无第二套 UI 拦截、无新公共类型。
+  - **fixture/22 断言直读**：scene-reference-fixture.ts 走真实 buildBlankProject→内存 FSA→
+    loadCurrentProjectFrom→loadAllAuthorScenes→真实两 session/Coordinator，返回前 `await serialize()`
+    先过正式保存校验（合法 fixture 自证）；六 command owner + 四 transition owner 的
+    target/where/locator/owner/relation/deletePolicy 全字段断言；use 去重两例、all/any/not/嵌套转换
+    3 边 + command body 1 边分栏、删除集合内部豁免（自身/同集合 blockers=0、外部=4）；
+    拒删三例核 version/canUndo/canRedo/serialize 等值/disk.changes 空（零历史变化）；
+    重开例断言完整 author scenes 逐值相等、全部资产字节保留、删除路径兑现（非仅 ID 计数）、
+    undo/redo 往返；三例真实 derived store/worker init/patch 与冷 guard 一致，保留旧暖视图时冷守卫仍拒删。
+  - **mutants 复跑**：`node docs/testing/scene-reference-guard-mutants.mjs` rc=0——控制 22 绿；
+    omit-selection-scene/omit-transition-wiring/duplicate-use-hook 三针均 exit1、22 项真实执行、
+    日志逐条 AssertionError 业务红（如 `expected [] to deeply equal [{target…}]`）、钉名新增标题
+    failed；marker 为函数体内 console.info（`stdout |` 前缀见证），判据含毒日志自测；产品 hash 前后不变。
+  - **定向复跑**：8 文件 108/108 + `pnpm --filter @type-pal/editor run typecheck` rc=0。
+  - **PAL 补边核**：本人直读 projects/pal s172.json hooks.onEnter…body[0] 实为 selectSceneHooks→s182
+    双 disabled；pal 测试新增恰一条完整业务断言，rows 25188→25189、targetEdgeIds 28089→28090，
+    hook 293/behavior 4459 等旧断言原样——census 联动属实非抖动。
+  - **基线核**：baseline.fast.json 结构化 diff——仅 editor 节变化（files 219→221、2322→2344），
+    219 个旧 fileEntries 0 改 0 删、恰加 2 新文件；shared/content/pal-extract/migrate/reforge/game
+    六包基线对象逐字节相等；根 testCount 6932+22=6954 与 check7442/单次受保护 fast6954 口径自洽
+    （全仓门为 Codex 串行执行，本席按基线+一致性核验，未自行重跑或改基线）。
+  - 原 probe 两文件零 diff；visual 脚本只写 gitignored build 目录。无浏览器/视觉复验（按分工用
+    Codex 已落回执）。无 counter 项。
 - done准入：未开放，待两席独立终审；本席不代签、不标done。
 
 ## 交接日志
