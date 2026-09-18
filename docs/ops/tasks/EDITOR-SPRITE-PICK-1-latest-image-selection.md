@@ -193,12 +193,80 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
   完整check7302、官方ratchet和受保护单次strict fast6814/617均exit0，旧218个editor测试及其它六包基线对象不变，无范围/门槛下调。
   **旧版本兼容审查pass**：无版本/公共接口/资产格式变化，无旧模型fallback；G-I04已开始提交后卸载政策保持范围外，完整保存重开试玩仍归R4。
   可证伪：任一旧成功/错误污染当前选择、旧submit入库、bitmap漏/重复close、同内容多造资源或旧测试身份/门槛退回均撤回accept。
-- Kimi：pending（独立代码/架构终审，复用Codex视觉证据）。
-- GLM：pending（独立代码/测试矩阵终审，不做视觉；披露原G-I诊断材料贡献）。
+- Kimi：**accept（2026-09-18，r1 独立代码/架构终审，候选 `a88ab18d` 对比 `be1868f3`；设计不重签；未读 GLM 本轮结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  接手 HEAD `ff630f1f` 与 origin/main 一致、工作树干净；候选后产品/脚本/锁文件零漂移。
+  - **选择/作用域归属**：`SpriteUploadWizard.tsx` 按 [session, assetBase] 建 selection 作用域
+    （active/revision/readyDraft/paletteReady）；useLayoutEffect 退出即失效并重置；pickFile 起始
+    `++selection.revision` 同步清 readyDraft；解码 await 后 `!active || revision !==` 即丢弃过期
+    成功；catch 仅在当前时写错——G-I01/02/03 结构性闭合。主色异步成功/失败同作用域纪律。
+  - **精确 readyDraft 提交守卫**：submit 入口要求 `selection.readyDraft === draft`（对象同一性）
+    + paletteReady + active + 非 decoding，DOM 禁用同条件——旧渲染闭包不能借新选择的就绪布尔
+    （SP-03 双闸）；decoding 进 aria-busy；cancel 先失效+bump+清 readyDraft 再 onDone。
+  - **bitmap 释放**：`let bitmap` 外置 + try/finally `bitmap?.close()` 每路径恰一次；解码拒绝
+    无虚构 bitmap；G-I08 闭合。
+  - **原提交语义**：submittingRef 互斥/ID/label 规则/编码/hash/AddSpriteCommand diff 中仅守卫
+    条件变化；已开始提交不可取消保持（G-I04 范围外）。
+  - **本人实跑**：定向 **22/22**（新 20+旧 2）、相邻 **36/36**、editor typecheck exit 0；
+    入仓 `sprite-selection-mutants.mjs`：**对照绿 + 6 针全业务红**（success/error 归属、bitmap
+    释放、readyDraft 准入、主色错误归属、busy 归属），运行后工作树干净。
+  - **质量门交叉核**：check editor 2,481（总 7,302）；strict TOTAL **617 文件/6,814 项**；
+    基线 diff 实测 editor 2302→2322（恰 +20），仅 editor 包级 digest 变化、旧 fileEntries
+    identity 逐项不变、零移除、零降阈；产品保护代码净增分母如实分栏。
+  - **视觉复用**：Codex 三张截图与 A→B/坏图/取消重开/入库/撤销流程记录在案，原生重选不冒称
+    Promise 乱序控制（由组件宿主测试+六针承担）；本席不重复浏览器流程。完整保存重开试玩归 R4。
+  - **旧版本兼容审查：pass**——无版本/公共接口/资产格式变化，无旧模型 fallback。
+  返工项：无。本 accept 不代签、不授权 done。
+- GLM：**accept（2026-09-18，r1 独立代码/测试矩阵终审；未读 Kimi 结论；原 G-I 只读探针
+  probe-glm-upload-prep.mjs 及历轮纠正为本席贡献——本卡产品实现与 20 项正式回归均为 Codex 工作，
+  本轮为独立重核，不做视觉，Chrome 证据仅引用 Codex 回执并标非本人验证）**。
+  - **实现直读（a88ab18d 对比 be1868f3，产品仅 SpriteUploadWizard.tsx）**：按 session/assetBase 建
+    `selection` 作用域（useMemo）+ 单调 revision；pickFile 入口 `++selection.revision` 并清 readyDraft/
+    setDecoding(true)，成功侧 `if (!selection.active || selection.revision !== revision) return` 双检查，
+    catch 侧同检查（错误归属）；bitmap 提升到 try 外、**finally `bitmap?.close()` 恰一次**（含过期/
+    getContext/drawImage/getImageData/toDataURL 失败路径，成功后过期也 close）；submit 入口精确比较
+    `selection.readyDraft !== draft` + `paletteReady` + `selection.active`（旧回调不能借新就绪布尔）；
+    useLayoutEffect 作用域退出失效+清 draft/palette/err/decoding；palette 成功与 **catch 双侧**均查
+    `selection.active`（修复了设计审查发现的 catch 在 alive 外缺陷）；取消按钮手动 `selection.active=false
+    + revision++`；aria-busy 含 decoding。与 D1-D5 设计逐点对应，无越界面。
+  - **SP-01～07 逐项核（20 新+2 旧断言面直读）**：SP-01（`last selected bitmap owns preview...` test.each
+    A-B/B-A 两序——预览文件名+真实入库均为 B，A 完成不清 B 的 busy、等待期选择器可用）；SP-02
+    （:236 旧失败不覆盖 B 成功；:246 最新失败不复活旧成功+重选 C 恢复）；SP-03（:221 **捕获真实 DsButton
+    onClick 属性**独立调用旧 submit——非复制 submit 算法、非只 DOM 禁用；encode 未被调用）；
+    SP-04（cancel/unmount 释放迟到 bitmap+scope 更换覆盖 pending 与 ready 两态+同 scope 重渲染正控）；
+    SP-05（正常/过期/取消/卸载 close 恰一次+getContext null/draw/getImageData/toDataURL 逐项+两种
+    解码拒绝无虚构 bitmap）；SP-06（`verifyImport` 真实字节 oracle：gunzip→parseSpriteChunkStrict 核
+    尺寸/**全部像素/透明位**+bytes==record.bytes+sha256 一致；同内容两定义共用 asset、catalog/blobs
+    不增副本、每 submit 一条历史+连续 undo/redo **整状态** deepEqual）；SP-07（作者 ID/标签经重选保留、
+    旧 2 项断言零 diff 本人核过、G-I04 范围外未冒称）。palette 两竞态（旧 scope 拒绝不污染新 scope、
+    旧 scope 成功不解除当前等待）在 :309/:372。
+  - **本人复跑（2026-09-18，main=ff630f1f）**：定向 **22/22**（20 新+2 旧）、相邻 3 文件 **36/36**、
+    editor `tsc --noEmit` rc0、改动文件 Biome 0 error；`node docs/testing/sprite-selection-mutants.mjs`
+    **1 对照 exit0 + 6 针全部 exit1 且逐日志核 AssertionError 业务红**（success/error-ownership 各 5 红、
+    bitmap-release/busy/palette-error/ready-draft-admission 各 1 红；实际执行见证在最终目录
+    sprite-selection-mutants-764hrm）。
+  - **门禁与基线对账**：check 7302、ratchet 与受保护单次 strict fast **6814/617** 由 Codex 席位记录；
+    本人独立 diff 核 baseline——**六包基线对象逐字不变，editor 恰 +1 测试文件（selection.test.tsx）
+    +20 项（2302→2322）、零移除**；产品保护代码分母净增（31 行/29 分支）与测试增量分列不混算
+    （回执已声明，非范围缩减）。G-I04 维持范围外，保存→重开→试玩归 R4 集中 E2E 未执行。
+  - 可证伪复核：任一旧成功/错误污染当前选择、旧 submit 入库、bitmap 漏/双 close、同内容多造资源、
+    旧测试身份移除即撤回——本轮复跑均未出现。无阻断项。
 - done准入：pending，待两席实现终审及用户验收/明确收口授权；不代签、不重签设计。
 
 ## 交接日志
 
+- 2026-09-18 Kimi（r1 终审）：同步 `ff630f1f`、工作树干净后核 `be1868f3 → a88ab18d`。
+  直读 selection 作用域/代次/useLayoutEffect 失效、pickFile 过期成功丢弃与 catch 当前性、
+  submit 精确 readyDraft 双闸、try/finally close 恰一次、主色作用域；复跑定向 22/22、相邻 36/36、
+  typecheck exit 0、入仓 6 针负控全业务红+对照绿；交叉核 check 7,302、strict 617/6,814
+  （恰 +20）、旧 identity 零移除。视觉复用 Codex 证据（原生重选不冒称乱序控制）。
+  旧版本兼容 pass。签 accept，无返工项；未改产品/他席/状态，未读 GLM 结论。
+  Next：Codex 统一核定 done（G-I04 保持范围外、保存重开试玩归 R4）。
+- 2026-09-18 GLM：完成 r1 独立代码/测试矩阵终审，done 前席位签 accept（证据锚点见上节）。直读
+    SpriteUploadWizard 选择作用域/代次/finally close/精确 readyDraft 入口/palette 双侧 catch；SP-01～07
+    对 20 新+2 旧断言面逐项核（两序归属、两错误组合、真实 DsButton 旧回调、pending/ready scope、close
+    计数、gunzip 全像素 oracle、同 SHA 复用+整状态 undo/redo、旧 2 项零 diff）。复跑 22/36、tsc/Biome、
+    6 针负控逐日志 AssertionError 业务红；独立 diff 核六包基线不变+editor 恰 +1 文件 +20 项。原 G-I 只读
+    探针贡献披露；Chrome 视觉仅引用 Codex 回执。未读 Kimi 结论；仅改本席与日志，不改实现/状态/他席。
 - 2026-09-18 Codex实现收口：完成a88ab18d（基点be1868f3），只改SpriteUploadWizard、一个新组件测试、隔离负控及官方生成基线；样式/编码/core命令/旧测试/已收口GLM包不动。补StrictMode、两类ready旧scope、旧主色成功、toDataURL失败、同asset复用/整状态undo/redo后20新＋2旧绿，36相邻/tc/Biome通过；六针实际执行业务红。正式浏览器B预览/坏图拒绝/取消重开/入库与一次撤销闭环，不保存PAL。check7302→ratchet→单次protected fast6814/617全绿，写本席accept、转review并同步看板/索引；两席终审提示同时给出，设计不重签。
 - 2026-09-18 Codex并行build进度：向导内部按session/assetBase建立选择作用域与代次，成功/catch检查当前性，finally释放bitmap；解码等待/失败的旧draft不能经DOM或旧提交回调入库，palette旧scope错误也隔离。编码/命令/GLM core测试零改动。新建SpriteUploadWizard.selection.test.tsx，经真实组件事件、当前blank项目loader/EditSession和真实RLE/gzip/SHA核产物。
   首批8项在旧树6业务红/2绿（/tmp/sprite-selection-before.log）；扩展后新15项+既有2项共17绿、editor typecheck/Biome通过（/tmp/sprite-selection-directed.log、/tmp/sprite-selection-tsc.log）。初次类型/Hook依赖检查及“React尚未刷新DOM”假设失败已修；提交入口保护改为捕获实际DsButton回调独立验证，不复制submit算法。
