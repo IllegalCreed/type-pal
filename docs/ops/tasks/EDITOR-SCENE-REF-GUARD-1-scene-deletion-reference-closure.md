@@ -186,7 +186,31 @@ Codex实际浏览器已核三条引用可见/可定位/阻断，解除后删除�
   - Codex真实App/worker最小功能验证通过：三引用显示与阻断、正文精确/转换owner定位、表单解除依赖后删除、撤销恢复与引用数恢复。
     测试仅内存工程；无用户/PAL目录写入、无OS保存/E2E冒称。视觉不交GLM/Kimi重复。
   - 旧版本兼容审查pass：无旧版本分支/upgrader/fallback变动；未改content/SAVE/迁移或GLM冻结面。
-- Kimi：pending。
+- Kimi：**accept（2026-09-18，r1 独立终审，候选 `83598cc4` 对比 `830db139`；设计不重签；未读 GLM 本轮结论）**。
+  接手 HEAD `a6725f5e` 与 origin/main 一致、工作树干净；候选后产品/脚本/锁文件零漂移。
+  - **单 adapter 补边**：`project-reference-adapters.ts:223` 白名单接入 selectSceneHooks——
+    collector 产出的 scene 边不再被丢；`:236-239` 同步排除 scene-hook 目标（具体 hook 边仍归
+    canonicalSchemeReferenceEdges，use 复合边进父 scene 桶，不叠加第二条）；新增
+    `canonicalTransitionSceneEdges`（:252-268）每个 state.next 一根、经现有递归 collector 只转
+    scene 目标、script-owner locator 复用；接入共享 `buildProjectReferenceSnapshotFromProjection`
+    （冷暖同源）。生产仅此一个文件（diff 实测）。
+  - **PAL 新增一边直读**：project-reference.pal.test.ts 补 s172 双 disabled→s182 的完整边断言
+    （target/where/owner/locator/deletePolicy 逐项钉住）；rows 25188→25189、hook 293/behavior
+    4459 原断言不变——正确修复的 census 联动，非抖动。
+  - **本人复跑**：定向+相邻 **8 文件/108/108** 绿（含新 22 项：六个 command owner、混合/双 use
+    去重、四类状态机 owner 下 all/any/not/嵌套 transition、删除集合豁免、暖派生与冷一致、
+    真实删除→serializer→loader 重开→undo/redo）；editor typecheck exit 0（抽查）；
+    入仓 `scene-reference-guard-mutants.mjs`：**对照绿 + 3 针全业务红**（漏 selectSceneHooks
+    准入/漏 transition 接线/重复 use-hook 边），判据拒 TypeError/超时且含混合错误自测，
+    产品 SHA 不变。
+  - **质量门交叉核**：check-release editor 2,503（总 7,442）；受保护 strict TOTAL
+    **617 文件/6,954 项**；基线 diff 实测 editor 2295→2344（新增测试），仅 editor 包级
+    digest 变化、旧 218 文件 identity 逐项不变、零移除零降阈。
+  - **视觉复用**：Codex dev-functional 验证（三类阻断显示、正文/转换定位、解除后删除、撤销
+    恢复计数）在案，本席不重复浏览器流程；完整保存重开创作链归 R4。
+  - **旧版本兼容审查：pass**——无版本分支/upgrader/fallback；原审计探针零修改（断言缺陷
+    存在的历史预期不改成凑绿）。
+  返工项：无。本 accept 不代签、不授权 done；D-06/D-07、G-R06 等剩余归属不关闭。
 - GLM：pending。
 - done准入：未开放，待两席独立终审；本席不代签、不标done。
 
