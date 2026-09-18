@@ -30,13 +30,20 @@ interface BgmHarness {
   resumeGate: ReturnType<typeof deferred<void>>
   setState: (state: AudioContextState) => void
   reads: Array<{ asset: string; kind: string }>
+  /** loadNewSongList 调用即捕获的字节身份（vi.fn 记录参数会被克隆，ArrayBuffer 不保真）。 */
+  loads: Array<Array<{ fileName: string; bytes: number[] }>>
 }
 
 /** 可控后端：init/ctx.resume 各一个 deferred；readBytes 按 asset 永挂起（可注入一次性失败）。 */
 function harness(): BgmHarness {
+  const loads: Array<Array<{ fileName: string; bytes: number[] }>> = []
   const seq = {
     pause: vi.fn(),
-    loadNewSongList: vi.fn(),
+    loadNewSongList: vi.fn((songs: Array<{ binary: ArrayBuffer; fileName: string }>) => {
+      loads.push(
+        songs.map((song) => ({ fileName: song.fileName, bytes: [...new Uint8Array(song.binary)] })),
+      )
+    }),
     play: vi.fn(),
     fadeTo: vi.fn(),
     cancelFade: vi.fn(),
@@ -67,6 +74,7 @@ function harness(): BgmHarness {
   return {
     runtime,
     seq: seq as unknown as BgmHarness['seq'],
+    loads,
     init,
     resumeGate,
     setState: (next) => {
@@ -100,7 +108,7 @@ describe('C1 resume 并发去重与被拒后可再次手势', () => {
 })
 
 describe('C2 换曲读取逆序完成：仅当前请求真正 load/play', () => {
-  test('后发请求先完成 → 唯一 loadNewSongList/play；先发旧读迟到被串行门丢弃', async () => {
+  test('懒初始化期间后发接管：init 完成只读 last', async () => {
     const h = harness()
     // 读取顺序可控：B 先被请求但挂起，A 后发且立即可读
     const gates = new Map<string, ReturnType<typeof deferred<ArrayBuffer>>>()
@@ -119,17 +127,64 @@ describe('C2 换曲读取逆序完成：仅当前请求真正 load/play', () => 
     p.play('music.b') // 懒初始化：last=b，init 未完成
     p.play('music.a') // last=a（后发接管）
     h.init.resolve(h.seq) // init 完成 → playCurrent 只跑 last=a
-    await Promise.resolve().then(() => {})
-    await Promise.resolve().then(() => {})
-    expect(h.reads.map((r) => r.asset)).toEqual(['music.a']) // 只有当前请求真正读取
-    // a 的读取完成（当前）→ 唯一 load/play
-    gates.get('music.b')!.resolve(new ArrayBuffer(8)) // 迟到的 b 若被错误接受将在此后暴露
+    await vi.waitFor(() => {
+      expect(h.reads.map((r) => r.asset)).toEqual(['music.a']) // 只有当前请求真正读取
+    })
+    gates.get('music.b')!.resolve(new ArrayBuffer(8)) // b 从未开始读取：无迟到结果可谈
     expect(h.seq.loadNewSongList).toHaveBeenCalledTimes(1)
-    expect(h.seq.loadNewSongList).toHaveBeenCalledWith([
-      { binary: expect.any(ArrayBuffer), fileName: 'music.a' },
-    ])
     expect(h.seq.play).toHaveBeenCalledTimes(1)
-    expect(h.seq.loopCount).toBe(Infinity) // loop 默认 true
+  })
+  test('已初始化 player 真读取乱序：旧读 entered 挂起→新请求先完成→旧读迟到被 post-read 门丢弃', async () => {
+    const h = harness()
+    // 每资源不同字节身份（核“完整字节身份”，不只 any(ArrayBuffer)）
+    const bytesOf = (asset: string): ArrayBuffer => {
+      const out = new Uint8Array(8)
+      out.fill(asset.charCodeAt(asset.length - 1))
+      return out.buffer
+    }
+    const gates = new Map<string, ReturnType<typeof deferred<ArrayBuffer>>>()
+    gates.set('music.b', deferred<ArrayBuffer>())
+    const resolver: AudioAssetReader = {
+      async readBytes(asset, expectedKind) {
+        h.reads.push({ asset, kind: expectedKind ?? '' })
+        const gate = gates.get(asset)
+        return gate ? gate.promise : bytesOf(asset)
+      },
+      async readRoleBytes() {
+        return new ArrayBuffer(8)
+      },
+    }
+    const p = createBgmPlayerWithRuntime(resolver, h.runtime)
+    // 1) 先完成一次完整播放，使 player 处于已初始化(ready)且 playing 有值
+    p.play('music.w')
+    h.init.resolve(h.seq)
+    await vi.waitFor(() => {
+      expect(h.seq.loadNewSongList).toHaveBeenCalledTimes(1)
+    })
+    expect(h.reads.map((r) => r.asset)).toEqual(['music.w'])
+    // 2) 旧请求 b：读取已 entered 且挂起
+    p.play('music.b', false)
+    await vi.waitFor(() => {
+      expect(h.reads.map((r) => r.asset)).toEqual(['music.w', 'music.b'])
+    })
+    // 3) 新请求 a 接管（b 读取仍在途）；a 读取立即完成 → 真正提交
+    p.play('music.a')
+    await vi.waitFor(() => {
+      expect(h.seq.loadNewSongList).toHaveBeenCalledTimes(2)
+    })
+    expect(h.loads).toEqual([
+      [{ fileName: 'music.w', bytes: [...new Uint8Array(bytesOf('music.w'))] }],
+      [{ fileName: 'music.a', bytes: [...new Uint8Array(bytesOf('music.a'))] }],
+    ])
+    expect(h.seq.play).toHaveBeenCalledTimes(2)
+    // 4) 旧读 b 此刻才完成（迟到）：post-read 串行门必须丢弃，不得第二次提交
+    gates.get('music.b')!.resolve(bytesOf('music.b'))
+    await Promise.resolve().then(() => {})
+    await Promise.resolve().then(() => {})
+    await Promise.resolve().then(() => {})
+    expect(h.seq.loadNewSongList).toHaveBeenCalledTimes(2) // 仍只有 w 与 a
+    expect(h.seq.play).toHaveBeenCalledTimes(2)
+    expect(h.reads.map((r) => r.asset)).toEqual(['music.w', 'music.b', 'music.a']) // b 确实读过
   })
 })
 

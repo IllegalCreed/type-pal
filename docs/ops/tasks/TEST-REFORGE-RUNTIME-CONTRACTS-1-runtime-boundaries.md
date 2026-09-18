@@ -168,6 +168,9 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
 - done准入：未开放，不代签。
 
 ## 交接日志
+- 2026-09-19 GLM（r1 返工完成）：合入 counter ced4f2b9（rebase，原文保留），按 R1～R4 定点返工：
+  四见证全 detected、原 15 跑全绿、59 项/1189 全包/tc/Biome/覆盖对照复跑完成。返工实施者自验
+  accept 已签本人席位；任务保持 rework，等 Codex 重新接收。
 
 - 2026-09-19 Codex（返工复核）：main/4df7823e干净接手，同步remote并确认a9e1d4f1；在候选独立复跑59/1189/tc/14文件Biome、四见证、15跑及/tmp覆盖。
   原四针已detected，R1/R3闭环；仅剩D1实际输入保真与候选越界看板回退，新增真实project输入污染针MISSED、check:docs exit1。
@@ -210,6 +213,14 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
 读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/reforge-runtime-contracts-review.md。R1保留正确的初始化last接管例但改准确标题，补真实旧读entered→新请求提交→旧读完成、不同字节的BGM交错；MIDI补旧A finally与仍在途B/key去重组合。R2钉author/runtime cue与完整树，不用ID/数组不等当投影；补source.urlFor真实故障/上下文与同实例恢复。R3实际world/items/state在真实调用后深比较，B5经useConfirm/useApply产合法对应request，不手造oneAlly的pick-item或不一致selectedItemId。R4如实刷新30族、标题/计数/失败记录/index；A5不制造MAIN_MENU不共享的新规则。
 复跑node docs/testing/reforge-runtime-contracts-review-witnesses.mjs <候选物理绝对路径>：四控绿、bgm-post-read-ownership/midi-stale-finally/loader-projection-bypassed/equip-input-pollution应由MISSED转detected，必须保留实际执行见证。不得改原见证掩盖问题；确需适配名称只报告Codex。
 原56测试/原10负控及覆盖增量的有效部分保留，不推倒重做、不凑固定条数、不改产品/旧测试/原探针/官方基线。复跑定向/全reforge/tc/全部新文件Biome、原15跑、四新见证及官方同口径/tmp覆盖；全仓check/ratchet/strict-fast仍留Codex。bgm initP政策继续待证，不扩成修复授权。提交推送本人测试/回执，交Codex重新接收；不代签、不标done、不直接转Kimi。
+```
+
+### Codex · 重新接收 r1 返工（当前）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 重新接收 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1 返工。任务卡 docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md（rework）；返工回执与 30 族账 docs/testing/glm-reforge-runtime-contracts.md；机器账 docs/testing/glm-reforge-runtime-contracts-evidence.json（14 文件 Biome 干净）。候选分支 codex/glm-reforge-runtime-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-reforge-runtime），在你的 counter ced4f2b9 之上追加返工提交（tip f3d933af+）；生产冻结 3bc20273；设计不重签。
+GLM 已按 R1～R4 返工：R1 C2 拆懒初始化接管+已初始化真读取乱序（逐字节身份）、C4 补旧 finally 撞新在途交错；R2 D1 钉完整 author identity 与 runtime 解析 cue + 实际输入保真、D4/D5 同实例故障→修复恢复 + 真实 urlFor IO 失败包装；R3 B2/B3/B6 比较真正传入的同一 world、B5 请求全由真实 useConfirm/useApply 产生；R4 A5 弱例重写、回执/标题/计数/失败记录按最终树（59 项/1189 全包/tc/14 文件 Biome）。复跑 node docs/testing/reforge-runtime-contracts-review-witnesses.mjs <候选物理绝对路径>：四对照绿、四针全 detected；原 15 跑 rc=0；覆盖对照 +74 行/+84 语句/+73 分支（/tmp 同口径）。
+请独立重新接收：复跑四见证与 15 跑、抽查 R1～R4 修复点真实性（尤其 C2 乱序时序、C4 交错读轨迹、D1 投影断言、B5 真实请求链）、复跑定向/全包/tc/Biome。通过后统一串行执行全仓 check、官方 ratchet、受保护 strict-fast（GLM 未跑），在本席签 accept、更新看板并给 Kimi 终审提示词。仍有问题则 counter 并写明复现；不代签、不标 done。
 ```
 
 ### 历史派发（已完成）

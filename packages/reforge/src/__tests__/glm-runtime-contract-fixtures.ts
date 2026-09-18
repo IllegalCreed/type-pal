@@ -134,6 +134,19 @@ export const multiItems = (): ItemDataMap => ({
   'u-3': usable('u-3'),
   'u-4': usable('u-4'),
   'u-5': usable('u-5'),
+  'sc-1': {
+    id: 'sc-1',
+    name: 'item.sc-1',
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+    use: {
+      target: 'scene',
+      consuming: false,
+      effects: [{ kind: 'runScript', script: { chunk: 'shared/0', id: 'guard-scene' } }],
+    },
+  },
   'plain-1': {
     id: 'plain-1',
     name: 'item.plain-1',
@@ -159,6 +172,7 @@ export const multiWorld = (): WorldState => {
       { itemId: 'u-3', count: 1 },
       { itemId: 'u-4', count: 1 },
       { itemId: 'u-5', count: 1 },
+      { itemId: 'sc-1', count: 1 },
       { itemId: 'plain-1', count: 1 },
     ],
     seedStats: { 'hero-a': { hp: 50, mp: 20 }, 'hero-b': { hp: 40, mp: 10 } },

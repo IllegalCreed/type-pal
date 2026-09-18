@@ -39,14 +39,20 @@ describe('A5 多步真实导航往返', () => {
     // 原始状态不被任何步骤污染（保真深快照，非 JSON 往返）
     expect(start).toEqual(startSnapshot)
   })
-  test('同起点两次走相同路径得到等价但独立的终态（无共享可变节点）', () => {
-    const run = (): { depth: number; panel: string | undefined } => {
+  test('同起点两次走相同路径得到等价终态（各自独立 state 对象；节点按合同共享）', () => {
+    const run = () => {
       let s = confirm(openMenu(2))
       s = moveCursor(s, 1)
       s = confirm(s)
-      return { depth: s.stack.length, panel: s.openPanel }
+      return s
     }
-    expect(run()).toEqual(run())
+    const first = run()
+    const second = run()
+    expect(first).toEqual(second) // 完整终态等价（非只比 depth/panel）
+    expect(first).not.toBe(second) // 两次运行各自产生独立 state 对象
+    // 节点数组按设计共享菜单树常量（改树=调菜单）；导航层对象不与兄弟运行共享
+    expect(topLevel(first)?.nodes).toBe(MAIN_MENU[2]?.children)
+    expect(topLevel(first)).not.toBe(topLevel(second))
   })
 })
 

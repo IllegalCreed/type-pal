@@ -6,6 +6,7 @@
  */
 import { describe, expect, test } from 'vitest'
 import {
+  deepSnapshot,
   dProjectFiles,
   dStampFile,
   memoryFileSource,
@@ -18,27 +19,74 @@ import {
 } from './project-loader.js'
 
 describe('D1 多场景批读：author 身份与 runtime 投影', () => {
-  test('三个 indexed 场景：loadAllAuthorScenes 保 author 形态；loadAllScenes 产 runtime 对话树', async () => {
+  test('三个 indexed 场景：loadAllAuthorScenes 保 author 形态；loadAllScenes 解析完整对话投影', async () => {
     const source = memoryFileSource(
       dProjectFiles({ sceneIds: ['s001', 's002', 's003'], dialogScene: true }),
     )
     const project = await loadCurrentProjectFrom(source)
     const authors = await loadAllAuthorScenes(project)
     expect(authors.map((s) => s.id)).toEqual(['s001', 's002', 's003'])
-    // author 形态：进场脚本仍在 hooks.onEnter.variants（作者域树未投影）
-    const hookFlow = authors[0]?.hooks?.onEnter?.variants?.main?.flow
-    expect(hookFlow && 'kind' in hookFlow ? hookFlow.kind : undefined).toBe('stages')
-    // runtime 投影：dialog cue 的 identity 被解析（author→runtime 差异真实发生）
+    // author 形态：进场脚本仍在 hooks.onEnter.variants，dialog cue 保持作者 identity
+    const authorFlow = authors[0]?.hooks?.onEnter?.variants?.main?.flow
+    expect(authorFlow && 'kind' in authorFlow ? authorFlow.kind : undefined).toBe('stages')
+    const authorCue = (
+      (authorFlow && authorFlow.kind === 'stages' ? authorFlow.stages[0]?.body[0] : undefined) as
+        | { kind: string; cue?: { identity?: unknown } }
+        | undefined
+    )?.cue
+    expect(authorCue?.identity).toEqual({
+      kind: 'actor',
+      actor: 'actor.li',
+      portrait: { kind: 'expression', expression: 'angry', side: 'left' },
+    })
+    // runtime 投影：同一 dialog 命令的 cue 被解析为 speaker/portrait{asset,side}/rows
+    const authorsSnapshot = structuredClone(authors)
     const runtimes = await loadAllScenes(project)
     expect(runtimes.map((s) => s.id)).toEqual(['s001', 's002', 's003'])
-    expect(runtimes).not.toBe(authors) // 两条读取链各自完整成树
+    const runtimeFlow = runtimes[0]?.hooks?.onEnter?.variants?.main?.flow
+    expect(runtimeFlow && 'kind' in runtimeFlow ? runtimeFlow.kind : undefined).toBe('stages')
+    const runtimeCommand = (
+      runtimeFlow && runtimeFlow.kind === 'stages' ? runtimeFlow.stages[0]?.body[0] : undefined
+    ) as { kind: string; cue?: Record<string, unknown> } | undefined
+    expect(runtimeCommand?.kind).toBe('dialog')
+    expect(runtimeCommand?.cue).toEqual({
+      speaker: 'name.li',
+      portrait: { asset: 'portrait.li.angry', side: 'left' },
+      rows: [{ text: 'line.hello' }],
+    })
+    // 不相关字段不因投影漂移；author 输入树在投影后逐值不变
+    for (const scene of runtimes)
+      expect({ id: scene.id, mapId: scene.mapId, entities: scene.entities }).toEqual({
+        id: scene.id,
+        mapId: 'map-001',
+        entities: [],
+      })
+    expect(authors).toEqual(authorsSnapshot)
+    // runtime 树不是 author 树的别名：改 runtime cue 不影响 author 输入
+    if (runtimeCommand) runtimeCommand.cue = { rows: [{ text: 'mutated' }] }
+    expect(authors).toEqual(authorsSnapshot)
   })
-  test('完整树与原输入不变：批读不污染工程文件表', async () => {
+  test('实际 project/author 输入与输出保真：批读前后源输入完整树不变', async () => {
     const files = dProjectFiles({ sceneIds: ['s001', 's002'] })
     const filesSnapshot = structuredClone(files)
-    const project = await loadCurrentProjectFrom(memoryFileSource(files))
+    const source = memoryFileSource(files)
+    const project = await loadCurrentProjectFrom(source)
+    // 只快照纯数据面（project 内含活 AssetResolver/读取轨迹，非本次合同对象）
+    const dataSnapshot = deepSnapshot({
+      manifest: project.manifest,
+      sceneIndex: project.sceneIndex,
+      authorContent: project.authorContent,
+    })
+    const authors = await loadAllAuthorScenes(project)
     await loadAllScenes(project)
     expect(files).toEqual(filesSnapshot)
+    expect({
+      manifest: project.manifest,
+      sceneIndex: project.sceneIndex,
+      authorContent: project.authorContent,
+    }).toEqual(dataSnapshot)
+    // 实际进入 loader 的 author 输入在投影后保持逐值相等（非仅文件表不变）
+    expect(await loadAllAuthorScenes(project)).toEqual(authors)
   })
 })
 

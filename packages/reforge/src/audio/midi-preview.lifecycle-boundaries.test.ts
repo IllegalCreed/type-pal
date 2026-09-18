@@ -133,6 +133,48 @@ describe('C4 A/B 载入逆序与同 key 在途去重', () => {
     expect(a).toEqual(b)
     expect(h.reads).toEqual(['m']) // 读取/完成轨迹证明去重，不只是 Promise 全等
   })
+  test('旧 load 的 finally 不清仍在途的新请求：A 挂起→B entered→A 迟到被拒→重复 B 仍只读一次', async () => {
+    const h = harness()
+    const gateA = deferred<ArrayBuffer>()
+    const gateB = deferred<ArrayBuffer>()
+    const t = createMidiPreviewTransport(
+      resolver(
+        h,
+        new Map([
+          ['a', gateA],
+          ['b', gateB],
+        ]),
+      ),
+      h.runtime,
+    )
+    const slowA = t.load('a', 'key-a', activity())
+    const inFlightB = t.load('b', 'key-b', activity()) // B 已 entered（读取挂起）
+    expect(h.reads).toEqual(['a', 'b'])
+    // A 迟到完成：被 stale 门拒收；其 finally 必须因 promise 身份不匹配而不清 B 的在途记录
+    gateA.resolve(new ArrayBuffer(16))
+    const rejected = await slowA.then(
+      () => undefined,
+      (error: unknown) => error as Error,
+    )
+    expect(rejected?.message).toContain('MIDI 选择已变化')
+    // B 仍在途时重复请求同 key：必须命中在途去重（A 的 finally 不得殃及 loadPromise）
+    const duplicateB = t.load('b', 'key-b', activity())
+    gateB.resolve(new ArrayBuffer(16))
+    const outcomes = await Promise.all(
+      [inFlightB, duplicateB, t.load('b', 'key-b', activity())].map((request) =>
+        request.then(
+          (value) => ({ ok: true as const, value }),
+          (error: unknown) => ({ ok: false as const, error: error as Error }),
+        ),
+      ),
+    )
+    // 在途请求必须全部兑现（finally 误清会令先发的 B 读被后续 serial 顶掉而拒绝）
+    expect(outcomes.map((outcome) => outcome.ok)).toEqual([true, true, true])
+    expect(outcomes[0]?.ok && outcomes[0].value).toEqual(activity())
+    expect(h.reads).toEqual(['a', 'b']) // b 只读取一次；若 finally 误清则会出现第三次读取
+    expect(t.snapshot().asset).toBe('b')
+    expect(t.snapshot().duration).toBe(10)
+  })
 })
 
 describe('C5 读取失败与后端初始化失败后的重试', () => {
