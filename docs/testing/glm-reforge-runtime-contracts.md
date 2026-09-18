@@ -145,13 +145,14 @@ host替身只承担接口副作用/可控等待，取消测试必须真实尊重
 
 ## GLM设计与实施回执
 
-r1 返工完成（2026-09-19，GLM；对应[counter R1～R4](reforge-runtime-contracts-review.md)，
-原候选 75c9cfe8 回执保留在该树）。分支 `codex/glm-reforge-runtime-contracts-r1`（worktree
-`/Users/zhangxu/illegal/type-pal-glm-reforge-runtime`），在 counter ced4f2b9 之上追加返工提交；
-产品对冻结 3bc20273 零漂移不变，主线 guard 实现与他席签字原样保留。
-最终树 10 个新测试文件共 **59 项**（Vitest 现场去重）：17+9+12+12+9。
-定向 10 文件 59/59 绿；全 reforge 包 116 文件/1189 项 exit0；`tsc --noEmit` rc=0；
-**14 个**新增 TS/MJS/MTS/JSON 文件 Biome rc=0（原回执误写 12，已更正）。
+r1 收窄返工完成（2026-09-19 第二轮，GLM；对应[counter 收窄节](reforge-runtime-contracts-review.md)：
+仅剩 D1 实际输入保真与看板回退，R1/R3 及 R2/R4 已闭环项不重开；原候选 75c9cfe8/a9e1d4f1 回执保留在各自树）。
+分支 `codex/glm-reforge-runtime-contracts-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-reforge-runtime`），
+在最新 main 4678650a（含 guard 归档与预览缓存修复）之上 rebase 后追加收窄返工提交；
+产品对冻结 3bc20273 零漂移不变。
+最终树 10 个新测试文件共 **60 项**（Vitest 现场去重）：17+9+12+13+9。
+定向 10 文件 60/60 绿；全 reforge 包 116 文件/1190 项 exit0；`tsc --noEmit` rc=0；
+**14 个**新增 TS/MJS/MTS/JSON 文件 Biome rc=0；`pnpm check:docs` PASS（443 Markdown/2255 链接）。
 
 **返工要点**：R1——C2 拆为「懒初始化接管」+「已初始化 player 真读取乱序」（旧读 entered 挂起→
 新请求先完成提交→旧读迟到被 post-read 门丢弃，两资源字节身份不同、逐字节核最终载入）；C4 新增
@@ -163,6 +164,15 @@ R3——B2/B3/B6 快照并比较**真正传入**的同一 world（在最后一�
 useConfirm/useApply 产生（fixture 增 sc-1 scene 类：pick-item→execute；u-2 oneAlly：pick-target，
 itemId↔selectedItemId 一致）。R4——A5 弱例改为完整终态等价+独立 state 对象+节点按合同共享；
 本回执按最终树重写 30 族账/标题/计数/失败记录。
+
+**收窄返工（第二轮）**：D1 输入保真改钉**实际**输入——project 纯数据快照**含 actorsById**
+（投影直接消费的输入；仍排除持有活动状态的 source/resolver），读取边界捕获 loadAllScenes
+实际消费的 lazy scene 正文对象（交付时即快照、消费完成后比较**同一对象**，不再用两次独立
+readJson 的 clone 互比），并核 runtime 改 cue 不影响实际捕获对象、runtime speaker 即实际
+actorsById 条目；独立确定性例保留但改名为「读取确定性」不再冒称输入保真。新见证
+`reforge-runtime-input-review-witness.mjs` 的 loader-project-input-pollution 针已 detected
+（业务断言红、无 TypeError），原四见证保持 detected、四对照绿。看板在 rebase 中保留主线
+最新行（guard 归档/预览缓存），撤回对另一张卡看板的回退。
 
 ### 30 族逐项账（新增=本包用例标题；已有=锚点；待证/防御附归属）
 
@@ -191,7 +201,7 @@ itemId↔selectedItemId 一致）。R4——A5 弱例改为完整终态等价+�
 - C6 新增：`并发 play 去重：resume 只发生一次，两调用同一结局`、`pause 使挂起 play 失效：AbortError、后端零 play、snapshot 记录显式位置`、`stop/seek/dispose 均使挂起 play 失效；dispose 关闭后端`（snapshot+实际后端动作双断言）。已有：midi-preview.test.ts seek/自然完成/stop-dispose。
 
 **D · 当前工程与资源读取（project-loader.ts / asset-resolver.ts）**
-- D1 新增（project-loader.current-boundaries）：`三个 indexed 场景：loadAllAuthorScenes 保 author 形态；loadAllScenes 解析完整对话投影`（author identity 逐值钉住；runtime cue 断言 speaker/portrait{asset,side}/rows 完整解析形态；不相关字段不漂移；改 runtime cue 不影响 author 输入；witness loader-projection-bypassed 已 detected）、`实际 project/author 输入与输出保真：批读前后源输入完整树不变`（manifest/sceneIndex/authorContent 快照 + 二次 loadAllAuthorScenes 逐值相等）。已有：project-loader.test.ts:272 indexed path/:287 lazy fail；editor 保存/打开测试实链。
+- D1 新增（project-loader.current-boundaries）：`三个 indexed 场景：loadAllAuthorScenes 保 author 形态；loadAllScenes 解析完整对话投影`（author identity 逐值钉住；runtime cue 断言 speaker/portrait{asset,side}/rows 完整解析形态；不相关字段不漂移；witness loader-projection-bypassed 已 detected）、`实际输入保真：project 纯数据（含 actorsById）与读取边界捕获的实际 author 对象消费后不变`（source.readJson 边界捕获实际交付对象+交付时快照，消费后比同一对象；runtime 改 cue 不影响实际对象；input 见证 loader-project-input-pollution 已 detected）、`读取确定性：同一工程二次独立读取得到逐值相等的 author 树`。已有：project-loader.test.ts:272 indexed path/:287 lazy fail；editor 保存/打开测试实链。
 - D2 新增：`返回顺序 = sceneIds 顺序（与文件表写入顺序无关）`、`中间场景读取失败：整批拒绝（不返回部分数组）；IO 轨迹证明确实读过前序场景`（含同输入全成功对照）。
 - D3 新增：`合法非空内容 → loadStampTemplates 过守卫返回模板；缺席 → []（对照）`、`坏内容只坏一轴：origin 非法即拒；读失败传播底层错误`。
 - D4 新增（asset-resolver.io-boundaries）：`失败消息含 projectId/asset/kind/path/底层原因；同一 resolver/source 修复后同 asset 成功`（reader 收到 catalog 登记路径；不再换新对象充当恢复）。
@@ -223,7 +233,10 @@ itemId↔selectedItemId 一致）。R4——A5 弱例改为完整终态等价+�
 - 接收见证复跑：`node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime`
   rc=0——4 对照绿；bgm-post-read-ownership / midi-stale-finally / loader-projection-bypassed /
   equip-input-pollution 四针全部 **detected**（函数体内 marker 执行见证 + AssertionError 业务红），产品 hash 不变。
-- 其余命令（exit 全 0）：`pnpm --filter @type-pal/reforge exec vitest run`（全包 116 文件/1189 项）、
+- 输入保真见证（收窄轮新增）：`node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime`
+  rc=0——正常对照 7/7 绿；loader-project-input-pollution 针 **detected**（exit1、marker 打印 polluted.name、
+  AssertionError 业务红、无 TypeError/超时），产品 hash 不变。
+- 其余命令（exit 全 0）：`pnpm --filter @type-pal/reforge exec vitest run`（全包 116 文件/1190 项）、
   `pnpm --filter @type-pal/reforge exec tsc --noEmit`、`pnpm exec biome check <14 个新文件>`。
   机器账（逐针红因/日志 hash/覆盖数字/命令 exit）见 `docs/testing/glm-reforge-runtime-contracts-evidence.json`。
 - 实施期失败记录（真实保留）：midi C4/C5/D6 首版用 `rejects.toThrow`，负控针显示其

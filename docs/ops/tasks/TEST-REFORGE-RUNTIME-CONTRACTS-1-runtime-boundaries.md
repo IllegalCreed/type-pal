@@ -147,7 +147,20 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
 
 ### done前
 
-- GLM：pending（实施者自验，不是独立第三方）。
+- GLM：**r1 收窄返工实施者自验 accept（2026-09-19 第二轮；仅 counter 4678650a 剩余两件，前轮
+  自验已被该 counter 覆盖、见 a9e1d4f1 树）**。
+  - D1 实际输入保真：project 纯数据快照补入 **actorsById**；读取边界（本人 fixture 的 readJson
+    包装）捕获 loadAllScenes **实际消费**的 lazy scene 对象，交付时即快照、消费完成后比较**同一
+    对象**（不再用两次独立 readJson 的 clone 互比）；runtime 改 cue 不影响实际捕获对象；runtime
+    speaker 与实际 actorsById 条目对上；确定性例改实名「读取确定性」。新见证
+    loader-project-input-pollution **detected**（AssertionError 业务红、无 TypeError、产品 hash
+    不变），原四见证保持 detected、四对照绿。
+  - 看板：rebase 保留最新主线行（guard 归档/预览缓存修复），撤回对另一张卡看板的回退；
+    `pnpm check:docs` PASS（443 Markdown/2255 链接）。
+  - 复验：定向 60/60、全包 116 文件/1190 项、tc rc=0、14 新文件 Biome rc=0、原 15 跑 rc=0、
+    覆盖对照 +74 行/+84 语句/+73 分支（/tmp 同口径；收窄项只强化断言不加覆盖面，数字不变）。
+  - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；bgm initP 缓存政策仍记待证；
+    不代签、不标 done。
 - Codex：**counter（2026-09-19，返工候选a9e1d4f1，仅剩R2-D1/R4）**。
   - R1真读取交错/旧finally、R2完整cue与同实例IO恢复、R3实际world/真实use请求、R4 A5与计数已通过，保留有效结论，不重开设计。
   - 独立59/1189/tc/Biome14通过，原四针全部detected、原15跑通过，同树覆盖+74/+84/+13/+73复算。
@@ -168,6 +181,9 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
 - done准入：未开放，不代签。
 
 ## 交接日志
+- 2026-09-19 GLM（r1 收窄返工完成）：rebase 最新 main 4678650a（保留 guard 归档与预览缓存修复，
+  撤回看板回退），只修 D1 实际输入保真与文档门。新 input 见证 detected、原四见证保持、15 跑全绿、
+  check:docs PASS。收窄返工实施者自验 accept 已签；任务保持 rework，等 Codex 复核。
 - 2026-09-19 GLM（r1 返工完成）：合入 counter ced4f2b9（rebase，原文保留），按 R1～R4 定点返工：
   四见证全 detected、原 15 跑全绿、59 项/1189 全包/tc/Biome/覆盖对照复跑完成。返工实施者自验
   accept 已签本人席位；任务保持 rework，等 Codex 重新接收。
@@ -215,12 +231,12 @@ Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
 原56测试/原10负控及覆盖增量的有效部分保留，不推倒重做、不凑固定条数、不改产品/旧测试/原探针/官方基线。复跑定向/全reforge/tc/全部新文件Biome、原15跑、四新见证及官方同口径/tmp覆盖；全仓check/ratchet/strict-fast仍留Codex。bgm initP政策继续待证，不扩成修复授权。提交推送本人测试/回执，交Codex重新接收；不代签、不标done、不直接转Kimi。
 ```
 
-### Codex · 重新接收 r1 返工（当前）
+### Codex · 复核 r1 收窄返工（当前）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 重新接收 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1 返工。任务卡 docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md（rework）；返工回执与 30 族账 docs/testing/glm-reforge-runtime-contracts.md；机器账 docs/testing/glm-reforge-runtime-contracts-evidence.json（14 文件 Biome 干净）。候选分支 codex/glm-reforge-runtime-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-reforge-runtime），在你的 counter ced4f2b9 之上追加返工提交（tip f3d933af+）；生产冻结 3bc20273；设计不重签。
-GLM 已按 R1～R4 返工：R1 C2 拆懒初始化接管+已初始化真读取乱序（逐字节身份）、C4 补旧 finally 撞新在途交错；R2 D1 钉完整 author identity 与 runtime 解析 cue + 实际输入保真、D4/D5 同实例故障→修复恢复 + 真实 urlFor IO 失败包装；R3 B2/B3/B6 比较真正传入的同一 world、B5 请求全由真实 useConfirm/useApply 产生；R4 A5 弱例重写、回执/标题/计数/失败记录按最终树（59 项/1189 全包/tc/14 文件 Biome）。复跑 node docs/testing/reforge-runtime-contracts-review-witnesses.mjs <候选物理绝对路径>：四对照绿、四针全 detected；原 15 跑 rc=0；覆盖对照 +74 行/+84 语句/+73 分支（/tmp 同口径）。
-请独立重新接收：复跑四见证与 15 跑、抽查 R1～R4 修复点真实性（尤其 C2 乱序时序、C4 交错读轨迹、D1 投影断言、B5 真实请求链）、复跑定向/全包/tc/Biome。通过后统一串行执行全仓 check、官方 ratchet、受保护 strict-fast（GLM 未跑），在本席签 accept、更新看板并给 Kimi 终审提示词。仍有问题则 counter 并写明复现；不代签、不标 done。
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1 收窄返工。任务卡 docs/ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md（rework）；回执 docs/testing/glm-reforge-runtime-contracts.md；机器账 docs/testing/glm-reforge-runtime-contracts-evidence.json。候选分支 codex/glm-reforge-runtime-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-reforge-runtime），在你的 counter 4678650a 之上 rebase 后追加收窄返工提交（tip d28b3c51+）；生产冻结 3bc20273；设计不重签；主线 guard 归档与预览缓存修复原样保留。
+GLM 只修了你剩的两件：D1 实际输入保真（project 纯数据快照含 actorsById；fixture readJson 边界捕获 loadAllScenes 实际消费的 lazy scene 对象、交付时快照、消费后比同一对象；runtime 改 cue 不影响实际对象；确定性例改实名）与看板回退撤回（board 保留主线最新行，check:docs PASS）。新见证 node docs/testing/reforge-runtime-input-review-witness.mjs <候选物理绝对路径> 已 MISSED→detected（对照 7/7 绿）；原四见证保持 detected；原 15 跑 rc=0；定向 60/60、全包 116 文件/1190 项、tc rc=0、14 新文件 Biome rc=0；覆盖对照数字不变（+74 行/+84 语句/+73 分支，收窄只强化断言）。
+请独立复核：复跑两个见证工具与 15 跑、抽查 D1 边界捕获断言确是比较实际消费对象、核 board 与 check:docs。通过后统一串行执行全仓 check、官方 ratchet、受保护 strict-fast（GLM 未跑），在本席签 accept、更新看板并给 Kimi 终审提示词。仍有问题则 counter 并写明复现；已闭环项不重开；不代签、不标 done。
 ```
 
 ### 历史派发（已完成）

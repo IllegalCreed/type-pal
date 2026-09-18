@@ -66,26 +66,62 @@ describe('D1 多场景批读：author 身份与 runtime 投影', () => {
     if (runtimeCommand) runtimeCommand.cue = { rows: [{ text: 'mutated' }] }
     expect(authors).toEqual(authorsSnapshot)
   })
-  test('实际 project/author 输入与输出保真：批读前后源输入完整树不变', async () => {
-    const files = dProjectFiles({ sceneIds: ['s001', 's002'] })
+  test('实际输入保真：project 纯数据（含 actorsById）与读取边界捕获的实际 author 对象消费后不变', async () => {
+    const files = dProjectFiles({ sceneIds: ['s001', 's002'], dialogScene: true })
     const filesSnapshot = structuredClone(files)
     const source = memoryFileSource(files)
     const project = await loadCurrentProjectFrom(source)
-    // 只快照纯数据面（project 内含活 AssetResolver/读取轨迹，非本次合同对象）
+    // 读取边界捕获：loadAllScenes 实际消费的 lazy scene 正文就是本 source 交出的对象；
+    // 交付时即快照，消费完成后比较同一对象（不是另一次独立 readJson 的 clone）。
+    const rawReadJson = source.readJson.bind(source)
+    const actualInputs: Array<{ path: string; value: unknown; snapshot: unknown }> = []
+    source.readJson = async <T>(path: string) => {
+      const value = await rawReadJson<T>(path)
+      if (/^content\/scenes\/s\d+\.json$/.test(path))
+        actualInputs.push({ path, value, snapshot: deepSnapshot(value) })
+      return value
+    }
+    // project 纯数据面：manifest/sceneIndex/authorContent/actorsById（投影直接消费的输入；
+    // 排除真正持有活动状态的 source/resolver/读取轨迹）
     const dataSnapshot = deepSnapshot({
       manifest: project.manifest,
       sceneIndex: project.sceneIndex,
       authorContent: project.authorContent,
+      actorsById: project.actorsById,
     })
-    const authors = await loadAllAuthorScenes(project)
-    await loadAllScenes(project)
+    const runtimes = await loadAllScenes(project)
+    expect(runtimes.map((scene) => scene.id)).toEqual(['s001', 's002'])
+    // 文件表不变；project 纯数据（含 actorsById）消费后逐值不变
     expect(files).toEqual(filesSnapshot)
     expect({
       manifest: project.manifest,
       sceneIndex: project.sceneIndex,
       authorContent: project.authorContent,
+      actorsById: project.actorsById,
     }).toEqual(dataSnapshot)
-    // 实际进入 loader 的 author 输入在投影后保持逐值相等（非仅文件表不变）
+    // 实际交付给 loader 的 author 正文对象（含 dialog cue 的作者 identity）在投影后仍保真
+    expect(actualInputs.map((entry) => entry.path)).toEqual([
+      'content/scenes/s001.json',
+      'content/scenes/s002.json',
+    ])
+    for (const entry of actualInputs) expect(entry.value).toEqual(entry.snapshot)
+    // runtime 不别名实际输入：改 runtime 树的 cue 不影响读取边界捕获的实际对象
+    const runtimeCueFlow = runtimes[0]?.hooks?.onEnter?.variants?.main?.flow
+    const runtimeCommand =
+      runtimeCueFlow && runtimeCueFlow.kind === 'stages'
+        ? (runtimeCueFlow.stages[0]?.body[0] as { cue?: unknown } | undefined)
+        : undefined
+    expect(runtimeCommand?.cue).toMatchObject({ speaker: 'name.li' })
+    if (runtimeCommand) runtimeCommand.cue = { rows: [{ text: 'mutated' }] }
+    for (const entry of actualInputs) expect(entry.value).toEqual(entry.snapshot)
+    // 投影确实消费了实际 actorsById：runtime speaker 即 actorsById['actor.li'].name
+    expect(project.actorsById['actor.li']?.name).toBe('name.li')
+  })
+  test('读取确定性：同一工程二次独立读取得到逐值相等的 author 树', async () => {
+    const project = await loadCurrentProjectFrom(
+      memoryFileSource(dProjectFiles({ sceneIds: ['s001', 's002'] })),
+    )
+    const authors = await loadAllAuthorScenes(project)
     expect(await loadAllAuthorScenes(project)).toEqual(authors)
   })
 })

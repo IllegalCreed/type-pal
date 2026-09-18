@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-REFORGE-RUNTIME-CONTRACTS-1 | [运行时基础功能五组补测](tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | rework | GLM仅修D1输入保真/看板 / Codex复核 | a9e1d4f1：59/1189、原四针detected；新project输入污染仍漏检，候选文档门红；已闭环项不重开，未合入 |
+| TEST-REFORGE-RUNTIME-CONTRACTS-1 | [运行时基础功能五组补测](tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | rework | GLM收窄返工完成 / Codex复核 | D1实际输入保真已钉（input见证detected）、原四见证保持、60项/1190、check:docs绿；看板回退已撤回；候选codex/glm-reforge-runtime-contracts-r1 |
 
 2026-09-19 Codex完成[E-03/E-04预览缓存常规修复](../testing/editor-preview-cache.md)：仅两个组件私有缓存，15项回归/7负控/原生绘制及check7457/严格fast6969通过；同Owner连续迭代不开新签字卡，不涉及资源格式或公共加载器。
 
