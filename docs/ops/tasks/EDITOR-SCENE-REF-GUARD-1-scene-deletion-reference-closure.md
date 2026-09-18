@@ -106,7 +106,27 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
   独立重跑两个原probe及40项相邻测试，三类漏边与use正控一致。确认是adapter域漏接、非迁移/未知字段/永久丢失。
   最强反证及去重/locator边界见上，设计保持现有公共合同与UI形态；待两席直接取证后实施。
 - Kimi：pending（独立前提证据与design agree/counter）。
-- GLM：pending（独立矩阵、冷暖/去重/fixture核对及premise/design）。
+- GLM：**premise verified / design agree（2026-09-18，r1，冻结 3bc20273；本席只审前提与矩阵，锚点本人直读，未读 Kimi 席位）**。
+  - **typed 合同直读**：content/command-target-reference.ts:134 `currentScene`→`condition-current-scene`
+    场景边、:156 `selectSceneHooks`→`select-scene-hooks` 场景边均在现行 typed collector；validate-refs.ts:1133
+    currentScene 缺目标报 error——"content 已声明该依赖、editor adapter 漏收"的前提成立。
+  - **漏边锚点直读**：editor/project-reference-adapters.ts:215-244 `canonicalCommandTargetEdges` 白名单
+    （loadScene/setSceneMapOverride/openShop/startBattle/setAmbience/toggleDayNight/learnSkill/branch/loop）
+    确无 selectSceneHooks；:1831-1875 `buildProjectReferenceSnapshotFromProjection` 拿到 transitionVisits
+    只喂 actor/item 边，无 transition→scene 域——两类漏接与卡面一致。
+  - **动态复现**：本人独立复跑两原 probe 均 exit0——disabled/inherit/transition blockers=0、删除成功、
+    保存拒『场景 "target" 不在 scenes』、undo 恢复；use 正控 blockers=1 删除拒、保存合法。第二探针
+    G-R06 已撤回根级字段主张、G-R05 嵌套矩阵与 G-R07 暖链消费证据未采集——与卡面"不扩大范围"口径一致。
+  - **真实调用/相邻**：App.tsx:1707 冷 provider、:1760-1779 真实成对 Delete（blockers 非零即 throw）；
+    project-diagnostics.ts:694/730 双 visits 进同一 snapshot builder；本人复跑 4 个相邻测试文件 40/40 绿。
+  - **design agree**：只补 adapter 域、复用 content typed collector 不另写递归、冷/暖共用同一
+    snapshotFromProjection、use 复合边不叠第二边、删除集合内部豁免保持——修复层选择与漏边根因匹配；
+    生产默认只动 project-reference-adapters.ts 的边界合理。**验收侧非阻断提示**：G-R05（all/any/not
+    嵌套转换矩阵）与 G-R07（暖链 UI 消费证据）在验收时应逐项闭环，不只看 blockers>0。
+  - **可证伪观察**：①typed collector 若不再产出该 scene 边→前提失效停线；②修复后 use 出现重复
+    hook/父边计数→设计 2 违反；③删除集合内部引用被外部豁免替代→设计 5 违反；④为让旧探针绿而改
+    探针/降保存校验→禁止回退条款违反。
+  - 返工项：无。
 - build准入：未开放；本卡三席同r1齐且无counter后由Codex核定，不复用其它卡签字或豁免。
 
 ### done前
@@ -118,6 +138,10 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
 
 ## 交接日志
 
+- 2026-09-18 GLM：完成前提/矩阵审查，签 premise verified + design agree，无返工项。直读
+  command-target-reference/validate-refs typed 合同与 adapters 白名单/snapshot 漏接；独立复跑两
+  原 probe（三漏边+use 正控+保存拒+undo 一致）与 4 文件 40 相邻绿。未读 Kimi 结论；未改任何
+  实现。Next：三席齐且无 counter 后 Codex 核定 build 并实施修复。
 - 2026-09-18 Codex：按用户双线要求选定D-02；最新主线复现并核40相邻，编写r1前提/方案/验收。仅文档，无实现。
   内部Codex只读分工另盘点GLM测试候选，不作为外席签字；本卡前提与设计由主Owner独立核。
 

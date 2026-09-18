@@ -78,7 +78,40 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
   本席复跑9个对应既有测试文件68/68及reforge typecheck均exit0（不含新测试）；十个拟新增路径均未占用，30族ID唯一。
   最强反证见上，方案测试-only且隔离editor修复；五组一次准入，不承诺测试条数或100%。
 - Kimi：pending（独立前提/设计，不读取GLM结论）。
-- GLM：pending（Coding Owner独立核caller/去重/fixture/矩阵并签前提与设计）。
+- GLM：**premise verified / design agree（2026-09-18，r1，冻结 3bc20273；以下全部锚点本人直读，未读 Kimi 席位）**。
+  - **十模块 API/入口直读**：`input.ts:7 Keyboard`（:42 lastDownOf 后按优先、:49 consumePressed）；
+    `menu-state.ts:45-83 openMenu/moveCursor/confirm/back`；`equip-menu-state.ts:25-84 openEquipMenu/
+    equipMoveCursor/equipConfirmItem/equipBackToList/equipApply`；`use-menu-state.ts:27-69 openUseMenu/
+    useMoveCursor/useConfirm`（:41 注释钉 pick-item 网格 clamp 对齐 inventory-menu）；
+    `bgm.ts:54 BgmRuntimeAdapter`+:111 createBgmPlayerWithRuntime+:263 createBgmPlayer；
+    `midi-preview.ts:44 MidiPreviewRuntimeAdapter`+:182 createMidiPreviewTransport；
+    `project-loader.ts:176 assembleCurrentProject`/`:324 loadCurrentProjectFrom`/`:494-508 loadAllAuthorScenes/
+    loadAllScenes/loadStampTemplates`；`asset-resolver.ts:12 AssetResolver`（:41/:50/:59 readBytes/readText/urlFor）；
+    `cutscene-controller.ts:17-30 clearDialog/cameraSnap/frameAnimation/video`；`script-host-adapter.ts:23
+    executeScriptHostEffect`（dialog/giveItem/playSound/openShop 等分支直读）。
+  - **caller 复核**：main.ts:6342/6405/6443/5557/6615/6638/6753/387/470/601/2817/3908 十二行逐行直读全命中；
+    editor 侧 open-local.ts:73-74（loadAllAuthorScenes+loadStampTemplates）、MusicTab.tsx:67
+    （createMidiPreviewTransport）、ProjectAudioPreviewButton.tsx:32、MusicPicker.tsx:53（createBgmPlayer）确认。
+  - **覆盖快照独立复算**：本人用 import 官方 coveragePackages/testSelection 的临时 config（/tmp 输出，
+    未触官方目录）重跑 reforge fast 覆盖：十模块行/分支与工作包表**逐格一致**（input 1/18·0/12、
+    script-host-adapter 32/165·29/172 等），包总 7853/14118·5256/11041、124 文件一致。
+  - **去重直读**：menu-state.test.ts 8 项（默认/环绕/子菜单确认返回）；equip-menu-state.test.ts:57
+    clamp/空表/pick-role；use-menu-state.test.ts:67 单体连用/:107 失败关闭；bgm.test.ts:43/53/62 stop
+    清账轴；midi-preview.test.ts:124 play/pause/stop/clamped seek；project-loader.test.ts:272 indexed
+    path/:287 lazy fail——工作包"已有"登记属实，本包拟补轴与其不重叠。
+  - **无 caller 排除复核**：ScriptChunkStore/MemoryScriptResolver 仅 script-chunk-store.ts 自声明；
+    loadAllProjectMaps/loadProjectMapById 仅 index.ts 桶导出——不补保活测试正确。
+  - **白名单核验**：10 新测试路径+fixture 当前均不存在；30 族 ID 与工作包 A1-F…E6 一致。
+  - **design agree**：五组范围/唯一白名单/9 项接收合同可执行；负控判据（Vitest JSON 钉名 failed+
+    AssertionError 业务红+拒混合 TypeError/timeout/unhandled+毒日志自测+产品 hash 不变）已吸收
+    content-contracts counter 教训；fixture 须过当前 loader/guard、异步用 entered/deferred 不 sleep、
+    不造上层取消政策。**非阻断提示**：E 组 host 替身只测协议合同；C3/MIDI 初始化失败重试政策若现行
+    实现未定义，按待证登记勿固化——与工作包 C3 条款一致。
+  - **可证伪观察**：①某族边界已被同合同断言覆盖→登记已有不加条数；②拟造输入不在当前 API 支持域
+    （如给纯状态机传非法 cursor）→撤回；③负控仅 load 标记/混合宿主故障→无效；④异步用例依赖真实
+    时序而非 deferred 控制→重造；⑤覆盖对照换源码/选择集或写官方目录→数字无效；⑥生产/旧测试/基线
+    任何 diff→越界即停。
+  - 返工项：无。三席同 r1 齐且无 counter 后按卡核定 build allowed 再实施。
 - build准入：未开放。三席齐后GLM核定，不须再次等用户逐组批准；若有counter先解决，不复用旧卡签字。
 
 ### done前
@@ -90,6 +123,10 @@ Codex并行[场景引用保护修复](EDITOR-SCENE-REF-GUARD-1-scene-deletion-re
 
 ## 交接日志
 
+- 2026-09-18 GLM：完成 r1 设计审查，签 premise verified + design agree，无返工项。十模块 API/
+  十二处 main.ts caller/editor 四消费点直读；覆盖快照用官方 testSelection 临时 config 独立复算
+  逐格一致；旧测试去重轴与无 caller 排除复核；10+1 白名单路径未占用。未读 Kimi 结论；设计未齐
+  不写任何测试。Next：三席齐且无 counter 后本人核定 build allowed，在独立 worktree 连续五组。
 - 2026-09-18 Codex：用户要求大块GLM工作与本人并行。内部Codex只读分工盘点候选，主Agent独立重读API/consumer/旧测试后定为五组十模块30族。
   本卡只写draft与工作包；D-02已独立重现三漏边并40相邻绿，另卡负责，生产/正式测试/基线未改。
   已跑当前9文件68项与reforge tc；日志/tmp/type-pal-next-parallel.0bsDcW/runtime-{adjacent,typecheck}.log。
