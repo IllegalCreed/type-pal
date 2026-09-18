@@ -102,11 +102,7 @@ const actorB: ActorDef = {
   },
 }
 
-const equippable = (
-  id: string,
-  slot: 'weapon' | 'accessory',
-  equipableBy: string[],
-): ItemData => ({
+const equippable = (id: string, slot: 'weapon' | 'accessory', equipableBy: string[]): ItemData => ({
   id,
   name: `item.${id}`,
   desc: [],
@@ -207,7 +203,7 @@ const dActors = [
 ]
 
 const dDialogSceneBody = {
-  id: 's-dlg',
+  id: 's001',
   mapId: 'map-001',
   entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' as const },
   entities: [],
@@ -347,16 +343,19 @@ export const dStampFile = (): unknown => [
     width: 1,
     height: 1,
     tilesetRefs: ['tiles-main'],
-    layers: [{ id: 'base', name: '底', tiles: [[1]], sources: [[0]] }],
-    collision: [[null]],
+    layers: [{ id: 'base', name: '底', tiles: [[1], [1]], sources: [[0], [0]] }],
+    collision: [[null], [null]],
   },
 ]
 
-/** 只读内存 FileSource（拒绝未预期写路径；可注入每路径失败）。 */
+/** 只读内存 FileSource（缺文件按生产约定抛 NotFoundError DOMException；可注入每路径失败）。 */
 export function memoryFileSource(
   files: Record<string, unknown>,
   failPath?: string,
 ): FileSource & { reads: string[] } {
+  const missing = (path: string): never => {
+    throw new DOMException(`missing ${path}`, 'NotFoundError')
+  }
   const reads: string[] = []
   return {
     reads,
@@ -364,28 +363,28 @@ export function memoryFileSource(
       reads.push(`text:${path}`)
       if (path === failPath) throw new Error(`boom-text:${path}`)
       const value = files[path]
-      if (value === undefined) throw new Error(`missing ${path}`)
+      if (value === undefined) missing(path)
       return `${JSON.stringify(value)}\n`
     },
     async readJson<T>(path: string) {
       reads.push(`json:${path}`)
       if (path === failPath) throw new Error(`boom-json:${path}`)
       const value = files[path]
-      if (value === undefined) throw new Error(`missing ${path}`)
+      if (value === undefined) missing(path)
       return structuredClone(value) as T
     },
     async readBytes(path) {
       reads.push(`bytes:${path}`)
       if (path === failPath) throw new Error(`boom-bytes:${path}`)
       const value = files[path]
-      if (value === undefined) throw new Error(`missing ${path}`)
+      if (value === undefined) missing(path)
       return value as ArrayBuffer
     },
     async urlFor(path) {
       reads.push(`url:${path}`)
       if (path === failPath) throw new Error(`boom-url:${path}`)
       const value = files[path]
-      if (value === undefined) throw new Error(`missing ${path}`)
+      if (value === undefined) missing(path)
       return `blob:${path}`
     },
   }
