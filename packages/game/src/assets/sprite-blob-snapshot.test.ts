@@ -11,7 +11,8 @@
  *   magic effect : data/magic/effect.rle        vs DATA.MKF[10](无 YJ2)
  *   magic fire   : data/magic/fire-{NN}.rle      vs tryYj2(FIRE.MKF[NN])
  *
- * data/raw 与 data/extracted gitignored → clean checkout skip,不 block pnpm check。
+ * 整组可选输入缺席时显式 skip；已提供输入组却缺文件/样本则失败。
+ * 这里只定义本套件合同，不承诺整个仓库 check 在无 PAL 数据时通过。
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -40,12 +41,15 @@ function openRaw(name: string): Mkf {
   return openMkf(new Uint8Array(readFileSync(resolve(RAW, name))))
 }
 
-/** 取某目录前 n 个 .rle blob 文件名(无目录→空)。 */
-function sampleBlobs(dir: string, n: number): string[] {
-  if (!existsSync(dir)) return []
-  return readdirSync(dir)
-    .filter((f) => f.endsWith('.rle'))
+/** 输入组已提供时，每一类样本必须非空，不能用零次循环冒充验证通过。 */
+function sampleBlobs(dir: string, n: number, prefix = ''): string[] {
+  expect(existsSync(dir), `缺少对拍样本目录: ${dir}`).toBe(true)
+  const blobs = readdirSync(dir)
+    .filter((f) => f.startsWith(prefix) && f.endsWith('.rle'))
+    .sort()
     .slice(0, n)
+  expect(blobs.length, `对拍样本为空: ${dir}/${prefix}*.rle`).toBeGreaterThan(0)
+  return blobs
 }
 
 /** 对拍核心:decompressGzip(blob) 逐字节 == 真值 chunk。 */
@@ -95,7 +99,7 @@ describe.skipIf(!hasData)('sprite blob 真值对拍(npc / battle / magic)', () =
 
   it('magic effect: data/magic/effect.rle == DATA.MKF[10]', async () => {
     const effPath = resolve(EXT, 'magic', 'effect.rle')
-    if (!existsSync(effPath)) return
+    expect(existsSync(effPath), `缺少对拍样本: ${effPath}`).toBe(true)
     const data = openRaw('DATA.MKF')
     await assertBlobBytes(effPath, readChunk(data, 10))
   })
@@ -103,9 +107,7 @@ describe.skipIf(!hasData)('sprite blob 真值对拍(npc / battle / magic)', () =
   it('magic fire: data/magic/fire-{NN}.rle == tryYj2(FIRE.MKF[NN])', async () => {
     const fire = openRaw('FIRE.MKF')
     const dir = resolve(EXT, 'magic')
-    const blobs = readdirSync(existsSync(dir) ? dir : RAW)
-      .filter((f) => f.startsWith('fire-') && f.endsWith('.rle'))
-      .slice(0, 4)
+    const blobs = sampleBlobs(dir, 4, 'fire-')
     for (const f of blobs) {
       const n = Number(f.replace('fire-', '').replace('.rle', ''))
       await assertBlobBytes(resolve(dir, f), tryYj2(readChunk(fire, n)))

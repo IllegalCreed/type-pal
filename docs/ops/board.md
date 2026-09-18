@@ -14,6 +14,8 @@
 |---|---|---|---|---|
 | TEST-REFORGE-RUNTIME-CONTRACTS-1 | [运行时基础功能五组补测](tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | rework | GLM仅修D1输入保真/看板 / Codex复核 | a9e1d4f1：59/1189、原四针detected；新project输入污染仍漏检，候选文档门红；已闭环项不重开，未合入 |
 
+2026-09-19 Codex完成[E-01资源测试输入合同](../testing/phase1-resource-test-inputs.md)：20项无PAL依赖输入回归及真实资源对拍通过，check7478/严格fast6989绿；不改GLM目标面或游戏运行逻辑，不新增三签卡。用户已选D-05独立临时试玩，下一项联合D-04设计，裁决见[审计台账](audits/pre-e2e/editor-workflows.md#d-05--临时试放不改存档的告知与保存行为不一致)。
+
 2026-09-19 Codex完成[E-03/E-04预览缓存常规修复](../testing/editor-preview-cache.md)：仅两个组件私有缓存，15项回归/7负控/原生绘制及check7457/严格fast6969通过；同Owner连续迭代不开新签字卡，不涉及资源格式或公共加载器。
 
 场景引用保护候选83598cc4已三席accept，用户要求本人继续，2026-09-19由Codex[核定done归档](../testing/scene-reference-guard.md)；22新回归、check7442/strict fast6954及功能验证通过，其它审计缺陷不借此关闭。
@@ -36,7 +38,7 @@ D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)
 已修复，完整 `pnpm check` 通过；[B-04 存档预检修复](audits/pre-e2e/save-preflight-remediation.md)已三签收口。
-[编辑器覆盖率确定性修复](audits/pre-e2e/coverage-determinism.md)亦已三签收口；D-01整卡实现后当前fast为6,493项，覆盖率未下调；废弃源码和旧模型测试退役/迁移已单列记录，计数不代表完整E2E已通过。
+[编辑器覆盖率确定性修复](audits/pre-e2e/coverage-determinism.md)亦已三签收口；D-01整卡实现时fast为6,493项，最新数量见[覆盖率记录](../testing/coverage.md)，覆盖率未下调；废弃源码和旧模型测试退役/迁移已单列记录，计数不代表完整E2E已通过。
 A-01 存档隔离已三席 accept、用户免复验通过并收口；证据入口见下方总收口。
 A-02 作者保存冲突保护亦已三席及用户验收通过并收口；A-03 [保存中断恢复](../testing/editor-save-recovery-closeout.md)候选cd3de679已三席accept，用户免手动复审通过，已归档。已测大克隆成本与完整E2E待办仍保留；A-07[离开保护](../testing/editor-leave-guard.md)三席终审通过，用户授权继续，已收口；D-01全局撤销顺序候选70e3f627已三席accept，用户明确验收通过，已done归档。
 接下来按总收口处理其余审计缺陷并补回归/覆盖率，

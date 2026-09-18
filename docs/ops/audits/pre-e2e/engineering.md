@@ -21,6 +21,10 @@
 
 ## E-01 · 资源测试的前置条件与实际结果不一致
 
+2026-09-19：[测试输入合同修复](../../../testing/phase1-resource-test-inputs.md)由Codex连续推进：仅改三套测试，
+新增20项隔离FS输入回归，不改生产/资源/提取器；旧树7条反例已复现，修复后20项及真实资源对拍绿，
+check7478/严格fast6989通过，E-01按该范围关闭。下文保留原审计时点。
+
 - `game/src/assets/sprite-blob-snapshot.test.ts:97-98`：物理命中特效文件不存在就return，
   用例仍被报告passed，没有断言。相邻enemy/player/fire样本循环也没有统一非空样本断言；
   本轮只对effect缺失做独立反例，不将所有循环都算已复现缺陷。

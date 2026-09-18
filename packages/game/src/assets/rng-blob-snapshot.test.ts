@@ -8,8 +8,8 @@
  * 真值源:`data/raw/RNG.MKF` 的 chunk → shared `decodeRngFrames`
  * 新链路:`data/extracted/data/animation/rng-{NN}.rle` → decompressGzip → 同一 `decodeRngFrames`
  *
- * data/raw 与 data/extracted gitignored → clean checkout skip + 不 block pnpm check
- * (同 tileset-blob-snapshot.test.ts 套路)。
+ * 可选整组输入缺席时显式 skip（且不读文件）；已提供输入中的坏包/缺帧 blob 必须失败。
+ * 此约定仅限本套件，不代表整个仓库 check 无需 PAL 数据。
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -27,8 +27,14 @@ const BLOB_DIR = resolve(REPO_ROOT, 'data/extracted/data/animation')
 const hasData = existsSync(RAW_RNG) && existsSync(BLOB_DIR)
 
 describe.skipIf(!hasData)('RNG blob 真值对拍(raw RNG.MKF vs extracted .rle)', () => {
-  const rng = openMkf(new Uint8Array(readFileSync(RAW_RNG)))
-  const n = chunkCount(rng)
+  // skipIf 仍会执行收集回调；必须在读取之前检查，不能先 ENOENT 再声称 skip。
+  const rng = hasData ? openMkf(new Uint8Array(readFileSync(RAW_RNG))) : undefined
+  const n = rng ? chunkCount(rng) : 0
+
+  it('原 RNG.MKF 必须有可核对的 chunk（缺整组输入时显式跳过）', () => {
+    expect(n, '原 RNG.MKF 不含任何 chunk，不能进行对拍').toBeGreaterThan(0)
+  })
+  if (!rng) return
 
   for (let i = 0; i < n; i++) {
     it(`chunk ${i}: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)`, async () => {

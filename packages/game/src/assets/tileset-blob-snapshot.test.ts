@@ -14,15 +14,15 @@
  * 注意:game 包不可依赖 pal-extract,所以测试内联了一个极简的 MKF chunk 读取
  * (MKF 格式 = N+1 个 u32 LE offset 头 + 子文件),仅用于读真值源做对比。
  *
- * data/raw 与 data/extracted 是 gitignored —— clean checkout 时 skip + warn,不 block pnpm check
- * (同 D29 tilemap-baseline.test.ts 套路)。
+ * 可选整组输入缺席时 skip + warn，且不读取缺席文件；部分资源缺失仍失败。
+ * 此约定仅限本套件，不代表整个仓库 check 无需 PAL 数据。
  */
 
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseSpriteChunk } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 import { decompressGzip } from './tileset-blob.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -49,7 +49,11 @@ function readMkfChunk(buffer: Uint8Array, index: number): Uint8Array {
 const hasData = existsSync(RAW_GOP) && existsSync(EXTRACTED_BLOB_DIR)
 
 describe.skipIf(!hasData)('S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob)', () => {
-  const gopBuffer = new Uint8Array(readFileSync(RAW_GOP))
+  let gopBuffer: Uint8Array
+  // 跳过的 suite 不执行 beforeAll；所有固定样本仍正常注册为 skipped。
+  beforeAll(() => {
+    gopBuffer = new Uint8Array(readFileSync(RAW_GOP))
+  })
 
   for (const mapNum of SAMPLE_MAP_NUMS) {
     const blobPath = resolve(EXTRACTED_BLOB_DIR, `${mapNum}.rle`)

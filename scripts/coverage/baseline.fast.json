@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-18T16:25:17.089Z",
+  "generatedAt": "2026-09-18T17:08:42.445Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 6969,
+  "testCount": 6989,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2035,8 +2035,8 @@
       ],
       "scopeDigest": "172860557359800006b54684305c95556da2645892e450c2d5b4891297aba98e",
       "fastTests": {
-        "testCount": 2251,
-        "testFileCount": 118,
+        "testCount": 2271,
+        "testFileCount": 119,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.test.ts",
@@ -2045,6 +2045,7 @@
           "packages/game/src/assets/loader.test.ts",
           "packages/game/src/assets/png.test.ts",
           "packages/game/src/assets/rle-decode.test.ts",
+          "packages/game/src/assets/snapshot-input-boundaries.test.ts",
           "packages/game/src/assets/tileset-blob.test.ts",
           "packages/game/src/core/battle/__tests__/actions.test.ts",
           "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
@@ -2192,6 +2193,11 @@
             "file": "packages/game/src/assets/rle-decode.test.ts",
             "testCount": 6,
             "identityDigest": "8063dfc7cee361adc79ad0347da407e167cb39f0d817b1c9d3199c8fc0773193"
+          },
+          {
+            "file": "packages/game/src/assets/snapshot-input-boundaries.test.ts",
+            "testCount": 20,
+            "identityDigest": "a92fcf446b6420a37e842a113b9c92a73f885d0444838e1fb726c84c3644b5d8"
           },
           {
             "file": "packages/game/src/assets/tileset-blob.test.ts",
@@ -2749,9 +2755,9 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "e02197f41d89ecc6a78848841e73f229a8a82d9fdbe36c58c74b1aac21f42fa4",
+        "identityDigest": "a958cbf6c6ce0921afdd0fb08a6885a9b566311941205b2733ff1a29aacc1b08",
         "duplicateIdentityCount": 0,
-        "executionDigest": "92ffe0ce931cca0bab3361ad6b658b5ca4d1a1cbae8b18dd4fce3c2dbd6c2c0f"
+        "executionDigest": "bbfd2ad785b5b6aa4388b23085453bbb2d515f18dd6ad12596e2e7414dad316e"
       },
       "metrics": {
         "statements": {
