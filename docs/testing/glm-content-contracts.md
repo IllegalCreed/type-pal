@@ -1,8 +1,8 @@
 # GLM六组内容合同补测工作包与回执
 
-任务：[TEST-CONTENT-CONTRACTS-1](../ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md)，r1/draft。
+任务：[TEST-CONTENT-CONTRACTS-1](../ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md)，r1/rework（dbe579c5未接收）。
 生产冻结`7ab20689447150eec7ecb0678cbb6980a685eb49`。GLM写新测试，Codex独立接收集成，Kimi独立审查；无视觉任务。
-本文件是工作范围及证据容器，不表示测试已经实现。三签设计门禁、文件白名单与交付纪律以任务卡为准。
+本主线文件保留派发范围；GLM实施回执和机器账在候选dbe579c5树，测试尚未合入。三签设计门禁、白名单与纪律以任务卡为准。
 
 ## 已核快照（Codex，2026-09-18）
 
@@ -106,7 +106,8 @@ GLM不做全仓check/ratchet/strict-fast；Codex接收适配最新主线后统�
 
 ## GLM设计与实施回执（由GLM填写）
 
-尚未实施。设计签字写任务卡本人席位，三签齐前只读；进入build后在这里逐组落盘，禁止倒填未跑数据。
+候选已交付并被Codex counter；原回执读取`git show dbe579c5:docs/testing/glm-content-contracts.md`，不从未接收分支覆盖本页。
+下表为派发时占位，不作当前完成账；GLM返工时保留本人记录及[独立counter](content-contracts-review.md)，按最终树逐族重新对账。
 
 | 组 | 当前状态 | 实际新增/已有/待证 | 命令与证据 |
 |---|---|---|---|
@@ -119,4 +120,6 @@ GLM不做全仓check/ratchet/strict-fast；Codex接收适配最新主线后统�
 
 ## Codex接收复核（GLM不得填写）
 
-尚无实施候选，未接收测试、未更新覆盖率。该工作包不关闭之前的审计缺陷或宣称E2E已开始。
+Codex（2026-09-18，dbe579c5）：**counter**。116定向/673全包/tc、原6+12负控及覆盖增量已复算；
+实际fixture、输入/精确输出断言、负控判据、逐族账与交付卫生仍有R1～R4。六条坏实现见证均MISSED，见[完整复核](content-contracts-review.md)。
+未合入测试、未更新官方基线、未跑接收后的全仓门禁，不转Kimi终审、不标done，设计r1不重签。

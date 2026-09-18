@@ -1,6 +1,6 @@
 # TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测
 
-Status: draft
+Status: rework
 Phase: phase2
 Capability: 当前内容合同回归与覆盖率（不改变能力地图）
 Coding Owner: GLM（新测试/薄fixture）
@@ -16,6 +16,9 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
 此树hash含既有测试，仅作起点核验；实施后允许白名单新增测试，生产文件/旧测试仍须逐文件零diff。
 本卡只增加当前合同的回归，不修产品、不定义新schema、不做视觉；六组一次设计准入，不逐组重新签字。
 详细范围、覆盖快照和交付表见[工作包与GLM回执](../../testing/glm-content-contracts.md)。
+当前（2026-09-18）：候选`dbe579c5f7e8790d03d4ce1974449118537c021f`独立接收为counter，R1～R4见[复核报告](../../testing/content-contracts-review.md)。
+116定向/673全包、原6+12负控及覆盖增量已复算；主fixture合法性、六条漏检见证、判据与完成账仍需返工。
+测试未合入main、官方基线未动；GLM原实施回执/自验保留候选树，不代填或改写。r1设计不重签。
 
 ## 目标
 
@@ -177,13 +180,14 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
 
 ### done前
 
-- Codex：pending（独立接收/集成/官方门禁）。
+- Codex：**counter（2026-09-18，dbe579c5接收复核；对比5fd655ec，冻结7ab20689）**。产品/旧测试/基线零改已核；116/673/tc及原6+12负控通过，覆盖+116语句/+127臂成立。但R1实际F场景/Sprite及A4页结构被当前守卫拒绝；R2六个已证执行的坏实现仍被候选断言放行；R3判据仅load标记且接受混合宿主错误日志；R4逐族完成账、命令、JSON格式与任务索引未闭合。见[报告与复建工具](../../testing/content-contracts-review.md)。不合入、不跑官方接收门禁、不转Kimi；不重开已核事实，不改GLM测试语义。
 - Kimi：pending（独立终审）。
 - GLM：pending（实现者自验与贡献披露，不作为独立第三方）。
 - done准入：pending，不代签、不标done。
 
 ## 交接日志
 
+- 2026-09-18 Codex：同步5fd655ec，核候选dbe579c5与远端一致、工作树干净；独立116/673/tc、原18次负控和before557/after673覆盖均复算。实际fixture守卫拒绝，六条坏实现经Vitest JSON执行检查确认到达而候选原测试仍绿，混合错误日志仍被原判据接受；JSON格式/index检查失败。counter R1～R4转rework，未改候选源码/测试/官方基线；不代签、不标done，设计不重签。GLM下一步定点返工并核43族账，原回执见候选树。
 - 2026-09-18 Kimi：完成 r1 独立设计/前提审查，签 premise verified + design agree，无返工项。
   直读 asset.ts:111 与 map-index.ts:25 两个不同路径合同、project-map nullable 结构、
   author-dialogue portrait/cue 守卫、actor-reference:198/220 与 command-target-reference:278/313
@@ -201,7 +205,18 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
 
 ## 下一位Agent提示词
 
-### GLM
+### GLM · 当前R1～R4返工
+
+```text
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-CONTENT-CONTRACTS-1 r1，卡 docs/ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md，rework。原候选dbe579c5f7e8790d03d4ce1974449118537c021f，分支codex/glm-content-contracts-r1，产品冻结7ab20689；设计不重签。
+先同步合入并保留Codex counter，读AGENTS/CLAUDE/READ-FIRST、本卡及docs/testing/content-contracts-review.md。只改原白名单测试/fixture/本人诊断与回执、必要任务index机械联动；不得改产品/旧测试/原探针/官方基线。
+R1修实际F bundle的旧onEnter/缺sprite.label及A4非法page.body，主载荷先过当前结构守卫，不另造正控替主例背书。R2快照并比较实际传入actor表；地图来源负例只坏一轴并核路径；C5完整解码非零offset视图；F钉确定severity、完整where与Issue多重集合。
+运行node docs/testing/content-contracts-review-witnesses.mjs <候选物理绝对路径>：当前六针均MISSED，返工应detected，执行检查本身必须passed；若fixture提取需适配，保留反例语义并告知Codex，不删见证或改产品规避。
+R3原12针此次业务红保留，但工具须运行态执行见证/明确新增断言红因，并拒绝TypeError、timeout、Unhandled Errors；混合坏日志判据自测必须拒绝。R4按43族逐项列新增/已有/待证/防御/缺陷与真锚点，撤回“仅B4未做其它全新增”；B4可留后续但补实际caller/已有正控；C8按实际源码分类，不造TextEncoder降级。修标题、可复制覆盖命令、JSON Biome与任务index；数字/hash/失败记录从最终树生成。
+保留有效用例与已核116运行/+116语句/+127分支，不为固定条数或100%凑数。复跑定向/全content/tc/全部新增文件Biome、原6+12与新见证、同口径/tmp覆盖；全仓check/官方ratchet/strict-fast仍留Codex。GLM为测试贡献者，不代签、不标done、不自行转Kimi终审。
+```
+
+### GLM · 原设计与实施提示（历史，按当前返工执行）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 TEST-CONTENT-CONTRACTS-1 r1，任务卡 docs/ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md，draft；工作包/回执 docs/testing/glm-content-contracts.md。你是六组新测试Coding Owner；生产冻结7ab20689447150eec7ecb0678cbb6980a685eb49。
@@ -211,7 +226,7 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
 不运行官方ratchet/strict-fast或抢跑全仓check；统一门禁由Codex集成后串行执行。主线若触及冻结content先协调，不能挪用旧报告。最终明确测试贡献者身份，不代签、不标done、不自行转Kimi终审。
 ```
 
-### Kimi
+### Kimi · 原设计提示（历史，已完成）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 独立审 TEST-CONTENT-CONTRACTS-1 r1设计，任务卡 docs/ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md，draft；工作包 docs/testing/glm-content-contracts.md，生产冻结7ab20689447150eec7ecb0678cbb6980a685eb49。GLM负责白名单测试，Codex负责独立接收/集成。

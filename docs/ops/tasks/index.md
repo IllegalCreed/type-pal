@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测](TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测](TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
