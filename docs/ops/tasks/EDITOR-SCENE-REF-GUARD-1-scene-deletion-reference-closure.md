@@ -105,7 +105,35 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
 - Codex：**premise verified / design agree（2026-09-18）**。本人直读上列collector/adapter/冷暖consumer/删除命令入口，
   独立重跑两个原probe及40项相邻测试，三类漏边与use正控一致。确认是adapter域漏接、非迁移/未知字段/永久丢失。
   最强反证及去重/locator边界见上，设计保持现有公共合同与UI形态；待两席直接取证后实施。
-- Kimi：pending（独立前提证据与design agree/counter）。
+- Kimi：**premise verified / design agree（2026-09-18，r1，冻结 3bc20273；全部证据本人直读/复跑，未读 GLM 结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  - **三类漏边直读**：`command-target-reference.ts:134/156` currentScene 条件与 selectSceneHooks
+    均产生 scene 边（content 合同已含）；`project-reference-adapters.ts:215-244`
+    `canonicalCommandTargetEdges` 的 kind 白名单**无 selectSceneHooks**——collector 产出的边在
+    adapter 被丢；`script-editor.ts:918` 仅 use 建具体 hook 边（inherit/disabled 无边）；
+    transitionVisits 进 snapshot 但转换条件的 scene 边未收。ScriptEditor.tsx:2531/1366 继承/禁用
+    与 currentScene 条件作者入口真实存在。
+  - **本人复跑**：probe-editor-reference-delete exit 0——disabled/inherit/transition 三族
+    blockers=0、真实成对删除成功、随后保存拒「场景 target 不在 scenes」、undo 恢复；use 正控
+    blockers=1、删除拒绝、保存合法。probe-glm-reference-prep exit 0：删除集合内部豁免机制
+    （G-R08/09）可复用、use locator 稳定；G-R05/06/07 的 risk 如实分栏（嵌套条件矩阵未逐一
+    动态核、根字段主张撤回、暖链 UI 消费证据待采集）——不冒充全证。相邻 4 文件/40 项绿。
+  - **真实调用域直读**：App.tsx:1707 冷 provider/:1760-1779 暖门+成对 Delete、
+    project-diagnostics.ts:694/730 同一 snapshot 传 commandVisits/transitionVisits——修复层确在
+    editor adapter，非迁移/未知字段/loader 缺陷。
+  - **设计同意**：只补 adapter 域、复用 content 现有 typed collector（不写第二套递归/字符串
+    扫描）；use 复合边进父 scene 桶不叠加第二条、纯 inherit/disabled 保留场景边（既有计数语义
+    保持）；transition 经 collectCanonicalScriptTransitionVisits 每 state.next 一根 +
+    collectCommandTargetReferences 读 currentScene 边（含嵌套/all/any/not），不重复扫 body/
+    entity 域；边带真实 owner/where/deletePolicy，转换沿用 script-owner locator；冷暖共用同一
+    snapshot 构建器；删除集合内部豁免沿用现有逻辑；原探针保持历史不改产品。范围确停 D-02，
+    不重开已 done 卡、不升级未知字段、不降保存校验。
+  - **可证伪观察**（任一反例即收窄或 counter）：① typed 合同不再含这三类依赖或主载荷不被
+    当前 loader 接受 → 前提倒（本人复跑否定）；② 修复后 use 出现重复计数/额外边 → 去重破；
+    ③ inherit/disabled 或 transition 条件漏边仍在删除守卫缺席 → 接线未闭合；④ 冷 provider 与
+    暖派生得不同依赖集 → 双链不一致；⑤ 仅自身/同集合内部引用被误阻断或外部引用漏阻断 →
+    豁免错；⑥ 实现改动超出 adapter+新测试面（App/历史核心/公共模型被顺手重构）→ 越界。
+  - 返工项：无。非阻断备注：G-R05 嵌套条件矩阵的动态覆盖须在正式回归中落实（验收已列
+    all/any/not+嵌套 transition）；G-R07 暖链 UI 消费证据按验收「冷暖相同依赖」闭环。
 - GLM：**premise verified / design agree（2026-09-18，r1，冻结 3bc20273；本席只审前提与矩阵，锚点本人直读，未读 Kimi 席位）**。
   - **typed 合同直读**：content/command-target-reference.ts:134 `currentScene`→`condition-current-scene`
     场景边、:156 `selectSceneHooks`→`select-scene-hooks` 场景边均在现行 typed collector；validate-refs.ts:1133
@@ -138,6 +166,12 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
 
 ## 交接日志
 
+- 2026-09-18 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
+  直读 command-target-reference.ts:134/156 typed 合同、adapters:215-244 白名单漏 selectSceneHooks、
+  script-editor.ts:918 仅 use 建边、冷暖 snapshot 链与 App 删除入口；复跑两原探针（三漏边 blockers=0+
+  保存拒+undo 恢复、use 正控拒绝）与相邻 40 项绿；G-R05/06/07 风险分栏核实。六条可证伪观察
+  写入本席；范围确停 D-02 不重开已 done 卡。未改实现/他席/状态，未读 GLM 结论。
+  Next：三签齐后 Codex 核定 build 准入并实施；dev-functional 视觉归 Codex。
 - 2026-09-18 GLM：完成前提/矩阵审查，签 premise verified + design agree，无返工项。直读
   command-target-reference/validate-refs typed 合同与 adapters 白名单/snapshot 漏接；独立复跑两
   原 probe（三漏边+use 正控+保存拒+undo 一致）与 4 文件 40 相邻绿。未读 Kimi 结论；未改任何
