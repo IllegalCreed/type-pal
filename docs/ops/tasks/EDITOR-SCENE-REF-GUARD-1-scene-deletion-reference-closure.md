@@ -1,6 +1,6 @@
 # EDITOR-SCENE-REF-GUARD-1 - 场景删除前的引用保护补齐
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: ED-3既有引用图正确性 / 审计D-02（不改能力地图）
 Coding Owner: Codex
@@ -8,11 +8,11 @@ Reviewer: Kimi / GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: codex/editor-scene-ref-guard-r1（设计通过后使用）
+Branch: codex/editor-scene-ref-guard-r1
 
 Revision: r1，2026-09-18。前提冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`。
 用户要求GLM大包与Codex修复双线推进；本卡与[运行时补测卡](TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)独立。
-当前只读复现/方案完成，未修改产品或正式测试；新范围设计三签尚未齐，不能开始build。
+当前（2026-09-18）：r1三席premise/design齐、无counter，Codex已核定build allowed，开始先红后绿回归与adapter修复。
 
 ## 目标与范围
 
@@ -155,7 +155,8 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
     hook/父边计数→设计 2 违反；③删除集合内部引用被外部豁免替代→设计 5 违反；④为让旧探针绿而改
     探针/降保存校验→禁止回退条款违反。
   - 返工项：无。
-- build准入：未开放；本卡三席同r1齐且无counter后由Codex核定，不复用其它卡签字或豁免。
+- build准入：**build allowed（Codex，2026-09-18，接手948e0328）**。本卡三席同r1、冻结3bc20273，独立前提证据齐、无counter；
+  用户确认“签了”。仅开放本卡adapter/测试/文档/功能验证范围，不复用或扩大其它卡授权。
 
 ### done前
 
@@ -166,6 +167,8 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
 
 ## 交接日志
 
+- 2026-09-18 Codex：同步948e0328、工作树干净，核GLM eba8b810与Kimi b2603c41均同r1设计同意且无counter，登记build。
+  实施先钉三反例与use去重/集合豁免/冷暖同源，再修adapter；原探针不改。GLM运行时补测由其按独立卡核准入，本卡不触其冻结面。
 - 2026-09-18 Kimi：完成 r1 独立前提/设计审查，签 premise verified + design agree，无返工项。
   直读 command-target-reference.ts:134/156 typed 合同、adapters:215-244 白名单漏 selectSceneHooks、
   script-editor.ts:918 仅 use 建边、冷暖 snapshot 链与 App 删除入口；复跑两原探针（三漏边 blockers=0+
