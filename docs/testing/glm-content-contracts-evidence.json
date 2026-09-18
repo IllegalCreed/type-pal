@@ -1,0 +1,330 @@
+{
+  "task": "TEST-CONTENT-CONTRACTS-1 r1",
+  "generatedAt": "2026-09-18T06:10:49Z",
+  "branch": "codex/glm-content-contracts-r1",
+  "freeze": "7ab20689447150eec7ecb0678cbb6980a685eb49",
+  "base": "5fd655ec",
+  "commits": [
+    "21dfeca0 test(docs): coverage comparison config consuming official testSelection",
+    "958d2065 test(docs): single-point negative controls for content contracts r1",
+    "ffc1b3a5 test(content): cross-table reference closure contracts for F group",
+    "21f5a630 test(content): dialogue identity and typed reference contracts for E group",
+    "48ba0dda test(content): sprite/battle-sprite/enemy-team definition contracts for D group",
+    "761f2c7e test(content): TPFS frame container and playback contracts for C group",
+    "96c529a7 test(content): asset/map/tileset/stamp contract regressions for A+B groups"
+  ],
+  "productDriftVsFreeze": {
+    "command": "git diff --name-only 7ab20689..HEAD | grep -vE 'contracts\\.test\\.ts|glm-content-contract|^docs/ops/'",
+    "result": "only docs/testing/README.md, attributable to base dispatch commit 477cd0c6; GLM commits touch whitelist only"
+  },
+  "tests": {
+    "perFileExecuted": {
+      "asset-catalog.contracts.test.ts": 27,
+      "asset-closure.contracts.test.ts": 5,
+      "project-map.contracts.test.ts": 5,
+      "map-index.contracts.test.ts": 15,
+      "tileset-stamp.contracts.test.ts": 4,
+      "frame-sequence.contracts.test.ts": 18,
+      "sprite-frame-demand.contracts.test.ts": 4,
+      "battle-sprite-profile.contracts.test.ts": 5,
+      "enemy-team.contracts.test.ts": 11,
+      "author-dialogue.contracts.test.ts": 7,
+      "actor-reference.contracts.test.ts": 6,
+      "command-target-reference.contracts.test.ts": 4,
+      "validate-refs.contracts.test.ts": 5
+    },
+    "newTotal": 116,
+    "packageBefore": "42 files / 557 tests",
+    "packageAfter": "55 files / 673 tests",
+    "targetedCommand": "pnpm --filter @type-pal/content exec vitest run <13 new files> -> 13 passed / 116 passed",
+    "typecheck": "pnpm --filter @type-pal/content exec tsc --noEmit -> rc=0",
+    "biome": "pnpm exec biome check <16 new files> -> rc=0 (0 error)"
+  },
+  "mutants": {
+    "script": "docs/testing/glm-content-contracts-mutants.mjs",
+    "command": "node docs/testing/glm-content-contracts-mutants.mjs -> rc=0",
+    "controls": [
+      "control-A",
+      "control-B",
+      "control-C",
+      "control-D",
+      "control-E",
+      "control-F"
+    ],
+    "cases": [
+      {
+        "name": "asset-path-segment-gate-removed",
+        "group": "A",
+        "file": "asset.ts",
+        "exit": 1,
+        "red": "asset-catalog 路径 fail-loud 轴 a//b、a/./b、a/../b 不再抛",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/asset-path-segment-gate-removed.log",
+        "logSha256": "6f440ee61d7f0c3f52507bf0cee1a4b080d96303fb6a7b704952627eb1b9cb28"
+      },
+      {
+        "name": "asset-role-kind-gate-removed",
+        "group": "A",
+        "file": "asset.ts",
+        "exit": 1,
+        "red": "asset-catalog manifest 角色kind门轴（video 角色绑 sprite 资产）不再拒绝",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/asset-role-kind-gate-removed.log",
+        "logSha256": "bb90aa6dc6bbfa584a4fb7a535f48f1743d839a52056557d6a38a9e5caa2626e"
+      },
+      {
+        "name": "map-row-count-gate-removed",
+        "group": "B",
+        "file": "project-map.ts",
+        "exit": 1,
+        "red": "project-map 矩阵行数=height×2 轴（截断/超长）不再拒绝",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/map-row-count-gate-removed.log",
+        "logSha256": "b9e8ba87333b1b3c961549938b2ebe092755a24fd8fee412762882d180cbe648"
+      },
+      {
+        "name": "stamp-anchor-bound-gate-removed",
+        "group": "B",
+        "file": "stamp.ts",
+        "exit": 1,
+        "red": "tileset-stamp anchor 越界轴（row/col 超出 height×2/width）不再拒绝",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/stamp-anchor-bound-gate-removed.log",
+        "logSha256": "a358cd6c0195dbdc91f0d2689aabd87ea6c37e01975a37254e2a1f5ff133ecdc"
+      },
+      {
+        "name": "tpfs-decode-drops-xor-delta",
+        "group": "C",
+        "file": "frame-sequence.ts",
+        "exit": 1,
+        "red": "frame-sequence 35帧跨块像素 oracle：delta 帧解码值不等于输入像素",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/tpfs-decode-drops-xor-delta.log",
+        "logSha256": "33fb84454374db179426f6067bc24bf1319e82d50b271f99cc4c3bb6ed88137a"
+      },
+      {
+        "name": "tpfs-duration-framerate-layer-removed",
+        "group": "C",
+        "file": "frame-sequence.ts",
+        "exit": 1,
+        "red": "frame-sequence 帧时长三级优先级：显式帧率换算层丢失",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/tpfs-duration-framerate-layer-removed.log",
+        "logSha256": "d35a5504d786373613faec87e030e38b4b47e1e852601ec36222f075542b2d52"
+      },
+      {
+        "name": "sprite-demand-drops-pose-max",
+        "group": "D",
+        "file": "sprite.ts",
+        "exit": 1,
+        "red": "sprite-frame-demand poses 高帧号叠加轴：需求量回落为布局需求",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/sprite-demand-drops-pose-max.log",
+        "logSha256": "a6b5e2c28bd07d87e918ac718f6615c9fe49a4c1e4c0e8dd17ca50603ec9fe95"
+      },
+      {
+        "name": "enemy-team-slot-cap-removed",
+        "group": "D",
+        "file": "enemy-team.ts",
+        "exit": 1,
+        "red": "enemy-team 结构拒绝轴：槽位数超上限 5 不再拒绝",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/enemy-team-slot-cap-removed.log",
+        "logSha256": "95d59c5af5756f0d7a96797b91f4bcd8d8bf913a6ea49e82fe16b183653e7e89"
+      },
+      {
+        "name": "actor-walker-drops-tree-recursion",
+        "group": "E",
+        "file": "actor-reference.ts",
+        "exit": 1,
+        "red": "actor-reference 整树递归轴：嵌套臂引用丢失（canonical 单叶替身化）",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/actor-walker-drops-tree-recursion.log",
+        "logSha256": "1569b22f30674398bc5a7387e135fb7efb6be594f3a7c049e430cbfa2bf6d721"
+      },
+      {
+        "name": "dialogue-resolver-default-portrait-gate-removed",
+        "group": "E",
+        "file": "author-dialogue.ts",
+        "exit": 1,
+        "red": "author-dialogue resolver fail-loud 轴：缺 portraits.default 静默通过",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/dialogue-resolver-default-portrait-gate-removed.log",
+        "logSha256": "55ca0ebd8f3d45550433d11ccfab4c3705606b2f650d88bf352bcd2f878a3831"
+      },
+      {
+        "name": "refs-entity-actor-gate-removed",
+        "group": "F",
+        "file": "validate-refs.ts",
+        "exit": 1,
+        "red": "validate-refs 实体→actors 表轴：ghost-actor 不再报 issue",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/refs-entity-actor-gate-removed.log",
+        "logSha256": "e4d3df13350a2d4c3f4b430ff8e07dcc75fce268895670486f827dc878bd33b0"
+      },
+      {
+        "name": "refs-entry-scene-gate-removed",
+        "group": "F",
+        "file": "validate-refs.ts",
+        "exit": 1,
+        "red": "validate-refs entryPoint→scenes 轴：ghost-scene 不再报 issue",
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cc1-mutants-z52zkz/refs-entry-scene-gate-removed.log",
+        "logSha256": "df707eba0414858b806f4bda1a078de73e82ccf84de669f9f193d7b5ea0e91fd"
+      }
+    ],
+    "productHashInvariant": "all 9 touched product files sha256 unchanged before/after batch"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-content-contracts.config.mts (imports scripts/coverage/config.mjs coveragePackages/testSelection/coverageExcludes; fast profile)",
+    "beforeDir": "/tmp/cc1-coverage-before",
+    "afterDir": "/tmp/cc1-coverage-after",
+    "command": "CC1_MODE=<before|after> CC1_OUT=<dir> pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config docs/testing/glm-content-contracts.config.mts",
+    "perModule_before_after": {
+      "asset.ts": {
+        "statements": [
+          "287/321",
+          "296/321"
+        ],
+        "branches": [
+          "229/289",
+          "241/289"
+        ]
+      },
+      "project-map.ts": {
+        "statements": [
+          "163/193",
+          "163/193"
+        ],
+        "branches": [
+          "119/159",
+          "119/159"
+        ]
+      },
+      "map-index.ts": {
+        "statements": [
+          "60/70",
+          "64/70"
+        ],
+        "branches": [
+          "40/49",
+          "42/49"
+        ]
+      },
+      "tileset.ts": {
+        "statements": [
+          "30/39",
+          "35/39"
+        ],
+        "branches": [
+          "30/39",
+          "34/39"
+        ]
+      },
+      "stamp.ts": {
+        "statements": [
+          "32/38",
+          "32/38"
+        ],
+        "branches": [
+          "24/33",
+          "27/33"
+        ]
+      },
+      "frame-sequence.ts": {
+        "statements": [
+          "247/306",
+          "251/306"
+        ],
+        "branches": [
+          "156/236",
+          "161/236"
+        ]
+      },
+      "sprite.ts": {
+        "statements": [
+          "0/15",
+          "15/15"
+        ],
+        "branches": [
+          "0/12",
+          "10/12"
+        ]
+      },
+      "battle-sprite.ts": {
+        "statements": [
+          "84/94",
+          "84/94"
+        ],
+        "branches": [
+          "57/70",
+          "60/70"
+        ]
+      },
+      "enemy-team.ts": {
+        "statements": [
+          "0/35",
+          "33/35"
+        ],
+        "branches": [
+          "0/30",
+          "28/30"
+        ]
+      },
+      "author-dialogue.ts": {
+        "statements": [
+          "75/87",
+          "81/87"
+        ],
+        "branches": [
+          "68/97",
+          "76/97"
+        ]
+      },
+      "actor-reference.ts": {
+        "statements": [
+          "42/104",
+          "80/104"
+        ],
+        "branches": [
+          "24/113",
+          "73/113"
+        ]
+      },
+      "command-target-reference.ts": {
+        "statements": [
+          "97/101",
+          "97/101"
+        ],
+        "branches": [
+          "83/94",
+          "83/94"
+        ]
+      },
+      "validate-refs.ts": {
+        "statements": [
+          "626/686",
+          "628/686"
+        ],
+        "branches": [
+          "445/522",
+          "448/522"
+        ]
+      }
+    },
+    "local13": {
+      "statements": [
+        "1743/2089 (83.44%)",
+        "1859/2089 (88.99%)"
+      ],
+      "branches": [
+        "1275/1743 (73.15%)",
+        "1402/1743 (80.44%)"
+      ]
+    },
+    "packageUnion": {
+      "statements": [
+        "4762/5854 (81.34%)",
+        "4878/5854 (83.32%)"
+      ],
+      "branches": [
+        "3666/5016 (73.08%)",
+        "3793/5016 (75.61%)"
+      ]
+    },
+    "census": "before/after coverage-final.json contain 0 test/fixture files (official coverageExcludes honored); 13 target modules all instrumented"
+  },
+  "notes": [
+    "mutation-hit witness via Vite enforce:pre load plugin; every red case shows MUTATION_HIT + AssertionError in log",
+    "coverage diagnostics write only to /tmp; official coverage/fast and baseline untouched",
+    "full-repo check / ratchet / strict-fast intentionally NOT run by GLM; reserved for Codex serial integration"
+  ]
+}

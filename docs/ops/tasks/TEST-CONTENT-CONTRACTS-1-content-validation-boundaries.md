@@ -182,7 +182,23 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
 
 - Codex：**counter（2026-09-18，dbe579c5接收复核；对比5fd655ec，冻结7ab20689）**。产品/旧测试/基线零改已核；116/673/tc及原6+12负控通过，覆盖+116语句/+127臂成立。但R1实际F场景/Sprite及A4页结构被当前守卫拒绝；R2六个已证执行的坏实现仍被候选断言放行；R3判据仅load标记且接受混合宿主错误日志；R4逐族完成账、命令、JSON格式与任务索引未闭合。见[报告与复建工具](../../testing/content-contracts-review.md)。不合入、不跑官方接收门禁、不转Kimi；不重开已核事实，不改GLM测试语义。
 - Kimi：pending（独立终审）。
-- GLM：pending（实现者自验与贡献披露，不作为独立第三方）。
+- GLM：pending（返工后重新自验）。原候选 dbe579c5 的实现者自验 accept 已被 counter 覆盖，
+  原文见 `git show dbe579c5:docs/ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md`，
+  内容要目：白名单零漂移核对、116 项计数、18/18 负控、/tmp 覆盖对照双口径、B4 留待证。
+  - 交付树：分支 `codex/glm-content-contracts-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-content-contracts`），
+    基点 5fd655ec，7 个提交（六组各一 + mutants 脚本 + 覆盖诊断 config 各一 + 回执/evidence 收口提交）。
+  - 白名单核对：`git diff --name-only 7ab20689..HEAD` 除基线内派发提交 477cd0c6 的
+    docs/testing/README.md 一行外，全部为本卡白名单文件（13 测试 + fixture + mutants + config + 回执 + evidence）；
+    产品/旧测试/原探针/依赖/官方基线零修改。
+  - 计数对账：13 新文件 Vitest 现场 116 项（27+5+5+15+4+18+4+5+11+7+6+4+5）；全 content 包
+    55 文件/673 项绿；`tsc --noEmit` rc=0；新文件 Biome rc=0。
+  - 负控对账：`node docs/testing/glm-content-contracts-mutants.mjs` rc=0——6 正控 exit0 +
+    12 变异针 exit1（MUTATION_HIT + AssertionError 业务红），9 个被触产品文件批前后 sha256 不变；
+    卫生修复后复跑仍 18/18。
+  - 覆盖对照：官方 testSelection（fast）before/after 同源码两跑（/tmp 专属目录），局部 13 模块
+    语句 83.44%→89.00%、分支 73.15%→80.44%；全包语句 81.34%→83.32%、分支 73.08%→75.61%。
+  - 未做（按卡）：全仓 check/官方 ratchet/strict-fast 留 Codex 串行；未发现新产品缺陷，无隔离登记项；
+    B4 按工作包「有实际调用再补」留待证；不代签、不标 done。
 - done准入：pending，不代签、不标done。
 
 ## 交接日志
@@ -202,6 +218,10 @@ Revision: r1，2026-09-18。用户要求再分配一整块适合GLM独立完成�
   独立复算 13 模块覆盖表逐格一致；collectEnemyTeamTaggedReferences 无 caller 复核确认。
   未读 Kimi 结论；仅改本席与日志，三签未齐不写任何测试。
 - 2026-09-18 Codex：按用户要求整理一整块GLM工作，复算覆盖、查现行caller和已有测试，圈定六组13模块/13新测试白名单；主线7ab20689干净且与远端一致。只建立draft及工作包，未写测试/改产品/改基线；本席设计签字已落，两席提示同时给出。
+- 2026-09-18 GLM（build 完成）：A→F 六组连续实施完毕，每组独立提交（A+B 合并为首提交，另含
+  mutants 脚本、覆盖诊断 config、回执/evidence 收口共 7+1 提交）。116 项新测试全绿、tc rc0、
+  Biome 0 error、12+6 负控两轮实跑 18/18、覆盖对照双口径落 /tmp。实现者自验 accept 已签本人席位；
+  任务保持 review，等 Codex 独立接收。无下一位 Agent 提示词见下方 Codex 接收提示词。
 
 ## 下一位Agent提示词
 
@@ -233,4 +253,12 @@ R3原12针此次业务红保留，但工具须运行态执行见证/明确新增
 先同步，读AGENTS/CLAUDE/READ-FIRST、本卡/工作包，独立读13模块的现行导出、真实loader/publication/editor调用及已有测试；不读或复述GLM设计结论。核六组范围是否有真实增量、是否误固化旧接口/无caller或不可达输入；重点是asset与map路径合同不同、tiles/sources/nullable结构、TPFS独立字节oracle、帧需求不是实际资源帧数、canonical叶与递归walker域、干净bundle及精确severity/where。
 审一次整包：白名单/冻结/不改产品，已知缺陷隔离、深快照/反控鉴别力、同testSelection覆盖对照、全包和局部口径分开。Codex已排除enemy-team-reference无caller和旧script-library/YJ2/战斗公式；不把coverage0等同完全没测。只在本人席位/日志写有一手锚点和可证伪观察的premise verified/design agree或counter，提交推送；不改他席/状态、不开始实现、不标done。
 三席齐后GLM作为Coding Owner另核build并连续A→F，无需每组再签；你本轮只设计审查，最终候选由Codex接收后再交独立终审。
+```
+
+### Codex · 原接收提示（历史，已被 counter 取代；返工后重给）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接收 TEST-CONTENT-CONTRACTS-1 r1 整包。任务卡 docs/ops/tasks/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md（review）；回执与机器账 docs/testing/glm-content-contracts.md + docs/testing/glm-content-contracts-evidence.json。候选分支 codex/glm-content-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-content-contracts），基点 5fd655ec；产品冻结 7ab20689447150eec7ecb0678cbb6980a685eb49。
+先同步主线并核候选对冻结零漂移（除基线内 477cd0c6 的 docs/testing/README.md 一行外应只动白名单）。GLM 已交付六组 13 新测试文件 116 项、mutants 负控脚本（6 正控 + 12 变异针两轮 18/18）、官方 testSelection 覆盖对照（局部 13 模块与全包双口径，/tmp 输出）与实现者自验 accept；未发现新产品缺陷、无隔离登记项，B4 按工作包条款留待证。
+你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过现行守卫）、复跑 13 文件定向与全 content 包、tc/Biome；复跑 node docs/testing/glm-content-contracts-mutants.mjs 验 18/18；按需重跑覆盖对照 config 验 /tmp 输出。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑，不得由其补跑）；全部通过后在本人席位签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试文件语义；不得代签他人或标 done。
 ```
