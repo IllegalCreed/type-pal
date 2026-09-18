@@ -1,6 +1,6 @@
 # EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属
 
-Status: build
+Status: review
 Phase: phase2
 Capability: D-03既有缺陷修复（不改变能力地图状态）
 Coding Owner: Codex
@@ -13,8 +13,11 @@ Branch: main
 
 Revision: r1，2026-09-18；取证基线`467a5f41`，SpriteUploadWizard产品与已接收GLM只读材料冻结树相同。
 用户要求GLM测试返工期间Codex并行推进；2026-09-18核两席设计签字b131d0f4/d6ddd4a3齐备，Codex开build，不重签。
-与[编辑器补测返工](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)分离：不修改其八文件/fixture/诊断/回执，
-不改commands/reference目标产品；GLM无须等本卡才能修自己的测试。
+与[已收口编辑器补测](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md)分离：不修改其八文件/fixture/诊断/回执，
+不改commands/reference目标产品。
+当前（2026-09-18）：实现候选`a88ab18d51328432f559b41ee6e8f7880379880e`，对比`be1868f39f672ebe705961f0d551d4584da90818`。
+Codex已完成实现、20项新回归/2项旧回归、36相邻、6负控、最小真实界面验证、check7302→ratchet→受保护单次strict fast6814/617。
+实现与精确边界见[验证回执](../../testing/sprite-selection.md)，本席accept，转review等Kimi/GLM独立终审；r1设计不重签，不标done。
 
 ## 目标与范围
 
@@ -183,10 +186,20 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 
 ### done前
 
-- Codex：pending；Kimi：pending；GLM：pending。done准入：blocked。
+- Codex：**accept（2026-09-18，r1，候选a88ab18d对比be1868f3）**。选图成功/catch、主色完成/失败和busy收尾遵守当前作用域/代次；bitmap正常/错误/过期统一finally close。submit精确比对readyDraft，旧回调不能借新选择就绪入库。
+  20新＋2旧定向、36相邻、editor typecheck/Biome通过；StrictMode真实组件+blank loader/EditSession及RLE/gzip/SHA全像素oracle，包含复用同asset、真实undo/redo和作者ID/标签保留。
+  六针独立内存负控均实际执行并业务红、正常对照绿，产品SHA不变；原只读探针未改，不以其旧结构推断修复后行为。
+  Chrome正式精灵库实测A→B重选、坏图禁止入库/仍可取消、取消重开成功、B实际入库128×64并一次撤销；没有点击保存或修改PAL作者文件。1920×960下布局与控件对齐、可达；视觉截图/与确定性宿主验证的分栏见回执，不把普通浏览器重选冒称Promise乱序控制。
+  完整check7302、官方ratchet和受保护单次strict fast6814/617均exit0，旧218个editor测试及其它六包基线对象不变，无范围/门槛下调。
+  **旧版本兼容审查pass**：无版本/公共接口/资产格式变化，无旧模型fallback；G-I04已开始提交后卸载政策保持范围外，完整保存重开试玩仍归R4。
+  可证伪：任一旧成功/错误污染当前选择、旧submit入库、bitmap漏/重复close、同内容多造资源或旧测试身份/门槛退回均撤回accept。
+- Kimi：pending（独立代码/架构终审，复用Codex视觉证据）。
+- GLM：pending（独立代码/测试矩阵终审，不做视觉；披露原G-I诊断材料贡献）。
+- done准入：pending，待两席实现终审及用户验收/明确收口授权；不代签、不重签设计。
 
 ## 交接日志
 
+- 2026-09-18 Codex实现收口：完成a88ab18d（基点be1868f3），只改SpriteUploadWizard、一个新组件测试、隔离负控及官方生成基线；样式/编码/core命令/旧测试/已收口GLM包不动。补StrictMode、两类ready旧scope、旧主色成功、toDataURL失败、同asset复用/整状态undo/redo后20新＋2旧绿，36相邻/tc/Biome通过；六针实际执行业务红。正式浏览器B预览/坏图拒绝/取消重开/入库与一次撤销闭环，不保存PAL。check7302→ratchet→单次protected fast6814/617全绿，写本席accept、转review并同步看板/索引；两席终审提示同时给出，设计不重签。
 - 2026-09-18 Codex并行build进度：向导内部按session/assetBase建立选择作用域与代次，成功/catch检查当前性，finally释放bitmap；解码等待/失败的旧draft不能经DOM或旧提交回调入库，palette旧scope错误也隔离。编码/命令/GLM core测试零改动。新建SpriteUploadWizard.selection.test.tsx，经真实组件事件、当前blank项目loader/EditSession和真实RLE/gzip/SHA核产物。
   首批8项在旧树6业务红/2绿（/tmp/sprite-selection-before.log）；扩展后新15项+既有2项共17绿、editor typecheck/Biome通过（/tmp/sprite-selection-directed.log、/tmp/sprite-selection-tsc.log）。初次类型/Hook依赖检查及“React尚未刷新DOM”假设失败已修；提交入口保护改为捕获实际DsButton回调独立验证，不复制submit算法。
   仍在build：单点负控、dev-functional浏览器检查、全仓check/ratchet/严格fast未完成，不能据17绿标review/done。两个产品/测试工作文件尚在Codex本地工作区，未形成提交候选，不改当前官方基线。下一步Codex继续该独立主线，GLM只处理自身残项。
@@ -207,7 +220,25 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 
 ## 下一位Agent提示词
 
-### Kimi
+### Kimi · r1独立实现终审（当前）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SPRITE-PICK-1，卡 docs/ops/tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md，review/r1；候选a88ab18d51328432f559b41ee6e8f7880379880e，对比be1868f39f672ebe705961f0d551d4584da90818。设计三签有效，不重签。
+先同步查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡及docs/testing/sprite-selection.md。独立核selection作用域与代次、success/catch/busy/palette所有权、StrictMode卸载清理、精确readyDraft入口（非只DOM禁用）、bitmap finally，以及已开始提交语义不变。仅一个产品组件，无样式/编码/core/版本/公共接口改动；GLM已收口补测包不得重开。
+复跑22定向（20新＋2旧）、36相邻、editor tc/Biome；node docs/testing/sprite-selection-mutants.mjs应1对照绿＋6针实际stdout执行/AssertionError业务红、产品SHA不变。核同SHA复用/真实undo-redo、字节全像素oracle、旧scope和主色两类竞态。交叉核check7302、ratchet/受保护单次strict fast6814/617，旧218个editor测试与其它六包基线对象不变；不把新增保护代码分母当范围缩减。
+Codex已做正式Chrome最小功能验证，截图/局限见回执，复用不重复视觉；完整保存重开试玩归R4，G-I04提交后卸载政策保持范围外。独立签本人accept或file:line counter、写本人日志并提交推送；不读/复述GLM终审结论，不改实现/状态/他席，不标done。两席并行，提交前同步保留他席改动，回Codex统一核定。
+```
+
+### GLM · r1独立测试/代码终审（当前）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SPRITE-PICK-1，卡 docs/ops/tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md，review/r1；候选a88ab18d51328432f559b41ee6e8f7880379880e，对比be1868f39f672ebe705961f0d551d4584da90818。设计不重签，原TEST-EDITOR-LOGIC-COVERAGE-1已done不重开。
+先同步，读AGENTS/CLAUDE/READ-FIRST、本卡及docs/testing/sprite-selection.md。你贡献过原G-I只读诊断须披露；本卡产品和正式回归由Codex实现。只核代码/矩阵，不操作浏览器、不做截图或视觉判断，不复述Kimi结论。
+逐SP-01～07核20新＋2旧测试的真实输入/字节/不变式，尤其两完成序、两错误组合、捕获真实旧submit回调、pending/ready两种scope更换、StrictMode、palette等待/失败、close次数、同SHA复用及整状态undo/redo；既有2测试断言零改。复跑22/36、tc/Biome及node docs/testing/sprite-selection-mutants.mjs（对照绿＋6针唯一替换、实际stdout执行且业务红、产品SHA不变）。核check7302/fast6814/617与20项增量、218旧文件身份、其它六包基线不变；不把头部源码加载标记当实际执行。
+G-I04仍范围外、保存重开试玩归R4，视觉只引用Codex回执并标非本人验证。只写本人accept/counter与证据/日志、提交推送；不改实现/状态/他席、不代签不标done，提交前同步保留Kimi并行落盘。
+```
+
+### Kimi · 原设计提示（历史，已完成）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 审 EDITOR-SPRITE-PICK-1 r1，卡 docs/ops/tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md，draft，产品取证467a5f41，Codex负责实现。
@@ -215,7 +246,7 @@ before→after：选择B后旧A可能晚到覆盖/入库 → 只有B的结果可
 审选择代次/解码等待禁旧draft入库/取消卸载scope边界；不改变已开始提交的取消语义、不动编码格式/core命令或UI形态。直接写本人premise verified/design agree或counter，附一手锚点和可证伪观察，提交推送；不读GLM结论、不改产品/他席/状态、不标build/done。Q1已收口，不重复审。
 ```
 
-### GLM
+### GLM · 原设计提示（历史，已完成）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 审 EDITOR-SPRITE-PICK-1 r1，卡 docs/ops/tasks/EDITOR-SPRITE-PICK-1-latest-image-selection.md，draft，产品取证467a5f41。

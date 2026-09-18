@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属](EDITOR-SPRITE-PICK-1-latest-image-selection.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属](EDITOR-SPRITE-PICK-1-latest-image-selection.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
