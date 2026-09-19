@@ -41,7 +41,11 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": ["control-sfx", "control-cache", "control-registry"],
+    "controls": [
+      "control-sfx",
+      "control-cache",
+      "control-registry"
+    ],
     "cases": [
       {
         "name": "sfx-wave-gate-removed",
@@ -141,7 +145,11 @@
     "in-flight ProjectImageCache dispose backfill policy remains pending verification",
     "collector pages[0] vs world active page remains isolated (r2, no green tests)"
   ],
-  "reservedForCodex": ["full-repo check", "official ratchet", "protected strict-fast"],
+  "reservedForCodex": [
+    "full-repo check",
+    "official ratchet",
+    "protected strict-fast"
+  ],
   "codexReception": {
     "candidate": "a7c48d9cb828dcc461ee7b599ee3eec1a88bedac",
     "date": "2026-09-19",
@@ -160,5 +168,55 @@
     "integrated": false,
     "officialCoverageChanged": false,
     "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  },
+  "rework": {
+    "intakeReview": "docs/testing/glm-nine-intake-review.md (Codex counter 1f38bb29)",
+    "generatedAt": "2026-09-19T11:15:58Z",
+    "C0": "判据改为每条 failureMessages 首行 /^AssertionError(\\b|:)|^expect\\(/（运行态 pin 块内联同形谓词 + 四向自测同函数新增普通Error内嵌AssertionError/纯超时反例）",
+    "C1": {
+      "command": "pnpm exec biome check <git 新增清单 41cc7cd9..HEAD 全部 TS/MJS/MTS/JSON>",
+      "exit": 0,
+      "files": 10,
+      "note": "含 evidence.json 与 mutants/config，全部 rc=0 无错误无警告"
+    },
+    "R02-1": "fsa 坏 JSON 用例改为 text 真实返回 '{bad'：readText 原样成功、readJson 拒绝且错误名 SyntaxError（值形式见证）+ 完整 op 序；吞解析错误的单点将被检出",
+    "R02-2": "soundItem 过正式 validateItems（use.effects=[healHp]、throw.effects=[applyPoison] 非空），探针 accepted",
+    "tests": {
+      "perFileExecuted": {
+        "fsa-source.cancel-windows.test.ts": 3,
+        "audio/sfx-readiness.collections.test.ts": 5
+      },
+      "packageFull": "122 files / 1214 tests exit0",
+      "typecheck": "rc=0"
+    },
+    "mutants": {
+      "command": "node docs/testing/glm-reforge-asset-io-mutants.mjs",
+      "exit": 0,
+      "controls": 3,
+      "needles": 8
+    },
+    "coverageRerun": {
+      "sfx.ts": {
+        "before": "L115/133 B62/82",
+        "after": "L128/133 B69/82"
+      },
+      "sfx-readiness.ts": {
+        "before": "L161/162 B106/132",
+        "after": "L162/162 B107/132"
+      },
+      "project-image-cache.ts": {
+        "before": "L23/26 B4/8",
+        "after": "L25/26 B6/8"
+      },
+      "registry.ts": {
+        "before": "L27/28 B9/14",
+        "after": "L27/28 B10/14"
+      },
+      "packageTotal": {
+        "before": "L7927/14118 B5329/11041 F1388/2416",
+        "after": "L7943/14118 B5340/11041 F1394/2416"
+      }
+    },
+    "coverageNote": "before 1190 / after 1214 双 exit0（最终返工树重跑）"
   }
 }

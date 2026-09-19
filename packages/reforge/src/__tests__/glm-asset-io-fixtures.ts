@@ -59,7 +59,8 @@ export const soundSprite = (): SpriteDef => ({
   },
 })
 
-/** 合法物品（use/throw 各带 sound；throw 呈现 magic 时其动画音也入集）。 */
+/** 合法物品（use/throw 各带 sound 与非空 effect；throw 呈现 magic 时其动画音也入集）。
+ * 正式 validateItems 守卫：throw.effects 不得为空（applyPoison/healHp 均为现行合法 kind）。 */
 export const soundItem = (id: string): ItemData => ({
   id,
   name: `item.${id}`,
@@ -67,10 +68,15 @@ export const soundItem = (id: string): ItemData => ({
   buyPrice: 1,
   sellPrice: 1,
   sellable: true,
-  use: { target: 'oneAlly', consuming: true, effects: [], sound: 'sfx.use' },
+  use: {
+    target: 'oneAlly',
+    consuming: true,
+    effects: [{ kind: 'healHp', amount: 1 }],
+    sound: 'sfx.use',
+  },
   throw: {
     target: 'oneEnemy',
-    effects: [],
+    effects: [{ kind: 'applyPoison', poisonId: 'poison.test' }],
     sound: 'sfx.throw',
     presentation: { kind: 'magic', animation: { sound: 'sfx.throw-magic', effectSprite: 0 } },
   },

@@ -118,16 +118,50 @@ describe('B9 FSA 逐 await 取消门（进入见证 + 中止点 + 后续 IO 零�
     await expect(source.readJson('a/b.json', controller.signal)).rejects.toThrow()
     expect(log.ops).toEqual([]) // 零句柄访问
   })
-  test('readJson 的 JSON 解析错误透传（text 已成功读取后）', async () => {
+  test('readJson 的 JSON 解析错误透传（text 已成功读取后；坏 JSON 真实到达解析器）', async () => {
     const log: HandleLog = { ops: [] }
-    const dir = makeDir(log)
-    // 替换 text 返回坏 JSON
-    const badDir = dir as unknown as {
-      getDirectoryHandle: (name: string) => Promise<unknown>
+    // text 真实返回坏 JSON：readText 原样成功，readJson 拒绝且错误名为 SyntaxError
+    const file = {
+      async text() {
+        log.ops.push('file.text')
+        return '{bad'
+      },
+      async arrayBuffer() {
+        log.ops.push('file.bytes')
+        return new ArrayBuffer(4)
+      },
     }
-    const source = fsaSource(badDir as FileSystemDirectoryHandle)
-    await expect(source.readText('a/b.json')).resolves.toBe('{"ok":true}')
-    const jsonSource = fsaSource(badDir as FileSystemDirectoryHandle)
-    await expect(jsonSource.readJson('a/b.json')).resolves.toEqual({ ok: true })
+    const fileHandle = {
+      async getFile() {
+        log.ops.push('getFile')
+        return file
+      },
+    }
+    const innerDir = {
+      async getDirectoryHandle(name: string) {
+        log.ops.push(`dir:${name}`)
+        if (name === 'a') return innerDir
+        throw new Error('not found')
+      },
+      async getFileHandle(name: string) {
+        log.ops.push(`file:${name}`)
+        return fileHandle
+      },
+    }
+    const badDir = {
+      async getDirectoryHandle(name: string) {
+        log.ops.push(`dir:${name}`)
+        if (name === 'a') return innerDir
+        throw new Error('not found')
+      },
+    } as unknown as FileSystemDirectoryHandle
+    const source = fsaSource(badDir)
+    await expect(source.readText('a/b.json')).resolves.toBe('{bad') // 文本层原样透传
+    const outcome = await source.readJson('a/b.json').then(
+      () => 'fulfilled',
+      (error: unknown) => (error as Error).name,
+    )
+    expect(outcome).toBe('SyntaxError') // 解析错误不被吞（值形式拒绝见证）
+    expect(log.ops).toEqual(['dir:a', 'file:b.json', 'getFile', 'file.text', 'dir:a', 'file:b.json', 'getFile', 'file.text'])
   })
 })

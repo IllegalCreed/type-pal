@@ -77,3 +77,21 @@ reforge 全包 122 文件/1214 项 exit0；tc rc=0；9 新文件 Biome rc=0。
 页选择疑点：collector:168固定pages[0].animation，main传canonicalScene而无world页选择信息；旧:309玩具SceneDef不能证明initialPage在非首项时的正确预载。
 该轴由Codex另核/必要时修复，GLM可记只读证据但不把忽略非首项固化为正确，不动产品。
 不改稳定读/锁/save门；真实FSA授权/听感/视觉归Codex，本包只用内存宿主；与模拟器main接线零交叠。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb（九批接收复核文档）；生产对 e58834f6 零漂移不变。按
+[glm-nine-intake-review.md](glm-nine-intake-review.md) 修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`
+  （运行态 pin 块内联同形谓词；四向自测同函数新增「普通 Error 内嵌 AssertionError 子串」与
+  「纯超时」两个拒绝反例）。复跑 3 对照 + 8 针全绿。
+- **C1**：按 git 新增清单对全部 10 个新文件（含 JSON/config）跑 Biome rc=0 无错误无警告；
+  回执与机账同步最终树数字。
+- **R02-1**：`fsa-source.cancel-windows.test.ts` 坏 JSON 用例重写——text 真实返回 `'{bad'`，
+  readText 原样成功、readJson 拒绝且错误名 `SyntaxError`（值形式）+ 完整 op 访问序。吞掉
+  JSON 解析错误的单点现在被该用例检出。
+- **R02-2**：`soundItem` 过正式 `validateItems`（use.effects=[healHp]、throw.effects=
+  [applyPoison] 非空）；非战斗声音集合/页政策隔离语义不变。
+- 复跑：定向 8/8、全包 122 文件/1214 项 exit0、tc rc=0、私有覆盖 before 1190 / after 1214
+  双 exit0（数字从最终返工树生成）。机器账 `glm-reforge-asset-io-evidence.json` rework 节。
