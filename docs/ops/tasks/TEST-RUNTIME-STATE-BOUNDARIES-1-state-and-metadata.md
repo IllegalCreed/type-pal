@@ -107,7 +107,7 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
     ③负控仅 load 标记/混合宿主故障→无效；④快照对象与实际传入对象不一致→重造；
     ⑤产品/旧测试/基线任何 diff→越界即停。
   - 返工项：无。三席同 r1 齐且无 counter 后按卡核定 build allowed 再实施。
-- build准入：未开放，三席同r1齐且无counter后GLM核定build allowed；整包签一次，不逐组再签。另一张试放卡的准入独立。
+- build准入：**三席同r1已齐、无counter，Codex于2026-09-19核定满足build条件**（Codex原签、GLM 7753f137、Kimi 09d1fd5b；生产相对e58834f6零漂移）。按原交接由Coding Owner GLM同步将本卡/看板/索引切到build，再在独立worktree连续实施六组；无需再签一次。另一张试放卡的UI待决不阻止本卡。
 
 ### done前
 
@@ -117,6 +117,8 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Codex：用户告知“签了”后同步并核对三席均钉r1/e58834f6、各有直接证据与可证伪观察、无counter；当前607b2aa3相对冻结的packages/与scripts/coverage/零diff，build条件已满足。
+  GLM正在共享树准备TB-01～03，相关未提交卡/工作包/看板/索引保留、不混入本次核准提交。沿用原委托由GLM更新本卡实施状态与共享索引，进入独立worktree；本卡不扩39族，不为新队列重复签字，未实施、未宣称测试完成。
 - 2026-09-19 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
   直读 world-variable/migration-diagnostic 守卫与 character/loader 消费、magicConfirmSpell
   原地改 state 合同（E4）；独立复算覆盖数字与工作包逐格一致；去重锚点在位；白名单路径
@@ -131,6 +133,17 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
   当前只开draft/写工作包，未写正式测试、未改生产或覆盖率；GLM与Kimi先并行审设计，同步给出提示词。
 
 ## 下一位Agent提示词
+
+### 当前交接 · GLM直接进入六组实施
+
+```text
+在 /Users/zhangxu/illegal/type-pal 推进 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，r1；顶部draft待你同步切build，三席设计已齐且Codex已核定准入，不重签。
+先同步main、检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡最新Codex日志与docs/testing/glm-runtime-state-boundaries.md。核生产冻结e58834f6与白名单，保留正在准备的TB-01～03文档，不把未签新批次带入实施。
+按原委托同步本卡/看板/索引到build，在codex/glm-runtime-state-boundaries-r1独立worktree连续完成六组11模块39族；只改工作包的新测试、薄fixture、诊断和本人回执，不在主worktree切分支。至少12个有效单点业务负控；合法fixture、实际输入深快照、entered/deferred、同口径/tmp覆盖及定向/相邻/两包全测/typecheck/Biome按工作包执行。
+产品/旧测试/官方基线/全局配置/原探针/资产零改，不碰main/boot/技能试放，无视觉/听音。未知合同和真实缺陷隔离登记，不能固化错误绿测。交付实际提交树证据后回Codex独立接收；全仓check/官方ratchet/strict-fast留Codex，不代签、不标done、不直接转Kimi终审。GLM测试贡献须披露。
+```
+
+### 历史设计交接（已完成，不重复执行）
 
 ### GLM · 两卡独立设计审查，准入后连续六组
 
