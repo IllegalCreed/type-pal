@@ -103,3 +103,18 @@ exit0；tc rc=0；8 新文件 Biome rc=0。
   全包 L10263→10269/13604、B7498→7511/11281。
 - 待证保持原归属（AbortError 取消政策、setStep 注释差异、GA 真实端点）——见机器账 knownBoundaries。
 - 机器账 `docs/testing/glm-game-host-boundaries-evidence.json`。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 8 针复跑全绿。
+- **C1**：10 个新文件（含 JSON/config）Biome rc=0；机账同步最终树数字。
+- **R09-1**：method 优先级改为同条件失败对照——503 网关下 Request(GET)+init(POST) 覆盖只调
+  **1 次**且原 Response 身份透传（误判 GET 重试会变 2 次即红）；GET 对照 503→200 重试 2 次、
+  新 Response 身份；小写 get 等价轴保留。
+- **GA 隔离**：beforeEach 安装意外网络 fail-fast（window.fetch 拒绝）、afterEach 恢复——
+  不宣称真实端点验证。
+- 复跑：定向 25/25、全包 131 文件/2309 项（dev-panel 预存裁决一致）、tc rc=0、
+  官方 fast 2271→2296 双 exit0。机器账 rework 节。

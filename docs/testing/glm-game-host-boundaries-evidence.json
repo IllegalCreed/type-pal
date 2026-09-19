@@ -40,7 +40,11 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": ["control-timer", "control-consent", "control-timefmt"],
+    "controls": [
+      "control-timer",
+      "control-consent",
+      "control-timefmt"
+    ],
     "cases": [
       {
         "name": "fetchretry-gateway-retry-gate-removed",
@@ -175,5 +179,29 @@
     "integrated": false,
     "officialCoverageChanged": false,
     "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  },
+  "rework": {
+    "intakeReview": "docs/testing/glm-nine-intake-review.md (Codex counter 1f38bb29)",
+    "generatedAt": "2026-09-19T12:49:20Z",
+    "C0": "判据改为每条 failureMessages 首行 /^AssertionError(\\b|:)|^expect\\(/（运行态 pin 块内联同形谓词 + 四向自测新增普通Error内嵌AssertionError/纯超时反例）",
+    "C1": {
+      "command": "pnpm exec biome check <git 新增清单全部 TS/MJS/MTS/JSON>",
+      "exit": 0,
+      "files": 10
+    },
+    "R09-1": "method 优先级重写为同条件对照——503 触发下 Request(GET)+init(POST) 覆盖只调 1 次且原 Response 身份透传（误判 GET 会变 2 次即红）；GET 对照 503→200 重试 2 次拿到新 Response 身份；小写 get 等价轴保留",
+    "GAIsolation": "GA 用例 beforeEach 安装意外网络 fail-fast（window.fetch 直接拒绝）并在 afterEach 恢复原始 fetch——jsdom 默认不自动加载远端，此守卫保证配置漂移也不触达真实端点；不宣称真实端点验证",
+    "tests": {
+      "packageFull": "131 files / 2309 tests：dev-panel 预存 ENOENT（裁决一致）；本批 25/25 绿",
+      "typecheck": "rc=0"
+    },
+    "mutants": {
+      "command": "node docs/testing/glm-game-host-boundaries-mutants.mjs",
+      "exit": 0,
+      "controls": 3,
+      "needles": 8
+    },
+    "coverageRerun": "官方 fast before 2271 / after 2296 双 exit0（最终返工树重跑）",
+    "boundaries": "AbortError 未定政策保持隔离；timer 合法 idx 与 readonly 视图合同保持；不补 setStep(length) 未知轴"
   }
 }

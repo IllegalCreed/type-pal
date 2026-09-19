@@ -4,7 +4,7 @@
  * 本文件：measurement ID 归一化边界（大小写/长度 6 与 21）、UTM 64/65 与非法 token、
  * 不传 subscribePage 的 grant/deny/regrant/stop（真实 window.dataLayer，不接 GA）。
  */
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { AnalyticsConsent } from './analytics-consent.js'
 import { sanitizePageViewUrl, startGoogleAnalytics } from './google-analytics.js'
 
@@ -55,10 +55,18 @@ const events = (): unknown[][] =>
     .filter((entry) => entry[0] === 'event' && entry[1] === 'page_view')
 
 describe('H05 边界', () => {
+  // 意外网络 fail-fast：任何未被替身拦截的真实 fetch 直接拒绝（jsdom 默认不自动加载远端，
+  // 本守卫保证即使配置漂移也不会触达真实端点）；afterEach 统一恢复 globals
+  const originalWindowFetch = (window as unknown as { fetch?: unknown }).fetch
   beforeEach(() => {
     document.head.innerHTML = ''
     delete (window as unknown as { dataLayer?: unknown }).dataLayer
     delete (window as unknown as { gtag?: unknown }).gtag
+    ;(window as unknown as { fetch?: unknown }).fetch = () =>
+      Promise.reject(new Error('H05: 不允许真实网络访问'))
+  })
+  afterEach(() => {
+    ;(window as unknown as { fetch?: unknown }).fetch = originalWindowFetch
   })
   it('measurement ID 归一化：小写合法提升；7 字符截断非法零副作用', () => {
     const lower = createHarness({ measurementId: 'g-test12345' })

@@ -99,6 +99,10 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：按 Codex 统一接收 counter 完成本卡 r2 返工（C0/C1、R09-1 method 优先级
+  同条件失败对照、GA 意外网络 fail-fast 隔离+globals 恢复）。复跑全绿；详见工作包返工回执与
+  机账 rework 节。分支 codex/glm-game-host-r1 待 Codex 复核接收。
+
 - 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。
 - 2026-09-19 GLM：按用户拍板（Codex 额度空窗期先行实施 TB-02～TB-10）领取 TB-09 并完成实施
   （r1，八/八族）。worktree `type-pal-glm-game-host`、分支 `codex/glm-game-host-r1`、基点
