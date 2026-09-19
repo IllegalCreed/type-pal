@@ -4,7 +4,8 @@
 用户本轮重申已批准额度空窗期九批先行实施、恢复后统一检查；本次据此认可排期例外，不再以此前两槽限制追溯判违规。
 这只适用于已列九批，不是以后任意扩大范围/跳过审查的授权；TB-00/TB-01另排，不混入本次候选。
 
-**本轮结论：九批分别counter，未合并任何新测试/产品，未更新官方基线，不转Kimi终审、不标done。**
+**本节为首轮历史；当前以[返工复核](glm-nine-rework-review.md)为准。原七针与五夹具已关闭，勿重复返工。**
+首轮结论：九批分别counter，未合并任何新测试/产品，未更新官方基线，不转Kimi终审、不标done。
 有效旧/新断言保留；已签设计不重签（TB-02/03设计r2，其余r1）。问题是断言鉴别力、夹具/已签范围、回执与格式，不是认定205项全部无价值或发现九个产品bug。
 
 ## 实际执行总账
@@ -196,4 +197,57 @@ editor/game/pal环境探针与migrate环境对照也在此目录。
 重跑本席见证应七对照绿/七针候选业务detected、九判据普通Error反例拒绝、合法factory接受；工具若需适配fixture组织先交Codex，不改判据含义。原73针/27对照、定向205（以返工最终树重算，勿凑固定数）、相邻/全包/tc/全部新增文件Biome与私有同口径覆盖要真实记录。
 每批独立提交推送，完成一批即可交Codex接收，不把另批未接收成果合入。只动原白名单/本人回执，不改产品、旧测试、官方基线、原审计探针或他席签字；不代签、不标done、不直接转Kimi。具体缺资产ENOENT与超时分开，不能把失败check写绿。
 用户已授权本轮九批先行，不再以旧两槽限制判其实施违规；这不放宽验收或泛化以后新批。Mimosa按用户最新裁决归GLM私有MCP，Codex不用处理、不作为接收门；全仓check/ratchet/strict-fast留Codex接收后串行执行。TB00/TB01继续另排，不混本九批。
+```
+
+## GLM 返工回执（2026-09-19，九批全部分别推送）
+
+各批独立分支同步 216cf3bb 后按 counter 返工并推送；生产对冻结 e58834f6 零漂移不变、
+设计未重签。公共项与逐批残项全部闭环：
+
+| 批次 | 返工分支 tip | 要点 |
+|---|---|---|
+| TB-02 | d4d79026 | C0 首行判据；fsa 坏 JSON 真实到达解析器；soundItem 过 validateItems |
+| TB-03 | 9fe3a07f | quantize 实参保真（同一 buffer）；输出双向真 transfer detach；真实 digest+离线 oracle |
+| TB-04 | a87652fd | SSS 同一 view 前后比较；撤 msg 倒序政策；P07 names+映射轴补齐 |
+| TB-05 | 4cf2f2e8 | 撤缺 label 默认 0；补 126/127 单段轴与全部未用 WORD 断言 |
+| TB-06 | d8b02958 | 同一权限对象保真；混合目标（一有效一无效）整笔失败+相邻正控 |
+| TB-07 | 000983c8 + b86f235d | 三 fixture 过正式 guard；撤两排除轴；S02 三轴补齐（hooks-session 3 项）；顶层 body 过 validateAuthorSharedScripts |
+| TB-08 | 9cef33cb | done 相位同一 state 完整相等断言；撤 pageUp/Down 保活；防御分类标注 |
+| TB-09 | c9edd015 + 1620ab24 | method 优先级同条件失败对照（calls 精确）；GA 意外网络 fail-fast；取值结算保纯 AssertionError |
+| TB-10 | 76bafede | baseline 深快照；撤 chunks 发现；两操作 journal 精确错误+全文件保真；同 root 菱形 |
+
+本席见证复跑（`node docs/testing/glm-nine-intake-witnesses.mjs`，最终树）：
+**9/9 判据拒绝普通 Error 内嵌 AssertionError、5/5 合法 factory accepted、
+7 对照全绿、7 针候选全部 detected（业务 AssertionError 首行）**。
+各批原负控（27 对照 + 75 针）复跑 rc=0；定向以最终树重算
+（02:24/03:39/04:19/05:24/06:18/07:20/08:16/09:25/10:23 = 208 项，其中 TB-07 含 S02 新增 3 项）；
+全包/tc/全部新增文件 Biome/私有覆盖双时点均真实记录于各机账 rework 节。
+预存环境失败维持 Codex 裁决分类不变；全仓 check/ratchet/strict-fast 仍留 Codex 接收后。
+
+## 下一位Agent提示词：Codex（九批返工复核接收）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 复核接收 GLM 按 docs/testing/glm-nine-intake-review.md counter
+完成的九批返工（各批独立分支已推送、生产零漂移、设计未重签）：
+
+  TB-02 codex/glm-reforge-asset-io-r1      d4d79026
+  TB-03 codex/glm-editor-import-codec-r1   9fe3a07f
+  TB-04 codex/glm-pal-tables-r1            a87652fd
+  TB-05 codex/glm-resource-tools-r1        4cf2f2e8
+  TB-06 codex/glm-editor-map-data-r1       d8b02958
+  TB-07 codex/glm-editor-script-helpers-r1 b86f235d
+  TB-08 codex/glm-game-menu-r1             9cef33cb
+  TB-09 codex/glm-game-host-r1             1620ab24
+  TB-10 codex/glm-migration-r1             76bafede
+
+返工要点与逐批证据见各工作包「GLM返工回执」节与机账 rework 节。复核建议：
+1. 复跑 node docs/testing/glm-nine-intake-witnesses.mjs——期望 9/9 判据拒绝普通Error、
+   5/5 factory accepted、7 对照绿、7 针候选业务 AssertionError detected；
+2. 逐批复跑各自 mutants 脚本与定向测试、抽查 evidence.json rework 数字与最终树一致；
+3. 重点核对本轮关键修复：TB-03/04/06/10 的"同一实参前后比较"、TB-05/07/08/10 撤回的
+   排除轴（缺 label 默认 0、空 rewards fallback、authorScripts 缺席退 library、msg 倒序、
+   pageUp/Down 保活、chunks 发现）、TB-07 S02 三轴（script-editor.hooks-session.test.ts）；
+4. 满足后按你的接收流程串行合并，全仓 check/官方 ratchet/strict-fast 与合并后同口径完整
+   check（含 audit-performance 并行轴）由你执行；Mimosa 按用户裁决不归你处理、不作门禁；
+5. TB-00/TB-01 继续另排。接收完成后按卡走 review→done 签字与 Kimi 终审。
 ```
