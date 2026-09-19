@@ -45,11 +45,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-rle",
-      "control-slice",
-      "control-palette"
-    ],
+    "controls": ["control-rle", "control-slice", "control-palette"],
     "cases": [
       {
         "name": "rle-zero-command-accepted",
@@ -230,5 +226,14 @@
       "needles": 9
     },
     "coverageRerun": "官方 fast：shared 106→115、pal-extract 110→125（+15），双侧 exit0（最终返工树重跑）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:24:17Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名/未失败/空消息反例",
+    "C1": {
+      "note": "全部 JSON/SHA 回填后按 git 新增清单完整白名单 Biome（本次提交前执行 rc=0）"
+    },
+    "reworkWitness": "glm-nine-rework-witnesses: 9/9 suffixRejected、9/9 duplicateRejected、PNG 三态 valid、3 针 detected"
   }
 }

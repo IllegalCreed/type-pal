@@ -69,7 +69,12 @@ describe('R02 encodeRleFrame 独立字节 oracle', () => {
     expect(bytes[133]).toBe(128)
     expect(bytes).toHaveLength(134)
     // 126/127 单段不拆轴：恰在封顶内整段 literal
-    const solid126 = frame(126, 1, Array.from({ length: 126 }, (_, i) => i + 1), new Array(126).fill(1))
+    const solid126 = frame(
+      126,
+      1,
+      Array.from({ length: 126 }, (_, i) => i + 1),
+      new Array(126).fill(1),
+    )
     expect([...encodeRleFrame(solid126)]).toEqual([
       126,
       0,
@@ -78,7 +83,12 @@ describe('R02 encodeRleFrame 独立字节 oracle', () => {
       126, // 单条 literal 126（< 0x7f 封顶）
       ...Array.from({ length: 126 }, (_, i) => i + 1),
     ])
-    const solid127 = frame(127, 1, Array.from({ length: 127 }, (_, i) => i + 1), new Array(127).fill(1))
+    const solid127 = frame(
+      127,
+      1,
+      Array.from({ length: 127 }, (_, i) => i + 1),
+      new Array(127).fill(1),
+    )
     expect([...encodeRleFrame(solid127)]).toEqual([
       127,
       0,
