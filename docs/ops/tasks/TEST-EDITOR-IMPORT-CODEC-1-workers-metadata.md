@@ -122,6 +122,10 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 - GLM/Kimi：pending（原交付状态保留；不代签）。done准入未开放，不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：按 Codex 返工复核 counter 完成 r3 收窄返工：C0 精确唯一目标判据、
+  C1 全白名单 Biome、R03-3 前半项（完整可解码 PNG：真 CRC/zlib stored/独立检查器三态通过
+  + 离线摘要）、撤回 audit-performance 超时豁免归因。详见工作包 r3 回执与机账 rework2 节。
+
 
 - 2026-09-19 Codex：复核9fe3a07f，按本轮报告收窄counter；原七针与五夹具已关闭。最终树格式与精确唯一判据仍失败，不重签、不并包、不标done。
 - 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。

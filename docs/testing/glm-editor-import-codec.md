@@ -119,3 +119,18 @@ audit-performance-adoption×1：全包并行负载下 15s 超时，隔离运行�
   真实 PNG 解码/浏览器线程验收。
 - 复跑：定向 20/20、全包 248 文件/2536 项（3 项预存裁决一致）、tc rc=0、私有覆盖
   before 2359 / after 2398 双 exit0。机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据收紧为精确且唯一目标（全等 + 恰 1 + failed + 非空 + 首行业务错误），
+  运行态块与自测共用 AST 抽取代码，补后缀冒名/重名反例。
+- **C1**：全部回填后 11 文件完整白名单 Biome rc=0。
+- **R03-3 前半项补齐（完整合法 PNG）**：fixture `minimalPng` 重写为真 CRC32 + zlib stored
+  块（Adler-32）+ IHDR/IDAT/IEND；测试 `pngPayload` 改为自包含合法小 PNG。源图(4×4)/
+  主图(2×1)/preview(3×1) 三态均过独立检查器（chunk 序列、CRC、IDAT 可 inflate 全对）；
+  摘要常量为该合法产物的离线 SHA-256。替身仅代宿主解码位，不冒充 PNG 合法性。
+  已隔离的产品 PNG 失败 close 问题保持不动。
+- **归因更正**：撤回「audit-performance 并行超时 Codex 已裁决与基线一致」——首轮仅豁免
+  具体资产 ENOENT，该超时未豁免；如实记录为环境失败，合并后同口径完整 check 须实跑。
+- 复跑：定向 39/39（stages 5/5 含新 PNG 断言）、3 对照 + 8 针绿、tc rc=0；
+  rework-witness PNG 三态 valid + 3 针 detected。

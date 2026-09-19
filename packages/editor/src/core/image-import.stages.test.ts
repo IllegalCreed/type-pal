@@ -22,28 +22,98 @@ async function rejectionOf(promise: Promise<unknown>): Promise<string> {
   )
 }
 
-/** 可解码 PNG 宿主产物字节：8 字节 PNG 签名 + 递增载荷（deterministic，非全零）。 */
+/** 可解码 PNG 宿主产物：完整合法小 PNG（真 IHDR/CRC/IDAT/IEND，zlib stored 块）。
+ * 自包含构造（不引用 fixture 的 minimalPng）；size 直接作宽、高 1 → 不同 size 产物
+ * 字节与摘要可区分；编写期已用独立检查器核验通过（chunks/CRC/IDAT 全绿）。 */
 function pngPayload(size: number): Uint8Array {
-  const out = new Uint8Array(size)
-  out.set([137, 80, 78, 71, 13, 10, 26, 10])
-  for (let index = 8; index < size; index += 1) out[index] = index & 0xff
-  return out
+  const width = size
+  const height = 1
+  const crcTable: number[] = []
+  for (let n = 0; n < 256; n += 1) {
+    let c = n
+    for (let k = 0; k < 8; k += 1) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1
+    crcTable[n] = c >>> 0
+  }
+  const crc32 = (bytes: Uint8Array): number => {
+    let crc = 0xffffffff
+    for (const byte of bytes) crc = crcTable[(crc ^ byte) & 0xff]! ^ (crc >>> 8)
+    return (crc ^ 0xffffffff) >>> 0
+  }
+  const chunk = (type: string, data: number[]): number[] => {
+    const body = [
+      type.charCodeAt(0),
+      type.charCodeAt(1),
+      type.charCodeAt(2),
+      type.charCodeAt(3),
+      ...data,
+    ]
+    const crc = crc32(new Uint8Array(body))
+    return [
+      (data.length >>> 24) & 0xff,
+      (data.length >> 16) & 0xff,
+      (data.length >> 8) & 0xff,
+      data.length & 0xff,
+      ...body,
+      (crc >>> 24) & 0xff,
+      (crc >> 16) & 0xff,
+      (crc >> 8) & 0xff,
+      crc & 0xff,
+    ]
+  }
+  // zlib: 0x78 0x01 头 + deflate stored 块（RGBA filter-0 扫描线）+ Adler-32 尾
+  const raw = new Array<number>(height * (1 + width * 4)).fill(0)
+  const stored = [
+    0x01,
+    raw.length & 0xff,
+    (raw.length >> 8) & 0xff,
+    ~raw.length & 0xff,
+    (~raw.length >> 8) & 0xff,
+    ...raw,
+  ]
+  let a = 1
+  let b = 0
+  for (const byte of raw) {
+    a = (a + byte) % 65521
+    b = (b + a) % 65521
+  }
+  const adler = ((b << 16) | a) >>> 0
+  const idat = [
+    0x78,
+    0x01,
+    ...stored,
+    (adler >>> 24) & 0xff,
+    (adler >> 16) & 0xff,
+    (adler >> 8) & 0xff,
+    adler & 0xff,
+  ]
+  const ihdr = [0, 0, 0, width, 0, 0, 0, height, 8, 6, 0, 0, 0]
+  return new Uint8Array([
+    137,
+    80,
+    78,
+    71,
+    13,
+    10,
+    26,
+    10,
+    ...chunk('IHDR', ihdr),
+    ...chunk('IDAT', idat),
+    ...chunk('IEND', []),
+  ])
 }
 
 /**
- * 独立摘要 oracle：确定性产物在编写期离线计算的真实 SHA-256（python hashlib），
+ * 独立摘要 oracle：确定性合法 PNG 产物在编写期离线计算的真实 SHA-256（独立 sha256 工具），
  * 与产品 crypto.subtle 实现路径无关；产品摘要必须逐字节等于这些常量。
+ * 主图 = pngPayload(2)（2×1）、preview = pngPayload(3)（3×1）——维度不同 → 摘要可区分。
  */
 const PNG_PAYLOAD_SHA256 = {
-  24: 'f7f920c005e0b957def68400fa236ef5160460f5ee8a00b7d5ed4ac21b015d27',
-  32: '6704ff71cfc343a2ba4cda8071c43246cec0e5d30517c8f674ac2071d71e3631',
+  main: 'c510ab93b35bfebf3cabd80634cb021d3405c955b2b0a1acea9ab11ea9eb75ca',
+  preview: '6ae26d32eec0cd508f98544355f044973f345eef96ad716bd42a974b41417846',
 } as const
 
 /** portrait 直传域源字节（minimalPng(4,4)）的离线真实 SHA-256。 */
-const SOURCE_PNG_4x4_SHA256 = '1da384171d70f7660f2139f3fa12509747b363f2fc6f4dd62d95b262ffb92d4c'
-
-/** 源字节（portrait 直传域）摘要须由真实 crypto.subtle 计算——用已知向量作独立正控。 */
-const KNOWN_VECTOR_SHA256 = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
+const SOURCE_PNG_4x4_SHA256 = 'ff127c16d10d400afeca3db3709a50da874740b19e01112fcd9180df55902ba3'
 
 /** 安装 Canvas/ImageBitmap 双替身（记录 close/decode/toBlob；finally 恢复）。 */
 function installCanvasHost(options: {
@@ -90,8 +160,8 @@ function installCanvasHost(options: {
           blobCall += 1
           const bytes =
             blobCall === 1
-              ? (options.blobBytes ?? pngPayload(24))
-              : (options.blobBytes2 ?? pngPayload(32))
+              ? (options.blobBytes ?? pngPayload(2))
+              : (options.blobBytes2 ?? pngPayload(3))
           callback(new Blob([bytes.slice()], { type: 'image/png' }))
         },
       }
@@ -100,8 +170,8 @@ function installCanvasHost(options: {
   })
   return {
     events,
-    /** 第 n 次 toBlob（1 起）的确定性产物字节，供独立摘要核对。 */
-    blobBytes: (call: number) => (call === 1 ? pngPayload(24) : pngPayload(32)),
+    /** 第 n 次 toBlob（1 起）的确定性合法 PNG 产物，供独立摘要核对。 */
+    blobBytes: (call: number) => (call === 1 ? pngPayload(2) : pngPayload(3)),
     customBlobBytes: options.blobBytes,
     restore: () => undefined,
   }
@@ -169,10 +239,10 @@ describe('C2 battle-background 域与 catalog 字段', () => {
       expect(prepared.record.label).toBe('hero')
       expect(prepared.record.path).toContain('assets/authored/portrait/')
       // 真实摘要：hash = 离线预计算的源字节 SHA-256（独立 oracle，不依赖产品 digest 实现）
-      expect(sourceSnapshot.byteLength).toBe(64) // minimalPng(4,4) 确定性长度自检
+      expect(sourceSnapshot.byteLength).toBe(136) // minimalPng(4,4) 确定性长度自检
       expect(prepared.hash).toBe(SOURCE_PNG_4x4_SHA256)
       expect(prepared.record.sha256).toBe(SOURCE_PNG_4x4_SHA256)
-      expect(prepared.record.bytes).toBe(64)
+      expect(prepared.record.bytes).toBe(136)
     } finally {
       host.restore()
     }
@@ -188,15 +258,15 @@ describe('C2 battle-background 域与 catalog 字段', () => {
       expect(prepared.effectPreviewBytes).toBeDefined()
       expect(okHost.events).toContain('drawImage')
       expect(okHost.events.filter((e) => e === 'toBlob').length).toBe(2) // 主图 + preview
-      // 重编码域的真实摘要：hash/record 来自主图 toBlob 产物（第 1 次），preview 是第 2 次产物
+      // 重编码域的真实摘要：hash/record 来自主图 toBlob 合法 PNG 产物（第 1 次），preview 第 2 次
       const mainBytes = okHost.blobBytes(1)
       const previewBytes = okHost.blobBytes(2)
       expect(new Uint8Array(prepared.bytes)).toEqual(mainBytes)
       expect(new Uint8Array(prepared.effectPreviewBytes!)).toEqual(previewBytes)
-      expect(prepared.hash).toBe(PNG_PAYLOAD_SHA256[24]) // 离线预计算独立 oracle
-      expect(prepared.record.sha256).toBe(PNG_PAYLOAD_SHA256[24])
-      expect(prepared.record.bytes).toBe(24)
-      expect(prepared.hash).not.toBe(PNG_PAYLOAD_SHA256[32]) // 主图与 preview 摘要可区分
+      expect(prepared.hash).toBe(PNG_PAYLOAD_SHA256.main) // 离线预计算独立 oracle
+      expect(prepared.record.sha256).toBe(PNG_PAYLOAD_SHA256.main)
+      expect(prepared.record.bytes).toBe(mainBytes.byteLength)
+      expect(prepared.hash).not.toBe(PNG_PAYLOAD_SHA256.preview) // 主图与 preview 摘要可区分
     } finally {
       okHost.restore()
     }

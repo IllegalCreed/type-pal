@@ -30,7 +30,10 @@ class FakeWorker {
   /** original = 产品传入的原对象（transfer 后其缓冲应 detach）；message = worker 侧收到的克隆。 */
   posted: Array<{ original: PostedMessage; message: PostedMessage; transfer: Transferable[] }> = []
   /** 回帖记录：original 的缓冲在真实 transfer 后应 detach。 */
-  replies: Array<{ original: { bytes?: ArrayBuffer; frames?: ArrayBuffer[] }; transfer: Transferable[] }> = []
+  replies: Array<{
+    original: { bytes?: ArrayBuffer; frames?: ArrayBuffer[] }
+    transfer: Transferable[]
+  }> = []
   terminated = 0
   onmessage:
     | ((event: {

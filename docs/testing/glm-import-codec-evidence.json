@@ -42,11 +42,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-stages",
-      "control-worker",
-      "control-images"
-    ],
+    "controls": ["control-stages", "control-worker", "control-images"],
     "cases": [
       {
         "name": "png-signature-gate-removed",
@@ -231,5 +227,20 @@
       }
     },
     "coverageNote": "before 2359 / after 2398 双 exit0（最终返工树重跑）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:22:52Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名等反例",
+    "C1": {
+      "note": "全部 JSON/SHA 回填后 11 文件完整白名单 Biome（提交前执行 rc=0）"
+    },
+    "R03-3前半项": "完整可解码 PNG 补齐——fixture minimalPng 重写为真 CRC32+zlib stored 块（Adler-32）+IHDR/IDAT/IEND 合法结构；测试 pngPayload 改自包含合法小 PNG（size=宽、高1），源图(4x4)/主图(2x1)/preview(3x1) 三态过独立检查器（IHDR/IDAT/IEND、CRC 全对、IDAT 可 inflate）；摘要常量为该合法产物的离线 SHA-256；createImageBitmap 替身仅代宿主解码、不冒充 PNG 合法性",
+    "attributionFix": "撤回 audit-performance 并行超时'Codex已裁决与基线一致'的归因——首轮只认可具体资产 ENOENT 豁免，未豁免该超时；本批全包中该超时如实记录为未豁免环境失败，合并后同口径完整 check 须实跑",
+    "counts": {
+      "targeted": 39,
+      "controls": 3,
+      "needles": 8
+    }
   }
 }
