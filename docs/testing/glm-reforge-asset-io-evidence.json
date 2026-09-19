@@ -41,11 +41,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-sfx",
-      "control-cache",
-      "control-registry"
-    ],
+    "controls": ["control-sfx", "control-cache", "control-registry"],
     "cases": [
       {
         "name": "sfx-wave-gate-removed",
@@ -145,11 +141,7 @@
     "in-flight ProjectImageCache dispose backfill policy remains pending verification",
     "collector pages[0] vs world active page remains isolated (r2, no green tests)"
   ],
-  "reservedForCodex": [
-    "full-repo check",
-    "official ratchet",
-    "protected strict-fast"
-  ],
+  "reservedForCodex": ["full-repo check", "official ratchet", "protected strict-fast"],
   "codexReception": {
     "candidate": "a7c48d9cb828dcc461ee7b599ee3eec1a88bedac",
     "date": "2026-09-19",
@@ -218,5 +210,19 @@
       }
     },
     "coverageNote": "before 1190 / after 1214 双 exit0（最终返工树重跑）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:20:40Z",
+    "C0": "判据收紧为精确且唯一目标——title 全等 filter + 命中恰 1（后缀冒名/重名拒绝）+ failed + 非空 + 首行业务错误；运行态块与自测共用（AST 抽取两块直接执行），新增后缀冒名/重名/未失败/空消息反例",
+    "C1": {
+      "note": "所有 JSON/SHA 回填后按 git 新增清单 10 文件跑完整白名单 Biome（本次提交前执行，rc=0）"
+    },
+    "counts": {
+      "targeted": 24,
+      "controls": 3,
+      "needles": 8
+    },
+    "reworkWitness": "glm-nine-rework-witnesses: 9/9 suffixRejected、9/9 duplicateRejected、PNG 三态 valid、3 针（session-state/session-redo/paste-metadata）detected"
   }
 }

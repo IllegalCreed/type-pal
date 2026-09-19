@@ -130,6 +130,10 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 - Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：按 Codex 返工复核 counter（glm-nine-rework-review.md）完成 r3 收窄返工：
+  C0 判据精确唯一目标（运行态/自测共用、后缀冒名与重名反例）、C1 全部回填后完整白名单
+  Biome rc=0。详见工作包 r3 回执与机账 rework2 节。分支待 Codex 复核接收。
+
 
 - 2026-09-19 Codex：复核d4d79026，按本轮报告收窄counter；原七针与五夹具已关闭。最终树格式与精确唯一判据仍失败，不重签、不并包、不标done。
 - 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。

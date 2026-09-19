@@ -100,3 +100,13 @@ reforge 全包 122 文件/1214 项 exit0；tc rc=0；9 新文件 Biome rc=0。
   [applyPoison] 非空）；非战斗声音集合/页政策隔离语义不变。
 - 复跑：定向 8/8、全包 122 文件/1214 项 exit0、tc rc=0、私有覆盖 before 1190 / after 1214
   双 exit0（数字从最终返工树生成）。机器账 `glm-reforge-asset-io-evidence.json` rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据收紧为**精确且唯一目标**——`title` 全等 filter、命中恰 1（后缀冒名
+  「other target」与重名双 target 均拒绝）、failed、非空、首行业务错误。运行态块与自测
+  **共用**：AST 抽取 `item.expected===1` + `item.redTest!==undefined` 两块拼接执行，
+  自测补后缀冒名/重名/未失败/空消息/普通Error内嵌/纯超时反例；不再有独立 pinnedVerdict。
+- **C1**：全部内容回填后按 git 新增清单 10 文件完整白名单 Biome rc=0（含 JSON）。
+- 复跑：3 对照 + 8 针全绿；glm-nine-rework-witnesses 9/9 判据双反例拒绝、3 针 detected。
+- 计数更正按 Codex 实测：定向 24、原工具 3 对照 + 8 针（九批合计 210/27+73）。

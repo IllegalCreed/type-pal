@@ -162,6 +162,15 @@ describe('B9 FSA 逐 await 取消门（进入见证 + 中止点 + 后续 IO 零�
       (error: unknown) => (error as Error).name,
     )
     expect(outcome).toBe('SyntaxError') // 解析错误不被吞（值形式拒绝见证）
-    expect(log.ops).toEqual(['dir:a', 'file:b.json', 'getFile', 'file.text', 'dir:a', 'file:b.json', 'getFile', 'file.text'])
+    expect(log.ops).toEqual([
+      'dir:a',
+      'file:b.json',
+      'getFile',
+      'file.text',
+      'dir:a',
+      'file:b.json',
+      'getFile',
+      'file.text',
+    ])
   })
 })
