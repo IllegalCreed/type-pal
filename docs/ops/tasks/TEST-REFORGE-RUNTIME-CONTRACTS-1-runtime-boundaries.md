@@ -188,10 +188,41 @@ GLM为测试贡献者，其实施者自验保留本人原文，不作为独立�
   - R4：按实际修复对齐30族/标题（含A5独立性过度声明）、14文件计数与候选任务index。四针均函数体执行见证+JSON全绿，不只是module-load。
   - 旧版本兼容审查：本包未增产品版本兼容层，无生产漂移；没有把未覆盖语义或bgm initP待证政策判为产品已修。
     未改GLM测试，不合入、不跑接收后的全仓门，不代签、不标done、不转Kimi。完整反例/修法/日志见接收报告。
-- Kimi：pending（接收后独立终审）。
+- Kimi：**accept（2026-09-19，r1 独立终审，集成候选 `62a18137` 对比 `b99ec6cf`（GLM 源 `3dfec190`）；设计不重签；未读他席本轮结论）**。
+  接手 HEAD `13aa61fc` 与 origin/main 一致、工作树干净；候选后 packages/scripts/board 零漂移。
+  - **D1 实际读取对象捕获**：`project-loader.current-boundaries.test.ts:76-83` 在工程 boot 后、
+    loadAllScenes 前包装 source.readJson——**原样 return 实际 value**（非 clone），交付时即
+    deepSnapshot、消费完成后比较同一对象；project 纯数据快照含 manifest/sceneIndex/
+    authorContent/**actorsById**（排除真正持活动状态的 source/resolver/轨迹）。
+    本人复跑入仓 input-review 见证：loader-project-input-pollution **detected**（AssertionError
+    非 TypeError）。
+  - **五见证五对照**：复跑 `reforge-runtime-contracts-review-witnesses.mjs`——4 对照绿 +
+    bgm-post-read-ownership/midi-stale-finally/loader-projection-bypassed/equip-input-pollution
+    **四针 detected**；input-review 工具 1 对照绿 + 1 针 detected——共五对照绿、五针
+    detected（与回执形状一致）。
+  - **原 15 跑保持**：复跑 `glm-reforge-runtime-contracts-mutants.mjs`——control-A~E 五对照
+    exit 0 + **十针全 exit 1 业务红**（input repeat/menu clamp/equip clamp/use clamp/BGM 去重/
+    MIDI 过期/loader 批序/resolver kind/cutscene 零值/adapter 默认值）。
+  - **本人实跑**：定向十文件 **60/60** 绿；reforge typecheck exit 0（抽查）。交叉核日志：
+    check 七包 7,538（editor 2,518 等分栏一致）；受保护 strict TOTAL **617 文件/7,049 项**；
+    基线 diff 实测 6989→7049（恰 +60）、reforge 1130→1190，仅 reforge 包级 digest 变化、
+    旧 106 文件 identity 逐项不变、零移除零降阈；看板仅本卡一行变化（guard 归档/预览缓存
+    未回退，docs 门 PASS）。
+  - **范围/披露**：GLM 为 60 项测试贡献者（披露在案），其自验不作独立第三方证明；生产、
+    旧测试、统计范围不变；本席为独立终审。BGM initP 失败重试政策保留后续音频生命周期
+    核验，未固化。
+  - **旧版本兼容审查：pass**——无生产兼容层/旧 fixture/旧入口保活；原审计探针零修改。
+  返工项：无。本 accept 不代签、不授权 done。
 - done准入：未开放，待Kimi独立终审；不代签、不标done。
 
 ## 交接日志
+
+- 2026-09-19 Kimi（接收后独立终审）：同步 `13aa61fc`、工作树干净后核 `b99ec6cf → 62a18137`
+  （GLM 源 3dfec190）。直读 D1 实际读取对象捕获（readJson 原样返回+交付快照+消费后比较、
+  actorsById 入快照）；复跑两见证工具五对照绿五针 detected（含 loader-project-input-pollution）、
+  mutants 五控绿十针业务红；定向 60/60、typecheck；交叉核 check 7,538、strict 617/7,049
+  （恰 +60）、旧 identity 零移除、看板一行未回退。旧版本兼容 pass；BGM initP 政策留后续。
+  签 accept，无返工项；未改产品/他席/状态，未读他席结论。Next：Codex 统一核定 done。
 - 2026-09-19 Codex（最终接收/集成）：在main/b99ec6cf独立复核源3dfec190，剩余两项闭环；60/1190/tc/Biome14、五常驻见证、15跑及额外lazy输入污染反控通过。
   合入最新主线，保留E-01与所有editor已收口改动；完整check7538→ratchet→受保护单次fast7049全部绿，集成候选62a18137。
   本席accept，任务review，无返工项；GLM为实现者自验，Kimi下一步独立终审。未改GLM测试语义/他席签字，不标done；两轮counter保留为历史。
