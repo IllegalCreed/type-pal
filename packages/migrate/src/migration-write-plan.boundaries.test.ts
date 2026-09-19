@@ -9,7 +9,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, test } from 'vitest'
-import { serializeMigrationJson, type MigrationSnapshot } from './migration-baseline.js'
+import { type MigrationSnapshot, serializeMigrationJson } from './migration-baseline.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
 
 const roots: string[] = []
@@ -95,7 +95,9 @@ describe('T03 buildMigrationTransactionChanges 保真与排序', () => {
       ],
     })
     expect(
-      changes.filter((change) => change.scope === 'baseline' && change.target.endsWith('same.json')),
+      changes.filter(
+        (change) => change.scope === 'baseline' && change.target.endsWith('same.json'),
+      ),
     ).toEqual([]) // 内容一致跳过
     expect(changes.filter((change) => change.scope === 'project' && !change.content)).toEqual([
       {
@@ -110,7 +112,7 @@ describe('T03 buildMigrationTransactionChanges 保真与排序', () => {
       },
     ])
     // 内容改一个字节 → 重新出现该写入（相邻正控）
-    writeFileSync(samePath, sameContent + ' ', 'utf8')
+    writeFileSync(samePath, `${sameContent} `, 'utf8')
     const changed = buildMigrationTransactionChanges({
       repo: root,
       plan: emptyPlan(),
@@ -118,7 +120,9 @@ describe('T03 buildMigrationTransactionChanges 保真与排序', () => {
       nextBaseline: same,
     })
     expect(
-      changed.some((change) => change.target === 'packages/migrate/baselines/pal/same.json' && change.content),
+      changed.some(
+        (change) => change.target === 'packages/migrate/baselines/pal/same.json' && change.content,
+      ),
     ).toBe(true)
     // 下轮不再管理 same.json → baseline delete（磁盘存在才删）
     const dropped = buildMigrationTransactionChanges({

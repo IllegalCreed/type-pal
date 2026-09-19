@@ -5,10 +5,10 @@
  * sourceJsonBytes0 比率 0、源 shape 行列缺口单轴、输入保真。
  */
 import { validateProjectMap } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
 import type { Tilemap } from '@type-pal/shared'
-import { convertSourceTilemap, decodeSourceMapWord } from './project-map-converter.js'
+import { describe, expect, test } from 'vitest'
 import { auditAndConvertSourceMaps } from './project-map-audit.js'
+import { convertSourceTilemap, decodeSourceMapWord } from './project-map-converter.js'
 
 function tilemap(cells: Array<Array<[number, number]>>): Tilemap {
   return {
@@ -76,8 +76,14 @@ describe('T04 convertSourceTilemap 子格独立', () => {
       width: 3,
       height: 2,
       cells: [
-        [{ lower: 0, upper: 0 }, { lower: 0, upper: 0 }],
-        [{ lower: 0, upper: 0 }, { lower: 0, upper: 0 }],
+        [
+          { lower: 0, upper: 0 },
+          { lower: 0, upper: 0 },
+        ],
+        [
+          { lower: 0, upper: 0 },
+          { lower: 0, upper: 0 },
+        ],
       ],
     } as unknown as Tilemap
     expect(() => convertSourceTilemap(1, bad)).toThrow('tilemap.cells[0]: 期望 3 列，收到 2')
@@ -85,8 +91,14 @@ describe('T04 convertSourceTilemap 子格独立', () => {
       width: 2,
       height: 3,
       cells: [
-        [{ lower: 0, upper: 0 }, { lower: 0, upper: 0 }],
-        [{ lower: 0, upper: 0 }, { lower: 0, upper: 0 }],
+        [
+          { lower: 0, upper: 0 },
+          { lower: 0, upper: 0 },
+        ],
+        [
+          { lower: 0, upper: 0 },
+          { lower: 0, upper: 0 },
+        ],
       ],
     } as unknown as Tilemap
     expect(() => convertSourceTilemap(1, badRows)).toThrow('tilemap.cells: 期望 3 行，收到 2')

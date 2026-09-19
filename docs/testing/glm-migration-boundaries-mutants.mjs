@@ -34,8 +34,24 @@ const TESTS = {
 
 const cases = [
   { name: 'control-io', pkg: 'editor', group: 'io', file: null, from: '', to: '', expected: 0 },
-  { name: 'control-facts', pkg: 'editor', group: 'facts', file: null, from: '', to: '', expected: 0 },
-  { name: 'control-store', pkg: 'editor', group: 'store', file: null, from: '', to: '', expected: 0 },
+  {
+    name: 'control-facts',
+    pkg: 'editor',
+    group: 'facts',
+    file: null,
+    from: '',
+    to: '',
+    expected: 0,
+  },
+  {
+    name: 'control-store',
+    pkg: 'editor',
+    group: 'store',
+    file: null,
+    from: '',
+    to: '',
+    expected: 0,
+  },
   {
     name: 'io-escape-path-guard-removed',
     pkg: 'editor',
@@ -44,7 +60,8 @@ const cases = [
     from: "if (isAbsolute(path) || path.split('/').some((part) => part === '..'))",
     to: 'if (false)',
     red: '越界相对路径不再拒绝（TOCTOU 复核可逃出工程根）',
-    redTest: 'loadProjectMigrationSnapshot：越界路径拒绝；managed 集合不别名；snapshot 新增目标检查',
+    redTest:
+      'loadProjectMigrationSnapshot：越界路径拒绝；managed 集合不别名；snapshot 新增目标检查',
     expected: 1,
   },
   {
@@ -52,7 +69,8 @@ const cases = [
     pkg: 'editor',
     group: 'tx',
     file: 'migration-transaction.ts',
-    from: "if (staged !== expectedStaged) throw new Error(`迁移事务 journal staging 路径不符: ${target}`)",
+    from: 'if (staged !== expectedStaged) throw new Error(`迁移事务 journal staging 路径不符: ${target}`)', // biome-ignore lint/suspicious/noTemplateCurlyInString: 产品源点是模板字面量，needle 需按字节保存
+
     to: "if (false) throw new Error('unreachable')",
     red: 'staged 路径不再与操作目标配对校验（篡改 staged 可指向别处）',
     redTest: '单轴坏 operations/kind/hash/staged/version/id 拒绝且拒绝后全部自建文件字节保留',
@@ -66,7 +84,8 @@ const cases = [
     from: "(path === 'content/scenes/index.json' ? 1 : 0)",
     to: '0',
     red: 'SceneIndex 不再提升到 scenes 正文之后提交',
-    redTest: '多 write/delete：scene 先于 index、其余 localeCompare、delete 排序、源 plan/baseline 不变',
+    redTest:
+      '多 write/delete：scene 先于 index、其余 localeCompare、delete 排序、源 plan/baseline 不变',
     expected: 1,
   },
   {
@@ -74,7 +93,7 @@ const cases = [
     pkg: 'editor',
     group: 'conv',
     file: 'project-map-converter.ts',
-    from: "if (source.cells.length !== source.height)",
+    from: 'if (source.cells.length !== source.height)',
     to: 'if (false)',
     red: 'tilemap 行缺口不再被拒（错位解码）',
     redTest: '源 shape 单轴：宽缺口/行缺口精确拒绝',
@@ -88,7 +107,8 @@ const cases = [
     from: 'const encodedLayer1Tile = ((value >>> 16) & 0xff) | ((value >>> 20) & 0x100)',
     to: 'const encodedLayer1Tile = ((value >>> 16) & 0xff)',
     red: '上层第 9 位解码丢失（tile 256..510 全错）',
-    redTest: '两行非对称上下子格：四行 matrices 逐格独立、heights 缺省省略、过 validateProjectMap、输入保真',
+    redTest:
+      '两行非对称上下子格：四行 matrices 逐格独立、heights 缺省省略、过 validateProjectMap、输入保真',
     expected: 1,
   },
   {
@@ -108,7 +128,7 @@ const cases = [
     group: 'overlay',
     file: 'pal-authored-overlays.ts',
     from: "generatedItem.use?.effects.filter((effect) => effect.kind === 'craftRecipe') ?? []",
-    to: "generatedItem.use?.effects.filter(() => true) ?? []",
+    to: 'generatedItem.use?.effects.filter(() => true) ?? []',
     red: 'craft 同步不再按 kind 过滤（pool message 混入 craft 条）',
     redTest: 'craft+pool 混合：各自函数只同步各自 kind 的 message，互不触碰；多 item 不串引用',
     expected: 1,
@@ -118,8 +138,8 @@ const cases = [
     pkg: 'editor',
     group: 'labels',
     file: 'pal-item-scheme-labels.ts',
-    from: "JSON.stringify([address.kind, address.sceneId, address.entityId, address.channel, address.id])",
-    to: "JSON.stringify([address.kind, address.sceneId, address.entityId, address.id])",
+    from: 'JSON.stringify([address.kind, address.sceneId, address.entityId, address.channel, address.id])',
+    to: 'JSON.stringify([address.kind, address.sceneId, address.entityId, address.id])',
     red: '行为地址漏 channel 维（不同通道同 id 误判同节点）',
     redTest: '两个 item 各指各的 hook（共享底层行为）→ 各自独立成方案、报告合法且输入不变',
     expected: 1,
@@ -129,7 +149,7 @@ const cases = [
     pkg: 'editor',
     group: 'store',
     file: 'pal-store-boundary.ts',
-    from: "if (store0.length !== 1)",
+    from: 'if (store0.length !== 1)',
     to: 'if (false)',
     red: '源 Store0 数量不再校验（0 个或多个都放行）',
     redTest: '源 Store0 缺失/重复、源 id 顺序漂移、生成货单不一致各自精确拒绝',
@@ -149,54 +169,102 @@ const ownAst = ts.createSourceFile(
 )
 const criterionBlocks = []
 function visitOwn(node) {
-  if (ts.isIfStatement(node) && node.expression.getText(ownAst) === 'item.expected === 1')
+  if (
+    ts.isIfStatement(node) &&
+    ['item.expected === 1', 'item.redTest !== undefined'].includes(node.expression.getText(ownAst))
+  )
     criterionBlocks.push(node.thenStatement.getText(ownAst))
   ts.forEachChild(node, visitOwn)
 }
 visitOwn(ownAst)
-assert.equal(criterionBlocks.length, 1, 'exactly one verdict block')
-new Function('assert', 'item', 'output', criterionBlocks[0])(
-  assert,
-  { name: 'selftest-good' },
-  'MUTATION_HIT selftest-good\nAssertionError: expected 1 to equal 2',
+assert.equal(criterionBlocks.length, 2, 'exactly two verdict blocks')
+// 实际运行与自测共用判据：直接执行抽取出的两段运行态块（非另写谓词）。
+const runCriterion = new Function(
+  'assert',
+  'item',
+  'output',
+  'assertions',
+  'log',
+  criterionBlocks.join('\n'),
+)
+const pinnedEntry = (title, messages) => ({
+  title,
+  status: 'failed',
+  ...(messages === null ? {} : { failureMessages: messages }),
+})
+const business = ['AssertionError: expected 1 to equal 2']
+const accepts = (assertions) => {
+  try {
+    runCriterion(
+      assert,
+      { name: 'selftest', expected: 1, redTest: 'target' },
+      'MUTATION_HIT selftest\nAssertionError: expected 1 to equal 2',
+      assertions,
+      'selftest',
+    )
+    return true
+  } catch (error) {
+    assert(
+      error instanceof assert.AssertionError,
+      `self-test rejection must be AssertionError, got: ${String(error)}`,
+    )
+    return false
+  }
+}
+// 正控：唯一精确目标 + 业务红首行
+assert.equal(accepts([pinnedEntry('target', business)]), true, 'exact unique target accepted')
+// 后缀冒名：只有「other target」失败、精确目标未执行 → 拒绝
+assert.equal(
+  accepts([pinnedEntry('other target', business)]),
+  false,
+  'suffix-impersonation target rejected',
+)
+// 重名：两个同名 target → 拒绝（不猜取哪一个）
+assert.equal(
+  accepts([pinnedEntry('target', business), pinnedEntry('target', business)]),
+  false,
+  'duplicate target titles rejected',
+)
+// 未失败 / 空 messages / 普通Error内嵌AssertionError / 纯超时 → 全拒绝
+assert.equal(
+  accepts([{ title: 'target', status: 'passed', failureMessages: [] }]),
+  false,
+  'not-failed target rejected',
+)
+assert.equal(accepts([pinnedEntry('target', [])]), false, 'empty failureMessages rejected')
+assert.equal(
+  accepts([
+    pinnedEntry('target', [
+      'Error: decoder rejected input\nCaused by AssertionError: nested detail',
+    ]),
+  ]),
+  false,
+  'ordinary Error with nested AssertionError substring rejected (first-line only)',
+)
+assert.equal(
+  accepts([pinnedEntry('target', ['Error: Test timed out in 5000ms\n  async test failed'])]),
+  false,
+  'pure timeout rejected even when other tests carry business red',
+)
+// expect 形式与普通 AssertionError 均为合法业务首行
+assert.equal(
+  accepts([pinnedEntry('target', ['expect(received).toBe(expected)'])]),
+  true,
+  'expect-form accepted',
 )
 let poisoned = false
 try {
-  new Function('assert', 'item', 'output', criterionBlocks[0])(
+  runCriterion(
     assert,
-    { name: 'selftest-poisoned' },
+    { name: 'selftest-poisoned', expected: 1 },
     'MUTATION_HIT x\nAssertionError: y\nTypeError: host\nTest timed out\nUnhandled Errors\nSTACK_TRACE_ERROR',
+    [],
+    'selftest',
   )
 } catch {
   poisoned = true
 }
 assert.ok(poisoned, 'poisoned log must be rejected')
-
-/** 运行态判据（与四向自测同一语义）：仅认每条 failureMessages 的首行业务 AssertionError/expect 形式。 */
-function pinnedVerdict(failureMessages) {
-  if ((failureMessages ?? []).length === 0) return false
-  return failureMessages.every((m) =>
-    /^AssertionError(?:\b|:)|^expect\(/.test(m.split('\n', 1)[0] ?? ''),
-  )
-}
-assert.equal(
-  pinnedVerdict(['Error: STACK_TRACE_ERROR\n    at task']),
-  false,
-  'target timeout rejected',
-)
-assert.equal(
-  pinnedVerdict(['Error: decoder rejected input\nCaused by AssertionError: nested detail']),
-  false,
-  'ordinary Error with nested AssertionError substring rejected (first-line only)',
-)
-assert.equal(
-  pinnedVerdict(['Error: Test timed out in 5000ms\n  async test failed']),
-  false,
-  'pure timeout rejected even when other tests carry business red',
-)
-assert.equal(pinnedVerdict([]), false, 'not-run rejected')
-assert.equal(pinnedVerdict(['AssertionError: expected 1 to be 2']), true, 'pure red passes')
-assert.equal(pinnedVerdict(['expect(received).toBe(expected)']), true, 'expect-form passes')
 process.stderr.write(`criterion self-test ok (blocks=${criterionBlocks.length})\n`)
 
 const files = [
@@ -277,10 +345,15 @@ export default {
     )
   }
   if (item.redTest !== undefined) {
-    const pinned = assertions.find(
-      (r) => r.title === item.redTest || r.title.endsWith(item.redTest),
+    // 精确且唯一目标：title 全等（后缀冒名拒绝）、命中恰 1（重名拒绝）、failed、
+    // 非空 failureMessages 且每条首行业务 AssertionError/expect。
+    const matches = assertions.filter((r) => r.title === item.redTest)
+    assert.equal(
+      matches.length,
+      1,
+      `${item.name}: pinned target "${item.redTest}" must match exactly one executed test (got ${matches.length}); ${log}`,
     )
-    assert.ok(pinned, `${item.name}: pinned not executed: ${item.redTest}; ${log}`)
+    const pinned = matches[0]
     assert.equal(pinned.status, 'failed', `${item.name}: pinned did not fail; ${log}`)
     assert.ok((pinned.failureMessages ?? []).length > 0, `${item.name}: no failureMessages; ${log}`)
     for (const message of pinned.failureMessages ?? [])

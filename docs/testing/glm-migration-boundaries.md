@@ -128,3 +128,13 @@ exit0；tc rc=0；9 新文件 Biome rc=0。
 - **R10-4**：同 root 菱形补齐——一 root 经 hook 与直连两路径达同一行为：非环、终点只计一次。
 - 复跑：定向 23/23、|unit| 57 文件/393 项（9 项预存裁决一致）、tc rc=0、
   官方 fast 338→361 双 exit0。机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据精确唯一目标（全等+恰1+failed+非空+首行业务错误），运行态/自测共用
+  AST 抽取块，补后缀冒名/重名反例。
+- **C1**：全部回填后 11 文件白名单 Biome rc=0（清理 transaction 测试长行/unused import、
+  JSON 格式化）。
+- 本批无业务残项（baseline 深快照/撤 chunks/两操作 journal/菱形均已在 r2 关闭并经
+  Codex 复核确认）；复跑原负控 3 对照+9 针绿。
+- 计数按 Codex 实测更正：定向 23。

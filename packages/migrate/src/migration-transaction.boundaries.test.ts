@@ -5,14 +5,19 @@
  * operations/kind/hash/staged/version/id 拒绝且拒绝后**全部自建文件**字节保留（快照逐文件
  * 比对）；合法同 journal 恢复对照成功且二次幂等。
  */
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { afterEach, describe, expect, test } from 'vitest'
-import {
-  commitMigrationTransaction,
-  recoverMigrationTransaction,
-} from './migration-transaction.js'
+import { commitMigrationTransaction, recoverMigrationTransaction } from './migration-transaction.js'
 
 const roots: string[] = []
 const tempRepo = (): string => {
@@ -71,7 +76,10 @@ describe('T02 journal v2 单轴（两操作真实中断）', () => {
   test('合法同 journal 恢复成功：第二操作补完落盘；二次恢复幂等 false；journal 清理', () => {
     const repo = tempRepo()
     const { journalPath, firstTarget, secondTarget } = interruptedTwoOp(repo)
-    const raw = JSON.parse(readFileSync(journalPath, 'utf8')) as { version: number; operations: unknown[] }
+    const raw = JSON.parse(readFileSync(journalPath, 'utf8')) as {
+      version: number
+      operations: unknown[]
+    }
     expect(raw.version).toBe(2)
     expect(raw.operations).toHaveLength(2)
     expect(existsSync(secondTarget)).toBe(false) // 中断点：第二操作未落盘（待提交）
@@ -101,7 +109,11 @@ describe('T02 journal v2 单轴（两操作真实中断）', () => {
       expect(snapshotAllFiles(repo)).toEqual(before) // 拒绝后全部自建文件逐字节保留
       return message
     }
-    expect(tamper((journal) => { journal.operations = 'nope' })).toBe('迁移事务 journal 操作表无效')
+    expect(
+      tamper((journal) => {
+        journal.operations = 'nope'
+      }),
+    ).toBe('迁移事务 journal 操作表无效')
     expect(
       tamper((journal) => {
         ;(journal.operations as Array<Record<string, unknown>>)[1]!.kind = 'rename'
@@ -117,7 +129,15 @@ describe('T02 journal v2 单轴（两操作真实中断）', () => {
         ;(journal.operations as Array<Record<string, unknown>>)[1]!.staged = 'deadbeef'
       }),
     ).toBe('迁移事务 journal staging 路径不符: projects/pal/content/b.json')
-    expect(tamper((journal) => { journal.version = 3 })).toBe('迁移事务 journal 版本或 id 无效')
-    expect(tamper((journal) => { journal.id = 'zzzz' })).toBe('迁移事务 journal 版本或 id 无效')
+    expect(
+      tamper((journal) => {
+        journal.version = 3
+      }),
+    ).toBe('迁移事务 journal 版本或 id 无效')
+    expect(
+      tamper((journal) => {
+        journal.id = 'zzzz'
+      }),
+    ).toBe('迁移事务 journal 版本或 id 无效')
   })
 })

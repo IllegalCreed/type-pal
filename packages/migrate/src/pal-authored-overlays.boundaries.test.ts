@@ -17,7 +17,10 @@ const recipe = (ingredient: string, product: string) => ({
   products: [{ itemId: product, count: 1 }],
 })
 
-const item = (id: string, effects: ItemData['use'] extends undefined ? never : NonNullable<ItemData['use']>['effects']): ItemData =>
+const item = (
+  id: string,
+  effects: ItemData['use'] extends undefined ? never : NonNullable<ItemData['use']>['effects'],
+): ItemData =>
   ({
     id,
     name: `作者·${id}`,
@@ -83,7 +86,7 @@ describe('T07 多 effect 归属', () => {
     const g1 = generated[1]!.use!.effects as Array<Record<string, unknown>>
     ;(g1[0] as { unavailableMessage?: string }).unavailableMessage = '702 的 pool 原文'
 
-/** 拒绝见证取值形式：返回结果数组或错误消息（mutation 负控下 produces 纯 AssertionError）。 */
+    /** 拒绝见证取值形式：返回结果数组或错误消息（mutation 负控下 produces 纯 AssertionError）。 */
     function outcomeOf(run: () => ItemData[]): ItemData[] | string {
       try {
         return run()
@@ -95,12 +98,12 @@ describe('T07 多 effect 归属', () => {
     const viaCraft = outcomeOf(() => applyPalGeneratedCraftMessages(current, generated))
     expect(Array.isArray(viaCraft)).toBe(true) // 合法输入不得拒绝
     if (Array.isArray(viaCraft)) {
-    const c0 = viaCraft[0]!.use!.effects as Array<Record<string, unknown>>
-    expect(c0[0]).toMatchObject({ unavailableMessage: 'craft 失败原文' })
-    expect(c0[1]).not.toHaveProperty('unavailableMessage') // pool 条不受 craft 函数影响
-    expect(
-      (viaCraft[1]!.use!.effects as Array<Record<string, unknown>>)[0],
-    ).not.toHaveProperty('unavailableMessage')
+      const c0 = viaCraft[0]!.use!.effects as Array<Record<string, unknown>>
+      expect(c0[0]).toMatchObject({ unavailableMessage: 'craft 失败原文' })
+      expect(c0[1]).not.toHaveProperty('unavailableMessage') // pool 条不受 craft 函数影响
+      expect((viaCraft[1]!.use!.effects as Array<Record<string, unknown>>)[0]).not.toHaveProperty(
+        'unavailableMessage',
+      )
     }
     // pool 同步：只进 pool 条
     const viaPool = applyPalGeneratedResourcePoolMessages(current, generated)

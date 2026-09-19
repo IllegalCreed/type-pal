@@ -42,11 +42,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-io",
-      "control-facts",
-      "control-store"
-    ],
+    "controls": ["control-io", "control-facts", "control-store"],
     "cases": [
       {
         "name": "io-escape-path-guard-removed",
@@ -218,5 +214,19 @@
       "needles": 9
     },
     "coverageRerun": "官方 fast before 338 / after 361 双 exit0（最终返工树重跑）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:51:11Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名等反例",
+    "C1": {
+      "note": "全部回填后 11 文件完整白名单 Biome（提交前 rc=0，含 transaction 长行/unused import 清理与 JSON 格式化）"
+    },
+    "reworkWitness": "glm-nine-rework-witnesses: 9/9 判据双反例拒绝、PNG 三态 valid、3 针（含 TB-07/06 针）detected",
+    "counts": {
+      "targeted": 23,
+      "controls": 3,
+      "needles": 9
+    }
   }
 }

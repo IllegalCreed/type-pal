@@ -7,7 +7,10 @@
 import type { ItemData, ShopDef } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
 import { migratePalShops, type SourceStore } from './pal-derived-content.js'
-import { assertPalAlchemyBoundaryInvariant, assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
+import {
+  assertPalAlchemyBoundaryInvariant,
+  assertPalStoreBoundaryInvariant,
+} from './pal-store-boundary.js'
 
 const rewards = ['100', '105', '95', '112', '72', '131', '97', '102', '111']
 
@@ -88,12 +91,18 @@ describe('T09 pal-store-boundary 剩余轴', () => {
       { kind: 'openShop', shop: 1, mode: 'buy' },
     ]
     const rootsSnapshot = structuredClone(roots)
-    const report = assertPalStoreBoundaryInvariant({ ...validArgs({ commandRoots: roots }), expectedBuyCalls: 3 })
+    const report = assertPalStoreBoundaryInvariant({
+      ...validArgs({ commandRoots: roots }),
+      expectedBuyCalls: 3,
+    })
     expect(report).toEqual({ buyCalls: 3, sellCalls: 0 })
     expect(structuredClone(roots)).toEqual(rootsSnapshot)
     // 期望数不符精确拒绝
     expect(() =>
-      assertPalStoreBoundaryInvariant({ ...validArgs({ commandRoots: roots }), expectedBuyCalls: 2 }),
+      assertPalStoreBoundaryInvariant({
+        ...validArgs({ commandRoots: roots }),
+        expectedBuyCalls: 2,
+      }),
     ).toThrow('PAL Store0 invariant: buy openShop 数量 3 != 2')
   })
   it('sell shop 非 0 精确拒绝；sell 计数独立', () => {
@@ -116,24 +125,24 @@ describe('T09 pal-store-boundary 剩余轴', () => {
   })
   it('源 Store0 缺失/重复、源 id 顺序漂移、生成货单不一致各自精确拒绝', () => {
     const noStore0 = sourceStores().filter(({ id }) => id !== 0)
-    expect(() => assertPalAlchemyBoundaryInvariant({ sourceStores: noStore0, items: items() })).toThrow(
-      'PAL Store0 invariant: 源 Store0 数量 0 != 1',
-    )
+    expect(() =>
+      assertPalAlchemyBoundaryInvariant({ sourceStores: noStore0, items: items() }),
+    ).toThrow('PAL Store0 invariant: 源 Store0 数量 0 != 1')
     const duplicated = [{ id: 0, items: rewards.map(Number) }, ...sourceStores()]
-    expect(() => assertPalAlchemyBoundaryInvariant({ sourceStores: duplicated, items: items() })).toThrow(
-      'PAL Store0 invariant: 源 Store0 数量 2 != 1',
-    )
+    expect(() =>
+      assertPalAlchemyBoundaryInvariant({ sourceStores: duplicated, items: items() }),
+    ).toThrow('PAL Store0 invariant: 源 Store0 数量 2 != 1')
     // 源真实商店顺序漂移（交换 1/2）
     const swapped = sourceStores()
     ;[swapped[1], swapped[2]] = [swapped[2]!, swapped[1]!]
-    expect(() => assertPalStoreBoundaryInvariant({ ...validArgs(), sourceStores: swapped })).toThrow(
-      'PAL Store0 invariant: 源真实商店 id/顺序漂移 2,1',
-    )
+    expect(() =>
+      assertPalStoreBoundaryInvariant({ ...validArgs(), sourceStores: swapped }),
+    ).toThrow('PAL Store0 invariant: 源真实商店 id/顺序漂移 2,1')
     // 生成商店货单与源不一致（改 shop1 货单）
     const tamperedShops = migratePalShops(sourceStores())
     tamperedShops[0] = { id: 1, items: ['999'] }
-    expect(() => assertPalStoreBoundaryInvariant({ ...validArgs({ shops: tamperedShops }) })).toThrow(
-      'PAL Store0 invariant: 生成商店 1 货单与源不一致',
-    )
+    expect(() =>
+      assertPalStoreBoundaryInvariant({ ...validArgs({ shops: tamperedShops }) }),
+    ).toThrow('PAL Store0 invariant: 生成商店 1 货单与源不一致')
   })
 })

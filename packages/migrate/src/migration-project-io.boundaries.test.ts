@@ -35,7 +35,10 @@ describe('T01 discoverProjectManagedFiles 单轴', () => {
     const root = repo()
     writeFileSync(
       join(root, 'projects/pal/content/scenes/index.json'),
-      JSON.stringify({ version: 1, scenes: [{ id: 's1', name: '一', path: 'content/scenes/s1.json' }] }),
+      JSON.stringify({
+        version: 1,
+        scenes: [{ id: 's1', name: '一', path: 'content/scenes/s1.json' }],
+      }),
       'utf8',
     )
     expect(discoverProjectManagedFiles(root, new Set(['seed.json']))).toEqual(
@@ -49,10 +52,15 @@ describe('T01 discoverProjectManagedFiles 单轴', () => {
     // scene id 非法 → validateSceneIndex 精确错误
     writeFileSync(
       join(root, 'projects/pal/content/scenes/index.json'),
-      JSON.stringify({ version: 1, scenes: [{ id: '', name: 'n', path: 'content/scenes/x.json' }] }),
+      JSON.stringify({
+        version: 1,
+        scenes: [{ id: '', name: 'n', path: 'content/scenes/x.json' }],
+      }),
       'utf8',
     )
-    expect(() => discoverProjectManagedFiles(root, new Set())).toThrow('sceneIndex.scenes[0].id: 非法稳定 id ""')
+    expect(() => discoverProjectManagedFiles(root, new Set())).toThrow(
+      'sceneIndex.scenes[0].id: 非法稳定 id ""',
+    )
     // 恢复合法 scenes index 后再测 scripts index
     writeFileSync(
       join(root, 'projects/pal/content/scenes/index.json'),
@@ -95,7 +103,11 @@ describe('T01 discoverProjectManagedFiles 单轴', () => {
     for (const name of ['b.json', 'a.json', 'managed.json', 'skip.json']) {
       writeFileSync(join(root, `projects/pal/${name}`), name, 'utf8')
     }
-    const hashes = hashUnmanagedProjectFiles(root, new Set(['managed.json']), new Set(['skip.json']))
+    const hashes = hashUnmanagedProjectFiles(
+      root,
+      new Set(['managed.json']),
+      new Set(['skip.json']),
+    )
     expect([...hashes.keys()]).toEqual(['a.json', 'b.json'])
     // 上限：25 个变化路径只报前 20
     const expected = new Map(Array.from({ length: 25 }, (_, i) => [`p${i}`, 'x']))

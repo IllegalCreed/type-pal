@@ -70,7 +70,11 @@ function scene(sceneId = 's001'): AuthorSceneDef {
         zone: true,
         behaviors: {
           auto: {
-            'c8-a': { label: '物品292剧情方案', order: 10, flow: machine('物品292剧情方案连续流程') },
+            'c8-a': {
+              label: '物品292剧情方案',
+              order: 10,
+              flow: machine('物品292剧情方案连续流程'),
+            },
           },
         },
       },
@@ -126,9 +130,9 @@ describe('T08 scheme-labels 剩余漂移轴', () => {
     expect(() => assertPalItemSchemeLabelInvariant({ ...args(), expectedSchemes: 3 })).toThrow(
       'PAL 物品剧情方案数量漂移: 2 != 3',
     )
-    expect(() => assertPalItemSchemeLabelInvariant({ ...args(), expectedMachineInners: 2 })).toThrow(
-      'PAL 物品剧情方案 machine-inner 数漂移: 1 != 2',
-    )
+    expect(() =>
+      assertPalItemSchemeLabelInvariant({ ...args(), expectedMachineInners: 2 }),
+    ).toThrow('PAL 物品剧情方案 machine-inner 数漂移: 1 != 2')
     expect(() => assertPalItemSchemeLabelInvariant({ ...args(), expectedItemRoots: 2 })).toThrow(
       'PAL 物品剧情方案 item root 数漂移: 1 != 2',
     )
@@ -250,9 +254,6 @@ describe('T08 scheme-labels 剩余漂移轴', () => {
     expect(typed.schemes).toBe(2)
     expect(typed.itemRoots).toBe(1)
     expect(typed.labels.map(({ id }) => id)).toEqual(['c8-a', 'c8-hook']) // 菱形终点只出现一次
-    expect(typed.labels.map(({ label }) => label)).toEqual([
-      '物品292剧情方案',
-      '物品292剧情方案 2',
-    ])
+    expect(typed.labels.map(({ label }) => label)).toEqual(['物品292剧情方案', '物品292剧情方案 2'])
   })
 })
