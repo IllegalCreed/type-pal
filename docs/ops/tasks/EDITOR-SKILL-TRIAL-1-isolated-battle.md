@@ -44,9 +44,40 @@ Revision: r2 / 2026-09-19保存裁决后冻结；用户认可草图大方向及�
   本轮复跑原前提探针exit0：scene=start、sessions=0却victory；savedAfterMaxMP=999、savedTrialSkill=true、
   authorInputUnchanged=true。证明修复前提仍成立，不宣称新模拟器已实现。文档工具20项通过；任务更名触发索引不同步，
   按生成器输出同步唯一对应行后重跑文档检查；不忽略该失败、不改变门禁。
-- Kimi：pending。
-- GLM：pending。
-- build准入：关闭，等待Kimi/GLM各自r2前提与设计签字；不改Status为build，不借他卡签字或把草图当产品实现。
+- Kimi：**premise verified / design agree（2026-09-19，r2 冻结设计，生产 e58834f6；全部证据本人直读/复跑，未读 GLM 结论）**。
+  - **入口缺陷前提复核**：r1 前提不变且本人复跑原探针 exit 0（scene 回退 start、sessions=0
+    桩胜、savedAfterMaxMP=999/savedTrialSkill=true 污染同 scope、作者输入不变）——
+    「当前 SkillTab.tsx:1117 固定 s001/0 链接 + 缺敌队桩胜 + 临时授技入普通保存链」
+    三缺陷仍成立，根因在编辑器/宿主入口，不归迁移。
+  - **附属配置事务边界直读**：`author-disk-baseline.ts:60/120/185` 实际读字节采集+新路径
+    缺席校验；`project-io.ts:153` 准备写集校验、`:372` 身份域禁写；`workspace-context.ts:13`
+    整个 `.type-pal` 受保护；`open-local.ts:37/77` 稳定读取内交付基线；`export-zip.ts:66/93`
+    完整作者树备份只排 save-recovery——设计 §5 的接入点全部真实在位；`editor/battle-simulator.json`
+    固定路径+kind/version:1 严格格式、不入 .type-pal/localStorage/SaveStore/内容表、
+    不经版本升级（铁律 11 合规）、损坏 fail-loud 不清空、悬空引用可修复但禁启动——
+    闭合完整。
+  - **一次性握手与取消**：URL 仅身份+一次性 launch ID、完整配置走 postMessage 精确
+    origin/source/launchID/工程/工作区校验+MessageChannel 单次交付；接收器在普通 boot/
+    标题/SaveStore 构造前早分流且**明确不回落正常 boot**；迟到回调不构造 session/播音/
+    交帧、单 flight、双端关闭即取消——取消收尾闭合。
+  - **正常存档零 IO**：shop-trial 早分流先例（main.ts:353-360）核实；试放宿主不构造任何
+    SaveStore、不注册正常 save/load/checkpoint；F5/F9/自动存档禁止且明示临时模式。
+  - **正式战斗派生/结算复用直读**：`character.ts:252` instantiate 复制 baseStats（改等级≠
+    捏造数值）；`main.ts:2280+` 装备/抗性/状态在建态时 live 派生（红线）；`battle-core.ts:322`
+    槽上限与 EnemyDef/null 输入；`battle-session.ts:418` 构造即 stepBattle——事后塞初始状态
+    不成立（首批敌方满血无毒边界正确，第二批须先设计正式初始化输入）。最小提取
+    battle-player-input 共用须钉提取前后参数等价（V3/V8 已列）。
+  - **范围边界**：1~5 人按现行站位表不扩容；敌方逐槽残血/毒/状态与高级覆写明确留第二批
+    且首批不存无效字段/不挂无效控件；不复制 AI 编辑器/虚构敌方装备池；不扩成 Q1/Q2 门槛。
+  - **用户裁决核对**：四目录大方向+预设随工程保存+首版先保存工程+本场调整不另存+战斗结果
+    不落盘，逐条有用户明确答复记录——不重问这些产品选择。
+  - **可证伪观察**（任一反例即 counter）：① 附属文件绕过磁盘基线/准备写集校验；② 握手失败/
+    刷新回落普通 boot；③ 试打期间任何正常槽 IO 非零；④ 玩家输入提取后正常战斗参数变化；
+    ⑤ 本场调整反写原预设；⑥ 缺真实敌队仍返回胜利；⑦ 重复角色/非法配装/悬空引用可启动；
+    ⑧ 旧 launch ID/重复包/异 origin 被握手接受；⑨ 旧 ?skill 捷径仍可静默到达。
+  - 返工项：无。非阻断备注：EditorState/toEditorState/serializeProject 接入编辑器专属文档是
+    S1 面内必要工作，实施时须证明不改变内容校验对外合同；草图非产品视觉验收，dev-functional
+    视觉归 Codex。
 
 ## 方向讨论记录（历史，现由上方r2冻结设计收敛）
 
@@ -263,6 +294,13 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r2 冻结设计独立前提/架构审查，签 premise verified + design agree，无返工项。
+  直读 author-disk-baseline/project-io/workspace-context/open-local/export-zip 附属配置事务接入点、
+  character instantiate 与正式派生（main.ts:2280+ 建态 live 派生）、battle-core/session 初始化时序
+  （构造即 stepBattle，事后塞状态不成立）；复跑原前提探针 exit 0（桩胜+污染仍复现）。
+  握手不回落普通 boot、正常存档零 IO、敌方首批满血边界与人数/资源换代范围均核实；
+  九条可证伪观察写入本席。未改产品/他席/状态，未读 GLM 结论。Next：GLM 并行签字后
+  Codex 核定 build；dev-functional 视觉归 Codex。
 - 2026-09-19 Codex：用户答复“好的”，明确两项保存约定；冻结r2首批S1～S4和附件V1～V10，
   本人签premise verified/design agree。核对生产相对e58834f6仍零diff，旧r1不重写。同步发两席独立设计提示词，
   直接落本人签字和日志，视觉仍由Codex承担；当前未开build、不标done、不暂停GLM既有返工。
