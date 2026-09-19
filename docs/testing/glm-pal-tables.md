@@ -1,7 +1,13 @@
 # GLM原版表格与文本自包含补测工作包（TB-04）
 
-任务：[TEST-PAL-TABLES-COVERAGE-1](../ops/tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md)，r1/draft。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`；策划树 `4473c367`。
-共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试，**未获build授权**。
+## 当前Codex接收结论
+
+**counter**。定向19项/原3+8跑/tc通过，但仍有公共C0和本批业务返工；Biome完整面13文件/1 errors。详见[统一复核TB-04](glm-nine-intake-review.md#tb-04)。
+本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
+
+
+任务：[TEST-PAL-TABLES-COVERAGE-1](../ops/tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md)，r1/rework；本轮实施候选851a6ede未接收，设计不重签。
+共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试；三席设计有效，用户已批准本轮先行实施，当前接收counter。
 表内为已按调用域筛选的候选，不是已经完成的新增覆盖；允许去重后减文件/减族，不设必须凑足的用例数。
 
 ## 合同族、去重与一手锚点
@@ -77,6 +83,26 @@ docs/testing/glm-pal-tables-evidence.json
 - GLM不跑全仓check/官方ratchet/strict-fast。Codex独立接收集成后串行执行；GLM贡献终审披露，不自证第三方，不代签、不标done。
 - 提交时本节后附GLM实现回执：候选SHA、白名单diff、真实命令/退出码、逐族互斥分类与新增价值、负控细目、覆盖两时点与待证归属。
 
-## GLM回执区
+## GLM回执区（候选历史自验；以当前Codex复核勘误为准）
 
-待实施。当前只有Codex规划与前提复核，不存在GLM交付或accept。
+r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字齐；用户拍板在 Codex 额度
+空窗期先行实施 TB-02～TB-10、恢复后统一接收——本批据此开工，非代签 Codex 准入）。分支
+`codex/glm-pal-tables-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-pal-tables`）；
+产品对冻结 e58834f6 零漂移（`git diff e58834f6..HEAD -- packages/` 为空）。
+最终树 **9 个新测试文件 + 1 fixture 共 19 项**（P01-P09 逐族落账：3+3+2+2+1+1+2+3+2）；
+定向 19/19 绿；官方 fast 口径 before 110 / after 129 双 exit0；tc rc=0；11 新文件 Biome rc=0。
+
+- 全包 37 文件/177 项：4 项真实资产 ENOENT（fresh worktree 缺 `data/raw/*.MKF`，未跟踪）——
+  stash 掉本批后基线同样失败（151→170 恰为 +19），与本批无关。
+- 负控 `node docs/testing/glm-pal-tables-mutants.mjs` rc=0：判据自测 + 3 对照 + **8 变异针**
+  全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；产品 hash 不变。
+  针点：SSS signed→unsigned、WORD 物品段界偏一、items 脚本偏移别名、items 装备位基号、
+  teams 原身份覆盖、misc level/magic 错位、enemy-pos 转置、MSG 端点坍缩。
+- 覆盖对照（官方 testSelection fast，/tmp，最终提交树）：九模块在 fast 口径下从 L0 起步——
+  sss 0→53/53、word 0→32/32（B 7/8）、msg 0→6/6、items 0→19/20、stores 0→15/16、
+  battle-fields 0→10/11、enemy-teams 0→20/27、data-misc 0→23/23、enemy-pos 0→16/16；
+  全包 L561→755/1316、B253→288/539、F67→89/140。
+- 输入自包含：合成 MKF/表格字节 + GBK 用 iconv-lite 编码（产品解码同库逆操作）；预期值手列；
+  SSS 输入前后保护字节且断言不变；非零 byteOffset 视图（4 对齐）。不执行 extract CLI、
+  不碰 data/ 与正式 assets。
+- 机器账 `docs/testing/glm-pal-tables-evidence.json`。

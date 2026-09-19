@@ -1,7 +1,13 @@
 # GLM地图选区与组合模板数据补测工作包（TB-06）
 
-任务：[TEST-EDITOR-MAP-DATA-1](../ops/tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md)，r1/draft。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`；策划树 `4473c367`。
-共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试，**未获build授权**。
+## 当前Codex接收结论
+
+**counter**。定向18项/原3+8跑/tc通过，但仍有公共C0和本批业务返工；Biome完整面10文件/1 errors。详见[统一复核TB-06](glm-nine-intake-review.md#tb-06)。
+本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
+
+
+任务：[TEST-EDITOR-MAP-DATA-1](../ops/tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md)，r1/rework；本轮实施候选0563eda7未接收，设计不重签。
+共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试；三席设计有效，用户已批准本轮先行实施，当前接收counter。
 表内为已按调用域筛选的候选，不是已经完成的新增覆盖；允许去重后减文件/减族，不设必须凑足的用例数。
 
 ## 合同族、既有去重与剩余候选
@@ -73,6 +79,26 @@ docs/testing/glm-editor-map-data-evidence.json
 - GLM不跑全仓check/官方ratchet/strict-fast。Codex独立接收集成后串行执行；GLM贡献终审披露，不自证第三方，不代签、不标done。
 - 提交时本节后附GLM实现回执：候选SHA、白名单diff、真实命令/退出码、逐族互斥分类与新增价值、负控细目、覆盖两时点与待证归属。
 
-## GLM回执区
+## GLM回执区（候选历史自验；以当前Codex复核勘误为准）
 
-待实施。当前只有Codex规划与前提复核，不存在GLM交付或accept。
+r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字齐；用户拍板在 Codex 额度
+空窗期先行实施 TB-02～TB-10、恢复后统一接收——本批据此开工，非代签 Codex 准入）。分支
+`codex/glm-editor-map-data-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-editor-map-data`）；
+产品对冻结 e58834f6 零漂移。最终树 **7 个新测试文件共 18 项**（M01-M08 逐族落账；M06 按工作包
+"优先防御分类，非必增文件"整族记已有/内部防御，减 1 文件与 fixture 白名单项）；
+定向 18/18 绿；editor 全包 248 文件/2536 项中 2 项预存 world-sprite PAL ENOENT 与基线相同；
+官方 fast 口径 2359→2377 双 exit0；tc rc=0；8 新文件 Biome rc=0。
+
+- 负控 `node docs/testing/glm-editor-map-data-mutants.mjs` rc=0：判据自测 + 3 对照 +
+  **8 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
+  产品 hash 不变。针点：全选隐藏层门、paste collision 冲突判定、patch collision 重复门、
+  draft 层空值门、模板 id 归一、placement 锁层门、group capture 去重、模板 category。
+- 覆盖对照（官方 testSelection fast，/tmp，最终提交树）：map-selection B201→211/228、
+  map-transform L168→171/181 B108→110、map-patch L138→140 B145→147、
+  stamp-draft L153→155 B123→129、stamp-placement L112→118 B74→79、
+  stamp-template B36→39、stamp-group-transform B116→118；
+  全包 L22346→22359/27865、B19264→19294/27593。
+- 正控先过真实 validateProjectMap/validateStampTemplates/buildBlankProjectMap+真实 paint/capture
+  （placement 占位组用真实 withProjectMapStampPlacements 写入链）；失败计划钉完整 issues/空写
+  计划；地图/权限/clipboard 均比较实参快照。
+- 机器账 `docs/testing/glm-editor-map-data-evidence.json`。

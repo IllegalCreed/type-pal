@@ -1,6 +1,6 @@
 # TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: 已有导入/编码合同覆盖（不改变能力地图）
 Coding Owner: GLM（只新增测试）
@@ -9,11 +9,27 @@ Reviewer: Codex / Kimi
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: none
-Branch: codex/glm-editor-import-codec-r1（排期后使用）
+Branch: codex/glm-editor-import-codec-r1
 
 Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e964d79`不变。r1前提/方案已收窄，旧签留历史，不授权r2。
 来源：[补测长队列](../../testing/glm-coverage-work-queue.md) TB-03；r2三席已齐，实施时机以本卡当前准入为准。
 唯一工作包/族账/白名单：[glm-editor-import-codec.md](../../testing/glm-editor-import-codec.md)。
+
+
+## 当前接收裁决（2026-09-19，候选f4c229ed）
+
+用户本轮明确批准九批先行实施、Codex恢复后统一接收；认可本批排期例外，不因旧两槽限制追溯判违规。设计签字保持，不重签。
+**本席独立结论counter，任务rework，未合入正式测试/产品、不更新官方基线、不转Kimi终审。**
+定向39项、原3对照+8针、包typecheck均通过；
+Biome实测11文件/1 errors。
+见[统一复核 TB-03](../../testing/glm-nine-intake-review.md#tb-03)与[机器接收账](../../testing/glm-nine-intake-evidence.json)。
+公共C0判据误收适用，C1全部新增文件格式/回执不符也须修复；具体最小返工如下。
+
+- **R03-1，量化实参保真漏检**：`frame-animation-codec.tpfs.test.ts:178/188`传的是input.slice().buffer，却比较外面的input。单点让产品原地改实际frame后候选6/6仍绿，oracle红（`quantize-mutates-actual-input`）。保留同一实际buffer、调用前快照，调用后与改输出后分别检查。
+- **R03-2，输出transfer未证**：`frame-animation-worker-client.boundaries.test.ts` FakeWorker.reply直接回data，未执行输出transfer；worker测试只验transfer数组长度，未钉被发送buffer的byteLength变0。按已签r2实现输入/输出真实transfer，并检查实际缓冲，不仅“调用过structuredClone”。
+- **R03-3，图片摘要正控被stub掩蔽**：`image-import.stages.test.ts:63/70–71`toBlob给8个零字节、digest固定32个零；摘要只验64位正则。无法证明catalog SHA与真实产物一致。用完整可解码PNG/真实digest、独立摘要和合法catalog字段；不扩为视觉测试，也不碰已隔离PNG失败close缺陷。
+- C0/C1适用。覆盖与环境回执中不把host协议测试称为真实PNG/浏览器线程验收。
+
 
 ## 目标与边界
 
@@ -78,7 +94,7 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
     或原 buffer 变化→C6 无效；③非法 fixture 在守卫前被拦→该轴不能计新增；④泄漏被顺手修或
     写绿→越界即停。
   - 返工项：无。Kimi 签齐且无 counter 后由 Codex 核定 build。
-- build准入：**r2设计门已通过，Codex于2026-09-19统一核准**（本席f5cd23c0、GLM efe6b932、Kimi 61b79f1b；生产相对e58834f6零漂移）。本卡保持draft表示已准入待排期；TB-01→TB-02→TB-03依序领取。 TB-00返工优先，未接收实施包最多两批；有空位且本卡目标产品/合同未变、无新counter时，GLM可按本授权同步本卡/看板/索引到build并开工，无需重复签字或再次询问用户。若目标漂移或出现新合同分歧，仅暂停对应批交Codex核定，不自行更换前提。
+- build准入：三席r2设计签字保持；用户本轮明确批准额度空窗期九批先行实施（排期例外），本卡据此进入实施后接收。当前counter/rework不要求重签设计，未开放done；不将本次例外泛化给未来新批。
 
 ### build前r1签字（历史，已被r2替代）
 
@@ -93,9 +109,12 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 
 ### done前
 
-- GLM/Codex/Kimi：pending；done准入未开放，不代签、不标done。
+- Codex：**counter（2026-09-19，候选f4c229ed）**。本人独立复跑定向/原负控/tc与全部新增文件Biome，抽核合法输入/实际对象/范围；C0与本卡TB-03返工证据已落[统一复核](../../testing/glm-nine-intake-review.md#tb-03)。不合并、不代签、不标done；设计有效不重签。
+
+- GLM/Kimi：pending（原交付状态保留；不代签）。done准入未开放，不标done。
 
 ## 交接日志
+- 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。
 - 2026-09-19 GLM：按卡面授权领取 TB-03 并完成实施（r1）。worktree `type-pal-glm-import-codec`、
   分支 `codex/glm-editor-import-codec-r1`、基点 41cc7cd9；领取时产品对 e58834f6 零漂移已核。
   交付：7 新测试文件+1 fixture 共 39 项（C1-C8 逐族落账）；定向/相邻/官方 fast 口径
@@ -120,7 +139,7 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
   FrameAnimationEditor/CutsceneTab）与既有测试计数；battle-sprite-import/worker-client/worker 无
   既有测试确认；产出本卡+工作包（C1-C8 族账/负控/覆盖方案）。仅规划，未写测试。
 
-## 下一位Agent提示词
+## 历史交接提示词
 
 ### 当前 · GLM按已签队列实施
 
@@ -139,4 +158,13 @@ TB-00三项返工优先；未接收实施包最多两批。TB-01已开build，TB
 在 /Users/zhangxu/illegal/type-pal 审 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md（r2/draft，冻结e58834f6）。先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和对应工作包、docs/testing/glm-coverage-queue-design-review.md，直接读一手代码而非复述他席。
 Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计压力测试，两席可并行且不读另一席结论。分别只在本人r2席位/日志写带直接锚点和可证伪观察的premise verified/design agree或counter，并提交推送。
 同时审其余TB-01～03同r2卡可用合并提示词，但各卡独立裁决。不得改产品/正式测试/另一席/状态，不标build/done；三席齐后Codex核准入。TB-00返工不因本轮设计等待而停止。
+```
+
+## 当前下一位Agent提示词：GLM
+
+```text
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-EDITOR-IMPORT-CODEC-1（TB-03），卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md 已rework，候选f4c229ed，生产冻结e58834f6；设计r2不重签。
+先同步当前Codex counter到独立 codex/glm-editor-import-codec-r1，读AGENTS/CLAUDE/READ-FIRST、docs/testing/glm-delivery-checklist.md、本卡当前裁决和 docs/testing/glm-nine-intake-review.md 的公共C0/C1与TB-03章节、原工作包docs/testing/glm-editor-import-codec.md。
+只修列明残项，保留有效测试与他席结论；正式guard合法、实际同一入参深快照、禁止把已排除未知/旧接口写正确绿测。公共工具判据必须按目标错误首行，真实运行与自测同函数。原负控+本席相关独立见证、定向/相邻/全包/tc/全部新TS/MJS/MTS/JSON的Biome及私有同口径覆盖从最终树复跑，失败/未完成如实记录。
+只动原白名单/本人回执，分支不互合、不改产品/旧测试/官方基线/原审计探针/他席见证语义，不代签、不标done、不直接转Kimi。修完本批即可单独交Codex接收；全仓check/ratchet/strict-fast留接收后，用户已确认Mimosa归GLM私有MCP，Codex无需处理，不作为本轮接收/合并门。
 ```

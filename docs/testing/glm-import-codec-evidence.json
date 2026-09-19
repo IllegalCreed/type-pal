@@ -42,11 +42,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-stages",
-      "control-worker",
-      "control-images"
-    ],
+    "controls": ["control-stages", "control-worker", "control-images"],
     "cases": [
       {
         "name": "png-signature-gate-removed",
@@ -157,5 +153,24 @@
     "PNG 编码失败位图泄漏（image-import.ts:130-142 无 finally）保持 Codex 修复归属，本包未写默认红、未固化",
     "worker-client L36/38：真实 Worker onerror/URL 构造分支在 Node 无真浏览器线程，仅假 Worker 与降级路径覆盖",
     "真实浏览器 Worker 调度、CutsceneTab 视觉行为不在本批"
-  ]
+  ],
+  "codexReception": {
+    "candidate": "f4c229edc736b4c8a0438874e19d823ca2c9b201",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-03",
+    "verifiedNewTests": 39,
+    "verifiedControls": 3,
+    "verifiedMutants": 8,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 11,
+      "errors": 1,
+      "warnings": 0,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  }
 }

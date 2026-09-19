@@ -1,6 +1,12 @@
 # GLM编辑器导入、编码工作线程与视频元数据工作包（TB-03）
 
-任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/draft（设计准入已核定，待实施槽；GLM按卡面条件领取，不重复签字）。
+## 当前Codex接收结论
+
+**counter**。定向39项/原3+8跑/tc通过，但仍有公共C0和本批业务返工；Biome完整面11文件/1 errors。详见[统一复核TB-03](glm-nine-intake-review.md#tb-03)。
+本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
+
+
+任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/rework；本轮实施候选f4c229ed未接收，设计不重签。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM只写新测试；Codex独立接收、Kimi终审。
 合法二进制与真实编码链，非上传界面；上传选图竞态已修不重开；不做视觉/截图/听感。
 
@@ -57,7 +63,7 @@ docs/testing/glm-editor-import-codec-evidence.json
 - 定向+相邻（image-import/frame-animation-images/codec/video-metadata 既有测试+FrameAnimationEditor
   相关组件纯逻辑测试）+editor tc+全包+新增文件 Biome。完成条件：C1-C8 逐族落账。
 
-## GLM实施回执
+## GLM实施回执（候选历史自验；以当前Codex复核勘误为准）
 
 r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，用户拍板在 Codex 额度空窗期先行实施，
 接收与全仓门禁留 Codex）。分支 `codex/glm-editor-import-codec-r1`（worktree

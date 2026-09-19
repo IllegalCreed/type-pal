@@ -1,7 +1,13 @@
 # GLM当前迁移辅助与隔离文件系统补测工作包（TB-10）
 
-任务：[TEST-MIGRATION-BOUNDARIES-1](../ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md)，r1/draft。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`；策划树 `4473c367`。
-共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试，**未获build授权**。
+## 当前Codex接收结论
+
+**counter**。定向22项/原3+9跑/tc通过，但仍有公共C0和本批业务返工；Biome完整面11文件/11 errors。详见[统一复核TB-10](glm-nine-intake-review.md#tb-10)。
+本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
+
+
+任务：[TEST-MIGRATION-BOUNDARIES-1](../ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md)，r1/rework；本轮实施候选bd597558未接收，设计不重签。
+共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试；三席设计有效，用户已批准本轮先行实施，当前接收counter。
 表内为已按调用域筛选的候选，不是已经完成的新增覆盖；允许去重后减文件/减族，不设必须凑足的用例数。
 
 ## 合同族、去重与当前调用
@@ -79,6 +85,25 @@ docs/testing/glm-migration-boundaries-evidence.json
 - GLM不跑全仓check/官方ratchet/strict-fast。Codex独立接收集成后串行执行；GLM贡献终审披露，不自证第三方，不代签、不标done。
 - 提交时本节后附GLM实现回执：候选SHA、白名单diff、真实命令/退出码、逐族互斥分类与新增价值、负控细目、覆盖两时点与待证归属。
 
-## GLM回执区
+## GLM回执区（候选历史自验；以当前Codex复核勘误为准）
 
-待实施。当前只有Codex规划与前提复核，不存在GLM交付或accept。
+r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字齐；用户拍板在 Codex 额度
+空窗期先行实施 TB-02～TB-10、恢复后统一接收——本批据此开工，非代签 Codex 准入）。分支
+`codex/glm-migration-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-migration`）；
+产品对冻结 e58834f6 零漂移。最终树 **8 个新测试文件共 22 项**（T01-T09 全族落账，
+T04/T05 共用 converter 文件、减 fixture 白名单项）；|unit| 57 文件/392 项中 4 文件 9 项预存
+data/extracted ENOENT（stash 基线同样失败，361→383 恰为 +22）；官方 fast 口径 338→360 双
+exit0；tc rc=0；9 新文件 Biome rc=0。
+
+- 负控 `node docs/testing/glm-migration-boundaries-mutants.mjs` rc=0：判据自测 + 3 对照 +
+  **9 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
+  产品 hash 不变。针点：越界路径门、journal staged 配对校验、SceneIndex 提升丢失、
+  tilemap 行守卫、上层第 9 位解码、名字 WORD 指针对调、overlay kind 过滤、labels channel
+  地址键、Store0 计数门。
+- 覆盖对照（官方 testSelection fast，/tmp，最终提交树）：write-plan L35→37/37、
+  store L83→89/96 B78→85、labels L126→130/154 B71→76、io L55→59/63 B35→39、
+  converter L58→60/67 B47→49、source-facts L9→11/11（满格）、audit B32→34、
+  transaction L163→164 B140→143；全包 L3439→3460/6677、B2851→2878/6398。
+- T02 订正：journal `previousHash=null` 对新建目标为合法（真实合同），本批以 `hash` 篡改为
+  拒绝轴；A08/A09/E05 待证保持原归属（见机器账 knownBoundaries）。
+- 机器账 `docs/testing/glm-migration-boundaries-evidence.json`。
