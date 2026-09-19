@@ -79,4 +79,24 @@ docs/testing/glm-pal-tables-evidence.json
 
 ## GLM回执区
 
-待实施。当前只有Codex规划与前提复核，不存在GLM交付或accept。
+r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字齐；用户拍板在 Codex 额度
+空窗期先行实施 TB-02～TB-10、恢复后统一接收——本批据此开工，非代签 Codex 准入）。分支
+`codex/glm-pal-tables-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-pal-tables`）；
+产品对冻结 e58834f6 零漂移（`git diff e58834f6..HEAD -- packages/` 为空）。
+最终树 **9 个新测试文件 + 1 fixture 共 19 项**（P01-P09 逐族落账：3+3+2+2+1+1+2+3+2）；
+定向 19/19 绿；官方 fast 口径 before 110 / after 129 双 exit0；tc rc=0；11 新文件 Biome rc=0。
+
+- 全包 37 文件/177 项：4 项真实资产 ENOENT（fresh worktree 缺 `data/raw/*.MKF`，未跟踪）——
+  stash 掉本批后基线同样失败（151→170 恰为 +19），与本批无关。
+- 负控 `node docs/testing/glm-pal-tables-mutants.mjs` rc=0：判据自测 + 3 对照 + **8 变异针**
+  全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；产品 hash 不变。
+  针点：SSS signed→unsigned、WORD 物品段界偏一、items 脚本偏移别名、items 装备位基号、
+  teams 原身份覆盖、misc level/magic 错位、enemy-pos 转置、MSG 端点坍缩。
+- 覆盖对照（官方 testSelection fast，/tmp，最终提交树）：九模块在 fast 口径下从 L0 起步——
+  sss 0→53/53、word 0→32/32（B 7/8）、msg 0→6/6、items 0→19/20、stores 0→15/16、
+  battle-fields 0→10/11、enemy-teams 0→20/27、data-misc 0→23/23、enemy-pos 0→16/16；
+  全包 L561→755/1316、B253→288/539、F67→89/140。
+- 输入自包含：合成 MKF/表格字节 + GBK 用 iconv-lite 编码（产品解码同库逆操作）；预期值手列；
+  SSS 输入前后保护字节且断言不变；非零 byteOffset 视图（4 对齐）。不执行 extract CLI、
+  不碰 data/ 与正式 assets。
+- 机器账 `docs/testing/glm-pal-tables-evidence.json`。

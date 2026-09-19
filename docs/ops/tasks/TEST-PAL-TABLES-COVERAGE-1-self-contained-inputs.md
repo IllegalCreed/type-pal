@@ -1,6 +1,6 @@
 # TEST-PAL-TABLES-COVERAGE-1 - 原版表格与文本自包含补测（TB-04）
 
-Status: draft
+Status: build
 Phase: phase1
 Capability: 已有合同补测，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -79,6 +79,14 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：按用户拍板（Codex 额度空窗期先行实施 TB-02～TB-10、恢复后统一接收）领取
+  TB-04 并完成实施（r1）。worktree `type-pal-glm-pal-tables`、分支 `codex/glm-pal-tables-r1`、
+  基点 41cc7cd9；领取时产品对 e58834f6 零漂移已核。交付：9 新测试文件+1 fixture 共 19 项
+  （P01-P09 逐族落账）；官方 fast 口径 110→129 双 exit0；tc rc=0；11 新文件 Biome rc=0；
+  负控 8 针+3 对照全 detected（钉名 AssertionError 判据+四向自测）；覆盖与机器账见工作包回执
+  与 `docs/testing/glm-pal-tables-evidence.json`。全包 4 项真实资产 ENOENT 与本批无关
+  （stash 基线同样失败）。状态同步 build；不代签 done，等 Codex 恢复额度后统一接收。
+
 - 2026-09-19 Kimi：完成 r1 独立前提/风险审查（七批联审之 TB-04），签 premise verified +
   design agree，无返工项。直读 text.c:795-797 offsetCount−1、SDL global.h 结构与 cli.ts 当前
   消费链；5650B/565 尺寸分界与梦蛇例外核实。四条可证伪观察写入本席。未改产品/他席/状态，
