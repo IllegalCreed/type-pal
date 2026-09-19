@@ -118,77 +118,132 @@ describe('D3 frameLimit 与帧索引守卫', () => {
   })
 })
 
-describe('D4 invalidate 选择性清除', () => {
-  test('invalidate(asset) 只清指定项；invalidate() 全清；再读同 id 得新字节', async () => {
-    const h = harness()
-    await h.reader.frame('a', 0)
-    await h.reader.frame('a', 40)
-    expect(h.reader.cachedFrameCount).toBeGreaterThanOrEqual(2)
-    h.reader.invalidate('a')
-    expect(h.reader.cachedFrameCount).toBe(0)
-    await h.reader.frame('a', 0)
-    await h.reader.frame('a', 40)
-    h.reader.invalidate() // 全清
-    expect(h.reader.cachedFrameCount).toBe(0)
-    expect(h.reader.inflightBlockCount).toBe(0)
-    // 再读：字节来自当前 reader（内容仍正确）
-    expect([...(await h.reader.frame('a', 40)).rgba]).toEqual([40, 41, 42, 255])
+describe('D4 invalidate 选择性清除（双 asset + 同 id 换字节）', () => {
+  test('invalidate(a) 只清 a 保留 b；invalidate() 全清；同 id 换字节后读到新内容', async () => {
+    let bytesA = await tpfs()
+    const bytesB = await tpfs()
+    const reads: string[] = []
+    const reader = new FrameSequenceReader(
+      {
+        async readBytes(asset) {
+          reads.push(asset)
+          return arrayBufferOf(asset === 'a' ? bytesA : bytesB)
+        },
+      },
+      identity,
+    )
+    await reader.frame('a', 0)
+    await reader.frame('b', 0)
+    expect(reader.cachedFrameCount).toBeGreaterThanOrEqual(2)
+    reader.invalidate('a')
+    expect(reader.cachedFrameCount).toBeGreaterThanOrEqual(1) // b 的帧仍在
+    expect([...(await reader.frame('b', 0)).rgba]).toEqual([0, 1, 2, 255]) // b 命中未重读
+    expect(reads.filter((entry) => entry === 'b')).toHaveLength(1)
+    // 同 id 换字节：换掉底层容器后 invalidate(a) → 再读 a 得新字节
+    bytesA = await encodeFrameSequence(
+      {
+        width: 1,
+        height: 1,
+        defaultFrameMs: 40,
+        frames: Array.from({ length: 3 }, () => ({ rgba: Uint8Array.from([9, 9, 9, 255]) })),
+      },
+      identity,
+    )
+    reader.invalidate('a')
+    expect([...(await reader.frame('a', 0)).rgba]).toEqual([9, 9, 9, 255]) // 新字节生效
+    reader.invalidate() // 全清
+    expect(reader.cachedFrameCount).toBe(0)
+    expect(reader.inflightBlockCount).toBe(0)
   })
 })
 
-describe('D5 小 frameLimit 跨 block LRU', () => {
-  test('被淘汰者可重读、命中者更新触点：LRU 语义而非仅 size 上界', async () => {
-    const h = harness(3)
-    await h.reader.frame('a', 0) // block0
-    await h.reader.frame('a', 33) // block1
-    await h.reader.frame('a', 65) // block2
-    expect(h.reader.cachedFrameCount).toBeLessThanOrEqual(3)
-    // 触点更新：再访问 0 后插入新帧，被淘汰的是 33 而非 0
-    await h.reader.frame('a', 0)
-    await h.reader.frame('a', 34)
-    // 0 仍在缓存（触点最近），33 可能被淘汰 → 重读仍正确
-    expect([...(await h.reader.frame('a', 0)).rgba]).toEqual([0, 1, 2, 255])
-    expect([...(await h.reader.frame('a', 33)).rgba]).toEqual([33, 34, 35, 255])
-    expect(h.reader.cachedFrameCount).toBeLessThanOrEqual(3)
+describe('D5 小 frameLimit LRU：命中/淘汰以解码轨迹见证', () => {
+  test('命中刷新触点：最近命中者存活、被淘汰者重解码；解码计数精确', async () => {
+    // 2 帧小容器（单 block）×3 asset；frameLimit=3：跨三个容器轮流命中/淘汰
+    const binary = async (value: number): Promise<Uint8Array> =>
+      encodeFrameSequence(
+        {
+          width: 1,
+          height: 1,
+          defaultFrameMs: 40,
+          frames: [
+            { rgba: Uint8Array.from([value, 0, 0, 255]) },
+            { rgba: Uint8Array.from([value, 1, 0, 255]) },
+          ],
+        },
+        identity,
+      )
+    const table: Record<string, Uint8Array> = {
+      a: await binary(1),
+      b: await binary(2),
+      c: await binary(3),
+    }
+    let decodes = 0
+    const reader = new FrameSequenceReader(
+      {
+        async readBytes(asset) {
+          return arrayBufferOf(table[asset]!)
+        },
+      },
+      async (data) => {
+        decodes += 1
+        return identity(data)
+      },
+      3,
+    )
+    await reader.frame('a', 0)
+    await reader.frame('b', 0)
+    expect(decodes).toBe(2)
+    await reader.frame('a', 1) // a 块两帧都在缓存 → 命中（a 触点更新）
+    await reader.frame('b', 0) // b 命中
+    expect(decodes).toBe(2) // 两次都是真实命中，零新解码
+    await reader.frame('c', 0) // c 解码入缓存，淘汰最旧触点（a 的帧）
+    expect(decodes).toBe(3)
+    await reader.frame('b', 0) // b 是最近触点，仍存活
+    expect(decodes).toBe(3)
+    await reader.frame('a', 0) // a 已被淘汰 → 重解码
+    expect(decodes).toBe(4)
+    expect(reader.cachedFrameCount).toBeLessThanOrEqual(3)
   })
 })
 
-describe('D6 三处 await 分别 abort', () => {
+describe('D6 三处 await 分别 abort（真实在途取消 + 进入见证）', () => {
   const baseOptions = (reader: FrameSequenceReader) => ({
     reader,
     asset: 'a',
     onFrame: () => {},
     wait: () => Promise.resolve(),
   })
+  /** 真实事件循环一拍（abort 拒绝传播不依赖底层放行）。 */
+  const tick = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0))
   test('sequence 在途 abort：及时拒绝；迟到读取不 onFrame', async () => {
-    const h = harness(undefined, () => {}) // 容器读取即时
+    const h = harness(undefined, () => {})
     const controller = new AbortController()
-    const gate = new Promise<void>(() => {}) // 永不完成的 sequence 读取
-    const slow: ReaderHarness = {
-      reader: new FrameSequenceReader(
-        { readBytes: () => gate as unknown as Promise<ArrayBuffer> },
-        identity,
-      ),
-      reads: [],
-      failOnceAsset: () => {},
-      failOnceInflate: () => {},
-    }
-    void slow
-    const pending = playFrameAnimation({ ...baseOptions(h.reader), signal: controller.signal })
+    const gate = new Promise<void>(() => {})
+    const slow = new FrameSequenceReader(
+      { readBytes: () => gate as unknown as Promise<ArrayBuffer> },
+      identity,
+    )
+    const pendingSlow = playFrameAnimation({ ...baseOptions(slow), signal: controller.signal })
+    // 结局观察器同步挂接（不留 unhandled 窗口；vitest 把异步补处理当非零退出）
+    const outcome = pendingSlow.then(
+      () => 'fulfilled',
+      (error: unknown) => (error as Error).name,
+    )
+    await tick() // 容器读取确已进入
     controller.abort()
-    await expect(pending).rejects.toThrow('aborted')
+    expect(await outcome).toBe('AbortError') // 底层未放行时外层已及时结束
     const frames: number[] = []
     const played = playFrameAnimation({
       ...baseOptions(h.reader),
       onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
     })
     await expect(played).resolves.toBeDefined()
-    expect(frames[0]).toBe(0) // abort 后 reader 仍可正常完整播放（监听已清理）
+    expect(frames[0]).toBe(0)
   })
-  test('frame 在途 abort：外层拒绝且不提交该帧；wait 在途 abort：不进下一帧', async () => {
-    let releaseFrame: (() => void) | undefined
-    const gatedInflate = (): void => {}
-    void gatedInflate
+  test('frame 在途 abort：进入 inflate 后取消仍及时拒绝、迟到帧不提交', async () => {
+    let enteredInflate = false
+    let releaseInflate: (() => void) | undefined
     const controller = new AbortController()
     const frames: number[] = []
     const pending = playFrameAnimation({
@@ -196,7 +251,8 @@ describe('D6 三处 await 分别 abort', () => {
         { readBytes: async () => arrayBufferOf(await tpfs()) },
         (data) =>
           new Promise((resolve) => {
-            releaseFrame = () => resolve(identity(data))
+            enteredInflate = true
+            releaseInflate = () => resolve(identity(data))
           }),
       ),
       asset: 'a',
@@ -204,36 +260,46 @@ describe('D6 三处 await 分别 abort', () => {
       wait: () => Promise.resolve(),
       signal: controller.signal,
     })
+    await vi.waitFor(() => {
+      if (!enteredInflate) throw new Error('inflate not entered')
+    })
+    const outcome = pending.then(
+      () => 'fulfilled',
+      (error: unknown) => (error as Error).name,
+    )
+    controller.abort() // inflate 确已进入且挂起
+    await tick()
+    expect(await outcome).toBe('AbortError') // 不等底层放行即拒绝
+    releaseInflate?.() // 迟到完成：不提交帧
     await Promise.resolve()
-    controller.abort() // frame 读取在途
-    releaseFrame?.() // 迟到完成
-    await expect(pending).rejects.toThrow('aborted')
-    expect(frames).toEqual([]) // 迟到帧不提交
-    // wait 在途 abort：第一帧已提交、等待期 abort → 不进第二帧
-    const controller2 = new AbortController()
-    const frames2: number[] = []
+    await Promise.resolve()
+    expect(frames).toEqual([])
+  })
+  test('wait 在途 abort：第一帧已提交、等待期 abort → 不进第二帧', async () => {
+    const controller = new AbortController()
+    const frames: number[] = []
     let releaseWait: (() => void) | undefined
-    const pending2 = playFrameAnimation({
+    const pending = playFrameAnimation({
       reader: new FrameSequenceReader(
         { readBytes: async () => arrayBufferOf(await tpfs()) },
         identity,
       ),
       asset: 'a',
       endFrame: 2,
-      onFrame: (frame) => frames2.push(frame.rgba[0] ?? -1),
+      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
       wait: () =>
         new Promise<void>((resolve) => {
           releaseWait = resolve
         }),
-      signal: controller2.signal,
+      signal: controller.signal,
     })
     await vi.waitFor(() => {
-      if (frames2.length === 0) throw new Error('first frame not submitted')
+      if (frames.length === 0) throw new Error('first frame not submitted')
     })
-    controller2.abort()
+    controller.abort()
     releaseWait?.()
-    await expect(pending2).rejects.toThrow('aborted')
-    expect(frames2).toEqual([0]) // 只提交到 abort 前的帧
+    await expect(pending).rejects.toThrow('aborted')
+    expect(frames).toEqual([0])
   })
 })
 

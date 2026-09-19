@@ -6,7 +6,13 @@
  */
 import { emptyWorldScriptState, type WorldScriptState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot, legalItems, legalScene } from './__tests__/glm-state-boundary-fixtures.js'
+import {
+  assertItemsFixtureLegal,
+  assertSceneFixtureLegal,
+  deepSnapshot,
+  legalItems,
+  legalScene,
+} from './__tests__/glm-state-boundary-fixtures.js'
 import {
   baseSceneView,
   captureRuntimeSceneBehaviorDependencies,
@@ -24,6 +30,7 @@ const worldWith = (patch: (world: WorldScriptState) => void): WorldScriptState =
 
 describe('B4 page/trigger/auto 有→无→有刷新', () => {
   test('字段精确删除/恢复；活体位置保留；hook 投影保持；canonical 输入不变', () => {
+    assertSceneFixtureLegal(legalScene()) // 主 fixture 先过现行守卫
     const world = worldWith((w) => {
       w.behaviors.entities = { s1: { 'e-talk': { page: 'idle' } } }
     })
@@ -63,7 +70,7 @@ describe('B5 hook 游标选择的入场投影', () => {
     expect(view.onEnter).toEqual([{ entry: { prepare: [], reveal: { kind: 'cut' } }, body: [] }])
     // onTeleport 状态机 initial=a 无 entry → 空 body 投影（不复活可执行正文）
     expect(view.onTeleport).toEqual([{ body: [] }])
-    // 把 onTeleport 游标切到 b（带 fadeIn entry）：经世界 hook override
+    // 状态机游标切到 b（非 initial，守卫下无 entry）→ 仍空 body；入场呈现只在 onEnter initial
     const worldB = worldWith((w) => {
       w.behaviors.scenes = {
         s1: {
@@ -74,9 +81,19 @@ describe('B5 hook 游标选择的入场投影', () => {
       }
     })
     const viewB = baseSceneView(legalScene(), worldB)
-    expect(viewB.onTeleport).toEqual([
-      { entry: { prepare: [], reveal: { kind: 'fade', outMs: 100, inMs: 100 } }, body: [] },
-    ])
+    expect(viewB.onTeleport).toEqual([{ body: [] }])
+    // onEnter stages 游标切到 second（无 entry 的后续 stage）→ 空 body（游标确实选择 stage）
+    const worldSecond = worldWith((w) => {
+      w.behaviors.scenes = {
+        s1: {
+          onEnter: {
+            cursor: { hook: 'default', at: { kind: 'stage', stage: 'second' } },
+          },
+        },
+      }
+    })
+    const viewSecond = baseSceneView(legalScene(), worldSecond)
+    expect(viewSecond.onEnter).toEqual([{ body: [] }])
   })
 })
 
@@ -108,26 +125,34 @@ describe('B6 依赖捕获稳定性与差分', () => {
 })
 
 describe('B7 items/scratch 可选分支与双向别名', () => {
-  test('use 双效果与 throw 完整投影；裸物品无 use/throw；输入不别名', () => {
+  test('外部脚本/私有脚本/throw 完整投影；裸物品无 use/throw；输入与嵌套别名隔离', () => {
     const items = legalItems()
+    assertItemsFixtureLegal(items) // 主 fixture 先过现行守卫
     const snapshot = deepSnapshot(items)
     const view = projectItemsView(items)
-    const both = view.both
-    if (!both?.use || !both.throw) throw new Error('fixture')
-    const [shared, privateEffect] = both.use.effects
-    expect(shared?.kind).toBe('runScript')
-    expect(privateEffect?.kind).toBe('runScript')
-    if (shared?.kind === 'runScript' && privateEffect?.kind === 'runScript') {
-      expect(isRuntimeScriptRef(shared.script)).toBe(true)
-      expect(privateEffect.script.id).toBe('item:both:use')
+    const ext = view.ext
+    const priv = view.priv
+    if (!ext?.use || !ext.throw || !priv?.use) throw new Error('fixture')
+    const extEffect = ext.use.effects[0]
+    const privEffect = priv.use.effects[0]
+    expect(extEffect?.kind).toBe('runScript')
+    expect(privEffect?.kind).toBe('runScript')
+    if (extEffect?.kind === 'runScript' && privEffect?.kind === 'runScript') {
+      expect(isRuntimeScriptRef(extEffect.script)).toBe(true)
+      expect(privEffect.script.id).toBe('item:priv:use')
     }
-    expect(both.throw).toEqual({ target: 'oneEnemy', effects: [] })
+    expect(ext.throw).toEqual({ target: 'oneEnemy', effects: [{ kind: 'fixedDamage', amount: 5 }] })
     expect(view.bare?.use).toBeUndefined()
     expect(view.bare?.throw).toBeUndefined()
     expect(items).toEqual(snapshot) // 实际传入对象不变（无别名写回）
-    // 双向：改投影不改输入
-    view.both!.name! = '改投影'
-    expect(items.both?.name).toBe('双分支')
+    // 双向嵌套别名：改投影的嵌套 throw/use 不写回输入
+    view.ext!.throw!.effects!.push({ kind: 'fixedDamage', amount: 9 } as never)
+    view.priv!.use!.effects[0] = { kind: 'healHp', amount: 1 } as never
+    expect(items.ext?.throw).toEqual({
+      target: 'oneEnemy',
+      effects: [{ kind: 'fixedDamage', amount: 5 }],
+    })
+    expect(items.priv?.use?.effects[0]?.kind).toBe('itemPrivateScript')
   })
   test('scratch 可选分支缺席与在场：flags/vars/entityState 深拷贝不别名', () => {
     const world = worldWith((w) => {

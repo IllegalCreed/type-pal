@@ -8,6 +8,8 @@ import { SceneEntrySession } from './scene-entry-session.js'
 
 const fade = { kind: 'fade', outMs: 200, inMs: 150 } as const
 const dither = { kind: 'dither', ms: 300, source: 'previousPresentedFrame' } as const
+// guard 勘误（Codex 复核）：现行 SceneReveal 的 dither.source 只有 previousPresentedFrame
+// 一个合法值，不是可失配维度；失配轴收敛到 ms 与 kind。
 
 describe('F1 reveal 失配分维度与错误后保持', () => {
   test('fade out/in 与 dither ms/source 分别失配即拒；cut 正控；错误后当前 session 保持', () => {

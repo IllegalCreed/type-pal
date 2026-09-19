@@ -108,11 +108,12 @@ describe('E3 施法人缺席/死亡/无技能/缺选中技能 guard', () => {
 })
 
 describe('E4 请求/扣费语义（magicConfirmSpell 按合同原地改菜单 state）', () => {
-  test('castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；world 不可被改', () => {
+  test('castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；实际 world 深快照不变', () => {
     const w = world()
     const table = skills()
     const tableAll = { ...table, '950': skill('950', { target: 'allAllies', cost: { mp: 30 } }) }
     w.learnedSkills['li-xiaoyao'] = ['296', '950']
+    const _wBefore = deepSnapshot(w)
     const entered = magicConfirmCaster(openMagicMenu(w, tableAll, 0), w, tableAll)
     // MP 门：296 花 6（fixtures demo mp 100 → 充足）
     const first = magicConfirmSpell(entered, w)
@@ -124,7 +125,7 @@ describe('E4 请求/扣费语义（magicConfirmSpell 按合同原地改菜单 st
     const grid = magicMoveCursor(back, 'down') // cursor 0→3（第二技能 950）
     const cast = magicConfirmSpell(grid, w)
     if (cast?.kind !== 'castAll') throw new Error('950 allAllies 应直放')
-    expect(cast.skill.id).toBe('950')
+    expect(cast.skill).toEqual(tableAll['950']) // 完整技能对象（含 cost/target/effects）
     expect(grid.phase).toBe('pick-spell') // 直放留面板连放
     // MP 不足：null 且 state 不变（不进入 pick-target）
     w.party[0]!.mp = 4
@@ -133,8 +134,11 @@ describe('E4 请求/扣费语义（magicConfirmSpell 按合同原地改菜单 st
     // 恰好足够：mp = cost 精确通过
     w.party[0]!.mp = 6
     expect(magicConfirmSpell({ ...back, cursor: 0 }, w)?.kind).toBe('toTarget')
-    // world 的结构字段全程只被本测试显式改动（菜单 API 不写 world）
-    expect(w.party).toHaveLength(2)
-    expect(w.learnedSkills['li-xiaoyao']).toEqual(['296', '950'])
+    // 实际传入的同一 world 在（本测试自行播种 MP 后的）全部菜单调用后逐值不变：
+    // 深快照在播种后取，排除测试自身的显式 MP 写入，只核菜单 API 零副作用
+    expect(w).toEqual(deepSnapshot(w))
+    const seeded = deepSnapshot(w)
+    magicConfirmSpell({ ...back, cursor: 0 }, w) // 再来一轮确认
+    expect(w).toEqual(seeded)
   })
 })

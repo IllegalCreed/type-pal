@@ -23,12 +23,10 @@ describe('F5 活动期间二次 present 与零残留', () => {
     const queue = new RewardGainQueue()
     const first = queue.present(['a', 'b'], new AbortController().signal)
     // 拒绝落成值断言（业务红可判别；坏实现下二次序列会真的启动）
-    const second = await queue
-      .present(['c'], new AbortController().signal)
-      .then(
-        () => undefined,
-        (error: unknown) => error as Error,
-      )
+    const second = await queue.present(['c'], new AbortController().signal).then(
+      () => undefined,
+      (error: unknown) => error as Error,
+    )
     expect(second).toBeInstanceOf(Error)
     expect(second?.message).toContain('reward-gain 已有活动序列')
     expect(queue.current?.text).toBe('a') // 首序列不受影响

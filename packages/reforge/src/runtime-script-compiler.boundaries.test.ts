@@ -4,7 +4,11 @@
  * 本文件补共享脚本解析缓存隔离、缺失/非法 digest、编译产物不污染实际输入。
  */
 
-import { checkRuntimeScriptLibrary, type RuntimeCommand } from '@type-pal/content'
+import {
+  checkRuntimeScriptLibrary,
+  type RuntimeCommand,
+  type RuntimeScriptLibrary,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot, legalSharedLibrary } from './__tests__/glm-state-boundary-fixtures.js'
 import { compileRuntimeCommands, RuntimeSharedScriptResolver } from './runtime-script-compiler.js'
@@ -34,12 +38,18 @@ describe('B1 同 id 的 timing×boundary 缓存隔离', () => {
     }
     const unique = new Set(compiled.map((entry) => entry as unknown))
     expect(unique.size).toBe(4)
-    // 正文完整编译（不只是对象不等）：两条 leaf 各自包装原命令
-    for (const entry of compiled) {
-      expect(entry.body.map((item) => item.kind)).toEqual(['leaf', 'leaf'])
+    // 正文完整编译：leaf 包装 + 每条 after 按组合精确（auto/perCommand 有 100ms wait 边界）
+    const expectedAfter = (timing: string, policy: string): unknown[] =>
+      timing === 'auto' && policy === 'perCommand' ? [{ kind: 'wait', ms: 100 }] : []
+    for (const [i, { timing, boundary }] of combos.entries()) {
+      expect(compiled[i]!.body.map((item) => item.kind)).toEqual(['leaf', 'leaf'])
       expect(
-        entry.body.map((item) => (item as { command: { kind: string } }).command.kind),
+        compiled[i]!.body.map((item) => (item as { command: { kind: string } }).command.kind),
       ).toEqual(['dialog', 'giveItem'])
+      expect(compiled[i]!.body.map((item) => item.after)).toEqual([
+        expectedAfter(timing, boundary),
+        expectedAfter(timing, boundary),
+      ])
     }
   })
 })
@@ -96,10 +106,58 @@ describe('B3 编译产物不污染真正传入的输入', () => {
     const library = legalSharedLibrary()
     const snapshot = deepSnapshot(library)
     const resolver = new RuntimeSharedScriptResolver(library, DIGEST)
-    resolver.resolve('shared/greet', 'auto')
+    const product = resolver.resolve('shared/greet', 'auto')
     resolver.resolve('shared/greet', 'interactive', 'transition')
     expect(library).toEqual(snapshot)
     // 库先过现行守卫（合法性自证）
     expect(() => checkRuntimeScriptLibrary(library)).not.toThrow()
+    // 修改编译产物不污染真正传入的库（同一输入对象，非另一份 fixture）
+    for (const item of product.body) {
+      item.after = []
+      if ('command' in item) {
+        const command = item.command as { kind?: string; itemId?: string; count?: number }
+        command.kind = 'stopMusic'
+        command.itemId = 'polluted'
+        command.count = 99
+      }
+    }
+    expect(library).toEqual(snapshot)
+  })
+  test('编译产物修改后嵌套 cue/参数仍与实际输入隔离（cond/entry 别名试验）', () => {
+    const library: RuntimeScriptLibrary = {
+      'shared/tree': {
+        name: '嵌套树',
+        self: 'none',
+        body: [
+          {
+            kind: 'branch',
+            cond: { kind: 'currentScene', scene: 's-origin' },
+            then: [{ kind: 'giveItem', itemId: '61', count: 1 }],
+            else: [],
+          },
+        ],
+      },
+    }
+    expect(() => checkRuntimeScriptLibrary(library)).not.toThrow()
+    const snapshot = deepSnapshot(library)
+    const resolver = new RuntimeSharedScriptResolver(library, DIGEST)
+    const product = resolver.resolve('shared/tree', 'interactive')
+    // 深入产物改嵌套条件与 payload
+    const mutate = (node: unknown): void => {
+      if (Array.isArray(node)) {
+        for (const child of node) mutate(child)
+        return
+      }
+      if (!node || typeof node !== 'object') return
+      const record = node as Record<string, unknown>
+      if (record.kind === 'currentScene') record.scene = 'polluted'
+      if (record.kind === 'giveItem') {
+        record.itemId = 'polluted'
+        record.count = 99
+      }
+      for (const value of Object.values(record)) mutate(value)
+    }
+    mutate(product.body)
+    expect(library).toEqual(snapshot) // 实际输入的嵌套树逐值不变
   })
 })

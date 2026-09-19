@@ -2,7 +2,14 @@
  * TEST-RUNTIME-STATE-BOUNDARIES-1 test-only fixture（reforge 包薄数据）。
  * 只放数据/深快照/deferred；受测值先过现行守卫再进断言；不被生产导入。
  */
-import type { AuthorItemCoreMap, BaseSceneDef, RuntimeScriptLibrary } from '@type-pal/content'
+import {
+  type AuthorItemCoreMap,
+  type BaseSceneDef,
+  type RuntimeScriptLibrary,
+  validateAuthorItemCore,
+  validateAuthorScenes,
+  validateRuntimeScenes,
+} from '@type-pal/content'
 
 /** 保真深拷贝（不经 JSON 往返）。 */
 export function deepSnapshot<T>(value: T): T {
@@ -151,7 +158,7 @@ export const legalScene = (): BaseSceneDef => ({
                 b: {
                   label: 'B',
                   body: [],
-                  entry: { prepare: [], reveal: { kind: 'fade', outMs: 100, inMs: 100 } },
+                  // guard: entry 只允许 onEnter initial state——非 initial 状态不带入场呈现
                   next: { kind: 'stay' },
                 },
               },
@@ -163,11 +170,28 @@ export const legalScene = (): BaseSceneDef => ({
   },
 })
 
-/** 合法作者物品表（use 双效果 + throw 可选分支）。 */
+/**
+ * 合法作者物品表。guard：外部脚本（runScript/runSceneHook）必须作为唯一效果；
+ * 复杂编排放进被引用脚本。故拆成三个合法物品：外部脚本 / 私有脚本 / 裸物品。
+ */
 export const legalItems = (): AuthorItemCoreMap => ({
-  both: {
-    id: 'both',
-    name: '双分支',
+  ext: {
+    id: 'ext',
+    name: '外部脚本物',
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: true,
+    use: {
+      target: 'scene',
+      consuming: false,
+      effects: [{ kind: 'runScript', script: 'shared/greet' }],
+    },
+    throw: { target: 'oneEnemy', effects: [{ kind: 'fixedDamage', amount: 5 }] },
+  },
+  priv: {
+    id: 'priv',
+    name: '私有脚本物',
     desc: [],
     buyPrice: 0,
     sellPrice: 0,
@@ -176,14 +200,12 @@ export const legalItems = (): AuthorItemCoreMap => ({
       target: 'scene',
       consuming: false,
       effects: [
-        { kind: 'runScript', script: 'shared/greet' },
         {
           kind: 'itemPrivateScript',
           script: { id: 'use', body: [{ kind: 'setFlag', flag: 'used', value: true }] },
         },
       ],
     },
-    throw: { target: 'oneEnemy', effects: [] },
   },
   bare: {
     id: 'bare',
@@ -194,3 +216,14 @@ export const legalItems = (): AuthorItemCoreMap => ({
     sellable: false,
   },
 })
+
+/** fixture 合法性自证：场景过 author/runtime 两级守卫。 */
+export function assertSceneFixtureLegal(scene: BaseSceneDef): void {
+  validateAuthorScenes([scene])
+  validateRuntimeScenes([scene as never])
+}
+
+/** fixture 合法性自证：物品表过现行 author item 守卫。 */
+export function assertItemsFixtureLegal(items: AuthorItemCoreMap): void {
+  validateAuthorItemCore(Object.values(items))
+}

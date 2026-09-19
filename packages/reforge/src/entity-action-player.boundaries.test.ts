@@ -94,15 +94,33 @@ describe('C2 单次动作 startAtMs 越尾', () => {
     expect(player.hasOverride('e1')).toBe(false) // 覆盖已清
     expect(player.frame('e1')).toBeUndefined() // 无基础轨 → 实体移除
     expect(cues).toEqual([]) // 历史位置的 cue（frame5 起点）不补发
-    // 对照：startAtMs=0 正常播放两条 cue
+    // 非空 cue 正控：once-sound 每步带 sound，从头播放两条 cue 按序一次发出
+    const withSound = sprite()
+    ;(
+      withSound.poses!.once as {
+        steps: Array<{ frame: number; durationMs: number; cues?: unknown[] }>
+      }
+    ).steps = [
+      { frame: 5, durationMs: 50, cues: [{ kind: 'sound', asset: 'sfx.once-a' }] },
+      { frame: 6, durationMs: 50, cues: [{ kind: 'sound', asset: 'sfx.once-b' }] },
+    ]
+    expect(() => validateSprites([withSound])).not.toThrow() // 合法性自证
     const player2 = new EntityActionPlayer((entity, cue) => {
       if (cue.kind === 'sound') cues.push({ entity, asset: cue.asset })
     })
-    const fromStart = resolveSpriteActionBinding(sprite(), bind('once', false, 0))
+    const fromStart = resolveSpriteActionBinding(withSound, bind('once', false, 0))
     void player2.play('e1', fromStart)
     player2.advance(50)
     player2.advance(50)
-    expect(cues.length).toBeGreaterThanOrEqual(0) // once 无 cues 声明 → 无 cue 正常
+    expect(cues.map((entry) => entry.asset)).toEqual(['sfx.once-a', 'sfx.once-b'])
+    // 越尾（startAtMs 越过全部 cue 位置）也不重播任何历史 cue（与上方空断言对照的实证）
+    const player3 = new EntityActionPlayer((_entity, cue) => {
+      if (cue.kind === 'sound') cues.push({ entity: 'e3', asset: cue.asset })
+    })
+    const expired = resolveSpriteActionBinding(withSound, bind('once', false, 999))
+    void player3.play('e1', expired)
+    player3.advance(1000)
+    expect(cues.filter((entry) => entry.entity === 'e3')).toEqual([])
   })
 })
 
