@@ -60,7 +60,31 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
   编译器限定current入口，菜单明确mutating/no-op合同，播放器只做非视觉轨迹；隔离试放/save/战斗公式与无caller旧入口。
   可证伪条件：若候选族没有合法当前输入、已有完全等价断言、只有统计臂没有实际消费，就收窄/复用，不以39族强迫新增。
 - Kimi：pending（独立读一手证据，不读/复述GLM判断）。
-- GLM：pending（作为Coding Owner独立核前提/设计，不读/复述Kimi判断）。
+- GLM：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读/复跑，未读 Kimi 席位）**。
+  - **11 模块与 caller 直读**：content world-variable.ts（character.ts:337 initialWorldVariablesV1、
+    project-loader.ts:285 validateWorldVariableRegistryV1）与 migration-diagnostic.ts（loader:281-285、
+    migrate/pal-current-publication.ts:351）；reforge 九模块——runtime-script-compiler（editor
+    playback.ts:423/437、runtime-script-project.ts:332/394/420）、runtime-project-view（main.ts:364/477/719）、
+    entity-action-player（main.ts:522）、frame-animation-player（main.ts:794/2768、FrameAnimationEditor.tsx:185）、
+    magic/system-menu-state（main.ts:6552-6554/6762、:6709/6723/6731）、scene-entry-session（main.ts:793/1677/2925）、
+    screen-hold-transaction（main.ts:1257/1642/1655）、reward-gain-queue（main.ts:5416/5448/6503）——
+    本人逐行直读全部命中，均为现行真实消费。
+  - **覆盖数字独立复算**：用 import 官方 coveragePackages/testSelection 的临时 config（/tmp 输出）
+    两包各跑一次：11 模块行/分支与工作包表**逐格一致**（world-variable 47/51·35/44、entity-action
+    150/175·136/183、magic 65/81·65/97 等），合计行 576/657、分支 475/639 一致。
+  - **旧测试去重锚点直读**：world-variable.test.ts:9/40/58、migration-diagnostic.test.ts:24/29、
+    runtime-script-project.test.ts:105/150/263、entity-action-player.test.ts:41/231、
+    frame-animation-player.test.ts:59/181、magic:56/152、system:12/78、scene-entry:11/56、
+    screen-hold:5/37、reward-gain-queue:9/72——工作包"已有"登记属实。
+  - **白名单核验**：11 新测试路径 + 两包各一 fixture 当前均不存在。
+  - **design agree**：39 族范围/白名单/纪律可执行且已吸收前两包 counter 教训（实际输入同对象快照、
+    真实交错、精确输出、负控判据自测+钉名执行见证）；关键合同注意点与工作包一致——
+    magicConfirmSpell 原地改菜单 state 是合同（E4）、frame 进行中 invalidate 政策未定不默认绿固化（D4）、
+    诊断不承诺 exactKeys（A7）、局部 V1/legacy-script 标签是当前合法数据非兼容残留。
+  - **可证伪观察**：①某族已被同合同断言覆盖→登记已有；②拟造输入不在当前 API 支持域→撤回；
+    ③负控仅 load 标记/混合宿主故障→无效；④快照对象与实际传入对象不一致→重造；
+    ⑤产品/旧测试/基线任何 diff→越界即停。
+  - 返工项：无。三席同 r1 齐且无 counter 后按卡核定 build allowed 再实施。
 - build准入：未开放，三席同r1齐且无counter后GLM核定build allowed；整包签一次，不逐组再签。另一张试放卡的准入独立。
 
 ### done前
@@ -71,6 +95,10 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r1 设计审查，签 premise verified + design agree，无返工项。11 模块 caller
+  逐行直读、覆盖数字临时 config 独立复算逐格一致、旧测试去重锚点核实、11+2 白名单路径未占用。
+  未读 Kimi 结论；设计未齐不写任何测试。Next：三席齐且无 counter 后本人核定 build allowed，
+  在独立 worktree 连续六组。
 
 - 2026-09-19 Codex：按用户要求准备六组11模块39族大包；内部只读盘点后本人重新读源码/旧测试并复算，内部分工不作外部席位签字。
   当前只开draft/写工作包，未写正式测试、未改生产或覆盖率；GLM与Kimi先并行审设计，同步给出提示词。

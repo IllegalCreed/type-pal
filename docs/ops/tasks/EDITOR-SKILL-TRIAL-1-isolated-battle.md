@@ -125,7 +125,24 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
   独立存储隔离采用“正常boot前独立宿主return”，不选普通scope换名/保存后回滚；复用真实战斗，不复制公式。可证伪边界见上。
   **UI承载形式仍待用户确认**，三席即使签齐也不据此越过UI产品门；本签不是提前实现授权。
 - Kimi：pending（架构/前提独立核验）。
-- GLM：pending（数据/存档入口/失败矩阵独立核验，不做视觉）。
+- GLM：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；本席只审数据/存档入口/失败矩阵，未读 Kimi 结论；不做视觉）**。
+  - **入口/执行/保存锚点直读**：SkillTab.tsx:1117-1118 确写死 `scene=s001&battle=0&skill=`；
+    main.ts:2220-2253 敌队缺席走 victory 桩、:2473 真实 `new BattleSession`、:590 正常 SaveStore 构造、
+    :5612/:5817 doSave/quickSave、:355-359 shop-trial 早分流先例、shop-trial.ts:17/38、
+    battle/battle-session.ts:341/:636/:644 构造/done-cancel/tick——卡片前提全部一手核实。
+  - **前提探针本人复跑**：`node --import tsx docs/testing/skill-trial-premise.mjs` exit0——
+    SSR 链接仍 s001/0、实际场景回退 start、battleResult=victory、sessions=0（无真实战斗）；
+    同一 world 真实 quickSave 链把临时授技/MP999 写入同 scope 内存槽（savedAfterMaxMP=999、
+    trialSkill=true）而作者输入不变——D-04 桩胜与 D-05 存档污染两个前提都动态复现。
+  - **design agree（数据/失败矩阵侧）**：普通 boot 之前独立宿主早分流 return（不构造正常 SaveStore/
+    不预读 metas/不进标题）优于"保存后回滚"；真实 BattleSession + 最小 battle-player-input 提取
+    不复制公式；混合 URL 副作用前拒绝、ID 原值查表不 parseInt；敌队缺失不落 victory 桩。
+    失败矩阵（缺入口/队伍/技能/队长、未保存 dirty、悬空 ID、重复启动、取消迟到）与验收 1-5 覆盖
+    数据/时序面。**UI 承载形式仍待用户确认——本 design agree 不越过 UI 产品门**。
+  - **可证伪观察**：①若当前正式入口已能从本工程选非空敌队并实际构造 session→前提失效；
+    ②若隔离宿主仍构造正常 SaveStore/任何槽 IO>0→设计 2 违反；③若试放链不经过真实施法路径
+    （只 toast/URL/mock 构造计数）→验收 2 不满足。
+  - 返工项：无。
 - build准入：未开放；三席同r1齐、无counter且入口形态已获用户确认后由Codex核定。与补测卡独立，不互借签字。
 
 ### done前
@@ -136,6 +153,9 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+- 2026-09-19 GLM：完成设计/矩阵审查，签 premise verified + design agree，无返工项。直读
+  SkillTab/main 保存与战斗启动锚点；独立复跑前提探针（两缺陷动态复现）。UI 产品门保留待用户。
+  未读 Kimi 结论；未改任何实现。Next：三席齐且 UI 形式确认后 Codex 核定 build 并实施。
 
 - 2026-09-19 Codex：用户授权独立临时方案后，同步准备试放修复与GLM大批补测。前提探针已在当前API上复现两问题，初版fixture修正如实登记。
   当前只建draft/落方案，生产/正式测试/基线零改；使用Vitest/pnpm复跑45相邻项，并以Vite SSR只读核当前链接。UI形式问题已异步提出，不把未答当同意。
