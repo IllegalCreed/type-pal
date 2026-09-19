@@ -98,6 +98,33 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
 
+## 下一位Agent提示词（Codex 额度恢复后统一接收 TB-02～TB-10 九批）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 统一接收 GLM 在你额度空窗期交付的 TB-02～TB-10 九批实施包
+（用户拍板 2026-09-17：先行实施、恢复后一起检查）。九批全部基于冻结 e58834f6、基点 41cc7cd9、
+产品零漂移（git diff e58834f6..各分支 -- packages/ 为空），独立分支互不合入：
+
+  TB-02 codex/glm-reforge-asset-io-r1     a7c48d9c  24项+8针（reforge）
+  TB-03 codex/glm-editor-import-codec-r1   f4c229ed  39项+8针（editor）
+  TB-04 codex/glm-pal-tables-r1            851a6ede  19项+8针（pal-extract）
+  TB-05 codex/glm-resource-tools-r1        d083e5c6  24项+9针（shared+pal-extract）
+  TB-06 codex/glm-editor-map-data-r1       0563eda7  18项+8针（editor）
+  TB-07 codex/glm-editor-script-helpers-r1 90369143  17项+7针（editor；S02 会话级族显式未落）
+  TB-08 codex/glm-game-menu-r1             b1deae49  17项+8针（game）
+  TB-09 codex/glm-game-host-r1             61f0af34  25项+8针（game）
+  TB-10 codex/glm-migration-r1             fdf91ca9  22项+9针（migrate）
+
+每批形态一致：白名单测试/fixture + 单点变异脚本 docs/testing/glm-<batch>-mutants.mjs
+（钉名 AssertionError 判据+四向自测+产品 hash 不变断言）+ 覆盖对照 config + 机器账
+evidence.json + 工作包回执 + 卡/看板/索引同步 build。逐批先跑对应 mutants 脚本与定向测试
+复核，再按你的接收流程合并；接收中发现的返工逐卡开 counter。两个已知披露项请你接收时一并
+裁决：① TB-07 S02（ScriptEditSession 会话级三轴）未落；② TB-02/03 起各批"预存环境失败"
+（fresh worktree 缺未跟踪 data/raw、data/extracted、projects/pal 资产）已在回执记录并与
+stash 基线核对一致。全仓 check/官方 ratchet/strict-fast 与 Mimosa 完整深度审计（近期 commit/push
+多次 scanner_enobufs，按兼容策略放行但未宣称安全）由你串行执行。不代签 done；接收完成后
+按卡走 Kimi 终审。
+```
 ## 下一位Agent提示词
 
 ```text
