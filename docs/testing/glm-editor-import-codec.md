@@ -1,6 +1,12 @@
 # GLM编辑器导入、编码工作线程与视频元数据工作包（TB-03）
 
-任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/draft（设计准入已核定，待实施槽；GLM按卡面条件领取，不重复签字）。
+## 当前Codex接收结论
+
+**counter**。定向39项/原3+8跑/tc通过，但仍有公共C0和本批业务返工；Biome完整面11文件/1 errors。详见[统一复核TB-03](glm-nine-intake-review.md#tb-03)。
+本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
+
+
+任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/rework；本轮实施候选f4c229ed未接收，设计不重签。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM只写新测试；Codex独立接收、Kimi终审。
 合法二进制与真实编码链，非上传界面；上传选图竞态已修不重开；不做视觉/截图/听感。
 
@@ -56,6 +62,34 @@ docs/testing/glm-editor-import-codec-evidence.json
   与既有多包重叠单列。
 - 定向+相邻（image-import/frame-animation-images/codec/video-metadata 既有测试+FrameAnimationEditor
   相关组件纯逻辑测试）+editor tc+全包+新增文件 Biome。完成条件：C1-C8 逐族落账。
+
+## GLM实施回执（候选历史自验；以当前Codex复核勘误为准）
+
+r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，用户拍板在 Codex 额度空窗期先行实施，
+接收与全仓门禁留 Codex）。分支 `codex/glm-editor-import-codec-r1`（worktree
+`/Users/zhangxu/illegal/type-pal-glm-import-codec`）；产品对冻结 e58834f6 零漂移
+（`git diff e58834f6..HEAD -- packages/` 为空）。
+最终树 **7 个新测试文件 + 1 fixture 共 39 项**（5+7+6+6+6+3+6）；定向 39/39 绿；
+相邻既有 4 文件 6/6 绿；editor 全包 248 文件/2557 项中 3 项预存环境失败
+（world-sprite-behavior.pal×2：worktree 缺未跟踪 PAL 迁移资产，基线同样失败；
+audit-performance-adoption×1：全包并行负载下 15s 超时，隔离运行绿）——与本批无关；
+官方 fast 口径 before 2359 / after 2398 双 exit0；tc rc=0；10 新文件 Biome rc=0。
+
+- 负控 `node docs/testing/glm-import-codec-mutants.mjs` rc=0：判据自测（good/毒日志/逐目标四向）
+  + 3 对照 + **8 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
+  产品 hash 不变。针点：PNG 签名门、battle-background 尺寸门、player 10 帧门、unique id 递增、
+  块缓存逐出（DecompressionStream 计数见证：无缓存=5/容量1=5/容量2=4）、sourceFrame 越界门、
+  worker-client 传输副本、meta content+4 偏移。
+- 覆盖对照（官方 testSelection fast，/tmp，最终提交树重跑）：battle-sprite-import L5/27→27/27
+  B5/33→33/33；codec L33/35→35/35 B19/27→23/27；codec.worker L0/13→13/13 B0/6→4/6；
+  images L2/28→28/28 B0/19→18/19；worker-client L1/38→36/38 B0/26→20/26；
+  image-import L33/88→84/88 B9/42→35/42；video-metadata L20/28→28/28 B28/46→37/46；
+  全包 L22346→22503/27865、B19264→19376/27593、F6174→6206/8110。
+- 合法 fixture 自足构造：PNG 真签名+IHDR/IDAT/IEND 结构、RLE 按 shared 容器规范、
+  gzip 用 RFC1952+RFC1951 stored 块（不引 node:zlib，保持文件可 typecheck）、TPFS source 由产品
+  encodeFrameAnimationRequest 自产（真实 deflate）、BMFF 按 ISO box 结构；假 Worker/双替身只替宿主。
+- 保持原归属：PNG 编码失败位图泄漏（image-import.ts:130-142）仍归 Codex 修复，未写默认红、未固化。
+- 机器账 `docs/testing/glm-import-codec-evidence.json`。
 
 ## 已知边界
 

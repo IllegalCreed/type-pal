@@ -42,11 +42,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-io",
-      "control-facts",
-      "control-store"
-    ],
+    "controls": ["control-io", "control-facts", "control-store"],
     "cases": [
       {
         "name": "io-escape-path-guard-removed",
@@ -174,5 +170,24 @@
     "A08 journal 采样窗口/A09 物化父链 symlink 是已确认独立修复项，本包只测已有守卫不宣称已修",
     "E05 历史输出退役不新增旧 profile 测试；SourceMap semanticRoundTripMismatch 是内部反证防御不刷覆盖",
     "Store0 固定 1..20 只用于生成 seed，不施加到合并作者工程"
-  ]
+  ],
+  "codexReception": {
+    "candidate": "bd59755887bd22ddb5208d0eb4bdeff953c6bb4e",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-10",
+    "verifiedNewTests": 22,
+    "verifiedControls": 3,
+    "verifiedMutants": 9,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 11,
+      "errors": 11,
+      "warnings": 2,
+      "info": 1
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  }
 }

@@ -3,7 +3,7 @@
 2026-09-19，r1；策划树 `4473c367`，生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`。
 用户要求把后续工作一次细化、审核好，便于GLM连续领取。十批队列中前三批已签，剩余实际为**七批**，不是六批；两组资源解析主题/夹具独立，没有为凑数合并的技术理由。
 
-**本轮是规划与前提复核，不是新增测试交付。** 七张卡均draft，Codex已签设计，Kimi/GLM待独立审核。
+**本页为设计阶段证据。** 七卡设计三签已齐（GLM de698205、Kimi 986e58ab及Codex原签）；用户批准先行实施后，当前[九批接收](glm-nine-intake-review.md)已分别counter，卡均rework，不重签设计。
 59个目标模块是白名单候选上限，不等于59个文件都必须新加测试；既有/无caller/防御/待裁决允许剔除。
 三席齐后Codex统一核准，不在缺签时开始实现。TB-01～03既有r2签字/准入、TB-00残余返工不重开。
 
@@ -11,13 +11,13 @@
 
 | 批次 | 任务卡 | 族账/白名单 | 目标模块 | 当前状态 |
 |---|---|---|---:|---|
-| TB-04 | [原版表格与文本自包含补测](../ops/tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | [工作包](glm-pal-tables.md) | 9 | Codex已签；Kimi/GLM待审 |
-| TB-05 | [RLE、事件与资源工具补测](../ops/tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | [工作包](glm-resource-tools.md) | 9 | Codex已签；Kimi/GLM待审 |
-| TB-06 | [地图选区与组合模板数据补测](../ops/tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | [工作包](glm-editor-map-data.md) | 8 | Codex已签；Kimi/GLM待审 |
-| TB-07 | [脚本与内容编辑辅助补测](../ops/tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | [工作包](glm-editor-script-helpers.md) | 7 | Codex已签；Kimi/GLM待审 |
-| TB-08 | [第一阶段菜单导航与请求补测](../ops/tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | [工作包](glm-game-menu-boundaries.md) | 9 | Codex已签；Kimi/GLM待审 |
-| TB-09 | [第一阶段宿主、隐私与计时补测](../ops/tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | [工作包](glm-game-host-boundaries.md) | 8 | Codex已签；Kimi/GLM待审 |
-| TB-10 | [当前迁移辅助与隔离文件系统补测](../ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | [工作包](glm-migration-boundaries.md) | 9 | Codex已签；Kimi/GLM待审 |
+| TB-04 | [原版表格与文本自包含补测](../ops/tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | [工作包](glm-pal-tables.md) | 9 | 三席设计已齐；实施接收counter |
+| TB-05 | [RLE、事件与资源工具补测](../ops/tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | [工作包](glm-resource-tools.md) | 9 | 三席设计已齐；实施接收counter |
+| TB-06 | [地图选区与组合模板数据补测](../ops/tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | [工作包](glm-editor-map-data.md) | 8 | 三席设计已齐；实施接收counter |
+| TB-07 | [脚本与内容编辑辅助补测](../ops/tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | [工作包](glm-editor-script-helpers.md) | 7 | 三席设计已齐；实施接收counter |
+| TB-08 | [第一阶段菜单导航与请求补测](../ops/tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | [工作包](glm-game-menu-boundaries.md) | 9 | 三席设计已齐；实施接收counter |
+| TB-09 | [第一阶段宿主、隐私与计时补测](../ops/tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | [工作包](glm-game-host-boundaries.md) | 8 | 三席设计已齐；实施接收counter |
+| TB-10 | [当前迁移辅助与隔离文件系统补测](../ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | [工作包](glm-migration-boundaries.md) | 9 | 三席设计已齐；实施接收counter |
 
 GLM完成旧counter优先；实施成果最多两批尚未接收，设计审核不限此两槽。获准后的领取授权由Codex写回卡面，不要求用户逐文件反复签字。
 一批counter不影响其它已明确合同；各批独立分支/worktree、独立薄fixture/输出目录，从最新已接收main起步，禁止把未接收分支互相合入。
@@ -103,4 +103,4 @@ A08/A09/E05归现有迁移/版本纪律台账；map/脚本防御臂归本包分�
 
 ## 当前下一步
 
-等待七卡两席独立设计审查；不开始本七批实现、不标done。签齐后Codex一次核准队列，GLM按可用槽持续领取，不因每组测试重复要签。
+设计审查已经完成；现在按统一接收报告逐卡返工，设计不重签。以下两席设计提示词是历史交接，不要再次索要同轮签字；没有通过接收的测试可标done。

@@ -1,7 +1,13 @@
 # GLM当前迁移辅助与隔离文件系统补测工作包（TB-10）
 
-任务：[TEST-MIGRATION-BOUNDARIES-1](../ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md)，r1/draft。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`；策划树 `4473c367`。
-共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试，**未获build授权**。
+## 当前Codex接收结论
+
+**counter**。定向22项/原3+9跑/tc通过，但仍有公共C0和本批业务返工；Biome完整面11文件/11 errors。详见[统一复核TB-10](glm-nine-intake-review.md#tb-10)。
+本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
+
+
+任务：[TEST-MIGRATION-BOUNDARIES-1](../ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md)，r1/rework；本轮实施候选bd597558未接收，设计不重签。
+共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试；三席设计有效，用户已批准本轮先行实施，当前接收counter。
 表内为已按调用域筛选的候选，不是已经完成的新增覆盖；允许去重后减文件/减族，不设必须凑足的用例数。
 
 ## 合同族、去重与当前调用
@@ -79,7 +85,7 @@ docs/testing/glm-migration-boundaries-evidence.json
 - GLM不跑全仓check/官方ratchet/strict-fast。Codex独立接收集成后串行执行；GLM贡献终审披露，不自证第三方，不代签、不标done。
 - 提交时本节后附GLM实现回执：候选SHA、白名单diff、真实命令/退出码、逐族互斥分类与新增价值、负控细目、覆盖两时点与待证归属。
 
-## GLM回执区
+## GLM回执区（候选历史自验；以当前Codex复核勘误为准）
 
 r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字齐；用户拍板在 Codex 额度
 空窗期先行实施 TB-02～TB-10、恢复后统一接收——本批据此开工，非代签 Codex 准入）。分支
@@ -101,4 +107,3 @@ exit0；tc rc=0；9 新文件 Biome rc=0。
 - T02 订正：journal `previousHash=null` 对新建目标为合法（真实合同），本批以 `hash` 篡改为
   拒绝轴；A08/A09/E05 待证保持原归属（见机器账 knownBoundaries）。
 - 机器账 `docs/testing/glm-migration-boundaries-evidence.json`。
-
