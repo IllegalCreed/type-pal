@@ -24,7 +24,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | TEST-EDITOR-MAP-DATA-1 | [地图选区与组合模板数据补测](tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | draft | Kimi/GLM并行审r1 | TB-06已细化，Codex已签；只补现行非视觉合同，未开放实施 |
 | TEST-EDITOR-SCRIPT-HELPERS-1 | [脚本与内容编辑辅助补测](tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | draft | Kimi/GLM并行审r1 | TB-07已细化，Codex已签；只补现行非视觉合同，未开放实施 |
 | TEST-GAME-MENU-BOUNDARIES-1 | [第一阶段菜单导航与请求补测](tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | draft | Kimi/GLM并行审r1 | TB-08已细化，Codex已签；只补现行非视觉合同，未开放实施 |
-| TEST-GAME-HOST-BOUNDARIES-1 | [第一阶段宿主、隐私与计时补测](tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | draft | Kimi/GLM并行审r1 | TB-09已细化，Codex已签；只补现行非视觉合同，未开放实施 |
+| TEST-GAME-HOST-BOUNDARIES-1 | [第一阶段宿主、隐私与计时补测](tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | build | GLM已交付 / 待Codex接收 | r1三签齐；用户拍板额度空窗期先行实施；25项+8针+覆盖已交付 |
 | TEST-MIGRATION-BOUNDARIES-1 | [当前迁移辅助与隔离文件系统补测](tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | draft | Kimi/GLM并行审r1 | TB-10已细化，Codex已签；只补现行非视觉合同，未开放实施 |
 
 2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。

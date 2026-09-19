@@ -1,0 +1,164 @@
+{
+  "task": "TEST-GAME-HOST-BOUNDARIES-1 r1 (TB-09)",
+  "generatedAt": "2026-09-19T09:33:16Z",
+  "branch": "codex/glm-game-host-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-game-host",
+  "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "base": "41cc7cd9 (r1 three signoffs; user authorized proceeding during Codex quota gap)",
+  "productDriftVsFreeze": "git diff e58834f6..HEAD -- packages/ empty; batch adds whitelist only",
+  "tests": {
+    "perFileExecuted": {
+      "shell/fetch-retry.boundaries.test.ts": 4,
+      "shell/input.boundaries.test.ts": 3,
+      "shell/audio-volume.boundaries.test.ts": 2,
+      "analytics/analytics-consent.boundaries.test.ts": 3,
+      "analytics/google-analytics.boundaries.test.ts": 4,
+      "tools/speedrun/timer.boundaries.test.ts": 6,
+      "tools/speedrun/time-format.boundaries.test.ts": 3
+    },
+    "newTotal": 25,
+    "familyLedger": {
+      "H01": "新增（init.method 优先、GET 大小写、502/504 同 503、耗尽抛最后一次 Error 身份、成功返回最终 Response 身份、backoff 末值复用与空数组 1000 fallback）",
+      "H02": "新增（真实 Window 事件、两个 snapshot Set 防别名、未知 keyup 不清 held、fade 只抑制方向且物理松开解除、detach 后零事件）",
+      "H03": "新增（stored '0' 不落 default、defaultVolume 0、三通道 keyVol 独立 keyMute 共享精确 IO、静音中改目标 apply 0、unmute 恢复新值、无跨 controller 自动同步）",
+      "H04": "新增（storage getter 抛错失败关闭、read 失败 unset、写成功 dispatch 抛错仍 true、stored denied 优先隐私信号、非 CustomEvent→unset、unsubscribe 零回调）",
+      "H05": "新增（measurement ID 小写归一/21 字符零副作用、UTM 64 保留 65 丢弃、非法 token 丢弃、游戏参数不进 URL、无 subscribePage 的 grant/deny/regrant/stop、disable 键翻转）",
+      "H06": "新增（同 now 双 tick 不累计、finished 不累计、justResumed/bestsDirty 二次消费 false、倒计时 2999/3000 精确边界、恢复帧不计时、setStep 清检测记忆、实例不串）",
+      "H07": "新增（enterAny 集内转场不触发/prev=null 视为进入、atSpot tol 恰等/+1 越界、leaveScene prev=null 恒 false、caiyi 未见不误报+cleared 轴+独立 mem）",
+      "H08": "新增（59→60 进位、负数归 0、formatDiff 符号与截断、parseHms 负号/空段/非数字/分秒 60/段数边界）"
+    },
+    "packageFull": "131 files / 2309 tests：dev-panel 1 文件预存 ENOENT（stash 基线同样失败，TB-08 已核）；本批 25/25 绿",
+    "typecheck": "pnpm --filter @type-pal/game exec tsc --noEmit rc=0",
+    "biome": "8 新文件 rc=0"
+  },
+  "mutants": {
+    "script": "docs/testing/glm-game-host-boundaries-mutants.mjs",
+    "command": "node docs/testing/glm-game-host-boundaries-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true,
+      "pinnedVerdictFourWay": true
+    },
+    "controls": [
+      "control-timer",
+      "control-consent",
+      "control-timefmt"
+    ],
+    "cases": [
+      {
+        "name": "fetchretry-gateway-retry-gate-removed",
+        "exit": 1,
+        "red": "502/503/504 不再重试（瞬时网关错误直抛给游戏）",
+        "redTest": "重试后成功：返回最终那次 Response 身份（502→504→200）",
+        "executedTests": 4,
+        "logSha256": "573d5c0023d608e141ba589f9dc8b6a89980bcb3e0b7e77c46b684023b9be300"
+      },
+      {
+        "name": "input-fade-filter-removed",
+        "exit": 1,
+        "red": "fade 抑制集不再过滤 held（演出期间方向泄漏进快照）",
+        "redTest": "未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除",
+        "executedTests": 3,
+        "logSha256": "b75056a866eb131c6e9e6d6952a3426c2b4f88098ef46f6dbddebe0beadcc350"
+      },
+      {
+        "name": "audio-muted-zero-apply-dropped",
+        "exit": 1,
+        "red": "静音时仍 apply 目标音量（静音失效）",
+        "redTest": "三通道 keyVol 独立、keyMute 共享：精确 IO；静音中改目标仍 apply 0，unmute 恢复新值",
+        "executedTests": 2,
+        "logSha256": "0d89d77981ebc986a87f290721e3eb5ad34fea2d441705c3561d8eb32c17c36e"
+      },
+      {
+        "name": "consent-detail-validation-dropped",
+        "exit": 1,
+        "red": "非法 detail 直传订阅者（unset 判别失效）",
+        "redTest": "非 CustomEvent → unset；unsubscribe 后真实 dispatch 零回调",
+        "executedTests": 3,
+        "logSha256": "47bc2ef2ab0ed246cf837c58b708e64c567a390628f2f3feb775c5e22c052904"
+      },
+      {
+        "name": "ga-deny-lastpath-kept",
+        "exit": 1,
+        "red": "deny 后不清 lastPath（regrant 同页被去重吞掉）",
+        "redTest": "不传 subscribePage：grant 发当前页一次；deny 停发且清 lastPath；regrant 同页可再发；stop 后零回调",
+        "executedTests": 4,
+        "logSha256": "d0c06a558b6ad4e9ad1a1587ac9ce4fb2c7613f1a70ec5f77dd510c83308603c"
+      },
+      {
+        "name": "timer-live-gate-removed",
+        "exit": 1,
+        "red": "暂停期照常累计（计时器不停表）",
+        "redTest": "手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次",
+        "executedTests": 6,
+        "logSha256": "78a0714fc43ecf087e6aa4c3999d9567b855dbd3fdb816e19f7a4fecf7d7177c"
+      },
+      {
+        "name": "detectors-enterany-prev-clause-dropped",
+        "exit": 1,
+        "red": "enterAny 忽略来源（集内转场误触发）",
+        "redTest": "enterAny：集合内转场不触发；从集合外进入触发；prev=null 视为进入",
+        "executedTests": 6,
+        "logSha256": "4d54eea27534323e878ea55323f10fb6c512d4facebefa7d4359283058ad63d5"
+      },
+      {
+        "name": "timefmt-minute-second-cap-removed",
+        "exit": 1,
+        "red": "分秒 >59 不再拒绝（1:60 被当合法）",
+        "redTest": "parseHms：2/3 段合法；负号/空白段/非数字/分秒 60/单段全拒绝",
+        "executedTests": 3,
+        "logSha256": "ce92dca14e2a23c07132f9e2744f3515a2b0f58ec845877cc6c35d7e9b509cad"
+      }
+    ],
+    "logs": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/tb09-mutants-98jMnl",
+    "note": "临时日志在 mkdtemp 可重建；产品文件前后 sha256 不变（脚本内置断言）"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-game-host-boundaries.config.mts (official testSelection fast + jsdom env/setupFiles；before excludes 7 new files)",
+    "perModule": {
+      "analytics-consent.ts": {
+        "before": "L28/29 B21/33",
+        "after": "L29/29 B25/33"
+      },
+      "google-analytics.ts": {
+        "before": "L61/64 B27/29",
+        "after": "L64/64 B29/29"
+      },
+      "audio-volume.ts": {
+        "before": "L17/17 B17/18",
+        "after": "L17/17 B18/18"
+      },
+      "fetch-retry.ts": {
+        "before": "L23/23 B22/26",
+        "after": "L23/23 B24/26"
+      },
+      "input.ts": {
+        "before": "L43/43 B15/18",
+        "after": "L43/43 B16/18"
+      },
+      "detectors.ts": {
+        "before": "L21/22 B34/37",
+        "after": "L21/22 B34/37"
+      },
+      "time-format.ts": {
+        "before": "L18/18 B21/24",
+        "after": "L18/18 B23/24"
+      },
+      "timer.ts": {
+        "before": "L96/98 B63/67",
+        "after": "L98/98 B64/67"
+      }
+    },
+    "packageTotal": {
+      "before": "L10263/13604 B7498/11281 F1308/1843",
+      "after": "L10269/13604 B7511/11281 F1310/1843"
+    },
+    "officialFastSelection": "before 2271 / after 2296 (+25)，双侧 exit0"
+  },
+  "knownBoundaries": [
+    "fetch AbortError 取消政策待裁决（走通用重试，不固化）；Replay/Recording InputSource 无生产构造不扩",
+    "setStep(length) 注释与实现不一致轴按工作包不实施（当前 UI 只给合法 idx）",
+    "GA 不接真实端点；UTM 'Up' 大写归一小写后合法保留（合同即 normalize）"
+  ]
+}

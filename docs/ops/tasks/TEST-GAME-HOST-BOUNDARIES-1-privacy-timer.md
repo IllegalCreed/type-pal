@@ -1,6 +1,6 @@
 # TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）
 
-Status: draft
+Status: build
 Phase: phase1
 Capability: 已有合同补测，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -83,6 +83,12 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：按用户拍板（Codex 额度空窗期先行实施 TB-02～TB-10）领取 TB-09 并完成实施
+  （r1，八/八族）。worktree `type-pal-glm-game-host`、分支 `codex/glm-game-host-r1`、基点
+  41cc7cd9；产品零漂移已核。交付：7 新测试文件 25 项；tc/Biome/官方口径 2271→2296 双 exit0；
+  负控 8 针+3 对照全 detected（jsdom env 对齐官方配置）。状态同步 build；不代签 done，等 Codex
+  恢复额度后统一接收。
+
 - 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-09），签 premise verified + design agree，
   无返工项。直读 install-analytics.ts:38-49 未传 subscribePage（google-analytics.ts:21 可选+
   :132 空订阅）、timer setStep 钳到 length 的注释/实现不一致与 tools-panel.ts:758-768 只产
