@@ -16,6 +16,12 @@ import {
   withStableProjectRead,
 } from '@type-pal/reforge'
 import { type AuthorDiskBaseline, observeAuthorSource } from './author-disk-baseline.js'
+import {
+  assertBattleSimulatorPathAvailable,
+  BattleSimulatorDocumentError,
+  type BattleSimulatorLibrary,
+  loadBattleSimulatorLibrary,
+} from './battle-simulator-library.js'
 
 export interface OpenedCurrentProject {
   kind: 'current'
@@ -24,6 +30,7 @@ export interface OpenedCurrentProject {
   scriptChunks: Record<string, ScriptChunkV1>
   stamps: StampTemplate[]
   authorBaseline: AuthorDiskBaseline
+  battleSimulator: BattleSimulatorLibrary | undefined
 }
 
 export type OpenedProject = OpenedCurrentProject
@@ -69,13 +76,24 @@ async function readLocalProject(
 
   try {
     const project = await loadCurrentProjectFrom(source)
-    const [scenes, stamps] = await Promise.all([
+    assertBattleSimulatorPathAvailable(project)
+    const [scenes, stamps, battleSimulator] = await Promise.all([
       loadAllAuthorScenes(project),
       loadStampTemplates(project),
+      loadBattleSimulatorLibrary(source),
     ])
     const authorBaseline = await observed.finish(project, dir)
-    return { kind: 'current', project, scenes, scriptChunks: {}, stamps, authorBaseline }
+    return {
+      kind: 'current',
+      project,
+      scenes,
+      scriptChunks: {},
+      stamps,
+      authorBaseline,
+      battleSimulator,
+    }
   } catch (error) {
+    if (error instanceof BattleSimulatorDocumentError) throw error
     throw new Error(
       `打开项目失败:「${dir.name}」的 canonical v${CONTENT_VERSION} 内容无效(${error instanceof Error ? error.message : String(error)})`,
     )

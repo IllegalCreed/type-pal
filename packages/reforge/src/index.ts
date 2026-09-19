@@ -312,6 +312,28 @@ import type { PlayVideoOptions } from './video-player.js'
 import { playVideo } from './video-player.js'
 
 export type {
+  BattleTrialConfig,
+  TrialBag,
+  TrialEnemies,
+  TrialMember,
+  TrialMusic,
+  TrialParty,
+  TrialPool,
+  TrialStats,
+} from './battle-trial-config.js'
+export {
+  parseBattleTrialConfig,
+  parseTrialBag,
+  parseTrialEnemies,
+  parseTrialMusic,
+  parseTrialParty,
+  trialArray,
+  trialBoolean,
+  trialId,
+  trialInteger,
+  trialObject,
+} from './battle-trial-config.js'
+export type {
   FrameAnimationFrameSnapshot,
   FrameSequenceAssetReader,
   PlayFrameAnimationOptions,

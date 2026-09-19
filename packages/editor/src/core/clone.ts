@@ -10,6 +10,11 @@ import {
   validateSceneIndex,
 } from '@type-pal/content'
 import { decodeBattleSpriteAssetBytes, type FileSource } from '@type-pal/reforge'
+import {
+  assertBattleSimulatorPathAvailable,
+  BATTLE_SIMULATOR_PATH,
+  loadBattleSimulatorDocument,
+} from './battle-simulator-library.js'
 import { sha256Hex } from './binary-signature.js'
 import { observeProjectCopySource } from './project-copy-source.js'
 import { type ProjectWriteResult, writeProject } from './project-io.js'
@@ -60,8 +65,11 @@ export async function cloneFromPal(
     ? validateMapIndex(await source.readJson(manifest.content.maps))
     : undefined
   const catalog = validateAssetCatalog(await source.readJson(manifest.assets.catalog))
+  if (!mapIndex) throw new Error('克隆项目缺少当前地图索引')
+  assertBattleSimulatorPathAvailable({ manifest, mapIndex, sceneIndex, assetCatalog: catalog })
+  const simulator = await loadBattleSimulatorDocument(source)
   const files = enumerateSeedFiles(manifest, sceneIndex, mapIndex, catalog)
-  const total = files.reduce((s, f) => s + f.size, 0)
+  const total = files.reduce((s, f) => s + f.size, 0) + (simulator?.bytes.byteLength ?? 0)
   onProgress(0, total, 'preparing')
 
   return withAuthorizedWorkspaceMutation(target, async (mutation) => {
@@ -73,15 +81,29 @@ export async function cloneFromPal(
         [manifest.assets.catalog]: catalog,
       },
       {
-        copies: files.map((file) => ({
-          path: file.rel,
-          read: async () => {
-            const bytes = await assetBytes(source, file)
-            done += file.size
-            if (done < total) onProgress(done, total, 'preparing')
-            return new Blob([bytes])
-          },
-        })),
+        copies: [
+          ...files.map((file) => ({
+            path: file.rel,
+            read: async () => {
+              const bytes = await assetBytes(source, file)
+              done += file.size
+              if (done < total) onProgress(done, total, 'preparing')
+              return new Blob([bytes])
+            },
+          })),
+          ...(simulator
+            ? [
+                {
+                  path: BATTLE_SIMULATOR_PATH,
+                  read: async () => {
+                    done += simulator.bytes.byteLength
+                    if (done < total) onProgress(done, total, 'preparing')
+                    return new Blob([simulator.bytes])
+                  },
+                },
+              ]
+            : []),
+        ],
         verifySource: observed.verify,
         onProgress: ({ completed, total }) => onProgress(completed, total, 'writing'),
       },

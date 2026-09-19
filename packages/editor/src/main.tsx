@@ -12,10 +12,15 @@ import {
   loadCurrentProjectFrom,
   loadProjectMap,
   loadStampTemplates,
+  withStableProjectRead,
 } from '@type-pal/reforge'
 import { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { type AuthorDiskBaseline, observeAuthorSource } from './core/author-disk-baseline.js'
+import {
+  assertBattleSimulatorPathAvailable,
+  loadBattleSimulatorLibrary,
+} from './core/battle-simulator-library.js'
 import { EditSession } from './core/edit-session.js'
 import { EditorHistoryCoordinator } from './core/editor-history-coordinator.js'
 import type { Opened } from './core/open-actions.js'
@@ -83,71 +88,82 @@ function Root() {
     const loadDevProject = async (): Promise<Booted> => {
       const observed = observeAuthorSource(httpSource(`projects/${PROJECT_ID}`))
       const source = observed.source
-      const palProofBefore =
-        !UI_REVIEW_SAMPLES && PROJECT_ID === 'pal'
-          ? await createPalDevelopmentWorkspaceContext(source)
-          : undefined
-      const project = await loadCurrentProjectFrom(source)
-      // Workspace mode is fixed before any ui_samples projection mutates author data. Normal PAL
-      // dev freezes a trusted HTTP proof; ui_samples never receives that authority and is sandbox.
-      const workspace = UI_REVIEW_SAMPLES
-        ? createSandboxWorkspaceContext(project.manifest.id, 'ui-samples')
-        : project.manifest.id === 'pal'
-          ? await createPalDevelopmentWorkspaceContext(source, project.manifest).then((after) => {
-              if (!palProofBefore) throw new Error('PAL 开发基线载入缺少启动前的可信快照证明')
-              assertSamePalDevelopmentProof(palProofBefore, after)
-              return after
+      return withStableProjectRead(source, async () => {
+        const palProofBefore =
+          !UI_REVIEW_SAMPLES && PROJECT_ID === 'pal'
+            ? await createPalDevelopmentWorkspaceContext(source)
+            : undefined
+        const project = await loadCurrentProjectFrom(source)
+        // Workspace mode is fixed before any ui_samples projection mutates author data. Normal PAL
+        // dev freezes a trusted HTTP proof; ui_samples never receives that authority and is sandbox.
+        const workspace = UI_REVIEW_SAMPLES
+          ? createSandboxWorkspaceContext(project.manifest.id, 'ui-samples')
+          : project.manifest.id === 'pal'
+            ? await createPalDevelopmentWorkspaceContext(source, project.manifest).then((after) => {
+                if (!palProofBefore) throw new Error('PAL 开发基线载入缺少启动前的可信快照证明')
+                assertSamePalDevelopmentProof(palProofBefore, after)
+                return after
+              })
+            : createLocalWorkspaceContext(project.manifest.id, 'local-directory')
+        assertBattleSimulatorPathAvailable(project)
+        const [scenes, stamps, battleSimulator] = await Promise.all([
+          loadAllAuthorScenes(project),
+          loadStampTemplates(project),
+          loadBattleSimulatorLibrary(source),
+        ])
+        const authorBaseline = await observed.finish(project)
+        const reviewData = UI_REVIEW_SAMPLES
+          ? withUiReviewSamples({
+              scenes,
+              sharedScripts: project.authorContent.sharedScripts,
+              stamps,
+              worldVariables: project.worldVariables,
+              tilesetId: project.tilesets[0]?.id,
             })
-          : createLocalWorkspaceContext(project.manifest.id, 'local-directory')
-      const [scenes, stamps] = await Promise.all([
-        loadAllAuthorScenes(project),
-        loadStampTemplates(project),
-      ])
-      const authorBaseline = await observed.finish(project)
-      const reviewData = UI_REVIEW_SAMPLES
-        ? withUiReviewSamples({
-            scenes,
-            sharedScripts: project.authorContent.sharedScripts,
-            stamps,
-            worldVariables: project.worldVariables,
-            tilesetId: project.tilesets[0]?.id,
-          })
-        : {
-            scenes,
-            sharedScripts: project.authorContent.sharedScripts,
-            stamps,
-            worldVariables: project.worldVariables,
-          }
-      const reviewProject = UI_REVIEW_SAMPLES
-        ? {
-            ...project,
-            authorContent: { ...project.authorContent, sharedScripts: reviewData.sharedScripts },
-            worldVariables: reviewData.worldVariables,
-          }
-        : project
-      const canonical = currentCanonicalScriptState(
-        reviewProject,
-        reviewData.scenes,
-        reviewData.sharedScripts,
-      )
-      const session = new EditSession(
-        {
-          ...toEditorState(reviewProject, reviewData.scenes, {}, {}, reviewData.stamps),
-          items: projectEditorItemShells(reviewProject),
-        },
-        { loadMap: (_mapId, path) => loadProjectMap(reviewProject.assetBase, path) },
-      )
-      const scriptSession = new ScriptEditSession(canonical)
-      return {
-        session,
-        history: new EditorHistoryCoordinator(session, scriptSession),
-        project: reviewProject,
-        script: {
-          session: scriptSession,
-        },
-        workspace,
-        authorBaseline,
-      }
+          : {
+              scenes,
+              sharedScripts: project.authorContent.sharedScripts,
+              stamps,
+              worldVariables: project.worldVariables,
+            }
+        const reviewProject = UI_REVIEW_SAMPLES
+          ? {
+              ...project,
+              authorContent: { ...project.authorContent, sharedScripts: reviewData.sharedScripts },
+              worldVariables: reviewData.worldVariables,
+            }
+          : project
+        const canonical = currentCanonicalScriptState(
+          reviewProject,
+          reviewData.scenes,
+          reviewData.sharedScripts,
+        )
+        const session = new EditSession(
+          {
+            ...toEditorState(
+              reviewProject,
+              reviewData.scenes,
+              {},
+              {},
+              reviewData.stamps,
+              battleSimulator,
+            ),
+            items: projectEditorItemShells(reviewProject),
+          },
+          { loadMap: (_mapId, path) => loadProjectMap(reviewProject.assetBase, path) },
+        )
+        const scriptSession = new ScriptEditSession(canonical)
+        return {
+          session,
+          history: new EditorHistoryCoordinator(session, scriptSession),
+          project: reviewProject,
+          script: {
+            session: scriptSession,
+          },
+          workspace,
+          authorBaseline,
+        }
+      })
     }
     loadDevProject()
       .then((booted) => {
@@ -168,7 +184,7 @@ function Root() {
     const canonical = currentCanonicalScriptState(project, o.scenes)
     const session = new EditSession(
       {
-        ...toEditorState(project, o.scenes, {}, {}, o.stamps),
+        ...toEditorState(project, o.scenes, {}, {}, o.stamps, o.battleSimulator),
         items: projectEditorItemShells(project),
       },
       {

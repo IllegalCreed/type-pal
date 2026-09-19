@@ -58,11 +58,26 @@ export function createEmptyAuthorDiskBaseline(projectId: string): AuthorDiskBase
 
 /** Capture the exact bytes supplied to the loader, not a reserialization of its derived state. */
 export function observeAuthorSource(original: FileSource) {
-  const observed = new Map<string, string>()
+  const observed = new Map<string, Signature>()
   let capturing = true
   let bytesRead = 0
   const readBytes = async (path: string, signal?: AbortSignal): Promise<ArrayBuffer> => {
-    const bytes = await original.readBytes(path, signal)
+    let bytes: ArrayBuffer
+    try {
+      bytes = await original.readBytes(path, signal)
+    } catch (error) {
+      if (
+        capturing &&
+        !isWorkspaceIdentityPath(path) &&
+        error instanceof DOMException &&
+        error.name === 'NotFoundError'
+      ) {
+        const previous = observed.get(path)
+        if (previous !== undefined && previous !== null) throw new AuthorSaveConflictError(path)
+        observed.set(path, null)
+      }
+      throw error
+    }
     if (capturing && !isWorkspaceIdentityPath(path)) {
       const signature = await binarySnapshotSignature(bytes)
       const previous = observed.get(path)

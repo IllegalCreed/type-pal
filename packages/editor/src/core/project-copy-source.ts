@@ -20,9 +20,19 @@ export function assetCopyInputs(
 
 export async function observeProjectCopySource(original: FileSource) {
   const state = await assertProjectSaveReadable(original)
-  const signatures = new Map<string, string>()
+  const signatures = new Map<string, string | null>()
   const readBytes: FileSource['readBytes'] = async (path, signal) => {
-    const bytes = await original.readBytes(path, signal)
+    let bytes: ArrayBuffer
+    try {
+      bytes = await original.readBytes(path, signal)
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'NotFoundError') {
+        const previous = signatures.get(path)
+        if (previous !== undefined && previous !== null) throw new AuthorSaveConflictError(path)
+        signatures.set(path, null)
+      }
+      throw error
+    }
     const digest = await binarySnapshotSignature(bytes)
     const previous = signatures.get(path)
     if (previous !== undefined && previous !== digest) throw new AuthorSaveConflictError(path)
@@ -46,9 +56,16 @@ export async function observeProjectCopySource(original: FileSource) {
     source,
     async verify() {
       await verifyState()
-      for (const [path, expected] of signatures)
-        if ((await binarySnapshotSignature(await original.readBytes(path))) !== expected)
-          throw new AuthorSaveConflictError(path)
+      for (const [path, expected] of signatures) {
+        let current: string | null
+        try {
+          current = await binarySnapshotSignature(await original.readBytes(path))
+        } catch (error) {
+          if (!(error instanceof DOMException) || error.name !== 'NotFoundError') throw error
+          current = null
+        }
+        if (current !== expected) throw new AuthorSaveConflictError(path)
+      }
       await verifyState()
     },
   }

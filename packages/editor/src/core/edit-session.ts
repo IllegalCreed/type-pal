@@ -19,6 +19,7 @@ import type {
   StampTemplate,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
+import type { BattleSimulatorLibrary } from './battle-simulator-library.js'
 import type { Command } from './commands.js'
 import {
   type HistoryRecord,
@@ -44,6 +45,8 @@ export { MoveEntityCommand } from './commands.js'
 /** 被编辑的内容工作副本(ContentBundle + manifest)。命令 apply/invert 收/返它(不可变)。 */
 export interface EditorState extends Omit<ContentBundle, 'entryPoints'> {
   manifest: CurrentManifest
+  /** Editor-only presets; absence means this project has no saved simulator library. */
+  battleSimulator?: BattleSimulatorLibrary
   /** 当前项目级作者变量定义；运行时值不在编辑工作副本中混存。 */
   worldVariables?: WorldVariableRegistryV1
   /** W7G 作者态图章模板表；旧项目加载时规范化为空数组。 */

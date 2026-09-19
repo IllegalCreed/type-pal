@@ -32,10 +32,19 @@ function directory(name = 'fixture'): FileSystemDirectoryHandle {
 describe('openLocalProject current canonical boundary', () => {
   beforeEach(() => {
     vi.resetAllMocks()
-    reforge.readJson.mockResolvedValue({ contentVersion: 20 })
+    reforge.readJson.mockImplementation(async (path: string) => {
+      if (path === 'editor/battle-simulator.json') throw new DOMException(path, 'NotFoundError')
+      return { contentVersion: 20 }
+    })
     reforge.loadCurrentProjectFrom.mockResolvedValue({
-      manifest: { id: 'test', contentVersion: 20, assets: { catalog: 'assets/index.json' } },
+      manifest: {
+        id: 'test',
+        contentVersion: 20,
+        content: {},
+        assets: { catalog: 'assets/index.json' },
+      },
       mapIndex: { maps: [] },
+      sceneIndex: { scenes: [] },
       assetCatalog: { assets: {} },
     })
     reforge.loadAllAuthorScenes.mockResolvedValue([{ id: 'scene-a' }])

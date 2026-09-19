@@ -48,7 +48,9 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
       next()
       return
     }
-    const saveState = urlPrefix === '/projects' && /^[^/]+\/\.type-pal\/save-state\.json$/.test(rel)
+    const saveState =
+      urlPrefix === '/projects' &&
+      /^[^/]+\/(?:\.type-pal\/save-state|editor\/battle-simulator)\.json$/.test(rel)
     try {
       const stat = statSync(file)
       if (!stat.isFile()) {
@@ -62,7 +64,7 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
         return
       }
     } catch (error) {
-      // Missing recovery metadata must not fall through to the SPA's 200 HTML response.
+      // Optional recovery/editor metadata must not fall through to the SPA's 200 HTML response.
       if (saveState) {
         res.statusCode = (error as { code?: string }).code === 'ENOENT' ? 404 : 500
         res.setHeader?.('Cache-Control', 'no-store')

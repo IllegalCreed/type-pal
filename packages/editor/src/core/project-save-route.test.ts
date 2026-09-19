@@ -44,9 +44,10 @@ function route(source: string, stat: () => { isFile(): boolean }) {
   return { plugin, pipe, statSync }
 }
 
-for (const [name, source] of [
-  ['editor', editorConfig],
-  ['reforge', reforgeConfig],
+for (const [name, source, relativePath] of [
+  ['editor', editorConfig, '.type-pal/save-state.json'],
+  ['reforge', reforgeConfig, '.type-pal/save-state.json'],
+  ['editor simulator', editorConfig, 'editor/battle-simulator.json'],
 ]) {
   for (const phase of ['configureServer', 'configurePreviewServer'] as const) {
     test(`${name} ${phase}: missing recovery JSON is 404, not SPA HTML`, () => {
@@ -63,7 +64,7 @@ for (const [name, source] of [
       })
       const response = { statusCode: 200, setHeader: vi.fn(), removeHeader: vi.fn(), end: vi.fn() },
         next = vi.fn()
-      mw({ url: '/projects/pal/.type-pal/save-state.json?probe=1' }, response, next)
+      mw({ url: `/projects/pal/${relativePath}?probe=1` }, response, next)
       expect(response.statusCode).toBe(404)
       expect(response.setHeader).toHaveBeenCalledWith('Cache-Control', 'no-store')
       expect(response.end).toHaveBeenCalledOnce()
@@ -81,7 +82,7 @@ for (const [name, source] of [
       })
       const response = { statusCode: 200, setHeader: vi.fn(), removeHeader: vi.fn(), end: vi.fn() },
         next = vi.fn()
-      mw({ url: '/projects/pal/.type-pal/save-state.json' }, response, next)
+      mw({ url: `/projects/pal/${relativePath}` }, response, next)
       expect(response.setHeader).toHaveBeenCalledWith('Cache-Control', 'no-store')
       expect(response.setHeader).toHaveBeenCalledWith(
         'Content-Type',
@@ -110,7 +111,7 @@ for (const [name, source] of [
       })
       const response = { statusCode: 200, setHeader: vi.fn(), removeHeader: vi.fn(), end: vi.fn() },
         next = vi.fn()
-      mw({ url: '/projects/pal/.type-pal/save-state.json' }, response, next)
+      mw({ url: `/projects/pal/${relativePath}` }, response, next)
       expect(response.statusCode).toBe(500)
       expect(response.end).toHaveBeenCalledOnce()
       expect(next).not.toHaveBeenCalled()

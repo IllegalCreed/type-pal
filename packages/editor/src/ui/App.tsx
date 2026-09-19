@@ -59,6 +59,7 @@ import {
   createEmptyAuthorDiskBaseline,
   verifySourceAuthorBaseline,
 } from '../core/author-disk-baseline.js'
+import { battleSimulatorRemovalPaths } from '../core/battle-simulator-library.js'
 import {
   AddEntityCommand,
   AddSceneCommand,
@@ -2142,6 +2143,7 @@ export function App(props: {
       const savedScriptState = scriptSession?.getState()
       const savedScriptVersion = scriptSession?.getVersion()
       const removePaths = [
+        ...battleSimulatorRemovalPaths(savedState.battleSimulator),
         ...session.getDeletedScenePaths(),
         ...session.getDeletedMapPaths(),
         ...session.getDeletedAssetPaths(),
@@ -2277,6 +2279,7 @@ export function App(props: {
       const savedState = session.getState()
       const savedScriptState = scriptSession?.getState()
       const removePaths = [
+        ...battleSimulatorRemovalPaths(savedState.battleSimulator),
         ...session.getDeletedScenePaths(),
         ...session.getDeletedMapPaths(),
         ...session.getDeletedAssetPaths(),

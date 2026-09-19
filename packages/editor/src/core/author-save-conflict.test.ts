@@ -38,12 +38,19 @@ vi.mock('./handle-store.js', async (original) => {
 })
 
 import { deferred, memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
+import { simulatorLibrary } from './__tests__/battle-simulator-fixture.js'
 import {
   type AuthorDiskBaseline,
   authorBaselineSummary,
   createEmptyAuthorDiskBaseline,
   verifySourceAuthorBaseline,
 } from './author-disk-baseline.js'
+import { SetBattleSimulatorLibraryCommand } from './battle-simulator-commands.js'
+import {
+  BATTLE_SIMULATOR_PATH,
+  battleSimulatorRemovalPaths,
+  emptyBattleSimulatorLibrary,
+} from './battle-simulator-library.js'
 import {
   AddActorCommand,
   AddEntityCommand,
@@ -137,6 +144,7 @@ function appSave(
     window: { confirm: () => true, setTimeout },
     pickDir: options.picker ?? (() => Promise.resolve(null)),
     serializeProjectWithMapCopies,
+    battleSimulatorRemovalPaths,
     assetCopyInputs,
     observeProjectCopySource,
     verifySourceAuthorBaseline,
@@ -165,7 +173,9 @@ beforeEach(() => {
 })
 
 function session(opened: Opened) {
-  return new EditSession(toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps))
+  return new EditSession(
+    toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps, opened.battleSimulator),
+  )
 }
 async function save(opened: Opened, editor: EditSession) {
   await resumeOwnProjectSave(opened.workspace, opened.dir!, opened.authorBaseline)
@@ -273,7 +283,7 @@ describe('real author open and save conflict boundary', () => {
     expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   })
 
-  test('the opening file census covers actual serialization, including raw unhydrated maps, without reading resource bodies', async () => {
+  test('the opening file census covers serialization and optional absence, including raw unhydrated maps, without reading resource bodies', async () => {
     const disk = memoryAuthorDirectory(await buildBlankProject('save-conflict'))
     const reads: string[] = []
     disk.hooks.afterRead = (path) => {
@@ -283,7 +293,8 @@ describe('real author open and save conflict boundary', () => {
       editor = session(opened)
     const paths = authorBaselineSummary(opened.authorBaseline).paths
     const files = await serializeProjectWithMapCopies(editor.getState(), opened.project.source)
-    expect(paths).toEqual(Object.keys(files).sort())
+    expect(paths).toEqual([...Object.keys(files), BATTLE_SIMULATOR_PATH].sort())
+    expect(disk.files.has(BATTLE_SIMULATOR_PATH)).toBe(false)
     expect(editor.getState().maps).toEqual({})
     expect(paths).toContain('content/maps/start.json')
     for (const asset of Object.values(opened.project.assetCatalog.assets))
@@ -436,6 +447,24 @@ describe('real author open and save conflict boundary', () => {
     disk.set('manifest.json', manifest)
     await expect(finishOpen(disk.dir)).rejects.toThrow('禁止 content.scripts')
     expect(bindings.size).toBe(0)
+  })
+
+  test('actual App save deletes the last simulator record after reopen, then undo/save restores it', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('sim-app-save'))
+    disk.set(BATTLE_SIMULATOR_PATH, simulatorLibrary())
+    const opened = await finishOpen(disk.dir),
+      editor = session(opened),
+      app = appSave(opened, editor)
+    expect(editor.getState().battleSimulator).toEqual(simulatorLibrary())
+    editor.dispatch(new SetBattleSimulatorLibraryCommand(emptyBattleSimulatorLibrary()))
+    await app.run()
+    expect(app.error).toHaveBeenLastCalledWith('')
+    expect(disk.files.has(BATTLE_SIMULATOR_PATH)).toBe(false)
+    expect((await finishOpen(disk.dir)).battleSimulator).toBeUndefined()
+    expect(editor.undo()).toBe(true)
+    await app.run()
+    expect(app.error).toHaveBeenLastCalledWith('')
+    expect((await finishOpen(disk.dir)).battleSimulator).toEqual(simulatorLibrary())
   })
 
   test('actual App save callback keeps conflict visible, both sessions usable, and newer disk untouched', async () => {
