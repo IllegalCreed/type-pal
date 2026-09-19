@@ -59,7 +59,29 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - Codex：**premise verified / design agree（2026-09-19，e58834f6）**。本人直读11目标的公开入口与实际消费者，复核旧测试去重，复算官方分数，既有10+80测试绿；新路径不存在。
   编译器限定current入口，菜单明确mutating/no-op合同，播放器只做非视觉轨迹；隔离试放/save/战斗公式与无caller旧入口。
   可证伪条件：若候选族没有合法当前输入、已有完全等价断言、只有统计臂没有实际消费，就收窄/复用，不以39族强迫新增。
-- Kimi：pending（独立读一手证据，不读/复述GLM判断）。
+- Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部锚点本人直读，未读 GLM 结论）**。
+  - **11 模块合同与 caller 直读**：`world-variable.ts:42-50` ID 长度/字符/sys: 保留规则与
+    `migration-diagnostic.ts:44-49` version/数组门在位；`character.ts:337`/
+    `project-loader.ts:286` 真实消费命中。`magic-menu-state.ts` `magicConfirmSpell` **原地改**
+    `s.targetIdx/s.phase`——工作包「原地改菜单 state 是合同（E4）」属实，测试不得假定不可变。
+  - **覆盖数字独立复算**：当前官方 fast 汇总实测——magic-menu-state 行 65/81·分支 65/97、
+    entity-action-player 150/175·136/183 与工作包逐格一致；低覆盖是导航指标非 bug 数
+    （卡面声明正确）。
+  - **去重锚点核实**：world-variable.test.ts、migration-diagnostic.test.ts、
+    runtime-script-project.test.ts、frame-animation-player.test.ts 等在册（本人抽查）；
+    工作包登记的既有断言与拟补轴不重叠。
+  - **白名单核验**：11 新测试路径抽查均不存在（本人实测）。
+  - **设计同意**：六组 39 族映射真实现行调用域；合法 fixture 经当前 guard、输入快照就是
+    实际传入的同一对象；异步进入/结束均有 entered/deferred 见证不用 sleep；≥12 条判据
+    自测的单点业务负控；同树同官方 testSelection 覆盖对照只出 /tmp；frame 在途 invalidate
+    政策未定不默认绿固化（D4）、诊断不承诺 exactKeys（A7）、局部 V1/legacy-script 标签为
+    当前合法数据不按词删除、不给无 caller 旧入口保活；无视觉/听感/完整 E2E 声明。
+  - **可证伪观察**（任一反例即收窄或 counter）：① 某族已被同合同断言覆盖 → 登记已有；
+    ② 拟造输入不在当前 API 支持域 → 撤回该项；③ 负控仅 load 标记/混合宿主故障 → 无效
+    重造；④ 快照对象与实际传入对象不一致 → 重造；⑤ 把 magicConfirmSpell 原地改写当成
+    返回新态来测 → 测试模型错；⑥ 产品/旧测试/基线任何 diff → 越界即停。
+  - 返工项：无。非阻断备注：frame 在途 invalidate、RewardGain 微任务跨序列政策如遇合同
+    未定按工作包纪律隔离登记；本席终审时逐族核 39 族账的 caller 锚点与状态分类。
 - GLM：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读/复跑，未读 Kimi 席位）**。
   - **11 模块与 caller 直读**：content world-variable.ts（character.ts:337 initialWorldVariablesV1、
     project-loader.ts:285 validateWorldVariableRegistryV1）与 migration-diagnostic.ts（loader:281-285、
@@ -95,6 +117,11 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
+  直读 world-variable/migration-diagnostic 守卫与 character/loader 消费、magicConfirmSpell
+  原地改 state 合同（E4）；独立复算覆盖数字与工作包逐格一致；去重锚点在位；白名单路径
+  未占用。六条可证伪观察写入本席；frame invalidate/RewardGain 政策按纪律隔离登记。
+  未改产品/他席/状态，未读 GLM 结论。Next：三签齐后 GLM 核定 build allowed 并连续六组。
 - 2026-09-19 GLM：完成 r1 设计审查，签 premise verified + design agree，无返工项。11 模块 caller
   逐行直读、覆盖数字临时 config 独立复算逐格一致、旧测试去重锚点核实、11+2 白名单路径未占用。
   未读 Kimi 结论；设计未齐不写任何测试。Next：三席齐且无 counter 后本人核定 build allowed，
