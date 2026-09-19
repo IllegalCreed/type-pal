@@ -71,7 +71,11 @@ fixture复用上包薄数据风格，但独立新文件，不改共享fixture。
 - 定向+相邻（上包 13 契约文件+旧 asset/frame-sequence 测试）+content tc+全包+新增文件 Biome。
 - 完成条件：A1–A12 逐族新增/已有/防御/待证落账；新缺陷隔离登记不改产品；无固定条数承诺。
 
+<<<<<<< HEAD
 ## GLM实施回执（候选自验原文；数字及闭环声明以本页当前Codex复核为准）
+=======
+## GLM实施回执
+>>>>>>> 0e49db91 (docs(ops): GLM delivery receipt and evidence for content residual r1)
 
 实施完成（2026-09-19，GLM，Coding Owner；基点 4473c367 = Codex 核定 build 之后的 main）。
 分支 `codex/glm-content-residual-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-content-residual`）；

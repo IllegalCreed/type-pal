@@ -53,6 +53,9 @@ describe('A8 autoAdvance 守卫轴', () => {
     expect(() => checkAuthorDialogueCue(withAdvance(250.5), 'c')).not.toThrow()
     expect(() => checkAuthorDialogueCue(withAdvance(-1), 'c')).toThrow(/autoAdvance/)
     expect(() => checkAuthorDialogueCue(withAdvance(Number.NaN), 'c')).toThrow(/autoAdvance/)
+    expect(() => checkAuthorDialogueCue({ ...base(), autoAdvance: 'fast' as never }, 'c')).toThrow(
+      /autoAdvance/,
+    )
     expect(cue).toEqual(snapshot)
   })
 })
