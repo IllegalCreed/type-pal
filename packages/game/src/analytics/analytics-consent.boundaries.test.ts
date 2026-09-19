@@ -4,7 +4,7 @@
  * storage 属性 getter 抛错→undefined（无 window 同）、写入成功但 dispatch 抛错仍返回 true、
  * 非 CustomEvent 事件→unset、unsubscribe 后真实 dispatch 零回调、stored denied 优先于隐私信号。
  */
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
   ANALYTICS_CONSENT_EVENT,
   getBrowserConsentStorage,
@@ -41,18 +41,18 @@ describe('H04 consent 边界', () => {
       addEventListener: () => undefined,
       removeEventListener: () => undefined,
     }
-    expect(
-      writeAnalyticsConsent('granted', storage, hostileTarget as unknown as EventTarget),
-    ).toBe(true) // 持久化仍是唯一真值
+    expect(writeAnalyticsConsent('granted', storage, hostileTarget as unknown as EventTarget)).toBe(
+      true,
+    ) // 持久化仍是唯一真值
     expect(recorded).toEqual([['type-pal.analytics-consent.v1', 'granted']])
 
-    const storedDenied = { getItem: (key: string) => (key === 'type-pal.analytics-consent.v1' ? 'denied' : null) }
+    const storedDenied = {
+      getItem: (key: string) => (key === 'type-pal.analytics-consent.v1' ? 'denied' : null),
+    }
     expect(
       resolveInitialAnalyticsConsent(storedDenied, { doNotTrack: '1', globalPrivacyControl: true }),
     ).toBe('denied') // stored 优先
-    expect(
-      resolveInitialAnalyticsConsent(storedDenied, undefined),
-    ).toBe('denied')
+    expect(resolveInitialAnalyticsConsent(storedDenied, undefined)).toBe('denied')
   })
   it('非 CustomEvent → unset；unsubscribe 后真实 dispatch 零回调', () => {
     const seen: string[] = []

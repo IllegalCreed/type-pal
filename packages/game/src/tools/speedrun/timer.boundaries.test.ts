@@ -6,17 +6,17 @@
  * （enterAny 集内转场不触发、tol 相等/+1、prev=null 差异、caiyi 独立 mem）。
  */
 import { describe, expect, it } from 'vitest'
+import { atSpot, caiyiDetector, enterAnyScene, enterScene, leaveScene } from './detectors.js'
 import type { ProgressSnapshot } from './snapshot.js'
-import {
-  atSpot,
-  caiyiDetector,
-  enterAnyScene,
-  enterScene,
-  leaveScene,
-} from './detectors.js'
 import { SpeedrunTimer } from './timer.js'
 
-const BANANA = { scene: 9, cells: [[0, 0]] as ReadonlyArray<readonly [number, number]>, tolX: 8, tolY: 8, itemId: 77 }
+const BANANA = {
+  scene: 9,
+  cells: [[0, 0]] as ReadonlyArray<readonly [number, number]>,
+  tolX: 8,
+  tolY: 8,
+  itemId: 77,
+}
 
 function snap(overrides: Partial<ProgressSnapshot> = {}): ProgressSnapshot {
   return {
@@ -43,11 +43,7 @@ const cp = (
 
 describe('H06 SpeedrunTimer 边界', () => {
   it('同 now 双 tick 不累计；finished 后不累计；一次性 flag 二次消费 false', () => {
-    const timer = new SpeedrunTimer(
-      [cp('end', enterScene(5))],
-      BANANA,
-      {},
-    )
+    const timer = new SpeedrunTimer([cp('end', enterScene(5))], BANANA, {})
     timer.tick(snap(), 1000, { bananaEnabled: false }) // idle→running（scene1 canMove）
     timer.tick(snap({ scene: 5 }), 2000, { bananaEnabled: false }) // 命中 → finished @1000ms
     expect(timer.getRun().phase).toBe('finished')
@@ -81,11 +77,9 @@ describe('H06 SpeedrunTimer 边界', () => {
     expect(timer.getRun().elapsedMs).toBe(2000)
   })
   it('setStep 合法 idx 重置检测记忆与暂停；实例间 mem/bests 不串', () => {
-    const timer = new SpeedrunTimer(
-      [cp('a', enterScene(2)), cp('b', enterScene(3))],
-      BANANA,
-      { a: 1 },
-    )
+    const timer = new SpeedrunTimer([cp('a', enterScene(2)), cp('b', enterScene(3))], BANANA, {
+      a: 1,
+    })
     timer.tick(snap({ scene: 2 }), 0, { bananaEnabled: false }) // 命中 a
     timer.tick(snap({ scene: 2 }), 100, { bananaEnabled: false })
     expect(timer.getRun().stepIndex).toBe(1)

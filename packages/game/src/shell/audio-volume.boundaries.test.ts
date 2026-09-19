@@ -39,12 +39,14 @@ describe('H03 createAudioVolumeController 显式 0 与键位', () => {
     const sfx = mk('sfx', 'tp-sfx-volume')
     const video = mk('video', 'tp-video-volume')
     expect(applied.map((entry) => entry.v)).toEqual([0.8, 0.8, 0.8]) // 各自启动 apply
+    // video 通道参与启动计数；其键独立断言见下（null = 未写）
 
     music.setVolume(0.3)
     sfx.setVolume(0.5)
     expect(localStorage.getItem('tp-master-volume')).toBe('0.3')
     expect(localStorage.getItem('tp-sfx-volume')).toBe('0.5') // 键独立
     expect(localStorage.getItem('tp-video-volume')).toBeNull()
+    expect(video.getVolume()).toBe(0.8) // 第三通道读回默认（实例独立）
 
     music.setMuted(true)
     expect(localStorage.getItem('tp-muted')).toBe('1') // 共享静音键

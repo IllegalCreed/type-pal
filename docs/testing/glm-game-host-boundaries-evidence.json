@@ -40,11 +40,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-timer",
-      "control-consent",
-      "control-timefmt"
-    ],
+    "controls": ["control-timer", "control-consent", "control-timefmt"],
     "cases": [
       {
         "name": "fetchretry-gateway-retry-gate-removed",
@@ -204,5 +200,19 @@
     "coverageRerun": "官方 fast before 2271 / after 2296 双 exit0（最终返工树重跑）",
     "boundaries": "AbortError 未定政策保持隔离；timer 合法 idx 与 readonly 视图合同保持；不补 setStep(length) 未知轴",
     "witnessRerun": "glm-nine-intake-witnesses: request-method-ignores-init-override 针 detected（业务 AssertionError 首行）、对照绿；9/9 判据拒绝普通Error内嵌AssertionError、5/5 factory accepted"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:37:00Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名等反例",
+    "C1": {
+      "note": "全部回填后 10 文件完整白名单 Biome rc=0（含清理 noUnusedImports/useConst/useTemplate/noUnusedVariables 至零警告）"
+    },
+    "reworkWitness": "glm-nine-rework-witnesses: 9/9 判据双反例拒绝、PNG 三态 valid、request-method 针 detected",
+    "counts": {
+      "targeted": 25,
+      "controls": 3,
+      "needles": 8
+    }
   }
 }

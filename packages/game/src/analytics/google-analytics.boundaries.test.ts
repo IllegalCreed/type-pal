@@ -4,7 +4,7 @@
  * 本文件：measurement ID 归一化边界（大小写/长度 6 与 21）、UTM 64/65 与非法 token、
  * 不传 subscribePage 的 grant/deny/regrant/stop（真实 window.dataLayer，不接 GA）。
  */
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import type { AnalyticsConsent } from './analytics-consent.js'
 import { sanitizePageViewUrl, startGoogleAnalytics } from './google-analytics.js'
 
@@ -15,8 +15,10 @@ function createHarness(options?: {
   subscribePage?: boolean
 }) {
   let consent = options?.consent ?? 'unset'
-  let page = { path: '/play?utm_source=alpha', title: 't' }
-  let consentListener: ((next: AnalyticsConsent) => void) | undefined
+  const page = { path: '/play?utm_source=alpha', title: 't' }
+  const consentListener: { current: ((next: AnalyticsConsent) => void) | undefined } = {
+    current: undefined,
+  }
   const stop = startGoogleAnalytics({
     enabled: options?.enabled ?? true,
     measurementId: options?.measurementId ?? 'G-TEST12345',
@@ -24,9 +26,9 @@ function createHarness(options?: {
     document,
     readConsent: () => consent,
     subscribeConsent: (listener) => {
-      consentListener = listener
+      consentListener.current = listener
       return () => {
-        consentListener = undefined
+        consentListener.current = undefined
       }
     },
     readPage: () => page,
@@ -40,11 +42,11 @@ function createHarness(options?: {
     stop,
     grant() {
       consent = 'granted'
-      consentListener?.(consent)
+      consentListener.current?.(consent)
     },
     deny() {
       consent = 'denied'
-      consentListener?.(consent)
+      consentListener.current?.(consent)
     },
   }
 }
@@ -74,7 +76,7 @@ describe('H05 边界', () => {
     expect(events()).toHaveLength(1) // 小写被归一接受
     lower.stop()
     lower.stop()
-    const tooLong = createHarness({ measurementId: 'G-' + 'A'.repeat(21) })
+    const tooLong = createHarness({ measurementId: `G-${'A'.repeat(21)}` })
     tooLong.grant()
     expect(events()).toHaveLength(1) // 21 字符超出 pattern 零新增（沿用 dataLayer 计数）
     expect(document.head.querySelectorAll('script').length).toBe(1) // 仅 lower 注入的一枚

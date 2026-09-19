@@ -4,11 +4,8 @@
  * init.method 优先于 Request.method、GET 大小写、502/504 同 503、最终 Response 与最后
  * Error 身份、backoff 末值与空数组 fallback（fake timers）。
  */
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import {
-  installFetchRetry,
-  uninstallFetchRetryForTest,
-} from './fetch-retry.js'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { installFetchRetry, uninstallFetchRetryForTest } from './fetch-retry.js'
 
 const originalFetch = globalThis.fetch
 
