@@ -45,11 +45,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-sss",
-      "control-stores",
-      "control-fields"
-    ],
+    "controls": ["control-sss", "control-stores", "control-fields"],
     "cases": [
       {
         "name": "sss-signed-to-unsigned",
@@ -167,5 +163,24 @@
   "knownBoundaries": [
     "fast 口径下真实资产测试被官方排除（既有表测试在 fresh worktree 缺 data/raw 也 ENOENT，与本批无关）",
     "battle-fields L10/11、items L19/20、stores L15/16、enemy-teams L20/27 等余量是真实数据依赖分支与 _names 反查路径，归真实资产批次"
-  ]
+  ],
+  "codexReception": {
+    "candidate": "851a6ede8d1f1776ffa933f58dc37e6e1be86476",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-04",
+    "verifiedNewTests": 19,
+    "verifiedControls": 3,
+    "verifiedMutants": 8,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 13,
+      "errors": 1,
+      "warnings": 0,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  }
 }
