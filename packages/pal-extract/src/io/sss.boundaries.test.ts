@@ -8,18 +8,22 @@ import { describe, expect, test } from 'vitest'
 import { concatBytes, mkfContainer, sssChunks, u16Bytes } from '../__tests__/glm-tb04-fixtures.js'
 import { parseSss } from './sss.js'
 
-/** 前后各 3 字节保护；断言原 buffer 不被改动。 */
-function guardedSss(): { parse: () => ReturnType<typeof parseSss>; snapshot: Uint8Array } {
+/** 前后各 3 字节保护；保留实际传入 view 与其调用前快照。 */
+function guardedSss(): {
+  parse: () => ReturnType<typeof parseSss>
+  view: Uint8Array
+  before: Uint8Array
+} {
   const guard = new Uint8Array([0xee, 0xee, 0xee])
   const raw = mkfContainer(sssChunks())
   const wrapped = concatBytes([guard, raw, guard])
   const view = wrapped.subarray(3, 3 + raw.byteLength)
-  return { parse: () => parseSss(view), snapshot: wrapped.slice() }
+  return { parse: () => parseSss(view), view, before: view.slice() }
 }
 
 describe('P01 parseSss 合成 5-chunk MKF', () => {
   test('非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开', () => {
-    const { parse, snapshot } = guardedSss()
+    const { parse, view, before } = guardedSss()
     const sss = parse()
     expect(sss.eventObjects).toHaveLength(2)
     expect(sss.eventObjects[0]).toMatchObject({
@@ -48,7 +52,8 @@ describe('P01 parseSss 合成 5-chunk MKF', () => {
       0x8000, 0xffff, 0x1234, 0xfffe, 0x000a, 0x000b, 0xfffb, 0x00c3, 0x0abc, 0x0003, 0x0002,
       0x0001, 0x0009, 0x0fed, 0x0012, 0x0034,
     ])
-    expect(snapshot).toEqual(guardedSss().snapshot) // 输入不变（每次重建同值）
+    // 实参保真：实际传入的同一 view（含前后保护字节）调用前后逐字节一致（污染已读缓冲即红）
+    expect(view).toEqual(before)
   })
   test('scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整', () => {
     const sss = parseSss(mkfContainer(sssChunks()))

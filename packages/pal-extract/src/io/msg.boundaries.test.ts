@@ -27,10 +27,10 @@ describe('P03 parseMessages 已知字节切片', () => {
     expect(offsetsView.byteOffset).toBe(8)
     expect(parseMessages(bytesView, offsetsView)).toEqual(['甲', '乙丙', '', '丁'])
   })
-  test('合法 [0] 单 offset → 零消息；offset 递减不越界读取（subarray 天然空）', () => {
+  test('合法 [0] 单 offset → 零消息', () => {
     const bytes = gbk('甲乙丙丁')
     expect(parseMessages(bytes, new Uint32Array([0]))).toEqual([])
-    // 非递增相邻对产出空段（不抛、不吞字节）：甲@0..2 乙@2..4 丙@4..6 丁@6..8
-    expect(parseMessages(bytes, new Uint32Array([4, 2, 6]))).toEqual(['', '乙丙'])
+    // 注：非递增/倒序 offset 的行为政策在 P03 设计中明确未定（工作包「收窄与待证」），
+    // 本批不为其新增正确绿测；待政策裁决后另批补齐。
   })
 })
