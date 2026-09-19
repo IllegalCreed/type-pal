@@ -8,6 +8,8 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
+| [EDITOR-SKILL-TRIAL-1 - 独立临时技能试放与当前工程入口](EDITOR-SKILL-TRIAL-1-isolated-battle.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | draft | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

@@ -6,6 +6,8 @@
 
 ## 文档与附件
 
+- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（draft；11模块39族，先去重、三签后整包连续实施）
+- [独立技能试放设计与验收](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[当前前提探针](skill-trial-premise.mjs)（D-04/D-05；独立临时状态已裁决，入口UI待确认，未实施）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）
 - [编辑器预览缓存连续修复](editor-preview-cache.md)（E-03/E-04完成；15项真实字节回归、7负控及原生绘制验证，check7457/严格fast6969通过）
 - [场景删除引用保护实现与验证](scene-reference-guard.md)（D-02/done；83598cc4三席accept并归档；22回归/PAL补1边、最小界面验证及check7442/严格fast6954通过）

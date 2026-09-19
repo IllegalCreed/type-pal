@@ -1,0 +1,147 @@
+# EDITOR-SKILL-TRIAL-1 - 独立临时技能试放与当前工程入口
+
+Status: draft
+Phase: phase2
+Capability: 修复既有“战斗中试放”D-04/D-05，不增加第三阶段X5
+Coding Owner: Codex
+Reviewer: Kimi / GLM
+Visual Verification Owner: Codex
+Visual Verification Timing: dev-functional
+Unavailable Agents: none
+Branch: codex/editor-skill-trial-r1
+
+Revision: r1，2026-09-19，前提冻结`e58834f6389a40ffe9f187e6a8051f552e964d79`。
+用户已裁决：**独立临时试玩，不读写正常存档，关闭试放即丢弃测试状态**。
+本卡与[GLM六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)独立；后者只改新的非视觉测试，Codex只改本卡产品面。
+当前仅核前提/设计，未改产品、正式测试或基线。入口UI形式已提出“沿用独立试买小弹窗”，待用户确认；不把预选项当批准。
+
+## 目标 / before→after
+
+`固定PAL场景/敌队，可能桩胜；临时授技进入普通保存链 → 选择本工程真实入口/敌队，进入独立临时真实战斗；不建正常存档存储，退出后无持久改动。`
+代表场景：自有工程只有start和自建敌队wolves，从当前技能试放；不得寻找s001/敌队0、不得用缺数据胜利提示代替战斗。
+用户保存隔离方向已批准；拟采用的小弹窗是独立试买现有形态的复用，不新增完整前置状态编辑器。
+
+## 前提真值门
+
+| 维度 | 一手事实 / 目标 |
+|---|---|
+| 原版 / primary source | 原版没有创作编辑器的技能试放，N/A；本卡不改战斗公式/原版演出规则。当前源码和用户“不读写正常存档”裁决为直接真源 |
+| 第一阶段 | 战斗展示沿用现行BattleSession对已有战斗菜单/资产约定的实现；不新设计战斗菜单、帧坐标、速度或音效公式。harvest X7/X8的异步收口教训适用 |
+| 当前二阶段入口 | SkillTab.tsx:1117-1118写死scene=s001&battle=0&skill；已有SkillTab.test.tsx:257-275也把该链接当期望；seed未声明enemyTeams，场景只有start |
+| 当前二阶段执行 | main.ts:2220-2253 startBattleBody缺敌队返回victory，未创建session；真实构造在:2473，tick/render在:6473-6474；临时授技:7021-7032写world |
+| 当前保存 | main.ts:590构造正常SaveStore；:6843附近预读metas；:5612 doSave、:5817 quickSave共用当前world；正常脚本loadLastSave、F5/F9/菜单/auto均有正式保存入口 |
+| 当前可复用边界 | shop-trial.ts:17/38及main.ts:355-359在普通世界/SaveStore之前分流；BattleSession.done/cancel/tick/render提供独立会话生命周期（battle-session.ts:341/:636/:644/:1191/:2543） |
+| 目标 | 独立试放在普通boot之前早分流；不进入标题读档/SaveStore初始化/元数据预读/探索循环/自动存档，真实BattleSession承担施法，不另写战斗核 |
+
+可重建前提：[skill-trial-premise.mjs](../../testing/skill-trial-premise.mjs)，
+`node --import tsx docs/testing/skill-trial-premise.mjs`。
+Codex本树实测：空白seed补入所选合法技能后通过正式loadCurrentProjectFrom，敌队表为空；真实SkillTab SSR链接仍s001/0，
+实际场景回退start、startBattleBody返回victory且session构造次数0。
+同一world真实quickSave→临时授技→真实quickSave，隔离MemorySaveStore的maxMP从0变999且含所选技能；原作者角色数据不变。
+探针只更新了当前调用API，不改原审计probe；只用内存存储、idle barrier/缩略图边界替身，无真实数据库/网络/工程写入，不冒称完整浏览器流程。
+初版probe漏必需animation被guard拒绝；第二版误认seed有空敌队数组，改为核实其可选表缺席；第三版上述结果通过。
+日志`/tmp/type-pal-next-dual.RszK0r/skill-trial-premise*.log`。相邻SkillTab/play-url/play-workspace/load-play-project四文件45项绿。
+
+### 替代解释与可证伪观察
+
+- “仅场景名错误”不足：现行selector已回退start，真正缺的是敌队0，构造计数0证实没有战斗。
+- “只改作者项目而非存档”不成立：作者输入确实不变，但真实quickSave链能把临时world写入同scope内存槽。
+- “已被工作区隔离解决”不成立：同一个工作区的正常进度与当前试放仍共用SaveScope；另一个workspace不互串不能代替本项隔离。
+- “迁移/解码问题”排除：空白seed与合法技能同样复现，不需要PAL提取资源；不能靠改projects/pal或新生成一个默认敌队修此入口。
+- 推翻前提的观察：当前正式入口已从本工程选非空敌队且实际构造session；或试放无法抵达普通保存链。发生则停线重核，不机械套本方案。
+
+## Draft设计（待三席准入）
+
+### 1. 编辑器只配置本次入口
+
+拟沿用独立试买的DsDialog/标准表单：当前技能只读；开局入口DsSelect默认manifest.defaultEntryId；敌队DsSelect仅列本工程非空合法队伍，
+唯一候选可默认选中、多候选要求明确选择。保持“战斗中试放”术语和原位置，不在侧栏常驻新增大编辑器。
+缺入口/队伍/技能/队长或所需战斗数据时明确提示去相应目录补齐；不造PAL默认/猜地图中心、不返回桩胜。
+沿用“先保存再试玩”：打开与提交时分别复核主/脚本dirty、技能身份、入口/敌队是否仍存在；未保存的内存改动不冒充试放磁盘版本。
+入口形式候选小样：`技能（只读） / 开局入口（选择） / 敌队（选择） / 提示：本次状态不保存 / 取消、开始试放`。
+具体UI选择待用户答复；如果改为试放页选择，先更新本段再核设计，不偷偷替换形态。
+
+### 2. 严格独立模式，不伪装成普通试玩
+
+同源play页继续使用现有project/workspace/save-workspace身份读取已保存工程，不改句柄授权/跨项目隔离。
+建议URL只含现有身份参数及`skill-trial=<SkillId>&entry=<EntryId>&battle=<EnemyTeamId>`。
+参数重复、缺值、未知ID、混合menu/scene/pos/party/give/debug/field/shop-trial/battle-scene等模式在副作用前拒绝；ID按原值查表，不能parseInt或trim成另一个身份。
+普通`?battle`试打合同不扩大；旧`?skill`临时授技捷径退役并给出重新从编辑器打开的提示，不留静默授技兼容通路。
+main在创建正常SaveStore、读metas、开标题/普通世界之前分流到私有`runSkillTrial`并return。
+**不新建普通或“特殊前缀”的持久存档槽，也不靠写入后恢复原档。** 试放宿主不构造IndexedDbSaveStore/MemorySaveStore，不注册正常save/load/DEV checkpoint出口。
+本地工程读取句柄所需的editor IndexedDB访问仍允许；禁止的是正常游戏存档库/槽IO，不能把这两种数据库混为一谈。
+
+### 3. 复用真实战斗，独立拥有临时状态
+
+基于所选入口startWorld经现有buildWorld生成全新world；仅在临时副本授当前技能、提高队长MP供试放（至少沿用999并足够所选MP成本）。
+不自动给全技能/金钱/物品、不改其他成本或技能可用条件；其他条件不足由真实战斗反馈，不伪造成功。
+选择入口场景仅用于其当前静态战场/音乐配置，不启动场景onEnter、auto、敌对接触或探索逻辑；不依赖落点坐标、也不执行战后剧情和持久奖励回写。
+使用既有BattleSession与正式战斗输入/render/资源readiness，选中技能必须能通过真实施法路径作用于实际目标。
+允许**最小内部提取**main现有world→CreatePlayerInput构造到`battle/battle-player-input.ts`，正常战斗与试放共用，保持装备/状态/身份/技能组合的既有计算。
+资源准备复用既有prepareBattleSpriteReadiness、collectBattleBaseSounds/collectTurnActionSounds、collectBattleSkillFireChunks及公开加载器；
+如需共享编排只提取当前必要准备段，不复制伤害/AI/结算算法、不整体拆main、不顺带修Q2。
+试放不调用正常world奖励/存档收尾；胜败/逃跑只结束此试放并显示结束状态，不转入普通探索或标题读档。
+
+### 4. 生命周期与资源边界
+
+独立AbortController、rAF/输入/可见性与音频所有权；准备中/战斗中/pagehide/错误/正常结束走同一幂等收尾。
+同一页在一个试放仍活动时重复启动应拒绝，不叠加两个session或让后一个复用前一个的cleanup；不同标签页仍各自独立。
+取消后await迟到不得构造session/播放新音乐/提交画面；真实session.cancel处理尚在途readiness。音效可dispose，BGM至少stop取消迟到播放，关闭页由浏览器结束宿主。
+复用GameplayClock等已有时序约定，不改帧速；BattleSession的Escape语义保持，试放结束操作与正常战斗菜单取消区分。
+F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正常保存toast冒充试放存储成功。
+加载失败给可关闭/重新发起的错误，不保留半活动session，不改正常存档/项目数据。
+
+## 范围与不做
+
+主要面：editor SkillTab/App最小props接线、试放URL/选择helper/弹窗；reforge main早分流、私有skill-trial宿主、必要的battle-player输入提取与测试。
+可能的新文件：editor/core/skill-trial-url.ts、editor/ui/SkillTrialDialog.tsx、reforge/skill-trial.ts及同名测试；无需schema/save/content版本升级。
+不改GLM包11个目标生产模块或其新增测试；若实现确需触碰，先停该重叠点并回卡调整，不让两席同改。
+不改battle-core/formulas/技能效果语义/战斗菜单布局、迁移器/PAL生成内容/保存格式；不实现X5前置世界变量配置、Q1速胜或Q2整组修复。
+普通Debug面板授技仍属显式调试编辑；不借本卡改其存储政策，只更正把它误称“不落档”的相关注释，避免混同独立试放。
+
+## 上下文与验收
+
+- [READ-FIRST](../../phase2/READ-FIRST.md)、[D-04/D-05审计及用户裁决](../audits/pre-e2e/editor-workflows.md)、[已收口存档隔离](../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md)、[世界异步提交](../../testing/world-async-commit.md)。
+- [harvest](../../phase2/reference/phase1-knowledge-harvest.md) X7/X8/B仅核现有资源/所有权教训，旧“现状”不当当前事实；本卡不重裁公式/原版怪癖。
+- 主/脚本dirty与身份复验参考ShopTab.tsx:178-189；shop-trial.test.ts已有早分流禁止SaveStore的验证模式，需加强为真实新项目/真实BattleSession。
+
+验收必须同时具备：
+
+1. 非PAL项目、非数字ID入口/敌队、单/多选、空缺/悬空/未保存/并发切换；当前SkillTab不再产s001/0固定链接。
+2. 合法新项目经正式loader进入真实BattleSession并实际施放选中技能；断言BattleState技能/目标/消耗/效果，不能只看URL、toast或mock构造器次数。
+3. 正常项目原始输入/存档预置值深快照不变；试放启动、F5/F9、结束、失败、关闭期间正常SaveStore构造与所有槽IO为0。
+   混合URL不得落回正常boot；缺敌队不能走victory桩。normal boot保存/读取与独立试买仍通过。
+4. 准备/音效/图像各await的取消、失败、重复收尾、旧回调迟到；会话/监听/rAF不残留，不使用固定sleep代替进入证明。
+5. 最小共享玩家输入提取前后真实正常战斗参数完全相同，普通战斗启动/取消/结算回归不下降。
+6. Codex最小功能视觉：编辑器保存后打开小弹窗/对应入口→新工程真实战斗选技能→结束；缺条件可见可操作；正常存档未改变。
+   剧情全流程与Q2专项不在本卡重复走，新增试放工作流作为R4/编辑器E2E入口登记。
+7. 定向/相邻、tc/Biome、必要单点负控，再串行check→ratchet→受保护单次fast。没有视觉证据不得以非视觉测试代验。
+
+## 推进签字
+
+### build前（r1）
+
+- Codex：**premise verified / design agree（2026-09-19，e58834f6，以上提出方案）**。本人直读当前SkillTab/main保存/战斗启动、BattleSession生命周期、shop-trial早分流，复跑当前前提探针与45相邻测试。
+  独立存储隔离采用“正常boot前独立宿主return”，不选普通scope换名/保存后回滚；复用真实战斗，不复制公式。可证伪边界见上。
+  **UI承载形式仍待用户确认**，三席即使签齐也不据此越过UI产品门；本签不是提前实现授权。
+- Kimi：pending（架构/前提独立核验）。
+- GLM：pending（数据/存档入口/失败矩阵独立核验，不做视觉）。
+- build准入：未开放；三席同r1齐、无counter且入口形态已获用户确认后由Codex核定。与补测卡独立，不互借签字。
+
+### done前
+
+- Codex：pending。
+- Kimi：pending。
+- GLM：pending。
+- done准入：未开放，不代签。
+
+## 交接日志
+
+- 2026-09-19 Codex：用户授权独立临时方案后，同步准备试放修复与GLM大批补测。前提探针已在当前API上复现两问题，初版fixture修正如实登记。
+  当前只建draft/落方案，生产/正式测试/基线零改；使用Vitest/pnpm复跑45相邻项，并以Vite SSR只读核当前链接。UI形式问题已异步提出，不把未答当同意。
+
+## 下一位Agent提示词
+
+与[并行补测卡交接区](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md#下一位agent提示词)同发两份完整提示词。
+Kimi/GLM独立审本卡r1与冻结e58834f6，各自直接写本人签字/证据/日志并提交推送，不代签、不改状态、不标build/done。
+GLM本卡只审设计/矩阵，不修改试放实现；三签齐前Codex不得开始产品实现，UI产品门独立保留。

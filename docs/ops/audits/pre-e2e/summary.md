@@ -139,6 +139,11 @@ content类型/校验/规则，migrate发布/物化/历史输出，reforge状态/
 
 ## 建议推进顺序
 
+2026-09-19新双线：[独立临时技能试放](../../tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)r1/draft，Codex已在正式loader接受的当前项目上复现固定PAL链接/缺队桩胜与临时授技可保存，
+拟在普通boot前独立分流、复用真实BattleSession、无正常SaveStore；保存隔离产品选择已批准，入口形态待确认，未改产品。
+GLM并行[运行时状态与元数据六组补测](../../../testing/glm-runtime-state-boundaries.md)r1/draft，11模块39待核族、既有10+80项绿，
+只增非视觉测试且不碰试放实现面；两卡独立签字准入，不逐组再签，不把准备工作计作新增覆盖率。
+
 2026-09-18双线推进：[EDITOR-SCENE-REF-GUARD-1](../../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)r1三席设计齐后已实现，
 Codex完成disabled/inherit/transition三漏边修复、22回归/PAL真树补1边/三负控及最小界面验证，check7442/严格fast6954通过，
 [回执](../../../testing/scene-reference-guard.md)在案；两席终审accept、用户要求继续，2026-09-19由Codex核候选零漂移后done归档。

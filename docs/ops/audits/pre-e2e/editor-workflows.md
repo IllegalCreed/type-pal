@@ -94,6 +94,9 @@ Codex[验证回执](../../../testing/sprite-selection.md)含20新＋2旧测试�
 
 ## D-04 · 技能“战斗中试放”仍固定旧工程入口
 
+2026-09-19：[EDITOR-SKILL-TRIAL-1](../../tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)已开r1/draft，
+新[当前API前提探针](../../../testing/skill-trial-premise.mjs)复现两问题，旧probe保留历史；未开始实现，不宣称已修。
+
 - `SkillTab.tsx:1120`URL写死`scene=s001&battle=0`，只将project/workspace/skill做参数化。
   新空白工程真实种子只有start场景，未生成敌队0（`core/seed.ts:164-166,222-245`）。
 - 真实SkillTab服务端渲染传入自定义project/workspace和合法技能，实际链接仍带s001/0；

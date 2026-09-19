@@ -12,6 +12,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| EDITOR-SKILL-TRIAL-1 | [独立临时技能试放](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | draft | Codex方案 / Kimi、GLM设计审查 | e58834f6前提已复现；早分流、不建正常SaveStore、真实BattleSession；入口UI待用户确认，不越门实施 |
+| TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | draft | GLM整包 / Kimi设计审查 | 6组11模块39族；既有10+80绿，只新增非视觉测试，三签后连续做；与试放实现面隔离 |
 
 2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
 
