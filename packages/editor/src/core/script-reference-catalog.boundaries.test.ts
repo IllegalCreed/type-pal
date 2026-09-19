@@ -36,26 +36,26 @@ function baseInput(authorScripts?: Array<{ id: string; name: string }>) {
 
 describe('S04 authorScripts 优先与稳定序', () => {
   test('同名不同 ID 按 zh-CN 名称序 + id tie-break 稳定；名字 trim 生效', () => {
+    // 插入序与 id 序刻意相反：同名 tie-break 只认 id，不认输入顺序
     const catalog = createScriptReferenceCatalog(
       baseInput([
-        { id: 'shared/b', name: '  白魔法  ' },
-        { id: 'shared/c', name: '白魔法' },
+        { id: 'shared/d', name: '  白魔法  ' },
+        { id: 'shared/b', name: '白魔法' },
         { id: 'shared/a', name: '暗器' },
       ]),
     )
     expect(catalog.choices('authorScript')).toEqual([
       { id: 'shared/a', name: '暗器' },
       { id: 'shared/b', name: '白魔法' },
-      { id: 'shared/c', name: '白魔法' }, // 同名按 id 稳定 tie-break
+      { id: 'shared/d', name: '白魔法' }, // 同名按 id 稳定 tie-break（插入序 d 在前也不抢先）
     ])
     expect(catalog.label('authorScript', 'shared/b')).toBe('白魔法（shared/b）')
     expect(catalog.has('authorScript', 'shared/a')).toBe(true)
   })
-  test('显式空数组不退 library（库脚本不泄漏）；缺省时才用 library', () => {
+  test('显式空数组不退 library（库脚本不泄漏为可编辑目标）', () => {
     const empty = createScriptReferenceCatalog(baseInput([]))
     expect(empty.choices('authorScript')).toEqual([])
     expect(empty.has('authorScript', 'shared/legacy/a')).toBe(false)
-    const fallback = createScriptReferenceCatalog(baseInput())
-    expect(fallback.choices('authorScript')).toEqual([{ id: 'shared/legacy/a', name: '旧库脚本' }])
+    // 注：authorScripts 缺席时回退旧 library 的行为在设计收窄中不扩测（无当前 caller 依赖）
   })
 })

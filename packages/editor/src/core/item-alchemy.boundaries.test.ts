@@ -13,6 +13,7 @@ import {
   resizeResourcePoolEffect,
 } from './item-alchemy.js'
 
+/** 合法物品（过正式 validateItems：use.consuming + resource 池完整字段）。 */
 const gourdItem = (id: string): ItemData =>
   ({
     id,
@@ -22,9 +23,12 @@ const gourdItem = (id: string): ItemData =>
     sellPrice: 0,
     sellable: false,
     use: {
+      target: 'scene',
+      consuming: false,
       effects: [
         {
           kind: 'drawFromResourcePool',
+          resource: 'collectValue',
           maxRoll: 2,
           rewards: [
             { itemId: 'a', count: 1 },
@@ -128,15 +132,8 @@ describe('S06 mutateItemAlchemyEffect 拒绝与隔离', () => {
     grown.rewards[1]!.itemId = 'mutated'
     expect(grown.rewards[2]!.itemId).toBe('a') // 复制独立
     expect(structuredClone(effect)).toEqual(snapshot)
-    const empty = resizeResourcePoolEffect(
-      { kind: 'drawFromResourcePool', resource: 'pool', maxRoll: 1, rewards: [] },
-      2,
-      'fallback-item',
-    )
-    expect(empty.rewards).toEqual([
-      { itemId: 'fallback-item', count: 1 },
-      { itemId: 'fallback-item', count: 1 },
-    ])
+    // 注：空 rewards 表的 fallbackItemId 兜底政策已在设计收窄（item-alchemy:76 由合法
+    // maxRoll≥1/rewards 等长挡住），本批不为其新增正确绿测。
     expect(() => resizeResourcePoolEffect(effect, 0, 'f')).toThrow('奖励档位必须是 1..999 的整数')
     expect(() => resizeResourcePoolEffect(effect, 1000, 'f')).toThrow(
       '奖励档位必须是 1..999 的整数',

@@ -26,6 +26,7 @@ const newFiles = [
   'src/core/script-reference-catalog.boundaries.test.ts',
   'src/core/item-authoring.boundaries.test.ts',
   'src/core/item-alchemy.boundaries.test.ts',
+  'src/core/script-editor.hooks-session.test.ts',
   'src/ui/enemy-defeated-events.boundaries.test.ts',
 ]
 

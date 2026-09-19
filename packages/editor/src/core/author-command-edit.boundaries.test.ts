@@ -15,33 +15,33 @@ import {
   updateAuthorCommandAt,
 } from './author-command-edit.js'
 
-const leaf = (text: string): AuthorCommand =>
-  ({ kind: 'dialogue', text }) as unknown as AuthorCommand
+/** 合法叶命令（wait 为现行 current 命令；dialogue 已退役——validateAuthorSharedScripts 拒绝）。 */
+const leaf = (ms: number): AuthorCommand => ({ kind: 'wait', ms })
 const branch: AuthorCommand = {
   kind: 'branch',
-  then: [leaf('t0')],
-  else: [leaf('e0')],
+  then: [leaf(11)],
+  else: [leaf(12)],
 } as AuthorCommand
-const loop: AuthorCommand = { kind: 'loop', body: [leaf('b0')] } as AuthorCommand
-const confirm: AuthorCommand = { kind: 'confirm', onNo: [leaf('n0')] } as AuthorCommand
+const loop: AuthorCommand = { kind: 'loop', body: [leaf(13)] } as AuthorCommand
+const confirm: AuthorCommand = { kind: 'confirm', onNo: [leaf(14)] } as AuthorCommand
 const battle: AuthorCommand = {
   kind: 'startBattle',
-  onLose: [leaf('l0')],
-  onFlee: [leaf('f0')],
+  onLose: [leaf(15)],
+  onFlee: [leaf(16)],
 } as AuthorCommand
-const teleport: AuthorCommand = { kind: 'teleportOut', onFail: [leaf('x0')] } as AuthorCommand
+const teleport: AuthorCommand = { kind: 'teleportOut', onFail: [leaf(17)] } as AuthorCommand
 
-const body = [leaf('p0'), branch, loop, confirm, battle, teleport]
+const body = [leaf(10), branch, loop, confirm, battle, teleport]
 
 describe('S01 七类子键 get 与 parse', () => {
   test('get 按 kind 命中；错配 kind/越界/缺下标 undefined', () => {
-    expect(getAuthorCommandAt(body, [1, 'then', 0])).toEqual(leaf('t0'))
-    expect(getAuthorCommandAt(body, [1, 'else', 0])).toEqual(leaf('e0'))
-    expect(getAuthorCommandAt(body, [2, 'body', 0])).toEqual(leaf('b0'))
-    expect(getAuthorCommandAt(body, [3, 'onNo', 0])).toEqual(leaf('n0'))
-    expect(getAuthorCommandAt(body, [4, 'onLose', 0])).toEqual(leaf('l0'))
-    expect(getAuthorCommandAt(body, [4, 'onFlee', 0])).toEqual(leaf('f0'))
-    expect(getAuthorCommandAt(body, [5, 'onFail', 0])).toEqual(leaf('x0'))
+    expect(getAuthorCommandAt(body, [1, 'then', 0])).toEqual(leaf(11))
+    expect(getAuthorCommandAt(body, [1, 'else', 0])).toEqual(leaf(12))
+    expect(getAuthorCommandAt(body, [2, 'body', 0])).toEqual(leaf(13))
+    expect(getAuthorCommandAt(body, [3, 'onNo', 0])).toEqual(leaf(14))
+    expect(getAuthorCommandAt(body, [4, 'onLose', 0])).toEqual(leaf(15))
+    expect(getAuthorCommandAt(body, [4, 'onFlee', 0])).toEqual(leaf(16))
+    expect(getAuthorCommandAt(body, [5, 'onFail', 0])).toEqual(leaf(17))
     // 错配：branch 没有 body；loop 没有 then；越界下标；路径以键开头
     expect(getAuthorCommandAt(body, [1, 'body', 0])).toBeUndefined()
     expect(getAuthorCommandAt(body, [2, 'then', 0])).toBeUndefined()
@@ -60,7 +60,7 @@ describe('S01 七类子键 get 与 parse', () => {
 describe('S01 顶层叶越界与 move 边界', () => {
   test('越界 update/remove 返回等值副本（非原引用）；合法 update 克隆不别名调用方 command', () => {
     const bodySnapshot = structuredClone(body)
-    const replacement = leaf('replaced')
+    const replacement = leaf(18)
     const updated = updateAuthorCommandAt(body, [9], replacement)
     expect(updated).toEqual(body)
     expect(updated).not.toBe(body)
@@ -69,8 +69,8 @@ describe('S01 顶层叶越界与 move 边界', () => {
     expect(removed).not.toBe(body)
     // 合法 update：改 replacement 不影响输出（内部 structuredClone）
     const ok = updateAuthorCommandAt(body, [0], replacement)
-    ;(replacement as unknown as { text: string }).text = 'mutated-after'
-    expect((ok[0] as unknown as { text: string }).text).toBe('replaced')
+    ;(replacement as unknown as { ms: number }).ms = 999
+    expect((ok[0] as unknown as { ms: number }).ms).toBe(18)
     expect(structuredClone(body)).toEqual(bodySnapshot)
   })
   test('move 边界（首上移/尾下移/非法路径）返回原数组引用；合法移动重排', () => {
@@ -78,9 +78,9 @@ describe('S01 顶层叶越界与 move 边界', () => {
     expect(moveAuthorCommandAt(body, [5], 1)).toBe(body)
     expect(moveAuthorCommandAt(body, ['then'], 1)).toBe(body)
     const moved = moveAuthorCommandAt(body, [0], 1)
-    expect(moved.map((command) => (command as unknown as { text?: string }).text ?? command.kind)).toEqual([
+    expect(moved.map((command) => (command as unknown as { ms?: number }).ms ?? command.kind)).toEqual([
       'branch',
-      'p0',
+      10,
       'loop',
       'confirm',
       'startBattle',
