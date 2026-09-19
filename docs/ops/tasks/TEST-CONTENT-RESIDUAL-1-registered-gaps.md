@@ -95,6 +95,11 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 - GLM/Codex/Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r2 独立设计压力测试，签 premise verified + design agree，无返工项。
+  直读 asset.ts:387 入口名、actor-reference.ts:244 unbound 刻意不扫、author-dialogue 字段守卫、
+  content 依赖方向（不反向引 loader）与 open-local scriptChunks={}；跨包 rename 去重与 map-index
+  既有强测试核实；复跑队列探针（unbound 边/Unicode TPFS/browserAdapter/worker transfer 全成立）。
+  五条可证伪观察写入本席。未改产品/他席/状态，未读 GLM 结论。Next：三席齐后 Codex 核准入。
 - 2026-09-19 GLM：完成 r2 差异确认，签 premise verified / design agree，无 counter。复核
   A1/A2 函数名订正、content 依赖方向、scriptChunks 当前消费归类；探针 rc0；TB-01 相关 11 现存
   文件 162/162 绿。未读 Kimi 结论；仅改本席与日志。

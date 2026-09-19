@@ -38,7 +38,25 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 ### build前（r2，当前）
 
 - Codex：**premise verified / design agree（2026-09-19，r2，冻结e58834f6）**。本人直读worker-client.ts/codec.worker.ts、image-import.ts:130–142、video-metadata.ts:23–52及正式UI调用；四既有文件6项绿。亲自复跑现有self.onmessage的真实quantize/encode、TPFS像素恢复、client真实transfer和原buffer保真，零产品导出；并复现PNG成功close=1、仅编码失败close=0。r2将泄漏交Codex另修，不让GLM写错绿或顺手改产品；订正ISO BMFF标准来源与窄探测边界。可证伪：真实handler/codec未执行、transfer没detach、非法fixture提前拦截、代码异常被包装成业务正控，则不准计覆盖。
-- Kimi：pending（独立审r2，不读GLM结论）。
+- Kimi：**premise verified / design agree（2026-09-19，r2，冻结 e58834f6；全部锚点本人直读/复跑，未读 GLM 结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  - **worker 宿主方案核实**：现有 codec.worker 的 self.onmessage handler 可在 Node 窄宿主直接
+    调用且零产品导出改动（Codex 已实证真实 quantize/encode）；client 发送副本 detached 而原
+    buffer 保持、terminate 一次——真实 transfer 证据成立，不是「无同名 worker 测试即不可测」。
+  - **PNG 失败释放缺陷隔离**：`image-import.ts:130-142` 全链路 canvas 操作后 `bitmap.close()`
+    在末尾——编码失败时 close 不可达；本人复跑队列探针确认 closes=0、leakObserved=true。
+    r2 把该缺陷交 Codex 另修、不让 GLM 写错绿或顺手改产品——隔离正确，不是本包正确绿测。
+  - **BMFF 边界核实**：`video-metadata.ts:23-52` 只实现窄音轨探测（box 遍历/size===1 扩展头），
+    不充当完整 MP4 校验器；ISO BMFF 标准来源已订正——边界声明准确。
+  - **既有去重核实**：ImageTab/BattleSpriteLibrary/FrameAnimationEditor/CutsceneTab 四个调用点
+    与四旧文件 6 项在册（Codex/GLM 计数一致）；SPRITE-PICK 上传竞态已 done 不重开。
+  - **设计同意**：七模块导入阶段化失败/帧图序列守卫/TPFS 编码边界/worker 请求分派/BMFF box
+    解析回归；合法二进制独立构造+真实编码链非上传界面；不做视觉/截图/听感；不动 UI 布局与
+    动画观感；真实缺陷隔离不固化；负控钉名业务红+判据自测。
+  - **可证伪观察**（任一反例即收窄或 counter）：① 某族已被 codec 两例同合同覆盖 → 登记已有；
+    ② 真实 handler/codec 未执行 → 覆盖无效；③ transfer 没 detach 或原 buffer 被改 → 保真破；
+    ④ 非法 fixture 提前被其它守卫拦截 → 负控未达目标分支须重造；⑤ 代码异常被包装成业务
+    正控 → 覆盖无效；⑥ 产品/旧测试/基线任何 diff → 越界即停。
+  - 返工项：无。
 - GLM：**r2 premise verified / design agree（2026-09-19，r2，冻结 e58834f6；差异锚点本人直读/复跑，未读 Kimi 结论；r1 签字留历史）**。
   - **worker 零导出方案**：codec.worker.ts:27–35 本人直读——真实 handler 已挂 `self.onmessage`
     （quantize/encode + postMessage transfer），r1 稿"Node worker_threads 或直调 handler 留 Codex
@@ -78,6 +96,11 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 - GLM/Codex/Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r2 独立设计压力测试，签 premise verified + design agree，无返工项。
+  直读 worker 零导出宿主方案可行性、client 真实 transfer/detach、video-metadata 窄音轨探测边界、
+  image-import.ts:130-142 编码失败 close 不可达（复跑队列探针 closes=0/leakObserved=true——
+  泄漏交 Codex 另修正确隔离）；SPRITE-PICK 不重开。六条可证伪观察写入本席。
+  未改产品/他席/状态，未读 GLM 结论。Next：三席齐后 Codex 核准入。
 - 2026-09-19 GLM：完成 r2 差异确认，签 premise verified / design agree，无 counter。复核
   worker 零导出宿主方案、client 真实 transfer/detach、BMFF 三态与标准来源订正、caller 修正、
   PNG 编码失败泄漏隔离边界；探针 rc0；四旧文件 6/6 复跑。未读 Kimi 结论；仅改本席与日志。

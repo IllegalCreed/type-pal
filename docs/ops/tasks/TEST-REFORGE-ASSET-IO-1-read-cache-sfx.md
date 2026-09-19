@@ -38,7 +38,29 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 ### build前（r2，当前）
 
 - Codex：**premise verified / design agree（2026-09-19，r2，冻结e58834f6）**。本人直读file-source.ts:27–47与fsa-source.ts:18–50，核实HTTP透传而FSA主动查取消；sfx.ts:63–94的实际browserAdapter复制/标记门已用宿主探针复跑；main.ts:774–789与readiness.ts:168证实页选择前提不能由旧玩具fixture代证。六旧文件39项绿。r2排除未定页选择/在途dispose，去重12项sfx及已有registry503重试；不宣称PCM/听感或浏览器验证。可证伪：替身替掉产品判据、真正消费者输入与fixture不同、只有旧强例重复，则收窄而不固化。
-- Kimi：pending（独立审r2，不读GLM结论）。
+- Kimi：**premise verified / design agree（2026-09-19，r2，冻结 e58834f6；全部锚点本人直读，未读 GLM 结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  - **两套读取合同直读**：`file-source.ts` httpSource 仅透传 signal 给 fetch 并原样消费 Response
+    （无逐 await 取消门、无统一 JSON 包装）；`fsa-source.ts` 逐 await 主动查取消——HTTP/FSA 分开
+    测正确；`sfx.ts:63-68` AudioContext 宿主选择、`:90-94` assertWave 仅长度/RIFF/WAVE 标记门
+    （mock decodeAudioData 不是 PCM 解码证明）——分层属实。
+  - **browserAdapter 复制直读**：SfxPlayer 向注入 adapter 直接传 reader bytes、复制发生在产品
+    browserAdapter——新测试走实际 adapter 而非假 adapter 收复制品，r2 此钉正确。
+  - **既有去重核实**：sfx 12 项（decode/read/play 失败、resume 重试、dispose 旧 prepare）与
+    registry.test.ts:24-40 的 503 重试在册；r2 只补独立余轴、不更名既有断言算新增——纪律正确。
+  - **页选择隔离核实**：`main.ts:774-789` 给 collector 传 canonicalScene 且无 additionalRoots；
+    `sfx-readiness.ts:168` 固定 pages[0].animation——旧玩具 SceneDef 不能证明 canonical
+    initialPage/活动页合同，r2 把「当前页选择正确」移出绿测主张、隔离待证是正确的收窄
+    （在途 dispose 回填政策未定同样不默认绿）。
+  - **探针本人复跑**（exit 0，队列共用）：browserAdapter 实拷字节并走 connect/start/stop/close
+    ——与上述源码一致。
+  - **设计同意**：六模块读取分阶段失败/取消窗口/缓存生命周期/注册表失败重试/非战斗音效集合
+    回归；不听音不做视觉；不改保存读门/锁/恢复；不碰技能试放与 Codex main 接线；与已接收
+    十模块包（bgm/midi-preview 属彼包）不重叠；负控判据自测+钉名业务红。
+  - **可证伪观察**（任一反例即收窄或 counter）：① 某族已被既有厚测试同合同覆盖 → 登记已有；
+    ② 替身替掉产品判据（假 adapter 被要求收复制品）→ 测试模型错；③ 真正消费者输入与 fixture
+    不同 → 撤回；④ 在途 dispose 回填政策被定义 → 待证族重评；⑤ 产品/旧测试/基线任何 diff →
+    越界即停。
+  - 返工项：无。
 - GLM：**r2 premise verified / design agree（2026-09-19，r2，冻结 e58834f6；差异锚点本人直读/复跑，未读 Kimi 结论；r1 签字留历史）**。
   - **HTTP/FSA 分层**：file-source.ts:24–47 本人直读——fetch 只透传 AbortSignal、Response 原样
     消费，无逐 await 取消门；fsa-source.ts:18 起每个读取前 `throwIfAborted(signal)` 主动查——
@@ -78,6 +100,11 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 - GLM/Codex/Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r2 独立设计压力测试，签 premise verified + design agree，无返工项。
+  直读 httpSource 透传/fsaSource 主动取消分层、sfx browserAdapter 复制位置与 assertWave 标记门、
+  registry 503 重试既有断言、main.ts:774-789 canonicalScene 与 pages[0] 疑点隔离（移出绿测正确）。
+  六旧文件去重核实；复跑队列探针 browserAdapter 实拷字节证据一致。五条可证伪观察写入本席。
+  未改产品/他席/状态，未读 GLM 结论。Next：三席齐后 Codex 核准入。
 - 2026-09-19 GLM：完成 r2 差异确认，签 premise verified / design agree，无 counter。复核
   HTTP 透传/FSA 主动取消分层、browserAdapter 复制位置与 assertWave 标记门、registry 真实 caller、
   readiness pages[0] 疑点隔离；探针 rc0；六旧文件 39/39 复跑。未读 Kimi 结论；仅改本席与日志。
