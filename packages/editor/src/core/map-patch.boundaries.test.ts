@@ -103,7 +103,7 @@ describe('M03 prepareProjectMapPatch 单轴与清源', () => {
     const map = paintProjectMapTiles(buildBlankProjectMap(2, 2, TILESET), [
       { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: TILESET, height: 2 },
     ])
-    const mapSnapshot = structuredClone(map.layers)
+    const mapSnapshot = structuredClone(map) // 完整实际 map 快照（layers/sources/heights/collision/owner）
     const patch = {
       visual: [
         { channel: 'tileId' as const, ref: { layerId: 'floor', row: 0, col: 0 }, value: null },
@@ -113,8 +113,9 @@ describe('M03 prepareProjectMapPatch 单轴与清源', () => {
       collision: [],
     }
     const patchSnapshot = structuredClone(patch)
-    const permissionSnapshot = structuredClone(permission(['floor']))
-    const prepared = prepareProjectMapPatch(map, patch, permission(['floor']))
+    const actualPermission = permission(['floor']) // 持有同一权限对象（污染实际入参即红）
+    const permissionSnapshot = structuredClone(actualPermission)
+    const prepared = prepareProjectMapPatch(map, patch, actualPermission)
     expect(prepared.nextVisual).toEqual([
       { layerId: 'floor', row: 0, col: 0, tileId: null, tilesetId: null, height: 0 },
     ])
@@ -124,8 +125,8 @@ describe('M03 prepareProjectMapPatch 单轴与清源', () => {
     const next = applyPreparedProjectMapPatch(map, prepared)
     expect(next.layers[0]!.tiles[0]![0]).toBeNull()
     expect(next.layers[0]!.sources[0]![0]).toBeNull()
-    expect(structuredClone(map.layers)).toEqual(mapSnapshot)
+    expect(structuredClone(map)).toEqual(mapSnapshot)
     expect(structuredClone(patch)).toEqual(patchSnapshot)
-    expect(structuredClone(permission(['floor']))).toEqual(permissionSnapshot)
+    expect(actualPermission).toEqual(permissionSnapshot) // 同一实际权限对象前后一致
   })
 })

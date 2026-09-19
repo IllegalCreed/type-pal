@@ -102,3 +102,19 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字
   （placement 占位组用真实 withProjectMapStampPlacements 写入链）；失败计划钉完整 issues/空写
   计划；地图/权限/clipboard 均比较实参快照。
 - 机器账 `docs/testing/glm-editor-map-data-evidence.json`。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 8 针复跑全绿。
+- **C1**：10 个新文件（含 JSON/config）Biome rc=0；机账同步最终树数字。
+- **R06-1**：权限保真改真实实参——持有**同一** permission 对象传入、调用前快照、调用后比较同一
+  对象；map 改为完整实际对象快照（layers/sources/heights/collision 等）。
+- **R06-2**：混合目标失败建立——真实 capture 两源层实例，映射一有效（floor→floor）一无效
+  （extra→ghost 已删层）：layer-missing 整笔失败、**双 patch 全空**（有效目标写入一并清空）、
+  完整 issues；相邻正控（两目标都存在）同 clipboard 可提交。
+- M06 已有/内部防御保留（stamp-placement-mutation.test.ts 精确标题在册）。
+- 复跑：定向 5/5、全包 248 文件/2536 项（2 项预存裁决一致；adoption 抖动隔离 22/22 绿，
+  并行完整 check 复核留合并后）、tc rc=0、官方 fast 2359→2377 双 exit0。机器账 rework 节。

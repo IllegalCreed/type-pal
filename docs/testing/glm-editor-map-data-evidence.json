@@ -41,7 +41,11 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": ["control-selection", "control-patch", "control-group"],
+    "controls": [
+      "control-selection",
+      "control-patch",
+      "control-group"
+    ],
     "cases": [
       {
         "name": "selection-hidden-none-gate-removed",
@@ -175,5 +179,29 @@
     "integrated": false,
     "officialCoverageChanged": false,
     "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  },
+  "rework": {
+    "intakeReview": "docs/testing/glm-nine-intake-review.md (Codex counter 1f38bb29)",
+    "generatedAt": "2026-09-19T12:01:18Z",
+    "C0": "判据改为每条 failureMessages 首行 /^AssertionError(\\b|:)|^expect\\(/（运行态 pin 块内联同形谓词 + 四向自测新增普通Error内嵌AssertionError/纯超时反例）",
+    "C1": {
+      "command": "pnpm exec biome check <git 新增清单全部 TS/MJS/MTS/JSON>",
+      "exit": 0,
+      "files": 10
+    },
+    "R06-1": "权限保真改真实实参——同一 permission 对象传入 prepareProjectMapPatch，调用前 structuredClone 快照、调用后比较同一对象（污染 hiddenLayerIds 即红）；map 取完整实际对象快照（非仅 layers）",
+    "R06-2": "混合目标失败建立——真实 captureMapClipboard 两源层（floor/extra）各一实例，映射一有效（floor）一无效（ghost）：layer-missing 整笔失败、双 patch 全空、完整 issues；相邻正控两目标都存在时同 clipboard 可提交（visual 6 写）",
+    "M06": "登记已有/内部防御保留，精确标题见 stamp-placement-mutation.test.ts:35/74/91/114/169 与既有族账",
+    "tests": {
+      "packageFull": "248 files / 2536 tests：2 项预存 world-sprite PAL ENOENT（裁决一致）；adoption 并行抖动隔离绿 22/22（Codex 已裁决保留完整 check 复核）",
+      "typecheck": "rc=0"
+    },
+    "mutants": {
+      "command": "node docs/testing/glm-editor-map-data-mutants.mjs",
+      "exit": 0,
+      "controls": 3,
+      "needles": 8
+    },
+    "coverageRerun": "官方 fast before 2359 / after 2377 双 exit0（最终返工树重跑）"
   }
 }

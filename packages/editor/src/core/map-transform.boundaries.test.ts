@@ -10,6 +10,10 @@ import {
   paintProjectMapTiles,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import {
+  buildProjectMapLayer,
+  insertProjectMapLayer,
+} from '@type-pal/reforge'
 import type { MapCellClipboard } from './map-transform.js'
 import { captureMapClipboard, planMapPaste } from './map-transform.js'
 
@@ -117,22 +121,57 @@ describe('M02 planMapPaste 失败计划与冲突语义', () => {
     })
     expect(differing.canApply).toBe(false)
   })
-  test('目标层被删（另一目标层仍有效）：layer-missing 整笔失败，patch 为空', () => {
-    const map = painted()
-    const clipboard = clipboardOf(map)
+  test('混合目标（真实 capture、一有效一无效）：layer-missing 整笔失败，双 patch 全空、完整 issues', () => {
+    // 真实 capture：两个源层各一视觉实例 + 碰撞格
+    const base = painted()
+    const withExtra = insertProjectMapLayer(base, buildProjectMapLayer(base, 'extra', '二'), 1)
+    const map = paintProjectMapTiles(withExtra, [
+      { layerId: 'extra', row: 1, col: 1, tileId: 7, tilesetId: TILESET, height: 3 },
+    ])
+    const clipboard = captureMapClipboard(
+      'm1',
+      map,
+      {
+        kind: 'cells',
+        visualSlots: [
+          { layerId: 'floor', row: 0, col: 0 },
+          { layerId: 'extra', row: 1, col: 1 },
+        ],
+        gridPoints: [{ row: 0, col: 0 }],
+        hitScope: 'active-layer',
+      },
+      true,
+    )!
+    expect(clipboard.visual).toHaveLength(2)
+    // floor→floor（有效目标层）、extra→ghost（已删层）：部分有效仍整笔失败
     const plan = planMapPaste(map, clipboard, point(1, 0), {
-      layerMappings: [{ sourceLayerId: 'floor', targetLayerId: 'ghost' }],
+      layerMappings: [
+        { sourceLayerId: 'floor', targetLayerId: 'floor' },
+        { sourceLayerId: 'extra', targetLayerId: 'ghost' },
+      ],
       conflictPolicy: 'reject',
       collisionAuthorityLayerId: 'floor',
     })
     expect(plan.canApply).toBe(false)
-    expect(plan.patch.visual).toEqual([])
+    expect(plan.patch.visual).toEqual([]) // 有效目标层的写入也一并清空（不给可提交的部分 patch）
+    expect(plan.patch.collision).toEqual([])
     expect(plan.issues).toEqual([
       {
         code: 'layer-missing',
         message: '目标图层 "ghost" 不存在',
-        ref: { layerId: 'ghost', row: 1, col: 0 },
+        ref: { layerId: 'ghost', row: 2, col: 2 },
       },
     ])
+    // 相邻正控：映射到两个都存在的层 → 同 clipboard 可提交
+    const ok = planMapPaste(map, clipboard, point(1, 0), {
+      layerMappings: [
+        { sourceLayerId: 'floor', targetLayerId: 'floor' },
+        { sourceLayerId: 'extra', targetLayerId: 'extra' },
+      ],
+      conflictPolicy: 'reject',
+      collisionAuthorityLayerId: 'floor',
+    })
+    expect(ok.canApply).toBe(true)
+    expect(ok.patch.visual).toHaveLength(6) // 2 实例 × 3 通道
   })
 })
