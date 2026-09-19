@@ -95,3 +95,22 @@ audit-performance-adoption×1：全包并行负载下 15s 超时，隔离运行�
 
 上传选图竞态（EDITOR-SPRITE-PICK-1）已 done 不重开；界面布局/动画观感归 Codex；真实视频文件、
 浏览器 worker 环境差异、CutsceneTab 视觉行为不在本批；不复活已退役 number-path 导入分支。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 8 针复跑全绿。
+- **C1**：11 个新文件（含 JSON/config）Biome rc=0；机账/回执同步最终树数字。
+- **R03-1**：quantize 实参保真——传实际 `input.buffer`、调用前快照、改输出后断言实际传入
+  buffer 与调用前逐字节一致（`quantize-mutates-actual-input` 类单点即红）。
+- **R03-2**：输出 transfer 双向真实——FakeWorker.reply 以 `structuredClone(data,{transfer})`
+  回帖并断言 worker 侧原 bytes/frames 缓冲 detach（byteLength 0）、宿主克隆内容完好不别名；
+  codec.worker 测试钉产品回帖原缓冲 byteLength 变 0（quantize/encode 两处）。
+- **R03-3**：真实 digest——toBlob 返回确定性 PNG 签名+递增载荷、不再 stub digest；
+  hash/record.sha256/record.bytes 与离线预计算 SHA-256 常量相等（独立 oracle），主图与
+  preview 摘要可区分；portrait 直传域用 minimalPng(4,4) 预计算摘要。host 协议测试不称
+  真实 PNG 解码/浏览器线程验收。
+- 复跑：定向 20/20、全包 248 文件/2536 项（3 项预存裁决一致）、tc rc=0、私有覆盖
+  before 2359 / after 2398 双 exit0。机器账 rework 节。

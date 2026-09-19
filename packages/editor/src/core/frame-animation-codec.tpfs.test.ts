@@ -170,12 +170,14 @@ describe('C5 quantizeFrameAnimationRequest 完整帧量化', () => {
 
   test('最近色吸附、透明像素与 alpha 原样保留、输出为独立副本', () => {
     const input = new Uint8Array([255, 10, 10, 255, 250, 0, 0, 128, 9, 9, 250, 0, 7, 200, 7, 255])
+    const inputBuffer = input.buffer as ArrayBuffer
+    const inputBefore = input.slice() // 调用前快照实际传入的同一 buffer
     const out = quantizeFrameAnimationRequest({
       width: W,
       height: H,
       colors,
       mode: 'nearest',
-      frames: [input.slice().buffer],
+      frames: [inputBuffer], // 传实际 buffer（非 slice 副本）
     })
     expect(out).toHaveLength(1)
     expect(out[0]!.byteLength).toBe(FRAME_BYTES)
@@ -185,7 +187,9 @@ describe('C5 quantizeFrameAnimationRequest 完整帧量化', () => {
       new Uint8Array([255, 0, 0, 255, 255, 0, 0, 128, 9, 9, 250, 0, 255, 0, 0, 255]),
     )
     snapshot[0] = (snapshot[0] ?? 0) ^ 0xff
-    expect(input[0]).toBe(255) // 输出副本不污染输入
+    // 实参保真：改输出后，实际传入的同一 buffer 仍与调用前一致（原地污染即红）
+    expect(input).toEqual(inputBefore)
+    expect(new Uint8Array(inputBuffer)).toEqual(inputBefore)
   })
   test('未知量化方式与空色彩表拒绝；floyd-steinberg 单像素精确吸附', () => {
     const frame = new Uint8Array([250, 3, 3, 255]).buffer

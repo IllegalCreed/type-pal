@@ -11,12 +11,17 @@ import { beforeAll, describe, expect, test, vi } from 'vitest'
 type WorkerResult = { id: number; bytes?: ArrayBuffer; frames?: ArrayBuffer[]; error?: string }
 type WorkerMessage = { id: number; kind: 'encode' | 'quantize'; request: unknown }
 
-const posts: Array<{ message: WorkerResult; transfer: Transferable[] }> = []
+const posts: Array<{
+  message: WorkerResult
+  transfer: Transferable[]
+  /** 产品回帖时的原对象：真实 transfer 后其缓冲应 detach（byteLength 0）。 */
+  original: WorkerResult
+}> = []
 const scope = {
   onmessage: null as ((event: { data: WorkerMessage }) => void) | null,
   postMessage: (message: WorkerResult, transfer?: Transferable[]): void => {
-    // 先留一份可检查的克隆，再按真实 transfer 语义移走原缓冲
-    posts.push({ message: structuredClone(message), transfer: transfer ?? [] })
+    // 先留一份可检查的克隆，再按真实 transfer 语义移走原缓冲（保留原对象见证 detach）
+    posts.push({ message: structuredClone(message), transfer: transfer ?? [], original: message })
     structuredClone(message, { transfer: transfer ?? [] })
   },
 }
@@ -39,7 +44,11 @@ async function inflate(bytes: Uint8Array): Promise<Uint8Array> {
   return new Uint8Array(await new Response(stream).arrayBuffer())
 }
 
-async function nextPost(): Promise<{ message: WorkerResult; transfer: Transferable[] }> {
+async function nextPost(): Promise<{
+  message: WorkerResult
+  transfer: Transferable[]
+  original: WorkerResult
+}> {
   await vi.waitFor(() => {
     if (posts.length === 0) throw new Error('等待 worker 回帖')
   })
@@ -72,6 +81,8 @@ describe('C7 quantize 消息：同步量化、整帧 transfer', () => {
       new Uint8Array([255, 0, 0, 255, 0, 0, 255, 255, 255, 0, 0, 255, 0, 0, 255, 255]),
     )
     expect(post.transfer.length).toBe(1) // 回帖帧走真 transfer
+    // 真实 transfer 见证：产品创建的回帖帧缓冲被移走（detach → byteLength 0）
+    expect(post.original.frames![0]!.byteLength).toBe(0)
 
     send({
       id: 8,
@@ -103,6 +114,8 @@ describe('C7 encode 消息：异步编码、TPFS 往返、错误回帖', () => {
     expect(post.message.id).toBe(9)
     expect(post.message.error).toBeUndefined()
     expect(post.transfer.length).toBe(1)
+    // 真实 transfer 见证：产品回帖的 TPFS bytes 缓冲被移走（detach → byteLength 0）
+    expect(post.original.bytes!.byteLength).toBe(0)
     const bytes = post.message.bytes!
     const parsed = parseFrameSequence(new Uint8Array(bytes.slice(0)))
     expect(parsed.index.width).toBe(2)

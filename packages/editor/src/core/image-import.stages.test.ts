@@ -22,12 +22,38 @@ async function rejectionOf(promise: Promise<unknown>): Promise<string> {
   )
 }
 
+/** 可解码 PNG 宿主产物字节：8 字节 PNG 签名 + 递增载荷（deterministic，非全零）。 */
+function pngPayload(size: number): Uint8Array {
+  const out = new Uint8Array(size)
+  out.set([137, 80, 78, 71, 13, 10, 26, 10])
+  for (let index = 8; index < size; index += 1) out[index] = index & 0xff
+  return out
+}
+
+/**
+ * 独立摘要 oracle：确定性产物在编写期离线计算的真实 SHA-256（python hashlib），
+ * 与产品 crypto.subtle 实现路径无关；产品摘要必须逐字节等于这些常量。
+ */
+const PNG_PAYLOAD_SHA256 = {
+  24: 'f7f920c005e0b957def68400fa236ef5160460f5ee8a00b7d5ed4ac21b015d27',
+  32: '6704ff71cfc343a2ba4cda8071c43246cec0e5d30517c8f674ac2071d71e3631',
+} as const
+
+/** portrait 直传域源字节（minimalPng(4,4)）的离线真实 SHA-256。 */
+const SOURCE_PNG_4x4_SHA256 = '1da384171d70f7660f2139f3fa12509747b363f2fc6f4dd62d95b262ffb92d4c'
+
+/** 源字节（portrait 直传域）摘要须由真实 crypto.subtle 计算——用已知向量作独立正控。 */
+const KNOWN_VECTOR_SHA256 = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
+
 /** 安装 Canvas/ImageBitmap 双替身（记录 close/decode/toBlob；finally 恢复）。 */
 function installCanvasHost(options: {
   width: number
   height: number
   pixels?: Uint8Array
   decodeFails?: boolean
+  /** toBlob 确定性产物字节（真实摘要由其内容决定，不再 stub 全零 digest）。 */
+  blobBytes?: Uint8Array
+  blobBytes2?: Uint8Array
 }) {
   const events: string[] = []
   const bitmap = {
@@ -43,6 +69,7 @@ function installCanvasHost(options: {
       return bitmap
     }),
   )
+  let blobCall = 0
   vi.stubGlobal('document', {
     createElement: () => {
       const canvas = {
@@ -60,21 +87,23 @@ function installCanvasHost(options: {
         }),
         toBlob: (callback: (blob: Blob | null) => void) => {
           events.push('toBlob')
-          callback(new Blob([new Uint8Array(8)], { type: 'image/png' }))
+          blobCall += 1
+          const bytes =
+            blobCall === 1
+              ? (options.blobBytes ?? pngPayload(24))
+              : (options.blobBytes2 ?? pngPayload(32))
+          callback(new Blob([bytes.slice()], { type: 'image/png' }))
         },
       }
       return canvas as unknown as HTMLCanvasElement
     },
   })
-  const cryptoStub = vi
-    .spyOn(crypto.subtle, 'digest')
-    .mockImplementation(async () => new ArrayBuffer(32))
   return {
     events,
-    cryptoStub,
-    restore: () => {
-      cryptoStub.mockRestore()
-    },
+    /** 第 n 次 toBlob（1 起）的确定性产物字节，供独立摘要核对。 */
+    blobBytes: (call: number) => (call === 1 ? pngPayload(24) : pngPayload(32)),
+    customBlobBytes: options.blobBytes,
+    restore: () => undefined,
   }
 }
 
@@ -139,7 +168,11 @@ describe('C2 battle-background 域与 catalog 字段', () => {
       })
       expect(prepared.record.label).toBe('hero')
       expect(prepared.record.path).toContain('assets/authored/portrait/')
-      expect(prepared.hash).toMatch(/^[0-9a-f]{64}$/)
+      // 真实摘要：hash = 离线预计算的源字节 SHA-256（独立 oracle，不依赖产品 digest 实现）
+      expect(sourceSnapshot.byteLength).toBe(64) // minimalPng(4,4) 确定性长度自检
+      expect(prepared.hash).toBe(SOURCE_PNG_4x4_SHA256)
+      expect(prepared.record.sha256).toBe(SOURCE_PNG_4x4_SHA256)
+      expect(prepared.record.bytes).toBe(64)
     } finally {
       host.restore()
     }
@@ -155,6 +188,15 @@ describe('C2 battle-background 域与 catalog 字段', () => {
       expect(prepared.effectPreviewBytes).toBeDefined()
       expect(okHost.events).toContain('drawImage')
       expect(okHost.events.filter((e) => e === 'toBlob').length).toBe(2) // 主图 + preview
+      // 重编码域的真实摘要：hash/record 来自主图 toBlob 产物（第 1 次），preview 是第 2 次产物
+      const mainBytes = okHost.blobBytes(1)
+      const previewBytes = okHost.blobBytes(2)
+      expect(new Uint8Array(prepared.bytes)).toEqual(mainBytes)
+      expect(new Uint8Array(prepared.effectPreviewBytes!)).toEqual(previewBytes)
+      expect(prepared.hash).toBe(PNG_PAYLOAD_SHA256[24]) // 离线预计算独立 oracle
+      expect(prepared.record.sha256).toBe(PNG_PAYLOAD_SHA256[24])
+      expect(prepared.record.bytes).toBe(24)
+      expect(prepared.hash).not.toBe(PNG_PAYLOAD_SHA256[32]) // 主图与 preview 摘要可区分
     } finally {
       okHost.restore()
     }

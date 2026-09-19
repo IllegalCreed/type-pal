@@ -29,6 +29,8 @@ class FakeWorker {
   url: URL
   /** original = 产品传入的原对象（transfer 后其缓冲应 detach）；message = worker 侧收到的克隆。 */
   posted: Array<{ original: PostedMessage; message: PostedMessage; transfer: Transferable[] }> = []
+  /** 回帖记录：original 的缓冲在真实 transfer 后应 detach。 */
+  replies: Array<{ original: { bytes?: ArrayBuffer; frames?: ArrayBuffer[] }; transfer: Transferable[] }> = []
   terminated = 0
   onmessage:
     | ((event: {
@@ -52,7 +54,15 @@ class FakeWorker {
     this.terminated += 1
   }
   reply(data: { id: number; bytes?: ArrayBuffer; frames?: ArrayBuffer[]; error?: string }): void {
-    this.onmessage?.({ data })
+    // 输出侧同样走真实 transfer：worker 回帖把 bytes/frames 缓冲移交给宿主，
+    // worker 侧持有的原缓冲被 detach（byteLength 0），宿主收到内容完好的克隆。
+    const transfer: Transferable[] = []
+    if (data.bytes) transfer.push(data.bytes)
+    for (const frame of data.frames ?? []) transfer.push(frame)
+    const clone = structuredClone(data, { transfer }) as typeof data
+    this.replies = this.replies ?? []
+    this.replies.push({ original: data, transfer })
+    this.onmessage?.({ data: clone })
   }
   fail(message: string): void {
     this.onerror?.({ message })
@@ -107,6 +117,11 @@ describe('C6 encodeFrameAnimationInWorker 传输与应答合同', () => {
     const encoded = await promise
     expect(encoded).toEqual(new Uint8Array([9, 9, 9, 9]))
     expect(worker.terminated).toBe(1)
+    // 输出侧真 transfer：worker 回帖的原 answer 缓冲被移走（detach）、宿主收到内容完好克隆
+    expect(worker.replies).toHaveLength(1)
+    expect(worker.replies[0]!.original.bytes!.byteLength).toBe(0)
+    expect(worker.replies[0]!.transfer).toEqual([answer])
+    expect(encoded.buffer).not.toBe(answer) // 宿主拿到的是克隆，不别名 worker 侧原缓冲
   })
   test('无关 id 应答被忽略不结算；正确 id 才 resolve', async () => {
     installWorker()
@@ -175,6 +190,9 @@ describe('C6 quantizeFrameAnimationInWorker 传输与应答合同', () => {
     const out = await promise
     expect(out).toEqual([new Uint8Array(16).fill(9)])
     expect(worker.terminated).toBe(1)
+    // 输出侧真 transfer：回帖帧缓冲被移走（detach）、宿主拿到内容完好的克隆
+    expect(worker.replies[0]!.original.frames![0]!.byteLength).toBe(0)
+    expect(out[0]!.buffer).not.toBe(answer[0])
 
     const missing = quantizeFrameAnimationInWorker({
       width: 2,
