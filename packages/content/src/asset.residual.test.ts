@@ -14,11 +14,13 @@ const unboundCue = (): AuthorDialogueCue => ({
   rows: [{ text: '旁白立绘' }],
 })
 
-describe('A1 unbound 直连肖像臂（先过现行 cue 守卫）', () => {
-  test('合法 unbound cue → 精确 AssetId 肖像引用（where/kind 完整）', () => {
+describe('A1 unbound 直连肖像臂（先过现行 cue 守卫；实际入参保真）', () => {
+  test('合法 unbound cue → 精确 AssetId 肖像引用（where/kind 完整）；扫描后实际 cue 不变', () => {
     const cue = unboundCue()
     expect(() => checkAuthorDialogueCue(cue, 'c')).not.toThrow() // 守卫自证
-    const references = commandAssetTaggedReferencesAtNode({ kind: 'dialog', cue }, 'root.body[0]')
+    const command = { kind: 'dialog', cue }
+    const before = deepSnapshot(command) // 快照真正传入扫描器的对象
+    const references = commandAssetTaggedReferencesAtNode(command, 'root.body[0]')
     expect(references).toEqual([
       {
         asset: 'portrait.hero',
@@ -26,8 +28,9 @@ describe('A1 unbound 直连肖像臂（先过现行 cue 守卫）', () => {
         where: 'root.body[0].cue.identity.portrait.asset',
       },
     ])
+    expect(command).toEqual(before) // 消费后同一对象逐值不变（portrait.side/asset 等嵌套域）
   })
-  test('非 dialog 命令/unbound 缺 portrait/asset 非字符串 → 不产出肖像边；输入不变', () => {
+  test('非 dialog 命令/unbound 缺 portrait → 不产出肖像边；实际传入对象不变（非字符串 asset 为防御轴）', () => {
     const cue = unboundCue()
     const snapshot = deepSnapshot(cue)
     expect(commandAssetTaggedReferencesAtNode({ kind: 'wait', ms: 5 }, 'w')).toEqual([])

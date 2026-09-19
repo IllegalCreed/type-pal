@@ -71,17 +71,30 @@ fixture复用上包薄数据风格，但独立新文件，不改共享fixture。
 - 定向+相邻（上包 13 契约文件+旧 asset/frame-sequence 测试）+content tc+全包+新增文件 Biome。
 - 完成条件：A1–A12 逐族新增/已有/防御/待证落账；新缺陷隔离登记不改产品；无固定条数承诺。
 
-<<<<<<< HEAD
-## GLM实施回执（候选自验原文；数字及闭环声明以本页当前Codex复核为准）
-=======
 ## GLM实施回执
->>>>>>> 0e49db91 (docs(ops): GLM delivery receipt and evidence for content residual r1)
+
+r1 返工完成（2026-09-19 第二轮，GLM；对应[counter CR-R1～R4](content-residual-review.md)，
+原候选 0e49db91 回执保留在该树；分支在 counter 273bb414 之上 rebase 后追加返工提交）。
+
+**返工要点**：CR-R1——A1 快照真正传入扫描器的 command/cue 并在消费后比较；A12 worlds 经
+**正式 buildWorld** 构造（合法技能/learnedSkills/装备数值齐备），world battleSprite / 商店货单 /
+levelUp 每个分支调用前对实际 bundle 拍深快照、调用后比较；levelUp 增加合法技能下单轴坏 owner
+正控（组合双坏轴保留）；optional 缺席与空对象分清。CR-R2——Unicode 成功正控改为**完整合法
+index**（保留全部必需字段+真实 payload 长度）+ 允许扩展键，parse 真实成功（值断言 outcome），
+canonical 重建内容精确断言；u32 LE 长度用 DataView 读写；非法 JSON 与 schema 不符错误分开钉。
+CR-R3——负控逐目标判据：钉名目标 failureMessages 非空且每条首行匹配 AssertionError/^expect(；
+STACK_TRACE_ERROR 加入全局排除；永久四向自测（目标超时+别例红/未运行/纯红/expect 形式）。
+CR-R4——计数从最终树重生（3+5+3+8+4=**23**）；mutants 台账更正为 **1 对照 + 14 针 = 15 跑**；
+9 文件 Biome rc=0。三 Codex 见证针全部 **detected**（候选自身业务红）+ 3 对照绿 +
+fixture 七检查 accepted + `mixedFailureAccepted=false`。
+
+原候选交付声明（历史，0e49db91 树）：
 
 实施完成（2026-09-19，GLM，Coding Owner；基点 4473c367 = Codex 核定 build 之后的 main）。
 分支 `codex/glm-content-residual-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-content-residual`）；
 产品对冻结 e58834f6 零漂移。
-最终树 **5 个新测试文件共 24 项**（Vitest 现场：3+5+3+8+5）——A3 按 r2 裁决登记已有不新增文件，
-白名单为上限而非必须。定向 24/24 绿；content 全包 60 文件/698 项 exit0；tc rc=0；7 新文件 Biome rc=0。
+最终树 **5 个新测试文件共 23 项**（Vitest JSON 实测：3+5+3+8+4）——A3 按 r2 裁决登记已有不新增文件，
+白名单为上限而非必须。定向 23/23 绿；content 全包 60 文件/698 项（675 既有+23）exit0；tc rc=0；9 新文件 Biome rc=0。
 
 ### 12 族逐项账（最终树）
 
@@ -105,7 +118,7 @@ fixture复用上包薄数据风格，但独立新文件，不改共享fixture。
 ### 负控与覆盖（最终树复跑）
 
 - 负控 `node docs/testing/glm-content-residual-mutants.mjs` rc=0：判据 AST 自测 + 1 对照 +
-  **13 变异针**（每族 ≥1）全部钉名新增测试 failed 的 AssertionError 业务红；产品 hash 不变。
+  **14 变异针**（每族 ≥1）全部钉名新增测试 failed 且目标自身 failureMessages 首行为 AssertionError；产品 hash 不变。
 - 覆盖对照（官方 testSelection，/tmp 专属）：asset L+8/B+19、frame-sequence L+16/B+24、
   author-dialogue L+5/B+13、map-index L+1/B+5、validate-refs L+3/B+3、actor-reference 不变（A3 已有）；
   全 content 包 L4458→4491/5183、B3798→3863/5016。

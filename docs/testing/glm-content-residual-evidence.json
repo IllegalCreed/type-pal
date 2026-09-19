@@ -1,10 +1,10 @@
 {
-  "task": "TEST-CONTENT-RESIDUAL-1 r1 (TB-01)",
+  "task": "TEST-CONTENT-RESIDUAL-1 r1 rework (CR-R1~R4)",
   "generatedAt": "2026-09-19T04:49:08Z",
   "branch": "codex/glm-content-residual-r1",
   "worktree": "/Users/zhangxu/illegal/type-pal-glm-content-residual",
   "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
-  "base": "4473c367 (admission after three r2 signoffs)",
+  "base": "273bb414",
   "productDriftVsFreeze": "GLM commits touch whitelist only",
   "tests": {
     "perFileExecuted": {
@@ -12,12 +12,12 @@
       "author-dialogue.field-guards.test.ts": 5,
       "frame-sequence.residual.test.ts": 3,
       "map-index.residual.test.ts": 8,
-      "validate-refs.data-refs.test.ts": 5
+      "validate-refs.data-refs.test.ts": 4
     },
-    "newTotal": 24,
-    "packageFull": "60 files / 698 tests exit0",
+    "newTotal": 23,
+    "packageFull": "60 files / 698 tests exit0 (675 existing + 23)",
     "typecheck": "pnpm --filter @type-pal/content exec tsc --noEmit rc=0",
-    "biome": "all 7 new TS/MJS/MTS files rc=0 (per-file)",
+    "biome": "all 9 new TS/MJS/MTS/JSON files rc=0 (per-file)",
     "familyLedger": {
       "A1": "新增（unbound 直连肖像臂：精确 where/kind + 非目标不误收）",
       "A2": "新增（palBattleSpriteAssetId 参数域：player0/enemy1/零填充/错型）",
@@ -31,7 +31,13 @@
       "A10": "新增（cursorFrame 0..2 + 越界/非整数拒绝）",
       "A11": "新增（version/maps 容器/条目/name/path 七轴；与既有用例互补）",
       "A12": "新增（world appearance.battleSprite 精确往返 + 商店货单 + levelUp 属主 warn（现行 companion 政策）+ 输入不变）"
-    }
+    },
+    "reworkChanges": [
+      "CR-R1: A1 snapshots the actual command/cue passed to the scanner and compares after consumption; A12 worlds built via formal content buildWorld (legal skill/learnedSkills/equipment present), each branch (world battleSprite / shops / levelUp) snapshots actual bundle before call and compares after; single-axis legal-skill levelUp positive control plus combined owner+skill axis; optional absence vs empty-object distinction recorded",
+      "CR-R2: real Unicode success control — full legal index (all required fields + real payload length) with allowed Unicode extension key parses successfully (value-asserted outcome, canonical rebuild asserted); u32 LE length read/rewrite via DataView; illegal-JSON vs schema-mismatch errors pinned separately",
+      "CR-R3: per-target criterion — pinned test must have non-empty failureMessages with every message matching AssertionError|^expect( (target STACK_TRACE_ERROR with other-case business red rejected); STACK_TRACE_ERROR added to global exclusion; permanent four-way self-test (target-timeout+other-red / not-run / pure-red / expect-form)",
+      "CR-R4: counts from final tree 3+5+3+8+4=23; mutants ledger corrected to 1 control + 14 needles = 15 runs; Biome 9 files rc=0"
+    ]
   },
   "mutants": {
     "script": "docs/testing/glm-content-residual-mutants.mjs",
@@ -39,7 +45,8 @@
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
-      "poisonedRejected": true
+      "poisonedRejected": true,
+      "pinnedVerdictFourWay": true
     },
     "controls": ["control"],
     "cases": [
@@ -47,10 +54,10 @@
         "name": "asset-unbound-arm-removed",
         "exit": 1,
         "red": "unbound 直连肖像臂失配（不产出边）",
-        "redTest": "合法 unbound cue → 精确 AssetId 肖像引用（where/kind 完整）",
+        "redTest": "合法 unbound cue → 精确 AssetId 肖像引用（where/kind 完整）；扫描后实际 cue 不变",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/asset-unbound-arm-removed.log",
-        "logSha256": "576e055f035ea8bc4fc288005b0ff6e7abe186d571e790d0d34aff6fd70d831d"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/asset-unbound-arm-removed.log",
+        "logSha256": "b6b9ed068802acdf3691af1db2f509afc6e963b34d0daf7acdec72c560524e68"
       },
       {
         "name": "asset-pal-sprite-min-flattened",
@@ -58,8 +65,8 @@
         "red": "enemy 最小 1 门塌缩为 0",
         "redTest": "player 0 合法/enemy 最小 1；正数与三位零填充格式；越界与错型精确拒绝",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/asset-pal-sprite-min-flattened.log",
-        "logSha256": "94ac83a6da005ccde58dcf3263874b2467c0d0124b081cc7fd69869531d202f6"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/asset-pal-sprite-min-flattened.log",
+        "logSha256": "fc98993434fcf3de73630abda7dcb30fbc6e529ca1d4096ce52241a31e128500"
       },
       {
         "name": "dialogue-rows-empty-allowed",
@@ -67,8 +74,8 @@
         "red": "空 rows 不再拒绝",
         "redTest": "空数组拒绝；元素缺 text/非对象拒绝；多行合法",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/dialogue-rows-empty-allowed.log",
-        "logSha256": "1bc4dabf64d3fd68cb61b815ac8a00e6f931e4d90d249e89e81a14d659a6b2ae"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/dialogue-rows-empty-allowed.log",
+        "logSha256": "b308bd142190e5617639db5df74ae6fefae6c026800ba92c53d2936b4a5aab82"
       },
       {
         "name": "dialogue-speed-guard-removed",
@@ -76,8 +83,8 @@
         "red": "speed 非法值不再拒绝",
         "redTest": "speed 非法值拒绝（负/NaN/非有限）；0 与非整数正数合法",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/dialogue-speed-guard-removed.log",
-        "logSha256": "ec2a1d58e536ecdeff0790445818338c04893dbac76ec6c1b32987b083859854"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/dialogue-speed-guard-removed.log",
+        "logSha256": "e93fc4fbb246d3f615a65c9b7cef4cd8078ca01a089d96847e2f04b170edb641"
       },
       {
         "name": "dialogue-advance-guard-removed",
@@ -85,8 +92,8 @@
         "red": "autoAdvance 非法值不再拒绝（整个守卫塌缩）",
         "redTest": "autoAdvance 非法值拒绝；0 与非整数非负有限数合法；输入不变",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/dialogue-advance-guard-removed.log",
-        "logSha256": "35eb7e9b7bc5fb410bd900b87851bb3b574f771159aa4dc58edf48cfa8efd764"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/dialogue-advance-guard-removed.log",
+        "logSha256": "00957b595b89a1bec1c72917f8fdde8ac01bc20987bc62018916844eace11724"
       },
       {
         "name": "dialogue-slot-guard-removed",
@@ -94,8 +101,8 @@
         "red": "非法 slot 不再拒绝",
         "redTest": "非法 slot 拒绝；四个合法值逐一通过",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/dialogue-slot-guard-removed.log",
-        "logSha256": "32b1e9d378392c4fa95fa96224103f16d11a02c8bf0c911079388fff339dd6de"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/dialogue-slot-guard-removed.log",
+        "logSha256": "5e33025133f6c7a5e6412f39146261f2ac5d8c610078fba672ab968a70035939"
       },
       {
         "name": "dialogue-cursor-guard-removed",
@@ -103,8 +110,8 @@
         "red": "非法 cursorFrame 不再拒绝",
         "redTest": "非法 cursorFrame 拒绝（超 0..2/非整数）；0/1/2 合法",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/dialogue-cursor-guard-removed.log",
-        "logSha256": "85c11da879f79afdea4c1716c3e4d0ef7c9d9ffb5e0c49b0a70f56bf45459e8a"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/dialogue-cursor-guard-removed.log",
+        "logSha256": "5cedbf7c258734885d76e3e3e9f6cf22a025767f8d5bccbbb1a642016e3a1731"
       },
       {
         "name": "map-version-gate-removed",
@@ -112,8 +119,8 @@
         "red": "version 非 1 不再拒绝",
         "redTest": "version 非 1 拒绝",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/map-version-gate-removed.log",
-        "logSha256": "d5f2ca6e51149b4a12ef4c1e5e45525cf7edcf2d7ccee707775f591f7ac563cc"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/map-version-gate-removed.log",
+        "logSha256": "a3234d1d394e6720d02ea1ba19113e1345324c831ebfbfcd5265a97cdb3de7ce"
       },
       {
         "name": "map-name-gate-removed",
@@ -121,35 +128,35 @@
         "red": "空白 name 不再拒绝",
         "redTest": "name 纯空白 拒绝",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/map-name-gate-removed.log",
-        "logSha256": "566ca77e233ac13fb13fbea52ae850b7b8d4b6c2b9040b928d41255bceb74649"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/map-name-gate-removed.log",
+        "logSha256": "2f2d86e5dfcb0a08136cfef0cbee5cd8e2b1dc6f95fc2069baae6aa387970780"
       },
       {
         "name": "refs-world-bsprite-gate-removed",
         "exit": 1,
         "red": "world appearance.battleSprite 悬空不再报",
-        "redTest": "队员 appearance.battleSprite 悬空 → 精确 error；补回后零 issue（完整往返）",
+        "redTest": "合法 world（含形象覆写+学习技能+装备数值）先零 issue；悬空 battleSprite → 精确 error；实际入参快照",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/refs-world-bsprite-gate-removed.log",
-        "logSha256": "7a504893acd0cff1d62196899f4963613fe4673df7277f46e1d9fab02491e295"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/refs-world-bsprite-gate-removed.log",
+        "logSha256": "e9441918cbab1948d0bca15a39bf714cb9c3bb4de61540f155d0900b424ec67d"
       },
       {
         "name": "refs-shop-item-gate-removed",
         "exit": 1,
         "red": "商店货单悬空物品消息被改写（精确多重集合失配）",
-        "redTest": "货单引用悬空物品 → 精确 error；正控合法货单零 issue",
+        "redTest": "货单引用悬空物品 → 精确 error；正控合法货单零 issue；消费前后 bundle 不变",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/refs-shop-item-gate-removed.log",
-        "logSha256": "d0556b9cc4efb66122af8e48ae01ba58a903d007b2399220d6ff23c344019520"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/refs-shop-item-gate-removed.log",
+        "logSha256": "151e7aec81e72bc5c0e4df99bbfbc6a38d78b5e0354d73833cc2e34c2b3178f2"
       },
       {
         "name": "refs-levelup-owner-gate-removed",
         "exit": 1,
         "red": "levelUp 属主悬空 warn 不再报",
-        "redTest": "levelUp 键角色不在 actors → warn（companion 降级政策）；空 levelUp 缺席语义不产生 issue",
+        "redTest": "合法技能引用的 levelUp 零 issue；仅 owner 悬空 → warn；owner+技能双坏并列不吞并",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/refs-levelup-owner-gate-removed.log",
-        "logSha256": "69c3853ebc34562e3b6f4faf851a2e42325c22fc21bb64bc2437be05e78f903e"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/refs-levelup-owner-gate-removed.log",
+        "logSha256": "c8458db092f55b46d05e039673865b4c51acc7c48a3877ef1834e4cbfe9491da"
       },
       {
         "name": "tpfs-utf8-lead-gate-removed",
@@ -157,8 +164,8 @@
         "red": "非法 UTF-8 起始字节不再拒绝",
         "redTest": "非法起始字节 / 截断序列 / 非法延续字节 / 非法码点各自精确路径",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/tpfs-utf8-lead-gate-removed.log",
-        "logSha256": "c2d60656034ae8c6ba981d5c418bcc51c34de0c652214b39c3d31ac76c0bc813"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/tpfs-utf8-lead-gate-removed.log",
+        "logSha256": "1c666f3dbdc26c58b6283ba8576ff97b690e754b86c37c45b863cc7f5265a759"
       },
       {
         "name": "tpfs-json-wrap-removed",
@@ -166,8 +173,8 @@
         "red": "非法 JSON 包装错误丢失",
         "redTest": "合法 UTF-8 的非法 JSON → 非法 JSON 包装错误",
         "executedTests": 23,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-SrkX9Y/tpfs-json-wrap-removed.log",
-        "logSha256": "18446062934daad513e07a84a9f6d6018ffaaed6eb8937c90c8e50fd228ed8b0"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/cr1-mutants-IARXZu/tpfs-json-wrap-removed.log",
+        "logSha256": "88f150ebe6addb7ff83f1f70520bbc24cd42c3563e82cf7e160271aa10f09184"
       }
     ],
     "productHashInvariant": "touched product files unchanged before/after batch"
@@ -175,19 +182,19 @@
   "coverage": {
     "config": "docs/testing/glm-content-residual.config.mts (official testSelection; fast)",
     "commandTemplate": "CR1_MODE=<before|after> CR1_OUT=<tmpdir> pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config <abs config>",
-    "beforeDir": "/tmp/cr1-cov-before2",
-    "afterDir": "/tmp/cr1-cov-after2",
+    "beforeDir": "/tmp/cr1r-cov-before",
+    "afterDir": "/tmp/cr1r-cov-after",
     "perModule": {
-      "asset.ts": "L275→283/296 B241→260/289",
-      "actor-reference.ts": "unchanged (A3 已有)",
-      "frame-sequence.ts": "L232→248/270 B162→186/236",
-      "author-dialogue.ts": "L75→80/80 B76→89/97",
-      "map-index.ts": "L52→53/53 B42→47/49",
-      "validate-refs.ts": "L580→583/628 B448→451/522"
+      "asset.ts": "L275->283/296 B241->260/289",
+      "actor-reference.ts": "unchanged (A3 already)",
+      "frame-sequence.ts": "L232->251/270 B162->187/236",
+      "author-dialogue.ts": "L75->80/80 B76->89/97",
+      "map-index.ts": "L52->53/53 B42->47/49",
+      "validate-refs.ts": "L580->583/628 B448->452/522"
     },
     "packageUnion": {
-      "lines": "4458→4491/5183",
-      "branches": "3798→3863/5016"
+      "lines": "4458->4494/5183",
+      "branches": "3798->3864/5016"
     }
   },
   "reservedForCodex": ["full-repo check", "official ratchet", "protected strict-fast"],
@@ -197,5 +204,19 @@
     "decision": "counter: CR-R1..R4; actual 23 tests, 14 mutations+1 control, 9 Biome files/1 error",
     "integrated": false,
     "officialBaselineChanged": false
+  },
+  "counter": "273bb414 docs(review): counter runtime cleanup and content residual evidence gaps",
+  "originalCandidate": "0e49db91 (receipt preserved in that tree)",
+  "reviewWitnesses": {
+    "command": "node docs/testing/content-residual-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-residual",
+    "exit": 0,
+    "verdicts": {
+      "reject-valid-unicode-index": "detected",
+      "portrait-scan-mutates-actual-cue": "detected",
+      "world-reference-scan-mutates-money": "detected"
+    },
+    "fixtureChecks": "all seven accepted",
+    "mixedFailureAccepted": false,
+    "note": "three probes detected with candidate own AssertionError business red; 3 controls green"
   }
 }

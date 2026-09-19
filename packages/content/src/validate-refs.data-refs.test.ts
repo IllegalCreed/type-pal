@@ -7,8 +7,25 @@
  */
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/glm-content-residual-fixtures.js'
+import { buildWorld, type CharacterInstance } from './character.js'
 import type { ContentBundle } from './validate-refs.js'
 import { validateReferences } from './validate-refs.js'
+
+/** 经正式 buildWorld 构造的合法 world（ContentBundle.worlds 元素形态，可选形象覆写）。 */
+const legalWorld = (appearance?: CharacterInstance['appearance']) => {
+  const base = buildWorld(
+    {
+      party: ['hero'],
+      money: 25,
+      inventory: [{ itemId: 'item-ok', count: 2 }],
+      seedStats: { hero: { hp: 30, mp: 4 } },
+    },
+    { hero: bundle().actors[0]! },
+  )
+  if (!appearance) return base
+  const hero = base.party[0]!
+  return { ...base, party: [{ ...hero, appearance }] }
+}
 
 const bundle = (): ContentBundle =>
   ({
@@ -86,16 +103,21 @@ const bundle = (): ContentBundle =>
     mapIndex: { version: 1, maps: [{ id: 'map-a', name: 'A', path: 'maps/a.json' }] },
   }) as unknown as ContentBundle
 
-describe('A12 world appearance.battleSprite 数据引用轴', () => {
-  test('队员 appearance.battleSprite 悬空 → 精确 error；补回后零 issue（完整往返）', () => {
-    const withGhost = bundle()
-    ;(withGhost as unknown as { worlds: unknown[] }).worlds = [
-      {
-        party: [{ id: 'w-hero', template: 'hero', appearance: { battleSprite: 'bs-ghost' } }],
-        money: 0,
-        inventory: [],
-      },
+describe('A12 world appearance.battleSprite 数据引用轴（正式 buildWorld 构造）', () => {
+  test('合法 world（含形象覆写+学习技能+装备数值）先零 issue；悬空 battleSprite → 精确 error；实际入参快照', () => {
+    // 正控：合法 battleSprite 形象覆写经 buildWorld 建立后零 issue（结构+引用双自证）
+    const okBundle = bundle()
+    okBundle.items = [
+      { id: 'item-ok', name: '合法物', desc: [], buyPrice: 1, sellPrice: 1, sellable: true },
     ]
+    okBundle.worlds = [legalWorld({ spriteId: 'sprite.hero', battleSprite: 'bs-hero' })]
+    expect(validateReferences(okBundle)).toEqual([])
+    const okSnapshot = deepSnapshot(okBundle.worlds[0]!) // 调用前实际入参快照
+    // 单轴坏：battleSprite 悬空（其余字段不变）
+    const withGhost = bundle()
+    withGhost.items = okBundle.items
+    withGhost.worlds = [legalWorld({ spriteId: 'sprite.hero', battleSprite: 'bs-ghost' })]
+    const ghostSnapshot = deepSnapshot(withGhost.worlds[0]!)
     const issues = validateReferences(withGhost)
     expect(issues).toEqual([
       {
@@ -104,34 +126,19 @@ describe('A12 world appearance.battleSprite 数据引用轴', () => {
         message: '战斗精灵 "bs-ghost" 不在 battleSprites 注册表',
       },
     ])
-    const repaired = bundle()
-    ;(repaired as unknown as { worlds: unknown[] }).worlds = [
-      {
-        party: [{ id: 'w-hero', template: 'hero', appearance: { battleSprite: 'bs-hero' } }],
-        money: 0,
-        inventory: [],
-      },
-    ]
-    expect(validateReferences(repaired)).toEqual([])
+    expect(withGhost.worlds[0]).toEqual(ghostSnapshot) // 消费后实际 world 不变
+    expect(okBundle.worlds[0]).toEqual(okSnapshot) // 正控 world 也不被引用扫描污染
   })
 })
 
-describe('A12 商店货单 → items 数据引用轴', () => {
-  test('货单引用悬空物品 → 精确 error；正控合法货单零 issue', () => {
+describe('A12 商店货单 → items 数据引用轴（实际入参快照）', () => {
+  test('货单引用悬空物品 → 精确 error；正控合法货单零 issue；消费前后 bundle 不变', () => {
     const withShop = bundle()
     withShop.items = [
-      {
-        id: 'item-ok',
-        name: '合法物',
-        desc: [],
-        buyPrice: 1,
-        sellPrice: 1,
-        sellable: true,
-      },
+      { id: 'item-ok', name: '合法物', desc: [], buyPrice: 1, sellPrice: 1, sellable: true },
     ]
-    withShop.shops = [
-      { id: 1, items: ['item-ok', 'item-ghost'] },
-    ]
+    withShop.shops = [{ id: 1, items: ['item-ok', 'item-ghost'] }]
+    const shopSnapshot = deepSnapshot(withShop)
     const issues = validateReferences(withShop)
     expect(issues).toEqual([
       {
@@ -140,6 +147,7 @@ describe('A12 商店货单 → items 数据引用轴', () => {
         message: '商店物品 "item-ghost" 不在 items',
       },
     ])
+    expect(withShop).toEqual(shopSnapshot) // 实际传入 bundle（含 shops/items 数据）不变
     const legal = bundle()
     legal.items = [
       { id: 'item-ok', name: '合法物', desc: [], buyPrice: 1, sellPrice: 1, sellable: true },
@@ -149,15 +157,41 @@ describe('A12 商店货单 → items 数据引用轴', () => {
   })
 })
 
-describe('A12 levelUp 属主悬空 + 可选切片缺席对照', () => {
-  test('levelUp 键角色不在 actors → warn（companion 降级政策）；空 levelUp 缺席语义不产生 issue', () => {
-    const withOwner = bundle()
-    withOwner.levelUp = { ghost: [{ level: 2, skillId: 'any' }] }
-    const issues = validateReferences(withOwner)
-    // 完整多重集合：属主悬空 warn + 其条目技能悬空 warn（同键两轴都报，不互相吞并）
-    expect(issues).toEqual([
+describe('A12 levelUp 属主轴（合法技能下单轴坏 owner）', () => {
+  test('合法技能引用的 levelUp 零 issue；仅 owner 悬空 → warn；owner+技能双坏并列不吞并', () => {
+    // 单轴正控：owner 存在、技能存在 → 零 issue
+    const ok = bundle()
+    ok.skills = [
       {
-        severity: 'warn', // 现行 ACTOR_REFERENCE_POLICIES['level-up-owner'].danglingSeverity
+        id: 'skill-a',
+        name: '技能A',
+        desc: '',
+        cost: { mp: 1 },
+        usableOutsideBattle: true,
+        target: 'oneAlly',
+        effects: [],
+        animation: { effectSprite: 0 },
+      },
+    ]
+    ok.levelUp = { hero: [{ level: 2, skillId: 'skill-a' }] }
+    expect(validateReferences(ok)).toEqual([])
+    // 单轴坏：仅 owner 悬空（技能合法）
+    const ownerOnly = bundle()
+    ownerOnly.skills = ok.skills
+    ownerOnly.levelUp = { ghost: [{ level: 2, skillId: 'skill-a' }] }
+    expect(validateReferences(ownerOnly)).toEqual([
+      {
+        severity: 'warn', // 现行 companion 政策
+        where: 'levelUp[ghost]',
+        message: '升级习得伴随表角色 "ghost" 不在 actors',
+      },
+    ])
+    // 组合：owner 与技能双悬空 → 两条并列（去重检查，不互相吞并）
+    const both = bundle()
+    both.levelUp = { ghost: [{ level: 2, skillId: 'any' }] }
+    expect(validateReferences(both)).toEqual([
+      {
+        severity: 'warn',
         where: 'levelUp[ghost]',
         message: '升级习得伴随表角色 "ghost" 不在 actors',
       },
@@ -167,7 +201,7 @@ describe('A12 levelUp 属主悬空 + 可选切片缺席对照', () => {
         message: '升级习得 "any" 不在 skills',
       },
     ])
-    expect(bundle().levelUp).toEqual({}) // 基线带空 levelUp（缺席语义：无键无 issue）
+    expect(bundle().levelUp).toEqual({}) // 基线空 levelUp（缺席语义：无键无 issue）
     expect(validateReferences(bundle())).toEqual([])
   })
   test('验证后实际输入逐值不变（深快照同一 bundle 对象）', () => {

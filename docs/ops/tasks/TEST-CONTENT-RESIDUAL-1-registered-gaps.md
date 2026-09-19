@@ -92,15 +92,18 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 
 ### done前
 
-- GLM：**实施者自验 accept（2026-09-19，r1；非独立第三方）**。
-  - 交付树：分支 `codex/glm-content-residual-r1`（worktree
-    `/Users/zhangxu/illegal/type-pal-glm-content-residual`），基点 4473c367；
-    产品对冻结 e58834f6 零漂移。
-  - 计数：5 新测试文件 24 项（A3 按 r2 已有不新增）；定向 24/24、content 全包 60/698、tc rc=0、
-    7 新文件 Biome rc=0。
-  - 负控：mutants rc=0——1 对照 + 13 变异针全部钉名 AssertionError 业务红；产品 hash 不变。
-  - 覆盖：六模块局部与全包双栏（/tmp）；A6 勘误（现行无 rows 长度上限，原 >4 拒绝是发明已删）、
-    A12 levelUp 属主按现行 warn 政策落账。
+- GLM：**r1 返工实施者自验 accept（2026-09-19 第二轮；仅 counter 273bb414 的 CR-R1～R4，前轮自验已被覆盖、见 0e49db91 树）**。
+  - CR-R1：A1 快照真正传入扫描器的 command/cue；A12 worlds 经正式 buildWorld（合法技能/
+    learnedSkills/装备齐备）构造；world battleSprite / 商店货单 / levelUp 每分支调用前实际
+    bundle 深快照、调用后比较；levelUp 增加合法技能下单轴坏 owner 正控；optional 缺席分清。
+  - CR-R2：Unicode 成功正控改为完整合法 index（必需字段+真实 payload 长度+扩展键）真实
+    parse 成功（值断言）；u32 长度 DataView 读写；非法 JSON 与 schema 错误分开。
+  - CR-R3：负控逐目标 failureMessages 判据（首行 AssertionError/^expect(；目标 STACK_TRACE_ERROR
+    而别例红必须拒绝）+ STACK_TRACE_ERROR 全局排除 + 永久四向自测。
+  - CR-R4：计数从最终树重生 23（3+5+3+8+4）；mutants 更正 1 对照+14 针=15 跑；9 文件 Biome rc=0。
+  - 复验：Codex 三见证针全部 **detected**（候选自身业务红）+ 3 对照绿 + fixture 七检查
+    accepted + `mixedFailureAccepted=false`；原 15 跑 rc=0；定向 23/23、content 全包 60/698、
+    tc rc=0；覆盖对照复算（局部+全包双栏）。
   - 未做：全仓 check/ratchet/strict-fast 留 Codex；不代签、不标 done。
 - Codex：**counter（2026-09-19，候选0e49db91，设计r2不重签）**。白名单/生产零漂核通过；实际23定向、content60/698全测/tc、1正控+14针通过，私有覆盖增量复算一致；但9文件Biome有1格式error。
   CR-R1真实cue/world输入保真漏检且world未按已签合同构造；CR-R2合法Unicode正控实际expect抛错；CR-R3目标STACK_TRACE_ERROR可借别例AssertionError被负控判据认证；CR-R4计数24/13针/7文件等与树不符。独立三针3对照绿、3 MISSED，混合错误被接受；根bundle七表面独立guard全accepted，不反称其非法。
@@ -109,6 +112,9 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM（r1 返工完成）：rebase counter 273bb414，修 CR-R1～R4——实际入参保真、
+  正式 buildWorld、完整 Unicode 成功正控、逐目标负控判据与永久自测、真实计数。三见证针
+  detected + mixedFailureAccepted=false + 15 跑全绿。返工自验 accept 已签；等 Codex 重新接收。
 - 2026-09-19 Codex：独立接收0e49db91，实跑定向/全包/tc/Biome/原15跑与私有覆盖；新增只读反证三针均MISSED，负控判据混合错误误收。签CR-R1～R4 counter，转rework，设计r2保持；A3已有/rows无上限/owner warn不重开。保留GLM自验原文，未合入正式测试，主线七批设计与他席改动完整保留。
 - 2026-09-19 GLM（实施完成）：按已签 r2 连续完成 A1～A12（A3 登记已有）；24 项 + 13 针负控 +
   覆盖对照交付。实施者自验 accept 已签；等 Codex 独立接收。

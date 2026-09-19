@@ -32,7 +32,7 @@ const cases = [
     from: "identityRecord.kind === 'unbound' &&",
     to: "identityRecord.kind === 'never-unbound' &&",
     red: 'unbound 直连肖像臂失配（不产出边）',
-    redTest: '合法 unbound cue → 精确 AssetId 肖像引用（where/kind 完整）',
+    redTest: '合法 unbound cue → 精确 AssetId 肖像引用（where/kind 完整）；扫描后实际 cue 不变',
     expected: 1,
   },
   {
@@ -113,7 +113,8 @@ const cases = [
     from: 'if (battleSprite)\n          references.push({',
     to: 'if (false)\n          references.push({',
     red: 'world appearance.battleSprite 悬空不再报',
-    redTest: '队员 appearance.battleSprite 悬空 → 精确 error；补回后零 issue（完整往返）',
+    redTest:
+      '合法 world（含形象覆写+学习技能+装备数值）先零 issue；悬空 battleSprite → 精确 error；实际入参快照',
     expected: 1,
   },
   {
@@ -124,7 +125,7 @@ const cases = [
     // biome-ignore lint/suspicious/noTemplateCurlyInString: 逐字生产源文本
     to: 'message: `商店物品 "${itemId}" 不在 items（跳过）`,',
     red: '商店货单悬空物品消息被改写（精确多重集合失配）',
-    redTest: '货单引用悬空物品 → 精确 error；正控合法货单零 issue',
+    redTest: '货单引用悬空物品 → 精确 error；正控合法货单零 issue；消费前后 bundle 不变',
     expected: 1,
   },
   {
@@ -133,8 +134,7 @@ const cases = [
     from: "if (!actorIds.has(cid))\n      issues.push({\n        severity: ACTOR_REFERENCE_POLICIES['level-up-owner'].danglingSeverity,",
     to: "if (!actorIds.has(cid) && cid === '__never__')\n      issues.push({\n        severity: ACTOR_REFERENCE_POLICIES['level-up-owner'].danglingSeverity,",
     red: 'levelUp 属主悬空 warn 不再报',
-    redTest:
-      'levelUp 键角色不在 actors → warn（companion 降级政策）；空 levelUp 缺席语义不产生 issue',
+    redTest: '合法技能引用的 levelUp 零 issue；仅 owner 悬空 → warn；owner+技能双坏并列不吞并',
     expected: 1,
   },
   {
@@ -193,6 +193,28 @@ try {
   poisoned = true
 }
 assert.ok(poisoned, 'poisoned log must be rejected')
+
+// 逐目标判据自测（永久化）：目标超时+别例业务红、目标未运行、纯业务红、expect 形式四向
+function pinnedVerdict(failureMessages) {
+  if ((failureMessages ?? []).length === 0) return false // 目标未运行/无失败信息 → 拒绝
+  return failureMessages.every((m) => /AssertionError|^expect\(/.test(m))
+}
+assert.equal(
+  pinnedVerdict(['Error: STACK_TRACE_ERROR\n    at task'], 'selftest-target-timeout'),
+  false,
+  'target STACK_TRACE_ERROR must be rejected even if another case is business red',
+)
+assert.equal(pinnedVerdict([], 'selftest-target-not-run'), false, 'target not run must be rejected')
+assert.equal(
+  pinnedVerdict(['AssertionError: expected 1 to be 2'], 'selftest-pure-red'),
+  true,
+  'pure business red must pass',
+)
+assert.equal(
+  pinnedVerdict(['expect(received).toBe(expected) // Object.is equality'], 'selftest-expect-form'),
+  true,
+  'expect()-form failure message must pass',
+)
 process.stderr.write(`criterion self-test ok (blocks=${criterionBlocks.length})\n`)
 
 const files = [
@@ -267,7 +289,7 @@ export default {
     assert.match(output, /AssertionError/, `${item.name}: business red expected`)
     assert.doesNotMatch(
       output,
-      /Cannot find module|Failed to load url|No test files found|SyntaxError|TypeError|ReferenceError|Test timed out|Unhandled Errors/,
+      /Cannot find module|Failed to load url|No test files found|SyntaxError|TypeError|ReferenceError|Test timed out|Unhandled Errors|STACK_TRACE_ERROR/,
       `${item.name}: host failure`,
     )
   }
@@ -277,6 +299,18 @@ export default {
     )
     assert.ok(pinned, `${item.name}: pinned not executed: ${item.redTest}; ${log}`)
     assert.equal(pinned.status, 'failed', `${item.name}: pinned did not fail; ${log}`)
+    // 目标自身错误类型判据：钉名目标的每条 failureMessages 首行必须是 AssertionError——
+    // 目标 STACK_TRACE_ERROR/超时而别例业务红，或目标未运行，都不算检出。
+    assert.ok(
+      (pinned.failureMessages ?? []).length > 0,
+      `${item.name}: pinned has no failureMessages; ${log}`,
+    )
+    for (const message of pinned.failureMessages ?? [])
+      assert.match(
+        message,
+        /AssertionError|^expect\(/,
+        `${item.name}: pinned failure is not a business AssertionError: ${String(message).slice(0, 120)}; ${log}`,
+      )
   } else {
     assert.ok(
       assertions.every((r) => r.status === 'passed'),

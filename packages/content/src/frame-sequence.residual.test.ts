@@ -30,8 +30,9 @@ function legalContainer(): Uint8Array {
 
 /** 替换 index JSON 字节并重写长度字段（保持 payload 不动）。 */
 function withIndexBytes(container: Uint8Array, indexBytes: Uint8Array): Uint8Array {
-  // 拼接：header(12) + 新 index + 原 payload（长度字段重写）
-  const payloadStart = 12 + ((container[8] ?? 0) | ((container[9] ?? 0) << 8))
+  // 拼接：header(12) + 新 index + 原 payload（长度字段按完整 u32 LE 重写/读取）
+  const headerView = new DataView(container.buffer, container.byteOffset, container.byteLength)
+  const payloadStart = 12 + headerView.getUint32(8, true)
   const payload = container.subarray(payloadStart)
   const result = new Uint8Array(12 + indexBytes.byteLength + payload.byteLength)
   result.set(container.subarray(0, 12), 0)
@@ -58,12 +59,62 @@ describe('A4 外部 UTF-8 解码错误路径', () => {
     const surrogate = withIndexBytes(container, new Uint8Array([0xed, 0xa0, 0x80]))
     expect(() => parseFrameSequence(surrogate)).toThrow('TPFS.index: 非法 UTF-8 码点')
   })
-  test('合法多字节解码输入可达：Unicode 扩展键元数据完整往返', async () => {
-    // 用扩展键值证明 decode 臂可达（r2 收口证据口径）
+  test('合法 Unicode 扩展键的完整 index：parse 成功且数据/像素内容正确（真实成功正控）', () => {
     const container = legalContainer()
-    const unicodeIndex = new TextEncoder().encode('{"名":"值"}')
-    // 该 JSON 不符合 index schema → 走 validate 拒绝而非 UTF-8 错误：证明解码成功进入 JSON 层
-    expect(() => parseFrameSequence(withIndexBytes(container, unicodeIndex))).toThrow(/index|期望/)
+    const payloadStartFull = new DataView(
+      container.buffer,
+      container.byteOffset,
+      container.byteLength,
+    ).getUint32(8, true)
+    const payload = container.subarray(12 + payloadStartFull)
+    // 完整合法 index（保留全部必需字段）+ 允许的 Unicode 扩展键值；payload 原样保留
+    const unicodeIndex = new TextEncoder().encode(
+      JSON.stringify({
+        version: 1,
+        codec: 'deflate-rgba8-xor-v1',
+        pixelFormat: 'rgba8',
+        width: 1,
+        height: 1,
+        defaultFrameMs: 40,
+        blockFrames: 32,
+        元数据键: '值·扩展',
+        frames: [{}],
+        blocks: [
+          {
+            firstFrame: 0,
+            frameCount: 1,
+            offset: 0,
+            bytes: payload.byteLength,
+            rawBytes: 4,
+          },
+        ],
+      }),
+    )
+    // 解码结局落成值断言（业务红可判别：坏实现拒合法 Unicode 时 outcome 是 Error）
+    const outcome = (() => {
+      try {
+        return { parsed: parseFrameSequence(withIndexBytes(container, unicodeIndex)) }
+      } catch (error) {
+        return { error: error as Error }
+      }
+    })()
+    expect(outcome.error).toBeUndefined() // 合法 Unicode index 必须 parse 成功
+    const parsed = outcome.parsed!
+    // 内容正确：多字节键经 UTF-8 解码后进入 JSON/validate 层，
+    // 规范化输出重建为 canonical 字段（未知扩展键按现行合同不透传——不发明透传合同）
+    expect(parsed.index.width).toBe(1)
+    expect(parsed.index.height).toBe(1)
+    expect(parsed.index.defaultFrameMs).toBe(40)
+    expect(parsed.index.frames).toEqual([{}])
+    expect(parsed.index.blocks).toEqual([
+      {
+        firstFrame: 0,
+        frameCount: 1,
+        offset: 0,
+        bytes: payload.byteLength,
+        rawBytes: 4,
+      },
+    ])
   })
 })
 
@@ -74,8 +125,15 @@ describe('A5 index JSON 解析失败轴（与 UTF-8 错误分开）', () => {
     expect(() => parseFrameSequence(withIndexBytes(container, badJson))).toThrow(
       'TPFS.index: 非法 JSON',
     )
-    // 合法 JSON 但类型错误（数组）→ validate 层拒绝（非 JSON 解析层）
+    // 合法 JSON 但 schema 不符（数组）→ validate 层精确拒绝（非 JSON 解析层）
     const arrayJson = new TextEncoder().encode('[1,2]')
-    expect(() => parseFrameSequence(withIndexBytes(container, arrayJson))).toThrow()
+    expect(() => parseFrameSequence(withIndexBytes(container, arrayJson))).toThrow(
+      'TPFS.index: 期望对象',
+    )
+    // 合法 JSON 对象但缺必需字段 → schema 精确路径
+    const missingField = new TextEncoder().encode('{"version":1}')
+    expect(() => parseFrameSequence(withIndexBytes(container, missingField))).toThrow(
+      /index\.|期望/,
+    )
   })
 })
