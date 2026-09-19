@@ -38,11 +38,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-cmdedit",
-      "control-catalog",
-      "control-rewards"
-    ],
+    "controls": ["control-cmdedit", "control-catalog", "control-rewards"],
     "cases": [
       {
         "name": "cmdedit-child-kind-gate-blinded",
@@ -145,5 +141,24 @@
     "S02 会话级族未落：SaveSceneHookDetails 取消区分/缺 target 后 session 保真/最后未引用 hook 删 variant——留待 Codex 额度恢复后单独小批或并入接收返工，本批不以此计数",
     "script-editor.ts L803/854 无本批增量（S02 未落）",
     "enemy-defeated-events L172/214 余量为 13 种叶事件摘要细节（现有测试用真实作者态覆盖，fast 口径排除）"
-  ]
+  ],
+  "codexReception": {
+    "candidate": "90369143316aef52240fb3e8d66d54f88d518e98",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-07",
+    "verifiedNewTests": 17,
+    "verifiedControls": 3,
+    "verifiedMutants": 7,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 9,
+      "errors": 2,
+      "warnings": 0,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  }
 }
