@@ -49,6 +49,22 @@ docs/testing/glm-reforge-asset-io-evidence.json
 - 定向+相邻（既有 sfx/sfx-readiness/image-cache/file-source/fsa-source/registry 六测试文件）+
   reforge tc+全包+新增文件 Biome。完成条件：B1-B10 逐族落账，无固定条数。
 
+## GLM实施回执
+
+r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，用户拍板在 Codex 额度空窗期先行实施，
+接收与全仓门禁留 Codex）。分支 `codex/glm-reforge-asset-io-r1`（worktree
+`/Users/zhangxu/illegal/type-pal-glm-asset-io`）；产品对冻结 e58834f6 零漂移。
+最终树 **6 个新测试文件共 24 项**（Vitest 现场：5+5+6+3+3+2）；定向 24/24 绿；
+reforge 全包 122 文件/1214 项 exit0；tc rc=0；9 新文件 Biome rc=0。
+
+- 负控 `node docs/testing/glm-reforge-asset-io-mutants.mjs` rc=0：判据自测（good/毒日志/逐目标
+  四向）+ 3 对照 + **8 变异针**（每组 ≥1）全部钉名新增测试 failed 且目标自身 failureMessages
+  首行为 AssertionError；产品 hash 不变。
+- 覆盖对照（官方 testSelection，/tmp）：sfx L+13/B+7、readiness L+1/B+1、
+  project-image-cache L+2/B+2、registry B+1；全包 L7927→7943/14118、B5329→5340/11041。
+- 待证保持：在途 dispose 回填、collector pages[0] vs world 活动页（r2 隔离，无绿测）。
+- 未发现新产品缺陷。机器账 `docs/testing/glm-reforge-asset-io-evidence.json`。
+
 ## 已知边界
 
 在途ProjectImageCache.dispose回填待证，不默认固化；SfxPlayer没有AbortSignal或“通用自动重试”，原稿此归属删除。

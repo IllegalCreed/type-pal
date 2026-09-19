@@ -1,0 +1,145 @@
+{
+  "task": "TEST-REFORGE-ASSET-IO-1 r1 (TB-02)",
+  "generatedAt": "2026-09-19T06:19:55Z",
+  "branch": "codex/glm-reforge-asset-io-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-asset-io",
+  "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "base": "41cc7cd9 (three r2 signoffs complete; user authorized proceeding while Codex quota pending)",
+  "productDriftVsFreeze": "GLM commits touch whitelist only",
+  "tests": {
+    "perFileExecuted": {
+      "audio/sfx.staged-failures.test.ts": 5,
+      "audio/sfx-readiness.collections.test.ts": 5,
+      "project-image-cache.lifecycle.test.ts": 6,
+      "file-source.cancel-windows.test.ts": 3,
+      "fsa-source.cancel-windows.test.ts": 3,
+      "engine-chrome/registry.lifecycle.test.ts": 2
+    },
+    "newTotal": 24,
+    "packageFull": "122 files / 1214 tests exit0",
+    "typecheck": "pnpm --filter @type-pal/reforge exec tsc --noEmit rc=0",
+    "biome": "all 9 new TS/MJS/MTS files rc=0 (per-file)",
+    "familyLedger": {
+      "B1": "新增（RIFF 三轴 decode 前拒绝 + 同 reader 修复重试字节身份 + 在途 dispose 迟到不回填）",
+      "B2": "新增（真实 browserAdapter：decode 收字节副本可污染观察 + 宿主事件链 connect/start/stop/close）",
+      "B3": "登记已有（assertWave 只查长度/RIFF/WAVE 标记 = B1 测试的构造合同域）",
+      "B4": "新增（additionalRoots 动态根、use/throw/magic 三音轴、callScript 环去重、缺 sharedScripts fail-loud、预取消）",
+      "B5": "新增（不支持 kind 零读取门、pending 复用单解码、失败重试真实重读、完成态 dispose 关闭+重载、实例隔离）",
+      "B6": "登记已有（project-image-cache.test.ts:34 pending/decoded kind 复验）",
+      "B7": "新增（在途 dispose 待证政策不固化——本包只测完成态 dispose）",
+      "B8": "新增（同 signal 实例 identity 到达 fetch、urlFor 零 fetch、Response 原样消费、坏 JSON 透传）",
+      "B9": "新增（目录段后文件段前取消——可控门见证 + 预取消零 IO）",
+      "B10": "新增（模块级缓存同 Promise 身份命中、跨 slot 独立、网络/解码失败分别带 slot 不互相污染）"
+    }
+  },
+  "mutants": {
+    "script": "docs/testing/glm-reforge-asset-io-mutants.mjs",
+    "command": "node docs/testing/glm-reforge-asset-io-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true,
+      "pinnedVerdictFourWay": true
+    },
+    "controls": ["control-sfx", "control-cache", "control-registry"],
+    "cases": [
+      {
+        "name": "sfx-wave-gate-removed",
+        "exit": 1,
+        "red": "RIFF 标记门失效（坏 WAV 到达 decode）",
+        "redTest": "RIFF 首标记错 / WAVE 标记错 / 长度不足 三轴各自拒绝且 decode 零调用",
+        "executedTests": 5,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/aio1-mutants-3ZPbIh/sfx-wave-gate-removed.log",
+        "logSha256": "416f11c899d8beb990f7d55d8a495a593b27ea737330f6572f7305d0f0f68bdc"
+      },
+      {
+        "name": "sfx-adapter-copy-removed",
+        "exit": 1,
+        "red": "browserAdapter 不再复制字节（源可被 decode 污染）",
+        "redTest": "window.AudioContext 双替身下产品 browserAdapter 构造：decode 收到字节副本、宿主事件齐",
+        "executedTests": 5,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/aio1-mutants-3ZPbIh/sfx-adapter-copy-removed.log",
+        "logSha256": "82e071a06d57d1c64beec63f0cbde191eaffe243efbea88c0bc69fb7f079b19d"
+      },
+      {
+        "name": "readiness-throw-sound-dropped",
+        "exit": 1,
+        "red": "背包投掷音不再入集",
+        "redTest": "背包物品三音轴：use.sound + throw.sound + magic 呈现动画音都入集",
+        "executedTests": 5,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/aio1-mutants-3ZPbIh/readiness-throw-sound-dropped.log",
+        "logSha256": "0efbc7b6b0a3d8506ef23d88b2fe61baa1d5595ef3590afc3dbd1f72b2f3e0f9"
+      },
+      {
+        "name": "cache-kind-gate-removed",
+        "exit": 1,
+        "red": "不支持 kind 的零读取门失效",
+        "redTest": "不支持 kind 在任何读取前拒绝（resolver.record 零调用 → 零 bytes 读取）",
+        "executedTests": 6,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/aio1-mutants-3ZPbIh/cache-kind-gate-removed.log",
+        "logSha256": "b2b39b4970b58baa54ab640a5815d177791c98cca7e954aa5514599e041db45f"
+      },
+      {
+        "name": "cache-pending-reuse-removed",
+        "exit": 1,
+        "red": "pending 复用失效（并发同 asset 重复解码）",
+        "redTest": "pending 复用：并发同 asset 只解码一次、同一 bitmap 身份；命中后零新读取",
+        "executedTests": 6,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/aio1-mutants-3ZPbIh/cache-pending-reuse-removed.log",
+        "logSha256": "219ce630053d42a6d34989621ea4f4121e0de680dd807b2ee5348b5019771ad2"
+      },
+      {
+        "name": "http-signal-passthrough-removed",
+        "exit": 1,
+        "red": "带 signal 的普通读取不再透传取消",
+        "redTest": "同一 AbortSignal 实例原样到达 fetch（identity 不复制不重建）",
+        "executedTests": 3,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/aio1-mutants-3ZPbIh/http-signal-passthrough-removed.log",
+        "logSha256": "5f8125341a93473a56a23c05350edf7febb01245bed71cdbab01a9fce1e3d581"
+      },
+      {
+        "name": "fsa-mid-abort-removed",
+        "exit": 1,
+        "red": "目录段之后的取消门失效（取消后文件段 IO 仍开始）",
+        "redTest": "目录段之后、文件段之前取消 → AbortError 且文件段 IO 未开始（可控门见证）",
+        "executedTests": 3,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/aio1-mutants-3ZPbIh/fsa-mid-abort-removed.log",
+        "logSha256": "06ecf453a89dc6aff9c973e679fe38148f5872f4d3d5d667e8b7a866cb428216"
+      },
+      {
+        "name": "registry-cache-hit-removed",
+        "exit": 1,
+        "red": "模块级缓存命中失效（同 slot 重复 fetch）",
+        "redTest": "成功路径：同 slot 二次调用返回同一 Promise 身份（缓存命中）；跨 slot 各自独立",
+        "executedTests": 2,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/aio1-mutants-3ZPbIh/registry-cache-hit-removed.log",
+        "logSha256": "237b8c40434263f8cf3ea4330168036e83a0cdf42d3c74a96caa0f3718920220"
+      }
+    ],
+    "runtimeWitness": "each needle pins its new test by exact title; per-target failureMessages must be non-empty and match AssertionError|^expect(",
+    "productHashInvariant": "touched product files unchanged before/after batch"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-reforge-asset-io.config.mts (official testSelection; fast)",
+    "commandTemplate": "AIO1_MODE=<before|after> AIO1_OUT=<tmpdir> pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config <abs config>",
+    "beforeDir": "/tmp/aio1-cov-before",
+    "afterDir": "/tmp/aio1-cov-after",
+    "perModule": {
+      "sfx.ts": "L115→128/133 B62→69/82",
+      "sfx-readiness.ts": "L161→162/162 B106→107/132",
+      "project-image-cache.ts": "L23→25/26 B4→6/8",
+      "file-source.ts": "unchanged L14/14 B9/10",
+      "fsa-source.ts": "unchanged L34/34 B5/6",
+      "registry.ts": "L27/28 B9→10/14"
+    },
+    "packageUnion": {
+      "lines": "7927→7943/14118",
+      "branches": "5329→5340/11041"
+    }
+  },
+  "openItems": [
+    "in-flight ProjectImageCache dispose backfill policy remains pending verification",
+    "collector pages[0] vs world active page remains isolated (r2, no green tests)"
+  ],
+  "reservedForCodex": ["full-repo check", "official ratchet", "protected strict-fast"]
+}

@@ -1,6 +1,6 @@
 # TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: 已有读取/缓存/音效准备合同覆盖（不改变能力地图）
 Coding Owner: GLM（只新增测试）
@@ -97,9 +97,16 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 
 ### done前
 
-- GLM/Codex/Kimi：pending；done准入未开放，不代签、不标done。
+- GLM：**实施者自验 accept（2026-09-19，r1；非独立第三方；用户拍板 Codex 额度空窗期先行）**。
+  - 6 新测试文件 24 项（5+5+6+3+3+2）；定向 24/24、reforge 全包 122/1214、tc rc=0、9 文件 Biome rc=0。
+  - 8 针负控 + 3 对照全绿（钉名 AssertionError 业务红 + 毒日志自测）；产品 hash 不变。
+  - 覆盖对照 /tmp 双栏；在途 dispose 回填与 pages[0] 疑点保持待证不固化。
+  - 未做：全仓 check/ratchet/strict-fast 与接收归 Codex（额度恢复后）。
+- Codex/Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM（实施完成）：用户拍板先行实施；B1-B10 落账（B3/B6 已有登记）；
+  24 项 + 8 针负控 + 覆盖对照交付，自验 accept 已签。等 Codex 额度恢复后补接收。
 - 2026-09-19 Codex：用户告知“Kimi他们签了”后同步核三席同r2/冻结、直接证据及可证伪观察齐、无counter；生产目标零diff。核定设计准入通过，保留draft待实施槽按队列释放。 r1历史不回写，所有既有r2排除项保留；不代签、不标done。GLM当前返工仍优先，后续领取条件与交接已落卡，避免每批做完再等临时派活。
 - 2026-09-19 Kimi：完成 r2 独立设计压力测试，签 premise verified + design agree，无返工项。
   直读 httpSource 透传/fsaSource 主动取消分层、sfx browserAdapter 复制位置与 assertWave 标记门、

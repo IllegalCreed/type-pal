@@ -17,7 +17,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | EDITOR-SKILL-TRIAL-1 | [试放方案调整：共享战斗模拟器](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | rework | Codex准备r2方案与UI草图 | 用户提出队伍/装备/技能/数值/背包及我方预设，多入口复用、不选开局；旧r1签字保留但不授权新范围 |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM仅返工D6 sequence收尾 | 6d34ad5a的F1/E4及原7针闭环；第8针迟到提交MISSED；55/双包/tc/Biome/22跑绿，未集成，不重签 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM返工CR-R1～R4 | 0e49db91实际23项/原15跑；三见证MISSED、判据误收、Biome1error/回执不符；r2不重签，本轮未释放实施槽 |
-| TEST-REFORGE-ASSET-IO-1 | [资源读取缓存与音效准备补测](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | draft | 已准入 / GLM待空位领取 | r2三签齐无counter；按TB-01→02→03顺序，有槽且目标未漂移即可按卡授权开工，不重签 |
+| TEST-REFORGE-ASSET-IO-1 | [资源读取缓存与音效准备补测](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | build | GLM交付24项 / Codex待额度接收 | r1：6文件24项+8针负控+覆盖；候选codex/glm-reforge-asset-io-r1 |
 | TEST-EDITOR-IMPORT-CODEC-1 | [导入编码线程与视频元数据补测](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | draft | 已准入 / GLM待空位领取 | r2三签齐无counter；PNG失败泄漏仍归Codex；有槽且目标未漂移按卡授权开工，不重签 |
 | TEST-PAL-TABLES-COVERAGE-1 | [原版表格与文本自包含补测](tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | draft | Kimi/GLM并行审r1 | TB-04已细化，Codex已签；只补现行非视觉合同，未开放实施 |
 | TEST-RESOURCE-TOOLS-COVERAGE-1 | [RLE、事件与资源工具补测](tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | draft | Kimi/GLM并行审r1 | TB-05已细化，Codex已签；只补现行非视觉合同，未开放实施 |
