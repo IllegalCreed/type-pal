@@ -19,15 +19,15 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | build | Codex在独立分支继续引用诊断/真实试打/UI | S1配置保存基础641a85fb已推送，67新增/两包fast选择3616绿/4负控；未并主线、未改覆盖率基线，done未开 |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM仅返工D6 sequence收尾 | 6d34ad5a的F1/E4及原7针闭环；第8针迟到提交MISSED；55/双包/tc/Biome/22跑绿，未集成，不重签 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM返工CR-R1～R4 | 0e49db91实际23项/原15跑；三见证MISSED、判据误收、Biome1error/回执不符；r2不重签，本轮未释放实施槽 |
-| TEST-REFORGE-ASSET-IO-1 | [TEST-REFORGE-ASSET-IO-1](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | rework | GLM按统一接收报告返工 | TB-02 a7c48d9c：C0；FSA坏JSON未注入、soundItem非法；未合并，不重签 |
-| TEST-EDITOR-IMPORT-CODEC-1 | [TEST-EDITOR-IMPORT-CODEC-1](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | rework | GLM按统一接收报告返工 | TB-03 f4c229ed：C0/C1；量化实参漏检、输出transfer/摘要未证；未合并，不重签 |
-| TEST-PAL-TABLES-COVERAGE-1 | [TEST-PAL-TABLES-COVERAGE-1](tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | rework | GLM按统一接收报告返工 | TB-04 851a6ede：C0/C1；SSS伪快照、MSG未定政策、名字轴；未合并，不重签 |
-| TEST-RESOURCE-TOOLS-COVERAGE-1 | [TEST-RESOURCE-TOOLS-COVERAGE-1](tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | rework | GLM按统一接收报告返工 | TB-05 d083e5c6：C0/C1；缺label旧回退保活、字节账勘误；未合并，不重签 |
-| TEST-EDITOR-MAP-DATA-1 | [TEST-EDITOR-MAP-DATA-1](tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | rework | GLM按统一接收报告返工 | TB-06 0563eda7：C0/C1；权限伪快照、混合失败未建；未合并，不重签 |
-| TEST-EDITOR-SCRIPT-HELPERS-1 | [TEST-EDITOR-SCRIPT-HELPERS-1](tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | rework | GLM按统一接收报告返工 | TB-07 90369143：C0/C1；非法作者夹具/旧回退；S02留本卡补；未合并，不重签 |
-| TEST-GAME-MENU-BOUNDARIES-1 | [TEST-GAME-MENU-BOUNDARIES-1](tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | rework | GLM按统一接收报告返工 | TB-08 b1deae49：C0/C1；bare expect漏检、孤立翻页接口保活；未合并，不重签 |
-| TEST-GAME-HOST-BOUNDARIES-1 | [TEST-GAME-HOST-BOUNDARIES-1](tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | rework | GLM按统一接收报告返工 | TB-09 61f0af34：C0/C1；method优先级未触重试；未合并，不重签 |
-| TEST-MIGRATION-BOUNDARIES-1 | [TEST-MIGRATION-BOUNDARIES-1](tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | rework | GLM按统一接收报告返工 | TB-10 bd597558：C0/C1；浅baseline快照、旧chunks、journal反例；未合并，不重签 |
+| TEST-REFORGE-ASSET-IO-1 | [TEST-REFORGE-ASSET-IO-1](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | rework | GLM仅修二轮残项 | d4d79026：C0精确唯一/C1；旧业务counter已闭合；未合并 |
+| TEST-EDITOR-IMPORT-CODEC-1 | [TEST-EDITOR-IMPORT-CODEC-1](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | rework | GLM仅修二轮残项 | 9fe3a07f：C0精确唯一/C1；R03-PNG：合法PNG仍未落实；真实digest已修。未合并 |
+| TEST-PAL-TABLES-COVERAGE-1 | [TEST-PAL-TABLES-COVERAGE-1](tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | rework | GLM仅修二轮残项 | a87652fd：C0精确唯一/C1；旧业务counter已闭合；未合并 |
+| TEST-RESOURCE-TOOLS-COVERAGE-1 | [TEST-RESOURCE-TOOLS-COVERAGE-1](tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | rework | GLM仅修二轮残项 | 4cf2f2e8：C0精确唯一/C1；旧业务counter已闭合；未合并 |
+| TEST-EDITOR-MAP-DATA-1 | [TEST-EDITOR-MAP-DATA-1](tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | rework | GLM仅修二轮残项 | d8b02958：C0精确唯一/C1；R06-complete-map：整图元数据污染MISSED；permission及混合失败已修。未合并 |
+| TEST-EDITOR-SCRIPT-HELPERS-1 | [TEST-EDITOR-SCRIPT-HELPERS-1](tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | rework | GLM仅修二轮残项 | b86f235d：C0精确唯一/C1；R07-nonempty-redo：错误清redo仍MISSED；state保真/default/清理已修。未合并 |
+| TEST-GAME-MENU-BOUNDARIES-1 | [TEST-GAME-MENU-BOUNDARIES-1](tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | rework | GLM仅修二轮残项 | 9cef33cb：C0精确唯一/C1；旧业务counter已闭合；未合并 |
+| TEST-GAME-HOST-BOUNDARIES-1 | [TEST-GAME-HOST-BOUNDARIES-1](tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | rework | GLM仅修二轮残项 | 1620ab24：C0精确唯一/C1；旧业务counter已闭合；未合并 |
+| TEST-MIGRATION-BOUNDARIES-1 | [TEST-MIGRATION-BOUNDARIES-1](tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | rework | GLM仅修二轮残项 | 76bafede：C0精确唯一/C1；旧业务counter已闭合；未合并 |
 
 2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
 
