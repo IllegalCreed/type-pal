@@ -136,7 +136,7 @@ sdlpal 阻塞式过程(PAL_FadeIn 等)tick 化后变成"状态对象 + 收尾人
   3. `precacheAll` 长任务 → message handler 必须 `event.waitUntil(precacheAll())` 保活,否则 ~30s idle 被杀(停 76%)。
   4. fetch handler 用 `caches.match(req)` **跨 cache**(不是 `caches.open(CACHE_NAME).match`)——SW 重启后 `CACHE_NAME` 重置回 bootstrap、只在它里找会全 miss → 退化打网络。**真离线(停 server)实测**才暴露。
   5. `activate` 清缓存须**按版本**清(只删 `!== 当前版本`),**别清所有**(含当前版本):清所有的话每次 app 发版都把老用户整份预缓存清空 → 慢网(prod ~440KB/s,~200MB≈8min)重下、进度**停虚线**(2026-06-22 误用「清所有」即此根因——本意是迁移后清老格式 cache 防跨 cache 命中崩,但顺手把当前版本也清了)。正解:activate 调 `setCacheVersion()`(拿 manifest version 归位 `CACHE_NAME` + 删非当前),版本变更仍清老格式(防崩)、版本不变保留当前份 → 续访 precache 全 `cache.match` 命中秒满;离线 manifest 取不到 → `catch` 跳过勿误删。**验证**:`E2E=1 vite preview`(关 basicSsl 走 `http://localhost` 真 SW)造「当前版本+伪旧版本」两 cache 各插 sentinel,升级 SW 重载 → 当前 sentinel 存活、伪旧被删(三向区分:清所有=sentinel 没;没升级=伪旧还在)。
-- SW 缓存命名 `type-pal-<asset-manifest.json.version>`,version 变触发整缓存失效;extractor 按内容哈希定 version,故改了资源格式/路径 version 必变、activate 据此清老格式 cache(无需手动改 sw.js 触发)。
+- SW 缓存命名 `type-pal-<asset-manifest.json.version>`,version 变触发整缓存失效。2026-09-19按当前源码更正：`pal-extract/src/resources/asset-manifest.ts:29–40` 对排序后的 `path:size\n` 序列取哈希，**不是文件内容哈希**；路径/大小变化会改变version，同路径同大小换字节不会。activate据version清旧cache，不应据本条承诺任意内容变化都触发更新；缓存键增强需另行评估，本次只更正文档。
 
 ---
 

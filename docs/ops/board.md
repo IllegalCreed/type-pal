@@ -19,6 +19,13 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | build | GLM按已签r2实施 | 三席齐、Codex已开放新增实施槽；TB-00返工优先，合计最多两批未接收成果 |
 | TEST-REFORGE-ASSET-IO-1 | [资源读取缓存与音效准备补测](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | draft | 已准入 / GLM待空位领取 | r2三签齐无counter；按TB-01→02→03顺序，有槽且目标未漂移即可按卡授权开工，不重签 |
 | TEST-EDITOR-IMPORT-CODEC-1 | [导入编码线程与视频元数据补测](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | draft | 已准入 / GLM待空位领取 | r2三签齐无counter；PNG失败泄漏仍归Codex；有槽且目标未漂移按卡授权开工，不重签 |
+| TEST-PAL-TABLES-COVERAGE-1 | [原版表格与文本自包含补测](tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | draft | Kimi/GLM并行审r1 | TB-04已细化，Codex已签；只补现行非视觉合同，未开放实施 |
+| TEST-RESOURCE-TOOLS-COVERAGE-1 | [RLE、事件与资源工具补测](tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | draft | Kimi/GLM并行审r1 | TB-05已细化，Codex已签；只补现行非视觉合同，未开放实施 |
+| TEST-EDITOR-MAP-DATA-1 | [地图选区与组合模板数据补测](tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | draft | Kimi/GLM并行审r1 | TB-06已细化，Codex已签；只补现行非视觉合同，未开放实施 |
+| TEST-EDITOR-SCRIPT-HELPERS-1 | [脚本与内容编辑辅助补测](tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | draft | Kimi/GLM并行审r1 | TB-07已细化，Codex已签；只补现行非视觉合同，未开放实施 |
+| TEST-GAME-MENU-BOUNDARIES-1 | [第一阶段菜单导航与请求补测](tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | draft | Kimi/GLM并行审r1 | TB-08已细化，Codex已签；只补现行非视觉合同，未开放实施 |
+| TEST-GAME-HOST-BOUNDARIES-1 | [第一阶段宿主、隐私与计时补测](tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | draft | Kimi/GLM并行审r1 | TB-09已细化，Codex已签；只补现行非视觉合同，未开放实施 |
+| TEST-MIGRATION-BOUNDARIES-1 | [当前迁移辅助与隔离文件系统补测](tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | draft | Kimi/GLM并行审r1 | TB-10已细化，Codex已签；只补现行非视觉合同，未开放实施 |
 
 2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
 

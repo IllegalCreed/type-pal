@@ -11,7 +11,8 @@
 
 2026-09-19滚动状态：[TB-01～03的r2三签已齐并核准入](glm-coverage-queue-design-review.md)，
 TB-01进入build，TB-02/03已准入待实施槽；按卡面条件依序领取，无需重复签字或等用户逐批点头。
-TB-00三项残余返工优先，未接收实施包合计最多两批；TB-04～10仍是候选，不是十批已经实施完成。
+TB-00三项残余返工优先，未接收实施包合计最多两批；[TB-04～10七批已细化并完成Codex前提复核](glm-coverage-remaining-review.md)，
+七卡均draft、待Kimi/GLM独立设计签字，尚未实施。下列概要如与细化工作包冲突，以r1工作包的收窄边界为准。
 
 | 顺位 | 批号 | 工作 | 模块数 | 冻结fast行命中 | 冻结fast分支命中 | 领取前的主要限制 |
 |---|---|---|---:|---:|---:|---|
@@ -148,7 +149,7 @@ node docs/testing/glm-coverage-queue-census.mjs --check
 目标：`io/sss.ts`、`io/word.ts`、`io/msg.ts`、`resources/parsers/items.ts`、`stores.ts`、`battle-fields.ts`、
 `enemy-teams.ts`、`data-misc.ts`、`resources/enemy-pos.ts`（四个短名均在`resources/parsers/`）。
 
-- 真五chunk MKF、32/8字节记录、符号位与非零byteOffset；WORD完整565×10记录、尾空格/尾余字节、原始到语义映射。
+- 真五chunk MKF、32/8字节记录、符号位与非零byteOffset；当前内容包WORD完整565×10记录、尾空格/尾1与语义映射；尾余字节政策不扩。
 - GBK消息半开offset与sentinel/空消息；非法offset的未定处理不由测试发明。
 - item的六flag/六装备位与完整脚本字段、合法Dreamsnake例外、截断/子视图；商店首0/最多9项/多行；战场五有符号属性和无符号波纹。
 - enemy team五槽、0/FFFF、当前OBJECT映射、原始身份与缺映射告警；**只测当前caller的mapped入口**，不延长无map旧模式寿命。
@@ -163,9 +164,9 @@ node docs/testing/glm-coverage-queue-census.mjs --check
 
 - RLE偏移/sentinel、透明与不透明、127长度run、pad、子视图；当前仍被使用的格式profile按真实消费者保留，不能见legacy字样就删。
   被构造保证挡住的编码器内部臂列防御，不乱造非法内部对象；旧bad-tail测试去重。调用`reforge/assets.ts:296`、`migrate/pal-assets.ts:908`。
-- 事件用独立8字节向量，signed giveItem、消息、保留operand、标签、globalEntries/shared goto、循环/递归选择与输入不变。
+- 事件用独立8字节向量，giveItem保u16位模式（signed解释在运行时）、消息、已支持的保留operand、标签、globalEntries/shared goto与输入不变；annotate递归choice无当前caller，不续测。
   `cli.ts:263–286`及现有opcode矩阵为去重入口，不用recompile(disasm(x))自洽代替独立oracle。
-- palette长度；小型合法BDF位/offset；asset-manifest只在mkdtemp夹具树校验递归过滤、排序、bytes和版本稳定性。
+- palette只测合法768/1536长度的day/night；小型合法BDF宽高/bitmap（模型不保BBX offset）；asset-manifest只在mkdtemp夹具树校验递归过滤、排序、bytes和版本稳定性。
   现行版本键path+size不由本测试改成内容hash；symlink政策另归对应修复，字体不做屏幕视觉测试。
 - 已done的MKF/RNG/YJ2大包不重开；YJ2两个后续问题见下方条件池。
 
@@ -177,7 +178,7 @@ node docs/testing/glm-coverage-queue-census.mjs --check
 - 选区clip/作用域/拥有关系/独立workspace；失败的完整issues、canApply与空patch，不在失败move时先清源。
 - 视觉层数据和nullable碰撞数据的组合移动/resize边界；授权数据防御拷贝、原输入深快照；这是数据断言，不是新碰撞/走路语义。
 - 图层映射、资源帧注册、provenance稳定ID、放置后正式validateProjectMap；删末项/upsert不污染其它拥有者。
-- group cut/copy的ID、collision-only/visual-only；template相对高度、来源anchor、顺序与合法往返。
+- group cut/copy的ID与合法视觉组gridPoints空/非空；placement至少一视觉槽，collision-only只能普通cells；template相对高度、来源anchor、顺序与合法往返。
 - 入口`ui/MapMode.tsx:663–690/727/1363/1602`及`StampContentEditor`/`StampTemplateDialog`。
   这些模块既有测试已很厚；commands.ts和上轮编辑器47项不重发，全部剩防御臂时停止本族，不造假fixture硬达标。
 
@@ -187,8 +188,8 @@ node docs/testing/glm-coverage-queue-census.mjs --check
 `item-authoring.ts`、`item-alchemy.ts`（前六均`core/`），以及`ui/enemy-defeated-events.ts`（纯数据辅助，非视觉组件）。
 
 - 真实嵌套then/else/body/onNo/onLose/onFlee/onFail路径；复制时仅新副本去重复稳定ID，深快照实际传入对象，no-op依合同保留引用。
-- behavior/hook CRUD的身份/引用守卫、初始项和标签顺序；projection正文与shell字段分离、删shell不复活脚本正文；catalog稳定顺序/标签/路径。
-- alchemy错误kind、no-op与独立fallback；item-authoring的ID分配重复后缀。后者只有很少未命中臂，不强求额外文件/数量。
+- 只测真实UI使用的behavior/hook增改删/SaveDetails/重排与locator；五个无caller复制/重命名/初始项导出不补；projection正文/shell分离；catalog只测当前authorScripts域，不扩旧library fallback。
+- alchemy错误kind、no-op与合法扩容对象独立；空rewards回退被上游守卫挡住不补；item-authoring的ID分配重复后缀，缺口少不强求额外文件/数量。
 - 敌人战败事件模式识别、只替换选中区域、顺序/概率0与100/终止路径、当前合法对话引用。
 - 入口`ui/ScriptEditor.tsx:3313/3318/3326`、`ConnectedEditorPages`、`ItemAlchemyTab.tsx:152/160`、`EnemyTab.tsx:691`。
   D-01全局历史/保存缺正文已完成，不重演；D-06新增物品canonical缺项、D-07共享/私有脚本前缀歧义留修复，不用当前错误作预期。
@@ -198,7 +199,8 @@ node docs/testing/glm-coverage-queue-census.mjs --check
 目标：`core/menu/`下`primitives.ts`、`inventory-menu.ts`、`item-select.ts`、`magic-select.ts`、`in-game-magic-menu.ts`、
 `shop-menu.ts`、`sell-menu.ts`、`equip-menu.ts`、`in-game-menu.ts`。
 
-- 空/单项/disabled、cursor与page offset；真实flag/in-use数量过滤、缺定义、精确MP边界、稳定ID排序与输入保真。
+- 空/单项/disabled、cursor与page offset；flag/in-use只拦确认不删库存行；精确MP边界、原ObjectID排序与输入保真，缺定义先按防御分类。
+- 当前outdoor技能过滤与SDL保留disabled不同，排除此差异轴待核产品裁决，不冒称原版一致。
 - phase导航→请求内容，错误phase不出动作、刷新后选中项消失；目标roleId与完整payload；商店money恰等于价格、卖物在用数量和禁用格。
 - 只测选择意图，不执行战斗效果/伤害/装备数值、保存，不验颜色或绘制。
 - 生产域`core/menu/menu-driver.ts`及`bootstrap.ts:1260/1262`、`core/scene-system.ts:543`；先读[一阶段工程经验](../phase1/engineering-notes.md)、
@@ -216,7 +218,7 @@ node docs/testing/glm-coverage-queue-census.mjs --check
 - 音量显式0/默认0/静音各通道、apply/storage轨迹；NaN和存储异常降级若无已定合同先分类。
 - consent宿主getter/read/write/event异常、GPC/DNT、偏好与unsubscribe；GA事件/ID/UTM清洗只接fake gtag/DOM，不联系真实Google，不改部署设置。
 - speedrun idle/finished/pause、相同now、reset和独立内存、一次标志、best splits、detector前态null与边界、59/60时间格式；
-  不发明倒退时钟或超大数溢出政策，不测overlay/store/真实战斗胜利。
+  不发明倒退时钟或超大数溢出政策；setStep(length)注释/实现不一致且无当前UI触达，列待证；不测overlay/store/真实战斗胜利。GA正式caller不传subscribePage，不扩为场景导航上报。
 - 入口`bootstrap.ts:471/1092/1098/1104`、`analytics/install-analytics.ts`、`tools/speedrun/index.ts`与`checkpoints.ts`；先查现行caller再定宿主替身。
 
 ### TB-10 · 迁移当前合同（migrate，9模块；晚于第一梯队）
@@ -228,7 +230,7 @@ node docs/testing/glm-coverage-queue-census.mjs --check
   不操作真实projects/data/baseline，不运行真正migrate-content，不构造旧版本发现fallback。
 - map重复编号/原输入保真/行列sub ID/合法形状；不改变碰撞模型。writer计划顺序、退休hash与保护目标按当前合同去重。
 - 当前publication的overlay/label/store使用合法守卫fixture，只坏一轴；作者内容保留、稳定消息/hook闭包与顺序。
-- 调用`scripts/migrate-content.ts:12–24/66–82/114–143`、`pal-migration.ts:393`、`pal-current-publication.ts:181–209/316/357`。
+- 调用`packages/migrate/scripts/migrate-content.mts:114–143`、`pal-migration.ts:419–424`、`pal-current-publication.ts:181–209/316/357`；技能overlay只走current的r13SixBExecution:true，固定20商店只约束生成seed、不约束合并后的作者目录。
   source-facts若只有窄间接调用或无真实缺口，登记已有/防御即可。
 - A-08 snapshot→journal并发窗口、A-09 materialize父目录symlink为已知修复归属，**不得用错误现状做绿测**；
   E-05旧接口清理先行的轴等待清理。大规模pal-assets/真实资源重迁不在本包。
