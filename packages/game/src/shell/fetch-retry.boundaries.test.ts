@@ -28,11 +28,20 @@ describe('H01 installFetchRetry 边界', () => {
       return gateway
     }) as unknown as typeof fetch
     installFetchRetry({ retries: 1, backoffMs: [1] })
-    // Request 带 GET，但 init.method=POST 覆盖 → 非幂等直接透传 503，不重试
+    // Request 带 GET，但 init.method=POST 覆盖 → 非幂等直接透传 503，不重试。
+    // 误判为 GET 会进入重试退避（fake timers 下由 runAllTimers 放行再耗尽拒绝），
+    // 先由 calls 断言钉死调用数（纯 AssertionError），再核 Response 身份。
     const request = new Request('https://x.test/x', { method: 'GET' })
-    const passthrough = await globalThis.fetch(request, { method: 'POST' })
+    const attempt = globalThis.fetch(request, { method: 'POST' })
+    const settled = attempt.then(
+      (response) => ({ response }),
+      (error: unknown) => ({ error }),
+    )
+    await vi.runAllTimersAsync() // 若被误判为 GET：放行退避让重试完整发生（calls 变 2）
     expect(calls).toBe(1) // init.method=POST 优先：一次即返回（误判 GET 会变 2）
-    expect(passthrough).toBe(gateway) // 原 Response 身份透传
+    const outcome = (await settled) as { response?: Response; error?: unknown }
+    expect(outcome.response).toBe(gateway) // 原 Response 身份透传、无拒绝
+    expect(outcome.error).toBeUndefined()
     uninstallFetchRetryForTest(originalFetch)
 
     // 同条件 GET 对照（无 init 覆盖）：503 触发重试 → 调用数 2、拿到新 200 Response 身份
