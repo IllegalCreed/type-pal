@@ -10,8 +10,9 @@
 不是每写一个测试就请用户签字。GLM交一批、Codex审一批，同时提前准备后面的批次。
 
 2026-09-19滚动状态：[TB-01～03的r2三签已齐并核准入](glm-coverage-queue-design-review.md)，
-TB-01进入build，TB-02/03已准入待实施槽；按卡面条件依序领取，无需重复签字或等用户逐批点头。
-TB-00三项残余返工优先，未接收实施包合计最多两批；[TB-04～10七批已细化并完成Codex前提复核](glm-coverage-remaining-review.md)，
+TB-01首次交付0e49db91已被[独立接收counter](content-residual-review.md)，设计r2保持、状态rework；TB-00候选6d34ad5a[仅剩D6 sequence收尾](runtime-state-review.md)。
+两包分别返工，本轮无包释放实施槽；TB-02/03仍已准入待槽。无需重复签设计或等用户逐批点头，但不得绕过counter及最多两批未接收成果限制。
+[TB-04～10七批已细化并完成Codex前提复核](glm-coverage-remaining-review.md)，
 七卡均draft、待Kimi/GLM独立设计签字，尚未实施。下列概要如与细化工作包冲突，以r1工作包的收窄边界为准。
 
 | 顺位 | 批号 | 工作 | 模块数 | 冻结fast行命中 | 冻结fast分支命中 | 领取前的主要限制 |

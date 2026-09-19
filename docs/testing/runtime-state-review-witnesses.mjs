@@ -122,6 +122,33 @@ const probes = [
       expect(magicConfirmSpell(menu,w)).toEqual({kind:'castAll',skill:skills['oracle-all']});
       expect(w).toEqual(before);`,
   },
+  {
+    id: 'sequence-late-frame-after-abort',
+    file: 'frame-animation-player.ts',
+    tests: ['src/frame-animation-player.boundaries.test.ts'],
+    from: '  const sequence = await awaitActive(options.reader.sequence(options.asset))',
+    to: `  const pendingSequence = options.reader.sequence(options.asset);
+  // Witness: a detached continuation wrongly commits a late frame after cancellation.
+  void pendingSequence.then(async () => {
+    if (options.signal?.aborted) options.onFrame(await options.reader.frame(options.asset, 0));
+  }, () => {});
+  const sequence = await awaitActive(pendingSequence)`,
+    oracle: `const bytes=await binary(7);const entered=gate(),release=gate();
+      const reader=new FrameSequenceReader({readBytes:async()=>{
+        entered.resolve();await release.promise;return buffer(bytes);
+      }},identity);
+      const controller=new AbortController();const frames=[];let outcome='pending';
+      const settled=playFrameAnimation({reader,asset:'a',endFrame:0,signal:controller.signal,
+        onFrame:f=>frames.push(f.rgba[0]),wait:async()=>{}}).then(
+          ()=>{outcome='fulfilled'},e=>{outcome=e.name});
+      let beforeRelease;
+      try {await entered.promise;controller.abort();
+        await new Promise(resolve=>setImmediate(resolve));beforeRelease=outcome;
+      } finally {release.resolve();await settled;}
+      await reader.sequence('a');await reader.frame('a',0);
+      await new Promise(resolve=>setImmediate(resolve));
+      expect(beforeRelease).toBe('AbortError');expect(frames).toEqual([]);`,
+  },
 ]
 
 // A failed candidate is not automatically a business detection. Vitest's JSON

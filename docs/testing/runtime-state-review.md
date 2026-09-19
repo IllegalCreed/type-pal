@@ -1,6 +1,64 @@
 # 运行时状态补测：Codex接收复核
 
-## 当前返工复核：3c7ae963（2026-09-19）
+## 当前返工复核：6d34ad5a（2026-09-19）
+
+**结论：收窄counter，仍rework；不集成测试，不转Kimi，不重签设计。**
+本轮已按用户要求独立复跑：定向content10/reforge45=55、两包全测57/685与125/1235、两包tsc、16文件Biome全部exit0。
+原GLM6对照+16针22跑exit0；原Codex7对照绿、7针均由候选AssertionError检出，0 invalid。F1/E4已真实闭环，不再返工。
+主fixture四检查accepted；此前after/换字节/LRU/有声正控等闭环保持。新补同一D6合同的第8针后，结果为8对照绿、7 detected/1 MISSED。
+
+### 唯一剩余实现项：D6 sequence收尾与迟到提交
+
+锚点钉候选 `packages/reforge/src/frame-animation-player.boundaries.test.ts:231–266`：
+
+- :238的gate是没有resolver的永不settle Promise；:248只有tick注释，没有readBytes entered见证。
+- :252–255 finally只把局部布尔releasedSlow置true再void；不释放gate，也不消费原pendingSlow收尾。
+- :235与:265–266的slowSettledPromise只是独立手工resolve，和实际读取/播放没有因果关系。
+- :241创建slow reader，而:260成功播放使用h.reader。标题“同reader另一次”不符；原调用onFrame为空函数，不能证明迟到零提交。
+- 回执“sequence finally消费收口Promise”仍与提交树不符；这正是8ca74aac已要求修复的项，不是新功能范围。
+
+独立单点坏实现：在原sequence await处增加一个脱离取消主链的continuation，原调用已AbortError后，若容器迟到完成就错误提交首帧。
+正常实现与候选9项对照都绿；坏实现下候选9/9仍绿，独立oracle在真实entered→abort→finally释放同一读取→等待实际完成后，
+观测到frames=[7]而非[]，业务AssertionError。不是超时，不修改候选产品/测试。
+这是一个**刻意注入的坏实现**用于测断言鉴别力，不代表现有产品有该缺陷。
+
+修复要求仅D6：可释放deferred与真实readBytes entered；原onFrame记录数组；先同步观察外层AbortError，
+finally释放**同一**底层Promise并消费原播放，等待可证明的实际完成后核零迟到提交。若保留“同reader重播”标题必须真的重用该reader。
+frame用例的同步观察/释放已有鉴别力，保留；不要用finally断言覆盖主要失败原因。回执同步真实状态。
+
+### 数字/回执勘误（非重开旧实现）
+
+GLM任务卡自验写content10+reforge46=56，而本树JSON实测10+45=55；工作包正文55正确。
+F组逐族账仍引用“ms/source”旧标题；应更新为实际ms/kind。不要复制旧统计回填。
+GLM原席位作为候选自验原文保留，以上以本席独立结果为准，不代改其签名。
+
+### 可重建证据
+
+```bash
+node docs/testing/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state
+```
+
+工具保留原7针，仅加sequence-late-frame-after-abort；原审计探针零改。
+- 原7针日志：`/tmp/codex-dual-intake.DfkStJ/runtime-witness.log`。
+- 新8针日志：`/tmp/codex-dual-intake.DfkStJ/runtime-eight-witness.log`；
+  summary：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-runtime-state-MmsZvS/summary.json`。
+- 格式收口后`runtime-witness-committable.log`复跑仍8对照绿、7 detected/1 MISSED；最终summary：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-runtime-state-F62AXb/summary.json`。
+- 原22跑：`/tmp/codex-dual-intake.DfkStJ/runtime-mutants.log`；包check：`runtime-packages.log`；
+  定向JSON：`runtime-content-targeted.json`、`runtime-reforge-targeted.json`；Biome：`runtime-biome.log`（均同目录）。
+- 本轮不重跑已闭环覆盖归属；未执行接收后全仓check/ratchet/strict-fast，因为仍有阻断，不能把未接收测试写进正式基线。
+
+### 下一位Agent提示词：GLM
+
+```text
+在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选6d34ad5a，生产冻结e58834f6，设计不重签。
+先同步本次Codex counter及更新的runtime-state-review-witnesses.mjs，保留他席与主线七批设计；读AGENTS/CLAUDE/READ-FIRST、docs/testing/runtime-state-review.md顶部。
+F1/E4和原7针已闭环不重开。只修D6 sequence：原gate可释放、readBytes真实entered、原onFrame可观察，abort后同步断言，finally释放同一底层并消费实际原Promise，再证明零迟到帧；不能用releasedSlow布尔/独立slowSettledPromise或另一个reader冒充收尾。同reader标题需真实重用。任务卡56改实际55，F1账同步ms/kind。
+重跑最新工具须8对照绿、8针候选自身AssertionError detected，尤其sequence-late-frame-after-abort；原22跑/定向/双包全测/tc/16文件Biome。只改原白名单，不改产品/旧测试/原探针/官方基线/他席工具语义，不代签、不标done、不转Kimi。交Codex独立接收；全仓质量门留接收后执行。
+```
+
+---
+
+## 历史返工复核：3c7ae963（2026-09-19）
 
 **结论：收窄counter，仍为rework。设计r1不重签，已闭环项不重开。**
 本轮复跑55定向（content10/reforge45）、双包685/1235全测、两包tsc、16新增文件Biome均exit0；原6对照+16针22/22仍通过。

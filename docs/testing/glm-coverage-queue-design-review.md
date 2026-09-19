@@ -1,7 +1,8 @@
 # TB-01～03：Codex设计收口与并行交接
 
 2026-09-19，生产核对点`e58834f6`，接手main为`e22041a0`。
-用户要求GLM返工TB-00同时，Codex推进后续三批设计。**三卡r2已三签齐、无counter；Codex核定TB-01进入build，TB-02/03已准入待实施槽。**
+用户要求GLM返工TB-00同时，Codex推进后续三批设计。**三卡r2设计三签保持；TB-01首次实施已交付但接收counter，转rework；TB-02/03已准入待实施槽。**
+2026-09-19最新接收：TB-00的6d34ad5a仅剩[D6 sequence实际收尾](runtime-state-review.md)，TB-01的0e49db91有[CR-R1～R4](content-residual-review.md)。两包独立返工，本轮未释放实施槽；下文设计证据及历史开工交接不授权绕过当前counter。
 GLM按卡面顺序及目标未漂移/无新counter/未接收包≤2的条件领取后续批次，不再逐批重复签字或询问用户。
 r1自签原文留历史，不把错误前提静默覆盖成已被三席认可的r2。此次不重开任何已done卡，也不新增产品范围。
 

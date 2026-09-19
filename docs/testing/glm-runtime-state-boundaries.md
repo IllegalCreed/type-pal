@@ -1,9 +1,9 @@
 # GLM运行时状态与作者元数据 · 六组补测工作包
 
 任务：[TEST-RUNTIME-STATE-BOUNDARIES-1](../ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)，r1/rework。
-当前接收：**Codex对3c7ae963收窄counter，55项未合入测试**。主fixture、after/有声正控/换字节/LRU、Biome及主要计数已闭环；
-只剩F1虚构source未删、D6候选超时非业务红、E4全体分支world保真漏检。以[本轮独立复核](runtime-state-review.md)为准。
-旧见证工具的候选错误类型判据缺口由Codex更正；下方GLM返工回执保留交付声明，残项与“全修复”主张以本轮证据纠正，不作已验收声明。
+当前接收：**6d34ad5a被Codex收窄counter，仅D6 sequence实际收尾/迟到提交与回执勘误未闭环**；F1/E4及原7针已通过不重开。
+独立结果：55定向、双包685/1235、tc/16文件Biome/原22跑绿；新第8针发现迟到提交漏检。
+见[当前复核](runtime-state-review.md)，未集成、不转Kimi、不更新官方基线；下面GLM回执保留候选自验原文，不能覆盖本席裁决。
 生产冻结：`e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM负责非视觉测试，Codex负责独立接收/集成，Kimi终审。
 与[独立技能试放卡](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)分开；不是继续修改已done的运行时十模块包。
 一次完成六组，39个待核用例族；不是39条或某个固定数量的新测试承诺。已有有效断言直接复用登记，未知合同隔离，不凑覆盖率。
@@ -147,7 +147,7 @@ magic文件覆盖数字含排除的施放结算区，不能承诺本包把整文
 - 产品、旧测试、统计范围/阈值/依赖/锁文件、原审计探针/基线、PAL工程/资产零改；不碰main/boot/SkillTab/play接线/独立试放实现面。
 - 不复活旧ScriptChunkStore/MemoryScriptResolver/旧script-library调用，不做save/barrier、战斗数值、UI、截图/听感或第三阶段功能。
 
-## GLM实施回执
+## GLM实施回执（候选自验原文；数字及闭环声明以本页当前Codex复核为准）
 
 r1 返工完成（2026-09-19 第二轮，GLM；对应[counter R1～R4](runtime-state-review.md)，
 原候选 23eb63d2 回执保留在该树）。分支 `codex/glm-runtime-state-boundaries-r1`（worktree
@@ -169,6 +169,16 @@ once-sound 带真实 cue 的非空正控 + 越尾不重播实证；E4 播种后�
 castAll 比完整技能对象；B7 嵌套 throw/use 别名试验；B6 换用真实 page 动画差分。R4——
 Biome 逐行 suppression/导入修复，全部计数从最终树 Vitest JSON 重生，覆盖小计更正
 （reforge 九目标行 497→533/564、分支 392→444/533；content 全包分母 5016 明示）。
+
+**第三轮返工（收窄 counter 8ca74aac 三残项，2026-09-19）**：
+1. F1——`source:'held' as never` 断言实际删除；F1 标题/注释同步为 ms/kind 失配轴；本回执该项声明与提交树一致。
+2. D6——结局观察改为**独立同步变量**（回调更新 observer.outcome，断言只读观察值，不 await 可能
+   永不 settle 的 outcome Promise）；entered 后 abort、tick 排空拒绝传播即同步断言 AbortError；
+   frame 用例 finally 放行 inflate 并核迟到零提交；sequence 用例 finally 消费收口 Promise；
+   旧"永不释放 gate + 另一次播放声称迟到读取无提交"断言随重写移除（D 组 8→9 项，逐文件计数同步）。
+3. E4——每个确认分支（toTarget / castAll / MP 不足 / MP 恰好足够）在**调用前**对实际 world 取深
+   快照、调用后立即比较；删除未使用 `_wBefore` 与 `deepSnapshot(w)` 自比较；菜单 state 原地可变
+   合同保持。负控钉名标题随用例标题同步（E4/F1 pins 已更新）。
 
 ### 39 族逐项账（新增=本包用例标题；已有=锚点；待证/防御附归属）
 
@@ -198,7 +208,7 @@ Biome 逐行 suppression/导入修复，全部计数从最终树 Vitest JSON 重
 - C5 新增：`新请求接管后旧 signal abort：新覆盖存活并完成；stop 后迟到 abort 无副作用`（循环覆盖 stop 收尾；旧 waiter 被兑现非 abort）。
 - C6 新增：`精确边界/半步 startAtMs 的帧号；dt=0 no-op；非法 dt 拒绝`、`完整 cue 轨迹按步序一次发出（walk：step0 与 step2 的 sound）`。
 
-**D · frame-animation-player（8 项）**
+**D · frame-animation-player（9 项）**
 - D1 新增：`失败 Promise 不永久缓存；同 reader 重试真正读取并解码出实际字节`。
 - D2 新增：`inflight 回零后同 block 重读成功；合法字节真实 decode`。
 - D3 新增：`frameLimit 非正/非整数拒绝；帧索引负/非整数/上界拒绝；0/末帧正控`。
@@ -211,7 +221,7 @@ Biome 逐行 suppression/导入修复，全部计数从最终树 Vitest JSON 重
 - E1 新增：`缺 id 与非 outdoor 剔除、保留序 = 作者声明序；world/skills 定义不变`。
 - E2 新增：`经真实导航进 pick-spell：caster 导航不动；进 pick-target：网格导航不动、返回恢复`（+pick-caster 上的全 no-op）。
 - E3 新增：`死人确认不动（同输入正控：活人进入 pick-spell）；空列表确认 null`。
-- E4 新增（返工后）：`castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；实际 world 深快照不变`（播种后深快照 + 再确认复验；castAll 比完整技能对象；magicConfirmSpell 原地改菜单 state 按合同直证；E 组全程未调用 castOutdoorSkill）。
+- E4 新增（第三轮后）：`castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；各分支实际 world 快照不变`（每分支调用前快照/调用后比较——含 castAll 全体直放；castAll 比完整技能对象；magicConfirmSpell 原地改菜单 state 按合同直证；E 组全程未调用 castOutdoorSkill）。
 - E5 新增：`left/up 同为 -1、right/down 同为 +1；首尾环绕`、`openSystemMenu 记忆恢复与越界 clamp`、`非 menu 阶段确认不重复 action（confirm/switch 上 systemConfirm no-op）`。
 - E6 新增：`显式 on/off 落定完整 state/action；audio 缺席默认 true；save/load 只核返回请求`（save/load 无存储 IO；quit 是/否完整路径）。
 

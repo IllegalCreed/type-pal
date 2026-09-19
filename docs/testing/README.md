@@ -7,9 +7,9 @@
 ## 文档与附件
 
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
-- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（rework；3c7ae963返工55项，Codex收窄三项残余；已闭环不重开，未集成，设计不重签）
-- [运行时状态补测Codex复核](runtime-state-review.md)与[独立反证工具](runtime-state-review-witnesses.mjs)（当前7针：5 detected/1无效失败/1 MISSED；含Codex工具判据勘误）
-- [前三批r2准入与连续实施交接](glm-coverage-queue-design-review.md)（三签齐；TB-01已build、TB-02/03待槽；193既有测试与[前提探针](glm-coverage-queue-premise.mjs)作为设计证据，非新增交付）
+- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（rework；6d34ad5a的F1/E4闭环，仅D6 sequence收尾与回执勘误残留；55项未集成，r1不重签）
+- [运行时状态补测Codex复核](runtime-state-review.md)与[独立反证工具](runtime-state-review-witnesses.mjs)（当前8针：7 detected/1迟到提交MISSED；原7针均业务红闭环）
+- [前三批r2准入与连续实施交接](glm-coverage-queue-design-review.md)（设计三签保持；TB-01首次交付counter、TB-02/03待槽；193既有测试与[前提探针](glm-coverage-queue-premise.mjs)是设计证据）
 - [后续七批统一细化与审核](glm-coverage-remaining-review.md)（TB-04～10 r1/draft，Codex已签、两席待审；59候选模块，非已实施覆盖）
 - [原版表格与文本自包含补测工作包](glm-pal-tables.md)（TB-04，合法输入/旧测试去重/白名单/负控及排除项）
 - [RLE、事件与资源工具补测工作包](glm-resource-tools.md)（TB-05，合法输入/旧测试去重/白名单/负控及排除项）
@@ -18,7 +18,8 @@
 - [第一阶段菜单导航与请求补测工作包](glm-game-menu-boundaries.md)（TB-08，合法输入/旧测试去重/白名单/负控及排除项）
 - [第一阶段宿主、隐私与计时补测工作包](glm-game-host-boundaries.md)（TB-09，合法输入/旧测试去重/白名单/负控及排除项）
 - [当前迁移辅助与隔离文件系统补测工作包](glm-migration-boundaries.md)（TB-10，合法输入/旧测试去重/白名单/负控及排除项）
-- [内容合同残项工作包](glm-content-residual.md)（TB-01 r2/build；GLM按合法guard与跨包去重边界实施）
+- [内容合同残项工作包](glm-content-residual.md)（TB-01 r2/rework；0e49db91实际23项，CR-R1～R4待返工）
+- [内容残项Codex接收复核](content-residual-review.md)与[可重建独立见证](content-residual-review-witnesses.mjs)（三针MISSED、混合错误判据误收；根fixture七检查accepted；未集成/不改官方基线）
 - [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/draft；已准入待槽，HTTP/FSA/音频边界不变）
 - [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03 r2/draft；已准入待槽，零产品改动worker方案、PNG泄漏隔离）
 - [试放方案调整：共享战斗模拟器](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（rework；用户提出多入口/队伍配置/预设/战斗道具，r2待设计；旧r1不再授权实施）

@@ -111,22 +111,26 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 
 ### done前
 
-- GLM：**r1 返工实施者自验 accept（2026-09-19 第二轮；仅 counter e22041a0 的 R1～R4，前轮自验已被覆盖、见 23eb63d2 树）**。
-  - R1：fixture 合法化——onTeleport 非 initial 状态移除 entry；legalItems 拆 ext/priv/bare 且
-    throw 用合法 fixedDamage；assertSceneFixtureLegal/assertItemsFixtureLegal 守卫自证接入 B4/B7；
-    dither 虚构 source 轴移除。
-  - R2：D6 真实进入见证重建（entered + 同步结局观察器，底层未放行即外层 AbortError）；D4 双
-    asset + 同 id 真实换字节；D5 解码计数精确见证命中/淘汰。
-  - R3：compiler after 逐组合精确；嵌套别名试验；once-sound 非空 cue 正控 + 越尾零重播；
-    E4 实际 world 深快照复验；castAll 完整对象比较；B7 嵌套别名。
-  - R4：16 文件 Biome rc=0（逐文件）；逐文件计数 6+4+5+5+9+9+4+4+2+2+5=55 从 Vitest JSON 重生；
-    覆盖小计更正（reforge 九目标 L497→533/564、B392→444/533；content 分母 5016 明示）。
-  - 复验：Codex 六见证全部 **detected**（candidateFailures 为返工断言自身）+ 六对照绿 +
-    fixture 四检查 accepted；原 22 跑 rc=0；定向 55/55、reforge 125/1235、content 57/685、
-    两包 tc rc=0。
-  - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；frame 在途 invalidate 回填政策仍待证；
+- GLM：**r1 第三轮返工实施者自验 accept（2026-09-19；仅收窄 counter 8ca74aac 三残项，前轮已闭环项不重开）**。
+  - 残项1（F1）：`source:'held' as never` 断言**实际删除**，F1 标题/注释同步为 ms/kind 失配轴；
+    回执"虚构 source 轴移除"声明与提交树一致。
+  - 残项2（D6）：结局改为**独立同步观察变量**（回调更新 outcome，断言只读观察值），entered 后
+    abort + tick 排空即同步断言 AbortError——不 await 可能永不 settle 的 outcome；frame 用例
+    finally 放行 inflate 并核迟到零提交；sequence 用例 finally 消费收口 Promise；不再靠超时变红
+    （D 组逐文件 8→9 项同步）。
+  - 残项3（E4）：每个确认分支（toTarget/castAll/MP 不足/恰好足够）**调用前**取实际 world 深快照、
+    调用后立即比较——castAll 全体直放分支亦覆盖；删除未用 `_wBefore` 与自比较；菜单 state 原地
+    可变合同保持。
+  - 复验：最新 7 针见证全部 **detected**（候选自身 AssertionError 业务红，0 invalid/0 MISSED）
+    + 7 对照绿 + fixture 四检查 accepted；原 22 跑 rc=0；定向 content 10 + reforge 46 = 56/56；
+    reforge 全包 125/1235、content 全包 57/685 exit0；两包 tc rc=0；16 文件 Biome rc=0；
+    覆盖四跑复算数字不变（局部 content +12 行/+18 臂、reforge +36 行/+53 臂）。
+  - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；frame 在途 invalidate 仍待证；
     不代签、不标 done。
-- Codex：**收窄counter（2026-09-19，返工候选3c7ae963）**。55定向、685/1235全包、两包tc、16文件Biome与原22跑通过；四fixture守卫全accepted，after/合法有声正控/换字节/LRU/一般world修改见证已闭环，不重开。
+- Codex：**收窄counter（2026-09-19，候选6d34ad5a）**。F1/E4真实闭环，原7针均为候选业务AssertionError、55定向/685+1235全测/两包tc/16文件Biome/原22跑通过。
+  唯一剩D6 sequence：:238永不resolve gate，:252–255 finally仅改局部布尔，:265独立Promise与原链无关，:260另一个reader冒称同实例。新增同合同第8针sequence-late-frame-after-abort，8对照绿、7 detected/1 MISSED；候选9项漏掉取消后的迟到提交。任务卡自验56应为实测55，F1账旧ms/source标题需同步。
+  详见[本轮定点证据](../../testing/runtime-state-review.md)。未修改/集成GLM测试，不转Kimi；官方全仓门待接收后，设计不重签。
+- Codex前轮记录（历史）：**收窄counter（2026-09-19，返工候选3c7ae963）**。55定向、685/1235全包、两包tc、16文件Biome与原22跑通过；四fixture守卫全accepted，after/合法有声正控/换字节/LRU/一般world修改见证已闭环，不重开。
   仅剩R1-F1虚构held-source仍在:32（回执称已移除不符）；R2-D6 await outcome导致坏实现下候选超时，非业务断言红；R3-E4 unused预快照/自比较只保护末尾单体，allAllies误改world仍漏检。
   本席旧见证工具把候选failed都判detected，漏了Vitest的STACK_TRACE_ERROR，责任已勘误并补每条候选错误类型自测；最新7针为5 detected/1 invalid-candidate-failure/1 MISSED、7对照绿。
   详见[本轮证据及三项定点返工](../../testing/runtime-state-review.md)。不改GLM测试、不合入正式测试、不更官方基线，不转Kimi；设计r1不重签。
@@ -140,6 +144,10 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Codex：独立复核6d34ad5a；F1/E4与frame同步取消闭环，sequence实际收尾仍未修。原7针全检出属实，但不代表D6完整；第8针证明迟到提交漏检。仅此定点返工+回执勘误，保持rework；同次TB01独立裁决，本轮不释放实施槽。GLM自验原文保留，不代改他席。
+- 2026-09-19 GLM（r1 第三轮返工完成）：rebase 收窄 counter 8ca74aac，只修三残项——held source
+  实删、D6 同步结局观察 + finally 释放、E4 各分支调用前快照。7 针全 detected（自身业务红）+
+  7 对照绿 + 22 跑全绿 + 双包全测/tc/Biome/覆盖复算。第三轮自验 accept 已签；等 Codex 重新接收。
 - 2026-09-19 Codex：重新接收3c7ae963，确认四fixture合法与五类原坏实现已被候选业务断言检出；55/双包全测/tc/Biome/原22跑通过。
   原工具六针detected可复现但D6候选红因是5000ms超时；修正本席工具的判据缺口，新增同一E4合同的castAll定点见证。收窄为F1虚构source未删、D6同步观察不挂起、E4各分支真实快照三项。状态仍rework，不合入测试，不重开已闭环项，不代签/不标done。
 - 2026-09-19 GLM（r1 返工完成）：rebase counter e22041a0（模拟器设计/看板保留），R1～R4
@@ -171,7 +179,16 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 
 ## 下一位Agent提示词
 
-### GLM · 三项残项定点返工（当前）
+### 当前：GLM仅返工D6 sequence及回执
+
+```text
+在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选6d34ad5a，生产冻结e58834f6，设计不重签。
+先同步本次Codex counter及更新的runtime-state-review-witnesses.mjs，保留他席与主线七批设计；读AGENTS/CLAUDE/READ-FIRST、docs/testing/runtime-state-review.md顶部。
+F1/E4和原7针已闭环不重开。只修D6 sequence：原gate可释放、readBytes真实entered、原onFrame可观察，abort后同步断言，finally释放同一底层并消费实际原Promise，再证明零迟到帧；不能用releasedSlow布尔/独立slowSettledPromise或另一个reader冒充收尾。同reader标题需真实重用。任务卡56改实际55，F1账同步ms/kind。
+重跑最新工具须8对照绿、8针候选自身AssertionError detected，尤其sequence-late-frame-after-abort；原22跑/定向/双包全测/tc/16文件Biome。只改原白名单，不改产品/旧测试/原探针/官方基线/他席工具语义，不代签、不标done、不转Kimi。交Codex独立接收；全仓质量门留接收后执行。
+```
+
+### 历史：GLM三项残项返工（本轮仅剩D6）
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1 r1，任务卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md 仍rework；本轮候选3c7ae963，生产冻结e58834f6，设计不重签。
@@ -199,7 +216,7 @@ GLM 已交付六组 11 新测试文件 53 项（content 2 + reforge 9）、16 �
 你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过现行守卫；magicConfirmSpell 原地改 state 是合同、castOutdoorSkill 未被调用）、复跑两包定向/全包、tc/Biome；复跑 node docs/testing/glm-runtime-state-mutants.mjs 验 22/22；按需重跑覆盖对照（config 绝对路径可复制）。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑）；全部通过后在本席签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试语义；不得代签他人或标 done。
 ```
 
-### Codex · 重新接收 r1 返工（当前）
+### 历史：Codex重新接收前轮r1返工
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 重新接收 TEST-RUNTIME-STATE-BOUNDARIES-1 r1 返工。任务卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md（rework）；回执与 39 族账 docs/testing/glm-runtime-state-boundaries.md；机器账 docs/testing/glm-runtime-state-evidence.json（16 文件 Biome 干净）。候选分支 codex/glm-runtime-state-boundaries-r1（worktree /Users/zhangxu/illegal/type-pal-glm-runtime-state），在你的 counter e22041a0 之上 rebase 后追加返工提交（远端 tip 9d33dbe8）；生产冻结 e58834f6；设计不重签；模拟器设计/看板行原样保留。
