@@ -5,15 +5,16 @@
 // 输出目录由 SB1_OUT 指定（专属 /tmp）；--config 用物理绝对路径。
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { coverageExcludes, coveragePackages, testSelection } from '../../scripts/coverage/config.mjs'
+import {
+  coverageExcludes,
+  coveragePackages,
+  testSelection,
+} from '../../scripts/coverage/config.mjs'
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)))
 
 const NEW_TESTS: Record<string, string[]> = {
-  content: [
-    'src/world-variable.boundaries.test.ts',
-    'src/migration-diagnostic.boundaries.test.ts',
-  ],
+  content: ['src/world-variable.boundaries.test.ts', 'src/migration-diagnostic.boundaries.test.ts'],
   reforge: [
     'src/runtime-script-compiler.boundaries.test.ts',
     'src/runtime-project-view.boundaries.test.ts',
