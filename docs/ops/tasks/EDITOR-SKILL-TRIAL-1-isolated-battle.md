@@ -124,7 +124,31 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - Codex：**premise verified / design agree（2026-09-19，e58834f6，以上提出方案）**。本人直读当前SkillTab/main保存/战斗启动、BattleSession生命周期、shop-trial早分流，复跑当前前提探针与45相邻测试。
   独立存储隔离采用“正常boot前独立宿主return”，不选普通scope换名/保存后回滚；复用真实战斗，不复制公式。可证伪边界见上。
   **UI承载形式仍待用户确认**，三席即使签齐也不据此越过UI产品门；本签不是提前实现授权。
-- Kimi：pending（架构/前提独立核验）。
+- Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部证据本人直读/复跑，未读 GLM 结论）**。
+  - **入口缺陷直读**：`SkillTab.tsx:1117-1118` 写死 `&scene=s001&battle=0&skill=` 且 title 自称
+    「不改存档/项目数据」；`main.ts:2220-2253` 启动链（launchWorld/launchSignal 校验）与
+    `:2473` 真实 `new BattleSession` 构造在位；`:353-360` bootGame 在 assertSaveScopeProject 后、
+    普通世界/SaveStore 前经 shop-trial 早分流 return（先例核实）。
+  - **本人复跑前提探针**（exit 0）：SSR 链接仍 s001/0、实际场景回退 start、battleResult=victory、
+    **sessions=0**（无真实战斗=D-04 桩胜）；同一 world 真实 quickSave→临时授技→quickSave，
+    savedAfterMaxMP=999、savedTrialSkill=true（临时状态写入同 scope 内存槽=D-05 污染）、
+    authorInputUnchanged=true——两前提动态复现，修复层为入口/隔离而非存档格式或迁移。
+  - **设计同意**：编辑器仅配置本次入口（dirty/身份双复核、敌队仅列本工程非空合法、缺条件
+    明确提示不桩胜）；URL 仅身份+skill-trial/entry/battle 三参、重复/缺值/未知 ID/混合模式
+    副作用前拒绝、ID 原值查表；**普通 boot 前早分流到私有 runSkillTrial 并 return**——不构造
+    正常 SaveStore、不预读 metas、不进标题，不是写后回滚（优于换名槽）；试放宿主零存档 IO、
+    editor IndexedDB 句柄读取与游戏存档库明确分开；真实 BattleSession+最小 battle-player-input
+    提取（前后参数等价须证明）不复制公式、不拆 main、不顺带 Q2；独立 AbortController/rAF/
+    音频所有权与幂等收尾、取消迟到不构造 session/播曲/交帧、F5/F9 禁读写并明示临时模式。
+    旧 `?skill` 临时授技捷径退役给重新打开提示，不留静默兼容通路（铁律 11 合规）。
+  - **可证伪观察**（任一反例即 counter 或收窄）：① 当前正式入口已能从本工程选非空敌队并
+    实际构造 session → 前提倒（探针否定）；② 隔离宿主仍构造正常 SaveStore 或任何槽 IO>0 →
+    设计 2 违反；③ 试放链不经过真实施法路径（toast/URL/mock 构造计数）→ 验收 2 不满足；
+    ④ 混合 URL 落回正常 boot 或缺敌队仍走 victory 桩 → 边界破坏；⑤ `?skill` 捷径仍可静默
+    到达 → 兼容残留；⑥ battle-player-input 提取前后正常战斗参数不等价 → 提取越界；
+    ⑦ **入口 UI 形态未获用户确认即开工** → 门禁破坏。
+  - 返工项：无。**入口 UI 形式（沿用独立试买小弹窗）尚待用户确认；本 design agree 不越过
+    UI 产品门，不据此开放 build**（与 Codex/GLM 两席保留条件一致）。
 - GLM：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；本席只审数据/存档入口/失败矩阵，未读 Kimi 结论；不做视觉）**。
   - **入口/执行/保存锚点直读**：SkillTab.tsx:1117-1118 确写死 `scene=s001&battle=0&skill=`；
     main.ts:2220-2253 敌队缺席走 victory 桩、:2473 真实 `new BattleSession`、:590 正常 SaveStore 构造、
@@ -153,6 +177,12 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r1 独立设计/架构审查，签 premise verified + design agree，无返工项。
+  直读 SkillTab 写死链接与自称、main 启动链/真实 BattleSession 构造、bootGame shop-trial
+  早分流先例；复跑前提探针（sessions=0 桩胜、临时授技写入同 scope 槽污染、作者输入不变）
+  ——D-04/D-05 动态复现。七条可证伪观察写入本席；**入口 UI 形式尚待用户确认，本签字不
+  越过 UI 产品门、不据此开放 build**。未改产品/他席/状态，未读 GLM 结论。
+  Next：UI 形态确认后 Codex 核定 build 并实施；dev-functional 视觉归 Codex。
 - 2026-09-19 GLM：完成设计/矩阵审查，签 premise verified + design agree，无返工项。直读
   SkillTab/main 保存与战斗启动锚点；独立复跑前提探针（两缺陷动态复现）。UI 产品门保留待用户。
   未读 Kimi 结论；未改任何实现。Next：三席齐且 UI 形式确认后 Codex 核定 build 并实施。
