@@ -55,7 +55,7 @@ const cases = [
     from: "if (staged !== expectedStaged) throw new Error(`迁移事务 journal staging 路径不符: ${target}`)",
     to: "if (false) throw new Error('unreachable')",
     red: 'staged 路径不再与操作目标配对校验（篡改 staged 可指向别处）',
-    redTest: '单轴坏 operations/kind/previousHash/staged/version 拒绝且 journal/目标字节全保留',
+    redTest: '单轴坏 operations/kind/hash/staged/version/id 拒绝且拒绝后全部自建文件字节保留',
     expected: 1,
   },
   {
@@ -172,14 +172,27 @@ try {
 }
 assert.ok(poisoned, 'poisoned log must be rejected')
 
+/** 运行态判据（与四向自测同一语义）：仅认每条 failureMessages 的首行业务 AssertionError/expect 形式。 */
 function pinnedVerdict(failureMessages) {
   if ((failureMessages ?? []).length === 0) return false
-  return failureMessages.every((m) => /AssertionError|^expect\(/.test(m))
+  return failureMessages.every((m) =>
+    /^AssertionError(?:\b|:)|^expect\(/.test(m.split('\n', 1)[0] ?? ''),
+  )
 }
 assert.equal(
   pinnedVerdict(['Error: STACK_TRACE_ERROR\n    at task']),
   false,
   'target timeout rejected',
+)
+assert.equal(
+  pinnedVerdict(['Error: decoder rejected input\nCaused by AssertionError: nested detail']),
+  false,
+  'ordinary Error with nested AssertionError substring rejected (first-line only)',
+)
+assert.equal(
+  pinnedVerdict(['Error: Test timed out in 5000ms\n  async test failed']),
+  false,
+  'pure timeout rejected even when other tests carry business red',
 )
 assert.equal(pinnedVerdict([]), false, 'not-run rejected')
 assert.equal(pinnedVerdict(['AssertionError: expected 1 to be 2']), true, 'pure red passes')
@@ -272,9 +285,9 @@ export default {
     assert.ok((pinned.failureMessages ?? []).length > 0, `${item.name}: no failureMessages; ${log}`)
     for (const message of pinned.failureMessages ?? [])
       assert.match(
-        message,
-        /AssertionError|^expect\(/,
-        `${item.name}: pinned not business AssertionError; ${log}`,
+        message.split('\n', 1)[0] ?? message,
+        /^AssertionError(?:\b|:)|^expect\(/,
+        `${item.name}: pinned not business AssertionError (first line); ${log}`,
       )
   } else {
     assert.ok(

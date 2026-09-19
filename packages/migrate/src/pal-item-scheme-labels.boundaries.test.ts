@@ -217,4 +217,42 @@ describe('T08 scheme-labels 剩余漂移轴', () => {
     ])
     expect(structuredClone(input)).toEqual(snapshot)
   })
+  test('同 root 菱形：item 经 hook 与直连两条路径达同一行为 → 非环、方案计数按节点不按路径', () => {
+    // item292 的脚本既直连 c8-a，又经 c8-hook 到 c8-a（同一 root 两条路径 = 菱形，不是环）
+    const diamondScene = scene()
+    diamondScene.hooks = {
+      onEnter: {
+        variants: {
+          'c8-hook': {
+            label: '物品292剧情方案 2',
+            order: 20,
+            flow: stages([target('e1', 'c8-a')]),
+          },
+        },
+      },
+    }
+    const input = {
+      items: [item('292', [hook('c8-hook'), target('e1', 'c8-a')])],
+      scenes: [diamondScene],
+      expectedSchemes: 2, // c8-a(10) + c8-hook(20)：同一 c8-a 只计一次（去重按地址）
+      expectedMachineInners: 1,
+      expectedItemRoots: 1,
+    }
+    const report = (() => {
+      try {
+        return assertPalItemSchemeLabelInvariant(input)
+      } catch (error) {
+        return (error as Error).message
+      }
+    })()
+    expect(report).toBeTypeOf('object') // 菱形不触发成环拒绝
+    const typed = report as Exclude<typeof report, string>
+    expect(typed.schemes).toBe(2)
+    expect(typed.itemRoots).toBe(1)
+    expect(typed.labels.map(({ id }) => id)).toEqual(['c8-a', 'c8-hook']) // 菱形终点只出现一次
+    expect(typed.labels.map(({ label }) => label)).toEqual([
+      '物品292剧情方案',
+      '物品292剧情方案 2',
+    ])
+  })
 })

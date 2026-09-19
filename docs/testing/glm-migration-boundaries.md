@@ -107,3 +107,19 @@ exit0；tc rc=0；9 新文件 Biome rc=0。
 - T02 订正：journal `previousHash=null` 对新建目标为合法（真实合同），本批以 `hash` 篡改为
   拒绝轴；A08/A09/E05 待证保持原归属（见机器账 knownBoundaries）。
 - 机器账 `docs/testing/glm-migration-boundaries-evidence.json`。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 9 针复跑全绿。
+- **C1**：11 个新文件（含 JSON/config）Biome rc=0；机账同步最终树数字。
+- **R10-1**：baseline 快照改深比较——structuredClone 直接持有实际 Map/Set/嵌套 JSON，
+  调用后对同一实际对象 toEqual（浅 entries 冒充已废）。
+- **R10-2**：撤回 content/scripts/index chunks 发现轴（E05 已签排除）；scene/map 发现保留。
+- **R10-3**：journal 重写为两操作真实中断——合法同 journal 恢复对照成功（pending 补完+幂等+
+  清理）；六轴篡改各自钉精确业务错误消息、拒绝后全部自建文件（目录递归快照）逐字节保留。
+- **R10-4**：同 root 菱形补齐——一 root 经 hook 与直连两路径达同一行为：非环、终点只计一次。
+- 复跑：定向 23/23、|unit| 57 文件/393 项（9 项预存裁决一致）、tc rc=0、
+  官方 fast 338→361 双 exit0。机器账 rework 节。

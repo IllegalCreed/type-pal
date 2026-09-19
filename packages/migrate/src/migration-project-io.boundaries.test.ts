@@ -25,7 +25,7 @@ function repo(): string {
   const root = mkdtempSync(join(tmpdir(), 'tb10-io-'))
   roots.push(root)
   mkdirSync(join(root, 'projects/pal/content/scenes'), { recursive: true })
-  mkdirSync(join(root, 'projects/pal/content/scripts'), { recursive: true })
+  // scripts index 目录不再需要（chunks 发现轴已撤回）
   mkdirSync(join(root, 'projects/pal/content/maps'), { recursive: true })
   return root
 }
@@ -59,21 +59,8 @@ describe('T01 discoverProjectManagedFiles 单轴', () => {
       JSON.stringify({ version: 1, scenes: [] }),
       'utf8',
     )
-    // scripts index chunk path 非 string
-    writeFileSync(
-      join(root, 'projects/pal/content/scripts/index.json'),
-      JSON.stringify({ chunks: { a: { path: 7 } } }),
-      'utf8',
-    )
-    expect(() => discoverProjectManagedFiles(root, new Set())).toThrow(
-      'content/scripts/index.json: chunk path 无效',
-    )
-    // 恢复合法 scripts index 后再测 maps index
-    writeFileSync(
-      join(root, 'projects/pal/content/scripts/index.json'),
-      JSON.stringify({ chunks: {} }),
-      'utf8',
-    )
+    // 注：content/scripts/index 的 chunks 发现属 E05 历史输出退役域（已签排除），
+    // 本批不为其新增发现/拒绝合同；scene/map 当前发现与 TOCTOU 继续保留。
     // maps index maps 非数组
     writeFileSync(
       join(root, 'projects/pal/content/maps/index.json'),

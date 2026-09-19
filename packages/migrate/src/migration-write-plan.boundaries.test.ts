@@ -49,10 +49,8 @@ describe('T03 buildMigrationTransactionChanges 保真与排序', () => {
       deletes: [...plan.deletes],
     })
     const nextBaseline = snap(['b.json', 'a.json'])
-    const baselineSnapshot = {
-      files: [...nextBaseline.files],
-      managed: [...nextBaseline.managedFiles],
-    }
+    // 深快照：structuredClone 直接持有实际 Map/Set/嵌套 JSON（浅 entries 会与输入共享 value）
+    const baselineSnapshot = structuredClone(nextBaseline)
     const changes = buildMigrationTransactionChanges({ repo: root, plan, nextBaseline })
     const targets = changes.map((change) => change.target)
     // SceneIndex 专属提升：只排在 scenes 正文之后；其余按 localeCompare（items 先于 scenes）
@@ -72,9 +70,7 @@ describe('T03 buildMigrationTransactionChanges 保真与排序', () => {
     ])
     // 源不变
     expect({ writes: [...plan.writes], deletes: [...plan.deletes] }).toEqual(planSnapshot)
-    expect({ files: [...nextBaseline.files], managed: [...nextBaseline.managedFiles] }).toEqual(
-      baselineSnapshot,
-    )
+    expect(nextBaseline).toEqual(baselineSnapshot) // 同一实际 baseline 对象深比较（嵌套 JSON 污染即红）
   })
   test('retirement 带 expectedPreviousHash 排序；磁盘一致的 baseline 正文跳过、下轮不再管理则删除', () => {
     const root = mkdtempSync(join(tmpdir(), 'tb10-wp-'))
