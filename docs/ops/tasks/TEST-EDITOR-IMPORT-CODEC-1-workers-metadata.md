@@ -1,6 +1,6 @@
 # TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: 已有导入/编码合同覆盖（不改变能力地图）
 Coding Owner: GLM（只新增测试）
@@ -96,6 +96,14 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 - GLM/Codex/Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：按卡面授权领取 TB-03 并完成实施（r1）。worktree `type-pal-glm-import-codec`、
+  分支 `codex/glm-editor-import-codec-r1`、基点 41cc7cd9；领取时产品对 e58834f6 零漂移已核。
+  交付：7 新测试文件+1 fixture 共 39 项（C1-C8 逐族落账）；定向/相邻/官方 fast 口径
+  2359→2398 双 exit0；editor tc rc=0；10 新文件 Biome rc=0；负控 8 针+3 对照全 detected
+  （钉名 AssertionError 判据+四向自测）；覆盖对照见工作包回执与
+  `docs/testing/glm-import-codec-evidence.json`。全包 3 项预存环境失败（PAL 迁移资产缺失×2、
+  audit 并行超时×1）与本批无关，已核基线同样失败/隔离绿。PNG 编码失败泄漏保持 Codex 归属。
+  状态按卡面授权同步 build；不代签 done，等 Codex 额度恢复后统一接收。
 - 2026-09-19 Codex：用户告知“Kimi他们签了”后同步核三席同r2/冻结、直接证据及可证伪观察齐、无counter；生产目标零diff。核定设计准入通过，保留draft待实施槽按队列释放。 r1历史不回写，所有既有r2排除项保留；不代签、不标done。GLM当前返工仍优先，后续领取条件与交接已落卡，避免每批做完再等临时派活。
 - 2026-09-19 Kimi：完成 r2 独立设计压力测试，签 premise verified + design agree，无返工项。
   直读 worker 零导出宿主方案可行性、client 真实 transfer/detach、video-metadata 窄音轨探测边界、
