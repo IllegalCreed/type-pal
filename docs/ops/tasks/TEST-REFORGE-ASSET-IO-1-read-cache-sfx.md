@@ -16,7 +16,15 @@ Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e96
 唯一工作包/族账/白名单：[glm-reforge-asset-io.md](../../testing/glm-reforge-asset-io.md)。
 
 
-## 当前接收裁决（2026-09-19，候选a7c48d9c）
+## 当前返工复核（Codex，2026-09-19，d4d79026）
+
+**counter，保持rework**。原七针/五夹具已关闭；公共C0精确唯一目标和C1最终树格式/回执仍未满足。
+定向24项、原3+8跑与包tc通过；本批Biome 10文件/2 errors/0 warnings，exit1。
+本批无其他新业务返工，保留已通过断言。
+见[本轮复核及提示词](../../testing/glm-nine-rework-review.md)与[机账](../../testing/glm-nine-rework-evidence.json)。
+不合并、不更基线、不转Kimi、不代签、不标done；设计保持，Mimosa不参与。
+
+## 首轮接收裁决（历史）
 
 用户本轮明确批准九批先行实施、Codex恢复后统一接收；认可本批排期例外，不因旧两槽限制追溯判违规。设计签字保持，不重签。
 **本席独立结论counter，任务rework，未合入正式测试/产品、不更新官方基线、不转Kimi终审。**
@@ -122,11 +130,8 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 - Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
-- 2026-09-19 GLM：按 Codex 统一接收 counter 完成本卡 r2 返工（C0 首行判据、C1 全文件 Biome、
-  R02-1 fsa 坏 JSON 真实到达解析器、R02-2 soundItem 过正式 validateItems）。复跑定向/全包/
-  tc/Biome/私有覆盖与 8 针负控全绿；详见工作包返工回执与机账 rework 节。分支
-  codex/glm-reforge-asset-io-r1 待 Codex 复核接收。
 
+- 2026-09-19 Codex：复核d4d79026，按本轮报告收窄counter；原七针与五夹具已关闭。最终树格式与精确唯一判据仍失败，不重签、不并包、不标done。
 - 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。
 - 2026-09-19 GLM（实施完成）：用户拍板先行实施；B1-B10 落账（B3/B6 已有登记）；
   24 项 + 8 针负控 + 覆盖对照交付，自验 accept 已签。等 Codex 额度恢复后补接收。
