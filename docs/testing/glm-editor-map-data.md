@@ -75,4 +75,25 @@ docs/testing/glm-editor-map-data-evidence.json
 
 ## GLM回执区
 
-待实施。当前只有Codex规划与前提复核，不存在GLM交付或accept。
+r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字齐；用户拍板在 Codex 额度
+空窗期先行实施 TB-02～TB-10、恢复后统一接收——本批据此开工，非代签 Codex 准入）。分支
+`codex/glm-editor-map-data-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-editor-map-data`）；
+产品对冻结 e58834f6 零漂移。最终树 **7 个新测试文件共 18 项**（M01-M08 逐族落账；M06 按工作包
+"优先防御分类，非必增文件"整族记已有/内部防御，减 1 文件与 fixture 白名单项）；
+定向 18/18 绿；editor 全包 248 文件/2536 项中 2 项预存 world-sprite PAL ENOENT 与基线相同；
+官方 fast 口径 2359→2377 双 exit0；tc rc=0；8 新文件 Biome rc=0。
+
+- 负控 `node docs/testing/glm-editor-map-data-mutants.mjs` rc=0：判据自测 + 3 对照 +
+  **8 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
+  产品 hash 不变。针点：全选隐藏层门、paste collision 冲突判定、patch collision 重复门、
+  draft 层空值门、模板 id 归一、placement 锁层门、group capture 去重、模板 category。
+- 覆盖对照（官方 testSelection fast，/tmp，最终提交树）：map-selection B201→211/228、
+  map-transform L168→171/181 B108→110、map-patch L138→140 B145→147、
+  stamp-draft L153→155 B123→129、stamp-placement L112→118 B74→79、
+  stamp-template B36→39、stamp-group-transform B116→118；
+  全包 L22346→22359/27865、B19264→19294/27593。
+- 正控先过真实 validateProjectMap/validateStampTemplates/buildBlankProjectMap+真实 paint/capture
+  （placement 占位组用真实 withProjectMapStampPlacements 写入链）；失败计划钉完整 issues/空写
+  计划；地图/权限/clipboard 均比较实参快照。
+- 机器账 `docs/testing/glm-editor-map-data-evidence.json`。
+

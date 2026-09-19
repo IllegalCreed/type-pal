@@ -1,6 +1,6 @@
 # TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: 已有合同补测，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -80,6 +80,12 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：按用户拍板（Codex 额度空窗期先行实施 TB-02～TB-10）领取 TB-06 并完成实施
+  （r1）。worktree `type-pal-glm-editor-map-data`、分支 `codex/glm-editor-map-data-r1`、基点
+  41cc7cd9；产品零漂移已核。交付：7 新测试文件 18 项（M06 整族记已有/内部防御，减 2 白名单项）；
+  tc/Biome/官方口径 2359→2377 双 exit0；负控 8 针+3 对照全 detected；覆盖与机器账见工作包回执。
+  状态同步 build；不代签 done，等 Codex 恢复额度后统一接收。
+
 - 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-06），签 premise verified + design agree，
   无返工项。直读 decisions.md:464-485 D29 拍板、stamp-placement-mutation.ts:81-82 至少一视觉槽、
   MapMode/Stamp 编辑器真实调用域；moveStampDraftSelection 无 caller 排除核实。四条可证伪观察

@@ -11,7 +11,7 @@
 | [EDITOR-SKILL-TRIAL-1 - 独立临时技能试放与当前工程入口](EDITOR-SKILL-TRIAL-1-isolated-battle.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）](TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | draft | 以任务卡当前准入与看板分工为准。 |
