@@ -1,12 +1,12 @@
 {
-  "task": "TEST-RUNTIME-STATE-BOUNDARIES-1 r1 narrowed rework round 3 (three residual items)",
+  "task": "TEST-RUNTIME-STATE-BOUNDARIES-1 r1 rework round 4 (D6 sequence finalization)",
   "generatedAt": "2026-09-19T04:06:05Z",
-  "counter": "8ca74aac review(test): narrow runtime state rework to three remaining gaps",
-  "originalCandidate": "23eb63d2 / 3c7ae963 (receipts preserved in their trees)",
+  "counter": "273bb414 docs(review): counter runtime cleanup and content residual evidence gaps",
+  "originalCandidate": "23eb63d2 / 3c7ae963 / 6d34ad5a (receipts preserved)",
   "branch": "codex/glm-runtime-state-boundaries-r1",
   "worktree": "/Users/zhangxu/illegal/type-pal-glm-runtime-state",
   "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
-  "base": "8ca74aac (latest main counter; prior rounds closed, not reopened)",
+  "base": "273bb414",
   "productDriftVsFreeze": "GLM commits touch whitelist only; simulator design/board untouched",
   "tests": {
     "perFileExecuted": {
@@ -32,7 +32,8 @@
     "reworkChanges": [
       "Round-3 item 1: held-source assertion actually deleted (F1 title/comment now ms/kind mismatch axes only)",
       "Round-3 item 2: D6 outcome observed via independent synchronous variable (observer.outcome), asserted after a tick draining abort propagation without awaiting the possibly-never-settling Promise; frame case finally releases inflate and proves zero late frame submission; sequence case finally consumes its settlement Promise",
-      "Round-3 item 3: E4 takes actual-world deep snapshot before EVERY confirm branch (toTarget/castAll/MP-poor/MP-exact) and compares right after; unused _wBefore and self-comparison deepSnapshot(w) removed; menu-state in-place mutation contract preserved"
+      "Round-3 item 3: E4 takes actual-world deep snapshot before EVERY confirm branch (toTarget/castAll/MP-poor/MP-exact) and compares right after; unused _wBefore and self-comparison deepSnapshot(w) removed; menu-state in-place mutation contract preserved",
+      "Round-4: D6 sequence rewritten with real entered witness (readBytes flag + releasable readGate deferred), synchronous AbortError observation, finally releasing the SAME underlying read (real TPFS bytes injected) and consuming the original play Promise (settled=AbortError, frames=[]), then replaying on the SAME slow reader successfully; removed causally-unrelated slowSettledPromise/boolean"
     ]
   },
   "reviewWitnesses": {
@@ -46,9 +47,10 @@
       "lru-hit-does-not-touch": "detected",
       "expired-action-replays-cues": "detected",
       "magic-confirm-mutates-world": "detected",
-      "magic-cast-all-mutates-world": "detected"
+      "magic-cast-all-mutates-world": "detected",
+      "sequence-late-frame-after-abort": "detected"
     },
-    "note": "7 probes all detected with candidate own AssertionError business red; 7 controls green; fixture checks accepted; 0 invalid / 0 MISSED"
+    "note": "8 probes all detected (candidate own AssertionError); 8 controls green; 0 invalid / 0 MISSED"
   },
   "mutants": {
     "script": "docs/testing/glm-runtime-state-mutants.mjs",
@@ -69,8 +71,8 @@
         "red": "sys 前缀 ID 不再被保留域拒绝",
         "redTest": "空 description 合法、空 name 非法；sys: 只约束 ID 不约束 name/description",
         "executedTests": 10,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/wv-id-sys-ns.log",
-        "logSha256": "dec8ecd7fd1f443a6fcf73e1ce18ee0d4a5177e8f944df4feb2cceea77e34590"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/wv-id-sys-ns.log",
+        "logSha256": "2615bef58cdeb16494cc0094d00b35c0f79dbd878a091f21390d53562dd2fec9"
       },
       {
         "name": "wv-number-finite",
@@ -81,8 +83,8 @@
         "red": "number initial 非有限值不再拒绝",
         "redTest": "registry/definition 错型、kind 错型、flag 非布尔、number 非有限各自精确路径",
         "executedTests": 10,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/wv-number-finite.log",
-        "logSha256": "856c50c56d9e840b36c8264e7984946ea9d13857e7149ebc84380e26406fc34b"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/wv-number-finite.log",
+        "logSha256": "be9bae196f7db9a131a6c4ee7b034c6bcb4c68c624e1143805f2e3d21407377b"
       },
       {
         "name": "diag-severity-gate",
@@ -93,8 +95,8 @@
         "red": "severity 非 warn 不再拒绝",
         "redTest": "合法基线先证明可过守卫，再按轴改坏 root/version/diagnostics 容器",
         "executedTests": 10,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/diag-severity-gate.log",
-        "logSha256": "b9995323d0204746af5b7abdaf3ece0781aaf743cc00065b56c342a4267068bb"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/diag-severity-gate.log",
+        "logSha256": "0d503d34a4f0a9ebeb101d799a9ced5d3c6ae732df3da4f887040168e81087e8"
       },
       {
         "name": "diag-address-gate",
@@ -105,8 +107,8 @@
         "red": "address 负数/小数不再拒绝",
         "redTest": "target domain/objectId/label 与 source kind/label/address 各自精确路径",
         "executedTests": 10,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/diag-address-gate.log",
-        "logSha256": "75bac3796340e2570077a253581a0f4008481defb85b62c9a30fb06d82d4dd51"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/diag-address-gate.log",
+        "logSha256": "5b3137df2ce287eab97fd5ec509f05fe2b8a2fd2ad4f99b690155e43660244c0"
       },
       {
         "name": "resolver-cache-key-collapse",
@@ -117,8 +119,8 @@
         "red": "timing×boundary 缓存键塌缩为 id",
         "redTest": "auto/interactive × perCommand/transition 四键互不复用；元数据与产物逐项精确",
         "executedTests": 10,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/resolver-cache-key-collapse.log",
-        "logSha256": "ced76a83434f61398256b5afb0845ee00c151aca3e00f71b5bf78bfe1eeff132"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/resolver-cache-key-collapse.log",
+        "logSha256": "c0daeac0cae4d27b0088bd1c038dbb578f091ad18edbe3a9c91e17ddaf1eaaf3"
       },
       {
         "name": "view-entry-cursor-lost",
@@ -129,8 +131,8 @@
         "red": "stages 游标 entry 选择丢失",
         "redTest": "stages 游标命中对应 stage 的 entry；stateMachine 游标命中对应 state；正文一律空",
         "executedTests": 10,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/view-entry-cursor-lost.log",
-        "logSha256": "06a1eb464cf5bc17e72538d87aebb840d4f9d2b75c5f0f102a410e7d6c9dbb00"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/view-entry-cursor-lost.log",
+        "logSha256": "2dc63768a6739c181ed2e51870db27509f5a5fe56033e55ba084b769e00ede44"
       },
       {
         "name": "scratch-flags-alias",
@@ -141,8 +143,8 @@
         "red": "scratch flags 不再深拷贝（别名写回）",
         "redTest": "scratch 可选分支缺席与在场：flags/vars/entityState 深拷贝不别名",
         "executedTests": 10,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/scratch-flags-alias.log",
-        "logSha256": "d1eb8c2ab20a14f577c02d7ce3bdf4d696658d293ca56b7fe0dbcc71aa637dc3"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/scratch-flags-alias.log",
+        "logSha256": "a919f8ff3fbfe83592411434ef7c7a3229a344759b41ff1b6da05c041d5ebcd4"
       },
       {
         "name": "action-frame-gate-removed",
@@ -153,8 +155,8 @@
         "red": "实际帧数门失效",
         "redTest": "精灵不匹配/动作缺失/空 steps/非正时长/loopFrom 越界/实际帧数门各自精确拒绝",
         "executedTests": 9,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/action-frame-gate-removed.log",
-        "logSha256": "9c369413c36ae95e55f4b91535e5dfc28d9d0716ecbbb18d8aefa48da89ebb08"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/action-frame-gate-removed.log",
+        "logSha256": "f7e156a2d21b49b0d415cb3dd1979aec438ae070fec60cfe1d07a77c50612d4b"
       },
       {
         "name": "action-dt-gate-removed",
@@ -165,8 +167,8 @@
         "red": "非法 dt 不再拒绝",
         "redTest": "精确边界/半步 startAtMs 的帧号；dt=0 no-op；非法 dt 拒绝",
         "executedTests": 9,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/action-dt-gate-removed.log",
-        "logSha256": "862b24cdba7a7a957b781b9e91ea286da2d57b946459337a08c74ce0ac23c13d"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/action-dt-gate-removed.log",
+        "logSha256": "1fb1bfcf59efa28485bf7c928f887e91ed5ec30debb67225a0cbb1ac64be1de0"
       },
       {
         "name": "reader-limit-gate-removed",
@@ -177,8 +179,8 @@
         "red": "frameLimit 非法值不再拒绝",
         "redTest": "frameLimit 非正/非整数拒绝；帧索引负/非整数/上界拒绝；0/末帧正控",
         "executedTests": 9,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/reader-limit-gate-removed.log",
-        "logSha256": "e106443e2145f920d09899692c0f0cb00d727148a9e209379f63d5ea8191a937"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/reader-limit-gate-removed.log",
+        "logSha256": "ef66abd6cc06f7ab71e2344be01a00ad7bd7cf9b48d106b43a089257b17ae8be"
       },
       {
         "name": "reader-lru-evict-removed",
@@ -189,8 +191,8 @@
         "red": "LRU 淘汰失效（缓存超限）",
         "redTest": "命中刷新触点：最近命中者存活、被淘汰者重解码；解码计数精确",
         "executedTests": 9,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/reader-lru-evict-removed.log",
-        "logSha256": "1bd111698f61b8f108557a74f0fdc9aaf627f38d8429413b8a2ea28117963c5e"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/reader-lru-evict-removed.log",
+        "logSha256": "8ec0abef4196ebf47c6cc45a1b52d33061d48d73e03fed29f65b1008c3d87ef8"
       },
       {
         "name": "magic-mp-gate-removed",
@@ -201,8 +203,8 @@
         "red": "MP 门失效",
         "redTest": "castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；各分支实际 world 快照不变",
         "executedTests": 8,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/magic-mp-gate-removed.log",
-        "logSha256": "eac5f83beef57bb36486e90ce2bd73e0bdbe3fd1e5132fb59eb4ed8ec02bab47"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/magic-mp-gate-removed.log",
+        "logSha256": "1d6c2f92924aede1b283b93ded3f8b1e716a4d69cc9463525b98c430845ea71a"
       },
       {
         "name": "system-wrap-removed",
@@ -213,8 +215,8 @@
         "red": "单列环绕丢失（越界溢出）",
         "redTest": "left/up 同为 -1、right/down 同为 +1；首尾环绕",
         "executedTests": 8,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/system-wrap-removed.log",
-        "logSha256": "094e253e091b944dc3d787395a8d7d0f9f27c461e765dbf021d98af4639e428a"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/system-wrap-removed.log",
+        "logSha256": "47e1a3a75b35b0f5368bb7bf8e8f949070b843c852c65860f4e31c5b55a670b4"
       },
       {
         "name": "entry-reveal-match-removed",
@@ -225,8 +227,8 @@
         "red": "reveal 契约失配不再拒绝",
         "redTest": "fade out/in 与 dither ms/kind 分别失配即拒；cut 正控；错误后当前 session 保持",
         "executedTests": 9,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/entry-reveal-match-removed.log",
-        "logSha256": "4c0bc8d718aaf139291b5da9fe44fb465d01cf040fac65eb7ff2663a46619c05"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/entry-reveal-match-removed.log",
+        "logSha256": "16753c2eeb8c0224cc715436f1ff5963a94ba83d645a8f21c6940a5fd94a5f2a"
       },
       {
         "name": "hold-token-match-removed",
@@ -237,8 +239,8 @@
         "red": "跨 token reveal 不再拒绝",
         "redTest": "旧 owner 取消不影响新事务；当前 owner 能清；空 token 拒绝保留活动态",
         "executedTests": 9,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/hold-token-match-removed.log",
-        "logSha256": "6749e815e69c0478223bbcfc95b18a3f1c904d80b6a5cff489da87dbb9c09abc"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/hold-token-match-removed.log",
+        "logSha256": "a646221fcf84864caa8d88f3fee790f7536b80e9b73a35d0fc7e2de5ad84b5d0"
       },
       {
         "name": "reward-double-present-removed",
@@ -249,8 +251,8 @@
         "red": "活动期间二次 present 不再拒绝",
         "redTest": "活动序列期间二次 present 拒绝；首序列仍可完成（advance 驱动，不用时钟）",
         "executedTests": 9,
-        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-I9nh7k/reward-double-present-removed.log",
-        "logSha256": "940b56de81e7a2b33f07200a7064f3137a047918edbd35f07be89955d6e00153"
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-xrjGld/reward-double-present-removed.log",
+        "logSha256": "90fdc58c027a2cc4290363611c55b144a4d52735681ed08172b4154047128e80"
       }
     ],
     "runtimeWitness": "each red case pins its new test by exact title in the Vitest JSON report and requires status=failed",

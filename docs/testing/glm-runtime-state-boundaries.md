@@ -180,6 +180,16 @@ Biome 逐行 suppression/导入修复，全部计数从最终树 Vitest JSON 重
    快照、调用后立即比较；删除未使用 `_wBefore` 与 `deepSnapshot(w)` 自比较；菜单 state 原地可变
    合同保持。负控钉名标题随用例标题同步（E4/F1 pins 已更新）。
 
+**第四轮返工（273bb414 唯一剩余项：D6 sequence）**：
+- 重写 sequence 用例——真实 entered 见证（readBytes 置位 + 挂起于可释放的 readGate deferred）；
+  abort 后同步断言外层 AbortError；finally 释放**同一**底层读取（releaseRead 注入真实 TPFS 字节）
+  并消费原播放 Promise（settled=AbortError），核 frames=[] 迟到零提交；再用**同一 slow reader**
+  重播 endFrame:0 成功提交首帧（缓存失败不残留）。删除与读取无因果的 slowSettledPromise/布尔。
+- 复跑：Codex 最新 8 针见证 **8 对照绿 + 8 针全部 detected**（含新 sequence-late-frame-after-abort
+  针，候选自身业务红）；原 22 跑 rc=0。
+- 勘误：任务卡自验的 content10+reforge46=56 更正为 JSON 实测 **10+45=55**；F 族账标题
+  ms/source → ms/kind。
+
 ### 39 族逐项账（新增=本包用例标题；已有=锚点；待证/防御附归属）
 
 **A · world-variable / migration-diagnostic（10 项）**
@@ -226,7 +236,7 @@ Biome 逐行 suppression/导入修复，全部计数从最终树 Vitest JSON 重
 - E6 新增：`显式 on/off 落定完整 state/action；audio 缺席默认 true；save/load 只核返回请求`（save/load 无存储 IO；quit 是/否完整路径）。
 
 **F · scene-entry / screen-hold / reward-gain（9 项）**
-- F1 新增：`fade out/in 与 dither ms/source 分别失配即拒；cut 正控；错误后当前 session 保持`。
+- F1 新增：`fade out/in 与 dither ms/kind 分别失配即拒；cut 正控；错误后当前 session 保持`。
 - F2 新增：`同场景同配置二次 begin 产生新 token；旧 token complete 不能清新事务`（+heldFrame preparing-only 语义）。
 - F3 新增：`旧 owner 取消不影响新事务；当前 owner 能清；空 token 拒绝保留活动态`（同 token 文字新 owner 对象分立）。
 - F4 新增：`正常返回原值且 finalizer 零调用；失败先收口再抛原错误（身份保持）`（与 :37 失败主干去重：本例补正常路径零调用与顺序直证）。

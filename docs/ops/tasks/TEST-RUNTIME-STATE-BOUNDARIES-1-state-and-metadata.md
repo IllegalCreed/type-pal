@@ -122,7 +122,7 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
     调用后立即比较——castAll 全体直放分支亦覆盖；删除未用 `_wBefore` 与自比较；菜单 state 原地
     可变合同保持。
   - 复验：最新 7 针见证全部 **detected**（候选自身 AssertionError 业务红，0 invalid/0 MISSED）
-    + 7 对照绿 + fixture 四检查 accepted；原 22 跑 rc=0；定向 content 10 + reforge 46 = 56/56；
+    + 7 对照绿 + fixture 四检查 accepted；原 22 跑 rc=0；定向 content 10 + reforge 45 = 55/55（JSON 实测；曾误写 46/56，勘误）；
     reforge 全包 125/1235、content 全包 57/685 exit0；两包 tc rc=0；16 文件 Biome rc=0；
     覆盖四跑复算数字不变（局部 content +12 行/+18 臂、reforge +36 行/+53 臂）。
   - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；frame 在途 invalidate 仍待证；
@@ -144,6 +144,9 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM（r1 第四轮返工完成）：只修 273bb414 剩余的 D6 sequence——真实 entered
+  （readBytes 置位+可释放 readGate）、finally 释放同一底层并消费原播放、迟到零提交、同 reader
+  重播成功。8 针全 detected + 8 对照绿 + 22 跑全绿；55 项勘误与 F1 标题已同步。等 Codex 重新接收。
 - 2026-09-19 Codex：独立复核6d34ad5a；F1/E4与frame同步取消闭环，sequence实际收尾仍未修。原7针全检出属实，但不代表D6完整；第8针证明迟到提交漏检。仅此定点返工+回执勘误，保持rework；同次TB01独立裁决，本轮不释放实施槽。GLM自验原文保留，不代改他席。
 - 2026-09-19 GLM（r1 第三轮返工完成）：rebase 收窄 counter 8ca74aac，只修三残项——held source
   实删、D6 同步结局观察 + finally 释放、E4 各分支调用前快照。7 针全 detected（自身业务红）+

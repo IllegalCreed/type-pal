@@ -228,42 +228,63 @@ describe('D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同
       },
     }
   }
-  test('sequence 在途 abort：进入容器读取后取消即拒绝；同 reader 另一次完整播放不受影响', async () => {
-    const h = harness(undefined, () => {})
-    let releasedSlow = false
-    let slowSettled: (() => void) | undefined
-    const slowSettledPromise = new Promise<void>((resolve) => {
-      slowSettled = resolve
-    })
-    const gate = new Promise<ArrayBuffer>(() => {}) // 底层永不自行完成；finally 显式收口
+  test('sequence 在途 abort：真实 entered 后取消即拒绝；finally 释放同一底层并消费原播放，迟到零提交', async () => {
+    // 真实 entered 见证：readBytes 确已被调用并挂起（deferred 可释放）
+    let enteredRead = false
+    let releaseRead: ((bytes: ArrayBuffer) => void) | undefined
     const controller = new AbortController()
-    try {
-      const slow = new FrameSequenceReader({ readBytes: () => gate }, identity)
-      const pendingSlow = playFrameAnimation({ ...baseOptions(slow), signal: controller.signal })
-      const observed = observer()
-      void pendingSlow.then(
-        () => observed.watch({}),
-        (error: unknown) => observed.watch(error as { name?: string }),
-      )
-      await tick() // 容器读取确已进入（挂起于 gate）
-      controller.abort()
-      await tick() // 排空拒绝传播
-      expect(observed.outcome).toBe('AbortError') // 同步断言观察值：底层未放行时外层已结束
-    } finally {
-      // 收口：让 gate 挂起的链路可结束（gate 永不 resolve；这里通过让测试离开 await 证明无泄漏即可）
-      releasedSlow = true
-      void releasedSlow
-    }
-    // 同一正常 reader 的完整播放照常（监听/状态未受 abort 残留影响）
     const frames: number[] = []
-    const played = playFrameAnimation({
-      ...baseOptions(h.reader),
-      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
+    const slowBytes = await tpfs()
+    const readGate = new Promise<ArrayBuffer>((resolve) => {
+      releaseRead = (bytes) => resolve(bytes)
     })
-    await expect(played).resolves.toBeDefined()
-    expect(frames[0]).toBe(0)
-    slowSettled?.()
-    await slowSettledPromise
+    const slow = new FrameSequenceReader(
+      {
+        readBytes: () => {
+          enteredRead = true
+          return readGate
+        },
+      },
+      identity,
+    )
+    const pendingSlow = playFrameAnimation({
+      reader: slow,
+      asset: 'a',
+      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
+      wait: () => Promise.resolve(),
+      signal: controller.signal,
+    })
+    const observed = observer()
+    void pendingSlow.then(
+      () => observed.watch({}),
+      (error: unknown) => observed.watch(error as { name?: string }),
+    )
+    await vi.waitFor(() => {
+      if (!enteredRead) throw new Error('container read not entered')
+    })
+    controller.abort()
+    await tick() // 排空拒绝传播
+    expect(observed.outcome).toBe('AbortError') // 同步断言：底层未放行时外层已结束
+    // finally 收口：释放同一底层读取（迟到完成）并消费原播放 Promise，核迟到零提交
+    releaseRead?.(arrayBufferOf(slowBytes))
+    await tick()
+    await tick()
+    const settled = await pendingSlow.then(
+      () => 'fulfilled',
+      (error: unknown) => (error as Error).name,
+    )
+    expect(settled).toBe('AbortError') // 原播放以 AbortError 终结（不悬挂、不复活）
+    expect(frames).toEqual([]) // 迟到的容器完成不提交任何帧
+    // 同一 slow reader 在收口后可再次完整播放（缓存失败不残留）
+    const replay = playFrameAnimation({
+      reader: slow,
+      asset: 'a',
+      endFrame: 0,
+      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
+      wait: () => Promise.resolve(),
+    })
+    await expect(replay).resolves.toBeDefined()
+    expect(frames).toEqual([0]) // 重播经真实重读取成功提交首帧
   })
   test('frame 在途 abort：进入 inflate 后取消仍及时拒绝、迟到帧不提交；底层 finally 放行', async () => {
     let enteredInflate = false
