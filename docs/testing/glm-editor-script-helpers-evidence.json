@@ -38,11 +38,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-cmdedit",
-      "control-catalog",
-      "control-rewards"
-    ],
+    "controls": ["control-cmdedit", "control-catalog", "control-rewards"],
     "cases": [
       {
         "name": "cmdedit-child-kind-gate-blinded",
@@ -189,5 +185,22 @@
     },
     "coverageRerun": "官方 fast before 2359（222 文件）/ after 2380（229 文件）双 exit0（最终返工树重跑；config newFiles 补入 hooks-session 文件）",
     "witnessRerun": "glm-nine-intake-witnesses: 9/9 判据拒绝普通Error内嵌AssertionError、5/5 合法 factory accepted、7 对照绿、TB-03/06/08 针 detected（本批无独立针）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:48:19Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名等反例",
+    "C1": {
+      "note": "全部回填后 10 文件完整白名单 Biome（提交前 rc=0）"
+    },
+    "R07-3非空redo": "S02 缺 target 用例先落两笔合法编辑再 undo 建立**非空 redo**；拒绝（ghost hook/错通道）后断言 canRedo 保持 true 且 redo() 精确重放 hook-b 编辑（label 恢复），再两次 undo 回初始双变体——拒绝不污染 redo 内容/顺序",
+    "stateAlias澄清": "getState 深克隆（script-editor.ts:1315）不可误判快照别名；'拒绝时污染 state' 单点已由本批用例检出，按 Codex 不列 counter",
+    "attributionFix": "撤回 audit-performance 并行超时'Codex已裁决'归因——首轮仅豁免具体资产 ENOENT；该超时如实记录为未豁免环境失败",
+    "reworkWitness": "glm-nine-rework-witnesses: 9/9 判据双反例拒绝、rejected-session-clears-redo 针 detected、PNG 三态 valid",
+    "counts": {
+      "targeted": 21,
+      "controls": 3,
+      "needles": 7
+    }
   }
 }

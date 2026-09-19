@@ -116,3 +116,17 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字
   history 完整保真、最后未引用 hook 的 variant→channel→hooks 逐层清理（initial 引用拒删点名）。
 - 复跑：定向全绿、全包（3 项预存裁决一致）、tc rc=0、官方 fast 2359→2380 双 exit0。
   机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据精确唯一目标（全等+恰1+failed+非空+首行业务错误），运行态/自测共用
+  AST 抽取块，补后缀冒名/重名反例。
+- **C1**：全部回填后 10 文件白名单 Biome rc=0。
+- **R07-3 非空 redo**：缺 target 用例重写——两笔合法编辑 + undo 建立**非空 redo** 后再触发
+  拒绝；断言 canRedo 保持、`redo()` 精确重放 hook-b 编辑（label 恢复），两次 undo 回初始
+  （双变体 label/initial 全恢复）。单点「失败 dispatch 清空 future」即红。
+- state 快照别名澄清采纳（getState 深克隆），不列为 counter。
+- **归因更正**：撤回 audit-performance 超时「Codex 已裁决」表述（首轮仅豁免具体资产
+  ENOENT）；合并后同口径完整 check 须实跑。
+- 复跑：定向 21/21（hooks-session 3/3 含新 redo 轴）、tc rc=0、3 对照+7 针绿；
+  rework-witness rejected-session-clears-redo 针 detected。

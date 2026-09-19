@@ -136,9 +136,11 @@ describe('S03 projectCurrentAuthorReferenceSlices 合并', () => {
     const entity = (merged.scenes[0] as unknown as { entities: Array<Record<string, unknown>> })
       .entities[0]!
     expect('hostile' in entity).toBe(false) // canonical 有 hostile 但 shell 无 → 不复活
-    const hooks = (merged.scenes[0] as unknown as {
-      hooks: { onEnter?: { variants: Record<string, { label: string }> } }
-    }).hooks
+    const hooks = (
+      merged.scenes[0] as unknown as {
+        hooks: { onEnter?: { variants: Record<string, { label: string }> } }
+      }
+    ).hooks
     expect(hooks.onEnter!.variants['hook-1']!.label).toBe('钩子') // hooks 取 canonical
     // 双向不别名：改合并结果不动两份实参
     const shellSnapshot = structuredClone(shell.scenes)

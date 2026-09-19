@@ -66,7 +66,9 @@ describe('S02 SaveSceneHookDetails default 隔离', () => {
 
     // 修改非 default（hook-a 现在不是 initial）：isDefault=false 不清 initial
     expect(
-      session.dispatch(new SaveSceneHookDetailsCommand('s1', 'onEnter', 'hook-a', '方案A改', false)),
+      session.dispatch(
+        new SaveSceneHookDetailsCommand('s1', 'onEnter', 'hook-a', '方案A改', false),
+      ),
     ).toBe(true)
     channel = session.getState().scenes[0]!.hooks!.onEnter!
     expect(channel.initial).toBe('hook-b') // 非 default 的保存不动现有 default
@@ -74,7 +76,9 @@ describe('S02 SaveSceneHookDetails default 隔离', () => {
 
     // 取消当前 default：保存 initial（hook-b）为 isDefault=false → initial 删除
     expect(
-      session.dispatch(new SaveSceneHookDetailsCommand('s1', 'onEnter', 'hook-b', '方案B再改', false)),
+      session.dispatch(
+        new SaveSceneHookDetailsCommand('s1', 'onEnter', 'hook-b', '方案B再改', false),
+      ),
     ).toBe(true)
     channel = session.getState().scenes[0]!.hooks!.onEnter!
     expect('initial' in channel).toBe(false)
@@ -88,11 +92,20 @@ describe('S02 SaveSceneHookDetails default 隔离', () => {
 })
 
 describe('S02 缺 target 拒绝后 session/history 保真', () => {
-  test('不存在的 hook/通道拒绝；拒绝后 state/undo/redo/version/dirty 全部不变', () => {
+  test('不存在的 hook/通道拒绝；拒绝后 state/undo/redo/version/dirty 全部不变（含非空 redo 完整保留）', () => {
     const session = new ScriptEditSession(sessionState())
     expect(
-      session.dispatch(new SaveSceneHookDetailsCommand('s1', 'onEnter', 'hook-a', '方案A先改', false)),
+      session.dispatch(
+        new SaveSceneHookDetailsCommand('s1', 'onEnter', 'hook-a', '方案A先改', false),
+      ),
     ).toBe(true) // 先落一笔合法编辑（hook-a 为 initial → 同时清 initial），构造有历史的会话
+    expect(
+      session.dispatch(
+        new SaveSceneHookDetailsCommand('s1', 'onEnter', 'hook-b', '方案B先改', false),
+      ),
+    ).toBe(true) // 第二笔合法编辑（两笔 past）
+    expect(session.undo()).toBe(true) // undo 第二笔 → future 持有 hook-b 编辑（非空 redo）
+    expect(session.canRedo()).toBe(true)
     const before = {
       state: session.getState(),
       canUndo: session.canUndo(),
@@ -101,27 +114,30 @@ describe('S02 缺 target 拒绝后 session/history 保真', () => {
       dirty: session.isDirty(),
     }
     expect(
-      dispatchOf(
-        session,
-        () => session.dispatch(new SaveSceneHookDetailsCommand('s1', 'onEnter', 'ghost', '名', false)),
+      dispatchOf(session, () =>
+        session.dispatch(new SaveSceneHookDetailsCommand('s1', 'onEnter', 'ghost', '名', false)),
       ),
     ).toBe('hook 不存在 s1/onEnter/ghost')
     expect(
-      dispatchOf(
-        session,
-        () =>
-          session.dispatch(new DeleteSceneHookCommand('s1', 'onTeleport' as 'onEnter', 'hook-a')),
+      dispatchOf(session, () =>
+        session.dispatch(new DeleteSceneHookCommand('s1', 'onTeleport' as 'onEnter', 'hook-a')),
       ),
     ).toBe('hook 不存在 s1/onTeleport/hook-a')
-    // 拒绝后一切保真：状态、历史栈、版本、dirty 均与拒绝前一致
+    // 拒绝后一切保真：状态、历史栈、版本、dirty 均与拒绝前一致（redo 仍非空）
     expect(session.getState()).toEqual(before.state)
     expect(session.canUndo()).toBe(before.canUndo)
     expect(session.canRedo()).toBe(before.canRedo)
     expect(session.getVersion()).toBe(before.version)
     expect(session.isDirty()).toBe(before.dirty)
+    // 非空 redo 完整保留：拒绝后 redo 仍能精确重放 hook-b 编辑（不只看布尔）
+    expect(session.redo()).toBe(true)
+    const redone = session.getState().scenes[0]!.hooks!.onEnter!
+    expect(redone.variants['hook-b']!.label).toBe('方案B先改')
+    expect(session.undo()).toBe(true) // 回到拒绝前态
     expect(session.undo()).toBe(true) // 拒绝未污染历史：undo 回到初始（label/initial 全恢复）
     const restored = session.getState().scenes[0]!.hooks!.onEnter!
     expect(restored.variants['hook-a']!.label).toBe('方案A')
+    expect(restored.variants['hook-b']!.label).toBe('方案B')
     expect(restored.initial).toBe('hook-a')
   })
 })
@@ -135,9 +151,8 @@ describe('S02 最后未引用 hook 的逐层删除', () => {
     expect(Object.keys(scene.hooks!.onEnter!.variants)).toEqual(['hook-a'])
 
     // hook-a 是 initial（自身就是引用）→ 拒绝删除并点名引用
-    const refused = dispatchOf(
-      session,
-      () => session.dispatch(new DeleteSceneHookCommand('s1', 'onEnter', 'hook-a')),
+    const refused = dispatchOf(session, () =>
+      session.dispatch(new DeleteSceneHookCommand('s1', 'onEnter', 'hook-a')),
     )
     expect(refused).toContain('hook-a 仍有 1 个引用')
     expect(refused).toContain('scenes.s1.hooks.onEnter.initial')

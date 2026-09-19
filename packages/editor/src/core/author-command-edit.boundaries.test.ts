@@ -88,14 +88,9 @@ describe('S01 顶层叶越界与 move 边界', () => {
     expect(moveAuthorCommandAt(body, [5], 1)).toBe(body)
     expect(moveAuthorCommandAt(body, ['then'], 1)).toBe(body)
     const moved = moveAuthorCommandAt(body, [0], 1)
-    expect(moved.map((command) => (command as unknown as { ms?: number }).ms ?? command.kind)).toEqual([
-      'branch',
-      10,
-      'loop',
-      'confirm',
-      'startBattle',
-      'teleportOut',
-    ])
+    expect(
+      moved.map((command) => (command as unknown as { ms?: number }).ms ?? command.kind),
+    ).toEqual(['branch', 10, 'loop', 'confirm', 'startBattle', 'teleportOut'])
     expect(moved).not.toBe(body)
   })
 })
