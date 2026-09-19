@@ -8,6 +8,9 @@
 
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
 - [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（draft；11模块39族，先去重、三签后整包连续实施）
+- [内容合同残项工作包](glm-content-residual.md)（队列TB-01 draft；上包登记残项+跨包去重，未获实施授权）
+- [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（队列TB-02 draft；六模块族账，未获实施授权）
+- [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（队列TB-03 draft；七模块族账，未获实施授权）
 - [独立技能试放设计与验收](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[当前前提探针](skill-trial-premise.mjs)（D-04/D-05；独立临时状态已裁决，入口UI待确认，未实施）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）
 - [编辑器预览缓存连续修复](editor-preview-cache.md)（E-03/E-04完成；15项真实字节回归、7负控及原生绘制验证，check7457/严格fast6969通过）
