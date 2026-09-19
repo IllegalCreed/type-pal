@@ -1,0 +1,176 @@
+{
+  "task": "TEST-EDITOR-IMPORT-CODEC-1 r2 (TB-03)",
+  "generatedAt": "2026-09-19T07:03:06Z",
+  "branch": "codex/glm-editor-import-codec-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-import-codec",
+  "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "base": "41cc7cd9 (r2 three signoffs + Codex build admission; user authorized proceeding while Codex quota pending)",
+  "productDriftVsFreeze": "git diff e58834f6..HEAD -- packages/ empty; batch adds whitelist only",
+  "tests": {
+    "perFileExecuted": {
+      "core/image-import.stages.test.ts": 5,
+      "core/battle-sprite-import.boundaries.test.ts": 7,
+      "core/frame-animation-images.boundaries.test.ts": 6,
+      "core/frame-animation-codec.tpfs.test.ts": 6,
+      "core/frame-animation-worker-client.boundaries.test.ts": 6,
+      "core/frame-animation-codec.worker.test.ts": 3,
+      "core/video-metadata.boxes.test.ts": 6
+    },
+    "newTotal": 39,
+    "adjacentExisting": "image-import/frame-animation-images/codec/video-metadata old files 6/6 green",
+    "packageFull": "248 files / 2557 tests: 3 pre-existing env failures (world-sprite-behavior.pal x2 ENOENT projects/pal migrated assets untracked-in-worktree, fails identically at base without batch; audit-performance-adoption 15s timeout under full-suite parallel load, green in isolation); batch 39/39 green",
+    "officialFastSelection": "before 2359 exit0 / after 2398 exit0 (+39)",
+    "typecheck": "pnpm --filter @type-pal/editor exec tsc --noEmit rc=0",
+    "biome": "all 10 new files rc=0",
+    "familyLedger": {
+      "C1": "新增（非 PNG 扩展名/坏 8 字节签名/解码失败上下文三轴；拒绝见证取值形式）",
+      "C2": "新增（portrait 直传源字节+record 字段+battle-background 320×200+palette+双 toBlob preview+尺寸/缺 palette 拒绝+label 优先级+nextAuthoredImageId -2/-3）",
+      "C3": "新增（帧数门三轴/player 10 帧位表精确/enemy 5 与 1 帧退化/idStem 规范化+纯 CJK 回退/占用 -2 与 -3 递增/同字节 record 复用+readBytes 校验/存量字节 sha 不符 fail-loud/kind 占用与记录字段冲突）",
+      "C4": "新增（三 MIME+扩展名门/成功与画布失败都 finally close/rgba 独立副本/空列表/自然排序 vs preserveOrder/非首帧尺寸点名/序列中途失败已解码帧归还）",
+      "C5": "新增（混排 sourceFrame+rgba 逐字节往返+durationMs 只落声明帧/缺源/越界/小数拒绝/DecompressionStream 计数见证块缓存容量 2（无缓存=5、容量1=5、容量2=4/3）/quantize 最近色+透明跳过+alpha 原样+副本独立+未知方式与空表拒绝+FS 单像素）",
+      "C6": "新增（真实 structuredClone transfer：原实参 detach+克隆持字节+调用者原 buffer 完好/错 id 不结算不 terminate/error 透传/缺 bytes 拒绝/onerror/quantize 缺 frames/无 Worker 降级真 TPFS 与直接吸附）",
+      "C7": "新增（隔离 self 动态 import 真实 worker：quantize 同步回帧真 transfer/encode 异步真实 deflate TPFS 可解析逐帧还原/两错误路径 error 字符串回帖不崩）",
+      "C8": "新增（undefined/false/true 三态/64 位扩展 size 正常+越界+头截断/size=0 到文件尾/size<header 与 offset+size 越界/meta content+4 偏移/edts+udta 深嵌套）"
+    }
+  },
+  "mutants": {
+    "script": "docs/testing/glm-import-codec-mutants.mjs",
+    "command": "node docs/testing/glm-import-codec-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true,
+      "pinnedVerdictFourWay": true
+    },
+    "controls": ["control-stages", "control-worker", "control-images"],
+    "cases": [
+      {
+        "name": "png-signature-gate-removed",
+        "exit": 1,
+        "red": "PNG 8 字节签名门失效（坏签名被当有效文件）",
+        "redTest": "非 PNG 扩展名拒绝；坏签名拒绝（真实 8 字节签名域）；解码失败带文件名与原因",
+        "executedTests": 5,
+        "logSha256": "31a9ed5e1578a9b56e0beaf13104ec0297f5add971db1424eb3558170a473993"
+      },
+      {
+        "name": "battle-background-size-gate-removed",
+        "exit": 1,
+        "red": "战场背景 320×200 尺寸门失效",
+        "redTest": "battle-background：320×200 + palette 通过并产出 preview；尺寸不符拒绝、缺 palette 拒绝",
+        "executedTests": 5,
+        "logSha256": "5e580ba63860d31c05ed9dcac39e140bb7ee35e297f5b281e5330a69412dbe6a"
+      },
+      {
+        "name": "player-ten-frame-gate-removed",
+        "exit": 1,
+        "red": "玩家战斗精灵 10 帧下限失效",
+        "redTest": "player 9 帧拒绝；10 帧产出完整十帧位表；summon 只带 kind",
+        "executedTests": 7,
+        "logSha256": "355b61ab613128efb2637abd771ec6e594439bf125612c2fb5b4bd949c6cd47f"
+      },
+      {
+        "name": "unique-id-bypassed",
+        "exit": 1,
+        "red": "占用 id 不再递增 -2（同 id 重复定义）",
+        "redTest": "id 占用后 -2 递增；同字节二次导入复用同一 record 并校验存量字节",
+        "executedTests": 7,
+        "logSha256": "04f1e97be5ec22fe13a0a1cead18a83469ab26170f14938265ecf7fefebdff85"
+      },
+      {
+        "name": "block-cache-eviction-removed",
+        "exit": 1,
+        "red": "块缓存不再逐出（容量无界，见证计数变 3）",
+        "redTest": "跨三块引用 5 帧只解码 4 块；命中帧不重解压",
+        "executedTests": 6,
+        "logSha256": "9b4830ede561c19824b539360172f3eb6a57d9c01c3daf28409fe96bc4c4e6e8"
+      },
+      {
+        "name": "source-frame-bounds-removed",
+        "exit": 1,
+        "red": "sourceFrame 越界门失效（合法帧号域外仍尝试恢复）",
+        "redTest": "缺旧动画来源 / 越界 / 非整数 sourceFrame 各自拒绝",
+        "executedTests": 6,
+        "logSha256": "de3df93035860abf2ffdda0270ddba414afaeb32d726dba1ad442d5da077c2a3"
+      },
+      {
+        "name": "transfer-slice-removed",
+        "exit": 1,
+        "red": "encode 不再拷贝 source 直接 transfer（调用者原 buffer 被 detach）",
+        "redTest": "postMessage 传副本 detach、调用者原 buffer 完好；应答后 terminate 恰一次",
+        "executedTests": 6,
+        "logSha256": "d1a454f0ed3f1cca2e37d5fb9c7107a66dad8f581b2648d7777dfe06369447be"
+      },
+      {
+        "name": "meta-content-offset-dropped",
+        "exit": 1,
+        "red": "meta 子 box 起点错用 content（+4 版本/flags 偏移丢失）",
+        "redTest": "meta 按 content+4 起扫子 box；音轨藏在 meta→moov 链内仍可命中",
+        "executedTests": 6,
+        "logSha256": "dab04d509dbd0442df39adfbfb7133a3be7463c869aa2bca5f7187b97385ce88"
+      }
+    ],
+    "logs": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/ic1-mutants-wV0S9G",
+    "note": "临时日志在 mkdtemp，可用脚本原命令重建；产品文件前后 sha256 不变（脚本内置断言）"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-import-codec.config.mts (official testSelection fast; before excludes 7 new files)",
+    "perModule": {
+      "battle-sprite-import.ts": {
+        "before": "L5/27 B5/33",
+        "after": "L27/27 B33/33"
+      },
+      "frame-animation-codec.ts": {
+        "before": "L33/35 B19/27",
+        "after": "L35/35 B23/27"
+      },
+      "frame-animation-codec.worker.ts": {
+        "before": "L0/13 B0/6",
+        "after": "L13/13 B4/6"
+      },
+      "frame-animation-images.ts": {
+        "before": "L2/28 B0/19",
+        "after": "L28/28 B18/19"
+      },
+      "frame-animation-worker-client.ts": {
+        "before": "L1/38 B0/26",
+        "after": "L36/38 B20/26"
+      },
+      "image-import.ts": {
+        "before": "L33/88 B9/42",
+        "after": "L84/88 B35/42"
+      },
+      "video-metadata.ts": {
+        "before": "L20/28 B28/46",
+        "after": "L28/28 B37/46"
+      }
+    },
+    "packageTotal": {
+      "before": "L22346/27865 B19264/27593 F6174/8110",
+      "after": "L22503/27865 B19376/27593 F6206/8110"
+    }
+  },
+  "knownBoundaries": [
+    "PNG 编码失败位图泄漏（image-import.ts:130-142 无 finally）保持 Codex 修复归属，本包未写默认红、未固化",
+    "worker-client L36/38：真实 Worker onerror/URL 构造分支在 Node 无真浏览器线程，仅假 Worker 与降级路径覆盖",
+    "真实浏览器 Worker 调度、CutsceneTab 视觉行为不在本批"
+  ],
+  "codexReception": {
+    "candidate": "f4c229edc736b4c8a0438874e19d823ca2c9b201",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-03",
+    "verifiedNewTests": 39,
+    "verifiedControls": 3,
+    "verifiedMutants": 8,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 11,
+      "errors": 1,
+      "warnings": 0,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa full audit not run; merge gate retained"
+  }
+}

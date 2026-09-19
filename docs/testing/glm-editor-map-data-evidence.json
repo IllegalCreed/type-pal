@@ -1,0 +1,179 @@
+{
+  "task": "TEST-EDITOR-MAP-DATA-1 r1 (TB-06)",
+  "generatedAt": "2026-09-19T08:39:35Z",
+  "branch": "codex/glm-editor-map-data-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data",
+  "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "base": "41cc7cd9 (r1 three signoffs; user authorized proceeding during Codex quota gap)",
+  "productDriftVsFreeze": "git diff e58834f6..HEAD -- packages/ empty; batch adds whitelist only",
+  "tests": {
+    "perFileExecuted": {
+      "core/map-selection.boundaries.test.ts": 3,
+      "core/map-transform.boundaries.test.ts": 3,
+      "core/map-patch.boundaries.test.ts": 2,
+      "core/stamp-draft.boundaries.test.ts": 4,
+      "core/stamp-template.boundaries.test.ts": 3,
+      "core/stamp-placement.boundaries.test.ts": 1,
+      "core/stamp-group-transform.boundaries.test.ts": 2
+    },
+    "newTotal": 18,
+    "familyLedger": {
+      "M01": "新增（空 reset/删不存在 map 身份不变、无 context/错配组操作 no-op、隐藏活动层全选 none、排除 key 精确集合、摘要悬空层只统计现存、双层 mixed）",
+      "M02": "新增（失败计划 canApply=false 且双 patch 空、map/clipboard 实参快照不变、overwrite 可提交、collision 0/同值/不同非零三态、layer-missing 整笔失败）",
+      "M03": "新增（collision 同格重复（同值/不同值）拒绝、坐标/值单轴、旧非空改 null 同步清 source 且 next/prev 精确、实参快照）",
+      "M04": "新增（空 ID/名、重复 ID、缺层精确拒绝、单层 delete 先触保留门、moveLayerTo 越界/原位身份不变、两层仅一有值删最后视觉拒绝、Map 式 availableTiles 缺 tile 精确拒绝）",
+      "M05": "新增（真实 placement 占 id 后 -2 递增与已占拒绝、未知/重复 mapping、锁定层完整 issues、map authoring 实参不变）",
+      "M06": "登记已有/内部防御（工作包允许优先防御分类非必增文件；stamp-placement-mutation 无本批断言增量）",
+      "M07": "新增（空列表/缺失组 undefined、重复 id 去重、真实组 identity/来源/成员保真、authoring 实参不变）",
+      "M08": "新增（越界/删层/无视觉精确拒绝、重复 ref 去重、层序按 map、layerSlotNames 回退 trim、category trim、输出不别名、nextStampTemplateId NFKC/-2）"
+    },
+    "packageFull": "248 files / 2536 tests：2 项预存 world-sprite PAL ENOENT（fresh worktree 缺未跟踪资产，TB-03 批已核基线同样失败）；本批 18/18 绿",
+    "officialFastSelection": "before 2359 / after 2377 (+18)，双侧 exit0",
+    "typecheck": "pnpm --filter @type-pal/editor exec tsc --noEmit rc=0",
+    "biome": "8 新文件 rc=0"
+  },
+  "mutants": {
+    "script": "docs/testing/glm-editor-map-data-mutants.mjs",
+    "command": "node docs/testing/glm-editor-map-data-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true,
+      "pinnedVerdictFourWay": true
+    },
+    "controls": ["control-selection", "control-patch", "control-group"],
+    "cases": [
+      {
+        "name": "selection-hidden-none-gate-removed",
+        "exit": 1,
+        "red": "隐藏活动层时全选不再返回 none",
+        "redTest": "隐藏活动层全选为 none；排除 key 精确集合（非空 remain）",
+        "executedTests": 3,
+        "logSha256": "d83c8ff54f6f76907ab992838b19080e6b504dab2e0a5d3aae8c195bc87ff379"
+      },
+      {
+        "name": "transform-collision-conflict-blind",
+        "exit": 1,
+        "red": "不同非零 collision 冲突不再检出",
+        "redTest": "collision：目标 0 或同值不冲突；不同非零才冲突",
+        "executedTests": 3,
+        "logSha256": "8275d71d3da4d65c760a9ccb565cea3aa9fbe95ffa23e5c0194cfdce41efeaa6"
+      },
+      {
+        "name": "patch-collision-duplicate-blind",
+        "exit": 1,
+        "red": "collision 同格重复写入静默覆盖",
+        "redTest": "collision 同格重复写入拒绝（同值/不同值都不允许）；视觉坐标/值单轴各自拒绝",
+        "executedTests": 2,
+        "logSha256": "b89d4bb4a5007efca37d249865679d1020d38f36f605d4bb66ac3fe9927b3ed3"
+      },
+      {
+        "name": "draft-layer-empty-guard-removed",
+        "exit": 1,
+        "red": "空 ID/名层不再拒绝",
+        "redTest": "空 ID/空名/重复 ID/缺层精确拒绝",
+        "executedTests": 4,
+        "logSha256": "1d97456eab7761e074658a9231e89330c56c3734858ccc36368ff4c994c4a91c"
+      },
+      {
+        "name": "template-id-normalize-dropped",
+        "exit": 1,
+        "red": "模板 id 不再按偏好归一（恒 stamp）",
+        "redTest": "nextStampTemplateId：NFKC/trim/小写/非法字符归一；空归 stamp；占用 -2 递增",
+        "executedTests": 3,
+        "logSha256": "8a5441c95730eeff40edc6a44f89a1d00141434c878d65863a946c318a432bb4"
+      },
+      {
+        "name": "placement-locked-gate-removed",
+        "exit": 1,
+        "red": "锁定目标层不再阻止放置",
+        "redTest": "已占 placementId / 未知 mapping / 重复 mapping / 锁定层：完整 issues、canApply=false、map 不变",
+        "executedTests": 1,
+        "logSha256": "d5d56c2ccbcf6e7df93e2b2bfff5ad58cf9b2c6f39307c78bb4ddee6f629021c"
+      },
+      {
+        "name": "group-capture-dedup-removed",
+        "exit": 1,
+        "red": "placement id 不再去重（重复 id 捕获两份）",
+        "redTest": "空列表 / 缺失组 → undefined；重复 id 去重仍捕获一份",
+        "executedTests": 2,
+        "logSha256": "87951db2cf5236329fdf37a5ef16a0172723c5293f2b854878001eac7ce02db0"
+      },
+      {
+        "name": "template-category-dropped",
+        "exit": 1,
+        "red": "category 不再入模板（合法分类丢失）",
+        "redTest": "层序按 map 层序而非 selection 序；layerSlotNames 回退与 trim；category trim/缺省；输出不别名",
+        "executedTests": 3,
+        "logSha256": "0fbc9bebd9223262c3b9a5ee1c4563073d023f358c14687cd2a70e20e2a419f7"
+      }
+    ],
+    "logs": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/tb06-mutants-AXWXyw",
+    "note": "临时日志在 mkdtemp 可重建；产品文件前后 sha256 不变（脚本内置断言）"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-editor-map-data.config.mts (official testSelection fast; before excludes 7 new files)",
+    "perModule": {
+      "map-patch.ts": {
+        "before": "L138/147 B145/161",
+        "after": "L140/147 B147/161"
+      },
+      "map-selection.ts": {
+        "before": "L224/235 B201/228",
+        "after": "L224/235 B211/228"
+      },
+      "map-transform.ts": {
+        "before": "L168/181 B108/131",
+        "after": "L171/181 B110/131"
+      },
+      "stamp-draft.ts": {
+        "before": "L153/169 B123/169",
+        "after": "L155/169 B129/169"
+      },
+      "stamp-group-transform.ts": {
+        "before": "L129/137 B116/138",
+        "after": "L129/137 B118/138"
+      },
+      "stamp-placement-mutation.ts": {
+        "before": "L81/83 B67/73",
+        "after": "L81/83 B67/73"
+      },
+      "stamp-placement.ts": {
+        "before": "L112/133 B74/95",
+        "after": "L118/133 B79/95"
+      },
+      "stamp-template.ts": {
+        "before": "L78/78 B36/45",
+        "after": "L78/78 B39/45"
+      }
+    },
+    "packageTotal": {
+      "before": "L22346/27865 B19264/27593 F6174/8110",
+      "after": "L22359/27865 B19294/27593 F6174/8110"
+    }
+  },
+  "knownBoundaries": [
+    "fast 计数配对：before 目录 2359（无本批）/ after 目录 2377（含本批 +18）；日志文件名字母序 before<after，打印顺序以 /tmp/md1-{before,after}.log 内容为准",
+    "M06 按工作包'优先防御分类，非必增文件'整族记已有/内部防御；stamp-placement-mutation.ts 覆盖无本批增量",
+    "map-selection L224/235 余量为 hitTest 像素命中（需视觉资产注册表），归 Codex 视觉批次"
+  ],
+  "codexReception": {
+    "candidate": "0563eda7755b33fccc14d3b03fa4cda066cbe286",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-06",
+    "verifiedNewTests": 18,
+    "verifiedControls": 3,
+    "verifiedMutants": 8,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 10,
+      "errors": 1,
+      "warnings": 0,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa full audit not run; merge gate retained"
+  }
+}

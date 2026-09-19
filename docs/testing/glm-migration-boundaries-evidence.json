@@ -1,0 +1,193 @@
+{
+  "task": "TEST-MIGRATION-BOUNDARIES-1 r1 (TB-10)",
+  "generatedAt": "2026-09-19T09:59:36Z",
+  "branch": "codex/glm-migration-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-migration",
+  "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "base": "41cc7cd9 (r1 three signoffs; user authorized proceeding during Codex quota gap)",
+  "productDriftVsFreeze": "git diff e58834f6..HEAD -- packages/ empty; batch adds whitelist only",
+  "tests": {
+    "perFileExecuted": {
+      "migration-project-io.boundaries.test.ts": 3,
+      "migration-transaction.boundaries.test.ts": 2,
+      "migration-write-plan.boundaries.test.ts": 2,
+      "project-map-converter.boundaries.test.ts": 4,
+      "source-facts.boundaries.test.ts": 3,
+      "pal-authored-overlays.boundaries.test.ts": 2,
+      "pal-item-scheme-labels.boundaries.test.ts": 3,
+      "pal-store-boundary.boundaries.test.ts": 3
+    },
+    "newTotal": 22,
+    "familyLedger": {
+      "T01": "新增（索引坏 JSON/坏 id/chunk path/maps 类型恢复合法索引后的单轴、TOCTOU 字节复核、越界路径、managed 不别名、hashUnmanaged 排序排除、20 路径上限）",
+      "T02": "新增（真实中断取得 journal v2、恢复成功二次幂等、单轴坏 operations/kind/hash/staged/version/id 拒绝且 journal/目标字节全保留；previousHash=null 合法已订正为 hash 轴）",
+      "T03": "新增（SceneIndex 专属提升语义、localeCompare、delete 排序、baseline 内容一致跳过/改一字节重写/下轮删除、retirement expectedPreviousHash 排序、源 plan/baseline 不变）",
+      "T04": "新增（两 cell 非对称上下子格四矩阵独立、heights 缺省、validateProjectMap 正控、源 shape 行/列缺口、输入保真）",
+      "T05": "新增（重复 mapNum 拒绝、residual 位 14/29 完整坐标、bytes0 比率 0、decode 碰撞位/上层 0 哨兵独立轴）",
+      "T06": "新增（名字 WORD 39/40 指针对调修正锚点、legacyEventObjectEntityId 边界 1/0xfffe 与 0/0xffff/负/非整数、partyPosToGrid 独立轴、signExtend、sceneSlug）",
+      "T07": "新增（多 craft effect 归属一致性、craft+pool 混合互不触碰、非 message 作者字段保留、多 item 不串引用、幂等、实参深快照）",
+      "T08": "新增（期望计数三轴漂移精确拒绝、完整 labels 报告含 machineLabel/path、trigger 通道同 id（channel 地址键）、两 root 共享行为名非环、输入不变）",
+      "T09": "新增（嵌套 buy/sell 计数、sell shop 非 0、源 Store0 缺失/重复、源 id 顺序漂移、生成货单不一致、实参不变）"
+    },
+    "packageFull": "|unit| 57 files / 392 tests：4 文件 9 项预存 data/extracted ENOENT（stash 基线 9 项同样失败 361→383 = +22）；本批 22/22 绿",
+    "typecheck": "pnpm --filter @type-pal/migrate exec tsc --noEmit rc=0",
+    "biome": "9 新文件 rc=0"
+  },
+  "mutants": {
+    "script": "docs/testing/glm-migration-boundaries-mutants.mjs",
+    "command": "node docs/testing/glm-migration-boundaries-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true,
+      "pinnedVerdictFourWay": true
+    },
+    "controls": ["control-io", "control-facts", "control-store"],
+    "cases": [
+      {
+        "name": "io-escape-path-guard-removed",
+        "exit": 1,
+        "red": "越界相对路径不再拒绝（TOCTOU 复核可逃出工程根）",
+        "redTest": "loadProjectMigrationSnapshot：越界路径拒绝；managed 集合不别名；snapshot 新增目标检查",
+        "executedTests": 3,
+        "logSha256": "d671bc8fcdde2794b5374a27192630945491276c45d4d2f4a0ba16bd7967d61e"
+      },
+      {
+        "name": "tx-staged-path-check-removed",
+        "exit": 1,
+        "red": "staged 路径不再与操作目标配对校验（篡改 staged 可指向别处）",
+        "redTest": "单轴坏 operations/kind/previousHash/staged/version 拒绝且 journal/目标字节全保留",
+        "executedTests": 2,
+        "logSha256": "c4e9bff405b738f703059693afd89588ef036b6771f7bfcf16efd671238e6bae"
+      },
+      {
+        "name": "wp-scene-index-boost-dropped",
+        "exit": 1,
+        "red": "SceneIndex 不再提升到 scenes 正文之后提交",
+        "redTest": "多 write/delete：scene 先于 index、其余 localeCompare、delete 排序、源 plan/baseline 不变",
+        "executedTests": 2,
+        "logSha256": "f2b6306d839a746be71817e9b2509ab2f025b4e0f2073ecdb4128b26148da9b2"
+      },
+      {
+        "name": "conv-row-guard-removed",
+        "exit": 1,
+        "red": "tilemap 行缺口不再被拒（错位解码）",
+        "redTest": "源 shape 单轴：宽缺口/行缺口精确拒绝",
+        "executedTests": 4,
+        "logSha256": "3d66220e3e659f3847fb966b1e795ec08ec0c0ac1bc654a34720e27306affa5f"
+      },
+      {
+        "name": "conv-layer1-9bit-dropped",
+        "exit": 1,
+        "red": "上层第 9 位解码丢失（tile 256..510 全错）",
+        "redTest": "两行非对称上下子格：四行 matrices 逐格独立、heights 缺省省略、过 validateProjectMap、输入保真",
+        "executedTests": 4,
+        "logSha256": "3f866b61bf0a9c8015f52fc844442de2c8aa44c196f8674e04cee038e06dc0ba"
+      },
+      {
+        "name": "facts-name-word-map-shifted",
+        "exit": 1,
+        "red": "巫后/阿奴名字 WORD 指针对调修正被撤销",
+        "redTest": "名字 WORD：36..41 命中（含 39=anu/40=wu-hou 指针对调修正），35/42/非整数 undefined",
+        "executedTests": 3,
+        "logSha256": "35327b12804d78d26647095ea2e11044cbf8d9b5833aa00a894be7a30caf0281"
+      },
+      {
+        "name": "overlay-channel-kind-blind",
+        "exit": 1,
+        "red": "craft 同步不再按 kind 过滤（pool message 混入 craft 条）",
+        "redTest": "craft+pool 混合：各自函数只同步各自 kind 的 message，互不触碰；多 item 不串引用",
+        "executedTests": 2,
+        "logSha256": "3911f6c5018b926e1063cfdd7dde0d10cd1140ccd18de3f9aa63aabbcc0a7e33"
+      },
+      {
+        "name": "labels-behaviors-channel-dropped",
+        "exit": 1,
+        "red": "行为地址漏 channel 维（不同通道同 id 误判同节点）",
+        "redTest": "两个 item 各指各的 hook（共享底层行为）→ 各自独立成方案、报告合法且输入不变",
+        "executedTests": 3,
+        "logSha256": "1adf24f537e9e84e1ab208594d21b4c127f4ec2583dc13664f8290364f520071"
+      },
+      {
+        "name": "store-store0-count-blind",
+        "exit": 1,
+        "red": "源 Store0 数量不再校验（0 个或多个都放行）",
+        "redTest": "源 Store0 缺失/重复、源 id 顺序漂移、生成货单不一致各自精确拒绝",
+        "executedTests": 3,
+        "logSha256": "dfc2958e4231f0831513344721c7a7a1bd4b2f6288a9f86ba5fce71aa385d8fa"
+      }
+    ],
+    "logs": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/tb10-mutants-xxyo0p",
+    "note": "临时日志在 mkdtemp 可重建；产品文件前后 sha256 不变（脚本内置断言）"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-migration-boundaries.config.mts (官方 testSelection fast；before excludes 8 new files)",
+    "perModule": {
+      "migration-project-io.ts": {
+        "before": "L55/63 B35/46",
+        "after": "L59/63 B39/46"
+      },
+      "migration-transaction.ts": {
+        "before": "L163/189 B140/178",
+        "after": "L164/189 B143/178"
+      },
+      "migration-write-plan.ts": {
+        "before": "L35/37 B30/34",
+        "after": "L37/37 B32/34"
+      },
+      "pal-authored-overlays.ts": {
+        "before": "L78/80 B73/84",
+        "after": "L78/80 B74/84"
+      },
+      "pal-item-scheme-labels.ts": {
+        "before": "L126/154 B71/111",
+        "after": "L130/154 B76/111"
+      },
+      "pal-store-boundary.ts": {
+        "before": "L83/96 B78/97",
+        "after": "L89/96 B85/97"
+      },
+      "project-map-audit.ts": {
+        "before": "L55/57 B32/36",
+        "after": "L55/57 B34/36"
+      },
+      "project-map-converter.ts": {
+        "before": "L58/67 B47/56",
+        "after": "L60/67 B49/56"
+      },
+      "source-facts.ts": {
+        "before": "L9/11 B6/7",
+        "after": "L11/11 B7/7"
+      }
+    },
+    "packageTotal": {
+      "before": "L3439/6677 B2851/6398 F597/1161",
+      "after": "L3460/6677 B2878/6398 F601/1161"
+    },
+    "officialFastSelection": "before 338 / after 360 (+22)，双侧 exit0"
+  },
+  "knownBoundaries": [
+    "A08 journal 采样窗口/A09 物化父链 symlink 是已确认独立修复项，本包只测已有守卫不宣称已修",
+    "E05 历史输出退役不新增旧 profile 测试；SourceMap semanticRoundTripMismatch 是内部反证防御不刷覆盖",
+    "Store0 固定 1..20 只用于生成 seed，不施加到合并作者工程"
+  ],
+  "codexReception": {
+    "candidate": "bd59755887bd22ddb5208d0eb4bdeff953c6bb4e",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-10",
+    "verifiedNewTests": 22,
+    "verifiedControls": 3,
+    "verifiedMutants": 9,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 11,
+      "errors": 11,
+      "warnings": 2,
+      "info": 1
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa full audit not run; merge gate retained"
+  }
+}

@@ -6,12 +6,14 @@
 
 ## 文档与附件
 
+- [TB-02～10九批Codex统一接收](glm-nine-intake-review.md)、[机器账](glm-nine-intake-evidence.json)、[独立见证工具](glm-nine-intake-witnesses.mjs)（九批分别counter；205定向与原100跑通过不等于验收，7独立漏检/9判据误收；无合并、Mimosa完整审计待入口）
+
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
 - [GLM交付前自检清单](glm-delivery-checklist.md)（强制；历次counter根因四类与六步自检，fixture守卫门/变异自检/实参保真/取消三件套/回执从树生成，缺一不交）
 - [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（rework；6d34ad5a的F1/E4闭环，仅D6 sequence收尾与回执勘误残留；55项未集成，r1不重签）
 - [运行时状态补测Codex复核](runtime-state-review.md)与[独立反证工具](runtime-state-review-witnesses.mjs)（当前8针：7 detected/1迟到提交MISSED；原7针均业务红闭环）
-- [前三批r2准入与连续实施交接](glm-coverage-queue-design-review.md)（设计三签保持；TB-01首次交付counter、TB-02/03待槽；193既有测试与[前提探针](glm-coverage-queue-premise.mjs)是设计证据）
-- [后续七批统一细化与审核](glm-coverage-remaining-review.md)（TB-04～10 r1/draft，Codex已签、两席待审；59候选模块，非已实施覆盖）
+- [前三批r2准入与连续实施交接](glm-coverage-queue-design-review.md)（设计三签保持；TB-01另排、TB-02/03实施后counter；193既有测试与[前提探针](glm-coverage-queue-premise.mjs)是设计证据）
+- [后续七批统一细化与审核](glm-coverage-remaining-review.md)（TB-04～10设计三签已齐；用户批准先行实施，本次接收counter；59候选模块非已接收覆盖）
 - [原版表格与文本自包含补测工作包](glm-pal-tables.md)（TB-04，合法输入/旧测试去重/白名单/负控及排除项）
 - [RLE、事件与资源工具补测工作包](glm-resource-tools.md)（TB-05，合法输入/旧测试去重/白名单/负控及排除项）
 - [地图选区与组合模板数据补测工作包](glm-editor-map-data.md)（TB-06，合法输入/旧测试去重/白名单/负控及排除项）
@@ -21,8 +23,8 @@
 - [当前迁移辅助与隔离文件系统补测工作包](glm-migration-boundaries.md)（TB-10，合法输入/旧测试去重/白名单/负控及排除项）
 - [内容合同残项工作包](glm-content-residual.md)（TB-01 r2/rework；0e49db91实际23项，CR-R1～R4待返工）
 - [内容残项Codex接收复核](content-residual-review.md)与[可重建独立见证](content-residual-review-witnesses.mjs)（三针MISSED、混合错误判据误收；根fixture七检查accepted；未集成/不改官方基线）
-- [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/draft；已准入待槽，HTTP/FSA/音频边界不变）
-- [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03 r2/draft；已准入待槽，零产品改动worker方案、PNG泄漏隔离）
+- [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/rework；a7c48d9c接收counter，设计保持）
+- [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03 r2/rework；f4c229ed接收counter；PNG泄漏仍隔离）
 - [试放方案调整：共享战斗模拟器](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（rework；用户提出多入口/队伍配置/预设/战斗道具，r2待设计；旧r1不再授权实施）
 - [共享战斗模拟器全域复用评估](battle-simulator-assessment.md)（8模块27子页：7直接/8上下文/12专用验证；含预设、配置边界与三批接入建议，未实施）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）

@@ -1,6 +1,6 @@
 # TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）
 
-Status: draft
+Status: rework
 Phase: phase2
 Capability: 已有合同补测，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -9,10 +9,27 @@ Reviewer: Codex / Kimi
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: none
-Branch: codex/glm-migration-boundaries-r1（准入后独立worktree使用）
+Branch: codex/glm-migration-r1
 
 Revision: r1，2026-09-19。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`，策划树 `4473c367`。
 完整族账/去重/唯一白名单：[工作包](../../testing/glm-migration-boundaries.md)。共同规则与合并交接：[七批统一审核](../../testing/glm-coverage-remaining-review.md)。
+
+
+## 当前接收裁决（2026-09-19，候选bd597558）
+
+用户本轮明确批准九批先行实施、Codex恢复后统一接收；认可本批排期例外，不因旧两槽限制追溯判违规。设计签字保持，不重签。
+**本席独立结论counter，任务rework，未合入正式测试/产品、不更新官方基线、不转Kimi终审。**
+定向22项、原3对照+9针、包typecheck均通过；
+Biome实测11文件/11 errors/2 warnings。
+见[统一复核 TB-10](../../testing/glm-nine-intake-review.md#tb-10)与[机器接收账](../../testing/glm-nine-intake-evidence.json)。
+公共C0判据误收适用，C1全部新增文件格式/回执不符也须修复；具体最小返工如下。
+
+- **R10-1，baseline快照浅别名**：`migration-write-plan.boundaries.test.ts:52–55`只展开Map，value仍与输入共享。单点在返回前污染nextBaseline的JSON值，候选2/2仍绿、深快照oracle红（`writer-mutates-baseline-json`）。对实际Map/Set/嵌套JSON做调用前深快照，别用浅entries冒充。
+- **R10-2，E05旧发现接口保活**：`migration-project-io.boundaries.test.ts:62–74`新测content/scripts/index的chunks，已签T01排除。撤回该新合同；scene/map当前发现及TOCTOU继续。
+- **R10-3，journal反例不够精确**：`migration-transaction.boundaries.test.ts:91–119`只断言不是recovered，任何别的异常都能过；单操作已经提交后才中断，未留下待提交staging；所谓“全文件保留”只核journal和一个target。用至少两操作的真实中断造pending，再一轴改坏、钉准确业务错误/全部自建文件快照，合法同journal恢复对照必须成功。
+- **R10-4，T08归属勘误**：本席实际args().scenes经validateAuthorScenes接受，**不把zone:true误判非法**。当前两root分场景独立链不等于已签同root菱形；补菱形或给等价旧测试精确证据，不能改标题充数。
+- C0/C1适用。A08/A09不由journal既有守卫盖章已修；仅自建mkdtemp，不操作真实工程或恢复stash。
+
 
 ## 目标、上下文与边界
 
@@ -73,16 +90,24 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
   - **可证伪观察**：①journal 用手写 JSON 而非真实 commit+中断产生→无效；②hash diff 期望
     用产品函数回算→oracle 不独立；③任何真实工程路径写入→越界即停。
   - 返工项：无。
-- build准入：**未开放**。本批是已细化待审核，不因队列存在或其他批签字自动开始实现。签齐后Codex再核；TB-00返工优先、未接收实施包合计最多两批。
+- build准入：三席r1设计签字保持；用户本轮明确批准额度空窗期九批先行实施（排期例外），本卡据此进入实施后接收。当前counter/rework不要求重签设计，未开放done；不将本次例外泛化给未来新批。
 
 ### done前
 
+- Codex：**counter（2026-09-19，候选bd597558）**。本人独立复跑定向/原负控/tc与全部新增文件Biome，抽核合法输入/实际对象/范围；C0与本卡TB-10返工证据已落[统一复核](../../testing/glm-nine-intake-review.md#tb-10)。不合并、不代签、不标done；设计有效不重签。
+
 - GLM：pending。
-- Codex：pending。
 - Kimi：pending。
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留，Mimosa完整深审未执行且无合并，不以hook partial称安全；TB00/TB01另排。
+- 2026-09-19 GLM：按用户拍板（Codex 额度空窗期先行实施 TB-02～TB-10）领取 TB-10 并完成实施
+  （r1，九/九族）。worktree `type-pal-glm-migration`、分支 `codex/glm-migration-r1`、基点
+  41cc7cd9；产品零漂移已核。交付：8 新测试文件 22 项；tc/Biome/官方口径 338→360 双 exit0；
+  负控 9 针+3 对照全 detected。TB-02～TB-10 九批实施包至此全部交付，等待 Codex 额度恢复后
+  统一接收（含 TB-07 S02 会话级族待补的裁决）。状态同步 build；不代签 done。
+
 - 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-10），签 premise verified + design agree，
   无返工项。直读 migrate-content.mts 物化→write-plan→transaction 链、pal-current-publication
   seed/作者 invariant 区分、pal-migration.ts:423 固定 r13SixBExecution:true；A08/A09/E05 为独立
@@ -92,10 +117,46 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
 
-## 下一位Agent提示词
+## 历史交接提示词（Codex 额度恢复后统一接收 TB-02～TB-10 九批）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 统一接收 GLM 在你额度空窗期交付的 TB-02～TB-10 九批实施包
+（用户拍板 2026-09-17：先行实施、恢复后一起检查）。九批全部基于冻结 e58834f6、基点 41cc7cd9、
+产品零漂移（git diff e58834f6..各分支 -- packages/ 为空），独立分支互不合入：
+
+  TB-02 codex/glm-reforge-asset-io-r1     a7c48d9c  24项+8针（reforge）
+  TB-03 codex/glm-editor-import-codec-r1   f4c229ed  39项+8针（editor）
+  TB-04 codex/glm-pal-tables-r1            851a6ede  19项+8针（pal-extract）
+  TB-05 codex/glm-resource-tools-r1        d083e5c6  24项+9针（shared+pal-extract）
+  TB-06 codex/glm-editor-map-data-r1       0563eda7  18项+8针（editor）
+  TB-07 codex/glm-editor-script-helpers-r1 90369143  17项+7针（editor；S02 会话级族显式未落）
+  TB-08 codex/glm-game-menu-r1             b1deae49  17项+8针（game）
+  TB-09 codex/glm-game-host-r1             61f0af34  25项+8针（game）
+  TB-10 codex/glm-migration-r1             fdf91ca9  22项+9针（migrate）
+
+每批形态一致：白名单测试/fixture + 单点变异脚本 docs/testing/glm-<batch>-mutants.mjs
+（钉名 AssertionError 判据+四向自测+产品 hash 不变断言）+ 覆盖对照 config + 机器账
+evidence.json + 工作包回执 + 卡/看板/索引同步 build。逐批先跑对应 mutants 脚本与定向测试
+复核，再按你的接收流程合并；接收中发现的返工逐卡开 counter。两个已知披露项请你接收时一并
+裁决：① TB-07 S02（ScriptEditSession 会话级三轴）未落；② TB-02/03 起各批"预存环境失败"
+（fresh worktree 缺未跟踪 data/raw、data/extracted、projects/pal 资产）已在回执记录并与
+stash 基线核对一致。全仓 check/官方 ratchet/strict-fast 与 Mimosa 完整深度审计（近期 commit/push
+多次 scanner_enobufs，按兼容策略放行但未宣称安全）由你串行执行。不代签 done；接收完成后
+按卡走 Kimi 终审。
+```
+## 历史交接提示词
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 审 docs/ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md（r1/draft，生产冻结e58834f6）。先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/glm-migration-boundaries.md、docs/testing/glm-coverage-remaining-review.md；一期范围额外读engineering-notes和相关真值。
 Kimi负责独立前提/架构风险压力测试；GLM负责独立调用域、旧测试去重、合法fixture/负控可实施性。二者并行、不读/复述另一席结论；完整七批合并提示词见统一审核页。
 只在本人build前席位/本人日志写带primary file:line与可证伪观察的premise verified/design agree或counter，提交推送前同步保留另一席。不得改产品/正式测试/另一席/任务状态，不标build/done。七卡独立裁决，不因一张counter阻塞全部；三席齐后Codex统一准入。
+```
+
+## 当前下一位Agent提示词：GLM
+
+```text
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-MIGRATION-BOUNDARIES-1（TB-10），卡 docs/ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md 已rework，候选bd597558，生产冻结e58834f6；设计r1不重签。
+先同步当前Codex counter到独立 codex/glm-migration-r1，读AGENTS/CLAUDE/READ-FIRST、docs/testing/glm-delivery-checklist.md、本卡当前裁决和 docs/testing/glm-nine-intake-review.md 的公共C0/C1与TB-10章节、原工作包docs/testing/glm-migration-boundaries.md。
+只修列明残项，保留有效测试与他席结论；正式guard合法、实际同一入参深快照、禁止把已排除未知/旧接口写正确绿测。公共工具判据必须按目标错误首行，真实运行与自测同函数。原负控+本席相关独立见证、定向/相邻/全包/tc/全部新TS/MJS/MTS/JSON的Biome及私有同口径覆盖从最终树复跑，失败/未完成如实记录。
+只动原白名单/本人回执，分支不互合、不改产品/旧测试/官方基线/原审计探针/他席见证语义，不代签、不标done、不直接转Kimi。修完本批即可单独交Codex接收；全仓check/ratchet/strict-fast留接收后，Mimosa完整审计仍是合并前门，不能用scanner_enobufs放行代替clear。
 ```

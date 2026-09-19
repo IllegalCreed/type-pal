@@ -1,0 +1,185 @@
+{
+  "task": "TEST-GAME-MENU-BOUNDARIES-1 r1 (TB-08)",
+  "generatedAt": "2026-09-19T09:16:09Z",
+  "branch": "codex/glm-game-menu-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-game-menu",
+  "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "base": "41cc7cd9 (r1 three signoffs; user authorized proceeding during Codex quota gap)",
+  "productDriftVsFreeze": "git diff e58834f6..HEAD -- packages/ empty; batch adds whitelist only",
+  "tests": {
+    "perFileExecuted": {
+      "menu/primitives.boundaries.test.ts": 2,
+      "menu/inventory-menu.boundaries.test.ts": 3,
+      "menu/magic-select.boundaries.test.ts": 2,
+      "menu/shop-menu.boundaries.test.ts": 2,
+      "menu/sell-menu.boundaries.test.ts": 2,
+      "menu/equip-menu.boundaries.test.ts": 2,
+      "menu/in-game-menu.boundaries.test.ts": 2,
+      "menu/in-game-magic-menu.boundaries.test.ts": 2
+    },
+    "newTotal": 17,
+    "familyLedger": {
+      "G01": "新增（空表/单项 create、跨 page cursor/offset 完整推进与最小滚动、pageDown 钳制语义、入参不变）",
+      "G02": "新增（count===inUse 拒绝/少占用正控、追加装备 count0/inUse-1 可确认、party[2,0] roleId 非 cursor、错 phase 零请求、菜单 slot 不别名 gs.inventory）",
+      "G03": "登记已有（matchesFilter 布尔矩阵既有 inventory-menu.test 覆盖；equip/usable/sellable 三 flag 已由本批 G02/G07/G08 真实 confirm 门轴覆盖，不另抄矩阵）",
+      "G04": "新增（MP 恰等不禁用/差 1 禁用、排序不污染实际传入 roles.magic、非连续 295 返回 spell.id、缺 spell/坏角色空表）",
+      "G05": "新增（单人队直进 pick-spell、applyToAll 留相/单体切 pick-target、非顺序 party target roleId、错 phase 零请求、refresh cursor 落回上次 spell）",
+      "G06": "新增（cash===price 恰等可进/差 1 拒绝、空列表、confirm toggle、No 意图收尾、cancel 分层、零副作用）",
+      "G07": "新增（inUse 耗尽拒绝、confirm 期 Page/Home/End 不改 grid、刷新空/等长/增表精确 cursor、不别名库存、cancel 分层）",
+      "G08": "新增（inUse 耗尽拒绝、party[2,0] 请求 roleId、意图不改装备/钱/库存、cancel 复位、错 phase 零请求）",
+      "G09": "新增（EnterConfirm/ToggleConfirm/EnterSwitch 三状态字段、switch 高亮当前态、choice 按 id 映射）"
+    },
+    "packageFull": "132 files / 2301 tests：dev-panel 1 文件预存 ENOENT（data/extracted 未跟踪，stash 基线同样失败）；本批 17/17 绿",
+    "typecheck": "pnpm --filter @type-pal/game exec tsc --noEmit rc=0",
+    "biome": "8 新文件 rc=0"
+  },
+  "mutants": {
+    "script": "docs/testing/glm-game-menu-boundaries-mutants.mjs",
+    "command": "node docs/testing/glm-game-menu-boundaries-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true,
+      "pinnedVerdictFourWay": true
+    },
+    "controls": ["control-inventory", "control-ingame", "control-system"],
+    "cases": [
+      {
+        "name": "inventory-availability-gate-removed",
+        "exit": 1,
+        "red": "count===inUse 的占用门失效（装备中物品仍可确认）",
+        "redTest": "count===inUse 拒绝留在 list；少占用正控进 use-target；追加装备 count0/inUse-1 可确认",
+        "executedTests": 3,
+        "logSha256": "6db1e4da4a802f49ffbc246044df51d2a97b7a88806661fae0ebc2f133476fe0"
+      },
+      {
+        "name": "primitives-page-offset-advance-broken",
+        "exit": 1,
+        "red": "跨页后 pageOffset 不再按视窗推进",
+        "redTest": "跨 page 移动：cursor 与 pageOffset 完整推进/回落；pageUp/Down 落到可选项跳过 disabled",
+        "executedTests": 2,
+        "logSha256": "3d966edf6961d1bd5c5066be9462ae09bf922e6b78be6556054bbfc70b1c2076"
+      },
+      {
+        "name": "magic-mp-exact-equality-disabled",
+        "exit": 1,
+        "red": "MP 恰等 cost 被误判为不足（原版允许）",
+        "redTest": "MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染",
+        "executedTests": 2,
+        "logSha256": "df6222ed9a7616ce2f4a3b4d49e4e87b2ce1ff05bed12e7a98b3c72ee5d9a5e1"
+      },
+      {
+        "name": "shop-affordability-gate-removed",
+        "exit": 1,
+        "red": "买不起仍弹 confirm",
+        "redTest": "cash===price 恰等可进 confirm；差 1 拒绝；空列表拒绝",
+        "executedTests": 2,
+        "logSha256": "85fc0700e2707942c9105e6716eb2ca946d0ecab85d910edcca302610fdcb371"
+      },
+      {
+        "name": "sell-availability-gate-removed",
+        "exit": 1,
+        "red": "卖出占用门失效",
+        "redTest": "inUse 耗尽拒绝；少占用正控进 confirm；confirm 期 Page/Home/End 不改 grid",
+        "executedTests": 2,
+        "logSha256": "ceed83810f56c03bdb46f297ba06277aeb1a843fb19859622a1113bb7814a1c3"
+      },
+      {
+        "name": "equip-roleid-uses-cursor",
+        "exit": 1,
+        "red": "请求返回 cursor 位而非 roleId（party[2,0] 错人）",
+        "redTest": "inUse 耗尽拒绝；party[2,0] 返回 roleId 非 cursor；意图不改装备/钱/库存",
+        "executedTests": 2,
+        "logSha256": "3df785b8465bd90096520bbc620715c05641825cf0d328a2e23e329cab9b47f0"
+      },
+      {
+        "name": "system-switch-default-dropped",
+        "exit": 1,
+        "red": "switch 子单不再默认高亮当前开关态",
+        "redTest": "EnterConfirm 重置 confirmYes=false；ToggleConfirm 翻转；EnterSwitch 按 id 记目标且高亮当前态",
+        "executedTests": 2,
+        "logSha256": "0fc63e9ce932075bcae4ae4b584f14c0c82959bd34aa93877e59b534f3c222d9"
+      },
+      {
+        "name": "ingame-single-party-direct-removed",
+        "exit": 1,
+        "red": "单人队不再跳过选施法人直进法术列表",
+        "redTest": "单人队直进 pick-spell；applyToAll 留相/单体切 pick-target；非顺序 party 返回 roleId",
+        "executedTests": 2,
+        "logSha256": "0745f85c080a396bcbaf9b233fa8de6a3806b5f3ab320f1c616bb33efbfafa00"
+      }
+    ],
+    "logs": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/tb08-mutants-nFf3TW",
+    "note": "临时日志在 mkdtemp 可重建；产品文件前后 sha256 不变（脚本内置断言）"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-game-menu-boundaries.config.mts (official testSelection fast + jsdom env/setupFiles 对齐官方 vitest.config.ts；before excludes 8 new files)",
+    "perModule": {
+      "equip-menu.ts": {
+        "before": "L25/25 B24/27",
+        "after": "L25/25 B24/27"
+      },
+      "in-game-magic-menu.ts": {
+        "before": "L90/94 B89/127",
+        "after": "L90/94 B90/127"
+      },
+      "in-game-menu.ts": {
+        "before": "L27/27 B12/14",
+        "after": "L27/27 B12/14"
+      },
+      "inventory-menu.ts": {
+        "before": "L83/88 B64/84",
+        "after": "L84/88 B66/84"
+      },
+      "item-select.ts": {
+        "before": "L22/23 B20/24",
+        "after": "L22/23 B20/24"
+      },
+      "magic-select.ts": {
+        "before": "L13/13 B9/16",
+        "after": "L13/13 B12/16"
+      },
+      "primitives.ts": {
+        "before": "L37/39 B26/33",
+        "after": "L38/39 B29/33"
+      },
+      "sell-menu.ts": {
+        "before": "L30/38 B18/35",
+        "after": "L33/38 B22/35"
+      },
+      "shop-menu.ts": {
+        "before": "L25/27 B14/22",
+        "after": "L27/27 B16/22"
+      }
+    },
+    "packageTotal": {
+      "before": "L10263/13604 B7498/11281 F1308/1843",
+      "after": "L10270/13604 B7513/11281 F1312/1843"
+    },
+    "officialFastSelection": "before 2271 / after 2288 (+17)，双侧 exit0"
+  },
+  "knownBoundaries": [
+    "in-game-magic-menu:135 outdoor 过滤差异轴按工作包排除（旧 test:456 钉当前过滤，待历史裁决不改产品）",
+    "shop-menu mode=sell 无正式 caller 不扩；createItemSelectMenu/Triple/Switch 辅助无证实 caller 不扩",
+    "dev-panel 预存 ENOENT 与本批无关（stash 基线同样失败）"
+  ],
+  "codexReception": {
+    "candidate": "b1deae494e016c94ade7b12e52ce00230f921e67",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-08",
+    "verifiedNewTests": 17,
+    "verifiedControls": 3,
+    "verifiedMutants": 8,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 11,
+      "errors": 5,
+      "warnings": 0,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa full audit not run; merge gate retained"
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "task": "TEST-RESOURCE-TOOLS-COVERAGE-1 r1 (TB-05)",
+  "generatedAt": "2026-09-19T07:28:20Z",
+  "branch": "codex/glm-resource-tools-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-resource-tools",
+  "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "base": "41cc7cd9 (r1 three signoffs; user authorized proceeding during Codex quota gap)",
+  "productDriftVsFreeze": "git diff e58834f6..HEAD -- packages/ empty; batch adds whitelist only",
+  "tests": {
+    "perFileExecuted": {
+      "shared/rle.boundaries.test.ts": 5,
+      "shared/rle-encode.boundaries.test.ts": 4,
+      "pal-extract/events/disasm.boundaries.test.ts": 2,
+      "pal-extract/events/recompile.boundaries.test.ts": 2,
+      "pal-extract/events/slice.boundaries.test.ts": 5,
+      "pal-extract/resources/palette.boundaries.test.ts": 2,
+      "pal-extract/font/__tests__/bdf-to-json.boundaries.test.ts": 3,
+      "pal-extract/__tests__/asset-manifest.boundaries.test.ts": 1
+    },
+    "newTotal": 24,
+    "familyLedger": {
+      "R01": "新增（严格容器手列字节完整 pixels/opaque/report、零长指令单轴+相邻正控、段越界/截断/尺寸单轴、canonical 拒坏尾 vs legacy 跳 1 槽精确报告）",
+      "R02": "新增（126/127/128 透明与实心 run 独立字节 oracle、三帧奇偶完整 chunk 字节含 WORD offset/pad0/frame0=表长）",
+      "R03": "新增（count 0x8000/0xffff u16 保真、messageIndex 直取与越界回退、raw 三 operand 全位型、entry/jump 同目标单 label、输入保真）",
+      "R04": "新增（八类命令独立字节 oracle（opcode 手列）、同文本不同 messageIndex、缺 label 默认 0、输入深快照不变）",
+      "R05": "登记已有（annotate.test 已覆盖 _item/symbols 优先/scene 不取 WORD/raw 不注释/递归；平面命令无断言增量，按工作包允许整模块记已有）",
+      "R06": "新增（globalEntries 独达强制 shared、与单 scene 重合仍 shared、自循环只收一次、最后 scene EO 开区间、enter/teleport 双入口、跨文件 goto 改写 vs raw 数字 operand 不改）",
+      "R07": "新增（1536 非对称 day/night 完整 256×3、锚点手算值、768 无 nightColors 键、非零 byteOffset）",
+      "R08": "新增（两字形完整 bitmap 手列、LF/CRLF/行尾空白等价、glyphsToJson 完整 count/字段/base64）",
+      "R09": "新增（mkdtemp 真实多层树（零字节/中文/二进制）精确清单、根 self 剔除而子目录同名保留、collect 不过滤、entries 不变、独立 path:size 序列 sha256）"
+    },
+    "packageFull": {
+      "shared": "14 files / 115 tests exit0（+2 文件 +9 项）",
+      "pal-extract": "34 files / 173 tests：4 项真实资产 ENOENT 与基线相同（fresh worktree 缺 data/raw）；本批 6 文件 15 项全绿（166 通过 = 基线 151 + 15）"
+    },
+    "typecheck": "shared rc=0；pal-extract rc=0",
+    "biome": "9 新文件 rc=0（1 warning 为既有 useIterableCallbackReturn 已修）"
+  },
+  "mutants": {
+    "script": "docs/testing/glm-resource-tools-mutants.mjs",
+    "command": "node docs/testing/glm-resource-tools-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true,
+      "pinnedVerdictFourWay": true
+    },
+    "controls": ["control-rle", "control-slice", "control-palette"],
+    "cases": [
+      {
+        "name": "rle-zero-command-accepted",
+        "exit": 1,
+        "red": "零长度指令不再被拒（0 字节 literal 死循环风险）",
+        "redTest": "零长度指令拒绝；同容器把 0 换成合法 1 长度即过（相邻正控）",
+        "executedTests": 5,
+        "logSha256": "9374de93841df4180c93df36436724521c672e112bcbdde58c119b818dab8e11"
+      },
+      {
+        "name": "rle-encode-transparent-cap-raised",
+        "exit": 1,
+        "red": "透明 run 越过 0x7f 封顶（指令字节溢出截断）",
+        "redTest": "透明 run 126/127/128 分段边界：127 封顶，128 拆 127+1",
+        "executedTests": 4,
+        "logSha256": "a56afd7c5d6e650509da8978002cfd75a7e9c6fb1c5a406fc391775f68e567c2"
+      },
+      {
+        "name": "rle-encode-write-pad-removed",
+        "exit": 1,
+        "red": "写入循环不再跳过奇对齐 pad（帧数据错位）",
+        "redTest": "WORD offset 表 + 奇长帧 pad0 + frame0 偏移=表长，整 chunk 逐字节手列",
+        "executedTests": 4,
+        "logSha256": "8a2f8436d4c036a920754e6f25cf02b67ba57634e05e4d25346d6187e8fba782"
+      },
+      {
+        "name": "disasm-o1-read-signed",
+        "exit": 1,
+        "red": "第二 operand 被读成 signed（0x8000 → -32768）",
+        "redTest": "giveItem count 0x8000/0xffff 保持 32768/65535（u16 不转 signed）；raw 三 operand 全位型",
+        "executedTests": 2,
+        "logSha256": "cbfd446fb32cb977bfbba15afaab7934b8cb55cb35d5ebdae52360fd0ee4de6c"
+      },
+      {
+        "name": "recompile-goto-label-dropped",
+        "exit": 1,
+        "red": "goto 目标不再查 label 表（恒写 0）",
+        "redTest": "八类命令各 8B 手列：opcode 与 operand 位型精确",
+        "executedTests": 2,
+        "logSha256": "60bedd7ce3fc778563c3d8f7b1d86ff2f62d02499e08ddc733a22fd8af914c0e"
+      },
+      {
+        "name": "slice-global-force-removed",
+        "exit": 1,
+        "red": "globalEntries 不再强制 shared（物品法术脚本被丢弃/错归属）",
+        "redTest": "globalEntries 独达（任何 scene 都不可达）→ 强制 shared",
+        "executedTests": 5,
+        "logSha256": "cf4cf88875bfe160a0d0bc7e2c732210ab36c5f45f5662ac74e6bec00f868032"
+      },
+      {
+        "name": "palette-night-offset-zeroed",
+        "exit": 1,
+        "red": "夜半调色板错读白天块（day/night 不再非对称）",
+        "redTest": "1536 输入：colors 与 nightColors 都满 256×3 且非对称；锚点手算值精确",
+        "executedTests": 2,
+        "logSha256": "c5ea73451e2530d61d8e04d0b6f7fc2387787affebc9a9483f778d66ff777d62"
+      },
+      {
+        "name": "bdf-second-byte-dropped",
+        "exit": 1,
+        "red": "16 宽字形第二字节丢失",
+        "redTest": "两字形完整 bitmap/宽高/码点手列精确；BBX 宽高生效",
+        "executedTests": 3,
+        "logSha256": "e84d3468f94fd17762aa6f65e158a941f189b23e243dc07d9866a77f7120d66e"
+      },
+      {
+        "name": "manifest-root-self-kept",
+        "exit": 1,
+        "red": "根 asset-manifest.json 自指未剔除",
+        "redTest": "多层/零字节/中文/二进制精确清单；子目录同名 asset-manifest.json 保留；entries 不变；独立序列 hash",
+        "executedTests": 1,
+        "logSha256": "567ce4eeabd28bcaf0e82d53d38017cf15c3996b42357353167c14b0a8fb7f83"
+      }
+    ],
+    "logs": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/tb05-mutants-1ZGNzm",
+    "note": "临时日志在 mkdtemp 可重建；产品文件前后 sha256 不变（脚本内置断言）"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-resource-tools.config.mts (RT1_PKG=shared|pal-extract; official testSelection fast)",
+    "perModule": {
+      "shared/rle-encode.ts": {
+        "before": "L43/44 B21/24",
+        "after": "L43/44 B21/24"
+      },
+      "shared/rle.ts": {
+        "before": "L117/125 B76/100",
+        "after": "L121/125 B82/100"
+      },
+      "shared/total": {
+        "before": "L338/356 B145/177 F21/21",
+        "after": "L342/356 B151/177 F21/21"
+      },
+      "pal-extract/annotate.ts": {
+        "before": "L25/30 B19/28",
+        "after": "L25/30 B19/28"
+      },
+      "pal-extract/disasm.ts": {
+        "before": "L58/69 B34/54",
+        "after": "L58/69 B35/54"
+      },
+      "pal-extract/recompile.ts": {
+        "before": "L47/51 B42/48",
+        "after": "L50/51 B44/48"
+      },
+      "pal-extract/slice.ts": {
+        "before": "L71/91 B50/83",
+        "after": "L79/91 B59/83"
+      },
+      "pal-extract/bdf-to-json.ts": {
+        "before": "L38/40 B16/18",
+        "after": "L40/40 B16/18"
+      },
+      "pal-extract/rle.ts": {
+        "before": "L0/0 B0/0",
+        "after": "L0/0 B0/0"
+      },
+      "pal-extract/asset-manifest.ts": {
+        "before": "L12/21 B5/8",
+        "after": "L21/21 B7/8"
+      },
+      "pal-extract/palette.ts": {
+        "before": "L13/13 B6/11",
+        "after": "L13/13 B8/11"
+      },
+      "pal-extract/total": {
+        "before": "L561/1316 B253/539 F67/140",
+        "after": "L583/1316 B269/539 F72/140"
+      }
+    },
+    "officialFastSelection": "shared before 106 / after 115 (+9)；pal-extract before 110 / after 125 (+15)，双侧 exit0"
+  },
+  "knownBoundaries": [
+    "pal-extract fast 计数：before 110 / after 125（+15）；日志文件名字母序 after<before 易误读，perModule 取自正确配对目录",
+    "rle-encode L43/44、disasm L58/69 余量为真实资产依赖分支与未具名 fallback，归真实资产批次",
+    "symlink 递归、YJ2 政策、结构化 recompile 未定义 operand 保持原归属不扩测"
+  ],
+  "codexReception": {
+    "candidate": "d083e5c6ea61f24ca459841fe53f28d72b157412",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-05",
+    "verifiedNewTests": 24,
+    "verifiedControls": 3,
+    "verifiedMutants": 9,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 11,
+      "errors": 1,
+      "warnings": 1,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa full audit not run; merge gate retained"
+  }
+}
