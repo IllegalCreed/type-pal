@@ -15,7 +15,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | EDITOR-SKILL-TRIAL-1 | [试放方案调整：共享战斗模拟器](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | rework | Codex准备r2方案与UI草图 | 用户提出队伍/装备/技能/数值/背包及我方预设，多入口复用、不选开局；旧r1签字保留但不授权新范围 |
-| TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM处理Codex R1–R4 | 23eb63d2定向53/全包绿；主fixture非法、六见证MISSED、Biome/回执不符；未集成/未更新官方基线，r1不重签 |
+| TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM仅处理三项残余counter | 3c7ae963定向55/双包/tc/Biome/原22跑绿；剩F1虚构source、D6超时、E4全体快照；已闭环不重开，未集成，r1不重签 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | draft | r2 Codex已签 / GLM确认+Kimi审 | 148既有测试绿；合法本包守卫/跨包去重/旧分片分类；不反向引loader，未开build |
 | TEST-REFORGE-ASSET-IO-1 | [资源读取缓存与音效准备补测](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | draft | r2 Codex已签 / GLM确认+Kimi审 | 39既有测试绿；HTTP/FSA与音频层级已分清；页选择疑点隔离，未开build |
 | TEST-EDITOR-IMPORT-CODEC-1 | [导入编码线程与视频元数据补测](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | draft | r2 Codex已签 / GLM确认+Kimi审 | 6既有测试+真实handler/transfer前提绿；PNG失败泄漏交Codex，GLM不改产品，未开build |

@@ -108,7 +108,48 @@ const probes = [
       const menu=magicConfirmCaster(openMagicMenu(w,skills),w,skills);
       const before=structuredClone(w);magicConfirmSpell(menu,w);expect(w).toEqual(before);`,
   },
+  {
+    id: 'magic-cast-all-mutates-world',
+    file: 'magic-menu-state.ts',
+    tests: ['src/magic-menu-state.boundaries.test.ts'],
+    from: "  if (skill.target === 'allAllies') return { kind: 'castAll', skill }",
+    to: "  if (skill.target === 'allAllies') { caster.hp -= 1; return { kind: 'castAll', skill }; }",
+    oracle: `const w=makeTestWorld(),skills=makeTestSkills();
+      skills['oracle-all']={...skills['296'],id:'oracle-all',target:'allAllies'};
+      w.learnedSkills[w.party[0].id]=['oracle-all'];
+      const menu=magicConfirmCaster(openMagicMenu(w,skills),w,skills);
+      const before=structuredClone(w);
+      expect(magicConfirmSpell(menu,w)).toEqual({kind:'castAll',skill:skills['oracle-all']});
+      expect(w).toEqual(before);`,
+  },
 ]
+
+// A failed candidate is not automatically a business detection. Vitest's JSON
+// reporter can replace timeout details with STACK_TRACE_ERROR. Never borrow the
+// independent oracle's AssertionError to certify the candidate's failure kind.
+function candidateFailureKind(failureMessages) {
+  // Inspect each error headline, not stack function names such as runWithTimeout.
+  const headlines = failureMessages.map((message) => message.split('\n', 1)[0] ?? '')
+  return headlines.length > 0 &&
+    headlines.every((headline) => /^AssertionError(?:\b|:)/.test(headline))
+    ? 'business-assertion'
+    : 'invalid-candidate-failure'
+}
+assert.equal(
+  candidateFailureKind(['AssertionError: expected pending to be AbortError']),
+  'business-assertion',
+)
+assert.equal(candidateFailureKind(['Error: STACK_TRACE_ERROR']), 'invalid-candidate-failure')
+assert.equal(
+  candidateFailureKind(['AssertionError: unrelated', 'Error: STACK_TRACE_ERROR']),
+  'invalid-candidate-failure',
+)
+assert.equal(
+  candidateFailureKind([
+    'AssertionError: expected 1 to equal 2\n    at runWithTimeout (runner.js:1)',
+  ]),
+  'business-assertion',
+)
 
 const productHashes = Object.fromEntries(
   [...new Set(probes.map((p) => join(src, p.file)))].map((file) => [file, sha(file)]),
@@ -207,7 +248,15 @@ name:'codex-runtime-state-witness',enforce:'pre',load(id){
       assert.equal(oracle.status, 'failed', `${label}: independent oracle must execute and fail`)
       assert.match((oracle.failureMessages ?? []).join('\n'), /AssertionError/)
     }
-    const candidateFailures = submitted.filter((a) => a.status === 'failed').map((a) => a.fullName)
+    const candidateFailureDetails = submitted
+      .filter((a) => a.status === 'failed')
+      .map((a) => ({
+        name: a.fullName,
+        kind: candidateFailureKind(a.failureMessages ?? []),
+        messages: a.failureMessages ?? [],
+      }))
+    const candidateFailures = candidateFailureDetails.map((a) => a.name)
+    const invalidFailure = candidateFailureDetails.some((a) => a.kind !== 'business-assertion')
     assert(
       submitted.every((a) => a.status === 'passed' || a.status === 'failed'),
       `${label}: skipped/pending cases`,
@@ -218,7 +267,14 @@ name:'codex-runtime-state-witness',enforce:'pre',load(id){
       exit: run.status,
       candidateTests: submitted.length,
       candidateFailures,
-      verdict: !mutated ? 'control' : candidateFailures.length ? 'detected' : 'MISSED',
+      candidateFailureDetails,
+      verdict: !mutated
+        ? 'control'
+        : invalidFailure
+          ? 'invalid-candidate-failure'
+          : candidateFailures.length
+            ? 'detected'
+            : 'MISSED',
       oracleStatus: oracle.status,
       report: reportPath,
     })

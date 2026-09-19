@@ -1,5 +1,71 @@
 # 运行时状态补测：Codex接收复核
 
+## 当前返工复核：3c7ae963（2026-09-19）
+
+**结论：收窄counter，仍为rework。设计r1不重签，已闭环项不重开。**
+本轮复跑55定向（content10/reforge45）、双包685/1235全测、两包tsc、16新增文件Biome均exit0；原6对照+16针22/22仍通过。
+四个fixture检查全accepted；场景/物品合法化、compiler after、嵌套别名、非空cue正控、双asset换字节、LRU解码轨迹已确认改善。
+产品/旧测试/原审计探针/官方基线零变，没有模拟器代码冲突。**未集成正式测试，未跑接收后全仓check/ratchet/strict-fast**，原因是以下残项尚未闭环。
+
+### 保留闭环，不再返工的部分
+
+| 原项 | 本轮结论 |
+|---|---|
+| R1 场景/物品主fixture | 两种scene守卫、author-items、runtime-library四检查全部接受；onTeleport非initial entry已移除、物品已合法拆分 |
+| R2 完成态invalidate/LRU | 新双asset/新字节/解码计数有实际鉴别力，原两针已由候选自己的AssertionError检出 |
+| R3 compiler-after/有声动作/一般world改写 | 原三针已由候选自身业务断言检出；合法非空音效正控及条件/产物别名试验保留 |
+| R4 格式和主要统计 | Biome16文件0问题；55项逐文件6/4/5/5/9/9/4/4/2/2/5与执行一致；本轮没有降低范围或统计门槛 |
+
+### 仅剩三项（锚点均钉3c7ae963）
+
+1. **R1-F1：虚构source没有移除，只加了说明注释。**
+   `packages/reforge/src/scene-entry-session.boundaries.test.ts:32`仍调用`source:'held' as never`；:11–12的注释却称轴已收窄。
+   GLM回执及机器账写“虚构source轴移除”与提交树不符。删除此轴或明确归防御并剔除“合法source失配”的贡献，不能只改注释。
+   该项不重开已合法化的scene/item夹具。
+2. **R2-D6：确已进入inflate，但当前负控靠5000ms超时失败，不是观察到错误结局后业务红。**
+   `frame-animation-player.boundaries.test.ts:261–278`的outcome是Promise，不是同步结局值；`expect(await outcome)`会在缺取消包装时挂起，
+   releaseInflate又在其后，因此永远走不到释放。
+   JSON报告候选失败为`Error: STACK_TRACE_ERROR`，duration约5003ms；同一配置verbose重跑明确是`Test timed out in 5000ms`。
+   修法：同步挂结局回调更新独立变量；entered后abort，排空拒绝传播再**同步断言观察值**，不要等待可能永不settle的outcome；finally放行底层并消费Promise。
+   sequence测试也不能以永不释放的gate加另一次正常播放声称“迟到读取无提交”；已存在的D7/F族未实证轴按原counter如实收窄/引用已有，不以标题充当闭环。
+3. **R3-E4：深快照只保护末尾新增的一次单体确认，前面的全体确认仍漏检。**
+   `magic-menu-state.boundaries.test.ts:116`的`_wBefore`没有使用，:139的`expect(w).toEqual(deepSnapshot(w))`是自比较。
+   :140–142只保护最后一个toTarget调用，无法发现前面的castAll已经改了world。
+   本人仅在**allAllies分支**加入扣HP的单点坏实现：候选4/4仍绿，独立同分支world快照业务红。它仍是原R3要求，不是新增功能范围。
+   各确认分支应使用实际调用前快照，测试自身播种MP发生在取快照前；菜单state可原地改变的合同保持，不误禁止。
+
+### Codex见证工具勘误（本席承担）
+
+上一版工具只要求独立oracle是AssertionError，候选只要status=failed就标detected；
+Vitest JSON把候选超时表现为STACK_TRACE_ERROR，绕过了只查`Test timed out`的全局文本检查。
+因此GLM所报原工具“六针detected”确实可复跑，**但不能证明六针候选自身都是业务红**；此误判不是据此指控GLM未运行工具。
+工具现在逐一核候选failureMessages的错误首行，必须每条都是AssertionError；不再借oracle的错误类型认证候选。
+自测包含纯业务红、STACK_TRACE_ERROR、二者混合以及含runWithTimeout正常栈帧的合法AssertionError。
+修订过程中曾误扫普通栈帧runWithTimeout，已纠正为只判错误首行；最终全套重跑才计入结论。
+
+当前[见证工具](runtime-state-review-witnesses.mjs)共7针：原6针保留，新增同一E4合同的castAll分支针。
+
+| 针 | 本轮严格结果 |
+|---|---|
+| compiler-after-loss | detected，候选自身业务红 |
+| frame-await-cancel-bypass | **invalid-candidate-failure**，候选超时/STACK_TRACE_ERROR，oracle业务红 |
+| invalidate-keeps-old-container | detected，候选自身业务红 |
+| lru-hit-does-not-touch | detected，候选自身业务红 |
+| expired-action-replays-cues | detected，候选自身业务红 |
+| magic-confirm-mutates-world | detected，候选自身业务红 |
+| magic-cast-all-mutates-world | **MISSED**，候选4/4绿、oracle业务红 |
+
+7个原实现对照均绿；工具exit0仅表示诊断完整，不等于任务accept。
+最终证据：`/tmp/type-pal-state-rw1.JHwN6q/`（定向/全包/原22跑/verbose超时/最终见证日志）；
+`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-runtime-state-fjvTQg/summary.json`；
+原22跑位于`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-fR22SO/`。
+全程候选产品/参与测试hash不变，未修改GLM测试语义。
+
+GLM只定点处理三项并同步回执：尤其F1“已移除”、D6“业务红”、D组仍写8项等残留文字需按最终树更正。
+重跑最新工具应7对照绿、7针候选自身业务红detected、0 invalid/0 MISSED；再交Codex接收。前三批r2设计、模拟器、已闭环项均不回退。
+
+## 前轮23eb63d2复核原文（历史，以下不重新授权返工已闭环项）
+
 2026-09-19，任务[TEST-RUNTIME-STATE-BOUNDARIES-1](../ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)。
 候选`23eb63d25271438d32fb5c408cb1c5ad0fa30a45`，基点`1c8cad29`，生产冻结`e58834f6`。
 **结论：counter，转rework交GLM；r1测试目的/设计签字不重签，不合入正式测试，不转Kimi、不标done。**

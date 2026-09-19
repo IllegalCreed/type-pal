@@ -7,8 +7,8 @@
 ## 文档与附件
 
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
-- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（rework；23eb63d2已交53项，Codex R1–R4 counter；未集成，设计不重签）
-- [运行时状态补测Codex复核](runtime-state-review.md)与[独立反证工具](runtime-state-review-witnesses.mjs)（非法fixture/六见证MISSED/回执勘误；测试绿不等于接收）
+- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（rework；3c7ae963返工55项，Codex收窄三项残余；已闭环不重开，未集成，设计不重签）
+- [运行时状态补测Codex复核](runtime-state-review.md)与[独立反证工具](runtime-state-review-witnesses.mjs)（当前7针：5 detected/1无效失败/1 MISSED；含Codex工具判据勘误）
 - [前三批r2设计收口与并行交接](glm-coverage-queue-design-review.md)（Codex已签，待GLM确认/Kimi审；193既有测试与[只读前提探针](glm-coverage-queue-premise.mjs)，未写新测试/改产品）
 - [内容合同残项工作包](glm-content-residual.md)（TB-01 r2/draft；本包合法guard与跨包去重，未获实施授权）
 - [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/draft；HTTP/FSA/音频层级收窄，未获实施授权）
