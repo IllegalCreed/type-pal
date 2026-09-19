@@ -362,6 +362,10 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+- 2026-09-19 Codex：S1配置/作者保存基础已在`codex/editor-battle-simulator-r2`提交推送`641a85fb`，尚未并主线。
+  工作树`/Users/zhangxu/.codex/worktrees/battle-simulator-r2/type-pal`；该分支实施回执`docs/testing/battle-simulator-implementation.md`。
+  新增67项；原fast测试选择editor225/2397、reforge117/1219绿（只跑测试，非覆盖率门）；两包tc通过，四正控/四负控通过，Biome无error/warn。
+  尚缺引用诊断、完整UI、真实战斗及整卡质量门，保持build、Codex继续，不交终审、不标done、不改官方基线。
 - 2026-09-19 Codex：用户告知“签了”后同步main，核9aac034c/444cad25为同一r2的前提/设计签字、无counter。
   统一开build，S1配置与持久化起步；隔离实现工作树避免与GLM返工/签字切分支竞态。done仍关闭，不代签终审。
 - 2026-09-19 GLM：完成 r2 冻结设计独立前提/数据/失败矩阵审查，签 premise verified + design agree，
