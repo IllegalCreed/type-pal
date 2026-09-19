@@ -39,7 +39,28 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 
 - Codex：**premise verified / design agree（2026-09-19，r2，冻结e58834f6）**。本人直读file-source.ts:27–47与fsa-source.ts:18–50，核实HTTP透传而FSA主动查取消；sfx.ts:63–94的实际browserAdapter复制/标记门已用宿主探针复跑；main.ts:774–789与readiness.ts:168证实页选择前提不能由旧玩具fixture代证。六旧文件39项绿。r2排除未定页选择/在途dispose，去重12项sfx及已有registry503重试；不宣称PCM/听感或浏览器验证。可证伪：替身替掉产品判据、真正消费者输入与fixture不同、只有旧强例重复，则收窄而不固化。
 - Kimi：pending（独立审r2，不读GLM结论）。
-- GLM：pending（对r2事实与实施钉补充确认；原r1签字保留在下方，不直接沿用）。
+- GLM：**r2 premise verified / design agree（2026-09-19，r2，冻结 e58834f6；差异锚点本人直读/复跑，未读 Kimi 结论；r1 签字留历史）**。
+  - **HTTP/FSA 分层**：file-source.ts:24–47 本人直读——fetch 只透传 AbortSignal、Response 原样
+    消费，无逐 await 取消门；fsa-source.ts:18 起每个读取前 `throwIfAborted(signal)` 主动查——
+    r1 稿 B8 把两宿主混写同一取消 oracle 确为错误，r2 拆分正确。
+  - **browserAdapter 复制**：sfx.ts:63–94 本人直读——`decodeAudioData(bytes.slice(0))` 复制发生在
+    产品 browserAdapter 内；r1 稿"注入假 adapter 后断言收到复制品"不可能成立，r2 改为
+    AudioContext 窄替身 + 真实 browserAdapter 正确。assertWave:90 只查长度/RIFF/WAVE 标记，
+    完整 WAV 正控与 mock decodeAudioData 的边界声明同意（非 PCM 解码证明）。
+  - **caller 订正**：project-loader.ts:455 构造 ProjectImageCache、:461 构造 httpSource，
+    registry 真实消费者为 menu-box.ts:363/main.ts:628——r1 稿把 :455/:461 同时当 registry 锚点
+    有误，r2 订正正确。
+  - **页选择疑点隔离**：sfx-readiness.ts:168 固定 `pages?.[0]?.animation`、main.ts:774–789 只传
+    canonicalScene 无 world 活动页（本人直读两处）——r2 移出"当前页选择正确"绿测主张、归
+    Codex 待证，同意；本包不把首页等同活动页。
+  - **既有基线复跑**：六旧文件 39/39 绿（本人执行）；sfx 实际 12 项、file-source 实际 8 项
+    （r1 稿计数偏低）——r2 去重数字以实跑为准正确。AbortError"通用自动重试"归属删除同意
+    （SfxPlayer 无此合同）。
+  - **探针复跑**：premise 探针 rc=0——实际 browserAdapter 字节保真 + connect/start/stop/close
+    事件序列，与 B2 宿主方案一致（协议级证据，非听感）。
+  - **可证伪观察**：①替身替掉产品判据（假 adapter/IDB 式事务）→无效；②在途 dispose 回填被
+    固化为绿测→违反待证隔离；③registry 跨例预热成功→B10 隔离失败；④产品/旧测试/基线 diff→停。
+  - 返工项：无。Kimi 签齐且无 counter 后由 Codex 核定 build。
 - build准入：未开放；同r2三席齐且无counter后由Codex核定。其它批次无依赖者独立裁决，TB-00返工仍优先。
 
 ### build前r1签字（历史，已被r2替代）
@@ -57,6 +78,9 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 - GLM/Codex/Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r2 差异确认，签 premise verified / design agree，无 counter。复核
+  HTTP 透传/FSA 主动取消分层、browserAdapter 复制位置与 assertWave 标记门、registry 真实 caller、
+  readiness pages[0] 疑点隔离；探针 rc0；六旧文件 39/39 复跑。未读 Kimi 结论；仅改本席与日志。
 
 - 2026-09-19 Codex：按用户要求与TB-00返工并行推进本卡；HTTP/FSA取消、browserAdapter复制、RIFF标记门/PCM解码分层；订正既有用例计数与caller，页选择疑点隔离。已把修订合入工作包正文，r2本人前提/设计签字完成，待GLM补充确认与Kimi独立审查。仅文档/只读探针，未写正式测试或改产品。统一证据见[前三批设计收口](../../testing/glm-coverage-queue-design-review.md)。
 

@@ -38,8 +38,45 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 ### build前（r2，当前）
 
 - Codex：**premise verified / design agree（2026-09-19，r2，冻结e58834f6）**。本人直读asset.ts:387–423、frame-sequence.ts:117–152/255–278、author-dialogue.ts:125–168、content/tsconfig.json及editor的rename既有强断言；相关10文件148项复跑绿，前提探针证明合法unbound边和外部Unicode TPFS及独立错误路径。r2不反向依赖运行时loader、不保活无当前非空消费证据的scriptChunks、不强制已覆盖A3新增。可证伪：合法基线被守卫拒绝、旧断言已经完全同合同、caller只能来自已退役链，则撤回该候选；不得改产品迁就。
-- Kimi：pending（独立审r2，不读GLM结论）。
-- GLM：pending（对r2事实与实施钉补充确认；原r1签字保留在下方，不直接沿用）。
+- Kimi：**premise verified / design agree（2026-09-19，r2，冻结 e58834f6；全部锚点本人直读/复跑，未读 GLM 结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  - **残项入口直读**：`asset.ts:387` 确为 `commandAssetTaggedReferencesAtNode`（原 A1 混名已订正）；
+    `actor-reference.ts:244` `collectDialoguePortraitReferences` 注释明「不扫描 unbound 的全局
+    AssetId」——unbound 肖像直连臂缺口真实；`author-dialogue.ts:125-168` exactKeys+rows 非空、
+    speed/autoAdvance 允许 0 及非负有限数；`frame-sequence.ts:255` 解析外部字节（UTF-8→JSON 分层）。
+  - **依赖方向核实**：content 包 ES2022/rootDir 不允许反向引运行时 loader——r2 改本包结构
+    guard+引用零 issue 基线正确；open-local 当前 scriptChunks={}，旧 migrate 分片构造不等于当前
+    发布消费，A12 先证 consumer 再补的纪律正确。
+  - **去重核实**：editor actor-dialogue-commands.boundaries.test.ts:149 确有经 content rename 的
+    全域/invert/深快照强证据（跨包间接），登记已有不强制第六文件；map-index 重复 ID/路径/自身
+    保护已有强测试先扣重。
+  - **探针本人复跑**（exit 0）：合法 unbound cue 精确 AssetId 边、外部 Unicode TPFS 逐像素
+    恢复（UTF-8/JSON 错误分开）、browserAdapter 实拷字节、worker.onmessage 真实 quantize/encode
+    与真实 transfer、原 buffer 保持且 terminate 一次——非视觉宿主协议证据成立。
+  - **设计同意**：只补已接收包回执登记的残项；118 项逐项对账不重做；TextEncoder 降级不存在
+    不补；D-06/D-07 留修复卡；无 caller 接口不保活；合法 fixture 过当前结构守卫、负控钉名
+    业务红；同口径覆盖对照只出 /tmp；整包串行门由 Codex 接收后统一。
+  - **可证伪观察**（任一反例即收窄或 counter）：① 某族已被同合同断言覆盖（含跨包）→ 登记
+    已有；② 拟造输入不在当前支持域 → 撤回；③ scriptChunks 非空出现当前 consumer → 该族
+    回纳入范围；④ 为结构正控反向引入运行时 loader → 依赖方向破坏；⑤ 产品/旧测试/基线
+    任何 diff → 越界即停。
+  - 返工项：无。
+- GLM：**r2 premise verified / design agree（2026-09-19，r2，冻结 e58834f6；差异锚点本人直读/复跑，未读 Kimi 结论；r1 签字留历史）**。
+  - **锚点订正本人复核**：asset.ts:387 确为 `commandAssetTaggedReferencesAtNode`（r1 稿误名
+    `collectDialoguePortraitReferences`，后者属 actor-reference.ts:244 且刻意不扫 unbound——探针
+    输出 valid current cue → exact asset reference 印证）；:278 `palBattleSpriteAssetId` 的真实
+    caller 在 migrate/pal-battle-sprites.ts:53/63/116（本人直读），A2 收敛为合法参数轴正确。
+  - **依赖方向**：content/tsconfig.json rootDir=src 本人直读——r1 稿"经 loadCurrentProjectFrom 守卫"
+    确会反向引 reforge，r2 改为本包现行结构 guard + validateReferences 零 issue 正控正确。
+  - **scriptChunks 归类**：open-local.ts:77 当前返回 `scriptChunks: {}`、main.ts 零 scriptChunks
+    消费（本人 grep 证实）——A12 先证当前消费者否则不新增旧分片正例，同意。
+  - **既有基线复跑**：TB-01 相关 11 个现存测试文件（asset/actor-reference.contracts/frame-sequence/
+    author-dialogue×2/map-index×2/validate-refs×2/asset-catalog/asset-closure）162/162 绿
+    （本人执行；比 r2 收口报告的 10 文件集多含 author-dialogue.contracts——不影响其结论）。
+  - **探针复跑**：`node --import tsx docs/testing/glm-coverage-queue-premise.mjs` rc=0——合法 unbound
+    cue 精确 AssetId 边、外部 Unicode TPFS 索引逐像素往返且 UTF-8/JSON 错误分离，与 A1/A4 前提一致。
+  - **可证伪观察**：①合法 cue 被 checkAuthorDialogueCue 拒→A1 撤；②多字节 encode 臂出现合法
+    构造→A4 重开；③scriptChunks 找到当前非空消费者→A12 升级；④产品/旧测试/基线 diff→停。
+  - 返工项：无。Kimi 签齐且无 counter 后由 Codex 核定 build。
 - build准入：未开放；同r2三席齐且无counter后由Codex核定。其它批次无依赖者独立裁决，TB-00返工仍优先。
 
 ### build前r1签字（历史，已被r2替代）
@@ -58,6 +95,9 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 - GLM/Codex/Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r2 差异确认，签 premise verified / design agree，无 counter。复核
+  A1/A2 函数名订正、content 依赖方向、scriptChunks 当前消费归类；探针 rc0；TB-01 相关 11 现存
+  文件 162/162 绿。未读 Kimi 结论；仅改本席与日志。
 
 - 2026-09-19 Codex：按用户要求与TB-00返工并行推进本卡；修正A1/A2函数锚点、内容包依赖方向和当前fixture证明方式；A3与旧分片先分类，不承诺六文件全都新增。已把修订合入工作包正文，r2本人前提/设计签字完成，待GLM补充确认与Kimi独立审查。仅文档/只读探针，未写正式测试或改产品。统一证据见[前三批设计收口](../../testing/glm-coverage-queue-design-review.md)。
 
