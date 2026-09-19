@@ -1,0 +1,996 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Codex independent second intake, not integrated coverage",
+  "date": "2026-09-19",
+  "productionFreeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "mainBase": "cf33544d",
+  "candidates": [
+    {
+      "batch": "TB-02",
+      "sha": "d4d79026c5aa1ac034272729405618c609345d9f",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-asset-io",
+      "scopeErrors": [],
+      "frozenPathChanges": [],
+      "cleanAfter": true,
+      "testFiles": [
+        "packages/reforge/src/audio/sfx-readiness.collections.test.ts",
+        "packages/reforge/src/audio/sfx.staged-failures.test.ts",
+        "packages/reforge/src/engine-chrome/registry.lifecycle.test.ts",
+        "packages/reforge/src/file-source.cancel-windows.test.ts",
+        "packages/reforge/src/fsa-source.cancel-windows.test.ts",
+        "packages/reforge/src/project-image-cache.lifecycle.test.ts"
+      ],
+      "fixtureFiles": ["packages/reforge/src/__tests__/glm-asset-io-fixtures.ts"],
+      "targeted": [
+        {
+          "package": "reforge",
+          "exit": 0,
+          "total": 24,
+          "passed": 24,
+          "failed": 0,
+          "report": "/tmp/codex-nine-rework.AzQ4HB/TB-02-reforge-targeted.json"
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "reforge",
+          "code": 0,
+          "log": "/tmp/codex-nine-rework.AzQ4HB/TB-02-reforge-tc.log"
+        }
+      ],
+      "mutants": {
+        "tool": "docs/testing/glm-reforge-asset-io-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-02-mutants.log",
+        "controls": 3,
+        "needles": 8
+      },
+      "biome": {
+        "files": [
+          "docs/testing/glm-reforge-asset-io-evidence.json",
+          "docs/testing/glm-reforge-asset-io-mutants.mjs",
+          "docs/testing/glm-reforge-asset-io.config.mts",
+          "packages/reforge/src/__tests__/glm-asset-io-fixtures.ts",
+          "packages/reforge/src/audio/sfx-readiness.collections.test.ts",
+          "packages/reforge/src/audio/sfx.staged-failures.test.ts",
+          "packages/reforge/src/engine-chrome/registry.lifecycle.test.ts",
+          "packages/reforge/src/file-source.cancel-windows.test.ts",
+          "packages/reforge/src/fsa-source.cancel-windows.test.ts",
+          "packages/reforge/src/project-image-cache.lifecycle.test.ts"
+        ],
+        "exit": 1,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-02-owned-biome.log",
+        "error": 2
+      },
+      "decision": "counter",
+      "remaining": ["C0-exact-unique", "C1-final-tree-evidence"],
+      "integrated": false
+    },
+    {
+      "batch": "TB-03",
+      "sha": "9fe3a07f555fe9c4d0c380aac8a32f34efe9c8e2",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-import-codec",
+      "scopeErrors": [],
+      "frozenPathChanges": [],
+      "cleanAfter": true,
+      "testFiles": [
+        "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+        "packages/editor/src/core/frame-animation-codec.worker.test.ts",
+        "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+        "packages/editor/src/core/image-import.stages.test.ts",
+        "packages/editor/src/core/video-metadata.boxes.test.ts"
+      ],
+      "fixtureFiles": ["packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts"],
+      "targeted": [
+        {
+          "package": "editor",
+          "exit": 0,
+          "total": 39,
+          "passed": 39,
+          "failed": 0,
+          "report": "/tmp/codex-nine-rework.AzQ4HB/TB-03-editor-targeted.json"
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-nine-rework.AzQ4HB/TB-03-editor-tc.log"
+        }
+      ],
+      "mutants": {
+        "tool": "docs/testing/glm-import-codec-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-03-mutants.log",
+        "controls": 3,
+        "needles": 8
+      },
+      "biome": {
+        "files": [
+          "docs/testing/glm-import-codec-evidence.json",
+          "docs/testing/glm-import-codec-mutants.mjs",
+          "docs/testing/glm-import-codec.config.mts",
+          "packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts",
+          "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+          "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+          "packages/editor/src/core/frame-animation-codec.worker.test.ts",
+          "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+          "packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+          "packages/editor/src/core/image-import.stages.test.ts",
+          "packages/editor/src/core/video-metadata.boxes.test.ts"
+        ],
+        "exit": 1,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-03-owned-biome.log",
+        "error": 2,
+        "warning": 1
+      },
+      "decision": "counter",
+      "remaining": ["C0-exact-unique", "C1-final-tree-evidence", "R03-PNG"],
+      "integrated": false
+    },
+    {
+      "batch": "TB-04",
+      "sha": "a87652fd43c60773e884ef89077365fd856eb62e",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-pal-tables",
+      "scopeErrors": [],
+      "frozenPathChanges": [],
+      "cleanAfter": true,
+      "testFiles": [
+        "packages/pal-extract/src/io/msg.boundaries.test.ts",
+        "packages/pal-extract/src/io/sss.boundaries.test.ts",
+        "packages/pal-extract/src/io/word.boundaries.test.ts",
+        "packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts"
+      ],
+      "fixtureFiles": ["packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts"],
+      "targeted": [
+        {
+          "package": "pal-extract",
+          "exit": 0,
+          "total": 19,
+          "passed": 19,
+          "failed": 0,
+          "report": "/tmp/codex-nine-rework.AzQ4HB/TB-04-pal-extract-targeted.json"
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "pal-extract",
+          "code": 0,
+          "log": "/tmp/codex-nine-rework.AzQ4HB/TB-04-pal-extract-tc.log"
+        }
+      ],
+      "mutants": {
+        "tool": "docs/testing/glm-pal-tables-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-04-mutants.log",
+        "controls": 3,
+        "needles": 8
+      },
+      "biome": {
+        "files": [
+          "docs/testing/glm-pal-tables-evidence.json",
+          "docs/testing/glm-pal-tables-mutants.mjs",
+          "docs/testing/glm-pal-tables.config.mts",
+          "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+          "packages/pal-extract/src/io/msg.boundaries.test.ts",
+          "packages/pal-extract/src/io/sss.boundaries.test.ts",
+          "packages/pal-extract/src/io/word.boundaries.test.ts",
+          "packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+          "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts"
+        ],
+        "exit": 1,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-04-owned-biome.log",
+        "error": 2
+      },
+      "decision": "counter",
+      "remaining": ["C0-exact-unique", "C1-final-tree-evidence"],
+      "integrated": false
+    },
+    {
+      "batch": "TB-05",
+      "sha": "4cf2f2e8de9bc095bb8f98b7312910618c1f254c",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-resource-tools",
+      "scopeErrors": [],
+      "frozenPathChanges": [],
+      "cleanAfter": true,
+      "testFiles": [
+        "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+        "packages/pal-extract/src/events/disasm.boundaries.test.ts",
+        "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+        "packages/pal-extract/src/events/slice.boundaries.test.ts",
+        "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+        "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+        "packages/shared/src/rle-encode.boundaries.test.ts",
+        "packages/shared/src/rle.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "targeted": [
+        {
+          "package": "pal-extract",
+          "exit": 0,
+          "total": 15,
+          "passed": 15,
+          "failed": 0,
+          "report": "/tmp/codex-nine-rework.AzQ4HB/TB-05-pal-extract-targeted.json"
+        },
+        {
+          "package": "shared",
+          "exit": 0,
+          "total": 9,
+          "passed": 9,
+          "failed": 0,
+          "report": "/tmp/codex-nine-rework.AzQ4HB/TB-05-shared-targeted.json"
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "pal-extract",
+          "code": 0,
+          "log": "/tmp/codex-nine-rework.AzQ4HB/TB-05-pal-extract-tc.log"
+        },
+        {
+          "pkg": "shared",
+          "code": 0,
+          "log": "/tmp/codex-nine-rework.AzQ4HB/TB-05-shared-tc.log"
+        }
+      ],
+      "mutants": {
+        "tool": "docs/testing/glm-resource-tools-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-05-mutants.log",
+        "controls": 3,
+        "needles": 9
+      },
+      "biome": {
+        "files": [
+          "docs/testing/glm-resource-tools-evidence.json",
+          "docs/testing/glm-resource-tools-mutants.mjs",
+          "docs/testing/glm-resource-tools.config.mts",
+          "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+          "packages/pal-extract/src/events/disasm.boundaries.test.ts",
+          "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+          "packages/pal-extract/src/events/slice.boundaries.test.ts",
+          "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+          "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+          "packages/shared/src/rle-encode.boundaries.test.ts",
+          "packages/shared/src/rle.boundaries.test.ts"
+        ],
+        "exit": 1,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-05-owned-biome.log",
+        "error": 2,
+        "warning": 1
+      },
+      "decision": "counter",
+      "remaining": ["C0-exact-unique", "C1-final-tree-evidence"],
+      "integrated": false
+    },
+    {
+      "batch": "TB-06",
+      "sha": "d8b0295825169163b61fcc82ed6f01a0862afe88",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data",
+      "scopeErrors": [],
+      "frozenPathChanges": [],
+      "cleanAfter": true,
+      "testFiles": [
+        "packages/editor/src/core/map-patch.boundaries.test.ts",
+        "packages/editor/src/core/map-selection.boundaries.test.ts",
+        "packages/editor/src/core/map-transform.boundaries.test.ts",
+        "packages/editor/src/core/stamp-draft.boundaries.test.ts",
+        "packages/editor/src/core/stamp-group-transform.boundaries.test.ts",
+        "packages/editor/src/core/stamp-placement.boundaries.test.ts",
+        "packages/editor/src/core/stamp-template.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "targeted": [
+        {
+          "package": "editor",
+          "exit": 0,
+          "total": 18,
+          "passed": 18,
+          "failed": 0,
+          "report": "/tmp/codex-nine-rework.AzQ4HB/TB-06-editor-targeted.json"
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-nine-rework.AzQ4HB/TB-06-editor-tc.log"
+        }
+      ],
+      "mutants": {
+        "tool": "docs/testing/glm-editor-map-data-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-06-mutants.log",
+        "controls": 3,
+        "needles": 8
+      },
+      "biome": {
+        "files": [
+          "docs/testing/glm-editor-map-data-evidence.json",
+          "docs/testing/glm-editor-map-data-mutants.mjs",
+          "docs/testing/glm-editor-map-data.config.mts",
+          "packages/editor/src/core/map-patch.boundaries.test.ts",
+          "packages/editor/src/core/map-selection.boundaries.test.ts",
+          "packages/editor/src/core/map-transform.boundaries.test.ts",
+          "packages/editor/src/core/stamp-draft.boundaries.test.ts",
+          "packages/editor/src/core/stamp-group-transform.boundaries.test.ts",
+          "packages/editor/src/core/stamp-placement.boundaries.test.ts",
+          "packages/editor/src/core/stamp-template.boundaries.test.ts"
+        ],
+        "exit": 1,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-06-owned-biome.log",
+        "error": 3
+      },
+      "decision": "counter",
+      "remaining": ["C0-exact-unique", "C1-final-tree-evidence", "R06-complete-map"],
+      "integrated": false
+    },
+    {
+      "batch": "TB-07",
+      "sha": "b86f235d84c2d2a4a131504f18b967399bd49379",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-script-helpers",
+      "scopeErrors": [],
+      "frozenPathChanges": [],
+      "cleanAfter": true,
+      "testFiles": [
+        "packages/editor/src/core/author-command-edit.boundaries.test.ts",
+        "packages/editor/src/core/item-alchemy.boundaries.test.ts",
+        "packages/editor/src/core/item-authoring.boundaries.test.ts",
+        "packages/editor/src/core/script-editor-projection.boundaries.test.ts",
+        "packages/editor/src/core/script-editor.hooks-session.test.ts",
+        "packages/editor/src/core/script-reference-catalog.boundaries.test.ts",
+        "packages/editor/src/ui/enemy-defeated-events.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "targeted": [
+        {
+          "package": "editor",
+          "exit": 0,
+          "total": 21,
+          "passed": 21,
+          "failed": 0,
+          "report": "/tmp/codex-nine-rework.AzQ4HB/TB-07-editor-targeted.json"
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-nine-rework.AzQ4HB/TB-07-editor-tc.log"
+        }
+      ],
+      "mutants": {
+        "tool": "docs/testing/glm-editor-script-helpers-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-07-mutants.log",
+        "controls": 3,
+        "needles": 7
+      },
+      "biome": {
+        "files": [
+          "docs/testing/glm-editor-script-helpers-evidence.json",
+          "docs/testing/glm-editor-script-helpers-mutants.mjs",
+          "docs/testing/glm-editor-script-helpers.config.mts",
+          "packages/editor/src/core/author-command-edit.boundaries.test.ts",
+          "packages/editor/src/core/item-alchemy.boundaries.test.ts",
+          "packages/editor/src/core/item-authoring.boundaries.test.ts",
+          "packages/editor/src/core/script-editor-projection.boundaries.test.ts",
+          "packages/editor/src/core/script-reference-catalog.boundaries.test.ts",
+          "packages/editor/src/ui/enemy-defeated-events.boundaries.test.ts",
+          "packages/editor/src/core/script-editor.hooks-session.test.ts"
+        ],
+        "exit": 1,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-07-owned-biome.log",
+        "error": 4,
+        "warning": 1
+      },
+      "decision": "counter",
+      "remaining": ["C0-exact-unique", "C1-final-tree-evidence", "R07-nonempty-redo"],
+      "integrated": false
+    },
+    {
+      "batch": "TB-08",
+      "sha": "9cef33cb9d018e77919f44cf3bd6fefbe1fcfda1",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-game-menu",
+      "scopeErrors": [],
+      "frozenPathChanges": [],
+      "cleanAfter": true,
+      "testFiles": [
+        "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+        "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "packages/game/src/core/menu/shop-menu.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "targeted": [
+        {
+          "package": "game",
+          "exit": 0,
+          "total": 17,
+          "passed": 17,
+          "failed": 0,
+          "report": "/tmp/codex-nine-rework.AzQ4HB/TB-08-game-targeted.json"
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "game",
+          "code": 0,
+          "log": "/tmp/codex-nine-rework.AzQ4HB/TB-08-game-tc.log"
+        }
+      ],
+      "mutants": {
+        "tool": "docs/testing/glm-game-menu-boundaries-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-08-mutants.log",
+        "controls": 3,
+        "needles": 8
+      },
+      "biome": {
+        "files": [
+          "docs/testing/glm-game-menu-boundaries-evidence.json",
+          "docs/testing/glm-game-menu-boundaries-mutants.mjs",
+          "docs/testing/glm-game-menu-boundaries.config.mts",
+          "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+          "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+          "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+          "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+          "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+          "packages/game/src/core/menu/primitives.boundaries.test.ts",
+          "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+          "packages/game/src/core/menu/shop-menu.boundaries.test.ts"
+        ],
+        "exit": 1,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-08-owned-biome.log",
+        "error": 5
+      },
+      "decision": "counter",
+      "remaining": ["C0-exact-unique", "C1-final-tree-evidence"],
+      "integrated": false
+    },
+    {
+      "batch": "TB-09",
+      "sha": "1620ab2427a4ab067007d1b96872e2fb0a00cb70",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-game-host",
+      "scopeErrors": [],
+      "frozenPathChanges": [],
+      "cleanAfter": true,
+      "testFiles": [
+        "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+        "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+        "packages/game/src/shell/audio-volume.boundaries.test.ts",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "packages/game/src/shell/input.boundaries.test.ts",
+        "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "packages/game/src/tools/speedrun/timer.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "targeted": [
+        {
+          "package": "game",
+          "exit": 0,
+          "total": 25,
+          "passed": 25,
+          "failed": 0,
+          "report": "/tmp/codex-nine-rework.AzQ4HB/TB-09-game-targeted.json"
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "game",
+          "code": 0,
+          "log": "/tmp/codex-nine-rework.AzQ4HB/TB-09-game-tc.log"
+        }
+      ],
+      "mutants": {
+        "tool": "docs/testing/glm-game-host-boundaries-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-09-mutants.log",
+        "controls": 3,
+        "needles": 8
+      },
+      "biome": {
+        "files": [
+          "docs/testing/glm-game-host-boundaries-evidence.json",
+          "docs/testing/glm-game-host-boundaries-mutants.mjs",
+          "docs/testing/glm-game-host-boundaries.config.mts",
+          "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+          "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+          "packages/game/src/shell/audio-volume.boundaries.test.ts",
+          "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+          "packages/game/src/shell/input.boundaries.test.ts",
+          "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+          "packages/game/src/tools/speedrun/timer.boundaries.test.ts"
+        ],
+        "exit": 1,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-09-owned-biome.log",
+        "error": 6,
+        "warning": 5,
+        "info": 1
+      },
+      "decision": "counter",
+      "remaining": ["C0-exact-unique", "C1-final-tree-evidence"],
+      "integrated": false
+    },
+    {
+      "batch": "TB-10",
+      "sha": "76bafede2e66a4c1776f6aedf5f525d578be6df3",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-migration",
+      "scopeErrors": [],
+      "frozenPathChanges": [],
+      "cleanAfter": true,
+      "testFiles": [
+        "packages/migrate/src/migration-project-io.boundaries.test.ts",
+        "packages/migrate/src/migration-transaction.boundaries.test.ts",
+        "packages/migrate/src/migration-write-plan.boundaries.test.ts",
+        "packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
+        "packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts",
+        "packages/migrate/src/pal-store-boundary.boundaries.test.ts",
+        "packages/migrate/src/project-map-converter.boundaries.test.ts",
+        "packages/migrate/src/source-facts.boundaries.test.ts"
+      ],
+      "fixtureFiles": [],
+      "targeted": [
+        {
+          "package": "migrate",
+          "exit": 0,
+          "total": 23,
+          "passed": 23,
+          "failed": 0,
+          "report": "/tmp/codex-nine-rework.AzQ4HB/TB-10-migrate-targeted.json"
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "migrate",
+          "code": 0,
+          "log": "/tmp/codex-nine-rework.AzQ4HB/TB-10-migrate-tc.log"
+        }
+      ],
+      "mutants": {
+        "tool": "docs/testing/glm-migration-boundaries-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-10-mutants.log",
+        "controls": 3,
+        "needles": 9
+      },
+      "biome": {
+        "files": [
+          "docs/testing/glm-migration-boundaries-evidence.json",
+          "docs/testing/glm-migration-boundaries-mutants.mjs",
+          "docs/testing/glm-migration-boundaries.config.mts",
+          "packages/migrate/src/migration-project-io.boundaries.test.ts",
+          "packages/migrate/src/migration-transaction.boundaries.test.ts",
+          "packages/migrate/src/migration-write-plan.boundaries.test.ts",
+          "packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
+          "packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts",
+          "packages/migrate/src/pal-store-boundary.boundaries.test.ts",
+          "packages/migrate/src/project-map-converter.boundaries.test.ts",
+          "packages/migrate/src/source-facts.boundaries.test.ts"
+        ],
+        "exit": 1,
+        "log": "/tmp/codex-nine-rework.AzQ4HB/TB-10-owned-biome.log",
+        "error": 12,
+        "warning": 2,
+        "info": 1
+      },
+      "decision": "counter",
+      "remaining": ["C0-exact-unique", "C1-final-tree-evidence"],
+      "integrated": false
+    }
+  ],
+  "summary": {
+    "testFiles": 67,
+    "tests": 210,
+    "controls": 27,
+    "needles": 73,
+    "biomeErrors": 38,
+    "biomeWarnings": 10
+  },
+  "originalWitness": {
+    "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/summary.json",
+    "criteria": [
+      {
+        "batch": "02",
+        "ordinaryErrorWithNestedAssertionAccepted": false,
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-asset-io/docs/testing/glm-reforge-asset-io-mutants.mjs"
+      },
+      {
+        "batch": "03",
+        "ordinaryErrorWithNestedAssertionAccepted": false,
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-import-codec/docs/testing/glm-import-codec-mutants.mjs"
+      },
+      {
+        "batch": "04",
+        "ordinaryErrorWithNestedAssertionAccepted": false,
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/docs/testing/glm-pal-tables-mutants.mjs"
+      },
+      {
+        "batch": "05",
+        "ordinaryErrorWithNestedAssertionAccepted": false,
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/docs/testing/glm-resource-tools-mutants.mjs"
+      },
+      {
+        "batch": "06",
+        "ordinaryErrorWithNestedAssertionAccepted": false,
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data/docs/testing/glm-editor-map-data-mutants.mjs"
+      },
+      {
+        "batch": "07",
+        "ordinaryErrorWithNestedAssertionAccepted": false,
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-script-helpers/docs/testing/glm-editor-script-helpers-mutants.mjs"
+      },
+      {
+        "batch": "08",
+        "ordinaryErrorWithNestedAssertionAccepted": false,
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-game-menu/docs/testing/glm-game-menu-boundaries-mutants.mjs"
+      },
+      {
+        "batch": "09",
+        "ordinaryErrorWithNestedAssertionAccepted": false,
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-game-host/docs/testing/glm-game-host-boundaries-mutants.mjs"
+      },
+      {
+        "batch": "10",
+        "ordinaryErrorWithNestedAssertionAccepted": false,
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-migration/docs/testing/glm-migration-boundaries-mutants.mjs"
+      }
+    ],
+    "fixtures": [
+      {
+        "n": "02",
+        "file": "packages/reforge/src/__tests__/glm-asset-io-fixtures.ts",
+        "expression": "soundItem(\"x\")",
+        "guard": "validateItems",
+        "array": true,
+        "verdict": "accepted"
+      },
+      {
+        "n": "07",
+        "file": "packages/editor/src/core/author-command-edit.boundaries.test.ts",
+        "expression": "({s:{name:\"s\",self:\"none\",body}})",
+        "guard": "validateAuthorSharedScripts",
+        "verdict": "accepted"
+      },
+      {
+        "n": "07",
+        "file": "packages/editor/src/core/script-editor-projection.boundaries.test.ts",
+        "expression": "makeCanonical().scenes",
+        "guard": "validateAuthorScenes",
+        "verdict": "accepted"
+      },
+      {
+        "n": "07",
+        "file": "packages/editor/src/core/item-alchemy.boundaries.test.ts",
+        "expression": "gourdItem(\"g\")",
+        "guard": "validateItems",
+        "array": true,
+        "verdict": "accepted"
+      },
+      {
+        "n": "10",
+        "file": "packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts",
+        "expression": "args().scenes",
+        "guard": "validateAuthorScenes",
+        "verdict": "accepted"
+      }
+    ],
+    "results": [
+      {
+        "batch": "02",
+        "id": "fsa-invalid-json-swallowed",
+        "mode": "control",
+        "exit": 0,
+        "verdict": "control",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/fsa-invalid-json-swallowed-control.json"
+      },
+      {
+        "batch": "02",
+        "id": "fsa-invalid-json-swallowed",
+        "mode": "mutant",
+        "exit": 1,
+        "verdict": "detected",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/fsa-invalid-json-swallowed-mutant.json"
+      },
+      {
+        "batch": "03",
+        "id": "quantize-mutates-actual-input",
+        "mode": "control",
+        "exit": 0,
+        "verdict": "control",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/quantize-mutates-actual-input-control.json"
+      },
+      {
+        "batch": "03",
+        "id": "quantize-mutates-actual-input",
+        "mode": "mutant",
+        "exit": 1,
+        "verdict": "detected",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/quantize-mutates-actual-input-mutant.json"
+      },
+      {
+        "batch": "04",
+        "id": "sss-mutates-consumed-buffer",
+        "mode": "control",
+        "exit": 0,
+        "verdict": "control",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/sss-mutates-consumed-buffer-control.json"
+      },
+      {
+        "batch": "04",
+        "id": "sss-mutates-consumed-buffer",
+        "mode": "mutant",
+        "exit": 1,
+        "verdict": "detected",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/sss-mutates-consumed-buffer-mutant.json"
+      },
+      {
+        "batch": "06",
+        "id": "patch-mutates-actual-permission",
+        "mode": "control",
+        "exit": 0,
+        "verdict": "control",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/patch-mutates-actual-permission-control.json"
+      },
+      {
+        "batch": "06",
+        "id": "patch-mutates-actual-permission",
+        "mode": "mutant",
+        "exit": 1,
+        "verdict": "detected",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/patch-mutates-actual-permission-mutant.json"
+      },
+      {
+        "batch": "08",
+        "id": "equip-done-phase-is-mutated",
+        "mode": "control",
+        "exit": 0,
+        "verdict": "control",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/equip-done-phase-is-mutated-control.json"
+      },
+      {
+        "batch": "08",
+        "id": "equip-done-phase-is-mutated",
+        "mode": "mutant",
+        "exit": 1,
+        "verdict": "detected",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/equip-done-phase-is-mutated-mutant.json"
+      },
+      {
+        "batch": "09",
+        "id": "request-method-ignores-init-override",
+        "mode": "control",
+        "exit": 0,
+        "verdict": "control",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/request-method-ignores-init-override-control.json"
+      },
+      {
+        "batch": "09",
+        "id": "request-method-ignores-init-override",
+        "mode": "mutant",
+        "exit": 1,
+        "verdict": "detected",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/request-method-ignores-init-override-mutant.json"
+      },
+      {
+        "batch": "10",
+        "id": "writer-mutates-baseline-json",
+        "mode": "control",
+        "exit": 0,
+        "verdict": "control",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/writer-mutates-baseline-json-control.json"
+      },
+      {
+        "batch": "10",
+        "id": "writer-mutates-baseline-json",
+        "mode": "mutant",
+        "exit": 1,
+        "verdict": "detected",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/writer-mutates-baseline-json-mutant.json"
+      }
+    ]
+  },
+  "remainingWitness": {
+    "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-residual-2pCVM0/summary.json",
+    "criterion": [
+      {
+        "batch": "TB-02",
+        "suffixOnlyAccepted": true,
+        "duplicateTargetAccepted": true
+      },
+      {
+        "batch": "TB-03",
+        "suffixOnlyAccepted": true,
+        "duplicateTargetAccepted": true
+      },
+      {
+        "batch": "TB-04",
+        "suffixOnlyAccepted": true,
+        "duplicateTargetAccepted": true
+      },
+      {
+        "batch": "TB-05",
+        "suffixOnlyAccepted": true,
+        "duplicateTargetAccepted": true
+      },
+      {
+        "batch": "TB-06",
+        "suffixOnlyAccepted": true,
+        "duplicateTargetAccepted": true
+      },
+      {
+        "batch": "TB-07",
+        "suffixOnlyAccepted": true,
+        "duplicateTargetAccepted": true
+      },
+      {
+        "batch": "TB-08",
+        "suffixOnlyAccepted": true,
+        "duplicateTargetAccepted": true
+      },
+      {
+        "batch": "TB-09",
+        "suffixOnlyAccepted": true,
+        "duplicateTargetAccepted": true
+      },
+      {
+        "batch": "TB-10",
+        "suffixOnlyAccepted": true,
+        "duplicateTargetAccepted": true
+      }
+    ],
+    "validPng": {
+      "bytes": 1378,
+      "chunks": [
+        {
+          "type": "IHDR",
+          "length": 13
+        },
+        {
+          "type": "IDAT",
+          "length": 1321
+        },
+        {
+          "type": "IEND",
+          "length": 0
+        }
+      ],
+      "errors": [],
+      "valid": true
+    },
+    "png": {
+      "source": {
+        "bytes": 64,
+        "chunks": [
+          {
+            "type": "IHDR",
+            "length": 13
+          },
+          {
+            "type": "IDAT",
+            "length": 7
+          },
+          {
+            "type": "IEND",
+            "length": 0
+          }
+        ],
+        "errors": [
+          "IHDR: CRC mismatch 0/2851184254",
+          "IDAT: CRC mismatch 0/2339546054",
+          "IEND: CRC mismatch 0/2923585666",
+          "IDAT: invalid stored block lengths"
+        ],
+        "valid": false
+      },
+      "main": {
+        "bytes": 24,
+        "chunks": [],
+        "errors": [
+          "chunk length 134810123 exceeds file length 24",
+          "missing IHDR",
+          "missing IEND",
+          "IDAT: unexpected end of file"
+        ],
+        "valid": false
+      },
+      "preview": {
+        "bytes": 32,
+        "chunks": [],
+        "errors": [
+          "chunk length 134810123 exceeds file length 32",
+          "missing IHDR",
+          "missing IEND",
+          "IDAT: unexpected end of file"
+        ],
+        "valid": false
+      }
+    },
+    "results": [
+      {
+        "id": "rejected-session-state-alias",
+        "mutated": false,
+        "exit": 0,
+        "candidateTests": 3,
+        "candidateFailures": [],
+        "verdict": "control",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-residual-2pCVM0/rejected-session-state-alias-false.json"
+      },
+      {
+        "id": "rejected-session-state-alias",
+        "mutated": true,
+        "exit": 1,
+        "candidateTests": 3,
+        "candidateFailures": [
+          "不存在的 hook/通道拒绝；拒绝后 state/undo/redo/version/dirty 全部不变"
+        ],
+        "verdict": "detected",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-residual-2pCVM0/rejected-session-state-alias-true.json"
+      },
+      {
+        "id": "rejected-session-clears-redo",
+        "mutated": false,
+        "exit": 0,
+        "candidateTests": 3,
+        "candidateFailures": [],
+        "verdict": "control",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-residual-2pCVM0/rejected-session-clears-redo-false.json"
+      },
+      {
+        "id": "rejected-session-clears-redo",
+        "mutated": true,
+        "exit": 1,
+        "candidateTests": 3,
+        "candidateFailures": [],
+        "verdict": "MISSED",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-residual-2pCVM0/rejected-session-clears-redo-true.json"
+      },
+      {
+        "id": "paste-mutates-layer-metadata",
+        "mutated": false,
+        "exit": 0,
+        "candidateTests": 3,
+        "candidateFailures": [],
+        "verdict": "control",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-residual-2pCVM0/map-metadata-false.json"
+      },
+      {
+        "id": "paste-mutates-layer-metadata",
+        "mutated": true,
+        "exit": 1,
+        "candidateTests": 3,
+        "candidateFailures": [],
+        "verdict": "MISSED",
+        "report": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-residual-2pCVM0/map-metadata-true.json"
+      }
+    ]
+  },
+  "quality": {
+    "fullCheck": "not run: candidates retain blocking counters",
+    "ratchet": "not run",
+    "strictFast": "not run",
+    "baselineTestCount": 7049
+  },
+  "mimosa": "Excluded by user; no audit requested or claimed",
+  "scopeCorrections": [
+    "initial lint census included inherited diagnostics; reran each batch owned whitelist separately",
+    "temporary runner syntax error corrected before any tests ran",
+    "S02 state alias hypothesis refuted: getState clones and mutation detected; only nonempty redo counter retained"
+  ]
+}
