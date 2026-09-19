@@ -25,8 +25,9 @@
 - [内容残项Codex接收复核](content-residual-review.md)与[可重建独立见证](content-residual-review-witnesses.mjs)（三针MISSED、混合错误判据误收；根fixture七检查accepted；未集成/不改官方基线）
 - [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/rework；a7c48d9c接收counter，设计保持）
 - [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03 r2/rework；f4c229ed接收counter；PNG泄漏仍隔离）
-- [试放方案调整：共享战斗模拟器](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（rework；用户提出多入口/队伍配置/预设/战斗道具，r2待设计；旧r1不再授权实施）
+- [试放方案调整：共享战斗模拟器](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（rework；r2首批草案与交互草图已备，待UI/保存选择；旧r1不授权新范围）
 - [共享战斗模拟器全域复用评估](battle-simulator-assessment.md)（8模块27子页：7直接/8上下文/12专用验证；含预设、配置边界与三批接入建议，未实施）
+- [战斗模拟器r2首批实施草案](battle-simulator-r2-design.md)（四目录、工程内配置、事务/撤销/重开、独立运行与验收矩阵；待产品确认与三席准入，非已实现）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）
 - [编辑器预览缓存连续修复](editor-preview-cache.md)（E-03/E-04完成；15项真实字节回归、7负控及原生绘制验证，check7457/严格fast6969通过）
 - [场景删除引用保护实现与验证](scene-reference-guard.md)（D-02/done；83598cc4三席accept并归档；22回归/PAL补1边、最小界面验证及check7442/严格fast6954通过）
