@@ -70,4 +70,21 @@ docs/testing/glm-editor-script-helpers-evidence.json
 
 ## GLM回执区
 
-待实施。当前只有Codex规划与前提复核，不存在GLM交付或accept。
+r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字齐；用户拍板在 Codex 额度
+空窗期先行实施 TB-02～TB-10、恢复后统一接收——本批据此开工，非代签 Codex 准入）。分支
+`codex/glm-editor-script-helpers-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-script-helpers`）；
+产品对冻结 e58834f6 零漂移。最终树 **6 个新测试文件共 17 项**（S01/S03/S04/S05/S06/S07 逐族落账；
+**S02 会话级族未落**——ScriptEditSession 面大且既有四例覆盖相邻轴，按工作包"不能强凑文件"原则
+显式留待补批，不伪装成去重减项）；editor 全包 247 文件/2535 项中 2 项预存 world-sprite PAL ENOENT
+与基线相同；官方 fast 口径 2359→2376 双 exit0；tc rc=0；7 新文件 Biome rc=0。
+
+- 负控 `node docs/testing/glm-editor-script-helpers-mutants.mjs` rc=0：判据自测 + 3 对照 +
+  **7 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
+  产品 hash 不变。针点：子键 then/else 串读、initial 动画 shell 覆盖丢失、hostile.onLose
+  canonical 丢失、authorScripts 空数组退 library、copy 序号 -3 起、alchemy kind 门、奖励区间不含对白。
+- 覆盖对照（官方 testSelection fast，/tmp，最终提交树）：author-command-edit B83→89/109、
+  item-alchemy L34→35/35 B22→26、item-authoring B5→6/6、script-editor-projection L63→64 B56→62、
+  script-reference-catalog B11→12、enemy-defeated-events B214→218；
+  全包 L22346→22348/27865、B19264→19286/27593。
+- 机器账 `docs/testing/glm-editor-script-helpers-evidence.json`（S02 未落与余量归属见 knownBoundaries）。
+
