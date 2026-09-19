@@ -6,6 +6,7 @@
 
 ## 文档与附件
 
+- [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
 - [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（draft；11模块39族，先去重、三签后整包连续实施）
 - [独立技能试放设计与验收](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[当前前提探针](skill-trial-premise.mjs)（D-04/D-05；独立临时状态已裁决，入口UI待确认，未实施）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）

@@ -4,6 +4,8 @@
 
 额度按接手时实际状态确认；历史额度快照不作为当前准入依据。
 
+GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)（78模块、617文件全量路由台账）。这里只链接候选池，不把已规划项列成build；现有卡与E2E排期不变。
+
 工作流: [`agent-workflow.md`](agent-workflow.md)
 任务卡模板: [`tasks/TASK-template.md`](templates/TASK-template.md)
 轻量模板: [`tasks/TASK-lite-template.md`](templates/TASK-lite-template.md)
