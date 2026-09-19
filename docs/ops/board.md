@@ -10,24 +10,23 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 任务卡模板: [`tasks/TASK-template.md`](templates/TASK-template.md)
 轻量模板: [`tasks/TASK-lite-template.md`](templates/TASK-lite-template.md)
 
-2026-09-19 [九批统一接收](../testing/glm-nine-intake-review.md)：用户批准额度空窗期先行实施的排期例外有效；205定向/73负控+27对照/tc通过，但九批各有counter，未合并/未改官方基线。Mimosa按用户最新裁决不归Codex处理、不作接收门；TB00/TB01另排。
+2026-09-20 [九批返工复核](../testing/glm-nine-rework-review.md)：指定候选210定向/73负控+27对照/tc通过，31c8703f登记收窄counter，未合并/未改官方基线；GLM随后在70503f1a提交下一轮回执，待Codex独立复核，不能沿用旧结论代验新树。Mimosa不参与；TB00/TB01另排。
 
 ## 进行中
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | build | Codex在独立分支继续引用诊断/真实试打/UI | S1配置保存基础641a85fb已推送，67新增/两包fast选择3616绿/4负控；未并主线、未改覆盖率基线，done未开 |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM仅返工D6 sequence收尾 | 6d34ad5a的F1/E4及原7针闭环；第8针迟到提交MISSED；55/双包/tc/Biome/22跑绿，未集成，不重签 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM返工CR-R1～R4 | 0e49db91实际23项/原15跑；三见证MISSED、判据误收、Biome1error/回执不符；r2不重签，本轮未释放实施槽 |
-| TEST-REFORGE-ASSET-IO-1 | [TEST-REFORGE-ASSET-IO-1](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | rework | GLM仅修二轮残项 | d4d79026：C0精确唯一/C1；旧业务counter已闭合；未合并 |
-| TEST-EDITOR-IMPORT-CODEC-1 | [TEST-EDITOR-IMPORT-CODEC-1](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | rework | GLM仅修二轮残项 | 9fe3a07f：C0精确唯一/C1；R03-PNG：合法PNG仍未落实；真实digest已修。未合并 |
-| TEST-PAL-TABLES-COVERAGE-1 | [TEST-PAL-TABLES-COVERAGE-1](tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | rework | GLM仅修二轮残项 | a87652fd：C0精确唯一/C1；旧业务counter已闭合；未合并 |
-| TEST-RESOURCE-TOOLS-COVERAGE-1 | [TEST-RESOURCE-TOOLS-COVERAGE-1](tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | rework | GLM仅修二轮残项 | 4cf2f2e8：C0精确唯一/C1；旧业务counter已闭合；未合并 |
-| TEST-EDITOR-MAP-DATA-1 | [TEST-EDITOR-MAP-DATA-1](tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | rework | GLM仅修二轮残项 | d8b02958：C0精确唯一/C1；R06-complete-map：整图元数据污染MISSED；permission及混合失败已修。未合并 |
-| TEST-EDITOR-SCRIPT-HELPERS-1 | [TEST-EDITOR-SCRIPT-HELPERS-1](tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | rework | GLM仅修二轮残项 | b86f235d：C0精确唯一/C1；R07-nonempty-redo：错误清redo仍MISSED；state保真/default/清理已修。未合并 |
-| TEST-GAME-MENU-BOUNDARIES-1 | [TEST-GAME-MENU-BOUNDARIES-1](tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | rework | GLM仅修二轮残项 | 9cef33cb：C0精确唯一/C1；旧业务counter已闭合；未合并 |
-| TEST-GAME-HOST-BOUNDARIES-1 | [TEST-GAME-HOST-BOUNDARIES-1](tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | rework | GLM仅修二轮残项 | 1620ab24：C0精确唯一/C1；旧业务counter已闭合；未合并 |
-| TEST-MIGRATION-BOUNDARIES-1 | [TEST-MIGRATION-BOUNDARIES-1](tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | rework | GLM仅修二轮残项 | 76bafede：C0精确唯一/C1；旧业务counter已闭合；未合并 |
+| TEST-REFORGE-ASSET-IO-1 | [TEST-REFORGE-ASSET-IO-1](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | rework | Codex待独立复核新回执 | ea276956声称闭合C0/C1；旧d4d79026结论不代验新树，未合并 |
+| TEST-EDITOR-IMPORT-CODEC-1 | [TEST-EDITOR-IMPORT-CODEC-1](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | rework | Codex待独立复核新回执 | 001dc9e1声称闭合C0/C1及合法PNG；未合并 |
+| TEST-PAL-TABLES-COVERAGE-1 | [TEST-PAL-TABLES-COVERAGE-1](tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | rework | Codex待独立复核新回执 | 69d62dc2声称闭合C0/C1；未合并 |
+| TEST-RESOURCE-TOOLS-COVERAGE-1 | [TEST-RESOURCE-TOOLS-COVERAGE-1](tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | rework | Codex待独立复核新回执 | 00801036声称闭合C0/C1；未合并 |
+| TEST-EDITOR-MAP-DATA-1 | [TEST-EDITOR-MAP-DATA-1](tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | rework | Codex待独立复核新回执 | d2667b25声称闭合C0/C1及完整map/clipboard保真；未合并 |
+| TEST-EDITOR-SCRIPT-HELPERS-1 | [TEST-EDITOR-SCRIPT-HELPERS-1](tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | rework | Codex待独立复核新回执 | 10cc9d4d声称闭合C0/C1及非空redo保真；未合并 |
+| TEST-GAME-MENU-BOUNDARIES-1 | [TEST-GAME-MENU-BOUNDARIES-1](tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | rework | Codex待独立复核新回执 | bda77494声称闭合C0/C1；未合并 |
+| TEST-GAME-HOST-BOUNDARIES-1 | [TEST-GAME-HOST-BOUNDARIES-1](tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | rework | Codex待独立复核新回执 | ca4c0768声称闭合C0/C1；未合并 |
+| TEST-MIGRATION-BOUNDARIES-1 | [TEST-MIGRATION-BOUNDARIES-1](tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | rework | Codex待独立复核新回执 | 3d798f7c声称闭合C0/C1；未合并 |
 
 2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
 
@@ -51,6 +50,7 @@ D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | blocked | 用户裁决我方人数，Codex保留隔离WIP | 83ade2ef检查点；第4人信息栏x=322越过320画布，首版限3人或扩展正式界面待选；敌方仍5槽，未并主线 |
 
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)
