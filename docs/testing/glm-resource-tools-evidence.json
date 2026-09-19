@@ -45,7 +45,11 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": ["control-rle", "control-slice", "control-palette"],
+    "controls": [
+      "control-rle",
+      "control-slice",
+      "control-palette"
+    ],
     "cases": [
       {
         "name": "rle-zero-command-accepted",
@@ -200,5 +204,31 @@
     "integrated": false,
     "officialCoverageChanged": false,
     "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  },
+  "rework": {
+    "intakeReview": "docs/testing/glm-nine-intake-review.md (Codex counter 1f38bb29)",
+    "generatedAt": "2026-09-19T11:45:09Z",
+    "C0": "判据改为每条 failureMessages 首行 /^AssertionError(\\b|:)|^expect\\(/（运行态 pin 块内联同形谓词 + 四向自测新增普通Error内嵌AssertionError/纯超时反例）",
+    "C1": {
+      "command": "pnpm exec biome check <git 新增清单全部 TS/MJS/MTS/JSON>",
+      "exit": 0,
+      "files": 12
+    },
+    "R05-1": "撤回 dangling goto 缺 label 默认 0 的新绿测（R04 已明确排除该政策）；保留有真实 label target 的独立字节 oracle",
+    "R05-2": "标题与断言对齐——透明 run 新增 126/127 单段不拆轴（原只构造 128）；实心 run 同样补 126/127 单段轴；recompile 八类命令 8B 补齐全部未用 operand WORD 断言（showDialog/giveItem/loadScene/setPalette/setDialogStyleBottom 及同文本测试的尾 WORD 均为 0）",
+    "tests": {
+      "packageFull": {
+        "shared": "14 files / 115 tests exit0",
+        "pal-extract": "34 files / 173 tests：4 项预存 data/raw ENOENT（裁决一致）；本批全绿"
+      },
+      "typecheck": "shared rc=0；pal-extract rc=0"
+    },
+    "mutants": {
+      "command": "node docs/testing/glm-resource-tools-mutants.mjs",
+      "exit": 0,
+      "controls": 3,
+      "needles": 9
+    },
+    "coverageRerun": "官方 fast：shared 106→115、pal-extract 110→125（+15），双侧 exit0（最终返工树重跑）"
   }
 }

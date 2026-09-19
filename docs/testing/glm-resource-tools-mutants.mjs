@@ -64,7 +64,7 @@ const cases = [
     from: 'while (i < total && opaque[i] === 0 && run < 0x7f) {',
     to: 'while (i < total && opaque[i] === 0 && run < 0xff) {',
     red: '透明 run 越过 0x7f 封顶（指令字节溢出截断）',
-    redTest: '透明 run 126/127/128 分段边界：127 封顶，128 拆 127+1',
+    redTest: '透明 run 126/127/128 分段边界：126/127 单段不拆，128 拆 127+1',
     expected: 1,
   },
   {
@@ -183,14 +183,27 @@ try {
 }
 assert.ok(poisoned, 'poisoned log must be rejected')
 
+/** 运行态判据（与四向自测同一语义）：仅认每条 failureMessages 的首行业务 AssertionError/expect 形式。 */
 function pinnedVerdict(failureMessages) {
   if ((failureMessages ?? []).length === 0) return false
-  return failureMessages.every((m) => /AssertionError|^expect\(/.test(m))
+  return failureMessages.every((m) =>
+    /^AssertionError(?:\b|:)|^expect\(/.test(m.split('\n', 1)[0] ?? ''),
+  )
 }
 assert.equal(
   pinnedVerdict(['Error: STACK_TRACE_ERROR\n    at task']),
   false,
   'target timeout rejected',
+)
+assert.equal(
+  pinnedVerdict(['Error: decoder rejected input\nCaused by AssertionError: nested detail']),
+  false,
+  'ordinary Error with nested AssertionError substring rejected (first-line only)',
+)
+assert.equal(
+  pinnedVerdict(['Error: Test timed out in 5000ms\n  async test failed']),
+  false,
+  'pure timeout rejected even when other tests carry business red',
 )
 assert.equal(pinnedVerdict([]), false, 'not-run rejected')
 assert.equal(pinnedVerdict(['AssertionError: expected 1 to be 2']), true, 'pure red passes')
@@ -282,9 +295,9 @@ export default {
     assert.ok((pinned.failureMessages ?? []).length > 0, `${item.name}: no failureMessages; ${log}`)
     for (const message of pinned.failureMessages ?? [])
       assert.match(
-        message,
-        /AssertionError|^expect\(/,
-        `${item.name}: pinned not business AssertionError; ${log}`,
+        message.split('\n', 1)[0] ?? message,
+        /^AssertionError(?:\b|:)|^expect\(/,
+        `${item.name}: pinned not business AssertionError (first line); ${log}`,
       )
   } else {
     assert.ok(

@@ -39,30 +39,42 @@ describe('R04 recompile 独立字节 oracle', () => {
     expectU16(bytes, 12, 7) // frameDelay
     expectU16(bytes, 16, 0xffff) // showDialog
     expectU16(bytes, 18, 2) // messageIndex
+    expectU16(bytes, 20, 0) // 未用 operand 字节写 0
+    expectU16(bytes, 22, 0)
     expectU16(bytes, 24, 0x001f) // giveItem
     expectU16(bytes, 26, 61)
     expectU16(bytes, 28, 0x8000)
+    expectU16(bytes, 30, 0) // giveItem 第三 operand 未用写 0
     expectU16(bytes, 32, 0x0059) // loadScene
     expectU16(bytes, 34, 9)
+    expectU16(bytes, 36, 0) // loadScene 尾 operand 写 0
+    expectU16(bytes, 38, 0)
     expectU16(bytes, 40, 0x008b) // setPalette
     expectU16(bytes, 42, 4)
+    expectU16(bytes, 44, 0)
+    expectU16(bytes, 46, 0)
     expectU16(bytes, 48, 0x003d) // setDialogStyleBottom
     expectU16(bytes, 50, 5)
+    expectU16(bytes, 52, 0) // arg1/arg2 未给写 0
+    expectU16(bytes, 54, 0)
     expectU16(bytes, 56, 0x0177) // raw
     expectU16(bytes, 58, 0x1234)
     expectU16(bytes, 60, 0x5678)
     expectU16(bytes, 62, 0x9abc)
     expect(commands).toEqual(snapshot) // 输入命令不被改写
   })
-  test('同文本不同 messageIndex 字节不同；未命中 label 目标写 0', () => {
+  test('同文本不同 messageIndex 字节不同（文本不参与、messageIndex 保真）', () => {
     const same = [
       { op: 'showDialog', messageIndex: 0, text: '同文' },
       { op: 'showDialog', messageIndex: 2, text: '同文' },
     ] as unknown as Command[]
     const bytes = recompile(same, [])
     expectU16(bytes, 2, 0)
+    expectU16(bytes, 4, 0) // 未用 operand 写 0
+    expectU16(bytes, 6, 0)
     expectU16(bytes, 10, 2) // 文本不参与，messageIndex 保真
-    const dangling = recompile([{ op: 'goto', to: 'L_missing', frameDelay: 0 } as Command], [])
-    expectU16(dangling, 2, 0) // 缺 label 默认 0（现行合同）
+    expectU16(bytes, 12, 0)
+    expectU16(bytes, 14, 0)
+    // 注：缺 label 目标的默认值政策在 R04 设计中明确未定，本批不为其新增正确绿测。
   })
 })

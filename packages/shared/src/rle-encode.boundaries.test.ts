@@ -15,10 +15,34 @@ const frame = (width: number, height: number, pixels: number[], opaque: number[]
 })
 
 describe('R02 encodeRleFrame 独立字节 oracle', () => {
-  test('透明 run 126/127/128 分段边界：127 封顶，128 拆 127+1', () => {
-    // width=130：128 透明 + 2 实心
-    const transparent = frame(130, 1, new Array(130).fill(0), [...new Array(128).fill(0), 1, 1])
-    expect([...encodeRleFrame(transparent)]).toEqual([
+  test('透明 run 126/127/128 分段边界：126/127 单段不拆，128 拆 127+1', () => {
+    // width=128：126 透明 + 2 实心（透明 run 恰为 126）
+    const run126 = frame(128, 1, new Array(128).fill(0), [...new Array(126).fill(0), 1, 1])
+    expect([...encodeRleFrame(run126)]).toEqual([
+      128,
+      0,
+      1,
+      0, // 头
+      0x80 + 126, // 126 透明单段（< 127 封顶不拆）
+      0x02,
+      0x00,
+      0x00, // 2 实心（palette 0 值仍发字节）
+    ])
+    // width=129：127 透明 + 2 实心（恰在封顶值，仍单段）
+    const run127 = frame(129, 1, new Array(129).fill(0), [...new Array(127).fill(0), 1, 1])
+    expect([...encodeRleFrame(run127)]).toEqual([
+      129,
+      0,
+      1,
+      0,
+      0x80 + 127, // 127 透明单段（恰等于封顶，不拆）
+      0x02,
+      0x00,
+      0x00,
+    ])
+    // width=130：128 透明 + 2 实心 → 128 拆 127+1
+    const run128 = frame(130, 1, new Array(130).fill(0), [...new Array(128).fill(0), 1, 1])
+    expect([...encodeRleFrame(run128)]).toEqual([
       130,
       0,
       1,
@@ -44,6 +68,25 @@ describe('R02 encodeRleFrame 独立字节 oracle', () => {
     expect(bytes[132]).toBe(0x01) // 次段 1
     expect(bytes[133]).toBe(128)
     expect(bytes).toHaveLength(134)
+    // 126/127 单段不拆轴：恰在封顶内整段 literal
+    const solid126 = frame(126, 1, Array.from({ length: 126 }, (_, i) => i + 1), new Array(126).fill(1))
+    expect([...encodeRleFrame(solid126)]).toEqual([
+      126,
+      0,
+      1,
+      0,
+      126, // 单条 literal 126（< 0x7f 封顶）
+      ...Array.from({ length: 126 }, (_, i) => i + 1),
+    ])
+    const solid127 = frame(127, 1, Array.from({ length: 127 }, (_, i) => i + 1), new Array(127).fill(1))
+    expect([...encodeRleFrame(solid127)]).toEqual([
+      127,
+      0,
+      1,
+      0,
+      0x7f, // 单条 literal 127（恰等于封顶，不拆）
+      ...Array.from({ length: 127 }, (_, i) => i + 1),
+    ])
   })
   test('尾透明必须写满跳段（总指令覆盖 w*h）', () => {
     const tail = frame(4, 2, [1, 2, 3, 0, 0, 0, 0, 0], [1, 1, 1, 0, 0, 0, 0, 0])
