@@ -1,6 +1,6 @@
 # EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打
 
-Status: rework
+Status: build
 Phase: phase2
 Capability: D-04/D-05修复及共享战斗模拟器首批；不启动第三阶段X5
 Coding Owner: Codex
@@ -8,12 +8,12 @@ Reviewer: Kimi / GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: codex/editor-battle-simulator-r2（准入后建立）
+Branch: codex/editor-battle-simulator-r2
 
 Revision: r2 / 2026-09-19保存裁决后冻结；用户认可草图大方向及两项保存约定，现交两席设计审查。生产冻结`e58834f6389a40ffe9f187e6a8051f552e964d79`；r1三席签字保留为历史，不授权新范围。
 用户此前裁决仍保留：**独立临时试玩，不读写正常存档，关闭试放即丢弃测试状态**。
 本卡与[GLM六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)独立；后者只改新的非视觉测试，Codex只改本卡产品面。
-当前仅调整方案，未改产品、正式测试或基线。用户已指出选择开局没有必要，并提出我方/敌方/战场/道具与可保存我方配置的共享战斗模拟器；原小弹窗选项不再等待作答，停止r1实施。
+当前已核r2三席设计准入，开始首批实现；r1不实施。用户已指出选择开局没有必要，并提出我方/敌方/战场/道具与可保存我方配置的共享战斗模拟器；不再询问旧小弹窗选项。
 
 ## r2本轮推进（GLM返工期间独立准备）
 
@@ -29,7 +29,7 @@ Revision: r2 / 2026-09-19保存裁决后冻结；用户认可草图大方向及�
 
 用户对再次明确的两项保存方式答复“好的”：①命名预设/方案随工程保存，战斗结果不保存；
 ②首版先保存工程再试打，本场临时调整不必另存预设。保存方式和草图方向均不再重问。
-这不是r2三签豁免；本轮冻结设计并交并行审查，**没有改产品或正式测试**。
+这不是r2三签豁免；Codex已核三席r2齐、无counter，现开build，done仍关闭。
 
 ### build前（r2冻结设计，独立于下方r1历史签字）
 
@@ -142,8 +142,10 @@ Revision: r2 / 2026-09-19保存裁决后冻结；用户认可草图大方向及�
     404→NotFoundError 在 :35（契约 :10），实质成立仅行号小漂移。④ open-local
     readLocalProject 的 catch 会统一包装成「canonical 内容无效」，附属文件 fail-loud 应在
     包装点前给出自己的具体路径/重试入口。
-- build准入：Kimi/GLM 两席 r2 前提+设计签字均已落（2026-09-19）；阶段门禁与 Status 由 Codex
-  统一核定推进，本席未改任务状态、不标 build/done。
+- build准入：**build allowed（Codex，2026-09-19）**。三席同钉98dfb9b1/r2：Codex原签、Kimi 9aac034c、GLM 444cad25，
+  均premise verified/design agree、无counter；用户界面/保存约定已批准。产品进入实现，done准入仍关闭。
+  两席非阻断备注纳入实现钉：重复角色/非battler/人数上限及4～5人真实流程；删空预设后保存/重开区别于意外丢文件；
+  附属文档损坏错误保留具体路径；不改变生产内容对外校验合同。file-source404锚点更正为:35。
 
 ## 方向讨论记录（历史，现由上方r2冻结设计收敛）
 
@@ -360,6 +362,8 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+- 2026-09-19 Codex：用户告知“签了”后同步main，核9aac034c/444cad25为同一r2的前提/设计签字、无counter。
+  统一开build，S1配置与持久化起步；隔离实现工作树避免与GLM返工/签字切分支竞态。done仍关闭，不代签终审。
 - 2026-09-19 GLM：完成 r2 冻结设计独立前提/数据/失败矩阵审查，签 premise verified + design agree，
   无返工项。独立复跑前提探针 exit 0（sessions=0 桩胜、MP999/临时授技入同 scope 槽、作者输入不变）；
   直读四类配置类型表达力（character/actor/enemy/battle-core/battle-session/battle-positions）、
@@ -402,6 +406,9 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
   当前只建draft/落方案，生产/正式测试/基线零改；使用Vitest/pnpm复跑45相邻项，并以Vite SSR只读核当前链接。UI形式问题已异步提出，不把未答当同意。
 
 ## 下一位Agent提示词
+
+当前由Codex实现，无下一位Agent提示词；下列r2设计提示词已执行完毕，仅留历史，不再要求重签。
+待首批完整实现与自测后再给实现终审提示词，当前不得标done。
 
 以下两份可并行转发，均钉 **r2 / 2026-09-19保存裁决后冻结** 与生产 **e58834f6389a40ffe9f187e6a8051f552e964d79**。
 只审新范围；已批准的保存方式/界面方向不重问，r1签字保留历史；当前不得开始实现或标记done。

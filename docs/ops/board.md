@@ -16,7 +16,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | rework | Kimi/GLM并行审r2冻结设计 | 用户已确认草图方向/随工程保存/先保存后试打；Codex已签，待两席准入，产品零改 |
+| EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | build | Codex实施S1配置/持久化 | r2三席齐无counter，用户方向/保存已确认；真实试打与UI随后接入，done未开 |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM仅返工D6 sequence收尾 | 6d34ad5a的F1/E4及原7针闭环；第8针迟到提交MISSED；55/双包/tc/Biome/22跑绿，未集成，不重签 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM返工CR-R1～R4 | 0e49db91实际23项/原15跑；三见证MISSED、判据误收、Biome1error/回执不符；r2不重签，本轮未释放实施槽 |
 | TEST-REFORGE-ASSET-IO-1 | [TEST-REFORGE-ASSET-IO-1](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | rework | GLM按统一接收报告返工 | TB-02 a7c48d9c：C0；FSA坏JSON未注入、soundItem非法；未合并，不重签 |
