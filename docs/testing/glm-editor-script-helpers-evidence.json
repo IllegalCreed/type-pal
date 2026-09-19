@@ -174,7 +174,7 @@
       "exit": 0,
       "files": 10
     },
-    "R07-1": "三 fixture 过正式 guard——S01 叶命令 dialogue→wait（current 合法 kind，validateAuthorSharedScripts 接受）；S03 makeCanonical().scenes 过 validateAuthorScenes（pages 带 label、hooks 为对象+onEnter variants、hostile enemyTeamId+命令数组 onLose+完整 policy 对象；onVictory 未定义轴改用运行时 delete 变体）；S06 gourdItem 过 validateItems（use.target/consuming + resource 完整字段），探针 accepted",
+    "R07-1": "三 fixture 过正式 guard——S01 叶命令 dialogue→wait（current 合法 kind，validateAuthorSharedScripts 接受）；S03 makeCanonical().scenes 过 validateAuthorScenes（pages 带 label、hooks 为对象+onEnter variants、hostile enemyTeamId+命令数组 onLose+完整 policy 对象；onVictory 未定义轴改用运行时 delete 变体）；S06 gourdItem 过 validateItems（use.target/consuming + resource 完整字段），探针 accepted；S01 顶层 body 数组整体过 validateAuthorSharedScripts（branch/loop/confirm/startBattle/teleportOut 补齐 cond/mode/yield/maxIterations/enemyTeamId 等现行合法字段，witness factory accepted）",
     "R07-2": "撤回两条已排除轴——空 rewards fallbackItemId 兜底（注释注明政策归属）、authorScripts 缺席退 library；保留合法扩容与显式空数组不退回轴（针点保留在该轴）",
     "R07-3": "S02 三轴补齐（script-editor.hooks-session.test.ts 3 项）：SaveSceneHookDetails default 隔离（isDefault=true 换默认/非默认保存不动现有默认/取消当前默认删 initial+三步 undo 链）；缺 target（不存在 hook/通道）拒绝后 state/undo/redo/version/dirty 全保真且拒绝未污染历史；最后未引用 hook 逐层删除（非 initial 未引用变体直删、initial 引用拒删点名引用、清 initial 后 channel 与 hooks 整键清理+undo 链恢复双变体）",
     "tests": {
@@ -187,6 +187,7 @@
       "controls": 3,
       "needles": 7
     },
-    "coverageRerun": "官方 fast before 2359（222 文件）/ after 2380（229 文件）双 exit0（最终返工树重跑；config newFiles 补入 hooks-session 文件）"
+    "coverageRerun": "官方 fast before 2359（222 文件）/ after 2380（229 文件）双 exit0（最终返工树重跑；config newFiles 补入 hooks-session 文件）",
+    "witnessRerun": "glm-nine-intake-witnesses: 9/9 判据拒绝普通Error内嵌AssertionError、5/5 合法 factory accepted、7 对照绿、TB-03/06/08 针 detected（本批无独立针）"
   }
 }

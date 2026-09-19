@@ -17,15 +17,25 @@ import {
 
 /** 合法叶命令（wait 为现行 current 命令；dialogue 已退役——validateAuthorSharedScripts 拒绝）。 */
 const leaf = (ms: number): AuthorCommand => ({ kind: 'wait', ms })
+const cond = { kind: 'flag', flag: 'f', is: true } as const
 const branch: AuthorCommand = {
   kind: 'branch',
+  cond,
   then: [leaf(11)],
   else: [leaf(12)],
 } as AuthorCommand
-const loop: AuthorCommand = { kind: 'loop', body: [leaf(13)] } as AuthorCommand
+const loop: AuthorCommand = {
+  kind: 'loop',
+  mode: 'while',
+  cond,
+  yield: 'worldTick',
+  maxIterations: 10,
+  body: [leaf(13)],
+} as AuthorCommand
 const confirm: AuthorCommand = { kind: 'confirm', onNo: [leaf(14)] } as AuthorCommand
 const battle: AuthorCommand = {
   kind: 'startBattle',
+  enemyTeamId: 'team-1',
   onLose: [leaf(15)],
   onFlee: [leaf(16)],
 } as AuthorCommand
