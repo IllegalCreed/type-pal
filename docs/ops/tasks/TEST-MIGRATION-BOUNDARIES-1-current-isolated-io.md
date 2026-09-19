@@ -1,6 +1,6 @@
 # TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: 已有合同补测，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -83,6 +83,12 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：按用户拍板（Codex 额度空窗期先行实施 TB-02～TB-10）领取 TB-10 并完成实施
+  （r1，九/九族）。worktree `type-pal-glm-migration`、分支 `codex/glm-migration-r1`、基点
+  41cc7cd9；产品零漂移已核。交付：8 新测试文件 22 项；tc/Biome/官方口径 338→360 双 exit0；
+  负控 9 针+3 对照全 detected。TB-02～TB-10 九批实施包至此全部交付，等待 Codex 额度恢复后
+  统一接收（含 TB-07 S02 会话级族待补的裁决）。状态同步 build；不代签 done。
+
 - 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-10），签 premise verified + design agree，
   无返工项。直读 migrate-content.mts 物化→write-plan→transaction 链、pal-current-publication
   seed/作者 invariant 区分、pal-migration.ts:423 固定 r13SixBExecution:true；A08/A09/E05 为独立
