@@ -1,0 +1,186 @@
+{
+  "task": "TEST-PAL-TABLES-COVERAGE-1 r1 (TB-04)",
+  "generatedAt": "2026-09-19T07:15:39Z",
+  "branch": "codex/glm-pal-tables-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-pal-tables",
+  "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "base": "41cc7cd9 (r1 three signoffs; user authorized proceeding during Codex quota gap)",
+  "productDriftVsFreeze": "git diff e58834f6..HEAD -- packages/ empty; batch adds whitelist only",
+  "tests": {
+    "perFileExecuted": {
+      "io/sss.boundaries.test.ts": 3,
+      "io/word.boundaries.test.ts": 3,
+      "io/msg.boundaries.test.ts": 2,
+      "parsers/__tests__/items.boundaries.test.ts": 2,
+      "parsers/__tests__/stores.boundaries.test.ts": 1,
+      "parsers/__tests__/battle-fields.boundaries.test.ts": 1,
+      "parsers/__tests__/enemy-teams.boundaries.test.ts": 2,
+      "parsers/__tests__/data-misc.boundaries.test.ts": 3,
+      "resources/enemy-pos.boundaries.test.ts": 2
+    },
+    "newTotal": 19,
+    "adjacentExisting": "adjacent run: 4 real-asset io/tables files fail ENOENT data/raw in fresh worktree (pre-existing, identical at base with batch stashed); data-misc.test 12/12 green",
+    "packageFull": "37 files / 177 tests: same 4 real-asset ENOENT failures as stashed base (7 files fail at import level both with and without batch; base 151 passed -> with batch 170 passed, +19); batch 19/19 green",
+    "officialFastSelection": "before 110 exit0 / after 129 exit0 (+19)",
+    "typecheck": "pnpm --filter @type-pal/pal-extract exec tsc --noEmit rc=0",
+    "biome": "all 11 new files rc=0",
+    "familyLedger": {
+      "P01": "新增（合成 5-chunk MKF：非对称 16 字段 EO signed/unsigned 分开 + raw 保真 + chunk2/3/4 完整 + 32B/8B 截断单轴 + 前后保护字节不变）",
+      "P02": "新增（565×10 手写全表段界 36/42/61/296/398/551 精确 + flat 565 逐条 + 内部空格/尾空格/尾 '1'/满 10B 四轴 + GBK persons）",
+      "P03": "新增（已知 GBK 字节精确四条含空条 + sentinel 不产消息 + [0] 零消息 + 非递增空段 + bytes/offsets 双非零 byteOffset 4 对齐）",
+      "P04": "新增（296×14B 七 WORD 逐条互异保真 + 61..294 id=wObjectID + 295 排除邻位完整 + 六基础/六装备一热）",
+      "P05": "新增（空首槽/截断/满 9 三记录并存，id 与数组互不串位）",
+      "P06": "新增（两 12B 完整对象相等：unsigned 高位 screenWave + 五维 signed 正负极值）",
+      "P07": "新增（两 OBJECT 映同 enemyId 各自翻译 + enemyObjectIndexes 保 raw + 0/0xFFFF 不压缩 + 缺映射只影响对应槽 + 精确 warn 逐条 + 补映射全量合法）",
+      "P08": "新增（100 经验 + 20×5×2 学习表 + 20 效果 WORD 完整数组逐项精确 + 三输入非零 byteOffset 视图）",
+      "P09": "新增（100B 非对称 5×5：五 layout 长度 1..5 全部 15 坐标精确转置即红 + 99/101 拒绝 + 100B 正控）"
+    }
+  },
+  "mutants": {
+    "script": "docs/testing/glm-pal-tables-mutants.mjs",
+    "command": "node docs/testing/glm-pal-tables-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true,
+      "pinnedVerdictFourWay": true
+    },
+    "controls": ["control-sss", "control-stores", "control-fields"],
+    "cases": [
+      {
+        "name": "sss-signed-to-unsigned",
+        "exit": 1,
+        "red": "sVanishTime 被当 unsigned 读（0x8000 → 32768）",
+        "redTest": "非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开",
+        "executedTests": 3,
+        "logSha256": "4b73e2bb3438dde116216710c7015c364a35545b29e58eab701d5fa40bbba96c"
+      },
+      {
+        "name": "word-items-offset-shift",
+        "exit": 1,
+        "red": "物品段起点偏一位（段界错位）",
+        "redTest": "persons36..41 / battleUi42..60 / items61..295 / spells296..397 / enemies398..550 / scenes551..564 / system0..35 段界精确",
+        "executedTests": 3,
+        "logSha256": "0393e309650cb480639d7b99dcd7b10b609ccc871ef8ace1f1c65215c6754f73"
+      },
+      {
+        "name": "items-script-offset-alias",
+        "exit": 1,
+        "red": "scriptOnEquip 读 scriptOnThrow 偏移（字段别名）",
+        "redTest": "296×14B 表：234 条（61..294）逐条七 WORD 精确，梦蛇 295 排除且邻位完整",
+        "executedTests": 2,
+        "logSha256": "cbbd6446b459ce369359c93e07e31d144dd206917cb56d65ff7b431189b21b19"
+      },
+      {
+        "name": "items-equip-role-bit-shift",
+        "exit": 1,
+        "red": "装备位基号偏一位（读到基础 flag 位）",
+        "redTest": "六基础 flag 一热 + 六装备位一热（同 role 号），295 不在断言域",
+        "executedTests": 2,
+        "logSha256": "2a1dfca3752f564c578cbedff065deee6a59000f13830fbf4b080281c985c019"
+      },
+      {
+        "name": "teams-raw-identity-overwritten",
+        "exit": 1,
+        "red": "enemyObjectIndexes 被译文覆盖（原始 OBJECT 身份丢失）",
+        "redTest": "两 OBJECT 映同 enemyId：enemies 各自翻译、enemyObjectIndexes 保 raw、0/0xFFFF 不压缩",
+        "executedTests": 2,
+        "logSha256": "14c8ff310dbdce732205aa64af02c5c211dbbdc715202df1afe2b2d622ce2059"
+      },
+      {
+        "name": "misc-level-magic-swap",
+        "exit": 1,
+        "red": "wLevel 读到 wMagic 偏移（level/magic 错位）",
+        "redTest": "学习表 20×5：level=e*5+r+1 / magic=e*7+r+2（entry 与 role 双向非对称，转置即红）",
+        "executedTests": 3,
+        "logSha256": "b58d009393896e7fbc8901f5ea878d2a336bdb941dc61e7a2ce8fe92e924c31c"
+      },
+      {
+        "name": "enemypos-transpose",
+        "exit": 1,
+        "red": "C 布局两维转置（pos[maxIdx][enemyIdx]）",
+        "redTest": "layouts[count-1][enemyIdx] 逐坐标精确；长度 1..5；C 布局 (enemyIdx*5+maxIdx) 转置即红",
+        "executedTests": 2,
+        "logSha256": "9c89fb8badc326fce1bcdb6e1b56449fec08065dcd3df39f3735072b0e7b4434"
+      },
+      {
+        "name": "msg-end-offset-collapse",
+        "exit": 1,
+        "red": "消息终点坍缩到起点（所有消息为空）",
+        "redTest": "四条精确（含空条）；末 offset 只作下界不产消息；GBK 双字节轴",
+        "executedTests": 2,
+        "logSha256": "3c82849a855cde82537d7450ef6c02bac44bef8331225396d0ff2cc1784730ea"
+      }
+    ],
+    "logs": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/tb04-mutants-14057j",
+    "note": "临时日志在 mkdtemp，可用脚本原命令重建；产品文件前后 sha256 不变（脚本内置断言）"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-pal-tables.config.mts (official testSelection fast; before excludes 9 new files)",
+    "perModule": {
+      "msg.ts": {
+        "before": "L0/6 B0/0",
+        "after": "L6/6 B0/0"
+      },
+      "sss.ts": {
+        "before": "L0/53 B0/4",
+        "after": "L53/53 B4/4"
+      },
+      "word.ts": {
+        "before": "L0/32 B0/8",
+        "after": "L32/32 B7/8"
+      },
+      "enemy-pos.ts": {
+        "before": "L0/16 B0/2",
+        "after": "L16/16 B2/2"
+      },
+      "battle-fields.ts": {
+        "before": "L0/11 B0/2",
+        "after": "L10/11 B1/2"
+      },
+      "data-misc.ts": {
+        "before": "L0/23 B0/6",
+        "after": "L23/23 B4/6"
+      },
+      "enemy-teams.ts": {
+        "before": "L0/27 B0/22",
+        "after": "L20/27 B10/22"
+      },
+      "items.ts": {
+        "before": "L0/20 B0/6",
+        "after": "L19/20 B4/6"
+      },
+      "stores.ts": {
+        "before": "L0/16 B0/4",
+        "after": "L15/16 B3/4"
+      }
+    },
+    "packageTotal": {
+      "before": "L561/1316 B253/539 F67/140",
+      "after": "L755/1316 B288/539 F89/140"
+    }
+  },
+  "knownBoundaries": [
+    "fast 口径下真实资产测试被官方排除（既有表测试在 fresh worktree 缺 data/raw 也 ENOENT，与本批无关）",
+    "battle-fields L10/11、items L19/20、stores L15/16、enemy-teams L20/27 等余量是真实数据依赖分支与 _names 反查路径，归真实资产批次"
+  ],
+  "codexReception": {
+    "candidate": "851a6ede8d1f1776ffa933f58dc37e6e1be86476",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-04",
+    "verifiedNewTests": 19,
+    "verifiedControls": 3,
+    "verifiedMutants": 8,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 13,
+      "errors": 1,
+      "warnings": 0,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  }
+}

@@ -1,7 +1,13 @@
 # GLMRLE、事件与资源工具补测工作包（TB-05）
 
-任务：[TEST-RESOURCE-TOOLS-COVERAGE-1](../ops/tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md)，r1/draft。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`；策划树 `4473c367`。
-共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试，**未获build授权**。
+## 当前Codex接收结论
+
+**counter**。定向24项/原3+9跑/tc通过，但仍有公共C0和本批业务返工；Biome完整面11文件/1 errors。详见[统一复核TB-05](glm-nine-intake-review.md#tb-05)。
+本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
+
+
+任务：[TEST-RESOURCE-TOOLS-COVERAGE-1](../ops/tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md)，r1/rework；本轮实施候选d083e5c6未接收，设计不重签。
+共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试；三席设计有效，用户已批准本轮先行实施，当前接收counter。
 表内为已按调用域筛选的候选，不是已经完成的新增覆盖；允许去重后减文件/减族，不设必须凑足的用例数。
 
 ## 合同族与去重
@@ -74,7 +80,7 @@ docs/testing/glm-resource-tools-evidence.json
 - GLM不跑全仓check/官方ratchet/strict-fast。Codex独立接收集成后串行执行；GLM贡献终审披露，不自证第三方，不代签、不标done。
 - 提交时本节后附GLM实现回执：候选SHA、白名单diff、真实命令/退出码、逐族互斥分类与新增价值、负控细目、覆盖两时点与待证归属。
 
-## GLM回执区
+## GLM回执区（候选历史自验；以当前Codex复核勘误为准）
 r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字齐；用户拍板在 Codex 额度
 空窗期先行实施 TB-02～TB-10、恢复后统一接收——本批据此开工，非代签 Codex 准入）。分支
 `codex/glm-resource-tools-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-resource-tools`）；
@@ -94,4 +100,3 @@ shared 全包 14 文件/115 项 exit0；pal-extract 34 文件/173 项中 4 项�
   全包 shared L338→342/356 B145→151/177；pal-extract L561→583/1316 B253→269/539。
   官方口径 shared 106→115、pal-extract 110→125（+15）双侧 exit0。
 - 机器账 `docs/testing/glm-resource-tools-evidence.json`。
-

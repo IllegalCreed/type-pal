@@ -45,11 +45,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-rle",
-      "control-slice",
-      "control-palette"
-    ],
+    "controls": ["control-rle", "control-slice", "control-palette"],
     "cases": [
       {
         "name": "rle-zero-command-accepted",
@@ -185,5 +181,24 @@
     "pal-extract fast 计数：before 110 / after 125（+15）；日志文件名字母序 after<before 易误读，perModule 取自正确配对目录",
     "rle-encode L43/44、disasm L58/69 余量为真实资产依赖分支与未具名 fallback，归真实资产批次",
     "symlink 递归、YJ2 政策、结构化 recompile 未定义 operand 保持原归属不扩测"
-  ]
+  ],
+  "codexReception": {
+    "candidate": "d083e5c6ea61f24ca459841fe53f28d72b157412",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-05",
+    "verifiedNewTests": 24,
+    "verifiedControls": 3,
+    "verifiedMutants": 9,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 11,
+      "errors": 1,
+      "warnings": 1,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  }
 }
