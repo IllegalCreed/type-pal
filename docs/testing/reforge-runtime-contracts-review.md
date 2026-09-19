@@ -1,11 +1,13 @@
 # TEST-REFORGE-RUNTIME-CONTRACTS-1 · Codex接收复核
 
-## 当前结论（2026-09-19）：accept，集成候选62a18137，待Kimi终审
+## 当前结论（2026-09-19）：三席accept，候选62a18137已done归档
 
 源候选`3dfec190076a2561290685702d47da265f5ef58c`，本轮主线基点b99ec6cf；r1设计不重签。
 只复核剩余D1输入保真与看板，已闭环R1/R3及R2/R4其他项不重开。技术阻断全部消除，
 串行check/ratchet/受保护单次fast通过，集成候选`62a181376f283fe7bfbb84c69be631399887e495`。
-Codex签accept，无返工项；任务review，尚不标done，Kimi独立终审未执行。GLM为测试贡献者，其自验不是独立第三方。
+Codex集成accept、Kimi独立终审accept、GLM源候选实施者自验accept均在卡；无返工项，用户确认“签了”，本卡已done归档。
+收口前核d6e1bdcb对62a18137的packages/scripts/基线零diff、源3dfec190测试/fixture/诊断逐字相同；候选后仅协调/审查文档变化（含看板状态），不重跑已通过重型门禁。
+GLM为测试贡献者，其自验不是独立第三方；他席签字原文保留，BGM initP政策与full/E2E待办不因此关闭。
 
 ### 独立验证与输入身份
 
@@ -122,7 +124,7 @@ coverage-before/coverage-after/docs-candidate/input-witness。四见证明细`/v
 ## 首轮历史（以下钉75c9cfe8，不代表当前四见证仍漏检）
 
 候选`75c9cfe883372c92cddf67e27b264aa335af89ce`，基点6300223a，生产冻结3bc20273；2026-09-18开始复核，09-19落结论。
-任务：[运行时五组补测卡](../ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)。
+任务：[运行时五组补测卡](../ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)。
 
 ## 首轮结论：counter，R1～R4定点返工，不合入
 

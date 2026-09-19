@@ -1,10 +1,10 @@
 # GLM运行时基础功能五组补测工作包
 
 2026-09-19接收更新：源3dfec190剩余两项已闭环，Codex独立复核并集成为62a18137，[当前结论accept](reforge-runtime-contracts-review.md)。
-60定向/1190全包、五常驻见证/原15跑及补充lazy输入污染反控通过；check7538、官方ratchet/受保护单次fast7049绿，待Kimi独立终审，不标done。
+60定向/1190全包、五常驻见证/原15跑及补充lazy输入污染反控通过；check7538、官方ratchet/受保护单次fast7049绿；三席accept齐、用户确认，Codex核零漂移后done归档。
 GLM回执/30族/机器账按源候选保留；测试贡献者自验不是独立第三方。下文派发快照及回执中的/tmp统计为各自时点，不覆盖最新官方基线。
 
-任务：[TEST-REFORGE-RUNTIME-CONTRACTS-1](../ops/tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)，r1/review。
+任务：[TEST-REFORGE-RUNTIME-CONTRACTS-1](../ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)，r1/done。
 首轮75c9cfe8与返工a9e1d4f1的counter保留在[接收历史](reforge-runtime-contracts-review.md)及对应Git树；本轮已闭环，不重新签设计。
 冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`；GLM只写新测试，Codex独立接收，Kimi终审。
 派发时Codex并行做[场景引用保护](../ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)（当前已done），不触本包生产面。

@@ -11,7 +11,7 @@ Unavailable Agents: none
 Branch: codex/editor-scene-ref-guard-r1
 
 Revision: r1，2026-09-18。前提冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`。
-用户要求GLM大包与Codex修复双线推进；本卡与[运行时补测卡](../../../tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)独立。
+用户要求GLM大包与Codex修复双线推进；本卡与[运行时补测卡](TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md)独立。
 当前（2026-09-19）：三席同候选accept、无返工项；用户要求继续推进，Codex核候选后packages/scripts/锁文件零漂移，已核定done并归档。
 实现候选：`83598cc4e58828ff5ec586c1491da685d564c85c`，对比build准入基线`830db139`；6300223a仅并行卡准入文档。
 
@@ -309,7 +309,7 @@ Codex已做最小真实App/worker功能验证，复用回执，不重复浏览�
 
 ### 历史设计提示（已完成，不重签）
 
-两段完整可复制提示词统一见[并行测试卡交接区](../../../tasks/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md#下一位agent提示词)，同钉两卡r1与冻结3bc20273。
+两段完整可复制提示词统一见[并行测试卡交接区](TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md#下一位agent提示词)，同钉两卡r1与冻结3bc20273。
 GLM与Kimi本阶段可并行审本卡及TEST-REFORGE-RUNTIME-CONTRACTS-1；各自不读/复述另一席结论。
 先读AGENTS/CLAUDE/READ-FIRST、两卡及各一手锚点。本卡直接复跑上述scene probe，核目标域/真实调用/去重/定位/删除集合。
 各席仅写本人premise verified（直接证据和可证伪观察）及design agree或counter、本人日志，提交前同步并推送。

@@ -143,7 +143,7 @@ content类型/校验/规则，migrate发布/物化/历史输出，reforge状态/
 Codex完成disabled/inherit/transition三漏边修复、22回归/PAL真树补1边/三负控及最小界面验证，check7442/严格fast6954通过，
 [回执](../../../testing/scene-reference-guard.md)在案；两席终审accept、用户要求继续，2026-09-19由Codex核候选零漂移后done归档。
 GLM[运行时基础功能五组补测](../../../testing/glm-reforge-runtime-contracts.md)（十模块30族）于2026-09-19完成收窄返工，
-源3dfec190已由Codex独立复核并集成62a18137：60新测试、check7538/受保护单次fast7049通过，Codex accept、待Kimi终审，不标done。
+源3dfec190已由Codex独立复核并集成62a18137：60新测试、check7538/受保护单次fast7049通过，三席accept齐、用户确认，2026-09-19核零漂移后done归档。
 该测试包不改生产，GLM为测试贡献者而非独立第三方；不互借签字、不冒称完整E2E。
 
 2026-09-18收口：[D-03精灵上传选图卡](../../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md)已完成r1实现与[验证](../../../testing/sprite-selection.md)，当前done。

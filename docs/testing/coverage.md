@@ -9,7 +9,7 @@
 ## 最新实测（2026-09-19 · 运行时基础功能补测）
 
 [TEST-REFORGE-RUNTIME-CONTRACTS-1接收](reforge-runtime-contracts-review.md)源3dfec190→集成62a18137通过独立复核，
-完整check **7538项**、官方ratchet及受保护**单次严格fast**全部绿；Codex accept，待Kimi终审，任务review、不标done。
+完整check **7538项**、官方ratchet及受保护**单次严格fast**全部绿；三席accept齐、用户确认，2026-09-19由Codex核零漂移后done归档。
 fast **7049项/617生产文件**，Reforge **1190项/116测试文件/124生产文件**；纯新增十文件60项，旧106文件identity/计数原样。
 其它六包完整基线对象、所有生产清单/scopeDigest/指标分母不变，未改生产/旧测试/统计范围/排除或阈值。
 Reforge行7927/14118（56.15%）、语句8763/16188（54.13%）、函数1388/2416（57.45%）、分支5329/11041（48.27%）；
