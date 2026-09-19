@@ -7,6 +7,7 @@
 ## 文档与附件
 
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
+- [GLM交付前自检清单](glm-delivery-checklist.md)（强制；历次counter根因四类与六步自检，fixture守卫门/变异自检/实参保真/取消三件套/回执从树生成，缺一不交）
 - [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（rework；6d34ad5a的F1/E4闭环，仅D6 sequence收尾与回执勘误残留；55项未集成，r1不重签）
 - [运行时状态补测Codex复核](runtime-state-review.md)与[独立反证工具](runtime-state-review-witnesses.mjs)（当前8针：7 detected/1迟到提交MISSED；原7针均业务红闭环）
 - [前三批r2准入与连续实施交接](glm-coverage-queue-design-review.md)（设计三签保持；TB-01首次交付counter、TB-02/03待槽；193既有测试与[前提探针](glm-coverage-queue-premise.mjs)是设计证据）
