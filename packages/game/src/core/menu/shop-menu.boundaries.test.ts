@@ -5,13 +5,7 @@
  */
 import type { Item } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import {
-  createBuyMenu,
-  shopCancel,
-  shopConfirm,
-  shopMoveUp,
-  shopSelectItem,
-} from './shop-menu.js'
+import { createBuyMenu, shopCancel, shopConfirm, shopMoveUp, shopSelectItem } from './shop-menu.js'
 
 const mkItem = (id: number, price: number): Item =>
   ({ id, price, _name: `item-${id}`, flags: {} }) as unknown as Item

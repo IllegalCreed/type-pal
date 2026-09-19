@@ -33,15 +33,39 @@ const TESTS = {
 }
 
 const cases = [
-  { name: 'control-inventory', pkg: 'editor', group: 'inventory', file: null, from: '', to: '', expected: 0 },
-  { name: 'control-ingame', pkg: 'editor', group: 'ingame', file: null, from: '', to: '', expected: 0 },
-  { name: 'control-system', pkg: 'editor', group: 'system', file: null, from: '', to: '', expected: 0 },
+  {
+    name: 'control-inventory',
+    pkg: 'editor',
+    group: 'inventory',
+    file: null,
+    from: '',
+    to: '',
+    expected: 0,
+  },
+  {
+    name: 'control-ingame',
+    pkg: 'editor',
+    group: 'ingame',
+    file: null,
+    from: '',
+    to: '',
+    expected: 0,
+  },
+  {
+    name: 'control-system',
+    pkg: 'editor',
+    group: 'system',
+    file: null,
+    from: '',
+    to: '',
+    expected: 0,
+  },
   {
     name: 'inventory-availability-gate-removed',
     pkg: 'editor',
     group: 'inventory',
     file: 'inventory-menu.ts',
-    from: "if (!item?.flags.usable || sel.count - sel.inUse <= 0) {",
+    from: 'if (!item?.flags.usable || sel.count - sel.inUse <= 0) {',
     to: 'if (false) {',
     red: 'count===inUse 的占用门失效（装备中物品仍可确认）',
     redTest: 'count===inUse 拒绝留在 list；少占用正控进 use-target；追加装备 count0/inUse-1 可确认',
@@ -110,7 +134,8 @@ const cases = [
     from: '  s.switchTarget = target\n  s.confirmYes = currentOn',
     to: '  s.switchTarget = target\n  s.confirmYes = false',
     red: 'switch 子单不再默认高亮当前开关态',
-    redTest: 'EnterConfirm 重置 confirmYes=false；ToggleConfirm 翻转；EnterSwitch 按 id 记目标且高亮当前态',
+    redTest:
+      'EnterConfirm 重置 confirmYes=false；ToggleConfirm 翻转；EnterSwitch 按 id 记目标且高亮当前态',
     expected: 1,
   },
   {
@@ -138,54 +163,102 @@ const ownAst = ts.createSourceFile(
 )
 const criterionBlocks = []
 function visitOwn(node) {
-  if (ts.isIfStatement(node) && node.expression.getText(ownAst) === 'item.expected === 1')
+  if (
+    ts.isIfStatement(node) &&
+    ['item.expected === 1', 'item.redTest !== undefined'].includes(node.expression.getText(ownAst))
+  )
     criterionBlocks.push(node.thenStatement.getText(ownAst))
   ts.forEachChild(node, visitOwn)
 }
 visitOwn(ownAst)
-assert.equal(criterionBlocks.length, 1, 'exactly one verdict block')
-new Function('assert', 'item', 'output', criterionBlocks[0])(
-  assert,
-  { name: 'selftest-good' },
-  'MUTATION_HIT selftest-good\nAssertionError: expected 1 to equal 2',
+assert.equal(criterionBlocks.length, 2, 'exactly two verdict blocks')
+// 实际运行与自测共用判据：直接执行抽取出的两段运行态块（非另写谓词）。
+const runCriterion = new Function(
+  'assert',
+  'item',
+  'output',
+  'assertions',
+  'log',
+  criterionBlocks.join('\n'),
+)
+const pinnedEntry = (title, messages) => ({
+  title,
+  status: 'failed',
+  ...(messages === null ? {} : { failureMessages: messages }),
+})
+const business = ['AssertionError: expected 1 to equal 2']
+const accepts = (assertions) => {
+  try {
+    runCriterion(
+      assert,
+      { name: 'selftest', expected: 1, redTest: 'target' },
+      'MUTATION_HIT selftest\nAssertionError: expected 1 to equal 2',
+      assertions,
+      'selftest',
+    )
+    return true
+  } catch (error) {
+    assert(
+      error instanceof assert.AssertionError,
+      `self-test rejection must be AssertionError, got: ${String(error)}`,
+    )
+    return false
+  }
+}
+// 正控：唯一精确目标 + 业务红首行
+assert.equal(accepts([pinnedEntry('target', business)]), true, 'exact unique target accepted')
+// 后缀冒名：只有「other target」失败、精确目标未执行 → 拒绝
+assert.equal(
+  accepts([pinnedEntry('other target', business)]),
+  false,
+  'suffix-impersonation target rejected',
+)
+// 重名：两个同名 target → 拒绝（不猜取哪一个）
+assert.equal(
+  accepts([pinnedEntry('target', business), pinnedEntry('target', business)]),
+  false,
+  'duplicate target titles rejected',
+)
+// 未失败 / 空 messages / 普通Error内嵌AssertionError / 纯超时 → 全拒绝
+assert.equal(
+  accepts([{ title: 'target', status: 'passed', failureMessages: [] }]),
+  false,
+  'not-failed target rejected',
+)
+assert.equal(accepts([pinnedEntry('target', [])]), false, 'empty failureMessages rejected')
+assert.equal(
+  accepts([
+    pinnedEntry('target', [
+      'Error: decoder rejected input\nCaused by AssertionError: nested detail',
+    ]),
+  ]),
+  false,
+  'ordinary Error with nested AssertionError substring rejected (first-line only)',
+)
+assert.equal(
+  accepts([pinnedEntry('target', ['Error: Test timed out in 5000ms\n  async test failed'])]),
+  false,
+  'pure timeout rejected even when other tests carry business red',
+)
+// expect 形式与普通 AssertionError 均为合法业务首行
+assert.equal(
+  accepts([pinnedEntry('target', ['expect(received).toBe(expected)'])]),
+  true,
+  'expect-form accepted',
 )
 let poisoned = false
 try {
-  new Function('assert', 'item', 'output', criterionBlocks[0])(
+  runCriterion(
     assert,
-    { name: 'selftest-poisoned' },
+    { name: 'selftest-poisoned', expected: 1 },
     'MUTATION_HIT x\nAssertionError: y\nTypeError: host\nTest timed out\nUnhandled Errors\nSTACK_TRACE_ERROR',
+    [],
+    'selftest',
   )
 } catch {
   poisoned = true
 }
 assert.ok(poisoned, 'poisoned log must be rejected')
-
-/** 运行态判据（与四向自测同一语义）：仅认每条 failureMessages 的首行业务 AssertionError/expect 形式。 */
-function pinnedVerdict(failureMessages) {
-  if ((failureMessages ?? []).length === 0) return false
-  return failureMessages.every((m) =>
-    /^AssertionError(?:\b|:)|^expect\(/.test(m.split('\n', 1)[0] ?? ''),
-  )
-}
-assert.equal(
-  pinnedVerdict(['Error: STACK_TRACE_ERROR\n    at task']),
-  false,
-  'target timeout rejected',
-)
-assert.equal(
-  pinnedVerdict(['Error: decoder rejected input\nCaused by AssertionError: nested detail']),
-  false,
-  'ordinary Error with nested AssertionError substring rejected (first-line only)',
-)
-assert.equal(
-  pinnedVerdict(['Error: Test timed out in 5000ms\n  async test failed']),
-  false,
-  'pure timeout rejected even when other tests carry business red',
-)
-assert.equal(pinnedVerdict([]), false, 'not-run rejected')
-assert.equal(pinnedVerdict(['AssertionError: expected 1 to be 2']), true, 'pure red passes')
-assert.equal(pinnedVerdict(['expect(received).toBe(expected)']), true, 'expect-form passes')
 process.stderr.write(`criterion self-test ok (blocks=${criterionBlocks.length})\n`)
 
 const files = [
@@ -265,10 +338,15 @@ export default {
     )
   }
   if (item.redTest !== undefined) {
-    const pinned = assertions.find(
-      (r) => r.title === item.redTest || r.title.endsWith(item.redTest),
+    // 精确且唯一目标：title 全等（后缀冒名拒绝）、命中恰 1（重名拒绝）、failed、
+    // 非空 failureMessages 且每条首行业务 AssertionError/expect。
+    const matches = assertions.filter((r) => r.title === item.redTest)
+    assert.equal(
+      matches.length,
+      1,
+      `${item.name}: pinned target "${item.redTest}" must match exactly one executed test (got ${matches.length}); ${log}`,
     )
-    assert.ok(pinned, `${item.name}: pinned not executed: ${item.redTest}; ${log}`)
+    const pinned = matches[0]
     assert.equal(pinned.status, 'failed', `${item.name}: pinned did not fail; ${log}`)
     assert.ok((pinned.failureMessages ?? []).length > 0, `${item.name}: no failureMessages; ${log}`)
     for (const message of pinned.failureMessages ?? [])

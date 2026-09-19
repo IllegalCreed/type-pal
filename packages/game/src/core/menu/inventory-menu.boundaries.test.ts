@@ -44,9 +44,7 @@ const ITEMS = [
 
 function roles(...ids: number[]): PlayerRoles {
   return {
-    roles: Object.fromEntries(
-      ids.map((id) => [id, { id, _name: `role-${id}` }]),
-    ),
+    roles: Object.fromEntries(ids.map((id) => [id, { id, _name: `role-${id}` }])),
   } as unknown as PlayerRoles
 }
 

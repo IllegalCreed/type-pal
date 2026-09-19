@@ -82,7 +82,10 @@ describe('G07 sellSelectItem 确认门与 confirm 期导航', () => {
     expect(sellCancel(state)).toBe('close')
   })
   it('刷新：空表归 0、等长保 cursor、增表保 cursor；内容不别名实际库存', () => {
-    const gs = gsWith([{ itemId: 300, count: 2 }, { itemId: 302, count: 1 }])
+    const gs = gsWith([
+      { itemId: 300, count: 2 },
+      { itemId: 302, count: 1 },
+    ])
     const state = createSellMenu(gs, ITEMS)
     state.grid.cursor = 1
     // 等长刷新：保 cursor，slot 是新副本
@@ -98,7 +101,10 @@ describe('G07 sellSelectItem 确认门与 confirm 期导航', () => {
     expect(state.grid.inventory).toEqual([])
     expect(state.grid.cursor).toBe(0)
     // 增表：cursor 越界前值保住（仍 0 < 新长度）
-    const grown = gsWith([{ itemId: 300, count: 1 }, { itemId: 302, count: 1 }])
+    const grown = gsWith([
+      { itemId: 300, count: 1 },
+      { itemId: 302, count: 1 },
+    ])
     refreshSellGrid(state, grown, ITEMS)
     expect(state.grid.inventory.map((slot) => slot.itemId)).toEqual([300, 302])
     expect(state.grid.cursor).toBe(0)
