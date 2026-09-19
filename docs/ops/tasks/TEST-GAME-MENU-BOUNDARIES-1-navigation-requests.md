@@ -1,6 +1,6 @@
 # TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）
 
-Status: build
+Status: rework
 Phase: phase1
 Capability: 已有合同补测，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -9,10 +9,25 @@ Reviewer: Codex / Kimi
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: none
-Branch: codex/glm-game-menu-boundaries-r1（准入后独立worktree使用）
+Branch: codex/glm-game-menu-r1
 
 Revision: r1，2026-09-19。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`，策划树 `4473c367`。
 完整族账/去重/唯一白名单：[工作包](../../testing/glm-game-menu-boundaries.md)。共同规则与合并交接：[七批统一审核](../../testing/glm-coverage-remaining-review.md)。
+
+
+## 当前接收裁决（2026-09-19，候选b1deae49）
+
+用户本轮明确批准九批先行实施、Codex恢复后统一接收；认可本批排期例外，不因旧两槽限制追溯判违规。设计签字保持，不重签。
+**本席独立结论counter，任务rework，未合入正式测试/产品、不更新官方基线、不转Kimi终审。**
+定向17项、原3对照+8针、包typecheck均通过；
+Biome实测11文件/5 errors。
+见[统一复核 TB-08](../../testing/glm-nine-intake-review.md#tb-08)与[机器接收账](../../testing/glm-nine-intake-evidence.json)。
+公共C0判据误收适用，C1全部新增文件格式/回执不符也须修复；具体最小返工如下。
+
+- **R08-1，done相位没有断言**：`equip-menu.boundaries.test.ts:87`仅expect(confirmEquipItem(...))无matcher，紧接着手工把phase改为pick-role。单点让done确认错误写phase=list，候选2/2仍绿、oracle红（`equip-done-phase-is-mutated`）。调用前后比较同一state/完整请求。
+- **R08-2，无caller页辅助被保活**：`primitives.boundaries.test.ts:46–55`新测pageDown/pageUp，已签明确排除这些孤立helper。保留当前moveSelection跨页轴，撤回新保活。缺spell/坏role的空表轴也应按已签防御/调用域如实分类，不当正常工程主业务。
+- C0/C1适用。不得把一期角色数值ID改成二期身份模型；outdoor过滤差异仍隔离。夹具按当前完整类型构造，不对未使用字段发明产品政策。
+
 
 ## 目标、上下文与边界
 
@@ -70,16 +85,18 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
     ②空/disabled 已被旧测试同断言覆盖→登记已有；③confirm 不产请求的负控须真实 create→
     confirm 链而非手拼 state。
   - 返工项：无。
-- build准入：**未开放**。本批是已细化待审核，不因队列存在或其他批签字自动开始实现。签齐后Codex再核；TB-00返工优先、未接收实施包合计最多两批。
+- build准入：三席r1设计签字保持；用户本轮明确批准额度空窗期九批先行实施（排期例外），本卡据此进入实施后接收。当前counter/rework不要求重签设计，未开放done；不将本次例外泛化给未来新批。
 
 ### done前
 
+- Codex：**counter（2026-09-19，候选b1deae49）**。本人独立复跑定向/原负控/tc与全部新增文件Biome，抽核合法输入/实际对象/范围；C0与本卡TB-08返工证据已落[统一复核](../../testing/glm-nine-intake-review.md#tb-08)。不合并、不代签、不标done；设计有效不重签。
+
 - GLM：pending。
-- Codex：pending。
 - Kimi：pending。
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。
 - 2026-09-19 GLM：按用户拍板（Codex 额度空窗期先行实施 TB-02～TB-10）领取 TB-08 并完成实施
   （r1，八/九族）。worktree `type-pal-glm-game-menu`、分支 `codex/glm-game-menu-r1`、基点
   41cc7cd9；产品零漂移已核。交付：8 新测试文件 17 项（G03 记已有）；tc/Biome/官方口径
@@ -95,10 +112,19 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
 
-## 下一位Agent提示词
+## 历史交接提示词
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 审 docs/ops/tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md（r1/draft，生产冻结e58834f6）。先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/glm-game-menu-boundaries.md、docs/testing/glm-coverage-remaining-review.md；一期范围额外读engineering-notes和相关真值。
 Kimi负责独立前提/架构风险压力测试；GLM负责独立调用域、旧测试去重、合法fixture/负控可实施性。二者并行、不读/复述另一席结论；完整七批合并提示词见统一审核页。
 只在本人build前席位/本人日志写带primary file:line与可证伪观察的premise verified/design agree或counter，提交推送前同步保留另一席。不得改产品/正式测试/另一席/任务状态，不标build/done。七卡独立裁决，不因一张counter阻塞全部；三席齐后Codex统一准入。
+```
+
+## 当前下一位Agent提示词：GLM
+
+```text
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-GAME-MENU-BOUNDARIES-1（TB-08），卡 docs/ops/tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md 已rework，候选b1deae49，生产冻结e58834f6；设计r1不重签。
+先同步当前Codex counter到独立 codex/glm-game-menu-r1，读AGENTS/CLAUDE/READ-FIRST、docs/testing/glm-delivery-checklist.md、本卡当前裁决和 docs/testing/glm-nine-intake-review.md 的公共C0/C1与TB-08章节、原工作包docs/testing/glm-game-menu-boundaries.md。
+只修列明残项，保留有效测试与他席结论；正式guard合法、实际同一入参深快照、禁止把已排除未知/旧接口写正确绿测。公共工具判据必须按目标错误首行，真实运行与自测同函数。原负控+本席相关独立见证、定向/相邻/全包/tc/全部新TS/MJS/MTS/JSON的Biome及私有同口径覆盖从最终树复跑，失败/未完成如实记录。
+只动原白名单/本人回执，分支不互合、不改产品/旧测试/官方基线/原审计探针/他席见证语义，不代签、不标done、不直接转Kimi。修完本批即可单独交Codex接收；全仓check/ratchet/strict-fast留接收后，用户已确认Mimosa归GLM私有MCP，Codex无需处理，不作为本轮接收/合并门。
 ```

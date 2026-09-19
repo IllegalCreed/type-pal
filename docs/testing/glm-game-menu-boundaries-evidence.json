@@ -42,11 +42,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-inventory",
-      "control-ingame",
-      "control-system"
-    ],
+    "controls": ["control-inventory", "control-ingame", "control-system"],
     "cases": [
       {
         "name": "inventory-availability-gate-removed",
@@ -166,5 +162,24 @@
     "in-game-magic-menu:135 outdoor 过滤差异轴按工作包排除（旧 test:456 钉当前过滤，待历史裁决不改产品）",
     "shop-menu mode=sell 无正式 caller 不扩；createItemSelectMenu/Triple/Switch 辅助无证实 caller 不扩",
     "dev-panel 预存 ENOENT 与本批无关（stash 基线同样失败）"
-  ]
+  ],
+  "codexReception": {
+    "candidate": "b1deae494e016c94ade7b12e52ce00230f921e67",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-08",
+    "verifiedNewTests": 17,
+    "verifiedControls": 3,
+    "verifiedMutants": 8,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 11,
+      "errors": 5,
+      "warnings": 0,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  }
 }
