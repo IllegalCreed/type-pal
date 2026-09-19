@@ -11,16 +11,9 @@ import {
   type EntityLifecycleReferenceIndex,
   type EntityLifecycleTable,
   type EquipDescribeCtx,
-  effectiveGrantedStatuses,
-  effectiveRegen,
-  effectiveResistances,
-  effectiveSkills,
-  effectiveStat,
   emptyWorldScriptState,
-  equipGrantsAttackAll,
   type Facing,
   type GridPos,
-  grantBattleRewards,
   gridToPixel,
   lerpTint,
   lookupText,
@@ -48,10 +41,7 @@ import {
   type WorldState,
 } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
-import {
-  clearPostBattleActorConditions,
-  clearRestoredWorldActorConditions,
-} from './actor-condition-lifecycle.js'
+import { clearRestoredWorldActorConditions } from './actor-condition-lifecycle.js'
 import { applyWorldActorCondition, clearWorldActorCondition } from './actor-condition-runtime.js'
 import { compositeAmbienceTint } from './ambience-compositor.js'
 import {
@@ -74,6 +64,7 @@ import {
   collectTurnActionSounds,
 } from './audio/sfx-readiness.js'
 import { curePoisons } from './battle/battle-core.js'
+import { createBattlePlayers } from './battle/battle-player-input.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import type { BattleResult } from './battle/battle-result.js'
 import { BattleSession } from './battle/battle-session.js'
@@ -81,8 +72,8 @@ import {
   collectBattleSkillFireChunks,
   prepareBattleSpriteReadiness,
 } from './battle/battle-sprite-readiness.js'
+import { finishBattleWorldState, settleBattleVictory } from './battle/battle-world-result.js'
 import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battle.js'
-import { buildSettlementScreens } from './battle/settlement.js'
 import { isBlockedAt, sameGrid } from './collision.js'
 import { CutsceneController, type CutsceneExecutor } from './cutscene-controller.js'
 import { DeferredTouchTrigger } from './deferred-trigger.js'
@@ -2273,75 +2264,13 @@ export async function bootGame(
       else if (persistent) bgm.play(persistent, true, BATTLE_MUSIC_TRANSITION_MS)
     }
     // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
-    const itemsById = project.items
     // dev:?dualattack / ?attackall 给队长强制连击/全体(验演出;无对应装备的默认档用)
     const devParams = new URLSearchParams(location.search)
     const devDualLeader = devParams.get('dualattack') !== null ? world.party[0]?.id : null
     const devAllLeader = devParams.get('attackall') !== null ? world.party[0]?.id : null
-    const players = world.party.map((c) => {
-      const res = effectiveResistances(c, itemsById) // 五灵/毒抗 live 派生(红线:建态时算)
-      const regen = effectiveRegen(c, itemsById)
-      const granted = effectiveGrantedStatuses(c, itemsById)
-      return {
-        roleId: c.id,
-        actorTemplateId: c.template,
-        hp: c.hp,
-        maxHp: c.maxHP,
-        mp: c.mp,
-        maxMp: c.maxMP,
-        attackStrength: effectiveStat(c, 'attack', itemsById),
-        defense: effectiveStat(c, 'defense', itemsById),
-        magicStrength: effectiveStat(c, 'magicAttack', itemsById),
-        baseDexterity: effectiveStat(c, 'speed', itemsById),
-        // 仙术指令 = 已学 ∪ 装备授予(grantSkill 土灵珠/圣灵珠;红线 live 派生不烙)
-        skills: effectiveSkills(world.learnedSkills[c.id] ?? [], c, itemsById),
-        // 合体技(角色专属;发起合击用。取自 actor 模板 battler)
-        ...(project.actorsById[c.template]?.battler?.cooperativeMagicSkillId
-          ? {
-              cooperativeMagicSkillId: expectDefined(
-                expectDefined(project.actorsById[c.template]).battler,
-              ).cooperativeMagicSkillId,
-            }
-          : {}),
-        // 守护关系(rgwCoveredBy 具名化):模板 → 在场队友实例 id;守护者不在队 = 无人护
-        ...(() => {
-          const gt = project.actorsById[c.template]?.battler?.coveredBy
-          const g = gt ? world.party.find((x) => x.template === gt) : undefined
-          return g ? { coveredBy: g.id } : {}
-        })(),
-        fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
-        elemRes: res.elemRes,
-        // 毒抗 = 装备 live 派生 + 大世界大蒜临时 Extra(缩敌附毒门;战后三件套清 extraPoisonRes)
-        poisonRes: res.poisonRes + (c.extraPoisonRes ?? 0),
-        ...(c.extraPoisonRes ? { itemPoisonResBonus: c.extraPoisonRes } : {}),
-        // 大世界带入的毒(自毒食/装备咒;战斗内副本,战后三件套清)
-        ...(c.poisons?.length ? { poisons: c.poisons.map((x) => ({ ...x })) } : {}),
-        // 大世界护体符/金刚符定时状态(护体等;建态注入 status,战后三件套 ClearAllStatus 清)
-        ...(c.extraStatuses?.length
-          ? { carriedStatuses: c.extraStatuses.map((x) => ({ ...x })) }
-          : {}),
-        // 攻击全体(长鞭 attackAll;红线 live 派生;dev 参数强制)
-        attackAll: equipGrantsAttackAll(c, itemsById) || devAllLeader === c.id,
-        // 每回合回血/回蓝(寿葫芦等 regen 词条;红线 live 派生)
-        regenHp: regen.hp,
-        regenMp: regen.mp,
-        // 装备授予常驻状态(连击 dualAttack 仙女剑;红线 live 派生,建态置入不烙持久)
-        grantedStatuses:
-          devDualLeader === c.id && !granted.includes('dualAttack')
-            ? [...granted, 'dualAttack' as const]
-            : granted,
-        persistentProgress: {
-          level: c.level,
-          exp: c.exp,
-          maxHP: c.maxHP,
-          maxMP: c.maxMP,
-          attack: c.attack,
-          magicAttack: c.magicAttack,
-          defense: c.defense,
-          speed: c.speed,
-          luck: c.luck,
-        },
-      }
+    const players = createBattlePlayers(world, project, {
+      dualLeader: devDualLeader,
+      allLeader: devAllLeader,
     })
     const playerSounds = world.party.map(
       (character) => project.actorsById[character.template]?.battler?.sounds,
@@ -2470,7 +2399,7 @@ export async function bootGame(
     // D12-1:战斗进出场走过渡(场景曲 fade-out → 战斗曲 fade-in)。
     if (battleTrack === null) bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
     else bgm.play(battleTrack, true, BATTLE_MUSIC_TRANSITION_MS)
-    const session = new BattleSession(
+    const session: BattleSession = new BattleSession(
       players,
       enemySlots,
       {
@@ -2549,43 +2478,17 @@ export async function bootGame(
         //   单次授予点,返回结算屏序列(经验金钱→升级→隐藏提升→练成)。原版 Phase A/B/E/D/F。
         buildSettlement: () => {
           assertLaunchCurrent()
-          sessionRef.writeBackPersistentEffects(world)
-          sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
-          const r = sessionRef.rewards()
-          if (r.exp > 0) {
-            // SDL PAL_BattleWon 在升级计算前按不可逃战标志选择胜利结算曲 002/003；
-            // 升级屏没有独立的 AUDIO_PlayMusic 调用，manifest role 保持兼容。
+          return settleBattleVictory(sessionRef, world, canonicalProject, () => {
             const victoryRole = battleOpts?.boss
               ? 'audio.bossVictoryMusic'
               : 'audio.normalVictoryMusic'
-            // G1/Kimi 裁定:战斗曲→胜利曲接同常量过渡(全链最刺耳一环)。
             bgm.play(
               project.assetResolver.assetForRole(victoryRole),
               false,
               BATTLE_MUSIC_TRANSITION_MS,
             )
             playedVictory = true
-          }
-          world.money += r.cash
-          const rep = grantBattleRewards(
-            world.party,
-            world.learnedSkills,
-            project.actorsById,
-            project.levelUp,
-            { ...r, hiddenCounts: sessionRef.hiddenCounts() },
-            Math.random,
-          )
-          return buildSettlementScreens(
-            rep.exp,
-            rep.cash,
-            rep.levelUps,
-            rep.hiddenUps,
-            (cid) => {
-              const tpl = world.party.find((c) => c.id === cid)?.template ?? ''
-              return lookupText(`name.${tpl}`, project.locale)
-            },
-            (sid) => project.skills[sid]?.name ?? sid,
-          )
+          })
         },
       },
     )
@@ -2622,19 +2525,7 @@ export async function bootGame(
     }
     // done 与读档/切场景可落在相邻 microtask；任何战果写回前再次确认仍属于原世界。
     assertLaunchCurrent()
-    session.writeBackPersistentEffects(world)
-    // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
-    if (result !== 'victory') session.writeBackHp(world.party)
-    session.writeBackInventory(world.inventory)
-    // 偷窃/金钱技消耗/收妖所得:**无条件**入账(原版 dwCash 即时加减 —— 逃跑也保留;
-    // 偷到的物品随 writeBackInventory 一并回世界)
-    if (session.moneyDelta() !== 0) world.money = Math.max(0, world.money + session.moneyDelta())
-    if (session.collectGained() > 0)
-      world.collectValue = (world.collectValue ?? 0) + session.collectGained()
-    // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态
-    // (extraStatuses);② CurePoisonByLevel(3) → 世界毒态清 ≤severe(无影毒/寄生 incurable 留);
-    // ③ RemoveEquipExtra → 清大蒜临时毒抗 Extra(extraPoisonRes;装备本身 Extra 走 live 派生无持久)。
-    clearPostBattleActorConditions(result, world.party, project.poisonsById)
+    finishBattleWorldState(session, result, world, canonicalProject)
     // 战后脚本：逐槽按 scriptOwnerDef 跑 current canonical onDefeated。
     // exact launchSignal 复用父 activity lineage；F5 已关 gate 时不得另开 transient 自锁。
     // 非 abort 错误向外传播，禁止 console.error 后假装战斗成功。
