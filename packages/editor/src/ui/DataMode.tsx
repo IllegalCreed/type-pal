@@ -13,6 +13,7 @@ import type {
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useState } from 'react'
+import type { BattleTrialSubject } from '../core/battle-simulator-state.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedData } from '../core/editor-derived-contract.js'
@@ -97,6 +98,7 @@ export function DataMode(props: {
   onOpenProjectReference: (reference: ProjectReferenceEdge) => void
   workspaceId?: string
   playIdentity: EditorPlayIdentity
+  onBattleTrial?: (subject: BattleTrialSubject) => void
   /** 角色定义(入口点 startWorld 队伍选人)。 */
   actors: import('@type-pal/content').ActorDef[]
   /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */
@@ -240,7 +242,9 @@ export function DataMode(props: {
     return (
       <EnemyTab
         assetBase={assetBase}
-        playIdentity={playIdentity}
+        onTrial={
+          props.onBattleTrial ? (id) => props.onBattleTrial?.({ kind: 'enemy', id }) : undefined
+        }
         enemies={enemies}
         enemyTeams={enemyTeams}
         skills={Object.values(skills)}
@@ -275,7 +279,11 @@ export function DataMode(props: {
         worldVariables={session.getState().worldVariables ?? {}}
         actors={actors}
         scenes={scenes}
-        playIdentity={playIdentity}
+        onTrial={
+          props.onBattleTrial
+            ? (id) => props.onBattleTrial?.({ kind: 'enemy-team', id })
+            : undefined
+        }
         session={session}
         referenceIndex={projectReferenceIndex}
         referenceStatus={projectReferenceStatus}
@@ -364,7 +372,9 @@ export function DataMode(props: {
         items={itemList}
         session={session}
         assetBase={assetBase}
-        playIdentity={playIdentity}
+        onTrial={
+          props.onBattleTrial ? (id) => props.onBattleTrial?.({ kind: 'skill', id }) : undefined
+        }
         assetCatalog={assetCatalog}
         assetReader={assetReader}
         battleSprites={battleSprites}

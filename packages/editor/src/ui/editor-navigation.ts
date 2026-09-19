@@ -5,6 +5,7 @@ export const EDITOR_MODULE_IDS = [
   'actor',
   'item',
   'battle',
+  'simulator',
   'asset',
   'project',
 ] as const
@@ -46,7 +47,7 @@ export const DATA_PAGE_IDS = [
 export type DataPageId = (typeof DATA_PAGE_IDS)[number]
 export const PROJECT_PAGE_IDS = ['overview', 'startup', 'entrypoint', 'advanced'] as const
 export type ProjectPageId = (typeof PROJECT_PAGE_IDS)[number]
-export type EditorWorkspaceKind = 'scene' | 'map' | 'actor' | 'data' | 'project'
+export type EditorWorkspaceKind = 'scene' | 'map' | 'actor' | 'data' | 'project' | 'simulator'
 
 export interface EditorSubpageDefinition {
   id: string
@@ -241,6 +242,46 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         kind: 'data',
         dataPage: 'battlefield',
         acceptsObject: true,
+      },
+    ],
+  },
+  {
+    id: 'simulator',
+    label: '战斗模拟器',
+    icon: '🧪',
+    defaultSubpage: 'plans',
+    subpages: [
+      {
+        id: 'plans',
+        label: '试打方案',
+        icon: '🧪',
+        kind: 'simulator',
+        acceptsObject: true,
+        inspector: false,
+      },
+      {
+        id: 'allies',
+        label: '我方预设',
+        icon: '👥',
+        kind: 'simulator',
+        acceptsObject: true,
+        inspector: false,
+      },
+      {
+        id: 'enemies',
+        label: '敌方预设',
+        icon: '👹',
+        kind: 'simulator',
+        acceptsObject: true,
+        inspector: false,
+      },
+      {
+        id: 'bags',
+        label: '背包预设',
+        icon: '🎒',
+        kind: 'simulator',
+        acceptsObject: true,
+        inspector: false,
       },
     ],
   },

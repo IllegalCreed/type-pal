@@ -15,6 +15,11 @@ export function editorObjectTargetMissing(
   const objectId = location.objectId
   const subpage = editorSubpage(location)
   if (!objectId || !subpage.acceptsObject) return false
+  if (subpage.kind === 'simulator') {
+    const rows =
+      state.battleSimulator?.[location.subpage as 'plans' | 'allies' | 'enemies' | 'bags']
+    return !rows?.some((record) => record.id === objectId)
+  }
   if (subpage.kind === 'scene') {
     return !state.scenes.some((candidate) => candidate.id === objectId)
   }

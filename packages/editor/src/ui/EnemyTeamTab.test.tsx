@@ -97,6 +97,7 @@ function state(): EditorState {
 
 function Harness(props: {
   session: EditSession
+  onTrial?: (id: string) => void
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   onOpenEnemy?: (id: string) => void
@@ -124,11 +125,7 @@ function Harness(props: {
       worldVariables={current.worldVariables ?? {}}
       actors={current.actors}
       scenes={current.scenes}
-      playIdentity={{
-        projectId: 'demo',
-        workspaceId: '11111111-1111-4111-8111-111111111111',
-        source: 'http',
-      }}
+      onTrial={props.onTrial}
       session={props.session}
       referenceIndex={index}
       referenceStatus={props.referenceStatus ?? 'current'}
@@ -221,7 +218,8 @@ describe('EnemyTeamTab authoring closure', () => {
 
   test('renders five semantic slots, duplicate-member totals, full stable trial id and blocking reference', async () => {
     const session = new EditSession(state())
-    await act(async () => root.render(<Harness session={session} />))
+    const trial = vi.fn()
+    await act(async () => root.render(<Harness session={session} onTrial={trial} />))
     const slots = [...host.querySelectorAll<HTMLElement>('.enemy-team-slot')]
     expect(slots).toHaveLength(5)
     for (const slot of slots) {
@@ -251,9 +249,12 @@ describe('EnemyTeamTab authoring closure', () => {
     expect(host.textContent).toContain('30 收妖值')
     expect(host.textContent).toContain('场景 s001 · 实体 e1')
     expect(host.textContent).toContain('敌对实体')
-    expect(host.querySelector<HTMLAnchorElement>('a[href*="battle="]')?.getAttribute('href')).toBe(
-      'play.html?project=demo&save-workspace=11111111-1111-4111-8111-111111111111&battle=team-c1',
-    )
+    expect(host.querySelector('a[href*="battle="]')).toBeNull()
+    const start = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '试打',
+    )!
+    await act(async () => start.click())
+    expect(trial).toHaveBeenCalledExactlyOnceWith('team-c1')
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('button')].find((button) =>
         button.textContent?.includes('删除敌队'),

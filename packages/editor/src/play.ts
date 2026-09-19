@@ -11,7 +11,8 @@
  * 绝不按同名 project id 静默回退到仓库 PAL。
  * 其余 URL 参数(scene/pos/facing/battle/skill…)由 bootGame 自己读 location.search,原样生效。
  */
-import { bootGame } from '@type-pal/reforge'
+import { bootGame, runBattleTrial } from '@type-pal/reforge'
+import { parseBattleTrialLocation, receiveBattleTrial } from './core/battle-trial-launch.js'
 import { ensurePermission, type WorkspaceHandleRecord } from './core/handle-store.js'
 import { loadPlayProject } from './core/load-play-project.js'
 import { parsePlayProjectLocation } from './core/play-url.js'
@@ -19,6 +20,7 @@ import {
   assertLoadedPlayProjectIdentity,
   resolvePlayWorkspaceRecord,
 } from './core/play-workspace.js'
+import { withProjectDirectoryReadLock } from './core/project-read-lock.js'
 
 const gate = document.getElementById('gate') as HTMLDivElement
 const gateBtn = document.getElementById('gate-btn') as HTMLButtonElement
@@ -43,6 +45,59 @@ async function bootFromRecord(record: WorkspaceHandleRecord): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  const trial = parseBattleTrialLocation(new URLSearchParams(location.search))
+  if (trial) {
+    const connection = receiveBattleTrial(trial)
+    try {
+      const packet = await connection.ready
+      let record: WorkspaceHandleRecord | undefined
+      if (packet.identity.source === 'local') {
+        record = await resolvePlayWorkspaceRecord(
+          packet.identity.workspaceId,
+          packet.identity.projectId,
+        )
+        if ((await ensurePermission(record.handle, { withRequest: false })) !== 'granted') {
+          gate.hidden = false
+          gateHint.textContent = '独立试打需要读取已保存工程；不会读取或写入游戏存档。'
+          await new Promise<void>((resolve, reject) => {
+            gateBtn.onclick = () => {
+              if (!record) return
+              void ensurePermission(record.handle, { withRequest: true })
+                .then((state) => {
+                  if (state === 'granted') {
+                    gate.hidden = true
+                    gateBtn.onclick = null
+                    resolve()
+                  } else gateHint.textContent = '未授权，请允许读取工程或关闭本页'
+                })
+                .catch(reject)
+            }
+            connection.signal.addEventListener(
+              'abort',
+              () => reject(new DOMException('试打已取消', 'AbortError')),
+              { once: true },
+            )
+          })
+        }
+      }
+      if (connection.signal.aborted) throw new DOMException('试打已取消', 'AbortError')
+      const project = await loadPlayProject(packet.identity.projectId, record?.handle)
+      assertLoadedPlayProjectIdentity(packet.identity.projectId, project.manifest.id)
+      const handle = record?.handle
+      await runBattleTrial(project, packet.config, {
+        signal: connection.signal,
+        sourceToken: packet.sourceToken,
+        revision: packet.revision,
+        withReadLock: handle ? (read) => withProjectDirectoryReadLock(handle, read) : undefined,
+        onRestart: () => connection.restart(),
+        onResult: (result) => connection.result(result),
+      })
+    } catch (error) {
+      connection.dispose()
+      throw error
+    }
+    return
+  }
   const target = parsePlayProjectLocation(new URLSearchParams(location.search))
   const { projectId } = target
 

@@ -16,9 +16,12 @@ import {
 } from './editor-navigation.js'
 
 describe('编辑器模块注册表', () => {
-  it('只登记八个一级模块，且每模块子页不超过五个', () => {
+  it('登记九个一级模块（含战斗模拟器），且每模块子页不超过五个', () => {
     expect(EDITOR_MODULES.map((module) => module.id)).toEqual(EDITOR_MODULE_IDS)
-    expect(EDITOR_MODULES).toHaveLength(8)
+    expect(EDITOR_MODULES).toHaveLength(9)
+    expect(
+      EDITOR_MODULES.find((module) => module.id === 'simulator')?.subpages.map((page) => page.id),
+    ).toEqual(['plans', 'allies', 'enemies', 'bags'])
     for (const module of EDITOR_MODULES) {
       expect(module.subpages.length).toBeGreaterThan(0)
       expect(module.subpages.length).toBeLessThanOrEqual(5)

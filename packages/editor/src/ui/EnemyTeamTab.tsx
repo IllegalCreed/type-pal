@@ -20,17 +20,9 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
-import {
-  DsActionLink,
-  DsButton,
-  DsField,
-  DsPressable,
-  DsSelect,
-  DsTextInput,
-} from './design-system/controls.js'
+import { DsButton, DsField, DsPressable, DsSelect, DsTextInput } from './design-system/controls.js'
 import {
   DsActionGroup,
   DsCatalogControls,
@@ -118,7 +110,7 @@ export function EnemyTeamTab(props: {
   worldVariables: WorldVariableRegistryV1
   actors: readonly ActorDef[]
   scenes: readonly SceneDef[]
-  playIdentity: EditorPlayIdentity
+  onTrial?: (teamId: string) => void
   session: EditSession
   referenceIndex?: ProjectReferenceIndex
   referenceStatus: EditorDerivedStatus
@@ -137,7 +129,6 @@ export function EnemyTeamTab(props: {
     worldVariables,
     actors,
     scenes,
-    playIdentity,
     session,
     referenceIndex,
     referenceStatus,
@@ -408,16 +399,14 @@ export function EnemyTeamTab(props: {
                   summary="只负责五个敌人语义槽；奖励、偷取与击败后事件仍由每个敌人定义提供。"
                   actions={
                     <>
-                      <DsActionLink
+                      <DsButton
                         variant="secondary"
-                        icon="open"
-                        href={`play.html?${playProjectQuery(playIdentity)}&battle=${encodeURIComponent(selected.id)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="读取磁盘项目；未保存改动不会进入试玩"
+                        disabled={!props.onTrial}
+                        onClick={() => props.onTrial?.(selected.id)}
+                        title="使用独立战斗模拟器试打当前敌队"
                       >
                         试打
-                      </DsActionLink>
+                      </DsButton>
                       <DsButton
                         variant="danger"
                         icon="delete"

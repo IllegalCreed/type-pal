@@ -3,7 +3,6 @@ import {
   applySetParty,
   buildEntityLifecycleReferenceIndex,
   buildWorld,
-  type CharacterInstance,
   checkEntityLifecycleTable,
   collectCommandAssetReferences,
   type EntityDef,
@@ -40,7 +39,7 @@ import {
   type WorldScriptState,
   type WorldState,
 } from '@type-pal/content'
-import type { Palette, RleFrame } from '@type-pal/shared'
+import type { Palette } from '@type-pal/shared'
 import { clearRestoredWorldActorConditions } from './actor-condition-lifecycle.js'
 import { applyWorldActorCondition, clearWorldActorCondition } from './actor-condition-runtime.js'
 import { compositeAmbienceTint } from './ambience-compositor.js'
@@ -343,6 +342,9 @@ export async function bootGame(
   saveScope: SaveScope,
 ): Promise<void> {
   const boundSaveScope = assertSaveScopeProject(saveScope, inputProject.manifest.id)
+  const startupParameters = new URLSearchParams(location.search)
+  if (startupParameters.has('battle-trial') || startupParameters.has('skill'))
+    throw new Error('旧试放链接或未授权独立试打请求；请从编辑器的战斗模拟器重新开始')
   const trial = parseShopTrialParameters(new URLSearchParams(location.search))
   if (trial) {
     await runShopTrial(inputProject, trial)
@@ -2227,10 +2229,7 @@ export async function bootGame(
         )
     const enemyDefs = enemySlots.filter((e): e is NonNullable<typeof e> => !!e)
     if (enemyDefs.length === 0) {
-      showToast(`遇敌 ${enemyTeamId} —— 敌队缺数据,桩胜(M4c)`)
-      await host.wait(400, launchSignal)
-      assertLaunchCurrent()
-      return 'victory'
+      throw new Error(`遇敌 ${enemyTeamId}：敌队没有有效敌人，无法开始战斗`)
     }
     const encounterChoreo =
       battleOpts?.choreography ?? enemyDefs.flatMap((enemy) => enemy.choreography ?? [])
@@ -5086,7 +5085,7 @@ export async function bootGame(
   }
 
   /** 起一段触发/进场脚本(单脚本槽;收尾后接排队的 onEnter)。 */
-  function startScript(key: string, binding: RuntimeScriptBinding, selfId?: string): void {
+  function startScript(key: string, _binding: RuntimeScriptBinding, selfId?: string): void {
     if (runner) return
     const triggerOwnerId =
       key.startsWith('s:') || key.startsWith('hostile:') ? null : (selfId ?? key)
@@ -6909,17 +6908,6 @@ export async function bootGame(
   startAutoRunners()
   // ?battle=<enemyTeamId>:直开一场战斗(编辑器「试打」入口;跳过 onEnter 演出)
   const battleRaw = params.get('battle')
-  // ?skill=<id>:dev 试放(编辑器「⚔ 战斗中试放」)—— 临时授队长该技 + MP 拉满(内存态,不落档)
-  const skillParam = params.get('skill')
-  if (skillParam && project.skills[skillParam]) {
-    const leader = world.party[0]
-    if (leader) {
-      const cur = world.learnedSkills[leader.id] ?? []
-      if (!cur.includes(skillParam)) world.learnedSkills[leader.id] = [...cur, skillParam]
-      leader.maxMP = Math.max(leader.maxMP, 999)
-      leader.mp = leader.maxMP
-    }
-  }
   // ?give=<itemId>:dev 塞道具进背包(验投掷/使用;如 ?give=144 食妖虫)
   const giveParam = params.get('give')
   if (giveParam) {

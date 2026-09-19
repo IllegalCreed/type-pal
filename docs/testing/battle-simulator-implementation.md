@@ -4,6 +4,33 @@
 Coding Owner：Codex。起点 `af916f5b`，分支 `codex/editor-battle-simulator-r2`。
 隔离工作树：`/Users/zhangxu/.codex/worktrees/battle-simulator-r2/type-pal`。
 
+## 2026-09-20：S2/S3 WIP检查点与人数阻塞
+
+当前**blocked，非review-ready**。发现正式战斗信息栏第4人x=322已经超出320逻辑画布，
+1～5人精灵站位不能证明五人完整交互。任务卡记录前提counter及用户二选一：首版限我方3人，或扩展正式战斗界面支持4～5人。
+用户尚未裁决；本检查点仍保留原5人配置上限以保存现场，**不是认可该上限可用**，未擅改正式战斗UI。
+敌方五个位置不受此反例影响。下面S1状态/接续序列为前日历史，当前以本节与任务卡为准。
+
+已提交共用提取`6a1d4761`：玩家属性/装备/技能派生与战果写回/奖励调用供主壳和临时宿主共用，
+当时3文件80项通过、Reforge typecheck通过；完整普通战斗等价/结算测试仍待补，不冒充全量验证。
+
+本次WIP包含：四目录表单/方案与快速入口、临时修改/离开保护、内容引用检查；一次性内存握手/身份与版本复验；
+临时world、私有资源快照和真实BattleSession宿主；替换旧技能/敌队/单敌入口并拒绝旧授技URL。
+这些是未完成实现，不声称保存→准备→战斗→结算→重开闭环已经通过；没有启动正式浏览器视觉验证。
+
+检查点验证：
+
+- SkillTab/EnemyTab/EnemyTeamTab/editor-navigation四文件69项通过（回调ID与现有UI/引用断言）。
+- 两包typecheck通过；首跑因新夹具错误给ThrowSpec写consuming而失败，核当前接口后移除不合法字段再跑通过。
+- 改动25文件Biome exit0，只有App中3条既有noUselessFragments信息；format机械调整2文件。
+- 新自有工程夹具计划用正式loader守卫，但本轮尚未执行该fixture的真实战斗用例。
+  直接Node导入尝试在既有Reforge barrel→main的import.meta.glob处失败；不得据此声明夹具已经合法，后续用Vitest/Vite宿主执行。
+- 未运行全仓check/ratchet/strict-fast，官方基线未改；WIP不并主线、不交终审、不标done。
+
+恢复后尚需：实际配置有效值展示/边界测试，握手重复/迟到/换代与正常SaveStore零IO负控，资源准备/取消收尾，
+正式行动与写回回归，功能视觉及统一质量门。已发现maxPool装备效果无当前正式消费链，登记Q2待复验，
+临时宿主不得另算“理想效果”。待人数裁决并完成受影响前提复核后再推进。
+
 ## 2026-09-19：S1 配置与作者保存基础
 
 状态：**部分实现，仍为 build；不是整卡完成、不是可用战斗模拟器**。

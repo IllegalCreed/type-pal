@@ -1,0 +1,33 @@
+.simulator-workbench {
+  grid-column: 2 / -1;
+  min-width: 0;
+  min-height: 0;
+}
+.simulator-workbench > .ds-object-workspace {
+  height: 100%;
+  min-height: 0;
+}
+.trial-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.trial-issues,
+.trial-override {
+  margin-block: 12px;
+  overflow-wrap: anywhere;
+}
+.trial-issues p {
+  margin-block: 6px;
+}
+.trial-error {
+  color: var(--ds-status-danger);
+  overflow-wrap: anywhere;
+}
+.trial-issues small {
+  overflow-wrap: anywhere;
+}
+.trial-override > .trial-actions {
+  margin-bottom: 12px;
+}

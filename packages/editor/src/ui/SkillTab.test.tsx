@@ -99,6 +99,7 @@ function state(skills = [skill()], items: ItemData[] = ITEMS): EditorState {
 
 function Harness(props: {
   session: EditSession
+  onTrial?: (id: string) => void
   focusObjectId?: string
   referenceStatus?: EditorDerivedStatus
   referenceIndex?: ProjectReferenceIndex
@@ -116,11 +117,7 @@ function Harness(props: {
     : (props.referenceIndex ?? collectCurrentProjectReferenceIndex(current))
   return (
     <SkillTab
-      playIdentity={{
-        projectId: 'pal',
-        workspaceId: '11111111-1111-4111-8111-111111111111',
-        source: 'http',
-      }}
+      onTrial={props.onTrial}
       skills={current.skills}
       items={current.items}
       session={props.session}
@@ -254,11 +251,12 @@ describe('SkillTab · 施法物品成本', () => {
     expect(session.getState().skills[0]?.id).toBe('352')
   })
 
-  test('战斗中试放使用可直接导航的安全链接', async () => {
+  test('战斗中试放只把当前技能交给共享模拟器，不再拼旧授技链接', async () => {
     const session = new EditSession(state())
-    await act(async () => root.render(<Harness session={session} />))
+    const trial = vi.fn()
+    await act(async () => root.render(<Harness session={session} onTrial={trial} />))
 
-    const link = Array.from(host.querySelectorAll<HTMLAnchorElement>('a')).find(
+    const link = Array.from(host.querySelectorAll<HTMLButtonElement>('button')).find(
       (candidate) => candidate.textContent?.trim() === '战斗中试放',
     )
     expect(link).toBeDefined()
@@ -266,12 +264,11 @@ describe('SkillTab · 施法物品成本', () => {
       expect.arrayContaining(['ds-button', 'ds-button--secondary']),
     )
     expect(link?.classList.contains('tool')).toBe(false)
-    expect(link?.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true')
-    expect(link?.getAttribute('href')).toBe(
-      'play.html?project=pal&save-workspace=11111111-1111-4111-8111-111111111111&scene=s001&battle=0&skill=352',
-    )
-    expect(link?.target).toBe('_blank')
-    expect(link?.rel.split(/\s+/).sort()).toEqual(['noopener', 'noreferrer'])
+    expect(link?.querySelector('svg')).toBeNull()
+    expect(link?.getAttribute('href')).toBeNull()
+    await act(async () => link!.click())
+    expect(trial).toHaveBeenCalledExactlyOnceWith('352')
+    expect(host.querySelector('a[href*="skill="]')).toBeNull()
   })
 
   test('显示、添加、改量、删除均保留兄弟成本并进入单步 undo/redo', async () => {

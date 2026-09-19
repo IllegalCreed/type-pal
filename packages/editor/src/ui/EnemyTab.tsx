@@ -35,11 +35,9 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
-  DsActionLink,
   DsButton,
   DsCheckbox,
   DsDraftNumberField,
@@ -552,7 +550,7 @@ export function EnemyTab(props: {
   /** 资产根(外观预览加载战斗精灵;缺省不渲预览)。 */
   assetBase?: import('@type-pal/reforge').AssetBase
   /** 项目 id(同源试玩页;缺省 pal 兼容旧调用)。 */
-  playIdentity: EditorPlayIdentity
+  onTrial?: (enemyId: string) => void
   onOpenBattleSprite?: (id: string) => void
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
@@ -575,7 +573,6 @@ export function EnemyTab(props: {
     battleSprites,
     onOpenSound,
     assetBase,
-    playIdentity,
     onOpenBattleSprite,
     focusObjectId,
     onObjectFocus,
@@ -686,7 +683,6 @@ export function EnemyTab(props: {
     () => (enemy ? enemyTeams.filter((t) => t.slots.includes(enemy.id)) : []),
     [enemyTeams, enemy],
   )
-  const team = teamsOfSel[0]
   const defeatedReward = findEditableEnemyDefeatedItemReward(defeatedCommands)
   const defeatedPresentation = presentEnemyDefeatedEvents(
     defeatedCommands,
@@ -903,18 +899,14 @@ export function EnemyTab(props: {
               }
               actions={
                 <>
-                  {team ? (
-                    <DsActionLink
-                      variant="secondary"
-                      icon="open"
-                      href={`play.html?${playProjectQuery(playIdentity)}&battle=${encodeURIComponent(team.id)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="读磁盘项目：改动须先保存"
-                    >
-                      试打
-                    </DsActionLink>
-                  ) : null}
+                  <DsButton
+                    variant="secondary"
+                    disabled={!props.onTrial}
+                    onClick={() => props.onTrial?.(enemy.id)}
+                    title="以当前敌人组成单敌编队，进入独立试打"
+                  >
+                    试打
+                  </DsButton>
                   <DsButton
                     variant="danger"
                     icon="delete"

@@ -333,6 +333,19 @@ export {
   trialInteger,
   trialObject,
 } from './battle-trial-config.js'
+/** Keep the independent DOM host lazy; pure configuration calls do not additionally load its UI. */
+export async function runBattleTrial(
+  ...args: Parameters<typeof import('./battle-trial-host.js').runBattleTrial>
+): Promise<void> {
+  const host = await import('./battle-trial-host.js')
+  return host.runBattleTrial(...args)
+}
+export type { BattleTrialIssue, TrialCatalog } from './battle-trial-prepare.js'
+export {
+  battleTrialRevision,
+  collectBattleTrialIssues,
+  prepareBattleTrial,
+} from './battle-trial-prepare.js'
 export type {
   FrameAnimationFrameSnapshot,
   FrameSequenceAssetReader,

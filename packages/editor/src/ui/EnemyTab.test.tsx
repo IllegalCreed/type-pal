@@ -160,6 +160,7 @@ function state(): EditorState {
 
 function Harness(props: {
   session: EditSession
+  onTrial?: (id: string) => void
   focusObjectId?: string
   onOpenReference?: (reference: ProjectReferenceEdge) => void
   withAssetBase?: boolean
@@ -189,11 +190,7 @@ function Harness(props: {
       assetReader={{} as never}
       assetBase={props.withAssetBase ? ({} as never) : undefined}
       battleSprites={current.battleSprites}
-      playIdentity={{
-        projectId: 'test-project',
-        workspaceId: '11111111-1111-4111-8111-111111111111',
-        source: 'http',
-      }}
+      onTrial={props.onTrial}
       focusObjectId={props.focusObjectId}
       referenceIndex={referenceIndex}
       referenceStatus={props.referenceStatus ?? 'current'}
@@ -315,10 +312,13 @@ describe('EnemyTab shared workbench', () => {
     expect(session.getState().enemies?.some((entry) => entry.id === 'enemy-c1')).toBe(false)
   })
 
-  test('共享 Hero/目录行、试打 URL 与引用跳转保持闭环', async () => {
+  test('共享 Hero/目录行、单敌试打入口与引用跳转保持闭环', async () => {
     const open = vi.fn()
+    const onTrial = vi.fn()
     const session = new EditSession(state())
-    await act(async () => root.render(<Harness session={session} onOpenReference={open} />))
+    await act(async () =>
+      root.render(<Harness session={session} onOpenReference={open} onTrial={onTrial} />),
+    )
 
     expect(host.querySelector('h1')?.textContent).toBe('赤鬼王')
     const workspace = host.querySelector('.ds-object-workspace')!
@@ -369,17 +369,13 @@ describe('EnemyTab shared workbench', () => {
       expect.arrayContaining(['ds-button', 'ds-button--danger']),
     )
     expect(remove.classList.contains('tool')).toBe(false)
-    const trials = [...host.querySelectorAll<HTMLAnchorElement>('a')].filter((link) =>
+    const trials = [...host.querySelectorAll<HTMLButtonElement>('button')].filter((link) =>
       link.textContent?.includes('试打'),
     )
     expect(trials).toHaveLength(1)
-    expect(
-      trials.every(
-        (trial) =>
-          trial.getAttribute('href') ===
-          'play.html?project=test-project&save-workspace=11111111-1111-4111-8111-111111111111&battle=team-7',
-      ),
-    ).toBe(true)
+    expect(host.querySelector('a[href*="battle="]')).toBeNull()
+    await act(async () => trials[0]!.click())
+    expect(onTrial).toHaveBeenCalledExactlyOnceWith('enemy-a')
     expect(
       trials.every(
         (trial) =>

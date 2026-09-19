@@ -36,7 +36,9 @@ import {
 } from '@type-pal/content'
 import {
   type AssetBase,
+  type BattleTrialConfig,
   buildBlankProjectMap,
+  fsaSource,
   idleFrameIndex,
   type LoadedCurrentProject,
   type ProjectMap,
@@ -60,6 +62,8 @@ import {
   verifySourceAuthorBaseline,
 } from '../core/author-disk-baseline.js'
 import { battleSimulatorRemovalPaths } from '../core/battle-simulator-library.js'
+import type { BattleSimulatorDraft, BattleTrialSubject } from '../core/battle-simulator-state.js'
+import { launchBattleTrial } from '../core/battle-trial-launch.js'
 import {
   AddEntityCommand,
   AddSceneCommand,
@@ -101,6 +105,7 @@ import {
 import { exportProjectZip } from '../core/export-zip.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
+import { resolvePlayWorkspaceRecord } from '../core/play-workspace.js'
 import { assetCopyInputs, observeProjectCopySource } from '../core/project-copy-source.js'
 import {
   resumeOwnProjectSave,
@@ -167,6 +172,8 @@ import {
   toggleSceneScriptPanelState,
 } from './app-layout-commands.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
+import { BattleSimulatorWorkbench } from './BattleSimulatorWorkbench.js'
+import { BattleTrialDialog } from './BattleTrialDialog.js'
 import {
   ConnectedActorMode,
   ConnectedDataMode,
@@ -372,6 +379,29 @@ export function App(props: {
 }) {
   const { session, project } = props
   const scriptSession = props.script.session
+  const [trialDraft, setTrialDraft] = useState<BattleSimulatorDraft | undefined>()
+  const [trialSubject, setTrialSubject] = useState<BattleTrialSubject | undefined>()
+  const [trialLeave, setTrialLeave] = useState<(() => void) | undefined>()
+  const trialWindows = useRef(new Set<ReturnType<typeof launchBattleTrial>>())
+  const trialMounted = useRef(true)
+  useEffect(() => {
+    trialMounted.current = true
+    const windows = trialWindows.current
+    return () => {
+      trialMounted.current = false
+      for (const trial of windows) trial.close()
+      windows.clear()
+    }
+  }, [])
+  useEffect(() => {
+    if (!trialDraft?.changed) return
+    const guard = (event: BeforeUnloadEvent) => {
+      event.preventDefault()
+      event.returnValue = ''
+    }
+    window.addEventListener('beforeunload', guard)
+    return () => window.removeEventListener('beforeunload', guard)
+  }, [trialDraft?.changed])
   const historyCoordinator = props.history
   historyCoordinator.assertSessions(session, scriptSession)
   useLayoutEffect(() => {
@@ -610,6 +640,45 @@ export function App(props: {
     projectId: state.manifest.id,
     workspaceId: props.workspace.workspaceId,
     source: dirHandleRef.current ? 'local' : 'http',
+  }
+  const startBattleTrial = async (config: BattleTrialConfig): Promise<void> => {
+    if (projectGuard.blocked() || session.isDirty() || scriptSession.isDirty())
+      throw new Error('请先保存工程，再开始独立试打')
+    const startingState = session.getState(),
+      scriptVersion = scriptSession.getVersion()
+    const dir = dirHandleRef.current
+    const source = dir ? fsaSource(dir) : project.source
+    const handle = launchBattleTrial({
+      config,
+      identity: playIdentity,
+      source,
+      assertCanLaunch: async () => {
+        if (
+          !trialMounted.current ||
+          projectGuard.blocked() ||
+          session.isDirty() ||
+          scriptSession.isDirty() ||
+          session.getState() !== startingState ||
+          scriptSession.getVersion() !== scriptVersion
+        )
+          throw new Error('工程状态已变化，请保存后重新试打')
+        if (dir) {
+          const record = await resolvePlayWorkspaceRecord(
+            playIdentity.workspaceId,
+            playIdentity.projectId,
+          )
+          if (!(await record.handle.isSameEntry(dir))) throw new Error('试打工作区目录已变化')
+        }
+        await verifySourceAuthorBaseline(authorBaselineRef.current, source)
+      },
+      onClosed: () => trialWindows.current.delete(handle),
+      onResult: (result) => {
+        if (trialMounted.current)
+          setWorkspaceNotice({ kind: 'info', message: `独立试打：${result}，本场结果未保存` })
+      },
+    })
+    trialWindows.current.add(handle)
+    await handle.ready
   }
 
   useEffect(() => {
@@ -2264,6 +2333,12 @@ export function App(props: {
     }
   }
   const requestLeave = (intent: ProjectLeaveIntent): void => {
+    if (trialDraft?.changed && !projectGuard.blocked()) {
+      setTrialLeave(() => () => {
+        if (projectGuard.request(intent)) performLeave(intent)
+      })
+      return
+    }
     if (projectGuard.request(intent)) performLeave(intent)
   }
   const continueLeave = (choice: ProjectLeaveChoice): void => {
@@ -2363,7 +2438,13 @@ export function App(props: {
       icon: 'save',
       enabled: !projectGuard.blocked(),
       scope: 'global',
-      execute: () => void saveAs(),
+      execute: () => {
+        if (trialDraft?.changed)
+          setTrialLeave(() => () => {
+            void saveAs()
+          })
+        else void saveAs()
+      },
     },
     {
       id: 'file.export',
@@ -2556,6 +2637,19 @@ export function App(props: {
             objectId={location.objectId!}
             onClear={() => focusCurrentObject(undefined)}
           />
+        ) : activeSubpage.kind === 'simulator' ? (
+          <BattleSimulatorWorkbench
+            directory={location.subpage as 'plans' | 'allies' | 'enemies' | 'bags'}
+            state={state}
+            session={session}
+            objectId={location.objectId}
+            onObjectFocus={focusCurrentObject}
+            draft={trialDraft}
+            onDraftChange={setTrialDraft}
+            onStart={startBattleTrial}
+            projectDirty={session.isDirty() || scriptSession.isDirty()}
+            onSave={() => void save()}
+          />
         ) : activeSubpage.kind === 'map' ? (
           <MapMode
             scene={scene}
@@ -2629,6 +2723,7 @@ export function App(props: {
             onOpenProjectReference={openProjectReference}
             workspaceId={playWorkspaceId}
             playIdentity={playIdentity}
+            onBattleTrial={setTrialSubject}
             onJumpToEvent={jumpToEvent}
             focusScriptId={activeSubpage.dataPage === 'scripts' ? location.objectId : undefined}
             focusScriptRevision={
@@ -3447,6 +3542,44 @@ export function App(props: {
         saveError={saveErr}
         busy={saveActivity !== null}
       />
+      {trialSubject && (
+        <BattleTrialDialog
+          key={`${trialSubject.kind}:${trialSubject.id}`}
+          subject={trialSubject}
+          state={state}
+          projectDirty={session.isDirty() || scriptSession.isDirty()}
+          onClose={() => setTrialSubject(undefined)}
+          onSave={() => void save()}
+          onStart={startBattleTrial}
+          onDetail={(draft) => {
+            setTrialDraft(draft)
+            applyEditorLocation({ module: 'simulator', subpage: 'plans' })
+          }}
+        />
+      )}
+      <DsDialog
+        open={!!trialLeave}
+        role="alertdialog"
+        title="离开本場临时配置"
+        onClose={() => setTrialLeave(undefined)}
+        footer={
+          <>
+            <DsButton onClick={() => setTrialLeave(undefined)}>取消</DsButton>
+            <DsButton
+              variant="danger"
+              onClick={() => {
+                const leave = trialLeave
+                setTrialLeave(undefined)
+                leave?.()
+              }}
+            >
+              放弃本场并继续
+            </DsButton>
+          </>
+        }
+      >
+        <p>本场临时调整尚未另存为方案。离开工程后会丢弃这些调整；命名配置仍按工程保存流程处理。</p>
+      </DsDialog>
 
       {sceneLifecycleIntent ? (
         <DsDialog
