@@ -177,7 +177,7 @@ const cases = [
     to: 'if (false) return null',
     red: 'MP 门失效',
     redTest:
-      'castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；实际 world 深快照不变',
+      'castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；各分支实际 world 快照不变',
     expected: 1,
   },
   {
@@ -199,7 +199,7 @@ const cases = [
     from: 'if (!sameReveal(active.reveal, reveal))',
     to: 'if (false && sameReveal(active.reveal, reveal))',
     red: 'reveal 契约失配不再拒绝',
-    redTest: 'fade out/in 与 dither ms/source 分别失配即拒；cut 正控；错误后当前 session 保持',
+    redTest: 'fade out/in 与 dither ms/kind 分别失配即拒；cut 正控；错误后当前 session 保持',
     expected: 1,
   },
   {

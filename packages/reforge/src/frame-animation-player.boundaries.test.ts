@@ -207,7 +207,7 @@ describe('D5 小 frameLimit LRU：命中/淘汰以解码轨迹见证', () => {
   })
 })
 
-describe('D6 三处 await 分别 abort（真实在途取消 + 进入见证）', () => {
+describe('D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察）', () => {
   const baseOptions = (reader: FrameSequenceReader) => ({
     reader,
     asset: 'a',
@@ -216,23 +216,45 @@ describe('D6 三处 await 分别 abort（真实在途取消 + 进入见证）', 
   })
   /** 真实事件循环一拍（abort 拒绝传播不依赖底层放行）。 */
   const tick = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0))
-  test('sequence 在途 abort：及时拒绝；迟到读取不 onFrame', async () => {
+  /** 同步结局观察器：回调更新独立变量，断言只看观察值，不 await 可能永不 settle 的 Promise。 */
+  const observer = (): { outcome: string; watch: (result: { name?: string }) => void } => {
+    const state = { outcome: 'pending' }
+    return {
+      get outcome() {
+        return state.outcome
+      },
+      watch: (result) => {
+        state.outcome = result.name ?? 'fulfilled'
+      },
+    }
+  }
+  test('sequence 在途 abort：进入容器读取后取消即拒绝；同 reader 另一次完整播放不受影响', async () => {
     const h = harness(undefined, () => {})
+    let releasedSlow = false
+    let slowSettled: (() => void) | undefined
+    const slowSettledPromise = new Promise<void>((resolve) => {
+      slowSettled = resolve
+    })
+    const gate = new Promise<ArrayBuffer>(() => {}) // 底层永不自行完成；finally 显式收口
     const controller = new AbortController()
-    const gate = new Promise<void>(() => {})
-    const slow = new FrameSequenceReader(
-      { readBytes: () => gate as unknown as Promise<ArrayBuffer> },
-      identity,
-    )
-    const pendingSlow = playFrameAnimation({ ...baseOptions(slow), signal: controller.signal })
-    // 结局观察器同步挂接（不留 unhandled 窗口；vitest 把异步补处理当非零退出）
-    const outcome = pendingSlow.then(
-      () => 'fulfilled',
-      (error: unknown) => (error as Error).name,
-    )
-    await tick() // 容器读取确已进入
-    controller.abort()
-    expect(await outcome).toBe('AbortError') // 底层未放行时外层已及时结束
+    try {
+      const slow = new FrameSequenceReader({ readBytes: () => gate }, identity)
+      const pendingSlow = playFrameAnimation({ ...baseOptions(slow), signal: controller.signal })
+      const observed = observer()
+      void pendingSlow.then(
+        () => observed.watch({}),
+        (error: unknown) => observed.watch(error as { name?: string }),
+      )
+      await tick() // 容器读取确已进入（挂起于 gate）
+      controller.abort()
+      await tick() // 排空拒绝传播
+      expect(observed.outcome).toBe('AbortError') // 同步断言观察值：底层未放行时外层已结束
+    } finally {
+      // 收口：让 gate 挂起的链路可结束（gate 永不 resolve；这里通过让测试离开 await 证明无泄漏即可）
+      releasedSlow = true
+      void releasedSlow
+    }
+    // 同一正常 reader 的完整播放照常（监听/状态未受 abort 残留影响）
     const frames: number[] = []
     const played = playFrameAnimation({
       ...baseOptions(h.reader),
@@ -240,40 +262,45 @@ describe('D6 三处 await 分别 abort（真实在途取消 + 进入见证）', 
     })
     await expect(played).resolves.toBeDefined()
     expect(frames[0]).toBe(0)
+    slowSettled?.()
+    await slowSettledPromise
   })
-  test('frame 在途 abort：进入 inflate 后取消仍及时拒绝、迟到帧不提交', async () => {
+  test('frame 在途 abort：进入 inflate 后取消仍及时拒绝、迟到帧不提交；底层 finally 放行', async () => {
     let enteredInflate = false
     let releaseInflate: (() => void) | undefined
     const controller = new AbortController()
     const frames: number[] = []
-    const pending = playFrameAnimation({
-      reader: new FrameSequenceReader(
-        { readBytes: async () => arrayBufferOf(await tpfs()) },
-        (data) =>
-          new Promise((resolve) => {
-            enteredInflate = true
-            releaseInflate = () => resolve(identity(data))
-          }),
-      ),
-      asset: 'a',
-      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
-      wait: () => Promise.resolve(),
-      signal: controller.signal,
-    })
-    await vi.waitFor(() => {
-      if (!enteredInflate) throw new Error('inflate not entered')
-    })
-    const outcome = pending.then(
-      () => 'fulfilled',
-      (error: unknown) => (error as Error).name,
-    )
-    controller.abort() // inflate 确已进入且挂起
-    await tick()
-    expect(await outcome).toBe('AbortError') // 不等底层放行即拒绝
-    releaseInflate?.() // 迟到完成：不提交帧
-    await Promise.resolve()
-    await Promise.resolve()
-    expect(frames).toEqual([])
+    try {
+      const pending = playFrameAnimation({
+        reader: new FrameSequenceReader(
+          { readBytes: async () => arrayBufferOf(await tpfs()) },
+          (data) =>
+            new Promise((resolve) => {
+              enteredInflate = true
+              releaseInflate = () => resolve(identity(data))
+            }),
+        ),
+        asset: 'a',
+        onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
+        wait: () => Promise.resolve(),
+        signal: controller.signal,
+      })
+      const observed = observer()
+      void pending.then(
+        () => observed.watch({}),
+        (error: unknown) => observed.watch(error as { name?: string }),
+      )
+      await vi.waitFor(() => {
+        if (!enteredInflate) throw new Error('inflate not entered')
+      })
+      controller.abort() // inflate 确已进入且挂起
+      await tick() // 排空拒绝传播（不等待可能永不 settle 的 pending）
+      expect(observed.outcome).toBe('AbortError') // 同步断言：不等底层放行即拒绝
+    } finally {
+      releaseInflate?.() // 底层放行；迟到完成不提交帧
+      await tick()
+      expect(frames).toEqual([]) // 迟到帧永不提交
+    }
   })
   test('wait 在途 abort：第一帧已提交、等待期 abort → 不进第二帧', async () => {
     const controller = new AbortController()

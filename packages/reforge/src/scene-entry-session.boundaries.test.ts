@@ -8,11 +8,11 @@ import { SceneEntrySession } from './scene-entry-session.js'
 
 const fade = { kind: 'fade', outMs: 200, inMs: 150 } as const
 const dither = { kind: 'dither', ms: 300, source: 'previousPresentedFrame' } as const
-// guard 勘误（Codex 复核）：现行 SceneReveal 的 dither.source 只有 previousPresentedFrame
-// 一个合法值，不是可失配维度；失配轴收敛到 ms 与 kind。
+// 现行 SceneReveal 的 dither.source 只有 previousPresentedFrame 一个合法值，
+// 不是可失配维度；失配轴只有 ms 与 kind（虚构 source 值不在类型/合同域内，已删除）。
 
 describe('F1 reveal 失配分维度与错误后保持', () => {
-  test('fade out/in 与 dither ms/source 分别失配即拒；cut 正控；错误后当前 session 保持', () => {
+  test('fade out/in 与 dither ms/kind 分别失配即拒；cut 正控；错误后当前 session 保持', () => {
     const session = new SceneEntrySession<string>()
     session.begin('s0', 's1', 'frame-old', fade)
     expect(() => session.startReveal('s1', { kind: 'fade', outMs: 999, inMs: 150 })).toThrow(
@@ -25,15 +25,15 @@ describe('F1 reveal 失配分维度与错误后保持', () => {
     const handle = session.startReveal('s1', fade)
     expect(handle?.phase).toBe('revealing')
     expect(handle?.sourceFrame).toBe('frame-old')
-    // dither 维度
+    // dither 维度：ms 与 kind 失配（source 无合法失配值）
     const session2 = new SceneEntrySession<string>()
     session2.begin('s0', 's1', 'f', dither)
     expect(() =>
-      session2.startReveal('s1', { kind: 'dither', ms: 300, source: 'held' as never }),
-    ).toThrow()
-    expect(() =>
       session2.startReveal('s1', { kind: 'dither', ms: 999, source: 'previousPresentedFrame' }),
     ).toThrow()
+    expect(() => session2.startReveal('s1', { kind: 'fade', outMs: 1, inMs: 1 })).toThrow(
+      'reveal 与 preflight 契约不一致',
+    )
     expect(session2.startReveal('s1', dither)?.phase).toBe('revealing')
     // cut 正控：任意 cut 契约等价
     const session3 = new SceneEntrySession<string>()
