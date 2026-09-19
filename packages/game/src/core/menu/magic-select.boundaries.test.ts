@@ -47,7 +47,7 @@ describe('G04 createMagicSelectMenu', () => {
     })
     expect(oneLess.items[0]!.disabled).toBe(true)
   })
-  it('非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表', () => {
+  it('非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表（防御分类：当前 caller 域内不应触达的退化输入）', () => {
     const menu = createMagicSelectMenu({
       roleId: 0,
       playerRoles: roles([295, 999]), // 999 无 spell 定义

@@ -84,7 +84,10 @@ describe('G08 confirmEquipItem/Role 意图合同', () => {
     expect(state.playerCursor).toBe(0) // 复位
     cancelEquipMenu(state)
     expect(state.phase).toBe('done')
-    expect(confirmEquipItem(state, ITEMS, {} as never, [2, 0])) // done 阶段无副作用
+    // done 阶段 Confirm 无副作用：同一 state 调用前后完整相等（错写 phase 即红）
+    const doneSnapshot = structuredClone(state)
+    confirmEquipItem(state, ITEMS, {} as never, [2, 0])
+    expect(state).toEqual(doneSnapshot)
     state.phase = 'pick-role'
     state.selectedItemId = undefined
     expect(confirmEquipRole(state)).toBeNull()
