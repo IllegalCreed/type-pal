@@ -41,11 +41,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-selection",
-      "control-patch",
-      "control-group"
-    ],
+    "controls": ["control-selection", "control-patch", "control-group"],
     "cases": [
       {
         "name": "selection-hidden-none-gate-removed",
@@ -160,5 +156,24 @@
     "fast 计数配对：before 目录 2359（无本批）/ after 目录 2377（含本批 +18）；日志文件名字母序 before<after，打印顺序以 /tmp/md1-{before,after}.log 内容为准",
     "M06 按工作包'优先防御分类，非必增文件'整族记已有/内部防御；stamp-placement-mutation.ts 覆盖无本批增量",
     "map-selection L224/235 余量为 hitTest 像素命中（需视觉资产注册表），归 Codex 视觉批次"
-  ]
+  ],
+  "codexReception": {
+    "candidate": "0563eda7755b33fccc14d3b03fa4cda066cbe286",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-06",
+    "verifiedNewTests": 18,
+    "verifiedControls": 3,
+    "verifiedMutants": 8,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 10,
+      "errors": 1,
+      "warnings": 0,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  }
 }
