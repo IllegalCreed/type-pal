@@ -48,7 +48,18 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读SDL itemmenu:287–306/340–375、magicmenu:337–370与game buildSpellMenu:125–145，确认filter差异不能声称忠实原版；复跑game25文件303项。允许明确导航/请求合同，排除效果执行、旧helper和未知产品差异。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
 - Kimi：pending（独立读primary source与已知排除，签本人席位）。
-- GLM：pending（实施可行性、族去重/白名单与合法fixture核验，签本人席位）。
+- GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
+  - **一期真值先行**：卡面钉 SDL itemmenu:287–306/340–375（保留列表/确认门）与
+    magicmenu:354–367（保留 disabled）——本人读当前 in-game-magic-menu.ts:135 确为
+    filter(usableOutsideBattle)，与 SDL 保留语义存在差异——r1 裁决"此轴待查历史裁决、
+    排除新增正确绿测、不直接改产品"正确，是待证不是缺陷定性。
+  - **item-select 现行域**：matchesFilter 是唯一生产消费（equip:66/sell:99/draw-inventory:314
+    直读）；createItemSelectMenu 无生产构造——不为无消费者 API 补测正确。
+  - **非顺序 party roleId**：G02/G04 的 roleId-vs-cursor 轴与 menu-driver 真实消费一致。
+  - **可证伪观察**：①某交互与 engineering-notes/game-mechanics 一期真值冲突→停该轴交 Codex；
+    ②空/disabled 已被旧测试同断言覆盖→登记已有；③confirm 不产请求的负控须真实 create→
+    confirm 链而非手拼 state。
+  - 返工项：无。
 - build准入：**未开放**。本批是已细化待审核，不因队列存在或其他批签字自动开始实现。签齐后Codex再核；TB-00返工优先、未接收实施包合计最多两批。
 
 ### done前
@@ -59,6 +70,7 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
 

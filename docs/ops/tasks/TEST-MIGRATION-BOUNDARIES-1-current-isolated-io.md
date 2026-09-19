@@ -48,7 +48,18 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读journal全量校验/提交序、write-plan、project-io、地图转换/审计、source-facts、两消息同步函数、label图和Store0边界及正式caller、A08/A09/E05记录，复跑migrate八文件135项。明确旧script index/R13 false不补，Store固定20只约束生成seed；文件系统仅自建临时根。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
 - Kimi：pending（独立读primary source与已知排除，签本人席位）。
-- GLM：pending（实施可行性、族去重/白名单与合法fixture核验，签本人席位）。
+- GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
+  - **九模块与 caller**：migrate-content.mts:116–143 调用链、publication:181–316 锚点
+    直读；migration-project-io.ts:88 起 snapshot/managedFiles 检查在位。
+  - **A08/A09/E05 隔离**：卡面明确"journal 守卫测试不等于迁移全链安全；A08 snapshot→journal
+    窗口、A09 symlink 先行物化归独立修复台账；E05 历史输入不保活"——只测已有守卫不宣称已修。
+  - **FS 边界**：全部 mkdtemp 自建根、不跑真 extract/migrate/bake、不触 projects/data/baseline
+    ——工作包命令均带临时根参数，可实施。
+  - **T07/T08 收窄**：仅 current r13SixBExecution:true；entry.prepare 仅 onEnter 初始态
+    （author-script-core:957/991 守卫）——与 TB-00 同类坑位已吸收。
+  - **可证伪观察**：①journal 用手写 JSON 而非真实 commit+中断产生→无效；②hash diff 期望
+    用产品函数回算→oracle 不独立；③任何真实工程路径写入→越界即停。
+  - 返工项：无。
 - build准入：**未开放**。本批是已细化待审核，不因队列存在或其他批签字自动开始实现。签齐后Codex再核；TB-00返工优先、未接收实施包合计最多两批。
 
 ### done前
@@ -59,6 +70,7 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
 

@@ -48,7 +48,19 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读install-analytics:35–50、timer:98–125和tools-panel:754–772及当前调用证据，复跑game25文件303项；确定不宣称生产会订阅页面导航、不把setStep(length)注释当真值；假宿主禁外网/真实用户存储，未知AbortError政策隔离。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
 - Kimi：pending（独立读primary source与已知排除，签本人席位）。
-- GLM：pending（实施可行性、族去重/白名单与合法fixture核验，签本人席位）。
+- GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
+  - **fetch-retry 无 AbortError 特判**：fetch-retry.ts:27–53 本人直读——catch 全部
+    退避重试（含 abort），无 AbortError 分支——r1"AbortError 政策未定、只诊断不扩大承诺"
+    与源码一致。method 优先级（init?.method ?? Request.method ?? GET）+ 大写化在 :28–31。
+  - **GA page**：install-analytics.ts:38–49 直读——传 readPage 但不传 subscribePage；
+    google-analytics.ts:21 subscribePage 为可选——r1"未订阅 page"属实。
+  - **timer setStep**：timer.ts:108–111 直读——注释称 ==length 即全部完成且实现
+    Math.min(floor(index), length) 含 length；tools-panel:758–768 产 0..length−1——
+    注释/实现不一致与"极值列待证、无 UI 触达"的 r1 裁决正确。
+  - **假网络边界**：GA 只接 fake gtag/DOM、fetch 只假 fetch——不外联真实 Google 正确。
+  - **可证伪观察**：①AbortError 重试被固化为正确合同→违反待证；②timer length 极值写成
+    UI 已验收行为→越界；③输入 Set 别名断言用另一 snapshot→自比较无效。
+  - 返工项：无。
 - build准入：**未开放**。本批是已细化待审核，不因队列存在或其他批签字自动开始实现。签齐后Codex再核；TB-00返工优先、未接收实施包合计最多两批。
 
 ### done前
@@ -59,6 +71,7 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
 

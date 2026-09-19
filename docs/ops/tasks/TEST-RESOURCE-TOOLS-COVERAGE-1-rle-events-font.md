@@ -48,7 +48,18 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读disasm.ts:190–196与BDF解析全文件、shared严格/宽容入口、asset-manifest.ts全文件及SDL源；复跑shared两文件26项与extract相邻。确认提取保u16位模式、BDF无偏移输出、清单键为path:size，原队列三处前提已订正。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
 - Kimi：pending（独立读primary source与已知排除，签本人席位）。
-- GLM：pending（实施可行性、族去重/白名单与合法fixture核验，签本人席位）。
+- GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
+  - **giveItem 保 u16 直读**：disasm.ts:190–196 emitGiveItem 直接透传 operands[0]/[1]，
+    无符号翻转——"提取保位模式、执行才转 SHORT"的 r1 裁决与源码一致，只钉原始位模式正确。
+  - **RLE 宽容/严格分域**：rle.ts:167 parseSpriteChunk（宽容）与 :189 parseSpriteChunkStrict
+    （严格）双入口直读——工作包按入口分栏不混测正确。
+  - **BDF 无 offset**：bdf-to-json.ts:30–34 BBX 只取 width/height，模型确无 offset 字段——
+    不立未实现合同正确。
+  - **manifest path:size 键**：asset-manifest.ts:29–40 逐行拼接 path:size 喂 sha256——
+    r1 勘误（非内容 hash）与源码一致；engineering-notes 旧文字已更正，不改缓存键正确。
+  - **可证伪观察**：①recompile(disasm(x)) 自洽 oracle→无效（须独立 8 字节向量）；②annotate
+    递归 choice 构造不出 flat 输入→按无 caller 别名收窄；③RLE 严格臂用宽容输入→域错。
+  - 返工项：无。
 - build准入：**未开放**。本批是已细化待审核，不因队列存在或其他批签字自动开始实现。签齐后Codex再核；TB-00返工优先、未接收实施包合计最多两批。
 
 ### done前
@@ -59,6 +70,7 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
 

@@ -48,7 +48,17 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人核script-editor导出实际调用census、script-reference-catalog:130及三caller、item-alchemy:62–130和content/validate:965–980；复跑15文件156项。剔除五个仅测试用CRUD导出、legacy library fallback、非法empty rewards臂；D06/D07不写错绿。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
 - Kimi：pending（独立读primary source与已知排除，签本人席位）。
-- GLM：pending（实施可行性、族去重/白名单与合法fixture核验，签本人席位）。
+- GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
+  - **七模块与 caller**：script-reference-catalog 消费点（ScriptEditor.tsx:41 import；
+    App/DataMode/ItemTab 传 authorScripts）直读；五个 CRUD 导出（Copy/Rename/SetInitial 等）
+    仅定义/测试无 UI 使用——工作包"只分类不保活"正确。
+  - **S03 projection 边界**："承诺 clone 处验别名、刻意复用 canonical 字段不强测全域无 alias"
+    的分域口径比一刀切 immutability 正确——与 TB-00 返工教训（原地改 state 是合同）同源。
+  - **item-alchemy 防御臂**：:76 空 rewards / :92 缺 use 被前置守卫拦——不造非法正控刷臂正确。
+  - **D-06/D-07 隔离**：留 Codex 修复、不承诺默认红转绿——与本席历次审查口径一致。
+  - **可证伪观察**：①CRUD 导出找到真实 UI caller→升级为候选重验；②投影 callback 用同值
+    canonical/shell 测不出取舍→须不同值；③mutator 原地改克隆断言要比实际 session 而非另克隆。
+  - 返工项：无。
 - build准入：**未开放**。本批是已细化待审核，不因队列存在或其他批签字自动开始实现。签齐后Codex再核；TB-00返工优先、未接收实施包合计最多两批。
 
 ### done前
@@ -59,6 +69,7 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
 

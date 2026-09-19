@@ -48,7 +48,18 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读SDL global.h:95–122、text.c:795–844及当前解析/调用链；复跑extract十二文件的既有测试（详细限制见总回执）。核定完整字段/独立字节/非零offset优于仅规模断言；565不是通用常数，输入解耦与新增业务严格分栏。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
 - Kimi：pending（独立读primary source与已知排除，签本人席位）。
-- GLM：pending（实施可行性、族去重/白名单与合法fixture核验，签本人席位）。
+- GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
+  - **模块/入口直读**：parseSss:185、parseWordDat:87、parseMessages:8、parseEnemyPos:27、
+    enemy-teams.ts:16 u16 装载（5 槽×WORD=10B/条，slot 语义 0/FFFF/绝对 index）——九模块真实
+    parser 均在；caller 锚（cli.ts:201–364）与旧 tables/data-misc 测试标题列入工作包去重表。
+  - **自包含输入可构造性**：全部为纯二进制 LE 字节 + 合法 MKF chunk 结构，无 JSON 守卫——
+    工作包"正式 parser 成功正控 + SDL 结构手列预期、不虚称 schema 通过"的口径正确；
+    P03 的 Uint32Array 4/8 对齐注意点是真实坑位（防宿主 RangeError 替业务拒绝）。
+  - **r1 收窄复核**：enemy-teams 的 mapped 入口（names+objectIndexToEnemyId）确为当前 caller
+    形态；"只测 mapped、不保活无映射旧模式"与源码一致。MSG 倒序/越界 offset 不立新合同正确。
+  - **可证伪观察**：①某记录布局与 SDL 结构不符→该族撤；②旧 tables.test 已同字节同断言→
+    记"输入解耦"不计新业务；③负控以被测 parser 回算预期→无效。
+  - 返工项：无。
 - build准入：**未开放**。本批是已细化待审核，不因队列存在或其他批签字自动开始实现。签齐后Codex再核；TB-00返工优先、未接收实施包合计最多两批。
 
 ### done前
@@ -59,6 +70,7 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
 

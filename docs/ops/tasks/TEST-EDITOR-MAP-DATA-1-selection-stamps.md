@@ -48,7 +48,17 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读D29、stamp-placement-mutation.ts:55–100与真实UI调用、已有测试；复跑editor15文件156项。确认placement至少一视觉槽，collision-only仅普通cells，合法placement可视觉成员非空且gridPoints为空；无caller moveStampDraftSelection不扩测，内部防御不强制填。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
 - Kimi：pending（独立读primary source与已知排除，签本人席位）。
-- GLM：pending（实施可行性、族去重/白名单与合法fixture核验，签本人席位）。
+- GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
+  - **八模块与厚既有测试**：15 文件/156 项基线（本人抽验 map-selection/map-transform 等
+    路径存在）；工作包逐族列旧测试锚——这些模块既有覆盖很厚，"全部剩防御臂时停止本族"条款
+    必要且已写入。
+  - **视觉槽合同**：stamp-placement-mutation.ts:81–82 视觉槽为空即 throw 直读——"至少一
+    视觉槽"是现行守卫；collision-only 组合走 D29/合法视觉组空 grid 轴正确。
+  - **数据断言边界**：选区/变换/模板均为纯数据合同（issues/canApply/patch），不碰碰撞/拖拽
+    语义——与卡面"这是数据断言，不是新碰撞语义"一致。
+  - **可证伪观察**：①某族已被 156 项中同合同覆盖→登记已有不重复；②fixture 过不了
+    validateProjectMap→非法输入不给主例背书；③负控只改 issues 计数不改内容→鉴别力不足。
+  - 返工项：无。
 - build准入：**未开放**。本批是已细化待审核，不因队列存在或其他批签字自动开始实现。签齐后Codex再核；TB-00返工优先、未接收实施包合计最多两批。
 
 ### done前
@@ -59,6 +69,7 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
 
