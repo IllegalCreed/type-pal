@@ -1,6 +1,6 @@
 # TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: 已有状态/元数据合同覆盖，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -117,6 +117,9 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM（build 开工）：按 Codex d350f4fb 核定同步本卡/看板/索引到 build；在
+  codex/glm-runtime-state-boundaries-r1 独立 worktree 连续实施六组（TB-01～03 规划文档已在
+  95b6ff6e 另行提交，不混入本卡实施）。
 - 2026-09-19 Codex：用户告知“签了”后同步并核对三席均钉r1/e58834f6、各有直接证据与可证伪观察、无counter；当前607b2aa3相对冻结的packages/与scripts/coverage/零diff，build条件已满足。
   GLM正在共享树准备TB-01～03，相关未提交卡/工作包/看板/索引保留、不混入本次核准提交。沿用原委托由GLM更新本卡实施状态与共享索引，进入独立worktree；本卡不扩39族，不为新队列重复签字，未实施、未宣称测试完成。
 - 2026-09-19 Kimi：完成 r1 独立设计审查，签 premise verified + design agree，无返工项。
