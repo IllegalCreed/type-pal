@@ -41,11 +41,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-selection",
-      "control-patch",
-      "control-group"
-    ],
+    "controls": ["control-selection", "control-patch", "control-group"],
     "cases": [
       {
         "name": "selection-hidden-none-gate-removed",
@@ -203,5 +199,20 @@
       "needles": 8
     },
     "coverageRerun": "官方 fast before 2359 / after 2377 双 exit0（最终返工树重跑）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:39:48Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名等反例",
+    "C1": {
+      "note": "全部回填后 10 文件完整白名单 Biome rc=0（含合并重复 @type-pal/reforge import）"
+    },
+    "R06-2完整保真": "planMapPaste 两个用例改为 structuredClone(完整实际 map) + clipboard 深快照：拒绝后与 overwrite 正控后都比较完整对象（layers 全字段含 name/sources/heights、collision、tilesetRefs），单点污染 map.layers[0].name 即红",
+    "reworkWitness": "glm-nine-rework-witnesses: 9/9 判据双反例拒绝、paste-mutates-layer-metadata 针 detected、PNG 三态 valid",
+    "counts": {
+      "targeted": 18,
+      "controls": 3,
+      "needles": 8
+    }
   }
 }

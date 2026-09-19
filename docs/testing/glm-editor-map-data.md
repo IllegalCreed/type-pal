@@ -123,3 +123,14 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字
 - M06 已有/内部防御保留（stamp-placement-mutation.test.ts 精确标题在册）。
 - 复跑：定向 5/5、全包 248 文件/2536 项（2 项预存裁决一致；adoption 抖动隔离 22/22 绿，
   并行完整 check 复核留合并后）、tc rc=0、官方 fast 2359→2377 双 exit0。机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据精确唯一目标（全等+恰1+failed+非空+首行业务错误），运行态/自测共用
+  AST 抽取块，补后缀冒名/重名反例。
+- **C1**：全部回填后 10 文件白名单 Biome rc=0（含合并重复 import）。
+- **R06-2 完整 map/clipboard 保真**：两个 planMapPaste 用例改为 `structuredClone(map)` 完整
+  深快照 + clipboard 深快照；拒绝后与 overwrite 正控后都比较**完整对象**（含
+  layers[].name/sources/heights、collision、tilesetRefs），单点污染 `map.layers[0].name`
+  即红（对应 witness paste-mutates-layer-metadata 针）。
+- 复跑：定向 18/18、tc rc=0、3 对照+8 针绿；rework-witness 全绿。

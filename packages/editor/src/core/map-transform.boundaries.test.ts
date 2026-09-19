@@ -6,14 +6,12 @@
  */
 import {
   buildBlankProjectMap,
+  buildProjectMapLayer,
+  insertProjectMapLayer,
   paintProjectMapCollision,
   paintProjectMapTiles,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
-import {
-  buildProjectMapLayer,
-  insertProjectMapLayer,
-} from '@type-pal/reforge'
 import type { MapCellClipboard } from './map-transform.js'
 import { captureMapClipboard, planMapPaste } from './map-transform.js'
 
@@ -50,13 +48,10 @@ function clipboardOf(map: ReturnType<typeof painted>): MapCellClipboard {
 }
 
 describe('M02 planMapPaste 失败计划与冲突语义', () => {
-  test('占用目标 reject：conflicts 精确、canApply=false、patch 双通道全空、map/clipboard 实参不变', () => {
+  test('占用目标 reject：conflicts 精确、canApply=false、patch 双通道全空、完整实际 map/clipboard 不变', () => {
     const map = painted()
     const clipboard = clipboardOf(map)
-    const mapSnapshot = structuredClone({
-      layers: map.layers.map((layer) => ({ id: layer.id, tiles: layer.tiles })),
-      collision: map.collision,
-    })
+    const mapSnapshot = structuredClone(map) // 完整实际 map（layers 全字段/collision/width/height/tilesetRefs）
     const clipboardSnapshot = structuredClone(clipboard)
     // 粘到 (2,2)：视觉槽被 tileId=2 占用；碰撞 (3,1)... 目标碰撞格 (2,2) 为 0 → 无碰撞冲突
     const plan = planMapPaste(map, clipboard, point(2, 2), {
@@ -74,20 +69,17 @@ describe('M02 planMapPaste 失败计划与冲突语义', () => {
         incomingValue: 1,
       },
     ])
-    expect(
-      structuredClone({
-        layers: map.layers.map((layer) => ({ id: layer.id, tiles: layer.tiles })),
-        collision: map.collision,
-      }),
-    ).toEqual(mapSnapshot)
-    expect(structuredClone(clipboard)).toEqual(clipboardSnapshot)
-    // overwrite 下同计划可提交
+    expect(map).toEqual(mapSnapshot) // 拒绝后同一实际 map 完整对象比较
+    expect(clipboard).toEqual(clipboardSnapshot)
+    // overwrite 下同计划可提交；成功计划也不改实际 map/clipboard（改的是返回 patch）
     const overwrite = planMapPaste(map, clipboard, point(2, 2), {
       conflictPolicy: 'overwrite',
       collisionAuthorityLayerId: 'floor',
     })
     expect(overwrite.canApply).toBe(true)
     expect(overwrite.patch.visual).toHaveLength(3)
+    expect(map).toEqual(mapSnapshot) // 后续 overwrite 正控后仍完整不变
+    expect(clipboard).toEqual(clipboardSnapshot)
   })
   test('collision：目标 0 或同值不冲突；不同非零才冲突', () => {
     const map = painted()
@@ -143,6 +135,8 @@ describe('M02 planMapPaste 失败计划与冲突语义', () => {
       true,
     )!
     expect(clipboard.visual).toHaveLength(2)
+    const mapSnapshot = structuredClone(map) // 完整实际 map（含 extra 层全字段）
+    const clipboardSnapshot = structuredClone(clipboard)
     // floor→floor（有效目标层）、extra→ghost（已删层）：部分有效仍整笔失败
     const plan = planMapPaste(map, clipboard, point(1, 0), {
       layerMappings: [
@@ -162,7 +156,9 @@ describe('M02 planMapPaste 失败计划与冲突语义', () => {
         ref: { layerId: 'ghost', row: 2, col: 2 },
       },
     ])
-    // 相邻正控：映射到两个都存在的层 → 同 clipboard 可提交
+    expect(map).toEqual(mapSnapshot) // 拒绝后完整实际 map 不变
+    expect(clipboard).toEqual(clipboardSnapshot)
+    // 相邻正控：映射到两个都存在的层 → 同 clipboard 可提交；正控后仍完整不变
     const ok = planMapPaste(map, clipboard, point(1, 0), {
       layerMappings: [
         { sourceLayerId: 'floor', targetLayerId: 'floor' },
@@ -173,5 +169,7 @@ describe('M02 planMapPaste 失败计划与冲突语义', () => {
     })
     expect(ok.canApply).toBe(true)
     expect(ok.patch.visual).toHaveLength(6) // 2 实例 × 3 通道
+    expect(map).toEqual(mapSnapshot)
+    expect(clipboard).toEqual(clipboardSnapshot)
   })
 })
