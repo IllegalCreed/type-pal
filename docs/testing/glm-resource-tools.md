@@ -75,5 +75,23 @@ docs/testing/glm-resource-tools-evidence.json
 - 提交时本节后附GLM实现回执：候选SHA、白名单diff、真实命令/退出码、逐族互斥分类与新增价值、负控细目、覆盖两时点与待证归属。
 
 ## GLM回执区
+r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字齐；用户拍板在 Codex 额度
+空窗期先行实施 TB-02～TB-10、恢复后统一接收——本批据此开工，非代签 Codex 准入）。分支
+`codex/glm-resource-tools-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-resource-tools`）；
+产品对冻结 e58834f6 零漂移。最终树 **8 个新测试文件共 24 项**（R01-R09 逐族落账，
+R05 annotate 按工作包允许整模块记已有、减 1 文件与 2 个 fixture 白名单项）；
+shared 全包 14 文件/115 项 exit0；pal-extract 34 文件/173 项中 4 项真实资产 ENOENT 与基线相同
+（fresh worktree 缺 data/raw）；双包 tc rc=0；9 新文件 Biome rc=0。
 
-待实施。当前只有Codex规划与前提复核，不存在GLM交付或accept。
+- 负控 `node docs/testing/glm-resource-tools-mutants.mjs` rc=0（跨 shared+pal-extract 双包单点替换）：
+  判据自测 + 3 对照 + **9 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行
+  AssertionError；产品 hash 不变。针点：严格 RLE 零长指令、编码透明 run 封顶、写入奇对齐 pad、
+  disasm o1 signed 化、recompile label 丢失、slice globalEntries 强制、palette 夜半偏移、
+  BDF 第二字节、manifest 根 self。
+- 覆盖对照（官方 testSelection fast，/tmp）：rle L117/125→121/125 B76→82/100；
+  recompile L47→50/51 B42→44/48；slice L71→79/91 B50→59/83；bdf L38→40/40；
+  asset-manifest L12→21/21 B5→7/8；palette B6→8/11；disasm B34→35/54。
+  全包 shared L338→342/356 B145→151/177；pal-extract L561→583/1316 B253→269/539。
+  官方口径 shared 106→115、pal-extract 110→125（+15）双侧 exit0。
+- 机器账 `docs/testing/glm-resource-tools-evidence.json`。
+
