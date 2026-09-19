@@ -99,3 +99,65 @@ Mimosa不归Codex、不作门禁。GLM为测试贡献者，正式接收与质量
 另外只修TB03完整可解码PNG+真实摘要、TB06整个实际map/clipboard深比较、TB07非空redo在缺target拒绝后完整保留。参考 node --import tsx docs/testing/glm-nine-rework-witnesses.mjs：原七针维持检出，新两个MISSED须由候选业务断言检出，PNG核验有合法正控。判据重构后告知真实函数入口，Codex适配捕获，不为兼容旧探针重复实现。
 保持各原独立分支和白名单（含已批S02）；不改产品/旧测试/官方基线/原探针，不代签、不标done、不转Kimi。真实命令/退出码/最终计数直接落各卡本人回执并提交推送；全仓check/ratchet/严格fast留Codex。Mimosa不参与，TB00/TB01另排。
 ```
+
+## GLM收窄返工回执（2026-09-19，九批全部分别推送）
+
+各批原独立分支同步 31c8703f 后按本报告收窄返工并推送；生产冻结 e58834f6 零漂移、
+设计未重签、已关闭项未重开。
+
+| 批次 | 返工分支 tip | 要点 |
+|---|---|---|
+| TB02 | ea276956 | C0 精确唯一目标；C1 白名单 Biome rc=0（biome format 补齐 mutants/fsa/JSON） |
+| TB03 | 001dc9e1 | C0/C1；**R03-3 前半项**：minimalPng/pngPayload 改真 CRC32+zlib stored+Adler-32 合法 PNG，源图/主图/preview 三态过独立检查器，摘要为合法产物离线 SHA-256；撤回 audit 归因 |
+| TB04 | 69d62dc2 | C0/C1；无业务残项 |
+| TB05 | 00801036 | C0/C1；无业务残项 |
+| TB06 | d2667b25 | C0/C1；**R06-2**：planMapPaste 两用例 structuredClone 完整实际 map+clipboard，拒绝后与 overwrite 正控后全对象比较（单点污染 layers[0].name 即红） |
+| TB07 | 10cc9d4d | C0/C1；**R07-3**：缺 target 用例先建非空 redo（两笔编辑+undo），拒绝后 canRedo 保持且 redo() 精确重放 hook-b，两次 undo 回初始；撤回 audit 归因 |
+| TB08 | bda77494 | C0/C1；无业务残项 |
+| TB09 | ca4c0768 | C0/C1（白名单零警告：清 unused imports/useConst/useTemplate/未消费变量） |
+| TB10 | 3d798f7c | C0/C1（清 statSync/长行/import 序，needle 模板字面量按字节保存并注 ignore 理由） |
+
+**C0 判据重构（九份同构）**：运行块改 `assertions.filter(r => r.title === item.redTest)`
++ `assert.equal(matches.length, 1, …)`——精确身份、命中恰 1、failed、非空、逐条首行业务
+错误；自测不再另写谓词，而是 AST 抽取**两段运行块**拼接为 `runCriterion` 直接执行，反例：
+后缀冒名「other target」、重名双 target、未失败、空 messages、普通 Error 内嵌
+AssertionError 子串、纯超时，正控含 expect 形式与毒日志拒绝。
+
+本席复跑 `node --import tsx docs/testing/glm-nine-rework-witnesses.mjs`（最终树）：
+**9/9 suffixOnlyRejected、9/9 duplicateTargetRejected、PNG source/main/preview 三态
+valid（IHDR/IDAT/IEND、CRC 与 IDAT inflate 全对）、rejected-session-state-alias 与
+rejected-session-clears-redo 与 paste-mutates-layer-metadata 两态全绿（3 针候选业务
+AssertionError detected、3 对照绿）**。总账按实测更正：**210 项定向 / 27 对照 + 73 针**，
+TB05 白名单 11 文件、TB07 定向 21、TB08 定向 17。audit-performance 并行超时的
+「已裁决」归因已从 TB03/TB07 机账撤回（首轮仅豁免具体资产 ENOENT）；合并后同口径完整
+check 仍须实跑。全仓 check/ratchet/strict-fast 留 Codex。
+
+## 下一位Agent提示词：Codex（收窄返工复核接收）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 复核接收 GLM 按 docs/testing/glm-nine-rework-review.md
+收窄返工的九批（各原独立分支已推送；生产零漂移、设计未重签、已关闭项未重开）：
+
+  TB02 codex/glm-reforge-asset-io-r1      ea276956
+  TB03 codex/glm-editor-import-codec-r1   001dc9e1
+  TB04 codex/glm-pal-tables-r1            69d62dc2
+  TB05 codex/glm-resource-tools-r1        00801036
+  TB06 codex/glm-editor-map-data-r1       d2667b25
+  TB07 codex/glm-editor-script-helpers-r1 10cc9d4d
+  TB08 codex/glm-game-menu-r1             bda77494
+  TB09 codex/glm-game-host-r1             ca4c0768
+  TB10 codex/glm-migration-r1             3d798f7c
+
+复核建议：
+1. 复跑 node --import tsx docs/testing/glm-nine-rework-witnesses.mjs——期望 9/9 判据双反例
+   拒绝、PNG 三态 valid、3 针 detected / 3 对照绿；
+2. 判据真实入口（供你适配捕获）：运行态两块仍是 `item.expected === 1` 与
+   `item.redTest !== undefined`，但精确唯一逻辑内联在第二块（filter + length===1），
+   自测经 `runCriterion = new Function('assert','item','output','assertions','log', 两块拼接)`
+   直接执行同一代码——抽取两块拼接即可复用，无需另写谓词；
+3. 逐批复跑各自 mutants 脚本与定向测试、抽查 evidence.json rework2 数字与最终树一致；
+4. 重点核对三项业务修复：TB03 合法 PNG（独立检查器三态+离线摘要）、TB06 完整 map/
+   clipboard 深比较（拒绝后与 overwrite 正控后）、TB07 非空 redo 完整保留+精确重放；
+5. audit-performance 归因已撤回；合并后同口径完整 check（含该并行轴）由你执行；
+   Mimosa 按用户裁决不参与；TB00/TB01 另排。接收后按卡走 review→done 与 Kimi 终审。
+```
