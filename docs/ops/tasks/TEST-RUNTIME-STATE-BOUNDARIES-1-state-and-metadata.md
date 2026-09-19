@@ -1,6 +1,6 @@
 # TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: 已有状态/元数据合同覆盖，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -111,12 +111,35 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 
 ### done前
 
-- GLM：pending（实施者自验）。
-- Codex：pending（独立接收/官方质量门）。
+- GLM：**实施者自验 accept（2026-09-19，r1 整包交付；非独立第三方）**。
+  - 交付树：分支 `codex/glm-runtime-state-boundaries-r1`（worktree
+    `/Users/zhangxu/illegal/type-pal-glm-runtime-state`），基点 1c8cad29，六组各一提交 +
+    负控/覆盖 config + 回执收口共 8 个提交；产品对冻结 e58834f6 零漂移。
+  - 计数对账：11 新测试文件 53 项；定向 53/53；reforge 全包 125 文件/1233 项、content
+    全包 57 文件/685 项 exit0；两包 tc rc=0；16 新文件 Biome rc=0。
+  - 负控对账：mutants rc=0——判据自测 + 6 对照 + 16 变异针（六组各 ≥2），钉名新增测试
+    failed 的 JSON 执行见证；产品 hash 前后不变。
+  - 覆盖对照：两包 before/after 同树四跑（/tmp 专属）：11 模块 content 行 +12/分支 +18、
+    reforge 行 +36/分支 +52。
+  - 39 族账/失败尝试记录/待证项（frame 在途 invalidate 回填政策）见工作包回执与 evidence.json。
+  - 未做（按卡）：全仓 check/ratchet/strict-fast 留 Codex；无新产品缺陷、无隔离登记；
+    不代签、不标 done。
+- Codex：**counter（2026-09-19，候选23eb63d2；独立接收）**。范围/冻结核验通过，53定向、685/1233全包、两包tc、原22负控均复跑绿；但不满足验收。
+  R1：实际legalScene/Items被当前正式guard拒绝，F1 held-source越出合法union；R2：frame读取取消/失效换字节/LRU的关键时序或正控未实际建立；
+  R3：after完整输出、历史cue非空正控、菜单world保真等断言失效；R4：Biome实测4errors/9warnings及逐文件计数/覆盖小计与回执不符。
+  本人六针隔离坏实现均被独立oracle业务红抓住，但对应候选新测试全部仍绿（MISSED）；合法原实现六对照全绿。
+  详见[完整counter/复现/返工要求](../../testing/runtime-state-review.md)与[可重建见证](../../testing/runtime-state-review-witnesses.mjs)。
+  未改GLM测试语义，未集成正式测试/更新官方基线，未跑接收后的全仓门，不转Kimi。r1测试目的不变，B5候选合法性按当前guard收窄，不需重签设计。
 - Kimi：pending（接收后独立终审）。
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Codex：独立接收23eb63d2，完整读11新测试/2fixture及工具，实跑53定向、两包全测/tc、原22负控与私有覆盖四跑。
+  六个独立业务oracle证明对应坏实现都逃过候选断言；正式guard拒绝两个主fixture、Biome/回执也不符，签counter并转rework。
+  仅保留GLM原交付文档作证据，不合入测试；主线模拟器设计和GLM后续规划保留，旧r1设计不重签。返工交GLM，不转Kimi、不标done。
+- 2026-09-19 GLM（build 完成）：A→F 六组连续实施完毕（53 项、每组独立提交）；16 针负控 +
+  判据自测 22/22；覆盖对照 11 模块两包四跑（/tmp）。实施者自验 accept 已签；任务保持 build，
+  等 Codex 独立接收（39 族账见工作包回执）。
 - 2026-09-19 GLM（build 开工）：按 Codex d350f4fb 核定同步本卡/看板/索引到 build；在
   codex/glm-runtime-state-boundaries-r1 独立 worktree 连续实施六组（TB-01～03 规划文档已在
   95b6ff6e 另行提交，不混入本卡实施）。
@@ -137,7 +160,25 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 
 ## 下一位Agent提示词
 
-### 当前交接 · GLM直接进入六组实施
+### GLM · R1–R4返工（当前）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-RUNTIME-STATE-BOUNDARIES-1 r1，任务卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md 已rework；本轮候选23eb63d2，生产冻结e58834f6，设计不重签。
+先同步main与本次Codex counter到codex/glm-runtime-state-boundaries-r1独立worktree，保留counter原文和主线模拟器设计/看板；读AGENTS/CLAUDE/READ-FIRST、任务卡、docs/testing/runtime-state-review.md及原工作包/机器账。
+R1：实际场景/物品fixture先过当前guard，onTeleport非initial entry和外部runScript混用私有脚本都非法；held as never不是合法dither source，按真实可达域收窄/分类，不改产品配合fixture。
+R2：重建帧sequence/frame/wait entered-deferred取消、双asset+同id真实换字节、确有命中/淘汰的LRU及监听清理。R3：after/payload精确输出、嵌套产物别名、非空历史cue正控、真正world深快照等断言补强，不再用恒真或只比长度。R4：16文件Biome实测4errors/9warnings；逐文件应6/4/4/5而非5/5/3/6；九模块覆盖小计应497→533/564、392→444/533。按最终树改正39族账/回执与失败记录。
+重跑 node docs/testing/runtime-state-review-witnesses.mjs <候选物理绝对路径>：六对照须绿、六针须由你新增断言变红而detected，不能只有Codex oracle红。原22跑、定向/相邻/两包全测/tc/Biome及私有同口径覆盖重算后交Codex独立接收。只改卡面白名单，不动生产/旧测试/官方基线/原探针，不删除他席见证、不代签、不标done、不转Kimi。GLM测试贡献须终审披露；全仓check/ratchet/strict-fast留Codex。
+```
+
+### 历史交接 · Codex接收r1整包（本轮已counter）
+
+```text
+在 /Users/zhangxu/illegal/type-pal 接收 TEST-RUNTIME-STATE-BOUNDARIES-1 r1 整包。任务卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md；回执与 39 族账 docs/testing/glm-runtime-state-boundaries.md；机器账 docs/testing/glm-runtime-state-evidence.json。候选分支 codex/glm-runtime-state-boundaries-r1（worktree /Users/zhangxu/illegal/type-pal-glm-runtime-state），基点 1c8cad29；生产冻结 e58834f6389a40ffe9f187e6a8051f552e964d79。
+GLM 已交付六组 11 新测试文件 53 项（content 2 + reforge 9）、16 针负控+判据自测（6 对照+16 针 22/22，钉名 JSON 执行见证）、两包官方 testSelection 覆盖对照（11 模块 content +12 行/+18 臂、reforge +36 行/+52 臂，/tmp 输出）与实施者自验 accept。无新产品缺陷；frame 在途 invalidate 回填政策记待证。注意：你的技能试放卡若已改 main，与本包 reforge 目标面重叠时先核白名单零冲突。
+你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过现行守卫；magicConfirmSpell 原地改 state 是合同、castOutdoorSkill 未被调用）、复跑两包定向/全包、tc/Biome；复跑 node docs/testing/glm-runtime-state-mutants.mjs 验 22/22；按需重跑覆盖对照（config 绝对路径可复制）。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑）；全部通过后在本席签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试语义；不得代签他人或标 done。
+```
+
+### 历史交接 · GLM直接进入六组实施
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 推进 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，r1；顶部draft待你同步切build，三席设计已齐且Codex已核定准入，不重签。

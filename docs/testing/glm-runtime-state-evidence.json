@@ -1,0 +1,314 @@
+{
+  "task": "TEST-RUNTIME-STATE-BOUNDARIES-1 r1",
+  "generatedAt": "2026-09-19T02:27:55Z",
+  "branch": "codex/glm-runtime-state-boundaries-r1",
+  "worktree": "/Users/zhangxu/illegal/type-pal-glm-runtime-state",
+  "freeze": "e58834f6389a40ffe9f187e6a8051f552e964d79",
+  "base": "1c8cad29 (build allowed after three same-r1 signoffs + Codex admission d350f4fb)",
+  "productDriftVsFreeze": "GLM commits touch whitelist only (tests/fixtures/docs)",
+  "tests": {
+    "perFileExecuted": {
+      "content/world-variable.boundaries.test.ts": 5,
+      "content/migration-diagnostic.boundaries.test.ts": 5,
+      "reforge/runtime-script-compiler.boundaries.test.ts": 3,
+      "reforge/runtime-project-view.boundaries.test.ts": 6,
+      "reforge/entity-action-player.boundaries.test.ts": 9,
+      "reforge/frame-animation-player.boundaries.test.ts": 8,
+      "reforge/magic-menu-state.boundaries.test.ts": 4,
+      "reforge/system-menu-state.boundaries.test.ts": 4,
+      "reforge/scene-entry-session.boundaries.test.ts": 2,
+      "reforge/screen-hold-transaction.boundaries.test.ts": 2,
+      "reforge/menu/reward-gain-queue.boundaries.test.ts": 5
+    },
+    "newTotal": 53,
+    "packageFull": {
+      "reforge": "125 files / 1233 tests exit0",
+      "content": "57 files / 685 tests exit0"
+    },
+    "typecheck": "both packages tsc --noEmit rc=0",
+    "biome": "all new TS/MJS/MTS files rc=0",
+    "failedAttemptRecord": [
+      "world-variable 错误路径断言曾用嵌套 describe 标题做 pin（钉名失败）→ 改为叶子测试标题",
+      "reward-gain 二次 present 拒绝首版用 fake timers + rejects.toThrow（变异下 STACK_TRACE_ERROR 不可判别）→ 改真实时钟 advance 驱动 + 值断言",
+      "B5 onTeleport 状态机 fixture 曾用 goto/fadeIn/stop 旧词 → 按现行 to/fade{outMs,inMs}/stay 修正",
+      "throw target 曾用不合法 scene → 改 oneEnemy"
+    ]
+  },
+  "mutants": {
+    "script": "docs/testing/glm-runtime-state-mutants.mjs",
+    "command": "node docs/testing/glm-runtime-state-mutants.mjs",
+    "exit": 0,
+    "criterionSelfTest": {
+      "goodAccepted": true,
+      "poisonedRejected": true
+    },
+    "controls": ["control-A", "control-B", "control-C", "control-D", "control-E", "control-F"],
+    "cases": [
+      {
+        "name": "wv-id-sys-ns",
+        "group": "A",
+        "pkg": "content",
+        "file": "",
+        "exit": 1,
+        "red": "sys 前缀 ID 不再被保留域拒绝",
+        "redTest": "空 description 合法、空 name 非法；sys: 只约束 ID 不约束 name/description",
+        "executedTests": 10,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/wv-id-sys-ns.log",
+        "logSha256": "f3b4be3e6f2b47dfdec1185863003698988a1e7c1fd3be634247322baee6c571"
+      },
+      {
+        "name": "wv-number-finite",
+        "group": "A",
+        "pkg": "content",
+        "file": "",
+        "exit": 1,
+        "red": "number initial 非有限值不再拒绝",
+        "redTest": "registry/definition 错型、kind 错型、flag 非布尔、number 非有限各自精确路径",
+        "executedTests": 10,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/wv-number-finite.log",
+        "logSha256": "b49158cec09f6de9fd55303761925216e65b68411055386bdd52a0c779839766"
+      },
+      {
+        "name": "diag-severity-gate",
+        "group": "A",
+        "pkg": "content",
+        "file": "",
+        "exit": 1,
+        "red": "severity 非 warn 不再拒绝",
+        "redTest": "合法基线先证明可过守卫，再按轴改坏 root/version/diagnostics 容器",
+        "executedTests": 10,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/diag-severity-gate.log",
+        "logSha256": "ad022f8081fa0e1fd9af32dc6c2ac9f995407f233960b13b9ad60c9d164faf78"
+      },
+      {
+        "name": "diag-address-gate",
+        "group": "A",
+        "pkg": "content",
+        "file": "",
+        "exit": 1,
+        "red": "address 负数/小数不再拒绝",
+        "redTest": "target domain/objectId/label 与 source kind/label/address 各自精确路径",
+        "executedTests": 10,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/diag-address-gate.log",
+        "logSha256": "88f9d4680cf9a8f7e99ba00ae731b3d8d56eb50c323ca3999b499fd8d96f0ff6"
+      },
+      {
+        "name": "resolver-cache-key-collapse",
+        "group": "B",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "timing×boundary 缓存键塌缩为 id",
+        "redTest": "auto/interactive × perCommand/transition 四键互不复用；元数据与产物逐项精确",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/resolver-cache-key-collapse.log",
+        "logSha256": "238b626202e366ebe65bc9a3c1e57947001d8f77b2daeee3fb3e55125eb91731"
+      },
+      {
+        "name": "view-entry-cursor-lost",
+        "group": "B",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "stages 游标 entry 选择丢失",
+        "redTest": "stages 游标命中对应 stage 的 entry；stateMachine 游标命中对应 state；正文一律空",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/view-entry-cursor-lost.log",
+        "logSha256": "1dae5b8dfb72af489e1e5e99e9487d58d9b7cc20664abe9bb8bc9f4805a58cc4"
+      },
+      {
+        "name": "scratch-flags-alias",
+        "group": "B",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "scratch flags 不再深拷贝（别名写回）",
+        "redTest": "scratch 可选分支缺席与在场：flags/vars/entityState 深拷贝不别名",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/scratch-flags-alias.log",
+        "logSha256": "4cafcdaf745493ba4093b8791649641b2e5604de16f84768e4af7deb01eeb35b"
+      },
+      {
+        "name": "action-frame-gate-removed",
+        "group": "C",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "实际帧数门失效",
+        "redTest": "精灵不匹配/动作缺失/空 steps/非正时长/loopFrom 越界/实际帧数门各自精确拒绝",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/action-frame-gate-removed.log",
+        "logSha256": "d9df4a5f85fe5e5e534fa15c130abcb4e62d23b8958bb2759339c4ad242f8a66"
+      },
+      {
+        "name": "action-dt-gate-removed",
+        "group": "C",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "非法 dt 不再拒绝",
+        "redTest": "精确边界/半步 startAtMs 的帧号；dt=0 no-op；非法 dt 拒绝",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/action-dt-gate-removed.log",
+        "logSha256": "802b3324f188f87c9f5fbcd56b7dc5f86ccac28ab94977339a3a8565bbdadd4f"
+      },
+      {
+        "name": "reader-limit-gate-removed",
+        "group": "D",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "frameLimit 非法值不再拒绝",
+        "redTest": "frameLimit 非正/非整数拒绝；帧索引负/非整数/上界拒绝；0/末帧正控",
+        "executedTests": 8,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/reader-limit-gate-removed.log",
+        "logSha256": "a0150284d7cfdb4c76a2ad025a5f383d5e5280249cad4886379275dd23301b92"
+      },
+      {
+        "name": "reader-lru-evict-removed",
+        "group": "D",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "LRU 淘汰失效（缓存超限）",
+        "redTest": "被淘汰者可重读、命中者更新触点：LRU 语义而非仅 size 上界",
+        "executedTests": 8,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/reader-lru-evict-removed.log",
+        "logSha256": "428730f5cd68a2ba57af0e29c8b8d9a3cf51f3a9267f42332c4cc72fec39747b"
+      },
+      {
+        "name": "magic-mp-gate-removed",
+        "group": "E",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "MP 门失效",
+        "redTest": "castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；world 不可被改",
+        "executedTests": 8,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/magic-mp-gate-removed.log",
+        "logSha256": "3f5b75212e2fbde530a286317ed34963793ec5f33e78d1a141adda8391964e95"
+      },
+      {
+        "name": "system-wrap-removed",
+        "group": "E",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "单列环绕丢失（越界溢出）",
+        "redTest": "left/up 同为 -1、right/down 同为 +1；首尾环绕",
+        "executedTests": 8,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/system-wrap-removed.log",
+        "logSha256": "e581b70d15a961a3f8fd64a4d3447e16376c3cc3eaa60764d41ba8c5badaa395"
+      },
+      {
+        "name": "entry-reveal-match-removed",
+        "group": "F",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "reveal 契约失配不再拒绝",
+        "redTest": "fade out/in 与 dither ms/source 分别失配即拒；cut 正控；错误后当前 session 保持",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/entry-reveal-match-removed.log",
+        "logSha256": "f70f675f7ef601473a18d35dd99b92513541118279ffab9339ebcb697db246f8"
+      },
+      {
+        "name": "hold-token-match-removed",
+        "group": "F",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "跨 token reveal 不再拒绝",
+        "redTest": "旧 owner 取消不影响新事务；当前 owner 能清；空 token 拒绝保留活动态",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/hold-token-match-removed.log",
+        "logSha256": "a850cfe7e39d16b1a93bac04dac97f64ea73e1d3010e409d747cb36de31c0df6"
+      },
+      {
+        "name": "reward-double-present-removed",
+        "group": "F",
+        "pkg": "reforge",
+        "file": "",
+        "exit": 1,
+        "red": "活动期间二次 present 不再拒绝",
+        "redTest": "活动序列期间二次 present 拒绝；首序列仍可完成（advance 驱动，不用时钟）",
+        "executedTests": 9,
+        "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/sb1-mutants-avuTvp/reward-double-present-removed.log",
+        "logSha256": "9147ab7b0a7f3556ea8ca6fb5b2cb4e510fa106677ca066d1e716be407be4f4b"
+      }
+    ],
+    "runtimeWitness": "each red case pins its new test by exact title in the Vitest JSON report and requires status=failed",
+    "productHashInvariant": "all touched product files sha256 unchanged before/after batch"
+  },
+  "coverage": {
+    "config": "docs/testing/glm-runtime-state.config.mts (imports scripts/coverage/config.mjs; fast profile; SB1_PKG per package)",
+    "commandTemplate": "SB1_PKG=<content|reforge> SB1_MODE=<before|after> SB1_OUT=<tmpdir> pnpm --filter @type-pal/<pkg> exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/glm-runtime-state.config.mts",
+    "dirs": "/tmp/sb1-cov-<pkg>-<before|after>",
+    "perModule_before_after_lines_branches": {
+      "world-variable.ts": {
+        "lines": ["47/51", "51/51"],
+        "branches": ["35/44", "41/44"]
+      },
+      "migration-diagnostic.ts": {
+        "lines": ["32/42", "40/42"],
+        "branches": ["48/62", "60/62"]
+      },
+      "runtime-script-compiler.ts": {
+        "lines": ["19/20", "20/20"],
+        "branches": ["6/9", "9/9"]
+      },
+      "runtime-project-view.ts": {
+        "lines": ["67/71", "68/71"],
+        "branches": ["65/83", "67/83"]
+      },
+      "entity-action-player.ts": {
+        "lines": ["150/175", "171/175"],
+        "branches": ["136/183", "162/183"]
+      },
+      "frame-animation-player.ts": {
+        "lines": ["97/114", "108/114"],
+        "branches": ["47/67", "53/67"]
+      },
+      "magic-menu-state.ts": {
+        "lines": ["65/81", "65/81"],
+        "branches": ["65/97", "70/97"]
+      },
+      "system-menu-state.ts": {
+        "lines": ["28/28", "28/28"],
+        "branches": ["33/41", "34/41"]
+      },
+      "scene-entry-session.ts": {
+        "lines": ["21/23", "23/23"],
+        "branches": ["16/21", "21/21"]
+      },
+      "screen-hold-transaction.ts": {
+        "lines": ["16/16", "16/16"],
+        "branches": ["6/8", "8/8"]
+      },
+      "reward-gain-queue.ts": {
+        "lines": ["34/36", "34/36"],
+        "branches": ["18/24", "20/24"]
+      }
+    },
+    "local11Delta": {
+      "contentLines": "+12",
+      "contentBranches": "+18",
+      "reforgeLines": "+36",
+      "reforgeBranches": "+52"
+    },
+    "packageUnion": {
+      "content": ["lines 4458/5183 -> 4470/5183", "branches 3798/5016? -> 3816"],
+      "reforge": ["lines 7927/14118 -> 7963/14118", "branches 5329/11041 -> 5381/11041"]
+    },
+    "census": "0 test files instrumented; 11 target modules all present; official dirs untouched"
+  },
+  "openItems": [
+    "frame in-flight invalidate backfill policy remains pending verification (D4 registered as contract-per-current for completed-state invalidate only)"
+  ],
+  "reservedForCodex": ["full-repo check", "official ratchet", "protected strict-fast"],
+  "notes": [
+    "all numbers regenerated from final tree",
+    "no new product defects found",
+    "D-07 not encountered in B3 (private refs stable in fixtures)"
+  ]
+}

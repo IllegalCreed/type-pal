@@ -7,7 +7,8 @@
 ## 文档与附件
 
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
-- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（build；11模块39族，三签已齐，GLM独立工作树整包实施）
+- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（rework；23eb63d2已交53项，Codex R1–R4 counter；未集成，设计不重签）
+- [运行时状态补测Codex复核](runtime-state-review.md)与[独立反证工具](runtime-state-review-witnesses.mjs)（非法fixture/六见证MISSED/回执勘误；测试绿不等于接收）
 - [内容合同残项工作包](glm-content-residual.md)（队列TB-01 draft；上包登记残项+跨包去重，未获实施授权）
 - [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（队列TB-02 draft；六模块族账，未获实施授权）
 - [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（队列TB-03 draft；七模块族账，未获实施授权）
