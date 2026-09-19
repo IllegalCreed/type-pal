@@ -47,7 +47,19 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 ### build前（r1）
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读install-analytics:35–50、timer:98–125和tools-panel:754–772及当前调用证据，复跑game25文件303项；确定不宣称生产会订阅页面导航、不把setStep(length)注释当真值；假宿主禁外网/真实用户存储，未知AbortError政策隔离。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
-- Kimi：pending（独立读primary source与已知排除，签本人席位）。
+- Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部证据本人直读，未读 GLM 结论）**。
+  - **GA/隐私核实**：`install-analytics.ts:38-49` 启动调用未传 subscribePage（直读）；
+    `google-analytics.ts:21` subscribePage 为可选、`:132` 无则空订阅——「不宣称生产订阅页面
+    导航」属实；fetch AbortError 政策未定隔离正确。
+  - **timer 核实**：`timer.ts` setStep 以 `Math.min(Math.floor(index), this.checkpoints.length)`
+    钳到 length（非 length−1），注释与实现不一致属实；`tools-panel.ts:758-768` 只产生
+    0..length−1——极值无当前 UI 触达，列待证不固化正确。
+  - **设计同意**：键盘参考 SDL input.c:58-90/213-230；重试/统计同意/音量/速通为本项目扩展
+    不伪造原版依据；假宿主禁外网/真实用户存储；未知政策隔离不默认绿。
+  - **可证伪观察**：① 候选族已有同强断言 → 登记已有；② 拟造输入不在支持域 → 撤回；
+    ③ 负控仅 TypeError/超时 → 无效；④ 把注释当实现真值（setStep(length)）→ 域错；
+    ⑤ 产品/旧测试/基线 diff → 停。
+  - 返工项：无。
 - GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
   - **fetch-retry 无 AbortError 特判**：fetch-retry.ts:27–53 本人直读——catch 全部
     退避重试（含 abort），无 AbortError 分支——r1"AbortError 政策未定、只诊断不扩大承诺"
@@ -71,6 +83,11 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-09），签 premise verified + design agree，
+  无返工项。直读 install-analytics.ts:38-49 未传 subscribePage（google-analytics.ts:21 可选+
+  :132 空订阅）、timer setStep 钳到 length 的注释/实现不一致与 tools-panel.ts:758-768 只产
+  0..length−1（极值列待证正确）；SDL input.c 键盘参考在位；假宿主禁外网。五条可证伪观察
+  写入本席。未改产品/他席/状态，未读 GLM 结论。Next：三席齐后 Codex 统一准入。
 - 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。

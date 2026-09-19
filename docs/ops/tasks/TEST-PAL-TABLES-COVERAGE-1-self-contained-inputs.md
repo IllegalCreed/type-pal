@@ -47,7 +47,16 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 ### build前（r1）
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读SDL global.h:95–122、text.c:795–844及当前解析/调用链；复跑extract十二文件的既有测试（详细限制见总回执）。核定完整字段/独立字节/非零offset优于仅规模断言；565不是通用常数，输入解耦与新增业务严格分栏。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
-- Kimi：pending（独立读primary source与已知排除，签本人席位）。
+- Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部证据本人直读，未读 GLM 结论——其签字于本人核查完成后落盘，仅确认席位位置）**。
+  - **一手参考核实**：`text.c:795-797` `g_TextLib.nMsgs = i - 1`（offsetCount−1 条消息属实）；
+    SDL global.h 结构定义与当前解析链（cli.ts:200-220/334-364）在册；5650B 为原盘 WORD 实测
+    尺寸、565 只属本内容包不推广；梦蛇 Object295 例外不改。
+  - **设计同意**：只验已确定且当前有消费的合同；独立内存输入不经真实 extract；逐族去重+
+    合法正控+单轴坏例+完整业务断言；无 caller 历史导出剔除；缺陷/未定政策隔离不固化。
+  - **可证伪观察**：① 候选族无实际调用/合法输入或已有同强断言 → 剔除或登记已有；
+    ② 负控仅超时/TypeError/未执行 → 无效；③ 用二阶段模型或编辑器数据构造一期输入 →
+    域错；④ 产品/旧测试/基线 diff → 停。
+  - 返工项：无。
 - GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
   - **模块/入口直读**：parseSss:185、parseWordDat:87、parseMessages:8、parseEnemyPos:27、
     enemy-teams.ts:16 u16 装载（5 槽×WORD=10B/条，slot 语义 0/FFFF/绝对 index）——九模块真实
@@ -70,6 +79,10 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r1 独立前提/风险审查（七批联审之 TB-04），签 premise verified +
+  design agree，无返工项。直读 text.c:795-797 offsetCount−1、SDL global.h 结构与 cli.ts 当前
+  消费链；5650B/565 尺寸分界与梦蛇例外核实。四条可证伪观察写入本席。未改产品/他席/状态，
+  未读 GLM 结论。Next：三席齐后 Codex 统一准入。
 - 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。

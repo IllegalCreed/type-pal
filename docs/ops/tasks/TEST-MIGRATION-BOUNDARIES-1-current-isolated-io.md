@@ -47,7 +47,20 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 ### build前（r1）
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读journal全量校验/提交序、write-plan、project-io、地图转换/审计、source-facts、两消息同步函数、label图和Store0边界及正式caller、A08/A09/E05记录，复跑migrate八文件135项。明确旧script index/R13 false不补，Store固定20只约束生成seed；文件系统仅自建临时根。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
-- Kimi：pending（独立读primary source与已知排除，签本人席位）。
+- Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部证据本人直读，未读 GLM 结论）**。
+  - **迁移链核实**：`migrate-content.mts:110+` 物化→snapshot→write-plan→transaction 调用链
+    直读在位；`pal-current-publication.ts` 区分生成 seed 与作者合并后的 invariant；
+    `pal-migration.ts:423` 当前固定 `r13SixBExecution: true`——锚点属实。
+  - **A08/A09/E05 隔离核实**：journal 守卫的已有覆盖不等于迁移全链已安全——A08
+    snapshot→journal 窗口、A09 先行物化 symlink 仍为独立修复项，本包只测已有守卫，
+    不宣称问题已修；E05 历史输入/producer 不新增保活测试——纪律正确。
+  - **设计同意**：FS 只在自建 mkdtemp 临时根；不执行真实 extract/migrate/bake、不改 PAL
+    工程；旧 script index/R13 false 不补；Store 固定 20 只约束生成 seed；逐族去重+负控
+    业务红。
+  - **可证伪观察**：① 候选族已有同强断言 → 登记已有；② 拟造输入不在支持域 → 撤回；
+    ③ 负控仅 TypeError/超时 → 无效；④ 测试断言把 A08/A09/E05 写成已修 → 越界；
+    ⑤ 产品/旧测试/基线 diff → 停。
+  - 返工项：无。
 - GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
   - **九模块与 caller**：migrate-content.mts:116–143 调用链、publication:181–316 锚点
     直读；migration-project-io.ts:88 起 snapshot/managedFiles 检查在位。
@@ -70,6 +83,11 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-10），签 premise verified + design agree，
+  无返工项。直读 migrate-content.mts 物化→write-plan→transaction 链、pal-current-publication
+  seed/作者 invariant 区分、pal-migration.ts:423 固定 r13SixBExecution:true；A08/A09/E05 为独立
+  修复项不被测试保活或误关核实；FS 仅自建临时根。五条可证伪观察写入本席。未改产品/他席/
+  状态，未读 GLM 结论。Next：三席齐后 Codex 统一准入。
 - 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。

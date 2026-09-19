@@ -47,7 +47,18 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 ### build前（r1）
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读D29、stamp-placement-mutation.ts:55–100与真实UI调用、已有测试；复跑editor15文件156项。确认placement至少一视觉槽，collision-only仅普通cells，合法placement可视觉成员非空且gridPoints为空；无caller moveStampDraftSelection不扩测，内部防御不强制填。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
-- Kimi：pending（独立读primary source与已知排除，签本人席位）。
+- Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部证据本人直读，未读 GLM 结论）**。
+  - **D29/组合合同核实**：decisions.md:464-485 多来源/相对高度/nullable collision/非链接快照
+    已拍板；`stamp-placement-mutation.ts:81-82` placement 至少一视觉槽（本人直读）；普通 cells
+    的 collision-only 与合法视觉组空 grid 才可测——组合边界属实。MapMode.tsx:663-690/727/
+    1363/1602 与 StampContentEditor/StampTemplateDialog 为真实调用域。
+  - **无 caller 排除**：stamp 旧移动 helper（moveStampDraftSelection）无当前调用——不扩测、
+    不授权删除；内部防御臂不强制填。
+  - **设计同意**：选区/组合模板数据为工程自定合同；逐族去重+合法正控+单轴坏例；宿主窄替身
+    只替边界；真缺陷/未定合同单独归属不固化错绿。
+  - **可证伪观察**：① 候选族无实际调用或已有同强断言 → 剔除/登记；② placement 视觉槽合同
+    变化 → 族重评；③ 负控仅 TypeError/超时 → 无效；④ 产品/旧测试/基线 diff → 停。
+  - 返工项：无。
 - GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
   - **八模块与厚既有测试**：15 文件/156 项基线（本人抽验 map-selection/map-transform 等
     路径存在）；工作包逐族列旧测试锚——这些模块既有覆盖很厚，"全部剩防御臂时停止本族"条款
@@ -69,6 +80,10 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-06），签 premise verified + design agree，
+  无返工项。直读 decisions.md:464-485 D29 拍板、stamp-placement-mutation.ts:81-82 至少一视觉槽、
+  MapMode/Stamp 编辑器真实调用域；moveStampDraftSelection 无 caller 排除核实。四条可证伪观察
+  写入本席。未改产品/他席/状态，未读 GLM 结论。Next：三席齐后 Codex 统一准入。
 - 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。

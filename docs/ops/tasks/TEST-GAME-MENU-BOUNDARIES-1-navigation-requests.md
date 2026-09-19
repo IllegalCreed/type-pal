@@ -47,7 +47,17 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 ### build前（r1）
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读SDL itemmenu:287–306/340–375、magicmenu:337–370与game buildSpellMenu:125–145，确认filter差异不能声称忠实原版；复跑game25文件303项。允许明确导航/请求合同，排除效果执行、旧helper和未知产品差异。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
-- Kimi：pending（独立读primary source与已知排除，签本人席位）。
+- Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部证据本人直读，未读 GLM 结论）**。
+  - **一期参考源核实**：SDL itemmenu.c:287-306/340-375 保留列表+确认门（直读）；MP==cost
+    允许（uigame.c:677-735 域）；非顺序 party 返回 roleId 而非 cursor 的合同锚点在册。
+  - **法术过滤差异核实**：当前 `magic-menu.ts:135` 过滤 vs SDL `magicmenu.c:354-367` 保留
+    disabled——差异真实存在；本批**排除该轴并登记待证**（不改产品、不写正确绿测），隔离正确。
+  - **设计同意**：只测 game 包一期现有菜单/请求合同；不挪用二阶段断言、不把一期数值
+    roleId 改成二期稳定字符串 ID；逐族去重+负控业务红；差异轴待证不归本包。
+  - **可证伪观察**：① 候选族已有同强断言 → 登记已有；② 把 SDL 参考当原盘实机验收 →
+    前提倒；③ 用一期数组下标当二期身份 → 域错；④ 负控仅 TypeError/超时 → 无效；
+    ⑤ 产品/旧测试/基线 diff → 停。
+  - 返工项：无。
 - GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
   - **一期真值先行**：卡面钉 SDL itemmenu:287–306/340–375（保留列表/确认门）与
     magicmenu:354–367（保留 disabled）——本人读当前 in-game-magic-menu.ts:135 确为
@@ -70,6 +80,11 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-08），签 premise verified + design agree，
+  无返工项。直读 SDL itemmenu.c:287-306/340-375 保留列表与确认门、MP==cost 允许、非顺序
+  party 返回 roleId；一期 magic-menu.ts:135 过滤 vs SDL magicmenu.c:354-367 保留 disabled
+  差异属实——排除该轴登记待证正确。五条可证伪观察写入本席。未改产品/他席/状态，
+  未读 GLM 结论。Next：三席齐后 Codex 统一准入。
 - 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。

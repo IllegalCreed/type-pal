@@ -47,7 +47,22 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 ### build前（r1）
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人直读disasm.ts:190–196与BDF解析全文件、shared严格/宽容入口、asset-manifest.ts全文件及SDL源；复跑shared两文件26项与extract相邻。确认提取保u16位模式、BDF无偏移输出、清单键为path:size，原队列三处前提已订正。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
-- Kimi：pending（独立读primary source与已知排除，签本人席位）。
+- Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部证据本人直读，未读 GLM 结论）**。
+  - **收窄裁决核实**：giveItem——`disasm.ts:190-196` emitGiveItem 原样保 u16 位模式，
+    `script.c:970-975` 执行时才 `(SHORT)` 转换（提取不转符号属实）；BDF——
+    `bdf-to-json.ts:30-34` 只取 BBX 宽高（无 offset 输出，不立未实现合同）；清单——
+    `asset-manifest.ts:29-40` hash 键为 `${path}:${size}`（path:size 属实）；精灵 offset 见
+    palcommon.c:803+；palette.c:66-82 夜色 768 偏移与当前 63→255 复制不同源（不新裁颜色政策）。
+  - **严格/宽容分域核实**：shared 严格 RLE 有真实消费者（reforge/assets.ts:571、
+    editor/project-io.ts:660）；legacy-migrated 输入 profile 有批准用途——不按名字删除正确；
+    annotate 唯一 CLI 输入是 flat、无 caller 别名/skipFilePrefix:true/递归 choice 不续测——
+    无 caller 不保活正确。
+  - **设计同意**：只验当前有消费的合同；二进制 oracle 手列独立字节（不以被测解码器回算
+    预期）；RLE 宽容 parse 与严格入口分域；宿主窄替身只替边界。
+  - **可证伪观察**：① 某族已有同强断言 → 登记已有；② 拟造输入不在支持域 → 撤回；
+    ③ 负控仅 TypeError/超时/未执行 → 无效；④ 把 SDL 执行期语义当提取期合同 → 域错；
+    ⑤ 产品/旧测试/基线 diff → 停。
+  - 返工项：无。
 - GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
   - **giveItem 保 u16 直读**：disasm.ts:190–196 emitGiveItem 直接透传 operands[0]/[1]，
     无符号翻转——"提取保位模式、执行才转 SHORT"的 r1 裁决与源码一致，只钉原始位模式正确。
@@ -70,6 +85,11 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-05），签 premise verified + design agree，
+  无返工项。直读 giveItem 提取保 u16（disasm.ts:190-196 vs script.c:970-975 执行期转换）、
+  BDF 无 offset（bdf-to-json.ts:30-34）、清单 path:size（asset-manifest.ts:29-40）、严格/宽容
+  RLE 分域与真实消费者、legacy-migrated 批准用途；无 caller 别名不续测核实。五条可证伪
+  观察写入本席。未改产品/他席/状态，未读 GLM 结论。Next：三席齐后 Codex 统一准入。
 - 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。

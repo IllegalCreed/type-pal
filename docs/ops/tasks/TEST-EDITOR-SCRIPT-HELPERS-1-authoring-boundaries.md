@@ -47,7 +47,19 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 ### build前（r1）
 
 - Codex：**premise verified / design agree（2026-09-19，r1，冻结e58834f6）**。本人核script-editor导出实际调用census、script-reference-catalog:130及三caller、item-alchemy:62–130和content/validate:965–980；复跑15文件156项。剔除五个仅测试用CRUD导出、legacy library fallback、非法empty rewards臂；D06/D07不写错绿。 可证伪条件见本卡与工作包；内部协作取证不冒充Kimi/GLM签字。
-- Kimi：pending（独立读primary source与已知排除，签本人席位）。
+- Kimi：**premise verified / design agree（2026-09-19，r1，冻结 e58834f6；全部证据本人直读，未读 GLM 结论）**。
+  - **真实调用域核实**：ScriptEditor.tsx:3313/3318/3326、ScriptBehaviorInspector:187/264/297、
+    ScriptSceneHookInspector:135/242/253、ItemAlchemyTab:152/160/315、EnemyTab:691 在册；
+    `script-reference-catalog.ts:130` orderedChoices 以 authorScripts ?? scriptIndex.library 回退
+    （直读）；item-alchemy:62-130 与 content/validate:965-980 调用链在位。
+  - **排除项核实**：五个 script CRUD 导出无当前 caller、legacy library fallback、非法 empty
+    rewards 臂被 content 守卫挡住——剔除正确；D-06/D-07 不写错绿。
+  - **设计同意**：作者编辑辅助为工程自定合同；只验已定命令树/文本片段（敌人奖励不执行数值
+    不改概率）；author 守卫与 canonical/shell 分工保留；逐族去重+合法正控+负控业务红。
+  - **可证伪观察**：① 候选族无现行 caller 或已有同强断言 → 剔除/登记；② 拟造输入不在
+    支持域 → 撤回；③ 负控仅 TypeError/超时 → 无效；④ 以作者壳数据冒充 canonical 输入 →
+    域错；⑤ 产品/旧测试/基线 diff → 停。
+  - 返工项：无。
 - GLM：**premise verified / design agree**（2026-09-19，r1，冻结 e58834f6；以下锚点本人直读，未读 Kimi 结论）**。
   - **七模块与 caller**：script-reference-catalog 消费点（ScriptEditor.tsx:41 import；
     App/DataMode/ItemTab 传 authorScripts）直读；五个 CRUD 导出（Copy/Rename/SetInitial 等）
@@ -69,6 +81,11 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-07），签 premise verified + design agree，
+  无返工项。直读 ScriptEditor/两个 Inspector/ItemAlchemyTab/EnemyTab 真实调用域、
+  script-reference-catalog.ts:130 回退、item-alchemy 与 validate 链；五个无 caller CRUD 导出与
+  非法 empty rewards 臂剔除核实。五条可证伪观察写入本席。未改产品/他席/状态，未读 GLM 结论。
+  Next：三席齐后 Codex 统一准入。
 - 2026-09-19 GLM：完成 r1 设计审核（七批联审之一），签本人席位，无返工项。证据见 build 前 GLM 签字块；未读 Kimi 结论。
 
 - 2026-09-19 Codex：用户要求把剩余批次一次细化审核；本卡r1连同TB-04～10准备。逐项收窄无caller、非法fixture、已有断言和未定政策；内部并行只读取证由本人核关键primary锚点，非他席签字。既有套件复跑及限制在统一审核页，未新增正式测试或改产品，待两席并行审核。
