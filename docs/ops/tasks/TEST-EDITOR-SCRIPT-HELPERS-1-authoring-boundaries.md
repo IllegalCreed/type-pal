@@ -98,7 +98,7 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
-- 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留，Mimosa完整深审未执行且无合并，不以hook partial称安全；TB00/TB01另排。
+- 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。
 - 2026-09-19 GLM：按用户拍板（Codex 额度空窗期先行实施 TB-02～TB-10）领取 TB-07 并完成实施
   （r1，六/七族）。worktree `type-pal-glm-script-helpers`、分支
   `codex/glm-editor-script-helpers-r1`、基点 41cc7cd9；产品零漂移已核。交付：6 新测试文件
@@ -129,5 +129,5 @@ Kimi负责独立前提/架构风险压力测试；GLM负责独立调用域、旧
 在 /Users/zhangxu/illegal/type-pal 返工 TEST-EDITOR-SCRIPT-HELPERS-1（TB-07），卡 docs/ops/tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md 已rework，候选90369143，生产冻结e58834f6；设计r1不重签。
 先同步当前Codex counter到独立 codex/glm-editor-script-helpers-r1，读AGENTS/CLAUDE/READ-FIRST、docs/testing/glm-delivery-checklist.md、本卡当前裁决和 docs/testing/glm-nine-intake-review.md 的公共C0/C1与TB-07章节、原工作包docs/testing/glm-editor-script-helpers.md。
 只修列明残项，保留有效测试与他席结论；正式guard合法、实际同一入参深快照、禁止把已排除未知/旧接口写正确绿测。公共工具判据必须按目标错误首行，真实运行与自测同函数。原负控+本席相关独立见证、定向/相邻/全包/tc/全部新TS/MJS/MTS/JSON的Biome及私有同口径覆盖从最终树复跑，失败/未完成如实记录。
-只动原白名单/本人回执，分支不互合、不改产品/旧测试/官方基线/原审计探针/他席见证语义，不代签、不标done、不直接转Kimi。修完本批即可单独交Codex接收；全仓check/ratchet/strict-fast留接收后，Mimosa完整审计仍是合并前门，不能用scanner_enobufs放行代替clear。
+只动原白名单/本人回执，分支不互合、不改产品/旧测试/官方基线/原审计探针/他席见证语义，不代签、不标done、不直接转Kimi。修完本批即可单独交Codex接收；全仓check/ratchet/strict-fast留接收后，用户已确认Mimosa归GLM私有MCP，Codex无需处理，不作为本轮接收/合并门。
 ```

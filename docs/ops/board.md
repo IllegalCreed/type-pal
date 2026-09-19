@@ -10,7 +10,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 任务卡模板: [`tasks/TASK-template.md`](templates/TASK-template.md)
 轻量模板: [`tasks/TASK-lite-template.md`](templates/TASK-lite-template.md)
 
-2026-09-19 [九批统一接收](../testing/glm-nine-intake-review.md)：用户批准额度空窗期先行实施的排期例外有效；205定向/73负控+27对照/tc通过，但九批各有counter，未合并/未改官方基线。Mimosa完整深审未完成，不以partial放行代表安全；TB00/TB01另排。
+2026-09-19 [九批统一接收](../testing/glm-nine-intake-review.md)：用户批准额度空窗期先行实施的排期例外有效；205定向/73负控+27对照/tc通过，但九批各有counter，未合并/未改官方基线。Mimosa按用户最新裁决不归Codex处理、不作接收门；TB00/TB01另排。
 
 ## 进行中
 

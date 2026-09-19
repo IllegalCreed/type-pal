@@ -173,13 +173,10 @@ node docs/testing/glm-nine-intake-witnesses.mjs --census-only
 - 未恢复任何stash，未生成/改写PAL/data资产。未为取得绿结果放宽timeout、exclude或降低基线。
 - 本轮有硬counter，不重跑九包全量覆盖来堆数字；已静读官方testSelection对照配置，但回执覆盖增量仅作候选自报，不用于官方ratchet或完工证明。
 
-## Mimosa审计门
+## Mimosa边界（用户最新裁决）
 
-本会话工具目录无Mimosa/安全扫描入口，PATH也无mimosa；仓库无可执行审计命令配置。
-按插件管理指引检索插件目录“Mimosa”也返回空结果；这不否认它在GLM环境存在，只说明当前会话没有已确认入口。
-本机.mimosa最新hook-status（2026-09-19）为inconclusive/partial、findingCount0，不等于完整审计clear。
-已向用户询问完整深度审计命令/安装路径；**本轮未执行Mimosa完整深度审计，未宣称安全**。
-九批本身已counter，未发生合并，不绕过用户要求的合并前审计门。不得把本席测试反证工具当Mimosa替代品。
+用户已明确：**Mimosa是GLM自己的MCP，Codex不用处理**。本次不接入、不要求补扫，不把它作为接收或合并门。
+此前入口排查仅是历史动作；未运行、不宣称安全。九批counter依据C0/C1和各批独立反证，与Mimosa无关。
 
 ## 证据与后续
 
@@ -198,5 +195,5 @@ editor/game/pal环境探针与migrate环境对照也在此目录。
 保留有效测试，不全量重写；不得新增已明确排除的MSG倒序、缺label默认0、空reward fallback、旧library/chunks发现、无caller pageUp/Down等合同。合法fixture真实guard通过，快照必须持有真正实参。S02三会话轴在TB07原卡补，不另开卡重签。
 重跑本席见证应七对照绿/七针候选业务detected、九判据普通Error反例拒绝、合法factory接受；工具若需适配fixture组织先交Codex，不改判据含义。原73针/27对照、定向205（以返工最终树重算，勿凑固定数）、相邻/全包/tc/全部新增文件Biome与私有同口径覆盖要真实记录。
 每批独立提交推送，完成一批即可交Codex接收，不把另批未接收成果合入。只动原白名单/本人回执，不改产品、旧测试、官方基线、原审计探针或他席签字；不代签、不标done、不直接转Kimi。具体缺资产ENOENT与超时分开，不能把失败check写绿。
-用户已授权本轮九批先行，不再以旧两槽限制判其实施违规；这不放宽验收或泛化以后新批。Mimosa完整深审入口仍待确认，Codex在合并前补该门；全仓check/ratchet/strict-fast留Codex接收后串行执行。TB00/TB01继续另排，不混本九批。
+用户已授权本轮九批先行，不再以旧两槽限制判其实施违规；这不放宽验收或泛化以后新批。Mimosa按用户最新裁决归GLM私有MCP，Codex不用处理、不作为接收门；全仓check/ratchet/strict-fast留Codex接收后串行执行。TB00/TB01继续另排，不混本九批。
 ```

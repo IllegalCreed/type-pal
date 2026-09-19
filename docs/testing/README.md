@@ -6,7 +6,7 @@
 
 ## 文档与附件
 
-- [TB-02～10九批Codex统一接收](glm-nine-intake-review.md)、[机器账](glm-nine-intake-evidence.json)、[独立见证工具](glm-nine-intake-witnesses.mjs)（九批分别counter；205定向与原100跑通过不等于验收，7独立漏检/9判据误收；无合并、Mimosa完整审计待入口）
+- [TB-02～10九批Codex统一接收](glm-nine-intake-review.md)、[机器账](glm-nine-intake-evidence.json)、[独立见证工具](glm-nine-intake-witnesses.mjs)（九批分别counter；205定向与原100跑通过不等于验收，7独立漏检/9判据误收；无合并；Mimosa为GLM私有MCP、不作本轮门禁）
 
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
 - [GLM交付前自检清单](glm-delivery-checklist.md)（强制；历次counter根因四类与六步自检，fixture守卫门/变异自检/实参保真/取消三件套/回执从树生成，缺一不交）

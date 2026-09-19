@@ -1336,10 +1336,11 @@
     "coverageDeltas": "GLM self-reported, not adopted; per-batch config inspected but no new coverage run in this intake"
   },
   "mimosa": {
-    "status": "not-run",
-    "reason": "No exposed tool or PATH command; plugin directory search for Mimosa returned no result; entry point requested from user",
-    "observedHook": "inconclusive/partial; findingCount 0 does not imply clear",
-    "mergeGate": "not bypassed; no merge"
+    "status": "out-of-scope-by-user",
+    "owner": "GLM private MCP",
+    "decision": "User explicitly said Codex need not handle Mimosa; no scan or integration gate required from it in this intake.",
+    "scanRun": false,
+    "mergeGate": false
   },
   "logs": "/tmp/codex-nine-intake.4NRQ0e",
   "findings": {
