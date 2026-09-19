@@ -78,6 +78,72 @@ Revision: r2 / 2026-09-19保存裁决后冻结；用户认可草图大方向及�
   - 返工项：无。非阻断备注：EditorState/toEditorState/serializeProject 接入编辑器专属文档是
     S1 面内必要工作，实施时须证明不改变内容校验对外合同；草图非产品视觉验收，dev-functional
     视觉归 Codex。
+- GLM：**premise verified / design agree（2026-09-19，r2 冻结设计，生产 e58834f6；证据全部本人直读/复跑，未读 Kimi 结论；本席审数据/配置/持久化/失败矩阵，不做视觉）**。
+  - **前提探针本人复跑**（`node --import tsx docs/testing/skill-trial-premise.mjs`，exit 0）：
+    SSR 链接仍 `scene=s001&battle=0&skill=`、实际场景回退 start、battleResult=victory 且
+    **sessions=0**；同一 world 真实 quickSave 链 savedAfterMaxMP=999、savedTrialSkill=true、
+    authorInputUnchanged=true —— D-04 桩胜与 D-05 同 scope 污染动态复现，作者输入不变，
+    修复层在编辑器/宿主入口，不涉迁移/PAL 产物。SkillTab.tsx:1117 固定链接、main.ts:2238-2242
+    缺敌队 `return 'victory'` 桩、:7021-7031 `?skill` 写 world 后可入普通保存链，三锚点直读核实。
+  - **四类配置表达力直读**：CharacterInstance/BattlerSpec.baseStats（character.ts:187-235 /
+    actor.ts:69-80）等级+七项绝对属性；instantiate（character.ts:252-263）复制 baseStats、
+    无 battler 即 throw（:254）——「改等级≠捏造成长数值」「非 battler 拒绝」有真锚；
+    StartWorld.seedStats（character.ts:144-145、:329-331）只覆写当前 hp/mp 不动上限 —— 设计
+    「按有效最大值解析当前 HP/MP」的顺序与现行数据形状一致。敌侧 EnemyTeamDef.slots
+    `Array<string|null>`（enemy.ts:108-115）保空洞、MAX_ENEMIES=5（battle-core.ts:67）、
+    createBattleState（battle-core.ts:322-346）enemySlots 接受 `Array<EnemyDef|null>`、
+    HP=def.stats.health 且毒/状态清空、EnemyStats（enemy.ts:30-47）无装备槽/真气池 —— 首批敌方
+    「满血、无初始毒/状态、不虚构装备/真气」与现行类型完全一致。battle-session.ts:418 构造即
+    stepBattle、:395 worldPartyIdentities 校验模板唯一 —— 事后塞初始状态不成立、拒绝重复角色
+    模板有真实依据。1~5 人恰为 PLAYER_POSITIONS_BY_COUNT（battle-positions.ts:7-31）可表达
+    范围，main.ts:676 队伍非空。
+  - **装备/物品合法性**：EQUIP_SLOT_IDS 6 槽（item.ts:24）+ EquipSpec.slot/equipableBy
+    （item.ts:45-49）—— 配装可按正式槽位与可穿者白名单校验；itemUseSupportsContext
+    （item.ts:256-260）是 effect×context 唯一真源，battle-session usableItems/throwableItems
+    （:669-698）经它筛战斗可用/可投掷 —— 「战外物品不得显示为战斗使用/投掷合法」直接落在此
+    函数上，不需新分类。穿戴在 CharacterInstance.equipment、库存另存（character.ts:29-30）
+    —— 背包/穿戴分离与引擎现状一致。
+  - **派生/结算/静音**：main.ts:2281-2345 建态 live 派生（effectiveStat/effectiveSkills=已学∪
+    装备授予/抗性/常驻状态，红线注释在位）；:2262 `battleOpts.music !== undefined` 保 null、
+    :2471 null→bgm.stop —— 音乐默认/资源ID/静音三态真实；:2550-2589 与 :2625-2637
+    writeBack/grantBattleRewards 均以 world 为参 —— 临时 world 隔离结算可行；:2644+ 胜利
+    onDefeated 剧情链真实存在，设计「不运行场景战后剧情、方案注明边界」必要且正确。
+  - **持久化守卫直读**：FileSource 契约 file-source.ts:10（真缺席=NotFoundError、其他错误传播）、
+    httpSource :35 404→NotFoundError/:36 其余→Error、fsaSource 原生 NotFoundError 且
+    JSON.parse 语法错传播 —— 「缺席 vs HTML200/坏JSON/未知版本」三分在现行接口成立，无需改写。
+    author-disk-baseline.ts:64-74 观察读字节、:120-128 NotFoundError→null、:185-199 plan()
+    新路径 null 预期+外部创建冲突明确拒绝 —— §5.2 基线/并发机制真实。project-io.ts:221-227
+    addFile 路径冲突守卫、:371-374（:434-442/:634-635）身份域禁写、:411-627 单一作者事务
+    （journal prepare/commit+中断恢复 resumeOwnProjectSave）、:153-184 准备写集后整工程
+    reload 复验；preflightProjectWriteSet :647-650 现不校验非 catalog JSON —— 设计「附属文件
+    必须过新专属结构校验」补的正是这个真实缺口。workspace-context.ts:13 `.type-pal` 整域保留
+    （含大小写/尾缀别名）；project-loader.ts:324-458 只读 manifest 声明路径、不枚举未知文件
+    —— 附属文件损坏不可能阻断普通游戏。open-local.ts:37-46/:76 稳定读取内交付基线；
+    export-zip.ts:74 只排 save-recovery、ZIP 校验容忍额外文件；fsa-copy.ts:7-44 另存整树复制
+    （排身份域）—— 另存/ZIP/沙盒转可写携带闭合。edit-session.ts:44-72 统一 undo/dirty，
+    「不加第三套 undo 栈」可行。
+  - **V1～V10 鉴别力**：V3 负控（装备加两次/授技烙习得/等级捏造/MP999）正中 main.ts:2281-2345
+    live 派生红线；V4/V5 反桩胜、反只断 URL/toast、反回落普通 boot 与 D-04/D-05 同构；
+    V2「拒绝路径断言本次作者 IO 为零（含同字节重写）」在 journal+diff 机制下可判别；V7
+    entered/deferred 对应 battle-session preparationSerial/musicSerial 真实 epoch；
+    shop-trial.ts:15-29 严格参数拒绝+无 SaveStore 宿主先例（shop-trial.test.ts:46-47/:76
+    构造探针）可直接复用为 V5 模式；bootGame main.ts:350-359 早分流（SaveStore :590 之前）
+    先例核实。
+  - **可证伪观察**（任一反例即 counter）：① 附属文件绕过磁盘基线/准备写集/路径冲突守卫；
+    ② NotFoundError 之外的 HTML200/坏JSON/未知版本被吞成空库或被覆盖；③ 握手失败/刷新/混合
+    参数回落普通 boot 或构造任何正常 SaveStore；④ 试打期间正常槽 IO 非零或 F5/F9 读写进度；
+    ⑤ 本场临时调整反写命名预设或作者定义；⑥ 悬空引用/非法配装/重复模板可启动或被静默换成
+    第一个候选；⑦ 装备授技被写进习得集合或派生值被烙存后二次叠加；⑧ 删预设未提示受影响
+    方案或 undo 不能原样恢复；⑨ 另存/ZIP/沙盒转可写丢失附属文件。
+  - 返工项：无。非阻断备注：① §4「拒绝重复模板/非 battler/人数上限」未在任一 V 负控点名，
+    实施时钉进 V1/V3；4~5 人菜单/选择/结算按设计要求实测，不以坐标表代替测试。② 「删除
+    全部预设→保存→重开」的文件从有到无转换（合法删除、diffFiles 按缺席删除）建议在 V1/V2
+    显式覆盖，与「丢配置文件必须红」的负控区分开。③ 设计引 file-source.ts:37，实际
+    404→NotFoundError 在 :35（契约 :10），实质成立仅行号小漂移。④ open-local
+    readLocalProject 的 catch 会统一包装成「canonical 内容无效」，附属文件 fail-loud 应在
+    包装点前给出自己的具体路径/重试入口。
+- build准入：Kimi/GLM 两席 r2 前提+设计签字均已落（2026-09-19）；阶段门禁与 Status 由 Codex
+  统一核定推进，本席未改任务状态、不标 build/done。
 
 ## 方向讨论记录（历史，现由上方r2冻结设计收敛）
 
@@ -294,6 +360,15 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+- 2026-09-19 GLM：完成 r2 冻结设计独立前提/数据/失败矩阵审查，签 premise verified + design agree，
+  无返工项。独立复跑前提探针 exit 0（sessions=0 桩胜、MP999/临时授技入同 scope 槽、作者输入不变）；
+  直读四类配置类型表达力（character/actor/enemy/battle-core/battle-session/battle-positions）、
+  装备与物品合法性真源（item.ts 槽位/equipableBy/itemUseSupportsContext）、派生/结算/静音链
+  （main.ts:2281-2345、:2550-2637、:2262+:2471）与持久化守卫（FileSource 缺席契约、
+  author-disk-baseline null 预期、project-io 事务/身份域/路径冲突、loader 不枚举、
+  export-zip/fsa-copy 携带）。V1～V10 鉴别力核对，九条可证伪观察与四条非阻断备注写入本席。
+  未读 Kimi 结论；未改产品/测试/基线/他席内容/任务状态；不做视觉。Next：Codex 核定 build 准入；
+  dev-functional 视觉归 Codex；本席九批返工任务不受本卡影响。
 - 2026-09-19 Kimi：完成 r2 冻结设计独立前提/架构审查，签 premise verified + design agree，无返工项。
   直读 author-disk-baseline/project-io/workspace-context/open-local/export-zip 附属配置事务接入点、
   character instantiate 与正式派生（main.ts:2280+ 建态 live 派生）、battle-core/session 初始化时序
