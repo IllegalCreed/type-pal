@@ -15,7 +15,15 @@ Revision: r1，2026-09-19。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d
 完整族账/去重/唯一白名单：[工作包](../../testing/glm-editor-map-data.md)。共同规则与合并交接：[七批统一审核](../../testing/glm-coverage-remaining-review.md)。
 
 
-## 当前接收裁决（2026-09-19，候选0563eda7）
+## 当前返工复核（Codex，2026-09-19，d8b02958）
+
+**counter，保持rework**。原七针/五夹具已关闭；公共C0精确唯一目标和C1最终树格式/回执仍未满足。
+定向18项、原3+8跑与包tc通过；本批Biome 10文件/3 errors/0 warnings，exit1。
+R06-complete-map：整图元数据污染MISSED；permission及混合失败已修。
+见[本轮复核及提示词](../../testing/glm-nine-rework-review.md)与[机账](../../testing/glm-nine-rework-evidence.json)。
+不合并、不更基线、不转Kimi、不代签、不标done；设计保持，Mimosa不参与。
+
+## 首轮接收裁决（历史）
 
 用户本轮明确批准九批先行实施、Codex恢复后统一接收；认可本批排期例外，不因旧两槽限制追溯判违规。设计签字保持，不重签。
 **本席独立结论counter，任务rework，未合入正式测试/产品、不更新官方基线、不转Kimi终审。**
@@ -96,6 +104,8 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+
+- 2026-09-19 Codex：复核d8b02958，按本轮报告收窄counter；原七针与五夹具已关闭。最终树格式与精确唯一判据仍失败，不重签、不并包、不标done。
 - 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。
 - 2026-09-19 GLM：按用户拍板（Codex 额度空窗期先行实施 TB-02～TB-10）领取 TB-06 并完成实施
   （r1）。worktree `type-pal-glm-editor-map-data`、分支 `codex/glm-editor-map-data-r1`、基点
