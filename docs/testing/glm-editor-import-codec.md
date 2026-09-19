@@ -1,20 +1,26 @@
 # GLM编辑器导入、编码工作线程与视频元数据工作包（TB-03）
 
-任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r1/draft（规划中，未获实施授权）。
+任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/draft（Codex已收敛宿主/缺陷边界，待两席确认，未获实施授权）。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM只写新测试；Codex独立接收、Kimi终审。
 合法二进制与真实编码链，非上传界面；上传选图竞态已修不重开；不做视觉/截图/听感。
 
-## 冻结快照与既有去重（本人 2026-09-19 复核）
+## r2前提收口
+
+见[前三批设计收口](glm-coverage-queue-design-review.md)及可重建只读探针。**只有TPFS是工程自定格式，ISO BMFF不是**；
+格式背景见[W3C ISO BMFF说明](https://www.w3.org/TR/mse-byte-stream-format-isobmff/)。本包仅验证当前窄音轨探测器，不声称其能验证完整可播放MP4。
+Worker宿主已由Codex零产品改动复验，固定使用现有handler+窄宿主协议方案，禁止为了测试新增handler导出。
+
+## 冻结快照与去重（r2：四个既有直接文件6项复跑绿）
 
 | 模块 | L | B | 既有测试（直读标题/计数） | 剩余族锚点 |
 |---|---:|---:|---|---|
-| core/image-import.ts | 33/88 | 9/42 | image-import.test.ts×2（最近色/同距色号/不透明 PNG 契约；拒非256色与坏 RGBA 长度） | **C1** PNG 签名→解码→尺寸/调色板→catalog 字段/字节摘要各阶段失败与释放（ImageTab.tsx:525 prepareAuthoredImage 调用域）；**C2** 调色板缺省/提供的分域 |
+| core/image-import.ts | 33/88 | 9/42 | image-import.test.ts×2（最近色/同距色号/不透明 PNG 契约；拒非256色与坏 RGBA 长度） | **C1** PNG签名→宿主解码→尺寸/调色板→真实返回字节/摘要的已定合同；编码失败位图未释放已确认，隔离给Codex，不能固化错误绿测。**C2** palette分域与无资源泄漏的已实现拒绝轴 |
 | core/battle-sprite-import.ts | 5/27 | 5/33 | 无测试文件 | **C3** battle profile 最少帧数、ID 冲突/同摘要、kind 与 metadata 单轴（BattleSpriteLibrary.tsx:1269 调用域） |
-| core/frame-animation-images.ts | 2/28 | 0/19 | frame-animation-images.test.ts×1（自然文件名排序） | **C4** 多图片保序/排序翻转、空列表拒绝、MIME/扩展名轴、第二帧尺寸错误、读取或 bitmap 失败收尾（FrameAnimationEditor.tsx:506/:593 decodeFrameImages） |
+| core/frame-animation-images.ts | 2/28 | 0/19 | frame-animation-images.test.ts×1（自然文件名排序） | **C4** 保序/排序、空列表、MIME或扩展名允许、后续帧尺寸错误、已获取bitmap的finally收尾；FrameAnimationEditor:506才是decode入口，:593是encode |
 | core/frame-animation-codec.ts | 33/35 | 19/27 | codec.test.ts×2（批量量化完整 RGBA8；旧帧引用重排+单帧替换重开逐像素一致） | **C5** sourceFrame 缺失/小数/越界、块复用、跨三块（TPFS 合法输入+真实重开；与既有两例去重后仅补缺） |
-| core/frame-animation-worker-client.ts | 1/38 | 0/26 | 无 | **C6** 请求 ID 分派、失败消息/缺结果拒绝、terminate 后行为、并发独立请求、transfer 拷贝非共享 buffer（FrameAnimationEditor.tsx:550 quantize/:593 encode 调用域） |
-| core/frame-animation-codec.worker.ts | 0/13 | 0/6 | 无（fast 排除 worker？台账 L0/13） | **C7** worker 入口真实 handler 调纯 codec（Node 环境 worker_threads 或直调 handler 模块，定案时核测试宿主可行性）；不 mock 掉整个被测模块 |
-| core/video-metadata.ts | 20/28 | 28/46 | video-metadata.test.ts×1（hdlr 区分音轨/纯视频） | **C8** BMFF 64 位扩展长度、零长度 box、截断/边界、嵌套 hdlr 与 meta 偏移（CutsceneTab.tsx:232/:472/:479/:491 调用域）；独立构造合法最小输入不依赖真实视频 |
+| core/frame-animation-worker-client.ts | 1/38 | 0/26 | 无同名直接测试，仍需查间接加载 | **C6** 请求ID/错误消息/缺结果、独立请求、正确terminate、transfer副本；FrameAnimationEditor:550量化/:593编码。不得制造terminate后宿主不可能正常投递，再要求产品处理 |
+| core/frame-animation-codec.worker.ts | 0/13 | 0/6 | 无同名直接测试；官方include含worker，0/13不是被排除 | **C7** 隔离self后动态import真实worker，调用其注册的onmessage并走真实codec；只测试Node宿主协议，不声称浏览器线程调度已验收 |
+| core/video-metadata.ts | 20/28 | 28/46 | video-metadata.test.ts×1（hdlr 区分音轨/纯视频） | **C8** 标准box的扩展长度/零长/截断/嵌套/meta，钉undefined/false/true三态，非法结构多为false而非throw；实际caller是CutsceneTab:232，:472/479/491属图片/量化/编码 |
 
 调用锚点本人直读：ImageTab.tsx:525、BattleSpriteLibrary.tsx:1269、FrameAnimationEditor.tsx:506/550/593、
 CutsceneTab.tsx:232/472（mp4HasAudioTrack/decodeFrameImages preserveOrder）。
@@ -40,8 +46,12 @@ docs/testing/glm-editor-import-codec-evidence.json
 - 整包≥6 针，每独立保护族≥1：候选针点——import 阶段门（签名/尺寸/调色板）、battle-sprite
   最少帧数/冲突门、images 保序/尺寸校验门、codec sourceFrame 门、worker 请求分派/terminate 门、
   video box 长度门。判据同队列标准。
-- fixture 合法性：PNG/TPFS/BMFF 全部独立构造合法最小输入（真实结构，非 13 字节假流），过对应
-  解析器后再进反例；worker 测试若宿主不支持真 worker，定案时改直调 handler 导出并登记取舍。
+- PNG用完整独立校验的图片、TPFS用真实容器与不同帧数据；BMFF只称“符合所测box结构的输入”，不称完整可播放视频。Canvas/ImageBitmap替身只验证数据交接/错误/生命周期，不是视觉验收。
+- C6假Worker仅替宿主，postMessage真实执行structuredClone(message,{transfer})，证明传输副本已detach而实际调用者原source/frames字节完好；错ID携带不同内容，在正确ID到达前必须未完成。输出也走transfer，不能用不转移的浅拷贝替身自证。
+- C7先stub独立self，再动态import实际worker捕获现有onmessage；分别走真实quantize/encode及错误，恢复全局描述符和模块缓存。禁止改产品导出、禁止mock整个worker/codec；真实浏览器Worker另归Codex。
+- C3复用分支用真实RLE+真实SHA+单轴catalog变化；新输入已由正式Uploader编码/给frameCount，不能因helper未再次decode就发明它应自校完整新字节的合同。
+- C5跨三块必须有真实解码轨迹/逐帧独立像素，而非只看成功；provider同源保证的frames[index]缺席不通过稀疏数组强刷。
+- C1已确认缺陷：image-import.ts:130–142编码失败没有finally，合法320×200 PNG正控close=1、只让toBlob返回null后close=0。记录为Codex修复项；本包不得要求其默认测试绿、不得把不释放当正确，更不得顺手修生产。其余独立族可继续。
 - 覆盖对照：editor fast 官方口径 before 只排本批 7 文件/after 加入；七模块局部+全包分栏、/tmp、
   与既有多包重叠单列。
 - 定向+相邻（image-import/frame-animation-images/codec/video-metadata 既有测试+FrameAnimationEditor

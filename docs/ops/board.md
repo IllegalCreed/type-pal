@@ -16,9 +16,9 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 |---|---|---|---|---|
 | EDITOR-SKILL-TRIAL-1 | [试放方案调整：共享战斗模拟器](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | rework | Codex准备r2方案与UI草图 | 用户提出队伍/装备/技能/数值/背包及我方预设，多入口复用、不选开局；旧r1签字保留但不授权新范围 |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM处理Codex R1–R4 | 23eb63d2定向53/全包绿；主fixture非法、六见证MISSED、Biome/回执不符；未集成/未更新官方基线，r1不重签 |
-| TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | draft | 队列TB-01细化完成 / 待三席设计 | 上包回执登记残项+跨包rename去重表；GLM席已预签，Codex/Kimi审 |
-| TEST-REFORGE-ASSET-IO-1 | [资源读取缓存与音效准备补测](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | draft | 队列TB-02细化完成 / 待三席设计 | 六模块B1-B10族账；sfx/readiness厚测试已去重；GLM席已预签 |
-| TEST-EDITOR-IMPORT-CODEC-1 | [导入编码线程与视频元数据补测](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | draft | 队列TB-03细化完成 / 待三席设计 | 七模块C1-C8族账；worker宿主方案留Codex定案；GLM席已预签 |
+| TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | draft | r2 Codex已签 / GLM确认+Kimi审 | 148既有测试绿；合法本包守卫/跨包去重/旧分片分类；不反向引loader，未开build |
+| TEST-REFORGE-ASSET-IO-1 | [资源读取缓存与音效准备补测](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | draft | r2 Codex已签 / GLM确认+Kimi审 | 39既有测试绿；HTTP/FSA与音频层级已分清；页选择疑点隔离，未开build |
+| TEST-EDITOR-IMPORT-CODEC-1 | [导入编码线程与视频元数据补测](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | draft | r2 Codex已签 / GLM确认+Kimi审 | 6既有测试+真实handler/transfer前提绿；PNG失败泄漏交Codex，GLM不改产品，未开build |
 
 2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
 
