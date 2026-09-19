@@ -19,22 +19,23 @@ const flush = async (): Promise<void> => {
 }
 
 describe('F5 活动期间二次 present 与零残留', () => {
-  test('活动序列期间二次 present 拒绝；首序列仍可完成', async () => {
-    vi.useFakeTimers()
-    try {
-      const queue = new RewardGainQueue()
-      const first = queue.present(['a', 'b'], new AbortController().signal)
-      await expect(queue.present(['c'], new AbortController().signal)).rejects.toThrow(
-        'reward-gain 已有活动序列',
+  test('活动序列期间二次 present 拒绝；首序列仍可完成（advance 驱动，不用时钟）', async () => {
+    const queue = new RewardGainQueue()
+    const first = queue.present(['a', 'b'], new AbortController().signal)
+    // 拒绝落成值断言（业务红可判别；坏实现下二次序列会真的启动）
+    const second = await queue
+      .present(['c'], new AbortController().signal)
+      .then(
+        () => undefined,
+        (error: unknown) => error as Error,
       )
-      expect(queue.current?.text).toBe('a') // 首序列不受影响
-      vi.advanceTimersByTime(REWARD_GAIN_DURATION_MS)
-      await flush() // 第一条 settle → 循环激活第二条
-      vi.advanceTimersByTime(REWARD_GAIN_DURATION_MS)
-      await expect(first).resolves.toBeUndefined()
-    } finally {
-      vi.useRealTimers()
-    }
+    expect(second).toBeInstanceOf(Error)
+    expect(second?.message).toContain('reward-gain 已有活动序列')
+    expect(queue.current?.text).toBe('a') // 首序列不受影响
+    expect(queue.advance()).toBe(true) // 第一条提前完成
+    await flush()
+    expect(queue.advance()).toBe(true) // 第二条提前完成
+    await expect(first).resolves.toBeUndefined()
   })
   test('空列表直接完成、预 abort 拒绝：均无 timer/active 残留', async () => {
     const queue = new RewardGainQueue()
