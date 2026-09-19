@@ -1,6 +1,6 @@
 # TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）
 
-Status: draft
+Status: build
 Phase: phase1
 Capability: 已有合同补测，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -80,6 +80,12 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 GLM：按用户拍板（Codex 额度空窗期先行实施 TB-02～TB-10）领取 TB-08 并完成实施
+  （r1，八/九族）。worktree `type-pal-glm-game-menu`、分支 `codex/glm-game-menu-r1`、基点
+  41cc7cd9；产品零漂移已核。交付：8 新测试文件 17 项（G03 记已有）；tc/Biome/官方口径
+  2271→2288 双 exit0；负控 8 针+3 对照全 detected。状态同步 build；不代签 done，等 Codex
+  恢复额度后统一接收。
+
 - 2026-09-19 Kimi：完成 r1 独立前提/风险审查（TB-08），签 premise verified + design agree，
   无返工项。直读 SDL itemmenu.c:287-306/340-375 保留列表与确认门、MP==cost 允许、非顺序
   party 返回 roleId；一期 magic-menu.ts:135 过滤 vs SDL magicmenu.c:354-367 保留 disabled

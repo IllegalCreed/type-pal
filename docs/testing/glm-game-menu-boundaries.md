@@ -77,4 +77,22 @@ docs/testing/glm-game-menu-boundaries-evidence.json
 
 ## GLM回执区
 
-待实施。当前只有Codex规划与前提复核，不存在GLM交付或accept。
+r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字齐；用户拍板在 Codex 额度
+空窗期先行实施 TB-02～TB-10、恢复后统一接收——本批据此开工，非代签 Codex 准入）。分支
+`codex/glm-game-menu-r1`（worktree `/Users/zhangxu/illegal/type-pal-glm-game-menu`）；
+产品对冻结 e58834f6 零漂移。最终树 **8 个新测试文件共 17 项**（G01/G02/G04~G09 逐族落账；
+G03 matchesFilter 按工作包"与既有入口重合则只记已有"记已有——三独立 flag 已由本批
+G02/G07/G08 真实 confirm 门覆盖）；game 全包 132 文件/2301 项中 dev-panel 1 文件预存
+ENOENT（data/extracted 未跟踪，stash 基线同样失败）；官方 fast 口径 2271→2288 双 exit0
+（诊断 config 补齐官方 jsdom env + setupFiles）；tc rc=0；9 新文件 Biome rc=0。
+
+- 负控 `node docs/testing/glm-game-menu-boundaries-mutants.mjs` rc=0：判据自测 + 3 对照 +
+  **8 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
+  产品 hash 不变。针点：库存占用门、pageOffset 推进、MP 恰等门、买价门、卖占用门、
+  equip roleId 误用 cursor、switch 默认高亮、单人队直进。
+- 覆盖对照（官方 testSelection fast，/tmp，最终提交树）：shop L25→27/27 B14→16、
+  sell L30→33/38 B18→22、primitives L37→38/39 B26→29、magic-select B9→12/16、
+  inventory L83→84 B64→66、in-game-magic-menu B89→90；全包 L10263→10270/13604、
+  B7498→7513/11281。
+- 机器账 `docs/testing/glm-game-menu-boundaries-evidence.json`。
+

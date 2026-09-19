@@ -14,7 +14,7 @@
 | [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）](TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）](TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-PAL-TABLES-COVERAGE-1 - 原版表格与文本自包含补测（TB-04）](TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）](TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | draft | 以任务卡当前准入与看板分工为准。 |
