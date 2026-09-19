@@ -9,7 +9,7 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [EDITOR-SKILL-TRIAL-1 - 独立临时技能试放与当前工程入口](EDITOR-SKILL-TRIAL-1-isolated-battle.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）](TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | 以任务卡当前准入与看板分工为准。 |

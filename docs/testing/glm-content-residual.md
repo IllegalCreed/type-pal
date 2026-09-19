@@ -1,6 +1,6 @@
 # GLM内容合同残项工作包（TB-01）
 
-任务：[TEST-CONTENT-RESIDUAL-1](../ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md)，r2/draft（Codex已收敛实施边界，待两席确认，未获实施授权）。
+任务：[TEST-CONTENT-RESIDUAL-1](../ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md)，r2/build（三席齐，Codex已核定开工；GLM负责实施，未交付）。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`（队列基线）。GLM只写新测试；Codex独立接收、Kimi终审。
 本包**只补**[已接收内容合同包回执](glm-content-contracts.md)明确登记的残项与新核的 validate-refs 数据引用轴；
 已接收 118 项/43 族不重做，TextEncoder 降级不存在不补，D-06/D-07 留修复归属。

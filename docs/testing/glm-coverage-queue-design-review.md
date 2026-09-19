@@ -1,7 +1,8 @@
 # TB-01～03：Codex设计收口与并行交接
 
 2026-09-19，生产核对点`e58834f6`，接手main为`e22041a0`。
-用户要求GLM返工TB-00同时，Codex推进后续三批设计。**三卡统一收敛为r2/draft，Codex已签前提/设计；尚待GLM差异确认及Kimi独立设计审查，不开放build。**
+用户要求GLM返工TB-00同时，Codex推进后续三批设计。**三卡r2已三签齐、无counter；Codex核定TB-01进入build，TB-02/03已准入待实施槽。**
+GLM按卡面顺序及目标未漂移/无新counter/未接收包≤2的条件领取后续批次，不再逐批重复签字或询问用户。
 r1自签原文留历史，不把错误前提静默覆盖成已被三席认可的r2。此次不重开任何已done卡，也不新增产品范围。
 
 | 队列 | 任务卡 | r2关键收口 |
@@ -84,11 +85,25 @@ node --import tsx docs/testing/glm-coverage-queue-premise.mjs
 
 ## 当前推进规则
 
-三卡r2原6/6/7模块及只新增测试边界不变，但修正了会导致假绿的前提/宿主方案；因此GLM对r2补充确认，Kimi首次独立审r2。
-Codex已签同一r2/冻结；两席完成后再核build。TB-00的R1–R4返工优先，不与新包共享可修改fixture或混合覆盖报告。
+三卡r2原6/6/7模块及只新增测试边界不变；GLM已在efe6b932补充确认，Kimi已在61b79f1b独立签字，Codex原签为f5cd23c0。
+2026-09-19用户告知签齐后，Codex核同r2/冻结及零生产漂移，核定当前实施与后续领取条件。
+TB-00当前三项残余返工优先，不与新包共享可修改fixture或混合覆盖报告。
 未接收实施包最多两批；若两包都在等接收，其余只做准备。每卡一Coding Owner、独立worktree，正式质量门由Codex串行执行。
 
-## 两席并行提示词
+## 当前GLM实施交接
+
+```text
+在 /Users/zhangxu/illegal/type-pal 按已签r2队列连续推进：
+docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md（TB-01，已build）
+docs/ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md（TB-02，设计准入已过，待槽）
+docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md（TB-03，设计准入已过，待槽）
+先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、三卡当前准入与对应工作包、docs/testing/glm-coverage-work-queue.md。
+三席r2已齐（Codex f5cd23c0、GLM efe6b932、Kimi 61b79f1b），无counter，不重签。TB-00先按8ca74aac处理三项残余；未接收实施包合计最多两批，当前可并行推进TB-01。TB-02/03依序等槽；有空位、目标产品/合同未漂移且无新counter时，按卡面预授权同步状态/看板/索引后自行开工，不再等用户逐批点头；目标漂移则停对应批交Codex确认。
+每批独立codex/分支/worktree，只新增该卡白名单测试/fixture/诊断/本人回执；不在主树切分支、不恢复stash、不混用未接收测试基线。逐族去重、合法输入先过当前guard，负控必须候选自身AssertionError业务红，超时/STACK_TRACE_ERROR或独立oracle红不能冒充。已知PNG失败泄漏、活动页声音选择及在途回填维持隔离，不改产品，不写错绿。
+定向/相邻/全包/tc/Biome、私有同口径覆盖、真实计数/失败记录/逐族账完成后交Codex独立接收。全仓check/官方ratchet/strict-fast由Codex串行执行。GLM测试贡献须披露，不代签、不标done，不直接转Kimi终审。手头满两批时继续TB-04～10只读细化，不越门写正式测试。
+```
+
+## 两席并行提示词（历史，r2设计审查已完成）
 
 ### GLM · 同时确认r2设计差异（不影响TB-00返工优先）
 

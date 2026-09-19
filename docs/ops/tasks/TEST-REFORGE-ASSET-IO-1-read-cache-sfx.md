@@ -9,10 +9,10 @@ Reviewer: Codex / Kimi
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: none
-Branch: codex/glm-reforge-asset-io-r1（获准后使用）
+Branch: codex/glm-reforge-asset-io-r1（排期后使用）
 
 Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e964d79`不变。r1前提/方案已收窄，旧签留历史，不授权r2。
-来源：[补测长队列](../../testing/glm-coverage-work-queue.md) TB-02，规划产物非实施授权。
+来源：[补测长队列](../../testing/glm-coverage-work-queue.md) TB-02；r2三席已齐，实施时机以本卡当前准入为准。
 唯一工作包/族账/白名单：[glm-reforge-asset-io.md](../../testing/glm-reforge-asset-io.md)。
 
 ## 目标与边界
@@ -83,7 +83,7 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
   - **可证伪观察**：①替身替掉产品判据（假 adapter/IDB 式事务）→无效；②在途 dispose 回填被
     固化为绿测→违反待证隔离；③registry 跨例预热成功→B10 隔离失败；④产品/旧测试/基线 diff→停。
   - 返工项：无。Kimi 签齐且无 counter 后由 Codex 核定 build。
-- build准入：未开放；同r2三席齐且无counter后由Codex核定。其它批次无依赖者独立裁决，TB-00返工仍优先。
+- build准入：**r2设计门已通过，Codex于2026-09-19统一核准**（本席f5cd23c0、GLM efe6b932、Kimi 61b79f1b；生产相对e58834f6零漂移）。本卡保持draft表示已准入待排期；TB-01→TB-02→TB-03依序领取。 TB-00返工优先，未接收实施包最多两批；有空位且本卡目标产品/合同未变、无新counter时，GLM可按本授权同步本卡/看板/索引到build并开工，无需重复签字或再次询问用户。若目标漂移或出现新合同分歧，仅暂停对应批交Codex核定，不自行更换前提。
 
 ### build前r1签字（历史，已被r2替代）
 
@@ -100,6 +100,7 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 - GLM/Codex/Kimi：pending；done准入未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-19 Codex：用户告知“Kimi他们签了”后同步核三席同r2/冻结、直接证据及可证伪观察齐、无counter；生产目标零diff。核定设计准入通过，保留draft待实施槽按队列释放。 r1历史不回写，所有既有r2排除项保留；不代签、不标done。GLM当前返工仍优先，后续领取条件与交接已落卡，避免每批做完再等临时派活。
 - 2026-09-19 Kimi：完成 r2 独立设计压力测试，签 premise verified + design agree，无返工项。
   直读 httpSource 透传/fsaSource 主动取消分层、sfx browserAdapter 复制位置与 assertWave 标记门、
   registry 503 重试既有断言、main.ts:774-789 canonicalScene 与 pages[0] 疑点隔离（移出绿测正确）。
@@ -116,6 +117,17 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
   仅规划，未写测试。
 
 ## 下一位Agent提示词
+
+### 当前 · GLM按已签队列实施
+
+```text
+在 /Users/zhangxu/illegal/type-pal 按 docs/ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md 的r2实施，生产冻结e58834f6，三席齐且Codex已核准，不重签。先同步、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前准入、对应工作包及docs/testing/glm-coverage-queue-design-review.md的当前实施交接。
+TB-00三项返工优先；未接收实施包最多两批。TB-01已开build，TB-02/03依序待空位；满足卡面条件后你可同步状态/看板/索引并开工，不再等用户逐批点头。领取前核目标产品未漂移；每批独立codex/glm-reforge-asset-io-r1分支/worktree，不在主树切分支、不恢复stash、不混用未接收成果作为基线。
+只新增已签白名单测试/fixture/诊断和本人回执，逐族去重，合法输入先过守卫，负控须由候选自身AssertionError变红，不能把超时/STACK_TRACE_ERROR或仅独立oracle红算检出。PNG编码失败泄漏及活动页/在途回填待证保持原归属，不改产品或写错绿。
+完成定向/相邻/全包/tc/Biome、私有同口径覆盖与真实逐族账后交Codex接收；全仓check/官方ratchet/strict-fast留Codex。不做视觉/听感，不改旧测试/官方基线，不代签、不标done、不直接转Kimi终审。
+```
+
+### 历史 · r2设计交接（已完成，不重复执行）
 
 两席完整合并提示词见[前三批r2设计交接](../../testing/glm-coverage-queue-design-review.md#两席并行提示词)。本卡最小可复制交接如下：
 

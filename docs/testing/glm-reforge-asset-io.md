@@ -1,6 +1,6 @@
 # GLM资源读取、缓存与音效准备工作包（TB-02）
 
-任务：[TEST-REFORGE-ASSET-IO-1](../ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)，r2/draft（Codex已收敛实施边界，待两席确认，未获实施授权）。
+任务：[TEST-REFORGE-ASSET-IO-1](../ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)，r2/draft（设计准入已核定，待实施槽；GLM按卡面条件领取，不重复签字）。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM只写新测试；Codex独立接收、Kimi终审。
 不听音、不做视觉、不改保存稳定读门/锁/恢复（SAVE 面归既有专项）、不碰技能试放接线。
 

@@ -9,10 +9,10 @@
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
 - [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（rework；3c7ae963返工55项，Codex收窄三项残余；已闭环不重开，未集成，设计不重签）
 - [运行时状态补测Codex复核](runtime-state-review.md)与[独立反证工具](runtime-state-review-witnesses.mjs)（当前7针：5 detected/1无效失败/1 MISSED；含Codex工具判据勘误）
-- [前三批r2设计收口与并行交接](glm-coverage-queue-design-review.md)（Codex已签，待GLM确认/Kimi审；193既有测试与[只读前提探针](glm-coverage-queue-premise.mjs)，未写新测试/改产品）
-- [内容合同残项工作包](glm-content-residual.md)（TB-01 r2/draft；本包合法guard与跨包去重，未获实施授权）
-- [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/draft；HTTP/FSA/音频层级收窄，未获实施授权）
-- [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03 r2/draft；零产品改动worker方案、PNG泄漏隔离，未获实施授权）
+- [前三批r2准入与连续实施交接](glm-coverage-queue-design-review.md)（三签齐；TB-01已build、TB-02/03待槽；193既有测试与[前提探针](glm-coverage-queue-premise.mjs)作为设计证据，非新增交付）
+- [内容合同残项工作包](glm-content-residual.md)（TB-01 r2/build；GLM按合法guard与跨包去重边界实施）
+- [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（TB-02 r2/draft；已准入待槽，HTTP/FSA/音频边界不变）
+- [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（TB-03 r2/draft；已准入待槽，零产品改动worker方案、PNG泄漏隔离）
 - [试放方案调整：共享战斗模拟器](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（rework；用户提出多入口/队伍配置/预设/战斗道具，r2待设计；旧r1不再授权实施）
 - [共享战斗模拟器全域复用评估](battle-simulator-assessment.md)（8模块27子页：7直接/8上下文/12专用验证；含预设、配置边界与三批接入建议，未实施）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）

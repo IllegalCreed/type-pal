@@ -1,6 +1,6 @@
 # GLM编辑器导入、编码工作线程与视频元数据工作包（TB-03）
 
-任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/draft（Codex已收敛宿主/缺陷边界，待两席确认，未获实施授权）。
+任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/draft（设计准入已核定，待实施槽；GLM按卡面条件领取，不重复签字）。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM只写新测试；Codex独立接收、Kimi终审。
 合法二进制与真实编码链，非上传界面；上传选图竞态已修不重开；不做视觉/截图/听感。
 
