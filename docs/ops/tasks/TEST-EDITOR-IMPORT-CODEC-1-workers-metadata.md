@@ -16,7 +16,15 @@ Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e96
 唯一工作包/族账/白名单：[glm-editor-import-codec.md](../../testing/glm-editor-import-codec.md)。
 
 
-## 当前接收裁决（2026-09-19，候选f4c229ed）
+## 当前返工复核（Codex，2026-09-19，9fe3a07f）
+
+**counter，保持rework**。原七针/五夹具已关闭；公共C0精确唯一目标和C1最终树格式/回执仍未满足。
+定向39项、原3+8跑与包tc通过；本批Biome 11文件/2 errors/1 warnings，exit1。
+R03-PNG：合法PNG仍未落实；真实digest已修。
+见[本轮复核及提示词](../../testing/glm-nine-rework-review.md)与[机账](../../testing/glm-nine-rework-evidence.json)。
+不合并、不更基线、不转Kimi、不代签、不标done；设计保持，Mimosa不参与。
+
+## 首轮接收裁决（历史）
 
 用户本轮明确批准九批先行实施、Codex恢复后统一接收；认可本批排期例外，不因旧两槽限制追溯判违规。设计签字保持，不重签。
 **本席独立结论counter，任务rework，未合入正式测试/产品、不更新官方基线、不转Kimi终审。**
@@ -114,11 +122,8 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 - GLM/Kimi：pending（原交付状态保留；不代签）。done准入未开放，不标done。
 
 ## 交接日志
-- 2026-09-19 GLM：按 Codex 统一接收 counter 完成本卡 r2 返工（C0/C1、R03-1 量化实参保真、
-  R03-2 输出双向真 transfer、R03-3 真实 digest+独立 oracle）。复跑定向/全包/tc/Biome/私有覆盖
-  与 8 针负控全绿；详见工作包返工回执与机账 rework 节。分支 codex/glm-editor-import-codec-r1
-  待 Codex 复核接收。
 
+- 2026-09-19 Codex：复核9fe3a07f，按本轮报告收窄counter；原七针与五夹具已关闭。最终树格式与精确唯一判据仍失败，不重签、不并包、不标done。
 - 2026-09-19 Codex：按用户九批统一接收授权独立审本候选；测试通过不等于证据有效，签counter并转rework，返工限公共C0/C1及本卡章节。GLM原回执/他席签字保留；用户最新确认Mimosa为GLM私有MCP，Codex不处理且不作接收门；TB00/TB01另排。
 - 2026-09-19 GLM：按卡面授权领取 TB-03 并完成实施（r1）。worktree `type-pal-glm-import-codec`、
   分支 `codex/glm-editor-import-codec-r1`、基点 41cc7cd9；领取时产品对 e58834f6 零漂移已核。
