@@ -7,11 +7,12 @@
 ## 文档与附件
 
 - [GLM非视觉补测长队列](glm-coverage-work-queue.md)与[617文件机器台账](glm-coverage-work-queue.json)（当前批之外十批78候选模块；先细化/逐卡准入，不新增E2E前置门；[快照复算](glm-coverage-queue-census.mjs)）
-- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（draft；11模块39族，先去重、三签后整包连续实施）
+- [GLM运行时状态与元数据六组补测](glm-runtime-state-boundaries.md)（build；11模块39族，三签已齐，GLM独立工作树整包实施）
 - [内容合同残项工作包](glm-content-residual.md)（队列TB-01 draft；上包登记残项+跨包去重，未获实施授权）
 - [资源读取缓存与音效准备工作包](glm-reforge-asset-io.md)（队列TB-02 draft；六模块族账，未获实施授权）
 - [导入编码线程与视频元数据工作包](glm-editor-import-codec.md)（队列TB-03 draft；七模块族账，未获实施授权）
-- [独立技能试放设计与验收](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[当前前提探针](skill-trial-premise.mjs)（D-04/D-05；独立临时状态已裁决，入口UI待确认，未实施）
+- [试放方案调整：共享战斗模拟器](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（rework；用户提出多入口/队伍配置/预设/战斗道具，r2待设计；旧r1不再授权实施）
+- [共享战斗模拟器全域复用评估](battle-simulator-assessment.md)（8模块27子页：7直接/8上下文/12专用验证；含预设、配置边界与三批接入建议，未实施）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）
 - [编辑器预览缓存连续修复](editor-preview-cache.md)（E-03/E-04完成；15项真实字节回归、7负控及原生绘制验证，check7457/严格fast6969通过）
 - [场景删除引用保护实现与验证](scene-reference-guard.md)（D-02/done；83598cc4三席accept并归档；22回归/PAL补1边、最小界面验证及check7442/严格fast6954通过）
