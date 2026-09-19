@@ -141,5 +141,24 @@
     "in-flight ProjectImageCache dispose backfill policy remains pending verification",
     "collector pages[0] vs world active page remains isolated (r2, no green tests)"
   ],
-  "reservedForCodex": ["full-repo check", "official ratchet", "protected strict-fast"]
+  "reservedForCodex": ["full-repo check", "official ratchet", "protected strict-fast"],
+  "codexReception": {
+    "candidate": "a7c48d9cb828dcc461ee7b599ee3eec1a88bedac",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-02",
+    "verifiedNewTests": 24,
+    "verifiedControls": 3,
+    "verifiedMutants": 8,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 10,
+      "errors": 0,
+      "warnings": 0,
+      "info": 0
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  }
 }

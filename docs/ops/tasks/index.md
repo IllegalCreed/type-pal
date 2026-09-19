@@ -10,15 +10,15 @@
 |---|---|---|
 | [EDITOR-SKILL-TRIAL-1 - 独立临时技能试放与当前工程入口](EDITOR-SKILL-TRIAL-1-isolated-battle.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）](TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）](TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-PAL-TABLES-COVERAGE-1 - 原版表格与文本自包含补测（TB-04）](TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）](TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-RESOURCE-TOOLS-COVERAGE-1 - RLE、事件与资源工具补测（TB-05）](TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）](TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）](TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-PAL-TABLES-COVERAGE-1 - 原版表格与文本自包含补测（TB-04）](TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）](TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [TEST-RESOURCE-TOOLS-COVERAGE-1 - RLE、事件与资源工具补测（TB-05）](TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -181,4 +181,3 @@
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
-

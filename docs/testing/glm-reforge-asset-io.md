@@ -1,6 +1,12 @@
 # GLM资源读取、缓存与音效准备工作包（TB-02）
 
-任务：[TEST-REFORGE-ASSET-IO-1](../ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)，r2/draft（设计准入已核定，待实施槽；GLM按卡面条件领取，不重复签字）。
+## 当前Codex接收结论
+
+**counter**。定向24项/原3+8跑/tc通过，但仍有公共C0和本批业务返工；Biome完整面10文件/0 errors。详见[统一复核TB-02](glm-nine-intake-review.md#tb-02)。
+本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
+
+
+任务：[TEST-REFORGE-ASSET-IO-1](../ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)，r2/rework；本轮实施候选a7c48d9c未接收，设计不重签。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM只写新测试；Codex独立接收、Kimi终审。
 不听音、不做视觉、不改保存稳定读门/锁/恢复（SAVE 面归既有专项）、不碰技能试放接线。
 
@@ -49,7 +55,7 @@ docs/testing/glm-reforge-asset-io-evidence.json
 - 定向+相邻（既有 sfx/sfx-readiness/image-cache/file-source/fsa-source/registry 六测试文件）+
   reforge tc+全包+新增文件 Biome。完成条件：B1-B10 逐族落账，无固定条数。
 
-## GLM实施回执
+## GLM实施回执（候选历史自验；以当前Codex复核勘误为准）
 
 r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，用户拍板在 Codex 额度空窗期先行实施，
 接收与全仓门禁留 Codex）。分支 `codex/glm-reforge-asset-io-r1`（worktree
