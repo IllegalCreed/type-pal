@@ -40,11 +40,7 @@
       "poisonedRejected": true,
       "pinnedVerdictFourWay": true
     },
-    "controls": [
-      "control-timer",
-      "control-consent",
-      "control-timefmt"
-    ],
+    "controls": ["control-timer", "control-consent", "control-timefmt"],
     "cases": [
       {
         "name": "fetchretry-gateway-retry-gate-removed",
@@ -160,5 +156,24 @@
     "fetch AbortError 取消政策待裁决（走通用重试，不固化）；Replay/Recording InputSource 无生产构造不扩",
     "setStep(length) 注释与实现不一致轴按工作包不实施（当前 UI 只给合法 idx）",
     "GA 不接真实端点；UTM 'Up' 大写归一小写后合法保留（合同即 normalize）"
-  ]
+  ],
+  "codexReception": {
+    "candidate": "61f0af34bcac05d3c963c76545246ccf830f349a",
+    "date": "2026-09-19",
+    "decision": "counter",
+    "reference": "docs/testing/glm-nine-intake-review.md#tb-09",
+    "verifiedNewTests": 25,
+    "verifiedControls": 3,
+    "verifiedMutants": 8,
+    "typecheckExit": 0,
+    "biome": {
+      "checked": 10,
+      "errors": 6,
+      "warnings": 5,
+      "info": 1
+    },
+    "integrated": false,
+    "officialCoverageChanged": false,
+    "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  }
 }
