@@ -189,5 +189,44 @@
     "integrated": false,
     "officialCoverageChanged": false,
     "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  },
+  "rework": {
+    "intakeReview": "docs/testing/glm-nine-intake-review.md (Codex counter 1f38bb29)",
+    "generatedAt": "2026-09-19T12:55:54Z",
+    "C0": "判据改为每条 failureMessages 首行 /^AssertionError(\\b|:)|^expect\\(/（运行态 pin 块内联同形谓词 + 四向自测新增普通Error内嵌AssertionError/纯超时反例）",
+    "C1": {
+      "command": "pnpm exec biome check <git 新增清单全部 TS/MJS/MTS/JSON>",
+      "exit": 0,
+      "files": 11
+    },
+    "R10-1": "baseline 快照改深比较——structuredClone(nextBaseline) 直接持有实际 Map/Set/嵌套 JSON，调用后与同一实际对象 toEqual（返回前污染 JSON 值即红）",
+    "R10-2": "撤回 content/scripts/index chunks 发现轴（E05 历史输出退役域已签排除）；scene/map 发现与 TOCTOU 保留",
+    "R10-3": "journal 重写为两操作真实中断（第 0 个已提交、第 1 个留 pending staging）：合法同 journal 恢复对照成功（第二操作补完+二次幂等+journal 清理）；六轴单点篡改各自钉**精确业务错误消息**且拒绝后**全部自建文件**（目录递归快照）逐字节保留",
+    "R10-4": "T08 同 root 菱形补齐——item292 脚本直连 c8-a 且经 c8-hook 到 c8-a（一 root 两路径）：非环、c8-a 只计一次（schemes=2/roots=1）、labels 顺序精确",
+    "tests": {
+      "packageFull": "|unit| 57 files / 393 tests：4 文件 9 项预存 data/extracted ENOENT（Codex 裁决一致）；本批 23/23 绿",
+      "typecheck": "rc=0"
+    },
+    "mutants": {
+      "command": "node docs/testing/glm-migration-boundaries-mutants.mjs",
+      "exit": 0,
+      "controls": 3,
+      "needles": 9
+    },
+    "coverageRerun": "官方 fast before 338 / after 361 双 exit0（最终返工树重跑）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:51:11Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名等反例",
+    "C1": {
+      "note": "全部回填后 11 文件完整白名单 Biome（提交前 rc=0，含 transaction 长行/unused import 清理与 JSON 格式化）"
+    },
+    "reworkWitness": "glm-nine-rework-witnesses: 9/9 判据双反例拒绝、PNG 三态 valid、3 针（含 TB-07/06 针）detected",
+    "counts": {
+      "targeted": 23,
+      "controls": 3,
+      "needles": 9
+    }
   }
 }
