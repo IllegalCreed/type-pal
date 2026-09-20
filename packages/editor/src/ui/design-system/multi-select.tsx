@@ -4,11 +4,14 @@ import { DsFloatingLayer } from './floating-layer.js'
 import { DsIcon } from './icons.js'
 
 export function DsMultiSelect(props: {
+  id?: string
   label: string
   options: readonly DsOption[]
   value: readonly string[]
   disabled?: boolean
   size?: DsControlSize
+  /** Compact count summary for large collections; other callers keep the existing label summary. */
+  summaryMode?: 'labels' | 'count'
   onChange: (value: string[]) => void
 }) {
   const listId = useId()
@@ -65,6 +68,7 @@ export function DsMultiSelect(props: {
   return (
     <>
       <button
+        id={props.id}
         ref={triggerRef}
         type="button"
         className={`ds-select ds-multiselect__trigger${
@@ -84,8 +88,14 @@ export function DsMultiSelect(props: {
         }}
       >
         <span className="ds-multiselect__summary">
-          {labels.length ? labels.join('、') : '请选择'}
-          {overflow ? ` +${overflow}` : ''}
+          {props.summaryMode === 'count' ? (
+            `已选 ${props.value.length} 项`
+          ) : (
+            <>
+              {labels.length ? labels.join('、') : '请选择'}
+              {overflow ? ` +${overflow}` : ''}
+            </>
+          )}
         </span>
         <DsIcon name={open ? 'chevron-up' : 'chevron-down'} />
       </button>

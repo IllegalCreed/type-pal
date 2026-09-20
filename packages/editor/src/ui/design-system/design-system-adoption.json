@@ -2576,7 +2576,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsFieldGroup + DsSelectField",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsField + DsFieldGroup + DsMultiSelect + DsSelectField",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {
@@ -2603,7 +2603,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsFieldGroup + DsSelectField",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsField + DsFieldGroup + DsMultiSelect + DsSelectField",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {
@@ -2630,7 +2630,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsFieldGroup + DsSelectField",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsField + DsFieldGroup + DsMultiSelect + DsSelectField",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {
@@ -2657,7 +2657,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsFieldGroup + DsSelectField",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsField + DsFieldGroup + DsMultiSelect + DsSelectField",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

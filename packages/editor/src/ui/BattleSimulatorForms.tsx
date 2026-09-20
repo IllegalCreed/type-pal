@@ -14,9 +14,11 @@ import type { EditorState } from '../core/edit-session.js'
 import {
   DsButton,
   DsDraftNumberField,
+  DsField,
   DsFieldGroup,
   DsSelectField,
 } from './design-system/controls.js'
+import { DsMultiSelect } from './design-system/index.js'
 import { DsInlineComposer, DsNumberFieldGrid, DsWorkbenchSection } from './design-system/recipes.js'
 
 const STAT_LABELS: Record<keyof TrialStats, string> = {
@@ -146,6 +148,7 @@ export function TrialPartyEditor({
       )}
       {value.members.map((member, index) => {
         const actor = state.actors.find((actor) => actor.id === member.actorId)
+        const selectedSkills = member.skills.kind === 'replace' ? member.skills.ids : []
         let effective: ReturnType<typeof previewBattleTrialParty>[number] | undefined
         try {
           effective = previewBattleTrialParty(
@@ -249,61 +252,53 @@ export function TrialPartyEditor({
                 </DsFieldGroup>
               ))}
             </div>
-            <DsSelectField
-              label="习得技能"
-              value={member.skills.kind}
-              options={[
-                { value: 'inherit', label: '继承角色初始技能' },
-                { value: 'replace', label: '指定本预设技能' },
-              ]}
-              onValueChange={(kind) =>
-                update(member.actorId, {
-                  skills:
-                    kind === 'inherit'
-                      ? { kind: 'inherit' }
-                      : { kind: 'replace', ids: [...(actor?.battler?.initialMagic ?? [])] },
-                })
-              }
-            />
-            {member.skills.kind === 'replace' && (
-              <>
-                <div className="trial-actions">
-                  {member.skills.ids.map((id) => (
-                    <DsButton
-                      key={id}
-                      onClick={() => {
-                        if (member.skills.kind === 'replace')
-                          update(member.actorId, {
-                            skills: {
-                              kind: 'replace',
-                              ids: member.skills.ids.filter((skill) => skill !== id),
-                            },
-                          })
-                      }}
-                    >
-                      {state.skills.find((skill) => skill.id === id)?.name ?? id} · 移除
-                    </DsButton>
-                  ))}
-                </div>
+            <div className="trial-config-columns">
+              <DsFieldGroup>
                 <DsSelectField
-                  label="加入技能"
-                  value=""
-                  placeholder="选择技能"
-                  options={state.skills
-                    .filter(
-                      (skill) =>
-                        member.skills.kind === 'replace' && !member.skills.ids.includes(skill.id),
-                    )
-                    .map((skill) => ({ value: skill.id, label: skill.name }))}
-                  onValueChange={(id) => {
-                    if (member.skills.kind === 'replace')
-                      update(member.actorId, {
-                        skills: { kind: 'replace', ids: [...member.skills.ids, id] },
-                      })
-                  }}
+                  label="习得技能"
+                  value={member.skills.kind}
+                  options={[
+                    { value: 'inherit', label: '继承角色初始技能' },
+                    { value: 'replace', label: '指定本预设技能' },
+                  ]}
+                  onValueChange={(kind) =>
+                    update(member.actorId, {
+                      skills:
+                        kind === 'inherit'
+                          ? { kind: 'inherit' }
+                          : { kind: 'replace', ids: [...(actor?.battler?.initialMagic ?? [])] },
+                    })
+                  }
                 />
-              </>
-            )}
+              </DsFieldGroup>
+              {member.skills.kind === 'replace' && (
+                <DsFieldGroup>
+                  <DsField label="指定技能">
+                    {(field) => (
+                      <DsMultiSelect
+                        id={field.id}
+                        label="指定技能"
+                        summaryMode="count"
+                        value={selectedSkills}
+                        options={[
+                          ...state.skills.map((skill) => ({
+                            value: skill.id,
+                            label: skill.name,
+                            description: skill.id,
+                          })),
+                          ...selectedSkills
+                            .filter((id) => !state.skills.some((skill) => skill.id === id))
+                            .map((id) => ({ value: id, label: `${id}（缺失引用）` })),
+                        ]}
+                        onChange={(ids) =>
+                          update(member.actorId, { skills: { kind: 'replace', ids } })
+                        }
+                      />
+                    )}
+                  </DsField>
+                </DsFieldGroup>
+              )}
+            </div>
             <p className="hint2">装备授予的技能另由正式战斗派生，不会重复记入习得技能。</p>
             <div className="trial-config-columns">
               <TrialPoolField
