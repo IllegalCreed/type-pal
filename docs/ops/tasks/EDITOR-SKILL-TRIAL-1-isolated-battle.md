@@ -44,7 +44,46 @@ r2/r2a首批已实现，进入review；**done门未开放，不代签**。详细
   由真实宿主+真实入口路由+实际BattleSession行动三层回归证明，不冒称全链无桩。
   已披露：浏览器原生目录选择器返回取消，保存→重开正向浏览器链未通过，S1真实writer/loader/事务集成通过；
   360宽不满足既有主壳最小列宽，未声称移动端完成；full/Q1/Q2未跑。上述限制交独立席判断，不隐瞒。
-- Kimi：pending（独立终审）。
+- Kimi：**accept（2026-09-20，统一候选cb44c378对比1bae48e4；全部锚点本人直读/主树复跑，结论形成于读他席前）**。
+  落盘期间本卡因用户 UI 反馈转 rework（见顶部「当前UI返工」）：本签仅覆盖 cb44c378 的代码级
+  保存/隔离/握手/资源/战斗复用机制，按卡面约定留作历史技术证据，**不含 UI 验收、不授权旧候选
+  done**；UI 返工后的新候选需增量复核。
+  - **保存事务闭环**：`battle-simulator-library.ts:183-203` 缺席（NotFound）与坏 JSON/权限错区分，
+    `BattleSimulatorDocumentError` 在 `open-local.ts:88` 原样抛出保留路径与重开提示；`project-io.ts:657-660`
+    preflight 对附属 JSON 提前解析、`:341-344` 仅非空才落文件；`App.tsx:2217/:2359` 保存/另存两条
+    实际回调都接 `battleSimulatorRemovalPaths`（`:88-92` 缺席/空库显式删除，覆盖重开后首存）；
+    `clone.ts:88-99` 原始字节逐字节携带；`author-disk-baseline.ts` 把缺席记为 null 且先前后退即
+    AuthorSaveConflictError——缺席进入字节基线。S1 四针（open/preflight/absence/delete-after-open）
+    本人复跑全 detected、四对照 PASS。
+  - **存档隔离**：`play.ts` 试打分支在 normal boot 前早分流并 return，不构造 SaveStore；
+    `battle-trial-host.ts:1` 明示无 save store 依赖、`:125-128` F5/F9 拦截仅提示；临时 world 由
+    `battle-trial-prepare.ts:205-215` buildWorld 新建，`battle-trial-session.ts:60` 与
+    `battle-world-result.ts` 的奖励/收尾只写该临时 world。宿主测试「不构造任何 SaveStore」绿。
+  - **一次性握手与 revision 复验**：`battle-trial-launch.ts` 同步 window.open 保手势、配置只走
+    MessageChannel（`:48` 不进 URL/存储）；`check()`（`:107-126`）双 assertCanLaunch+双 sourceToken+
+    revision；重开 `:165-172` 换新 launchId，已 ack 后重复 ready 即 fail；接收侧 `:234-242` 校验
+    origin/source/identity/launchId/单 port/64hex revision。`battle-trial-assets.ts:113-116` 准入
+    与 `:253-260` 准备后**从 source 重载**复核 token+revision。
+  - **资源/取消/AudioContext 收尾**：快照 `battle-trial-assets.ts:53-102` 缓存留存 slice、交付
+    再 slice、catalog 字节/SHA 不符即拒、seal 后未冻结路径禁读、urlFor 拒绝；`abortableTrial`
+    迟到成功也拒；prepare 异常/迟到双路 dispose；`bgm.ts` dispose 幂等且 initialize 两道
+    disposed 检查、迟到 init 只 pause 不播；宿主 abort→session.cancel+cleanupRun+releaseResources，
+    finally 卸外部监听。
+  - **正式战斗复用**：`battle-player-input.ts` 与 `battle-world-result.ts` 系 main.ts 原内联
+    逐字段提取（本人逐行比对删除块）；main.ts 与临时宿主共用同一函数；`main.ts:2232` 空敌队
+    由桩胜改为 throw；`createBattleTrialSession` 用真实 BattleSession 同形 options。
+  - **人数/旧入口/图标**：`battle-trial-config.ts:25/:116-117` 我方≤3 拒绝、prepare `:150` 敌方
+    ≤5 槽；`main.ts:345-347` `?battle-trial`/`?skill` 在 SaveStore（`:583`）前拒绝，旧授技内联已删，
+    DEV 面板 grantSkill（`:7007`）保持内存态独立调试；battle-ui 图标改 chrome 自有 ICON_GRAY/ICON_RED
+    色带+WeakMap 按位图缓存，不动工程色盘/HUD 布局。runtime 六针（fourth-member/source-bytes/
+    late-admission/save-hotkey/skill-injection/music-release）本人复跑全 detected、六对照 PASS。
+  - **本席复跑**：两组负控工具 exit0；reforge 定向 8 文件 64 项、editor 定向 6 文件 46 项全绿。
+    完整 check7891/ratchet/strict7400/build 采信 Codex 已落证据，未重跑官方基线。
+  - **披露边界判断**：原生目录选择器在自动化返回取消致浏览器保存→重开正向链未过——该链由 S1 真实
+    writer/loader/事务集成与 persistence 13 项覆盖，非 mock 替代，不阻断；360 宽沿既有主壳限制、
+    full/Q1/Q2 未跑均如实披露，不构成本批阻断。旧版本兼容审查 pass：严格当前格式 v1，
+    无旧版兼容分支。
+  - 返工项：无。
 - GLM：**accept（2026-09-20，统一候选 cb44c378 对比 1bae48e4；代码级矩阵/回执复核，未执行视觉）**。
   本席独立复跑与直读证据：
   - **两组负控本席复跑 rc=0**：S1 `battle-simulator-s1-mutants.mjs` 4 对照 PASS + 4 针（open/preflight/absence/delete-after-open）
@@ -553,6 +592,25 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+
+- 2026-09-20 Kimi（独立终审，落盘期间卡转 rework）：对统一候选 cb44c378（对比 1bae48e4）完成
+  代码级终审，签 accept 留作历史技术证据（不含 UI 验收、不授权旧候选 done）。独立证据：
+  直读保存链（battle-simulator-library.ts:183-203 缺席/坏文件区分、open-local.ts:88 原样抛、
+  project-io.ts:657-660 preflight 早解析、:341-344 非空才落、App.tsx:2217/:2359 双回调接
+  removalPaths、clone.ts:88-99 字节携带、author-disk-baseline 缺席记 null）；隔离（play.ts 试打
+  分支早分流 return、battle-trial-host.ts 无 SaveStore、F5/F9 拦截、临时 world 经
+  battle-trial-prepare.ts:205-215 新建且奖励只写它）；握手（battle-trial-launch.ts check 双
+  assertCanLaunch+双 token+revision、重开换 launchId、接收侧五重校验；battle-trial-assets.ts
+  :253-260 准备后从 source 重载复核）；资源收尾（快照 slice 进出+seal+三处取消检查、
+  abortableTrial 拒迟到、bgm dispose 幂等+两道 disposed 门、宿主 abort 全链清理）；复用
+  （battle-player-input/battle-world-result 为 main.ts 内联逐字段提取、空敌队桩胜改 throw）；
+  人数（config:25/:116-117 ≤3、prepare:150 敌方≤5）；main.ts:345-347 旧 ?skill 在 SaveStore
+  前拒绝、DEV grantSkill(:7007) 保持内存态独立调试。本席复跑：S1 4对照 PASS+4针 detected、
+  runtime 6对照 PASS+6针 detected、reforge 定向64项、editor 定向46项全绿；check7891/ratchet/
+  strict7400/build 采信 Codex 已落证据。披露边界（原生选择器取消→浏览器保存重开正向未过但有
+  S1 真实事务集成、360宽沿既有主壳、full/Q1/Q2未跑）判断不阻断本批代码级收口。
+  未读 GLM 结论（本席结论形成于其落盘前），未改实现/他席/状态，不标 done。
+  Next：UI 返工归 Codex；新候选出来后再做增量复核。
 
 - 2026-09-20 Codex：用户UI/交互counter，转rework；cb44c378技术证据和GLM已签原文保留，撤回本席当前UI验收。
   按DS-C.4e/DS-L.7修正添加、宽度、间距和焦点；原模型/隔离设计不重签，旧候选不再推进done。
