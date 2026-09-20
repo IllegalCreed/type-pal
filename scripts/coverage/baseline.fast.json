@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-20T05:31:47.604Z",
+  "generatedAt": "2026-09-20T07:49:36.667Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 617,
-  "testCount": 7277,
+  "sourceFileCount": 631,
+  "testCount": 7400,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1249,7 +1249,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 124,
+      "sourceFileCount": 131,
       "sourceFiles": [
         "packages/reforge/src/actor-condition-lifecycle.ts",
         "packages/reforge/src/actor-condition-runtime.ts",
@@ -1262,14 +1262,21 @@
         "packages/reforge/src/audio/sfx-readiness.ts",
         "packages/reforge/src/audio/sfx.ts",
         "packages/reforge/src/audio/spessa-browser-runtime.ts",
+        "packages/reforge/src/battle-trial-assets.ts",
+        "packages/reforge/src/battle-trial-config.ts",
+        "packages/reforge/src/battle-trial-host.ts",
+        "packages/reforge/src/battle-trial-prepare.ts",
+        "packages/reforge/src/battle-trial-session.ts",
         "packages/reforge/src/battle/battle-anim.ts",
         "packages/reforge/src/battle/battle-core.ts",
         "packages/reforge/src/battle/battle-last-action.ts",
+        "packages/reforge/src/battle/battle-player-input.ts",
         "packages/reforge/src/battle/battle-positions.ts",
         "packages/reforge/src/battle/battle-result.ts",
         "packages/reforge/src/battle/battle-session.ts",
         "packages/reforge/src/battle/battle-sprite-readiness.ts",
         "packages/reforge/src/battle/battle-ui.ts",
+        "packages/reforge/src/battle/battle-world-result.ts",
         "packages/reforge/src/battle/enemy-closure.ts",
         "packages/reforge/src/battle/enemy-hook-runtime.ts",
         "packages/reforge/src/battle/present-battle.ts",
@@ -1376,11 +1383,15 @@
         "packages/reforge/src/use-menu-state.ts",
         "packages/reforge/src/video-player.ts"
       ],
-      "scopeDigest": "e6fbef671fa36c8c9f451093e204ecfe50a83c906903eebc4a5745326f2a434e",
+      "scopeDigest": "6c0ff3187af660bc3c149a4801daa2563d30517628b1d7f43f52b194bece9f2d",
       "fastTests": {
-        "testCount": 1214,
-        "testFileCount": 122,
+        "testCount": 1278,
+        "testFileCount": 130,
         "files": [
+          "packages/reforge/scripts/battle-trial-assets.test.ts",
+          "packages/reforge/scripts/battle-trial-host.test.ts",
+          "packages/reforge/scripts/battle-trial-session.test.ts",
+          "packages/reforge/scripts/battle-trial-workflow.test.ts",
           "packages/reforge/src/actor-condition-lifecycle.test.ts",
           "packages/reforge/src/actor-condition-runtime.test.ts",
           "packages/reforge/src/ambience-compositor.test.ts",
@@ -1388,6 +1399,7 @@
           "packages/reforge/src/asset-resolver.test.ts",
           "packages/reforge/src/assets.test.ts",
           "packages/reforge/src/async-intent.test.ts",
+          "packages/reforge/src/audio/bgm.dispose.test.ts",
           "packages/reforge/src/audio/bgm.runtime-boundaries.test.ts",
           "packages/reforge/src/audio/bgm.test.ts",
           "packages/reforge/src/audio/midi-preview.lifecycle-boundaries.test.ts",
@@ -1396,11 +1408,14 @@
           "packages/reforge/src/audio/sfx-readiness.test.ts",
           "packages/reforge/src/audio/sfx.staged-failures.test.ts",
           "packages/reforge/src/audio/sfx.test.ts",
+          "packages/reforge/src/battle-trial-config.test.ts",
           "packages/reforge/src/battle/battle-anim.test.ts",
           "packages/reforge/src/battle/battle-casualty.test.ts",
           "packages/reforge/src/battle/battle-core.test.ts",
           "packages/reforge/src/battle/battle-enemy-confused.test.ts",
+          "packages/reforge/src/battle/battle-icon-color.test.ts",
           "packages/reforge/src/battle/battle-last-action.test.ts",
+          "packages/reforge/src/battle/battle-player-input.test.ts",
           "packages/reforge/src/battle/battle-result.test.ts",
           "packages/reforge/src/battle/battle-session.test.ts",
           "packages/reforge/src/battle/battle-sprite-readiness.test.ts",
@@ -1506,6 +1521,26 @@
         ],
         "fileEntries": [
           {
+            "file": "packages/reforge/scripts/battle-trial-assets.test.ts",
+            "testCount": 5,
+            "identityDigest": "bbcc1b1a58e916baa5986463b746b752f3dd11863acec8af253ee9283714579b"
+          },
+          {
+            "file": "packages/reforge/scripts/battle-trial-host.test.ts",
+            "testCount": 4,
+            "identityDigest": "56b9da4e5e5b7ab6d8e1aa05f48f32616b7820dd541c9b4da6d627ba4e8eeec1"
+          },
+          {
+            "file": "packages/reforge/scripts/battle-trial-session.test.ts",
+            "testCount": 5,
+            "identityDigest": "7276ab9152bc36d80ae488e6f108d9d0a88df8913ed4ce6e8fa641cecec447f3"
+          },
+          {
+            "file": "packages/reforge/scripts/battle-trial-workflow.test.ts",
+            "testCount": 14,
+            "identityDigest": "b27056adb870356ab7753efbd2a0b2f284c661f30e514171e7f65de7c82fafcf"
+          },
+          {
             "file": "packages/reforge/src/actor-condition-lifecycle.test.ts",
             "testCount": 6,
             "identityDigest": "5cf44193c47a86f3adc18119c30702a0f17173dec28b248f77d53cc1f0668ca8"
@@ -1539,6 +1574,11 @@
             "file": "packages/reforge/src/async-intent.test.ts",
             "testCount": 3,
             "identityDigest": "ad4fe548d0fb4268e78ed9e4cde6a1c8cb2a106f1f8b80f39f143a630b458765"
+          },
+          {
+            "file": "packages/reforge/src/audio/bgm.dispose.test.ts",
+            "testCount": 2,
+            "identityDigest": "3f17e8091fc8e272a167c1817e9e24f094642b241957c550a5bff35179083c67"
           },
           {
             "file": "packages/reforge/src/audio/bgm.runtime-boundaries.test.ts",
@@ -1581,6 +1621,11 @@
             "identityDigest": "31d200ba82badd17c9f51f0952e7e3116e06cca5337234ffa99d711319031172"
           },
           {
+            "file": "packages/reforge/src/battle-trial-config.test.ts",
+            "testCount": 30,
+            "identityDigest": "dd00606f241e89a8e006deea848f16b9a86333f8c4cefc0b41c4170424dec46c"
+          },
+          {
             "file": "packages/reforge/src/battle/battle-anim.test.ts",
             "testCount": 21,
             "identityDigest": "e1402ac5e6dae44a82b3789dd62e32403f09877b832f25ce98934c3d57bdc3be"
@@ -1601,9 +1646,19 @@
             "identityDigest": "95f449458e2e02ab70617af88d195c23cb3dea16bc56f0446d91448b9581cfae"
           },
           {
+            "file": "packages/reforge/src/battle/battle-icon-color.test.ts",
+            "testCount": 2,
+            "identityDigest": "4009b1809eb3474ca64579fe96246774eb6909c9eeede41249d70a777e98b5e0"
+          },
+          {
             "file": "packages/reforge/src/battle/battle-last-action.test.ts",
             "testCount": 1,
             "identityDigest": "da27ccfbc95ab8e8f2bfcdc978d9dd975ababdbc6985f2c9c9902fae071da6f6"
+          },
+          {
+            "file": "packages/reforge/src/battle/battle-player-input.test.ts",
+            "testCount": 2,
+            "identityDigest": "cb6d424da3fd809e0beb8ddd48887feeae678bc265536f3b055e2c1a56878ae2"
           },
           {
             "file": "packages/reforge/src/battle/battle-result.test.ts",
@@ -2116,26 +2171,26 @@
             "identityDigest": "5cab91dcbaf3e911e7015eea202cd946659ee0315dfd964b4721c2e4d6774eb8"
           }
         ],
-        "identityDigest": "4f45238cd2e25dafeafe69f45672c2270e6abe696f6aee701508d39990eefa20",
+        "identityDigest": "aa1938329c26ac882bfa4590bf267c8d8f01abb18de130e55af5aa10574bfbde",
         "duplicateIdentityCount": 0,
-        "executionDigest": "a68d31edcaaa4dff3f22b2158c209ed24f1f65d6d1d78a7326570918e3789802"
+        "executionDigest": "127f97a89d376a995e0d9dadc2a858b906f38b1dd13af0dd8b06c75c50ae5006"
       },
       "metrics": {
         "statements": {
-          "covered": 8784,
-          "total": 16188
+          "covered": 9361,
+          "total": 16738
         },
         "branches": {
-          "covered": 5340,
-          "total": 11041
+          "covered": 5687,
+          "total": 11359
         },
         "functions": {
-          "covered": 1394,
-          "total": 2416
+          "covered": 1501,
+          "total": 2538
         },
         "lines": {
-          "covered": 7943,
-          "total": 14118
+          "covered": 8465,
+          "total": 14601
         }
       }
     },
@@ -3126,7 +3181,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 219,
+      "sourceFileCount": 226,
       "sourceFiles": [
         "packages/editor/src/core/actor-dialogue-commands.ts",
         "packages/editor/src/core/actor-references.ts",
@@ -3140,7 +3195,11 @@
         "packages/editor/src/core/author-save-prefix.ts",
         "packages/editor/src/core/author-save-store.ts",
         "packages/editor/src/core/battle-data-references.ts",
+        "packages/editor/src/core/battle-simulator-commands.ts",
+        "packages/editor/src/core/battle-simulator-library.ts",
+        "packages/editor/src/core/battle-simulator-state.ts",
         "packages/editor/src/core/battle-sprite-import.ts",
+        "packages/editor/src/core/battle-trial-launch.ts",
         "packages/editor/src/core/binary-signature.ts",
         "packages/editor/src/core/clone.ts",
         "packages/editor/src/core/command-catalog.ts",
@@ -3228,10 +3287,13 @@
         "packages/editor/src/ui/AudioAssetWorkbench.tsx",
         "packages/editor/src/ui/BattleFieldPicker.tsx",
         "packages/editor/src/ui/BattleFieldTab.tsx",
+        "packages/editor/src/ui/BattleSimulatorForms.tsx",
+        "packages/editor/src/ui/BattleSimulatorWorkbench.tsx",
         "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
         "packages/editor/src/ui/BattleSpriteLibrary.tsx",
         "packages/editor/src/ui/BattleSpritePicker.tsx",
         "packages/editor/src/ui/BattleSpriteUploader.tsx",
+        "packages/editor/src/ui/BattleTrialDialog.tsx",
         "packages/editor/src/ui/CasualtyEditor.tsx",
         "packages/editor/src/ui/CommandForm.tsx",
         "packages/editor/src/ui/ConnectedEditorPages.tsx",
@@ -3348,11 +3410,15 @@
         "packages/editor/src/ui/use-project-leave-guard.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "9696f732999bcfdc8a19ba9e9ff40a428fbd5f2f67dd2695734be188495d62a8",
+      "scopeDigest": "25a6c0053a4175e9a07cd0aad70929c85d6bcb3e10327544b750f49888031088",
       "fastTests": {
-        "testCount": 2455,
-        "testFileCount": 244,
+        "testCount": 2514,
+        "testFileCount": 250,
         "files": [
+          "packages/editor/scripts/battle-simulator-http.test.mjs",
+          "packages/editor/scripts/battle-simulator-ui.test.tsx",
+          "packages/editor/scripts/battle-trial-entry.test.ts",
+          "packages/editor/scripts/battle-trial-launch.test.ts",
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.test.ts",
@@ -3370,6 +3436,8 @@
           "packages/editor/src/core/author-save-store.test.ts",
           "packages/editor/src/core/battle-data-delete-commands.test.ts",
           "packages/editor/src/core/battle-data-references.test.ts",
+          "packages/editor/src/core/battle-simulator-library.test.ts",
+          "packages/editor/src/core/battle-simulator-persistence.test.ts",
           "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
           "packages/editor/src/core/clone.test.ts",
           "packages/editor/src/core/commands-assets.boundaries.test.ts",
@@ -3600,6 +3668,26 @@
         ],
         "fileEntries": [
           {
+            "file": "packages/editor/scripts/battle-simulator-http.test.mjs",
+            "testCount": 1,
+            "identityDigest": "ec3161ebb52af97304a683696f0149a569f36b0c71f3344c39ec65186b78f616"
+          },
+          {
+            "file": "packages/editor/scripts/battle-simulator-ui.test.tsx",
+            "testCount": 7,
+            "identityDigest": "6b0ea71254c350e7e79afa055cee94933182f7d3ef55c00b8111b1f22ae6fbcb"
+          },
+          {
+            "file": "packages/editor/scripts/battle-trial-entry.test.ts",
+            "testCount": 6,
+            "identityDigest": "c9e15cf30f107325ae8adb7e268ee76a9dd680a1724fa8a6c2d7dc308f72c091"
+          },
+          {
+            "file": "packages/editor/scripts/battle-trial-launch.test.ts",
+            "testCount": 8,
+            "identityDigest": "958bc49e81c805151c9529a625fec96370ea92097e26af40484f2bf392ae5b6a"
+          },
+          {
             "file": "packages/editor/src/core/actor-commands.test.ts",
             "testCount": 13,
             "identityDigest": "81300f179a9c68cb9dc3dbd8642926e30746685f0c77ad7f0da3e1ba66eab377"
@@ -3651,8 +3739,8 @@
           },
           {
             "file": "packages/editor/src/core/author-save-conflict.test.ts",
-            "testCount": 36,
-            "identityDigest": "0a551de7c2d546362210753901abeb63750611d1ab4e4864db8ea91bc3e8f766"
+            "testCount": 37,
+            "identityDigest": "35b9e670e5ef301bde96ccc428d7aa6d424d7919b29d5f8d009de37871063e6c"
           },
           {
             "file": "packages/editor/src/core/author-save-journal.test.ts",
@@ -3683,6 +3771,16 @@
             "file": "packages/editor/src/core/battle-data-references.test.ts",
             "testCount": 4,
             "identityDigest": "f4848c64092e27a68c3731ed5add45cee2e9360326d6dfc8de69cd2914c03a09"
+          },
+          {
+            "file": "packages/editor/src/core/battle-simulator-library.test.ts",
+            "testCount": 11,
+            "identityDigest": "72e14ef19ad3b5b2dd3c9504c2688d87bc216ccb0874826d3a3bb5b88c64ac14"
+          },
+          {
+            "file": "packages/editor/src/core/battle-simulator-persistence.test.ts",
+            "testCount": 13,
+            "identityDigest": "92b9304939b65c4cf3eabbb4a6dc85b26f5845ecbd117220226cb3f94e7596bf"
           },
           {
             "file": "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
@@ -4011,8 +4109,8 @@
           },
           {
             "file": "packages/editor/src/core/project-save-route.test.ts",
-            "testCount": 24,
-            "identityDigest": "72e66d3f885013e1cd058a94a6dbbb18b80799ee59a8c7f80dfda5006ebe3b60"
+            "testCount": 36,
+            "identityDigest": "e1cedf5f6445a01462fd8dd2871555bfbc30b251ff77fadf430a18368b792f12"
           },
           {
             "file": "packages/editor/src/core/project-serialization-boundaries.test.ts",
@@ -4397,7 +4495,7 @@
           {
             "file": "packages/editor/src/ui/EnemyTab.test.tsx",
             "testCount": 18,
-            "identityDigest": "471d9969708b6e7acfdda7bd0fc12f62a2ce967ac71bd5026078e353039249a5"
+            "identityDigest": "23e5d4f3fa06bb1df8a156a4ac1b8177c08544b0d172aaf4d952312f6a13cdfe"
           },
           {
             "file": "packages/editor/src/ui/EnemyTeamTab.test.tsx",
@@ -4597,7 +4695,7 @@
           {
             "file": "packages/editor/src/ui/SkillTab.test.tsx",
             "testCount": 21,
-            "identityDigest": "e0897bec2d06c23ca96b721360a5c08e6e43681f8b3405b7cad878ccfded56e9"
+            "identityDigest": "ead0eb97596e9d48a9f6a63544cc754320adcf3641073734f4972a51b0dc4ffc"
           },
           {
             "file": "packages/editor/src/ui/SoundPicker.test.ts",
@@ -4752,7 +4850,7 @@
           {
             "file": "packages/editor/src/ui/editor-navigation.test.ts",
             "testCount": 17,
-            "identityDigest": "5a53365382e0510683193d6b075e89b3491d907954e12a68b37b33708c1dc951"
+            "identityDigest": "b7f9196c6cd97adfe5ec59c0c8b8bea85ae3cddd283fe0472dc2645bf6b48c57"
           },
           {
             "file": "packages/editor/src/ui/editor-target.test.ts",
@@ -4820,46 +4918,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "d22bfe6712882bf3c0fc44cf7171b6dac62956cb7f3022f1ce70d774da443235",
+        "identityDigest": "acc7cf55e37689e2ca22da5fae00c513dc4e8a6fdb2044d187648e6aa31b41eb",
         "duplicateIdentityCount": 8,
-        "executionDigest": "cc4579f26da6549c8000aea6a085f11ffcfa992d207854fff44bf1626d98684e"
+        "executionDigest": "56fb4363fea111d2d277b353e236bbdb2910bcf04c691c42a3555ebf6ee2567d"
       },
       "metrics": {
         "statements": {
-          "covered": 25058,
-          "total": 31875
+          "covered": 25732,
+          "total": 32703
         },
         "branches": {
-          "covered": 19436,
-          "total": 27593
+          "covered": 19953,
+          "total": 28303
         },
         "functions": {
-          "covered": 6206,
-          "total": 8110
+          "covered": 6407,
+          "total": 8360
         },
         "lines": {
-          "covered": 22520,
-          "total": 27859
+          "covered": 23148,
+          "total": 28596
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 55255,
-      "total": 78968
+      "covered": 56506,
+      "total": 80346
     },
     "branches": {
-      "covered": 39438,
-      "total": 62045
+      "covered": 40302,
+      "total": 63073
     },
     "functions": {
-      "covered": 10396,
-      "total": 14520
+      "covered": 10704,
+      "total": 14892
     },
     "lines": {
-      "covered": 49781,
-      "total": 69113
+      "covered": 50931,
+      "total": 70333
     }
   }
 }
