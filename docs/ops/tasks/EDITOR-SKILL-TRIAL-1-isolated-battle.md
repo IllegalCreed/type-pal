@@ -1,6 +1,6 @@
 # EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: D-04/D-05修复及共享战斗模拟器首批；不启动第三阶段X5
 Coding Owner: Codex
@@ -15,17 +15,53 @@ Revision: r2a / 2026-09-20人数勘误；用户明确我方本来就只有1～3�
 本卡与[GLM六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)独立；后者只改新的非视觉测试，Codex只改本卡产品面。
 此前已核r2三席设计准入并开始首批实现；2026-09-20发现我方人数前提不完整，用户已澄清原需求是1～3人。本轮核定r2a三席补核完成，不再等待人数选择或重签；r1不实施。
 
-## 当前UI返工（2026-09-20，用户反馈；cb44c378不再收口）
+## 当前UI-r1接收（2026-09-20，候选fe0fee84；cb44c378不再收口）
 
 用户指出添加队员应使用候选弹窗、短选项仍被拉满、有效技能与属性贴行，并要求完整UI/交互复核。
-**Codex撤回当前UI验收accept，按同卡rework处理；下方cb44c378签字仅留历史，暂停旧候选收口。**
-GLM已完成的代码级accept原文保留，不代替本轮UI验收；其它席位不必重审未变化的引擎/保存机制。
+此前Codex撤回旧UI验收并按同卡rework处理；现返工候选为**fe0fee84**（增量对比**cb44c378**），重新进入review。
+下方cb44c378的Kimi/GLM代码级accept原文保留，不代替本轮UI验收；其它席位不必重审未变化的引擎/保存机制。
 r2/r2a保存、隔离、人数与四目录架构不变，不重签设计；本轮按既定设计系统和用户反馈修正采用方式。
-证据：`BattleSimulatorForms.tsx:108`将live角色追加做成InlineComposer，不符合DS-C.4e；
+返工起点证据（下列行号钉旧候选cb44c378）：`BattleSimulatorForms.tsx:108`将live角色追加做成InlineComposer，不符合DS-C.4e；
 `:182`三项位置枚举占整行；`:319-343`readout内部无间距owner；`battle-simulator.css`的1fr分列仍拉宽短控件。
 复核域：四目录和快捷试打弹窗，含队员/物品候选弹窗、确认前零修改/关闭归焦、短枚举/引用/长文本宽度、
 有效值与技能分组间距、临时配置覆盖/取消语义。不改模型、存储、引擎和公共控件默认尺寸。
-当前无下一位Agent提示词；由Codex完成UI返工后提供新候选增量复核提示词，不标done。
+实现与证据详见[实施记录UI-r1节](../../testing/battle-simulator-implementation.md)：公共候选弹窗明确确认、短选项限宽、
+自适应列、readout与快捷弹窗节奏、删行归焦，以及命名/快捷入口两条临时配置覆盖确认。
+
+### done前（UI-r1，候选fe0fee84）
+
+- Codex：**accept（实现者自验，2026-09-20）**。最终完整check7895项、官方ratchet与保护cb44c378的单次strict-fast7404项通过；
+  两次ratchet及strict的最终计数完全相同，editor23,200/28,619行、20,006/28,326分支；不降门槛、不改排除。
+  新增4条实际React/App工作流回归，原7条UI断言与技能注入/三人限制继续通过；公共picker新增2个采用登记，未改公共实现。
+  本人实看1920/1280/900/720宽四目录与快捷弹窗，搜索键盘选中/取消归焦、命名添加/移除、长名、窄窗双列/回落均验证；
+  技能读数间距实测12px、位置256px、移除82px，未见横向溢出。Reforge/content/编辑器core/play相对旧候选零diff。
+  既有原生目录选择器、360宽主壳和full/Q1/Q2边界仍按实施记录披露；未把机制旧签复用为新UI验收。
+- Kimi：pending（UI-r1增量审查；旧机制accept保留于历史节）。
+- GLM：pending（UI-r1代码级交互/采用清单复核；旧机制accept保留于历史节，视觉仍由Codex负责）。
+- done准入：**关闭**。等待同候选增量审查与用户UI验收；本轮不代签、不标done。
+
+### UI-r1并行交接提示词
+
+**Kimi：**
+
+```text
+在 /Users/zhangxu/illegal/type-pal 增量复核 EDITOR-SKILL-TRIAL-1，任务卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md（review），UI-r1候选fe0fee84，对比cb44c378。
+先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面当前UI-r1节与docs/testing/battle-simulator-implementation.md；r2/r2a设计不重签，未改引擎/存档的旧accept按历史保留。
+重点核公共DsAddPickerDialog的scope/revision/确认前零修改/撤销失效，临时配置两入口覆盖确认及来源变化失效，命名命令与临时草稿隔离；核限宽/自适应列/间距未私改公共控件默认尺寸。按需复跑UI和App.leave-guard相关测试，不重复Codex视觉、不跑官方覆盖率或改基线。
+Codex最终check7895、ratchet与保护strict7404、build通过，四尺寸视觉已验；原生目录选择器/360主壳/full-Q1-Q2旧边界仍披露。不要读取或复述GLM的新结论。只在当前UI-r1 Kimi席位及本人日志写accept或file:line反证counter，提交推送；保留他席改动，不改实现/状态、不标done。
+```
+
+**GLM：**
+
+```text
+在 /Users/zhangxu/illegal/type-pal 增量复核 EDITOR-SKILL-TRIAL-1，任务卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md（review），UI-r1候选fe0fee84，对比cb44c378。
+先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面当前UI-r1节与docs/testing/battle-simulator-implementation.md；不重签r2/r2a设计，旧机制accept原文保留。
+复跑packages/editor的scripts/battle-simulator-ui.test.tsx（10项）、src/ui/App.leave-guard.test.tsx（32项）及add-picker/field-layout/number-field采用门。核取消/Escape/单次确认/重复排除/undo失效/删除归焦/两入口覆盖确认的业务断言；采用登记5→7、6→16与源码精确一致，旧deferred未变化，覆盖率新增恰4项且无缩范围。
+Codex统一完成check7895、ratchet和保护strict7404、build；不补跑全仓覆盖率、不改基线、不操作浏览器或判断截图。不要读取或复述Kimi新结论。只在当前UI-r1 GLM席位及本人日志写accept或直接证据counter，提交推送；同步保留他席改动，不改实现/状态、不标done。
+```
+
+交接日志（Codex，2026-09-20）：按用户UI反馈完成同卡返工；fe0fee84供两席并行增量复核，原技术签字均原样保留。
+本轮只是界面/交互收尾，不扩张为新快捷入口、战斗功能或全量E2E授权。
 
 ## 历史实现接收（2026-09-20，统一候选cb44c378）
 

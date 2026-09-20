@@ -4,7 +4,46 @@
 Coding Owner：Codex。起点 `af916f5b`，分支 `codex/editor-battle-simulator-r2`。
 隔离工作树：`/Users/zhangxu/.codex/worktrees/battle-simulator-r2/type-pal`。
 
-## 当前候选与质量门（2026-09-20）
+## UI-r1返工：布局与交互复核（2026-09-20）
+
+用户反馈后，旧候选`cb44c378`暂停收口；Kimi/GLM对该候选的代码级审查原文保留，不能代替新UI验收。
+本轮只改编辑器采用方式与交互，不改Reforge、模型、作者保存、普通存档、人数或敌方五槽。
+依据仓库DS-C.4e/字段布局规范和Web Interface Guidelines检查四目录、快捷试打弹窗；视觉由Codex本人执行。
+UI-r1实现候选为`fe0fee84`，增量对比`cb44c378`；三席原模型设计不重签，旧候选的技术accept原文不改。
+
+| 发现 | 修正与验证 |
+| --- | --- |
+| live角色/物品库追加被做成整行下拉 | `BattleSimulatorForms.tsx:114`与`:462`采用公共DsAddPickerDialog；节头紧凑添加、搜索、明确选择后确认；取消零命令，重复候选排除，满3人禁入 |
+| 短枚举占满整行，窄窗口仍错失并排空间 | 位置/技能模式/体力真气模式/编队来源限16rem；引用候选最多24rem；业务容器auto-fit以16rem起步、总宽最多72rem，宽度不足自动换行；不改公共控件默认尺寸 |
+| 数值/技能说明挤在一起 | readout的标题、属性dl、技能摘要用12px语义间距；数字tabular-nums；长技能文案可换行；数值字段仍由DsNumberFieldGrid负责 |
+| 快捷弹窗说明、保存提醒贴字段 | 独立内容节奏与保存同行动作，错误role=alert；不新增另一套弹窗/选择器 |
+| 删队员/删背包行后焦点丢到body | 焦点落到存续配置区域；选择弹窗关闭回添加按钮，按钮失效时回区域；实测与回归覆盖 |
+| 命名方案/快捷入口悄悄覆盖已有临时调整 | 两条实际入口均先确认；取消保留旧草稿，明确放弃才替换；Workbench来源/会话版本变化撤销过期确认；作者状态不变 |
+
+采用登记为精确扩容：add-picker 5→7个owner、6→16条数据路径，两个静态集成marker；其它既有deferred不变。
+字段/overlay清单与CSS轨道快照由既有源码census生成，不增豁免、不用测试跳过盖住不合规。
+
+### UI-r1验证证据
+
+- 真实React工作流7→10项：两种添加确认/取消/Escape/重开无默认选择/重复排除/undo与跨目录失效、删除归焦、临时副本替换确认。
+- 真实App新增1项：实际技能入口→详细配置→改金钱→再次进入→取消保持72→明确放弃恢复100；作者EditSession深快照不变、未触发目录选择器。
+- 定向UI10/10、App新增1/1、采用门及UI合计24/24，editor typecheck通过。
+- 完整check首跑7895项通过；最后快捷弹窗间距收尾后最终树check仍为7895项通过（editor269文件/2679项），
+  日志`/tmp/simulator-ui-rework-final-check.log`；47条既有warning/6条info，无error。
+- 官方ratchet通过，fast7404项、631个生产文件；首跑比旧候选提升8项指标/2项测试范围变化，
+  最终树重算计数完全一致（提升0/下降0，基线不再改写）。日志`/tmp/simulator-ui-rework-ratchet.log`与
+  `/tmp/simulator-ui-rework-final-ratchet.log`。editor覆盖23,200/28,619行、20,006/28,326分支；未缩范围或降低门槛。
+- `TYPE_PAL_COVERAGE_BASE_REF=cb44c378 pnpm coverage:fast`单次strict-fast **7404项通过**，
+  与最终ratchet各分子/分母完全一致（提升0/下降0），日志`/tmp/simulator-ui-rework-strict.log`。
+- 最终editor生产build、check:docs通过（`/tmp/simulator-ui-rework-final-build.log`、`/tmp/simulator-ui-rework-docs.log`）；保留大chunk警告。
+- 首次Biome指出两个多余effect依赖，改为显式带来源的replacementScope后通过；未禁用lint规则。
+- 6011自有`simulator-smoke`工程，浏览器实际四目录/空态/添加与移除/技能入口均已操作。截图在本轮浏览器工具输出，未虚构落盘图片路径。
+  1920/1280/900/720宽检查：900宽装备与HP/MP成双列、720宽回落；DOM实测无页面/字段横向溢出，位置宽256px、移除按钮82px、readout技能上方间距12px。
+  搜索→方向键/Enter选中→取消后focus回“添加队员”；命名添加确认只增一人，移除后focus为“我方队伍配置”；长中文名称不撑破目录/表单。
+- 仅使用可丢弃的内存测试工程；没有保存测试改动、没有改PAL或真实用户工程。本轮不重复无变化的战斗视觉链，沿用旧候选有效的机制/隔离证据。
+- 既有边界继续披露：原生目录选择器的保存→重开浏览器正向链未完成（真实writer/loader/事务测试已过）；360主壳限制、full/Q1/Q2未跑。不能写成本轮全量E2E完成。
+
+## 历史候选与质量门（2026-09-20，cb44c378）
 
 产品候选 **bd4c67c6**（相对最新主线基点 **1bae48e4**）；r2/r2a范围完成实现，待独立终审，**不是done**。
 统一候选`cb44c378`已随文档提交`300f907f`快进合入main并推送；6010评审沙盒的实际主菜单/试打方案空态已验证。
