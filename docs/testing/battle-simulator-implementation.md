@@ -1,8 +1,17 @@
 # 战斗模拟器 r2 实施记录
 
-关联[任务卡](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[冻结设计](battle-simulator-r2-design.md)。
+关联[任务卡](../ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[冻结设计](battle-simulator-r2-design.md)。
 Coding Owner：Codex。起点 `af916f5b`，分支 `codex/editor-battle-simulator-r2`。
 隔离工作树：`/Users/zhangxu/.codex/worktrees/battle-simulator-r2/type-pal`。
+
+## 收口（2026-09-20）
+
+EDITOR-SKILL-TRIAL-1已**done**：主体fe0fee84与最终列宽补丁d394eccc三席accept齐、无counter，用户明确
+回复「UI 验收通过，可以收口」，Codex核定当前packages/scripts相对d394eccc零漂移后归档。
+本次仅归档/同步文档，不改产品或基线，不重新运行技术测试。主体7895/7404、列宽22项分别保持原候选口径。
+D-04/D-05按已批准首批范围关闭；四目录及原技能/敌人/敌队入口完成，不代表所有评估模块的新快捷入口均已接入。
+原生目录选择器保存→重开正向浏览器链未完成（真实事务/writer/loader集成通过）、360主壳限制、full/Q1/Q2未跑
+继续披露；正常存档隔离/功能视觉已经验收，不冒称完整E2E或第三阶段X5完成。无下一位Agent提示词。
 
 ## 列宽补丁：d394eccc（2026-09-20）
 

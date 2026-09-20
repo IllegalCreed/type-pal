@@ -1,13 +1,13 @@
 # 战斗模拟器 r2：首批冻结设计
 
-2026-09-19，Codex；关联[任务卡](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)及
+2026-09-19，Codex；关联[任务卡](../ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)及
 [全域复用评估](battle-simulator-assessment.md)。Revision：**r2 / 2026-09-19 保存裁决后冻结**；
 证据树 `ada82720`，生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`。
 当前勘误revision：**r2a / 2026-09-20**，用户澄清我方本来只有1～3人，不存在超过三人的需求。
-详见[任务卡r2a定点签字](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)；不再规划我方4～5人扩展。
-保存/隔离/四目录约定不变，r2a三席定点补核已齐，Codex于2026-09-20核定随r2主体恢复已批准范围build；不是已完成功能。
-人数签字不开放任何仍待用户确认的入口UI形态/新入口，正式功能视觉验收仍须由Codex执行。
-隔离分支进度见[实施记录](battle-simulator-implementation.md)。
+详见[任务卡r2a定点签字](../ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)；不再规划我方4～5人扩展。
+保存/隔离/四目录约定不变；r2a设计及首批实现三席齐，用户最终UI验收通过，2026-09-20由Codex核定done归档。
+本文件保留冻结设计，不将未获准的新入口或全域评估范围一并算作已实现；正式功能视觉由Codex执行。
+实际范围、分候选验证及保留边界见[实施记录](battle-simulator-implementation.md)。
 
 ## 1. 用户已确认的产品约定
 

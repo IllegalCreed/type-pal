@@ -248,7 +248,7 @@ node docs/testing/glm-coverage-queue-census.mjs --check
 - **Codex保留**：main/bootstrap/App/ScriptEditor/MapMode主壳集成、实际布局、原生句柄交互、视觉/音画、薄及完整E2E。
   可以由GLM提出可隔离的纯helper，但不能擅自改产品抽函数；AST调用链测试不冒充整页或浏览器覆盖。
 - **技能试放隔离**：main/boot、SkillTab/App/play URL、试放窗口、BattleSession入口及world→player输入构造保留给
-  [Codex当前卡](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)；本队列不抢修改权。E-02等已有缺陷即使行覆盖满也仍需修复。
+  [Codex当前卡](../ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)；本队列不抢修改权。E-02等已有缺陷即使行覆盖满也仍需修复。
 
 ## 可直接交给GLM的总提示词
 

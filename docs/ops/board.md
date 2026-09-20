@@ -20,13 +20,14 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | review | User：UI验收；Kimi / GLM：列宽增量 | fe0fee84三席准入已核通过；d394eccc仅4文件待两席确认，可与用户验收并行；保留披露，不标done |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM仅返工D6 sequence收尾 | 6d34ad5a的F1/E4及原7针闭环；第8针迟到提交MISSED；55/双包/tc/Biome/22跑绿，未集成，不重签 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM返工CR-R1～R4 | 0e49db91实际23项/原15跑；三见证MISSED、判据误收、Biome1error/回执不符；r2不重签，本轮未释放实施槽 |
 
+2026-09-20 [共享战斗模拟器首批](../testing/battle-simulator-implementation.md)主体fe0fee84及列宽补丁d394eccc三席accept齐，用户明确「UI验收通过，可以收口」，Codex已done归档。D-04/D-05关闭；原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保持，未扩展所有评估入口或宣布完整E2E完成。
+
 2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
 
-2026-09-19 Codex完成[E-01资源测试输入合同](../testing/phase1-resource-test-inputs.md)：20项无PAL依赖输入回归及真实资源对拍通过，check7478/严格fast6989绿；不改GLM目标面或游戏运行逻辑，不新增三签卡。用户已选D-05独立临时试玩，下一项联合D-04设计，裁决见[审计台账](audits/pre-e2e/editor-workflows.md#d-05--临时试放不改存档的告知与保存行为不一致)。
+2026-09-19 Codex完成[E-01资源测试输入合同](../testing/phase1-resource-test-inputs.md)：20项无PAL依赖输入回归及真实资源对拍通过，check7478/严格fast6989绿；不改GLM目标面或游戏运行逻辑，不新增三签卡。D-04/D-05独立临时试玩已于2026-09-20共同收口，裁决与历史证据见[审计台账](audits/pre-e2e/editor-workflows.md#d-05--临时试放不改存档的告知与保存行为不一致)。
 
 2026-09-19 Codex完成[E-03/E-04预览缓存常规修复](../testing/editor-preview-cache.md)：仅两个组件私有缓存，15项回归/7负控/原生绘制及check7457/严格fast6969通过；同Owner连续迭代不开新签字卡，不涉及资源格式或公共加载器。
 

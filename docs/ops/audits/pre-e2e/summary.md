@@ -139,10 +139,11 @@ content类型/校验/规则，migrate发布/物化/历史输出，reforge状态/
 
 ## 建议推进顺序
 
-2026-09-19新双线：[独立临时技能试放](../../tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)r1/draft，Codex已在正式loader接受的当前项目上复现固定PAL链接/缺队桩胜与临时授技可保存，
-拟在普通boot前独立分流、复用真实BattleSession、无正常SaveStore；保存隔离产品选择已批准，入口形态待确认，未改产品。
-GLM并行[运行时状态与元数据六组补测](../../../testing/glm-runtime-state-boundaries.md)r1/draft，11模块39待核族、既有10+80项绿，
-只增非视觉测试且不碰试放实现面；两卡独立签字准入，不逐组再签，不把准备工作计作新增覆盖率。
+2026-09-20收口：[共享战斗模拟器首批](../../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)主体fe0fee84及列宽补丁d394eccc
+三席accept齐、用户最终UI验收通过，Codex已done归档。D-04/D-05关闭：当前工程显式配置、真实BattleSession、独立临时world
+和无正常SaveStore路径已落实；[实施记录](../../../testing/battle-simulator-implementation.md)保留7895/7404与列宽22项的各自候选口径。
+原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。
+并行[运行时状态与元数据六组补测](../../../testing/glm-runtime-state-boundaries.md)仍独立推进，当前状态以看板为准，不随本卡关闭。
 
 2026-09-18双线推进：[EDITOR-SCENE-REF-GUARD-1](../../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)r1三席设计齐后已实现，
 Codex完成disabled/inherit/transition三漏边修复、22回归/PAL真树补1边/三负控及最小界面验证，check7442/严格fast6954通过，
@@ -203,8 +204,8 @@ Codex复算真实注册B11业务红、B12正式capture/codec/restore正控绿；
   用户在评审中补充：现有开发档可全部作废，无需迁移/恢复/兼容；主要保障发布后玩家的不同工程进度互不覆盖。
   隔离落实到读写地址而非仅读后校验；该废弃许可不适用于未来正式用户存档，不改变当前 r2 方案或重开签字。
 - D-05（2026-09-19已裁决）：**独立临时试玩，不读写正常存档，关闭即丢弃测试状态**。
-  与D-04下一项共同设计；修当前工程真实试放入口与临时状态隔离，不引入第三阶段X5全套配置，不改普通试玩/正式游戏保存规则。
-  原审计仅证明主动保存会保存临时技能/999MP，不把它夸大成已证明立即自动覆盖。裁决不是已实现或build准入，跨包/保存边界仍须开卡核签。
+  已与D-04共同完成共享模拟器首批并于2026-09-20三席及用户验收后done，不引入第三阶段X5全套配置，不改普通试玩/正式游戏保存规则。
+  原审计仅证明主动保存会保存临时技能/999MP，不把它夸大成已证明立即自动覆盖；历史证据保留，实际实现与边界见上方收口记录。
 - 其余已确认保持现有合同的普通修复不反复询问产品取舍；Agent负责把事实核准。
   高风险变更另开卡、前提证据与三签按协议执行；已经验收的旧卡不重复签同一结论。
 

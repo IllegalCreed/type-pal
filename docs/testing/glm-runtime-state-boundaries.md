@@ -5,7 +5,7 @@
 独立结果：55定向、双包685/1235、tc/16文件Biome/原22跑绿；新第8针发现迟到提交漏检。
 见[当前复核](runtime-state-review.md)，未集成、不转Kimi、不更新官方基线；下面GLM回执保留候选自验原文，不能覆盖本席裁决。
 生产冻结：`e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM负责非视觉测试，Codex负责独立接收/集成，Kimi终审。
-与[独立技能试放卡](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)分开；不是继续修改已done的运行时十模块包。
+与[独立技能试放卡](../ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)分开；不是继续修改已done的运行时十模块包。
 一次完成六组，39个待核用例族；不是39条或某个固定数量的新测试承诺。已有有效断言直接复用登记，未知合同隔离，不凑覆盖率。
 
 ## 派发时事实（Codex独立核定）

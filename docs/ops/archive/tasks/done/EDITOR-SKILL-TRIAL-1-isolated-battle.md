@@ -1,6 +1,6 @@
 # EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打
 
-Status: review
+Status: done
 Phase: phase2
 Capability: D-04/D-05修复及共享战斗模拟器首批；不启动第三阶段X5
 Coding Owner: Codex
@@ -12,20 +12,28 @@ Branch: codex/editor-battle-simulator-r2
 
 Revision: r2a / 2026-09-20人数勘误；用户明确我方本来就只有1～3人，不扩展4～5人。保存/隔离/四目录约定不变，人数三席已齐并经Codex核定随r2主体恢复已批准范围的build。生产冻结`e58834f6389a40ffe9f187e6a8051f552e964d79`；r1和r2人数旧签保留历史。
 用户此前裁决仍保留：**独立临时试玩，不读写正常存档，关闭试放即丢弃测试状态**。
-本卡与[GLM六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)独立；后者只改新的非视觉测试，Codex只改本卡产品面。
+本卡与[GLM六组补测](../../../tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)独立；后者只改新的非视觉测试，Codex只改本卡产品面。
 此前已核r2三席设计准入并开始首批实现；2026-09-20发现我方人数前提不完整，用户已澄清原需求是1～3人。本轮核定r2a三席补核完成，不再等待人数选择或重签；r1不实施。
 
-## done准入核定与用户UI验收（Codex，2026-09-20）
+## 完成收口（Codex，2026-09-20）
+
+**done allowed → done。** 用户明确回复「UI 验收通过，可以收口」；Codex核定主体fe0fee84与最终列宽补丁
+d394eccc三席accept齐、无counter，当前产品树相对d394eccc零漂移。用户最终验收与全部审查门均满足，
+按终态规则归档任务卡并同步看板/索引；不代签、不借收口重开其它测试包或扩展新入口。
 
 按用户本轮指定候选核定：**fe0fee84三席审查条件已满足**，Codex在`9b4ee229`落卡、GLM在`7734e94a`、
 Kimi在`ce54967c`均明确对同一候选accept，无当前counter；cb44c378机制accept按历史范围保留，不替代增量签。
-主体审查不重开，可交用户做最终UI验收；本次只查签字/既有证据和最终diff，没有重跑技术测试。
+主体审查不重开，用户最终UI验收亦已确认；本次只查签字/既有证据和最终diff，没有重跑产品技术测试。
 
-**当前整卡尚不能done**：用户随后要求的列宽补丁`d394eccc`已经合入，HEAD的packages/scripts相对它零diff，
-但它相对fe0fee84恰多4文件增量，Kimi/GLM尚未签此增量。不能把fe0fee84签字外推，也不为收口回退已修UI。
-两席只需确认下面列宽补丁，不重审模型、引擎和保存机制；可与用户UI验收并行。Status仍review，不代签、不记用户已通过。
+**最终核定：主体与列宽补丁的三席审查门均已通过，用户最终UI验收亦已通过。**
+列宽补丁`d394eccc`：Codex自验已落`24bc106c`、Kimi `bae06842`与GLM `e40aaff3`均对同候选accept，
+无counter/返工项；HEAD的packages/scripts相对它零diff，两份新签提交仅改本人审查记录。
+这不是把fe0fee84签字外推；补丁已获得独立增量确认。不再追加Agent审查、不重跑已核技术测试。
+Status为done，用户裁决依据为本轮明确回复；本次只更新收口文档/路径，不改产品或覆盖率基线，不倒填新测试记录。
 
-### 用户最终UI验收（约2–3分钟，无需跑测试）
+### 用户最终UI验收（已明确通过；清单留档）
+
+用户已确认本节范围通过并授权收口。以下为已交付的验收清单；不把用户确认倒填成新的Agent测试运行。
 
 入口：编辑器顶栏 **战斗模拟器 → 试打方案 → 本场临时方案**。若已有临时配置直接使用，不要覆盖；空配置可添加
 一个已有可参战角色（PAL工程可选李逍遥）。以下界面已由Codex实测，用户只需判断产品效果：
@@ -36,13 +44,15 @@ Kimi在`ce54967c`均明确对同一候选accept，无当前counter；cb44c378机
    将窗口缩窄到约900px：自动换行、不裁切；将编队来源切换引用/临时、技能模式切换继承/指定，列宽不跳变。
 3. 在「指定技能」里勾选/取消一项：外部已选数量同步变化，关闭后表单不变成长串按钮。
 
-任一项不符合，保留已通过项，只记录失败项；通过可回复「UI验收通过」。无需重新验证已接受的保存事务、存档隔离、
-战斗公式/战斗全过程，也不让用户替Agent跑命令。用户UI通过与列宽增量审查是两个门，均满足后由Codex统一收口。
+该清单无需重新执行。保存事务、存档隔离、战斗公式/战斗全过程沿用已接受证据，不让用户替Agent跑命令。
+用户UI通过与列宽增量审查是两个门，本轮均已满足并由Codex统一收口。
 
 披露边界保持：原生目录选择器保存→重开正向浏览器链未完成（真实writer/loader/事务集成已过）；360宽沿现有主壳限制；
 full/Q1/Q2未执行，不能写成全量E2E完成。两席此前对这些边界的非阻断判断仍按原范围保留。
 
-### 下一位Agent提示词（仅列宽4文件增量，两席并行）
+无下一位Agent提示词，本卡已收口。下方历史提示词和旧阶段状态不再授权执行。
+
+### 历史：列宽4文件增量提示词（两席已完成，不再发送）
 
 **Kimi：**
 
@@ -71,7 +81,7 @@ full/Q1/Q2未执行，不能写成全量E2E完成。两席此前对这些边界�
 
 - Codex：**accept（2026-09-20，自验）**。定向22/22、editor TC/Biome/build通过；四档真实浏览器测量同组22个下拉/多选，
   1920/1280/900/720宽均等宽，继承/指定与敌队引用/五槽切换后不跳宽，内部网格无横溢、控件无出屏。
-  具体数值/初轮裁切发现与修正见[实施记录列宽补丁](../../testing/battle-simulator-implementation.md)。
+  具体数值/初轮裁切发现与修正见[实施记录列宽补丁](../../../../testing/battle-simulator-implementation.md)。
   本补丁未重跑全仓check/覆盖率，也未修改基线；fe0fee84的7895/7404保持其原候选口径，不能倒填成新跑。
 - Kimi：**accept（2026-09-20，列宽补丁 d394eccc 增量对比 fe0fee84；4 文件本人直读/主树复跑，未读 GLM 补丁结论）**。
   - **4 文件白名单属实**：产品仅 `BattleSimulatorForms.tsx` 5 处 className 调整（删 4 处
@@ -102,7 +112,7 @@ full/Q1/Q2未执行，不能写成全量E2E完成。两席此前对这些边界�
   - **CSS 快照恰一行**：`.trial-config-columns` 的 `auto-fit`→`auto-fill`，无其它 selector。
   - **本席复跑 22/22**（battle-simulator-ui + field-layout-adoption + number-field-adoption）。
   - 四尺寸像素测量归 Codex 视觉证据；选择器/360/full-Q1-Q2 边界保持。无 counter。
-- 状态仍review，整卡done关闭；主体三签门已核通过。列宽增量提示词及用户UI验收清单见上方，不重复机制审查。
+- Codex准入核定：列宽补丁三席accept齐，无counter；与主体三签合并判断，技术审查门全部通过。用户最终UI验收已通过，随整卡done；无下一位Agent提示词。
 
 交接日志（GLM，2026-09-20 列宽增量）：对 d394eccc 相对 fe0fee84 的 4 文件列宽补丁完成独立
 确认并签 accept（证据见上）：白名单恰 4 文件、Forms 仅 className、CSS 删私有限宽并
@@ -119,7 +129,7 @@ r2/r2a保存、隔离、人数与四目录架构不变，不重签设计；本�
 `:182`三项位置枚举占整行；`:319-343`readout内部无间距owner；`battle-simulator.css`的1fr分列仍拉宽短控件。
 复核域：四目录和快捷试打弹窗，含队员/物品候选弹窗、确认前零修改/关闭归焦、短枚举/引用/长文本宽度、
 有效值与技能分组间距、临时配置覆盖/取消语义。不改模型、存储、引擎和公共控件默认尺寸。
-实现与证据详见[实施记录UI-r1节](../../testing/battle-simulator-implementation.md)：公共候选弹窗明确确认、短选项限宽、
+实现与证据详见[实施记录UI-r1节](../../../../testing/battle-simulator-implementation.md)：公共候选弹窗明确确认、短选项限宽、
 自适应列、readout与快捷弹窗节奏、删行归焦，以及命名/快捷入口两条临时配置覆盖确认。
 
 ### done前（UI-r1，候选fe0fee84）
@@ -176,7 +186,7 @@ r2/r2a保存、隔离、人数与四目录架构不变，不重签设计；本�
   - **基线精确性直读**：`baseline.fast.json` diff 仅计数/digest（7400→7404 恰 +4：UI 7→10、
     leave-guard 31→32），零排除增删、零范围文件增删，无缩范围。
   - 旧候选的机制/隔离/负控结论未变化，按卡面保留不重开；视觉四尺寸归 Codex。无 counter。
-- done准入（仅fe0fee84主体）：**三席审查门已通过**，等待用户UI验收；当前整卡还需d394eccc列宽增量确认，详见顶部核定。不代签、不标done。
+- done准入（fe0fee84主体）：**三席审查门已通过**，d394eccc列宽增量三席亦已确认；用户最终UI验收通过，已由Codex统一done，详见顶部核定。
 
 ### UI-r1并行交接提示词
 
@@ -211,7 +221,7 @@ DsAddPickerDialog 采用登记与源码逐一对上（5→7/6→16，旧登记�
 
 相对主线基点`1bae48e4`；产品候选`bd4c67c6`，`cb44c378`包含同树官方覆盖率基线和实施回执。
 r2/r2a首批已实现，进入review；**done门未开放，不代签**。详细源码/测试/失败修正/视觉边界见
-[实施记录](../../testing/battle-simulator-implementation.md)。本卡测试由Codex编写，不把GLM其它补测包当作独立证明。
+[实施记录](../../../../testing/battle-simulator-implementation.md)。本卡测试由Codex编写，不把GLM其它补测包当作独立证明。
 
 用户本轮指出的图标偏色、横跨整行按钮和技能选择均已处理：恢复既定彩色/灰/暗红三态、不改HUD布局；
 同行操作与容器自适应列复用现有规范；指定技能用可搜索勾选多选与计数。人数勘误不变，不扩展其它业务页新快捷入口。
@@ -424,10 +434,10 @@ r1旧小弹窗的“待确认”只作为历史记录，不恢复该方案，也
 
 ## r2本轮推进（GLM返工期间独立准备）
 
-实施进展见[独立工作树回执](../../testing/battle-simulator-implementation.md)：已落S1配置/命令与保存基础；
+实施进展见[独立工作树回执](../../../../testing/battle-simulator-implementation.md)：已落S1配置/命令与保存基础；
 真实试打、完整UI和引用诊断尚未接入，当前不交终审。可重建四针负控见同附件；不修改GLM返工树或官方覆盖率基线。
 
-已将方向收敛为[首批冻结设计](../../testing/battle-simulator-r2-design.md)，包括真实源码四向证据、
+已将方向收敛为[首批冻结设计](../../../../testing/battle-simulator-r2-design.md)，包括真实源码四向证据、
 四目录字段/继承/覆写、推荐工程内文件、现有保存事务/撤销/重开接入、一次性内存启动协议、10组验收边界。
 同任务交互草图已制作；用户在确认“只是示意图、内容不完整”后明确“大方向我觉得没问题”。
 据此记录四目录布局/操作流程的大方向通过，不再重复询问；不是逐字段清单或正式产品视觉验收通过。
@@ -563,7 +573,7 @@ r1旧小弹窗的“待确认”只作为历史记录，不恢复该方案，也
 技能、敌队、战场以及可以在战斗中使用或投掷的道具等编辑入口，应复用同一个战斗模拟器，而不是各建一套试打。
 本次是产品方向讨论与旧方案修订；并未授权一次实现所有高级调试功能，也未决定预设文件格式/存储位置或新页面形态。
 
-用户随后要求整体评估所有战斗相关模块。已完成[8模块27子页复用评估](../../testing/battle-simulator-assessment.md)：
+用户随后要求整体评估所有战斗相关模块。已完成[8模块27子页复用评估](../../../../testing/battle-simulator-assessment.md)：
 7个直接入口、8个上下文入口/配置来源、12个保留专用验证；逐项列出可验证边界、我方预设/试打方案、三批接入与N6b/Q2依赖。
 这些是建议范围，不是已获实施授权或已完成视觉验收；不把世界专用物品、剧情结局、场景遇敌全流程冒称战斗模拟器覆盖。
 
@@ -628,7 +638,7 @@ r1旧小弹窗的“待确认”只作为历史记录，不恢复该方案，也
 | 当前可复用边界 | shop-trial.ts:17/38及main.ts:355-359在普通世界/SaveStore之前分流；BattleSession.done/cancel/tick/render提供独立会话生命周期（battle-session.ts:341/:636/:644/:1191/:2543） |
 | 目标 | 独立试放在普通boot之前早分流；不进入标题读档/SaveStore初始化/元数据预读/探索循环/自动存档，真实BattleSession承担施法，不另写战斗核 |
 
-可重建前提：[skill-trial-premise.mjs](../../testing/skill-trial-premise.mjs)，
+可重建前提：[skill-trial-premise.mjs](../../../../testing/skill-trial-premise.mjs)，
 `node --import tsx docs/testing/skill-trial-premise.mjs`。
 Codex本树实测：空白seed补入所选合法技能后通过正式loadCurrentProjectFrom，敌队表为空；真实SkillTab SSR链接仍s001/0，
 实际场景回退start、startBattleBody返回victory且session构造次数0。
@@ -696,8 +706,8 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 
 ## 上下文与验收
 
-- [READ-FIRST](../../phase2/READ-FIRST.md)、[D-04/D-05审计及用户裁决](../audits/pre-e2e/editor-workflows.md)、[已收口存档隔离](../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md)、[世界异步提交](../../testing/world-async-commit.md)。
-- [harvest](../../phase2/reference/phase1-knowledge-harvest.md) X7/X8/B仅核现有资源/所有权教训，旧“现状”不当当前事实；本卡不重裁公式/原版怪癖。
+- [READ-FIRST](../../../../phase2/READ-FIRST.md)、[D-04/D-05审计及用户裁决](../../../audits/pre-e2e/editor-workflows.md)、[已收口存档隔离](SAVE-ISOLATION-1-project-workspace-save-scope.md)、[世界异步提交](../../../../testing/world-async-commit.md)。
+- [harvest](../../../../phase2/reference/phase1-knowledge-harvest.md) X7/X8/B仅核现有资源/所有权教训，旧“现状”不当当前事实；本卡不重裁公式/原版怪癖。
 - 主/脚本dirty与身份复验参考ShopTab.tsx:178-189；shop-trial.test.ts已有早分流禁止SaveStore的验证模式，需加强为真实新项目/真实BattleSession。
 
 验收必须同时具备：
@@ -959,6 +969,6 @@ docs/testing/battle-simulator-r2-design.md；全域评估仅作背景。
 
 ### r1历史交接（不再使用）
 
-与[并行补测卡交接区](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md#下一位agent提示词)同发两份完整提示词。
+与[并行补测卡交接区](../../../tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md#下一位agent提示词)同发两份完整提示词。
 Kimi/GLM独立审本卡r1与冻结e58834f6，各自直接写本人签字/证据/日志并提交推送，不代签、不改状态、不标build/done。
 GLM本卡只审设计/矩阵，不修改试放实现；三签齐前Codex不得开始产品实现，UI产品门独立保留。

@@ -94,8 +94,10 @@ Codex[验证回执](../../../testing/sprite-selection.md)含20新＋2旧测试�
 
 ## D-04 · 技能“战斗中试放”仍固定旧工程入口
 
-2026-09-19：[EDITOR-SKILL-TRIAL-1](../../tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)已开r1/draft，
-新[当前API前提探针](../../../testing/skill-trial-premise.mjs)复现两问题，旧probe保留历史；未开始实现，不宣称已修。
+**修复状态（2026-09-20）：已完成。** [EDITOR-SKILL-TRIAL-1](../../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)
+主体fe0fee84及列宽补丁d394eccc三席accept齐、用户最终UI验收通过，Codex已done归档。
+当前工程显式配置、真实BattleSession、缺敌人可操作拒绝及独立试玩已验证；详见[实施记录](../../../testing/battle-simulator-implementation.md)。
+原生选择器/360主壳/full-Q1-Q2边界保持，不扩成所有评估入口或完整E2E通过。下方与[前提探针](../../../testing/skill-trial-premise.mjs)保留修复前证据。
 
 - `SkillTab.tsx:1120`URL写死`scene=s001&battle=0`，只将project/workspace/skill做参数化。
   新空白工程真实种子只有start场景，未生成敌队0（`core/seed.ts:164-166,222-245`）。
@@ -115,9 +117,9 @@ Codex[验证回执](../../../testing/sprite-selection.md)含20新＋2旧测试�
 ## D-05 · 临时试放“不改存档”的告知与保存行为不一致
 
 **2026-09-19用户已裁决：采用独立临时试玩，不读写正常存档，关闭试放即丢弃测试状态。**
-下一项与D-04共同准备方案：使用本工程真实可用的试打对象、缺条件明确反馈；不把缺敌队的桩胜算试放成功。
-这项裁决确定保存隔离方向，不等于已实现或已开放build；入口/隔离边界核清后按跨包、存档相关风险开卡走设计准入。
-范围不扩成第三阶段X5全套前置状态编辑，也不改变普通试玩/正式游戏的存档规则。
+**2026-09-20已随D-04共同完成并done。** 正常boot前独立分流，临时world不构造正常SaveStore，启动/取消/重开及
+真实战斗边界已通过三席审查和用户UI验收；实现、测试与保留边界见上方同卡实施记录。
+范围不扩成第三阶段X5全套前置状态编辑，也不改变普通试玩/正式游戏的存档规则。下方是原审计时点的缺陷证据。
 
 - `SkillTab.tsx:1119`title明确写“临时授此技试放（不改存档/项目数据）”；
   `main.ts:6950-6958`也称“不落档”，但直接改活动world的learnedSkills、maxMP和MP。
@@ -131,7 +133,7 @@ Codex[验证回执](../../../testing/sprite-selection.md)含20新＋2旧测试�
   本轮没有运行真实战斗收尾与键盘F5事件，接线由源码确认，写槽反例由原保存函数体执行。
   空闲save barrier、缩略图/解码为边界桩，存储仅内存；同projectId案例，不重复A-01跨项目命名空间问题。
 - 这是一项已确认的隔离/告知承诺缺口，**不是把用户主动保存视为错误操作**。
-  审计时尚待产品选择；当前已按上方用户裁决确定独立临时试玩，尚未实施。
+  审计时尚待产品选择；后续按上方用户裁决实现独立临时试玩，已于2026-09-20收口。
   独立商店试买已有不boot world、不建SaveStore的隔离路径（`shop-trial.ts:1,63`），未发现同样缺口。
 - E2E：选择约定后验证试玩→退出→F5/菜单保存→返回原游戏读档，临时状态和真实进度按明确合同处理。
 

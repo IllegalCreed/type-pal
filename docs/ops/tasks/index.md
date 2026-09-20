@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](EDITOR-SKILL-TRIAL-1-isolated-battle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
@@ -110,6 +109,7 @@
 | [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SAVE-RECOVERY-1 - 编辑器保存中断恢复](../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SCENE-REF-GUARD-1 - 场景删除前的引用保护补齐](../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SPRITE-PICK-1 - 精灵上传选图异步归属](../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [JS1 - 酒神一生九次限用与移除(持久化计数器)](../archive/tasks/done/JS1-jiu-shen-nine-use-limit.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [M3 - 迁移脚本去内联、按场景分片与体积门禁](../archive/tasks/done/M3-wander-arm-explosion.md) | done | 完成证据、历史签字与交接见原卡。 |

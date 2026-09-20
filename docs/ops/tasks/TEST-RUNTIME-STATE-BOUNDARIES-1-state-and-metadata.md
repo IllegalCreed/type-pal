@@ -12,7 +12,7 @@ Unavailable Agents: none
 Branch: codex/glm-runtime-state-boundaries-r1
 
 Revision: r1，2026-09-19；生产冻结`e58834f6389a40ffe9f187e6a8051f552e964d79`。
-用户要求“再给GLM一大批任务，Codex同步推进下一项”。本卡独立于[技能试放卡](EDITOR-SKILL-TRIAL-1-isolated-battle.md)，一次设计准入后六组连续完成。
+用户要求“再给GLM一大批任务，Codex同步推进下一项”。本卡独立于[技能试放卡](../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)，一次设计准入后六组连续完成。
 唯一工作包/39族/文件白名单/执行纪律：[GLM六组补测](../../testing/glm-runtime-state-boundaries.md)。
 
 ## 目标与范围
