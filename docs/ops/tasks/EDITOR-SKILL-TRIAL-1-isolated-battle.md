@@ -36,7 +36,32 @@ r2/r2a保存、隔离、人数与四目录架构不变，不重签设计；本�
   本人实看1920/1280/900/720宽四目录与快捷弹窗，搜索键盘选中/取消归焦、命名添加/移除、长名、窄窗双列/回落均验证；
   技能读数间距实测12px、位置256px、移除82px，未见横向溢出。Reforge/content/编辑器core/play相对旧候选零diff。
   既有原生目录选择器、360宽主壳和full/Q1/Q2边界仍按实施记录披露；未把机制旧签复用为新UI验收。
-- Kimi：pending（UI-r1增量审查；旧机制accept保留于历史节）。
+- Kimi：**accept（2026-09-20，UI-r1 候选 fe0fee84 增量对比 cb44c378；全部锚点本人直读/主树复跑，结论形成于读他席新结论前）**。
+  - **DsAddPickerDialog 合同（公共控件本轮零改，只增采用登记）**：`add-picker.tsx:116-126`
+    revision/scopeKey/readOnly/可用性变化即关闭；`:128-140` 已选候选失效或被过滤即清选择；
+    `:142-171` 确认是唯一变更路径，cycleRef 拒迟到异步结果；取消/Escape 只 resetDraft 零命令。
+    Forms 接线：`BattleSimulatorForms.tsx` 队员/物品两处 `revision=useMemo({state,value})`——undo
+    或外部变化改变 identity 即关弹窗；onConfirm 复核上限/候选存在，失败返 false 不变更；
+    候选排除已配置项；删行先 focus sectionRef 再移除，picker fallbackFocusRef 回区域。
+  - **临时配置两入口覆盖确认**：命名方案入口 `BattleSimulatorWorkbench.tsx:206-216`——已有 changed
+    临时草稿且不在草稿视图时先入 replacement 确认，取消保留旧草稿、明确「放弃旧调整并替换」才
+    onDraftChange；`replacementScope` 以 {state,draft,directory,objectId} identity 失效过期确认
+    （:82-94、:709 双重比较）。快捷入口 `App.tsx:3557-3563`——trialDraft.changed 时走 setTrialLeave
+    确认，否则直接进；确认文案改为「放弃本场临时配置？」。命名记录仍走
+    SetBattleSimulatorLibraryCommand（可撤销），临时草稿隔离，二者互不染。
+  - **未私改公共控件默认尺寸**：battle-simulator.css 全部为业务容器类——间距一律 --ds-space-* 令牌，
+    短选项 16rem、引用/字段子项 ≤24rem、容器 auto-fit 起步 16rem 总宽 ≤72rem、元数据 56rem、
+    readout 52rem、背包/行内入口 36rem；未改 design-system 组件 CSS 或控件默认值。采用登记
+    add-picker 5→7 owner、6→16 数据路径为精确扩容，deferred 不变；CSS census 快照仅随新类名 +2 行。
+  - **范围与基线**：增量 diff 只触 editor UI/测试/采用登记/文档/baseline；reforge、content、
+    editor core、play.ts、migrate、projects、data 零 diff。baseline 7400→7404 恰 +4
+    （UI 7→10、leave-guard 31→32），editor 2514→2518，无缩范围。
+  - **本席复跑**：battle-simulator-ui 10 项+App.leave-guard 32 项全绿（含新 picker 两条、替换
+    确认、快捷入口确认四条新工作流）；add-picker/field-commit/boundary 采用门 68 项全绿。
+    check7895/ratchet/strict7404/build 与四尺寸视觉采信 Codex 已落证据，本人不重复视觉。
+  - **披露边界**：原生目录选择器/360 主壳/full-Q1-Q2 旧边界如实保留，判断同前不阻断。
+    旧版本兼容审查 pass：仅编辑器 UI 采用方式变化，无格式/兼容分支。
+  - 返工项：无。
 - GLM：**accept（2026-09-20，UI-r1 候选 fe0fee84 对比 cb44c378；代码级交互/采用清单复核，未做视觉）**。
   本席独立复跑与直读证据：
   - **定向复跑全绿**：`scripts/battle-simulator-ui.test.tsx` 10/10、`src/ui/App.leave-guard.test.tsx`
@@ -653,6 +678,17 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+
+- 2026-09-20 Kimi（UI-r1 增量审查）：候选 fe0fee84 对比 cb44c378，签 accept。独立证据（结论
+  形成于读 GLM 新结论前）：DsAddPickerDialog 公共控件零改、只增 2 条采用登记（5→7 owner、
+  6→16 数据路径精确扩容）；Forms 两处 picker 以 revision=useMemo({state,value}) 接线——undo/
+  外部变化关弹窗、确认前零命令、onConfirm 复核上限与候选；Workbench 命名方案与 App 快捷入口
+  两条路径均有 changed 草稿覆盖确认，replacementScope identity 失效过期确认；CSS 全为业务
+  容器类+--ds-space-* 令牌，未改公共控件默认尺寸。本席复跑：UI 10+leave-guard 32 全绿、
+  采用门 68 全绿；增量范围仅 editor UI/测试/采用登记/文档/baseline，reforge/content/core/
+  play 零 diff；baseline 7400→7404 恰 +4 无缩范围。check7895/ratchet/strict7404/build 与四尺寸
+  视觉采信 Codex 已落证据，未重复视觉。旧披露边界（原生选择器/360 主壳/full-Q1-Q2）不阻断。
+  未改实现/他席/状态，不标 done。Next：两席同候选 accept 齐后交 Codex 核 done 准入与用户验收。
 
 - 2026-09-20 Kimi（独立终审，落盘期间卡转 rework）：对统一候选 cb44c378（对比 1bae48e4）完成
   代码级终审，签 accept 留作历史技术证据（不含 UI 验收、不授权旧候选 done）。独立证据：
