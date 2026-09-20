@@ -106,3 +106,28 @@ ENOENT（data/extracted 未跟踪，stash 基线同样失败）；官方 fast �
   inventory L83→84 B64→66、in-game-magic-menu B89→90；全包 L10263→10270/13604、
   B7498→7513/11281。
 - 机器账 `docs/testing/glm-game-menu-boundaries-evidence.json`。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 8 针复跑全绿。
+- **C1**：11 个新文件（含 JSON/config）Biome rc=0；机账同步最终树数字。
+- **R08-1**：done 相位断言补齐——同一 state 调用前后 structuredClone 完整相等（done 阶段
+  错写 phase 或任何副作用即红）。
+- **R08-2**：撤回 pageUp/pageDown 保活（已签排除无 caller），保留 moveSelection 跨页视窗轴；
+  缺 spell/坏角色空表轴标题注明防御分类。一期 roleId 数值身份不变；outdoor 过滤差异保持隔离。
+- 复跑：定向 16/16、全包 132 文件/2301 项（dev-panel 预存裁决一致）、tc rc=0、
+  官方 fast 2271→2288 双 exit0。机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据收紧为**精确且唯一目标**——`title` 全等 filter、命中恰 1（后缀冒名
+  「other target」与重名双 target 均拒绝）、failed、非空、首行业务错误。运行态块与自测
+  **共用**（AST 抽取两块拼接执行），补后缀冒名/重名/未失败/空消息/普通Error内嵌/纯超时
+  反例；不再有独立 pinnedVerdict。
+- **C1**：全部 JSON/SHA 回填后按 git 新增清单完整白名单 Biome rc=0（含 JSON）。
+- 本批无业务残项（review 已关闭项保持）；复跑原负控 3+8 全绿；
+  glm-nine-rework-witnesses 9/9 判据双反例拒绝、3 针 detected。
+- 计数按 Codex 实测更正：定向 17。
