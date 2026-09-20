@@ -160,5 +160,47 @@
     "integrated": false,
     "officialCoverageChanged": false,
     "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  },
+  "rework": {
+    "intakeReview": "docs/testing/glm-nine-intake-review.md (Codex counter 1f38bb29)",
+    "generatedAt": "2026-09-19T12:31:09Z",
+    "C0": "判据改为每条 failureMessages 首行 /^AssertionError(\\b|:)|^expect\\(/（运行态 pin 块内联同形谓词 + 四向自测新增普通Error内嵌AssertionError/纯超时反例）",
+    "C1": {
+      "command": "pnpm exec biome check <git 新增清单全部 TS/MJS/MTS/JSON>",
+      "exit": 0,
+      "files": 10
+    },
+    "R07-1": "三 fixture 过正式 guard——S01 叶命令 dialogue→wait（current 合法 kind，validateAuthorSharedScripts 接受）；S03 makeCanonical().scenes 过 validateAuthorScenes（pages 带 label、hooks 为对象+onEnter variants、hostile enemyTeamId+命令数组 onLose+完整 policy 对象；onVictory 未定义轴改用运行时 delete 变体）；S06 gourdItem 过 validateItems（use.target/consuming + resource 完整字段），探针 accepted；S01 顶层 body 数组整体过 validateAuthorSharedScripts（branch/loop/confirm/startBattle/teleportOut 补齐 cond/mode/yield/maxIterations/enemyTeamId 等现行合法字段，witness factory accepted）",
+    "R07-2": "撤回两条已排除轴——空 rewards fallbackItemId 兜底（注释注明政策归属）、authorScripts 缺席退 library；保留合法扩容与显式空数组不退回轴（针点保留在该轴）",
+    "R07-3": "S02 三轴补齐（script-editor.hooks-session.test.ts 3 项）：SaveSceneHookDetails default 隔离（isDefault=true 换默认/非默认保存不动现有默认/取消当前默认删 initial+三步 undo 链）；缺 target（不存在 hook/通道）拒绝后 state/undo/redo/version/dirty 全保真且拒绝未污染历史；最后未引用 hook 逐层删除（非 initial 未引用变体直删、initial 引用拒删点名引用、清 initial 后 channel 与 hooks 整键清理+undo 链恢复双变体）",
+    "tests": {
+      "packageFull": "248 files / 2536+3 tests：3 项预存（world-sprite PAL ENOENT×2、audit 并行超时×1，Codex 裁决一致；audit 隔离绿）",
+      "typecheck": "rc=0"
+    },
+    "mutants": {
+      "command": "node docs/testing/glm-editor-script-helpers-mutants.mjs",
+      "exit": 0,
+      "controls": 3,
+      "needles": 7
+    },
+    "coverageRerun": "官方 fast before 2359（222 文件）/ after 2380（229 文件）双 exit0（最终返工树重跑；config newFiles 补入 hooks-session 文件）",
+    "witnessRerun": "glm-nine-intake-witnesses: 9/9 判据拒绝普通Error内嵌AssertionError、5/5 合法 factory accepted、7 对照绿、TB-03/06/08 针 detected（本批无独立针）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:48:19Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名等反例",
+    "C1": {
+      "note": "全部回填后 10 文件完整白名单 Biome（提交前 rc=0）"
+    },
+    "R07-3非空redo": "S02 缺 target 用例先落两笔合法编辑再 undo 建立**非空 redo**；拒绝（ghost hook/错通道）后断言 canRedo 保持 true 且 redo() 精确重放 hook-b 编辑（label 恢复），再两次 undo 回初始双变体——拒绝不污染 redo 内容/顺序",
+    "stateAlias澄清": "getState 深克隆（script-editor.ts:1315）不可误判快照别名；'拒绝时污染 state' 单点已由本批用例检出，按 Codex 不列 counter",
+    "attributionFix": "撤回 audit-performance 并行超时'Codex已裁决'归因——首轮仅豁免具体资产 ENOENT；该超时如实记录为未豁免环境失败",
+    "reworkWitness": "glm-nine-rework-witnesses: 9/9 判据双反例拒绝、rejected-session-clears-redo 针 detected、PNG 三态 valid",
+    "counts": {
+      "targeted": 21,
+      "controls": 3,
+      "needles": 7
+    }
   }
 }

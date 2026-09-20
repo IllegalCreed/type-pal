@@ -98,3 +98,35 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字
   script-reference-catalog B11→12、enemy-defeated-events B214→218；
   全包 L22346→22348/27865、B19264→19286/27593。
 - 机器账 `docs/testing/glm-editor-script-helpers-evidence.json`（S02 未落与余量归属见 knownBoundaries）。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 7 针复跑全绿。
+- **C1**：10 个新文件（含 JSON/config）Biome rc=0；机账同步最终树数字。
+- **R07-1**：三 fixture 过正式 guard——S01 `dialogue`（退役）改 `wait`（current 合法）；
+  S03 canonical scenes 过 validateAuthorScenes（label/hooks 对象/hostile 完整 policy；onVictory
+  未定义轴用运行时 delete 变体）；S06 gourdItem 过 validateItems（consuming+resource）。
+- **R07-2**：撤回空 rewards fallback 与 authorScripts 缺席退 library 两条已排除轴（注释注明
+  政策归属）；保留合法扩容与显式空数组不退回轴（针点钉在后者）。
+- **R07-3**：S02 三轴补齐——新增 `script-editor.hooks-session.test.ts`（3 项）：default 隔离
+  （换默认/非默认不动现有默认/取消当前默认删 initial + undo 链）、缺 target 拒绝后 session/
+  history 完整保真、最后未引用 hook 的 variant→channel→hooks 逐层清理（initial 引用拒删点名）。
+- 复跑：定向全绿、全包（3 项预存裁决一致）、tc rc=0、官方 fast 2359→2380 双 exit0。
+  机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据精确唯一目标（全等+恰1+failed+非空+首行业务错误），运行态/自测共用
+  AST 抽取块，补后缀冒名/重名反例。
+- **C1**：全部回填后 10 文件白名单 Biome rc=0。
+- **R07-3 非空 redo**：缺 target 用例重写——两笔合法编辑 + undo 建立**非空 redo** 后再触发
+  拒绝；断言 canRedo 保持、`redo()` 精确重放 hook-b 编辑（label 恢复），两次 undo 回初始
+  （双变体 label/initial 全恢复）。单点「失败 dispatch 清空 future」即红。
+- state 快照别名澄清采纳（getState 深克隆），不列为 counter。
+- **归因更正**：撤回 audit-performance 超时「Codex 已裁决」表述（首轮仅豁免具体资产
+  ENOENT）；合并后同口径完整 check 须实跑。
+- 复跑：定向 21/21（hooks-session 3/3 含新 redo 轴）、tc rc=0、3 对照+7 针绿；
+  rework-witness rejected-session-clears-redo 针 detected。
