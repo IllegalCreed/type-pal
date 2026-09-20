@@ -1,6 +1,6 @@
 # TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: 已有导入/编码合同覆盖（不改变能力地图）
 Coding Owner: GLM（只新增测试）
@@ -16,7 +16,14 @@ Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e96
 唯一工作包/族账/白名单：[glm-editor-import-codec.md](../../testing/glm-editor-import-codec.md)。
 
 
-## 当前接收复核（Codex，2026-09-20，源9eecaaf3）
+## 当前r5接收（Codex，2026-09-20，e4461a30→91623a9a）
+
+最后counter已闭合，限定路径集成；39/原3+9/tc/11文件Biome与两独立见证通过。
+返回值完整字节/SHA、firstByteDiff全扫描及实际两次toBlob快照均独立核实，详细证据见[接收记录](../../testing/import-codec-acceptance.md)。
+**Codex accept，统一候选4894719e**；完整check7748、官方ratchet及受保护单次strict-fast7259通过。
+当前review待Kimi独立终审/GLM实现者确认；旧counter均闭合并留历史，其他八批done/模拟器build不动，不代签、不标done。
+
+## r4接收复核（历史）（Codex，2026-09-20，源9eecaaf3）
 
 **counter：r4重写时丢掉实际返回预览图的完整字节/摘要断言**。尺寸/PNG合法性/实际putImageData编码/主图SHA已接受，不重开。
 真实两次编码后仅把effectPreviewBytes误换成main字节，候选5/5仍绿；独立返回值oracle为AssertionError红。
@@ -139,10 +146,18 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 
 ### done前
 
-- Codex：**counter（2026-09-20，候选9eecaaf3）**。仅余r4丢失的返回预览图保真断言，实际两次编码后替换预览为主图仍候选5/5绿，独立oracle业务红；尺寸/编码/主图摘要已接受。定向39、原3+8、tc/Biome绿；详细证据与返工提示见本轮报告，不合并、不代签、不标done。
-- GLM/Kimi：pending（原交付状态保留；不代签）。done准入未开放，不标done。
+- Codex：**accept（2026-09-20，统一候选4894719e，源e4461a30）**。独立复核真实toBlob快照/完整返回字节与preview SHA；helper26组检查、39定向/3+9负控/tc/Biome/双见证通过，最后counter闭合。集成源码与源候选逐字一致；完整check7748/官方ratchet/受保护单次严格fast7259通过，旧测试identity/生产清单/分母和其它六包基线对象不变。旧版本兼容审查pass；GLM贡献披露，编码失败close仍另归属，不代签、不标done。
+- GLM：pending（集成后实现者自验，非独立第三方）。
+- Kimi：pending（独立终审）。
+- done准入：未开放；两席同候选accept齐后由Codex核定，不代签、不标done。
 
 ## 交接日志
+
+- 2026-09-20 Codex（统一门禁完成）：候选4894719e通过check7748/ratchet/受保护单次strict-fast7259，签本人accept；最后counter关闭，39项计入基线、旧测试/范围不变。两席同候选提示词附后，不代签、不标done；八批done与模拟器build不动。
+
+
+- 2026-09-20 Codex（r5独立接收）：e4461a30本地/远端一致、候选零修改；39/3+9/tc/Biome/双见证通过，helper26组检查通过。最后counter闭合并限定路径集成91623a9a，review待统一门禁；设计不重签，不代签、不标done。
+
 - 2026-09-20 GLM：按 Codex r4 复核唯一阻断完成 r5 返工（分支合并 main cda702d5，源 9eecaaf3；
   合并冲突按并集解决：保留 GLM rework/rework2 回执历史 + Codex codexR4Review）：
   `installCanvasHost` 新增 `blobProducts`（每次 toBlob 实际产物 slice 快照）；断言返回
@@ -262,11 +277,31 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 只改TB03白名单与本人回执，不改产品/旧测试/官方基线/原探针；编码失败close仍归Codex。不要回退另外八批done或模拟器build，不代签、不标done。本人落卡提交推送后交Codex；全仓门由Codex接收后运行，Mimosa不参与。
 ~~~
 
-## 当前下一位Agent提示词：Codex接收TB-03 r5
+## 历史下一位Agent提示词：Codex接收TB-03 r5（已执行）
 
 ~~~text
 在 /Users/zhangxu/illegal/type-pal 接收 TB-03 r5 返工（docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，rework）。候选分支 codex/glm-editor-import-codec-r1（worktree /Users/zhangxu/illegal/type-pal-glm-import-codec），已合并 main cda702d5（你的 r4 复核；机账合并冲突按并集解决：GLM rework/rework2 历史 + 你的 codexR4Review 均保留），源 9eecaaf3，生产对 e58834f6 零漂移，设计不重签。
 先读 AGENTS/CLAUDE/READ-FIRST、本卡「当前接收复核」与交接日志、docs/testing/import-codec-r4-review.md、工作包 docs/testing/glm-editor-import-codec.md r5 回执与机账 docs/testing/glm-import-codec-evidence.json rework4 节。
 唯一返工项为你上轮阻断：返回预览保真。实现：installCanvasHost.blobProducts 每次 toBlob 以 slice 快照实际产物；断言返回 main/preview 逐字节等于宿主第 1/2 次产物（firstByteDiff 全字节扫描，-1 全等、失败报首个差异下标——256k 字节 toEqual 失败 diff 实测 ~522 秒单进程 CPU，扫描与你的 oracle Buffer.compare 同型且语义完整）；sha256Hex(实际返回 effectPreviewBytes)===独立 preview 常量且≠主图 hash；负控新增第 9 针 returned-preview-replaced-by-main（effectPreviewBytes=(await canvasPng(canvas), bytes.slice(0))），判据不变。helper 签名未再改，pngPayload/installCanvasHost/palette 三者可直接 AST 提取（installCanvasHost 返回值新增 blobProducts 字段）。像素勘误 index 109→182 已落回执 r4 节（带勘误标注）与机账 rework4.pixelErratum，生产算法未动。
 请独立复核后在本卡 done 前席位签 accept 或 counter。最终树复跑：preview 见证 rc=0（control 6/6、坏实现候选 AssertionError detected）、旧尺寸见证 rc=0、负控 3 对照+9 针 rc=0（全跑 11 秒）、定向 39/39、tc rc=0、11 文件白名单 Biome rc=0。只审 TB-03 白名单与 GLM 回执；另八批 done 与模拟器 build 不动；编码失败 close 仍归你修复卡；不代签、不混入他批。若接收，按你的统一集成流程合入并更新卡状态；全仓门由你执行。
+~~~
+
+## 当前下一位Agent提示词（同一候选并行）
+
+### Kimi
+
+~~~text
+在 /Users/zhangxu/illegal/type-pal 独立终审 TEST-EDITOR-IMPORT-CODEC-1（TB03），卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，review，统一候选4894719e对比cda702d5，源e4461a30，设计r2不重签。
+先同步并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/import-codec-acceptance.md及机账/GLM工作包。独立读实际代码与输入，不读取或复述GLM审查结论；GLM是测试贡献者，不算独立第三方。
+七新测试39项已逐字集成；39/3正控+9负控/tc/11文件Biome、尺寸与preview两见证全部通过。真实两次toBlob快照→返回main/preview完整字节→实际preview独立SHA已经闭合；firstByteDiff完整扫描含长度，不是抽样。此前误交主图为preview的单点坏实现现被候选自身AssertionError检出。像素182勘误已落，已关闭项不重开。
+完整check7748、官方ratchet与受保护单次strict-fast7259通过；七包生产清单/分母/全部旧测试identity不变，其它六包基线对象不变，只增editor7文件39项。按需复跑定向及两个现有见证/3+9，不重跑或改官方基线。
+在本人done前席位签accept或file:line counter，写直接证据及交接日志，提交推送。只改本人席位/日志，不代签、不改状态、不标done。另八批done、模拟器build不动；编码失败close缺陷保持隔离，非本卡修复。提交前同步保留他席，push竞态自行处理。
+~~~
+
+### GLM
+
+~~~text
+在 /Users/zhangxu/illegal/type-pal 对 TEST-EDITOR-IMPORT-CODEC-1（TB03）做集成后实现者自验确认，卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，review，统一候选4894719e对比cda702d5，源e4461a30；设计不重签，不再返工。
+先同步核工作树并读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/import-codec-acceptance.md及机账。独立核本人7新测试+fixture/工具在主线未改语义；可复跑本批39项，不重跑或改官方coverage基线。Codex已完成39/3+9/tc/Biome/两见证及check7748、ratchet、单次strict-fast7259。
+仅在本人done前席位签“实现者自验accept（本人为测试贡献者，非独立第三方）”或明确counter，写本人日志并提交推送；不读或复述Kimi结论，不代签、不改状态、不标done。保留八批归档及模拟器build，编码失败close仍另归Codex；落盘前同步保留另一席修改，push竞态自行处理。
 ~~~

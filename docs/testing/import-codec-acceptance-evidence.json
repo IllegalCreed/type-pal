@@ -1,0 +1,270 @@
+{
+  "date": "2026-09-20",
+  "source": "e4461a308b9220e90ffa60df3bc3b2ad7f5ed1a0",
+  "integration": "91623a9a9d328303292d4da4f0e86418dce84150",
+  "base": "cda702d5",
+  "productionFreeze": "e58834f6",
+  "decision": "Codex accept; review for Kimi independent final review and GLM implementer confirmation; no done",
+  "runs": [
+    {
+      "id": "TB-03",
+      "head": "e4461a308b9220e90ffa60df3bc3b2ad7f5ed1a0",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-import-codec",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+        "packages/editor/src/core/frame-animation-codec.worker.test.ts",
+        "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+        "packages/editor/src/core/image-import.stages.test.ts",
+        "packages/editor/src/core/video-metadata.boxes.test.ts"
+      ],
+      "fixtureFiles": ["packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts"],
+      "added": [
+        "docs/testing/glm-import-codec-evidence.json",
+        "docs/testing/glm-import-codec-mutants.mjs",
+        "docs/testing/glm-import-codec.config.mts",
+        "packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts",
+        "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+        "packages/editor/src/core/frame-animation-codec.worker.test.ts",
+        "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+        "packages/editor/src/core/image-import.stages.test.ts",
+        "packages/editor/src/core/video-metadata.boxes.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-tb03-r5.Bxspbm/TB-03-editor-targeted.log",
+          "report": "/tmp/codex-tb03-r5.Bxspbm/TB-03-editor-targeted.json",
+          "counts": {
+            "total": 39,
+            "passed": 39,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+                "count": 7,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+                "count": 6,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-codec.worker.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+                "count": 6,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+                "count": 6,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/image-import.stages.test.ts",
+                "count": 5,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/video-metadata.boxes.test.ts",
+                "count": 6,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-tb03-r5.Bxspbm/TB-03-editor-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-tb03-r5.Bxspbm/TB-03-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-import-codec-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-tb03-r5.Bxspbm/TB-03-mutants.log"
+      },
+      "afterHead": "e4461a308b9220e90ffa60df3bc3b2ad7f5ed1a0",
+      "afterStatus": ""
+    }
+  ],
+  "previewWitness": {
+    "root": "/Users/zhangxu/illegal/type-pal-glm-import-codec",
+    "out": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-preview-return-bF3Jcf",
+    "needle": "    effectPreviewBytes = await canvasPng(canvas)",
+    "replacement": "    effectPreviewBytes = (await canvasPng(canvas), bytes.slice(0))",
+    "control": {
+      "source": [320, 200],
+      "main": [320, 200],
+      "preview": [320, 200],
+      "mainSha": "f614fb38624c5011744c4721d11304660db996311d377e3399d7cce1167527f7",
+      "previewSha": "ee694d7766f4e69c15464f2c6d33c851fa638877aedf12a02fe6ec0126be8529",
+      "mainPixel": [182, 182, 182, 255],
+      "previewPixel": [34, 5, 73, 255],
+      "mainMatches": true,
+      "previewMatches": true
+    },
+    "mutant": {
+      "source": [320, 200],
+      "main": [320, 200],
+      "preview": [320, 200],
+      "mainSha": "f614fb38624c5011744c4721d11304660db996311d377e3399d7cce1167527f7",
+      "previewSha": "f614fb38624c5011744c4721d11304660db996311d377e3399d7cce1167527f7",
+      "mainPixel": [182, 182, 182, 255],
+      "previewPixel": [182, 182, 182, 255],
+      "mainMatches": true,
+      "previewMatches": false
+    },
+    "results": [
+      {
+        "mutated": false,
+        "exit": 0,
+        "candidateTests": 5,
+        "candidateFailures": [],
+        "verdict": "control",
+        "report": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-preview-return-bF3Jcf/false.json"
+      },
+      {
+        "mutated": true,
+        "exit": 1,
+        "candidateTests": 5,
+        "candidateFailures": [
+          "battle-background：320×200 + palette 通过并产出 preview；宿主产物与实际 canvas 尺寸/像素一致；尺寸不符拒绝、缺 palette 拒绝"
+        ],
+        "verdict": "detected",
+        "report": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-preview-return-bF3Jcf/true.json"
+      }
+    ]
+  },
+  "sizeWitness": {
+    "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-png-host-Uku7PV/summary.json",
+    "control": 7,
+    "candidateMutant": "AssertionError detected",
+    "actualHostIsLastMutant": true
+  },
+  "helperAudit": {
+    "function": "firstByteDiff extracted from actual AST",
+    "cases": 26,
+    "checks": [
+      "empty/equal",
+      "first/middle/last-byte differences",
+      "both length directions",
+      "offset view"
+    ],
+    "result": "pass"
+  },
+  "evidenceUnion": "GLM rework/rework2 equal 9eecaaf3; main rework3/codexR4Review equal cda702d5; rework4 added",
+  "gates": {
+    "check": {
+      "exit": 0,
+      "packageTests": 7748,
+      "editorTests": 2596,
+      "editorFiles": 262,
+      "log": "/tmp/codex-tb03-r5.Bxspbm/full-check.log",
+      "defaultParallelConfiguration": true
+    },
+    "ratchet": {
+      "exit": 0,
+      "protectedRef": "cda702d5",
+      "tests": 7259,
+      "log": "/tmp/codex-tb03-r5.Bxspbm/ratchet.log"
+    },
+    "strictFast": {
+      "exit": 0,
+      "attempts": 1,
+      "protectedRef": "cda702d5",
+      "tests": 7259,
+      "improvements": 0,
+      "log": "/tmp/codex-tb03-r5.Bxspbm/strict-fast.log"
+    }
+  },
+  "setupNotes": [
+    "root was clean detached HEAD at cda702d5, same as main; pull refused, then switched to existing main without file changes",
+    "first receipt-union diagnostic wrongly compared absent main historical fields; corrected to compare each field with its actual source tree; no candidate failure"
+  ],
+  "excluded": [
+    "other eight done cards",
+    "battle simulator implementation",
+    "PNG encode-failure close defect",
+    "Mimosa"
+  ],
+  "candidate": "4894719e5c332d7e73a568c1707c5c562ad33a03",
+  "coverageAudit": {
+    "testCount": 7259,
+    "sourceFileCount": 617,
+    "editorTests": 2437,
+    "editorFiles": 243,
+    "editorMetrics": {
+      "statements": {
+        "covered": 25058,
+        "total": 31878
+      },
+      "branches": {
+        "covered": 19434,
+        "total": 27593
+      },
+      "functions": {
+        "covered": 6206,
+        "total": 8110
+      },
+      "lines": {
+        "covered": 22522,
+        "total": 27865
+      }
+    },
+    "editorPercent": {
+      "statements": "78.61% (25058/31878)",
+      "branches": "70.43% (19434/27593)",
+      "functions": "76.52% (6206/8110)",
+      "lines": "80.83% (22522/27865)"
+    },
+    "total": {
+      "statements": {
+        "covered": 55255,
+        "total": 78971
+      },
+      "branches": {
+        "covered": 39436,
+        "total": 62045
+      },
+      "functions": {
+        "covered": 10396,
+        "total": 14520
+      },
+      "lines": {
+        "covered": 49783,
+        "total": 69119
+      }
+    },
+    "totalPercent": {
+      "statements": "69.97% (55255/78971)",
+      "branches": "63.56% (39436/62045)",
+      "functions": "71.60% (10396/14520)",
+      "lines": "72.03% (49783/69119)"
+    },
+    "delta": {
+      "statements": 190,
+      "branches": 112,
+      "functions": 32,
+      "lines": 157
+    },
+    "invariants": "six other package objects, all production inventories/denominators and old test identities unchanged"
+  }
+}

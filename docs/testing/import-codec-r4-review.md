@@ -1,5 +1,7 @@
 # TB-03 r4 独立接收（2026-09-20，Codex）
 
+本页为r4历史反例；r5最后counter已闭合，当前状态见[独立接收](import-codec-acceptance.md)，不重复返工。
+
 候选：9eecaaf3b034420b751fcf7b7bab1e08ca3b220f，本地/远端一致且工作树干净；
 main核对点7d6e1322；生产冻结e58834f6，设计不重签。
 任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，保持rework。

@@ -1,6 +1,6 @@
 # 九批收窄返工独立接收（2026-09-20，Codex）
 
-当前结论：**TB02/TB04～TB10八批同候选256116ee三席accept齐、用户授权收口，2026-09-20由Codex核定done归档；TB03不在本次收口范围，仍rework**。
+当前结论：**TB02/TB04～TB10八批同候选256116ee三席accept齐、用户授权收口，2026-09-20由Codex核定done归档；TB03未随八批收口，后续r5已独立接收并review，见下方当前进展**。
 旧[二轮报告](glm-nine-rework-review.md)及[首轮报告](glm-nine-intake-review.md)仅为历史，不把其counter重复套到本轮。
 三席设计不重签；GLM为测试贡献者，不算独立第三方自证。未代签；本次仅八批done，TB00/TB01/TB03另排、Mimosa不参与。
 
@@ -34,7 +34,11 @@
 - TB03：CRC/zlib/完整PNG二进制合法性和真实SHA已关闭，**不重开**；下方只核合法文件是否属于声称的320×200成功场景。
 - 旧版本兼容审查：pass；本包只新增现行合同测试，无产品兼容分支。已撤排除轴不重新引入。
 
-## TB03当前进展：r4尺寸已闭合，返回值断言退化
+## TB03当前进展：r5最后counter闭合
+
+当前e4461a30→4894719e已由Codex accept，check7748/ratchet/严格fast7259通过，详见[r5接收](import-codec-acceptance.md)；review待两席终审/实现者确认，不混入八批done。
+
+### r4历史进展：尺寸闭合、返回值断言退化
 
 2026-09-20已实际复核9eecaaf3；[r4报告](import-codec-r4-review.md)接受尺寸/编码/主图摘要，
 只返r4删掉的实际preview返回字节断言及回执像素勘误。以下001dc9e1反例保留历史，不再要求重做尺寸方案。
