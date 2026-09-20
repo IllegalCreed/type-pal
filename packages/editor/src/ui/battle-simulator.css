@@ -11,15 +11,25 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--ds-space-4);
+}
+.trial-dialog-content {
+  display: grid;
+  gap: var(--ds-space-5);
+  margin-block-start: var(--ds-space-5);
+  min-width: 0;
+}
+.trial-dialog-content > p {
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 .trial-issues,
 .trial-override {
-  margin-block: 12px;
+  margin-block: var(--ds-space-5);
   overflow-wrap: anywhere;
 }
 .trial-issues p {
-  margin-block: 6px;
+  margin-block: var(--ds-space-3);
 }
 .trial-error {
   color: var(--ds-status-danger);
@@ -29,26 +39,74 @@
   overflow-wrap: anywhere;
 }
 .trial-override > .trial-actions {
-  margin-bottom: 12px;
+  margin-bottom: var(--ds-space-5);
+}
+.trial-collection,
+.trial-bag-list {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-6);
+}
+.trial-collection:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+.trial-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--ds-space-5);
+}
+.trial-choice-short {
+  inline-size: min(100%, 16rem);
+}
+.trial-metadata-fields {
+  max-inline-size: 56rem;
+}
+.trial-base-stats,
+.trial-effective-readout {
+  max-inline-size: 52rem;
+}
+.trial-effective-readout {
+  display: grid;
+  gap: var(--ds-space-5);
+}
+.trial-effective-readout > :is(h3, dl, p) {
+  margin: 0;
+}
+.trial-effective-readout > p {
+  overflow-wrap: anywhere;
+  font: var(--ds-font-caption);
+}
+.trial-bag-list,
+.trial-inline-entry {
+  max-inline-size: 36rem;
 }
 .trial-effective-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 8px 16px;
+  gap: var(--ds-space-4) var(--ds-space-6);
+  font-variant-numeric: tabular-nums;
 }
 .trial-effective-stats dt {
   color: var(--ds-text-secondary);
 }
 .trial-effective-stats dd {
-  margin: 4px 0 0;
+  margin: var(--ds-space-2) 0 0;
   overflow-wrap: anywhere;
 }
 .trial-config-columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  max-inline-size: 72rem;
   align-items: start;
   gap: var(--ds-space-5);
 }
 .trial-config-columns > * {
   min-width: 0;
+  max-inline-size: 24rem;
+}
+.trial-pool-columns {
+  max-inline-size: 34rem;
 }

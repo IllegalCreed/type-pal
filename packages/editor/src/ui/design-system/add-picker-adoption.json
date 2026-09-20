@@ -1,9 +1,9 @@
 {
   "version": 1,
   "baseline": {
-    "included": 5,
+    "included": 7,
     "deferredOwners": 7,
-    "includedDataPaths": 6,
+    "includedDataPaths": 16,
     "deferredDataPaths": 7
   },
   "included": [
@@ -70,6 +70,44 @@
       "verification": {
         "file": "ui/ShopTab.test.tsx",
         "marker": "[add-picker:shop/stock]"
+      }
+    },
+    {
+      "adoptionId": "simulator/party",
+      "source": "BattleSimulatorForms.tsx",
+      "callsiteFingerprint": "a79f9dcd35e406da",
+      "owner": "TrialPartyEditor",
+      "dataPaths": [
+        "battleSimulator.allies[*].config.members",
+        "battleSimulator.plans[*].config.party.config.members",
+        "battleSimulator.plans[*].config.overrides.party.members",
+        "trialDraft.plan.party.config.members",
+        "trialDraft.plan.overrides.party.members"
+      ],
+      "candidateOwner": "live actors with battler, excluding configured members",
+      "mutationOwner": "Trial form onChange -> named SetBattleSimulatorLibraryCommand or temporary draft owner",
+      "verification": {
+        "file": "../scripts/battle-simulator-ui.test.tsx",
+        "marker": "[add-picker:simulator/party]"
+      }
+    },
+    {
+      "adoptionId": "simulator/bag",
+      "source": "BattleSimulatorForms.tsx",
+      "callsiteFingerprint": "c694ff764c4123dd",
+      "owner": "TrialBagEditor",
+      "dataPaths": [
+        "battleSimulator.bags[*].config.items",
+        "battleSimulator.plans[*].config.bag.config.items",
+        "battleSimulator.plans[*].config.overrides.bag.items",
+        "trialDraft.plan.bag.config.items",
+        "trialDraft.plan.overrides.bag.items"
+      ],
+      "candidateOwner": "live items, excluding configured bag entries",
+      "mutationOwner": "Trial form onChange -> named SetBattleSimulatorLibraryCommand or temporary draft owner",
+      "verification": {
+        "file": "../scripts/battle-simulator-ui.test.tsx",
+        "marker": "[add-picker:simulator/bag]"
       }
     }
   ],

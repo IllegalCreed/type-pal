@@ -3554,8 +3554,12 @@ export function App(props: {
           onSave={() => void save()}
           onStart={startBattleTrial}
           onDetail={(draft) => {
-            setTrialDraft(draft)
-            applyEditorLocation({ module: 'simulator', subpage: 'plans' })
+            const enter = () => {
+              setTrialDraft(draft)
+              applyEditorLocation({ module: 'simulator', subpage: 'plans' })
+            }
+            if (trialDraft?.changed) setTrialLeave(() => enter)
+            else enter()
           }}
         />
       )}
@@ -3563,7 +3567,7 @@ export function App(props: {
         <DsDialog
           open
           role="alertdialog"
-          title="离开本场临时配置"
+          title="放弃本场临时配置？"
           onClose={() => setTrialLeave(undefined)}
           footer={
             <>
@@ -3581,9 +3585,7 @@ export function App(props: {
             </>
           }
         >
-          <p>
-            本场临时调整尚未另存为方案。离开项目后会丢弃这些调整；命名配置仍按项目保存流程处理。
-          </p>
+          <p>本场临时调整尚未另存为方案。继续会丢弃这些临时调整；命名配置仍按项目保存流程处理。</p>
         </DsDialog>
       )}
 

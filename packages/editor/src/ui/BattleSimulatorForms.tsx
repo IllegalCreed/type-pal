@@ -8,17 +8,18 @@ import type {
   TrialStats,
 } from '@type-pal/reforge'
 import { previewBattleTrialParty, TRIAL_MAX_PARTY_MEMBERS } from '@type-pal/reforge'
-import { useState } from 'react'
+import { useMemo, useRef } from 'react'
 import { emptyTrialMember } from '../core/battle-simulator-state.js'
 import type { EditorState } from '../core/edit-session.js'
 import {
   DsButton,
   DsDraftNumberField,
+  DsEmptyState,
   DsField,
   DsFieldGroup,
   DsSelectField,
 } from './design-system/controls.js'
-import { DsMultiSelect } from './design-system/index.js'
+import { DsAddPickerDialog, DsMultiSelect } from './design-system/index.js'
 import { DsInlineComposer, DsNumberFieldGrid, DsWorkbenchSection } from './design-system/recipes.js'
 
 const STAT_LABELS: Record<keyof TrialStats, string> = {
@@ -46,7 +47,7 @@ export function TrialPoolField(props: {
   scope: string
 }) {
   return (
-    <DsFieldGroup>
+    <DsFieldGroup className="trial-choice-short">
       <DsSelectField
         label={props.label}
         value={props.value.kind}
@@ -93,7 +94,8 @@ export function TrialPartyEditor({
   state: EditorState
   scope: string
 }) {
-  const [adding, setAdding] = useState('')
+  const sectionRef = useRef<HTMLElement>(null)
+  const revision = useMemo(() => ({ state, value }), [state, value])
   const update = (id: string, patch: Partial<TrialMember>) =>
     onChange({
       members: value.members.map((member) =>
@@ -104,44 +106,43 @@ export function TrialPartyEditor({
     (actor) => actor.battler && !value.members.some((member) => member.actorId === actor.id),
   )
   return (
-    <>
-      <DsInlineComposer
-        density="default"
-        control={
-          <DsSelectField
-            label="添加队员"
-            value={adding}
-            placeholder="选择可参战角色"
-            options={candidates.map((actor) => ({
-              value: actor.id,
-              label: lookupText(actor.name, state.locale),
-            }))}
-            onValueChange={setAdding}
-          />
-        }
-        action={
-          <DsButton
-            disabled={
-              !adding ||
+    <section ref={sectionRef} tabIndex={-1} className="trial-collection" aria-label="我方队伍配置">
+      <div className="trial-section-heading">
+        <strong>
+          我方队伍 · {value.members.length} / {TRIAL_MAX_PARTY_MEMBERS} 人
+        </strong>
+        <DsAddPickerDialog
+          adoptionId="simulator/party"
+          triggerLabel="添加队员"
+          title="添加试打队员"
+          description="搜索可参战角色，确认后加入本配置；最多3人，同一角色不能重复加入。"
+          confirmLabel="加入队伍"
+          options={candidates.map((actor) => ({
+            id: actor.id,
+            label: lookupText(actor.name, state.locale),
+            description: `等级 ${actor.battler?.baseStats.level} · 体力 ${actor.battler?.baseStats.maxHP} · 真气 ${actor.battler?.baseStats.maxMP}`,
+          }))}
+          scopeKey={`${scope}:members`}
+          revision={revision}
+          readOnly={value.members.length >= TRIAL_MAX_PARTY_MEMBERS}
+          emptyMessage="没有可加入的角色；可先在角色目录配置可参战角色。"
+          fallbackFocusRef={sectionRef}
+          onConfirm={(actorId) => {
+            if (
               value.members.length >= TRIAL_MAX_PARTY_MEMBERS ||
-              !candidates.some((actor) => actor.id === adding)
-            }
-            onClick={() => {
-              if (
-                value.members.length >= TRIAL_MAX_PARTY_MEMBERS ||
-                !candidates.some((actor) => actor.id === adding)
-              )
-                return
-              onChange({ members: [...value.members, emptyTrialMember(adding)] })
-              setAdding('')
-            }}
-          >
-            加入队伍
-          </DsButton>
-        }
-      />
+              !candidates.some((actor) => actor.id === actorId)
+            )
+              return false
+            onChange({ members: [...value.members, emptyTrialMember(actorId)] })
+          }}
+        />
+      </div>
       {!value.members.length && (
-        <p className="hint2">尚无队员。最多{TRIAL_MAX_PARTY_MEMBERS}人，同一角色不能重复加入。</p>
+        <DsEmptyState
+          layout="embedded"
+          title="尚无队员"
+          description={candidates.length ? '从右上角添加队员。' : '请先在角色目录配置可参战角色。'}
+        />
       )}
       {value.members.length === TRIAL_MAX_PARTY_MEMBERS && (
         <p className="hint2">已达到{TRIAL_MAX_PARTY_MEMBERS}人上限；可先移出一名队员再替换。</p>
@@ -169,53 +170,62 @@ export function TrialPartyEditor({
             actions={
               <DsButton
                 variant="danger"
-                onClick={() =>
+                onClick={() => {
+                  // Focus survives removing the card, including when the add trigger is at its cap.
+                  sectionRef.current?.focus()
                   onChange({
                     members: value.members.filter((other) => other.actorId !== member.actorId),
                   })
-                }
+                }}
               >
                 移出队伍
               </DsButton>
             }
           >
-            <DsSelectField
-              label="队伍位置"
-              value={String(index)}
-              options={value.members.map((_, i) => ({ value: String(i), label: `第 ${i + 1} 位` }))}
-              onValueChange={(position) => {
-                const members = [...value.members]
-                const other = members[Number(position)]
-                if (!other) return
-                members[index] = other
-                members[Number(position)] = member
-                onChange({ members })
-              }}
-            />
-            <DsNumberFieldGrid>
-              {Object.entries(STAT_LABELS).map(([key, label]) => {
-                const stat = key as keyof TrialStats
-                return (
-                  <DsDraftNumberField
-                    key={key}
-                    label={label}
-                    draftKey={`${scope}:${member.actorId}:${key}`}
-                    value={member.stats[stat]}
-                    placeholder={`继承 ${actor?.battler?.baseStats[stat] ?? '—'}`}
-                    allowEmpty
-                    integer
-                    min={stat === 'level' || stat === 'maxHP' ? 1 : 0}
-                    max={Number.MAX_SAFE_INTEGER}
-                    onCommit={(next) => {
-                      const stats = { ...member.stats }
-                      if (next === undefined) delete stats[stat]
-                      else stats[stat] = next
-                      update(member.actorId, { stats })
-                    }}
-                  />
-                )
-              })}
-            </DsNumberFieldGrid>
+            <div className="trial-choice-short">
+              <DsSelectField
+                label="队伍位置"
+                value={String(index)}
+                options={value.members.map((_, i) => ({
+                  value: String(i),
+                  label: `第 ${i + 1} 位`,
+                }))}
+                onValueChange={(position) => {
+                  const members = [...value.members]
+                  const other = members[Number(position)]
+                  if (!other) return
+                  members[index] = other
+                  members[Number(position)] = member
+                  onChange({ members })
+                }}
+              />
+            </div>
+            <div className="trial-base-stats">
+              <DsNumberFieldGrid>
+                {Object.entries(STAT_LABELS).map(([key, label]) => {
+                  const stat = key as keyof TrialStats
+                  return (
+                    <DsDraftNumberField
+                      key={key}
+                      label={label}
+                      draftKey={`${scope}:${member.actorId}:${key}`}
+                      value={member.stats[stat]}
+                      placeholder={`继承 ${actor?.battler?.baseStats[stat] ?? '—'}`}
+                      allowEmpty
+                      integer
+                      min={stat === 'level' || stat === 'maxHP' ? 1 : 0}
+                      max={Number.MAX_SAFE_INTEGER}
+                      onCommit={(next) => {
+                        const stats = { ...member.stats }
+                        if (next === undefined) delete stats[stat]
+                        else stats[stat] = next
+                        update(member.actorId, { stats })
+                      }}
+                    />
+                  )
+                })}
+              </DsNumberFieldGrid>
+            </div>
             <div className="trial-config-columns">
               {EQUIP_SLOT_IDS.map((slot) => (
                 <DsFieldGroup key={slot}>
@@ -253,7 +263,7 @@ export function TrialPartyEditor({
               ))}
             </div>
             <div className="trial-config-columns">
-              <DsFieldGroup>
+              <DsFieldGroup className="trial-choice-short">
                 <DsSelectField
                   label="习得技能"
                   value={member.skills.kind}
@@ -300,7 +310,7 @@ export function TrialPartyEditor({
               )}
             </div>
             <p className="hint2">装备授予的技能另由正式战斗派生，不会重复记入习得技能。</p>
-            <div className="trial-config-columns">
+            <div className="trial-config-columns trial-pool-columns">
               <TrialPoolField
                 label="初始体力"
                 value={member.hp}
@@ -316,6 +326,7 @@ export function TrialPartyEditor({
             </div>
             {effective && (
               <section
+                className="trial-effective-readout"
                 aria-label={`${actor ? lookupText(actor.name, state.locale) : member.actorId}开战有效值`}
               >
                 <h3>开战有效值（含装备）</h3>
@@ -346,7 +357,7 @@ export function TrialPartyEditor({
           </DsWorkbenchSection>
         )
       })}
-    </>
+    </section>
   )
 }
 export function TrialEnemiesEditor({
@@ -361,34 +372,41 @@ export function TrialEnemiesEditor({
   const team =
     value.kind === 'team' ? state.enemyTeams?.find((team) => team.id === value.teamId) : undefined
   return (
-    <>
-      <DsSelectField
-        label="编队来源"
-        value={value.kind}
-        options={[
-          { value: 'team', label: '引用已有敌队', disabled: !state.enemyTeams?.length },
-          { value: 'slots', label: '预设内临时编队' },
-        ]}
-        onValueChange={(kind) => {
-          if (kind === 'team') {
-            const first = state.enemyTeams?.[0]
-            if (first) onChange({ kind: 'team', teamId: first.id })
-          } else
-            onChange({
-              kind: 'slots',
-              slots: Array.from({ length: 5 }, (_, i) => team?.slots[i] ?? null),
-            })
-        }}
-      />
-      {value.kind === 'team' ? (
-        <DsSelectField
-          label="敌队"
-          value={value.teamId}
-          placeholder="选择敌队"
-          options={(state.enemyTeams ?? []).map((team) => ({ value: team.id, label: team.id }))}
-          onValueChange={(teamId) => onChange({ kind: 'team', teamId })}
-        />
-      ) : (
+    <section className="trial-collection" aria-label="敌方编队配置">
+      <div className="trial-config-columns">
+        <DsFieldGroup className="trial-choice-short">
+          <DsSelectField
+            label="编队来源"
+            value={value.kind}
+            options={[
+              { value: 'team', label: '引用已有敌队', disabled: !state.enemyTeams?.length },
+              { value: 'slots', label: '预设内临时编队' },
+            ]}
+            onValueChange={(kind) => {
+              if (kind === 'team') {
+                const first = state.enemyTeams?.[0]
+                if (first) onChange({ kind: 'team', teamId: first.id })
+              } else
+                onChange({
+                  kind: 'slots',
+                  slots: Array.from({ length: 5 }, (_, i) => team?.slots[i] ?? null),
+                })
+            }}
+          />
+        </DsFieldGroup>
+        {value.kind === 'team' ? (
+          <DsFieldGroup>
+            <DsSelectField
+              label="敌队"
+              value={value.teamId}
+              placeholder="选择敌队"
+              options={(state.enemyTeams ?? []).map((team) => ({ value: team.id, label: team.id }))}
+              onValueChange={(teamId) => onChange({ kind: 'team', teamId })}
+            />
+          </DsFieldGroup>
+        ) : null}
+      </div>
+      {value.kind === 'slots' && (
         <div className="trial-config-columns">
           {value.slots.map((id, index) => (
             <DsFieldGroup key={index}>
@@ -418,7 +436,7 @@ export function TrialEnemiesEditor({
       <p className="hint2">
         保留五个语义槽和空槽；首批敌方使用正式定义、满体力，不额外设置初始毒和状态。
       </p>
-    </>
+    </section>
   )
 }
 export function TrialBagEditor({
@@ -432,58 +450,89 @@ export function TrialBagEditor({
   state: EditorState
   scope: string
 }) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const revision = useMemo(() => ({ state, value }), [state, value])
+  const candidates = state.items.filter(
+    (item) => !value.items.some((row) => row.itemId === item.id),
+  )
   return (
-    <>
-      <DsSelectField
-        label="添加物品"
-        value=""
-        placeholder="选择物品"
-        options={state.items
-          .filter((item) => !value.items.some((row) => row.itemId === item.id))
-          .map((item) => ({ value: item.id, label: lookupText(item.name, state.locale) }))}
-        onValueChange={(itemId) => onChange({ items: [...value.items, { itemId, quantity: 1 }] })}
-      />
-      {value.items.map((row) => (
-        <DsInlineComposer
-          key={row.itemId}
-          density="default"
-          control={
-            <DsDraftNumberField
-              label={lookupText(
-                state.items.find((item) => item.id === row.itemId)?.name ?? row.itemId,
-                state.locale,
-              )}
-              draftKey={`${scope}:${row.itemId}`}
-              value={row.quantity}
-              integer
-              min={0}
-              max={Number.MAX_SAFE_INTEGER}
-              onCommit={(quantity) =>
-                onChange({
-                  items: value.items
-                    .map((item) =>
-                      item.itemId === row.itemId ? { ...item, quantity: quantity ?? 0 } : item,
-                    )
-                    .filter((item) => item.quantity > 0),
-                })
-              }
-            />
+    <section ref={sectionRef} tabIndex={-1} className="trial-collection" aria-label="背包物品配置">
+      <div className="trial-section-heading">
+        <strong>背包物品 · {value.items.length} 种</strong>
+        <DsAddPickerDialog
+          adoptionId="simulator/bag"
+          triggerLabel="添加物品"
+          title="添加试打物品"
+          confirmLabel="加入背包"
+          description="确认后以数量1加入本配置；穿戴装备在我方配置中设置。"
+          options={candidates.map((item) => ({
+            id: item.id,
+            label: lookupText(item.name, state.locale),
+          }))}
+          scopeKey={`${scope}:items`}
+          revision={revision}
+          emptyMessage={
+            state.items.length ? '所有物品都已加入本配置。' : '项目尚无物品，请先到物品目录创建。'
           }
-          action={
-            <DsButton
-              variant="danger"
-              onClick={() =>
-                onChange({ items: value.items.filter((item) => item.itemId !== row.itemId) })
-              }
-            >
-              移除物品
-            </DsButton>
-          }
+          fallbackFocusRef={sectionRef}
+          onConfirm={(itemId) => {
+            if (!candidates.some((item) => item.id === itemId)) return false
+            onChange({ items: [...value.items, { itemId, quantity: 1 }] })
+          }}
         />
-      ))}
+      </div>
+      {!value.items.length && (
+        <DsEmptyState
+          layout="embedded"
+          title="背包为空"
+          description={candidates.length ? '从右上角添加试打物品。' : '请先在物品目录创建物品。'}
+        />
+      )}
+      <div className="trial-bag-list">
+        {value.items.map((row) => (
+          <DsInlineComposer
+            key={row.itemId}
+            density="default"
+            control={
+              <DsDraftNumberField
+                label={lookupText(
+                  state.items.find((item) => item.id === row.itemId)?.name ?? row.itemId,
+                  state.locale,
+                )}
+                draftKey={`${scope}:${row.itemId}`}
+                value={row.quantity}
+                integer
+                min={0}
+                max={Number.MAX_SAFE_INTEGER}
+                onCommit={(quantity) => {
+                  if (!quantity) sectionRef.current?.focus()
+                  onChange({
+                    items: value.items
+                      .map((item) =>
+                        item.itemId === row.itemId ? { ...item, quantity: quantity ?? 0 } : item,
+                      )
+                      .filter((item) => item.quantity > 0),
+                  })
+                }}
+              />
+            }
+            action={
+              <DsButton
+                variant="danger"
+                onClick={() => {
+                  sectionRef.current?.focus()
+                  onChange({ items: value.items.filter((item) => item.itemId !== row.itemId) })
+                }}
+              >
+                移除物品
+              </DsButton>
+            }
+          />
+        ))}
+      </div>
       <p className="hint2">
         数量设为0会移除；穿戴装备在我方配置中设置。能否使用或投掷仍按物品的正式战斗用途判断。
       </p>
-    </>
+    </section>
   )
 }

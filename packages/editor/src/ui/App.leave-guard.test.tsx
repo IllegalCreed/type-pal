@@ -11,6 +11,7 @@ import {
   authorSaveStorage,
   memoryAuthorSaveStore,
 } from '../core/__tests__/author-save-store-fixture.js'
+import { battleTrialProjectFiles } from '../core/__tests__/battle-trial-project.js'
 import { RenameProjectCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
@@ -194,6 +195,62 @@ const unload = () => {
   window.dispatchEvent(e)
   return e.defaultPrevented
 }
+
+test('quick trial detail cannot silently replace edited temporary configuration; cancel keeps it and explicit consent replaces it', async () => {
+  disk = memoryAuthorDirectory(await battleTrialProjectFiles())
+  opened = await finishOpen(disk.dir)
+  main = new EditSession(
+    toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps, opened.battleSimulator),
+  )
+  script = new ScriptEditSession({
+    scenes: opened.scenes,
+    items: opened.project.authorContent.items,
+    sharedScripts: opened.project.authorContent.sharedScripts,
+  })
+  history = new EditorHistoryCoordinator(main, script)
+  window.history.replaceState({}, '', '/?module=battle&page=skills')
+  const before = structuredClone(main.getState())
+  await mount()
+  const skill = async () => {
+    await click('战斗')
+    await click('技能')
+    await click('战斗中试放')
+    await click('到模拟器详细配置')
+  }
+  await skill()
+  expect(decision()).toBeNull()
+  const money =
+    host.querySelector<HTMLInputElement>('input[aria-label="测试金钱"]') ??
+    (document.getElementById(
+      [...host.querySelectorAll('label')].find((label) => label.textContent === '测试金钱')!
+        .htmlFor,
+    ) as HTMLInputElement)
+  await act(async () => {
+    money.focus()
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(money, '72')
+    money.dispatchEvent(new Event('input', { bubbles: true }))
+  })
+  await act(async () => money.blur())
+  await skill()
+  expect(decision().textContent).toContain('放弃本场临时配置')
+  await click('取消', decision())
+  await click('战斗模拟器')
+  await click('试打方案')
+  const amount = () =>
+    (
+      document.getElementById(
+        [...host.querySelectorAll('label')].find((label) => label.textContent === '测试金钱')!
+          .htmlFor,
+      ) as HTMLInputElement
+    ).value
+  expect(amount()).toBe('72')
+  await skill()
+  await click('放弃本场并继续', decision())
+  expect(amount()).toBe('100')
+  expect(main.getState()).toEqual(before)
+  expect(main.isDirty()).toBe(false)
+  expect(picker).not.toHaveBeenCalled()
+})
 
 function historyButton(action: '撤销' | '重做') {
   const element = host.querySelector<HTMLButtonElement>(`button[aria-label^="${action}："]`)

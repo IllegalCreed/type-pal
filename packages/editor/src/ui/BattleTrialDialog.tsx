@@ -13,6 +13,7 @@ import {
 import type { EditorState } from '../core/edit-session.js'
 import { DsButton, DsFieldGroup, DsSelectField } from './design-system/controls.js'
 import { DsDialog } from './design-system/overlays.js'
+import './battle-simulator.css'
 
 export function BattleTrialDialog(props: {
   subject: BattleTrialSubject | undefined
@@ -114,42 +115,51 @@ export function BattleTrialDialog(props: {
         </>
       }
     >
-      <DsFieldGroup>
-        <DsSelectField
-          label="试打方案"
-          value={planId}
-          placeholder="选择方案"
-          options={library.plans.map((plan) => ({ value: plan.id, label: plan.name }))}
-          onValueChange={(id) => {
-            setPlanId(id)
-            setActorId('')
-          }}
-        />
-        {subject.kind === 'skill' && (
+      <div className="trial-dialog-content">
+        <DsFieldGroup>
           <DsSelectField
-            label="施放队员"
-            value={caster}
-            placeholder="选择本方案的队员"
-            options={members.map((member) => ({
-              value: member.actorId,
-              label: lookupText(
-                props.state.actors.find((actor) => actor.id === member.actorId)?.name ??
-                  member.actorId,
-                props.state.locale,
-              ),
-            }))}
-            onValueChange={setActorId}
+            label="试打方案"
+            value={planId}
+            placeholder="选择方案"
+            options={library.plans.map((plan) => ({ value: plan.id, label: plan.name }))}
+            onValueChange={(id) => {
+              setPlanId(id)
+              setActorId('')
+            }}
           />
+          {subject.kind === 'skill' && (
+            <DsSelectField
+              label="施放队员"
+              value={caster}
+              placeholder="选择本方案的队员"
+              options={members.map((member) => ({
+                value: member.actorId,
+                label: lookupText(
+                  props.state.actors.find((actor) => actor.id === member.actorId)?.name ??
+                    member.actorId,
+                  props.state.locale,
+                ),
+              }))}
+              onValueChange={setActorId}
+            />
+          )}
+        </DsFieldGroup>
+        <p>{summary}</p>
+        {!library.plans.length && (
+          <p>还没有试打方案。进入详细配置即可准备本场，不必先建四份预设。</p>
         )}
-      </DsFieldGroup>
-      <p>{summary}</p>
-      {!library.plans.length && <p>还没有试打方案。进入详细配置即可准备本场，不必先建四份预设。</p>}
-      {props.projectDirty && (
-        <p>
-          项目有未保存改动。<DsButton onClick={props.onSave}>保存项目</DsButton>
-        </p>
-      )}
-      {notice && <p role="alert">{notice}</p>}
+        {props.projectDirty && (
+          <div className="trial-actions">
+            <span>项目有未保存改动。</span>
+            <DsButton onClick={props.onSave}>保存项目</DsButton>
+          </div>
+        )}
+        {notice && (
+          <p role="alert" className="trial-error">
+            {notice}
+          </p>
+        )}
+      </div>
     </DsDialog>
   )
 }

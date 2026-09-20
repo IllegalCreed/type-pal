@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-20T07:49:36.667Z",
+  "generatedAt": "2026-09-20T08:46:23.792Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 631,
-  "testCount": 7400,
+  "testCount": 7404,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3412,7 +3412,7 @@
       ],
       "scopeDigest": "25a6c0053a4175e9a07cd0aad70929c85d6bcb3e10327544b750f49888031088",
       "fastTests": {
-        "testCount": 2514,
+        "testCount": 2518,
         "testFileCount": 250,
         "files": [
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -3674,8 +3674,8 @@
           },
           {
             "file": "packages/editor/scripts/battle-simulator-ui.test.tsx",
-            "testCount": 7,
-            "identityDigest": "6b0ea71254c350e7e79afa055cee94933182f7d3ef55c00b8111b1f22ae6fbcb"
+            "testCount": 10,
+            "identityDigest": "e6e5da0b4b32227048c2cf40661bbe9e6ac0284cc00dfb3701b9a928b029f5cc"
           },
           {
             "file": "packages/editor/scripts/battle-trial-entry.test.ts",
@@ -4409,8 +4409,8 @@
           },
           {
             "file": "packages/editor/src/ui/App.leave-guard.test.tsx",
-            "testCount": 31,
-            "identityDigest": "5adfa907493147630ad8d0676f84794d51f81a73b720b92983f2fbc9627702d6"
+            "testCount": 32,
+            "identityDigest": "5c4583512a15284d504dec8260f76690a4925facae52d48d9d2bfb573466cb49"
           },
           {
             "file": "packages/editor/src/ui/App.reference-navigation.test.tsx",
@@ -4918,46 +4918,46 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "acc7cf55e37689e2ca22da5fae00c513dc4e8a6fdb2044d187648e6aa31b41eb",
+        "identityDigest": "e5e155d58ab58bb52a51a4ba3780285008545e43c919a5668fc2df162250c372",
         "duplicateIdentityCount": 8,
-        "executionDigest": "56fb4363fea111d2d277b353e236bbdb2910bcf04c691c42a3555ebf6ee2567d"
+        "executionDigest": "6e6fc03dffdcfb203be863daff99a75c5d67fe6a69f790cf7517998ec3d07fbc"
       },
       "metrics": {
         "statements": {
-          "covered": 25732,
-          "total": 32703
+          "covered": 25796,
+          "total": 32734
         },
         "branches": {
-          "covered": 19953,
-          "total": 28303
+          "covered": 20006,
+          "total": 28326
         },
         "functions": {
-          "covered": 6407,
-          "total": 8360
+          "covered": 6427,
+          "total": 8369
         },
         "lines": {
-          "covered": 23148,
-          "total": 28596
+          "covered": 23200,
+          "total": 28619
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 56506,
-      "total": 80346
+      "covered": 56570,
+      "total": 80377
     },
     "branches": {
-      "covered": 40302,
-      "total": 63073
+      "covered": 40355,
+      "total": 63096
     },
     "functions": {
-      "covered": 10704,
-      "total": 14892
+      "covered": 10724,
+      "total": 14901
     },
     "lines": {
-      "covered": 50931,
-      "total": 70333
+      "covered": 50983,
+      "total": 70356
     }
   }
 }

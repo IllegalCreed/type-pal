@@ -6,7 +6,7 @@ import {
   parseTrialEnemies,
   parseTrialParty,
 } from '@type-pal/reforge'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   battleSimulatorDependentPlans,
   deleteBattleSimulatorRecord,
@@ -76,6 +76,17 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
   const [notice, setNotice] = useState(''),
     [busy, setBusy] = useState(false)
   const [pendingActor, setPendingActor] = useState('')
+  const replacementScope = useMemo(
+    () => ({ state, draft, directory, objectId: props.objectId }),
+    [state, draft, directory, props.objectId],
+  )
+  const [replacement, setReplacement] = useState<{
+    scope: typeof replacementScope
+    draft: BattleSimulatorDraft
+  }>()
+  useEffect(() => {
+    if (replacement && replacement.scope !== replacementScope) setReplacement(undefined)
+  }, [replacement, replacementScope])
   const [deleting, setDeleting] = useState<
     { directory: SimulatorDirectory; id: string; plans: string[] } | undefined
   >()
@@ -195,11 +206,16 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
     }
   }
   const temporary = (next: TrialPlan) => {
-    onDraftChange({
+    const nextDraft = {
       label: record ? `${record.name} · 本场` : '本场临时方案',
       plan: next,
       changed: true,
-    })
+    }
+    if (draft?.changed && !isDraft) {
+      setReplacement({ scope: replacementScope, draft: nextDraft })
+      return
+    }
+    onDraftChange(nextDraft)
     onObjectFocus(undefined)
   }
   const fieldKey = `simulator:${directory}:${record?.id ?? 'empty'}`
@@ -331,7 +347,7 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
             />
           ) : (
             <>
-              <DsFieldGroup>
+              <DsFieldGroup className="trial-metadata-fields">
                 <DsDraftTextField
                   label="名称"
                   draftKey={`${fieldKey}:name`}
@@ -393,6 +409,7 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
                       description={`当前技能：${state.skills.find((skill) => skill.id === draft.subject?.id)?.name ?? draft.subject.id}。配置队伍后，明确选择施放队员；不会自动补真气。`}
                     >
                       <DsInlineComposer
+                        className="trial-inline-entry"
                         density="default"
                         control={
                           <DsSelectField
@@ -689,6 +706,31 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
           )}
         </DsObjectWorkspace>
       </div>
+      {replacement?.scope === replacementScope && (
+        <DsDialog
+          open
+          role="alertdialog"
+          title="替换本场临时配置？"
+          onClose={() => setReplacement(undefined)}
+          footer={
+            <>
+              <DsButton onClick={() => setReplacement(undefined)}>取消</DsButton>
+              <DsButton
+                variant="danger"
+                onClick={() => {
+                  onDraftChange(replacement.draft)
+                  onObjectFocus(undefined)
+                  setReplacement(undefined)
+                }}
+              >
+                放弃旧调整并替换
+              </DsButton>
+            </>
+          }
+        >
+          <p>已有未另存的本场临时调整。替换会丢弃旧调整；命名方案和预设不受影响。</p>
+        </DsDialog>
+      )}
       {deleting && (
         <DsDialog
           open

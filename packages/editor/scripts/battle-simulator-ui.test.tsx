@@ -103,6 +103,21 @@ function field(label: string, within: ParentNode = document): HTMLInputElement |
   return element as HTMLInputElement | HTMLButtonElement
 }
 async function choose(label: string, text: string, within: ParentNode = document) {
+  if (label === '添加队员' || label === '添加物品') {
+    const trigger = [...within.querySelectorAll<HTMLButtonElement>('button')].find(
+      (node) => node.textContent?.trim() === label,
+    )!
+    await act(async () => {
+      trigger.focus()
+      trigger.click()
+    })
+    const option = [...document.querySelectorAll<HTMLElement>('[role=option]')].find(
+      (node) => node.querySelector('.ds-add-picker-option__content strong')?.textContent === text,
+    )
+    expect(option, `candidate ${text}`).toBeDefined()
+    await act(async () => option!.click())
+    return
+  }
   await act(async () => field(label, within).click())
   const option = [...document.querySelectorAll<HTMLElement>('[role=option]')].find(
     (node) => node.textContent === text,
@@ -119,6 +134,120 @@ async function input(label: string, value: string, within: ParentNode = document
   })
   await act(async () => element.blur())
 }
+async function focusFrame() {
+  await act(async () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve())))
+}
+
+test('[add-picker:simulator/party] selection and cancellation are read-only; confirmation appends once and undo/scope invalidates the dialog', async () => {
+  const session = await fixture()
+  await act(async () => root.render(<Harness session={session} start={vi.fn()} save={vi.fn()} />))
+  await click('allies')
+  await click('新建')
+  const before = structuredClone(session.getState())
+  const dispatch = vi.spyOn(session, 'dispatch')
+  await choose('添加队员', '主角')
+  expect(session.getState()).toEqual(before)
+  expect(dispatch).not.toHaveBeenCalled()
+  await click('取消')
+  await focusFrame()
+  expect(document.activeElement).toBe(button('添加队员'))
+  expect(session.getState()).toEqual(before)
+  await click('添加队员')
+  expect(button('加入队伍').disabled).toBe(true)
+  const search = field('搜索候选')
+  await act(async () =>
+    search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
+  )
+  expect(document.querySelector('dialog[open]')).not.toBeNull()
+  await act(async () =>
+    search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
+  )
+  expect(document.querySelector('dialog[open]')).toBeNull()
+  expect(dispatch).not.toHaveBeenCalled()
+  await choose('添加队员', '主角')
+  await click('加入队伍')
+  expect(dispatch).toHaveBeenCalledTimes(1)
+  expect(
+    session.getState().battleSimulator!.allies[0]!.config.members.map((m) => m.actorId),
+  ).toEqual(['hero'])
+  await choose('添加队员', '队员2')
+  expect(document.querySelector('[data-option-id="hero"]')).toBeNull()
+  await act(async () => session.undo())
+  expect(document.querySelector('dialog[open]')).toBeNull()
+  expect(session.getState()).toEqual(before)
+  await choose('添加队员', '队员3')
+  await click('bags')
+  expect(document.querySelector('dialog[open]')).toBeNull()
+  expect(dispatch).toHaveBeenCalledTimes(1)
+})
+
+test('[add-picker:simulator/bag] explicit confirmation, cancelled search, stale revision, removal focus and undo preserve the author transaction boundary', async () => {
+  const session = await fixture()
+  await act(async () => root.render(<Harness session={session} start={vi.fn()} save={vi.fn()} />))
+  await click('bags')
+  await click('新建')
+  const before = structuredClone(session.getState())
+  const dispatch = vi.spyOn(session, 'dispatch')
+  await choose('添加物品', '练习药')
+  await input('搜索候选', '没有这样的物品')
+  expect(button('加入背包').disabled).toBe(true)
+  expect(session.getState()).toEqual(before)
+  await click('取消')
+  await focusFrame()
+  expect(document.activeElement).toBe(button('添加物品'))
+  expect(dispatch).not.toHaveBeenCalled()
+  await choose('添加物品', '练习药')
+  await click('加入背包')
+  expect(dispatch).toHaveBeenCalledTimes(1)
+  expect(session.getState().battleSimulator!.bags[0]!.config.items).toEqual([
+    { itemId: 'trial-herb', quantity: 1 },
+  ])
+  await click('添加物品')
+  expect(document.querySelector('[data-option-id="trial-herb"]')).toBeNull()
+  await act(async () => session.undo())
+  expect(document.querySelector('dialog[open]')).toBeNull()
+  expect(session.getState()).toEqual(before)
+  await act(async () => session.redo())
+  await click('移除物品')
+  expect(document.activeElement).toBe(host.querySelector('[aria-label="背包物品配置"]'))
+  expect(session.getState().battleSimulator!.bags[0]!.config.items).toEqual([])
+  await act(async () => session.undo())
+  expect(session.getState().battleSimulator!.bags[0]!.config.items).toEqual([
+    { itemId: 'trial-herb', quantity: 1 },
+  ])
+})
+
+test('replacing an edited temporary plan requires confirmation; cancellation preserves edits and source changes dismiss stale confirmation', async () => {
+  const session = await fixture(),
+    before = structuredClone(session.getState())
+  await act(async () => root.render(<Harness session={session} start={vi.fn()} save={vi.fn()} />))
+  const selectRow = async (name: string) => {
+    const row = [...host.querySelectorAll<HTMLElement>('.ds-catalog-row')].find((node) =>
+      node.textContent?.includes(name),
+    )!
+    expect(row).toBeDefined()
+    await act(async () => row.click())
+  }
+  await click('建立本场临时副本')
+  await input('测试金钱', '72')
+  await selectRow('基础试打')
+  await click('建立本场临时副本')
+  expect(document.querySelector('[role=alertdialog]')?.textContent).toContain('替换本场临时配置')
+  await click('取消')
+  await selectRow('本场临时方案')
+  expect((field('测试金钱') as HTMLInputElement).value).toBe('72')
+  await selectRow('基础试打')
+  await click('建立本场临时副本')
+  await click('allies')
+  expect(document.querySelector('[role=alertdialog]')).toBeNull()
+  await click('plans')
+  await selectRow('基础试打')
+  await click('建立本场临时副本')
+  await click('放弃旧调整并替换')
+  expect((field('测试金钱') as HTMLInputElement).value).not.toBe('72')
+  expect(session.getState()).toEqual(before)
+  expect(session.isDirty()).toBe(false)
+})
 
 test('named presets / plan sources / deletion / undo use real author commands; dirty project cannot run', async () => {
   const session = await fixture(),
@@ -163,7 +292,9 @@ test('temporary party edits, pools, skills and gear produce launch input without
   const before = structuredClone(session.getState().battleSimulator)
   await act(async () => root.render(<Harness session={session} start={start} save={vi.fn()} />))
   await click('建立本场临时副本')
-  expect(button('加入队伍').closest('.ds-inline-composer__action')).not.toBeNull()
+  expect(
+    button('添加队员').closest('[data-ds-add-picker-adoption="simulator/party"]'),
+  ).not.toBeNull()
   expect(button('移除物品').closest('.ds-inline-composer__action')).not.toBeNull()
   expect(host.querySelector('.ds-field-group > button')).toBeNull()
   expect(host.querySelectorAll('.trial-config-columns').length).toBeGreaterThan(1)
@@ -188,8 +319,7 @@ test('temporary party edits, pools, skills and gear produce launch input without
     await choose('添加队员', name)
     await click('加入队伍')
   }
-  await choose('添加队员', '队员4')
-  expect(button('加入队伍').disabled).toBe(true)
+  expect(button('添加队员').disabled).toBe(true)
   expect(host.textContent).toContain('已达到3人上限')
   expect(session.isDirty()).toBe(false)
   await click('开始试打')
@@ -234,6 +364,7 @@ test('enemy and bag editors preserve null slots and zero-removal, copy and undo 
   await click('bags')
   await click('新建')
   await choose('添加物品', '练习药')
+  await click('加入背包')
   await input('练习药', '4')
   expect(session.getState().battleSimulator!.bags[0]!.config.items).toEqual([
     { itemId: 'trial-herb', quantity: 4 },
@@ -350,6 +481,7 @@ test('temporary overrides change party, enemies, bag and conditions without rewr
       .click(),
   )
   await choose('添加物品', '练习药', scope('背包'))
+  await click('加入背包')
   await input('练习药', '2', scope('背包'))
   await input('测试金钱', '72')
   await choose('战场', '练习场（黑底）')
@@ -418,6 +550,7 @@ test('a skill entry with no named plan opens an actionable draft and requires an
   expect(host.textContent).not.toContain('加入待试技能')
   await choose('敌方槽位 1', '练习对手')
   await choose('添加物品', '练习药')
+  await click('加入背包')
   await click('开始试打')
   expect(start).toHaveBeenCalledTimes(1)
   expect(start.mock.calls[0]![0].party.members[0].skills).toEqual({
