@@ -189,8 +189,12 @@ export async function runBattleTrial(
     const { prepared, assets, baseSounds } = loaded
     const { world, items } = prepared
     const before = structuredClone(world)
-    const sfx = new SfxPlayer(loaded.project.assetResolver),
-      bgm = createBgmPlayer(loaded.project.assetResolver)
+    const sfx = new SfxPlayer(loaded.project.assetResolver)
+    // Own the first allocation before constructing the second backend: AudioContext can throw.
+    stopAudio = () => {
+      void sfx.dispose().catch((error) => console.warn('[trial audio dispose]', error))
+    }
+    const bgm = createBgmPlayer(loaded.project.assetResolver)
     const resume = () => {
       if (!stopped) {
         bgm.resume()

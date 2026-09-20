@@ -182,3 +182,37 @@ test('failed preparation exposes error and restart controls, never a fake victor
   expect(requestAnimationFrame).not.toHaveBeenCalled()
   expect(probes.store).not.toHaveBeenCalled()
 })
+
+test('a second audio backend construction failure releases the first allocated context', async () => {
+  const { project, config, loaded } = await fixture()
+  probes.prepare.mockResolvedValue(loaded)
+  let created = 0
+  const close = vi.fn(async () => {})
+  const descriptor = Object.getOwnPropertyDescriptor(window, 'AudioContext')
+  Object.defineProperty(window, 'AudioContext', {
+    configurable: true,
+    value: class {
+      state = 'running'
+      constructor() {
+        if (++created === 2) throw new Error('音频后端创建失败')
+      }
+      close = close
+    },
+  })
+  try {
+    await runBattleTrial(project, config, {
+      signal: new AbortController().signal,
+      sourceToken: 'absent',
+      revision: 'x',
+      onRestart() {},
+    })
+    expect(created).toBe(2)
+    expect(close).toHaveBeenCalledTimes(1)
+    expect(loaded.dispose).toHaveBeenCalledTimes(1)
+    expect(document.querySelector('[role=alert]')?.textContent).toContain('音频后端创建失败')
+    expect(probes.store).not.toHaveBeenCalled()
+  } finally {
+    if (descriptor) Object.defineProperty(window, 'AudioContext', descriptor)
+    else Reflect.deleteProperty(window, 'AudioContext')
+  }
+})
