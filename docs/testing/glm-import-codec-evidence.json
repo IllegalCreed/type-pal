@@ -173,6 +173,76 @@
     "officialCoverageChanged": false,
     "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
   },
+  "rework": {
+    "intakeReview": "docs/testing/glm-nine-intake-review.md (Codex counter 1f38bb29)",
+    "generatedAt": "2026-09-19T11:32:40Z",
+    "C0": "判据改为每条 failureMessages 首行 /^AssertionError(\\b|:)|^expect\\(/（运行态 pin 块内联同形谓词 + 四向自测新增普通Error内嵌AssertionError/纯超时反例）",
+    "C1": {
+      "command": "pnpm exec biome check <git 新增清单全部 TS/MJS/MTS/JSON>",
+      "exit": 0,
+      "files": 11
+    },
+    "R03-1": "quantize 保真：传实际 input.buffer（非 slice 副本），调用前快照，改输出后断言实际传入 buffer 与调用前一致（原地污染即红）",
+    "R03-2": "FakeWorker.reply 输出侧真实 structuredClone(data,{transfer})：worker 侧原 bytes/frames 缓冲 detach（byteLength 0）+ 宿主收到内容完好克隆且不别名；codec.worker 测试钉产品回帖原缓冲 byteLength 变 0（quantize frames 与 encode bytes 两处）",
+    "R03-3": "真实 digest：toBlob 返回确定性 PNG 签名+递增载荷（非全零）、不再 stub crypto.subtle.digest；hash/record.sha256/bytes 与离线预计算 SHA-256 常量逐字节相等（独立 oracle），主图与 preview 摘要可区分；portrait 直传域用 minimalPng(4,4) 预计算摘要",
+    "receiptWording": "host 协议测试为 Node 窄宿主合同验证，不称真实 PNG 解码/浏览器线程验收",
+    "tests": {
+      "packageFull": "248 files / 2536 tests：3 项预存（world-sprite PAL ENOENT×2、audit 并行超时×1，Codex 接收复核已裁决与基线一致）",
+      "typecheck": "rc=0"
+    },
+    "mutants": {
+      "command": "node docs/testing/glm-import-codec-mutants.mjs",
+      "exit": 0,
+      "controls": 3,
+      "needles": 8
+    },
+    "coverageRerun": {
+      "battle-sprite-import.ts": {
+        "before": "L5/27 B5/33",
+        "after": "L27/27 B33/33"
+      },
+      "frame-animation-codec.ts": {
+        "before": "L33/35 B19/27",
+        "after": "L35/35 B23/27"
+      },
+      "frame-animation-codec.worker.ts": {
+        "before": "L0/13 B0/6",
+        "after": "L13/13 B4/6"
+      },
+      "frame-animation-images.ts": {
+        "before": "L2/28 B0/19",
+        "after": "L28/28 B18/19"
+      },
+      "frame-animation-worker-client.ts": {
+        "before": "L1/38 B0/26",
+        "after": "L36/38 B20/26"
+      },
+      "image-import.ts": {
+        "before": "L33/88 B9/42",
+        "after": "L84/88 B35/42"
+      },
+      "video-metadata.ts": {
+        "before": "L20/28 B28/46",
+        "after": "L28/28 B37/46"
+      }
+    },
+    "coverageNote": "before 2359 / after 2398 双 exit0（最终返工树重跑）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:22:52Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名等反例",
+    "C1": {
+      "note": "全部 JSON/SHA 回填后 11 文件完整白名单 Biome（提交前执行 rc=0）"
+    },
+    "R03-3前半项": "完整可解码 PNG 补齐——fixture minimalPng 重写为真 CRC32+zlib stored 块（Adler-32）+IHDR/IDAT/IEND 合法结构；测试 pngPayload 改自包含合法小 PNG（size=宽、高1），源图(4x4)/主图(2x1)/preview(3x1) 三态过独立检查器（IHDR/IDAT/IEND、CRC 全对、IDAT 可 inflate）；摘要常量为该合法产物的离线 SHA-256；createImageBitmap 替身仅代宿主解码、不冒充 PNG 合法性",
+    "attributionFix": "撤回 audit-performance 并行超时'Codex已裁决与基线一致'的归因——首轮只认可具体资产 ENOENT 豁免，未豁免该超时；本批全包中该超时如实记录为未豁免环境失败，合并后同口径完整 check 须实跑",
+    "counts": {
+      "targeted": 39,
+      "controls": 3,
+      "needles": 8
+    }
+  },
   "rework3": {
     "intakeReview": "docs/testing/glm-nine-final-review.md (Codex counter，统一候选 256116ee；TB-03 唯一残项 PNG 宿主尺寸合同)",
     "generatedAt": "2026-09-20T10:44:00Z",
@@ -215,5 +285,29 @@
       "preview": [34, 5, 73, 255]
     },
     "rawRework3Preserved": true
+  },
+  "rework4": {
+    "intakeReview": "docs/testing/import-codec-r4-review.md (Codex counter，源 9eecaaf3；尺寸/CRC/zlib/交付像素编码与主图摘要已接受)",
+    "generatedAt": "2026-09-20T12:21:00Z",
+    "soleBlocker": "恢复实际返回 preview 的完整字节与 SHA 断言——r4 重写时丢了 001dc9e1 的两个返回值 toEqual",
+    "implementation": {
+      "blobProducts": "installCanvasHost 每次 toBlob 以 bytes.slice() 快照实际产物（防别名污染），暴露两次真实编码输出",
+      "byteFidelity": "返回 main 逐字节=宿主第 1 次产物、返回 preview 逐字节=宿主第 2 次产物（firstByteDiff 全字节扫描，-1 全等，失败报首个差异下标）",
+      "whyScanNotToArrayEqual": "256283 字节产物失败 diff 渲染实测 ~522 秒单进程 CPU（r5 排查定位）；扫描比较保持完整逐字节语义且即时失败，与 Codex oracle 的 Buffer.compare 布尔比较同型",
+      "previewSha": "sha256Hex(实际返回 effectPreviewBytes) === 独立 preview 常量 ee694d…8529 且 ≠ 主图 hash；不再用「主 hash 不等于 preview 常量」代替验证",
+      "newNeedle": "returned-preview-replaced-by-main：effectPreviewBytes = (await canvasPng(canvas), bytes.slice(0))——仍执行第二次编码及全部副作用但交付主图字节；钉名 battle-background 测试，判据（全等+恰1+首行业务错误）不变"
+    },
+    "pixelErratum": {
+      "was": "rework3.palette 写最近色 b=109 / (109,109,109,255) vs (71,6,146,255)",
+      "now": "index 182 / indexed(182,182,182,255) / preview(34,5,73,255)（Codex 独立解码勘误，回执 r4 节已带勘误标注；生产算法/调色板不动）"
+    },
+    "reruns": {
+      "previewWitness": "node docs/testing/import-codec-preview-review.mjs <worktree> rc=0：control 6/6（候选 5 + oracle 1）；坏实现被候选自身 AssertionError 检出（firstByteDiff 下标），oracle previewMatches=false 同步 AssertionError；verdict=detected；三文件 hash 不变",
+      "sizeWitness": "node docs/testing/import-codec-png-host-review.mjs <worktree> rc=0：control 7/7、删 canvas 尺寸 detected（保持 r4 结论）",
+      "mutants": "node docs/testing/glm-import-codec-mutants.mjs rc=0：判据四向自测绿 + 3 对照 exit0 + 9 针全部 expected=actual=1；全跑 11 秒（r5 前同一坏实现单针因巨型 diff 需 ~522 秒且超时被杀）",
+      "targeted": "39/39（7 文件，最终树重跑）",
+      "typecheck": "pnpm --filter @type-pal/editor typecheck rc=0",
+      "biome": "11 文件完整白名单（含本 JSON 回填+format 后）提交前执行 rc=0"
+    }
   }
 }

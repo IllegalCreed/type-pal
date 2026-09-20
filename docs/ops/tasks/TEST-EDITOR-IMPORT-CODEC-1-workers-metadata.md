@@ -24,6 +24,10 @@ Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e96
 仅补image-import.stages.test.ts:305–312的返回预览保真与单点负控，并勘误回执index109→182；
 详见[本轮独立复核](../../testing/import-codec-r4-review.md)与[机器账](../../testing/import-codec-r4-evidence.json)。
 未合并、未跑全仓门/ratchet/strict-fast、不代签、不标done；设计不重签，另八批done不动。
+GLM r5 返工已交付（2026-09-20，源 9eecaaf3 + 合并 cda702d5）：宿主 `blobProducts` 记录两次真实
+toBlob 产物、返回 main/preview 逐字节对齐对应产物、实际 preview SHA=独立常量；新负控针
+「返回预览误交主图」detected；像素勘误 182 已落回执/机账；preview/尺寸双见证、3+9 负控、
+定向 39、tc、白名单 Biome 全绿。详见工作包 r5 回执与机账 rework4 节，待 Codex 复核。
 
 ## r3接收复核（历史）（Codex，2026-09-20，源001dc9e1）
 
@@ -31,6 +35,8 @@ Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e96
 定向39项、原负控、包tc和完整自有文件Biome均通过；C0精确唯一判据/C1格式与回执已关闭，不重开旧有效断言。
 见[本轮独立接收](../../testing/glm-nine-final-review.md)与[机账](../../testing/glm-nine-final-evidence.json)。
 合法PNG与真实摘要已修，本轮只返同一编码宿主的实际尺寸合同；不改产品、不混入其它八批，不代签、不标done。
+GLM r4 返工已交付（2026-09-20）：宿主按实际 canvas 尺寸+putImageData 像素编码、真实像素摘要差异、
+Codex png-host 见证 control 绿+删尺寸 detected；详见工作包 r4 回执与机账 rework3 节，待 Codex 复核。
 
 ## 上轮返工复核（历史）（Codex，2026-09-19，9fe3a07f）
 
@@ -137,6 +143,31 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 - GLM/Kimi：pending（原交付状态保留；不代签）。done准入未开放，不标done。
 
 ## 交接日志
+- 2026-09-20 GLM：按 Codex r4 复核唯一阻断完成 r5 返工（分支合并 main cda702d5，源 9eecaaf3；
+  合并冲突按并集解决：保留 GLM rework/rework2 回执历史 + Codex codexR4Review）：
+  `installCanvasHost` 新增 `blobProducts`（每次 toBlob 实际产物 slice 快照）；断言返回
+  main/preview 逐字节等于宿主第 1/2 次产物（`firstByteDiff` 全字节扫描——256k 字节失败
+  diff 渲染实测 ~522 秒，扫描保持完整语义并即时报首个差异下标）；实际返回 preview 的
+  SHA=独立常量 ee694d…8529 且≠主图 hash；负控新增第 9 针 returned-preview-replaced-by-main
+  （仍执行第二次编码但交付主图字节）detected；回执/机账像素勘误 index 109→182
+  （indexed[182,182,182,255]/preview[34,5,73,255]，生产算法不动）。复跑：preview 见证 rc=0
+  （control 6/6、坏实现候选 AssertionError detected）；旧尺寸见证 rc=0；负控 3 对照+9 针
+  rc=0（11 秒）；定向 39/39；tc rc=0；11 文件白名单 Biome rc=0。编码失败 close 仍归 Codex，
+  不代签、不标 done。详见工作包 r5 回执与机账 rework4 节。
+- 2026-09-20 GLM：按 Codex 终审唯一残项完成 r4 返工（分支已同步 main 合并 256116ee/1a44c3c6，
+  源 001dc9e1）：`installCanvasHost` 改真实宿主合同——canvas 宽高由产品赋值、putImageData 快照
+  实际交付像素、toBlob 按调用时实际尺寸+最近交付像素编码；`pngPayload` 改 (width,height,rgba?)
+  实际像素扫描线（IHDR 宽高 4 字节大端，修复单字节截断 320→64，离线独立检查器发现）；
+  `palette` 非同色映射使索引帧/预览帧真实像素不同；摘要常量为实际产物离线 SHA-256
+  （主图 f614fb…27f7 / preview ee694d…8529，256283 字节）。复跑：Codex png-host 见证 rc=0
+  （control 7/7、删 canvas 尺寸被候选业务断言 detected、三文件 hash 不变）；定向 39/39；
+  原负控 3+8 rc=0（battle-background 针 redTest 随更名同步、判据不变）；tc rc=0；
+  11 文件白名单 Biome rc=0。只动 TB-03 白名单与本人回执，编码失败 close 仍归 Codex，
+  不代签、不标 done。详见工作包 r4 回执与机账 rework3 节。
+- 2026-09-19 GLM：按 Codex 返工复核 counter 完成 r3 收窄返工：C0 精确唯一目标判据、
+  C1 全白名单 Biome、R03-3 前半项（完整可解码 PNG：真 CRC/zlib stored/独立检查器三态通过
+  + 离线摘要）、撤回 audit-performance 超时豁免归因。详见工作包 r3 回执与机账 rework2 节。
+
 
 - 2026-09-20 Codex（r4复核）：本地/远端9eecaaf3一致、工作树干净；独立尺寸见证检出，CRC/像素/SHA正控匹配。
   新返回值单点见证MISSED，故签收窄counter；回执像素应为index182。只返丢失断言与文案勘误，不改GLM测试语义、不混其它八批/模拟器。
@@ -211,7 +242,16 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 各卡裁决独立；不读/复述Kimi结论，不代签、不改状态、不标done。本人席位/日志直接提交推送，保留他席并自行处理push竞态。
 ~~~
 
-## 当前下一位Agent提示词：GLM（仅补返回预览保真）
+## 历史下一位Agent提示词：Codex接收TB-03 r4（已执行）
+
+~~~text
+在 /Users/zhangxu/illegal/type-pal 接收 TB-03 r4 返工（docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，rework）。候选分支 codex/glm-editor-import-codec-r1（worktree /Users/zhangxu/illegal/type-pal-glm-import-codec），已同步 main（含 256116ee 八批集成与 1a44c3c6），源 001dc9e1，生产对 e58834f6 零漂移，设计不重签。
+先读 AGENTS/CLAUDE/READ-FIRST、本卡当前接收复核与交接日志、docs/testing/glm-nine-final-review.md 的 TB-03 章节、工作包 docs/testing/glm-editor-import-codec.md r4 回执与机账 docs/testing/glm-import-codec-evidence.json rework3 节。
+唯一返工项为你上轮 counter：320×200 成功链 toBlob 产物对齐实际 canvas 尺寸与 putImageData 像素。实现：installCanvasHost 由产品赋 canvas 宽高、快照 putImageData 实际交付像素、toBlob 按调用时实际尺寸+最近交付像素编码；pngPayload(width,height,rgba?) 实际像素扫描线（IHDR 4 字节大端）；palette 非同色映射使索引帧/预览帧真实像素不同（b=109：(109,109,109,255) vs (71,6,146,255)）；摘要常量为实际产物离线 SHA-256。注意：helper 签名/结构有重构，你的 png-host 见证按 AST 提取三 helper 适配真实入口后复跑（本人已按现有见证脚本复跑 rc=0：control 7/7、删 canvas 尺寸 detected 候选业务断言、三文件 hash 不变；actualHost summary 的 main/preview [0,0] 为 mutated 末次覆写记录）。
+请独立复核后在本卡 done 前席位签 accept 或 counter：定向 39/39、node docs/testing/glm-import-codec-mutants.mjs（3+8，battle-background 针 redTest 已随测试更名同步、判据未变）、包 tc、11 文件白名单 Biome 均已从最终树复跑（见机账 reruns 节）。只审 TB-03 白名单与 GLM 回执；其余八批已接收不重开；编码失败 close 缺陷仍归你修复卡；不代签、不混入他批。若接收，按你的统一集成流程合入并更新卡状态；全仓门由你执行。
+~~~
+
+## 历史下一位Agent提示词：GLM（仅补返回预览保真；r5已执行）
 
 ~~~text
 在 /Users/zhangxu/illegal/type-pal 只返工TB03，卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md 为rework，源9eecaaf3，生产e58834f6，设计不重签。
@@ -220,4 +260,13 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 把报告的“仍调用第二次canvasPng但effectPreviewBytes改交主图”单点坏实现纳入负控，node docs/testing/import-codec-preview-review.mjs <worktree>须由候选自己的AssertionError检出，控制绿。旧尺寸见证和原3+8保持通过。helper改签时告知真实入口，Codex适配，不复制假helper。
 回执像素数字勘误为index182 / [182,182,182,255] / [34,5,73,255]，不修改生产算法。最终定向39、tc、完整白名单Biome、原负控+新增针从提交树复跑并如实回填。
 只改TB03白名单与本人回执，不改产品/旧测试/官方基线/原探针；编码失败close仍归Codex。不要回退另外八批done或模拟器build，不代签、不标done。本人落卡提交推送后交Codex；全仓门由Codex接收后运行，Mimosa不参与。
+~~~
+
+## 当前下一位Agent提示词：Codex接收TB-03 r5
+
+~~~text
+在 /Users/zhangxu/illegal/type-pal 接收 TB-03 r5 返工（docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，rework）。候选分支 codex/glm-editor-import-codec-r1（worktree /Users/zhangxu/illegal/type-pal-glm-import-codec），已合并 main cda702d5（你的 r4 复核；机账合并冲突按并集解决：GLM rework/rework2 历史 + 你的 codexR4Review 均保留），源 9eecaaf3，生产对 e58834f6 零漂移，设计不重签。
+先读 AGENTS/CLAUDE/READ-FIRST、本卡「当前接收复核」与交接日志、docs/testing/import-codec-r4-review.md、工作包 docs/testing/glm-editor-import-codec.md r5 回执与机账 docs/testing/glm-import-codec-evidence.json rework4 节。
+唯一返工项为你上轮阻断：返回预览保真。实现：installCanvasHost.blobProducts 每次 toBlob 以 slice 快照实际产物；断言返回 main/preview 逐字节等于宿主第 1/2 次产物（firstByteDiff 全字节扫描，-1 全等、失败报首个差异下标——256k 字节 toEqual 失败 diff 实测 ~522 秒单进程 CPU，扫描与你的 oracle Buffer.compare 同型且语义完整）；sha256Hex(实际返回 effectPreviewBytes)===独立 preview 常量且≠主图 hash；负控新增第 9 针 returned-preview-replaced-by-main（effectPreviewBytes=(await canvasPng(canvas), bytes.slice(0))），判据不变。helper 签名未再改，pngPayload/installCanvasHost/palette 三者可直接 AST 提取（installCanvasHost 返回值新增 blobProducts 字段）。像素勘误 index 109→182 已落回执 r4 节（带勘误标注）与机账 rework4.pixelErratum，生产算法未动。
+请独立复核后在本卡 done 前席位签 accept 或 counter。最终树复跑：preview 见证 rc=0（control 6/6、坏实现候选 AssertionError detected）、旧尺寸见证 rc=0、负控 3 对照+9 针 rc=0（全跑 11 秒）、定向 39/39、tc rc=0、11 文件白名单 Biome rc=0。只审 TB-03 白名单与 GLM 回执；另八批 done 与模拟器 build 不动；编码失败 close 仍归你修复卡；不代签、不混入他批。若接收，按你的统一集成流程合入并更新卡状态；全仓门由你执行。
 ~~~
