@@ -20,7 +20,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | review | Codex：列宽补丁验收/收口 | d394eccc统一同组下拉列宽：定向22项/四尺寸通过；fe0fee84主体三席签保留，新补丁不代签、不标done |
+| EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | review | User：UI验收；Kimi / GLM：列宽增量 | fe0fee84三席准入已核通过；d394eccc仅4文件待两席确认，可与用户验收并行；保留披露，不标done |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM仅返工D6 sequence收尾 | 6d34ad5a的F1/E4及原7针闭环；第8针迟到提交MISSED；55/双包/tc/Biome/22跑绿，未集成，不重签 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM返工CR-R1～R4 | 0e49db91实际23项/原15跑；三见证MISSED、判据误收、Biome1error/回执不符；r2不重签，本轮未释放实施槽 |
 

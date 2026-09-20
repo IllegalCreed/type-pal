@@ -15,6 +15,53 @@ Revision: r2a / 2026-09-20人数勘误；用户明确我方本来就只有1～3�
 本卡与[GLM六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)独立；后者只改新的非视觉测试，Codex只改本卡产品面。
 此前已核r2三席设计准入并开始首批实现；2026-09-20发现我方人数前提不完整，用户已澄清原需求是1～3人。本轮核定r2a三席补核完成，不再等待人数选择或重签；r1不实施。
 
+## done准入核定与用户UI验收（Codex，2026-09-20）
+
+按用户本轮指定候选核定：**fe0fee84三席审查条件已满足**，Codex在`9b4ee229`落卡、GLM在`7734e94a`、
+Kimi在`ce54967c`均明确对同一候选accept，无当前counter；cb44c378机制accept按历史范围保留，不替代增量签。
+主体审查不重开，可交用户做最终UI验收；本次只查签字/既有证据和最终diff，没有重跑技术测试。
+
+**当前整卡尚不能done**：用户随后要求的列宽补丁`d394eccc`已经合入，HEAD的packages/scripts相对它零diff，
+但它相对fe0fee84恰多4文件增量，Kimi/GLM尚未签此增量。不能把fe0fee84签字外推，也不为收口回退已修UI。
+两席只需确认下面列宽补丁，不重审模型、引擎和保存机制；可与用户UI验收并行。Status仍review，不代签、不记用户已通过。
+
+### 用户最终UI验收（约2–3分钟，无需跑测试）
+
+入口：编辑器顶栏 **战斗模拟器 → 试打方案 → 本场临时方案**。若已有临时配置直接使用，不要覆盖；空配置可添加
+一个已有可参战角色（PAL工程可选李逍遥）。以下界面已由Codex实测，用户只需判断产品效果：
+
+1. 点「添加队员」搜索一个未在队里的角色，选择后取消：人数不变；再次选择并确认：只加1人。
+   已满3人时添加禁用属于预期，不必删现有队员凑流程。
+2. 看同一队员的「脚部/习得技能」及敌方「编队来源/敌方槽位」：各自组内左右边缘齐。
+   将窗口缩窄到约900px：自动换行、不裁切；将编队来源切换引用/临时、技能模式切换继承/指定，列宽不跳变。
+3. 在「指定技能」里勾选/取消一项：外部已选数量同步变化，关闭后表单不变成长串按钮。
+
+任一项不符合，保留已通过项，只记录失败项；通过可回复「UI验收通过」。无需重新验证已接受的保存事务、存档隔离、
+战斗公式/战斗全过程，也不让用户替Agent跑命令。用户UI通过与列宽增量审查是两个门，均满足后由Codex统一收口。
+
+披露边界保持：原生目录选择器保存→重开正向浏览器链未完成（真实writer/loader/事务集成已过）；360宽沿现有主壳限制；
+full/Q1/Q2未执行，不能写成全量E2E完成。两席此前对这些边界的非阻断判断仍按原范围保留。
+
+### 下一位Agent提示词（仅列宽4文件增量，两席并行）
+
+**Kimi：**
+
+```text
+在 /Users/zhangxu/illegal/type-pal 增量确认 EDITOR-SKILL-TRIAL-1 的列宽补丁d394eccc，对比fe0fee84；卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，review。
+先同步main检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面done准入核定/当前列宽补丁及docs/testing/battle-simulator-implementation.md列宽节。fe0fee84主体三席齐，不重签设计、不重开机制。
+仅核Forms className、业务CSS、既有UI断言和CSS普查快照这4文件：统一auto-fill、显式收缩约束、移除独立限宽，没有改变业务回调/公共控件/引擎。Codex定向22项、TC/Biome/build及四尺寸实际视觉通过；不重复视觉，不跑全仓或改基线。选择器/360/full-Q1-Q2边界保持。
+独立读取源码，不读取或复述GLM补丁结论；只在本卡列宽补丁的Kimi席位及本人日志签accept或带file:line反证counter，提交推送，保留其它席原文。不得改实现/状态，不代签用户，不标done。
+```
+
+**GLM：**
+
+```text
+在 /Users/zhangxu/illegal/type-pal 增量确认 EDITOR-SKILL-TRIAL-1 的列宽补丁d394eccc，对比fe0fee84；卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，review。
+先同步main检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面done准入核定/当前列宽补丁及docs/testing/battle-simulator-implementation.md列宽节。fe0fee84主体三席齐，不重签设计、不重开机制。
+核4文件白名单、既有UI测试仅加断言、CSS快照只有auto-fit→auto-fill，未改测试数/选择/基线；按需复跑editor的battle-simulator-ui、field-layout-adoption、number-field-adoption共22项。Codex的四尺寸像素测量归视觉证据，你不操作浏览器、不判断截图，不补跑全仓覆盖率。选择器/360/full-Q1-Q2边界保持。
+独立读取源码，不读取或复述Kimi补丁结论；只在本卡列宽补丁的GLM席位及本人日志签accept或直接反证counter，提交推送，保留其它席原文。不得改实现/状态，不代签用户，不标done。
+```
+
 ## 当前列宽补丁（2026-09-20，候选d394eccc）
 
 用户继续指出「脚部/习得技能」「编队来源/敌方槽位」宽度不齐。本次统一扫描整个模拟器下拉表单，
@@ -26,8 +73,9 @@ Revision: r2a / 2026-09-20人数勘误；用户明确我方本来就只有1～3�
   1920/1280/900/720宽均等宽，继承/指定与敌队引用/五槽切换后不跳宽，内部网格无横溢、控件无出屏。
   具体数值/初轮裁切发现与修正见[实施记录列宽补丁](../../testing/battle-simulator-implementation.md)。
   本补丁未重跑全仓check/覆盖率，也未修改基线；fe0fee84的7895/7404保持其原候选口径，不能倒填成新跑。
-- Kimi / GLM：列宽补丁待增量确认；fe0fee84主体已签结论保留于下方。
-- 状态仍review，done关闭。无下一位Agent提示词，本轮先等待用户UI验收；收口时统一补核这4文件增量，不重复机制审查。
+- Kimi：pending（仅列宽增量确认；主体accept保留于下方）。
+- GLM：pending（仅列宽增量确认；主体accept保留于下方）。
+- 状态仍review，整卡done关闭；主体三签门已核通过。列宽增量提示词及用户UI验收清单见上方，不重复机制审查。
 
 ## UI-r1主体接收（2026-09-20，候选fe0fee84；cb44c378不再收口）
 
@@ -96,7 +144,7 @@ r2/r2a保存、隔离、人数与四目录架构不变，不重签设计；本�
   - **基线精确性直读**：`baseline.fast.json` diff 仅计数/digest（7400→7404 恰 +4：UI 7→10、
     leave-guard 31→32），零排除增删、零范围文件增删，无缩范围。
   - 旧候选的机制/隔离/负控结论未变化，按卡面保留不重开；视觉四尺寸归 Codex。无 counter。
-- done准入：**关闭**。等待同候选增量审查与用户UI验收；本轮不代签、不标done。
+- done准入（仅fe0fee84主体）：**三席审查门已通过**，等待用户UI验收；当前整卡还需d394eccc列宽增量确认，详见顶部核定。不代签、不标done。
 
 ### UI-r1并行交接提示词
 
