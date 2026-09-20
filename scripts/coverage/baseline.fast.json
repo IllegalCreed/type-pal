@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-20T01:09:38.130Z",
+  "generatedAt": "2026-09-20T03:53:04.697Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 7220,
+  "testCount": 7259,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3350,8 +3350,8 @@
       ],
       "scopeDigest": "9696f732999bcfdc8a19ba9e9ff40a428fbd5f2f67dd2695734be188495d62a8",
       "fastTests": {
-        "testCount": 2398,
-        "testFileCount": 236,
+        "testCount": 2437,
+        "testFileCount": 243,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
@@ -3370,6 +3370,7 @@
           "packages/editor/src/core/author-save-store.test.ts",
           "packages/editor/src/core/battle-data-delete-commands.test.ts",
           "packages/editor/src/core/battle-data-references.test.ts",
+          "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
           "packages/editor/src/core/clone.test.ts",
           "packages/editor/src/core/commands-assets.boundaries.test.ts",
           "packages/editor/src/core/commands-catalog.boundaries.test.ts",
@@ -3388,12 +3389,17 @@
           "packages/editor/src/core/entity-address-references.test.ts",
           "packages/editor/src/core/file-system-access.test.ts",
           "packages/editor/src/core/frame-animation-codec.test.ts",
+          "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+          "packages/editor/src/core/frame-animation-codec.worker.test.ts",
           "packages/editor/src/core/frame-animation-draft.test.ts",
+          "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
           "packages/editor/src/core/frame-animation-images.test.ts",
+          "packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
           "packages/editor/src/core/fsa-copy.test.ts",
           "packages/editor/src/core/handle-store-capability.test.ts",
           "packages/editor/src/core/handle-store.test.ts",
           "packages/editor/src/core/hit-test.test.ts",
+          "packages/editor/src/core/image-import.stages.test.ts",
           "packages/editor/src/core/image-import.test.ts",
           "packages/editor/src/core/isometric-brush.test.ts",
           "packages/editor/src/core/isometric-fill.test.ts",
@@ -3471,6 +3477,7 @@
           "packages/editor/src/core/tileset-lifecycle.test.ts",
           "packages/editor/src/core/tileset-references.test.ts",
           "packages/editor/src/core/ui-review-samples.test.ts",
+          "packages/editor/src/core/video-metadata.boxes.test.ts",
           "packages/editor/src/core/video-metadata.test.ts",
           "packages/editor/src/core/workspace-capability-lifecycle.test.ts",
           "packages/editor/src/core/workspace-context-boundaries.test.ts",
@@ -3677,6 +3684,11 @@
             "identityDigest": "f4848c64092e27a68c3731ed5add45cee2e9360326d6dfc8de69cd2914c03a09"
           },
           {
+            "file": "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+            "testCount": 7,
+            "identityDigest": "ec8d3dad275c7669ddbc28bd563d5ad40a077cdaa24a8da4ac4ab201441c8144"
+          },
+          {
             "file": "packages/editor/src/core/clone.test.ts",
             "testCount": 7,
             "identityDigest": "4ae0f39266865e079a57da488987ba17e7f346c4ab64d2001a77f3ef2884e44e"
@@ -3767,14 +3779,34 @@
             "identityDigest": "a8829bf0066118a5d7a142863fe6f716fd59106c0ad45a1e58d081b026196e65"
           },
           {
+            "file": "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+            "testCount": 6,
+            "identityDigest": "724111e564d5d82730944fc1ce8d050d30f0a2f8a960315043ecd1efad5975f9"
+          },
+          {
+            "file": "packages/editor/src/core/frame-animation-codec.worker.test.ts",
+            "testCount": 3,
+            "identityDigest": "ef7936185828fba64fca1a51db8ada0bd2e14ff9061b9276972a7ac009bfb3fb"
+          },
+          {
             "file": "packages/editor/src/core/frame-animation-draft.test.ts",
             "testCount": 5,
             "identityDigest": "7ac69ed9750bed5018fb2f37c9500b595915a3c86e49110400b4e38a781dc9bc"
           },
           {
+            "file": "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "475998f3cc504c51855acce3b806318df53a43a41acc25cc319758d6c7ad242e"
+          },
+          {
             "file": "packages/editor/src/core/frame-animation-images.test.ts",
             "testCount": 1,
             "identityDigest": "bd8fa1fea0877c5e8b371aff8ae1cb9cf7a8109c73004e4d220c2b7d93bfba06"
+          },
+          {
+            "file": "packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "68d63a628571b20553ade2ef6ba1ab7461130144daa51070b7ce90cca6f00873"
           },
           {
             "file": "packages/editor/src/core/fsa-copy.test.ts",
@@ -3795,6 +3827,11 @@
             "file": "packages/editor/src/core/hit-test.test.ts",
             "testCount": 3,
             "identityDigest": "71048c8efc93bcd662717a2df008765af4698412b3e115e118432ef33fed7ecc"
+          },
+          {
+            "file": "packages/editor/src/core/image-import.stages.test.ts",
+            "testCount": 5,
+            "identityDigest": "7e2f5f5b925763fd89a9e2e51bac6ca11f611de5ff79d1791e2031fd52f7300a"
           },
           {
             "file": "packages/editor/src/core/image-import.test.ts",
@@ -4180,6 +4217,11 @@
             "file": "packages/editor/src/core/ui-review-samples.test.ts",
             "testCount": 3,
             "identityDigest": "bc11b96bedcdc5a74cae48ee83f23b6f0e3f8eb6641109ec29b499caba7b7ad8"
+          },
+          {
+            "file": "packages/editor/src/core/video-metadata.boxes.test.ts",
+            "testCount": 6,
+            "identityDigest": "05d90853cbf04fa11a96ca4e8139e1ff01433f57f38c206dcbe18394d51c864f"
           },
           {
             "file": "packages/editor/src/core/video-metadata.test.ts",
@@ -4772,25 +4814,25 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "648bd9ef8aa08bd0f0780a345291f1a926ef6d73830192f14dc18dff7891ebf4",
+        "identityDigest": "9e8d943747b86fe6d89e1847ffaacec2724468fcd257ca457808147b7a2b85b0",
         "duplicateIdentityCount": 8,
-        "executionDigest": "afd7cbb61af267707e4f243ade4b8b66dd56a7cdecc8ab9b17137eba4f4f9976"
+        "executionDigest": "79aaa52aceea7786b83453b5372772822de4dd389caf515d2518c942dd4b2e50"
       },
       "metrics": {
         "statements": {
-          "covered": 24868,
+          "covered": 25058,
           "total": 31878
         },
         "branches": {
-          "covered": 19322,
+          "covered": 19434,
           "total": 27593
         },
         "functions": {
-          "covered": 6174,
+          "covered": 6206,
           "total": 8110
         },
         "lines": {
-          "covered": 22365,
+          "covered": 22522,
           "total": 27865
         }
       }
@@ -4798,19 +4840,19 @@
   },
   "total": {
     "statements": {
-      "covered": 55065,
+      "covered": 55255,
       "total": 78971
     },
     "branches": {
-      "covered": 39324,
+      "covered": 39436,
       "total": 62045
     },
     "functions": {
-      "covered": 10364,
+      "covered": 10396,
       "total": 14520
     },
     "lines": {
-      "covered": 49626,
+      "covered": 49783,
       "total": 69119
     }
   }
