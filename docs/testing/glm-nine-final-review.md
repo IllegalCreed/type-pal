@@ -1,8 +1,8 @@
 # 九批收窄返工独立接收（2026-09-20，Codex）
 
-当前结论：**八批Codex accept并逐批集成，统一候选256116ee，待Kimi终审/GLM实现者自验落席；TB03仅余PNG宿主尺寸合同counter**。
+当前结论：**TB02/TB04～TB10八批同候选256116ee三席accept齐、用户授权收口，2026-09-20由Codex核定done归档；TB03不在本次收口范围，仍rework**。
 旧[二轮报告](glm-nine-rework-review.md)及[首轮报告](glm-nine-intake-review.md)仅为历史，不把其counter重复套到本轮。
-三席设计不重签；GLM为测试贡献者，不算独立第三方自证。未代签、未标done；TB00/TB01另排、Mimosa不参与。
+三席设计不重签；GLM为测试贡献者，不算独立第三方自证。未代签；本次仅八批done，TB00/TB01/TB03另排、Mimosa不参与。
 
 | 批次 | 指定源候选 | 定向 | 原对照+负控 | 自有文件Biome | 本轮 |
 |---|---|---:|---:|---|---|
@@ -67,7 +67,7 @@ TYPE_PAL_COVERAGE_BASE_REF=ad528beb的**单次**coverage:fast退出0（7220项/6
 基线7049→7220，仅八批171项；60新测试文件，全部旧测试identity/计数、七包生产清单/scopeDigest/指标分母不变，content完整基线对象不变。
 全仓行71.80%（49626/69119）、语句69.73%（55065/78971）、函数71.38%（10364/14520）、分支63.38%（39324/62045），
 净增294行/372语句/43函数/186臂；官方完整分包数字见[覆盖率记录](coverage.md)。没有跑full/E2E，也未达到最终90%/85%目标。
-统一代码/基线候选256116ee；各源候选对应关系见表，后续文档签字不得混进产品变更。两席未落最终签字前不标done。
+统一代码/基线候选256116ee；各源候选对应关系见表，后续文档签字不得混进产品变更。两席现已落签：GLM 17284da0 / Kimi cf40a0e4，Codex复核同候选无漂移后按用户授权标八批done。
 
 ## 下一位Agent提示词（GLM：仅TB03返工）
 
@@ -79,18 +79,18 @@ TYPE_PAL_COVERAGE_BASE_REF=ad528beb的**单次**coverage:fast退出0（7220项/6
 不改产品/旧测试/基线/原探针，编码失败close仍归Codex；定向39/原3+8/tc/最终完整白名单Biome与回执从树复跑。本人落卡提交推送，不代签、不标done；其余八批不返工，统一门禁由Codex负责。
 ~~~
 
-## 当前并行终审与定点补核交接
+## 历史并行终审与定点补核交接（已执行，不再转发）
 
 八批卡路径：
 
-- [TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md](../ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)
-- [TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md](../ops/tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md)
-- [TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md](../ops/tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md)
-- [TEST-EDITOR-MAP-DATA-1-selection-stamps.md](../ops/tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md)
-- [TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md](../ops/tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md)
-- [TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md](../ops/tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md)
-- [TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md](../ops/tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md)
-- [TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md](../ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md)
+- [TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md](../ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)
+- [TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md](../ops/archive/tasks/done/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md)
+- [TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md](../ops/archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md)
+- [TEST-EDITOR-MAP-DATA-1-selection-stamps.md](../ops/archive/tasks/done/TEST-EDITOR-MAP-DATA-1-selection-stamps.md)
+- [TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md](../ops/archive/tasks/done/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md)
+- [TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md](../ops/archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md)
+- [TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md](../ops/archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md)
+- [TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md](../ops/archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md)
 
 ### Kimi
 
@@ -112,3 +112,11 @@ TYPE_PAL_COVERAGE_BASE_REF=ad528beb的**单次**coverage:fast退出0（7220项/6
 另按 EDITOR-SKILL-TRIAL-1 卡末提示定点核r2a：我方1～3人、敌方五槽；本人签premise verified/design agree或counter，不重审保存/隔离/四目录，不改模拟器代码。
 各卡裁决独立；不读/复述Kimi结论，不代签、不改状态、不标done。本人席位/日志直接提交推送，保留他席并自行处理push竞态。
 ~~~
+
+## 2026-09-20阶段门禁收口
+
+本轮只读取现有签字/证据、核256116ee之后packages与scripts零diff；没有复跑任何测试或覆盖率，未改变基线。
+八批三席均同候选accept、无counter：用户明确授权齐签后收口，任务归档并同步看板/索引。实现者自验不冒充独立终审。
+EDITOR-SKILL-TRIAL-1的r2a三席也已齐（GLM 1a44c3c6/Kimi 99bd6969）；与原r2主体合并恢复已批准范围build，
+不开放仍待确认的入口UI、不宣称功能完成。TB03 r4候选9eecaaf3已定位，但本轮未复核/集成/关闭其counter。
+无下一位Agent提示词；八批已收口，模拟器后续由Codex继续，TB03接收单独处理。

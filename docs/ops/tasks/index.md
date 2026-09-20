@@ -8,17 +8,9 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](EDITOR-SKILL-TRIAL-1-isolated-battle.md) | rework | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](EDITOR-SKILL-TRIAL-1-isolated-battle.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）](TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）](TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-PAL-TABLES-COVERAGE-1 - 原版表格与文本自包含补测（TB-04）](TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）](TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [TEST-RESOURCE-TOOLS-COVERAGE-1 - RLE、事件与资源工具补测（TB-05）](TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -154,8 +146,16 @@
 | [TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测](../archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](../archive/tasks/done/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）](../archive/tasks/done/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强](../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](../archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](../archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-MIGRATION-BOUNDARIES-1 - 当前迁移辅助与隔离文件系统补测（TB-10）](../archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-PAL-TABLES-COVERAGE-1 - 原版表格与文本自包含补测（TB-04）](../archive/tasks/done/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）](../archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测](../archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-RESOURCE-TOOLS-COVERAGE-1 - RLE、事件与资源工具补测（TB-05）](../archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W4-1 - 命名落点闭环与迁移去重](../archive/tasks/done/W4-1-named-scene-entry-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W6 - 昼夜氛围系统(全帧乘法滤镜 + 氛围数据表)](../archive/tasks/done/W6-ambience-day-night.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W7B - tileset 库:自有瓦片图集(上传 → 量化贴盘 0 → 入库可选)](../archive/tasks/done/W7B-tileset-library.md) | done | 完成证据、历史签字与交接见原卡。 |

@@ -53,7 +53,7 @@ GLM多数Biome回执未包括全部新增JSON/诊断文件；TB-07～10另有测
 
 ## TB-02
 
-任务卡：[TEST-REFORGE-ASSET-IO-1-read-cache-sfx](../ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)。候选a7c48d9c；/Users/zhangxu/illegal/type-pal-glm-asset-io。
+任务卡：[TEST-REFORGE-ASSET-IO-1-read-cache-sfx](../ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)。候选a7c48d9c；/Users/zhangxu/illegal/type-pal-glm-asset-io。
 锚点路径相对该候选，不是主线尚不存在的新测试。
 
 - **R02-1，真实坏JSON漏检**：`fsa-source.cancel-windows.test.ts:121–133`没有把text改成坏JSON，反而断言readText/readJson都成功。单点吞掉JSON解析错误后，候选3/3仍绿，独立坏JSON oracle红（`fsa-invalid-json-swallowed`）。
@@ -72,7 +72,7 @@ GLM多数Biome回执未包括全部新增JSON/诊断文件；TB-07～10另有测
 
 ## TB-04
 
-任务卡：[TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs](../ops/tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md)。候选851a6ede；/Users/zhangxu/illegal/type-pal-glm-pal-tables。
+任务卡：[TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs](../ops/archive/tasks/done/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md)。候选851a6ede；/Users/zhangxu/illegal/type-pal-glm-pal-tables。
 锚点路径相对该候选，不是主线尚不存在的新测试。
 
 - **R04-1，SSS输入保真空转**：`io/sss.boundaries.test.ts:51`比较调用前snapshot与**新造fixture**的snapshot，未比较实际wrapped/view。单点污染已经读取的原buf，候选3/3仍绿、oracle红（`sss-mutates-consumed-buffer`）。暴露同一输入及前后保护字节，调用后比较。
@@ -82,7 +82,7 @@ GLM多数Biome回执未包括全部新增JSON/诊断文件；TB-07～10另有测
 
 ## TB-05
 
-任务卡：[TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font](../ops/tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md)。候选d083e5c6；/Users/zhangxu/illegal/type-pal-glm-resource-tools。
+任务卡：[TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font](../ops/archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md)。候选d083e5c6；/Users/zhangxu/illegal/type-pal-glm-resource-tools。
 锚点路径相对该候选，不是主线尚不存在的新测试。
 
 - **R05-1，缺label默认0被重新保活**：`events/recompile.boundaries.test.ts:65–66`将dangling goto写0当正确合同。已签R04明确排除无当前consumer/未定缺label政策，撤回此新绿测；保留有真实target的独立字节oracle。
@@ -91,7 +91,7 @@ GLM多数Biome回执未包括全部新增JSON/诊断文件；TB-07～10另有测
 
 ## TB-06
 
-任务卡：[TEST-EDITOR-MAP-DATA-1-selection-stamps](../ops/tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md)。候选0563eda7；/Users/zhangxu/illegal/type-pal-glm-editor-map-data。
+任务卡：[TEST-EDITOR-MAP-DATA-1-selection-stamps](../ops/archive/tasks/done/TEST-EDITOR-MAP-DATA-1-selection-stamps.md)。候选0563eda7；/Users/zhangxu/illegal/type-pal-glm-editor-map-data。
 锚点路径相对该候选，不是主线尚不存在的新测试。
 
 - **R06-1，权限保真空转**：`map-patch.boundaries.test.ts:116–117/132`快照、传参、最后比较三次创建permission。单点改真实permission.hiddenLayerIds，候选2/2仍绿，oracle红（`patch-mutates-actual-permission`）。必须持有同一权限对象；map/patch也取完整实际输入快照。
@@ -100,7 +100,7 @@ GLM多数Biome回执未包括全部新增JSON/诊断文件；TB-07～10另有测
 
 ## TB-07
 
-任务卡：[TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries](../ops/tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md)。候选90369143；/Users/zhangxu/illegal/type-pal-glm-script-helpers。
+任务卡：[TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries](../ops/archive/tasks/done/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md)。候选90369143；/Users/zhangxu/illegal/type-pal-glm-script-helpers。
 锚点路径相对该候选，不是主线尚不存在的新测试。
 
 - **R07-1，三个实际正控被正式guard拒绝**：`author-command-edit.boundaries.test.ts:19`是未知/退役kind dialogue；S03 makeCanonical().scenes的hooks是数组，报`scenes[0].hooks: 期望对象`；S06 gourdItem缺use.consuming，报期望boolean（还须继续过完整guard，不能只补首个报错）。请从当前合法作者对象构造，不用as unknown洗白。shell从当前投影产生，实际消费前自证。
@@ -110,7 +110,7 @@ GLM多数Biome回执未包括全部新增JSON/诊断文件；TB-07～10另有测
 
 ## TB-08
 
-任务卡：[TEST-GAME-MENU-BOUNDARIES-1-navigation-requests](../ops/tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md)。候选b1deae49；/Users/zhangxu/illegal/type-pal-glm-game-menu。
+任务卡：[TEST-GAME-MENU-BOUNDARIES-1-navigation-requests](../ops/archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md)。候选b1deae49；/Users/zhangxu/illegal/type-pal-glm-game-menu。
 锚点路径相对该候选，不是主线尚不存在的新测试。
 
 - **R08-1，done相位没有断言**：`equip-menu.boundaries.test.ts:87`仅expect(confirmEquipItem(...))无matcher，紧接着手工把phase改为pick-role。单点让done确认错误写phase=list，候选2/2仍绿、oracle红（`equip-done-phase-is-mutated`）。调用前后比较同一state/完整请求。
@@ -119,7 +119,7 @@ GLM多数Biome回执未包括全部新增JSON/诊断文件；TB-07～10另有测
 
 ## TB-09
 
-任务卡：[TEST-GAME-HOST-BOUNDARIES-1-privacy-timer](../ops/tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md)。候选61f0af34；/Users/zhangxu/illegal/type-pal-glm-game-host。
+任务卡：[TEST-GAME-HOST-BOUNDARIES-1-privacy-timer](../ops/archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md)。候选61f0af34；/Users/zhangxu/illegal/type-pal-glm-game-host。
 锚点路径相对该候选，不是主线尚不存在的新测试。
 
 - **R09-1，method优先级正反不具鉴别力**：`fetch-retry.boundaries.test.ts:30`总返回200；即使把Request(GET)+init(POST)错当GET，也只调用一次。单点忽略Request上的init.method覆盖后，候选4/4仍绿、503+POST oracle红（`request-method-ignores-init-override`）。使用失败/502/503触发的同条件POST/GET对照，核调用次数和最终Response/Error身份；保留AbortError未定政策隔离。
@@ -128,7 +128,7 @@ GLM多数Biome回执未包括全部新增JSON/诊断文件；TB-07～10另有测
 
 ## TB-10
 
-任务卡：[TEST-MIGRATION-BOUNDARIES-1-current-isolated-io](../ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md)。候选bd597558；/Users/zhangxu/illegal/type-pal-glm-migration。
+任务卡：[TEST-MIGRATION-BOUNDARIES-1-current-isolated-io](../ops/archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md)。候选bd597558；/Users/zhangxu/illegal/type-pal-glm-migration。
 锚点路径相对该候选，不是主线尚不存在的新测试。
 
 - **R10-1，baseline快照浅别名**：`migration-write-plan.boundaries.test.ts:52–55`只展开Map，value仍与输入共享。单点在返回前污染nextBaseline的JSON值，候选2/2仍绿、深快照oracle红（`writer-mutates-baseline-json`）。对实际Map/Set/嵌套JSON做调用前深快照，别用浅entries冒充。

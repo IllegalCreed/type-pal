@@ -11,7 +11,7 @@ r1自签原文留历史，不把错误前提静默覆盖成已被三席认可的
 | 队列 | 任务卡 | r2关键收口 |
 |---|---|---|
 | TB-01 | [内容合同残项](../ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | 当前结构守卫，不反向依赖运行时loader；已测/旧分片候选先分流 |
-| TB-02 | [读取缓存与音效准备](../ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | HTTP/FSA分开，音频adapter复制与标记门分层；页选择疑点不写正确绿测 |
+| TB-02 | [读取缓存与音效准备](../ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | HTTP/FSA分开，音频adapter复制与标记门分层；页选择疑点不写正确绿测 |
 | TB-03 | [导入编码与工作线程](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | 无产品导出的真实handler方案、真实transfer；媒体边界订正，已确认泄漏隔离 |
 
 ## 复核方式与已跑证据
@@ -98,7 +98,7 @@ TB-00当前三项残余返工优先，不与新包共享可修改fixture或混�
 ```text
 在 /Users/zhangxu/illegal/type-pal 按已签r2队列连续推进：
 docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md（TB-01，已build）
-docs/ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md（TB-02，设计准入已过，待槽）
+docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md（TB-02，设计准入已过，待槽）
 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md（TB-03，设计准入已过，待槽）
 先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、三卡当前准入与对应工作包、docs/testing/glm-coverage-work-queue.md。
 三席r2已齐（Codex f5cd23c0、GLM efe6b932、Kimi 61b79f1b），无counter，不重签。TB-00先按8ca74aac处理三项残余；未接收实施包合计最多两批，当前可并行推进TB-01。TB-02/03依序等槽；有空位、目标产品/合同未漂移且无新counter时，按卡面预授权同步状态/看板/索引后自行开工，不再等用户逐批点头；目标漂移则停对应批交Codex确认。
@@ -113,7 +113,7 @@ docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md（TB-03，设计�
 ```text
 在 /Users/zhangxu/illegal/type-pal 并行确认前三批r2设计，生产冻结e58834f6：
 docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md
-docs/ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md
+docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md
 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md
 均draft，Codex已签r2，未开build；原r1自签保留历史。先同步分支并读AGENTS/CLAUDE/READ-FIRST、三卡、对应glm-content-residual.md / glm-reforge-asset-io.md / glm-editor-import-codec.md，以及docs/testing/glm-coverage-queue-design-review.md。
 重点直接核r2差异：content无反向loader依赖/合法当前fixture/旧分片先分类；HTTP只透传与FSA主动取消分开；实际browserAdapter复制而非假adapter；声音当前页待证不固化；worker原handler零产品导出、真实transfer；PNG编码失败泄漏隔离归Codex。
@@ -126,7 +126,7 @@ TB-00既有返工优先；新批只有同r2三签齐且Codex核定build才开，
 ```text
 在 /Users/zhangxu/illegal/type-pal 独立设计审查以下三卡r2/draft，冻结e58834f6：
 docs/ops/tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md
-docs/ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md
+docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md
 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md
 先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、三卡前提/方案、三个对应工作包和docs/testing/glm-coverage-queue-design-review.md，再直接核一手代码和旧测试；不读取或复述GLM签字结论。
 重点压力测试current fixture/跨包去重/无反向依赖；HTTP-FSA、WebAudio标记门-真正宿主解码的合同分层；canonical活动页待证隔离；Node worker宿主既能调用真实handler和codec，又不冒称浏览器线程验证；PNG泄漏已确认且不准被GLM反写为绿测。可复跑只读前提探针，三卡独立裁决，一个counter不阻塞其他无依赖卡。

@@ -957,7 +957,7 @@
       "improvements": 0
     }
   },
-  "decision": "Codex accept: TB02/TB04-TB10 integrated at 256116ee; TB03 counter only Canvas geometry; Kimi and GLM final seats pending, no done",
+  "decision": "TB02/TB04-TB10 done by Codex after same-candidate three-seat acceptances and user closeout authorization; TB03 remains rework, r4 not reviewed in closeout",
   "candidate": "256116eec2cf7e9b8b9e31c4f37aa6e4b75ec805",
   "coverageAudit": {
     "rows": [
@@ -1256,5 +1256,16 @@
   "diagnosticSetupNotes": [
     "report assembly tool initial JavaScript syntax error before repository writes, then corrected",
     "baseline audit first used selectedTests instead of persisted fastTests; corrected and all invariants asserted; not a test/gate failure"
-  ]
+  ],
+  "closeout": {
+    "date": "2026-09-20",
+    "candidate": "256116ee",
+    "glm": "17284da0",
+    "kimi": "cf40a0e4",
+    "userAuthorization": "三席齐后按流程收口；本轮只读签字与既有证据，不重跑测试",
+    "packagesScriptsDiffAfterCandidate": [],
+    "testsRerun": false,
+    "done": ["TB-02", "TB-04", "TB-05", "TB-06", "TB-07", "TB-08", "TB-09", "TB-10"],
+    "excluded": ["TB-00", "TB-01", "TB-03"]
+  }
 }

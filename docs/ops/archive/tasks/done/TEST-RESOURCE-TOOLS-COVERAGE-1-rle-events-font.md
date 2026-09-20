@@ -1,6 +1,6 @@
 # TEST-RESOURCE-TOOLS-COVERAGE-1 - RLE、事件与资源工具补测（TB-05）
 
-Status: review
+Status: done
 Phase: phase1
 Capability: 已有合同补测，不改变能力地图
 Coding Owner: GLM（只新增测试）
@@ -12,14 +12,23 @@ Unavailable Agents: none
 Branch: codex/glm-resource-tools-r1
 
 Revision: r1，2026-09-19。生产冻结 `e58834f6389a40ffe9f187e6a8051f552e964d79`，策划树 `4473c367`。
-完整族账/去重/唯一白名单：[工作包](../../testing/glm-resource-tools.md)。共同规则与合并交接：[七批统一审核](../../testing/glm-coverage-remaining-review.md)。
+完整族账/去重/唯一白名单：[工作包](../../../../testing/glm-resource-tools.md)。共同规则与合并交接：[七批统一审核](../../../../testing/glm-coverage-remaining-review.md)。
 
 
-## 当前接收复核（Codex，2026-09-20，源00801036）
+## 2026-09-20终态收口（Codex统一核定）
+
+**done allowed → done**。用户本轮明确要求三席齐后收口；Codex、GLM实现者自验（17284da0）、
+Kimi独立终审（cf40a0e4）均钉统一候选256116ee，无剩余counter或缺签豁免。GLM贡献/非独立第三方身份保留。
+本轮同步main并核256116ee之后packages/与scripts/零diff，采信已落完整check7709、ratchet与受保护单次strict-fast7220证据，
+按用户要求**不重跑测试、不改产品/测试/基线**。三席原文保留，不代签。
+本批设计中排除/待证项维持原归属，不因done宣布已修；TB03的PNG宿主counter与r4待接收件不在本次收口范围。
+本卡归档到done目录，看板/索引同步。无下一位Agent提示词，本批已收口；下方旧交接提示词均为历史，不再执行。
+
+## 实现接收复核（历史）（Codex，2026-09-20，源00801036）
 
 **Codex accept（2026-09-20，统一候选256116ee）**。本批收窄counter全部闭合，已逐批集成；check7709、官方ratchet及受保护单次严格fast7220全通过，当前review待他席。
 定向24项、原负控、包tc和完整自有文件Biome均通过；C0精确唯一判据/C1格式与回执已关闭，不重开旧有效断言。
-见[本轮独立接收](../../testing/glm-nine-final-review.md)与[机账](../../testing/glm-nine-final-evidence.json)。
+见[本轮独立接收](../../../../testing/glm-nine-final-review.md)与[机账](../../../../testing/glm-nine-final-evidence.json)。
 GLM是测试贡献者而非独立第三方；交Kimi独立终审、GLM确认实现者自验，当前不代签、不标done。
 
 ## 上轮返工复核（历史）（Codex，2026-09-19，4cf2f2e8）
@@ -27,7 +36,7 @@ GLM是测试贡献者而非独立第三方；交Kimi独立终审、GLM确认实�
 **counter，保持rework**。原七针/五夹具已关闭；公共C0精确唯一目标和C1最终树格式/回执仍未满足。
 定向24项、原3+9跑与包tc通过；本批Biome 11文件/2 errors/1 warnings，exit1。
 本批无其他新业务返工，保留已通过断言。
-见[本轮复核及提示词](../../testing/glm-nine-rework-review.md)与[机账](../../testing/glm-nine-rework-evidence.json)。
+见[本轮复核及提示词](../../../../testing/glm-nine-rework-review.md)与[机账](../../../../testing/glm-nine-rework-evidence.json)。
 不合并、不更基线、不转Kimi、不代签、不标done；设计保持，Mimosa不参与。
 
 ## 首轮接收裁决（历史）
@@ -36,7 +45,7 @@ GLM是测试贡献者而非独立第三方；交Kimi独立终审、GLM确认实�
 **本席独立结论counter，任务rework，未合入正式测试/产品、不更新官方基线、不转Kimi终审。**
 定向24项、原3对照+9针、包typecheck均通过；
 Biome实测11文件/1 errors/1 warnings。
-见[统一复核 TB-05](../../testing/glm-nine-intake-review.md#tb-05)与[机器接收账](../../testing/glm-nine-intake-evidence.json)。
+见[统一复核 TB-05](../../../../testing/glm-nine-intake-review.md#tb-05)与[机器接收账](../../../../testing/glm-nine-intake-evidence.json)。
 公共C0判据误收适用，C1全部新增文件格式/回执不符也须修复；具体最小返工如下。
 
 - **R05-1，缺label默认0被重新保活**：`events/recompile.boundaries.test.ts:65–66`将dangling goto写0当正确合同。已签R04明确排除无当前consumer/未定缺label政策，撤回此新绿测；保留有真实target的独立字节oracle。
@@ -119,10 +128,13 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
   （执行期 SHORT 不归提取合同）、BDF 无 offset 输出、清单 path:size 键、严格/宽容 RLE
   分域及真实消费者、legacy-migrated 批准用途不按名删；入仓 mutants **对照绿 + 9 针全
   业务红**。统一门禁交叉核同 TB-02。返工项：无。
-- done准入：未开放；不代签、不标done。
+- done准入：**done allowed（Codex，2026-09-20）**。同候选三席accept齐、无counter，用户授权收口；本次状态done，原签字不改写。
 
 
 ## 交接日志
+
+- 2026-09-20 Codex（终态核定）：三席均钉256116ee，用户授权收口，核候选后代码/基线零漂移并复核既有门禁证据；不重跑测试。状态done并归档，TB03不在本次范围，未代签。
+
 - 2026-09-20 Kimi（八批终审之 TB-05）：复跑 8 文件 24/24 全绿（giveItem 提取保 u16、BDF
   无 offset、清单 path:size、严格/宽容 RLE 分域）、mutants 9 针全业务红+对照绿。
   交叉核统一门禁。签 accept，无返工项；未读 GLM 终审结论。Next：Codex 统一核定 done。
@@ -160,7 +172,7 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 ## 历史交接提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审 docs/ops/tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md（r1/draft，生产冻结e58834f6）。先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/glm-resource-tools.md、docs/testing/glm-coverage-remaining-review.md；一期范围额外读engineering-notes和相关真值。
+在 /Users/zhangxu/illegal/type-pal 审 docs/ops/archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md（r1/draft，生产冻结e58834f6）。先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/glm-resource-tools.md、docs/testing/glm-coverage-remaining-review.md；一期范围额外读engineering-notes和相关真值。
 Kimi负责独立前提/架构风险压力测试；GLM负责独立调用域、旧测试去重、合法fixture/负控可实施性。二者并行、不读/复述另一席结论；完整七批合并提示词见统一审核页。
 只在本人build前席位/本人日志写带primary file:line与可证伪观察的premise verified/design agree或counter，提交推送前同步保留另一席。不得改产品/正式测试/另一席/任务状态，不标build/done。七卡独立裁决，不因一张counter阻塞全部；三席齐后Codex统一准入。
 ```
@@ -168,7 +180,7 @@ Kimi负责独立前提/架构风险压力测试；GLM负责独立调用域、旧
 ## 历史下一位Agent提示词：GLM
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 返工 TEST-RESOURCE-TOOLS-COVERAGE-1（TB-05），卡 docs/ops/tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md 已rework，候选d083e5c6，生产冻结e58834f6；设计r1不重签。
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-RESOURCE-TOOLS-COVERAGE-1（TB-05），卡 docs/ops/archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md 已rework，候选d083e5c6，生产冻结e58834f6；设计r1不重签。
 先同步当前Codex counter到独立 codex/glm-resource-tools-r1，读AGENTS/CLAUDE/READ-FIRST、docs/testing/glm-delivery-checklist.md、本卡当前裁决和 docs/testing/glm-nine-intake-review.md 的公共C0/C1与TB-05章节、原工作包docs/testing/glm-resource-tools.md。
 只修列明残项，保留有效测试与他席结论；正式guard合法、实际同一入参深快照、禁止把已排除未知/旧接口写正确绿测。公共工具判据必须按目标错误首行，真实运行与自测同函数。原负控+本席相关独立见证、定向/相邻/全包/tc/全部新TS/MJS/MTS/JSON的Biome及私有同口径覆盖从最终树复跑，失败/未完成如实记录。
 只动原白名单/本人回执，分支不互合、不改产品/旧测试/官方基线/原审计探针/他席见证语义，不代签、不标done、不直接转Kimi。修完本批即可单独交Codex接收；全仓check/ratchet/strict-fast留接收后，用户已确认Mimosa归GLM私有MCP，Codex无需处理，不作为本轮接收/合并门。

@@ -11,13 +11,13 @@
 
 | 批次 | 任务卡 | 族账/白名单 | 目标模块 | 当前状态 |
 |---|---|---|---:|---|
-| TB-04 | [原版表格与文本自包含补测](../ops/tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | [工作包](glm-pal-tables.md) | 9 | 三席设计已齐；实施接收counter |
-| TB-05 | [RLE、事件与资源工具补测](../ops/tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | [工作包](glm-resource-tools.md) | 9 | 三席设计已齐；实施接收counter |
-| TB-06 | [地图选区与组合模板数据补测](../ops/tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | [工作包](glm-editor-map-data.md) | 8 | 三席设计已齐；实施接收counter |
-| TB-07 | [脚本与内容编辑辅助补测](../ops/tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | [工作包](glm-editor-script-helpers.md) | 7 | 三席设计已齐；实施接收counter |
-| TB-08 | [第一阶段菜单导航与请求补测](../ops/tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | [工作包](glm-game-menu-boundaries.md) | 9 | 三席设计已齐；实施接收counter |
-| TB-09 | [第一阶段宿主、隐私与计时补测](../ops/tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | [工作包](glm-game-host-boundaries.md) | 8 | 三席设计已齐；实施接收counter |
-| TB-10 | [当前迁移辅助与隔离文件系统补测](../ops/tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | [工作包](glm-migration-boundaries.md) | 9 | 三席设计已齐；实施接收counter |
+| TB-04 | [原版表格与文本自包含补测](../ops/archive/tasks/done/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | [工作包](glm-pal-tables.md) | 9 | 三席设计已齐；实施接收counter |
+| TB-05 | [RLE、事件与资源工具补测](../ops/archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | [工作包](glm-resource-tools.md) | 9 | 三席设计已齐；实施接收counter |
+| TB-06 | [地图选区与组合模板数据补测](../ops/archive/tasks/done/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | [工作包](glm-editor-map-data.md) | 8 | 三席设计已齐；实施接收counter |
+| TB-07 | [脚本与内容编辑辅助补测](../ops/archive/tasks/done/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | [工作包](glm-editor-script-helpers.md) | 7 | 三席设计已齐；实施接收counter |
+| TB-08 | [第一阶段菜单导航与请求补测](../ops/archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | [工作包](glm-game-menu-boundaries.md) | 9 | 三席设计已齐；实施接收counter |
+| TB-09 | [第一阶段宿主、隐私与计时补测](../ops/archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | [工作包](glm-game-host-boundaries.md) | 8 | 三席设计已齐；实施接收counter |
+| TB-10 | [当前迁移辅助与隔离文件系统补测](../ops/archive/tasks/done/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | [工作包](glm-migration-boundaries.md) | 9 | 三席设计已齐；实施接收counter |
 
 GLM完成旧counter优先；实施成果最多两批尚未接收，设计审核不限此两槽。获准后的领取授权由Codex写回卡面，不要求用户逐文件反复签字。
 一批counter不影响其它已明确合同；各批独立分支/worktree、独立薄fixture/输出目录，从最新已接收main起步，禁止把未接收分支互相合入。

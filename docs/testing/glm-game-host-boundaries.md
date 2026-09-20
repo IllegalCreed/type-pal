@@ -2,7 +2,7 @@
 
 ## 当前Codex接收结论
 
-2026-09-20候选ca4c0768：**Codex accept**，统一候选256116ee；check7709/ratchet/受保护单次严格fast7220通过，review待Kimi与实现者最终落席。
+2026-09-20候选ca4c0768：**Codex accept**，统一候选256116ee；check7709/ratchet/受保护单次严格fast7220通过，三席已齐、用户授权，2026-09-20由Codex核定done归档；本次不重跑测试。
 定向25项/原负控/tc/Biome全绿。详见[当前独立接收](glm-nine-final-review.md)，旧counter仅留历史。
 
 ### 首轮接收结论（历史）
@@ -11,7 +11,7 @@
 本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
 
 
-任务：[TEST-GAME-HOST-BOUNDARIES-1](../ops/tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md)，r1/rework；本轮实施候选61f0af34未接收，设计不重签。
+任务：[TEST-GAME-HOST-BOUNDARIES-1](../ops/archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md)，r1/rework；本轮实施候选61f0af34未接收，设计不重签。
 共同准入、负控、覆盖和隔离规则见[七批统一审核](glm-coverage-remaining-review.md)；本包只增测试；三席设计有效，用户已批准本轮先行实施，当前接收counter。
 表内为已按调用域筛选的候选，不是已经完成的新增覆盖；允许去重后减文件/减族，不设必须凑足的用例数。
 

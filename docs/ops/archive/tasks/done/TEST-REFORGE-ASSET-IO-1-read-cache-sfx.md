@@ -1,6 +1,6 @@
 # TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）
 
-Status: review
+Status: done
 Phase: phase2
 Capability: 已有读取/缓存/音效准备合同覆盖（不改变能力地图）
 Coding Owner: GLM（只新增测试）
@@ -12,15 +12,24 @@ Unavailable Agents: none
 Branch: codex/glm-reforge-asset-io-r1
 
 Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e964d79`不变。r1前提/方案已收窄，旧签留历史，不授权r2。
-来源：[补测长队列](../../testing/glm-coverage-work-queue.md) TB-02；r2三席已齐，实施时机以本卡当前准入为准。
-唯一工作包/族账/白名单：[glm-reforge-asset-io.md](../../testing/glm-reforge-asset-io.md)。
+来源：[补测长队列](../../../../testing/glm-coverage-work-queue.md) TB-02；r2三席已齐，实施时机以本卡当前准入为准。
+唯一工作包/族账/白名单：[glm-reforge-asset-io.md](../../../../testing/glm-reforge-asset-io.md)。
 
 
-## 当前接收复核（Codex，2026-09-20，源ea276956）
+## 2026-09-20终态收口（Codex统一核定）
+
+**done allowed → done**。用户本轮明确要求三席齐后收口；Codex、GLM实现者自验（17284da0）、
+Kimi独立终审（cf40a0e4）均钉统一候选256116ee，无剩余counter或缺签豁免。GLM贡献/非独立第三方身份保留。
+本轮同步main并核256116ee之后packages/与scripts/零diff，采信已落完整check7709、ratchet与受保护单次strict-fast7220证据，
+按用户要求**不重跑测试、不改产品/测试/基线**。三席原文保留，不代签。
+本批设计中排除/待证项维持原归属，不因done宣布已修；TB03的PNG宿主counter与r4待接收件不在本次收口范围。
+本卡归档到done目录，看板/索引同步。无下一位Agent提示词，本批已收口；下方旧交接提示词均为历史，不再执行。
+
+## 实现接收复核（历史）（Codex，2026-09-20，源ea276956）
 
 **Codex accept（2026-09-20，统一候选256116ee）**。本批收窄counter全部闭合，已逐批集成；check7709、官方ratchet及受保护单次严格fast7220全通过，当前review待他席。
 定向24项、原负控、包tc和完整自有文件Biome均通过；C0精确唯一判据/C1格式与回执已关闭，不重开旧有效断言。
-见[本轮独立接收](../../testing/glm-nine-final-review.md)与[机账](../../testing/glm-nine-final-evidence.json)。
+见[本轮独立接收](../../../../testing/glm-nine-final-review.md)与[机账](../../../../testing/glm-nine-final-evidence.json)。
 GLM是测试贡献者而非独立第三方；交Kimi独立终审、GLM确认实现者自验，当前不代签、不标done。
 
 ## 上轮返工复核（历史）（Codex，2026-09-19，d4d79026）
@@ -28,7 +37,7 @@ GLM是测试贡献者而非独立第三方；交Kimi独立终审、GLM确认实�
 **counter，保持rework**。原七针/五夹具已关闭；公共C0精确唯一目标和C1最终树格式/回执仍未满足。
 定向24项、原3+8跑与包tc通过；本批Biome 10文件/2 errors/0 warnings，exit1。
 本批无其他新业务返工，保留已通过断言。
-见[本轮复核及提示词](../../testing/glm-nine-rework-review.md)与[机账](../../testing/glm-nine-rework-evidence.json)。
+见[本轮复核及提示词](../../../../testing/glm-nine-rework-review.md)与[机账](../../../../testing/glm-nine-rework-evidence.json)。
 不合并、不更基线、不转Kimi、不代签、不标done；设计保持，Mimosa不参与。
 
 ## 首轮接收裁决（历史）
@@ -37,7 +46,7 @@ GLM是测试贡献者而非独立第三方；交Kimi独立终审、GLM确认实�
 **本席独立结论counter，任务rework，未合入正式测试/产品、不更新官方基线、不转Kimi终审。**
 定向24项、原3对照+8针、包typecheck均通过；
 Biome实测10文件/0 errors。
-见[统一复核 TB-02](../../testing/glm-nine-intake-review.md#tb-02)与[机器接收账](../../testing/glm-nine-intake-evidence.json)。
+见[统一复核 TB-02](../../../../testing/glm-nine-intake-review.md#tb-02)与[机器接收账](../../../../testing/glm-nine-intake-evidence.json)。
 公共C0判据误收适用，格式仅更正文件计数；具体最小返工如下。
 
 - **R02-1，真实坏JSON漏检**：`fsa-source.cancel-windows.test.ts:121–133`没有把text改成坏JSON，反而断言readText/readJson都成功。单点吞掉JSON解析错误后，候选3/3仍绿，独立坏JSON oracle红（`fsa-invalid-json-swallowed`）。
@@ -142,9 +151,12 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
   browserAdapter 实际复制路径、HTTP/FSA 取消分层、页选择疑点维持移出绿测（不重开）。
   交叉核统一门禁：check 7,709、受保护 strict 617/7,220（八批恰 +171）、六包级 digest、
   产品零改、旧测试 identity 不变。返工项：无。
-- done准入未开放，不代签、不标done。
+- done准入：**done allowed（Codex，2026-09-20）**。同候选三席accept齐、无counter，用户授权收口；本次状态done，原签字不改写。
 
 ## 交接日志
+
+- 2026-09-20 Codex（终态核定）：三席均钉256116ee，用户授权收口，核候选后代码/基线零漂移并复核既有门禁证据；不重跑测试。状态done并归档，TB03不在本次范围，未代签。
+
 - 2026-09-20 Kimi（八批终审之 TB-02）：同步 `5c93c4b5`、工作树干净后核 `ad528beb → 256116ee`。
   复跑 6 文件 24/24 全绿、mutants 8 针全业务红+对照绿；页选择疑点与在途 dispose 政策维持
   待证不固化。交叉核 check 7,709、strict 617/7,220（恰 +171）、产品零改、旧 identity 不变。
@@ -176,7 +188,7 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
   HTTP 透传/FSA 主动取消分层、browserAdapter 复制位置与 assertWave 标记门、registry 真实 caller、
   readiness pages[0] 疑点隔离；探针 rc0；六旧文件 39/39 复跑。未读 Kimi 结论；仅改本席与日志。
 
-- 2026-09-19 Codex：按用户要求与TB-00返工并行推进本卡；HTTP/FSA取消、browserAdapter复制、RIFF标记门/PCM解码分层；订正既有用例计数与caller，页选择疑点隔离。已把修订合入工作包正文，r2本人前提/设计签字完成，待GLM补充确认与Kimi独立审查。仅文档/只读探针，未写正式测试或改产品。统一证据见[前三批设计收口](../../testing/glm-coverage-queue-design-review.md)。
+- 2026-09-19 Codex：按用户要求与TB-00返工并行推进本卡；HTTP/FSA取消、browserAdapter复制、RIFF标记门/PCM解码分层；订正既有用例计数与caller，页选择疑点隔离。已把修订合入工作包正文，r2本人前提/设计签字完成，待GLM补充确认与Kimi独立审查。仅文档/只读探针，未写正式测试或改产品。统一证据见[前三批设计收口](../../../../testing/glm-coverage-queue-design-review.md)。
 
 - 2026-09-19 GLM：按队列 TB-02 细化。核六模块 caller/既有测试（sfx×8、sfx-readiness 厚集、
   image-cache/file-source/fsa-source/registry 标题全列）；产出本卡+工作包（B1-B10 族账/负控/覆盖方案）。
@@ -187,7 +199,7 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
 ### 当前 · GLM按已签队列实施
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 按 docs/ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md 的r2实施，生产冻结e58834f6，三席齐且Codex已核准，不重签。先同步、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前准入、对应工作包及docs/testing/glm-coverage-queue-design-review.md的当前实施交接。
+在 /Users/zhangxu/illegal/type-pal 按 docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md 的r2实施，生产冻结e58834f6，三席齐且Codex已核准，不重签。先同步、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前准入、对应工作包及docs/testing/glm-coverage-queue-design-review.md的当前实施交接。
 TB-00三项返工优先；未接收实施包最多两批。TB-01已开build，TB-02/03依序待空位；满足卡面条件后你可同步状态/看板/索引并开工，不再等用户逐批点头。领取前核目标产品未漂移；每批独立codex/glm-reforge-asset-io-r1分支/worktree，不在主树切分支、不恢复stash、不混用未接收成果作为基线。
 只新增已签白名单测试/fixture/诊断和本人回执，逐族去重，合法输入先过守卫，负控须由候选自身AssertionError变红，不能把超时/STACK_TRACE_ERROR或仅独立oracle红算检出。PNG编码失败泄漏及活动页/在途回填待证保持原归属，不改产品或写错绿。
 完成定向/相邻/全包/tc/Biome、私有同口径覆盖与真实逐族账后交Codex接收；全仓check/官方ratchet/strict-fast留Codex。不做视觉/听感，不改旧测试/官方基线，不代签、不标done、不直接转Kimi终审。
@@ -195,10 +207,10 @@ TB-00三项返工优先；未接收实施包最多两批。TB-01已开build，TB
 
 ### 历史 · r2设计交接（已完成，不重复执行）
 
-两席完整合并提示词见[前三批r2设计交接](../../testing/glm-coverage-queue-design-review.md#两席并行提示词)。本卡最小可复制交接如下：
+两席完整合并提示词见[前三批r2设计交接](../../../../testing/glm-coverage-queue-design-review.md#两席并行提示词)。本卡最小可复制交接如下：
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 审 docs/ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md（r2/draft，冻结e58834f6）。先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和对应工作包、docs/testing/glm-coverage-queue-design-review.md，直接读一手代码而非复述他席。
+在 /Users/zhangxu/illegal/type-pal 审 docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md（r2/draft，冻结e58834f6）。先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和对应工作包、docs/testing/glm-coverage-queue-design-review.md，直接读一手代码而非复述他席。
 Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计压力测试，两席可并行且不读另一席结论。分别只在本人r2席位/日志写带直接锚点和可证伪观察的premise verified/design agree或counter，并提交推送。
 同时审其余TB-01～03同r2卡可用合并提示词，但各卡独立裁决。不得改产品/正式测试/另一席/状态，不标build/done；三席齐后Codex核准入。TB-00返工不因本轮设计等待而停止。
 ```
@@ -206,7 +218,7 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 ## 历史下一位Agent提示词：GLM
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 返工 TEST-REFORGE-ASSET-IO-1（TB-02），卡 docs/ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md 已rework，候选a7c48d9c，生产冻结e58834f6；设计r2不重签。
+在 /Users/zhangxu/illegal/type-pal 返工 TEST-REFORGE-ASSET-IO-1（TB-02），卡 docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md 已rework，候选a7c48d9c，生产冻结e58834f6；设计r2不重签。
 先同步当前Codex counter到独立 codex/glm-reforge-asset-io-r1，读AGENTS/CLAUDE/READ-FIRST、docs/testing/glm-delivery-checklist.md、本卡当前裁决和 docs/testing/glm-nine-intake-review.md 的公共C0/C1与TB-02章节、原工作包docs/testing/glm-reforge-asset-io.md。
 只修列明残项，保留有效测试与他席结论；正式guard合法、实际同一入参深快照、禁止把已排除未知/旧接口写正确绿测。公共工具判据必须按目标错误首行，真实运行与自测同函数。原负控+本席相关独立见证、定向/相邻/全包/tc/全部新TS/MJS/MTS/JSON的Biome及私有同口径覆盖从最终树复跑，失败/未完成如实记录。
 只动原白名单/本人回执，分支不互合、不改产品/旧测试/官方基线/原审计探针/他席见证语义，不代签、不标done、不直接转Kimi。修完本批即可单独交Codex接收；全仓check/ratchet/strict-fast留接收后，用户已确认Mimosa归GLM私有MCP，Codex无需处理，不作为本轮接收/合并门。

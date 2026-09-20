@@ -12,24 +12,16 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 前两轮[九批返工复核](../testing/glm-nine-rework-review.md)保留历史证据；最新结论以下方当前接收为准。Mimosa不参与；TB00/TB01另排。
 
-八批收窄返工已按[当前接收](../testing/glm-nine-final-review.md)逐批集成，check/ratchet/单次严格fast通过、Codex accept；TB03只余PNG编码宿主尺寸合同，其他已关闭项不重开。
+八批（TB02/TB04～TB10）候选256116ee已三席accept齐，2026-09-20用户授权后由Codex[核定done归档](../testing/glm-nine-final-review.md)。本次只核签字与既有证据、不重跑测试；TB03仍单独rework，不在收口范围。
 
 ## 进行中
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | rework | Kimi/GLM仅补核r2a人数勘误 | 用户明确我方就是1～3人，敌方仍5槽，不再规划五人扩展；保存/隔离/四目录不重审 |
+| EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | build | Codex按r2+r2a已批准范围继续 | r2a三席齐已核准入；我方1～3/敌方五槽；入口UI待用户确认项不因本次人数签字开放 |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM仅返工D6 sequence收尾 | 6d34ad5a的F1/E4及原7针闭环；第8针迟到提交MISSED；55/双包/tc/Biome/22跑绿，未集成，不重签 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM返工CR-R1～R4 | 0e49db91实际23项/原15跑；三见证MISSED、判据误收、Biome1error/回执不符；r2不重签，本轮未释放实施槽 |
-| TEST-REFORGE-ASSET-IO-1 | [TEST-REFORGE-ASSET-IO-1](tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | review | Kimi独立终审 / GLM实现者自验 | ea276956：256116ee已集成，check7709/严格fast7220；Codex accept，不标done |
 | TEST-EDITOR-IMPORT-CODEC-1 | [TEST-EDITOR-IMPORT-CODEC-1](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | rework | GLM只修PNG实际尺寸合同 | 001dc9e1：其余counter已闭合；未合入代码 |
-| TEST-PAL-TABLES-COVERAGE-1 | [TEST-PAL-TABLES-COVERAGE-1](tasks/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | review | Kimi独立终审 / GLM实现者自验 | 69d62dc2：256116ee已集成，check7709/严格fast7220；Codex accept，不标done |
-| TEST-RESOURCE-TOOLS-COVERAGE-1 | [TEST-RESOURCE-TOOLS-COVERAGE-1](tasks/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | review | Kimi独立终审 / GLM实现者自验 | 00801036：256116ee已集成，check7709/严格fast7220；Codex accept，不标done |
-| TEST-EDITOR-MAP-DATA-1 | [TEST-EDITOR-MAP-DATA-1](tasks/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | review | Kimi独立终审 / GLM实现者自验 | d2667b25：256116ee已集成，check7709/严格fast7220；Codex accept，不标done |
-| TEST-EDITOR-SCRIPT-HELPERS-1 | [TEST-EDITOR-SCRIPT-HELPERS-1](tasks/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | review | Kimi独立终审 / GLM实现者自验 | 10cc9d4d：256116ee已集成，check7709/严格fast7220；Codex accept，不标done |
-| TEST-GAME-MENU-BOUNDARIES-1 | [TEST-GAME-MENU-BOUNDARIES-1](tasks/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | review | Kimi独立终审 / GLM实现者自验 | bda77494：256116ee已集成，check7709/严格fast7220；Codex accept，不标done |
-| TEST-GAME-HOST-BOUNDARIES-1 | [TEST-GAME-HOST-BOUNDARIES-1](tasks/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | review | Kimi独立终审 / GLM实现者自验 | ca4c0768：256116ee已集成，check7709/严格fast7220；Codex accept，不标done |
-| TEST-MIGRATION-BOUNDARIES-1 | [TEST-MIGRATION-BOUNDARIES-1](tasks/TEST-MIGRATION-BOUNDARIES-1-current-isolated-io.md) | review | Kimi独立终审 / GLM实现者自验 | 3d798f7c：256116ee已集成，check7709/严格fast7220；Codex accept，不标done |
 
 2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
 

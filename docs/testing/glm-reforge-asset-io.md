@@ -2,7 +2,7 @@
 
 ## 当前Codex接收结论
 
-2026-09-20候选ea276956：**Codex accept**，统一候选256116ee；check7709/ratchet/受保护单次严格fast7220通过，review待Kimi与实现者最终落席。
+2026-09-20候选ea276956：**Codex accept**，统一候选256116ee；check7709/ratchet/受保护单次严格fast7220通过，三席已齐、用户授权，2026-09-20由Codex核定done归档；本次不重跑测试。
 定向24项/原负控/tc/Biome全绿。详见[当前独立接收](glm-nine-final-review.md)，旧counter仅留历史。
 
 ### 首轮接收结论（历史）
@@ -11,7 +11,7 @@
 本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
 
 
-任务：[TEST-REFORGE-ASSET-IO-1](../ops/tasks/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)，r2/rework；本轮实施候选a7c48d9c未接收，设计不重签。
+任务：[TEST-REFORGE-ASSET-IO-1](../ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md)，r2/rework；本轮实施候选a7c48d9c未接收，设计不重签。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM只写新测试；Codex独立接收、Kimi终审。
 不听音、不做视觉、不改保存稳定读门/锁/恢复（SAVE 面归既有专项）、不碰技能试放接线。
 
