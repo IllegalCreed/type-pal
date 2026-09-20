@@ -1,6 +1,6 @@
 # EDITOR-ITEM-AUTHORING-1 - 物品作者记录与脚本引用身份
 
-Status: build
+Status: review
 Phase: phase2
 Capability: D-06/D-07修复（既有物品/脚本能力，不新增能力格）
 Coding Owner: Codex
@@ -10,7 +10,7 @@ Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: codex/editor-item-authoring-r1
 
-Revision: r1 / 2026-09-20。前提与候选设计阶段；产品冻结`1e0388b0d65b03c7dcec25d145215d0f22966825`。
+Revision: r1 / 2026-09-20设计，2026-09-21进入review。统一实现候选`451cbbb7dc8fe1e563fbe9c6537ac4c91df5dc68`，对比产品冻结`1e0388b0d65b03c7dcec25d145215d0f22966825`；设计不重签。
 用户要求Codex推进剩余物品/脚本缺陷，并给GLM可并行工作。已完成的模拟器不重开；TB00/TB01测试包独立接收。
 本卡触作者保存边界与跨包运行态引用，**三席设计签字前不改产品/正式测试**，不以“继续”推定免签。
 2026-09-20 Codex已核三席同r1/冻结1e0388b0：本席a1f21718、Kimi 6939a1ac、GLM 4d4e9a5d均premise verified/design agree，允许Codex在独立worktree实施。
@@ -82,7 +82,7 @@ GLM报告只提供静态源码证据，**不将其reproduced-static算动态复�
 - 现行代码：ItemTab.tsx:1073/1080/1086/1114；commands.ts:2046/2087；script-editor.ts:2007；script-editor-projection.ts:95/109/199；reforge/runtime-project-view.ts:47/280；item-use-executor.ts:46；main.ts:5369/5393；content/validate-refs.ts:78/1565；editor/project-diagnostics.ts:677/838/915；migrate/pal-current-publication.ts:338/361。
 - 回归：item-authoring/ItemTab/script-editor-projection/editor-history-coordinator/project-diagnostics；runtime-project-view/item-use-executor；content validate-refs/validate-author-items；当前PAL发布校验相邻测试。
 
-## r1候选方案（供独立设计审查，未实施）
+## r1已签方案
 
 1. **作者记录成对存在**：新建、复制、删除通过既有Coordinator同时维护普通字段投影与canonical item。
    复制从当前合并作者态取正文，深拷贝私有body到新ItemId后再生成主会话投影；共享引用仍复用同一ScriptId。
@@ -179,29 +179,34 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 
 ### done前
 
-- Codex / Kimi / GLM：pending；尚未实施，不标done。
+- Codex：**accept（实现者自验，2026-09-21，同候选451cbbb7）**。配对创建/复制/删除复用现有原子历史；固定tag+原始owner无前缀解析；canonical共享校验与当前运行态guard同步，content20/SAVE8/作者JSON不变。完整check7909项exit0、五对照+五业务负控exit0、官方ratchet与以9e220daa保护的单次strict-fast7418项exit0；未改include/exclude/超时/阈值。首次失败、范围变化及旧测试适配完整披露于[实施记录](../../testing/item-authoring-implementation.md)。实际浏览器新建后即时编写、复制独立编辑；Chrome原生选择专用临时目录→保存committed→reload/最近项目重开，源200ms/副本375ms均核，原生保存验证完成。GLM仅此前静态取证贡献，非本次实现或自验独立证明。原前提探针零改；full/Q1/Q2未跑。本席不代签，不标done。
+- Kimi：pending（独立实现审查，候选451cbbb7）。
+- GLM：pending（独立代码/矩阵复核，候选451cbbb7；不做视觉）。
+- done准入：**尚未满足**，两席实现accept未齐；r1设计签字不代替done前签字。
 
 ## 下一位Agent提示词
 
-### GLM（独立取证包＋r1设计审查）
+### GLM（实现矩阵复核，与Kimi并行）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接 EDITOR-ITEM-AUTHORING-1，卡 docs/ops/tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md，draft/r1，冻结1e0388b0。
-先读AGENTS/CLAUDE/READ-FIRST、本卡及D-06/D-07原审计。按卡中G1～G5执行独立只读调用链/合法性/矩阵与去重审查，先读一手源码，不复述Codex探针或Kimi结论；可以反证本卡前提。新建/复制、合法共享ID保存、runtime身份分流都要覆盖，不能只换前缀或造分片保绿。
-在独立codex/glm-item-authoring-audit分支/worktree做，白名单仅卡内列出的报告/可选探针、README索引一行、本人签字与日志；不改产品/正式测试/基线，不跑迁移、不操作浏览器、不切主工作树分支、不恢复stash。取证不是覆盖率贡献，也不开放build。
-完成后对本卡r1分别签premise verified/design agree或带最小反例counter，落本人区并提交推送，不代签他席、不改状态、不标build/done。既有两包350da702/ccc67dcc交Codex独立接收，不重复返工已交内容；发现未满足原counter才按原卡补正。
+在 /Users/zhangxu/illegal/type-pal 复核 EDITOR-ITEM-AUTHORING-1，任务卡 docs/ops/tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md，review/r1，统一候选451cbbb7（对比1e0388b0），设计不重签。先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/item-authoring-implementation.md及最新交接。
+独立读实现，不复述Kimi结论：核14新增测试、原断言保留与ref适配；重点新建/复制/删除两会话、未保存混合效果/正文、失败保留redo、共享普通/同前缀/他前缀ID、实际executor→runtime、诊断与真实writer/loader。你的旧“完整6站点”已被Codex补查（含content validate.ts），按最终树重核，不沿用旧计数。真实fixture/被消费对象/原子观察者断言在回调外/负控鉴别力都要查。
+复跑 node docs/testing/item-authoring-mutants.mjs（5对照绿+5精确候选AssertionError红）及相关定向；统一check7909、ratchet、受保护单次strict7418由Codex已跑，不并发重跑全仓覆盖率。只做代码/文本，不操作浏览器；原生保存视觉证据见实施记录。
+只在卡内本人done前席位与本人交接日志写accept或带file:line/反例的counter，提交推送；落盘前同步保留并行他席改动。不得改产品/正式测试/基线/他席/状态，不代签、不标done；TB00/TB01仍按各自窄counter另行返工，不在本卡偷偷集成。
 ```
 
-### Kimi（并行独立前提/设计压力测试）
+### Kimi（独立实现审查，与GLM并行）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 独立审 EDITOR-ITEM-AUTHORING-1，卡 docs/ops/tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md，draft/r1，冻结1e0388b0。
-先读AGENTS/CLAUDE/READ-FIRST、本卡、D-06/D-07审计和D-01/ED-5J历史约束；独立读取当前原始类型/guard/caller，不读或复述GLM结论。
-重点证伪两会话创建/复制/删除生命周期、合法共享ScriptId被私有前缀误判、通用引用校验仍读chunk/id；核r1固定内部来源tag+原始ItemId的方案不改content20/SAVE8、不靠保留前缀/假分片兼容、不放松缺正文保护，覆盖实际runtime而非只修编辑器。核复用Coordinator原子性及完整输入/副本保真。
-可运行只读item-authoring-premise.mjs；运行时现有证据仅host路由，实施后必须补真实executor/runtime结果。输出本席premise verified/design agree或带file:line/可证伪观察counter，直接写卡内本人席位和日志提交推送。不得改实现/正式测试/他席/状态、不得开始build或标done；同步保留并行他席改动，视觉归Codex。
+在 /Users/zhangxu/illegal/type-pal 独立审 EDITOR-ITEM-AUTHORING-1，任务卡 docs/ops/tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md，review/r1，统一候选451cbbb7（对比1e0388b0），设计不重签。先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/item-authoring-implementation.md及最新交接，不读或复述GLM本轮结论。
+重点压力测试：成对创建/复制/删除的通知/失败/undo/redo；复制从当前字段+未保存正文取值；共享和私有用显式tag，不解析用户ID；错误owner/未知tag/缺正文fail-closed；ContentBundle与EditorState的不同内存表面；迁移sprite collector真实中间态caller未被误删；main仍走原detached/取消协议。核作者JSON/content20/SAVE8/投掷边界不变，真实executor→runtime业务旗标与原生目录保存重开证据。
+可复跑 node docs/testing/item-authoring-mutants.mjs（5对照+5业务红）与定向测试；原item-authoring-premise.mjs只证修复前现状、零改，不应在新树期待通过。Codex统一check7909/ratchet/受保护单次strict7418已过，不并发争用全仓覆盖率；不重复已有视觉流程。
+在本人done前席位与本人交接日志签accept或带file:line/最小反例counter并提交推送；落盘前同步保留GLM并行改动。不得改产品/正式测试/基线/他席/状态，不代签、不标done；两席齐后由Codex核阶段门。
 ```
 
 ## 交接日志
+
+- 2026-09-21 Codex：候选451cbbb7已实施并统一验证，转review。完整check7909；官方ratchet只升不降；保护9e220daa的单次strict7418与新基线完全一致。原生Chrome专用目录保存/重开闭环，截图由工具回传。用户明确6010未保存模拟器配置只是测试数据、可丢弃并合入；不把该许可扩张为真实工程清理授权。独立实施worktree完成后统一合主线；两席并行终审提示词已更新。本席实现者accept，不代签、不done；TB00/TB01待接收不随本卡消失。
 
 - 2026-09-20 Codex：已核Kimi `6939a1ac`同r1/冻结1e0388b0的独立前提与设计签，非Owner一手证据要求已满足；GLM待回，build门仍关闭。并行接收350da702/ccc67dcc后仅留旧测试包的窄残项，见各卡当前counter；不影响本卡设计，也不修改本卡生产面。
 
