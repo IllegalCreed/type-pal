@@ -103,43 +103,35 @@ export async function prepareAuthoredImage(
   }
   const width = bitmap.width
   const height = bitmap.height
-  if (width <= 0 || height <= 0) {
-    bitmap.close()
-    throw new Error(`${file.name}: 图片尺寸无效`)
-  }
-
   let bytes = sourceBytes.slice(0)
   let effectPreviewBytes: ArrayBuffer | undefined
-  if (kind === 'battle-background') {
-    if (width !== 320 || height !== 200) {
-      bitmap.close()
-      throw new Error(`${file.name}: 战场背景必须是 320×200，实际 ${width}×${height}`)
+  try {
+    if (width <= 0 || height <= 0) throw new Error(`${file.name}: 图片尺寸无效`)
+    if (kind === 'battle-background') {
+      if (width !== 320 || height !== 200)
+        throw new Error(`${file.name}: 战场背景必须是 320×200，实际 ${width}×${height}`)
+      if (!palette) throw new Error('战场背景导入缺项目标准色彩')
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      const context = canvas.getContext('2d', { willReadFrequently: true })
+      if (!context) throw new Error('浏览器无法创建图片处理画布')
+      context.drawImage(bitmap, 0, 0)
+      const source = context.getImageData(0, 0, width, height)
+      const quantized = quantizeRgbaToPalette(source.data, palette)
+      const encodedImage = context.createImageData(width, height)
+      encodedImage.data.set(quantized.indexedRgba)
+      context.putImageData(encodedImage, 0, 0)
+      bytes = await canvasPng(canvas)
+      const previewImage = context.createImageData(width, height)
+      previewImage.data.set(quantized.previewRgba)
+      context.putImageData(previewImage, 0, 0)
+      effectPreviewBytes = await canvasPng(canvas)
     }
-    if (!palette) {
-      bitmap.close()
-      throw new Error('战场背景导入缺项目标准色彩')
-    }
-    const canvas = document.createElement('canvas')
-    canvas.width = width
-    canvas.height = height
-    const context = canvas.getContext('2d', { willReadFrequently: true })
-    if (!context) {
-      bitmap.close()
-      throw new Error('浏览器无法创建图片处理画布')
-    }
-    context.drawImage(bitmap, 0, 0)
-    const source = context.getImageData(0, 0, width, height)
-    const quantized = quantizeRgbaToPalette(source.data, palette)
-    const encodedImage = context.createImageData(width, height)
-    encodedImage.data.set(quantized.indexedRgba)
-    context.putImageData(encodedImage, 0, 0)
-    bytes = await canvasPng(canvas)
-    const previewImage = context.createImageData(width, height)
-    previewImage.data.set(quantized.previewRgba)
-    context.putImageData(previewImage, 0, 0)
-    effectPreviewBytes = await canvasPng(canvas)
+  } finally {
+    // Own the decoded bitmap until both encodes finish, including rejection paths.
+    bitmap.close()
   }
-  bitmap.close()
 
   const hash = await sha256Hex(bytes)
   return {

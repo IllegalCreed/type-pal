@@ -80,7 +80,7 @@ node --import tsx docs/testing/glm-coverage-queue-premise.mjs
 
 | 项 | 证据 | 归属与处理 |
 |---|---|---|
-| PNG编码失败后的位图未释放（已复现） | image-import.ts:130–142缺finally；同一完整320×200 PNG+合法palette，成功close=1/toBlob=2；只让toBlob返回null，抛正确错误但close=0/toBlob=1。主Agent探针已独立复算 | Codex后续修复。GLM可记录只读反例，不改产品，不把“不close”写成正确绿测；其余七模块独立轴继续 |
+| PNG编码失败后的位图未释放（修前已复现） | image-import.ts原130–142缺finally；同一完整320×200 PNG+合法palette，成功close=1/toBlob=2；只让toBlob返回null，抛正确错误但close=0/toBlob=1。主Agent探针已独立复算 | 2026-09-20用户授权后Codex已补统一finally和18项回归，见[修复回执](image-import-cleanup.md)；check7766/官方ratchet/受保护单次strict-fast7277已通过。TB03历史探针/已done范围不改，不固化错误绿测 |
 | canonical场景页声音选择（待证） | collector固定pages[0]而main传canonicalScene，未携world活动页；尚未完成正式场景运行验证 | Codex另核端到端语义/必要时开修复；本包不把首页等同活动页，不宣称产品缺陷已修 |
 | ProjectImageCache在途dispose回填（已知待证） | dispose清map，decode完成会set；政策未定 | 原待证归属保留，只测已完成load后的dispose |
 

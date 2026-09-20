@@ -50,7 +50,7 @@ editor行22522/27865（80.83%）、语句25058/31878（78.61%）、函数6206/81
 预览见证 codex-preview-return-bF3Jcf、尺寸见证 codex-png-host-Uku7PV，完整路径见机账；
 [预览返回值工具](import-codec-preview-review.mjs)及[尺寸工具](import-codec-png-host-review.mjs)保持原样。
 三席accept、无剩余counter；本轮同步main核packages/scripts相对4894719e零diff，采信既有门禁并按用户授权收口。
-没有重跑测试或更新基线，仅归档/同步文档，保留三席原签字。编码失败close缺陷仍是Codex独立修复项，见[隔离队列](glm-coverage-queue-design-review.md)，不因本卡done关闭。
+没有重跑测试或更新基线，仅归档/同步文档，保留三席原签字。编码失败close缺陷没有随本卡done关闭；用户随后明确要求修复，Codex已在[独立修复](image-import-cleanup.md)中补finally与18项回归并通过完整门禁。原隔离/签字记录保留。
 无下一位Agent提示词，本卡已收口；下方提示词仅作历史记录，不再转发。
 
 ## 历史下一位Agent提示词（已完成）

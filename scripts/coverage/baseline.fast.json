@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-09-20T03:53:04.697Z",
+  "generatedAt": "2026-09-20T05:31:47.604Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 617,
-  "testCount": 7259,
+  "testCount": 7277,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -3350,8 +3350,8 @@
       ],
       "scopeDigest": "9696f732999bcfdc8a19ba9e9ff40a428fbd5f2f67dd2695734be188495d62a8",
       "fastTests": {
-        "testCount": 2437,
-        "testFileCount": 243,
+        "testCount": 2455,
+        "testFileCount": 244,
         "files": [
           "packages/editor/src/core/actor-commands.test.ts",
           "packages/editor/src/core/actor-dialogue-commands.boundaries.test.ts",
@@ -3399,6 +3399,7 @@
           "packages/editor/src/core/handle-store-capability.test.ts",
           "packages/editor/src/core/handle-store.test.ts",
           "packages/editor/src/core/hit-test.test.ts",
+          "packages/editor/src/core/image-import.cleanup.test.ts",
           "packages/editor/src/core/image-import.stages.test.ts",
           "packages/editor/src/core/image-import.test.ts",
           "packages/editor/src/core/isometric-brush.test.ts",
@@ -3827,6 +3828,11 @@
             "file": "packages/editor/src/core/hit-test.test.ts",
             "testCount": 3,
             "identityDigest": "71048c8efc93bcd662717a2df008765af4698412b3e115e118432ef33fed7ecc"
+          },
+          {
+            "file": "packages/editor/src/core/image-import.cleanup.test.ts",
+            "testCount": 18,
+            "identityDigest": "ce54f2df0166fc455a4ca55fa498d6ee7a2cad98a728b14771cf1fe59820dbeb"
           },
           {
             "file": "packages/editor/src/core/image-import.stages.test.ts",
@@ -4814,17 +4820,17 @@
             "identityDigest": "7c181e89600882213bfdc9bf59bf8d2b40273fc45d2d84fecf9ad6313060cf3b"
           }
         ],
-        "identityDigest": "9e8d943747b86fe6d89e1847ffaacec2724468fcd257ca457808147b7a2b85b0",
+        "identityDigest": "d22bfe6712882bf3c0fc44cf7171b6dac62956cb7f3022f1ce70d774da443235",
         "duplicateIdentityCount": 8,
-        "executionDigest": "79aaa52aceea7786b83453b5372772822de4dd389caf515d2518c942dd4b2e50"
+        "executionDigest": "cc4579f26da6549c8000aea6a085f11ffcfa992d207854fff44bf1626d98684e"
       },
       "metrics": {
         "statements": {
           "covered": 25058,
-          "total": 31878
+          "total": 31875
         },
         "branches": {
-          "covered": 19434,
+          "covered": 19436,
           "total": 27593
         },
         "functions": {
@@ -4832,8 +4838,8 @@
           "total": 8110
         },
         "lines": {
-          "covered": 22522,
-          "total": 27865
+          "covered": 22520,
+          "total": 27859
         }
       }
     }
@@ -4841,10 +4847,10 @@
   "total": {
     "statements": {
       "covered": 55255,
-      "total": 78971
+      "total": 78968
     },
     "branches": {
-      "covered": 39436,
+      "covered": 39438,
       "total": 62045
     },
     "functions": {
@@ -4852,8 +4858,8 @@
       "total": 14520
     },
     "lines": {
-      "covered": 49783,
-      "total": 69119
+      "covered": 49781,
+      "total": 69113
     }
   }
 }
