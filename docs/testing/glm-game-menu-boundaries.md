@@ -2,7 +2,7 @@
 
 ## 当前Codex接收结论
 
-2026-09-20候选bda77494：本批收窄counter全部闭合，已按白名单集成；当前review，待统一check/ratchet/严格fast后本席签accept。
+2026-09-20候选bda77494：**Codex accept**，统一候选256116ee；check7709/ratchet/受保护单次严格fast7220通过，review待Kimi与实现者最终落席。
 定向17项/原负控/tc/Biome全绿。详见[当前独立接收](glm-nine-final-review.md)，旧counter仅留历史。
 
 ### 首轮接收结论（历史）

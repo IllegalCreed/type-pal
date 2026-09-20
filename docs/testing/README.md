@@ -4,7 +4,7 @@
 
 上级：[文档总入口](../README.md)。
 
-- [九批收窄返工独立接收](glm-nine-final-review.md)、[机账](glm-nine-final-evidence.json)与[PNG宿主尺寸见证](import-codec-png-host-review.mjs)（八批集成待质量门；TB03单点返工）
+- [九批收窄返工独立接收](glm-nine-final-review.md)、[机账](glm-nine-final-evidence.json)与[PNG宿主尺寸见证](import-codec-png-host-review.mjs)（八批256116ee已集成/Codex accept，check7709/严格fast7220；TB03单点返工）
 
 ## 文档与附件
 

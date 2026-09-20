@@ -933,12 +933,328 @@
   ],
   "independentWitnesses": {
     "residual": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-residual-8ry3VM/summary.json",
-    "pngHost": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-png-host-ySshQJ/summary.json"
+    "pngHost": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-png-host-xagWJV/summary.json"
   },
   "gates": {
-    "check": "pending",
-    "ratchet": "pending",
-    "strictFast": "pending"
+    "check": {
+      "exit": 0,
+      "tests": 7709,
+      "log": "/tmp/codex-nine-final.wb8m3g/full-check.log",
+      "auditPerformance": "unmodified package parallel check, not excluded or waived"
+    },
+    "ratchet": {
+      "exit": 0,
+      "tests": 7220,
+      "log": "/tmp/codex-nine-final.wb8m3g/ratchet.log",
+      "protectedRef": "ad528beb"
+    },
+    "strictFast": {
+      "exit": 0,
+      "attempts": 1,
+      "tests": 7220,
+      "log": "/tmp/codex-nine-final.wb8m3g/strict-fast.log",
+      "protectedRef": "ad528beb",
+      "improvements": 0
+    }
   },
-  "decision": "TB03 counter: Canvas output geometry; other eight integrated pending final gates; no done"
+  "decision": "Codex accept: TB02/TB04-TB10 integrated at 256116ee; TB03 counter only Canvas geometry; Kimi and GLM final seats pending, no done",
+  "candidate": "256116eec2cf7e9b8b9e31c4f37aa6e4b75ec805",
+  "coverageAudit": {
+    "rows": [
+      {
+        "id": "shared",
+        "oldTests": 106,
+        "tests": 115,
+        "oldFiles": 12,
+        "files": 14,
+        "metrics": {
+          "statements": {
+            "covered": 381,
+            "total": 406
+          },
+          "branches": {
+            "covered": 151,
+            "total": 177
+          },
+          "functions": {
+            "covered": 21,
+            "total": 21
+          },
+          "lines": {
+            "covered": 342,
+            "total": 356
+          }
+        },
+        "percent": {
+          "statements": "93.84% (381/406)",
+          "branches": "85.31% (151/177)",
+          "functions": "100.00% (21/21)",
+          "lines": "96.07% (342/356)"
+        },
+        "delta": {
+          "statements": 7,
+          "branches": 6,
+          "functions": 0,
+          "lines": 4
+        }
+      },
+      {
+        "id": "content",
+        "oldTests": 675,
+        "tests": 675,
+        "oldFiles": 55,
+        "files": 55,
+        "metrics": {
+          "statements": {
+            "covered": 4882,
+            "total": 5854
+          },
+          "branches": {
+            "covered": 3798,
+            "total": 5016
+          },
+          "functions": {
+            "covered": 766,
+            "total": 829
+          },
+          "lines": {
+            "covered": 4458,
+            "total": 5183
+          }
+        },
+        "percent": {
+          "statements": "83.40% (4882/5854)",
+          "branches": "75.72% (3798/5016)",
+          "functions": "92.40% (766/829)",
+          "lines": "86.01% (4458/5183)"
+        },
+        "delta": {
+          "statements": 0,
+          "branches": 0,
+          "functions": 0,
+          "lines": 0
+        }
+      },
+      {
+        "id": "pal-extract",
+        "oldTests": 110,
+        "tests": 144,
+        "oldFiles": 17,
+        "files": 32,
+        "metrics": {
+          "statements": {
+            "covered": 878,
+            "total": 1492
+          },
+          "branches": {
+            "covered": 311,
+            "total": 539
+          },
+          "functions": {
+            "covered": 94,
+            "total": 140
+          },
+          "lines": {
+            "covered": 783,
+            "total": 1316
+          }
+        },
+        "percent": {
+          "statements": "58.85% (878/1492)",
+          "branches": "57.70% (311/539)",
+          "functions": "67.14% (94/140)",
+          "lines": "59.50% (783/1316)"
+        },
+        "delta": {
+          "statements": 256,
+          "branches": 58,
+          "functions": 27,
+          "lines": 222
+        }
+      },
+      {
+        "id": "migrate",
+        "oldTests": 338,
+        "tests": 361,
+        "oldFiles": 40,
+        "files": 48,
+        "metrics": {
+          "statements": {
+            "covered": 3863,
+            "total": 7659
+          },
+          "branches": {
+            "covered": 2879,
+            "total": 6398
+          },
+          "functions": {
+            "covered": 601,
+            "total": 1161
+          },
+          "lines": {
+            "covered": 3460,
+            "total": 6677
+          }
+        },
+        "percent": {
+          "statements": "50.44% (3863/7659)",
+          "branches": "45.00% (2879/6398)",
+          "functions": "51.77% (601/1161)",
+          "lines": "51.82% (3460/6677)"
+        },
+        "delta": {
+          "statements": 28,
+          "branches": 28,
+          "functions": 4,
+          "lines": 21
+        }
+      },
+      {
+        "id": "reforge",
+        "oldTests": 1190,
+        "tests": 1214,
+        "oldFiles": 116,
+        "files": 122,
+        "metrics": {
+          "statements": {
+            "covered": 8784,
+            "total": 16188
+          },
+          "branches": {
+            "covered": 5340,
+            "total": 11041
+          },
+          "functions": {
+            "covered": 1394,
+            "total": 2416
+          },
+          "lines": {
+            "covered": 7943,
+            "total": 14118
+          }
+        },
+        "percent": {
+          "statements": "54.26% (8784/16188)",
+          "branches": "48.37% (5340/11041)",
+          "functions": "57.70% (1394/2416)",
+          "lines": "56.26% (7943/14118)"
+        },
+        "delta": {
+          "statements": 21,
+          "branches": 11,
+          "functions": 6,
+          "lines": 16
+        }
+      },
+      {
+        "id": "game",
+        "oldTests": 2271,
+        "tests": 2313,
+        "oldFiles": 119,
+        "files": 134,
+        "metrics": {
+          "statements": {
+            "covered": 11409,
+            "total": 15494
+          },
+          "branches": {
+            "covered": 7523,
+            "total": 11281
+          },
+          "functions": {
+            "covered": 1314,
+            "total": 1843
+          },
+          "lines": {
+            "covered": 10275,
+            "total": 13604
+          }
+        },
+        "percent": {
+          "statements": "73.63% (11409/15494)",
+          "branches": "66.69% (7523/11281)",
+          "functions": "71.30% (1314/1843)",
+          "lines": "75.53% (10275/13604)"
+        },
+        "delta": {
+          "statements": 20,
+          "branches": 25,
+          "functions": 6,
+          "lines": 12
+        }
+      },
+      {
+        "id": "editor",
+        "oldTests": 2359,
+        "tests": 2398,
+        "oldFiles": 222,
+        "files": 236,
+        "metrics": {
+          "statements": {
+            "covered": 24868,
+            "total": 31878
+          },
+          "branches": {
+            "covered": 19322,
+            "total": 27593
+          },
+          "functions": {
+            "covered": 6174,
+            "total": 8110
+          },
+          "lines": {
+            "covered": 22365,
+            "total": 27865
+          }
+        },
+        "percent": {
+          "statements": "78.01% (24868/31878)",
+          "branches": "70.03% (19322/27593)",
+          "functions": "76.13% (6174/8110)",
+          "lines": "80.26% (22365/27865)"
+        },
+        "delta": {
+          "statements": 40,
+          "branches": 58,
+          "functions": 0,
+          "lines": 19
+        }
+      }
+    ],
+    "total": {
+      "statements": {
+        "covered": 55065,
+        "total": 78971
+      },
+      "branches": {
+        "covered": 39324,
+        "total": 62045
+      },
+      "functions": {
+        "covered": 10364,
+        "total": 14520
+      },
+      "lines": {
+        "covered": 49626,
+        "total": 69119
+      }
+    },
+    "percent": {
+      "statements": "69.73% (55065/78971)",
+      "branches": "63.38% (39324/62045)",
+      "functions": "71.38% (10364/14520)",
+      "lines": "71.80% (49626/69119)"
+    },
+    "delta": {
+      "statements": 372,
+      "branches": 186,
+      "functions": 43,
+      "lines": 294
+    },
+    "invariants": "all source inventories, scope digests, denominators, old test identities unchanged; content whole object unchanged"
+  },
+  "diagnosticSetupNotes": [
+    "report assembly tool initial JavaScript syntax error before repository writes, then corrected",
+    "baseline audit first used selectedTests instead of persisted fastTests; corrected and all invariants asserted; not a test/gate failure"
+  ]
 }
