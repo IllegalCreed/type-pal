@@ -45,6 +45,7 @@ import {
   DsCatalogControls,
   DsCatalogRow,
   DsCatalogWorkspace,
+  DsInlineComposer,
   DsObjectHero,
   DsObjectWorkspace,
   DsWorkbenchSection,
@@ -254,7 +255,7 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
                 summary={
                   isDraft
                     ? '本场变化不写回原方案、预设或角色定义。'
-                    : '测试配置随工程保存；不保存战斗消耗、奖励或进度。'
+                    : '测试配置随项目保存；不保存战斗消耗、奖励或进度。'
                 }
                 meta={
                   <DsTag tone={isDraft ? 'warning' : 'neutral'}>
@@ -391,45 +392,52 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
                       title="加入待试技能"
                       description={`当前技能：${state.skills.find((skill) => skill.id === draft.subject?.id)?.name ?? draft.subject.id}。配置队伍后，明确选择施放队员；不会自动补真气。`}
                     >
-                      <DsSelectField
-                        label="施放队员"
-                        value={pendingActor}
-                        placeholder="选择本场队员"
-                        options={(resolved?.party.members ?? []).map((member) => ({
-                          value: member.actorId,
-                          label: lookupText(
-                            state.actors.find((actor) => actor.id === member.actorId)?.name ??
-                              member.actorId,
-                            state.locale,
-                          ),
-                        }))}
-                        onValueChange={setPendingActor}
-                      />
-                      <DsButton
-                        disabled={!pendingActor}
-                        onClick={() =>
-                          act(() => {
-                            if (!draft.subject) return
-                            const next = applyTrialSubject(
-                              plan,
-                              library,
-                              session.getState(),
-                              draft.subject,
-                              pendingActor,
-                            )
-                            onDraftChange({ label: draft.label, plan: next, changed: true })
-                          })
+                      <DsInlineComposer
+                        density="default"
+                        control={
+                          <DsSelectField
+                            label="施放队员"
+                            value={pendingActor}
+                            placeholder="选择本场队员"
+                            options={(resolved?.party.members ?? []).map((member) => ({
+                              value: member.actorId,
+                              label: lookupText(
+                                state.actors.find((actor) => actor.id === member.actorId)?.name ??
+                                  member.actorId,
+                                state.locale,
+                              ),
+                            }))}
+                            onValueChange={setPendingActor}
+                          />
                         }
-                      >
-                        加入当前技能
-                      </DsButton>
+                        action={
+                          <DsButton
+                            disabled={!pendingActor}
+                            onClick={() =>
+                              act(() => {
+                                if (!draft.subject) return
+                                const next = applyTrialSubject(
+                                  plan,
+                                  library,
+                                  session.getState(),
+                                  draft.subject,
+                                  pendingActor,
+                                )
+                                onDraftChange({ label: draft.label, plan: next, changed: true })
+                              })
+                            }
+                          >
+                            加入当前技能
+                          </DsButton>
+                        }
+                      />
                     </DsWorkbenchSection>
                   )}
                   <DsWorkbenchSection
                     title="配置来源"
                     description="可引用命名预设，也可直接在本方案内配置，不要求先创建四份记录。"
                   >
-                    <DsFieldGroup>
+                    <div className="trial-config-columns">
                       {(['party', 'enemies', 'bag'] as const).map((key) => {
                         const source = plan[key],
                           table =
@@ -439,41 +447,42 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
                                 ? library.enemies
                                 : library.bags
                         return (
-                          <DsSelectField
-                            key={key}
-                            label={key === 'party' ? '我方' : key === 'enemies' ? '敌方' : '背包'}
-                            value={
-                              source.kind === 'inline' ? 'inline' : `preset:${source.presetId}`
-                            }
-                            options={[
-                              { value: 'inline', label: '在本方案内配置' },
-                              ...table.map((row) => ({
-                                value: `preset:${row.id}`,
-                                label: row.name,
-                              })),
-                            ]}
-                            onValueChange={(choice) => {
-                              const config =
-                                choice === 'inline'
-                                  ? (resolved?.[key] ??
-                                    (key === 'party'
-                                      ? { members: [] }
-                                      : key === 'enemies'
-                                        ? { kind: 'slots', slots: [null, null, null, null, null] }
-                                        : { items: [] }))
-                                  : undefined
-                              updateConfig({
-                                ...plan,
-                                [key]:
+                          <DsFieldGroup key={key}>
+                            <DsSelectField
+                              label={key === 'party' ? '我方' : key === 'enemies' ? '敌方' : '背包'}
+                              value={
+                                source.kind === 'inline' ? 'inline' : `preset:${source.presetId}`
+                              }
+                              options={[
+                                { value: 'inline', label: '在本方案内配置' },
+                                ...table.map((row) => ({
+                                  value: `preset:${row.id}`,
+                                  label: row.name,
+                                })),
+                              ]}
+                              onValueChange={(choice) => {
+                                const config =
                                   choice === 'inline'
-                                    ? { kind: 'inline', config }
-                                    : { kind: 'preset', presetId: choice.slice(7) },
-                              })
-                            }}
-                          />
+                                    ? (resolved?.[key] ??
+                                      (key === 'party'
+                                        ? { members: [] }
+                                        : key === 'enemies'
+                                          ? { kind: 'slots', slots: [null, null, null, null, null] }
+                                          : { items: [] }))
+                                    : undefined
+                                updateConfig({
+                                  ...plan,
+                                  [key]:
+                                    choice === 'inline'
+                                      ? { kind: 'inline', config }
+                                      : { kind: 'preset', presetId: choice.slice(7) },
+                                })
+                              }}
+                            />
+                          </DsFieldGroup>
                         )
                       })}
-                    </DsFieldGroup>
+                    </div>
                     {plan.party.kind === 'inline' && (
                       <TrialPartyEditor
                         value={plan.party.config}
@@ -505,40 +514,46 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
                     )}
                   </DsWorkbenchSection>
                   <DsWorkbenchSection title="本场条件">
+                    <div className="trial-config-columns">
+                      <DsFieldGroup>
+                        <DsSelectField
+                          label="战场"
+                          value={String(plan.fieldId)}
+                          placeholder="选择战场"
+                          options={(state.battleFields ?? []).map((field) => ({
+                            value: String(field.id),
+                            label: field.name ?? `战场 ${field.id}`,
+                          }))}
+                          onValueChange={(id) => updateConfig({ ...plan, fieldId: Number(id) })}
+                        />
+                      </DsFieldGroup>
+                      <DsFieldGroup>
+                        <DsSelectField
+                          label="战斗音乐"
+                          value={
+                            plan.music.kind === 'asset'
+                              ? `asset:${plan.music.assetId}`
+                              : plan.music.kind
+                          }
+                          options={[
+                            { value: 'default', label: '使用项目默认' },
+                            { value: 'silent', label: '静音' },
+                            ...Object.entries(state.assetCatalog.assets)
+                              .filter(([, r]) => r.kind === 'music')
+                              .map(([id, r]) => ({ value: `asset:${id}`, label: r.label ?? id })),
+                          ]}
+                          onValueChange={(value) =>
+                            updateConfig({
+                              ...plan,
+                              music: value.startsWith('asset:')
+                                ? { kind: 'asset', assetId: value.slice(6) }
+                                : { kind: value === 'silent' ? 'silent' : 'default' },
+                            })
+                          }
+                        />
+                      </DsFieldGroup>
+                    </div>
                     <DsFieldGroup>
-                      <DsSelectField
-                        label="战场"
-                        value={String(plan.fieldId)}
-                        placeholder="选择战场"
-                        options={(state.battleFields ?? []).map((field) => ({
-                          value: String(field.id),
-                          label: field.name ?? `战场 ${field.id}`,
-                        }))}
-                        onValueChange={(id) => updateConfig({ ...plan, fieldId: Number(id) })}
-                      />
-                      <DsSelectField
-                        label="战斗音乐"
-                        value={
-                          plan.music.kind === 'asset'
-                            ? `asset:${plan.music.assetId}`
-                            : plan.music.kind
-                        }
-                        options={[
-                          { value: 'default', label: '使用工程默认' },
-                          { value: 'silent', label: '静音' },
-                          ...Object.entries(state.assetCatalog.assets)
-                            .filter(([, r]) => r.kind === 'music')
-                            .map(([id, r]) => ({ value: `asset:${id}`, label: r.label ?? id })),
-                        ]}
-                        onValueChange={(value) =>
-                          updateConfig({
-                            ...plan,
-                            music: value.startsWith('asset:')
-                              ? { kind: 'asset', assetId: value.slice(6) }
-                              : { kind: value === 'silent' ? 'silent' : 'default' },
-                          })
-                        }
-                      />
                       <DsDraftNumberField
                         label="测试金钱"
                         draftKey={`${fieldKey}:money`}
@@ -650,8 +665,8 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
                   <div className="trial-actions">
                     {props.projectDirty && (
                       <>
-                        <span>工程有未保存改动，请先保存。</span>
-                        <DsButton onClick={props.onSave}>保存工程</DsButton>
+                        <span>项目有未保存改动，请先保存。</span>
+                        <DsButton onClick={props.onSave}>保存项目</DsButton>
                       </>
                     )}
                     <DsButton
@@ -674,49 +689,51 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
           )}
         </DsObjectWorkspace>
       </div>
-      <DsDialog
-        open={!!deleting}
-        role="alertdialog"
-        title="删除测试配置"
-        onClose={() => setDeleting(undefined)}
-        footer={
-          <>
-            <DsButton onClick={() => setDeleting(undefined)}>取消</DsButton>
-            <DsButton
-              variant="danger"
-              onClick={() => {
-                if (!deleting) return
-                const request = deleting
-                if (
-                  act(() =>
-                    session.dispatch(
-                      new SetBattleSimulatorLibraryCommand(
-                        deleteBattleSimulatorRecord(
-                          session.getState().battleSimulator ?? emptyBattleSimulatorLibrary(),
-                          request.directory,
-                          request.id,
-                          request.plans,
+      {deleting && (
+        <DsDialog
+          open
+          role="alertdialog"
+          title="删除测试配置"
+          onClose={() => setDeleting(undefined)}
+          footer={
+            <>
+              <DsButton onClick={() => setDeleting(undefined)}>取消</DsButton>
+              <DsButton
+                variant="danger"
+                onClick={() => {
+                  if (!deleting) return
+                  const request = deleting
+                  if (
+                    act(() =>
+                      session.dispatch(
+                        new SetBattleSimulatorLibraryCommand(
+                          deleteBattleSimulatorRecord(
+                            session.getState().battleSimulator ?? emptyBattleSimulatorLibrary(),
+                            request.directory,
+                            request.id,
+                            request.plans,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ) {
-                  setDeleting(undefined)
-                  onObjectFocus(undefined)
-                }
-              }}
-            >
-              确认删除
-            </DsButton>
-          </>
-        }
-      >
-        <p>
-          {deleting?.plans.length
-            ? `以下试打方案将失效，可修复或撤销删除：${deleting.plans.map((id) => library.plans.find((plan) => plan.id === id)?.name ?? id).join('、')}`
-            : '删除后可撤销；不删除角色、敌人或物品定义。'}
-        </p>
-      </DsDialog>
+                    )
+                  ) {
+                    setDeleting(undefined)
+                    onObjectFocus(undefined)
+                  }
+                }}
+              >
+                确认删除
+              </DsButton>
+            </>
+          }
+        >
+          <p>
+            {deleting?.plans.length
+              ? `以下试打方案将失效，可修复或撤销删除：${deleting.plans.map((id) => library.plans.find((plan) => plan.id === id)?.name ?? id).join('、')}`
+              : '删除后可撤销；不删除角色、敌人或物品定义。'}
+          </p>
+        </DsDialog>
+      )}
     </>
   )
 }

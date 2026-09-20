@@ -5,19 +5,19 @@ import {
   prepareBattleTrial,
 } from '@type-pal/reforge'
 import { expect, test, vi } from 'vitest'
-import { createBattlePlayers } from '../../reforge/src/battle/battle-player-input.js'
-import { prepareBattleSpriteReadiness } from '../../reforge/src/battle/battle-sprite-readiness.js'
-import { finishBattleWorldState } from '../../reforge/src/battle/battle-world-result.js'
-import { createBattleTrialSession } from '../../reforge/src/battle-trial-session.js'
 import {
   battleTrialProjectFiles,
   fixtureSource,
-} from '../src/core/__tests__/battle-trial-project.js'
+} from '../../editor/src/core/__tests__/battle-trial-project.js'
 import {
   parseBattleSimulatorLibrary,
   resolveBattleSimulatorPlan,
-} from '../src/core/battle-simulator-library.js'
-import { emptyTrialMember } from '../src/core/battle-simulator-state.js'
+} from '../../editor/src/core/battle-simulator-library.js'
+import { emptyTrialMember } from '../../editor/src/core/battle-simulator-state.js'
+import { createBattlePlayers } from '../src/battle/battle-player-input.js'
+import { prepareBattleSpriteReadiness } from '../src/battle/battle-sprite-readiness.js'
+import { finishBattleWorldState } from '../src/battle/battle-world-result.js'
+import { createBattleTrialSession } from '../src/battle-trial-session.js'
 
 async function fixture(hp?: number) {
   const files = await battleTrialProjectFiles()

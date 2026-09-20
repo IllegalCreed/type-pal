@@ -1,7 +1,12 @@
 {
   "version": 1,
   "adoptions": [
-    { "source": "ShopTab.tsx", "component": "ShopTab", "responsive": 1, "stacked": 0 },
+    {
+      "source": "ShopTab.tsx",
+      "component": "ShopTab",
+      "responsive": 1,
+      "stacked": 0
+    },
     {
       "source": "BattleSpriteLibrary.tsx",
       "component": "BattleSpriteLibrary",
@@ -110,6 +115,36 @@
       "component": "StampTemplateDialog",
       "responsive": 1,
       "stacked": 1
+    },
+    {
+      "source": "BattleSimulatorForms.tsx",
+      "component": "TrialPoolField",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "BattleSimulatorForms.tsx",
+      "component": "TrialPartyEditor",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "BattleSimulatorForms.tsx",
+      "component": "TrialEnemiesEditor",
+      "responsive": 1,
+      "stacked": 0
+    },
+    {
+      "source": "BattleSimulatorWorkbench.tsx",
+      "component": "BattleSimulatorWorkbench",
+      "responsive": 5,
+      "stacked": 0
+    },
+    {
+      "source": "BattleTrialDialog.tsx",
+      "component": "BattleTrialDialog",
+      "responsive": 1,
+      "stacked": 0
     }
   ],
   "exceptions": {

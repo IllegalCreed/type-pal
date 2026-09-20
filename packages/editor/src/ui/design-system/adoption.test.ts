@@ -19,6 +19,21 @@ const here = dirname(fileURLToPath(import.meta.url))
 const packageRoot = join(here, '../../..')
 
 describe('design-system adoption gate', () => {
+  test('simulator keeps its canonical workspace and directory forwarding under the same route gate', () => {
+    const matrix = JSON.parse(readFileSync(join(here, 'design-system-adoption.json'), 'utf8'))
+    const source = readFileSync(join(here, '../App.tsx'), 'utf8')
+    const needle = "location.subpage as 'plans' | 'allies' | 'enemies' | 'bags'"
+    expect(source.split(needle)).toHaveLength(2)
+    expect(validateAdoption(matrix, { 'App.tsx': source.replace(needle, "'plans'") })).toContain(
+      'App.tsx simulator must forward the current directory',
+    )
+    expect(
+      matrix.pages
+        .filter((page) => page.registry.startsWith('simulator/'))
+        .map((page) => page.registry)
+        .sort(),
+    ).toEqual(['simulator/allies', 'simulator/bags', 'simulator/enemies', 'simulator/plans'])
+  })
   test('binds every registered subpage to exactly one adoption record', () => {
     const matrix = JSON.parse(readFileSync(join(here, 'design-system-adoption.json'), 'utf8'))
     const registered = EDITOR_MODULES.flatMap((module) =>
@@ -27,17 +42,17 @@ describe('design-system adoption gate', () => {
     const adopted = matrix.pages.map((page) => page.registry).sort()
 
     expect(matrix.version).toBe(4)
-    expect(matrix.catalogScrollOwners).toHaveLength(27)
+    expect(matrix.catalogScrollOwners).toHaveLength(31)
     expect(matrix.overlayExceptions).toHaveLength(7)
     expect(matrix.workspaceLegacyExceptions).toHaveLength(0)
     expect(adopted).toEqual(registered)
     expect(new Set(adopted).size).toBe(adopted.length)
-    expect(matrix.pages).toHaveLength(27)
+    expect(matrix.pages).toHaveLength(31)
     const scrollRecords = matrix.catalogScrollOwners.flatMap((page) => page.scroll)
-    expect(scrollRecords).toHaveLength(101)
+    expect(scrollRecords).toHaveLength(109)
     expect(
       scrollRecords.filter((record) => record.owner === 'DsObjectWorkspaceContent'),
-    ).toHaveLength(20)
+    ).toHaveLength(24)
     for (const page of matrix.pages) {
       expect(page.status).toBe('adopted')
       expect(Object.keys(page.owners).sort()).toEqual([
@@ -2021,7 +2036,7 @@ type DataStateProps`,
       cwd: packageRoot,
       encoding: 'utf8',
     })
-    expect(output).toContain('design-system gate passed: 92 files, 2 evidence-bound exceptions')
+    expect(output).toContain('design-system gate passed: 95 files, 2 evidence-bound exceptions')
   }, 15_000)
 
   test('keeps legitimate native and dynamic geometry behind public boundaries', () => {

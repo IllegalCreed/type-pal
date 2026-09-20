@@ -79,7 +79,7 @@ async function main(): Promise<void> {
         if (permission !== 'granted') {
           gate.hidden = false
           gateBtn.hidden = false
-          gateHint.textContent = '独立试打需要读取已保存工程；不会读取或写入游戏存档。'
+          gateHint.textContent = '独立试打需要读取已保存项目；不会读取或写入游戏存档。'
           await new Promise<void>((resolve, reject) => {
             const cleanup = () => {
               gateBtn.onclick = null
@@ -99,7 +99,7 @@ async function main(): Promise<void> {
                     cleanup()
                     gateBtn.hidden = true
                     resolve()
-                  } else gateHint.textContent = '未授权，请允许读取工程或关闭本页'
+                  } else gateHint.textContent = '未授权，请允许读取项目或关闭本页'
                 })
                 .catch((error) => {
                   cleanup()
@@ -114,7 +114,7 @@ async function main(): Promise<void> {
         }
       }
       active()
-      gateHint.textContent = '正在读取已保存工程…'
+      gateHint.textContent = '正在读取已保存项目…'
       const project = await loadPlayProject(packet.identity.projectId, record?.handle)
       active()
       assertLoadedPlayProjectIdentity(packet.identity.projectId, project.manifest.id)

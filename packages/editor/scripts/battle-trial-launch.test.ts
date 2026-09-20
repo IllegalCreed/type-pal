@@ -231,7 +231,7 @@ describe('one-time simulator launch transport', () => {
     await vi.waitFor(() => expect(child.postMessage).toHaveBeenCalledTimes(2))
     expect(child.postMessage.mock.calls[1]![0]).toMatchObject({
       kind: 'error',
-      message: expect.stringContaining('工程已变化'),
+      message: expect.stringContaining('项目已变化'),
     })
   })
   test('receiver checks identity and rejects duplicate-use configuration after ack', async () => {

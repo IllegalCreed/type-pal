@@ -174,7 +174,7 @@ export function parseBattleSimulatorLibrary(value: unknown): BattleSimulatorLibr
 export class BattleSimulatorDocumentError extends Error {
   constructor(cause: unknown) {
     super(
-      `战斗模拟器配置 ${BATTLE_SIMULATOR_PATH} 无效或无法读取，请修复后重新打开工程：${cause instanceof Error ? cause.message : String(cause)}`,
+      `战斗模拟器配置 ${BATTLE_SIMULATOR_PATH} 无效或无法读取，请修复后重新打开项目：${cause instanceof Error ? cause.message : String(cause)}`,
       { cause },
     )
     this.name = 'BattleSimulatorDocumentError'

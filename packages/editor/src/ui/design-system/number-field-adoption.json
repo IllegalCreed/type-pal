@@ -1,13 +1,13 @@
 {
   "version": 1,
   "baseline": {
-    "files": 37,
-    "leafCalls": 115,
+    "files": 39,
+    "leafCalls": 119,
     "controls": {
       "DsNumberInput": 55,
       "DsDraftNumberInput": 27,
       "DsNumberField": 5,
-      "DsDraftNumberField": 28
+      "DsDraftNumberField": 32
     }
   },
   "modes": [
@@ -816,6 +816,62 @@
       "reason": "精灵默认帧索引属于 Inspector 的帧编号语义。",
       "verification": "WorldSpriteLibrary.tsx#default frame",
       "removalCondition": "帧索引移出 Inspector 时迁入 NumberField。"
+    },
+    {
+      "source": "BattleSimulatorForms.tsx",
+      "component": "TrialBagEditor",
+      "match": { "context": "none", "fieldClass": "" },
+      "count": 1,
+      "mode": "main-form-short",
+      "control": "DsDraftNumberField",
+      "measure": "canonical-short",
+      "grid": "single",
+      "owner": "card:EDITOR-SKILL-TRIAL-1",
+      "reason": "配置数值复用短数字字段；不是自造宽度。",
+      "verification": "scripts/battle-simulator-ui.test.tsx",
+      "removalCondition": "删除对应模拟器字段时同步移除。"
+    },
+    {
+      "source": "BattleSimulatorForms.tsx",
+      "component": "TrialPartyEditor",
+      "match": { "context": "number-grid", "fieldClass": "" },
+      "count": 1,
+      "mode": "main-form-short",
+      "control": "DsDraftNumberField",
+      "measure": "canonical-short",
+      "grid": "direct-number-grid",
+      "owner": "card:EDITOR-SKILL-TRIAL-1",
+      "reason": "配置数值复用短数字字段；不是自造宽度。",
+      "verification": "scripts/battle-simulator-ui.test.tsx",
+      "removalCondition": "删除对应模拟器字段时同步移除。"
+    },
+    {
+      "source": "BattleSimulatorForms.tsx",
+      "component": "TrialPoolField",
+      "match": { "context": "field-group", "fieldClass": "" },
+      "count": 1,
+      "mode": "main-form-short",
+      "control": "DsDraftNumberField",
+      "measure": "canonical-short",
+      "grid": "single",
+      "owner": "card:EDITOR-SKILL-TRIAL-1",
+      "reason": "配置数值复用短数字字段；不是自造宽度。",
+      "verification": "scripts/battle-simulator-ui.test.tsx",
+      "removalCondition": "删除对应模拟器字段时同步移除。"
+    },
+    {
+      "source": "BattleSimulatorWorkbench.tsx",
+      "component": "BattleSimulatorWorkbench",
+      "match": { "context": "field-group", "fieldClass": "" },
+      "count": 1,
+      "mode": "main-form-short",
+      "control": "DsDraftNumberField",
+      "measure": "canonical-short",
+      "grid": "single",
+      "owner": "card:EDITOR-SKILL-TRIAL-1",
+      "reason": "配置数值复用短数字字段；不是自造宽度。",
+      "verification": "scripts/battle-simulator-ui.test.tsx",
+      "removalCondition": "删除对应模拟器字段时同步移除。"
     }
   ],
   "wrappers": [
@@ -958,6 +1014,36 @@
       "reason": "四处条件编辑入口复用五项紧凑数字参数。",
       "verification": "ScriptEditor.tsx local consumers",
       "removalCondition": "条件编辑器不再复用时移除。"
+    },
+    {
+      "source": "BattleSimulatorForms.tsx",
+      "component": "TrialPoolField",
+      "consumerCount": 2,
+      "context": "simulator-form",
+      "owner": "card:EDITOR-SKILL-TRIAL-1",
+      "reason": "命名预设与临时覆写复用同一数值字段。",
+      "verification": "scripts/battle-simulator-ui.test.tsx",
+      "removalCondition": "删除对应组件时移除。"
+    },
+    {
+      "source": "BattleSimulatorForms.tsx",
+      "component": "TrialPartyEditor",
+      "consumerCount": 3,
+      "context": "simulator-form",
+      "owner": "card:EDITOR-SKILL-TRIAL-1",
+      "reason": "命名预设与临时覆写复用同一数值字段。",
+      "verification": "scripts/battle-simulator-ui.test.tsx",
+      "removalCondition": "删除对应组件时移除。"
+    },
+    {
+      "source": "BattleSimulatorForms.tsx",
+      "component": "TrialBagEditor",
+      "consumerCount": 3,
+      "context": "simulator-form",
+      "owner": "card:EDITOR-SKILL-TRIAL-1",
+      "reason": "命名预设与临时覆写复用同一数值字段。",
+      "verification": "scripts/battle-simulator-ui.test.tsx",
+      "removalCondition": "删除对应组件时移除。"
     }
   ],
   "renderMultiplicities": [

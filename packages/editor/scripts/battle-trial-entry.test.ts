@@ -124,7 +124,7 @@ test.each([
   const { config } = await fixture()
   if (failure === 'no-opener')
     Object.defineProperty(window, 'opener', { value: null, configurable: true })
-  if (failure === 'load-failure') probes.load.mockRejectedValue(new Error('读取工程失败'))
+  if (failure === 'load-failure') probes.load.mockRejectedValue(new Error('读取项目失败'))
   await open(
     `project=simulator-smoke&save-workspace=${W}&battle-trial=${L}${failure === 'mixed-mode' ? '&battle=0' : ''}`,
   )

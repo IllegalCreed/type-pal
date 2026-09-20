@@ -146,7 +146,7 @@ export function BattleTrialDialog(props: {
       {!library.plans.length && <p>还没有试打方案。进入详细配置即可准备本场，不必先建四份预设。</p>}
       {props.projectDirty && (
         <p>
-          工程有未保存改动。<DsButton onClick={props.onSave}>保存工程</DsButton>
+          项目有未保存改动。<DsButton onClick={props.onSave}>保存项目</DsButton>
         </p>
       )}
       {notice && <p role="alert">{notice}</p>}

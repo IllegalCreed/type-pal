@@ -1145,6 +1145,7 @@ describe('editor design-system static boundary', () => {
       'SkillTab.tsx',
       'EnemyTab.tsx',
       'PoisonTab.tsx',
+      'BattleSimulatorWorkbench.tsx',
       'BattleFieldTab.tsx',
       'ActorMode.tsx',
       'ShopTab.tsx',
@@ -1263,7 +1264,7 @@ describe('editor design-system static boundary', () => {
     }
     expect(
       production.filter((path) => readFileSync(path, 'utf8').includes('<DsCatalogWorkspace')),
-    ).toHaveLength(7)
+    ).toHaveLength(8)
     expect(production.filter((path) => /\bsprite-list\b/.test(readFileSync(path, 'utf8')))).toEqual(
       [],
     )

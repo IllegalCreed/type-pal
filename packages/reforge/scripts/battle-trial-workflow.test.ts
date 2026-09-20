@@ -7,12 +7,15 @@ import {
   previewBattleTrialParty,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
-import { battleTrialProjectFiles, fixtureSource } from './__tests__/battle-trial-project.js'
+import {
+  battleTrialProjectFiles,
+  fixtureSource,
+} from '../../editor/src/core/__tests__/battle-trial-project.js'
 import {
   parseBattleSimulatorLibrary,
   resolveBattleSimulatorPlan,
-} from './battle-simulator-library.js'
-import { emptyTrialMember } from './battle-simulator-state.js'
+} from '../../editor/src/core/battle-simulator-library.js'
+import { emptyTrialMember } from '../../editor/src/core/battle-simulator-state.js'
 
 async function fixture() {
   const files = await battleTrialProjectFiles()

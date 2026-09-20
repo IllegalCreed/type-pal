@@ -1532,6 +1532,154 @@
           "verification": "route-live ProjectAdvancedPage 只渲染 outliner + main workspace。"
         }
       ]
+    },
+    {
+      "registry": "simulator/plans",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsCatalogWorkspace"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsCatalogWorkspace"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsObjectWorkspaceContent"
+        }
+      ]
+    },
+    {
+      "registry": "simulator/allies",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsCatalogWorkspace"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsCatalogWorkspace"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsObjectWorkspaceContent"
+        }
+      ]
+    },
+    {
+      "registry": "simulator/enemies",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsCatalogWorkspace"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsCatalogWorkspace"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsObjectWorkspaceContent"
+        }
+      ]
+    },
+    {
+      "registry": "simulator/bags",
+      "catalog": [
+        {
+          "region": "catalog",
+          "axis": "none",
+          "owner": "DsCatalogWorkspace",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsCatalogWorkspace"
+        }
+      ],
+      "scroll": [
+        {
+          "region": "catalog",
+          "axis": "y",
+          "owner": "DsCatalogWorkspace",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsCatalogWorkspace"
+        },
+        {
+          "region": "main",
+          "axis": "y",
+          "owner": "DsObjectWorkspaceContent",
+          "source": "BattleSimulatorWorkbench.tsx",
+          "component": "BattleSimulatorWorkbench",
+          "reason": "模拟器四目录复用正式目录/对象工作区，记录通过统一命令修改。",
+          "verification": "battle-simulator-ui.test.tsx 与 Codex 6011 功能视觉。",
+          "callsite": "tag:DsObjectWorkspaceContent"
+        }
+      ]
     }
   ],
   "overlayExceptions": [
@@ -2416,6 +2564,114 @@
             "source": "ProjectWorkbenchTab.tsx",
             "component": "ProjectAdvancedPage",
             "kinds": []
+          }
+        ]
+      }
+    },
+    {
+      "registry": "simulator/plans",
+      "components": ["BattleSimulatorForms.tsx", "BattleSimulatorWorkbench.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent",
+        "overlay": "DsDialog + DsFloatingLayer",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsFieldGroup + DsSelectField",
+        "action": "DsButton + DsIconButton"
+      },
+      "ownerEvidence": {
+        "field": [
+          {
+            "source": "BattleSimulatorWorkbench.tsx",
+            "component": "BattleSimulatorWorkbench"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "BattleSimulatorWorkbench.tsx",
+            "component": "BattleSimulatorWorkbench",
+            "kinds": ["anchored-popup", "modal"]
+          }
+        ]
+      }
+    },
+    {
+      "registry": "simulator/allies",
+      "components": ["BattleSimulatorForms.tsx", "BattleSimulatorWorkbench.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent",
+        "overlay": "DsDialog + DsFloatingLayer",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsFieldGroup + DsSelectField",
+        "action": "DsButton + DsIconButton"
+      },
+      "ownerEvidence": {
+        "field": [
+          {
+            "source": "BattleSimulatorWorkbench.tsx",
+            "component": "BattleSimulatorWorkbench"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "BattleSimulatorWorkbench.tsx",
+            "component": "BattleSimulatorWorkbench",
+            "kinds": ["anchored-popup", "modal"]
+          }
+        ]
+      }
+    },
+    {
+      "registry": "simulator/enemies",
+      "components": ["BattleSimulatorForms.tsx", "BattleSimulatorWorkbench.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent",
+        "overlay": "DsDialog + DsFloatingLayer",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsFieldGroup + DsSelectField",
+        "action": "DsButton + DsIconButton"
+      },
+      "ownerEvidence": {
+        "field": [
+          {
+            "source": "BattleSimulatorWorkbench.tsx",
+            "component": "BattleSimulatorWorkbench"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "BattleSimulatorWorkbench.tsx",
+            "component": "BattleSimulatorWorkbench",
+            "kinds": ["anchored-popup", "modal"]
+          }
+        ]
+      }
+    },
+    {
+      "registry": "simulator/bags",
+      "components": ["BattleSimulatorForms.tsx", "BattleSimulatorWorkbench.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent",
+        "overlay": "DsDialog + DsFloatingLayer",
+        "field": "DsCheckbox + DsDraftNumberField + DsDraftTextAreaField + DsDraftTextField + DsFieldGroup + DsSelectField",
+        "action": "DsButton + DsIconButton"
+      },
+      "ownerEvidence": {
+        "field": [
+          {
+            "source": "BattleSimulatorWorkbench.tsx",
+            "component": "BattleSimulatorWorkbench"
+          }
+        ],
+        "overlay": [
+          {
+            "source": "BattleSimulatorWorkbench.tsx",
+            "component": "BattleSimulatorWorkbench",
+            "kinds": ["anchored-popup", "modal"]
           }
         ]
       }

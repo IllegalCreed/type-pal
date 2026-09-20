@@ -115,13 +115,13 @@ export function launchBattleTrial(options: {
     active()
     const project = await loadCurrentProjectFrom(options.source)
     active()
-    if (project.manifest.id !== identity.projectId) throw new Error('试玩工程身份已变化')
+    if (project.manifest.id !== identity.projectId) throw new Error('试玩项目身份已变化')
     const revision = await battleTrialRevision(project)
     active()
     await options.assertCanLaunch()
     active()
     if ((await assertProjectSaveReadable(options.source)) !== sourceToken)
-      throw new Error('工程保存状态已变化，请重新开始')
+      throw new Error('项目保存状态已变化，请重新开始')
     return { sourceToken, revision }
   }
   let admitted: { sourceToken: string; revision: string } | undefined
@@ -149,7 +149,7 @@ export function launchBattleTrial(options: {
           admitted &&
           (admitted.revision !== current.revision || admitted.sourceToken !== current.sourceToken)
         )
-          throw new Error('工程已变化，请返回编辑器按新配置开始试打')
+          throw new Error('项目已变化，请返回编辑器按新配置开始试打')
         admitted = current
         const channel = new MessageChannel()
         port = channel.port1
@@ -291,7 +291,7 @@ export function receiveBattleTrial(
     signal: controller.signal,
     restart() {
       if (controller.signal.aborted || !port || opener.closed)
-        throw new Error('编辑器已关闭，请重新打开工程')
+        throw new Error('编辑器已关闭，请重新打开项目')
       port.postMessage({ kind: 'restart' })
     },
     result(result: string) {

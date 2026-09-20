@@ -1,6 +1,6 @@
 // @ts-nocheck -- Vitest-only Node/TypeScript AST audit; the editor bundle has no Node dependency.
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
-import { dirname, join, relative } from 'node:path'
+import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
 import { describe, expect, test } from 'vitest'
@@ -8,6 +8,24 @@ import { EDITOR_MODULES } from '../editor-navigation.js'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const uiRoot = dirname(here)
+function verificationTestPaths(text: string): string[] {
+  return (text.match(/[\w./-]+\.test\.tsx?/g) ?? []).map((file) => {
+    const absolute = resolve(uiRoot, file)
+    const inPackage = relative(resolve(uiRoot, '../..'), absolute)
+    if (inPackage.startsWith('..')) throw new Error(`verification escapes editor package: ${file}`)
+    return absolute
+  })
+}
+
+test('field verification accepts package-local integration tests but rejects cross-package paths', () => {
+  expect(
+    verificationTestPaths('ActorMode.test.tsx + ../../scripts/battle-simulator-ui.test.tsx'),
+  ).toEqual([
+    join(uiRoot, 'ActorMode.test.tsx'),
+    resolve(uiRoot, '../../scripts/battle-simulator-ui.test.tsx'),
+  ])
+  expect(() => verificationTestPaths('../../../reforge/src/other.test.ts')).toThrow('escapes')
+})
 
 interface AdoptionTransaction {
   id: string
@@ -331,13 +349,13 @@ describe('editor field draft/commit static boundary', () => {
           `${page.registry}/${transaction.id} fields`,
         ).toBeGreaterThan(0)
         expect(new Set(transaction.fields).size).toBe(transaction.fields.length)
-        const evidenceFiles = transaction.verification.match(/[\w.-]+\.test\.tsx?/g) ?? []
+        const evidenceFiles = verificationTestPaths(transaction.verification)
         expect(
           evidenceFiles.length,
           `${page.registry}/${transaction.id} verification`,
         ).toBeGreaterThan(0)
         for (const file of evidenceFiles)
-          expect(existsSync(join(uiRoot, file)), `${transaction.id}: ${file}`).toBe(true)
+          expect(existsSync(file), `${transaction.id}: ${file}`).toBe(true)
         if (transaction.kind !== 'aggregate-draft') continue
         expect(transaction.owner?.trim(), `${page.registry}/${transaction.id} owner`).toBeTruthy()
         expect(

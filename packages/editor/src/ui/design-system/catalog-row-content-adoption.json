@@ -432,6 +432,38 @@
       "trailing": "布局分类",
       "decision": "compliant",
       "reason": "与动作页用途定义选择面保持同一媒体策略和内容层级。"
+    },
+    {
+      "id": "simulator/temporary",
+      "source": "BattleSimulatorWorkbench.tsx",
+      "jsxFingerprint": "f47e94fd006df793",
+      "family": "simulator",
+      "titleKind": "semantic-label",
+      "identitySlot": "none",
+      "idPresentation": "none",
+      "summaryKind": "status",
+      "leading": "none",
+      "title": "本场临时方案",
+      "meta": "临时状态/无需先存预设",
+      "trailing": "无",
+      "decision": "compliant",
+      "reason": "配置按稳定ID引用；目录展示名称与状态，不额外堆叠装饰图标。"
+    },
+    {
+      "id": "simulator/named",
+      "source": "BattleSimulatorWorkbench.tsx",
+      "jsxFingerprint": "316a7321896fc8e6",
+      "family": "simulator",
+      "titleKind": "authored-name",
+      "identitySlot": "none",
+      "idPresentation": "none",
+      "summaryKind": "status",
+      "leading": "none",
+      "title": "作者配置名",
+      "meta": "配置待完善状态",
+      "trailing": "无",
+      "decision": "compliant",
+      "reason": "配置按稳定ID引用；目录展示名称与状态，不额外堆叠装饰图标。"
     }
   ],
   "heroMedia": [

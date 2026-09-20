@@ -90,7 +90,7 @@ function effectKindConstant(source, constantName, property) {
     new RegExp(`const\\s+${constantName}\\s*:[^=]+?=\\s*\\[([\\s\\S]*?)\\n\\]`),
   )
   if (!match) return undefined
-  return [...match[1].matchAll(new RegExp(`\\b${property}\\s*:\\s*['\"]([^'\"]+)['\"]`, 'g'))].map(
+  return [...match[1].matchAll(new RegExp(`\\b${property}\\s*:\\s*['"]([^'"]+)['"]`, 'g'))].map(
     (entry) => entry[1],
   )
 }
@@ -106,7 +106,7 @@ function effectKindsForFamily(id, source) {
       /aria-label=\{`第 \$\{index \+ 1\} 个效果类型`\}[\s\S]*?options=\{\[([\s\S]*?)\]\}/,
     )
     return typeOptions
-      ? [...typeOptions[1].matchAll(/\bvalue\s*:\s*['\"]([^'\"]+)['\"]/g)].map((entry) => entry[1])
+      ? [...typeOptions[1].matchAll(/\bvalue\s*:\s*['"]([^'"]+)['"]/g)].map((entry) => entry[1])
       : undefined
   }
   return undefined
@@ -120,7 +120,7 @@ function effectCardChainBlocks(source, id) {
   return [
     ...source.matchAll(
       new RegExp(
-        `<EffectEditorChain\\b(?=[^>]*\\bfamily=['\"]${escapedEffectCardId(id)}['\"])[^>]*>[\\s\\S]*?<\\/EffectEditorChain>`,
+        `<EffectEditorChain\\b(?=[^>]*\\bfamily=['"]${escapedEffectCardId(id)}['"])[^>]*>[\\s\\S]*?<\\/EffectEditorChain>`,
         'g',
       ),
     ),
@@ -214,9 +214,9 @@ export function validateEffectCardAdoption(document, overrides = {}) {
   for (const path of productionSources()) {
     const sourceName = relative(uiRoot, path)
     const source = effectCardSource(sourceName, overrides)
-    for (const match of source.matchAll(/adoptionId=['\"]([^'\"]+-effects)['\"]/g))
+    for (const match of source.matchAll(/adoptionId=['"]([^'"]+-effects)['"]/g))
       addOccurrence(actualAdoption, match[1], sourceName)
-    for (const match of source.matchAll(/<EffectEditorChain\b[\s\S]*?family=['\"]([^'\"]+)['\"]/g))
+    for (const match of source.matchAll(/<EffectEditorChain\b[\s\S]*?family=['"]([^'"]+)['"]/g))
       addOccurrence(actualChains, match[1], sourceName)
   }
   for (const [id, sources] of actualAdoption) {
@@ -241,7 +241,7 @@ export function validateEffectCardAdoption(document, overrides = {}) {
     const chainBlocks = effectCardChainBlocks(source, family.id)
     const chain = chainBlocks[0] ?? ''
     if (
-      !/import\s*\{[\s\S]*?\bEffectEditorCard\b[\s\S]*?\bEffectEditorChain\b[\s\S]*?\}\s*from\s*['\"]\.\/EffectEditorCard\.js['\"]/.test(
+      !/import\s*\{[\s\S]*?\bEffectEditorCard\b[\s\S]*?\bEffectEditorChain\b[\s\S]*?\}\s*from\s*['"]\.\/EffectEditorCard\.js['"]/.test(
         source,
       )
     )
@@ -317,7 +317,7 @@ export function validateEffectCardAdoption(document, overrides = {}) {
   )
     problems.push('EffectEditorCard responsive overlay handle is not first-row aligned')
   const fullSpanRule = editorCss.match(
-    /\.effect-editor-card__fields\s*>\s*\.item-effect-field-wide[^\{]*\{([^}]*)\}/,
+    /\.effect-editor-card__fields\s*>\s*\.item-effect-field-wide[^{]*\{([^}]*)\}/,
   )
   if (!fullSpanRule || !/grid-column:\s*1\s*\/\s*-1/.test(fullSpanRule[1]))
     problems.push('EffectEditorCard lost its full-span nested field contract')
@@ -3221,8 +3221,21 @@ function appWorkspaceDispatchRoots(overrides = {}) {
     candidateRoots.set(kind, { ...imported, routeCall: jsxCallMetadata(opening, source) })
     current = unwrapExpression(current.whenFalse)
   }
-  if (JSON.stringify(routedKinds) !== JSON.stringify(['map', 'actor', 'project', 'data']))
+  if (
+    JSON.stringify(routedKinds) !== JSON.stringify(['simulator', 'map', 'actor', 'project', 'data'])
+  )
     throw new Error('App.tsx has no canonical map/actor/project/data route chain')
+  const simulator = candidateRoots.get('simulator')
+  if (
+    simulator.source !== 'BattleSimulatorWorkbench.tsx' ||
+    simulator.component !== 'BattleSimulatorWorkbench'
+  )
+    throw new Error('App.tsx simulator must render the canonical BattleSimulatorWorkbench')
+  if (
+    simulator.routeCall.attributes.get('directory') !==
+    "location.subpage as 'plans' | 'allies' | 'enemies' | 'bags'"
+  )
+    throw new Error('App.tsx simulator must forward the current directory')
   const routedChain = { roots: candidateRoots, sceneExpression: current }
   const roots = routedChain.roots
   roots.set('scene', {

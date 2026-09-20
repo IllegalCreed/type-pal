@@ -12,16 +12,16 @@ const output = mkdtempSync(join(tmpdir(), 'type-pal-simulator-runtime-nc-'))
 const cases = [
   {
     id: 'fourth-member',
-    pkg: 'editor',
+    pkg: 'reforge',
     path: 'packages/reforge/src/battle-trial-config.ts',
     needle: 'TRIAL_MAX_PARTY_MEMBERS = 3',
     replacement: 'TRIAL_MAX_PARTY_MEMBERS = 4',
-    file: 'src/core/battle-trial-workflow.test.ts',
+    file: 'scripts/battle-trial-workflow.test.ts',
     title: 'fourth party member is rejected before runtime construction',
   },
   {
     id: 'source-bytes',
-    pkg: 'editor',
+    pkg: 'reforge',
     path: 'packages/reforge/src/battle-trial-assets.ts',
     needle: 'const retained = bytes.slice(0)',
     replacement: 'const retained = bytes',
@@ -39,7 +39,7 @@ const cases = [
   },
   {
     id: 'save-hotkey',
-    pkg: 'editor',
+    pkg: 'reforge',
     path: 'packages/reforge/src/battle-trial-host.ts',
     needle: '    event.preventDefault()',
     replacement: '    if (!event.key.startsWith("F")) event.preventDefault()',

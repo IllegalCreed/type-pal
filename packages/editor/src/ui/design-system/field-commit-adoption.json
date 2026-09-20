@@ -553,6 +553,74 @@
       "registry": "project/advanced",
       "status": "not-applicable",
       "reason": "诊断问题页只读，无 canonical 连续字段。"
+    },
+    {
+      "registry": "simulator/plans",
+      "status": "adopted",
+      "productionFiles": ["BattleSimulatorWorkbench.tsx", "BattleSimulatorForms.tsx"],
+      "transactions": [
+        {
+          "id": "simulator-plans-fields",
+          "kind": "field-draft",
+          "fields": [
+            "battleSimulator.plans.*.name",
+            "battleSimulator.plans.*.description",
+            "battleSimulator.plans.*.config.*"
+          ],
+          "verification": "../../scripts/battle-simulator-ui.test.tsx; 命名数据进入EditSession，临时配置由工作区草稿持有。"
+        }
+      ]
+    },
+    {
+      "registry": "simulator/allies",
+      "status": "adopted",
+      "productionFiles": ["BattleSimulatorWorkbench.tsx", "BattleSimulatorForms.tsx"],
+      "transactions": [
+        {
+          "id": "simulator-allies-fields",
+          "kind": "field-draft",
+          "fields": [
+            "battleSimulator.allies.*.name",
+            "battleSimulator.allies.*.description",
+            "battleSimulator.allies.*.config.*"
+          ],
+          "verification": "../../scripts/battle-simulator-ui.test.tsx; 命名数据进入EditSession，临时配置由工作区草稿持有。"
+        }
+      ]
+    },
+    {
+      "registry": "simulator/enemies",
+      "status": "adopted",
+      "productionFiles": ["BattleSimulatorWorkbench.tsx", "BattleSimulatorForms.tsx"],
+      "transactions": [
+        {
+          "id": "simulator-enemies-fields",
+          "kind": "field-draft",
+          "fields": [
+            "battleSimulator.enemies.*.name",
+            "battleSimulator.enemies.*.description",
+            "battleSimulator.enemies.*.config.*"
+          ],
+          "verification": "../../scripts/battle-simulator-ui.test.tsx; 命名数据进入EditSession，临时配置由工作区草稿持有。"
+        }
+      ]
+    },
+    {
+      "registry": "simulator/bags",
+      "status": "adopted",
+      "productionFiles": ["BattleSimulatorWorkbench.tsx", "BattleSimulatorForms.tsx"],
+      "transactions": [
+        {
+          "id": "simulator-bags-fields",
+          "kind": "field-draft",
+          "fields": [
+            "battleSimulator.bags.*.name",
+            "battleSimulator.bags.*.description",
+            "battleSimulator.bags.*.config.*"
+          ],
+          "verification": "../../scripts/battle-simulator-ui.test.tsx; 命名数据进入EditSession，临时配置由工作区草稿持有。"
+        }
+      ]
     }
   ],
   "allowlist": []

@@ -1,17 +1,14 @@
 import { type FileSource, loadCurrentProjectFrom } from '@type-pal/reforge'
 import { expect, test, vi } from 'vitest'
 import {
-  createTrialFileSnapshot,
-  prepareBattleTrialAssets,
-} from '../../reforge/src/battle-trial-assets.js'
-import {
   battleTrialProjectFiles,
   fixtureSource,
-} from '../src/core/__tests__/battle-trial-project.js'
+} from '../../editor/src/core/__tests__/battle-trial-project.js'
 import {
   parseBattleSimulatorLibrary,
   resolveBattleSimulatorPlan,
-} from '../src/core/battle-simulator-library.js'
+} from '../../editor/src/core/battle-simulator-library.js'
+import { createTrialFileSnapshot, prepareBattleTrialAssets } from '../src/battle-trial-assets.js'
 
 test('frozen bytes detach the source and every consumer; seal forbids uncached project IO', async () => {
   const bytes = new Uint8Array([1, 2, 3])

@@ -3,23 +3,23 @@ import { Blob as StreamBlob } from 'node:buffer'
 import { webcrypto } from 'node:crypto'
 import { loadCurrentProjectFrom, loadStandardPalette, prepareBattleTrial } from '@type-pal/reforge'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
-import { prepareBattleSpriteReadiness } from '../../reforge/src/battle/battle-sprite-readiness.js'
-import { runBattleTrial } from '../../reforge/src/battle-trial-host.js'
 import {
   battleTrialProjectFiles,
   fixtureSource,
-} from '../src/core/__tests__/battle-trial-project.js'
+} from '../../editor/src/core/__tests__/battle-trial-project.js'
 import {
   parseBattleSimulatorLibrary,
   resolveBattleSimulatorPlan,
-} from '../src/core/battle-simulator-library.js'
+} from '../../editor/src/core/battle-simulator-library.js'
+import { prepareBattleSpriteReadiness } from '../src/battle/battle-sprite-readiness.js'
+import { runBattleTrial } from '../src/battle-trial-host.js'
 
 const probes = vi.hoisted(() => ({ prepare: vi.fn(), store: vi.fn() }))
-vi.mock('../../reforge/src/battle-trial-assets.js', async (original) => ({
-  ...(await original<typeof import('../../reforge/src/battle-trial-assets.js')>()),
+vi.mock('../src/battle-trial-assets.js', async (original) => ({
+  ...(await original<typeof import('../src/battle-trial-assets.js')>()),
   prepareBattleTrialAssets: probes.prepare,
 }))
-vi.mock('../../reforge/src/save/store.js', () => ({
+vi.mock('../src/save/store.js', () => ({
   MemorySaveStore: class {
     constructor() {
       probes.store('memory')

@@ -645,7 +645,7 @@ export function App(props: {
     if (trialWindows.current.size)
       throw new Error('已有独立试打窗口，请在该窗口重新试打，或关闭后再开始')
     if (projectGuard.blocked() || session.isDirty() || scriptSession.isDirty())
-      throw new Error('请先保存工程，再开始独立试打')
+      throw new Error('请先保存项目，再开始独立试打')
     const startingState = session.getState(),
       scriptVersion = scriptSession.getVersion()
     const dir = dirHandleRef.current
@@ -663,7 +663,7 @@ export function App(props: {
           session.getState() !== startingState ||
           scriptSession.getVersion() !== scriptVersion
         )
-          throw new Error('工程状态已变化，请保存后重新试打')
+          throw new Error('项目状态已变化，请保存后重新试打')
         if (dir) {
           const record = await resolvePlayWorkspaceRecord(
             playIdentity.workspaceId,
@@ -3559,29 +3559,33 @@ export function App(props: {
           }}
         />
       )}
-      <DsDialog
-        open={!!trialLeave}
-        role="alertdialog"
-        title="离开本场临时配置"
-        onClose={() => setTrialLeave(undefined)}
-        footer={
-          <>
-            <DsButton onClick={() => setTrialLeave(undefined)}>取消</DsButton>
-            <DsButton
-              variant="danger"
-              onClick={() => {
-                const leave = trialLeave
-                setTrialLeave(undefined)
-                leave?.()
-              }}
-            >
-              放弃本场并继续
-            </DsButton>
-          </>
-        }
-      >
-        <p>本场临时调整尚未另存为方案。离开工程后会丢弃这些调整；命名配置仍按工程保存流程处理。</p>
-      </DsDialog>
+      {trialLeave && (
+        <DsDialog
+          open
+          role="alertdialog"
+          title="离开本场临时配置"
+          onClose={() => setTrialLeave(undefined)}
+          footer={
+            <>
+              <DsButton onClick={() => setTrialLeave(undefined)}>取消</DsButton>
+              <DsButton
+                variant="danger"
+                onClick={() => {
+                  const leave = trialLeave
+                  setTrialLeave(undefined)
+                  leave?.()
+                }}
+              >
+                放弃本场并继续
+              </DsButton>
+            </>
+          }
+        >
+          <p>
+            本场临时调整尚未另存为方案。离开项目后会丢弃这些调整；命名配置仍按项目保存流程处理。
+          </p>
+        </DsDialog>
+      )}
 
       {sceneLifecycleIntent ? (
         <DsDialog

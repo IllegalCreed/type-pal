@@ -17,7 +17,7 @@ import {
   DsFieldGroup,
   DsSelectField,
 } from './design-system/controls.js'
-import { DsNumberFieldGrid, DsWorkbenchSection } from './design-system/recipes.js'
+import { DsInlineComposer, DsNumberFieldGrid, DsWorkbenchSection } from './design-system/recipes.js'
 
 const STAT_LABELS: Record<keyof TrialStats, string> = {
   level: '等级',
@@ -103,36 +103,41 @@ export function TrialPartyEditor({
   )
   return (
     <>
-      <DsFieldGroup>
-        <DsSelectField
-          label="添加队员"
-          value={adding}
-          placeholder="选择可参战角色"
-          options={candidates.map((actor) => ({
-            value: actor.id,
-            label: lookupText(actor.name, state.locale),
-          }))}
-          onValueChange={setAdding}
-        />
-        <DsButton
-          disabled={
-            !adding ||
-            value.members.length >= TRIAL_MAX_PARTY_MEMBERS ||
-            !candidates.some((actor) => actor.id === adding)
-          }
-          onClick={() => {
-            if (
+      <DsInlineComposer
+        density="default"
+        control={
+          <DsSelectField
+            label="添加队员"
+            value={adding}
+            placeholder="选择可参战角色"
+            options={candidates.map((actor) => ({
+              value: actor.id,
+              label: lookupText(actor.name, state.locale),
+            }))}
+            onValueChange={setAdding}
+          />
+        }
+        action={
+          <DsButton
+            disabled={
+              !adding ||
               value.members.length >= TRIAL_MAX_PARTY_MEMBERS ||
               !candidates.some((actor) => actor.id === adding)
-            )
-              return
-            onChange({ members: [...value.members, emptyTrialMember(adding)] })
-            setAdding('')
-          }}
-        >
-          加入队伍
-        </DsButton>
-      </DsFieldGroup>
+            }
+            onClick={() => {
+              if (
+                value.members.length >= TRIAL_MAX_PARTY_MEMBERS ||
+                !candidates.some((actor) => actor.id === adding)
+              )
+                return
+              onChange({ members: [...value.members, emptyTrialMember(adding)] })
+              setAdding('')
+            }}
+          >
+            加入队伍
+          </DsButton>
+        }
+      />
       {!value.members.length && (
         <p className="hint2">尚无队员。最多{TRIAL_MAX_PARTY_MEMBERS}人，同一角色不能重复加入。</p>
       )}
@@ -208,41 +213,42 @@ export function TrialPartyEditor({
                 )
               })}
             </DsNumberFieldGrid>
-            <DsFieldGroup>
+            <div className="trial-config-columns">
               {EQUIP_SLOT_IDS.map((slot) => (
-                <DsSelectField
-                  key={slot}
-                  label={SLOT_LABELS[slot]}
-                  value={
-                    member.equipment[slot] === undefined
-                      ? 'inherit'
-                      : member.equipment[slot] === null
-                        ? 'none'
-                        : `item:${member.equipment[slot]}`
-                  }
-                  options={[
-                    { value: 'inherit', label: '继承角色默认装备' },
-                    { value: 'none', label: '不装备' },
-                    ...state.items
-                      .filter(
-                        (item) =>
-                          item.equip?.slot === slot &&
-                          item.equip.equipableBy.includes(member.actorId),
-                      )
-                      .map((item) => ({
-                        value: `item:${item.id}`,
-                        label: lookupText(item.name, state.locale),
-                      })),
-                  ]}
-                  onValueChange={(next) => {
-                    const equipment = { ...member.equipment }
-                    if (next === 'inherit') delete equipment[slot]
-                    else equipment[slot] = next === 'none' ? null : next.slice(5)
-                    update(member.actorId, { equipment })
-                  }}
-                />
+                <DsFieldGroup key={slot}>
+                  <DsSelectField
+                    label={SLOT_LABELS[slot]}
+                    value={
+                      member.equipment[slot] === undefined
+                        ? 'inherit'
+                        : member.equipment[slot] === null
+                          ? 'none'
+                          : `item:${member.equipment[slot]}`
+                    }
+                    options={[
+                      { value: 'inherit', label: '继承角色默认装备' },
+                      { value: 'none', label: '不装备' },
+                      ...state.items
+                        .filter(
+                          (item) =>
+                            item.equip?.slot === slot &&
+                            item.equip.equipableBy.includes(member.actorId),
+                        )
+                        .map((item) => ({
+                          value: `item:${item.id}`,
+                          label: lookupText(item.name, state.locale),
+                        })),
+                    ]}
+                    onValueChange={(next) => {
+                      const equipment = { ...member.equipment }
+                      if (next === 'inherit') delete equipment[slot]
+                      else equipment[slot] = next === 'none' ? null : next.slice(5)
+                      update(member.actorId, { equipment })
+                    }}
+                  />
+                </DsFieldGroup>
               ))}
-            </DsFieldGroup>
+            </div>
             <DsSelectField
               label="习得技能"
               value={member.skills.kind}
@@ -299,18 +305,20 @@ export function TrialPartyEditor({
               </>
             )}
             <p className="hint2">装备授予的技能另由正式战斗派生，不会重复记入习得技能。</p>
-            <TrialPoolField
-              label="初始体力"
-              value={member.hp}
-              scope={`${scope}:${member.actorId}:hp`}
-              onChange={(hp) => update(member.actorId, { hp })}
-            />
-            <TrialPoolField
-              label="初始真气"
-              value={member.mp}
-              scope={`${scope}:${member.actorId}:mp`}
-              onChange={(mp) => update(member.actorId, { mp })}
-            />
+            <div className="trial-config-columns">
+              <TrialPoolField
+                label="初始体力"
+                value={member.hp}
+                scope={`${scope}:${member.actorId}:hp`}
+                onChange={(hp) => update(member.actorId, { hp })}
+              />
+              <TrialPoolField
+                label="初始真气"
+                value={member.mp}
+                scope={`${scope}:${member.actorId}:mp`}
+                onChange={(mp) => update(member.actorId, { mp })}
+              />
+            </div>
             {effective && (
               <section
                 aria-label={`${actor ? lookupText(actor.name, state.locale) : member.actorId}开战有效值`}
@@ -386,30 +394,31 @@ export function TrialEnemiesEditor({
           onValueChange={(teamId) => onChange({ kind: 'team', teamId })}
         />
       ) : (
-        <DsFieldGroup>
+        <div className="trial-config-columns">
           {value.slots.map((id, index) => (
-            <DsSelectField
-              key={index}
-              label={`敌方槽位 ${index + 1}`}
-              value={id === null ? 'empty' : `enemy:${id}`}
-              options={[
-                { value: 'empty', label: '空槽' },
-                ...(state.enemies ?? []).map((enemy) => ({
-                  value: `enemy:${enemy.id}`,
-                  label: lookupText(enemy.name, state.locale),
-                })),
-              ]}
-              onValueChange={(next) =>
-                onChange({
-                  kind: 'slots',
-                  slots: value.slots.map((id, i) =>
-                    i === index ? (next === 'empty' ? null : next.slice(6)) : id,
-                  ),
-                })
-              }
-            />
+            <DsFieldGroup key={index}>
+              <DsSelectField
+                label={`敌方槽位 ${index + 1}`}
+                value={id === null ? 'empty' : `enemy:${id}`}
+                options={[
+                  { value: 'empty', label: '空槽' },
+                  ...(state.enemies ?? []).map((enemy) => ({
+                    value: `enemy:${enemy.id}`,
+                    label: lookupText(enemy.name, state.locale),
+                  })),
+                ]}
+                onValueChange={(next) =>
+                  onChange({
+                    kind: 'slots',
+                    slots: value.slots.map((id, i) =>
+                      i === index ? (next === 'empty' ? null : next.slice(6)) : id,
+                    ),
+                  })
+                }
+              />
+            </DsFieldGroup>
           ))}
-        </DsFieldGroup>
+        </div>
       )}
       <p className="hint2">
         保留五个语义槽和空槽；首批敌方使用正式定义、满体力，不额外设置初始毒和状态。
@@ -440,36 +449,42 @@ export function TrialBagEditor({
         onValueChange={(itemId) => onChange({ items: [...value.items, { itemId, quantity: 1 }] })}
       />
       {value.items.map((row) => (
-        <DsFieldGroup key={row.itemId}>
-          <DsDraftNumberField
-            label={lookupText(
-              state.items.find((item) => item.id === row.itemId)?.name ?? row.itemId,
-              state.locale,
-            )}
-            draftKey={`${scope}:${row.itemId}`}
-            value={row.quantity}
-            integer
-            min={0}
-            max={Number.MAX_SAFE_INTEGER}
-            onCommit={(quantity) =>
-              onChange({
-                items: value.items
-                  .map((item) =>
-                    item.itemId === row.itemId ? { ...item, quantity: quantity ?? 0 } : item,
-                  )
-                  .filter((item) => item.quantity > 0),
-              })
-            }
-          />
-          <DsButton
-            variant="danger"
-            onClick={() =>
-              onChange({ items: value.items.filter((item) => item.itemId !== row.itemId) })
-            }
-          >
-            移除物品
-          </DsButton>
-        </DsFieldGroup>
+        <DsInlineComposer
+          key={row.itemId}
+          density="default"
+          control={
+            <DsDraftNumberField
+              label={lookupText(
+                state.items.find((item) => item.id === row.itemId)?.name ?? row.itemId,
+                state.locale,
+              )}
+              draftKey={`${scope}:${row.itemId}`}
+              value={row.quantity}
+              integer
+              min={0}
+              max={Number.MAX_SAFE_INTEGER}
+              onCommit={(quantity) =>
+                onChange({
+                  items: value.items
+                    .map((item) =>
+                      item.itemId === row.itemId ? { ...item, quantity: quantity ?? 0 } : item,
+                    )
+                    .filter((item) => item.quantity > 0),
+                })
+              }
+            />
+          }
+          action={
+            <DsButton
+              variant="danger"
+              onClick={() =>
+                onChange({ items: value.items.filter((item) => item.itemId !== row.itemId) })
+              }
+            >
+              移除物品
+            </DsButton>
+          }
+        />
       ))}
       <p className="hint2">
         数量设为0会移除；穿戴装备在我方配置中设置。能否使用或投掷仍按物品的正式战斗用途判断。
