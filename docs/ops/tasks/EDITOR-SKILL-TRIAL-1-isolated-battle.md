@@ -73,7 +73,21 @@ full/Q1/Q2未执行，不能写成全量E2E完成。两席此前对这些边界�
   1920/1280/900/720宽均等宽，继承/指定与敌队引用/五槽切换后不跳宽，内部网格无横溢、控件无出屏。
   具体数值/初轮裁切发现与修正见[实施记录列宽补丁](../../testing/battle-simulator-implementation.md)。
   本补丁未重跑全仓check/覆盖率，也未修改基线；fe0fee84的7895/7404保持其原候选口径，不能倒填成新跑。
-- Kimi：pending（仅列宽增量确认；主体accept保留于下方）。
+- Kimi：**accept（2026-09-20，列宽补丁 d394eccc 增量对比 fe0fee84；4 文件本人直读/主树复跑，未读 GLM 补丁结论）**。
+  - **4 文件白名单属实**：产品仅 `BattleSimulatorForms.tsx` 5 处 className 调整（删 4 处
+    trial-choice-short、1 处 trial-pool-columns，队伍位置改挂公共网格）+ `battle-simulator.css`
+    （删两个私有类，`.trial-config-columns` auto-fit→auto-fill 并补 min-inline-size:0/inline-size:100%）
+    + 既有 UI 用例新增断言 + CSS 普查快照单行值更新；无业务回调/公共控件/引擎/模型改动。
+  - **语义核对**：auto-fill 保留空轨道，使单列行与相邻多列行同轨等宽（auto-fit 会折叠空轨道
+    把唯一字段拉满）——对齐「脚部/习得技能」「编队来源/敌方槽位」的根因修正；子项仍 ≤24rem、
+    容器 ≤72rem，间距全为 --ds-space-* 令牌，未私改公共控件默认尺寸。
+  - **测试与普查**：既有用例新增 17 个下拉标签同属 `.trial-config-columns` 轨主的断言、两个
+    删除类不再出现、动态「指定技能」同轨；CSS 普查快照仅 auto-fit→auto-fill 一行。
+    baseline 未改（无新增测试文件/计数变化）。
+  - **本席复跑**：battle-simulator-ui 10+field-layout-adoption+number-field-adoption 共 22/22 绿
+    （含「locks every production CSS grid track」普查门）。TC/Biome/build 与四尺寸视觉采信 Codex
+    已落证据，不重复视觉，未跑全仓/未改基线。选择器/360/full-Q1-Q2 边界维持。
+  - 旧版本兼容审查 pass：纯 UI 轨道修正，无格式变化。返工项：无。
 - GLM：pending（仅列宽增量确认；主体accept保留于下方）。
 - 状态仍review，整卡done关闭；主体三签门已核通过。列宽增量提示词及用户UI验收清单见上方，不重复机制审查。
 
@@ -740,6 +754,14 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+
+- 2026-09-20 Kimi（列宽补丁增量确认）：候选 d394eccc 对比 fe0fee84，签 accept。独立直读
+  4 文件：Forms 仅 5 处 className（删 trial-choice-short×4/trial-pool-columns×1，队伍位置入
+  公共网格）；CSS 删两个私有类、`.trial-config-columns` auto-fit→auto-fill（保空轨道使单列行
+  与多列行同轨等宽）+显式可收缩宽度；既有用例新增 17 标签同轨主断言与删除类缺席断言；
+  普查快照仅 auto-fill 一行。无业务回调/公共控件/引擎/基线改动。本席复跑定向 22/22 绿
+  （含 CSS 轨道普查锁）；TC/Biome/build 与四尺寸视觉采信 Codex，未重复视觉。未读 GLM 补丁
+  结论，不改实现/状态、不标 done。Next：GLM 补丁签齐且用户 UI 验收通过后由 Codex 统一收口。
 
 - 2026-09-20 Kimi（UI-r1 增量审查）：候选 fe0fee84 对比 cb44c378，签 accept。独立证据（结论
   形成于读 GLM 新结论前）：DsAddPickerDialog 公共控件零改、只增 2 条采用登记（5→7 owner、
