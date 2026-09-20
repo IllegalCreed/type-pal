@@ -298,9 +298,35 @@ test('temporary party edits, pools, skills and gear produce launch input without
   expect(button('移除物品').closest('.ds-inline-composer__action')).not.toBeNull()
   expect(host.querySelector('.ds-field-group > button')).toBeNull()
   expect(host.querySelectorAll('.trial-config-columns').length).toBeGreaterThan(1)
+  // All dropdown groups use the same track owner; CSS geometry is checked in the browser.
+  for (const label of [
+    '队伍位置',
+    '武器',
+    '头部',
+    '身体',
+    '披风',
+    '脚部',
+    '饰品',
+    '习得技能',
+    '初始体力',
+    '初始真气',
+    '编队来源',
+    '敌队',
+    '我方',
+    '敌方',
+    '背包',
+    '战场',
+    '战斗音乐',
+  ]) {
+    expect(field(label).closest('.trial-config-columns')?.className, label).toBe(
+      'trial-config-columns',
+    )
+  }
+  expect(host.querySelector('.trial-choice-short,.trial-pool-columns')).toBeNull()
   await input('武术', '11')
   await choose('武器', '练习剑')
   await choose('习得技能', '指定本预设技能')
+  expect(field('指定技能').closest('.trial-config-columns')?.className).toBe('trial-config-columns')
   await click('指定技能')
   const skillCheck = document.querySelector<HTMLInputElement>(
     '.ds-multiselect__option input[type="checkbox"]',

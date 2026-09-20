@@ -47,7 +47,7 @@ export function TrialPoolField(props: {
   scope: string
 }) {
   return (
-    <DsFieldGroup className="trial-choice-short">
+    <DsFieldGroup>
       <DsSelectField
         label={props.label}
         value={props.value.kind}
@@ -182,7 +182,7 @@ export function TrialPartyEditor({
               </DsButton>
             }
           >
-            <div className="trial-choice-short">
+            <div className="trial-config-columns">
               <DsSelectField
                 label="队伍位置"
                 value={String(index)}
@@ -263,7 +263,7 @@ export function TrialPartyEditor({
               ))}
             </div>
             <div className="trial-config-columns">
-              <DsFieldGroup className="trial-choice-short">
+              <DsFieldGroup>
                 <DsSelectField
                   label="习得技能"
                   value={member.skills.kind}
@@ -310,7 +310,7 @@ export function TrialPartyEditor({
               )}
             </div>
             <p className="hint2">装备授予的技能另由正式战斗派生，不会重复记入习得技能。</p>
-            <div className="trial-config-columns trial-pool-columns">
+            <div className="trial-config-columns">
               <TrialPoolField
                 label="初始体力"
                 value={member.hp}
@@ -374,7 +374,7 @@ export function TrialEnemiesEditor({
   return (
     <section className="trial-collection" aria-label="敌方编队配置">
       <div className="trial-config-columns">
-        <DsFieldGroup className="trial-choice-short">
+        <DsFieldGroup>
           <DsSelectField
             label="编队来源"
             value={value.kind}

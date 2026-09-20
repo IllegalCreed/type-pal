@@ -58,9 +58,6 @@
   align-items: center;
   gap: var(--ds-space-5);
 }
-.trial-choice-short {
-  inline-size: min(100%, 16rem);
-}
 .trial-metadata-fields {
   max-inline-size: 56rem;
 }
@@ -98,7 +95,10 @@
 }
 .trial-config-columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  min-inline-size: 0;
+  inline-size: 100%;
+  /* Keep equal tracks across adjacent groups, including a row with only one field. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
   max-inline-size: 72rem;
   align-items: start;
   gap: var(--ds-space-5);
@@ -106,7 +106,4 @@
 .trial-config-columns > * {
   min-width: 0;
   max-inline-size: 24rem;
-}
-.trial-pool-columns {
-  max-inline-size: 34rem;
 }
