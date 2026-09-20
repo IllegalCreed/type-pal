@@ -172,5 +172,48 @@
     "integrated": false,
     "officialCoverageChanged": false,
     "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  },
+  "rework3": {
+    "intakeReview": "docs/testing/glm-nine-final-review.md (Codex counter，统一候选 256116ee；TB-03 唯一残项 PNG 宿主尺寸合同)",
+    "generatedAt": "2026-09-20T10:44:00Z",
+    "soleItem": "320×200 成功链 toBlob 产物对齐实际 canvas 尺寸与 putImageData 像素；摘要差异来自真实不同像素，不再用 2×1/3×1 造差异",
+    "implementation": {
+      "pngPayload": "改签 (width, height, rgba?)：filter-0 扫描线读实际交付像素字节、stored 块按 ≤65535 分段、Adler-32、IHDR 宽高 4 字节大端（修复单字节截断：320 被截成 64，由离线独立检查器当场发现并修正）",
+      "palette": "非同色映射 [(i*3)%256, (i*7+11)%256, (255-i)%256]：量化索引帧 (b,b,b,255) 与调色板预览帧真实像素不同（零源像素最近色 b=109：索引帧 (109,109,109,255) vs 预览帧 (71,6,146,255)）",
+      "installCanvasHost": "canvas 宽高由产品赋值；putImageData 快照实际交付像素（deliveredPixels 两份防后续 set 污染）；toBlob 按调用时 canvas 实际宽高+最近交付像素编码合法 PNG——宿主自身尺寸合同，不假装固定产物",
+      "assertions": "prepared.width/height=320/200；源图/主图/preview 三态 IHDR 均 320×200（pngDims 读偏移 16/20）；deliveredPixels 恰 2 份且两帧逐字节不同；hash/record.sha256/record.bytes 与离线常量相等；主图≠preview 摘要"
+    },
+    "digestOracle": {
+      "method": "从候选测试 AST 提取 pngPayload/palette/installCanvasHost（与 Codex 见证同型），以真实 prepareAuthoredImage 跑 320×200 成功链，独立 sha256 直读实际 toBlob 产物；另解 chunk+inflate IDAT 与交付像素 filter-0 扫描线逐字节比对（合法性独立核验）",
+      "main": "f614fb38624c5011744c4721d11304660db996311d377e3399d7cce1167527f7",
+      "preview": "ee694d7766f4e69c15464f2c6d33c851fa638877aedf12a02fe6ec0126be8529",
+      "bytes": "主图/preview 均 256283 字节（stored 编码长度与像素值无关）",
+      "independentChecks": "productHashMatches=true、recordBytesMatches=true、两帧 framesDiffer=true、两态 dims=[320,200]、IDAT inflate 逐字节等于交付像素、toBlob 计数 2"
+    },
+    "witness": {
+      "command": "node docs/testing/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
+      "exit": 0,
+      "control": "7/7 绿（Codex oracle 2 项 + 候选 5 项）",
+      "mutant": "删除 canvas 尺寸设置被候选业务断言检出（pngDims [0,0]≠[320,200] 首行 AssertionError，5 项中恰 1 项失败）；Codex oracle 'oracle actual output canvas dimensions' 同步 AssertionError（observed [[0,0],[0,0]]）；verdict=detected",
+      "actualHost": "control 链 declared/source=[320,200]；summary 内 main/preview [0,0] 为 mutated 末次运行覆写记录，即删尺寸设置后的实际宿主产物",
+      "hashGuard": "产品/fixture/测试三文件 witness 运行前后 sha256 不变"
+    },
+    "reruns": {
+      "targeted": "39/39（7 文件，最终树重跑）",
+      "mutants": "node docs/testing/glm-import-codec-mutants.mjs rc=0：判据四向自测绿 + 3 对照 exit0 + 8 针全部 expected=actual=1；battle-background 针 redTest 同步更名后判据（全等+恰1+首行业务错误）不变",
+      "typecheck": "pnpm --filter @type-pal/editor typecheck rc=0",
+      "biome": "11 文件完整白名单（含本 JSON 回填+format 后）提交前执行 rc=0"
+    }
+  },
+  "codexR4Review": {
+    "candidate": "9eecaaf3",
+    "decision": "counter: actual returned preview bytes unverified; source/main/preview dimensions, real encoded pixels and main SHA accepted",
+    "evidence": "docs/testing/import-codec-r4-evidence.json",
+    "receiptCorrection": {
+      "index": 182,
+      "indexed": [182, 182, 182, 255],
+      "preview": [34, 5, 73, 255]
+    },
+    "rawRework3Preserved": true
   }
 }

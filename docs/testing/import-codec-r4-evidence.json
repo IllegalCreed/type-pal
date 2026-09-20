@@ -1,0 +1,177 @@
+{
+  "date": "2026-09-20",
+  "candidate": "9eecaaf3b034420b751fcf7b7bab1e08ca3b220f",
+  "base": "7d6e1322",
+  "productionFreeze": "e58834f6",
+  "decision": "counter: preview return-value byte fidelity lost in r4 refactor",
+  "runs": [
+    {
+      "id": "TB-03",
+      "head": "9eecaaf3b034420b751fcf7b7bab1e08ca3b220f",
+      "root": "/Users/zhangxu/illegal/type-pal-glm-import-codec",
+      "scopeErrors": [],
+      "fixed": [],
+      "tests": [
+        "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+        "packages/editor/src/core/frame-animation-codec.worker.test.ts",
+        "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+        "packages/editor/src/core/image-import.stages.test.ts",
+        "packages/editor/src/core/video-metadata.boxes.test.ts"
+      ],
+      "fixtureFiles": ["packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts"],
+      "added": [
+        "docs/testing/glm-import-codec-evidence.json",
+        "docs/testing/glm-import-codec-mutants.mjs",
+        "docs/testing/glm-import-codec.config.mts",
+        "packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts",
+        "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+        "packages/editor/src/core/frame-animation-codec.worker.test.ts",
+        "packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+        "packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+        "packages/editor/src/core/image-import.stages.test.ts",
+        "packages/editor/src/core/video-metadata.boxes.test.ts"
+      ],
+      "targeted": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-tb03-r4.SbM0Qm/TB-03-editor-targeted.log",
+          "report": "/tmp/codex-tb03-r4.SbM0Qm/TB-03-editor-targeted.json",
+          "counts": {
+            "total": 39,
+            "passed": 39,
+            "failed": 0,
+            "perFile": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
+                "count": 7,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
+                "count": 6,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-codec.worker.test.ts",
+                "count": 3,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-images.boundaries.test.ts",
+                "count": 6,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/frame-animation-worker-client.boundaries.test.ts",
+                "count": 6,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/image-import.stages.test.ts",
+                "count": 5,
+                "failed": []
+              },
+              {
+                "file": "/Users/zhangxu/illegal/type-pal-glm-import-codec/packages/editor/src/core/video-metadata.boxes.test.ts",
+                "count": 6,
+                "failed": []
+              }
+            ]
+          }
+        }
+      ],
+      "typechecks": [
+        {
+          "pkg": "editor",
+          "code": 0,
+          "log": "/tmp/codex-tb03-r4.SbM0Qm/TB-03-editor-tc.log"
+        }
+      ],
+      "biome": {
+        "code": 0,
+        "log": "/tmp/codex-tb03-r4.SbM0Qm/TB-03-biome.log"
+      },
+      "mutants": {
+        "tool": "docs/testing/glm-import-codec-mutants.mjs",
+        "code": 0,
+        "log": "/tmp/codex-tb03-r4.SbM0Qm/TB-03-mutants.log"
+      },
+      "afterHead": "9eecaaf3b034420b751fcf7b7bab1e08ca3b220f",
+      "afterStatus": ""
+    }
+  ],
+  "dimensionWitness": {
+    "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-png-host-uMTLub/summary.json",
+    "control": 7,
+    "mutant": "candidate AssertionError detected",
+    "note": "historical tool actualHost top-level is overwritten by the mutant; not the positive output"
+  },
+  "previewWitness": {
+    "root": "/Users/zhangxu/illegal/type-pal-glm-import-codec",
+    "out": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-preview-return-oL6vw6",
+    "needle": "    effectPreviewBytes = await canvasPng(canvas)",
+    "replacement": "    effectPreviewBytes = (await canvasPng(canvas), bytes.slice(0))",
+    "control": {
+      "source": [320, 200],
+      "main": [320, 200],
+      "preview": [320, 200],
+      "mainSha": "f614fb38624c5011744c4721d11304660db996311d377e3399d7cce1167527f7",
+      "previewSha": "ee694d7766f4e69c15464f2c6d33c851fa638877aedf12a02fe6ec0126be8529",
+      "mainPixel": [182, 182, 182, 255],
+      "previewPixel": [34, 5, 73, 255],
+      "mainMatches": true,
+      "previewMatches": true
+    },
+    "mutant": {
+      "source": [320, 200],
+      "main": [320, 200],
+      "preview": [320, 200],
+      "mainSha": "f614fb38624c5011744c4721d11304660db996311d377e3399d7cce1167527f7",
+      "previewSha": "f614fb38624c5011744c4721d11304660db996311d377e3399d7cce1167527f7",
+      "mainPixel": [182, 182, 182, 255],
+      "previewPixel": [182, 182, 182, 255],
+      "mainMatches": true,
+      "previewMatches": false
+    },
+    "results": [
+      {
+        "mutated": false,
+        "exit": 0,
+        "candidateTests": 5,
+        "candidateFailures": [],
+        "verdict": "control",
+        "report": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-preview-return-oL6vw6/false.json"
+      },
+      {
+        "mutated": true,
+        "exit": 1,
+        "candidateTests": 5,
+        "candidateFailures": [],
+        "verdict": "MISSED",
+        "report": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-preview-return-oL6vw6/true.json"
+      }
+    ]
+  },
+  "closed": [
+    "actual canvas dimensions",
+    "PNG signature/chunks/CRC/zlib/scanlines",
+    "actual putImageData snapshots consumed by encoding",
+    "real main digest",
+    "C0/C1 and other prior counters"
+  ],
+  "remaining": [
+    "restore actual returned preview full-byte/digest assertion; return-main-as-preview mutant currently candidate 5/5 green"
+  ],
+  "receiptCorrection": {
+    "index": 182,
+    "indexed": [182, 182, 182, 255],
+    "preview": [34, 5, 73, 255],
+    "reportedIndex109": "incorrect; doc correction only"
+  },
+  "notRun": ["integration", "full check", "official ratchet", "strict-fast"],
+  "contribution": "GLM tests, Codex independent review; other eight batches remain done"
+}

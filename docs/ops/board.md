@@ -21,7 +21,7 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | build | Codex按r2+r2a已批准范围继续 | r2a三席齐已核准入；我方1～3/敌方五槽；入口UI待用户确认项不因本次人数签字开放 |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM仅返工D6 sequence收尾 | 6d34ad5a的F1/E4及原7针闭环；第8针迟到提交MISSED；55/双包/tc/Biome/22跑绿，未集成，不重签 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM返工CR-R1～R4 | 0e49db91实际23项/原15跑；三见证MISSED、判据误收、Biome1error/回执不符；r2不重签，本轮未释放实施槽 |
-| TEST-EDITOR-IMPORT-CODEC-1 | [TEST-EDITOR-IMPORT-CODEC-1](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | rework | GLM只修PNG实际尺寸合同 | 001dc9e1：其余counter已闭合；未合入代码 |
+| TEST-EDITOR-IMPORT-CODEC-1 | [TEST-EDITOR-IMPORT-CODEC-1](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | rework | GLM仅补实际返回预览保真断言 | 9eecaaf3：尺寸/编码已接受，误交主图为预览仍漏检；39/原3+8/tc/Biome绿，未合入 |
 
 2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
 

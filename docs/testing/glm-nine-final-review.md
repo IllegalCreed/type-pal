@@ -34,7 +34,12 @@
 - TB03：CRC/zlib/完整PNG二进制合法性和真实SHA已关闭，**不重开**；下方只核合法文件是否属于声称的320×200成功场景。
 - 旧版本兼容审查：pass；本包只新增现行合同测试，无产品兼容分支。已撤排除轴不重新引入。
 
-## TB03唯一counter：PNG合法不等于Canvas宿主输出合法
+## TB03当前进展：r4尺寸已闭合，返回值断言退化
+
+2026-09-20已实际复核9eecaaf3；[r4报告](import-codec-r4-review.md)接受尺寸/编码/主图摘要，
+只返r4删掉的实际preview返回字节断言及回执像素勘误。以下001dc9e1反例保留历史，不再要求重做尺寸方案。
+
+### r3历史counter：PNG合法不等于Canvas宿主输出合法
 
 源码：候选的 packages/editor/src/core/image-import.stages.test.ts:160 的toBlob固定返回pngPayload(2)/(3)，
 :249起成功场景传入320×200背景；pngPayload的IHDR恰2×1/3×1，与生产canvas.width/height及返回的width/height不一致。
@@ -69,7 +74,7 @@ TYPE_PAL_COVERAGE_BASE_REF=ad528beb的**单次**coverage:fast退出0（7220项/6
 净增294行/372语句/43函数/186臂；官方完整分包数字见[覆盖率记录](coverage.md)。没有跑full/E2E，也未达到最终90%/85%目标。
 统一代码/基线候选256116ee；各源候选对应关系见表，后续文档签字不得混进产品变更。两席现已落签：GLM 17284da0 / Kimi cf40a0e4，Codex复核同候选无漂移后按用户授权标八批done。
 
-## 下一位Agent提示词（GLM：仅TB03返工）
+## 历史下一位Agent提示词（r4已执行，当前见r4报告）
 
 ~~~text
 在 /Users/zhangxu/illegal/type-pal 按 docs/testing/glm-nine-final-review.md 只返工TB03，卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md 为rework，源001dc9e1，生产e58834f6，设计不重签。

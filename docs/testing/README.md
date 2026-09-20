@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [TB-03 r4独立接收](import-codec-r4-review.md)、[机账](import-codec-r4-evidence.json)与[预览返回值见证](import-codec-preview-review.mjs)（9eecaaf3：尺寸/编码已修；返回preview保真断言退化，单点counter，未集成）
+
 - [TB-02～10首轮接收历史](glm-nine-intake-review.md)、[首轮机账](glm-nine-intake-evidence.json)、[原独立见证](glm-nine-intake-witnesses.mjs)（原七针与五夹具已在二轮闭合；历史counter不重开）
 - [九批二轮接收历史](glm-nine-rework-review.md)、[当轮机账](glm-nine-rework-evidence.json)、[残项见证](glm-nine-rework-witnesses.mjs)（当轮counter已由最新接收逐项关闭/收窄，不作为新候选结论）
 

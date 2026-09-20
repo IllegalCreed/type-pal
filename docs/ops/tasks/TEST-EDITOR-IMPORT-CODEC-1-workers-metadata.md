@@ -16,7 +16,16 @@ Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e96
 唯一工作包/族账/白名单：[glm-editor-import-codec.md](../../testing/glm-editor-import-codec.md)。
 
 
-## 当前接收复核（Codex，2026-09-20，源001dc9e1）
+## 当前接收复核（Codex，2026-09-20，源9eecaaf3）
+
+**counter：r4重写时丢掉实际返回预览图的完整字节/摘要断言**。尺寸/PNG合法性/实际putImageData编码/主图SHA已接受，不重开。
+真实两次编码后仅把effectPreviewBytes误换成main字节，候选5/5仍绿；独立返回值oracle为AssertionError红。
+定向39/39、原3+8、tc及11文件Biome通过；源码白名单合规、产品零漂移。
+仅补image-import.stages.test.ts:305–312的返回预览保真与单点负控，并勘误回执index109→182；
+详见[本轮独立复核](../../testing/import-codec-r4-review.md)与[机器账](../../testing/import-codec-r4-evidence.json)。
+未合并、未跑全仓门/ratchet/strict-fast、不代签、不标done；设计不重签，另八批done不动。
+
+## r3接收复核（历史）（Codex，2026-09-20，源001dc9e1）
 
 **counter，仅余PNG宿主尺寸合同**：真实320×200成功链返回2×1/3×1，删除canvas尺寸设置后候选仍5/5绿。
 定向39项、原负控、包tc和完整自有文件Biome均通过；C0精确唯一判据/C1格式与回执已关闭，不重开旧有效断言。
@@ -124,10 +133,14 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 
 ### done前
 
-- Codex：**counter（2026-09-20，源001dc9e1）**。仅余PNG宿主尺寸合同，独立删canvas尺寸见证MISSED；C0/C1与其它旧项闭合，证据见本轮报告。不改产品、不标done。
+- Codex：**counter（2026-09-20，候选9eecaaf3）**。仅余r4丢失的返回预览图保真断言，实际两次编码后替换预览为主图仍候选5/5绿，独立oracle业务红；尺寸/编码/主图摘要已接受。定向39、原3+8、tc/Biome绿；详细证据与返工提示见本轮报告，不合并、不代签、不标done。
 - GLM/Kimi：pending（原交付状态保留；不代签）。done准入未开放，不标done。
 
 ## 交接日志
+
+- 2026-09-20 Codex（r4复核）：本地/远端9eecaaf3一致、工作树干净；独立尺寸见证检出，CRC/像素/SHA正控匹配。
+  新返回值单点见证MISSED，故签收窄counter；回执像素应为index182。只返丢失断言与文案勘误，不改GLM测试语义、不混其它八批/模拟器。
+
 
 - 2026-09-20 Codex：独立复核001dc9e1，仅PNG尺寸宿主残项counter，其余关闭。不代签、不标done；当前提示词以本轮报告为准。
 
@@ -188,7 +201,7 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 只动原白名单/本人回执，分支不互合、不改产品/旧测试/官方基线/原审计探针/他席见证语义，不代签、不标done、不直接转Kimi。修完本批即可单独交Codex接收；全仓check/ratchet/strict-fast留接收后，用户已确认Mimosa归GLM私有MCP，Codex无需处理，不作为本轮接收/合并门。
 ```
 
-## 当前GLM交接（只返PNG宿主残项）
+## 历史GLM交接（r4已执行）
 
 ~~~text
 在 /Users/zhangxu/illegal/type-pal 先读AGENTS/CLAUDE/READ-FIRST及 docs/testing/glm-nine-final-review.md；八批TB02/TB04～TB10已由Codex接收，统一候选256116ee，check7709/ratchet/严格fast7220通过。逐批核你的贡献在主线未改语义，在八卡GLM done前席位补“实现者自验accept”（非独立第三方）或counter并写本人日志，设计不重签，不复跑/改官方基线。
@@ -196,4 +209,15 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 复跑 node docs/testing/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸须被候选业务断言检出；helper重构给真实入口由Codex适配见证。定向39/原3+8/tc/最终白名单Biome与回执从最终树复跑，其余关闭项不重开；仅TB03白名单与本人回执。Mimosa不参与。
 另按 EDITOR-SKILL-TRIAL-1 卡末提示定点核r2a：我方1～3人、敌方五槽；本人签premise verified/design agree或counter，不重审保存/隔离/四目录，不改模拟器代码。
 各卡裁决独立；不读/复述Kimi结论，不代签、不改状态、不标done。本人席位/日志直接提交推送，保留他席并自行处理push竞态。
+~~~
+
+## 当前下一位Agent提示词：GLM（仅补返回预览保真）
+
+~~~text
+在 /Users/zhangxu/illegal/type-pal 只返工TB03，卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md 为rework，源9eecaaf3，生产e58834f6，设计不重签。
+先同步最新main到原独立分支并保留八批归档/模拟器状态，读AGENTS/CLAUDE/READ-FIRST、本卡及 docs/testing/import-codec-r4-review.md、交付清单。本轮已接受尺寸、CRC/zlib、交付像素编码与主图摘要；不再重开这些项。
+唯一阻断：r4删掉了返回预览完整字节断言。让宿主记录实际两次toBlob产物，核返回main/preview对应完整字节，并对实际preview做SHA断言；仅删除对主hash的“不等于preview常量”不能代替验证。
+把报告的“仍调用第二次canvasPng但effectPreviewBytes改交主图”单点坏实现纳入负控，node docs/testing/import-codec-preview-review.mjs <worktree>须由候选自己的AssertionError检出，控制绿。旧尺寸见证和原3+8保持通过。helper改签时告知真实入口，Codex适配，不复制假helper。
+回执像素数字勘误为index182 / [182,182,182,255] / [34,5,73,255]，不修改生产算法。最终定向39、tc、完整白名单Biome、原负控+新增针从提交树复跑并如实回填。
+只改TB03白名单与本人回执，不改产品/旧测试/官方基线/原探针；编码失败close仍归Codex。不要回退另外八批done或模拟器build，不代签、不标done。本人落卡提交推送后交Codex；全仓门由Codex接收后运行，Mimosa不参与。
 ~~~
