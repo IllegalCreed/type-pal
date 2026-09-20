@@ -8,7 +8,7 @@
 
 ## 最新实测（2026-09-21 · 物品作者记录/脚本身份）
 
-[实施记录](item-authoring-implementation.md)：候选451cbbb7，完整check **7909项**、官方ratchet、保护9e220daa的**单次严格fast 7418项**均通过；review，未done。
+[实施记录](item-authoring-implementation.md)：候选451cbbb7，完整check **7909项**、官方ratchet、保护9e220daa的**单次严格fast 7418项**均通过；2026-09-21三席accept齐、用户授权后已done归档。收口不重跑覆盖率、不改基线；full/Q1/Q2边界保持。
 新增14项回归；content676/55测试文件、reforge1283/131、editor fast2526/251（完整2687/270）；632生产文件（新增一个content内存身份helper）。
 首次ratchet如实拦截content新构造器未在本包执行造成的微退，补公共构造器精确合同断言后通过；未降阈值或改统计范围。
 全仓行51025/70373（72.51%）、语句56615/80399（70.42%）、函数10741/14910（72.04%）、分支40392/63111（64.00%）。

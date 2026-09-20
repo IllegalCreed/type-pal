@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [物品作者记录/脚本身份修复卡](../ops/tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)、[实施记录](item-authoring-implementation.md)与[修复前前提探针](item-authoring-premise.mjs)（review/r1，451cbbb7；check7909/strict7418、五负控、原生保存重开通过，等Kimi/GLM独立终审）
+- [物品作者记录/脚本身份修复卡](../ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)、[实施记录](item-authoring-implementation.md)与[修复前前提探针](item-authoring-premise.mjs)（done/r1，451cbbb7；三席accept齐、用户授权收口，check7909/strict7418及原生保存重开证据保持；TB00/TB01另排）
 - [GLM物品作者只读取证包](item-authoring-glm-audit.md)（冻结1e0388b0静态G1～G5；站点完整性与PAL概括已由Codex在卡面勘误，不作全量消费者证明）
 
 - [PNG编码失败位图释放修复](image-import-cleanup.md)（用户授权常规修复；真实函数先红后绿，统一finally释放，不改格式/成功结果）

@@ -141,6 +141,9 @@ Codex[验证回执](../../../testing/sprite-selection.md)含20新＋2旧测试�
 
 ### D-06 · 新建物品后立即添加私有脚本缺少作者记录（2026-09-13补充）
 
+**修复状态（2026-09-21）：已完成。** [物品作者记录/脚本身份卡](../../archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)候选451cbbb7三席accept齐、用户明确授权，Codex核零漂移后done归档。
+新建/复制/删除成对维护两会话；14新增回归、五组负控、check7909/strict7418及原生保存重开通过，见[实施记录](../../../testing/item-authoring-implementation.md)。以下为修复前历史证据，综合R4/E2E仍单列。
+
 Codex在D-01功能界面验证中复现：空白项目→新建物品→启用使用能力→添加当前物品脚本，
 报“物品不存在 item-001”。主会话已有物品，而ScriptEditSession尚无该作者item；保存并正式重开后同入口可用。
 一手代码：`packages/editor/src/ui/ItemTab.tsx`的新建物品只派发主命令；
@@ -150,9 +153,11 @@ Codex在D-01功能界面验证中复现：空白项目→新建物品→启用�
 
 归属：后续物品作者记录生命周期修复，综合创作工作流E2E之前补正向/失败/撤销/保存重开闭环；
 D-01不扩张为整组物品增删复制重构。D-01已有物品的配对编辑与保存重开仍须独立通过。
-本项为新增P2待修记录，不倒改上方首轮5项统计，不标已修或转授权。
+本项在审计时作为新增P2待修登记，不倒改上方首轮5项统计；现已由上述独立修复卡收口。
 
 ### D-07 · 共享ScriptId与内部私有引用前缀相同时无法保存（2026-09-13补充）
+
+**修复状态（2026-09-21）：已完成。** 同候选451cbbb7以独立内存tag区分私有owner与共享ScriptId，并同步修正canonical引用校验和真实runtime分流；不新增保留前缀、不改作者JSON/content20/SAVE8。三席/用户准入、诊断/保存/业务结果证据见D-06的[同卡实施记录](../../../testing/item-authoring-implementation.md)。以下只保留修复前取证。
 
 合法seed仅包含共享脚本`item:collision-item:use`及物品对它的引用，没有私有脚本，正式loader接受。
 Codex只读补审对比：dded6f27的Root主态保留字符串引用，merge把它错误变成undefined，正式serialize拒绝
@@ -163,7 +168,7 @@ Codex只读补审对比：dded6f27的Root主态保留字符串引用，merge把�
 `packages/reforge/src/runtime-project-view.ts`的projectRuntimeItem；合法ID由正式loader实证，而非猜保留字。
 隔离对照`/tmp/type-pal-shared-item-collision.SXMZRZ/probe.mjs`（current/dded6f27），后者通过git对象加载204个冻结源码；
 未据此推断浏览器白屏或运行时执行。后续应在作者引用身份边界专卡核实/修复，不在D-01临时造保留字或新脚本来源；
-综合创作工作流E2E前处理。本项独立P2待修，不倒改首轮统计、不自动授权schema/公共接口调整。
+综合创作工作流E2E前处理。本项在审计时独立登记P2待修，现已由上述修复卡关闭；不倒改首轮统计、不自动授权其它schema/公共接口调整。
 
 - A-02/03/07的多窗口旧快照、跨文件部分保存、新建打开无放弃确认仍属A批；不重复计数。
 - 本地试玩workspace/project身份不符和句柄丢失已有fail-loud，未发现静默回退PAL的新反例。

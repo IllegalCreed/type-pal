@@ -4,7 +4,9 @@
 产品基线从`09ee6e3c`到本次取证未修改。各批只提交报告与内存/只读边界复现工具。
 没有重开已验收任务、没有由内部Codex分工代签Kimi/GLM；后续修复重新按风险取得实现准入。
 
-## 修复进度（更新至2026-09-19）
+## 修复进度（更新至2026-09-21）
+
+- [D-06/D-07物品作者记录与脚本身份](../../../testing/item-authoring-implementation.md)：候选451cbbb7三席accept齐（Codex c86ad00f、GLM b895a367、Kimi 139c0b04），用户明确授权后由Codex核产品/脚本零漂移并done归档。创建/复制/删除双会话、共享/私有显式身份、canonical引用校验已修；check7909/strict7418、五组负控及原生保存重开证据有效。本次只做文档收口；TB00/TB01窄counter继续原卡返工，full/Q1/Q2、R4/N6b边界不变。
 
 - [E-01第一阶段资源测试输入合同](../../../testing/phase1-resource-test-inputs.md)：Codex连续测试维护，
   修整组缺席/单文件缺失/空样本的skip与失败判定；20项无PAL依赖隔离回归及真实资源对拍通过，

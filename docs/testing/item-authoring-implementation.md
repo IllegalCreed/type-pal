@@ -1,6 +1,8 @@
 # 物品作者记录与脚本身份实施记录
 
-对应[EDITOR-ITEM-AUTHORING-1](../ops/tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)，r1、review，统一候选451cbbb7，产品冻结1e0388b0。2026-09-21 Codex实现者自验accept，两席独立终审待回。Coding Owner/功能视觉Codex；GLM仅贡献此前G1～G5只读审计，不是本次实现或新增测试作者。
+对应[EDITOR-ITEM-AUTHORING-1](../ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)，r1、done，统一候选451cbbb7，产品冻结1e0388b0。2026-09-21 Codex实现者自验accept（c86ad00f）、GLM独立代码/矩阵accept（b895a367）、Kimi独立实现accept（139c0b04）同候选齐；用户明确授权后由Codex核定done并归档。Coding Owner/功能视觉Codex；GLM参与前期静态取证及独立代码复核，不是本次实现或新增测试作者。
+
+收口核定：接手main工作树干净，候选后产品/脚本/本卡工具零diff，无counter/返工项/缺签豁免；既有门禁和原生功能证据有效。本次仅更新任务/看板/索引及关联文档、运行文档门，不改产品/覆盖率基线，不重跑产品测试。D-06/D-07关闭；TB00/TB01仍按原卡窄counter返工，full/Q1/Q2未跑边界保持，不代表R4或N6b已开门。无下一位Agent提示词，本卡已收口。
 
 ## 实现与边界
 
@@ -42,4 +44,4 @@
 - 再次官方ratchet **exit0**（`/tmp/type-pal-item-ratchet2.log`）更新基线；随后`TYPE_PAL_COVERAGE_BASE_REF=9e220daa pnpm coverage:fast`**受保护单次严格复验7418/7418 exit0**（`/tmp/type-pal-item-strict.log`），与新基线全部相等，未取多数放行。
 - 内容676项/55测试文件，reforge1283/131，editor fast2526/251（完整editor2687/270）。总生产文件631→632只增加content身份helper；共享、提取、迁移、game四包整个基线对象与9e220daa逐对象相等。未改include/exclude/超时/阈值，未跑full/Q1/Q2。
 - 全仓行51025/70373（72.51%）、语句56615/80399（70.42%）、函数10741/14910（72.04%）、分支40392/63111（64.00%）；editor行81.11%/分支70.68%，content行86.02%/分支75.73%，reforge行58.07%/分支50.15%。这是产品修复+回归，不归功为纯补测；长期目标尚未达到。
-- 改动文件Biome（30既有TS/TSX+3新增TS+2工具）无问题；原前提探针零diff。原生临时工程保留供复核，测试6012/6013服务和测试标签已关闭，原用户6010服务未停。用户已许可丢弃其6010测试态后合主线；不标done，等两席独立实现签字。
+- 改动文件Biome（30既有TS/TSX+3新增TS+2工具）无问题；原前提探针零diff。原生临时工程保留供复核，测试6012/6013服务和测试标签已关闭，原用户6010服务未停。用户已许可丢弃其6010测试态后合主线；后续两席独立实现签字及用户收口授权均已取得，done核定见顶部。

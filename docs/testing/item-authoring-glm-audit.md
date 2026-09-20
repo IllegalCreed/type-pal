@@ -1,6 +1,6 @@
 # EDITOR-ITEM-AUTHORING-1 GLM 只读取证包（G1～G5）
 
-任务卡：[EDITOR-ITEM-AUTHORING-1](../ops/tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)（draft/r1）。
+任务卡：[EDITOR-ITEM-AUTHORING-1](../ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)（draft/r1）。
 本席：GLM。冻结产品 `1e0388b0`；分支 `codex/glm-item-authoring-audit`，worktree
 `/Users/zhangxu/illegal/type-pal-glm-item-audit`（`git diff 1e0388b0..HEAD -- packages/ scripts/` 为空）。
 方法：全部结论来自本人在冻结树上直读一手源码（`sed`/`grep`，锚点 `file:line` 均本人复核）；

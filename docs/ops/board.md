@@ -20,9 +20,10 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| EDITOR-ITEM-AUTHORING-1 | [物品作者记录与脚本身份](tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md) | review | Kimi / GLM：并行独立审查451cbbb7 | Codex实现者accept；check7909/strict7418、五负控、原生保存重开通过；两席accept待齐，不改content20/SAVE8 |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM：只补真实finally | 350da702八针/原22跑/9项通过；只剩D6主断言失败时未释放/消费及回执不符，不重开业务闭环 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM：CR-R1保真/自证残项 | ccc67dcc原三针/判据/Unicode/格式闭环；合法world及非空levelUp两针MISSED，五针工具可重建，未集成 |
+
+2026-09-21 [物品作者记录/脚本身份](../testing/item-authoring-implementation.md)候选451cbbb7三席accept齐（Codex c86ad00f、GLM b895a367、Kimi 139c0b04），用户授权后Codex核零漂移并done归档。D-06/D-07关闭；check7909/strict7418、五组负控与原生保存重开为既有证据，本轮只做文档收口。TB00/TB01窄counter与full/Q1/Q2边界保持。
 
 2026-09-20 [共享战斗模拟器首批](../testing/battle-simulator-implementation.md)主体fe0fee84及列宽补丁d394eccc三席accept齐，用户明确「UI验收通过，可以收口」，Codex已done归档。D-04/D-05关闭；原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保持，未扩展所有评估入口或宣布完整E2E完成。
 
