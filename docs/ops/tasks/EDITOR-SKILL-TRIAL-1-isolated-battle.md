@@ -33,10 +33,37 @@ r2/r2a首批已实现，进入review；**done门未开放，不代签**。详细
   已披露：浏览器原生目录选择器返回取消，保存→重开正向浏览器链未通过，S1真实writer/loader/事务集成通过；
   360宽不满足既有主壳最小列宽，未声称移动端完成；full/Q1/Q2未跑。上述限制交独立席判断，不隐瞒。
 - Kimi：pending（独立终审）。
-- GLM：pending（代码级矩阵/回执复核；不得执行视觉）。
+- GLM：**accept（2026-09-20，统一候选 cb44c378 对比 1bae48e4；代码级矩阵/回执复核，未执行视觉）**。
+  本席独立复跑与直读证据：
+  - **两组负控本席复跑 rc=0**：S1 `battle-simulator-s1-mutants.mjs` 4 对照 PASS + 4 针（open/preflight/absence/delete-after-open）
+    全 detected(AssertionError)；runtime `battle-simulator-runtime-mutants.mjs` 6 对照 + 6 针（fourth-member/source-bytes/
+    late-admission/save-hotkey/skill-injection/music-release）全 detected(AssertionError)。
+  - **V3/r2a 直读**：`battle-trial-config.ts:25` `TRIAL_MAX_PARTY_MEMBERS=3` 且 `:116` 拒第 4 人、`:124` 拒重复角色；
+    `parseTrialEnemies:176` 强制 5 槽含 null 空槽（敌方五槽不误伤）；stats 仅显式覆写（level/maxHP≥1、其余≥0，
+    无等级自动推导）；equipment 缺席继承/null 显式脱下；skills 仅 inherit|replace；hp/mp 支持 value:0（MP0）；
+    music default|silent|asset（静音一等态）；strict JSON（未知字段/稀疏数组/原型链全拒）。
+  - **V6 直读** `battle-trial-prepare.ts:70-161`：八类悬空引用（角色/战场/音乐/装备槽/授技/技能/敌队/敌人/背包）
+    全部产生带 path 定位 error，无静默换第一候选；空队伍/全员 HP0 不可启动；maxPool 效果如实 warning
+    「当前引擎尚未执行」不伪造；装备校验槽位+equipableBy 白名单。
+  - **V5 直读**：`main.ts` bootGame 在 shop-trial 解析前对 `battle-trial|skill` 参数直接 throw（旧 ?skill 无静默
+    兼容）；缺敌队桩胜已删除改 throw；`play.ts` 试打分支经同一身份/授权/`loadPlayProject`/身份断言链且不回落
+    普通 boot，每个 await 后 `active()` 查取消；四个 trial 模块 grep 零 SaveStore/indexedDB/Storage 引用。
+  - **V7/V8 直读**：`battle-trial-launch.ts:60-176` 一次性 randomUUID launchId + origin/source/protocol/kind/launchId
+    五重校验 + sent 单次门 + sourceToken 双读防保存态漂移 + restart 换 nonce 保初始配置；session 用真实
+    `new BattleSession` + 共享 `settleBattleVictory/finishBattleWorldState` 只写临时 world；`battle-player-input.test.ts`
+    钉 `{world,project}` 深等不变（同实参保真）与 carried 数组 detach。
+  - **fixture 直读**：`battle-trial-project.ts:150-152` 完整工程先过 `loadCurrentProjectFrom` 正式 loader 才作 fixture。
+  - **定向抽查全绿**：reforge config/player-input/icon 36 项 + scripts 运行时 28 项 + editor
+    library/persistence/launch/entry/UI 45 项。
+  - **基线精确性直读**：`baseline.fast.json` diff 仅计数/digest 更新（7277→7400 项、617→631 源文件），
+    零排除增删；design-system 断言 27→31 页/101→109 滚动/92→95 文件均为精确扩容，evidence-bound exceptions
+    保持 2 不变（无新豁免），并新增 path-escape 拒绝与 adoption 针唯一性两条更强断言。
+  - **披露边界确认**：原生目录选择器自动化返回取消（浏览器保存→重开正向链未过，由 S1 真实事务/writer/loader
+    集成证明代替）、360 宽受主壳最小列限制、full/Q1/Q2 未跑——回执如实披露，视觉归 Codex，本席不以非视觉
+    证据冒充。无 counter。
 - done准入：关闭，等待两席独立结论与用户最终验收。
 
-### 下一位Agent提示词（两席并行，独立取证）
+### 下一位Agent提示词（两席并行，独立取证；GLM 已执行完毕，仅剩 Kimi）
 
 **Kimi：**
 
@@ -514,6 +541,14 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+
+- 2026-09-20 GLM（终审复核）：对统一候选 cb44c378（对比 1bae48e4）完成代码级 V1～V10 独立复核，
+  签 accept（证据见 done 前本席）：两组负控复跑 rc=0（S1 4+4、runtime 6+6 全 detected）；
+  直读 r2a 三人上限/敌方五槽/strict JSON、八类悬空引用定位拒绝、旧 ?skill 早拒绝与桩胜删除、
+  一次性握手五重校验、真实 BattleSession 与临时 world 结算、fixture 过正式 loader、
+  player-input 同实参保真；定向抽查 109 项绿；baseline diff 精确扩容零新豁免。
+  披露边界（原生选择器取消/360 宽/full 未跑）如实确认，视觉归 Codex。未读 Kimi 结论，
+  未改实现/他席/状态，不标 done；不操作浏览器/Mimosa。
 
 - 2026-09-20 Codex：r2/r2a实现候选cb44c378进入review；check7891/ratchet/受保护单次strict7400/build通过。
   用户图标/布局/多选反馈已并入；验证限制与首次门禁失败如实记入实施回执。只签本人accept，Kimi/GLM并行终审提示词已同候选落卡，未标done。
