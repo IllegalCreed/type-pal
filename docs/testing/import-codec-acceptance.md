@@ -1,11 +1,11 @@
 # TB-03 导入/编码合同补测：独立接收与集成
 
 2026-09-20，Codex。源e4461a308b9220e90ffa60df3bc3b2ad7f5ed1a0，集成91623a9a，比较main cda702d5。
-任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)；
+任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)；
 设计r2保持，r5为实现返工编号，不重签设计。
 
-当前：**Codex accept，统一代码/基线候选4894719e；review待Kimi独立终审和GLM实现者确认，不标done**。
-GLM是测试贡献者，不能作为自己的独立第三方证明；后续Kimi独立终审。其他八批done与模拟器build保持不动。
+当前：**done（2026-09-20，Codex统一核定）**。三席均对4894719e accept、用户授权收口，任务卡已归档。
+GLM是测试贡献者，其4d6ae4a2签字是实现者自验；Kimi 6cb2e87a为独立终审，Codex 8b0e4dfc为独立集成复核。其他八批done与模拟器build保持不动。
 
 ## 残项核验
 
@@ -49,14 +49,16 @@ editor行22522/27865（80.83%）、语句25058/31878（78.61%）、函数6206/81
 [机器账](import-codec-acceptance-evidence.json)；定向/原负控/tc/Biome日志目录 /tmp/codex-tb03-r5.Bxspbm/。
 预览见证 codex-preview-return-bF3Jcf、尺寸见证 codex-png-host-Uku7PV，完整路径见机账；
 [预览返回值工具](import-codec-preview-review.mjs)及[尺寸工具](import-codec-png-host-review.mjs)保持原样。
-本席accept、无剩余counter；两席并行提示词如下。GLM只确认实现者自验，不是独立审查，不再重复返工，不代签、不标done。
+三席accept、无剩余counter；本轮同步main核packages/scripts相对4894719e零diff，采信既有门禁并按用户授权收口。
+没有重跑测试或更新基线，仅归档/同步文档，保留三席原签字。编码失败close缺陷仍是Codex独立修复项，见[隔离队列](glm-coverage-queue-design-review.md)，不因本卡done关闭。
+无下一位Agent提示词，本卡已收口；下方提示词仅作历史记录，不再转发。
 
-## 下一位Agent提示词（可并行，同一候选）
+## 历史下一位Agent提示词（已完成）
 
 ### Kimi
 
 ~~~text
-在 /Users/zhangxu/illegal/type-pal 独立终审 TEST-EDITOR-IMPORT-CODEC-1（TB03），卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，review，统一候选4894719e对比cda702d5，源e4461a30，设计r2不重签。
+在 /Users/zhangxu/illegal/type-pal 独立终审 TEST-EDITOR-IMPORT-CODEC-1（TB03），卡 docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，review，统一候选4894719e对比cda702d5，源e4461a30，设计r2不重签。
 先同步并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/import-codec-acceptance.md及机账/GLM工作包。独立读实际代码与输入，不读取或复述GLM审查结论；GLM是测试贡献者，不算独立第三方。
 七新测试39项已逐字集成；39/3正控+9负控/tc/11文件Biome、尺寸与preview两见证全部通过。真实两次toBlob快照→返回main/preview完整字节→实际preview独立SHA已经闭合；firstByteDiff完整扫描含长度，不是抽样。此前误交主图为preview的单点坏实现现被候选自身AssertionError检出。像素182勘误已落，已关闭项不重开。
 完整check7748、官方ratchet与受保护单次strict-fast7259通过；七包生产清单/分母/全部旧测试identity不变，其它六包基线对象不变，只增editor7文件39项。按需复跑定向及两个现有见证/3+9，不重跑或改官方基线。
@@ -66,7 +68,7 @@ editor行22522/27865（80.83%）、语句25058/31878（78.61%）、函数6206/81
 ### GLM
 
 ~~~text
-在 /Users/zhangxu/illegal/type-pal 对 TEST-EDITOR-IMPORT-CODEC-1（TB03）做集成后实现者自验确认，卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，review，统一候选4894719e对比cda702d5，源e4461a30；设计不重签，不再返工。
+在 /Users/zhangxu/illegal/type-pal 对 TEST-EDITOR-IMPORT-CODEC-1（TB03）做集成后实现者自验确认，卡 docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，review，统一候选4894719e对比cda702d5，源e4461a30；设计不重签，不再返工。
 先同步核工作树并读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/import-codec-acceptance.md及机账。独立核本人7新测试+fixture/工具在主线未改语义；可复跑本批39项，不重跑或改官方coverage基线。Codex已完成39/3+9/tc/Biome/两见证及check7748、ratchet、单次strict-fast7259。
 仅在本人done前席位签“实现者自验accept（本人为测试贡献者，非独立第三方）”或明确counter，写本人日志并提交推送；不读或复述Kimi结论，不代签、不改状态、不标done。保留八批归档及模拟器build，编码失败close仍另归Codex；落盘前同步保留另一席修改，push竞态自行处理。
 ~~~

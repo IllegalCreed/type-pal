@@ -4,7 +4,7 @@
   "integration": "91623a9a9d328303292d4da4f0e86418dce84150",
   "base": "cda702d5",
   "productionFreeze": "e58834f6",
-  "decision": "Codex accept; review for Kimi independent final review and GLM implementer confirmation; no done",
+  "decision": "done: same-candidate Codex/GLM implementer/Kimi acceptances complete; user authorized closeout; PNG encode-failure close remains separate Codex repair",
   "runs": [
     {
       "id": "TB-03",
@@ -266,5 +266,19 @@
       "lines": 157
     },
     "invariants": "six other package objects, all production inventories/denominators and old test identities unchanged"
+  },
+  "closeout": {
+    "date": "2026-09-20",
+    "candidate": "4894719e",
+    "signatures": {
+      "Codex": "8b0e4dfc",
+      "GLM": "4d6ae4a2",
+      "Kimi": "6cb2e87a"
+    },
+    "userAuthorized": true,
+    "packagesScriptsDrift": false,
+    "testsRerun": false,
+    "baselineChanged": false,
+    "retainedFollowup": "PNG encode failure bitmap.close not reached; separate Codex repair, not resolved by test-card completion"
   }
 }

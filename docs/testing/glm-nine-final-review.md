@@ -1,6 +1,6 @@
 # 九批收窄返工独立接收（2026-09-20，Codex）
 
-当前结论：**TB02/TB04～TB10八批同候选256116ee三席accept齐、用户授权收口，2026-09-20由Codex核定done归档；TB03未随八批收口，后续r5已独立接收并review，见下方当前进展**。
+当前结论：**TB02/TB04～TB10八批同候选256116ee三席accept齐、用户授权收口，2026-09-20由Codex核定done归档；TB03未随八批收口，后续r5已单独三席终审并done归档，见下方当前进展**。
 旧[二轮报告](glm-nine-rework-review.md)及[首轮报告](glm-nine-intake-review.md)仅为历史，不把其counter重复套到本轮。
 三席设计不重签；GLM为测试贡献者，不算独立第三方自证。未代签；本次仅八批done，TB00/TB01/TB03另排、Mimosa不参与。
 
@@ -36,7 +36,7 @@
 
 ## TB03当前进展：r5最后counter闭合
 
-当前e4461a30→4894719e已由Codex accept，check7748/ratchet/严格fast7259通过，详见[r5接收](import-codec-acceptance.md)；review待两席终审/实现者确认，不混入八批done。
+当前e4461a30→4894719e已三席accept齐、用户授权后单独done归档；check7748/ratchet/严格fast7259为既有证据，详见[r5接收与收口](import-codec-acceptance.md)。编码失败close缺陷仍归Codex，不随补测关闭。
 
 ### r4历史进展：尺寸闭合、返回值断言退化
 
@@ -81,7 +81,7 @@ TYPE_PAL_COVERAGE_BASE_REF=ad528beb的**单次**coverage:fast退出0（7220项/6
 ## 历史下一位Agent提示词（r4已执行，当前见r4报告）
 
 ~~~text
-在 /Users/zhangxu/illegal/type-pal 按 docs/testing/glm-nine-final-review.md 只返工TB03，卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md 为rework，源001dc9e1，生产e58834f6，设计不重签。
+在 /Users/zhangxu/illegal/type-pal 按 docs/testing/glm-nine-final-review.md 只返工TB03，卡 docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md 为rework，源001dc9e1，生产e58834f6，设计不重签。
 先将最新main合入原独立分支并保留全部主线状态，读AGENTS/CLAUDE/READ-FIRST、本报告、原工作包及交付清单；另八批是已接收基线，不计入TB03贡献。C0/C1、PNG二进制合法性、SHA和其他已关闭项不重开。
 唯一残项：320×200成功路径的toBlob不能给2×1/3×1；按实际canvas尺寸/putImageData像素返回合法PNG，核尺寸和产物；需要不同摘要时用非同色映射调色板让实际主图/preview像素不同，不任意造两份产物；保留真实摘要/完整字节断言。
 复跑 node docs/testing/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸两行须由候选业务断言检出；若helper结构调整给出真实入口，Codex适配见证，不复制假宿主迁就工具。
@@ -116,7 +116,7 @@ TYPE_PAL_COVERAGE_BASE_REF=ad528beb的**单次**coverage:fast退出0（7220项/6
 
 ~~~text
 在 /Users/zhangxu/illegal/type-pal 先读AGENTS/CLAUDE/READ-FIRST及 docs/testing/glm-nine-final-review.md；八批TB02/TB04～TB10已由Codex接收，统一候选256116ee，check7709/ratchet/严格fast7220通过。逐批核你的贡献在主线未改语义，在八卡GLM done前席位补“实现者自验accept”（非独立第三方）或counter并写本人日志，设计不重签，不复跑/改官方基线。
-只返工TB03（docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，rework，源001dc9e1）：原独立分支同步最新main并保留另八批既有成果，不计入自己贡献。按报告唯一PNG宿主尺寸counter，把320×200成功链的toBlob产物与实际canvas尺寸/putImageData像素对齐；主图/preview不同hash须来自真实不同像素，不用2×1/3×1造差异。保留真实SHA与完整字节断言，不改产品或编码失败close缺陷。
+只返工TB03（docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，rework，源001dc9e1）：原独立分支同步最新main并保留另八批既有成果，不计入自己贡献。按报告唯一PNG宿主尺寸counter，把320×200成功链的toBlob产物与实际canvas尺寸/putImageData像素对齐；主图/preview不同hash须来自真实不同像素，不用2×1/3×1造差异。保留真实SHA与完整字节断言，不改产品或编码失败close缺陷。
 复跑 node docs/testing/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸须被候选业务断言检出；helper重构给真实入口由Codex适配见证。定向39/原3+8/tc/最终白名单Biome与回执从最终树复跑，其余关闭项不重开；仅TB03白名单与本人回执。Mimosa不参与。
 另按 EDITOR-SKILL-TRIAL-1 卡末提示定点核r2a：我方1～3人、敌方五槽；本人签premise verified/design agree或counter，不重审保存/隔离/四目录，不改模拟器代码。
 各卡裁决独立；不读/复述Kimi结论，不代签、不改状态、不标done。本人席位/日志直接提交推送，保留他席并自行处理push竞态。

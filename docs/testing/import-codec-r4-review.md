@@ -4,7 +4,7 @@
 
 候选：9eecaaf3b034420b751fcf7b7bab1e08ca3b220f，本地/远端一致且工作树干净；
 main核对点7d6e1322；生产冻结e58834f6，设计不重签。
-任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，保持rework。
+任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，保持rework。
 
 **结论：counter，仅剩r4重写时丢掉的“实际返回预览图”保真断言。尺寸/编码宿主修复已接受，不再返这一部分。**
 其他八批已done、不重开；不混入模拟器，不代签、不标done。
@@ -70,7 +70,7 @@ node docs/testing/import-codec-preview-review.mjs /Users/zhangxu/illegal/type-pa
 ## 下一位Agent提示词：GLM
 
 ~~~text
-在 /Users/zhangxu/illegal/type-pal 只返工TB03，卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md 为rework，源9eecaaf3，生产e58834f6，设计不重签。
+在 /Users/zhangxu/illegal/type-pal 只返工TB03，卡 docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md 为rework，源9eecaaf3，生产e58834f6，设计不重签。
 先同步最新main到原独立分支并保留八批归档/模拟器状态，读AGENTS/CLAUDE/READ-FIRST、本卡及 docs/testing/import-codec-r4-review.md、交付清单。本轮已接受尺寸、CRC/zlib、交付像素编码与主图摘要；不再重开这些项。
 唯一阻断：r4删掉了返回预览完整字节断言。让宿主记录实际两次toBlob产物，核返回main/preview对应完整字节，并对实际preview做SHA断言；仅删除对主hash的“不等于preview常量”不能代替验证。
 把报告的“仍调用第二次canvasPng但effectPreviewBytes改交主图”单点坏实现纳入负控，node docs/testing/import-codec-preview-review.mjs <worktree>须由候选自己的AssertionError检出，控制绿。旧尺寸见证和原3+8保持通过。helper改签时告知真实入口，Codex适配，不复制假helper。

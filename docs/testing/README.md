@@ -8,7 +8,7 @@
 
 ## 文档与附件
 
-- [TB-03 r5独立接收与集成](import-codec-acceptance.md)及[机账](import-codec-acceptance-evidence.json)（e4461a30→4894719e最后counter闭合/Codex accept；check7748/严格fast7259通过，review待两席）
+- [TB-03 r5独立接收与集成](import-codec-acceptance.md)及[机账](import-codec-acceptance-evidence.json)（e4461a30→4894719e三席齐、已done归档；check7748/严格fast7259既有证据；close缺陷仍另修）
 
 - [TB-03 r4独立接收](import-codec-r4-review.md)、[机账](import-codec-r4-evidence.json)与[预览返回值见证](import-codec-preview-review.mjs)（r4历史反例；r5已闭合，当前见上方接收记录）
 

@@ -229,7 +229,7 @@ Kimi负责独立前提/架构风险压力测试；GLM负责独立调用域、旧
 
 ~~~text
 在 /Users/zhangxu/illegal/type-pal 先读AGENTS/CLAUDE/READ-FIRST及 docs/testing/glm-nine-final-review.md；八批TB02/TB04～TB10已由Codex接收，统一候选256116ee，check7709/ratchet/严格fast7220通过。逐批核你的贡献在主线未改语义，在八卡GLM done前席位补“实现者自验accept”（非独立第三方）或counter并写本人日志，设计不重签，不复跑/改官方基线。
-只返工TB03（docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，rework，源001dc9e1）：原独立分支同步最新main并保留另八批既有成果，不计入自己贡献。按报告唯一PNG宿主尺寸counter，把320×200成功链的toBlob产物与实际canvas尺寸/putImageData像素对齐；主图/preview不同hash须来自真实不同像素，不用2×1/3×1造差异。保留真实SHA与完整字节断言，不改产品或编码失败close缺陷。
+只返工TB03（docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，rework，源001dc9e1）：原独立分支同步最新main并保留另八批既有成果，不计入自己贡献。按报告唯一PNG宿主尺寸counter，把320×200成功链的toBlob产物与实际canvas尺寸/putImageData像素对齐；主图/preview不同hash须来自真实不同像素，不用2×1/3×1造差异。保留真实SHA与完整字节断言，不改产品或编码失败close缺陷。
 复跑 node docs/testing/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸须被候选业务断言检出；helper重构给真实入口由Codex适配见证。定向39/原3+8/tc/最终白名单Biome与回执从最终树复跑，其余关闭项不重开；仅TB03白名单与本人回执。Mimosa不参与。
 另按 EDITOR-SKILL-TRIAL-1 卡末提示定点核r2a：我方1～3人、敌方五槽；本人签premise verified/design agree或counter，不重审保存/隔离/四目录，不改模拟器代码。
 各卡裁决独立；不读/复述Kimi结论，不代签、不改状态、不标done。本人席位/日志直接提交推送，保留他席并自行处理push竞态。

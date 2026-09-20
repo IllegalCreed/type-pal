@@ -12,7 +12,9 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 
 前两轮[九批返工复核](../testing/glm-nine-rework-review.md)保留历史证据；最新结论以下方当前接收为准。Mimosa不参与；TB00/TB01另排。
 
-八批（TB02/TB04～TB10）候选256116ee已三席accept齐，2026-09-20用户授权后由Codex[核定done归档](../testing/glm-nine-final-review.md)。本次只核签字与既有证据、不重跑测试；TB03仍单独rework，不在收口范围。
+八批（TB02/TB04～TB10）候选256116ee已三席accept齐，2026-09-20用户授权后由Codex[核定done归档](../testing/glm-nine-final-review.md)。当时只核签字与既有证据、不重跑测试；TB03随后单独收口，见下。
+
+2026-09-20 TB03候选4894719e三席accept齐，用户授权后由Codex[核定done归档](../testing/import-codec-acceptance.md)。本次无测试/基线改动；PNG编码失败close缺陷仍保留在[Codex隔离修复队列](../testing/glm-coverage-queue-design-review.md)，不随补测关闭。
 
 ## 进行中
 
@@ -21,7 +23,6 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 | EDITOR-SKILL-TRIAL-1 | [共享战斗模拟器首批](tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md) | build | Codex按r2+r2a已批准范围继续 | r2a三席齐已核准入；我方1～3/敌方五槽；入口UI待用户确认项不因本次人数签字开放 |
 | TEST-RUNTIME-STATE-BOUNDARIES-1 | [运行时状态与元数据六组补测](tasks/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | GLM仅返工D6 sequence收尾 | 6d34ad5a的F1/E4及原7针闭环；第8针迟到提交MISSED；55/双包/tc/Biome/22跑绿，未集成，不重签 |
 | TEST-CONTENT-RESIDUAL-1 | [内容合同残项补测](tasks/TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | GLM返工CR-R1～R4 | 0e49db91实际23项/原15跑；三见证MISSED、判据误收、Biome1error/回执不符；r2不重签，本轮未释放实施槽 |
-| TEST-EDITOR-IMPORT-CODEC-1 | [TEST-EDITOR-IMPORT-CODEC-1](tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | review | Kimi独立终审 / GLM实现者自验 | e4461a30→4894719e；Codex accept，check7748/严格fast7259通过，未done |
 
 2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
 

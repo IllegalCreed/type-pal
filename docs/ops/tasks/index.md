@@ -10,7 +10,6 @@
 |---|---|---|
 | [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](EDITOR-SKILL-TRIAL-1-isolated-battle.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -145,6 +144,7 @@
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CONTENT-CONTRACTS-1 - 内容数据校验与引用边界补测](../archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](../archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](../archive/tasks/done/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）](../archive/tasks/done/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |

@@ -62,7 +62,7 @@ GLM多数Biome回执未包括全部新增JSON/诊断文件；TB-07～10另有测
 
 ## TB-03
 
-任务卡：[TEST-EDITOR-IMPORT-CODEC-1-workers-metadata](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)。候选f4c229ed；/Users/zhangxu/illegal/type-pal-glm-import-codec。
+任务卡：[TEST-EDITOR-IMPORT-CODEC-1-workers-metadata](../ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)。候选f4c229ed；/Users/zhangxu/illegal/type-pal-glm-import-codec。
 锚点路径相对该候选，不是主线尚不存在的新测试。
 
 - **R03-1，量化实参保真漏检**：`frame-animation-codec.tpfs.test.ts:178/188`传的是input.slice().buffer，却比较外面的input。单点让产品原地改实际frame后候选6/6仍绿，oracle红（`quantize-mutates-actual-input`）。保留同一实际buffer、调用前快照，调用后与改输出后分别检查。

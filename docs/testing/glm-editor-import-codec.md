@@ -3,7 +3,7 @@
 ## 当前Codex接收结论
 
 2026-09-20 r5候选e4461a30最后counter已闭合，集成91623a9a；39/原3+9/tc/11文件Biome与双见证通过。
-统一候选4894719e已过check7748/ratchet/受保护单次strict-fast7259，本席Codex accept；当前review待Kimi独立终审及GLM实现者确认，详见[接收记录](import-codec-acceptance.md)。旧counter仅留历史，不继续返工、不标done。
+统一候选4894719e已过check7748/ratchet/受保护单次strict-fast7259，三席同候选accept齐、用户授权收口，2026-09-20由Codex核定done归档，详见[接收记录](import-codec-acceptance.md)。旧counter仅留历史；收口不重跑测试、不改基线。PNG编码失败close缺陷保持Codex独立修复归属，不随本卡关闭。
 
 ### 首轮接收结论（历史）
 
@@ -11,7 +11,7 @@
 本轮认可用户先行实施授权；不合并测试、不更官方基线、不转Kimi。下面GLM回执为候选自验原文，不能覆盖当前counter；生产零改只指已列新增测试/fixture之外，不能写整个packages diff为空。
 
 
-任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/rework；当前实施候选e4461a30已通过本地接收并集成，设计不重签。
+任务：[TEST-EDITOR-IMPORT-CODEC-1](../ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md)，r2/rework；当前实施候选e4461a30已通过本地接收并集成，设计不重签。
 生产核对点 `e58834f6389a40ffe9f187e6a8051f552e964d79`。GLM只写新测试；Codex独立接收、Kimi终审。
 合法二进制与真实编码链，非上传界面；上传选图竞态已修不重开；不做视觉/截图/听感。
 
