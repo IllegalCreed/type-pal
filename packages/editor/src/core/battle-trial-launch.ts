@@ -59,6 +59,7 @@ export function launchBattleTrial(options: {
   const query = playProjectQuery(identity)
   let launchId = crypto.randomUUID(),
     sent = false,
+    acknowledged = false,
     closed = false,
     port: MessagePort | undefined
   let resolve!: () => void, reject!: (error: unknown) => void
@@ -97,18 +98,28 @@ export function launchBattleTrial(options: {
     cleanup()
   }
   const close = () => {
+    if (closed) return
     port?.postMessage({ kind: 'abort' })
     child.close()
     reject(new DOMException('试打已关闭', 'AbortError'))
     cleanup()
   }
   const check = async () => {
+    const active = () => {
+      if (closed || child.closed) throw new DOMException('试打已关闭', 'AbortError')
+    }
+    active()
     await options.assertCanLaunch()
+    active()
     const sourceToken = await assertProjectSaveReadable(options.source)
+    active()
     const project = await loadCurrentProjectFrom(options.source)
+    active()
     if (project.manifest.id !== identity.projectId) throw new Error('试玩工程身份已变化')
     const revision = await battleTrialRevision(project)
+    active()
     await options.assertCanLaunch()
+    active()
     if ((await assertProjectSaveReadable(options.source)) !== sourceToken)
       throw new Error('工程保存状态已变化，请重新开始')
     return { sourceToken, revision }
@@ -122,10 +133,13 @@ export function launchBattleTrial(options: {
       event.source !== child ||
       data?.protocol !== PROTOCOL ||
       data.kind !== 'ready' ||
-      data.launchId !== launchId ||
-      sent
+      data.launchId !== launchId
     )
       return
+    if (sent) {
+      if (acknowledged) fail(new Error('试打启动请求已使用；请从编辑器重新开始，不要刷新试打页'))
+      return
+    }
     sent = true
     const id = launchId
     void check()
@@ -143,6 +157,7 @@ export function launchBattleTrial(options: {
           const value = message(event.data)
           if (closed || id !== launchId) return
           if (value?.kind === 'ack') {
+            acknowledged = true
             clearTimeout(timeout)
             resolve()
           } else if (value?.kind === 'result' && typeof value.result === 'string')
@@ -151,6 +166,7 @@ export function launchBattleTrial(options: {
             port?.close()
             launchId = crypto.randomUUID()
             sent = false
+            acknowledged = false
             timeout = window.setTimeout(() => fail(new Error('重新试打启动超时')), HANDSHAKE_MS)
             child.location.href = `play.html?${query}&battle-trial=${launchId}`
           }

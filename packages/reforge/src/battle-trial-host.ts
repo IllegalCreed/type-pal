@@ -3,10 +3,11 @@ import { lookupText } from '@type-pal/content'
 import { createBgmPlayer } from './audio/bgm.js'
 import { SfxPlayer } from './audio/sfx.js'
 import { collectTurnActionSounds } from './audio/sfx-readiness.js'
-import { BattleSession } from './battle/battle-session.js'
-import { finishBattleWorldState, settleBattleVictory } from './battle/battle-world-result.js'
+import type { BattleSession } from './battle/battle-session.js'
+import { finishBattleWorldState } from './battle/battle-world-result.js'
 import { abortableTrial, prepareBattleTrialAssets, trialAbortError } from './battle-trial-assets.js'
 import { type BattleTrialConfig, parseBattleTrialConfig } from './battle-trial-config.js'
+import { createBattleTrialSession } from './battle-trial-session.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { assertEngineChromeComplete } from './engine-chrome/registry.js'
 import { GameplayClock } from './gameplay-clock.js'
@@ -97,6 +98,20 @@ export async function runBattleTrial(
     'Escape',
     'F5',
     'F9',
+    'a',
+    'A',
+    'd',
+    'D',
+    'q',
+    'Q',
+    'e',
+    'E',
+    'w',
+    'W',
+    'r',
+    'R',
+    'f',
+    'F',
   ])
   const keydown = (event: KeyboardEvent) => {
     if (!keys.has(event.key)) return
@@ -130,6 +145,7 @@ export async function runBattleTrial(
       session?.cancel()
       cleanupRun()
       releaseResources()
+      status.textContent = '试打已取消，本场变化已丢弃。请从编辑器重新开始。'
     },
     { once: true },
   )
@@ -170,8 +186,8 @@ export async function runBattleTrial(
     )
     releaseResources = loaded.dispose
     active()
-    const { prepared, assets, playerSounds, encounterChoreo, baseSounds } = loaded
-    const { world, items, players, enemySlots, field } = prepared
+    const { prepared, assets, baseSounds } = loaded
+    const { world, items } = prepared
     const before = structuredClone(world)
     const sfx = new SfxPlayer(loaded.project.assetResolver),
       bgm = createBgmPlayer(loaded.project.assetResolver)
@@ -184,7 +200,7 @@ export async function runBattleTrial(
     window.addEventListener('pointerdown', resume, { capture: true })
     window.addEventListener('keydown', resume, { capture: true })
     stopAudio = () => {
-      bgm.stop()
+      void bgm.dispose().catch((error) => console.warn('[trial music dispose]', error))
       void sfx.dispose().catch((error) => console.warn('[trial audio dispose]', error))
       window.removeEventListener('pointerdown', resume, { capture: true })
       window.removeEventListener('keydown', resume, { capture: true })
@@ -200,32 +216,12 @@ export async function runBattleTrial(
       project.locale,
       assets.ui.scroll,
     )
-    const actual: BattleSession = new BattleSession(
-      players,
-      enemySlots,
+    const actual = createBattleTrialSession(
+      prepared,
+      project,
       { ...assets, sfx, dialogBox },
-      (id) =>
-        lookupText(`name.${world.party.find((c) => c.id === id)?.template ?? id}`, project.locale),
-      Math.random,
       {
-        skills: project.skills,
-        enemiesById: project.enemiesById,
-        actorsById: project.actorsById,
-        items,
-        inventory: world.inventory.map((entry) => ({ ...entry })),
-        money: world.money,
-        locale: project.locale,
-        difficulty: 'normal',
-        auto: config.auto,
-        boss: config.boss,
-        fieldWave: field.screenWave,
-        fieldEffect: field.magicEffect,
-        poisonDefs: project.poisonsById,
-        skillUseCounts: world.skillUseCounts,
-        playerSounds,
-        soundRoles: project.manifest.assets.roles,
-        encounterChoreo,
-        worldPartyIdentities: world.party.map(({ id, template }) => ({ id, template })),
+        active,
         playMusic: (asset) => {
           active()
           bgm.play(asset)
@@ -247,15 +243,13 @@ export async function runBattleTrial(
         reportReadinessError: (error) => {
           status.textContent = error.message
         },
-        buildSettlement: () => {
+        onExpReward: () => {
           active()
-          return settleBattleVictory(actual, world, project, () => {
-            const asset =
-              project.manifest.assets.roles[
-                config.boss ? 'audio.bossVictoryMusic' : 'audio.normalVictoryMusic'
-              ]
-            if (asset) bgm.play(asset, false)
-          })
+          const asset =
+            project.manifest.assets.roles[
+              config.boss ? 'audio.bossVictoryMusic' : 'audio.normalVictoryMusic'
+            ]
+          if (asset) bgm.play(asset, false)
         },
       },
     )

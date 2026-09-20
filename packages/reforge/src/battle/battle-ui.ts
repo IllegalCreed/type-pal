@@ -6,7 +6,6 @@
  * 320 逻辑坐标,调用方已 ctx.scale。资产缺省时调用方走文字兜底(单测/加载失败容错)。
  */
 
-import type { Palette } from '@type-pal/shared'
 import {
   COLOR_DISABLED,
   COLOR_DISABLED_SEL,
@@ -244,22 +243,40 @@ export function drawBattleMenuBox(
   return w
 }
 
-/** MonoColor 图标缓存(iconIdx:band → 染色位图;盘/图标战斗内不变,一次烘)。 */
-const monoIconCache = new Map<string, HTMLCanvasElement>()
+/** Engine chrome owns its color ramps, just like the baked menu text and number sprites.
+ * Palette-0 entries 0..31 (source hash in engine-chrome/assets/PROVENANCE.md).
+ * A project palette can contain arbitrary artwork colors here; it must never recolor chrome.
+ */
+const ICON_GRAY = [0, 24, 40, 56, 73, 89, 105, 121, 138, 154, 170, 186, 203, 219, 239, 255]
+const ICON_RED = [
+  [52, 0, 0],
+  [69, 0, 0],
+  [81, 0, 0],
+  [93, 4, 4],
+  [109, 8, 4],
+  [121, 16, 12],
+  [138, 24, 20],
+  [150, 32, 24],
+  [166, 40, 32],
+  [178, 56, 44],
+  [190, 73, 60],
+  [203, 89, 77],
+  [215, 109, 93],
+  [227, 130, 113],
+  [239, 150, 134],
+  [255, 174, 158],
+] as const
+/** Cache by actual bitmap, not a slot shared across replacement images or trial runs. */
+const monoIconCache = new WeakMap<ImageBitmap, Map<number, HTMLCanvasElement>>()
 
 /**
  * PAL_RLEBlitMonoColor 的 RGBA 版(palcommon.c:446,经一阶段 blitSpriteMonoColor):
- * 每不透明像素取明度档(≈原索引低 nibble),+shift clamp[0,15],查盘 `band|档` 上色。
+ * 每不透明像素取明度档(≈原索引低 nibble),+shift clamp[0,15],查 chrome 自有色带上色。
  * band 0x00 = 灰组(灰阶);band 0x10 = 红组(**暗红** —— 作者点破「原版一定有红」,对)。
  */
-function monoIcon(
-  img: ImageBitmap,
-  key: string,
-  palette: Palette,
-  band: number,
-  shift: number,
-): HTMLCanvasElement {
-  const hit = monoIconCache.get(key)
+function monoIcon(img: ImageBitmap, band: number, shift: number): HTMLCanvasElement {
+  const variants = monoIconCache.get(img) ?? new Map<number, HTMLCanvasElement>()
+  const hit = variants.get(band)
   if (hit) return hit
   const cvs = document.createElement('canvas')
   cvs.width = img.width
@@ -274,19 +291,21 @@ function monoIcon(
     const luma = 0.299 * (d[i] ?? 0) + 0.587 * (d[i + 1] ?? 0) + 0.114 * (d[i + 2] ?? 0)
     let lv = Math.round((luma / 255) * 15) + shift
     lv = lv < 0 ? 0 : lv > 15 ? 15 : lv
-    const col = palette.colors[band | lv] ?? [0, 0, 0]
+    const gray = ICON_GRAY[lv] ?? 0
+    const col = band === 0x10 ? (ICON_RED[lv] ?? ICON_RED[0]) : [gray, gray, gray]
     d[i] = col[0] ?? 0
     d[i + 1] = col[1] ?? 0
     d[i + 2] = col[2] ?? 0
   }
   c.putImageData(im, 0, 0)
-  monoIconCache.set(key, cvs)
+  variants.set(band, cvs)
+  monoIconCache.set(img, variants)
   return cvs
 }
 
 /**
  * 主菜单 4 图标(一阶段 uibattle.c:1067-1078 三态):选中=全彩;可用未选=灰
- * (MonoColor 0x00,−4);不可用=**暗红**(MonoColor 0x10,−4)。无 palette 时退化滤镜。
+ * (MonoColor 0x00,−4);不可用=**暗红**(MonoColor 0x10,−4)。不消费工程美术色盘。
  * icons 序 = 0攻击 1法术 2合击 3杂项。
  */
 export function drawMainIcons(
@@ -295,7 +314,6 @@ export function drawMainIcons(
   selected: number,
   valid: readonly boolean[],
   highlight: boolean,
-  palette?: Palette,
 ): void {
   MAIN_ICON_POS.forEach((pos, i) => {
     const img = icons[i]
@@ -305,14 +323,7 @@ export function drawMainIcons(
       return
     }
     const band = valid[i] ? 0x00 : 0x10
-    if (palette) {
-      ctx.drawImage(monoIcon(img, `${i}:${band}`, palette, band, -4), pos.x, pos.y)
-      return
-    }
-    ctx.save()
-    ctx.filter = valid[i] ? 'grayscale(1) brightness(0.8)' : 'grayscale(1) brightness(0.45)'
-    ctx.drawImage(img, pos.x, pos.y)
-    ctx.restore()
+    ctx.drawImage(monoIcon(img, band, -4), pos.x, pos.y)
   })
 }
 

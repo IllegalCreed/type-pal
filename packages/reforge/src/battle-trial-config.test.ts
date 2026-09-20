@@ -58,8 +58,8 @@ describe('battle trial JSON contract', () => {
     expect(before.bag.items).toHaveLength(2)
   })
   test.each([
-    1, 2, 3, 4, 5,
-  ])('structurally supports %i unique members, not proof of battle UI support', (count) => {
+    1, 2, 3,
+  ])('accepts %i unique members without reducing the five enemy slots', (count) => {
     const member = config().party.members[0]!
     const party = {
       members: Array.from({ length: count }, (_, i) => ({
@@ -68,6 +68,20 @@ describe('battle trial JSON contract', () => {
       })),
     }
     expect(parseTrialParty(party)).toEqual(party)
+    const input = config()
+    input.party = party
+    expect(parseBattleTrialConfig(input).enemies).toEqual(input.enemies)
+  })
+  test.each([4, 5, 6])('rejects %i members at the shared launch/document boundary', (count) => {
+    const input = config()
+    input.party.members = Array.from({ length: count }, (_, i) => ({
+      ...structuredClone(input.party.members[0]!),
+      actorId: `a${i}`,
+    }))
+    const before = structuredClone(input)
+    expect(() => parseTrialParty(input.party)).toThrow('最多3名')
+    expect(() => parseBattleTrialConfig(input)).toThrow('最多3名')
+    expect(input).toEqual(before)
   })
   test.each([
     [
@@ -184,6 +198,6 @@ describe('battle trial JSON contract', () => {
       ...config().party.members[0]!,
       actorId: `a${i}`,
     }))
-    expect(() => parseBattleTrialConfig(value)).toThrow('最多5名')
+    expect(() => parseBattleTrialConfig(value)).toThrow('最多3名')
   })
 })

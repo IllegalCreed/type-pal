@@ -35,6 +35,8 @@ export interface BgmPlayer {
    * 关 → 停播但保留当前曲记账(play 调用照记);开 → 重播记账曲。幂等。
    */
   setEnabled(on: boolean): void
+  /** End this owner permanently, including its AudioContext and any late initialization. */
+  dispose(): Promise<void>
 }
 
 export interface BgmSequencerAdapter {
@@ -57,6 +59,7 @@ export interface BgmRuntimeAdapter {
     resume(): Promise<void>
   }
   initialize(): Promise<BgmSequencerAdapter>
+  dispose?(): Promise<void> | void
 }
 
 function createBrowserBgmRuntime(resolver: AudioAssetReader): BgmRuntimeAdapter | undefined {
@@ -71,15 +74,22 @@ function createBrowserBgmRuntime(resolver: AudioAssetReader): BgmRuntimeAdapter 
   if (!AudioCtor) return undefined
 
   const ctx = new AudioCtor()
+  let disposed = false
   return {
     context: ctx,
+    async dispose() {
+      disposed = true
+      if (ctx.state !== 'closed') await ctx.close()
+    },
     async initialize() {
       const { Sequencer } = await import('spessasynth_lib')
+      if (disposed) throw new Error('BGM owner 已释放')
       // D12-1:master gain —— synth → gain → destination;fade 走 gain(adapter 封装)。
       const gain = ctx.createGain()
       gain.gain.value = 1
       gain.connect(ctx.destination)
       const synth = await initializeBrowserSpessaSynth(ctx, resolver, gain, 'main')
+      if (disposed) throw new Error('BGM owner 已释放')
       const seq = new Sequencer(synth, { skipToFirstNoteOn: false })
       const fadeTo = (value: number, ms: number): void => {
         gain.gain.cancelScheduledValues(ctx.currentTime)
@@ -112,7 +122,7 @@ export function createBgmPlayerWithRuntime(
   resolver: AudioAssetReader,
   runtime: BgmRuntimeAdapter | undefined,
 ): BgmPlayer {
-  if (!runtime) return { play() {}, stop() {}, resume() {}, setEnabled() {} }
+  if (!runtime) return { play() {}, stop() {}, resume() {}, setEnabled() {}, async dispose() {} }
 
   const ctx = runtime.context
   let seq: BgmSequencerAdapter | undefined
@@ -124,6 +134,8 @@ export function createBgmPlayerWithRuntime(
   let resuming = false
   let enabled = true // 音乐开关(系统菜单);关时 play 只记账不出声
   let requestSerial = 0
+  let disposed = false
+  let disposal: Promise<void> | undefined
 
   const isCurrent = (serial: number, asset: AssetId, loop: boolean): boolean =>
     serial === requestSerial && enabled && last?.asset === asset && last.loop === loop
@@ -184,18 +196,23 @@ export function createBgmPlayerWithRuntime(
     initP ??= runtime
       .initialize()
       .then((initialized) => {
+        if (disposed) {
+          initialized.pause()
+          return
+        }
         seq = initialized
         ready = true
         playCurrent()
       })
       .catch((err: unknown) => {
-        console.warn('[bgm] ✗ MIDI 后端初始化失败 → BGM 静默:', err)
+        if (!disposed) console.warn('[bgm] ✗ MIDI 后端初始化失败 → BGM 静默:', err)
       })
     return initP
   }
 
   return {
     play(asset, loop = true, fadeInMs = 0) {
+      if (disposed) return
       if (playing === asset && ctx.state === 'running') {
         last = { asset, loop, fadeInMs }
         // 同曲也是一次完整接管：取消换曲/stop 的旧 serial 与仍在 AudioParam 上的 ramp，
@@ -212,6 +229,7 @@ export function createBgmPlayerWithRuntime(
       else void ensureInit() // 懒初始化;init 尾部按 last 补播
     },
     stop(fadeOutMs = 0) {
+      if (disposed) return
       const serial = ++requestSerial
       inflightTarget = undefined
       last = undefined
@@ -230,6 +248,7 @@ export function createBgmPlayerWithRuntime(
       })
     },
     setEnabled(on) {
+      if (disposed) return
       if (on === enabled) return // 幂等:无变化不重启/不重停(一阶段同款守卫)
       enabled = on
       if (!on) {
@@ -245,17 +264,30 @@ export function createBgmPlayerWithRuntime(
       }
     },
     resume() {
-      if (resuming || ctx.state !== 'suspended') return
+      if (disposed || resuming || ctx.state !== 'suspended') return
       resuming = true
       void ctx
         .resume()
         .then(() => {
           resuming = false
-          if (ready && last) playCurrent()
+          if (!disposed && ready && last) playCurrent()
         })
         .catch(() => {
           resuming = false
         })
+    },
+    dispose() {
+      if (disposal) return disposal
+      disposed = true
+      enabled = false
+      requestSerial++
+      last = undefined
+      playing = undefined
+      inflightTarget = undefined
+      seq?.cancelFade()
+      seq?.pause()
+      disposal = Promise.resolve().then(() => runtime.dispose?.())
+      return disposal
     },
   }
 }

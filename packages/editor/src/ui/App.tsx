@@ -642,6 +642,8 @@ export function App(props: {
     source: dirHandleRef.current ? 'local' : 'http',
   }
   const startBattleTrial = async (config: BattleTrialConfig): Promise<void> => {
+    if (trialWindows.current.size)
+      throw new Error('已有独立试打窗口，请在该窗口重新试打，或关闭后再开始')
     if (projectGuard.blocked() || session.isDirty() || scriptSession.isDirty())
       throw new Error('请先保存工程，再开始独立试打')
     const startingState = session.getState(),
@@ -674,7 +676,7 @@ export function App(props: {
       onClosed: () => trialWindows.current.delete(handle),
       onResult: (result) => {
         if (trialMounted.current)
-          setWorkspaceNotice({ kind: 'info', message: `独立试打：${result}，本场结果未保存` })
+          setWorkspaceNotice({ kind: 'info', message: `上次独立试打：${result}，结果未保存` })
       },
     })
     trialWindows.current.add(handle)
@@ -3560,7 +3562,7 @@ export function App(props: {
       <DsDialog
         open={!!trialLeave}
         role="alertdialog"
-        title="离开本場临时配置"
+        title="离开本场临时配置"
         onClose={() => setTrialLeave(undefined)}
         footer={
           <>

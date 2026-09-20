@@ -327,6 +327,7 @@ export {
   parseTrialEnemies,
   parseTrialMusic,
   parseTrialParty,
+  TRIAL_MAX_PARTY_MEMBERS,
   trialArray,
   trialBoolean,
   trialId,
@@ -345,6 +346,7 @@ export {
   battleTrialRevision,
   collectBattleTrialIssues,
   prepareBattleTrial,
+  previewBattleTrialParty,
 } from './battle-trial-prepare.js'
 export type {
   FrameAnimationFrameSnapshot,

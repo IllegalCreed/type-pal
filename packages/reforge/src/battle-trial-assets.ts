@@ -65,14 +65,16 @@ export function createTrialFileSnapshot(
       if (sealed) throw new Error(`本场试打未冻结资源 ${path}，请返回编辑器重新开始`)
       pending = original.readBytes(path, signal).then(async (bytes) => {
         if (closed || signal.aborted) throw trialAbortError()
+        const retained = bytes.slice(0)
         for (const record of Object.values(catalog?.assets ?? {}))
           if (
             record.path === path &&
-            (record.bytes !== bytes.byteLength ||
-              (await sha256Bytes(new Uint8Array(bytes))) !== record.sha256)
+            (record.bytes !== retained.byteLength ||
+              (await sha256Bytes(new Uint8Array(retained))) !== record.sha256)
           )
             throw new Error(`本场资源与catalog登记不符：${path}`)
-        return bytes.slice(0)
+        if (closed || signal.aborted) throw trialAbortError()
+        return retained
       })
       cache.set(path, pending)
     }
@@ -107,6 +109,7 @@ export async function prepareBattleTrialAssets(
   signal: AbortSignal,
   expectedRevision: string,
 ) {
+  if (signal.aborted) throw trialAbortError()
   if ((await assertProjectSaveReadable(input.source)) !== expectedToken)
     throw new Error('工程已变化，请保存后重新发起试打')
   if ((await battleTrialRevision(input)) !== expectedRevision)

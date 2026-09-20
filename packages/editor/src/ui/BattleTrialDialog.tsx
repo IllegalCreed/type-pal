@@ -1,3 +1,4 @@
+import { lookupText } from '@type-pal/content'
 import { type BattleTrialConfig, collectBattleTrialIssues } from '@type-pal/reforge'
 import { useState } from 'react'
 import { emptyBattleSimulatorLibrary } from '../core/battle-simulator-library.js'
@@ -129,7 +130,14 @@ export function BattleTrialDialog(props: {
             label="施放队员"
             value={caster}
             placeholder="选择本方案的队员"
-            options={members.map((member) => ({ value: member.actorId, label: member.actorId }))}
+            options={members.map((member) => ({
+              value: member.actorId,
+              label: lookupText(
+                props.state.actors.find((actor) => actor.id === member.actorId)?.name ??
+                  member.actorId,
+                props.state.locale,
+              ),
+            }))}
             onValueChange={setActorId}
           />
         )}

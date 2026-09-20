@@ -31,3 +31,15 @@
 .trial-override > .trial-actions {
   margin-bottom: 12px;
 }
+.trial-effective-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px 16px;
+}
+.trial-effective-stats dt {
+  color: var(--ds-text-secondary);
+}
+.trial-effective-stats dd {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}

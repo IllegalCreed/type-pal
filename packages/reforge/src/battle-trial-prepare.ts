@@ -7,6 +7,7 @@ import {
   type EnemyTeamDef,
   EQUIP_SLOT_IDS,
   type ItemData,
+  type ItemDataMap,
   type SkillData,
   type WorldState,
 } from '@type-pal/content'
@@ -14,6 +15,8 @@ import { createBattlePlayers } from './battle/battle-player-input.js'
 import {
   type BattleTrialConfig,
   parseBattleTrialConfig,
+  parseTrialParty,
+  type TrialParty,
   type TrialPool,
 } from './battle-trial-config.js'
 import { expectDefined } from './defined.js'
@@ -142,7 +145,7 @@ export function collectBattleTrialIssues(
       ? own(project.enemyTeamsById, config.enemies.teamId)?.slots
       : config.enemies.slots
   if (!enemySlots)
-    error('enemies', `敌隊 ${config.enemies.kind === 'team' ? config.enemies.teamId : ''} 不存在`)
+    error('enemies', `敌队 ${config.enemies.kind === 'team' ? config.enemies.teamId : ''} 不存在`)
   else {
     if (enemySlots.length > 5) error('enemies', '敌方不能超过5个槽位')
     if (!enemySlots.some(Boolean)) error('enemies', '请至少选择一个敌人，空敌队不能试打')
@@ -164,6 +167,35 @@ function poolValue(pool: TrialPool, max: number): number {
       ? pool.value
       : Number((BigInt(max) * BigInt(pool.value)) / 100n)
 }
+function applyTrialParty(world: WorldState, party: TrialParty): void {
+  world.party.forEach((member, i) => {
+    const setup = expectDefined(party.members[i])
+    Object.assign(member, setup.stats)
+    for (const [slot, id] of Object.entries(setup.equipment)) {
+      if (id === null) delete member.equipment[slot]
+      else member.equipment[slot] = id
+    }
+    if (setup.skills.kind === 'replace') world.learnedSkills[member.id] = [...setup.skills.ids]
+    member.hp = poolValue(setup.hp, member.maxHP)
+    member.mp = poolValue(setup.mp, member.maxMP)
+  })
+}
+
+/** Editor preview uses the same fresh instances, overrides and formal equipment derivation as launch.
+ * This does not authorize starting a battle: collectBattleTrialIssues still validates the full plan.
+ */
+export function previewBattleTrialParty(
+  input: TrialParty,
+  project: { actorsById: Record<string, ActorDef>; items: ItemDataMap },
+) {
+  const party = parseTrialParty(input)
+  const world = buildWorld(
+    { party: party.members.map((member) => member.actorId), money: 0, inventory: [] },
+    project.actorsById,
+  )
+  applyTrialParty(world, party)
+  return createBattlePlayers(world, project)
+}
 export function prepareBattleTrial(input: unknown, project: LoadedCurrentProjectCore) {
   const config = parseBattleTrialConfig(input)
   const issues = collectBattleTrialIssues(config, project)
@@ -180,17 +212,7 @@ export function prepareBattleTrial(input: unknown, project: LoadedCurrentProject
     project.worldVariables,
     project.poisonsById,
   )
-  world.party.forEach((member, i) => {
-    const setup = expectDefined(config.party.members[i])
-    Object.assign(member, setup.stats)
-    for (const [slot, id] of Object.entries(setup.equipment)) {
-      if (id === null) delete member.equipment[slot]
-      else member.equipment[slot] = id
-    }
-    if (setup.skills.kind === 'replace') world.learnedSkills[member.id] = [...setup.skills.ids]
-    member.hp = poolValue(setup.hp, member.maxHP)
-    member.mp = poolValue(setup.mp, member.maxMP)
-  })
+  applyTrialParty(world, config.party)
   const items = projectItemsView(project.items)
   const slots =
     config.enemies.kind === 'team'

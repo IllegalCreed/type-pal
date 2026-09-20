@@ -47,43 +47,79 @@ async function bootFromRecord(record: WorkspaceHandleRecord): Promise<void> {
 async function main(): Promise<void> {
   const trial = parseBattleTrialLocation(new URLSearchParams(location.search))
   if (trial) {
+    gate.hidden = false
+    gateBtn.hidden = true
+    gateHint.textContent = '正在接收独立试打请求…不读取或写入正常游戏存档。'
+    const cancel = document.createElement('button')
+    cancel.type = 'button'
+    cancel.textContent = '取消并关闭'
+    cancel.onclick = () => window.close()
+    gateHint.after(cancel)
     const connection = receiveBattleTrial(trial)
+    cancel.onclick = () => {
+      connection.dispose()
+      gateHint.textContent = '试打已取消，请关闭本页或从编辑器重新开始。'
+      window.close()
+    }
+    const active = () => {
+      if (connection.signal.aborted) throw new DOMException('试打已取消', 'AbortError')
+    }
     try {
       const packet = await connection.ready
+      active()
       let record: WorkspaceHandleRecord | undefined
       if (packet.identity.source === 'local') {
         record = await resolvePlayWorkspaceRecord(
           packet.identity.workspaceId,
           packet.identity.projectId,
         )
-        if ((await ensurePermission(record.handle, { withRequest: false })) !== 'granted') {
+        active()
+        const permission = await ensurePermission(record.handle, { withRequest: false })
+        active()
+        if (permission !== 'granted') {
           gate.hidden = false
+          gateBtn.hidden = false
           gateHint.textContent = '独立试打需要读取已保存工程；不会读取或写入游戏存档。'
           await new Promise<void>((resolve, reject) => {
+            const cleanup = () => {
+              gateBtn.onclick = null
+              connection.signal.removeEventListener('abort', abort)
+            }
+            const abort = () => {
+              cleanup()
+              reject(new DOMException('试打已取消', 'AbortError'))
+            }
             gateBtn.onclick = () => {
               if (!record) return
+              gateBtn.disabled = true
               void ensurePermission(record.handle, { withRequest: true })
                 .then((state) => {
+                  active()
                   if (state === 'granted') {
-                    gate.hidden = true
-                    gateBtn.onclick = null
+                    cleanup()
+                    gateBtn.hidden = true
                     resolve()
                   } else gateHint.textContent = '未授权，请允许读取工程或关闭本页'
                 })
-                .catch(reject)
+                .catch((error) => {
+                  cleanup()
+                  reject(error)
+                })
+                .finally(() => {
+                  gateBtn.disabled = false
+                })
             }
-            connection.signal.addEventListener(
-              'abort',
-              () => reject(new DOMException('试打已取消', 'AbortError')),
-              { once: true },
-            )
+            connection.signal.addEventListener('abort', abort, { once: true })
           })
         }
       }
-      if (connection.signal.aborted) throw new DOMException('试打已取消', 'AbortError')
+      active()
+      gateHint.textContent = '正在读取已保存工程…'
       const project = await loadPlayProject(packet.identity.projectId, record?.handle)
+      active()
       assertLoadedPlayProjectIdentity(packet.identity.projectId, project.manifest.id)
       const handle = record?.handle
+      gate.hidden = true
       await runBattleTrial(project, packet.config, {
         signal: connection.signal,
         sourceToken: packet.sourceToken,

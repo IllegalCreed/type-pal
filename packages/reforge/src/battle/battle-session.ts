@@ -2923,14 +2923,7 @@ export class BattleSession {
       const p = expectDefined(s.players[sel])
       // 主菜单 4 图标(法术/物品/杂项态仍画,一阶段 selectMove 全程画)
       if (this.assets.battleIcons) {
-        drawMainIcons(
-          ctx,
-          this.assets.battleIcons,
-          this.menuIdx,
-          this.mainActionValid(sel),
-          true,
-          this.assets.palette,
-        )
+        drawMainIcons(ctx, this.assets.battleIcons, this.menuIdx, this.mainActionValid(sel), true)
       }
       if (this.ui === 'misc' || this.ui === 'miscSub') {
         // 杂项盒 box(2,20);进二级后父项(道具)固定金黄

@@ -1,13 +1,20 @@
 /** Valid, generated non-PAL project shared by workflow tests and the isolated browser smoke run. */
 import type {
   ActorDef,
+  AssetCatalogV1,
   BattleSpriteDef,
   CurrentManifest,
   EnemyDef,
   ItemData,
   SkillData,
 } from '@type-pal/content'
-import { type FileSource, loadCurrentProjectFrom } from '@type-pal/reforge'
+import { palMagicEffectSpriteAssetId } from '@type-pal/content'
+import {
+  compressGzip,
+  encodeSpriteChunk,
+  type FileSource,
+  loadCurrentProjectFrom,
+} from '@type-pal/reforge'
 import { emptyBattleSimulatorLibrary } from '../battle-simulator-library.js'
 import { emptyTrialMember, emptyTrialPlan } from '../battle-simulator-state.js'
 import { toEditorState } from '../project-io.js'
@@ -34,8 +41,8 @@ export async function battleTrialProjectFiles() {
     profile: {
       kind: 'enemy',
       idle: { start: 0, count: 1 },
-      attack: { start: 7, count: 2 },
-      magic: { start: 5, count: 1 },
+      attack: { start: 2, count: 2 },
+      magic: { start: 1, count: 1 },
       idleTicksPerFrame: 1,
       actTicksPerFrame: 1,
     },
@@ -48,7 +55,33 @@ export async function battleTrialProjectFiles() {
     usableOutsideBattle: false,
     target: 'oneEnemy',
     effects: [{ kind: 'damage', power: 50, elemental: 0 }],
-    animation: { effectSprite: -1 },
+    animation: { effectSprite: 0 },
+  }
+  const effectPath = 'assets/generated/effects/trial.rle'
+  const effect = await compressGzip(
+    encodeSpriteChunk(
+      Array.from({ length: 3 }, () => ({
+        width: 8,
+        height: 8,
+        pixels: new Uint8Array(64).fill(10),
+        opaque: new Uint8Array(64).fill(1),
+      })),
+    ),
+  )
+  const effectBytes = new ArrayBuffer(effect.byteLength)
+  new Uint8Array(effectBytes).set(effect)
+  files[effectPath] = effectBytes
+  const effectHash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', effectBytes))]
+    .map((v) => v.toString(16).padStart(2, '0'))
+    .join('')
+  ;(files['assets/index.json'] as AssetCatalogV1).assets[palMagicEffectSpriteAssetId(0)] = {
+    kind: 'effect-sprite',
+    path: effectPath,
+    mediaType: 'application/vnd.type-pal.rle',
+    bytes: effect.byteLength,
+    sha256: effectHash,
+    label: '试炼术占位特效',
+    origin: { kind: 'generated' },
   }
   files['content/skills.json'] = { skills: [skill], levelUp: {} }
   const item: ItemData = {

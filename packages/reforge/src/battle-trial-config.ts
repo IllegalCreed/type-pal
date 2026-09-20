@@ -22,6 +22,7 @@ export interface TrialMember {
 export interface TrialParty {
   members: TrialMember[]
 }
+export const TRIAL_MAX_PARTY_MEMBERS = 3
 export type TrialEnemies =
   | { kind: 'team'; teamId: EnemyTeamDef['id'] }
   | { kind: 'slots'; slots: Array<string | null> }
@@ -112,7 +113,8 @@ export function parseTrialParty(value: unknown, where = 'trial.party'): TrialPar
   const v = trialObject(value, ['members'], where)
   const members = trialArray(v.members, `${where}.members`)
   // Empty is an editable draft, never a runnable battle. Readiness validates nonempty below the UI.
-  if (members.length > 5) throw new Error(`${where}.members: 最多5名队员`)
+  if (members.length > TRIAL_MAX_PARTY_MEMBERS)
+    throw new Error(`${where}.members: 最多${TRIAL_MAX_PARTY_MEMBERS}名队员`)
   const seen = new Set<string>()
   return {
     members: members.map((entry, i): TrialMember => {

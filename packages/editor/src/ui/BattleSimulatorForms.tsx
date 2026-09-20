@@ -7,6 +7,7 @@ import type {
   TrialPool,
   TrialStats,
 } from '@type-pal/reforge'
+import { previewBattleTrialParty, TRIAL_MAX_PARTY_MEMBERS } from '@type-pal/reforge'
 import { useState } from 'react'
 import { emptyTrialMember } from '../core/battle-simulator-state.js'
 import type { EditorState } from '../core/edit-session.js'
@@ -115,9 +116,16 @@ export function TrialPartyEditor({
         />
         <DsButton
           disabled={
-            !adding || value.members.length >= 5 || !candidates.some((actor) => actor.id === adding)
+            !adding ||
+            value.members.length >= TRIAL_MAX_PARTY_MEMBERS ||
+            !candidates.some((actor) => actor.id === adding)
           }
           onClick={() => {
+            if (
+              value.members.length >= TRIAL_MAX_PARTY_MEMBERS ||
+              !candidates.some((actor) => actor.id === adding)
+            )
+              return
             onChange({ members: [...value.members, emptyTrialMember(adding)] })
             setAdding('')
           }}
@@ -125,9 +133,26 @@ export function TrialPartyEditor({
           加入队伍
         </DsButton>
       </DsFieldGroup>
-      {!value.members.length && <p className="hint2">尚无队员。最多5人，同一角色不能重复加入。</p>}
+      {!value.members.length && (
+        <p className="hint2">尚无队员。最多{TRIAL_MAX_PARTY_MEMBERS}人，同一角色不能重复加入。</p>
+      )}
+      {value.members.length === TRIAL_MAX_PARTY_MEMBERS && (
+        <p className="hint2">已达到{TRIAL_MAX_PARTY_MEMBERS}人上限；可先移出一名队员再替换。</p>
+      )}
       {value.members.map((member, index) => {
         const actor = state.actors.find((actor) => actor.id === member.actorId)
+        let effective: ReturnType<typeof previewBattleTrialParty>[number] | undefined
+        try {
+          effective = previewBattleTrialParty(
+            { members: [member] },
+            {
+              actorsById: Object.fromEntries(state.actors.map((actor) => [actor.id, actor])),
+              items: Object.fromEntries(state.items.map((item) => [item.id, item])),
+            },
+          )[0]
+        } catch {
+          // Incomplete references remain editable; the workspace lists their precise errors.
+        }
         return (
           <DsWorkbenchSection
             key={member.actorId}
@@ -286,6 +311,35 @@ export function TrialPartyEditor({
               scope={`${scope}:${member.actorId}:mp`}
               onChange={(mp) => update(member.actorId, { mp })}
             />
+            {effective && (
+              <section
+                aria-label={`${actor ? lookupText(actor.name, state.locale) : member.actorId}开战有效值`}
+              >
+                <h3>开战有效值（含装备）</h3>
+                <dl className="trial-effective-stats">
+                  {[
+                    ['体力', `${effective.hp} / ${effective.maxHp}`],
+                    ['真气', `${effective.mp} / ${effective.maxMp}`],
+                    ['武术', effective.attackStrength],
+                    ['灵力', effective.magicStrength],
+                    ['防御', effective.defense],
+                    ['身法', effective.baseDexterity],
+                    ['吉运', effective.fleeRate],
+                  ].map(([label, value]) => (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="hint2">
+                  有效技能：
+                  {effective.skills
+                    .map((id) => state.skills.find((skill) => skill.id === id)?.name ?? id)
+                    .join('、') || '无'}
+                </p>
+              </section>
+            )}
           </DsWorkbenchSection>
         )
       })}

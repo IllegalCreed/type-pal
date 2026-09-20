@@ -1,3 +1,4 @@
+import { lookupText } from '@type-pal/content'
 import {
   type BattleTrialConfig,
   collectBattleTrialIssues,
@@ -169,7 +170,7 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
   }
   const issues = resolved
     ? collectBattleTrialIssues(resolved, trialCatalog(state))
-    : record
+    : record && !planError
       ? allIssues.filter((issue) => issue.directory === directory && issue.recordId === record.id)
       : []
   const start = async () => {
@@ -396,7 +397,11 @@ export function BattleSimulatorWorkbench(props: BattleSimulatorWorkbenchProps) {
                         placeholder="选择本场队员"
                         options={(resolved?.party.members ?? []).map((member) => ({
                           value: member.actorId,
-                          label: member.actorId,
+                          label: lookupText(
+                            state.actors.find((actor) => actor.id === member.actorId)?.name ??
+                              member.actorId,
+                            state.locale,
+                          ),
                         }))}
                         onValueChange={setPendingActor}
                       />
