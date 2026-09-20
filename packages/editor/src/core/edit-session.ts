@@ -11,6 +11,7 @@ import type {
   AssetCatalogV1,
   ContentBundle,
   CurrentManifest,
+  ItemData,
   MapIndexV1,
   ProjectMap,
   SceneIndexV1,
@@ -43,7 +44,9 @@ export type { Command } from './commands.js'
 export { MoveEntityCommand } from './commands.js'
 
 /** 被编辑的内容工作副本(ContentBundle + manifest)。命令 apply/invert 收/返它(不可变)。 */
-export interface EditorState extends Omit<ContentBundle, 'entryPoints'> {
+export interface EditorState extends Omit<ContentBundle, 'entryPoints' | 'items'> {
+  /** Interactive item shells use runtime refs; save/diagnostics must first merge canonical bodies. */
+  items: ItemData[]
   manifest: CurrentManifest
   /** Editor-only presets; absence means this project has no saved simulator library. */
   battleSimulator?: BattleSimulatorLibrary

@@ -62,7 +62,7 @@ const shellCommand = (): UpdateItemCommand =>
       effects: [
         {
           kind: 'runScript',
-          script: { chunk: '__author-script-runtime', id: 'item:private:use' },
+          script: { chunk: '__author-item-private-runtime', id: 'private' },
         },
       ],
     },

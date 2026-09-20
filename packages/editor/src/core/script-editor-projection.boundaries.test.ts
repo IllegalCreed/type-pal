@@ -167,7 +167,7 @@ describe('S03 mergeEditorProjectionWithCurrentAuthorState 保存边界', () => {
       'mergeEditorProjectionWithCurrentAuthorState: 新实体 scene-1/npc-1 含未登记 hostile.onLose',
     )
 
-    // 私有脚本：shell 引用 item:i1:use 但 canonical 缺正文 → 保存拒绝
+    // 私有脚本：shell 引用 owner i1 但 canonical 缺正文 → 保存拒绝
     const shellItem = {
       ...shell,
       items: [
@@ -178,7 +178,7 @@ describe('S03 mergeEditorProjectionWithCurrentAuthorState 保存边界', () => {
             effects: [
               {
                 kind: 'runScript',
-                script: { id: 'item:i1:use', chunk: '__author-script-runtime' },
+                script: { id: 'i1', chunk: '__author-item-private-runtime' },
               },
             ],
           },

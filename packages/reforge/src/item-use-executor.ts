@@ -1,4 +1,5 @@
 import {
+  type AuthorItemCoreMap,
   completeExternalWorldItemUse,
   type EntityAddress,
   type ItemDataMap,
@@ -12,7 +13,25 @@ import {
   type WorldItemUsePresentation,
   type WorldState,
 } from '@type-pal/content'
-import { isRuntimeScriptRef } from './runtime-project-view.js'
+import { isRuntimeItemPrivateScriptRef, isRuntimeScriptRef } from './runtime-project-view.js'
+import type { RunProjectCommandsOptions, ScriptProjectRuntime } from './runtime-script-project.js'
+
+/** The normal item-use host and tests share this dispatch; no user ID is parsed as a namespace. */
+export async function runWorldItemScript(
+  runtime: Pick<ScriptProjectRuntime, 'runSharedScript' | 'runItemPrivateScript'>,
+  items: AuthorItemCoreMap,
+  itemId: string,
+  ref: ScriptRef,
+  options: RunProjectCommandsOptions,
+): Promise<void> {
+  if (isRuntimeItemPrivateScriptRef(ref)) {
+    if (!ref.id || ref.id !== itemId)
+      throw new Error(`物品私有脚本owner不符：${itemId} / ${ref.id}`)
+    await runtime.runItemPrivateScript(items, itemId, 'use', options)
+  } else if (isRuntimeScriptRef(ref)) {
+    await runtime.runSharedScript(ref.id, options)
+  } else throw new Error(`非 current item script ref: ${ref.chunk}/${ref.id}`)
+}
 
 function assertNever(value: never): never {
   throw new Error(`executeWorldItemUse: 未处理的外部效果 ${JSON.stringify(value)}`)
@@ -49,8 +68,8 @@ function isItemPrivateRuntimeEffect(
 ): effect is Extract<ItemUseEffect, { kind: 'runScript' }> {
   return (
     effect.kind === 'runScript' &&
-    isRuntimeScriptRef(effect.script) &&
-    effect.script.id === `item:${itemId}:use`
+    isRuntimeItemPrivateScriptRef(effect.script) &&
+    effect.script.id === itemId
   )
 }
 

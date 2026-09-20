@@ -25,7 +25,6 @@ import {
   validateStartWorldResources,
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
-import { isRuntimeScriptRef } from '@type-pal/reforge'
 import { collectEditorAssetDiagnostics, type EditorAssetDiagnostic } from './asset-diagnostics.js'
 import type { EditorState } from './edit-session.js'
 import {
@@ -544,17 +543,6 @@ export interface EditorStatusIssue {
   target?: ProjectIssue['target']
 }
 
-function runtimeItemScriptProjectionPaths(state: EditorState): Set<string> {
-  const paths = new Set<string>()
-  for (const [itemIndex, item] of state.items.entries()) {
-    for (const [effectIndex, effect] of (item.use?.effects ?? []).entries()) {
-      if (effect.kind === 'runScript' && isRuntimeScriptRef(effect.script))
-        paths.add(`items[${itemIndex}](${item.id}).use.effects[${effectIndex}].script`)
-    }
-  }
-  return paths
-}
-
 function collectEditorStatusIssuesFromScan(
   state: EditorState,
   canonical: ScriptEditorState | undefined,
@@ -564,12 +552,8 @@ function collectEditorStatusIssuesFromScan(
   worldVariableReferences: WorldVariableReferenceIndexV1,
   entityAddressReferences: readonly EntityAddressReference[],
 ): EditorStatusIssue[] {
-  const projectedItemScriptPaths = canonical
-    ? runtimeItemScriptProjectionPaths(state)
-    : new Set<string>()
   const contentIssues: EditorStatusIssue[] = referenceIssues
     .filter((issue) => !issue.where.startsWith('entryPoints['))
-    .filter((issue) => !projectedItemScriptPaths.has(issue.where))
     .map((issue) => ({
       severity: issue.severity,
       message: issue.message,
@@ -687,6 +671,7 @@ export function createEditorDiagnosticsSnapshotCollector(
       : worldVariableScriptStateFromEditorStateV1(currentAuthorState)
     const referenceIssues = dependencies.validateReferences({
       ...currentAuthorState,
+      items: scriptState.items,
       entryPoints: currentAuthorState.manifest.entryPoints,
     })
     const commandVisits: CanonicalScriptCommandVisit[] =
@@ -914,6 +899,7 @@ export function assertProjectSaveValid(state: EditorState): void {
     throw new Error(`保存前开局数据校验失败：${startWorldInvariantErrors[0]!.message}`)
   const referenceErrors = validateReferences({
     ...state,
+    items: currentScriptState.items,
     entryPoints: state.manifest.entryPoints,
   }).filter((issue) => issue.severity === 'error')
   if (referenceErrors.length)

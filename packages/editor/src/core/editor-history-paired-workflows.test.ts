@@ -177,7 +177,7 @@ function seedPrivate(rig: Rig, itemId: string) {
           ...cur.use!.effects,
           {
             kind: 'runScript' as const,
-            script: { chunk: '__author-script-runtime', id: `item:${itemId}:use` },
+            script: { chunk: '__author-item-private-runtime', id: itemId },
           },
         ],
       },
@@ -368,7 +368,7 @@ test('P06 配对新增物品私有脚本：成功/undo/redo 双侧同步 + 保�
               ...current.use!.effects,
               {
                 kind: 'runScript' as const,
-                script: { chunk: '__author-script-runtime', id: `item:${itemId}:use` },
+                script: { chunk: '__author-item-private-runtime', id: itemId },
               },
             ],
           },
@@ -388,7 +388,12 @@ test('P07 配对删除物品私有脚本：成功/undo/redo 双侧同步 + 保�
   const next = {
     ...withScript.use!,
     effects: withScript.use!.effects.filter(
-      (e) => !(e.kind === 'runScript' && (e.script as { id?: string }).id === `item:${itemId}:use`),
+      (e) =>
+        !(
+          e.kind === 'runScript' &&
+          e.script.chunk === '__author-item-private-runtime' &&
+          e.script.id === itemId
+        ),
     ),
   }
   rig.coordinator.dispatch(
@@ -420,7 +425,7 @@ test('P08 pair→main→script：undo/redo 严格按提交顺序，不得先拆 
             ...cur.use!.effects,
             {
               kind: 'runScript' as const,
-              script: { chunk: '__author-script-runtime', id: `item:${itemId}:use` },
+              script: { chunk: '__author-item-private-runtime', id: itemId },
             },
           ],
         },
@@ -758,7 +763,7 @@ test('P19 真实 seed→loader→pair 编辑/undo/redo→保存序列化→重�
           ...cur.use!.effects,
           {
             kind: 'runScript' as const,
-            script: { chunk: '__author-script-runtime', id: `item:${itemId}:use` },
+            script: { chunk: '__author-item-private-runtime', id: itemId },
           },
         ],
       },
@@ -805,7 +810,7 @@ test('P19 真实 seed→loader→pair 编辑/undo/redo→保存序列化→重�
 test('P20 配对caller数量与Root成组装配的静态入口标记（不据此证明任意命令无复用）', () => {
   expect(
     (`${appSource}\n${itemSource}`.match(/historyCoordinator[.]dispatch[(]/g) ?? []).length,
-  ).toBe(7)
+  ).toBe(10) // + item create/copy/delete, now paired canonical + shell transactions.
   expect(rootSource).toMatch(/new EditSession[(]/)
   expect(rootSource).toMatch(/new ScriptEditSession[(]/)
   expect(rootSource).toMatch(/new EditorHistoryCoordinator[(]/)

@@ -13,6 +13,7 @@ import type {
   UseSpec,
 } from '@type-pal/content'
 import { itemUseEffectSupportsContext } from '@type-pal/content'
+import { isRuntimeItemPrivateScriptRef, runtimeItemPrivateScriptRef } from '@type-pal/reforge'
 import {
   type ComponentProps,
   createContext,
@@ -880,8 +881,8 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
   const excludedIngredientItemId = use.consuming ? props.itemId : undefined
   const isPrivateScriptEffect = (effect: ItemUseEffect): boolean =>
     effect.kind === 'runScript' &&
-    effect.script.chunk === '__author-script-runtime' &&
-    effect.script.id.startsWith(`item:${props.itemId ?? ''}:`)
+    isRuntimeItemPrivateScriptRef(effect.script) &&
+    effect.script.id === props.itemId
   const isExclusiveEffect = (effect: ItemUseEffect): boolean =>
     EXCLUSIVE_EFFECTS.has(effect.kind) && !isPrivateScriptEffect(effect)
   const isSceneEffect = (effect: ItemUseEffect): boolean =>
@@ -1183,15 +1184,13 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
               icon="add"
               className="item-add-effect item-add-private-script"
               disabled={
+                !props.itemId ||
                 use.effects.some(isPrivateScriptEffect) ||
                 !compatibleChain([
                   ...use.effects,
                   {
                     kind: 'runScript',
-                    script: {
-                      chunk: '__author-script-runtime',
-                      id: `item:${props.itemId ?? ''}:__probe__`,
-                    },
+                    script: runtimeItemPrivateScriptRef(props.itemId),
                   },
                 ])
               }

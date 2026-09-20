@@ -59,8 +59,8 @@ function PrivateHarness(props: {
   const privateIndex = spec.effects.findIndex(
     (effect) =>
       effect.kind === 'runScript' &&
-      effect.script.chunk === '__author-script-runtime' &&
-      effect.script.id === 'item:tool:use',
+      effect.script.chunk === '__author-item-private-runtime' &&
+      effect.script.id === 'tool',
   )
   return (
     <ItemEffectChainEditor
@@ -470,7 +470,7 @@ describe('ItemEffectChainEditor', () => {
             effects: [
               {
                 kind: 'runScript',
-                script: { chunk: '__author-script-runtime', id: 'item:tool:use' },
+                script: { chunk: '__author-item-private-runtime', id: 'tool' },
               },
             ],
           }}
@@ -490,7 +490,7 @@ describe('ItemEffectChainEditor', () => {
         effects: [
           {
             kind: 'runScript',
-            script: { chunk: '__author-script-runtime', id: 'item:tool:use' },
+            script: { chunk: '__author-item-private-runtime', id: 'tool' },
           },
           { kind: 'healHp', amount: 100 },
         ],
@@ -507,7 +507,7 @@ describe('ItemEffectChainEditor', () => {
           { kind: 'healHp', amount: 100 },
           {
             kind: 'runScript',
-            script: { chunk: '__author-script-runtime', id: 'item:tool:use' },
+            script: { chunk: '__author-item-private-runtime', id: 'tool' },
           },
         ],
       }),
@@ -734,7 +734,7 @@ describe('ItemEffectChainEditor', () => {
             effects: [
               {
                 kind: 'runScript',
-                script: { chunk: '__author-script-runtime', id: 'item:tool:use' },
+                script: { chunk: '__author-item-private-runtime', id: 'tool' },
               },
             ],
           }}

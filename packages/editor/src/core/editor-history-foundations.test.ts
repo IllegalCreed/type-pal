@@ -160,7 +160,7 @@ async function projectFixture(surface: 'lowered' | 'canonical') {
         effects: [
           {
             kind: 'runScript',
-            script: { chunk: '__author-script-runtime', id: 'item:history-item:use' },
+            script: { chunk: '__author-item-private-runtime', id: 'history-item' },
           },
         ],
       },

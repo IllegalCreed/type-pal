@@ -363,7 +363,7 @@ export function validatePalCurrentPublication(args: {
     actors,
     skills: skills.skills,
     levelUp: skills.levelUp as never,
-    items: items as never,
+    items,
     locale,
     sprites,
     battleSprites,

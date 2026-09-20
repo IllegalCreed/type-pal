@@ -1,4 +1,4 @@
-import type { ItemData } from '@type-pal/content'
+import type { AuthorItemData, ItemData } from '@type-pal/content'
 
 function nextSerialId(prefix: string, existing: ReadonlySet<string>): string {
   for (let serial = 1; ; serial++) {
@@ -22,7 +22,7 @@ export function nextCopiedItemId(sourceId: string, items: readonly Pick<ItemData
   }
 }
 
-export function createBlankItem(items: readonly Pick<ItemData, 'id'>[]): ItemData {
+export function createBlankItem(items: readonly Pick<ItemData, 'id'>[]): Omit<ItemData, 'use'> {
   return {
     id: nextAuthoredItemId(items),
     name: '新物品',
@@ -34,7 +34,10 @@ export function createBlankItem(items: readonly Pick<ItemData, 'id'>[]): ItemDat
 }
 
 /** 复制能力数据但只复用资源/共享脚本的稳定引用，不复制共享资源本体。 */
-export function cloneItemForAuthoring(source: ItemData, items: readonly ItemData[]): ItemData {
+export function cloneItemForAuthoring<T extends ItemData | AuthorItemData>(
+  source: T,
+  items: readonly Pick<ItemData, 'id'>[],
+): T {
   return {
     ...structuredClone(source),
     id: nextCopiedItemId(source.id, items),

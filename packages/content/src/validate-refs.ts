@@ -22,6 +22,8 @@ import type {
   AiCond,
   AmbienceDef,
   AuthorCondition,
+  AuthorItemCore,
+  AuthorItemData,
   AuthorSceneDef,
   BattleChoreographyAction,
   BattleFieldDef,
@@ -75,7 +77,8 @@ export interface ContentBundle {
   actors: ActorDef[]
   skills: SkillData[]
   levelUp: Record<string, LevelUpSkill[]>
-  items: ItemData[]
+  /** Current author identities (before or after dialogue resolution), never runtime ScriptRef shells. */
+  items: AuthorItemCore[] | AuthorItemData[]
   locale: Locale
   sprites: SpriteDef[]
   /** 战斗精灵定义表；canonical 工程必有，旧升级边界组装 bundle 前先补齐。 */
@@ -297,9 +300,15 @@ export function collectCommandBattleSpriteReferences(
  * 递归收集 Actor/Enemy/Equip/Skill/Script/World 对 BattleSpriteDef.id 的全部持久边。
  * battle transient 不落 content；运行时 readiness 以同一 reference 形状追加后再解析。
  */
+/** Sprite collectors also inspect migration's transient ItemData before author assembly;
+ * unlike validateReferences they never classify item script identities. */
+type SpriteReferenceBundle = Omit<ContentBundle, 'items'> & {
+  items: (ItemData | AuthorItemCore | AuthorItemData)[]
+}
+
 export function collectBattleSpriteDefinitionReferences(
   source: Pick<
-    ContentBundle,
+    SpriteReferenceBundle,
     | 'actors'
     | 'enemies'
     | 'items'
@@ -546,7 +555,7 @@ function collectActionStages(
 /** 收集场景页默认绑定和全部嵌套脚本中的 `(sprite, action)` 复合引用。 */
 export function collectSpriteActionReferences(
   source: Pick<
-    ContentBundle,
+    SpriteReferenceBundle,
     'scenes' | 'items' | 'scriptChunks' | 'scriptIndex' | 'sharedScripts' | 'enemies' | 'worlds'
   >,
 ): SpriteActionReference[] {
@@ -649,7 +658,7 @@ export function collectSpriteActionReferences(
 /** 递归收集 Actor/Entity/appearance/followers 与所有 inline/chunk 命令中的 SpriteDef.id 边。 */
 export function collectSpriteDefinitionReferences(
   source: Pick<
-    ContentBundle,
+    SpriteReferenceBundle,
     'actors' | 'scenes' | 'items' | 'scriptChunks' | 'sharedScripts' | 'enemies' | 'worlds'
   >,
 ): SpriteDefinitionReference[] {
@@ -1563,12 +1572,11 @@ export function validateReferences(b: ContentBundle): Issue[] {
             message: `毒 "${effect.poisonId}" 不在 poisons`,
           })
         if (effect.kind === 'runScript') {
-          const chunk = b.scriptChunks?.[effect.script.chunk]
-          if (!chunk?.scripts[effect.script.id])
+          if (!Object.hasOwn(b.sharedScripts ?? {}, effect.script))
             issues.push({
               severity: 'error',
               where: `${effectWhere}.script`,
-              message: `共享脚本 "${effect.script.id}" 不在脚本库`,
+              message: `共享脚本 "${effect.script}" 不在脚本库`,
             })
         }
       })

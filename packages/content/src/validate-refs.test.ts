@@ -1231,7 +1231,7 @@ test('C8 use/throw 的配方、奖励、毒与共享脚本引用全部进入闭�
       use: {
         target: 'scene',
         consuming: false,
-        effects: [{ kind: 'runScript', script: { chunk: 'shared', id: 'missing-script' } }],
+        effects: [{ kind: 'runScript', script: 'missing-script' }],
       },
     },
     {

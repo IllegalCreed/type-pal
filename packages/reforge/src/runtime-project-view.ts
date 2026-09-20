@@ -1,5 +1,6 @@
 import type {
   AuthorItemCoreMap,
+  AuthorItemDataMap,
   BaseSceneDef,
   BaseSceneEntity,
   BaseSceneEntityDef,
@@ -15,7 +16,11 @@ import type {
   ScriptStage,
   WorldScriptState,
 } from '@type-pal/content'
+import { runtimeItemPrivateScriptRef } from '@type-pal/content'
 import type { LoadedCurrentProject } from './project-loader.js'
+
+export { isRuntimeItemPrivateScriptRef, runtimeItemPrivateScriptRef } from '@type-pal/content'
+
 import {
   resolveBaseEntityPage,
   resolveEntityBehavior,
@@ -44,9 +49,11 @@ export function runtimeScriptRef(id: string): ScriptRef {
   return scriptRef(id)
 }
 
-function projectRuntimeItem(item: AuthorItemCoreMap[string]): ItemData {
+function projectRuntimeItem(item: AuthorItemCoreMap[string] | AuthorItemDataMap[string]): ItemData {
   const convertEffects = (
-    effects: NonNullable<AuthorItemCoreMap[string]['use']>['effects'],
+    effects: NonNullable<
+      AuthorItemCoreMap[string]['use'] | AuthorItemDataMap[string]['use']
+    >['effects'],
   ): NonNullable<ItemData['use']>['effects'] =>
     effects.map((effect) => {
       if (effect.kind === 'runScript')
@@ -54,7 +61,7 @@ function projectRuntimeItem(item: AuthorItemCoreMap[string]): ItemData {
       if (effect.kind === 'itemPrivateScript')
         return {
           kind: 'runScript' as const,
-          script: scriptRef(`item:${item.id}:${effect.script.id}`),
+          script: runtimeItemPrivateScriptRef(item.id),
         }
       return structuredClone(effect)
     })
@@ -71,7 +78,7 @@ function projectRuntimeItem(item: AuthorItemCoreMap[string]): ItemData {
   } as ItemData
 }
 
-export function projectItemsView(items: AuthorItemCoreMap): ItemDataMap {
+export function projectItemsView(items: AuthorItemCoreMap | AuthorItemDataMap): ItemDataMap {
   return Object.fromEntries(
     Object.entries(items).map(([id, item]) => [id, projectRuntimeItem(item)]),
   )

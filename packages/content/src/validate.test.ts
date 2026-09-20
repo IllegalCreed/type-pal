@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { EntityDef } from './index.js'
 import { itemUseSupportsContext } from './item.js'
+import { runtimeItemPrivateScriptRef } from './item-script-runtime-ref.js'
 import {
   checkThrowSpec,
   validateActors,
@@ -978,8 +979,9 @@ describe('validateItems · C8 用途能力契约', () => {
   test('运行时投影允许当前物品私有脚本与普通效果组合', () => {
     const privateRuntime = {
       kind: 'runScript' as const,
-      script: { chunk: '__author-script-runtime', id: 'item:item:use' },
+      script: runtimeItemPrivateScriptRef('item'),
     }
+    expect(privateRuntime.script).toEqual({ chunk: '__author-item-private-runtime', id: 'item' })
     expect(() =>
       validateItems([
         item({
@@ -996,7 +998,7 @@ describe('validateItems · C8 用途能力契约', () => {
             effects: [
               {
                 kind: 'runScript',
-                script: { chunk: '__author-script-runtime', id: 'item:mixed:use' },
+                script: { chunk: '__author-item-private-runtime', id: 'mixed' },
               },
               { kind: 'healHp', amount: 1 },
             ],
@@ -1028,6 +1030,38 @@ describe('validateItems · C8 用途能力契约', () => {
         }),
       ]),
     ).toThrow(/必须作为唯一效果/)
+  })
+
+  test('合法 item: 前缀共享脚本仍是外部效果，不因同名 owner 获得私有混合权限', () => {
+    expect(() =>
+      validateItems([
+        item({
+          target: 'oneAlly',
+          consuming: true,
+          effects: [
+            {
+              kind: 'runScript',
+              script: { chunk: '__author-script-runtime', id: 'item:item:use' },
+            },
+            { kind: 'healHp', amount: 1 },
+          ],
+        }),
+      ]),
+    ).toThrow('必须作为唯一效果')
+    expect(() =>
+      validateItems([
+        item({
+          target: 'scene',
+          consuming: true,
+          effects: [
+            {
+              kind: 'runScript',
+              script: { chunk: '__author-script-runtime', id: 'item:item:use' },
+            },
+          ],
+        }),
+      ]),
+    ).not.toThrow()
   })
 
   test('配方与资源池完整校验，投掷拒绝世界专用效果', () => {

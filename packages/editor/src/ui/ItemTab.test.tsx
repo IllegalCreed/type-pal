@@ -1,8 +1,9 @@
 // @vitest-environment jsdom
-import type { ItemData } from '@type-pal/content'
+import { type ItemData, validateAuthorItems } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { UpdateItemCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -17,7 +18,11 @@ import {
   type CurrentProjectReferenceIndexProvider,
   collectCurrentProjectReferenceIndex,
 } from '../core/project-reference-adapters.js'
-import { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
+import {
+  type ScriptEditorState,
+  ScriptEditSession,
+  SetItemPrivateScriptBodyCommand,
+} from '../core/script-editor.js'
 import { projectActiveScriptEditorState } from '../core/script-editor-projection.js'
 import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
 import { ItemTab } from './ItemTab.js'
@@ -83,6 +88,19 @@ function state(items: ItemData[] = [item()]): EditorState {
 }
 
 const emptyReferenceIndex = createProjectReferenceIndex(buildProjectReferenceSnapshot([]))
+
+function pairedHistory(session: EditSession) {
+  const canonical: ScriptEditorState = {
+    scenes: [],
+    items: validateAuthorItems(session.getState().items),
+    sharedScripts: {},
+  }
+  const scriptSession = new ScriptEditSession(canonical)
+  return {
+    script: { state: canonical, session: scriptSession },
+    historyCoordinator: new EditorHistoryCoordinator(session, scriptSession),
+  }
+}
 
 function Harness(props: {
   session: EditSession
@@ -274,13 +292,15 @@ describe('ItemTab', () => {
     const initial = state([])
     initial.shops = []
     const session = new EditSession(initial)
-    await act(async () => root.render(<Harness session={session} />))
+    const pair = pairedHistory(session)
+    await act(async () => root.render(<Harness session={session} {...pair} />))
 
     expect(host.textContent).toContain('项目还没有物品')
     await act(async () => button('新建第一个物品', host).click())
 
     expect(session.getState().items).toHaveLength(1)
     expect(session.getState().items[0]).toMatchObject({ id: 'item-001', name: '新物品' })
+    expect(pair.script.session.getStateSnapshot().items).toEqual(session.getState().items)
     expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('item-001')
     const workspace = host.querySelector('.item-workbench')!
     const hero = workspace.querySelector(':scope > .ds-object-hero')!
@@ -331,9 +351,95 @@ describe('ItemTab', () => {
     ).toBe(true)
   })
 
+  test('新建后不重开即可编辑私有正文，复制使用未保存正文且副本独立', async () => {
+    const initial = state([])
+    initial.shops = []
+    const session = new EditSession(initial)
+    const pair = pairedHistory(session)
+    await act(async () => root.render(<Harness session={session} {...pair} />))
+    await act(async () => button('新建第一个物品', host).click())
+    const id = session.getState().items[0]!.id
+    expect(pair.script.session.getStateSnapshot().items.map((item) => item.id)).toEqual([id])
+    const useSwitch = [...host.querySelectorAll<HTMLInputElement>('input[role="switch"]')].find(
+      (input) => input.closest('label')?.textContent === '启用使用能力',
+    )!
+    await act(async () => useSwitch.click())
+    await act(async () => button('添加当前物品脚本', host).click())
+    const effects = pair.script.session.getStateSnapshot().items[0]!.use!.effects
+    const privateIndex = effects.findIndex((effect) => effect.kind === 'itemPrivateScript')
+    expect(privateIndex).toBeGreaterThanOrEqual(0)
+    await act(async () => {
+      pair.script.session.dispatch(
+        new SetItemPrivateScriptBodyCommand(id, 'use', privateIndex, [{ kind: 'wait', ms: 37 }]),
+      )
+      session.dispatch(new UpdateItemCommand(id, { name: '未保存名称' }))
+    })
+    const copyResult = await Promise.resolve(
+      act(async () => button('复制', host.querySelector('.ds-object-hero')!).click()),
+    ).then(
+      () => ({ ok: true }),
+      (error) => ({ ok: false, error }),
+    )
+    expect(copyResult).toEqual({ ok: true })
+    const copyId = `${id}-copy`
+    expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe(copyId)
+    const source = pair.script.session.getStateSnapshot().items[0]!
+    const copy = pair.script.session.getStateSnapshot().items[1]!
+    expect(copy).toEqual({
+      ...source,
+      id: copyId,
+      name: '未保存名称 副本',
+      use: {
+        target: 'oneAlly',
+        consuming: true,
+        effects: [{ kind: 'healHp', amount: 100 }, ...source.use!.effects],
+      },
+    })
+    expect(session.getState().items[1]!.use!.effects[1]).toEqual({
+      kind: 'runScript',
+      script: { chunk: '__author-item-private-runtime', id: copyId },
+    })
+    await act(async () =>
+      pair.script.session.dispatch(
+        new SetItemPrivateScriptBodyCommand(copyId, 'use', 1, [{ kind: 'wait', ms: 71 }]),
+      ),
+    )
+    expect(pair.script.session.getStateSnapshot().items[0]!.use!.effects[privateIndex]).toEqual({
+      kind: 'itemPrivateScript',
+      script: { id: 'use', label: '新物品使用脚本', body: [{ kind: 'wait', ms: 37 }] },
+    })
+    await act(async () => pair.historyCoordinator.undo())
+    await act(async () => pair.historyCoordinator.undo())
+    expect(session.getState().items.map((item) => item.id)).toEqual([id])
+    expect(pair.script.session.getStateSnapshot().items.map((item) => item.id)).toEqual([id])
+    await act(async () => pair.historyCoordinator.redo())
+    expect(pair.script.session.getStateSnapshot().items[1]).toEqual(copy)
+  })
+
+  test('缺少配对历史时新建、复制、删除明确拒绝且零写入', async () => {
+    const initial = state()
+    initial.shops = []
+    const session = new EditSession(initial)
+    const onStatusNotice = vi.fn()
+    const before = structuredClone(session.getState())
+    await act(async () =>
+      root.render(<Harness session={session} onStatusNotice={onStatusNotice} />),
+    )
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="新建物品"]')!.click())
+    expect(onStatusNotice.mock.lastCall?.[0].message).toContain('无法安全新建物品')
+    await act(async () => button('复制', host.querySelector('.ds-object-hero')!).click())
+    expect(onStatusNotice.mock.lastCall?.[0].message).toContain('无法安全复制物品')
+    await act(async () => button('删除', host.querySelector('.item-title-actions')!).click())
+    await act(async () => button('确认', host.querySelector('.item-title-actions')!).click())
+    expect(onStatusNotice.mock.lastCall?.[0].message).toContain('无法安全删除物品')
+    expect(session.getState()).toEqual(before)
+    expect(session.canUndo()).toBe(false)
+  })
+
   test('目录可新建、复制并阻止删除仍在商店中的物品', async () => {
     const session = new EditSession(state())
-    await act(async () => root.render(<Harness session={session} />))
+    const pair = pairedHistory(session)
+    await act(async () => root.render(<Harness session={session} {...pair} />))
 
     const initialHero = host.querySelector('.ds-object-hero')!
     const heroTags = [...initialHero.querySelectorAll('.ds-object-hero__meta .ds-tag')]
@@ -408,6 +514,7 @@ describe('ItemTab', () => {
           session={session}
           script={{ state: canonical, session: scriptSession }}
           referenceStatus="current"
+          historyCoordinator={new EditorHistoryCoordinator(session, scriptSession)}
           referenceIndex={emptyReferenceIndex}
         />,
       ),
@@ -475,6 +582,7 @@ describe('ItemTab', () => {
           session={session}
           referenceIndex={emptyReferenceIndex}
           onStatusNotice={onStatusNotice}
+          {...pairedHistory(session)}
           getCurrentReferenceIndex={() => {
             throw new Error('oracle unavailable')
           }}
@@ -1088,7 +1196,7 @@ describe('ItemTab', () => {
           effects: [
             {
               kind: 'runScript',
-              script: { chunk: '__author-script-runtime', id: 'item:private:use' },
+              script: { chunk: '__author-item-private-runtime', id: 'private' },
             },
           ],
         },
@@ -1306,7 +1414,7 @@ describe('ItemTab', () => {
     })
 
     expect(session.getState().items[0]!.use!.effects).toMatchObject([
-      { kind: 'runScript', script: { chunk: '__author-script-runtime', id: 'item:private:use' } },
+      { kind: 'runScript', script: { chunk: '__author-item-private-runtime', id: 'private' } },
     ])
     expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
       {
@@ -1437,7 +1545,7 @@ describe('ItemTab', () => {
           effects: [
             {
               kind: 'runScript',
-              script: { chunk: '__author-script-runtime', id: 'item:private:use' },
+              script: { chunk: '__author-item-private-runtime', id: 'private' },
             },
           ],
         },
@@ -1701,7 +1809,8 @@ describe('ItemTab', () => {
 
   test('检查器支持方向键切换，删除后撤销会恢复原选择', async () => {
     const session = new EditSession(state([item('item-a'), item('item-b')]))
-    await act(async () => root.render(<Harness session={session} />))
+    const pair = pairedHistory(session)
+    await act(async () => root.render(<Harness session={session} {...pair} />))
 
     await verifyInspectorTabs(host, '物品检查器', ['概览', /^引用 \d+$/])
 

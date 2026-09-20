@@ -40,6 +40,7 @@ import type {
 } from './index.js'
 import type { ItemUseEffect, ThrowEffect } from './item.js'
 import { ITEM_USE_EFFECT_KINDS, itemUseSupportsContext, THROW_EFFECT_KINDS } from './item.js'
+import { isRuntimeItemPrivateScriptRef } from './item-script-runtime-ref.js'
 import { isMapAssetId } from './map-index.js'
 import type { BaseSceneDef } from './scene-core.js'
 import { checkEntityPages, checkStages } from './script.js'
@@ -1173,16 +1174,16 @@ function validateAuthorItemUseEffect(
   validateItemUseEffect(effect, ctx)
 }
 
-function isItemPrivateRuntimeEffect(
-  effect: Record<string, unknown>,
-  itemId: string,
-  slot: 'use' | 'throw',
-): boolean {
+function isItemPrivateRuntimeEffect(effect: Record<string, unknown>, itemId: string): boolean {
   if (effect.kind !== 'runScript') return false
   const script = effect.script
   if (typeof script !== 'object' || script === null || Array.isArray(script)) return false
   const ref = script as Record<string, unknown>
-  return ref.chunk === '__author-script-runtime' && ref.id === `item:${itemId}:${slot}`
+  return (
+    typeof ref.chunk === 'string' &&
+    isRuntimeItemPrivateScriptRef({ chunk: ref.chunk }) &&
+    ref.id === itemId
+  )
 }
 
 export function validateItems(json: unknown): ItemData[] {
@@ -1211,7 +1212,7 @@ export function validateItems(json: unknown): ItemData[] {
       const effects = assertArray<Record<string, unknown>>(use.effects, `items[${i}].use.effects`)
       const itemId = String(record.id)
       const isPrivateRuntime = (effect: Record<string, unknown>) =>
-        isItemPrivateRuntimeEffect(effect, itemId, 'use')
+        isItemPrivateRuntimeEffect(effect, itemId)
       const external = effects.filter(
         (effect) =>
           (effect.kind === 'runScript' && !isPrivateRuntime(effect)) ||

@@ -22,11 +22,13 @@ import type {
   ThrowSpec,
   UseSpec,
 } from '@type-pal/content'
-import { deriveScriptChunk, describeEquipEffects, lookupText } from '@type-pal/content'
+import { describeEquipEffects, lookupText } from '@type-pal/content'
 import {
   type AssetBase,
   type AudioAssetReader,
-  isRuntimeScriptRef,
+  isRuntimeItemPrivateScriptRef,
+  projectItemsView,
+  runtimeItemPrivateScriptRef,
   runtimeScriptRef,
 } from '@type-pal/reforge'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -51,12 +53,15 @@ import type {
 } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import {
+  AddItemDefinitionCommand,
   AddItemPrivateScriptCommand,
+  DeleteItemDefinitionCommand,
   DeleteItemPrivateScriptCommand,
   type ScriptEditorState,
   type ScriptEditSession,
   SetItemPrivateScriptBodyCommand,
 } from '../core/script-editor.js'
+import { mergeCurrentItemShell } from '../core/script-editor-projection.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import {
@@ -849,22 +854,14 @@ export function ItemTab(props: {
           label: `${sharedScript.name} · ${id}`,
         }))
         .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
-    const index = editorState.scriptIndex
-    if (!index) return []
-    return Object.entries(index.library ?? {})
-      .flatMap(([id, meta]) => {
-        const chunk = deriveScriptChunk(id, index.shards)
-        return chunk ? [{ ref: { id, chunk }, label: `${meta.name} · ${id}` }] : []
-      })
-      .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
-  }, [editorState.scriptIndex, sharedScripts])
-  const privateScriptPrefix = item ? `item:${item.id}:` : ''
+    return []
+  }, [sharedScripts])
   const hasPrivateScript = (['use', 'throw'] as const).some((slot) =>
     (item?.[slot]?.effects ?? []).some(
       (effect) =>
         effect.kind === 'runScript' &&
-        isRuntimeScriptRef(effect.script) &&
-        effect.script.id.startsWith(privateScriptPrefix),
+        isRuntimeItemPrivateScriptRef(effect.script) &&
+        effect.script.id === item?.id,
     ),
   )
   const canonicalScriptEditorContext = useMemo<CanonicalScriptEditorContext | undefined>(() => {
@@ -926,11 +923,10 @@ export function ItemTab(props: {
     skills,
   ])
   const privateScripts = (slot: 'use' | 'throw') => {
-    const prefix = item ? `item:${item.id}:` : ''
     const shellScripts = (item?.[slot]?.effects ?? []).flatMap((shellEffect, shellIndex) =>
       shellEffect.kind === 'runScript' &&
-      isRuntimeScriptRef(shellEffect.script) &&
-      shellEffect.script.id.startsWith(prefix)
+      isRuntimeItemPrivateScriptRef(shellEffect.script) &&
+      shellEffect.script.id === item?.id
         ? [{ shellEffect, shellIndex }]
         : [],
     )
@@ -946,9 +942,8 @@ export function ItemTab(props: {
       ),
     )
     return Object.fromEntries(
-      shellScripts.flatMap(({ shellEffect, shellIndex }) => {
-        const privateId = shellEffect.script.id.slice(prefix.length)
-        const source = stored.get(privateId as 'use')
+      shellScripts.flatMap(({ shellIndex }) => {
+        const source = stored.get('use')
         if (!source) return []
         const { effect, canonicalIndex } = source
         return [
@@ -993,11 +988,10 @@ export function ItemTab(props: {
         patch({ use: next })
         return
       }
-      const prefix = `item:${item.id}:`
       const currentPrivateId = item.use.effects.flatMap((effect) =>
         effect.kind === 'runScript' &&
-        isRuntimeScriptRef(effect.script) &&
-        effect.script.id.startsWith(prefix)
+        isRuntimeItemPrivateScriptRef(effect.script) &&
+        effect.script.id === item.id
           ? [effect.script.id]
           : [],
       )[0]
@@ -1006,7 +1000,7 @@ export function ItemTab(props: {
         next?.effects.some(
           (effect) =>
             effect.kind === 'runScript' &&
-            isRuntimeScriptRef(effect.script) &&
+            isRuntimeItemPrivateScriptRef(effect.script) &&
             effect.script.id === currentPrivateId,
         )
       if (!currentPrivateId || keepsPrivate) {
@@ -1022,7 +1016,7 @@ export function ItemTab(props: {
       }
       try {
         historyCoordinator.dispatch(
-          new DeleteItemPrivateScriptCommand(item.id, 'use', currentPrivateId.slice(prefix.length)),
+          new DeleteItemPrivateScriptCommand(item.id, 'use', 'use'),
           new UpdateItemCommand(item.id, { use: next }),
         )
         onStatusNotice?.({ kind: 'info', message: `已删除 ${item.name} 的当前物品脚本。` })
@@ -1071,16 +1065,51 @@ export function ItemTab(props: {
     [onObjectFocus],
   )
   const createItem = (): void => {
-    const created = createBlankItem(items)
-    session.dispatch(new AddItemCommand(created))
-    selectItem(created.id)
+    try {
+      if (!historyCoordinator || !script?.session)
+        throw new Error('缺少脚本历史协调器，无法安全新建物品。')
+      historyCoordinator.assertSessions(session, script.session)
+      const created = createBlankItem(session.getState().items)
+      historyCoordinator.dispatch(
+        new AddItemDefinitionCommand(created),
+        new AddItemCommand(created),
+      )
+      selectItem(created.id)
+    } catch (cause) {
+      onStatusNotice?.({
+        kind: 'error',
+        message: cause instanceof Error ? cause.message : String(cause),
+      })
+    }
   }
   const duplicateItem = (): void => {
     if (!item) return
-    const copy = cloneItemForAuthoring(item, items)
-    const at = items.findIndex((candidate) => candidate.id === item.id) + 1
-    session.dispatch(new AddItemCommand(copy, at))
-    selectItem(copy.id)
+    try {
+      if (!historyCoordinator || !script?.session)
+        throw new Error('缺少脚本历史协调器，无法安全复制物品。')
+      historyCoordinator.assertSessions(session, script.session)
+      const currentItems = session.getState().items
+      const source = currentItems.find((candidate) => candidate.id === item.id)
+      if (!source) throw new Error(`物品不存在 ${item.id}`)
+      const canonical = script.session
+        .getStateSnapshot()
+        .items.find((candidate) => candidate.id === item.id)
+      const copy = cloneItemForAuthoring(
+        mergeCurrentItemShell(source, canonical, true),
+        currentItems,
+      )
+      const at = currentItems.findIndex((candidate) => candidate.id === item.id) + 1
+      historyCoordinator.dispatch(
+        new AddItemDefinitionCommand(copy, at),
+        new AddItemCommand(projectItemsView({ [copy.id]: copy })[copy.id]!, at),
+      )
+      selectItem(copy.id)
+    } catch (cause) {
+      onStatusNotice?.({
+        kind: 'error',
+        message: cause instanceof Error ? cause.message : String(cause),
+      })
+    }
   }
   const deleteItem = (): void => {
     if (!item) return
@@ -1091,12 +1120,14 @@ export function ItemTab(props: {
     const index = items.findIndex((candidate) => candidate.id === item.id)
     const next = items[index + 1]?.id ?? items[index - 1]?.id ?? ''
     try {
+      if (!historyCoordinator || !script?.session)
+        throw new Error('缺少脚本历史协调器，无法安全删除物品。')
+      historyCoordinator.assertSessions(session, script.session)
       deletedSelectionRef.current = { id: item.id, sawAbsent: false }
-      if (!session.dispatch(new DeleteItemCommand(item.id, getCurrentReferenceIndex))) {
-        deletedSelectionRef.current = undefined
-        onStatusNotice?.({ kind: 'error', message: '物品已变化，未执行删除。' })
-        return
-      }
+      historyCoordinator.dispatch(
+        new DeleteItemDefinitionCommand(item.id),
+        new DeleteItemCommand(item.id, getCurrentReferenceIndex),
+      )
       setSelId(next)
       setConfirmDeleteId(undefined)
       onObjectFocus?.(next || undefined)
@@ -1132,12 +1163,11 @@ export function ItemTab(props: {
     const exists = (storedItem?.use?.effects ?? []).some(
       (effect) => effect.kind === 'itemPrivateScript',
     )
-    const prefix = `item:${itemId}:`
     const shellHasPrivate = current.use.effects.some(
       (effect) =>
         effect.kind === 'runScript' &&
-        isRuntimeScriptRef(effect.script) &&
-        effect.script.id.startsWith(prefix),
+        isRuntimeItemPrivateScriptRef(effect.script) &&
+        effect.script.id === itemId,
     )
     if (exists && shellHasPrivate) {
       onStatusNotice?.({
@@ -1160,7 +1190,7 @@ export function ItemTab(props: {
               ...current.use.effects,
               {
                 kind: 'runScript',
-                script: { chunk: '__author-script-runtime', id: `item:${itemId}:use` },
+                script: runtimeItemPrivateScriptRef(itemId),
               },
             ],
           },

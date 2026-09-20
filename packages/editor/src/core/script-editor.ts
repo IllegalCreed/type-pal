@@ -2003,6 +2003,48 @@ export class SetItemPrivateScriptBodyCommand extends SnapshotCommand {
   }
 }
 
+/** 成对新增作者物品；普通字段的后续编辑仍由主会话拥有。 */
+export class AddItemDefinitionCommand extends SnapshotCommand {
+  readonly label = '新增 canonical 物品'
+  private readonly item: AuthorItemData
+  get affectedRecords() {
+    return { items: [this.item.id] }
+  }
+
+  constructor(
+    item: AuthorItemData,
+    private readonly index?: number,
+  ) {
+    super()
+    this.item = clone(item)
+  }
+
+  protected transform(state: ScriptEditorState): void {
+    if (state.items.some((item) => item.id === this.item.id))
+      throw new Error(`物品已存在 ${this.item.id}`)
+    const index = Math.min(Math.max(0, this.index ?? state.items.length), state.items.length)
+    state.items.splice(index, 0, clone(this.item))
+  }
+}
+
+/** 必须与 DeleteItemCommand 成对提交；后者在 apply/redo 执行当前引用守卫。 */
+export class DeleteItemDefinitionCommand extends SnapshotCommand {
+  readonly label = '删除 canonical 物品'
+  get affectedRecords() {
+    return { items: [this.itemId] }
+  }
+
+  constructor(private readonly itemId: string) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorState): void {
+    const index = state.items.findIndex((item) => item.id === this.itemId)
+    if (index < 0) throw new Error(`物品不存在 ${this.itemId}`)
+    state.items.splice(index, 1)
+  }
+}
+
 /** ED-5J:新建物品私有脚本(use 槽内联正文,归当前物品拥有;不动共享库)。 */
 export class AddItemPrivateScriptCommand extends SnapshotCommand {
   readonly label = '新建物品私有脚本'

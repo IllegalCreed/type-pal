@@ -158,7 +158,7 @@ describe('current runtime projection', () => {
       throw new Error('bad test fixture')
     expect(isRuntimeScriptRef(shared.script)).toBe(true)
     expect(shared.script.id).toBe('shared/teleport')
-    expect(privateEffect.script.id).toBe('item:private:use')
+    expect(privateEffect.script).toEqual({ chunk: '__author-item-private-runtime', id: 'private' })
     expect(items.private?.use?.effects[0]?.kind).toBe('itemPrivateScript')
   })
 

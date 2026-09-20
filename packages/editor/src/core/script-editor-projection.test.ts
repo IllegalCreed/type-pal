@@ -75,7 +75,7 @@ describe('current script editor projection', () => {
     const projected = projectEditorItemShells(loaded)
     expect(projected.map((value) => value.id)).toEqual(['20', '3', 'plain'])
     expect(projected[0]!.use!.effects).toMatchObject([
-      { kind: 'runScript', script: { chunk: '__author-script-runtime', id: 'item:20:use' } },
+      { kind: 'runScript', script: { chunk: '__author-item-private-runtime', id: '20' } },
       { kind: 'healHp', amount: 10 },
     ])
     expect(projected[1]!.use!.effects).toMatchObject([

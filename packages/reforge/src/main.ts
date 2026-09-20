@@ -145,7 +145,7 @@ import { createGameOverDialogueCue } from './game-over-dialog.js'
 import { GameplayClock } from './gameplay-clock.js'
 import { sha256Bytes } from './hash.js'
 import { Keyboard } from './input.js'
-import { executeWorldItemUse } from './item-use-executor.js'
+import { executeWorldItemUse, runWorldItemScript } from './item-use-executor.js'
 import { commitItemEntityPlacement, planItemEntityPlacement } from './item-use-placement.js'
 import { commitLatestPreparedSnapshot } from './latest-snapshot-transaction.js'
 import {
@@ -199,7 +199,6 @@ import {
 import { renderSceneFrame } from './render-scene.js'
 import type { RuntimeProjectView } from './runtime-project-view.js'
 import {
-  isRuntimeScriptRef,
   projectedWorldScriptScratch,
   refreshSceneViewBindings,
   runtimeProjectView,
@@ -5386,22 +5385,12 @@ export async function bootGame(
         host: {
           currentWorld: () => world,
           replaceWorld: (next) => replaceWorld(next),
-          runScript: (ref, signal) => {
-            if (!isRuntimeScriptRef(ref))
-              return Promise.reject(new Error(`非 current script ref: ${ref.chunk}/${ref.id}`))
-            return runDetachedScriptChain(signal, async (runtime, runSignal) => {
-              if (ref.id.startsWith('item:')) {
-                const [, itemId, scriptId] = ref.id.split(':')
-                if (!itemId || scriptId !== 'use')
-                  throw new Error(`item private script ref 非法: ${ref.id}`)
-                await runtime.runItemPrivateScript(canonicalProject.items, itemId, scriptId, {
-                  signal: runSignal,
-                })
-                return
-              }
-              await runtime.runSharedScript(ref.id, { signal: runSignal })
-            })
-          },
+          runScript: (ref, signal) =>
+            runDetachedScriptChain(signal, (runtime, runSignal) =>
+              runWorldItemScript(runtime, canonicalProject.items, request.itemId, ref, {
+                signal: runSignal,
+              }),
+            ),
           runSceneHook: (_hook, signal) => host.teleportOut(signal),
           placeEntityInFront: async (target, state, signal) => {
             signal?.throwIfAborted()

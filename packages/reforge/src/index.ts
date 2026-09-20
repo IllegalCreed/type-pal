@@ -205,8 +205,10 @@ export {
 export { quantizeToRleFrame, sliceAtlasGrid } from './quantize.js'
 export {
   baseSceneView,
+  isRuntimeItemPrivateScriptRef,
   isRuntimeScriptRef,
   projectItemsView,
+  runtimeItemPrivateScriptRef,
   runtimeProjectView,
   runtimeScriptRef,
 } from './runtime-project-view.js'

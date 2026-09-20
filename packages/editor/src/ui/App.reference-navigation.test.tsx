@@ -70,7 +70,7 @@ function shellItem(): ItemData {
       effects: [
         {
           kind: 'runScript',
-          script: { chunk: '__author-script-runtime', id: 'item:289:use' },
+          script: { chunk: '__author-item-private-runtime', id: '289' },
         },
       ],
     },

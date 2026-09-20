@@ -7,7 +7,7 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import { validateReferences } from '@type-pal/content'
-import { runtimeScriptRef } from '@type-pal/reforge'
+import { runtimeItemPrivateScriptRef } from '@type-pal/reforge'
 import { describe, expect, test, vi } from 'vitest'
 import { collectEditorAssetDiagnostics } from './asset-diagnostics.js'
 import type { EditorState } from './edit-session.js'
@@ -973,7 +973,7 @@ describe('X7 项目诊断与保存门', () => {
           use: {
             target: 'scene',
             consuming: false,
-            effects: [{ kind: 'runScript', script: runtimeScriptRef('item:private:use') }],
+            effects: [{ kind: 'runScript', script: runtimeItemPrivateScriptRef('private') }],
           },
         },
       ],
@@ -1020,7 +1020,7 @@ describe('X7 项目诊断与保存门', () => {
             target: 'oneAlly',
             consuming: false,
             effects: [
-              { kind: 'runScript', script: runtimeScriptRef('item:private:use') },
+              { kind: 'runScript', script: runtimeItemPrivateScriptRef('private') },
               { kind: 'healHp', amount: 1 },
             ],
           },

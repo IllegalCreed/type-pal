@@ -1,5 +1,10 @@
 import type { AuthorItemData, AuthorSceneDef, ItemData } from '@type-pal/content'
-import { type LoadedCurrentProjectCore, projectItemsView } from '@type-pal/reforge'
+import {
+  isRuntimeItemPrivateScriptRef,
+  isRuntimeScriptRef,
+  type LoadedCurrentProjectCore,
+  projectItemsView,
+} from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import type { ScriptEditorState } from './script-editor.js'
 
@@ -89,26 +94,28 @@ function mergeSceneShell(
   }
 }
 
-type ItemEffect = NonNullable<ItemData['use']>['effects'][number]
+type ItemEffect = NonNullable<ItemData['use'] | AuthorItemData['use']>['effects'][number]
 
 /** 两种当前内存表面共用同一个私有引用识别器；不是历史格式转换。 */
 function projectedItemPrivateScriptId(itemId: string, effect: ItemEffect): string | undefined {
-  const projected = effect as unknown as { kind?: string; script?: { id?: string } }
-  if (projected.kind === 'itemPrivateScript') return projected.script?.id ?? ''
-  const prefix = `item:${itemId}:`
+  if (effect.kind === 'itemPrivateScript') return effect.script.id
   if (
     effect.kind === 'runScript' &&
-    effect.script.chunk === '__author-script-runtime' &&
-    effect.script.id.startsWith(prefix)
-  )
-    return effect.script.id.slice(prefix.length)
+    typeof effect.script !== 'string' &&
+    isRuntimeItemPrivateScriptRef(effect.script)
+  ) {
+    if (effect.script.id !== itemId)
+      throw new Error(`物品 ${itemId} 的私有脚本 owner 不符：${effect.script.id}`)
+    return 'use'
+  }
   return undefined
 }
 
 /** 普通物品字段/效果顺序来自主会话；私有脚本正文来自脚本会话。 */
-function mergeCurrentItemShell(
-  shell: ItemData,
+export function mergeCurrentItemShell(
+  shell: ItemData | AuthorItemData,
   canonical: AuthorItemData | undefined,
+  requirePrivateBody = false,
 ): AuthorItemData {
   const next = structuredClone(shell) as unknown as AuthorItemData
   const canonicalPrivate = new Map(
@@ -125,12 +132,21 @@ function mergeCurrentItemShell(
       if (id !== undefined) {
         if (id !== 'use') continue
         const replacement = canonicalPrivate.get(id)
+        if (!replacement && requirePrivateBody)
+          throw new Error(`物品 ${shell.id} 的私有脚本 ${id} 正文缺失，拒绝复制。`)
         if (!replacement) continue
         effects.push(structuredClone(replacement))
         continue
       }
       if (effect.kind === 'runScript') {
-        effects.push({ ...structuredClone(effect), script: effect.script.id })
+        if (typeof effect.script !== 'string' && !isRuntimeScriptRef(effect.script))
+          throw new Error(
+            `物品 ${shell.id} 的脚本引用不是 current runtime ref：${effect.script.chunk}`,
+          )
+        effects.push({
+          ...structuredClone(effect),
+          script: typeof effect.script === 'string' ? effect.script : effect.script.id,
+        })
         continue
       }
       effects.push(structuredClone(effect))

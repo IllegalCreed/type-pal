@@ -173,8 +173,8 @@ describe('editor asset reference source', () => {
               {
                 kind: 'runScript',
                 script: {
-                  id: 'item:item.live:use',
-                  chunk: '__author-script-runtime',
+                  id: 'item.live',
+                  chunk: '__author-item-private-runtime',
                 },
               },
             ],

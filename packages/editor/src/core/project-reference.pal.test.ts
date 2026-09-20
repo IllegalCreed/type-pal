@@ -378,7 +378,8 @@ describe('ED-3 PAL project reference index', () => {
         .map((reference) => `${reference.asset}\0${reference.expectedKind}`)
         .sort(),
     )
-    const oldWorldSpriteReferences = collectSpriteDefinitionReferences(state)
+    const currentContent = { ...state, items: canonical.items }
+    const oldWorldSpriteReferences = collectSpriteDefinitionReferences(currentContent)
     const oldWorldStructuralReferences = oldWorldSpriteReferences.filter(
       (reference) =>
         reference.site.startsWith('actor:') ||
@@ -433,11 +434,11 @@ describe('ED-3 PAL project reference index', () => {
         })
         .sort(),
     ).toEqual(
-      collectSpriteActionReferences(state)
+      collectSpriteActionReferences(currentContent)
         .map((reference) => `${reference.sprite}\0${reference.action}\0${reference.where}`)
         .sort(),
     )
-    const oldBattleSpriteReferences = collectBattleSpriteDefinitionReferences(state)
+    const oldBattleSpriteReferences = collectBattleSpriteDefinitionReferences(currentContent)
     expect(
       battleSpriteEdges
         .filter((edge) => edge.source.owner.kind !== 'script-owner')
