@@ -127,8 +127,13 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 
 - Codex：**premise verified / design agree（2026-09-20）**。本人直读上述当前guard/实际caller，探针现树复现D-06、D-07两层保存失败、复制失败与main误分流；四向与可证伪条件见上。private只use、共享不保留前缀、current-only与原子历史不变。这是候选方案签，不授权缺两席时实施。
 - Kimi：pending。
-- GLM：pending。
-- 非Coding Owner独立primary-source反证：pending；须至少一席给自己的源码锚点及可推翻观察，不能只审方案内部一致。
+- GLM：**premise verified / design agree（2026-09-20，冻结 1e0388b0；全部锚点本人直读一手源码，未读 Codex 探针输出/Kimi 结论；G1～G5 取证见 [item-authoring-glm-audit.md](../../testing/item-authoring-glm-audit.md)）**。
+  - **前提四向本人复证（静态一手）**：① D-06——`ItemTab.tsx:1072-1084` 新建/复制仅 `session.dispatch(AddItemCommand)` 主会话，`script-editor.ts:2022-2023` AddItemPrivateScriptCommand 要求 canonical item 存在否则 `物品不存在`；② D-07 碰撞——`script-editor-projection.ts:95-106`/`ItemTab.tsx:1139-1143`/`ItemUseEffectEditor.tsx:883-886` 三处 `startsWith('item:<id>:')` 猜私有，`main.ts:5393-5395` `startsWith('item:')`+`split(':')` 路由，`item-use-executor.ts:46-55` 全等判定；`author-script-core.ts:1122` 共享 ID 仅 nonEmptyString **无保留前缀**，loader 合法接受 `item:*`；③ 第三根因——`App.tsx:2154` 保存走 merge（`mergeCurrentItemShell:131-133` 把共享 ref 转纯字符串）→`assertProjectSaveValid`→`validate-refs.ts:1565-1572` 读 `effect.script.chunk/.id`（字符串上均 undefined）→「共享脚本 "undefined"」；④ 复制——`cloneItemForAuthoring`（item-authoring.ts:37-43）structuredClone 保源私有 ref，副本投影/保存/runtime 三面全部错向。
+  - **G3 供给普查**：scriptChunks 生产侧恒 `{}`（project-io.ts:84 默认、open-local.ts:90；无真实 chunk 装配器）——item-runScript 旧 chunk/id 分支无当前生产 caller，方案 3「退役旧表面、按 ScriptId 对 sharedScripts 核验」有据；诊断域（project-diagnostics.ts:676-692）同样喂字符串形态，静态推断实时诊断亦报 undefined（未动态跑，列为实施回归项）。
+  - **design agree**：方案 1 与本人 census 一致（生产 caller 唯 ItemTab 三入口+私有脚本配对，P01-P20 已证 Coordinator 协议）；方案 2 显式 chunk tag+id=ItemId 把区分维度从 id 前缀移到 chunk，本人 sweep 的前缀猜身份全量 6 站点与方案声称的同步更新面**逐一对上无遗漏**，canonical 持久形态不变；方案 4 保留缺私有 body fail-closed（script-editor-projection.ts:213-220）与引用阻断守卫。
+  - **可证伪观察**：① 若存在喂真实 scriptChunks 的当前生产 caller 或第 7 个前缀猜身份站点→方案 2/3 覆盖面破产（本人 sweep 为空）；② 若诊断域实测不报 undefined→本人 G3 静态推断错，须改判；③ 实施后 `item:<id>:use` 形共享 ID 在 UI/投影/runtime/executor 四面仍被当私有→方案 2 无效。
+  - 非阻断备注（报告已列）：冒号 ItemId 纳入验收矩阵显式用例；复制后 runtime 路由到源私有脚本的语义串用建议入负控；诊断/保存两处报错面同时钉回归。
+- 非Coding Owner独立primary-source反证：GLM 本席已给（上方源码锚点+可推翻观察）。
 - build准入：关闭，留draft；无缺签豁免。
 
 ### done前
@@ -156,5 +161,13 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 ```
 
 ## 交接日志
+
+- 2026-09-20 GLM：在独立分支/worktree（codex/glm-item-authoring-audit）完成 G1～G5 只读取证
+  并签 r1 premise verified / design agree（证据与可证伪观察见本席签字与
+  [item-authoring-glm-audit.md](../../testing/item-authoring-glm-audit.md)）：生产 caller 普查唯一
+  ItemTab；前缀猜身份全量 6 站点；validateReferences 三生产输入全喂错形态且 scriptChunks 生产
+  恒空；复制/碰撞/冒号矩阵逐条落地；旧测试按 P01-P20/TB07 复制/投影测试去重。只写白名单
+  报告+README 索引+本席签字与日志，未改产品/正式测试/基线，未运行探针（静态一手源码），
+  未读 Kimi 结论，不代签、不标 build/done。非阻断备注三条已落报告。
 
 - 2026-09-20 Codex：按用户要求继续；在独立worktree完成当前内存前提探针，发现D-07普通共享引用也因旧分片式校验失败，复制私有脚本亦未注册/重投影。原假定正控与工具问题均据实修正；未改生产/正式测试/基线。GLM做G1～G5只读包，Kimi并行审设计；签齐前不实施。
