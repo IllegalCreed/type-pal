@@ -111,3 +111,29 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字
   SSS 输入前后保护字节且断言不变；非零 byteOffset 视图（4 对齐）。不执行 extract CLI、
   不碰 data/ 与正式 assets。
 - 机器账 `docs/testing/glm-pal-tables-evidence.json`。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 8 针复跑全绿。
+- **C1**：13 个新文件（含 JSON/config）Biome rc=0；机账同步最终树数字。
+- **R04-1**：SSS 输入保真改为真实实参比较——保留实际传入 view、`view.slice()` 调用前快照、
+  调用后断言同一 view 逐字节一致（污染已读缓冲即红）。
+- **R04-2**：撤回「offset 递减→空段」新绿测（P03 设计明确排除该政策）；保留 [0]→零消息。
+- **R04-3**：P07 名字轴补齐——names+映射同传（真实 caller 域）：两不同 OBJECT 映同 enemyId
+  各自 `_names` 反查精确；team1 缺名只余 402；补全映射后零新增 warn。
+- 复跑：定向 7/7、全包（4 项预存裁决一致）、tc rc=0、官方 fast 110→129 双 exit0、
+  8 针负控全绿。机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据收紧为**精确且唯一目标**——`title` 全等 filter、命中恰 1（后缀冒名
+  「other target」与重名双 target 均拒绝）、failed、非空、首行业务错误。运行态块与自测
+  **共用**（AST 抽取两块拼接执行），补后缀冒名/重名/未失败/空消息/普通Error内嵌/纯超时
+  反例；不再有独立 pinnedVerdict。
+- **C1**：全部 JSON/SHA 回填后按 git 新增清单完整白名单 Biome rc=0（含 JSON）。
+- 本批无业务残项（review 已关闭项保持）；复跑原负控 3+8 全绿；
+  glm-nine-rework-witnesses 9/9 判据双反例拒绝、3 针 detected。
+- 计数按 Codex 实测更正：定向 19。

@@ -182,5 +182,38 @@
     "integrated": false,
     "officialCoverageChanged": false,
     "security": "Mimosa is GLM's private MCP; user explicitly excluded it from Codex intake requirements."
+  },
+  "rework": {
+    "intakeReview": "docs/testing/glm-nine-intake-review.md (Codex counter 1f38bb29)",
+    "generatedAt": "2026-09-19T11:39:13Z",
+    "C0": "判据改为每条 failureMessages 首行 /^AssertionError(\\b|:)|^expect\\(/（运行态 pin 块内联同形谓词 + 四向自测新增普通Error内嵌AssertionError/纯超时反例）",
+    "C1": {
+      "command": "pnpm exec biome check <git 新增清单全部 13 个 TS/MJS/MTS/JSON>",
+      "exit": 0,
+      "files": 13
+    },
+    "R04-1": "SSS 实参保真——保留实际传入 view，view.slice() 调用前快照，调用后比较同一 view（污染已读缓冲即红）；前后保护字节仍在 wrapped 中",
+    "R04-2": "撤回 offset 递减→空段的新绿测（P03 已明确政策未定；保留 [0]→零消息轴，注释注明政策归属）",
+    "R04-3": "P07 名字轴补齐——真实 caller 同传 names+映射：两不同 OBJECT 映同 enemyId 时 _names 各自按原始 OBJECT 反查（['蛇甲','蛇乙','喽啰']）、team1 只剩 402 名；补全映射后同输入零新增 warn（与名字表无关分栏）",
+    "tests": {
+      "packageFull": "37 files / 177 tests：4 项预存 data/raw ENOENT（Codex 接收复核裁决与基线一致）；本批 19/19 绿",
+      "typecheck": "rc=0"
+    },
+    "mutants": {
+      "command": "node docs/testing/glm-pal-tables-mutants.mjs",
+      "exit": 0,
+      "controls": 3,
+      "needles": 8
+    },
+    "coverageRerun": "官方 fast 口径 before 110 / after 129（+19），双侧 exit0（最终返工树重跑）"
+  },
+  "rework2": {
+    "intakeReview": "docs/testing/glm-nine-rework-review.md (Codex counter 31c8703f)",
+    "generatedAt": "2026-09-19T14:24:17Z",
+    "C0": "判据收紧为精确且唯一目标（title 全等+恰1+failed+非空+首行业务错误）；运行态块与自测共用（AST 抽取两块直接执行），补后缀冒名/重名/未失败/空消息反例",
+    "C1": {
+      "note": "全部 JSON/SHA 回填后按 git 新增清单完整白名单 Biome（本次提交前执行 rc=0）"
+    },
+    "reworkWitness": "glm-nine-rework-witnesses: 9/9 suffixRejected、9/9 duplicateRejected、PNG 三态 valid、3 针 detected"
   }
 }
