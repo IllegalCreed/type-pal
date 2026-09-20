@@ -126,7 +126,37 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 ### build前（r1，冻结1e0388b0）
 
 - Codex：**premise verified / design agree（2026-09-20）**。本人直读上述当前guard/实际caller，探针现树复现D-06、D-07两层保存失败、复制失败与main误分流；四向与可证伪条件见上。private只use、共享不保留前缀、current-only与原子历史不变。这是候选方案签，不授权缺两席时实施。
-- Kimi：pending。
+- Kimi：**premise verified / design agree（2026-09-20，r1，冻结1e0388b0；全部锚点本人直读/探针本人复跑，未读 GLM 结论）**。
+  - **D-06 两会话生命周期直读**：`ItemTab.tsx:1073-1083` 创建/复制仅向主会话 dispatch
+    `AddItemCommand`，脚本会话无登记；`script-editor.ts:2026` `AddItemPrivateScriptCommand`
+    在 canonical `state.items` 找不到即抛「物品不存在」。探针复现：item-001 立即添加失败、
+    真实 serialize→loader 重开后正控成功；失败时两会话快照不变。
+  - **D-07 前缀误认直读**：`script-editor-projection.ts:95-106` 按 `item:${itemId}:` 前缀猜私有；
+    `main.ts:5393` 按 `startsWith('item:')` 分流 runItemPrivateScript；`item-use-executor.ts:46-51`
+    精确串匹配 `item:${itemId}:use`。合法共享 ID 无保留前缀约束（`author-script-core.ts:1122`
+    仅 nonEmptyString），故 `item:collision-item:use` 过 loader 后被保存门当私有、运行时被误路由——
+    探针三点（collision-item/other/普通 shared）均复现，runtime 见证如实标注仅 host 路由。
+  - **保存校验误读 chunk/id 直读**：`validate-refs.ts:1565-1572` 对 runScript 读
+    `effect.script.chunk/.id`，而 canonical 作者效果按 `author-item-core.ts:12` 携纯 ScriptId
+    字符串——`shared/plain` 报「共享脚本 "undefined" 不在脚本库」，探针复现。
+  - **复制同族直读/复跑**：复制只在主会话加 shell，canonical 仅有源记录；保存报
+    `item:private-source:use` 不在脚本库。确属同一生命周期，不能只修新建按钮。
+  - **设计同意**：① 成对记录复用既有 Coordinator（D-01 原子配对，不建第三 undo），无协调器的
+    生产写入口先显式拒绝，caller census 归 GLM G1——方向正确；② 身份由独立固定 chunk tag
+    承载、id 存原始 ItemId，不解析用户 ID、不加保留前缀、不加持久化字段——内存投影不改格式
+    有直读依据：`mergeCurrentItemShell:132-134` 保存合并把共享 ref 还原为纯字符串，证明
+    runtime ref 仅内存态，content20/SAVE8/作者 JSON 不动；③ 引用校验按调用域消费正确表面、
+    不塞假 scriptChunks，旧分片分支须 G3 证明无真实 caller 才退役，不借本卡批量删旧工具；
+    ④ 缺私有 body/坏引用/外部冲突保护不降低，未知 tag/错误 owner fail-closed；
+    ⑤ 验收矩阵要求真实 executor→runtime 业务结果，不以 spy 路由闭环——正确补足当前证据边界。
+  - **可证伪观察**（任一成立即收窄或 counter）：① G1 发现无协调器生产写入口且实现静默跳过
+    而非显式拒绝；② G3 证明旧 chunk/id 分支仍有真实当前 caller 而方案硬删；③ 新 tag 被要求
+    写入持久 JSON 或改动 content20/SAVE8/作者格式（卡 :89 约定停 draft）；④ 复制正文不从当前
+    合并作者态取（含未保存编辑）而取磁盘/旧 canonical；⑤ 实施验收仍只断言 host 路由 spy、
+    无真实 executor→runtime 业务结果；⑥ shared 与 private 同文本（物品 X 引用共享 `item:X:use`）
+    仍混淆；⑦ 删除重建同 ID 接回旧私有 body。
+  - 返工项：无。边界声明：运行时现有证据仅 host 路由见证，实施后的真实 executor/runtime
+    结果测试是终审闭环的必要条件，不在本签豁免。
 - GLM：pending。
 - 非Coding Owner独立primary-source反证：pending；须至少一席给自己的源码锚点及可推翻观察，不能只审方案内部一致。
 - build准入：关闭，留draft；无缺签豁免。
@@ -156,5 +186,17 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 ```
 
 ## 交接日志
+
+- 2026-09-20 Kimi（r1 独立前提/设计压力测试）：签 premise verified / design agree，无返工项。
+  直读 D-06 两会话（ItemTab.tsx:1073-1083 仅主会话 AddItemCommand、script-editor.ts:2026
+  缺 canonical 即抛）、D-07 前缀三处（projection:95-106 猜私有、main.ts:5393 startsWith 分流、
+  item-use-executor.ts:46-51 串匹配）与 chunk/id 误读（validate-refs.ts:1565-1572 对纯字符串
+  作者 ID 取 .chunk/.id）；复跑 item-authoring-premise.mjs 五点全复现（含复制同族与重开正控）。
+  设计核：成对记录复用 Coordinator 原子配对；身份由独立 chunk tag 承载、id 存原始 ItemId，
+  不碰持久格式（merge:132-134 证明 runtime ref 仅内存态）；引用校验按调用域消费正确表面，
+  旧分片分支待 G3 caller 证明再退役；缺正文 fail-closed 不松。七条可证伪观察入席。
+  运行时证据仅 host 路由，实施后真实 executor/runtime 结果测试为终审必要条件。
+  未读 GLM 结论，未改产品/正式测试/他席/状态，不标 build/done。
+  Next：三席齐后 Codex 核 build 准入。
 
 - 2026-09-20 Codex：按用户要求继续；在独立worktree完成当前内存前提探针，发现D-07普通共享引用也因旧分片式校验失败，复制私有脚本亦未注册/重投影。原假定正控与工具问题均据实修正；未改生产/正式测试/基线。GLM做G1～G5只读包，Kimi并行审设计；签齐前不实施。
