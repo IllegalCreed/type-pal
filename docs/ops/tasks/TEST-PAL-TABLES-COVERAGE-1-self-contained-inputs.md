@@ -108,11 +108,20 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - GLM：**实现者自验 accept（2026-09-20，统一候选 256116ee，源 69d62dc2；非独立第三方审查——本人即测试贡献者）**。
   - 集成核对：本人源候选 TB04 全部白名单新测试/fixture 文件与主线 256116ee 逐字一致（git diff 为空），产品/旧测试/官方基线零改动；集成后定向 19/19 复跑全绿（主线实跑）。原负控 3+8 由 Codex 复跑通过；C0 精确唯一目标判据与 C1 白名单 Biome 已在 r3 交付并被接收。
   - 声明：本 accept 仅证明贡献未被改义且集成后行为与交付一致，不构成独立第三方审查；Kimi 终审独立进行。
-- Kimi：pending。
+- Kimi：**accept（2026-09-20，终审，统一候选 256116ee 对比 ad528beb；源 69d62dc2；设计不重签；未读 GLM 终审结论）**。
+  本批 9 新测试文件 19/19 本人复跑全绿（msg/sss/word 边界、enemy-pos、battle-fields、
+  data-misc、enemy-teams、items、stores）——text.c offsetCount−1 独立字节 oracle、自包含
+  合成字节、不依赖原盘资源；入仓 mutants **对照绿 + 8 针全业务红**。原盘 5650B/565 尺寸
+  分界与梦蛇 Object295 例外不改。统一门禁交叉核同 TB-02（check 7,709、strict 617/7,220
+  恰 +171、产品零改、旧 identity 不变）。返工项：无。
 - done准入：未开放；不代签、不标done。
 
 
 ## 交接日志
+- 2026-09-20 Kimi（八批终审之 TB-04）：复跑 9 文件 19/19 全绿（text.c offsetCount−1 独立
+  字节 oracle、自包含合成字节）、mutants 8 针全业务红+对照绿；5650B/565 与梦蛇例外不改。
+  交叉核统一门禁（check 7,709、strict 617/7,220 恰 +171、产品零改、旧 identity 不变）。
+  签 accept，无返工项；未读 GLM 终审结论。Next：Codex 统一核定 done。
 - 2026-09-20 GLM：八批集成后实现者自验落席——核源 69d62dc2 白名单文件与统一候选 256116ee
   逐字一致、集成后定向复跑全绿，GLM done前席位签 accept（非独立第三方）。Kimi 终审独立。
 

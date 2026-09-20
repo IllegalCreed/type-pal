@@ -111,11 +111,20 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - GLM：**实现者自验 accept（2026-09-20，统一候选 256116ee，源 ca4c0768；非独立第三方审查——本人即测试贡献者）**。
   - 集成核对：本人源候选 TB09 全部白名单新测试/fixture 文件与主线 256116ee 逐字一致（git diff 为空），产品/旧测试/官方基线零改动；集成后定向 25/25 复跑全绿（主线实跑）。原负控 3+8 由 Codex 复跑通过；C0 精确唯一目标判据与 C1 白名单 Biome 已在 r3 交付并被接收。
   - 声明：本 accept 仅证明贡献未被改义且集成后行为与交付一致，不构成独立第三方审查；Kimi 终审独立进行。
-- Kimi：pending。
+- Kimi：**accept（2026-09-20，终审，统一候选 256116ee 对比 ad528beb；源 ca4c0768；设计不重签；未读 GLM 终审结论）**。
+  本批 7 新测试文件 25/25 本人复跑全绿（analytics-consent/google-analytics/audio-volume/
+  fetch-retry/input/time-format/timer 七族）：GA 未订阅 page 的隐私断言、音量/重试/键盘、
+  timer 语义；**setStep(length) 极值维持待证不固化**、fetch AbortError 政策未定隔离；
+  假宿主禁外网/真实用户存储在案；入仓 mutants **对照绿 + 8 针全业务红**。统一门禁交叉
+  核同 TB-02。返工项：无。
 - done准入：未开放；不代签、不标done。
 
 
 ## 交接日志
+- 2026-09-20 Kimi（八批终审之 TB-09）：复跑 7 文件 25/25 全绿（GA 未订阅 page、音量/重试/
+  键盘/timer）；setStep(length) 极值与 fetch AbortError 政策维持待证不固化、假宿主禁外网；
+  mutants 8 针全业务红+对照绿。交叉核统一门禁。签 accept，无返工项；未读 GLM 终审结论。
+  Next：Codex 统一核定 done。
 - 2026-09-20 GLM：八批集成后实现者自验落席——核源 ca4c0768 白名单文件与统一候选 256116ee
   逐字一致、集成后定向复跑全绿，GLM done前席位签 accept（非独立第三方）。Kimi 终审独立。
 

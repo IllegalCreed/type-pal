@@ -135,9 +135,20 @@ SfxPlayer没有原稿所称通用AbortError自动重试；反证成立登记已�
   - 8 针负控 + 3 对照全绿（钉名 AssertionError 业务红 + 毒日志自测）；产品 hash 不变。
   - 覆盖对照 /tmp 双栏；在途 dispose 回填与 pages[0] 疑点保持待证不固化。
   - 未做：全仓 check/ratchet/strict-fast 与接收归 Codex（额度恢复后）。
-- Kimi：pending；done准入未开放，不代签、不标done。
+- Kimi：**accept（2026-09-20，终审，统一候选 256116ee 对比 ad528beb；源 ea276956；设计不重签；未读 GLM 终审结论）**。
+  接手 HEAD 与 origin/main 一致、工作树干净；候选后产品/旧测试零漂移。本批 6 新测试文件
+  **24/24** 本人复跑全绿（sfx-readiness 集合/staged 失败/registry 生命周期/file-source 与
+  fsa-source 取消窗口/image-cache 生命周期）；入仓 mutants **对照绿 + 8 针全业务红**。
+  browserAdapter 实际复制路径、HTTP/FSA 取消分层、页选择疑点维持移出绿测（不重开）。
+  交叉核统一门禁：check 7,709、受保护 strict 617/7,220（八批恰 +171）、六包级 digest、
+  产品零改、旧测试 identity 不变。返工项：无。
+- done准入未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-20 Kimi（八批终审之 TB-02）：同步 `5c93c4b5`、工作树干净后核 `ad528beb → 256116ee`。
+  复跑 6 文件 24/24 全绿、mutants 8 针全业务红+对照绿；页选择疑点与在途 dispose 政策维持
+  待证不固化。交叉核 check 7,709、strict 617/7,220（恰 +171）、产品零改、旧 identity 不变。
+  签 accept，无返工项；未读 GLM 终审结论。Next：Codex 统一核定 done。
 - 2026-09-20 GLM：八批集成后实现者自验落席——核源 ea276956 白名单文件与统一候选 256116ee
   逐字一致、集成后定向复跑全绿，GLM done前席位签 accept（非独立第三方）。Kimi 终审独立。
 

@@ -113,11 +113,19 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - GLM：**实现者自验 accept（2026-09-20，统一候选 256116ee，源 00801036；非独立第三方审查——本人即测试贡献者）**。
   - 集成核对：本人源候选 TB05 全部白名单新测试/fixture 文件与主线 256116ee 逐字一致（git diff 为空），产品/旧测试/官方基线零改动；集成后定向 24（15+9）/24（15+9） 复跑全绿（主线实跑）。原负控 3+9 由 Codex 复跑通过；C0 精确唯一目标判据与 C1 白名单 Biome 已在 r3 交付并被接收。
   - 声明：本 accept 仅证明贡献未被改义且集成后行为与交付一致，不构成独立第三方审查；Kimi 终审独立进行。
-- Kimi：pending。
+- Kimi：**accept（2026-09-20，终审，统一候选 256116ee 对比 ad528beb；源 00801036；设计不重签；未读 GLM 终审结论）**。
+  本批 8 新测试文件 24/24 本人复跑全绿（asset-manifest/disasm/recompile/slice/bdf-to-json/
+  palette + shared rle-encode/rle 两文件）：giveItem 提取保 u16 位模式的测试断言在案
+  （执行期 SHORT 不归提取合同）、BDF 无 offset 输出、清单 path:size 键、严格/宽容 RLE
+  分域及真实消费者、legacy-migrated 批准用途不按名删；入仓 mutants **对照绿 + 9 针全
+  业务红**。统一门禁交叉核同 TB-02。返工项：无。
 - done准入：未开放；不代签、不标done。
 
 
 ## 交接日志
+- 2026-09-20 Kimi（八批终审之 TB-05）：复跑 8 文件 24/24 全绿（giveItem 提取保 u16、BDF
+  无 offset、清单 path:size、严格/宽容 RLE 分域）、mutants 9 针全业务红+对照绿。
+  交叉核统一门禁。签 accept，无返工项；未读 GLM 终审结论。Next：Codex 统一核定 done。
 - 2026-09-20 GLM：八批集成后实现者自验落席——核源 00801036 白名单文件与统一候选 256116ee
   逐字一致、集成后定向复跑全绿，GLM done前席位签 accept（非独立第三方）。Kimi 终审独立。
 

@@ -110,10 +110,19 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - GLM：**实现者自验 accept（2026-09-20，统一候选 256116ee，源 10cc9d4d；非独立第三方审查——本人即测试贡献者）**。
   - 集成核对：本人源候选 TB07 全部白名单新测试/fixture 文件与主线 256116ee 逐字一致（git diff 为空），产品/旧测试/官方基线零改动；集成后定向 21/21 复跑全绿（主线实跑）。原负控 3+7 由 Codex 复跑通过；C0 精确唯一目标判据与 C1 白名单 Biome 已在 r3 交付并被接收。
   - 声明：本 accept 仅证明贡献未被改义且集成后行为与交付一致，不构成独立第三方审查；Kimi 终审独立进行。
-- Kimi：pending。
+- Kimi：**accept（2026-09-20，终审，统一候选 256116ee 对比 ad528beb；源 10cc9d4d；设计不重签；未读 GLM 终审结论）**。
+  本批 7 新测试文件 21/21 本人复跑全绿（author-command-edit/item-alchemy/item-authoring/
+  projection/hooks-session/reference-catalog/enemy-defeated-events）；**非空 redo**——先两笔
+  编辑再 undo 建立非空 redo、缺 target 拒绝后重放 hook-b、再两次 undo 恢复双变体及 initial
+  （关闭项，不重开）；入仓 mutants **对照绿 + 7 针全业务红**。无 caller CRUD 导出与非法
+  empty rewards 臂维持剔除。统一门禁交叉核同 TB-02。返工项：无。
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-20 Kimi（八批终审之 TB-07）：复跑 7 文件 21/21 全绿；非空 redo——两笔编辑+undo
+  建立 redo、缺 target 拒绝后重放 hook-b、再两次 undo 恢复双变体及 initial（关闭项未重开）；
+  mutants 7 针全业务红+对照绿。交叉核统一门禁。签 accept，无返工项；未读 GLM 终审结论。
+  Next：Codex 统一核定 done。
 - 2026-09-20 GLM：八批集成后实现者自验落席——核源 10cc9d4d 白名单文件与统一候选 256116ee
   逐字一致、集成后定向复跑全绿，GLM done前席位签 accept（非独立第三方）。Kimi 终审独立。
 

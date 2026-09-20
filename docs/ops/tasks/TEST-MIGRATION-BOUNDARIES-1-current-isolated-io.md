@@ -113,10 +113,20 @@ before→after：既有产品行为不变，补有增量的合法合同回归与
 - GLM：**实现者自验 accept（2026-09-20，统一候选 256116ee，源 3d798f7c；非独立第三方审查——本人即测试贡献者）**。
   - 集成核对：本人源候选 TB10 全部白名单新测试/fixture 文件与主线 256116ee 逐字一致（git diff 为空），产品/旧测试/官方基线零改动；集成后定向 23/23 复跑全绿（主线实跑）。原负控 3+9 由 Codex 复跑通过；C0 精确唯一目标判据与 C1 白名单 Biome 已在 r3 交付并被接收。
   - 声明：本 accept 仅证明贡献未被改义且集成后行为与交付一致，不构成独立第三方审查；Kimi 终审独立进行。
-- Kimi：pending。
+- Kimi：**accept（2026-09-20，终审，统一候选 256116ee 对比 ad528beb；源 3d798f7c；设计不重签；未读 GLM 终审结论）**。
+  本批 8 新测试文件 23/23 本人复跑全绿（migration-project-io/transaction/write-plan/
+  pal-authored-overlays/pal-item-scheme-labels/pal-store-boundary/project-map-converter/
+  source-facts）：物化→write-plan→transaction 链、seed/作者 invariant 区分、
+  r13SixBExecution:true 固定；**A08/A09/E05 维持独立修复项不被测试保活或误关**；
+  FS 仅自建 mkdtemp 临时根；入仓 mutants **对照绿 + 9 针全业务红**。统一门禁交叉核同
+  TB-02。返工项：无。
 - done准入：未开放；不代签、不标done。
 
 ## 交接日志
+- 2026-09-20 Kimi（八批终审之 TB-10）：复跑 8 文件 23/23 全绿（物化→write-plan→transaction
+  链、seed/作者 invariant、r13SixBExecution:true 固定）；A08/A09/E05 维持独立修复项不被
+  测试保活或误关；FS 仅自建临时根；mutants 9 针全业务红+对照绿。交叉核统一门禁。
+  签 accept，无返工项；未读 GLM 终审结论。Next：Codex 统一核定 done。
 - 2026-09-20 GLM：八批集成后实现者自验落席——核源 3d798f7c 白名单文件与统一候选 256116ee
   逐字一致、集成后定向复跑全绿，GLM done前席位签 accept（非独立第三方）。Kimi 终审独立。
 
