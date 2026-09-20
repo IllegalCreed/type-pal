@@ -37,7 +37,26 @@ r2/r2a保存、隔离、人数与四目录架构不变，不重签设计；本�
   技能读数间距实测12px、位置256px、移除82px，未见横向溢出。Reforge/content/编辑器core/play相对旧候选零diff。
   既有原生目录选择器、360宽主壳和full/Q1/Q2边界仍按实施记录披露；未把机制旧签复用为新UI验收。
 - Kimi：pending（UI-r1增量审查；旧机制accept保留于历史节）。
-- GLM：pending（UI-r1代码级交互/采用清单复核；旧机制accept保留于历史节，视觉仍由Codex负责）。
+- GLM：**accept（2026-09-20，UI-r1 候选 fe0fee84 对比 cb44c378；代码级交互/采用清单复核，未做视觉）**。
+  本席独立复跑与直读证据：
+  - **定向复跑全绿**：`scripts/battle-simulator-ui.test.tsx` 10/10、`src/ui/App.leave-guard.test.tsx`
+    32/32、add-picker/field-layout/number-field 三采用门 14/14。
+  - **增量范围直读**：`git diff cb44c378..fe0fee84` 仅编辑器 UI（App/Forms/Workbench/TrialDialog/
+    battle-simulator.css）+ 采用 JSON + 两个测试文件 + 基线 + 文档；**零 Reforge/模型/作者保存/
+    普通存档/引擎改动**，与「只改采用方式与交互」声明一致。
+  - **业务断言核对**（测试标题+正文直读）：party picker 选择/取消零命令、确认只追加一次、
+    undo/scope 失效弹窗；bag picker 明确确认/取消搜索/stale revision/删除归焦/undo 保作者事务边界；
+    临时方案替换须确认、取消保留编辑、来源变化撤销过期确认；快捷入口新 leave-guard 用例钉
+    「取消保持 72→明确放弃恢复 100、EditSession 深等不变、不 dirty、不触发目录选择器」——
+    取消/Escape/单次确认/重复排除/undo失效/删除归焦/两入口覆盖确认全部有真实断言。
+  - **采用登记精确一致**：add-picker included 5→7、dataPaths 6→16，恰为 `simulator/party`+
+    `simulator/bag` 两条新登记（各 5 条数据路径），与源码 `BattleSimulatorForms.tsx:114-115/:462-463`
+    的 `DsAddPickerDialog adoptionId` 逐一对上，verification marker 指向本人复跑绿的测试标题；
+    旧登记/deferred 零删除（删除行均为计数与组件清单/普查行更新：field 清单加 DsAddPickerDialog、
+    responsive 1→3、census 轨道 24rem→16rem auto-fit，全部为扩容或机械再生成）。
+  - **基线精确性直读**：`baseline.fast.json` diff 仅计数/digest（7400→7404 恰 +4：UI 7→10、
+    leave-guard 31→32），零排除增删、零范围文件增删，无缩范围。
+  - 旧候选的机制/隔离/负控结论未变化，按卡面保留不重开；视觉四尺寸归 Codex。无 counter。
 - done准入：**关闭**。等待同候选增量审查与用户UI验收；本轮不代签、不标done。
 
 ### UI-r1并行交接提示词
@@ -62,6 +81,12 @@ Codex统一完成check7895、ratchet和保护strict7404、build；不补跑全�
 
 交接日志（Codex，2026-09-20）：按用户UI反馈完成同卡返工；fe0fee84供两席并行增量复核，原技术签字均原样保留。
 本轮只是界面/交互收尾，不扩张为新快捷入口、战斗功能或全量E2E授权。
+
+交接日志（GLM，2026-09-20 UI-r1）：完成 fe0fee84 增量代码级复核并签 accept（证据见 done 前
+本席）：UI 10/leave-guard 32/采用门 14 复跑全绿；增量 diff 零引擎/模型/存储改动；两条
+DsAddPickerDialog 采用登记与源码逐一对上（5→7/6→16，旧登记零删除）；基线恰 +4 项零缩范围；
+取消/确认/undo/归焦/覆盖确认业务断言齐全。未读 Kimi 新结论，未做视觉，未改实现/基线/状态，
+不标 done。
 
 ## 历史实现接收（2026-09-20，统一候选cb44c378）
 
