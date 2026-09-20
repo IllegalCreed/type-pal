@@ -144,6 +144,7 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-20 Codex：按用户继续双线要求核远端，codex/glm-runtime-state-boundaries-r1当前350da702与本地独立worktree一致，已有D6定点返工回执。进入本席待接收队列，不让GLM重复旧返工；原counter在独立验证前不核销，状态仍rework，不冒称已接收。新物品/脚本卡独立推进。
 - 2026-09-19 Codex：独立复核6d34ad5a；F1/E4与frame同步取消闭环，sequence实际收尾仍未修。原7针全检出属实，但不代表D6完整；第8针证明迟到提交漏检。仅此定点返工+回执勘误，保持rework；同次TB01独立裁决，本轮不释放实施槽。GLM自验原文保留，不代改他席。
 - 2026-09-19 GLM（r1 第三轮返工完成）：rebase 收窄 counter 8ca74aac，只修三残项——held source
   实删、D6 同步结局观察 + finally 释放、E4 各分支调用前快照。7 针全 detected（自身业务红）+

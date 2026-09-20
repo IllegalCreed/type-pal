@@ -109,6 +109,7 @@ author-dialogue 字段守卫轴、map-index 剩余拒绝边界、validate-refs �
 - done准入：未开放，不代签、不标done。
 
 ## 交接日志
+- 2026-09-20 Codex：核远端codex/glm-content-residual-r1为ccc67dcc，与本地独立worktree一致，已有CR-R1～R4返工回执。进入本席待接收队列，不重复要求已交返工；原counter在独立验证前不核销，状态仍rework，不合入或抬基线。新物品/脚本卡独立推进。
 - 2026-09-19 Codex：独立接收0e49db91，实跑定向/全包/tc/Biome/原15跑与私有覆盖；新增只读反证三针均MISSED，负控判据混合错误误收。签CR-R1～R4 counter，转rework，设计r2保持；A3已有/rows无上限/owner warn不重开。保留GLM自验原文，未合入正式测试，主线七批设计与他席改动完整保留。
 - 2026-09-19 GLM（实施完成）：按已签 r2 连续完成 A1～A12（A3 登记已有）；24 项 + 13 针负控 +
   覆盖对照交付。实施者自验 accept 已签；等 Codex 独立接收。

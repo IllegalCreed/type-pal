@@ -8,6 +8,8 @@
 
 ## 文档与附件
 
+- [物品作者记录/脚本身份修复卡](../ops/tasks/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)与[当前前提探针](item-authoring-premise.mjs)（draft/r1；只读复现创建/复制、共享引用保存和runtime误分流，未改生产；GLM独立G1～G5、Kimi设计审查）
+
 - [PNG编码失败位图释放修复](image-import-cleanup.md)（用户授权常规修复；真实函数先红后绿，统一finally释放，不改格式/成功结果）
 
 - [TB-03 r5独立接收与集成](import-codec-acceptance.md)及[机账](import-codec-acceptance-evidence.json)（e4461a30→4894719e三席齐、已done归档；check7748/严格fast7259既有证据；close缺陷仍另修）
