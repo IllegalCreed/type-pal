@@ -147,11 +147,23 @@ r2已证明现有worker handler可在Node窄宿主调用，不新增产品导出
 ### done前
 
 - Codex：**accept（2026-09-20，统一候选4894719e，源e4461a30）**。独立复核真实toBlob快照/完整返回字节与preview SHA；helper26组检查、39定向/3+9负控/tc/Biome/双见证通过，最后counter闭合。集成源码与源候选逐字一致；完整check7748/官方ratchet/受保护单次严格fast7259通过，旧测试identity/生产清单/分母和其它六包基线对象不变。旧版本兼容审查pass；GLM贡献披露，编码失败close仍另归属，不代签、不标done。
-- GLM：pending（集成后实现者自验，非独立第三方）。
+- GLM：**实现者自验 accept（2026-09-20，统一候选 4894719e，源 e4461a30；本人为测试贡献者，非独立第三方）**。
+  自验依据（本人独立执行）：① `git diff e4461a30..4894719e` 对本人 7 新测试 + fixture +
+  mutants/config 白名单**逐字节为空**——主线未改语义；② 集成提交 91623a9a 范围恰为该 13 文件
+  白名单（无产品/旧测试文件），4894719e 仅官方 baseline ratchet（本人未重跑/未修改）；③ 从集成
+  后 main 树复跑本批定向 39/39（7 文件）；④ 机账并集 rework/rework2/rework3/codexR4Review/
+  rework4 完整保留。官方 check/ratchet/strict-fast 已由 Codex 执行，不以本人复述为准。
 - Kimi：pending（独立终审）。
 - done准入：未开放；两席同候选accept齐后由Codex核定，不代签、不标done。
 
 ## 交接日志
+
+- 2026-09-20 GLM（集成后实现者自验）：在统一候选 4894719e 上完成本人贡献核对并签
+  done 前实现者自验 accept（测试贡献者，非独立第三方）。依据：白名单
+  `git diff e4461a30..4894719e` 逐字节为空；集成 91623a9a 恰为 13 文件白名单、无产品/
+  旧测试改动；集成后 main 树复跑定向 39/39；机账并集完整保留；官方基线未重跑/未改。
+  未读 Kimi 结论，不代签、不标 done；八批归档与模拟器 build 不动；编码失败 close
+  仍归 Codex。无下一位 Agent 提示词由本席给出——等待 Kimi 独立终审与 Codex 核定 done。
 
 - 2026-09-20 Codex（统一门禁完成）：候选4894719e通过check7748/ratchet/受保护单次strict-fast7259，签本人accept；最后counter关闭，39项计入基线、旧测试/范围不变。两席同候选提示词附后，不代签、不标done；八批done与模拟器build不动。
 
@@ -286,7 +298,7 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 请独立复核后在本卡 done 前席位签 accept 或 counter。最终树复跑：preview 见证 rc=0（control 6/6、坏实现候选 AssertionError detected）、旧尺寸见证 rc=0、负控 3 对照+9 针 rc=0（全跑 11 秒）、定向 39/39、tc rc=0、11 文件白名单 Biome rc=0。只审 TB-03 白名单与 GLM 回执；另八批 done 与模拟器 build 不动；编码失败 close 仍归你修复卡；不代签、不混入他批。若接收，按你的统一集成流程合入并更新卡状态；全仓门由你执行。
 ~~~
 
-## 当前下一位Agent提示词（同一候选并行）
+## 当前下一位Agent提示词（同一候选并行；GLM 已执行完毕，仅剩 Kimi）
 
 ### Kimi
 
@@ -298,7 +310,7 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 在本人done前席位签accept或file:line counter，写直接证据及交接日志，提交推送。只改本人席位/日志，不代签、不改状态、不标done。另八批done、模拟器build不动；编码失败close缺陷保持隔离，非本卡修复。提交前同步保留他席，push竞态自行处理。
 ~~~
 
-### GLM
+### GLM（已执行，2026-09-20 实现者自验 accept 落卡；保留原文备查）
 
 ~~~text
 在 /Users/zhangxu/illegal/type-pal 对 TEST-EDITOR-IMPORT-CODEC-1（TB03）做集成后实现者自验确认，卡 docs/ops/tasks/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，review，统一候选4894719e对比cda702d5，源e4461a30；设计不重签，不再返工。
