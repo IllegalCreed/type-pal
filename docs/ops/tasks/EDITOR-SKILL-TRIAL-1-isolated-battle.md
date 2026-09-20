@@ -32,7 +32,28 @@ Revision: r2a / 2026-09-20人数勘误；用户明确我方本来就只有1～3�
 - Codex：**premise verified / design agree（2026-09-20）**。本人直读上述SDL常量、第一阶段信息栏及Reforge实际调用，
   与用户澄清一致。可证伪：第四我方仍能通过配置守卫/快速入口进入试打，或限人数时误将敌方五槽缩成三槽；均返工。
   实施应统一配置守卫/UI/fixture边界并补三人合法/四人拒绝，不改战斗HUD、不保活五人兼容。
-- Kimi：pending，独立核人数前提及守卫/UI/宿主一致性后补签。
+- Kimi：**premise verified / design agree（2026-09-20，r2a，只核人数勘误；保存/隔离/四目录不重审；全部证据本人直读，未读 GLM 结论）**。
+  - **人数真值直读**：`reference/sdlpal/palcommon.h:42` MAX_PLAYERS_IN_PARTY=3（同时出战）、
+    `:48` MAX_PLAYABLE_PLAYER_ROLES=5（可用角色总数非出战数）——用户原话「我方本来就是
+    1-3人，游戏里不会有超过3人的情况」与 SDL 常量语义一致，不是新功能也不是「先砍后扩」。
+  - **UI 完整支持边界直读**：一阶段 `draw-battle-ui.ts:64-67` 信息框 x=91+77×i（i=0/1/2 →
+    91/168/245，245+75 框宽恰达 320 右缘；i=3 → 322 越界）；Reforge `battle-ui.ts:24-25`
+    同 91+77 步长，`battle-session.ts:2846` 文字兜底 x=8+106×i（i=3 → 326 越界）——
+    两阶段正式 UI 均无第四人完整显示能力，且均无分页/重排逻辑。**站位表存在≠完整支持**：
+    `battle-positions.ts:29-36` PLAYER_POSITIONS_BY_COUNT 有 4/5 档精灵落点，但信息栏越界
+    使「完整支持我方五人」不成立（原 counter 源码核验正确）。
+  - **敌方五槽独立真值直读**：`battle-core.ts:67` MAX_ENEMIES=5、`:322-325` createBattleState
+    敌槽上限、`battle-positions.ts:39-60` ENEMY_POSITIONS_BY_COUNT——我方限 1~3 不得误缩
+    敌方五槽语义。
+  - **设计同意**：配置草稿可为空、启动我方必须 1~3 人；第 4 人在配置守卫/快速入口/启动包
+    三处一致拒绝；敌方仍为 5 个明确槽位+至少一个真实敌人+null 空槽；残留 5 人 WIP 不合入、
+    不留我方 4~5 人扩展任务、不保旧格式兼容；合法 1/2/3 人菜单/选人/施法/结算开发期功能
+    验证保留；不改正式战斗 HUD/公式/存档/迁移。
+  - **可证伪观察**（任一反例即 counter）：① 第四我方能通过配置守卫或快速入口进入试打并
+    正常结算；② 限 1~3 实现把敌方 MAX_ENEMIES=5 或敌队 UI/编队槽缩成 ≤4；③ 合法 1/2/3 人
+    试打的信息栏/站位/结算回归失败；④ 以站位表 4/5 档存在重新论证五人可完整支持；
+    ⑤ 残留 5 人 WIP 合入主线或保留五人兼容格式。
+  - 返工项：无。补核范围声明：仅核人数勘误，未重审未变化的保存事务/隔离宿主/四目录设计。
 - GLM：**premise verified / design agree（2026-09-20，r2a）**。本人直读一手证据，未读 Kimi 结论：
   - 人数真值：`reference/sdlpal/palcommon.h:42` MAX_PLAYERS_IN_PARTY=3（同时出战）与 `:48`
     MAX_PLAYABLE_PLAYER_ROLES=5（可用角色总数，非出战数）——用户澄清「我方本来就是1-3人」与
@@ -433,6 +454,18 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+- 2026-09-20 Kimi：r2a 人数勘误独立补核——直读用户原话「我方本来就是1-3人，游戏里不会有
+  超过3人的情况」、SDL `reference/sdlpal/palcommon.h:42`（MAX_PLAYERS_IN_PARTY=3，出战上限）与
+  `:48`（MAX_PLAYABLE_PLAYER_ROLES=5 为可用角色总数而非出战数）、一阶段 `draw-battle-ui.ts:64-67`
+  （信息框 x=91+77×i，i=3 时 322>320 出画布）、Reforge `battle-ui.ts:24-25`（同 91+77）与
+  `battle-session.ts:2846`（兜底 x=8+106×i，i=3 时 326）——两阶段 UI 对第四人均无完整显示且无分页；
+  `battle-positions.ts:29-36` 站位表虽有 4/5 档但存在≠完整支持；`battle-core.ts:67` MAX_ENEMIES=5、
+  `:322-325`、ENEMY_POSITIONS_BY_COUNT 证实敌方五槽为独立真值，不得随我方勘误误缩。结论：人数边界闭合
+  ——我方启动 1~3 人、第四人在三处一致拒绝、敌方五槽不动、不留五人扩展任务/兼容格式。签
+  premise verified / design agree，附五条可证伪观察（第四人可进试打、敌方槽被缩、1/2/3 人回归失败、
+  以站位表翻案、5 人 WIP 合入或留兼容格式——任一成立即 counter）。仅核 r2a 人数边界，保存/隔离/
+  四目录未重审，不改实现/他席/状态。
+
 - 2026-09-20 GLM：r2a 定点补核落席——独立直读 SDL 常量、两阶段战斗 UI 源码与敌方五槽
   真值，签 premise verified / design agree（含三人正控/四人拒绝/敌方五槽不误伤回归矩阵与
   可证伪观察）。仅核人数勘误，不重审未变化设计，不改实现/状态。
