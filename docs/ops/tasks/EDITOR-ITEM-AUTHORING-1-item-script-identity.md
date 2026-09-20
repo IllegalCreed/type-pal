@@ -181,8 +181,39 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 
 - Codex：**accept（实现者自验，2026-09-21，同候选451cbbb7）**。配对创建/复制/删除复用现有原子历史；固定tag+原始owner无前缀解析；canonical共享校验与当前运行态guard同步，content20/SAVE8/作者JSON不变。完整check7909项exit0、五对照+五业务负控exit0、官方ratchet与以9e220daa保护的单次strict-fast7418项exit0；未改include/exclude/超时/阈值。首次失败、范围变化及旧测试适配完整披露于[实施记录](../../testing/item-authoring-implementation.md)。实际浏览器新建后即时编写、复制独立编辑；Chrome原生选择专用临时目录→保存committed→reload/最近项目重开，源200ms/副本375ms均核，原生保存验证完成。GLM仅此前静态取证贡献，非本次实现或自验独立证明。原前提探针零改；full/Q1/Q2未跑。本席不代签，不标done。
 - Kimi：pending（独立实现审查，候选451cbbb7）。
-- GLM：pending（独立代码/矩阵复核，候选451cbbb7；不做视觉）。
-- done准入：**尚未满足**，两席实现accept未齐；r1设计签字不代替done前签字。
+- GLM：**accept（2026-09-21，独立代码/矩阵复核，候选 451cbbb7 对比 1e0388b0；未读 Kimi 本轮结论，未做视觉）**。
+  本席独立复跑与直读证据：
+  - **五组负控本席复跑 rc=0**：`item-authoring-mutants.mjs` 5 对照 PASS + 5 针（missing-canonical-create/
+    copied-source-owner/shared-prefix-misroute/shared-chunk-validation/missing-body-save-guard）全部 exit1
+    钉名候选 AssertionError；产品 hash 前后不变。五针正中本人 r1 审计的 D-06/复制串用/D-07 误路由/校验错面/
+    缺正文保真。
+  - **前缀猜身份全清（最终树 sweep）**：`startsWith('item:'`/`split(':')`/`item:${…}` 模板在
+    editor/reforge/content/migrate 生产源零命中——本人 r1 审计的 6 站点+Codex 补查的 content
+    validate.ts 第 7 站全部改为 chunk-tag 判定（`item-script-runtime-ref.ts` 固定 tag+原始 ItemId；
+    validate.ts isItemPrivateRuntimeEffect 改 `isRuntimeItemPrivateScriptRef`+owner 全等）。
+  - **配对实现直读**：`script-editor.ts` 新增 AddItemDefinitionCommand/DeleteItemDefinitionCommand；
+    ItemTab 新建/复制/删除均 `assertSessions`+coordinator 配对派发、缺协调器零写入；删除保留
+    ItemInUseError 引用守卫；复制 `mergeCurrentItemShell(source, canonical, true)` 取未保存正文且
+    缺 body 显式拒绝、`projectItemsView` 生成副本 shell ref。
+  - **fail-closed 直读**：投影 owner 不符 throw（`私有脚本 owner 不符`）、未知 chunk throw、
+    runtime `runWorldItemScript` 对当前物品 owner 全等（副本串用不再静默跑源脚本而是执行前拒绝）。
+  - **G3 修复直读**：`ContentBundle.items` 收紧为 AuthorItemCore/AuthorItemData；item-runScript 按
+    `Object.hasOwn(sharedScripts, effect.script)` 核验、报错带**原 ID**；旧 chunk/id 分支退役；
+    sprite collector 独立类型化保留迁移瞬态 ItemData 真实 caller。
+  - **14 新测试逐一对上（1+5+6+2）**：identity 5 项含参数化「异 owner/未知 tag 执行前拒绝」与
+    「同文本共享/私有永不混同」「冒号+非 ASCII ItemId 字节保真」；executor 用例先过
+    `validateAuthorItems` 正式 guard，真实 projectItemsView/buildWorld/ScriptProjectRuntime/
+    executeWorldItemUse 链，断言**业务可观察**（正确旗标置位、另一旗标 undefined、物品消耗、
+    静态定义深等不变）；workflows 6 项观察者断言在**回调外**（快照收集后比较）、真实
+    authorize/write/save-state committed/loader 重开、三种共享 ID（plain/同前缀/他前缀）诊断零报+
+    序列化重开、缺 ID 在保存与诊断**两处**均 verbatim 报原 ID——本人 r1 三条非阻断备注（冒号入矩阵/
+    复制 runtime 串用入负控/两处报错面同钉）全部落实。
+  - **旧测试适配**：仅 ref 形态换新 tag+ItemId、配对 caller census 7→10，业务断言未删。
+  - **定向复跑全绿**：content 140、reforge 26（identity 5+executor+view）、editor 63
+    （workflows 6+ItemTab 28+P01-P20+投影两件）。
+  - 统一 check7909/ratchet/受保护 strict7418 为 Codex 证据，本席不复述为自验。原生保存视觉归 Codex。
+  - 本人 r1 可证伪观察逐条落空（无第 8 站点、诊断已报原 ID、同文本不再误判）。无 counter。
+- done准入：**尚未满足**（等待 Kimi 独立实现审查与用户验收）；r1设计签字不代替done前签字。
 
 ## 下一位Agent提示词
 
@@ -205,6 +236,14 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 ```
 
 ## 交接日志
+
+- 2026-09-21 GLM：完成 451cbbb7 独立代码/矩阵复核并签 done 前 accept（证据见本席签字）：
+  五组负控复跑 5+5 全绿（产品 hash 不变）；最终树 sweep 证实前缀猜身份 7 站点全清（本人
+  r1 的 6 站+Codex 补查第 7 站均改 chunk-tag）；配对命令/复制保真/fail-closed/校验表面修复
+  逐一直读；14 新测试逐项对上（executor 业务可观察断言、观察者回调外、真实 writer/loader、
+  三种共享 ID+verbatim 报错）；定向 content 140/reforge 26/editor 63 复跑绿。本人 r1 三条
+  非阻断备注全部落实、可证伪观察逐条落空。未读 Kimi 本轮结论、未做视觉、未改产品/测试/
+  基线/状态，不代签、不标 done。
 
 - 2026-09-21 Codex：候选451cbbb7已实施并统一验证，转review。完整check7909；官方ratchet只升不降；保护9e220daa的单次strict7418与新基线完全一致。原生Chrome专用目录保存/重开闭环，截图由工具回传。用户明确6010未保存模拟器配置只是测试数据、可丢弃并合入；不把该许可扩张为真实工程清理授权。独立实施worktree完成后统一合主线；两席并行终审提示词已更新。本席实现者accept，不代签、不done；TB00/TB01待接收不随本卡消失。
 
