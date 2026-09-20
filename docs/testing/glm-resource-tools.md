@@ -105,3 +105,28 @@ shared 全包 14 文件/115 项 exit0；pal-extract 34 文件/173 项中 4 项�
   全包 shared L338→342/356 B145→151/177；pal-extract L561→583/1316 B253→269/539。
   官方口径 shared 106→115、pal-extract 110→125（+15）双侧 exit0。
 - 机器账 `docs/testing/glm-resource-tools-evidence.json`。
+
+## GLM返工回执（r2，2026-09-19，针对 Codex 统一接收 counter）
+
+基点合并 216cf3bb；生产零漂移不变。修：
+
+- **C0**：mutants 判据改为每条 failureMessages **首行**匹配 `/^AssertionError(\b|:)|^expect\(/`；
+  四向自测新增「普通 Error 内嵌 AssertionError 子串」「纯超时」拒绝反例。3 对照 + 9 针复跑全绿。
+- **C1**：12 个新文件（含 JSON/config）Biome rc=0；机账同步最终树数字。
+- **R05-1**：撤回「缺 label 默认 0」新绿测（R04 设计明确排除该政策），保留真实 target 轴。
+- **R05-2**：标题/覆盖账贴实际断言——透明与实心 run 各补 **126/127 单段不拆**轴（原只构造 128）；
+  recompile 八类命令补齐**全部未用 operand WORD=0** 断言（showDialog/giveItem/loadScene/
+  setPalette/setDialogStyleBottom 及同文本测试）。
+- 复跑：shared 全包 14 文件/115 项 exit0；pal-extract 34 文件/173 项（4 项预存裁决一致）；
+  双包 tc rc=0；官方 fast shared 106→115、pal-extract 110→125 双 exit0。机器账 rework 节。
+
+## GLM收窄返工回执（r3，2026-09-19，针对 Codex 返工复核 counter 31c8703f）
+
+- **C0**：pinned 判据收紧为**精确且唯一目标**——`title` 全等 filter、命中恰 1（后缀冒名
+  「other target」与重名双 target 均拒绝）、failed、非空、首行业务错误。运行态块与自测
+  **共用**（AST 抽取两块拼接执行），补后缀冒名/重名/未失败/空消息/普通Error内嵌/纯超时
+  反例；不再有独立 pinnedVerdict。
+- **C1**：全部 JSON/SHA 回填后按 git 新增清单完整白名单 Biome rc=0（含 JSON）。
+- 本批无业务残项（review 已关闭项保持）；复跑原负控 3+9 全绿；
+  glm-nine-rework-witnesses 9/9 判据双反例拒绝、3 针 detected。
+- 计数按 Codex 实测更正：定向 24。
