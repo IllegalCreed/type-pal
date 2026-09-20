@@ -37,7 +37,7 @@
 - [共享战斗模拟器首批](../ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)与[原技能入口前提探针](skill-trial-premise.mjs)（build；r2a三席齐已核准入，我方1～3/敌方五槽；未确认入口UI仍受限，隔离WIP未并主线）
 - [共享战斗模拟器全域复用评估](battle-simulator-assessment.md)（8模块27子页：7直接/8上下文/12专用验证；含预设、配置边界与三批接入建议，未实施）
 - [战斗模拟器r2首批冻结设计](battle-simulator-r2-design.md)（r2a三席已齐；我方1～3人/敌方五槽，按已批准范围恢复build，未确认入口UI不自动开放）
-- [战斗模拟器r2实施记录](battle-simulator-implementation.md)与[配置/保存负控](battle-simulator-s1-mutants.mjs)（S1基础已落，S2/S3继续实现；完整战斗/视觉待验证，非done）
+- [战斗模拟器r2实施记录](battle-simulator-implementation.md)与[配置/保存负控](battle-simulator-s1-mutants.mjs)（cb44c378待终审：check7891/strict7400/build通过；真实试打与布局已实看，原生选择器限制已披露，非done）
 - [战斗模拟器自有工程功能宿主](battle-simulator-functional.mjs)（6011实际编辑器/真实战斗，不改PAL；仅开发期最小功能验证）
 - [战斗模拟器运行边界负控](battle-simulator-runtime-mutants.mjs)（人数、资源快照、迟到准入、存档快捷键、技能带入、音乐释放）
 - [第一阶段资源测试输入合同](phase1-resource-test-inputs.md)（E-01完成；20项隔离输入回归、真实资源对拍通过，check7478/严格fast6989绿）

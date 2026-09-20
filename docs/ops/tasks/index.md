@@ -8,7 +8,7 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](EDITOR-SKILL-TRIAL-1-isolated-battle.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打](EDITOR-SKILL-TRIAL-1-isolated-battle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）](TEST-CONTENT-RESIDUAL-1-registered-gaps.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | rework | 以任务卡当前准入与看板分工为准。 |
 

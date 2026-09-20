@@ -1,6 +1,6 @@
 # EDITOR-SKILL-TRIAL-1 - 共享战斗模拟器首批与独立试打
 
-Status: build
+Status: review
 Phase: phase2
 Capability: D-04/D-05修复及共享战斗模拟器首批；不启动第三阶段X5
 Coding Owner: Codex
@@ -14,6 +14,51 @@ Revision: r2a / 2026-09-20人数勘误；用户明确我方本来就只有1～3�
 用户此前裁决仍保留：**独立临时试玩，不读写正常存档，关闭试放即丢弃测试状态**。
 本卡与[GLM六组补测](TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md)独立；后者只改新的非视觉测试，Codex只改本卡产品面。
 此前已核r2三席设计准入并开始首批实现；2026-09-20发现我方人数前提不完整，用户已澄清原需求是1～3人。本轮核定r2a三席补核完成，不再等待人数选择或重签；r1不实施。
+
+## 当前实现接收（2026-09-20，统一候选cb44c378）
+
+相对主线基点`1bae48e4`；产品候选`bd4c67c6`，`cb44c378`包含同树官方覆盖率基线和实施回执。
+r2/r2a首批已实现，进入review；**done门未开放，不代签**。详细源码/测试/失败修正/视觉边界见
+[实施记录](../../testing/battle-simulator-implementation.md)。本卡测试由Codex编写，不把GLM其它补测包当作独立证明。
+
+用户本轮指出的图标偏色、横跨整行按钮和技能选择均已处理：恢复既定彩色/灰/暗红三态、不改HUD布局；
+同行操作与容器自适应列复用现有规范；指定技能用可搜索勾选多选与计数。人数勘误不变，不扩展其它业务页新快捷入口。
+
+### done前（r2/r2a，候选cb44c378）
+
+- Codex：**accept（实现者自验，2026-09-20）**。完整check7891项、官方ratchet、保护基点1bae48e4的
+  单次strict-fast7400项、editor生产build通过；S1四针/runtime六针均有同输入正控和钉名业务红。
+  实看非PAL自有工程施法/投掷/三人战斗与结算、停止/重开、计数多选、图标三态和宽窄表单；正常存档零IO
+  由真实宿主+真实入口路由+实际BattleSession行动三层回归证明，不冒称全链无桩。
+  已披露：浏览器原生目录选择器返回取消，保存→重开正向浏览器链未通过，S1真实writer/loader/事务集成通过；
+  360宽不满足既有主壳最小列宽，未声称移动端完成；full/Q1/Q2未跑。上述限制交独立席判断，不隐瞒。
+- Kimi：pending（独立终审）。
+- GLM：pending（代码级矩阵/回执复核；不得执行视觉）。
+- done准入：关闭，等待两席独立结论与用户最终验收。
+
+### 下一位Agent提示词（两席并行，独立取证）
+
+**Kimi：**
+
+```text
+在 /Users/zhangxu/illegal/type-pal 独立终审 EDITOR-SKILL-TRIAL-1，卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，review。
+先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡r2/r2a与 docs/testing/battle-simulator-r2-design.md、battle-simulator-implementation.md。
+统一候选cb44c378，对比1bae48e4；设计不重签。重点独立核：附属库保存/删除/重开与原事务/身份闭环；URL严格早分流、一次性握手和revision复验；私有资源快照/取消迟到/AudioContext收尾；正式玩家派生、BattleSession及奖励只写临时world；我方1～3人/敌方5槽、旧?skill拒绝、未扩新入口。
+核本轮图标恢复三态/动态列/技能多选没有改规则或污染定义；normal DEV grantSkill仍属独立调试，不是试放入口。按需复跑两组负控与定向；不要重复Codex视觉，不重跑全仓覆盖率或改基线。
+证据：check7891、ratchet/保护strict7400、build通过。原生目录选择器返回取消，浏览器保存重开正向未通过但S1真实writer/loader集成通过；360窄屏沿既有主壳限制；请独立判断披露边界是否阻断。
+不要读取或复述GLM结论。只写本卡当前Kimi席位accept或带file:line/反证的counter与本人交接日志，提交推送；不改实现/他席/状态，不标done。提交前同步保留他席改动，冲突自行rebase处理。
+```
+
+**GLM：**
+
+```text
+在 /Users/zhangxu/illegal/type-pal 独立复核 EDITOR-SKILL-TRIAL-1，卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，review。
+先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡r2/r2a、docs/testing/battle-simulator-r2-design.md 与 battle-simulator-implementation.md。
+统一候选cb44c378，对比1bae48e4；设计不重签。按V1～V10核对声明/最终树/用例：四目录真实保存链、删空/坏文件/悬空引用、数值继承/覆写/装备只加一次、MP0/静音、三人上限、隔离存档、真实行动/奖励与取消重开。
+复跑 node docs/testing/battle-simulator-s1-mutants.mjs（4对照+4针）及 battle-simulator-runtime-mutants.mjs（6对照+6针）；抽查定向test与fixture先经正式loader、同一实参保真。运行时4文件位于packages/reforge/scripts；UI/握手/入口在packages/editor/scripts。
+完整check7891、官方ratchet/保护strict7400、build由Codex统一完成，不补跑全仓覆盖率、不改基线。核4新目录组件采用清单与两处断言更新确为精确扩容，没有新豁免。原生选择器取消和360窄屏限制已披露，不能写成浏览器保存重开/移动端通过。
+不操作浏览器或做截图/视觉，不使用Mimosa，不读取或复述Kimi结论。只写本卡当前GLM席位accept或带直接证据的counter与本人日志，提交推送；不改实现/他席/状态、不标done。两席均由Codex统一核门禁。
+```
 
 ## 2026-09-20阶段门禁核定（Codex）
 
@@ -461,7 +506,7 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
   - 返工项：无。
 - build准入：**关闭，r2待设计**。三席r1已齐的历史事实保留（Codex原签、GLM 7753f137、Kimi 607b2aa3）；用户当前提出通用战斗模拟器与预设，目标/配置来源/持久化边界改变，原签字不授权新范围。与补测卡独立，不互借签字。
 
-### done前
+### done前（r1历史，未实施，不作为当前门禁）
 
 - Codex：pending。
 - Kimi：pending。
@@ -469,6 +514,9 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - done准入：未开放，不代签。
 
 ## 交接日志
+
+- 2026-09-20 Codex：r2/r2a实现候选cb44c378进入review；check7891/ratchet/受保护单次strict7400/build通过。
+  用户图标/布局/多选反馈已并入；验证限制与首次门禁失败如实记入实施回执。只签本人accept，Kimi/GLM并行终审提示词已同候选落卡，未标done。
 
 - 2026-09-20 Codex（门禁核定）：用户要求只核签字与既有证据。核GLM 1a44c3c6/Kimi 99bd6969及本人r2a签字齐，
   与原r2主体合并恢复已批准范围build；未确认入口UI不因人数签字开放。无实现/测试/基线改动，不标done。
@@ -545,9 +593,9 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 - 2026-09-19 Codex：用户授权独立临时方案后，同步准备试放修复与GLM大批补测。前提探针已在当前API上复现两问题，初版fixture修正如实登记。
   当前只建draft/落方案，生产/正式测试/基线零改；使用Vitest/pnpm复跑45相邻项，并以Vite SSR只读核当前链接。UI形式问题已异步提出，不把未答当同意。
 
-## 下一位Agent提示词
+## 历史设计交接提示词（不再执行）
 
-当前无下一位Agent提示词；r2a定点补核已完成，后续由Codex按上述build边界继续，不需用户再次转签。
+以下是设计期交接历史；r2a定点补核已完成。当前实现终审使用卡顶部cb44c378两席并行提示词，不重签设计。
 以下提示词仅留历史，不再执行；本轮仅核定阶段门禁，不以此触发实现或宣称功能完成。
 
 ### 历史r2a定点补核：已完成

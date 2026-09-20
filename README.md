@@ -118,6 +118,15 @@ pnpm --filter @type-pal/game dev        # 第一阶段运行时，https://localh
 
 ## Reforge 开发调试
 
+### 编辑器战斗模拟器（首批实现，待终审）
+
+一级菜单 **战斗模拟器** 提供“试打方案 / 我方预设 / 敌方预设 / 背包预设”。方案可直接配置，也可复用预设；
+命名配置随项目保存，本场临时调整不反写原定义。先保存作者改动，再从方案“开始试打”，或由技能、敌队、敌人原入口带入对象。
+实际运行Reforge战斗；我方1～3人、敌方5槽，停止/重新试打不保留战斗消耗或奖励，独立入口不读写正常存档。
+范围、验证及限制见[实施记录](docs/testing/battle-simulator-implementation.md)，最终状态以[任务卡](docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md)为准。
+
+### 普通开发调试面板
+
 开发构建可在 URL 加 `?debug` 打开调试面板：
 
 ```text
